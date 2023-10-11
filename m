@@ -2,228 +2,212 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9D26B7C5664
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Oct 2023 16:07:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 010EB7C575E
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Oct 2023 16:50:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235016AbjJKOHB (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 11 Oct 2023 10:07:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42740 "EHLO
+        id S235077AbjJKOuW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 11 Oct 2023 10:50:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43964 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232525AbjJKOHA (ORCPT
+        with ESMTP id S234838AbjJKOuV (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 11 Oct 2023 10:07:00 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 533CB90
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 11 Oct 2023 07:06:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697033216; x=1728569216;
-  h=date:from:to:cc:subject:message-id;
-  bh=4X4z+nW0+PbRY14URfSDlWYjFl1pj/vhUVIRjujUowk=;
-  b=a4WaskW0Mea+6q6U3y1+ohMak72oioYfrAF6ChfcBNnSEVEdyS+4xeJB
-   dXOxb/hHS2nSRBKRBYSa7A/g6lUcW6ZuwIgTCLeeyW3e6XOQvvMQF5TfQ
-   nPVzsU6Bk+9c8EFg3J3ujWgHwH5OWJuIUHPN1bef0SHxPee1PQJwXTeO7
-   AzaWlZUZJIDDV3y+k59XC4EMjKyXVYUdD7MasNvd4wobK2DDWv58w3j0s
-   mznE+czaQWKf5lCJZtFDH9rkBnwSzvrGUZE4joVBPJWj06qmGjjCCjen7
-   4qaz1VnKzwd6MIICXnbojzI2ilk5wxlhgTLIZWzbGbB8zH3eTXCnK3ypw
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10860"; a="451159663"
-X-IronPort-AV: E=Sophos;i="6.03,216,1694761200"; 
-   d="scan'208";a="451159663"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Oct 2023 07:06:09 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10860"; a="753833248"
-X-IronPort-AV: E=Sophos;i="6.03,216,1694761200"; 
-   d="scan'208";a="753833248"
-Received: from lkp-server02.sh.intel.com (HELO f64821696465) ([10.239.97.151])
-  by orsmga002.jf.intel.com with ESMTP; 11 Oct 2023 07:06:07 -0700
-Received: from kbuild by f64821696465 with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1qqZqb-0002Hr-34;
-        Wed, 11 Oct 2023 14:06:02 +0000
-Date:   Wed, 11 Oct 2023 22:04:40 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [geert-renesas-drivers:master] BUILD SUCCESS
- f1752cb2d4d3288cefa6f458e2784fcf28cd62cd
-Message-ID: <202310112237.uNx3SVQ4-lkp@intel.com>
-User-Agent: s-nail v14.9.24
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_NONE,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+        Wed, 11 Oct 2023 10:50:21 -0400
+Received: from mail-lj1-x22b.google.com (mail-lj1-x22b.google.com [IPv6:2a00:1450:4864:20::22b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B595F94;
+        Wed, 11 Oct 2023 07:50:18 -0700 (PDT)
+Received: by mail-lj1-x22b.google.com with SMTP id 38308e7fff4ca-2c296e6543fso86417941fa.3;
+        Wed, 11 Oct 2023 07:50:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1697035817; x=1697640617; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=4hEdoIV9Vrx35zLcKUifZjIytGzkt3j9YZqzs49YGsE=;
+        b=EX+S8t0ybFR+NcNM9xwez61DJb3CVTvTyv714ELSy6nVC6qCF7oiU/T0VyB+oe7I+h
+         bXtvQ8C6Cnvq3TRCfGzrbxdi935QOPfwQsUMaujUZnKP+Jm5LiahFeMwRbKgyXzE7vOT
+         LdrimdTHSwk8NWFFMtTzDCE9MoWV3/k7mFbmQKGToG0Jk+FVTk6t6XVnqNGtKkWRexK8
+         ZtnoEoPe1qO6HhWyNb2O5oAkEHhh2uRrdpCnbW8CoVY/rkejKOTCeADjTxMEHD+xaAG8
+         1jPkE0hlFBR8p2TIdkm+klb5cXHj1ZK6YIDfqMbhDA5tjGDAvx/JCGsOMDVpOplGYOkl
+         jFkw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1697035817; x=1697640617;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=4hEdoIV9Vrx35zLcKUifZjIytGzkt3j9YZqzs49YGsE=;
+        b=BPk7FI9GOL/OXVWETNwBwnS/u10VEkWrBTdcDln1JgY5Ldtp6hTJjqLYH0G1Crf71C
+         4zckhQAV39MbFBnFGdGhJsTCfw/r6O2oWsxjt36/X3rgSV+BObuMfjmEflXs7L2X/vaP
+         x8ebqil3x/BCNBh5y/5Y4Uif9wMDzowm77hzqSVzFekfD/AEop6gJZjoFqMWjMS1fI+a
+         WhrySo/H7DuFvK0ShQMprYcdSB4ukZgckQlO2hXnYCvEtMSejrvkcl+QZ+yGeoa0kc/p
+         0tRIGvwOO2GPWYGap6fhIIwh6pWQM05rcROew56Y4kAvGQwQHJHoWTO0iY7uRzOOlG1D
+         Zawg==
+X-Gm-Message-State: AOJu0YyBpF9CgJBE+KINhic5DgOkYUaxz7GIvqadyLx59FdeAMQYIA8M
+        qpafb3F8AchrvFcXwg4nyN4=
+X-Google-Smtp-Source: AGHT+IHImYkyI7ecSdkkIRLaVm8LFs3qxGXVtxdYLnIxKCUF6zOr3h8anAZaQaCDWk26XlVucQOOqA==
+X-Received: by 2002:a2e:8895:0:b0:2c2:bdc2:af77 with SMTP id k21-20020a2e8895000000b002c2bdc2af77mr18225719lji.33.1697035816636;
+        Wed, 11 Oct 2023 07:50:16 -0700 (PDT)
+Received: from mobilestation ([178.176.56.174])
+        by smtp.gmail.com with ESMTPSA id w11-20020a2e998b000000b002bffbe767cbsm3012515lji.85.2023.10.11.07.50.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 11 Oct 2023 07:50:16 -0700 (PDT)
+Date:   Wed, 11 Oct 2023 17:50:12 +0300
+From:   Serge Semin <fancer.lancer@gmail.com>
+To:     Manivannan Sadhasivam <mani@kernel.org>,
+        Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>
+Cc:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        krzysztof.kozlowski+dt@linaro.org, lpieralisi@kernel.org,
+        robh@kernel.org, bhelgaas@google.com, conor+dt@kernel.org,
+        jingoohan1@gmail.com, gustavo.pimentel@synopsys.com,
+        marek.vasut+renesas@gmail.com, linux-pci@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v24 08/16] PCI: dwc: Disable two BARs to avoid
+ unnecessary memory assignment
+Message-ID: <yaogf4d672yb76lbx7e7gu2ykm7shujfwgqiztfydbsodwuymr@rkffjewg6hnp>
+References: <20231011071423.249458-1-yoshihiro.shimoda.uh@renesas.com>
+ <20231011071423.249458-9-yoshihiro.shimoda.uh@renesas.com>
+ <abf65z7xxsnd7adkg523mneccudwenvdzcw7jpblafqzvhca5n@lbpsch7ztxsn>
+ <20231011130727.GA3722793@rocinante>
+ <20231011131840.GB5952@thinkpad>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20231011131840.GB5952@thinkpad>
+X-Spam-Status: No, score=1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_SBL_CSS,SPF_HELO_NONE,SPF_PASS
+        autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Level: *
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git master
-branch HEAD: f1752cb2d4d3288cefa6f458e2784fcf28cd62cd  [LOCAL] arm64: renesas: defconfig: Update renesas_defconfig
+Hello Krzysztof, Mani
 
-elapsed time: 1466m
+On Wed, Oct 11, 2023 at 06:48:40PM +0530, Manivannan Sadhasivam wrote:
+> On Wed, Oct 11, 2023 at 10:07:27PM +0900, Krzysztof Wilczyński wrote:
+> > Hello,
+> > 
+> > [...]
+> > > > +	/*
+> > > > +	 * According to the section 3.5.7.2 "RC Mode" in DWC PCIe Dual Mode
+> > > > +	 * Rev.5.20a,
+> > > 
+> > > and 3.5.6.1 "RC mode" in DWC PCIe RC databook v5.20a.
+> > 
+> > OK.  I can fix this citation later.
+> > 
+> > > > +      ... we should disable two BARs to avoid unnecessary memory
+> > > > +	 * assignment during device enumeration.
+> > > > +	 */
+> > > > +	dw_pcie_writel_dbi2(pci, PCI_BASE_ADDRESS_0, 0x0);
+> > > > +	dw_pcie_writel_dbi2(pci, PCI_BASE_ADDRESS_1, 0x0);
+> > > > +
+> > > 
+> > > What's the point in doing this
+> > > 	dw_pcie_writel_dbi(pci, PCI_BASE_ADDRESS_0, 0x00000004);
+> > > 	dw_pcie_writel_dbi(pci, PCI_BASE_ADDRESS_1, 0x00000000);
+> > >         ...
+> > >         dw_pcie_writel_dbi(pci, PCI_BASE_ADDRESS_0, 0);
+> > > afterward?
+> > > 
+> > > I guess if the BARs are disabled there is no need in having them
+> > > touched. Am I wrong?
+> > > 
+> > > BTW I failed to understand why the BARs inits was originally needed:
+> > > first merging the BAR0 and BAR1 into a single 64-bit BAR, then
+> > > switching it back to two 32-bit BARs. Moreover here is what prior DW
+> > > PCIe RC v5.x databooks say about the BARs:
+> > > 
+> > > "3.5.6 BAR Details
+> > > Base Address Registers (Offset: 0x10-x14)
+> > > The Synopsys core does not implement the optional BARs for the RC
+> > > product. This is based on the assumption that the RC host probably has
+> > > registers on some other internal bus and has knowledge and setup
+> > > access to these registers already."
+> > > 
+> > > I am not sure I fully understand what it means, but it seems as DW
+> > > PCIe cores didn't have anything behind the RC BARs even back then. So
+> > > it seems to me that the BARs manipulation was the Exinos PCIe host
+> > > specific, from which driver they are originating - commit 340cba6092c2
+> > > ("pci: Add PCIe driver for Samsung Exynos").
+> > 
 
-configs tested: 150
-configs skipped: 2
+> > Would any of the above be something we need to address before this series
+> > can be successfully merged?  I am asking if this is a show stopper,
+> > something we can fix later, or even something I could address once I take
+> > this series again.
+> > 
+> > Thoughts?
+> >
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+I can't confirm for sure that the BARs manipulations in this patch
+will work on the older IP-cores (prior 5.10a) or will be required for
+all new controllers (5.10a and newer). Based on the BARs description
+posted in the IP-core HW manuals, the CSRs semantic has changed
+between the major releases. Old DW PCIe RC IP-core HW-manuals
+explicitly state that the BARs are unavailable:
 
-tested configs:
-alpha                             allnoconfig   gcc  
-alpha                            allyesconfig   gcc  
-alpha                               defconfig   gcc  
-arc                              allmodconfig   gcc  
-arc                               allnoconfig   gcc  
-arc                              allyesconfig   gcc  
-arc                                 defconfig   gcc  
-arc                   randconfig-001-20231010   gcc  
-arm                              allmodconfig   gcc  
-arm                               allnoconfig   gcc  
-arm                              allyesconfig   gcc  
-arm                                 defconfig   gcc  
-arm                   randconfig-001-20231010   gcc  
-arm                         s3c6400_defconfig   gcc  
-arm                           tegra_defconfig   gcc  
-arm                        vexpress_defconfig   clang
-arm64                            allmodconfig   gcc  
-arm64                             allnoconfig   gcc  
-arm64                            allyesconfig   gcc  
-arm64                               defconfig   gcc  
-csky                             allmodconfig   gcc  
-csky                              allnoconfig   gcc  
-csky                             allyesconfig   gcc  
-csky                                defconfig   gcc  
-i386                             allmodconfig   clang
-i386                             allmodconfig   gcc  
-i386                              allnoconfig   gcc  
-i386                             allyesconfig   gcc  
-i386         buildonly-randconfig-001-20231010   gcc  
-i386         buildonly-randconfig-002-20231010   gcc  
-i386         buildonly-randconfig-003-20231010   gcc  
-i386         buildonly-randconfig-004-20231010   gcc  
-i386         buildonly-randconfig-005-20231010   gcc  
-i386         buildonly-randconfig-006-20231010   gcc  
-i386                              debian-10.3   gcc  
-i386                                defconfig   gcc  
-i386                  randconfig-001-20231010   gcc  
-i386                  randconfig-002-20231010   gcc  
-i386                  randconfig-003-20231010   gcc  
-i386                  randconfig-004-20231010   gcc  
-i386                  randconfig-005-20231010   gcc  
-i386                  randconfig-006-20231010   gcc  
-i386                  randconfig-011-20231010   gcc  
-i386                  randconfig-012-20231010   gcc  
-i386                  randconfig-013-20231010   gcc  
-i386                  randconfig-014-20231010   gcc  
-i386                  randconfig-015-20231010   gcc  
-i386                  randconfig-016-20231010   gcc  
-loongarch                        allmodconfig   gcc  
-loongarch                         allnoconfig   gcc  
-loongarch                        allyesconfig   gcc  
-loongarch                           defconfig   gcc  
-loongarch                 loongson3_defconfig   gcc  
-loongarch             randconfig-001-20231010   gcc  
-m68k                             allmodconfig   gcc  
-m68k                              allnoconfig   gcc  
-m68k                             allyesconfig   gcc  
-m68k                                defconfig   gcc  
-m68k                        m5272c3_defconfig   gcc  
-microblaze                       allmodconfig   gcc  
-microblaze                        allnoconfig   gcc  
-microblaze                       allyesconfig   gcc  
-microblaze                          defconfig   gcc  
-mips                             allmodconfig   gcc  
-mips                              allnoconfig   gcc  
-mips                             allyesconfig   gcc  
-mips                            ar7_defconfig   gcc  
-mips                         bigsur_defconfig   gcc  
-mips                          malta_defconfig   clang
-mips                      pic32mzda_defconfig   clang
-nios2                            allmodconfig   gcc  
-nios2                             allnoconfig   gcc  
-nios2                            allyesconfig   gcc  
-nios2                               defconfig   gcc  
-openrisc                         allmodconfig   gcc  
-openrisc                          allnoconfig   gcc  
-openrisc                         allyesconfig   gcc  
-openrisc                            defconfig   gcc  
-parisc                            allnoconfig   gcc  
-parisc                           allyesconfig   gcc  
-parisc                              defconfig   gcc  
-parisc64                            defconfig   gcc  
-powerpc                     akebono_defconfig   clang
-powerpc                          allmodconfig   gcc  
-powerpc                           allnoconfig   gcc  
-powerpc                          allyesconfig   gcc  
-powerpc                   lite5200b_defconfig   clang
-powerpc                        warp_defconfig   gcc  
-riscv                            allmodconfig   gcc  
-riscv                             allnoconfig   gcc  
-riscv                            allyesconfig   gcc  
-riscv                               defconfig   gcc  
-riscv                 randconfig-001-20231010   gcc  
-riscv                          rv32_defconfig   gcc  
-s390                             alldefconfig   clang
-s390                             allmodconfig   gcc  
-s390                              allnoconfig   gcc  
-s390                             allyesconfig   gcc  
-s390                                defconfig   gcc  
-s390                  randconfig-001-20231010   gcc  
-sh                               allmodconfig   gcc  
-sh                                allnoconfig   gcc  
-sh                               allyesconfig   gcc  
-sh                        apsh4ad0a_defconfig   gcc  
-sh                                  defconfig   gcc  
-sh                          sdk7780_defconfig   gcc  
-sh                            titan_defconfig   gcc  
-sparc                            allmodconfig   gcc  
-sparc                             allnoconfig   gcc  
-sparc                            allyesconfig   gcc  
-sparc                               defconfig   gcc  
-sparc                 randconfig-001-20231010   gcc  
-sparc64                          allmodconfig   gcc  
-sparc64                          allyesconfig   gcc  
-sparc64                             defconfig   gcc  
-um                               allmodconfig   clang
-um                                allnoconfig   clang
-um                               allyesconfig   clang
-um                                  defconfig   gcc  
-um                             i386_defconfig   gcc  
-um                           x86_64_defconfig   gcc  
-x86_64                            allnoconfig   gcc  
-x86_64                           allyesconfig   gcc  
-x86_64       buildonly-randconfig-001-20231010   gcc  
-x86_64       buildonly-randconfig-002-20231010   gcc  
-x86_64       buildonly-randconfig-003-20231010   gcc  
-x86_64       buildonly-randconfig-004-20231010   gcc  
-x86_64       buildonly-randconfig-005-20231010   gcc  
-x86_64       buildonly-randconfig-006-20231010   gcc  
-x86_64                              defconfig   gcc  
-x86_64                randconfig-001-20231010   gcc  
-x86_64                randconfig-002-20231010   gcc  
-x86_64                randconfig-003-20231010   gcc  
-x86_64                randconfig-004-20231010   gcc  
-x86_64                randconfig-005-20231010   gcc  
-x86_64                randconfig-006-20231010   gcc  
-x86_64                randconfig-011-20231010   gcc  
-x86_64                randconfig-012-20231010   gcc  
-x86_64                randconfig-013-20231010   gcc  
-x86_64                randconfig-014-20231010   gcc  
-x86_64                randconfig-015-20231010   gcc  
-x86_64                randconfig-016-20231010   gcc  
-x86_64                randconfig-071-20231010   gcc  
-x86_64                randconfig-072-20231010   gcc  
-x86_64                randconfig-073-20231010   gcc  
-x86_64                randconfig-074-20231010   gcc  
-x86_64                randconfig-075-20231010   gcc  
-x86_64                randconfig-076-20231010   gcc  
-x86_64                          rhel-8.3-rust   clang
-x86_64                               rhel-8.3   gcc  
-xtensa                              defconfig   gcc  
+"The Synopsys core does not implement the optional BARs for the RC
+product"
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+New DW PCIe RC IP-cores manual say that the BARs exist, but are
+normally unused:
+
+"Two BARs are present but are not expected to be used. You should
+disable them to avoid unnecessary memory assignment during device
+enumeration. If you do use a BAR, then you should program it to
+capture TLPs that are targeted to your local non-application memory
+space.... The BAR range must be outside of the three Base/Limit
+regions..."
+
+So in theory it's possible to have platforms with the BARs somehow
+utilized even in the Root Ports. Though currently AFAICS we don't
+have such devices supported in kernel.
+
+> 
+> If Yoshihiro can confirm that his controller can work without this patch, then
+> I'd vote for dropping this patch and applying the rest.
+
+AFAIR Yoshihiro insisted to have the BARs reset because without
+it something didn't work, so he added some comment to justify it:
+https://lore.kernel.org/linux-pci/TYBPR01MB534104389952D87385E8745ED8879@TYBPR01MB5341.jpnprd01.prod.outlook.com/
+Though based on the comment the BARs reset still seems optional.
+
+One more low-level driver which already does what is implemented in
+this patch is the Keystone PCI host-controller driver (see,
+pci-keystone.c also activates dbi_cs2 and zeros out the
+PCI_TYPE0_BAR0_ENABLED flag). Moreover something similar is done in
+the generic DW PCIe EP driver in the framework of the
+__dw_pcie_ep_reset_bar() method including the direct BARs zeroing out
+(which I questioned in my initial message in this thread). So seeing
+this patch would re-do what is already done for the Keystone device
+and would add a partly duplicated code it would be reasonable to drop
+the patch for now and get the BARs reset back to the Rcar host
+low-level driver as it was in v23. We can get back to the topic
+afterward and see whether the BARs reset could be done generically for
+the RPs. If we figure out that it's required at least for the new
+controllers then we'll be able to implement a generic RP/EP BARs reset
+method, have it utilized in both DW PCIe core drivers and drop the
+respective code from both Rcar and Keystone LLDDs.
+
+-Serge(y)
+
+> 
+> This can be submitted later if required.
+> 
+> - Mani
+> 
+> > > * BTW Yoshihiro, I am sorry to see your patchset is still under review...(
+> > 
+> > Yes, we need to draw a line somewhere. :)  I am happy to take this series
+> > so we don't miss another merge window.  We can always fix other bits and
+> > pieces later and iron out any kinks that might have fallen through the
+> > cracks, so to speak.
+> > 
+> > 	Krzysztof
+> 
+> -- 
+> மணிவண்ணன் சதாசிவம்
