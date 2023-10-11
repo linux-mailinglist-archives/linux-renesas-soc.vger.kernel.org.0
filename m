@@ -2,80 +2,72 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2DC6D7C58A3
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Oct 2023 17:55:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A68B47C5DE4
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Oct 2023 21:54:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346948AbjJKPze (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 11 Oct 2023 11:55:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42388 "EHLO
+        id S233103AbjJKTyR (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 11 Oct 2023 15:54:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38352 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346951AbjJKPze (ORCPT
+        with ESMTP id S233170AbjJKTyR (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 11 Oct 2023 11:55:34 -0400
-Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com [IPv6:2a00:1450:4864:20::536])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 44FB7B8
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 11 Oct 2023 08:55:32 -0700 (PDT)
-Received: by mail-ed1-x536.google.com with SMTP id 4fb4d7f45d1cf-533d31a8523so51448a12.1
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 11 Oct 2023 08:55:31 -0700 (PDT)
+        Wed, 11 Oct 2023 15:54:17 -0400
+Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com [IPv6:2a00:1450:4864:20::332])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CC8BD94;
+        Wed, 11 Oct 2023 12:54:15 -0700 (PDT)
+Received: by mail-wm1-x332.google.com with SMTP id 5b1f17b1804b1-40572aeb673so3037465e9.0;
+        Wed, 11 Oct 2023 12:54:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1697039730; x=1697644530; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=KbOpE5VKjIMjXNX7bXqdn8URAwp8xkDDntfrb/FwR4w=;
-        b=NNOzwli5kTV/9yJtYrGkGVtWGP/hZpk+/d78HayHgdUMZY+XrNP5f18uT0qpvinWOm
-         HuJRLtOo8roU3dVfgwcWJ8//maXJDlaS0UdTsXP68Lk6XYyCMlBSQeKg1knvkobdrUtU
-         ggzXhbKroqq5i1QZKy5pHVXwKbowCFFtNybBp2TOrmCW5AJ1IuVUrqZHkyDCvJoGOJPU
-         pHkqPXu8TL5Glfgr9dN5D/ieUcCi+o23Q7xv4wbbhjMM5bQ6KRJCjO6/P+H5pAN5zxRE
-         4mwEm4xyTXc4eEXrrlqVM3GUPVah4uepmkH2DIET6ggcMLo96tNFfZ+KLns4QElKGZp7
-         /67A==
+        d=gmail.com; s=20230601; t=1697054054; x=1697658854; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=y3YFPZew2Bj95EqowwXla7dhplIamhthsOPPYN+nyMU=;
+        b=Res5H5ChYGxkqwMulH2BX8MY5fB2aRIfETQuDW2YCiuh/1GR1kBLGtfR8upvxO765U
+         aSuo1t4de22XHEnh16MCXwH1lrCUQkEX3Yt6PadR5s0b0QSzA+7TubIyPyo9gqY3nT3t
+         b9MQuiExKwzx/84+0kLRSDtbPedrdAgA6igLW0ocM/0pTyN8PcUTlFbHk1rg3PO+1d7+
+         uw+lJ+9yuoqhLvF/pJN82YGNKXBBN5W//7g+WHlu71mlS2NaoosxHluUOzUAsdxC6EPn
+         nZ26Ldb/s0z+U2m/NPcxpIYu6J5XGZ44QqI+KV0lsv+UXp+xwsSji3lDVoiywK3DQ2iP
+         WVMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697039730; x=1697644530;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=KbOpE5VKjIMjXNX7bXqdn8URAwp8xkDDntfrb/FwR4w=;
-        b=ZY5C8VN9f/2U21yMjFPB+qF9X1ihPP55QsIbVqsgOsh3w8BoEXBCF4bAjGo6sJaYws
-         6JQE1K0JnqjD/l4R5ZjWqTb1QPGABL8FWKXer2mWP+dQE5ImELSUw+LasDOibPDmABws
-         MHkX8DAh9i7YEL3wvceA7Lb0MEpjPqjTjGNG1i5ey021bTt8wkLXIyFF+JIX5N/3NST9
-         EWLyzZZCQ7YcybzhvoEpLB6YvCHo9v3NICC2veTja1mlvZNY+HGR8GzydFWiljcbrJ60
-         dETFyOUjSa38ojdd8ULDqui8/YWtBQ87wGG0jsbBadS6KnLbpZJfJEgXECZJTE6ba/kK
-         qDHg==
-X-Gm-Message-State: AOJu0YyJHASecPorHRthLJ/vbXym5Yfl2Yjm/0ESaBqiQ73eef97cMuK
-        LdYOL3slg4o5G0HKf78/upASJg==
-X-Google-Smtp-Source: AGHT+IHtErofZM2x+uE8kBiPaK1/HljWwfQi6sW2rbSCUwN2JiCvdsMVCdEYynwvsBJNVVTBtUob8w==
-X-Received: by 2002:aa7:c998:0:b0:530:ccf7:37af with SMTP id c24-20020aa7c998000000b00530ccf737afmr18702868edt.12.1697039729420;
-        Wed, 11 Oct 2023 08:55:29 -0700 (PDT)
-Received: from [192.168.50.4] ([82.78.167.133])
-        by smtp.gmail.com with ESMTPSA id ec22-20020a0564020d5600b0053defc8c15asm460905edb.51.2023.10.11.08.55.28
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 11 Oct 2023 08:55:28 -0700 (PDT)
-Message-ID: <fe375d1d-29b1-4514-963b-7a65a645a58d@tuxon.dev>
-Date:   Wed, 11 Oct 2023 18:55:27 +0300
+        d=1e100.net; s=20230601; t=1697054054; x=1697658854;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=y3YFPZew2Bj95EqowwXla7dhplIamhthsOPPYN+nyMU=;
+        b=uydkhPUfksxFIU0vFc40GZbpUK2AiuDWBGodsSup6zSXyDvGASklvylnzzhYUmdX7q
+         2YQbWADQXwrH1OiAsHrQwaIhbjixHFrGW1Fm7BNca0GUxYAV02Q/BzkuO/YcsB3a1nQd
+         UzNe8xgPVHTZeXcPK9H0+XOptaArAkyDBKdOIFkm++aY06WqR/Wz0tjL9HmGW+JmdEJS
+         pw31W6DHB4t3BnDrEk8v5kiQc4TxEaVi2+m2WnbztFRMjs4vzC7bksuBMG+VjBiiB+u+
+         p3oaFH560l8SvJi12Y635fyF/k0z2tXhwCi6y0wccADKNpwluZCs9I5U1gL3EJUZVeJz
+         Z01A==
+X-Gm-Message-State: AOJu0Yx6ySwtA2ASH2HZsDEC7cxsL2CA2UQs36JTpviXwhkCKjuXTTdw
+        mBiDJly/zNcKP5W15AceOyk=
+X-Google-Smtp-Source: AGHT+IH0ZWnon6aBmF5pJAjBaQ3ZU+0IT2e/bvCnKFGgpAa/lhDn8x+0H84J9gcNuYUTO6zBHMsOCw==
+X-Received: by 2002:a05:600c:21d0:b0:405:3a3b:2aa2 with SMTP id x16-20020a05600c21d000b004053a3b2aa2mr18993979wmj.37.1697054053875;
+        Wed, 11 Oct 2023 12:54:13 -0700 (PDT)
+Received: from prasmi.home ([2a00:23c8:2501:c701:b8af:68b0:4272:ed0d])
+        by smtp.gmail.com with ESMTPSA id y19-20020a05600c20d300b004075b3ce03asm4136872wmm.6.2023.10.11.12.54.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 11 Oct 2023 12:54:13 -0700 (PDT)
+From:   Prabhakar <prabhakar.csengg@gmail.com>
+X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Marc Zyngier <maz@kernel.org>
+Cc:     linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
+        Prabhakar <prabhakar.csengg@gmail.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH] irqchip: renesas-rzg2l: Enhance driver to support interrupt affinity setting
+Date:   Wed, 11 Oct 2023 20:53:24 +0100
+Message-Id: <20231011195324.66807-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/6] clk: renesas: rzg2l: Use %x format specifier to print
- CLK_ON_R()
-Content-Language: en-US
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Sergei Shtylyov <sergei.shtylyov@gmail.com>, magnus.damm@gmail.com,
-        robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
-        conor+dt@kernel.org, mturquette@baylibre.com, sboyd@kernel.org,
-        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org,
-        Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-References: <20231010132701.1658737-1-claudiu.beznea.uj@bp.renesas.com>
- <20231010132701.1658737-2-claudiu.beznea.uj@bp.renesas.com>
- <8226bd48-4297-0b32-c733-2e569114a934@gmail.com>
- <e1c9c2ca-144c-49fe-940c-9ca8ad40e377@tuxon.dev>
- <CAMuHMdW7jXSFx5kU6PKr55cXw2+Hu_J-Z4NdUk=m_2AxuaOC0g@mail.gmail.com>
-From:   claudiu beznea <claudiu.beznea@tuxon.dev>
-In-Reply-To: <CAMuHMdW7jXSFx5kU6PKr55cXw2+Hu_J-Z4NdUk=m_2AxuaOC0g@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -83,53 +75,28 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi, Geert,
+From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-On 11.10.2023 10:43, Geert Uytterhoeven wrote:
-> Hi Claudiu,
-> 
-> On Wed, Oct 11, 2023 at 9:37 AM claudiu beznea <claudiu.beznea@tuxon.dev> wrote:
->> On 10.10.2023 17:52, Sergei Shtylyov wrote:
->>> On 10/10/23 4:26 PM, Claudiu wrote:
->>>> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
->>>>
->>>> Use %x format specifier to print CLK_ON_R(). This is easier when
->>>> debugging as the value printed will be hexadecimal like in the hardware
->>>> manual. Along with it "0x" has been added in front of the printed value.
->>>>
->>>> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
->>>> ---
->>>>  drivers/clk/renesas/rzg2l-cpg.c | 2 +-
->>>>  1 file changed, 1 insertion(+), 1 deletion(-)
->>>>
->>>> diff --git a/drivers/clk/renesas/rzg2l-cpg.c b/drivers/clk/renesas/rzg2l-cpg.c
->>>> index d62f1bc1f60e..764bd72cf059 100644
->>>> --- a/drivers/clk/renesas/rzg2l-cpg.c
->>>> +++ b/drivers/clk/renesas/rzg2l-cpg.c
->>>> @@ -1213,7 +1213,7 @@ static int rzg2l_mod_clock_endisable(struct clk_hw *hw, bool enable)
->>>>              return 0;
->>>>      }
->>>>
->>>> -    dev_dbg(dev, "CLK_ON %u/%pC %s\n", CLK_ON_R(reg), hw->clk,
->>>> +    dev_dbg(dev, "CLK_ON 0x%x/%pC %s\n", CLK_ON_R(reg), hw->clk,
->>>
->>>    Perhaps "%#x" instead of "0x%x"?
->>
->> Yes, better, thanks!
-> 
-> "%#" is not very common in drivers/clk/.
-> 
-> And to me it always raises the question: What does "alternate form" mean
-> for this conversion specifier and this implementation of vsnprintf()?
+Add support to set the affinity of the IRQC interrupt by implementing
+the irq_set_affinity callback.
 
-OK, I have no strong opinion on this. Please let me know in case you need
-me to send a new version.
+Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+---
+ drivers/irqchip/irq-renesas-rzg2l.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-Thank you,
-Claudiu Beznea
+diff --git a/drivers/irqchip/irq-renesas-rzg2l.c b/drivers/irqchip/irq-renesas-rzg2l.c
+index 2cee5477be6b..6390d1d78f2e 100644
+--- a/drivers/irqchip/irq-renesas-rzg2l.c
++++ b/drivers/irqchip/irq-renesas-rzg2l.c
+@@ -247,6 +247,7 @@ static const struct irq_chip irqc_chip = {
+ 	.irq_set_irqchip_state	= irq_chip_set_parent_state,
+ 	.irq_retrigger		= irq_chip_retrigger_hierarchy,
+ 	.irq_set_type		= rzg2l_irqc_set_type,
++	.irq_set_affinity	= irq_chip_set_affinity_parent,
+ 	.flags			= IRQCHIP_MASK_ON_SUSPEND |
+ 				  IRQCHIP_SET_TYPE_MASKED |
+ 				  IRQCHIP_SKIP_SET_WAKE,
+-- 
+2.34.1
 
-> 
-> Gr{oetje,eeting}s,
-> 
->                         Geert
-> 
