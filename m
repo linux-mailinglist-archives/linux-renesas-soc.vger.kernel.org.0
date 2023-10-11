@@ -2,72 +2,72 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A68B47C5DE4
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Oct 2023 21:54:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 321567C5DF2
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Oct 2023 22:00:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233103AbjJKTyR (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 11 Oct 2023 15:54:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38352 "EHLO
+        id S233122AbjJKUAL (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 11 Oct 2023 16:00:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60072 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233170AbjJKTyR (ORCPT
+        with ESMTP id S233103AbjJKUAL (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 11 Oct 2023 15:54:17 -0400
-Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com [IPv6:2a00:1450:4864:20::332])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CC8BD94;
-        Wed, 11 Oct 2023 12:54:15 -0700 (PDT)
-Received: by mail-wm1-x332.google.com with SMTP id 5b1f17b1804b1-40572aeb673so3037465e9.0;
-        Wed, 11 Oct 2023 12:54:15 -0700 (PDT)
+        Wed, 11 Oct 2023 16:00:11 -0400
+Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com [IPv6:2a00:1450:4864:20::434])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 79BFB94;
+        Wed, 11 Oct 2023 13:00:09 -0700 (PDT)
+Received: by mail-wr1-x434.google.com with SMTP id ffacd0b85a97d-32799639a2aso204511f8f.3;
+        Wed, 11 Oct 2023 13:00:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1697054054; x=1697658854; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1697054408; x=1697659208; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=y3YFPZew2Bj95EqowwXla7dhplIamhthsOPPYN+nyMU=;
-        b=Res5H5ChYGxkqwMulH2BX8MY5fB2aRIfETQuDW2YCiuh/1GR1kBLGtfR8upvxO765U
-         aSuo1t4de22XHEnh16MCXwH1lrCUQkEX3Yt6PadR5s0b0QSzA+7TubIyPyo9gqY3nT3t
-         b9MQuiExKwzx/84+0kLRSDtbPedrdAgA6igLW0ocM/0pTyN8PcUTlFbHk1rg3PO+1d7+
-         uw+lJ+9yuoqhLvF/pJN82YGNKXBBN5W//7g+WHlu71mlS2NaoosxHluUOzUAsdxC6EPn
-         nZ26Ldb/s0z+U2m/NPcxpIYu6J5XGZ44QqI+KV0lsv+UXp+xwsSji3lDVoiywK3DQ2iP
-         WVMQ==
+        bh=tX0FgbDhoDy/c6Xp48Q/Lp6Lf1CmRpkAa0uRPBrtEzI=;
+        b=kS85T0iNm6PXIkQ0vwA6Dm5UsGu/i7zsw06X4JZXfjdmX984sUoC42aDac/l4TSMSF
+         TJfcLQseLgukjFaia7yoJiX9XLZKu5vifaUrc0v7XvJRZfUO+FyjP5RC5k5x9bSa/K8g
+         dZBG9fvWCPNj9Ty6oZ9lMiN539hwHIu3qaTlLOi96Zlg8btjnNOWnqMFqAkH1cHOgeca
+         g+sWDAD+5rSRhuIp63ekbg469lob8lKoDHYVzpHKXN1/GXj/SXOJkKInkiHO6hPkf4xI
+         8ReZ9qemD54ZWMlwXYmzev9LpP/0qh2+NadbqLgVnppFD+73QHFpYIZ01orfDjKgP4xG
+         e41Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697054054; x=1697658854;
+        d=1e100.net; s=20230601; t=1697054408; x=1697659208;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=y3YFPZew2Bj95EqowwXla7dhplIamhthsOPPYN+nyMU=;
-        b=uydkhPUfksxFIU0vFc40GZbpUK2AiuDWBGodsSup6zSXyDvGASklvylnzzhYUmdX7q
-         2YQbWADQXwrH1OiAsHrQwaIhbjixHFrGW1Fm7BNca0GUxYAV02Q/BzkuO/YcsB3a1nQd
-         UzNe8xgPVHTZeXcPK9H0+XOptaArAkyDBKdOIFkm++aY06WqR/Wz0tjL9HmGW+JmdEJS
-         pw31W6DHB4t3BnDrEk8v5kiQc4TxEaVi2+m2WnbztFRMjs4vzC7bksuBMG+VjBiiB+u+
-         p3oaFH560l8SvJi12Y635fyF/k0z2tXhwCi6y0wccADKNpwluZCs9I5U1gL3EJUZVeJz
-         Z01A==
-X-Gm-Message-State: AOJu0Yx6ySwtA2ASH2HZsDEC7cxsL2CA2UQs36JTpviXwhkCKjuXTTdw
-        mBiDJly/zNcKP5W15AceOyk=
-X-Google-Smtp-Source: AGHT+IH0ZWnon6aBmF5pJAjBaQ3ZU+0IT2e/bvCnKFGgpAa/lhDn8x+0H84J9gcNuYUTO6zBHMsOCw==
-X-Received: by 2002:a05:600c:21d0:b0:405:3a3b:2aa2 with SMTP id x16-20020a05600c21d000b004053a3b2aa2mr18993979wmj.37.1697054053875;
-        Wed, 11 Oct 2023 12:54:13 -0700 (PDT)
+        bh=tX0FgbDhoDy/c6Xp48Q/Lp6Lf1CmRpkAa0uRPBrtEzI=;
+        b=Lx3INY8AhvvYmRNypE70JsvujhRski+yYNTaI1U7CObkWH15oagUI1flg8R0TYCKnJ
+         810Djq6GwsFMAwvQnLfdts1NsM8AEyLMUQjdqpAG9aVY0df4B866RHrletyaGiJDDyWf
+         VIZc5Yahj5qKbUA+7gXa8yXVlkiSQTm6XtT8Ymbd08JZfiS9qLjJKyvAqoSl/L6muAxA
+         711UmgoCBnePXvzPgJR0Iolad1Rc1OBCp4JKFlUV0s+/vavXE031LCprm/EZurPRO2IL
+         2mEPl8MZKY5yZuZqoNAQxVouBDQ6SXonyjK1/NM6tuqExAxI8gLznygzFKLOF/BUgYAB
+         U8Eg==
+X-Gm-Message-State: AOJu0YxPm6BxU9iKVzHMD35r93aBJ2QeBo3AE4aRYo5hJeHijA4WHhf3
+        lr+8akn1Ti+f86N5yRth0/8=
+X-Google-Smtp-Source: AGHT+IFE2hIFhU90VcqiD1hYI+viGbFaj9N2hYTLBPhgD1g5g2LebpwK9LSugAQZhx3RtB8KGn3BQg==
+X-Received: by 2002:a5d:4586:0:b0:31f:eb88:e3c8 with SMTP id p6-20020a5d4586000000b0031feb88e3c8mr18897299wrq.32.1697054407705;
+        Wed, 11 Oct 2023 13:00:07 -0700 (PDT)
 Received: from prasmi.home ([2a00:23c8:2501:c701:b8af:68b0:4272:ed0d])
-        by smtp.gmail.com with ESMTPSA id y19-20020a05600c20d300b004075b3ce03asm4136872wmm.6.2023.10.11.12.54.13
+        by smtp.gmail.com with ESMTPSA id r18-20020adfe692000000b0031912c0ffebsm16329039wrm.23.2023.10.11.13.00.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Oct 2023 12:54:13 -0700 (PDT)
+        Wed, 11 Oct 2023 13:00:07 -0700 (PDT)
 From:   Prabhakar <prabhakar.csengg@gmail.com>
 X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 To:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Marc Zyngier <maz@kernel.org>
-Cc:     linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Linus Walleij <linus.walleij@linaro.org>
+Cc:     linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
         Biju Das <biju.das.jz@bp.renesas.com>,
         Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
         Prabhakar <prabhakar.csengg@gmail.com>,
         Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH] irqchip: renesas-rzg2l: Enhance driver to support interrupt affinity setting
-Date:   Wed, 11 Oct 2023 20:53:24 +0100
-Message-Id: <20231011195324.66807-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH] pinctrl: renesas: rzg2l: Enhance driver to support interrupt affinity setting
+Date:   Wed, 11 Oct 2023 20:59:23 +0100
+Message-Id: <20231011195923.67404-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -77,26 +77,26 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-Add support to set the affinity of the IRQC interrupt by implementing
-the irq_set_affinity callback.
+Implement irq_set_affinity callback so that we can set affinity
+for GPIO IRQs.
 
 Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 ---
- drivers/irqchip/irq-renesas-rzg2l.c | 1 +
+ drivers/pinctrl/renesas/pinctrl-rzg2l.c | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/drivers/irqchip/irq-renesas-rzg2l.c b/drivers/irqchip/irq-renesas-rzg2l.c
-index 2cee5477be6b..6390d1d78f2e 100644
---- a/drivers/irqchip/irq-renesas-rzg2l.c
-+++ b/drivers/irqchip/irq-renesas-rzg2l.c
-@@ -247,6 +247,7 @@ static const struct irq_chip irqc_chip = {
- 	.irq_set_irqchip_state	= irq_chip_set_parent_state,
- 	.irq_retrigger		= irq_chip_retrigger_hierarchy,
- 	.irq_set_type		= rzg2l_irqc_set_type,
-+	.irq_set_affinity	= irq_chip_set_affinity_parent,
- 	.flags			= IRQCHIP_MASK_ON_SUSPEND |
- 				  IRQCHIP_SET_TYPE_MASKED |
- 				  IRQCHIP_SKIP_SET_WAKE,
+diff --git a/drivers/pinctrl/renesas/pinctrl-rzg2l.c b/drivers/pinctrl/renesas/pinctrl-rzg2l.c
+index c7c6d912a975..e6bf66fca074 100644
+--- a/drivers/pinctrl/renesas/pinctrl-rzg2l.c
++++ b/drivers/pinctrl/renesas/pinctrl-rzg2l.c
+@@ -1576,6 +1576,7 @@ static const struct irq_chip rzg2l_gpio_irqchip = {
+ 	.irq_set_type = rzg2l_gpio_irq_set_type,
+ 	.irq_eoi = rzg2l_gpio_irqc_eoi,
+ 	.irq_print_chip = rzg2l_gpio_irq_print_chip,
++	.irq_set_affinity = irq_chip_set_affinity_parent,
+ 	.flags = IRQCHIP_IMMUTABLE,
+ 	GPIOCHIP_IRQ_RESOURCE_HELPERS,
+ };
 -- 
 2.34.1
 
