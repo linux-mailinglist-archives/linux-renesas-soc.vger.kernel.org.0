@@ -2,149 +2,223 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2FB1B7C5260
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Oct 2023 13:45:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0BA8B7C542C
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Oct 2023 14:41:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234745AbjJKLpp (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 11 Oct 2023 07:45:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47738 "EHLO
+        id S231860AbjJKMlC (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 11 Oct 2023 08:41:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46266 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234715AbjJKLpp (ORCPT
+        with ESMTP id S231327AbjJKMlB (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 11 Oct 2023 07:45:45 -0400
-Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com [IPv6:2a00:1450:4864:20::12a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D13FC8F;
-        Wed, 11 Oct 2023 04:45:42 -0700 (PDT)
-Received: by mail-lf1-x12a.google.com with SMTP id 2adb3069b0e04-5046bf37daeso8819051e87.1;
-        Wed, 11 Oct 2023 04:45:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1697024741; x=1697629541; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=RNeBmhkMd48MHynaoqC7PRDCkcniAcL1N1Iilx40N2M=;
-        b=aI04VlEE+0B8rugPCofaKWoSc7eUevxRiKI2jzmTY/XzvGGE9YjsE/lG5CNCNSnBlF
-         YfE04gqP8ijECBmfFzE5PHcAmf1mnoHret8AnIummR8G0myJY4vEgE4vCn51HyLDLPfo
-         oWoArl0F7fTBhbD1ZAf+L3RJ/2kcLlL1wSoDLMpnRBQFpRrwQ9fWmYzZVZMHg40zB9Zm
-         hVcE1DX0+jM+HiBgIduR4NfHSREZWZ8Ibpq3Lc+FJi83hgZ2yMW/9ddAmwzSuV1L15gG
-         DR8t47WrvKn3+MANT4bj5cIgtBlu5ouQdvle1fwIs3A6pyUZFTo3+2HXYPRVgt8hqKWx
-         gJBw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697024741; x=1697629541;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=RNeBmhkMd48MHynaoqC7PRDCkcniAcL1N1Iilx40N2M=;
-        b=T41ZUDpfo/3fzvsw3gTIjwMEQnTleMDndVaD80Wc1EawyyIZ1bRTUgzHsJSyExajlY
-         U8szLUm/G45nuRmO3AC+xgUbE8lZBPv6lGMw+Ysy0aC6b2bLnL3J+u6L2hclokCgFyHN
-         0szyELPS/nidFDz3d79bXjUeZyDg/Yi5wKUR1Fuh0LOIU03eTmsysbkVmLtqgiO/t+uT
-         aPcexHairkJGFn3nbQ1Iy5oFjCR2cRYBOYOzjgyWPgX0NOV22SQlGPJhlGlNdEO34rvO
-         hjRLpEyxkIPjmoQJhMRpVOcMxqukqc6FWGcG4aa39s308dMAYkQO7nbQPj8vb+mjkzzN
-         dDIA==
-X-Gm-Message-State: AOJu0YzmM39aeFa7YwnKtRnkUKy2yuvi2u2jtB8MKvb/6Cb6bwESuCe/
-        LnH0aQf0noziTPaHgb5l3IM=
-X-Google-Smtp-Source: AGHT+IHcZyJQ1BwYvbpjnjX3CDDrNLGCshiQ05ZPXZPM9SIGBuOnCgCFwuVwUqqtE8OZS66an5zxpQ==
-X-Received: by 2002:ac2:4c46:0:b0:500:b56d:e11a with SMTP id o6-20020ac24c46000000b00500b56de11amr19873959lfk.43.1697024740738;
-        Wed, 11 Oct 2023 04:45:40 -0700 (PDT)
-Received: from mobilestation ([178.176.56.174])
-        by smtp.gmail.com with ESMTPSA id f18-20020ac24e52000000b00502d9af34aesm2245325lfr.120.2023.10.11.04.45.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Oct 2023 04:45:40 -0700 (PDT)
-Date:   Wed, 11 Oct 2023 14:45:37 +0300
-From:   Serge Semin <fancer.lancer@gmail.com>
-To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Cc:     lpieralisi@kernel.org, kw@linux.com, robh@kernel.org,
-        bhelgaas@google.com, krzysztof.kozlowski+dt@linaro.org,
-        conor+dt@kernel.org, jingoohan1@gmail.com,
-        gustavo.pimentel@synopsys.com, mani@kernel.org,
-        marek.vasut+renesas@gmail.com, linux-pci@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v24 08/16] PCI: dwc: Disable two BARs to avoid
- unnecessary memory assignment
-Message-ID: <abf65z7xxsnd7adkg523mneccudwenvdzcw7jpblafqzvhca5n@lbpsch7ztxsn>
-References: <20231011071423.249458-1-yoshihiro.shimoda.uh@renesas.com>
- <20231011071423.249458-9-yoshihiro.shimoda.uh@renesas.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231011071423.249458-9-yoshihiro.shimoda.uh@renesas.com>
-X-Spam-Status: No, score=1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_SBL_CSS,SPF_HELO_NONE,SPF_PASS autolearn=no
-        autolearn_force=no version=3.4.6
-X-Spam-Level: *
+        Wed, 11 Oct 2023 08:41:01 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7228C91
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 11 Oct 2023 05:41:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1697028060; x=1728564060;
+  h=date:from:to:cc:subject:message-id;
+  bh=s5DmoLWJs5bvPvnXSoTtEFG3PK1GjcjXSGZk/UocMoU=;
+  b=hCurGgA2F9z8IsoZOju5F0Fm0GiXNlOCCkwXX0i0nqzz/r0kq1K0mU+B
+   kAZ3f1viAK2NaqawfkRkLOi7mTIU8qS2EYzFzVv8r/bxS2VsJA7aJSLsE
+   71vgf0eV1j/PaGlrck3llDwtXaML6BH/VXOHzK3V/lU8Zk+2kGmOzQIPJ
+   /qi87nYjrP95op/SLK7EhMFSgeZymIodHogz8Tpe0qQ0Gq4k1r4GtYWya
+   eKpWdWmfKgPmRHotsV283wASZV4OWm6T5swGFJsJr6yP7RYWVQ8mnY4VP
+   tH8JkHKNoqinOP7FvenwGQbWyhYSbGiMY6QOb4YP2zZN4blSRumDnOljO
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10860"; a="369715729"
+X-IronPort-AV: E=Sophos;i="6.03,216,1694761200"; 
+   d="scan'208";a="369715729"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Oct 2023 05:40:59 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10860"; a="757551110"
+X-IronPort-AV: E=Sophos;i="6.03,216,1694761200"; 
+   d="scan'208";a="757551110"
+Received: from lkp-server02.sh.intel.com (HELO f64821696465) ([10.239.97.151])
+  by fmsmga007.fm.intel.com with ESMTP; 11 Oct 2023 05:40:56 -0700
+Received: from kbuild by f64821696465 with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1qqYVv-0002Ct-2T;
+        Wed, 11 Oct 2023 12:40:40 +0000
+Date:   Wed, 11 Oct 2023 20:38:54 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     linux-renesas-soc@vger.kernel.org
+Subject: [geert-renesas-drivers:renesas-clk] BUILD SUCCESS
+ de60a3ebe410670ffdbbc95faa25a820da44ab11
+Message-ID: <202310112052.PfU6L3se-lkp@intel.com>
+User-Agent: s-nail v14.9.24
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,
+        SPF_NONE,URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, Oct 11, 2023 at 04:14:15PM +0900, Yoshihiro Shimoda wrote:
-> According to the section 3.5.7.2 "RC Mode" in DWC PCIe Dual Mode
-> Rev.5.20a, we should disable two BARs to avoid unnecessary memory
-> assignment during device enumeration. Otherwise, Renesas R-Car Gen4
-> PCIe controllers cannot work correctly in host mode.
-> 
-> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-> ---
->  drivers/pci/controller/dwc/pcie-designware-host.c | 8 ++++++++
->  1 file changed, 8 insertions(+)
-> 
-> diff --git a/drivers/pci/controller/dwc/pcie-designware-host.c b/drivers/pci/controller/dwc/pcie-designware-host.c
-> index a7170fd0e847..56cc7ff6d508 100644
-> --- a/drivers/pci/controller/dwc/pcie-designware-host.c
-> +++ b/drivers/pci/controller/dwc/pcie-designware-host.c
-> @@ -737,6 +737,14 @@ int dw_pcie_setup_rc(struct dw_pcie_rp *pp)
->  	u32 val, ctrl, num_ctrls;
->  	int ret;
->  
-> +	/*
-> +	 * According to the section 3.5.7.2 "RC Mode" in DWC PCIe Dual Mode
-> +	 * Rev.5.20a,
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git renesas-clk
+branch HEAD: de60a3ebe410670ffdbbc95faa25a820da44ab11  clk: renesas: Add minimal boot support for RZ/G3S SoC
 
-and 3.5.6.1 "RC mode" in DWC PCIe RC databook v5.20a.
+elapsed time: 1380m
 
-> +      ... we should disable two BARs to avoid unnecessary memory
-> +	 * assignment during device enumeration.
-> +	 */
-> +	dw_pcie_writel_dbi2(pci, PCI_BASE_ADDRESS_0, 0x0);
-> +	dw_pcie_writel_dbi2(pci, PCI_BASE_ADDRESS_1, 0x0);
-> +
+configs tested: 147
+configs skipped: 2
 
-What's the point in doing this
-	dw_pcie_writel_dbi(pci, PCI_BASE_ADDRESS_0, 0x00000004);
-	dw_pcie_writel_dbi(pci, PCI_BASE_ADDRESS_1, 0x00000000);
-        ...
-        dw_pcie_writel_dbi(pci, PCI_BASE_ADDRESS_0, 0);
-afterward?
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-I guess if the BARs are disabled there is no need in having them
-touched. Am I wrong?
+tested configs:
+alpha                             allnoconfig   gcc  
+alpha                            allyesconfig   gcc  
+alpha                               defconfig   gcc  
+arc                              allmodconfig   gcc  
+arc                               allnoconfig   gcc  
+arc                              allyesconfig   gcc  
+arc                                 defconfig   gcc  
+arc                   randconfig-001-20231010   gcc  
+arc                   randconfig-001-20231011   gcc  
+arm                              allmodconfig   gcc  
+arm                               allnoconfig   gcc  
+arm                              allyesconfig   gcc  
+arm                                 defconfig   gcc  
+arm                   randconfig-001-20231011   gcc  
+arm64                            allmodconfig   gcc  
+arm64                             allnoconfig   gcc  
+arm64                            allyesconfig   gcc  
+arm64                               defconfig   gcc  
+csky                             allmodconfig   gcc  
+csky                              allnoconfig   gcc  
+csky                             allyesconfig   gcc  
+csky                                defconfig   gcc  
+i386                             allmodconfig   gcc  
+i386                              allnoconfig   gcc  
+i386                             allyesconfig   gcc  
+i386         buildonly-randconfig-001-20231010   gcc  
+i386         buildonly-randconfig-002-20231010   gcc  
+i386         buildonly-randconfig-003-20231010   gcc  
+i386         buildonly-randconfig-004-20231010   gcc  
+i386         buildonly-randconfig-005-20231010   gcc  
+i386         buildonly-randconfig-006-20231010   gcc  
+i386                              debian-10.3   gcc  
+i386                                defconfig   gcc  
+i386                  randconfig-001-20231011   gcc  
+i386                  randconfig-002-20231011   gcc  
+i386                  randconfig-003-20231011   gcc  
+i386                  randconfig-004-20231011   gcc  
+i386                  randconfig-005-20231011   gcc  
+i386                  randconfig-006-20231011   gcc  
+i386                  randconfig-011-20231011   gcc  
+i386                  randconfig-012-20231011   gcc  
+i386                  randconfig-013-20231011   gcc  
+i386                  randconfig-014-20231011   gcc  
+i386                  randconfig-015-20231011   gcc  
+i386                  randconfig-016-20231011   gcc  
+loongarch                        allmodconfig   gcc  
+loongarch                         allnoconfig   gcc  
+loongarch                        allyesconfig   gcc  
+loongarch                           defconfig   gcc  
+loongarch             randconfig-001-20231010   gcc  
+loongarch             randconfig-001-20231011   gcc  
+m68k                             allmodconfig   gcc  
+m68k                              allnoconfig   gcc  
+m68k                             allyesconfig   gcc  
+m68k                                defconfig   gcc  
+microblaze                       allmodconfig   gcc  
+microblaze                        allnoconfig   gcc  
+microblaze                       allyesconfig   gcc  
+microblaze                          defconfig   gcc  
+mips                             allmodconfig   gcc  
+mips                              allnoconfig   gcc  
+mips                             allyesconfig   gcc  
+nios2                            allmodconfig   gcc  
+nios2                             allnoconfig   gcc  
+nios2                            allyesconfig   gcc  
+nios2                               defconfig   gcc  
+openrisc                         allmodconfig   gcc  
+openrisc                          allnoconfig   gcc  
+openrisc                         allyesconfig   gcc  
+openrisc                            defconfig   gcc  
+parisc                           allmodconfig   gcc  
+parisc                            allnoconfig   gcc  
+parisc                           allyesconfig   gcc  
+parisc                              defconfig   gcc  
+parisc64                            defconfig   gcc  
+powerpc                          allmodconfig   gcc  
+powerpc                           allnoconfig   gcc  
+powerpc                          allyesconfig   gcc  
+powerpc                 mpc834x_itx_defconfig   gcc  
+riscv                            allmodconfig   gcc  
+riscv                             allnoconfig   gcc  
+riscv                            allyesconfig   gcc  
+riscv                               defconfig   gcc  
+riscv                 randconfig-001-20231011   gcc  
+riscv                          rv32_defconfig   gcc  
+s390                             allmodconfig   gcc  
+s390                              allnoconfig   gcc  
+s390                             allyesconfig   gcc  
+s390                                defconfig   gcc  
+s390                  randconfig-001-20231011   gcc  
+sh                               allmodconfig   gcc  
+sh                                allnoconfig   gcc  
+sh                               allyesconfig   gcc  
+sh                                  defconfig   gcc  
+sh                         microdev_defconfig   gcc  
+sparc                            allmodconfig   gcc  
+sparc                             allnoconfig   gcc  
+sparc                            allyesconfig   gcc  
+sparc                               defconfig   gcc  
+sparc                 randconfig-001-20231011   gcc  
+sparc64                          allmodconfig   gcc  
+sparc64                          allyesconfig   gcc  
+sparc64                             defconfig   gcc  
+um                               allmodconfig   clang
+um                                allnoconfig   clang
+um                               allyesconfig   clang
+um                                  defconfig   gcc  
+um                             i386_defconfig   gcc  
+um                           x86_64_defconfig   gcc  
+x86_64                            allnoconfig   gcc  
+x86_64                           allyesconfig   gcc  
+x86_64       buildonly-randconfig-001-20231011   gcc  
+x86_64       buildonly-randconfig-002-20231011   gcc  
+x86_64       buildonly-randconfig-003-20231011   gcc  
+x86_64       buildonly-randconfig-004-20231011   gcc  
+x86_64       buildonly-randconfig-005-20231011   gcc  
+x86_64       buildonly-randconfig-006-20231011   gcc  
+x86_64                              defconfig   gcc  
+x86_64                randconfig-001-20231011   gcc  
+x86_64                randconfig-002-20231011   gcc  
+x86_64                randconfig-003-20231011   gcc  
+x86_64                randconfig-004-20231011   gcc  
+x86_64                randconfig-005-20231011   gcc  
+x86_64                randconfig-006-20231011   gcc  
+x86_64                randconfig-011-20231011   gcc  
+x86_64                randconfig-012-20231011   gcc  
+x86_64                randconfig-013-20231011   gcc  
+x86_64                randconfig-014-20231011   gcc  
+x86_64                randconfig-015-20231011   gcc  
+x86_64                randconfig-016-20231011   gcc  
+x86_64                randconfig-071-20231010   gcc  
+x86_64                randconfig-071-20231011   gcc  
+x86_64                randconfig-072-20231010   gcc  
+x86_64                randconfig-072-20231011   gcc  
+x86_64                randconfig-073-20231010   gcc  
+x86_64                randconfig-073-20231011   gcc  
+x86_64                randconfig-074-20231010   gcc  
+x86_64                randconfig-074-20231011   gcc  
+x86_64                randconfig-075-20231010   gcc  
+x86_64                randconfig-075-20231011   gcc  
+x86_64                randconfig-076-20231010   gcc  
+x86_64                randconfig-076-20231011   gcc  
+x86_64                          rhel-8.3-func   gcc  
+x86_64                    rhel-8.3-kselftests   gcc  
+x86_64                           rhel-8.3-ltp   gcc  
+x86_64                          rhel-8.3-rust   clang
+x86_64                               rhel-8.3   gcc  
 
-BTW I failed to understand why the BARs inits was originally needed:
-first merging the BAR0 and BAR1 into a single 64-bit BAR, then
-switching it back to two 32-bit BARs. Moreover here is what prior DW
-PCIe RC v5.x databooks say about the BARs:
-
-"3.5.6 BAR Details
-Base Address Registers (Offset: 0x10-x14)
-The Synopsys core does not implement the optional BARs for the RC
-product. This is based on the assumption that the RC host probably has
-registers on some other internal bus and has knowledge and setup
-access to these registers already."
-
-I am not sure I fully understand what it means, but it seems as DW
-PCIe cores didn't have anything behind the RC BARs even back then. So
-it seems to me that the BARs manipulation was the Exinos PCIe host
-specific, from which driver they are originating - commit 340cba6092c2
-("pci: Add PCIe driver for Samsung Exynos").
-
-* BTW Yoshihiro, I am sorry to see your patchset is still under review...(
-
--Serge(y)
-
->  	/*
->  	 * Enable DBI read-only registers for writing/updating configuration.
->  	 * Write permission gets disabled towards the end of this function.
-> -- 
-> 2.25.1
-> 
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
