@@ -2,82 +2,105 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7102B7C4CED
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Oct 2023 10:18:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 42D7E7C4E47
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Oct 2023 11:12:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229957AbjJKIS3 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 11 Oct 2023 04:18:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54216 "EHLO
+        id S1345681AbjJKJM3 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 11 Oct 2023 05:12:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36554 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229977AbjJKIS2 (ORCPT
+        with ESMTP id S1345567AbjJKJM2 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 11 Oct 2023 04:18:28 -0400
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 634A393
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 11 Oct 2023 01:18:27 -0700 (PDT)
-X-IronPort-AV: E=Sophos;i="6.03,214,1694703600"; 
-   d="scan'208";a="182677694"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie6.idc.renesas.com with ESMTP; 11 Oct 2023 17:18:24 +0900
-Received: from localhost.localdomain (unknown [10.166.15.32])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id B8BE9400F79B;
-        Wed, 11 Oct 2023 17:18:24 +0900 (JST)
-From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-To:     vkoul@kernel.org, kishon@kernel.org
-Cc:     linux-phy@lists.infradead.org, linux-renesas-soc@vger.kernel.org,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Subject: [PATCH 2/2] phy: renesas: r8a779f0-ether-serdes: Add .exit() ops
-Date:   Wed, 11 Oct 2023 17:18:17 +0900
-Message-Id: <20231011081817.257113-3-yoshihiro.shimoda.uh@renesas.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20231011081817.257113-1-yoshihiro.shimoda.uh@renesas.com>
-References: <20231011081817.257113-1-yoshihiro.shimoda.uh@renesas.com>
+        Wed, 11 Oct 2023 05:12:28 -0400
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A12E94;
+        Wed, 11 Oct 2023 02:12:27 -0700 (PDT)
+From:   Thomas Gleixner <tglx@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020; t=1697015545;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=8mHTnG4MfEd2WInpkSaCyoIk5Nbax8kxNBig7AwLSEU=;
+        b=l5sh4dOzDZ2X5HB7Xi84ttICGEA/Gzkkha41sxLmx8M1qkMsMpYCG0Xnyt/vGoVR0Dbdjy
+        ucI9k/OtsU/Er7zqcw00spV0cvJPo8qfx2tD3YPpBhY0FsWc5l8QHCRzkkJmx1fffCitpK
+        p3KWoVHzp++qoCf8dlfDVFuEtfML3i0rNKwNitl84UoRHNZN9AAmKlVTliBtrwQaQZlHcc
+        +UrlmjwOIV/vAWWxlbAC1SBwNYR5Gymwi67+BIgiBXfjMjMllp22y0hZga4sAYbDkS36Fo
+        sJnENvRXJ20gGfmlw9LvJsEEA5EcKGm5czz2PAlXomLE/TJQXC7jLHM8Xrnp8w==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020e; t=1697015545;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=8mHTnG4MfEd2WInpkSaCyoIk5Nbax8kxNBig7AwLSEU=;
+        b=QxJnYCZjXLEtyBI07eDRRe9WPqv1ZDHIwowp2BRGFJbN8R4Ajg6bj5fwV7Th8ozoNOCQOJ
+        iYr4BRUAc4t+t+Cw==
+To:     Biju Das <biju.das.jz@bp.renesas.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Alessandro Zummo <a.zummo@towertech.it>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        John Stultz <jstultz@google.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Douglas Anderson <dianders@chromium.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Biju Das <biju.das.au@gmail.com>,
+        "linux-rtc@vger.kernel.org" <linux-rtc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: RE: [PATCH v2] alarmtimer: Fix rebind failure
+In-Reply-To: <TYCPR01MB112693065867ACA9C42370B9F86CCA@TYCPR01MB11269.jpnprd01.prod.outlook.com>
+References: <20230922081208.26334-1-biju.das.jz@bp.renesas.com>
+ <87il7fq1al.ffs@tglx>
+ <TYCPR01MB112697A5D4B57101CDE27C88D86CEA@TYCPR01MB11269.jpnprd01.prod.outlook.com>
+ <87fs2jpznr.ffs@tglx>
+ <TYCPR01MB11269C6BF3934F9AAC44F855186CEA@TYCPR01MB11269.jpnprd01.prod.outlook.com>
+ <87bkd7pic3.ffs@tglx>
+ <TYCPR01MB11269FF2DBFDC96B9C12D2E5E86CDA@TYCPR01MB11269.jpnprd01.prod.outlook.com>
+ <87o7h6o6d1.ffs@tglx>
+ <CAMuHMdVJnqkF7xmjfOyoxE_Lq=AO85CDD85qu3O+xcSr-3BLTQ@mail.gmail.com>
+ <TYCPR01MB112693065867ACA9C42370B9F86CCA@TYCPR01MB11269.jpnprd01.prod.outlook.com>
+Date:   Wed, 11 Oct 2023 11:12:25 +0200
+Message-ID: <87r0m1ldza.ffs@tglx>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Add r8a779f0_eth_serdes_exit() to clear the initialized flag
-for re-initializing this PHY if needed.
+On Wed, Oct 11 2023 at 06:58, Biju Das wrote:
+>> On Tue, Oct 10, 2023 at 5:16=E2=80=AFPM Thomas Gleixner <tglx@linutronix=
+.de> wrote:
+>>=20
+>> The "if (alarmtimer_get_rtcdev()) { ... }" you pointed out in the probe
+>> function  seems to be rather fragile, as it depends on probe order. And
+>> both CHARGER_MANAGER and RTC_DRV_88PM860X can be modular.
+>
+> Does it mean that current patch is fine?  On normal scenario, no one
+> will remove RTC device, so nothing to worry about battery charger. On
+> exceptional cases if anyone wants to remove RTC driver, this patch
+> will help(for eg: checking resource leak remove/unbind followed by
+> modprobe/bind).
 
-Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
----
- drivers/phy/renesas/r8a779f0-ether-serdes.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+Did you actually read what I wrote?
 
-diff --git a/drivers/phy/renesas/r8a779f0-ether-serdes.c b/drivers/phy/renesas/r8a779f0-ether-serdes.c
-index ba1109d6bdd9..fc6e398fa3bf 100644
---- a/drivers/phy/renesas/r8a779f0-ether-serdes.c
-+++ b/drivers/phy/renesas/r8a779f0-ether-serdes.c
-@@ -261,6 +261,15 @@ static int r8a779f0_eth_serdes_init(struct phy *p)
- 	return ret;
- }
- 
-+static int r8a779f0_eth_serdes_exit(struct phy *p)
-+{
-+	struct r8a779f0_eth_serdes_channel *channel = phy_get_drvdata(p);
-+
-+	channel->dd->initialized = false;
-+
-+	return 0;
-+}
-+
- static int r8a779f0_eth_serdes_hw_init_late(struct r8a779f0_eth_serdes_channel
- *channel)
- {
-@@ -318,6 +327,7 @@ static int r8a779f0_eth_serdes_set_speed(struct phy *p, int speed)
- 
- static const struct phy_ops r8a779f0_eth_serdes_ops = {
- 	.init		= r8a779f0_eth_serdes_init,
-+	.exit		= r8a779f0_eth_serdes_exit,
- 	.power_on	= r8a779f0_eth_serdes_power_on,
- 	.set_mode	= r8a779f0_eth_serdes_set_mode,
- 	.set_speed	= r8a779f0_eth_serdes_set_speed,
--- 
-2.25.1
+Allowing removal of a registered RTC alarm device is a user space
+visible change as it violates the assumption that an armed alarm timer
+is actually functional.
 
+So unless you provide a proper analysis why this does not matter, this
+is going nowhere.
+
+Thanks,
+
+        tglx
