@@ -2,151 +2,137 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 109417C6DC1
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 Oct 2023 14:15:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EE7747C6DC6
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 Oct 2023 14:16:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343908AbjJLMPh convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 12 Oct 2023 08:15:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41342 "EHLO
+        id S1347193AbjJLMQh (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 12 Oct 2023 08:16:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51952 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1343869AbjJLMPh (ORCPT
+        with ESMTP id S1347211AbjJLMQg (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 12 Oct 2023 08:15:37 -0400
-Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com [209.85.128.182])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 925B0BA;
-        Thu, 12 Oct 2023 05:15:35 -0700 (PDT)
-Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-5a7c08b7744so10836377b3.3;
-        Thu, 12 Oct 2023 05:15:35 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697112934; x=1697717734;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=wl3I/2bXbjqN636hLulYiW7jhp7Ro5bp+FnjB/CpQr8=;
-        b=D2SNDzY+ZHbtLcrDP13ADGWzFLyjOuelw38N4+vtkphygQlvQPwEkdKsXPbPexFS0d
-         CnIAdZ9/Q4B+YJfuL9S+wyoWOkG0UbDgBPC6DnYvk+QE936jjDo7Qe5Bq/9fg9yp/ou5
-         uIc24FIkl5NfC3hbHyRU+3Dtpi/ERTxwCOHJTlJFxRqmLG3k80KO49so/b5L41loveFH
-         Cdzxvs69fdzyrVRWVJPZaPDJ660loQjNdmfEeKdODjCGw4HlRojVp8wgMJbeeYgmjjfa
-         d+ao4P6ZKCLHUM5wgIReix5n+dRwJjHDqnWtfo1uc/4Knti+nituE0Fre0a9N375wmoC
-         WVMA==
-X-Gm-Message-State: AOJu0Yx8yz1pg/3Sj80YoB609SvRzojRV7vhgyopWecJf4mRDxRAZCaX
-        wQ/O6XFtpipofEGLVbo8EUG7XePMUUPCNg==
-X-Google-Smtp-Source: AGHT+IFVBU3c9WPwENNvq83TUmSuvwtpSnPnE5ioJfpYzfXuzrqrKsxIIgzUHtnBsVOsx9AdrMzxSg==
-X-Received: by 2002:a81:8742:0:b0:59f:6675:7771 with SMTP id x63-20020a818742000000b0059f66757771mr22443274ywf.35.1697112934475;
-        Thu, 12 Oct 2023 05:15:34 -0700 (PDT)
-Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com. [209.85.128.181])
-        by smtp.gmail.com with ESMTPSA id g68-20020a0df647000000b0059b2be24f88sm5772597ywf.143.2023.10.12.05.15.33
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 12 Oct 2023 05:15:33 -0700 (PDT)
-Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-5a7b91faf40so11003367b3.1;
-        Thu, 12 Oct 2023 05:15:33 -0700 (PDT)
-X-Received: by 2002:a0d:d40f:0:b0:59b:fe46:82de with SMTP id
- w15-20020a0dd40f000000b0059bfe4682demr24538814ywd.18.1697112932799; Thu, 12
- Oct 2023 05:15:32 -0700 (PDT)
+        Thu, 12 Oct 2023 08:16:36 -0400
+Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 882FDB7;
+        Thu, 12 Oct 2023 05:16:34 -0700 (PDT)
+X-IronPort-AV: E=Sophos;i="6.03,218,1694703600"; 
+   d="scan'208";a="182840405"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie6.idc.renesas.com with ESMTP; 12 Oct 2023 21:16:33 +0900
+Received: from localhost.localdomain (unknown [10.166.15.32])
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id E6EF042C9E68;
+        Thu, 12 Oct 2023 21:16:33 +0900 (JST)
+From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+To:     s.shtylyov@omp.ru, davem@davemloft.net, edumazet@google.com,
+        kuba@kernel.org, pabeni@redhat.com
+Cc:     netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Subject: [PATCH net-next] rswitch: Add PM ops
+Date:   Thu, 12 Oct 2023 21:16:18 +0900
+Message-Id: <20231012121618.267315-1-yoshihiro.shimoda.uh@renesas.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20231012-pouch-parkway-7d26c04b3300@spud>
-In-Reply-To: <20231012-pouch-parkway-7d26c04b3300@spud>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 12 Oct 2023 14:15:21 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWRzoBgxxkF6kpxr4tpUM4BzHnMUmW3vDR_BrrXiKae5Q@mail.gmail.com>
-Message-ID: <CAMuHMdWRzoBgxxkF6kpxr4tpUM4BzHnMUmW3vDR_BrrXiKae5Q@mail.gmail.com>
-Subject: Re: [PATCH v2] soc: renesas: make ARCH_R9A07G043 depend on required options
-To:     Conor Dooley <conor@kernel.org>
-Cc:     linux-renesas-soc@vger.kernel.org,
-        Conor Dooley <conor.dooley@microchip.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
-        soc@kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
-        autolearn=no autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=1.1 required=5.0 tests=AC_FROM_MANY_DOTS,BAYES_00,
+        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Level: *
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Conor,
+Add PM ops for Suspend to Idle. When the system suspended,
+the Ethernet Serdes's clock will be stopped. So, this driver needs
+to re-initialize the Ethernet Serdes by phy_init() in
+renesas_eth_sw_resume(). Otherwise, timeout happened in phy_power_on().
 
-On Thu, Oct 12, 2023 at 1:11 PM Conor Dooley <conor@kernel.org> wrote:
-> From: Conor Dooley <conor.dooley@microchip.com>
->
-> Randy reported a randconfig build issue against linux-next:
-> WARNING: unmet direct dependencies detected for ERRATA_ANDES
->   Depends on [n]: RISCV_ALTERNATIVE [=n] && RISCV_SBI [=y]
->   Selected by [y]:
->   - ARCH_R9A07G043 [=y] && SOC_RENESAS [=y] && RISCV [=y] && NONPORTABLE [=y] && RISCV_SBI [=y]
->
-> ../arch/riscv/errata/andes/errata.c:59:54: warning: 'struct alt_entry' declared inside parameter list will not be visible outside of this definition or declaration
->    59 | void __init_or_module andes_errata_patch_func(struct alt_entry *begin, struct alt_entry *end,
->
-> On RISC-V, alternatives are not usable in XIP kernels, which this
-> randconfig happened to select. Rather than add a check for whether
-> alternatives are available before selecting the ERRATA_ANDES config
-> option, rework the R9A07G043 Kconfig entry to depend on the
-> configuration options required to support its non-standard cache
-> coherency implementation.
->
-> Without these options enabled, the SoC is effectively non-functional to
-> begin with, so there's an extra benefit in preventing the creation of
-> non-functional kernels.
->
-> The "if RISCV_DMA_NONCOHERENT" can be dropped, as ERRATA_ANDES_CMO will
-> select it.
->
-> Reported-by: Randy Dunlap <rdunlap@infradead.org>
-> Closes: https://lore.kernel.org/all/09a6b0f0-76a1-45e3-ab52-329c47393d1d@infradead.org/
-> Signed-off-by: Conor Dooley <conor.dooley@microchip.com>
-> ---
->
-> I dropped Randy's t-b etc since this patch is quite different.
->
-> v2: drop the extra condition on the select of ERRATA_ANDES, move instead
-> to depending on required options.
+Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+---
+ This patch is based on the latest net-next.git / next branch.
+ After applied this patch with the following patches, the system can
+ enter/exit Suspend to Idle without any error:
 
-Thanks for the update!
+https://lore.kernel.org/netdev/20230201131454.1928136-1-yoshihiro.shimoda.uh@renesas.com/
+https://git.kernel.org/pub/scm/linux/kernel/git/netdev/net.git/commit/?id=510b18cf23b9bd8a982ef7f1fb19f3968a2bf787
+https://git.kernel.org/pub/scm/linux/kernel/git/netdev/net.git/commit/?id=053f13f67be6d02781730c9ac71abde6e9140610
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-fixes for v6.6.
+ drivers/net/ethernet/renesas/rswitch.c | 43 ++++++++++++++++++++++++++
+ 1 file changed, 43 insertions(+)
 
-> --- a/drivers/soc/renesas/Kconfig
-> +++ b/drivers/soc/renesas/Kconfig
-> @@ -340,10 +340,12 @@ if RISCV
->  config ARCH_R9A07G043
->         bool "RISC-V Platform support for RZ/Five"
->         depends on NONPORTABLE
-> +       depends on RISCV_ALTERNATIVE
-> +       depends on RISCV_SBI
->         select ARCH_RZG2L
-> -       select AX45MP_L2_CACHE if RISCV_DMA_NONCOHERENT
-> +       select AX45MP_L2_CACHE
->         select DMA_GLOBAL_POOL
-> -       select ERRATA_ANDES if RISCV_SBI
-> +       select ERRATA_ANDES
->         select ERRATA_ANDES_CMO if ERRATA_ANDES
-
-As ERRATA_ANDES is now selected unconditionally, the test
-for it can be removed.  I can do that while applying.
-
->         help
->           This enables support for the Renesas RZ/Five SoC.
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
+diff --git a/drivers/net/ethernet/renesas/rswitch.c b/drivers/net/ethernet/renesas/rswitch.c
+index 0023ff254915..301053db61ac 100644
+--- a/drivers/net/ethernet/renesas/rswitch.c
++++ b/drivers/net/ethernet/renesas/rswitch.c
+@@ -17,6 +17,7 @@
+ #include <linux/of_net.h>
+ #include <linux/phy/phy.h>
+ #include <linux/platform_device.h>
++#include <linux/pm.h>
+ #include <linux/pm_runtime.h>
+ #include <linux/rtnetlink.h>
+ #include <linux/slab.h>
+@@ -1315,6 +1316,7 @@ static int rswitch_phy_device_init(struct rswitch_device *rdev)
+ 	if (!phydev)
+ 		goto out;
+ 	__set_bit(rdev->etha->phy_interface, phydev->host_interfaces);
++	phydev->mac_managed_pm = true;
+ 
+ 	phydev = of_phy_connect(rdev->ndev, phy, rswitch_adjust_link, 0,
+ 				rdev->etha->phy_interface);
+@@ -1991,11 +1993,52 @@ static void renesas_eth_sw_remove(struct platform_device *pdev)
+ 	platform_set_drvdata(pdev, NULL);
+ }
+ 
++static int __maybe_unused renesas_eth_sw_suspend(struct device *dev)
++{
++	struct rswitch_private *priv = dev_get_drvdata(dev);
++	struct net_device *ndev;
++	int i;
++
++	rswitch_for_each_enabled_port(priv, i) {
++		ndev = priv->rdev[i]->ndev;
++		if (netif_running(ndev)) {
++			netif_device_detach(ndev);
++			rswitch_stop(ndev);
++		}
++		if (priv->rdev[i]->serdes->init_count)
++			phy_exit(priv->rdev[i]->serdes);
++	}
++
++	return 0;
++}
++
++static int __maybe_unused renesas_eth_sw_resume(struct device *dev)
++{
++	struct rswitch_private *priv = dev_get_drvdata(dev);
++	struct net_device *ndev;
++	int i;
++
++	rswitch_for_each_enabled_port(priv, i) {
++		phy_init(priv->rdev[i]->serdes);
++		ndev = priv->rdev[i]->ndev;
++		if (netif_running(ndev)) {
++			rswitch_open(ndev);
++			netif_device_attach(ndev);
++		}
++	}
++
++	return 0;
++}
++
++static SIMPLE_DEV_PM_OPS(renesas_eth_sw_pm_ops, renesas_eth_sw_suspend,
++			 renesas_eth_sw_resume);
++
+ static struct platform_driver renesas_eth_sw_driver_platform = {
+ 	.probe = renesas_eth_sw_probe,
+ 	.remove_new = renesas_eth_sw_remove,
+ 	.driver = {
+ 		.name = "renesas_eth_sw",
++		.pm = &renesas_eth_sw_pm_ops,
+ 		.of_match_table = renesas_eth_sw_of_table,
+ 	}
+ };
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+2.25.1
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
