@@ -2,56 +2,56 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AD9C47C708B
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 Oct 2023 16:44:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0B5D57C70AC
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 Oct 2023 16:49:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234995AbjJLOoY convert rfc822-to-8bit (ORCPT
+        id S234913AbjJLOtf convert rfc822-to-8bit (ORCPT
         <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 12 Oct 2023 10:44:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43098 "EHLO
+        Thu, 12 Oct 2023 10:49:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43190 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233260AbjJLOoY (ORCPT
+        with ESMTP id S233260AbjJLOtf (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 12 Oct 2023 10:44:24 -0400
-Received: from mail-yb1-f176.google.com (mail-yb1-f176.google.com [209.85.219.176])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 652A4BB;
-        Thu, 12 Oct 2023 07:44:22 -0700 (PDT)
-Received: by mail-yb1-f176.google.com with SMTP id 3f1490d57ef6-d9a398f411fso1132377276.3;
-        Thu, 12 Oct 2023 07:44:22 -0700 (PDT)
+        Thu, 12 Oct 2023 10:49:35 -0400
+Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com [209.85.128.173])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 066FEA9;
+        Thu, 12 Oct 2023 07:49:34 -0700 (PDT)
+Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-59f82ad1e09so12547297b3.0;
+        Thu, 12 Oct 2023 07:49:33 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697121860; x=1697726660;
+        d=1e100.net; s=20230601; t=1697122173; x=1697726973;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=vlohsKaxaDfJsNn0JXsIdvrAgoGkujT/EvyViDc7jh0=;
-        b=iVaApVkpKZ0pZLEK/pwPLTGauu7UeCClkUXAvxljBqIBU1NUZs6cKGofDWJThZovdD
-         R+PdLalbZM71D7ARoXO/MV4ug5UKaBN7EYKhisGUarhoFIB+u2aDKmjvKNryIMT2aIqO
-         7/rZpngyCi+cRcrWj+Ljwabg37SERfQgi8WtaeQYVTNWOPdTwmY3Eiqo5b1d91OgEU+X
-         OwM7HO8hcBH96SMHCWMZBR/flQmynraseXWZKASSLNXhZLvq6nY7oVyQoeYKpb3MecBD
-         rLfQkWBHPsC4Fb2NSAEY87llPNTUsHsTAyzbENvMh2nqQoc9g1o8gON/b/XWCkwsTVFk
-         wCvA==
-X-Gm-Message-State: AOJu0YzhgL2UMdRD2jcmbJXTtWBs89z1oEWz3+mXltBwiC9qNGDczA/L
-        056Ay9qlISdQmNim66B0mJc/KD8J7n4cnQ==
-X-Google-Smtp-Source: AGHT+IHL1VVdNNqwHnZcPkiD9AZddyC3g7gvOS4O13vQR8K7sd/ecIhw/doKpo16fiV6v+feVkzXxQ==
-X-Received: by 2002:a25:ac46:0:b0:d9a:53cc:aaad with SMTP id r6-20020a25ac46000000b00d9a53ccaaadmr8935045ybd.24.1697121860167;
-        Thu, 12 Oct 2023 07:44:20 -0700 (PDT)
-Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com. [209.85.128.178])
-        by smtp.gmail.com with ESMTPSA id z96-20020a25a169000000b00d8128f9a46bsm2632ybh.37.2023.10.12.07.44.19
+        bh=Eb3DoNCX4dAi2zJy5KwY6jsXZKuGpHpVa2pTm/f3Qp8=;
+        b=uHJR/XF+SRPLsknhOkYPN9W6ZF9ZP5a/CPQLr9C+kRhp9noa1Us0RltwNuJM+jKjuE
+         h99KZTFrWSQEGSfDMbPAoEi/V24DGyZG2H4bJBJtagOJxIQv2oObeH1O3QjHitypBwrs
+         oOHIIkORUpO7HR7wbxYMLE3iEAUd4V63Pw8RjoFEY3++4gjXLhwbS9IUJOLkAMXL6H0t
+         IlnCHFX+kuuEWcWWv/NaPLhoEolCj+uftAc02hEO7o8I6HcMXRLIW4EfsaIM8dcfML5e
+         6KA5m4mMcXslaaJMCniBd+/P5kTCnFNRf9yy8MKy3MPNsHajPTmnvY1zg/fCGIG4bDEv
+         CHvw==
+X-Gm-Message-State: AOJu0Yx/002vagrs6Wf6zQ5XL2qTsbJVqpmz499sK7JDpCrRXGiuTYzc
+        RLfihXNMIKkSuy2oG/ofNw9A1NKU1qjVQg==
+X-Google-Smtp-Source: AGHT+IEX6MMAPtEhlapgn4TZtg0LJe+T4yMLUfOaieynyEGo/wAfg4iVc9aXjGIGv1FDvBGI0+Zcow==
+X-Received: by 2002:a05:690c:d94:b0:5a7:fcae:f3e2 with SMTP id da20-20020a05690c0d9400b005a7fcaef3e2mr3007123ywb.43.1697122172833;
+        Thu, 12 Oct 2023 07:49:32 -0700 (PDT)
+Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com. [209.85.128.171])
+        by smtp.gmail.com with ESMTPSA id p62-20020a0dcd41000000b0059f61be458esm5419ywd.82.2023.10.12.07.49.31
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 12 Oct 2023 07:44:19 -0700 (PDT)
-Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-5a7ba0828efso13058287b3.3;
-        Thu, 12 Oct 2023 07:44:19 -0700 (PDT)
-X-Received: by 2002:a0d:e2c4:0:b0:5a7:bc38:fff2 with SMTP id
- l187-20020a0de2c4000000b005a7bc38fff2mr8513742ywe.15.1697121859775; Thu, 12
- Oct 2023 07:44:19 -0700 (PDT)
+        Thu, 12 Oct 2023 07:49:32 -0700 (PDT)
+Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-59f82ad1e09so12546967b3.0;
+        Thu, 12 Oct 2023 07:49:31 -0700 (PDT)
+X-Received: by 2002:a05:690c:dd2:b0:5a7:fa8b:3fa6 with SMTP id
+ db18-20020a05690c0dd200b005a7fa8b3fa6mr3757707ywb.9.1697122171519; Thu, 12
+ Oct 2023 07:49:31 -0700 (PDT)
 MIME-Version: 1.0
-References: <20231010132701.1658737-1-claudiu.beznea.uj@bp.renesas.com> <20231010132701.1658737-6-claudiu.beznea.uj@bp.renesas.com>
-In-Reply-To: <20231010132701.1658737-6-claudiu.beznea.uj@bp.renesas.com>
+References: <20231010132701.1658737-1-claudiu.beznea.uj@bp.renesas.com> <20231010132701.1658737-7-claudiu.beznea.uj@bp.renesas.com>
+In-Reply-To: <20231010132701.1658737-7-claudiu.beznea.uj@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 12 Oct 2023 16:44:08 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdW+5MZXRbDtZtmrMkrCtwqqKUcW_W1_5U_2yO6w6aCa_w@mail.gmail.com>
-Message-ID: <CAMuHMdW+5MZXRbDtZtmrMkrCtwqqKUcW_W1_5U_2yO6w6aCa_w@mail.gmail.com>
-Subject: Re: [PATCH 5/6] arm64: dts: renesas: rzg3s-smarc: Enable SDHI1
+Date:   Thu, 12 Oct 2023 16:49:20 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdVwO--GrdDP8pUHq-k5cVR31dGdvEM73z2E+NLEbD8GRw@mail.gmail.com>
+Message-ID: <CAMuHMdVwO--GrdDP8pUHq-k5cVR31dGdvEM73z2E+NLEbD8GRw@mail.gmail.com>
+Subject: Re: [PATCH 6/6] arm64: dts: renesas: rzg3s: Fix dtbs_check
 To:     Claudiu <claudiu.beznea@tuxon.dev>
 Cc:     magnus.damm@gmail.com, robh+dt@kernel.org,
         krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
@@ -76,32 +76,28 @@ Hi Claudiu,
 On Tue, Oct 10, 2023 at 3:27 PM Claudiu <claudiu.beznea@tuxon.dev> wrote:
 > From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 >
-> Add SDHI1 to RZ/G3S Smarc Carrier-II board. This is connected to a uSD
-> interface. Although Vccq doesn't cross the boundary of SoM it has
-> been added to RZ/G3S Smarc Carrier-II dtsi to have all the bits related to
-> SDHI1 in a single place. At the moment SoM is used only with RZ/G3S Smarc
-> Carrier-II board.
+> Fix the following DTBS check warnings:
+>
+> arch/arm64/boot/dts/renesas/r9a08g045s33-smarc.dt: /: memory@48000000: 'device-type' does not match any of the regexes: 'pinctrl-[0-9]+'
+>         from schema $id: http://devicetree.org/schemas/memory.yaml#
+> arch/arm64/boot/dts/renesas/r9a08g045s33-smarc.dtb: /: memory@48000000: 'device_type' is a required property
+>         from schema $id: http://devicetree.org/schemas/memory.yaml#
+> arch/arm64/boot/dts/renesas/r9a08g045s33-smarc.dtb: cache-controller-0: 'cache-level' is a required property
+>         from schema $id: http://devicetree.org/schemas/cache.yaml#
+> arch/arm64/boot/dts/renesas/r9a08g045s33-smarc.dtb: cache-controller-0: 'cache-level' is a required property
+>         from schema $id: http://devicetree.org/schemas/cache.yaml#
+> arch/arm64/boot/dts/renesas/r9a08g045s33-smarc.dtb: cache-controller-0: Unevaluated properties are not allowed ('cache-size', 'cache-unified' were unexpected)
+>         from schema $id: http://devicetree.org/schemas/cache.yaml#
 >
 > Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 
 Thanks for your patch!
 
-> --- a/arch/arm64/boot/dts/renesas/rzg3s-smarc.dtsi
-> +++ b/arch/arm64/boot/dts/renesas/rzg3s-smarc.dtsi
-> @@ -11,6 +11,27 @@
->  / {
->         aliases {
->                 serial0 = &scif0;
-> +               mmc1 = &sdhi1;
-> +       };
-> +
-> +       /* Reserved regulators 0-9 for SoM. */
-> +       vcc_sdhi1: regulator10 {
+>  arch/arm64/boot/dts/renesas/r9a08g045.dtsi       | 1 +
+>  arch/arm64/boot/dts/renesas/rzg3s-smarc-som.dtsi | 2 +-
 
-You can use sensible names for the regulators to avoid conflicts.
-E.g. "regulator-vcc-sdhi1".
-
-The rest LGTM.
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+i.e. will queue in renesas-devel for v6.7, split in two parts.
 
 Gr{oetje,eeting}s,
 
