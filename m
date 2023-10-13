@@ -2,53 +2,53 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 21F997C8D96
+	by mail.lfdr.de (Postfix) with ESMTP id 798957C8D97
 	for <lists+linux-renesas-soc@lfdr.de>; Fri, 13 Oct 2023 21:13:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231468AbjJMTNa (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 13 Oct 2023 15:13:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59028 "EHLO
+        id S231583AbjJMTNc (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 13 Oct 2023 15:13:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59040 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231553AbjJMTNa (ORCPT
+        with ESMTP id S231553AbjJMTNb (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 13 Oct 2023 15:13:30 -0400
+        Fri, 13 Oct 2023 15:13:31 -0400
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C5DB795
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 13 Oct 2023 12:13:28 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F133183
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 13 Oct 2023 12:13:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697224408; x=1728760408;
+  t=1697224409; x=1728760409;
   h=date:from:to:cc:subject:message-id;
-  bh=6i7jq2sAd/8TBJNOPGhfiOEthzlpymvNXybi7Z4wpac=;
-  b=fdqAaHPW4LVd8tQRLcTgqsa0EgKVX8FgI+i3xBKa/Hd61K0dFZUJH/cj
-   S76if5Em2uMYeGapmrSKUXoDd7yxN4smUy25POre0/zNdIjWeP5mGLQYn
-   xdg3WhhOJLmppwMvudwN06tG+NlQ0tzCZREAIl9QSBRi/Q1oz1lPKFDuC
-   MOTfxFLUbine8nJ3MkCPkN94hG0b3QvxP5MKDaGwt+uHqYfoLX5PyG195
-   saxjXV5G789WiyQux/MBnhUBXLBm550zAtkA5biBFe08hGv0+qsZu6P2z
-   rC0FvKCpAvjjb7wWTyzbSYSrC2pFYYiRsHTH78VwI4/HWm0CKaxyuiFOD
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10862"; a="365508380"
+  bh=gC7Uoz+FxPrU6258/UWmREC2vyGWbtAESRCldVDQShQ=;
+  b=c8VnEXaEDtmFSiZKRdMU8jJlpN+J3HaEFFa/QoopSqx2+Fb1TxzkvtkU
+   bB3NrX8FglPYBzxhCKFw6d4T8f16CI2gS+VCha/PXhN59vP2FEibg2Jal
+   qjvT658P9l4d1U5I6sSq4D0OGasx5lmSsRVklZNllN28SLf6XSy/+i9su
+   lxT4Eb3aWGdhWueHdz1OOhVRnad0TiWoM0/kSVtET/0eV/LeluBvp/9BZ
+   20u0qipllzYabw0DKAscp8kPqsFXz4pEB0ihz2Qz6p59DDDTwmNKh1sqd
+   QVNi7q99qF0kML+Sy1FoDC1zxYWivTpE1UoR3ELGt6r8B2AQZlPc3T9DS
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10862"; a="365508382"
 X-IronPort-AV: E=Sophos;i="6.03,223,1694761200"; 
-   d="scan'208";a="365508380"
+   d="scan'208";a="365508382"
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Oct 2023 12:13:25 -0700
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Oct 2023 12:13:26 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10862"; a="754810264"
+X-IronPort-AV: E=McAfee;i="6600,9927,10862"; a="754810265"
 X-IronPort-AV: E=Sophos;i="6.03,223,1694761200"; 
-   d="scan'208";a="754810264"
+   d="scan'208";a="754810265"
 Received: from lkp-server02.sh.intel.com (HELO f64821696465) ([10.239.97.151])
   by orsmga002.jf.intel.com with ESMTP; 13 Oct 2023 12:13:23 -0700
 Received: from kbuild by f64821696465 with local (Exim 4.96)
         (envelope-from <lkp@intel.com>)
-        id 1qrNb7-0005Ir-21;
+        id 1qrNb7-0005Ij-1p;
         Fri, 13 Oct 2023 19:13:21 +0000
-Date:   Sat, 14 Oct 2023 03:12:33 +0800
+Date:   Sat, 14 Oct 2023 03:12:53 +0800
 From:   kernel test robot <lkp@intel.com>
 To:     Geert Uytterhoeven <geert+renesas@glider.be>
 Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [geert-renesas-drivers:renesas-clk] BUILD SUCCESS
- 4bce4bedbe6daa54cf701184601f913a0c00bb1c
-Message-ID: <202310140330.JjASbdEp-lkp@intel.com>
+Subject: [geert-renesas-devel:renesas-dts-for-v6.7] BUILD SUCCESS
+ a09c3e105a208580b9d9c868bac630c9263ff564
+Message-ID: <202310140350.7dNtdN7A-lkp@intel.com>
 User-Agent: s-nail v14.9.24
 X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
@@ -59,8 +59,8 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git renesas-clk
-branch HEAD: 4bce4bedbe6daa54cf701184601f913a0c00bb1c  clk: renesas: r9a08g045: Add clock and reset support for SDHI1 and SDHI2
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git renesas-dts-for-v6.7
+branch HEAD: a09c3e105a208580b9d9c868bac630c9263ff564  arm64: dts: renesas: Apply overlays to base dtbs
 
 elapsed time: 1450m
 
