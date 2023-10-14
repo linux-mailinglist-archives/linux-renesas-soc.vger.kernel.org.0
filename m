@@ -2,69 +2,70 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4BED97C9396
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 14 Oct 2023 10:57:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AC0D57C946C
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 14 Oct 2023 13:59:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232091AbjJNI5p (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 14 Oct 2023 04:57:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46246 "EHLO
+        id S233033AbjJNL7b (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 14 Oct 2023 07:59:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37482 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231534AbjJNI5o (ORCPT
+        with ESMTP id S232994AbjJNL7b (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 14 Oct 2023 04:57:44 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6F4A2BF
-        for <linux-renesas-soc@vger.kernel.org>; Sat, 14 Oct 2023 01:57:43 -0700 (PDT)
+        Sat, 14 Oct 2023 07:59:31 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 43045CC
+        for <linux-renesas-soc@vger.kernel.org>; Sat, 14 Oct 2023 04:59:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697273863; x=1728809863;
+  t=1697284767; x=1728820767;
   h=date:from:to:cc:subject:message-id;
-  bh=/SG0Fmt2jk8xokFqJLzh4wLntL9jBHT/o/SIwwwJRk0=;
-  b=guUm0yRqbwhBMNal5iCxu/lssf97BoKmk/akarg7uG/xNex55IvYyo8R
-   E1LviY/mVOJ0/wqM+oqmPXmgQsFh5kHPAiZM/h4F6Elop7Do3QwN2dE02
-   p3WjxIZK5ytiUrcfFwIxCpZa0+aXB26J7JDIiUSxtPhYDmCrQ+f4iOSuc
-   TjZXhBFWv2K8yF1mEmL8aLUlRst0++yfKBLFTHdv8r3+oqaaxwHvkeul0
-   QXgpLcrNUC2LkVg7RXX5CatGXS1aRZ2yBEaqZwe+sAZDrjEymGtNSqqnj
-   eCTBVwgg7p+CmwH26rMQ4GHQIgtiBtT10FbwQ7h3VoHeZMdbKQOlVa7ha
+  bh=dq+1OymBMkBI8dlCjdirozwezFKfauu2X1Qol3W/NYM=;
+  b=LC5qrfYR9qOZyNH/nKgMJyJsiox/Sxx0pF6X0tNykuTTeAWvVad1I8el
+   rV2/yjMkeMQq+w/LR2IBsgciA8nbXWF3gez77aJd1AqAkfKJGCaHkaq57
+   J/L0X4wZcxiMFtQUcKK/QdFNMTIwZ8tVt54SHmRz01Tm/VundLt25pE4M
+   c3N+bLE9XMCvrihwyW4G6xVI5wozSCF3Z4taAzFFS2xJS/NopWG4JQnyj
+   +ffRCQ1FhMM13Wh7wVSWwGlv0Qj1avKBlQZwgJQz1sWqcJUf0cA9/YRpd
+   0NOlUeUh3mlqEyayjNYpzevUShJHmpZ1srEXMUoGFH/yi59hRrr7ZRanw
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10862"; a="365579488"
+X-IronPort-AV: E=McAfee;i="6600,9927,10862"; a="389180707"
 X-IronPort-AV: E=Sophos;i="6.03,224,1694761200"; 
-   d="scan'208";a="365579488"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Oct 2023 01:57:43 -0700
+   d="scan'208";a="389180707"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Oct 2023 04:59:26 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10862"; a="758755311"
+X-IronPort-AV: E=McAfee;i="6600,9927,10862"; a="748656702"
 X-IronPort-AV: E=Sophos;i="6.03,224,1694761200"; 
-   d="scan'208";a="758755311"
+   d="scan'208";a="748656702"
 Received: from lkp-server02.sh.intel.com (HELO f64821696465) ([10.239.97.151])
-  by fmsmga007.fm.intel.com with ESMTP; 14 Oct 2023 01:57:42 -0700
+  by orsmga007.jf.intel.com with ESMTP; 14 Oct 2023 04:59:25 -0700
 Received: from kbuild by f64821696465 with local (Exim 4.96)
         (envelope-from <lkp@intel.com>)
-        id 1qraSq-0005wJ-09;
-        Sat, 14 Oct 2023 08:57:40 +0000
-Date:   Sat, 14 Oct 2023 16:56:45 +0800
+        id 1qrdIh-00068x-1U;
+        Sat, 14 Oct 2023 11:59:23 +0000
+Date:   Sat, 14 Oct 2023 19:58:47 +0800
 From:   kernel test robot <lkp@intel.com>
 To:     Geert Uytterhoeven <geert+renesas@glider.be>
 Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [geert-renesas-drivers:renesas-pinctrl] BUILD SUCCESS
- 583d8073205566468abf3a34000fccdd1d19c9cc
-Message-ID: <202310141642.nQMBrKFZ-lkp@intel.com>
+Subject: [geert-renesas-drivers:renesas-r9a08g045-dt-binding-defs]
+ BUILD SUCCESS e372aee8c24957cbcb55d93b14ba386096497bca
+Message-ID: <202310141945.bnA78zUf-lkp@intel.com>
 User-Agent: s-nail v14.9.24
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_NONE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git renesas-pinctrl
-branch HEAD: 583d8073205566468abf3a34000fccdd1d19c9cc  pinctrl: renesas: rzn1: Convert to platform remove callback returning void
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git renesas-r9a08g045-dt-binding-defs
+branch HEAD: e372aee8c24957cbcb55d93b14ba386096497bca  dt-bindings: clock: renesas,rzg2l-cpg: Document RZ/G3S SoC
 
-elapsed time: 1485m
+elapsed time: 1455m
 
-configs tested: 138
+configs tested: 132
 configs skipped: 2
 
 The following configs have been built successfully.
@@ -99,17 +100,11 @@ i386                              allnoconfig   gcc
 i386                             allyesconfig   gcc  
 i386                              debian-10.3   gcc  
 i386                                defconfig   gcc  
-i386                  randconfig-001-20231013   gcc  
 i386                  randconfig-001-20231014   gcc  
-i386                  randconfig-002-20231013   gcc  
 i386                  randconfig-002-20231014   gcc  
-i386                  randconfig-003-20231013   gcc  
 i386                  randconfig-003-20231014   gcc  
-i386                  randconfig-004-20231013   gcc  
 i386                  randconfig-004-20231014   gcc  
-i386                  randconfig-005-20231013   gcc  
 i386                  randconfig-005-20231014   gcc  
-i386                  randconfig-006-20231013   gcc  
 i386                  randconfig-006-20231014   gcc  
 loongarch                        alldefconfig   gcc  
 loongarch                        allmodconfig   gcc  
