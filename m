@@ -2,83 +2,78 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BB3287CA194
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Oct 2023 10:29:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7D8D07CA1A0
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Oct 2023 10:30:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229574AbjJPI3U (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 16 Oct 2023 04:29:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41808 "EHLO
+        id S230331AbjJPIaw (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 16 Oct 2023 04:30:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58998 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230030AbjJPI3T (ORCPT
+        with ESMTP id S231844AbjJPIau (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 16 Oct 2023 04:29:19 -0400
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2E7FFDE;
-        Mon, 16 Oct 2023 01:29:16 -0700 (PDT)
-Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
-        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        id 1qsIyQ-0005VB-FA; Mon, 16 Oct 2023 10:29:14 +0200
-Message-ID: <3e1f079f-a0a7-43b3-96db-24c2e04d5ff8@leemhuis.info>
-Date:   Mon, 16 Oct 2023 10:29:14 +0200
+        Mon, 16 Oct 2023 04:30:50 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 789E5A2
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 16 Oct 2023 01:30:49 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 2476EC433CB
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 16 Oct 2023 08:30:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1697445049;
+        bh=ypVtU7bCAT+AgF5z/+yI4kQAMAFn501tDwHIOZ6qoZI=;
+        h=Subject:From:Date:To:From;
+        b=bsEwFz1V2yFAbHayCHca2Lbn76DjCksQVhwsvYV+W/uMuH0GXLzzxoes1oP+E5Vt7
+         c8jv2tLau+rn9CoXbuAt954WHj/iimOD4hn6mxzE68irLv+QNOolWAqG93R7/JUm4c
+         VmmF9VnTlox3UDGoqjvuyvjHwete/W7+oiS1TFROCrb+QgWBF/IIhUz/MhVqTh6bg/
+         eTmaKvot9c130kgCZVaRVhv+YWj4s58UmbKQLcuonY5kVSgnGT4Zprls6UTustqksn
+         DrwE81fFIvxrr9MbexLkMnkSho/DaFWf2JwcPBt+LS3hUCOhkdpYg2NVI5ixwHMnV6
+         DYrkcXHfeg8HA==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 0D37AC43170
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 16 Oct 2023 08:30:49 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/2] maple_tree: Disable mas_wr_append() when other
- readers are possible
-Content-Language: en-US, de-DE
-From:   "Linux regression tracking #update (Thorsten Leemhuis)" 
-        <regressions@leemhuis.info>
-To:     Linux kernel regressions list <regressions@lists.linux.dev>
-Cc:     linux-mm@kvack.org, linux-kernel@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org
-Reply-To: Linux regressions mailing list <regressions@lists.linux.dev>,
-          Linux regressions mailing list 
-          <regressions@lists.linux.dev>
-References: <20230819004356.1454718-1-Liam.Howlett@oracle.com>
- <20230819004356.1454718-2-Liam.Howlett@oracle.com>
- <3f86d58e-7f36-c6b4-c43a-2a7bcffd3bd@linux-m68k.org>
- <7e9735bf-c42b-4f03-8645-8cdbf87a75f3@leemhuis.info>
-In-Reply-To: <7e9735bf-c42b-4f03-8645-8cdbf87a75f3@leemhuis.info>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1697444956;348b960e;
-X-HE-SMSGID: 1qsIyQ-0005VB-FA
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Subject: Patchwork summary for: linux-renesas-soc
+From:   patchwork-bot+linux-renesas-soc@kernel.org
+Message-Id: <169744504900.19592.2363214125670261266.git-patchwork-summary@kernel.org>
+Date:   Mon, 16 Oct 2023 08:30:49 +0000
+To:     linux-renesas-soc@vger.kernel.org
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Hello:
+
+The following patches were marked "mainlined", because they were applied to
+geert/renesas-devel.git (master):
+
+Series: ravb: Fix use-after-free issues
+  Submitter: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+  Committer: Jakub Kicinski <kuba@kernel.org>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=790141
+  Lore link: https://lore.kernel.org/r/20231005011201.14368-1-yoshihiro.shimoda.uh@renesas.com
+    Patches: [net,v2,1/2] ravb: Fix up dma_free_coherent() call in ravb_remove()
+             [net,v2,2/2] ravb: Fix use-after-free issue in ravb_tx_timeout_work()
+
+Series: rswitch: Fix issues on specific conditions
+  Submitter: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+  Committer: Paolo Abeni <pabeni@redhat.com>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=791777
+  Lore link: https://lore.kernel.org/r/20231010124858.183891-1-yoshihiro.shimoda.uh@renesas.com
+    Patches: [net,1/2] rswitch: Fix renesas_eth_sw_remove() implementation
+             [net,2/2] rswitch: Fix imbalance phy_power_off() calling
 
 
-On 11.09.23 14:27, Linux regression tracking #adding (Thorsten Leemhuis)
-wrote:
-> On 29.08.23 18:42, Geert Uytterhoeven wrote:
->>
->> On Fri, 18 Aug 2023, Liam R. Howlett wrote:
->>> The current implementation of append may cause duplicate data and/or
->>> incorrect ranges to be returned to a reader during an update.  Although
->>> this has not been reported or seen, disable the append write operation
->>> while the tree is in rcu mode out of an abundance of caution.
->>>
->>> During the analysis of the mas_next_slot() the following was
->>> artificially created by separating the writer and reader code:
->> [...]
->> Thanks for your patch, which is now commit cfeb6ae8bcb96ccf
->> ("maple_tree: disable mas_wr_append() when other readers are
->> possible") in v6.5, and is being backported to stable.
->>
->> On Renesas RZ/A1 and RZ/A2 (single-core Cortex-A9), this causes the
->> following warning:
->>> […]
->> Reverting this commit fixes the issue.
+Total patches: 4
 
-#regzbot fix: cff9b2332ab762
-#regzbot ignore-activity
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
-Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
---
-Everything you wanna know about Linux kernel regression tracking:
-https://linux-regtracking.leemhuis.info/about/#tldr
-That page also explains what to do if mails like this annoy you.
+
