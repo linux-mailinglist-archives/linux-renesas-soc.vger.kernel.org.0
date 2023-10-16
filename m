@@ -2,22 +2,22 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6B9C67CA933
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Oct 2023 15:17:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 952BE7CA938
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Oct 2023 15:17:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233095AbjJPNRX (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 16 Oct 2023 09:17:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44504 "EHLO
+        id S233414AbjJPNRv (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 16 Oct 2023 09:17:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33378 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233414AbjJPNRW (ORCPT
+        with ESMTP id S232055AbjJPNRu (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 16 Oct 2023 09:17:22 -0400
+        Mon, 16 Oct 2023 09:17:50 -0400
 Received: from verein.lst.de (verein.lst.de [213.95.11.211])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 63515F7;
-        Mon, 16 Oct 2023 06:17:21 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC811F0;
+        Mon, 16 Oct 2023 06:17:48 -0700 (PDT)
 Received: by verein.lst.de (Postfix, from userid 2407)
-        id CD1D16732D; Mon, 16 Oct 2023 15:17:16 +0200 (CEST)
-Date:   Mon, 16 Oct 2023 15:17:16 +0200
+        id 9503B6732D; Mon, 16 Oct 2023 15:17:45 +0200 (CEST)
+Date:   Mon, 16 Oct 2023 15:17:45 +0200
 From:   Christoph Hellwig <hch@lst.de>
 To:     Conor Dooley <conor.dooley@microchip.com>
 Cc:     Christoph Hellwig <hch@lst.de>, Greg Ungerer <gerg@linux-m68k.org>,
@@ -36,14 +36,14 @@ Cc:     Christoph Hellwig <hch@lst.de>, Greg Ungerer <gerg@linux-m68k.org>,
         linux-m68k@lists.linux-m68k.org, netdev@vger.kernel.org,
         linux-riscv@lists.infradead.org, linux-renesas-soc@vger.kernel.org,
         Jim Quinlan <james.quinlan@broadcom.com>
-Subject: Re: [PATCH 01/12] riscv: RISCV_NONSTANDARD_CACHE_OPS shouldn't
- depend on RISCV_DMA_NONCOHERENT
-Message-ID: <20231016131716.GA26484@lst.de>
-References: <20231016054755.915155-1-hch@lst.de> <20231016054755.915155-2-hch@lst.de> <20231016-walmart-egomaniac-dc4c63ea70a6@wendy>
+Subject: Re: [PATCH 04/12] soc: renesas: select RISCV_DMA_NONCOHERENT from
+ ARCH_R9A07G043
+Message-ID: <20231016131745.GB26484@lst.de>
+References: <20231016054755.915155-1-hch@lst.de> <20231016054755.915155-5-hch@lst.de> <20231016-pantyhose-tall-7565b6b20fb9@wendy>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231016-walmart-egomaniac-dc4c63ea70a6@wendy>
+In-Reply-To: <20231016-pantyhose-tall-7565b6b20fb9@wendy>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
         RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
@@ -54,32 +54,15 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, Oct 16, 2023 at 01:49:41PM +0100, Conor Dooley wrote:
-> Hey,
+On Mon, Oct 16, 2023 at 01:52:57PM +0100, Conor Dooley wrote:
+> > +	select RISCV_DMA_NONCOHERENT
+> >  	select ERRATA_ANDES if RISCV_SBI
+> >  	select ERRATA_ANDES_CMO if ERRATA_ANDES
 > 
-> On Mon, Oct 16, 2023 at 07:47:43AM +0200, Christoph Hellwig wrote:
-> > RISCV_NONSTANDARD_CACHE_OPS is also used for the pmem cache maintenance
-> > helpers, which are built into the kernel unconditionally.
-> 
-> You surely have better insight than I do here, but is this actually
-> required?
-> This patch seems to allow creation of a kernel where the cache
-> maintenance operations could be used for pmem, but would be otherwise
-> unavailable, which seems counter intuitive to me.
->
-> Why would someone want to provide the pmem helpers with cache
-> maintenance operations, but not provide them generally?
-> 
+> Since this Kconfig menu has changed a bit in linux-next, the selects
+> are unconditional here, and ERRATA_ANDES_CMO will in turn select
+> RISCV_DMA_NONCOHERENT.
 
-Even if all your periphals are cache coherent (very common on server
-class hardware) you still need cache maintenance for pmem.  No need
-to force the extra text size and runtime overhead for non-coherent DMA.
-
-> I also don't really understand what the unconditional nature of the pmem
-> helpers has to do with anything, as this patch does not unconditionally
-> provide any cache management operations, only relax the conditions under
-> which the non-standard cache management operations can be provided.
-
-They simply were broken if a platform had non-standard cache mem but
-only coherent DMA before.  That's probably more a theoretical than
-practial case, but still worth fixing.
+Oh, looks like another patch landed there in linux-next.  I had
+waited for the previous one go go upstream in -rc6.  Not sure
+how to best handle this conflict.
