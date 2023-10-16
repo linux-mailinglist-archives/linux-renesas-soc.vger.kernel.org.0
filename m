@@ -2,66 +2,60 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 28F267C98EB
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 15 Oct 2023 14:22:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B9FE87C9F21
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Oct 2023 07:48:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229561AbjJOMWx (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 15 Oct 2023 08:22:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52884 "EHLO
+        id S229934AbjJPFsQ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 16 Oct 2023 01:48:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37112 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229555AbjJOMWx (ORCPT
+        with ESMTP id S229949AbjJPFsO (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 15 Oct 2023 08:22:53 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3BB93A9
-        for <linux-renesas-soc@vger.kernel.org>; Sun, 15 Oct 2023 05:22:52 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 35753C433C8;
-        Sun, 15 Oct 2023 12:22:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1697372571;
-        bh=Vq1x8fNAr/F5R14kzqqNRk9z6bIRBIK9ilwYC/Yu/n8=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=KUUIcofa5nhhHisGxJQ1HY7JhZZ8wEN/koWoaRST6AsmY13ju+N3Uih7pphdxf8Ck
-         TfP3h7NaqakIsIVlHTC3Aw34UuX0iPjcL0Jw7c3sceNbf7qfUEOAH+3NHz5bAS2T8n
-         1HYGpgModnd2INeLjnamqfCSqa+jhfmJ4khpqgWEQepmUjiOHlsUjGSl0p/+GvbIqk
-         fLjfVlEKB+zrMui7gpV13nIlDPisHHFYZ2lTkkrCFLmLuZOvIn3ibiR52HXfATT3V1
-         IyDF3p/GtG1qSC3/GEfiE/qoD0mzPDEGbedNFcgfyq3Jyxgj9AUl9OD+Hidw7pG07J
-         Q2QkkavLa0bZA==
-From:   Conor Dooley <conor@kernel.org>
-To:     linux-riscv@lists.indradead.org,
-        Conor Dooley <conor.dooley@microchip.com>
-Cc:     conor@kernel.org, Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
+        Mon, 16 Oct 2023 01:48:14 -0400
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 63B9EF2;
+        Sun, 15 Oct 2023 22:48:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+        MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
+        Content-ID:Content-Description:In-Reply-To:References;
+        bh=HNzOvxESbvs0T+eHOSkoEf67mG8U/1N0p04PAmqKDXE=; b=2LZ3V85GIZkSezRnfJZYY+41II
+        hAx6KoDUJTBNqUViFNGY1iq1nTy806urFG6DFTIc2y/2hSVyjA5lvblAdhrrnaaZQVtKSHJ0ClxcT
+        btOJq+Bmc7p8nTSIiogtPYQD+ROsKcZY1kAf7rXBV5bTPCqZOXR5zAPo+kJAIpYCRWxWcBhYIWT30
+        W/8ajfCpTAo+9W/ldmJlQlKV4w+tSlA9wi1V8z5VY1wah9B3q7iD5jhMiU2g3oEsK5+9PSm+AfIol
+        T3CyQGbEa0TDUnq9JIaSaM67p8D5JV0MDB3w8KArp2cItSF5Kfm6892pvl119ffXh3wOtu4m6im+q
+        LIlB+54Q==;
+Received: from 2a02-8389-2341-5b80-39d3-4735-9a3c-88d8.cable.dynamic.v6.surfer.at ([2a02:8389:2341:5b80:39d3:4735:9a3c:88d8] helo=localhost)
+        by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+        id 1qsGSM-008Qdv-36;
+        Mon, 16 Oct 2023 05:47:59 +0000
+From:   Christoph Hellwig <hch@lst.de>
+To:     Greg Ungerer <gerg@linux-m68k.org>, iommu@lists.linux.dev
+Cc:     Paul Walmsley <paul.walmsley@sifive.com>,
         Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Samuel Holland <samuel@sholland.org>,
-        Daire McNamara <daire.mcnamara@microchip.com>,
+        Conor Dooley <conor@kernel.org>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
         Magnus Damm <magnus.damm@gmail.com>,
-        Emil Renner Berthing <kernel@esmil.dk>,
-        Jisheng Zhang <jszhang@kernel.org>,
-        Guo Ren <guoren@kernel.org>, Fu Wei <wefu@redhat.com>,
-        Chen Wang <unicorn_wang@outlook.com>,
-        devicetree@vger.kernel.org, linux-riscv@lists.infradead.org,
-        linux-sunxi@lists.linux.dev, linux-renesas-soc@vger.kernel.org
-Subject: Re: (subset) [PATCH v3 0/6] riscv,isa-extensions additions
-Date:   Sun, 15 Oct 2023 13:22:02 +0100
-Message-Id: <20231015-qualifier-campus-97bf09059d51@spud>
+        Robin Murphy <robin.murphy@arm.com>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Wei Fang <wei.fang@nxp.com>,
+        Shenwei Wang <shenwei.wang@nxp.com>,
+        Clark Wang <xiaoning.wang@nxp.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        linux-m68k@lists.linux-m68k.org, netdev@vger.kernel.org,
+        linux-riscv@lists.infradead.org, linux-renesas-soc@vger.kernel.org,
+        Jim Quinlan <james.quinlan@broadcom.com>
+Subject: fix the non-coherent coldfire dma_alloc_coherent v2
+Date:   Mon, 16 Oct 2023 07:47:42 +0200
+Message-Id: <20231016054755.915155-1-hch@lst.de>
 X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20231009-approve-verbalize-ce9324858e76@wendy>
-References: <20231009-approve-verbalize-ce9324858e76@wendy>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-X-Developer-Signature: v=1; a=openpgp-sha256; l=870; i=conor.dooley@microchip.com; h=from:subject:message-id; bh=JxLsg/nX2rHAa/nDvg2BonZ/j7ra8ax29aRGRmkFUGU=; b=owGbwMvMwCFWscWwfUFT0iXG02pJDKnaN9MXZh9OfZttW3bgD9O9h39Tj8kd+3X1nVVa3eZTJ Yyh/zXzOkpZGMQ4GGTFFFkSb/e1SK3/47LDuectzBxWJpAhDFycAjCRacwM/93VTu1Mu3pe8cfd nZ0eCnMezgzT645bJ35u6ZRQL6/Pi0IYGVbu/cq9Z+JE6QsdR6fxuVx5UaU/rTfZWmCVugDX7tA 3fOwA
-X-Developer-Key: i=conor.dooley@microchip.com; a=openpgp; fpr=F9ECA03CF54F12CD01F1655722E2C55B37CF380C
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+X-Spam-Status: No, score=-1.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_EF,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_NONE autolearn=no
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -69,27 +63,20 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-From: Conor Dooley <conor.dooley@microchip.com>
+Hi all,
 
-On Mon, 09 Oct 2023 10:37:44 +0100, Conor Dooley wrote:
-> Now with the RFC tag dropped. There are no changes here from "RFC v2",
-> other than the addition of tags that were provided along the way. I have
-> not added "Zfh" to the T-Head based stuff, as I can't actually read the
-> documentation that would show that they're encoding-for-encoding
-> compatible with the standard extension, since it is apparently only in
-> Chinese.
-> 
-> [...]
+this is the next attempt to not return memory that is not DMA coherent
+on coldfire/m68knommu.  The last one needed more fixups in the fec
+driver, which this versions includes.  On top of that I've also added
+a few more cleanups to the core DMA allocation code.
 
-The first 3 applied to riscv-dt-for-next, I expect the rest to go via
-their respective platform maintainers.
+Jim: any work to support the set_uncached and remap method for arm32
+should probably be based on this, and patch 3 should make that
+selection a little easier.
 
-[1/6] riscv: dts: microchip: convert isa detection to new properties
-      https://git.kernel.org/conor/c/561add0da6d3
-[2/6] riscv: dts: sifive: convert isa detection to new properties
-      https://git.kernel.org/conor/c/a54f42722e49
-[3/6] riscv: dts: starfive: convert isa detection to new properties
-      https://git.kernel.org/conor/c/81b5948cf1a7
-
-Thanks,
-Conor.
+Changes since v1:
+ - sort out the dependency mess in RISCV
+ - don't even built non-coherent DMA support for coldfire cores without
+   data caches
+ - apply the fec workarounds to all coldfire platforms with data caches
+ - add a trivial cleanup for m68k dma.c
