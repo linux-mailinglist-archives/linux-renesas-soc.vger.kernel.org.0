@@ -2,133 +2,181 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4DECB7CB38E
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Oct 2023 21:56:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CF8D77CB520
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Oct 2023 23:13:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233732AbjJPT4O (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 16 Oct 2023 15:56:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40292 "EHLO
+        id S229666AbjJPVNf (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 16 Oct 2023 17:13:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34868 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233412AbjJPT4N (ORCPT
+        with ESMTP id S229848AbjJPVNf (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 16 Oct 2023 15:56:13 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 04A79D9
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 16 Oct 2023 12:56:11 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9B22DC433C7;
-        Mon, 16 Oct 2023 19:56:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1697486170;
-        bh=/VCdYT4fBtEbGzbLAcvNHqRBpRWQM83gNLhvaxU5tq0=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=U5GNDI9NckPt1u0ux490BLJ+n62O72xBii5ekES2+xudhp98Y/aPN/78Kn1hZLR7r
-         vRcJ9b2apMfCZ552hznQTXdFn29enPMPFrgZQk/Jo38k2lMbrGyRuCpChbPrFu41M7
-         +j8gXixY4RQvEOlOZo8M8oGWK/KjsWhmHC5yqZGe+n6POmQBdJsl2285Ame77wnusq
-         Pdq3umnJo0aoZzwJp3uTUUJR4yulg23kd25J72UKzvdeI6xoh2E9pXprQlU4G7pDs9
-         mnxG7M3JMaapaNIuY4OJYxKItuFBvVzEJ8tnDfAds46ngxPzeOlzFgpN9CTCA9/vGT
-         BARfdN8/3moWQ==
-Date:   Mon, 16 Oct 2023 21:56:05 +0200
-From:   Simon Horman <horms@kernel.org>
-To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Cc:     s.shtylyov@omp.ru, davem@davemloft.net, edumazet@google.com,
-        kuba@kernel.org, pabeni@redhat.com, netdev@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        Geert Uytterhoeven <geert@linux-m68k.org>
-Subject: Re: [PATCH net-next v2 1/2] rswitch: Use unsigned int for array index
-Message-ID: <20231016195605.GA1751252@kernel.org>
-References: <20231013121936.364678-1-yoshihiro.shimoda.uh@renesas.com>
- <20231013121936.364678-2-yoshihiro.shimoda.uh@renesas.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231013121936.364678-2-yoshihiro.shimoda.uh@renesas.com>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        Mon, 16 Oct 2023 17:13:35 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5AD52A2
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 16 Oct 2023 14:13:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1697490813; x=1729026813;
+  h=date:from:to:cc:subject:message-id;
+  bh=mxihwgSArkUctz1Ii4NoxK0pA0EAm+datI9vfZqSbvk=;
+  b=bSWEysXGO+WUhOg0cM156oc8fySD1b9BO8rWhCRUVimoLZnR0+lx4RaE
+   43LHNt7dbaKuSywuNY1omhn3TSEiqhMvXAh6BRL8FUvvj8LbSEhfnAd1h
+   w+L+7aAqq0VoU/c/0ZsrlejehyjRwqB9aHq6JpEdzs4M/YzSdkc1quhgQ
+   Te/Sb9nZdT4pV7yA7Yv1SziECUOuGgJ/Z1j8b/kq2rZGLUX2GsoDb/Ie0
+   Xo64OrvMT9QMG3695QIKHGuQokfp5A35cFgIuympZlFDWE7IgpGDAklul
+   rre9C3FvqJeqCtg8MGBzMt3RGZM9Ua7s6A3BQfhBywfumwFOIZHIR41hh
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10865"; a="449861067"
+X-IronPort-AV: E=Sophos;i="6.03,230,1694761200"; 
+   d="scan'208";a="449861067"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Oct 2023 14:13:33 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10865"; a="790956380"
+X-IronPort-AV: E=Sophos;i="6.03,230,1694761200"; 
+   d="scan'208";a="790956380"
+Received: from lkp-server02.sh.intel.com (HELO f64821696465) ([10.239.97.151])
+  by orsmga001.jf.intel.com with ESMTP; 16 Oct 2023 14:13:31 -0700
+Received: from kbuild by f64821696465 with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1qsUu1-0008gX-1J;
+        Mon, 16 Oct 2023 21:13:29 +0000
+Date:   Tue, 17 Oct 2023 05:13:22 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     linux-renesas-soc@vger.kernel.org
+Subject: [geert-renesas-devel:master] BUILD SUCCESS
+ 8c53d0da87207beab143a2e4160d18730e9645bc
+Message-ID: <202310170519.yvV66h4J-lkp@intel.com>
+User-Agent: s-nail v14.9.24
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_NONE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-+ Geert Uytterhoeven
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git master
+branch HEAD: 8c53d0da87207beab143a2e4160d18730e9645bc  Merge tag 'v6.6-rc6' into renesas-devel
 
-On Fri, Oct 13, 2023 at 09:19:35PM +0900, Yoshihiro Shimoda wrote:
-> The array index should not be negative, so modify the condition of
-> rswitch_for_each_enabled_port_continue_reverse() macro, and then
-> use unsigned int instead.
-> 
-> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-> ---
->  drivers/net/ethernet/renesas/rswitch.c | 8 +++++---
->  drivers/net/ethernet/renesas/rswitch.h | 2 +-
->  2 files changed, 6 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/net/ethernet/renesas/rswitch.c b/drivers/net/ethernet/renesas/rswitch.c
-> index 112e605f104a..7640144db79b 100644
-> --- a/drivers/net/ethernet/renesas/rswitch.c
-> +++ b/drivers/net/ethernet/renesas/rswitch.c
-> @@ -1405,7 +1405,8 @@ static void rswitch_ether_port_deinit_one(struct rswitch_device *rdev)
->  
->  static int rswitch_ether_port_init_all(struct rswitch_private *priv)
->  {
-> -	int i, err;
-> +	unsigned int i;
-> +	int err;
->  
->  	rswitch_for_each_enabled_port(priv, i) {
->  		err = rswitch_ether_port_init_one(priv->rdev[i]);
-> @@ -1786,7 +1787,8 @@ static void rswitch_device_free(struct rswitch_private *priv, int index)
->  
->  static int rswitch_init(struct rswitch_private *priv)
->  {
-> -	int i, err;
-> +	unsigned int i;
-> +	int err;
->  
->  	for (i = 0; i < RSWITCH_NUM_PORTS; i++)
->  		rswitch_etha_init(priv, i);
+elapsed time: 725m
 
-Hi Shimoda-san,
+configs tested: 104
+configs skipped: 2
 
-Immediately below this hunk, the following code appears.
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-                if (err < 0) {
-                        for (i--; i >= 0; i--)
-                                rswitch_device_free(priv, i);
-                        goto err_device_alloc;
-                } 
-
-I suspect that the for loop should be updated in a similar way to
-that in rswitch_for_each_enabled_port_continue_reverse as,
-now that i is unsigned, i >= 0 will always be true.
-
-As flagged by Smatch and Coccinelle.
-
-Otherwise this patch-set looks good to me.
-
-> @@ -1959,7 +1961,7 @@ static int renesas_eth_sw_probe(struct platform_device *pdev)
->  
->  static void rswitch_deinit(struct rswitch_private *priv)
->  {
-> -	int i;
-> +	unsigned int i;
->  
->  	rswitch_gwca_hw_deinit(priv);
->  	rcar_gen4_ptp_unregister(priv->ptp_priv);
-> diff --git a/drivers/net/ethernet/renesas/rswitch.h b/drivers/net/ethernet/renesas/rswitch.h
-> index 04f49a7a5843..27c9d3872c0e 100644
-> --- a/drivers/net/ethernet/renesas/rswitch.h
-> +++ b/drivers/net/ethernet/renesas/rswitch.h
-> @@ -20,7 +20,7 @@
->  		else
->  
->  #define rswitch_for_each_enabled_port_continue_reverse(priv, i)	\
-> -	for (i--; i >= 0; i--)					\
-> +	for (; i-- > 0; )					\
->  		if (priv->rdev[i]->disabled)			\
->  			continue;				\
->  		else
+tested configs:
+alpha                             allnoconfig   gcc  
+alpha                            allyesconfig   gcc  
+alpha                               defconfig   gcc  
+arc                              allmodconfig   gcc  
+arc                               allnoconfig   gcc  
+arc                              allyesconfig   gcc  
+arc                                 defconfig   gcc  
+arc                   randconfig-001-20231016   gcc  
+arm                              allmodconfig   gcc  
+arm                               allnoconfig   gcc  
+arm                              allyesconfig   gcc  
+arm                                 defconfig   gcc  
+arm                   randconfig-001-20231016   gcc  
+arm64                            allmodconfig   gcc  
+arm64                             allnoconfig   gcc  
+arm64                            allyesconfig   gcc  
+arm64                               defconfig   gcc  
+csky                             allmodconfig   gcc  
+csky                              allnoconfig   gcc  
+csky                             allyesconfig   gcc  
+csky                                defconfig   gcc  
+i386                             allmodconfig   gcc  
+i386                              allnoconfig   gcc  
+i386                             allyesconfig   gcc  
+i386                              debian-10.3   gcc  
+i386                                defconfig   gcc  
+i386                  randconfig-001-20231016   gcc  
+i386                  randconfig-002-20231016   gcc  
+i386                  randconfig-003-20231016   gcc  
+i386                  randconfig-004-20231016   gcc  
+i386                  randconfig-005-20231016   gcc  
+i386                  randconfig-006-20231016   gcc  
+loongarch                        allmodconfig   gcc  
+loongarch                         allnoconfig   gcc  
+loongarch                        allyesconfig   gcc  
+loongarch                           defconfig   gcc  
+loongarch             randconfig-001-20231016   gcc  
+m68k                             allmodconfig   gcc  
+m68k                              allnoconfig   gcc  
+m68k                             allyesconfig   gcc  
+m68k                                defconfig   gcc  
+microblaze                       allmodconfig   gcc  
+microblaze                        allnoconfig   gcc  
+microblaze                       allyesconfig   gcc  
+microblaze                          defconfig   gcc  
+mips                             allmodconfig   gcc  
+mips                              allnoconfig   gcc  
+mips                             allyesconfig   gcc  
+nios2                            allmodconfig   gcc  
+nios2                             allnoconfig   gcc  
+nios2                            allyesconfig   gcc  
+nios2                               defconfig   gcc  
+openrisc                         allmodconfig   gcc  
+openrisc                          allnoconfig   gcc  
+openrisc                         allyesconfig   gcc  
+openrisc                            defconfig   gcc  
+parisc                           allmodconfig   gcc  
+parisc                            allnoconfig   gcc  
+parisc                           allyesconfig   gcc  
+parisc                              defconfig   gcc  
+parisc64                            defconfig   gcc  
+powerpc                          allmodconfig   gcc  
+powerpc                           allnoconfig   gcc  
+powerpc                          allyesconfig   gcc  
+riscv                            allmodconfig   gcc  
+riscv                             allnoconfig   gcc  
+riscv                            allyesconfig   gcc  
+riscv                               defconfig   gcc  
+riscv                 randconfig-001-20231016   gcc  
+riscv                          rv32_defconfig   gcc  
+s390                             allmodconfig   gcc  
+s390                              allnoconfig   gcc  
+s390                             allyesconfig   gcc  
+s390                                defconfig   gcc  
+s390                  randconfig-001-20231016   gcc  
+sh                               allmodconfig   gcc  
+sh                                allnoconfig   gcc  
+sh                               allyesconfig   gcc  
+sh                                  defconfig   gcc  
+sparc                            allmodconfig   gcc  
+sparc                             allnoconfig   gcc  
+sparc                            allyesconfig   gcc  
+sparc                               defconfig   gcc  
+sparc                 randconfig-001-20231016   gcc  
+sparc64                          allmodconfig   gcc  
+sparc64                          allyesconfig   gcc  
+sparc64                             defconfig   gcc  
+um                               allmodconfig   clang
+um                                allnoconfig   clang
+um                               allyesconfig   clang
+um                                  defconfig   gcc  
+um                             i386_defconfig   gcc  
+um                           x86_64_defconfig   gcc  
+x86_64                            allnoconfig   gcc  
+x86_64                           allyesconfig   gcc  
+x86_64                              defconfig   gcc  
+x86_64                randconfig-001-20231016   gcc  
+x86_64                randconfig-002-20231016   gcc  
+x86_64                randconfig-003-20231016   gcc  
+x86_64                randconfig-004-20231016   gcc  
+x86_64                randconfig-005-20231016   gcc  
+x86_64                randconfig-006-20231016   gcc  
+x86_64                          rhel-8.3-rust   clang
+x86_64                               rhel-8.3   gcc  
 
 -- 
-pw-bot: changes-requested
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
