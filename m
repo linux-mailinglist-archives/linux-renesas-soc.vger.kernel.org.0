@@ -2,62 +2,68 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4CCCA7C9F2C
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Oct 2023 07:48:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DC7DE7C9F73
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Oct 2023 08:27:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231297AbjJPFsp (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 16 Oct 2023 01:48:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57432 "EHLO
+        id S229590AbjJPG1D (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 16 Oct 2023 02:27:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49868 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231739AbjJPFsk (ORCPT
+        with ESMTP id S229478AbjJPG1D (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 16 Oct 2023 01:48:40 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2301AE4;
-        Sun, 15 Oct 2023 22:48:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender
-        :Reply-To:Content-Type:Content-ID:Content-Description;
-        bh=lk2hjH1J0z+vDraZqP1FiMVLedAUOQE0Xu6QSSkdeMA=; b=IkODTfco0inGQHF15O+RlwwVUO
-        uyzV4qCSEoVwBecQK2ZtYgWfG55JGXH4i4m0yYkdWNozPWmlrpmGxjo3844SQlwA1agw0Qud1EH3g
-        wPcOkezghCHw/1fMp1HrZiMKLQyNBJENnYgGrg+qjnTFpNpr6oqEGLfB6c6UEqVLIA0BU0nZ1XI6L
-        O3Mcsr5dvr9V5U/JeSZ6eVdISZ5eokTIVUc5KoPdAGaDZpaoSof5Op3RgnSq6+uv5sBY7PFyXchn7
-        ZcfqYW9ivyW/BLXe4HSi0ynWkJoZLdYX5UHlOzRuvJzes54o/zmL13LaW7d8PxPBNeeu3wFXkxGq+
-        OMDVkeww==;
-Received: from 2a02-8389-2341-5b80-39d3-4735-9a3c-88d8.cable.dynamic.v6.surfer.at ([2a02:8389:2341:5b80:39d3:4735:9a3c:88d8] helo=localhost)
-        by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-        id 1qsGSq-008R1r-2l;
-        Mon, 16 Oct 2023 05:48:29 +0000
-From:   Christoph Hellwig <hch@lst.de>
-To:     Greg Ungerer <gerg@linux-m68k.org>, iommu@lists.linux.dev
-Cc:     Paul Walmsley <paul.walmsley@sifive.com>,
+        Mon, 16 Oct 2023 02:27:03 -0400
+X-Greylist: delayed 1014 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sun, 15 Oct 2023 23:26:59 PDT
+Received: from Atcsqr.andestech.com (60-248-80-70.hinet-ip.hinet.net [60.248.80.70])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DAAAEDC
+        for <linux-renesas-soc@vger.kernel.org>; Sun, 15 Oct 2023 23:26:59 -0700 (PDT)
+Received: from Atcsqr.andestech.com (localhost [127.0.0.2] (may be forged))
+        by Atcsqr.andestech.com with ESMTP id 39G6A3Bw080305
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 16 Oct 2023 14:10:03 +0800 (+08)
+        (envelope-from peterlin@andestech.com)
+Received: from mail.andestech.com (ATCPCS16.andestech.com [10.0.1.222])
+        by Atcsqr.andestech.com with ESMTP id 39G69rND080135;
+        Mon, 16 Oct 2023 14:09:53 +0800 (+08)
+        (envelope-from peterlin@andestech.com)
+Received: from APC323 (10.0.12.98) by ATCPCS16.andestech.com (10.0.1.222) with
+ Microsoft SMTP Server id 14.3.498.0; Mon, 16 Oct 2023 14:09:53 +0800
+Date:   Mon, 16 Oct 2023 14:09:46 +0800
+From:   Yu-Chien Peter Lin <peterlin@andestech.com>
+To:     Conor Dooley <conor.dooley@microchip.com>
+CC:     <linux-riscv@lists.indradead.org>, <conor@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        "Paul Walmsley" <paul.walmsley@sifive.com>,
         Palmer Dabbelt <palmer@dabbelt.com>,
-        Conor Dooley <conor@kernel.org>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Chen-Yu Tsai <wens@csie.org>,
+        "Jernej Skrabec" <jernej.skrabec@gmail.com>,
+        Samuel Holland <samuel@sholland.org>,
+        Daire McNamara <daire.mcnamara@microchip.com>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
         Magnus Damm <magnus.damm@gmail.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Wei Fang <wei.fang@nxp.com>,
-        Shenwei Wang <shenwei.wang@nxp.com>,
-        Clark Wang <xiaoning.wang@nxp.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        linux-m68k@lists.linux-m68k.org, netdev@vger.kernel.org,
-        linux-riscv@lists.infradead.org, linux-renesas-soc@vger.kernel.org,
-        Jim Quinlan <james.quinlan@broadcom.com>
-Subject: [PATCH 12/12] m68k: remove unused includes from dma.c
-Date:   Mon, 16 Oct 2023 07:47:54 +0200
-Message-Id: <20231016054755.915155-13-hch@lst.de>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20231016054755.915155-1-hch@lst.de>
-References: <20231016054755.915155-1-hch@lst.de>
+        "Emil Renner Berthing" <kernel@esmil.dk>,
+        Jisheng Zhang <jszhang@kernel.org>,
+        Guo Ren <guoren@kernel.org>, Fu Wei <wefu@redhat.com>,
+        Chen Wang <unicorn_wang@outlook.com>,
+        <devicetree@vger.kernel.org>, <linux-riscv@lists.infradead.org>,
+        <linux-sunxi@lists.linux.dev>, <linux-renesas-soc@vger.kernel.org>
+Subject: Re: [PATCH v3 4/6] riscv: dts: renesas: convert isa detection to new
+ properties
+Message-ID: <ZSzTqgVNSD9Q7V6H@APC323>
+References: <20231009-approve-verbalize-ce9324858e76@wendy>
+ <20231009-smog-gag-3ba67e68126b@wendy>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
-X-Spam-Status: No, score=-1.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_EF,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_NONE autolearn=no
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20231009-smog-gag-3ba67e68126b@wendy>
+User-Agent: Mutt/2.2.10 (2023-03-25)
+X-Originating-IP: [10.0.12.98]
+X-DNSRBL: 
+X-SPAM-SOURCE-CHECK: pass
+X-MAIL: Atcsqr.andestech.com 39G6A3Bw080305
+X-Spam-Status: No, score=-0.9 required=5.0 tests=BAYES_00,
+        RCVD_IN_DNSWL_BLOCKED,RDNS_DYNAMIC,SPF_HELO_NONE,SPF_PASS autolearn=no
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -65,37 +71,37 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-dma.c doesn't need most of the headers it includes.  Also there is
-no point in undefining the DEBUG symbol given that it isn't used
-anywhere in this small file.
+On Mon, Oct 09, 2023 at 10:37:48AM +0100, Conor Dooley wrote:
+> Convert the RZ/Five devicetrees to use the new properties
+> "riscv,isa-base" & "riscv,isa-extensions".
+> For compatibility with other projects, "riscv,isa" remains.
+> 
+> Signed-off-by: Conor Dooley <conor.dooley@microchip.com>
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
+>  arch/riscv/boot/dts/renesas/r9a07g043f.dtsi | 3 +++
+>  1 file changed, 3 insertions(+)
+> 
+> diff --git a/arch/riscv/boot/dts/renesas/r9a07g043f.dtsi b/arch/riscv/boot/dts/renesas/r9a07g043f.dtsi
+> index b0796015e36b..eb301d8eb2b0 100644
+> --- a/arch/riscv/boot/dts/renesas/r9a07g043f.dtsi
+> +++ b/arch/riscv/boot/dts/renesas/r9a07g043f.dtsi
+> @@ -24,6 +24,9 @@ cpu0: cpu@0 {
+>  			reg = <0x0>;
+>  			status = "okay";
+>  			riscv,isa = "rv64imafdc";
+> +			riscv,isa-base = "rv64i";
+> +			riscv,isa-extensions = "i", "m", "a", "f", "d", "c", "zicntr", "zicsr",
+> +					       "zifencei", "zihpm";
 
-Signed-off-by: Christoph Hellwig <hch@lst.de>
----
- arch/m68k/kernel/dma.c | 9 ---------
- 1 file changed, 9 deletions(-)
+We do have zihpm, and OpenSBI can also probe its existence.
 
-diff --git a/arch/m68k/kernel/dma.c b/arch/m68k/kernel/dma.c
-index eef63d032abb53..16063783aa80c6 100644
---- a/arch/m68k/kernel/dma.c
-+++ b/arch/m68k/kernel/dma.c
-@@ -4,17 +4,8 @@
-  * for more details.
-  */
- 
--#undef DEBUG
--
- #include <linux/dma-map-ops.h>
--#include <linux/device.h>
- #include <linux/kernel.h>
--#include <linux/platform_device.h>
--#include <linux/scatterlist.h>
--#include <linux/slab.h>
--#include <linux/vmalloc.h>
--#include <linux/export.h>
--
- #include <asm/cacheflush.h>
- 
- #ifndef CONFIG_COLDFIRE
--- 
-2.39.2
+Boot HART ISA Extensions  : zihpm
+Boot HART MHPM Info       : 4 (0x00000078)
 
+By the way, we will append "xandespmu" here.
+I hope this is an appropriate way to add a new custom extension.
+
+>  			mmu-type = "riscv,sv39";
+>  			i-cache-size = <0x8000>;
+>  			i-cache-line-size = <0x40>;
