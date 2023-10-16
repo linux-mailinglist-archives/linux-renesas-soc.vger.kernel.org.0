@@ -2,52 +2,54 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4B75F7CA328
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Oct 2023 11:01:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ED93C7CA346
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Oct 2023 11:03:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233363AbjJPJB5 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 16 Oct 2023 05:01:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41258 "EHLO
+        id S233135AbjJPJDl (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 16 Oct 2023 05:03:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51546 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233361AbjJPJBg (ORCPT
+        with ESMTP id S232828AbjJPJDk (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 16 Oct 2023 05:01:36 -0400
+        Mon, 16 Oct 2023 05:03:40 -0400
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EA290185
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 16 Oct 2023 02:01:25 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8A8C6C4339A
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 16 Oct 2023 09:01:25 +0000 (UTC)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB3FEAB
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 16 Oct 2023 02:03:38 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 739E3C433CA
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 16 Oct 2023 09:03:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1697446885;
-        bh=s3qzNPNvQuJHp6YFDW+4nOZxw2vl+IiZvSHmAcyc4+w=;
+        s=k20201202; t=1697447018;
+        bh=6dXvSHSmxF1Jkk0KO20cksMa9JGZ8q0dCID/LUTR+rw=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=inltUolFHGy+yQpHTntsbxKcqXuGceiEOSsuNwxUXcRZ4t004aDafBTEPwCbu0z++
-         29h+J+fvm3I8Lo0WJcoG7y3LfJbQ/+oE1PX3JkxxOwQrD5EpDdWVjCIZgpZ/WMQXFV
-         nX3XrEaE/vsWi+0szv8WfAS2Dpo+KFtQ/QmJQWm0u7YVo0Uswx25zw/yl62Ik5i7ja
-         OTzaU5+10+xMFLohEpP/Iy1g7hIB0q+0zkskWtKJ19iW+EQT9Jf7YnqQP3O64LEP1D
-         KKkp+juE2bLgXvhB4Ij8xx2GB3ER6bg9Q3CLSaoSbIfYqqBcOYCVMZI+myLUwOHkFV
-         P69REoPvpsbhQ==
-Received: by mail-pg1-f176.google.com with SMTP id 41be03b00d2f7-5b5354da665so306966a12.2
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 16 Oct 2023 02:01:25 -0700 (PDT)
-X-Gm-Message-State: AOJu0YxKw8D6k05Y3Ve4ZCsleTeIvKBZ+ldMgop/NGiJ7uPbVbJuzyrz
-        fJDttJ1VDSh/Lg0C1gVqRMX5BcV9NR2TFL2IlJ4lfw==
-X-Google-Smtp-Source: AGHT+IEJhVqcrvvveiwsWqc4tXkqCxOOlkKOTl9jClJtOoTdI475T96J7bZFNq7cGHRYW0Y0WcYeHfT8TND+QjioSFs=
-X-Received: by 2002:a17:90a:1954:b0:27d:10ab:2325 with SMTP id
- 20-20020a17090a195400b0027d10ab2325mr9826177pjh.27.1697446885097; Mon, 16 Oct
- 2023 02:01:25 -0700 (PDT)
+        b=NRzbP14S2o2Eq8tAIkqg9sgc8i7kARgFPlEaB3eaA+fGPuwtSh5c+Fcdqdn1e+jo3
+         vNE14siMYQF3Mf3uRQ5WTjRQ3uTsQLXqiIvE3w3bTDHd2kEnQzTRJ2AVXB61t4nkhP
+         03KdZz+GXlEEjHqftj9EYaRdsHYFELjYNH+lyxYhgazmjCXdo71TNydL4NEhPzzFyp
+         RRos2TMZ6E6y0NxEcAPKNwIYI13NBjsZ7BBFo/wRAH9eJQk7SpA5zkCqPVzqFpCIbq
+         QjahbC9QMgwyVKCGUbMTylpJTianYtYA66wunTiCRhzm9WiJLbPBJMNjfDYBf+3Fx3
+         dRgUbHa3b1rkg==
+Received: by mail-pg1-f179.google.com with SMTP id 41be03b00d2f7-5859d13f73dso2530099a12.1
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 16 Oct 2023 02:03:38 -0700 (PDT)
+X-Gm-Message-State: AOJu0YwIGNEL13W5d8JFZs5WY44cv1g8R/bjIRZU4FNjR2YutT1yiLHV
+        iYtBPuB9kPw4+scwjPQQAQm1weLtKd4Eg2NeazapYw==
+X-Google-Smtp-Source: AGHT+IHdsvqtb1adsbuVWaK++Uxf4+5FfxWtMl/HzsGnaAhogRe31zPOFIVAYdo+D++zVr2NZqR6Bep3VQVg8Yo0fMw=
+X-Received: by 2002:a05:6a20:938f:b0:16b:c019:f5d2 with SMTP id
+ x15-20020a056a20938f00b0016bc019f5d2mr27269962pzh.45.1697447018012; Mon, 16
+ Oct 2023 02:03:38 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230830142358.275459-1-biju.das.jz@bp.renesas.com> <20230830142358.275459-7-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20230830142358.275459-7-biju.das.jz@bp.renesas.com>
+References: <20230830142358.275459-1-biju.das.jz@bp.renesas.com> <20230830142358.275459-5-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20230830142358.275459-5-biju.das.jz@bp.renesas.com>
 From:   Robert Foss <rfoss@kernel.org>
-Date:   Mon, 16 Oct 2023 11:01:14 +0200
-X-Gmail-Original-Message-ID: <CAN6tsi6g+BLXi4LQ3vsTva-yKnNOqYAMVCOHR+xThFq3kRyANw@mail.gmail.com>
-Message-ID: <CAN6tsi6g+BLXi4LQ3vsTva-yKnNOqYAMVCOHR+xThFq3kRyANw@mail.gmail.com>
-Subject: Re: [PATCH v2 6/8] drm: adv7511: Add has_dsi variable to struct adv7511_chip_info
+Date:   Mon, 16 Oct 2023 11:03:27 +0200
+X-Gmail-Original-Message-ID: <CAN6tsi5Qj9n8ucXD-S+sqMNRYwoW5qNAt4zQj-hbwHDCJ1Tz1A@mail.gmail.com>
+Message-ID: <CAN6tsi5Qj9n8ucXD-S+sqMNRYwoW5qNAt4zQj-hbwHDCJ1Tz1A@mail.gmail.com>
+Subject: Re: [PATCH v2 4/8] drm: adv7511: Add supply_names and num_supplies
+ variables to struct adv7511_chip_info
 To:     Biju Das <biju.das.jz@bp.renesas.com>
 Cc:     Andrzej Hajda <andrzej.hajda@intel.com>,
         Neil Armstrong <neil.armstrong@linaro.org>,
         David Airlie <airlied@gmail.com>,
         Daniel Vetter <daniel@ffwll.ch>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
         Ahmad Fatoum <a.fatoum@pengutronix.de>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
         Jonas Karlman <jonas@kwiboo.se>,
@@ -76,95 +78,120 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 On Wed, Aug 30, 2023 at 4:24=E2=80=AFPM Biju Das <biju.das.jz@bp.renesas.co=
 m> wrote:
 >
-> The ADV7533 and ADV7535 have DSI support. Add a variable has_dsi to
-> struct adv7511_chip_info for handling configuration related to DSI.
+> The ADV7511 has 5 power supplies compared to 7 that of ADV75{33,35}. Add
+> supply_names and num_supplies variables to struct adv7511_chip_info to
+> handle this difference.
 >
 > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 > ---
 > v1->v2:
->  * Replaced variable type from unsigned->bool.
->  * Restored check using type for low_refresh_rate and
->    regmap_register_patch().
+>  * Added Rb tag from Laurent.
+>  * Added trailing commas for num_supplies in adv753{3,5}_chip_info.
 > ---
->  drivers/gpu/drm/bridge/adv7511/adv7511.h     |  1 +
->  drivers/gpu/drm/bridge/adv7511/adv7511_drv.c | 10 ++++++----
->  2 files changed, 7 insertions(+), 4 deletions(-)
+>  drivers/gpu/drm/bridge/adv7511/adv7511.h     |  3 ++-
+>  drivers/gpu/drm/bridge/adv7511/adv7511_drv.c | 27 ++++++++++----------
+>  2 files changed, 15 insertions(+), 15 deletions(-)
 >
 > diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511.h b/drivers/gpu/drm/b=
 ridge/adv7511/adv7511.h
-> index a728bfb33d03..0dd56e311039 100644
+> index f8d61f2fa30e..edf7be9c21d3 100644
 > --- a/drivers/gpu/drm/bridge/adv7511/adv7511.h
 > +++ b/drivers/gpu/drm/bridge/adv7511/adv7511.h
-> @@ -340,6 +340,7 @@ struct adv7511_chip_info {
->         const char * const *supply_names;
->         unsigned int num_supplies;
->         unsigned int reg_cec_offset;
-> +       bool has_dsi;
+> @@ -337,6 +337,8 @@ struct adv7511_chip_info {
+>         enum adv7511_type type;
+>         unsigned int max_mode_clock_khz;
+>         unsigned int max_lane_freq_khz;
+> +       const char * const *supply_names;
+> +       unsigned int num_supplies;
 >  };
 >
 >  struct adv7511 {
+> @@ -375,7 +377,6 @@ struct adv7511 {
+>         struct gpio_desc *gpio_pd;
+>
+>         struct regulator_bulk_data *supplies;
+> -       unsigned int num_supplies;
+>
+>         /* ADV7533 DSI RX related params */
+>         struct device_node *host_node;
 > diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c b/drivers/gpu/d=
 rm/bridge/adv7511/adv7511_drv.c
-> index d806c870bf76..9d88c29b6f59 100644
+> index 1c76aa5a5d5b..2bcd17953221 100644
 > --- a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
 > +++ b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-> @@ -373,7 +373,7 @@ static void adv7511_power_on(struct adv7511 *adv7511)
->          */
->         regcache_sync(adv7511->regmap);
+> @@ -1004,37 +1004,30 @@ static const char * const adv7533_supply_names[] =
+=3D {
 >
-> -       if (adv7511->info->type =3D=3D ADV7533 || adv7511->info->type =3D=
-=3D ADV7535)
-> +       if (adv7511->info->has_dsi)
->                 adv7533_dsi_power_on(adv7511);
->         adv7511->powered =3D true;
->  }
-> @@ -397,7 +397,7 @@ static void __adv7511_power_off(struct adv7511 *adv75=
-11)
->  static void adv7511_power_off(struct adv7511 *adv7511)
+>  static int adv7511_init_regulators(struct adv7511 *adv)
 >  {
->         __adv7511_power_off(adv7511);
-> -       if (adv7511->info->type =3D=3D ADV7533 || adv7511->info->type =3D=
-=3D ADV7535)
-> +       if (adv7511->info->has_dsi)
->                 adv7533_dsi_power_off(adv7511);
->         adv7511->powered =3D false;
+> +       const char * const *supply_names =3D adv->info->supply_names;
+> +       unsigned int num_supplies =3D adv->info->num_supplies;
+>         struct device *dev =3D &adv->i2c_main->dev;
+> -       const char * const *supply_names;
+>         unsigned int i;
+>         int ret;
+>
+> -       if (adv->info->type =3D=3D ADV7511) {
+> -               supply_names =3D adv7511_supply_names;
+> -               adv->num_supplies =3D ARRAY_SIZE(adv7511_supply_names);
+> -       } else {
+> -               supply_names =3D adv7533_supply_names;
+> -               adv->num_supplies =3D ARRAY_SIZE(adv7533_supply_names);
+> -       }
+> -
+> -       adv->supplies =3D devm_kcalloc(dev, adv->num_supplies,
+> +       adv->supplies =3D devm_kcalloc(dev, num_supplies,
+>                                      sizeof(*adv->supplies), GFP_KERNEL);
+>         if (!adv->supplies)
+>                 return -ENOMEM;
+>
+> -       for (i =3D 0; i < adv->num_supplies; i++)
+> +       for (i =3D 0; i < num_supplies; i++)
+>                 adv->supplies[i].supply =3D supply_names[i];
+>
+> -       ret =3D devm_regulator_bulk_get(dev, adv->num_supplies, adv->supp=
+lies);
+> +       ret =3D devm_regulator_bulk_get(dev, num_supplies, adv->supplies)=
+;
+>         if (ret)
+>                 return ret;
+>
+> -       return regulator_bulk_enable(adv->num_supplies, adv->supplies);
+> +       return regulator_bulk_enable(num_supplies, adv->supplies);
 >  }
-> @@ -921,7 +921,7 @@ static enum drm_mode_status adv7511_bridge_mode_valid=
-(struct drm_bridge *bridge,
+>
+>  static void adv7511_uninit_regulators(struct adv7511 *adv)
 >  {
->         struct adv7511 *adv =3D bridge_to_adv7511(bridge);
+> -       regulator_bulk_disable(adv->num_supplies, adv->supplies);
+> +       regulator_bulk_disable(adv->info->num_supplies, adv->supplies);
+>  }
 >
-> -       if (adv->info->type =3D=3D ADV7533 || adv->info->type =3D=3D ADV7=
-535)
-> +       if (adv->info->has_dsi)
->                 return adv7533_mode_valid(adv, mode);
->         else
->                 return adv7511_mode_valid(adv, mode);
-> @@ -1311,7 +1311,7 @@ static int adv7511_probe(struct i2c_client *i2c)
+>  static bool adv7511_cec_register_volatile(struct device *dev, unsigned i=
+nt reg)
+> @@ -1365,18 +1358,24 @@ static void adv7511_remove(struct i2c_client *i2c=
+)
 >
->         adv7511_audio_init(dev, adv7511);
+>  static const struct adv7511_chip_info adv7511_chip_info =3D {
+>         .type =3D ADV7511,
+> +       .supply_names =3D adv7511_supply_names,
+> +       .num_supplies =3D ARRAY_SIZE(adv7511_supply_names),
+>  };
 >
-> -       if (adv7511->info->type =3D=3D ADV7533 || adv7511->info->type =3D=
-=3D ADV7535) {
-> +       if (adv7511->info->has_dsi) {
->                 ret =3D adv7533_attach_dsi(adv7511);
->                 if (ret)
->                         goto err_unregister_audio;
-> @@ -1367,6 +1367,7 @@ static const struct adv7511_chip_info adv7533_chip_=
-info =3D {
->         .supply_names =3D adv7533_supply_names,
->         .num_supplies =3D ARRAY_SIZE(adv7533_supply_names),
->         .reg_cec_offset =3D ADV7533_REG_CEC_OFFSET,
-> +       .has_dsi =3D true,
+>  static const struct adv7511_chip_info adv7533_chip_info =3D {
+>         .type =3D ADV7533,
+>         .max_mode_clock_khz =3D 80000,
+>         .max_lane_freq_khz =3D 800000,
+> +       .supply_names =3D adv7533_supply_names,
+> +       .num_supplies =3D ARRAY_SIZE(adv7533_supply_names),
 >  };
 >
 >  static const struct adv7511_chip_info adv7535_chip_info =3D {
-> @@ -1376,6 +1377,7 @@ static const struct adv7511_chip_info adv7535_chip_=
-info =3D {
->         .supply_names =3D adv7533_supply_names,
->         .num_supplies =3D ARRAY_SIZE(adv7533_supply_names),
->         .reg_cec_offset =3D ADV7533_REG_CEC_OFFSET,
-> +       .has_dsi =3D true,
+>         .type =3D ADV7535,
+>         .max_mode_clock_khz =3D 148500,
+>         .max_lane_freq_khz =3D 891000,
+> +       .supply_names =3D adv7533_supply_names,
+> +       .num_supplies =3D ARRAY_SIZE(adv7533_supply_names),
 >  };
 >
 >  static const struct i2c_device_id adv7511_i2c_ids[] =3D {
