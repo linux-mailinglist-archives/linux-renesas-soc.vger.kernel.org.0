@@ -2,58 +2,58 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DF17D7CADC9
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Oct 2023 17:41:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BDE7E7CADCC
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Oct 2023 17:41:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231569AbjJPPlB (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 16 Oct 2023 11:41:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50118 "EHLO
+        id S232744AbjJPPlt (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 16 Oct 2023 11:41:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39608 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232660AbjJPPlA (ORCPT
+        with ESMTP id S231569AbjJPPls (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 16 Oct 2023 11:41:00 -0400
-Received: from mail-vk1-xa2e.google.com (mail-vk1-xa2e.google.com [IPv6:2607:f8b0:4864:20::a2e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 172B2B4;
-        Mon, 16 Oct 2023 08:40:59 -0700 (PDT)
-Received: by mail-vk1-xa2e.google.com with SMTP id 71dfb90a1353d-49ab0641e77so1969795e0c.0;
-        Mon, 16 Oct 2023 08:40:59 -0700 (PDT)
+        Mon, 16 Oct 2023 11:41:48 -0400
+Received: from mail-vk1-xa32.google.com (mail-vk1-xa32.google.com [IPv6:2607:f8b0:4864:20::a32])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C2A57B4;
+        Mon, 16 Oct 2023 08:41:46 -0700 (PDT)
+Received: by mail-vk1-xa32.google.com with SMTP id 71dfb90a1353d-49dd3bb5348so1773338e0c.0;
+        Mon, 16 Oct 2023 08:41:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1697470858; x=1698075658; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1697470906; x=1698075706; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=6JyrPV6/isChg/aWoV8Vdox7jNb/LeSH8h9ZE9RQZ4k=;
-        b=RKiSSHFp3Y56c42pxA8NcctPS+vB2KvEaJaJ97M5qDuLadDj+RkSg/Tqa9pTajSTQQ
-         p6aLGYb9BG2QBnRQ6fyfs8/WnO1tkjfe4l/xgwvmso/zA05F7LKY6zcXIKvZtf2wLpEw
-         BV1kInv7MYsJftCraFHVKRYbO0Teh4FlAfttffcN6OUtf7PmfoyKlPAH0+pXIae1phAQ
-         lJeWfmSNuBkWx8xrMZ2AyLhNYnpngxdr1Z53SUYIX6mzoZOoVeXB8KWsrI1V9TWsk8Hx
-         ytL+N1G527PaEjPVsiDm4tLmWZu0ktpTv0oSD5Vbos27at8CeAMCVy3f4yH/GFoc3stQ
-         RY7A==
+        bh=Jy2a+mH7vHRMC2bqIVFdXE4pfKJ8ZD9dY9NH9f8mIfg=;
+        b=BXcwC41Z+MCDXc70mMTb26461G21j8UQAk9vtuPmI2KIk8M7Cc1vumje7+Ri/QyIjk
+         /5EvdufVVrCEjmFy25PHefq6jhY6SfOxtcbgyiO2AfQ+tqHX0z3ThvhnrbPhAMhX5f8J
+         fqixA3Vu6cLRqS3SS4BayBfX0tlivGTLA2PRgXreQK3HMqmdtmYoGgPtpBYbLLJ8AgZR
+         1c/qy017bjP0Gv8KhaXGNkRJ5BytwSGWmQwi0HAbCO74RpnUHF10PHeLcaarzJzCIRXM
+         dD1BXFb5+m43WzTH5SgvmnBtkRwEj9n7VTQ11xQVdyMNajOLUZQk70emX3yyd24xUWhy
+         dKyQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697470858; x=1698075658;
+        d=1e100.net; s=20230601; t=1697470906; x=1698075706;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=6JyrPV6/isChg/aWoV8Vdox7jNb/LeSH8h9ZE9RQZ4k=;
-        b=oUq5vE1p2clovAfm9niRKNppHH793o9jtFh2v2C891COxTdHcUtdJC8WG5KuXcJiGv
-         wpOKqIvdiJt7gBpk16308zR+h3HtCmsOhCQXTKrRfzztvo5e0gtA9A6fEsnB6pQhydn1
-         naLn5TRhzXxsS4KQM2lI55zXVdXltsRcItgVn0o8Yq0wT4xgFgwQrVcONXQLZLC8+nji
-         9dnnVEBFMC5khhy4sKf9EOsgR6Luv59nYPCgzdMF7b7Yx8XeB9qKul/+M1FynJjuxIgf
-         ge9rBtDGicrstabPH+VwjHJfXFRF95qdDmjBgR0Wa+T8tFaGcUGDFHbRYPs2nTJXn5Ne
-         Fm9A==
-X-Gm-Message-State: AOJu0YwpaqdUKMbGmJRzgD6wBPjU8gTw2EtUHlqjMCwqWeslhttlDr0S
-        6Ih5wEHqF5z4UQ8VlyzwIHcwoasMgBdo5zgjkiY=
-X-Google-Smtp-Source: AGHT+IEUS6diCI0qP0NzRCHHthfHGe1z+pXjLCt2SKZVkH+NQW/kPzzEZY2133jtIGuI9wooUY358mw8Vy0zXSvuQs4=
-X-Received: by 2002:a1f:4ec4:0:b0:4a4:887:514c with SMTP id
- c187-20020a1f4ec4000000b004a40887514cmr8133579vkb.6.1697470858089; Mon, 16
- Oct 2023 08:40:58 -0700 (PDT)
+        bh=Jy2a+mH7vHRMC2bqIVFdXE4pfKJ8ZD9dY9NH9f8mIfg=;
+        b=cph/mx4OdqjVPHqmFokj/dzvTiPENkdFoSOR4mPWsPcLgM4Nn4A7sNWSaBrllJZVca
+         rnchcKv1Eg9B2N3NngddKmA5t3O2evgrh/mc3juvbDCgCxkQ/xGJfh9/gcTVfSMw9BQZ
+         LllbFZnXIj64OnYotXOev15Mf+uRkOJzGmKFdpYGpkkyBjupMDHedhMbsIvLC+0FJeqi
+         Fh6izOjzuG2ThPjQ4QgKbu0ZIWpvNzX4s/PrKFdZufz6U5kq3TtbimG4ASytKye7FEo8
+         yhIFzoxU6DIxhrNpisdlGtlNSFpGuZKdHWAtGe+dQiVK8cHeZWWptqYHsFGteTQWBNz1
+         /b/w==
+X-Gm-Message-State: AOJu0YxxlORLTm6zxB2ob9KlBDsmstldRcAMEtdPwnWBPw0dza1iDtPL
+        76d9grCxTFw0tqfaQy4lHwGHZkkapiUDXEzz0h0=
+X-Google-Smtp-Source: AGHT+IGux325FOhiB0DGfuNAaDcad8gGCTORm2m4I3eBqk5dFYW6m/Pa7EpUDnkf3lePkwaOdU4GJYHkEbhbyUtux/E=
+X-Received: by 2002:a1f:ed41:0:b0:495:dcd0:471 with SMTP id
+ l62-20020a1fed41000000b00495dcd00471mr28745613vkh.5.1697470905828; Mon, 16
+ Oct 2023 08:41:45 -0700 (PDT)
 MIME-Version: 1.0
-References: <20231016054755.915155-1-hch@lst.de> <20231016054755.915155-3-hch@lst.de>
-In-Reply-To: <20231016054755.915155-3-hch@lst.de>
+References: <20231016054755.915155-1-hch@lst.de> <20231016054755.915155-4-hch@lst.de>
+In-Reply-To: <20231016054755.915155-4-hch@lst.de>
 From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Mon, 16 Oct 2023 16:39:40 +0100
-Message-ID: <CA+V-a8va9W7Gpgr22RcPHL=fJvbViMjrpUfqKekcQ+rSZeYebw@mail.gmail.com>
-Subject: Re: [PATCH 02/12] riscv: only select DMA_DIRECT_REMAP from RISCV_ISA_ZICBOM
+Date:   Mon, 16 Oct 2023 16:40:29 +0100
+Message-ID: <CA+V-a8sdZa8TiTsjY+u3rywFsXY2yKmZ0vWg900NMxVc_NRX7Q@mail.gmail.com>
+Subject: Re: [PATCH 03/12] soc: renesas: ARCH_R9A07G043 depends on !RISCV_ISA_ZICBOM
 To:     Christoph Hellwig <hch@lst.de>
 Cc:     Greg Ungerer <gerg@linux-m68k.org>, iommu@lists.linux.dev,
         Paul Walmsley <paul.walmsley@sifive.com>,
@@ -86,39 +86,32 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 On Mon, Oct 16, 2023 at 6:48=E2=80=AFAM Christoph Hellwig <hch@lst.de> wrot=
 e:
 >
-> RISCV_DMA_NONCOHERENT is also used for whacky non-standard
-> non-coherent ops that use different hooks in dma-direct.
+> ARCH_R9A07G043 has it's own non-standard global pool based DMA coherent
+> allocator, which conflicts with the remap based RISCV_ISA_ZICBOM version.
+> Add a proper dependency.
 >
 > Signed-off-by: Christoph Hellwig <hch@lst.de>
 > ---
->  arch/riscv/Kconfig | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  drivers/soc/renesas/Kconfig | 1 +
+>  1 file changed, 1 insertion(+)
 >
 Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
 Cheers,
 Prabhakar
 
-> diff --git a/arch/riscv/Kconfig b/arch/riscv/Kconfig
-> index 0ac0b538379718..9c48fecc671918 100644
-> --- a/arch/riscv/Kconfig
-> +++ b/arch/riscv/Kconfig
-> @@ -273,7 +273,6 @@ config RISCV_DMA_NONCOHERENT
->         select ARCH_HAS_SYNC_DMA_FOR_CPU
->         select ARCH_HAS_SYNC_DMA_FOR_DEVICE
->         select DMA_BOUNCE_UNALIGNED_KMALLOC if SWIOTLB
-> -       select DMA_DIRECT_REMAP if MMU
->
->  config RISCV_NONSTANDARD_CACHE_OPS
->         bool
-> @@ -549,6 +548,7 @@ config RISCV_ISA_ZICBOM
->         depends on RISCV_ALTERNATIVE
->         default y
->         select RISCV_DMA_NONCOHERENT
-> +       select DMA_DIRECT_REMAP
->         help
->            Adds support to dynamically detect the presence of the ZICBOM
->            extension (Cache Block Management Operations) and enable its
+> diff --git a/drivers/soc/renesas/Kconfig b/drivers/soc/renesas/Kconfig
+> index 880c544bb2dfda..f1696d3b5018d0 100644
+> --- a/drivers/soc/renesas/Kconfig
+> +++ b/drivers/soc/renesas/Kconfig
+> @@ -334,6 +334,7 @@ if RISCV
+>  config ARCH_R9A07G043
+>         bool "RISC-V Platform support for RZ/Five"
+>         depends on NONPORTABLE
+> +       depends on !RISCV_ISA_ZICBOM
+>         select ARCH_RZG2L
+>         select AX45MP_L2_CACHE
+>         select DMA_GLOBAL_POOL
 > --
 > 2.39.2
 >
