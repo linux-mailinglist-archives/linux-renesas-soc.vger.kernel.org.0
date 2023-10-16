@@ -2,57 +2,104 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CF8D77CB520
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Oct 2023 23:13:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4BBAA7CB56B
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Oct 2023 23:44:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229666AbjJPVNf (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 16 Oct 2023 17:13:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34868 "EHLO
+        id S233650AbjJPVol (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 16 Oct 2023 17:44:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54216 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229848AbjJPVNf (ORCPT
+        with ESMTP id S233605AbjJPVol (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 16 Oct 2023 17:13:35 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5AD52A2
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 16 Oct 2023 14:13:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697490813; x=1729026813;
-  h=date:from:to:cc:subject:message-id;
-  bh=mxihwgSArkUctz1Ii4NoxK0pA0EAm+datI9vfZqSbvk=;
-  b=bSWEysXGO+WUhOg0cM156oc8fySD1b9BO8rWhCRUVimoLZnR0+lx4RaE
-   43LHNt7dbaKuSywuNY1omhn3TSEiqhMvXAh6BRL8FUvvj8LbSEhfnAd1h
-   w+L+7aAqq0VoU/c/0ZsrlejehyjRwqB9aHq6JpEdzs4M/YzSdkc1quhgQ
-   Te/Sb9nZdT4pV7yA7Yv1SziECUOuGgJ/Z1j8b/kq2rZGLUX2GsoDb/Ie0
-   Xo64OrvMT9QMG3695QIKHGuQokfp5A35cFgIuympZlFDWE7IgpGDAklul
-   rre9C3FvqJeqCtg8MGBzMt3RGZM9Ua7s6A3BQfhBywfumwFOIZHIR41hh
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10865"; a="449861067"
-X-IronPort-AV: E=Sophos;i="6.03,230,1694761200"; 
-   d="scan'208";a="449861067"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Oct 2023 14:13:33 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10865"; a="790956380"
-X-IronPort-AV: E=Sophos;i="6.03,230,1694761200"; 
-   d="scan'208";a="790956380"
-Received: from lkp-server02.sh.intel.com (HELO f64821696465) ([10.239.97.151])
-  by orsmga001.jf.intel.com with ESMTP; 16 Oct 2023 14:13:31 -0700
-Received: from kbuild by f64821696465 with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1qsUu1-0008gX-1J;
-        Mon, 16 Oct 2023 21:13:29 +0000
-Date:   Tue, 17 Oct 2023 05:13:22 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [geert-renesas-devel:master] BUILD SUCCESS
- 8c53d0da87207beab143a2e4160d18730e9645bc
-Message-ID: <202310170519.yvV66h4J-lkp@intel.com>
-User-Agent: s-nail v14.9.24
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_NONE autolearn=ham
+        Mon, 16 Oct 2023 17:44:41 -0400
+Received: from mail-ot1-f51.google.com (mail-ot1-f51.google.com [209.85.210.51])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A16DFAB;
+        Mon, 16 Oct 2023 14:44:39 -0700 (PDT)
+Received: by mail-ot1-f51.google.com with SMTP id 46e09a7af769-6c67060fdfbso3584082a34.2;
+        Mon, 16 Oct 2023 14:44:39 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1697492679; x=1698097479;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=gEGU67h2aLgP+jVHENE55AMROY3oIX9Sz/12+e/BNPI=;
+        b=pxFOL2OJ2rAyW4Xo+QytGz4GTyhpdEwSs/wvQptmenWq8Tawr396rkTUTorDEO5BNU
+         67znZ5SMEI/hEAQDwt79IY2D6ZOduL74cd4aHjFqsCvwv/ZxEMMuq2+65pTUTFu88Olw
+         6ecSaT4mc7YYAsQB0l57uoUpTKMjIh+7wzIaTNeu6f02jsXeY0nKRBIRXgDGx3nynbhS
+         31Odur/excI5TJgnUzr3+RlQIzhbGsFX96rlxiceAxJXF/Wup+GwPgedEK1fQzbyKkgs
+         FYKnSjGhaIiJydcVrgH7oYhZ7BKfHKdprSC6rkDQwPYbnOT3oCbzzFsfYYg+1vn5s6uF
+         SO3w==
+X-Gm-Message-State: AOJu0Yw46+w0u/K2zZvxI1QldVPkFQYa+Bwp5Z/7hWISn1S7CBuGdJh+
+        +9B8guCxSs8fILuwSnnu7g==
+X-Google-Smtp-Source: AGHT+IHuNmP8V6sstTsEu3VVHzkFP0xhM7V0ZTHQhU/5l3uo4mYCmbaKF/vdgAVoy0+B7a5WdoyAzQ==
+X-Received: by 2002:a05:6830:3499:b0:6b9:a6ef:2709 with SMTP id c25-20020a056830349900b006b9a6ef2709mr740772otu.8.1697492678863;
+        Mon, 16 Oct 2023 14:44:38 -0700 (PDT)
+Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id k7-20020a9d4b87000000b006c21f11dcecsm28451otf.49.2023.10.16.14.44.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 16 Oct 2023 14:44:38 -0700 (PDT)
+Received: (nullmailer pid 3823207 invoked by uid 1000);
+        Mon, 16 Oct 2023 21:44:35 -0000
+From:   Rob Herring <robh@kernel.org>
+Subject: [PATCH net-next 0/8] dt-bindings: net: Child node schema cleanups
+Date:   Mon, 16 Oct 2023 16:44:19 -0500
+Message-Id: <20231016-dt-net-cleanups-v1-0-a525a090b444@kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIALOuLWUC/x2M0QpAQBAAf0X7bMvdSfgVeThnsaWluyMl/+54n
+ JqZGwJ5pgBtdoOnkwNvkkDlGbjFykzIY2LQhTaqUBWOEYUiupWsHHvAwRpt6qF0tqkhVbunia/
+ /2MFnCl0R+ud5AX4J6O5rAAAA
+To:     "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Samuel Holland <samuel@sholland.org>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Vladimir Oltean <olteanv@gmail.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Woojung Huh <woojung.huh@microchip.com>,
+        UNGLinuxDriver@microchip.com,
+        Linus Walleij <linus.walleij@linaro.org>,
+        =?UTF-8?Q?Alvin_=C5=A0ipraga?= <alsi@bang-olufsen.dk>,
+        =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <clement.leger@bootlin.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        =?UTF-8?B?bsOnIMOcTkFM?= <arinc.unal@arinc9.com>,
+        Landen Chao <Landen.Chao@mediatek.com>,
+        DENG Qingfang <dqfext@gmail.com>,
+        Sean Wang <sean.wang@mediatek.com>,
+        Daniel Golle <daniel@makrotopia.org>,
+        John Crispin <john@phrozen.org>,
+        Gerhard Engleder <gerhard@engleder-embedded.com>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        Sergey Shtylyov <s.shtylyov@omp.ru>,
+        Sergei Shtylyov <sergei.shtylyov@gmail.com>,
+        Justin Chen <justin.chen@broadcom.com>,
+        Florian Fainelli <florian.fainelli@broadcom.com>,
+        Grygorii Strashko <grygorii.strashko@ti.com>,
+        Sekhar Nori <nsekhar@ti.com>,
+        Claudiu Manoil <claudiu.manoil@nxp.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>
+Cc:     Vladimir Oltean <vladimir.oltean@nxp.com>, netdev@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
+        linux-mediatek@lists.infradead.org,
+        linux-renesas-soc@vger.kernel.org,
+        bcm-kernel-feedback-list@broadcom.com
+X-Mailer: b4 0.13-dev
+X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H3,
+        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS autolearn=no
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -60,123 +107,47 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git master
-branch HEAD: 8c53d0da87207beab143a2e4160d18730e9645bc  Merge tag 'v6.6-rc6' into renesas-devel
+This is a series of clean-ups related to ensuring that child node 
+schemas are constrained to not allow undefined properties. Typically, 
+that means just adding additionalProperties or unevaluatedProperties as 
+appropriate. The DSA/switch schemas turned out to be a bit more 
+involved, so there's some more fixes and a bit of restructuring in them.
 
-elapsed time: 725m
+Signed-off-by: Rob Herring <robh@kernel.org>
+---
+Rob Herring (8):
+      dt-bindings: net: Add missing (unevaluated|additional)Properties on child node schemas
+      dt-bindings: net: renesas: Drop ethernet-phy node schema
+      dt-bindings: net: dsa/switch: Make 'ethernet-port' node addresses hex
+      dt-bindings: net: ethernet-switch: Add missing 'ethernet-ports' level
+      dt-bindings: net: ethernet-switch: Rename $defs "base" to 'ethernet-ports'
+      dt-bindings: net: mscc,vsc7514-switch: Clean-up example indentation
+      dt-bindings: net: mscc,vsc7514-switch: Simplify DSA and switch references
+      dt-bindings: net: dsa: Drop 'ethernet-ports' node properties
 
-configs tested: 104
-configs skipped: 2
+ .../bindings/net/allwinner,sun8i-a83t-emac.yaml    |  2 +
+ .../devicetree/bindings/net/brcm,asp-v2.0.yaml     |  2 +-
+ .../devicetree/bindings/net/dsa/brcm,sf2.yaml      |  1 +
+ Documentation/devicetree/bindings/net/dsa/dsa.yaml | 11 +-----
+ .../bindings/net/dsa/mediatek,mt7530.yaml          |  8 ++--
+ .../bindings/net/dsa/microchip,lan937x.yaml        |  3 +-
+ .../devicetree/bindings/net/dsa/nxp,sja1105.yaml   |  4 +-
+ .../devicetree/bindings/net/dsa/qca8k.yaml         |  1 +
+ .../devicetree/bindings/net/dsa/realtek.yaml       |  2 +
+ .../bindings/net/dsa/renesas,rzn1-a5psw.yaml       | 10 +----
+ .../devicetree/bindings/net/engleder,tsnep.yaml    |  1 +
+ .../devicetree/bindings/net/ethernet-switch.yaml   | 14 ++++---
+ .../bindings/net/mscc,vsc7514-switch.yaml          | 46 +++++++++-------------
+ .../devicetree/bindings/net/nxp,tja11xx.yaml       |  1 +
+ .../devicetree/bindings/net/renesas,ether.yaml     |  3 +-
+ .../devicetree/bindings/net/renesas,etheravb.yaml  |  3 +-
+ .../devicetree/bindings/net/ti,cpsw-switch.yaml    |  2 +-
+ 17 files changed, 51 insertions(+), 63 deletions(-)
+---
+base-commit: 4d0515b235dec789578d135a5db586b25c5870cb
+change-id: 20231016-dt-net-cleanups-ba3238b4ca98
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
-
-tested configs:
-alpha                             allnoconfig   gcc  
-alpha                            allyesconfig   gcc  
-alpha                               defconfig   gcc  
-arc                              allmodconfig   gcc  
-arc                               allnoconfig   gcc  
-arc                              allyesconfig   gcc  
-arc                                 defconfig   gcc  
-arc                   randconfig-001-20231016   gcc  
-arm                              allmodconfig   gcc  
-arm                               allnoconfig   gcc  
-arm                              allyesconfig   gcc  
-arm                                 defconfig   gcc  
-arm                   randconfig-001-20231016   gcc  
-arm64                            allmodconfig   gcc  
-arm64                             allnoconfig   gcc  
-arm64                            allyesconfig   gcc  
-arm64                               defconfig   gcc  
-csky                             allmodconfig   gcc  
-csky                              allnoconfig   gcc  
-csky                             allyesconfig   gcc  
-csky                                defconfig   gcc  
-i386                             allmodconfig   gcc  
-i386                              allnoconfig   gcc  
-i386                             allyesconfig   gcc  
-i386                              debian-10.3   gcc  
-i386                                defconfig   gcc  
-i386                  randconfig-001-20231016   gcc  
-i386                  randconfig-002-20231016   gcc  
-i386                  randconfig-003-20231016   gcc  
-i386                  randconfig-004-20231016   gcc  
-i386                  randconfig-005-20231016   gcc  
-i386                  randconfig-006-20231016   gcc  
-loongarch                        allmodconfig   gcc  
-loongarch                         allnoconfig   gcc  
-loongarch                        allyesconfig   gcc  
-loongarch                           defconfig   gcc  
-loongarch             randconfig-001-20231016   gcc  
-m68k                             allmodconfig   gcc  
-m68k                              allnoconfig   gcc  
-m68k                             allyesconfig   gcc  
-m68k                                defconfig   gcc  
-microblaze                       allmodconfig   gcc  
-microblaze                        allnoconfig   gcc  
-microblaze                       allyesconfig   gcc  
-microblaze                          defconfig   gcc  
-mips                             allmodconfig   gcc  
-mips                              allnoconfig   gcc  
-mips                             allyesconfig   gcc  
-nios2                            allmodconfig   gcc  
-nios2                             allnoconfig   gcc  
-nios2                            allyesconfig   gcc  
-nios2                               defconfig   gcc  
-openrisc                         allmodconfig   gcc  
-openrisc                          allnoconfig   gcc  
-openrisc                         allyesconfig   gcc  
-openrisc                            defconfig   gcc  
-parisc                           allmodconfig   gcc  
-parisc                            allnoconfig   gcc  
-parisc                           allyesconfig   gcc  
-parisc                              defconfig   gcc  
-parisc64                            defconfig   gcc  
-powerpc                          allmodconfig   gcc  
-powerpc                           allnoconfig   gcc  
-powerpc                          allyesconfig   gcc  
-riscv                            allmodconfig   gcc  
-riscv                             allnoconfig   gcc  
-riscv                            allyesconfig   gcc  
-riscv                               defconfig   gcc  
-riscv                 randconfig-001-20231016   gcc  
-riscv                          rv32_defconfig   gcc  
-s390                             allmodconfig   gcc  
-s390                              allnoconfig   gcc  
-s390                             allyesconfig   gcc  
-s390                                defconfig   gcc  
-s390                  randconfig-001-20231016   gcc  
-sh                               allmodconfig   gcc  
-sh                                allnoconfig   gcc  
-sh                               allyesconfig   gcc  
-sh                                  defconfig   gcc  
-sparc                            allmodconfig   gcc  
-sparc                             allnoconfig   gcc  
-sparc                            allyesconfig   gcc  
-sparc                               defconfig   gcc  
-sparc                 randconfig-001-20231016   gcc  
-sparc64                          allmodconfig   gcc  
-sparc64                          allyesconfig   gcc  
-sparc64                             defconfig   gcc  
-um                               allmodconfig   clang
-um                                allnoconfig   clang
-um                               allyesconfig   clang
-um                                  defconfig   gcc  
-um                             i386_defconfig   gcc  
-um                           x86_64_defconfig   gcc  
-x86_64                            allnoconfig   gcc  
-x86_64                           allyesconfig   gcc  
-x86_64                              defconfig   gcc  
-x86_64                randconfig-001-20231016   gcc  
-x86_64                randconfig-002-20231016   gcc  
-x86_64                randconfig-003-20231016   gcc  
-x86_64                randconfig-004-20231016   gcc  
-x86_64                randconfig-005-20231016   gcc  
-x86_64                randconfig-006-20231016   gcc  
-x86_64                          rhel-8.3-rust   clang
-x86_64                               rhel-8.3   gcc  
-
+Best regards,
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Rob Herring <robh@kernel.org>
+
