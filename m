@@ -2,48 +2,47 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DB00A7CA2F7
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Oct 2023 10:59:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 35D037CA306
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Oct 2023 11:00:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231796AbjJPI70 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 16 Oct 2023 04:59:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45604 "EHLO
+        id S233088AbjJPJAN (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 16 Oct 2023 05:00:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36646 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230152AbjJPI7Z (ORCPT
+        with ESMTP id S233099AbjJPJAK (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 16 Oct 2023 04:59:25 -0400
+        Mon, 16 Oct 2023 05:00:10 -0400
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4BEF0DE
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 16 Oct 2023 01:59:24 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E8007C43391
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 16 Oct 2023 08:59:23 +0000 (UTC)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B4B68B4
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 16 Oct 2023 02:00:06 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 60D4CC433A9
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 16 Oct 2023 09:00:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1697446763;
-        bh=9iAJTkNE+5/gzF4lcoqzfyyY5K5ufuZmCmkEu7r+S/A=;
+        s=k20201202; t=1697446806;
+        bh=G9pHPhZGnXWe0N/+8Kyow0xOPj1fYjHp+tDBGOq9iPU=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=p1d7kpSqsv+jrnQ9CZVxe25Rz8l0qUu0id0ew4qwjxIf1Lqwvb1T/URRRLkkNhgGT
-         sEegUQmhJjuO9pIiqLN3a+CceLd6KKxY8aY8z5miRfnBYU24Sqg2Q5muGDnQKdVCJR
-         6+yLU7vDAVsPcPterctsNBuTFJX12E0t8TcXFqlo6JcuudkZnpzytdtzIXovmrf0es
-         +i2oRnTBwBDANVwWpccIp23NwpNuZCo84OmCegKFHO+dKuVnlLH5QISXFQUT9fHV6u
-         iez/CK9elJMjxT3SsqL/pQDPzLLAc2bBq+Epp9a6bk6qdK/t/RvWNIPom1zWF2m6/f
-         VdT4bhPE/gKtg==
-Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-6b497c8575aso2493678b3a.1
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 16 Oct 2023 01:59:23 -0700 (PDT)
-X-Gm-Message-State: AOJu0YxaauqbWmWHysWN+QiC7236fIkbQzcy/ThUXIp+B3DIF0RBfbB2
-        BWWQTg5I3zhGYZQbH98sqYMuqAC71ADqkfZ5lk5OFw==
-X-Google-Smtp-Source: AGHT+IF1t7lwiVxhcEiQPsmS7cLYAcfnemeM1+gRawN17OPND/2pZ53/ODEmJKWPPyooN10ltrZu2PwpeLVkebRfMnQ=
-X-Received: by 2002:a05:6a21:a5a8:b0:152:6b63:f1e5 with SMTP id
- gd40-20020a056a21a5a800b001526b63f1e5mr45763390pzc.38.1697446763501; Mon, 16
- Oct 2023 01:59:23 -0700 (PDT)
+        b=N+sSSRO35ye9ZsIsgBd/gzez49v1Si2/JhvSgck35hEzB3VjEgWmBxLBg3GbQBTpg
+         dvQWUBi7i7ytZPn2UMGYknlitDd/urLcimWSrbUy4qJSFMUOQBvscm0mu4sgqt4TYk
+         8wkzz162/tVT32bmrgg3ak/oGGPExqKeRi6mNVDIFjEo/0AUFfq6YCsS5hcZsrHmUA
+         uiWcXdfhvdA5Zc/0qTPod9cYLL+9eqE1flJa0zuYxVUG8eSRbXybzCDCJfg87oyusk
+         Q/VbMVK5jA2e65S3AdnzrIKRZaqSKey+X6C6/NZUEPhyoZ4e8qSKDXXfUDDCJN+oO6
+         /rgHiTRtj1A0Q==
+Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-6b1d1099a84so2706619b3a.1
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 16 Oct 2023 02:00:06 -0700 (PDT)
+X-Gm-Message-State: AOJu0YxdwVZYxbSMGKOfDYiiF0XL8rCXothqyor4RVhl6Lg3NE87mWqq
+        VBzYt74OZdJsPhzWYFYzOe0bjpAFF8hfS868HnI2TA==
+X-Google-Smtp-Source: AGHT+IEhKWc1Fx1hpQiTGzrTdOHujArMMfZOid/hgR5LXKF4A2vex79AfUrTILS4RufAQ35zaKMvB6u+gd0Ho6/WyV4=
+X-Received: by 2002:a05:6300:8089:b0:17a:284:de50 with SMTP id
+ ap9-20020a056300808900b0017a0284de50mr5510387pzc.6.1697446805971; Mon, 16 Oct
+ 2023 02:00:05 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230830142358.275459-1-biju.das.jz@bp.renesas.com> <20230830142358.275459-9-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20230830142358.275459-9-biju.das.jz@bp.renesas.com>
+References: <20230830142358.275459-1-biju.das.jz@bp.renesas.com> <20230830142358.275459-8-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20230830142358.275459-8-biju.das.jz@bp.renesas.com>
 From:   Robert Foss <rfoss@kernel.org>
-Date:   Mon, 16 Oct 2023 10:59:12 +0200
-X-Gmail-Original-Message-ID: <CAN6tsi6SYdKcJbjiVn1bOFv8O6g_AGM-+Qj_r8tgYgzDMsWHiw@mail.gmail.com>
-Message-ID: <CAN6tsi6SYdKcJbjiVn1bOFv8O6g_AGM-+Qj_r8tgYgzDMsWHiw@mail.gmail.com>
-Subject: Re: [PATCH v2 8/8] drm: adv7511: Add hpd_override_enable variable to
- struct adv7511_chip_info
+Date:   Mon, 16 Oct 2023 10:59:55 +0200
+X-Gmail-Original-Message-ID: <CAN6tsi6J9=vA8D5M1OOzb97-2H7J30T6s8ruEo07udrLvfhtMQ@mail.gmail.com>
+Message-ID: <CAN6tsi6J9=vA8D5M1OOzb97-2H7J30T6s8ruEo07udrLvfhtMQ@mail.gmail.com>
+Subject: Re: [PATCH v2 7/8] drm: adv7511: Add link_config variable to struct adv7511_chip_info
 To:     Biju Das <biju.das.jz@bp.renesas.com>
 Cc:     Andrzej Hajda <andrzej.hajda@intel.com>,
         Neil Armstrong <neil.armstrong@linaro.org>,
@@ -58,7 +57,7 @@ Cc:     Andrzej Hajda <andrzej.hajda@intel.com>,
         Javier Martinez Canillas <javierm@redhat.com>,
         linux-renesas-soc@vger.kernel.org,
         Andy Shevchenko <andy.shevchenko@gmail.com>,
-        Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
         <u.kleine-koenig@pengutronix.de>, Adam Ford <aford173@gmail.com>,
         Bogdan Togorean <bogdan.togorean@analog.com>
@@ -77,87 +76,68 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 On Wed, Aug 30, 2023 at 4:25=E2=80=AFPM Biju Das <biju.das.jz@bp.renesas.co=
 m> wrote:
 >
-> As per spec, it is allowed to pulse the HPD signal to indicate that the
-> EDID information has changed. Some monitors do this when they wake up
-> from standby or are enabled. When the HPD goes low the adv7511 is
-> reset and the outputs are disabled which might cause the monitor to
-> go to standby again. To avoid this we ignore the HPD pin for the
-> first few seconds after enabling the output. On the other hand,
-> adv7535 require to enable HPD Override bit for proper HPD.
->
-> Add hpd_override_enable variable to struct adv7511_chip_info to handle
-> this scenario.
+> The ADV7511 needs link configuration whereas ADV75{33,35} does not need
+> it. Add a variable link_config to struct adv7511_chip_info to handle
+> this difference.
 >
 > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 > ---
 > v1->v2:
->  * Restored enum adv7511_type as there are users.
+>  * Add Rb tag from Laurent.
 >  * Replaced variable type from unsigned->bool.
 > ---
 >  drivers/gpu/drm/bridge/adv7511/adv7511.h     | 1 +
->  drivers/gpu/drm/bridge/adv7511/adv7511_drv.c | 7 ++++---
->  2 files changed, 5 insertions(+), 3 deletions(-)
+>  drivers/gpu/drm/bridge/adv7511/adv7511_drv.c | 5 +++--
+>  2 files changed, 4 insertions(+), 2 deletions(-)
 >
 > diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511.h b/drivers/gpu/drm/b=
 ridge/adv7511/adv7511.h
-> index 0d39e32b0793..39c9ece373b0 100644
+> index 0dd56e311039..0d39e32b0793 100644
 > --- a/drivers/gpu/drm/bridge/adv7511/adv7511.h
 > +++ b/drivers/gpu/drm/bridge/adv7511/adv7511.h
-> @@ -342,6 +342,7 @@ struct adv7511_chip_info {
+> @@ -341,6 +341,7 @@ struct adv7511_chip_info {
+>         unsigned int num_supplies;
 >         unsigned int reg_cec_offset;
 >         bool has_dsi;
->         bool link_config;
-> +       bool hpd_override_enable;
+> +       bool link_config;
 >  };
 >
 >  struct adv7511 {
 > diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c b/drivers/gpu/d=
 rm/bridge/adv7511/adv7511_drv.c
-> index e0ec3c098225..83ff4206b3b7 100644
+> index 9d88c29b6f59..e0ec3c098225 100644
 > --- a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
 > +++ b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-> @@ -354,7 +354,7 @@ static void __adv7511_power_on(struct adv7511 *adv751=
-1)
->          * first few seconds after enabling the output. On the other hand
->          * adv7535 require to enable HPD Override bit for proper HPD.
->          */
-> -       if (adv7511->info->type =3D=3D ADV7535)
-> +       if (adv7511->info->hpd_override_enable)
->                 regmap_update_bits(adv7511->regmap, ADV7511_REG_POWER2,
->                                    ADV7535_REG_POWER2_HPD_OVERRIDE,
->                                    ADV7535_REG_POWER2_HPD_OVERRIDE);
-> @@ -381,7 +381,7 @@ static void adv7511_power_on(struct adv7511 *adv7511)
->  static void __adv7511_power_off(struct adv7511 *adv7511)
->  {
->         /* TODO: setup additional power down modes */
-> -       if (adv7511->info->type =3D=3D ADV7535)
-> +       if (adv7511->info->hpd_override_enable)
->                 regmap_update_bits(adv7511->regmap, ADV7511_REG_POWER2,
->                                    ADV7535_REG_POWER2_HPD_OVERRIDE, 0);
+> @@ -1203,7 +1203,7 @@ static int adv7511_probe(struct i2c_client *i2c)
 >
-> @@ -682,7 +682,7 @@ adv7511_detect(struct adv7511 *adv7511, struct drm_co=
-nnector *connector)
->                         status =3D connector_status_disconnected;
->         } else {
->                 /* Renable HPD sensing */
-> -               if (adv7511->info->type =3D=3D ADV7535)
-> +               if (adv7511->info->hpd_override_enable)
->                         regmap_update_bits(adv7511->regmap, ADV7511_REG_P=
-OWER2,
->                                            ADV7535_REG_POWER2_HPD_OVERRID=
-E,
->                                            ADV7535_REG_POWER2_HPD_OVERRID=
-E);
-> @@ -1379,6 +1379,7 @@ static const struct adv7511_chip_info adv7535_chip_=
+>         memset(&link_config, 0, sizeof(link_config));
+>
+> -       if (adv7511->info->type =3D=3D ADV7511)
+> +       if (adv7511->info->link_config)
+>                 ret =3D adv7511_parse_dt(dev->of_node, &link_config);
+>         else
+>                 ret =3D adv7533_parse_dt(dev->of_node, adv7511);
+> @@ -1292,7 +1292,7 @@ static int adv7511_probe(struct i2c_client *i2c)
+>
+>         i2c_set_clientdata(i2c, adv7511);
+>
+> -       if (adv7511->info->type =3D=3D ADV7511)
+> +       if (adv7511->info->link_config)
+>                 adv7511_set_link_config(adv7511, &link_config);
+>
+>         ret =3D adv7511_cec_init(dev, adv7511);
+> @@ -1358,6 +1358,7 @@ static const struct adv7511_chip_info adv7511_chip_=
 info =3D {
->         .num_supplies =3D ARRAY_SIZE(adv7533_supply_names),
->         .reg_cec_offset =3D ADV7533_REG_CEC_OFFSET,
->         .has_dsi =3D true,
-> +       .hpd_override_enable =3D true,
+>         .type =3D ADV7511,
+>         .supply_names =3D adv7511_supply_names,
+>         .num_supplies =3D ARRAY_SIZE(adv7511_supply_names),
+> +       .link_config =3D true,
 >  };
 >
->  static const struct i2c_device_id adv7511_i2c_ids[] =3D {
+>  static const struct adv7511_chip_info adv7533_chip_info =3D {
 > --
 > 2.25.1
+>
 
 Reviewed-by: Robert Foss <rfoss@kernel.org>
