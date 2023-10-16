@@ -2,162 +2,202 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4443F7CA452
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Oct 2023 11:38:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 85E1F7CA4A1
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Oct 2023 11:59:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230104AbjJPJiE (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 16 Oct 2023 05:38:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58958 "EHLO
+        id S230152AbjJPJ7R (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 16 Oct 2023 05:59:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38062 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229666AbjJPJiD (ORCPT
+        with ESMTP id S229459AbjJPJ7Q (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 16 Oct 2023 05:38:03 -0400
-Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01on2116.outbound.protection.outlook.com [40.107.113.116])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 675AF97
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 16 Oct 2023 02:38:01 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=GNraea932aDhV2/CWQMrqQE9Zz1AyiFr2HZar4yPIHk3PbW8nt44y4lYUPxSIYcfjYRpTQK8HJHAjNfbbom+YBgUmR78qKSZ2VAZGfUN0d0rc74wcAlQd7Hw4mNwgQ5zg8RUqduTw7QixmsvvUtZIbYEC1rTCS1ipcuqboqw8jJ07qsEjxpbFMBVsBb3Akd2m8NJ8/eAJM1X266ueKbGjIyGQFhkk/asQ89dUigwXnf/EKiS1cW3FAmt8qs+opNlOyKAlf4lfP/Hcc0sO1nKBWEVJEztrUHPKdKqTV3ClK019XKd1VFktgLYbknP7N33ph0H4g+9q3Gbv60q8Sk1yw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=6FkpYjpAesdo7BFlLHYrRi5sum7m2dK9bWV/1UL2pZI=;
- b=CaoqD3eIp4kpZUuUEwpsZH4T0xafnGNGbMEg3FjfB2vyeHL2bgthW41UALihLbSi401SVsFQwA7nOqIyufpuIvcpZ+cH663vxN+7WuKyajO0feiATWYG61dlTHqWQylJ3ojsqkrPavaCnj2BT4QeNlZ1VXPrr6HvO7MNU/+TIUGoxyERC7ckAAfbw0ko+RO1b3Szt/c0Ipvamp1TRG8Hd5slHZlhJUxZ0QHjFU908tp2pQNI+FJGjmT7o5YDCFY6Bz9evpGKCaxtl7uBShJo6CsO1RVe4LtNb0gtSI4/BffhLnmwvizdKL1tIkgEqEKAtrfc58KgRnnbhszSV/fXJA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=6FkpYjpAesdo7BFlLHYrRi5sum7m2dK9bWV/1UL2pZI=;
- b=eTR70gi+3QCRG/R3Awn7CsFgThMo2g0h4l6TiV18p0nKH7BSxlQEzbhTMqImj6HObjwEZ6yZoKJlclYEo/4JxDD9ZcoPgb0PuEU7TRZ7m0GUMX+xO9k4EySm7Ay8o6OoiuNQNwfnbv8rrgl3uiwEQe1DGguvo5eufFuYYcPcDfc=
-Received: from TYCPR01MB11269.jpnprd01.prod.outlook.com
- (2603:1096:400:3c0::10) by OS3PR01MB8399.jpnprd01.prod.outlook.com
- (2603:1096:604:192::9) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6886.35; Mon, 16 Oct
- 2023 09:37:58 +0000
-Received: from TYCPR01MB11269.jpnprd01.prod.outlook.com
- ([fe80::c90e:cd43:c967:5218]) by TYCPR01MB11269.jpnprd01.prod.outlook.com
- ([fe80::c90e:cd43:c967:5218%5]) with mapi id 15.20.6886.034; Mon, 16 Oct 2023
- 09:37:58 +0000
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Robert Foss <rfoss@kernel.org>
-CC:     Andrzej Hajda <andrzej.hajda@intel.com>,
-        Neil Armstrong <neil.armstrong@linaro.org>,
-        David Airlie <airlied@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Ahmad Fatoum <a.fatoum@pengutronix.de>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Jonas Karlman <jonas@kwiboo.se>,
-        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-        Abhinav Kumar <quic_abhinavk@quicinc.com>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Javier Martinez Canillas <javierm@redhat.com>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
-        Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
-        =?utf-8?B?VXdlIEtsZWluZS1Lw7ZuaWc=?= 
-        <u.kleine-koenig@pengutronix.de>, Adam Ford <aford173@gmail.com>,
-        Bogdan Togorean <bogdan.togorean@analog.com>
-Subject: RE: [PATCH v2 5/8] drm: adv7511: Add reg_cec_offset variable to
- struct adv7511_chip_info
-Thread-Topic: [PATCH v2 5/8] drm: adv7511: Add reg_cec_offset variable to
- struct adv7511_chip_info
-Thread-Index: AQHZ2024w0fL+hA9GkCTJzOC8qA/2LBMZzWAgAAKsbA=
-Date:   Mon, 16 Oct 2023 09:37:57 +0000
-Message-ID: <TYCPR01MB1126985230B9F3366651397BB86D7A@TYCPR01MB11269.jpnprd01.prod.outlook.com>
-References: <20230830142358.275459-1-biju.das.jz@bp.renesas.com>
- <20230830142358.275459-6-biju.das.jz@bp.renesas.com>
- <CAN6tsi7P4ooXeD_EGmMbGu-wtGaZjpbZ6N-Lkan+Q5GE4z-dQw@mail.gmail.com>
-In-Reply-To: <CAN6tsi7P4ooXeD_EGmMbGu-wtGaZjpbZ6N-Lkan+Q5GE4z-dQw@mail.gmail.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TYCPR01MB11269:EE_|OS3PR01MB8399:EE_
-x-ms-office365-filtering-correlation-id: ac974020-05fd-4271-7006-08dbce2b94e0
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: z/f0qoK9BfwE9n8p+mXcjAVWTdv2Ee/zUNIonYRAGBwypzzW34nbuR+yWfCP3WHIOkHkDYPBFivFJZy0sCipbBcTEHkB2Vet7IhnBFAz0sXIMxEbVylT0L6vTxUoDfohczdfbIcBjYL9D7Qlm8VRzkYn9anPBUAWh3j5eDA8BlEwKQjUTZvSmDx/ifw9/DBzGFmSWO5lXa+bfQqQ1Yud2oHjEobdefJ4U714KYa/hEKGjb6GKSC7nUyZyxsbC+enHOpOmrLmanlRVhtUAA3yCM7SdeHPXDh27p906fEYwemCyQRLnH3yTGISCdltWs4EmrE4OgR0hCyyUXDdfXz790HcNKPGCm5iedbSzDHVhX7rG8dXu5FZ+loATTCQNs2kk8qIhlKAUBU6SRShxmCAoWpX6liH7GByksRcaib7FF97uDjKDzdW6rk31j9gMnji1hXp9PotGLU0ccKUCHu5eabFD2Thq27yQ8kk62syzdepGtdEUbDfTJnes6GSnxkxiPmc74ESmVemAfyp6Ked7JbG9/XIYOCvq7Y0k1F1FBhjOYgR/1fQMIhFwD4GzQ38S90QcueXNtKrLxm+NotHFwr1AkwTYZ4D/n2LIjLE5IR5wzcpkciVRU4P99gcdFsB
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB11269.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(396003)(39860400002)(346002)(366004)(376002)(136003)(230922051799003)(64100799003)(1800799009)(451199024)(186009)(478600001)(71200400001)(66446008)(66476007)(66556008)(76116006)(64756008)(54906003)(6916009)(66946007)(26005)(41300700001)(6506007)(53546011)(7696005)(316002)(9686003)(7416002)(8676002)(8936002)(52536014)(4326008)(4744005)(2906002)(5660300002)(33656002)(38070700005)(122000001)(86362001)(83380400001)(38100700002)(55016003);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?UDdSRUNJK2cxRmcrR21RRC9oeHluUWR0RGNMQ0FlUUNDdFNWc2s1WGgrRlJo?=
- =?utf-8?B?QmlBZlhDWUdHVUo1VGtJUTcyNmVzdVk5dTZpclpmVXBreE0xenRRd3FVNHIw?=
- =?utf-8?B?VHVlT0I3SnlSK2lNN00rWHAvTWE5NmFWSXpLblp5aDZ4NEJGUHFEQjVLM3hL?=
- =?utf-8?B?MHVQalp1QnNoUHJjU0FMNWZuM3FsMUdjaExnTll5VDFYNVBtMnQreEFFTkZh?=
- =?utf-8?B?T0hpQ256VWZTSTZUWTJlc0ZJMWplNmFvSkk0UVlqYUJWcDAxbXh2SGpja1lI?=
- =?utf-8?B?cjV2UFRCWU12VUZucWF0MzdqSTBzeUNZMFFCZm5yblR3amVLS3MxZUk5SUdG?=
- =?utf-8?B?Z1dwZGM0QVhIN0piWlZCOUlGSmtPa01QM0I3RWdpaWxINTJ6TUZSUys5TTJB?=
- =?utf-8?B?TFlmRnZBay9ycVBYZ3lqNHdoYkdFdDN5VC9RakxiZFZlWHRod014T01kSGgv?=
- =?utf-8?B?RC9pZE9KUWZoT0h3U2prQjIrZkFDMUExamYxT3FPd3lqdisxTmdUVCtEUGhq?=
- =?utf-8?B?RDlvR0tyV2NhcDRuMm15VlFMcEQ2V0R6ZzIrVTZ0dGFWajFNamtVc01SQzZk?=
- =?utf-8?B?VU9vN3AvUDBORDdXZ0hPem9MVzk0TVEzR2FhTkExU1l3UFBxK0tGTk4zTzNq?=
- =?utf-8?B?M0J4bE13VG13QTB5bERabXViRXR2Q0M3bmExMG5MR3FOaGxSMU9kc0F0MGs1?=
- =?utf-8?B?MXR0aFhKVC9FNTJTK0ZkZXlFR1d0VXVQbGJDRDRqblBnc1FtVDFWVzExdnhH?=
- =?utf-8?B?WnE2SllkcXVHYTdsL1dneDlGQk5pdnowNk0ydGt2SVdqTlRzbU16T2d1ZjNh?=
- =?utf-8?B?NW9JcmNvTlpsbFAzblI2OXdPVktpd01SVGhjSkxhOFVSQjdkcGtvTHE0dk43?=
- =?utf-8?B?VGlPa1hWUW54N3Q5Nm1sUHdUTHowNFBqVGMyUmFLeXh1YnZDdTZqTi9ES2pj?=
- =?utf-8?B?UE9QM05KQXl3RnlESGlldXE1MEZDQ3QwYkZYdlgxTE1IbW5YTWx3a0UzMDZn?=
- =?utf-8?B?azJ6UVBGVi9PSGgvQ2VhbGxCaUFJei9kOWFZa2dCR3NoMmNwd0RmT0cvRmpI?=
- =?utf-8?B?bmUrZ0NZVlAzV2dkMlhvRUltQi84UXVZQVRqT1RybXp1VnBvdGhET2hRdTRB?=
- =?utf-8?B?TnQ0bFBZS0Y1YVlCR2JSNXBGTHhzb05wYTlENldPYnd4cU50MkQ4RC9HOEEr?=
- =?utf-8?B?SThacWM2Zk1xRm1nazR0UWpZN3VjcDNvSlFOanVPSmUrYWhZRnl4ZkhXeUVC?=
- =?utf-8?B?OHlzTW11bUhLd3lFSk4yU3hWSGZSOFJJWWxHNGxITzBHWDdadmZUQTMxRGYv?=
- =?utf-8?B?am92Y1dsTUFUckVibkNDekJIVmg5dUFpSndIY2Z2TlEwd1MrUUd1c0YyRi9U?=
- =?utf-8?B?ckZGdDlyNExhNnhBQkl2blI0RFUyWHJERDdvd0w0cEdzZmExNm4zZ0lJUmNC?=
- =?utf-8?B?dHBSM3daN0lHK2FxUVIyeVA1bUkwOW55aGR1b0lpSnVWYTZuQXhrTFU2ekNW?=
- =?utf-8?B?Y1BJZmlnUVhKQjlJRHg2SkJWSk5rZitDemNiOHRWNHM2dWY2N2dnM043YU5S?=
- =?utf-8?B?THVVMTViNVg5Z0FMOWxWemNheGgzUWhETzlpQlgwYldjQ3V4eFNQNXdZb3l0?=
- =?utf-8?B?M3R3TkxhV0ZvRjBSNmlFTzlFYVBscHcwYzZWOXJxNitYL3I5NGdpVmJsMkV3?=
- =?utf-8?B?Y2ZFeTNZL3NRMjZhUURHc3Q2NmdpTCtZbWRHeDVBWWRwaXdFL3VJTjFrMlhW?=
- =?utf-8?B?eG9Fbi9GNTdXbGREcWR2Tks3N0xLUG4xNlB0ZHBIRUl4ZWlod3lkUW9NSnZH?=
- =?utf-8?B?R1ZrQ2VqT2RReFBsYWhhMVRkaldnRkh3cndIKzcxN1ltU3dYK0xjUGd2cU8v?=
- =?utf-8?B?cVpOTUdaNzlvb3ZMSHpyWi9aZUswekI1bjJ2Z05MTzYzOU5iUzNYUFdNeXEv?=
- =?utf-8?B?STYzb0JDZnVvTmp2ZXZ3NTJCc1VOd1RFeXFBS1Rqc29paXU0YnhvVVZLV2Zv?=
- =?utf-8?B?QjBXNHJIeGVDZXVUdnYzSE1UTlUwTjI2aU1zUG5sVi9aMUl5MWhCS3BvTjlQ?=
- =?utf-8?B?cVhNZlJHR1RLTEFkaEdjUHg3bnpqQURNaW5Zb1JWSFp5TXM3RXJQVENtV1lM?=
- =?utf-8?B?dDBGMTEvVS9BdXc5bG1SOHJMS2Fjb01odmVxbkdHOFE5eU1FeVZNRWZLcGlM?=
- =?utf-8?B?V2c9PQ==?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+        Mon, 16 Oct 2023 05:59:16 -0400
+Received: from mail-yb1-f179.google.com (mail-yb1-f179.google.com [209.85.219.179])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8C4F59C;
+        Mon, 16 Oct 2023 02:59:14 -0700 (PDT)
+Received: by mail-yb1-f179.google.com with SMTP id 3f1490d57ef6-d77ad095f13so4279981276.2;
+        Mon, 16 Oct 2023 02:59:14 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1697450353; x=1698055153;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=i9GLVUGKessKoslJIZpAI7+l//jryIRXWw3bJSWd/JU=;
+        b=YpDAPKeVaVk1om3qEAtzdITkpkguvsjgbnlLajX5IRwq2TkM9TxIcL1p0S0ZmmVckF
+         A0x+ofvsJMYjROMp2PtTgDf1CU1Fo0Ylz+dq+We7gyYjX4h8UQH8zeTVJqsmn2DRLTJ5
+         SswsTJEzJxsypsRZ2hORFL680Cc9wtTQeHWr9p40xJ5JY22csfxEAvUDsPUe6hQ4marD
+         iNcRBKzq5hJ2cPl5VotwkrC1h6tCsn0EKlz5saQ29r7B2rR43Q1DSmGo/9ifiCRFj4c/
+         xXIh3fEKUTDXPvJjrh3kynCkyZqINJ52l4fZcn3c+bTTZBXWPBq+EU7/rhPr3VnsPTA8
+         f5lA==
+X-Gm-Message-State: AOJu0Yzmn5aPl+3Sq+cW4aiMGD9x2AQwmBanQ5emqVFkWnZmXJZbenrm
+        v8diF7JUoDbSZYE/rWdWJ4idOe8NfGvpAQ==
+X-Google-Smtp-Source: AGHT+IHDifpYoVg377WaVlCQbyVtL075I/N8OSBwyoKSlQwbzsy4Q39TGatkdfof4lMFOPSU9W6aXg==
+X-Received: by 2002:a25:a044:0:b0:d32:cd49:2469 with SMTP id x62-20020a25a044000000b00d32cd492469mr30483446ybh.24.1697450353351;
+        Mon, 16 Oct 2023 02:59:13 -0700 (PDT)
+Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com. [209.85.128.171])
+        by smtp.gmail.com with ESMTPSA id s10-20020a056902120a00b00d800eb5ac2asm2501003ybu.65.2023.10.16.02.59.12
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 16 Oct 2023 02:59:12 -0700 (PDT)
+Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-5a2536adaf3so58366447b3.2;
+        Mon, 16 Oct 2023 02:59:12 -0700 (PDT)
+X-Received: by 2002:a81:b661:0:b0:5a7:b9b1:c0bd with SMTP id
+ h33-20020a81b661000000b005a7b9b1c0bdmr19215902ywk.11.1697450352391; Mon, 16
+ Oct 2023 02:59:12 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB11269.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ac974020-05fd-4271-7006-08dbce2b94e0
-X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Oct 2023 09:37:57.9265
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: rpfThHqfJGsP+IIsgr4zBrg35Uo2zc5xM5mWw5OSyRFGYLSdbh8Gh3HfOW2z+YH0jbQlZT4IVAIMtEADrcu0BSCxk7ICypP1JHKOd+Vk70o=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS3PR01MB8399
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+References: <cover.1694767208.git.geert+renesas@glider.be> <CAMuHMdWfBTKdXvZutg4LvWqBjuz-X=ZjzX0LKPqD=JxYuLoPRw@mail.gmail.com>
+In-Reply-To: <CAMuHMdWfBTKdXvZutg4LvWqBjuz-X=ZjzX0LKPqD=JxYuLoPRw@mail.gmail.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Mon, 16 Oct 2023 11:59:01 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdUF61V5qNyKbrTGxZfEJvCVuLO7q2R5MqZYkzRC_cNr0w@mail.gmail.com>
+Message-ID: <CAMuHMdUF61V5qNyKbrTGxZfEJvCVuLO7q2R5MqZYkzRC_cNr0w@mail.gmail.com>
+Subject: [GIT PULL v2] drm: renesas: shmobile: Atomic conversion + DT support
+ (was: Re: [PATCH v4 00/41] drm: renesas: shmobile: Atomic conversion + DT support)
+To:     David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        DRI Development <dri-devel@lists.freedesktop.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+        Linux-sh list <linux-sh@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-SGkgUm9iZXJ0IEZvc3MsDQoNClRoYW5rcyBmb3IgdGhlIGZlZWRiYWNrLg0KDQo+IFN1YmplY3Q6
-IFJlOiBbUEFUQ0ggdjIgNS84XSBkcm06IGFkdjc1MTE6IEFkZCByZWdfY2VjX29mZnNldCB2YXJp
-YWJsZSB0bw0KPiBzdHJ1Y3QgYWR2NzUxMV9jaGlwX2luZm8NCj4gDQo+IE9uIFdlZCwgQXVnIDMw
-LCAyMDIzIGF0IDQ6MjTigK9QTSBCaWp1IERhcyA8YmlqdS5kYXMuanpAYnAucmVuZXNhcy5jb20+
-DQo+IHdyb3RlOg0KPiA+DQo+ID4gVGhlIEFEVjc1MzMgYW5kIEFEVjc1MzUgaGF2ZSBhbiBvZmZz
-ZXQoMHg3MCkgZm9yIHRoZSBDRUMgcmVnaXN0ZXIgbWFwDQo+ID4gY29tcGFyZWQgdG8gQURWNzUx
-MS4gQWRkIHRoZSByZWdfY2VjX29mZnNldCB2YXJpYWJsZSB0byBzdHJ1Y3QNCj4gPiBhZHY3NTEx
-X2NoaXBfaW5mbyB0byBoYW5kbGUgdGhpcyBkaWZmZXJlbmNlIGFuZCBkcm9wIHRoZQ0KPiA+IHJl
-Z19jZWNfb2Zmc2V0IHZhcmlhYmxlIGZyb20gc3RydWN0IGFkdjc1MTEuDQo+ID4NCj4gPiBUaGlz
-IHdpbGwgYXZvaWQgYXNzaWduaW5nIHJlZ19jZWNfb2Zmc2V0IGJhc2VkIG9uIGNoaXAgdHlwZSBh
-bmQgYWxzbw0KPiA+IHRlc3RpbmcgZm9yIG11bHRpcGxlIGNoaXAgdHlwZXMgZm9yIGNhbGxpbmcN
-Cj4gYWR2NzUzM19wYXRjaF9jZWNfcmVnaXN0ZXJzKCkuDQo+IA0KPiBzL2ZvciBjYWxsaW5nL2J5
-IGNhbGxpbmcvID8NCg0KT0suIEkgZ3Vlc3MgaXQgd2lsbCBiZSB0YWtlbiBjYXJlIHdoaWxlIGFw
-cGx5aW5nLg0KT3RoZXJ3aXNlIHBsZWFzZSBsZXQgbWUga25vdyBpZiBJIG5lZWQgdG8gc2VuZCBW
-My4NCg0KQ2hlZXJzLA0KQmlqdQ0KDQo+IA0KPiBSZXZpZXdlZC1ieTogUm9iZXJ0IEZvc3MgPHJm
-b3NzQGtlcm5lbC5vcmc+DQo=
+        Hi David, Daniel,
+
+The following changes since commit 389af786f92ecdff35883551d54bf4e507ffcccb:
+
+  Merge tag 'drm-intel-next-2023-09-29' of
+git://anongit.freedesktop.org/drm/drm-intel into drm-next (2023-10-04
+13:55:19 +1000)
+
+are available in the Git repository at:
+
+  git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git
+tags/shmob-drm-atomic-dt-tag2
+
+for you to fetch changes up to 1399ebacbf590dfbac4fbba181dd1595b2fa10ba:
+
+  drm: renesas: shmobile: Add DT support (2023-10-16 11:47:48 +0200)
+
+----------------------------------------------------------------
+drm: renesas: shmobile: Atomic conversion + DT support
+
+Currently, there are two drivers for the LCD controller on Renesas
+SuperH-based and ARM-based SH-Mobile and R-Mobile SoCs:
+  1. sh_mobile_lcdcfb, using the fbdev framework,
+  2. shmob_drm, using the DRM framework.
+However, only the former driver is used, as all platform support
+integrates the former.  None of these drivers support DT-based systems.
+
+Convert the SH-Mobile DRM driver to atomic modesetting, and add DT
+support, complemented by the customary set of fixes and improvements.
+
+Acked-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Link: https://lore.kernel.org/r/cover.1694767208.git.geert+renesas@glider.be/
+
+Changes compared to v1:
+  - Rebase to drm-next,
+  - Add Acked-by.
+
+Thanks for pulling!
+
+----------------------------------------------------------------
+Geert Uytterhoeven (36):
+      MAINTAINER: Create entry for Renesas SH-Mobile DRM drivers
+      dt-bindings: display: Add Renesas SH-Mobile LCDC bindings
+      media: uapi: Add MEDIA_BUS_FMT_RGB666_2X9_BE format
+      drm: renesas: shmobile: Fix overlay plane disable
+      drm: renesas: shmobile: Fix ARGB32 overlay format typo
+      drm: renesas: shmobile: Correct encoder/connector types
+      drm: renesas: shmobile: Add support for Runtime PM
+      drm: renesas: shmobile: Restore indentation of shmob_drm_setup_clocks()
+      drm: renesas: shmobile: Use %p4cc to print fourcc code
+      drm: renesas: shmobile: Add missing YCbCr formats
+      drm: renesas: shmobile: Improve shmob_drm_format_info table
+      drm: renesas: shmobile: Improve error handling
+      drm: renesas: shmobile: Convert to use devm_request_irq()
+      drm: renesas: shmobile: Remove custom plane destroy callback
+      drm: renesas: shmobile: Use drmm_universal_plane_alloc()
+      drm: renesas: shmobile: Embed drm_device in shmob_drm_device
+      drm: renesas: shmobile: Convert container helpers to static
+inline functions
+      drm: renesas: shmobile: Replace .dev_private with container_of()
+      drm: renesas: shmobile: Use media bus formats in platform data
+      drm: renesas: shmobile: Move interface handling to connector setup
+      drm: renesas: shmobile: Unify plane allocation
+      drm: renesas: shmobile: Rename shmob_drm_crtc.crtc
+      drm: renesas: shmobile: Rename shmob_drm_connector.connector
+      drm: renesas: shmobile: Rename shmob_drm_plane.plane
+      drm: renesas: shmobile: Use drm_crtc_handle_vblank()
+      drm: renesas: shmobile: Move shmob_drm_crtc_finish_page_flip()
+      drm: renesas: shmobile: Wait for page flip when turning CRTC off
+      drm: renesas: shmobile: Turn vblank on/off when enabling/disabling CRTC
+      drm: renesas: shmobile: Shutdown the display on remove
+      drm: renesas: shmobile: Cleanup encoder
+      drm: renesas: shmobile: Atomic conversion part 1
+      drm: renesas: shmobile: Atomic conversion part 2
+      drm: renesas: shmobile: Use suspend/resume helpers
+      drm: renesas: shmobile: Remove internal CRTC state tracking
+      drm: renesas: shmobile: Atomic conversion part 3
+      drm: renesas: shmobile: Add DT support
+
+Laurent Pinchart (5):
+      drm: renesas: shmobile: Remove backlight support
+      drm: renesas: shmobile: Don't set display info width and height twice
+      drm: renesas: shmobile: Rename input clocks
+      drm: renesas: shmobile: Remove support for SYS panels
+      drm: renesas: shmobile: Use struct videomode in platform data
+
+ .../bindings/display/renesas,shmobile-lcdc.yaml    | 130 +++++
+ .../userspace-api/media/v4l/subdev-formats.rst     |  72 +++
+ MAINTAINERS                                        |  13 +-
+ drivers/gpu/drm/renesas/shmobile/Kconfig           |   3 +-
+ drivers/gpu/drm/renesas/shmobile/Makefile          |   3 +-
+ .../gpu/drm/renesas/shmobile/shmob_drm_backlight.c |  82 ---
+ .../gpu/drm/renesas/shmobile/shmob_drm_backlight.h |  19 -
+ drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.c  | 650 +++++++++------------
+ drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.h  |  27 +-
+ drivers/gpu/drm/renesas/shmobile/shmob_drm_drv.c   | 179 +++---
+ drivers/gpu/drm/renesas/shmobile/shmob_drm_drv.h   |  18 +-
+ drivers/gpu/drm/renesas/shmobile/shmob_drm_kms.c   |  77 ++-
+ drivers/gpu/drm/renesas/shmobile/shmob_drm_kms.h   |   9 +-
+ drivers/gpu/drm/renesas/shmobile/shmob_drm_plane.c | 326 ++++++-----
+ drivers/gpu/drm/renesas/shmobile/shmob_drm_plane.h |   5 +-
+ include/linux/platform_data/shmob_drm.h            |  57 +-
+ include/uapi/linux/media-bus-format.h              |   3 +-
+ 17 files changed, 860 insertions(+), 813 deletions(-)
+ create mode 100644
+Documentation/devicetree/bindings/display/renesas,shmobile-lcdc.yaml
+ delete mode 100644 drivers/gpu/drm/renesas/shmobile/shmob_drm_backlight.c
+ delete mode 100644 drivers/gpu/drm/renesas/shmobile/shmob_drm_backlight.h
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
