@@ -2,33 +2,33 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1B48C7C9F22
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Oct 2023 07:48:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 88E547C9F26
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Oct 2023 07:48:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231679AbjJPFsQ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 16 Oct 2023 01:48:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37098 "EHLO
+        id S231511AbjJPFsX (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 16 Oct 2023 01:48:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33388 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231510AbjJPFsP (ORCPT
+        with ESMTP id S231617AbjJPFsQ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 16 Oct 2023 01:48:15 -0400
+        Mon, 16 Oct 2023 01:48:16 -0400
 Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 877ACA1;
-        Sun, 15 Oct 2023 22:48:13 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3B307EB;
+        Sun, 15 Oct 2023 22:48:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
         MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender
         :Reply-To:Content-Type:Content-ID:Content-Description;
-        bh=z6mlPBQ4mdlVnTNTeM4g6TWg8QEfdqiB3mI+2DaIjVk=; b=YKyyhZdf5dNjANUOyI2HrJCIV0
-        U1b00I+wKUKo117XL/o4YqG/7CSwo82Nt84ERwS2j6D/6oqFSVy2m0PPuid4ijwkV2mZHWK3cl9qP
-        D+Jxn4qLo5ExWSk9zjUYofh7qHwWin0AJJlg2YFfcQcutwo1YiHX4SlWrbPGG+YrefwgIwRdU4y4H
-        WosBEtbP5BtoiIiEJptDJes47mHRPUXh0Jd+7viXZLEugUD9/zb3usGG16gGmPvxxIpiKUP5bKraI
-        IVLlzXBHJoSGwFbBP2iCWYxryZ5ysqqi8iqmbnnU0d2aeNwazNkhToLQ9umEVkTBCfU1JfSL919FN
-        MfOILygA==;
+        bh=gt7hk3btUxEv3Hn2ba+B24UAyMydIMFE5ojTDMGob44=; b=EgsU8LDZqv6jWwuE7cUWy4GNXH
+        m5jsHWvlqMlxek7E72uAnfet+I1jB8tw8EYNK8a9ZWSkJBZh10vmrBixCtQv4xuDpXFd8s9Ab895y
+        NQ4hYGEIV8YEN+5ErOMybwMUqJmUMaaYmNR36VSw3Ud9pCgyEAID8j9gHszxHqCARhgEdE0arELiI
+        V9Eg1YhKrc3o0UmhEhz6i+0kXWYr+tO6h3iEcMl881ka0l9PPkG7WvVkL1JBaQFigDmMu6zJhguTm
+        6V3cWNTzOLoQtoVaYGMfIAYdE4Vb8Fpjno8bF8A9qby43D+8aGDOxEegDj6KB4H9bhaVuWZMuZZAD
+        OvElTZKQ==;
 Received: from 2a02-8389-2341-5b80-39d3-4735-9a3c-88d8.cable.dynamic.v6.surfer.at ([2a02:8389:2341:5b80:39d3:4735:9a3c:88d8] helo=localhost)
         by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-        id 1qsGSU-008QhF-0t;
-        Mon, 16 Oct 2023 05:48:06 +0000
+        id 1qsGSW-008QiW-2B;
+        Mon, 16 Oct 2023 05:48:09 +0000
 From:   Christoph Hellwig <hch@lst.de>
 To:     Greg Ungerer <gerg@linux-m68k.org>, iommu@lists.linux.dev
 Cc:     Paul Walmsley <paul.walmsley@sifive.com>,
@@ -46,9 +46,9 @@ Cc:     Paul Walmsley <paul.walmsley@sifive.com>,
         linux-m68k@lists.linux-m68k.org, netdev@vger.kernel.org,
         linux-riscv@lists.infradead.org, linux-renesas-soc@vger.kernel.org,
         Jim Quinlan <james.quinlan@broadcom.com>
-Subject: [PATCH 03/12] soc: renesas: ARCH_R9A07G043 depends on !RISCV_ISA_ZICBOM
-Date:   Mon, 16 Oct 2023 07:47:45 +0200
-Message-Id: <20231016054755.915155-4-hch@lst.de>
+Subject: [PATCH 04/12] soc: renesas: select RISCV_DMA_NONCOHERENT from ARCH_R9A07G043
+Date:   Mon, 16 Oct 2023 07:47:46 +0200
+Message-Id: <20231016054755.915155-5-hch@lst.de>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20231016054755.915155-1-hch@lst.de>
 References: <20231016054755.915155-1-hch@lst.de>
@@ -65,9 +65,8 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-ARCH_R9A07G043 has it's own non-standard global pool based DMA coherent
-allocator, which conflicts with the remap based RISCV_ISA_ZICBOM version.
-Add a proper dependency.
+Selecting DMA_GLOBAL_POOL without the rest of the non-coherent DMA
+infrastructure does not make sense.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 ---
@@ -75,17 +74,17 @@ Signed-off-by: Christoph Hellwig <hch@lst.de>
  1 file changed, 1 insertion(+)
 
 diff --git a/drivers/soc/renesas/Kconfig b/drivers/soc/renesas/Kconfig
-index 880c544bb2dfda..f1696d3b5018d0 100644
+index f1696d3b5018d0..ea473b4150dfa8 100644
 --- a/drivers/soc/renesas/Kconfig
 +++ b/drivers/soc/renesas/Kconfig
-@@ -334,6 +334,7 @@ if RISCV
- config ARCH_R9A07G043
- 	bool "RISC-V Platform support for RZ/Five"
- 	depends on NONPORTABLE
-+	depends on !RISCV_ISA_ZICBOM
+@@ -338,6 +338,7 @@ config ARCH_R9A07G043
  	select ARCH_RZG2L
  	select AX45MP_L2_CACHE
  	select DMA_GLOBAL_POOL
++	select RISCV_DMA_NONCOHERENT
+ 	select ERRATA_ANDES if RISCV_SBI
+ 	select ERRATA_ANDES_CMO if ERRATA_ANDES
+ 
 -- 
 2.39.2
 
