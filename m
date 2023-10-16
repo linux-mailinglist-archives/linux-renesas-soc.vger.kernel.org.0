@@ -2,60 +2,58 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8B5F47CA05E
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Oct 2023 09:17:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 74AB77CA06D
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Oct 2023 09:23:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232338AbjJPHRX convert rfc822-to-8bit (ORCPT
+        id S231722AbjJPHXk convert rfc822-to-8bit (ORCPT
         <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 16 Oct 2023 03:17:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53062 "EHLO
+        Mon, 16 Oct 2023 03:23:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54380 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232145AbjJPHRS (ORCPT
+        with ESMTP id S229590AbjJPHXk (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 16 Oct 2023 03:17:18 -0400
+        Mon, 16 Oct 2023 03:23:40 -0400
 Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com [209.85.128.174])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 267D1E3;
-        Mon, 16 Oct 2023 00:17:16 -0700 (PDT)
-Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-5a82f176860so29813837b3.1;
-        Mon, 16 Oct 2023 00:17:16 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 74664AD;
+        Mon, 16 Oct 2023 00:23:37 -0700 (PDT)
+Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-59b5484fbe6so51835457b3.1;
+        Mon, 16 Oct 2023 00:23:37 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697440635; x=1698045435;
+        d=1e100.net; s=20230601; t=1697441016; x=1698045816;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=U/hJao9N8LKEsymdGe3XcTumREOueGROCRui0e9bORI=;
-        b=fqbWOo1B9IT7oV9DJE2G6BTL6ftqN8R69ImBA9O98m//fcUiqDpoQirY1KADszBDU8
-         ZDKi+Pr6MCDlVKGPIxnR4+doStu7e/W/x9OvKDNT0v0ly6obCtgB0hVyseXQ6Ql2gf+h
-         WdvZ5FAuxhPwUjl4+OmlKRTsxOp8urgWKzUMArFgAd4ZgBgnpjmtF2zRd0CNpDS8RLUm
-         XxgCPelgtQ85l6+4TBTsW99u9PxMuCTGPDF62hLXjcA1RbjLYrNy5hTSNBXp0jfot8pA
-         xScrt/gPKUyaBlhVFlWyQlcV/qsZaYP6l7vj9wjSPk/suIMe4L+1U8DulUxigwk5wBD4
-         +2qw==
-X-Gm-Message-State: AOJu0Yy04e/J9wHWC1PkpBcF+QluBO/2BYFVnjl2OfmJhdtcwcKh+jt8
-        kunyFE3hMLUNvNqqb5GzdBR91WJWfQDjNg==
-X-Google-Smtp-Source: AGHT+IEiYzuvtOzE/nsuH2i8YjcGL7qm7T5nOCx+LrTmFqaalkOAZXa5XbyZAVm6oeClghv/A5qoTQ==
-X-Received: by 2002:a81:8104:0:b0:59b:bacb:a84f with SMTP id r4-20020a818104000000b0059bbacba84fmr36356225ywf.47.1697440635163;
-        Mon, 16 Oct 2023 00:17:15 -0700 (PDT)
-Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com. [209.85.128.180])
-        by smtp.gmail.com with ESMTPSA id s67-20020a815e46000000b005a7aef2c1c3sm2007845ywb.132.2023.10.16.00.17.14
+        bh=yxKu2BfOe9aY6IVd/hySwpz3FIXqdj+qJLdSdMka9oc=;
+        b=fGPUdPsT5XlTOiU4DqfSoDI5TzRSaG3g2N/Pp7JGaYD1qCoJyZLxPM4CFaDxyvmayk
+         YVY5XXRjfAdlm8ZoM7PjITcD0+QXuZEvUH72ZgEc9qF+IpMRhnUYPNHXtqrukiJZVlQ9
+         ifQM5uVea1QtnVHovuDXQ6b3ka2zxQXS0HM8nBlf7CdC2mEabg2vZZSIFL3ihLPmqfFB
+         frf7fQuRe5IDsXASzy0OMMJPVgOumIuYxD7kSMYClbZ463mHXz/KbXYzNKPGjNf90geL
+         XUxEypFRuHJec7y5uo9Zy09Kh8G2RdpWTrmIZZLzrmdFKIsxvMhgcqdkxUgdnYX0AZcm
+         b33g==
+X-Gm-Message-State: AOJu0YxG31DbEVPAUZY8m7EzRgG8fYHpyssuwswsz1rAPFFvnBNhYtJs
+        jXOAHv6j78Q06brLPbbyqx+ex9fUFX1Bpg==
+X-Google-Smtp-Source: AGHT+IHIgCsAuluPOGNLPhayt0PkDD6Q+/x764DsTl83Pzkc3sWG0kDukyIRWA6mUoNDqDii5/YsUg==
+X-Received: by 2002:a81:4e4a:0:b0:5a7:ca59:82b9 with SMTP id c71-20020a814e4a000000b005a7ca5982b9mr17799482ywb.16.1697441016462;
+        Mon, 16 Oct 2023 00:23:36 -0700 (PDT)
+Received: from mail-yb1-f174.google.com (mail-yb1-f174.google.com. [209.85.219.174])
+        by smtp.gmail.com with ESMTPSA id j190-20020a0df9c7000000b0057736c436f1sm1970714ywf.141.2023.10.16.00.23.35
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 16 Oct 2023 00:17:14 -0700 (PDT)
-Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-5a7e5dc8573so51670117b3.0;
-        Mon, 16 Oct 2023 00:17:14 -0700 (PDT)
-X-Received: by 2002:a81:47c6:0:b0:59b:1f6d:1958 with SMTP id
- u189-20020a8147c6000000b0059b1f6d1958mr31275633ywa.46.1697440633941; Mon, 16
- Oct 2023 00:17:13 -0700 (PDT)
+        Mon, 16 Oct 2023 00:23:36 -0700 (PDT)
+Received: by mail-yb1-f174.google.com with SMTP id 3f1490d57ef6-d9a4c0d89f7so4853285276.1;
+        Mon, 16 Oct 2023 00:23:35 -0700 (PDT)
+X-Received: by 2002:a25:d0d6:0:b0:d9a:54d2:3af3 with SMTP id
+ h205-20020a25d0d6000000b00d9a54d23af3mr18123368ybg.51.1697441015007; Mon, 16
+ Oct 2023 00:23:35 -0700 (PDT)
 MIME-Version: 1.0
-References: <20231009-approve-verbalize-ce9324858e76@wendy>
- <20231009-smog-gag-3ba67e68126b@wendy> <ZSzTqgVNSD9Q7V6H@APC323>
-In-Reply-To: <ZSzTqgVNSD9Q7V6H@APC323>
+References: <20231009-approve-verbalize-ce9324858e76@wendy> <20231015-qualifier-campus-97bf09059d51@spud>
+In-Reply-To: <20231015-qualifier-campus-97bf09059d51@spud>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 16 Oct 2023 09:17:01 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdUV3bJmqWysPak4085ZXCn7x7fZOnfnceGxWrdC7cB3pw@mail.gmail.com>
-Message-ID: <CAMuHMdUV3bJmqWysPak4085ZXCn7x7fZOnfnceGxWrdC7cB3pw@mail.gmail.com>
-Subject: Re: [PATCH v3 4/6] riscv: dts: renesas: convert isa detection to new properties
-To:     Yu-Chien Peter Lin <peterlin@andestech.com>
+Date:   Mon, 16 Oct 2023 09:23:23 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdUTiod7o9+DG70sNWr=GGFwBeCagj=OrRp0Dn_jPDbakw@mail.gmail.com>
+Message-ID: <CAMuHMdUTiod7o9+DG70sNWr=GGFwBeCagj=OrRp0Dn_jPDbakw@mail.gmail.com>
+Subject: Re: (subset) [PATCH v3 0/6] riscv,isa-extensions additions
+To:     Conor Dooley <conor@kernel.org>
 Cc:     Conor Dooley <conor.dooley@microchip.com>,
-        linux-riscv@lists.indradead.org, conor@kernel.org,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         Conor Dooley <conor+dt@kernel.org>,
@@ -86,42 +84,31 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Yu-Chien,
+Hi Conor,
 
-On Mon, Oct 16, 2023 at 8:10 AM Yu-Chien Peter Lin
-<peterlin@andestech.com> wrote:
-> On Mon, Oct 09, 2023 at 10:37:48AM +0100, Conor Dooley wrote:
-> > Convert the RZ/Five devicetrees to use the new properties
-> > "riscv,isa-base" & "riscv,isa-extensions".
-> > For compatibility with other projects, "riscv,isa" remains.
-> >
-> > Signed-off-by: Conor Dooley <conor.dooley@microchip.com>
-> > Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> > ---
-> >  arch/riscv/boot/dts/renesas/r9a07g043f.dtsi | 3 +++
-> >  1 file changed, 3 insertions(+)
-> >
-> > diff --git a/arch/riscv/boot/dts/renesas/r9a07g043f.dtsi b/arch/riscv/boot/dts/renesas/r9a07g043f.dtsi
-> > index b0796015e36b..eb301d8eb2b0 100644
-> > --- a/arch/riscv/boot/dts/renesas/r9a07g043f.dtsi
-> > +++ b/arch/riscv/boot/dts/renesas/r9a07g043f.dtsi
-> > @@ -24,6 +24,9 @@ cpu0: cpu@0 {
-> >                       reg = <0x0>;
-> >                       status = "okay";
-> >                       riscv,isa = "rv64imafdc";
-> > +                     riscv,isa-base = "rv64i";
-> > +                     riscv,isa-extensions = "i", "m", "a", "f", "d", "c", "zicntr", "zicsr",
-> > +                                            "zifencei", "zihpm";
+On Sun, Oct 15, 2023 at 2:22 PM Conor Dooley <conor@kernel.org> wrote:
+> From: Conor Dooley <conor.dooley@microchip.com>
 >
-> We do have zihpm, and OpenSBI can also probe its existence.
+> On Mon, 09 Oct 2023 10:37:44 +0100, Conor Dooley wrote:
+> > Now with the RFC tag dropped. There are no changes here from "RFC v2",
+> > other than the addition of tags that were provided along the way. I have
+> > not added "Zfh" to the T-Head based stuff, as I can't actually read the
+> > documentation that would show that they're encoding-for-encoding
+> > compatible with the standard extension, since it is apparently only in
+> > Chinese.
+> >
+> > [...]
 >
-> Boot HART ISA Extensions  : zihpm
-> Boot HART MHPM Info       : 4 (0x00000078)
+> The first 3 applied to riscv-dt-for-next, I expect the rest to go via
+> their respective platform maintainers.
 
-Thank you, I hadn't digested the full output from OpenSBI yet, and
-I can confirm this is present in that output.
+I sent my last soc PR for v6.7 last Friday, as per the soc deadline.
+Feel free to take "[PATCH v3 4/6] riscv: dts: renesas: convert isa
+detection to new properties" into your tree for v6, if that is still
+possible (I have just provided my Acked-by). Otherwise, I can queue
+it in renesas-devel for v6.8.
 
-Acked-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Thanks!
 
 Gr{oetje,eeting}s,
 
