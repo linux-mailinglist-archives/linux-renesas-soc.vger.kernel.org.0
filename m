@@ -2,47 +2,47 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 35D037CA306
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Oct 2023 11:00:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4B75F7CA328
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Oct 2023 11:01:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233088AbjJPJAN (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 16 Oct 2023 05:00:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36646 "EHLO
+        id S233363AbjJPJB5 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 16 Oct 2023 05:01:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41258 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233099AbjJPJAK (ORCPT
+        with ESMTP id S233361AbjJPJBg (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 16 Oct 2023 05:00:10 -0400
+        Mon, 16 Oct 2023 05:01:36 -0400
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B4B68B4
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 16 Oct 2023 02:00:06 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 60D4CC433A9
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 16 Oct 2023 09:00:06 +0000 (UTC)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EA290185
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 16 Oct 2023 02:01:25 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8A8C6C4339A
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 16 Oct 2023 09:01:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1697446806;
-        bh=G9pHPhZGnXWe0N/+8Kyow0xOPj1fYjHp+tDBGOq9iPU=;
+        s=k20201202; t=1697446885;
+        bh=s3qzNPNvQuJHp6YFDW+4nOZxw2vl+IiZvSHmAcyc4+w=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=N+sSSRO35ye9ZsIsgBd/gzez49v1Si2/JhvSgck35hEzB3VjEgWmBxLBg3GbQBTpg
-         dvQWUBi7i7ytZPn2UMGYknlitDd/urLcimWSrbUy4qJSFMUOQBvscm0mu4sgqt4TYk
-         8wkzz162/tVT32bmrgg3ak/oGGPExqKeRi6mNVDIFjEo/0AUFfq6YCsS5hcZsrHmUA
-         uiWcXdfhvdA5Zc/0qTPod9cYLL+9eqE1flJa0zuYxVUG8eSRbXybzCDCJfg87oyusk
-         Q/VbMVK5jA2e65S3AdnzrIKRZaqSKey+X6C6/NZUEPhyoZ4e8qSKDXXfUDDCJN+oO6
-         /rgHiTRtj1A0Q==
-Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-6b1d1099a84so2706619b3a.1
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 16 Oct 2023 02:00:06 -0700 (PDT)
-X-Gm-Message-State: AOJu0YxdwVZYxbSMGKOfDYiiF0XL8rCXothqyor4RVhl6Lg3NE87mWqq
-        VBzYt74OZdJsPhzWYFYzOe0bjpAFF8hfS868HnI2TA==
-X-Google-Smtp-Source: AGHT+IEhKWc1Fx1hpQiTGzrTdOHujArMMfZOid/hgR5LXKF4A2vex79AfUrTILS4RufAQ35zaKMvB6u+gd0Ho6/WyV4=
-X-Received: by 2002:a05:6300:8089:b0:17a:284:de50 with SMTP id
- ap9-20020a056300808900b0017a0284de50mr5510387pzc.6.1697446805971; Mon, 16 Oct
- 2023 02:00:05 -0700 (PDT)
+        b=inltUolFHGy+yQpHTntsbxKcqXuGceiEOSsuNwxUXcRZ4t004aDafBTEPwCbu0z++
+         29h+J+fvm3I8Lo0WJcoG7y3LfJbQ/+oE1PX3JkxxOwQrD5EpDdWVjCIZgpZ/WMQXFV
+         nX3XrEaE/vsWi+0szv8WfAS2Dpo+KFtQ/QmJQWm0u7YVo0Uswx25zw/yl62Ik5i7ja
+         OTzaU5+10+xMFLohEpP/Iy1g7hIB0q+0zkskWtKJ19iW+EQT9Jf7YnqQP3O64LEP1D
+         KKkp+juE2bLgXvhB4Ij8xx2GB3ER6bg9Q3CLSaoSbIfYqqBcOYCVMZI+myLUwOHkFV
+         P69REoPvpsbhQ==
+Received: by mail-pg1-f176.google.com with SMTP id 41be03b00d2f7-5b5354da665so306966a12.2
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 16 Oct 2023 02:01:25 -0700 (PDT)
+X-Gm-Message-State: AOJu0YxKw8D6k05Y3Ve4ZCsleTeIvKBZ+ldMgop/NGiJ7uPbVbJuzyrz
+        fJDttJ1VDSh/Lg0C1gVqRMX5BcV9NR2TFL2IlJ4lfw==
+X-Google-Smtp-Source: AGHT+IEJhVqcrvvveiwsWqc4tXkqCxOOlkKOTl9jClJtOoTdI475T96J7bZFNq7cGHRYW0Y0WcYeHfT8TND+QjioSFs=
+X-Received: by 2002:a17:90a:1954:b0:27d:10ab:2325 with SMTP id
+ 20-20020a17090a195400b0027d10ab2325mr9826177pjh.27.1697446885097; Mon, 16 Oct
+ 2023 02:01:25 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230830142358.275459-1-biju.das.jz@bp.renesas.com> <20230830142358.275459-8-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20230830142358.275459-8-biju.das.jz@bp.renesas.com>
+References: <20230830142358.275459-1-biju.das.jz@bp.renesas.com> <20230830142358.275459-7-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20230830142358.275459-7-biju.das.jz@bp.renesas.com>
 From:   Robert Foss <rfoss@kernel.org>
-Date:   Mon, 16 Oct 2023 10:59:55 +0200
-X-Gmail-Original-Message-ID: <CAN6tsi6J9=vA8D5M1OOzb97-2H7J30T6s8ruEo07udrLvfhtMQ@mail.gmail.com>
-Message-ID: <CAN6tsi6J9=vA8D5M1OOzb97-2H7J30T6s8ruEo07udrLvfhtMQ@mail.gmail.com>
-Subject: Re: [PATCH v2 7/8] drm: adv7511: Add link_config variable to struct adv7511_chip_info
+Date:   Mon, 16 Oct 2023 11:01:14 +0200
+X-Gmail-Original-Message-ID: <CAN6tsi6g+BLXi4LQ3vsTva-yKnNOqYAMVCOHR+xThFq3kRyANw@mail.gmail.com>
+Message-ID: <CAN6tsi6g+BLXi4LQ3vsTva-yKnNOqYAMVCOHR+xThFq3kRyANw@mail.gmail.com>
+Subject: Re: [PATCH v2 6/8] drm: adv7511: Add has_dsi variable to struct adv7511_chip_info
 To:     Biju Das <biju.das.jz@bp.renesas.com>
 Cc:     Andrzej Hajda <andrzej.hajda@intel.com>,
         Neil Armstrong <neil.armstrong@linaro.org>,
@@ -57,7 +57,7 @@ Cc:     Andrzej Hajda <andrzej.hajda@intel.com>,
         Javier Martinez Canillas <javierm@redhat.com>,
         linux-renesas-soc@vger.kernel.org,
         Andy Shevchenko <andy.shevchenko@gmail.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
         =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
         <u.kleine-koenig@pengutronix.de>, Adam Ford <aford173@gmail.com>,
         Bogdan Togorean <bogdan.togorean@analog.com>
@@ -73,69 +73,101 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, Aug 30, 2023 at 4:25=E2=80=AFPM Biju Das <biju.das.jz@bp.renesas.co=
+On Wed, Aug 30, 2023 at 4:24=E2=80=AFPM Biju Das <biju.das.jz@bp.renesas.co=
 m> wrote:
 >
-> The ADV7511 needs link configuration whereas ADV75{33,35} does not need
-> it. Add a variable link_config to struct adv7511_chip_info to handle
-> this difference.
+> The ADV7533 and ADV7535 have DSI support. Add a variable has_dsi to
+> struct adv7511_chip_info for handling configuration related to DSI.
 >
 > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 > ---
 > v1->v2:
->  * Add Rb tag from Laurent.
 >  * Replaced variable type from unsigned->bool.
+>  * Restored check using type for low_refresh_rate and
+>    regmap_register_patch().
 > ---
->  drivers/gpu/drm/bridge/adv7511/adv7511.h     | 1 +
->  drivers/gpu/drm/bridge/adv7511/adv7511_drv.c | 5 +++--
->  2 files changed, 4 insertions(+), 2 deletions(-)
+>  drivers/gpu/drm/bridge/adv7511/adv7511.h     |  1 +
+>  drivers/gpu/drm/bridge/adv7511/adv7511_drv.c | 10 ++++++----
+>  2 files changed, 7 insertions(+), 4 deletions(-)
 >
 > diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511.h b/drivers/gpu/drm/b=
 ridge/adv7511/adv7511.h
-> index 0dd56e311039..0d39e32b0793 100644
+> index a728bfb33d03..0dd56e311039 100644
 > --- a/drivers/gpu/drm/bridge/adv7511/adv7511.h
 > +++ b/drivers/gpu/drm/bridge/adv7511/adv7511.h
-> @@ -341,6 +341,7 @@ struct adv7511_chip_info {
+> @@ -340,6 +340,7 @@ struct adv7511_chip_info {
+>         const char * const *supply_names;
 >         unsigned int num_supplies;
 >         unsigned int reg_cec_offset;
->         bool has_dsi;
-> +       bool link_config;
+> +       bool has_dsi;
 >  };
 >
 >  struct adv7511 {
 > diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c b/drivers/gpu/d=
 rm/bridge/adv7511/adv7511_drv.c
-> index 9d88c29b6f59..e0ec3c098225 100644
+> index d806c870bf76..9d88c29b6f59 100644
 > --- a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
 > +++ b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-> @@ -1203,7 +1203,7 @@ static int adv7511_probe(struct i2c_client *i2c)
+> @@ -373,7 +373,7 @@ static void adv7511_power_on(struct adv7511 *adv7511)
+>          */
+>         regcache_sync(adv7511->regmap);
 >
->         memset(&link_config, 0, sizeof(link_config));
+> -       if (adv7511->info->type =3D=3D ADV7533 || adv7511->info->type =3D=
+=3D ADV7535)
+> +       if (adv7511->info->has_dsi)
+>                 adv7533_dsi_power_on(adv7511);
+>         adv7511->powered =3D true;
+>  }
+> @@ -397,7 +397,7 @@ static void __adv7511_power_off(struct adv7511 *adv75=
+11)
+>  static void adv7511_power_off(struct adv7511 *adv7511)
+>  {
+>         __adv7511_power_off(adv7511);
+> -       if (adv7511->info->type =3D=3D ADV7533 || adv7511->info->type =3D=
+=3D ADV7535)
+> +       if (adv7511->info->has_dsi)
+>                 adv7533_dsi_power_off(adv7511);
+>         adv7511->powered =3D false;
+>  }
+> @@ -921,7 +921,7 @@ static enum drm_mode_status adv7511_bridge_mode_valid=
+(struct drm_bridge *bridge,
+>  {
+>         struct adv7511 *adv =3D bridge_to_adv7511(bridge);
 >
-> -       if (adv7511->info->type =3D=3D ADV7511)
-> +       if (adv7511->info->link_config)
->                 ret =3D adv7511_parse_dt(dev->of_node, &link_config);
+> -       if (adv->info->type =3D=3D ADV7533 || adv->info->type =3D=3D ADV7=
+535)
+> +       if (adv->info->has_dsi)
+>                 return adv7533_mode_valid(adv, mode);
 >         else
->                 ret =3D adv7533_parse_dt(dev->of_node, adv7511);
-> @@ -1292,7 +1292,7 @@ static int adv7511_probe(struct i2c_client *i2c)
+>                 return adv7511_mode_valid(adv, mode);
+> @@ -1311,7 +1311,7 @@ static int adv7511_probe(struct i2c_client *i2c)
 >
->         i2c_set_clientdata(i2c, adv7511);
+>         adv7511_audio_init(dev, adv7511);
 >
-> -       if (adv7511->info->type =3D=3D ADV7511)
-> +       if (adv7511->info->link_config)
->                 adv7511_set_link_config(adv7511, &link_config);
->
->         ret =3D adv7511_cec_init(dev, adv7511);
-> @@ -1358,6 +1358,7 @@ static const struct adv7511_chip_info adv7511_chip_=
+> -       if (adv7511->info->type =3D=3D ADV7533 || adv7511->info->type =3D=
+=3D ADV7535) {
+> +       if (adv7511->info->has_dsi) {
+>                 ret =3D adv7533_attach_dsi(adv7511);
+>                 if (ret)
+>                         goto err_unregister_audio;
+> @@ -1367,6 +1367,7 @@ static const struct adv7511_chip_info adv7533_chip_=
 info =3D {
->         .type =3D ADV7511,
->         .supply_names =3D adv7511_supply_names,
->         .num_supplies =3D ARRAY_SIZE(adv7511_supply_names),
-> +       .link_config =3D true,
+>         .supply_names =3D adv7533_supply_names,
+>         .num_supplies =3D ARRAY_SIZE(adv7533_supply_names),
+>         .reg_cec_offset =3D ADV7533_REG_CEC_OFFSET,
+> +       .has_dsi =3D true,
 >  };
 >
->  static const struct adv7511_chip_info adv7533_chip_info =3D {
+>  static const struct adv7511_chip_info adv7535_chip_info =3D {
+> @@ -1376,6 +1377,7 @@ static const struct adv7511_chip_info adv7535_chip_=
+info =3D {
+>         .supply_names =3D adv7533_supply_names,
+>         .num_supplies =3D ARRAY_SIZE(adv7533_supply_names),
+>         .reg_cec_offset =3D ADV7533_REG_CEC_OFFSET,
+> +       .has_dsi =3D true,
+>  };
+>
+>  static const struct i2c_device_id adv7511_i2c_ids[] =3D {
 > --
 > 2.25.1
 >
