@@ -2,102 +2,155 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CF7697CA3B8
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Oct 2023 11:13:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7D7397CA41B
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Oct 2023 11:28:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232915AbjJPJNV (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 16 Oct 2023 05:13:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54490 "EHLO
+        id S230104AbjJPJ2N (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 16 Oct 2023 05:28:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47928 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233167AbjJPJNQ (ORCPT
+        with ESMTP id S229848AbjJPJ2M (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 16 Oct 2023 05:13:16 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4509FF9
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 16 Oct 2023 02:13:08 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 08C8FC433CB;
-        Mon, 16 Oct 2023 09:13:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1697447587;
-        bh=j761xarSLCNPEyfkRFS6qQSw7YrKA9macjPqSUOVD7I=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=n16rmH6n2lZkMK6AFtZKJxaYnArQ5Zw8uPeXgKhU/IKNFBGe03FI+7cws4IcAu1KN
-         BZUdeDeGMG5O1YiOCARf3vwbjMr2LBjuJqPD+lciNNErClmkfIefHzV/NU70we0zs6
-         QmK4jCLZk0zqD+PU5V43JKyRbxvASdRQSGZ8sSv/s4MCDKql8I6Frx/ibfW7dCwwD0
-         MwEHr3SAFx615qbWfv8NOxsP5K2lamZKCuFknyVcxkPDOiRWOPDiMXR4UOTcKIfQHU
-         nsnDRuuxzG2H70RCSNuYH09+eamIlhtRqDHleeGBLm+WqzPTZOdM+nEUQvw29pq4Et
-         YJVDKfn2fSXRA==
-From:   Robert Foss <rfoss@kernel.org>
-To:     Andrzej Hajda <andrzej.hajda@intel.com>,
+        Mon, 16 Oct 2023 05:28:12 -0400
+Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01on2136.outbound.protection.outlook.com [40.107.113.136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B627895
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 16 Oct 2023 02:28:09 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=HYif76GUlfFPdbKcWjGGv99yO/olOarCig61t7/M7lc2SlTUHXBPdm0CxRhR+1SChdJBwsLsJZIbUonA++OaRgPIr0SApH1+ZUebOBmbwT+penCYTEpcNY/q1z5OCcp0FXrlGIneqR2WmKF9y4GtrBDCNN5EPcm+DhiZjlFkjKimZ+ahpLuSX+SUEJjqaTydG2QNsHzO/dWMco677DJneVNks7j0c42wzBr25O+gUXZxHNpstlxmMEctfZIOs0dlz0C++ofAxm66CED1WQbsTtZmSudSJlFoUffZkcr62HnFShz33/yhNnMuXB5kJtI95Fq5IHUTAVSRQTS0osJ7CA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=mnLNj9u9+XtB43c3AqJSUZwmPGom1TogTW5gtfZ+GUs=;
+ b=ALBCHDO345rW5YW8h01G6jb5TQeLns0OUesAUi6MTxuY+ZiOL8rUDE3u6WNFQeG7T0daXMDaPSXkTfn8PNZil2Hn2qkQM3tdMLMSivn9+2TMNOsTJ6fuose8KpBTpABADKxkq4eiEoH5rapCqKUK71ZjVvilUx78sK2lFoAzzMsq5Qp5IceiTBgEmO7R3zeWddMc1gpMyFeolwKVEFbNeK56DChc8v+hPBC/cWFmmB2EidqJ6472nZm8ow0WpVqMdcZXe4XLc4XLitOxkqLKFU3P807yZUtrnUhbRsQ5YtgFvFKrRqKJ52F2AoZiJrkE7rB0svKksLnSSmM6ijtjOQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=mnLNj9u9+XtB43c3AqJSUZwmPGom1TogTW5gtfZ+GUs=;
+ b=q2ZgWc0T0qV2PZpVRa6Qs6SExk/r+LcnJKXNnlMbifyWyiDrM+9WZJz+0wBNKuYKkPbBldTIJ8LDVT6yRKFtuPY1dma19j8t7PE+g1npggPbv4MVNyv6b5F9POodkIwtYZBfmN+xSep7if5Ghizoc67cVkKQqBM5XTVISv/YKj0=
+Received: from TYCPR01MB11269.jpnprd01.prod.outlook.com
+ (2603:1096:400:3c0::10) by OSYPR01MB5526.jpnprd01.prod.outlook.com
+ (2603:1096:604:90::9) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6886.35; Mon, 16 Oct
+ 2023 09:28:06 +0000
+Received: from TYCPR01MB11269.jpnprd01.prod.outlook.com
+ ([fe80::c90e:cd43:c967:5218]) by TYCPR01MB11269.jpnprd01.prod.outlook.com
+ ([fe80::c90e:cd43:c967:5218%5]) with mapi id 15.20.6886.034; Mon, 16 Oct 2023
+ 09:28:06 +0000
+From:   Biju Das <biju.das.jz@bp.renesas.com>
+To:     Robert Foss <rfoss@kernel.org>,
+        Andrzej Hajda <andrzej.hajda@intel.com>,
         Neil Armstrong <neil.armstrong@linaro.org>,
         Daniel Vetter <daniel@ffwll.ch>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
         David Airlie <airlied@gmail.com>
-Cc:     Robert Foss <rfoss@kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
+CC:     Geert Uytterhoeven <geert+renesas@glider.be>,
         Adam Ford <aford173@gmail.com>,
         Bogdan Togorean <bogdan.togorean@analog.com>,
-        dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
         Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
         Jonas Karlman <jonas@kwiboo.se>,
         Andy Shevchenko <andy.shevchenko@gmail.com>,
-        =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
+        =?iso-8859-1?Q?Uwe_Kleine-K=F6nig?= 
         <u.kleine-koenig@pengutronix.de>, Rob Herring <robh@kernel.org>,
         Abhinav Kumar <quic_abhinavk@quicinc.com>,
         Jernej Skrabec <jernej.skrabec@gmail.com>,
         Javier Martinez Canillas <javierm@redhat.com>,
         Ahmad Fatoum <a.fatoum@pengutronix.de>
-Subject: Re: [PATCH v2 0/8] ADV7511 driver enhancements
-Date:   Mon, 16 Oct 2023 11:12:57 +0200
-Message-ID: <169744753889.562442.4612949090009224880.b4-ty@kernel.org>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20230830142358.275459-1-biju.das.jz@bp.renesas.com>
+Subject: RE: [PATCH v2 0/8] ADV7511 driver enhancements
+Thread-Topic: [PATCH v2 0/8] ADV7511 driver enhancements
+Thread-Index: AQHZ202jCBNL1aKlyEaWSc1tCd8m3rBMa0yAgAAEEpA=
+Date:   Mon, 16 Oct 2023 09:28:06 +0000
+Message-ID: <TYCPR01MB11269D92FDBF0CCC338E90BE186D7A@TYCPR01MB11269.jpnprd01.prod.outlook.com>
 References: <20230830142358.275459-1-biju.das.jz@bp.renesas.com>
+ <169744753889.562442.4612949090009224880.b4-ty@kernel.org>
+In-Reply-To: <169744753889.562442.4612949090009224880.b4-ty@kernel.org>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=bp.renesas.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: TYCPR01MB11269:EE_|OSYPR01MB5526:EE_
+x-ms-office365-filtering-correlation-id: 14c8c16e-f0a6-4015-3f80-08dbce2a3435
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: ldpMb4ADiTOMa9lbqba/zsY6ubfPAdkBymKvqzVHt6xwi0wsbyb9SoOYCSd2T/HGSwZ1jSqNqfFOI8wOB+sKbFryOn1PR4Px82Zqr+BILyq4zdrCtsBn+5atunHGQw8+81bHDF1IKjzX8co/gphguhmHeNSCSQlYU5a90rNvl2nDLLsv02mPt5TmBmiGbkOFLfHWYTRHTI+1t+txSOcxdjCVctYn7NqFodzC4pXfXmyVx4wua07Yqmv5+PfU3jOvcCaxvFYuScFKr1Bw4eEDpU6KkUPQnbYl46z0OjTVIgIZa0kTJmRTLRVRUYPnzHIrxnJLXJZg3tLZ7dwk9xptCZgC4wRYxYYDq//0+QHr0CaBE5kK3WeUFzZxABgXMvEB0Io8bHhb5TS+XKb9DfqdRHD01BKS+yiAydVdXG+37IPE8x8ADd0Xr/RAOzeDPhcc/NrdyOlwhK8Nk4yq6wxIJm2ynDW+jklJWo06UDfQ6ipn2TOCs0VYwFEnFt/NhmIyCENPGnba7SgVGnV5CWhqs1F4KECwYlmU7NVHjIz636nTuNXwesJwheEaT3yvtVbPEwGUpddHQIllp4t8lZrWpb5HiFpNcqg2jwReZXFFP1v9NWq807hEIpLPv0hSV3Ba
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB11269.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(136003)(376002)(366004)(346002)(39860400002)(396003)(230922051799003)(451199024)(186009)(64100799003)(1800799009)(55016003)(478600001)(110136005)(76116006)(66556008)(66476007)(66446008)(64756008)(54906003)(66946007)(71200400001)(86362001)(38100700002)(316002)(9686003)(26005)(7696005)(6506007)(41300700001)(33656002)(5660300002)(38070700005)(122000001)(8936002)(8676002)(52536014)(4326008)(7416002)(2906002)(4744005);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?aEei05h8fVqV00SsiFdNqHzSAwDXNhYnO5v6IE1sntNjQyNQUPGSE1xvjY?=
+ =?iso-8859-1?Q?YPdTNXxfqQwVYVQzkvB8ohPmashQYd2fc82DhEcn2txbj0f/MvpO+4LQ0g?=
+ =?iso-8859-1?Q?XFhuCnDSeA6E772g1OhVZ5IOu7S/epDHFUSP3AyGLjBqmhxFkM4cqft5m6?=
+ =?iso-8859-1?Q?LO61xFfSR/8mn6PXEOGyKyiY+g2YcOs44h2HEm7FCHEE0nwJg3jV0q2t9i?=
+ =?iso-8859-1?Q?3Mfl835ky8CF3m0rV1nrXwoWwQ3yTw6uPWXMWbr2vGRYPWQ0/BzTU/5dJM?=
+ =?iso-8859-1?Q?8IPidsPQtNyJaBo7S71XL/KaiewzBScRn4BDp1EErCHXemtCFOOfNlMAx7?=
+ =?iso-8859-1?Q?7eLSSeCiFX6hd6Ljopd59gKswAkLq+3gAIi/63ja/HlqMXWwqIyDgvTopt?=
+ =?iso-8859-1?Q?RzOyNiQN1tdYeWOKYUsLK0Dw8WYa2D8ppzMq4VHmGRwbZarAzyOLX0ZCT7?=
+ =?iso-8859-1?Q?g4OxDYC4X2cTU2KNu6aOd4aWD3S0lKlyQDjqHLz5X5UCqkAitDHV+0uRlB?=
+ =?iso-8859-1?Q?drog2BqBLTEQdUV37vAxtsYTTt+OiZgzJCdm6tdfk6m8xj/W6x5bhVRhj6?=
+ =?iso-8859-1?Q?JmvhNpHexgqgUt5wkJJnjFJVTca5aa3mnnpkezuse+oNUnKHhziHyOf+BO?=
+ =?iso-8859-1?Q?7mAJqqleCNihicqGhgHlUG+EbH8uhEvKmNXZpU8M8NG3oYXC59AM72eN5Y?=
+ =?iso-8859-1?Q?satwU4hOm1TqGsaElMkYUZ3X+AsL4o4Nugsfq80EEZPQlZYr94Qds5Bb1Z?=
+ =?iso-8859-1?Q?cyvWwYXPD6cKzdeYLBP2IEjE/zBs9t35ybihmNULYyQPrqBqtabLo/n3R3?=
+ =?iso-8859-1?Q?oydFvGdEiw4BSrSToX+SjGiNVncfEpEW2Ca3tdWH0l27uZU9160Xq52YBY?=
+ =?iso-8859-1?Q?zVpcpXgOLSIQPo0izPI7SUuvNL2xEeyitS9fPS+sI/1fE+2j8fRC+Kb68u?=
+ =?iso-8859-1?Q?2AhUqhZZkN5exIP3RAONnGQRCP7PM15EXa2/iQsGm6OgGhmjg0kPBKHkYp?=
+ =?iso-8859-1?Q?Y2OQJJCJrUHs6NuzkQx+MR+JyAX4EuNzqKenyJJ8iXriuNUXcPlGTCP0WC?=
+ =?iso-8859-1?Q?cEIx/ObnNXyVSv2ceZ4PLzraWARBSZ6LkGgdwviwufZJHhomLW4ix71l/i?=
+ =?iso-8859-1?Q?YOQT1WI9eukuRYnVfitBfZCAQdng3LOhSOelW+8sPV9miMOZfkwVvqRGvH?=
+ =?iso-8859-1?Q?UqNTAiIcaxu7tdTgmBoG3zbgBWjKxRJ0Tjzie6ndEFTs0O98o+kbKMNHZm?=
+ =?iso-8859-1?Q?0RRB7Ipd+CNvRF5jYUrTjBsc5Cu7yvb/uhuPb4WV98BZ+VNw4F11wt5AiX?=
+ =?iso-8859-1?Q?cBO1HwsEICQOBGu6IGSa5RmutBWAK9LkfGS+Qnb/lsJV0OOdtVtxuszsjR?=
+ =?iso-8859-1?Q?zrjw+rFjAdqZXMrR7TFjAfPx57gqXTat/I8pMYD8JgHrtd4MCyAqbpcDsn?=
+ =?iso-8859-1?Q?lLdSlC1O2dWPTrB2FXnB8ZmG5BCkNZ/pVh44lOkOzsg3/f3dwQ6LsSMa8q?=
+ =?iso-8859-1?Q?X2/ISmoNKQWX7f7/WP++28pCnwcMU8O548DB62q5eyfnt9RtbpDkaPw3Tk?=
+ =?iso-8859-1?Q?u/gL5mVwGveuYxsr898ygXvJyAxtxKCtzAmKiqsar3WC/5g2CShp8LiCmx?=
+ =?iso-8859-1?Q?SnQLMCraGg2PgtezpWEKOHAA5byx5vt9xWOVIQkLhGdDu/08oWIYgIsg?=
+ =?iso-8859-1?Q?=3D=3D?=
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB11269.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 14c8c16e-f0a6-4015-3f80-08dbce2a3435
+X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Oct 2023 09:28:06.2438
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: zW9A2X/rbMX/7wIsJb5PdRSGoRGfsCR9aZpNlpPGNF0eVw0XG8aJYyvpoADsyZaZqnC+PTmBpTPBdlrTjBuKTANolDfBQy2f1tGr35j7kxs=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSYPR01MB5526
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, 30 Aug 2023 15:23:50 +0100, Biju Das wrote:
-> This patch series aims to improve ADV7511 driver by adding
-> feature bits and data instead of comparing enum adv7511_type for
-> various hardware differences between ADV7511, ADV7533 and ADV7535.
-> 
-> This patch series tested with[1] on RZ/G2L SMARC EVK which embeds
-> ADV7535.
-> 
-> [...]
+> Subject: Re: [PATCH v2 0/8] ADV7511 driver enhancements
+>=20
+> On Wed, 30 Aug 2023 15:23:50 +0100, Biju Das wrote:
+> > This patch series aims to improve ADV7511 driver by adding feature
+> > bits and data instead of comparing enum adv7511_type for various
+> > hardware differences between ADV7511, ADV7533 and ADV7535.
+> >
+> > This patch series tested with[1] on RZ/G2L SMARC EVK which embeds
+> > ADV7535.
+> >
+> > [...]
+>=20
+> I aplogize for the delay in merging this very neat series.
+>=20
+> Applied, thanks!
 
-I aplogize for the delay in merging this very neat series.
+Thank you
 
-Applied, thanks!
-
-[1/8] drm: adv7511: Add struct adv7511_chip_info and use i2c_get_match_data()
-      https://cgit.freedesktop.org/drm/drm-misc/commit/?id=19e77c7aef57
-[2/8] drm: adv7511: Add max_mode_clock_khz variable to struct adv7511_chip_info
-      https://cgit.freedesktop.org/drm/drm-misc/commit/?id=11ae4e406dd9
-[3/8] drm: adv7511: Add max_lane_freq_khz variable to struct adv7511_chip_info
-      https://cgit.freedesktop.org/drm/drm-misc/commit/?id=399562fc02d8
-[4/8] drm: adv7511: Add supply_names and num_supplies variables to struct adv7511_chip_info
-      https://cgit.freedesktop.org/drm/drm-misc/commit/?id=9ac196fb9a17
-[5/8] drm: adv7511: Add reg_cec_offset variable to struct adv7511_chip_info
-      https://cgit.freedesktop.org/drm/drm-misc/commit/?id=8d6cf5719011
-[6/8] drm: adv7511: Add has_dsi variable to struct adv7511_chip_info
-      https://cgit.freedesktop.org/drm/drm-misc/commit/?id=c75551214858
-[7/8] drm: adv7511: Add link_config variable to struct adv7511_chip_info
-      https://cgit.freedesktop.org/drm/drm-misc/commit/?id=7618aa3ab38e
-[8/8] drm: adv7511: Add hpd_override_enable variable to struct adv7511_chip_info
-      https://cgit.freedesktop.org/drm/drm-misc/commit/?id=e12c4703cec0
-
-
-
-Rob
-
+Biju Das
