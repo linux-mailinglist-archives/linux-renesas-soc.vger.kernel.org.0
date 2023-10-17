@@ -2,101 +2,129 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A04DF7CCB6E
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Oct 2023 20:58:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 194537CCCA2
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Oct 2023 21:53:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232770AbjJQS6r (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 17 Oct 2023 14:58:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54772 "EHLO
+        id S233635AbjJQTxF (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 17 Oct 2023 15:53:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35096 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232763AbjJQS6q (ORCPT
+        with ESMTP id S232208AbjJQTxE (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 17 Oct 2023 14:58:46 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CBEF8B0;
-        Tue, 17 Oct 2023 11:58:44 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F1A62C433C7;
-        Tue, 17 Oct 2023 18:58:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1697569124;
-        bh=I7ohmi65uQeeHi+q8OxHvV9tPLbOqsZA6Zcod8ZtanE=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:From;
-        b=LtMvWFB68gL2J6yHp6z7HATP3h23h0FLyMf3P0VlpvogQZxdaW4JkDSb4C91hzCdg
-         WLNuQniwTIf3UWPvN3oC6XvJWsvwTAlCB2A+Dn1JJSQ22eJp4EWxroMRh9wAtH3wPr
-         DQZqn7YqI9wvL4TLGeOcJTSGFVu8VjMyT81gN/URW2VN9g7QU6yQPnPVfDM61ObG3t
-         uIhALT0TR552jJZx47xrfXIa5XuKt8gBYA1CuPRUYlJZbsbKG2VG/EEQOYKCeYjX3r
-         AnnL3sjKJzq8UZ4XwQgUhz5VlCJlJIVS2xcT6sYsXRhqV94a920DoYMSCLC3J9n1Vp
-         V1mCQM/GUZjBA==
-Date:   Tue, 17 Oct 2023 13:58:41 -0500
-From:   Bjorn Helgaas <helgaas@kernel.org>
-To:     Marek Szyprowski <m.szyprowski@samsung.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Cc:     lpieralisi@kernel.org, kw@linux.com, robh@kernel.org,
-        bhelgaas@google.com, krzysztof.kozlowski+dt@linaro.org,
-        conor+dt@kernel.org, jingoohan1@gmail.com,
-        gustavo.pimentel@synopsys.com, mani@kernel.org,
-        Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
-        marek.vasut+renesas@gmail.com, linux-pci@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v24 08/16] PCI: dwc: Disable two BARs to avoid
- unnecessary memory assignment
-Message-ID: <20231017185841.GA1323534@bhelgaas>
+        Tue, 17 Oct 2023 15:53:04 -0400
+X-Greylist: delayed 2013 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 17 Oct 2023 12:53:03 PDT
+Received: from mx11lb.world4you.com (mx11lb.world4you.com [81.19.149.121])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 40B8A9E;
+        Tue, 17 Oct 2023 12:53:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=engleder-embedded.com; s=dkim11; h=Content-Transfer-Encoding:Content-Type:
+        In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
+        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=hRbfGybtcC4Q4xK9Jhz49EEEj1HrZpSkJKq488b1wYI=; b=f3O6uWhfVuFcx5VC4Lri+Z8xMP
+        aEAuW35JcCDw5jyvHUXN3ojVvwLDrrKBdcXWV35W/scFFPYxd/XGYrSFvo7AMm1p+AcgQuC5HxjHh
+        4tLECcrM98rS0sfpSF238CJu0LyNkPyA/fEFFJQoq3wZ3pRV5a9B7XA1KST8l+3I6Qyg=;
+Received: from [88.117.60.21] (helo=[10.0.0.160])
+        by mx11lb.world4you.com with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.96)
+        (envelope-from <gerhard@engleder-embedded.com>)
+        id 1qspai-0000aP-2c;
+        Tue, 17 Oct 2023 21:18:56 +0200
+Message-ID: <00181d0f-e7b3-4fb1-a3f7-12935ab03f8b@engleder-embedded.com>
+Date:   Tue, 17 Oct 2023 21:18:51 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <a85158a0-858c-43c3-b64a-c09de72a50f9@samsung.com>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next 1/8] dt-bindings: net: Add missing
+ (unevaluated|additional)Properties on child node schemas
+To:     Rob Herring <robh@kernel.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Samuel Holland <samuel@sholland.org>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Vladimir Oltean <olteanv@gmail.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Woojung Huh <woojung.huh@microchip.com>,
+        UNGLinuxDriver@microchip.com,
+        Linus Walleij <linus.walleij@linaro.org>,
+        =?UTF-8?Q?Alvin_=C5=A0ipraga?= <alsi@bang-olufsen.dk>,
+        =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <clement.leger@bootlin.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        =?UTF-8?B?bsOnIMOcTkFM?= <arinc.unal@arinc9.com>,
+        Landen Chao <Landen.Chao@mediatek.com>,
+        DENG Qingfang <dqfext@gmail.com>,
+        Sean Wang <sean.wang@mediatek.com>,
+        Daniel Golle <daniel@makrotopia.org>,
+        John Crispin <john@phrozen.org>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        Sergey Shtylyov <s.shtylyov@omp.ru>,
+        Sergei Shtylyov <sergei.shtylyov@gmail.com>,
+        Justin Chen <justin.chen@broadcom.com>,
+        Florian Fainelli <florian.fainelli@broadcom.com>,
+        Grygorii Strashko <grygorii.strashko@ti.com>,
+        Sekhar Nori <nsekhar@ti.com>,
+        Claudiu Manoil <claudiu.manoil@nxp.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>
+Cc:     Vladimir Oltean <vladimir.oltean@nxp.com>, netdev@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
+        linux-mediatek@lists.infradead.org,
+        linux-renesas-soc@vger.kernel.org,
+        bcm-kernel-feedback-list@broadcom.com
+References: <20231016-dt-net-cleanups-v1-0-a525a090b444@kernel.org>
+ <20231016-dt-net-cleanups-v1-1-a525a090b444@kernel.org>
+Content-Language: en-US
+From:   Gerhard Engleder <gerhard@engleder-embedded.com>
+In-Reply-To: <20231016-dt-net-cleanups-v1-1-a525a090b444@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-AV-Do-Run: Yes
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, Oct 17, 2023 at 11:19:21AM +0200, Marek Szyprowski wrote:
-> Dear All,
+On 16.10.23 23:44, Rob Herring wrote:
+> Just as unevaluatedProperties or additionalProperties are required at
+> the top level of schemas, they should (and will) also be required for
+> child node schemas. That ensures only documented properties are
+> present for any node.
 > 
-> On 11.10.2023 09:14, Yoshihiro Shimoda wrote:
-> > According to the section 3.5.7.2 "RC Mode" in DWC PCIe Dual Mode
-> > Rev.5.20a, we should disable two BARs to avoid unnecessary memory
-> > assignment during device enumeration. Otherwise, Renesas R-Car Gen4
-> > PCIe controllers cannot work correctly in host mode.
-> >
-> > Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+> Add unevaluatedProperties or additionalProperties as appropriate.
 > 
-> This patch landed in today's linux-next 20231017 as commit e308528cac3e 
-> ("PCI: dwc: Disable two BARs to avoid unnecessary memory assignment"). 
-> Unfortunately it causes the following kernel panic on Samsung 
-> Exynos5433-based TM2e board:
+> Signed-off-by: Rob Herring <robh@kernel.org>
+> ---
+>   .../devicetree/bindings/net/allwinner,sun8i-a83t-emac.yaml     |  2 ++
+>   Documentation/devicetree/bindings/net/dsa/brcm,sf2.yaml        |  1 +
+>   Documentation/devicetree/bindings/net/dsa/mediatek,mt7530.yaml |  2 ++
+>   .../devicetree/bindings/net/dsa/microchip,lan937x.yaml         |  1 +
+>   Documentation/devicetree/bindings/net/dsa/nxp,sja1105.yaml     |  2 ++
+>   Documentation/devicetree/bindings/net/dsa/qca8k.yaml           |  1 +
+>   Documentation/devicetree/bindings/net/dsa/realtek.yaml         |  2 ++
+>   .../devicetree/bindings/net/dsa/renesas,rzn1-a5psw.yaml        | 10 ++--------
+>   Documentation/devicetree/bindings/net/engleder,tsnep.yaml      |  1 +
 
-I dropped the pci/controller/rcar branch for today until we resolve
-this.
+Looks good for tsnep.
 
-If you want to reorder the series like this:
+Reviewed-by: Gerhard Engleder <gerhard@engleder-embedded.com>
 
-  PCI: Add T_PVPERL macro
-  PCI: dwc: Add dw_pcie_link_set_max_link_width()
-  PCI: dwc: Add missing PCI_EXP_LNKCAP_MLW handling
-  PCI: tegra194: Drop PCI_EXP_LNKSTA_NLW setting
+Thank you!
 
-  PCI: dwc: endpoint: Add multiple PFs support for dbi2
-  PCI: dwc: Add EDMA_UNROLL capability flag
-  PCI: dwc: Expose dw_pcie_ep_exit() to module
-  PCI: dwc: endpoint: Introduce .pre_init() and .deinit()
-  PCI: dwc: Disable two BARs to avoid unnecessary memory assignment
-  dt-bindings: PCI: dwc: Update maxItems of reg and reg-names
-  dt-bindings: PCI: renesas: Add R-Car Gen4 PCIe Host
-  dt-bindings: PCI: renesas: Add R-Car Gen4 PCIe Endpoint
-  PCI: rcar-gen4: Add R-Car Gen4 PCIe controller support for host mode
-  PCI: rcar-gen4: Add endpoint mode support
-  MAINTAINERS: Update PCI DRIVER FOR RENESAS R-CAR for R-Car Gen4
-  misc: pci_endpoint_test: Add Device ID for R-Car S4-8 PCIe controller
-
-I think the first four patches could be applied because they're useful
-regardless of R-Car support.
-
-The rest are only needed for R-Car, and it seems like we should apply
-them all together as soon as this regression is solved.
-
-Bjorn
+>   Documentation/devicetree/bindings/net/nxp,tja11xx.yaml         |  1 +
+>   10 files changed, 15 insertions(+), 8 deletions(-)
