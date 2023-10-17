@@ -2,39 +2,39 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6275D7CBB91
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Oct 2023 08:47:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 31D397CBBBE
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Oct 2023 08:50:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233915AbjJQGra (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 17 Oct 2023 02:47:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52252 "EHLO
+        id S234575AbjJQGuC (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 17 Oct 2023 02:50:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46428 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229666AbjJQGr3 (ORCPT
+        with ESMTP id S234562AbjJQGuB (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 17 Oct 2023 02:47:29 -0400
+        Tue, 17 Oct 2023 02:50:01 -0400
 Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 13BA6B0;
-        Mon, 16 Oct 2023 23:47:26 -0700 (PDT)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id A1F391BF204;
-        Tue, 17 Oct 2023 06:47:08 +0000 (UTC)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 922CEE8;
+        Mon, 16 Oct 2023 23:49:58 -0700 (PDT)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id DD45E1BF20B;
+        Tue, 17 Oct 2023 06:49:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arinc9.com; s=gm1;
-        t=1697525245;
+        t=1697525397;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=TBlwDvwhYGIsgSmVdpjhBCYAnjDFfdrZLN1FVn3zBd4=;
-        b=hDTZmwUOqR3/92Etf0bXfl43fFK80p7gU57teibZRMG3XQJzL2Z+8K+/Ukgq7h5FRA8rDh
-        zDJqbqGnwt5hy7hTdohCcLDh2ImDZKlR54he2ROqcwIz+88qV+IOJWg5deGItGS69hdgh8
-        LWE2aesfLwnLGpkk2cqpgzNnSzLorkjliDbVzgX12m2hW8Pd09/eRBIrCmhduTC+29PC7N
-        5fYA+wNhBGRCI1iqrh9C1Mg0F5TOUavuei+t7fiLMX2tgW+NbzUEScCPIFZYy7kb634Emg
-        ob8yPrlai9y7Kp4lsyDx+/lVQBnyItXeqH2sVBwcQd833rs6JxCgcNiM9/3pSQ==
-Message-ID: <18ff5bcc-35d8-4759-86d4-66fd9c702622@arinc9.com>
-Date:   Tue, 17 Oct 2023 09:46:55 +0300
+        bh=yw165YShD+jYsQ+zSro7G//NnpP1K1ncZ/t1U1FhzLI=;
+        b=K3HR3OuGuZQEF1YGIv9YEsfVAK99h+pZPuj6kp3k2EvhxVXdr4s6+d3zjPPZlVMg5cjYf3
+        kuQ9XCxp+7y9qBFuK4rXvFDG7/7/7bdRKFnEz001yMzhwsHBMO81/Q+ePRdG2DlGPHKO5P
+        37WavWXhDZeVhmMIjiV1V5X90X/lFreP7zPOEhENI+w8vajSraa7Ki9g9xbpmYiQyCWZ8M
+        baxiyzwvBF6HHNmdsQ+5hwGwP1CBvDH2P40zmgKTSIti8NRC6k0l5wNwHKXgXYKqIa05XA
+        s86aXC3Gp7jYgppjXLBXVgGN4DGUhEjWjLDDZEOKn0dQr1HBeD7ciSbi7L6Vjw==
+Message-ID: <b6da29fb-243b-4b85-9ed9-4e266422264c@arinc9.com>
+Date:   Tue, 17 Oct 2023 09:49:29 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next 7/8] dt-bindings: net: mscc,vsc7514-switch:
- Simplify DSA and switch references
+Subject: Re: [PATCH net-next 8/8] dt-bindings: net: dsa: Drop 'ethernet-ports'
+ node properties
 Content-Language: en-US
 To:     Rob Herring <robh@kernel.org>,
         "David S. Miller" <davem@davemloft.net>,
@@ -82,9 +82,9 @@ Cc:     Vladimir Oltean <vladimir.oltean@nxp.com>, netdev@vger.kernel.org,
         linux-renesas-soc@vger.kernel.org,
         bcm-kernel-feedback-list@broadcom.com
 References: <20231016-dt-net-cleanups-v1-0-a525a090b444@kernel.org>
- <20231016-dt-net-cleanups-v1-7-a525a090b444@kernel.org>
+ <20231016-dt-net-cleanups-v1-8-a525a090b444@kernel.org>
 From:   =?UTF-8?B?QXLEsW7DpyDDnE5BTA==?= <arinc.unal@arinc9.com>
-In-Reply-To: <20231016-dt-net-cleanups-v1-7-a525a090b444@kernel.org>
+In-Reply-To: <20231016-dt-net-cleanups-v1-8-a525a090b444@kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-GND-Sasl: arinc.unal@arinc9.com
@@ -99,17 +99,11 @@ List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 On 17.10.2023 00:44, Rob Herring wrote:
-> The mscc,vsc7514-switch schema doesn't add any custom port properties,
-> so it can just reference ethernet-switch.yaml#/$defs/base and
-
-This is ethernet-switch.yaml#/$defs/ethernet-ports now.
-
-> dsa.yaml#/$defs/ethernet-ports instead of the base file and can skip
-> defining port nodes.
+> Constraints on 'ethernet-ports' node properties are already defined by the
+> reference to ethernet-switch.yaml, so they can be dropped from the DSA
+> schema.
 > 
 > Signed-off-by: Rob Herring <robh@kernel.org>
-
-Other than above:
 
 Acked-by: Arınç ÜNAL <arinc.unal@arinc9.com>
 
