@@ -2,56 +2,113 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 295A37CC562
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Oct 2023 15:59:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 91AC17CC731
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Oct 2023 17:14:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343892AbjJQN7u (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 17 Oct 2023 09:59:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54616 "EHLO
+        id S1343672AbjJQPOs (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 17 Oct 2023 11:14:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50226 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1343926AbjJQN7t (ORCPT
+        with ESMTP id S235092AbjJQPOj (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 17 Oct 2023 09:59:49 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6E9B1F2
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 17 Oct 2023 06:59:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender
-        :Reply-To:Content-Type:Content-ID:Content-Description;
-        bh=G1q5kjKCly+YP8ujUn6bFejuAy7IU52U7erNsqEL50A=; b=RdXPTp8QlvzsIHMvBsEegnjbje
-        SjwI8eK9b18H+2U2vgz8+EMYa9d/O/KKSBDN5c+NfeX71E9A/H7SPgmFRns/8WLpQDVmVKQRjsJlP
-        D3eF+DPL/q+5Dt9qlCA/vd1J22jfBCFbfUEYP5ezCyc4BBH0cthrO1chD/SMV/zQ2IeLZDkx3CMAR
-        SyL8v97rYjP41t4ceXA8BgvbhIv0l7GIsGJgC46qbnvAfui8P08CJqyImMQCo0t3D15wa6VxqQD2u
-        0VAUrEg1dh28CFZNsJLWJPoBY/tBoGvSQ/6NlU95phw8pRCRJo4uToFKjQluVr+jNgx41Ly8Az4a6
-        cA6CLDqg==;
-Received: from 213-147-166-120.nat.highway.webapn.at ([213.147.166.120] helo=localhost)
-        by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-        id 1qskbo-00CTXx-0o;
-        Tue, 17 Oct 2023 13:59:44 +0000
-From:   Christoph Hellwig <hch@lst.de>
-To:     Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Conor Dooley <conor@kernel.org>,
+        Tue, 17 Oct 2023 11:14:39 -0400
+Received: from mail-lj1-x230.google.com (mail-lj1-x230.google.com [IPv6:2a00:1450:4864:20::230])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A2B97E8;
+        Tue, 17 Oct 2023 08:14:26 -0700 (PDT)
+Received: by mail-lj1-x230.google.com with SMTP id 38308e7fff4ca-2c50ec238aeso49716511fa.0;
+        Tue, 17 Oct 2023 08:14:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1697555665; x=1698160465; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=LAQIUSSFEkh8UCmi8THqE2sWEJcCZDabuYYz4V23TW8=;
+        b=gh49EVzjJAMOiA15cn3qHH81WJn2Q9tYEiZPVMrP8RpyAAzuZ0VIt3OZhmuO8YrADr
+         TGcHEbmzI8QlA4BQyDgHtfN94tQSKCYr2tn87XflaQQ433UayXgNAiuFq26fshxgtMJt
+         ZAQ5xpyMLLqmaaZAJu37abtdpk6XI7HHvgDWbOKrOXHSmACSb3hJKCHFdq356MK361aJ
+         xgzaVlSU4dGsyYbGyQIVg463sFjthNsbFUEVQkqWCtc3rasZb39a3IiX7+gmKDQpvX8L
+         ZtR/tx6O8I0J+7KJfdwIrnynqwIZbTN2nXqlKPeyyeG0GveWmtA6Sl3b9QFj7NVD83Hx
+         NR/w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1697555665; x=1698160465;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=LAQIUSSFEkh8UCmi8THqE2sWEJcCZDabuYYz4V23TW8=;
+        b=J8SgQ/+pUJaPeAs80gnMIyX8bhuvAGWDN3XLiOtLvlTZ5XyPqp6E7E23mQjSP+3P5Q
+         OjIGwIBNj60mN3H6OCd+Y1R03HJZ32ei1dh26xKCrk7Ym76qRcwOm/X1o5XjYzxo1m3K
+         E+9xJyz66fWKtqsaJ+rJoYMWY+3H+mH/9G2GG5M/3rVeH4X9Vt4j85lUe06+gMZjtasn
+         1Pncufe3LIY7EuJuVN0ItN5ejAYKJxrDdFm7BgYY31mmaCzBJgBatgo6+OEeorTy+xFE
+         yT2k0f26gksp1aqAQeD8NrxX/GKergwt3Adxgj/6GaVV9wThTq3hHZ5fVVmoGlFHSH2g
+         cyaw==
+X-Gm-Message-State: AOJu0YwxWqmsxdL1146EkmppD/m1vw3yMx9VkEbfLurKFoHwYXvmOhta
+        bKD9gtlFYFi2qj4J9ZTAEDQ=
+X-Google-Smtp-Source: AGHT+IGGk9+XOX5f1XNqFWNen/mWjFSeo+yOGyG3yMMSOnh8F9Yx0HDcS+QgLDHdukQU3wtBx5MZag==
+X-Received: by 2002:a2e:aa22:0:b0:2c5:31e6:e8e2 with SMTP id bf34-20020a2eaa22000000b002c531e6e8e2mr1904703ljb.25.1697555664440;
+        Tue, 17 Oct 2023 08:14:24 -0700 (PDT)
+Received: from jernej-laptop.localnet (82-149-12-148.dynamic.telemach.net. [82.149.12.148])
+        by smtp.gmail.com with ESMTPSA id v18-20020a05600c15d200b00406447b798bsm1907790wmf.37.2023.10.17.08.14.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 17 Oct 2023 08:14:23 -0700 (PDT)
+From:   Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To:     "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Samuel Holland <samuel@sholland.org>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Vladimir Oltean <olteanv@gmail.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Woojung Huh <woojung.huh@microchip.com>,
+        UNGLinuxDriver@microchip.com,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Alvin =?utf-8?B?xaBpcHJhZ2E=?= <alsi@bang-olufsen.dk>,
+        =?ISO-8859-1?Q?Cl=E9ment_L=E9ger?= <clement.leger@bootlin.com>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>
-Cc:     linux-riscv@lists.infradead.org, linux-renesas-soc@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>, Olof Johansson <olof@lixom.net>,
-        soc@kernel.org,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Conor Dooley <conor.dooley@microchip.com>
-Subject: [PATCH 3/3] soc: renesas: ARCH_R9A07G043 depends on !RISCV_ISA_ZICBOM
-Date:   Tue, 17 Oct 2023 15:59:26 +0200
-Message-Id: <20231017135926.1240101-4-hch@lst.de>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20231017135926.1240101-1-hch@lst.de>
-References: <20231017135926.1240101-1-hch@lst.de>
+        Magnus Damm <magnus.damm@gmail.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        =?ISO-8859-1?Q?n=E7_=DCNAL?= <arinc.unal@arinc9.com>,
+        Landen Chao <Landen.Chao@mediatek.com>,
+        DENG Qingfang <dqfext@gmail.com>,
+        Sean Wang <sean.wang@mediatek.com>,
+        Daniel Golle <daniel@makrotopia.org>,
+        John Crispin <john@phrozen.org>,
+        Gerhard Engleder <gerhard@engleder-embedded.com>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        Sergey Shtylyov <s.shtylyov@omp.ru>,
+        Sergei Shtylyov <sergei.shtylyov@gmail.com>,
+        Justin Chen <justin.chen@broadcom.com>,
+        Florian Fainelli <florian.fainelli@broadcom.com>,
+        Grygorii Strashko <grygorii.strashko@ti.com>,
+        Sekhar Nori <nsekhar@ti.com>,
+        Claudiu Manoil <claudiu.manoil@nxp.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Rob Herring <robh@kernel.org>
+Cc:     Vladimir Oltean <vladimir.oltean@nxp.com>, netdev@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
+        linux-mediatek@lists.infradead.org,
+        linux-renesas-soc@vger.kernel.org,
+        bcm-kernel-feedback-list@broadcom.com
+Subject: Re: [PATCH net-next 1/8] dt-bindings: net: Add missing
+ (unevaluated|additional)Properties on child node schemas
+Date:   Tue, 17 Oct 2023 17:14:21 +0200
+Message-ID: <2720928.mvXUDI8C0e@jernej-laptop>
+In-Reply-To: <20231016-dt-net-cleanups-v1-1-a525a090b444@kernel.org>
+References: <20231016-dt-net-cleanups-v1-0-a525a090b444@kernel.org>
+ <20231016-dt-net-cleanups-v1-1-a525a090b444@kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
-X-Spam-Status: No, score=-1.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_EF,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_NONE autolearn=no
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -59,30 +116,34 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-ARCH_R9A07G043 has its own non-standard global pool based DMA coherent
-allocator, which conflicts with the remap based RISCV_ISA_ZICBOM version.
-Add a proper dependency.
+Dne ponedeljek, 16. oktober 2023 ob 23:44:20 CEST je Rob Herring napisal(a):
+> Just as unevaluatedProperties or additionalProperties are required at
+> the top level of schemas, they should (and will) also be required for
+> child node schemas. That ensures only documented properties are
+> present for any node.
+> 
+> Add unevaluatedProperties or additionalProperties as appropriate.
+> 
+> Signed-off-by: Rob Herring <robh@kernel.org>
+> ---
+>  .../devicetree/bindings/net/allwinner,sun8i-a83t-emac.yaml     |  2 ++
 
-Signed-off-by: Christoph Hellwig <hch@lst.de>
-Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
-Acked-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
- drivers/soc/renesas/Kconfig | 1 +
- 1 file changed, 1 insertion(+)
+For Allwinner:
+Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
-diff --git a/drivers/soc/renesas/Kconfig b/drivers/soc/renesas/Kconfig
-index 335251ff6e8214..624185e09c967b 100644
---- a/drivers/soc/renesas/Kconfig
-+++ b/drivers/soc/renesas/Kconfig
-@@ -341,6 +341,7 @@ config ARCH_R9A07G043
- 	bool "RISC-V Platform support for RZ/Five"
- 	depends on NONPORTABLE
- 	depends on RISCV_ALTERNATIVE
-+	depends on !RISCV_ISA_ZICBOM
- 	depends on RISCV_SBI
- 	select ARCH_RZG2L
- 	select AX45MP_L2_CACHE
--- 
-2.39.2
+Best regards,
+Jernej
+
+>  Documentation/devicetree/bindings/net/dsa/brcm,sf2.yaml        |  1 +
+>  Documentation/devicetree/bindings/net/dsa/mediatek,mt7530.yaml |  2 ++
+>  .../devicetree/bindings/net/dsa/microchip,lan937x.yaml         |  1 +
+>  Documentation/devicetree/bindings/net/dsa/nxp,sja1105.yaml     |  2 ++
+>  Documentation/devicetree/bindings/net/dsa/qca8k.yaml           |  1 +
+>  Documentation/devicetree/bindings/net/dsa/realtek.yaml         |  2 ++
+>  .../devicetree/bindings/net/dsa/renesas,rzn1-a5psw.yaml        | 10 ++--------
+>  Documentation/devicetree/bindings/net/engleder,tsnep.yaml      |  1 +
+>  Documentation/devicetree/bindings/net/nxp,tja11xx.yaml         |  1 +
+>  10 files changed, 15 insertions(+), 8 deletions(-)
+
+
 
