@@ -2,111 +2,77 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AE08C7CC100
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Oct 2023 12:48:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C52727CC1D5
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Oct 2023 13:34:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234909AbjJQKr6 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 17 Oct 2023 06:47:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50222 "EHLO
+        id S234147AbjJQLeH (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 17 Oct 2023 07:34:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57800 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1343729AbjJQKr5 (ORCPT
+        with ESMTP id S232134AbjJQLeG (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 17 Oct 2023 06:47:57 -0400
-Received: from mail-lj1-x233.google.com (mail-lj1-x233.google.com [IPv6:2a00:1450:4864:20::233])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BED91F7;
-        Tue, 17 Oct 2023 03:47:55 -0700 (PDT)
-Received: by mail-lj1-x233.google.com with SMTP id 38308e7fff4ca-2c4fdf94666so57048041fa.2;
-        Tue, 17 Oct 2023 03:47:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1697539674; x=1698144474; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=wW4HxCYnatcP/vztbzCLoFkbFaiPGRf9h2XT9nzoMiE=;
-        b=CynsTPeQEQK67WoxN72IjGbqAHduA51cTbMmWOD5RNKCAXov6uZ1F7zS72x96Gzsxs
-         BycsS7CubhgVJzOQz0DbwRm0xwICUmwnsGpMLjngFrorzSf16HZZltd+dGhtbYtcuo2H
-         MlU55rFMDjn9tkmKavYepHOEEQhwtURsiUmc6WFUJkydYS/UJ20ISY0iG9lsFSuAw8pR
-         bo2BpzmtbmGAJi4JOm51iRLObba1Jl6AFamVbRmgLxlMOwj4Ji9YFpzn/LPcGbgMGrAd
-         qMPlgcjsslkrTQJhGHhTmTMYYFM2I4WFhHi+9JuPJhRI2QW709UV/He+f4tRe0zVMSIl
-         Yhfg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697539674; x=1698144474;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=wW4HxCYnatcP/vztbzCLoFkbFaiPGRf9h2XT9nzoMiE=;
-        b=g5DD6n6hr0GwDTJk7uOlS+lSnz5s879jmWKNvfu+MqzAfu0XwWgWmKquEQ5+Fh4wzz
-         6INve+KRqF8fRbkiDXn6RDmfTUiZwCO4dv3/MeYNsvX6oEDKg19J5cbb6LYRDtfyKNlo
-         Duqnd9AOpcmlmyGXNblW+AKTc4Mtt/IGpXsxPKhVKGPMk0e8w9qVHnwyn9wqZYnfbh6k
-         eXUTb4y4LdnLoe/XMcE3Caz6zU4J6d2aze/yIhvm525aS+6w1H1NL30BBN/BvQ7n8nPm
-         ptPX7ccmOdgOCCeOy5JVALrNG3E7KhFn5H0xCvE/p8Ghg+95flzBjshdId+UfDzLN8ed
-         5RLw==
-X-Gm-Message-State: AOJu0YxkiWQtx1FLKvg7dLCPRp3iybZ5J3m4YELdtBFQrf50edYfSocK
-        N1lKFZAHV9S7uBtfrAVEV7w=
-X-Google-Smtp-Source: AGHT+IEJPTcRkmP/L+efxr/73vVSzCydhcAMii3FSFXDwAm/r+Qq/fG4Jwxl694rQJqlTaV0diobhw==
-X-Received: by 2002:a2e:a98a:0:b0:2c5:72e:6ff9 with SMTP id x10-20020a2ea98a000000b002c5072e6ff9mr1913088ljq.6.1697539673656;
-        Tue, 17 Oct 2023 03:47:53 -0700 (PDT)
-Received: from prasmi.home ([2a00:23c8:2501:c701:e26d:77db:3f90:862b])
-        by smtp.gmail.com with ESMTPSA id a6-20020a05600c348600b0040652e8ca13sm9582037wmq.43.2023.10.17.03.47.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Oct 2023 03:47:52 -0700 (PDT)
-From:   Prabhakar <prabhakar.csengg@gmail.com>
-X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Linus Walleij <linus.walleij@linaro.org>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
-        linux-riscv@lists.infradead.org, linux-gpio@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
-        Prabhakar <prabhakar.csengg@gmail.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH v2 3/3] riscv: dts: renesas: r9a07g043f: Update gpio-ranges property
-Date:   Tue, 17 Oct 2023 11:46:38 +0100
-Message-Id: <20231017104638.201260-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20231017104638.201260-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20231017104638.201260-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+        Tue, 17 Oct 2023 07:34:06 -0400
+Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id CFE8C9F;
+        Tue, 17 Oct 2023 04:34:04 -0700 (PDT)
+X-IronPort-AV: E=Sophos;i="6.03,231,1694703600"; 
+   d="scan'208";a="179586175"
+Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
+  by relmlie5.idc.renesas.com with ESMTP; 17 Oct 2023 20:34:04 +0900
+Received: from localhost.localdomain (unknown [10.166.15.32])
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 11D4540083CC;
+        Tue, 17 Oct 2023 20:34:04 +0900 (JST)
+From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+To:     s.shtylyov@omp.ru, davem@davemloft.net, edumazet@google.com,
+        kuba@kernel.org, pabeni@redhat.com
+Cc:     netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Subject: [PATCH net-next v3 0/2] rswitch: Add PM ops
+Date:   Tue, 17 Oct 2023 20:34:00 +0900
+Message-Id: <20231017113402.849735-1-yoshihiro.shimoda.uh@renesas.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=1.1 required=5.0 tests=AC_FROM_MANY_DOTS,BAYES_00,
+        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Level: *
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+This patch is based on the latest net-next.git / next branch.
+After applied this patch with the following patches, the system can
+enter/exit Suspend to Idle without any error:
+https://git.kernel.org/pub/scm/linux/kernel/git/phy/linux-phy.git/commit/?h=next&id=aa4c0bbf820ddb9dd8105a403aa12df57b9e5129
+https://git.kernel.org/pub/scm/linux/kernel/git/phy/linux-phy.git/commit/?h=next&id=1a5361189b7acac15b9b086b2300a11b7aa84c06
 
-On RZ/Five we have additional pins compared to the RZ/G2UL SoC so update
-the gpio-ranges property in RZ/Five SoC DTSI.
+Changes from v2:
+https://lore.kernel.org/all/20231013121936.364678-1-yoshihiro.shimoda.uh@renesas.com/
+ - Based on the latest net-next.git / main branch.
+ - Change the subject in the patch 1/2.
+ - Fix a condition to avoid endless loop in the patch 1/2.
 
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
----
- arch/riscv/boot/dts/renesas/r9a07g043f.dtsi | 4 ++++
- 1 file changed, 4 insertions(+)
+Changes from v1:
+https://lore.kernel.org/all/20231012121618.267315-1-yoshihiro.shimoda.uh@renesas.com/
+ - Based on the latest net-next.git / main branch. So, the following patches
+   are already merged.
+   https://git.kernel.org/pub/scm/linux/kernel/git/netdev/net.git/commit/?id=510b18cf23b9bd8a982ef7f1fb19f3968a2bf787
+   https://git.kernel.org/pub/scm/linux/kernel/git/netdev/net.git/commit/?id=053f13f67be6d02781730c9ac71abde6e9140610
+ - Add a new patch to use unsigned int for array index in the patch 1/2.
+ - Use unsigned int for array index in the patch 2/2.
+ - Use DEFINE_SIMPLE_DEV_PM_OPS() and drop __maybe_unused tags in the patch 2/2.
+ - Use pm_sleep_ptr() in the patch 2/2.
 
-diff --git a/arch/riscv/boot/dts/renesas/r9a07g043f.dtsi b/arch/riscv/boot/dts/renesas/r9a07g043f.dtsi
-index b0796015e36b..e68a91c9fe77 100644
---- a/arch/riscv/boot/dts/renesas/r9a07g043f.dtsi
-+++ b/arch/riscv/boot/dts/renesas/r9a07g043f.dtsi
-@@ -42,6 +42,10 @@ cpu0_intc: interrupt-controller {
- 	};
- };
- 
-+&pinctrl {
-+	gpio-ranges = <&pinctrl 0 0 232>;
-+};
-+
- &soc {
- 	dma-noncoherent;
- 	interrupt-parent = <&plic>;
+Yoshihiro Shimoda (2):
+  rswitch: Use unsigned int for port related array index
+  rswitch: Add PM ops
+
+ drivers/net/ethernet/renesas/rswitch.c | 53 ++++++++++++++++++++++++--
+ drivers/net/ethernet/renesas/rswitch.h |  2 +-
+ 2 files changed, 50 insertions(+), 5 deletions(-)
+
 -- 
-2.34.1
+2.25.1
 
