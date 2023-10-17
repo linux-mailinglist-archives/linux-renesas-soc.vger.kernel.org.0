@@ -2,39 +2,39 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D29217CBB50
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Oct 2023 08:33:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4C47A7CBB5E
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Oct 2023 08:35:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230343AbjJQGdf (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 17 Oct 2023 02:33:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50488 "EHLO
+        id S230343AbjJQGfn (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 17 Oct 2023 02:35:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45790 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229666AbjJQGde (ORCPT
+        with ESMTP id S229666AbjJQGfl (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 17 Oct 2023 02:33:34 -0400
-Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5A71395;
-        Mon, 16 Oct 2023 23:33:31 -0700 (PDT)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 799091C000B;
-        Tue, 17 Oct 2023 06:33:12 +0000 (UTC)
+        Tue, 17 Oct 2023 02:35:41 -0400
+Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::227])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4E68395;
+        Mon, 16 Oct 2023 23:35:38 -0700 (PDT)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 989B72000F;
+        Tue, 17 Oct 2023 06:35:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arinc9.com; s=gm1;
-        t=1697524409;
+        t=1697524537;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=1jTB9zIiEc1w3dV0yd0t5E2LOHf4j7ptaKP+lxDYNiM=;
-        b=Qd/0lHbhNuK7fblTuiGrURVXvxKS2T/mZ4P9pNOgwRehd0XPS6j8GTBXtCmSkwHFTRH5uh
-        TFSBaOBs34KcGlgQh0jquChihEJCQxmPXWD5xkpt4Kbm8LwK3w17203+13Pu0fj/SeDIie
-        wBaCqEaA/fZmWjPrhFjw7Xw/kH43bs6J21FNtCAN2xOz57VRYcDz/zkLCB7LhsQb5IPzU4
-        Rqa7TZQwak69zWYsoLvzFk9IPmDb8/Nymi0DLYx3sHgua0d2j/8TspJLbW42TRSxyYbNTx
-        q5dRuCeSRJYF16Khso1kzUwxTiBANNJVzaBYkleusWnGEcDtivf6gUM8mB7tqg==
-Message-ID: <7b9813ba-0ab8-4ded-bc86-0f9aae505be1@arinc9.com>
-Date:   Tue, 17 Oct 2023 09:32:58 +0300
+        bh=QGHJSDvI/Hwb9u+AlaUi0HNGz0BkOht5J2pzgelYmEc=;
+        b=hk7hMWZJfrdZnBE9gCeACqGCRePH1tWw1ScI78bRV95Ks21PMGrRaeMw/sr55xr9zpKYzY
+        U8IeLJ5HpN53fY1cgtttB2PN73DeREcT4cw3R8qL2B5suDC8w75CNR00zqkr8dzEbysU3+
+        ky6uMFTGm3Tw2BmpnrkXGm59jYspvW3dXXIfASodGU+fkbBnLdPfxA0nxEMm5qYlJdYLQf
+        DP0K4ieMgvVIiQveO0Fa/SSSUaIfvvzWS+7/5kHbvak0sudLoTEkQ783vjQ6KM+z1HEgAb
+        lVdlOllfQ1buxIRy1qg0nVoUGJomcF5bZgZfYAM+S+y5MIYpf/oMYHsI9ZemZg==
+Message-ID: <478d751e-585d-46f5-b6f5-e2a90025c957@arinc9.com>
+Date:   Tue, 17 Oct 2023 09:35:05 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next 4/8] dt-bindings: net: ethernet-switch: Add
- missing 'ethernet-ports' level
+Subject: Re: [PATCH net-next 5/8] dt-bindings: net: ethernet-switch: Rename
+ $defs "base" to 'ethernet-ports'
 Content-Language: en-US
 To:     Rob Herring <robh@kernel.org>,
         "David S. Miller" <davem@davemloft.net>,
@@ -82,16 +82,15 @@ Cc:     Vladimir Oltean <vladimir.oltean@nxp.com>, netdev@vger.kernel.org,
         linux-renesas-soc@vger.kernel.org,
         bcm-kernel-feedback-list@broadcom.com
 References: <20231016-dt-net-cleanups-v1-0-a525a090b444@kernel.org>
- <20231016-dt-net-cleanups-v1-4-a525a090b444@kernel.org>
+ <20231016-dt-net-cleanups-v1-5-a525a090b444@kernel.org>
 From:   =?UTF-8?B?QXLEsW7DpyDDnE5BTA==?= <arinc.unal@arinc9.com>
-In-Reply-To: <20231016-dt-net-cleanups-v1-4-a525a090b444@kernel.org>
+In-Reply-To: <20231016-dt-net-cleanups-v1-5-a525a090b444@kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-GND-Sasl: arinc.unal@arinc9.com
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_PASS,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -99,18 +98,15 @@ List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 On 17.10.2023 00:44, Rob Herring wrote:
-> The '$defs/ethernet-ports' schema is referenced by schemas defining a
-> child node 'ethernet-ports', but this schema misses the
-> 'ethernet-ports' node. It would work if referring schemas made a
-> reference like this:
+> The name "base" is misleading as the definition is for a complete schema
+> definition without additional properties allowed, not a "base class".
+> Align the same to be the same as dsa.yaml. This schema file without any
+
+Align the same to be the same -> Align the name to be the same
+
+> json pointer path is the base schema which can be extended.
 > 
-> properties:
->    ethernet-ports:
->      $ref: ethernet-switch.yaml#/$defs/ethernet-ports
-> 
-> However, that would be different from how dsa.yaml works. For
-> consistency, align the schema definition with dsa.yaml and add the
-> missing level.
+> There are not yet any references to $defs/base to update.
 > 
 > Signed-off-by: Rob Herring <robh@kernel.org>
 
