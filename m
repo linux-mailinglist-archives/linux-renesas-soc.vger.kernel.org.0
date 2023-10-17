@@ -2,129 +2,220 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 194537CCCA2
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Oct 2023 21:53:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4F15A7CCEEE
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Oct 2023 23:14:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233635AbjJQTxF (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 17 Oct 2023 15:53:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35096 "EHLO
+        id S230056AbjJQVO2 convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 17 Oct 2023 17:14:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41146 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232208AbjJQTxE (ORCPT
+        with ESMTP id S229883AbjJQVO1 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 17 Oct 2023 15:53:04 -0400
-X-Greylist: delayed 2013 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 17 Oct 2023 12:53:03 PDT
-Received: from mx11lb.world4you.com (mx11lb.world4you.com [81.19.149.121])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 40B8A9E;
-        Tue, 17 Oct 2023 12:53:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=engleder-embedded.com; s=dkim11; h=Content-Transfer-Encoding:Content-Type:
-        In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
-        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=hRbfGybtcC4Q4xK9Jhz49EEEj1HrZpSkJKq488b1wYI=; b=f3O6uWhfVuFcx5VC4Lri+Z8xMP
-        aEAuW35JcCDw5jyvHUXN3ojVvwLDrrKBdcXWV35W/scFFPYxd/XGYrSFvo7AMm1p+AcgQuC5HxjHh
-        4tLECcrM98rS0sfpSF238CJu0LyNkPyA/fEFFJQoq3wZ3pRV5a9B7XA1KST8l+3I6Qyg=;
-Received: from [88.117.60.21] (helo=[10.0.0.160])
-        by mx11lb.world4you.com with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.96)
-        (envelope-from <gerhard@engleder-embedded.com>)
-        id 1qspai-0000aP-2c;
-        Tue, 17 Oct 2023 21:18:56 +0200
-Message-ID: <00181d0f-e7b3-4fb1-a3f7-12935ab03f8b@engleder-embedded.com>
-Date:   Tue, 17 Oct 2023 21:18:51 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next 1/8] dt-bindings: net: Add missing
- (unevaluated|additional)Properties on child node schemas
-To:     Rob Herring <robh@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Samuel Holland <samuel@sholland.org>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Vladimir Oltean <olteanv@gmail.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Woojung Huh <woojung.huh@microchip.com>,
-        UNGLinuxDriver@microchip.com,
-        Linus Walleij <linus.walleij@linaro.org>,
-        =?UTF-8?Q?Alvin_=C5=A0ipraga?= <alsi@bang-olufsen.dk>,
-        =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <clement.leger@bootlin.com>,
+        Tue, 17 Oct 2023 17:14:27 -0400
+X-Greylist: delayed 145 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 17 Oct 2023 14:14:25 PDT
+Received: from smtprelay06.ispgateway.de (smtprelay06.ispgateway.de [80.67.18.29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EDF2A94
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 17 Oct 2023 14:14:25 -0700 (PDT)
+Received: from [92.206.139.21] (helo=note-book.lan)
+        by smtprelay06.ispgateway.de with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.96.1)
+        (envelope-from <git@apitzsch.eu>)
+        id 1qsrM3-0000rb-2r;
+        Tue, 17 Oct 2023 23:11:56 +0200
+Message-ID: <5e0d2716fb757d408ebe77cb132ae242ef3aa470.camel@apitzsch.eu>
+Subject: Re: [PATCH v2 1/5] iio: magnetometer: ak8975: Convert enum->pointer
+ for data in the match tables
+From:   =?ISO-8859-1?Q?Andr=E9?= Apitzsch <git@apitzsch.eu>
+To:     Biju Das <biju.das.jz@bp.renesas.com>,
+        Jonathan Cameron <jic23@kernel.org>
+Cc:     Lars-Peter Clausen <lars@metafoo.de>,
+        Uwe =?ISO-8859-1?Q?Kleine-K=F6nig?= 
+        <u.kleine-koenig@pengutronix.de>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        linux-iio@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        =?UTF-8?B?bsOnIMOcTkFM?= <arinc.unal@arinc9.com>,
-        Landen Chao <Landen.Chao@mediatek.com>,
-        DENG Qingfang <dqfext@gmail.com>,
-        Sean Wang <sean.wang@mediatek.com>,
-        Daniel Golle <daniel@makrotopia.org>,
-        John Crispin <john@phrozen.org>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        Sergey Shtylyov <s.shtylyov@omp.ru>,
-        Sergei Shtylyov <sergei.shtylyov@gmail.com>,
-        Justin Chen <justin.chen@broadcom.com>,
-        Florian Fainelli <florian.fainelli@broadcom.com>,
-        Grygorii Strashko <grygorii.strashko@ti.com>,
-        Sekhar Nori <nsekhar@ti.com>,
-        Claudiu Manoil <claudiu.manoil@nxp.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>
-Cc:     Vladimir Oltean <vladimir.oltean@nxp.com>, netdev@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
-        linux-mediatek@lists.infradead.org,
-        linux-renesas-soc@vger.kernel.org,
-        bcm-kernel-feedback-list@broadcom.com
-References: <20231016-dt-net-cleanups-v1-0-a525a090b444@kernel.org>
- <20231016-dt-net-cleanups-v1-1-a525a090b444@kernel.org>
-Content-Language: en-US
-From:   Gerhard Engleder <gerhard@engleder-embedded.com>
-In-Reply-To: <20231016-dt-net-cleanups-v1-1-a525a090b444@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-AV-Do-Run: Yes
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS
-        autolearn=unavailable autolearn_force=no version=3.4.6
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        linux-renesas-soc@vger.kernel.org
+Date:   Tue, 17 Oct 2023 23:11:54 +0200
+In-Reply-To: <20230818075600.24277-2-biju.das.jz@bp.renesas.com>
+References: <20230818075600.24277-1-biju.das.jz@bp.renesas.com>
+         <20230818075600.24277-2-biju.das.jz@bp.renesas.com>
+Autocrypt: addr=git@apitzsch.eu; prefer-encrypt=mutual;
+ keydata=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
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+User-Agent: Evolution 3.50.0 
+MIME-Version: 1.0
+X-Df-Sender: YW5kcmVAYXBpdHpzY2guZXU=
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
+        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,
+        SPF_HELO_PASS,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 16.10.23 23:44, Rob Herring wrote:
-> Just as unevaluatedProperties or additionalProperties are required at
-> the top level of schemas, they should (and will) also be required for
-> child node schemas. That ensures only documented properties are
-> present for any node.
+Hi,
+
+Am Freitag, dem 18.08.2023 um 08:55 +0100 schrieb Biju Das:
+> Convert enum->pointer for data in the match tables to simplify the
+> probe()
+> by replacing device_get_match_data() and i2c_client_get_device_id by
+> i2c_get_match_data() as we have similar I2C, ACPI and DT matching
+> table.
 > 
-> Add unevaluatedProperties or additionalProperties as appropriate.
-> 
-> Signed-off-by: Rob Herring <robh@kernel.org>
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 > ---
->   .../devicetree/bindings/net/allwinner,sun8i-a83t-emac.yaml     |  2 ++
->   Documentation/devicetree/bindings/net/dsa/brcm,sf2.yaml        |  1 +
->   Documentation/devicetree/bindings/net/dsa/mediatek,mt7530.yaml |  2 ++
->   .../devicetree/bindings/net/dsa/microchip,lan937x.yaml         |  1 +
->   Documentation/devicetree/bindings/net/dsa/nxp,sja1105.yaml     |  2 ++
->   Documentation/devicetree/bindings/net/dsa/qca8k.yaml           |  1 +
->   Documentation/devicetree/bindings/net/dsa/realtek.yaml         |  2 ++
->   .../devicetree/bindings/net/dsa/renesas,rzn1-a5psw.yaml        | 10 ++--------
->   Documentation/devicetree/bindings/net/engleder,tsnep.yaml      |  1 +
+> v1->v2:
+>  * No change
+> ---
+>  drivers/iio/magnetometer/ak8975.c | 75 +++++++++++++----------------
+> --
+>  1 file changed, 30 insertions(+), 45 deletions(-)
+> 
+> diff --git a/drivers/iio/magnetometer/ak8975.c
+> b/drivers/iio/magnetometer/ak8975.c
+> index eb706d0bf70b..104798549de1 100644
+> --- a/drivers/iio/magnetometer/ak8975.c
+> +++ b/drivers/iio/magnetometer/ak8975.c
+> @@ -813,13 +813,13 @@ static const struct iio_info ak8975_info = {
+>  };
+>  
+>  static const struct acpi_device_id ak_acpi_match[] = {
+> -	{"AK8975", AK8975},
+> -	{"AK8963", AK8963},
+> -	{"INVN6500", AK8963},
+> -	{"AK009911", AK09911},
+> -	{"AK09911", AK09911},
+> -	{"AKM9911", AK09911},
+> -	{"AK09912", AK09912},
+> +	{"AK8975", (kernel_ulong_t)&ak_def_array[AK8975] },
+> +	{"AK8963", (kernel_ulong_t)&ak_def_array[AK8963] },
+> +	{"INVN6500", (kernel_ulong_t)&ak_def_array[AK8963] },
+> +	{"AK009911", (kernel_ulong_t)&ak_def_array[AK09911] },
+> +	{"AK09911", (kernel_ulong_t)&ak_def_array[AK09911] },
+> +	{"AKM9911", (kernel_ulong_t)&ak_def_array[AK09911] },
+> +	{"AK09912", (kernel_ulong_t)&ak_def_array[AK09912] },
+>  	{ }
+>  };
+>  MODULE_DEVICE_TABLE(acpi, ak_acpi_match);
+> @@ -883,10 +883,7 @@ static int ak8975_probe(struct i2c_client
+> *client)
+>  	struct iio_dev *indio_dev;
+>  	struct gpio_desc *eoc_gpiod;
+>  	struct gpio_desc *reset_gpiod;
+> -	const void *match;
+> -	unsigned int i;
+>  	int err;
+> -	enum asahi_compass_chipset chipset;
+>  	const char *name = NULL;
+>  
+>  	/*
+> @@ -928,27 +925,15 @@ static int ak8975_probe(struct i2c_client
+> *client)
+>  		return err;
+>  
+>  	/* id will be NULL when enumerated via ACPI */
+> -	match = device_get_match_data(&client->dev);
+> -	if (match) {
+> -		chipset = (uintptr_t)match;
+> -		name = dev_name(&client->dev);
+> -	} else if (id) {
+> -		chipset = (enum asahi_compass_chipset)(id-
+> >driver_data);
+> -		name = id->name;
+> -	} else
+> -		return -ENOSYS;
+> -
+> -	for (i = 0; i < ARRAY_SIZE(ak_def_array); i++)
+> -		if (ak_def_array[i].type == chipset)
+> -			break;
+> -
+> -	if (i == ARRAY_SIZE(ak_def_array)) {
+> -		dev_err(&client->dev, "AKM device type unsupported:
+> %d\n",
+> -			chipset);
+> +	data->def = i2c_get_match_data(client);
+> +	if (!data->def)
+>  		return -ENODEV;
+> -	}
+>  
+> -	data->def = &ak_def_array[i];
+> +	/* If enumerated via firmware node, fix the ABI */
+> +	if (dev_fwnode(&client->dev))
+> +		name = dev_name(&client->dev);
+> +	else
+> +		name = id->name;
+>  
 
-Looks good for tsnep.
+I just noticed, that with the above change '0-000d' instead of the
+previous and expected 'ak09911' is shown now as name for the
+magnetometer in longcheer l9100 [1].
 
-Reviewed-by: Gerhard Engleder <gerhard@engleder-embedded.com>
+id->name contains the expected string ('ak09911'), but because of
+dev_fwnode(&client->dev) being true, it is not used.
 
-Thank you!
+André
 
->   Documentation/devicetree/bindings/net/nxp,tja11xx.yaml         |  1 +
->   10 files changed, 15 insertions(+), 8 deletions(-)
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/tree/arch/arm64/boot/dts/qcom/msm8939-longcheer-l9100.dts?h=next-20231017#n127
+
+>  	/* Fetch the regulators */
+>  	data->vdd = devm_regulator_get(&client->dev, "vdd");
+> @@ -1077,28 +1062,28 @@ static
+> DEFINE_RUNTIME_DEV_PM_OPS(ak8975_dev_pm_ops, ak8975_runtime_suspend,
+>  				 ak8975_runtime_resume, NULL);
+>  
+>  static const struct i2c_device_id ak8975_id[] = {
+> -	{"ak8975", AK8975},
+> -	{"ak8963", AK8963},
+> -	{"AK8963", AK8963},
+> -	{"ak09911", AK09911},
+> -	{"ak09912", AK09912},
+> -	{"ak09916", AK09916},
+> +	{"ak8975", (kernel_ulong_t)&ak_def_array[AK8975] },
+> +	{"ak8963", (kernel_ulong_t)&ak_def_array[AK8963] },
+> +	{"AK8963", (kernel_ulong_t)&ak_def_array[AK8963] },
+> +	{"ak09911", (kernel_ulong_t)&ak_def_array[AK09911] },
+> +	{"ak09912", (kernel_ulong_t)&ak_def_array[AK09912] },
+> +	{"ak09916", (kernel_ulong_t)&ak_def_array[AK09916] },
+>  	{}
+>  };
+>  
+>  MODULE_DEVICE_TABLE(i2c, ak8975_id);
+>  
+>  static const struct of_device_id ak8975_of_match[] = {
+> -	{ .compatible = "asahi-kasei,ak8975", },
+> -	{ .compatible = "ak8975", },
+> -	{ .compatible = "asahi-kasei,ak8963", },
+> -	{ .compatible = "ak8963", },
+> -	{ .compatible = "asahi-kasei,ak09911", },
+> -	{ .compatible = "ak09911", },
+> -	{ .compatible = "asahi-kasei,ak09912", },
+> -	{ .compatible = "ak09912", },
+> -	{ .compatible = "asahi-kasei,ak09916", },
+> -	{ .compatible = "ak09916", },
+> +	{ .compatible = "asahi-kasei,ak8975", .data =
+> &ak_def_array[AK8975] },
+> +	{ .compatible = "ak8975", .data = &ak_def_array[AK8975] },
+> +	{ .compatible = "asahi-kasei,ak8963", .data =
+> &ak_def_array[AK8963] },
+> +	{ .compatible = "ak8963", .data = &ak_def_array[AK8963] },
+> +	{ .compatible = "asahi-kasei,ak09911", .data =
+> &ak_def_array[AK09911] },
+> +	{ .compatible = "ak09911", .data = &ak_def_array[AK09911] },
+> +	{ .compatible = "asahi-kasei,ak09912", .data =
+> &ak_def_array[AK09912] },
+> +	{ .compatible = "ak09912", .data = &ak_def_array[AK09912] },
+> +	{ .compatible = "asahi-kasei,ak09916", .data =
+> &ak_def_array[AK09916] },
+> +	{ .compatible = "ak09916", .data = &ak_def_array[AK09916] },
+>  	{}
+>  };
+>  MODULE_DEVICE_TABLE(of, ak8975_of_match);
+
