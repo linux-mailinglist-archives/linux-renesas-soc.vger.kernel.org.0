@@ -2,180 +2,111 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 73F157CC0B3
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Oct 2023 12:31:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 096647CC110
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Oct 2023 12:52:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234594AbjJQKbZ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 17 Oct 2023 06:31:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44206 "EHLO
+        id S234809AbjJQKwD convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 17 Oct 2023 06:52:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34998 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233570AbjJQKbY (ORCPT
+        with ESMTP id S234622AbjJQKwC (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 17 Oct 2023 06:31:24 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1789DB0
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 17 Oct 2023 03:31:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697538683; x=1729074683;
-  h=date:from:to:cc:subject:message-id;
-  bh=G0tMjngHJivxs8UHAzoQFae1ctO9NE9PT/sN/dm3Zkc=;
-  b=bVLuSooDMm+ClLlkz3q561YEwH4hb1Dv1YJFB3uyeQgByt3TtkwFe6dA
-   xhLV565eWgI/U3lOqMIZX/obwrmf4XehuRd8O8HzTrmd01PrXG6XLY8FG
-   oQlA1yzY6ELB3iDzAfGB/UyHdqQDUSfw7c83pz87zVkhZqIN0wG+rpShV
-   01n3GwdWMOaP0tmx67xajktvmcRWK7UdNL0X5dUdGfjstDpuH2zKgsgsL
-   nq7J3rE/muet343mXdQx2w6unXKHyc1billKJCbstcgmEm7MWf+Nx+C14
-   yXeifNsELQbPisraprw4WPyBz1DPgryAduiViDVvoE437huUAfujdC9C2
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10865"; a="7309581"
-X-IronPort-AV: E=Sophos;i="6.03,231,1694761200"; 
-   d="scan'208";a="7309581"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Oct 2023 03:31:23 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10865"; a="1087460452"
-X-IronPort-AV: E=Sophos;i="6.03,231,1694761200"; 
-   d="scan'208";a="1087460452"
-Received: from lkp-server02.sh.intel.com (HELO f64821696465) ([10.239.97.151])
-  by fmsmga005.fm.intel.com with ESMTP; 17 Oct 2023 03:31:21 -0700
-Received: from kbuild by f64821696465 with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1qshM7-0009Sd-1r;
-        Tue, 17 Oct 2023 10:31:19 +0000
-Date:   Tue, 17 Oct 2023 18:30:43 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [geert-renesas-drivers:shmob-drm-atomic-dt-v4] BUILD SUCCESS
- 1399ebacbf590dfbac4fbba181dd1595b2fa10ba
-Message-ID: <202310171841.aluE13HZ-lkp@intel.com>
-User-Agent: s-nail v14.9.24
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_NONE autolearn=ham
-        autolearn_force=no version=3.4.6
+        Tue, 17 Oct 2023 06:52:02 -0400
+Received: from mail-oo1-f44.google.com (mail-oo1-f44.google.com [209.85.161.44])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C5E19A2;
+        Tue, 17 Oct 2023 03:52:00 -0700 (PDT)
+Received: by mail-oo1-f44.google.com with SMTP id 006d021491bc7-57b5f0d658dso3262062eaf.0;
+        Tue, 17 Oct 2023 03:52:00 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1697539920; x=1698144720;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=fPRdJ+3TN8Zmg5SzFNo5gq2GpoI/z77WwxmQGbYRfiU=;
+        b=RCqn7mNcEeR/kx77+0QRClbUQdwRghnm3reiM25HovHj6plRZ2AbmLNwY4G/zyGvLi
+         khz4IL3OdUqG3oR069pm3jSlMT+yBcVrUytapkExg3lE5nUY/s4XDI2ynt9h8YrvMPEu
+         LNb73icQAvIyHE/nnYDVj1IStwjDbrC3KWMWdskNFiRzeXQ56tnpUSU/GXR+X1p69NQP
+         wn7D7s+C7eO8rD+i8vEGYOhF7gPeq50f+8RSWEilNYU3sGtA6SAorV8EBB9DbEo8lmNz
+         uK5brbmcOGVdDtRHKBFsL0mL6wM2MLCH2ZjPL2VcSPBWVuqFhdg2Dvw0NFOE6v7a3SHC
+         po4w==
+X-Gm-Message-State: AOJu0YxibEjKZbaJgk1UvSyq8CfYVC/F6jPzrYPGp7KdbyUIJydquYGp
+        880p22geTodVlkYOKauMLh2Wcnm7IX5F/A==
+X-Google-Smtp-Source: AGHT+IFd3iKI9wLlTzsJrXCrzBBpHjkhI7rghbba6LFq3K4sgcOrjxFIoH5VkuTuGXIyau3tWf75YQ==
+X-Received: by 2002:a05:6870:2183:b0:1e9:c315:9d66 with SMTP id l3-20020a056870218300b001e9c3159d66mr2032182oae.40.1697539919886;
+        Tue, 17 Oct 2023 03:51:59 -0700 (PDT)
+Received: from mail-ot1-f50.google.com (mail-ot1-f50.google.com. [209.85.210.50])
+        by smtp.gmail.com with ESMTPSA id i2-20020a056830010200b006b9b6aea237sm217009otp.80.2023.10.17.03.51.59
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 17 Oct 2023 03:51:59 -0700 (PDT)
+Received: by mail-ot1-f50.google.com with SMTP id 46e09a7af769-6c4fc2ce697so3863996a34.0;
+        Tue, 17 Oct 2023 03:51:59 -0700 (PDT)
+X-Received: by 2002:a81:4996:0:b0:592:ffc:c787 with SMTP id
+ w144-20020a814996000000b005920ffcc787mr1937845ywa.30.1697539494112; Tue, 17
+ Oct 2023 03:44:54 -0700 (PDT)
+MIME-Version: 1.0
+References: <20231016054755.915155-1-hch@lst.de> <20231016054755.915155-5-hch@lst.de>
+ <20231016-pantyhose-tall-7565b6b20fb9@wendy> <20231016131745.GB26484@lst.de>
+In-Reply-To: <20231016131745.GB26484@lst.de>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Tue, 17 Oct 2023 12:44:41 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdXVZz=YWMAgzUzme-U3qxYeLdi66xw2CGubpesGy+ZjRw@mail.gmail.com>
+Message-ID: <CAMuHMdXVZz=YWMAgzUzme-U3qxYeLdi66xw2CGubpesGy+ZjRw@mail.gmail.com>
+Subject: Re: [PATCH 04/12] soc: renesas: select RISCV_DMA_NONCOHERENT from ARCH_R9A07G043
+To:     Christoph Hellwig <hch@lst.de>
+Cc:     Conor Dooley <conor.dooley@microchip.com>,
+        Greg Ungerer <gerg@linux-m68k.org>, iommu@lists.linux.dev,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Conor Dooley <conor@kernel.org>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Wei Fang <wei.fang@nxp.com>,
+        Shenwei Wang <shenwei.wang@nxp.com>,
+        Clark Wang <xiaoning.wang@nxp.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        linux-m68k@lists.linux-m68k.org, netdev@vger.kernel.org,
+        linux-riscv@lists.infradead.org, linux-renesas-soc@vger.kernel.org,
+        Jim Quinlan <james.quinlan@broadcom.com>,
+        arm-soc <soc@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
+        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git shmob-drm-atomic-dt-v4
-branch HEAD: 1399ebacbf590dfbac4fbba181dd1595b2fa10ba  drm: renesas: shmobile: Add DT support
+Hi Christoph,
 
-elapsed time: 1243m
+On Mon, Oct 16, 2023 at 3:17 PM Christoph Hellwig <hch@lst.de> wrote:
+> On Mon, Oct 16, 2023 at 01:52:57PM +0100, Conor Dooley wrote:
+> > > +   select RISCV_DMA_NONCOHERENT
+> > >     select ERRATA_ANDES if RISCV_SBI
+> > >     select ERRATA_ANDES_CMO if ERRATA_ANDES
+> >
+> > Since this Kconfig menu has changed a bit in linux-next, the selects
+> > are unconditional here, and ERRATA_ANDES_CMO will in turn select
+> > RISCV_DMA_NONCOHERENT.
+>
+> Oh, looks like another patch landed there in linux-next.  I had
+> waited for the previous one go go upstream in -rc6.  Not sure
+> how to best handle this conflict.
 
-configs tested: 103
-configs skipped: 2
+I think the easiest is to ask soc to apply this series?
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+Gr{oetje,eeting}s,
 
-tested configs:
-alpha                             allnoconfig   gcc  
-alpha                            allyesconfig   gcc  
-alpha                               defconfig   gcc  
-arc                              allmodconfig   gcc  
-arc                               allnoconfig   gcc  
-arc                              allyesconfig   gcc  
-arc                                 defconfig   gcc  
-arc                   randconfig-001-20231016   gcc  
-arm                              allmodconfig   gcc  
-arm                               allnoconfig   gcc  
-arm                              allyesconfig   gcc  
-arm                                 defconfig   gcc  
-arm                   randconfig-001-20231017   gcc  
-arm64                            allmodconfig   gcc  
-arm64                             allnoconfig   gcc  
-arm64                            allyesconfig   gcc  
-arm64                               defconfig   gcc  
-csky                             allmodconfig   gcc  
-csky                              allnoconfig   gcc  
-csky                             allyesconfig   gcc  
-csky                                defconfig   gcc  
-i386                             allmodconfig   gcc  
-i386                              allnoconfig   gcc  
-i386                             allyesconfig   gcc  
-i386                              debian-10.3   gcc  
-i386                                defconfig   gcc  
-i386                  randconfig-001-20231017   gcc  
-i386                  randconfig-002-20231017   gcc  
-i386                  randconfig-003-20231017   gcc  
-i386                  randconfig-004-20231017   gcc  
-i386                  randconfig-005-20231017   gcc  
-i386                  randconfig-006-20231017   gcc  
-loongarch                        allmodconfig   gcc  
-loongarch                         allnoconfig   gcc  
-loongarch                        allyesconfig   gcc  
-loongarch                           defconfig   gcc  
-loongarch             randconfig-001-20231016   gcc  
-m68k                             allmodconfig   gcc  
-m68k                              allnoconfig   gcc  
-m68k                             allyesconfig   gcc  
-m68k                                defconfig   gcc  
-microblaze                       allmodconfig   gcc  
-microblaze                        allnoconfig   gcc  
-microblaze                       allyesconfig   gcc  
-microblaze                          defconfig   gcc  
-mips                             allmodconfig   gcc  
-mips                              allnoconfig   gcc  
-mips                             allyesconfig   gcc  
-nios2                            allmodconfig   gcc  
-nios2                             allnoconfig   gcc  
-nios2                            allyesconfig   gcc  
-nios2                               defconfig   gcc  
-openrisc                         allmodconfig   gcc  
-openrisc                          allnoconfig   gcc  
-openrisc                         allyesconfig   gcc  
-openrisc                            defconfig   gcc  
-parisc                           allmodconfig   gcc  
-parisc                            allnoconfig   gcc  
-parisc                           allyesconfig   gcc  
-parisc                              defconfig   gcc  
-parisc64                            defconfig   gcc  
-powerpc                          allmodconfig   gcc  
-powerpc                           allnoconfig   gcc  
-powerpc                          allyesconfig   gcc  
-riscv                            allmodconfig   gcc  
-riscv                             allnoconfig   gcc  
-riscv                            allyesconfig   gcc  
-riscv                               defconfig   gcc  
-riscv                 randconfig-001-20231017   gcc  
-riscv                          rv32_defconfig   gcc  
-s390                             allmodconfig   gcc  
-s390                              allnoconfig   gcc  
-s390                             allyesconfig   gcc  
-s390                                defconfig   gcc  
-s390                  randconfig-001-20231017   gcc  
-sh                               allmodconfig   gcc  
-sh                                allnoconfig   gcc  
-sh                               allyesconfig   gcc  
-sh                                  defconfig   gcc  
-sparc                            allmodconfig   gcc  
-sparc                             allnoconfig   gcc  
-sparc                            allyesconfig   gcc  
-sparc                               defconfig   gcc  
-sparc64                          allmodconfig   gcc  
-sparc64                          allyesconfig   gcc  
-sparc64                             defconfig   gcc  
-um                               allmodconfig   clang
-um                                allnoconfig   clang
-um                               allyesconfig   clang
-um                                  defconfig   gcc  
-um                             i386_defconfig   gcc  
-um                           x86_64_defconfig   gcc  
-x86_64                            allnoconfig   gcc  
-x86_64                           allyesconfig   gcc  
-x86_64                              defconfig   gcc  
-x86_64                randconfig-001-20231017   gcc  
-x86_64                randconfig-002-20231017   gcc  
-x86_64                randconfig-003-20231017   gcc  
-x86_64                randconfig-004-20231017   gcc  
-x86_64                randconfig-005-20231017   gcc  
-x86_64                randconfig-006-20231017   gcc  
-x86_64                          rhel-8.3-rust   clang
-x86_64                               rhel-8.3   gcc  
+                        Geert
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
