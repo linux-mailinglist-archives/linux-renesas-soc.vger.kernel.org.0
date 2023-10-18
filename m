@@ -2,342 +2,506 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1A5AE7CDA97
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 18 Oct 2023 13:36:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CB4AC7CDCFB
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 18 Oct 2023 15:16:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229550AbjJRLgZ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 18 Oct 2023 07:36:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49426 "EHLO
+        id S231344AbjJRNQP (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 18 Oct 2023 09:16:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45810 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229702AbjJRLgY (ORCPT
+        with ESMTP id S231398AbjJRNQO (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 18 Oct 2023 07:36:24 -0400
-Received: from JPN01-TYC-obe.outbound.protection.outlook.com (mail-tycjpn01on2125.outbound.protection.outlook.com [40.107.114.125])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9C368FE
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 18 Oct 2023 04:36:21 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=iOu/Ztp6taQ5pwEVyvuPlJTkMYgwZM3dYskRtIJf5H2uMOGcNhdB9ah957t7emqzU2usW/Gk+GJzKVqxSNPjZs1tBsRo1MYArXkISRFP/aUvff9y4s1SltPPNdzbyrzTLOPkAp5cw2DSrlf4+A+otFxHqVpeXLXU1hHQ5wTg+MIPUqp1QWTdfFC6olDTC+F1VTWk4pb4ktB6g2R2lbB4bFFljKLA+fiiuOkiQbxMh8aCey6gpBiBuJQdp76Ryv+tZgXwnl5b5SMjk9Ty2sQw685v7ITVk4ZDsOGhLwBsfCBuWKTA0pNEuftEsqx+PO5uqT7lL5fWEQa2gri0uJBRhg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=UnEOhHe0Z3ytcDmRdQbWWUJmB7LV6XkCot2B4P8Y1u0=;
- b=f+A2lN6n9IocugGqvFQ05KGa+ijcVeZbTLkY6m2CwbSfMei6L1INWl9U24X9fSVaponLzjLHHheOdx4Xldq+kmr5hlOWT6GdPe//k1scMviDEHUVHLF0r6bJ7Z3soQvPyOBWB2lVf2bQ8ichQlE5rGpaHxaZHH6HV/aHaUYluPDYCfuDmDr4mrwl6HpjmHdHkvEDRWpFAfZHajOEWHkjwso9JgjQgwR/FpvD2fJeW3AMDR06o3psjh+BTadqQh9oE3JVZ3mgUpg1aAf2K9yWhWNZHv6DwQzv20u8FGArxVC5i43EsmDuJA1/q9OnxhqNhl6gfx84VPUcKRF2N/SOiQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=UnEOhHe0Z3ytcDmRdQbWWUJmB7LV6XkCot2B4P8Y1u0=;
- b=Z5ek5RYfC7Qx/zq1MHIavR82CTJw1WJM4YoViKB6Z6yGcImcG/r2HcsykJc0p1GOfzVRicQeQx9dB1F2l1Gi7kN2pUjhpwK+vjc+RGOqgg8zpef1VdJvYYCmSSziW8qFnoog/fz1VO/xox/NyhzX7X1eBknviEeHkt20L3+srHQ=
-Received: from TYCPR01MB11269.jpnprd01.prod.outlook.com
- (2603:1096:400:3c0::10) by OS3PR01MB6085.jpnprd01.prod.outlook.com
- (2603:1096:604:d7::5) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6907.24; Wed, 18 Oct
- 2023 11:36:17 +0000
-Received: from TYCPR01MB11269.jpnprd01.prod.outlook.com
- ([fe80::c90e:cd43:c967:5218]) by TYCPR01MB11269.jpnprd01.prod.outlook.com
- ([fe80::c90e:cd43:c967:5218%5]) with mapi id 15.20.6907.022; Wed, 18 Oct 2023
- 11:36:16 +0000
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Biju Das <biju.das.jz@bp.renesas.com>,
-        David Airlie <airlied@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-CC:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: RE: [PATCH v11 0/4] Add RZ/{G2L,G2LC} and RZ/V2L Display Unit support
-Thread-Topic: [PATCH v11 0/4] Add RZ/{G2L,G2LC} and RZ/V2L Display Unit
- support
-Thread-Index: AQHZ9SveS6kTO1ohDUi12FyPXzVLkbBPg22g
-Date:   Wed, 18 Oct 2023 11:36:15 +0000
-Message-ID: <TYCPR01MB112691BB77CFF04BEB547B94486D5A@TYCPR01MB11269.jpnprd01.prod.outlook.com>
-References: <20231002122740.220177-1-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20231002122740.220177-1-biju.das.jz@bp.renesas.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TYCPR01MB11269:EE_|OS3PR01MB6085:EE_
-x-ms-office365-filtering-correlation-id: 628cef6e-7a6d-4df9-e49a-08dbcfce7069
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: hmJKcL4pACDbiptSMNVSne/cqzMelEEq5mLQAgHRZL5NZnTjfLB+DyI59d+K3urHF2r7K6gx66YlTeo3Z3SfXBrXSvqP5dnzy/qmKrmTEJ//iB22j1o6f1mOZXMJspqBSJWUHdn4SWeBUCmyR9sFRLH3v1cKwvMhX37TReo1tJIRU2BBzGPzuS21w485pVs0p/x1FIheYn3tnxIuPlCWa6cWkBxR/2WXFtqd0DoO8CJlaJ1m3XCIt56aQTWT+gUbxXWVp5wE0fedy2BoukY2c9TO9ejXoltButv8Q3P60KG4Cst4+tkvndtCegFX1dAKFoZKSpvsOuw3NbNm8t1BXxFFdQTZrl7zG06DwvIQS6m+jkh0liqwyuFWIFXT2Id+hEyaF2xHNwTDKNbFpORyNeD6m3MOiVN648GG3qE/oNU7Rmi7FAu4wTzRye0OTQULmk/40zzLIBn0+UBetZxxFvt5OhofkKUPQK0tcOOUset1utwvLoIOEuCx5izWOM/pS1PU6EJMFMN2zoO9+iQfuErpoddse1vEWIW7paSztUULejZ65hM56qEcqUXUIwrGz8Yy8kUTO89dDi/BgIVmai0xLtUcSfezBkF6EeRW8biF1yk87vlwuTd4E1WSMz83
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB11269.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(136003)(346002)(376002)(39860400002)(396003)(366004)(230922051799003)(64100799003)(1800799009)(186009)(451199024)(2906002)(41300700001)(316002)(4326008)(8936002)(8676002)(33656002)(66946007)(66556008)(66476007)(66446008)(64756008)(76116006)(54906003)(110136005)(55016003)(38070700005)(5660300002)(52536014)(107886003)(122000001)(38100700002)(26005)(478600001)(86362001)(45080400002)(966005)(53546011)(9686003)(71200400001)(7696005)(6506007)(7416002)(83380400001);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?shhpyZhHb0n+wHUqlNWvoyPuk/J6KkZaxJss8oFiN8MO+0B0Gjra/MUH0o/9?=
- =?us-ascii?Q?hSjONtPdHAx0wUqjNxnqGDr8OB64IYeAzWcpJzFOhJzv1vKvqBz72Ytao8fA?=
- =?us-ascii?Q?evA70iKXsmkkRgpigUAmKFgF1j3D0jBhI1RZCSmwvq46bcNSJsdv4H5dzaor?=
- =?us-ascii?Q?1sF8GkrkZqsippHb06/UtZ+9lxXJGLH0swIr2I2abygUcOunQWUOi9KlUAYM?=
- =?us-ascii?Q?fDmbuKy+ypV2/W4pB+oPTjoOQ9kMyRSPoaY1Hf2f6tw9J7XXWAAqs7ATERQ1?=
- =?us-ascii?Q?L02tqKBAZulS36I41EKSh6mYaSintBSwPZIpvID2ly9MlQ9/HDAH0gMuen4f?=
- =?us-ascii?Q?U19gOu2M+V1CmxFjQ9M5kCQa2CoGNm3UlTiNebjbjQS0MjQIb4uGWhl3Eun5?=
- =?us-ascii?Q?33CHqErrUCNVXnTxvPvscG6Wg4porvR4yLo5xPcMOq+9UpgznB5lwjHDc2kV?=
- =?us-ascii?Q?ujL772oHPhXNRrNVtHhecPxaJKk/2OjJfNRKkelyA8FB9KhkxtMhcG58t/yM?=
- =?us-ascii?Q?CKUKsWdhY8dtIrq9Yi+ZYZ+ufcyGr81xXiQZZNCF6bfED6lDpU4es4TQ6d1+?=
- =?us-ascii?Q?AsZ1rHlwq3icihAhbUkdPdzHkMP1G1FFqr209GFwnO0F+CB/3ntqOvdimqA7?=
- =?us-ascii?Q?JEud/I4CMzv/6DooXwA/8qAPn7NTJoaDImsfjkEBJQz/v5Fkz9brx11OybEf?=
- =?us-ascii?Q?UMe5vJjPXsmBnWOjEQGSHtdq4PIkWlKokmvXDzC09ixG3wxH8pMYJxU8ylvm?=
- =?us-ascii?Q?sNNcGFPeHoTqvoPuyk+JtblJdfKi6k1OgfEpiEXw3zrEmbGLQBhq2HhLVfbP?=
- =?us-ascii?Q?4jsGBupsHbkVwaj7/slkueN0RRndUNlsV+muUyQnJXqTDIzwNGg0H4lO+bvM?=
- =?us-ascii?Q?jP46KQrLKdul62ZDll/S+j80KFvkEHCp7s3e9///E1Y1bvGitHEi70TS+WKh?=
- =?us-ascii?Q?/WPJ/5uys8JgHbkWV3VfUStrDotD/pC2UmpdIE/RI1YugD76ZB3w+nt3LoE0?=
- =?us-ascii?Q?MK85aloqE6PX+5icDF9fftDfiJQUB30TLr8prH9hSN8nHILBFI0WRkq2iKeK?=
- =?us-ascii?Q?+ri56amrvNn774v5o8w+NTcS4ffR8xrx1Q4HdgGCeFFxopfDm7o+u15iGpal?=
- =?us-ascii?Q?VZB1UqHbAXmHJCaPdG96dELLhM9RJXaCuuR4rqCEqaaYEIEXbzM2PVb4Db40?=
- =?us-ascii?Q?b9eNTHsR+ZnAI5Q+3Xxj7EX2ceaMgQsqf25BsY5nAqLjDF+kS3+02gChCGFZ?=
- =?us-ascii?Q?rou4TRS7/CpiJTBiq8JCOwZSnrMjqyEPVwtEBSZ5keGdLtFRkgioVBANqo5k?=
- =?us-ascii?Q?H0pnb1u2/uY2qEdDXRi5ZH3H7XNPvY0hVi5FrO56FQXacyzFmdJJ+lVJh/ry?=
- =?us-ascii?Q?6AVXAN7nqSkTA5yLCrd/KmE97VGmYt1630gAX5nZcU3WHPerkt1581kYoqXL?=
- =?us-ascii?Q?fLQWk8yMlP+muEPTag/BzNKorx/qzP0QzCX3wjPxrW1Qq6V7B3Oqr7WBzrl+?=
- =?us-ascii?Q?CbB07XFG0IXwtF17mlyW/R76D79p23fxMOXswM2eNiYoMW/7ngwMlple/n6y?=
- =?us-ascii?Q?Yy86SJsvHG2wDWC8UADDmxGu+OxzfMMC8rYsZl4auj7X8C9iMK2lNA3mCJSB?=
- =?us-ascii?Q?kw=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        Wed, 18 Oct 2023 09:16:14 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DFCCD83;
+        Wed, 18 Oct 2023 06:16:11 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 00176C433C8;
+        Wed, 18 Oct 2023 13:16:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1697634971;
+        bh=EV5d9GaBfF1fZbeOPDv3N401FFsTzriGwYNW/AYGa3k=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=D5rWL3NDNp7b/CefNIDLvQmOttmwBoYjtPRuhYPfkBxeKo+6dvyYIPnSq8fs7BfZZ
+         9qQHo+2YvbKUUfGKul6eU5N5ytwV8cPwAyod+Hv07wA61GEgwjeEN4Cd/7RR8yT1J0
+         0OrnNzVVLxwySVfa94sI4KxUgS79Vt5nIYlgl0+yldbfnigU398qa8c8+w/XWdB7DN
+         uGjxgHsp6/naZKkci78izPxauYxIa3+pZWVXqy+QNgOC/rMyUSpAFY7BPjpS1DfZjp
+         QJ2mWeeVirIEWaSedl/KCTxp3wpmR1OyCzWkZ9rN4gKFFY+EK/++NxgpjAp0R1mxxq
+         jPSbaSlCSL5Nw==
+Date:   Wed, 18 Oct 2023 18:46:02 +0530
+From:   Manivannan Sadhasivam <mani@kernel.org>
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc:     lpieralisi@kernel.org, kw@linux.com, robh@kernel.org,
+        bhelgaas@google.com, krzysztof.kozlowski+dt@linaro.org,
+        conor+dt@kernel.org, jingoohan1@gmail.com,
+        gustavo.pimentel@synopsys.com, marek.vasut+renesas@gmail.com,
+        linux-pci@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        Serge Semin <fancer.lancer@gmail.com>
+Subject: Re: [PATCH v25 12/15] PCI: rcar-gen4: Add R-Car Gen4 PCIe controller
+ support for host mode
+Message-ID: <20231018131602.GC47321@thinkpad>
+References: <20231018085631.1121289-1-yoshihiro.shimoda.uh@renesas.com>
+ <20231018085631.1121289-13-yoshihiro.shimoda.uh@renesas.com>
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB11269.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 628cef6e-7a6d-4df9-e49a-08dbcfce7069
-X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Oct 2023 11:36:15.8917
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: odiVtF817MdsQWiKWAow8pX3TkJV3/hpV/00SxG1nOZtMqKr7kAsskJYMLPt7Wfb9cvif22vO+G80vCLnENMjJbAiwt3q0dfIRgRgMDOIHo=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS3PR01MB6085
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20231018085631.1121289-13-yoshihiro.shimoda.uh@renesas.com>
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Jacopo, Laurent and all,
+On Wed, Oct 18, 2023 at 05:56:28PM +0900, Yoshihiro Shimoda wrote:
+> Add R-Car Gen4 PCIe controller support for host mode.
+> 
+> This controller is based on Synopsys DesignWare PCIe. However, this
+> particular controller has a number of vendor-specific registers, and as
+> such, requires initialization code like mode setting and retraining and
+> so on.
+> 
+> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 
-Gentle ping. Are we happy with this patch series?
+Reviewed-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
 
-Please let me know.
+- Mani
 
-Cheers,
-Biju
-
-
-
-> -----Original Message-----
-> From: Biju Das <biju.das.jz@bp.renesas.com>
-> Sent: Monday, October 2, 2023 1:28 PM
-> Subject: [PATCH v11 0/4] Add RZ/{G2L,G2LC} and RZ/V2L Display Unit suppor=
-t
->=20
-> This path series aims to add support for RZ/G2L DU DRM driver.
->=20
-> RZ/G2L LCD controller composed of Frame compression Processor(FCPVD),
-> Video signal processor (VSPD) and Display unit(DU). The output of LCDC is
-> connected to Display parallel interface and MIPI link video interface.
->=20
-> The output from DSI is connected to ADV7535.
->=20
-> Ref:
->=20
-> This patch series is tested with [2]
-> [2]
->=20
-> v10->v11:
-> * Replaced CONFIG_DRM_RCAR_VSP->CONFIG_VIDEO_RENESAS_VSP1 for building
->   rzg2l_du_vsp driver.
-> * Dropped "rzg2l_du_regs.h" instead the relevant definitions defined in
->   .c file.
-> * Dropped setting ditr5 based on latest HW manual 1.3.0/1.4.0
-> * Updated the comment for auto clear.
-> * Replaced writel()->rzg2l_du_write() in rzg2l_du_start_stop().
-> * Dropped CRC related functions as it does not have DISCOM.
-> * Replaced the variable possible_crtcs->possible_outputs in
->   struct rzg2l_du_output_routing.
-> * Updated DMA_BIT_MASK from 40->32.
-> * Dropped unneeded struct drm_bridge from rzg2l_du_drv.h.
-> * Dropped colour keying support as it doesn't have planes.
-> * Added only RGB formats in rzg2l_du_format_infos.
-> * Dropped chroma planes from rzg2l_du_fb_create().
-> * Updated the comment for max_pitch in rzg2l_du_fb_create().
-> * Dropped possible_crtcs check in rzg2l_du_encoders_init().
-> * Dropped additional empty line from struct rzg2l_du_device.
-> v9->v10:
->  * patch#1 is mainlined, so dropped from this series.
->  * Added Rb tag from Laurent for the binding patch.
->  * Updated the commit description.
->  * Updated description of the port by dropping the text "specified in
->    Documentation/devicetree/bindings/graph.txt."
->  * Dropped empty endpoint from example.
->  * Dropped ARM64 dependency from Kconfig.
->  * Sorted the configs alphabetically in Kconfig.
->  * Dropped DRM_RCAR_VSP config option and make DRM_RZG2L_DU depend on
->    VIDEO_RENESAS_VSP1.
->  * On rzg2l_du_crtc_set_display_timing() replaced the setting of parent
->    clk rate with dclk rate.
->  * Added rzg2l_du_write() wrapper function.
->  * Updated the comment atomic_begin->atomic_flush.
->  * Dropped .atomic_check and .atomic_begin callback
->  * Renamed __rzg2l_du_crtc_plane_atomic_check->__rzg2l_du_vsp_plane_atomi=
-c
->    _check and moved it to rzg2l_du_vsp.c
->  * Added struct clk in rzg2l_du_crtc.h
->  * Dropped the variables mmio_offset,index,vblank_lock,vblank_wait,
->    vblank_count from struct rzg2l_du_crtc.
->  * Replaced the macro to_rzg2l_crtc with static inline functions.
->  * Dropped the unneeded header files clk.h, io.h, mm.h, pm.h, slab.h,
->    wait.h and drm_managed.h from rzg2l_du_drv.c.
->  * Replaced DRM_INFO->drm_info
->  * Dropped the callbacks prime_handle_to_fd, prime_fd_to_handle and
->    gem_prime_mmap.
->  * Replaced the callback remove->remove_new.
->  * Dropped header file wait.h and added forward declarations struct clk
-> and
->    rzg2l_du_device from rzg2l_du_drv.h.
->  * Dropped the dsi and dpad0_source variables from struct rzg2l_du_device=
-.
->  * Replaced the macro to_rzg2l_encoder with static inline functions.
->  * Dropped header files dma-buf.h and wait.h from rzg2l_du_kms.c.
->  * Dropped struct sg_table and added the scatterlist.h header file in
->    rzg2l_du_vsp.h
->  * Added container_of.h header file, forward declarations struct device
-> and
->    struct rzg2l_du_device in rzg2l_du_vsp.h.
-> v8->v9:
->  * Added Rb tag from Laurent and Acked-by tag from Kieran for patch#1.
->  * Added Rb tag from Laurent and Geert for patch#3.
->  * Dropped reset_control_assert() from error patch for rzg2l_du_crtc_get(=
-)
-> as
->    suggested by Philipp Zabel.
->  * Added Rb tag from Laurent oatch#5.
->  * Updated MAINTAINERS entries for common parts(Makefile and Kconfig).
-> v7->v8:
->  * Moved rcar-du and shmobile DRM drivers to renesas specific vendor
-> directory.
->  * Fixed the typo vsp2->du in RZ/V2L DU bindings patch.
->  * Added Rb tag from Rob for RZ/V2L DU bindings patch.
->  * Dropped RCar du lib and created RZ/G2L DU DRM driver by creating rz_du
-> folder.
->  * Updated MAINTAINERS entries.
-> v6->v7:
->  * Split DU lib and  RZ/G2L du driver as separate patch series as
->    DU support added to more platforms based on RZ/G2L alike SoCs.
->  * Rebased to latest drm-tip.
->  * Added patch #2 for binding support for RZ/V2L DU
->  * Added patch #4 for driver support for RZ/V2L DU
->  * Added patch #5 for SoC DTSI support for RZ/G2L DU
->  * Added patch #6 for SoC DTSI support for RZ/V2L DU
->  * Added patch #7 for Enabling DU on SMARC EVK based on RZ/{G2L,V2L} SoCs=
-.
->  * Added patch #8 for Enabling DU on SMARC EVK based on RZ/G2LC SoC.
-> v5->v6:
->  * Merged DU lib and RZ/G2L du driver in same patch series
->  * Rebased to latest drm-misc.
->  * Merged patch#1 to RZ/G2L Driver patch.
->  * Updated KConfig dependency from ARCH_RENESAS->ARCH_RZG2L.
->  * Optimized rzg2l_du_output_name() by removing unsupported outputs.
->=20
-> v4->v5:
->  * Added Rb tag from Rob for binding patch.
->  * Started using RCar DU libs(kms, vsp and encoder)
->  * Started using rcar_du_device, rcar_du_write, rcar_du_crtc,
->    rcar_du_format_info and rcar_du_encoder.
-> v3->v4:
->  * Changed compatible name from renesas,du-r9a07g044->renesas,r9a07g044-d=
-u
->  * started using same compatible for RZ/G2{L,LC}
->  * Removed rzg2l_du_group.h and struct rzg2l_du_group
->  * Renamed __rzg2l_du_group_start_stop->rzg2l_du_start_stop
->  * Removed rzg2l_du_group_restart
->  * Updated rzg2l_du_crtc_set_display_timing
->  * Removed mode_valid callback.
->  * Updated rzg2l_du_crtc_create() parameters
->  * Updated compatible
->  * Removed RZG2L_DU_MAX_GROUPS
-> V2->v3:
->  * Added new bindings for RZ/G2L DU
->  * Removed indirection and created new DRM driver based on R-Car DU
-> v1->v2:
->  * Based on [1], all references to 'rzg2l_lcdc' replaced with 'rzg2l_du'
->  * Updated commit description for bindings
->  * Removed LCDC references from bindings
->  * Changed clock name from du.0->aclk from bindings
->  * Changed reset name from du.0->du from bindings
->  * Replaced crtc_helper_funcs->rcar_crtc_helper_funcs
->  * Updated macro DRM_RZG2L_LCDC->DRM_RZG2L_DU
->  * Replaced rzg2l-lcdc-drm->rzg2l-du-drm
->  * Added forward declaration for struct reset_control
->=20
-> [1]
-> https://jpn01.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fpatch=
-wor
-> k.kernel.org%2Fproject%2Flinux-renesas-soc%2Fpatch%2F20220312084205.31462=
--
-> 2-
-> biju.das.jz%40bp.renesas.com%2F&data=3D05%7C01%7Cbiju.das.jz%40bp.renesas=
-.co
-> m%7Ce669be40ca4449ebb44708dbc342fc7a%7C53d82571da1947e49cb4625a166a4a2a%7=
-C
-> 0%7C0%7C638318464751238898%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLC=
-J
-> QIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&sdata=3DjlkoT=
-Ml1
-> V3JfKQchd3o0HhWvgppWE3q%2FBjejCWLcxX8%3D&reserved=3D0
->=20
-> Biju Das (4):
->   dt-bindings: display: Document Renesas RZ/G2L DU bindings
->   dt-bindings: display: renesas,rzg2l-du: Document RZ/V2L DU bindings
->   drm: renesas: Add RZ/G2L DU Support
->   MAINTAINERS: Add maintainer for RZ DU drivers
->=20
->  .../bindings/display/renesas,rzg2l-du.yaml    | 126 +++++
->  MAINTAINERS                                   |  15 +-
->  drivers/gpu/drm/renesas/Kconfig               |   1 +
->  drivers/gpu/drm/renesas/Makefile              |   1 +
->  drivers/gpu/drm/renesas/rz-du/Kconfig         |  12 +
->  drivers/gpu/drm/renesas/rz-du/Makefile        |   8 +
->  drivers/gpu/drm/renesas/rz-du/rzg2l_du_crtc.c | 438 ++++++++++++++++
-> drivers/gpu/drm/renesas/rz-du/rzg2l_du_crtc.h |  89 ++++
-> drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.c  | 176 +++++++
-> drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.h  |  78
-> +++  .../gpu/drm/renesas/rz-du/rzg2l_du_encoder.c  |  72
-> +++  .../gpu/drm/renesas/rz-du/rzg2l_du_encoder.h  |  32 ++
-> drivers/gpu/drm/renesas/rz-du/rzg2l_du_kms.c  | 441 ++++++++++++++++
-> drivers/gpu/drm/renesas/rz-du/rzg2l_du_kms.h  |  43 ++
-> drivers/gpu/drm/renesas/rz-du/rzg2l_du_vsp.c  | 469 ++++++++++++++++++
-> drivers/gpu/drm/renesas/rz-du/rzg2l_du_vsp.h  |  97 ++++
->  16 files changed, 2096 insertions(+), 2 deletions(-)  create mode 100644
-> Documentation/devicetree/bindings/display/renesas,rzg2l-du.yaml
->  create mode 100644 drivers/gpu/drm/renesas/rz-du/Kconfig
->  create mode 100644 drivers/gpu/drm/renesas/rz-du/Makefile
->  create mode 100644 drivers/gpu/drm/renesas/rz-du/rzg2l_du_crtc.c
->  create mode 100644 drivers/gpu/drm/renesas/rz-du/rzg2l_du_crtc.h
->  create mode 100644 drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.c
->  create mode 100644 drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.h
->  create mode 100644 drivers/gpu/drm/renesas/rz-du/rzg2l_du_encoder.c
->  create mode 100644 drivers/gpu/drm/renesas/rz-du/rzg2l_du_encoder.h
->  create mode 100644 drivers/gpu/drm/renesas/rz-du/rzg2l_du_kms.c
->  create mode 100644 drivers/gpu/drm/renesas/rz-du/rzg2l_du_kms.h
->  create mode 100644 drivers/gpu/drm/renesas/rz-du/rzg2l_du_vsp.c
->  create mode 100644 drivers/gpu/drm/renesas/rz-du/rzg2l_du_vsp.h
->=20
-> --
+> Reviewed-by: Serge Semin <fancer.lancer@gmail.com>
+> ---
+>  drivers/pci/controller/dwc/Kconfig          |  14 +
+>  drivers/pci/controller/dwc/Makefile         |   1 +
+>  drivers/pci/controller/dwc/pcie-rcar-gen4.c | 378 ++++++++++++++++++++
+>  3 files changed, 393 insertions(+)
+>  create mode 100644 drivers/pci/controller/dwc/pcie-rcar-gen4.c
+> 
+> diff --git a/drivers/pci/controller/dwc/Kconfig b/drivers/pci/controller/dwc/Kconfig
+> index ab96da43e0c2..306fc71493fc 100644
+> --- a/drivers/pci/controller/dwc/Kconfig
+> +++ b/drivers/pci/controller/dwc/Kconfig
+> @@ -286,6 +286,20 @@ config PCIE_QCOM_EP
+>  	  to work in endpoint mode. The PCIe controller uses the DesignWare core
+>  	  plus Qualcomm-specific hardware wrappers.
+>  
+> +config PCIE_RCAR_GEN4
+> +	tristate
+> +
+> +config PCIE_RCAR_GEN4_HOST
+> +	tristate "Renesas R-Car Gen4 PCIe controller (host mode)"
+> +	depends on ARCH_RENESAS || COMPILE_TEST
+> +	depends on PCI_MSI
+> +	select PCIE_DW_HOST
+> +	select PCIE_RCAR_GEN4
+> +	help
+> +	  Say Y here if you want PCIe controller (host mode) on R-Car Gen4 SoCs.
+> +	  To compile this driver as a module, choose M here: the module will be
+> +	  called pcie-rcar-gen4.ko. This uses the DesignWare core.
+> +
+>  config PCIE_ROCKCHIP_DW_HOST
+>  	bool "Rockchip DesignWare PCIe controller"
+>  	select PCIE_DW
+> diff --git a/drivers/pci/controller/dwc/Makefile b/drivers/pci/controller/dwc/Makefile
+> index bf5c311875a1..bac103faa523 100644
+> --- a/drivers/pci/controller/dwc/Makefile
+> +++ b/drivers/pci/controller/dwc/Makefile
+> @@ -26,6 +26,7 @@ obj-$(CONFIG_PCIE_TEGRA194) += pcie-tegra194.o
+>  obj-$(CONFIG_PCIE_UNIPHIER) += pcie-uniphier.o
+>  obj-$(CONFIG_PCIE_UNIPHIER_EP) += pcie-uniphier-ep.o
+>  obj-$(CONFIG_PCIE_VISCONTI_HOST) += pcie-visconti.o
+> +obj-$(CONFIG_PCIE_RCAR_GEN4) += pcie-rcar-gen4.o
+>  
+>  # The following drivers are for devices that use the generic ACPI
+>  # pci_root.c driver but don't support standard ECAM config access.
+> diff --git a/drivers/pci/controller/dwc/pcie-rcar-gen4.c b/drivers/pci/controller/dwc/pcie-rcar-gen4.c
+> new file mode 100644
+> index 000000000000..fe727abd53a1
+> --- /dev/null
+> +++ b/drivers/pci/controller/dwc/pcie-rcar-gen4.c
+> @@ -0,0 +1,378 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + * PCIe controller driver for Renesas R-Car Gen4 Series SoCs
+> + * Copyright (C) 2022-2023 Renesas Electronics Corporation
+> + */
+> +
+> +#include <linux/delay.h>
+> +#include <linux/interrupt.h>
+> +#include <linux/io.h>
+> +#include <linux/module.h>
+> +#include <linux/of_device.h>
+> +#include <linux/pci.h>
+> +#include <linux/platform_device.h>
+> +#include <linux/pm_runtime.h>
+> +#include <linux/reset.h>
+> +
+> +#include "../../pci.h"
+> +#include "pcie-designware.h"
+> +
+> +/* Renesas-specific */
+> +/* PCIe Mode Setting Register 0 */
+> +#define PCIEMSR0		0x0000
+> +#define BIFUR_MOD_SET_ON	BIT(0)
+> +#define DEVICE_TYPE_RC		BIT(4)
+> +
+> +/* PCIe Interrupt Status 0 */
+> +#define PCIEINTSTS0		0x0084
+> +
+> +/* PCIe Interrupt Status 0 Enable */
+> +#define PCIEINTSTS0EN		0x0310
+> +#define MSI_CTRL_INT		BIT(26)
+> +#define SMLH_LINK_UP		BIT(7)
+> +#define RDLH_LINK_UP		BIT(6)
+> +
+> +/* PCIe DMA Interrupt Status Enable */
+> +#define PCIEDMAINTSTSEN		0x0314
+> +#define PCIEDMAINTSTSEN_INIT	GENMASK(15, 0)
+> +
+> +/* PCIe Reset Control Register 1 */
+> +#define PCIERSTCTRL1		0x0014
+> +#define APP_HOLD_PHY_RST	BIT(16)
+> +#define APP_LTSSM_ENABLE	BIT(0)
+> +
+> +#define RCAR_NUM_SPEED_CHANGE_RETRIES	10
+> +#define RCAR_MAX_LINK_SPEED		4
+> +
+> +struct rcar_gen4_pcie {
+> +	struct dw_pcie dw;
+> +	void __iomem *base;
+> +	struct platform_device *pdev;
+> +	enum dw_pcie_device_mode mode;
+> +};
+> +#define to_rcar_gen4_pcie(_dw)	container_of(_dw, struct rcar_gen4_pcie, dw)
+> +
+> +static void rcar_gen4_pcie_ltssm_enable(struct rcar_gen4_pcie *rcar,
+> +					bool enable)
+> +{
+> +	u32 val;
+> +
+> +	val = readl(rcar->base + PCIERSTCTRL1);
+> +	if (enable) {
+> +		val |= APP_LTSSM_ENABLE;
+> +		val &= ~APP_HOLD_PHY_RST;
+> +	} else {
+> +		/*
+> +		 * Since the datasheet of R-Car doesn't mention how to assert
+> +		 * the APP_HOLD_PHY_RST, don't assert it again. Otherwise,
+> +		 * hang-up issue happened in the dw_edma_core_off() when
+> +		 * the controller didn't detect a PCI device.
+> +		 */
+> +		val &= ~APP_LTSSM_ENABLE;
+> +	}
+> +	writel(val, rcar->base + PCIERSTCTRL1);
+> +}
+> +
+> +static int rcar_gen4_pcie_link_up(struct dw_pcie *dw)
+> +{
+> +	struct rcar_gen4_pcie *rcar = to_rcar_gen4_pcie(dw);
+> +	u32 val, mask;
+> +
+> +	val = readl(rcar->base + PCIEINTSTS0);
+> +	mask = RDLH_LINK_UP | SMLH_LINK_UP;
+> +
+> +	return (val & mask) == mask;
+> +}
+> +
+> +/*
+> + * Manually initiate the speed change. Return 0 if change succeeded; otherwise
+> + * -ETIMEDOUT.
+> + */
+> +static int rcar_gen4_pcie_speed_change(struct dw_pcie *dw)
+> +{
+> +	u32 val;
+> +	int i;
+> +
+> +	val = dw_pcie_readl_dbi(dw, PCIE_LINK_WIDTH_SPEED_CONTROL);
+> +	val &= ~PORT_LOGIC_SPEED_CHANGE;
+> +	dw_pcie_writel_dbi(dw, PCIE_LINK_WIDTH_SPEED_CONTROL, val);
+> +
+> +	val = dw_pcie_readl_dbi(dw, PCIE_LINK_WIDTH_SPEED_CONTROL);
+> +	val |= PORT_LOGIC_SPEED_CHANGE;
+> +	dw_pcie_writel_dbi(dw, PCIE_LINK_WIDTH_SPEED_CONTROL, val);
+> +
+> +	for (i = 0; i < RCAR_NUM_SPEED_CHANGE_RETRIES; i++) {
+> +		val = dw_pcie_readl_dbi(dw, PCIE_LINK_WIDTH_SPEED_CONTROL);
+> +		if (!(val & PORT_LOGIC_SPEED_CHANGE))
+> +			return 0;
+> +		usleep_range(10000, 11000);
+> +	}
+> +
+> +	return -ETIMEDOUT;
+> +}
+> +
+> +/*
+> + * Enable LTSSM of this controller and manually initiate the speed change.
+> + * Always return 0.
+> + */
+> +static int rcar_gen4_pcie_start_link(struct dw_pcie *dw)
+> +{
+> +	struct rcar_gen4_pcie *rcar = to_rcar_gen4_pcie(dw);
+> +	int i, changes;
+> +
+> +	rcar_gen4_pcie_ltssm_enable(rcar, true);
+> +
+> +	/*
+> +	 * Require direct speed change with retrying here if the link_gen is
+> +	 * PCIe Gen2 or higher.
+> +	 */
+> +	changes = min_not_zero(dw->link_gen, RCAR_MAX_LINK_SPEED) - 1;
+> +
+> +	/*
+> +	 * Since dw_pcie_setup_rc() sets it once, PCIe Gen2 will be trained.
+> +	 * So, this needs remaining times for up to PCIe Gen4 if RC mode.
+> +	 */
+> +	if (changes && rcar->mode == DW_PCIE_RC_TYPE)
+> +		changes--;
+> +
+> +	for (i = 0; i < changes; i++) {
+> +		/* It may not be connected in EP mode yet. So, break the loop */
+> +		if (rcar_gen4_pcie_speed_change(dw))
+> +			break;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static void rcar_gen4_pcie_stop_link(struct dw_pcie *dw)
+> +{
+> +	struct rcar_gen4_pcie *rcar = to_rcar_gen4_pcie(dw);
+> +
+> +	rcar_gen4_pcie_ltssm_enable(rcar, false);
+> +}
+> +
+> +static int rcar_gen4_pcie_common_init(struct rcar_gen4_pcie *rcar)
+> +{
+> +	struct dw_pcie *dw = &rcar->dw;
+> +	u32 val;
+> +	int ret;
+> +
+> +	ret = clk_bulk_prepare_enable(DW_PCIE_NUM_CORE_CLKS, dw->core_clks);
+> +	if (ret) {
+> +		dev_err(dw->dev, "Enabling core clocks failed\n");
+> +		return ret;
+> +	}
+> +
+> +	if (!reset_control_status(dw->core_rsts[DW_PCIE_PWR_RST].rstc))
+> +		reset_control_assert(dw->core_rsts[DW_PCIE_PWR_RST].rstc);
+> +
+> +	val = readl(rcar->base + PCIEMSR0);
+> +	if (rcar->mode == DW_PCIE_RC_TYPE) {
+> +		val |= DEVICE_TYPE_RC;
+> +	} else {
+> +		ret = -EINVAL;
+> +		goto err_unprepare;
+> +	}
+> +
+> +	if (dw->num_lanes < 4)
+> +		val |= BIFUR_MOD_SET_ON;
+> +
+> +	writel(val, rcar->base + PCIEMSR0);
+> +
+> +	ret = reset_control_deassert(dw->core_rsts[DW_PCIE_PWR_RST].rstc);
+> +	if (ret)
+> +		goto err_unprepare;
+> +
+> +	return 0;
+> +
+> +err_unprepare:
+> +	clk_bulk_disable_unprepare(DW_PCIE_NUM_CORE_CLKS, dw->core_clks);
+> +
+> +	return ret;
+> +}
+> +
+> +static void rcar_gen4_pcie_common_deinit(struct rcar_gen4_pcie *rcar)
+> +{
+> +	struct dw_pcie *dw = &rcar->dw;
+> +
+> +	reset_control_assert(dw->core_rsts[DW_PCIE_PWR_RST].rstc);
+> +	clk_bulk_disable_unprepare(DW_PCIE_NUM_CORE_CLKS, dw->core_clks);
+> +}
+> +
+> +static int rcar_gen4_pcie_prepare(struct rcar_gen4_pcie *rcar)
+> +{
+> +	struct device *dev = rcar->dw.dev;
+> +	int err;
+> +
+> +	pm_runtime_enable(dev);
+> +	err = pm_runtime_resume_and_get(dev);
+> +	if (err < 0) {
+> +		dev_err(dev, "Runtime resume failed\n");
+> +		pm_runtime_disable(dev);
+> +	}
+> +
+> +	return err;
+> +}
+> +
+> +static void rcar_gen4_pcie_unprepare(struct rcar_gen4_pcie *rcar)
+> +{
+> +	struct device *dev = rcar->dw.dev;
+> +
+> +	pm_runtime_put(dev);
+> +	pm_runtime_disable(dev);
+> +}
+> +
+> +static int rcar_gen4_pcie_get_resources(struct rcar_gen4_pcie *rcar)
+> +{
+> +	/* Renesas-specific registers */
+> +	rcar->base = devm_platform_ioremap_resource_byname(rcar->pdev, "app");
+> +
+> +	return PTR_ERR_OR_ZERO(rcar->base);
+> +}
+> +
+> +static const struct dw_pcie_ops dw_pcie_ops = {
+> +	.start_link = rcar_gen4_pcie_start_link,
+> +	.stop_link = rcar_gen4_pcie_stop_link,
+> +	.link_up = rcar_gen4_pcie_link_up,
+> +};
+> +
+> +static struct rcar_gen4_pcie *rcar_gen4_pcie_alloc(struct platform_device *pdev)
+> +{
+> +	struct device *dev = &pdev->dev;
+> +	struct rcar_gen4_pcie *rcar;
+> +
+> +	rcar = devm_kzalloc(dev, sizeof(*rcar), GFP_KERNEL);
+> +	if (!rcar)
+> +		return ERR_PTR(-ENOMEM);
+> +
+> +	rcar->dw.ops = &dw_pcie_ops;
+> +	rcar->dw.dev = dev;
+> +	rcar->pdev = pdev;
+> +	dw_pcie_cap_set(&rcar->dw, EDMA_UNROLL);
+> +	dw_pcie_cap_set(&rcar->dw, REQ_RES);
+> +	platform_set_drvdata(pdev, rcar);
+> +
+> +	return rcar;
+> +}
+> +
+> +/* Host mode */
+> +static int rcar_gen4_pcie_host_init(struct dw_pcie_rp *pp)
+> +{
+> +	struct dw_pcie *dw = to_dw_pcie_from_pp(pp);
+> +	struct rcar_gen4_pcie *rcar = to_rcar_gen4_pcie(dw);
+> +	int ret;
+> +	u32 val;
+> +
+> +	gpiod_set_value_cansleep(dw->pe_rst, 1);
+> +
+> +	ret = rcar_gen4_pcie_common_init(rcar);
+> +	if (ret)
+> +		return ret;
+> +
+> +	/*
+> +	 * According to the section 3.5.7.2 "RC Mode" in DWC PCIe Dual Mode
+> +	 * Rev.5.20a and 3.5.6.1 "RC mode" in DWC PCIe RC databook v5.20a, we
+> +	 * should disable two BARs to avoid unnecessary memory assignment
+> +	 * during device enumeration.
+> +	 */
+> +	dw_pcie_writel_dbi2(dw, PCI_BASE_ADDRESS_0, 0x0);
+> +	dw_pcie_writel_dbi2(dw, PCI_BASE_ADDRESS_1, 0x0);
+> +
+> +	/* Enable MSI interrupt signal */
+> +	val = readl(rcar->base + PCIEINTSTS0EN);
+> +	val |= MSI_CTRL_INT;
+> +	writel(val, rcar->base + PCIEINTSTS0EN);
+> +
+> +	msleep(PCIE_T_PVPERL_MS);	/* pe_rst requires 100msec delay */
+> +
+> +	gpiod_set_value_cansleep(dw->pe_rst, 0);
+> +
+> +	return 0;
+> +}
+> +
+> +static void rcar_gen4_pcie_host_deinit(struct dw_pcie_rp *pp)
+> +{
+> +	struct dw_pcie *dw = to_dw_pcie_from_pp(pp);
+> +	struct rcar_gen4_pcie *rcar = to_rcar_gen4_pcie(dw);
+> +
+> +	gpiod_set_value_cansleep(dw->pe_rst, 1);
+> +	rcar_gen4_pcie_common_deinit(rcar);
+> +}
+> +
+> +static const struct dw_pcie_host_ops rcar_gen4_pcie_host_ops = {
+> +	.host_init = rcar_gen4_pcie_host_init,
+> +	.host_deinit = rcar_gen4_pcie_host_deinit,
+> +};
+> +
+> +static int rcar_gen4_add_dw_pcie_rp(struct rcar_gen4_pcie *rcar)
+> +{
+> +	struct dw_pcie_rp *pp = &rcar->dw.pp;
+> +
+> +	pp->num_vectors = MAX_MSI_IRQS;
+> +	pp->ops = &rcar_gen4_pcie_host_ops;
+> +	rcar->mode = DW_PCIE_RC_TYPE;
+> +
+> +	return dw_pcie_host_init(pp);
+> +}
+> +
+> +static void rcar_gen4_remove_dw_pcie_rp(struct rcar_gen4_pcie *rcar)
+> +{
+> +	dw_pcie_host_deinit(&rcar->dw.pp);
+> +}
+> +
+> +static int rcar_gen4_pcie_probe(struct platform_device *pdev)
+> +{
+> +	struct rcar_gen4_pcie *rcar;
+> +	int err;
+> +
+> +	rcar = rcar_gen4_pcie_alloc(pdev);
+> +	if (IS_ERR(rcar))
+> +		return PTR_ERR(rcar);
+> +
+> +	err = rcar_gen4_pcie_get_resources(rcar);
+> +	if (err)
+> +		return err;
+> +
+> +	err = rcar_gen4_pcie_prepare(rcar);
+> +	if (err)
+> +		return err;
+> +
+> +	err = rcar_gen4_add_dw_pcie_rp(rcar);
+> +	if (err)
+> +		goto err_unprepare;
+> +
+> +	return 0;
+> +
+> +err_unprepare:
+> +	rcar_gen4_pcie_unprepare(rcar);
+> +
+> +	return err;
+> +}
+> +
+> +static void rcar_gen4_pcie_remove(struct platform_device *pdev)
+> +{
+> +	struct rcar_gen4_pcie *rcar = platform_get_drvdata(pdev);
+> +
+> +	rcar_gen4_remove_dw_pcie_rp(rcar);
+> +	rcar_gen4_pcie_unprepare(rcar);
+> +}
+> +
+> +static const struct of_device_id rcar_gen4_pcie_of_match[] = {
+> +	{ .compatible = "renesas,rcar-gen4-pcie", },
+> +	{},
+> +};
+> +MODULE_DEVICE_TABLE(of, rcar_gen4_pcie_of_match);
+> +
+> +static struct platform_driver rcar_gen4_pcie_driver = {
+> +	.driver = {
+> +		.name = "pcie-rcar-gen4",
+> +		.of_match_table = rcar_gen4_pcie_of_match,
+> +		.probe_type = PROBE_PREFER_ASYNCHRONOUS,
+> +	},
+> +	.probe = rcar_gen4_pcie_probe,
+> +	.remove_new = rcar_gen4_pcie_remove,
+> +};
+> +module_platform_driver(rcar_gen4_pcie_driver);
+> +
+> +MODULE_DESCRIPTION("Renesas R-Car Gen4 PCIe controller driver");
+> +MODULE_LICENSE("GPL");
+> -- 
 > 2.25.1
+> 
 
+-- 
+மணிவண்ணன் சதாசிவம்
