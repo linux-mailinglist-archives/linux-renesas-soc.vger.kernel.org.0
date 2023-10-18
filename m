@@ -2,87 +2,166 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B58DA7CD386
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 18 Oct 2023 07:27:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 65D5F7CD503
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 18 Oct 2023 09:05:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229557AbjJRF1L (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 18 Oct 2023 01:27:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50874 "EHLO
+        id S1344584AbjJRHFC convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 18 Oct 2023 03:05:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54892 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229572AbjJRF1J (ORCPT
+        with ESMTP id S1344581AbjJRHFC (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 18 Oct 2023 01:27:09 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C6C4ABA
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 17 Oct 2023 22:27:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender
-        :Reply-To:Content-Type:Content-ID:Content-Description;
-        bh=G1q5kjKCly+YP8ujUn6bFejuAy7IU52U7erNsqEL50A=; b=AJt060LlpGen+lRt6knsoShqCI
-        O1W/l3v+OgIWq/dNaMJb68oogx+fY6vgqblyV4Y1KRKaOyksT1vqfK5muDYgdHc5Rt+HToKaa46RU
-        t938WpSxFTPYLhNAaHW2h2vNOlNXM8BRefy0BJpwFtZ/6G+WXtWM2RhmY5fbLy622gLDJ7Ph9yQTE
-        Gnax+zzBMMmlmtocynwK7oZGEL447qHcAs+mnIseEMeDcR9l7Zv2/Yni4fvt6AKzm6sLEP0PoSSAD
-        0pzr0tRkfqAeY38dz9SjP3tFzKzLdPYoWtprOPaiZnR2FCRoZXEHI/f923zQ3/ytp/9gXMXW+Y2A6
-        xt4V1l9g==;
-Received: from 2a02-8389-2341-5b80-39d3-4735-9a3c-88d8.cable.dynamic.v6.surfer.at ([2a02:8389:2341:5b80:39d3:4735:9a3c:88d8] helo=localhost)
-        by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-        id 1qsz5E-00Dp3w-1i;
-        Wed, 18 Oct 2023 05:27:04 +0000
-From:   Christoph Hellwig <hch@lst.de>
-To:     Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Conor Dooley <conor@kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>
-Cc:     linux-riscv@lists.infradead.org, linux-renesas-soc@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>, Olof Johansson <olof@lixom.net>,
-        Samuel Holland <samuel.holland@sifive.com>, soc@kernel.org,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Conor Dooley <conor.dooley@microchip.com>
-Subject: [PATCH 3/3] soc: renesas: ARCH_R9A07G043 depends on !RISCV_ISA_ZICBOM
-Date:   Wed, 18 Oct 2023 07:26:54 +0200
-Message-Id: <20231018052654.50074-4-hch@lst.de>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20231018052654.50074-1-hch@lst.de>
-References: <20231018052654.50074-1-hch@lst.de>
+        Wed, 18 Oct 2023 03:05:02 -0400
+Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com [209.85.128.170])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 76D11B0;
+        Wed, 18 Oct 2023 00:04:59 -0700 (PDT)
+Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-5a2536adaf3so87836327b3.2;
+        Wed, 18 Oct 2023 00:04:59 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1697612698; x=1698217498;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Ehq7lt09mwOzTppGLck+YyAM10dg6P1xZomRPZqI724=;
+        b=HjPf/v4kfJMOEAb6YAiEuFvS8GPxZ0b0IR3pIsVtQW8lXwT1WboJ8KJrHSe2Z/3fs8
+         dtcowqfMKf4lmSCSwRqsRvx68VFr+VdeWs+TZwY9HTrs3ZKJz8+RKWHFNXeyrxwl4rB7
+         AQDwzqw+nMLTSMTHXG9Rv4nJwKBDdN1RYTqVkhUrpo3/ZGizdscbJss02O9wAoRi1/13
+         jS4LE+ocPcOrpQgkZsggGw+TRri4AxyEfIT2teKj9soBynWVgkdI2e8OOiIjZ4lMnitn
+         4v+vmSSCYVK09WYZtTgOALu9e1maOuCJdAc+vaXTuQujxz1jAz8n0tQS9lyFghwjdqwS
+         cUmw==
+X-Gm-Message-State: AOJu0YwLg9pZt3LazMF5xVhYrzT8ORY4rpmjUMO4YwY8YH0S5rYMBDOs
+        LlgbMdo+5Zg6hF2R06nkDqjjLzv7nIDjRQ==
+X-Google-Smtp-Source: AGHT+IF6u8W8Oksz2vO6EhNr4pbMKHdcWbQZBvtnHLYHWwv0nz3X6t1YGbHsPg6SN7NBaZ27P8TY4A==
+X-Received: by 2002:a81:8407:0:b0:5a7:a81d:e410 with SMTP id u7-20020a818407000000b005a7a81de410mr5004991ywf.18.1697612698487;
+        Wed, 18 Oct 2023 00:04:58 -0700 (PDT)
+Received: from mail-yb1-f174.google.com (mail-yb1-f174.google.com. [209.85.219.174])
+        by smtp.gmail.com with ESMTPSA id i20-20020a81d514000000b00583b144fe51sm1262906ywj.118.2023.10.18.00.04.57
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 18 Oct 2023 00:04:57 -0700 (PDT)
+Received: by mail-yb1-f174.google.com with SMTP id 3f1490d57ef6-d9a64ca9cedso6629977276.1;
+        Wed, 18 Oct 2023 00:04:57 -0700 (PDT)
+X-Received: by 2002:a25:19d7:0:b0:d9a:618a:d727 with SMTP id
+ 206-20020a2519d7000000b00d9a618ad727mr3996335ybz.41.1697612697358; Wed, 18
+ Oct 2023 00:04:57 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
-X-Spam-Status: No, score=-1.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_EF,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_NONE autolearn=no
-        autolearn_force=no version=3.4.6
+References: <20230818075600.24277-1-biju.das.jz@bp.renesas.com>
+ <20230818075600.24277-2-biju.das.jz@bp.renesas.com> <5e0d2716fb757d408ebe77cb132ae242ef3aa470.camel@apitzsch.eu>
+In-Reply-To: <5e0d2716fb757d408ebe77cb132ae242ef3aa470.camel@apitzsch.eu>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Wed, 18 Oct 2023 09:04:44 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdUTxQym7+vYPtnvMQeH8GKSk0iOyuMnLkgr3LH1E8TTYA@mail.gmail.com>
+Message-ID: <CAMuHMdUTxQym7+vYPtnvMQeH8GKSk0iOyuMnLkgr3LH1E8TTYA@mail.gmail.com>
+Subject: Re: [PATCH v2 1/5] iio: magnetometer: ak8975: Convert enum->pointer
+ for data in the match tables
+To:     git@apitzsch.eu
+Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        linux-iio@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        linux-renesas-soc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-ARCH_R9A07G043 has its own non-standard global pool based DMA coherent
-allocator, which conflicts with the remap based RISCV_ISA_ZICBOM version.
-Add a proper dependency.
+Hi André,
 
-Signed-off-by: Christoph Hellwig <hch@lst.de>
-Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
-Acked-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
- drivers/soc/renesas/Kconfig | 1 +
- 1 file changed, 1 insertion(+)
+On Tue, Oct 17, 2023 at 11:12 PM André Apitzsch <git@apitzsch.eu> wrote:
+> Am Freitag, dem 18.08.2023 um 08:55 +0100 schrieb Biju Das:
+> > Convert enum->pointer for data in the match tables to simplify the
+> > probe()
+> > by replacing device_get_match_data() and i2c_client_get_device_id by
+> > i2c_get_match_data() as we have similar I2C, ACPI and DT matching
+> > table.
+> >
+> > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 
-diff --git a/drivers/soc/renesas/Kconfig b/drivers/soc/renesas/Kconfig
-index 335251ff6e8214..624185e09c967b 100644
---- a/drivers/soc/renesas/Kconfig
-+++ b/drivers/soc/renesas/Kconfig
-@@ -341,6 +341,7 @@ config ARCH_R9A07G043
- 	bool "RISC-V Platform support for RZ/Five"
- 	depends on NONPORTABLE
- 	depends on RISCV_ALTERNATIVE
-+	depends on !RISCV_ISA_ZICBOM
- 	depends on RISCV_SBI
- 	select ARCH_RZG2L
- 	select AX45MP_L2_CACHE
+> > --- a/drivers/iio/magnetometer/ak8975.c
+> > +++ b/drivers/iio/magnetometer/ak8975.c
+> > @@ -883,10 +883,7 @@ static int ak8975_probe(struct i2c_client
+> > *client)
+> >       struct iio_dev *indio_dev;
+> >       struct gpio_desc *eoc_gpiod;
+> >       struct gpio_desc *reset_gpiod;
+> > -     const void *match;
+> > -     unsigned int i;
+> >       int err;
+> > -     enum asahi_compass_chipset chipset;
+> >       const char *name = NULL;
+> >
+> >       /*
+> > @@ -928,27 +925,15 @@ static int ak8975_probe(struct i2c_client
+> > *client)
+> >               return err;
+> >
+> >       /* id will be NULL when enumerated via ACPI */
+> > -     match = device_get_match_data(&client->dev);
+> > -     if (match) {
+> > -             chipset = (uintptr_t)match;
+> > -             name = dev_name(&client->dev);
+> > -     } else if (id) {
+> > -             chipset = (enum asahi_compass_chipset)(id-
+> > >driver_data);
+> > -             name = id->name;
+> > -     } else
+> > -             return -ENOSYS;
+> > -
+> > -     for (i = 0; i < ARRAY_SIZE(ak_def_array); i++)
+> > -             if (ak_def_array[i].type == chipset)
+> > -                     break;
+> > -
+> > -     if (i == ARRAY_SIZE(ak_def_array)) {
+> > -             dev_err(&client->dev, "AKM device type unsupported:
+> > %d\n",
+> > -                     chipset);
+> > +     data->def = i2c_get_match_data(client);
+> > +     if (!data->def)
+> >               return -ENODEV;
+> > -     }
+> >
+> > -     data->def = &ak_def_array[i];
+> > +     /* If enumerated via firmware node, fix the ABI */
+> > +     if (dev_fwnode(&client->dev))
+> > +             name = dev_name(&client->dev);
+> > +     else
+> > +             name = id->name;
+> >
+>
+> I just noticed, that with the above change '0-000d' instead of the
+> previous and expected 'ak09911' is shown now as name for the
+> magnetometer in longcheer l9100 [1].
+
+While this doesn't help much, note that the old name would break
+the case of having two instances of the same device.
+
+>
+> id->name contains the expected string ('ak09911'), but because of
+> dev_fwnode(&client->dev) being true, it is not used.
+>
+> André
+>
+> [1] https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/tree/arch/arm64/boot/dts/qcom/msm8939-longcheer-l9100.dts?h=next-20231017#n127
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
 -- 
-2.39.2
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
