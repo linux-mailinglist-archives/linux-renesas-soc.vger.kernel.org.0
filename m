@@ -2,128 +2,166 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 987927CF911
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Oct 2023 14:36:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 724547CF95C
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Oct 2023 14:51:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235325AbjJSMgX (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 19 Oct 2023 08:36:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52616 "EHLO
+        id S1345380AbjJSMvA (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 19 Oct 2023 08:51:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57874 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235340AbjJSMgW (ORCPT
+        with ESMTP id S1345501AbjJSMu7 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 19 Oct 2023 08:36:22 -0400
-Received: from mx01.omp.ru (mx01.omp.ru [90.154.21.10])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E626BCF;
-        Thu, 19 Oct 2023 05:36:19 -0700 (PDT)
-Received: from [192.168.1.103] (31.173.85.253) by msexch01.omp.ru
- (10.188.4.12) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.986.14; Thu, 19 Oct
- 2023 15:36:09 +0300
-Subject: Re: [PATCH net v2] ravb: Fix races between ravb_tx_timeout_work() and
- net related ops
-To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        <davem@davemloft.net>, <edumazet@google.com>, <kuba@kernel.org>,
-        <pabeni@redhat.com>
-CC:     <netdev@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>
-References: <20231019113308.1133944-1-yoshihiro.shimoda.uh@renesas.com>
-From:   Sergey Shtylyov <s.shtylyov@omp.ru>
-Organization: Open Mobile Platform
-Message-ID: <f5421248-3341-a5f7-84e6-c601df470a63@omp.ru>
-Date:   Thu, 19 Oct 2023 15:36:08 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+        Thu, 19 Oct 2023 08:50:59 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 77D63F7
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 19 Oct 2023 05:50:57 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4A383C433C8;
+        Thu, 19 Oct 2023 12:50:53 +0000 (UTC)
+Message-ID: <572668b5-48b5-4bac-8712-75a5e2c096bd@linux-m68k.org>
+Date:   Thu, 19 Oct 2023 22:50:50 +1000
 MIME-Version: 1.0
-In-Reply-To: <20231019113308.1133944-1-yoshihiro.shimoda.uh@renesas.com>
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 09/12] m68k: use the coherent DMA code for coldfire
+ without data cache
 Content-Language: en-US
+To:     Christoph Hellwig <hch@lst.de>, iommu@lists.linux.dev
+Cc:     Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Conor Dooley <conor@kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Wei Fang <wei.fang@nxp.com>,
+        Shenwei Wang <shenwei.wang@nxp.com>,
+        Clark Wang <xiaoning.wang@nxp.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        linux-m68k@lists.linux-m68k.org, netdev@vger.kernel.org,
+        linux-riscv@lists.infradead.org, linux-renesas-soc@vger.kernel.org,
+        Jim Quinlan <james.quinlan@broadcom.com>
+References: <20231016054755.915155-1-hch@lst.de>
+ <20231016054755.915155-10-hch@lst.de>
+From:   Greg Ungerer <gerg@linux-m68k.org>
+In-Reply-To: <20231016054755.915155-10-hch@lst.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [31.173.85.253]
-X-ClientProxiedBy: msexch01.omp.ru (10.188.4.12) To msexch01.omp.ru
- (10.188.4.12)
-X-KSE-ServerInfo: msexch01.omp.ru, 9
-X-KSE-AntiSpam-Interceptor-Info: scan successful
-X-KSE-AntiSpam-Version: 6.0.0, Database issued on: 10/19/2023 12:26:29
-X-KSE-AntiSpam-Status: KAS_STATUS_NOT_DETECTED
-X-KSE-AntiSpam-Method: none
-X-KSE-AntiSpam-Rate: 59
-X-KSE-AntiSpam-Info: Lua profiles 180733 [Oct 19 2023]
-X-KSE-AntiSpam-Info: Version: 6.0.0.2
-X-KSE-AntiSpam-Info: Envelope from: s.shtylyov@omp.ru
-X-KSE-AntiSpam-Info: LuaCore: 542 542 3d23828e213bab96daa5e52f9cef518f74e40214
-X-KSE-AntiSpam-Info: {rep_avail}
-X-KSE-AntiSpam-Info: {Tracking_from_domain_doesnt_match_to}
-X-KSE-AntiSpam-Info: {relay has no DNS name}
-X-KSE-AntiSpam-Info: {SMTP from is not routable}
-X-KSE-AntiSpam-Info: {Found in DNSBL: 31.173.85.253 in (user)
- b.barracudacentral.org}
-X-KSE-AntiSpam-Info: 127.0.0.199:7.1.2;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;omp.ru:7.1.1
-X-KSE-AntiSpam-Info: ApMailHostAddress: 31.173.85.253
-X-KSE-AntiSpam-Info: {DNS response errors}
-X-KSE-AntiSpam-Info: Rate: 59
-X-KSE-AntiSpam-Info: Status: not_detected
-X-KSE-AntiSpam-Info: Method: none
-X-KSE-AntiSpam-Info: Auth:dmarc=temperror header.from=omp.ru;spf=temperror
- smtp.mailfrom=omp.ru;dkim=none
-X-KSE-Antiphishing-Info: Clean
-X-KSE-Antiphishing-ScanningType: Heuristic
-X-KSE-Antiphishing-Method: None
-X-KSE-Antiphishing-Bases: 10/19/2023 12:31:00
-X-KSE-Antivirus-Interceptor-Info: scan successful
-X-KSE-Antivirus-Info: Clean, bases: 10/19/2023 10:41:00 AM
-X-KSE-Attachment-Filter-Triggered-Rules: Clean
-X-KSE-Attachment-Filter-Triggered-Filters: Clean
-X-KSE-BulkMessagesFiltering-Scan-Result: InTheLimit
-X-Spam-Status: No, score=-5.2 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-4.0 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello!
+Hi Christoph,
 
-On 10/19/23 2:33 PM, Yoshihiro Shimoda wrote:
-
-> Fix races between ravb_tx_timeout_work() and functions of net_device_ops
-> and ethtool_ops by using rtnl_trylock() and rtnl_unlock(). Note that
-> since ravb_close() is under the rtnl lock and calls cancel_work_sync(),
-> ravb_tx_timeout_work() should calls rtnl_trylock(). Otherwise, a deadlock
-> may happen in ravb_tx_timeout_work() like below:
+On 16/10/23 15:47, Christoph Hellwig wrote:
+> Coldfire cores configured without a data cache are DMA coherent and
+> should thus simply use the simple coherent version of dma-direct.
 > 
-> CPU0			CPU1
-> 			ravb_tx_timeout()
-> 			schedule_work()
-> ...
-> __dev_close_many()
-> // Under rtnl lock
-> ravb_close()
-> cancel_work_sync()
-> // Waiting
-> 			ravb_tx_timeout_work()
-> 			rtnl_lock()
-> 			// This is possible to cause a deadlock
+> Introduce a new COLDFIRE_COHERENT_DMA Kconfig symbol as a convenient
+> short hand for such configurations, and a M68K_NONCOHERENT_DMA symbol
+> for all cases where we need to build non-coherent DMA infrastructure
+> to simplify the Kconfig and code conditionals.
 > 
-> Fixes: c156633f1353 ("Renesas Ethernet AVB driver proper")
-> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+> Not building the non-coherent DMA code slightly reduces the code
+> size for such configurations.
+> 
+> Numers for m5249evb_defconfig below:
+> 
+>    text	   data	    bss	    dec	    hex	filename
+> 2896158	 401052	  65392	3362602	 334f2a	vmlinux.before
+> 2895166	 400988	  65392	3361546	 334b0a	vmlinux.after
+> 
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
+> ---
+>   arch/m68k/Kconfig         |  8 ++++----
+>   arch/m68k/Kconfig.cpu     | 12 ++++++++++++
+>   arch/m68k/kernel/Makefile |  2 +-
+>   arch/m68k/kernel/dma.c    |  2 +-
+>   4 files changed, 18 insertions(+), 6 deletions(-)
+> 
+> diff --git a/arch/m68k/Kconfig b/arch/m68k/Kconfig
+> index 0430b8ba6b5cc6..6c585eae89f4dc 100644
+> --- a/arch/m68k/Kconfig
+> +++ b/arch/m68k/Kconfig
+> @@ -3,19 +3,19 @@ config M68K
+>   	bool
+>   	default y
+>   	select ARCH_32BIT_OFF_T
+> -	select ARCH_DMA_ALLOC if !MMU || COLDFIRE
+> +	select ARCH_DMA_ALLOC if M68K_NONCOHERENT_DMA && COLDFIRE
+>   	select ARCH_HAS_BINFMT_FLAT
+>   	select ARCH_HAS_CPU_FINALIZE_INIT if MMU
+>   	select ARCH_HAS_CURRENT_STACK_POINTER
+> -	select ARCH_HAS_DMA_PREP_COHERENT if HAS_DMA && MMU && !COLDFIRE
+> -	select ARCH_HAS_SYNC_DMA_FOR_DEVICE if HAS_DMA
+> +	select ARCH_HAS_DMA_PREP_COHERENT if M68K_NONCOHERENT_DMA && !COLDFIRE
+> +	select ARCH_HAS_SYNC_DMA_FOR_DEVICE if M68K_NONCOHERENT_DMA
+>   	select ARCH_HAVE_NMI_SAFE_CMPXCHG if RMW_INSNS
+>   	select ARCH_MIGHT_HAVE_PC_PARPORT if ISA
+>   	select ARCH_NO_PREEMPT if !COLDFIRE
+>   	select ARCH_USE_MEMTEST if MMU_MOTOROLA
+>   	select ARCH_WANT_IPC_PARSE_VERSION
+>   	select BINFMT_FLAT_ARGVP_ENVP_ON_STACK
+> -	select DMA_DIRECT_REMAP if HAS_DMA && MMU && !COLDFIRE
+> +	select DMA_DIRECT_REMAP if M68K_NONCOHERENT_DMA && !COLDFIRE
+>   	select GENERIC_ATOMIC64
+>   	select GENERIC_CPU_DEVICES
+>   	select GENERIC_IOMAP
+> diff --git a/arch/m68k/Kconfig.cpu b/arch/m68k/Kconfig.cpu
+> index b826e9c677b2ae..e8905d38c714c4 100644
+> --- a/arch/m68k/Kconfig.cpu
+> +++ b/arch/m68k/Kconfig.cpu
+> @@ -535,3 +535,15 @@ config CACHE_COPYBACK
+>   	  The ColdFire CPU cache is set into Copy-back mode.
+>   endchoice
+>   endif # HAVE_CACHE_CB
+> +
+> +# Coldfire cores that do not have a data cache configured can do coherent DMA.
+> +config COLDFIRE_COHERENT_DMA
+> +	bool
+> +	default y
+> +	depends on COLDFIRE
+> +	depends on !HAVE_CACHE_CB && !CONFIG_CACHE_D && !CONFIG_CACHE_BOTH
+                                       ^^^^^^             ^^^^^^
 
-Reviewed-by: Sergey Shtylyov <s.shtylyov@omp.ru>
+This needs to be "depends on !HAVE_CACHE_CB && !CACHE_D && !CACHE_BOTH".
 
-[...]
-> diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
-> index 0ef0b88b7145..300c1885e1e1 100644
-> --- a/drivers/net/ethernet/renesas/ravb_main.c
-> +++ b/drivers/net/ethernet/renesas/ravb_main.c
-> @@ -1874,6 +1874,9 @@ static void ravb_tx_timeout_work(struct work_struct *work)
->  	struct net_device *ndev = priv->ndev;
->  	int error;
->  
-> +	if (!rtnl_trylock())
-> +		return;
+Regards
+Greg
 
-   I wonder if we should reschedule the work here...
 
-[...]
-
-MBR, Sergey
+> +
+> +config M68K_NONCOHERENT_DMA
+> +	bool
+> +	default y
+> +	depends on HAS_DMA && !COLDFIRE_COHERENT_DMA
+> diff --git a/arch/m68k/kernel/Makefile b/arch/m68k/kernel/Makefile
+> index af015447dfb4c1..01fb69a5095f43 100644
+> --- a/arch/m68k/kernel/Makefile
+> +++ b/arch/m68k/kernel/Makefile
+> @@ -23,7 +23,7 @@ obj-$(CONFIG_MMU_MOTOROLA) += ints.o vectors.o
+>   obj-$(CONFIG_MMU_SUN3) += ints.o vectors.o
+>   obj-$(CONFIG_PCI) += pcibios.o
+>   
+> -obj-$(CONFIG_HAS_DMA)	+= dma.o
+> +obj-$(CONFIG_M68K_NONCOHERENT_DMA) += dma.o
+>   
+>   obj-$(CONFIG_KEXEC)		+= machine_kexec.o relocate_kernel.o
+>   obj-$(CONFIG_BOOTINFO_PROC)	+= bootinfo_proc.o
+> diff --git a/arch/m68k/kernel/dma.c b/arch/m68k/kernel/dma.c
+> index 2e192a5df949bb..f83870cfa79b37 100644
+> --- a/arch/m68k/kernel/dma.c
+> +++ b/arch/m68k/kernel/dma.c
+> @@ -17,7 +17,7 @@
+>   
+>   #include <asm/cacheflush.h>
+>   
+> -#if defined(CONFIG_MMU) && !defined(CONFIG_COLDFIRE)
+> +#ifndef CONFIG_COLDFIRE
+>   void arch_dma_prep_coherent(struct page *page, size_t size)
+>   {
+>   	cache_push(page_to_phys(page), size);
