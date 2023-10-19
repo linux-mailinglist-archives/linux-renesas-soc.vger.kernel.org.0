@@ -2,115 +2,85 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 237DA7CF1E7
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Oct 2023 10:03:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8D4A77CF39B
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Oct 2023 11:10:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344918AbjJSIDJ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 19 Oct 2023 04:03:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35508 "EHLO
+        id S229830AbjJSJK1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 19 Oct 2023 05:10:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48612 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232958AbjJSIDI (ORCPT
+        with ESMTP id S232952AbjJSJK0 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 19 Oct 2023 04:03:08 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5B82212F;
-        Thu, 19 Oct 2023 01:03:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697702586; x=1729238586;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=el3R2q8bJhLS09Xe5Rkf62rAafB0MmVgXTxS+XNrHKM=;
-  b=bhS9k0pWr95zLvPH2C1EfROxDbZefiJm2HS7TJvdeTbVd6d6CDFWEKyh
-   jumPHEiWsCNJclkgf2TlpatJ1+5c/uap7+z6o2htCputpOnpXWIppQ/EV
-   Ld+29SWe5M5t7nu6+A4Q7Id/BA6vR/z46NYH9GDl0Nq0suwX6Ug5dq10U
-   1jHofbXL2X+Ib/ybqFPsgTwMXzFEeZPMcQ4M5/05DrMImouYcp+oBvmON
-   oJIVmvSUxNpHgvvZFR383roUv6q2FV8A2Bon9/rRzbW/go5FerSchA5KE
-   hd3sEg3dIwvmUJ6KLbKSYGb++OeUi0EPOxlqtttcY/thSzYDoQSkmGb8L
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10867"; a="452665935"
-X-IronPort-AV: E=Sophos;i="6.03,236,1694761200"; 
-   d="scan'208";a="452665935"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Oct 2023 01:03:05 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10867"; a="750427438"
-X-IronPort-AV: E=Sophos;i="6.03,236,1694761200"; 
-   d="scan'208";a="750427438"
-Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 19 Oct 2023 01:03:00 -0700
-Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1qtNzd-0001qW-1u;
-        Thu, 19 Oct 2023 08:02:57 +0000
-Date:   Thu, 19 Oct 2023 16:01:57 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Mathieu Poirier <mathieu.poirier@linaro.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Julien Massot <julien.massot@iot.bzh>,
-        Trevor Wu <trevor.wu@mediatek.com>
-Cc:     oe-kbuild-all@lists.linux.dev, Simon Glass <sjg@chromium.org>,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-remoteproc@vger.kernel.org, alsa-devel@alsa-project.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH] dt-bindings: Drop kernel copy of common reserved-memory
- bindings
-Message-ID: <202310191537.20z1Aolb-lkp@intel.com>
-References: <20231013200851.347042-1-robh@kernel.org>
+        Thu, 19 Oct 2023 05:10:26 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0BBD212D
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 19 Oct 2023 02:10:24 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 8A988C433C9;
+        Thu, 19 Oct 2023 09:10:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1697706624;
+        bh=Ebub719cRz9G5ACNsmDwbxaKVkRnz5JEOIBNJDMXBA8=;
+        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+        b=NH5YXUvFrRWaZ2D+vykw34JsWFGdgzdgBFdmrdsOkJ/7vgNwqKuRdUna3jxCLdWfM
+         c0TCEAurZcBgBtTV91z4sJoVQ3Cc1hOgbne7exSLOUnPuCyQLp+eYYRUCgf5BcHUWa
+         MhE6OZSxPXtE8zSelO6WqCL8S538G2Qo+u2B0Lpodumu+pF7EyomOGjwZGXVZkGtFg
+         VjkFYe4WsWg/k9gEnGEy/OU/0z2916DotNZz0Ue5G4zaMqINaA2+A6vYxGiogcpHM3
+         W5SeCJhIi9JK1FWib/1iTfzkxjPalG6YRR5oXs5MZIsIA7AuVXUSF9BO/xvGIzU2+K
+         RBeGFKh3YQCpQ==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 6D81AC73FE1;
+        Thu, 19 Oct 2023 09:10:24 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231013200851.347042-1-robh@kernel.org>
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH net-next v3 0/2] rswitch: Add PM ops
+From:   patchwork-bot+netdevbpf@kernel.org
+Message-Id: <169770662444.23024.10068818834489019175.git-patchwork-notify@kernel.org>
+Date:   Thu, 19 Oct 2023 09:10:24 +0000
+References: <20231017113402.849735-1-yoshihiro.shimoda.uh@renesas.com>
+In-Reply-To: <20231017113402.849735-1-yoshihiro.shimoda.uh@renesas.com>
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc:     s.shtylyov@omp.ru, davem@davemloft.net, edumazet@google.com,
+        kuba@kernel.org, pabeni@redhat.com, netdev@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org
 X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Rob,
+Hello:
 
-kernel test robot noticed the following build errors:
+This series was applied to netdev/net-next.git (main)
+by Paolo Abeni <pabeni@redhat.com>:
 
-[auto build test ERROR on robh/for-next]
-[also build test ERROR on krzk-dt/for-next remoteproc/rproc-next broonie-sound/for-next linus/master v6.6-rc6 next-20231018]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+On Tue, 17 Oct 2023 20:34:00 +0900 you wrote:
+> This patch is based on the latest net-next.git / next branch.
+> After applied this patch with the following patches, the system can
+> enter/exit Suspend to Idle without any error:
+> https://git.kernel.org/pub/scm/linux/kernel/git/phy/linux-phy.git/commit/?h=next&id=aa4c0bbf820ddb9dd8105a403aa12df57b9e5129
+> https://git.kernel.org/pub/scm/linux/kernel/git/phy/linux-phy.git/commit/?h=next&id=1a5361189b7acac15b9b086b2300a11b7aa84c06
+> 
+> Changes from v2:
+> https://lore.kernel.org/all/20231013121936.364678-1-yoshihiro.shimoda.uh@renesas.com/
+>  - Based on the latest net-next.git / main branch.
+>  - Change the subject in the patch 1/2.
+>  - Fix a condition to avoid endless loop in the patch 1/2.
+> 
+> [...]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Rob-Herring/dt-bindings-Drop-kernel-copy-of-common-reserved-memory-bindings/20231017-125913
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-patch link:    https://lore.kernel.org/r/20231013200851.347042-1-robh%40kernel.org
-patch subject: [PATCH] dt-bindings: Drop kernel copy of common reserved-memory bindings
-config: arm64-allyesconfig (https://download.01.org/0day-ci/archive/20231019/202310191537.20z1Aolb-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231019/202310191537.20z1Aolb-lkp@intel.com/reproduce)
+Here is the summary with links:
+  - [net-next,v3,1/2] rswitch: Use unsigned int for port related array index
+    https://git.kernel.org/netdev/net-next/c/1bf55630694e
+  - [net-next,v3,2/2] rswitch: Add PM ops
+    https://git.kernel.org/netdev/net-next/c/35b78409e1c7
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310191537.20z1Aolb-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   sort: -:2: disorder: 2023.8.dev2+gd5e5147
->> ERROR: dtschema minimum version is v2023.9
-
+You are awesome, thank you!
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
+
