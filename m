@@ -2,96 +2,112 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 461897CFC1C
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Oct 2023 16:09:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D3F3F7CFF20
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Oct 2023 18:10:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345912AbjJSOJW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 19 Oct 2023 10:09:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47092 "EHLO
+        id S233120AbjJSQK1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 19 Oct 2023 12:10:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43306 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345531AbjJSOJV (ORCPT
+        with ESMTP id S1345102AbjJSQK0 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 19 Oct 2023 10:09:21 -0400
+        Thu, 19 Oct 2023 12:10:26 -0400
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E26B4B0;
-        Thu, 19 Oct 2023 07:09:18 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4F280C433C7;
-        Thu, 19 Oct 2023 14:09:18 +0000 (UTC)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5D09E112;
+        Thu, 19 Oct 2023 09:10:24 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id E1016C433CA;
+        Thu, 19 Oct 2023 16:10:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1697724558;
-        bh=fUU2yQBsdFjq1E6XjHGGe6reCr7dtP65SbDkzgy/1+s=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:From;
-        b=JuGYIRMNuTZQuep6Z6n93RnXdEOjJGvvXlyY7c/w+ymB1ZtwtmYNRbrDuIisxRPpI
-         NvKNPqfNaPEaqc/TAJ9+HPUUvpIOpaAPXImY27Cm602lxbUqHrmSP/uzI/hdfsvZyY
-         iQ7nY0bCISb2VC8wxQynGRwgAvdFjg8snwIdT1XpGT600WLqFr1b4G/II2f//iwQPL
-         e+Bz4mmI6GtKmyvKnmIf27C4AjsVAWlHEGU5jE8Vscd26U5tQ19zykSd3KP9i9dsLo
-         HTjJ4hHmCPH9a2jV+ThHfhm3QmBvmeoJaZHv6SLrelhoz9lkp4mYPL/Cc+LlNr7nuN
-         CiC4NYi+8zQNA==
-Date:   Thu, 19 Oct 2023 09:09:16 -0500
-From:   Bjorn Helgaas <helgaas@kernel.org>
-To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Cc:     "lpieralisi@kernel.org" <lpieralisi@kernel.org>,
-        "kw@linux.com" <kw@linux.com>, "robh@kernel.org" <robh@kernel.org>,
-        "bhelgaas@google.com" <bhelgaas@google.com>,
-        "krzysztof.kozlowski+dt@linaro.org" 
-        <krzysztof.kozlowski+dt@linaro.org>,
-        "conor+dt@kernel.org" <conor+dt@kernel.org>,
-        "jingoohan1@gmail.com" <jingoohan1@gmail.com>,
-        "gustavo.pimentel@synopsys.com" <gustavo.pimentel@synopsys.com>,
-        "mani@kernel.org" <mani@kernel.org>,
-        "marek.vasut+renesas@gmail.com" <marek.vasut+renesas@gmail.com>,
-        "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>
-Subject: Re: [PATCH v25 00/15] PCI: dwc: rcar-gen4: Add R-Car Gen4 PCIe
- support
-Message-ID: <20231019140916.GA1400116@bhelgaas>
+        s=k20201202; t=1697731824;
+        bh=ZSHnlwGKVf0pTTc0ZzD9hgMl3t8ZCUhEI3/eJiY4aFQ=;
+        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+        b=g58PwMQZnJ4RJRiO8+msu58Y6jNJM9gZ3qsxvkA+6vQIFHiWzFHQQOIZxVuCWBrFR
+         5Dtsl2Zf05Y4rwNHAyL9m2zN+PY9HDSs0NHl71IMKtAhzpdXc3HaNx0scB1fp04qxX
+         brDITEHGT8UEBpqrIuZ7EiKyvTYeRFEH9t6WKc+n708rud1MlD9zsWPmqErjz6jlKs
+         l8l+Jzk4NhPjURhEVmFfUwUX+eVb0x2+CbChHH6GVYEA1sb1HuPpN9Fz4mjCK7Wcft
+         +UYvJSvS7rNgu5Hcs3ocbdlgU54v0aSXBHNcZqZSjwOwWNMVe6A3n+JIeK1nr8uPfM
+         QYn7P3uPixRpQ==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id BDDF7C04E27;
+        Thu, 19 Oct 2023 16:10:23 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <TYBPR01MB5341B3E0062E61EE5F2C84D8D8D4A@TYBPR01MB5341.jpnprd01.prod.outlook.com>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH net-next 0/8] dt-bindings: net: Child node schema cleanups
+From:   patchwork-bot+netdevbpf@kernel.org
+Message-Id: <169773182376.32102.12284978532277554063.git-patchwork-notify@kernel.org>
+Date:   Thu, 19 Oct 2023 16:10:23 +0000
+References: <20231016-dt-net-cleanups-v1-0-a525a090b444@kernel.org>
+In-Reply-To: <20231016-dt-net-cleanups-v1-0-a525a090b444@kernel.org>
+To:     Rob Herring <robh@kernel.org>
+Cc:     davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+        pabeni@redhat.com, krzysztof.kozlowski+dt@linaro.org,
+        conor+dt@kernel.org, wens@csie.org, jernej.skrabec@gmail.com,
+        samuel@sholland.org, andrew@lunn.ch, f.fainelli@gmail.com,
+        olteanv@gmail.com, matthias.bgg@gmail.com,
+        angelogioacchino.delregno@collabora.com, woojung.huh@microchip.com,
+        UNGLinuxDriver@microchip.com, linus.walleij@linaro.org,
+        alsi@bang-olufsen.dk, clement.leger@bootlin.com,
+        geert+renesas@glider.be, magnus.damm@gmail.com, mripard@kernel.org,
+        arinc.unal@arinc9.com, Landen.Chao@mediatek.com, dqfext@gmail.com,
+        sean.wang@mediatek.com, daniel@makrotopia.org, john@phrozen.org,
+        gerhard@engleder-embedded.com, hkallweit1@gmail.com,
+        s.shtylyov@omp.ru, sergei.shtylyov@gmail.com,
+        justin.chen@broadcom.com, florian.fainelli@broadcom.com,
+        grygorii.strashko@ti.com, nsekhar@ti.com, claudiu.manoil@nxp.com,
+        alexandre.belloni@bootlin.com, vladimir.oltean@nxp.com,
+        netdev@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+        linux-kernel@vger.kernel.org, linux-mediatek@lists.infradead.org,
+        linux-renesas-soc@vger.kernel.org,
+        bcm-kernel-feedback-list@broadcom.com
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, Oct 19, 2023 at 04:08:52AM +0000, Yoshihiro Shimoda wrote:
-> > From: Bjorn Helgaas, Sent: Thursday, October 19, 2023 12:11 PM
-> > On Wed, Oct 18, 2023 at 05:56:16PM +0900, Yoshihiro Shimoda wrote:
-> > > Add R-Car S4-8 (R-Car Gen4) PCIe controller for both host and endpoint modes.
-> > > To support them, modify PCIe DesignWare common codes.
-> > >
-> > > Changes from v24:
-> > >
-> <snip URL>
-> > >  - Based on the latest pci.git / next branch.
-> > >  - Reordering the patches. (This is suggested by Bjorn.)
-> > >  - Drop "PCI: dwc: Disable two BARs to avoid unnecessary memory assignment"
-> > >    because break other platforms.
-> > 
-> > Does R-Car Gen4 still work without this patch?
-> 
-> Yes, R-Car Gen4 still work without this patch because I added this code into
-> the patch 12/15 again:
-> 
-> ---
-> +static int rcar_gen4_pcie_host_init(struct dw_pcie_rp *pp)
-> +{
-> ...
-> +	/*
-> +	 * According to the section 3.5.7.2 "RC Mode" in DWC PCIe Dual Mode
-> +	 * Rev.5.20a and 3.5.6.1 "RC mode" in DWC PCIe RC databook v5.20a, we
-> +	 * should disable two BARs to avoid unnecessary memory assignment
-> +	 * during device enumeration.
-> +	 */
-> +	dw_pcie_writel_dbi2(dw, PCI_BASE_ADDRESS_0, 0x0);
-> +	dw_pcie_writel_dbi2(dw, PCI_BASE_ADDRESS_1, 0x0);
+Hello:
 
-Great, thanks!
+This series was applied to netdev/net-next.git (main)
+by Jakub Kicinski <kuba@kernel.org>:
 
-Bjorn
+On Mon, 16 Oct 2023 16:44:19 -0500 you wrote:
+> This is a series of clean-ups related to ensuring that child node
+> schemas are constrained to not allow undefined properties. Typically,
+> that means just adding additionalProperties or unevaluatedProperties as
+> appropriate. The DSA/switch schemas turned out to be a bit more
+> involved, so there's some more fixes and a bit of restructuring in them.
+> 
+> Signed-off-by: Rob Herring <robh@kernel.org>
+> 
+> [...]
+
+Here is the summary with links:
+  - [net-next,1/8] dt-bindings: net: Add missing (unevaluated|additional)Properties on child node schemas
+    https://git.kernel.org/netdev/net-next/c/659fd097b098
+  - [net-next,2/8] dt-bindings: net: renesas: Drop ethernet-phy node schema
+    https://git.kernel.org/netdev/net-next/c/ac8fe40c3628
+  - [net-next,3/8] dt-bindings: net: dsa/switch: Make 'ethernet-port' node addresses hex
+    https://git.kernel.org/netdev/net-next/c/51ff5150258a
+  - [net-next,4/8] dt-bindings: net: ethernet-switch: Add missing 'ethernet-ports' level
+    https://git.kernel.org/netdev/net-next/c/f0fdec925fe7
+  - [net-next,5/8] dt-bindings: net: ethernet-switch: Rename $defs "base" to 'ethernet-ports'
+    https://git.kernel.org/netdev/net-next/c/b9823df7bbad
+  - [net-next,6/8] dt-bindings: net: mscc,vsc7514-switch: Clean-up example indentation
+    https://git.kernel.org/netdev/net-next/c/491ec40d67a5
+  - [net-next,7/8] dt-bindings: net: mscc,vsc7514-switch: Simplify DSA and switch references
+    https://git.kernel.org/netdev/net-next/c/7c93392d754e
+  - [net-next,8/8] dt-bindings: net: dsa: Drop 'ethernet-ports' node properties
+    https://git.kernel.org/netdev/net-next/c/31f47f303c6b
+
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
+
