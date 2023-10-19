@@ -2,154 +2,156 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BAA087D0121
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Oct 2023 20:05:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D5CEF7D02E7
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Oct 2023 22:00:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345907AbjJSSFn (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 19 Oct 2023 14:05:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48112 "EHLO
+        id S230079AbjJSUAD convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 19 Oct 2023 16:00:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36276 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346353AbjJSSFm (ORCPT
+        with ESMTP id S235530AbjJSUAC (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 19 Oct 2023 14:05:42 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C087D11D;
-        Thu, 19 Oct 2023 11:05:39 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5330EC433CA;
-        Thu, 19 Oct 2023 18:05:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1697738739;
-        bh=13yt5cryvUi1YLdWtQi3541qTBZX6Xxnaa5Zjb/IhK0=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=FBweXG01tz7i3yGhEu0rZq9X3fHqysIn62AciqqqNTXgJLPWeTA0KqGLV7NAv4dAG
-         6phlNA4RBO9tcom4ns5IXNNy+JNzgUjqyjQYx/NgwnEi1oklxKi6sLCG8gtr5+lNCH
-         jXyziYWk4el32e877PCAHSFXEH7eoixVQxEePW9pO2BnOz/WBNtXiJkW3xmhOLOCc5
-         1OybPsPseRw8gqbnbzyS04USEyT/hwk7WQccCevEbkgj2IEWmEGxllhO2wBxzzxTtb
-         DS9weU2uiT5IFoy4AB7uv3+RAdvd/5yn6fn620OD5zc1EWyOhz0xcWggEWZctJAbw8
-         ncKbR4aDyRlOg==
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-40842752c6eso11782365e9.1;
-        Thu, 19 Oct 2023 11:05:39 -0700 (PDT)
-X-Gm-Message-State: AOJu0YybPUd5hgq1N23qGQNYpBVI+Q5Qk1EkHPHD6uxc7sLuKlhZtNYE
-        ekl85pZxs6co1Hua3wv3eiLUw17qRJm/zZPTTg==
-X-Google-Smtp-Source: AGHT+IEjbNUU8g3b3xf9dnd0eY+00UyD/xRWPuvjqCt6uPBJrdf2zudScRRu1FwHOHQso0cwFJ/4Jb+Lufriea1TdN4=
-X-Received: by 2002:a19:ad05:0:b0:500:d4d9:25b5 with SMTP id
- t5-20020a19ad05000000b00500d4d925b5mr2093637lfc.56.1697738717670; Thu, 19 Oct
- 2023 11:05:17 -0700 (PDT)
-MIME-Version: 1.0
-References: <20231016-dt-net-cleanups-v1-0-a525a090b444@kernel.org>
- <20231016-dt-net-cleanups-v1-1-a525a090b444@kernel.org> <20231019131806.lbzydoplodybvb62@skbuf>
-In-Reply-To: <20231019131806.lbzydoplodybvb62@skbuf>
-From:   Rob Herring <robh@kernel.org>
-Date:   Thu, 19 Oct 2023 13:05:04 -0500
-X-Gmail-Original-Message-ID: <CAL_JsqJmUe9XtHEwU+GVMZc8RrKy5OV5RM6pfE2KqwMhRekMOw@mail.gmail.com>
-Message-ID: <CAL_JsqJmUe9XtHEwU+GVMZc8RrKy5OV5RM6pfE2KqwMhRekMOw@mail.gmail.com>
-Subject: Re: [PATCH net-next 1/8] dt-bindings: net: Add missing
- (unevaluated|additional)Properties on child node schemas
-To:     Vladimir Oltean <olteanv@gmail.com>
-Cc:     "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Samuel Holland <samuel@sholland.org>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Woojung Huh <woojung.huh@microchip.com>,
-        UNGLinuxDriver@microchip.com,
-        Linus Walleij <linus.walleij@linaro.org>,
-        =?UTF-8?Q?Alvin_=C5=A0ipraga?= <alsi@bang-olufsen.dk>,
-        =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <clement.leger@bootlin.com>,
+        Thu, 19 Oct 2023 16:00:02 -0400
+Received: from smtprelay04.ispgateway.de (smtprelay04.ispgateway.de [80.67.31.31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 325D411B;
+        Thu, 19 Oct 2023 12:59:59 -0700 (PDT)
+Received: from [92.206.139.21] (helo=note-book.lan)
+        by smtprelay04.ispgateway.de with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.96.1)
+        (envelope-from <git@apitzsch.eu>)
+        id 1qtZBS-0003dR-2J;
+        Thu, 19 Oct 2023 21:59:54 +0200
+Message-ID: <6191b1a5e4891fda992f6c0d57ea8f101429428a.camel@apitzsch.eu>
+Subject: Re: [PATCH v2 1/5] iio: magnetometer: ak8975: Convert enum->pointer
+ for data in the match tables
+From:   =?ISO-8859-1?Q?Andr=E9?= Apitzsch <git@apitzsch.eu>
+To:     Biju Das <biju.das.jz@bp.renesas.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc:     Jonathan Cameron <jic23@kernel.org>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Uwe =?ISO-8859-1?Q?Kleine-K=F6nig?= 
+        <u.kleine-koenig@pengutronix.de>,
+        "linux-iio@vger.kernel.org" <linux-iio@vger.kernel.org>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        =?UTF-8?B?bsOnIMOcTkFM?= <arinc.unal@arinc9.com>,
-        Landen Chao <Landen.Chao@mediatek.com>,
-        DENG Qingfang <dqfext@gmail.com>,
-        Sean Wang <sean.wang@mediatek.com>,
-        Daniel Golle <daniel@makrotopia.org>,
-        John Crispin <john@phrozen.org>,
-        Gerhard Engleder <gerhard@engleder-embedded.com>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        Sergey Shtylyov <s.shtylyov@omp.ru>,
-        Sergei Shtylyov <sergei.shtylyov@gmail.com>,
-        Justin Chen <justin.chen@broadcom.com>,
-        Florian Fainelli <florian.fainelli@broadcom.com>,
-        Grygorii Strashko <grygorii.strashko@ti.com>,
-        Sekhar Nori <nsekhar@ti.com>,
-        Claudiu Manoil <claudiu.manoil@nxp.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Vladimir Oltean <vladimir.oltean@nxp.com>,
-        netdev@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-        linux-kernel@vger.kernel.org, linux-mediatek@lists.infradead.org,
-        linux-renesas-soc@vger.kernel.org,
-        bcm-kernel-feedback-list@broadcom.com
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>
+Date:   Thu, 19 Oct 2023 21:59:48 +0200
+In-Reply-To: <TYCPR01MB11269269A3237CC119644F4D286D4A@TYCPR01MB11269.jpnprd01.prod.outlook.com>
+References: <20230818075600.24277-1-biju.das.jz@bp.renesas.com>
+         <20230818075600.24277-2-biju.das.jz@bp.renesas.com>
+         <5e0d2716fb757d408ebe77cb132ae242ef3aa470.camel@apitzsch.eu>
+         <CAMuHMdUTxQym7+vYPtnvMQeH8GKSk0iOyuMnLkgr3LH1E8TTYA@mail.gmail.com>
+         <20231018204533.39399b0b@jic23-huawei>
+         <82b99e17f45b09623eeaed12e4fac12609c15426.camel@apitzsch.eu>
+         <TYCPR01MB11269EEF17ABCE541CC7B38CE86D4A@TYCPR01MB11269.jpnprd01.prod.outlook.com>
+         <TYCPR01MB11269D21D7DD5356A64E5679586D4A@TYCPR01MB11269.jpnprd01.prod.outlook.com>
+         <ZTD0UN4+wQjguCDF@smile.fi.intel.com>
+         <TYCPR01MB11269269A3237CC119644F4D286D4A@TYCPR01MB11269.jpnprd01.prod.outlook.com>
+Autocrypt: addr=git@apitzsch.eu; prefer-encrypt=mutual;
+ keydata=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
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8BIT
+User-Agent: Evolution 3.50.0 
+MIME-Version: 1.0
+X-Df-Sender: YW5kcmVAYXBpdHpzY2guZXU=
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, Oct 19, 2023 at 8:18=E2=80=AFAM Vladimir Oltean <olteanv@gmail.com>=
- wrote:
->
-> Hi Rob,
->
-> On Mon, Oct 16, 2023 at 04:44:20PM -0500, Rob Herring wrote:
-> > Just as unevaluatedProperties or additionalProperties are required at
-> > the top level of schemas, they should (and will) also be required for
-> > child node schemas. That ensures only documented properties are
-> > present for any node.
-> >
-> > Add unevaluatedProperties or additionalProperties as appropriate.
-> >
-> > Signed-off-by: Rob Herring <robh@kernel.org>
-> > ---
-> > diff --git a/Documentation/devicetree/bindings/net/dsa/renesas,rzn1-a5p=
-sw.yaml b/Documentation/devicetree/bindings/net/dsa/renesas,rzn1-a5psw.yaml
-> > index 833d2f68daa1..ea285ef3e64f 100644
-> > --- a/Documentation/devicetree/bindings/net/dsa/renesas,rzn1-a5psw.yaml
-> > +++ b/Documentation/devicetree/bindings/net/dsa/renesas,rzn1-a5psw.yaml
-> > @@ -61,17 +61,11 @@ properties:
-> >
-> >    ethernet-ports:
-> >      type: object
-> > -    properties:
-> > -      '#address-cells':
-> > -        const: 1
-> > -      '#size-cells':
-> > -        const: 0
-> > -
-> > +    additionalProperties: true
-> >      patternProperties:
-> >        "^(ethernet-)?port@[0-4]$":
-> >          type: object
-> > -        description: Ethernet switch ports
-> > -
-> > +        additionalProperties: true
-> >          properties:
-> >            pcs-handle:
-> >              maxItems: 1
->
-> For my edification, this patch removes #address-cells and #size-cells
-> at the same time, because "additionalProperties: true" (which was also
-> implied before) doesn't care if they aren't defined in this sub-schema,
-> and they are defined through $ref: dsa.yaml#/$defs/ethernet-ports,
-> right?
+Am Donnerstag, dem 19.10.2023 um 09:41 +0000 schrieb Biju Das:
+> > Subject: Re: [PATCH v2 1/5] iio: magnetometer: ak8975: Convert
+> > enum-
+> > > pointer for data in the match tables
+> > 
+> > On Thu, Oct 19, 2023 at 07:08:23AM +0000, Biju Das wrote:
+> > > > Subject: RE: [PATCH v2 1/5] iio: magnetometer: ak8975: Convert
+> > > > enum-
+> > 
+> > ...
+> > 
+> > > > As mentioned in the patch.
+> > > > /* If enumerated via firmware node, fix the ABI */
+> > > > 
+> > > > Looks like this issue is not introduced by this patch.
+> > > > The previous code uses device_get_match_data() which returns a
+> > > > match
+> > > > as it uses DT node and it uses dev_name(&client->dev) instead
+> > > > of
+> > > > id->name;
+> > > > 
+> > > > Am I missing anything here? If it is just a test program, can
+> > > > it be
+> > fixed??
+> > > > 
+> > > > Please correct me if I am wrong.
+> > > 
+> > > I just realized that there is no .data in previous code for OF
+> > > tables.
+> > > 
+> > > Maybe we should add a check, if it is DT node, return id->name?
+> > > 
+> > > Is there any API to distinguish DT node from ACPI??
+> > 
+> > Of course, but I discourage people to use that, you have to have a
+> > very
+> > good justification why you need it (and this case doesn't sound
+> > good enough
+> > to me, or please elaborate). Hence I leave it as a homework to find
+> > those
+> > APIs.
+> 
+> Andre, complained that his test app is broken with this patch. I am
+> waiting for his response whether he can fix his test app? 
+> If not, we need to find a solution. One solution
+> is adding a name variable and use consistent name across
+> OF/ACPI/I2C tables for various devices.
 
-Yes, they are ultimately checked via ethernet-switch.yaml which
-dsa.yaml references.
+Just to make it clear, the functionality of the test application
+(hwtest) is not affected by this patch. Only a less/none telling name
+is shown now in the Model column of its output.
 
-Rob
+I'm not that familiar with the interfaces provided by the kernel. Is
+there another way to get the device name if not from for example
+
+/sys/bus/iio/devices/iio:device2/name
+
+(which now shows '0-000d' instead of 'ak09911')
+
+For the bmi160 device[1] the following code is used to get the name
+
+	if (id)
+		name = id->name;
+	else
+		name = dev_name(&client->dev);
+
+but I don't know whether this is applicable here.
+
+Thanks to all, for trying to find a solution.
+
+André
+
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/iio/imu/bmi160/bmi160_i2c.c?h=v6.6-rc6#n31
+
+> 
+> Other solution is just add this check,
+> 
+> if (dev_fwnode(&client->dev) && !(IS_ENABLED(CONFIG_OF) && dev-
+> >of_node))
+> 	name = dev_name(&client->dev);
+> else
+> 	name = id->name;
+> 
+> Cheers,
+> Biju
+> 
+
