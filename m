@@ -2,133 +2,109 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 904CB7CF677
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Oct 2023 13:17:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1234B7CF6E4
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Oct 2023 13:33:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345301AbjJSLR3 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 19 Oct 2023 07:17:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36086 "EHLO
+        id S234920AbjJSLdP (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 19 Oct 2023 07:33:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36448 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345280AbjJSLR2 (ORCPT
+        with ESMTP id S233048AbjJSLdP (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 19 Oct 2023 07:17:28 -0400
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D8A49115;
-        Thu, 19 Oct 2023 04:17:26 -0700 (PDT)
-Received: from lhrpeml500005.china.huawei.com (unknown [172.18.147.207])
-        by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4SB4tC2sFfz6K6gc;
-        Thu, 19 Oct 2023 19:16:51 +0800 (CST)
-Received: from localhost (10.202.227.76) by lhrpeml500005.china.huawei.com
- (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.31; Thu, 19 Oct
- 2023 12:17:23 +0100
-Date:   Thu, 19 Oct 2023 12:17:22 +0100
-From:   Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-CC:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        =?ISO-8859-1?Q?An?= =?ISO-8859-1?Q?dr=E9?= Apitzsch 
-        <git@apitzsch.eu>, Jonathan Cameron <jic23@kernel.org>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        "Lars-Peter Clausen" <lars@metafoo.de>,
-        Uwe =?ISO-8859-1?Q?Kleine-K=F6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        "linux-iio@vger.kernel.org" <linux-iio@vger.kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>
-Subject: Re: [PATCH v2 1/5] iio: magnetometer: ak8975: Convert enum->pointer
- for data in the match tables
-Message-ID: <20231019121722.00007e6e@Huawei.com>
-In-Reply-To: <TYCPR01MB11269269A3237CC119644F4D286D4A@TYCPR01MB11269.jpnprd01.prod.outlook.com>
-References: <20230818075600.24277-1-biju.das.jz@bp.renesas.com>
-        <20230818075600.24277-2-biju.das.jz@bp.renesas.com>
-        <5e0d2716fb757d408ebe77cb132ae242ef3aa470.camel@apitzsch.eu>
-        <CAMuHMdUTxQym7+vYPtnvMQeH8GKSk0iOyuMnLkgr3LH1E8TTYA@mail.gmail.com>
-        <20231018204533.39399b0b@jic23-huawei>
-        <82b99e17f45b09623eeaed12e4fac12609c15426.camel@apitzsch.eu>
-        <TYCPR01MB11269EEF17ABCE541CC7B38CE86D4A@TYCPR01MB11269.jpnprd01.prod.outlook.com>
-        <TYCPR01MB11269D21D7DD5356A64E5679586D4A@TYCPR01MB11269.jpnprd01.prod.outlook.com>
-        <ZTD0UN4+wQjguCDF@smile.fi.intel.com>
-        <TYCPR01MB11269269A3237CC119644F4D286D4A@TYCPR01MB11269.jpnprd01.prod.outlook.com>
-Organization: Huawei Technologies Research and Development (UK) Ltd.
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
+        Thu, 19 Oct 2023 07:33:15 -0400
+Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 3B125136;
+        Thu, 19 Oct 2023 04:33:13 -0700 (PDT)
+X-IronPort-AV: E=Sophos;i="6.03,237,1694703600"; 
+   d="scan'208";a="179862784"
+Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
+  by relmlie5.idc.renesas.com with ESMTP; 19 Oct 2023 20:33:12 +0900
+Received: from localhost.localdomain (unknown [10.166.15.32])
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 4135F400618D;
+        Thu, 19 Oct 2023 20:33:12 +0900 (JST)
+From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+To:     s.shtylyov@omp.ru, davem@davemloft.net, edumazet@google.com,
+        kuba@kernel.org, pabeni@redhat.com
+Cc:     netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Subject: [PATCH net v2] ravb: Fix races between ravb_tx_timeout_work() and net related ops
+Date:   Thu, 19 Oct 2023 20:33:08 +0900
+Message-Id: <20231019113308.1133944-1-yoshihiro.shimoda.uh@renesas.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.202.227.76]
-X-ClientProxiedBy: lhrpeml100002.china.huawei.com (7.191.160.241) To
- lhrpeml500005.china.huawei.com (7.191.163.240)
-X-CFilter-Loop: Reflected
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
-        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=1.1 required=5.0 tests=AC_FROM_MANY_DOTS,BAYES_00,
+        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Level: *
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, 19 Oct 2023 09:41:06 +0000
-Biju Das <biju.das.jz@bp.renesas.com> wrote:
+Fix races between ravb_tx_timeout_work() and functions of net_device_ops
+and ethtool_ops by using rtnl_trylock() and rtnl_unlock(). Note that
+since ravb_close() is under the rtnl lock and calls cancel_work_sync(),
+ravb_tx_timeout_work() should calls rtnl_trylock(). Otherwise, a deadlock
+may happen in ravb_tx_timeout_work() like below:
 
-> > Subject: Re: [PATCH v2 1/5] iio: magnetometer: ak8975: Convert enum-  
-> > >pointer for data in the match tables  
-> > 
-> > On Thu, Oct 19, 2023 at 07:08:23AM +0000, Biju Das wrote:  
-> > > > Subject: RE: [PATCH v2 1/5] iio: magnetometer: ak8975: Convert enum-  
-> > 
-> > ...
-> >   
-> > > > As mentioned in the patch.
-> > > > /* If enumerated via firmware node, fix the ABI */
-> > > >
-> > > > Looks like this issue is not introduced by this patch.
-> > > > The previous code uses device_get_match_data() which returns a match
-> > > > as it uses DT node and it uses dev_name(&client->dev) instead of
-> > > > id->name;
-> > > >
-> > > > Am I missing anything here? If it is just a test program, can it be  
-> > fixed??  
-> > > >
-> > > > Please correct me if I am wrong.  
-> > >
-> > > I just realized that there is no .data in previous code for OF tables.
-> > >
-> > > Maybe we should add a check, if it is DT node, return id->name?
-> > >
-> > > Is there any API to distinguish DT node from ACPI??  
-> > 
-> > Of course, but I discourage people to use that, you have to have a very
-> > good justification why you need it (and this case doesn't sound good enough
-> > to me, or please elaborate). Hence I leave it as a homework to find those
-> > APIs.  
-> 
-> Andre, complained that his test app is broken with this patch. I am waiting for his response whether he can fix his test app? 
-> If not, we need to find a solution. One solution
-> is adding a name variable and use consistent name across
-> OF/ACPI/I2C tables for various devices.
-> 
-> Other solution is just add this check,
-> 
-> if (dev_fwnode(&client->dev) && !(IS_ENABLED(CONFIG_OF) && dev->of_node))
-> 	name = dev_name(&client->dev);
-> else
-> 	name = id->name;
+CPU0			CPU1
+			ravb_tx_timeout()
+			schedule_work()
+...
+__dev_close_many()
+// Under rtnl lock
+ravb_close()
+cancel_work_sync()
+// Waiting
+			ravb_tx_timeout_work()
+			rtnl_lock()
+			// This is possible to cause a deadlock
 
-Given this is a userspace regression (caused by accidental "fix" - I missed
-the fact it had this impact :(), I think it is valid to special case the ACPI in this rare
-case but definitely needs a big fat comment saying why we are doing it and that it
-should not be copied into other drivers!!!
+Fixes: c156633f1353 ("Renesas Ethernet AVB driver proper")
+Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+---
+Changes from v1:
+https://lore.kernel.org/all/20231017085341.813335-1-yoshihiro.shimoda.uh@renesas.com/
+ - Modify commit description.
+ - Use goto in a error path.
 
-If we can get away with fixing the original (many years old ABI misuse - but IIRC from a time
-where our ABI docs were lacking) then I'm keen on doing so, but I doubt we can.
-Definitely don't want to accidentally spread that bug though to new cases!
+ drivers/net/ethernet/renesas/ravb_main.c | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
 
-Jonathan
-
-> 
-> Cheers,
-> Biju
-> 
+diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
+index 0ef0b88b7145..300c1885e1e1 100644
+--- a/drivers/net/ethernet/renesas/ravb_main.c
++++ b/drivers/net/ethernet/renesas/ravb_main.c
+@@ -1874,6 +1874,9 @@ static void ravb_tx_timeout_work(struct work_struct *work)
+ 	struct net_device *ndev = priv->ndev;
+ 	int error;
+ 
++	if (!rtnl_trylock())
++		return;
++
+ 	netif_tx_stop_all_queues(ndev);
+ 
+ 	/* Stop PTP Clock driver */
+@@ -1907,7 +1910,7 @@ static void ravb_tx_timeout_work(struct work_struct *work)
+ 		 */
+ 		netdev_err(ndev, "%s: ravb_dmac_init() failed, error %d\n",
+ 			   __func__, error);
+-		return;
++		goto out_unlock;
+ 	}
+ 	ravb_emac_init(ndev);
+ 
+@@ -1917,6 +1920,9 @@ static void ravb_tx_timeout_work(struct work_struct *work)
+ 		ravb_ptp_init(ndev, priv->pdev);
+ 
+ 	netif_tx_start_all_queues(ndev);
++
++out_unlock:
++	rtnl_unlock();
+ }
+ 
+ /* Packet transmit function for Ethernet AVB */
+-- 
+2.25.1
 
