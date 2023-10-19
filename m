@@ -2,81 +2,96 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AA8DA7CFC03
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Oct 2023 16:05:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 461897CFC1C
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Oct 2023 16:09:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345967AbjJSOFt (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 19 Oct 2023 10:05:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57688 "EHLO
+        id S1345912AbjJSOJW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 19 Oct 2023 10:09:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47092 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345991AbjJSOFs (ORCPT
+        with ESMTP id S1345531AbjJSOJV (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 19 Oct 2023 10:05:48 -0400
-Received: from Atcsqr.andestech.com (60-248-80-70.hinet-ip.hinet.net [60.248.80.70])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 20A3113A
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 19 Oct 2023 07:05:45 -0700 (PDT)
-Received: from mail.andestech.com (ATCPCS16.andestech.com [10.0.1.222])
-        by Atcsqr.andestech.com with ESMTP id 39JE5aGg032995;
-        Thu, 19 Oct 2023 22:05:36 +0800 (+08)
-        (envelope-from peterlin@andestech.com)
-Received: from swlinux02.andestech.com (10.0.15.183) by ATCPCS16.andestech.com
- (10.0.1.222) with Microsoft SMTP Server id 14.3.498.0; Thu, 19 Oct 2023
- 22:05:32 +0800
-From:   Yu Chien Peter Lin <peterlin@andestech.com>
-To:     <geert+renesas@glider.be>, <magnus.damm@gmail.com>,
-        <robh+dt@kernel.org>, <krzysztof.kozlowski+dt@linaro.org>,
-        <conor+dt@kernel.org>, <paul.walmsley@sifive.com>,
-        <palmer@dabbelt.com>, <aou@eecs.berkeley.edu>,
-        <linux-renesas-soc@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-riscv@lists.infradead.org>, <linux-kernel@vger.kernel.org>
-CC:     <prabhakar.mahadev-lad.rj@bp.renesas.com>, <tim609@andestech.com>,
-        <dylan@andestech.com>, <locus84@andestech.com>,
-        <dminus@andestech.com>,
-        "Yu Chien Peter Lin" <peterlin@andestech.com>
-Subject: [PATCH v2 09/10] riscv: dts: renesas: Add Andes PMU extension
-Date:   Thu, 19 Oct 2023 22:02:32 +0800
-Message-ID: <20231019140232.3660375-1-peterlin@andestech.com>
-X-Mailer: git-send-email 2.34.1
+        Thu, 19 Oct 2023 10:09:21 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E26B4B0;
+        Thu, 19 Oct 2023 07:09:18 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4F280C433C7;
+        Thu, 19 Oct 2023 14:09:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1697724558;
+        bh=fUU2yQBsdFjq1E6XjHGGe6reCr7dtP65SbDkzgy/1+s=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:From;
+        b=JuGYIRMNuTZQuep6Z6n93RnXdEOjJGvvXlyY7c/w+ymB1ZtwtmYNRbrDuIisxRPpI
+         NvKNPqfNaPEaqc/TAJ9+HPUUvpIOpaAPXImY27Cm602lxbUqHrmSP/uzI/hdfsvZyY
+         iQ7nY0bCISb2VC8wxQynGRwgAvdFjg8snwIdT1XpGT600WLqFr1b4G/II2f//iwQPL
+         e+Bz4mmI6GtKmyvKnmIf27C4AjsVAWlHEGU5jE8Vscd26U5tQ19zykSd3KP9i9dsLo
+         HTjJ4hHmCPH9a2jV+ThHfhm3QmBvmeoJaZHv6SLrelhoz9lkp4mYPL/Cc+LlNr7nuN
+         CiC4NYi+8zQNA==
+Date:   Thu, 19 Oct 2023 09:09:16 -0500
+From:   Bjorn Helgaas <helgaas@kernel.org>
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc:     "lpieralisi@kernel.org" <lpieralisi@kernel.org>,
+        "kw@linux.com" <kw@linux.com>, "robh@kernel.org" <robh@kernel.org>,
+        "bhelgaas@google.com" <bhelgaas@google.com>,
+        "krzysztof.kozlowski+dt@linaro.org" 
+        <krzysztof.kozlowski+dt@linaro.org>,
+        "conor+dt@kernel.org" <conor+dt@kernel.org>,
+        "jingoohan1@gmail.com" <jingoohan1@gmail.com>,
+        "gustavo.pimentel@synopsys.com" <gustavo.pimentel@synopsys.com>,
+        "mani@kernel.org" <mani@kernel.org>,
+        "marek.vasut+renesas@gmail.com" <marek.vasut+renesas@gmail.com>,
+        "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>
+Subject: Re: [PATCH v25 00/15] PCI: dwc: rcar-gen4: Add R-Car Gen4 PCIe
+ support
+Message-ID: <20231019140916.GA1400116@bhelgaas>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [10.0.15.183]
-X-DNSRBL: 
-X-SPAM-SOURCE-CHECK: pass
-X-MAIL: Atcsqr.andestech.com 39JE5aGg032995
-X-Spam-Status: No, score=-0.9 required=5.0 tests=BAYES_00,
-        RCVD_IN_DNSWL_BLOCKED,RDNS_DYNAMIC,SPF_HELO_NONE,SPF_PASS autolearn=no
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <TYBPR01MB5341B3E0062E61EE5F2C84D8D8D4A@TYBPR01MB5341.jpnprd01.prod.outlook.com>
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Add "xandespmu" to ISA extensions, the SBI PMU driver will
-probe the extension and use the non-standard irq source.
+On Thu, Oct 19, 2023 at 04:08:52AM +0000, Yoshihiro Shimoda wrote:
+> > From: Bjorn Helgaas, Sent: Thursday, October 19, 2023 12:11 PM
+> > On Wed, Oct 18, 2023 at 05:56:16PM +0900, Yoshihiro Shimoda wrote:
+> > > Add R-Car S4-8 (R-Car Gen4) PCIe controller for both host and endpoint modes.
+> > > To support them, modify PCIe DesignWare common codes.
+> > >
+> > > Changes from v24:
+> > >
+> <snip URL>
+> > >  - Based on the latest pci.git / next branch.
+> > >  - Reordering the patches. (This is suggested by Bjorn.)
+> > >  - Drop "PCI: dwc: Disable two BARs to avoid unnecessary memory assignment"
+> > >    because break other platforms.
+> > 
+> > Does R-Car Gen4 still work without this patch?
+> 
+> Yes, R-Car Gen4 still work without this patch because I added this code into
+> the patch 12/15 again:
+> 
+> ---
+> +static int rcar_gen4_pcie_host_init(struct dw_pcie_rp *pp)
+> +{
+> ...
+> +	/*
+> +	 * According to the section 3.5.7.2 "RC Mode" in DWC PCIe Dual Mode
+> +	 * Rev.5.20a and 3.5.6.1 "RC mode" in DWC PCIe RC databook v5.20a, we
+> +	 * should disable two BARs to avoid unnecessary memory assignment
+> +	 * during device enumeration.
+> +	 */
+> +	dw_pcie_writel_dbi2(dw, PCI_BASE_ADDRESS_0, 0x0);
+> +	dw_pcie_writel_dbi2(dw, PCI_BASE_ADDRESS_1, 0x0);
 
-Signed-off-by: Yu Chien Peter Lin <peterlin@andestech.com>
----
-Changes v1 -> v2:
-  - New patch
----
- arch/riscv/boot/dts/renesas/r9a07g043f.dtsi | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Great, thanks!
 
-diff --git a/arch/riscv/boot/dts/renesas/r9a07g043f.dtsi b/arch/riscv/boot/dts/renesas/r9a07g043f.dtsi
-index a6345469e8c9..73c572056a04 100644
---- a/arch/riscv/boot/dts/renesas/r9a07g043f.dtsi
-+++ b/arch/riscv/boot/dts/renesas/r9a07g043f.dtsi
-@@ -26,7 +26,7 @@ cpu0: cpu@0 {
- 			riscv,isa = "rv64imafdc";
- 			riscv,isa-base = "rv64i";
- 			riscv,isa-extensions = "i", "m", "a", "f", "d", "c", "zicntr", "zicsr",
--					       "zifencei", "zihpm";
-+					       "zifencei", "zihpm", "xandespmu";
- 			mmu-type = "riscv,sv39";
- 			i-cache-size = <0x8000>;
- 			i-cache-line-size = <0x40>;
--- 
-2.34.1
-
+Bjorn
