@@ -2,151 +2,128 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 594A07CF885
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Oct 2023 14:16:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 987927CF911
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Oct 2023 14:36:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235442AbjJSMQF (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 19 Oct 2023 08:16:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40714 "EHLO
+        id S235325AbjJSMgX (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 19 Oct 2023 08:36:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52616 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235357AbjJSMQA (ORCPT
+        with ESMTP id S235340AbjJSMgW (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 19 Oct 2023 08:16:00 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6CFC6273B;
-        Thu, 19 Oct 2023 05:06:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697717162; x=1729253162;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=wbG6VSsrlBl4hddw+r+h9iIxWdmh5TUrrYv38LQnvNk=;
-  b=mclnZkFHN4nuVo2N4KShG5HFnavnTF3ghl8speQvvEfbnhzSrvJwlu8m
-   dxYkq81SgQMY7+gvQsqsaqL7nE2yBo8sLWNt6+AVJ/QFqsXOLfaMjy2GP
-   gqwa4kxMTmQD3yGRlFQ0ITUwi5xM5czEK71gDPaJ4fzYhV2t3efOkP4VD
-   A30dhnKB6MEukZbymT9HjguqCaZkOgGZBKLe6waOH6FOghDCWONYZgQw0
-   dyNbgv6c9w8f9nnyGSqmmS0sPuNnefYkT0QEgG50ITbRHLAKnajl/kIE0
-   ZBRjKzrN6oDTHAve1IBHFCfmntlkLI5Rly1JYGWXCaRqXy9MA/W6pkOaB
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10867"; a="452702485"
-X-IronPort-AV: E=Sophos;i="6.03,237,1694761200"; 
-   d="scan'208";a="452702485"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Oct 2023 05:04:29 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10867"; a="750481206"
-X-IronPort-AV: E=Sophos;i="6.03,237,1694761200"; 
-   d="scan'208";a="750481206"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by orsmga007.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Oct 2023 05:04:25 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.97-RC2)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1qtRlG-00000006r4i-2EQa;
-        Thu, 19 Oct 2023 15:04:22 +0300
-Date:   Thu, 19 Oct 2023 15:04:22 +0300
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
-        =?iso-8859-1?Q?Andr=E9?= Apitzsch <git@apitzsch.eu>,
-        Jonathan Cameron <jic23@kernel.org>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        "linux-iio@vger.kernel.org" <linux-iio@vger.kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>
-Subject: Re: [PATCH v2 1/5] iio: magnetometer: ak8975: Convert enum->pointer
- for data in the match tables
-Message-ID: <ZTEbRsofu6H4eeGT@smile.fi.intel.com>
-References: <20230818075600.24277-2-biju.das.jz@bp.renesas.com>
- <5e0d2716fb757d408ebe77cb132ae242ef3aa470.camel@apitzsch.eu>
- <CAMuHMdUTxQym7+vYPtnvMQeH8GKSk0iOyuMnLkgr3LH1E8TTYA@mail.gmail.com>
- <20231018204533.39399b0b@jic23-huawei>
- <82b99e17f45b09623eeaed12e4fac12609c15426.camel@apitzsch.eu>
- <TYCPR01MB11269EEF17ABCE541CC7B38CE86D4A@TYCPR01MB11269.jpnprd01.prod.outlook.com>
- <TYCPR01MB11269D21D7DD5356A64E5679586D4A@TYCPR01MB11269.jpnprd01.prod.outlook.com>
- <ZTD0UN4+wQjguCDF@smile.fi.intel.com>
- <TYCPR01MB11269269A3237CC119644F4D286D4A@TYCPR01MB11269.jpnprd01.prod.outlook.com>
- <20231019121722.00007e6e@Huawei.com>
+        Thu, 19 Oct 2023 08:36:22 -0400
+Received: from mx01.omp.ru (mx01.omp.ru [90.154.21.10])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E626BCF;
+        Thu, 19 Oct 2023 05:36:19 -0700 (PDT)
+Received: from [192.168.1.103] (31.173.85.253) by msexch01.omp.ru
+ (10.188.4.12) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.986.14; Thu, 19 Oct
+ 2023 15:36:09 +0300
+Subject: Re: [PATCH net v2] ravb: Fix races between ravb_tx_timeout_work() and
+ net related ops
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        <davem@davemloft.net>, <edumazet@google.com>, <kuba@kernel.org>,
+        <pabeni@redhat.com>
+CC:     <netdev@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>
+References: <20231019113308.1133944-1-yoshihiro.shimoda.uh@renesas.com>
+From:   Sergey Shtylyov <s.shtylyov@omp.ru>
+Organization: Open Mobile Platform
+Message-ID: <f5421248-3341-a5f7-84e6-c601df470a63@omp.ru>
+Date:   Thu, 19 Oct 2023 15:36:08 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231019121722.00007e6e@Huawei.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE,URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <20231019113308.1133944-1-yoshihiro.shimoda.uh@renesas.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [31.173.85.253]
+X-ClientProxiedBy: msexch01.omp.ru (10.188.4.12) To msexch01.omp.ru
+ (10.188.4.12)
+X-KSE-ServerInfo: msexch01.omp.ru, 9
+X-KSE-AntiSpam-Interceptor-Info: scan successful
+X-KSE-AntiSpam-Version: 6.0.0, Database issued on: 10/19/2023 12:26:29
+X-KSE-AntiSpam-Status: KAS_STATUS_NOT_DETECTED
+X-KSE-AntiSpam-Method: none
+X-KSE-AntiSpam-Rate: 59
+X-KSE-AntiSpam-Info: Lua profiles 180733 [Oct 19 2023]
+X-KSE-AntiSpam-Info: Version: 6.0.0.2
+X-KSE-AntiSpam-Info: Envelope from: s.shtylyov@omp.ru
+X-KSE-AntiSpam-Info: LuaCore: 542 542 3d23828e213bab96daa5e52f9cef518f74e40214
+X-KSE-AntiSpam-Info: {rep_avail}
+X-KSE-AntiSpam-Info: {Tracking_from_domain_doesnt_match_to}
+X-KSE-AntiSpam-Info: {relay has no DNS name}
+X-KSE-AntiSpam-Info: {SMTP from is not routable}
+X-KSE-AntiSpam-Info: {Found in DNSBL: 31.173.85.253 in (user)
+ b.barracudacentral.org}
+X-KSE-AntiSpam-Info: 127.0.0.199:7.1.2;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;omp.ru:7.1.1
+X-KSE-AntiSpam-Info: ApMailHostAddress: 31.173.85.253
+X-KSE-AntiSpam-Info: {DNS response errors}
+X-KSE-AntiSpam-Info: Rate: 59
+X-KSE-AntiSpam-Info: Status: not_detected
+X-KSE-AntiSpam-Info: Method: none
+X-KSE-AntiSpam-Info: Auth:dmarc=temperror header.from=omp.ru;spf=temperror
+ smtp.mailfrom=omp.ru;dkim=none
+X-KSE-Antiphishing-Info: Clean
+X-KSE-Antiphishing-ScanningType: Heuristic
+X-KSE-Antiphishing-Method: None
+X-KSE-Antiphishing-Bases: 10/19/2023 12:31:00
+X-KSE-Antivirus-Interceptor-Info: scan successful
+X-KSE-Antivirus-Info: Clean, bases: 10/19/2023 10:41:00 AM
+X-KSE-Attachment-Filter-Triggered-Rules: Clean
+X-KSE-Attachment-Filter-Triggered-Filters: Clean
+X-KSE-BulkMessagesFiltering-Scan-Result: InTheLimit
+X-Spam-Status: No, score=-5.2 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, Oct 19, 2023 at 12:17:22PM +0100, Jonathan Cameron wrote:
-> On Thu, 19 Oct 2023 09:41:06 +0000
-> Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> > > Subject: Re: [PATCH v2 1/5] iio: magnetometer: ak8975: Convert enum-  
-> > > >pointer for data in the match tables  
-> > > On Thu, Oct 19, 2023 at 07:08:23AM +0000, Biju Das wrote:  
-> > > > > Subject: RE: [PATCH v2 1/5] iio: magnetometer: ak8975: Convert enum-  
+Hello!
 
-...
+On 10/19/23 2:33 PM, Yoshihiro Shimoda wrote:
 
-> > > > > As mentioned in the patch.
-> > > > > /* If enumerated via firmware node, fix the ABI */
-> > > > >
-> > > > > Looks like this issue is not introduced by this patch.
-> > > > > The previous code uses device_get_match_data() which returns a match
-> > > > > as it uses DT node and it uses dev_name(&client->dev) instead of
-> > > > > id->name;
-> > > > >
-> > > > > Am I missing anything here? If it is just a test program, can it be  
-> > > fixed??  
-> > > > >
-> > > > > Please correct me if I am wrong.  
-> > > >
-> > > > I just realized that there is no .data in previous code for OF tables.
-> > > >
-> > > > Maybe we should add a check, if it is DT node, return id->name?
-> > > >
-> > > > Is there any API to distinguish DT node from ACPI??  
-> > > 
-> > > Of course, but I discourage people to use that, you have to have a very
-> > > good justification why you need it (and this case doesn't sound good enough
-> > > to me, or please elaborate). Hence I leave it as a homework to find those
-> > > APIs.  
-> > 
-> > Andre, complained that his test app is broken with this patch. I am waiting for his response whether he can fix his test app? 
-> > If not, we need to find a solution. One solution
-> > is adding a name variable and use consistent name across
-> > OF/ACPI/I2C tables for various devices.
-> > 
-> > Other solution is just add this check,
-
-> > if (dev_fwnode(&client->dev) && !(IS_ENABLED(CONFIG_OF) && dev->of_node))
-
-Taking the Jonathan's comment below into consideration we can do _something_
-like above, but using only a single API call instead of this ugly and monstrous
-condition.
-
-> > 	name = dev_name(&client->dev);
-> > else
-> > 	name = id->name;
+> Fix races between ravb_tx_timeout_work() and functions of net_device_ops
+> and ethtool_ops by using rtnl_trylock() and rtnl_unlock(). Note that
+> since ravb_close() is under the rtnl lock and calls cancel_work_sync(),
+> ravb_tx_timeout_work() should calls rtnl_trylock(). Otherwise, a deadlock
+> may happen in ravb_tx_timeout_work() like below:
 > 
-> Given this is a userspace regression (caused by accidental "fix" - I missed
-> the fact it had this impact :(), I think it is valid to special case the ACPI in this rare
-> case but definitely needs a big fat comment saying why we are doing it and that it
-> should not be copied into other drivers!!!
+> CPU0			CPU1
+> 			ravb_tx_timeout()
+> 			schedule_work()
+> ...
+> __dev_close_many()
+> // Under rtnl lock
+> ravb_close()
+> cancel_work_sync()
+> // Waiting
+> 			ravb_tx_timeout_work()
+> 			rtnl_lock()
+> 			// This is possible to cause a deadlock
 > 
-> If we can get away with fixing the original (many years old ABI misuse - but IIRC from a time
-> where our ABI docs were lacking) then I'm keen on doing so, but I doubt we can.
-> Definitely don't want to accidentally spread that bug though to new cases!
+> Fixes: c156633f1353 ("Renesas Ethernet AVB driver proper")
+> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 
--- 
-With Best Regards,
-Andy Shevchenko
+Reviewed-by: Sergey Shtylyov <s.shtylyov@omp.ru>
 
+[...]
+> diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
+> index 0ef0b88b7145..300c1885e1e1 100644
+> --- a/drivers/net/ethernet/renesas/ravb_main.c
+> +++ b/drivers/net/ethernet/renesas/ravb_main.c
+> @@ -1874,6 +1874,9 @@ static void ravb_tx_timeout_work(struct work_struct *work)
+>  	struct net_device *ndev = priv->ndev;
+>  	int error;
+>  
+> +	if (!rtnl_trylock())
+> +		return;
 
+   I wonder if we should reschedule the work here...
+
+[...]
+
+MBR, Sergey
