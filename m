@@ -2,125 +2,129 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BE51B7D3C2C
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 Oct 2023 18:19:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B9D437D3E68
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 Oct 2023 19:59:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233560AbjJWQTy (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 23 Oct 2023 12:19:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58492 "EHLO
+        id S229453AbjJWR7J convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 23 Oct 2023 13:59:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45678 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233522AbjJWQTp (ORCPT
+        with ESMTP id S229529AbjJWR7I (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 23 Oct 2023 12:19:45 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 676FFC1;
-        Mon, 23 Oct 2023 09:19:32 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DD0B4C433C9;
-        Mon, 23 Oct 2023 16:19:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1698077971;
-        bh=2yoJUFciYjOGBPAKWjjWU0kAwyU1Itk6s1tGuUXNy9A=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=ocyl6RJle/R2/8cViurxiFrtIssXCSYTIV2gwxm9RYSl/AqO4DKoG4L9vgATnJNep
-         uhjw7AfIAwNGMtAkbKWdqI3z/jYgaL8PcwYjKPe/RTwz3rYmiBBOdVxVgqJkj+FWOK
-         m/kfldvRoSgyBKmas8FxBTX+Xhjy061f+bZI5TA5tlxMCeq3iNAl8+AraL2KHetvSW
-         J0PWb5huCqtK1f72NZc3wHnX4/ebjSosi6RfTsu1Wcd3iCA/l+gp6MpNEZNlW0JbFE
-         SuYiAQz4sSIHBKEUkkLjqBIWhAL8xARYmCOp1KVpghzvHqWUtKKsRCnVdC8uJ0BI01
-         E4P7V+vNfwzrg==
-Date:   Mon, 23 Oct 2023 17:19:26 +0100
-From:   Conor Dooley <conor@kernel.org>
-To:     Claudiu <claudiu.beznea@tuxon.dev>
-Cc:     tglx@linutronix.de, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-        geert+renesas@glider.be, magnus.damm@gmail.com,
-        mturquette@baylibre.com, sboyd@kernel.org,
-        prabhakar.mahadev-lad.rj@bp.renesas.com,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
-        Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-Subject: Re: [PATCH 1/7] dt-bindings: interrupt-controller:
- renesas,rzg2l-irqc: document RZ/G3S
-Message-ID: <20231023-snuff-dish-3b9df076a82c@spud>
-References: <20231023102223.1309614-1-claudiu.beznea.uj@bp.renesas.com>
- <20231023102223.1309614-2-claudiu.beznea.uj@bp.renesas.com>
+        Mon, 23 Oct 2023 13:59:08 -0400
+Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com [209.85.128.175])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 696F2BE;
+        Mon, 23 Oct 2023 10:59:06 -0700 (PDT)
+Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-5a7c011e113so39342037b3.1;
+        Mon, 23 Oct 2023 10:59:06 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1698083945; x=1698688745;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ILGXXBI0xPsbEpyQCSI+1mkyQ59/epgNCarVkLH7ohg=;
+        b=WE6Nav6ODn5JVJN5OoN/JRLPl3ITfBZAyLMPV32qS2JrISB3ocb8/CzZaL+VGJplH1
+         zA/P3lGxLH04Ay069nDpeSjvuplmmN6HdZgS8SpDZFib65TYkuQ2hAXjRWiRy2k9+Gay
+         Co27BK9i2/EKto6Om/065Ogfok6dRBEonnnOpaa9EgsUiCPpn+EqQgWC/VO8A88Q7RUI
+         DdxqOlVpLtq6hvOrxWihmUGD0wigDdgZQGCg1kCxxur8IfkL2vFf/DCj+molH4gKAqx0
+         0zTJNDEKWIyH/xFXgK10orWeebx9xOxl7TttFI/G+ukC9aNH9Y1n7k5P0hgq5R+j4Nem
+         QaeQ==
+X-Gm-Message-State: AOJu0YwoZttu2edVvqp+HrRg80IUGpQD2SuKGEf/5edrkC5EHO3sH3H1
+        yRbFTVOvO7Fpnvmjh12Mo5az4uy+wzuvHA==
+X-Google-Smtp-Source: AGHT+IHlXNDsLJJqHDqUrfWmicV1vKqxJaCRnhNoazeDTLp0YnMrjkMlD7coXqVjTGkA/rF2ifWcRQ==
+X-Received: by 2002:a0d:f585:0:b0:59b:de0f:c23b with SMTP id e127-20020a0df585000000b0059bde0fc23bmr8126679ywf.46.1698083945373;
+        Mon, 23 Oct 2023 10:59:05 -0700 (PDT)
+Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com. [209.85.128.182])
+        by smtp.gmail.com with ESMTPSA id p130-20020a815b88000000b0059b20231f1dsm3319690ywb.121.2023.10.23.10.59.04
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 23 Oct 2023 10:59:04 -0700 (PDT)
+Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-5a7c011e113so39341767b3.1;
+        Mon, 23 Oct 2023 10:59:04 -0700 (PDT)
+X-Received: by 2002:a81:8341:0:b0:5a7:bbd1:ec1d with SMTP id
+ t62-20020a818341000000b005a7bbd1ec1dmr10435521ywf.17.1698083944720; Mon, 23
+ Oct 2023 10:59:04 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="xG0STj7p0zR8eqpn"
-Content-Disposition: inline
-In-Reply-To: <20231023102223.1309614-2-claudiu.beznea.uj@bp.renesas.com>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+References: <bfd1cf9d620a8229f5a5e62e6fe9e59c153d0830.1698051619.git.geert+renesas@glider.be>
+ <20231023-sulfate-babble-695b239f52b5@spud>
+In-Reply-To: <20231023-sulfate-babble-695b239f52b5@spud>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Mon, 23 Oct 2023 19:58:51 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdW7UQ=c9V6rjpZdcaNPSXLOu5aEiLhreirPP6NXN0Ke2Q@mail.gmail.com>
+Message-ID: <CAMuHMdW7UQ=c9V6rjpZdcaNPSXLOu5aEiLhreirPP6NXN0Ke2Q@mail.gmail.com>
+Subject: Re: [PATCH] dt-bindings: regulator: dlg,da9210: Convert to json-schema
+To:     Conor Dooley <conor@kernel.org>
+Cc:     Support Opensource <support.opensource@diasemi.com>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        David Rau <David.Rau.opensource@dm.renesas.com>,
+        Adam Ward <Adam.Ward.Opensource@diasemi.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Hi Conor,
 
---xG0STj7p0zR8eqpn
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+CC David, Adam
 
-On Mon, Oct 23, 2023 at 01:22:17PM +0300, Claudiu wrote:
-> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
->=20
-> Document RZ/G3S (R9108G045) interrupt controller. This has few extra
-> functionalities compared with RZ/G2UL but the already existing driver
-> could still be used.
->=20
-> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+On Mon, Oct 23, 2023 at 6:18 PM Conor Dooley <conor@kernel.org> wrote:
+> On Mon, Oct 23, 2023 at 11:04:45AM +0200, Geert Uytterhoeven wrote:
+> > Convert the Dialog Semiconductor DA9210 Multi-Phase 12A DC-DC Buck
+> > Converter Device Tree binding documentation to json-schema.
+> >
+> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/regulator/dlg,da9210.yaml
+> > @@ -0,0 +1,52 @@
+> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > +%YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/regulator/dlg,da9210.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: Dialog Semiconductor DA9210 Multi-Phase 12A DC-DC Buck Converter
+> > +
+> > +maintainers:
+> > +  - Support Opensource <support.opensource@diasemi.com>
+>
+> This should really be a person... Does your work with Renesas cover you
+> for dialog stuff too?
 
-Thanks,
-Conor.
+I'm not really into the PMICs department, only into making dtbs_check
+for "my" DTS files clean ;-)
+I hope one of the Dialog/Renesas PMIC people can point me to a better
+address.  Steve Twiss sent a goodbye message to some kernel people
+and lkml three years ago, but it is not on lore, as it contained HTML.
 
-> ---
->  .../bindings/interrupt-controller/renesas,rzg2l-irqc.yaml    | 5 ++++-
->  1 file changed, 4 insertions(+), 1 deletion(-)
->=20
-> diff --git a/Documentation/devicetree/bindings/interrupt-controller/renes=
-as,rzg2l-irqc.yaml b/Documentation/devicetree/bindings/interrupt-controller=
-/renesas,rzg2l-irqc.yaml
-> index 2ef3081eaaf3..d3b5aec0a3f7 100644
-> --- a/Documentation/devicetree/bindings/interrupt-controller/renesas,rzg2=
-l-irqc.yaml
-> +++ b/Documentation/devicetree/bindings/interrupt-controller/renesas,rzg2=
-l-irqc.yaml
-> @@ -26,6 +26,7 @@ properties:
->            - renesas,r9a07g043u-irqc   # RZ/G2UL
->            - renesas,r9a07g044-irqc    # RZ/G2{L,LC}
->            - renesas,r9a07g054-irqc    # RZ/V2L
-> +          - renesas,r9a08g045-irqc    # RZ/G3S
->        - const: renesas,rzg2l-irqc
-> =20
->    '#interrupt-cells':
-> @@ -167,7 +168,9 @@ allOf:
->        properties:
->          compatible:
->            contains:
-> -            const: renesas,r9a07g043u-irqc
-> +            enum:
-> +              - renesas,r9a07g043u-irqc
-> +              - renesas,r9a08g045-irqc
->      then:
->        properties:
->          interrupts:
-> --=20
-> 2.39.2
->=20
+Ah, according to git log, David and Adam touched some of the files
+lately, so perhaps they can help?
 
---xG0STj7p0zR8eqpn
-Content-Type: application/pgp-signature; name="signature.asc"
+> Otherwise,
+> Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
 
------BEGIN PGP SIGNATURE-----
+Thanks!
 
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZTadDgAKCRB4tDGHoIJi
-0nhyAP9SX2WimXDhWIXmlpXodQDFM9Ac9Cx28m1XUil6xBpgaAEA7i4+bh6j8a7g
-pi+v0G2iUHncBtDHx7yE/n+l7wP1MAA=
-=vzkc
------END PGP SIGNATURE-----
+Gr{oetje,eeting}s,
 
---xG0STj7p0zR8eqpn--
+                        Geert
+
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
