@@ -2,30 +2,30 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AD0947D3876
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 Oct 2023 15:52:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 49A407D3878
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 Oct 2023 15:52:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230468AbjJWNwb (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 23 Oct 2023 09:52:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54242 "EHLO
+        id S229686AbjJWNwf (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 23 Oct 2023 09:52:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54262 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229987AbjJWNwa (ORCPT
+        with ESMTP id S230441AbjJWNwb (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 23 Oct 2023 09:52:30 -0400
-Received: from baptiste.telenet-ops.be (baptiste.telenet-ops.be [IPv6:2a02:1800:120:4::f00:13])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C7F17E4
+        Mon, 23 Oct 2023 09:52:31 -0400
+Received: from xavier.telenet-ops.be (xavier.telenet-ops.be [IPv6:2a02:1800:120:4::f00:14])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C8879FF
         for <linux-renesas-soc@vger.kernel.org>; Mon, 23 Oct 2023 06:52:26 -0700 (PDT)
 Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed40:375d:2b56:c03f:d72d])
-        by baptiste.telenet-ops.be with bizsmtp
-        id 1RsQ2B0013CbNjd01RsQid; Mon, 23 Oct 2023 15:52:24 +0200
+        by xavier.telenet-ops.be with bizsmtp
+        id 1RsQ2B0053CbNjd01RsQU8; Mon, 23 Oct 2023 15:52:24 +0200
 Received: from rox.of.borg ([192.168.97.57])
         by ramsan.of.borg with esmtp (Exim 4.95)
         (envelope-from <geert@linux-m68k.org>)
-        id 1quvLt-007KH6-0r;
-        Mon, 23 Oct 2023 15:52:23 +0200
+        id 1quvLt-007KH9-1f;
+        Mon, 23 Oct 2023 15:52:24 +0200
 Received: from geert by rox.of.borg with local (Exim 4.95)
         (envelope-from <geert@linux-m68k.org>)
-        id 1quvLz-007oKt-TL;
+        id 1quvLz-007oKw-U2;
         Mon, 23 Oct 2023 15:52:23 +0200
 From:   Geert Uytterhoeven <geert+renesas@glider.be>
 To:     Magnus Damm <magnus.damm@gmail.com>,
@@ -33,9 +33,9 @@ To:     Magnus Damm <magnus.damm@gmail.com>,
 Cc:     linux-renesas-soc@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH 1/3] ARM: dts: renesas: rcar-gen2: Fix I2C bus demux node names
-Date:   Mon, 23 Oct 2023 15:52:15 +0200
-Message-Id: <63e97cb50282b3255ba9654f539b9baa8c621b30.1698068647.git.geert+renesas@glider.be>
+Subject: [PATCH 2/3] ARM: dts: renesas: Add missing ADV751[13] power supply properties
+Date:   Mon, 23 Oct 2023 15:52:16 +0200
+Message-Id: <6c49fd83d327a68040f052bd9fd96fe25b0fc301.1698068647.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1698068646.git.geert+renesas@glider.be>
 References: <cover.1698068646.git.geert+renesas@glider.be>
@@ -43,7 +43,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.3 required=5.0 tests=BAYES_00,
         HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_NONE
-        autolearn=unavailable autolearn_force=no version=3.4.6
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -52,162 +52,405 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 make dtbs_check:
 
-    $nodename:0: 'i2c-10' does not match '^(i2c-?)?mux'
+    arch/arm/boot/dts/renesas/r8a7791-koelsch.dtb: hdmi@39: 'avdd-supply' is a required property
+	    from schema $id: http://devicetree.org/schemas/display/bridge/adi,adv7511.yaml#
+    arch/arm/boot/dts/renesas/r8a7791-koelsch.dtb: hdmi@39: 'dvdd-supply' is a required property
+	    from schema $id: http://devicetree.org/schemas/display/bridge/adi,adv7511.yaml#
+    arch/arm/boot/dts/renesas/r8a7791-koelsch.dtb: hdmi@39: 'pvdd-supply' is a required property
+	    from schema $id: http://devicetree.org/schemas/display/bridge/adi,adv7511.yaml#
+    arch/arm/boot/dts/renesas/r8a7791-koelsch.dtb: hdmi@39: 'dvdd-3v-supply' is a required property
+	    from schema $id: http://devicetree.org/schemas/display/bridge/adi,adv7511.yaml#
+    arch/arm/boot/dts/renesas/r8a7791-koelsch.dtb: hdmi@39: 'bgvdd-supply' is a required property
+	    from schema $id: http://devicetree.org/schemas/display/bridge/adi,adv7511.yaml#
+    ...
 
-Fix this by renaming all I2C bus demultiplexer node names to
-"i2c-mux<N>".
+Fix this by adding the missing power supply properties, and by adding
+fixed regulators where needed.
 
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
- arch/arm/boot/dts/renesas/r8a7790-lager.dts   | 8 ++++----
- arch/arm/boot/dts/renesas/r8a7791-koelsch.dts | 6 +++---
- arch/arm/boot/dts/renesas/r8a7791-porter.dts  | 2 +-
- arch/arm/boot/dts/renesas/r8a7793-gose.dts    | 4 ++--
- arch/arm/boot/dts/renesas/r8a7794-alt.dts     | 4 ++--
- arch/arm/boot/dts/renesas/r8a7794-silk.dts    | 2 +-
- 6 files changed, 13 insertions(+), 13 deletions(-)
+ .../boot/dts/renesas/iwg20d-q7-dbcm-ca.dtsi   | 15 ++++++++++++
+ .../renesas/r8a7745-iwg22d-sodimm-dbhd-ca.dts | 15 ++++++++++++
+ arch/arm/boot/dts/renesas/r8a7790-lager.dts   | 15 ++++++++++++
+ arch/arm/boot/dts/renesas/r8a7790-stout.dts   | 15 ++++++++++++
+ arch/arm/boot/dts/renesas/r8a7791-koelsch.dts | 24 +++++++++++++++++++
+ arch/arm/boot/dts/renesas/r8a7791-porter.dts  | 24 +++++++++++++++++++
+ arch/arm/boot/dts/renesas/r8a7792-blanche.dts | 15 ++++++++++++
+ arch/arm/boot/dts/renesas/r8a7792-wheat.dts   | 21 ++++++++++++++++
+ arch/arm/boot/dts/renesas/r8a7793-gose.dts    | 24 +++++++++++++++++++
+ arch/arm/boot/dts/renesas/r8a7794-silk.dts    | 15 ++++++++++++
+ 10 files changed, 183 insertions(+)
 
+diff --git a/arch/arm/boot/dts/renesas/iwg20d-q7-dbcm-ca.dtsi b/arch/arm/boot/dts/renesas/iwg20d-q7-dbcm-ca.dtsi
+index e10f99278c77aa41..de52218ceaa4c0e0 100644
+--- a/arch/arm/boot/dts/renesas/iwg20d-q7-dbcm-ca.dtsi
++++ b/arch/arm/boot/dts/renesas/iwg20d-q7-dbcm-ca.dtsi
+@@ -27,6 +27,15 @@ hdmi_con_out: endpoint {
+ 			};
+ 		};
+ 	};
++
++	reg_1p8v: regulator-1p8v {
++		compatible = "regulator-fixed";
++		regulator-name = "1P8V";
++		regulator-min-microvolt = <1800000>;
++		regulator-max-microvolt = <1800000>;
++		regulator-boot-on;
++		regulator-always-on;
++	};
+ };
+ 
+ &can1 {
+@@ -69,6 +78,12 @@ hdmi@39 {
+ 		clocks = <&cec_clock>;
+ 		clock-names = "cec";
+ 
++		avdd-supply = <&reg_1p8v>;
++		dvdd-supply = <&reg_1p8v>;
++		pvdd-supply = <&reg_1p8v>;
++		dvdd-3v-supply = <&reg_3p3v>;
++		bgvdd-supply = <&reg_1p8v>;
++
+ 		adi,input-depth = <8>;
+ 		adi,input-colorspace = "rgb";
+ 		adi,input-clock = "1x";
+diff --git a/arch/arm/boot/dts/renesas/r8a7745-iwg22d-sodimm-dbhd-ca.dts b/arch/arm/boot/dts/renesas/r8a7745-iwg22d-sodimm-dbhd-ca.dts
+index b1f679da36b2ede1..a0b574398055ad2d 100644
+--- a/arch/arm/boot/dts/renesas/r8a7745-iwg22d-sodimm-dbhd-ca.dts
++++ b/arch/arm/boot/dts/renesas/r8a7745-iwg22d-sodimm-dbhd-ca.dts
+@@ -34,6 +34,15 @@ hdmi_con: endpoint {
+ 			};
+ 		};
+ 	};
++
++	reg_1p8v: regulator-1p8v {
++		compatible = "regulator-fixed";
++		regulator-name = "1P8V";
++		regulator-min-microvolt = <1800000>;
++		regulator-max-microvolt = <1800000>;
++		regulator-boot-on;
++		regulator-always-on;
++	};
+ };
+ 
+ &du {
+@@ -81,6 +90,12 @@ hdmi@39 {
+ 		clock-names = "cec";
+ 		pd-gpios = <&gpio2 24 GPIO_ACTIVE_HIGH>;
+ 
++		avdd-supply = <&reg_1p8v>;
++		dvdd-supply = <&reg_1p8v>;
++		pvdd-supply = <&reg_1p8v>;
++		dvdd-3v-supply = <&reg_3p3v>;
++		bgvdd-supply = <&reg_1p8v>;
++
+ 		adi,input-depth = <8>;
+ 		adi,input-colorspace = "rgb";
+ 		adi,input-clock = "1x";
 diff --git a/arch/arm/boot/dts/renesas/r8a7790-lager.dts b/arch/arm/boot/dts/renesas/r8a7790-lager.dts
-index 39084c76b8355d46..2567f5d297227ca9 100644
+index 2567f5d297227ca9..3764ac7c9285193c 100644
 --- a/arch/arm/boot/dts/renesas/r8a7790-lager.dts
 +++ b/arch/arm/boot/dts/renesas/r8a7790-lager.dts
-@@ -303,7 +303,7 @@ gpioi2c2: i2c-9 {
- 	 *
- 	 * IIC0/I2C0 does not appear to support fallback to GPIO.
- 	 */
--	i2cexio0: i2c-10 {
-+	i2cexio0: i2c-mux1 {
- 		compatible = "i2c-demux-pinctrl";
- 		i2c-parent = <&iic0>, <&i2c0>;
- 		i2c-bus-name = "i2c-exio0";
-@@ -316,7 +316,7 @@ i2cexio0: i2c-10 {
- 	 * This is similar to the arangement described for i2cexio0 (above)
- 	 * with a fallback to GPIO also provided.
- 	 */
--	i2cexio1: i2c-11 {
-+	i2cexio1: i2c-mux2 {
- 		compatible = "i2c-demux-pinctrl";
- 		i2c-parent = <&iic1>, <&i2c1>, <&gpioi2c1>;
- 		i2c-bus-name = "i2c-exio1";
-@@ -328,7 +328,7 @@ i2cexio1: i2c-11 {
- 	 * IIC2 and I2C2 may be switched using pinmux.
- 	 * A fallback to GPIO is also provided.
- 	 */
--	i2chdmi: i2c-12 {
-+	i2chdmi: i2c-mux3 {
- 		compatible = "i2c-demux-pinctrl";
- 		i2c-parent = <&iic2>, <&i2c2>, <&gpioi2c2>;
- 		i2c-bus-name = "i2c-hdmi";
-@@ -417,7 +417,7 @@ adv7612_out: endpoint {
- 	 * IIC3 and I2C3 may be switched using pinmux.
- 	 * IIC3/I2C3 does not appear to support fallback to GPIO.
- 	 */
--	i2cpwr: i2c-13 {
-+	i2cpwr: i2c-mux4 {
- 		compatible = "i2c-demux-pinctrl";
- 		pinctrl-names = "default";
- 		pinctrl-0 = <&pmic_irq_pins>;
+@@ -122,6 +122,15 @@ led8 {
+ 		};
+ 	};
+ 
++	fixedregulator1v8: regulator-1v8 {
++		compatible = "regulator-fixed";
++		regulator-name = "fixed-1.8V";
++		regulator-min-microvolt = <1800000>;
++		regulator-max-microvolt = <1800000>;
++		regulator-boot-on;
++		regulator-always-on;
++	};
++
+ 	fixedregulator3v3: regulator-3v3 {
+ 		compatible = "regulator-fixed";
+ 		regulator-name = "fixed-3.3V";
+@@ -361,6 +370,12 @@ hdmi@39 {
+ 			clocks = <&cec_clock>;
+ 			clock-names = "cec";
+ 
++			avdd-supply = <&fixedregulator1v8>;
++			dvdd-supply = <&fixedregulator1v8>;
++			pvdd-supply = <&fixedregulator1v8>;
++			dvdd-3v-supply = <&fixedregulator3v3>;
++			bgvdd-supply = <&fixedregulator1v8>;
++
+ 			adi,input-depth = <8>;
+ 			adi,input-colorspace = "rgb";
+ 			adi,input-clock = "1x";
+diff --git a/arch/arm/boot/dts/renesas/r8a7790-stout.dts b/arch/arm/boot/dts/renesas/r8a7790-stout.dts
+index f9213927a1094649..537be288ce35944a 100644
+--- a/arch/arm/boot/dts/renesas/r8a7790-stout.dts
++++ b/arch/arm/boot/dts/renesas/r8a7790-stout.dts
+@@ -44,6 +44,15 @@ led5 {
+ 		};
+ 	};
+ 
++	fixedregulator1v8: regulator-1v8 {
++		compatible = "regulator-fixed";
++		regulator-name = "fixed-1.8V";
++		regulator-min-microvolt = <1800000>;
++		regulator-max-microvolt = <1800000>;
++		regulator-boot-on;
++		regulator-always-on;
++	};
++
+ 	fixedregulator3v3: regulator-3v3 {
+ 		compatible = "regulator-fixed";
+ 		regulator-name = "fixed-3.3V";
+@@ -297,6 +306,12 @@ hdmi@39 {
+ 		clocks = <&osc4_clk>;
+ 		clock-names = "cec";
+ 
++		avdd-supply = <&fixedregulator1v8>;
++		dvdd-supply = <&fixedregulator1v8>;
++		pvdd-supply = <&fixedregulator1v8>;
++		dvdd-3v-supply = <&fixedregulator3v3>;
++		bgvdd-supply = <&fixedregulator1v8>;
++
+ 		adi,input-depth = <8>;
+ 		adi,input-colorspace = "rgb";
+ 		adi,input-clock = "1x";
 diff --git a/arch/arm/boot/dts/renesas/r8a7791-koelsch.dts b/arch/arm/boot/dts/renesas/r8a7791-koelsch.dts
-index d53fbdeacd332f5f..857d44571f9b9507 100644
+index 857d44571f9b9507..8dcf2a8a8ec28335 100644
 --- a/arch/arm/boot/dts/renesas/r8a7791-koelsch.dts
 +++ b/arch/arm/boot/dts/renesas/r8a7791-koelsch.dts
-@@ -337,7 +337,7 @@ gpioi2c4: i2c-11 {
- 	 * I2C1 is routed to EXIO connector B, pins 64 (SCL) + 66 (SDA).
- 	 * A fallback to GPIO is provided.
- 	 */
--	i2cexio1: i2c-12 {
-+	i2cexio1: i2c-mux1 {
- 		compatible = "i2c-demux-pinctrl";
- 		i2c-parent = <&i2c1>, <&gpioi2c1>;
- 		i2c-bus-name = "i2c-exio1";
-@@ -348,7 +348,7 @@ i2cexio1: i2c-12 {
- 	/*
- 	 * A fallback to GPIO is provided for I2C2.
- 	 */
--	i2chdmi: i2c-13 {
-+	i2chdmi: i2c-mux2 {
- 		compatible = "i2c-demux-pinctrl";
- 		i2c-parent = <&i2c2>, <&gpioi2c2>;
- 		i2c-bus-name = "i2c-hdmi";
-@@ -443,7 +443,7 @@ eeprom@50 {
- 	 * I2C4 is routed to EXIO connector E, pins 37 (SCL) + 39 (SDA).
- 	 * A fallback to GPIO is provided.
- 	 */
--	i2cexio4: i2c-14 {
-+	i2cexio4: i2c-mux3 {
- 		compatible = "i2c-demux-pinctrl";
- 		i2c-parent = <&i2c4>, <&gpioi2c4>;
- 		i2c-bus-name = "i2c-exio4";
+@@ -171,6 +171,24 @@ led8 {
+ 		};
+ 	};
+ 
++	reg_1p8v: regulator-1v8 {
++		compatible = "regulator-fixed";
++		regulator-name = "fixed-1.8V";
++		regulator-min-microvolt = <1800000>;
++		regulator-max-microvolt = <1800000>;
++		regulator-boot-on;
++		regulator-always-on;
++	};
++
++	reg_3p3v: regulator-3v3 {
++		compatible = "regulator-fixed";
++		regulator-name = "fixed-3.3V";
++		regulator-min-microvolt = <3300000>;
++		regulator-max-microvolt = <3300000>;
++		regulator-boot-on;
++		regulator-always-on;
++	};
++
+ 	vcc_sdhi0: regulator-vcc-sdhi0 {
+ 		compatible = "regulator-fixed";
+ 
+@@ -381,6 +399,12 @@ hdmi@39 {
+ 			clocks = <&cec_clock>;
+ 			clock-names = "cec";
+ 
++			avdd-supply = <&reg_1p8v>;
++			dvdd-supply = <&reg_1p8v>;
++			pvdd-supply = <&reg_1p8v>;
++			dvdd-3v-supply = <&reg_3p3v>;
++			bgvdd-supply = <&reg_1p8v>;
++
+ 			adi,input-depth = <8>;
+ 			adi,input-colorspace = "rgb";
+ 			adi,input-clock = "1x";
 diff --git a/arch/arm/boot/dts/renesas/r8a7791-porter.dts b/arch/arm/boot/dts/renesas/r8a7791-porter.dts
-index a3cb5fbfb282b929..950b7a22dee5743e 100644
+index 950b7a22dee5743e..ee5b44d0f8f7126d 100644
 --- a/arch/arm/boot/dts/renesas/r8a7791-porter.dts
 +++ b/arch/arm/boot/dts/renesas/r8a7791-porter.dts
-@@ -148,7 +148,7 @@ gpioi2c2: i2c-9 {
- 	/*
- 	 * A fallback to GPIO is provided for I2C2.
- 	 */
--	i2chdmi: i2c-10 {
-+	i2chdmi: i2c-mux1 {
- 		compatible = "i2c-demux-pinctrl";
- 		i2c-parent = <&i2c2>, <&gpioi2c2>;
- 		i2c-bus-name = "i2c-hdmi";
+@@ -47,6 +47,24 @@ memory@200000000 {
+ 		reg = <2 0x00000000 0 0x40000000>;
+ 	};
+ 
++	reg_1p8v: regulator-1v8 {
++		compatible = "regulator-fixed";
++		regulator-name = "fixed-1.8V";
++		regulator-min-microvolt = <1800000>;
++		regulator-max-microvolt = <1800000>;
++		regulator-boot-on;
++		regulator-always-on;
++	};
++
++	reg_3p3v: regulator-3v3 {
++		compatible = "regulator-fixed";
++		regulator-name = "fixed-3.3V";
++		regulator-min-microvolt = <3300000>;
++		regulator-max-microvolt = <3300000>;
++		regulator-boot-on;
++		regulator-always-on;
++	};
++
+ 	vcc_sdhi0: regulator-vcc-sdhi0 {
+ 		compatible = "regulator-fixed";
+ 
+@@ -179,6 +197,12 @@ hdmi@39 {
+ 			interrupt-parent = <&gpio3>;
+ 			interrupts = <29 IRQ_TYPE_LEVEL_LOW>;
+ 
++			avdd-supply = <&reg_1p8v>;
++			dvdd-supply = <&reg_1p8v>;
++			pvdd-supply = <&reg_1p8v>;
++			dvdd-3v-supply = <&reg_3p3v>;
++			bgvdd-supply = <&reg_1p8v>;
++
+ 			adi,input-depth = <8>;
+ 			adi,input-colorspace = "rgb";
+ 			adi,input-clock = "1x";
+diff --git a/arch/arm/boot/dts/renesas/r8a7792-blanche.dts b/arch/arm/boot/dts/renesas/r8a7792-blanche.dts
+index de9484c6bb8d1675..185b7fd8a9e05805 100644
+--- a/arch/arm/boot/dts/renesas/r8a7792-blanche.dts
++++ b/arch/arm/boot/dts/renesas/r8a7792-blanche.dts
+@@ -30,6 +30,15 @@ memory@40000000 {
+ 		reg = <0 0x40000000 0 0x40000000>;
+ 	};
+ 
++	d1_8v: regulator-1v8 {
++		compatible = "regulator-fixed";
++		regulator-name = "D1.8V";
++		regulator-min-microvolt = <1800000>;
++		regulator-max-microvolt = <1800000>;
++		regulator-boot-on;
++		regulator-always-on;
++	};
++
+ 	d3_3v: regulator-3v3 {
+ 		compatible = "regulator-fixed";
+ 		regulator-name = "D3.3V";
+@@ -331,6 +340,12 @@ hdmi@39 {
+ 		interrupt-parent = <&irqc>;
+ 		interrupts = <3 IRQ_TYPE_EDGE_FALLING>;
+ 
++		avdd-supply = <&d1_8v>;
++		dvdd-supply = <&d1_8v>;
++		pvdd-supply = <&d1_8v>;
++		dvdd-3v-supply = <&d3_3v>;
++		bgvdd-supply = <&d1_8v>;
++
+ 		adi,input-depth = <8>;
+ 		adi,input-colorspace = "rgb";
+ 		adi,input-clock = "1x";
+diff --git a/arch/arm/boot/dts/renesas/r8a7792-wheat.dts b/arch/arm/boot/dts/renesas/r8a7792-wheat.dts
+index f8207f2eb2b26eea..d90261c40a3ad9c8 100644
+--- a/arch/arm/boot/dts/renesas/r8a7792-wheat.dts
++++ b/arch/arm/boot/dts/renesas/r8a7792-wheat.dts
+@@ -29,6 +29,15 @@ memory@40000000 {
+ 		reg = <0 0x40000000 0 0x40000000>;
+ 	};
+ 
++	d1_8v: regulator-1v8 {
++		compatible = "regulator-fixed";
++		regulator-name = "D1.8V";
++		regulator-min-microvolt = <1800000>;
++		regulator-max-microvolt = <1800000>;
++		regulator-boot-on;
++		regulator-always-on;
++	};
++
+ 	d3_3v: regulator-3v3 {
+ 		compatible = "regulator-fixed";
+ 		regulator-name = "D3.3V";
+@@ -255,6 +264,12 @@ hdmi@3d {
+ 		reg = <0x3d>, <0x4d>, <0x2d>, <0x5d>;
+ 		reg-names = "main", "edid", "cec", "packet";
+ 
++		avdd-supply = <&d1_8v>;
++		dvdd-supply = <&d1_8v>;
++		pvdd-supply = <&d1_8v>;
++		dvdd-3v-supply = <&d3_3v>;
++		bgvdd-supply = <&d1_8v>;
++
+ 		adi,input-depth = <8>;
+ 		adi,input-colorspace = "rgb";
+ 		adi,input-clock = "1x";
+@@ -284,6 +299,12 @@ hdmi@39 {
+ 		reg = <0x39>, <0x49>, <0x29>, <0x59>;
+ 		reg-names = "main", "edid", "cec", "packet";
+ 
++		avdd-supply = <&d1_8v>;
++		dvdd-supply = <&d1_8v>;
++		pvdd-supply = <&d1_8v>;
++		dvdd-3v-supply = <&d3_3v>;
++		bgvdd-supply = <&d1_8v>;
++
+ 		adi,input-depth = <8>;
+ 		adi,input-colorspace = "rgb";
+ 		adi,input-clock = "1x";
 diff --git a/arch/arm/boot/dts/renesas/r8a7793-gose.dts b/arch/arm/boot/dts/renesas/r8a7793-gose.dts
-index 84794358157eac29..af7a8019b4b127f3 100644
+index af7a8019b4b127f3..33a56c757f107340 100644
 --- a/arch/arm/boot/dts/renesas/r8a7793-gose.dts
 +++ b/arch/arm/boot/dts/renesas/r8a7793-gose.dts
-@@ -321,7 +321,7 @@ gpioi2c4: i2c-10 {
- 	/*
- 	 * A fallback to GPIO is provided for I2C2.
- 	 */
--	i2chdmi: i2c-11 {
-+	i2chdmi: i2c-mux1 {
- 		compatible = "i2c-demux-pinctrl";
- 		i2c-parent = <&i2c2>, <&gpioi2c2>;
- 		i2c-bus-name = "i2c-hdmi";
-@@ -427,7 +427,7 @@ eeprom@50 {
- 	 * I2C4 is routed to EXIO connector E, pins 37 (SCL) + 39 (SDA).
- 	 * A fallback to GPIO is provided.
- 	 */
--	i2cexio4: i2c-12 {
-+	i2cexio4: i2c-mux2 {
- 		compatible = "i2c-demux-pinctrl";
- 		i2c-parent = <&i2c4>, <&gpioi2c4>;
- 		i2c-bus-name = "i2c-exio4";
-diff --git a/arch/arm/boot/dts/renesas/r8a7794-alt.dts b/arch/arm/boot/dts/renesas/r8a7794-alt.dts
-index 2d60bcc2f2e7878e..7fcb58cae4b481e0 100644
---- a/arch/arm/boot/dts/renesas/r8a7794-alt.dts
-+++ b/arch/arm/boot/dts/renesas/r8a7794-alt.dts
-@@ -192,7 +192,7 @@ gpioi2c4: i2c-10 {
- 	/*
- 	 * A fallback to GPIO is provided for I2C1.
- 	 */
--	i2chdmi: i2c-11 {
-+	i2chdmi: i2c-mux1 {
- 		compatible = "i2c-demux-pinctrl";
- 		i2c-parent = <&i2c1>, <&gpioi2c1>;
- 		i2c-bus-name = "i2c-hdmi";
-@@ -222,7 +222,7 @@ eeprom@50 {
- 	 * I2C4 is routed to EXIO connector B, pins 73 (SCL) + 74 (SDA).
- 	 * A fallback to GPIO is provided.
- 	 */
--	i2cexio4: i2c-14 {
-+	i2cexio4: i2c-mux2 {
- 		compatible = "i2c-demux-pinctrl";
- 		i2c-parent = <&i2c4>, <&gpioi2c4>;
- 		i2c-bus-name = "i2c-exio4";
+@@ -162,6 +162,24 @@ led8 {
+ 		};
+ 	};
+ 
++	reg_1p8v: regulator-1v8 {
++		compatible = "regulator-fixed";
++		regulator-name = "fixed-1.8V";
++		regulator-min-microvolt = <1800000>;
++		regulator-max-microvolt = <1800000>;
++		regulator-boot-on;
++		regulator-always-on;
++	};
++
++	reg_3p3v: regulator-3v3 {
++		compatible = "regulator-fixed";
++		regulator-name = "fixed-3.3V";
++		regulator-min-microvolt = <3300000>;
++		regulator-max-microvolt = <3300000>;
++		regulator-boot-on;
++		regulator-always-on;
++	};
++
+ 	vcc_sdhi0: regulator-vcc-sdhi0 {
+ 		compatible = "regulator-fixed";
+ 
+@@ -365,6 +383,12 @@ hdmi@39 {
+ 			interrupt-parent = <&gpio3>;
+ 			interrupts = <29 IRQ_TYPE_LEVEL_LOW>;
+ 
++			avdd-supply = <&reg_1p8v>;
++			dvdd-supply = <&reg_1p8v>;
++			pvdd-supply = <&reg_1p8v>;
++			dvdd-3v-supply = <&reg_3p3v>;
++			bgvdd-supply = <&reg_1p8v>;
++
+ 			adi,input-depth = <8>;
+ 			adi,input-colorspace = "rgb";
+ 			adi,input-clock = "1x";
 diff --git a/arch/arm/boot/dts/renesas/r8a7794-silk.dts b/arch/arm/boot/dts/renesas/r8a7794-silk.dts
-index 3ba96e7c7a1dd85a..e1110f24f97bdf94 100644
+index e1110f24f97bdf94..52f0b1d32f84ac27 100644
 --- a/arch/arm/boot/dts/renesas/r8a7794-silk.dts
 +++ b/arch/arm/boot/dts/renesas/r8a7794-silk.dts
-@@ -225,7 +225,7 @@ gpioi2c1: i2c-9 {
- 	/*
- 	 * A fallback to GPIO is provided for I2C1.
- 	 */
--	i2chdmi: i2c-10 {
-+	i2chdmi: i2c-mux1 {
- 		compatible = "i2c-demux-pinctrl";
- 		i2c-parent = <&i2c1>, <&gpioi2c1>;
- 		i2c-bus-name = "i2c-hdmi";
+@@ -102,6 +102,15 @@ key-d {
+ 		};
+ 	};
+ 
++	d1_8v: regulator-d1-8v {
++		compatible = "regulator-fixed";
++		regulator-name = "D1.8V";
++		regulator-min-microvolt = <1800000>;
++		regulator-max-microvolt = <1800000>;
++		regulator-boot-on;
++		regulator-always-on;
++	};
++
+ 	d3_3v: regulator-d3-3v {
+ 		compatible = "regulator-fixed";
+ 		regulator-name = "D3.3V";
+@@ -256,6 +265,12 @@ hdmi@39 {
+ 			interrupt-parent = <&gpio5>;
+ 			interrupts = <23 IRQ_TYPE_LEVEL_LOW>;
+ 
++			avdd-supply = <&d1_8v>;
++			dvdd-supply = <&d1_8v>;
++			pvdd-supply = <&d1_8v>;
++			dvdd-3v-supply = <&d3_3v>;
++			bgvdd-supply = <&d1_8v>;
++
+ 			adi,input-depth = <8>;
+ 			adi,input-colorspace = "rgb";
+ 			adi,input-clock = "1x";
 -- 
 2.34.1
 
