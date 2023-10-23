@@ -2,65 +2,66 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6C6297D2DC7
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 Oct 2023 11:12:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C58247D2E1E
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 Oct 2023 11:23:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229606AbjJWJMx (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 23 Oct 2023 05:12:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58512 "EHLO
+        id S229640AbjJWJXY (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 23 Oct 2023 05:23:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48602 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229517AbjJWJMx (ORCPT
+        with ESMTP id S232536AbjJWJXX (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 23 Oct 2023 05:12:53 -0400
-Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BC6A0FC
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 23 Oct 2023 02:12:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        sang-engineering.com; h=date:from:to:cc:subject:message-id
-        :references:mime-version:content-type:in-reply-to; s=k1; bh=Prsb
-        8L/rB7hjs8LFPDfXLYORDTbC3nZD3UOHdKFhLsg=; b=DnyULfnhAuByToTpQwQ5
-        Oq1LqgmHxlSo+FSmJpNPenmMVuZmLxoFqEdB80vjqZSzwvX8dm31peW7tFRo+cz4
-        tjIvX5GGglCcqPFDZUHFg2ReG28Gx8ZN8E9eQg8PhUzd8RNCfkGr27cvwFJ2UXNP
-        NcmuLY6FrMEk0HJV9/kGhR53oEs5FYMK81cmtfjIqGh/hAjqrHthJI3Y/St4fEH6
-        8OxardlfX/VcquU2pskFNrKRnTk0NksArkel/ARed9AsGa3cbr5hvH39G3W0UCnp
-        tsdqDaignA8oDizHWneez47WY72TsNkWAhzE560sQ8Nv9kd8tIPTWst2Uf1nrF5H
-        xw==
-Received: (qmail 1886524 invoked from network); 23 Oct 2023 11:12:44 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 23 Oct 2023 11:12:44 +0200
-X-UD-Smtp-Session: l3s3148p1@VRj4n14I9K8ujnvq
-Date:   Mon, 23 Oct 2023 11:12:43 +0200
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     Sergey Shtylyov <s.shtylyov@omp.ru>
-Cc:     linux-renesas-soc@vger.kernel.org,
-        Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>, netdev@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH net-next 1/2] net: ethernet: renesas: group entries in
- Makefile
-Message-ID: <ZTY5C0nxat6/dOXO@ninjato>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Sergey Shtylyov <s.shtylyov@omp.ru>,
-        linux-renesas-soc@vger.kernel.org,
-        Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-        netdev@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20231022205316.3209-1-wsa+renesas@sang-engineering.com>
- <20231022205316.3209-2-wsa+renesas@sang-engineering.com>
- <94f652d4-4538-e6ed-9476-f982fd07ee97@omp.ru>
+        Mon, 23 Oct 2023 05:23:23 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 452BBAF;
+        Mon, 23 Oct 2023 02:23:22 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4A67AC433C7;
+        Mon, 23 Oct 2023 09:23:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1698053001;
+        bh=aZBFa7fN1EH0urSii1LHTdENO3pg0U4aosD5CcywGOY=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=VsdUSetCYsPxlm2mEo2erqrcSSEMIbJPN+mwquIMS5v0zBB/zF6vOthd+ohrOuVAZ
+         UVU8ksImL8gz4CcLRlhjrMCeI/Vf2dsFqgU83vgk4pNmOc7UqFNyYyTW7pKzoOdp9i
+         Y4vY6QJg0LyHMsDiraZt8HDlO2JNBvvene6Uegl9FK0uUL/hhd1/WzE5DRS6joh6Iv
+         47DDn0lyl6SBWknnaeb4p/6fbIygzeyZrThucG0QudR/UeulSJsOBp2llQllpS5aTl
+         Pp6NYW3mNjD0amOF2TrdevqGyAWAf6SDvINhvZGhQ6VW5Mtr1w5Djz0iJqMDQmohMQ
+         uv3sSew7XVDkQ==
+Date:   Mon, 23 Oct 2023 10:23:10 +0100
+From:   Conor Dooley <conor@kernel.org>
+To:     Yu Chien Peter Lin <peterlin@andestech.com>
+Cc:     acme@kernel.org, adrian.hunter@intel.com, ajones@ventanamicro.com,
+        alexander.shishkin@linux.intel.com, andre.przywara@arm.com,
+        anup@brainfault.org, aou@eecs.berkeley.edu, atishp@atishpatra.org,
+        conor+dt@kernel.org, conor.dooley@microchip.com,
+        devicetree@vger.kernel.org, dminus@andestech.com,
+        evan@rivosinc.com, geert+renesas@glider.be, guoren@kernel.org,
+        heiko@sntech.de, irogers@google.com, jernej.skrabec@gmail.com,
+        jolsa@kernel.org, jszhang@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-perf-users@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, linux-riscv@lists.infradead.org,
+        linux-sunxi@lists.linux.dev, locus84@andestech.com,
+        magnus.damm@gmail.com, mark.rutland@arm.com, mingo@redhat.com,
+        n.shubin@yadro.com, namhyung@kernel.org, palmer@dabbelt.com,
+        paul.walmsley@sifive.com, peterz@infradead.org,
+        prabhakar.mahadev-lad.rj@bp.renesas.com, rdunlap@infradead.org,
+        robh+dt@kernel.org, samuel@sholland.org, sunilvl@ventanamicro.com,
+        tglx@linutronix.de, tim609@andestech.com, uwu@icenowy.me,
+        wens@csie.org, will@kernel.org, ycliang@andestech.com
+Subject: Re: [PATCH v3 RESEND 01/13] riscv: errata: Rename defines for Andes
+Message-ID: <20231023-splashing-dandy-1effebb9ec30@spud>
+References: <20231023004100.2663486-1-peterlin@andestech.com>
+ <20231023004100.2663486-2-peterlin@andestech.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="+mZpJWQzj+NJ6ZRe"
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="Dr6k7xdk2Nj78Rm8"
 Content-Disposition: inline
-In-Reply-To: <94f652d4-4538-e6ed-9476-f982fd07ee97@omp.ru>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_MSPIKE_H3,
-        RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+In-Reply-To: <20231023004100.2663486-2-peterlin@andestech.com>
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -68,34 +69,34 @@ List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 
---+mZpJWQzj+NJ6ZRe
+--Dr6k7xdk2Nj78Rm8
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
+On Mon, Oct 23, 2023 at 08:40:48AM +0800, Yu Chien Peter Lin wrote:
+> Using "ANDES" rather than "ANDESTECH" to unify the naming
+> convention with directory, file names, Kconfig options
+> and other definitions.
+>=20
+> Signed-off-by: Yu Chien Peter Lin <peterlin@andestech.com>
+> Reviewed-by: Charles Ci-Jyun Wu <dminus@andestech.com>
+> Reviewed-by: Leo Yu-Chi Liang <ycliang@andestech.com>
 
->    Wow! Another one? :-)
+Acked-by: Conor Dooley <conor.dooley@microchip.com>
 
-Yes. Hooray ;)
+Cheers,
+Conor.
 
-
---+mZpJWQzj+NJ6ZRe
+--Dr6k7xdk2Nj78Rm8
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmU2OQgACgkQFA3kzBSg
-KbZ9TA/+KoEDf70SZBJS/PaXDPl1Rg7e9ggvhjMjkMSXPu4maHyQXDMpS4wp0Q2G
-OkJdVm6Y4JVGaSQZIKOTrVABW5nONZlPiEtAIaroiDamIgld0xvG3yFZ2346hGzj
-zJZZzMUgIm61uq5AfP8ED4wp/OfBok5Bk2X7HGVzuW7H55sQ6FvgQ6jo3Pp/fUZp
-33TVLce2r/u3P9vLtB4utlyVz965CyUzAxKD/orVHbaApVA2y5mJJA4eHyLp33LE
-3KN7NFs9lpD44b+mBvVjrgyYa5wpDBgEs2qc6AqAd1osrFO/8yjMrQ+lyKsUQvm7
-l7H35VoAyxvywmFnp2trMBApZdvtbwcIsHuUpCBwEuLcAuzaDGcRVrJoxd4jCn/l
-t8DPpXWRlFWRmp3BVpBPgkhd1OLKGtghGjPLs+i5vc39XZ5VO7Svvkxy/W4RYNO9
-OxDfFGCGJF5eaJxa8tBSLx0eUGTwWl26ciFBMMHjecQCPI7TDX+ErS4tJcR5b/RE
-VO31By8j9YdtIlx945Up9F27EcdMfjHMm4cQobSO9TeV6KFzZ1ufcXxArHBwX6K1
-7JQsP0P1P54XzdnMUYHn4vI4iZUuNNLdaZvcliK+RPUUFqWO7wYUeVYHx04ZaQgC
-gwpANEGPlom4P8y8xQQ/Z7ygV9xOCDFuHKkAv1Us2IBgsRP5N5E=
-=fP2D
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZTY7fgAKCRB4tDGHoIJi
+0szrAQDpbVZqytSdG3WsXMLtVH5Uqmw9YxPlcM5oJY5NdKbzngEAsaz52IDy3Sk5
+0HxrIcXgEJ5z+J2YeJShi5+5WFBDYQc=
+=HAN/
 -----END PGP SIGNATURE-----
 
---+mZpJWQzj+NJ6ZRe--
+--Dr6k7xdk2Nj78Rm8--
