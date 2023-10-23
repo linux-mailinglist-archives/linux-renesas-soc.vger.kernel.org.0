@@ -2,160 +2,114 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C5CF17D331A
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 Oct 2023 13:26:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5CB3D7D2F94
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 Oct 2023 12:22:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233926AbjJWL0q (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 23 Oct 2023 07:26:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59330 "EHLO
+        id S229725AbjJWKW4 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 23 Oct 2023 06:22:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52908 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233933AbjJWL0q (ORCPT
+        with ESMTP id S229572AbjJWKWy (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 23 Oct 2023 07:26:46 -0400
-Received: from xavier.telenet-ops.be (xavier.telenet-ops.be [IPv6:2a02:1800:120:4::f00:14])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 29FF6FD
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 23 Oct 2023 04:26:43 -0700 (PDT)
-Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed40:375d:2b56:c03f:d72d])
-        by xavier.telenet-ops.be with bizsmtp
-        id 1PSb2B00A3CbNjd01PSbRR; Mon, 23 Oct 2023 13:26:35 +0200
-Received: from rox.of.borg ([192.168.97.57])
-        by ramsan.of.borg with esmtp (Exim 4.95)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1qut4m-007K8B-8v;
-        Mon, 23 Oct 2023 13:26:35 +0200
-Received: from geert by rox.of.borg with local (Exim 4.95)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1quqre-005cBC-NP;
-        Mon, 23 Oct 2023 11:04:46 +0200
-From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Support Opensource <support.opensource@diasemi.com>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>
-Cc:     devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH] dt-bindings: regulator: dlg,da9210: Convert to json-schema
-Date:   Mon, 23 Oct 2023 11:04:45 +0200
-Message-Id: <bfd1cf9d620a8229f5a5e62e6fe9e59c153d0830.1698051619.git.geert+renesas@glider.be>
-X-Mailer: git-send-email 2.34.1
+        Mon, 23 Oct 2023 06:22:54 -0400
+Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com [IPv6:2a00:1450:4864:20::32c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CED69D5D
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 23 Oct 2023 03:22:50 -0700 (PDT)
+Received: by mail-wm1-x32c.google.com with SMTP id 5b1f17b1804b1-408002b5b9fso25771965e9.3
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 23 Oct 2023 03:22:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=tuxon.dev; s=google; t=1698056569; x=1698661369; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=wUnnGAdmDfMipB0/9liPZMIOUoXhP0zAlTuz0GroIGc=;
+        b=jFNeP0L5vwS/zBrTIHKxpjJ3G6aUx5EonbyLaKnNV2zF3CVXCZKZhjmf5w4YyVn0H3
+         XTb89EUSTzW55RP7OncMgXrgwI4R3cEQtnR/tA7c+98BX60W8kLhyVqSb5CN5XXyUoUv
+         gxpn7kvcH+k4yOlC4mq+rAfmN50jDQ4YqD1oAS9x70aXKASqSPB3y3HpfgVAxTi3wc/l
+         XdQkQ4O/JPias7dY4y5E4XwjzJDjZBSFZq5n82gNRbtJUM4ghpOoom+Wpu8VrGr+bs0p
+         EVgBn2oAOho+dvU137wejGGlV0bGxCgqdo50iURrb/Du7WUc5gLM8x5S+P+Ucmsh2aUX
+         oBMQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1698056569; x=1698661369;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=wUnnGAdmDfMipB0/9liPZMIOUoXhP0zAlTuz0GroIGc=;
+        b=C1RvsrDFu12iU5bWx+Y/XHdtnpjUhsGBSKisjJiihSJYY/DLP4szH1dXnOvxoglIkI
+         l+u6eAnMrk/rgyMapVbdaEC86os94mLVNlEepaK9y+HkeaXoFzDvcT/3VYWVFTRqSrNS
+         px9qHRYVXxKW8LID7Qfos5aFef1wiWZmpGYTFqMHhgXFDAb0ZtFuG9Es6Kh7JqlveS6J
+         eTyjIyQsYzyI0ZlIShfSOfFZhwZs5reU9e1HwGbR6CwRvNltAYCXHFZtql86ozqBbdRz
+         aRPPme6czA9cyYf2IGj7rR2ssm7Jxejl2TxEmBf1ItjZS9s+WQu3iMLXUeA5Vb/FFO4L
+         EgaQ==
+X-Gm-Message-State: AOJu0Yy0fS4q9btDWlNjznHMMl/u2baeLgI0qeGvKcHLsbqBlKZ5+swE
+        TYvwokLr/VbpDTmbiwampMnVIw==
+X-Google-Smtp-Source: AGHT+IFqYO5bI+Kdl0SkjyRuSYnohDay+J2f9QzfY0pKi3Y493KGEjzuhSot3Dc88fVZ0pL4mUkG7w==
+X-Received: by 2002:a05:600c:3d87:b0:3fe:1232:93fa with SMTP id bi7-20020a05600c3d8700b003fe123293famr6882340wmb.22.1698056569060;
+        Mon, 23 Oct 2023 03:22:49 -0700 (PDT)
+Received: from claudiu-X670E-Pro-RS.. ([82.78.167.185])
+        by smtp.gmail.com with ESMTPSA id 1-20020a05600c228100b0040596352951sm13593275wmf.5.2023.10.23.03.22.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 23 Oct 2023 03:22:48 -0700 (PDT)
+From:   Claudiu <claudiu.beznea@tuxon.dev>
+X-Google-Original-From: Claudiu <claudiu.beznea.uj@bp.renesas.com>
+To:     tglx@linutronix.de, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+        geert+renesas@glider.be, magnus.damm@gmail.com,
+        mturquette@baylibre.com, sboyd@kernel.org,
+        prabhakar.mahadev-lad.rj@bp.renesas.com
+Cc:     linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
+        Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+Subject: [PATCH 0/7] irqchip/renesas-rzg2l: add support for RZ/G3S SoC
+Date:   Mon, 23 Oct 2023 13:22:16 +0300
+Message-Id: <20231023102223.1309614-1-claudiu.beznea.uj@bp.renesas.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,
-        SPF_NONE autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Convert the Dialog Semiconductor DA9210 Multi-Phase 12A DC-DC Buck
-Converter Device Tree binding documentation to json-schema.
+From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
- .../devicetree/bindings/regulator/da9210.txt  | 29 -----------
- .../bindings/regulator/dlg,da9210.yaml        | 52 +++++++++++++++++++
- 2 files changed, 52 insertions(+), 29 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/regulator/da9210.txt
- create mode 100644 Documentation/devicetree/bindings/regulator/dlg,da9210.yaml
+Hi,
 
-diff --git a/Documentation/devicetree/bindings/regulator/da9210.txt b/Documentation/devicetree/bindings/regulator/da9210.txt
-deleted file mode 100644
-index 58065ca9e3b46892..0000000000000000
---- a/Documentation/devicetree/bindings/regulator/da9210.txt
-+++ /dev/null
-@@ -1,29 +0,0 @@
--* Dialog Semiconductor DA9210 Multi-phase 12A DCDC BUCK Converter
--
--Required properties:
--
--- compatible:	must be "dlg,da9210"
--- reg:		the i2c slave address of the regulator. It should be 0x68.
--
--Optional properties:
--
--- interrupts:	a reference to the DA9210 interrupt, if available.
--
--Any standard regulator properties can be used to configure the single da9210
--DCDC.
--
--Example:
--
--	da9210@68 {
--		compatible = "dlg,da9210";
--		reg = <0x68>;
--
--		interrupt-parent = <...>;
--		interrupts = <...>;
--
--		regulator-min-microvolt = <300000>;
--		regulator-max-microvolt = <1570000>;
--		regulator-min-microamp = <1600000>;
--		regulator-max-microamp = <4600000>;
--		regulator-boot-on;
--	};
-diff --git a/Documentation/devicetree/bindings/regulator/dlg,da9210.yaml b/Documentation/devicetree/bindings/regulator/dlg,da9210.yaml
-new file mode 100644
-index 0000000000000000..81f23de36de4c2f1
---- /dev/null
-+++ b/Documentation/devicetree/bindings/regulator/dlg,da9210.yaml
-@@ -0,0 +1,52 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/regulator/dlg,da9210.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Dialog Semiconductor DA9210 Multi-Phase 12A DC-DC Buck Converter
-+
-+maintainers:
-+  - Support Opensource <support.opensource@diasemi.com>
-+
-+allOf:
-+  - $ref: regulator.yaml#
-+
-+properties:
-+  compatible:
-+    const: dlg,da9210
-+
-+  reg:
-+    maxItems: 1
-+
-+  interrupts:
-+    maxItems: 1
-+
-+required:
-+  - compatible
-+  - reg
-+
-+unevaluatedProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/interrupt-controller/irq.h>
-+
-+    i2c {
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+
-+        regulator@68 {
-+            compatible = "dlg,da9210";
-+            reg = <0x68>;
-+
-+            interrupt-parent = <&irqc0>;
-+            interrupts = <2 IRQ_TYPE_LEVEL_LOW>;
-+
-+            regulator-min-microvolt = <300000>;
-+            regulator-max-microvolt = <1570000>;
-+            regulator-min-microamp = <1600000>;
-+            regulator-max-microamp = <4600000>;
-+            regulator-boot-on;
-+        };
-+    };
+Series adds support for IA55 available on RZ/G3S SoC.
+Patches are split as follows:
+- 1/7 updates documentation
+- 2/7 adds IA55 clock
+- 3/7 minor cleanup on the way TITSR fields are populated
+- 4/7 implement restriction described in HW manual for ISCR register
+- 5/7 adds support for suspend to RAM
+- 6/7 minor cleanup that replaces spaces with tabs on macro definition
+- 7/7 adds IA55 device tree node
+
+Thank you,
+Claudiu Beznea
+
+Claudiu Beznea (7):
+  dt-bindings: interrupt-controller: renesas,rzg2l-irqc: document RZ/G3S
+  clk: renesas: r9a08g045: add IA55 pclk and its reset
+  irqchip/renesas-rzg2l: add macros to retrieve TITSR index and
+    associated selector
+  irqchip/renesas-rzg2l: implement restriction when writing ISCR
+    register
+  irqchip/renesas-rzg2l: cache registers on suspend/resume
+  irqchip/renesas-rzg2l: use tabs instead of spaces
+  arm64: dts: renesas: r9108g045: add irqc
+
+ .../renesas,rzg2l-irqc.yaml                   |   5 +-
+ arch/arm64/boot/dts/renesas/r9a08g045.dtsi    |  68 +++++++++++
+ drivers/clk/renesas/r9a08g045-cpg.c           |   3 +
+ drivers/irqchip/irq-renesas-rzg2l.c           | 111 ++++++++++++------
+ 4 files changed, 152 insertions(+), 35 deletions(-)
+
 -- 
-2.34.1
+2.39.2
 
