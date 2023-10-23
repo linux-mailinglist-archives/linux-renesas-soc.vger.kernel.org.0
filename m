@@ -2,135 +2,152 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 33BAF7D3775
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 Oct 2023 15:09:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DC0CE7D3787
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 Oct 2023 15:15:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230055AbjJWNJI (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 23 Oct 2023 09:09:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57198 "EHLO
+        id S229615AbjJWNPh (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 23 Oct 2023 09:15:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48948 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229589AbjJWNJG (ORCPT
+        with ESMTP id S230001AbjJWNPe (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 23 Oct 2023 09:09:06 -0400
-Received: from mail-pl1-x62e.google.com (mail-pl1-x62e.google.com [IPv6:2607:f8b0:4864:20::62e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E640FD73
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 23 Oct 2023 06:09:04 -0700 (PDT)
-Received: by mail-pl1-x62e.google.com with SMTP id d9443c01a7336-1c9e95aa02dso23361325ad.0
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 23 Oct 2023 06:09:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernelci-org.20230601.gappssmtp.com; s=20230601; t=1698066544; x=1698671344; darn=vger.kernel.org;
-        h=from:to:subject:content-transfer-encoding:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=7/YuZgMdEUTlEl9hFiTG+jzJQfuCNxRj6WY45szLxs8=;
-        b=y/Lf5xnaEuTRoyndtTvMMivpoXCgifbNhESznYG24MwvQmbwWyG5uXrz60CFDESD6G
-         57yr39gv60UnMdvfX7qhzwyIXCjwY22LkfjHc7t0c0g3exTCS5GjL65JBPrlqCncA6Dn
-         MoHpZ3BYGFKKGFWRFuLz01YLvVCs1ZaroaxFJSGQIfXTrjcvd2XxSQy52JXPWSo+0iMR
-         a5yk7ptSbmRItZC+M/TYeijWwFLgbgo1a+WOO0WZsBRgxHDiFb7C507EpeYVx+cyH2kE
-         tG7yV5KnlyxOPOA1/PkRZcO7dZnIQr69dF1yDzBZj+ASUnz+fnTnzztig65bzg9LtLMh
-         esZA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698066544; x=1698671344;
-        h=from:to:subject:content-transfer-encoding:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=7/YuZgMdEUTlEl9hFiTG+jzJQfuCNxRj6WY45szLxs8=;
-        b=Zx+m66m3at9yPpHSCZtZWQzCjTApS2vUhp4f7pPykFIZyXfPqxqPoDqa9YnAtttreF
-         IqDvN6ezspU3HNThS5752dU9pCwoWfVbhcrBFjwVM0dU+6BGKp8nCzoPQT7Y8otFB+Uz
-         9pz7pV299QqPim4C5b2NJA6Y6q/rmbo8LMZPl46Yi4+t8PkNlTz8AawwvoDnY1LfI2kZ
-         N2waL5etoL83PatlGniP+G2WS3bHPjxWYZkgzzCVbg0rJ53UYszvZOr1+w8OP23+XzPj
-         LFxinqPuu3rMBIO8CtETSfTQDF1Uul0q/N10sjINl7uHG39Rl5DSlUlFafCpSv93eJa4
-         xz1g==
-X-Gm-Message-State: AOJu0YyvpXpq/4QjkMW74XAkT8ffoFgDp7BrzG9YiJFzcsPj7yN5f57d
-        a2ZoOOpPsbKFmZR2Ppn2cn/9NaHVsordep0Z9gr3Nw==
-X-Google-Smtp-Source: AGHT+IGsIVX0otGfh2lIMlNkUg3Z8SrVKRo1MFvorpG0+5TQsCB3frEUNIuB9qwttWoRDgHem0bF1A==
-X-Received: by 2002:a17:903:22d0:b0:1ca:e16f:a713 with SMTP id y16-20020a17090322d000b001cae16fa713mr5853544plg.2.1698066543917;
-        Mon, 23 Oct 2023 06:09:03 -0700 (PDT)
-Received: from kernelci-production.internal.cloudapp.net ([20.171.243.82])
-        by smtp.gmail.com with ESMTPSA id ij23-20020a170902ab5700b001c582de968dsm6049739plb.72.2023.10.23.06.09.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Oct 2023 06:09:02 -0700 (PDT)
-Message-ID: <6536706e.170a0220.23887.1a0b@mx.google.com>
-Date:   Mon, 23 Oct 2023 06:09:02 -0700 (PDT)
-Content-Type: text/plain; charset="utf-8"
+        Mon, 23 Oct 2023 09:15:34 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DD09010A;
+        Mon, 23 Oct 2023 06:15:32 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CA831C433C7;
+        Mon, 23 Oct 2023 13:15:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1698066932;
+        bh=CdJMUFikVJCii5mXprW48PiT+muGUJ/z75ryr8dOT9Y=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Gfba+b579X1512dlnYUOz7QOqNdJEPRvyAvHLUmZannabB5KUp/Vd3Nm/wSp8w2Ri
+         waWiz3yGxmNns+bcqhNmTx3yAj8DjeWrGgYG+cILorB5OlTJMUMuZfwBM5P6K2opLI
+         UY4ZUWoLhQYb5c8kuo2Rqj2ltbtYQCYqcShndvP7eJQcrpkDGEqkBKUqewciqhtL4z
+         ZRHbdg0S9NouQGLv9TERVzEhsg491DHa+Nb3tYAsbl/ShQKjEBrY/bAm6jfQFNhnKg
+         n6QRiR+y6WdYy+q4hnLsqr0vNva4ufLMvhzGRqdzZQR30/A4Yj82LcIoT3QECEOCGO
+         RTAdBEBM+aIrg==
+Date:   Mon, 23 Oct 2023 14:15:21 +0100
+From:   Conor Dooley <conor@kernel.org>
+To:     Yu Chien Peter Lin <peterlin@andestech.com>
+Cc:     acme@kernel.org, adrian.hunter@intel.com, ajones@ventanamicro.com,
+        alexander.shishkin@linux.intel.com, andre.przywara@arm.com,
+        anup@brainfault.org, aou@eecs.berkeley.edu, atishp@atishpatra.org,
+        conor+dt@kernel.org, conor.dooley@microchip.com,
+        devicetree@vger.kernel.org, dminus@andestech.com,
+        evan@rivosinc.com, geert+renesas@glider.be, guoren@kernel.org,
+        heiko@sntech.de, irogers@google.com, jernej.skrabec@gmail.com,
+        jolsa@kernel.org, jszhang@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-perf-users@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, linux-riscv@lists.infradead.org,
+        linux-sunxi@lists.linux.dev, locus84@andestech.com,
+        magnus.damm@gmail.com, mark.rutland@arm.com, mingo@redhat.com,
+        n.shubin@yadro.com, namhyung@kernel.org, palmer@dabbelt.com,
+        paul.walmsley@sifive.com, peterz@infradead.org,
+        prabhakar.mahadev-lad.rj@bp.renesas.com, rdunlap@infradead.org,
+        robh+dt@kernel.org, samuel@sholland.org, sunilvl@ventanamicro.com,
+        tglx@linutronix.de, tim609@andestech.com, uwu@icenowy.me,
+        wens@csie.org, will@kernel.org, ycliang@andestech.com
+Subject: Re: [PATCH v3 RESEND 04/13] dt-bindings: riscv: Add Andes interrupt
+ controller compatible string
+Message-ID: <20231023-contented-passcode-2e8d082afed4@spud>
+References: <20231023004100.2663486-1-peterlin@andestech.com>
+ <20231023004100.2663486-5-peterlin@andestech.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Kernelci-Kernel: renesas-devel-2023-10-23-v6.6-rc7
-X-Kernelci-Report-Type: test
-X-Kernelci-Branch: master
-X-Kernelci-Tree: renesas
-Subject: renesas/master baseline-nfs: 13 runs,
- 1 regressions (renesas-devel-2023-10-23-v6.6-rc7)
-To:     linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
-From:   "kernelci.org bot" <bot@kernelci.org>
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="57Aul/yfSew6m9cD"
+Content-Disposition: inline
+In-Reply-To: <20231023004100.2663486-5-peterlin@andestech.com>
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-renesas/master baseline-nfs: 13 runs, 1 regressions (renesas-devel-2023-10-=
-23-v6.6-rc7)
 
-Regressions Summary
--------------------
+--57Aul/yfSew6m9cD
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-platform                 | arch  | lab     | compiler | defconfig | regress=
-ions
--------------------------+-------+---------+----------+-----------+--------=
-----
-r8a774a1-hihope-rzg2m-ex | arm64 | lab-cip | gcc-10   | defconfig | 1      =
-    =
+On Mon, Oct 23, 2023 at 08:40:51AM +0800, Yu Chien Peter Lin wrote:
+> Add "andestech,cpu-intc" compatible string which indicates that
+> Andes specific local interrupt is supported on the core,
+> e.g. AX45MP cores have 3 types of non-standard local interrupt
+> can be handled in supervisor mode:
+>=20
+> - Slave port ECC error interrupt
+> - Bus write transaction error interrupt
+> - Performance monitor overflow interrupt
+>=20
+> These interrupts are enabled/disabled via a custom register
+> SLIE instead of the standard interrupt enable register SIE.
+>=20
+> Signed-off-by: Yu Chien Peter Lin <peterlin@andestech.com>
+> ---
+> Changes v1 -> v2:
+>   - New patch
+> Changes v2 -> v3:
+>   - Updated commit message
+>   - Fixed possible compatibles for Andes INTC
+> ---
+>  Documentation/devicetree/bindings/riscv/cpus.yaml | 7 ++++++-
+>  1 file changed, 6 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/Documentation/devicetree/bindings/riscv/cpus.yaml b/Document=
+ation/devicetree/bindings/riscv/cpus.yaml
+> index 97e8441eda1c..4c1bbcf07406 100644
+> --- a/Documentation/devicetree/bindings/riscv/cpus.yaml
+> +++ b/Documentation/devicetree/bindings/riscv/cpus.yaml
+> @@ -99,7 +99,12 @@ properties:
+>          const: 1
+> =20
+>        compatible:
+> -        const: riscv,cpu-intc
+> +        oneOf:
+> +          - items:
+> +              - enum:
+> +                  - andestech,cpu-intc
 
+Why is this an enum rather than const? What other entries are we going
+to add here in the near future?
 
-  Details:  https://kernelci.org/test/job/renesas/branch/master/kernel/rene=
-sas-devel-2023-10-23-v6.6-rc7/plan/baseline-nfs/
+> +              - const: riscv,cpu-intc
 
-  Test:     baseline-nfs
-  Tree:     renesas
-  Branch:   master
-  Describe: renesas-devel-2023-10-23-v6.6-rc7
-  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-d=
-evel.git
-  SHA:      810ad90f451c3b5c359bdd01e1b029ee3e23a532 =
+My follow-up question, if my original question on the v2 series had been
+answered was going to be about how generic the "andestech,cpu-intc"
+compatible is.
 
+Having a cpu-specific compatible in addition to "andestech,cpu-intc"
+one makes sense to me, so that we can differentiate between
+implementations/integrations of this intc, especially if Andes have no
+plans to move to the standard implementation.
 
+Cheers,
+Conor.
 
-Test Regressions
----------------- =
+> +          - const: riscv,cpu-intc
+> =20
+>        interrupt-controller: true
+> =20
+> --=20
+> 2.34.1
+>=20
 
+--57Aul/yfSew6m9cD
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
 
-platform                 | arch  | lab     | compiler | defconfig | regress=
-ions
--------------------------+-------+---------+----------+-----------+--------=
-----
-r8a774a1-hihope-rzg2m-ex | arm64 | lab-cip | gcc-10   | defconfig | 1      =
-    =
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZTZx6QAKCRB4tDGHoIJi
+0lxjAP9yZzi/BFekfjYM8fNDu6y5img3GQ6JfxNOt5mf+VPcSQD/U7Y4IGJ8P8Uy
+b+1kEyPrf/GAimbqTmYZqLzmAO9cNgw=
+=3GJA
+-----END PGP SIGNATURE-----
 
-
-  Details:     https://kernelci.org/test/plan/id/65363fca65429b0957efceff
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: defconfig
-  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
-110)
-  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
-023-10-23-v6.6-rc7/arm64/defconfig/gcc-10/lab-cip/baseline-nfs-r8a774a1-hih=
-ope-rzg2m-ex.txt
-  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
-023-10-23-v6.6-rc7/arm64/defconfig/gcc-10/lab-cip/baseline-nfs-r8a774a1-hih=
-ope-rzg2m-ex.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
-230623.0/arm64/initrd.cpio.gz =
-
-
-
-  * baseline-nfs.login: https://kernelci.org/test/case/id/65363fca65429b095=
-7efcf00
-        failing since 69 days (last pass: renesas-devel-2023-07-11-v6.5-rc1=
-, first fail: renesas-devel-2023-08-14-v6.5-rc4) =
-
- =20
+--57Aul/yfSew6m9cD--
