@@ -2,55 +2,43 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0C1357D2AE7
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 Oct 2023 09:09:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C82097D2B5F
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 Oct 2023 09:32:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233392AbjJWHJO (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 23 Oct 2023 03:09:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34820 "EHLO
+        id S229737AbjJWHcg (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 23 Oct 2023 03:32:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50004 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229459AbjJWHJI (ORCPT
+        with ESMTP id S229852AbjJWHcf (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 23 Oct 2023 03:09:08 -0400
-Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 239C7D5B
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 23 Oct 2023 00:09:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        sang-engineering.com; h=date:from:to:cc:subject:message-id
-        :references:mime-version:content-type:in-reply-to; s=k1; bh=KkAe
-        LLgWLM5KXP64Cj4yIbcMQ879DhR2OB2+2eT7GHs=; b=iwTHuVMoLR+JNVDpnLdR
-        SGxclKGti7ROvXSXV+25Q1fEsqy8KmZ90GsZxQSaHztFwsLA/CxYeycTw5gmLtwm
-        PjcN3JRWCqz8nkmHVwBlTnAg6LD6HD+oQJQ2az8n66FX1vg5+jMkxeTJuu6jRBKk
-        yBi5Y9I+h3qHVRitgbPOgUS8Gt887EVR5Zkzk/aQzAi9MOmiT8pnPm0rJX8i1T/Y
-        FTI3duXNtxll8E97bX9JP3oTQD1+bwIKApxL8O7Ks2Ovs6Zy0MQX4FypExr7DooN
-        rCjWuXDhOO9/pwOBbQbiHTf6/sH+x5Thc3yJCQdFg005KoKK87MHrMOlo3OZPBJE
-        Dw==
-Received: (qmail 1849151 invoked from network); 23 Oct 2023 09:09:04 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 23 Oct 2023 09:09:04 +0200
-X-UD-Smtp-Session: l3s3148p1@YvOz5VwInJwgAQnoAHZpAPyQUfJFEq1N
-Date:   Mon, 23 Oct 2023 09:09:03 +0200
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     Johan Hovold <johan@kernel.org>
-Cc:     linux-renesas-soc@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 3/3] gnss: ubx: add support for the reset gpio
-Message-ID: <ZTYcD8l+lUlLog91@ninjato>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Johan Hovold <johan@kernel.org>, linux-renesas-soc@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        linux-kernel@vger.kernel.org
-References: <20230921133202.5828-1-wsa+renesas@sang-engineering.com>
- <20230921133202.5828-4-wsa+renesas@sang-engineering.com>
- <ZS1AxSRL4F5WBvnC@hovoldconsulting.com>
+        Mon, 23 Oct 2023 03:32:35 -0400
+Received: from mail.loanfly.pl (mail.loanfly.pl [141.94.250.68])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5BA29E6
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 23 Oct 2023 00:32:34 -0700 (PDT)
+Received: by mail.loanfly.pl (Postfix, from userid 1002)
+        id C737FA358B; Mon, 23 Oct 2023 07:31:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=loanfly.pl; s=mail;
+        t=1698046303; bh=Y0HnXqH+26AP5Uq6M8BQXaj1HIAPQY/WndV9tkpAHHU=;
+        h=Date:From:To:Subject:From;
+        b=ItpRKOZVEYdKB6hK7Y3IRLg6tM0LYbb1gNiR54PFN1a1p0w+Nq9RXNC2yY3ZdfgZK
+         Yyj8JSejE/YAQ8Tj+oAmstFcaFo5A17iy2YSVwLHiTYIJfjY96LcwOSWyKA1waTZ7f
+         cwx6gtgLf9kMsqNevO0v6YESxNZE2KkAF155YcJyLsYdE1KfpeDN9WqtbN7byg1Eeu
+         oZde08W9655yEvZDPiiuHn3oKQL4UweCDEN4IQx2dfmpr3fQi6toRr7dMbd9G0NIVW
+         1BOqzTRUL8KDIyQV2aaQwAXfel6i7h2GDnDxwidnDJwtpQcCH0vFBNIGFytFKN7ACQ
+         +0c83hpxbzsxw==
+Received: by mail.loanfly.pl for <linux-renesas-soc@vger.kernel.org>; Mon, 23 Oct 2023 07:31:09 GMT
+Message-ID: <20231023064501-0.1.da.1kee2.0.6wfrqclame@loanfly.pl>
+Date:   Mon, 23 Oct 2023 07:31:09 GMT
+From:   "Damian Cichocki" <damian.cichocki@loanfly.pl>
+To:     <linux-renesas-soc@vger.kernel.org>
+Subject: =?UTF-8?Q?Pytanie_o_samoch=C3=B3d?=
+X-Mailer: mail.loanfly.pl
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="n2o7eTgxzL/5uehf"
-Content-Disposition: inline
-In-Reply-To: <ZS1AxSRL4F5WBvnC@hovoldconsulting.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_MSPIKE_H3,
-        RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS autolearn=ham
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-0.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_PASS,URIBL_ABUSE_SURBL autolearn=no
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -58,44 +46,12 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Dzie=C5=84 dobry,
 
---n2o7eTgxzL/5uehf
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-
-> So this means that the reset line will be asserted indefinitely in case
-> the GNSS receiver is not used. Are you sure that's a good idea?
-
-Yup. Saves power. We do this for our ethernet PHYs as well. Any reasons
-not to do this?
-
-> I don't know yet which module this is for, or how this signal is
-> supposed to be used, but the above makes this look more like an
-> active-high (regulator) enable signal. Perhaps that's what it is or
-> should be modelled as (i.e. as a fixed regulator).
-
-Nope, it is a RESET_N pin.
+Czy interesuje Pa=C5=84stwa rozwi=C4=85zanie umo=C5=BCliwiaj=C4=85ce moni=
+torowanie samochod=C3=B3w firmowych oraz optymalizacj=C4=99 koszt=C3=B3w =
+ich utrzymania?=20
 
 
---n2o7eTgxzL/5uehf
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmU2HA8ACgkQFA3kzBSg
-Kbap/w//ZItgDWveXoAOgOKiowOQFeRrASG5UyQWpKRGZNDBGCQbSeEW86HtPR7/
-bO/eklIS4g3vjng5LGVygMMgydO//202Ylc3YbBYBkXw4Z/NioGVADJTUzUY+Ym8
-Foi1xShFQ6aMx5U/bww3hzMF+sSLDUA7iuQNxX2qI8oYL20j1cbFd5p/WZOSEcQF
-Yg1eUWMmdYtIdZINnzPsKZK1Kdpr7jAidY1ivH+0vTMlfLB3eynkB5P2mz/ZMDdp
-Vw0HRVWuFR/USuN5KYeZQACmSVBiKMwInoevUgsaCPUhZ4aeuAkgxGTD55cOy/Oo
-HpjUUxZNb6aVmCBejfYKjTMykcovhFZaRsEkMtjhvar3mMJSzElhU7jgQjWHFDP4
-8XJ3J3Q4caGrsOwisRB0ZiI77sX32gDKl1qa23YecquKzkpk+/UfNXx1XCzP0Fbz
-Bu3qrktgJvcowTXgL9Vs/04bZh5u6hE4vFeTBlUqtc6+mS15zaCppDaky3QeoDzF
-ONz0DeQXcU7BufZ9RFYq09qXG1UkekQ3MlESrURnX5RcOBTi6ztQ/cTJyzaa9V4C
-XyO5KBCvp4QwzlOdrH4QBHRa6+oQEqwCwaIKbGdMM/x+SpLWtP2I4luQPiXx+I5q
-I2Mr68f0Hms0JnPHV84cmYMrzH5BnH82E6JCZ4AbWGIFO2ya0G8=
-=Egmt
------END PGP SIGNATURE-----
-
---n2o7eTgxzL/5uehf--
+Pozdrawiam,
+Damian Cichocki
