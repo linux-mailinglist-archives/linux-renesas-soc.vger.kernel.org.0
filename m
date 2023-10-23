@@ -2,48 +2,50 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4870D7D3AAD
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 Oct 2023 17:26:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F32E07D3C28
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 Oct 2023 18:19:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229532AbjJWP0X (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 23 Oct 2023 11:26:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56946 "EHLO
+        id S233697AbjJWQTa (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 23 Oct 2023 12:19:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35812 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229498AbjJWP0W (ORCPT
+        with ESMTP id S233658AbjJWQTS (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 23 Oct 2023 11:26:22 -0400
+        Mon, 23 Oct 2023 12:19:18 -0400
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4157793;
-        Mon, 23 Oct 2023 08:26:20 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6F46EC433C7;
-        Mon, 23 Oct 2023 15:26:19 +0000 (UTC)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 65593212D;
+        Mon, 23 Oct 2023 09:18:50 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BD263C433C7;
+        Mon, 23 Oct 2023 16:18:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1698074779;
-        bh=MUWfkAY6YNZNnR9Rk3h3FC500r24diJXi8qGt5DBCVw=;
+        s=k20201202; t=1698077929;
+        bh=xZL+GdU+uaN5JA/L6aMscuhuEXIWBnMgAfLl+k2KDkY=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=DGJl7WJeNjFOzAWvcLZJgiFrY6+i5L3c/Tf8tL4CgtMldYVXHsjGmpWMdiwzlwnMK
-         Xdkyk+cGTLrj4FL/fa/SYMarzia+yw8/gjeyzC/62QiaSkTBGpbfmkgIGGzwDQIqLQ
-         Yxd15ykwhW94vdOU42pZvGf4fET+W0nJhuUni0BpR3H8xg73pOVzS4zvztFneDrLR4
-         kW5mWmR6HgGlH7FzC4nVlULi72+yDMLTRA4PsqwI/ZLNIZMwQMKayCCLhQhtNArAe3
-         6nlhFnK+/bIVG4jC9riUy/YWp7lh/BSS+wnM6JGO8wk3s7MXOgFSBozUIUNNrMAeXP
-         TF5nNlYVxWEYQ==
-Date:   Mon, 23 Oct 2023 17:26:16 +0200
-From:   Wolfram Sang <wsa@kernel.org>
-To:     linux-renesas-soc@vger.kernel.org
-Cc:     Yang Yingliang <yangyingliang@huawei.com>,
-        linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] i2c: fix memleak in i2c_new_client_device()
-Message-ID: <ZTaQmK2omo6XWbg2@ninjato>
-Mail-Followup-To: Wolfram Sang <wsa@kernel.org>,
-        linux-renesas-soc@vger.kernel.org,
-        Yang Yingliang <yangyingliang@huawei.com>,
-        linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20230929091952.19957-1-wsa+renesas@sang-engineering.com>
+        b=jqFnzvMfzxrCI+mV9NuUEAYRHazKEaROllqG9hjaFJttEiMjalYLmhQjWp3W7h6pw
+         fQ8u8Pf6tyLaPrRw7a4XGKsvQvRrQzZKQ4P1k0wEYoUOMRTducRoYkbm7ik6KMPqot
+         W75sPJUaOcRGx3obFpaUoeDGGKJeftbjZP5F5ied4ZIZsWKxV7oABTRVRuO8WxQScd
+         rBzC/ICI7hCabr6wABfI2LQElt5ZCb469HwXPN1Y0VPWRidNjLkgwOMUn3YqR6ywpY
+         AMSmtUSn6Vc2Umh6DXJ0ZoiHgxo1i2WkG6HmhaYwwok2biGtwGp0gvuRRHgCXwbWsX
+         SFut6dXwXFDhQ==
+Date:   Mon, 23 Oct 2023 17:18:45 +0100
+From:   Conor Dooley <conor@kernel.org>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     Support Opensource <support.opensource@diasemi.com>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] dt-bindings: regulator: dlg,da9210: Convert to
+ json-schema
+Message-ID: <20231023-sulfate-babble-695b239f52b5@spud>
+References: <bfd1cf9d620a8229f5a5e62e6fe9e59c153d0830.1698051619.git.geert+renesas@glider.be>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="l5HgbAzMGwyq4s6P"
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="PLCivFZlEfnhRSba"
 Content-Disposition: inline
-In-Reply-To: <20230929091952.19957-1-wsa+renesas@sang-engineering.com>
+In-Reply-To: <bfd1cf9d620a8229f5a5e62e6fe9e59c153d0830.1698051619.git.geert+renesas@glider.be>
 X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
@@ -54,64 +56,143 @@ List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 
---l5HgbAzMGwyq4s6P
+--PLCivFZlEfnhRSba
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Sep 29, 2023 at 11:19:52AM +0200, Wolfram Sang wrote:
-> Yang Yingliang reported a memleak:
-> =3D=3D=3D
+On Mon, Oct 23, 2023 at 11:04:45AM +0200, Geert Uytterhoeven wrote:
+> Convert the Dialog Semiconductor DA9210 Multi-Phase 12A DC-DC Buck
+> Converter Device Tree binding documentation to json-schema.
 >=20
-> I got memory leak as follows when doing fault injection test:
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
+>  .../devicetree/bindings/regulator/da9210.txt  | 29 -----------
+>  .../bindings/regulator/dlg,da9210.yaml        | 52 +++++++++++++++++++
+>  2 files changed, 52 insertions(+), 29 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/regulator/da9210.txt
+>  create mode 100644 Documentation/devicetree/bindings/regulator/dlg,da921=
+0.yaml
 >=20
-> unreferenced object 0xffff888014aec078 (size 8):
->   comm "xrun", pid 356, jiffies 4294910619 (age 16.332s)
->   hex dump (first 8 bytes):
->     31 2d 30 30 31 63 00 00                          1-001c..
->   backtrace:
->     [<00000000eb56c0a9>] __kmalloc_track_caller+0x1a6/0x300
->     [<000000000b220ea3>] kvasprintf+0xad/0x140
->     [<00000000b83203e5>] kvasprintf_const+0x62/0x190
->     [<000000002a5eab37>] kobject_set_name_vargs+0x56/0x140
->     [<00000000300ac279>] dev_set_name+0xb0/0xe0
->     [<00000000b66ebd6f>] i2c_new_client_device+0x7e4/0x9a0
->=20
-> If device_register() returns error in i2c_new_client_device(),
-> the name allocated by i2c_dev_set_name() need be freed. As
-> comment of device_register() says, it should use put_device()
-> to give up the reference in the error path.
->=20
-> =3D=3D=3D
-> I think this solution is less intrusive and more robust than he
-> originally proposed solutions, though.
->=20
-> Reported-by: Yang Yingliang <yangyingliang@huawei.com>
-> Closes: http://patchwork.ozlabs.org/project/linux-i2c/patch/2022112408544=
-8.3620240-1-yangyingliang@huawei.com/
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> diff --git a/Documentation/devicetree/bindings/regulator/da9210.txt b/Doc=
+umentation/devicetree/bindings/regulator/da9210.txt
+> deleted file mode 100644
+> index 58065ca9e3b46892..0000000000000000
+> --- a/Documentation/devicetree/bindings/regulator/da9210.txt
+> +++ /dev/null
+> @@ -1,29 +0,0 @@
+> -* Dialog Semiconductor DA9210 Multi-phase 12A DCDC BUCK Converter
+> -
+> -Required properties:
+> -
+> -- compatible:	must be "dlg,da9210"
+> -- reg:		the i2c slave address of the regulator. It should be 0x68.
+> -
+> -Optional properties:
+> -
+> -- interrupts:	a reference to the DA9210 interrupt, if available.
+> -
+> -Any standard regulator properties can be used to configure the single da=
+9210
+> -DCDC.
+> -
+> -Example:
+> -
+> -	da9210@68 {
+> -		compatible =3D "dlg,da9210";
+> -		reg =3D <0x68>;
+> -
+> -		interrupt-parent =3D <...>;
+> -		interrupts =3D <...>;
+> -
+> -		regulator-min-microvolt =3D <300000>;
+> -		regulator-max-microvolt =3D <1570000>;
+> -		regulator-min-microamp =3D <1600000>;
+> -		regulator-max-microamp =3D <4600000>;
+> -		regulator-boot-on;
+> -	};
+> diff --git a/Documentation/devicetree/bindings/regulator/dlg,da9210.yaml =
+b/Documentation/devicetree/bindings/regulator/dlg,da9210.yaml
+> new file mode 100644
+> index 0000000000000000..81f23de36de4c2f1
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/regulator/dlg,da9210.yaml
+> @@ -0,0 +1,52 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/regulator/dlg,da9210.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Dialog Semiconductor DA9210 Multi-Phase 12A DC-DC Buck Converter
+> +
+> +maintainers:
+> +  - Support Opensource <support.opensource@diasemi.com>
 
-Applied to for-next, thanks!
+This should really be a person... Does your work with Renesas cover you
+for dialog stuff too?
 
+Otherwise,
+Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
 
---l5HgbAzMGwyq4s6P
+Thanks,
+Conor.
+
+> +
+> +allOf:
+> +  - $ref: regulator.yaml#
+> +
+> +properties:
+> +  compatible:
+> +    const: dlg,da9210
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +
+> +unevaluatedProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/interrupt-controller/irq.h>
+> +
+> +    i2c {
+> +        #address-cells =3D <1>;
+> +        #size-cells =3D <0>;
+> +
+> +        regulator@68 {
+> +            compatible =3D "dlg,da9210";
+> +            reg =3D <0x68>;
+> +
+> +            interrupt-parent =3D <&irqc0>;
+> +            interrupts =3D <2 IRQ_TYPE_LEVEL_LOW>;
+> +
+> +            regulator-min-microvolt =3D <300000>;
+> +            regulator-max-microvolt =3D <1570000>;
+> +            regulator-min-microamp =3D <1600000>;
+> +            regulator-max-microamp =3D <4600000>;
+> +            regulator-boot-on;
+> +        };
+> +    };
+> --=20
+> 2.34.1
+>=20
+
+--PLCivFZlEfnhRSba
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmU2kJgACgkQFA3kzBSg
-KbZeFxAAtaw5Gxe+6T4y2k0dRd0xpmykFob/LvLad0tktcxTXTICU0Os1UyzgaNh
-Z/oYCy1AXGDchAVqYdwmwANfH3jRPwaC0cnR1VkhAXkRgZCOBYWjmp9LMpb5lwIy
-6ERm4BYm3hXAervo2hBVxf13bQlz8NbR7W5tbnhbh0lS1UOsco099zBnl7vQQ4MT
-UC1AI4NSfoPSgHJyurgOWhETCsycsLU0OG6jXo2ITiZJ+8Ui4RCQ2piHNp+SBLhF
-Sy8wgYgOOYqYdoP7v+Jx3H56tfYGROCjz5u3o+/Tbq0hHTsiBjC+LDioKlvjia/x
-MhPZifBkSa2chisIrjoYs+iRfDfoLKsjav8UxKxRD4RWFZIPTjTkYyeRD/T/5FAT
-ZbLP9ShTcGOAq08iP53OeqHiGNBCtILB13PxIvJSuorJp/l0eDZU4fgZoTwwhEOv
-gWVfghR7/NY1EgBKsDZzBg3sS7mzGqIc0Hy5w+hPIIH6BwbpYm/IXbnmB1Qd8gjW
-b/0sDloNoYg4ZLgcx7+n/PaE3uvBjK0Se+SeMASFsBKnasXLjelyefwElhIOWTa1
-EP1yCXCPUFcHSJ+N6K5xT3rB22SQP6FEjU8rfg/V7dKqtkebmVJr+Ie/gGgZKLou
-boWQaSBd7M2QpiPFzQZinOnZZZIrhalx1S6dz4o/7gEsrt8fZlM=
-=Riax
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZTac5QAKCRB4tDGHoIJi
+0mggAP99OF8hN1NxoKZp2FHHDD2UzC+aGJa4R1g920IEToyvXQD8CrAebkC5Hgfz
+xN6hapjJqayUgWcpFDOnuM1h9RhDBgA=
+=yxpp
 -----END PGP SIGNATURE-----
 
---l5HgbAzMGwyq4s6P--
+--PLCivFZlEfnhRSba--
