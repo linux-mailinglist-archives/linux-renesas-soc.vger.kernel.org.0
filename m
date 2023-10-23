@@ -2,151 +2,382 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 21FC97D3EA1
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 Oct 2023 20:09:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D61CC7D3F5D
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 Oct 2023 20:38:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232723AbjJWSJO convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 23 Oct 2023 14:09:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46784 "EHLO
+        id S229451AbjJWSiT (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 23 Oct 2023 14:38:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45786 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232985AbjJWSJM (ORCPT
+        with ESMTP id S229557AbjJWSiS (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 23 Oct 2023 14:09:12 -0400
-Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com [209.85.128.180])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AD535BE;
-        Mon, 23 Oct 2023 11:09:08 -0700 (PDT)
-Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-5a82f176860so35963667b3.1;
-        Mon, 23 Oct 2023 11:09:08 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698084547; x=1698689347;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=t4FDGeEY/VamCmZvSKeRGk1ChdwB2QBoHGrivNbc4OA=;
-        b=OvOmJLpF+LXyopIKMy7UDc+H2YhItTj1UtiIGFeXBi5LZ2CBi+AZCb53RwviUYbcZx
-         sMv5UE7leZU+gkdorKyz8hvDzbqhC+YE7+EsTl9MLyJ0akIIU7YHW2cdo89AhjjpzvFF
-         B/lrJzOQCl7GoPvLqWSn8TwKW/mTmRRLpZ8Dz7ME80mgsRLj6FH+cb9FHKNt3/2xF/xL
-         isUd/yEsnpfcJzCJK3fEw+h3SEojYXKFtAzfGDUxuAXnNsQsKL27wgoBrm896rtdOziS
-         Q9wcKzGk6sTGb/MaFG8Cc0s1jpDXYfEj0ilPDxABzQe/faIftCWHu7xx8tck6gu2nbGc
-         Yk2g==
-X-Gm-Message-State: AOJu0Yz3d8xLCvrKdvwAdb9O7nzG8dZF+belakqqtKfrTpPH/PoUrq0k
-        PJDrkVzKdi1y2BEl0buIQ8xq8mzzhBAAcg==
-X-Google-Smtp-Source: AGHT+IH5nV/h6qJVR/xGmzLVAnbzAK2ezfE6IipQOQuWOc5iX9uKJgikDbbRfhSJWj7Bayyexl3QyA==
-X-Received: by 2002:a0d:d804:0:b0:59b:d872:5ca8 with SMTP id a4-20020a0dd804000000b0059bd8725ca8mr11799108ywe.22.1698084547618;
-        Mon, 23 Oct 2023 11:09:07 -0700 (PDT)
-Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com. [209.85.128.178])
-        by smtp.gmail.com with ESMTPSA id w194-20020a8149cb000000b00586108dd8f5sm3341067ywa.18.2023.10.23.11.09.07
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 23 Oct 2023 11:09:07 -0700 (PDT)
-Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-5a7e5dc8573so36172957b3.0;
-        Mon, 23 Oct 2023 11:09:07 -0700 (PDT)
-X-Received: by 2002:a81:4f92:0:b0:5a8:1812:a7ed with SMTP id
- d140-20020a814f92000000b005a81812a7edmr10582993ywb.15.1698084546794; Mon, 23
- Oct 2023 11:09:06 -0700 (PDT)
-MIME-Version: 1.0
-References: <20231023144134.1881973-1-geert+renesas@glider.be> <4e2928a0-b2e6-4651-8cab-7f1c4d8f697d@linaro.org>
-In-Reply-To: <4e2928a0-b2e6-4651-8cab-7f1c4d8f697d@linaro.org>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 23 Oct 2023 20:08:54 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdVSx2G8A6wP+j0fNoFz1Y4+=R+diXc5pxJrn1FV65EBeQ@mail.gmail.com>
-Message-ID: <CAMuHMdVSx2G8A6wP+j0fNoFz1Y4+=R+diXc5pxJrn1FV65EBeQ@mail.gmail.com>
-Subject: Re: [PATCH dt-schema] schemas: gpio: gpio-consumer: Fix false
- positives on nodes named gpio
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc:     Rob Herring <robh+dt@kernel.org>,
+        Mon, 23 Oct 2023 14:38:18 -0400
+Received: from michel.telenet-ops.be (michel.telenet-ops.be [IPv6:2a02:1800:110:4::f00:18])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0F328FD
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 23 Oct 2023 11:38:12 -0700 (PDT)
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed40:375d:2b56:c03f:d72d])
+        by michel.telenet-ops.be with bizsmtp
+        id 1We92B00F3CbNjd06We9Bz; Mon, 23 Oct 2023 20:38:11 +0200
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan.of.borg with esmtp (Exim 4.95)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1quzoQ-007Kpl-5v;
+        Mon, 23 Oct 2023 20:38:09 +0200
+Received: from geert by rox.of.borg with local (Exim 4.95)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1quzoW-007y4M-W9;
+        Mon, 23 Oct 2023 20:38:09 +0200
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Lee Jones <lee@kernel.org>, Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         Conor Dooley <conor+dt@kernel.org>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Claudiu Beznea <claudiu.beznea@tuxon.dev>,
-        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
-        autolearn=no autolearn_force=no version=3.4.6
+        Guennadi Liakhovetski <guennadi.liakhovetski@linux.intel.com>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>
+Cc:     devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH RFC] dt-bindings: mfd: ams,as3711: Convert to json-schema
+Date:   Mon, 23 Oct 2023 20:38:07 +0200
+Message-Id: <9af48b816f2b6397f5ada58a9b5ced85213e5194.1698085945.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.3 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_NONE
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Krzysztof,
+Convert the Austria MicroSystems AS3711 Quad Buck High Current PMIC with
+Charger Device Tree binding documentation to json-schema.
 
-On Mon, Oct 23, 2023 at 5:24 PM Krzysztof Kozlowski
-<krzysztof.kozlowski@linaro.org> wrote:
-> On 23/10/2023 16:41, Geert Uytterhoeven wrote:
-> > Just like for "gpio", nodes can be named "gpios" or
-> > "<something>-gpio(s)", causing false positive failures.
-> >
-> > See also commit 80120fccde170902 ("schemas: gpio: fix false positive
-> > failures on nodes named 'gpio'").
-> >
-> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> > ---
-> > Seen on Linux, e.g.:
-> >
-> >     arch/arm/boot/dts/renesas/r8a7779-marzen.dtb: /: keyboard-gpio: {'compatible': ['gpio-keys-polled'], 'poll-interval': [[50]], 'pinctrl-0': [[29]], 'pinctrl-names': ['default'], 'key-3': {'gpios': [[28, 19, 1]], 'linux,code': [[4]], 'label': ['SW1-3'], 'debounce-interval': [[20]]}, 'key-4': {'gpios': [[28, 20, 1]], 'linux,code': [[5]], 'label': ['SW1-4'], 'debounce-interval': [[20]]}} is not of type 'array'
-> >           from schema $id: http://devicetree.org/schemas/gpio/gpio-consumer.yaml#
-> >     arch/arm/boot/dts/renesas/r8a7779-marzen.dtb: pinctrl@fffc0000: keyboard-gpio: {'pins': ['GP_0_19', 'GP_0_20'], 'bias-pull-up': True, 'phandle': [[29]]} is not of type 'array'
-> >           from schema $id: http://devicetree.org/schemas/gpio/gpio-consumer.yaml#
->
-> keyboard-gpio is not commonly used names. Most (almost all) boards just
-> call it "gpio-keys".
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+RFC, as I couldn't get the multiple dependencies right (see FIXMEs):
+  1. How to incorporate "su2-dev: [ su2-max-uA ]" and
+     "su2-feedback-curr-auto: [ su2-dev ]"?
+  2. su2-dev requiring one of su2-fbprot-* does not seem to work?
 
-Most call it "keyboard".
+Anyone with better *Of foo? Thanks!
+---
+ .../devicetree/bindings/mfd/ams,as3711.yaml   | 223 ++++++++++++++++++
+ .../devicetree/bindings/mfd/as3711.txt        |  73 ------
+ 2 files changed, 223 insertions(+), 73 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/mfd/ams,as3711.yaml
+ delete mode 100644 Documentation/devicetree/bindings/mfd/as3711.txt
 
-Marzen has 4 keys split in two keyboards due to hardware limitations,
-hence I had called them "keyboard-irq" (using falling edge interrupts,
-i.e. no real key-up events)  and "keyboard-gpio" (gpio polling
-without interrupts).
+diff --git a/Documentation/devicetree/bindings/mfd/ams,as3711.yaml b/Documentation/devicetree/bindings/mfd/ams,as3711.yaml
+new file mode 100644
+index 0000000000000000..d9f08e017194c4f8
+--- /dev/null
++++ b/Documentation/devicetree/bindings/mfd/ams,as3711.yaml
+@@ -0,0 +1,223 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/mfd/ams,as3711.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Austria MicroSystems AS3711 Quad Buck High Current PMIC with Charger
++
++maintainers:
++  - Guennadi Liakhovetski <guennadi.liakhovetski@linux.intel.com>
++
++description:
++  AS3711 is an I2C PMIC from Austria MicroSystems with multiple DCDC and LDO
++  power supplies, a battery charger and an RTC.  So far only bindings for the
++  two stepup DCDC converters are defined.
++
++properties:
++  compatible:
++    const: ams,as3711
++
++  reg:
++    maxItems: 1
++
++  backlight:
++    description:
++      Step-up converter configuration, to be used as a backlight source
++    type: object
++    properties:
++      compatible:
++        const: ams,as3711-bl
++
++      su1-dev:
++        description: Framebuffer phandle for the first step-up converter
++        $ref: /schemas/types.yaml#/definitions/phandle
++
++      su1-max-uA:
++        description: Maximum current for the first step-up converter
++        $ref: /schemas/types.yaml#/definitions/uint32
++
++      su2-dev:
++        description: Framebuffer phandle for the second step-up converter
++        $ref: /schemas/types.yaml#/definitions/phandle
++
++      su2-max-uA:
++        description: Maximum current for the second step-up converter
++        $ref: /schemas/types.yaml#/definitions/uint32
++
++      su2-feedback-voltage:
++        description: Second step-up converter uses voltage feedback
++        type: boolean
++
++      su2-feedback-curr1:
++        description:
++          Second step-up converter uses CURR1 input for current feedback
++        type: boolean
++
++      su2-feedback-curr2:
++        description:
++          Second step-up converter uses CURR2 input for current feedback
++        type: boolean
++
++      su2-feedback-curr3:
++        description:
++          Second step-up converter uses CURR3 input for current feedback
++        type: boolean
++
++      su2-feedback-curr-auto:
++        description:
++          Second step-up converter uses automatic current feedback selection
++        type: boolean
++
++      su2-fbprot-lx-sd4:
++        description:
++          Second step-up converter uses LX_SD4 for over-voltage protection
++        type: boolean
++
++      su2-fbprot-gpio2:
++        description:
++          Second step-up converter uses GPIO2 for over-voltage protection
++        type: boolean
++
++      su2-fbprot-gpio3:
++        description:
++          Second step-up converter uses GPIO3 for over-voltage protection
++        type: boolean
++
++      su2-fbprot-gpio4:
++        description:
++          Second step-up converter uses GPIO4 for over-voltage protection
++        type: boolean
++
++      su2-auto-curr1:
++        description:
++          Second step-up converter uses CURR1 input for automatic current
++          feedback
++        type: boolean
++
++      su2-auto-curr2:
++        description:
++          Second step-up converter uses CURR2 input for automatic current
++          feedback
++        type: boolean
++
++      su2-auto-curr3:
++        description:
++          Second step-up converter uses CURR3 input for automatic current
++          feedback
++        type: boolean
++
++    required:
++      - compatible
++
++    dependencies:
++      # To use the SU1 converter as a backlight source the following two
++      # properties must be provided:
++      su1-dev: [ su1-max-uA ]
++      su1-max-uA: [ su1-dev ]
++
++      # To use the SU2 converter as a backlight source the following two
++      # properties must be provided:
++      # FIXME How to incorporate "su2-dev: [ su2-max-uA ]"?
++      # FIXME su2-dev requiring one of su2-fbprot-* does not seem to work?
++      su2-dev:
++        allOf:
++          - oneOf:
++              - required:
++                  - su2-feedback-voltage
++              - required:
++                  - su2-feedback-curr1
++              - required:
++                  - su2-feedback-curr2
++              - required:
++                  - su2-feedback-curr3
++              - required:
++                  - su2-feedback-curr-auto
++          - oneof:
++              - required:
++                  - su2-fbprot-lx-sd4
++              - required:
++                  - su2-fbprot-gpio2
++              - required:
++                  - su2-fbprot-gpio3
++              - required:
++                  - su2-fbprot-gpio4
++
++      su2-max-uA: [ su2-dev ]
++      su2-feedback-voltage: [ su2-dev ]
++      su2-feedback-curr1: [ su2-dev ]
++      su2-feedback-curr2: [ su2-dev ]
++      su2-feedback-curr3: [ su2-dev ]
++      # FIXME How to incorporate "su2-feedback-curr-auto: [ su2-dev ]"?
++      su2-feedback-curr-auto:
++        anyOf:
++          - required:
++              - su2-auto-curr1
++          - required:
++              - su2-auto-curr2
++          - required:
++              - su2-auto-curr3
++      su2-fbprot-lx-sd4: [ su2-dev ]
++      su2-fbprot-gpio2: [ su2-dev ]
++      su2-fbprot-gpio3: [ su2-dev ]
++      su2-fbprot-gpio4: [ su2-dev ]
++      su2-auto-curr1: [ su2-feedback-curr-auto ]
++      su2-auto-curr2: [ su2-feedback-curr-auto ]
++      su2-auto-curr3: [ su2-feedback-curr-auto ]
++
++    additionalProperties: false
++
++  regulators:
++    description: Other DCDC and LDO supplies
++    type: object
++    patternProperties:
++      "^(sd[1-4]|ldo[1-8])$":
++        type: object
++        $ref: /schemas/regulator/regulator.yaml#
++        unevaluatedProperties: false
++
++    unevaluatedProperties: false
++
++required:
++  - compatible
++  - reg
++
++additionalProperties: false
++
++examples:
++  - |
++    i2c {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        as3711@40 {
++            compatible = "ams,as3711";
++            reg = <0x40>;
++
++            regulators {
++                sd4 {
++                    regulator-name = "1.215V";
++                    regulator-min-microvolt = <1215000>;
++                    regulator-max-microvolt = <1235000>;
++                };
++                ldo2 {
++                    regulator-name = "2.8V CPU";
++                    regulator-min-microvolt = <2800000>;
++                    regulator-max-microvolt = <2800000>;
++                    regulator-always-on;
++                    regulator-boot-on;
++                };
++            };
++
++            backlight {
++                compatible = "ams,as3711-bl";
++                su2-dev = <&lcdc>;
++                su2-max-uA = <36000>;
++                su2-feedback-curr-auto;
++                su2-fbprot-gpio4;
++                su2-auto-curr1;
++                su2-auto-curr2;
++                su2-auto-curr3;
++            };
++        };
++    };
+diff --git a/Documentation/devicetree/bindings/mfd/as3711.txt b/Documentation/devicetree/bindings/mfd/as3711.txt
+deleted file mode 100644
+index d98cf18c721ceb18..0000000000000000
+--- a/Documentation/devicetree/bindings/mfd/as3711.txt
++++ /dev/null
+@@ -1,73 +0,0 @@
+-AS3711 is an I2C PMIC from Austria MicroSystems with multiple DCDC and LDO power
+-supplies, a battery charger and an RTC. So far only bindings for the two stepup
+-DCDC converters are defined. Other DCDC and LDO supplies are configured, using
+-standard regulator properties, they must belong to a sub-node, called
+-"regulators" and be called "sd1" to "sd4" and "ldo1" to "ldo8." Stepup converter
+-configuration should be placed in a subnode, called "backlight."
+-
+-Compulsory properties:
+-- compatible		: must be "ams,as3711"
+-- reg			: specifies the I2C address
+-
+-To use the SU1 converter as a backlight source the following two properties must
+-be provided:
+-- su1-dev		: framebuffer phandle
+-- su1-max-uA		: maximum current
+-
+-To use the SU2 converter as a backlight source the following two properties must
+-be provided:
+-- su2-dev		: framebuffer phandle
+-- su1-max-uA		: maximum current
+-
+-Additionally one of these properties must be provided to select the type of
+-feedback used:
+-- su2-feedback-voltage	: voltage feedback is used
+-- su2-feedback-curr1	: CURR1 input used for current feedback
+-- su2-feedback-curr2	: CURR2 input used for current feedback
+-- su2-feedback-curr3	: CURR3 input used for current feedback
+-- su2-feedback-curr-auto: automatic current feedback selection
+-
+-and one of these to select the over-voltage protection pin
+-- su2-fbprot-lx-sd4	: LX_SD4 is used for over-voltage protection
+-- su2-fbprot-gpio2	: GPIO2 is used for over-voltage protection
+-- su2-fbprot-gpio3	: GPIO3 is used for over-voltage protection
+-- su2-fbprot-gpio4	: GPIO4 is used for over-voltage protection
+-
+-If "su2-feedback-curr-auto" is selected, one or more of the following properties
+-have to be specified:
+-- su2-auto-curr1	: use CURR1 input for current feedback
+-- su2-auto-curr2	: use CURR2 input for current feedback
+-- su2-auto-curr3	: use CURR3 input for current feedback
+-
+-Example:
+-
+-as3711@40 {
+-	compatible = "ams,as3711";
+-	reg = <0x40>;
+-
+-	regulators {
+-		sd4 {
+-			regulator-name = "1.215V";
+-			regulator-min-microvolt = <1215000>;
+-			regulator-max-microvolt = <1235000>;
+-		};
+-		ldo2 {
+-			regulator-name = "2.8V CPU";
+-			regulator-min-microvolt = <2800000>;
+-			regulator-max-microvolt = <2800000>;
+-			regulator-always-on;
+-			regulator-boot-on;
+-		};
+-	};
+-
+-	backlight {
+-		compatible = "ams,as3711-bl";
+-		su2-dev = <&lcdc>;
+-		su2-max-uA = <36000>;
+-		su2-feedback-curr-auto;
+-		su2-fbprot-gpio4;
+-		su2-auto-curr1;
+-		su2-auto-curr2;
+-		su2-auto-curr3;
+-	};
+-};
+-- 
+2.34.1
 
-> >     arch/arm/boot/dts/microchip/at91-kizbox3-hs.dtb: /: gpios: {'compatible': ['gpio'], 'status': ['okay'], 'rf_on': {'label': ['rf on'], 'gpio': [[38, 83, 0]], 'output': True, 'init-low': True}, 'wifi_on': {'label': ['wifi on'], 'gpio': [[38, 84, 0]], 'output': True, 'init-low': True}, 'zbe_test_radio': {'label': ['zbe test radio'], 'gpio': [[38, 53, 0]], 'output': True, 'init-low': True}, 'zbe_rst': {'label': ['zbe rst'], 'gpio': [[38, 57, 0]], 'output': True, 'init-low': True}, 'io_reset': {'label': ['io reset'], 'gpio': [[38, 62, 0]], 'output': True, 'init-low': True}, 'io_test_radio': {'label': ['io test radio'], 'gpio': [[38, 73, 0]], 'output': True, 'init-low': True}, 'io_boot_0': {'label': ['io boot 0'], 'gpio': [[38, 75, 0]], 'output': True, 'init-low': True}, 'io_boot_1': {'label': ['io boot 1'], 'gpio': [[38, 81, 0]], 'output': True, 'init-low': True}, 'verbose_bootloader': {'label': ['verbose bootloader'], 'gpio': [[38, 43, 0]], 'input': True}, 'nail_bed_detection': {'label': ['nail bed detection'], 'gpio': [[38, 44, 0]], 'input': True}, 'id_usba': {'label': ['id usba'], 'gpio': [[38, 64, 1]], 'input': True}} is not of type 'array'
-> >           from schema $id: http://devicetree.org/schemas/gpio/gpio-consumer.yaml#
->
-> compatible = "gpio"? Is there such binding?
->
-> I think we should not allow "gpios" as a node, at least above examples
-> do not justify it.
-
-Note that there are more.  I used grep, and picked just one to see if I could
-fix that one too while at it:
-
-$ git grep "\<gpios\s*{"
-arch/arm/boot/dts/marvell/kirkwood-db.dtsi:
-pmx_sdio_gpios: pmx-sdio-gpios {
-arch/arm/boot/dts/marvell/orion5x-netgear-wnr854t.dts:  pmx_pci_gpios:
-pmx-pci-gpios {
-arch/arm/boot/dts/marvell/orion5x-rd88f5182-nas.dts:
-pmx_misc_gpios: pmx-misc-gpios {
-arch/arm/boot/dts/marvell/orion5x-rd88f5182-nas.dts:    pmx_pci_gpios:
-pmx-pci-gpios {
-arch/arm/boot/dts/microchip/at91-kizbox3-hs.dts:        gpios {
-arch/arm/boot/dts/qcom/qcom-apq8064-pins.dtsi:  sdc4_gpios: sdc4-gpios {
-arch/arm/boot/dts/st/ste-hrefv60plus.dtsi:                      gpios {
-arch/mips/boot/dts/ingenic/qi_lb60.dts:         mmc-gpios {
-
-Or:
-
-$ git grep -e "-gpio\s*{" | wc -l
-64
-
-> > For marzen, the alternative fix would be to
-> > s/keyboard-gpio/keyboard-polled/g.
-
-Do you prefer the alternative?
-
-Thanks!
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
