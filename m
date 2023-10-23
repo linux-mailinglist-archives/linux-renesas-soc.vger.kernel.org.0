@@ -2,72 +2,70 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B9D437D3E68
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 Oct 2023 19:59:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 21FC97D3EA1
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 Oct 2023 20:09:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229453AbjJWR7J convert rfc822-to-8bit (ORCPT
+        id S232723AbjJWSJO convert rfc822-to-8bit (ORCPT
         <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 23 Oct 2023 13:59:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45678 "EHLO
+        Mon, 23 Oct 2023 14:09:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46784 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229529AbjJWR7I (ORCPT
+        with ESMTP id S232985AbjJWSJM (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 23 Oct 2023 13:59:08 -0400
-Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com [209.85.128.175])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 696F2BE;
-        Mon, 23 Oct 2023 10:59:06 -0700 (PDT)
-Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-5a7c011e113so39342037b3.1;
-        Mon, 23 Oct 2023 10:59:06 -0700 (PDT)
+        Mon, 23 Oct 2023 14:09:12 -0400
+Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com [209.85.128.180])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AD535BE;
+        Mon, 23 Oct 2023 11:09:08 -0700 (PDT)
+Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-5a82f176860so35963667b3.1;
+        Mon, 23 Oct 2023 11:09:08 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698083945; x=1698688745;
+        d=1e100.net; s=20230601; t=1698084547; x=1698689347;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=ILGXXBI0xPsbEpyQCSI+1mkyQ59/epgNCarVkLH7ohg=;
-        b=WE6Nav6ODn5JVJN5OoN/JRLPl3ITfBZAyLMPV32qS2JrISB3ocb8/CzZaL+VGJplH1
-         zA/P3lGxLH04Ay069nDpeSjvuplmmN6HdZgS8SpDZFib65TYkuQ2hAXjRWiRy2k9+Gay
-         Co27BK9i2/EKto6Om/065Ogfok6dRBEonnnOpaa9EgsUiCPpn+EqQgWC/VO8A88Q7RUI
-         DdxqOlVpLtq6hvOrxWihmUGD0wigDdgZQGCg1kCxxur8IfkL2vFf/DCj+molH4gKAqx0
-         0zTJNDEKWIyH/xFXgK10orWeebx9xOxl7TttFI/G+ukC9aNH9Y1n7k5P0hgq5R+j4Nem
-         QaeQ==
-X-Gm-Message-State: AOJu0YwoZttu2edVvqp+HrRg80IUGpQD2SuKGEf/5edrkC5EHO3sH3H1
-        yRbFTVOvO7Fpnvmjh12Mo5az4uy+wzuvHA==
-X-Google-Smtp-Source: AGHT+IHlXNDsLJJqHDqUrfWmicV1vKqxJaCRnhNoazeDTLp0YnMrjkMlD7coXqVjTGkA/rF2ifWcRQ==
-X-Received: by 2002:a0d:f585:0:b0:59b:de0f:c23b with SMTP id e127-20020a0df585000000b0059bde0fc23bmr8126679ywf.46.1698083945373;
-        Mon, 23 Oct 2023 10:59:05 -0700 (PDT)
-Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com. [209.85.128.182])
-        by smtp.gmail.com with ESMTPSA id p130-20020a815b88000000b0059b20231f1dsm3319690ywb.121.2023.10.23.10.59.04
+        bh=t4FDGeEY/VamCmZvSKeRGk1ChdwB2QBoHGrivNbc4OA=;
+        b=OvOmJLpF+LXyopIKMy7UDc+H2YhItTj1UtiIGFeXBi5LZ2CBi+AZCb53RwviUYbcZx
+         sMv5UE7leZU+gkdorKyz8hvDzbqhC+YE7+EsTl9MLyJ0akIIU7YHW2cdo89AhjjpzvFF
+         B/lrJzOQCl7GoPvLqWSn8TwKW/mTmRRLpZ8Dz7ME80mgsRLj6FH+cb9FHKNt3/2xF/xL
+         isUd/yEsnpfcJzCJK3fEw+h3SEojYXKFtAzfGDUxuAXnNsQsKL27wgoBrm896rtdOziS
+         Q9wcKzGk6sTGb/MaFG8Cc0s1jpDXYfEj0ilPDxABzQe/faIftCWHu7xx8tck6gu2nbGc
+         Yk2g==
+X-Gm-Message-State: AOJu0Yz3d8xLCvrKdvwAdb9O7nzG8dZF+belakqqtKfrTpPH/PoUrq0k
+        PJDrkVzKdi1y2BEl0buIQ8xq8mzzhBAAcg==
+X-Google-Smtp-Source: AGHT+IH5nV/h6qJVR/xGmzLVAnbzAK2ezfE6IipQOQuWOc5iX9uKJgikDbbRfhSJWj7Bayyexl3QyA==
+X-Received: by 2002:a0d:d804:0:b0:59b:d872:5ca8 with SMTP id a4-20020a0dd804000000b0059bd8725ca8mr11799108ywe.22.1698084547618;
+        Mon, 23 Oct 2023 11:09:07 -0700 (PDT)
+Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com. [209.85.128.178])
+        by smtp.gmail.com with ESMTPSA id w194-20020a8149cb000000b00586108dd8f5sm3341067ywa.18.2023.10.23.11.09.07
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 23 Oct 2023 10:59:04 -0700 (PDT)
-Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-5a7c011e113so39341767b3.1;
-        Mon, 23 Oct 2023 10:59:04 -0700 (PDT)
-X-Received: by 2002:a81:8341:0:b0:5a7:bbd1:ec1d with SMTP id
- t62-20020a818341000000b005a7bbd1ec1dmr10435521ywf.17.1698083944720; Mon, 23
- Oct 2023 10:59:04 -0700 (PDT)
+        Mon, 23 Oct 2023 11:09:07 -0700 (PDT)
+Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-5a7e5dc8573so36172957b3.0;
+        Mon, 23 Oct 2023 11:09:07 -0700 (PDT)
+X-Received: by 2002:a81:4f92:0:b0:5a8:1812:a7ed with SMTP id
+ d140-20020a814f92000000b005a81812a7edmr10582993ywb.15.1698084546794; Mon, 23
+ Oct 2023 11:09:06 -0700 (PDT)
 MIME-Version: 1.0
-References: <bfd1cf9d620a8229f5a5e62e6fe9e59c153d0830.1698051619.git.geert+renesas@glider.be>
- <20231023-sulfate-babble-695b239f52b5@spud>
-In-Reply-To: <20231023-sulfate-babble-695b239f52b5@spud>
+References: <20231023144134.1881973-1-geert+renesas@glider.be> <4e2928a0-b2e6-4651-8cab-7f1c4d8f697d@linaro.org>
+In-Reply-To: <4e2928a0-b2e6-4651-8cab-7f1c4d8f697d@linaro.org>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 23 Oct 2023 19:58:51 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdW7UQ=c9V6rjpZdcaNPSXLOu5aEiLhreirPP6NXN0Ke2Q@mail.gmail.com>
-Message-ID: <CAMuHMdW7UQ=c9V6rjpZdcaNPSXLOu5aEiLhreirPP6NXN0Ke2Q@mail.gmail.com>
-Subject: Re: [PATCH] dt-bindings: regulator: dlg,da9210: Convert to json-schema
-To:     Conor Dooley <conor@kernel.org>
-Cc:     Support Opensource <support.opensource@diasemi.com>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
+Date:   Mon, 23 Oct 2023 20:08:54 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdVSx2G8A6wP+j0fNoFz1Y4+=R+diXc5pxJrn1FV65EBeQ@mail.gmail.com>
+Message-ID: <CAMuHMdVSx2G8A6wP+j0fNoFz1Y4+=R+diXc5pxJrn1FV65EBeQ@mail.gmail.com>
+Subject: Re: [PATCH dt-schema] schemas: gpio: gpio-consumer: Fix false
+ positives on nodes named gpio
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc:     Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        David Rau <David.Rau.opensource@dm.renesas.com>,
-        Adam Ward <Adam.Ward.Opensource@diasemi.com>
+        Conor Dooley <conor+dt@kernel.org>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8BIT
 X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
         FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
+        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
         autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -75,52 +73,76 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Conor,
+Hi Krzysztof,
 
-CC David, Adam
-
-On Mon, Oct 23, 2023 at 6:18 PM Conor Dooley <conor@kernel.org> wrote:
-> On Mon, Oct 23, 2023 at 11:04:45AM +0200, Geert Uytterhoeven wrote:
-> > Convert the Dialog Semiconductor DA9210 Multi-Phase 12A DC-DC Buck
-> > Converter Device Tree binding documentation to json-schema.
+On Mon, Oct 23, 2023 at 5:24 PM Krzysztof Kozlowski
+<krzysztof.kozlowski@linaro.org> wrote:
+> On 23/10/2023 16:41, Geert Uytterhoeven wrote:
+> > Just like for "gpio", nodes can be named "gpios" or
+> > "<something>-gpio(s)", causing false positive failures.
+> >
+> > See also commit 80120fccde170902 ("schemas: gpio: fix false positive
+> > failures on nodes named 'gpio'").
 > >
 > > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/regulator/dlg,da9210.yaml
-> > @@ -0,0 +1,52 @@
-> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > +%YAML 1.2
-> > +---
-> > +$id: http://devicetree.org/schemas/regulator/dlg,da9210.yaml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > +
-> > +title: Dialog Semiconductor DA9210 Multi-Phase 12A DC-DC Buck Converter
-> > +
-> > +maintainers:
-> > +  - Support Opensource <support.opensource@diasemi.com>
+> > ---
+> > Seen on Linux, e.g.:
+> >
+> >     arch/arm/boot/dts/renesas/r8a7779-marzen.dtb: /: keyboard-gpio: {'compatible': ['gpio-keys-polled'], 'poll-interval': [[50]], 'pinctrl-0': [[29]], 'pinctrl-names': ['default'], 'key-3': {'gpios': [[28, 19, 1]], 'linux,code': [[4]], 'label': ['SW1-3'], 'debounce-interval': [[20]]}, 'key-4': {'gpios': [[28, 20, 1]], 'linux,code': [[5]], 'label': ['SW1-4'], 'debounce-interval': [[20]]}} is not of type 'array'
+> >           from schema $id: http://devicetree.org/schemas/gpio/gpio-consumer.yaml#
+> >     arch/arm/boot/dts/renesas/r8a7779-marzen.dtb: pinctrl@fffc0000: keyboard-gpio: {'pins': ['GP_0_19', 'GP_0_20'], 'bias-pull-up': True, 'phandle': [[29]]} is not of type 'array'
+> >           from schema $id: http://devicetree.org/schemas/gpio/gpio-consumer.yaml#
 >
-> This should really be a person... Does your work with Renesas cover you
-> for dialog stuff too?
+> keyboard-gpio is not commonly used names. Most (almost all) boards just
+> call it "gpio-keys".
 
-I'm not really into the PMICs department, only into making dtbs_check
-for "my" DTS files clean ;-)
-I hope one of the Dialog/Renesas PMIC people can point me to a better
-address.  Steve Twiss sent a goodbye message to some kernel people
-and lkml three years ago, but it is not on lore, as it contained HTML.
+Most call it "keyboard".
 
-Ah, according to git log, David and Adam touched some of the files
-lately, so perhaps they can help?
+Marzen has 4 keys split in two keyboards due to hardware limitations,
+hence I had called them "keyboard-irq" (using falling edge interrupts,
+i.e. no real key-up events)  and "keyboard-gpio" (gpio polling
+without interrupts).
 
-> Otherwise,
-> Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
+> >     arch/arm/boot/dts/microchip/at91-kizbox3-hs.dtb: /: gpios: {'compatible': ['gpio'], 'status': ['okay'], 'rf_on': {'label': ['rf on'], 'gpio': [[38, 83, 0]], 'output': True, 'init-low': True}, 'wifi_on': {'label': ['wifi on'], 'gpio': [[38, 84, 0]], 'output': True, 'init-low': True}, 'zbe_test_radio': {'label': ['zbe test radio'], 'gpio': [[38, 53, 0]], 'output': True, 'init-low': True}, 'zbe_rst': {'label': ['zbe rst'], 'gpio': [[38, 57, 0]], 'output': True, 'init-low': True}, 'io_reset': {'label': ['io reset'], 'gpio': [[38, 62, 0]], 'output': True, 'init-low': True}, 'io_test_radio': {'label': ['io test radio'], 'gpio': [[38, 73, 0]], 'output': True, 'init-low': True}, 'io_boot_0': {'label': ['io boot 0'], 'gpio': [[38, 75, 0]], 'output': True, 'init-low': True}, 'io_boot_1': {'label': ['io boot 1'], 'gpio': [[38, 81, 0]], 'output': True, 'init-low': True}, 'verbose_bootloader': {'label': ['verbose bootloader'], 'gpio': [[38, 43, 0]], 'input': True}, 'nail_bed_detection': {'label': ['nail bed detection'], 'gpio': [[38, 44, 0]], 'input': True}, 'id_usba': {'label': ['id usba'], 'gpio': [[38, 64, 1]], 'input': True}} is not of type 'array'
+> >           from schema $id: http://devicetree.org/schemas/gpio/gpio-consumer.yaml#
+>
+> compatible = "gpio"? Is there such binding?
+>
+> I think we should not allow "gpios" as a node, at least above examples
+> do not justify it.
+
+Note that there are more.  I used grep, and picked just one to see if I could
+fix that one too while at it:
+
+$ git grep "\<gpios\s*{"
+arch/arm/boot/dts/marvell/kirkwood-db.dtsi:
+pmx_sdio_gpios: pmx-sdio-gpios {
+arch/arm/boot/dts/marvell/orion5x-netgear-wnr854t.dts:  pmx_pci_gpios:
+pmx-pci-gpios {
+arch/arm/boot/dts/marvell/orion5x-rd88f5182-nas.dts:
+pmx_misc_gpios: pmx-misc-gpios {
+arch/arm/boot/dts/marvell/orion5x-rd88f5182-nas.dts:    pmx_pci_gpios:
+pmx-pci-gpios {
+arch/arm/boot/dts/microchip/at91-kizbox3-hs.dts:        gpios {
+arch/arm/boot/dts/qcom/qcom-apq8064-pins.dtsi:  sdc4_gpios: sdc4-gpios {
+arch/arm/boot/dts/st/ste-hrefv60plus.dtsi:                      gpios {
+arch/mips/boot/dts/ingenic/qi_lb60.dts:         mmc-gpios {
+
+Or:
+
+$ git grep -e "-gpio\s*{" | wc -l
+64
+
+> > For marzen, the alternative fix would be to
+> > s/keyboard-gpio/keyboard-polled/g.
+
+Do you prefer the alternative?
 
 Thanks!
 
 Gr{oetje,eeting}s,
 
                         Geert
-
 
 --
 Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
