@@ -2,177 +2,140 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E8CB97D2FB5
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 Oct 2023 12:23:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4B6617D301B
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 Oct 2023 12:39:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229667AbjJWKXe (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 23 Oct 2023 06:23:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48750 "EHLO
+        id S229667AbjJWKjG (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 23 Oct 2023 06:39:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40730 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232696AbjJWKXW (ORCPT
+        with ESMTP id S229572AbjJWKjF (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 23 Oct 2023 06:23:22 -0400
-Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com [IPv6:2a00:1450:4864:20::329])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5E00510DC
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 23 Oct 2023 03:23:04 -0700 (PDT)
-Received: by mail-wm1-x329.google.com with SMTP id 5b1f17b1804b1-40859dee28cso14318805e9.0
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 23 Oct 2023 03:23:03 -0700 (PDT)
+        Mon, 23 Oct 2023 06:39:05 -0400
+Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com [IPv6:2607:f8b0:4864:20::102a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7ABA6B6
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 23 Oct 2023 03:39:03 -0700 (PDT)
+Received: by mail-pj1-x102a.google.com with SMTP id 98e67ed59e1d1-27d129e2e7cso2157187a91.3
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 23 Oct 2023 03:39:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1698056581; x=1698661381; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=8k0EshLjUbr1rifjRs+LM2thRC9AnbfURENQfGj3YpQ=;
-        b=AOfZKPQSAysvBShUn6OhBwZz0U2uqB8/WTZquhn1yeVwbkDOhCZcwky8zXukYKGHd1
-         KwO/Ax1aM4E/WWjGePaaMXoHJbCm9k5t5MOGLzRaRuXcenxLOEvLbzlfF9m6J7VHndIZ
-         unIF19g0XCtbWFO6u86qoiNGD4ibo2hUigGaqfivKjHBo5/V2kBDe2z5Q9WP+xlj411p
-         xXxHzf245VB9nOTcd5xfrTgN9FuDcsdvKEvHMGgNs3RnK/EbLzg5gslsBZYcHPVWrxSe
-         IdJj+iMvy1URciafBG1M/jXM14RCaPj5nYtkjjJZyzyCn/Ex5RUV8+waEEvHp1mCJBg9
-         m01w==
+        d=kernelci-org.20230601.gappssmtp.com; s=20230601; t=1698057542; x=1698662342; darn=vger.kernel.org;
+        h=from:to:subject:content-transfer-encoding:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=gN8Sc0h7mxsP4wXuSlVNc0x7rYlIpCA3QUqtVP3mRtY=;
+        b=TjoM+4WaPd/PEeTdKHaA6uLKUmWCWJNG8He8gUwuvorB1AQimeDBb+hYHjlsZ8xLL9
+         1ay8OU9GrjolDxLNUYuFF2rZHP2FU6Ur3eXZvABOJaeNbtLnoBTLoWDTMb9THTLxD7ci
+         1DTNcW4qsCo7HGKY8Wfm3vuV3lt6WteqZprXvXHQsY9Glk8Fp9D7nyr7gQiCy3booqfd
+         zgSZaNwPRSiQO1SwVJMLPy+nFYWXNbnKhxQkdbTH5VVKY+/vRO2ndtLVBWq9xGrhMGmH
+         9s27M08T7Fu0WY2ukHcw2lamFNx+H4y3oSAItGY81W1WWWCPctoEowrF7/UsXE25tXE+
+         mIkg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698056581; x=1698661381;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=8k0EshLjUbr1rifjRs+LM2thRC9AnbfURENQfGj3YpQ=;
-        b=Aq1EHIenCGHWQQyhEbbP07i0a5WSjT874/Fui/FODj0tXqO3aiFUSVAd8RpGwBVmP1
-         BVMOa9nU7FnErh8lrz/vDTW7TDPX2Bf2e7JnsxdoIGKKmsJFG6d0lQwZAuS8/1qJxisg
-         XhXI/mqxo1y9bZm3TXzCajX/hFec3MDjSwCEjZRSN9hGQ/ug0iZfv2vh5Ztpt8l8ZSgw
-         qAtbBU5FS871zEqJbSxRX/hQWTwAvdWbJOUaCyL26Kc+oSxkdpUCZxQTYPSM9JFRRF5y
-         2Wg8/7qGq0SKEhZ7JB3XZD+VUMsmMbtlO1Oz//UA5DhO+ywY5OOO6kMWptEsqS6K2GV8
-         BOpg==
-X-Gm-Message-State: AOJu0Yz2FYn4lgPB5Hxqu3duhAo2wWrfOv0EB3lz0o1fQIGE1RHk05Rq
-        naTxHKeTjXYy3oGv6k9KPWUtKg==
-X-Google-Smtp-Source: AGHT+IG3jAIdQfmC2Z+L5C+d69j5tDElEciqTF1dG/PBhVBTrAoiiDhk1pI0XMhW2i7pOJkPSg/a1Q==
-X-Received: by 2002:a05:600c:354b:b0:3fe:1b4e:c484 with SMTP id i11-20020a05600c354b00b003fe1b4ec484mr6753113wmq.5.1698056581462;
-        Mon, 23 Oct 2023 03:23:01 -0700 (PDT)
-Received: from claudiu-X670E-Pro-RS.. ([82.78.167.185])
-        by smtp.gmail.com with ESMTPSA id 1-20020a05600c228100b0040596352951sm13593275wmf.5.2023.10.23.03.22.59
+        d=1e100.net; s=20230601; t=1698057542; x=1698662342;
+        h=from:to:subject:content-transfer-encoding:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=gN8Sc0h7mxsP4wXuSlVNc0x7rYlIpCA3QUqtVP3mRtY=;
+        b=GcO8WofU/RbrHIryAFPVRM1uiVAJT+GCN/5Ye+oK8H5h0yzKPgrnFVR2jhefMxfRGy
+         3t/Zign9pVh+42WWN8hp1oaBapfB+nPmOz6/0MSjZVdkilV2LC8T7LN3z/+nYO4cXhCF
+         I+X+d9yUL91gcPDNwmF5hFO3ykFhjS1+/cgGqJTyzBszoiJgyVftxeIsqwerWABGaPyQ
+         pKsW7FjsyNYDtuvce7VNhJOjW+129E5kZ7twoQrclxivg9Qd88uFDYr+1HYw2cKMN2zv
+         aItKSvhvJJ/rQz/JDRtKHaszlrkwZezoSNaB+Igij1V4uNpQ7q8ntskjRqzn1BZKNM/1
+         biyA==
+X-Gm-Message-State: AOJu0YyVTP1PtePrwjbUNRwaMxfF1Mom7AsquPBNEM5UUUspoVdaM5xU
+        2eyJHJq9NLQE2d9ffBS2L3wcRNR8W89jEKp75b1hew==
+X-Google-Smtp-Source: AGHT+IEEzuNc8kfTrGdFCXDzeo9YGmcPAwKma/0gKTq+z0cKmOGnswVIKiSiNyDMc24VBu/p0jxeRQ==
+X-Received: by 2002:a17:90a:7887:b0:274:6839:6a8c with SMTP id x7-20020a17090a788700b0027468396a8cmr6189822pjk.6.1698057542537;
+        Mon, 23 Oct 2023 03:39:02 -0700 (PDT)
+Received: from kernelci-production.internal.cloudapp.net ([20.171.243.82])
+        by smtp.gmail.com with ESMTPSA id az7-20020a17090b028700b0027d157e686asm5270939pjb.49.2023.10.23.03.39.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Oct 2023 03:23:01 -0700 (PDT)
-From:   Claudiu <claudiu.beznea@tuxon.dev>
-X-Google-Original-From: Claudiu <claudiu.beznea.uj@bp.renesas.com>
-To:     tglx@linutronix.de, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-        geert+renesas@glider.be, magnus.damm@gmail.com,
-        mturquette@baylibre.com, sboyd@kernel.org,
-        prabhakar.mahadev-lad.rj@bp.renesas.com
-Cc:     linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
-        Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-Subject: [PATCH 7/7] arm64: dts: renesas: r9108g045: add irqc
-Date:   Mon, 23 Oct 2023 13:22:23 +0300
-Message-Id: <20231023102223.1309614-8-claudiu.beznea.uj@bp.renesas.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20231023102223.1309614-1-claudiu.beznea.uj@bp.renesas.com>
-References: <20231023102223.1309614-1-claudiu.beznea.uj@bp.renesas.com>
+        Mon, 23 Oct 2023 03:39:01 -0700 (PDT)
+Message-ID: <65364d45.170a0220.deca6.e2a6@mx.google.com>
+Date:   Mon, 23 Oct 2023 03:39:01 -0700 (PDT)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+Content-Transfer-Encoding: quoted-printable
+X-Kernelci-Kernel: renesas-devel-2023-10-23-v6.6-rc7
+X-Kernelci-Report-Type: test
+X-Kernelci-Branch: master
+X-Kernelci-Tree: renesas
+Subject: renesas/master ltp-ipc: 5 runs,
+ 1 regressions (renesas-devel-2023-10-23-v6.6-rc7)
+To:     linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
+From:   "kernelci.org bot" <bot@kernelci.org>
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+renesas/master ltp-ipc: 5 runs, 1 regressions (renesas-devel-2023-10-23-v6.=
+6-rc7)
 
-Add irqc node and set it as interrupt parent for pin controller.
+Regressions Summary
+-------------------
 
-Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
----
- arch/arm64/boot/dts/renesas/r9a08g045.dtsi | 68 ++++++++++++++++++++++
- 1 file changed, 68 insertions(+)
+platform                 | arch  | lab     | compiler | defconfig | regress=
+ions
+-------------------------+-------+---------+----------+-----------+--------=
+----
+r8a774a1-hihope-rzg2m-ex | arm64 | lab-cip | gcc-10   | defconfig | 1      =
+    =
 
-diff --git a/arch/arm64/boot/dts/renesas/r9a08g045.dtsi b/arch/arm64/boot/dts/renesas/r9a08g045.dtsi
-index 6c7b29b69d0e..010bca626855 100644
---- a/arch/arm64/boot/dts/renesas/r9a08g045.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r9a08g045.dtsi
-@@ -96,6 +96,7 @@ pinctrl: pinctrl@11030000 {
- 			#gpio-cells = <2>;
- 			interrupt-controller;
- 			#interrupt-cells = <2>;
-+			interrupt-parent = <&irqc>;
- 			gpio-ranges = <&pinctrl 0 0 152>;
- 			clocks = <&cpg CPG_MOD R9A08G045_GPIO_HCLK>;
- 			power-domains = <&cpg>;
-@@ -104,6 +105,73 @@ pinctrl: pinctrl@11030000 {
- 				 <&cpg R9A08G045_GPIO_SPARE_RESETN>;
- 		};
- 
-+		irqc: interrupt-controller@11050000 {
-+			compatible = "renesas,r9a08g045-irqc", "renesas,rzg2l-irqc";
-+			#interrupt-cells = <2>;
-+			#address-cells = <0>;
-+			interrupt-controller;
-+			reg = <0 0x11050000 0 0x10000>;
-+			interrupts = <GIC_SPI 0 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 1 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 2 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 3 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 4 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 5 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 6 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 7 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 8 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 429 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 430 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 431 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 432 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 433 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 434 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 435 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 436 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 437 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 438 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 439 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 440 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 441 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 442 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 443 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 444 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 445 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 446 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 447 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 448 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 449 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 450 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 451 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 452 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 453 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 454 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 455 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 456 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 457 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 458 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 459 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 460 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 29 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "nmi",
-+					  "irq0", "irq1", "irq2", "irq3",
-+					  "irq4", "irq5", "irq6", "irq7",
-+					  "tint0", "tint1", "tint2", "tint3",
-+					  "tint4", "tint5", "tint6", "tint7",
-+					  "tint8", "tint9", "tint10", "tint11",
-+					  "tint12", "tint13", "tint14", "tint15",
-+					  "tint16", "tint17", "tint18", "tint19",
-+					  "tint20", "tint21", "tint22", "tint23",
-+					  "tint24", "tint25", "tint26", "tint27",
-+					  "tint28", "tint29", "tint30", "tint31",
-+					  "bus-err";
-+			clocks = <&cpg CPG_MOD R9A08G045_IA55_CLK>,
-+				 <&cpg CPG_MOD R9A08G045_IA55_PCLK>;
-+			clock-names = "clk", "pclk";
-+			power-domains = <&cpg>;
-+			resets = <&cpg R9A08G045_IA55_RESETN>;
-+		};
-+
- 		sdhi0: mmc@11c00000  {
- 			compatible = "renesas,sdhi-r9a08g045", "renesas,rcar-gen3-sdhi";
- 			reg = <0x0 0x11c00000 0 0x10000>;
--- 
-2.39.2
 
+  Details:  https://kernelci.org/test/job/renesas/branch/master/kernel/rene=
+sas-devel-2023-10-23-v6.6-rc7/plan/ltp-ipc/
+
+  Test:     ltp-ipc
+  Tree:     renesas
+  Branch:   master
+  Describe: renesas-devel-2023-10-23-v6.6-rc7
+  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-d=
+evel.git
+  SHA:      810ad90f451c3b5c359bdd01e1b029ee3e23a532
+
+  Test suite revisions:
+    ltp-tests
+      URL:  https://github.com/linux-test-project/ltp.git
+      SHA:  3f0b2176930cf15a26597e28abf4356050136bbe =
+
+
+
+Test Regressions
+---------------- =
+
+
+
+platform                 | arch  | lab     | compiler | defconfig | regress=
+ions
+-------------------------+-------+---------+----------+-----------+--------=
+----
+r8a774a1-hihope-rzg2m-ex | arm64 | lab-cip | gcc-10   | defconfig | 1      =
+    =
+
+
+  Details:     https://kernelci.org/test/plan/id/65364092f9c6ec0450efcef3
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: defconfig
+  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
+110)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+023-10-23-v6.6-rc7/arm64/defconfig/gcc-10/lab-cip/ltp-ipc-r8a774a1-hihope-r=
+zg2m-ex.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+023-10-23-v6.6-rc7/arm64/defconfig/gcc-10/lab-cip/ltp-ipc-r8a774a1-hihope-r=
+zg2m-ex.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye-lt=
+p/20230623.0/arm64/initrd.cpio.gz =
+
+
+
+  * ltp-ipc.login: https://kernelci.org/test/case/id/65364092f9c6ec0450efce=
+f4
+        failing since 25 days (last pass: renesas-devel-2023-06-05-v6.4-rc5=
+, first fail: renesas-devel-2023-09-27-v6.6-rc3) =
+
+ =20
