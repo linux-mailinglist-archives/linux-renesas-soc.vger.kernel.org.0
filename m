@@ -2,61 +2,52 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8016E7D2AB7
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 Oct 2023 08:52:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0C1357D2AE7
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 Oct 2023 09:09:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229548AbjJWGwg (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 23 Oct 2023 02:52:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58374 "EHLO
+        id S233392AbjJWHJO (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 23 Oct 2023 03:09:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34820 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229706AbjJWGwe (ORCPT
+        with ESMTP id S229459AbjJWHJI (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 23 Oct 2023 02:52:34 -0400
+        Mon, 23 Oct 2023 03:09:08 -0400
 Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DDD1DD7C
-        for <linux-renesas-soc@vger.kernel.org>; Sun, 22 Oct 2023 23:52:30 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 239C7D5B
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 23 Oct 2023 00:09:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
         sang-engineering.com; h=date:from:to:cc:subject:message-id
-        :references:mime-version:content-type:in-reply-to; s=k1; bh=MR3v
-        QCrInNl4djLPNDkfP2m7kIw+dEH4Q6iQ/YqMC+o=; b=bBg2Zcjtxrv5GJiEN6eD
-        XaubUPhFkqWWEhcCKoOYoc4pNd6b6LpPsHKw5fr5V891LAIcfZGYQbPu9jEaYh9L
-        ERD61SluiaK3tP7/bCbGgQ1L5GNEROgflsCCtKCXhC1o59WSF/jb49rnDlxDIwb+
-        o7r2RUr/MeXA9wN3Q0J7C58oRFFMdjvWHPOlfMtn3CsuXIrGzQKSWUzCFykukYQt
-        B5AOzKOmVO/xluHUTKSTLMdhfkw+uA80mL0y+/ORjLf8O5Ga4u/CnMMPCdDlTw4e
-        G+eozr72tJEEQoITSxnsALitZj77PXALyrGN9X+Q/k5ghW9PFf2J59Gfk52rEz8A
-        Jg==
-Received: (qmail 1845168 invoked from network); 23 Oct 2023 08:52:27 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 23 Oct 2023 08:52:27 +0200
-X-UD-Smtp-Session: l3s3148p1@JHJHqlwIvp4gAQnoAHZpAPyQUfJFEq1N
-Date:   Mon, 23 Oct 2023 08:52:25 +0200
+        :references:mime-version:content-type:in-reply-to; s=k1; bh=KkAe
+        LLgWLM5KXP64Cj4yIbcMQ879DhR2OB2+2eT7GHs=; b=iwTHuVMoLR+JNVDpnLdR
+        SGxclKGti7ROvXSXV+25Q1fEsqy8KmZ90GsZxQSaHztFwsLA/CxYeycTw5gmLtwm
+        PjcN3JRWCqz8nkmHVwBlTnAg6LD6HD+oQJQ2az8n66FX1vg5+jMkxeTJuu6jRBKk
+        yBi5Y9I+h3qHVRitgbPOgUS8Gt887EVR5Zkzk/aQzAi9MOmiT8pnPm0rJX8i1T/Y
+        FTI3duXNtxll8E97bX9JP3oTQD1+bwIKApxL8O7Ks2Ovs6Zy0MQX4FypExr7DooN
+        rCjWuXDhOO9/pwOBbQbiHTf6/sH+x5Thc3yJCQdFg005KoKK87MHrMOlo3OZPBJE
+        Dw==
+Received: (qmail 1849151 invoked from network); 23 Oct 2023 09:09:04 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 23 Oct 2023 09:09:04 +0200
+X-UD-Smtp-Session: l3s3148p1@YvOz5VwInJwgAQnoAHZpAPyQUfJFEq1N
+Date:   Mon, 23 Oct 2023 09:09:03 +0200
 From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
 To:     Johan Hovold <johan@kernel.org>
 Cc:     linux-renesas-soc@vger.kernel.org,
-        Conor Dooley <conor.dooley@microchip.com>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 2/3] dt-bindings: gnss: u-blox: add "reset-gpios"
- binding
-Message-ID: <ZTYYKVTYEa6roCci@ninjato>
+Subject: Re: [PATCH v3 3/3] gnss: ubx: add support for the reset gpio
+Message-ID: <ZTYcD8l+lUlLog91@ninjato>
 Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
         Johan Hovold <johan@kernel.org>, linux-renesas-soc@vger.kernel.org,
-        Conor Dooley <conor.dooley@microchip.com>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
         linux-kernel@vger.kernel.org
 References: <20230921133202.5828-1-wsa+renesas@sang-engineering.com>
- <20230921133202.5828-3-wsa+renesas@sang-engineering.com>
- <ZS0-E_h4I_g7zVIm@hovoldconsulting.com>
+ <20230921133202.5828-4-wsa+renesas@sang-engineering.com>
+ <ZS1AxSRL4F5WBvnC@hovoldconsulting.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="vVw7cNdK/5AY54tC"
+        protocol="application/pgp-signature"; boundary="n2o7eTgxzL/5uehf"
 Content-Disposition: inline
-In-Reply-To: <ZS0-E_h4I_g7zVIm@hovoldconsulting.com>
+In-Reply-To: <ZS1AxSRL4F5WBvnC@hovoldconsulting.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_MSPIKE_H3,
         RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS autolearn=ham
@@ -68,58 +59,43 @@ List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 
---vVw7cNdK/5AY54tC
+--n2o7eTgxzL/5uehf
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Johan,
 
-> And what GNSS chip/module is this? This should also be included in the
-> commit message.
+> So this means that the reset line will be asserted indefinitely in case
+> the GNSS receiver is not used. Are you sure that's a good idea?
 
-Ok. UBlox Neo-M8.
+Yup. Saves power. We do this for our ethernet PHYs as well. Any reasons
+not to do this?
 
-> Do you have a link to a datasheet?
+> I don't know yet which module this is for, or how this signal is
+> supposed to be used, but the above makes this look more like an
+> active-high (regulator) enable signal. Perhaps that's what it is or
+> should be modelled as (i.e. as a fixed regulator).
 
-https://www.u-blox.com/sites/default/files/NEO-M8-FW3_DataSheet_UBX-15031086.pdf
-
-> None of the u-blox modules I've seen have a reset line so I'd like to
-> where this came from and how it is intended to be used.
-
-I didn't know that old modules did not have the reset pin. I thought
-they were simply not used, so far. This one has. Check pin8 in chapter
-2.1 in the datasheet.
-
-> The mediatek driver does not support managing a reset line, but the
-> binding includes a description of this pin for completeness. Also you
-> don't seem include any description of the property below (which is fine)
-> so perhaps you can just drop this sentence.
-
-Correct.
-
-Kind regards,
-
-   Wolfram
+Nope, it is a RESET_N pin.
 
 
---vVw7cNdK/5AY54tC
+--n2o7eTgxzL/5uehf
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmU2GCUACgkQFA3kzBSg
-KbY53w/9Hf5kAqsmToLPqTbs/wvfi4A9QHxSgcS5kZJJ1jTjQC02CQSFo8ACukZI
-VYdeQsQCht/2gFPDK1B51LfsKN+LkUu2+cVftMZBzT63rSk/Shhpku/OWkJNoWOs
-oyjJ7aJmBxjfFUSVSNTQAtJc2M7Avv2rZPbq5XFfbMrrfe8kkJkaySuJTY64O/rV
-byIcZ+jPBpzqH9BzaqXxfKtloXppBYM0b0i4IfcCEEWOQmRv/YkdhhbPeL5Rka+B
-Sxke6eBkzaiWTwXDiytyrhWOqWVR5VxcgllnsoNebFNN+sycH8Y4QDGrj9aqSRTE
-bXTnt+d/nOeMNB8OJ9PN+pc02wRSHiJQuYmCC3oRWRmiH3mvl9lDqZUHIxH3bIQp
-7xolqR0XZ07P4AdOuQkAV8NTK6ER000btpTLa+5PeM3FYdJuDD/0HgasKcll/XQE
-iEAEEJ5wkwcbScGwWvGZYN5cvwu15kn9JMyhw63EngkicQcg7cBi+LOvjoeOwhNH
-OnWYIjM1ZvdqWEhtJGIcKJ1ITVWid7Py+BEYKI5aMxJ+y94kEZ4AyFvnWfOj1pd0
-6W+Ho8ZeEXDZ1lZxWjCzcl2jKEeyB5aKCr0jWUgKOBqowBy0c4Kt8WWm7s77Iu41
-RuXi9psFm/MgTcNa+eIojxYmLHftWNoza0Ma7C/z3L7tDcEaUIM=
-=HkxE
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmU2HA8ACgkQFA3kzBSg
+Kbap/w//ZItgDWveXoAOgOKiowOQFeRrASG5UyQWpKRGZNDBGCQbSeEW86HtPR7/
+bO/eklIS4g3vjng5LGVygMMgydO//202Ylc3YbBYBkXw4Z/NioGVADJTUzUY+Ym8
+Foi1xShFQ6aMx5U/bww3hzMF+sSLDUA7iuQNxX2qI8oYL20j1cbFd5p/WZOSEcQF
+Yg1eUWMmdYtIdZINnzPsKZK1Kdpr7jAidY1ivH+0vTMlfLB3eynkB5P2mz/ZMDdp
+Vw0HRVWuFR/USuN5KYeZQACmSVBiKMwInoevUgsaCPUhZ4aeuAkgxGTD55cOy/Oo
+HpjUUxZNb6aVmCBejfYKjTMykcovhFZaRsEkMtjhvar3mMJSzElhU7jgQjWHFDP4
+8XJ3J3Q4caGrsOwisRB0ZiI77sX32gDKl1qa23YecquKzkpk+/UfNXx1XCzP0Fbz
+Bu3qrktgJvcowTXgL9Vs/04bZh5u6hE4vFeTBlUqtc6+mS15zaCppDaky3QeoDzF
+ONz0DeQXcU7BufZ9RFYq09qXG1UkekQ3MlESrURnX5RcOBTi6ztQ/cTJyzaa9V4C
+XyO5KBCvp4QwzlOdrH4QBHRa6+oQEqwCwaIKbGdMM/x+SpLWtP2I4luQPiXx+I5q
+I2Mr68f0Hms0JnPHV84cmYMrzH5BnH82E6JCZ4AbWGIFO2ya0G8=
+=Egmt
 -----END PGP SIGNATURE-----
 
---vVw7cNdK/5AY54tC--
+--n2o7eTgxzL/5uehf--
