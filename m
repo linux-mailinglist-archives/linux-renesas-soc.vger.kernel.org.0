@@ -2,90 +2,139 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 417D57D5B39
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 24 Oct 2023 21:11:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5161E7D5CC2
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 24 Oct 2023 22:58:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344271AbjJXTLF (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 24 Oct 2023 15:11:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56548 "EHLO
+        id S1344384AbjJXU6b (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 24 Oct 2023 16:58:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40424 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344301AbjJXTK5 (ORCPT
+        with ESMTP id S1344399AbjJXU62 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 24 Oct 2023 15:10:57 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1184E1709;
-        Tue, 24 Oct 2023 12:10:53 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 97408C433C7;
-        Tue, 24 Oct 2023 19:10:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1698174651;
-        bh=9P0Xbi4QRhEOx6Tg+9+CA1C0vPu9RF8BUGInzmbyOX4=;
-        h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-        b=KX2YVeM6JhaE+WWjcdrpxwZR2Jqj5bQRfk+uWPi/b3K/VXM/fsgq1NBf9VYbHx+RZ
-         JNBpz6ooqEUsB4OOrYIsn3Mc2GrpIWa9+Puri4d0Y0reKDc6zXLlLpRj0+o6WNPp10
-         aP00UqJcNnlGmcDupvWGmkIPrUwx4YPSfiDhof72PLHGKZkt9GsO7L9DZ3DPB4yZSu
-         z/LG1HS2DGqMLTrGeFux5aupXTpxicnruDGusZXlghLyxlT5zcaTjwWnV30vzQjzAS
-         4d+alanio7lKQrOIyvY8aNf8F68wUXgKrV1ekbN8jpY/z49/2bf1xZC1g7b5rDq39f
-         eA4SeRYHE1/wA==
-From:   Mark Brown <broonie@kernel.org>
-To:     Support Opensource <support.opensource@diasemi.com>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
+        Tue, 24 Oct 2023 16:58:28 -0400
+Received: from mail-oo1-f52.google.com (mail-oo1-f52.google.com [209.85.161.52])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CDA7010FB;
+        Tue, 24 Oct 2023 13:58:23 -0700 (PDT)
+Received: by mail-oo1-f52.google.com with SMTP id 006d021491bc7-5845a94dae1so102465eaf.0;
+        Tue, 24 Oct 2023 13:58:23 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1698181103; x=1698785903;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=gImLv6Y8NnjeTz7dQ0WcIB2xeIpe49LYR/tvFnfDL/Q=;
+        b=k+vmq5pz3enf5Rz73t6tiTmYXovGi3tF2WtiSkqr7ZXiEKARrZAv1FhFJWxrE2ySqX
+         M65R3MOPgTSLuRBt4xRmeKA1e0W1A8w9HHJSd5mBotceQ3n6qM57n3NkoY4YGIpWZPFl
+         fvlOomIz7OCsmeq/Uczy6fYIRgPaeMXbrELUS5V5xYBRtQCHFXx9OxGecqFQthQVz1gO
+         GNPWm/W5b6dSdl4nCXZU0NhgDPQIoiHpAzOgk4BoCcsXbQMsMcYcMb4dEe/WhQAu/BPR
+         PEfNSCoeEj1lEBTx9yXSs0WdCAHNMZzSJ220iA7nJ4jTVPW8J9R6ZciixjzUtV+ILYXF
+         8iXQ==
+X-Gm-Message-State: AOJu0YxFsrfmWyMTFgsmW164jACb8rRxJuEinQZxnUnnMSAZpcZ8yOce
+        lOjRpAhlGWJFs5UE8NpYCr6a6Yj0/g==
+X-Google-Smtp-Source: AGHT+IE1z5Wnc9bHS6/09yv+hrma7Pg98VUrO9Y8WkEXtI0anq09u6uD9L71sy3NQfmWDCVp/Pnt6Q==
+X-Received: by 2002:a05:6870:459a:b0:1e9:cba3:a329 with SMTP id y26-20020a056870459a00b001e9cba3a329mr9010193oao.14.1698181102804;
+        Tue, 24 Oct 2023 13:58:22 -0700 (PDT)
+Received: from herring.priv (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id eg41-20020a05687098a900b001eb0e8b75cdsm2022007oab.10.2023.10.24.13.58.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 24 Oct 2023 13:58:22 -0700 (PDT)
+Received: (nullmailer pid 559118 invoked by uid 1000);
+        Tue, 24 Oct 2023 20:58:21 -0000
+Date:   Tue, 24 Oct 2023 15:58:21 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     Lee Jones <lee@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         Conor Dooley <conor+dt@kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-In-Reply-To: <bfd1cf9d620a8229f5a5e62e6fe9e59c153d0830.1698051619.git.geert+renesas@glider.be>
-References: <bfd1cf9d620a8229f5a5e62e6fe9e59c153d0830.1698051619.git.geert+renesas@glider.be>
-Subject: Re: [PATCH] dt-bindings: regulator: dlg,da9210: Convert to
- json-schema
-Message-Id: <169817464932.84334.9478753707523977088.b4-ty@kernel.org>
-Date:   Tue, 24 Oct 2023 20:10:49 +0100
+        Guennadi Liakhovetski <guennadi.liakhovetski@linux.intel.com>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>, devicetree@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH RFC] dt-bindings: mfd: ams,as3711: Convert to json-schema
+Message-ID: <20231024205821.GA529288-robh@kernel.org>
+References: <9af48b816f2b6397f5ada58a9b5ced85213e5194.1698085945.git.geert+renesas@glider.be>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.13-dev-0438c
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <9af48b816f2b6397f5ada58a9b5ced85213e5194.1698085945.git.geert+renesas@glider.be>
+X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,
+        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, 23 Oct 2023 11:04:45 +0200, Geert Uytterhoeven wrote:
-> Convert the Dialog Semiconductor DA9210 Multi-Phase 12A DC-DC Buck
-> Converter Device Tree binding documentation to json-schema.
+On Mon, Oct 23, 2023 at 08:38:07PM +0200, Geert Uytterhoeven wrote:
+> Convert the Austria MicroSystems AS3711 Quad Buck High Current PMIC with
+> Charger Device Tree binding documentation to json-schema.
 > 
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
+> RFC, as I couldn't get the multiple dependencies right (see FIXMEs):
+>   1. How to incorporate "su2-dev: [ su2-max-uA ]" and
+>      "su2-feedback-curr-auto: [ su2-dev ]"?
+>   2. su2-dev requiring one of su2-fbprot-* does not seem to work?
 > 
+> Anyone with better *Of foo? Thanks!
+> ---
+>  .../devicetree/bindings/mfd/ams,as3711.yaml   | 223 ++++++++++++++++++
+>  .../devicetree/bindings/mfd/as3711.txt        |  73 ------
+>  2 files changed, 223 insertions(+), 73 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/mfd/ams,as3711.yaml
+>  delete mode 100644 Documentation/devicetree/bindings/mfd/as3711.txt
 
-Applied to
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/regulator.git for-next
+> +    dependencies:
+> +      # To use the SU1 converter as a backlight source the following two
+> +      # properties must be provided:
+> +      su1-dev: [ su1-max-uA ]
+> +      su1-max-uA: [ su1-dev ]
+> +
+> +      # To use the SU2 converter as a backlight source the following two
+> +      # properties must be provided:
+> +      # FIXME How to incorporate "su2-dev: [ su2-max-uA ]"?
 
-Thanks!
+You've stumbled into the evolution of jsonschema. Newer versions split 
+'dependencies' into 'dependentSchemas' and 'dependentRequired' (more 
+generally, they split keywords that could be either a list or schema). 
+That will let you have both forms. The new keywords are already 
+supported and you can use them (internally, dtschema is converting 
+every 'dependencies' to the new forms because json-schema likes flag 
+days, sigh).
 
-[1/1] dt-bindings: regulator: dlg,da9210: Convert to json-schema
-      commit: 7a198e0d48167db90e50777aab5a83a74e351f71
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+> +      # FIXME su2-dev requiring one of su2-fbprot-* does not seem to work?
+> +      su2-dev:
+> +        allOf:
+> +          - oneOf:
+> +              - required:
+> +                  - su2-feedback-voltage
+> +              - required:
+> +                  - su2-feedback-curr1
+> +              - required:
+> +                  - su2-feedback-curr2
+> +              - required:
+> +                  - su2-feedback-curr3
+> +              - required:
+> +                  - su2-feedback-curr-auto
+> +          - oneof:
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
+Your second problem is here.
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
+s/oneof/oneOf/
 
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
+Got to love json-schema's default silence on unknown keywords. I'll 
+figure out why we don't descend here and find this.
 
-Thanks,
-Mark
-
+> +              - required:
+> +                  - su2-fbprot-lx-sd4
+> +              - required:
+> +                  - su2-fbprot-gpio2
+> +              - required:
+> +                  - su2-fbprot-gpio3
+> +              - required:
+> +                  - su2-fbprot-gpio4
