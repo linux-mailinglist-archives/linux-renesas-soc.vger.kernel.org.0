@@ -2,57 +2,77 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EE4AC7D5874
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 24 Oct 2023 18:33:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 797F67D58E7
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 24 Oct 2023 18:41:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343912AbjJXQd7 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 24 Oct 2023 12:33:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55486 "EHLO
+        id S234767AbjJXQl5 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 24 Oct 2023 12:41:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45258 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1343881AbjJXQd7 (ORCPT
+        with ESMTP id S232602AbjJXQl4 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 24 Oct 2023 12:33:59 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A6F8AAF;
-        Tue, 24 Oct 2023 09:33:57 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E8476C433C7;
-        Tue, 24 Oct 2023 16:33:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1698165237;
-        bh=+h560Vs2Q6PeyeqzhXCCQnpg0QmTLtd359Q4ZP0eXrw=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=BfUHETj0KKqljyg5YhJg2L51VBkaZuYXdqHzVPcRvVb5OfZ4ti/8JjXy///m7dpVI
-         jfSPOiMvtnQyswOkY8ujr0PCjRAmfasjIbODbB8a6R2YOG1HJDDV1wb8syNNUgNC/I
-         dCGGW7VpbO2ttulQWzxUled853tQxvimDXuSr/S6+Kz/WEfhHKcv+veFbNkizgYgyd
-         GKZRL6uPBnPpS926x8s4f1QA4IIVJjhoWdgzo/Koe4k50whjo8gQY7mN+jwZpvX8Dc
-         zVUlpFEoo08F7+GhsfSyhP/Tjg4GVlxQ7JxsDqdfcjN9racs3Fy9DIDWYx3z7wzW/X
-         n5gmlxVCZWFGA==
-Date:   Tue, 24 Oct 2023 17:33:52 +0100
-From:   Conor Dooley <conor@kernel.org>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Support Opensource <support.opensource@diasemi.com>,
-        Liam Girdwood <lgirdwood@gmail.com>,
+        Tue, 24 Oct 2023 12:41:56 -0400
+Received: from mail-oo1-f47.google.com (mail-oo1-f47.google.com [209.85.161.47])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 24B81AC;
+        Tue, 24 Oct 2023 09:41:54 -0700 (PDT)
+Received: by mail-oo1-f47.google.com with SMTP id 006d021491bc7-57d086365f7so2783873eaf.0;
+        Tue, 24 Oct 2023 09:41:54 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1698165713; x=1698770513;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=m4xcdNfgUB8A/3KrK/pkTkDn6tlFzVt2oKgvssbhENc=;
+        b=eY5E0So5vkWcHYAS246RbwYeqNQ0S5OMia4ymLq4Hk+jtlS9ddnwYomBAgC4Kdm7pH
+         8Mq04KogbYJvbZn3U+UXaAohRqAio/CdlhQ4u7TGFdlnuiqg+4Q5jpA3TA96lTDBTBeq
+         rJ9Fm4Sp/34ILfLLVTWRF3Qx/3E9kqxBAiMkUZj6LILwb7ZUBCOUqC7WfXLYi27e5HMt
+         RtYr60PX17IRVljEEf0q6iTpHxsi6X4+ptvur/PzeGumQrW63SdZw4Pr1aP9R4xsNef/
+         us4R2BIbsrU4XjrQV0d4V580WTzf0n3bRbfaHxfJ3dSUnIeQs4LUsV8W20X3IcQhLecB
+         PeyQ==
+X-Gm-Message-State: AOJu0Yzd7LmOLpBx+wbbkWF2qgPt70h++OGhk1NuERUMsUk6/Dd2F91b
+        Y52fNjt6RNRUIp4tLHem+w==
+X-Google-Smtp-Source: AGHT+IHYKyO3ogdUGL4R4E9sBhKDQ/3y/62tY8hPLoGpOKOm3RsZpCwkW+zvRJrXop02dDrQyVwNzw==
+X-Received: by 2002:a4a:a581:0:b0:57b:469d:8af6 with SMTP id d1-20020a4aa581000000b0057b469d8af6mr13049788oom.4.1698165713249;
+        Tue, 24 Oct 2023 09:41:53 -0700 (PDT)
+Received: from herring.priv (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id z10-20020a4ad1aa000000b00581daa5c5fdsm1993792oor.29.2023.10.24.09.41.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 24 Oct 2023 09:41:52 -0700 (PDT)
+Received: (nullmailer pid 4065610 invoked by uid 1000);
+        Tue, 24 Oct 2023 16:41:51 -0000
+Date:   Tue, 24 Oct 2023 11:41:51 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Rob Herring <robh@kernel.org>
+Cc:     devicetree@vger.kernel.org, Bjorn Andersson <andersson@kernel.org>,
+        linux-arm-kernel@lists.infradead.org,
         Mark Brown <broonie@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        linux-kernel@vger.kernel.org, linux-remoteproc@vger.kernel.org,
+        Magnus Damm <magnus.damm@gmail.com>,
+        linux-renesas-soc@vger.kernel.org,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Simon Glass <sjg@chromium.org>,
+        linux-mediatek@lists.infradead.org,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Mathieu Poirier <mathieu.poirier@linaro.org>,
+        Trevor Wu <trevor.wu@mediatek.com>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        David Rau <David.Rau.opensource@dm.renesas.com>,
-        Adam Ward <Adam.Ward.Opensource@diasemi.com>
-Subject: Re: [PATCH] dt-bindings: regulator: dlg,da9210: Convert to
- json-schema
-Message-ID: <20231024-headband-trapped-7c03709854fa@spud>
-References: <bfd1cf9d620a8229f5a5e62e6fe9e59c153d0830.1698051619.git.geert+renesas@glider.be>
- <20231023-sulfate-babble-695b239f52b5@spud>
- <CAMuHMdW7UQ=c9V6rjpZdcaNPSXLOu5aEiLhreirPP6NXN0Ke2Q@mail.gmail.com>
+        alsa-devel@alsa-project.org, Julien Massot <julien.massot@iot.bzh>,
+        Conor Dooley <conor+dt@kernel.org>
+Subject: Re: [PATCH] dt-bindings: Drop kernel copy of common reserved-memory
+ bindings
+Message-ID: <169816568976.4065099.2725442642169549559.robh@kernel.org>
+References: <20231013200851.347042-1-robh@kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="sPNKM9quhJNy5+0Z"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAMuHMdW7UQ=c9V6rjpZdcaNPSXLOu5aEiLhreirPP6NXN0Ke2Q@mail.gmail.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+In-Reply-To: <20231013200851.347042-1-robh@kernel.org>
+X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,
+        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS autolearn=no
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -61,47 +81,32 @@ List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 
---sPNKM9quhJNy5+0Z
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Fri, 13 Oct 2023 15:08:49 -0500, Rob Herring wrote:
+> The common reserved-memory bindings have recently been copied from the
+> kernel tree into dtschema. The preference is to host common, stable
+> bindings in dtschema. As reserved-memory is documented in the DT Spec,
+> it meets the criteria.
+> 
+> The v2023.09 version of dtschema is what contains the reserved-memory
+> schemas we depend on, so bump the minimum version to that. Otherwise,
+> references to these schemas will generate errors.
+> 
+> Signed-off-by: Rob Herring <robh@kernel.org>
+> ---
+>  Documentation/devicetree/bindings/Makefile    |   2 +-
+>  .../remoteproc/renesas,rcar-rproc.yaml        |   2 +-
+>  .../bindings/reserved-memory/framebuffer.yaml |  52 -----
+>  .../reserved-memory/memory-region.yaml        |  40 ----
+>  .../reserved-memory/reserved-memory.txt       |   2 +-
+>  .../reserved-memory/reserved-memory.yaml      | 181 ------------------
+>  .../reserved-memory/shared-dma-pool.yaml      |  97 ----------
+>  .../bindings/sound/mediatek,mt8188-afe.yaml   |   2 +-
+>  8 files changed, 4 insertions(+), 374 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/reserved-memory/framebuffer.yaml
+>  delete mode 100644 Documentation/devicetree/bindings/reserved-memory/memory-region.yaml
+>  delete mode 100644 Documentation/devicetree/bindings/reserved-memory/reserved-memory.yaml
+>  delete mode 100644 Documentation/devicetree/bindings/reserved-memory/shared-dma-pool.yaml
+> 
 
-On Mon, Oct 23, 2023 at 07:58:51PM +0200, Geert Uytterhoeven wrote:
-> CC David, Adam
->=20
-> On Mon, Oct 23, 2023 at 6:18=E2=80=AFPM Conor Dooley <conor@kernel.org> w=
-rote:
-> > On Mon, Oct 23, 2023 at 11:04:45AM +0200, Geert Uytterhoeven wrote:
+Applied, thanks!
 
-> > > +maintainers:
-> > > +  - Support Opensource <support.opensource@diasemi.com>
-> >
-> > This should really be a person... Does your work with Renesas cover you
-> > for dialog stuff too?
->=20
-> I'm not really into the PMICs department, only into making dtbs_check
-> for "my" DTS files clean ;-)
-> I hope one of the Dialog/Renesas PMIC people can point me to a better
-> address.  Steve Twiss sent a goodbye message to some kernel people
-> and lkml three years ago, but it is not on lore, as it contained HTML.
->=20
-> Ah, according to git log, David and Adam touched some of the files
-> lately, so perhaps they can help?
-
-It'd be great if one of them could volunteer, aye. I do feel like I
-recall seeing one of the folks involved with the dialog stuff in
-mainline stepping down shortly after the merger though  :|
-
-
---sPNKM9quhJNy5+0Z
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZTfx8AAKCRB4tDGHoIJi
-0pSRAQDts64t0GCBblqr2GdHTL52vzFSCyvBwHVcmI0YwTeEfgD/TbW7rq9ZKVyQ
-ux74TMBZBpeAfnvB9ZVoGPENqYF+CQc=
-=UiJ8
------END PGP SIGNATURE-----
-
---sPNKM9quhJNy5+0Z--
