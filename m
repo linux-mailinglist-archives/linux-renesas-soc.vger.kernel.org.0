@@ -2,47 +2,58 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B56CE7D7516
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 25 Oct 2023 22:03:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C0AE37D7539
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 25 Oct 2023 22:11:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232688AbjJYUDM (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 25 Oct 2023 16:03:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54660 "EHLO
+        id S230210AbjJYUKz convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 25 Oct 2023 16:10:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34916 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229632AbjJYUDM (ORCPT
+        with ESMTP id S232566AbjJYUKw (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 25 Oct 2023 16:03:12 -0400
-Received: from mail-oa1-f49.google.com (mail-oa1-f49.google.com [209.85.160.49])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5414F129;
-        Wed, 25 Oct 2023 13:03:10 -0700 (PDT)
-Received: by mail-oa1-f49.google.com with SMTP id 586e51a60fabf-1e0ee4e777bso63284fac.3;
-        Wed, 25 Oct 2023 13:03:10 -0700 (PDT)
+        Wed, 25 Oct 2023 16:10:52 -0400
+Received: from mail-oa1-f51.google.com (mail-oa1-f51.google.com [209.85.160.51])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 99367181;
+        Wed, 25 Oct 2023 13:10:46 -0700 (PDT)
+Received: by mail-oa1-f51.google.com with SMTP id 586e51a60fabf-1dd71c0a41fso66069fac.2;
+        Wed, 25 Oct 2023 13:10:46 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698264189; x=1698868989;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=5r+62BGyhlZ2nS1rxbtagnoldZmEnkd8Tctfhnbykf0=;
-        b=J49iXWc8HUI6J0OsmVqV1dI/hjOvn7c0hFTkegTO/cWe5HEr6QwWdvd1PkUHBZD4wO
-         vT7r8gJXxccgAVeNeiDI/efYtieaImJ5qZTrNa0xbxMe0vK2XOhgcQ/2wgNpejC907Eb
-         oGhZoDL6blymEfijZ6aTnjkvlaPDtnuDfbbDK0VlyLsNf4h7lnA5jHgAs59kxSbQ0rFP
-         hSHPoxfbbK5KMLMJmXyWKHPEzi/7LWrd6YchWX3E7c8dZdeRndRU3kNFNuYIccgt2kes
-         xmEvvFUNBZmqzP2Yy3ugJTexHlJF/QsCmBIAKwVF7QAD42CscPyyQZAC6AtFXUhGWTJx
-         VBog==
-X-Gm-Message-State: AOJu0YzJbO8WavpGNKhSM3dDmzjV4rBKj5oZw94LqyF+IrGUbSkmb5Cm
-        TGY7X/dT0t6vwwvCVaP54G71MkrcUg==
-X-Google-Smtp-Source: AGHT+IEh96+Eom5+++QZIF6DKoxC+gFh+J0Jjb7AI/CVWjOw1Yv61sZNaPJPNdmEwA+s6Pu73BExDw==
-X-Received: by 2002:a05:6870:2893:b0:1e9:da6f:a161 with SMTP id gy19-20020a056870289300b001e9da6fa161mr20155913oab.3.1698264189543;
-        Wed, 25 Oct 2023 13:03:09 -0700 (PDT)
-Received: from herring.priv (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id i1-20020a056870344100b001ea7e2adbc2sm2775807oah.1.2023.10.25.13.03.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Oct 2023 13:03:08 -0700 (PDT)
-Received: (nullmailer pid 1069035 invoked by uid 1000);
-        Wed, 25 Oct 2023 20:03:07 -0000
-Date:   Wed, 25 Oct 2023 15:03:07 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
+        d=1e100.net; s=20230601; t=1698264646; x=1698869446;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=cB5t/FGxP8oaOCcJ0NhN01egXZyXl6xmINLoswYWk44=;
+        b=inP+gCPWaW9tQgTZZP5v1oDOdaPc91PGGcxYPEnVSKa5BIMNimJY7jZz8DWzmRAh8K
+         t736asmkRUdDkHYj/a/YscIfGVP8V29DTIAU+JrtaeYHxlCAV13BUrVI0bGA4VG7iP7l
+         TTrFSaoa5BmYy2vvkhtU4VwUOOmHiqdH+jXovv6lMKec6QycgbSts189bnj0a0rf4Qil
+         YgEws7brhB6rGrf/yjAoGdg+vJHwjG259FZKNQ9nhI9sqI1tSicp13p6CGJUysPPG3fw
+         hvYeGcEccgwyMWg6Yd4ONygKJH9lf0cgPZodyCKjMYEw2OTHiTLad+njYQ0vxbMgleTl
+         qkIA==
+X-Gm-Message-State: AOJu0YxXLEVDvPLh+KJltpD0cvBDFqg/K2cgO7bhXq/D63zP1AlTAIXD
+        7ei2LJohnOods03eQejfcM4HhheYFRVUtQ==
+X-Google-Smtp-Source: AGHT+IHA/67BZbV+Hu9m6098Yd6XKV4OiRjPVILZuXW7e4Ujf1OmCNzdoQmVNR1mdv2JgWX9CeWUqQ==
+X-Received: by 2002:a05:6871:3142:b0:1e9:f1cc:a415 with SMTP id lu2-20020a056871314200b001e9f1cca415mr22218468oac.57.1698264645715;
+        Wed, 25 Oct 2023 13:10:45 -0700 (PDT)
+Received: from mail-oa1-f53.google.com (mail-oa1-f53.google.com. [209.85.160.53])
+        by smtp.gmail.com with ESMTPSA id z2-20020a056870514200b001db36673d92sm2743821oak.41.2023.10.25.13.10.45
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 25 Oct 2023 13:10:45 -0700 (PDT)
+Received: by mail-oa1-f53.google.com with SMTP id 586e51a60fabf-1e19cb7829bso71738fac.1;
+        Wed, 25 Oct 2023 13:10:45 -0700 (PDT)
+X-Received: by 2002:a05:6871:a693:b0:1e9:9f9b:eb80 with SMTP id
+ wh19-20020a056871a69300b001e99f9beb80mr17510340oab.46.1698264644717; Wed, 25
+ Oct 2023 13:10:44 -0700 (PDT)
+MIME-Version: 1.0
+References: <9467a1c67d5d240211f88336973fa968d39cc860.1690446928.git.geert+renesas@glider.be>
+ <20231025200307.GA1068690-robh@kernel.org>
+In-Reply-To: <20231025200307.GA1068690-robh@kernel.org>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Wed, 25 Oct 2023 22:10:33 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdXE4LyNbcbw-m3n0xWcABnJZAhnNcrq4V1YrkfwE85hdg@mail.gmail.com>
+Message-ID: <CAMuHMdXE4LyNbcbw-m3n0xWcABnJZAhnNcrq4V1YrkfwE85hdg@mail.gmail.com>
+Subject: Re: [PATCH v2] dt-bindings: irqchip: renesas,irqc: Add r8a779f0 support
+To:     Rob Herring <robh@kernel.org>
 Cc:     Thomas Gleixner <tglx@linutronix.de>,
         Marc Zyngier <maz@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
@@ -51,38 +62,48 @@ Cc:     Thomas Gleixner <tglx@linutronix.de>,
         linux-renesas-soc@vger.kernel.org,
         Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
         Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Subject: Re: [PATCH v2] dt-bindings: irqchip: renesas,irqc: Add r8a779f0
- support
-Message-ID: <20231025200307.GA1068690-robh@kernel.org>
-References: <9467a1c67d5d240211f88336973fa968d39cc860.1690446928.git.geert+renesas@glider.be>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <9467a1c67d5d240211f88336973fa968d39cc860.1690446928.git.geert+renesas@glider.be>
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,
-        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS autolearn=no
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
+        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, Jul 27, 2023 at 10:36:23AM +0200, Geert Uytterhoeven wrote:
-> Document support for the Interrupt Controller for External Devices
-> (INT-EX) in the Renesas R-Car S4-8 (R8A779F0) SoC.
-> 
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-> Reviewed-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-> ---
-> v2:
->   - Add Reviewed-by,
->   - Widen audience after testing.
-> ---
->  .../devicetree/bindings/interrupt-controller/renesas,irqc.yaml   | 1 +
->  1 file changed, 1 insertion(+)
+Hi Rob,
 
-Applied, thanks.
+On Wed, Oct 25, 2023 at 10:03 PM Rob Herring <robh@kernel.org> wrote:
+> On Thu, Jul 27, 2023 at 10:36:23AM +0200, Geert Uytterhoeven wrote:
+> > Document support for the Interrupt Controller for External Devices
+> > (INT-EX) in the Renesas R-Car S4-8 (R8A779F0) SoC.
+> >
+> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> > Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+> > Reviewed-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+> > ---
+> > v2:
+> >   - Add Reviewed-by,
+> >   - Widen audience after testing.
+> > ---
+> >  .../devicetree/bindings/interrupt-controller/renesas,irqc.yaml   | 1 +
+> >  1 file changed, 1 insertion(+)
+>
+> Applied, thanks.
+
+In the meantime, this became commit 977f7c2b27566777 ("dt-bindings:
+interrupt-controller: renesas,irqc: Add r8a779f0 support") in v6.6-rc6.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
