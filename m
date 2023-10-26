@@ -2,139 +2,211 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DF90A7D843E
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Oct 2023 16:09:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 625837D868E
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Oct 2023 18:15:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230507AbjJZOJo (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 26 Oct 2023 10:09:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59002 "EHLO
+        id S230330AbjJZQP1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 26 Oct 2023 12:15:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58460 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231180AbjJZOJn (ORCPT
+        with ESMTP id S229815AbjJZQP0 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 26 Oct 2023 10:09:43 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 620B6128;
-        Thu, 26 Oct 2023 07:09:41 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 71FC4C433C7;
-        Thu, 26 Oct 2023 14:09:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1698329381;
-        bh=o+qCmd2p2pNBcodf0yPjWJ37AbBRRvl8Nu1y76ub5Mk=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Z6xjc64FizKqY/UFZYzRexqwanb6HD1mvGz5Mjl2Oe/EWUThAH391tDMEG60AtLAF
-         n/69z9xHH1rbXwDaQM/Ng+Z9f+CnRVd2alD7vxO1Be1OIyvzcNfMYkybzD55tObSPw
-         vkGW/4TFkvQwrwqJh5hZcGo9Sslw/YHNXh17Ez6jyDxXZBN3zRYl2mumQGfSY7+NIc
-         LeGuyM20Yphheryl8vCIlwO9SnpaYfHeN99qsy+4WKt7z06ZpbKBkVK209nQIetQVV
-         M/RuSLZ0PdIi5fBoJ0XxCaiEcuN/QFzogBlfwpcDK0cPOVYC5wjRS05wcUD0j26hH1
-         u+Gy7TnP/udVQ==
-Date:   Thu, 26 Oct 2023 15:09:30 +0100
-From:   Conor Dooley <conor@kernel.org>
-To:     Yu-Chien Peter Lin <peterlin@andestech.com>
-Cc:     acme@kernel.org, adrian.hunter@intel.com, ajones@ventanamicro.com,
-        alexander.shishkin@linux.intel.com, andre.przywara@arm.com,
-        anup@brainfault.org, aou@eecs.berkeley.edu, atishp@atishpatra.org,
-        conor+dt@kernel.org, conor.dooley@microchip.com,
-        devicetree@vger.kernel.org, dminus@andestech.com,
-        evan@rivosinc.com, geert+renesas@glider.be, guoren@kernel.org,
-        heiko@sntech.de, irogers@google.com, jernej.skrabec@gmail.com,
-        jolsa@kernel.org, jszhang@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-perf-users@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, linux-riscv@lists.infradead.org,
-        linux-sunxi@lists.linux.dev, locus84@andestech.com,
-        magnus.damm@gmail.com, mark.rutland@arm.com, mingo@redhat.com,
-        n.shubin@yadro.com, namhyung@kernel.org, palmer@dabbelt.com,
-        paul.walmsley@sifive.com, peterz@infradead.org,
-        prabhakar.mahadev-lad.rj@bp.renesas.com, rdunlap@infradead.org,
-        robh+dt@kernel.org, samuel@sholland.org, sunilvl@ventanamicro.com,
-        tglx@linutronix.de, tim609@andestech.com, uwu@icenowy.me,
-        wens@csie.org, will@kernel.org, ycliang@andestech.com
-Subject: Re: [PATCH v3 RESEND 10/13] dt-bindings: riscv: Add Andes PMU
- extension description
-Message-ID: <20231026-concierge-perfume-6c327fc5282f@spud>
-References: <20231023004100.2663486-1-peterlin@andestech.com>
- <20231023004100.2663486-11-peterlin@andestech.com>
- <20231023-spectacle-module-0516fb35995a@spud>
- <ZTohvi7TPyVoO-Sl@APC323>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="BzI6JdR1d6DrVYK+"
-Content-Disposition: inline
-In-Reply-To: <ZTohvi7TPyVoO-Sl@APC323>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+        Thu, 26 Oct 2023 12:15:26 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 13D3C1A2
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 26 Oct 2023 09:15:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1698336924; x=1729872924;
+  h=date:from:to:cc:subject:message-id;
+  bh=BAZB2jYb+fgBP3/AF5e2oOK6aHlU9HjqXsq+UFPJKZA=;
+  b=I7ImRdTIRtp/jJncg+r68/JDk17+XzQLQYNqdGrOXcc9iNp1LmwtHa0c
+   s4I01kMfIqCAVHk6yiHANHnvni41f6WM+qr6iEN3tCciDtZCOQB9WJqED
+   I9rIcKZaTyN4Q+Zk9+pkSp1N4J83UhxaDE1u7ZigaBJCvTRRnEgACkzQV
+   EFIGshvBuwSfHFcgOQBUlKTwhdE05bT5RHY6WoLk+EHycCPqAigaQTyvQ
+   7Sd4b/Q5YZbzhRHcdtpSXN6l594QgeEjUWZgVqb8J/ysbIoLnlhY1uJPe
+   VfP6a3oHQv1ZIuS7ZPpmffKjOmdzPmvPpI+bvlJmKX0EgJAjKg7PAY846
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10875"; a="384792848"
+X-IronPort-AV: E=Sophos;i="6.03,253,1694761200"; 
+   d="scan'208";a="384792848"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2023 09:12:32 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10875"; a="794283486"
+X-IronPort-AV: E=Sophos;i="6.03,253,1694761200"; 
+   d="scan'208";a="794283486"
+Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
+  by orsmga001.jf.intel.com with ESMTP; 26 Oct 2023 09:12:29 -0700
+Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1qw2yA-0009vN-39;
+        Thu, 26 Oct 2023 16:12:26 +0000
+Date:   Fri, 27 Oct 2023 00:12:24 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     linux-renesas-soc@vger.kernel.org
+Subject: [geert-renesas-drivers:master] BUILD SUCCESS
+ a9c03ec010f6de0b49f70d00420e9d86994d1ffa
+Message-ID: <202310270021.6WIONYwM-lkp@intel.com>
+User-Agent: s-nail v14.9.24
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git master
+branch HEAD: a9c03ec010f6de0b49f70d00420e9d86994d1ffa  [LOCAL] arm64: renesas: defconfig: Update renesas_defconfig
 
---BzI6JdR1d6DrVYK+
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+elapsed time: 2995m
 
-On Thu, Oct 26, 2023 at 04:22:22PM +0800, Yu-Chien Peter Lin wrote:
-> Hi Conor,
->=20
-> On Mon, Oct 23, 2023 at 01:03:53PM +0100, Conor Dooley wrote:
-> > On Mon, Oct 23, 2023 at 08:40:57AM +0800, Yu Chien Peter Lin wrote:
-> > > Document the ISA string for Andes Technology performance monitor
-> > > extension which provides counter overflow interrupt and mode
-> > > filtering mechanisms.
-> > >=20
-> > > Signed-off-by: Yu Chien Peter Lin <peterlin@andestech.com>
-> > > ---
-> > > Changes v2 -> v3:
-> > >   - New patch
-> > > ---
-> > >  Documentation/devicetree/bindings/riscv/extensions.yaml | 7 +++++++
-> > >  1 file changed, 7 insertions(+)
-> > >=20
-> > > diff --git a/Documentation/devicetree/bindings/riscv/extensions.yaml =
-b/Documentation/devicetree/bindings/riscv/extensions.yaml
-> > > index 5e9291d258d5..e0694e2adbc2 100644
-> > > --- a/Documentation/devicetree/bindings/riscv/extensions.yaml
-> > > +++ b/Documentation/devicetree/bindings/riscv/extensions.yaml
-> > > @@ -246,6 +246,13 @@ properties:
-> > >              in commit 2e5236 ("Ztso is now ratified.") of the
-> > >              riscv-isa-manual.
-> > > =20
-> > > +        - const: xandespmu
-> > > +          description:
-> > > +            The Andes Technology performance monitor extension for c=
-ounter overflow
-> > > +            and privilege mode filtering. For more details, see Coun=
-ter Related
-> > > +            Registers in the AX45MP datasheet.
-> > > +            https://www.andestech.com/wp-content/uploads/AX45MP-1C-R=
-ev.-5.0.0-Datasheet.pdf
-> >=20
-> > Does/will this PMU function identically on the other CPUs that support =
-it?
->=20
-> Yes, I can confirm that.
+configs tested: 134
+configs skipped: 2
 
-If there's a more generic document available, that'd be good.
-Otherwise,
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-Thanks,
-Conor.
+tested configs:
+alpha                             allnoconfig   gcc  
+alpha                            allyesconfig   gcc  
+alpha                               defconfig   gcc  
+arc                              allmodconfig   gcc  
+arc                               allnoconfig   gcc  
+arc                              allyesconfig   gcc  
+arc                                 defconfig   gcc  
+arc                   randconfig-001-20231024   gcc  
+arm                              allmodconfig   gcc  
+arm                               allnoconfig   gcc  
+arm                              allyesconfig   gcc  
+arm                                 defconfig   gcc  
+arm                   randconfig-001-20231025   gcc  
+arm64                            allmodconfig   gcc  
+arm64                             allnoconfig   gcc  
+arm64                            allyesconfig   gcc  
+arm64                               defconfig   gcc  
+csky                             allmodconfig   gcc  
+csky                              allnoconfig   gcc  
+csky                             allyesconfig   gcc  
+csky                                defconfig   gcc  
+i386                             allmodconfig   gcc  
+i386                              allnoconfig   gcc  
+i386                             allyesconfig   gcc  
+i386         buildonly-randconfig-001-20231025   gcc  
+i386         buildonly-randconfig-002-20231025   gcc  
+i386         buildonly-randconfig-003-20231025   gcc  
+i386         buildonly-randconfig-004-20231025   gcc  
+i386         buildonly-randconfig-005-20231025   gcc  
+i386         buildonly-randconfig-006-20231025   gcc  
+i386                              debian-10.3   gcc  
+i386                                defconfig   gcc  
+i386                  randconfig-001-20231025   gcc  
+i386                  randconfig-002-20231025   gcc  
+i386                  randconfig-003-20231025   gcc  
+i386                  randconfig-004-20231025   gcc  
+i386                  randconfig-005-20231025   gcc  
+i386                  randconfig-006-20231025   gcc  
+i386                  randconfig-011-20231025   gcc  
+i386                  randconfig-012-20231025   gcc  
+i386                  randconfig-013-20231025   gcc  
+i386                  randconfig-014-20231025   gcc  
+i386                  randconfig-015-20231025   gcc  
+i386                  randconfig-016-20231025   gcc  
+loongarch                        allmodconfig   gcc  
+loongarch                         allnoconfig   gcc  
+loongarch                        allyesconfig   gcc  
+loongarch                           defconfig   gcc  
+loongarch             randconfig-001-20231024   gcc  
+m68k                             allmodconfig   gcc  
+m68k                              allnoconfig   gcc  
+m68k                             allyesconfig   gcc  
+m68k                                defconfig   gcc  
+microblaze                       allmodconfig   gcc  
+microblaze                        allnoconfig   gcc  
+microblaze                       allyesconfig   gcc  
+microblaze                          defconfig   gcc  
+mips                             allmodconfig   gcc  
+mips                              allnoconfig   gcc  
+mips                             allyesconfig   gcc  
+nios2                            allmodconfig   gcc  
+nios2                             allnoconfig   gcc  
+nios2                            allyesconfig   gcc  
+nios2                               defconfig   gcc  
+openrisc                         allmodconfig   gcc  
+openrisc                          allnoconfig   gcc  
+openrisc                         allyesconfig   gcc  
+openrisc                            defconfig   gcc  
+parisc                           allmodconfig   gcc  
+parisc                            allnoconfig   gcc  
+parisc                           allyesconfig   gcc  
+parisc                              defconfig   gcc  
+parisc64                            defconfig   gcc  
+powerpc                          allmodconfig   gcc  
+powerpc                           allnoconfig   gcc  
+powerpc                          allyesconfig   gcc  
+riscv                            allmodconfig   gcc  
+riscv                             allnoconfig   gcc  
+riscv                            allyesconfig   gcc  
+riscv                               defconfig   gcc  
+riscv                 randconfig-001-20231025   gcc  
+riscv                          rv32_defconfig   gcc  
+s390                             allmodconfig   gcc  
+s390                              allnoconfig   gcc  
+s390                             allyesconfig   gcc  
+s390                                defconfig   gcc  
+s390                  randconfig-001-20231025   gcc  
+sh                               allmodconfig   gcc  
+sh                                allnoconfig   gcc  
+sh                               allyesconfig   gcc  
+sh                                  defconfig   gcc  
+sparc                            allmodconfig   gcc  
+sparc                             allnoconfig   gcc  
+sparc                            allyesconfig   gcc  
+sparc                               defconfig   gcc  
+sparc                 randconfig-001-20231025   gcc  
+sparc64                          allmodconfig   gcc  
+sparc64                          allyesconfig   gcc  
+sparc64                             defconfig   gcc  
+um                               allmodconfig   clang
+um                                allnoconfig   clang
+um                               allyesconfig   clang
+um                                  defconfig   gcc  
+um                             i386_defconfig   gcc  
+um                           x86_64_defconfig   gcc  
+x86_64                            allnoconfig   gcc  
+x86_64                           allyesconfig   gcc  
+x86_64       buildonly-randconfig-001-20231024   gcc  
+x86_64       buildonly-randconfig-002-20231024   gcc  
+x86_64       buildonly-randconfig-003-20231024   gcc  
+x86_64       buildonly-randconfig-004-20231024   gcc  
+x86_64       buildonly-randconfig-005-20231024   gcc  
+x86_64       buildonly-randconfig-006-20231024   gcc  
+x86_64                              defconfig   gcc  
+x86_64                randconfig-001-20231025   gcc  
+x86_64                randconfig-002-20231025   gcc  
+x86_64                randconfig-003-20231025   gcc  
+x86_64                randconfig-004-20231025   gcc  
+x86_64                randconfig-005-20231025   gcc  
+x86_64                randconfig-006-20231025   gcc  
+x86_64                randconfig-011-20231025   gcc  
+x86_64                randconfig-012-20231025   gcc  
+x86_64                randconfig-013-20231025   gcc  
+x86_64                randconfig-014-20231025   gcc  
+x86_64                randconfig-015-20231025   gcc  
+x86_64                randconfig-016-20231025   gcc  
+x86_64                randconfig-071-20231025   gcc  
+x86_64                randconfig-072-20231025   gcc  
+x86_64                randconfig-073-20231025   gcc  
+x86_64                randconfig-074-20231025   gcc  
+x86_64                randconfig-075-20231025   gcc  
+x86_64                randconfig-076-20231025   gcc  
+x86_64                          rhel-8.3-rust   clang
+x86_64                               rhel-8.3   gcc  
 
---BzI6JdR1d6DrVYK+
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZTpzGgAKCRB4tDGHoIJi
-0uXdAQCoseBoG7Xs6hmuy7UdTh5kG8f+pMwygEI1z4FoVKXYlAEAttRxz9XXoQKp
-UzeNDgGlP1WLp7aj7fbSai8IToBZtgM=
-=eR7X
------END PGP SIGNATURE-----
-
---BzI6JdR1d6DrVYK+--
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
