@@ -2,107 +2,134 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4E4F87D8281
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Oct 2023 14:20:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E02917D83A2
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Oct 2023 15:32:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235053AbjJZMUy convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 26 Oct 2023 08:20:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41816 "EHLO
+        id S230413AbjJZNcp (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 26 Oct 2023 09:32:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60730 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231168AbjJZMUr (ORCPT
+        with ESMTP id S1345053AbjJZNco (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 26 Oct 2023 08:20:47 -0400
-Received: from mail-ot1-f66.google.com (mail-ot1-f66.google.com [209.85.210.66])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 486AB116;
-        Thu, 26 Oct 2023 05:20:45 -0700 (PDT)
-Received: by mail-ot1-f66.google.com with SMTP id 46e09a7af769-6ce322b62aeso474245a34.3;
-        Thu, 26 Oct 2023 05:20:45 -0700 (PDT)
+        Thu, 26 Oct 2023 09:32:44 -0400
+Received: from mail-pf1-x433.google.com (mail-pf1-x433.google.com [IPv6:2607:f8b0:4864:20::433])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 51864E5
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 26 Oct 2023 06:32:42 -0700 (PDT)
+Received: by mail-pf1-x433.google.com with SMTP id d2e1a72fcca58-6b9af7d41d2so848153b3a.0
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 26 Oct 2023 06:32:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernelci-org.20230601.gappssmtp.com; s=20230601; t=1698327161; x=1698931961; darn=vger.kernel.org;
+        h=from:to:subject:content-transfer-encoding:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=++LErbjPo3D4KvKUgSvsKYnQXUhkI8xQpLZpHnBjbec=;
+        b=X/WwpJHJ8maL/cyCX6soCOPpTz4uXSoKP7yt39sdrG8zugroaJPDtPqiwyyr7fqKrt
+         JwAbYlJnk33b7YQS3ybz1GIkc5pRNX8b6gpM2WrzO/aAFNRot0ynKAZJF3An76eluIWn
+         tlBZiWXhGFrq1cKIrLoHCbmkeoFtWDO8LSfFA8Vc9SCw+zfY7aJmjIhgpydhBDKGByoI
+         5CTnT2n05nfavrZFLVB2Rv/sg+CYkSy09PbxIU6g9CMB7Dz5gPAKeaQgGWdoL5YJMRs5
+         vxMqggoooAgnSnFhhKn2umI/f0k5Uf9XqzPtw95qyKfJJTQsed7z8iy4TAjeMBGk62X4
+         KYeA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698322844; x=1698927644;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=rwfH/fI/oq7RyoHmXtZ7J/iC1NW7ZB+6I+gOPXF7UYQ=;
-        b=SWpPbSesxpT4s8OQXSPZgnsVJ7i7uObJtGGpfCcZMuE4xdybDB3WT9AN5B1qZuW7Rr
-         Ke7nOT+Z1pBm6919l7IhDkyGayYAbovSCoMN2Sdlfs/1owSNDDOeLl0+mDEMfC2BFJBx
-         5PBeCmkpIason5ujTMiI001XtIntkF1zdy+JpvRBiiZqRY66jrniV9blpyNgDsIcla2q
-         TR51OU/y3rBTuMgvS044a4sdqt+p3nvZkoKIPCbj0SKJiz4wcqRhrXP8pU/DIa5PFrNo
-         xC+4cqvMFeoS+51MoseoQOUR3M9iyCo01M0TBHccPqabQ3FxWfT/0wU7HylCqMmrsEhV
-         8jJQ==
-X-Gm-Message-State: AOJu0YwqA7QMTwCHMvpIamOkbIhcsNLDxV8xPXgPqH5cBNFu+YBYGRw7
-        7DYdYwnFssRdou2nfL7M4YF7uGxQwm2Xq8wo
-X-Google-Smtp-Source: AGHT+IGptDwl41gUQ/bkDbV9wZgRJKx5mnDR8dxNnO8m3ssskGl5XISLS2YYdgdzYF/hjRPae4JjEw==
-X-Received: by 2002:a05:6870:1081:b0:1d6:5133:2f37 with SMTP id 1-20020a056870108100b001d651332f37mr16817789oaq.48.1698322844518;
-        Thu, 26 Oct 2023 05:20:44 -0700 (PDT)
-Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com. [209.85.128.178])
-        by smtp.gmail.com with ESMTPSA id w64-20020a0dd443000000b00577269ba9e9sm5955996ywd.86.2023.10.26.05.20.44
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 26 Oct 2023 05:20:44 -0700 (PDT)
-Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-5a7dd65052aso6709797b3.0;
-        Thu, 26 Oct 2023 05:20:44 -0700 (PDT)
-X-Received: by 2002:a5b:608:0:b0:d9a:e947:447b with SMTP id
- d8-20020a5b0608000000b00d9ae947447bmr18024321ybq.14.1698322843939; Thu, 26
- Oct 2023 05:20:43 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1698327161; x=1698931961;
+        h=from:to:subject:content-transfer-encoding:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=++LErbjPo3D4KvKUgSvsKYnQXUhkI8xQpLZpHnBjbec=;
+        b=ffXCGn9vIfBy+LAfI0CbebtCEMYZYdXUMDgRhV//mkToNf2tYObNpM0PlbnYwv91oy
+         5g0TFduSK+/FvBhdQ7rm1WvBAKPtQ+TBcJAbQR3dc7m8ZBPwkPVGCRtYz8ZgiVdDHuuR
+         UEZe74xB+gIEt9mf+oE9CtHf71fYeM8dQczURuR3kKLSbmGVxmLH7SyfNPVuwhdsnCZG
+         RNo7NPowU1K+S5bTYIShizYj94faX0OdWckoTzYPz7BPLulztG04gWtL9RnYyfEKFKd8
+         ABbAxTqxGZI2UIif4GHAeENFrfNDv0c/Hmq2GEacU2HKdHPw4QEajUXI5ptR50uKxaK7
+         3MtQ==
+X-Gm-Message-State: AOJu0YxRYsqF6F64qrV6pkq+41oFfiwWvGSKiPq3FM1AAQ1hZdOagP1E
+        SAyTke/Hqx4xcV504gJ2dQsHHlNSFR8QV68evX4=
+X-Google-Smtp-Source: AGHT+IEmkOmo4UDa8rghTqxDnvllAyR97lYKkexnKQQgW7BQdtHEdvQw8d3CKbo1GriRrSI3yUZlyQ==
+X-Received: by 2002:a05:6a20:7289:b0:15d:42d5:6cb5 with SMTP id o9-20020a056a20728900b0015d42d56cb5mr10662079pzk.28.1698327161180;
+        Thu, 26 Oct 2023 06:32:41 -0700 (PDT)
+Received: from kernelci-production.internal.cloudapp.net ([20.171.243.82])
+        by smtp.gmail.com with ESMTPSA id v27-20020aa799db000000b006870ed427b2sm11467934pfi.94.2023.10.26.06.32.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 26 Oct 2023 06:32:40 -0700 (PDT)
+Message-ID: <653a6a78.a70a0220.64ee0.6716@mx.google.com>
+Date:   Thu, 26 Oct 2023 06:32:40 -0700 (PDT)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-References: <20231009130126.697995596@linuxfoundation.org> <ZSRVgj5AqJbDXqZU@duo.ucw.cz>
- <ZSRe78MAQwbBdyFP@duo.ucw.cz> <ZSUy+zA0+Chm6dFb@duo.ucw.cz>
- <ZSU+GHl1q7T/TBp5@duo.ucw.cz> <ZSWg1fv3gOyV5t+h@shikoro> <2023101057-runny-pellet-8952@gregkh>
- <ZTgZa1ic1iFbdaTM@duo.ucw.cz> <CAMuHMdXQApuOPfU1zNKcHKN5=fCuLBSDiLtF06U7e4Tx0+noyA@mail.gmail.com>
- <CAMuHMdVrdmBgopnPnJK_ij52wz2WVBdYRHur2KfosFnT945ULw@mail.gmail.com>
- <CAMuHMdWZvTGrFgx_o3g3usOwkDvD2rw5QH9_ibo=OKdw17sAzg@mail.gmail.com>
- <CAMuHMdXvpiGQ7jqAG69Zo=10wV-E0bioC9AYUHwwhRGmLXygWA@mail.gmail.com>
- <7d7a5a15-3349-adce-02cd-82b6cb4bebde@roeck-us.net> <CAMuHMdXbPZ0uz0NnE1xhUD=QtaAq+TinSW-PrWPMpGe4h=7Spg@mail.gmail.com>
- <CAMuHMdXNjopzEFCFBxxuYNCFMmj4SvMQ2PmZ4hZDHLGZGUHf=w@mail.gmail.com> <CAMuHMdU7-5R4NkwMdbLxovBY4=ePtPDs2SYXjWeGc_Yz3JcjPg@mail.gmail.com>
-In-Reply-To: <CAMuHMdU7-5R4NkwMdbLxovBY4=ePtPDs2SYXjWeGc_Yz3JcjPg@mail.gmail.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 26 Oct 2023 14:20:31 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdU=O=gYEA_qOh7Unr8ovtnKJi12qxWb447KxvkhqyRshw@mail.gmail.com>
-Message-ID: <CAMuHMdU=O=gYEA_qOh7Unr8ovtnKJi12qxWb447KxvkhqyRshw@mail.gmail.com>
-Subject: Re: renesas_sdhi problems in 5.10-stable was Re: [PATCH 5.10 000/226]
- 5.10.198-rc1 review
-To:     Guenter Roeck <linux@roeck-us.net>
-Cc:     Pavel Machek <pavel@denx.de>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        niklas.soderlund+renesas@ragnatech.se,
-        yoshihiro.shimoda.uh@renesas.com, biju.das.jz@bp.renesas.com,
-        Chris.Paterson2@renesas.com, stable@vger.kernel.org,
-        patches@lists.linux.dev, linux-kernel@vger.kernel.org,
-        torvalds@linux-foundation.org, akpm@linux-foundation.org,
-        shuah@kernel.org, patches@kernelci.org,
-        lkft-triage@lists.linaro.org, jonathanh@nvidia.com,
-        f.fainelli@gmail.com, sudipm.mukherjee@gmail.com,
-        srw@sladewatkins.net, rwarsow@gmx.de, conor@kernel.org,
-        Linux MMC List <linux-mmc@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
-        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: quoted-printable
+X-Kernelci-Kernel: renesas-next-2023-10-26-v6.6-rc1
+X-Kernelci-Report-Type: test
+X-Kernelci-Branch: next
+X-Kernelci-Tree: renesas
+Subject: renesas/next baseline: 48 runs,
+ 1 regressions (renesas-next-2023-10-26-v6.6-rc1)
+To:     linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
+From:   "kernelci.org bot" <bot@kernelci.org>
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_NONE,URIBL_BLOCKED
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, Oct 26, 2023 at 2:08 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> The solution is to backport commit 9f12cac1bb88e329 ("mmc: renesas_sdhi:
-> use custom mask for TMIO_MASK_ALL") in v5.13.
-> As this doesn't backport cleanly, I'll submit a (tested) patch.
+renesas/next baseline: 48 runs, 1 regressions (renesas-next-2023-10-26-v6.6=
+-rc1)
 
-https://lore.kernel.org/r/1b9fda30f2d86fab50341a947d17b5206a2c7507.1698321354.git.geert+renesas@glider.be
+Regressions Summary
+-------------------
 
-Gr{oetje,eeting}s,
+platform           | arch  | lab         | compiler | defconfig | regressio=
+ns
+-------------------+-------+-------------+----------+-----------+----------=
+--
+kontron-pitx-imx8m | arm64 | lab-kontron | gcc-10   | defconfig | 1        =
+  =
 
-                        Geert
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+  Details:  https://kernelci.org/test/job/renesas/branch/next/kernel/renesa=
+s-next-2023-10-26-v6.6-rc1/plan/baseline/
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+  Test:     baseline
+  Tree:     renesas
+  Branch:   next
+  Describe: renesas-next-2023-10-26-v6.6-rc1
+  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-d=
+evel.git
+  SHA:      fb39831a07ec1fd914da56caede80e2997f1dbc5 =
+
+
+
+Test Regressions
+---------------- =
+
+
+
+platform           | arch  | lab         | compiler | defconfig | regressio=
+ns
+-------------------+-------+-------------+----------+-----------+----------=
+--
+kontron-pitx-imx8m | arm64 | lab-kontron | gcc-10   | defconfig | 1        =
+  =
+
+
+  Details:     https://kernelci.org/test/plan/id/653a3acc23abeb040fefcf0b
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: defconfig
+  Compiler:    gcc-10
+  Plain log:   https://storage.kernelci.org//renesas/next/renesas-next-2023=
+-10-26-v6.6-rc1/arm64/defconfig/gcc-10/lab-kontron/baseline-kontron-pitx-im=
+x8m.txt
+  HTML log:    https://storage.kernelci.org//renesas/next/renesas-next-2023=
+-10-26-v6.6-rc1/arm64/defconfig/gcc-10/lab-kontron/baseline-kontron-pitx-im=
+x8m.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
+t-baseline/20230623.0/arm64/rootfs.cpio.gz =
+
+
+
+  * baseline.login: https://kernelci.org/test/case/id/653a3acc23abeb040fefc=
+f0c
+        new failure (last pass: renesas-next-2023-10-05-v6.6-rc1-7-g11476f3=
+1ceafc) =
+
+ =20
