@@ -2,99 +2,101 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0D1997D7F98
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Oct 2023 11:32:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A244F7D8180
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Oct 2023 13:05:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229653AbjJZJcL (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 26 Oct 2023 05:32:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58942 "EHLO
+        id S229980AbjJZLFu (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 26 Oct 2023 07:05:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37502 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229567AbjJZJcK (ORCPT
+        with ESMTP id S230405AbjJZLFt (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 26 Oct 2023 05:32:10 -0400
-Received: from xavier.telenet-ops.be (xavier.telenet-ops.be [IPv6:2a02:1800:120:4::f00:14])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6780418F
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 26 Oct 2023 02:32:07 -0700 (PDT)
-Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed40:32d3:3cb9:edce:43ae])
-        by xavier.telenet-ops.be with bizsmtp
-        id 2ZY22B00H2XL1Wb01ZY2ML; Thu, 26 Oct 2023 11:32:05 +0200
-Received: from rox.of.borg ([192.168.97.57])
-        by ramsan.of.borg with esmtp (Exim 4.95)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1qvwiY-007YWQ-69;
-        Thu, 26 Oct 2023 11:32:02 +0200
-Received: from geert by rox.of.borg with local (Exim 4.95)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1qvwig-00GTfi-3b;
-        Thu, 26 Oct 2023 11:32:02 +0200
-From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     arm-soc <arm@kernel.org>, soc <soc@kernel.org>
-Cc:     Magnus Damm <magnus.damm@gmail.com>,
-        linux-arm-kernel@lists.infradead.org,
-        linux-renesas-soc@vger.kernel.org,
+        Thu, 26 Oct 2023 07:05:49 -0400
+Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D743B18D
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 26 Oct 2023 04:05:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        sang-engineering.com; h=date:from:to:cc:subject:message-id
+        :references:mime-version:content-type:in-reply-to; s=k1; bh=GrFG
+        vbfeidm+alHjgtvfbrlEGdBVZ91PCRNVJyE2n3s=; b=FtQnivfn7Eapj7iiEDDH
+        2bsIwK2h+0BTc5qjqIMMUxut3VVftEGvgOyLBZlp4StVLgtYcaJT8BObbwlmu3bN
+        h3lud96BBk7C9MBGdlYnnh+JcZ/YBExC2TAmlyleTsUplYOJIpEHtI3bpK+JQMfr
+        vmhoE6N9o0KTGne58rWMWosdNnnQX5ee/qqBqZpRw8Jm/fWACKJL9n+OLAt4yVSF
+        +mHtKaPrfGuvYlOxsaRfwtoIX5ectZ8Jn39pKuipTnKo600z2aa+lQBJpjP4JGq5
+        5a4b8jpTRx4yBA6GkZI/i9nNezimD5JL+drq0ufheO7N7L387hQc+53PwO9/jyY6
+        dQ==
+Received: (qmail 2945163 invoked from network); 26 Oct 2023 13:05:42 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 26 Oct 2023 13:05:42 +0200
+X-UD-Smtp-Session: l3s3148p1@pkF/jZwIWpFehhre
+Date:   Thu, 26 Oct 2023 13:05:41 +0200
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     Andi Shyti <andi.shyti@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>, linux-i2c@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH] dt-bindings: i2c: i2c-demux-pinctrl: Convert to
+ json-schema
+Message-ID: <ZTpIBVTnEc0bkwth@ninjato>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Christoph Hellwig <hch@lst.de>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Conor Dooley <conor@kernel.org>,
-        linux-riscv@lists.infradead.org
-Subject: [GIT PULL] Renesas fixes for v6.6 (take three)
-Date:   Thu, 26 Oct 2023 11:31:57 +0200
-Message-Id: <cover.1698312384.git.geert+renesas@glider.be>
-X-Mailer: git-send-email 2.34.1
+        Andi Shyti <andi.shyti@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>, linux-i2c@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+References: <28c173dfbbc17403b0c5a6f27661d7bd33a86f84.1698068607.git.geert+renesas@glider.be>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,
-        SPF_NONE autolearn=no autolearn_force=no version=3.4.6
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="0WBOsKIlUJq/1aDI"
+Content-Disposition: inline
+In-Reply-To: <28c173dfbbc17403b0c5a6f27661d7bd33a86f84.1698068607.git.geert+renesas@glider.be>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS,
+        URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-	Hi SoC folks,
 
-The following changes since commit 1531309aa2092a96c092fa662863ffa53da3ba93:
+--0WBOsKIlUJq/1aDI
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-  soc: renesas: Make ARCH_R9A07G043 depend on required options (2023-10-12 19:46:49 +0200)
+On Mon, Oct 23, 2023 at 03:53:00PM +0200, Geert Uytterhoeven wrote:
+> Convert the pinctrl-based I2C bus demultiplexer Device Tree binding
+> documentation to json-schema.
+>=20
+> Update the example to match reality.
+>=20
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-are available in the Git repository at:
+Applied to for-next, thanks!
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git tags/renesas-fixes-for-v6.6-tag3
 
-for you to fetch changes up to 9eab43facdadb7d00456c2657001ae2e5353c814:
+--0WBOsKIlUJq/1aDI
+Content-Type: application/pgp-signature; name="signature.asc"
 
-  soc: renesas: ARCH_R9A07G043 depends on !RISCV_ISA_ZICBOM (2023-10-26 09:42:38 +0200)
+-----BEGIN PGP SIGNATURE-----
 
-----------------------------------------------------------------
-Renesas fixes for v6.6 (take three)
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmU6SAEACgkQFA3kzBSg
+KbZPTQ/9HJyFypdF5mtVBnw2T6G5v4IPqogc28B48lU7SSVEoaxdJLA8Qag7nK0S
+3qXUG11tXs1TWRhZEaa5UtLEh0pUuXURZPl39hXcPkiTVMBFH7pjJU/kDX6USFJh
+cGSr2jKMh/CE1ud7c2Nt9PzPlAaA8c9vlyB+CT9lD1J+Rd78ZAop1csnHrvcbGsq
+Fmgjtgj03wVT+YTL2uarRS1sBmxTviSikSHGuRYUjVUSDgo358ReWZdmXx0XkVzj
+gQKyo1nl1s2xkhw3l8tzGqhxCtliYaYQRh3VAnDqu8xx2ljWdtXpOsj0NQlmiHDd
+07BPoU1sEu4H17wCuT8Kss6XWvn2hA7oeLrRqE04cuZo4i9gemoRY3Mf0po2SykU
+KEgR6SNXHMhCHhG5LsvNW5nXDmTKJ0v4ri3EdjyXiLcUui6orGNrtQuwV+RFmiiG
+RulXcWPFRnshE70SHGqTzOxlN+5jAJl/rf9rXPF5FYkm7302GL0T/F2dZOV9FqL2
+rPFV0V8YyNcc6+m2fQdMt6EfeS4WMiYfF/wmTl3e/04Ik6ppPSLRaEdCRcrW6zAC
+5SHZE7eu+w1SX7+LbzGJ8RBahc62m6a8tZwAPCwMiAU/79ILUhQtItfRp33zTEMx
+75rOwSQULMwT7cb3cSdzrOQjd4lAsa1R64/IqpkxVyXVyf+TRkU=
+=MH8N
+-----END PGP SIGNATURE-----
 
-  - Sort out a few Kconfig dependency issues for the rich set of RISC-V
-    non-coherent DMA support.
-
-Thanks for pulling!
-
-----------------------------------------------------------------
-Christoph Hellwig (3):
-      riscv: RISCV_NONSTANDARD_CACHE_OPS shouldn't depend on RISCV_DMA_NONCOHERENT
-      riscv: only select DMA_DIRECT_REMAP from RISCV_ISA_ZICBOM and ERRATA_THEAD_PBMT
-      soc: renesas: ARCH_R9A07G043 depends on !RISCV_ISA_ZICBOM
-
- arch/riscv/Kconfig          | 3 +--
- arch/riscv/Kconfig.errata   | 1 +
- drivers/cache/Kconfig       | 2 +-
- drivers/soc/renesas/Kconfig | 1 +
- 4 files changed, 4 insertions(+), 3 deletions(-)
-
-Gr{oetje,eeting}s,
-
-						Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-							    -- Linus Torvalds
+--0WBOsKIlUJq/1aDI--
