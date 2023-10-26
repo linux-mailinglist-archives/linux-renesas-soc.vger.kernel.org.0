@@ -2,212 +2,413 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E7D497D76B8
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 25 Oct 2023 23:26:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7562C7D7C81
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Oct 2023 07:51:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229797AbjJYV0c convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 25 Oct 2023 17:26:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58520 "EHLO
+        id S230385AbjJZFvl (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 26 Oct 2023 01:51:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39268 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230139AbjJYV0b (ORCPT
+        with ESMTP id S229638AbjJZFvk (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 25 Oct 2023 17:26:31 -0400
-Received: from mail-oi1-f195.google.com (mail-oi1-f195.google.com [209.85.167.195])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 90EA3133;
-        Wed, 25 Oct 2023 14:26:28 -0700 (PDT)
-Received: by mail-oi1-f195.google.com with SMTP id 5614622812f47-3b2ea7cc821so119242b6e.1;
-        Wed, 25 Oct 2023 14:26:28 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698269188; x=1698873988;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=bycYRpKutA54sAg5Um6zIBBwK+58+5So40ro8xEesqM=;
-        b=gkHQFJxF5J9kz4MX0HTKDO7JlI6hOxo8kiVovhTBD6m05XAjr/KnEKi/cBASlhEUR6
-         Rl63LhgTC9cH/EjqdGy+9qlSeKTB7tp3/NQ+22Kkqz9H/mM4wL+uzXj9L2NaGqmbXd8u
-         X/IdHdNigbkwlDz8FuCcxUahrA1q1bSgy0ghnVQ4E//QNapUODA2MHJ22YDLn1fzBuMr
-         uTIHaWjU8El1m0Ld+OpKeCLm4PTGeDOMkjG3EvFg8FHbRoUP0OJkFvVOInu5dsBiE5TD
-         ANw7YdkVjqd/8SqgofhphmJPRcIzw9TFq9pgulOVzdtgys7K+vWzgRv0APeOz/bpqhdf
-         /ulQ==
-X-Gm-Message-State: AOJu0YwX/t8894hTn+lO3o75njVKvKGzxvdgj6l3Ro0UBZtpqPbrylKZ
-        Pr1/WPWOAUrJDzmeCy2uPnzNMq7zf8gJ7r6V
-X-Google-Smtp-Source: AGHT+IGtpup1YTQe8ThkrlvYEjVGJ9NcjSzvhKax9Qr2HcYNHn2BseflXWwgsa2Q87iy+J3wTAOR8g==
-X-Received: by 2002:a05:6808:210e:b0:3ae:1b21:fab1 with SMTP id r14-20020a056808210e00b003ae1b21fab1mr21401936oiw.31.1698269187812;
-        Wed, 25 Oct 2023 14:26:27 -0700 (PDT)
-Received: from mail-oi1-f176.google.com (mail-oi1-f176.google.com. [209.85.167.176])
-        by smtp.gmail.com with ESMTPSA id k4-20020a544404000000b003ae53e64549sm2555000oiw.31.2023.10.25.14.26.27
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 25 Oct 2023 14:26:27 -0700 (PDT)
-Received: by mail-oi1-f176.google.com with SMTP id 5614622812f47-3b2e44c7941so110947b6e.2;
-        Wed, 25 Oct 2023 14:26:27 -0700 (PDT)
-X-Received: by 2002:a05:6808:910:b0:3ab:843f:76fd with SMTP id
- w16-20020a056808091000b003ab843f76fdmr17679850oih.19.1698269187452; Wed, 25
- Oct 2023 14:26:27 -0700 (PDT)
+        Thu, 26 Oct 2023 01:51:40 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CC47D115;
+        Wed, 25 Oct 2023 22:51:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1698299497; x=1729835497;
+  h=date:from:to:cc:subject:in-reply-to:message-id:
+   references:mime-version;
+  bh=OH/20/B2NLsGcslDH5sfUvJ+st0+zsZKKUjG0meGGHQ=;
+  b=IHQ/LM4BNUwYbcbHTB6p8XYXLVqmhpfut5AnDX8uOCMN9XAiyahgyVgi
+   a50LLWMl9M+N5bmQYyS31izWU+c8277viDIkbKrKTadLhnttYkyofoukg
+   +jyQpXfaN6wt8RObXwkregM/3xxLOkDL3HNaQpSEvK51zE7iUyD+rsSOT
+   25tS71uihnExynTCJ1Jb1rW6sFOlqqqUVygsfu9E4xLwGM0QNKH46PyiR
+   r/PcmmxBXWhqWrSZV+vxjj8v9PqbmuuyHlFvsazsi2706AZBH00Y4OaVR
+   rrk3+vUxC6xdgMojEAiTtKM0Yy3hnyqOalVoemF3PoHY7DEXMrQsmzcdj
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10874"; a="473703239"
+X-IronPort-AV: E=Sophos;i="6.03,253,1694761200"; 
+   d="scan'208";a="473703239"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2023 22:51:37 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10874"; a="788369898"
+X-IronPort-AV: E=Sophos;i="6.03,253,1694761200"; 
+   d="scan'208";a="788369898"
+Received: from abarix-mobl.ger.corp.intel.com (HELO ubuntu) ([10.252.33.100])
+  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2023 22:51:34 -0700
+Date:   Thu, 26 Oct 2023 07:51:31 +0200 (CEST)
+From:   Guennadi Liakhovetski <guennadi.liakhovetski@linux.intel.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+cc:     Lee Jones <lee@kernel.org>, Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Guennadi Liakhovetski <guennadi.liakhovetski@linux.intel.com>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>, devicetree@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] dt-bindings: mfd: ams,as3711: Convert to
+ json-schema
+In-Reply-To: <56a5ebee588696f9022fa29fa8e266c8bdee6fd7.1698228043.git.geert+renesas@glider.be>
+Message-ID: <4aaabd0-98f1-3c56-96d5-9b3b789dc36c@intel.com>
+References: <56a5ebee588696f9022fa29fa8e266c8bdee6fd7.1698228043.git.geert+renesas@glider.be>
 MIME-Version: 1.0
-References: <20231009130126.697995596@linuxfoundation.org> <ZSRVgj5AqJbDXqZU@duo.ucw.cz>
- <ZSRe78MAQwbBdyFP@duo.ucw.cz> <ZSUy+zA0+Chm6dFb@duo.ucw.cz>
- <ZSU+GHl1q7T/TBp5@duo.ucw.cz> <ZSWg1fv3gOyV5t+h@shikoro> <2023101057-runny-pellet-8952@gregkh>
- <ZTgZa1ic1iFbdaTM@duo.ucw.cz> <CAMuHMdXQApuOPfU1zNKcHKN5=fCuLBSDiLtF06U7e4Tx0+noyA@mail.gmail.com>
- <CAMuHMdVrdmBgopnPnJK_ij52wz2WVBdYRHur2KfosFnT945ULw@mail.gmail.com>
- <CAMuHMdWZvTGrFgx_o3g3usOwkDvD2rw5QH9_ibo=OKdw17sAzg@mail.gmail.com>
- <CAMuHMdXvpiGQ7jqAG69Zo=10wV-E0bioC9AYUHwwhRGmLXygWA@mail.gmail.com>
- <7d7a5a15-3349-adce-02cd-82b6cb4bebde@roeck-us.net> <CAMuHMdXbPZ0uz0NnE1xhUD=QtaAq+TinSW-PrWPMpGe4h=7Spg@mail.gmail.com>
-In-Reply-To: <CAMuHMdXbPZ0uz0NnE1xhUD=QtaAq+TinSW-PrWPMpGe4h=7Spg@mail.gmail.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 25 Oct 2023 23:26:15 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdXNjopzEFCFBxxuYNCFMmj4SvMQ2PmZ4hZDHLGZGUHf=w@mail.gmail.com>
-Message-ID: <CAMuHMdXNjopzEFCFBxxuYNCFMmj4SvMQ2PmZ4hZDHLGZGUHf=w@mail.gmail.com>
-Subject: Re: renesas_sdhi problems in 5.10-stable was Re: [PATCH 5.10 000/226]
- 5.10.198-rc1 review
-To:     Guenter Roeck <linux@roeck-us.net>
-Cc:     Pavel Machek <pavel@denx.de>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        niklas.soderlund+renesas@ragnatech.se,
-        yoshihiro.shimoda.uh@renesas.com, biju.das.jz@bp.renesas.com,
-        Chris.Paterson2@renesas.com, stable@vger.kernel.org,
-        patches@lists.linux.dev, linux-kernel@vger.kernel.org,
-        torvalds@linux-foundation.org, akpm@linux-foundation.org,
-        shuah@kernel.org, patches@kernelci.org,
-        lkft-triage@lists.linaro.org, jonathanh@nvidia.com,
-        f.fainelli@gmail.com, sudipm.mukherjee@gmail.com,
-        srw@sladewatkins.net, rwarsow@gmx.de, conor@kernel.org,
-        Linux MMC List <linux-mmc@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
-        autolearn=no autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=US-ASCII; format=flowed
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE,URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, Oct 25, 2023 at 9:53 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> On Wed, Oct 25, 2023 at 8:39 PM Guenter Roeck <linux@roeck-us.net> wrote:
-> > On 10/25/23 10:05, Geert Uytterhoeven wrote:
-> > > On Wed, Oct 25, 2023 at 2:35 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> > >> On Wed, Oct 25, 2023 at 12:53 PM Geert Uytterhoeven
-> > >> <geert@linux-m68k.org> wrote:
-> > >>> On Wed, Oct 25, 2023 at 12:47 PM Geert Uytterhoeven
-> > >>> <geert@linux-m68k.org> wrote:
-> > >>>> On Tue, Oct 24, 2023 at 9:22 PM Pavel Machek <pavel@denx.de> wrote:
-> > >>>>> But we still have failures on Renesas with 5.10.199-rc2:
-> > >>>>>
-> > >>>>> https://gitlab.com/cip-project/cip-testing/linux-stable-rc-ci/-/pipelines/1047368849
-> > >>>>>
-> > >>>>> And they still happed during MMC init:
-> > >>>>>
-> > >>>>>      2.638013] renesas_sdhi_internal_dmac ee100000.mmc: Got CD GPIO
-> > >>>>> [    2.638846] INFO: trying to register non-static key.
-> > >>>>> [    2.644192] ledtrig-cpu: registered to indicate activity on CPUs
-> > >>>>> [    2.649066] The code is fine but needs lockdep annotation, or maybe
-> > >>>>> [    2.649069] you didn't initialize this object before use?
-> > >>>>> [    2.649071] turning off the locking correctness validator.
-> > >>>>> [    2.649080] CPU: 0 PID: 0 Comm: swapper/0 Not tainted 5.10.199-rc2-arm64-renesas-ge31b6513c43d #1
-> > >>>>> [    2.649082] Hardware name: HopeRun HiHope RZ/G2M with sub board (DT)
-> > >>>>> [    2.649086] Call trace:
-> > >>>>> [    2.655106] SMCCC: SOC_ID: ARCH_SOC_ID not implemented, skipping ....
-> > >>>>> [    2.661354]  dump_backtrace+0x0/0x194
-> > >>>>> [    2.661361]  show_stack+0x14/0x20
-> > >>>>> [    2.667430] usbcore: registered new interface driver usbhid
-> > >>>>> [    2.672230]  dump_stack+0xe8/0x130
-> > >>>>> [    2.672238]  register_lock_class+0x480/0x514
-> > >>>>> [    2.672244]  __lock_acquire+0x74/0x20ec
-> > >>>>> [    2.681113] usbhid: USB HID core driver
-> > >>>>> [    2.687450]  lock_acquire+0x218/0x350
-> > >>>>> [    2.687456]  _raw_spin_lock+0x58/0x80
-> > >>>>> [    2.687464]  tmio_mmc_irq+0x410/0x9ac
-> > >>>>> [    2.688556] renesas_sdhi_internal_dmac ee160000.mmc: mmc0 base at 0x00000000ee160000, max clock rate 200 MHz
-> > >>>>> [    2.744936]  __handle_irq_event_percpu+0xbc/0x340
-> > >>>>> [    2.749635]  handle_irq_event+0x60/0x100
-> > >>>>> [    2.753553]  handle_fasteoi_irq+0xa0/0x1ec
-> > >>>>> [    2.757644]  __handle_domain_irq+0x7c/0xdc
-> > >>>>> [    2.761736]  efi_header_end+0x4c/0xd0
-> > >>>>> [    2.765393]  el1_irq+0xcc/0x180
-> > >>>>> [    2.768530]  arch_cpu_idle+0x14/0x2c
-> > >>>>> [    2.772100]  default_idle_call+0x58/0xe4
-> > >>>>> [    2.776019]  do_idle+0x244/0x2c0
-> > >>>>> [    2.779242]  cpu_startup_entry+0x20/0x6c
-> > >>>>> [    2.783160]  rest_init+0x164/0x28c
-> > >>>>> [    2.786561]  arch_call_rest_init+0xc/0x14
-> > >>>>> [    2.790565]  start_kernel+0x4c4/0x4f8
-> > >>>>> [    2.794233] Unable to handle kernel NULL pointer dereference at virtual address 0000000000000014
-> > >>>>> [    2.803011] Mem abort info:
-> > >>>>>
-> > >>>>> from https://lava.ciplatform.org/scheduler/job/1025535
-> > >>>>> from
-> > >>>>> https://gitlab.com/cip-project/cip-testing/linux-stable-rc-ci/-/jobs/5360973735 .
-> > >>>>>
-> > >>>>> Is there something else missing?
-> > >>>>
-> > >>>> I don't have a HopeRun HiHope RZ/G2M, but both v5.10.198 and v5.10.199
-> > >>>> seem to work fine on Salvator-XS with R-Car H3 ES2.0 and Salvator-X
-> > >>>> with R-Car M3-W ES1.0, using a config based on latest renesas_defconfig.
-> > >>>
-> > >>> Sorry, I looked at the wrong log on R-Car M3-W.
-> > >>> I do see the issue with v5.10.198, but not with v5.10.199.
-> > >>
-> > >> It seems to be an intermittent issue. Investigating...
-> > >
-> > > After spending too much time on bisecting, the bad guy turns out to
-> > > be commit 6d3745bbc3341d3b ("mmc: renesas_sdhi: register irqs before
-> > > registering controller") in v5.10.198.
-> > >
-> > > Adding debug information shows the lock is mmc_host.lock.
-> > >
-> > > It is definitely initialized:
-> > >
-> > >      renesas_sdhi_probe()
-> > >      {
-> > >          ...
-> > >          tmio_mmc_host_alloc()
-> > >              mmc_alloc_host
-> > >                  spin_lock_init(&host->lock);
+Hi Geert,
 
-Initializing mmc_host.lock.
+Sorry for a late reply. I just noticed that you specified me as a 
+maintainer of as3711 code in your new file. Even though I did author the 
+original version of the driver more than 10 years ago, I haven't worked on 
+it for a long time, so I think it would be better to pick up a more 
+relevant person there.
 
-> > >          ...
-> > >          devm_request_irq()
-> > >          -> tmio_mmc_irq
-> > >              tmio_mmc_cmd_irq()
-> > >                  spin_lock(&host->lock);
+Thanks
+Guennadi
 
-Locking tmio_mmc_host.lock, but ...
+On Wed, 25 Oct 2023, Geert Uytterhoeven wrote:
 
-> > >          ...
-> > >      }
-> > >
-> > > That leaves us with a missing lockdep annotation?
-> >
-> > Is it possible that the lock initialization is overwritten ?
-> > I seem to recall a recent case where this happens.
-> >
-> > Also, there is
-> >         spin_lock_init(&_host->lock);
-> > in tmio_mmc_host_probe(), and tmio_mmc_host_probe() is called after
-> > devm_request_irq().
+> Convert the Austria MicroSystems AS3711 Quad Buck High Current PMIC with
+> Charger Device Tree binding documentation to json-schema.
 >
-> Unless I am missing something, that is initializing tmio_mmc_host.lock,
-> which is a different lock than mmc_host.lock?
-
-... tmio_mmc_host.lock is initialized only here.
-
-Now the question remains why this is not triggered in mainline.
-More investigation to do tomorrow...
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
+> v2:
+>  - Consistently use "DC/DC" and "step-up",
+>  - Move {additional,unevaluated}Properties in subnodes up to improve
+>    readability,
+>  - Split dependencies in dependent{Required,Schemas} to fix multiple
+>    dependencies,
+>  - s/oneof/oneOf/ (flagged by dt-schema as of commit 411c305105dd1273
+>    ("meta-schemas: Check sub-schemas of "dependencies" and
+>    "dependentSchemas"")),
+>  - Use pmic recommended node name.
+> ---
+> .../devicetree/bindings/mfd/ams,as3711.yaml   | 223 ++++++++++++++++++
+> .../devicetree/bindings/mfd/as3711.txt        |  73 ------
+> 2 files changed, 223 insertions(+), 73 deletions(-)
+> create mode 100644 Documentation/devicetree/bindings/mfd/ams,as3711.yaml
+> delete mode 100644 Documentation/devicetree/bindings/mfd/as3711.txt
+>
+> diff --git a/Documentation/devicetree/bindings/mfd/ams,as3711.yaml b/Documentation/devicetree/bindings/mfd/ams,as3711.yaml
+> new file mode 100644
+> index 0000000000000000..ad8649cbb2ccef34
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/mfd/ams,as3711.yaml
+> @@ -0,0 +1,223 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/mfd/ams,as3711.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Austria MicroSystems AS3711 Quad Buck High Current PMIC with Charger
+> +
+> +maintainers:
+> +  - Guennadi Liakhovetski <guennadi.liakhovetski@linux.intel.com>
+> +
+> +description:
+> +  AS3711 is an I2C PMIC from Austria MicroSystems with multiple DC/DC and LDO
+> +  power supplies, a battery charger and an RTC.  So far only bindings for the
+> +  two step-up DC/DC converters are defined.
+> +
+> +properties:
+> +  compatible:
+> +    const: ams,as3711
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  backlight:
+> +    description:
+> +      Step-up converter configuration, to be used as a backlight source
+> +    type: object
+> +    additionalProperties: false
+> +    properties:
+> +      compatible:
+> +        const: ams,as3711-bl
+> +
+> +      su1-dev:
+> +        description: Framebuffer phandle for the first step-up converter
+> +        $ref: /schemas/types.yaml#/definitions/phandle
+> +
+> +      su1-max-uA:
+> +        description: Maximum current for the first step-up converter
+> +        $ref: /schemas/types.yaml#/definitions/uint32
+> +
+> +      su2-dev:
+> +        description: Framebuffer phandle for the second step-up converter
+> +        $ref: /schemas/types.yaml#/definitions/phandle
+> +
+> +      su2-max-uA:
+> +        description: Maximum current for the second step-up converter
+> +        $ref: /schemas/types.yaml#/definitions/uint32
+> +
+> +      su2-feedback-voltage:
+> +        description: Second step-up converter uses voltage feedback
+> +        type: boolean
+> +
+> +      su2-feedback-curr1:
+> +        description:
+> +          Second step-up converter uses CURR1 input for current feedback
+> +        type: boolean
+> +
+> +      su2-feedback-curr2:
+> +        description:
+> +          Second step-up converter uses CURR2 input for current feedback
+> +        type: boolean
+> +
+> +      su2-feedback-curr3:
+> +        description:
+> +          Second step-up converter uses CURR3 input for current feedback
+> +        type: boolean
+> +
+> +      su2-feedback-curr-auto:
+> +        description:
+> +          Second step-up converter uses automatic current feedback selection
+> +        type: boolean
+> +
+> +      su2-fbprot-lx-sd4:
+> +        description:
+> +          Second step-up converter uses LX_SD4 for over-voltage protection
+> +        type: boolean
+> +
+> +      su2-fbprot-gpio2:
+> +        description:
+> +          Second step-up converter uses GPIO2 for over-voltage protection
+> +        type: boolean
+> +
+> +      su2-fbprot-gpio3:
+> +        description:
+> +          Second step-up converter uses GPIO3 for over-voltage protection
+> +        type: boolean
+> +
+> +      su2-fbprot-gpio4:
+> +        description:
+> +          Second step-up converter uses GPIO4 for over-voltage protection
+> +        type: boolean
+> +
+> +      su2-auto-curr1:
+> +        description:
+> +          Second step-up converter uses CURR1 input for automatic current
+> +          feedback
+> +        type: boolean
+> +
+> +      su2-auto-curr2:
+> +        description:
+> +          Second step-up converter uses CURR2 input for automatic current
+> +          feedback
+> +        type: boolean
+> +
+> +      su2-auto-curr3:
+> +        description:
+> +          Second step-up converter uses CURR3 input for automatic current
+> +          feedback
+> +        type: boolean
+> +
+> +    required:
+> +      - compatible
+> +
+> +    dependentRequired:
+> +      # To use the SU1 converter as a backlight source the following two
+> +      # properties must be provided:
+> +      su1-dev: [ su1-max-uA ]
+> +      su1-max-uA: [ su1-dev ]
+> +
+> +      # To use the SU2 converter as a backlight source the following two
+> +      # properties must be provided:
+> +      su2-dev: [ su2-max-uA ]
+> +      su2-max-uA: [ su2-dev ]
+> +
+> +      su2-feedback-voltage: [ su2-dev ]
+> +      su2-feedback-curr1: [ su2-dev ]
+> +      su2-feedback-curr2: [ su2-dev ]
+> +      su2-feedback-curr3: [ su2-dev ]
+> +      su2-feedback-curr-auto: [ su2-dev ]
+> +      su2-fbprot-lx-sd4: [ su2-dev ]
+> +      su2-fbprot-gpio2: [ su2-dev ]
+> +      su2-fbprot-gpio3: [ su2-dev ]
+> +      su2-fbprot-gpio4: [ su2-dev ]
+> +      su2-auto-curr1: [ su2-feedback-curr-auto ]
+> +      su2-auto-curr2: [ su2-feedback-curr-auto ]
+> +      su2-auto-curr3: [ su2-feedback-curr-auto ]
+> +
+> +    dependentSchemas:
+> +      su2-dev:
+> +        allOf:
+> +          - oneOf:
+> +              - required:
+> +                  - su2-feedback-voltage
+> +              - required:
+> +                  - su2-feedback-curr1
+> +              - required:
+> +                  - su2-feedback-curr2
+> +              - required:
+> +                  - su2-feedback-curr3
+> +              - required:
+> +                  - su2-feedback-curr-auto
+> +          - oneOf:
+> +              - required:
+> +                  - su2-fbprot-lx-sd4
+> +              - required:
+> +                  - su2-fbprot-gpio2
+> +              - required:
+> +                  - su2-fbprot-gpio3
+> +              - required:
+> +                  - su2-fbprot-gpio4
+> +
+> +      su2-feedback-curr-auto:
+> +        anyOf:
+> +          - required:
+> +              - su2-auto-curr1
+> +          - required:
+> +              - su2-auto-curr2
+> +          - required:
+> +              - su2-auto-curr3
+> +
+> +  regulators:
+> +    description: Other DC/DC and LDO supplies
+> +    type: object
+> +    unevaluatedProperties: false
+> +    patternProperties:
+> +      "^(sd[1-4]|ldo[1-8])$":
+> +        type: object
+> +        $ref: /schemas/regulator/regulator.yaml#
+> +        unevaluatedProperties: false
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    i2c {
+> +        #address-cells = <1>;
+> +        #size-cells = <0>;
+> +
+> +        pmic@40 {
+> +            compatible = "ams,as3711";
+> +            reg = <0x40>;
+> +
+> +            regulators {
+> +                sd4 {
+> +                    regulator-name = "1.215V";
+> +                    regulator-min-microvolt = <1215000>;
+> +                    regulator-max-microvolt = <1235000>;
+> +                };
+> +                ldo2 {
+> +                    regulator-name = "2.8V CPU";
+> +                    regulator-min-microvolt = <2800000>;
+> +                    regulator-max-microvolt = <2800000>;
+> +                    regulator-always-on;
+> +                    regulator-boot-on;
+> +                };
+> +            };
+> +
+> +            backlight {
+> +                compatible = "ams,as3711-bl";
+> +                su2-dev = <&lcdc>;
+> +                su2-max-uA = <36000>;
+> +                su2-feedback-curr-auto;
+> +                su2-fbprot-gpio4;
+> +                su2-auto-curr1;
+> +                su2-auto-curr2;
+> +                su2-auto-curr3;
+> +            };
+> +        };
+> +    };
+> diff --git a/Documentation/devicetree/bindings/mfd/as3711.txt b/Documentation/devicetree/bindings/mfd/as3711.txt
+> deleted file mode 100644
+> index d98cf18c721ceb18..0000000000000000
+> --- a/Documentation/devicetree/bindings/mfd/as3711.txt
+> +++ /dev/null
+> @@ -1,73 +0,0 @@
+> -AS3711 is an I2C PMIC from Austria MicroSystems with multiple DCDC and LDO power
+> -supplies, a battery charger and an RTC. So far only bindings for the two stepup
+> -DCDC converters are defined. Other DCDC and LDO supplies are configured, using
+> -standard regulator properties, they must belong to a sub-node, called
+> -"regulators" and be called "sd1" to "sd4" and "ldo1" to "ldo8." Stepup converter
+> -configuration should be placed in a subnode, called "backlight."
+> -
+> -Compulsory properties:
+> -- compatible		: must be "ams,as3711"
+> -- reg			: specifies the I2C address
+> -
+> -To use the SU1 converter as a backlight source the following two properties must
+> -be provided:
+> -- su1-dev		: framebuffer phandle
+> -- su1-max-uA		: maximum current
+> -
+> -To use the SU2 converter as a backlight source the following two properties must
+> -be provided:
+> -- su2-dev		: framebuffer phandle
+> -- su1-max-uA		: maximum current
+> -
+> -Additionally one of these properties must be provided to select the type of
+> -feedback used:
+> -- su2-feedback-voltage	: voltage feedback is used
+> -- su2-feedback-curr1	: CURR1 input used for current feedback
+> -- su2-feedback-curr2	: CURR2 input used for current feedback
+> -- su2-feedback-curr3	: CURR3 input used for current feedback
+> -- su2-feedback-curr-auto: automatic current feedback selection
+> -
+> -and one of these to select the over-voltage protection pin
+> -- su2-fbprot-lx-sd4	: LX_SD4 is used for over-voltage protection
+> -- su2-fbprot-gpio2	: GPIO2 is used for over-voltage protection
+> -- su2-fbprot-gpio3	: GPIO3 is used for over-voltage protection
+> -- su2-fbprot-gpio4	: GPIO4 is used for over-voltage protection
+> -
+> -If "su2-feedback-curr-auto" is selected, one or more of the following properties
+> -have to be specified:
+> -- su2-auto-curr1	: use CURR1 input for current feedback
+> -- su2-auto-curr2	: use CURR2 input for current feedback
+> -- su2-auto-curr3	: use CURR3 input for current feedback
+> -
+> -Example:
+> -
+> -as3711@40 {
+> -	compatible = "ams,as3711";
+> -	reg = <0x40>;
+> -
+> -	regulators {
+> -		sd4 {
+> -			regulator-name = "1.215V";
+> -			regulator-min-microvolt = <1215000>;
+> -			regulator-max-microvolt = <1235000>;
+> -		};
+> -		ldo2 {
+> -			regulator-name = "2.8V CPU";
+> -			regulator-min-microvolt = <2800000>;
+> -			regulator-max-microvolt = <2800000>;
+> -			regulator-always-on;
+> -			regulator-boot-on;
+> -		};
+> -	};
+> -
+> -	backlight {
+> -		compatible = "ams,as3711-bl";
+> -		su2-dev = <&lcdc>;
+> -		su2-max-uA = <36000>;
+> -		su2-feedback-curr-auto;
+> -		su2-fbprot-gpio4;
+> -		su2-auto-curr1;
+> -		su2-auto-curr2;
+> -		su2-auto-curr3;
+> -	};
+> -};
+> -- 
+> 2.34.1
+>
+>
