@@ -2,57 +2,59 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EAF8F7D9C5D
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Oct 2023 16:57:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3DD7A7D9F21
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Oct 2023 19:57:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346210AbjJ0O5B (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 27 Oct 2023 10:57:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48294 "EHLO
+        id S231461AbjJ0R52 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 27 Oct 2023 13:57:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56632 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346154AbjJ0O45 (ORCPT
+        with ESMTP id S230101AbjJ0R52 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 27 Oct 2023 10:56:57 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D69A6D40
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 27 Oct 2023 07:56:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1698418610; x=1729954610;
-  h=date:from:to:cc:subject:message-id;
-  bh=JTMDx5GPJXSDYFVDx0uoZqUl5TvwoYocXZCy0woThJc=;
-  b=RUL6g96VBwYqbJSiXsEWwALNdgye2FAPXuymOIwq12DgHlLNJo9I69Ui
-   iPGkqLS0wpCIR/eJ5/eBpSLWlxf2oG3hYBumRetOgrCY+mh9hXiqXMVqN
-   XvyuapkaDX8j3vZFy2XWKUj5sIx6/WoPCaCMuP7p85kvEyuvfekQBFaC+
-   uT8UDH44JF4DXUxOvcq6sHmukuT/lEOOCWCTzZAGpL5UbDkg2QxNvyl94
-   qzu+yBluxSKiOV75WjOQy+K91pcfvTtzKMvZ3NpbDVxpCcYelQ+dCgCKA
-   6YBS35fSUIc6SLfsRqYTQnecKoHqcsEOaKyskQExhQyqXndkVPR1CKO+4
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10876"; a="367998051"
-X-IronPort-AV: E=Sophos;i="6.03,256,1694761200"; 
-   d="scan'208";a="367998051"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2023 07:56:48 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10876"; a="709432016"
-X-IronPort-AV: E=Sophos;i="6.03,256,1694761200"; 
-   d="scan'208";a="709432016"
-Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 27 Oct 2023 07:56:47 -0700
-Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1qwOGS-000AwL-30;
-        Fri, 27 Oct 2023 14:56:44 +0000
-Date:   Fri, 27 Oct 2023 22:56:09 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [geert-renesas-devel:master] BUILD SUCCESS
- 9196a9736dd3bb2c61d71c62e7ccf15ea5237c34
-Message-ID: <202310272206.IKmEcViR-lkp@intel.com>
-User-Agent: s-nail v14.9.24
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_NONE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        Fri, 27 Oct 2023 13:57:28 -0400
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F78512A;
+        Fri, 27 Oct 2023 10:57:25 -0700 (PDT)
+From:   Thomas Gleixner <tglx@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020; t=1698429443;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=58t0D6ESCSzexSg4v1kt6tJ4hy3mICpcIPZMbCXXn84=;
+        b=keo8ZRjniGvDQH8XixV0C/IW4SmfusttUIfuaDrFMsYMlp9/TLJbbkpIykf1qNT9r2p+X4
+        WOl+pS+ezpf6OmYoxfOTRp+y2m4SKskZ8+gk25re2TmuG22G/++/MukocbZtnKqiIPbrH7
+        wF4CHapZo5B+t0Tqsv0Z+vVQ5KUgR/+TgEkd38qB1EdVSwkm1sX/RC1DlcYHYX3q3LzBif
+        E4u+fhV6uGbQ6Ci+O7aAFp+ANMIsdBObtBs3qCzfiyX2/ZiKEYQg+tmx78X3aerV7zkTm6
+        +bXxdXIt+48AErihL4mNQOE9vr0yWhdCikozeuBbNnBxUJQ8FT2n+Q9gDFUx/w==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020e; t=1698429443;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=58t0D6ESCSzexSg4v1kt6tJ4hy3mICpcIPZMbCXXn84=;
+        b=J8HWFFYgzidROH/s2RBjpBwD4G2jhOYDfrOjJBKITQEJJs9sfRG+xQR+Gff1ptjKKQjZQF
+        O8jeOEWApyIH5jCw==
+To:     Claudiu <claudiu.beznea@tuxon.dev>, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+        geert+renesas@glider.be, magnus.damm@gmail.com,
+        mturquette@baylibre.com, sboyd@kernel.org,
+        prabhakar.mahadev-lad.rj@bp.renesas.com
+Cc:     linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
+        Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+Subject: Re: [PATCH 5/7] irqchip/renesas-rzg2l: cache registers on
+ suspend/resume
+In-Reply-To: <20231023102223.1309614-6-claudiu.beznea.uj@bp.renesas.com>
+References: <20231023102223.1309614-1-claudiu.beznea.uj@bp.renesas.com>
+ <20231023102223.1309614-6-claudiu.beznea.uj@bp.renesas.com>
+Date:   Fri, 27 Oct 2023 19:57:23 +0200
+Message-ID: <87h6mc2bjw.ffs@tglx>
+MIME-Version: 1.0
+Content-Type: text/plain
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -60,230 +62,91 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git master
-branch HEAD: 9196a9736dd3bb2c61d71c62e7ccf15ea5237c34  Merge branch 'renesas-next' into renesas-devel
+On Mon, Oct 23 2023 at 13:22, Claudiu wrote:
+> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+>
+> Cache registers content when going to suspend and restore them in resume
+> as these may be lost when switching to deep sleep states. With this
+> driver data has been marked as static to be able to play with it
+> in struct syscon_ops::{suspend, resume}.
 
-elapsed time: 1746m
+I have no idea what you are trying to tell me here. Why do the
+suspend/resume callbacks need a static data structure and cannot operate
+on a pointer which wastes less builtin memory when the driver is not
+used?
 
-configs tested: 211
-configs skipped: 2
+Also "play with it" is definitely not a technical term. See
+Documentation/process/* which has lots of explanations how to write
+proper change logs.
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+> Because IA55 input is from pin controller and IA55 resumes before pin
+> controller we don't restore interrupt enable bits here but let the
+> pinctrl to do it on IA55 behalf after pins are in proper state to
+> avoid invalid interrupts.
+> +
+> +static struct rzg2l_irqc_priv {
+>  	void __iomem *base;
+>  	struct irq_fwspec fwspec[IRQC_NUM_IRQ];
+>  	raw_spinlock_t lock;
+> -};
+> +	struct rzg2l_irqc_reg_cache cache;
+> +} priv;
 
-tested configs:
-alpha                             allnoconfig   gcc  
-alpha                            allyesconfig   gcc  
-alpha                               defconfig   gcc  
-arc                              allmodconfig   gcc  
-arc                               allnoconfig   gcc  
-arc                              allyesconfig   gcc  
-arc                                 defconfig   gcc  
-arc                        nsim_700_defconfig   gcc  
-arc                     nsimosci_hs_defconfig   gcc  
-arc                   randconfig-001-20231026   gcc  
-arc                   randconfig-001-20231027   gcc  
-arm                               allnoconfig   gcc  
-arm                              allyesconfig   gcc  
-arm                                 defconfig   gcc  
-arm                      footbridge_defconfig   gcc  
-arm                          gemini_defconfig   gcc  
-arm                      integrator_defconfig   gcc  
-arm                   randconfig-001-20231026   gcc  
-arm                   randconfig-001-20231027   gcc  
-arm                        realview_defconfig   gcc  
-arm                         vf610m4_defconfig   gcc  
-arm64                            allmodconfig   gcc  
-arm64                             allnoconfig   gcc  
-arm64                            allyesconfig   gcc  
-arm64                               defconfig   gcc  
-csky                             allmodconfig   gcc  
-csky                              allnoconfig   gcc  
-csky                             allyesconfig   gcc  
-csky                                defconfig   gcc  
-hexagon                           allnoconfig   clang
-i386                             allmodconfig   gcc  
-i386                              allnoconfig   gcc  
-i386                             allyesconfig   gcc  
-i386         buildonly-randconfig-001-20231026   gcc  
-i386         buildonly-randconfig-001-20231027   gcc  
-i386         buildonly-randconfig-002-20231026   gcc  
-i386         buildonly-randconfig-002-20231027   gcc  
-i386         buildonly-randconfig-003-20231026   gcc  
-i386         buildonly-randconfig-003-20231027   gcc  
-i386         buildonly-randconfig-004-20231026   gcc  
-i386         buildonly-randconfig-004-20231027   gcc  
-i386         buildonly-randconfig-005-20231026   gcc  
-i386         buildonly-randconfig-005-20231027   gcc  
-i386         buildonly-randconfig-006-20231026   gcc  
-i386         buildonly-randconfig-006-20231027   gcc  
-i386                              debian-10.3   gcc  
-i386                                defconfig   gcc  
-i386                  randconfig-001-20231026   gcc  
-i386                  randconfig-001-20231027   gcc  
-i386                  randconfig-002-20231026   gcc  
-i386                  randconfig-002-20231027   gcc  
-i386                  randconfig-003-20231026   gcc  
-i386                  randconfig-003-20231027   gcc  
-i386                  randconfig-004-20231026   gcc  
-i386                  randconfig-004-20231027   gcc  
-i386                  randconfig-005-20231026   gcc  
-i386                  randconfig-005-20231027   gcc  
-i386                  randconfig-006-20231026   gcc  
-i386                  randconfig-006-20231027   gcc  
-i386                  randconfig-011-20231026   gcc  
-i386                  randconfig-011-20231027   gcc  
-i386                  randconfig-012-20231026   gcc  
-i386                  randconfig-012-20231027   gcc  
-i386                  randconfig-013-20231026   gcc  
-i386                  randconfig-013-20231027   gcc  
-i386                  randconfig-014-20231026   gcc  
-i386                  randconfig-014-20231027   gcc  
-i386                  randconfig-015-20231026   gcc  
-i386                  randconfig-015-20231027   gcc  
-i386                  randconfig-016-20231026   gcc  
-i386                  randconfig-016-20231027   gcc  
-loongarch                         allnoconfig   gcc  
-loongarch                           defconfig   gcc  
-loongarch             randconfig-001-20231026   gcc  
-loongarch             randconfig-001-20231027   gcc  
-m68k                             allmodconfig   gcc  
-m68k                              allnoconfig   gcc  
-m68k                             allyesconfig   gcc  
-m68k                                defconfig   gcc  
-m68k                          hp300_defconfig   gcc  
-m68k                        m5272c3_defconfig   gcc  
-m68k                        m5407c3_defconfig   gcc  
-m68k                          sun3x_defconfig   gcc  
-microblaze                       allmodconfig   gcc  
-microblaze                        allnoconfig   gcc  
-microblaze                       allyesconfig   gcc  
-microblaze                          defconfig   gcc  
-mips                             allmodconfig   gcc  
-mips                              allnoconfig   gcc  
-mips                             allyesconfig   gcc  
-mips                            ar7_defconfig   gcc  
-mips                        bcm63xx_defconfig   clang
-mips                         cobalt_defconfig   gcc  
-mips                     decstation_defconfig   gcc  
-mips                      loongson3_defconfig   gcc  
-nios2                            allmodconfig   gcc  
-nios2                             allnoconfig   gcc  
-nios2                            allyesconfig   gcc  
-nios2                               defconfig   gcc  
-openrisc                         allmodconfig   gcc  
-openrisc                          allnoconfig   gcc  
-openrisc                         allyesconfig   gcc  
-openrisc                            defconfig   gcc  
-openrisc                       virt_defconfig   gcc  
-parisc                           allmodconfig   gcc  
-parisc                            allnoconfig   gcc  
-parisc                           allyesconfig   gcc  
-parisc                              defconfig   gcc  
-parisc64                            defconfig   gcc  
-powerpc                          allmodconfig   gcc  
-powerpc                           allnoconfig   gcc  
-powerpc                          allyesconfig   gcc  
-powerpc                       holly_defconfig   gcc  
-powerpc                      katmai_defconfig   clang
-powerpc                     ksi8560_defconfig   clang
-powerpc                         wii_defconfig   gcc  
-powerpc64                           defconfig   gcc  
-riscv                            allmodconfig   gcc  
-riscv                             allnoconfig   gcc  
-riscv                            allyesconfig   gcc  
-riscv                               defconfig   gcc  
-riscv                    nommu_virt_defconfig   clang
-riscv                 randconfig-001-20231026   gcc  
-riscv                 randconfig-001-20231027   gcc  
-riscv                          rv32_defconfig   gcc  
-s390                             allmodconfig   gcc  
-s390                              allnoconfig   gcc  
-s390                             allyesconfig   gcc  
-s390                                defconfig   gcc  
-s390                  randconfig-001-20231026   gcc  
-s390                  randconfig-001-20231027   gcc  
-sh                               allmodconfig   gcc  
-sh                                allnoconfig   gcc  
-sh                               allyesconfig   gcc  
-sh                                  defconfig   gcc  
-sh                ecovec24-romimage_defconfig   gcc  
-sh                         ecovec24_defconfig   gcc  
-sh                             espt_defconfig   gcc  
-sh                            hp6xx_defconfig   gcc  
-sh                          lboxre2_defconfig   gcc  
-sh                           se7705_defconfig   gcc  
-sh                           se7750_defconfig   gcc  
-sh                           se7780_defconfig   gcc  
-sh                        sh7763rdp_defconfig   gcc  
-sh                            shmin_defconfig   gcc  
-sparc                            alldefconfig   gcc  
-sparc                            allmodconfig   gcc  
-sparc                             allnoconfig   gcc  
-sparc                            allyesconfig   gcc  
-sparc                               defconfig   gcc  
-sparc                 randconfig-001-20231026   gcc  
-sparc                 randconfig-001-20231027   gcc  
-sparc64                          allmodconfig   gcc  
-sparc64                          allyesconfig   gcc  
-sparc64                             defconfig   gcc  
-um                               allmodconfig   clang
-um                                allnoconfig   clang
-um                               allyesconfig   clang
-um                                  defconfig   gcc  
-um                             i386_defconfig   gcc  
-um                           x86_64_defconfig   gcc  
-x86_64                            allnoconfig   gcc  
-x86_64                           allyesconfig   gcc  
-x86_64       buildonly-randconfig-001-20231026   gcc  
-x86_64       buildonly-randconfig-001-20231027   gcc  
-x86_64       buildonly-randconfig-002-20231026   gcc  
-x86_64       buildonly-randconfig-002-20231027   gcc  
-x86_64       buildonly-randconfig-003-20231026   gcc  
-x86_64       buildonly-randconfig-003-20231027   gcc  
-x86_64       buildonly-randconfig-004-20231026   gcc  
-x86_64       buildonly-randconfig-004-20231027   gcc  
-x86_64       buildonly-randconfig-005-20231026   gcc  
-x86_64       buildonly-randconfig-005-20231027   gcc  
-x86_64       buildonly-randconfig-006-20231026   gcc  
-x86_64       buildonly-randconfig-006-20231027   gcc  
-x86_64                              defconfig   gcc  
-x86_64                randconfig-001-20231026   gcc  
-x86_64                randconfig-001-20231027   gcc  
-x86_64                randconfig-002-20231026   gcc  
-x86_64                randconfig-002-20231027   gcc  
-x86_64                randconfig-003-20231026   gcc  
-x86_64                randconfig-003-20231027   gcc  
-x86_64                randconfig-004-20231026   gcc  
-x86_64                randconfig-004-20231027   gcc  
-x86_64                randconfig-005-20231026   gcc  
-x86_64                randconfig-005-20231027   gcc  
-x86_64                randconfig-006-20231026   gcc  
-x86_64                randconfig-006-20231027   gcc  
-x86_64                randconfig-011-20231026   gcc  
-x86_64                randconfig-011-20231027   gcc  
-x86_64                randconfig-012-20231026   gcc  
-x86_64                randconfig-012-20231027   gcc  
-x86_64                randconfig-013-20231026   gcc  
-x86_64                randconfig-013-20231027   gcc  
-x86_64                randconfig-014-20231026   gcc  
-x86_64                randconfig-014-20231027   gcc  
-x86_64                randconfig-015-20231026   gcc  
-x86_64                randconfig-015-20231027   gcc  
-x86_64                randconfig-016-20231026   gcc  
-x86_64                randconfig-016-20231027   gcc  
-x86_64                randconfig-071-20231027   gcc  
-x86_64                randconfig-072-20231027   gcc  
-x86_64                randconfig-073-20231027   gcc  
-x86_64                randconfig-074-20231027   gcc  
-x86_64                randconfig-075-20231027   gcc  
-x86_64                randconfig-076-20231027   gcc  
-x86_64                          rhel-8.3-rust   clang
-x86_64                               rhel-8.3   gcc  
-xtensa                       common_defconfig   gcc  
-xtensa                          iss_defconfig   gcc  
-xtensa                         virt_defconfig   gcc  
+https://www.kernel.org/doc/html/latest/process/maintainer-tip.html#struct-declarations-and-initializers
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+>  
+>  static struct rzg2l_irqc_priv *irq_data_to_priv(struct irq_data *data)
+>  {
+> @@ -238,6 +251,37 @@ static int rzg2l_irqc_set_type(struct irq_data *d, unsigned int type)
+>  	return irq_chip_set_type_parent(d, IRQ_TYPE_LEVEL_HIGH);
+>  }
+>  
+> +static int rzg2l_irqc_irq_suspend(void)
+> +{
+> +	struct rzg2l_irqc_reg_cache *cache = &priv.cache;
+> +
+> +	cache->iitsr = readl_relaxed(priv.base + IITSR);
+> +	for (u8 i = 0; i < 2; i++)
+> +		cache->titsr[i] = readl_relaxed(priv.base + TITSR(i));
+> +
+> +	return 0;
+> +}
+> +
+> +static void rzg2l_irqc_irq_resume(void)
+> +{
+> +	struct rzg2l_irqc_reg_cache *cache = &priv.cache;
+> +	u8 i;
+> +
+> +	/*
+> +	 * Restore only interrupt type. TSSRx will be restored at the
+> +	 * request of pin controller to avoid spurious interrupts due
+> +	 * to invalid PIN states.
+> +	 */
+> +	for (i = 0; i < 2; i++)
+> +		writel_relaxed(cache->titsr[i], priv.base + TITSR(i));
+> +	writel_relaxed(cache->iitsr, priv.base + IITSR);
+> +}
+> +
+> +static struct syscore_ops rzg2l_irqc_syscore_ops = {
+> +	.suspend = rzg2l_irqc_irq_suspend,
+> +	.resume = rzg2l_irqc_irq_resume,
+> +};
+
+Ditto.
+
+>  static const struct irq_chip irqc_chip = {
+>  	.name			= "rzg2l-irqc",
+>  	.irq_eoi		= rzg2l_irqc_eoi,
+> @@ -323,7 +367,6 @@ static int rzg2l_irqc_init(struct device_node *node, struct device_node *parent)
+>  	struct irq_domain *irq_domain, *parent_domain;
+>  	struct platform_device *pdev;
+>  	struct reset_control *resetn;
+> -	struct rzg2l_irqc_priv *priv;
+
+Make this pointer static at the top level and leave the rest of the code
+alone and please give it a proper name. "priv" at the file level is
+really non-descriptive.
+
+Thanks,
+
+        tglx
