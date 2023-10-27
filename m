@@ -2,73 +2,42 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2F7347DA331
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 28 Oct 2023 00:11:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2376C7DA4E8
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 28 Oct 2023 04:49:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346652AbjJ0WL0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 27 Oct 2023 18:11:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51560 "EHLO
+        id S233001AbjJ1Cti (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 27 Oct 2023 22:49:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55756 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346648AbjJ0WLZ (ORCPT
+        with ESMTP id S232932AbjJ1Cti (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 27 Oct 2023 18:11:25 -0400
-Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com [IPv6:2607:f8b0:4864:20::102b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C343A1B6
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 27 Oct 2023 15:11:21 -0700 (PDT)
-Received: by mail-pj1-x102b.google.com with SMTP id 98e67ed59e1d1-280137f1a1bso789790a91.1
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 27 Oct 2023 15:11:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=dabbelt-com.20230601.gappssmtp.com; s=20230601; t=1698444681; x=1699049481; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:to:from:cc
-         :in-reply-to:subject:date:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=+BeMmTUq4g79fi5qvKPQNKqlrDCYL6ILFRVsuXdyovg=;
-        b=DsXpxg6LUigg1Qh0zB/bULL+NZLfdsOuOhCpb2MtKfM36fzfG/gr7W3312N3+tOK5D
-         wY52t3eWA02DTcwrSSoQQoFAqh2NTIfoAkZqoIlSOS5E6x7qHaAeze+7FXmDwR+NRcFN
-         a3b/ekUva/l6VBW9Fo+MScppfwzU5HT+/zo8YDpVYA2oCjVgM4Ypg9Kppf5GGVMVktxu
-         O9UXYnG37WOXEuU5mKbCNOcdjrojh2+uWTLtUAphSNaZvnwbceESpl6MPraMM0fhYJah
-         bF1JFN74XwZQFyUxQHCaw7ll2fOXyayg0tgXgwMNgxPSp5pgRbEL7/J/3y8TI/rO4kjp
-         risg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698444681; x=1699049481;
-        h=content-transfer-encoding:mime-version:message-id:to:from:cc
-         :in-reply-to:subject:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=+BeMmTUq4g79fi5qvKPQNKqlrDCYL6ILFRVsuXdyovg=;
-        b=MKUAlBZcvZe1gJB2+UzvorbpqCSzyWkFvlxy2NZdavFs8mi5K/s3zsX7EExKrAIT8l
-         +fr+5lyVZb5zgOrhIH9K0zNc9A2crprxlMIKPmrdvKrkhhlbKK47K8+VK7LET6fZdX2/
-         1cswwmE28wrdNhGlTfI8JcxxZqL4rLjxN3CpgGZpzIl10LxlSvGqr/r/oJzEWJL7H970
-         fZlir9/pePlLb8y+om0N7joz5L5q09OBfKtFZ7CE0/wwqfDSp9sOuUQgKGwywH3OCTDz
-         cPBZ3u5XY+JCIfExmrhf5n1ocY1QuAPn7ToBDt2u1UZePs2j8ohM7GdHuofzl5QITSdK
-         kRBg==
-X-Gm-Message-State: AOJu0YwM9aiRSwSpFiT2lpoDfCs90Coy0brg4Bv+s2yBSj4QJtSQOpjv
-        XVR9YQmRTSitd7qa+1vF0PY0FA==
-X-Google-Smtp-Source: AGHT+IE1Wiqht/oK+k4UaYWOU/6pE6Hl+IiCQQO9vWsJnMAPyBXGS9dG+jErM5PM3/N2wY/7M/7IWg==
-X-Received: by 2002:a17:90b:1904:b0:280:16bb:8169 with SMTP id mp4-20020a17090b190400b0028016bb8169mr1783191pjb.40.1698444681014;
-        Fri, 27 Oct 2023 15:11:21 -0700 (PDT)
-Received: from localhost ([12.44.203.122])
-        by smtp.gmail.com with ESMTPSA id j14-20020a17090a2a8e00b002800b26dbc1sm1901952pjd.32.2023.10.27.15.11.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 27 Oct 2023 15:11:20 -0700 (PDT)
-Date:   Fri, 27 Oct 2023 15:11:20 -0700 (PDT)
-X-Google-Original-Date: Fri, 27 Oct 2023 15:11:17 PDT (-0700)
-Subject:     Re: [PATCH 5/5] riscv: configs: defconfig: Enable configs required for RZ/Five SoC
-In-Reply-To: <CAMuHMdVdWzK_MRz+NeZ_mx=NcH9_EF-B0At=YsOfOABLV3B9tg@mail.gmail.com>
-CC:     prabhakar.csengg@gmail.com, magnus.damm@gmail.com,
-        conor+dt@kernel.org, Paul Walmsley <paul.walmsley@sifive.com>,
-        aou@eecs.berkeley.edu, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org,
-        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
-        biju.das.jz@bp.renesas.com, prabhakar.mahadev-lad.rj@bp.renesas.com
-From:   Palmer Dabbelt <palmer@dabbelt.com>
-To:     geert@linux-m68k.org
-Message-ID: <mhng-ac92041d-85e9-4725-b61c-bc0fef5549ec@palmer-ri-x1c9a>
-Mime-Version: 1.0 (MHng)
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS
+        Fri, 27 Oct 2023 22:49:38 -0400
+Received: from mail.durme.pl (mail.durme.pl [217.182.69.186])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 447FEAC
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 27 Oct 2023 19:49:36 -0700 (PDT)
+Received: by mail.durme.pl (Postfix, from userid 1002)
+        id 2801985EED; Fri, 27 Oct 2023 08:01:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=durme.pl; s=mail;
+        t=1698399415; bh=hFxZwVw4rIL+JwfEOGI47p+fdoVOAeqVswP6NWoHSHQ=;
+        h=Date:From:To:Subject:From;
+        b=XIl8aa/lshJNrSjLgW9htwOHyOXapdrDVjr/GkPHTefDe+Ll8g6aT9jMrT+r/g8bj
+         nxP9cvfzGaX//iVKmJleDt/OemC8TrsL9e4yrNzB/Qm2yzIlKYJfGy4GjEY+udDbwQ
+         J9ISqPntSH/ffHBRJqvj1DQ2gWkmdt6HOugQL64s7e+BH2cVn4oTsk5+IL5yVQF0FV
+         s1GDtmV4jFcqzIFFAyJCTQ/g6+42PaSVwOWWm2LTriVV+AmluN/5fGSmKLJCJJQUio
+         OaUkCwdhtOzLCcuOU1UlvoUrQBhZFEJ4cqTd/rrv7eBd9lcQSGEHDT9dDPWizdPLYR
+         IqJy4J+c95uwQ==
+Received: by mail.durme.pl for <linux-renesas-soc@vger.kernel.org>; Fri, 27 Oct 2023 08:01:11 GMT
+Message-ID: <20231027064500-0.1.57.rq50.0.tluokau6k8@durme.pl>
+Date:   Fri, 27 Oct 2023 08:01:11 GMT
+From:   "Krystian Wieczorek" <krystian.wieczorek@durme.pl>
+To:     <linux-renesas-soc@vger.kernel.org>
+Subject: W sprawie samochodu
+X-Mailer: mail.durme.pl
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
         autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -76,51 +45,23 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, 03 Oct 2023 05:34:13 PDT (-0700), geert@linux-m68k.org wrote:
-> Hi Prabhakar,
->
-> On Fri, Sep 29, 2023 at 2:07 AM Prabhakar <prabhakar.csengg@gmail.com> wrote:
->> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
->>
->> Enable the configs required by the below IP blocks which are
->> present on RZ/Five SoC:
->> * ADC
->> * CANFD
->> * DMAC
->> * eMMC/SDHI
->> * OSTM
->> * RAVB (+ Micrel PHY)
->> * RIIC
->> * RSPI
->> * SSI (Sound+WM8978 codec)
->> * Thermal
->> * USB (PHY/RESET/OTG)
->>
->> Along with the above some core configs are enabled too,
->> -> CPU frequency scaling as RZ/Five does support this.
->> -> MTD is enabled as RSPI can be connected to flash chips
->> -> Enabled I2C chardev so that it enables userspace to read/write
->>    i2c devices (similar to arm64)
->> -> Thermal configs as RZ/Five SoC does have thermal unit
->> -> GPIO regulator as we might have IP blocks for which voltage
->>    levels are controlled by GPIOs
->> -> OTG configs as RZ/Five USB can support host/function
->> -> Gadget configs so that we can test USB function (as done in arm64
->>    all the gadget configs are enabled)
->>
->> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
->
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
->
-> As I expect this to go in through the RISC-V tree, I will let the
-> RISC-V people handle any discussion about more options that should be
-> made modular instead of builtin.
+Dzie=C5=84 dobry,
 
-I'm pretty much agnostic on that front, so I'm cool just picking up 
-this.  I've got just patch 5 in my queue for testing, there's a few 
-other things in front of it but it should show up on for-next soon.
+chcieliby=C5=9Bmy zapewni=C4=87 Pa=C5=84stwu kompleksowe rozwi=C4=85zania=
+, je=C5=9Bli chodzi o system monitoringu GPS.
 
->
-> Gr{oetje,eeting}s,
->
->                         Geert
+Precyzyjne monitorowanie pojazd=C3=B3w na mapach cyfrowych, =C5=9Bledzeni=
+e ich parametr=C3=B3w eksploatacyjnych w czasie rzeczywistym oraz kontrol=
+a paliwa to kluczowe funkcjonalno=C5=9Bci naszego systemu.=20
+
+Organizowanie pracy pracownik=C3=B3w jest dzi=C4=99ki temu prostsze i bar=
+dziej efektywne, a oszcz=C4=99dno=C5=9Bci i optymalizacja w zakresie pono=
+szonych koszt=C3=B3w, maj=C4=85 dla ka=C5=BCdego przedsi=C4=99biorcy ogro=
+mne znaczenie.
+
+Dopasujemy nasz=C4=85 ofert=C4=99 do Pa=C5=84stwa oczekiwa=C5=84 i potrze=
+b organizacji. Czy mogliby=C5=9Bmy porozmawia=C4=87 o naszej propozycji?
+
+
+Pozdrawiam
+Krystian Wieczorek
