@@ -2,97 +2,125 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 300597DA1D6
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Oct 2023 22:37:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2F7347DA331
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 28 Oct 2023 00:11:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232617AbjJ0UhP (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 27 Oct 2023 16:37:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44888 "EHLO
+        id S1346652AbjJ0WL0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 27 Oct 2023 18:11:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51560 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232330AbjJ0UhO (ORCPT
+        with ESMTP id S1346648AbjJ0WLZ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 27 Oct 2023 16:37:14 -0400
-Received: from mail-oo1-f52.google.com (mail-oo1-f52.google.com [209.85.161.52])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A3C0EE5;
-        Fri, 27 Oct 2023 13:37:12 -0700 (PDT)
-Received: by mail-oo1-f52.google.com with SMTP id 006d021491bc7-586b512ba0aso1043618eaf.3;
-        Fri, 27 Oct 2023 13:37:12 -0700 (PDT)
+        Fri, 27 Oct 2023 18:11:25 -0400
+Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com [IPv6:2607:f8b0:4864:20::102b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C343A1B6
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 27 Oct 2023 15:11:21 -0700 (PDT)
+Received: by mail-pj1-x102b.google.com with SMTP id 98e67ed59e1d1-280137f1a1bso789790a91.1
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 27 Oct 2023 15:11:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=dabbelt-com.20230601.gappssmtp.com; s=20230601; t=1698444681; x=1699049481; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:to:from:cc
+         :in-reply-to:subject:date:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=+BeMmTUq4g79fi5qvKPQNKqlrDCYL6ILFRVsuXdyovg=;
+        b=DsXpxg6LUigg1Qh0zB/bULL+NZLfdsOuOhCpb2MtKfM36fzfG/gr7W3312N3+tOK5D
+         wY52t3eWA02DTcwrSSoQQoFAqh2NTIfoAkZqoIlSOS5E6x7qHaAeze+7FXmDwR+NRcFN
+         a3b/ekUva/l6VBW9Fo+MScppfwzU5HT+/zo8YDpVYA2oCjVgM4Ypg9Kppf5GGVMVktxu
+         O9UXYnG37WOXEuU5mKbCNOcdjrojh2+uWTLtUAphSNaZvnwbceESpl6MPraMM0fhYJah
+         bF1JFN74XwZQFyUxQHCaw7ll2fOXyayg0tgXgwMNgxPSp5pgRbEL7/J/3y8TI/rO4kjp
+         risg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698439032; x=1699043832;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20230601; t=1698444681; x=1699049481;
+        h=content-transfer-encoding:mime-version:message-id:to:from:cc
+         :in-reply-to:subject:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=l5WFN1SSmS/r3ICuBTDtqGiXKLGto00C5bgN46KK4Uw=;
-        b=GTFsYc7nHwJ5uS4GmFzIiY3GDVuP+gJsA81h1Nt4lgLaVd5ACmfwIe7QcpkMpvTnqi
-         7l34Iz7YlFT72aq7b+EaSPwFhv4VpKdcbeNVOuhqj8PcDLVZEEwARNQYfMxIlyghQqUG
-         zHDq5FNHzmTcXCrZ13MXs6vpCN2fyFTP4zrn0y41d6X8HMcmSNweoGeq2xs4RWYTrTea
-         uNo4xg1aemRKnkgzVRzlyaPfn48W66TmsMcLVsjZFLg8AqA6Km8Dr672Fw+gYzb16g1L
-         5YQqoLoxCBp2gEpzxnQNp03uOhcjvI1jW6FWmFMdMB39n11/ntJf4xw0F9FwYbFBztTG
-         +50Q==
-X-Gm-Message-State: AOJu0Yzn5W4ROvEoNdDxhFP5FCCUNkksJUjZ/k/ekTVjtocZm+2P6V4V
-        q2Mr5lNwc0jnZflOpRj7bNKYaWurZQ==
-X-Google-Smtp-Source: AGHT+IG6h4oHBmG2T3I4LJb5oLOQfp7Pdatfr90hATEu3Fw8YMSQOgVhy5hwcA3zkYiUtORF3Rfhdg==
-X-Received: by 2002:a4a:db8d:0:b0:581:9066:49 with SMTP id s13-20020a4adb8d000000b0058190660049mr4041174oou.0.1698439031844;
-        Fri, 27 Oct 2023 13:37:11 -0700 (PDT)
-Received: from herring.priv (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id y30-20020a4a9821000000b0054f85f67f31sm516061ooi.46.2023.10.27.13.37.10
+        bh=+BeMmTUq4g79fi5qvKPQNKqlrDCYL6ILFRVsuXdyovg=;
+        b=MKUAlBZcvZe1gJB2+UzvorbpqCSzyWkFvlxy2NZdavFs8mi5K/s3zsX7EExKrAIT8l
+         +fr+5lyVZb5zgOrhIH9K0zNc9A2crprxlMIKPmrdvKrkhhlbKK47K8+VK7LET6fZdX2/
+         1cswwmE28wrdNhGlTfI8JcxxZqL4rLjxN3CpgGZpzIl10LxlSvGqr/r/oJzEWJL7H970
+         fZlir9/pePlLb8y+om0N7joz5L5q09OBfKtFZ7CE0/wwqfDSp9sOuUQgKGwywH3OCTDz
+         cPBZ3u5XY+JCIfExmrhf5n1ocY1QuAPn7ToBDt2u1UZePs2j8ohM7GdHuofzl5QITSdK
+         kRBg==
+X-Gm-Message-State: AOJu0YwM9aiRSwSpFiT2lpoDfCs90Coy0brg4Bv+s2yBSj4QJtSQOpjv
+        XVR9YQmRTSitd7qa+1vF0PY0FA==
+X-Google-Smtp-Source: AGHT+IE1Wiqht/oK+k4UaYWOU/6pE6Hl+IiCQQO9vWsJnMAPyBXGS9dG+jErM5PM3/N2wY/7M/7IWg==
+X-Received: by 2002:a17:90b:1904:b0:280:16bb:8169 with SMTP id mp4-20020a17090b190400b0028016bb8169mr1783191pjb.40.1698444681014;
+        Fri, 27 Oct 2023 15:11:21 -0700 (PDT)
+Received: from localhost ([12.44.203.122])
+        by smtp.gmail.com with ESMTPSA id j14-20020a17090a2a8e00b002800b26dbc1sm1901952pjd.32.2023.10.27.15.11.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 27 Oct 2023 13:37:10 -0700 (PDT)
-Received: (nullmailer pid 3329327 invoked by uid 1000);
-        Fri, 27 Oct 2023 20:37:09 -0000
-Date:   Fri, 27 Oct 2023 15:37:09 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Guennadi Liakhovetski <guennadi.liakhovetski@linux.intel.com>,
-        Lee Jones <lee@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Mark Brown <broonie@kernel.org>, linux-kernel@vger.kernel.org,
+        Fri, 27 Oct 2023 15:11:20 -0700 (PDT)
+Date:   Fri, 27 Oct 2023 15:11:20 -0700 (PDT)
+X-Google-Original-Date: Fri, 27 Oct 2023 15:11:17 PDT (-0700)
+Subject:     Re: [PATCH 5/5] riscv: configs: defconfig: Enable configs required for RZ/Five SoC
+In-Reply-To: <CAMuHMdVdWzK_MRz+NeZ_mx=NcH9_EF-B0At=YsOfOABLV3B9tg@mail.gmail.com>
+CC:     prabhakar.csengg@gmail.com, magnus.damm@gmail.com,
+        conor+dt@kernel.org, Paul Walmsley <paul.walmsley@sifive.com>,
+        aou@eecs.berkeley.edu, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org,
         linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>
-Subject: Re: [PATCH v2] dt-bindings: mfd: ams,as3711: Convert to json-schema
-Message-ID: <169843902845.3329267.3867770965839541973.robh@kernel.org>
-References: <56a5ebee588696f9022fa29fa8e266c8bdee6fd7.1698228043.git.geert+renesas@glider.be>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <56a5ebee588696f9022fa29fa8e266c8bdee6fd7.1698228043.git.geert+renesas@glider.be>
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H3,
-        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS autolearn=no
-        autolearn_force=no version=3.4.6
+        linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
+        biju.das.jz@bp.renesas.com, prabhakar.mahadev-lad.rj@bp.renesas.com
+From:   Palmer Dabbelt <palmer@dabbelt.com>
+To:     geert@linux-m68k.org
+Message-ID: <mhng-ac92041d-85e9-4725-b61c-bc0fef5549ec@palmer-ri-x1c9a>
+Mime-Version: 1.0 (MHng)
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+On Tue, 03 Oct 2023 05:34:13 PDT (-0700), geert@linux-m68k.org wrote:
+> Hi Prabhakar,
+>
+> On Fri, Sep 29, 2023 at 2:07 AM Prabhakar <prabhakar.csengg@gmail.com> wrote:
+>> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+>>
+>> Enable the configs required by the below IP blocks which are
+>> present on RZ/Five SoC:
+>> * ADC
+>> * CANFD
+>> * DMAC
+>> * eMMC/SDHI
+>> * OSTM
+>> * RAVB (+ Micrel PHY)
+>> * RIIC
+>> * RSPI
+>> * SSI (Sound+WM8978 codec)
+>> * Thermal
+>> * USB (PHY/RESET/OTG)
+>>
+>> Along with the above some core configs are enabled too,
+>> -> CPU frequency scaling as RZ/Five does support this.
+>> -> MTD is enabled as RSPI can be connected to flash chips
+>> -> Enabled I2C chardev so that it enables userspace to read/write
+>>    i2c devices (similar to arm64)
+>> -> Thermal configs as RZ/Five SoC does have thermal unit
+>> -> GPIO regulator as we might have IP blocks for which voltage
+>>    levels are controlled by GPIOs
+>> -> OTG configs as RZ/Five USB can support host/function
+>> -> Gadget configs so that we can test USB function (as done in arm64
+>>    all the gadget configs are enabled)
+>>
+>> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+>
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+>
+> As I expect this to go in through the RISC-V tree, I will let the
+> RISC-V people handle any discussion about more options that should be
+> made modular instead of builtin.
 
-On Wed, 25 Oct 2023 12:02:34 +0200, Geert Uytterhoeven wrote:
-> Convert the Austria MicroSystems AS3711 Quad Buck High Current PMIC with
-> Charger Device Tree binding documentation to json-schema.
-> 
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> ---
-> v2:
->   - Consistently use "DC/DC" and "step-up",
->   - Move {additional,unevaluated}Properties in subnodes up to improve
->     readability,
->   - Split dependencies in dependent{Required,Schemas} to fix multiple
->     dependencies,
->   - s/oneof/oneOf/ (flagged by dt-schema as of commit 411c305105dd1273
->     ("meta-schemas: Check sub-schemas of "dependencies" and
->     "dependentSchemas"")),
->   - Use pmic recommended node name.
-> ---
->  .../devicetree/bindings/mfd/ams,as3711.yaml   | 223 ++++++++++++++++++
->  .../devicetree/bindings/mfd/as3711.txt        |  73 ------
->  2 files changed, 223 insertions(+), 73 deletions(-)
->  create mode 100644 Documentation/devicetree/bindings/mfd/ams,as3711.yaml
->  delete mode 100644 Documentation/devicetree/bindings/mfd/as3711.txt
-> 
+I'm pretty much agnostic on that front, so I'm cool just picking up 
+this.  I've got just patch 5 in my queue for testing, there's a few 
+other things in front of it but it should show up on for-next soon.
 
-Reviewed-by: Rob Herring <robh@kernel.org>
-
+>
+> Gr{oetje,eeting}s,
+>
+>                         Geert
