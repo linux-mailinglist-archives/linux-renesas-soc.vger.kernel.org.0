@@ -2,53 +2,53 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9654C7DA4FF
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 28 Oct 2023 05:15:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BF8527DA526
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 28 Oct 2023 06:46:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229481AbjJ1DPN (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 27 Oct 2023 23:15:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50090 "EHLO
+        id S229480AbjJ1EqO (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 28 Oct 2023 00:46:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41266 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229475AbjJ1DPM (ORCPT
+        with ESMTP id S229468AbjJ1EqO (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 27 Oct 2023 23:15:12 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8DDDC9C
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 27 Oct 2023 20:15:09 -0700 (PDT)
+        Sat, 28 Oct 2023 00:46:14 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7D60311B
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 27 Oct 2023 21:46:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1698462909; x=1729998909;
+  t=1698468372; x=1730004372;
   h=date:from:to:cc:subject:message-id;
-  bh=nMMnnioOU0rTAPBUNfPTNDG7+V0t+AWNWUEEwsq+ClY=;
-  b=j0/mE781IMdF0UR2UXHsCDCW0+s9SS4FymtiTRXegnULicI88akrAqwk
-   QGNYSbqDCwCcfsalui94LykvoLHtTpyHeXwEa+NLH7FA+1T/A41bnPPTk
-   pu14Xg1nTRSMcFXqWeASZpMChlRwojjWUddGGSUotUWrQgqAGXKfs8Bkx
-   OchcTgPg0oKsADWMsi2TCizCrmrnhF5ITgATKhy56miJz5LwGrsOacADK
-   PYmm9k6Y0gCPSsyren0vxfEJ14luQio68eB1LziE+PbmXz5hRJh8REVoW
-   ugnll/Z8y53FlA0pdUbLQTTd3jQJis6fBI7BvCrnOI6iJDHj6DQATpT+7
+  bh=AFCM2uSeuu6jr5qlTTPvz6qgKr5ag8ZHTJIZDUKozxw=;
+  b=NBvYTv9PUlN44p++tPEPUeuB+2RLr7wcofAS7/+Wrf4i0l4kMgc2gQAa
+   uzL+nU/FVNSFt6bqOSLhoKRrxoVv+1zoXYOZTVS3KGzG5Kb1YL4YE8mq/
+   UHHmKD9D0h8RpW5hBIukTxYuyCord/157l4KFzg/kCpxmbn9/Da3SEERk
+   TD8hGTQiC1AaxR4eC+iELfIpPGOXshB6RaeUphaVW5YiSSuH7uLVtMELA
+   3atKJ+P46WM2tQbL2lTSQRG0hvCshDk9G6fGyLxePc42kCxlWGPTSaSoB
+   WjGOHl+79NATNqxJAXznVxLKbXdIN1TXQDFHbOdA5U/yNmrA0in6jIaPe
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10876"; a="368093735"
+X-IronPort-AV: E=McAfee;i="6600,9927,10876"; a="9418757"
 X-IronPort-AV: E=Sophos;i="6.03,258,1694761200"; 
-   d="scan'208";a="368093735"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2023 20:15:09 -0700
+   d="scan'208";a="9418757"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2023 21:46:11 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10876"; a="759775870"
+X-IronPort-AV: E=McAfee;i="6600,9927,10876"; a="903482614"
 X-IronPort-AV: E=Sophos;i="6.03,258,1694761200"; 
-   d="scan'208";a="759775870"
+   d="scan'208";a="903482614"
 Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 27 Oct 2023 20:15:07 -0700
+  by fmsmga001.fm.intel.com with ESMTP; 27 Oct 2023 21:43:40 -0700
 Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
         (envelope-from <lkp@intel.com>)
-        id 1qwZmz-000BQO-1r;
-        Sat, 28 Oct 2023 03:15:05 +0000
-Date:   Sat, 28 Oct 2023 11:14:25 +0800
+        id 1qwbD5-000BUJ-2U;
+        Sat, 28 Oct 2023 04:46:07 +0000
+Date:   Sat, 28 Oct 2023 12:46:03 +0800
 From:   kernel test robot <lkp@intel.com>
 To:     Geert Uytterhoeven <geert+renesas@glider.be>
 Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [geert-renesas-devel:next] BUILD SUCCESS
- fb39831a07ec1fd914da56caede80e2997f1dbc5
-Message-ID: <202310281122.lIhTmezf-lkp@intel.com>
+Subject: [geert-renesas-devel:fixes] BUILD SUCCESS
+ 9eab43facdadb7d00456c2657001ae2e5353c814
+Message-ID: <202310281259.FpasEtnk-lkp@intel.com>
 User-Agent: s-nail v14.9.24
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
@@ -60,12 +60,12 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git next
-branch HEAD: fb39831a07ec1fd914da56caede80e2997f1dbc5  Merge branch 'renesas-fixes-for-v6.6' into renesas-next
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git fixes
+branch HEAD: 9eab43facdadb7d00456c2657001ae2e5353c814  soc: renesas: ARCH_R9A07G043 depends on !RISCV_ISA_ZICBOM
 
-elapsed time: 2484m
+elapsed time: 2576m
 
-configs tested: 260
+configs tested: 256
 configs skipped: 2
 
 The following configs have been built successfully.
@@ -125,6 +125,7 @@ i386         buildonly-randconfig-005-20231028   gcc
 i386         buildonly-randconfig-006-20231026   gcc  
 i386         buildonly-randconfig-006-20231027   gcc  
 i386         buildonly-randconfig-006-20231028   gcc  
+i386                              debian-10.3   gcc  
 i386                                defconfig   gcc  
 i386                  randconfig-001-20231026   gcc  
 i386                  randconfig-001-20231027   gcc  
@@ -144,22 +145,16 @@ i386                  randconfig-005-20231028   gcc
 i386                  randconfig-006-20231026   gcc  
 i386                  randconfig-006-20231027   gcc  
 i386                  randconfig-006-20231028   gcc  
-i386                  randconfig-011-20231026   gcc  
 i386                  randconfig-011-20231027   gcc  
 i386                  randconfig-011-20231028   gcc  
-i386                  randconfig-012-20231026   gcc  
 i386                  randconfig-012-20231027   gcc  
 i386                  randconfig-012-20231028   gcc  
-i386                  randconfig-013-20231026   gcc  
 i386                  randconfig-013-20231027   gcc  
 i386                  randconfig-013-20231028   gcc  
-i386                  randconfig-014-20231026   gcc  
 i386                  randconfig-014-20231027   gcc  
 i386                  randconfig-014-20231028   gcc  
-i386                  randconfig-015-20231026   gcc  
 i386                  randconfig-015-20231027   gcc  
 i386                  randconfig-015-20231028   gcc  
-i386                  randconfig-016-20231026   gcc  
 i386                  randconfig-016-20231027   gcc  
 i386                  randconfig-016-20231028   gcc  
 loongarch                        allmodconfig   gcc  
@@ -217,6 +212,7 @@ powerpc                     taishan_defconfig   gcc
 powerpc                         wii_defconfig   gcc  
 powerpc64                           defconfig   gcc  
 riscv                             allnoconfig   gcc  
+riscv                            allyesconfig   gcc  
 riscv                               defconfig   gcc  
 riscv                    nommu_virt_defconfig   clang
 riscv                 randconfig-001-20231026   gcc  
