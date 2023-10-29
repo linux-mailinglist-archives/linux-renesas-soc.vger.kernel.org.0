@@ -2,48 +2,52 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DA0887DAE22
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 29 Oct 2023 21:04:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C70B67DB0E3
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 30 Oct 2023 00:22:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230392AbjJ2UEa (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 29 Oct 2023 16:04:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37106 "EHLO
+        id S232268AbjJ2XWV (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 29 Oct 2023 19:22:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60450 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230367AbjJ2UE3 (ORCPT
+        with ESMTP id S231828AbjJ2XWE (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 29 Oct 2023 16:04:29 -0400
+        Sun, 29 Oct 2023 19:22:04 -0400
 Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 26AF7BD
-        for <linux-renesas-soc@vger.kernel.org>; Sun, 29 Oct 2023 13:04:26 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 873824EBF8
+        for <linux-renesas-soc@vger.kernel.org>; Sun, 29 Oct 2023 16:15:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
         sang-engineering.com; h=date:from:to:cc:subject:message-id
-        :references:mime-version:content-type:in-reply-to; s=k1; bh=TwHK
-        +0TEdqGdc5LUmitRS4VVDWpLZQ4S7DAZO1sdpFU=; b=FOqlnEixn52OUlb8sedF
-        B7a+AInJIGr4u9tQOzAY5Vr0qiaNqDnzRuYXKCwVNt7QVshjnQCSgaJMgJFm64ok
-        NVdZ6g3Vqg6T6/0rxUcqDZaHFg3YSaF6wymw5HJ9nK7YnXTmIjormlzRGQlSS9os
-        eTBh6/A8WKv7GCdcsDJkSRvhF6G1jcw5MDBflo6Ix133236MOGSUTg4A7RRb/wwi
-        UX+I3tlCHA8yTRgb6zBCFCc4LB0Uj1yvA5jU1tU3dlySuApf3mKRWo5L9GSz+2UW
-        AHZGoUr98I6f9qib7xDgDXMAuqpog7kWEjJP5Eolo1e3JmmMz14feAKZUIag75V4
-        Xg==
-Received: (qmail 3895427 invoked from network); 29 Oct 2023 21:04:24 +0100
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 29 Oct 2023 21:04:24 +0100
-X-UD-Smtp-Session: l3s3148p1@lOWQbeAI8JBehhre
-Date:   Sun, 29 Oct 2023 21:04:23 +0100
+        :references:mime-version:content-type:in-reply-to; s=k1; bh=4LqK
+        zsyzMPK0zG6jKlZssYlLz/JHO+MhlunhgtJzoZo=; b=ZaHoVgojOIkrRRSx+KOd
+        dVlhRZ6Ob907FHX3inRvUAEQiHcpGd+45mPtvGQyIk1lhpKiyemRLyBypmxVZgOP
+        SWmlKxXq1Ki4BKlCRZXUrTYt6FBtHseSamajnqNbiR97wXmcb/Cc/xv0yD3TxAkl
+        zd07/zAUl4r5szjNNfGSbpZVQaska9llvX4vbcBvObSdyRZTZisLk3l35Fb0FEE/
+        IzFbNMotuxys1TSVKZpg9xwg4xl0pIr3BxbyY3arfjWUFKgwra48lYCY6EUiMH2j
+        /Ff69Bhoy9SJn/So0CC79ffsi8mSv90CAZdZvrXrg/4G9P/hp8CSOXczjAc73kbh
+        VA==
+Received: (qmail 3928351 invoked from network); 30 Oct 2023 00:15:55 +0100
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 30 Oct 2023 00:15:55 +0100
+X-UD-Smtp-Session: l3s3148p1@YKl3GuMICKVehhre
+Date:   Mon, 30 Oct 2023 00:15:54 +0100
 From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
 To:     linux-renesas-soc@vger.kernel.org
-Cc:     linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH RESEND] Documentation: i2c: add fault code for not
- supporting 10 bit addresses
-Message-ID: <ZT66x18kb9HxeOuR@shikoro>
+Cc:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-pci@vger.kernel.org,
+        Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Subject: Re: [PATCH v5 0/2] PCI: rcar: support regulators for PCIe
+Message-ID: <ZT7nqrxadWzhrhU9@shikoro>
 Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        linux-renesas-soc@vger.kernel.org, linux-i2c@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20231029194143.22512-1-wsa+renesas@sang-engineering.com>
+        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
+        Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+References: <20230921132624.5664-1-wsa+renesas@sang-engineering.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="wHtGf4yi1nZHgJbN"
+        protocol="application/pgp-signature"; boundary="VK2a64zn4LDxDZm+"
 Content-Disposition: inline
-In-Reply-To: <20231029194143.22512-1-wsa+renesas@sang-engineering.com>
+In-Reply-To: <20230921132624.5664-1-wsa+renesas@sang-engineering.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
         RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS
@@ -55,39 +59,52 @@ List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 
---wHtGf4yi1nZHgJbN
+--VK2a64zn4LDxDZm+
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Sun, Oct 29, 2023 at 08:41:43PM +0100, Wolfram Sang wrote:
-> Document the specific fault code when 10 bit addresses cannot be
-> supported. It is used for years, only the documentation slipped through
-> the cracks.
+On Thu, Sep 21, 2023 at 03:26:22PM +0200, Wolfram Sang wrote:
+> Here are the patches to make PCIe cards work in slot CN15 on a Renesas
+> KingFisher board. Please apply.
 >=20
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> Changes since v4:
+> * rebased to 6.6-rc2
+> * added ack from Mani (Thanks!)
 
-Applied to for-next, thanks!
+Did this slip through the cracks maybe?
 
+>=20
+> Wolfram Sang (2):
+>   dt-bindings: PCI: rcar-pci-host: add optional regulators
+>   PCI: rcar-host: add support for optional regulators
+>=20
+>  .../devicetree/bindings/pci/rcar-pci-host.yaml   | 11 +++++++++++
+>  drivers/pci/controller/pcie-rcar-host.c          | 16 +++++++++++++++-
+>  2 files changed, 26 insertions(+), 1 deletion(-)
+>=20
+> --=20
+> 2.35.1
+>=20
 
---wHtGf4yi1nZHgJbN
+--VK2a64zn4LDxDZm+
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmU+usMACgkQFA3kzBSg
-KbYoxw/+LJ0T/BTHMv3+u+eLdpP2cH4OfoCGaqeSm8cQiyRECGSXKxV4FSkTavd+
-wPckghaoiEvBapMRtjYZgm8S7R3AUghD/ZfP45Gtn0U5O2eRXzQDHmXV7Ai68tea
-g1pdZg2jBMml6mZXl61SBawl4Vpiy6periDHYPJep8FbuP0PA3S48RmmybVCfKYc
-r07SLma6yWZjJpioQCNL3APl+ks9L+Ri+7gSqRkbX1x6/uZIeTf4rp7vi0mDApzu
-tPJ3YiqHk0XAXldSMz1piTA/Wr9aY728YpqeVIsF0VIYc9o8C7dE9v2Aa6AdqiXT
-k82SmLKKI2Ucc/3DqkOVptNez+E6kLwlEBXKyinLgPmviYhheqlojoLM4EVWPt/E
-gWMrKMTBGL4uweLl9s2eFzQF3XKa9SHntDfOlvXdv/eVO+5CzdIOksCvYsA9judB
-8QLNeeaX8z4K2IaOxk3PRQt3jI3GUjD1MDKStmQWTC5AJM5rtK5+kgux6Sa46q3f
-xIx+pu+MpNPXHsHhjoFovDZ3dZ6NQ4yB3uVNEbRfM4D2Ur/wKM1sFYGb8zjeJnyS
-0j/3b6ETnS5uX2F+3H5p17H/70hkrD49zgWJEMLZ55B7//KKAA928jipKJWNSKJR
-kGRiaHNoF28kb3kapQADJZQlQFQH49Tl5aZRVEKiCe7M1umr1eo=
-=VEle
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmU+56oACgkQFA3kzBSg
+KbZksQ//ZTQLV9AZwNEEizqnTqfYg+QukBAMZ/kogfa/L/jSlsS7Gbh0ki0wQBG9
+nwLAdJWr17bzAqAtkaOezJ5+4QsE5PtfhDZ2kSdJd2sxKJ5FUc0g2Wrqe1EmOlez
+zTEzOvJeXhi3IV8kp4kAA2856rVcxfFIAD3+42vfZLHP5xsTL4L/rDMshRL4Pwf/
+69Q0LjTkQyhNHocQGduT/j6K7XCq9uLVfEcNu7ViCbzLbxzjoIy74b33nCK7KCCi
+/Ci2R6Tr7U5Mui4Z4AyHvUgqKiVe+BTzCjWmDUznQRC5KmE5302dI7Oq/PRt3ret
+F+SnXI+TrO/AwSlg1eC7V03gVGOqibVQfAATLhxPc+E3bKvrFd1jrzDSZHiT8dic
+ZsR+jpf86vW/1G58PB7ZRIpePPhoskJ9o8u7JP29HuVd1xUG3TH8TokrSStn3Pdb
+I5x87wcYaIWNXoludxC/CLMZoQ8k2KqGfg9SXav2YO4eeWuYZf6ozhpsHP84qQzE
+CUIewC5etAevv1Y2cQ/ETuql08sOsfQVsDenJ0Uz67dXhs+xBC0fCjLI0Jctra8Y
+tHq5JJs35qM2sZSrsKFS+4gaw6zFECNpf5CGeonMu2Qj6F+0MsL4eUpwyOofUAk5
+/Nf6JQdEs2drjfJQGe+REja9S5AelI5F4jrRHaRosy4DtJ3o2nE=
+=6C7y
 -----END PGP SIGNATURE-----
 
---wHtGf4yi1nZHgJbN--
+--VK2a64zn4LDxDZm+--
