@@ -2,137 +2,95 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 50A937DB3D7
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 30 Oct 2023 08:15:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 15ACF7E0DD2
+	for <lists+linux-renesas-soc@lfdr.de>; Sat,  4 Nov 2023 05:48:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231254AbjJ3HPK (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 30 Oct 2023 03:15:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48950 "EHLO
+        id S229936AbjKDErd (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 4 Nov 2023 00:47:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40890 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229517AbjJ3HPJ (ORCPT
+        with ESMTP id S229509AbjKDErb (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 30 Oct 2023 03:15:09 -0400
-Received: from Atcsqr.andestech.com (60-248-80-70.hinet-ip.hinet.net [60.248.80.70])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CF5C5BD;
-        Mon, 30 Oct 2023 00:15:05 -0700 (PDT)
-Received: from mail.andestech.com (ATCPCS16.andestech.com [10.0.1.222])
-        by Atcsqr.andestech.com with ESMTP id 39U7Cl8k048592;
-        Mon, 30 Oct 2023 15:12:47 +0800 (+08)
-        (envelope-from peterlin@andestech.com)
-Received: from APC323 (10.0.12.98) by ATCPCS16.andestech.com (10.0.1.222) with
- Microsoft SMTP Server id 14.3.498.0; Mon, 30 Oct 2023 15:12:46 +0800
-Date:   Mon, 30 Oct 2023 15:12:46 +0800
-From:   Yu-Chien Peter Lin <peterlin@andestech.com>
-To:     Thomas Gleixner <tglx@linutronix.de>
-CC:     <acme@kernel.org>, <adrian.hunter@intel.com>,
-        <ajones@ventanamicro.com>, <alexander.shishkin@linux.intel.com>,
-        <andre.przywara@arm.com>, <anup@brainfault.org>,
-        <aou@eecs.berkeley.edu>, <atishp@atishpatra.org>,
-        <conor+dt@kernel.org>, <conor.dooley@microchip.com>,
-        <conor@kernel.org>, <devicetree@vger.kernel.org>,
-        <dminus@andestech.com>, <evan@rivosinc.com>,
-        <geert+renesas@glider.be>, <guoren@kernel.org>, <heiko@sntech.de>,
-        <irogers@google.com>, <jernej.skrabec@gmail.com>,
-        <jolsa@kernel.org>, <jszhang@kernel.org>,
-        <krzysztof.kozlowski+dt@linaro.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-kernel@vger.kernel.org>, <linux-perf-users@vger.kernel.org>,
-        <linux-renesas-soc@vger.kernel.org>,
-        <linux-riscv@lists.infradead.org>, <linux-sunxi@lists.linux.dev>,
-        <locus84@andestech.com>, <magnus.damm@gmail.com>,
-        <mark.rutland@arm.com>, <mingo@redhat.com>, <n.shubin@yadro.com>,
-        <namhyung@kernel.org>, <palmer@dabbelt.com>,
-        <paul.walmsley@sifive.com>, <peterz@infradead.org>,
-        <prabhakar.mahadev-lad.rj@bp.renesas.com>, <rdunlap@infradead.org>,
-        <robh+dt@kernel.org>, <samuel@sholland.org>,
-        <sunilvl@ventanamicro.com>, <tim609@andestech.com>,
-        <uwu@icenowy.me>, <wens@csie.org>, <will@kernel.org>,
-        <ycliang@andestech.com>
-Subject: Re: [RFC PATCH v3 RESEND 02/13] irqchip/riscv-intc: Allow large
- non-standard hwirq number
-Message-ID: <ZT9XbuxE2vlvsfYG@APC323>
-References: <20231023004100.2663486-1-peterlin@andestech.com>
- <20231023004100.2663486-3-peterlin@andestech.com>
- <87a5s44jyc.ffs@tglx>
+        Sat, 4 Nov 2023 00:47:31 -0400
+X-Greylist: delayed 4263 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 03 Nov 2023 21:47:29 PDT
+Received: from mail.profitpathwaygo.com (mail.profitpathwaygo.com [141.94.21.238])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5352A123
+        for <linux-renesas-soc@vger.kernel.org>; Fri,  3 Nov 2023 21:47:29 -0700 (PDT)
+Received: by mail.profitpathwaygo.com (Postfix, from userid 1002)
+        id 6611F53307; Mon, 30 Oct 2023 08:30:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=profitpathwaygo.com;
+        s=mail; t=1698654936;
+        bh=qp3Ofokho6Ql+WtI8ZPVilyHYhskXL7fod7u9CWs8W4=;
+        h=Date:From:To:Subject:From;
+        b=ZB9f8H/HZMJ6NTggqivjk6tFmlSflBXJCIFxVoxajgmUjyrND8JCIwRA74xSoeLxe
+         1hvpWohNmS2t3eXckOO781aV9vsl6v8jU2MQXPmJPbwXrSNq/FkDVw+bMIPNWrqqF9
+         ysx5F+xUYCzdVZAowOiKejJ3qWPnT0Mee+1pN7YTOPsGq3fmKXrkCxTzj2biwIgXAI
+         TsRCXdqIh8S6WoOr0qvRLOnjS4rKOEot7f+q5HcZ8wF3gQQbONRpmcQghB6xwHOkBZ
+         zVR8ip5OxYWJd29Tz+t2MF6o0Z0Go51PAw4lnvSAP7qYJ8SZFAN6lJoISNtG4oFrVN
+         qrw3OA3IVyaYA==
+Received: by mail.profitpathwaygo.com for <linux-renesas-soc@vger.kernel.org>; Mon, 30 Oct 2023 08:30:28 GMT
+Message-ID: <20231030074500-0.1.2s.1557u.0.hf5vejtb0q@profitpathwaygo.com>
+Date:   Mon, 30 Oct 2023 08:30:28 GMT
+From:   "Adam Charachuta" <adam.charachuta@profitpathwaygo.com>
+To:     <linux-renesas-soc@vger.kernel.org>
+Subject: =?UTF-8?Q?S=C5=82owa_kluczowe_do_wypozycjonowania_?=
+X-Mailer: mail.profitpathwaygo.com
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <87a5s44jyc.ffs@tglx>
-User-Agent: Mutt/2.2.10 (2023-03-25)
-X-Originating-IP: [10.0.12.98]
-X-DNSRBL: 
-X-SPAM-SOURCE-CHECK: pass
-X-MAIL: Atcsqr.andestech.com 39U7Cl8k048592
-X-Spam-Status: No, score=-0.9 required=5.0 tests=BAYES_00,
-        RCVD_IN_DNSWL_BLOCKED,RDNS_DYNAMIC,SPF_HELO_NONE,SPF_PASS autolearn=no
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: Yes, score=5.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_SBL_CSS,
+        RCVD_IN_VALIDITY_RPBL,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
+        URIBL_BLOCKED,URIBL_CSS_A,URIBL_DBL_SPAM autolearn=no
         autolearn_force=no version=3.4.6
+X-Spam-Report: *  0.0 URIBL_BLOCKED ADMINISTRATOR NOTICE: The query to URIBL was
+        *      blocked.  See
+        *      http://wiki.apache.org/spamassassin/DnsBlocklists#dnsbl-block
+        *      for more information.
+        *      [URIs: profitpathwaygo.com]
+        * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
+        *      [score: 0.0035]
+        *  2.5 URIBL_DBL_SPAM Contains a spam URL listed in the Spamhaus DBL
+        *      blocklist
+        *      [URIs: profitpathwaygo.com]
+        *  3.3 RCVD_IN_SBL_CSS RBL: Received via a relay in Spamhaus SBL-CSS
+        *      [141.94.21.238 listed in zen.spamhaus.org]
+        *  0.1 URIBL_CSS_A Contains URL's A record listed in the Spamhaus CSS
+        *      blocklist
+        *      [URIs: profitpathwaygo.com]
+        *  1.3 RCVD_IN_VALIDITY_RPBL RBL: Relay in Validity RPBL,
+        *      https://senderscore.org/blocklistlookup/
+        *      [141.94.21.238 listed in bl.score.senderscore.com]
+        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
+        * -0.0 SPF_PASS SPF: sender matches SPF record
+        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+        *      author's domain
+        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
+        *      envelope-from domain
+        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+        *       valid
+        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
+X-Spam-Level: *****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Thomas,
+Dzie=C5=84 dobry,
 
-Thanks for the review.
+zapozna=C5=82em si=C4=99 z Pa=C5=84stwa ofert=C4=85 i z przyjemno=C5=9Bci=
+=C4=85 przyznaj=C4=99, =C5=BCe przyci=C4=85ga uwag=C4=99 i zach=C4=99ca d=
+o dalszych rozm=C3=B3w.=20
 
-On Fri, Oct 27, 2023 at 09:12:59AM +0200, Thomas Gleixner wrote:
-> On Mon, Oct 23 2023 at 08:40, Yu Chien Peter Lin wrote:
-> > Currently, the implementation of the RISC-V INTC driver uses the
-> > interrupt cause as hwirq and has a limitation of supporting a
-> > maximum of 64 hwirqs. However, according to the privileged spec,
-> > interrupt causes >= 16 are defined for platform use.
-> >
-> > This limitation prevents us from fully utilizing the available
-> > local interrupt sources. Additionally, the hwirqs used on RISC-V
-> > are sparse, with only interrupt numbers 1, 5 and 9 (plus Sscofpmf
-> > or T-Head's PMU irq) being currently used for supervisor mode.
-> >
-> > The patch switches to using irq_domain_create_tree() which
-> 
-> git grep "This patch" Documentation/process/
+Pomy=C5=9Bla=C5=82em, =C5=BCe mo=C5=BCe m=C3=B3g=C5=82bym mie=C4=87 sw=C3=
+=B3j wk=C5=82ad w Pa=C5=84stwa rozw=C3=B3j i pom=C3=B3c dotrze=C4=87 z t=C4=
+=85 ofert=C4=85 do wi=C4=99kszego grona odbiorc=C3=B3w. Pozycjonuj=C4=99 =
+strony www, dzi=C4=99ki czemu generuj=C4=85 =C5=9Bwietny ruch w sieci.
 
-Sure, will fix.
+Mo=C5=BCemy porozmawia=C4=87 w najbli=C5=BCszym czasie?
 
-> > creates the radix tree map, allowing us to handle a larger
-> > number of hwirqs.
-> 
-> Who is 'us'? We are not part of the chip and please write out 'hardware
-> interrupts'
 
-OK!
-
-> > @@ -24,10 +24,8 @@ static asmlinkage void riscv_intc_irq(struct pt_regs *regs)
-> >  {
-> >  	unsigned long cause = regs->cause & ~CAUSE_IRQ_FLAG;
-> >  
-> > -	if (unlikely(cause >= BITS_PER_LONG))
-> > -		panic("unexpected interrupt cause");
-> > -
-> > -	generic_handle_domain_irq(intc_domain, cause);
-> > +	if (generic_handle_domain_irq(intc_domain, cause))
-> > +		pr_warn("Failed to handle interrupt (cause: %ld)\n", cause);
-> 
-> pr_warn_once() or at least pr_warn_ratelimited().
-
-OK!
-
-> >  }
-> >  
-> >  /*
-> > @@ -117,8 +115,8 @@ static int __init riscv_intc_init_common(struct fwnode_handle *fn)
-> >  {
-> >  	int rc;
-> >  
-> > -	intc_domain = irq_domain_create_linear(fn, BITS_PER_LONG,
-> > -					       &riscv_intc_domain_ops, NULL);
-> > +	intc_domain = irq_domain_create_tree(fn, &riscv_intc_domain_ops,
-> > +					     NULL);
-> 
-> Put it into one line. Linebreaking arguments is really only required
-> when the line length is exceedingly long. This one is not.
-
-OK! will fix.
-
-Thanks,
-Peter Lin
+Pozdrawiam serdecznie
+Adam Charachuta
