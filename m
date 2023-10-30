@@ -2,109 +2,137 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C70B67DB0E3
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 30 Oct 2023 00:22:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 50A937DB3D7
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 30 Oct 2023 08:15:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232268AbjJ2XWV (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 29 Oct 2023 19:22:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60450 "EHLO
+        id S231254AbjJ3HPK (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 30 Oct 2023 03:15:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48950 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231828AbjJ2XWE (ORCPT
+        with ESMTP id S229517AbjJ3HPJ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 29 Oct 2023 19:22:04 -0400
-Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 873824EBF8
-        for <linux-renesas-soc@vger.kernel.org>; Sun, 29 Oct 2023 16:15:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        sang-engineering.com; h=date:from:to:cc:subject:message-id
-        :references:mime-version:content-type:in-reply-to; s=k1; bh=4LqK
-        zsyzMPK0zG6jKlZssYlLz/JHO+MhlunhgtJzoZo=; b=ZaHoVgojOIkrRRSx+KOd
-        dVlhRZ6Ob907FHX3inRvUAEQiHcpGd+45mPtvGQyIk1lhpKiyemRLyBypmxVZgOP
-        SWmlKxXq1Ki4BKlCRZXUrTYt6FBtHseSamajnqNbiR97wXmcb/Cc/xv0yD3TxAkl
-        zd07/zAUl4r5szjNNfGSbpZVQaska9llvX4vbcBvObSdyRZTZisLk3l35Fb0FEE/
-        IzFbNMotuxys1TSVKZpg9xwg4xl0pIr3BxbyY3arfjWUFKgwra48lYCY6EUiMH2j
-        /Ff69Bhoy9SJn/So0CC79ffsi8mSv90CAZdZvrXrg/4G9P/hp8CSOXczjAc73kbh
-        VA==
-Received: (qmail 3928351 invoked from network); 30 Oct 2023 00:15:55 +0100
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 30 Oct 2023 00:15:55 +0100
-X-UD-Smtp-Session: l3s3148p1@YKl3GuMICKVehhre
-Date:   Mon, 30 Oct 2023 00:15:54 +0100
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     linux-renesas-soc@vger.kernel.org
-Cc:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-pci@vger.kernel.org,
-        Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Subject: Re: [PATCH v5 0/2] PCI: rcar: support regulators for PCIe
-Message-ID: <ZT7nqrxadWzhrhU9@shikoro>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
-        Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-References: <20230921132624.5664-1-wsa+renesas@sang-engineering.com>
+        Mon, 30 Oct 2023 03:15:09 -0400
+Received: from Atcsqr.andestech.com (60-248-80-70.hinet-ip.hinet.net [60.248.80.70])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CF5C5BD;
+        Mon, 30 Oct 2023 00:15:05 -0700 (PDT)
+Received: from mail.andestech.com (ATCPCS16.andestech.com [10.0.1.222])
+        by Atcsqr.andestech.com with ESMTP id 39U7Cl8k048592;
+        Mon, 30 Oct 2023 15:12:47 +0800 (+08)
+        (envelope-from peterlin@andestech.com)
+Received: from APC323 (10.0.12.98) by ATCPCS16.andestech.com (10.0.1.222) with
+ Microsoft SMTP Server id 14.3.498.0; Mon, 30 Oct 2023 15:12:46 +0800
+Date:   Mon, 30 Oct 2023 15:12:46 +0800
+From:   Yu-Chien Peter Lin <peterlin@andestech.com>
+To:     Thomas Gleixner <tglx@linutronix.de>
+CC:     <acme@kernel.org>, <adrian.hunter@intel.com>,
+        <ajones@ventanamicro.com>, <alexander.shishkin@linux.intel.com>,
+        <andre.przywara@arm.com>, <anup@brainfault.org>,
+        <aou@eecs.berkeley.edu>, <atishp@atishpatra.org>,
+        <conor+dt@kernel.org>, <conor.dooley@microchip.com>,
+        <conor@kernel.org>, <devicetree@vger.kernel.org>,
+        <dminus@andestech.com>, <evan@rivosinc.com>,
+        <geert+renesas@glider.be>, <guoren@kernel.org>, <heiko@sntech.de>,
+        <irogers@google.com>, <jernej.skrabec@gmail.com>,
+        <jolsa@kernel.org>, <jszhang@kernel.org>,
+        <krzysztof.kozlowski+dt@linaro.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>, <linux-perf-users@vger.kernel.org>,
+        <linux-renesas-soc@vger.kernel.org>,
+        <linux-riscv@lists.infradead.org>, <linux-sunxi@lists.linux.dev>,
+        <locus84@andestech.com>, <magnus.damm@gmail.com>,
+        <mark.rutland@arm.com>, <mingo@redhat.com>, <n.shubin@yadro.com>,
+        <namhyung@kernel.org>, <palmer@dabbelt.com>,
+        <paul.walmsley@sifive.com>, <peterz@infradead.org>,
+        <prabhakar.mahadev-lad.rj@bp.renesas.com>, <rdunlap@infradead.org>,
+        <robh+dt@kernel.org>, <samuel@sholland.org>,
+        <sunilvl@ventanamicro.com>, <tim609@andestech.com>,
+        <uwu@icenowy.me>, <wens@csie.org>, <will@kernel.org>,
+        <ycliang@andestech.com>
+Subject: Re: [RFC PATCH v3 RESEND 02/13] irqchip/riscv-intc: Allow large
+ non-standard hwirq number
+Message-ID: <ZT9XbuxE2vlvsfYG@APC323>
+References: <20231023004100.2663486-1-peterlin@andestech.com>
+ <20231023004100.2663486-3-peterlin@andestech.com>
+ <87a5s44jyc.ffs@tglx>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="VK2a64zn4LDxDZm+"
+Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-In-Reply-To: <20230921132624.5664-1-wsa+renesas@sang-engineering.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS
-        autolearn=unavailable autolearn_force=no version=3.4.6
+In-Reply-To: <87a5s44jyc.ffs@tglx>
+User-Agent: Mutt/2.2.10 (2023-03-25)
+X-Originating-IP: [10.0.12.98]
+X-DNSRBL: 
+X-SPAM-SOURCE-CHECK: pass
+X-MAIL: Atcsqr.andestech.com 39U7Cl8k048592
+X-Spam-Status: No, score=-0.9 required=5.0 tests=BAYES_00,
+        RCVD_IN_DNSWL_BLOCKED,RDNS_DYNAMIC,SPF_HELO_NONE,SPF_PASS autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Hi Thomas,
 
---VK2a64zn4LDxDZm+
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Thanks for the review.
 
-On Thu, Sep 21, 2023 at 03:26:22PM +0200, Wolfram Sang wrote:
-> Here are the patches to make PCIe cards work in slot CN15 on a Renesas
-> KingFisher board. Please apply.
->=20
-> Changes since v4:
-> * rebased to 6.6-rc2
-> * added ack from Mani (Thanks!)
+On Fri, Oct 27, 2023 at 09:12:59AM +0200, Thomas Gleixner wrote:
+> On Mon, Oct 23 2023 at 08:40, Yu Chien Peter Lin wrote:
+> > Currently, the implementation of the RISC-V INTC driver uses the
+> > interrupt cause as hwirq and has a limitation of supporting a
+> > maximum of 64 hwirqs. However, according to the privileged spec,
+> > interrupt causes >= 16 are defined for platform use.
+> >
+> > This limitation prevents us from fully utilizing the available
+> > local interrupt sources. Additionally, the hwirqs used on RISC-V
+> > are sparse, with only interrupt numbers 1, 5 and 9 (plus Sscofpmf
+> > or T-Head's PMU irq) being currently used for supervisor mode.
+> >
+> > The patch switches to using irq_domain_create_tree() which
+> 
+> git grep "This patch" Documentation/process/
 
-Did this slip through the cracks maybe?
+Sure, will fix.
 
->=20
-> Wolfram Sang (2):
->   dt-bindings: PCI: rcar-pci-host: add optional regulators
->   PCI: rcar-host: add support for optional regulators
->=20
->  .../devicetree/bindings/pci/rcar-pci-host.yaml   | 11 +++++++++++
->  drivers/pci/controller/pcie-rcar-host.c          | 16 +++++++++++++++-
->  2 files changed, 26 insertions(+), 1 deletion(-)
->=20
-> --=20
-> 2.35.1
->=20
+> > creates the radix tree map, allowing us to handle a larger
+> > number of hwirqs.
+> 
+> Who is 'us'? We are not part of the chip and please write out 'hardware
+> interrupts'
 
---VK2a64zn4LDxDZm+
-Content-Type: application/pgp-signature; name="signature.asc"
+OK!
 
------BEGIN PGP SIGNATURE-----
+> > @@ -24,10 +24,8 @@ static asmlinkage void riscv_intc_irq(struct pt_regs *regs)
+> >  {
+> >  	unsigned long cause = regs->cause & ~CAUSE_IRQ_FLAG;
+> >  
+> > -	if (unlikely(cause >= BITS_PER_LONG))
+> > -		panic("unexpected interrupt cause");
+> > -
+> > -	generic_handle_domain_irq(intc_domain, cause);
+> > +	if (generic_handle_domain_irq(intc_domain, cause))
+> > +		pr_warn("Failed to handle interrupt (cause: %ld)\n", cause);
+> 
+> pr_warn_once() or at least pr_warn_ratelimited().
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmU+56oACgkQFA3kzBSg
-KbZksQ//ZTQLV9AZwNEEizqnTqfYg+QukBAMZ/kogfa/L/jSlsS7Gbh0ki0wQBG9
-nwLAdJWr17bzAqAtkaOezJ5+4QsE5PtfhDZ2kSdJd2sxKJ5FUc0g2Wrqe1EmOlez
-zTEzOvJeXhi3IV8kp4kAA2856rVcxfFIAD3+42vfZLHP5xsTL4L/rDMshRL4Pwf/
-69Q0LjTkQyhNHocQGduT/j6K7XCq9uLVfEcNu7ViCbzLbxzjoIy74b33nCK7KCCi
-/Ci2R6Tr7U5Mui4Z4AyHvUgqKiVe+BTzCjWmDUznQRC5KmE5302dI7Oq/PRt3ret
-F+SnXI+TrO/AwSlg1eC7V03gVGOqibVQfAATLhxPc+E3bKvrFd1jrzDSZHiT8dic
-ZsR+jpf86vW/1G58PB7ZRIpePPhoskJ9o8u7JP29HuVd1xUG3TH8TokrSStn3Pdb
-I5x87wcYaIWNXoludxC/CLMZoQ8k2KqGfg9SXav2YO4eeWuYZf6ozhpsHP84qQzE
-CUIewC5etAevv1Y2cQ/ETuql08sOsfQVsDenJ0Uz67dXhs+xBC0fCjLI0Jctra8Y
-tHq5JJs35qM2sZSrsKFS+4gaw6zFECNpf5CGeonMu2Qj6F+0MsL4eUpwyOofUAk5
-/Nf6JQdEs2drjfJQGe+REja9S5AelI5F4jrRHaRosy4DtJ3o2nE=
-=6C7y
------END PGP SIGNATURE-----
+OK!
 
---VK2a64zn4LDxDZm+--
+> >  }
+> >  
+> >  /*
+> > @@ -117,8 +115,8 @@ static int __init riscv_intc_init_common(struct fwnode_handle *fn)
+> >  {
+> >  	int rc;
+> >  
+> > -	intc_domain = irq_domain_create_linear(fn, BITS_PER_LONG,
+> > -					       &riscv_intc_domain_ops, NULL);
+> > +	intc_domain = irq_domain_create_tree(fn, &riscv_intc_domain_ops,
+> > +					     NULL);
+> 
+> Put it into one line. Linebreaking arguments is really only required
+> when the line length is exceedingly long. This one is not.
+
+OK! will fix.
+
+Thanks,
+Peter Lin
