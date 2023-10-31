@@ -2,132 +2,95 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 91E267DCEC2
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 31 Oct 2023 15:06:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F141E7DCFCE
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 31 Oct 2023 15:57:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235038AbjJaOGA (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 31 Oct 2023 10:06:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41156 "EHLO
+        id S1344388AbjJaO6A (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 31 Oct 2023 10:58:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49758 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344658AbjJaNsg (ORCPT
+        with ESMTP id S1344312AbjJaO57 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 31 Oct 2023 09:48:36 -0400
-Received: from laurent.telenet-ops.be (laurent.telenet-ops.be [IPv6:2a02:1800:110:4::f00:19])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 759DEDE
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 31 Oct 2023 06:48:32 -0700 (PDT)
-Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed40:7082:5ab3:115b:c8d0])
-        by laurent.telenet-ops.be with bizsmtp
-        id 4doU2B0071qcjVs01doUqw; Tue, 31 Oct 2023 14:48:28 +0100
-Received: from rox.of.borg ([192.168.97.57])
-        by ramsan.of.borg with esmtp (Exim 4.95)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1qxp6X-00873b-H1
-        for linux-renesas-soc@vger.kernel.org;
-        Tue, 31 Oct 2023 14:48:28 +0100
-Received: from geert by rox.of.borg with local (Exim 4.95)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1qxp6a-00G0uS-6i
-        for linux-renesas-soc@vger.kernel.org;
-        Tue, 31 Oct 2023 14:48:28 +0100
-From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     linux-renesas-soc@vger.kernel.org
-Subject: renesas-drivers-2023-10-31-v6.6
-Date:   Tue, 31 Oct 2023 14:48:28 +0100
-Message-Id: <20231031134828.3816737-1-geert+renesas@glider.be>
-X-Mailer: git-send-email 2.34.1
+        Tue, 31 Oct 2023 10:57:59 -0400
+Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com [IPv6:2a00:1450:4864:20::534])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 45FF7E8
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 31 Oct 2023 07:57:56 -0700 (PDT)
+Received: by mail-ed1-x534.google.com with SMTP id 4fb4d7f45d1cf-53b32dca0bfso11841242a12.0
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 31 Oct 2023 07:57:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ragnatech-se.20230601.gappssmtp.com; s=20230601; t=1698764275; x=1699369075; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Jeb48vmA/o9ulzJEex2wEVbiRcT5CIjh82DiUH/+tbk=;
+        b=V6but9JlADbdOylH1AUZeK1IdOd8pwdGd+aeYmCaLueCgAzhDRDFeGs81ycKjoxAM8
+         X94kZ54vh+hqsXxVf8bthFbqyjEGUAa/o3/bou7cUYmBZVg1ZZj8OmsJlz2D//nUeRsP
+         jpOWkq4QTz6Hm9IUdnoRPNeoXyPGVFT8HCAqlsok4FjzfzoK98bXg5PVHSICMlHCI0yb
+         z9lFv7jPzxmngJc6cFJeabxBoW6notu1QEf492pU0nja24Ow2YGe71UhXD4Jy+TtSCQ5
+         3zJ4/x8w6NVmeM939Zmp6SCMjthPQolaokPDxWJcV/6eAnzXmQvtNqwpE8LwsmvgShla
+         BaXQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1698764275; x=1699369075;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Jeb48vmA/o9ulzJEex2wEVbiRcT5CIjh82DiUH/+tbk=;
+        b=hyErv+l51HVuOHFTREAjchtnReAJ0Yk0gI9qlVyliseJ6KXUaHw1ShxfnHqG1TXi/s
+         WegA6G8XqGR5iBASZkFeWTWkduag/enUc60a+4bb6wscu/vXaIPJbG46LcGmtIEskYhc
+         +rvoN3HbVqiyxWmgqWM0aa/Z2NrfBLoJNNkCXLQUKdXzH3ouupVW9uXlRnNOfYc4+sO1
+         h7KLcntjz+7ZWOGnEoFHRB5haKglqDn44LbNuApYWpY1gRKQLAg4SbMSTCZreELz2K3O
+         muk2hmxc9jE+VTSb/DbjZcO2Eu5dxxMgfVT+NAs3msRSDmNwWmUlGUL3pfWKN4ujTDE/
+         tbiQ==
+X-Gm-Message-State: AOJu0Yz+1MMpNlD2itOOjRceMtef16+PRm3XSZ+BZZ/c9wpjG4GlMsna
+        QsnfaTIAJqOWTcwlHZATAKartRkL890HcJybc81vwjHt
+X-Google-Smtp-Source: AGHT+IGCPN4YqBEYkzm6IJafXKg60f7ZjzBk039ZXG8wnqjy6Gu9/Ttc7VlChXT7nMTSMGlfXFbiOA==
+X-Received: by 2002:a50:9f44:0:b0:53e:2aab:14f3 with SMTP id b62-20020a509f44000000b0053e2aab14f3mr2579551edf.17.1698764274636;
+        Tue, 31 Oct 2023 07:57:54 -0700 (PDT)
+Received: from sleipner.berto.se (p4fca21ea.dip0.t-ipconnect.de. [79.202.33.234])
+        by smtp.googlemail.com with ESMTPSA id e25-20020a50a699000000b0053e89721d4esm1268236edc.68.2023.10.31.07.57.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 31 Oct 2023 07:57:54 -0700 (PDT)
+From:   =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     linux-renesas-soc@vger.kernel.org,
+        =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+Subject: [PATCH] clk: renesas: r8a779g0: Add EtherTSN clock
+Date:   Tue, 31 Oct 2023 15:57:39 +0100
+Message-ID: <20231031145739.657638-1-niklas.soderlund+renesas@ragnatech.se>
+X-Mailer: git-send-email 2.42.0
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
-        version=3.4.6
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-I have pushed renesas-drivers-2023-10-31-v6.6 to
-https://git.kernel.org/cgit/linux/kernel/git/geert/renesas-drivers.git
+Add the TSN module clock, which are used by the EtherTSN module on the
+Renesas R-Car V4H (R8A779G0) SoC.
 
-This tree is meant to ease development of platform support and drivers
-for Renesas ARM and RISC-V SoCs.  It is created by merging (a) the
-for-next branches of various subsystem trees and (b) branches with
-driver code submitted or planned for submission to maintainers into the
-master branch of my renesas-devel.git tree.
+Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+---
+ drivers/clk/renesas/r8a779g0-cpg-mssr.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-Today's version is based on renesas-devel-2023-10-31-v6.6.
+diff --git a/drivers/clk/renesas/r8a779g0-cpg-mssr.c b/drivers/clk/renesas/r8a779g0-cpg-mssr.c
+index 7cc580d67362..affc5fc60332 100644
+--- a/drivers/clk/renesas/r8a779g0-cpg-mssr.c
++++ b/drivers/clk/renesas/r8a779g0-cpg-mssr.c
+@@ -235,6 +235,7 @@ static const struct mssr_mod_clk r8a779g0_mod_clks[] __initconst = {
+ 	DEF_MOD("pfc2",		917,	R8A779G0_CLK_CL16M),
+ 	DEF_MOD("pfc3",		918,	R8A779G0_CLK_CL16M),
+ 	DEF_MOD("tsc",		919,	R8A779G0_CLK_CL16M),
++	DEF_MOD("tsn",		2723,	R8A779G0_CLK_S0D4_HSC),
+ 	DEF_MOD("ssiu",		2926,	R8A779G0_CLK_S0D6_PER),
+ 	DEF_MOD("ssi",		2927,	R8A779G0_CLK_S0D6_PER),
+ };
+-- 
+2.42.0
 
-Included branches with driver code:
-  - topic/shmob-drm-dt-v3
-  - topic/boot-area-lbsc-flash-v1
-  - git://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git#renesas/gpio-logic-analyzer-v8~1
-
-Included fixes:
-  - media: vsp1: Remove unbalanced .s_stream(0) calls
-  - ARM: shmobile: defconfig: Update shmobile_defconfig
-  - [LOCAL] arm64: renesas: defconfig: Update renesas_defconfig
-
-Included subsystem trees:
-  - git://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git#linux-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git#clk-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-pinctrl.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/brgl/linux.git#gpio/for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/mtd/linux.git#mtd/next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/netdev/net-next.git#main
-  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git#tty-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git#i2c/for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/andi.shyti/linux.git#i2c/andi-for-current
-  - git://git.kernel.org/pub/scm/linux/kernel/git/andi.shyti/linux.git#i2c/andi-for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/mkl/linux-can-next.git#master
-  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git#usb-next
-  - git://git.freedesktop.org/git/drm/drm.git#drm-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/joro/iommu.git#next
-  - git://linuxtv.org/media_tree.git#master
-  - git://git.kernel.org/pub/scm/linux/kernel/git/ulfh/mmc.git#next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/thierry.reding/linux-pwm.git#for-next
-  - git://git.linaro.org/people/daniel.lezcano/linux.git#timers/drivers/next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/vkoul/dmaengine.git#next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git#staging-next
-  - git://git.armlinux.org.uk/~rmk/linux-arm.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/regmap.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git#irq/core
-  - git://git.kernel.org/pub/scm/linux/kernel/git/maz/arm-platforms.git#irq/irqchip-fixes
-  - git://git.kernel.org/pub/scm/linux/kernel/git/maz/arm-platforms.git#irq/irqchip-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/dlemoal/libata.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/sre/linux-power-supply.git#for-next
-  - git://www.linux-watchdog.org/linux-watchdog-next.git#master
-  - git://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/regulator.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git#for-next/core
-  - git://anongit.freedesktop.org/drm/drm-misc#for-linux-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git#next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/phy/linux-phy.git#next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/thermal/linux.git#thermal/linux-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git#for-mfd-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2.6.git#master
-  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/driver-core.git#driver-core-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/glaubitz/sh-linux.git#for-next
-  - https://git.pengutronix.de/git/pza/linux#reset/next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/krzk/linux-mem-ctrl.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/deller/linux-fbdev.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/jejb/scsi.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/mkp/scsi.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/riscv/linux.git#fixes
-  - git://git.kernel.org/pub/scm/linux/kernel/git/riscv/linux.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/ulfh/linux-pm.git#next
-
-Gr{oetje,eeting}s,
-
-						Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-							    -- Linus Torvalds
