@@ -2,95 +2,138 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F141E7DCFCE
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 31 Oct 2023 15:57:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E8D717DD0E8
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 31 Oct 2023 16:48:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344388AbjJaO6A (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 31 Oct 2023 10:58:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49758 "EHLO
+        id S232517AbjJaPsc (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 31 Oct 2023 11:48:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45298 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344312AbjJaO57 (ORCPT
+        with ESMTP id S232376AbjJaPsb (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 31 Oct 2023 10:57:59 -0400
-Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com [IPv6:2a00:1450:4864:20::534])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 45FF7E8
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 31 Oct 2023 07:57:56 -0700 (PDT)
-Received: by mail-ed1-x534.google.com with SMTP id 4fb4d7f45d1cf-53b32dca0bfso11841242a12.0
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 31 Oct 2023 07:57:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20230601.gappssmtp.com; s=20230601; t=1698764275; x=1699369075; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Jeb48vmA/o9ulzJEex2wEVbiRcT5CIjh82DiUH/+tbk=;
-        b=V6but9JlADbdOylH1AUZeK1IdOd8pwdGd+aeYmCaLueCgAzhDRDFeGs81ycKjoxAM8
-         X94kZ54vh+hqsXxVf8bthFbqyjEGUAa/o3/bou7cUYmBZVg1ZZj8OmsJlz2D//nUeRsP
-         jpOWkq4QTz6Hm9IUdnoRPNeoXyPGVFT8HCAqlsok4FjzfzoK98bXg5PVHSICMlHCI0yb
-         z9lFv7jPzxmngJc6cFJeabxBoW6notu1QEf492pU0nja24Ow2YGe71UhXD4Jy+TtSCQ5
-         3zJ4/x8w6NVmeM939Zmp6SCMjthPQolaokPDxWJcV/6eAnzXmQvtNqwpE8LwsmvgShla
-         BaXQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698764275; x=1699369075;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Jeb48vmA/o9ulzJEex2wEVbiRcT5CIjh82DiUH/+tbk=;
-        b=hyErv+l51HVuOHFTREAjchtnReAJ0Yk0gI9qlVyliseJ6KXUaHw1ShxfnHqG1TXi/s
-         WegA6G8XqGR5iBASZkFeWTWkduag/enUc60a+4bb6wscu/vXaIPJbG46LcGmtIEskYhc
-         +rvoN3HbVqiyxWmgqWM0aa/Z2NrfBLoJNNkCXLQUKdXzH3ouupVW9uXlRnNOfYc4+sO1
-         h7KLcntjz+7ZWOGnEoFHRB5haKglqDn44LbNuApYWpY1gRKQLAg4SbMSTCZreELz2K3O
-         muk2hmxc9jE+VTSb/DbjZcO2Eu5dxxMgfVT+NAs3msRSDmNwWmUlGUL3pfWKN4ujTDE/
-         tbiQ==
-X-Gm-Message-State: AOJu0Yz+1MMpNlD2itOOjRceMtef16+PRm3XSZ+BZZ/c9wpjG4GlMsna
-        QsnfaTIAJqOWTcwlHZATAKartRkL890HcJybc81vwjHt
-X-Google-Smtp-Source: AGHT+IGCPN4YqBEYkzm6IJafXKg60f7ZjzBk039ZXG8wnqjy6Gu9/Ttc7VlChXT7nMTSMGlfXFbiOA==
-X-Received: by 2002:a50:9f44:0:b0:53e:2aab:14f3 with SMTP id b62-20020a509f44000000b0053e2aab14f3mr2579551edf.17.1698764274636;
-        Tue, 31 Oct 2023 07:57:54 -0700 (PDT)
-Received: from sleipner.berto.se (p4fca21ea.dip0.t-ipconnect.de. [79.202.33.234])
-        by smtp.googlemail.com with ESMTPSA id e25-20020a50a699000000b0053e89721d4esm1268236edc.68.2023.10.31.07.57.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 31 Oct 2023 07:57:54 -0700 (PDT)
-From:   =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     linux-renesas-soc@vger.kernel.org,
-        =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-Subject: [PATCH] clk: renesas: r8a779g0: Add EtherTSN clock
-Date:   Tue, 31 Oct 2023 15:57:39 +0100
-Message-ID: <20231031145739.657638-1-niklas.soderlund+renesas@ragnatech.se>
-X-Mailer: git-send-email 2.42.0
+        Tue, 31 Oct 2023 11:48:31 -0400
+Received: from baptiste.telenet-ops.be (baptiste.telenet-ops.be [IPv6:2a02:1800:120:4::f00:13])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E1EA8E4
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 31 Oct 2023 08:48:28 -0700 (PDT)
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed40:8e37:9cb1:cb68:af34])
+        by baptiste.telenet-ops.be with bizsmtp
+        id 4foR2B00X54etMF01foRUF; Tue, 31 Oct 2023 16:48:26 +0100
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan.of.borg with esmtp (Exim 4.95)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1qxqyc-00881g-UP;
+        Tue, 31 Oct 2023 16:48:25 +0100
+Received: from geert by rox.of.borg with local (Exim 4.95)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1qxqyf-00GAds-IY;
+        Tue, 31 Oct 2023 16:48:25 +0100
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Cc:     linux-mmc@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH/RFC] mmc: tmio: Cancel delayed work before freeing host
+Date:   Tue, 31 Oct 2023 16:48:24 +0100
+Message-Id: <b669f8e2aebcfe7a0937175058364daa5862d862.1698766265.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-1.7 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,
+        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Add the TSN module clock, which are used by the EtherTSN module on the
-Renesas R-Car V4H (R8A779G0) SoC.
+On RZ/Five SMARC EVK, where probing of SDHI fails due to missing pin
+control:
 
-Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+    ------------[ cut here ]------------
+    WARNING: CPU: 0 PID: 0 at kernel/time/timer.c:1739 __run_timers.part.0+0x1e8/0x22a
+    Modules linked in:
+    CPU: 0 PID: 0 Comm: swapper Not tainted 6.6.0-10953-ga37a67d260e6-dirty #86
+    Hardware name: Renesas SMARC EVK based on r9a07g043f01 (DT)
+    epc : __run_timers.part.0+0x1e8/0x22a
+     ra : __run_timers.part.0+0x130/0x22a
+    epc : ffffffff8007540c ra : ffffffff80075354 sp : ffffffc800003e60
+     gp : ffffffff814f5f08 tp : ffffffff8140d5c0 t0 : 0000000000046600
+     t1 : 0000000000000001 t2 : ffffffff81200c10 s0 : ffffffc800003f20
+     s1 : ffffffd8023bc4a0 a0 : 00000000fffee790 a1 : 0000000000000200
+     a2 : 0000000000000200 a3 : ffffffff81489640 a4 : ffffffc800003e60
+     a5 : 0000000000000000 a6 : 0000000000000000 a7 : ffffffc800003e68
+     s2 : 0000000000200000 s3 : 0000000000000122 s4 : 0000000000000000
+     s5 : ffffffffffffffff s6 : ffffffff814896c0 s7 : ffffffff814f58a0
+     s8 : ffffffff80f8bec8 s9 : 0000000000000000 s10: ffffffc800003e60
+     s11: ffffffff81489640 t3 : ffffffff81489678 t4 : 0000000000000240
+     t5 : ffffffd8024ac018 t6 : ffffffd8024ac038
+    status: 0000000200000100 badaddr: 0000000000000000 cause: 0000000000000003
+    [<ffffffff8007540c>] __run_timers.part.0+0x1e8/0x22a
+    [<ffffffff80075472>] run_timer_softirq+0x24/0x4a
+    [<ffffffff80804ec6>] __do_softirq+0xc6/0x212
+    [<ffffffff80027434>] irq_exit_rcu+0x7c/0x9a
+    [<ffffffff807fcd8a>] handle_riscv_irq+0x40/0x4e
+    [<ffffffff807fd7f8>] do_irq+0x40/0x68
+    ---[ end trace 0000000000000000 ]---
+
+What happens?
+
+    renesas_sdhi_probe()
+    {
+    	tmio_mmc_host_alloc()
+	    mmc_alloc_host()
+		INIT_DELAYED_WORK(&host->detect, mmc_rescan);
+
+	devm_request_irq(tmio_mmc_irq);
+
+	/*
+	 * After this, the interrupt handler may be invoked at any time
+	 *
+	 *  tmio_mmc_irq()
+	 *  {
+	 *	__tmio_mmc_card_detect_irq()
+	 *	    mmc_detect_change()
+	 *		_mmc_detect_change()
+	 *		    mmc_schedule_delayed_work(&host->detect, delay);
+	 *  }
+	 */
+
+	tmio_mmc_host_probe()
+	    tmio_mmc_init_ocr()
+		    -EPROBE_DEFER
+
+	tmio_mmc_host_free()
+	    mmc_free_host()
+    }
+
+When expire_timers() runs later, it warns because the scheduled work was
+freed, and now contains a NULL handler function pointer.
+
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
- drivers/clk/renesas/r8a779g0-cpg-mssr.c | 1 +
+Calling __mmc_stop_host() instead works too, but __mmc_stop_host() is an
+internal core function, and is not exported to modules yet.
+
+Perhaps this should be handled by mmc_free_host() instead?
+---
+ drivers/mmc/host/tmio_mmc_core.c | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/drivers/clk/renesas/r8a779g0-cpg-mssr.c b/drivers/clk/renesas/r8a779g0-cpg-mssr.c
-index 7cc580d67362..affc5fc60332 100644
---- a/drivers/clk/renesas/r8a779g0-cpg-mssr.c
-+++ b/drivers/clk/renesas/r8a779g0-cpg-mssr.c
-@@ -235,6 +235,7 @@ static const struct mssr_mod_clk r8a779g0_mod_clks[] __initconst = {
- 	DEF_MOD("pfc2",		917,	R8A779G0_CLK_CL16M),
- 	DEF_MOD("pfc3",		918,	R8A779G0_CLK_CL16M),
- 	DEF_MOD("tsc",		919,	R8A779G0_CLK_CL16M),
-+	DEF_MOD("tsn",		2723,	R8A779G0_CLK_S0D4_HSC),
- 	DEF_MOD("ssiu",		2926,	R8A779G0_CLK_S0D6_PER),
- 	DEF_MOD("ssi",		2927,	R8A779G0_CLK_S0D6_PER),
- };
+diff --git a/drivers/mmc/host/tmio_mmc_core.c b/drivers/mmc/host/tmio_mmc_core.c
+index be7f18fd4836ab29..1e56e78a020d94b9 100644
+--- a/drivers/mmc/host/tmio_mmc_core.c
++++ b/drivers/mmc/host/tmio_mmc_core.c
+@@ -1132,6 +1132,7 @@ EXPORT_SYMBOL_GPL(tmio_mmc_host_alloc);
+ 
+ void tmio_mmc_host_free(struct tmio_mmc_host *host)
+ {
++	cancel_delayed_work_sync(&host->mmc->detect);
+ 	mmc_free_host(host->mmc);
+ }
+ EXPORT_SYMBOL_GPL(tmio_mmc_host_free);
 -- 
-2.42.0
+2.34.1
 
