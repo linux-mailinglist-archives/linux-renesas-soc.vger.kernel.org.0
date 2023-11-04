@@ -2,53 +2,53 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 294097E0F36
-	for <lists+linux-renesas-soc@lfdr.de>; Sat,  4 Nov 2023 12:45:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DE6707E0F37
+	for <lists+linux-renesas-soc@lfdr.de>; Sat,  4 Nov 2023 12:47:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231823AbjKDLoT (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 4 Nov 2023 07:44:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45520 "EHLO
+        id S229468AbjKDLrl (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 4 Nov 2023 07:47:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58320 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229468AbjKDLoT (ORCPT
+        with ESMTP id S232029AbjKDLrl (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 4 Nov 2023 07:44:19 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A0274D47
-        for <linux-renesas-soc@vger.kernel.org>; Sat,  4 Nov 2023 04:44:16 -0700 (PDT)
+        Sat, 4 Nov 2023 07:47:41 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6E0A5D48
+        for <linux-renesas-soc@vger.kernel.org>; Sat,  4 Nov 2023 04:47:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699098256; x=1730634256;
+  t=1699098458; x=1730634458;
   h=date:from:to:cc:subject:message-id;
-  bh=q+FseZE4su2an4J2qqxty2X9gc6emQ4p3fTllWg3fT4=;
-  b=dFUqmPI/yDotFkNuIfLiYKp9fp/pHh2xu93TE2AexUQ2GE22AyrXN1EC
-   u9FcX2q5O/lWaWdqJD5ctwMoPVnkpSw4Yt1X7qDEV2lYGOfX08QCX/mpf
-   yzTswhqbXrIQ7ckeiMNcWfRpcwtmaU/U1wSbevDXPoc76gkvyRboIC8GN
-   qUYma17nLLuSRleQS926iA3JZXkjGa4bHXlfJKxFlCfLTLEq1LBoHmSo0
-   k3sgof+kKxKjRTzibG7qMY16aoea9NSfLRN8wTqm0eMQWEewWGXgK9DQZ
-   pNmINp/ynPb73BidwyjX7A8DnNsuOjozE6id/NjmWK4jUNrLKvsAT/iSS
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10883"; a="388904972"
+  bh=iVkJVhLov1pimqI167gx2coFuJ0pqhMMpu+eGpX8tlM=;
+  b=eVAdP54aGB0gSWzyzUAYuzmqLIhGhpgbGegP6Qgv0dZscNKIrKPzbgTk
+   N3W3MIfrHR4bxvAQfnvfi2XyV8Y3aorOHcD8nyXLaQpKk23neetFQBH+U
+   Irym3DJ+AJB+MXh5QPyfDPszUdnCqqtp1axND+yDZlnBz4ZaNnfaIxM6l
+   JK61sKE7sqoLNJrZRbjzteqauOrXTOAEMHcQYiksjBChmBQ33TApj/KFD
+   2xIpstdwvZlXmH/56jRVz1TYp6oALOwW6bgHqkzMSvxIy0QPBBmrXFaEX
+   aQCtroWeyhzVsBVWcbyPRghnFjQPEgFj8u+35sQfARKg3Zr2E7Eas5bxE
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10883"; a="453381023"
 X-IronPort-AV: E=Sophos;i="6.03,276,1694761200"; 
-   d="scan'208";a="388904972"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2023 04:44:16 -0700
+   d="scan'208";a="453381023"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2023 04:47:37 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10883"; a="761862906"
+X-IronPort-AV: E=McAfee;i="6600,9927,10883"; a="852524934"
 X-IronPort-AV: E=Sophos;i="6.03,276,1694761200"; 
-   d="scan'208";a="761862906"
+   d="scan'208";a="852524934"
 Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 04 Nov 2023 04:44:14 -0700
+  by FMSMGA003.fm.intel.com with ESMTP; 04 Nov 2023 04:47:35 -0700
 Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
         (envelope-from <lkp@intel.com>)
-        id 1qzF4W-0004F3-15;
-        Sat, 04 Nov 2023 11:44:12 +0000
-Date:   Sat, 04 Nov 2023 19:44:02 +0800
+        id 1qzF7l-0004HH-25;
+        Sat, 04 Nov 2023 11:47:33 +0000
+Date:   Sat, 04 Nov 2023 19:46:20 +0800
 From:   kernel test robot <lkp@intel.com>
 To:     Geert Uytterhoeven <geert+renesas@glider.be>
 Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [geert-renesas-drivers:master] BUILD REGRESSION
- d2db27106b911291048ef82bee72ed5a489a83e0
-Message-ID: <202311041900.GZyZ8QaS-lkp@intel.com>
+Subject: [geert-renesas-devel:master] BUILD SUCCESS
+ 64fb94afb7cd6602e4da7190ca705e60e66093bc
+Message-ID: <202311041918.dxfRjHXf-lkp@intel.com>
 User-Agent: s-nail v14.9.24
 X-Spam-Status: No, score=-5.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
@@ -60,70 +60,16 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git master
-branch HEAD: d2db27106b911291048ef82bee72ed5a489a83e0  [LOCAL] arm64: renesas: defconfig: Update renesas_defconfig
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git master
+branch HEAD: 64fb94afb7cd6602e4da7190ca705e60e66093bc  Merge branch 'renesas-dts-for-v6.8' into renesas-devel
 
-Error/Warning reports:
+elapsed time: 5868m
 
-https://lore.kernel.org/oe-kbuild-all/202311011709.KSZRMITa-lkp@intel.com
-
-Error/Warning: (recently discovered and may have been fixed)
-
-net/ipv4/tcp_ao.c:1536:13: error: implicit declaration of function 'crypto_ahash_alignmask'; did you mean 'crypto_ahash_alg_name'? [-Werror=implicit-function-declaration]
-
-Error/Warning ids grouped by kconfigs:
-
-gcc_recent_errors
-|-- alpha-allyesconfig
-|   `-- net-ipv4-tcp_ao.c:error:implicit-declaration-of-function-crypto_ahash_alignmask
-|-- arm-allmodconfig
-|   |-- kernel-power-snapshot.c:warning:Function-parameter-or-member-ca-not-described-in-add_rtree_block
-|   |-- kernel-power-snapshot.c:warning:Function-parameter-or-member-ca-not-described-in-create_zone_bm_rtree
-|   |-- kernel-power-snapshot.c:warning:Function-parameter-or-member-clear_nosave_free-not-described-in-memory_bm_free
-|   |-- kernel-power-snapshot.c:warning:Function-parameter-or-member-gfp_mask-not-described-in-memory_bm_create
-|   `-- kernel-power-snapshot.c:warning:Function-parameter-or-member-pfn-not-described-in-memory_bm_find_bit
-|-- arm-allyesconfig
-|   |-- kernel-power-snapshot.c:warning:Function-parameter-or-member-ca-not-described-in-add_rtree_block
-|   |-- kernel-power-snapshot.c:warning:Function-parameter-or-member-ca-not-described-in-create_zone_bm_rtree
-|   |-- kernel-power-snapshot.c:warning:Function-parameter-or-member-clear_nosave_free-not-described-in-memory_bm_free
-|   |-- kernel-power-snapshot.c:warning:Function-parameter-or-member-gfp_mask-not-described-in-memory_bm_create
-|   `-- kernel-power-snapshot.c:warning:Function-parameter-or-member-pfn-not-described-in-memory_bm_find_bit
-|-- arm64-allyesconfig
-|   |-- kernel-power-snapshot.c:warning:Function-parameter-or-member-ca-not-described-in-add_rtree_block
-|   |-- kernel-power-snapshot.c:warning:Function-parameter-or-member-ca-not-described-in-create_zone_bm_rtree
-|   |-- kernel-power-snapshot.c:warning:Function-parameter-or-member-clear_nosave_free-not-described-in-memory_bm_free
-|   |-- kernel-power-snapshot.c:warning:Function-parameter-or-member-gfp_mask-not-described-in-memory_bm_create
-|   |-- kernel-power-snapshot.c:warning:Function-parameter-or-member-pfn-not-described-in-memory_bm_find_bit
-|   `-- net-ipv4-tcp_ao.c:error:implicit-declaration-of-function-crypto_ahash_alignmask
-|-- arm64-defconfig
-|   |-- kernel-power-snapshot.c:warning:Function-parameter-or-member-ca-not-described-in-add_rtree_block
-|   |-- kernel-power-snapshot.c:warning:Function-parameter-or-member-ca-not-described-in-create_zone_bm_rtree
-|   |-- kernel-power-snapshot.c:warning:Function-parameter-or-member-clear_nosave_free-not-described-in-memory_bm_free
-|   |-- kernel-power-snapshot.c:warning:Function-parameter-or-member-gfp_mask-not-described-in-memory_bm_create
-|   `-- kernel-power-snapshot.c:warning:Function-parameter-or-member-pfn-not-described-in-memory_bm_find_bit
-|-- i386-defconfig
-|   |-- kernel-power-snapshot.c:warning:Function-parameter-or-member-ca-not-described-in-add_rtree_block
-|   |-- kernel-power-snapshot.c:warning:Function-parameter-or-member-ca-not-described-in-create_zone_bm_rtree
-|   |-- kernel-power-snapshot.c:warning:Function-parameter-or-member-clear_nosave_free-not-described-in-memory_bm_free
-|   |-- kernel-power-snapshot.c:warning:Function-parameter-or-member-gfp_mask-not-described-in-memory_bm_create
-|   `-- kernel-power-snapshot.c:warning:Function-parameter-or-member-pfn-not-described-in-memory_bm_find_bit
-|-- loongarch-allnoconfig
-|   `-- drivers-acpi-acpica-tbfind.c:warning:strncpy-specified-bound-equals-destination-size
-|-- loongarch-defconfig
-|   |-- kernel-power-snapshot.c:warning:Function-parameter-or-member-ca-not-described-in-add_rtree_block
-|   |-- kernel-power-snapshot.c:warning:Function-parameter-or-member-ca-not-described-in-create_zone_bm_rtree
-|   |-- kernel-power-snapshot.c:warning:Function-parameter-or-member-clear_nosave_free-not-described-in-memory_bm_free
-|   |-- kernel-power-snapshot.c:warning:Function-parameter-or-member-gfp_mask-not-described-in-memory_bm_create
-|   `-- kernel-power-snapshot.c:warning:Function-parameter-or-member-pfn-not-described-in-memory_bm_find_bit
-|-- powerpc-allyesconfig
-|   `-- net-ipv4-tcp_ao.c:error:implicit-declaration-of-function-crypto_ahash_alignmask
-`-- x86_64-allyesconfig
-    `-- net-ipv4-tcp_ao.c:error:implicit-declaration-of-function-crypto_ahash_alignmask
-
-elapsed time: 5627m
-
-configs tested: 150
+configs tested: 216
 configs skipped: 2
+
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
 tested configs:
 alpha                             allnoconfig   gcc  
@@ -134,51 +80,75 @@ arc                               allnoconfig   gcc
 arc                              allyesconfig   gcc  
 arc                                 defconfig   gcc  
 arc                   randconfig-001-20231031   gcc  
+arc                   randconfig-001-20231101   gcc  
 arc                   randconfig-002-20231031   gcc  
+arc                   randconfig-002-20231101   gcc  
 arm                              allmodconfig   gcc  
 arm                               allnoconfig   gcc  
-arm                              allyesconfig   gcc  
 arm                                 defconfig   gcc  
 arm                   randconfig-001-20231031   gcc  
+arm                   randconfig-001-20231102   gcc  
 arm                   randconfig-002-20231031   gcc  
+arm                   randconfig-002-20231102   gcc  
 arm                   randconfig-003-20231031   gcc  
+arm                   randconfig-003-20231102   gcc  
 arm                   randconfig-004-20231031   gcc  
+arm                   randconfig-004-20231102   gcc  
+arm64                            allmodconfig   gcc  
 arm64                             allnoconfig   gcc  
-arm64                            allyesconfig   gcc  
 arm64                               defconfig   gcc  
 arm64                 randconfig-001-20231031   gcc  
+arm64                 randconfig-001-20231102   gcc  
 arm64                 randconfig-002-20231031   gcc  
+arm64                 randconfig-002-20231102   gcc  
 arm64                 randconfig-003-20231031   gcc  
+arm64                 randconfig-003-20231102   gcc  
 arm64                 randconfig-004-20231031   gcc  
+arm64                 randconfig-004-20231102   gcc  
+csky                             allmodconfig   gcc  
 csky                              allnoconfig   gcc  
+csky                             allyesconfig   gcc  
 csky                                defconfig   gcc  
 csky                  randconfig-001-20231031   gcc  
+csky                  randconfig-001-20231101   gcc  
 csky                  randconfig-002-20231031   gcc  
+csky                  randconfig-002-20231101   gcc  
+i386                             allmodconfig   gcc  
+i386                              allnoconfig   gcc  
+i386                             allyesconfig   gcc  
 i386         buildonly-randconfig-001-20231031   gcc  
 i386         buildonly-randconfig-002-20231031   gcc  
 i386         buildonly-randconfig-003-20231031   gcc  
 i386         buildonly-randconfig-004-20231031   gcc  
 i386         buildonly-randconfig-005-20231031   gcc  
 i386         buildonly-randconfig-006-20231031   gcc  
+i386                              debian-10.3   gcc  
 i386                                defconfig   gcc  
 i386                  randconfig-001-20231031   gcc  
+i386                  randconfig-001-20231102   gcc  
 i386                  randconfig-002-20231031   gcc  
+i386                  randconfig-002-20231102   gcc  
 i386                  randconfig-003-20231031   gcc  
+i386                  randconfig-003-20231102   gcc  
 i386                  randconfig-004-20231031   gcc  
+i386                  randconfig-004-20231102   gcc  
 i386                  randconfig-005-20231031   gcc  
+i386                  randconfig-005-20231102   gcc  
 i386                  randconfig-006-20231031   gcc  
+i386                  randconfig-006-20231102   gcc  
 i386                  randconfig-011-20231031   gcc  
 i386                  randconfig-012-20231031   gcc  
 i386                  randconfig-013-20231031   gcc  
 i386                  randconfig-014-20231031   gcc  
 i386                  randconfig-015-20231031   gcc  
 i386                  randconfig-016-20231031   gcc  
-loongarch                        allmodconfig   gcc  
 loongarch                         allnoconfig   gcc  
 loongarch                        allyesconfig   gcc  
 loongarch                           defconfig   gcc  
 loongarch             randconfig-001-20231031   gcc  
+loongarch             randconfig-001-20231101   gcc  
 loongarch             randconfig-002-20231031   gcc  
+loongarch             randconfig-002-20231101   gcc  
 m68k                             allmodconfig   gcc  
 m68k                              allnoconfig   gcc  
 m68k                             allyesconfig   gcc  
@@ -195,30 +165,54 @@ nios2                             allnoconfig   gcc
 nios2                            allyesconfig   gcc  
 nios2                               defconfig   gcc  
 nios2                 randconfig-001-20231031   gcc  
+nios2                 randconfig-001-20231101   gcc  
 nios2                 randconfig-002-20231031   gcc  
+nios2                 randconfig-002-20231101   gcc  
+openrisc                         allmodconfig   gcc  
+openrisc                          allnoconfig   gcc  
+openrisc                         allyesconfig   gcc  
 openrisc                            defconfig   gcc  
+parisc                           allmodconfig   gcc  
+parisc                            allnoconfig   gcc  
+parisc                           allyesconfig   gcc  
 parisc                              defconfig   gcc  
 parisc                randconfig-001-20231031   gcc  
+parisc                randconfig-001-20231101   gcc  
 parisc                randconfig-002-20231031   gcc  
+parisc                randconfig-002-20231101   gcc  
 parisc64                            defconfig   gcc  
 powerpc                          allmodconfig   gcc  
 powerpc                           allnoconfig   gcc  
 powerpc                          allyesconfig   gcc  
 powerpc               randconfig-001-20231031   gcc  
+powerpc               randconfig-001-20231101   gcc  
 powerpc               randconfig-002-20231031   gcc  
+powerpc               randconfig-002-20231101   gcc  
 powerpc               randconfig-003-20231031   gcc  
+powerpc               randconfig-003-20231101   gcc  
 powerpc64             randconfig-001-20231031   gcc  
+powerpc64             randconfig-001-20231101   gcc  
 powerpc64             randconfig-002-20231031   gcc  
+powerpc64             randconfig-002-20231101   gcc  
 powerpc64             randconfig-003-20231031   gcc  
+powerpc64             randconfig-003-20231101   gcc  
+riscv                            allmodconfig   gcc  
 riscv                             allnoconfig   gcc  
 riscv                            allyesconfig   gcc  
 riscv                               defconfig   gcc  
 riscv                 randconfig-001-20231031   gcc  
+riscv                 randconfig-001-20231101   gcc  
 riscv                 randconfig-002-20231031   gcc  
+riscv                 randconfig-002-20231101   gcc  
 riscv                          rv32_defconfig   gcc  
+s390                             allmodconfig   gcc  
+s390                              allnoconfig   gcc  
+s390                             allyesconfig   gcc  
 s390                                defconfig   gcc  
 s390                  randconfig-001-20231031   gcc  
+s390                  randconfig-001-20231101   gcc  
 s390                  randconfig-002-20231031   gcc  
+s390                  randconfig-002-20231101   gcc  
 sh                               allmodconfig   gcc  
 sh                                allnoconfig   gcc  
 sh                               allyesconfig   gcc  
@@ -254,23 +248,41 @@ x86_64       buildonly-randconfig-005-20231031   gcc
 x86_64       buildonly-randconfig-006-20231031   gcc  
 x86_64                              defconfig   gcc  
 x86_64                randconfig-001-20231031   gcc  
+x86_64                randconfig-001-20231102   gcc  
 x86_64                randconfig-002-20231031   gcc  
+x86_64                randconfig-002-20231102   gcc  
 x86_64                randconfig-003-20231031   gcc  
+x86_64                randconfig-003-20231102   gcc  
 x86_64                randconfig-004-20231031   gcc  
+x86_64                randconfig-004-20231102   gcc  
 x86_64                randconfig-005-20231031   gcc  
+x86_64                randconfig-005-20231102   gcc  
 x86_64                randconfig-006-20231031   gcc  
-x86_64                randconfig-011-20231101   gcc  
-x86_64                randconfig-012-20231101   gcc  
-x86_64                randconfig-013-20231101   gcc  
-x86_64                randconfig-014-20231101   gcc  
-x86_64                randconfig-015-20231101   gcc  
-x86_64                randconfig-016-20231101   gcc  
+x86_64                randconfig-006-20231102   gcc  
+x86_64                randconfig-011-20231031   gcc  
+x86_64                randconfig-011-20231102   gcc  
+x86_64                randconfig-012-20231031   gcc  
+x86_64                randconfig-012-20231102   gcc  
+x86_64                randconfig-013-20231031   gcc  
+x86_64                randconfig-013-20231102   gcc  
+x86_64                randconfig-014-20231031   gcc  
+x86_64                randconfig-014-20231102   gcc  
+x86_64                randconfig-015-20231031   gcc  
+x86_64                randconfig-015-20231102   gcc  
+x86_64                randconfig-016-20231031   gcc  
+x86_64                randconfig-016-20231102   gcc  
 x86_64                randconfig-071-20231031   gcc  
+x86_64                randconfig-071-20231102   gcc  
 x86_64                randconfig-072-20231031   gcc  
+x86_64                randconfig-072-20231102   gcc  
 x86_64                randconfig-073-20231031   gcc  
+x86_64                randconfig-073-20231102   gcc  
 x86_64                randconfig-074-20231031   gcc  
+x86_64                randconfig-074-20231102   gcc  
 x86_64                randconfig-075-20231031   gcc  
+x86_64                randconfig-075-20231102   gcc  
 x86_64                randconfig-076-20231031   gcc  
+x86_64                randconfig-076-20231102   gcc  
 x86_64                          rhel-8.3-rust   clang
 x86_64                               rhel-8.3   gcc  
 xtensa                           allyesconfig   gcc  
