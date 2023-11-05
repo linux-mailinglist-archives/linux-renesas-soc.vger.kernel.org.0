@@ -2,48 +2,48 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7B8B17E162E
-	for <lists+linux-renesas-soc@lfdr.de>; Sun,  5 Nov 2023 21:07:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AA1697E1637
+	for <lists+linux-renesas-soc@lfdr.de>; Sun,  5 Nov 2023 21:08:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229485AbjKEUHH (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 5 Nov 2023 15:07:07 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53332 "EHLO
+        id S229592AbjKEUIh (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 5 Nov 2023 15:08:37 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55792 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229451AbjKEUHG (ORCPT
+        with ESMTP id S229626AbjKEUIg (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 5 Nov 2023 15:07:06 -0500
-Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 21D78E1;
-        Sun,  5 Nov 2023 12:07:03 -0800 (PST)
+        Sun, 5 Nov 2023 15:08:36 -0500
+Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 75172DD;
+        Sun,  5 Nov 2023 12:08:33 -0800 (PST)
 Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
         (No client certificate requested)
-        by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4SNlr3449Dz9sVN;
-        Sun,  5 Nov 2023 21:06:59 +0100 (CET)
+        by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4SNlsp009sz9smh;
+        Sun,  5 Nov 2023 21:08:30 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-        t=1699214819;
+        t=1699214910;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding;
-        bh=aTQFv+jxFsY3X5csA/whB9c77q2hCbYcNxae1TskwzQ=;
-        b=c8MsOHYNKCZq+G4vK28jvelMzuh9vV0bIReZeId4FVGLZrShV70vmH+dn4kmBaLXQweddR
-        0gVPDF0GSXrQwszV3wzR9kSHVy00j53ao+hHWru/h7gzSUO82JnO4H0KtwhWVPH+IC6IR4
-        xCri0Qb2a8dINoLliCPPYRDKwPL4idEBhx1bjGbjZxZPnspfCl7a8Vgxu6z3qyfNJKEew4
-        7PIGcNBmk6tlNiDaSUGpVg01Z7GIYknxmqqcADaH7CuTDBqSUsNPeBFOSQgLdMqCIMRJ3N
-        459olyXiJ7yIx6UXDOTdktTQT1OgDMlpz5hup6A19VHGFCFSJjaLwNbSdnRdKg==
+        bh=EDD6lR1/aN0jSTjcpIJ2Ol25YYZAKhXKuuE0WkDZ1r8=;
+        b=cGY3VnztQYTzxiZeHjuLoPlBThP5AfuVIOOd4s8W0NFmUBp1OrxqniMqrewsc5aZIoSEph
+        25mF2eyBHq1RKgzJlP1wvcidEJZy6d/i7liDx2/eWxl3pU9banjTe2HYH4fVvUrrSgy2LZ
+        EFoAnAytNqfc9t6D/csupKoCy9JWLuu9E2xFt3vXGKHekkYaLGe/dXYa8f25oFckLYZ7wU
+        QYGYfEZC8/8udKFkTEo8g+g/FyDzIAQ7OKQWBAPW8T+ZXkWd6j42qu79incwUr+7bRWDMD
+        CQ9CBDdJcm8Z+0koHvUKwrCB9Rwu/IxryoR6l5b7wsr6a70Y7cqvCY0Lka0zrA==
 From:   Marek Vasut <marek.vasut+renesas@mailbox.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-        t=1699214817;
+        t=1699214908;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding;
-        bh=aTQFv+jxFsY3X5csA/whB9c77q2hCbYcNxae1TskwzQ=;
-        b=X+55kuiQgnpvrwpqBcNYI9FDdAqRnmhbis7tN9Xo4uWEZOxRJEQaETMHuZTVdoc9DjbLLS
-        MTf1LCx96Kna1fYyHVqzBTp9pFFJICpx5eH4/iIwEKa9TUbEo3snDUMvqTx9+pjZuB5ao0
-        UVPGTN3Vopcu1Jdx9tHXMjJYuwbfjCDvUVy8ck8mIxU+4+QgitHjGLMSxerDP9K9PtSqSw
-        6ll51WSmnlUEjI7AJmsF5yd7A0NPuP/9wtsshtLzEK6zwX9j45o66jroNlZ6pkNe9jzWPC
-        s3DZaRr52qp2Qp5IGvQ8gmgcuH3VFuGtmjBSJ3O1DNLgTiuhxyvURtURxbdtJw==
+        bh=EDD6lR1/aN0jSTjcpIJ2Ol25YYZAKhXKuuE0WkDZ1r8=;
+        b=RUL7SbcFgSdDtQh9/Y2cY91DgvFgCUuvh/bm35Hgy4ND5DXTkruncPV0E8fjgV5aPsMyJk
+        dajTs3LE2xOswtDjZWeLykAEiXpL6D8DgQIwf+PCLDy2pLy2zmZ5BzktNX6Q2z2jTmzs6n
+        3ZelpIqPPFjyWrm7LGLiplecsyityWuuOGCVPhOwguQrdkGfdAEn/JpS7w3yd4WNtCNy/f
+        iu5bJwD1w7lq3VSs4h2L3PtlrzLyitjSPMvNDRmHKs94hSNRqEL9049XtOQ8N8l2tGRljL
+        ZHzxzniIF6c9RoSlTLCHOxhIdMU1OD2VCUcCb51F4FhyANbQjdkZzZAgWHPl5w==
 To:     linux-clk@vger.kernel.org
 Cc:     Marek Vasut <marek.vasut+renesas@mailbox.org>,
         Alexander Stein <alexander.stein@ew.tq-group.com>,
@@ -54,13 +54,13 @@ Cc:     Marek Vasut <marek.vasut+renesas@mailbox.org>,
         Rob Herring <robh+dt@kernel.org>,
         Stephen Boyd <sboyd@kernel.org>, devicetree@vger.kernel.org,
         linux-renesas-soc@vger.kernel.org
-Subject: [PATCH] clk: rs9: Fix DIF OEn bit placement on 9FGV0241
-Date:   Sun,  5 Nov 2023 21:06:15 +0100
-Message-ID: <20231105200642.62792-1-marek.vasut+renesas@mailbox.org>
+Subject: [PATCH 1/2] dt-bindings: clk: rs9: Add 9FGV0841
+Date:   Sun,  5 Nov 2023 21:07:58 +0100
+Message-ID: <20231105200812.62849-1-marek.vasut+renesas@mailbox.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-MBO-RS-META: 7jnrc1r3hg64n4pus16cxxxnohkj5j8e
-X-MBO-RS-ID: a2288b80ca60afe3830
+X-MBO-RS-META: fdwghoktcwgo3put9mpangp8hhcdeh9c
+X-MBO-RS-ID: 3d0007d7550afafabac
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
@@ -71,12 +71,8 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 9FGV0241, the DIF OE0 is BIT(1) and DIF OE1 is BIT(2), on the other
-chips like 9FGV0441 and 9FGV0841 DIF OE0 is BIT(0) and so on. Increment
-the index in BIT() macro instead of the result of BIT() macro to shift
-the bit correctly on 9FGV0241.
+This is an 8-channel variant of 9FGV series.
 
-Fixes: 603df193ec51 ("clk: rs9: Support device specific dif bit calculation")
 Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
 ---
 Cc: Alexander Stein <alexander.stein@ew.tq-group.com>
@@ -90,22 +86,37 @@ Cc: devicetree@vger.kernel.org
 Cc: linux-clk@vger.kernel.org
 Cc: linux-renesas-soc@vger.kernel.org
 ---
- drivers/clk/clk-renesas-pcie.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../devicetree/bindings/clock/renesas,9series.yaml     | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-diff --git a/drivers/clk/clk-renesas-pcie.c b/drivers/clk/clk-renesas-pcie.c
-index 380245f635d6..6606aba253c5 100644
---- a/drivers/clk/clk-renesas-pcie.c
-+++ b/drivers/clk/clk-renesas-pcie.c
-@@ -163,7 +163,7 @@ static u8 rs9_calc_dif(const struct rs9_driver_data *rs9, int idx)
- 	enum rs9_model model = rs9->chip_info->model;
+diff --git a/Documentation/devicetree/bindings/clock/renesas,9series.yaml b/Documentation/devicetree/bindings/clock/renesas,9series.yaml
+index 3afdebdb52ad..af6319697b1c 100644
+--- a/Documentation/devicetree/bindings/clock/renesas,9series.yaml
++++ b/Documentation/devicetree/bindings/clock/renesas,9series.yaml
+@@ -21,6 +21,15 @@ description: |
+     1 -- DIF1
+     2 -- DIF2
+     3 -- DIF3
++  - 9FGV0841:
++    0 -- DIF0
++    1 -- DIF1
++    2 -- DIF2
++    3 -- DIF3
++    4 -- DIF4
++    5 -- DIF5
++    6 -- DIF6
++    7 -- DIF7
  
- 	if (model == RENESAS_9FGV0241)
--		return BIT(idx) + 1;
-+		return BIT(idx + 1);
- 	else if (model == RENESAS_9FGV0441)
- 		return BIT(idx);
+ maintainers:
+   - Marek Vasut <marex@denx.de>
+@@ -30,6 +39,7 @@ properties:
+     enum:
+       - renesas,9fgv0241
+       - renesas,9fgv0441
++      - renesas,9fgv0841
  
+   reg:
+     description: I2C device address
 -- 
 2.42.0
 
