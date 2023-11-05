@@ -2,43 +2,41 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BD94E7E12BF
-	for <lists+linux-renesas-soc@lfdr.de>; Sun,  5 Nov 2023 10:25:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 39B487E12C4
+	for <lists+linux-renesas-soc@lfdr.de>; Sun,  5 Nov 2023 10:29:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229454AbjKEJZ4 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 5 Nov 2023 04:25:56 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43598 "EHLO
+        id S229636AbjKEJ3V (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 5 Nov 2023 04:29:21 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36338 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229451AbjKEJZz (ORCPT
+        with ESMTP id S229455AbjKEJ3U (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 5 Nov 2023 04:25:55 -0500
+        Sun, 5 Nov 2023 04:29:20 -0500
 Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 266FEBF
-        for <linux-renesas-soc@vger.kernel.org>; Sun,  5 Nov 2023 01:25:50 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0C606C6
+        for <linux-renesas-soc@vger.kernel.org>; Sun,  5 Nov 2023 01:29:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
         sang-engineering.com; h=from:to:cc:subject:date:message-id
-        :mime-version:content-transfer-encoding; s=k1; bh=k6kq6ZSc+Pa23o
-        60zfFYsZ6XKr84eY0iwg/3EIsqzOM=; b=Ry3cBfESeEaIvc0xTY5PvSkLYbJQ+G
-        1hG0FS2oCto83ZTB+OanSt1srFzgE0Tpib5gSgK3OxL2+TmDjlNa4BwhscVhDB6H
-        L7Qv6M86bs2aBqDZZa9p6pIf/9quiLkM9EF3EAPIE1Q9kICalF2r+hmx/eRk4zb4
-        exKycFfzvTwvHpUC78R57N4zOrvkV46Q/ihGa+M8QQavavIrnOy6J9/bK5DpPFq7
-        NX8d9/IUotP/SKya8aGcpyU7NTLljwWSA5sgl9xOPlsBGROy/qv6nZTbUYgbWIQu
-        fgz7LhubQOG08iSdUKWBIk657unAc8j4VHpAgAUkLRZV1St87A0CaUJw==
-Received: (qmail 1669474 invoked from network); 5 Nov 2023 10:25:47 +0100
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 5 Nov 2023 10:25:47 +0100
-X-UD-Smtp-Session: l3s3148p1@T6dzUmQJ7rIgAQnoAFPQANY41GnTzLIh
+        :mime-version:content-transfer-encoding; s=k1; bh=4dwyhc7I5VMK+p
+        3joAdQ6muDlyj3lJuFlgGGOnOLLkM=; b=GOqsPTQgSakmrjtRYAs0RNIjZY7DM9
+        2mY6o3VlX4huWsGyJs2yTgEpgrICr2KSM3ToL1DPIfKkx6tYWIKMJGdwGypuUCyj
+        JGu28X97KaHSoMHnxURUf++gozdPrtWWNzgowUeKcOZkWWx/aLso0S76DxxCpBHE
+        OfXURWT2z2s1MC7VzTvkc3eFYpqaNcxREsjR9XEPBh0foJZsf2Y/DbehZkOQrd8c
+        U+D+Wd3f43E7LUkKb+QnGrmMPomHYyNTdRLB8ilOy3bjHNxi1OcivmPkNI7u0oQt
+        s8AEu4in1EaqkMA8BEgGp+70+Sb6se/le4XSAAc/bws5tChfeVytTy8Q==
+Received: (qmail 1670058 invoked from network); 5 Nov 2023 10:29:15 +0100
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 5 Nov 2023 10:29:15 +0100
+X-UD-Smtp-Session: l3s3148p1@um33XmQJZsQgAQnoAFPQANY41GnTzLIh
 From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
 To:     linux-renesas-soc@vger.kernel.org
 Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        David Airlie <airlied@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v3] drm: renesas: rcar-du: use proper naming for R-Car
-Date:   Sun,  5 Nov 2023 10:25:39 +0100
-Message-Id: <20231105092540.3658-1-wsa+renesas@sang-engineering.com>
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-pci@vger.kernel.org,
+        Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Subject: [PATCH v5 RESEND 0/2] PCI: rcar: support regulators for PCIe
+Date:   Sun,  5 Nov 2023 10:29:06 +0100
+Message-Id: <20231105092908.3792-1-wsa+renesas@sang-engineering.com>
 X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -53,33 +51,21 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Not RCAR, but R-Car.
+Here are the patches to make PCIe cards work in slot CN15 on a Renesas
+KingFisher board. Please apply.
 
-Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
-
-Changes since v2:
+Changes since v4:
 * rebased to 6.6
-* added Geert's tag (thanks!)
+* added ack from Mani (Thanks!)
 
- drivers/gpu/drm/renesas/rcar-du/rcar_du_plane.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Wolfram Sang (2):
+  dt-bindings: PCI: rcar-pci-host: add optional regulators
+  PCI: rcar-host: add support for optional regulators
 
-diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_du_plane.h b/drivers/gpu/drm/renesas/rcar-du/rcar_du_plane.h
-index f9893d7d6dfc..e9e59c5e70d5 100644
---- a/drivers/gpu/drm/renesas/rcar-du/rcar_du_plane.h
-+++ b/drivers/gpu/drm/renesas/rcar-du/rcar_du_plane.h
-@@ -16,7 +16,7 @@ struct rcar_du_format_info;
- struct rcar_du_group;
- 
- /*
-- * The RCAR DU has 8 hardware planes, shared between primary and overlay planes.
-+ * The R-Car DU has 8 hardware planes, shared between primary and overlay planes.
-  * As using overlay planes requires at least one of the CRTCs being enabled, no
-  * more than 7 overlay planes can be available. We thus create 1 primary plane
-  * per CRTC and 7 overlay planes, for a total of up to 9 KMS planes.
+ .../devicetree/bindings/pci/rcar-pci-host.yaml   | 11 +++++++++++
+ drivers/pci/controller/pcie-rcar-host.c          | 16 +++++++++++++++-
+ 2 files changed, 26 insertions(+), 1 deletion(-)
+
 -- 
 2.35.1
 
