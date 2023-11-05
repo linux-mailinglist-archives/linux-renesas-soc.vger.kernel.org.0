@@ -2,123 +2,82 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 73B237E12C9
-	for <lists+linux-renesas-soc@lfdr.de>; Sun,  5 Nov 2023 10:29:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id ED6AF7E1702
+	for <lists+linux-renesas-soc@lfdr.de>; Sun,  5 Nov 2023 22:59:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229527AbjKEJ3W (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 5 Nov 2023 04:29:22 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36384 "EHLO
+        id S229788AbjKEV70 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 5 Nov 2023 16:59:26 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43840 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229455AbjKEJ3V (ORCPT
+        with ESMTP id S229448AbjKEV7Z (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 5 Nov 2023 04:29:21 -0500
-Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 11F59B7
-        for <linux-renesas-soc@vger.kernel.org>; Sun,  5 Nov 2023 01:29:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        sang-engineering.com; h=from:to:cc:subject:date:message-id
-        :in-reply-to:references:mime-version:content-transfer-encoding;
-         s=k1; bh=j9pgIVNbVKA+mGdxd7ctowoNKe1CAHE+xat2Gout9gA=; b=Z8beJd
-        kiUy9gUiOFHiKWuKMJF/8H8Oq8Le+4B66B//M3p52MSBXBnSyR6Z0uG4YVCgcMJq
-        /MPG+DRczETc/O0hTc9dngbjyq37fVg1XZLQ/0ZRNiNKrv1kpMMjexUs5eybrhql
-        LXcTC2NhNktn7RI9vzPw/r9xvdTonOpG29fMORmKB+qjLT9wLb3WmjiKNx8IWpyj
-        1Nu5OemHBe9clbuY7ysQJ0pSzUY8Fvd3kjjzH7rPl9C05vXMNfHFjZDexdb2LoIM
-        gwDMZhGnLcL7phoa7duUe8qEa0lYIkKwGw8bQfOHIDc89/yPaukLZJSwO45TqTZN
-        H6QaxbRaVwGkbpQQ==
-Received: (qmail 1670156 invoked from network); 5 Nov 2023 10:29:16 +0100
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 5 Nov 2023 10:29:16 +0100
-X-UD-Smtp-Session: l3s3148p1@B0oPX2QJdsQgAQnoAFPQANY41GnTzLIh
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     linux-renesas-soc@vger.kernel.org
-Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Manivannan Sadhasivam <mani@kernel.org>,
-        Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Lorenzo Pieralisi <lpieralisi@kernel.org>,
-        =?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kw@linux.com>,
-        Rob Herring <robh@kernel.org>,
-        Bjorn Helgaas <bhelgaas@google.com>, linux-pci@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v5 RESEND 2/2] PCI: rcar-host: add support for optional regulators
-Date:   Sun,  5 Nov 2023 10:29:08 +0100
-Message-Id: <20231105092908.3792-3-wsa+renesas@sang-engineering.com>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20231105092908.3792-1-wsa+renesas@sang-engineering.com>
-References: <20231105092908.3792-1-wsa+renesas@sang-engineering.com>
+        Sun, 5 Nov 2023 16:59:25 -0500
+X-Greylist: delayed 5166 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sun, 05 Nov 2023 13:59:22 PST
+Received: from SMTP-HCRC-200.brggroup.vn (unknown [42.112.212.144])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8B5CEBF;
+        Sun,  5 Nov 2023 13:59:22 -0800 (PST)
+Received: from SMTP-HCRC-200.brggroup.vn (localhost [127.0.0.1])
+        by SMTP-HCRC-200.brggroup.vn (SMTP-CTTV) with ESMTP id 20A1A18FD8;
+        Mon,  6 Nov 2023 01:57:37 +0700 (+07)
+Received: from zimbra.hcrc.vn (unknown [192.168.200.66])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by SMTP-HCRC-200.brggroup.vn (SMTP-CTTV) with ESMTPS id 19D62190E0;
+        Mon,  6 Nov 2023 01:57:37 +0700 (+07)
+Received: from localhost (localhost [127.0.0.1])
+        by zimbra.hcrc.vn (Postfix) with ESMTP id A996E1B8252B;
+        Mon,  6 Nov 2023 01:57:38 +0700 (+07)
+Received: from zimbra.hcrc.vn ([127.0.0.1])
+        by localhost (zimbra.hcrc.vn [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id ZEMTke11s4B7; Mon,  6 Nov 2023 01:57:38 +0700 (+07)
+Received: from localhost (localhost [127.0.0.1])
+        by zimbra.hcrc.vn (Postfix) with ESMTP id 78F4B1B8250F;
+        Mon,  6 Nov 2023 01:57:38 +0700 (+07)
+DKIM-Filter: OpenDKIM Filter v2.10.3 zimbra.hcrc.vn 78F4B1B8250F
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hcrc.vn;
+        s=64D43D38-C7D6-11ED-8EFE-0027945F1BFA; t=1699210658;
+        bh=WOZURJ77pkiMUL2pPLC14ifVPRvyTQIBEQmxuN1ezAA=;
+        h=MIME-Version:To:From:Date:Message-Id;
+        b=k+0sOHHoCbkD3xLpLSaG6npPa6V54Jo7exFY8UuTF3w0qT8GDNFt2zEoGQKss895u
+         L1yvQWQ+mlRedyyhN1ZzttuVk7TkZUinE2tKukc/wMpYM44izedDbSuDsLlYEc8tQh
+         SHhBLIqwRYjjF9nHLYrTeVydY7rHci3XEylkFXA80bYyh6U+pO2Ny8PhahStCXE4Bh
+         s6SDRefgSzsRwyZL7qCaGaW09sAsYfxA8QwTja5f8HmTAmyefRLHDyaqi3wVpSv261
+         nramjk0qLfYy0jC0PqbnPcf8Efe4c1qE1nFBj5TxrxD968h3uNJvYvYnYnzwNp2D1K
+         u7J+5OKuGT9Cw==
+X-Virus-Scanned: amavisd-new at hcrc.vn
+Received: from zimbra.hcrc.vn ([127.0.0.1])
+        by localhost (zimbra.hcrc.vn [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id SM_x_84p-TXs; Mon,  6 Nov 2023 01:57:38 +0700 (+07)
+Received: from [192.168.1.152] (unknown [51.179.100.52])
+        by zimbra.hcrc.vn (Postfix) with ESMTPSA id 2547F1B8252B;
+        Mon,  6 Nov 2023 01:57:31 +0700 (+07)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Transfer-Encoding: quoted-printable
+Content-Description: Mail message body
+Subject: =?utf-8?b?4oKsIDEwMC4wMDAuMDAwPw==?=
+To:     Recipients <ch.31hamnghi@hcrc.vn>
+From:   ch.31hamnghi@hcrc.vn
+Date:   Sun, 05 Nov 2023 19:57:21 +0100
+Reply-To: joliushk@gmail.com
+Message-Id: <20231105185732.2547F1B8252B@zimbra.hcrc.vn>
+X-Spam-Status: No, score=2.7 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FORGED_REPLYTO,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
+        URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Level: **
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-The KingFisher board has regulators for miniPCIe, so enable these
-optional regulators using devm. devm will automatically disable them
-when the driver releases the device. Order variables in reverse-xmas
-while we are here.
+Goededag,
+Ik ben mevrouw Joanna Liu en een medewerker van Citi Bank Hong Kong.
+Kan ik =E2=82=AC 100.000.000 aan u overmaken? Kan ik je vertrouwen
 
-Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Acked-by: Manivannan Sadhasivam <mani@kernel.org>
----
- drivers/pci/controller/pcie-rcar-host.c | 16 +++++++++++++++-
- 1 file changed, 15 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/pci/controller/pcie-rcar-host.c b/drivers/pci/controller/pcie-rcar-host.c
-index 88975e40ee2f..7aecc114af4f 100644
---- a/drivers/pci/controller/pcie-rcar-host.c
-+++ b/drivers/pci/controller/pcie-rcar-host.c
-@@ -29,6 +29,7 @@
- #include <linux/phy/phy.h>
- #include <linux/platform_device.h>
- #include <linux/pm_runtime.h>
-+#include <linux/regulator/consumer.h>
- 
- #include "pcie-rcar.h"
- 
-@@ -953,14 +954,20 @@ static const struct of_device_id rcar_pcie_of_match[] = {
- 	{},
- };
- 
-+/* Design note 346 from Linear Technology says order is not important */
-+static const char * const rcar_pcie_supplies[] = {
-+	"vpcie12v", "vpcie3v3", "vpcie1v5"
-+};
-+
- static int rcar_pcie_probe(struct platform_device *pdev)
- {
- 	struct device *dev = &pdev->dev;
-+	struct pci_host_bridge *bridge;
- 	struct rcar_pcie_host *host;
- 	struct rcar_pcie *pcie;
-+	unsigned int i;
- 	u32 data;
- 	int err;
--	struct pci_host_bridge *bridge;
- 
- 	bridge = devm_pci_alloc_host_bridge(dev, sizeof(*host));
- 	if (!bridge)
-@@ -971,6 +978,13 @@ static int rcar_pcie_probe(struct platform_device *pdev)
- 	pcie->dev = dev;
- 	platform_set_drvdata(pdev, host);
- 
-+	for (i = 0; i < ARRAY_SIZE(rcar_pcie_supplies); i++) {
-+		err = devm_regulator_get_enable_optional(dev, rcar_pcie_supplies[i]);
-+		if (err < 0 && err != -ENODEV)
-+			return dev_err_probe(dev, err, "can't enable regulator %s\n",
-+					     rcar_pcie_supplies[i]);
-+	}
-+
- 	pm_runtime_enable(pcie->dev);
- 	err = pm_runtime_get_sync(pcie->dev);
- 	if (err < 0) {
--- 
-2.35.1
+Ik wacht op jullie reacties
+Met vriendelijke groeten
+mevrouw Joanna Liu
 
