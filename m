@@ -2,113 +2,134 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 06F8E7E26B9
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  6 Nov 2023 15:25:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B716F7E2AC4
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  6 Nov 2023 18:13:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229563AbjKFOZZ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 6 Nov 2023 09:25:25 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52210 "EHLO
+        id S232064AbjKFRNn (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 6 Nov 2023 12:13:43 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42886 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231358AbjKFOZZ (ORCPT
+        with ESMTP id S229715AbjKFRNn (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 6 Nov 2023 09:25:25 -0500
+        Mon, 6 Nov 2023 12:13:43 -0500
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD4A9C6;
-        Mon,  6 Nov 2023 06:25:22 -0800 (PST)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 77C91C433C8;
-        Mon,  6 Nov 2023 14:25:22 +0000 (UTC)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AB07A83;
+        Mon,  6 Nov 2023 09:13:40 -0800 (PST)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1BCBCC433C7;
+        Mon,  6 Nov 2023 17:13:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1699280722;
-        bh=HY3kSLldl7rK8Qt1R1njkwITH3UB/c7/iTo+eGw2/5g=;
+        s=k20201202; t=1699290820;
+        bh=RH8aQ6Z1i9EfK9n1klLE7C93NNkM5so1vcNS443yUpE=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=dfuahSDA/ik+wqTm44m7fP26rdFTxfGHXXZAKtyCwwZL+BxZTfimvszIss7cGXVMK
-         kta0oN61FDmSKiy356qtTiM36ZO08ms5xIsA/Wdu3q5PiG+VeFI5HGGD0BrCdwv3ry
-         Uiw0Q1gnPy4/4MXy6Y0Zr4iTtshf0OMxdXWVrTvc3zYo3pNLPnO8MTS5H+l0yZfAn0
-         CVi2wIg/VJ8PGrZMoBZ4SVGP1lC1Rf1cli4TI36cIxzjPv6MaPFEgtZSyEd/aV3gR3
-         JBvEwolJGEI4j3CM3NHHGz7cQt5ObIFJSE0aHoePGuSNLHbPOj3J0pXIuu2eEt/nhK
-         0+dPGI19MJMfw==
-Received: from johan by xi.lan with local (Exim 4.96)
-        (envelope-from <johan@kernel.org>)
-        id 1r00YJ-0000Ob-2S;
-        Mon, 06 Nov 2023 15:26:08 +0100
-Date:   Mon, 6 Nov 2023 15:26:07 +0100
-From:   Johan Hovold <johan@kernel.org>
-To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc:     linux-renesas-soc@vger.kernel.org,
+        b=hfBt/3iflon/viupAp7T+oB0xxkAoQLfUHsXbL0DDvV5I1HqseSp2D6RMY1xbrKz8
+         tHkJr3kdzo75kslwVbZXKm0Q7hteIqLcdtHx4nq8p3fBWA8qHT1p6IM2wBHTtQ1Epv
+         e7FqeyLR3tpFiZveJecEhvoPQ1pGdULP/Hc7JIcAFPA09kT8NUSUnz0goOsUao8iVT
+         q/pczvTY05/dyqUgzaE5U8zEcM+m2hAFpQbme2UdhLoWC5BH5Y/azgzVkHxcL9/5Wz
+         wxbWalMH3OLcL8c67hIYXnmDgMl2CGAr53zhCzZGoubykyI5VLye1rKEgKiv2iKSZ7
+         l5rA8yxTkz5ZA==
+Date:   Mon, 6 Nov 2023 17:13:35 +0000
+From:   Conor Dooley <conor@kernel.org>
+To:     Marek Vasut <marek.vasut+renesas@mailbox.org>
+Cc:     linux-clk@vger.kernel.org,
+        Alexander Stein <alexander.stein@ew.tq-group.com>,
+        Conor Dooley <conor+dt@kernel.org>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 3/3] gnss: ubx: add support for the reset gpio
-Message-ID: <ZUj3fzArgPU4kYYT@hovoldconsulting.com>
-References: <20231103225601.6499-1-wsa+renesas@sang-engineering.com>
- <20231103225601.6499-4-wsa+renesas@sang-engineering.com>
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Stephen Boyd <sboyd@kernel.org>, devicetree@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH 1/2] dt-bindings: clk: rs9: Add 9FGV0841
+Message-ID: <20231106-deafening-multitude-7d08c8400915@spud>
+References: <20231105200812.62849-1-marek.vasut+renesas@mailbox.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="hlbvNfl+ZbMiI2kB"
 Content-Disposition: inline
-In-Reply-To: <20231103225601.6499-4-wsa+renesas@sang-engineering.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <20231105200812.62849-1-marek.vasut+renesas@mailbox.org>
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, Nov 03, 2023 at 11:56:00PM +0100, Wolfram Sang wrote:
-> The Renesas KingFisher board includes a U-Blox Neo-M8 chip. This chip
-> has a reset pin which is also wired on the board. Add code to the driver
-> to support this reset pin. Because my GNSS device is hooked up via UART
-> and I2C simultaneously, I could verify functionality by opening/closing
-> the GNSS device using UART and see if the corresponding I2C device was
-> visible on the bus.
 
->  static int ubx_set_active(struct gnss_serial *gserial)
-> @@ -29,6 +31,8 @@ static int ubx_set_active(struct gnss_serial *gserial)
->  	if (ret)
->  		return ret;
->  
-> +	gpiod_set_value_cansleep(data->reset_gpio, 0);
-> +
->  	return 0;
->  }
->  
-> @@ -37,6 +41,8 @@ static int ubx_set_standby(struct gnss_serial *gserial)
->  	struct ubx_data *data = gnss_serial_get_drvdata(gserial);
->  	int ret;
->  
-> +	gpiod_set_value_cansleep(data->reset_gpio, 1);
-> +
->  	ret = regulator_disable(data->vcc);
->  	if (ret)
->  		return ret;
-> @@ -90,6 +96,13 @@ static int ubx_probe(struct serdev_device *serdev)
->  	if (ret < 0 && ret != -ENODEV)
->  		goto err_free_gserial;
->  
-> +	/* Start with reset asserted */
-> +	data->reset_gpio = devm_gpiod_get_optional(&serdev->dev, "reset", GPIOD_OUT_HIGH);
-> +	if (IS_ERR(data->reset_gpio)) {
-> +		ret = PTR_ERR(data->reset_gpio);
-> +		goto err_free_gserial;
-> +	}
-> +
->  	ret = gnss_serial_register(gserial);
->  	if (ret)
->  		goto err_free_gserial;
+--hlbvNfl+ZbMiI2kB
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-So as I just replied to you v3, the hardware integration manual for
-NEO-M8 and the datasheets for some of the other modules explicitly says
-that the RESET_N pin should not be used this way:
+On Sun, Nov 05, 2023 at 09:07:58PM +0100, Marek Vasut wrote:
+> This is an 8-channel variant of 9FGV series.
+>=20
+> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
 
-	1.5 I/O pins
-	RESET_N: Reset input
-	Driving RESET_N low activates a hardware reset of the system.
-	Use this pin only to reset the module. Do not use RESET_N to
-	turn the module on and off, since the reset state increases
-	power consumption.
+Acked-by: Conor Dooley <conor.dooley@microchip.com>
 
-(and AFAIU you should generally not try to use reset this way unless it
-is explicitly said to be supported).
+Thanks,
+Conor.
 
-Johan
+> ---
+> Cc: Alexander Stein <alexander.stein@ew.tq-group.com>
+> Cc: Conor Dooley <conor+dt@kernel.org>
+> Cc: Geert Uytterhoeven <geert+renesas@glider.be>
+> Cc: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+> Cc: Michael Turquette <mturquette@baylibre.com>
+> Cc: Rob Herring <robh+dt@kernel.org>
+> Cc: Stephen Boyd <sboyd@kernel.org>
+> Cc: devicetree@vger.kernel.org
+> Cc: linux-clk@vger.kernel.org
+> Cc: linux-renesas-soc@vger.kernel.org
+> ---
+>  .../devicetree/bindings/clock/renesas,9series.yaml     | 10 ++++++++++
+>  1 file changed, 10 insertions(+)
+>=20
+> diff --git a/Documentation/devicetree/bindings/clock/renesas,9series.yaml=
+ b/Documentation/devicetree/bindings/clock/renesas,9series.yaml
+> index 3afdebdb52ad..af6319697b1c 100644
+> --- a/Documentation/devicetree/bindings/clock/renesas,9series.yaml
+> +++ b/Documentation/devicetree/bindings/clock/renesas,9series.yaml
+> @@ -21,6 +21,15 @@ description: |
+>      1 -- DIF1
+>      2 -- DIF2
+>      3 -- DIF3
+> +  - 9FGV0841:
+> +    0 -- DIF0
+> +    1 -- DIF1
+> +    2 -- DIF2
+> +    3 -- DIF3
+> +    4 -- DIF4
+> +    5 -- DIF5
+> +    6 -- DIF6
+> +    7 -- DIF7
+> =20
+>  maintainers:
+>    - Marek Vasut <marex@denx.de>
+> @@ -30,6 +39,7 @@ properties:
+>      enum:
+>        - renesas,9fgv0241
+>        - renesas,9fgv0441
+> +      - renesas,9fgv0841
+> =20
+>    reg:
+>      description: I2C device address
+> --=20
+> 2.42.0
+>=20
+
+--hlbvNfl+ZbMiI2kB
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZUkevwAKCRB4tDGHoIJi
+0n1zAP4xwoLWdi1lpSe+pYZHYEJckK8LBPbOQNWNqREJ1yHmLAEAn0Sh6HKnp+9p
+H369wX4qgAHu51TjPz3x4bL4XQQVmQ0=
+=rIgl
+-----END PGP SIGNATURE-----
+
+--hlbvNfl+ZbMiI2kB--
