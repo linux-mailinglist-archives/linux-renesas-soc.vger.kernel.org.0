@@ -2,104 +2,128 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 35ABF7E2D93
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  6 Nov 2023 21:06:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 658AB7E3E07
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  7 Nov 2023 13:32:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232347AbjKFUGO (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 6 Nov 2023 15:06:14 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40112 "EHLO
+        id S234962AbjKGMcf (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 7 Nov 2023 07:32:35 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36852 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232321AbjKFUGN (ORCPT
+        with ESMTP id S234895AbjKGMcN (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 6 Nov 2023 15:06:13 -0500
-Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 238A8D47
-        for <linux-renesas-soc@vger.kernel.org>; Mon,  6 Nov 2023 12:06:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        sang-engineering.com; h=date:from:to:cc:subject:message-id
-        :references:mime-version:content-type:in-reply-to; s=k1; bh=vjZF
-        qOeaA5LnEvg7LgKIYy3UkKcpigHlSgqw4G26ag8=; b=JLv9rI0rbmHPlQYxKl7T
-        ygwR/amMDIBMCRPI7WXXcaouj38UoUWUebE4OXL3n6MmN95nF2nwHe35Ax3Wasf6
-        q0gHZ0sXG9QYPcPlR+MgLgaGSXcOVI3VVlNuxNb8GUKqgmct/E6iAPlYoJ22yryp
-        NWbvh38Qi1I/dHddmW7qBngSuNTfWHZYbjtx8cOB/eyLKg7+SpZdrf3Rs7l1S1Tl
-        +M2kGmJpPLQ3uE6He9enkJWzFHJtL7kNgux+ZxkzdrjdfztM5+1fUR9ZtYnrOvBA
-        7qZ2kzhfveKxmQHiHsNmHoklbBC6q3LJzs50UMMT08vtPnqud8jm1j8a+zbNbNge
-        9g==
-Received: (qmail 2147080 invoked from network); 6 Nov 2023 21:06:06 +0100
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 6 Nov 2023 21:06:06 +0100
-X-UD-Smtp-Session: l3s3148p1@e2NaYoEJluQujnvL
-Date:   Mon, 6 Nov 2023 21:06:05 +0100
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     Johan Hovold <johan@kernel.org>
-Cc:     linux-renesas-soc@vger.kernel.org,
+        Tue, 7 Nov 2023 07:32:13 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DF04032B5F;
+        Tue,  7 Nov 2023 04:21:14 -0800 (PST)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8FFDCC433C7;
+        Tue,  7 Nov 2023 12:21:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1699359674;
+        bh=+rywkNCJu5rHEIKiRGZYvVfFeXYV2uIwC+GFP24j8ws=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=gpT2+9Ei01waIECjKVEA/uHdhRp8X64vnb/YR/wMypPF4tA4y9DYcnq/UUxdZraAc
+         AkvbVfbN68DsWg5H8tuPf3zMTPhD6N94LATpckxkxajY2kjemgcvxVgQCD3rGMmYAs
+         I+roAx4T+0zdThlAgls1VIOiMVEiajWM0u0k/8/dnZeGupfRmw1wZZMBU2N6vIpvRY
+         VEgjgyNEydZiCVr0C8XJS7lOo/rPmCtnX1lGgiSYKTARdorv6zbX5XVksjPOzJwkKA
+         y6bgPMl6mSmkqBjkXhq5e6cH5Y4xZO09GpTjHAeyXngzO4JTmnW41goxzcB8hWN/rp
+         0nsKy8+r/yuzQ==
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 3/3] gnss: ubx: add support for the reset gpio
-Message-ID: <ZUlHLZ1mm9IpSPal@ninjato>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Johan Hovold <johan@kernel.org>, linux-renesas-soc@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        linux-kernel@vger.kernel.org
-References: <20231103225601.6499-1-wsa+renesas@sang-engineering.com>
- <20231103225601.6499-4-wsa+renesas@sang-engineering.com>
- <ZUj3fzArgPU4kYYT@hovoldconsulting.com>
+        Sasha Levin <sashal@kernel.org>, magnus.damm@gmail.com,
+        robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+        conor+dt@kernel.org, linux-renesas-soc@vger.kernel.org,
+        devicetree@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.6 34/40] arm64: dts: renesas: r8a779f0: spider: Enable PCIe Host ch0
+Date:   Tue,  7 Nov 2023 07:16:36 -0500
+Message-ID: <20231107121837.3759358-34-sashal@kernel.org>
+X-Mailer: git-send-email 2.42.0
+In-Reply-To: <20231107121837.3759358-1-sashal@kernel.org>
+References: <20231107121837.3759358-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="XtrtXT+bQEBVz+kB"
-Content-Disposition: inline
-In-Reply-To: <ZUj3fzArgPU4kYYT@hovoldconsulting.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-stable-base: Linux 6.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+From: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 
---XtrtXT+bQEBVz+kB
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+[ Upstream commit c588e1c9846b32182fd5a0ceb637b983810e7100 ]
 
+Enable PCIe Host controller channel 0 on R-Car S4-8 Spider board.
 
-> 	1.5 I/O pins
-> 	RESET_N: Reset input
-> 	Driving RESET_N low activates a hardware reset of the system.
-> 	Use this pin only to reset the module. Do not use RESET_N to
-> 	turn the module on and off, since the reset state increases
-> 	power consumption.
->=20
-> (and AFAIU you should generally not try to use reset this way unless it
-> is explicitly said to be supported).
+Since this board has an Oculink connector, CLKREQ# pin of PFC for PCIe
+should not be used. So, using a GPIO is used to output the clock instead.
+Otherwise the controller cannot detect a PCIe device.
 
-Oh! That's the opposite of my intention :/ Okay, today I learnt
-something. Thank you for pointing this out. I will remember this and
-double check reset handling in the future.
+Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Link: https://lore.kernel.org/r/20230905012404.2915246-3-yoshihiro.shimoda.uh@renesas.com
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ .../boot/dts/renesas/r8a779f0-spider-cpu.dtsi | 24 +++++++++++++++++++
+ 1 file changed, 24 insertions(+)
 
-That means I only need to de-assert reset in probe() for now, right?
+diff --git a/arch/arm64/boot/dts/renesas/r8a779f0-spider-cpu.dtsi b/arch/arm64/boot/dts/renesas/r8a779f0-spider-cpu.dtsi
+index 5cbde8e8fcd5c..477f3114d2fd4 100644
+--- a/arch/arm64/boot/dts/renesas/r8a779f0-spider-cpu.dtsi
++++ b/arch/arm64/boot/dts/renesas/r8a779f0-spider-cpu.dtsi
+@@ -53,6 +53,12 @@ memory@480000000 {
+ 		reg = <0x4 0x80000000 0x0 0x80000000>;
+ 	};
+ 
++	rc21012_pci: clk-rc21012-pci {
++		compatible = "fixed-clock";
++		clock-frequency = <100000000>;
++		#clock-cells = <0>;
++	};
++
+ 	rc21012_ufs: clk-rc21012-ufs {
+ 		compatible = "fixed-clock";
+ 		clock-frequency = <38400000>;
+@@ -106,6 +112,12 @@ gpio_exp_20: gpio@20 {
+ 		reg = <0x20>;
+ 		gpio-controller;
+ 		#gpio-cells = <2>;
++
++		rc21012-gpio2-hog {
++			gpio-hog;
++			gpios = <5 GPIO_ACTIVE_LOW>;
++			output-high;
++		};
+ 	};
+ };
+ 
+@@ -145,6 +157,18 @@ &mmc0 {
+ 	status = "okay";
+ };
+ 
++&pcie0_clkref {
++	compatible = "gpio-gate-clock";
++	clocks = <&rc21012_pci>;
++	enable-gpios = <&gpio2 15 GPIO_ACTIVE_LOW>;
++	/delete-property/ clock-frequency;
++};
++
++&pciec0 {
++	reset-gpio = <&gpio_exp_20 0 GPIO_ACTIVE_LOW>;
++	status = "okay";
++};
++
+ &pfc {
+ 	pinctrl-0 = <&scif_clk_pins>;
+ 	pinctrl-names = "default";
+-- 
+2.42.0
 
-
---XtrtXT+bQEBVz+kB
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmVJRy0ACgkQFA3kzBSg
-Kbblgw/9HkWUa0iBE7Mo2bg3mjgmftVGc9rJBWSmmDiocs9jX9ksuSH6a5AHiqMe
-+xpfG6MI4xjUzLGL1+YaITrYQyKE3ZUMSLeKqwJSV+qxhBo+biDtWq/EKExyO+91
-PAb553VbrW+QmdK2+bcsHKi+LqZ0kSy18IF9vaCV7fQozNXwRvxocyTBLGZmfrZo
-xQ0+Mt1+T5nNkU8dHtyKENHuMlgFYSlGbUiLEdIUPYBNA9TAew+7JDiyx6ZS88hu
-Njkso91lBK981JBPS3kmpL+/WsRXsm+tEuc/6snQ4TWu9LlIDv+TsYXZ6rh3Oe7L
-B+3L+mMa+fUcRkt0rfCh18hbLASgtQZ67HfT5t5jUqlq5L4aR0wYNHNt1Gu2S3g/
-Of/XiEfvD54yjwled7izZEW9U7yQcSrPSi49DSzuibavicjYK+dKTw7P/v21z2Pc
-UWlAuFsoyamyGyswY2Z1vIBSnFtIgySFcr6cS5YGwTHomzxWUkH81zjKtZfIHmD8
-hafMaegBE40vE+9wBMp0+UpAv5Zt5KgI7W6FCHIiu8offra9dch54SiaARjJlMe4
-etaFgu//W+bxGQDUuIfNJER8V8FMsb+3gip1eR7dQq+MnZqIVubaVIRhCOYoxDZf
-7Dxkr1o28KP3W4ETDirAAuR8/BtaZimx/9uXm9CEewYtGX7GANU=
-=TGul
------END PGP SIGNATURE-----
-
---XtrtXT+bQEBVz+kB--
