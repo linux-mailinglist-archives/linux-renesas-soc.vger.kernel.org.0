@@ -2,31 +2,31 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 658AB7E3E07
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  7 Nov 2023 13:32:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B3E277E3E85
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  7 Nov 2023 13:39:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234962AbjKGMcf (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 7 Nov 2023 07:32:35 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36852 "EHLO
+        id S234924AbjKGMjq (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 7 Nov 2023 07:39:46 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52778 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234895AbjKGMcN (ORCPT
+        with ESMTP id S235154AbjKGMic (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 7 Nov 2023 07:32:13 -0500
+        Tue, 7 Nov 2023 07:38:32 -0500
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DF04032B5F;
-        Tue,  7 Nov 2023 04:21:14 -0800 (PST)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8FFDCC433C7;
-        Tue,  7 Nov 2023 12:21:13 +0000 (UTC)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3DC372101;
+        Tue,  7 Nov 2023 04:26:44 -0800 (PST)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 98EACC433C8;
+        Tue,  7 Nov 2023 12:26:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1699359674;
-        bh=+rywkNCJu5rHEIKiRGZYvVfFeXYV2uIwC+GFP24j8ws=;
+        s=k20201202; t=1699360003;
+        bh=mV6nnOYneyUTZ+Dr37hMYmU8r271XhHRrhZrDDmeQ3Y=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=gpT2+9Ei01waIECjKVEA/uHdhRp8X64vnb/YR/wMypPF4tA4y9DYcnq/UUxdZraAc
-         AkvbVfbN68DsWg5H8tuPf3zMTPhD6N94LATpckxkxajY2kjemgcvxVgQCD3rGMmYAs
-         I+roAx4T+0zdThlAgls1VIOiMVEiajWM0u0k/8/dnZeGupfRmw1wZZMBU2N6vIpvRY
-         VEgjgyNEydZiCVr0C8XJS7lOo/rPmCtnX1lGgiSYKTARdorv6zbX5XVksjPOzJwkKA
-         y6bgPMl6mSmkqBjkXhq5e6cH5Y4xZO09GpTjHAeyXngzO4JTmnW41goxzcB8hWN/rp
-         0nsKy8+r/yuzQ==
+        b=ntmFM7zV90X9d3i+u3DUtjDWzK5Iek4yFtiVMux6OXn132ik9NgnDs78uRuBe1J8d
+         jGwFEfg+iFETtjNNYvuc+snW88lYd8zZVZPDMmeaKzNwqm86DledJ9Zj9nTg+dc9YU
+         OvszBJ3nz0HmPk1kt3+z7LwudSlDNxJotbfmwV8Ev/OxoF65z4Jq12YSBQcYWGEUeo
+         qPcaBGP2wYKN0lzSYanGESKl2K9XCNTomXkkcnVpFy3uUYHc34dXMv43alLeXyLGtg
+         AiKdYMWbt7v+KgyBte6jyf4xXrV+S6aCUMT5V2+iU/FaipZyk//ANi8lZj1bniDZ0m
+         F7SlzIuONwzOw==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
@@ -35,16 +35,16 @@ Cc:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
         robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
         conor+dt@kernel.org, linux-renesas-soc@vger.kernel.org,
         devicetree@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.6 34/40] arm64: dts: renesas: r8a779f0: spider: Enable PCIe Host ch0
-Date:   Tue,  7 Nov 2023 07:16:36 -0500
-Message-ID: <20231107121837.3759358-34-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.5 33/37] arm64: dts: renesas: r8a779f0: spider: Enable PCIe Host ch0
+Date:   Tue,  7 Nov 2023 07:21:44 -0500
+Message-ID: <20231107122407.3760584-33-sashal@kernel.org>
 X-Mailer: git-send-email 2.42.0
-In-Reply-To: <20231107121837.3759358-1-sashal@kernel.org>
-References: <20231107121837.3759358-1-sashal@kernel.org>
+In-Reply-To: <20231107122407.3760584-1-sashal@kernel.org>
+References: <20231107122407.3760584-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.6
+X-stable-base: Linux 6.5.10
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
@@ -76,10 +76,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 24 insertions(+)
 
 diff --git a/arch/arm64/boot/dts/renesas/r8a779f0-spider-cpu.dtsi b/arch/arm64/boot/dts/renesas/r8a779f0-spider-cpu.dtsi
-index 5cbde8e8fcd5c..477f3114d2fd4 100644
+index dd8e0e1595260..d959105f83bcc 100644
 --- a/arch/arm64/boot/dts/renesas/r8a779f0-spider-cpu.dtsi
 +++ b/arch/arm64/boot/dts/renesas/r8a779f0-spider-cpu.dtsi
-@@ -53,6 +53,12 @@ memory@480000000 {
+@@ -33,6 +33,12 @@ memory@480000000 {
  		reg = <0x4 0x80000000 0x0 0x80000000>;
  	};
  
@@ -92,7 +92,7 @@ index 5cbde8e8fcd5c..477f3114d2fd4 100644
  	rc21012_ufs: clk-rc21012-ufs {
  		compatible = "fixed-clock";
  		clock-frequency = <38400000>;
-@@ -106,6 +112,12 @@ gpio_exp_20: gpio@20 {
+@@ -86,6 +92,12 @@ gpio_exp_20: gpio@20 {
  		reg = <0x20>;
  		gpio-controller;
  		#gpio-cells = <2>;
@@ -105,7 +105,7 @@ index 5cbde8e8fcd5c..477f3114d2fd4 100644
  	};
  };
  
-@@ -145,6 +157,18 @@ &mmc0 {
+@@ -125,6 +137,18 @@ &mmc0 {
  	status = "okay";
  };
  
