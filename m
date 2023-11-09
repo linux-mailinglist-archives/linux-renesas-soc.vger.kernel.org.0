@@ -2,64 +2,65 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CC5F27E64D3
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  9 Nov 2023 08:57:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 212287E64D8
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  9 Nov 2023 09:00:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232981AbjKIH5N convert rfc822-to-8bit (ORCPT
+        id S232778AbjKIIAZ convert rfc822-to-8bit (ORCPT
         <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 9 Nov 2023 02:57:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57470 "EHLO
+        Thu, 9 Nov 2023 03:00:25 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36116 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232778AbjKIH5N (ORCPT
+        with ESMTP id S231376AbjKIIAY (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 9 Nov 2023 02:57:13 -0500
-Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com [209.85.128.170])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D7DDF2712;
-        Wed,  8 Nov 2023 23:57:10 -0800 (PST)
-Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-5a84204e7aeso7438897b3.0;
-        Wed, 08 Nov 2023 23:57:10 -0800 (PST)
+        Thu, 9 Nov 2023 03:00:24 -0500
+Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com [209.85.128.180])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 496012715;
+        Thu,  9 Nov 2023 00:00:22 -0800 (PST)
+Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-5a7c08b7744so7180907b3.3;
+        Thu, 09 Nov 2023 00:00:22 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699516630; x=1700121430;
+        d=1e100.net; s=20230601; t=1699516821; x=1700121621;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=b28VPbp8gB3rXtgafI6M110iwvDhv/DLhKESOoHQijM=;
-        b=cUnYD72c3LSlq7aKD1CSqx4Vgvx3BFpJscLvXCIR72srdTpsrYQq71l05Ct2yjd6sp
-         PEU4uDkmdbNJN6MSEdewyLTIJPKaExRlTYc1Iii/47OnF/xzgWeQm6Bo+zO42PHA6Y1d
-         wgMqWZ+w3rva4CXSlPc/JHD0Yc2Pq8swPg5DdVd9s0Y+IG8xkPHTzeK3UqRzegkkRV+e
-         n2+hXqAiBbgBCBp+VniALFXolC3SjnBbB5i9tqlqtmo4q/4WEmkOqiuBZa8JtctS6H/b
-         XKoNeVACjIIJFkXAImjuhmxn2OnemC70UGWXxndgPpKcUACS7A6ZiLvqJ9qRMtfjNbyN
-         uGBg==
-X-Gm-Message-State: AOJu0Yx2O28EFLlLaGxdwvEhQ1odg0cZ6I4HZqv26Yt5+lWrgjoQvhPV
-        huV5YD04GhSX2rygvnB6BB9vwEUCqYPWZQ==
-X-Google-Smtp-Source: AGHT+IEDko6/mRdN7OR+50u/xnE67stOpkHlHWy+FLhYSWnAXZ6/PfmYxEi7JzyQ7gSZykL204WFzw==
-X-Received: by 2002:a0d:df85:0:b0:5af:b0ca:6950 with SMTP id i127-20020a0ddf85000000b005afb0ca6950mr4441873ywe.42.1699516629909;
-        Wed, 08 Nov 2023 23:57:09 -0800 (PST)
-Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com. [209.85.128.172])
-        by smtp.gmail.com with ESMTPSA id r190-20020a0dcfc7000000b005a7aef2c1c3sm7837382ywd.132.2023.11.08.23.57.09
+        bh=R60uGQl/nGeZjkDEsodGckqWXW+USFr7sz7RLj2b6RQ=;
+        b=SLf85QzII5eN+Xg+ucU18pkDkJ2jKOVA2F2ka6XZbBZJZLdl+6lVsn4DS2aBMKDRLa
+         oCClgdG1o92wBrn4FZ/W8aspY7SPOCF1FrKejmRzM8J9Gzv54ZCNx5z2UTkHLa5LMHw5
+         AOxtJREy+wL8kw/EhQBRBh2ZdKMyDTb8emNTMsQGKV7VzeV/i9d2szroHjmVRzs+diVT
+         VQoAS0sTgD0mztSjS8PyiJz11mf5qi8Nx0R31aRrHmaQ+8A+Q0PZfN+zElof/d5hdoiA
+         PtcEaeKhV4BbXzTPGEKwOeqARruSOeHJsjxOB/bZkwIbg/pXDgMD6p0avOF/dZycQCq2
+         KbPA==
+X-Gm-Message-State: AOJu0YzIFSZeUC39ajYoshj9ngdUw3w4J2ThdASOR2ypL+9QR4SRGIvJ
+        lWSCA0/FEqgsinl+nyFTfcLTBBDQJ2eJzA==
+X-Google-Smtp-Source: AGHT+IFbkoQhrktQgmanPhaHbB8XY4wED6I/RjXQs/76LfPWcDZEfQ3AyU8OORTImAOqUbFdZvAqrw==
+X-Received: by 2002:a81:49d0:0:b0:5a7:ab45:539d with SMTP id w199-20020a8149d0000000b005a7ab45539dmr4140899ywa.2.1699516821315;
+        Thu, 09 Nov 2023 00:00:21 -0800 (PST)
+Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com. [209.85.128.169])
+        by smtp.gmail.com with ESMTPSA id g200-20020a0dddd1000000b00583f8f41cb8sm7781075ywe.63.2023.11.09.00.00.21
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 08 Nov 2023 23:57:09 -0800 (PST)
-Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-5a84204e7aeso7438687b3.0;
-        Wed, 08 Nov 2023 23:57:09 -0800 (PST)
-X-Received: by 2002:a81:84cc:0:b0:5a7:fa8b:3fa6 with SMTP id
- u195-20020a8184cc000000b005a7fa8b3fa6mr4343779ywf.9.1699516629341; Wed, 08
- Nov 2023 23:57:09 -0800 (PST)
+        Thu, 09 Nov 2023 00:00:21 -0800 (PST)
+Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-5a7c08b7744so7180827b3.3;
+        Thu, 09 Nov 2023 00:00:21 -0800 (PST)
+X-Received: by 2002:a0d:ff44:0:b0:5a7:cc48:208d with SMTP id
+ p65-20020a0dff44000000b005a7cc48208dmr3625498ywf.5.1699516820874; Thu, 09 Nov
+ 2023 00:00:20 -0800 (PST)
 MIME-Version: 1.0
-References: <20231108171149.258656-1-biju.das.jz@bp.renesas.com> <20231108171149.258656-2-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20231108171149.258656-2-biju.das.jz@bp.renesas.com>
+References: <20231108172232.259301-1-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20231108172232.259301-1-biju.das.jz@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 9 Nov 2023 08:56:56 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdXdzbtR+ruXwfS1a74rnH494kMsFvaT9MTz7cW-LFpB1A@mail.gmail.com>
-Message-ID: <CAMuHMdXdzbtR+ruXwfS1a74rnH494kMsFvaT9MTz7cW-LFpB1A@mail.gmail.com>
-Subject: Re: [PATCH RFC 1/4] spi: spi-mem: Add set_iofv() callback
+Date:   Thu, 9 Nov 2023 09:00:09 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdWWgq=gnM+h-GNwvFTxZFXWTtsx=+LFJ1-cwbLi0GXJEw@mail.gmail.com>
+Message-ID: <CAMuHMdWWgq=gnM+h-GNwvFTxZFXWTtsx=+LFJ1-cwbLi0GXJEw@mail.gmail.com>
+Subject: Re: [PATCH v4 0/2] Enable 4-bit tx support for RZ/{G2L,G2LC,V2L}
+ SMARC EVKs
 To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Mark Brown <broonie@kernel.org>, linux-spi@vger.kernel.org,
-        linux-mtd@lists.infradead.org,
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
         Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Michael Walle <michael@walle.cc>,
-        Biju Das <biju.das.au@gmail.com>,
-        linux-renesas-soc@vger.kernel.org
+        Biju Das <biju.das.au@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8BIT
 Precedence: bulk
@@ -68,56 +69,20 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 Hi Biju,
 
-On Wed, Nov 8, 2023 at 6:12 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
-> As per section 8.14 on the AT25QL128A hardware manual,
-> IO0..IO3 must be set to Hi-Z state for this flash for fast read quad IO.
-> Snippet from HW manual section 8.14:
-> The upper nibble of the Mode(M7-4) controls the length of the next FAST
-> Read Quad IO instruction through the inclusion or exclusion of the first
-> byte instruction code. The lower nibble bits of the Mode(M3-0) are don't
-> care. However, the IO pins must be high-impedance before the falling edge
-> of the first data out clock.
->
-> Add set_iofv() callback for configuring IO fixed values to control the
-> pin state.
->
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+On Wed, Nov 8, 2023 at 6:22 PM Biju Das <biju.das.jz@bp.renesas.com> wrote:
+> This patch series aims to enable 4-bit tx support for
+> RZ/{G2L,G2LC,V2L} SMARC EVKs.
 
-Thanks for your patch!
+Thanks for your series!
 
-> --- a/drivers/spi/spi-mem.c
-> +++ b/drivers/spi/spi-mem.c
-> @@ -297,6 +297,26 @@ static void spi_mem_access_end(struct spi_mem *mem)
->                 pm_runtime_put(ctlr->dev.parent);
->  }
->
-> +/**
-> + * spi_mem_set_iofv() - Set IO fixed values to control the pin state
-> + * @mem: the SPI memory
-> + * @val: the IO fixed values
+> Note:
+>  This patch series doesn't have any driver dependency as 4-bit tx mode
+>  works fine with the latest renesas-devel and linux-next.
 
-Please document the meaning of this value (i.e. what does a
-set or cleared bit mean?).
+Can you please tell me why there is no longer a driver dependency?
+What has changed?
 
-> + *
-> + * Set IO fixed values to control the pin state.
-> + *
-> + * Return: 0 in case of success, a negative error code otherwise.
-> + */
-> +int spi_mem_set_iofv(struct spi_mem *mem, u32 val)
-> +{
-> +       struct spi_controller *ctlr = mem->spi->controller;
-> +
-> +       if (ctlr->mem_ops && ctlr->mem_ops->set_iofv)
-> +               return ctlr->mem_ops->set_iofv(mem, val);
-> +
-> +       return 0;
-> +}
-> +EXPORT_SYMBOL_GPL(spi_mem_set_iofv);
-> +
->  /**
->   * spi_mem_exec_op() - Execute a memory operation
->   * @mem: the SPI memory
+Thanks!
 
 Gr{oetje,eeting}s,
 
