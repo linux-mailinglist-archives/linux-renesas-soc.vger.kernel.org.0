@@ -2,50 +2,50 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DD5337E8B75
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 11 Nov 2023 17:08:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C651C7E8B76
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 11 Nov 2023 17:08:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229797AbjKKQId (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 11 Nov 2023 11:08:33 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39440 "EHLO
+        id S231296AbjKKQIe (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 11 Nov 2023 11:08:34 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39444 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231286AbjKKQIc (ORCPT
+        with ESMTP id S231286AbjKKQIe (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 11 Nov 2023 11:08:32 -0500
-Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 944313A8E;
-        Sat, 11 Nov 2023 08:08:28 -0800 (PST)
+        Sat, 11 Nov 2023 11:08:34 -0500
+Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0C6543A9B;
+        Sat, 11 Nov 2023 08:08:30 -0800 (PST)
 Received: from smtp1.mailbox.org (smtp1.mailbox.org [10.196.197.1])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
         (No client certificate requested)
-        by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4SSLG30dTkz9skh;
-        Sat, 11 Nov 2023 17:08:27 +0100 (CET)
+        by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4SSLG444Q0z9sgw;
+        Sat, 11 Nov 2023 17:08:28 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-        t=1699718907;
+        t=1699718908;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=piYYf1dl2LfAa99R19jkampDYxFa2ddx0cCMItdWC6o=;
-        b=uOdxAfIIOog1dbNUSzK/+g3nzq8bO5hIlLXKG/LgLEGH/xFIlsmuhtnERCwE1DC6Yc6gt2
-        oSMPb9gemt6x3U9kbMXPn1uXVNqYMDRWIMMTE8y92vVVvxTPjmrL9Mm4SSgAnq5gtHWzDw
-        4FgMga/NtFwNCjRtcVYUqkbZxD7lr+CKgfha0XgiBEtX6TE4P8mxevi1kjS8b6Cy0V2+qI
-        wIyOxFtnHlQDZ7p5xX3HgVkpH13EeBxuHxKXF4rk414udrTzMux1ZDlNXH89+g4hbkKByN
-        9mLKIw3QMmuC2QLUNtrXdYjHe2EnDEMA7vPk1VubCYykajwdazO2jr+yy91WDA==
+        bh=wGeUWANFg2PrwdqglwpH1vKWTach+nB0+HajbevIFAw=;
+        b=rS9mTcI0Cd/7Zk8DMua1e1mlTFcddMYpv7lWoSnwHgXTHhxGs5Ik3txV5AxnaGk/wesu8u
+        0Dlpebk0E4sgrAEzCvGwto4P7/xy+mgfv+QN1V5q43DsEkkTnmKfcI8m5BvdWKr+SpEcSB
+        MVdZqo9xJvJqdU69Tdl02/MgqZW5taW04o0+lN6ua4EJs58Ua290PzWzZr61i/hQNTDIs2
+        nCqlTuEfOMFYja9tmRnAVuFPtHETQIdnVEquY1J4tN6JMsqlV9gTpXeATXy/zOYbRwMq3u
+        5ZPWmKd7De3+CiKaOEiuz5gcLPtMwsoDRQlwAgrti3VApY5LD64C7VfoS/LWBg==
 From:   Marek Vasut <marek.vasut+renesas@mailbox.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-        t=1699718905;
+        t=1699718906;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=piYYf1dl2LfAa99R19jkampDYxFa2ddx0cCMItdWC6o=;
-        b=GvRa6zxVuPsANS7PI+nYSf9tonxhqWkuAXghCudME1Qig19FDlupxaOhskP+fL+yyAaxKE
-        UHnyZgviHpoGLPVqsq7AcbGSESfssTKWanxiBaVVMAE37nuseQEaMsv5ethM72lhrFKCoA
-        Ak6bpHzkXtbxnHrXBHMKuppBDui1+ls9StRNnxaQRDZAf9CYoZ7Pgv68YBXnHv02l6CII0
-        CLnpw6rNni16QTnkIcySjYu8X4vsb9sOemiD7wti91bjhcXKGZuOREV0vWlEpp4kqAvccr
-        EZndnIrf7svSv1k492WG8F065y7QrToyO3KYdwuUA1Yp3MioFyrBZPSSRKzu/A==
+        bh=wGeUWANFg2PrwdqglwpH1vKWTach+nB0+HajbevIFAw=;
+        b=GhfiuGlaBHsN785lkLWbw3Mul7IAYRvmGGUd+EgXp9+wSD5RCRd9rogCy1VuYxchV/VO6L
+        HITiTTaQhe3JeAMZ2SPrpYO2uDNjCaySu8R0pCc9uQfy3RlkDn0+NAY1+oAhh78GLp59b3
+        cOCNer9KDHYZxJmgr9BiPeiCo9rL3k3k9dp/VFKPJxk1bKtsiAM1Mg9tcHLvzV2xA+i7Wi
+        pyj8vlkJ8DAX0l1Cgk2LFd0pnQg2uk/E7vdGZzndV/zCF3FgderUlXhQ3LZuzpxaDt4PYP
+        vo41dOLVGaC7/XLE03G7jfewmlqH7DaHvh5mkxav6GC1ow+N/CPoF19QvFomAQ==
 To:     linux-clk@vger.kernel.org
 Cc:     Marek Vasut <marek.vasut+renesas@mailbox.org>,
         Alexander Stein <alexander.stein@ew.tq-group.com>,
@@ -56,15 +56,15 @@ Cc:     Marek Vasut <marek.vasut+renesas@mailbox.org>,
         Rob Herring <robh+dt@kernel.org>,
         Stephen Boyd <sboyd@kernel.org>, devicetree@vger.kernel.org,
         linux-renesas-soc@vger.kernel.org
-Subject: [PATCH v2 2/4] clk: rs9: Limit check to vendor ID in VID register
-Date:   Sat, 11 Nov 2023 17:07:00 +0100
-Message-ID: <20231111160806.32954-2-marek.vasut+renesas@mailbox.org>
+Subject: [PATCH v2 3/4] clk: rs9: Replace model check with bitshift from chip data
+Date:   Sat, 11 Nov 2023 17:07:01 +0100
+Message-ID: <20231111160806.32954-3-marek.vasut+renesas@mailbox.org>
 In-Reply-To: <20231111160806.32954-1-marek.vasut+renesas@mailbox.org>
 References: <20231111160806.32954-1-marek.vasut+renesas@mailbox.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-MBO-RS-ID: e1789c2d3a99e5ffaad
-X-MBO-RS-META: ptxy7amyox6nbgb4ioeeqb3txp7ibw6s
+X-MBO-RS-META: 8k1r5crkrw5yna5am7bhr81xonb5aii1
+X-MBO-RS-ID: e556039b5d406acdb65
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
@@ -75,8 +75,9 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Extract only vendor ID from VID register, the top 4 bits are
-revision ID which are not useful for the vendor ID check.
+Adjust rs9_calc_dif() to special-case the 9FGV0241 where DIFx bits
+start at 1, encode this shift into chip data and drop the model
+check entirely.
 
 Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
 ---
@@ -91,31 +92,63 @@ Cc: devicetree@vger.kernel.org
 Cc: linux-clk@vger.kernel.org
 Cc: linux-renesas-soc@vger.kernel.org
 ---
-V2: Split off patch from 4/4
+V2: New patch
 ---
- drivers/clk/clk-renesas-pcie.c | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/clk/clk-renesas-pcie.c | 20 +++++++++-----------
+ 1 file changed, 9 insertions(+), 11 deletions(-)
 
 diff --git a/drivers/clk/clk-renesas-pcie.c b/drivers/clk/clk-renesas-pcie.c
-index 6606aba253c5..b5c430e4899c 100644
+index b5c430e4899c..5064016afbc3 100644
 --- a/drivers/clk/clk-renesas-pcie.c
 +++ b/drivers/clk/clk-renesas-pcie.c
-@@ -42,6 +42,7 @@
- #define RS9_REG_DID				0x6
- #define RS9_REG_BCP				0x7
+@@ -58,8 +58,8 @@ enum rs9_model {
  
-+#define RS9_REG_VID_MASK			GENMASK(3, 0)
- #define RS9_REG_VID_IDT				0x01
+ /* Structure to describe features of a particular 9-series model */
+ struct rs9_chip_info {
+-	const enum rs9_model	model;
+ 	unsigned int		num_clks;
++	u8			outshift;
+ 	u8			did;
+ };
  
- #define RS9_REG_DID_TYPE_FGV			(0x0 << RS9_REG_DID_TYPE_SHIFT)
-@@ -333,6 +334,7 @@ static int rs9_probe(struct i2c_client *client)
- 	if (ret < 0)
- 		return ret;
+@@ -161,14 +161,12 @@ static const struct regmap_config rs9_regmap_config = {
  
-+	vid &= RS9_REG_VID_MASK;
- 	if (vid != RS9_REG_VID_IDT || did != rs9->chip_info->did)
- 		return dev_err_probe(&client->dev, -ENODEV,
- 				     "Incorrect VID/DID: %#02x, %#02x. Expected %#02x, %#02x\n",
+ static u8 rs9_calc_dif(const struct rs9_driver_data *rs9, int idx)
+ {
+-	enum rs9_model model = rs9->chip_info->model;
+-
+-	if (model == RENESAS_9FGV0241)
+-		return BIT(idx + 1);
+-	else if (model == RENESAS_9FGV0441)
+-		return BIT(idx);
+-
+-	return 0;
++	/*
++	 * On 9FGV0241, the DIF OE0 is BIT(1) and DIF OE(1) is BIT(2),
++	 * on 9FGV0441 and 9FGV0841 the DIF OE0 is BIT(0) and so on.
++	 * Increment the index in the 9FGV0241 special case here.
++	 */
++	return BIT(idx + rs9->chip_info->outshift);
+ }
+ 
+ static int rs9_get_output_config(struct rs9_driver_data *rs9, int idx)
+@@ -382,14 +380,14 @@ static int __maybe_unused rs9_resume(struct device *dev)
+ }
+ 
+ static const struct rs9_chip_info renesas_9fgv0241_info = {
+-	.model		= RENESAS_9FGV0241,
+ 	.num_clks	= 2,
++	.outshift	= 1,
+ 	.did		= RS9_REG_DID_TYPE_FGV | 0x02,
+ };
+ 
+ static const struct rs9_chip_info renesas_9fgv0441_info = {
+-	.model		= RENESAS_9FGV0441,
+ 	.num_clks	= 4,
++	.outshift	= 0,
+ 	.did		= RS9_REG_DID_TYPE_FGV | 0x04,
+ };
+ 
 -- 
 2.42.0
 
