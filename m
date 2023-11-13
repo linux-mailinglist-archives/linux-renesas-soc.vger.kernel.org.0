@@ -2,86 +2,165 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9BD4D7E9E73
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 13 Nov 2023 15:19:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AA6A07E9EDF
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 13 Nov 2023 15:37:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229776AbjKMOTa (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 13 Nov 2023 09:19:30 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46586 "EHLO
+        id S229776AbjKMOh2 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 13 Nov 2023 09:37:28 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47320 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229549AbjKMOT3 (ORCPT
+        with ESMTP id S229549AbjKMOh1 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 13 Nov 2023 09:19:29 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A3041D4C;
-        Mon, 13 Nov 2023 06:19:25 -0800 (PST)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 251C929A;
-        Mon, 13 Nov 2023 15:18:59 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1699885139;
-        bh=/JY16IJ8OpiqsxfQfsJhP0w+1K0WeJqAMz9luderXJA=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=kwQ1d5VKJnJTQC+Zfo5Ba0BJfAarf3u4MH2AzG9De2bIq4/BhD9hol7cmjz05Swns
-         AcuoL/2RBpboBmaZtyhMF4RSFN7GTbPDf93H+ZJv49K6+mLH56hWjmylc7g3ovo0lV
-         WDwQzFSBYkT0XH2LuEcadIi7ri8umUJlHXrBKqZg=
-Date:   Mon, 13 Nov 2023 16:19:30 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     linux-media@vger.kernel.org,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH] media: vsp1: Remove unbalanced .s_stream(0) calls
-Message-ID: <20231113141930.GB12711@pendragon.ideasonboard.com>
-References: <20231024142522.29658-1-laurent.pinchart+renesas@ideasonboard.com>
- <CAMuHMdXfn__=z9RQgxo_Rnmm3x5CbNxvqp1+g+vcQZZQggO=Zg@mail.gmail.com>
- <CAMuHMdV-fMaT-H4m9twdb+Ow7tCM4GZNDD4b1vn7e2B8VQmS8g@mail.gmail.com>
+        Mon, 13 Nov 2023 09:37:27 -0500
+Received: from mail.3ffe.de (0001.3ffe.de [IPv6:2a01:4f8:c0c:9d57::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 40D79D60;
+        Mon, 13 Nov 2023 06:37:24 -0800 (PST)
+Received: from 3ffe.de (0001.3ffe.de [IPv6:2a01:4f8:c0c:9d57::1])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        by mail.3ffe.de (Postfix) with ESMTPSA id 1BCAAA55;
+        Mon, 13 Nov 2023 15:37:22 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=walle.cc; s=mail2022082101;
+        t=1699886242;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=a+8dl/QTtQ3svpgsSwU7WeNt2SEPuxwkTeAcPXkuccg=;
+        b=2Ukov6nd8HGwMPMSkZ2pGU8VAWULJuz40GSQn2tBjQgTUnKArc5+dobnHRcyyZY4pPgZo6
+        Oea41jlnXakesU1ZbPLsPfSCWXpySKns497WbI8QQ+H9BsV05jkRk7jUD1D3MuEgGoDUDn
+        Rni977D850DhaFhPlcv2BYfJBYps8DLIlLJOSk0DexcotxQ06A/TRImqRDgK1QvJyRovAM
+        /gLvTG+kqzh+phBcK11kazHQiVXN61YBC6Syw0BIgNdYAW9VRCJKAzTgluP2ANTfx6opGS
+        StwU9obDfWp5W34LjxmpJimRufldXJJY7pUCCeGlcbUG42GD+P99HRgrAMICeA==
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAMuHMdV-fMaT-H4m9twdb+Ow7tCM4GZNDD4b1vn7e2B8VQmS8g@mail.gmail.com>
+Date:   Mon, 13 Nov 2023 15:37:21 +0100
+From:   Michael Walle <michael@walle.cc>
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Mark Brown <broonie@kernel.org>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        linux-spi@vger.kernel.org, linux-mtd@lists.infradead.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        "biju.das.au" <biju.das.au@gmail.com>,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH RFC 0/4] Add set_iofv() callback
+In-Reply-To: <TYCPR01MB1126990A40D40D8786CABFAAA86ACA@TYCPR01MB11269.jpnprd01.prod.outlook.com>
+References: <20231108171149.258656-1-biju.das.jz@bp.renesas.com>
+ <877590a5e3f8c32ec0a032385049a563@walle.cc>
+ <TYVPR01MB11279E535835F2998335F770A86AFA@TYVPR01MB11279.jpnprd01.prod.outlook.com>
+ <b9831be88008b9f9960d1d79cd0e5a3a@walle.cc>
+ <TYVPR01MB11279575676708170F3B3270D86AFA@TYVPR01MB11279.jpnprd01.prod.outlook.com>
+ <f88759f98e865e68da5481fcbb969c47@walle.cc>
+ <TYCPR01MB112699263B2EC0EC229746D3786AFA@TYCPR01MB11269.jpnprd01.prod.outlook.com>
+ <dcfa2cab21fc85bb9b2b0c1ceb754a1a@walle.cc>
+ <TYCPR01MB1126990A40D40D8786CABFAAA86ACA@TYCPR01MB11269.jpnprd01.prod.outlook.com>
+Message-ID: <4c6674a6717152fc1a244d123a2db896@walle.cc>
+X-Sender: michael@walle.cc
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Geert,
+Hi Biju,
 
-On Mon, Nov 13, 2023 at 03:05:07PM +0100, Geert Uytterhoeven wrote:
-> On Tue, Oct 24, 2023 at 4:56 PM Geert Uytterhoeven wrote:
-> > On Tue, Oct 24, 2023 at 4:25 PM Laurent Pinchart wrote:
-> > > The VSP1 driver uses the subdev .s_stream() operation to stop WPF
-> > > instances, without a corresponding call to start them. The V4L2 subdev
-> > > core started warning about unbalanced .s_stream() calls in commit
-> > > 009905ec5043 ("media: v4l2-subdev: Document and enforce .s_stream()
-> > > requirements"), causing a regression with this driver.
-> > >
-> > > Fix the problem by replacing the .s_stream() operation with an explicit
-> > > function call for WPF instances. This allows sharing an additional data
-> > > structure between RPF and WPF instances.
-> > >
-> > > Fixes: 009905ec5043 ("media: v4l2-subdev: Document and enforce .s_stream() requirements")
-> > > Reported-by: Geert Uytterhoeven <geert@linux-m68k.org>
-> > > Closes: https://lore.kernel.org/linux-media/2221395-6a9b-9527-d697-e76aebc6af@linux-m68k.org/
-> > > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> >
-> > Thanks for your patch!
-> >
-> > The warning splat is gone, so
-> > Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
+>> >> >> Thus I was saying, that we probably wont support that and the
+>> >> >> easiest fix should be to disable this behavior for the atmel flash
+>> >> >> (there was nv setting).
+>> >> >
+>> >> > The fix up is invoked only for quad mode, I believe it is safe to
+>> >> > add fixup for micron flash As it is the one deviating from normal
+>> >> > according to you, rather than adding fixup for generic flash like
+>> >> > ATMEL flash(Now Renesas flash)
+>> >>
+>> >> Could you please try setting bit 4 in the Nonvolatile Configuration
+>> >> Register (Table 7) and see if the problem goes away?
+>> >
+>> > You mean, if it works, we need to disable reset for all the boards,
+>> > maybe at bootloader level??
+>> 
+>> Not necessarily. First, just to confirm that it is actually the reset
+>> circuit. You can also compare the part numbers of the flash. There is 
+>> a
+>> flash with IO3/RESET# and IO3/HOLD# (and a flash with a dedicated 
+>> reset
+>> pin).
+>> 
+>> If that's the case, it looks like a hardware bug on your board. You 
+>> left
+>> the reset pin floating. So you'd also not be able to boot from the NOR
+>> flash, right?
+>> 
+>> > OK, I will check that. Currently I have read that register and it is
+>> > showing a value Of 0xffbb. I need to do write operation. Before that
+>> > how do we recover flash, if something goes wrong during writing for NV
+>> > register?
+>> 
+>> You should always be able to write that register from the bootloader.
+>> Maybe also through raw commands (like sspi in uboot).
 > 
-> FTR, the warning splat is now in v6.7-rc1, but the fix is not
-> (not even in linux-next).
+> Just an update, now clearing bit4 on Micron flash, I am able to test 
+> erase/read/write
+> Micron flash with IOFV state {3,3,3,3}. Not sure what went wrong 
+> previously.
+> only thing I changed is related to enabling the QUAD spi mode by 
+> disabling bit 2 and 3 on NV register.
 
-I know. I've sent a pull request for it yesterday, it should get merged
-in time for v6.7.
+This enables QPI mode, that is the command is also expected to be
+transferred over the four IO lines. That's not something linux supports.
 
--- 
-Regards,
+We'll always send the command in single bit mode (the only exception is
+octal DTR mode).
 
-Laurent Pinchart
+> This again result in boot failure as boot ROM expects extended SPI 
+> mode.
+> Then restored the extended SPI mode by sending the command FFh (Power 
+> Loss and Interface Rescue)
+> by booting from eMMC.
+> 
+> At least one board with micron flash is now working with IOFV state 
+> {3,3,3,3}.
+> I need to test more boards to confirm the behaviour.
+
+I'm still trying to make sense of this (and trying to figure out
+if we need something or not).
+
+So you have a MT25QU512ABB8E12-0SIT, which according to to Figure 4 and
+Figure 5 has a dedicated RESET# line and the IO3 is multiplexed with 
+HOLD#.
+Thus, it seems the flash will go into hold mode if IO3 is not high 
+during
+command phase. Wether this is a hardware bug? I'd tend to say yes. As 
+with
+the RESET# you depend on the software/bootROM whatever to set the state 
+of
+IO3 correctly. But it might depend on the SPI controller used etc. Maybe
+it will already drive IO3 high by default?! (and esp. what the bootROM 
+is doing
+if that SoC is able to load the first stage bootloader from NOR).
+
+I still see two possible fixes here:
+(1) Disable HOLD#, either during board production, in your 
+bootloader/TFA
+     or by introducing a fixup for this flash in linux.
+     (And configure your SPI controller to use IOFV state 3,3,3,3 as that
+     should be the sane default).
+(2) Introduce a mechanism to spi_mem_op to control the unused bits (as
+     explained in an earlier reply). Then somehow integrate that into
+     the spi-nor micron driver to set IO3 to this pariticular value for
+     this operation.
+
+Alternatively, fix your board to have a weak pull-up on IO3 so the IOFV
+state 3,3,3,3 will work.
+
+HTH,
+-michael
