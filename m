@@ -2,62 +2,64 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0BE3C7E9AA0
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 13 Nov 2023 12:04:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1E8187E9AB0
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 13 Nov 2023 12:07:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229462AbjKMLEG convert rfc822-to-8bit (ORCPT
+        id S230135AbjKMLH3 convert rfc822-to-8bit (ORCPT
         <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 13 Nov 2023 06:04:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32882 "EHLO
+        Mon, 13 Nov 2023 06:07:29 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43736 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229454AbjKMLEF (ORCPT
+        with ESMTP id S229881AbjKMLH2 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 13 Nov 2023 06:04:05 -0500
-Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com [209.85.128.178])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B869ECB
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 13 Nov 2023 03:04:02 -0800 (PST)
-Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-5afa5dbc378so43259127b3.0
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 13 Nov 2023 03:04:02 -0800 (PST)
+        Mon, 13 Nov 2023 06:07:28 -0500
+Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com [209.85.128.182])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 22ACB10E5;
+        Mon, 13 Nov 2023 03:07:25 -0800 (PST)
+Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-5a84204e7aeso49695277b3.0;
+        Mon, 13 Nov 2023 03:07:25 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699873442; x=1700478242;
-        h=content-transfer-encoding:to:subject:message-id:date:from
+        d=1e100.net; s=20230601; t=1699873644; x=1700478444;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Q0Mx0JqXfrdYeaP62h+1G6OuLHd8SctifzAQauT3crg=;
-        b=YaIyzCDtGSiE49hRqQPD/ImeaI+GZrRRb+AIDUZdMlvci3ZTsugu6Ep6lNLygjOo+4
-         SUyka6UPzHoutMT3RW+7CDYU2tVd6cMZTJqoznUHPz/ZvWy0Rfj8bbUgB/VnamiNU0Hs
-         EEVgoTxvgyUiVzQs8tJbM+Jgiuj+qAgPJsevkL0s5GqmlDr6mwiWZLpS4LLHptwkcfwG
-         d+kxOWIpFoGuHKtS70n2/2SrE/oGPgGODT6bnex4jx3sIt6GFsRkBwNwgbQ0qF4hQC1i
-         YwEaB2P7ccj7gnp6aJ8timclybi2zsknCaZpDltz9sPpXApOX5MfPMuEP5KXP4/jlJLS
-         y3hQ==
-X-Gm-Message-State: AOJu0Yy9aB1HbdLq5qJaD28zEJODNJ0ZvEiDWDUKrBL6Aoxr5Nxm3Hbx
-        jb4UwWe1QbPdbN2o3Qi8ncUuHJmt8/xb4g==
-X-Google-Smtp-Source: AGHT+IGwZCJ2Nb2RJtF7lST4Jxbds/A7qFQIJ8GHq4RAOOPjij9Vcetd/ql4KqC4hcogwKxBP04s8g==
-X-Received: by 2002:a81:5248:0:b0:5a7:ba17:7109 with SMTP id g69-20020a815248000000b005a7ba177109mr4288407ywb.1.1699873441785;
-        Mon, 13 Nov 2023 03:04:01 -0800 (PST)
-Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com. [209.85.128.175])
-        by smtp.gmail.com with ESMTPSA id d6-20020a814f06000000b0059b1f6d1959sm1684346ywb.101.2023.11.13.03.04.01
-        for <linux-renesas-soc@vger.kernel.org>
+        bh=ljt2pdxD6mQ41IzJFM9voVHvaM5NwwcPFP6Lo8muJps=;
+        b=l9vqOKCylWixRFCVs6OQpZPT1nEW+ivmJs6zscStWZL27HKlndyWmScW7MOyOsRfBZ
+         pqK9oFoFNA9ySauv+HkmoKwsLlXmHeqBwp31JltHlW+ccXwtU1DtNUDJ9g91BsLOWMAE
+         eLBpV2llUSMZFy2KEG7Y/9xKffEfVU+ANAO2MoanfZvWLfJ0b5h1VlcNQFJeftkR+A5W
+         l8lJ5Gd60AHLdJIGW6eHKMBWAn/7qPOQIwXUerOmXMcEBkpqpNhC18uXx8m6ysAQsznt
+         TpR4lu+99PiBL3f5pBZo/731ebBqrpHVQ/Eot+vNlRkFXwg47ZMiZcHFmjLdn+gWW8RD
+         cHkg==
+X-Gm-Message-State: AOJu0YxIvhuVwangtgXI7YOI3nwOwdU1axv11dXkaX+MMIFe2b7EqaHE
+        4WSU0P1eUK/v6LG8wsnkeXNVxvsLlnbYzA==
+X-Google-Smtp-Source: AGHT+IE3qDg+It7J4b/6sqItexT3wp8U2YEWSY8gLqwIBeuZnHNZ2iCC7hCo6snDa7Nb9jH/Wm2S4A==
+X-Received: by 2002:a0d:e294:0:b0:5a7:ab51:af5c with SMTP id l142-20020a0de294000000b005a7ab51af5cmr6232068ywe.13.1699873643471;
+        Mon, 13 Nov 2023 03:07:23 -0800 (PST)
+Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com. [209.85.128.174])
+        by smtp.gmail.com with ESMTPSA id t141-20020a818393000000b005a0f9718a5fsm1703051ywf.78.2023.11.13.03.07.20
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 13 Nov 2023 03:04:01 -0800 (PST)
-Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-5a7fb84f6ceso43092377b3.1
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 13 Nov 2023 03:04:01 -0800 (PST)
-X-Received: by 2002:a0d:ddc1:0:b0:5a7:b797:d1e4 with SMTP id
- g184-20020a0dddc1000000b005a7b797d1e4mr3902644ywe.21.1699873441121; Mon, 13
- Nov 2023 03:04:01 -0800 (PST)
+        Mon, 13 Nov 2023 03:07:21 -0800 (PST)
+Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-5c08c47c055so27628477b3.1;
+        Mon, 13 Nov 2023 03:07:20 -0800 (PST)
+X-Received: by 2002:a81:9141:0:b0:5b3:60c2:5781 with SMTP id
+ i62-20020a819141000000b005b360c25781mr6828845ywg.32.1699873640712; Mon, 13
+ Nov 2023 03:07:20 -0800 (PST)
 MIME-Version: 1.0
-References: <CAMuHMdWXPesKV7XE_QwLrM6pZ1z6GFC-SjJ1ceFTs4o=hv71Zg@mail.gmail.com>
- <CAMuHMdX8HtWOAK6MDdN8F8V0aer0hTHzeAcnCGMycpS70hesNQ@mail.gmail.com>
- <CAMuHMdUjse9v=U8=oZHDJx0Oh9uVzxVWYU+C9jaP_23UOBVMaw@mail.gmail.com>
- <CAMuHMdVGnDg=zkjOSmCWAjEnjfSN9rhOCG-ubzeTf3mvjTEavw@mail.gmail.com>
- <CAMuHMdXkdD0dN93zsQnjCzFo6ijS2xDzbh+GPGe6--_FuuRbHQ@mail.gmail.com> <CAMuHMdV0KWN2nHDGT28ysTPwBTrachBSsGWf0hHqrci-d0U33A@mail.gmail.com>
-In-Reply-To: <CAMuHMdV0KWN2nHDGT28ysTPwBTrachBSsGWf0hHqrci-d0U33A@mail.gmail.com>
+References: <20231113013300.2132152-1-yoshihiro.shimoda.uh@renesas.com> <20231113100914.GB1583963@rocinante>
+In-Reply-To: <20231113100914.GB1583963@rocinante>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 13 Nov 2023 12:03:48 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdUWt+h7=rF+Z5sjQ_=xvoK8FeDGk9OnL=2KJ+gFdTnp3A@mail.gmail.com>
-Message-ID: <CAMuHMdUWt+h7=rF+Z5sjQ_=xvoK8FeDGk9OnL=2KJ+gFdTnp3A@mail.gmail.com>
-Subject: Re: Future renesas-drivers releases
-To:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Date:   Mon, 13 Nov 2023 12:07:08 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdVLmmf12KPQch7fT2iGjfDV--M2Wd0zsxSw6wfqYxUggQ@mail.gmail.com>
+Message-ID: <CAMuHMdVLmmf12KPQch7fT2iGjfDV--M2Wd0zsxSw6wfqYxUggQ@mail.gmail.com>
+Subject: Re: [PATCH 0/3] PCI: dwc: Improve code readability
+To:     =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>
+Cc:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        lpieralisi@kernel.org, robh@kernel.org, bhelgaas@google.com,
+        jingoohan1@gmail.com, gustavo.pimentel@synopsys.com,
+        mani@kernel.org, minghuan.Lian@nxp.com, mingkai.hu@nxp.com,
+        roy.zang@nxp.com, marek.vasut+renesas@gmail.com,
+        linux-pci@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        linux-renesas-soc@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8BIT
 X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
@@ -70,19 +72,22 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, Sep 11, 2023 at 5:06 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
->   - renesas-drivers-2023-10-31-v6.6 (TBD),
->   - renesas-drivers-2023-11-07-v6.6 (TBD).
+Hi Krzysztof,
 
-So that became renesas-drivers-2023-10-31-v6.6.
+On Mon, Nov 13, 2023 at 11:09 AM Krzysztof Wilczyński <kw@linux.com> wrote:
+> > This patch series is based on the latest pci.git / next branch.
+> [...]
+>
+> Thank you for following up to tidy things up!  Much appreciated.
+>
+> Now, while you are looking at things, can you also take care about the following:
+>
+>   drivers/pci/controller/dwc/pcie-rcar-gen4.c:439:15: warning: cast to smaller integer type 'enum dw_pcie_device_mode' from 'const void *' [-Wvoid-pointer-to-enum-cast]
+>
+> This requires adding structs for each data member of the of_device_id type.
 
-Next planned releases, if all goes well:
-  - renesas-drivers-2023-11-14-v6.7-rc1,
-  - renesas-drivers-2023-11-28-v6.7-rc3,
-  - renesas-drivers-2023-12-12-v6.7-rc5,
-  - renesas-drivers-2023-12-26-v6.7-rc7,
-  - renesas-drivers-2024-01-02-v6.7 (TBD),
-  - renesas-drivers-2024-01-09-v6.7 (TBD).
+That sounds like overkill to me.
+An intermediate cast to uintptr_t should fix the issue as well.
 
 Gr{oetje,eeting}s,
 
