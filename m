@@ -2,155 +2,108 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5466E7E9E05
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 13 Nov 2023 15:04:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1BA207E9E06
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 13 Nov 2023 15:05:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229691AbjKMOE2 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 13 Nov 2023 09:04:28 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36508 "EHLO
+        id S230056AbjKMOFZ convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 13 Nov 2023 09:05:25 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37340 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229463AbjKMOE2 (ORCPT
+        with ESMTP id S229463AbjKMOFY (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 13 Nov 2023 09:04:28 -0500
-Received: from mail.3ffe.de (0001.3ffe.de [159.69.201.130])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 92F31D4C;
-        Mon, 13 Nov 2023 06:04:23 -0800 (PST)
-Received: from 3ffe.de (0001.3ffe.de [IPv6:2a01:4f8:c0c:9d57::1])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        by mail.3ffe.de (Postfix) with ESMTPSA id 6AD90A4D;
-        Mon, 13 Nov 2023 15:04:21 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=walle.cc; s=mail2022082101;
-        t=1699884261;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=yUzEw4TxH12VVyyaawGL2bUmESkOGHRb0hTdIzQjJqQ=;
-        b=oymTYKSQXytO264g/g5zxuqMpJcNTAn1JwPKrIuok68U2TpRJyGSoGlkQx1PQmofFc0V3N
-        oioQ0kfonF+F5eCOIIQnbDXrhF/DaKwb2f3H4X8PveLz3Cwi11WqJLMTF9Pk0Wq0fF++o+
-        F8awPy7/CTvibNZ+K2PIdUmsTtzTZi0H/gQW6wx+iwagofw3SsSR6zQtKrLKIAD7CjgsD/
-        Qh7eIqmPS8OEUygwps6N/LBztcU0HOWKfSRiJwt8S93AR5bRCEHDLcPgvyQLCYDNwdCF3J
-        mixl6zy35Q+aYjj3mBw8/XKoRSmZy8eSgfZGCJEiPOkJD2GUAvACSWFX9bIq4Q==
+        Mon, 13 Nov 2023 09:05:24 -0500
+Received: from mail-oa1-f45.google.com (mail-oa1-f45.google.com [209.85.160.45])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 77132D69;
+        Mon, 13 Nov 2023 06:05:20 -0800 (PST)
+Received: by mail-oa1-f45.google.com with SMTP id 586e51a60fabf-1e9bb3a0bfeso2931821fac.3;
+        Mon, 13 Nov 2023 06:05:20 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1699884319; x=1700489119;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=yOIl42bbI4IF7rJY116A1gg3ba3yNq6IkJOjFeyXmF8=;
+        b=WgnlPadR0sUwJFahakY7Cq4iCaiWnCagkq6/LnKcgygAKx96F47lZEHIfzYrW1A3Sd
+         iO88DlJB/gbTMM5YCWDKA+bE7QkB4IUCH0lcrwkVPbg4gA0ZqArjtK4FNcDLKasNaZZ7
+         vpQR5ysNAZPWo4Q4CDCqCuSL6kLm4z1csqRPOlIXQ0WOD3W0uxNiC3GQQvMGFbVae7Go
+         UgDIywegICP73xSDvl+5GHIROmyBA7V3NtqaBucsLDrTaSQ5qkA48kE/cPQw8hRB23KI
+         RENlf1LtXPk2Lx87XGHcO+oywPd8k0m82ur7IvZXoG/DiFY7JlT245SUEfAkbNQWkLR7
+         oF0g==
+X-Gm-Message-State: AOJu0YxSxz07z2kcgYHT33mxVFwal6akbW7MQX5NS8g5HXBmyzaESFPn
+        acYZkmJWGv70L3bOKdeviHIZXjKNNaGHLg==
+X-Google-Smtp-Source: AGHT+IFCVVaD4GHbvGAwIkgGfh+1q1JcLDNG/6SyEJ/VtrzM4hao+Gk6RzuIVSJHeXXrKcwM3Fymzg==
+X-Received: by 2002:a05:6870:2248:b0:1e9:9469:a858 with SMTP id j8-20020a056870224800b001e99469a858mr8567231oaf.39.1699884319598;
+        Mon, 13 Nov 2023 06:05:19 -0800 (PST)
+Received: from mail-oo1-f48.google.com (mail-oo1-f48.google.com. [209.85.161.48])
+        by smtp.gmail.com with ESMTPSA id q9-20020a9d7c89000000b006cd093a0ea0sm813379otn.5.2023.11.13.06.05.19
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 13 Nov 2023 06:05:19 -0800 (PST)
+Received: by mail-oo1-f48.google.com with SMTP id 006d021491bc7-5842a7fdc61so2286703eaf.3;
+        Mon, 13 Nov 2023 06:05:19 -0800 (PST)
+X-Received: by 2002:a05:6358:e481:b0:168:ec55:d164 with SMTP id
+ by1-20020a056358e48100b00168ec55d164mr8542584rwb.25.1699884319019; Mon, 13
+ Nov 2023 06:05:19 -0800 (PST)
 MIME-Version: 1.0
-Date:   Mon, 13 Nov 2023 15:04:21 +0100
-From:   Michael Walle <michael@walle.cc>
-To:     Biju Das <biju.das.jz@bp.renesas.com>
-Cc:     Mark Brown <broonie@kernel.org>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        linux-spi@vger.kernel.org, linux-mtd@lists.infradead.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        "biju.das.au" <biju.das.au@gmail.com>,
+References: <20231024142522.29658-1-laurent.pinchart+renesas@ideasonboard.com> <CAMuHMdXfn__=z9RQgxo_Rnmm3x5CbNxvqp1+g+vcQZZQggO=Zg@mail.gmail.com>
+In-Reply-To: <CAMuHMdXfn__=z9RQgxo_Rnmm3x5CbNxvqp1+g+vcQZZQggO=Zg@mail.gmail.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Mon, 13 Nov 2023 15:05:07 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdV-fMaT-H4m9twdb+Ow7tCM4GZNDD4b1vn7e2B8VQmS8g@mail.gmail.com>
+Message-ID: <CAMuHMdV-fMaT-H4m9twdb+Ow7tCM4GZNDD4b1vn7e2B8VQmS8g@mail.gmail.com>
+Subject: Re: [PATCH] media: vsp1: Remove unbalanced .s_stream(0) calls
+To:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
         linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH RFC 0/4] Add set_iofv() callback
-In-Reply-To: <TYCPR01MB1126988E1A0741B99DB8DE59C86ADA@TYCPR01MB11269.jpnprd01.prod.outlook.com>
-References: <20231108171149.258656-1-biju.das.jz@bp.renesas.com>
- <877590a5e3f8c32ec0a032385049a563@walle.cc>
- <TYVPR01MB11279E535835F2998335F770A86AFA@TYVPR01MB11279.jpnprd01.prod.outlook.com>
- <b9831be88008b9f9960d1d79cd0e5a3a@walle.cc>
- <TYVPR01MB11279575676708170F3B3270D86AFA@TYVPR01MB11279.jpnprd01.prod.outlook.com>
- <f88759f98e865e68da5481fcbb969c47@walle.cc>
- <TYCPR01MB112699263B2EC0EC229746D3786AFA@TYCPR01MB11269.jpnprd01.prod.outlook.com>
- <dcfa2cab21fc85bb9b2b0c1ceb754a1a@walle.cc>
- <TYCPR01MB11269C639CB7AA480E388360B86AEA@TYCPR01MB11269.jpnprd01.prod.outlook.com>
- <TYCPR01MB1126988E1A0741B99DB8DE59C86ADA@TYCPR01MB11269.jpnprd01.prod.outlook.com>
-Message-ID: <3a9184e1e91689757a5b680e699ce02d@walle.cc>
-X-Sender: michael@walle.cc
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Am 2023-11-11 13:26, schrieb Biju Das:
-> Hi Michael Walle,
-> 
->> Subject: RE: [PATCH RFC 0/4] Add set_iofv() callback
->> 
-> 
->> 
->> > Subject: Re: [PATCH RFC 0/4] Add set_iofv() callback
->> >
->> > Hi Biju,
->> >
->> > >> >> Thus I was saying, that we probably wont support that and the
->> > >> >> easiest fix should be to disable this behavior for the atmel
->> > >> >> flash (there was nv setting).
->> > >> >
->> > >> > The fix up is invoked only for quad mode, I believe it is safe to
->> > >> > add fixup for micron flash As it is the one deviating from normal
->> > >> > according to you, rather than adding fixup for generic flash like
->> > >> > ATMEL flash(Now Renesas flash)
->> > >>
->> > >> Could you please try setting bit 4 in the Nonvolatile Configuration
->> > >> Register (Table 7) and see if the problem goes away?
->> > >
->> > > You mean, if it works, we need to disable reset for all the boards,
->> > > maybe at bootloader level??
->> >
->> > Not necessarily. First, just to confirm that it is actually the reset
->> > circuit. You can also compare the part numbers of the flash. There is
->> > a flash with IO3/RESET# and IO3/HOLD# (and a flash with a dedicated
->> > reset pin).
->> 
->> Part is MT25QU512ABB8E12-0SIT, As per the schematic, flash has a 
->> dedicated
->> RESET# with 10K pullup connected to SoC QSPI_RESET pin.
->> 
->> DQ0, DQ1, W#/DQ2 and DQ3 lines on the flash are connected without any
->> pullups to the SoC QSPI0_{0..3} pins.
->> 
->> >
->> > If that's the case, it looks like a hardware bug on your board. You
->> > left the reset pin floating. So you'd also not be able to boot from
->> > the NOR flash, right?
->> 
->> I am booting from NOR flash. BootRom code reads SPI flash and executes
->> BL2.
->> BL2 loads BL33 and U-boot from NOR flash. If this is the case, do you
->> think it is a Hw bug on the board?
->> 
->> >
->> > > OK, I will check that. Currently I have read that register and it is
->> > > showing a value Of 0xffbb. I need to do write operation. Before that
->> > > how do we recover flash, if something goes wrong during writing for
->> > > NV register?
->> >
->> > You should always be able to write that register from the bootloader.
->> > Maybe also through raw commands (like sspi in uboot).
->> 
->> Thanks for the pointer, I haven't explored the uboot path.
-> 
-> I have disabled RESET# bit in the Nonvolatile Configuration
-> Register (Table 7) and borad doesn't boot any more.
-> 
-> By default that bit is set.
-> 
-> [    2.530291] ###### Before write Read cmd=b5 val=ff
-> [    2.530431] ###### write cmd=b1 val=ef
-> [    2.535518] ###### Read cmd=b5 val=ef
-> 
-> 
-> NOTICE:  BL2: Built : 14:59:28, Nov 10 2023
-> ERROR:   BL2: Failed to load image id 3 (-2)
-> NOTICE:  BL2: v2.9(release):v2.5/rzg2l-1.00-3883-gc314a391c
-> NOTICE:  BL2: Built : 14:59:28, Nov 10 2023
-> ERROR:   BL2: Failed to load image id 3 (-2)
-> NOTICE:  BL2: v2.9(release):v2.5/rzg2l-1.00-3883-gc314a391c
-> 
-> What is your thoughts on this? How do we proceed now?
+Hi Laurent,
 
-I guessed you fixed this? Because.. if you boot from NOR the BL2
-should come from the NOR flash too, correct? And that is actually
-working.
+On Tue, Oct 24, 2023 at 4:56 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+> On Tue, Oct 24, 2023 at 4:25 PM Laurent Pinchart
+> <laurent.pinchart+renesas@ideasonboard.com> wrote:
+> > The VSP1 driver uses the subdev .s_stream() operation to stop WPF
+> > instances, without a corresponding call to start them. The V4L2 subdev
+> > core started warning about unbalanced .s_stream() calls in commit
+> > 009905ec5043 ("media: v4l2-subdev: Document and enforce .s_stream()
+> > requirements"), causing a regression with this driver.
+> >
+> > Fix the problem by replacing the .s_stream() operation with an explicit
+> > function call for WPF instances. This allows sharing an additional data
+> > structure between RPF and WPF instances.
+> >
+> > Fixes: 009905ec5043 ("media: v4l2-subdev: Document and enforce .s_stream() requirements")
+> > Reported-by: Geert Uytterhoeven <geert@linux-m68k.org>
+> > Closes: https://lore.kernel.org/linux-media/2221395-6a9b-9527-d697-e76aebc6af@linux-m68k.org/
+> > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+>
+> Thanks for your patch!
+>
+> The warning splat is gone, so
+> Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
--michael
+FTR, the warning splat is now in v6.7-rc1, but the fix is not
+(not even in linux-next).
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
