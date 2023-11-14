@@ -2,188 +2,189 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1421B7EA76A
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Nov 2023 01:20:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E3D987EA78D
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Nov 2023 01:37:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230437AbjKNAUd (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 13 Nov 2023 19:20:33 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39298 "EHLO
+        id S229611AbjKNAhX (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 13 Nov 2023 19:37:23 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58290 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229580AbjKNAUc (ORCPT
+        with ESMTP id S229659AbjKNAhW (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 13 Nov 2023 19:20:32 -0500
-Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01on2102.outbound.protection.outlook.com [40.107.113.102])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3641AD50;
-        Mon, 13 Nov 2023 16:20:28 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=bkCwHP8cnqQNSnRVriO6HnMhjvxfIAhgvBZ925EfT4b8+Z7Yo64LAszIObo50z5nEGXu3OoZ+YcdklzWD7ouSUMXmFtObIB7AO8lootODp5Ithnf7eBGN4bvzq9G0WKPv7zCLl+UOQWRUhNhbWS5bApWNBaMP6QFR7utOhh1E/zqbGw8ifBFsb4ciFc1dKVCEos4ApX8wA0p+zMP2oLryLSJ6ExnvplKEYDwTkm4c/7IO1TysurwLOsva236M1xj4ZRNKdqRUwvu1xDtGPDhX8rGnrHI1XQN8QNiapzbkqwLv2kgqI+yuVBB5Y3y+X7XxAmQPYqRpI0PKCu1HiuCLQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=aiF9oMC4BgzeqHfvFQotk3PjY+ZrrpiWqqNCrjbomrE=;
- b=lVswlSs7tUpGhyh3LdEBH4a4xtp0kYpi62Kc+bEO0OSYXsJZOx2Ik+y78oUSB1IW5JW4AybATmelsGH4TLs0kwrYkHbDpSU3QkmGrStyqxF2JpgIK/Eo86OYNq1GNemYzOMkmNfRFch5CbvBAlVEGZmBRspIdie3JhSS6E3CUmWgKjnXX51u0z8LqwS60s/ynKxAQ43u2G01wc56ZftfIWKpDYJoiQFQLbFaHScE1gmgnuclKPi3ALDzq1m3c8fHDvak+r+UeaPsW8O1Gj5xI3Jb6z2BXfKIgBGXKSqnuADtYvhGPOOqi0kW0VSEuAYE5JMnBsmAUq01ZzyQ61zbDQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=aiF9oMC4BgzeqHfvFQotk3PjY+ZrrpiWqqNCrjbomrE=;
- b=kWjbN09Zps7mYqm+7nhSf6NoSPVxPB84Biyx19rdKlmArGEUqe5tCRDM5USn7tuUVCO28qlRT1Dw9f5Wsz1JLxKnzAkGiwb2JwYnPkbscFPmcDEApvbJOXknjNVfA26/Wm+sIevaihiVii6+rtzfjVMiAz3Q4DJakcwoVVUa0ZY=
-Received: from TYBPR01MB5341.jpnprd01.prod.outlook.com
- (2603:1096:404:8028::13) by TYVPR01MB10798.jpnprd01.prod.outlook.com
- (2603:1096:400:2af::9) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6977.31; Tue, 14 Nov
- 2023 00:20:23 +0000
-Received: from TYBPR01MB5341.jpnprd01.prod.outlook.com
- ([fe80::50f5:eb2b:710a:b7c7]) by TYBPR01MB5341.jpnprd01.prod.outlook.com
- ([fe80::50f5:eb2b:710a:b7c7%6]) with mapi id 15.20.6977.029; Tue, 14 Nov 2023
- 00:20:23 +0000
-From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-To:     =?iso-8859-2?Q?Krzysztof_Wilczy=F1ski?= <kw@linux.com>
-CC:     Geert Uytterhoeven <geert@linux-m68k.org>,
-        "lpieralisi@kernel.org" <lpieralisi@kernel.org>,
-        "robh@kernel.org" <robh@kernel.org>,
-        "bhelgaas@google.com" <bhelgaas@google.com>,
-        "jingoohan1@gmail.com" <jingoohan1@gmail.com>,
-        "gustavo.pimentel@synopsys.com" <gustavo.pimentel@synopsys.com>,
-        "mani@kernel.org" <mani@kernel.org>,
-        "minghuan.Lian@nxp.com" <minghuan.Lian@nxp.com>,
-        "mingkai.hu@nxp.com" <mingkai.hu@nxp.com>,
-        "roy.zang@nxp.com" <roy.zang@nxp.com>,
-        "marek.vasut+renesas@gmail.com" <marek.vasut+renesas@gmail.com>,
-        "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
-        "linuxppc-dev@lists.ozlabs.org" <linuxppc-dev@lists.ozlabs.org>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>
-Subject: RE: [PATCH 0/3] PCI: dwc: Improve code readability
-Thread-Topic: [PATCH 0/3] PCI: dwc: Improve code readability
-Thread-Index: AQHaFdFZE9Ce1zVW+UaSH+2OKmpsyrB4B0UAgAAQLQCAAApcIIAACqiAgADHm9A=
-Date:   Tue, 14 Nov 2023 00:20:23 +0000
-Message-ID: <TYBPR01MB5341C92E5A5DCCE8B1F92683D8B2A@TYBPR01MB5341.jpnprd01.prod.outlook.com>
-References: <20231113013300.2132152-1-yoshihiro.shimoda.uh@renesas.com>
- <20231113100914.GB1583963@rocinante>
- <CAMuHMdVLmmf12KPQch7fT2iGjfDV--M2Wd0zsxSw6wfqYxUggQ@mail.gmail.com>
- <TYBPR01MB53411530E01A90CB525DF814D8B3A@TYBPR01MB5341.jpnprd01.prod.outlook.com>
- <20231113122221.GA2418639@rocinante>
-In-Reply-To: <20231113122221.GA2418639@rocinante>
-Accept-Language: ja-JP, en-US
-Content-Language: ja-JP
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=renesas.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TYBPR01MB5341:EE_|TYVPR01MB10798:EE_
-x-ms-office365-filtering-correlation-id: 2c1169d8-d129-498d-78c1-08dbe4a77e82
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: PPZlp4izrtdt8aL4SNniV0VQ50gJV0Qa7JD7/7xcui9g7h1rvWA9HiAxV+fvXLUJe4JNL1k3ZBHzcWhhRDXvH6Qx9ubHEEFarHBM6VWQYQaE/vclrGTngX9iMqTU9PmJQPLb/ucD0OZb6TDNazGaqo9gbJXtoPr340DD3fCWU+2Dsrhno07HF50G0Y+9WQFOq/G2F/5jrLZaEjI23sQoEmMYi3d2JK8OR6Lv+5SMrnxFNHBNKY7cShA332JPcZshwxpGPrErZo8qgfBazsCCs3BHLuZsbhog9LHUBU3KmTzipTAgU0nQbOIeakPKsWfpZCklo1WCYPQ0WiAz1VBHGf0DCjsqXcLH6Ni7fIgjoSoNmq51W1zRFKgKRVjk5AW4DiDuu4Jsl3fjBAagzkZMKngmO6j2LCg/lM008Mfux02+D3ZC0/bxSKJgBawDegE8aISa24Wes++RACHocmFFRF4qdBSE4Hdvg+buJ7YTiIpcVa9WSqZUEbR444jnADTY5E+oLudSTtAmqQ1NLH49gW/rYolNvEi1qQraeHJqIZVIUK/UQn5JsA/pLioZZGc2N7ghCmlB6Llt4u4wVDkqPmOPJNNDvT1GUYwyYeSfHErQcUQKFaOt9MB19fUFpnbzSFAyHKJmQnFAkGWQwB/kn3o00nvvN71mesGFEiVwcQyCA2few0DzuhhuicsVOvpA
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYBPR01MB5341.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(346002)(396003)(376002)(366004)(136003)(39860400002)(230922051799003)(230273577357003)(230173577357003)(186009)(1800799009)(451199024)(64100799003)(55016003)(52536014)(41300700001)(7416002)(86362001)(122000001)(38070700009)(5660300002)(66446008)(66946007)(66476007)(54906003)(66556008)(316002)(6916009)(4326008)(8676002)(8936002)(33656002)(2906002)(64756008)(76116006)(83380400001)(66574015)(38100700002)(966005)(7696005)(6506007)(9686003)(478600001)(71200400001);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?iso-8859-2?Q?nDhCN0mdtpj7IJE8mgeXoGENmosWXAY8seJ0lhYlNybvSPBqMmw/oc22Hv?=
- =?iso-8859-2?Q?WQMD93doz7q/lMvFb6rbunt7BOD0GBj84ZnmrUudVgAIrzla41oqCb+N2o?=
- =?iso-8859-2?Q?Vejd8h8Gw0hBr0KVXDZ9TCvPNIavaIwgbImR3wZ0pNx6RK6NfERaZ4FhEX?=
- =?iso-8859-2?Q?+KegkcHWxhV5BpB5AoolLFkWUNszm3wkEQxrvrOVB8dQ5s4MkZISlLiODL?=
- =?iso-8859-2?Q?F3T8lNQHTKpijlS9Gg9BbseOIuBniLcweRmbtgexieCW2WjwjZ8Vaw67UP?=
- =?iso-8859-2?Q?W5zmjL3v1141w0gedkgf3vSIrzekg+GLgEKEEfSc/b/rBnKXAq9WE5OQr7?=
- =?iso-8859-2?Q?hQ68h2MUCx23WR56qBwpLyBLU43+n59hK3gzuxXsbqLfQRd3raX28qzKQI?=
- =?iso-8859-2?Q?iCFtSi+ZbjsbRzR6l0wDMAZDHKDZidHX9CrGhlqE3lugs0DbMCXHDk9e0f?=
- =?iso-8859-2?Q?0JfDz8FcVhGKFZSx9yzEkqN5uZVNpjvBlcgBh9GUgRYb3uRZAWNMKjxMfD?=
- =?iso-8859-2?Q?Hjeo8rEGGKpH3gF9hU9+0OTa9crIQ1ZAnEhr2xGxNtS4T63Au3wdzEy8jj?=
- =?iso-8859-2?Q?GJvkK44rc4LKFnCnue68cvJbYWYPxjnfFimBuVEndb13Ti/KcAooURotPG?=
- =?iso-8859-2?Q?i+HBkLUwfaYLoxIQ5FkvYSj5DiTvpvJL08zG3vYUHMdTqXAheH+RnHZkm4?=
- =?iso-8859-2?Q?ulmVMn2G8ea7WD1e4Jg6cgp220WMJZWV6UyZ693kqTxleArmRXtkeDzYih?=
- =?iso-8859-2?Q?uFq7nhVOSM9OVLt+UhE8CQWIdUMIc3bD0Qv/ftqGwFziKrofD2TqMbts9m?=
- =?iso-8859-2?Q?Az95tlmeZxX5NJCl9cpkPrIKUrXdsOXexrHj6wdaAl00LwAaePIO89sJm8?=
- =?iso-8859-2?Q?8HWYOJhzIQ8VeLY/G5sQ2E7crE7RY7lbINpsXVsTQu6H3067PQ+2sbwvre?=
- =?iso-8859-2?Q?XkQclLsOGU9FZG9G3Cw1OBP1kdfnBboEpvu4qT3OJ9CcD2ALyCVgTZIseP?=
- =?iso-8859-2?Q?qaUm0eXajkUrD4wex6kGWsI/30d8vSo/NAqAgYYu3kd1L2X89JvFw7FnTS?=
- =?iso-8859-2?Q?GMt+Fk9UDbi9qk7ZKJvm1wBWWGYVHzhfG3+nQThxIhE/Wuqu/T/Je7u47I?=
- =?iso-8859-2?Q?/r65sxUOalsRXX9bPOSEyOA1bigzUn15+6V5ZUqYIecWr1Etp8J03b6rJd?=
- =?iso-8859-2?Q?fYVNuhqb8YdTSLJ023h43Mj0ETKSXPqpJmabCXk+onOPTwFR+U4/pWn+TP?=
- =?iso-8859-2?Q?h/d6DUAB27VgtFe/l9QTnnPDqsL5Cl/t7d0xMzeVXyP0AHVLv1oamGidwk?=
- =?iso-8859-2?Q?JIp+J1gtS26sGvjv5HANTghTh3Aawa1icJ+EvQW0BiHu+mvZfo2jKq1YtX?=
- =?iso-8859-2?Q?QherUJ0IQVAT3FSGay2weak/qAFWcIrlGhRfVGCQNXIaT4oI3JzSvHbpCj?=
- =?iso-8859-2?Q?/fyT5s4KKyBud9P1E+2px/SFKTRgloLitNKnJ9h+T9hqmHsbR1D1cJl9hh?=
- =?iso-8859-2?Q?sGUF8BbbBrRS0mPitcukkS6yMpPdYKJ8xcFmNkLL0VhTItjU9XxLg1+Ox2?=
- =?iso-8859-2?Q?FVWd2ax/EsGfE2rkQNOx+i1rtsOb7gjVMp7F5CqaFLgCCkLJ9pYh711y7y?=
- =?iso-8859-2?Q?wEO/pcEDw0RmbkJOlZLxp5nri+VhiReZ9wXHOyq4S6VXh/NvjT7KPqurXx?=
- =?iso-8859-2?Q?RopugWPT+wX1fB0DyoZ4psgw/QEq/is0vF+FDKx8OId/YKX1dL6ikFqFt9?=
- =?iso-8859-2?Q?4H8w=3D=3D?=
-Content-Type: text/plain; charset="iso-8859-2"
-Content-Transfer-Encoding: quoted-printable
+        Mon, 13 Nov 2023 19:37:22 -0500
+Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com [IPv6:2607:f8b0:4864:20::636])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 90C4FD5F
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 13 Nov 2023 16:37:18 -0800 (PST)
+Received: by mail-pl1-x636.google.com with SMTP id d9443c01a7336-1cc5b705769so45996555ad.0
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 13 Nov 2023 16:37:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernelci-org.20230601.gappssmtp.com; s=20230601; t=1699922237; x=1700527037; darn=vger.kernel.org;
+        h=from:to:subject:content-transfer-encoding:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=7i5agcpW53hvvZZUHdXjNFJsCUD86ZoIgZeou1TuxyU=;
+        b=sC1J2vNiD964F+SL0xh57QTSuZPfHrmG0acm/dk/snY9Wr4Vqq7YVNyP+NBYjC1J5X
+         Lv7on8RO3Gikp/QJ7m0wMoiDFtzgEmTRNZxZ1YjMlSZUUayW8nizjguFjBd6RdluiA3v
+         itzxBgfqqYeit8A4itAfryHPpcbUSJk3V7O6brYP6W76K4C71JxA1SUlRVJfj6uFFqba
+         RCvzGFbVwLEjcaqyf/+lASa2B46IF0uZ2kkpoXksYybimh93a+Y7ws3/ZancYg7J2ILD
+         UEUWtDpd1rx8Hu1pdAgLQVSLLPD1VVdjbfu0tPzxYvxKAjYSrrfYspJ4t8S3KovtwbSu
+         02XQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1699922237; x=1700527037;
+        h=from:to:subject:content-transfer-encoding:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=7i5agcpW53hvvZZUHdXjNFJsCUD86ZoIgZeou1TuxyU=;
+        b=nB4tMMnxItuZ1Fo0S/92fXZHHPXqomdcQ+nsltttfmVZDsazD13LL2MXKVLq1M5Ghp
+         jonN2ysHa+HsGuXPLeIJnl+9jc+Pydm5inTqAYyd2GjtwFW5zwL4MOjgEnukY/GG8Txd
+         8HmsoxL32O9e4NjLsuFPc/JiLbwJanbGaTkU8//XfJDbqi/V7pF26r3GeaKhDOaQX2fi
+         S9AiU6/PyUbkxvjyBJoZRO1FrpQDlVA4JTPWirpngz1yTzYPueamxFJqYAbvv/xU7drM
+         TEEWV62+xQ5KDdzMA8ZE2PVRqwS7mmXvJ0mHN+DiV5WS6V+4Nmel3szb+tFz+0uJveWO
+         VJTQ==
+X-Gm-Message-State: AOJu0YzAa5+vTU6FQ6U638W7X6DlDd6DfCab8J8gjJ1630c6N/b1C9Jq
+        NiscMITElsGdWnj5oh4eQfVH2GgZhtk4tjvY/e68eA==
+X-Google-Smtp-Source: AGHT+IGZHFjpeI1AMvNMPWRpKPpDEjLHkqb5GOyBiEzZRSYaW38A83nS7X04CHquJDOZzbZI6mFajA==
+X-Received: by 2002:a17:902:dac6:b0:1cc:5833:cf4f with SMTP id q6-20020a170902dac600b001cc5833cf4fmr846544plx.55.1699922237314;
+        Mon, 13 Nov 2023 16:37:17 -0800 (PST)
+Received: from kernelci-production.internal.cloudapp.net ([20.171.243.82])
+        by smtp.gmail.com with ESMTPSA id b20-20020a170902b61400b001c582de968dsm4588782pls.72.2023.11.13.16.37.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 13 Nov 2023 16:37:16 -0800 (PST)
+Message-ID: <6552c13c.170a0220.914e8.aa64@mx.google.com>
+Date:   Mon, 13 Nov 2023 16:37:16 -0800 (PST)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TYBPR01MB5341.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2c1169d8-d129-498d-78c1-08dbe4a77e82
-X-MS-Exchange-CrossTenant-originalarrivaltime: 14 Nov 2023 00:20:23.6072
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: RI2C7r7DtCTQDOV3Me3i/J/APVy9n83Z5iWuiGmAFqoUOCXzmgR0+J/8En99mSXAVZAjbZjBoERDA5uHjrTeAl5ukYw72Bz4rpPzgL2KZ4m0TLpEZ6amax5KHwpWedW/
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYVPR01MB10798
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: quoted-printable
+X-Kernelci-Report-Type: test
+X-Kernelci-Branch: master
+X-Kernelci-Tree: renesas
+X-Kernelci-Kernel: renesas-devel-2023-11-13-v6.7-rc1
+Subject: renesas/master baseline-nfs: 22 runs,
+ 2 regressions (renesas-devel-2023-11-13-v6.7-rc1)
+To:     linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
+From:   "kernelci.org bot" <bot@kernelci.org>
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello,
+renesas/master baseline-nfs: 22 runs, 2 regressions (renesas-devel-2023-11-=
+13-v6.7-rc1)
 
-> From: Krzysztof Wilczy=F1ski, Sent: Monday, November 13, 2023 9:22 PM
->=20
-> [...]
-> > > > Now, while you are looking at things, can you also take care about =
-the following:
-> > > >
-> > > >   drivers/pci/controller/dwc/pcie-rcar-gen4.c:439:15: warning: cast=
- to smaller integer type 'enum
-> dw_pcie_device_mode'
-> > > from 'const void *' [-Wvoid-pointer-to-enum-cast]
-> >
-> > Thank you for the report!
-> >
-> > > > This requires adding structs for each data member of the of_device_=
-id type.
-> > >
-> > > That sounds like overkill to me.
-> > > An intermediate cast to uintptr_t should fix the issue as well.
-> >
-> > I confirmed that the uintptr_t fixed the issue.
->=20
-> We declined a similar fix in the past[1] ...
->=20
-> > I also think that adding a new struct with the mode is overkill.
->=20
-> ... with the hopes that a driver could drop the switch statements in plac=
-e
-> of using the other pattern.  Also, to be consistent with other drivers th=
-at
-> do this already.
->=20
-> > So, I would like to fix the issue by using the cast of uintptr_t.
->=20
-> Sure.  I appreciate that this would be more work.  When you send your
-> patch, can you include an update to the iproc driver (and credit the
-> original author from [1])?  I would appreciate it.
->=20
-> 1. https://lore.kernel.org/linux-pci/20230814230008.GA196797@bhelgaas/
+Regressions Summary
+-------------------
 
-I got it. I'll include the following patch on v2.
+platform         | arch | lab             | compiler | defconfig          |=
+ regressions
+-----------------+------+-----------------+----------+--------------------+=
+------------
+dove-cubox       | arm  | lab-pengutronix | gcc-10   | multi_v7_defconfig |=
+ 1          =
 
-https://lore.kernel.org/linux-pci/20230814-void-drivers-pci-controller-pcie=
--iproc-platform-v1-1-81a121607851@google.com/
+imx6dl-riotboard | arm  | lab-pengutronix | gcc-10   | multi_v7_defconfig |=
+ 1          =
 
-Best regards,
-Yoshihiro Shimoda
 
->=20
-> 	Krzysztof
+  Details:  https://kernelci.org/test/job/renesas/branch/master/kernel/rene=
+sas-devel-2023-11-13-v6.7-rc1/plan/baseline-nfs/
+
+  Test:     baseline-nfs
+  Tree:     renesas
+  Branch:   master
+  Describe: renesas-devel-2023-11-13-v6.7-rc1
+  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-d=
+evel.git
+  SHA:      2cbe2219523d8ff9bc5d81dfd3bb6cf97807ab2d =
+
+
+
+Test Regressions
+---------------- =
+
+
+
+platform         | arch | lab             | compiler | defconfig          |=
+ regressions
+-----------------+------+-----------------+----------+--------------------+=
+------------
+dove-cubox       | arm  | lab-pengutronix | gcc-10   | multi_v7_defconfig |=
+ 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/655290c1b5a1d2c5237e4a84
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: multi_v7_defconfig
+  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
+10110)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+023-11-13-v6.7-rc1/arm/multi_v7_defconfig/gcc-10/lab-pengutronix/baseline-n=
+fs-dove-cubox.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+023-11-13-v6.7-rc1/arm/multi_v7_defconfig/gcc-10/lab-pengutronix/baseline-n=
+fs-dove-cubox.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
+230623.0/armhf/initrd.cpio.gz =
+
+
+
+  * baseline-nfs.login: https://kernelci.org/test/case/id/655290c1b5a1d2c52=
+37e4a85
+        new failure (last pass: renesas-devel-2023-06-26-v6.4) =
+
+ =
+
+
+
+platform         | arch | lab             | compiler | defconfig          |=
+ regressions
+-----------------+------+-----------------+----------+--------------------+=
+------------
+imx6dl-riotboard | arm  | lab-pengutronix | gcc-10   | multi_v7_defconfig |=
+ 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/655290992abb9c30c97e4af0
+
+  Results:     5 PASS, 1 FAIL, 1 SKIP
+  Full config: multi_v7_defconfig
+  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
+10110)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+023-11-13-v6.7-rc1/arm/multi_v7_defconfig/gcc-10/lab-pengutronix/baseline-n=
+fs-imx6dl-riotboard.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+023-11-13-v6.7-rc1/arm/multi_v7_defconfig/gcc-10/lab-pengutronix/baseline-n=
+fs-imx6dl-riotboard.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
+230623.0/armhf/initrd.cpio.gz =
+
+
+
+  * baseline-nfs.bootrr.deferred-probe-empty: https://kernelci.org/test/cas=
+e/id/655290992abb9c30c97e4af9
+        new failure (last pass: renesas-devel-2023-06-26-v6.4)
+
+    2023-11-13T21:09:36.038254  + set[   27.858131] <LAVA_SIGNAL_ENDRUN 0_d=
+mesg 1008593_1.6.2.3.1>
+    2023-11-13T21:09:36.038470   +x
+    2023-11-13T21:09:36.146323  / # #
+    2023-11-13T21:09:36.248037  export SHELL=3D/bin/sh
+    2023-11-13T21:09:36.248633  #
+    2023-11-13T21:09:36.349919  / # export SHELL=3D/bin/sh. /lava-1008593/e=
+nvironment
+    2023-11-13T21:09:36.350424  =
+
+    2023-11-13T21:09:36.451694  / # . /lava-1008593/environment/lava-100859=
+3/bin/lava-test-runner /lava-1008593/1
+    2023-11-13T21:09:36.452409  =
+
+    2023-11-13T21:09:36.455241  / # /lava-1008593/bin/lava-test-runner /lav=
+a-1008593/1 =
+
+    ... (12 line(s) more)  =
+
+ =20
