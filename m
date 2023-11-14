@@ -2,46 +2,46 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DDC6D7EA735
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Nov 2023 01:00:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 95D407EA738
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Nov 2023 01:00:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229611AbjKNAAL (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 13 Nov 2023 19:00:11 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38194 "EHLO
+        id S229611AbjKNABA (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 13 Nov 2023 19:01:00 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45626 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229511AbjKNAAK (ORCPT
+        with ESMTP id S229511AbjKNAA7 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 13 Nov 2023 19:00:10 -0500
-Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01on2090.outbound.protection.outlook.com [40.107.113.90])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1360CD53;
-        Mon, 13 Nov 2023 16:00:06 -0800 (PST)
+        Mon, 13 Nov 2023 19:00:59 -0500
+Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01on2091.outbound.protection.outlook.com [40.107.113.91])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3BC4DD53;
+        Mon, 13 Nov 2023 16:00:53 -0800 (PST)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Mn7YisCWFzb1w73LwGC66xl90k11a1JvFWtH0DcJD8cxoVg1yq4IHg3S9PfJ/y2KbbS6YUvhEVZ5Y81aiCFKyPq/2ea8D+vSGFjm7mKhFwSs9RW9sGLchcwBv0pMUxpaqLqb8vj30Pk2rTTA00DESysmNQoqEcCPZPOrvS9nT8WQEXQ7iDKhlY3izHZoj90xH719fWo6D4jvJf3Wmib7+iNkdW2FEeAxtmIY2ZipQ5cMa+TqNipU/Yp3EyY9IvwPdjhmepwF7QahFqfBt5QypUBznMogmRWqJ6dJHPW2RZM3krakakCOfYh8ipZeacbLkZv6WtuJuwjFlrqOWiajCg==
+ b=TlIB2JgX+NrymrIhpbLzIUxz1rSfw6IdHUkjslYXC0rPXRNVabJGxRskvqliiZ+yLT+kZ94wDMhg4kOEyoJpHp7kiRlDHxgNgeebN7qYpsRcieK5H2pqrFB9nfYu/SSFm6AIY2bL2ua7v0527/DlM3x2jL0rsT99+hvpIZchNJMz91EvPJrX8ZVERCj3j6Jbg0v7Bf08/JRXQhcASKiVj+nStg/sJVuMw8nArk/5zxO3WHEHkk/gMtyISXEN2/BwB7MwRHSHL5FZcii9ga76FOvfZMXK6FCyXqDOPTRJM3j5dd/GFeQVLUTJqob7S9HK4iaPpcjEDJIDuHqGlfsqBg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=7BS9PZ4pkCCZTNRZwCpVfnVTfl/dN0USFJSchAab1sU=;
- b=ipvu+brIokTSSf8ZzxNK36k/o2BDgDnYIxLq4HHoHvzU0Y/QqGSkYJoYlLV4utjRgBEde+gRV6UIr0jvS1+r+H3WfcsUkOpm3Ft6DRahtReni6RwWDyNuqHybpzfNUOfbT7NgZQEDpXQY/w9vTPWUobGrXWr61n/uNKpB0MpMbrxLLLGlurSFigzVQZVMsP3CHFhObN5TVEL2lI6A9MnF1PZW/uTFlqzulC+LqzCVBV7baHnwnt5ozwhW9jJbIWVtOWoc9GYh5s4cfzt5lU0HP4aWFWv/88+ok5dMl8Wj+wYTvWK/Zbn3tWqv5OnKcb+I1e9klJETEoUB7I5QYi53A==
+ bh=+7/3fZ7ogIVnSz0COzEmm35LZFE3vMCvyxCRSfyMNEM=;
+ b=Ep5BZUfNmI61/0LXIHwBtHDIZ/YeTZfz2JlEeQJykr+EIP6ieicyhr/6X4orXOb2ffsINoRycyBYgOl665G93MykW84OaiEJDdB417hXOvKy26e/UAQXAo4Wp1IVAOjro2kKqv8c0L4p4x3wD8yeivLZDadU6QZ7FcFyUJ9uStCSe7B+61Qi+z78KuLWe+9AHZCG6ZUFf0Y+McbEC5lHTr5bhSMVna7puqaJmh4UVWpezjQQh6S97j15aTRzuu5uysfGx+AJzEb3gqXXfYKIznvVEBniNoiRT+XbdHaobZN6JVBRhunr/0Y8PWOUvfffflGP5HKiydyXQZI5dbuGpQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
  dkim=pass header.d=renesas.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=7BS9PZ4pkCCZTNRZwCpVfnVTfl/dN0USFJSchAab1sU=;
- b=pVPVMiVs8yp2zf4k4LBRP4sHJO84wllaE0cDo8U5U4ZZkmgfbDN9f+pL/7duftvCp3dre4nSpZJCr6lPIOVRidp7GgFuPRWsKIHe6XV+iokWkz7rxQZaNgLvcyGObDQr+KgII35V3PdLI5ttLz+p0JLseUThZTjSO+fhrGHBMlI=
+ bh=+7/3fZ7ogIVnSz0COzEmm35LZFE3vMCvyxCRSfyMNEM=;
+ b=pZZenv6/dgvdZDu/Mm8Osv+3kp1CdAwdAkf11cBr16KwCyBQBHfABQYM5ljtvQPAh9Cf6e0HtFQgbU5FjGQca5SAPB9V0sEd/nCLRn0+zcaxFXqsVf5WkjXymWb6ctbPrqRTeSqDlwfSKcJkoCKdqRSdNbUlErFLqeE6mbF1QjU=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=renesas.com;
 Received: from OSAPR01MB2178.jpnprd01.prod.outlook.com (2603:1096:603:1a::14)
  by TYCPR01MB9273.jpnprd01.prod.outlook.com (2603:1096:400:198::11) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6977.31; Mon, 13 Nov
- 2023 23:59:59 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6977.31; Tue, 14 Nov
+ 2023 00:00:49 +0000
 Received: from OSAPR01MB2178.jpnprd01.prod.outlook.com
  ([fe80::173f:d892:3d66:397d]) by OSAPR01MB2178.jpnprd01.prod.outlook.com
- ([fe80::173f:d892:3d66:397d%4]) with mapi id 15.20.6977.029; Mon, 13 Nov 2023
- 23:59:59 +0000
-Message-ID: <8734x9tda9.wl-kuninori.morimoto.gx@renesas.com>
+ ([fe80::173f:d892:3d66:397d%4]) with mapi id 15.20.6977.029; Tue, 14 Nov 2023
+ 00:00:49 +0000
+Message-ID: <871qcttd8v.wl-kuninori.morimoto.gx@renesas.com>
 From:   Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 To:     Frank Rowand <frowand.list@gmail.com>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
@@ -52,106 +52,170 @@ Cc:     Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org,
         linux-clk@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
         Aymeric Aillet <aymeric.aillet@iot.bzh>,
         Yusuke Goda <yusuke.goda.sx@renesas.com>
-Subject: [PATCH 0/4] drivers: clk: renesas: enable all clocks which is assinged to non Linux system
+In-Reply-To: <8734x9tda9.wl-kuninori.morimoto.gx@renesas.com>
+References: <8734x9tda9.wl-kuninori.morimoto.gx@renesas.com>
+Subject: [PATCH 1/4] of: add __of_device_is_status() and makes more generic status check
 User-Agent: Wanderlust/2.15.9 Emacs/27.1 Mule/6.0
 Content-Type: text/plain; charset=US-ASCII
-Date:   Mon, 13 Nov 2023 23:59:59 +0000
-X-ClientProxiedBy: TYCPR01CA0095.jpnprd01.prod.outlook.com
- (2603:1096:405:3::35) To OSAPR01MB2178.jpnprd01.prod.outlook.com
- (2603:1096:603:1a::14)
+Date:   Tue, 14 Nov 2023 00:00:49 +0000
+X-ClientProxiedBy: TY1PR01CA0194.jpnprd01.prod.outlook.com (2603:1096:403::24)
+ To OSAPR01MB2178.jpnprd01.prod.outlook.com (2603:1096:603:1a::14)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: OSAPR01MB2178:EE_|TYCPR01MB9273:EE_
-X-MS-Office365-Filtering-Correlation-Id: 7a233cf2-8311-4d5b-3929-08dbe4a4a4bb
+X-MS-Office365-Filtering-Correlation-Id: e95f9ccb-b609-4e00-d338-08dbe4a4c2c1
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: uhYsauTcO1Js1vctW++mVkZ6/LmbgliQBAcw0/COhcdjdPfmLvwP6BWIjKjhireulRN2F2K2GvhbCgxThxo2QkYAmETolosuYBMwUxNQJ3mSgn4g3IPeHMAZmBx5hNDnVBN+tR2Whca7nJWtRPcvnb+gfM/LKrNFgoO19PXoGdaZuGxjdpdJV0qEb9jtASrUjF2nt5p/ommfy8rP+4IrDHuMlhpzx1Hx8D0AgM0QuwtUmLfcSyrwET1JwFv3hbpMGzBuMWp0fbqod0b4rkCnc+qvF+wGEut7GG7jkgRXUT47Doujf2xfPqpVebTGJxN0FZJ/FYko5nWwUB9f+M1LzJEUuKXiCMn+9N9p5UtOvfckFZmLq2WcjvNXzx+xbgfJ/FRMSSIAn8J0PnBwmEW3mBdygfAi/JkPEZk9TETE283ZB79ehXA/mxuC/Sea9mCBmPN5kiM3uzNTA6L2InbZScEizUZXz4KhlBlVuIYHjjR5JWnMBjXJSeFP/Yjvu3pQSQukjabPRMJcLl//6TpxcHfXi0dL19lvKXUSt3FGuMZ+ZY5eC/5zpA+lCKmaW/SqwmXIMOFzJEXL5Qfq+RTzSjTTGipoMKtlAfOe4qPKPFk=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OSAPR01MB2178.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(39860400002)(376002)(136003)(366004)(346002)(396003)(230922051799003)(451199024)(1800799009)(186009)(64100799003)(26005)(107886003)(6506007)(52116002)(6512007)(2616005)(83380400001)(4326008)(7416002)(41300700001)(8936002)(5660300002)(2906002)(8676002)(966005)(6486002)(478600001)(316002)(110136005)(66476007)(66556008)(66946007)(54906003)(36756003)(86362001)(38100700002)(38350700005);DIR:OUT;SFP:1102;
+X-Microsoft-Antispam-Message-Info: zzQg63B7tP50+cyvyhL8OvqZx0NuW6F67xUiUTkaXQMiz1k1x2wAYkgP9r4M+6a/1/ySx9muMyJSI9fXfY+YeFNmhS51HKHfdRpJaGb+WGW5ga3qRHrx+n5/EcRRSf4EVH9wXli0S3a1eFtBTmdQYY1J/iI9UE8mAi/p/E0zbNKPN8ZhBzvQL7s7lKFo1qhEKmq0uQHu+8kIq1UeHfDKq50XbnWIqkRRDclqYTsNFrAm9fcDb7mKrbUNbjaVnqw2wHua2pvPHxDZu2ggB6TsnsKoSAWx1NjREOtSctfLuNKOfSAE2oKUgwAvh/vyDIIYp3223ZoT/Zk/axxdU6rCm4DSVGhtMXqSbIFuH/XQDZ547EaycUa+mz8FcX5vMdHSkCr/a18oRzmzVRyUvL55uUf52vcx0WdWZ9ekehF9K0gyi6fTyApHwmIF3XCnw8G5gg3DESXhzP1SvnsW0djPd/xrcwwqSTPnsv3llVzmQOa7xmzJnUL4CQtsTWyq3OkoetVztInxMoRY2C6tceBV/6Nezz1OfbomPZ37TU+1lUlnfC5l83FGGFR2pvp8KWUtOQUq8Ol/xM/JZN7TItb4JZ2owv6UZV6Gan0NgAHc48NHgHoOp7mB/0miX72r3xKRjsUPTUr0CtoVSxfLz+xf5A==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OSAPR01MB2178.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(39860400002)(376002)(136003)(366004)(346002)(396003)(230922051799003)(451199024)(1800799009)(186009)(64100799003)(26005)(107886003)(6506007)(52116002)(6512007)(2616005)(83380400001)(4326008)(7416002)(41300700001)(8936002)(5660300002)(2906002)(8676002)(6486002)(478600001)(316002)(110136005)(66476007)(66556008)(66946007)(54906003)(36756003)(86362001)(38100700002)(38350700005)(41533002);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?MnSqjnSi/bxZV9objyCoPM+rtkVfKh7lplGpL1yjmU2Nk0/Ikf6sl8xsFaf4?=
- =?us-ascii?Q?75Q2LA2HuPjdYDs0O7mn4OibiDMhDMOC1TbHHub28jlbLqTYng9rdZ+9F2Fj?=
- =?us-ascii?Q?lik6dQSSvMQgoV1Ly1hqNKH8+vzi1ljfXjxVdBHWt5jBDOfYjJGKAPLULH1K?=
- =?us-ascii?Q?NMjNGg+FjIf8+S9g/DI7Im+P7FhIP5qdj3Xe+qPmlWFoOnXnrL5KhprPnkxS?=
- =?us-ascii?Q?g1e+JUP6WWgiNR6JfEsGNJkCA7EtKeehoCyEOifXS56eTbwbaKtd9wX35ZGK?=
- =?us-ascii?Q?w44dbx79bGgA3PWtlRPiQlvE08UpkpepsmJNipgVKHyNAYgRDIGhESitYG/3?=
- =?us-ascii?Q?E6s61xxXiXzcQEeO1GmFEEFvcm3m5T9pxYrg1mVvZ/WO5G4cCKVs+Q4RGqxE?=
- =?us-ascii?Q?hwtxBKOebploNjVruGy/8L0ckls/pGI1QqxFNr6gg+Obpp/zBkBh9x/Ys2Sq?=
- =?us-ascii?Q?g6DYo/A6Jk5sJwr9i024DVQ2ew6TcbI4HxdEzd07O6wIJ5L4KG0cmtkZ8DOs?=
- =?us-ascii?Q?8EP9+wWwKzTHELfpvXSicWcoc47IbsizhSzq5IT9CIBtAhLWr/QlmHY4zFAK?=
- =?us-ascii?Q?SN40CMVjbDYis2db2IXeqM4FxdFCH2mshTmYOSlvxpApCC9+LuOf/6Drl+8a?=
- =?us-ascii?Q?lNzWPH4GJhYdaDd3Ah9hH3RuWmVP6BDxgfMlB2kkogenqL80XgApLObpEFrv?=
- =?us-ascii?Q?iQNE82G1gPNUxPMaZOeUXL2WZPSEQup2NIlFMddx9defrHYDWb8/1lTy2zWy?=
- =?us-ascii?Q?opQlBCzdRHMxpwdVe5h5yXWCJ0hWDNod32/FEsOV2zk3eSnIlDrCM1xfjMIE?=
- =?us-ascii?Q?sRgct5bY0tQl2gwxI67YI4iMm2++Cj2HT/HGMP98KhCE1s9w60GuEYcTVj44?=
- =?us-ascii?Q?m8Q7l0WxBtrgKyzD9izN0U2h4dSeBS3DAfbeRsJMJsCyal3VtL87nc0k+lxY?=
- =?us-ascii?Q?gpnfHQo5y4f/XbMEyVs8mj4538gdSlcnn0uS19WO4j9tIA9/RKoN550NvWNS?=
- =?us-ascii?Q?FmPXHpg0JkiWVrQ9DcfQ7dfclOGQnu1OvbBFdlwnMjurgLH1mmxfHnw1h8Fc?=
- =?us-ascii?Q?oTRW2D/ZzuoLiz1kj1YN5EcuB87Wc7T09J3XV4YKmolGhoMLk7iz+p2qQ0xf?=
- =?us-ascii?Q?nNxxIMa9Cfb1rdKDGFXb3h+4GMzKYRb5fzg0KouZvs4IzWjzx7IywcTnBmRV?=
- =?us-ascii?Q?dIwY0q7pV0UAllFp0OeFdGEAjvFX7epDxzyKEx/OP2XtxvkFKCq3YLyN8kKh?=
- =?us-ascii?Q?wrxpq0VBgcQB1L3BgPaTEk//n21bngxkFxM4QOGjThbu2N/23X1GVszjTD6u?=
- =?us-ascii?Q?22AC2CuEsmoHChT36xg+C6uJsJQW4Y5fMzlw6a+moec9HNazjf+ivu/33smK?=
- =?us-ascii?Q?+AkUtIao3X20gk6lRwTXGgLukdQitWlg05zjKB2S9hplQtLq0XoMh3VXzokt?=
- =?us-ascii?Q?xj1+uPAtmPLYVPU7xhLPg6rt4GMwGvyDXNnG+y54hllSqLBXt/tK0OX26XNc?=
- =?us-ascii?Q?xmq+3IdFcvS5Lk0BRuqbqMrc04YzpjNyyJ003qwsT2rKzm8R5/7SysifhvYN?=
- =?us-ascii?Q?SZboYLxKBYys+Yqx7+HJ1d97VzBXk4hjMZeRtGQ1eaJ6Tl43/3HiXVRRQLY1?=
- =?us-ascii?Q?cEtMjOEIAsrba/YtbP4C2xw=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?7Vw0dN8DdHccii7ykMYY3krtbshvWV892bCMgHVjAoaAIzs6iYixFect3b4G?=
+ =?us-ascii?Q?tsINc6wOz/kA+IWysmbsBtqpZglJsxGMHW5BZLDJa+vHHxQORnPlCYDZLxDk?=
+ =?us-ascii?Q?jWbm4WBPmlWRm8VkDTkHA8w19N0gw6OadY+gQRqPuYUAVaJ1RhLNON9QD3s+?=
+ =?us-ascii?Q?4uI062Pu7jv67JzxooFx1ax3oCj4x8o3ILaJ+q4IcqCx6mQZL1z27sFLruv+?=
+ =?us-ascii?Q?bPiIr0iGlx7EgyBGERLzwKFTYBKm6Fy+7bkIqZfpGCq8/0+OMY6BlZEqWvXi?=
+ =?us-ascii?Q?zYmA9zeuTMs0UP4NwGuFKlXZ0S6lhF3muZXKokxu4+yH4q/A//zVrcE5aWta?=
+ =?us-ascii?Q?WP2pkH3Mt7nFSw2rFRKyW9sC9MprMeJezM4qcnggErghCyIhA7OPif0oYuQj?=
+ =?us-ascii?Q?fLeX2pdWERTzosMaKzgUEa4k7IYAHhYpohHUIIr1G6BafSboHHPoFDix9vLp?=
+ =?us-ascii?Q?CYyx7IMjgNA7XsKPuVtkNdvm6u5c3cEmA4rWae7KeaL3k92o3UqjMEhoYyZf?=
+ =?us-ascii?Q?lAM8CScfEuziQmCNGlLISyvyoOP35e2YEA7HuWH2JRFSdcpJU8oBUZplFE+O?=
+ =?us-ascii?Q?C0xRH0veBHHOA6V0fW8L/AuMVDDhj9SZLndiMchBnhhHmZ9FYTzPmNJCFJpL?=
+ =?us-ascii?Q?K3p5ljEg17G8dipnbGi9o/9WObovjs/oiHuPfCCyKPzGvtq6BfxWD+Y/XDis?=
+ =?us-ascii?Q?x0jSUFbnFHYhfNO4kU1ut+i5+iblVuyaxuocsJLvdgYxLyN0K2292XwmBJbX?=
+ =?us-ascii?Q?MZ81QjX/X3JTj59oJlFj80BaFt9QD28Ohlmlhe9+CpEmaQncGHDQ526WVcnr?=
+ =?us-ascii?Q?Ypv2L/Mhv9paVuCJzXfWUtFSZgkig0CZw5EnkRoJOuKQleEO7BTAmRbhUGvF?=
+ =?us-ascii?Q?z++vyCFjQsURetakSpbeJwuLJ7+Mw/xEwhoXUmOvRsUGZZVjet9fMt/OyxSX?=
+ =?us-ascii?Q?eLaJAA0MJccJlG4SoLnvWfSuUI8IC2DPS0ApoBJ133IA1jX+a6yBy2/XdC8R?=
+ =?us-ascii?Q?pK5DyD/qloVtk7cOyF2Z9/1xAysF8cfzByOgvuMm77dHl9HXJzvERMmVawhZ?=
+ =?us-ascii?Q?fzS5q5nTProSePVJBgB0ZJsiYDw8B3vYpHr9XY1vTR1cHjgRE5R/p7vN/W93?=
+ =?us-ascii?Q?62S80KjaH+heq6+qGu2VTDZaZiEeueP/IHMCuT/ZiW/y2JlXP2/lv3JonqLv?=
+ =?us-ascii?Q?bXhOaNGvP31SNWkUzceh0vomlTQxL7GFXWR0/5r8CszWx3l5YsnT3RYOdgqy?=
+ =?us-ascii?Q?iwGoBkKBhYrUS/14nQbnoeKxQKBcWunSodQgw17eUvm3E5ZYXJjT5PVmKk1r?=
+ =?us-ascii?Q?5kuFFlxxUu0xe/kCOkTikYunYXYxFKQlzmJKI8eXlRgxIlh4+ZaSGqgSbMvF?=
+ =?us-ascii?Q?euy4hx7vrGZm6r7869eZMoAvxTidicpwPCJLEggo4b76lIwclVaF/p9jzPgk?=
+ =?us-ascii?Q?st1gEzd889wY+6ST1OQCEbRtoj1dcXJpKFzetJCFUAYSvUqGZ4mSyslkEne4?=
+ =?us-ascii?Q?t7lXCs/yK/Bw8V7+MEdQVHYUcvi1UrAhgKO71CZU8pw1SV6AbfAdpeoKGLGS?=
+ =?us-ascii?Q?owmXkR8ixV/ToXM6QARkF5556dz3x2DLp+FG1TN7lzDD+Rwlj876J0OaCEWJ?=
+ =?us-ascii?Q?qpl4YuIiXgJf+MbjbosBVkc=3D?=
 X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7a233cf2-8311-4d5b-3929-08dbe4a4a4bb
+X-MS-Exchange-CrossTenant-Network-Message-Id: e95f9ccb-b609-4e00-d338-08dbe4a4c2c1
 X-MS-Exchange-CrossTenant-AuthSource: OSAPR01MB2178.jpnprd01.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Nov 2023 23:59:59.3983
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Nov 2023 00:00:49.7967
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: f7wiyCz7VRLHq7ZM/4I7NZ8ytrgB3/d4aRmEQNsZ5NgHHrZeLtALmBxYhnI0Mdt2CMttoBj8FrLoxN3QzwR1uMNOur7M0qqBZkcjFOqVbfsHmjnsssrks5wEHVK9JnE+
+X-MS-Exchange-CrossTenant-UserPrincipalName: L9KmGV+jKCOZbYFOlhcxI5yJZGqjY2kXpPJsIxTfCKjW6n7y0v+swBaF9qBguW9RZfuGZ0VKUFRO9Z1pRxT8mBYX3/iwEtI3vSOy5jzWPlxn4lYUBDNm43xSWB+FWnTM
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYCPR01MB9273
-X-Spam-Status: No, score=0.9 required=5.0 tests=AC_FROM_MANY_DOTS,BAYES_00,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Linux Kernel has __of_device_is_available() / __of_device_is_fail(),
+these are checking if the status was "okay" / "ok" / "fail" / "fail-".
 
-Hi Rob, Geert
-Cc Aymeric, Goda-san
+Add more generic __of_device_is_status() function for these.
 
-Some board might use Linux and another OS in the same time. In such
-case, current Linux will stop necessary module clock when booting
-which is not used on Linux side, but is used on another OS side.
+Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Tested-by: Yusuke Goda <yusuke.goda.sx@renesas.com>
+---
+ drivers/of/base.c | 53 ++++++++++++++++++++++++++++-------------------
+ 1 file changed, 32 insertions(+), 21 deletions(-)
 
-To avoid such situation, this patch-set try to find status = "reserved"
-devices, and add CLK_IGNORE_UNUSED flag to its clock.
-
-Table 2.4: Values for status property
-https://github.com/devicetree-org/devicetree-specification/releases/download/v0.4/devicetree-specification-v0.4.pdf
-
-"reserved"
-	Indicates that the device is operational, but should not be
-	used. Typically this is used for devices that are controlled
-	by another software component, such as platform firmware.
-
-
-[1/4] - [3/4] : expand existing function for "reserved"
-[4/4]         : adjust to "reserved" device on Renesas CPG
-
-Kuninori Morimoto (4):
-  of: add __of_device_is_status() and makes more generic status check
-  of: add __of_get_next_status_child() and makes more generic of_get_next
-  of: add for_each_reserved_child_of_node()
-  drivers: clk: renesas: enable all clocks which is assinged to non Linux system
-
- drivers/clk/renesas/renesas-cpg-mssr.c | 116 +++++++++++++++++++++++--
- drivers/of/base.c                      | 111 ++++++++++++++++-------
- include/linux/of.h                     |  11 +++
- 3 files changed, 197 insertions(+), 41 deletions(-)
-
+diff --git a/drivers/of/base.c b/drivers/of/base.c
+index 8d93cb6ea9cd..d67cb650dcd6 100644
+--- a/drivers/of/base.c
++++ b/drivers/of/base.c
+@@ -415,15 +415,8 @@ int of_machine_is_compatible(const char *compat)
+ }
+ EXPORT_SYMBOL(of_machine_is_compatible);
+ 
+-/**
+- *  __of_device_is_available - check if a device is available for use
+- *
+- *  @device: Node to check for availability, with locks already held
+- *
+- *  Return: True if the status property is absent or set to "okay" or "ok",
+- *  false otherwise
+- */
+-static bool __of_device_is_available(const struct device_node *device)
++static bool __of_device_is_status(const struct device_node *device,
++				  const char * const*strings, bool default_ret)
+ {
+ 	const char *status;
+ 	int statlen;
+@@ -433,16 +426,41 @@ static bool __of_device_is_available(const struct device_node *device)
+ 
+ 	status = __of_get_property(device, "status", &statlen);
+ 	if (status == NULL)
+-		return true;
++		return default_ret;
+ 
+ 	if (statlen > 0) {
+-		if (!strcmp(status, "okay") || !strcmp(status, "ok"))
+-			return true;
++		while (*strings) {
++			unsigned int len = strlen(*strings);
++
++			if ((*strings)[len - 1] == '-') {
++				if (!strncmp(status, *strings, len))
++					return true;
++			} else {
++				if (!strcmp(status, *strings))
++					return true;
++			}
++			strings++;
++		}
+ 	}
+ 
+ 	return false;
+ }
+ 
++/**
++ *  __of_device_is_available - check if a device is available for use
++ *
++ *  @device: Node to check for availability, with locks already held
++ *
++ *  Return: True if the status property is absent or set to "okay" or "ok",
++ *  false otherwise
++ */
++static bool __of_device_is_available(const struct device_node *device)
++{
++	static const char * const ok[] = {"okay", "ok", NULL};
++
++	return __of_device_is_status(device, ok, true);
++}
++
+ /**
+  *  of_device_is_available - check if a device is available for use
+  *
+@@ -474,16 +492,9 @@ EXPORT_SYMBOL(of_device_is_available);
+  */
+ static bool __of_device_is_fail(const struct device_node *device)
+ {
+-	const char *status;
+-
+-	if (!device)
+-		return false;
+-
+-	status = __of_get_property(device, "status", NULL);
+-	if (status == NULL)
+-		return false;
++	static const char * const fail[] = {"fail", "fail-", NULL};
+ 
+-	return !strcmp(status, "fail") || !strncmp(status, "fail-", 5);
++	return __of_device_is_status(device, fail, false);
+ }
+ 
+ /**
 -- 
 2.25.1
 
