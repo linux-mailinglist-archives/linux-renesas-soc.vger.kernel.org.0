@@ -2,131 +2,95 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 360B77EB0FD
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Nov 2023 14:37:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 105CB7EB102
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Nov 2023 14:39:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233294AbjKNNhP (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 14 Nov 2023 08:37:15 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42072 "EHLO
+        id S229501AbjKNNj2 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 14 Nov 2023 08:39:28 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40844 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233296AbjKNNhN (ORCPT
+        with ESMTP id S231439AbjKNNj1 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 14 Nov 2023 08:37:13 -0500
-Received: from xavier.telenet-ops.be (xavier.telenet-ops.be [IPv6:2a02:1800:120:4::f00:14])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5FD81D53
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 14 Nov 2023 05:37:04 -0800 (PST)
-Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed40:82cc:3fa:47b0:575d])
-        by xavier.telenet-ops.be with bizsmtp
-        id ADd22B00Q41ptHZ01Dd2mQ; Tue, 14 Nov 2023 14:37:02 +0100
-Received: from rox.of.borg ([192.168.97.57])
-        by ramsan.of.borg with esmtp (Exim 4.95)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1r2tb2-009H1D-IF
-        for linux-renesas-soc@vger.kernel.org;
-        Tue, 14 Nov 2023 14:37:02 +0100
-Received: from geert by rox.of.borg with local (Exim 4.95)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1r2tbC-005Tpe-6S
-        for linux-renesas-soc@vger.kernel.org;
-        Tue, 14 Nov 2023 14:37:02 +0100
-From:   Geert Uytterhoeven <geert+renesas@glider.be>
+        Tue, 14 Nov 2023 08:39:27 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1852CD41
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 14 Nov 2023 05:39:24 -0800 (PST)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 30AA4223;
+        Tue, 14 Nov 2023 14:38:57 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1699969137;
+        bh=S5P5M73iyMep/W76OBVp5RbtgNxc0RB1IL+DIR8rsgs=;
+        h=From:To:Cc:Subject:Date:From;
+        b=uzZ0oplLLB5GYnnvJ9Yq52yLpBXdLni1+iOUnWtHdafk6DX5r+uQ3sSvvLCGExJTN
+         /DquwS/YHVYwjZPZ9uyqxnvL170X6MhM6BWrXeVUaikGU1CJNpzEiAS0L7q1krvUWQ
+         BxzyLTkLI0FqPaa2o+t/vS0EsnQ+hbrt1s9f5Koo=
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     linux-renesas-soc@vger.kernel.org
-Subject: renesas-drivers-2023-11-14-v6.7-rc1
-Date:   Tue, 14 Nov 2023 14:37:02 +0100
-Message-Id: <20231114133702.1306307-1-geert+renesas@glider.be>
-X-Mailer: git-send-email 2.34.1
+Cc:     Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Subject: [kms-tests] [PATCH] kmstest: Add support for specifying subset of tests on the command line
+Date:   Tue, 14 Nov 2023 15:39:29 +0200
+Message-ID: <20231114133929.26419-1-laurent.pinchart@ideasonboard.com>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
-        version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-I have pushed renesas-drivers-2023-11-14-v6.7-rc1 to
-https://git.kernel.org/cgit/linux/kernel/git/geert/renesas-drivers.git
+The kmstest.py runner is a convenient way to run all the tests in the
+current directory, in addition to running specific tests manually. It is
+also useful to run a subset of the tests. Add support for this by
+specifying them as command line arguments to kmstest.py.
 
-This tree is meant to ease development of platform support and drivers
-for Renesas ARM and RISC-V SoCs.  It is created by merging (a) the
-for-next branches of various subsystem trees and (b) branches with
-driver code submitted or planned for submission to maintainers into the
-master branch of my renesas-devel.git tree.
+Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+---
+ tests/kmstest.py | 17 +++++++++++++----
+ 1 file changed, 13 insertions(+), 4 deletions(-)
 
-Today's version is based on renesas-devel-2023-11-14-v6.7-rc1.
+diff --git a/tests/kmstest.py b/tests/kmstest.py
+index 4bd4e0ad27a6..a86d689347d9 100755
+--- a/tests/kmstest.py
++++ b/tests/kmstest.py
+@@ -549,14 +549,23 @@ class KMSTest(object):
+ 
+ 
+ if __name__ == '__main__':
++    import argparse
+     import importlib
+     import inspect
+     import os
++    import sys
+ 
+-    files = []
+-    for path in os.scandir():
+-        if path.is_file() and path.name.startswith('kms-test-') and path.name.endswith('.py'):
+-            files.append(path.name)
++    parser = argparse.ArgumentParser()
++    parser.add_argument('test', type=str, nargs='*', help='Tests files')
++    args = parser.parse_args(sys.argv[1:])
++
++    if args.test:
++        files = args.test
++    else:
++        files = []
++        for path in os.scandir():
++            if path.is_file() and path.name.startswith('kms-test-') and path.name.endswith('.py'):
++                files.append(path.name)
+ 
+     files.sort()
+     for file in files:
 
-Included branches with driver code:
-  - topic/shmob-drm-dt-v3
-  - git://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git#renesas/gpio-logic-analyzer-v8~1
+base-commit: 2264236eefd15450320c0cdb34fa07ac0881f713
+-- 
+Regards,
 
-Included fixes:
-  - media: vsp1: Remove unbalanced .s_stream(0) calls
-  - ARM: shmobile: defconfig: Update shmobile_defconfig
-  - [LOCAL] arm64: renesas: defconfig: Update renesas_defconfig
+Laurent Pinchart
 
-Included subsystem trees:
-  - git://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git#linux-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git#clk-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-pinctrl.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/brgl/linux.git#gpio/for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/mtd/linux.git#mtd/next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/netdev/net-next.git#main
-  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git#tty-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git#i2c/for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/andi.shyti/linux.git#i2c/andi-for-current
-  - git://git.kernel.org/pub/scm/linux/kernel/git/andi.shyti/linux.git#i2c/andi-for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/mkl/linux-can-next.git#master
-  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git#usb-next
-  - git://git.freedesktop.org/git/drm/drm.git#drm-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/joro/iommu.git#next
-  - git://linuxtv.org/media_tree.git#master
-  - git://git.kernel.org/pub/scm/linux/kernel/git/ulfh/mmc.git#next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/thierry.reding/linux-pwm.git#for-next
-  - git://git.linaro.org/people/daniel.lezcano/linux.git#timers/drivers/next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/vkoul/dmaengine.git#next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git#staging-next
-  - git://git.armlinux.org.uk/~rmk/linux-arm.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/regmap.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git#irq/core
-  - git://git.kernel.org/pub/scm/linux/kernel/git/maz/arm-platforms.git#irq/irqchip-fixes
-  - git://git.kernel.org/pub/scm/linux/kernel/git/maz/arm-platforms.git#irq/irqchip-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/dlemoal/libata.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/sre/linux-power-supply.git#for-next
-  - git://www.linux-watchdog.org/linux-watchdog-next.git#master
-  - git://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/regulator.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git#for-next/core
-  - git://anongit.freedesktop.org/drm/drm-misc#for-linux-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git#next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/phy/linux-phy.git#next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/thermal/linux.git#thermal/linux-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git#for-mfd-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2.6.git#master
-  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/driver-core.git#driver-core-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/glaubitz/sh-linux.git#for-next
-  - https://git.pengutronix.de/git/pza/linux#reset/next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/krzk/linux-mem-ctrl.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/deller/linux-fbdev.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/jejb/scsi.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/mkp/scsi.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/riscv/linux.git#fixes
-  - git://git.kernel.org/pub/scm/linux/kernel/git/riscv/linux.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/ulfh/linux-pm.git#next
-
-Gr{oetje,eeting}s,
-
-						Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-							    -- Linus Torvalds
