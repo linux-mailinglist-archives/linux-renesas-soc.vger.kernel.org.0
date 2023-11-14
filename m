@@ -2,55 +2,55 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E3D987EA78D
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Nov 2023 01:37:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BD6BC7EA78E
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Nov 2023 01:37:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229611AbjKNAhX (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        id S229659AbjKNAhX (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
         Mon, 13 Nov 2023 19:37:23 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58290 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58314 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229659AbjKNAhW (ORCPT
+        with ESMTP id S231365AbjKNAhW (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
         Mon, 13 Nov 2023 19:37:22 -0500
-Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com [IPv6:2607:f8b0:4864:20::636])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 90C4FD5F
+Received: from mail-pg1-x52a.google.com (mail-pg1-x52a.google.com [IPv6:2607:f8b0:4864:20::52a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E3D2ED67
         for <linux-renesas-soc@vger.kernel.org>; Mon, 13 Nov 2023 16:37:18 -0800 (PST)
-Received: by mail-pl1-x636.google.com with SMTP id d9443c01a7336-1cc5b705769so45996555ad.0
+Received: by mail-pg1-x52a.google.com with SMTP id 41be03b00d2f7-5c186f027cfso973203a12.3
         for <linux-renesas-soc@vger.kernel.org>; Mon, 13 Nov 2023 16:37:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernelci-org.20230601.gappssmtp.com; s=20230601; t=1699922237; x=1700527037; darn=vger.kernel.org;
+        d=kernelci-org.20230601.gappssmtp.com; s=20230601; t=1699922238; x=1700527038; darn=vger.kernel.org;
         h=from:to:subject:content-transfer-encoding:mime-version:date
          :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=7i5agcpW53hvvZZUHdXjNFJsCUD86ZoIgZeou1TuxyU=;
-        b=sC1J2vNiD964F+SL0xh57QTSuZPfHrmG0acm/dk/snY9Wr4Vqq7YVNyP+NBYjC1J5X
-         Lv7on8RO3Gikp/QJ7m0wMoiDFtzgEmTRNZxZ1YjMlSZUUayW8nizjguFjBd6RdluiA3v
-         itzxBgfqqYeit8A4itAfryHPpcbUSJk3V7O6brYP6W76K4C71JxA1SUlRVJfj6uFFqba
-         RCvzGFbVwLEjcaqyf/+lASa2B46IF0uZ2kkpoXksYybimh93a+Y7ws3/ZancYg7J2ILD
-         UEUWtDpd1rx8Hu1pdAgLQVSLLPD1VVdjbfu0tPzxYvxKAjYSrrfYspJ4t8S3KovtwbSu
-         02XQ==
+        bh=AWN9Bn0MUUxxQmm5lG/sGt7vvZrilL+rzeAGqPdlj6s=;
+        b=cCfBYDMi4/Sg5WyZc+Tfu68plQXeMm486jMMKwl8NtHm7A6dKtuIEKHcJeWqmLW4zd
+         dW1nvHBKJPuJg0fbqkacWDWFP3xKcfekM/+KwxsSA3VgVFgp6f1Z4yB/9SojexVfJCKN
+         XDngfwQMRc7kSRffi4OzANrq0esWb+vAD5IfbBa4Cx0faFbBYQ1rGHrPzZaTcflpZnQ8
+         x+L6xk+IWl1blb8aAGDzwRcn0PRzztPRZ3hEnVqG2WkW5T8Q57YpmHfIy+Xk+QWY1YdQ
+         xpcrjW6DCzIcF2M6IbeU/+qoLcHQ3EllXB2r4i2BcvBOJ76qXXpsRAjUP+WYm7dbmO32
+         Rvhw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699922237; x=1700527037;
+        d=1e100.net; s=20230601; t=1699922238; x=1700527038;
         h=from:to:subject:content-transfer-encoding:mime-version:date
          :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=7i5agcpW53hvvZZUHdXjNFJsCUD86ZoIgZeou1TuxyU=;
-        b=nB4tMMnxItuZ1Fo0S/92fXZHHPXqomdcQ+nsltttfmVZDsazD13LL2MXKVLq1M5Ghp
-         jonN2ysHa+HsGuXPLeIJnl+9jc+Pydm5inTqAYyd2GjtwFW5zwL4MOjgEnukY/GG8Txd
-         8HmsoxL32O9e4NjLsuFPc/JiLbwJanbGaTkU8//XfJDbqi/V7pF26r3GeaKhDOaQX2fi
-         S9AiU6/PyUbkxvjyBJoZRO1FrpQDlVA4JTPWirpngz1yTzYPueamxFJqYAbvv/xU7drM
-         TEEWV62+xQ5KDdzMA8ZE2PVRqwS7mmXvJ0mHN+DiV5WS6V+4Nmel3szb+tFz+0uJveWO
-         VJTQ==
-X-Gm-Message-State: AOJu0YzAa5+vTU6FQ6U638W7X6DlDd6DfCab8J8gjJ1630c6N/b1C9Jq
-        NiscMITElsGdWnj5oh4eQfVH2GgZhtk4tjvY/e68eA==
-X-Google-Smtp-Source: AGHT+IGZHFjpeI1AMvNMPWRpKPpDEjLHkqb5GOyBiEzZRSYaW38A83nS7X04CHquJDOZzbZI6mFajA==
-X-Received: by 2002:a17:902:dac6:b0:1cc:5833:cf4f with SMTP id q6-20020a170902dac600b001cc5833cf4fmr846544plx.55.1699922237314;
+        bh=AWN9Bn0MUUxxQmm5lG/sGt7vvZrilL+rzeAGqPdlj6s=;
+        b=W7U/g4m0ZhBjVVfAbla/PFUeiikynXtKlxJTCwZIIQMLSYPzlqzVj1Kc7bvU6p9Xzt
+         T6PcVZ34P0DNDVCZ9/L185iO0Ni/6rRPwt+PvE34V/28SWVJUB1QuuqR3epdrzihxo3N
+         m8yPlaIg941k1X+WN5AGMzqtQmh7REEFmE8vTiAX/U8gu2ZFfP28oer4lfMSNFabmjPY
+         mMrUlbGdvB/n8RAWON0DmZhj9z83Rwbp9W9pok7Rt3CZDV62w5L+DPwfz7a4WQJ4i4U1
+         AA5hFlnq7xACeF5iTkckJKIF9iMQtdcnZGxqQGVpDVUAdupyk0MS5/ZxrywPjyVW5gd4
+         GFdQ==
+X-Gm-Message-State: AOJu0YxUuttmMePGLiQuRpItY2TVp1vKUSwuRPmU3dD86Vgfc6CWjSwh
+        0Mk5DOm+Vi3hN4xakZ1+jGdst5m+CEu+3juawmPvIw==
+X-Google-Smtp-Source: AGHT+IH8Z/JrHBGVKocpMNCX3FdqxKOkpelyM94ufpxY0Cz+N2ePCK66spR18J8Z7I6SU0MeMvpNqw==
+X-Received: by 2002:a05:6a20:8e07:b0:185:9c2d:6f35 with SMTP id y7-20020a056a208e0700b001859c2d6f35mr7902402pzj.13.1699922237799;
         Mon, 13 Nov 2023 16:37:17 -0800 (PST)
 Received: from kernelci-production.internal.cloudapp.net ([20.171.243.82])
-        by smtp.gmail.com with ESMTPSA id b20-20020a170902b61400b001c582de968dsm4588782pls.72.2023.11.13.16.37.16
+        by smtp.gmail.com with ESMTPSA id l5-20020a17090aaa8500b0028031e87660sm6047652pjq.16.2023.11.13.16.37.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Nov 2023 16:37:16 -0800 (PST)
-Message-ID: <6552c13c.170a0220.914e8.aa64@mx.google.com>
-Date:   Mon, 13 Nov 2023 16:37:16 -0800 (PST)
+        Mon, 13 Nov 2023 16:37:17 -0800 (PST)
+Message-ID: <6552c13d.170a0220.e14cc.e92a@mx.google.com>
+Date:   Mon, 13 Nov 2023 16:37:17 -0800 (PST)
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -58,12 +58,12 @@ X-Kernelci-Report-Type: test
 X-Kernelci-Branch: master
 X-Kernelci-Tree: renesas
 X-Kernelci-Kernel: renesas-devel-2023-11-13-v6.7-rc1
-Subject: renesas/master baseline-nfs: 22 runs,
- 2 regressions (renesas-devel-2023-11-13-v6.7-rc1)
+Subject: renesas/master baseline: 65 runs,
+ 1 regressions (renesas-devel-2023-11-13-v6.7-rc1)
 To:     linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
 From:   "kernelci.org bot" <bot@kernelci.org>
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_NONE,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -71,27 +71,24 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-renesas/master baseline-nfs: 22 runs, 2 regressions (renesas-devel-2023-11-=
-13-v6.7-rc1)
+renesas/master baseline: 65 runs, 1 regressions (renesas-devel-2023-11-13-v=
+6.7-rc1)
 
 Regressions Summary
 -------------------
 
-platform         | arch | lab             | compiler | defconfig          |=
+platform                 | arch  | lab             | compiler | defconfig |=
  regressions
------------------+------+-----------------+----------+--------------------+=
+-------------------------+-------+-----------------+----------+-----------+=
 ------------
-dove-cubox       | arm  | lab-pengutronix | gcc-10   | multi_v7_defconfig |=
- 1          =
-
-imx6dl-riotboard | arm  | lab-pengutronix | gcc-10   | multi_v7_defconfig |=
+imx8mm-innocomm-wb15-evk | arm64 | lab-pengutronix | gcc-10   | defconfig |=
  1          =
 
 
   Details:  https://kernelci.org/test/job/renesas/branch/master/kernel/rene=
-sas-devel-2023-11-13-v6.7-rc1/plan/baseline-nfs/
+sas-devel-2023-11-13-v6.7-rc1/plan/baseline/
 
-  Test:     baseline-nfs
+  Test:     baseline
   Tree:     renesas
   Branch:   master
   Describe: renesas-devel-2023-11-13-v6.7-rc1
@@ -106,85 +103,33 @@ Test Regressions
 
 
 
-platform         | arch | lab             | compiler | defconfig          |=
+platform                 | arch  | lab             | compiler | defconfig |=
  regressions
------------------+------+-----------------+----------+--------------------+=
+-------------------------+-------+-----------------+----------+-----------+=
 ------------
-dove-cubox       | arm  | lab-pengutronix | gcc-10   | multi_v7_defconfig |=
+imx8mm-innocomm-wb15-evk | arm64 | lab-pengutronix | gcc-10   | defconfig |=
  1          =
 
 
-  Details:     https://kernelci.org/test/plan/id/655290c1b5a1d2c5237e4a84
+  Details:     https://kernelci.org/test/plan/id/65528fa95d707715b77e4a8f
 
   Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: multi_v7_defconfig
-  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
-10110)
+  Full config: defconfig
+  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
+110)
   Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
-023-11-13-v6.7-rc1/arm/multi_v7_defconfig/gcc-10/lab-pengutronix/baseline-n=
-fs-dove-cubox.txt
+023-11-13-v6.7-rc1/arm64/defconfig/gcc-10/lab-pengutronix/baseline-imx8mm-i=
+nnocomm-wb15-evk.txt
   HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
-023-11-13-v6.7-rc1/arm/multi_v7_defconfig/gcc-10/lab-pengutronix/baseline-n=
-fs-dove-cubox.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
-230623.0/armhf/initrd.cpio.gz =
+023-11-13-v6.7-rc1/arm64/defconfig/gcc-10/lab-pengutronix/baseline-imx8mm-i=
+nnocomm-wb15-evk.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
+t-baseline/20230623.0/arm64/rootfs.cpio.gz =
 
 
 
-  * baseline-nfs.login: https://kernelci.org/test/case/id/655290c1b5a1d2c52=
-37e4a85
-        new failure (last pass: renesas-devel-2023-06-26-v6.4) =
-
- =
-
-
-
-platform         | arch | lab             | compiler | defconfig          |=
- regressions
------------------+------+-----------------+----------+--------------------+=
-------------
-imx6dl-riotboard | arm  | lab-pengutronix | gcc-10   | multi_v7_defconfig |=
- 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/655290992abb9c30c97e4af0
-
-  Results:     5 PASS, 1 FAIL, 1 SKIP
-  Full config: multi_v7_defconfig
-  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
-10110)
-  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
-023-11-13-v6.7-rc1/arm/multi_v7_defconfig/gcc-10/lab-pengutronix/baseline-n=
-fs-imx6dl-riotboard.txt
-  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
-023-11-13-v6.7-rc1/arm/multi_v7_defconfig/gcc-10/lab-pengutronix/baseline-n=
-fs-imx6dl-riotboard.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
-230623.0/armhf/initrd.cpio.gz =
-
-
-
-  * baseline-nfs.bootrr.deferred-probe-empty: https://kernelci.org/test/cas=
-e/id/655290992abb9c30c97e4af9
-        new failure (last pass: renesas-devel-2023-06-26-v6.4)
-
-    2023-11-13T21:09:36.038254  + set[   27.858131] <LAVA_SIGNAL_ENDRUN 0_d=
-mesg 1008593_1.6.2.3.1>
-    2023-11-13T21:09:36.038470   +x
-    2023-11-13T21:09:36.146323  / # #
-    2023-11-13T21:09:36.248037  export SHELL=3D/bin/sh
-    2023-11-13T21:09:36.248633  #
-    2023-11-13T21:09:36.349919  / # export SHELL=3D/bin/sh. /lava-1008593/e=
-nvironment
-    2023-11-13T21:09:36.350424  =
-
-    2023-11-13T21:09:36.451694  / # . /lava-1008593/environment/lava-100859=
-3/bin/lava-test-runner /lava-1008593/1
-    2023-11-13T21:09:36.452409  =
-
-    2023-11-13T21:09:36.455241  / # /lava-1008593/bin/lava-test-runner /lav=
-a-1008593/1 =
-
-    ... (12 line(s) more)  =
+  * baseline.login: https://kernelci.org/test/case/id/65528fa95d707715b77e4=
+a90
+        new failure (last pass: renesas-devel-2023-10-31-v6.6) =
 
  =20
