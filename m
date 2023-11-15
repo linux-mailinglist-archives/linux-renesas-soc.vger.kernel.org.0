@@ -2,91 +2,84 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 989A87EBDF0
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Nov 2023 08:23:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6D1D77EBEA1
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Nov 2023 09:36:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234638AbjKOHXe (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 15 Nov 2023 02:23:34 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56186 "EHLO
+        id S234675AbjKOIg6 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 15 Nov 2023 03:36:58 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53464 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234645AbjKOHXd (ORCPT
+        with ESMTP id S234680AbjKOIg5 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 15 Nov 2023 02:23:33 -0500
-Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E2526D1;
-        Tue, 14 Nov 2023 23:23:28 -0800 (PST)
-Received: from dggpemd200004.china.huawei.com (unknown [172.30.72.54])
-        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4SVZPz6L0VzWhG1;
-        Wed, 15 Nov 2023 15:23:03 +0800 (CST)
-Received: from huawei.com (10.175.113.32) by dggpemd200004.china.huawei.com
- (7.185.36.141) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.2.1258.23; Wed, 15 Nov
- 2023 15:23:26 +0800
-From:   Liu Shixin <liushixin2@huawei.com>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Patrick Wang <patrick.wang.shcn@gmail.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Kefeng Wang <wangkefeng.wang@huawei.com>
-CC:     <linux-mm@kvack.org>, <linux-kernel@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Liu Shixin <liushixin2@huawei.com>
-Subject: [PATCH 2/2] mm/kmemleak: move set_track_prepare() outside raw_spinlocks
-Date:   Wed, 15 Nov 2023 16:21:38 +0800
-Message-ID: <20231115082138.2649870-3-liushixin2@huawei.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20231115082138.2649870-1-liushixin2@huawei.com>
-References: <20231115082138.2649870-1-liushixin2@huawei.com>
+        Wed, 15 Nov 2023 03:36:57 -0500
+Received: from mail.tradestry.pl (mail.tradestry.pl [141.94.250.68])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC58210F
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 15 Nov 2023 00:36:54 -0800 (PST)
+Received: by mail.tradestry.pl (Postfix, from userid 1002)
+        id ABC5CA46AB; Wed, 15 Nov 2023 08:36:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=tradestry.pl; s=mail;
+        t=1700037413; bh=Y0HnXqH+26AP5Uq6M8BQXaj1HIAPQY/WndV9tkpAHHU=;
+        h=Date:From:To:Subject:From;
+        b=ogS92hpWSazToMhSaA95j9LGKrSKh0AgKHfjnAp/7mbY7bhdKVK8nIZL0sVou0lLI
+         u9MyoUK862sZWDjyAqxjRrgpBtNoFNmKLzz6z5I3kogRKMD/qieYxGY+/IVGF+4CVF
+         STkKiEIi8dTY/jaB2u9OLgk6kpOVuTCqvs+xmJYujgqW8irTfVKIBSnNIoTqNQt+WC
+         92rFAyrYXZzaryV5ADl1BElIAQnGC4Ej35nVONJK4tyxLTOpcX50TgWrCgcMGAdMVZ
+         qJl8iln6WHcK3HouXzq57S3NJJ0TstlMlTH9SGL3YfRws57Ic9Dv/fqsEQfolvZGJh
+         rbYL3Fo1v4ikA==
+Received: by mail.tradestry.pl for <linux-renesas-soc@vger.kernel.org>; Wed, 15 Nov 2023 08:36:04 GMT
+Message-ID: <20231115074501-0.1.dp.1kee2.0.robedfqicb@tradestry.pl>
+Date:   Wed, 15 Nov 2023 08:36:04 GMT
+From:   "Damian Cichocki" <damian.cichocki@tradestry.pl>
+To:     <linux-renesas-soc@vger.kernel.org>
+Subject: =?UTF-8?Q?Pytanie_o_samoch=C3=B3d?=
+X-Mailer: mail.tradestry.pl
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [10.175.113.32]
-X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
- dggpemd200004.china.huawei.com (7.185.36.141)
-X-CFilter-Loop: Reflected
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
-        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: Yes, score=6.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_SBL_CSS,
+        RCVD_IN_VALIDITY_RPBL,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
+        URIBL_ABUSE_SURBL,URIBL_CSS_A,URIBL_DBL_SPAM autolearn=no
         autolearn_force=no version=3.4.6
+X-Spam-Report: *  1.2 URIBL_ABUSE_SURBL Contains an URL listed in the ABUSE SURBL
+        *      blocklist
+        *      [URIs: tradestry.pl]
+        *  2.5 URIBL_DBL_SPAM Contains a spam URL listed in the Spamhaus DBL
+        *      blocklist
+        *      [URIs: tradestry.pl]
+        *  3.3 RCVD_IN_SBL_CSS RBL: Received via a relay in Spamhaus SBL-CSS
+        *      [141.94.250.68 listed in zen.spamhaus.org]
+        *  0.1 URIBL_CSS_A Contains URL's A record listed in the Spamhaus CSS
+        *      blocklist
+        *      [URIs: tradestry.pl]
+        * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
+        *      [score: 0.0012]
+        *  1.3 RCVD_IN_VALIDITY_RPBL RBL: Relay in Validity RPBL,
+        *      https://senderscore.org/blocklistlookup/
+        *      [141.94.250.68 listed in bl.score.senderscore.com]
+        * -0.0 SPF_PASS SPF: sender matches SPF record
+        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
+        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
+        *      envelope-from domain
+        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+        *      author's domain
+        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+        *       valid
+        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
+X-Spam-Level: ******
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-set_track_prepare() will call __alloc_pages() which attempt to acquire
-zone->lock(spinlocks), so move it outside object->lock(raw_spinlocks)
-because it's not right to acquire spinlocks while holding raw_spinlocks
-in RT mode.
+Dzie=C5=84 dobry,
 
-Signed-off-by: Liu Shixin <liushixin2@huawei.com>
----
- mm/kmemleak.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+Czy interesuje Pa=C5=84stwa rozwi=C4=85zanie umo=C5=BCliwiaj=C4=85ce moni=
+torowanie samochod=C3=B3w firmowych oraz optymalizacj=C4=99 koszt=C3=B3w =
+ich utrzymania?=20
 
-diff --git a/mm/kmemleak.c b/mm/kmemleak.c
-index 22bab3738a9e..5501363d6b31 100644
---- a/mm/kmemleak.c
-+++ b/mm/kmemleak.c
-@@ -1152,6 +1152,7 @@ EXPORT_SYMBOL_GPL(kmemleak_free_percpu);
- void __ref kmemleak_update_trace(const void *ptr)
- {
- 	struct kmemleak_object *object;
-+	depot_stack_handle_t trace_handle;
- 	unsigned long flags;
- 
- 	pr_debug("%s(0x%px)\n", __func__, ptr);
-@@ -1168,8 +1169,9 @@ void __ref kmemleak_update_trace(const void *ptr)
- 		return;
- 	}
- 
-+	trace_handle = set_track_prepare();
- 	raw_spin_lock_irqsave(&object->lock, flags);
--	object->trace_handle = set_track_prepare();
-+	object->trace_handle = trace_handle;
- 	raw_spin_unlock_irqrestore(&object->lock, flags);
- 
- 	put_object(object);
--- 
-2.25.1
 
+Pozdrawiam,
+Damian Cichocki
