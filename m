@@ -2,172 +2,137 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EE5C77EBB2C
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Nov 2023 03:27:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 260D27EBB9B
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Nov 2023 04:14:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229596AbjKOC1N (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 14 Nov 2023 21:27:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36314 "EHLO
+        id S229572AbjKODOA (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 14 Nov 2023 22:14:00 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40992 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229456AbjKOC1N (ORCPT
+        with ESMTP id S234342AbjKODOA (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 14 Nov 2023 21:27:13 -0500
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 46551C4;
-        Tue, 14 Nov 2023 18:27:09 -0800 (PST)
-X-IronPort-AV: E=Sophos;i="6.03,303,1694703600"; 
-   d="scan'208";a="186791585"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie6.idc.renesas.com with ESMTP; 15 Nov 2023 11:27:08 +0900
-Received: from localhost.localdomain (unknown [10.166.13.99])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 99570400F331;
-        Wed, 15 Nov 2023 11:27:08 +0900 (JST)
-From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-To:     s.shtylyov@omp.ru, davem@davemloft.net, edumazet@google.com,
-        kuba@kernel.org, pabeni@redhat.com
-Cc:     netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Simon Horman <horms@kernel.org>
-Subject: [PATCH net v3] ravb: Fix races between ravb_tx_timeout_work() and net related ops
-Date:   Wed, 15 Nov 2023 11:26:44 +0900
-Message-Id: <20231115022644.2316961-1-yoshihiro.shimoda.uh@renesas.com>
-X-Mailer: git-send-email 2.25.1
+        Tue, 14 Nov 2023 22:14:00 -0500
+Received: from szxga08-in.huawei.com (szxga08-in.huawei.com [45.249.212.255])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E52E8E7;
+        Tue, 14 Nov 2023 19:13:55 -0800 (PST)
+Received: from dggpemd200004.china.huawei.com (unknown [172.30.72.56])
+        by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4SVSpf38HMz1P7pR;
+        Wed, 15 Nov 2023 11:10:34 +0800 (CST)
+Received: from [10.174.179.24] (10.174.179.24) by
+ dggpemd200004.china.huawei.com (7.185.36.141) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.2.1258.23; Wed, 15 Nov 2023 11:13:53 +0800
+Subject: Re: [PATCH -next] mm/kmemleak: move the initialisation of object to
+ __link_object
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+References: <20231023025125.90972-1-liushixin2@huawei.com>
+ <CAMuHMdWj0UzwNaxUvcocTfh481qRJpOWwXxsJCTJfu1oCqvgdA@mail.gmail.com>
+CC:     Catalin Marinas <catalin.marinas@arm.com>,
+        Patrick Wang <patrick.wang.shcn@gmail.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Kefeng Wang <wangkefeng.wang@huawei.com>, <linux-mm@kvack.org>,
+        <linux-kernel@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+From:   Liu Shixin <liushixin2@huawei.com>
+Message-ID: <f971c2b5-9ee8-1df5-8b8a-d8802b677fa3@huawei.com>
+Date:   Wed, 15 Nov 2023 11:13:52 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:45.0) Gecko/20100101
+ Thunderbird/45.7.1
 MIME-Version: 1.0
+In-Reply-To: <CAMuHMdWj0UzwNaxUvcocTfh481qRJpOWwXxsJCTJfu1oCqvgdA@mail.gmail.com>
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=1.1 required=5.0 tests=AC_FROM_MANY_DOTS,BAYES_00,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Level: *
+X-Originating-IP: [10.174.179.24]
+X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
+ dggpemd200004.china.huawei.com (7.185.36.141)
+X-CFilter-Loop: Reflected
+X-Spam-Status: No, score=-5.6 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Fix races between ravb_tx_timeout_work() and functions of net_device_ops
-and ethtool_ops by using rtnl_trylock() and rtnl_unlock(). Note that
-since ravb_close() is under the rtnl lock and calls cancel_work_sync(),
-ravb_tx_timeout_work() should calls rtnl_trylock(). Otherwise, a deadlock
-may happen in ravb_tx_timeout_work() like below:
 
-CPU0			CPU1
-			ravb_tx_timeout()
-			schedule_work()
-...
-__dev_close_many()
-// Under rtnl lock
-ravb_close()
-cancel_work_sync()
-// Waiting
-			ravb_tx_timeout_work()
-			rtnl_lock()
-			// This is possible to cause a deadlock
 
-And, if rtnl_trylock() fails and the netif is still running,
-rescheduling the work with 1 msec delayed. So, using
-schedule_delayed_work() instead of schedule_work().
+On 2023/11/15 0:21, Geert Uytterhoeven wrote:
+> Hi Liu,
+>
+> On Mon, Oct 23, 2023 at 3:52 AM Liu Shixin <liushixin2@huawei.com> wrote:
+>> Leave __alloc_object() just do the actual allocation and __link_object()
+>> do the full initialisation.
+>>
+>> Suggested-by: Catalin Marinas <catalin.marinas@arm.com>
+>> Signed-off-by: Liu Shixin <liushixin2@huawei.com>
+> Thanks for your patch, which is now commit 245245c2fffd0050
+> ("mm/kmemleak: move the initialisation of object to __link_object")
+> in v6.7-rc1.
+>
+> I have bisected to this commit the BUG splat below (seen on various
+> platforms).  Reverting this commit fixes the issue.
+Thanks for the discovery. It looks like that we can't call set_track_prepare() inside kmemleak_lock.
+I will revert this patch.
 
-Fixes: c156633f1353 ("Renesas Ethernet AVB driver proper")
-Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Reviewed-by: Sergey Shtylyov <s.shtylyov@omp.ru>
-Reviewed-by: Simon Horman <horms@kernel.org>
----
-Changes from v2:
-https://lore.kernel.org/netdev/20231019113308.1133944-1-yoshihiro.shimoda.uh@renesas.com/
- - Add rescheduling if rtnl_trylock() fails and the netif is still running
-   and update commit description for it.
- - Add Reviewed-by tags.
-
-Changes from v1:
-https://lore.kernel.org/all/20231017085341.813335-1-yoshihiro.shimoda.uh@renesas.com/
- - Modify commit description.
- - Use goto in a error path.
-
- drivers/net/ethernet/renesas/ravb.h      |  2 +-
- drivers/net/ethernet/renesas/ravb_main.c | 20 +++++++++++++++-----
- 2 files changed, 16 insertions(+), 6 deletions(-)
-
-diff --git a/drivers/net/ethernet/renesas/ravb.h b/drivers/net/ethernet/renesas/ravb.h
-index e0f8276cffed..e9bb8ee3ba2d 100644
---- a/drivers/net/ethernet/renesas/ravb.h
-+++ b/drivers/net/ethernet/renesas/ravb.h
-@@ -1081,7 +1081,7 @@ struct ravb_private {
- 	u32 cur_tx[NUM_TX_QUEUE];
- 	u32 dirty_tx[NUM_TX_QUEUE];
- 	struct napi_struct napi[NUM_RX_QUEUE];
--	struct work_struct work;
-+	struct delayed_work work;
- 	/* MII transceiver section. */
- 	struct mii_bus *mii_bus;	/* MDIO bus control */
- 	int link;
-diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
-index c70cff80cc99..ca7db8a5b412 100644
---- a/drivers/net/ethernet/renesas/ravb_main.c
-+++ b/drivers/net/ethernet/renesas/ravb_main.c
-@@ -1863,17 +1863,24 @@ static void ravb_tx_timeout(struct net_device *ndev, unsigned int txqueue)
- 	/* tx_errors count up */
- 	ndev->stats.tx_errors++;
- 
--	schedule_work(&priv->work);
-+	schedule_delayed_work(&priv->work, 0);
- }
- 
- static void ravb_tx_timeout_work(struct work_struct *work)
- {
--	struct ravb_private *priv = container_of(work, struct ravb_private,
-+	struct delayed_work *dwork = to_delayed_work(work);
-+	struct ravb_private *priv = container_of(dwork, struct ravb_private,
- 						 work);
- 	const struct ravb_hw_info *info = priv->info;
- 	struct net_device *ndev = priv->ndev;
- 	int error;
- 
-+	if (!rtnl_trylock()) {
-+		if (netif_running(ndev))
-+			schedule_delayed_work(&priv->work, msecs_to_jiffies(10));
-+		return;
-+	}
-+
- 	netif_tx_stop_all_queues(ndev);
- 
- 	/* Stop PTP Clock driver */
-@@ -1907,7 +1914,7 @@ static void ravb_tx_timeout_work(struct work_struct *work)
- 		 */
- 		netdev_err(ndev, "%s: ravb_dmac_init() failed, error %d\n",
- 			   __func__, error);
--		return;
-+		goto out_unlock;
- 	}
- 	ravb_emac_init(ndev);
- 
-@@ -1917,6 +1924,9 @@ static void ravb_tx_timeout_work(struct work_struct *work)
- 		ravb_ptp_init(ndev, priv->pdev);
- 
- 	netif_tx_start_all_queues(ndev);
-+
-+out_unlock:
-+	rtnl_unlock();
- }
- 
- /* Packet transmit function for Ethernet AVB */
-@@ -2167,7 +2177,7 @@ static int ravb_close(struct net_device *ndev)
- 			of_phy_deregister_fixed_link(np);
- 	}
- 
--	cancel_work_sync(&priv->work);
-+	cancel_delayed_work_sync(&priv->work);
- 
- 	if (info->multi_irqs) {
- 		free_irq(priv->tx_irqs[RAVB_NC], ndev);
-@@ -2687,7 +2697,7 @@ static int ravb_probe(struct platform_device *pdev)
- 	ndev->base_addr = res->start;
- 
- 	spin_lock_init(&priv->lock);
--	INIT_WORK(&priv->work, ravb_tx_timeout_work);
-+	INIT_DELAYED_WORK(&priv->work, ravb_tx_timeout_work);
- 
- 	error = of_get_phy_mode(np, &priv->phy_interface);
- 	if (error && error != -ENODEV)
--- 
-2.25.1
+Thanks.
+>
+>  Memory: 7923468K/8257536K available (9024K kernel code, 5144K rwdata,
+> 4088K rodata, 3072K init, 18331K bss, 268532K reserved, 65536K
+> cma-reserved)
+>  SLUB: HWalign=64, Order=0-3, MinObjects=0, CPUs=4, Nodes=1
+> +
+> +=============================
+> +[ BUG: Invalid wait context ]
+> +6.6.0-rc4-white-hawk-00387-g245245c2fffd #192 Not tainted
+> +-----------------------------
+> +swapper/0 is trying to lock:
+> +ffffffc0814bbed8 (&zone->lock){....}-{3:3}, at: __rmqueue_pcplist+0x4ac/0x53c
+> +other info that might help us debug this:
+> +context-{5:5}
+> +3 locks held by swapper/0:
+> + #0: ffffffc0813cd720 (slab_mutex){....}-{4:4}, at:
+> kmem_cache_create_usercopy+0xac/0x2e0
+> + #1: ffffffc0813d93e8 (kmemleak_lock){....}-{2:2}, at:
+> __create_object+0x48/0x98
+> + #2: ffffff86bef6cc98 (&pcp->lock){....}-{3:3}, at:
+> get_page_from_freelist+0x184/0x7c0
+> +stack backtrace:
+> +CPU: 0 PID: 0 Comm: swapper Not tainted
+> 6.6.0-rc4-white-hawk-00387-g245245c2fffd #192
+> +Hardware name: Renesas White Hawk CPU and Breakout boards based on
+> r8a779g0 (DT)
+> +Call trace:
+> + dump_backtrace+0xac/0xe4
+> + show_stack+0x14/0x20
+> + dump_stack_lvl+0x68/0x94
+> + dump_stack+0x14/0x1c
+> + __lock_acquire+0x390/0xffc
+> + lock_acquire+0x230/0x28c
+> + _raw_spin_lock_irqsave+0x54/0x70
+> + __rmqueue_pcplist+0x4ac/0x53c
+> + get_page_from_freelist+0x2a8/0x7c0
+> + __alloc_pages+0xf4/0x9f8
+> + __stack_depot_save+0x178/0x3c8
+> + stack_depot_save+0x10/0x18
+> + set_track_prepare+0x44/0x70
+> + __link_object+0xd0/0x220
+> + __create_object+0x64/0x98
+> + kmemleak_alloc+0x28/0x34
+> + slab_post_alloc_hook.constprop.0+0xbc/0xc4
+> + kmem_cache_alloc+0xd4/0x158
+> + kmem_cache_create_usercopy+0x1c8/0x2e0
+> + kmem_cache_create+0x18/0x20
+> + kmemleak_init+0x74/0xfc
+> + mm_core_init+0x214/0x250
+> + start_kernel+0x2cc/0x4ec
+> + __primary_switched+0xb4/0xbc
+>  trace event string verifier disabled
+>  Running RCU self tests
+>
+> Gr{oetje,eeting}s,
+>
+>                         Geert
+>
 
