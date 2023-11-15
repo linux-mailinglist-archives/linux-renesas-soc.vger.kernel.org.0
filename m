@@ -2,84 +2,89 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6D1D77EBEA1
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Nov 2023 09:36:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CBF527EBEBD
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Nov 2023 09:44:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234675AbjKOIg6 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 15 Nov 2023 03:36:58 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53464 "EHLO
+        id S1343527AbjKOIo4 convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 15 Nov 2023 03:44:56 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38100 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234680AbjKOIg5 (ORCPT
+        with ESMTP id S1343525AbjKOIoz (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 15 Nov 2023 03:36:57 -0500
-Received: from mail.tradestry.pl (mail.tradestry.pl [141.94.250.68])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC58210F
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 15 Nov 2023 00:36:54 -0800 (PST)
-Received: by mail.tradestry.pl (Postfix, from userid 1002)
-        id ABC5CA46AB; Wed, 15 Nov 2023 08:36:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=tradestry.pl; s=mail;
-        t=1700037413; bh=Y0HnXqH+26AP5Uq6M8BQXaj1HIAPQY/WndV9tkpAHHU=;
-        h=Date:From:To:Subject:From;
-        b=ogS92hpWSazToMhSaA95j9LGKrSKh0AgKHfjnAp/7mbY7bhdKVK8nIZL0sVou0lLI
-         u9MyoUK862sZWDjyAqxjRrgpBtNoFNmKLzz6z5I3kogRKMD/qieYxGY+/IVGF+4CVF
-         STkKiEIi8dTY/jaB2u9OLgk6kpOVuTCqvs+xmJYujgqW8irTfVKIBSnNIoTqNQt+WC
-         92rFAyrYXZzaryV5ADl1BElIAQnGC4Ej35nVONJK4tyxLTOpcX50TgWrCgcMGAdMVZ
-         qJl8iln6WHcK3HouXzq57S3NJJ0TstlMlTH9SGL3YfRws57Ic9Dv/fqsEQfolvZGJh
-         rbYL3Fo1v4ikA==
-Received: by mail.tradestry.pl for <linux-renesas-soc@vger.kernel.org>; Wed, 15 Nov 2023 08:36:04 GMT
-Message-ID: <20231115074501-0.1.dp.1kee2.0.robedfqicb@tradestry.pl>
-Date:   Wed, 15 Nov 2023 08:36:04 GMT
-From:   "Damian Cichocki" <damian.cichocki@tradestry.pl>
-To:     <linux-renesas-soc@vger.kernel.org>
-Subject: =?UTF-8?Q?Pytanie_o_samoch=C3=B3d?=
-X-Mailer: mail.tradestry.pl
+        Wed, 15 Nov 2023 03:44:55 -0500
+Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com [209.85.128.179])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4E57A10E
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 15 Nov 2023 00:44:51 -0800 (PST)
+Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-5b383b4184fso76761157b3.1
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 15 Nov 2023 00:44:51 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1700037890; x=1700642690;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=X1OERzrXWRqF1eIEpzu9O3nN2cbwmK0YaD16D94PeSY=;
+        b=DEPA1R4wC0vie6AjS646mGlK6/9uQSe2xjGhYkL6eUXhDXsyNtD3gUGnwlkiNL2Dfw
+         ge986f39M/j5UlvlfHmcUEV7dVPI5UfowBZ2+TJDhA3AWHclqeR/JWLydgoNPvrHEaZF
+         b/TWiWE0mTbA3J0HqNOIF3anSVKr2PPSCqMCpE/b/9V4HPEQi8r+pL0QvdoY0EcJ+Rax
+         pIrIo/x/bmRIDcaNcs1UJGYiys6ze6K/udOXqdQx8FG1e+nN0ovXbgu/UUrKE4T0VAYt
+         ZROcJUVGBuaRv986zf5OViZyRwtPKSFgZMDSHu78Zv4rODHDS8mz0RwbHmpAg3iUx7aC
+         U5WA==
+X-Gm-Message-State: AOJu0Yzl5BDwpO2e3WZNezHSllM7D++c7jCOBOhs2+McZ3pnIMbi7Hc8
+        6qFrC6T6SK5J3E5xzRBrmHUEVhty5QkU9Q==
+X-Google-Smtp-Source: AGHT+IGcOnufGGPnaPFAm0vO1zfUIGmBZCp6D+akbtwB1pKnRWeF8sguGyavZUGp1NBZP1Rn9zYUqw==
+X-Received: by 2002:a25:7751:0:b0:d9a:f666:b68e with SMTP id s78-20020a257751000000b00d9af666b68emr12796276ybc.30.1700037890297;
+        Wed, 15 Nov 2023 00:44:50 -0800 (PST)
+Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com. [209.85.128.175])
+        by smtp.gmail.com with ESMTPSA id h7-20020a259747000000b00d9a577d8434sm225296ybo.53.2023.11.15.00.44.50
+        for <linux-renesas-soc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 15 Nov 2023 00:44:50 -0800 (PST)
+Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-5a87ac9d245so76598787b3.3
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 15 Nov 2023 00:44:50 -0800 (PST)
+X-Received: by 2002:a25:aa2c:0:b0:d9c:aa17:2ae3 with SMTP id
+ s41-20020a25aa2c000000b00d9caa172ae3mr11260416ybi.64.1700037889839; Wed, 15
+ Nov 2023 00:44:49 -0800 (PST)
 MIME-Version: 1.0
+References: <20231031145739.657638-1-niklas.soderlund+renesas@ragnatech.se>
+In-Reply-To: <20231031145739.657638-1-niklas.soderlund+renesas@ragnatech.se>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Wed, 15 Nov 2023 09:44:38 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdXdae7-UcJVvqd4P0uVuQ8Gd9vWSijdfja4DmBy1o=2+w@mail.gmail.com>
+Message-ID: <CAMuHMdXdae7-UcJVvqd4P0uVuQ8Gd9vWSijdfja4DmBy1o=2+w@mail.gmail.com>
+Subject: Re: [PATCH] clk: renesas: r8a779g0: Add EtherTSN clock
+To:     =?UTF-8?Q?Niklas_S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+Cc:     linux-renesas-soc@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: Yes, score=6.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_SBL_CSS,
-        RCVD_IN_VALIDITY_RPBL,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
-        URIBL_ABUSE_SURBL,URIBL_CSS_A,URIBL_DBL_SPAM autolearn=no
-        autolearn_force=no version=3.4.6
-X-Spam-Report: *  1.2 URIBL_ABUSE_SURBL Contains an URL listed in the ABUSE SURBL
-        *      blocklist
-        *      [URIs: tradestry.pl]
-        *  2.5 URIBL_DBL_SPAM Contains a spam URL listed in the Spamhaus DBL
-        *      blocklist
-        *      [URIs: tradestry.pl]
-        *  3.3 RCVD_IN_SBL_CSS RBL: Received via a relay in Spamhaus SBL-CSS
-        *      [141.94.250.68 listed in zen.spamhaus.org]
-        *  0.1 URIBL_CSS_A Contains URL's A record listed in the Spamhaus CSS
-        *      blocklist
-        *      [URIs: tradestry.pl]
-        * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
-        *      [score: 0.0012]
-        *  1.3 RCVD_IN_VALIDITY_RPBL RBL: Relay in Validity RPBL,
-        *      https://senderscore.org/blocklistlookup/
-        *      [141.94.250.68 listed in bl.score.senderscore.com]
-        * -0.0 SPF_PASS SPF: sender matches SPF record
-        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
-        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
-        *      envelope-from domain
-        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-        *      author's domain
-        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-        *       valid
-        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
-X-Spam-Level: ******
+Content-Transfer-Encoding: 8BIT
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Dzie=C5=84 dobry,
+On Tue, Oct 31, 2023 at 3:57 PM Niklas Söderlund
+<niklas.soderlund+renesas@ragnatech.se> wrote:
+> Add the TSN module clock, which are used by the EtherTSN module on the
+> Renesas R-Car V4H (R8A779G0) SoC.
+>
+> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 
-Czy interesuje Pa=C5=84stwa rozwi=C4=85zanie umo=C5=BCliwiaj=C4=85ce moni=
-torowanie samochod=C3=B3w firmowych oraz optymalizacj=C4=99 koszt=C3=B3w =
-ich utrzymania?=20
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+i.e. will queue in renesas-clk-for-v6.8.
 
+Gr{oetje,eeting}s,
 
-Pozdrawiam,
-Damian Cichocki
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
