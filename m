@@ -2,54 +2,54 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4C5D47EC544
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Nov 2023 15:29:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5B1C27EC547
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Nov 2023 15:29:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344191AbjKOO2p (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 15 Nov 2023 09:28:45 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37732 "EHLO
+        id S1344065AbjKOO2s (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 15 Nov 2023 09:28:48 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37754 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1343995AbjKOO2o (ORCPT
+        with ESMTP id S1344193AbjKOO2p (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 15 Nov 2023 09:28:44 -0500
-Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com [IPv6:2a00:1450:4864:20::636])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E84ADE7
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 15 Nov 2023 06:28:40 -0800 (PST)
-Received: by mail-ej1-x636.google.com with SMTP id a640c23a62f3a-9c2a0725825so1022574266b.2
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 15 Nov 2023 06:28:40 -0800 (PST)
+        Wed, 15 Nov 2023 09:28:45 -0500
+Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com [IPv6:2a00:1450:4864:20::631])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2E214124
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 15 Nov 2023 06:28:42 -0800 (PST)
+Received: by mail-ej1-x631.google.com with SMTP id a640c23a62f3a-9e1021dbd28so1018866666b.3
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 15 Nov 2023 06:28:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1700058519; x=1700663319; darn=vger.kernel.org;
+        d=tuxon.dev; s=google; t=1700058520; x=1700663320; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=3qoow4kLikA+1u6jbWCEh/oPcxwlTJy8Hg8XLdol66k=;
-        b=L5zoAHDYLaE5H7JMegrsMLypbsiGZy6In6T6hoZJyniUi5LijhyR/dO2oisLpIltNS
-         xO08fKP+h5kn1ebZ5tJS7m0ZcQmLfe4DL0HAjlLSN5lgoxoaZ6UheMGDwgXBoQwJNZ0f
-         UxFa8aRfFXNkdsjyw62Af/6sM1uhM4vHvrhR3vlvguxpY/DxVUIrMtbgeJrn05OmqC5a
-         iTy3BhtXEInZlCjmhXwdHMXtyJ9RTotdYV3OUvGPF63Og0kWv4LCTbwcgGQB0K8JNvxJ
-         ns60/FlgR5ad8wF+3CLGvDwvzlWy2GB7t5WaswxoRHeuF0GiuAfABJI6MRROAsLNlF/q
-         K7Cg==
+        bh=bS8qg7v/mSX4sJHwfdJG3kD1BNBszOYIoRYlKPnXKMg=;
+        b=WMPnnI2acNiJvNjPNuDA+Vs3sVYWWVI0Bdpuc2fP1cksMErkEedALjdvXZZY/tQj+N
+         HFg/AXnEqPa4w1JSshB6Jt+8Ewp/Hm/ImG31wCHsC3U6RhAWb5OJ6Pt/i0GoLyV1ytrK
+         iwdSirriG65i9hFn3k1EBKceH7vBmDoLx82dYhG+FCOxZ91qgy/TRXkq2W8G6LwsN8Py
+         ohh3fA7eIlLRLe4JeDwALcls5Rh06xDPS8uztdZ3RJJa+9IUQqbbNJy4R+r5aqiK/E/O
+         QenMJcP2P3tiwvOU47rxbnilgxt4O2+zsqpvqBEznALM66r+jBkNcm8Mgti9G3zMkl2d
+         g3xg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700058519; x=1700663319;
+        d=1e100.net; s=20230601; t=1700058520; x=1700663320;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=3qoow4kLikA+1u6jbWCEh/oPcxwlTJy8Hg8XLdol66k=;
-        b=d7IkcfZhi0/Y1E318gy1QzM2opiDHmYgXy1b1p0YgcWgvSRndrXSHX5jQDkbUJdnti
-         Zm0FSRoLl8AnAAfgFjskkfEN0VTPtEWSheNm9DuG11ZZ0Snxt3NFaR0ZcB8mp06CQjp9
-         jjPhdWGUOlwC6e8Ir3fToseMRrzmGc4ZvWlhOaIuwcX9BFMM/La6g+YLCPumXqv+zcXl
-         jYy7HWdKZvCGmZ3fG8hHeV/w5hyIYl9BWSlm8c0AOY6npj1b9djxX4uBEvaAvisLy53r
-         CB7B7QH1/y9HNDV+up3SVwU9BiPqMeO+azUUcyFzMysmMROBNEWFHAMY527hnP+SezEd
-         +9bA==
-X-Gm-Message-State: AOJu0Yxt0EipCeiiAboc5s9h/UHpcDuyK3m/ZIdfZ5Jr2ON9F7ho8075
-        jcB5fSo/tHJHYDsLuOsbsjVL5g==
-X-Google-Smtp-Source: AGHT+IG27julUbeRslohrR6DkKjdpij1y3db2XTxUpwRQy3NUDxkM1NFWB7ljy8nLBGFjD8zM35dPQ==
-X-Received: by 2002:a17:906:1e17:b0:9d2:5cf8:e61 with SMTP id g23-20020a1709061e1700b009d25cf80e61mr8615809ejj.35.1700058519319;
-        Wed, 15 Nov 2023 06:28:39 -0800 (PST)
+        bh=bS8qg7v/mSX4sJHwfdJG3kD1BNBszOYIoRYlKPnXKMg=;
+        b=MNa4O3n7U1NoyNjMbkTSJRM9PIElYEAHZFQ5rqHsPV5OVkS0IsOxe/X5sRZVpsCmR7
+         5JPKHrf0KPTIn935mVFvuy0fmfk9wCqDJJO9TZHEidwlXdJ0nvPcmYtoY2Ewk+CG7A7G
+         0KuqFs/RwbdJJXzqL08i6KvMoFzo3qnslpATnvBoN8NFsFrfcdNcdguTSh4fHB1elbP2
+         n+tu7MwDDZ2+oDmN0z1oM51P94Z1JDn7sbt0pxZr/NgpPVGVNoW0I+xBWtMjuZGdQP3g
+         RAzlfqbMmbxIEQHQXYJ3K9zFxby6FiG3rp0meCrdZsmxUO8iQofcXIvKS8W1jWT+U+3B
+         R2hQ==
+X-Gm-Message-State: AOJu0YxJQEkP6kz4SdttlHAB0yK1o+QqrP2OQWqilQU31+zVrRW7YfTM
+        TCyCJuqjYYN5mVDHyn7vHPxp0w==
+X-Google-Smtp-Source: AGHT+IGIZlRywh2OGv/s0LdNKxDjI8m0OS+PXIUtS7vI+Ud9wErXZJ1cvlvhTpGNnIy1WOH1qrYodQ==
+X-Received: by 2002:a17:907:6d0a:b0:9e7:d1ab:e90b with SMTP id sa10-20020a1709076d0a00b009e7d1abe90bmr11336470ejc.19.1700058520716;
+        Wed, 15 Nov 2023 06:28:40 -0800 (PST)
 Received: from claudiu-X670E-Pro-RS.. ([82.78.167.119])
-        by smtp.gmail.com with ESMTPSA id i11-20020a170906264b00b0099bd5d28dc4sm7186394ejc.195.2023.11.15.06.28.38
+        by smtp.gmail.com with ESMTPSA id i11-20020a170906264b00b0099bd5d28dc4sm7186394ejc.195.2023.11.15.06.28.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Nov 2023 06:28:38 -0800 (PST)
+        Wed, 15 Nov 2023 06:28:40 -0800 (PST)
 From:   Claudiu <claudiu.beznea@tuxon.dev>
 X-Google-Original-From: Claudiu <claudiu.beznea.uj@bp.renesas.com>
 To:     tglx@linutronix.de, robh+dt@kernel.org,
@@ -60,9 +60,9 @@ To:     tglx@linutronix.de, robh+dt@kernel.org,
 Cc:     linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
         linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
         Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-Subject: [PATCH v2 2/9] clk: renesas: r9a08g045: Add IA55 pclk and its reset
-Date:   Wed, 15 Nov 2023 16:27:42 +0200
-Message-Id: <20231115142749.853106-3-claudiu.beznea.uj@bp.renesas.com>
+Subject: [PATCH v2 3/9] irqchip/renesas-rzg2l: Use tabs instead of spaces
+Date:   Wed, 15 Nov 2023 16:27:43 +0200
+Message-Id: <20231115142749.853106-4-claudiu.beznea.uj@bp.renesas.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20231115142749.853106-1-claudiu.beznea.uj@bp.renesas.com>
 References: <20231115142749.853106-1-claudiu.beznea.uj@bp.renesas.com>
@@ -70,7 +70,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -80,46 +80,36 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 
-IA55 interrupt controller is available on RZ/G3S SoC. Add IA55 pclk and
-its reset.
+Use tabs instead of spaces in definition of TINT_EXTRACT_HWIRQ()
+and TINT_EXTRACT_GPIOINT() macros to align with coding style
+requirements described in Documentation/process/coding-style.rst,
+"Indentation" chapter.
 
 Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 ---
 
 Changes in v2:
-- updated commit description
+- improved commit description
+- used uppercase letter after ":" in patch title
 
- drivers/clk/renesas/r9a08g045-cpg.c | 3 +++
- 1 file changed, 3 insertions(+)
+ drivers/irqchip/irq-renesas-rzg2l.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/clk/renesas/r9a08g045-cpg.c b/drivers/clk/renesas/r9a08g045-cpg.c
-index 4394cb241d99..ea3beca8b4e0 100644
---- a/drivers/clk/renesas/r9a08g045-cpg.c
-+++ b/drivers/clk/renesas/r9a08g045-cpg.c
-@@ -188,6 +188,7 @@ static const struct cpg_core_clk r9a08g045_core_clks[] __initconst = {
+diff --git a/drivers/irqchip/irq-renesas-rzg2l.c b/drivers/irqchip/irq-renesas-rzg2l.c
+index fe8d516f3614..cc42cbd05762 100644
+--- a/drivers/irqchip/irq-renesas-rzg2l.c
++++ b/drivers/irqchip/irq-renesas-rzg2l.c
+@@ -53,8 +53,8 @@
+ #define IITSR_IITSEL_EDGE_BOTH		3
+ #define IITSR_IITSEL_MASK(n)		IITSR_IITSEL((n), 3)
  
- static const struct rzg2l_mod_clk r9a08g045_mod_clks[] = {
- 	DEF_MOD("gic_gicclk",		R9A08G045_GIC600_GICCLK, R9A08G045_CLK_P1, 0x514, 0),
-+	DEF_MOD("ia55_pclk",		R9A08G045_IA55_PCLK, R9A08G045_CLK_P2, 0x518, 0),
- 	DEF_MOD("ia55_clk",		R9A08G045_IA55_CLK, R9A08G045_CLK_P1, 0x518, 1),
- 	DEF_MOD("dmac_aclk",		R9A08G045_DMAC_ACLK, R9A08G045_CLK_P3, 0x52c, 0),
- 	DEF_MOD("sdhi0_imclk",		R9A08G045_SDHI0_IMCLK, CLK_SD0_DIV4, 0x554, 0),
-@@ -209,6 +210,7 @@ static const struct rzg2l_mod_clk r9a08g045_mod_clks[] = {
- static const struct rzg2l_reset r9a08g045_resets[] = {
- 	DEF_RST(R9A08G045_GIC600_GICRESET_N, 0x814, 0),
- 	DEF_RST(R9A08G045_GIC600_DBG_GICRESET_N, 0x814, 1),
-+	DEF_RST(R9A08G045_IA55_RESETN, 0x818, 0),
- 	DEF_RST(R9A08G045_SDHI0_IXRST, 0x854, 0),
- 	DEF_RST(R9A08G045_SDHI1_IXRST, 0x854, 1),
- 	DEF_RST(R9A08G045_SDHI2_IXRST, 0x854, 2),
-@@ -220,6 +222,7 @@ static const struct rzg2l_reset r9a08g045_resets[] = {
+-#define TINT_EXTRACT_HWIRQ(x)           FIELD_GET(GENMASK(15, 0), (x))
+-#define TINT_EXTRACT_GPIOINT(x)         FIELD_GET(GENMASK(31, 16), (x))
++#define TINT_EXTRACT_HWIRQ(x)		FIELD_GET(GENMASK(15, 0), (x))
++#define TINT_EXTRACT_GPIOINT(x)		FIELD_GET(GENMASK(31, 16), (x))
  
- static const unsigned int r9a08g045_crit_mod_clks[] __initconst = {
- 	MOD_CLK_BASE + R9A08G045_GIC600_GICCLK,
-+	MOD_CLK_BASE + R9A08G045_IA55_PCLK,
- 	MOD_CLK_BASE + R9A08G045_IA55_CLK,
- 	MOD_CLK_BASE + R9A08G045_DMAC_ACLK,
- };
+ struct rzg2l_irqc_priv {
+ 	void __iomem *base;
 -- 
 2.39.2
 
