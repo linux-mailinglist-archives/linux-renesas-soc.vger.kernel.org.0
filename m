@@ -2,53 +2,57 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D75427ED661
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Nov 2023 22:56:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6D3307ED668
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Nov 2023 22:57:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229766AbjKOV4R (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 15 Nov 2023 16:56:17 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53054 "EHLO
+        id S229655AbjKOV5g (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 15 Nov 2023 16:57:36 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43870 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229674AbjKOV4Q (ORCPT
+        with ESMTP id S235055AbjKOV5f (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 15 Nov 2023 16:56:16 -0500
+        Wed, 15 Nov 2023 16:57:35 -0500
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 50F03195;
-        Wed, 15 Nov 2023 13:56:13 -0800 (PST)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 934A6C433C7;
-        Wed, 15 Nov 2023 21:56:11 +0000 (UTC)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C971C1A7;
+        Wed, 15 Nov 2023 13:57:32 -0800 (PST)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9A5C7C433C8;
+        Wed, 15 Nov 2023 21:57:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1700085372;
-        bh=PSxuJaBO9OQbhVq46qgiadOfIupJ/UF0cV/cyJMMCzA=;
+        s=k20201202; t=1700085452;
+        bh=utRWzAUPDR/YGuRAiQgw7t0J+7beCClfBghAq9tfy7s=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=IhNJpuKgRnWYe9Q2fuguzw+iE9QfIkucBc7+ZO3f/zOd72aA3PzWnQO/6kpbo9p0J
-         MvvqKEZEYC8grypWVGMPcTOtjqTvb8sh/VUZuYDSZa+oYBtMH+3J31+7BhjR6giPlV
-         dlYRV49dAF/7galgY5vJm2MM0vhnl/xWTRQfVIfO4uAKjBn0TPi2DeNMLcFetadCiQ
-         CcbIdw+rLJwuh7J2XcyZpNvhXZj3PFV8tzFmtrHgdeMNbLz5YnJGI4UERWhMN/KaeJ
-         Td84D4R9OB2A4zendUGUd0eifvCjRHnXaQjzL0PAetvWlyuExfluzqDNP+W7wltQzD
-         ktf6L3JUxIsTA==
-Date:   Wed, 15 Nov 2023 21:56:09 +0000
+        b=A2kFn1/qvdpWpt6Sa7+G3dXsJ4Cbv1CzVhvzu5dwJsUqmu6iyOBj92/iAP71LyWS/
+         jq9esZ/hPoY3l1tjHBR/OvQhykIHE7aPhN8YdTgP/PLj7wd7RxkMagETuErzXWWPln
+         sa1S95Bv9wII2Fsh/2Wi+eJnpjbRHmmeFS26QcFkIkEYQcu7EJjvrZ2HqcvSCTniH3
+         oC3eucpdS3xJAee2huLROhIBCdXn2OHG8glRQyL2JJ/IiOTFY6HJzKeDoXRJXupYmH
+         rbxs/qEmZjYlSOGYJN3S2Ug+XIXce5G39JyWXQ2DXihOW7acP8ane0RmDfs5oWrNwi
+         mPDpGauwFHNZw==
+Date:   Wed, 15 Nov 2023 21:57:28 +0000
 From:   Conor Dooley <conor@kernel.org>
 To:     Prabhakar <prabhakar.csengg@gmail.com>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+Cc:     Sergey Shtylyov <s.shtylyov@omp.ru>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         Conor Dooley <conor+dt@kernel.org>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Magnus Damm <magnus.damm@gmail.com>, linux-usb@vger.kernel.org,
+        Sergei Shtylyov <sergei.shtylyov@gmail.com>,
+        Magnus Damm <magnus.damm@gmail.com>, netdev@vger.kernel.org,
         devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-renesas-soc@vger.kernel.org,
         Biju Das <biju.das.jz@bp.renesas.com>,
         Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: Re: [PATCH] dt-bindings: usb: renesas,usbhs: Document RZ/Five SoC
-Message-ID: <20231115-uncommon-handset-fe4f4001bf63@squawk>
-References: <20231115211407.32067-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH] dt-bindings: net: renesas,etheravb: Document RZ/Five SoC
+Message-ID: <20231115-marry-lagoon-d78d6085f7d7@squawk>
+References: <20231115210448.31575-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="R0+R63p5k7v1HIwy"
+        protocol="application/pgp-signature"; boundary="bQAUvGBLU9yZJPAS"
 Content-Disposition: inline
-In-Reply-To: <20231115211407.32067-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20231115210448.31575-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
         RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
@@ -60,60 +64,38 @@ List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 
---R0+R63p5k7v1HIwy
+--bQAUvGBLU9yZJPAS
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Nov 15, 2023 at 09:14:07PM +0000, Prabhakar wrote:
+On Wed, Nov 15, 2023 at 09:04:48PM +0000, Prabhakar wrote:
 > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 >=20
-> The USBHS IP block on the RZ/Five SoC is identical to one found on the
-> RZ/G2UL SoC. "renesas,usbhs-r9a07g043" compatible string will be used on
-> the RZ/Five SoC so to make this clear and to keep this file consistent,
-> update the comment to include RZ/Five SoC.
+> The Gigabit Ethernet IP block on the RZ/Five SoC is identical to one
+> found on the RZ/G2UL SoC. "renesas,r9a07g043-gbeth" compatible string
+> will be used on the RZ/Five SoC so to make this clear and to keep this
+> file consistent, update the comment to include RZ/Five SoC.
 >=20
 > No driver changes are required as generic compatible string
-> "renesas,rza2-usbhs" will be used as a fallback on RZ/Five SoC.
+> "renesas,rzg2l-gbeth" will be used as a fallback on RZ/Five SoC.
 >=20
 > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
 Acked-by: Conor Dooley <conor.dooley@microchip.com>
 
 Cheers,
-Conor,
+Conor.
 
-> ---
->  Documentation/devicetree/bindings/usb/renesas,usbhs.yaml | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/Documentation/devicetree/bindings/usb/renesas,usbhs.yaml b/D=
-ocumentation/devicetree/bindings/usb/renesas,usbhs.yaml
-> index bad55dfb2fa0..40ada78f2328 100644
-> --- a/Documentation/devicetree/bindings/usb/renesas,usbhs.yaml
-> +++ b/Documentation/devicetree/bindings/usb/renesas,usbhs.yaml
-> @@ -19,7 +19,7 @@ properties:
->        - items:
->            - enum:
->                - renesas,usbhs-r7s9210   # RZ/A2
-> -              - renesas,usbhs-r9a07g043 # RZ/G2UL
-> +              - renesas,usbhs-r9a07g043 # RZ/G2UL and RZ/Five
->                - renesas,usbhs-r9a07g044 # RZ/G2{L,LC}
->                - renesas,usbhs-r9a07g054 # RZ/V2L
->            - const: renesas,rza2-usbhs
-> --=20
-> 2.34.1
->=20
-
---R0+R63p5k7v1HIwy
+--bQAUvGBLU9yZJPAS
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEARYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZVU+dgAKCRB4tDGHoIJi
-0jTaAQDIYJqBns0I4eVyX5yhh7uqDlD2M9rFHmR9yChxiaoV+wEAghJpnEsZrySp
-r0WDEQTodZFMDEXutpYK3AtCS6ebLA0=
-=/XT9
+iHUEARYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZVU+xQAKCRB4tDGHoIJi
+0ksWAQCrH2BGWrEy+3mGVr9EmqX6AEJBK8pFi/wB9kpSOcLm+AD9FhX7YgTDDIxI
+1mt+waCdmjiuk7XHFmrMnYATmhKa2AA=
+=f8sj
 -----END PGP SIGNATURE-----
 
---R0+R63p5k7v1HIwy--
+--bQAUvGBLU9yZJPAS--
