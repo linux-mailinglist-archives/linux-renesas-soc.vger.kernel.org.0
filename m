@@ -2,50 +2,84 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 86BD97ECA5F
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Nov 2023 19:18:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 159637ECA8B
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Nov 2023 19:31:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231374AbjKOSSq (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 15 Nov 2023 13:18:46 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59666 "EHLO
+        id S229522AbjKOSbb (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 15 Nov 2023 13:31:31 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47048 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229676AbjKOSSp (ORCPT
+        with ESMTP id S229492AbjKOSba (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 15 Nov 2023 13:18:45 -0500
-Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id BBC551A3
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 15 Nov 2023 10:18:41 -0800 (PST)
-X-IronPort-AV: E=Sophos;i="6.03,305,1694703600"; 
-   d="scan'208";a="183041010"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie5.idc.renesas.com with ESMTP; 16 Nov 2023 03:18:41 +0900
-Received: from localhost.localdomain (unknown [10.226.92.200])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 42C0E4047615;
-        Thu, 16 Nov 2023 03:18:35 +0900 (JST)
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
-        Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-        Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
-        Biju Das <biju.das.au@gmail.com>
-Subject: [PATCH v13 4/4] MAINTAINERS: Add maintainer for RZ DU drivers
-Date:   Wed, 15 Nov 2023 18:18:07 +0000
-Message-Id: <20231115181807.138292-5-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20231115181807.138292-1-biju.das.jz@bp.renesas.com>
-References: <20231115181807.138292-1-biju.das.jz@bp.renesas.com>
+        Wed, 15 Nov 2023 13:31:30 -0500
+Received: from mx01.omp.ru (mx01.omp.ru [90.154.21.10])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 72AF7C1;
+        Wed, 15 Nov 2023 10:31:26 -0800 (PST)
+Received: from [192.168.1.103] (31.173.82.108) by msexch01.omp.ru
+ (10.188.4.12) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.1258.12; Wed, 15 Nov
+ 2023 21:31:17 +0300
+Subject: Re: [PATCH net v2] ravb: Fix races between ravb_tx_timeout_work() and
+ net related ops
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        "davem@davemloft.net" <davem@davemloft.net>,
+        "edumazet@google.com" <edumazet@google.com>,
+        "kuba@kernel.org" <kuba@kernel.org>,
+        "pabeni@redhat.com" <pabeni@redhat.com>
+CC:     "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>
+References: <20231019113308.1133944-1-yoshihiro.shimoda.uh@renesas.com>
+ <f5421248-3341-a5f7-84e6-c601df470a63@omp.ru>
+ <TYBPR01MB5341061AB0A805D0AF71FBB5D8B1A@TYBPR01MB5341.jpnprd01.prod.outlook.com>
+From:   Sergey Shtylyov <s.shtylyov@omp.ru>
+Organization: Open Mobile Platform
+Message-ID: <69392d22-8ade-81aa-72b1-6a4abce8a4a7@omp.ru>
+Date:   Wed, 15 Nov 2023 21:31:16 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
+In-Reply-To: <TYBPR01MB5341061AB0A805D0AF71FBB5D8B1A@TYBPR01MB5341.jpnprd01.prod.outlook.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [31.173.82.108]
+X-ClientProxiedBy: msexch01.omp.ru (10.188.4.12) To msexch01.omp.ru
+ (10.188.4.12)
+X-KSE-ServerInfo: msexch01.omp.ru, 9
+X-KSE-AntiSpam-Interceptor-Info: scan successful
+X-KSE-AntiSpam-Version: 6.0.0, Database issued on: 11/15/2023 18:14:47
+X-KSE-AntiSpam-Status: KAS_STATUS_NOT_DETECTED
+X-KSE-AntiSpam-Method: none
+X-KSE-AntiSpam-Rate: 59
+X-KSE-AntiSpam-Info: Lua profiles 181389 [Nov 15 2023]
+X-KSE-AntiSpam-Info: Version: 6.0.0.2
+X-KSE-AntiSpam-Info: Envelope from: s.shtylyov@omp.ru
+X-KSE-AntiSpam-Info: LuaCore: 543 543 1e3516af5cdd92079dfeb0e292c8747a62cb1ee4
+X-KSE-AntiSpam-Info: {rep_avail}
+X-KSE-AntiSpam-Info: {Tracking_from_domain_doesnt_match_to}
+X-KSE-AntiSpam-Info: {relay has no DNS name}
+X-KSE-AntiSpam-Info: {SMTP from is not routable}
+X-KSE-AntiSpam-Info: {Found in DNSBL: 31.173.82.108 in (user)
+ b.barracudacentral.org}
+X-KSE-AntiSpam-Info: 127.0.0.199:7.1.2;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;omp.ru:7.1.1
+X-KSE-AntiSpam-Info: ApMailHostAddress: 31.173.82.108
+X-KSE-AntiSpam-Info: {DNS response errors}
+X-KSE-AntiSpam-Info: Rate: 59
+X-KSE-AntiSpam-Info: Status: not_detected
+X-KSE-AntiSpam-Info: Method: none
+X-KSE-AntiSpam-Info: Auth:dmarc=temperror header.from=omp.ru;spf=temperror
+ smtp.mailfrom=omp.ru;dkim=none
+X-KSE-Antiphishing-Info: Clean
+X-KSE-Antiphishing-ScanningType: Heuristic
+X-KSE-Antiphishing-Method: None
+X-KSE-Antiphishing-Bases: 11/15/2023 18:22:00
+X-KSE-Antivirus-Interceptor-Info: scan successful
+X-KSE-Antivirus-Info: Clean, bases: 11/15/2023 4:29:00 PM
+X-KSE-Attachment-Filter-Triggered-Rules: Clean
+X-KSE-Attachment-Filter-Triggered-Filters: Clean
+X-KSE-BulkMessagesFiltering-Scan-Result: InTheLimit
+X-Spam-Status: No, score=-3.8 required=5.0 tests=BAYES_00,NICE_REPLY_A,
         RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -54,64 +88,58 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Add my self as maintainer for RZ DU drivers.
-While at it, update the entries for common parts, rcar-du and shmobile.
+On 11/15/23 5:09 AM, Yoshihiro Shimoda wrote:
+[...]
 
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
----
-v12->v13:
- * No change.
-v11->v12:
- * No change.
-v10->v11:
- * No change.
-v9->v10:
- * No change.
-v8->v9:
- * Added Rb tag from Laurent.
- * Updated entries for common parts(Makefile and Kconfig).
-v8:
- * New patch
----
- MAINTAINERS | 15 +++++++++++++--
- 1 file changed, 13 insertions(+), 2 deletions(-)
+>>> Fix races between ravb_tx_timeout_work() and functions of net_device_ops
+>>> and ethtool_ops by using rtnl_trylock() and rtnl_unlock(). Note that
+>>> since ravb_close() is under the rtnl lock and calls cancel_work_sync(),
+>>> ravb_tx_timeout_work() should calls rtnl_trylock(). Otherwise, a deadlock
+>>> may happen in ravb_tx_timeout_work() like below:
+>>>
+>>> CPU0			CPU1
+>>> 			ravb_tx_timeout()
+>>> 			schedule_work()
+>>> ...
+>>> __dev_close_many()
+>>> // Under rtnl lock
+>>> ravb_close()
+>>> cancel_work_sync()
+>>> // Waiting
+>>> 			ravb_tx_timeout_work()
+>>> 			rtnl_lock()
+>>> 			// This is possible to cause a deadlock
+>>>
+>>> Fixes: c156633f1353 ("Renesas Ethernet AVB driver proper")
+>>> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+>>
+>> Reviewed-by: Sergey Shtylyov <s.shtylyov@omp.ru>
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index ec79843f842a..c20ed4e4a2cc 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -7033,7 +7033,7 @@ F:	drivers/gpu/host1x/
- F:	include/linux/host1x.h
- F:	include/uapi/drm/tegra_drm.h
- 
--DRM DRIVERS FOR RENESAS
-+DRM DRIVERS FOR RENESAS RCAR AND SHMOBILE
- M:	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
- M:	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
- L:	dri-devel@lists.freedesktop.org
-@@ -7044,9 +7044,20 @@ F:	Documentation/devicetree/bindings/display/bridge/renesas,dsi-csi2-tx.yaml
- F:	Documentation/devicetree/bindings/display/bridge/renesas,dw-hdmi.yaml
- F:	Documentation/devicetree/bindings/display/bridge/renesas,lvds.yaml
- F:	Documentation/devicetree/bindings/display/renesas,du.yaml
--F:	drivers/gpu/drm/renesas/
-+F:	drivers/gpu/drm/renesas/Kconfig
-+F:	drivers/gpu/drm/renesas/Makefile
-+F:	drivers/gpu/drm/renesas/rcar-du/
-+F:	drivers/gpu/drm/renesas/shmobile/
- F:	include/linux/platform_data/shmob_drm.h
- 
-+DRM DRIVERS FOR RENESAS RZ
-+M:	Biju Das <biju.das.jz@bp.renesas.com>
-+L:	dri-devel@lists.freedesktop.org
-+L:	linux-renesas-soc@vger.kernel.org
-+S:	Maintained
-+F:	Documentation/devicetree/bindings/display/renesas,rzg2l-du.yaml
-+F:	drivers/gpu/drm/renesas/rz-du/
-+
- DRM DRIVERS FOR ROCKCHIP
- M:	Sandy Huang <hjc@rock-chips.com>
- M:	Heiko Stübner <heiko@sntech.de>
--- 
-2.25.1
+[...]
 
+>>> diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
+>>> index 0ef0b88b7145..300c1885e1e1 100644
+>>> --- a/drivers/net/ethernet/renesas/ravb_main.c
+>>> +++ b/drivers/net/ethernet/renesas/ravb_main.c
+>>> @@ -1874,6 +1874,9 @@ static void ravb_tx_timeout_work(struct work_struct *work)
+>>>  	struct net_device *ndev = priv->ndev;
+>>>  	int error;
+>>>
+>>> +	if (!rtnl_trylock())
+>>> +		return;
+>>
+>>    I wonder if we should reschedule the work here...
+> 
+> I think so. But, it should reschedule the work if the netif is still running because
+> Use-after-free issue happens again when cancel_work_sync() is calling. Also, I also think
+> we should use schedule_delayed_work() instead. So, I'll submit such a patch as v3.
+
+   I'm not really sure about that one. Note that cancel_work_sync() should
+work with the works requeueing themselves, the comments say...
+
+> Best regards,
+> Yoshihiro Shimoda
+
+[...]
+
+MBR, Sergey
