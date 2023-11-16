@@ -2,58 +2,51 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 591B07EE648
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 16 Nov 2023 18:58:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F02767EE64A
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 16 Nov 2023 18:58:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345425AbjKPR6g (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 16 Nov 2023 12:58:36 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43236 "EHLO
+        id S231314AbjKPR6u (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 16 Nov 2023 12:58:50 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55574 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345421AbjKPR6f (ORCPT
+        with ESMTP id S231335AbjKPR6u (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 16 Nov 2023 12:58:35 -0500
+        Thu, 16 Nov 2023 12:58:50 -0500
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0C5F5D52
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 16 Nov 2023 09:58:31 -0800 (PST)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4DFC6C433C7;
-        Thu, 16 Nov 2023 17:58:30 +0000 (UTC)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F1D0CD6B;
+        Thu, 16 Nov 2023 09:58:45 -0800 (PST)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 73177C433C7;
+        Thu, 16 Nov 2023 17:58:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1700157510;
-        bh=NjZTWXhX6tYOsHS9g+R+JRPWbqHvVjLp4SgC77GdIxw=;
+        s=k20201202; t=1700157525;
+        bh=RxJ6S2Hi/3+YDzTC2uALLuab6Zat66e3MT6zAyEv5yw=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=p555UH18g6sDDJjACITrbyiY0nDmXqCmx1ke7jvceBy3ZSFpDYGLMA7RFLY/WVZfj
-         BTmGw38amtDapGnFvHtmKE3jk6/LBsO+spr61d6XCUpxnYdQn/hca+kWeoK6w+uqY8
-         hVv/rcB8ICh+2iD1vUmjLaVFUJiNcsESGYgOy3qNn0xnfn6jsgfR3YfQ5Q6RW+e3EL
-         3VY3cxr0kD/XBBC1V24C0ezHYqAJZlj22/e1UgOQJEAkKLYGRZag7xXq6oBrUoURfw
-         wEXclue7LPHJqgFECBuZgwJ/rBvWsfcmY0bNtuAmAIinkpx14XebNgx4B8Wd6ugj6Z
-         IN+eOa0FtVYgQ==
-Date:   Thu, 16 Nov 2023 18:58:27 +0100
-From:   Maxime Ripard <mripard@kernel.org>
+        b=WSPpjdQveDhb+t5iA1s9xkPhSJowYPwGF0MCOFMCge22czZz10HFNo4z3C6iqDM+R
+         USUAIyO4Cw+39lKg9nZL9/jlnhlkTS3PcEWi3gmt+NncFKNUJlbdY4y+aG7aOlM3Kr
+         EzaKTTKGvX2L0DwEr4FXfxRWt/3GcLMSNuYjheb2cxlP/NMqj4ASM7ZnzC/NnBFOh+
+         dx8u9d4qKNfRV+z3nhVNpfWXc4j/V0OIpuHohJ/F16zft3W+2h9wsWjilPcQVHxjsI
+         lpiMGtwIsO4fUQ38FViuGH9tFXmP4zqUZtthkTNC0amMgw9jcOJcFKUqQ6tCSia2+t
+         LUczGkbbiP9Ng==
+Date:   Thu, 16 Nov 2023 12:58:44 -0500
+From:   Sasha Levin <sashal@kernel.org>
 To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
-        David Airlie <airlied@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-        Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
-        Biju Das <biju.das.au@gmail.com>
-Subject: Re: [PATCH v14 4/4] MAINTAINERS: Create entry for Renesas RZ DRM
- drivers
-Message-ID: <gqbxdb2un7s2hqttzb4ryhcwpwvsxj244ubaifzpugryioj6bg@6dleflere7oo>
-References: <20231116141608.252452-1-biju.das.jz@bp.renesas.com>
- <20231116141608.252452-5-biju.das.jz@bp.renesas.com>
- <eywaoaudaqtrv5ky46ahenapkjwk4tajxdrkuentehezw4ajid@aioncg5rahws>
- <CAMuHMdXZjft3AVEF7cPnhH4pz_2+9U51jnSg-tFJ-ppfi7GTZw@mail.gmail.com>
+Cc:     linux-kernel@vger.kernel.org, stable@vger.kernel.org,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        magnus.damm@gmail.com, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org
+Subject: Re: [PATCH AUTOSEL 6.6 34/40] arm64: dts: renesas: r8a779f0: spider:
+ Enable PCIe Host ch0
+Message-ID: <ZVZYVCE6rr9izfA2@sashalap>
+References: <20231107121837.3759358-1-sashal@kernel.org>
+ <20231107121837.3759358-34-sashal@kernel.org>
+ <CAMuHMdXWBzM41KjWCVRTmncJa=e2degFqXpRG0M7jE+s-Rkysw@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="xs47cj4uibzuyjcu"
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Disposition: inline
-In-Reply-To: <CAMuHMdXZjft3AVEF7cPnhH4pz_2+9U51jnSg-tFJ-ppfi7GTZw@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAMuHMdXWBzM41KjWCVRTmncJa=e2degFqXpRG0M7jE+s-Rkysw@mail.gmail.com>
 X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
         RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
@@ -64,69 +57,61 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+On Tue, Nov 07, 2023 at 07:50:52PM +0100, Geert Uytterhoeven wrote:
+>Hi Sasha,
+>
+>On Tue, Nov 7, 2023 at 1:21 PM Sasha Levin <sashal@kernel.org> wrote:
+>> From: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+>>
+>> [ Upstream commit c588e1c9846b32182fd5a0ceb637b983810e7100 ]
+>>
+>> Enable PCIe Host controller channel 0 on R-Car S4-8 Spider board.
+>>
+>> Since this board has an Oculink connector, CLKREQ# pin of PFC for PCIe
+>> should not be used. So, using a GPIO is used to output the clock instead.
+>> Otherwise the controller cannot detect a PCIe device.
+>>
+>> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+>> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+>> Link: https://lore.kernel.org/r/20230905012404.2915246-3-yoshihiro.shimoda.uh@renesas.com
+>> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+>> Signed-off-by: Sasha Levin <sashal@kernel.org>
+>
+>Thanks for your patch!
+>
+>> --- a/arch/arm64/boot/dts/renesas/r8a779f0-spider-cpu.dtsi
+>> +++ b/arch/arm64/boot/dts/renesas/r8a779f0-spider-cpu.dtsi
+>
+>> @@ -145,6 +157,18 @@ &mmc0 {
+>>         status = "okay";
+>>  };
+>>
+>> +&pcie0_clkref {
+>> +       compatible = "gpio-gate-clock";
+>> +       clocks = <&rc21012_pci>;
+>> +       enable-gpios = <&gpio2 15 GPIO_ACTIVE_LOW>;
+>> +       /delete-property/ clock-frequency;
+>> +};
+>> +
+>> +&pciec0 {
+>> +       reset-gpio = <&gpio_exp_20 0 GPIO_ACTIVE_LOW>;
+>> +       status = "okay";
+>> +};
+>> +
+>>  &pfc {
+>>         pinctrl-0 = <&scif_clk_pins>;
+>>         pinctrl-names = "default";
+>
+>These references have a hard dependency on commit 183a709d3719e5c9
+>("arm64: dts: renesas: r8a779f0: Add PCIe Host and Endpoint nodes")
+>in v6.6+ (i.e. v6.7-rc1 soon).
+>
+>To actually work, this has a soft (runtime) dependency on commit
+>0d0c551011df4519 ("PCI: rcar-gen4: Add R-Car Gen4 PCIe controller
+>support for host mode") in v6.6+.
 
---xs47cj4uibzuyjcu
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Sounds like I should just drop this patch :)
 
-Hi,
-
-On Thu, Nov 16, 2023 at 05:04:03PM +0100, Geert Uytterhoeven wrote:
-> On Thu, Nov 16, 2023 at 4:58=E2=80=AFPM Maxime Ripard <mripard@kernel.org=
-> wrote:
-> > On Thu, Nov 16, 2023 at 02:16:08PM +0000, Biju Das wrote:
-> > > Create entry for Renesas RZ DRM drivers and add my self as a maintain=
-er.
-> > >
-> > > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> > > Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.=
-com>
-> > > ---
-> > > v13->v14:
-> > >  * Now SHMOBILE has maintainer entries. So dropped updating
-> > >    DRM DRIVERS FOR RENESAS RCAR AND SHMOBILE.
-> > >  * Updated comment header and description.
-> > >  * The above changes are trivial, so kept the Rb tag from Laurent.
->=20
-> > > --- a/MAINTAINERS
-> > > +++ b/MAINTAINERS
-> > > @@ -7154,6 +7154,14 @@ F:     Documentation/devicetree/bindings/displ=
-ay/renesas,shmobile-lcdc.yaml
-> > >  F:   drivers/gpu/drm/renesas/shmobile/
-> > >  F:   include/linux/platform_data/shmob_drm.h
-> > >
-> > > +DRM DRIVERS FOR RENESAS RZ
-> > > +M:   Biju Das <biju.das.jz@bp.renesas.com>
-> > > +L:   dri-devel@lists.freedesktop.org
-> > > +L:   linux-renesas-soc@vger.kernel.org
-> > > +S:   Maintained
-> > > +F:   Documentation/devicetree/bindings/display/renesas,rzg2l-du.yaml
-> > > +F:   drivers/gpu/drm/renesas/rz-du/
-> >
-> > Any particular reason you want to opt-out of drm-misc?
->=20
-> IIRC, you opted all Renesas drivers out in commit 5a44d50f00725f31
-> ("MAINTAINERS: Update drm-misc entry to match all drivers")?
-
-That's not exactly what happened. I excluded it from that list because
-rcar-du has never been maintained in drm-misc.
-
-> Probably that should be restricted to drivers/gpu/drm/renesas/rcar-du/?
-
-Sure, either within that patch if there's a new version, or as a follow-up
-
-Maxime
-
---xs47cj4uibzuyjcu
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZVZYQwAKCRDj7w1vZxhR
-xWsYAP9UUkc8Nei2d8KODGDqiL1dG2G4LJdfiNGFO4nuDJ/EkAD/aUPdE/HGNi23
-OsmdYERv5LFe4hTjpl3UV37vrQYbrg8=
-=VH9i
------END PGP SIGNATURE-----
-
---xs47cj4uibzuyjcu--
+-- 
+Thanks,
+Sasha
