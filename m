@@ -2,116 +2,169 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F02767EE64A
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 16 Nov 2023 18:58:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0C0A27EE673
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 16 Nov 2023 19:11:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231314AbjKPR6u (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 16 Nov 2023 12:58:50 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55574 "EHLO
+        id S229488AbjKPSLq (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 16 Nov 2023 13:11:46 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53372 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231335AbjKPR6u (ORCPT
+        with ESMTP id S229464AbjKPSLp (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 16 Nov 2023 12:58:50 -0500
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F1D0CD6B;
-        Thu, 16 Nov 2023 09:58:45 -0800 (PST)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 73177C433C7;
-        Thu, 16 Nov 2023 17:58:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1700157525;
-        bh=RxJ6S2Hi/3+YDzTC2uALLuab6Zat66e3MT6zAyEv5yw=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=WSPpjdQveDhb+t5iA1s9xkPhSJowYPwGF0MCOFMCge22czZz10HFNo4z3C6iqDM+R
-         USUAIyO4Cw+39lKg9nZL9/jlnhlkTS3PcEWi3gmt+NncFKNUJlbdY4y+aG7aOlM3Kr
-         EzaKTTKGvX2L0DwEr4FXfxRWt/3GcLMSNuYjheb2cxlP/NMqj4ASM7ZnzC/NnBFOh+
-         dx8u9d4qKNfRV+z3nhVNpfWXc4j/V0OIpuHohJ/F16zft3W+2h9wsWjilPcQVHxjsI
-         lpiMGtwIsO4fUQ38FViuGH9tFXmP4zqUZtthkTNC0amMgw9jcOJcFKUqQ6tCSia2+t
-         LUczGkbbiP9Ng==
-Date:   Thu, 16 Nov 2023 12:58:44 -0500
-From:   Sasha Levin <sashal@kernel.org>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     linux-kernel@vger.kernel.org, stable@vger.kernel.org,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        magnus.damm@gmail.com, robh+dt@kernel.org,
-        krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org
-Subject: Re: [PATCH AUTOSEL 6.6 34/40] arm64: dts: renesas: r8a779f0: spider:
- Enable PCIe Host ch0
-Message-ID: <ZVZYVCE6rr9izfA2@sashalap>
-References: <20231107121837.3759358-1-sashal@kernel.org>
- <20231107121837.3759358-34-sashal@kernel.org>
- <CAMuHMdXWBzM41KjWCVRTmncJa=e2degFqXpRG0M7jE+s-Rkysw@mail.gmail.com>
+        Thu, 16 Nov 2023 13:11:45 -0500
+Received: from mx01.omp.ru (mx01.omp.ru [90.154.21.10])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DF009195;
+        Thu, 16 Nov 2023 10:11:40 -0800 (PST)
+Received: from [192.168.1.103] (31.173.84.76) by msexch01.omp.ru (10.188.4.12)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.1258.12; Thu, 16 Nov
+ 2023 21:11:31 +0300
+Subject: Re: [PATCH net v2] ravb: Fix races between ravb_tx_timeout_work() and
+ net related ops
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        "davem@davemloft.net" <davem@davemloft.net>,
+        "edumazet@google.com" <edumazet@google.com>,
+        "kuba@kernel.org" <kuba@kernel.org>,
+        "pabeni@redhat.com" <pabeni@redhat.com>
+CC:     "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>
+References: <20231019113308.1133944-1-yoshihiro.shimoda.uh@renesas.com>
+ <f5421248-3341-a5f7-84e6-c601df470a63@omp.ru>
+ <TYBPR01MB5341061AB0A805D0AF71FBB5D8B1A@TYBPR01MB5341.jpnprd01.prod.outlook.com>
+ <69392d22-8ade-81aa-72b1-6a4abce8a4a7@omp.ru>
+ <TYBPR01MB5341A4AE46EA9261469C735DD8B0A@TYBPR01MB5341.jpnprd01.prod.outlook.com>
+From:   Sergey Shtylyov <s.shtylyov@omp.ru>
+Organization: Open Mobile Platform
+Message-ID: <29603244-d65a-5ca0-90d4-fdd9f410e180@omp.ru>
+Date:   Thu, 16 Nov 2023 21:11:31 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAMuHMdXWBzM41KjWCVRTmncJa=e2degFqXpRG0M7jE+s-Rkysw@mail.gmail.com>
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <TYBPR01MB5341A4AE46EA9261469C735DD8B0A@TYBPR01MB5341.jpnprd01.prod.outlook.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [31.173.84.76]
+X-ClientProxiedBy: msexch01.omp.ru (10.188.4.12) To msexch01.omp.ru
+ (10.188.4.12)
+X-KSE-ServerInfo: msexch01.omp.ru, 9
+X-KSE-AntiSpam-Interceptor-Info: scan successful
+X-KSE-AntiSpam-Version: 6.0.0, Database issued on: 11/16/2023 17:56:40
+X-KSE-AntiSpam-Status: KAS_STATUS_NOT_DETECTED
+X-KSE-AntiSpam-Method: none
+X-KSE-AntiSpam-Rate: 59
+X-KSE-AntiSpam-Info: Lua profiles 181428 [Nov 16 2023]
+X-KSE-AntiSpam-Info: Version: 6.0.0.2
+X-KSE-AntiSpam-Info: Envelope from: s.shtylyov@omp.ru
+X-KSE-AntiSpam-Info: LuaCore: 543 543 1e3516af5cdd92079dfeb0e292c8747a62cb1ee4
+X-KSE-AntiSpam-Info: {rep_avail}
+X-KSE-AntiSpam-Info: {Tracking_from_domain_doesnt_match_to}
+X-KSE-AntiSpam-Info: {relay has no DNS name}
+X-KSE-AntiSpam-Info: {SMTP from is not routable}
+X-KSE-AntiSpam-Info: {Found in DNSBL: 31.173.84.76 in (user)
+ b.barracudacentral.org}
+X-KSE-AntiSpam-Info: omp.ru:7.1.1;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;127.0.0.199:7.1.2
+X-KSE-AntiSpam-Info: ApMailHostAddress: 31.173.84.76
+X-KSE-AntiSpam-Info: {DNS response errors}
+X-KSE-AntiSpam-Info: Rate: 59
+X-KSE-AntiSpam-Info: Status: not_detected
+X-KSE-AntiSpam-Info: Method: none
+X-KSE-AntiSpam-Info: Auth:dmarc=temperror header.from=omp.ru;spf=temperror
+ smtp.mailfrom=omp.ru;dkim=none
+X-KSE-Antiphishing-Info: Clean
+X-KSE-Antiphishing-ScanningType: Heuristic
+X-KSE-Antiphishing-Method: None
+X-KSE-Antiphishing-Bases: 11/16/2023 18:01:00
+X-KSE-Antivirus-Interceptor-Info: scan successful
+X-KSE-Antivirus-Info: Clean, bases: 11/16/2023 3:28:00 PM
+X-KSE-Attachment-Filter-Triggered-Rules: Clean
+X-KSE-Attachment-Filter-Triggered-Filters: Clean
+X-KSE-BulkMessagesFiltering-Scan-Result: InTheLimit
+X-Spam-Status: No, score=-0.8 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_SBL_CSS,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, Nov 07, 2023 at 07:50:52PM +0100, Geert Uytterhoeven wrote:
->Hi Sasha,
->
->On Tue, Nov 7, 2023 at 1:21 PM Sasha Levin <sashal@kernel.org> wrote:
->> From: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
->>
->> [ Upstream commit c588e1c9846b32182fd5a0ceb637b983810e7100 ]
->>
->> Enable PCIe Host controller channel 0 on R-Car S4-8 Spider board.
->>
->> Since this board has an Oculink connector, CLKREQ# pin of PFC for PCIe
->> should not be used. So, using a GPIO is used to output the clock instead.
->> Otherwise the controller cannot detect a PCIe device.
->>
->> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
->> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
->> Link: https://lore.kernel.org/r/20230905012404.2915246-3-yoshihiro.shimoda.uh@renesas.com
->> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
->> Signed-off-by: Sasha Levin <sashal@kernel.org>
->
->Thanks for your patch!
->
->> --- a/arch/arm64/boot/dts/renesas/r8a779f0-spider-cpu.dtsi
->> +++ b/arch/arm64/boot/dts/renesas/r8a779f0-spider-cpu.dtsi
->
->> @@ -145,6 +157,18 @@ &mmc0 {
->>         status = "okay";
->>  };
->>
->> +&pcie0_clkref {
->> +       compatible = "gpio-gate-clock";
->> +       clocks = <&rc21012_pci>;
->> +       enable-gpios = <&gpio2 15 GPIO_ACTIVE_LOW>;
->> +       /delete-property/ clock-frequency;
->> +};
->> +
->> +&pciec0 {
->> +       reset-gpio = <&gpio_exp_20 0 GPIO_ACTIVE_LOW>;
->> +       status = "okay";
->> +};
->> +
->>  &pfc {
->>         pinctrl-0 = <&scif_clk_pins>;
->>         pinctrl-names = "default";
->
->These references have a hard dependency on commit 183a709d3719e5c9
->("arm64: dts: renesas: r8a779f0: Add PCIe Host and Endpoint nodes")
->in v6.6+ (i.e. v6.7-rc1 soon).
->
->To actually work, this has a soft (runtime) dependency on commit
->0d0c551011df4519 ("PCI: rcar-gen4: Add R-Car Gen4 PCIe controller
->support for host mode") in v6.6+.
+On 11/16/23 5:15 AM, Yoshihiro Shimoda wrote:
+[...]
 
-Sounds like I should just drop this patch :)
+>>>>> Fix races between ravb_tx_timeout_work() and functions of net_device_ops
+>>>>> and ethtool_ops by using rtnl_trylock() and rtnl_unlock(). Note that
+>>>>> since ravb_close() is under the rtnl lock and calls cancel_work_sync(),
+>>>>> ravb_tx_timeout_work() should calls rtnl_trylock(). Otherwise, a deadlock
+>>>>> may happen in ravb_tx_timeout_work() like below:
+>>>>>
+>>>>> CPU0			CPU1
+>>>>> 			ravb_tx_timeout()
+>>>>> 			schedule_work()
+>>>>> ...
+>>>>> __dev_close_many()
+>>>>> // Under rtnl lock
+>>>>> ravb_close()
+>>>>> cancel_work_sync()
+>>>>> // Waiting
+>>>>> 			ravb_tx_timeout_work()
+>>>>> 			rtnl_lock()
+>>>>> 			// This is possible to cause a deadlock
+>>>>>
+>>>>> Fixes: c156633f1353 ("Renesas Ethernet AVB driver proper")
+>>>>> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+>>>>
+>>>> Reviewed-by: Sergey Shtylyov <s.shtylyov@omp.ru>
+>>
+>> [...]
+>>
+>>>>> diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
+>>>>> index 0ef0b88b7145..300c1885e1e1 100644
+>>>>> --- a/drivers/net/ethernet/renesas/ravb_main.c
+>>>>> +++ b/drivers/net/ethernet/renesas/ravb_main.c
+>>>>> @@ -1874,6 +1874,9 @@ static void ravb_tx_timeout_work(struct work_struct *work)
+>>>>>  	struct net_device *ndev = priv->ndev;
+>>>>>  	int error;
+>>>>>
+>>>>> +	if (!rtnl_trylock())
+>>>>> +		return;
+>>>>
+>>>>    I wonder if we should reschedule the work here...
+>>>
+>>> I think so. But, it should reschedule the work if the netif is still running because
+>>> Use-after-free issue happens again when cancel_work_sync() is calling. Also, I also think
+>>> we should use schedule_delayed_work() instead. So, I'll submit such a patch as v3.
+>>
+>>    I'm not really sure about that one. Note that cancel_work_sync() should
+>> work with the works requeueing themselves, the comments say...
+> 
+> I'm sorry, I completely mistook to explain this... I should have said:
 
--- 
-Thanks,
-Sasha
+   Don't worry, my uncertainty was about using the "delayed" flavor of
+the works. :-)
+
+> It should not reschedule the work if the netif is not running because
+>           ~~~                                     ~~~
+> use-after-free issue happens again when cancel_work_sync() is called from ravb_remove().
+>                                                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+   Well, it's called from ravb_close() -- which is called by the networking
+core when unregister_netdev() is called bt ravb_remove()...
+
+> Also, I completely misunderstood the behavior of cancel_{schedule_}work_sync().
+
+   cancel_{delayed_}work_sync(), you meant...
+
+> In the function(s), since WORK_STRUCT_PENDING_BIT is set, schedule_{delayed_}work()
+> will not schedule the work anymore. So, I'll drop a condition netif_running()
+> from the ravb_tx_timeout_work().
+
+  Hm, this caused me to rummage in the work queue code for more time than
+I could afford... still not sure what you meant... :-/
+
+> Best regards,
+> Yoshihiro Shimoda
+[...]
+
+MBR, Sergey
