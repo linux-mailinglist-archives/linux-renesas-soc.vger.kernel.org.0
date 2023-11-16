@@ -2,107 +2,116 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C7AE97EE76C
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 16 Nov 2023 20:23:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A3A217EE829
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 16 Nov 2023 21:13:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229455AbjKPTXg (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 16 Nov 2023 14:23:36 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58260 "EHLO
+        id S229631AbjKPUND (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 16 Nov 2023 15:13:03 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37582 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229437AbjKPTXf (ORCPT
+        with ESMTP id S229544AbjKPUNC (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 16 Nov 2023 14:23:35 -0500
-Received: from mail-ot1-f48.google.com (mail-ot1-f48.google.com [209.85.210.48])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5B6EF1A8;
-        Thu, 16 Nov 2023 11:23:32 -0800 (PST)
-Received: by mail-ot1-f48.google.com with SMTP id 46e09a7af769-6d645cfd238so665307a34.2;
-        Thu, 16 Nov 2023 11:23:32 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700162611; x=1700767411;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=11ZdWcm9xn9/03dHAna0VIYX27sSKjstDA9LwDlSCCE=;
-        b=WAdCkhEzQk+We1ZpMM7aFrlB9lO2C5OlJ3wU21Ptnnw2BL8t4nRfmnVPWViNyxbDDx
-         v7KA/wo+ZUE9PlWLX5IldpsJF0nAkTSON9knm0l6fp35JoGHUJW8RIjxPesq6MFkvU7e
-         p1gyE/Zyd2aiKY/V65OYBuni8g1/kTdfCW7k2C3LVq843HM7b4ndzjWW/rLmAT7v3/Tm
-         0q5zp+FDKGMtsuibltN6W7h/pUjp5iV00Q85avv+Uh/o/GSUSV6xFau+kqnLFenvcNBc
-         pbwEoJYCqtTb4zVFHtCGD/iGg21XoNLgHKZI9cQf1yUdA9JUDk8PZnAVa2p89HlK4695
-         XTng==
-X-Gm-Message-State: AOJu0Yx4VxPm7wz16hlxMbtWui5wIW5MGkDUZ72oIFf1dYR6DJb+wKVQ
-        fPiMGKG8d5Z2+1lsdYVeOg==
-X-Google-Smtp-Source: AGHT+IFFflHQDgRWcv8Aa0Xfi5zkFhUmKL2WYSX7jkOBDfAipGIi5WM/EhkIhHPanJyZbmYMTEsu6g==
-X-Received: by 2002:a9d:6f8c:0:b0:6d6:45b1:faff with SMTP id h12-20020a9d6f8c000000b006d645b1faffmr9490888otq.30.1700162611533;
-        Thu, 16 Nov 2023 11:23:31 -0800 (PST)
-Received: from herring.priv (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id bg22-20020a056830361600b006d309c126fbsm1006744otb.57.2023.11.16.11.23.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Nov 2023 11:23:30 -0800 (PST)
-Received: (nullmailer pid 3022585 invoked by uid 1000);
-        Thu, 16 Nov 2023 19:23:24 -0000
-Date:   Thu, 16 Nov 2023 13:23:24 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc:     Frank Rowand <frowand.list@gmail.com>,
+        Thu, 16 Nov 2023 15:13:02 -0500
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BBDB71A7
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 16 Nov 2023 12:12:58 -0800 (PST)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+        by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1r3ijP-0004KN-Vh; Thu, 16 Nov 2023 21:12:55 +0100
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+        by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1r3ijO-009Wit-UN; Thu, 16 Nov 2023 21:12:54 +0100
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1r3ijO-002oam-L5; Thu, 16 Nov 2023 21:12:54 +0100
+Date:   Thu, 16 Nov 2023 21:12:54 +0100
+From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To:     Biju Das <biju.das.jz@bp.renesas.com>
+Cc:     Thierry Reding <thierry.reding@gmail.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>, devicetree@vger.kernel.org,
-        linux-clk@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Aymeric Aillet <aymeric.aillet@iot.bzh>,
-        Yusuke Goda <yusuke.goda.sx@renesas.com>
-Subject: Re: [PATCH 4/4] drivers: clk: renesas: enable all clocks which is
- assinged to non Linux system
-Message-ID: <20231116192324.GB2821275-robh@kernel.org>
-References: <8734x9tda9.wl-kuninori.morimoto.gx@renesas.com>
- <87wmulrynq.wl-kuninori.morimoto.gx@renesas.com>
+        Magnus Damm <magnus.damm@gmail.com>,
+        "linux-pwm@vger.kernel.org" <linux-pwm@vger.kernel.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH v16 3/4] pwm: Add support for RZ/G2L GPT
+Message-ID: <20231116201254.kszjhv5u7qplxgoh@pengutronix.de>
+References: <20231004111451.126195-1-biju.das.jz@bp.renesas.com>
+ <20231004111451.126195-4-biju.das.jz@bp.renesas.com>
+ <TYCPR01MB112699BBDA620567EA36AE2AC86B0A@TYCPR01MB11269.jpnprd01.prod.outlook.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="q4xafe72bv6gxzuv"
 Content-Disposition: inline
-In-Reply-To: <87wmulrynq.wl-kuninori.morimoto.gx@renesas.com>
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H3,
-        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=no autolearn_force=no version=3.4.6
+In-Reply-To: <TYCPR01MB112699BBDA620567EA36AE2AC86B0A@TYCPR01MB11269.jpnprd01.prod.outlook.com>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-renesas-soc@vger.kernel.org
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, Nov 14, 2023 at 12:01:14AM +0000, Kuninori Morimoto wrote:
-> Some board might use Linux and another OS in the same time. In such
-> case, current Linux will stop necessary module clock when booting
-> which is not used on Linux side, but is used on another OS side.
-> 
-> To avoid such situation, renesas-cpg-mssr try to find
-> status = "reserved" devices (A), and add CLK_IGNORE_UNUSED flag to its
-> <&cgp CPG_MOD xxx> clock (B).
 
-See Stephen's presentation from Plumbers this week. The default behavior 
-for unused clocks may be changing soon.
+--q4xafe72bv6gxzuv
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> 
-> Table 2.4: Values for status property
-> https://github.com/devicetree-org/devicetree-specification/releases/download/v0.4/devicetree-specification-v0.4.pdf
-> 
-> "reserved"
-> 	Indicates that the device is operational, but should not be
-> 	used. Typically this is used for devices that are controlled
-> 	by another software component, such as platform firmware.
-> 
-> ex)
-> 	scif5: serial@e6f30000 {
-> 		...
-> (B)		clocks = <&cpg CPG_MOD 202>,
-> 			 <&cpg CPG_CORE R8A7795_CLK_S3D1>,
-> 			 <&scif_clk>;
-> 		...
-> (A)		status = "reserved";
-> 	};
+On Thu, Nov 16, 2023 at 07:00:00PM +0000, Biju Das wrote:
+> Hello Uwe,
+>=20
+> The clock rate for RZ/G2L family SoCs is 100 MHz.
+>=20
+> With this, maximum possible period in nsec =3D  2^32 * 10 nsecs * 1024 (p=
+rescale) =3D 43,980,465,111,040 nsec which is well below than
+> 2^64.
+>=20
+> So I am planning to reject the PWM Period  > 43,980,465,111,040 nsecs in =
+apply on next version.
+>=20
+> Please correct me, if It is wrong.
 
-I have some reservations about whether a reserved node should be touched 
-at all by Linux. I suppose since it is platform specific, it's okay. I 
-don't think we could apply such behavior globally.
+It's wrong. A request for a period > 43,980,465,111,040 ns should
+configure 43,980,465,111,040 then.
 
-Rob
+(Rationale: If your HW could do 43,980,465,111,040 and 50,000,000,000,000
+(and nothing in between) and you request 44,000,000,000,000 you get
+43,980,465,111,040, right? That your hardware cannot do
+50,000,000,000,000 is totally irrelevant for this request and the
+resulting configuration. So go with 43,980,465,111,040 even if you
+cannot do 50,000,000,000,000.)
+
+Best regards
+Uwe
+
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--q4xafe72bv6gxzuv
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmVWd8UACgkQj4D7WH0S
+/k7QCQgAo0zhKmAPhDiGTgHRzSMfQ3LWkvYy8CDYLS1SSEVY5V9X5R5scZrhH/ca
+LORD74kqJVOQasFlrcXJDrzpg6A/YLgkmh/RFTnc8j7wHlj+4zO4AH7QH7Gc9/Y9
+J14z6b+ULlYvKvssQ3VTowHVYJTzsHBdvCFp1L8AmrrZ1+3WkJNmT3bO1vxE1w0Q
+r3XeV0m/qunXFDR0oj3w+WqV478mwp8JOxlczk+SkXXFrC4RcyH0EVJKabUXWTTt
+mcCi8iTnQPfMxPeXrnPFJVaj4wEd1TarZtSnURvPZNVqc0eQgjP41/jcC2STyHqw
+2yNixPKTymM2EOPvHfKt4polo8huIw==
+=0ZFW
+-----END PGP SIGNATURE-----
+
+--q4xafe72bv6gxzuv--
