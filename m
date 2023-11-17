@@ -2,93 +2,135 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E3F677EEE7B
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 17 Nov 2023 10:28:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A5EE87EEF9C
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 17 Nov 2023 11:00:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235648AbjKQJ2l (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 17 Nov 2023 04:28:41 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41132 "EHLO
+        id S230335AbjKQKAy (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 17 Nov 2023 05:00:54 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39930 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235718AbjKQJ2g (ORCPT
+        with ESMTP id S229952AbjKQKAx (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 17 Nov 2023 04:28:36 -0500
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E71EBD50;
-        Fri, 17 Nov 2023 01:28:32 -0800 (PST)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 74961C433C9;
-        Fri, 17 Nov 2023 09:28:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1700213312;
-        bh=ZX0N0YRfurTksQtzQygd2NK0hlDqDUR1ikwue/w14p8=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=iU4VqXu6H3CvY0u3kBRaUx6Jt6Yb5b+SV4bP0ImTboSXeF8mDRqpMtH+4eA8G+2OY
-         qaoSIiXrHRMpJaYHqySGvXQPgIWzY/OZAVUy6cpDBKSbhL+/atEmyhzYdBh2zK2dk8
-         ZpK88VJQCCljdhKPTkvy87/1TGiBXWQkbV/ziDm5cTX9Aq4G5Ec/De5tSwjeovVj5Z
-         dCOxbWRLioaizrXYkHERkA5h5nQjqrDUqJcvV/AjHYMfXsOqeaUQ0u9Cqs0hkFIjXG
-         BYLJc62xYU1BB4eRULE4uVLKCELNr2ufOxfcNEEtbAPmcSP2J6NzragR2DuGu26jV4
-         gg5QlLL/OhBVQ==
-Date:   Fri, 17 Nov 2023 14:58:25 +0530
-From:   Manivannan Sadhasivam <mani@kernel.org>
-To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Cc:     lpieralisi@kernel.org, kw@linux.com, robh@kernel.org,
-        bhelgaas@google.com, jingoohan1@gmail.com,
-        gustavo.pimentel@synopsys.com, linux-pci@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v2 6/6] PCI: rcar-gen4: fix -Wvoid-pointer-to-enum-cast
- warning
-Message-ID: <20231117092825.GH250770@thinkpad>
-References: <20231114055456.2231990-1-yoshihiro.shimoda.uh@renesas.com>
- <20231114055456.2231990-7-yoshihiro.shimoda.uh@renesas.com>
+        Fri, 17 Nov 2023 05:00:53 -0500
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 71C7185
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 17 Nov 2023 02:00:50 -0800 (PST)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+        by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1r3vdd-0000CZ-8i; Fri, 17 Nov 2023 10:59:49 +0100
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+        by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1r3vda-009eFY-MI; Fri, 17 Nov 2023 10:59:46 +0100
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1r3vda-002zVo-C1; Fri, 17 Nov 2023 10:59:46 +0100
+From:   =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>
+To:     Alex Elder <elder@kernel.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Tariq Toukan <tariqt@nvidia.com>,
+        Christian Marangi <ansuelsmth@gmail.com>,
+        Dawei Li <set_pte_at@outlook.com>,
+        =?utf-8?b?Q2zDqW1lbnQgTMOpZ2Vy?= <clement.leger@bootlin.com>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Zhao Qiang <qiang.zhao@nxp.com>,
+        Linus Walleij <linusw@kernel.org>,
+        Imre Kaloz <kaloz@openwrt.org>,
+        Stephan Gerhold <stephan@gerhold.net>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Loic Poulain <loic.poulain@linaro.org>,
+        Sergey Ryazanov <ryazanov.s.a@gmail.com>,
+        Alexander Aring <alex.aring@gmail.com>,
+        Stefan Schmidt <stefan@datenfreihafen.org>,
+        Miquel Raynal <miquel.raynal@bootlin.com>
+Cc:     netdev@vger.kernel.org, kernel@pengutronix.de,
+        linux-renesas-soc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        linux-arm-kernel@lists.infradead.org,
+        Johannes Berg <johannes@sipsolutions.net>,
+        linux-arm-msm@vger.kernel.org, linux-wpan@vger.kernel.org
+Subject: [PATCH net-next 00/10] net*: Convert to platform remove callback returning void
+Date:   Fri, 17 Nov 2023 10:59:23 +0100
+Message-ID: <20231117095922.876489-1-u.kleine-koenig@pengutronix.de>
+X-Mailer: git-send-email 2.42.0.586.gbc5204569f7d.dirty
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2113; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=9oXuqsWt/RvURX9K94NXCtM0NJ0gIte8yeS/fqhGQB0=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBlVzl7texqFwXoT5gAbvyECD9jkLIXHxLs+T/Jr /qMt/rFfeOJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZVc5ewAKCRCPgPtYfRL+ TvahB/wJQF9QJN/JIp3OWpqrOqErXY/3mGrH+LrcSAyWTQmW3IbON/tzsf0OudQ3GS4JGLYwrwf lr86btNOOf5otyzkyde9JO4eLJ8avvimGDtuJVCJeaYTcGT6IlHjm21zCMoNIxH3XlKMkrUmMYH 0oqnlR2AfeZP6cAxUjo5jJP1AG1OJ/Xt8losaCvn7bsz0CB5zYnZLJq+MNrGc9F0Bf/31+nYK54 8M2gDMXOJ3xh7IST9jk8chwWjoFy2mfa/rYWeB+ctDGzmvj2yQT+QW8WTFasq3UdajLrFen0s7I UHp9cIprBwWEtE2SBKNHHSiRAX7ph979/7RuQaY5V4oAWRFf
+X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20231114055456.2231990-7-yoshihiro.shimoda.uh@renesas.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-renesas-soc@vger.kernel.org
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
         RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, Nov 14, 2023 at 02:54:56PM +0900, Yoshihiro Shimoda wrote:
-> When building with clang 18 with adding -Wvoid-pointer-to-enum-cast,
-> the following error happens:
-> 
-> drivers/pci/controller/dwc/pcie-rcar-gen4.c:439:15: error: cast to smaller integer type 'enum dw_pcie_device_mode' from 'const void *' [-Werror,-Wvoid-pointer-to-enum-cast]
->   439 |         rcar->mode = (enum dw_pcie_device_mode)of_device_get_match_data(&rcar->pdev->dev);
->       |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> To fix this issue, use uintptr_t instead.
-> 
-> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Hello,
 
-Reviewed-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+this series converts the platform drivers below drivers/net that are not
+covered in the two other series converting drivers/net/ethernet and
+drivers/net/wireless. I put them all in a single series even though they
+are not maintained together. I thought that to be better than sending
+them out individually, I hope you agree.
 
-- Mani
+See commit 5c5a7680e67b ("platform: Provide a remove callback that
+returns no value") for an extended explanation and the eventual goal.
+The TL;DR; is to make it harder for driver authors to leak resources
+without noticing.
 
-> ---
->  drivers/pci/controller/dwc/pcie-rcar-gen4.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/pci/controller/dwc/pcie-rcar-gen4.c b/drivers/pci/controller/dwc/pcie-rcar-gen4.c
-> index 70492f562e48..a1eb10e878f1 100644
-> --- a/drivers/pci/controller/dwc/pcie-rcar-gen4.c
-> +++ b/drivers/pci/controller/dwc/pcie-rcar-gen4.c
-> @@ -436,7 +436,7 @@ static void rcar_gen4_remove_dw_pcie_ep(struct rcar_gen4_pcie *rcar)
->  /* Common */
->  static int rcar_gen4_add_dw_pcie(struct rcar_gen4_pcie *rcar)
->  {
-> -	rcar->mode = (enum dw_pcie_device_mode)of_device_get_match_data(&rcar->pdev->dev);
-> +	rcar->mode = (uintptr_t)of_device_get_match_data(&rcar->pdev->dev);
->  
->  	switch (rcar->mode) {
->  	case DW_PCIE_RC_TYPE:
-> -- 
-> 2.34.1
-> 
+The first patch is a fix, but I don't think it's worth to add that to
+stable, it was broken since v5.7-rc1 and nobody seems to have hit the
+problem.
 
+Best regards
+Uwe
+
+Uwe Kleine-König (10):
+  net: ipa: Don't error out in .remove()
+  net: ipa: Convert to platform remove callback returning void
+  net: fjes: Convert to platform remove callback returning void
+  net: pcs: rzn1-miic: Convert to platform remove callback returning
+    void
+  net: sfp: Convert to platform remove callback returning void
+  net: wan/fsl_ucc_hdlc: Convert to platform remove callback returning
+    void
+  net: wan/ixp4xx_hss: Convert to platform remove callback returning
+    void
+  net: wwan: qcom_bam_dmux: Convert to platform remove callback
+    returning void
+  ieee802154: fakelb: Convert to platform remove callback returning void
+  ieee802154: hwsim: Convert to platform remove callback returning void
+
+ drivers/net/fjes/fjes_main.c             |  6 ++----
+ drivers/net/ieee802154/fakelb.c          |  5 ++---
+ drivers/net/ieee802154/mac802154_hwsim.c |  6 ++----
+ drivers/net/ipa/ipa_main.c               | 20 +++++---------------
+ drivers/net/pcs/pcs-rzn1-miic.c          |  6 ++----
+ drivers/net/phy/sfp.c                    |  6 ++----
+ drivers/net/wan/fsl_ucc_hdlc.c           |  6 ++----
+ drivers/net/wan/ixp4xx_hss.c             |  5 ++---
+ drivers/net/wwan/qcom_bam_dmux.c         |  6 ++----
+ 9 files changed, 21 insertions(+), 45 deletions(-)
+
+base-commit: eff99d8edbed7918317331ebd1e365d8e955d65e
 -- 
-மணிவண்ணன் சதாசிவம்
+2.42.0
+
