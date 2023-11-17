@@ -2,353 +2,108 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4C2DD7EF31F
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 17 Nov 2023 13:58:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C00667EF671
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 17 Nov 2023 17:44:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230419AbjKQM6s (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 17 Nov 2023 07:58:48 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49492 "EHLO
+        id S231756AbjKQQpA (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 17 Nov 2023 11:45:00 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57136 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229543AbjKQM6r (ORCPT
+        with ESMTP id S231793AbjKQQo7 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 17 Nov 2023 07:58:47 -0500
-Received: from JPN01-TYC-obe.outbound.protection.outlook.com (mail-tycjpn01on2134.outbound.protection.outlook.com [40.107.114.134])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 64A82D4E;
-        Fri, 17 Nov 2023 04:58:43 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=YkuCpO8a6hH1C37q7oy16DPeVJrokS/OsBwjy7Q7VyBT13h318JwwycEv7R1DZZE5M0hrG1F26A9uoobCTX6WdiFKPWmCGyxhKi/mU3t5BUHBNA0iBzBhse0y4qU7IM9nGywANYlqjkSQK88CIJdc2qK3NZ8fOu3Ujx6dMWh4CmZi8uwowdltef6+w122AP0X1rJBdwtTpPalWxTmZpmLRhEsiQAghG6c+r2JfOHsjMfzlS1Q+ctwWRs2uj6EDh+j0u2wh/84tc1/gnjy8ELz12gXYYY7eGkjn2oOeQXP361Tx2ZlhpijBBP7JaMkTsZrwGt/14q5LBCK/mDD1aq4A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Z0PExbUbqNrXBkghTTvdAjizJmb/CSYUXl9owuH09jE=;
- b=M80jVy7WN8JA+AjbPtxF+ZCe2RNCfU0XHhf26tJrFE2WG6puuBzrbBe1WmbNNUCNFolSgC2nhNkMCiTZ3jnhV8RHvxO9lgCl6ui4MSL8H8oN6m0wy2ykthQJbo6Yuh9npu6AgcX8oQa2UUiIkps8CBpr1ILCzq5+Nxk0m0KJOkkITIoxNjeQCAP19m6iDdrbBZu5u8gLcjlNHmVvdwcysP8mP6rG/bivEKjv8haHGpu0t7N6LzYeiSIfmnxiYIVq3KXZOaTFZEqm0CiKzMoBw43C8EVX+3rBeM2265JFgSZCaqqa0c+JacozpMgjsK0eL0m9ovWBr8b67awVdDy7oA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Z0PExbUbqNrXBkghTTvdAjizJmb/CSYUXl9owuH09jE=;
- b=KwjWeCbvSrarjYeZVq0VCUxerfVxowwdY+xfseTpUVTi8u54pPKjsXIgndFO+MtS2zV3X4T7yf1VBJI7cCfIQko3MSnuKfC0mrucSYtl6yazaOqXK9vyus+IRvolrOyagG9Zbq+HfSkmbrpiLtg2KZh7s3jttwAqxGGx/fWJTwU=
-Received: from TYCPR01MB11269.jpnprd01.prod.outlook.com
- (2603:1096:400:3c0::10) by OSZPR01MB7940.jpnprd01.prod.outlook.com
- (2603:1096:604:1bc::12) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7002.23; Fri, 17 Nov
- 2023 12:58:40 +0000
-Received: from TYCPR01MB11269.jpnprd01.prod.outlook.com
- ([fe80::6069:90c7:909:c89b]) by TYCPR01MB11269.jpnprd01.prod.outlook.com
- ([fe80::6069:90c7:909:c89b%7]) with mapi id 15.20.7002.025; Fri, 17 Nov 2023
- 12:58:38 +0000
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
-CC:     Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        Geert Uytterhoeven <geert@linux-m68k.org>
-Subject: RE: [PATCH] media: vsp1: Remove unbalanced .s_stream(0) calls
-Thread-Topic: [PATCH] media: vsp1: Remove unbalanced .s_stream(0) calls
-Thread-Index: AQHaBoXxkGTpbl3jPUyC5YUf97AmyrB+nhsA
-Date:   Fri, 17 Nov 2023 12:58:38 +0000
-Message-ID: <TYCPR01MB11269593901BC517B1975BC7A86B7A@TYCPR01MB11269.jpnprd01.prod.outlook.com>
-References: <20231024142522.29658-1-laurent.pinchart+renesas@ideasonboard.com>
-In-Reply-To: <20231024142522.29658-1-laurent.pinchart+renesas@ideasonboard.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TYCPR01MB11269:EE_|OSZPR01MB7940:EE_
-x-ms-office365-filtering-correlation-id: 3cbe446b-736e-4d1e-df4b-08dbe76ceaca
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: xWk12Zcie9nh3SspDl5vVJcbk2Jh++D8aqT0H7dOm7q9NdeeDlT+XYtWq5+RshCO8iOk9rve2suHdlBbO+xF1whLa28kmHHd8/u9U7vL+qHdgWMm5sGZ9XZoVjccKeLcjnYW8dkIPnpzlxcIeAgqd+0xbhIEu0MKfPhL2nHHEZW34vrHbUQSJ4owVW+9GvcNM6BdCqA98kcn5iKIXKfurzpq5LYyi9w72+nZ7raja1IeXuUdxkcMC42hTqaJ4538ZF0+4azgmiwcV4ZjXWDyJ4IWsGTk0y9O/FQbqIMcB1SGUgY+oJSNHvxtQ0iIQnXcNDYpZnbw+m2m+4oMlKmwUOmrrVKz1Wpg8trBUy3NT3koWjpbJVwC7tiV6X8tgNdRnJZDfVGRRDByLGCYsB29zo/PCqr/XGTQ+B2xgLPVuhVOzBqayrDqHjrC9X1UEfyyFlNzB2doCDcC6b83QCBy/Nmdb/dYk6AhO8X9NvbSGaHURw+HnQVrY5TGdOJskuvVcehp8wt4NJGaQKYUZ5SMUxIBo+Y0ENMmjuebsrDDbZnI8jxBA81KMp3CxOFJFgPxGEcLVprKSwv/x/WZ0WOrr15SVL7kPM47Rlfj1Y5NJkwxa3EZYE0HbuRwO/zXUXIqxzQRVuIz+lW/iM9ltV36+tCXBkgCvMu4V4EVxb0SP/QWajwmW6QnOKTGDzpnStjF
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB11269.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366004)(136003)(39860400002)(346002)(376002)(396003)(230273577357003)(230173577357003)(230922051799003)(186009)(64100799003)(451199024)(1800799009)(55016003)(86362001)(33656002)(478600001)(66556008)(66946007)(38070700009)(76116006)(110136005)(66476007)(66446008)(64756008)(316002)(6506007)(7696005)(9686003)(53546011)(4326008)(52536014)(8676002)(8936002)(71200400001)(26005)(54906003)(5660300002)(122000001)(83380400001)(2906002)(41300700001)(38100700002)(142923001);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?C+7cszloLgAa6c/vw0k1Dv78X1j0wXGKA1PAa5CArSMCNUGF3bMxx8mt1Um8?=
- =?us-ascii?Q?jA7+hd9P/kbUbnuedcFoNGhOmLLB9YZedxHeUYZLIMvF2mseJEzl9jrnNObb?=
- =?us-ascii?Q?nxlR6wQxCirWsVy318mrCmCnan9a+nA9G8s9WvdtaR6BoMf6FIz8tHJo8WBA?=
- =?us-ascii?Q?3WFZcfE8OKi8mGTO610ya2ChRHuY7Hjo+/TGV7RfupWREc4EOTLDFkpRdJeO?=
- =?us-ascii?Q?mjrMiJxwflEXECSY/yrx6NIe7bBhJtSXKFnpLIHILSfG0PzEPfKtpbIJWP8w?=
- =?us-ascii?Q?1FPdJMIUSnPwnb4ZtUnzOFnOZ3w18h9D6EQkydXg98y/nuPIBGlp7aV+dyea?=
- =?us-ascii?Q?8quMLpq1fGp7VQru1ubBdmtKuXPCMKpOdx1C9zrmMynN1+UAcbgPmnMwSQ7J?=
- =?us-ascii?Q?wY9F4dHkhcikbKHHijW7slJKLObTEtgyUH5vMudyfBZ7Co84Nn8IB0q21I1g?=
- =?us-ascii?Q?9ZpTCtBbRPDzCZjx53N22eONMTzGHMXUxCNRvUUeT/gYFliqrueC5cUHLDyV?=
- =?us-ascii?Q?FdKa56ELLcXBZPzLi4j2kcwcSKAJtd8q5ZyWZ+IkpcLtbezGraD5LdaM69Y8?=
- =?us-ascii?Q?8/SsyZ57rKhr82JY2F/IWz4nBqSFF/x3kgVSFnEPbY3MYcZ5oQg500m6xwZ0?=
- =?us-ascii?Q?vnc2gKmefh/3t55RwD3yiyaExjwOL9YleHyFLb2308Y6XscWohZqUYRgD+NZ?=
- =?us-ascii?Q?+8Wn0NU7cPRoxABZYbVOC2eLhEpzdg9DNsxPtduG+NaqVpXJ2MUfHXgqw3hb?=
- =?us-ascii?Q?tSHGrRvFc0tuH3NNsGefxaqO2m6ygiS6ZbVyOhs2L2tnvOSJFWItaxy3y5CZ?=
- =?us-ascii?Q?ZnGWUzHCKk9Ta4LR/2Lvl/0h8G1SQEqqpg6vnxqU3bQQsXQRpeNOOFR31YVu?=
- =?us-ascii?Q?VL9L8wzIfwlhStO/01eg0+WVV2A+8xiRxjXElDVR4U1XOYSuSkIatYfCsi1c?=
- =?us-ascii?Q?6nVA4b08TOAxcDHngjLMg19MoAX9uErwrt9TN+HNrZ0C4veb+5qYjgp+6roa?=
- =?us-ascii?Q?+4w+oebZKuXWAhiu4SGtm+leCKY6TRMmiVuCXQVQML2mk90o+YJRF4ByiuLV?=
- =?us-ascii?Q?eEJJaqdKc1LdEl5Pn4ow/unj7CBb9+0vhELpUeu89rqbLQzlDEfqCBDu5jmI?=
- =?us-ascii?Q?8bPlHX57/tYqtC1Pkrh9R2R0815jjPXRCJy0L587Oj03sql5jRbDByCmhWiz?=
- =?us-ascii?Q?XfXayZPQSkBaw6Nl4a03e/8aTFF0UPcMteKF5RsMM6n7TgQd9wHt82RY+9je?=
- =?us-ascii?Q?ujIGAqTYrlWlZa3gSjfe8gSUD7g7jhF4hh4ALGyKq1tlC9DG4wXgcbPlsKu6?=
- =?us-ascii?Q?ocaebkc16PsejAytZ4no5y9lk/mgM8KNcpEasjNDX4dHpGmO3sjT5nhB9Nrp?=
- =?us-ascii?Q?aHqiqtmPVeaGLM7YUDmcKzOKcH1LHUZoK36MWgoE5yIFMPdI5uO9O6N5GG8H?=
- =?us-ascii?Q?6+Uk1NH/XifGlP0WlRvKyNVC9nZyyNNBgYfpuNKt4yriqUEZMbpkEGdZ9Xt/?=
- =?us-ascii?Q?BcGPDUMRWJA20611Q6q6eq7WJnFj3HSruPMzvXUBDmPu3VUy16eA8uvFx2qC?=
- =?us-ascii?Q?IZxBhvwEK6i/5Ka9wEmqIoGVrN29QrgNAPNxxfDsICOYm0TghCVl4p3CY4DK?=
- =?us-ascii?Q?ZA=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        Fri, 17 Nov 2023 11:44:59 -0500
+Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com [IPv6:2a00:1450:4864:20::12f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EA72C1AD
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 17 Nov 2023 08:44:54 -0800 (PST)
+Received: by mail-lf1-x12f.google.com with SMTP id 2adb3069b0e04-50a938dda08so3175605e87.3
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 17 Nov 2023 08:44:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ragnatech-se.20230601.gappssmtp.com; s=20230601; t=1700239493; x=1700844293; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=eA55YfApAKQilOmSxAi1H7xzp3FySlfaXmMF1pFLUMY=;
+        b=QFcJLbTdE97VdTsGwBYOgP2MXlO+T5q6LA0On2Mlq462IXQfbiRTh2DXfievKoRQew
+         ZMMxdIbr3VQu/McvZhAjv+dUJ2XWxch55L1t/eBwH6ISw/0XEY8RuEXLDKpYLqH4sYzk
+         7c2iD5c88sn5Vficf4N/bFt5WirVmKUF+EjlwqQU4B7HnJTNmx/8qojGexXumJxtFT6a
+         O1S+gkZuFoloHEFZ/ymY1a1C7nGIoSp04r58N7dNiaexdFW4UnGPGB+0KykHLybMal9f
+         P65oCDPhIGSldT74U0YTO9jZghaVYOmgMVV+0Wg3pad0r6fBlMzUainLe3Ax7g0ee6f9
+         suBw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1700239493; x=1700844293;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=eA55YfApAKQilOmSxAi1H7xzp3FySlfaXmMF1pFLUMY=;
+        b=ndOsmU+XFvf3YHpP3ay7KYAody7enx2JdhJCKkgLNFTJnF7+tIR97nfeD0UwxIbUeQ
+         AtlW+AY6OmqC2l9ZacYZErz4ak3TaHLpwJgEo9Ik3naNHIaeoutWpO2+9Q9lPSA7SQdW
+         vVwyxZSsUWntTnSWUkPlmJgp4xmhTCJnsfuAZvQLH0gYnoZdhY1E2mLGIOfvo2wAhiya
+         lWihCHLhsM9CbR9CETtyoUu0CJl2pvmnTQ6T/PFIiXY0DsHDeQITiPn/v1Xfra+1L38x
+         EsQF5/62DP9oBD/jO3sNxm1dqX9rigXV0b0V4OTehlHOr6PeVrgZpHG4pV8Mti/7aH0i
+         PDMw==
+X-Gm-Message-State: AOJu0YyQf8QPe7knO8GXZ+tz0VJ1y2G3tQKRtnAVyO79VqWx+QycbfMI
+        gxDhXcLnOAZ9CTLnX/zyww8+1w==
+X-Google-Smtp-Source: AGHT+IF7UiC+QJF2Sk0XRI5G1Yt+AuSSfCDAgbG01W6BdSxNi7LKOZ0bq+GUwK4QdhoSqckMwsQQFQ==
+X-Received: by 2002:ac2:5bdb:0:b0:507:b084:d6bb with SMTP id u27-20020ac25bdb000000b00507b084d6bbmr71517lfn.43.1700239493069;
+        Fri, 17 Nov 2023 08:44:53 -0800 (PST)
+Received: from sleipner.berto.se (p4fcc8a96.dip0.t-ipconnect.de. [79.204.138.150])
+        by smtp.googlemail.com with ESMTPSA id y10-20020adfee0a000000b0032dcb08bf94sm2791947wrn.60.2023.11.17.08.44.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 17 Nov 2023 08:44:52 -0800 (PST)
+From:   =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+To:     "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Richard Cochran <richardcochran@gmail.com>,
+        netdev@vger.kernel.org
+Cc:     linux-renesas-soc@vger.kernel.org,
+        =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+Subject: [net-next 0/5] net: ethernet: renesas: rcar_gen4_ptp: Add V4H support
+Date:   Fri, 17 Nov 2023 17:43:27 +0100
+Message-ID: <20231117164332.354443-1-niklas.soderlund+renesas@ragnatech.se>
+X-Mailer: git-send-email 2.42.1
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB11269.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3cbe446b-736e-4d1e-df4b-08dbe76ceaca
-X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Nov 2023 12:58:38.4694
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: v0irIAZ+qIxOeZrlD4Z52zUap5HtlvK68EyPO4OxxXE7H/ExQg/ABrJxlKC5Fd71SSyEkXDABI4dkup7eoC0gCl9Cze9mrcAIcuIGvwLisk=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSZPR01MB7940
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Laurent,
+Hello,
 
-Thanks for the patch.
+This small series prepares the rcar_gen4_ptp to be useable both on both 
+R-Car S4 and V4H. The only in-tree driver that make use of this is 
+rswtich on S4. A new Ethernet (R-Car Ethernet TSN) driver for V4H is on 
+it's way that also will make use of rcar_gen4_ptp functionality.
 
-> -----Original Message-----
-> From: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> Sent: Tuesday, October 24, 2023 3:25 PM
-> To: linux-media@vger.kernel.org
-> Cc: Kieran Bingham <kieran.bingham@ideasonboard.com>; linux-renesas-
-> soc@vger.kernel.org; Geert Uytterhoeven <geert@linux-m68k.org>
-> Subject: [PATCH] media: vsp1: Remove unbalanced .s_stream(0) calls
->=20
-> The VSP1 driver uses the subdev .s_stream() operation to stop WPF
-> instances, without a corresponding call to start them. The V4L2 subdev
-> core started warning about unbalanced .s_stream() calls in commit
-> 009905ec5043 ("media: v4l2-subdev: Document and enforce .s_stream()
-> requirements"), causing a regression with this driver.
->=20
-> Fix the problem by replacing the .s_stream() operation with an explicit
-> function call for WPF instances. This allows sharing an additional data
-> structure between RPF and WPF instances.
->=20
-> Fixes: 009905ec5043 ("media: v4l2-subdev: Document and enforce .s_stream(=
-)
-> requirements")
-> Reported-by: Geert Uytterhoeven <geert@linux-m68k.org>
-> Closes:
-> Signed-off-by: Laurent Pinchart
-> <laurent.pinchart+renesas@ideasonboard.com>
+Patch 1-2 are small improvements to the existing driver. While patch 3-4 
+adds V4H support. Finally patch 5 turns rcar_gen4_ptp into a separate 
+module to allow the gPTP functionality to be shared between the two 
+users without having to duplicate the code in each.
 
-Unbind/ bind calls works fine on RZ/G2L DRM driver with this patch.
+Niklas Söderlund (5):
+  net: ethernet: renesas: rcar_gen4_ptp: Remove incorrect comment
+  net: ethernet: renesas: rcar_gen4_ptp: Fail on unknown register layout
+  net: ethernet: renesas: rcar_gen4_ptp: Prepare for shared register
+    layout
+  net: ethernet: renesas: rcar_gen4_ptp: Add V4H clock setting
+  net: ethernet: renesas: rcar_gen4_ptp: Break out to module
 
-Tested-by: Biju Das <biju.das.jz@bp.renesas.com>
+ drivers/net/ethernet/renesas/Kconfig         | 10 ++++++++
+ drivers/net/ethernet/renesas/Makefile        |  5 ++--
+ drivers/net/ethernet/renesas/rcar_gen4_ptp.c | 24 +++++++++++++++-----
+ drivers/net/ethernet/renesas/rcar_gen4_ptp.h | 13 +++++++----
+ drivers/net/ethernet/renesas/rswitch.c       |  2 +-
+ 5 files changed, 40 insertions(+), 14 deletions(-)
 
-Cheers,
-Biju
-
-> ---
->  .../media/platform/renesas/vsp1/vsp1_pipe.c   |  2 +-
->  .../media/platform/renesas/vsp1/vsp1_rpf.c    | 10 +------
->  .../media/platform/renesas/vsp1/vsp1_rwpf.c   |  8 +++--
->  .../media/platform/renesas/vsp1/vsp1_rwpf.h   |  4 ++-
->  .../media/platform/renesas/vsp1/vsp1_wpf.c    | 29 ++-----------------
->  5 files changed, 14 insertions(+), 39 deletions(-)
->=20
-> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_pipe.c
-> b/drivers/media/platform/renesas/vsp1/vsp1_pipe.c
-> index f8093ba9539e..68d05243c3ee 100644
-> --- a/drivers/media/platform/renesas/vsp1/vsp1_pipe.c
-> +++ b/drivers/media/platform/renesas/vsp1/vsp1_pipe.c
-> @@ -373,7 +373,7 @@ int vsp1_pipeline_stop(struct vsp1_pipeline *pipe)
->  			   (7 << VI6_DPR_SMPPT_TGW_SHIFT) |
->  			   (VI6_DPR_NODE_UNUSED << VI6_DPR_SMPPT_PT_SHIFT));
->=20
-> -	v4l2_subdev_call(&pipe->output->entity.subdev, video, s_stream, 0);
-> +	vsp1_wpf_stop(pipe->output);
->=20
->  	return ret;
->  }
-> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_rpf.c
-> b/drivers/media/platform/renesas/vsp1/vsp1_rpf.c
-> index 3b17f5fa4067..ea12c3f12c92 100644
-> --- a/drivers/media/platform/renesas/vsp1/vsp1_rpf.c
-> +++ b/drivers/media/platform/renesas/vsp1/vsp1_rpf.c
-> @@ -43,14 +43,6 @@ static inline void vsp1_rpf_write(struct vsp1_rwpf
-> *rpf,
->  			       data);
->  }
->=20
-> -/* ---------------------------------------------------------------------=
--
-> -------
-> - * V4L2 Subdevice Operations
-> - */
-> -
-> -static const struct v4l2_subdev_ops rpf_ops =3D {
-> -	.pad    =3D &vsp1_rwpf_pad_ops,
-> -};
-> -
->  /* ---------------------------------------------------------------------=
--
-> -------
->   * VSP1 Entity Operations
->   */
-> @@ -411,7 +403,7 @@ struct vsp1_rwpf *vsp1_rpf_create(struct vsp1_device
-> *vsp1, unsigned int index)
->  	rpf->entity.index =3D index;
->=20
->  	sprintf(name, "rpf.%u", index);
-> -	ret =3D vsp1_entity_init(vsp1, &rpf->entity, name, 2, &rpf_ops,
-> +	ret =3D vsp1_entity_init(vsp1, &rpf->entity, name, 2,
-> +&vsp1_rwpf_subdev_ops,
->  			       MEDIA_ENT_F_PROC_VIDEO_PIXEL_FORMATTER);
->  	if (ret < 0)
->  		return ERR_PTR(ret);
-> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_rwpf.c
-> b/drivers/media/platform/renesas/vsp1/vsp1_rwpf.c
-> index 22a82d218152..e0f87c8103ca 100644
-> --- a/drivers/media/platform/renesas/vsp1/vsp1_rwpf.c
-> +++ b/drivers/media/platform/renesas/vsp1/vsp1_rwpf.c
-> @@ -24,7 +24,7 @@ struct v4l2_rect *vsp1_rwpf_get_crop(struct vsp1_rwpf
-> *rwpf,  }
->=20
->  /* ---------------------------------------------------------------------=
--
-> -------
-> - * V4L2 Subdevice Pad Operations
-> + * V4L2 Subdevice Operations
->   */
->=20
->  static int vsp1_rwpf_enum_mbus_code(struct v4l2_subdev *subdev, @@ -243,=
-7
-> +243,7 @@ static int vsp1_rwpf_set_selection(struct v4l2_subdev *subdev,
->  	return ret;
->  }
->=20
-> -const struct v4l2_subdev_pad_ops vsp1_rwpf_pad_ops =3D {
-> +static const struct v4l2_subdev_pad_ops vsp1_rwpf_pad_ops =3D {
->  	.init_cfg =3D vsp1_entity_init_cfg,
->  	.enum_mbus_code =3D vsp1_rwpf_enum_mbus_code,
->  	.enum_frame_size =3D vsp1_rwpf_enum_frame_size, @@ -253,6 +253,10 @@
-> const struct v4l2_subdev_pad_ops vsp1_rwpf_pad_ops =3D {
->  	.set_selection =3D vsp1_rwpf_set_selection,  };
->=20
-> +const struct v4l2_subdev_ops vsp1_rwpf_subdev_ops =3D {
-> +	.pad    =3D &vsp1_rwpf_pad_ops,
-> +};
-> +
->  /* ---------------------------------------------------------------------=
--
-> -------
->   * Controls
->   */
-> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_rwpf.h
-> b/drivers/media/platform/renesas/vsp1/vsp1_rwpf.h
-> index eac5c04c2239..e0d212c70b2f 100644
-> --- a/drivers/media/platform/renesas/vsp1/vsp1_rwpf.h
-> +++ b/drivers/media/platform/renesas/vsp1/vsp1_rwpf.h
-> @@ -79,9 +79,11 @@ static inline struct vsp1_rwpf *entity_to_rwpf(struct
-> vsp1_entity *entity)  struct vsp1_rwpf *vsp1_rpf_create(struct vsp1_devic=
-e
-> *vsp1, unsigned int index);  struct vsp1_rwpf *vsp1_wpf_create(struct
-> vsp1_device *vsp1, unsigned int index);
->=20
-> +void vsp1_wpf_stop(struct vsp1_rwpf *wpf);
-> +
->  int vsp1_rwpf_init_ctrls(struct vsp1_rwpf *rwpf, unsigned int ncontrols)=
-;
->=20
-> -extern const struct v4l2_subdev_pad_ops vsp1_rwpf_pad_ops;
-> +extern const struct v4l2_subdev_ops vsp1_rwpf_subdev_ops;
->=20
->  struct v4l2_rect *vsp1_rwpf_get_crop(struct vsp1_rwpf *rwpf,
->  				     struct v4l2_subdev_state *sd_state); diff --
-> git a/drivers/media/platform/renesas/vsp1/vsp1_wpf.c
-> b/drivers/media/platform/renesas/vsp1/vsp1_wpf.c
-> index d0074ca00920..cab4445eca69 100644
-> --- a/drivers/media/platform/renesas/vsp1/vsp1_wpf.c
-> +++ b/drivers/media/platform/renesas/vsp1/vsp1_wpf.c
-> @@ -186,17 +186,13 @@ static int wpf_init_controls(struct vsp1_rwpf
-> *wpf)  }
->=20
->  /* ---------------------------------------------------------------------=
--
-> -------
-> - * V4L2 Subdevice Core Operations
-> + * VSP1 Entity Operations
->   */
->=20
-> -static int wpf_s_stream(struct v4l2_subdev *subdev, int enable)
-> +void vsp1_wpf_stop(struct vsp1_rwpf *wpf)
->  {
-> -	struct vsp1_rwpf *wpf =3D to_rwpf(subdev);
->  	struct vsp1_device *vsp1 =3D wpf->entity.vsp1;
->=20
-> -	if (enable)
-> -		return 0;
-> -
->  	/*
->  	 * Write to registers directly when stopping the stream as there
-> will be
->  	 * no pipeline run to apply the display list.
-> @@ -204,27 +200,8 @@ static int wpf_s_stream(struct v4l2_subdev *subdev,
-> int enable)
->  	vsp1_write(vsp1, VI6_WPF_IRQ_ENB(wpf->entity.index), 0);
->  	vsp1_write(vsp1, wpf->entity.index * VI6_WPF_OFFSET +
->  		   VI6_WPF_SRCRPF, 0);
-> -
-> -	return 0;
->  }
->=20
-> -/* ---------------------------------------------------------------------=
--
-> -------
-> - * V4L2 Subdevice Operations
-> - */
-> -
-> -static const struct v4l2_subdev_video_ops wpf_video_ops =3D {
-> -	.s_stream =3D wpf_s_stream,
-> -};
-> -
-> -static const struct v4l2_subdev_ops wpf_ops =3D {
-> -	.video	=3D &wpf_video_ops,
-> -	.pad    =3D &vsp1_rwpf_pad_ops,
-> -};
-> -
-> -/* ---------------------------------------------------------------------=
--
-> -------
-> - * VSP1 Entity Operations
-> - */
-> -
->  static void vsp1_wpf_destroy(struct vsp1_entity *entity)  {
->  	struct vsp1_rwpf *wpf =3D entity_to_rwpf(entity); @@ -583,7 +560,7 @@
-> struct vsp1_rwpf *vsp1_wpf_create(struct vsp1_device *vsp1, unsigned int
-> index)
->  	wpf->entity.index =3D index;
->=20
->  	sprintf(name, "wpf.%u", index);
-> -	ret =3D vsp1_entity_init(vsp1, &wpf->entity, name, 2, &wpf_ops,
-> +	ret =3D vsp1_entity_init(vsp1, &wpf->entity, name, 2,
-> +&vsp1_rwpf_subdev_ops,
->  			       MEDIA_ENT_F_PROC_VIDEO_PIXEL_FORMATTER);
->  	if (ret < 0)
->  		return ERR_PTR(ret);
->=20
-> base-commit: 19e67e01eb1e84f3529770d084b93f16a4894c42
-> --
-> Regards,
->=20
-> Laurent Pinchart
+-- 
+2.42.1
 
