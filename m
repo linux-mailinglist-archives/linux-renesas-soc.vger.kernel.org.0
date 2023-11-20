@@ -2,226 +2,107 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9D3047F1828
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 20 Nov 2023 17:08:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5A71A7F1CCC
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 20 Nov 2023 19:39:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229738AbjKTQId (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 20 Nov 2023 11:08:33 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49504 "EHLO
+        id S232300AbjKTSkA (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 20 Nov 2023 13:40:00 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57818 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229696AbjKTQId (ORCPT
+        with ESMTP id S232816AbjKTSjp (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 20 Nov 2023 11:08:33 -0500
-Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com [IPv6:2a00:1450:4864:20::335])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D42CDF4
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 20 Nov 2023 08:08:28 -0800 (PST)
-Received: by mail-wm1-x335.google.com with SMTP id 5b1f17b1804b1-40b23aeb9d9so7604025e9.3
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 20 Nov 2023 08:08:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20230601.gappssmtp.com; s=20230601; t=1700496507; x=1701101307; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=rN7cv6tR5ORx4EtDkeIVWzgXGY477LbEUt3Uc2LZoqI=;
-        b=jDZ9tXbJ+blLD3uy9FaW4n9A2RxOlzXPh0ilRIJ7J5zmCzR4eKX/v14VnQ+1cGwi2r
-         HNdVFwloltkLs+CPqmvOcxoDa+K+FrllbQAnK4A+I57kH5avTyimcnlj9IOhmzHKsFUQ
-         Caq0SgiCgOZGK2focPpYeVmIEvLxIURyIFve3IzcfC7GhzeSpj+JJXGolGo3Phr9iT1S
-         IAGsrW7XwSERT+Igr8wsuqaG4oxGcbkxnvaaN7+5jMczhW1MTlcalC9QksaM/ku1djtW
-         ELK9k4x45SEBItrcgkAc1iMQZQZUiqTvop48lsBmWpNh62iUj370/EsxtVRWGdz8JvtA
-         Z3Cw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700496507; x=1701101307;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=rN7cv6tR5ORx4EtDkeIVWzgXGY477LbEUt3Uc2LZoqI=;
-        b=glLxJtX5DyJzJ5WYlsatFOiivtx/hDRzTwuCIyFuD4Ge7Y5i3uoRBm+Q8OHuqpTunI
-         6fuYOK8QiziL8JcYP0dr5ZVEMi0ftenuqYbqYjI6n/pAqU/cAnyC9SnMGI9QUkXr1as8
-         FlBMk4n28pzC9uUvcRhOXtzFFZfHmpWCh6+eFkclH9WSoo9PsVAe3zA/cqQAgeuczNa9
-         e70j1qG1yk4xkSqVP40G6pI4sY6xC6zcDacUYHLMKmLzLtMSUuMgBq5VykkZQdXRV+1I
-         AoYBFBOK+v6kLj1H+N+FNJDfigHHV682DEgjCQHaZEj1MlFUbG0WqPXbAHhWiHmyWs4a
-         zdOw==
-X-Gm-Message-State: AOJu0Yw3qq1oQTDe5WSfIDYYIyM7+4VmVdSYg0m71JP2Ct4BZOMvoGBa
-        PuQu5owkaO/AKL3MEhTUZ9x88MMBj8ooDWJWVgL0NA==
-X-Google-Smtp-Source: AGHT+IE8rKJqTzJ2hEHRnM3XtzK/67dl+S7PmkbbX/LiIG1cZhbXQYpaU+QDcg9tYkevvwNDu4EEmA==
-X-Received: by 2002:a05:600c:350f:b0:402:ee71:29 with SMTP id h15-20020a05600c350f00b00402ee710029mr7985778wmq.10.1700496507310;
-        Mon, 20 Nov 2023 08:08:27 -0800 (PST)
-Received: from sleipner.berto.se (p4fcc8a96.dip0.t-ipconnect.de. [79.204.138.150])
-        by smtp.googlemail.com with ESMTPSA id x18-20020a05600c421200b00406443c8b4fsm17827301wmh.19.2023.11.20.08.08.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Nov 2023 08:08:26 -0800 (PST)
-From:   =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-To:     Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        devicetree@vger.kernel.org
-Cc:     netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-Subject: [PATCH] dt-bindings: net: renesas,ethertsn: Add bindings for Ethernet TSN
-Date:   Mon, 20 Nov 2023 17:07:40 +0100
-Message-ID: <20231120160740.3532848-1-niklas.soderlund+renesas@ragnatech.se>
-X-Mailer: git-send-email 2.42.1
+        Mon, 20 Nov 2023 13:39:45 -0500
+Received: from mx01.omp.ru (mx01.omp.ru [90.154.21.10])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CFECB10C0;
+        Mon, 20 Nov 2023 10:39:35 -0800 (PST)
+Received: from [192.168.1.103] (178.176.77.202) by msexch01.omp.ru
+ (10.188.4.12) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.1258.12; Mon, 20 Nov
+ 2023 21:39:30 +0300
+Subject: Re: [PATCH 09/14] dt-bindings: net: renesas,etheravb: Document RZ/G3S
+ support
+To:     Claudiu <claudiu.beznea@tuxon.dev>, <davem@davemloft.net>,
+        <edumazet@google.com>, <kuba@kernel.org>, <pabeni@redhat.com>,
+        <robh+dt@kernel.org>, <krzysztof.kozlowski+dt@linaro.org>,
+        <conor+dt@kernel.org>, <linux@armlinux.org.uk>,
+        <geert+renesas@glider.be>, <magnus.damm@gmail.com>,
+        <mturquette@baylibre.com>, <sboyd@kernel.org>,
+        <linus.walleij@linaro.org>, <p.zabel@pengutronix.de>,
+        <arnd@arndb.de>, <m.szyprowski@samsung.com>,
+        <alexandre.torgue@foss.st.com>, <afd@ti.com>, <broonie@kernel.org>,
+        <alexander.stein@ew.tq-group.com>, <eugen.hristev@collabora.com>,
+        <sergei.shtylyov@gmail.com>,
+        <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        <biju.das.jz@bp.renesas.com>
+CC:     <linux-renesas-soc@vger.kernel.org>, <netdev@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-clk@vger.kernel.org>, <linux-gpio@vger.kernel.org>,
+        Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+References: <20231120070024.4079344-1-claudiu.beznea.uj@bp.renesas.com>
+ <20231120070024.4079344-10-claudiu.beznea.uj@bp.renesas.com>
+From:   Sergey Shtylyov <s.shtylyov@omp.ru>
+Organization: Open Mobile Platform
+Message-ID: <c3813f98-3d11-bbf2-7510-c22f7610df62@omp.ru>
+Date:   Mon, 20 Nov 2023 21:39:29 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
-        version=3.4.6
+In-Reply-To: <20231120070024.4079344-10-claudiu.beznea.uj@bp.renesas.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [178.176.77.202]
+X-ClientProxiedBy: msexch01.omp.ru (10.188.4.12) To msexch01.omp.ru
+ (10.188.4.12)
+X-KSE-ServerInfo: msexch01.omp.ru, 9
+X-KSE-AntiSpam-Interceptor-Info: scan successful
+X-KSE-AntiSpam-Version: 6.0.0, Database issued on: 11/20/2023 18:21:05
+X-KSE-AntiSpam-Status: KAS_STATUS_NOT_DETECTED
+X-KSE-AntiSpam-Method: none
+X-KSE-AntiSpam-Rate: 0
+X-KSE-AntiSpam-Info: Lua profiles 181488 [Nov 20 2023]
+X-KSE-AntiSpam-Info: Version: 6.0.0.2
+X-KSE-AntiSpam-Info: Envelope from: s.shtylyov@omp.ru
+X-KSE-AntiSpam-Info: LuaCore: 543 543 1e3516af5cdd92079dfeb0e292c8747a62cb1ee4
+X-KSE-AntiSpam-Info: {rep_avail}
+X-KSE-AntiSpam-Info: {Tracking_from_domain_doesnt_match_to}
+X-KSE-AntiSpam-Info: d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;omp.ru:7.1.1;127.0.0.199:7.1.2
+X-KSE-AntiSpam-Info: ApMailHostAddress: 178.176.77.202
+X-KSE-AntiSpam-Info: Rate: 0
+X-KSE-AntiSpam-Info: Status: not_detected
+X-KSE-AntiSpam-Info: Method: none
+X-KSE-AntiSpam-Info: Auth:dmarc=temperror header.from=omp.ru;spf=temperror
+ smtp.mailfrom=omp.ru;dkim=none
+X-KSE-Antiphishing-Info: Clean
+X-KSE-Antiphishing-ScanningType: Heuristic
+X-KSE-Antiphishing-Method: None
+X-KSE-Antiphishing-Bases: 11/20/2023 18:25:00
+X-KSE-Antivirus-Interceptor-Info: scan successful
+X-KSE-Antivirus-Info: Clean, bases: 11/20/2023 4:24:00 PM
+X-KSE-Attachment-Filter-Triggered-Rules: Clean
+X-KSE-Attachment-Filter-Triggered-Filters: Clean
+X-KSE-BulkMessagesFiltering-Scan-Result: InTheLimit
+X-Spam-Status: No, score=-5.9 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Add bindings for Renesas R-Car Ethernet TSN End-station IP. The RTSN
-device provides Ethernet network.
+On 11/20/23 10:00 AM, Claudiu wrote:
 
-Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
----
- .../bindings/net/renesas,ethertsn.yaml        | 133 ++++++++++++++++++
- 1 file changed, 133 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/net/renesas,ethertsn.yaml
+> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+> 
+> Document Ethernet RZ/G3S support. Ethernet IP is similar to the one
+> available on RZ/G2L devices.
+> 
+> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 
-diff --git a/Documentation/devicetree/bindings/net/renesas,ethertsn.yaml b/Documentation/devicetree/bindings/net/renesas,ethertsn.yaml
-new file mode 100644
-index 000000000000..255c8f3a5a3b
---- /dev/null
-+++ b/Documentation/devicetree/bindings/net/renesas,ethertsn.yaml
-@@ -0,0 +1,133 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/net/renesas,ethertsn.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Renesas Ethernet TSN End-station
-+
-+maintainers:
-+  - Niklas Söderlund <niklas.soderlund@ragnatech.se>
-+
-+description:
-+  The RTSN device provides Ethernet network using a 10 Mbps, 100 Mbps, or 1
-+  Gbps full-duplex link via MII/GMII/RMII/RGMII. Depending on the connected PHY.
-+
-+properties:
-+  compatible:
-+    oneOf:
-+      - items:
-+          - enum:
-+              - renesas,ethertsn-r8a779g0      # R-Car V4H
-+
-+  reg:
-+    items:
-+      - description: TSN End Station target
-+      - description: generalized Precision Time Protocol target
-+
-+  reg-names:
-+    items:
-+      - const: tsnes
-+      - const: gptp
-+
-+  interrupts:
-+    items:
-+      - description: TX data interrupt
-+      - description: RX data interrupt
-+
-+  interrupt-names:
-+    items:
-+      - const: tx_data
-+      - const: rx_data
-+
-+  clocks:
-+    maxItems: 1
-+
-+  power-domains:
-+    maxItems: 1
-+
-+  resets:
-+    maxItems: 1
-+
-+  phy-mode:
-+    contains:
-+      enum:
-+        - mii
-+        - rgmii
-+
-+  phy-handle:
-+    $ref: /schemas/types.yaml#/definitions/phandle
-+    description:
-+      Specifies a reference to a node representing a PHY device.
-+
-+  renesas,rx-internal-delay:
-+    type: boolean
-+    description:
-+      Enable internal Rx clock delay, typically 1.8ns.
-+
-+  renesas,tx-internal-delay:
-+    type: boolean
-+    description:
-+      Enable internal Tx clock delay, typically 2.0ns.
-+
-+  '#address-cells':
-+    const: 1
-+
-+  '#size-cells':
-+    const: 0
-+
-+patternProperties:
-+  "^ethernet-phy@[0-9a-f]$":
-+    type: object
-+    $ref: ethernet-phy.yaml#
-+
-+required:
-+  - compatible
-+  - reg
-+  - reg-names
-+  - interrupts
-+  - interrupt-names
-+  - clocks
-+  - power-domains
-+  - resets
-+  - phy-mode
-+  - phy-handle
-+  - '#address-cells'
-+  - '#size-cells'
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/clock/r8a779g0-cpg-mssr.h>
-+    #include <dt-bindings/interrupt-controller/arm-gic.h>
-+    #include <dt-bindings/power/r8a779g0-sysc.h>
-+    #include <dt-bindings/gpio/gpio.h>
-+
-+    tsn0: ethernet@e6460000 {
-+        compatible = "renesas,ethertsn-r8a779g0";
-+        reg = <0xe6460000 0x7000>,
-+              <0xe6449000 0x500>;
-+        reg-names = "tsnes", "gptp";
-+        interrupts = <GIC_SPI 429 IRQ_TYPE_LEVEL_HIGH>,
-+                     <GIC_SPI 430 IRQ_TYPE_LEVEL_HIGH>;
-+        interrupt-names = "tx_data", "rx_data";
-+        clocks = <&cpg CPG_MOD 2723>;
-+        power-domains = <&sysc R8A779G0_PD_ALWAYS_ON>;
-+        resets = <&cpg 2723>;
-+
-+        phy-mode = "rgmii";
-+        renesas,tx-internal-delay;
-+        phy-handle = <&phy3>;
-+
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+
-+        phy3: ethernet-phy@3 {
-+            compatible = "ethernet-phy-ieee802.3-c45";
-+            reg = <0>;
-+            interrupt-parent = <&gpio4>;
-+            interrupts = <3 IRQ_TYPE_LEVEL_LOW>;
-+            reset-gpios = <&gpio1 23 GPIO_ACTIVE_LOW>;
-+        };
-+    };
--- 
-2.42.1
+Reviewed-by: Sergey Shtylyov <s.shtylyov@omp.ru>
 
+[...]
+
+MBR, Sergey
