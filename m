@@ -2,54 +2,54 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9936A7F0C28
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 20 Nov 2023 08:01:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 332517F0C34
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 20 Nov 2023 08:01:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232029AbjKTHB0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 20 Nov 2023 02:01:26 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38542 "EHLO
+        id S232033AbjKTHBq (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 20 Nov 2023 02:01:46 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38410 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232042AbjKTHBU (ORCPT
+        with ESMTP id S232089AbjKTHBZ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 20 Nov 2023 02:01:20 -0500
-Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com [IPv6:2a00:1450:4864:20::129])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 72BC0D76
-        for <linux-renesas-soc@vger.kernel.org>; Sun, 19 Nov 2023 23:01:13 -0800 (PST)
-Received: by mail-lf1-x129.google.com with SMTP id 2adb3069b0e04-5079f6efd64so5148183e87.2
-        for <linux-renesas-soc@vger.kernel.org>; Sun, 19 Nov 2023 23:01:13 -0800 (PST)
+        Mon, 20 Nov 2023 02:01:25 -0500
+Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com [IPv6:2a00:1450:4864:20::12c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B4A3410D0
+        for <linux-renesas-soc@vger.kernel.org>; Sun, 19 Nov 2023 23:01:16 -0800 (PST)
+Received: by mail-lf1-x12c.google.com with SMTP id 2adb3069b0e04-5079f6efd64so5148265e87.2
+        for <linux-renesas-soc@vger.kernel.org>; Sun, 19 Nov 2023 23:01:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1700463671; x=1701068471; darn=vger.kernel.org;
+        d=tuxon.dev; s=google; t=1700463674; x=1701068474; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=2en4yv4YpXFN3VCi3B3SISp0lZy/QFymnnSLRtY+3pY=;
-        b=QTf9lhewJfbzft3XCWSxCFS1TXo0hw638GArgBf5I6Ts0Jc7CBcZlhMPEVQBugIwA4
-         SqtYXkjyRQ6bbObhwze5jmBhGRtyD9p0MnzcFwazTKLKD2it6H/PWDXuhdEvpMlBQ4C0
-         nui32BEWxaDLa2B6G7eIQAnSZjKwNqWUsxQ+a4J5qWMjQ07gHbOArTTQxX/sEYeF1j5J
-         SWaJ00pfZyJv+K7wf78KMmmOF9gJPWUKXayfK1OvpfUhuiN56ohx6EIRvrCl/amDlmF+
-         vqXPrbi5n79cDGn5P47VnIgtWNaQjm+sw7xEpL78nPBONkZFal8NQVpvVPamhPVaowYR
-         8NVg==
+        bh=6Xy2p6wKX+cRsudc9CGrTgEJFgRUbbi06MpJ65zqOIE=;
+        b=TV8bB9PIs97wzp5p6VsXfUiIpK9KGU8LevBv5E5YdzXuLvmQQeHtIZKHvWMDX2csI+
+         Auz/u3U8jHg3gAxmhpzwT3cz1IvgnWUkRrodSXtCbZK6G0o3NnOrObHsyvdKJXXJAId/
+         nzwcEDNbrWrbwzbephDlsQn0+Jf1KqktnmufRRSU9YkAvYJJzviZgUXRdm/ezXH3I7p9
+         WKNHRfX7xAKzu6MamoVis94GjVdPviwe3zcj2dv0ODVm7sotHqCZ8GGYZ0lI9PrY2R/T
+         ooy5BxzPaAuh3lgdVe9xBWI0jbwMruFEGgTqjyRPuv0faOW0oUQIaA58b2BxT0tDOX73
+         b1lA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700463671; x=1701068471;
+        d=1e100.net; s=20230601; t=1700463674; x=1701068474;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=2en4yv4YpXFN3VCi3B3SISp0lZy/QFymnnSLRtY+3pY=;
-        b=ra/u3A8WXwc7BuhrALmlchlr1aE6qTlkHPhYVoUffsX+HE1XLdfiz2rM3QEl1j80nq
-         EWY5nvE/nFQ6z53fhau5HOHvrolY8tebAYtkEw+ckJdx69Q0+4/pOxZHqYvsDZ+79NTq
-         KESIBpLASHWsO6W7EMqLlGdahZHeHTwjJzw7FSU+NqXQYWbWjJabCWxKJxBMwbkqaGys
-         rLzZOxrtidKwRbRvhMdIKJDzdPBOWlC2wchc/CUrAbRZDGtA/L29jHCPs/5N41dx4xCs
-         UrzAn33uCYRYeFEza4S347uP5FzJ0ZCK0jYdJomNFAGdp9OlGwixJ0bgf39lUAF7gNXI
-         Bohg==
-X-Gm-Message-State: AOJu0YwLX9CShwpwni+stghsOt/WQ4TTGysiF274/Ud8NTXlOhZPhzay
-        AWJG5GWe2y/k1Ad1LU4o9p1Agw==
-X-Google-Smtp-Source: AGHT+IGwg2J8+I0uPjj9+o2L6Muf2cF2j1P+TgbE6Op0BXx+lqxUHN1EuXRuAKc54dfHijcSYIEOVw==
-X-Received: by 2002:ac2:599b:0:b0:503:2deb:bbc1 with SMTP id w27-20020ac2599b000000b005032debbbc1mr4294366lfn.22.1700463670849;
-        Sun, 19 Nov 2023 23:01:10 -0800 (PST)
+        bh=6Xy2p6wKX+cRsudc9CGrTgEJFgRUbbi06MpJ65zqOIE=;
+        b=qi2PbEWeQJ2GnHOAV/SXJueUsRZ36MmPXiQokH1XwYseXkcF6cWRUUcofuHzyyRKnw
+         gtUilOyQbw4g+ypsAnilwpWHk5ETaeMwAIpWhwaLFAJx6OmvcrUMyKjZ1yQSJcSkwx3f
+         W01KiAlcXuwas4c3kyCVqj8uhbi3yoHmK9Hx6T6rNLGMFc+kpUTUNys2c4vWKpbMxXv4
+         i2yHdKOY10OS4zyWwlnfQn4Fom9jqjIIsquWdNU+OdpzfCYMDsPUanV3yNCwrKuK1nBl
+         ls6YxEZGuTUdGa6qWNL8JnLn8UYSR8pIni1xUn4l5zO2R+S5lwbT4cZmciGaUndoL25Q
+         BgRA==
+X-Gm-Message-State: AOJu0YwYNhYvlbAi52NqRxPRRKZhVoAy1JXL4DXiRCTFI/Jx/y9veuqu
+        vwP66YOktckzpwI4c3LCqa38PA==
+X-Google-Smtp-Source: AGHT+IGfGm8OEGn2UQQ//iKUEdt+02S9t97oQMZwU4ZLbFpMApxh8gOBKXhhM8jTFK7zquiEVoqJ2A==
+X-Received: by 2002:ac2:5639:0:b0:509:d962:3c67 with SMTP id b25-20020ac25639000000b00509d9623c67mr4876972lff.20.1700463674488;
+        Sun, 19 Nov 2023 23:01:14 -0800 (PST)
 Received: from claudiu-X670E-Pro-RS.. ([82.78.167.183])
-        by smtp.gmail.com with ESMTPSA id p2-20020a5d4582000000b003316d1a3b05sm8777667wrq.78.2023.11.19.23.01.08
+        by smtp.gmail.com with ESMTPSA id p2-20020a5d4582000000b003316d1a3b05sm8777667wrq.78.2023.11.19.23.01.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 19 Nov 2023 23:01:10 -0800 (PST)
+        Sun, 19 Nov 2023 23:01:13 -0800 (PST)
 From:   Claudiu <claudiu.beznea@tuxon.dev>
 X-Google-Original-From: Claudiu <claudiu.beznea.uj@bp.renesas.com>
 To:     s.shtylyov@omp.ru, davem@davemloft.net, edumazet@google.com,
@@ -67,9 +67,9 @@ Cc:     linux-renesas-soc@vger.kernel.org, netdev@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org,
         linux-gpio@vger.kernel.org, claudiu.beznea@tuxon.dev,
         Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-Subject: [PATCH 05/14] pinctrl: renesas: rzg2l: Move arg in the main function block
-Date:   Mon, 20 Nov 2023 09:00:15 +0200
-Message-Id: <20231120070024.4079344-6-claudiu.beznea.uj@bp.renesas.com>
+Subject: [PATCH 06/14] pinctrl: renesas: rzg2l: Add pin configuration support for pinmux groups
+Date:   Mon, 20 Nov 2023 09:00:16 +0200
+Message-Id: <20231120070024.4079344-7-claudiu.beznea.uj@bp.renesas.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20231120070024.4079344-1-claudiu.beznea.uj@bp.renesas.com>
 References: <20231120070024.4079344-1-claudiu.beznea.uj@bp.renesas.com>
@@ -87,61 +87,60 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 
-Move arg in the main block of the function as this is used by 3 out of 4
-case blocks of switch-case. In this way some lines of code are removed.
+On RZ/G3S different Ethernet pins needs to be configured with different
+settings (e.g. power-source need to be set, RGMII TXC, TX_CTL pins need
+output-enable). Commit adjust driver to allow specifying pin configuration
+for pinmux groups. With this DT settings like the following are taken
+into account by driver:
+
+eth0_pins: eth0 {
+	tx_ctl {
+		pinmux = <RZG2L_PORT_PINMUX(1, 1, 1)>;  /* ET0_TX_CTL */
+		power-source = <1800>;
+		output-enable;
+		drive-strength-microamp = <5200>;
+	};
+};
 
 Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 ---
- drivers/pinctrl/renesas/pinctrl-rzg2l.c | 11 ++++++-----
- 1 file changed, 6 insertions(+), 5 deletions(-)
+ drivers/pinctrl/renesas/pinctrl-rzg2l.c | 15 ++++++++++++++-
+ 1 file changed, 14 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/pinctrl/renesas/pinctrl-rzg2l.c b/drivers/pinctrl/renesas/pinctrl-rzg2l.c
-index 9de350ad7e7d..21ee628363fa 100644
+index 21ee628363fa..819698dacef0 100644
 --- a/drivers/pinctrl/renesas/pinctrl-rzg2l.c
 +++ b/drivers/pinctrl/renesas/pinctrl-rzg2l.c
-@@ -842,7 +842,7 @@ static int rzg2l_pinctrl_pinconf_set(struct pinctrl_dev *pctldev,
- 	struct rzg2l_pinctrl_pin_settings settings = pctrl->settings[_pin];
- 	unsigned int *pin_data = pin->drv_data;
- 	enum pin_config_param param;
--	unsigned int i;
-+	unsigned int i, arg;
- 	u32 cfg, off;
- 	int ret;
- 	u8 bit;
-@@ -865,8 +865,7 @@ static int rzg2l_pinctrl_pinconf_set(struct pinctrl_dev *pctldev,
- 		param = pinconf_to_config_param(_configs[i]);
- 		switch (param) {
- 		case PIN_CONFIG_INPUT_ENABLE: {
--			unsigned int arg =
--					pinconf_to_config_argument(_configs[i]);
-+			arg = pinconf_to_config_argument(_configs[i]);
+@@ -376,8 +376,11 @@ static int rzg2l_dt_subnode_to_map(struct pinctrl_dev *pctldev,
+ 		goto done;
+ 	}
  
- 			if (!(cfg & PIN_CFG_IEN))
- 				return -EINVAL;
-@@ -880,9 +879,10 @@ static int rzg2l_pinctrl_pinconf_set(struct pinctrl_dev *pctldev,
- 			break;
+-	if (num_pinmux)
++	if (num_pinmux) {
+ 		nmaps += 1;
++		if (num_configs)
++			nmaps += 1;
++	}
  
- 		case PIN_CONFIG_DRIVE_STRENGTH: {
--			unsigned int arg = pinconf_to_config_argument(_configs[i]);
- 			unsigned int index;
+ 	if (num_pins)
+ 		nmaps += num_pins;
+@@ -462,6 +465,16 @@ static int rzg2l_dt_subnode_to_map(struct pinctrl_dev *pctldev,
+ 	maps[idx].data.mux.function = name;
+ 	idx++;
  
-+			arg = pinconf_to_config_argument(_configs[i]);
++	if (num_configs) {
++		ret = rzg2l_map_add_config(&maps[idx], name,
++					   PIN_MAP_TYPE_CONFIGS_GROUP,
++					   configs, num_configs);
++		if (ret < 0)
++			goto remove_group;
 +
- 			if (!(cfg & PIN_CFG_IOLH_A) || hwcfg->drive_strength_ua)
- 				return -EINVAL;
- 
-@@ -907,9 +907,10 @@ static int rzg2l_pinctrl_pinconf_set(struct pinctrl_dev *pctldev,
- 			break;
- 
- 		case PIN_CONFIG_OUTPUT_IMPEDANCE_OHMS: {
--			unsigned int arg = pinconf_to_config_argument(_configs[i]);
- 			unsigned int index;
- 
-+			arg = pinconf_to_config_argument(_configs[i]);
++		idx++;
++	};
 +
- 			if (!(cfg & PIN_CFG_IOLH_B) || !hwcfg->iolh_groupb_oi[0])
- 				return -EINVAL;
- 
+ 	dev_dbg(pctrl->dev, "Parsed %pOF with %d pins\n", np, num_pinmux);
+ 	ret = 0;
+ 	goto done;
 -- 
 2.39.2
 
