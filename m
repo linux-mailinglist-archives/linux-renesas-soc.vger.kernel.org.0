@@ -2,54 +2,54 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2D0707F0DE2
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 20 Nov 2023 09:46:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F413F7F0DE7
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 20 Nov 2023 09:46:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232305AbjKTIqZ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 20 Nov 2023 03:46:25 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50834 "EHLO
+        id S232346AbjKTIq1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 20 Nov 2023 03:46:27 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50854 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232266AbjKTIqY (ORCPT
+        with ESMTP id S232334AbjKTIq0 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 20 Nov 2023 03:46:24 -0500
-Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com [IPv6:2a00:1450:4864:20::32d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 26992AA
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 20 Nov 2023 00:46:20 -0800 (PST)
-Received: by mail-wm1-x32d.google.com with SMTP id 5b1f17b1804b1-4081ccf69dcso7951525e9.0
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 20 Nov 2023 00:46:20 -0800 (PST)
+        Mon, 20 Nov 2023 03:46:26 -0500
+Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com [IPv6:2a00:1450:4864:20::436])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 554BDA2
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 20 Nov 2023 00:46:22 -0800 (PST)
+Received: by mail-wr1-x436.google.com with SMTP id ffacd0b85a97d-3316bb1303bso1642937f8f.0
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 20 Nov 2023 00:46:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1700469978; x=1701074778; darn=vger.kernel.org;
+        d=tuxon.dev; s=google; t=1700469981; x=1701074781; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=O/Q1YDzSiSuqzbLh5eHVltDp4epdTy0gP5JRv4NY97M=;
-        b=WXJyXxq69lQKY0+sRMGanqJ6zHo+duWpMv5PPux7HPsPyOTuf6eKj+P8QwF67lBNa/
-         dn06P7rsXm6xvqBmJIyBF2cDU/K+3aQumTm9Jlbnjw1dl9fXAGVgpSAwqbfRRBoi5+3H
-         y85zUXqX0ox9OtA74y7CmAOw/5SJEjdinYMRj7UsOZBlJIeqHZRqXS2fU5exQiBPfftz
-         dSGZaZAJfZ3X8+yHu3Ule7Wbxpl4sVJWlON1/fzsA0R/v/Nct6KXRsFk/fUVgf9cfJE5
-         U2vi7G8gPNnT9WOU+7eVEkJp2NCiaKEEvLI1R7xadTyr4NK6ViWoim2xIOPb0J6ORFDa
-         0lHw==
+        bh=Cp/UKHVnA714ikdJHZcbqGoPP5UR9IDH6yqWS6ig3mM=;
+        b=pmrFMg4J196kShqfjSh2VBLm0SzHZsKZj+uD7XU4nNdfVg7EJm3DRaouPPq6JE1VV/
+         TFBguly6ExckGVq2Z/Ck6g3mXbNXEbSdFFu2+uh1BKNZxYzvB1/WN2yZwwP0SdW9Go+P
+         /ehFdaz1+kQRhQmQkQpkg4eBy3/2Y8pRecfE2NMezpOfMS4W1CX+xZwEWfxetxAwjFti
+         e4Bz5bwIPGfyCOxJi/9M0rTgU4RjlFdE9Mn/SblEOGyEYinEhWMc9vUhMgePN648KkGn
+         i7/AvH0d4dhl4mjV05fl4C4eQr3MEBi0LG/idtAmANe/kJmKb/a0aMYJmCtZv/Th0H+I
+         IPgA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700469978; x=1701074778;
+        d=1e100.net; s=20230601; t=1700469981; x=1701074781;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=O/Q1YDzSiSuqzbLh5eHVltDp4epdTy0gP5JRv4NY97M=;
-        b=R8dwSne/AERKrDLAwqLDfhZTrVXGsqb0UlFJUPRI1ATcYllJwmfEVBYB8BJKqr2FNU
-         /Vtkz24nPVcNyo/DAOVNYaBf4iKHbZO7CSpK7haThVUHZfDm+ZJum1/GPM9lSyMvNCob
-         ng8oJZIIR9FaTdzwIsEQpkx9KR2qBfb00N6EyTs0fhk5i6akmM63BvwkUg1cXK/mKLJ6
-         83hlAetrzGsI/ebShhqGI6vQkbJkYLyIcAVwb06aqiF5rrxXb8vSOY/4LJKSFYSk/78y
-         5jn41ee9NV7k9XZAd/ZS8wfY3WBCGuA373xWjDNxR7kSskiONLwyRyR3dwZKs7HZbnRM
-         DjcQ==
-X-Gm-Message-State: AOJu0YxPE6+hiZvuhn77ouZUjnbW2W2JqmJpy3wmR9RW8ea7DUAT0a4R
-        8EGo5u9nO4pDmWDOj9sc0sSQqw==
-X-Google-Smtp-Source: AGHT+IGguzzps8WTXHQDOz4RLWoYc1q9Kn2P1FSlhPOyUbpQ66wry2laGEFnLXjuLpuT8sqFntGuUw==
-X-Received: by 2002:adf:e7c9:0:b0:32d:d2aa:ed21 with SMTP id e9-20020adfe7c9000000b0032dd2aaed21mr8616747wrn.28.1700469978402;
-        Mon, 20 Nov 2023 00:46:18 -0800 (PST)
+        bh=Cp/UKHVnA714ikdJHZcbqGoPP5UR9IDH6yqWS6ig3mM=;
+        b=wjg+i08PeTyjTEa++FX3o0ovugwADtl+7iu3d8s6DcADott/2qTuNb0S8qxfNyL/ep
+         b8NH165U7XGos+5anM2jP8PQgFT83Du41xFLK2H0Vi8Kp0xxQ9C96fuy9rZyN7F9ZoYA
+         ati602vzfOnyqcABokWro9TrGhhNxc2kumHPlsWshp9TYlArLi7obYHMVzVWPCAGZLkd
+         kkEp4UmJQP0ZGuX6ujwQ0EIuMjg1Ua4YqdltzmA3QIvHH7umnGrE0vtaGSG5A2v100pJ
+         VBs3fvAjDlO/1y6IFm2Zl4M5JK/RMG8oOfrnAhbHQcxlIOUlNfg0pFPtnNIQ4Xzqu7vH
+         bphg==
+X-Gm-Message-State: AOJu0YwOwwxsQDB9rmE2+8hOzNe39FEWU50MLaAP3W3vEjEQpbsIIUTe
+        14gjLOJZ2xMRa0f9BwJES7cNfQ==
+X-Google-Smtp-Source: AGHT+IFDUtcL/kItW6Ct8wAYuHmG27hXUs5xVSozigyLzY20qpW+SnjNg8LDtQ8uSwnwos1Zsdc1hA==
+X-Received: by 2002:a05:6000:108f:b0:331:6cfd:e2fc with SMTP id y15-20020a056000108f00b003316cfde2fcmr3780250wrw.21.1700469980699;
+        Mon, 20 Nov 2023 00:46:20 -0800 (PST)
 Received: from claudiu-X670E-Pro-RS.. ([82.78.167.183])
-        by smtp.gmail.com with ESMTPSA id b8-20020a5d45c8000000b003142e438e8csm10435267wrs.26.2023.11.20.00.46.16
+        by smtp.gmail.com with ESMTPSA id b8-20020a5d45c8000000b003142e438e8csm10435267wrs.26.2023.11.20.00.46.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Nov 2023 00:46:18 -0800 (PST)
+        Mon, 20 Nov 2023 00:46:20 -0800 (PST)
 From:   Claudiu <claudiu.beznea@tuxon.dev>
 X-Google-Original-From: Claudiu <claudiu.beznea.uj@bp.renesas.com>
 To:     s.shtylyov@omp.ru, davem@davemloft.net, edumazet@google.com,
@@ -62,16 +62,16 @@ To:     s.shtylyov@omp.ru, davem@davemloft.net, edumazet@google.com,
 Cc:     netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
         linux-kernel@vger.kernel.org,
         Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-Subject: [PATCH 01/13] net: ravb: Check return value of reset_control_deassert()
-Date:   Mon, 20 Nov 2023 10:45:54 +0200
-Message-Id: <20231120084606.4083194-2-claudiu.beznea.uj@bp.renesas.com>
+Subject: [PATCH 02/13] net: ravb: Use pm_runtime_resume_and_get()
+Date:   Mon, 20 Nov 2023 10:45:55 +0200
+Message-Id: <20231120084606.4083194-3-claudiu.beznea.uj@bp.renesas.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20231120084606.4083194-1-claudiu.beznea.uj@bp.renesas.com>
 References: <20231120084606.4083194-1-claudiu.beznea.uj@bp.renesas.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -82,34 +82,77 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 
-reset_control_deassert() could return an error. Some devices cannot work
-if reset signal de-assert operation fails. To avoid this check the return
-code of reset_control_deassert() in ravb_probe() and take proper action.
+pm_runtime_get_sync() may return with error. In case it returns with error
+dev->power.usage_count needs to be decremented. pm_runtime_resume_and_get()
+takes care of this. Thus use it.
 
-Fixes: 0d13a1a464a0 ("ravb: Add reset support")
+Along with this pm_runtime_resume_and_get() and reset_control_deassert()
+were moved before alloc_etherdev_mqs() to simplify the error path.
+
+Also, in case pm_runtime_resume_and_get() returns error the reset signal
+is deasserted and runtime PM is disabled (by jumping to the proper
+error handling label).
+
+Fixes: c156633f1353 ("Renesas Ethernet AVB driver proper")
 Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 ---
- drivers/net/ethernet/renesas/ravb_main.c | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+ drivers/net/ethernet/renesas/ravb_main.c | 28 +++++++++++++-----------
+ 1 file changed, 15 insertions(+), 13 deletions(-)
 
 diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
-index c70cff80cc99..342978bdbd7e 100644
+index 342978bdbd7e..0486add302b3 100644
 --- a/drivers/net/ethernet/renesas/ravb_main.c
 +++ b/drivers/net/ethernet/renesas/ravb_main.c
-@@ -2645,7 +2645,12 @@ static int ravb_probe(struct platform_device *pdev)
+@@ -2635,25 +2635,26 @@ static int ravb_probe(struct platform_device *pdev)
+ 		return dev_err_probe(&pdev->dev, PTR_ERR(rstc),
+ 				     "failed to get cpg reset\n");
+ 
++	error = reset_control_deassert(rstc);
++	if (error)
++		return error;
++
++	pm_runtime_enable(&pdev->dev);
++	error = pm_runtime_resume_and_get(&pdev->dev);
++	if (error < 0)
++		goto pm_runtime_disable;
++
+ 	ndev = alloc_etherdev_mqs(sizeof(struct ravb_private),
+ 				  NUM_TX_QUEUE, NUM_RX_QUEUE);
+-	if (!ndev)
+-		return -ENOMEM;
+-
++	if (!ndev) {
++		error = -ENOMEM;
++		goto pm_runtime_put;
++	}
+ 	info = of_device_get_match_data(&pdev->dev);
+ 
  	ndev->features = info->net_features;
  	ndev->hw_features = info->net_hw_features;
  
--	reset_control_deassert(rstc);
-+	error = reset_control_deassert(rstc);
-+	if (error) {
-+		free_netdev(ndev);
-+		return error;
-+	}
-+
- 	pm_runtime_enable(&pdev->dev);
- 	pm_runtime_get_sync(&pdev->dev);
- 
+-	error = reset_control_deassert(rstc);
+-	if (error) {
+-		free_netdev(ndev);
+-		return error;
+-	}
+-
+-	pm_runtime_enable(&pdev->dev);
+-	pm_runtime_get_sync(&pdev->dev);
+-
+ 	if (info->multi_irqs) {
+ 		if (info->err_mgmt_irqs)
+ 			irq = platform_get_irq_byname(pdev, "dia");
+@@ -2878,8 +2879,9 @@ static int ravb_probe(struct platform_device *pdev)
+ 	clk_disable_unprepare(priv->refclk);
+ out_release:
+ 	free_netdev(ndev);
+-
++pm_runtime_put:
+ 	pm_runtime_put(&pdev->dev);
++pm_runtime_disable:
+ 	pm_runtime_disable(&pdev->dev);
+ 	reset_control_assert(rstc);
+ 	return error;
 -- 
 2.39.2
 
