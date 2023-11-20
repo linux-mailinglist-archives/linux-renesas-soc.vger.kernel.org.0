@@ -2,54 +2,54 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 72AF27F0C52
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 20 Nov 2023 08:02:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 72A7D7F0C54
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 20 Nov 2023 08:02:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232119AbjKTHCV (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 20 Nov 2023 02:02:21 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38614 "EHLO
+        id S232034AbjKTHCZ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 20 Nov 2023 02:02:25 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50712 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232018AbjKTHBx (ORCPT
+        with ESMTP id S232083AbjKTHB5 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 20 Nov 2023 02:01:53 -0500
-Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com [IPv6:2a00:1450:4864:20::429])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7144C10FB
-        for <linux-renesas-soc@vger.kernel.org>; Sun, 19 Nov 2023 23:01:34 -0800 (PST)
-Received: by mail-wr1-x429.google.com with SMTP id ffacd0b85a97d-32fdc5be26dso2606234f8f.2
-        for <linux-renesas-soc@vger.kernel.org>; Sun, 19 Nov 2023 23:01:34 -0800 (PST)
+        Mon, 20 Nov 2023 02:01:57 -0500
+Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com [IPv6:2a00:1450:4864:20::435])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B380119A0
+        for <linux-renesas-soc@vger.kernel.org>; Sun, 19 Nov 2023 23:01:36 -0800 (PST)
+Received: by mail-wr1-x435.google.com with SMTP id ffacd0b85a97d-32df66c691dso2519484f8f.3
+        for <linux-renesas-soc@vger.kernel.org>; Sun, 19 Nov 2023 23:01:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1700463692; x=1701068492; darn=vger.kernel.org;
+        d=tuxon.dev; s=google; t=1700463695; x=1701068495; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=nkcJv/n25yVcOiFtcSZqk6XZG7ziIP0OV/0d8NOsfDc=;
-        b=BFOFMem4itbBhisA6WH4jN48nS0ZNRBh4t2Ptd7TZzo2t1IaLM4ZkLR/KdJ7J+6dtJ
-         mLYKQ68WxQSsh9oRdyez6fXFQ4vLpSNpfWrv7LB5e5LEEYDu6dAqg3ZRk64QAKu8Tpf7
-         OZbNPzLsSIWUzCQ9X3ySLxMGb71G/m6Auu6SGey0pmBBsdC+PRcTv4OZJfeyvrZmgS4G
-         VbvLDHus6g4o2CQWPnHEa0inuwtU19h3NzPu96s3xVqupDaSRwjEXgoRPBAQbUStiHoG
-         ieSey+YhM1+7rWs/f6mx6w2RJnWTD+3Mx5VuWceh6Q+WbfcjAHucjwnzZmmPEVkziNyj
-         YODA==
+        bh=1yFiK0NYk7EGIuf8SEqCXaymTTx+naIJSOZMfzmUUGc=;
+        b=gvhZSfHr9dZaSElx5dbxLYdnQ3ymh01YZ4Eqt3Y5Lx3NDHtvCzrT117Xe7DinFXfKA
+         j79pBaKT0tgjxiyCPMHboU5Cr/8n4Gl0yWdG65VfU7qHEpxPUPy9TUvQ3mlxmiMH/v1u
+         SZf13pD/9rSBEeRMd4exUYQMzpknJjzvTcctiqCQojVggF49qF5wZGFw1mYoQHLCEqQz
+         +3KZCf0yVZ82qVoJP0m0B6C1nos2KHCQcSxWOSvXgaflXZH5OrbD8hz2V5QahXA5WKy9
+         +L1exMmspO1hrdkgYr8DKlk0ZrVVoR0FDjUbGxYZwrioFaYEDwTh11fnfCZ3woOs5ZMr
+         CaBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700463692; x=1701068492;
+        d=1e100.net; s=20230601; t=1700463695; x=1701068495;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=nkcJv/n25yVcOiFtcSZqk6XZG7ziIP0OV/0d8NOsfDc=;
-        b=tVGR4LNMxActu0wq5f0p9lTtRmaA80Nj/l1eTNKgwNPqtkpURVq+yGkIjO1rbNkzs5
-         NdzF3yQZpdB47P4mXVAtoqy1BoeC50wh4VN+0jYJAoDIhaAa7B3nIII5PbWVxS1MEHnF
-         5CChwAD+LaRFGZ15BBvs7BzL/Na/TdU56UTOtD55ubKaILbKvbbz2zTlV2uwA8CJ1KSS
-         hCfpXjvJWVTJIZ85nWqjrbMi6X8F4B27C6UDzTexXuqAKWOW7ad8Bwe/4xoxkQ+jHYeF
-         W94ZPATcmNP4/xZBYpl5gJLUrCP9QB4WIyUUAoxvkzIXNOqscAYWFJGh1NDXZgltRsQl
-         qbhg==
-X-Gm-Message-State: AOJu0YwcNcz4rHjuHjTk9Q4T5EWSi56w1DiV8wnHmRkZVXJycMt+qNBA
-        mTIlOYw/z0pbBYHBQ7NzD1l6Hw==
-X-Google-Smtp-Source: AGHT+IEBLuefbg1njE14kEGbqq0fRVMDaq5GwcjTSHn9CnqkZZMPo7YgEjo/NJi89a64TaVjABT6og==
-X-Received: by 2002:adf:e98d:0:b0:31f:9838:dfc4 with SMTP id h13-20020adfe98d000000b0031f9838dfc4mr3893259wrm.33.1700463692126;
-        Sun, 19 Nov 2023 23:01:32 -0800 (PST)
+        bh=1yFiK0NYk7EGIuf8SEqCXaymTTx+naIJSOZMfzmUUGc=;
+        b=A9Fu7GJ+SYsN7wB2IEtW42mr9nqCw4tCpNFswMYc9ixMb/Azv/RFQLvT+wFWoQ/qgv
+         9f95yDlG24MVATZqX+X/HOCG/brjOH83QZbMtsuLLA1AFyVQuQkkcq6sIKLH/1DTYviL
+         Hl6jI+wRW2O2SvX2L+vc/jbafO8tm4QQ6U4r2E3wRp0uDG6qQE4k9Q6ESV/N3ijIHfPi
+         8bYni4i2aViywldrzye/vyiiP5J1NgTpSOK8Ppxh9lSnBU5TqDcRpzxwoHxs4csnWM3g
+         vFMX/Nw3+LR92fRIhJ+EnzG1ZAR/EcAPxrQOweoQ48jk4UkRLMYGXpSglEgnDd4bnMes
+         +WVQ==
+X-Gm-Message-State: AOJu0YxzJ/UErq+rED/VUtFrk+GbBBy02nXQCkL9UF91CzzH4y3RDyoG
+        MAH8SBWZWeQkjc/sOhOvf8sxeQ==
+X-Google-Smtp-Source: AGHT+IHFhn4rk06q1oY1f3B4pJ5xJnFUhqo1ZH0o2iwWyO79GIKvQxqOYw64f2oyrMqqXwmSG8nMAQ==
+X-Received: by 2002:adf:e912:0:b0:32d:8e54:29f7 with SMTP id f18-20020adfe912000000b0032d8e5429f7mr4002366wrm.64.1700463694977;
+        Sun, 19 Nov 2023 23:01:34 -0800 (PST)
 Received: from claudiu-X670E-Pro-RS.. ([82.78.167.183])
-        by smtp.gmail.com with ESMTPSA id p2-20020a5d4582000000b003316d1a3b05sm8777667wrq.78.2023.11.19.23.01.29
+        by smtp.gmail.com with ESMTPSA id p2-20020a5d4582000000b003316d1a3b05sm8777667wrq.78.2023.11.19.23.01.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 19 Nov 2023 23:01:31 -0800 (PST)
+        Sun, 19 Nov 2023 23:01:34 -0800 (PST)
 From:   Claudiu <claudiu.beznea@tuxon.dev>
 X-Google-Original-From: Claudiu <claudiu.beznea.uj@bp.renesas.com>
 To:     s.shtylyov@omp.ru, davem@davemloft.net, edumazet@google.com,
@@ -67,9 +67,9 @@ Cc:     linux-renesas-soc@vger.kernel.org, netdev@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org,
         linux-gpio@vger.kernel.org, claudiu.beznea@tuxon.dev,
         Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-Subject: [PATCH 10/14] arm64: renesas: r9a08g045: Add Ethernet nodes
-Date:   Mon, 20 Nov 2023 09:00:20 +0200
-Message-Id: <20231120070024.4079344-11-claudiu.beznea.uj@bp.renesas.com>
+Subject: [PATCH 11/14] arm64: renesas: rzg3s-smarc-som: Invert the logic for SW_SD2_EN macro
+Date:   Mon, 20 Nov 2023 09:00:21 +0200
+Message-Id: <20231120070024.4079344-12-claudiu.beznea.uj@bp.renesas.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20231120070024.4079344-1-claudiu.beznea.uj@bp.renesas.com>
 References: <20231120070024.4079344-1-claudiu.beznea.uj@bp.renesas.com>
@@ -87,56 +87,55 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 
-Add Ethernet nodes available on RZ/G3S (R9A08G045).
+The intention of SW_SD2_EN macro was to reflect the state of SW_CONFIG3
+switch available on RZ/G3S Smarc Module. According to documentation SD2
+is enabled when switch is in OFF state. For this, changed the logic of
+marco to map value 0 to switch's OFF state and value 1 to switch's ON
+state. Along with this update the description for each state for better
+understanding.
 
+The value of SW_SD2_EN macro was not changed in file because, according to
+documentation, the default state for this switch is ON.
+
+Fixes: adb4f0c5699c ("arm64: dts: renesas: Add initial support for RZ/G3S SMARC SoM")
 Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 ---
- arch/arm64/boot/dts/renesas/r9a08g045.dtsi | 32 ++++++++++++++++++++++
- 1 file changed, 32 insertions(+)
+ arch/arm64/boot/dts/renesas/rzg3s-smarc-som.dtsi | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/arch/arm64/boot/dts/renesas/r9a08g045.dtsi b/arch/arm64/boot/dts/renesas/r9a08g045.dtsi
-index 6c7b29b69d0e..1caa0587fdd4 100644
---- a/arch/arm64/boot/dts/renesas/r9a08g045.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r9a08g045.dtsi
-@@ -149,6 +149,38 @@ sdhi2: mmc@11c20000 {
- 			status = "disabled";
- 		};
+diff --git a/arch/arm64/boot/dts/renesas/rzg3s-smarc-som.dtsi b/arch/arm64/boot/dts/renesas/rzg3s-smarc-som.dtsi
+index 01a4a9da7afc..275b14acd2ee 100644
+--- a/arch/arm64/boot/dts/renesas/rzg3s-smarc-som.dtsi
++++ b/arch/arm64/boot/dts/renesas/rzg3s-smarc-som.dtsi
+@@ -14,8 +14,8 @@
+  *	0 - SD0 is connected to eMMC
+  *	1 - SD0 is connected to uSD0 card
+  * @SW_SD2_EN:
+- *	0 - SCIF1, SSI0, IRQ0, IRQ1 connected to SoC
+- *	1 - SD2 is connected to SoC
++ *	0 - (switch OFF) SD2 is connected to SoC
++ *	1 - (switch ON)  SCIF1, SSI0, IRQ0, IRQ1 connected to SoC
+  */
+ #define SW_SD0_DEV_SEL	1
+ #define SW_SD2_EN	1
+@@ -25,7 +25,7 @@ / {
  
-+		eth0: ethernet@11c30000 {
-+			compatible = "renesas,r9a08g045-gbeth", "renesas,rzg2l-gbeth";
-+			reg = <0 0x11c30000 0 0x10000>;
-+			interrupts = <GIC_SPI 68 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 69 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 70 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "mux", "fil", "arp_ns";
-+			clocks = <&cpg CPG_MOD R9A08G045_ETH0_CLK_AXI>,
-+				 <&cpg CPG_MOD R9A08G045_ETH0_CLK_CHI>,
-+				 <&cpg CPG_MOD R9A08G045_ETH0_REFCLK>;
-+			clock-names = "axi", "chi", "refclk";
-+			resets = <&cpg R9A08G045_ETH0_RST_HW_N>;
-+			power-domains = <&cpg>;
-+			status = "disabled";
-+		};
-+
-+		eth1: ethernet@11c40000 {
-+			compatible = "renesas,r9a08g045-gbeth", "renesas,rzg2l-gbeth";
-+			reg = <0 0x11c40000 0 0x10000>;
-+			interrupts = <GIC_SPI 71 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 72 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 73 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "mux", "fil", "arp_ns";
-+			clocks = <&cpg CPG_MOD R9A08G045_ETH1_CLK_AXI>,
-+				 <&cpg CPG_MOD R9A08G045_ETH1_CLK_CHI>,
-+				 <&cpg CPG_MOD R9A08G045_ETH1_REFCLK>;
-+			clock-names = "axi", "chi", "refclk";
-+			resets = <&cpg R9A08G045_ETH1_RST_HW_N>;
-+			power-domains = <&cpg>;
-+			status = "disabled";
-+		};
-+
- 		gic: interrupt-controller@12400000 {
- 			compatible = "arm,gic-v3";
- 			#interrupt-cells = <3>;
+ 	aliases {
+ 		mmc0 = &sdhi0;
+-#if SW_SD2_EN
++#if !SW_SD2_EN
+ 		mmc2 = &sdhi2;
+ #endif
+ 	};
+@@ -116,7 +116,7 @@ &sdhi0 {
+ };
+ #endif
+ 
+-#if SW_SD2_EN
++#if !SW_SD2_EN
+ &sdhi2 {
+ 	pinctrl-0 = <&sdhi2_pins>;
+ 	pinctrl-names = "default";
 -- 
 2.39.2
 
