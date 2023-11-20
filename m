@@ -2,227 +2,171 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 70FD67F1219
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 20 Nov 2023 12:33:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0C2E17F156A
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 20 Nov 2023 15:13:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233216AbjKTLdi (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 20 Nov 2023 06:33:38 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56162 "EHLO
+        id S233341AbjKTONw (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 20 Nov 2023 09:13:52 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47198 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233192AbjKTLdh (ORCPT
+        with ESMTP id S233624AbjKTONm (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 20 Nov 2023 06:33:37 -0500
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 0E59ECF;
-        Mon, 20 Nov 2023 03:33:33 -0800 (PST)
-X-IronPort-AV: E=Sophos;i="6.04,213,1695654000"; 
-   d="scan'208";a="187451969"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie6.idc.renesas.com with ESMTP; 20 Nov 2023 20:33:33 +0900
-Received: from localhost.localdomain (unknown [10.226.93.17])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id EEDF64048F35;
-        Mon, 20 Nov 2023 20:33:29 +0900 (JST)
-From:   Biju Das <biju.das.jz@bp.renesas.com>
-To:     Thierry Reding <thierry.reding@gmail.com>
-Cc:     Biju Das <biju.das.jz@bp.renesas.com>,
-        =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-        Magnus Damm <magnus.damm@gmail.com>, linux-pwm@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH v17 4/4] pwm: rzg2l-gpt: Add support for gpt linking with poeg
-Date:   Mon, 20 Nov 2023 11:33:07 +0000
-Message-Id: <20231120113307.80710-5-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20231120113307.80710-1-biju.das.jz@bp.renesas.com>
-References: <20231120113307.80710-1-biju.das.jz@bp.renesas.com>
+        Mon, 20 Nov 2023 09:13:42 -0500
+Received: from mail-pf1-x42f.google.com (mail-pf1-x42f.google.com [IPv6:2607:f8b0:4864:20::42f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5DAD21BB
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 20 Nov 2023 06:13:39 -0800 (PST)
+Received: by mail-pf1-x42f.google.com with SMTP id d2e1a72fcca58-6ba54c3ed97so4545644b3a.2
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 20 Nov 2023 06:13:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernelci-org.20230601.gappssmtp.com; s=20230601; t=1700489618; x=1701094418; darn=vger.kernel.org;
+        h=from:to:subject:content-transfer-encoding:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=84FU7gvLbRmod4ugEykb1dFzV1IfMd6kN3dOdux7zTs=;
+        b=twjtynlupFbTFkt7MEsbsS7eStfZ67CIxBGTc3JVNnX4ifbRnPVt+8bBSpyTI0QXXJ
+         rd1qpXfYROoU0EY7jGC7SCFsXHxyZD1vmV7OSzl5CArRWm31Rvv2EDTWlOvoQjVDeUZB
+         MZ8ptDL4uJvexakjNn1BHddqdUgB1524dt+6cWzFao7nlp6aD5668wDVjt3P5vsn45BD
+         7K7RzI5H/l0aw/AqstWr5m+Lqw6LQSUJ+4c2atP3FNcZZM+I4I9YwUVh7PwSwoKcG4n7
+         jhG/Gt52eIn2a/B4lqFX3tsG22aHpeVm9ocsH6Yp6kZZVWI2FRrU33Z/3gLQPLneSvB9
+         5Cfw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1700489618; x=1701094418;
+        h=from:to:subject:content-transfer-encoding:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=84FU7gvLbRmod4ugEykb1dFzV1IfMd6kN3dOdux7zTs=;
+        b=tVxpL68JFuseEGWqfqFG1gpa7aH0Kl6P3+vs693NhILpVjFl+82EV2aoq56y21FLs3
+         rcgu3nLQAZseVFE1sWcxaCGPzxR4w6v/TAvS60lq6tUziLXV/hvHPdthQ/e0XCpXmSf9
+         LSJ6WxNhb74zFOLWk/28+cWSf70WLI/NR5HpkbFi2tKxYiaqYN7YSnqo5+G+iIVew1T+
+         3IsKAYlTYlyD6xKYXJ4lo1WcKARQZrXSPUxUEGBvGeo/mFCEsffIhP97zxcIRkMP5n1M
+         cvSaVA7vUT1vF1iO2OGhM9DNznvu03zQig6uqox9wBF9o7wisJU89MyX7h1/fdP0dqx8
+         t45Q==
+X-Gm-Message-State: AOJu0YwPMopMwMRWRLCyKJLuE/Hno8RxpkNBs+OVZAr+qOtvcbaJ3KhN
+        A0KsWPUCPp82rEns7rM230wVG3txhIkBrfrHuss=
+X-Google-Smtp-Source: AGHT+IH/DqW8xMNwCGumjz/yxTodV64HuGx6fEx+dOnN+BUiish0a/R1bZZRxxPd9WlHHbss0MuFnQ==
+X-Received: by 2002:a17:90a:f181:b0:280:125:e52e with SMTP id bv1-20020a17090af18100b002800125e52emr7649969pjb.35.1700489618377;
+        Mon, 20 Nov 2023 06:13:38 -0800 (PST)
+Received: from kernelci-production.internal.cloudapp.net ([20.171.243.82])
+        by smtp.gmail.com with ESMTPSA id q4-20020a170902bd8400b001c62c9d7289sm54046pls.104.2023.11.20.06.13.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 20 Nov 2023 06:13:37 -0800 (PST)
+Message-ID: <655b6991.170a0220.bc246.03de@mx.google.com>
+Date:   Mon, 20 Nov 2023 06:13:37 -0800 (PST)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Transfer-Encoding: quoted-printable
+X-Kernelci-Report-Type: test
+X-Kernelci-Branch: master
+X-Kernelci-Tree: renesas
+X-Kernelci-Kernel: renesas-devel-2023-11-20-v6.7-rc2
+Subject: renesas/master baseline-nfs: 22 runs,
+ 2 regressions (renesas-devel-2023-11-20-v6.7-rc2)
+To:     linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
+From:   "kernelci.org bot" <bot@kernelci.org>
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-The General PWM Timer (GPT) is capable of detecting "dead time error
-and short-circuits between output pins" and send Output disable
-request to poeg(Port Output Enable for GPT).
+renesas/master baseline-nfs: 22 runs, 2 regressions (renesas-devel-2023-11-=
+20-v6.7-rc2)
 
-Add support for linking poeg group with gpt, so that
-gpt can control the output disable function.
+Regressions Summary
+-------------------
 
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
----
-v16->v17:
- * No change
-v15->v16:
- * No change.
-v14->v15:
- * Updated commit description by replacing "This patch add"-> "Add".
-v3->v14:
- * Removed the parenthesis for RZG2L_MAX_POEG_GROUPS.
- * Renamed rzg2l_gpt_parse_properties()->rzg2l_gpt_poeg_init() as it not only parse
-   the properties but also implements the needed register writes.
- * Added acomment here about the purpose of the function rzg2l_gpt_poeg_init()
- * Removed magic numbers from rzg2l_gpt_poeg_init()
- * Fixed resource leak in rzg2l_gpt_poeg_init().
- * Moved the patch from series[1] to here
- [1] https://lore.kernel.org/linux-renesas-soc/20221215205843.4074504-1-biju.das.jz@bp.renesas.com/T/#t
-v2->v3:
- * Updated commit header and description
- * Added check for poeg group in rzg2l_gpt_parse_properties().
-v1->v2:
- * Replaced id->poeg-id as per poeg bindings.
-This patch depend upon [1]
-[1] https://patchwork.kernel.org/project/linux-renesas-soc/patch/20221214132232.2835828-3-biju.das.jz@bp.renesas.com/
----
- drivers/pwm/pwm-rzg2l-gpt.c | 83 +++++++++++++++++++++++++++++++++++++
- 1 file changed, 83 insertions(+)
+platform         | arch | lab             | compiler | defconfig          |=
+ regressions
+-----------------+------+-----------------+----------+--------------------+=
+------------
+beaglebone-black | arm  | lab-cip         | gcc-10   | multi_v7_defconfig |=
+ 1          =
 
-diff --git a/drivers/pwm/pwm-rzg2l-gpt.c b/drivers/pwm/pwm-rzg2l-gpt.c
-index 428e6e577db6..a309131db8ee 100644
---- a/drivers/pwm/pwm-rzg2l-gpt.c
-+++ b/drivers/pwm/pwm-rzg2l-gpt.c
-@@ -31,6 +31,7 @@
- #define RZG2L_GTCR		0x2c
- #define RZG2L_GTUDDTYC		0x30
- #define RZG2L_GTIOR		0x34
-+#define RZG2L_GTINTAD		0x38
- #define RZG2L_GTBER		0x40
- #define RZG2L_GTCNT		0x48
- #define RZG2L_GTCCRA		0x4c
-@@ -48,9 +49,15 @@
- #define RZG2L_UP_COUNTING	(RZG2L_GTUDDTYC_UP | RZG2L_GTUDDTYC_UDF)
- 
- #define RZG2L_GTIOR_GTIOA	GENMASK(4, 0)
-+#define RZG2L_GTIOR_OADF	GENMASK(10, 9)
- #define RZG2L_GTIOR_GTIOB	GENMASK(20, 16)
-+#define RZG2L_GTIOR_OBDF	GENMASK(26, 25)
- #define RZG2L_GTIOR_OAE		BIT(8)
- #define RZG2L_GTIOR_OBE		BIT(24)
-+#define RZG2L_GTIOR_OADF_HIGH_IMP_ON_OUT_DISABLE	BIT(9)
-+#define RZG2L_GTIOR_OBDF_HIGH_IMP_ON_OUT_DISABLE	BIT(25)
-+#define RZG2L_GTIOR_PIN_DISABLE_SETTING \
-+	(RZG2L_GTIOR_OADF_HIGH_IMP_ON_OUT_DISABLE | RZG2L_GTIOR_OBDF_HIGH_IMP_ON_OUT_DISABLE)
- 
- #define RZG2L_INIT_OUT_LO_OUT_LO_END_TOGGLE	0x07
- #define RZG2L_INIT_OUT_HI_OUT_HI_END_TOGGLE	0x1b
-@@ -64,6 +71,8 @@
- #define RZG2L_GTIOR_GTIOB_OUT_LO_END_TOGGLE_CMP_MATCH \
- 	(FIELD_PREP(RZG2L_GTIOR_GTIOB, RZG2L_INIT_OUT_LO_OUT_LO_END_TOGGLE) | RZG2L_GTIOR_OBE)
- 
-+#define RZG2L_GTINTAD_GRP_MASK			GENMASK(25, 24)
-+
- #define RZG2L_GTCCR(i) (0x4c + 4 * (i))
- 
- #define RZG2L_MAX_HW_CHANNELS	8
-@@ -76,6 +85,9 @@
- 
- #define RZG2L_GET_CH_OFFS(i) (0x100 * (i))
- 
-+#define RZG2L_MAX_POEG_GROUPS	4
-+#define RZG2L_LAST_POEG_GROUP	3
-+
- struct rzg2l_gpt_chip {
- 	struct pwm_chip chip;
- 	void __iomem *mmio;
-@@ -88,6 +100,7 @@ struct rzg2l_gpt_chip {
- 	u32 user_count[RZG2L_MAX_HW_CHANNELS];
- 	u32 enable_count[RZG2L_MAX_HW_CHANNELS];
- 	DECLARE_BITMAP(ch_en_bits, RZG2L_MAX_PWM_CHANNELS);
-+	DECLARE_BITMAP(poeg_gpt_link, RZG2L_MAX_POEG_GROUPS * RZG2L_MAX_HW_CHANNELS);
- };
- 
- static inline struct rzg2l_gpt_chip *to_rzg2l_gpt_chip(struct pwm_chip *chip)
-@@ -454,6 +467,75 @@ static void rzg2l_gpt_reset_assert_pm_disable(void *data)
- 	reset_control_assert(rzg2l_gpt->rstc);
- }
- 
-+/*
-+ * This function links a poeg group{A,B,C,D} with a gpt channel{0..7} and
-+ * configure the pin for output disable.
-+ */
-+static void rzg2l_gpt_poeg_init(struct platform_device *pdev,
-+				struct rzg2l_gpt_chip *rzg2l_gpt)
-+{
-+	struct of_phandle_args of_args;
-+	unsigned int i;
-+	u32 poeg_grp;
-+	u32 bitpos;
-+	int cells;
-+	u32 offs;
-+	int ret;
-+
-+	cells = of_property_count_u32_elems(pdev->dev.of_node, "renesas,poegs");
-+	if (cells == -EINVAL)
-+		return;
-+
-+	cells >>= 1;
-+	for (i = 0; i < cells; i++) {
-+		ret = of_parse_phandle_with_fixed_args(pdev->dev.of_node,
-+						       "renesas,poegs", 1, i,
-+						       &of_args);
-+		if (ret) {
-+			dev_err(&pdev->dev,
-+				"Failed to parse 'renesas,poegs' property\n");
-+			return;
-+		}
-+
-+		if (of_args.args[0] >= RZG2L_MAX_HW_CHANNELS) {
-+			dev_err(&pdev->dev, "Invalid channel %d >= %d\n",
-+				of_args.args[0], RZG2L_MAX_HW_CHANNELS);
-+			of_node_put(of_args.np);
-+			return;
-+		}
-+
-+		bitpos = of_args.args[0];
-+		if (!of_device_is_available(of_args.np)) {
-+			/* It's fine to have a phandle to a non-enabled poeg. */
-+			of_node_put(of_args.np);
-+			continue;
-+		}
-+
-+		if (!of_property_read_u32(of_args.np, "renesas,poeg-id", &poeg_grp)) {
-+			offs = RZG2L_GET_CH_OFFS(of_args.args[0]);
-+			if (poeg_grp > RZG2L_LAST_POEG_GROUP) {
-+				dev_err(&pdev->dev, "Invalid poeg group %d > %d\n",
-+					poeg_grp, RZG2L_LAST_POEG_GROUP);
-+				of_node_put(of_args.np);
-+				return;
-+			}
-+
-+			bitpos += poeg_grp * RZG2L_MAX_HW_CHANNELS;
-+			set_bit(bitpos, rzg2l_gpt->poeg_gpt_link);
-+
-+			rzg2l_gpt_modify(rzg2l_gpt, offs + RZG2L_GTINTAD,
-+					 RZG2L_GTINTAD_GRP_MASK,
-+					 poeg_grp << 24);
-+
-+			rzg2l_gpt_modify(rzg2l_gpt, offs + RZG2L_GTIOR,
-+					 RZG2L_GTIOR_OBDF | RZG2L_GTIOR_OADF,
-+					 RZG2L_GTIOR_PIN_DISABLE_SETTING);
-+		}
-+
-+		of_node_put(of_args.np);
-+	}
-+}
-+
- static int rzg2l_gpt_probe(struct platform_device *pdev)
- {
- 	struct rzg2l_gpt_chip *rzg2l_gpt;
-@@ -520,6 +602,7 @@ static int rzg2l_gpt_probe(struct platform_device *pdev)
- 		}
- 	}
- 
-+	rzg2l_gpt_poeg_init(pdev, rzg2l_gpt);
- 	mutex_init(&rzg2l_gpt->lock);
- 	platform_set_drvdata(pdev, rzg2l_gpt);
- 	rzg2l_gpt->chip.dev = &pdev->dev;
--- 
-2.25.1
+dove-cubox       | arm  | lab-pengutronix | gcc-10   | multi_v7_defconfig |=
+ 1          =
 
+
+  Details:  https://kernelci.org/test/job/renesas/branch/master/kernel/rene=
+sas-devel-2023-11-20-v6.7-rc2/plan/baseline-nfs/
+
+  Test:     baseline-nfs
+  Tree:     renesas
+  Branch:   master
+  Describe: renesas-devel-2023-11-20-v6.7-rc2
+  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-d=
+evel.git
+  SHA:      cc8b9449ce641fbe55b06b2e8652abf7091bb827 =
+
+
+
+Test Regressions
+---------------- =
+
+
+
+platform         | arch | lab             | compiler | defconfig          |=
+ regressions
+-----------------+------+-----------------+----------+--------------------+=
+------------
+beaglebone-black | arm  | lab-cip         | gcc-10   | multi_v7_defconfig |=
+ 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/655b50cc12837e287b7e4ad8
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: multi_v7_defconfig
+  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
+10110)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+023-11-20-v6.7-rc2/arm/multi_v7_defconfig/gcc-10/lab-cip/baseline-nfs-beagl=
+ebone-black.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+023-11-20-v6.7-rc2/arm/multi_v7_defconfig/gcc-10/lab-cip/baseline-nfs-beagl=
+ebone-black.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
+230623.0/armhf/initrd.cpio.gz =
+
+
+
+  * baseline-nfs.login: https://kernelci.org/test/case/id/655b50cc12837e287=
+b7e4ad9
+        new failure (last pass: renesas-devel-2023-11-14-v6.7-rc1) =
+
+ =
+
+
+
+platform         | arch | lab             | compiler | defconfig          |=
+ regressions
+-----------------+------+-----------------+----------+--------------------+=
+------------
+dove-cubox       | arm  | lab-pengutronix | gcc-10   | multi_v7_defconfig |=
+ 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/655b3772ea67eea47f7e4a73
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: multi_v7_defconfig
+  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
+10110)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+023-11-20-v6.7-rc2/arm/multi_v7_defconfig/gcc-10/lab-pengutronix/baseline-n=
+fs-dove-cubox.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+023-11-20-v6.7-rc2/arm/multi_v7_defconfig/gcc-10/lab-pengutronix/baseline-n=
+fs-dove-cubox.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
+230623.0/armhf/initrd.cpio.gz =
+
+
+
+  * baseline-nfs.login: https://kernelci.org/test/case/id/655b3772ea67eea47=
+f7e4a74
+        failing since 6 days (last pass: renesas-devel-2023-06-26-v6.4, fir=
+st fail: renesas-devel-2023-11-13-v6.7-rc1) =
+
+ =20
