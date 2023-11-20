@@ -2,95 +2,68 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D189C7F0E6F
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 20 Nov 2023 10:05:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 734F17F11CE
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 20 Nov 2023 12:20:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232338AbjKTJFa (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 20 Nov 2023 04:05:30 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42268 "EHLO
+        id S233241AbjKTLUE (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 20 Nov 2023 06:20:04 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49894 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232184AbjKTJF0 (ORCPT
+        with ESMTP id S233386AbjKTLTq (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 20 Nov 2023 04:05:26 -0500
-Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com [IPv6:2a00:1450:4864:20::42a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 15B12D60
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 20 Nov 2023 01:05:15 -0800 (PST)
-Received: by mail-wr1-x42a.google.com with SMTP id ffacd0b85a97d-32f8441dfb5so3202478f8f.0
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 20 Nov 2023 01:05:15 -0800 (PST)
+        Mon, 20 Nov 2023 06:19:46 -0500
+Received: from mail-lj1-x233.google.com (mail-lj1-x233.google.com [IPv6:2a00:1450:4864:20::233])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7CBD2D79
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 20 Nov 2023 03:18:31 -0800 (PST)
+Received: by mail-lj1-x233.google.com with SMTP id 38308e7fff4ca-2c50cf61f6dso55440171fa.2
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 20 Nov 2023 03:18:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1700471113; x=1701075913; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=bkLluJIfs9A2WfK4ws6uTuiWflu7QIwTGk5lEdGrZ8Q=;
-        b=hUo+Pljdj6x5DCjR/jo7P1BtRCgtwcj5R+aXWuUgcTe5aDpa5k2//Bgtbu3Ls9SCsB
-         fJ2CtzrsxrCXB80LUyj8UGgvAgyKbVbVjJOYubMepvOEjjpW6ANw1i+GQnzRRNztUK5x
-         5EG+fr9meG3V1P5Py6rBU8Kp08piIKFYOpJN8aCN2HgPWjtSYVYfOOlwCyokisJYwdUC
-         gOWjAHZen9uqfhrBOxF+m6RcQPhCgMA0hbgQ8tfcUd1pPlf0sZGggvNWKWvH5KMDiBoC
-         /cRHWUF2epMv2Ml/Kbw7xmZ6HSavMtv+5mlRsddVFUVk1Il5fRcBN5T85wXqYcW2QE8x
-         m5vQ==
+        d=tuxon.dev; s=google; t=1700479109; x=1701083909; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Ta0MJxvruSCk3gKB4JBR+iRqy/ulUdX87ERHRuURIrE=;
+        b=T95/bxIEIYzwcKn9k5Xvx0XOEAZuAQl8l2iGsdoYPxHtn82HWEuWq4PqmNO2eGJVLz
+         peRHInLFxOjYY3lgpDoUGkTOLDR0zMB5bX02DzonwATt4T1GHqaiU4zR5ESQcqTTnhmB
+         844P0lLznVbS6Fu7pWH6DiUgbYH7I8L+E8tOTZShEU3eKwhD/NxmB4EGeapHywHh69cg
+         X5cLq+PdG3Lg8vZHnnKe+iKL3JwXHzz4mcs1dJOd+IzodJRFWtiRQgfmmiV6GAVzjjXz
+         EAxNIiHPmHvneVZso5w0sO7IT3v9njTXhiroLJpu0QQTwzFe330kTLomETzLub72olqD
+         etuw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700471113; x=1701075913;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=bkLluJIfs9A2WfK4ws6uTuiWflu7QIwTGk5lEdGrZ8Q=;
-        b=WkL27uWINQl3Z7QTc+5rAB/4rqxfbgZqXCxq34eZXS7++sbwFfPYm78TUPl0Onxaeq
-         jq5LNuXZqsJSP3fCGPKQohhvMbzgeD5z1reSMGA/dCMcPae3czMKhKuSu8led+83jHk1
-         kbG+d8L5Pl3IiForb6PB1ormzYXeXW7ue1Jy0ZQ8UTFYY4EzTD3zUwJhWhYKgAOFDtGh
-         geULSqVjYuID3LHHV/2yPpYam1gihSAIhxG0hR61rUUKfHD95iclVzUbXiGV5rNM7NMU
-         P/jFGVn+oybw13YC6sUDSkFeVGAxSVkJrYprURhWDHoZimtyFPgRAIfCju4ZuEe1kNRX
-         0nwQ==
-X-Gm-Message-State: AOJu0YyCQD0BTcIRMwKna/WOsDPbTI2/0umbjElOnVSO3Lv8Ks+KIuWo
-        6ke+dPv+f3DeehQ3zO0/5knqSQ==
-X-Google-Smtp-Source: AGHT+IFq74/v4yVRRxE+pvLLMGOf1Rfctzf+CaYkqnL15lGut/2IP8miObeas0tpSho4tWROmvLB0w==
-X-Received: by 2002:a05:6000:2c1:b0:32f:c369:6b00 with SMTP id o1-20020a05600002c100b0032fc3696b00mr5665046wry.14.1700471112833;
-        Mon, 20 Nov 2023 01:05:12 -0800 (PST)
-Received: from [192.168.50.4] ([82.78.167.183])
-        by smtp.gmail.com with ESMTPSA id z18-20020a5d4c92000000b00331424a1266sm10473085wrs.84.2023.11.20.01.05.09
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 20 Nov 2023 01:05:12 -0800 (PST)
-Message-ID: <ea3567ef-1293-4679-bd25-730c1b3e60b9@tuxon.dev>
-Date:   Mon, 20 Nov 2023 11:05:08 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 14/14] arm: multi_v7_defconfig: Enable CONFIG_RAVB
-Content-Language: en-US
-To:     Geert Uytterhoeven <geert@linux-m68k.org>,
-        Arnd Bergmann <arnd@arndb.de>
-Cc:     Sergey Shtylyov <s.shtylyov@omp.ru>,
-        "David S . Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        krzysztof.kozlowski+dt@linaro.org,
-        Conor Dooley <conor+dt@kernel.org>,
-        Russell King <linux@armlinux.org.uk>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Andrew Davis <afd@ti.com>, Mark Brown <broonie@kernel.org>,
-        Alexander Stein <alexander.stein@ew.tq-group.com>,
-        eugen.hristev@collabora.com, sergei.shtylyov@gmail.com,
-        "Lad, Prabhakar" <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Netdev <netdev@vger.kernel.org>, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-clk@vger.kernel.org,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        d=1e100.net; s=20230601; t=1700479109; x=1701083909;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Ta0MJxvruSCk3gKB4JBR+iRqy/ulUdX87ERHRuURIrE=;
+        b=rLrxV4ieycJX7wkUxaduFT5cWxT6S0ftfq8eDcYTBgU9TNZudPVje3i3QMPZ6DsIcA
+         S3ffUm51olVo+jX66IQ7xGsZqNLYAVgvemKcEkYWYRi2xmL0yHHUvyQgzuyrMPS/j8R+
+         XsWsO0XXtz1KR1RaHqzJMbUqBiQP/KbzD/iBD8HZasJBrD26h6aSFpYBzubyz3n4hTFq
+         Hra4y+PNw0JilyB64LMILhrVi29vkHDxlc9ygi2R9yeSXt3ic39E/X18e1wQhbhb6p9j
+         0D7x7TBAr7CL63qZ+yi0vGq29fN1jc6A5BhEGlDfSLiOaCagrAxo6QzBrYbIPi7XuCrT
+         i7Xg==
+X-Gm-Message-State: AOJu0Yy2fPrvDr5lx76NGmsFtXuZrqPXhvtbTuz785jXapJa/fz3o52/
+        VKPmyHirmo8BF8q8H8NhPCD37w==
+X-Google-Smtp-Source: AGHT+IF5FLrdx0L0Gk97U8GMzPHq7HmzPfjAM7JslJn77Qof3Ur5QXy4PuCQ6cM1ZuCnRpy7lp15pA==
+X-Received: by 2002:a2e:9bd7:0:b0:2c8:84ff:4a25 with SMTP id w23-20020a2e9bd7000000b002c884ff4a25mr1146973ljj.5.1700479109421;
+        Mon, 20 Nov 2023 03:18:29 -0800 (PST)
+Received: from claudiu-X670E-Pro-RS.. ([82.78.167.183])
+        by smtp.gmail.com with ESMTPSA id g6-20020a05600c310600b0040651505684sm13142676wmo.29.2023.11.20.03.18.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 20 Nov 2023 03:18:29 -0800 (PST)
+From:   Claudiu <claudiu.beznea@tuxon.dev>
+X-Google-Original-From: Claudiu <claudiu.beznea.uj@bp.renesas.com>
+To:     tglx@linutronix.de, robh+dt@kernel.org,
+        krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+        geert+renesas@glider.be, magnus.damm@gmail.com,
+        mturquette@baylibre.com, sboyd@kernel.org,
+        prabhakar.mahadev-lad.rj@bp.renesas.com
+Cc:     linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
         Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-References: <20231120070024.4079344-1-claudiu.beznea.uj@bp.renesas.com>
- <20231120070024.4079344-15-claudiu.beznea.uj@bp.renesas.com>
- <bd25377b-b191-4d81-b144-2936cb5139d9@app.fastmail.com>
- <CAMuHMdUkVO7cXpsHd_oGvEpZdJpP6GP+VC8H5GAZ94KJf2joLA@mail.gmail.com>
-From:   claudiu beznea <claudiu.beznea@tuxon.dev>
-In-Reply-To: <CAMuHMdUkVO7cXpsHd_oGvEpZdJpP6GP+VC8H5GAZ94KJf2joLA@mail.gmail.com>
+Subject: [PATCH v3 0/9] irqchip/renesas-rzg2l: add support for RZ/G3S SoC
+Date:   Mon, 20 Nov 2023 13:18:11 +0200
+Message-Id: <20231120111820.87398-1-claudiu.beznea.uj@bp.renesas.com>
+X-Mailer: git-send-email 2.39.2
+MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
@@ -103,46 +76,63 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 
+Hi,
 
-On 20.11.2023 10:58, Geert Uytterhoeven wrote:
-> On Mon, Nov 20, 2023 at 9:44 AM Arnd Bergmann <arnd@arndb.de> wrote:
->> On Mon, Nov 20, 2023, at 08:00, Claudiu wrote:
->>> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
->>>
->>> ravb driver is used by RZ/G1H. Enable it in multi_v7_defconfig.
-> 
-> Used by:
->   - iWave-RZ/G1M/G1N Qseven carrier board,
->   - iWave-RZ/G1H Qseven board,
->   - iWave-RZG1E SODIMM carrier board,
->   - iWave-RZ/G1C single board computer.
-> 
-> So I'd write "used by various iWave RZ/G1 development boards".
-
-OK, I'll update it in v2.
-
-I noticed it is needed while checking various bits on a RZ/G1H based board
-so I considered that if there is at least one user for it it is enough to
-have it enabled.
+Series adds support for IA55 available on RZ/G3S SoC.
+Patches are split as follows:
+- 1/9 adds IA55 clock
+- 2-4/9 minor cleanups to align with the suggestions at [1] and
+  coding style recommendations
+- 5/9 implement restriction described in HW manual for ISCR register
+- 6/9 add a macro to retrieve TITSR base address based on it's index
+- 7/9 add suspend to RAM support
+- 8/9 updates documentation
+- 9/9 adds IA55 device tree node
 
 Thank you,
 Claudiu Beznea
 
-> 
->>> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
->>
->> We have a mix of =y and =m for ethernet drivers, and usually
->> only have drivers built-in when they are frequently tested
->> with NFS root booting.
->>
->> Do you need this as well, or could it be =m instead?
-> 
-> As the default chosen/bootargs for the iWave-RZ/G1M/G1N Qseven carrier
-> board contains root=/dev/nfs, builtin is appropriate.
-> The iWave-RZ/G1H Qseven board defaults to root=/dev/mmcblk0p1.
-> 
-> Gr{oetje,eeting}s,
-> 
->                         Geert
-> 
+[1] https://www.kernel.org/doc/html/latest/process/maintainer-tip.html#struct-declarations-and-initializers
+
+Changes in v3:
+- kept driver private data object as pointer
+- moved patch 1/9 from v2 (dt-bindings: interrupt-controller: renesas,rzg2l-irqc: Document RZ/G3S)
+  after IRQ controller driver feature patches
+
+Changes in v2:
+- collected Conor's tag
+- updated commit description according to code review comments
+- added patches 4, 5 according to review recommendations
+- updated patch 7/9 to retrieve only TITSR base address; dropped the rest
+  of the changes for the moment
+- in patch 8/9 use local variable in suspend/resume functions for controller's
+  base address, indent initialized structures members to tabs, updated
+  private driver data structure name
+- patch 3/7 from v1 was replaced by patch 7/9 in v2
+- patch 5/7 from v1 was renamed "Add support for suspend to RAM"
+- cleanup patches were kept at the beginning of the series and features at the end
+
+Claudiu Beznea (9):
+  clk: renesas: r9a08g045: Add IA55 pclk and its reset
+  irqchip/renesas-rzg2l: Use tabs instead of spaces
+  irqchip/renesas-rzg2l: Align struct member names to tabs
+  irqchip/renesas-rzg2l: Document structure members
+  irqchip/renesas-rzg2l: Implement restriction when writing ISCR
+    register
+  irqchip/renesas-rzg2l: Add macro to retrieve TITSR register offset
+    based on register's index
+  irqchip/renesas-rzg2l: Add support for suspend to RAM
+  dt-bindings: interrupt-controller: renesas,rzg2l-irqc: Document RZ/G3S
+  arm64: dts: renesas: r9108g045: Add IA55 interrupt controller node
+
+ .../renesas,rzg2l-irqc.yaml                   |   5 +-
+ arch/arm64/boot/dts/renesas/r9a08g045.dtsi    |  68 +++++++++++
+ drivers/clk/renesas/r9a08g045-cpg.c           |   3 +
+ drivers/irqchip/irq-renesas-rzg2l.c           | 110 +++++++++++++-----
+ 4 files changed, 158 insertions(+), 28 deletions(-)
+
+-- 
+2.39.2
+
