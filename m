@@ -2,60 +2,63 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 430927F0E4A
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 20 Nov 2023 09:58:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D189C7F0E6F
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 20 Nov 2023 10:05:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232191AbjKTI6x convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 20 Nov 2023 03:58:53 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56730 "EHLO
+        id S232338AbjKTJFa (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 20 Nov 2023 04:05:30 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42268 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232165AbjKTI6w (ORCPT
+        with ESMTP id S232184AbjKTJF0 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 20 Nov 2023 03:58:52 -0500
-Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com [209.85.128.173])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B6A9583;
-        Mon, 20 Nov 2023 00:58:46 -0800 (PST)
-Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-5c9adcaf514so11814867b3.2;
-        Mon, 20 Nov 2023 00:58:46 -0800 (PST)
+        Mon, 20 Nov 2023 04:05:26 -0500
+Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com [IPv6:2a00:1450:4864:20::42a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 15B12D60
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 20 Nov 2023 01:05:15 -0800 (PST)
+Received: by mail-wr1-x42a.google.com with SMTP id ffacd0b85a97d-32f8441dfb5so3202478f8f.0
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 20 Nov 2023 01:05:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=tuxon.dev; s=google; t=1700471113; x=1701075913; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=bkLluJIfs9A2WfK4ws6uTuiWflu7QIwTGk5lEdGrZ8Q=;
+        b=hUo+Pljdj6x5DCjR/jo7P1BtRCgtwcj5R+aXWuUgcTe5aDpa5k2//Bgtbu3Ls9SCsB
+         fJ2CtzrsxrCXB80LUyj8UGgvAgyKbVbVjJOYubMepvOEjjpW6ANw1i+GQnzRRNztUK5x
+         5EG+fr9meG3V1P5Py6rBU8Kp08piIKFYOpJN8aCN2HgPWjtSYVYfOOlwCyokisJYwdUC
+         gOWjAHZen9uqfhrBOxF+m6RcQPhCgMA0hbgQ8tfcUd1pPlf0sZGggvNWKWvH5KMDiBoC
+         /cRHWUF2epMv2Ml/Kbw7xmZ6HSavMtv+5mlRsddVFUVk1Il5fRcBN5T85wXqYcW2QE8x
+         m5vQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700470726; x=1701075526;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=18JbpiPMAEDFj6NXYlnrzta9l+LmgYRwVtYP+eE4AiM=;
-        b=kIqfBCEsBy50pkCwU0QuQeeblaweWR539FfwYYLkSoqaUzENRLFoY52epOChRub0QI
-         nDnYstgdjX7gybF1uHgfZNCR3IVc30gNFrJOTLNz1tW6mmPJ1Tifo3PxHgDENisNJ9Yk
-         97JJJ4PAYB4KwYozM5ll70PEsCyWSPhEyvWgrtkY5LlUt2vgYAfFk4TJkViH9jdSZ3Nn
-         dqqco3CmGjvMUH2ZPgZDIhEUrqWVm+cjzfvDE1QtpKcr89xN9vQU4ihE6wVVtvgNJK5p
-         TSh6bx787h7MUG0tOfL1WiCdo22P/YloHe7dGYqJewY6SY0Aks2DKJu8OeipF5E18sgq
-         CgZA==
-X-Gm-Message-State: AOJu0YyzqPMt9lVz3IhFisoDDBrema9/oAeRwtWkGC0Xppoj4Wx3wkFL
-        7TxJUpO5GQeOX2rgTQzhNXKix1XbNL0AUw==
-X-Google-Smtp-Source: AGHT+IEcAKhmD2Cwhxx2WVp7uxIs04LulpgMIz9grHiBKuB8tFrxBucq43RCBbNt7vZs4H2MyknXxw==
-X-Received: by 2002:a05:690c:2884:b0:5ca:a8b6:3319 with SMTP id ee4-20020a05690c288400b005caa8b63319mr937155ywb.52.1700470725764;
-        Mon, 20 Nov 2023 00:58:45 -0800 (PST)
-Received: from mail-yb1-f172.google.com (mail-yb1-f172.google.com. [209.85.219.172])
-        by smtp.gmail.com with ESMTPSA id s2-20020a819b02000000b005ca265f0c68sm717128ywg.42.2023.11.20.00.58.43
+        d=1e100.net; s=20230601; t=1700471113; x=1701075913;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=bkLluJIfs9A2WfK4ws6uTuiWflu7QIwTGk5lEdGrZ8Q=;
+        b=WkL27uWINQl3Z7QTc+5rAB/4rqxfbgZqXCxq34eZXS7++sbwFfPYm78TUPl0Onxaeq
+         jq5LNuXZqsJSP3fCGPKQohhvMbzgeD5z1reSMGA/dCMcPae3czMKhKuSu8led+83jHk1
+         kbG+d8L5Pl3IiForb6PB1ormzYXeXW7ue1Jy0ZQ8UTFYY4EzTD3zUwJhWhYKgAOFDtGh
+         geULSqVjYuID3LHHV/2yPpYam1gihSAIhxG0hR61rUUKfHD95iclVzUbXiGV5rNM7NMU
+         P/jFGVn+oybw13YC6sUDSkFeVGAxSVkJrYprURhWDHoZimtyFPgRAIfCju4ZuEe1kNRX
+         0nwQ==
+X-Gm-Message-State: AOJu0YyCQD0BTcIRMwKna/WOsDPbTI2/0umbjElOnVSO3Lv8Ks+KIuWo
+        6ke+dPv+f3DeehQ3zO0/5knqSQ==
+X-Google-Smtp-Source: AGHT+IFq74/v4yVRRxE+pvLLMGOf1Rfctzf+CaYkqnL15lGut/2IP8miObeas0tpSho4tWROmvLB0w==
+X-Received: by 2002:a05:6000:2c1:b0:32f:c369:6b00 with SMTP id o1-20020a05600002c100b0032fc3696b00mr5665046wry.14.1700471112833;
+        Mon, 20 Nov 2023 01:05:12 -0800 (PST)
+Received: from [192.168.50.4] ([82.78.167.183])
+        by smtp.gmail.com with ESMTPSA id z18-20020a5d4c92000000b00331424a1266sm10473085wrs.84.2023.11.20.01.05.09
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 20 Nov 2023 00:58:43 -0800 (PST)
-Received: by mail-yb1-f172.google.com with SMTP id 3f1490d57ef6-da819902678so3874391276.1;
-        Mon, 20 Nov 2023 00:58:43 -0800 (PST)
-X-Received: by 2002:a25:6a55:0:b0:da0:cfca:ed9 with SMTP id
- f82-20020a256a55000000b00da0cfca0ed9mr5235404ybc.12.1700470723057; Mon, 20
- Nov 2023 00:58:43 -0800 (PST)
+        Mon, 20 Nov 2023 01:05:12 -0800 (PST)
+Message-ID: <ea3567ef-1293-4679-bd25-730c1b3e60b9@tuxon.dev>
+Date:   Mon, 20 Nov 2023 11:05:08 +0200
 MIME-Version: 1.0
-References: <20231120070024.4079344-1-claudiu.beznea.uj@bp.renesas.com>
- <20231120070024.4079344-15-claudiu.beznea.uj@bp.renesas.com> <bd25377b-b191-4d81-b144-2936cb5139d9@app.fastmail.com>
-In-Reply-To: <bd25377b-b191-4d81-b144-2936cb5139d9@app.fastmail.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 20 Nov 2023 09:58:30 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdUkVO7cXpsHd_oGvEpZdJpP6GP+VC8H5GAZ94KJf2joLA@mail.gmail.com>
-Message-ID: <CAMuHMdUkVO7cXpsHd_oGvEpZdJpP6GP+VC8H5GAZ94KJf2joLA@mail.gmail.com>
+User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH 14/14] arm: multi_v7_defconfig: Enable CONFIG_RAVB
-To:     Arnd Bergmann <arnd@arndb.de>
-Cc:     Claudiu Beznea <claudiu.beznea@tuxon.dev>,
-        Sergey Shtylyov <s.shtylyov@omp.ru>,
+Content-Language: en-US
+To:     Geert Uytterhoeven <geert@linux-m68k.org>,
+        Arnd Bergmann <arnd@arndb.de>
+Cc:     Sergey Shtylyov <s.shtylyov@omp.ru>,
         "David S . Miller" <davem@davemloft.net>,
         Eric Dumazet <edumazet@google.com>,
         Jakub Kicinski <kuba@kernel.org>,
@@ -82,51 +85,64 @@ Cc:     Claudiu Beznea <claudiu.beznea@tuxon.dev>,
         linux-clk@vger.kernel.org,
         "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
         Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+References: <20231120070024.4079344-1-claudiu.beznea.uj@bp.renesas.com>
+ <20231120070024.4079344-15-claudiu.beznea.uj@bp.renesas.com>
+ <bd25377b-b191-4d81-b144-2936cb5139d9@app.fastmail.com>
+ <CAMuHMdUkVO7cXpsHd_oGvEpZdJpP6GP+VC8H5GAZ94KJf2joLA@mail.gmail.com>
+From:   claudiu beznea <claudiu.beznea@tuxon.dev>
+In-Reply-To: <CAMuHMdUkVO7cXpsHd_oGvEpZdJpP6GP+VC8H5GAZ94KJf2joLA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, Nov 20, 2023 at 9:44 AM Arnd Bergmann <arnd@arndb.de> wrote:
-> On Mon, Nov 20, 2023, at 08:00, Claudiu wrote:
-> > From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-> >
-> > ravb driver is used by RZ/G1H. Enable it in multi_v7_defconfig.
 
-Used by:
-  - iWave-RZ/G1M/G1N Qseven carrier board,
-  - iWave-RZ/G1H Qseven board,
-  - iWave-RZG1E SODIMM carrier board,
-  - iWave-RZ/G1C single board computer.
 
-So I'd write "used by various iWave RZ/G1 development boards".
+On 20.11.2023 10:58, Geert Uytterhoeven wrote:
+> On Mon, Nov 20, 2023 at 9:44 AM Arnd Bergmann <arnd@arndb.de> wrote:
+>> On Mon, Nov 20, 2023, at 08:00, Claudiu wrote:
+>>> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+>>>
+>>> ravb driver is used by RZ/G1H. Enable it in multi_v7_defconfig.
+> 
+> Used by:
+>   - iWave-RZ/G1M/G1N Qseven carrier board,
+>   - iWave-RZ/G1H Qseven board,
+>   - iWave-RZG1E SODIMM carrier board,
+>   - iWave-RZ/G1C single board computer.
+> 
+> So I'd write "used by various iWave RZ/G1 development boards".
 
-> > Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
->
-> We have a mix of =y and =m for ethernet drivers, and usually
-> only have drivers built-in when they are frequently tested
-> with NFS root booting.
->
-> Do you need this as well, or could it be =m instead?
+OK, I'll update it in v2.
 
-As the default chosen/bootargs for the iWave-RZ/G1M/G1N Qseven carrier
-board contains root=/dev/nfs, builtin is appropriate.
-The iWave-RZ/G1H Qseven board defaults to root=/dev/mmcblk0p1.
+I noticed it is needed while checking various bits on a RZ/G1H based board
+so I considered that if there is at least one user for it it is enough to
+have it enabled.
 
-Gr{oetje,eeting}s,
+Thank you,
+Claudiu Beznea
 
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+> 
+>>> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+>>
+>> We have a mix of =y and =m for ethernet drivers, and usually
+>> only have drivers built-in when they are frequently tested
+>> with NFS root booting.
+>>
+>> Do you need this as well, or could it be =m instead?
+> 
+> As the default chosen/bootargs for the iWave-RZ/G1M/G1N Qseven carrier
+> board contains root=/dev/nfs, builtin is appropriate.
+> The iWave-RZ/G1H Qseven board defaults to root=/dev/mmcblk0p1.
+> 
+> Gr{oetje,eeting}s,
+> 
+>                         Geert
+> 
