@@ -2,116 +2,125 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0800A7F1D44
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 20 Nov 2023 20:24:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 32B017F1D47
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 20 Nov 2023 20:28:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229521AbjKTTYK (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 20 Nov 2023 14:24:10 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40968 "EHLO
+        id S229492AbjKTT21 convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 20 Nov 2023 14:28:27 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45292 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229492AbjKTTYK (ORCPT
+        with ESMTP id S229497AbjKTT20 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 20 Nov 2023 14:24:10 -0500
-Received: from mx01.omp.ru (mx01.omp.ru [90.154.21.10])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 32062BB;
-        Mon, 20 Nov 2023 11:24:06 -0800 (PST)
-Received: from [192.168.1.103] (178.176.77.202) by msexch01.omp.ru
- (10.188.4.12) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.1258.12; Mon, 20 Nov
- 2023 22:23:57 +0300
-Subject: Re: [PATCH 02/13] net: ravb: Use pm_runtime_resume_and_get()
-To:     Claudiu <claudiu.beznea@tuxon.dev>, <davem@davemloft.net>,
-        <edumazet@google.com>, <kuba@kernel.org>, <pabeni@redhat.com>,
-        <p.zabel@pengutronix.de>, <yoshihiro.shimoda.uh@renesas.com>,
-        <geert+renesas@glider.be>, <wsa+renesas@sang-engineering.com>,
-        <biju.das.jz@bp.renesas.com>,
-        <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        <sergei.shtylyov@cogentembedded.com>,
-        <mitsuhiro.kimura.kc@renesas.com>, <masaru.nagai.vx@renesas.com>
-CC:     <netdev@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-References: <20231120084606.4083194-1-claudiu.beznea.uj@bp.renesas.com>
- <20231120084606.4083194-3-claudiu.beznea.uj@bp.renesas.com>
-From:   Sergey Shtylyov <s.shtylyov@omp.ru>
-Organization: Open Mobile Platform
-Message-ID: <a465e1fb-6ef8-0e10-1dc9-c6a17b955d11@omp.ru>
-Date:   Mon, 20 Nov 2023 22:23:57 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+        Mon, 20 Nov 2023 14:28:26 -0500
+Received: from mail-yb1-f172.google.com (mail-yb1-f172.google.com [209.85.219.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E0F9BCC;
+        Mon, 20 Nov 2023 11:28:22 -0800 (PST)
+Received: by mail-yb1-f172.google.com with SMTP id 3f1490d57ef6-db029574f13so4696822276.1;
+        Mon, 20 Nov 2023 11:28:22 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1700508502; x=1701113302;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=EzOUYWrw4qYLV8wCUaEf/5tB/ioKS2pQYfel7hQdp8s=;
+        b=nooiTBvkFQK9LxbcPcZvAk5Tt7uC54/RyB9uu2AnlZOr91nNo+6mtsha/kE18xO1Ad
+         sT/n6vMTAGyxGcFUHryjaRbD09yC1CO7zstdGzETWYEDrRSd8DyxuhvjKsf/zmLHH+Hq
+         RR0rhWbe5/teFWFYQB1TyoQ+WF0rXFG5elyI/ZFQQ0EbxGLfsG67e4x+7+R4NKEga7jY
+         mz087m6MgZkFuhuT/M6Oe6fXRxTYGUi/gzJek7dL+Hm3wtgSRZzWlkiL+a0CXaHxy0PC
+         bgWKr0M90ZmpF8F7tkG4nd/EDim5Cb4YahMbCWC2WIdKlnjfYQBIoBkRRLKkoGw905Ed
+         4+ig==
+X-Gm-Message-State: AOJu0YxEsT7zJ0jsnI0AhdARU5k9W8t82TUvqOp9OvHyWFIKpyozu1AR
+        sUiah+UifcER4UZ0/fz7Dgyrc0gNeg2KkQ==
+X-Google-Smtp-Source: AGHT+IFtd08JAOB3r62zXBS0Z+UuWC96OuBAcu4T5hUFo8+lpxuAqOkM0Da59dind2+rd6WTujwqnA==
+X-Received: by 2002:a25:3457:0:b0:da0:3d0d:3a18 with SMTP id b84-20020a253457000000b00da03d0d3a18mr7984756yba.39.1700508502002;
+        Mon, 20 Nov 2023 11:28:22 -0800 (PST)
+Received: from mail-yb1-f181.google.com (mail-yb1-f181.google.com. [209.85.219.181])
+        by smtp.gmail.com with ESMTPSA id a11-20020a5b0ecb000000b00da086d6921fsm176767ybs.50.2023.11.20.11.28.20
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 20 Nov 2023 11:28:21 -0800 (PST)
+Received: by mail-yb1-f181.google.com with SMTP id 3f1490d57ef6-da0cfcb9f40so4681733276.2;
+        Mon, 20 Nov 2023 11:28:20 -0800 (PST)
+X-Received: by 2002:a25:d84e:0:b0:da3:7764:41d0 with SMTP id
+ p75-20020a25d84e000000b00da3776441d0mr7689956ybg.31.1700508500408; Mon, 20
+ Nov 2023 11:28:20 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20231120084606.4083194-3-claudiu.beznea.uj@bp.renesas.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [178.176.77.202]
-X-ClientProxiedBy: msexch01.omp.ru (10.188.4.12) To msexch01.omp.ru
- (10.188.4.12)
-X-KSE-ServerInfo: msexch01.omp.ru, 9
-X-KSE-AntiSpam-Interceptor-Info: scan successful
-X-KSE-AntiSpam-Version: 6.0.0, Database issued on: 11/20/2023 19:12:43
-X-KSE-AntiSpam-Status: KAS_STATUS_NOT_DETECTED
-X-KSE-AntiSpam-Method: none
-X-KSE-AntiSpam-Rate: 59
-X-KSE-AntiSpam-Info: Lua profiles 181488 [Nov 20 2023]
-X-KSE-AntiSpam-Info: Version: 6.0.0.2
-X-KSE-AntiSpam-Info: Envelope from: s.shtylyov@omp.ru
-X-KSE-AntiSpam-Info: LuaCore: 543 543 1e3516af5cdd92079dfeb0e292c8747a62cb1ee4
-X-KSE-AntiSpam-Info: {rep_avail}
-X-KSE-AntiSpam-Info: {Tracking_from_domain_doesnt_match_to}
-X-KSE-AntiSpam-Info: {relay has no DNS name}
-X-KSE-AntiSpam-Info: {SMTP from is not routable}
-X-KSE-AntiSpam-Info: {Found in DNSBL: 178.176.77.202 in (user)
- b.barracudacentral.org}
-X-KSE-AntiSpam-Info: {Found in DNSBL: 178.176.77.202 in (user)
- dbl.spamhaus.org}
-X-KSE-AntiSpam-Info: 127.0.0.199:7.1.2;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;omp.ru:7.1.1
-X-KSE-AntiSpam-Info: ApMailHostAddress: 178.176.77.202
-X-KSE-AntiSpam-Info: {DNS response errors}
-X-KSE-AntiSpam-Info: Rate: 59
-X-KSE-AntiSpam-Info: Status: not_detected
-X-KSE-AntiSpam-Info: Method: none
-X-KSE-AntiSpam-Info: Auth:dmarc=temperror header.from=omp.ru;spf=temperror
- smtp.mailfrom=omp.ru;dkim=none
-X-KSE-Antiphishing-Info: Clean
-X-KSE-Antiphishing-ScanningType: Heuristic
-X-KSE-Antiphishing-Method: None
-X-KSE-Antiphishing-Bases: 11/20/2023 19:16:00
-X-KSE-Antivirus-Interceptor-Info: scan successful
-X-KSE-Antivirus-Info: Clean, bases: 11/20/2023 4:24:00 PM
-X-KSE-Attachment-Filter-Triggered-Rules: Clean
-X-KSE-Attachment-Filter-Triggered-Filters: Clean
-X-KSE-BulkMessagesFiltering-Scan-Result: InTheLimit
-X-Spam-Status: No, score=-5.9 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+References: <20231120160118.3524309-1-niklas.soderlund+renesas@ragnatech.se> <20231120160118.3524309-6-niklas.soderlund+renesas@ragnatech.se>
+In-Reply-To: <20231120160118.3524309-6-niklas.soderlund+renesas@ragnatech.se>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Mon, 20 Nov 2023 20:28:08 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdWcS4uW6QLYyea5A1SXgCS_8Ni--5db29+JzYh3KNVphw@mail.gmail.com>
+Message-ID: <CAMuHMdWcS4uW6QLYyea5A1SXgCS_8Ni--5db29+JzYh3KNVphw@mail.gmail.com>
+Subject: Re: [net-next v2 5/5] net: ethernet: renesas: rcar_gen4_ptp: Break
+ out to module
+To:     =?UTF-8?Q?Niklas_S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+Cc:     "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Richard Cochran <richardcochran@gmail.com>,
+        netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 11/20/23 11:45 AM, Claudiu wrote:
+Hi Niklas,
 
-> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-> 
-> pm_runtime_get_sync() may return with error. In case it returns with error
-> dev->power.usage_count needs to be decremented. pm_runtime_resume_and_get()
-> takes care of this. Thus use it.
-> 
-> Along with this pm_runtime_resume_and_get() and reset_control_deassert()
-> were moved before alloc_etherdev_mqs() to simplify the error path.
+On Mon, Nov 20, 2023 at 5:03 PM Niklas Söderlund
+<niklas.soderlund+renesas@ragnatech.se> wrote:
+> The Gen4 gPTP support will be shared between the existing Renesas
+> Ethernet Switch driver and the upcoming Renesas Ethernet-TSN driver. In
+> preparation for this break out the gPTP support to its own module.
+>
+> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> ---
+> * Changes since v1
+> - s/Gen3/Gen4/ in commit message.
+> - Add missing MODULE_AUTHOR() and MODULE_DESCRIPTION() definitions.
+> - Make Kconfig tristate depend on COMPILE_TEST. All drivers that make
+>   use of the shared code auto selects this anyhow.
 
-   I don't see how it simplifies the error path...
-   Re-ordering the statements at the end of the error path seems cheaper than
-what you do.
+Thanks for the update!
 
-> Also, in case pm_runtime_resume_and_get() returns error the reset signal
-> is deasserted and runtime PM is disabled (by jumping to the proper
-> error handling label).
-> 
-> Fixes: c156633f1353 ("Renesas Ethernet AVB driver proper")
-> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-[...]
+> --- a/drivers/net/ethernet/renesas/Kconfig
+> +++ b/drivers/net/ethernet/renesas/Kconfig
+> @@ -44,7 +44,17 @@ config RENESAS_ETHER_SWITCH
+>         select CRC32
+>         select MII
+>         select PHYLINK
+> +       select RENESAS_GEN4_PTP
+>         help
+>           Renesas Ethernet Switch device driver.
+>
+> +config RENESAS_GEN4_PTP
+> +       tristate "Renesas R-Car Gen4 gPTP support" if COMPILE_TEST
+> +       depends on ARCH_RENESAS || COMPILE_TEST
 
-MBR, Sergey
+You can drop the depends line, too.
+
+> +       select CRC32
+> +       select MII
+> +       select PHYLIB
+> +       help
+> +         Renesas R-Car Gen4 gPTP device driver.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
