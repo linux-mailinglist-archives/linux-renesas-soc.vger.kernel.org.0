@@ -1,171 +1,244 @@
-Return-Path: <linux-renesas-soc+bounces-46-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-47-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id AFD117F33C8
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 21 Nov 2023 17:32:21 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id E49B07F3630
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 21 Nov 2023 19:38:40 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 5049DB21A76
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 21 Nov 2023 16:32:19 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8F9251F22F24
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 21 Nov 2023 18:38:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A09C05A115;
-	Tue, 21 Nov 2023 16:32:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 36F9022097;
+	Tue, 21 Nov 2023 18:38:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech-se.20230601.gappssmtp.com header.i=@ragnatech-se.20230601.gappssmtp.com header.b="C/2B3Lml"
+	dkim=pass (2048-bit key) header.d=ragnatech-se.20230601.gappssmtp.com header.i=@ragnatech-se.20230601.gappssmtp.com header.b="0xKbHxgN"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com [IPv6:2a00:1450:4864:20::129])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 67683CB
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 21 Nov 2023 08:32:14 -0800 (PST)
-Received: by mail-lf1-x129.google.com with SMTP id 2adb3069b0e04-50aab20e828so3673655e87.2
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 21 Nov 2023 08:32:14 -0800 (PST)
+Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com [IPv6:2a00:1450:4864:20::12d])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3BD4719A5
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 21 Nov 2023 10:38:11 -0800 (PST)
+Received: by mail-lf1-x12d.google.com with SMTP id 2adb3069b0e04-507e85ebf50so7741872e87.1
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 21 Nov 2023 10:38:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20230601.gappssmtp.com; s=20230601; t=1700584332; x=1701189132; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=OwQRTXsCZ6W9EzEssWH2ys7zWoGL4d7d9Ovs4AO0xTI=;
-        b=C/2B3LmlKgzEv9QBPuUZgjfyR/sIijSow/WGnCfXT333ZMM6oexEJriLF37VlRMGeN
-         y3Q7xpitj9Zbh1K3l3D3j9M/BXPsUv8LLX0/aAFHPPTSz5Rc++IbF91fzuFO04DSOWV5
-         /zWFlsSKnadNTn681kpWxQdzcfMaLcpRORk7E0SasZFCa/s6dlZuUdM+eE5m1Qf0Nj7k
-         UTwE1rppoLT+ZU3zmvRIFrDWyNeRrTsMJ30GGzgricW3ZUc2UjisT9h+BQYaRSUQQL35
-         TOmjEB4RZ8qm73hoq9SQPynFrryvKQ6Wr3sMXsAqlo5O5+iDsy5ED3Z5D2Wtb0CbJAiZ
-         U2Qw==
+        d=ragnatech-se.20230601.gappssmtp.com; s=20230601; t=1700591889; x=1701196689; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=tLsY9mj+sE/CjJljiS1JURplG6R4NjGEPqmgDMelvLw=;
+        b=0xKbHxgNGaNZ6aOik6iC9nVw+iE6p8cv3FXfYEt3fZ9PsUltBqIK+/9yT6nG0MGZ8G
+         mDK/kthg1VvqGH9O7an14Va8lwsjPsVolwLapwbxBh5Hh7HPRg2v6goUpt1b0kDpL0Ux
+         ND96TIxI11hawqj3uY+TvnJEY8+4eWp0MhJReSAF5vOfdgMcRSLhW3SIYCi/srsegtEa
+         ME20FDA695M/Lh/6G8pPmFC+t+xXwZJlyTjGstDqi56YCx/maS3RA/k8dT+tGV6+nYtc
+         TBkS8/sWBlUN0LbK+7RiHHhf3JJGyvwwvmIFHvUhEYDF0z0SDMvlzv4Bxv8+2c0LUKQB
+         FZBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700584332; x=1701189132;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=OwQRTXsCZ6W9EzEssWH2ys7zWoGL4d7d9Ovs4AO0xTI=;
-        b=Jhddi/DlXtTCrzvxDSkbVzZsar6dzFxO3FQ5KTGbVtJzV5Aflz4CHbKqH6+Zb65Xlq
-         H/P0LuMwHfPwRCMYIUUWjhedQXmYxmtvt+3VKvYl6KzqKLih9tG2EtyJp1YfuAVYaSso
-         1oKzI8n7syOeUW/17hM6/9dLlVHoOmBCOEMTgJ+ZrgqifiRCE0Fc8O34+D6t7mbZdObS
-         M2D1AiHOXx8HcTejyARK4N4WUOrR7eSHQxFubT1BTmeZqwsGi6rnryvts7mlTgfwR2IJ
-         9Tk8BZSHZor/mhjou6czZwRuamNaQ0KVxxE1PHDUv04bv6B/ppSxsmdEg/5NreltJnlm
-         QMRw==
-X-Gm-Message-State: AOJu0Yw2eNyvtY/4B4Df++IwxFtZRUGfW5gMmqwMPiLEGX64a0YZNchE
-	3+9SwbxUX2c9dnfOrxP6B4cEtQ==
-X-Google-Smtp-Source: AGHT+IGLJ/jbKWSuBrNEE7DXEF5uRL+d+0AaQDezH5w3UIwHZ92x/YHMQanCNLGUoQ8hMpm/jtfjTg==
-X-Received: by 2002:ac2:43b0:0:b0:4fa:f96c:745f with SMTP id t16-20020ac243b0000000b004faf96c745fmr7599826lfl.38.1700584332537;
-        Tue, 21 Nov 2023 08:32:12 -0800 (PST)
-Received: from localhost (h-46-59-36-206.A463.priv.bahnhof.se. [46.59.36.206])
-        by smtp.gmail.com with ESMTPSA id t13-20020a195f0d000000b0050919538b00sm1598348lfb.79.2023.11.21.08.32.10
+        d=1e100.net; s=20230601; t=1700591889; x=1701196689;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=tLsY9mj+sE/CjJljiS1JURplG6R4NjGEPqmgDMelvLw=;
+        b=dt/Ln6AKTwvecjmiFBarkJQWvsxvHCc9bQ9SvL6yOGpLq3Wer8b01Evf45vXHKGzgR
+         xYxHzBixNnTWj5ZIGtHq/7XX8CSjdqcW43cJnXurFSZKJbUJGfdxSN9Z36ceflljT09g
+         NRmLyhtk1oQrATJElAcOD1ylesfzsvh4kpP3U6o5APOCb9MpKFXMh5GzVGeDpzOP+Tzz
+         Ov1puLENb+L6D+RT9+xUMpn2z1aaa//JzSEMeWPntSNrYdefPxZDsh2abW3e449CyhCL
+         YX1HI7mPwBdGqNRf/lqbbTOwy7x/iPJAdJCKPhRg71X85ALnv6k50YC1cYRqvhtgfDjo
+         iJ+A==
+X-Gm-Message-State: AOJu0YzN+zVTpIOMNvb4Oj0K8DHd8WHDlWTqaRSWgvSuGBOH/an8nz//
+	kcOGZqgAX/98WAUFTeyQCnaaEtAz1N4M++vZ93M9Aw==
+X-Google-Smtp-Source: AGHT+IGudSeAb2Up8kQJkm74QW+5gSTsgKefFOY/tgEli51wxWBqZnhsP9o4z9zr0lmbLGrGNw1INg==
+X-Received: by 2002:ac2:44b3:0:b0:507:984b:f174 with SMTP id c19-20020ac244b3000000b00507984bf174mr54973lfm.48.1700591889172;
+        Tue, 21 Nov 2023 10:38:09 -0800 (PST)
+Received: from sleipner.berto.se (p4fcc8a96.dip0.t-ipconnect.de. [79.204.138.150])
+        by smtp.googlemail.com with ESMTPSA id u10-20020aa7d88a000000b00548ac1f7c5esm2921361edq.64.2023.11.21.10.38.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Nov 2023 08:32:11 -0800 (PST)
-Date: Tue, 21 Nov 2023 17:32:10 +0100
-From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	Rob Herring <robh+dt@kernel.org>,
+        Tue, 21 Nov 2023 10:38:08 -0800 (PST)
+From: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+To: Rob Herring <robh+dt@kernel.org>,
 	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	devicetree@vger.kernel.org, netdev@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH] dt-bindings: net: renesas,ethertsn: Add bindings for
- Ethernet TSN
-Message-ID: <ZVzbigCtv2q_2-Bx@oden.dyn.berto.se>
-References: <20231120160740.3532848-1-niklas.soderlund+renesas@ragnatech.se>
- <2ab74479-f1fb-4faf-b223-ae750b4c08ce@linaro.org>
- <ZVyeMKjVhjW2F2e0@oden.dyn.berto.se>
- <2ffb39c3-7939-46f2-8ca9-2b2cb44caaff@linaro.org>
- <ZVymJF2dd7XssGaQ@oden.dyn.berto.se>
- <CAMuHMdW3+YWuBefga9fXWxp6=yXoUPO9EK0nwEzHcbvsevx5Pg@mail.gmail.com>
+	Conor Dooley <conor+dt@kernel.org>,
+	Geert Uytterhoeven <geert@linux-m68k.org>,
+	devicetree@vger.kernel.org
+Cc: "David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	netdev@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	=?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+Subject: [PATCH v2] dt-bindings: net: renesas,ethertsn: Add Ethernet TSN
+Date: Tue, 21 Nov 2023 19:37:38 +0100
+Message-ID: <20231121183738.656192-1-niklas.soderlund+renesas@ragnatech.se>
+X-Mailer: git-send-email 2.42.1
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAMuHMdW3+YWuBefga9fXWxp6=yXoUPO9EK0nwEzHcbvsevx5Pg@mail.gmail.com>
 
-Hi Geert,
+Add bindings for Renesas R-Car Ethernet TSN End-station IP. The RTSN
+device provides Ethernet network.
 
-On 2023-11-21 17:11:52 +0100, Geert Uytterhoeven wrote:
-> Hi Niklas,
-> 
-> On Tue, Nov 21, 2023 at 1:44 PM Niklas Söderlund
-> <niklas.soderlund+renesas@ragnatech.se> wrote:
-> > On 2023-11-21 13:20:54 +0100, Krzysztof Kozlowski wrote:
-> > > On 21/11/2023 13:10, Niklas Söderlund wrote:
-> > > >>> +
-> > > >>> +  renesas,rx-internal-delay:
-> > > >>> +    type: boolean
-> > > >>> +    description:
-> > > >>> +      Enable internal Rx clock delay, typically 1.8ns.
-> > > >>
-> > > >> Why this is bool, not delay in ns?
-> > > >
-> > > > The TSN is only capable of enabling or disable internal delays, not set
-> > > > how long the delay is. The documentation states that the delay depends
-> > > > on the electronic characteristics of the particular board, but states
-> > > > that they typically are 1.8ns for Rx and 2.0ns for Tx.
-> > >
-> > > I don't understand that part. If you cannot configure the internal
-> > > delay, how could it depend on the board characteristics?
-> >
-> > Each of these two properties reflect a single bit in the device
-> > configuration space. If the bit is set the {Rx,Tx} delay mode is active
-> > or disabled. The documentation for the bit simply states,
-> >
-> >     Tx clock internal Delay Mode
-> >
-> >     This bit can add internal Tx clock delay typ 2.0ns*.
-> >
-> >     *Refer to Electrical Characteristics for details.
-> >
-> > Same paragraph for Rx but a typical 1.8ns delay.
-> >
-> > > > I looked at the generic properties {rx,tx}-internal-delay-ps but they
-> > > > are of int type. So I opted for a vendor specific bool property. Do you
-> > > > think a better route is to use the generic property and force the value
-> > > > to be either 0 or the typical delay?
-> 
-> This is not dissimilar from EtherAVB, where the hardware also supports
-> only a single bit, and whose DT bindings have:
-> 
->   rx-internal-delay-ps:
->     enum: [0, 1800]
-> 
->   tx-internal-delay-ps:
->     enum: [0, 2000]
-> 
-> (with additional restrictions depending on the SoC, as on some SoCs
->  the bits cannot be changed).
+Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+---
+* Changes since v1
+- Update patch subject, was "dt-bindings: net: renesas,ethertsn: Add
+  bindings for Ethernet TSN".
+- Add top-level $ref to ethernet-controller.yaml.
+- Rework compatible node to have a fallback, renesas,rcar-gen4-ethertsn.
+- Change compatible value to match renesas style, was
+  renesas,ethertsn-r8a779g0.
+- Change interrupt names from "tx_data", "rx_data" to "tx", "rx".
+- Add missing unevaluatedProperties.
+- Use the generic properties for internal delay tx-internal-delay-ps and
+  rx-internal-delay-ps instead of vendor specific ones.
+---
+ .../bindings/net/renesas,ethertsn.yaml        | 133 ++++++++++++++++++
+ 1 file changed, 133 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/net/renesas,ethertsn.yaml
 
-That is a good point, I will switch to use the standard bindings for 
-delay in v2.
-
-> 
-> > > >> Why this is property of a board (not SoC)?
-> > > >
-> > > > I'm sorry I don't understand this question.
-> > >
-> > > Why setting internal delay is specific to a board, not to a SoC? Why
-> > > each board would need to configure it? On which parts of hardware on the
-> > > board does this depend?
-> >
-> > Ahh, I think I understand. It is per board as I understand the
-> > documentation. It depends on the electrical characteristics of the
-> > board.
-> 
-> Exactly. These bits (and also similar bits in the PHY) are used to
-> adapt signaling to the board trace lengths between MAC (on-SoC) and PHY.
-> 
-> Gr{oetje,eeting}s,
-> 
->                         Geert
-> 
-> -- 
-> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-> 
-> In personal conversations with technical people, I call myself a hacker. But
-> when I'm talking to journalists I just say "programmer" or something like that.
->                                 -- Linus Torvalds
-
+diff --git a/Documentation/devicetree/bindings/net/renesas,ethertsn.yaml b/Documentation/devicetree/bindings/net/renesas,ethertsn.yaml
+new file mode 100644
+index 000000000000..475aff7714d6
+--- /dev/null
++++ b/Documentation/devicetree/bindings/net/renesas,ethertsn.yaml
+@@ -0,0 +1,133 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/net/renesas,ethertsn.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Renesas Ethernet TSN End-station
++
++maintainers:
++  - Niklas Söderlund <niklas.soderlund@ragnatech.se>
++
++description:
++  The RTSN device provides Ethernet network using a 10 Mbps, 100 Mbps, or 1
++  Gbps full-duplex link via MII/GMII/RMII/RGMII. Depending on the connected PHY.
++
++allOf:
++  - $ref: ethernet-controller.yaml#
++
++properties:
++  compatible:
++    items:
++      - enum:
++          - renesas,r8a779g0-ethertsn       # R-Car V4H
++      - const: renesas,rcar-gen4-ethertsn
++
++  reg:
++    items:
++      - description: TSN End Station target
++      - description: generalized Precision Time Protocol target
++
++  reg-names:
++    items:
++      - const: tsnes
++      - const: gptp
++
++  interrupts:
++    items:
++      - description: TX data interrupt
++      - description: RX data interrupt
++
++  interrupt-names:
++    items:
++      - const: tx
++      - const: rx
++
++  clocks:
++    maxItems: 1
++
++  power-domains:
++    maxItems: 1
++
++  resets:
++    maxItems: 1
++
++  phy-mode:
++    contains:
++      enum:
++        - mii
++        - rgmii
++
++  phy-handle:
++    $ref: /schemas/types.yaml#/definitions/phandle
++    description:
++      Specifies a reference to a node representing a PHY device.
++
++  rx-internal-delay-ps:
++    enum: [0, 1800]
++
++  tx-internal-delay-ps:
++    enum: [0, 2000]
++
++  '#address-cells':
++    const: 1
++
++  '#size-cells':
++    const: 0
++
++patternProperties:
++  "^ethernet-phy@[0-9a-f]$":
++    type: object
++    $ref: ethernet-phy.yaml#
++    unevaluatedProperties: false
++
++required:
++  - compatible
++  - reg
++  - reg-names
++  - interrupts
++  - interrupt-names
++  - clocks
++  - power-domains
++  - resets
++  - phy-mode
++  - phy-handle
++  - '#address-cells'
++  - '#size-cells'
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/clock/r8a779g0-cpg-mssr.h>
++    #include <dt-bindings/interrupt-controller/arm-gic.h>
++    #include <dt-bindings/power/r8a779g0-sysc.h>
++    #include <dt-bindings/gpio/gpio.h>
++
++    tsn0: ethernet@e6460000 {
++        compatible = "renesas,r8a779g0-ethertsn", "renesas,rcar-gen4-ethertsn";
++        reg = <0xe6460000 0x7000>,
++              <0xe6449000 0x500>;
++        reg-names = "tsnes", "gptp";
++        interrupts = <GIC_SPI 429 IRQ_TYPE_LEVEL_HIGH>,
++                     <GIC_SPI 430 IRQ_TYPE_LEVEL_HIGH>;
++        interrupt-names = "tx", "rx";
++        clocks = <&cpg CPG_MOD 2723>;
++        power-domains = <&sysc R8A779G0_PD_ALWAYS_ON>;
++        resets = <&cpg 2723>;
++
++        phy-mode = "rgmii";
++        tx-internal-delay-ps = <2000>;
++        phy-handle = <&phy3>;
++
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        phy3: ethernet-phy@3 {
++            compatible = "ethernet-phy-ieee802.3-c45";
++            reg = <0>;
++            interrupt-parent = <&gpio4>;
++            interrupts = <3 IRQ_TYPE_LEVEL_LOW>;
++            reset-gpios = <&gpio1 23 GPIO_ACTIVE_LOW>;
++        };
++    };
 -- 
-Kind Regards,
-Niklas Söderlund
+2.42.1
+
 
