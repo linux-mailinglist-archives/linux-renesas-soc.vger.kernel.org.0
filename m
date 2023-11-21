@@ -1,167 +1,154 @@
-Return-Path: <linux-renesas-soc+bounces-43-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-44-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CBF17F32D2
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 21 Nov 2023 16:54:27 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B28F77F3357
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 21 Nov 2023 17:12:14 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 9FDB4B21F65
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 21 Nov 2023 15:54:24 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D65991C21C8C
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 21 Nov 2023 16:12:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A70DB5917C;
-	Tue, 21 Nov 2023 15:54:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech-se.20230601.gappssmtp.com header.i=@ragnatech-se.20230601.gappssmtp.com header.b="C4Q2Qi4V"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 65FF75A0E6;
+	Tue, 21 Nov 2023 16:12:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com [IPv6:2a00:1450:4864:20::534])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1EB941AC
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 21 Nov 2023 07:53:46 -0800 (PST)
-Received: by mail-ed1-x534.google.com with SMTP id 4fb4d7f45d1cf-5441305cbd1so7930721a12.2
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 21 Nov 2023 07:53:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20230601.gappssmtp.com; s=20230601; t=1700582024; x=1701186824; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=+7NjNd9CEagYnBdGkDCsdTNCadER1wmGC0fqJQ3aE7s=;
-        b=C4Q2Qi4VCvAaszVloUiwBH0/nK9zWdcHAA/qlTrjrrXeTxampcTN9Oljy6XZ7dDiXY
-         9QHN4R2LCYAnovYA1xDCwS167UNGVf3D100fXVpJDlMt3+oXiYESd8H0c6ZvAb9oDcNp
-         0v9SODbrGJcf2a57+xSuhAd6ix9PNYuefoTmNAiqhkOoPzkVhUG44lwvhpIilLqkfr7i
-         fNceqsrZ3sG3ISL5DHfgQc00juDIPqNqi7dXFPwoCqlBWgL0lqY1k9HGbrYgmgQxiM0Q
-         D1nQVFPyQLHBC2eWUoHu/EzZJlH1MbuLSrSSrfv/1xUAsK+GrwmKdGOd/J5OV8j9V+qF
-         t0Fg==
+Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com [209.85.128.182])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C8337D4C;
+	Tue, 21 Nov 2023 08:12:06 -0800 (PST)
+Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-5cbcfdeaff3so6117977b3.0;
+        Tue, 21 Nov 2023 08:12:06 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700582024; x=1701186824;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1700583126; x=1701187926;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=+7NjNd9CEagYnBdGkDCsdTNCadER1wmGC0fqJQ3aE7s=;
-        b=pZXLE5dmFablJCYAWChb04QZk1KECo3FnZH1WU4dWdg0k30Iys7pX/nfiZHELQJyEE
-         fymbc21mKDLFuTNhWHk/muhCiufS0FFsiMRCpjPqhM1xUDfeYNfnxdH4xLG01vQ0ogWn
-         qGxK3FyHWtLKWZuYea9a1tihHAz1tHL967XeFW5gfWmmx01y1gK6lSPnHGe39VWjZ2AO
-         5p+Xm1mMnz9EwybovverkiGBbDY3Va/HRgGV3021+PTGQqV8zc2qwKjzfYufe1cBPdT7
-         fDVWrtVn459MWdNGIrkc+1mNq/Tfb6cpZYrLcmItBPA1rkMl+jPS3UR6UqEozTAHmO8L
-         CRfQ==
-X-Gm-Message-State: AOJu0Yw9gyuiQtZJn0IGeMBtcmZfgY3xTXDv+ppJbHzWfwb5dY7c/juT
-	Bn26b6KdJF+oBBSefQypV5fs/w==
-X-Google-Smtp-Source: AGHT+IGaeCwvreDI3HuvQec1U9qsXvmgbpGRw6bV3x2kFKHLQWUSgeA4BoBICB4OpuMZZDihPh+2DQ==
-X-Received: by 2002:a17:907:971d:b0:a00:40e7:c311 with SMTP id jg29-20020a170907971d00b00a0040e7c311mr3810382ejc.27.1700582024619;
-        Tue, 21 Nov 2023 07:53:44 -0800 (PST)
-Received: from sleipner.berto.se (p4fcc8a96.dip0.t-ipconnect.de. [79.204.138.150])
-        by smtp.googlemail.com with ESMTPSA id dv8-20020a170906b80800b009fdc15b5304sm2896853ejb.102.2023.11.21.07.53.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Nov 2023 07:53:44 -0800 (PST)
-From: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-To: "David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Richard Cochran <richardcochran@gmail.com>,
-	netdev@vger.kernel.org
-Cc: linux-renesas-soc@vger.kernel.org,
-	=?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Subject: [net-next v3 5/5] net: ethernet: renesas: rcar_gen4_ptp: Break out to module
-Date: Tue, 21 Nov 2023 16:53:06 +0100
-Message-ID: <20231121155306.515446-6-niklas.soderlund+renesas@ragnatech.se>
-X-Mailer: git-send-email 2.42.1
-In-Reply-To: <20231121155306.515446-1-niklas.soderlund+renesas@ragnatech.se>
-References: <20231121155306.515446-1-niklas.soderlund+renesas@ragnatech.se>
+        bh=uKEP24gj4FWmAlyC3jxzEUqpjPNrhkMCvodVxEHrSFM=;
+        b=TBf4Fym7lIGPZ2XSqOD1YywYXTNGh+IYKa/59du8WHw5LRhqHV45vQ1jaTti1i57r/
+         PYYjBF2u1JlEIERWJy1Asya2mQZN2qzs3AFdKWgb5DCooAAV92rGBk2wTAvgy6JW5pyU
+         919lIsAlhecAPnJjPHFoDCPXmLBhwX/tvPC+MYG467qhzMIKNA3+8vMB7i6IH8BCyMJI
+         obnWQIzDZO8cULNfFUTsIcFLhnrQZQ/bx8+T7Np3/ohIAlBjk6JSKDCvEoLLJkFZkxXb
+         /RVvm2o/mGG2Zg70z/RHva8DaoAskdk4moEvhfmDuA8cZsUiS+zjh2UBCaVcFInIiAtJ
+         qXHA==
+X-Gm-Message-State: AOJu0YxWPQ0p9Gj9qXxvDdMMWOdhNHewH0Gn7oK3zSATJNDBWHHc5LgY
+	6KOLPfpxe4baDWxyotfneAMbPAwueAZDUPa0
+X-Google-Smtp-Source: AGHT+IE4hXPH4Di1AUcpPOSbHnKn5Je7XKCJk2uRlA2Sp2O4isPAJ1eI1hSDaGQVjv2welMSPUuJrg==
+X-Received: by 2002:a0d:e004:0:b0:5a8:207b:48d with SMTP id j4-20020a0de004000000b005a8207b048dmr10838223ywe.11.1700583125712;
+        Tue, 21 Nov 2023 08:12:05 -0800 (PST)
+Received: from mail-yb1-f176.google.com (mail-yb1-f176.google.com. [209.85.219.176])
+        by smtp.gmail.com with ESMTPSA id g4-20020a81d444000000b005cb0d7c2e46sm909315ywl.19.2023.11.21.08.12.04
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 21 Nov 2023 08:12:05 -0800 (PST)
+Received: by mail-yb1-f176.google.com with SMTP id 3f1490d57ef6-dafe04717baso5270976276.1;
+        Tue, 21 Nov 2023 08:12:04 -0800 (PST)
+X-Received: by 2002:a5b:949:0:b0:d9b:3ed:41a5 with SMTP id x9-20020a5b0949000000b00d9b03ed41a5mr10258239ybq.21.1700583124594;
+ Tue, 21 Nov 2023 08:12:04 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20231120160740.3532848-1-niklas.soderlund+renesas@ragnatech.se>
+ <2ab74479-f1fb-4faf-b223-ae750b4c08ce@linaro.org> <ZVyeMKjVhjW2F2e0@oden.dyn.berto.se>
+ <2ffb39c3-7939-46f2-8ca9-2b2cb44caaff@linaro.org> <ZVymJF2dd7XssGaQ@oden.dyn.berto.se>
+In-Reply-To: <ZVymJF2dd7XssGaQ@oden.dyn.berto.se>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 21 Nov 2023 17:11:52 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdW3+YWuBefga9fXWxp6=yXoUPO9EK0nwEzHcbvsevx5Pg@mail.gmail.com>
+Message-ID: <CAMuHMdW3+YWuBefga9fXWxp6=yXoUPO9EK0nwEzHcbvsevx5Pg@mail.gmail.com>
+Subject: Re: [PATCH] dt-bindings: net: renesas,ethertsn: Add bindings for
+ Ethernet TSN
+To: =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Rob Herring <robh+dt@kernel.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, devicetree@vger.kernel.org, 
+	netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The Gen4 gPTP support will be shared between the existing Renesas
-Ethernet Switch driver and the upcoming Renesas Ethernet-TSN driver. In
-preparation for this break out the gPTP support to its own module.
+Hi Niklas,
 
-Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
----
-* Changes since v2
-- Drop the unneeded 'depends on' line from Kconfig symbol
-  RENESAS_GEN4_PTP.
+On Tue, Nov 21, 2023 at 1:44=E2=80=AFPM Niklas S=C3=B6derlund
+<niklas.soderlund+renesas@ragnatech.se> wrote:
+> On 2023-11-21 13:20:54 +0100, Krzysztof Kozlowski wrote:
+> > On 21/11/2023 13:10, Niklas S=C3=B6derlund wrote:
+> > >>> +
+> > >>> +  renesas,rx-internal-delay:
+> > >>> +    type: boolean
+> > >>> +    description:
+> > >>> +      Enable internal Rx clock delay, typically 1.8ns.
+> > >>
+> > >> Why this is bool, not delay in ns?
+> > >
+> > > The TSN is only capable of enabling or disable internal delays, not s=
+et
+> > > how long the delay is. The documentation states that the delay depend=
+s
+> > > on the electronic characteristics of the particular board, but states
+> > > that they typically are 1.8ns for Rx and 2.0ns for Tx.
+> >
+> > I don't understand that part. If you cannot configure the internal
+> > delay, how could it depend on the board characteristics?
+>
+> Each of these two properties reflect a single bit in the device
+> configuration space. If the bit is set the {Rx,Tx} delay mode is active
+> or disabled. The documentation for the bit simply states,
+>
+>     Tx clock internal Delay Mode
+>
+>     This bit can add internal Tx clock delay typ 2.0ns*.
+>
+>     *Refer to Electrical Characteristics for details.
+>
+> Same paragraph for Rx but a typical 1.8ns delay.
+>
+> > > I looked at the generic properties {rx,tx}-internal-delay-ps but they
+> > > are of int type. So I opted for a vendor specific bool property. Do y=
+ou
+> > > think a better route is to use the generic property and force the val=
+ue
+> > > to be either 0 or the typical delay?
 
-* Changes since v1
-- s/Gen3/Gen4/ in commit message.
-- Add missing MODULE_AUTHOR() and MODULE_DESCRIPTION() definitions.
-- Make Kconfig tristate depend on COMPILE_TEST. All drivers that make
-  use of the shared code auto selects this anyhow.
----
- drivers/net/ethernet/renesas/Kconfig         | 9 +++++++++
- drivers/net/ethernet/renesas/Makefile        | 5 +++--
- drivers/net/ethernet/renesas/rcar_gen4_ptp.c | 7 +++++++
- 3 files changed, 19 insertions(+), 2 deletions(-)
+This is not dissimilar from EtherAVB, where the hardware also supports
+only a single bit, and whose DT bindings have:
 
-diff --git a/drivers/net/ethernet/renesas/Kconfig b/drivers/net/ethernet/renesas/Kconfig
-index 8ef5b0241e64..733cbb6eb3ed 100644
---- a/drivers/net/ethernet/renesas/Kconfig
-+++ b/drivers/net/ethernet/renesas/Kconfig
-@@ -44,7 +44,16 @@ config RENESAS_ETHER_SWITCH
- 	select CRC32
- 	select MII
- 	select PHYLINK
-+	select RENESAS_GEN4_PTP
- 	help
- 	  Renesas Ethernet Switch device driver.
- 
-+config RENESAS_GEN4_PTP
-+	tristate "Renesas R-Car Gen4 gPTP support" if COMPILE_TEST
-+	select CRC32
-+	select MII
-+	select PHYLIB
-+	help
-+	  Renesas R-Car Gen4 gPTP device driver.
-+
- endif # NET_VENDOR_RENESAS
-diff --git a/drivers/net/ethernet/renesas/Makefile b/drivers/net/ethernet/renesas/Makefile
-index e8fd85b5fe8f..9070acfd6aaf 100644
---- a/drivers/net/ethernet/renesas/Makefile
-+++ b/drivers/net/ethernet/renesas/Makefile
-@@ -8,5 +8,6 @@ obj-$(CONFIG_SH_ETH) += sh_eth.o
- ravb-objs := ravb_main.o ravb_ptp.o
- obj-$(CONFIG_RAVB) += ravb.o
- 
--rswitch_drv-objs := rswitch.o rcar_gen4_ptp.o
--obj-$(CONFIG_RENESAS_ETHER_SWITCH) += rswitch_drv.o
-+obj-$(CONFIG_RENESAS_ETHER_SWITCH) += rswitch.o
-+
-+obj-$(CONFIG_RENESAS_GEN4_PTP) += rcar_gen4_ptp.o
-diff --git a/drivers/net/ethernet/renesas/rcar_gen4_ptp.c b/drivers/net/ethernet/renesas/rcar_gen4_ptp.c
-index 9583894634ae..72e7fcc56693 100644
---- a/drivers/net/ethernet/renesas/rcar_gen4_ptp.c
-+++ b/drivers/net/ethernet/renesas/rcar_gen4_ptp.c
-@@ -176,6 +176,7 @@ int rcar_gen4_ptp_register(struct rcar_gen4_ptp_private *ptp_priv,
- 
- 	return 0;
- }
-+EXPORT_SYMBOL_GPL(rcar_gen4_ptp_register);
- 
- int rcar_gen4_ptp_unregister(struct rcar_gen4_ptp_private *ptp_priv)
- {
-@@ -183,6 +184,7 @@ int rcar_gen4_ptp_unregister(struct rcar_gen4_ptp_private *ptp_priv)
- 
- 	return ptp_clock_unregister(ptp_priv->clock);
- }
-+EXPORT_SYMBOL_GPL(rcar_gen4_ptp_unregister);
- 
- struct rcar_gen4_ptp_private *rcar_gen4_ptp_alloc(struct platform_device *pdev)
- {
-@@ -196,3 +198,8 @@ struct rcar_gen4_ptp_private *rcar_gen4_ptp_alloc(struct platform_device *pdev)
- 
- 	return ptp;
- }
-+EXPORT_SYMBOL_GPL(rcar_gen4_ptp_alloc);
-+
-+MODULE_AUTHOR("Yoshihiro Shimoda");
-+MODULE_DESCRIPTION("Renesas R-Car Gen4 gPTP driver");
-+MODULE_LICENSE("GPL");
--- 
-2.42.1
+  rx-internal-delay-ps:
+    enum: [0, 1800]
 
+  tx-internal-delay-ps:
+    enum: [0, 2000]
+
+(with additional restrictions depending on the SoC, as on some SoCs
+ the bits cannot be changed).
+
+> > >> Why this is property of a board (not SoC)?
+> > >
+> > > I'm sorry I don't understand this question.
+> >
+> > Why setting internal delay is specific to a board, not to a SoC? Why
+> > each board would need to configure it? On which parts of hardware on th=
+e
+> > board does this depend?
+>
+> Ahh, I think I understand. It is per board as I understand the
+> documentation. It depends on the electrical characteristics of the
+> board.
+
+Exactly. These bits (and also similar bits in the PHY) are used to
+adapt signaling to the board trace lengths between MAC (on-SoC) and PHY.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
