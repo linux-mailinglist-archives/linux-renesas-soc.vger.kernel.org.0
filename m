@@ -1,98 +1,151 @@
-Return-Path: <linux-renesas-soc+bounces-16-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-17-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 072997F26DA
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 21 Nov 2023 09:00:37 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id EF1767F26DC
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 21 Nov 2023 09:01:05 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 8BBE1B211AE
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 21 Nov 2023 08:00:34 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2B5921C21004
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 21 Nov 2023 08:01:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AD40338DC7;
-	Tue, 21 Nov 2023 08:00:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="Q7TqFAy4"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 30F2438DC8;
+	Tue, 21 Nov 2023 08:01:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [217.70.183.198])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E3F3010C;
-	Tue, 21 Nov 2023 00:00:27 -0800 (PST)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 16607C0014;
-	Tue, 21 Nov 2023 08:00:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1700553626;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=+wVLNzafuuC5OoDemnRoPxDj0X6KicgFt6cs+Glx0bI=;
-	b=Q7TqFAy4eXEFuafTGmpluzADtVh3sxCsZnIw0jcOQSIm2VkksDiJKJ6fuhdkc1gdFameiu
-	/uQ2+UHVna5FMAhPwy3O9IzGjalOya4EB4URoa5684Iy8PwVPiHLGx02gsiuau3eW55+c3
-	1fQ7s+7I+Hj2KqNJfuHovbK2G0Xc6mzOZYKGVjNxI4gs/X38lBNeuSFeW/OxQ9m8jbBkvB
-	gjIXyv98z3ztB5Q8Jc0RQy9xnBJHd86bGTB5ui0tU3xIS4ELi7uC/Zs5JsVx5azf4NKHll
-	MEWtG1PWVOkLp/kpKW4TWUqPj91GzjZDHk8OukBc2Ke74lPqU7lUUmgLDpZeyg==
-Date: Tue, 21 Nov 2023 09:00:19 +0100
-From: Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-To: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Cc: lpieralisi@kernel.org, kw@linux.com, robh@kernel.org,
- bhelgaas@google.com, jingoohan1@gmail.com, gustavo.pimentel@synopsys.com,
- mani@kernel.org, linux-pci@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org, Vignesh Raghavendra <vigneshr@ti.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Alim Akhtar
- <alim.akhtar@samsung.com>, Richard Zhu <hongxing.zhu@nxp.com>, Lucas Stach
- <l.stach@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>, Sascha Hauer
- <s.hauer@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, Minghuan Lian
- <minghuan.Lian@nxp.com>, Mingkai Hu <mingkai.hu@nxp.com>, Roy Zang
- <roy.zang@nxp.com>, Yue Wang <yue.wang@Amlogic.com>, Neil Armstrong
- <neil.armstrong@linaro.org>, Kevin Hilman <khilman@baylibre.com>, Jerome
- Brunet <jbrunet@baylibre.com>, Martin Blumenstingl
- <martin.blumenstingl@googlemail.com>, Jonathan Chocron <jonnyc@amazon.com>,
- Jesper Nilsson <jesper.nilsson@axis.com>, Heiko Stuebner <heiko@sntech.de>,
- Paul Walmsley <paul.walmsley@sifive.com>, Greentime Hu
- <greentime.hu@sifive.com>, Chuanhua Lei <lchuanhua@maxlinear.com>, Xiaowei
- Song <songxiaowei@hisilicon.com>, Binghui Wang <wangbinghui@hisilicon.com>,
- Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>, Marek Vasut
- <marek.vasut+renesas@gmail.com>, Pratyush Anand <pratyush.anand@gmail.com>,
- Thierry Reding <thierry.reding@gmail.com>, Jonathan Hunter
- <jonathanh@nvidia.com>, Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
- Masami Hiramatsu <mhiramat@kernel.org>, Nobuhiro Iwamatsu
- <nobuhiro1.iwamatsu@toshiba.co.jp>
-Subject: Re: [PATCH v2 1/6] PCI: dwc: Drop host prefix from struct
- dw_pcie_host_ops
-Message-ID: <20231121090019.0671168b@windsurf>
-In-Reply-To: <20231114055456.2231990-2-yoshihiro.shimoda.uh@renesas.com>
-References: <20231114055456.2231990-1-yoshihiro.shimoda.uh@renesas.com>
-	<20231114055456.2231990-2-yoshihiro.shimoda.uh@renesas.com>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-redhat-linux-gnu)
+Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 35D4BC8;
+	Tue, 21 Nov 2023 00:00:59 -0800 (PST)
+Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-50943ccbbaeso7399909e87.2;
+        Tue, 21 Nov 2023 00:00:59 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1700553657; x=1701158457;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=WAC7Wk7jAcTzX3Z+cItdgjy2XcXK1YIDP0sQ/+WmnbI=;
+        b=Am0V53ZajU3DfDYq06HQNkCrM3AGVGgNMYG9xpzbndrvBQilRTYJww5otVRybqEMm4
+         clXZkz/J6tMj6X5t58QhPZGk+loyJ9pmPQKZt2Tq+8bAdHS0h2JXsz6O/ORwcHvVbn0W
+         hPU/QtHZGGtnUGBLwOIlyjhd7Z6R2txZWC8RMv49QSh3UZQJXX9ZOBLBd9kjKkkGFnhp
+         2xCYgBccNMlnz6B3rzbwqTyMYS7qBP9sQebtAbM71tYm8CqG3bvwDPwk025wN1R1pLk7
+         G3NzDMJtgyw4eJE9umu7l6eGPXySbh1tidnTdoGQeG2aG7Sm/6MRzhWIqaHci2CgqZ2v
+         LfRQ==
+X-Gm-Message-State: AOJu0Yxj2Rqr/aQAJWP2mPpkGKK231wN8LJybHscF7XwPGx9vmQBaFqS
+	KRZriNVsuA7WO8v/7OvvKvIfRCFMbKr+lnra
+X-Google-Smtp-Source: AGHT+IEMKGgIaZuugrDMZDvV7GnJywK/Yx77z4jGc7Rwz9WNq4IzHq7tt5PQ58SgYfPSHkLLZyHueQ==
+X-Received: by 2002:a05:6512:983:b0:508:225e:e79f with SMTP id w3-20020a056512098300b00508225ee79fmr6014656lft.22.1700553656648;
+        Tue, 21 Nov 2023 00:00:56 -0800 (PST)
+Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com. [209.85.208.181])
+        by smtp.gmail.com with ESMTPSA id p15-20020a05651212cf00b0050810b0da0fsm1430948lfg.33.2023.11.21.00.00.56
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 21 Nov 2023 00:00:56 -0800 (PST)
+Received: by mail-lj1-f181.google.com with SMTP id 38308e7fff4ca-2c50fbc218bso65573181fa.3;
+        Tue, 21 Nov 2023 00:00:56 -0800 (PST)
+X-Received: by 2002:a05:651c:205e:b0:2c5:1075:5ec9 with SMTP id
+ t30-20020a05651c205e00b002c510755ec9mr6793793ljo.13.1700553656042; Tue, 21
+ Nov 2023 00:00:56 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-GND-Sasl: thomas.petazzoni@bootlin.com
+References: <20231120160740.3532848-1-niklas.soderlund+renesas@ragnatech.se> <2ab74479-f1fb-4faf-b223-ae750b4c08ce@linaro.org>
+In-Reply-To: <2ab74479-f1fb-4faf-b223-ae750b4c08ce@linaro.org>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 21 Nov 2023 09:00:41 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdUkfyJ9f22joXpAW1Gwk+zE9cqx+hbFqeK7Xc7ZTW1Faw@mail.gmail.com>
+Message-ID: <CAMuHMdUkfyJ9f22joXpAW1Gwk+zE9cqx+hbFqeK7Xc7ZTW1Faw@mail.gmail.com>
+Subject: Re: [PATCH] dt-bindings: net: renesas,ethertsn: Add bindings for
+ Ethernet TSN
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>, 
+	Rob Herring <robh+dt@kernel.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, devicetree@vger.kernel.org, 
+	netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hello,
+On Tue, Nov 21, 2023 at 8:45=E2=80=AFAM Krzysztof Kozlowski
+<krzysztof.kozlowski@linaro.org> wrote:
+> On 20/11/2023 17:07, Niklas S=C3=B6derlund wrote:
+> > Add bindings for Renesas R-Car Ethernet TSN End-station IP. The RTSN
+> > device provides Ethernet network.
+> >
+> > Signed-off-by: Niklas S=C3=B6derlund <niklas.soderlund+renesas@ragnatec=
+h.se>
 
-On Tue, 14 Nov 2023 14:54:51 +0900
-Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com> wrote:
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/net/renesas,ethertsn.yaml
+> > @@ -0,0 +1,133 @@
+> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > +%YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/net/renesas,ethertsn.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: Renesas Ethernet TSN End-station
+> > +
+> > +maintainers:
+> > +  - Niklas S=C3=B6derlund <niklas.soderlund@ragnatech.se>
+> > +
+> > +description:
+> > +  The RTSN device provides Ethernet network using a 10 Mbps, 100 Mbps,=
+ or 1
+> > +  Gbps full-duplex link via MII/GMII/RMII/RGMII. Depending on the conn=
+ected PHY.
+> > +
+> > +properties:
+> > +  compatible:
+> > +    oneOf:
+> > +      - items:
+>
+> Drop items.
+>
+> I assume you have oneOf above because you predict this will grow with
+> entries with fallbacks? If not, drop.
+>
+> > +          - enum:
+> > +              - renesas,ethertsn-r8a779g0      # R-Car V4H
 
->  drivers/pci/controller/dwc/pcie-armada8k.c    |  2 +-
+renesas,r8a779g0-ethertsn
 
-For the Armada 8K driver:
+R-Car S4 also has EtherTSN.
+Is it identical, so it makes sense to add a renesas,rcar-gen4-ethertsn
+fallback?
 
-Reviewed-by: Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+> > +  renesas,rx-internal-delay:
+> > +    type: boolean
+> > +    description:
+> > +      Enable internal Rx clock delay, typically 1.8ns.
+>
+> Why this is bool, not delay in ns?
+> Why this is property of a board (not SoC)?
 
-Best regards,
+Standard property is rx-internal-delay-ps.
 
-Thomas
--- 
-Thomas Petazzoni, co-owner and CEO, Bootlin
-Embedded Linux and Kernel engineering and training
-https://bootlin.com
+> > +
+> > +  renesas,tx-internal-delay:
+> > +    type: boolean
+> > +    description:
+> > +      Enable internal Tx clock delay, typically 2.0ns.
+>
+> Same questions.
+
+Standard property is tx-internal-delay-ps.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
