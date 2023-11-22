@@ -1,42 +1,42 @@
-Return-Path: <linux-renesas-soc+bounces-128-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-127-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A70447F4C0D
+	by mail.lfdr.de (Postfix) with ESMTPS id 8ADC57F4C0C
 	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Nov 2023 17:12:58 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 02B5FB20D9B
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Nov 2023 16:12:56 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 7772BB20D06
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Nov 2023 16:12:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A2B8C4EB25;
-	Wed, 22 Nov 2023 16:12:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CB9144D5B1;
+	Wed, 22 Nov 2023 16:12:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dkim=none
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from michel.telenet-ops.be (michel.telenet-ops.be [IPv6:2a02:1800:110:4::f00:18])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1931CD4A
+Received: from baptiste.telenet-ops.be (baptiste.telenet-ops.be [IPv6:2a02:1800:120:4::f00:13])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2E554A1
 	for <linux-renesas-soc@vger.kernel.org>; Wed, 22 Nov 2023 08:12:48 -0800 (PST)
 Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed40:d60:3031:68fb:d1ad])
-	by michel.telenet-ops.be with bizsmtp
-	id DUCm2B00E3EmSSH06UCmUJ; Wed, 22 Nov 2023 17:12:46 +0100
+	by baptiste.telenet-ops.be with bizsmtp
+	id DUCm2B00E3EmSSH01UCmq7; Wed, 22 Nov 2023 17:12:46 +0100
 Received: from rox.of.borg ([192.168.97.57])
 	by ramsan.of.borg with esmtp (Exim 4.95)
 	(envelope-from <geert@linux-m68k.org>)
-	id 1r5pq4-009ylC-95;
+	id 1r5pq4-009ylE-99;
 	Wed, 22 Nov 2023 17:12:46 +0100
 Received: from geert by rox.of.borg with local (Exim 4.95)
 	(envelope-from <geert@linux-m68k.org>)
-	id 1r5pqI-00GzNP-7j;
+	id 1r5pqI-00GzNS-8L;
 	Wed, 22 Nov 2023 17:12:46 +0100
 From: Geert Uytterhoeven <geert+renesas@glider.be>
 To: Magnus Damm <magnus.damm@gmail.com>
 Cc: linux-renesas-soc@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH v2 1/3] ARM: shmobile: defconfig: Switch to DRM_SHMOBILE
-Date: Wed, 22 Nov 2023 17:12:41 +0100
-Message-Id: <3d17d8418ddabeb84ff5fa1cdd16439ddc84286f.1700669207.git.geert+renesas@glider.be>
+Subject: [PATCH v2 2/3] ARM: dts: renesas: r8a7740: Add LCDC nodes
+Date: Wed, 22 Nov 2023 17:12:42 +0100
+Message-Id: <12dcec10e6fb3b55c39f6221349d35d6d6f17a5d.1700669207.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1700669207.git.geert+renesas@glider.be>
 References: <cover.1700669207.git.geert+renesas@glider.be>
@@ -48,48 +48,118 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Now the DRM driver for the SH-Mobile LCD Controller supports DT, replace
-the legacy frame buffer device driver by the DRM driver.
+Add device nodes for the two LCD Controllers (LCDC) on the R-Mobile A1
+SoC, and for the two optional external LCDL clock inputs.
 
-Disable frame buffer device drivers, as this was the last frame buffer
-device driver for Renesas ARM systems.
-Enable CONFIG_DRM_FBDEV_EMULATION and CONFIG_FB_DEVICE, as these are no
-longer auto-enabled since commit bb6c4507fe825f1b ("drm: fix up fbdev
-Kconfig defaults").
+Note that the HDMI clock for LCDC1 is not added, as this clock is not
+yet supported.
+
+Based on a patch by Laurent Pinchart adding the first LCDC device node.
 
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
 v2:
-  - New.
----
- arch/arm/configs/shmobile_defconfig | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+  - No changes.
 
-diff --git a/arch/arm/configs/shmobile_defconfig b/arch/arm/configs/shmobile_defconfig
-index e2ea369548eb0a8d..c47a638172a89bfd 100644
---- a/arch/arm/configs/shmobile_defconfig
-+++ b/arch/arm/configs/shmobile_defconfig
-@@ -135,8 +135,10 @@ CONFIG_VIDEO_ADV7604=y
- CONFIG_VIDEO_ADV7604_CEC=y
- CONFIG_VIDEO_ML86V7667=y
- CONFIG_DRM=y
-+CONFIG_DRM_FBDEV_EMULATION=y
- CONFIG_DRM_RCAR_DU=y
- # CONFIG_DRM_RCAR_USE_MIPI_DSI is not set
-+CONFIG_DRM_SHMOBILE=y
- CONFIG_DRM_PANEL_SIMPLE=y
- CONFIG_DRM_PANEL_EDP=y
- CONFIG_DRM_DISPLAY_CONNECTOR=y
-@@ -145,8 +147,7 @@ CONFIG_DRM_SII902X=y
- CONFIG_DRM_SIMPLE_BRIDGE=y
- CONFIG_DRM_I2C_ADV7511=y
- CONFIG_DRM_I2C_ADV7511_AUDIO=y
--CONFIG_FB=y
--CONFIG_FB_SH_MOBILE_LCDC=y
-+CONFIG_FB_DEVICE=y
- CONFIG_BACKLIGHT_PWM=y
- CONFIG_BACKLIGHT_AS3711=y
- CONFIG_SOUND=y
+Changes compared to Laurent's original:
+  - Add lcdc0 label,
+  - Rename node from display to lcdc-controller,
+  - Rename compatible value from "renesas,lcdc-r8a7740" to
+    "renesas,r8a7740-lcdc",
+  - Correct syntax of reg property,
+  - Use GIC_SPI macro,
+  - Add more clocks,
+  - Add power-domains property,
+  - Add status disabled,
+  - Remove second port from lcdc0, as only lcdc1 has an HDMI port,
+  - Add lcdc1 device node.
+---
+ arch/arm/boot/dts/renesas/r8a7740.dtsi | 65 ++++++++++++++++++++++++++
+ 1 file changed, 65 insertions(+)
+
+diff --git a/arch/arm/boot/dts/renesas/r8a7740.dtsi b/arch/arm/boot/dts/renesas/r8a7740.dtsi
+index 1b2cf5fa322b2985..55884ec701f8dab4 100644
+--- a/arch/arm/boot/dts/renesas/r8a7740.dtsi
++++ b/arch/arm/boot/dts/renesas/r8a7740.dtsi
+@@ -398,6 +398,61 @@ sh_fsi2: sound@fe1f0000 {
+ 		status = "disabled";
+ 	};
+ 
++	lcdc0: lcd-controller@fe940000 {
++		compatible = "renesas,r8a7740-lcdc";
++		reg = <0xfe940000 0x4000>;
++		interrupts = <GIC_SPI 177 IRQ_TYPE_LEVEL_HIGH>;
++		clocks = <&mstp1_clks R8A7740_CLK_LCDC0>,
++			 <&cpg_clocks R8A7740_CLK_M3>, <&lcdlclk0_clk>,
++			 <&vou_clk>;
++		clock-names = "fck", "media", "lclk", "video";
++		power-domains = <&pd_a4lc>;
++		status = "disabled";
++
++		ports {
++			#address-cells = <1>;
++			#size-cells = <0>;
++
++			port@0 {
++				reg = <0>;
++
++				lcdc0_rgb: endpoint {
++				};
++			};
++		};
++	};
++
++	lcdc1: lcd-controller@fe944000 {
++		compatible = "renesas,r8a7740-lcdc";
++		reg = <0xfe944000 0x4000>;
++		interrupts = <GIC_SPI 178 IRQ_TYPE_LEVEL_HIGH>;
++		clocks = <&mstp1_clks R8A7740_CLK_LCDC1>,
++			 <&cpg_clocks R8A7740_CLK_M3>, <&lcdlclk1_clk>,
++			 <&vou_clk>;
++		clock-names = "fck", "media", "lclk", "video";
++		power-domains = <&pd_a4lc>;
++		status = "disabled";
++
++		ports {
++			#address-cells = <1>;
++			#size-cells = <0>;
++
++			port@0 {
++				reg = <0>;
++
++				lcdc1_rgb: endpoint {
++				};
++			};
++
++			port@1 {
++				reg = <1>;
++
++				lcdc1_hdmi: endpoint {
++				};
++			};
++		};
++	};
++
+ 	tmu0: timer@fff80000 {
+ 		compatible = "renesas,tmu-r8a7740", "renesas,tmu";
+ 		reg = <0xfff80000 0x2c>;
+@@ -474,6 +529,16 @@ fsibck_clk: fsibck {
+ 			#clock-cells = <0>;
+ 			clock-frequency = <0>;
+ 		};
++		lcdlclk0_clk: lcdlclk0 {
++			compatible = "fixed-clock";
++			#clock-cells = <0>;
++			clock-frequency = <0>;
++		};
++		lcdlclk1_clk: lcdlclk1 {
++			compatible = "fixed-clock";
++			#clock-cells = <0>;
++			clock-frequency = <0>;
++		};
+ 
+ 		/* Special CPG clocks */
+ 		cpg_clocks: cpg_clocks@e6150000 {
 -- 
 2.34.1
 
