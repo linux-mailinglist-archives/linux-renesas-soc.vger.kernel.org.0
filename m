@@ -1,58 +1,59 @@
-Return-Path: <linux-renesas-soc+bounces-161-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-162-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71EA27F525E
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Nov 2023 22:14:50 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 39A1A7F5265
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Nov 2023 22:16:34 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A226A1C20B08
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Nov 2023 21:14:49 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 6FB5EB20B5A
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Nov 2023 21:16:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 994C21BDE3;
-	Wed, 22 Nov 2023 21:14:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4045F1C2A0;
+	Wed, 22 Nov 2023 21:16:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eniAnwuR"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="afPluMU+"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71AA51A590;
-	Wed, 22 Nov 2023 21:14:45 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EE9A6C43395;
-	Wed, 22 Nov 2023 21:14:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1ACA11BDCB;
+	Wed, 22 Nov 2023 21:16:27 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 94204C433CD;
+	Wed, 22 Nov 2023 21:16:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1700687685;
-	bh=AdLucksemJuNek6Q2mYTXAkYIMbYexxotameJ9QABko=;
+	s=k20201202; t=1700687787;
+	bh=i/uvn0zG7GX6WYB/bVMDXd0WbjNxSnbJY3Efex0PL20=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=eniAnwuRxcfrtO+5FXPi7U/gy0Q4Gbg+Wn8Q9WJRpf5IEfdeUI9uiRcKtgWd1UrYk
-	 sFXK6Y1lbQ6hSRJtK+tUi5YTpCX8BLFVnIxI8N9gw9yx18dcztECxsqtvkoOG/pRhG
-	 rU7IaYLnMxdkiZKYhg/wZWYV+3+t1TsayR6pnOmQn7n9lI+uG8jfSyRi+eee/7NU3S
-	 UTWu/G9247A0tyU++WddY9FcvlnaK2hGFwDCiVfjFxcXV/j5+kqrARX742bbXC4pEX
-	 7op2lIl8LsU/H8wI69JPLBHy+5bgWVD1KqlKhA4rmZWKmvUSU9diGbTM5MQIpor7g3
-	 HWbd6PXRCZHhQ==
-Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-a0064353af8so259876166b.0;
-        Wed, 22 Nov 2023 13:14:44 -0800 (PST)
-X-Gm-Message-State: AOJu0YyBJDYvB7IAWAT/BDjVzr68Xz7he3Ajq1sA2r/SWqEnpraMWGAb
-	Z3q4r345m3ZFs5oHYYYLJ44YlGrD93wnKxTJYvc=
-X-Google-Smtp-Source: AGHT+IGIAQGj/hNQ0yottVsGW32nM9K4Wad//z6CZkRNPSM4tQ2oBX2Rax3OWYHQw9MprWovLzjIL1OmqUf1i6gr5yE=
-X-Received: by 2002:a17:906:b218:b0:a04:98ef:c73c with SMTP id
- p24-20020a170906b21800b00a0498efc73cmr600541ejz.23.1700687683439; Wed, 22 Nov
- 2023 13:14:43 -0800 (PST)
+	b=afPluMU+NthupsGeN8ixp8QVRaSS58JP9nFitOpR0PUdYJYaE9MDjZYIzq/FIZo7E
+	 RfQ9WgFykxmAqM2T6E2TgvGjWvVBO6CsL117Di4d3MpgGffQTX5PXnwcvEcXTXfuT2
+	 UOy9PDu9YXOu8atSBlTY329JooGjS/FIrgzf7VHcTV1Suf14ooK4Nyqs9lFeceXIXk
+	 naqqjJO5dCD2Ne2OxCqOB/BM7m90TEaR9VnojkOwp7uGvItscGIZ7n2i4RvFULtf8b
+	 bUZ/1jqCVn33mwneUtWsY2exg4E1FS1x41obHG7OsIUtJe0hjuYC+HZr6AcPgtDQ+v
+	 LbtZjCOyTgiiQ==
+Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-9c41e95efcbso22890566b.3;
+        Wed, 22 Nov 2023 13:16:27 -0800 (PST)
+X-Gm-Message-State: AOJu0YxjdzyDmiNcSnWl1mBiDxjFRa5/roDVK+XxbBrixMhOLLo8ihxI
+	BHZ3n+FmaSMk0kXS8pRyXRHuo+rJmUtgdeEoDrU=
+X-Google-Smtp-Source: AGHT+IGCGM1QlV0x5h6yeq5Y9F3587ZfeYrmF2BNv4ibnrmbuHC2OtPjtaNQ1NR6omamtcQJVRzOXgnbLO2IXoQzzwU=
+X-Received: by 2002:a17:906:4c:b0:a02:ac3d:9e97 with SMTP id
+ 12-20020a170906004c00b00a02ac3d9e97mr2508212ejg.9.1700687786020; Wed, 22 Nov
+ 2023 13:16:26 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231122121235.827122-1-peterlin@andestech.com> <20231122121235.827122-10-peterlin@andestech.com>
-In-Reply-To: <20231122121235.827122-10-peterlin@andestech.com>
+References: <20231122121235.827122-1-peterlin@andestech.com> <20231122121235.827122-8-peterlin@andestech.com>
+In-Reply-To: <20231122121235.827122-8-peterlin@andestech.com>
 From: Guo Ren <guoren@kernel.org>
-Date: Thu, 23 Nov 2023 05:14:30 +0800
-X-Gmail-Original-Message-ID: <CAJF2gTSMe-yfzKfX92eWhBnJ_WwoYQu7_7fsOQuNqXdafHA1dg@mail.gmail.com>
-Message-ID: <CAJF2gTSMe-yfzKfX92eWhBnJ_WwoYQu7_7fsOQuNqXdafHA1dg@mail.gmail.com>
-Subject: Re: [PATCH v4 09/13] dt-bindings: riscv: Add T-Head PMU extension description
+Date: Thu, 23 Nov 2023 05:16:11 +0800
+X-Gmail-Original-Message-ID: <CAJF2gTTCfr-ysDru5qYhDCL4GW0Te57HJfpS=a2i4ffR+1dyMg@mail.gmail.com>
+Message-ID: <CAJF2gTTCfr-ysDru5qYhDCL4GW0Te57HJfpS=a2i4ffR+1dyMg@mail.gmail.com>
+Subject: Re: [PATCH v4 07/13] RISC-V: Move T-Head PMU to CPU feature
+ alternative framework
 To: Yu Chien Peter Lin <peterlin@andestech.com>
 Cc: acme@kernel.org, adrian.hunter@intel.com, ajones@ventanamicro.com, 
 	alexander.shishkin@linux.intel.com, andre.przywara@arm.com, 
@@ -78,37 +79,235 @@ Content-Transfer-Encoding: quoted-printable
 On Wed, Nov 22, 2023 at 8:17=E2=80=AFPM Yu Chien Peter Lin
 <peterlin@andestech.com> wrote:
 >
-> Document the ISA string for T-Head performance monitor extension
-> which provides counter overflow interrupt mechanism.
+> The custom PMU extension aims to support perf event sampling prior
+> to the ratification of Sscofpmf. Instead of diverting the bits and
+> register reserved for future standard, a set of custom registers is
+> added.  Hence, we may consider it as a CPU feature rather than an
+> erratum.
+>
+> T-Head cores need to append "xtheadpmu" to the riscv,isa-extensions
+> for each cpu node in device tree, and enable CONFIG_THEAD_CUSTOM_PMU
+> for proper functioning as of this commit.
 >
 > Signed-off-by: Yu Chien Peter Lin <peterlin@andestech.com>
 > ---
-> Changes v2 -> v3:
+> Hi All,
+>
+> This is in preparation for introducing other PMU alternative.
+> We follow Conor's suggestion [1][2] to use cpu feature alternative
+> framework rather than errata, I'm happy to drop the patch if someone
+> is willing to take care of this for T-Head's platforms (or sticking
+> with CPU errata alternative?)
+>
+> [1] https://patchwork.kernel.org/project/linux-riscv/patch/20230907021635=
+.1002738-4-peterlin@andestech.com/#25503860
+> [2] https://patchwork.kernel.org/project/linux-riscv/patch/20231023004100=
+.2663486-8-peterlin@andestech.com/#25565650
+>
+> Changes v1 -> v2:
 >   - New patch
+> Changes v2 -> v3:
+>   - Removed m{vendor/arch/imp}id checks in pmu_sbi_setup_irqs()
 > Changes v3 -> v4:
 >   - No change
 > ---
->  Documentation/devicetree/bindings/riscv/extensions.yaml | 6 ++++++
->  1 file changed, 6 insertions(+)
+>  arch/riscv/Kconfig.errata            | 13 -------------
+>  arch/riscv/errata/thead/errata.c     | 19 -------------------
+>  arch/riscv/include/asm/errata_list.h | 15 +--------------
+>  arch/riscv/include/asm/hwcap.h       |  1 +
+>  arch/riscv/kernel/cpufeature.c       |  1 +
+>  drivers/perf/Kconfig                 | 13 +++++++++++++
+>  drivers/perf/riscv_pmu_sbi.c         | 19 ++++++++++++++-----
+>  7 files changed, 30 insertions(+), 51 deletions(-)
 >
-> diff --git a/Documentation/devicetree/bindings/riscv/extensions.yaml b/Do=
-cumentation/devicetree/bindings/riscv/extensions.yaml
-> index c91ab0e46648..694efaea8fce 100644
-> --- a/Documentation/devicetree/bindings/riscv/extensions.yaml
-> +++ b/Documentation/devicetree/bindings/riscv/extensions.yaml
-> @@ -258,5 +258,11 @@ properties:
->              in commit 2e5236 ("Ztso is now ratified.") of the
->              riscv-isa-manual.
+> diff --git a/arch/riscv/Kconfig.errata b/arch/riscv/Kconfig.errata
+> index e2c731cfed8c..0d19f47d1018 100644
+> --- a/arch/riscv/Kconfig.errata
+> +++ b/arch/riscv/Kconfig.errata
+> @@ -86,17 +86,4 @@ config ERRATA_THEAD_CMO
 >
-> +        - const: xtheadpmu
-> +          description:
-> +            The T-Head performance monitor extension for counter overflo=
-w. For more
-> +            details, see the chapter 12 in the Xuantie C906 user manual.
-> +            https://github.com/T-head-Semi/openc906/tree/main/doc
+>           If you don't know what to do here, say "Y".
+>
+> -config ERRATA_THEAD_PMU
+> -       bool "Apply T-Head PMU errata"
+> -       depends on ERRATA_THEAD && RISCV_PMU_SBI
+> -       default y
+> -       help
+> -         The T-Head C9xx cores implement a PMU overflow extension very
+> -         similar to the core SSCOFPMF extension.
+> -
+> -         This will apply the overflow errata to handle the non-standard
+> -         behaviour via the regular SBI PMU driver and interface.
+> -
+> -         If you don't know what to do here, say "Y".
+> -
+>  endmenu # "CPU errata selection"
+> diff --git a/arch/riscv/errata/thead/errata.c b/arch/riscv/errata/thead/e=
+rrata.c
+> index 0554ed4bf087..5de5f7209132 100644
+> --- a/arch/riscv/errata/thead/errata.c
+> +++ b/arch/riscv/errata/thead/errata.c
+> @@ -53,22 +53,6 @@ static bool errata_probe_cmo(unsigned int stage,
+>         return true;
+>  }
+>
+> -static bool errata_probe_pmu(unsigned int stage,
+> -                            unsigned long arch_id, unsigned long impid)
+> -{
+> -       if (!IS_ENABLED(CONFIG_ERRATA_THEAD_PMU))
+> -               return false;
+> -
+> -       /* target-c9xx cores report arch_id and impid as 0 */
+> -       if (arch_id !=3D 0 || impid !=3D 0)
+> -               return false;
+> -
+> -       if (stage =3D=3D RISCV_ALTERNATIVES_EARLY_BOOT)
+> -               return false;
+> -
+> -       return true;
+> -}
+> -
+>  static u32 thead_errata_probe(unsigned int stage,
+>                               unsigned long archid, unsigned long impid)
+>  {
+> @@ -80,9 +64,6 @@ static u32 thead_errata_probe(unsigned int stage,
+>         if (errata_probe_cmo(stage, archid, impid))
+>                 cpu_req_errata |=3D BIT(ERRATA_THEAD_CMO);
+>
+> -       if (errata_probe_pmu(stage, archid, impid))
+> -               cpu_req_errata |=3D BIT(ERRATA_THEAD_PMU);
+> -
+>         return cpu_req_errata;
+>  }
+>
+> diff --git a/arch/riscv/include/asm/errata_list.h b/arch/riscv/include/as=
+m/errata_list.h
+> index 4ed21a62158c..9bccc2ba0eb5 100644
+> --- a/arch/riscv/include/asm/errata_list.h
+> +++ b/arch/riscv/include/asm/errata_list.h
+> @@ -25,8 +25,7 @@
+>  #ifdef CONFIG_ERRATA_THEAD
+>  #define        ERRATA_THEAD_PBMT 0
+>  #define        ERRATA_THEAD_CMO 1
+> -#define        ERRATA_THEAD_PMU 2
+> -#define        ERRATA_THEAD_NUMBER 3
+> +#define        ERRATA_THEAD_NUMBER 2
+>  #endif
+>
+>  #ifdef __ASSEMBLY__
+> @@ -147,18 +146,6 @@ asm volatile(ALTERNATIVE_2(                         =
+                       \
+>             "r"((unsigned long)(_start) + (_size))                      \
+>         : "a0")
+>
+> -#define THEAD_C9XX_RV_IRQ_PMU                  17
+> -#define THEAD_C9XX_CSR_SCOUNTEROF              0x5c5
+> -
+> -#define ALT_SBI_PMU_OVERFLOW(__ovl)                                    \
+> -asm volatile(ALTERNATIVE(                                              \
+> -       "csrr %0, " __stringify(CSR_SSCOUNTOVF),                        \
+> -       "csrr %0, " __stringify(THEAD_C9XX_CSR_SCOUNTEROF),             \
+> -               THEAD_VENDOR_ID, ERRATA_THEAD_PMU,                      \
+> -               CONFIG_ERRATA_THEAD_PMU)                                \
+> -       : "=3Dr" (__ovl) :                                               =
+ \
+> -       : "memory")
+> -
+>  #endif /* __ASSEMBLY__ */
+>
+>  #endif
+> diff --git a/arch/riscv/include/asm/hwcap.h b/arch/riscv/include/asm/hwca=
+p.h
+> index 06d30526ef3b..c85ee34c78d9 100644
+> --- a/arch/riscv/include/asm/hwcap.h
+> +++ b/arch/riscv/include/asm/hwcap.h
+> @@ -57,6 +57,7 @@
+>  #define RISCV_ISA_EXT_ZIHPM            42
+>  #define RISCV_ISA_EXT_SMSTATEEN                43
+>  #define RISCV_ISA_EXT_ZICOND           44
+> +#define RISCV_ISA_EXT_XTHEADPMU                45
+>
+>  #define RISCV_ISA_EXT_MAX              64
+>
+> diff --git a/arch/riscv/kernel/cpufeature.c b/arch/riscv/kernel/cpufeatur=
+e.c
+> index b3785ffc1570..e606f588d366 100644
+> --- a/arch/riscv/kernel/cpufeature.c
+> +++ b/arch/riscv/kernel/cpufeature.c
+> @@ -185,6 +185,7 @@ const struct riscv_isa_ext_data riscv_isa_ext[] =3D {
+>         __RISCV_ISA_EXT_DATA(svinval, RISCV_ISA_EXT_SVINVAL),
+>         __RISCV_ISA_EXT_DATA(svnapot, RISCV_ISA_EXT_SVNAPOT),
+>         __RISCV_ISA_EXT_DATA(svpbmt, RISCV_ISA_EXT_SVPBMT),
+> +       __RISCV_ISA_EXT_DATA(xtheadpmu, RISCV_ISA_EXT_XTHEADPMU),
+>  };
+>
+>  const size_t riscv_isa_ext_count =3D ARRAY_SIZE(riscv_isa_ext);
+> diff --git a/drivers/perf/Kconfig b/drivers/perf/Kconfig
+> index 273d67ecf6d2..c71b6f16bdfa 100644
+> --- a/drivers/perf/Kconfig
+> +++ b/drivers/perf/Kconfig
+> @@ -86,6 +86,19 @@ config RISCV_PMU_SBI
+>           full perf feature support i.e. counter overflow, privilege mode
+>           filtering, counter configuration.
+>
+> +config THEAD_CUSTOM_PMU
+> +       bool "T-Head custom PMU support"
+> +       depends on RISCV_ALTERNATIVE && RISCV_PMU_SBI
+> +       default y
+> +       help
+> +         The T-Head C9xx cores implement a PMU overflow extension very
+> +         similar to the core SSCOFPMF extension.
 > +
->  additionalProperties: true
->  ...
+> +         This will patch the overflow CSR and handle the non-standard
+> +         behaviour via the regular SBI PMU driver and interface.
+> +
+> +         If you don't know what to do here, say "Y".
+> +
+>  config ARM_PMU_ACPI
+>         depends on ARM_PMU && ACPI
+>         def_bool y
+> diff --git a/drivers/perf/riscv_pmu_sbi.c b/drivers/perf/riscv_pmu_sbi.c
+> index 2edbc37abadf..31ca79846399 100644
+> --- a/drivers/perf/riscv_pmu_sbi.c
+> +++ b/drivers/perf/riscv_pmu_sbi.c
+> @@ -20,10 +20,21 @@
+>  #include <linux/cpu_pm.h>
+>  #include <linux/sched/clock.h>
+>
+> -#include <asm/errata_list.h>
+>  #include <asm/sbi.h>
+>  #include <asm/cpufeature.h>
+>
+> +#define THEAD_C9XX_RV_IRQ_PMU          17
+> +#define THEAD_C9XX_CSR_SCOUNTEROF      0x5c5
+> +
+> +#define ALT_SBI_PMU_OVERFLOW(__ovl)                                    \
+> +asm volatile(ALTERNATIVE(                                              \
+> +       "csrr %0, " __stringify(CSR_SSCOUNTOVF),                        \
+> +       "csrr %0, " __stringify(THEAD_C9XX_CSR_SCOUNTEROF),             \
+> +               0, RISCV_ISA_EXT_XTHEADPMU,                             \
+> +               CONFIG_THEAD_CUSTOM_PMU)                                \
+> +       : "=3Dr" (__ovl) :                                               =
+ \
+> +       : "memory")
+> +
+>  #define SYSCTL_NO_USER_ACCESS  0
+>  #define SYSCTL_USER_ACCESS     1
+>  #define SYSCTL_LEGACY          2
+> @@ -808,10 +819,8 @@ static int pmu_sbi_setup_irqs(struct riscv_pmu *pmu,=
+ struct platform_device *pde
+>         if (riscv_isa_extension_available(NULL, SSCOFPMF)) {
+>                 riscv_pmu_irq_num =3D RV_IRQ_PMU;
+>                 riscv_pmu_use_irq =3D true;
+> -       } else if (IS_ENABLED(CONFIG_ERRATA_THEAD_PMU) &&
+> -                  riscv_cached_mvendorid(0) =3D=3D THEAD_VENDOR_ID &&
+> -                  riscv_cached_marchid(0) =3D=3D 0 &&
+> -                  riscv_cached_mimpid(0) =3D=3D 0) {
+> +       } else if (riscv_isa_extension_available(NULL, XTHEADPMU) &&
+> +                  IS_ENABLED(CONFIG_THEAD_CUSTOM_PMU)) {
+>                 riscv_pmu_irq_num =3D THEAD_C9XX_RV_IRQ_PMU;
+>                 riscv_pmu_use_irq =3D true;
+>         }
 > --
 > 2.34.1
 >
