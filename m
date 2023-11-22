@@ -1,176 +1,163 @@
-Return-Path: <linux-renesas-soc+bounces-93-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-94-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 515237F400A
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Nov 2023 09:24:10 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 12FBA7F4021
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Nov 2023 09:32:01 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id D62FAB20E37
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Nov 2023 08:24:07 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BD60F2810F4
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Nov 2023 08:31:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D2A3820B3D;
-	Wed, 22 Nov 2023 08:24:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6EF813D968;
+	Wed, 22 Nov 2023 08:31:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="RbW4rpqu"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com [209.85.219.171])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 09AABA4;
-	Wed, 22 Nov 2023 00:23:59 -0800 (PST)
-Received: by mail-yb1-f171.google.com with SMTP id 3f1490d57ef6-db3fa47c2f7so622354276.0;
-        Wed, 22 Nov 2023 00:23:59 -0800 (PST)
+Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com [IPv6:2a00:1450:4864:20::52f])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C1594109
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 22 Nov 2023 00:31:55 -0800 (PST)
+Received: by mail-ed1-x52f.google.com with SMTP id 4fb4d7f45d1cf-5484ef5e3d2so7053169a12.3
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 22 Nov 2023 00:31:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1700641914; x=1701246714; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=2bJsSsHGFq9aBlChakcbUTOSPzwT4uIQYQ+fVgyJERw=;
+        b=RbW4rpquMY3g8byOobgeAYchOcyx4tUZcWmtCpvOelp9PSK7EcjUNm8glFvOC9q0+V
+         Am6hPFxrAJPurhuH14EOhLdcKCbfXiXQ5m/RjhGM6cgUs0Lenl5FVg4yTKi7wVRDNtjc
+         2KYgNuYQRtliJp7uAQ8u+gC49q1qeaWZdkXjZTnrcpvDotP+1KISSnpSD5lpb0qPBjvc
+         YVvgMEdB0we9ztl2WXrz+GXWvzJqeH4hGU5+Xv0Ji+tnQMOyHdDpfoCmUM75F5xh94P6
+         suqaN3G45ZSOhtd86Et9L9B7GpnKxXq7IV6F3d9JbJEI6h3W6eWZmo92cU7B52yRyY30
+         nvbQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700641439; x=1701246239;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Vy1My54yzyi9AiFrv2nlq4bEUpW9uWwjs7YqVEJrmzU=;
-        b=OnFcIRLIzEC2kvMWX5FRgkaaQ/kS8UeBDhRzQg9gP6s9xBFge+L+qPePC48TWBsG+m
-         E1kOyyiLstRvLbSXKtsB0LE5bazCvbfMzW3EItYe/qXJyGbj6PWhKijo7S6ovkQgvXbS
-         10s3FlHPXh48A5N69K8DuMJXE/V+hc118oFH3h9Q1Ln0QNPgQ5LLhKp6lMvmV8PuIsCj
-         AHZBfRw91Ty7J6+XLJiao/xFHkRvZOu0wPWgbwehjdCGsJFmIhtfSETEIuFq2wksZbs9
-         OBzxifp6bOhTiws46UVCwNtPOxkoX/pxt5lTYrsjdosQo0CUefFIgmMUZqQDnsE/bSHT
-         PAmA==
-X-Gm-Message-State: AOJu0YwLM5MIJ/HWirrUSxoXnk0Kfak6SPLZpr1ktmcUIqHdCYgePCSI
-	hTGMY8dmZww0lYw5lroHl6W90ZTKCJKZWA==
-X-Google-Smtp-Source: AGHT+IFvfzpHACzFnQwn+vsv0ZZY4cK89OcH/XPBZTjHfYPaVATZSt8axcfLiD4RjF2EUXZWvC1mrQ==
-X-Received: by 2002:a25:9d01:0:b0:d9a:fd65:f97f with SMTP id i1-20020a259d01000000b00d9afd65f97fmr1383177ybp.17.1700641438739;
-        Wed, 22 Nov 2023 00:23:58 -0800 (PST)
-Received: from mail-yb1-f177.google.com (mail-yb1-f177.google.com. [209.85.219.177])
-        by smtp.gmail.com with ESMTPSA id k16-20020a056902025000b00d9a36ded1besm1230779ybs.6.2023.11.22.00.23.58
+        d=1e100.net; s=20230601; t=1700641914; x=1701246714;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=2bJsSsHGFq9aBlChakcbUTOSPzwT4uIQYQ+fVgyJERw=;
+        b=jK0cljnK+HoxugZGOhiYrMJC06dV0uKhsIDV1y3QD+kGqwiWje+Plxl3tntxQxwH4H
+         SJRCZp8e5cN9YCo1bw+ztp9/AqHI1NaIWHYqcd1WPcbvwJHqYE80526yI2IJGZRvVZ0z
+         t4YbT+FnSM4isuqnUphH5/sQtkWYQj0u6ZsmCdAztrmOSOa4IePYRknyutH/DID//u/H
+         IB4Ziq7ameM+Q6Ol7YcWmqahjdKzK0qiqOptP8P/nmNuV5EpB7xSzrJKdcNAnHPx9CsA
+         j8dujZrXWN2o7K0Hzq4OQSkr5JbhLbwvULIt3driNelp8aUZqZ3cosSkEav4VuTcq5bE
+         Dc6w==
+X-Gm-Message-State: AOJu0YxzeUJpkJov0HGz1qA8HdknzNVqVQXk7Md8NKCIJlZD74UGsYaX
+	8w2AsNURB/D+M3mTd6LPRFgNva6JAPe0715D8es=
+X-Google-Smtp-Source: AGHT+IGIyIJnN4jjMNMtZl2msEE3tRY4PJj5jNFLH8SXHZ25UCu/2u5YSaFYAVr1zFoYn5px8jwA3Q==
+X-Received: by 2002:aa7:d98e:0:b0:548:68a3:618e with SMTP id u14-20020aa7d98e000000b0054868a3618emr1209670eds.9.1700641914296;
+        Wed, 22 Nov 2023 00:31:54 -0800 (PST)
+Received: from [192.168.1.20] ([178.197.218.100])
+        by smtp.gmail.com with ESMTPSA id u3-20020a05640207c300b00548851486d8sm4322937edy.44.2023.11.22.00.31.52
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 22 Nov 2023 00:23:58 -0800 (PST)
-Received: by mail-yb1-f177.google.com with SMTP id 3f1490d57ef6-db3fa47c2f7so622341276.0;
-        Wed, 22 Nov 2023 00:23:58 -0800 (PST)
-X-Received: by 2002:a25:d742:0:b0:d9a:d16f:dddf with SMTP id
- o63-20020a25d742000000b00d9ad16fdddfmr1200974ybg.24.1700641437861; Wed, 22
- Nov 2023 00:23:57 -0800 (PST)
+        Wed, 22 Nov 2023 00:31:53 -0800 (PST)
+Message-ID: <5c4413b8-bebf-4489-a03a-d4c4ba1becdf@linaro.org>
+Date: Wed, 22 Nov 2023 09:31:51 +0100
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231121202459.36874-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20231121202459.36874-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 22 Nov 2023 09:23:44 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdXozB7PVOZM+SQa9D6Zca3x_+LE63RhmBGPDvmOma1fUA@mail.gmail.com>
-Message-ID: <CAMuHMdXozB7PVOZM+SQa9D6Zca3x_+LE63RhmBGPDvmOma1fUA@mail.gmail.com>
-Subject: Re: [PATCH] riscv: errata: andes: Probe IOCP during boot stage
-To: Prabhakar <prabhakar.csengg@gmail.com>
-Cc: Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
-	Albert Ou <aou@eecs.berkeley.edu>, Conor Dooley <conor.dooley@microchip.com>, 
-	Yu Chien Peter Lin <peterlin@andestech.com>, linux-riscv@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	Biju Das <biju.das.jz@bp.renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] dt-bindings: net: renesas,ethertsn: Add Ethernet TSN
+Content-Language: en-US
+To: =?UTF-8?Q?Niklas_S=C3=B6derlund?=
+ <niklas.soderlund+renesas@ragnatech.se>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Geert Uytterhoeven
+ <geert@linux-m68k.org>, devicetree@vger.kernel.org
+Cc: "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, netdev@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org
+References: <20231121183738.656192-1-niklas.soderlund+renesas@ragnatech.se>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
+ xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
+ cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
+ JMp7PSyMPzpUXfU12yfcRYVEMQrmplNZssmYhiTeVicuOOypWugZKVLGNm0IweVCaZ/DJDIH
+ gNbpvVwjcKYrx85m9cBVEBUGaQP6AT7qlVCkrf50v8bofSIyVa2xmubbAwwFA1oxoOusjPIE
+ J3iadrwpFvsZjF5uHAKS+7wHLoW9hVzOnLbX6ajk5Hf8Pb1m+VH/E8bPBNNYKkfTtypTDUCj
+ NYcd27tjnXfG+SDs/EXNUAIRefCyvaRG7oRYF3Ec+2RgQDRnmmjCjoQNbFrJvJkFHlPeHaeS
+ BosGY+XWKydnmsfY7SSnjAzLUGAFhLd/XDVpb1Een2XucPpKvt9ORF+48gy12FA5GduRLhQU
+ vK4tU7ojoem/G23PcowM1CwPurC8sAVsQb9KmwTGh7rVz3ks3w/zfGBy3+WmLg++C2Wct6nM
+ Pd8/6CBVjEWqD06/RjI2AnjIq5fSEH/BIfXXfC68nMp9BZoy3So4ZsbOlBmtAPvMYX6U8VwD
+ TNeBxJu5Ex0Izf1NV9CzC3nNaFUYOY8KfN01X5SExAoVTr09ewARAQABzTRLcnp5c3p0b2Yg
+ S296bG93c2tpIDxrcnp5c3p0b2Yua296bG93c2tpQGxpbmFyby5vcmc+wsGUBBMBCgA+FiEE
+ m9B+DgxR+NWWd7dUG5NDfTtBYpsFAmI+BxMCGwMFCRRfreEFCwkIBwIGFQoJCAsCBBYCAwEC
+ HgECF4AACgkQG5NDfTtBYptgbhAAjAGunRoOTduBeC7V6GGOQMYIT5n3OuDSzG1oZyM4kyvO
+ XeodvvYv49/ng473E8ZFhXfrre+c1olbr1A8pnz9vKVQs9JGVa6wwr/6ddH7/yvcaCQnHRPK
+ mnXyP2BViBlyDWQ71UC3N12YCoHE2cVmfrn4JeyK/gHCvcW3hUW4i5rMd5M5WZAeiJj3rvYh
+ v8WMKDJOtZFXxwaYGbvFJNDdvdTHc2x2fGaWwmXMJn2xs1ZyFAeHQvrp49mS6PBQZzcx0XL5
+ cU9ZjhzOZDn6Apv45/C/lUJvPc3lo/pr5cmlOvPq1AsP6/xRXsEFX/SdvdxJ8w9KtGaxdJuf
+ rpzLQ8Ht+H0lY2On1duYhmro8WglOypHy+TusYrDEry2qDNlc/bApQKtd9uqyDZ+rx8bGxyY
+ qBP6bvsQx5YACI4p8R0J43tSqWwJTP/R5oPRQW2O1Ye1DEcdeyzZfifrQz58aoZrVQq+innR
+ aDwu8qDB5UgmMQ7cjDSeAQABdghq7pqrA4P8lkA7qTG+aw8Z21OoAyZdUNm8NWJoQy8m4nUP
+ gmeeQPRc0vjp5JkYPgTqwf08cluqO6vQuYL2YmwVBIbO7cE7LNGkPDA3RYMu+zPY9UUi/ln5
+ dcKuEStFZ5eqVyqVoZ9eu3RTCGIXAHe1NcfcMT9HT0DPp3+ieTxFx6RjY3kYTGLOwU0EVUNc
+ NAEQAM2StBhJERQvgPcbCzjokShn0cRA4q2SvCOvOXD+0KapXMRFE+/PZeDyfv4dEKuCqeh0
+ hihSHlaxTzg3TcqUu54w2xYskG8Fq5tg3gm4kh1Gvh1LijIXX99ABA8eHxOGmLPRIBkXHqJY
+ oHtCvPc6sYKNM9xbp6I4yF56xVLmHGJ61KaWKf5KKWYgA9kfHufbja7qR0c6H79LIsiYqf92
+ H1HNq1WlQpu/fh4/XAAaV1axHFt/dY/2kU05tLMj8GjeQDz1fHas7augL4argt4e+jum3Nwt
+ yupodQBxncKAUbzwKcDrPqUFmfRbJ7ARw8491xQHZDsP82JRj4cOJX32sBg8nO2N5OsFJOcd
+ 5IE9v6qfllkZDAh1Rb1h6DFYq9dcdPAHl4zOj9EHq99/CpyccOh7SrtWDNFFknCmLpowhct9
+ 5ZnlavBrDbOV0W47gO33WkXMFI4il4y1+Bv89979rVYn8aBohEgET41SpyQz7fMkcaZU+ok/
+ +HYjC/qfDxT7tjKXqBQEscVODaFicsUkjheOD4BfWEcVUqa+XdUEciwG/SgNyxBZepj41oVq
+ FPSVE+Ni2tNrW/e16b8mgXNngHSnbsr6pAIXZH3qFW+4TKPMGZ2rZ6zITrMip+12jgw4mGjy
+ 5y06JZvA02rZT2k9aa7i9dUUFggaanI09jNGbRA/ABEBAAHCwXwEGAEKACYCGwwWIQSb0H4O
+ DFH41ZZ3t1Qbk0N9O0FimwUCYDzvagUJFF+UtgAKCRAbk0N9O0Fim9JzD/0auoGtUu4mgnna
+ oEEpQEOjgT7l9TVuO3Qa/SeH+E0m55y5Fjpp6ZToc481za3xAcxK/BtIX5Wn1mQ6+szfrJQ6
+ 59y2io437BeuWIRjQniSxHz1kgtFECiV30yHRgOoQlzUea7FgsnuWdstgfWi6LxstswEzxLZ
+ Sj1EqpXYZE4uLjh6dW292sO+j4LEqPYr53hyV4I2LPmptPE9Rb9yCTAbSUlzgjiyyjuXhcwM
+ qf3lzsm02y7Ooq+ERVKiJzlvLd9tSe4jRx6Z6LMXhB21fa5DGs/tHAcUF35hSJrvMJzPT/+u
+ /oVmYDFZkbLlqs2XpWaVCo2jv8+iHxZZ9FL7F6AHFzqEFdqGnJQqmEApiRqH6b4jRBOgJ+cY
+ qc+rJggwMQcJL9F+oDm3wX47nr6jIsEB5ZftdybIzpMZ5V9v45lUwmdnMrSzZVgC4jRGXzsU
+ EViBQt2CopXtHtYfPAO5nAkIvKSNp3jmGxZw4aTc5xoAZBLo0OV+Ezo71pg3AYvq0a3/oGRG
+ KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
+ fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
+ D2GYIS41Kv4Isx2dEFh+/Q==
+In-Reply-To: <20231121183738.656192-1-niklas.soderlund+renesas@ragnatech.se>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Hi Prabhakar,
+On 21/11/2023 19:37, Niklas Söderlund wrote:
+> Add bindings for Renesas R-Car Ethernet TSN End-station IP. The RTSN
+> device provides Ethernet network.
+> 
+> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 
-On Tue, Nov 21, 2023 at 9:25=E2=80=AFPM Prabhakar <prabhakar.csengg@gmail.c=
-om> wrote:
-> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
->
-> We should be probing for IOCP during boot stage only. As we were probing
-> for IOCP for all the stages this caused the below issue during module-ini=
-t
-> stage,
->
-> [9.019104] Unable to handle kernel paging request at virtual address ffff=
-ffff8100d3a0
-> [9.027153] Oops [#1]
-> [9.029421] Modules linked in: rcar_canfd renesas_usbhs i2c_riic can_dev s=
-pi_rspi i2c_core
-> [9.037686] CPU: 0 PID: 90 Comm: udevd Not tainted 6.7.0-rc1+ #57
-> [9.043756] Hardware name: Renesas SMARC EVK based on r9a07g043f01 (DT)
-> [9.050339] epc : riscv_noncoherent_supported+0x10/0x3e
-> [9.055558]  ra : andes_errata_patch_func+0x4a/0x52
-> [9.060418] epc : ffffffff8000d8c2 ra : ffffffff8000d95c sp : ffffffc8003a=
-bb00
-> [9.067607]  gp : ffffffff814e25a0 tp : ffffffd80361e540 t0 : 000000000000=
-0000
-> [9.074795]  t1 : 000000000900031e t2 : 0000000000000001 s0 : ffffffc8003a=
-bb20
-> [9.081984]  s1 : ffffffff015b57c7 a0 : 0000000000000000 a1 : 000000000000=
-0001
-> [9.089172]  a2 : 0000000000000000 a3 : 0000000000000000 a4 : ffffffff8100=
-d8be
-> [9.096360]  a5 : 0000000000000001 a6 : 0000000000000001 a7 : 000000000900=
-031e
-> [9.103548]  s2 : ffffffff015b57d7 s3 : 0000000000000001 s4 : 000000000000=
-031e
-> [9.110736]  s5 : 8000000000008a45 s6 : 0000000000000500 s7 : 000000000000=
-003f
-> [9.117924]  s8 : ffffffc8003abd48 s9 : ffffffff015b1140 s10: ffffffff8151=
-a1b0
-> [9.125113]  s11: ffffffff015b1000 t3 : 0000000000000001 t4 : fefefefefefe=
-feff
-> [9.132301]  t5 : ffffffff015b57c7 t6 : ffffffd8b63a6000
-> [9.137587] status: 0000000200000120 badaddr: ffffffff8100d3a0 cause: 0000=
-00000000000f
-> [9.145468] [<ffffffff8000d8c2>] riscv_noncoherent_supported+0x10/0x3e
-> [9.151972] [<ffffffff800027e8>] _apply_alternatives+0x84/0x86
-> [9.157784] [<ffffffff800029be>] apply_module_alternatives+0x10/0x1a
-> [9.164113] [<ffffffff80008fcc>] module_finalize+0x5e/0x7a
-> [9.169583] [<ffffffff80085cd6>] load_module+0xfd8/0x179c
-> [9.174965] [<ffffffff80086630>] init_module_from_file+0x76/0xaa
-> [9.180948] [<ffffffff800867f6>] __riscv_sys_finit_module+0x176/0x2a8
-> [9.187365] [<ffffffff80889862>] do_trap_ecall_u+0xbe/0x130
-> [9.192922] [<ffffffff808920bc>] ret_from_exception+0x0/0x64
-> [9.198573] Code: 0009 b7e9 6797 014d a783 85a7 c799 4785 0717 0100 (0123)=
- aef7
-> [9.205994] ---[ end trace 0000000000000000 ]---
->
-> This is because we called riscv_noncoherent_supported() for all the stage=
-s
-> during IOCP probe. riscv_noncoherent_supported() function sets
-> noncoherent_supported variable to true which has an annotation set to
-> "__ro_after_init" due to which we were seeing the above splat. Fix this b=
-y
-> probing IOCP during boot stage only.
->
-> Fixes: e021ae7f5145 ("riscv: errata: Add Andes alternative ports")
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+...
 
-Thanks for your patch!
+> +patternProperties:
+> +  "^ethernet-phy@[0-9a-f]$":
+> +    type: object
+> +    $ref: ethernet-phy.yaml#
+> +    unevaluatedProperties: false
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - reg-names
+> +  - interrupts
+> +  - interrupt-names
+> +  - clocks
+> +  - power-domains
+> +  - resets
+> +  - phy-mode
+> +  - phy-handle
+> +  - '#address-cells'
+> +  - '#size-cells'
 
-> --- a/arch/riscv/errata/andes/errata.c
-> +++ b/arch/riscv/errata/andes/errata.c
-> @@ -60,7 +60,8 @@ void __init_or_module andes_errata_patch_func(struct al=
-t_entry *begin, struct al
->                                               unsigned long archid, unsig=
-ned long impid,
->                                               unsigned int stage)
->  {
-> -       errata_probe_iocp(stage, archid, impid);
-> +       if (stage =3D=3D RISCV_ALTERNATIVES_BOOT)
-> +               errata_probe_iocp(stage, archid, impid);
->
->         /* we have nothing to patch here ATM so just return back */
->  }
+If there is going to be respin, please use consistent quotes - either '
+or " (see pattern a bit above). You also need net-next in PATCH. In any
+case:
 
-I believe this still causes errata_probe_iocp() to be called twice:
-once from apply_boot_alternatives(), and a second time (if CONFIG_MMU=3Dy)
-from apply_vdso_alternatives().  Is that OK?
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-Perhaps instead you want to add a check to errata_probe_iocp() (after
-the check for CONFIG_ERRATA_ANDES_CMO), to bail out if the function
-was called before?
+Best regards,
+Krzysztof
 
-Gr{oetje,eeting}s,
-
-                        Geert
-
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
 
