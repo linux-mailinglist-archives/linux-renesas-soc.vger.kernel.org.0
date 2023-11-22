@@ -1,269 +1,106 @@
-Return-Path: <linux-renesas-soc+bounces-130-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-131-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 853407F4C4E
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Nov 2023 17:26:09 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 63DCC7F4C79
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Nov 2023 17:34:38 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4112A28138D
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Nov 2023 16:26:08 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id DC655B20C8D
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Nov 2023 16:34:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E0FB224B29;
-	Wed, 22 Nov 2023 16:26:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 247334F1E7;
+	Wed, 22 Nov 2023 16:34:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dkim=none
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mx01.omp.ru (mx01.omp.ru [90.154.21.10])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BC758BD;
-	Wed, 22 Nov 2023 08:26:00 -0800 (PST)
-Received: from [192.168.1.103] (31.173.85.136) by msexch01.omp.ru
- (10.188.4.12) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.1258.12; Wed, 22 Nov
- 2023 19:25:49 +0300
-Subject: Re: [PATCH 13/13] net: ravb: Add runtime PM support
-To: Claudiu <claudiu.beznea@tuxon.dev>, <davem@davemloft.net>,
-	<edumazet@google.com>, <kuba@kernel.org>, <pabeni@redhat.com>,
-	<p.zabel@pengutronix.de>, <yoshihiro.shimoda.uh@renesas.com>,
-	<geert+renesas@glider.be>, <wsa+renesas@sang-engineering.com>,
-	<biju.das.jz@bp.renesas.com>, <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	<sergei.shtylyov@cogentembedded.com>, <mitsuhiro.kimura.kc@renesas.com>,
-	<masaru.nagai.vx@renesas.com>
-CC: <netdev@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, Claudiu Beznea
-	<claudiu.beznea.uj@bp.renesas.com>
-References: <20231120084606.4083194-1-claudiu.beznea.uj@bp.renesas.com>
- <20231120084606.4083194-14-claudiu.beznea.uj@bp.renesas.com>
-From: Sergey Shtylyov <s.shtylyov@omp.ru>
-Organization: Open Mobile Platform
-Message-ID: <04cb07fe-cccc-774a-f14d-763ce7ae7b07@omp.ru>
-Date: Wed, 22 Nov 2023 19:25:48 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com [209.85.128.182])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3621D101;
+	Wed, 22 Nov 2023 08:34:31 -0800 (PST)
+Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-5cc62cca0efso9551077b3.2;
+        Wed, 22 Nov 2023 08:34:31 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1700670870; x=1701275670;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ophsLbscDpT/fxf0eBhWE8ZK8OIp8kFL24DJaRjaQW8=;
+        b=XlNhJpVG0IUme74oamEOlp1oUOtTcL7W5kJvyLDl0PmqzoDk0Je2TG3lHI+VrQvE5U
+         2oVgtZHl3dZRh2dBDSrTzYM4cPmyAkOhnkb+8F7BCTFMKFc9NJLzzyAkc4vAHdZv+1vz
+         AMSsg6e/2h2Gp8yIKxPCSFVE9925W4Kf5fU30Lse82MeGTOJUwWvgwvDNQvlP5jqNA9V
+         n01VvGeCNC1fvLE1doTAFzGBUc98jPGh+fIygZQ+mMdqztX+Faplk23Cs+HxCZyN8/6C
+         Ok4/aBaZVJ+eSZmldyXFfRGUsX+tqXuvrYEvLP1zS6e5aTQXHj7iDkZNXwV/NiHB8bb0
+         7RNw==
+X-Gm-Message-State: AOJu0YzeJJzYJKDuafmswgauEFJ0D1CDiiZKbMOZpna0wxtyvGx1d3wh
+	8gw9Z8GYAQeK0uNY0uoHmZ2V1/42ojGUsw==
+X-Google-Smtp-Source: AGHT+IGxOwoBoFb6bhUx/nujYr41iMhIuJe5EFQCCe+cDSqkpRY/GmB9x2NxAdNR7LXbeaEU2UaUwQ==
+X-Received: by 2002:a0d:e695:0:b0:5c9:70b9:84d5 with SMTP id p143-20020a0de695000000b005c970b984d5mr2828263ywe.8.1700670869750;
+        Wed, 22 Nov 2023 08:34:29 -0800 (PST)
+Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com. [209.85.128.176])
+        by smtp.gmail.com with ESMTPSA id p13-20020a81ca0d000000b005cb994c12f6sm1153749ywi.115.2023.11.22.08.34.29
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 22 Nov 2023 08:34:29 -0800 (PST)
+Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-5ca9114e0e2so35656247b3.3;
+        Wed, 22 Nov 2023 08:34:29 -0800 (PST)
+X-Received: by 2002:a0d:cb58:0:b0:5cb:576a:ec1c with SMTP id
+ n85-20020a0dcb58000000b005cb576aec1cmr2804676ywd.9.1700670868874; Wed, 22 Nov
+ 2023 08:34:28 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <20231120084606.4083194-14-claudiu.beznea.uj@bp.renesas.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: msexch01.omp.ru (10.188.4.12) To msexch01.omp.ru
- (10.188.4.12)
-X-KSE-ServerInfo: msexch01.omp.ru, 9
-X-KSE-AntiSpam-Interceptor-Info: scan successful
-X-KSE-AntiSpam-Version: 6.0.0, Database issued on: 11/21/2023 23:48:29
-X-KSE-AntiSpam-Status: KAS_STATUS_NOT_DETECTED
-X-KSE-AntiSpam-Method: none
-X-KSE-AntiSpam-Rate: 59
-X-KSE-AntiSpam-Info: Lua profiles 181514 [Nov 21 2023]
-X-KSE-AntiSpam-Info: Version: 6.0.0.2
-X-KSE-AntiSpam-Info: Envelope from: s.shtylyov@omp.ru
-X-KSE-AntiSpam-Info: LuaCore: 3 0.3.3 e5c6a18a9a9bff0226d530c5b790210c0bd117c8
-X-KSE-AntiSpam-Info: {rep_avail}
-X-KSE-AntiSpam-Info: {Tracking_from_domain_doesnt_match_to}
-X-KSE-AntiSpam-Info: {relay has no DNS name}
-X-KSE-AntiSpam-Info: {SMTP from is not routable}
-X-KSE-AntiSpam-Info: {Found in DNSBL: 31.173.85.136 in (user)
- b.barracudacentral.org}
-X-KSE-AntiSpam-Info: ApMailHostAddress: 31.173.85.136
-X-KSE-AntiSpam-Info: {DNS response errors}
-X-KSE-AntiSpam-Info: Rate: 59
-X-KSE-AntiSpam-Info: Status: not_detected
-X-KSE-AntiSpam-Info: Method: none
-X-KSE-AntiSpam-Info: Auth:dmarc=temperror header.from=omp.ru;spf=temperror
- smtp.mailfrom=omp.ru;dkim=none
-X-KSE-Antiphishing-Info: Clean
-X-KSE-Antiphishing-ScanningType: Heuristic
-X-KSE-Antiphishing-Method: None
-X-KSE-Antiphishing-Bases: 11/21/2023 23:54:00
-X-KSE-Antivirus-Interceptor-Info: scan successful
-X-KSE-Antivirus-Info: Clean, bases: 11/21/2023 8:06:00 PM
-X-KSE-Attachment-Filter-Triggered-Rules: Clean
-X-KSE-Attachment-Filter-Triggered-Filters: Clean
-X-KSE-BulkMessagesFiltering-Scan-Result: InTheLimit
+References: <20231122121235.827122-1-peterlin@andestech.com> <20231122121235.827122-13-peterlin@andestech.com>
+In-Reply-To: <20231122121235.827122-13-peterlin@andestech.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Wed, 22 Nov 2023 17:34:14 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdWHx6FoTCZZqaUAES5wJ=JBu7iLvVtNdBZAHB9mgBX4Gg@mail.gmail.com>
+Message-ID: <CAMuHMdWHx6FoTCZZqaUAES5wJ=JBu7iLvVtNdBZAHB9mgBX4Gg@mail.gmail.com>
+Subject: Re: [PATCH v4 12/13] riscv: dts: renesas: Add Andes PMU extension
+To: Yu Chien Peter Lin <peterlin@andestech.com>
+Cc: acme@kernel.org, adrian.hunter@intel.com, ajones@ventanamicro.com, 
+	alexander.shishkin@linux.intel.com, andre.przywara@arm.com, 
+	anup@brainfault.org, aou@eecs.berkeley.edu, atishp@atishpatra.org, 
+	conor+dt@kernel.org, conor.dooley@microchip.com, conor@kernel.org, 
+	devicetree@vger.kernel.org, dminus@andestech.com, evan@rivosinc.com, 
+	geert+renesas@glider.be, guoren@kernel.org, heiko@sntech.de, 
+	irogers@google.com, jernej.skrabec@gmail.com, jolsa@kernel.org, 
+	jszhang@kernel.org, krzysztof.kozlowski+dt@linaro.org, 
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	linux-perf-users@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	linux-riscv@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+	locus84@andestech.com, magnus.damm@gmail.com, mark.rutland@arm.com, 
+	mingo@redhat.com, n.shubin@yadro.com, namhyung@kernel.org, palmer@dabbelt.com, 
+	paul.walmsley@sifive.com, peterz@infradead.org, 
+	prabhakar.mahadev-lad.rj@bp.renesas.com, rdunlap@infradead.org, 
+	robh+dt@kernel.org, samuel@sholland.org, sunilvl@ventanamicro.com, 
+	tglx@linutronix.de, tim609@andestech.com, uwu@icenowy.me, wens@csie.org, 
+	will@kernel.org, ycliang@andestech.com, inochiama@outlook.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 11/20/23 11:46 AM, Claudiu wrote:
+On Wed, Nov 22, 2023 at 1:17=E2=80=AFPM Yu Chien Peter Lin
+<peterlin@andestech.com> wrote:
+> xandespmu stands for Andes Performance Monitor Unit extension.
+> Based on the added Andes PMU ISA string, the SBI PMU driver
+> will make use of the non-standard irq source.
+>
+> Signed-off-by: Yu Chien Peter Lin <peterlin@andestech.com>
 
-> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-> RZ/G3S supports enabling/disabling clocks for its modules (including
-> Ethernet module). For this commit adds runtime PM support which
-> relies on PM domain to enable/disable Ethernet clocks.
+Gr{oetje,eeting}s,
 
-   That's not exactly something new in RZ/G3S. The ravb driver has unconditional
-RPM calls already in the probe() and remove() methods... And the sh_eth driver
-has RPM support since 2009...
+                        Geert
 
-> At the end of probe ravb_pm_runtime_put() is called which will turn
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
 
-   I'd suggest a shorter name, like ravb_rpm_put() but (looking at this function)
-it doesn't seem hardly needed...
-
-> off the Ethernet clocks (if no other request arrives at the driver).
-> After that if the interface is brought up (though ravb_open()) then
-> the clocks remain enabled until interface is brought down (operation
-> done though ravb_close()).
-> 
-> If any request arrives to the driver while the interface is down the
-> clocks are enabled to serve the request and then disabled.
-> 
-> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-> ---
->  drivers/net/ethernet/renesas/ravb.h      |  1 +
->  drivers/net/ethernet/renesas/ravb_main.c | 99 ++++++++++++++++++++++--
->  2 files changed, 93 insertions(+), 7 deletions(-)
-> 
-> diff --git a/drivers/net/ethernet/renesas/ravb.h b/drivers/net/ethernet/renesas/ravb.h
-> index c2d8d890031f..50f358472aab 100644
-> --- a/drivers/net/ethernet/renesas/ravb.h
-> +++ b/drivers/net/ethernet/renesas/ravb.h
-> @@ -1044,6 +1044,7 @@ struct ravb_hw_info {
->  	unsigned magic_pkt:1;		/* E-MAC supports magic packet detection */
->  	unsigned half_duplex:1;		/* E-MAC supports half duplex mode */
->  	unsigned refclk_in_pd:1;	/* Reference clock is part of a power domain. */
-> +	unsigned rpm:1;			/* Runtime PM available. */
-
-   No, I don't think this flag makes any sense. We should support RPM
-unconditionally...
-
-[...]
-> diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
-> index f4634ac0c972..d70ed7e5f7f6 100644
-> --- a/drivers/net/ethernet/renesas/ravb_main.c
-> +++ b/drivers/net/ethernet/renesas/ravb_main.c
-> @@ -145,12 +145,41 @@ static void ravb_read_mac_address(struct device_node *np,
-[...]
-> +static void ravb_pm_runtime_put(struct ravb_private *priv)
-> +{
-> +	const struct ravb_hw_info *info = priv->info;
-> +	struct device *dev = &priv->pdev->dev;
-> +
-> +	if (!info->rpm)
-> +		return;
-> +
-> +	pm_runtime_mark_last_busy(dev);
-
-   Not very familiar with RPM... what's this for?
-
-> +	pm_runtime_put_autosuspend(dev);
-
-   Why not the usual pm_runtime_put()?
-
-> +}
-> +
->  static void ravb_mdio_ctrl(struct mdiobb_ctrl *ctrl, u32 mask, int set)
->  {
->  	struct ravb_private *priv = container_of(ctrl, struct ravb_private,
->  						 mdiobb);
-> +	int ret;
-> +
-> +	ret = ravb_pm_runtime_get(priv);
-> +	if (ret < 0)
-> +		return;
->  
->  	ravb_modify(priv->ndev, PIR, mask, set ? mask : 0);
-> +
-> +	ravb_pm_runtime_put(priv);
-
-   Hmm, does this even work? :-/ Do the MDIO bits retain the values while
-the AVB core is not clocked or even powered down?
-   Note that the sh_eth driver has RPM calls in the {read|write}_c{22?45}()
-methods which do the full register read/write while the core is powere up
-and clocked...
-
-[...]
-> @@ -2064,6 +2107,11 @@ static struct net_device_stats *ravb_get_stats(struct net_device *ndev)
->  	struct ravb_private *priv = netdev_priv(ndev);
->  	const struct ravb_hw_info *info = priv->info;
->  	struct net_device_stats *nstats, *stats0, *stats1;
-> +	int ret;
-> +
-> +	ret = ravb_pm_runtime_get(priv);
-> +	if (ret < 0)
-> +		return NULL;
-
-   Hm, sh_eth.c doesn't have any RPM calls in this method. Again, do
-the hardware counters remain valid across powering the MAC core down?
-
-[...]
-> @@ -2115,11 +2165,18 @@ static void ravb_set_rx_mode(struct net_device *ndev)
->  {
->  	struct ravb_private *priv = netdev_priv(ndev);
->  	unsigned long flags;
-> +	int ret;
-> +
-> +	ret = ravb_pm_runtime_get(priv);
-> +	if (ret < 0)
-> +		return;
-
-   Hm, sh_eth.c doesn't have any RPM calls in this method either.
-Does changing the promiscous mode have sense for an offlined interface?
-
-[...]
-> @@ -2187,6 +2244,11 @@ static int ravb_close(struct net_device *ndev)
->  	if (info->nc_queues)
->  		ravb_ring_free(ndev, RAVB_NC);
->  
-> +	/* Note that if RPM is enabled on plaforms with ccc_gac=1 this needs to be
-
-   It's "platforms". :-)
-
-> skipped and
-
-   Overly long line?
-
-> +	 * added to suspend function after PTP is stopped.
-
-   I guess we'll have to do that because RPM is actually not RZ/G3
-specific...
-
-> +	 */
-> +	ravb_pm_runtime_put(priv);
-> +
->  	return 0;
->  }
->  
-> @@ -2636,6 +2699,12 @@ static int ravb_probe(struct platform_device *pdev)
->  	if (error)
->  		return error;
->  
-> +	info = of_device_get_match_data(&pdev->dev);
-> +
-> +	if (info->rpm) {
-> +		pm_runtime_set_autosuspend_delay(&pdev->dev, 100);
-
-   Why exactly 100 ms?
-
-> +		pm_runtime_use_autosuspend(&pdev->dev);
-> +	}
-
-   Before calling pm_runtime_enable()?
-
->  	pm_runtime_enable(&pdev->dev);
-[...]
-> @@ -2880,6 +2950,8 @@ static int ravb_probe(struct platform_device *pdev)
->  	pm_runtime_put(&pdev->dev);
->  pm_runtime_disable:
->  	pm_runtime_disable(&pdev->dev);
-> +	if (info->rpm)
-> +		pm_runtime_dont_use_autosuspend(&pdev->dev);
-
-   After calling pm_runtime_disable()?
-
-[...]
-> @@ -2908,6 +2985,8 @@ static void ravb_remove(struct platform_device *pdev)
->  			  priv->desc_bat_dma);
->  	pm_runtime_put_sync(&pdev->dev);
->  	pm_runtime_disable(&pdev->dev);
-> +	if (info->rpm)
-> +		pm_runtime_dont_use_autosuspend(&pdev->dev);
-
-   After calling pm_runtime_disable()?
-
-[...]
-
-MBR, Sergey
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
