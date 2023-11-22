@@ -1,117 +1,76 @@
-Return-Path: <linux-renesas-soc+bounces-123-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-124-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FEAF7F4B7F
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Nov 2023 16:46:44 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DD4E7F4BC8
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Nov 2023 17:01:36 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A007BB20E2C
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Nov 2023 15:46:41 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7EFFA1C208C3
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Nov 2023 16:01:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0069D56B87;
-	Wed, 22 Nov 2023 15:46:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="sQSAA2uD"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 90D4356B94;
+	Wed, 22 Nov 2023 16:01:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B463C49D2
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 22 Nov 2023 07:46:31 -0800 (PST)
-Received: from pendragon.ideasonboard.com (aztw-30-b2-v4wan-166917-cust845.vm26.cable.virginm.net [82.37.23.78])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 56F24276;
-	Wed, 22 Nov 2023 16:45:59 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1700667959;
-	bh=urwsb+ySe5L3TfYI5UUf9OH5BqYlaWTpMboQoZDj0/I=;
-	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-	b=sQSAA2uDchio+5oI9RUSA9RUd76kRaoU9tGJqxQLluM7FiGBCUQl8C2FwWrRHsVVc
-	 HwUw+du+vwXu2nyyhd2C9K9hB5Dccplo9ms9J9X4BgDhizfmn7/6KCQ0Sh5J8/YWge
-	 R5r44235/tjId2CqolCh8CrYlspvpph3WYHFzsiI=
-Content-Type: text/plain; charset="utf-8"
+Received: from xavier.telenet-ops.be (xavier.telenet-ops.be [IPv6:2a02:1800:120:4::f00:14])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7019892
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 22 Nov 2023 08:01:28 -0800 (PST)
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed40:d60:3031:68fb:d1ad])
+	by xavier.telenet-ops.be with bizsmtp
+	id DU1P2B0053EmSSH01U1PA0; Wed, 22 Nov 2023 17:01:24 +0100
+Received: from rox.of.borg ([192.168.97.57])
+	by ramsan.of.borg with esmtp (Exim 4.95)
+	(envelope-from <geert@linux-m68k.org>)
+	id 1r5pf2-009ykF-Ta;
+	Wed, 22 Nov 2023 17:01:22 +0100
+Received: from geert by rox.of.borg with local (Exim 4.95)
+	(envelope-from <geert@linux-m68k.org>)
+	id 1r5pfG-00Gz1i-PK;
+	Wed, 22 Nov 2023 17:01:22 +0100
+From: Geert Uytterhoeven <geert+renesas@glider.be>
+To: Magnus Damm <magnus.damm@gmail.com>
+Cc: linux-renesas-soc@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH] ARM: shmobile: defconfig: Refresh for v6.7-rc1
+Date: Wed, 22 Nov 2023 17:01:21 +0100
+Message-Id: <b9bdb0fe3635a7eb51a7eca9a06e8146d6ad82db.1700667824.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <170066796117.630990.8784641575188308647@ping.linuxembedded.co.uk>
-References: <20231114131211.24462-1-laurent.pinchart@ideasonboard.com> <20231114131211.24462-2-laurent.pinchart@ideasonboard.com> <170066796117.630990.8784641575188308647@ping.linuxembedded.co.uk>
-Subject: Re: [vsp-tests] [PATCH v2 2/2] scripts: Take all skipped tests into account
-From: Kieran Bingham <kieran.bingham@ideasonboard.com>
-Cc:
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, linux-renesas-soc@vger.kernel.org
-Date: Wed, 22 Nov 2023 15:46:28 +0000
-Message-ID: <170066798824.630990.5275330408854339373@ping.linuxembedded.co.uk>
-User-Agent: alot/0.10
+Content-Transfer-Encoding: 8bit
 
-Quoting Kieran Bingham (2023-11-22 15:46:01)
-> Quoting Laurent Pinchart (2023-11-14 13:12:11)
-> > Some skipped tests print a "skip" message, while other print "skipped".
-> > This leads to some of them not being counted. Standardize on "skip".
-> >=20
-> > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
->=20
-> That's probably the easier way ;-)
->=20
-> Reviewed-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
+Refresh the defconfig for Renesas ARM systems:
+  - Disable CONFIG_SERIAL_8250_EXAR (auto-enabled since commit
+    5939ff7ffae095ac ("tty: serial: 8250_exar: Does not use anything
+    from 8250_pci")).
 
-Or rather,
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+To be queued in renesas-devel for v6.8.
 
-Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+ arch/arm/configs/shmobile_defconfig | 1 +
+ 1 file changed, 1 insertion(+)
 
+diff --git a/arch/arm/configs/shmobile_defconfig b/arch/arm/configs/shmobile_defconfig
+index dfdea295c4affcfe..e2ea369548eb0a8d 100644
+--- a/arch/arm/configs/shmobile_defconfig
++++ b/arch/arm/configs/shmobile_defconfig
+@@ -75,6 +75,7 @@ CONFIG_SERIAL_8250=y
+ # CONFIG_SERIAL_8250_16550A_VARIANTS is not set
+ CONFIG_SERIAL_8250_CONSOLE=y
+ # CONFIG_SERIAL_8250_PCI is not set
++# CONFIG_SERIAL_8250_EXAR is not set
+ CONFIG_SERIAL_8250_DW=y
+ CONFIG_SERIAL_8250_EM=y
+ # CONFIG_SERIAL_8250_PERICOM is not set
+-- 
+2.34.1
 
->=20
-> > ---
-> >  scripts/vsp-lib.sh   | 2 +-
-> >  scripts/vsp-tests.sh | 8 ++++----
-> >  2 files changed, 5 insertions(+), 5 deletions(-)
-> >=20
-> > diff --git a/scripts/vsp-lib.sh b/scripts/vsp-lib.sh
-> > index a8898e80a879..114bc7200e6e 100755
-> > --- a/scripts/vsp-lib.sh
-> > +++ b/scripts/vsp-lib.sh
-> > @@ -1076,7 +1076,7 @@ test_init() {
-> > =20
-> >         if [ -z $best_mdev ] ; then
-> >                 echo "No device found with feature set \`$features'" | =
-./logger.sh config >> $logfile
-> > -               echo "Test requires unavailable feature set \`$features=
-': skipped" >&2
-> > +               echo "Test requires unavailable feature set \`$features=
-': skip" >&2
-> >                 exit 1
-> >         fi
-> > =20
-> > diff --git a/scripts/vsp-tests.sh b/scripts/vsp-tests.sh
-> > index 7805f1b7de1c..13e7ba4410b5 100755
-> > --- a/scripts/vsp-tests.sh
-> > +++ b/scripts/vsp-tests.sh
-> > @@ -31,16 +31,16 @@ run_test() {
-> >         for line in $output ; do
-> >                 local pass=3D0
-> >                 local fail=3D0
-> > -               local skipped=3D0
-> > +               local skip=3D0
-> > =20
-> >                 (echo "$line" | grep -q ': fail$') && fail=3D1
-> >                 (echo "$line" | grep -q ': pass$') && pass=3D1
-> > -               (echo "$line" | grep -q ': skipped$') && skipped=3D1
-> > +               (echo "$line" | grep -q ': skip$') && skip=3D1
-> > =20
-> >                 num_fail=3D$((num_fail+fail))
-> >                 num_pass=3D$((num_pass+pass))
-> > -               num_skipped=3D$((num_skipped+skipped))
-> > -               num_test=3D$((num_test+pass+fail+skipped))
-> > +               num_skip=3D$((num_skip+skip))
-> > +               num_test=3D$((num_test+pass+fail+skip))
-> >         done
-> > =20
-> >         if [ $(ls *.bin 2>/dev/null | wc -l) !=3D 0 ] ; then
-> > --=20
-> > Regards,
-> >=20
-> > Laurent Pinchart
-> >
 
