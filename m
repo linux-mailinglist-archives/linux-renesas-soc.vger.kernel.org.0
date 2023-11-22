@@ -1,107 +1,108 @@
-Return-Path: <linux-renesas-soc+bounces-132-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-139-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F7947F4CBC
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Nov 2023 17:37:00 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A6F377F4CF7
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Nov 2023 17:41:24 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 19C2328131C
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Nov 2023 16:36:59 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D8AE51C20972
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Nov 2023 16:41:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8C8D559B45;
-	Wed, 22 Nov 2023 16:36:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2BEB359B68;
+	Wed, 22 Nov 2023 16:41:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dkim=none
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com [209.85.128.180])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A5DF51FD7;
-	Wed, 22 Nov 2023 08:36:41 -0800 (PST)
-Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-5c85e8fdd2dso55845627b3.2;
-        Wed, 22 Nov 2023 08:36:41 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700671000; x=1701275800;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=YnNltyNH2Qapz/Qt/SgTE3LNVbUWrueMgIGKLwuGujM=;
-        b=dabEhPsZ8hWe1ZhM4I3aw1Fz1FsO/cXksOA4ScePBdyYVn/+uAGAJcXAwphghZfso+
-         ekcW3D9ll/LqPd1q8XZgsEXw2tEr0CLGBn9UweZ9IKj5K5D/g3uQR/8alb2d7u5tuDxv
-         9fjMsRzCnXaN8uLFEmKySEisRkyxk5sBg2PfpQxnAQx0sSBjhrkkgm2bqMvKZCGc3Ppd
-         WtD/IEThn48Iwc07rcsazbwsCkIuKAJwwzf6x2KPa6iIjrdMviDTexbFxkE9PV5RUdPx
-         T/q7NpKC4QaFcKhTwhJDdphWt4Aqxo6Aot/TKTmdVFrHQoNuvxlI+FTyzbCDwOBEi9rm
-         k1QQ==
-X-Gm-Message-State: AOJu0YzrTjUJMUjQwJjGKq+SEhJlPKNgQkhcGMjpeHa/uQL0HAWvQtMZ
-	8+6H3i0axRzOgmA6nh58wJQaJrKI4vnjfA==
-X-Google-Smtp-Source: AGHT+IEtwFQIyER05QBhtqE64v8Xa6vCpxfd4cINyz0QT9Cg8FRMPIaPUjrd36xFGOl3qYaqXRgqTg==
-X-Received: by 2002:a0d:f4c4:0:b0:5a8:e6f4:4b6c with SMTP id d187-20020a0df4c4000000b005a8e6f44b6cmr2848601ywf.25.1700671000549;
-        Wed, 22 Nov 2023 08:36:40 -0800 (PST)
-Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com. [209.85.128.173])
-        by smtp.gmail.com with ESMTPSA id i6-20020a816d06000000b005ccd9a64bcfsm179841ywc.1.2023.11.22.08.36.38
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 22 Nov 2023 08:36:38 -0800 (PST)
-Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-5c85e8fdd2dso55845127b3.2;
-        Wed, 22 Nov 2023 08:36:38 -0800 (PST)
-X-Received: by 2002:a0d:d78f:0:b0:5a8:22b5:399c with SMTP id
- z137-20020a0dd78f000000b005a822b5399cmr3089413ywd.24.1700670998325; Wed, 22
- Nov 2023 08:36:38 -0800 (PST)
+Received: from mx01.omp.ru (mx01.omp.ru [90.154.21.10])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4424310C3;
+	Wed, 22 Nov 2023 08:41:16 -0800 (PST)
+Received: from [192.168.1.103] (31.173.85.136) by msexch01.omp.ru
+ (10.188.4.12) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.1258.12; Wed, 22 Nov
+ 2023 19:41:07 +0300
+Subject: Re: [PATCH 12/13] net: ravb: Assert/deassert reset on suspend/resume
+From: Sergey Shtylyov <s.shtylyov@omp.ru>
+To: Claudiu <claudiu.beznea@tuxon.dev>, <davem@davemloft.net>,
+	<edumazet@google.com>, <kuba@kernel.org>, <pabeni@redhat.com>,
+	<p.zabel@pengutronix.de>, <yoshihiro.shimoda.uh@renesas.com>,
+	<geert+renesas@glider.be>, <wsa+renesas@sang-engineering.com>,
+	<biju.das.jz@bp.renesas.com>, <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	<sergei.shtylyov@cogentembedded.com>, <mitsuhiro.kimura.kc@renesas.com>,
+	<masaru.nagai.vx@renesas.com>
+CC: <netdev@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, Claudiu Beznea
+	<claudiu.beznea.uj@bp.renesas.com>
+References: <20231120084606.4083194-1-claudiu.beznea.uj@bp.renesas.com>
+ <20231120084606.4083194-13-claudiu.beznea.uj@bp.renesas.com>
+ <c9f68819-7dc0-3035-4bf4-6bda5dfc621e@omp.ru>
+Organization: Open Mobile Platform
+Message-ID: <9d0e7d60-51a2-2abe-1cb9-65deca455527@omp.ru>
+Date: Wed, 22 Nov 2023 19:41:07 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231122121235.827122-1-peterlin@andestech.com> <20231122121235.827122-6-peterlin@andestech.com>
-In-Reply-To: <20231122121235.827122-6-peterlin@andestech.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 22 Nov 2023 17:36:24 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdVL9_VQ7e7-Cr7vcFWqpCTeptczZmgWN4seENcJKTi0eQ@mail.gmail.com>
-Message-ID: <CAMuHMdVL9_VQ7e7-Cr7vcFWqpCTeptczZmgWN4seENcJKTi0eQ@mail.gmail.com>
-Subject: Re: [PATCH v4 05/13] riscv: dts: renesas: r9a07g043f: Update
- compatible string to use Andes INTC
-To: Yu Chien Peter Lin <peterlin@andestech.com>
-Cc: acme@kernel.org, adrian.hunter@intel.com, ajones@ventanamicro.com, 
-	alexander.shishkin@linux.intel.com, andre.przywara@arm.com, 
-	anup@brainfault.org, aou@eecs.berkeley.edu, atishp@atishpatra.org, 
-	conor+dt@kernel.org, conor.dooley@microchip.com, conor@kernel.org, 
-	devicetree@vger.kernel.org, dminus@andestech.com, evan@rivosinc.com, 
-	guoren@kernel.org, heiko@sntech.de, irogers@google.com, 
-	jernej.skrabec@gmail.com, jolsa@kernel.org, jszhang@kernel.org, 
-	krzysztof.kozlowski+dt@linaro.org, linux-arm-kernel@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org, linux-riscv@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev, locus84@andestech.com, magnus.damm@gmail.com, 
-	mark.rutland@arm.com, mingo@redhat.com, n.shubin@yadro.com, 
-	namhyung@kernel.org, palmer@dabbelt.com, paul.walmsley@sifive.com, 
-	peterz@infradead.org, prabhakar.mahadev-lad.rj@bp.renesas.com, 
-	rdunlap@infradead.org, robh+dt@kernel.org, samuel@sholland.org, 
-	sunilvl@ventanamicro.com, tglx@linutronix.de, tim609@andestech.com, 
-	uwu@icenowy.me, wens@csie.org, will@kernel.org, ycliang@andestech.com, 
-	inochiama@outlook.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <c9f68819-7dc0-3035-4bf4-6bda5dfc621e@omp.ru>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: msexch01.omp.ru (10.188.4.12) To msexch01.omp.ru
+ (10.188.4.12)
+X-KSE-ServerInfo: msexch01.omp.ru, 9
+X-KSE-AntiSpam-Interceptor-Info: scan successful
+X-KSE-AntiSpam-Version: 6.0.0, Database issued on: 11/21/2023 23:48:29
+X-KSE-AntiSpam-Status: KAS_STATUS_NOT_DETECTED
+X-KSE-AntiSpam-Method: none
+X-KSE-AntiSpam-Rate: 59
+X-KSE-AntiSpam-Info: Lua profiles 181514 [Nov 21 2023]
+X-KSE-AntiSpam-Info: Version: 6.0.0.2
+X-KSE-AntiSpam-Info: Envelope from: s.shtylyov@omp.ru
+X-KSE-AntiSpam-Info: LuaCore: 3 0.3.3 e5c6a18a9a9bff0226d530c5b790210c0bd117c8
+X-KSE-AntiSpam-Info: {rep_avail}
+X-KSE-AntiSpam-Info: {Tracking_arrow_text}
+X-KSE-AntiSpam-Info: {Tracking_from_domain_doesnt_match_to}
+X-KSE-AntiSpam-Info: {relay has no DNS name}
+X-KSE-AntiSpam-Info: {SMTP from is not routable}
+X-KSE-AntiSpam-Info: {Found in DNSBL: 31.173.85.136 in (user)
+ b.barracudacentral.org}
+X-KSE-AntiSpam-Info: {Found in DNSBL: 31.173.85.136 in (user)
+ dbl.spamhaus.org}
+X-KSE-AntiSpam-Info: ApMailHostAddress: 31.173.85.136
+X-KSE-AntiSpam-Info: {DNS response errors}
+X-KSE-AntiSpam-Info: Rate: 59
+X-KSE-AntiSpam-Info: Status: not_detected
+X-KSE-AntiSpam-Info: Method: none
+X-KSE-AntiSpam-Info: Auth:dmarc=temperror header.from=omp.ru;spf=temperror
+ smtp.mailfrom=omp.ru;dkim=none
+X-KSE-Antiphishing-Info: Clean
+X-KSE-Antiphishing-ScanningType: Heuristic
+X-KSE-Antiphishing-Method: None
+X-KSE-Antiphishing-Bases: 11/21/2023 23:54:00
+X-KSE-Antivirus-Interceptor-Info: scan successful
+X-KSE-Antivirus-Info: Clean, bases: 11/21/2023 8:06:00 PM
+X-KSE-Attachment-Filter-Triggered-Rules: Clean
+X-KSE-Attachment-Filter-Triggered-Filters: Clean
+X-KSE-BulkMessagesFiltering-Scan-Result: InTheLimit
 
-On Wed, Nov 22, 2023 at 1:16=E2=80=AFPM Yu Chien Peter Lin
-<peterlin@andestech.com> wrote:
-> The Andes hart-level interrupt controller (Andes INTC) allows AX45MP
-> cores to handle custom local interrupts, such as the performance
-> counter overflow interrupt.
->
-> Signed-off-by: Yu Chien Peter Lin <peterlin@andestech.com>
+On 11/21/23 10:13 PM, Sergey Shtylyov wrote:
+[...]
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+>> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+[...]
 
-Gr{oetje,eeting}s,
+>> reinitialized. Deasserting the reset signal for it should also be done.
+>> Thus add reset assert/deassert on suspend/resume functions.
+> 
+>    Firefox' spell checker trips over deassert[ing] and you have |de-assert"
 
-                        Geert
+   s/Firefox/Thunderbird/. :-)
 
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
+[...]
 
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+MBR, Sergey
 
