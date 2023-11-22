@@ -1,227 +1,131 @@
-Return-Path: <linux-renesas-soc+bounces-62-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-63-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 926BB7F3BA8
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Nov 2023 03:14:10 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id CF5BD7F3BC1
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Nov 2023 03:27:05 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B56191C20A4E
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Nov 2023 02:14:09 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8A13C282A6B
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Nov 2023 02:27:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 81D6779F0;
-	Wed, 22 Nov 2023 02:14:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mi7pq6bt"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 785348474;
+	Wed, 22 Nov 2023 02:27:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E209898
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 21 Nov 2023 18:14:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700619245; x=1732155245;
-  h=date:from:to:cc:subject:message-id;
-  bh=W7TJsZGaWSYWs2YvmvGe+JtC4yGMZB6njNcfSMuftUU=;
-  b=mi7pq6btFjILJZKBPOvzcEz94z8nMXR30IAi3vaP818qjFfxJcqsbxag
-   EXv/d7vSmnFd+fp9LeVJg1AAPa7mZD+G8vrX4gcOcKF8Lk5EMKs2F3nFF
-   7ybUvphQwBqVhpBskfiS2aUyGVnTssIJPOqVdVIMqsiFq8tJHVpdHI9KR
-   02qhIP7GiJGsGHJ305CT3e0jppEaofDGNmvtCYcx+pK9skQ/0i/b1IwTR
-   GybkkddMJVti+FIWhfhHFcbHjb6v1eJ46BIVr8+yXkZfaipCijbz5uzID
-   OYctqB+B6ZZqoB1MaLvIPMsNCEQ1UlpXofVD39Auzxji309gV36z4Kub8
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10901"; a="5161998"
-X-IronPort-AV: E=Sophos;i="6.04,217,1695711600"; 
-   d="scan'208";a="5161998"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2023 18:14:05 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10901"; a="770447346"
-X-IronPort-AV: E=Sophos;i="6.04,217,1695711600"; 
-   d="scan'208";a="770447346"
-Received: from lkp-server02.sh.intel.com (HELO b8de5498638e) ([10.239.97.151])
-  by fmsmga007.fm.intel.com with ESMTP; 21 Nov 2023 18:14:03 -0800
-Received: from kbuild by b8de5498638e with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1r5cka-0008XM-2V;
-	Wed, 22 Nov 2023 02:14:00 +0000
-Date: Wed, 22 Nov 2023 10:12:20 +0800
-From: kernel test robot <lkp@intel.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: linux-renesas-soc@vger.kernel.org
-Subject: [geert-renesas-devel:next] BUILD SUCCESS
- 19c4da034485378938f6251c62d5dfee47e0f8e5
-Message-ID: <202311221017.RpNQmsPM-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+Received: from Atcsqr.andestech.com (60-248-80-70.hinet-ip.hinet.net [60.248.80.70])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ADF05199
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 21 Nov 2023 18:26:57 -0800 (PST)
+Received: from mail.andestech.com (ATCPCS16.andestech.com [10.0.1.222])
+	by Atcsqr.andestech.com with ESMTP id 3AM2Q9xm022966;
+	Wed, 22 Nov 2023 10:26:09 +0800 (+08)
+	(envelope-from peterlin@andestech.com)
+Received: from APC323 (10.0.12.98) by ATCPCS16.andestech.com (10.0.1.222) with
+ Microsoft SMTP Server id 14.3.498.0; Wed, 22 Nov 2023 10:26:09 +0800
+Date: Wed, 22 Nov 2023 10:26:05 +0800
+From: Yu-Chien Peter Lin <peterlin@andestech.com>
+To: Prabhakar <prabhakar.csengg@gmail.com>
+CC: Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt
+	<palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Conor Dooley
+	<conor.dooley@microchip.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        <linux-riscv@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
+        <linux-renesas-soc@vger.kernel.org>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH] riscv: errata: andes: Probe IOCP during boot stage
+Message-ID: <ZV1mvc86BdgdPL1y@APC323>
+References: <20231121202459.36874-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20231121202459.36874-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+User-Agent: Mutt/2.2.10 (2023-03-25)
+X-DNSRBL: 
+X-SPAM-SOURCE-CHECK: pass
+X-MAIL:Atcsqr.andestech.com 3AM2Q9xm022966
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git next
-branch HEAD: 19c4da034485378938f6251c62d5dfee47e0f8e5  Merge branch 'renesas-dts-for-v6.8' into renesas-next
+On Tue, Nov 21, 2023 at 08:24:59PM +0000, Prabhakar wrote:
+> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> 
+> We should be probing for IOCP during boot stage only. As we were probing
+> for IOCP for all the stages this caused the below issue during module-init
+> stage,
+> 
+> [9.019104] Unable to handle kernel paging request at virtual address ffffffff8100d3a0
+> [9.027153] Oops [#1]
+> [9.029421] Modules linked in: rcar_canfd renesas_usbhs i2c_riic can_dev spi_rspi i2c_core
+> [9.037686] CPU: 0 PID: 90 Comm: udevd Not tainted 6.7.0-rc1+ #57
+> [9.043756] Hardware name: Renesas SMARC EVK based on r9a07g043f01 (DT)
+> [9.050339] epc : riscv_noncoherent_supported+0x10/0x3e
+> [9.055558]  ra : andes_errata_patch_func+0x4a/0x52
+> [9.060418] epc : ffffffff8000d8c2 ra : ffffffff8000d95c sp : ffffffc8003abb00
+> [9.067607]  gp : ffffffff814e25a0 tp : ffffffd80361e540 t0 : 0000000000000000
+> [9.074795]  t1 : 000000000900031e t2 : 0000000000000001 s0 : ffffffc8003abb20
+> [9.081984]  s1 : ffffffff015b57c7 a0 : 0000000000000000 a1 : 0000000000000001
+> [9.089172]  a2 : 0000000000000000 a3 : 0000000000000000 a4 : ffffffff8100d8be
+> [9.096360]  a5 : 0000000000000001 a6 : 0000000000000001 a7 : 000000000900031e
+> [9.103548]  s2 : ffffffff015b57d7 s3 : 0000000000000001 s4 : 000000000000031e
+> [9.110736]  s5 : 8000000000008a45 s6 : 0000000000000500 s7 : 000000000000003f
+> [9.117924]  s8 : ffffffc8003abd48 s9 : ffffffff015b1140 s10: ffffffff8151a1b0
+> [9.125113]  s11: ffffffff015b1000 t3 : 0000000000000001 t4 : fefefefefefefeff
+> [9.132301]  t5 : ffffffff015b57c7 t6 : ffffffd8b63a6000
+> [9.137587] status: 0000000200000120 badaddr: ffffffff8100d3a0 cause: 000000000000000f
+> [9.145468] [<ffffffff8000d8c2>] riscv_noncoherent_supported+0x10/0x3e
+> [9.151972] [<ffffffff800027e8>] _apply_alternatives+0x84/0x86
+> [9.157784] [<ffffffff800029be>] apply_module_alternatives+0x10/0x1a
+> [9.164113] [<ffffffff80008fcc>] module_finalize+0x5e/0x7a
+> [9.169583] [<ffffffff80085cd6>] load_module+0xfd8/0x179c
+> [9.174965] [<ffffffff80086630>] init_module_from_file+0x76/0xaa
+> [9.180948] [<ffffffff800867f6>] __riscv_sys_finit_module+0x176/0x2a8
+> [9.187365] [<ffffffff80889862>] do_trap_ecall_u+0xbe/0x130
+> [9.192922] [<ffffffff808920bc>] ret_from_exception+0x0/0x64
+> [9.198573] Code: 0009 b7e9 6797 014d a783 85a7 c799 4785 0717 0100 (0123) aef7
+> [9.205994] ---[ end trace 0000000000000000 ]---
+> 
+> This is because we called riscv_noncoherent_supported() for all the stages
+> during IOCP probe. riscv_noncoherent_supported() function sets
+> noncoherent_supported variable to true which has an annotation set to
+> "__ro_after_init" due to which we were seeing the above splat. Fix this by
+> probing IOCP during boot stage only.
+> 
+> Fixes: e021ae7f5145 ("riscv: errata: Add Andes alternative ports")
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-elapsed time: 2429m
+Reviewed-by: Yu Chien Peter Lin <peterlin@andestech.com>
 
-configs tested: 149
-configs skipped: 121
+Thanks,
+Peter Lin
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
-
-tested configs:
-alpha                             allnoconfig   gcc  
-alpha                            allyesconfig   gcc  
-alpha                               defconfig   gcc  
-arc                              allmodconfig   gcc  
-arc                               allnoconfig   gcc  
-arc                              allyesconfig   gcc  
-arc                                 defconfig   gcc  
-arc                   randconfig-001-20231121   gcc  
-arc                   randconfig-002-20231121   gcc  
-arc                    vdk_hs38_smp_defconfig   gcc  
-arm                              allmodconfig   gcc  
-arm                               allnoconfig   gcc  
-arm                              allyesconfig   gcc  
-arm                                 defconfig   clang
-arm                       multi_v4t_defconfig   gcc  
-arm                   randconfig-001-20231121   gcc  
-arm                   randconfig-002-20231121   gcc  
-arm                   randconfig-003-20231121   gcc  
-arm                   randconfig-004-20231121   gcc  
-arm64                            allmodconfig   clang
-arm64                             allnoconfig   gcc  
-arm64                            allyesconfig   clang
-arm64                               defconfig   gcc  
-arm64                 randconfig-001-20231121   gcc  
-arm64                 randconfig-002-20231121   gcc  
-arm64                 randconfig-003-20231121   gcc  
-arm64                 randconfig-004-20231121   gcc  
-csky                             allmodconfig   gcc  
-csky                              allnoconfig   gcc  
-csky                             allyesconfig   gcc  
-csky                                defconfig   gcc  
-csky                  randconfig-001-20231121   gcc  
-csky                  randconfig-002-20231121   gcc  
-hexagon                          allmodconfig   clang
-hexagon                           allnoconfig   clang
-hexagon                          allyesconfig   clang
-hexagon                             defconfig   clang
-i386                             allmodconfig   clang
-i386                              allnoconfig   clang
-i386                             allyesconfig   clang
-i386                              debian-10.3   gcc  
-i386                  randconfig-011-20231120   gcc  
-i386                  randconfig-011-20231121   clang
-i386                  randconfig-012-20231120   gcc  
-i386                  randconfig-012-20231121   clang
-i386                  randconfig-013-20231120   gcc  
-i386                  randconfig-013-20231121   clang
-i386                  randconfig-014-20231120   gcc  
-i386                  randconfig-014-20231121   clang
-i386                  randconfig-015-20231120   gcc  
-i386                  randconfig-015-20231121   clang
-i386                  randconfig-016-20231120   gcc  
-i386                  randconfig-016-20231121   clang
-loongarch                        allmodconfig   gcc  
-loongarch                         allnoconfig   gcc  
-loongarch                        allyesconfig   gcc  
-loongarch                           defconfig   gcc  
-loongarch             randconfig-001-20231121   gcc  
-loongarch             randconfig-002-20231121   gcc  
-m68k                             allmodconfig   gcc  
-m68k                              allnoconfig   gcc  
-m68k                             allyesconfig   gcc  
-m68k                                defconfig   gcc  
-m68k                            mac_defconfig   gcc  
-microblaze                       allmodconfig   gcc  
-microblaze                        allnoconfig   gcc  
-microblaze                       allyesconfig   gcc  
-microblaze                          defconfig   gcc  
-mips                             allmodconfig   gcc  
-mips                             allyesconfig   gcc  
-nios2                            allmodconfig   gcc  
-nios2                             allnoconfig   gcc  
-nios2                            allyesconfig   gcc  
-nios2                               defconfig   gcc  
-nios2                 randconfig-001-20231121   gcc  
-nios2                 randconfig-002-20231121   gcc  
-parisc                randconfig-001-20231121   gcc  
-parisc                randconfig-002-20231121   gcc  
-powerpc                          allmodconfig   clang
-powerpc                          allyesconfig   clang
-powerpc                     ep8248e_defconfig   gcc  
-powerpc                    klondike_defconfig   gcc  
-powerpc                   motionpro_defconfig   gcc  
-powerpc               randconfig-001-20231121   gcc  
-powerpc               randconfig-002-20231121   gcc  
-powerpc               randconfig-003-20231121   gcc  
-powerpc64             randconfig-001-20231121   gcc  
-powerpc64             randconfig-002-20231121   gcc  
-powerpc64             randconfig-003-20231121   gcc  
-riscv                            allmodconfig   gcc  
-riscv                             allnoconfig   clang
-riscv                            allyesconfig   gcc  
-riscv                               defconfig   gcc  
-riscv                    nommu_k210_defconfig   gcc  
-riscv                 randconfig-001-20231121   gcc  
-riscv                 randconfig-002-20231121   gcc  
-riscv                          rv32_defconfig   clang
-s390                             allmodconfig   gcc  
-s390                              allnoconfig   gcc  
-s390                             allyesconfig   gcc  
-s390                                defconfig   gcc  
-sh                               allmodconfig   gcc  
-sh                                allnoconfig   gcc  
-sh                               allyesconfig   gcc  
-sh                                  defconfig   gcc  
-sh                    randconfig-001-20231121   gcc  
-sh                    randconfig-002-20231121   gcc  
-sh                          rsk7264_defconfig   gcc  
-sparc                            allmodconfig   gcc  
-sparc                             allnoconfig   gcc  
-sparc                            allyesconfig   gcc  
-sparc                               defconfig   gcc  
-sparc64                          allmodconfig   gcc  
-sparc64                          allyesconfig   gcc  
-sparc64                             defconfig   gcc  
-sparc64               randconfig-001-20231121   gcc  
-sparc64               randconfig-002-20231121   gcc  
-um                                  defconfig   gcc  
-um                             i386_defconfig   gcc  
-um                    randconfig-001-20231121   gcc  
-um                    randconfig-002-20231121   gcc  
-um                           x86_64_defconfig   gcc  
-x86_64                           allyesconfig   clang
-x86_64       buildonly-randconfig-001-20231121   gcc  
-x86_64       buildonly-randconfig-002-20231121   gcc  
-x86_64       buildonly-randconfig-003-20231121   gcc  
-x86_64       buildonly-randconfig-004-20231121   gcc  
-x86_64       buildonly-randconfig-005-20231121   gcc  
-x86_64       buildonly-randconfig-006-20231121   gcc  
-x86_64                                  kexec   gcc  
-x86_64                randconfig-011-20231121   gcc  
-x86_64                randconfig-012-20231121   gcc  
-x86_64                randconfig-013-20231121   gcc  
-x86_64                randconfig-014-20231121   gcc  
-x86_64                randconfig-015-20231121   gcc  
-x86_64                randconfig-016-20231121   gcc  
-x86_64                randconfig-071-20231121   gcc  
-x86_64                randconfig-072-20231121   gcc  
-x86_64                randconfig-073-20231121   gcc  
-x86_64                randconfig-074-20231121   gcc  
-x86_64                randconfig-075-20231121   gcc  
-x86_64                randconfig-076-20231121   gcc  
-x86_64                           rhel-8.3-bpf   gcc  
-x86_64                          rhel-8.3-rust   clang
-x86_64                               rhel-8.3   gcc  
-xtensa                            allnoconfig   gcc  
-xtensa                           allyesconfig   gcc  
-xtensa                randconfig-001-20231121   gcc  
-xtensa                randconfig-002-20231121   gcc  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> ---
+>  arch/riscv/errata/andes/errata.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/arch/riscv/errata/andes/errata.c b/arch/riscv/errata/andes/errata.c
+> index d2e1abcac967..1c0fef111273 100644
+> --- a/arch/riscv/errata/andes/errata.c
+> +++ b/arch/riscv/errata/andes/errata.c
+> @@ -60,7 +60,8 @@ void __init_or_module andes_errata_patch_func(struct alt_entry *begin, struct al
+>  					      unsigned long archid, unsigned long impid,
+>  					      unsigned int stage)
+>  {
+> -	errata_probe_iocp(stage, archid, impid);
+> +	if (stage == RISCV_ALTERNATIVES_BOOT)
+> +		errata_probe_iocp(stage, archid, impid);
+>  
+>  	/* we have nothing to patch here ATM so just return back */
+>  }
+> -- 
+> 2.34.1
+> 
 
