@@ -1,167 +1,239 @@
-Return-Path: <linux-renesas-soc+bounces-66-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-67-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 754907F3C39
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Nov 2023 04:16:02 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id F04547F3CC3
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Nov 2023 05:30:20 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7D2291C20E12
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Nov 2023 03:16:01 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1DCA21C20ECB
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Nov 2023 04:30:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 78A5A5252;
-	Wed, 22 Nov 2023 03:15:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3CBBA290C;
+	Wed, 22 Nov 2023 04:30:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="NSLonTW6"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="wBR4COJ/"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01on2112.outbound.protection.outlook.com [40.107.113.112])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BF8CB90;
-	Tue, 21 Nov 2023 19:15:50 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=jKCg4Y9MbQ1jaWoztNkX/A/wCLtvBLRhGXJDSPOLaX5UX326C4vR9CBnNlGFHAMfYn5ACltT9QvarQoi2GkipWxpTrHNYxhDJIZtF5VuFX6+XeWYUaQk8aB7gOlyg4UxlALc6GqbAj7RYUS8YlETznRfeUc7ygKDL9L8V+Jjg2lA94aGrjPnzRGJdeKKVC6YwAZoUa5tDstNYp16Uvx5uCpPRHZm0+y9zvUDJUmvg87WgLZjz5rl/hMHn8DdOM6d+pIQ67v12n210Jo3mdFEnkeaOx9/qKvBcSbKDTt8jjGxeDJe+jkQfHQAaa1gGwQ2xAWOwEpRtIGLSajUR0/NcA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=+Vc2cX32gOV5SPJBlx1gtMsUT4RqZseO7otgy+pbblE=;
- b=jbZuL19vNC+tcVY72YRzeBbYZ1A4xmZsMU8qrEdNOT0W1VxmfzYnJnWWbp+l83tjg1Td8tLlMYPCxuPIDG/kjwTqc7ZOT7ZJK8FRV27OIWM+8rsOhG3yhyuWuQpiuX/MdsU2oiu+rYAqAf+Issc9ScsdpVm79OnhbcMsY/lZ+PXezmhH4YI0Qia5qoZO4+D0KjBG0fl2KBZVXAMp4yrrhs5VRm+mUKe1Z4+8TD5FNemmt4QRoy+oGXRS94jb+KXJAX8mNGLHRDYzrQtQawmMi8pVM+6Exi6G9CZB+UEnTPHw/VsG9XLIqSaHh7hscEQ2P5gqteQ2bs6M9sff4XeJpw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=+Vc2cX32gOV5SPJBlx1gtMsUT4RqZseO7otgy+pbblE=;
- b=NSLonTW6hpH1IsdXhQwKFVQLtKO68AitUsdbC8Py9qVrsSDjJK7Rn9ItBrKryxioLECNnTptpAg4U12bBmbNCQiy5iXq0GBNrfiCRneAnDqYqQWYqPHZ55g5PMA8UvvE30N6fpzTCp0J7p01w7wTtM9/XP6Ec2jNU6vjlc6Cv4Q=
-Received: from TYBPR01MB5341.jpnprd01.prod.outlook.com
- (2603:1096:404:8028::13) by OSZPR01MB8124.jpnprd01.prod.outlook.com
- (2603:1096:604:164::6) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7025.18; Wed, 22 Nov
- 2023 03:15:48 +0000
-Received: from TYBPR01MB5341.jpnprd01.prod.outlook.com
- ([fe80::50f5:eb2b:710a:b7c7]) by TYBPR01MB5341.jpnprd01.prod.outlook.com
- ([fe80::50f5:eb2b:710a:b7c7%7]) with mapi id 15.20.7025.017; Wed, 22 Nov 2023
- 03:15:48 +0000
-From: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-To: Andrew Lunn <andrew@lunn.ch>
-CC: "s.shtylyov@omp.ru" <s.shtylyov@omp.ru>, "davem@davemloft.net"
-	<davem@davemloft.net>, "edumazet@google.com" <edumazet@google.com>,
-	"kuba@kernel.org" <kuba@kernel.org>, "pabeni@redhat.com" <pabeni@redhat.com>,
-	"netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>
-Subject: RE: [PATCH net v2 1/3] net: rswitch: Fix type of ret in
- rswitch_start_xmit()
-Thread-Topic: [PATCH net v2 1/3] net: rswitch: Fix type of ret in
- rswitch_start_xmit()
-Thread-Index: AQHaHOLdxdrFGxwzjkOh89YRe/jxUrCFqRyAgAABU0A=
-Date: Wed, 22 Nov 2023 03:15:47 +0000
-Message-ID:
- <TYBPR01MB534110E3B5BF79130F67D932D8BAA@TYBPR01MB5341.jpnprd01.prod.outlook.com>
-References: <20231122012556.3645840-1-yoshihiro.shimoda.uh@renesas.com>
- <20231122012556.3645840-2-yoshihiro.shimoda.uh@renesas.com>
- <bafaaae9-3650-4c38-9d23-a54b73a56937@lunn.ch>
-In-Reply-To: <bafaaae9-3650-4c38-9d23-a54b73a56937@lunn.ch>
-Accept-Language: ja-JP, en-US
-Content-Language: ja-JP
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=renesas.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TYBPR01MB5341:EE_|OSZPR01MB8124:EE_
-x-ms-office365-filtering-correlation-id: be3e3f19-f3d5-4c3b-29bb-08dbeb0952d6
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info:
- dpFUUumXGSYwDuUxZzvXnqV2KIOLaplHzxbor8f9Nsjlu9QM6GQqnPDh155ZFllwdZ8V7D0p2yqIzmZmmtr557ZLLS52LCX6cbvMJxCFfY9gUWmnEZXemwY7jaZQHMtJjX4j/AJtIGUb19o0/hBUASIovD8FVj6GWa5i2pPeRm5TMeLs7YJQIZeKLtAFM79PuhjGHIKUaee7SDcUIKqHRHwJJGI0pPEmGx6ELIGfrBrlycuJTSLY3j0wtwDkWZWQHiJCfeUKjvpkXn40n+6LAH/gtvAnmjPUMZrFRmeJMWvremSje6zbyP1RO9Jw+rd/WzPz0UB4YPCJEeCMs9FMULU9lk1dhlCGRpfyi/6btmn2SftAj26/fX43XeYBdTt/kscD79kJ34QVQp5CIGLb8WrDcBuOaS2GTgaWLYStreSgC4ik2ukSJhNdQ/U/wXccXIumv53miWXoTeWto3QwuIUjHzSh1uCtJBydwCbzDaVVhetpybrYwpT03nLGI1KZq56pwWOfhlrAMJ7dAvrP+DOnL3AUZj0wSt4HyhT57Nxqsgjlm/3+CXffw0stz2OAUaPWf9yVn2ruP+GfZ5tT23a/UWuzrCLvHlkpb+PpAKI=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYBPR01MB5341.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(39860400002)(376002)(136003)(366004)(346002)(396003)(230922051799003)(1800799012)(64100799003)(451199024)(186009)(55016003)(71200400001)(26005)(9686003)(478600001)(7696005)(6506007)(122000001)(38100700002)(86362001)(8676002)(33656002)(4326008)(2906002)(64756008)(54906003)(66556008)(76116006)(83380400001)(5660300002)(66446008)(66476007)(66946007)(52536014)(41300700001)(6916009)(38070700009)(8936002)(316002);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?FDiPeDG0KVqUHDk3XGD3eefN79c4xNzgbZSnis9fqSjeBNdDWsSRutwH5qRw?=
- =?us-ascii?Q?GYUMnMUSOuaWvQChqePitWT86w3FT5ppU8NxjAqMkykFYKxkffjxMpmVtosx?=
- =?us-ascii?Q?I6oYaWZ1PU0nWxZIm4I7ZrM7fOamiyf0tTBaKGehqxfr1pd4saUbVK+Lw1o4?=
- =?us-ascii?Q?1Fm9k5IP7GKCpQ7qypbftgdSZn8nihTrmdfaVojwzYA0CKQHATuh3xRFqUJd?=
- =?us-ascii?Q?k/DXOdk0KGH+zIkuWANAz7NlV0IXQSMIJU3BUiBCnQNay9KbsFko2cWmLoor?=
- =?us-ascii?Q?vAL7PpMjO35httOC2FpgsTf6GixoATXEptpjz4RNaGMKcj9pJLIilESFPPXj?=
- =?us-ascii?Q?O3NGZopOHIXSRt2V5TzizeDXHl3x4CCV70aWmilRCrzdNOD0qpkFvIHMYr7y?=
- =?us-ascii?Q?jLTIKIHi5Sb6P5z+jv1IoTmOm5lfKkrCrIXFGKW99OlpKYDkCNruzEfKaEry?=
- =?us-ascii?Q?2Lhk1uycu66oItCdX/WKppsAnyo0Q7E1/c2f2kWY/qOp92nZxBmT0UxjH2VP?=
- =?us-ascii?Q?18dJ/lY5W2jY+aYvGfFwvL9261U4PQBitTu7IY99RaQ6TYRI+wpNFBlxseNr?=
- =?us-ascii?Q?b+LHMyB48G/+P4ja3NG8kr+K+ROdp15Lc5n50oTJiLDzMyNknpwD9flVp1Pr?=
- =?us-ascii?Q?T7bx+6GwVQtEXJkaLd7amQFloDzzskALqVK3urybLYBR7xQbQExzgEG9i1k9?=
- =?us-ascii?Q?ssCDt/2Qh8XYqAwno4EVRbThkGNkLB95KKKMCyOIFQ6sT0Z3JSx6fRurDnyE?=
- =?us-ascii?Q?nv+Y6pxZp4MiRzCo4JR7QxSXIoWp3+m7dFVDV4nZCCpSIZPj8y4yKGbN4TX5?=
- =?us-ascii?Q?wr66wp/q6sx2SW+mJxYWEJWoha6VQJ9IGK/H2+M8xCw4Rpa9d7gxsT7nhGZp?=
- =?us-ascii?Q?5Je6aNFnXKZTjlwgXEMmS3PiMTwTCXhmWOe5Ja41kgnHXlmJes8PooWRQjg/?=
- =?us-ascii?Q?DCFAIpLqXs9KZBVQjdNbLX4cyxAjH1l14TLDOR79eWzY1B9korknU94DPXsE?=
- =?us-ascii?Q?jG7hUgkwqsSTEd0x82dM8vBuhqNqa9kBO/R7lWTY7J383RYInr5r8BRBTm7F?=
- =?us-ascii?Q?yOsX6S7vSs9QSJD8gzGJTyFf1S7lNLNQkyng78McQeBATOqdIar+ynXcvSSo?=
- =?us-ascii?Q?0OziCvH28THmMvYWF3koG61WNa8ci9uPmUEgdnpRzFxYvQcCFYs3WOUVibWW?=
- =?us-ascii?Q?fOa0WnGJtVQdxM8rUKkfhscqWUW/ZZkR+++CknVBDF9Rmg2v8F84nzv3b6wL?=
- =?us-ascii?Q?XBxPH3KTWjAin6qVDAZH9xudFfX3swrkVGbBewqD55Mrb/r3K+XgA4BRb2e5?=
- =?us-ascii?Q?gk23S9k0a5L0x4EAZ5Eqx6e8gjGhr6nWmN9cADyEfl3EIf5CQNDQ7jW9cK0b?=
- =?us-ascii?Q?BpUiK32O2ubP0Y9v7G+W/BEvbaOGVg0CU3bWUjLEhK7c2Dj+t+18LIexYBno?=
- =?us-ascii?Q?LKoeB2GItMPGuGd+p2YUPc0nxSUQ7+Br+N27bgrVwuWsQAlwcDLDf55VrY0g?=
- =?us-ascii?Q?4ZTu36y8t+xU0W1oI/NPky+s0uca4b/ObOWMJ0z1/gBoOVkG5OPV00J+925E?=
- =?us-ascii?Q?1N4f8kZUJfP7GcAHcaL3DYh57eRyYKQm0Y+hcwpZZavw+sxZTj7tVUTjuP2F?=
- =?us-ascii?Q?6g=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 10CF2D65;
+	Tue, 21 Nov 2023 20:30:05 -0800 (PST)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id BCE583D9;
+	Wed, 22 Nov 2023 05:29:32 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1700627373;
+	bh=RYbmC5AmWzHD+REQuG6CDeD7N+KdWsbmoREo0yszpUM=;
+	h=From:To:Cc:Subject:Date:From;
+	b=wBR4COJ/ZnWDYcF2nXiPnQfrn74KPkJt1HT0XmwO2wSsx3ge2tK4DhimI1N2wVGBX
+	 tiR6Gi4BDjA/eGeNbZ4TJyLGAduWH/30s/HA7blcNAip0VIE/z+U9XNHuC8sArdgwY
+	 8R4dx8aSfrOPEp+N5o2RANahLu6qDvMBqpuiaFo0=
+From: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+To: linux-media@vger.kernel.org
+Cc: linux-renesas-soc@vger.kernel.org,
+	Sakari Ailus <sakari.ailus@iki.fi>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>
+Subject: [RFC PATCH v1 00/19] media: renesas: vsp1: Conversion to subdev active state
+Date: Wed, 22 Nov 2023 06:29:50 +0200
+Message-ID: <20231122043009.2741-1-laurent.pinchart+renesas@ideasonboard.com>
+X-Mailer: git-send-email 2.41.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TYBPR01MB5341.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: be3e3f19-f3d5-4c3b-29bb-08dbeb0952d6
-X-MS-Exchange-CrossTenant-originalarrivaltime: 22 Nov 2023 03:15:47.9517
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: TOe+5/1VAf9ec2Am1i4Aeq8lujETOtPCIzWNS7LG9zJXyR3OO6KSXXHl3S+g/sFrjR3Y2m0qQR3Gclt8DxtAaRoDXpP8j7eK1knWuqPD9tf/RzfDEFYSwnG3avwMcRiK
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSZPR01MB8124
+Content-Transfer-Encoding: 8bit
 
 Hello,
 
-> From: Andrew Lunn, Sent: Wednesday, November 22, 2023 12:10 PM
->=20
-> On Wed, Nov 22, 2023 at 10:25:54AM +0900, Yoshihiro Shimoda wrote:
-> > The type of ret in rswitch_start_xmit() should be netdev_tx_t. So,
-> > fix it.
-> >
-> > Fixes: 3590918b5d07 ("net: ethernet: renesas: Add support for "Ethernet=
- Switch"")
-> > Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-> > ---
-> >  drivers/net/ethernet/renesas/rswitch.c | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/drivers/net/ethernet/renesas/rswitch.c b/drivers/net/ether=
-net/renesas/rswitch.c
-> > index 43a7795d6591..abaaa1112588 100644
-> > --- a/drivers/net/ethernet/renesas/rswitch.c
-> > +++ b/drivers/net/ethernet/renesas/rswitch.c
-> > @@ -1505,7 +1505,7 @@ static netdev_tx_t rswitch_start_xmit(struct sk_b=
-uff *skb, struct net_device *nd
-> >  	struct rswitch_device *rdev =3D netdev_priv(ndev);
-> >  	struct rswitch_gwca_queue *gq =3D rdev->tx_queue;
-> >  	struct rswitch_ext_desc *desc;
-> > -	int ret =3D NETDEV_TX_OK;
-> > +	netdev_tx_t ret =3D NETDEV_TX_OK;
-> >  	dma_addr_t dma_addr;
->=20
-> To keep with reverse christmas tree, ret needs moving up a bit.
+Now that the V4L2 subdev active state has been around for a few kernel
+versions, I thought I would try to convert the VSP1 driver to it. The
+driver is fairly complex and creates many subdevs, exposing them to
+userspace through subdev nodes but also controlling them from within the
+kernel when acting as a backend for the R-Car DU display driver. It is
+thus a good testing ground to validate the subdev active state API.
 
-Thank you for your review! I'll fix it on v3.
+The first 17 patches are miscellaneous refactoring and cleanups to
+prepare for the actual conversion. In the middle of that is patch 11/19,
+which adds a function to dump a pipeline to the kernel log, which came
+very handy for debugging. I'm not totally convinced by the
+implementation, so comments would be appreciated.
 
-Best regards,
-Yoshihiro Shimoda
+Patch 18/19 is the actual conversion to the active state API. While I
+tried to keep it as small as possible by handling all the refactoring in
+separate patches, it's still the largest one in the series, mostly due
+to the fact that the drivers creates many subdevs. If that's any
+consolation, the diffstat is nice. Patch 19/19 is then an additional
+cleanup on top.
 
->    Andrew
+The good news is that both the VSP test suite ([1]) and the display test
+suite ([2]) pass. The bad news is that lockdep complains quite heavily:
+
+[   71.426677] ============================================
+[   71.431995] WARNING: possible recursive locking detected
+[   71.437314] 6.7.0-rc1-00061-g07565a737176 #728 Not tainted
+[   71.442807] --------------------------------------------
+[   71.448120] yavta/1275 is trying to acquire lock:
+[   71.452829] ffff00000e538c68 (vsp1_entity:531:sd->active_state->lock){+.+.}-{3:3}, at: v4l2_subdev_link_validate+0x198/0x2b0
+[   71.464109] 
+[   71.464109] but task is already holding lock:
+[   71.469944] ffff00000e53b468 (vsp1_entity:531:sd->active_state->lock){+.+.}-{3:3}, at: v4l2_subdev_link_validate+0x184/0x2b0
+[   71.481198] 
+[   71.481198] other info that might help us debug this:
+[   71.487727]  Possible unsafe locking scenario:
+[   71.487727] 
+[   71.493647]        CPU0
+[   71.496095]        ----
+[   71.498541]   lock(vsp1_entity:531:sd->active_state->lock);
+[   71.504127]   lock(vsp1_entity:531:sd->active_state->lock);
+[   71.509712] 
+[   71.509712]  *** DEADLOCK ***
+[   71.509712] 
+[   71.515632]  May be due to missing lock nesting notation
+[   71.515632] 
+[   71.522421] 3 locks held by yavta/1275:
+[   71.526261]  #0: ffff00000fd147a0 (&video->lock){+.+.}-{3:3}, at: __video_do_ioctl+0x19c/0x5b0
+[   71.534914]  #1: ffff00000fce3418 (&mdev->graph_mutex){+.+.}-{3:3}, at: vsp1_video_streamon+0xe4/0x448
+[   71.544265]  #2: ffff00000e53b468 (vsp1_entity:531:sd->active_state->lock){+.+.}-{3:3}, at: v4l2_subdev_link_validate+0x184/0x2b0
+[   71.555958] 
+[   71.555958] stack backtrace:
+[   71.560318] CPU: 0 PID: 1275 Comm: yavta Not tainted 6.7.0-rc1-00061-g07565a737176 #728
+[   71.568330] Hardware name: Renesas Salvator-X 2nd version board based on r8a77965 (DT)
+[   71.576250] Call trace:
+[   71.578699]  dump_backtrace+0xa0/0x128
+[   71.582459]  show_stack+0x20/0x38
+[   71.585781]  dump_stack_lvl+0x60/0xb0
+[   71.589457]  dump_stack+0x1c/0x28
+[   71.592782]  print_deadlock_bug+0x29c/0x3b0
+[   71.596979]  __lock_acquire+0x1664/0x2d20
+[   71.600999]  lock_acquire+0x2e8/0x458
+[   71.604671]  __mutex_lock+0x10c/0x4b8
+[   71.608345]  mutex_lock_nested+0x2c/0x40
+[   71.612277]  v4l2_subdev_link_validate+0x198/0x2b0
+[   71.617077]  __media_pipeline_start+0x79c/0xb50
+[   71.621616]  __video_device_pipeline_start+0x48/0x68
+[   71.626592]  vsp1_video_streamon+0x140/0x448
+[   71.630871]  v4l_streamon+0x50/0x70
+[   71.634368]  __video_do_ioctl+0x4cc/0x5b0
+[   71.638384]  video_usercopy+0x3c4/0xb48
+[   71.642226]  video_ioctl2+0x20/0x48
+[   71.645722]  v4l2_ioctl+0xa4/0xc8
+[   71.649044]  __arm64_sys_ioctl+0xec/0x118
+[   71.653067]  invoke_syscall+0x68/0x198
+[   71.656828]  el0_svc_common.constprop.0+0x80/0x150
+[   71.661629]  do_el0_svc+0x38/0x50
+[   71.664954]  el0_svc+0x50/0xa0
+[   71.668015]  el0t_64_sync_handler+0x120/0x130
+[   71.672380]  el0t_64_sync+0x190/0x198
+
+There is no actual deadlock situation caused by the tests, but a lockdep
+class deadlock detection.
+
+Subdev initialization is handled in one helper function for all subdevs
+created by the driver. This causes all locks for the active state being
+created with the same lock class. As a result, when validating links and
+trying to lock both the sink and source states, lockdep complains of
+recursive locking, even if the two locks are different mutex instances.
+
+Working around the issue is likely possible. The
+v4l2_subdev_init_finalize() function is actually a macro calling
+__v4l2_subdev_init_finalize() with an explicit lock class. The VSP1
+driver could do the same and push the lock class one layer up, to the
+callers of vsp1_entity_init(). This would solve part of the problem
+only, as the driver creates multiple subdevs of the same type, so
+dynamic allocation of the lock class may be required. That would however
+be a bad solution, or rather not a solution to the actual problem. There
+is a reason why lockdep groups locks in classes, beside just saving
+memory. When locks belonging to different instances of the same object
+type are taken recursively, it is often the sign of a bad design.
+
+Even if we worked around this problem, lockdep would later complain
+about AB-BA locking at link validation time. The VSP1 entities can be
+assembled in a pipeline in any order, so even if the link validation
+helpers are careful to always lock in the sink-source order, the sink
+and source could get swapped.
+
+I believe this calls for a rework of locking for subdev states. The
+option I'm envisioning is to lock all subdevs in a pipeline when
+starting the pipeline, with a new media_pipeline_lock() call just before
+media_pipeline_start(). The link validation helpers would then be called
+with all locks taken, and so would the .s_stream() subdev operations.
+This would simplify locking in drivers as a result, which I think is a
+very desirable side effect. Then, after starting the pipeline, the
+top-level driver would call media_pipeline_unlock(). Similar locking
+would be performed at pipeline stop time, to ensure that the .s_stream()
+operations would also be called with the locks held. Obviously, just
+moving locking around won't fix the lockdep issues, and the second part
+of the fix would be to use ww-mutexes instead of regular mutexes. The
+result would be similar to the implementation of the KMS atomic API,
+giving me some confidence that it goes in the right direction. An
+additional difficulty, however, is that we need to lock both the subdev
+active state and the control handler with the same lock.
+
+Of course, this being an RFC, I'm open to other proposals :-)
+
+In the meantime, I think the 17 first refactoring and cleanup patches
+could be merged already (after getting reviewed, of course) without
+waiting for a solution for the active state usage in patch 18/19.
+
+[1] https://git.ideasonboard.com/renesas/vsp-tests.git
+[2] https://git.ideasonboard.com/renesas/kms-tests.git
+
+Laurent Pinchart (19):
+  media: renesas: vsp1: Drop vsp1_entity_get_pad_format() wrapper
+  media: renesas: vsp1: Drop vsp1_entity_get_pad_selection() wrapper
+  media: renesas: vsp1: Drop vsp1_rwpf_get_crop() wrapper
+  media: renesas: vsp1: Drop brx_get_compose() wrapper
+  media: renesas: vsp1: Drop custom .get_fmt() handler for histogram
+  media: renesas: vsp1: Move partition calculation to vsp1_pipe.c
+  media: renesas: vsp1: Simplify partition calculation
+  media: renesas: vsp1: Store RPF partition configuration per RPF
+    instance
+  media: renesas: vsp1: Pass partition pointer to .configure_partition()
+  media: renesas: vsp1: Replace vsp1_partition_window with v4l2_rect
+  media: renesas: vsp1: Add and use function to dump a pipeline to the
+    log
+  media: renesas: vsp1: Keep the DRM pipeline entities sorted
+  media: renesas: vsp1: Compute partitions for DRM pipelines
+  media: renesas: vsp1: Get configuration from partition instead of
+    state
+  media: renesas: vsp1: Name parameters to entity operations
+  media: renesas: vsp1: Pass subdev state to entity operations
+  media: renesas: vsp1: Initialize control handler after subdev
+  media: renesas: vsp1: Switch to V4L2 subdev active state
+  media: renesas: vsp1: Rename all v4l2_subdev_state variables to
+    'state'
+
+ .../media/platform/renesas/vsp1/vsp1_brx.c    |  84 ++------
+ .../media/platform/renesas/vsp1/vsp1_clu.c    |  20 +-
+ .../media/platform/renesas/vsp1/vsp1_drm.c    |  48 ++++-
+ .../media/platform/renesas/vsp1/vsp1_drm.h    |   2 +
+ .../media/platform/renesas/vsp1/vsp1_entity.c | 202 +++---------------
+ .../media/platform/renesas/vsp1/vsp1_entity.h |  66 +++---
+ .../media/platform/renesas/vsp1/vsp1_hgo.c    |  30 +--
+ .../media/platform/renesas/vsp1/vsp1_hgt.c    |  22 +-
+ .../media/platform/renesas/vsp1/vsp1_histo.c  | 116 +++-------
+ .../media/platform/renesas/vsp1/vsp1_hsit.c   |  32 +--
+ .../media/platform/renesas/vsp1/vsp1_lif.c    |  18 +-
+ .../media/platform/renesas/vsp1/vsp1_lut.c    |  17 +-
+ .../media/platform/renesas/vsp1/vsp1_pipe.c   | 111 +++++++++-
+ .../media/platform/renesas/vsp1/vsp1_pipe.h   |  48 +++--
+ .../media/platform/renesas/vsp1/vsp1_rpf.c    |  60 +++---
+ .../media/platform/renesas/vsp1/vsp1_rwpf.c   |  89 ++------
+ .../media/platform/renesas/vsp1/vsp1_rwpf.h   |   3 -
+ .../media/platform/renesas/vsp1/vsp1_sru.c    |  84 +++-----
+ .../media/platform/renesas/vsp1/vsp1_uds.c    |  96 +++------
+ .../media/platform/renesas/vsp1/vsp1_uif.c    |  66 ++----
+ .../media/platform/renesas/vsp1/vsp1_video.c  | 193 ++++++-----------
+ .../media/platform/renesas/vsp1/vsp1_wpf.c    |  46 ++--
+ 22 files changed, 559 insertions(+), 894 deletions(-)
+
+-- 
+Regards,
+
+Laurent Pinchart
+
 
