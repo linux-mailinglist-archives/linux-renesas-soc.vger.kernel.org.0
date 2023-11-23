@@ -1,114 +1,191 @@
-Return-Path: <linux-renesas-soc+bounces-194-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-195-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B3D57F652C
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Nov 2023 18:19:24 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E73A7F6535
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Nov 2023 18:19:38 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 1C037B21112
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Nov 2023 17:19:22 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7D5F71C20F35
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Nov 2023 17:19:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 64C573FE59;
-	Thu, 23 Nov 2023 17:19:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D7234405CB;
+	Thu, 23 Nov 2023 17:19:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="DFzdOu5X"
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="WVqwfhW7"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yb1-xb2d.google.com (mail-yb1-xb2d.google.com [IPv6:2607:f8b0:4864:20::b2d])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 239201717
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 23 Nov 2023 09:19:14 -0800 (PST)
-Received: by mail-yb1-xb2d.google.com with SMTP id 3f1490d57ef6-da37522a363so1060529276.0
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 23 Nov 2023 09:19:14 -0800 (PST)
+Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com [IPv6:2a00:1450:4864:20::530])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7460510F9
+	for <linux-renesas-soc@vger.kernel.org>; Thu, 23 Nov 2023 09:19:24 -0800 (PST)
+Received: by mail-ed1-x530.google.com with SMTP id 4fb4d7f45d1cf-548d4fc9579so2107589a12.1
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 23 Nov 2023 09:19:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1700759953; x=1701364753; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=WDJYrmtNCIUgBOwBSSL6LRWpJjXJzrwGqwfLZWO8IyQ=;
-        b=DFzdOu5XT5IUX9fSr0l9fvliDSyr5vRUcDw9YPXrsFR5hKYUwUP36f7CN6xSpKf+HR
-         iRTCNFoko4S/DegreD70QPQAWieByI6K/1AFQcvsq9XxE1Mn+b1WmCOk7Lw2FZ70+U/o
-         +DF4LrDFMHRdoR3c4rezUEWXjhORu76OEKd9dj+VsdJl7wg+ZHOC4kIZ9v+9zJwN0gRL
-         hNsA49wW/ywcCPKSkFNBrkWD8M6wgwcGCm4tzmrhxgxxYO+J1C7ZRoTTdpdyK3aIKG85
-         nThlxp2/4GuWuwHuHY8yvlEF72EIRx7wjlYhhlxOZP3fJX9z2XOnWXRt8osE/t+pWILR
-         knVg==
+        d=tuxon.dev; s=google; t=1700759963; x=1701364763; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=x83P9eLZHnvhnKYPL9PHMDu1keqvrFTzzBoRrDNtJt8=;
+        b=WVqwfhW7cUhwUQlRqZLDb/rM4TWHJspsFLJZM+J8QD6RfXJTG1yIio+2qDukVGage0
+         M6ILRF1J9PzRP4sTH/S4p0qGC9qyARrRQvC8p+7Su6+4SL3tjx5xyKXExkcLjDPVodsW
+         s7WkNAUpiA+QlURm6f3RlLf2bLDiTi6sZtkghoSEd+yGW6dwS1W2cH0/FYT1Nrxh5IMZ
+         hHpsTAa6167t7g5rddD4BNjn6IC1aL4sr+hGVdlKmS3/NEKR9tBLIM7BDq4gvKc7v66P
+         iIBHMW0ygOP1j9x2z6nkx6jdtR71doyJ8/q6k0GmS92saVrJXUvXuR4+mnmSjGhG1UqE
+         ZH0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700759953; x=1701364753;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=WDJYrmtNCIUgBOwBSSL6LRWpJjXJzrwGqwfLZWO8IyQ=;
-        b=kdUBIGvryH9Ziviw692qOOGd9FzOdZoKmlKjOndTF09rr5f2RGTmIiGFHDbZgtRjwR
-         KrKJsytf4p7pgOcUKdH4L+xkEl/2QOAhGncw3ElTujPonNYzVqthgxNHfcxMp1INKngO
-         74r9D9EcZeFREMvFlM9JinNnYi1wdOEdDFXE2jb12MTO1cz6j0MzEdpyzexlZSnmMiGx
-         t3jJkRekn8hWG6hFcuT8oawEphwRFy2ELzat/SkTU9TW9I4Z6W4nR2aryNkyB24JKx8y
-         4xFgI+qdIP4r1ltPIHuueuOMnxXbR72PfrBrQ1AqiP2a8LcKbTgNM9zGav+qlsxwqH1W
-         RhYw==
-X-Gm-Message-State: AOJu0YzyL0seuflxfwtcNt+iKCcdCSK3MjKkLHFMSyD97LD/SmNSeSXR
-	g8yVGTfbxrKRRZSeC+dQe8RZIimkzHw/HoORREteOg==
-X-Google-Smtp-Source: AGHT+IGT2udCJz5BPSeOk3YH2WTr86oiAessLfh8FLsQCx64BtWfnypvCEPOKUg6aGqq2V/JfmXDaQglA91rbdQEg2c=
-X-Received: by 2002:a25:808d:0:b0:db4:7ac:feb5 with SMTP id
- n13-20020a25808d000000b00db407acfeb5mr4596961ybk.15.1700759953249; Thu, 23
- Nov 2023 09:19:13 -0800 (PST)
+        d=1e100.net; s=20230601; t=1700759963; x=1701364763;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=x83P9eLZHnvhnKYPL9PHMDu1keqvrFTzzBoRrDNtJt8=;
+        b=BWiLMwC1G/F5GGWuG3tDe+ZC19Pam4coQtfHb63qZPhiIG7WEDhTGTemgdCY3rOZgs
+         ppTJWzHxmd4LRmOKZ56xGmXq0lKcEosh32CSkcmcpUU9mtfnYxTM3jFwaaVrGGgw/92w
+         OjQXKjqxbdGG7KMPeBUe4hc0Cl8MjcolT4/FLPgoUtIqBu9oN/lvons5gNTr51xhgJ61
+         Vvi+zouYceWQrjIVXAV6PlHF7i7OgHY+PXAe9NHXkgWEig/rPxxgjESr2vWeLefe5f1Y
+         pEZGQXgAoNj8pRLfC8fgRqfQdcpRtY4Paz9rTWg0izQmum2M/hWmitixeFJxu0lKqSFu
+         mIxw==
+X-Gm-Message-State: AOJu0YwZsuR3so1ESfhPni/ukz2Z3hS8Bo1sa+Wg7LH2B2JirvTPbn3J
+	0aRJYSZyfoNeLpS4Rcps743cow==
+X-Google-Smtp-Source: AGHT+IE1OC0oC6PR+P9u8JHzfQFAvqIfUkwM1w9mU3rz2WBz0ondFofMAdcnjef4Dp7B3G/RSzdCYw==
+X-Received: by 2002:a05:6402:1a36:b0:548:dfbb:258c with SMTP id be22-20020a0564021a3600b00548dfbb258cmr2974434edb.11.1700759962758;
+        Thu, 23 Nov 2023 09:19:22 -0800 (PST)
+Received: from [192.168.50.4] ([82.78.167.3])
+        by smtp.gmail.com with ESMTPSA id q1-20020a056402040100b00536ad96f867sm854415edv.11.2023.11.23.09.19.19
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 23 Nov 2023 09:19:22 -0800 (PST)
+Message-ID: <ce7ad295-bcf9-45d8-a7e6-43b6a416aba1@tuxon.dev>
+Date: Thu, 23 Nov 2023 19:19:19 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231115203254.30544-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20231115203254.30544-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-From: Ulf Hansson <ulf.hansson@linaro.org>
-Date: Thu, 23 Nov 2023 18:18:37 +0100
-Message-ID: <CAPDyKFp=zNBH2Qo_hhF-mrptYAwWjjunTJX=3Q5e_5uZamGVdQ@mail.gmail.com>
-Subject: Re: [PATCH] dt-bindings: mmc: renesas,sdhi: Document RZ/Five SoC
-To: Prabhakar <prabhakar.csengg@gmail.com>
-Cc: Rob Herring <robh+dt@kernel.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Wolfram Sang <wsa+renesas@sang-engineering.com>, 
-	Magnus Damm <magnus.damm@gmail.com>, linux-mmc@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-
-On Wed, 15 Nov 2023 at 21:33, Prabhakar <prabhakar.csengg@gmail.com> wrote:
->
-> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
->
-> The SDHI block on the RZ/Five SoC is identical to one found on the RZ/G2UL
-> SoC. "renesas,sdhi-r9a07g043" compatible string will be used on the
-> RZ/Five SoC so to make this clear and to keep this file consistent, update
-> the comment to include RZ/Five SoC.
->
-> No driver changes are required as generic compatible string
-> "renesas,rcar-gen3-sdhi" will be used as a fallback on RZ/Five SoC.
->
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-
-Applied for next, thanks!
-
-Kind regards
-Uffe
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 02/14] clk: renesas: rzg2l-cpg: Check reset monitor
+ registers
+Content-Language: en-US
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: s.shtylyov@omp.ru, davem@davemloft.net, edumazet@google.com,
+ kuba@kernel.org, pabeni@redhat.com, robh+dt@kernel.org,
+ krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+ linux@armlinux.org.uk, geert+renesas@glider.be, magnus.damm@gmail.com,
+ mturquette@baylibre.com, sboyd@kernel.org, linus.walleij@linaro.org,
+ p.zabel@pengutronix.de, arnd@arndb.de, m.szyprowski@samsung.com,
+ alexandre.torgue@foss.st.com, afd@ti.com, broonie@kernel.org,
+ alexander.stein@ew.tq-group.com, eugen.hristev@collabora.com,
+ sergei.shtylyov@gmail.com, prabhakar.mahadev-lad.rj@bp.renesas.com,
+ biju.das.jz@bp.renesas.com, linux-renesas-soc@vger.kernel.org,
+ netdev@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-clk@vger.kernel.org, linux-gpio@vger.kernel.org,
+ Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+References: <20231120070024.4079344-1-claudiu.beznea.uj@bp.renesas.com>
+ <20231120070024.4079344-3-claudiu.beznea.uj@bp.renesas.com>
+ <CAMuHMdXTO+cteN7fW+n3=Vzpa5Nk7oxj+sF2vBMLf2gwS=aNGw@mail.gmail.com>
+From: claudiu beznea <claudiu.beznea@tuxon.dev>
+In-Reply-To: <CAMuHMdXTO+cteN7fW+n3=Vzpa5Nk7oxj+sF2vBMLf2gwS=aNGw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
 
-> ---
->  Documentation/devicetree/bindings/mmc/renesas,sdhi.yaml | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/Documentation/devicetree/bindings/mmc/renesas,sdhi.yaml b/Documentation/devicetree/bindings/mmc/renesas,sdhi.yaml
-> index 7756a8687eaf..27cd985b1006 100644
-> --- a/Documentation/devicetree/bindings/mmc/renesas,sdhi.yaml
-> +++ b/Documentation/devicetree/bindings/mmc/renesas,sdhi.yaml
-> @@ -56,7 +56,7 @@ properties:
->                - renesas,sdhi-r8a77980  # R-Car V3H
->                - renesas,sdhi-r8a77990  # R-Car E3
->                - renesas,sdhi-r8a77995  # R-Car D3
-> -              - renesas,sdhi-r9a07g043 # RZ/G2UL
-> +              - renesas,sdhi-r9a07g043 # RZ/G2UL and RZ/Five
->                - renesas,sdhi-r9a07g044 # RZ/G2{L,LC}
->                - renesas,sdhi-r9a07g054 # RZ/V2L
->                - renesas,sdhi-r9a09g011 # RZ/V2M
-> --
-> 2.34.1
->
+
+On 23.11.2023 17:53, Geert Uytterhoeven wrote:
+> Hi Claudiu,
+> 
+> On Mon, Nov 20, 2023 at 8:01 AM Claudiu <claudiu.beznea@tuxon.dev> wrote:
+>> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+>>
+>> Hardware manual of both RZ/G2L and RZ/G3S specifies that reset monitor
+>> registers need to be interrogated when the reset signals are toggled
+>> (chapters "Procedures for Supplying and Stopping Reset Signals" and
+>> "Procedure for Activating Modules"). Without this there is a chance that
+>> different modules (e.g. Ethernet) to not be ready after reset signal is
+>> toggled leading to failures (on probe or resume from deep sleep states).
+>>
+>> Fixes: ef3c613ccd68 ("clk: renesas: Add CPG core wrapper for RZ/G2L SoC")
+>> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+> 
+> Thanks for your patch!
+> 
+>> In case you apply this patch and patch 1/13 as is, please add a Depend-on
+>> tag on this patch to point to patch 1/13 for proper backporting.
+> 
+> There is no such Depend-on tag? Anyway, this patch won't apply if 1/13
+
+typo again... it should have been "Depends-on" which is true, it is not
+documented anywhere, but I saw it is used in some commits. Maybe I should
+stop using it...
+
+> is not backported...
+> 
+>> --- a/drivers/clk/renesas/rzg2l-cpg.c
+>> +++ b/drivers/clk/renesas/rzg2l-cpg.c
+>> @@ -1416,12 +1416,23 @@ static int rzg2l_cpg_assert(struct reset_controller_dev *rcdev,
+>>         struct rzg2l_cpg_priv *priv = rcdev_to_priv(rcdev);
+>>         const struct rzg2l_cpg_info *info = priv->info;
+>>         unsigned int reg = info->resets[id].off;
+>> -       u32 value = BIT(info->resets[id].bit) << 16;
+>> +       u32 dis = BIT(info->resets[id].bit);
+>> +       u32 value = dis << 16;
+>> +       int ret = 0;
+>>
+>>         dev_dbg(rcdev->dev, "assert id:%ld offset:0x%x\n", id, CLK_RST_R(reg));
+>>
+>>         writel(value, priv->base + CLK_RST_R(reg));
+>> -       return 0;
+>> +
+>> +       if (info->has_clk_mon_regs) {
+>> +               ret = readl_poll_timeout_atomic(priv->base + CLK_MRST_R(reg), value,
+>> +                                               value & dis, 10, 200);
+>> +       } else {
+>> +               /* Wait for at least one cycle of the RCLK clock (@ ca. 32 kHz) */
+>> +               udelay(35);
+>> +       }
+> 
+> I think this should also take into account CPG_RST_MON on RZ/V2M,
+> cfr. rzg2l_cpg_status().
+
+Hm... ok, I'll have a look though it will be a bit difficult to test it ATM.
+
+> 
+>> +
+>> +       return ret;
+>>  }
+>>
+>>  static int rzg2l_cpg_deassert(struct reset_controller_dev *rcdev,
+>> @@ -1432,12 +1443,22 @@ static int rzg2l_cpg_deassert(struct reset_controller_dev *rcdev,
+>>         unsigned int reg = info->resets[id].off;
+>>         u32 dis = BIT(info->resets[id].bit);
+>>         u32 value = (dis << 16) | dis;
+>> +       int ret = 0;
+>>
+>>         dev_dbg(rcdev->dev, "deassert id:%ld offset:0x%x\n", id,
+>>                 CLK_RST_R(reg));
+>>
+>>         writel(value, priv->base + CLK_RST_R(reg));
+>> -       return 0;
+>> +
+>> +       if (info->has_clk_mon_regs) {
+>> +               ret = readl_poll_timeout_atomic(priv->base + CLK_MRST_R(reg), value,
+>> +                                               !(value & dis), 10, 200);
+>> +       } else {
+>> +               /* Wait for at least one cycle of the RCLK clock (@ ca. 32 kHz) */
+>> +               udelay(35);
+>> +       }
+> 
+> Likewise.
+> 
+>> +
+>> +       return ret;
+>>  }
+>>
+>>  static int rzg2l_cpg_reset(struct reset_controller_dev *rcdev,
+> 
+> The rest LGTM.
+> 
+> Gr{oetje,eeting}s,
+> 
+>                         Geert
+> 
 
