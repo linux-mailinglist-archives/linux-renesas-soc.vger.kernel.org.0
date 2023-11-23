@@ -1,203 +1,151 @@
-Return-Path: <linux-renesas-soc+bounces-191-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-192-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD2867F64F1
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Nov 2023 18:10:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A5BA17F6503
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Nov 2023 18:15:59 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id EEA591C20B2F
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Nov 2023 17:10:31 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D6C931C20992
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Nov 2023 17:15:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5F63F3FE45;
-	Thu, 23 Nov 2023 17:10:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="WQ8S3eSs"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 897833FE3A;
+	Thu, 23 Nov 2023 17:15:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com [IPv6:2a00:1450:4864:20::52d])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D034E11F
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 23 Nov 2023 09:10:22 -0800 (PST)
-Received: by mail-ed1-x52d.google.com with SMTP id 4fb4d7f45d1cf-548f0b7ab11so1559673a12.1
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 23 Nov 2023 09:10:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1700759421; x=1701364221; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=3SFIzPt7TEX9nsF6CmEt2y+2kFBYceN5ADYmICOYrZM=;
-        b=WQ8S3eSst8h2CA0I6RYvHHQJtkMlslcg6CGqLiYHLzuhUfvfx+EuVzaBGn9xUqH93X
-         okddBTfi4TyXRbKtstu8Fr8er+QJHSPmACeeV8+f6Q0vnu7JBy8lGNl58XOSoJpJ4FUJ
-         TCLVkybbdBBsBqjYK95uzzEvREKEr5GvAuKx5nJRw9+1c/caiBsJErGlhGNdJhbttlR3
-         phzvqnBeaaga2JxTlry2/AgDOr4mZCJpOswXXiuEigxGwAfMQbFVCD3Re2al7mBHpJBn
-         hnjmGekwrCZLltIfwS6f8vECsYomq5tCRFPE6e3PAWtruOOX6l+YxIvFB3RFh2fMSwMI
-         w35w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700759421; x=1701364221;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=3SFIzPt7TEX9nsF6CmEt2y+2kFBYceN5ADYmICOYrZM=;
-        b=JwbQRV+UF42oHBF/RYrHuMR5aw7M+UZccXNZF78Osr5VswhwJKBlQEelVQjb2PpWef
-         0tCEqGjUaDHdTv9seTjwT7z9A7w7AUMixGniThyLUKdLUIHPCsCVGnGwjZ6JhVq74qub
-         81nUmOWneWSLa5e6QEFs9o15BeS1z21OakrB4zptYHtfkf9rtow7t9RU57+JN9g4OD2q
-         d+bdSCdsIEJoO7kFcA1+KT8siCto6JttnILD7/8MNfFumvPpKfH1jE1T45P6OUUAlIhZ
-         oEFGmtOyToNSRSBeMfnCFqjZjfXdewjwFf7Jm0cYGNNSZeYM7OVZ7U8UzWip2zK8Fewa
-         0F+w==
-X-Gm-Message-State: AOJu0Yx3MjZ+2hePNmER6flULMerNAbPoImgrtLXv9pk428tDBxFu02R
-	1Vmp0g4pUVnmfzB2oC/mGSHa9w==
-X-Google-Smtp-Source: AGHT+IFCYKgtF3mjNW4AH91q6HDmr7WR4otmQC45N+hCgGoUwH/B1qJH8bZX7d0ZE0lapIiwwntAaw==
-X-Received: by 2002:a50:d747:0:b0:54a:b02e:1ffe with SMTP id i7-20020a50d747000000b0054ab02e1ffemr1648458edj.20.1700759421101;
-        Thu, 23 Nov 2023 09:10:21 -0800 (PST)
-Received: from [192.168.50.4] ([82.78.167.3])
-        by smtp.gmail.com with ESMTPSA id p15-20020a05640210cf00b0054847e78203sm840661edu.29.2023.11.23.09.10.18
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 23 Nov 2023 09:10:20 -0800 (PST)
-Message-ID: <a9760bbb-d06d-4914-b0d1-48a224f74858@tuxon.dev>
-Date: Thu, 23 Nov 2023 19:10:17 +0200
+Received: from mx01.omp.ru (mx01.omp.ru [90.154.21.10])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5A859D68;
+	Thu, 23 Nov 2023 09:15:52 -0800 (PST)
+Received: from [192.168.1.103] (178.176.78.136) by msexch01.omp.ru
+ (10.188.4.12) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.1258.12; Thu, 23 Nov
+ 2023 20:15:44 +0300
+Subject: Re: [PATCH net v2] ravb: Fix races between ravb_tx_timeout_work() and
+ net related ops
+To: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+	"davem@davemloft.net" <davem@davemloft.net>, "edumazet@google.com"
+	<edumazet@google.com>, "kuba@kernel.org" <kuba@kernel.org>,
+	"pabeni@redhat.com" <pabeni@redhat.com>
+CC: "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>
+References: <20231019113308.1133944-1-yoshihiro.shimoda.uh@renesas.com>
+ <f5421248-3341-a5f7-84e6-c601df470a63@omp.ru>
+ <TYBPR01MB5341061AB0A805D0AF71FBB5D8B1A@TYBPR01MB5341.jpnprd01.prod.outlook.com>
+ <69392d22-8ade-81aa-72b1-6a4abce8a4a7@omp.ru>
+ <TYBPR01MB5341A4AE46EA9261469C735DD8B0A@TYBPR01MB5341.jpnprd01.prod.outlook.com>
+ <29603244-d65a-5ca0-90d4-fdd9f410e180@omp.ru>
+ <TYBPR01MB5341FE9976E52CD8F6509B8ED8B7A@TYBPR01MB5341.jpnprd01.prod.outlook.com>
+From: Sergey Shtylyov <s.shtylyov@omp.ru>
+Organization: Open Mobile Platform
+Message-ID: <5028f8cb-7d4e-e026-c4a9-3fabf22a1385@omp.ru>
+Date: Thu, 23 Nov 2023 20:15:44 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 08/13] net: ravb: Rely on PM domain to enable refclk
+In-Reply-To: <TYBPR01MB5341FE9976E52CD8F6509B8ED8B7A@TYBPR01MB5341.jpnprd01.prod.outlook.com>
+Content-Type: text/plain; charset="utf-8"
 Content-Language: en-US
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: s.shtylyov@omp.ru, davem@davemloft.net, edumazet@google.com,
- kuba@kernel.org, pabeni@redhat.com, p.zabel@pengutronix.de,
- yoshihiro.shimoda.uh@renesas.com, wsa+renesas@sang-engineering.com,
- biju.das.jz@bp.renesas.com, prabhakar.mahadev-lad.rj@bp.renesas.com,
- sergei.shtylyov@cogentembedded.com, mitsuhiro.kimura.kc@renesas.com,
- masaru.nagai.vx@renesas.com, netdev@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
- Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-References: <20231120084606.4083194-1-claudiu.beznea.uj@bp.renesas.com>
- <20231120084606.4083194-9-claudiu.beznea.uj@bp.renesas.com>
- <CAMuHMdV=2_h2PW9K7zT3Hwqjdk6D2m_Dd09bqHtifAvVTM7Lrw@mail.gmail.com>
-From: claudiu beznea <claudiu.beznea@tuxon.dev>
-In-Reply-To: <CAMuHMdV=2_h2PW9K7zT3Hwqjdk6D2m_Dd09bqHtifAvVTM7Lrw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: msexch01.omp.ru (10.188.4.12) To msexch01.omp.ru
+ (10.188.4.12)
+X-KSE-ServerInfo: msexch01.omp.ru, 9
+X-KSE-AntiSpam-Interceptor-Info: scan successful
+X-KSE-AntiSpam-Version: 6.0.0, Database issued on: 11/21/2023 23:48:29
+X-KSE-AntiSpam-Status: KAS_STATUS_NOT_DETECTED
+X-KSE-AntiSpam-Method: none
+X-KSE-AntiSpam-Rate: 59
+X-KSE-AntiSpam-Info: Lua profiles 181514 [Nov 21 2023]
+X-KSE-AntiSpam-Info: Version: 6.0.0.2
+X-KSE-AntiSpam-Info: Envelope from: s.shtylyov@omp.ru
+X-KSE-AntiSpam-Info: LuaCore: 3 0.3.3 e5c6a18a9a9bff0226d530c5b790210c0bd117c8
+X-KSE-AntiSpam-Info: {rep_avail}
+X-KSE-AntiSpam-Info: {Tracking_from_domain_doesnt_match_to}
+X-KSE-AntiSpam-Info: {relay has no DNS name}
+X-KSE-AntiSpam-Info: {SMTP from is not routable}
+X-KSE-AntiSpam-Info: {Found in DNSBL: 178.176.78.136 in (user)
+ b.barracudacentral.org}
+X-KSE-AntiSpam-Info: ApMailHostAddress: 178.176.78.136
+X-KSE-AntiSpam-Info: {DNS response errors}
+X-KSE-AntiSpam-Info: Rate: 59
+X-KSE-AntiSpam-Info: Status: not_detected
+X-KSE-AntiSpam-Info: Method: none
+X-KSE-AntiSpam-Info: Auth:dmarc=temperror header.from=omp.ru;spf=temperror
+ smtp.mailfrom=omp.ru;dkim=none
+X-KSE-Antiphishing-Info: Clean
+X-KSE-Antiphishing-ScanningType: Heuristic
+X-KSE-Antiphishing-Method: None
+X-KSE-Antiphishing-Bases: 11/21/2023 23:54:00
+X-KSE-Antivirus-Interceptor-Info: scan successful
+X-KSE-Antivirus-Info: Clean, bases: 11/21/2023 8:06:00 PM
+X-KSE-Attachment-Filter-Triggered-Rules: Clean
+X-KSE-Attachment-Filter-Triggered-Filters: Clean
+X-KSE-BulkMessagesFiltering-Scan-Result: InTheLimit
 
-Hi, Geert,
+Hello!
 
-On 23.11.2023 10:48, Geert Uytterhoeven wrote:
-> Hi Claudiu,
-> 
-> Thanks for your patch (which seems to have been delayed by 3 days, ouch)!
-> 
-> On Thu, Nov 23, 2023 at 5:35 AM Claudiu <claudiu.beznea@tuxon.dev> wrote:
->> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
->>
->> For RZ/G3S and RZ/G2L SoCs the Ethernet's reference clock is part of the
->> Ethernet's power domain. It is controlled though CPG driver that is
->> providing the support for power domain that Ethernet belongs. Thus,
->> to be able to implement runtime PM (at least for RZ/G3S at the moment)
-> 
-> Why only for RZ/G3S?
+   Sorry for the late reply -- the damn dozen of the AVB patches fell on me this
+Monday... :-/
 
-(I'm copy pasting here what I already replied to Sergey)
+On 11/17/23 3:07 AM, Yoshihiro Shimoda wrote:
+[...]
 
-The reasons I've limited only to RZ/G3S are:
-1/ I don't have all the platforms to test it
-2/ on G1H this doesn't work. I tried to debugged it but I don't have a
-   platform at hand, only remotely, and is hardly to debug once the
-   ethernet fails to work: probe is working(), open is executed, PHY is
-   initialized and then TX/RX is not working... don't know why ATM.
+>>> In the function(s), since WORK_STRUCT_PENDING_BIT is set, schedule_{delayed_}work()
+>>> will not schedule the work anymore. So, I'll drop a condition netif_running()
+>>> from the ravb_tx_timeout_work().
+>>
+>>   Hm, this caused me to rummage in the work queue code for more time than
+>> I could afford... still not sure what you meant... :-/
+> 
+> I'm sorry for bothering you about this topic...
+> In the v3 patch, the rescheduling code was:
+> ---
+> +	if (!rtnl_trylock()) {
+> +		if (netif_running(ndev))
+> +			schedule_delayed_work(&priv->work, msecs_to_jiffies(10));
+> +		return;
+> +	}
+> ---
+> 
+> However, we can implement this like the following:
+> ---
+> +	if (!rtnl_trylock()) {
+> +		schedule_delayed_work(&priv->work, msecs_to_jiffies(10));
+> +		return;
+> +	}
+> ---
+> 
+> The schedule_{delayed}_work() will not be queued after cancel_{delayed_}work_sync()
+> was called, because WORK_STRUCT_PENDING_BIT was set in cancel_{delayed_}work_sync()
+> like the following:
+> ---
+> cancel_work_sync()
+> -> __cancel_work_timer()
+>   -> try_to_grab_pending()
+>    -> if (!test_and_set_bit(WORK_STRUCT_PENDING_BIT, ...)
+> 
+> schedule_work()
+>  -> queue_work()
+>   -> queue_work_on()
+>    -> if (test_and_set_bit(WORK_STRUCT_PENDING_BIT, ...)
 
-> 
->> w/o the need to add clock enable/disable specific calls in runtime PM
->> ops of ravb driver and interfere with other IP specific implementations,
->> add a new variable to struct_hw_info and enable the reference clock
->> based on the value of this variable (the variable states if reference
->> clock is part of the Ethernet's power domain).
->>
->> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-> 
->> --- a/drivers/net/ethernet/renesas/ravb.h
->> +++ b/drivers/net/ethernet/renesas/ravb.h
->> @@ -1043,6 +1043,7 @@ struct ravb_hw_info {
->>         unsigned nc_queues:1;           /* AVB-DMAC has RX and TX NC queues */
->>         unsigned magic_pkt:1;           /* E-MAC supports magic packet detection */
->>         unsigned half_duplex:1;         /* E-MAC supports half duplex mode */
->> +       unsigned refclk_in_pd:1;        /* Reference clock is part of a power domain. */
->>  };
->>
->>  struct ravb_private {
->> diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
->> index 836fdb4b3bfd..ddd8cd2c0f89 100644
->> --- a/drivers/net/ethernet/renesas/ravb_main.c
->> +++ b/drivers/net/ethernet/renesas/ravb_main.c
->> @@ -2502,6 +2502,7 @@ static const struct ravb_hw_info gbeth_hw_info = {
->>         .tx_counters = 1,
->>         .carrier_counters = 1,
->>         .half_duplex = 1,
->> +       .refclk_in_pd = 1,
->>  };
->>
->>  static const struct of_device_id ravb_match_table[] = {
->> @@ -2749,12 +2750,14 @@ static int ravb_probe(struct platform_device *pdev)
->>                 goto out_release;
->>         }
->>
->> -       priv->refclk = devm_clk_get_optional(&pdev->dev, "refclk");
->> -       if (IS_ERR(priv->refclk)) {
->> -               error = PTR_ERR(priv->refclk);
->> -               goto out_release;
->> +       if (!info->refclk_in_pd) {
->> +               priv->refclk = devm_clk_get_optional(&pdev->dev, "refclk");
->> +               if (IS_ERR(priv->refclk)) {
->> +                       error = PTR_ERR(priv->refclk);
->> +                       goto out_release;
->> +               }
->> +               clk_prepare_enable(priv->refclk);
->>         }
->> -       clk_prepare_enable(priv->refclk);
-> 
-> Is this patch really needed? It doesn't hurt to manually enable a
-> clock that is also under Runtime PM control.  Clock prepare/enable
-> refcounting will take care of that.
+   You seem to have lost ! here. :-)
 
-I agree with that. I chose this path to not interfere w/ the comments
-ravb_runtime_nop() which I didn't understand. Also I fail to understand why
-the ravb_runtime_nop() is there...
+>     -> __queue_work()
 
+   Ah! Now it makes perfect sense. Sorry, this somehow evaded me... :-/
+
+> ---
 > 
->>
->>         if (info->gptp_ref_clk) {
->>                 priv->gptp_clk = devm_clk_get(&pdev->dev, "gptp");
->> @@ -2869,7 +2872,8 @@ static int ravb_probe(struct platform_device *pdev)
->>         if (info->ccc_gac)
->>                 ravb_ptp_stop(ndev);
->>  out_disable_refclk:
->> -       clk_disable_unprepare(priv->refclk);
->> +       if (!info->refclk_in_pd)
->> +               clk_disable_unprepare(priv->refclk);
->>  out_release:
->>         free_netdev(ndev);
->>  pm_runtime_put:
->> @@ -2890,7 +2894,8 @@ static void ravb_remove(struct platform_device *pdev)
->>         if (info->ccc_gac)
->>                 ravb_ptp_stop(ndev);
->>
->> -       clk_disable_unprepare(priv->refclk);
->> +       if (!info->refclk_in_pd)
->> +               clk_disable_unprepare(priv->refclk);
->>
->>         /* Set reset mode */
->>         ravb_write(ndev, CCC_OPC_RESET, CCC);
-> 
-> Gr{oetje,eeting}s,
-> 
->                         Geert
-> 
-> 
-> --
-> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-> 
-> In personal conversations with technical people, I call myself a hacker. But
-> when I'm talking to journalists I just say "programmer" or something like that.
->                                 -- Linus Torvalds
+> Best regards,
+> Yoshihiro Shimoda
+
+[...]
+
+MBR, Sergey
 
