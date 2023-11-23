@@ -1,93 +1,158 @@
-Return-Path: <linux-renesas-soc+bounces-173-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-174-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C48E67F5D70
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Nov 2023 12:10:27 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8280E7F5D73
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Nov 2023 12:11:51 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0AB651C20B64
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Nov 2023 11:10:27 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3B750281A0C
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Nov 2023 11:11:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7C39822EF7;
-	Thu, 23 Nov 2023 11:10:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3D5B422EF8;
+	Thu, 23 Nov 2023 11:11:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tljlidVv"
+	dkim=pass (2048-bit key) header.d=gmx.net header.i=j.neuschaefer@gmx.net header.b="S7iVe7/0"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B1D022EE7;
-	Thu, 23 Nov 2023 11:10:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id C5EB5C433C7;
-	Thu, 23 Nov 2023 11:10:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1700737824;
-	bh=OFh6cOOLb8LLtFm5PuV1Wm6e/CoyEQczZ8jI3qPkLmw=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=tljlidVvYB0khypDT2rYH5AaGw4uN4q/MI23T7Xi5laqwlWG/O6lu7w4rYXYgA1Ji
-	 OyupAjJ9yV9aoGVe5osVWLYfuDLwtAYx+j2ttQsbV8OoQWVYEqvflXVTynV1g9CVp+
-	 K/mqU/zdEb0z1y9iaXfvmvMe9lUNW0pjEcq+ugnx1taiaynq4ckyFkToFkRnlRhgbU
-	 33l1fScKv8SisrdQO/0L7mIckeeED2UjP29RZAqaIofHZZMOcrhhwZiM7SwL2y7uzd
-	 8qVXuRR/WfmQQhcT4g0nfIJgicFCxMSiqgwF73TtLLg3U/DSj3qO2ubR1FALqZo3mA
-	 Nj5jrtX7mxz/Q==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id AC764C3959E;
-	Thu, 23 Nov 2023 11:10:24 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.18])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E19A11BD;
+	Thu, 23 Nov 2023 03:11:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+	s=s31663417; t=1700737862; x=1701342662; i=j.neuschaefer@gmx.net;
+	bh=LkE5Nuq5cpUfZVO4p3a9aPdP5nVFWe7nwzvBcr5GDNk=;
+	h=X-UI-Sender-Class:Date:From:To:Cc:Subject:References:
+	 In-Reply-To;
+	b=S7iVe7/0DFJ2Glol27Dhh4tQ2/MSVm6hQfrQTYHOjexz+b3exqTH6gjYP/ugO0dJ
+	 ywmNfO1UhMb720kxrgKEDi4jGPUGAHuManuT3bEKyfHmBWeFlQVGHaNeLDP5mBjx4
+	 md8PO1K0ouI3ETbJYh6QpvvLPPDKB/P0UmcmTwKl+wpGJtmcbm/CnMiBgIzDDg10P
+	 D+a+KXRbeDbEQKkjPmZqHFjfgXJiH4hpwyrgjc0aPj7T/oa9SrIH0X15+132g4w4l
+	 0TB4B9/IyFZck9/7XBEjAFQ0OwnZrirjoJJBNWFx3A9/ZAvdYycYiks+0KnKlcm6n
+	 0YCmGndubOBkrZkI4A==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from probook ([89.0.47.44]) by mail.gmx.net (mrgmx004
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1MfHEP-1rY1Ne2r3T-00gsCP; Thu, 23
+ Nov 2023 12:11:01 +0100
+Date: Thu, 23 Nov 2023 12:10:57 +0100
+From: =?utf-8?Q?J=2E_Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Linus Walleij <linus.walleij@linaro.org>,
+	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
+	Jianlong Huang <jianlong.huang@starfivetech.com>,
+	linux-arm-kernel@lists.infradead.org, linux-gpio@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-mediatek@lists.infradead.org,
+	openbmc@lists.ozlabs.org, linux-mips@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Dong Aisheng <aisheng.dong@nxp.com>,
+	Fabio Estevam <festevam@gmail.com>, Shawn Guo <shawnguo@kernel.org>,
+	Jacky Bai <ping.bai@nxp.com>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	NXP Linux Team <linux-imx@nxp.com>,
+	Sean Wang <sean.wang@kernel.org>,
+	Jonathan =?utf-8?Q?Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
+	Paul Cercueil <paul@crapouillou.net>,
+	Lakshmi Sowjanya D <lakshmi.sowjanya.d@intel.com>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Andy Gross <agross@kernel.org>,
+	Konrad Dybcio <konrad.dybcio@linaro.org>,
+	Emil Renner Berthing <kernel@esmil.dk>,
+	Hal Feng <hal.feng@starfivetech.com>,
+	Basavaraj Natikar <Basavaraj.Natikar@amd.com>
+Subject: Re: [PATCH v1 00/17] pinctrl: Convert struct group_desc to use
+ struct pingroup
+Message-ID: <ZV8zQZyT4Kwom-m_@probook>
+References: <20231122164040.2262742-1-andriy.shevchenko@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [net-next v3 0/5] net: ethernet: renesas: rcar_gen4_ptp: Add V4H
- support
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <170073782470.401.3343558436830393692.git-patchwork-notify@kernel.org>
-Date: Thu, 23 Nov 2023 11:10:24 +0000
-References: <20231121155306.515446-1-niklas.soderlund+renesas@ragnatech.se>
-In-Reply-To: <20231121155306.515446-1-niklas.soderlund+renesas@ragnatech.se>
-To: =?utf-8?q?Niklas_S=C3=B6derlund_=3Cniklas=2Esoderlund+renesas=40ragnatech=2E?=@codeaurora.org,
-	=?utf-8?q?se=3E?=@codeaurora.org
-Cc: davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
- pabeni@redhat.com, richardcochran@gmail.com, netdev@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org
-
-Hello:
-
-This series was applied to netdev/net-next.git (main)
-by Paolo Abeni <pabeni@redhat.com>:
-
-On Tue, 21 Nov 2023 16:53:01 +0100 you wrote:
-> Hello,
-> 
-> This small series prepares the rcar_gen4_ptp to be useable both on both
-> R-Car S4 and V4H. The only in-tree driver that make use of this is
-> rswtich on S4. A new Ethernet (R-Car Ethernet TSN) driver for V4H is on
-> it's way that also will make use of rcar_gen4_ptp functionality.
-> 
-> [...]
-
-Here is the summary with links:
-  - [net-next,v3,1/5] net: ethernet: renesas: rcar_gen4_ptp: Remove incorrect comment
-    https://git.kernel.org/netdev/net-next/c/d73dcff9eb0d
-  - [net-next,v3,2/5] net: ethernet: renesas: rcar_gen4_ptp: Fail on unknown register layout
-    https://git.kernel.org/netdev/net-next/c/9f3995707e35
-  - [net-next,v3,3/5] net: ethernet: renesas: rcar_gen4_ptp: Prepare for shared register layout
-    https://git.kernel.org/netdev/net-next/c/46c361a04635
-  - [net-next,v3,4/5] net: ethernet: renesas: rcar_gen4_ptp: Get clock increment from clock rate
-    https://git.kernel.org/netdev/net-next/c/be5f81d37f79
-  - [net-next,v3,5/5] net: ethernet: renesas: rcar_gen4_ptp: Break out to module
-    https://git.kernel.org/netdev/net-next/c/8c1c66235e03
-
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="ITcYWtdfuDR2w/Y2"
+Content-Disposition: inline
+In-Reply-To: <20231122164040.2262742-1-andriy.shevchenko@linux.intel.com>
+X-Provags-ID: V03:K1:wGI5Xyg60PX5Zi8dLHVTABR+Ax9JUsCqbiZjKL4ncgCtAcMMEAg
+ dvO2Gv8Fy9M1TFaBXJaUQ52G9VUbCo0zhirW5WpIJmiSbL4Ad71TGzG5CInLYjx4k0znTxp
+ MsYKpvrDvhRcT8VzpTAal6yl9EyYSd4HX/pNnbueeTP18AtDFXhKZ/baUvLS1o0FqHAC39e
+ kaH9t9h50tBeo/979hVUw==
+UI-OutboundReport: notjunk:1;M01:P0:mCrqrZi3U7U=;hjgkNsvydEYHgYUAxEqXVR1jW+v
+ WAXa6jsttiV3Ln4DZ0S5+IfJl56rm95DOKlTbmcQr9WKDtczoY7w0WO7tCbq2TdsLZY4M/XNV
+ gjlNSBVDMGmX6Dx+i1B4+IqZD7nYXCg8bpeUVskTtGD2ehd+tuYqiLrKaUZYt5YX5Bi6SxaZk
+ SiafR5fV2qFEZqSfzgTb3+oyzR8LUbyJT3Ch8FXlvqXpYkz1y4rpe9td7RUV0RTzb303uZ84G
+ dHbPwbngHJ4KbtY3l92y2SoCUiA2cDtF1if6HCE9uEysOZnYbxtOBQ8jhcc9HERdxHZk10q+o
+ 0IcYykIaku/u4b3Y2qHwPM/lYiaeuJGZ3FjBMt/89ZPPId97BUvM34EE6lkv6iatlizmdH6k1
+ 9Iz2dRT9uzWLof1mSy5aZwc6Q0Nhtn1sjOHwJevNOgn+uZdhoe58sxHP3tO2eWNs9ntxLuftr
+ dxttOpDHjf699kxi7zl5jdx3jOINoildv+AVS25xKHTs3VQBkXk8mikzFSRWrqccciuqI8+bc
+ pcD5A8NygGPERdmPNO5o56xYOLncor6g9sVhjh6s9Tj8vkqN94iLpNjo25E4CUH/5kHIOQBD1
+ rLIvJ8xE/MPsbZH5F8VJmuNMyMv159TRsi+r9tp7MBinkypKzTlxsh6bj+DuYsf0dK6FzGKvA
+ J3lvXIqSfDD9+1BRjI5XZBww/49z0+lFBMkd+5NTSlbugIVD5/qS9adHgeiZPmIABBK0RYTeM
+ Oz74R7Jyp+sKVRS0zp7ME8ExUBQJxin4+XkDnqd3mC4MmD5c7AiV6QKuKHcY48LWKfkT0YDvv
+ pludqeafs1x5RDFyz3R7XvuaGFjXVyq64BT0Fe0GeeCnq3HuianeceIzs+dH6lSkmV58QdfiH
+ 1GPyNtEGK1v7vZz6hJoMkbkR36G+EnJNBQWGEWq1ExKq+NCHsm89f9ytrRtXmkg43No+v6wVP
+ sgRCrNM1X0IPjxzWfH5ew/bkMSM=
 
 
+--ITcYWtdfuDR2w/Y2
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Wed, Nov 22, 2023 at 06:35:32PM +0200, Andy Shevchenko wrote:
+> The struct group_desc has a lot of duplication with struct pingroup.=20
+> Deduplicate that by embeddind the latter in the former and convert
+> users.
+
+It is strange to me that struct pingroup was introduced without any
+reference to the pre-existing struct group_desc, but it's good to see
+them unified at last.
+
+Even better might be to move the definitions next to each other in the
+same file, so that anyone who finds one, also finds the other.
+
+
+Thanks,
+Jonathan
+
+>=20
+> Linus, assuming everything is fine, I can push this to my tree.
+> Or you can apply it (assumming all CIs and people are happy with
+> the series).
+>=20
+> NB. This series contains previously sent patches for Qualcomm and
+> Nuovoton. Here the updated version for Qualcomm that splits previous
+> patch to two and fixes compilation warnings.
+>=20
+> NB. The function_desc is in plan to follow the similar deduplication.
+
+--ITcYWtdfuDR2w/Y2
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEvHAHGBBjQPVy+qvDCDBEmo7zX9sFAmVfMyAACgkQCDBEmo7z
+X9tfixAAghfTTH5Cq8CFefsef3u1AwmB5dL8brGS/xkDMXHN/RwR0sn/Zr/kxANZ
+Ko9qr9vnCVoSmNi8MwdIRBGOugPq+ZnD40EXBsBtW0BzwkqH9U3tRMhbpucS7F+7
+k+BDoiMeVa7vBNvRQK6XltOa9KRlbppR6wmesPZkzsTJyk/iLCCNTcNBekW8KbQp
+HNCfDoQS0m4cpYW66VdUP7hgBleB/Fjn6ttt0udhrEuFFL5hlKLn87dEo43224nm
+o/DNGFVXXt9Mn+FxxWhhAx01nvc3TaGlCuLqbPXb8v/cyffRFY9SmRa1aJY21zJN
+vr/a+eW7RB5Pi3MAKu8hYEv6nG7Hu/GCN9/hRGpfCv6hat+qyQU0TGRuAmJTKLre
+PxlacpHbRhsGZByRg/sT1cfYA17+EMDuWHDIO7Yj06TNSJdZKO4ucPwdC4Q6zjJc
+pf+gQDIGOU+A/rLwh0HD4ZH30vavQ5uEj0xJhmsUmL+rb+EY78Xj90sGSXvrpCNE
+J/A/1gRjF670OFsRq8+4eMxZ3e5DUx/oNobi5IbAHNnfHh88kjlcYJ1TSBPkvIfR
+czTkc3e6E+n1whHAD9XzIdI+QuftgWXoHr2FFozxoH36a01YAM9t1WJX7BvLCS/9
+YL9i3b/NVhvojwn71TmOgomDm0aKznw/Q2QtJ9PYINrXbh1pyCU=
+=qPNB
+-----END PGP SIGNATURE-----
+
+--ITcYWtdfuDR2w/Y2--
 
