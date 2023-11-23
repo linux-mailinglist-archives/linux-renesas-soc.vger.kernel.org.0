@@ -1,204 +1,284 @@
-Return-Path: <linux-renesas-soc+bounces-196-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-197-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEFB57F66F1
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Nov 2023 20:07:57 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 79C637F6708
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Nov 2023 20:19:35 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 2165EB211B1
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Nov 2023 19:07:55 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9E0FF1C20E2A
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Nov 2023 19:19:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 20B1D3210;
-	Thu, 23 Nov 2023 19:07:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech-se.20230601.gappssmtp.com header.i=@ragnatech-se.20230601.gappssmtp.com header.b="lNLTe/i9"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 174224B5B9;
+	Thu, 23 Nov 2023 19:19:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com [IPv6:2a00:1450:4864:20::534])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 91EBDD59
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 23 Nov 2023 11:07:44 -0800 (PST)
-Received: by mail-ed1-x534.google.com with SMTP id 4fb4d7f45d1cf-548d311ea5fso1580579a12.1
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 23 Nov 2023 11:07:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20230601.gappssmtp.com; s=20230601; t=1700766463; x=1701371263; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=bYRkIAiIVM/0AkH6f4aqWWKdAaLx6I2mh9AZJbsYvdY=;
-        b=lNLTe/i9HZbz22YN10MFD+epyRX+RXaQHRchCXNSOJqlugSdiss8hifjo03BNZPFao
-         kYbfykTxRSvo+gA+n3ar4WgqdyTgiqb0+V+xN0ey7q1PjCwYSI+Fw1UF0Z3PZFedYMha
-         kq17zkgl2cfJb66m5svu6beU/BhBsiSFoJ8i8rvCYL853RoaqIzG4hC/KsYQOikVEsB2
-         JuRE87ecXpEwZHWWb8GC7FCN01MH9HWaYEsh84qsCut4ebQoR2aaVimZJnRGmqEonu6Z
-         zI3FYN4ATMAvhoRILtgGy+Y/cYreq6cBShy8dghoBD/Izn7YrzVqVfD+6BqfvrNdVscZ
-         V1ZA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700766463; x=1701371263;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=bYRkIAiIVM/0AkH6f4aqWWKdAaLx6I2mh9AZJbsYvdY=;
-        b=mAypQenH4UY1VMc80yFMWDX5BrDuCficPpmLVuuA6sszob1L47b3UqES2Lx2cL73iw
-         BEwjibjml+mRK9HLB1caluBZdC/cUQP/qpovvbS0rOxKAf0y48KpvJnYUyeoPhHk7r0u
-         D+lB43o0e8wciMG1bjFSVozQSsSK4s995K8pbLMsCoZxDcqmtbf0sI3ikfL2VVIRBX0w
-         eb3PohMoIE44jKerYLFKmEocG49Khd92nfkGlODcNyyHRDajHnrPuPXtufaZLlAUmOKM
-         dREqXMdcPxQDNANINYdRozF7t6OMOecwyASSV8zZ0YabEj6VlwNUFVC/97vK8v8qcO40
-         AT8A==
-X-Gm-Message-State: AOJu0YyeZdbKYWDs7kvldTViO3K81zFTJ97qt1sPngua6Gy6V3x5pBup
-	0RcrY71PIf3UKx+9pYwBReC9Cg==
-X-Google-Smtp-Source: AGHT+IHu9uypDQOLPrcOss/BwYgdyOaSQVUmyGc3MbXyWilMmVW+3Oc5jv0J4ama35ynK9VLA5dxGQ==
-X-Received: by 2002:a50:8709:0:b0:544:f786:d7c0 with SMTP id i9-20020a508709000000b00544f786d7c0mr125041edb.35.1700766462567;
-        Thu, 23 Nov 2023 11:07:42 -0800 (PST)
-Received: from sleipner.berto.se (p4fcc8a96.dip0.t-ipconnect.de. [79.204.138.150])
-        by smtp.googlemail.com with ESMTPSA id m11-20020a056402050b00b00548a2d1737bsm943911edv.35.2023.11.23.11.07.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 Nov 2023 11:07:41 -0800 (PST)
-From: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-To: Geert Uytterhoeven <geert+renesas@glider.be>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>
-Cc: devicetree@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	=?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [RFC] dt-bindings: renesas: Document preferred compatible naming
-Date: Thu, 23 Nov 2023 20:06:12 +0100
-Message-ID: <20231123190612.2427668-1-niklas.soderlund+renesas@ragnatech.se>
-X-Mailer: git-send-email 2.42.1
+Received: from mx01.omp.ru (mx01.omp.ru [90.154.21.10])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 78C4AD5A;
+	Thu, 23 Nov 2023 11:19:26 -0800 (PST)
+Received: from [192.168.1.103] (178.176.78.136) by msexch01.omp.ru
+ (10.188.4.12) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.1258.12; Thu, 23 Nov
+ 2023 22:19:17 +0300
+Subject: Re: [PATCH 13/13] net: ravb: Add runtime PM support
+To: claudiu beznea <claudiu.beznea@tuxon.dev>, <davem@davemloft.net>,
+	<edumazet@google.com>, <kuba@kernel.org>, <pabeni@redhat.com>,
+	<p.zabel@pengutronix.de>, <yoshihiro.shimoda.uh@renesas.com>,
+	<geert+renesas@glider.be>, <wsa+renesas@sang-engineering.com>,
+	<biju.das.jz@bp.renesas.com>, <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	<sergei.shtylyov@cogentembedded.com>, <mitsuhiro.kimura.kc@renesas.com>,
+	<masaru.nagai.vx@renesas.com>
+CC: <netdev@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, Claudiu Beznea
+	<claudiu.beznea.uj@bp.renesas.com>
+References: <20231120084606.4083194-1-claudiu.beznea.uj@bp.renesas.com>
+ <20231120084606.4083194-14-claudiu.beznea.uj@bp.renesas.com>
+ <04cb07fe-cccc-774a-f14d-763ce7ae7b07@omp.ru>
+ <b3456a4d-336c-434d-9fd5-4c87582443cb@tuxon.dev>
+From: Sergey Shtylyov <s.shtylyov@omp.ru>
+Organization: Open Mobile Platform
+Message-ID: <9af21eb9-6fe1-de3a-f2eb-4493778ebb32@omp.ru>
+Date: Thu, 23 Nov 2023 22:19:16 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <b3456a4d-336c-434d-9fd5-4c87582443cb@tuxon.dev>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: msexch01.omp.ru (10.188.4.12) To msexch01.omp.ru
+ (10.188.4.12)
+X-KSE-ServerInfo: msexch01.omp.ru, 9
+X-KSE-AntiSpam-Interceptor-Info: scan successful
+X-KSE-AntiSpam-Version: 6.0.0, Database issued on: 11/21/2023 23:48:29
+X-KSE-AntiSpam-Status: KAS_STATUS_NOT_DETECTED
+X-KSE-AntiSpam-Method: none
+X-KSE-AntiSpam-Rate: 59
+X-KSE-AntiSpam-Info: Lua profiles 181514 [Nov 21 2023]
+X-KSE-AntiSpam-Info: Version: 6.0.0.2
+X-KSE-AntiSpam-Info: Envelope from: s.shtylyov@omp.ru
+X-KSE-AntiSpam-Info: LuaCore: 3 0.3.3 e5c6a18a9a9bff0226d530c5b790210c0bd117c8
+X-KSE-AntiSpam-Info: {rep_avail}
+X-KSE-AntiSpam-Info: {Tracking_uf_ne_domains}
+X-KSE-AntiSpam-Info: {Tracking_from_domain_doesnt_match_to}
+X-KSE-AntiSpam-Info: {relay has no DNS name}
+X-KSE-AntiSpam-Info: {SMTP from is not routable}
+X-KSE-AntiSpam-Info: {Found in DNSBL: 178.176.78.136 in (user)
+ b.barracudacentral.org}
+X-KSE-AntiSpam-Info: ApMailHostAddress: 178.176.78.136
+X-KSE-AntiSpam-Info: {DNS response errors}
+X-KSE-AntiSpam-Info: Rate: 59
+X-KSE-AntiSpam-Info: Status: not_detected
+X-KSE-AntiSpam-Info: Method: none
+X-KSE-AntiSpam-Info: Auth:dmarc=temperror header.from=omp.ru;spf=temperror
+ smtp.mailfrom=omp.ru;dkim=none
+X-KSE-Antiphishing-Info: Clean
+X-KSE-Antiphishing-ScanningType: Heuristic
+X-KSE-Antiphishing-Method: None
+X-KSE-Antiphishing-Bases: 11/21/2023 23:54:00
+X-KSE-Antivirus-Interceptor-Info: scan successful
+X-KSE-Antivirus-Info: Clean, bases: 11/21/2023 8:06:00 PM
+X-KSE-Attachment-Filter-Triggered-Rules: Clean
+X-KSE-Attachment-Filter-Triggered-Filters: Clean
+X-KSE-BulkMessagesFiltering-Scan-Result: InTheLimit
 
-Compatibles can come in two formats. Either "vendor,ip-soc" or
-"vendor,soc-ip". Add a DT schema file documenting Renesas preferred
-policy and enforcing it for all new compatibles, except few existing
-patterns.
+On 11/23/23 8:04 PM, claudiu beznea wrote:
 
-Suggested-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
----
-Hello,
+[...]
 
-I have mixed up the order of soc and ip a few times. The last time I did 
-Krzysztof suggested a schema could help catch this, and this is my  
-attempt to create one.
+>>> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+>>
+>>> RZ/G3S supports enabling/disabling clocks for its modules (including
+>>> Ethernet module). For this commit adds runtime PM support which
+>>> relies on PM domain to enable/disable Ethernet clocks.
+>>
+>>    That's not exactly something new in RZ/G3S. The ravb driver has unconditional
+>> RPM calls already in the probe() and remove() methods... 
+>> And the sh_eth driver
+>> has RPM support since 2009...
+>>
+>>> At the end of probe ravb_pm_runtime_put() is called which will turn
+>>
+>>    I'd suggest a shorter name, like ravb_rpm_put() but (looking at this function)
+>> it doesn't seem hardly needed...
 
-One thing to note is that the select clause matches on all renesas 
-related bindings, including ones that are SoC agnostic and a few that 
-are Renesas IP that are not related to a SoC e.g. a Renesas regulator.
+   Does seem, sorry. :-)
 
-For this reason these two classes of compatibles have been added to this 
-schema. An alternative solution would be to change the select clause to 
-"^renesas,.+-.+$" and drop these two classes from the schema.
+>>> off the Ethernet clocks (if no other request arrives at the driver).
+>>> After that if the interface is brought up (though ravb_open()) then
+>>> the clocks remain enabled until interface is brought down (operation
+>>> done though ravb_close()).
+>>>
+>>> If any request arrives to the driver while the interface is down the
+>>> clocks are enabled to serve the request and then disabled.
+>>>
+>>> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+>>> ---
+>>>  drivers/net/ethernet/renesas/ravb.h      |  1 +
+>>>  drivers/net/ethernet/renesas/ravb_main.c | 99 ++++++++++++++++++++++--
+>>>  2 files changed, 93 insertions(+), 7 deletions(-)
+>>>
+>>> diff --git a/drivers/net/ethernet/renesas/ravb.h b/drivers/net/ethernet/renesas/ravb.h
+>>> index c2d8d890031f..50f358472aab 100644
+>>> --- a/drivers/net/ethernet/renesas/ravb.h
+>>> +++ b/drivers/net/ethernet/renesas/ravb.h
+>>> @@ -1044,6 +1044,7 @@ struct ravb_hw_info {
+>>>  	unsigned magic_pkt:1;		/* E-MAC supports magic packet detection */
+>>>  	unsigned half_duplex:1;		/* E-MAC supports half duplex mode */
+>>>  	unsigned refclk_in_pd:1;	/* Reference clock is part of a power domain. */
+>>> +	unsigned rpm:1;			/* Runtime PM available. */
+>>
+>>    No, I don't think this flag makes any sense. We should support RPM
+>> unconditionally...
 
-I have tested this schema with all DTBs built for ARM using the in tree 
-shmobile_defconfig and ARM64 using the renesas_defconfig found in 
-Geert's renesas-drivers tree [1].
+   If RPM calls work in the probe()/remove() methods, they should work
+in the ndo_{open|stop}() methods, right?
 
-1.  https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git
+> The reasons I've limited only to RZ/G3S are:
+> 1/ I don't have all the platforms to test it
 
----
- .../devicetree/bindings/arm/renesas-soc.yaml  | 85 +++++++++++++++++++
- 1 file changed, 85 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/arm/renesas-soc.yaml
+   That's a usual problem with the kernel development...
 
-diff --git a/Documentation/devicetree/bindings/arm/renesas-soc.yaml b/Documentation/devicetree/bindings/arm/renesas-soc.yaml
-new file mode 100644
-index 000000000000..be7cdb00607d
---- /dev/null
-+++ b/Documentation/devicetree/bindings/arm/renesas-soc.yaml
-@@ -0,0 +1,85 @@
-+# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/arm/renesas-soc.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Renesas SoC compatibles naming convention
-+
-+maintainers:
-+  - Geert Uytterhoeven <geert+renesas@glider.be>
-+  - Niklas Söderlund <niklas.soderlund@ragnatech.se>
-+
-+description: |
-+  Guidelines for new compatibles for SoC blocks/components.
-+  When adding new compatibles in new bindings, use the format::
-+    renesas,SoC-IP
-+
-+  For example::
-+   renesas,r8a77965-csi2
-+
-+  When adding new compatibles to existing bindings, use the format in the
-+  existing binding, even if it contradicts the above.
-+
-+select:
-+  properties:
-+    compatible:
-+      pattern: "^renesas,.*$"
-+  required:
-+    - compatible
-+
-+properties:
-+  compatible:
-+    oneOf:
-+      # Preferred naming style for compatibles of SoC components:
-+      - pattern: "^renesas,emev2-[a-z0-9-]+$"
-+      - pattern: "^renesas,r7s[0-9]+-[a-z0-9-]+$"
-+      - pattern: "^renesas,r8a[a-z0-9]+-[a-z0-9-]+$"
-+      - pattern: "^renesas,r9a[0-9]+g[0-9]+-[a-z0-9-]+$"
-+      - pattern: "^renesas,rzn1-[a-z0-9-]+$"
-+      - pattern: "^renesas,rzv2m-[a-z0-9-]+$"
-+      - pattern: "^renesas,sh73a0-[a-z0-9-]+$"
-+
-+      # SoC agnostic compatibles - new compatibles are OK:
-+      - enum:
-+          - renesas,bsid
-+          - renesas,fcpf
-+          - renesas,fcpv
-+          - renesas,fdp1
-+          - renesas,prr
-+          - renesas,smp-sram
-+          - renesas,vsp1
-+          - renesas,vsp2
-+
-+      # Legacy namings - variations of existing patterns/compatibles are OK,
-+      # but do not add completely new entries to these:
-+      - pattern: "^renesas,du-[a-z0-9]+$"
-+      - pattern: "^renesas,ether-[a-z0-9]+$"
-+      - pattern: "^renesas,gether-[a-z0-9]+$"
-+      - pattern: "^renesas,ipmmu-[a-z0-9]+$"
-+      - pattern: "^renesas,pfc-[a-z0-9]+$"
-+      - pattern: "^renesas,sata-[a-z0-9]+$"
-+      - pattern: "^renesas,scif-[a-z0-9]+$"
-+      - pattern: "^renesas,sdhi-[a-z0-9]+$"
-+      - pattern: "^renesas,thermal-[a-z0-9]+$"
-+      - pattern: "^renesas,usb2-phy-[a-z0-9]+$"
-+      - pattern: "^renesas,vin-[a-z0-9]+$"
-+
-+      # Legacy compatibles - list cannot grow with new bindings:
-+      - enum:
-+          - renesas,dbsc-r8a73a4
-+          - renesas,dbsc3-r8a7740
-+          - renesas,em-gio
-+          - renesas,em-sti
-+          - renesas,em-uart
-+          - renesas,iic-emev2
-+          - renesas,sbsc-sh73a0
-+          - renesas,sdhi-mmc-r8a77470
-+
-+      # None SoC related compatibles - new compatibles are OK:
-+      - enum:
-+          - renesas,5p35023
-+          - renesas,r2a11302ft
-+          - renesas,raa215300
-+
-+additionalProperties: true
--- 
-2.42.1
+> 2/ on G1H this doesn't work. I tried to debugged it but I don't have a
+>    platform at hand, only remotely, and is hardly to debug once the
+>    ethernet fails to work: probe is working(), open is executed, PHY is
+>    initialized and then TX/RX is not working... don't know why ATM.
 
+   That's why we have the long bug fixing period after -rc1...
+
+[...]
+>>> diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
+>>> index f4634ac0c972..d70ed7e5f7f6 100644
+>>> --- a/drivers/net/ethernet/renesas/ravb_main.c
+>>> +++ b/drivers/net/ethernet/renesas/ravb_main.c
+>>> @@ -145,12 +145,41 @@ static void ravb_read_mac_address(struct device_node *np,
+[...]
+>>> +}
+>>> +
+>>>  static void ravb_mdio_ctrl(struct mdiobb_ctrl *ctrl, u32 mask, int set)
+>>>  {
+>>>  	struct ravb_private *priv = container_of(ctrl, struct ravb_private,
+>>>  						 mdiobb);
+>>> +	int ret;
+>>> +
+>>> +	ret = ravb_pm_runtime_get(priv);
+>>> +	if (ret < 0)
+>>> +		return;
+>>>  
+>>>  	ravb_modify(priv->ndev, PIR, mask, set ? mask : 0);
+>>> +
+>>> +	ravb_pm_runtime_put(priv);
+>>
+>>    Hmm, does this even work? :-/ Do the MDIO bits retain the values while
+>> the AVB core is not clocked or even powered down?
+> 
+> This actually is not needed. It's a leftover. I double checked with
+> mii-tools to access the device while the interface is down and the IOCTL is
+> blocked in this case by
+> https://elixir.bootlin.com/linux/latest/source/drivers/net/ethernet/renesas/ravb_main.c#L2266
+
+   Have you tested with ethtool as well?
+
+>>    Note that the sh_eth driver has RPM calls in the {read|write}_c{22?45}()
+
+   s/?/|/,
+
+>> methods which do the full register read/write while the core is powere up
+
+   Powered.
+
+>> and clocked...
+>>
+>> [...]
+>>> @@ -2064,6 +2107,11 @@ static struct net_device_stats *ravb_get_stats(struct net_device *ndev)
+>>>  	struct ravb_private *priv = netdev_priv(ndev);
+>>>  	const struct ravb_hw_info *info = priv->info;
+>>>  	struct net_device_stats *nstats, *stats0, *stats1;
+>>> +	int ret;
+>>> +
+>>> +	ret = ravb_pm_runtime_get(priv);
+>>> +	if (ret < 0)
+>>> +		return NULL;
+>>
+>>    Hm, sh_eth.c doesn't have any RPM calls in this method. Again, do
+> 
+> In setups where systemd is enabled, user space calls this method in
+> different stages (e.g. at boot time or when running ifconfig ethX, even if
+> interface is down). W/o runtime resuming here the system will fail to boot.
+> 
+> The other approach I wanted to take was to:
+> 
+> if (!netif_running(dev))
+> 	return &ndev->stats;
+> 
+> But I didn't choose this path as there are some counters updated to nstat
+> only in this function, e.g. nstats->tx_dropped += ravb_read(ndev, TROCR);
+> and wanted an opinion about it.
+
+   Have you seen the following commit (that I've already posted for you on
+IRC)?
+
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=7fa2955ff70ce4532f144d26b8a087095f9c9ffc
+
+   Looks like the RPM calls won't do here...
+
+>> the hardware counters remain valid across powering the MAC core down?
+> 
+> The power domain that the Ethernet clocks of RZ/G3S belong disables the
+> clock and switches the Ethernet module to standby. There is no information
+> in HW manual that the content of registers will be lost.
+
+   That's what your current PD driver does... isn't it possible that
+in some new SoCs the PD would be completely powered off?
+
+[...]
+>>> @@ -2115,11 +2165,18 @@ static void ravb_set_rx_mode(struct net_device *ndev)
+>>>  {
+>>>  	struct ravb_private *priv = netdev_priv(ndev);
+>>>  	unsigned long flags;
+>>> +	int ret;
+>>> +
+>>> +	ret = ravb_pm_runtime_get(priv);
+>>> +	if (ret < 0)
+>>> +		return;
+>>
+>>    Hm, sh_eth.c doesn't have any RPM calls in this method either.
+>> Does changing the promiscous mode have sense for an offlined interface?
+> 
+> I've added it for scenarios when the interface is down and user tries to
+> configure it. I don't know to answer your question. W/o RPM resume here
+> user space blocks if tries to access it and interface is down. I can just
+> return if interface is down. Let me know if you prefer this way.
+
+   Looking at __dev_set_rx_mode(), the method gets only called when
+(dev->flags & IFF_UP) is true -- but that contradicts your experience,
+it seems... However, looking at net/core/dev_addr_lists.c, that function
+is called from the atomic contexts, so please just return early.
+
+>> [...]
+>>> @@ -2187,6 +2244,11 @@ static int ravb_close(struct net_device *ndev)
+>>>  	if (info->nc_queues)
+>>>  		ravb_ring_free(ndev, RAVB_NC);
+>>>  
+>>> +	/* Note that if RPM is enabled on plaforms with ccc_gac=1 this needs to be
+>>
+>>    It's "platforms". :-)
+>>
+>>> skipped and
+>>
+>>    Overly long line?
+> 
+> Not more than 100 chars. Do you want it to 80?
+
+   Yes, it's not the code, no need to go beyond 80 cols, I think...
+
+[...]
+
+MBR, Sergey
 
