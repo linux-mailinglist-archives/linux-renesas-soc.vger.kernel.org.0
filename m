@@ -1,45 +1,45 @@
-Return-Path: <linux-renesas-soc+bounces-197-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-198-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79C637F6708
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Nov 2023 20:19:35 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 194597F6717
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Nov 2023 20:26:57 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9E0FF1C20E2A
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Nov 2023 19:19:34 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CFB2A281BA3
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Nov 2023 19:26:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 174224B5B9;
-	Thu, 23 Nov 2023 19:19:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C7D594120D;
+	Thu, 23 Nov 2023 19:26:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dkim=none
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from mx01.omp.ru (mx01.omp.ru [90.154.21.10])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 78C4AD5A;
-	Thu, 23 Nov 2023 11:19:26 -0800 (PST)
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 337D2BA;
+	Thu, 23 Nov 2023 11:26:50 -0800 (PST)
 Received: from [192.168.1.103] (178.176.78.136) by msexch01.omp.ru
  (10.188.4.12) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.1258.12; Thu, 23 Nov
- 2023 22:19:17 +0300
-Subject: Re: [PATCH 13/13] net: ravb: Add runtime PM support
-To: claudiu beznea <claudiu.beznea@tuxon.dev>, <davem@davemloft.net>,
-	<edumazet@google.com>, <kuba@kernel.org>, <pabeni@redhat.com>,
-	<p.zabel@pengutronix.de>, <yoshihiro.shimoda.uh@renesas.com>,
-	<geert+renesas@glider.be>, <wsa+renesas@sang-engineering.com>,
+ 2023 22:26:42 +0300
+Subject: Re: [PATCH 08/13] net: ravb: Rely on PM domain to enable refclk
+To: claudiu beznea <claudiu.beznea@tuxon.dev>, Geert Uytterhoeven
+	<geert@linux-m68k.org>
+CC: <davem@davemloft.net>, <edumazet@google.com>, <kuba@kernel.org>,
+	<pabeni@redhat.com>, <p.zabel@pengutronix.de>,
+	<yoshihiro.shimoda.uh@renesas.com>, <wsa+renesas@sang-engineering.com>,
 	<biju.das.jz@bp.renesas.com>, <prabhakar.mahadev-lad.rj@bp.renesas.com>,
 	<sergei.shtylyov@cogentembedded.com>, <mitsuhiro.kimura.kc@renesas.com>,
-	<masaru.nagai.vx@renesas.com>
-CC: <netdev@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, Claudiu Beznea
-	<claudiu.beznea.uj@bp.renesas.com>
+	<masaru.nagai.vx@renesas.com>, <netdev@vger.kernel.org>,
+	<linux-renesas-soc@vger.kernel.org>, <linux-kernel@vger.kernel.org>, Claudiu
+ Beznea <claudiu.beznea.uj@bp.renesas.com>
 References: <20231120084606.4083194-1-claudiu.beznea.uj@bp.renesas.com>
- <20231120084606.4083194-14-claudiu.beznea.uj@bp.renesas.com>
- <04cb07fe-cccc-774a-f14d-763ce7ae7b07@omp.ru>
- <b3456a4d-336c-434d-9fd5-4c87582443cb@tuxon.dev>
+ <20231120084606.4083194-9-claudiu.beznea.uj@bp.renesas.com>
+ <CAMuHMdV=2_h2PW9K7zT3Hwqjdk6D2m_Dd09bqHtifAvVTM7Lrw@mail.gmail.com>
+ <a9760bbb-d06d-4914-b0d1-48a224f74858@tuxon.dev>
 From: Sergey Shtylyov <s.shtylyov@omp.ru>
 Organization: Open Mobile Platform
-Message-ID: <9af21eb9-6fe1-de3a-f2eb-4493778ebb32@omp.ru>
-Date: Thu, 23 Nov 2023 22:19:16 +0300
+Message-ID: <6d08cf58-f487-052a-e908-8d1a7579053e@omp.ru>
+Date: Thu, 23 Nov 2023 22:26:41 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.10.1
 Precedence: bulk
@@ -48,10 +48,10 @@ List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <b3456a4d-336c-434d-9fd5-4c87582443cb@tuxon.dev>
+In-Reply-To: <a9760bbb-d06d-4914-b0d1-48a224f74858@tuxon.dev>
 Content-Type: text/plain; charset="utf-8"
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-ClientProxiedBy: msexch01.omp.ru (10.188.4.12) To msexch01.omp.ru
  (10.188.4.12)
 X-KSE-ServerInfo: msexch01.omp.ru, 9
@@ -65,7 +65,6 @@ X-KSE-AntiSpam-Info: Version: 6.0.0.2
 X-KSE-AntiSpam-Info: Envelope from: s.shtylyov@omp.ru
 X-KSE-AntiSpam-Info: LuaCore: 3 0.3.3 e5c6a18a9a9bff0226d530c5b790210c0bd117c8
 X-KSE-AntiSpam-Info: {rep_avail}
-X-KSE-AntiSpam-Info: {Tracking_uf_ne_domains}
 X-KSE-AntiSpam-Info: {Tracking_from_domain_doesnt_match_to}
 X-KSE-AntiSpam-Info: {relay has no DNS name}
 X-KSE-AntiSpam-Info: {SMTP from is not routable}
@@ -88,195 +87,50 @@ X-KSE-Attachment-Filter-Triggered-Rules: Clean
 X-KSE-Attachment-Filter-Triggered-Filters: Clean
 X-KSE-BulkMessagesFiltering-Scan-Result: InTheLimit
 
-On 11/23/23 8:04 PM, claudiu beznea wrote:
-
+On 11/23/23 8:10 PM, claudiu beznea wrote:
 [...]
 
+>> On Thu, Nov 23, 2023 at 5:35 AM Claudiu <claudiu.beznea@tuxon.dev> wrote:
 >>> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
->>
->>> RZ/G3S supports enabling/disabling clocks for its modules (including
->>> Ethernet module). For this commit adds runtime PM support which
->>> relies on PM domain to enable/disable Ethernet clocks.
->>
->>    That's not exactly something new in RZ/G3S. The ravb driver has unconditional
->> RPM calls already in the probe() and remove() methods... 
->> And the sh_eth driver
->> has RPM support since 2009...
->>
->>> At the end of probe ravb_pm_runtime_put() is called which will turn
->>
->>    I'd suggest a shorter name, like ravb_rpm_put() but (looking at this function)
->> it doesn't seem hardly needed...
-
-   Does seem, sorry. :-)
-
->>> off the Ethernet clocks (if no other request arrives at the driver).
->>> After that if the interface is brought up (though ravb_open()) then
->>> the clocks remain enabled until interface is brought down (operation
->>> done though ravb_close()).
->>>
->>> If any request arrives to the driver while the interface is down the
->>> clocks are enabled to serve the request and then disabled.
+[...]
+>>> w/o the need to add clock enable/disable specific calls in runtime PM
+>>> ops of ravb driver and interfere with other IP specific implementations,
+>>> add a new variable to struct_hw_info and enable the reference clock
+>>> based on the value of this variable (the variable states if reference
+>>> clock is part of the Ethernet's power domain).
 >>>
 >>> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
->>> ---
->>>  drivers/net/ethernet/renesas/ravb.h      |  1 +
->>>  drivers/net/ethernet/renesas/ravb_main.c | 99 ++++++++++++++++++++++--
->>>  2 files changed, 93 insertions(+), 7 deletions(-)
+
+[...]
+>>>  static const struct of_device_id ravb_match_table[] = {
+>>> @@ -2749,12 +2750,14 @@ static int ravb_probe(struct platform_device *pdev)
+>>>                 goto out_release;
+>>>         }
 >>>
->>> diff --git a/drivers/net/ethernet/renesas/ravb.h b/drivers/net/ethernet/renesas/ravb.h
->>> index c2d8d890031f..50f358472aab 100644
->>> --- a/drivers/net/ethernet/renesas/ravb.h
->>> +++ b/drivers/net/ethernet/renesas/ravb.h
->>> @@ -1044,6 +1044,7 @@ struct ravb_hw_info {
->>>  	unsigned magic_pkt:1;		/* E-MAC supports magic packet detection */
->>>  	unsigned half_duplex:1;		/* E-MAC supports half duplex mode */
->>>  	unsigned refclk_in_pd:1;	/* Reference clock is part of a power domain. */
->>> +	unsigned rpm:1;			/* Runtime PM available. */
+>>> -       priv->refclk = devm_clk_get_optional(&pdev->dev, "refclk");
+>>> -       if (IS_ERR(priv->refclk)) {
+>>> -               error = PTR_ERR(priv->refclk);
+>>> -               goto out_release;
+>>> +       if (!info->refclk_in_pd) {
+>>> +               priv->refclk = devm_clk_get_optional(&pdev->dev, "refclk");
+>>> +               if (IS_ERR(priv->refclk)) {
+>>> +                       error = PTR_ERR(priv->refclk);
+>>> +                       goto out_release;
+>>> +               }
+>>> +               clk_prepare_enable(priv->refclk);
+>>>         }
+>>> -       clk_prepare_enable(priv->refclk);
 >>
->>    No, I don't think this flag makes any sense. We should support RPM
->> unconditionally...
-
-   If RPM calls work in the probe()/remove() methods, they should work
-in the ndo_{open|stop}() methods, right?
-
-> The reasons I've limited only to RZ/G3S are:
-> 1/ I don't have all the platforms to test it
-
-   That's a usual problem with the kernel development...
-
-> 2/ on G1H this doesn't work. I tried to debugged it but I don't have a
->    platform at hand, only remotely, and is hardly to debug once the
->    ethernet fails to work: probe is working(), open is executed, PHY is
->    initialized and then TX/RX is not working... don't know why ATM.
-
-   That's why we have the long bug fixing period after -rc1...
-
-[...]
->>> diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
->>> index f4634ac0c972..d70ed7e5f7f6 100644
->>> --- a/drivers/net/ethernet/renesas/ravb_main.c
->>> +++ b/drivers/net/ethernet/renesas/ravb_main.c
->>> @@ -145,12 +145,41 @@ static void ravb_read_mac_address(struct device_node *np,
-[...]
->>> +}
->>> +
->>>  static void ravb_mdio_ctrl(struct mdiobb_ctrl *ctrl, u32 mask, int set)
->>>  {
->>>  	struct ravb_private *priv = container_of(ctrl, struct ravb_private,
->>>  						 mdiobb);
->>> +	int ret;
->>> +
->>> +	ret = ravb_pm_runtime_get(priv);
->>> +	if (ret < 0)
->>> +		return;
->>>  
->>>  	ravb_modify(priv->ndev, PIR, mask, set ? mask : 0);
->>> +
->>> +	ravb_pm_runtime_put(priv);
->>
->>    Hmm, does this even work? :-/ Do the MDIO bits retain the values while
->> the AVB core is not clocked or even powered down?
+>> Is this patch really needed? It doesn't hurt to manually enable a
+>> clock that is also under Runtime PM control.  Clock prepare/enable
+>> refcounting will take care of that.
 > 
-> This actually is not needed. It's a leftover. I double checked with
-> mii-tools to access the device while the interface is down and the IOCTL is
-> blocked in this case by
-> https://elixir.bootlin.com/linux/latest/source/drivers/net/ethernet/renesas/ravb_main.c#L2266
+> I agree with that. I chose this path to not interfere w/ the comments
+> ravb_runtime_nop() which I didn't understand. Also I fail to understand why
+> the ravb_runtime_nop() is there...
 
-   Have you tested with ethtool as well?
-
->>    Note that the sh_eth driver has RPM calls in the {read|write}_c{22?45}()
-
-   s/?/|/,
-
->> methods which do the full register read/write while the core is powere up
-
-   Powered.
-
->> and clocked...
->>
->> [...]
->>> @@ -2064,6 +2107,11 @@ static struct net_device_stats *ravb_get_stats(struct net_device *ndev)
->>>  	struct ravb_private *priv = netdev_priv(ndev);
->>>  	const struct ravb_hw_info *info = priv->info;
->>>  	struct net_device_stats *nstats, *stats0, *stats1;
->>> +	int ret;
->>> +
->>> +	ret = ravb_pm_runtime_get(priv);
->>> +	if (ret < 0)
->>> +		return NULL;
->>
->>    Hm, sh_eth.c doesn't have any RPM calls in this method. Again, do
-> 
-> In setups where systemd is enabled, user space calls this method in
-> different stages (e.g. at boot time or when running ifconfig ethX, even if
-> interface is down). W/o runtime resuming here the system will fail to boot.
-> 
-> The other approach I wanted to take was to:
-> 
-> if (!netif_running(dev))
-> 	return &ndev->stats;
-> 
-> But I didn't choose this path as there are some counters updated to nstat
-> only in this function, e.g. nstats->tx_dropped += ravb_read(ndev, TROCR);
-> and wanted an opinion about it.
-
-   Have you seen the following commit (that I've already posted for you on
-IRC)?
-
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=7fa2955ff70ce4532f144d26b8a087095f9c9ffc
-
-   Looks like the RPM calls won't do here...
-
->> the hardware counters remain valid across powering the MAC core down?
-> 
-> The power domain that the Ethernet clocks of RZ/G3S belong disables the
-> clock and switches the Ethernet module to standby. There is no information
-> in HW manual that the content of registers will be lost.
-
-   That's what your current PD driver does... isn't it possible that
-in some new SoCs the PD would be completely powered off?
-
-[...]
->>> @@ -2115,11 +2165,18 @@ static void ravb_set_rx_mode(struct net_device *ndev)
->>>  {
->>>  	struct ravb_private *priv = netdev_priv(ndev);
->>>  	unsigned long flags;
->>> +	int ret;
->>> +
->>> +	ret = ravb_pm_runtime_get(priv);
->>> +	if (ret < 0)
->>> +		return;
->>
->>    Hm, sh_eth.c doesn't have any RPM calls in this method either.
->> Does changing the promiscous mode have sense for an offlined interface?
-> 
-> I've added it for scenarios when the interface is down and user tries to
-> configure it. I don't know to answer your question. W/o RPM resume here
-> user space blocks if tries to access it and interface is down. I can just
-> return if interface is down. Let me know if you prefer this way.
-
-   Looking at __dev_set_rx_mode(), the method gets only called when
-(dev->flags & IFF_UP) is true -- but that contradicts your experience,
-it seems... However, looking at net/core/dev_addr_lists.c, that function
-is called from the atomic contexts, so please just return early.
-
->> [...]
->>> @@ -2187,6 +2244,11 @@ static int ravb_close(struct net_device *ndev)
->>>  	if (info->nc_queues)
->>>  		ravb_ring_free(ndev, RAVB_NC);
->>>  
->>> +	/* Note that if RPM is enabled on plaforms with ccc_gac=1 this needs to be
->>
->>    It's "platforms". :-)
->>
->>> skipped and
->>
->>    Overly long line?
-> 
-> Not more than 100 chars. Do you want it to 80?
-
-   Yes, it's not the code, no need to go beyond 80 cols, I think...
+   Looks like it was blindly copied from the sh_eth driver and doesn't (yet?)
+apply to ravb...
 
 [...]
 
