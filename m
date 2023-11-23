@@ -1,42 +1,41 @@
-Return-Path: <linux-renesas-soc+bounces-172-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-173-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE6067F5B1B
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Nov 2023 10:33:16 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id C48E67F5D70
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Nov 2023 12:10:27 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DCBDD1C20D05
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Nov 2023 09:33:15 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0AB651C20B64
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Nov 2023 11:10:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3A1872110D;
-	Thu, 23 Nov 2023 09:33:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7C39822EF7;
+	Thu, 23 Nov 2023 11:10:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tljlidVv"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from xavier.telenet-ops.be (xavier.telenet-ops.be [IPv6:2a02:1800:120:4::f00:14])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 94546DD
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 23 Nov 2023 01:33:09 -0800 (PST)
-Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed40:d60:3031:68fb:d1ad])
-	by xavier.telenet-ops.be with bizsmtp
-	id DlZ62B00L3EmSSH01lZ69d; Thu, 23 Nov 2023 10:33:06 +0100
-Received: from rox.of.borg ([192.168.97.57])
-	by ramsan.of.borg with esmtp (Exim 4.95)
-	(envelope-from <geert@linux-m68k.org>)
-	id 1r664q-00A121-JH;
-	Thu, 23 Nov 2023 10:33:06 +0100
-Received: from geert by rox.of.borg with local (Exim 4.95)
-	(envelope-from <geert@linux-m68k.org>)
-	id 1r6654-00HOKT-F3;
-	Thu, 23 Nov 2023 10:33:06 +0100
-From: Geert Uytterhoeven <geert+renesas@glider.be>
-To: Magnus Damm <magnus.damm@gmail.com>
-Cc: linux-renesas-soc@vger.kernel.org,
-	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH/LOCAL v2] arm64: renesas: defconfig: Refresh for v6.7-rc1
-Date: Thu, 23 Nov 2023 10:33:05 +0100
-Message-Id: <f690f4ab553305df9ff738e5f00db80532ff4f46.1700731806.git.geert+renesas@glider.be>
-X-Mailer: git-send-email 2.34.1
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B1D022EE7;
+	Thu, 23 Nov 2023 11:10:25 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id C5EB5C433C7;
+	Thu, 23 Nov 2023 11:10:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1700737824;
+	bh=OFh6cOOLb8LLtFm5PuV1Wm6e/CoyEQczZ8jI3qPkLmw=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=tljlidVvYB0khypDT2rYH5AaGw4uN4q/MI23T7Xi5laqwlWG/O6lu7w4rYXYgA1Ji
+	 OyupAjJ9yV9aoGVe5osVWLYfuDLwtAYx+j2ttQsbV8OoQWVYEqvflXVTynV1g9CVp+
+	 K/mqU/zdEb0z1y9iaXfvmvMe9lUNW0pjEcq+ugnx1taiaynq4ckyFkToFkRnlRhgbU
+	 33l1fScKv8SisrdQO/0L7mIckeeED2UjP29RZAqaIofHZZMOcrhhwZiM7SwL2y7uzd
+	 8qVXuRR/WfmQQhcT4g0nfIJgicFCxMSiqgwF73TtLLg3U/DSj3qO2ubR1FALqZo3mA
+	 Nj5jrtX7mxz/Q==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id AC764C3959E;
+	Thu, 23 Nov 2023 11:10:24 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -44,56 +43,51 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Subject: Re: [net-next v3 0/5] net: ethernet: renesas: rcar_gen4_ptp: Add V4H
+ support
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: 
+ <170073782470.401.3343558436830393692.git-patchwork-notify@kernel.org>
+Date: Thu, 23 Nov 2023 11:10:24 +0000
+References: <20231121155306.515446-1-niklas.soderlund+renesas@ragnatech.se>
+In-Reply-To: <20231121155306.515446-1-niklas.soderlund+renesas@ragnatech.se>
+To: =?utf-8?q?Niklas_S=C3=B6derlund_=3Cniklas=2Esoderlund+renesas=40ragnatech=2E?=@codeaurora.org,
+	=?utf-8?q?se=3E?=@codeaurora.org
+Cc: davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+ pabeni@redhat.com, richardcochran@gmail.com, netdev@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org
 
-Refresh the defconfig for Renesas ARM64 systems:
-  - Enable Renesas R-Car Gen4 PCIe host/endpoint controller support
-    (Spider),
-  - Disable CONFIG_SERIAL_8250_EXAR (auto-enabled since commit
-    5939ff7ffae095ac ("tty: serial: 8250_exar: Does not use anything
-    from 8250_pci")),
-  - Enable Renesas VersaClock 3 support (RZ/G2L family SMARC EVK).
+Hello:
 
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
-v2:
-  - Enable COMMON_CLK_VC3.
+This series was applied to netdev/net-next.git (main)
+by Paolo Abeni <pabeni@redhat.com>:
 
-Not intended for upstream merge.
-To be applied to the topic/renesas-defconfig branch.
----
- arch/arm64/configs/renesas_defconfig | 4 ++++
- 1 file changed, 4 insertions(+)
+On Tue, 21 Nov 2023 16:53:01 +0100 you wrote:
+> Hello,
+> 
+> This small series prepares the rcar_gen4_ptp to be useable both on both
+> R-Car S4 and V4H. The only in-tree driver that make use of this is
+> rswtich on S4. A new Ethernet (R-Car Ethernet TSN) driver for V4H is on
+> it's way that also will make use of rcar_gen4_ptp functionality.
+> 
+> [...]
 
-diff --git a/arch/arm64/configs/renesas_defconfig b/arch/arm64/configs/renesas_defconfig
-index a947a43f97e89cb4..d4cc97d642cc5e04 100644
---- a/arch/arm64/configs/renesas_defconfig
-+++ b/arch/arm64/configs/renesas_defconfig
-@@ -108,6 +108,8 @@ CONFIG_HOTPLUG_PCI=y
- CONFIG_PCI_HOST_GENERIC=y
- CONFIG_PCIE_RCAR_HOST=y
- CONFIG_PCIE_RCAR_EP=y
-+CONFIG_PCIE_RCAR_GEN4_HOST=y
-+CONFIG_PCIE_RCAR_GEN4_EP=y
- CONFIG_PCI_ENDPOINT=y
- CONFIG_PCI_ENDPOINT_CONFIGFS=y
- CONFIG_PCI_EPF_TEST=y
-@@ -159,6 +161,7 @@ CONFIG_SERIAL_8250=y
- # CONFIG_SERIAL_8250_16550A_VARIANTS is not set
- CONFIG_SERIAL_8250_CONSOLE=y
- # CONFIG_SERIAL_8250_PCI is not set
-+# CONFIG_SERIAL_8250_EXAR is not set
- CONFIG_SERIAL_8250_NR_UARTS=2
- CONFIG_SERIAL_8250_RUNTIME_UARTS=2
- CONFIG_SERIAL_8250_EM=y
-@@ -353,6 +356,7 @@ CONFIG_VIDEO_MAX96712=y
- CONFIG_CHROME_PLATFORMS=y
- CONFIG_COMMON_CLK_CS2000_CP=y
- CONFIG_COMMON_CLK_PWM=y
-+CONFIG_COMMON_CLK_VC3=y
- CONFIG_COMMON_CLK_VC5=y
- CONFIG_CLK_RCAR_USB2_CLOCK_SEL=y
- CONFIG_HWSPINLOCK=y
+Here is the summary with links:
+  - [net-next,v3,1/5] net: ethernet: renesas: rcar_gen4_ptp: Remove incorrect comment
+    https://git.kernel.org/netdev/net-next/c/d73dcff9eb0d
+  - [net-next,v3,2/5] net: ethernet: renesas: rcar_gen4_ptp: Fail on unknown register layout
+    https://git.kernel.org/netdev/net-next/c/9f3995707e35
+  - [net-next,v3,3/5] net: ethernet: renesas: rcar_gen4_ptp: Prepare for shared register layout
+    https://git.kernel.org/netdev/net-next/c/46c361a04635
+  - [net-next,v3,4/5] net: ethernet: renesas: rcar_gen4_ptp: Get clock increment from clock rate
+    https://git.kernel.org/netdev/net-next/c/be5f81d37f79
+  - [net-next,v3,5/5] net: ethernet: renesas: rcar_gen4_ptp: Break out to module
+    https://git.kernel.org/netdev/net-next/c/8c1c66235e03
+
+You are awesome, thank you!
 -- 
-2.34.1
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
 
 
