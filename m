@@ -1,150 +1,197 @@
-Return-Path: <linux-renesas-soc+bounces-234-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-235-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7AF77F7275
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 Nov 2023 12:11:03 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 732CC7F74D0
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 Nov 2023 14:21:28 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0617E1C20DDE
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 Nov 2023 11:11:03 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 64CB11C20BF6
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 Nov 2023 13:21:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B09681C6B0;
-	Fri, 24 Nov 2023 11:10:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2F1FF28DBC;
+	Fri, 24 Nov 2023 13:21:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=crapouillou.net header.i=@crapouillou.net header.b="LBrchC0q"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HYqx8wXc"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from aposti.net (aposti.net [89.234.176.197])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6D149D59;
-	Fri, 24 Nov 2023 03:10:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
-	s=mail; t=1700824250;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=L6GnRM6NidZUi3jRK7RqXEpkhU/vKlU/QT05ifHMFJk=;
-	b=LBrchC0qhmWyX0lJ6ONu1O4uhPxAqVOOC6X9B227EFK9Ztd2h8AwOKaiNll6vofsqLpbJX
-	RKvhK/2zU21J2TYqpAtyku5yL3gDWwivNfPNwDMZ4GaNpu6v8qUX56B/GixPh2f4IfqRtI
-	J+B1QI7g2t51b4ero5nx4JOTTKgNC/8=
-Message-ID: <4b5cf6f837037bcc4cefb3b36a2773a2707ef292.camel@crapouillou.net>
-Subject: Re: [PATCH v2 16/21] pinctrl: ingenic: Convert to use grp member
-From: Paul Cercueil <paul@crapouillou.net>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Linus Walleij
- <linus.walleij@linaro.org>, Bartosz Golaszewski
- <bartosz.golaszewski@linaro.org>,  Rasmus Villemoes
- <linux@rasmusvillemoes.dk>, Jonathan =?ISO-8859-1?Q?Neusch=E4fer?=
- <j.neuschaefer@gmx.net>,  Krzysztof Kozlowski
- <krzysztof.kozlowski@linaro.org>, Uwe =?ISO-8859-1?Q?Kleine-K=F6nig?=
- <u.kleine-koenig@pengutronix.de>,  Geert Uytterhoeven
- <geert+renesas@glider.be>, Biju Das <biju.das.jz@bp.renesas.com>, Claudiu
- Beznea <claudiu.beznea.uj@bp.renesas.com>, Jianlong Huang
- <jianlong.huang@starfivetech.com>, linux-arm-kernel@lists.infradead.org, 
- linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-mediatek@lists.infradead.org, openbmc@lists.ozlabs.org, 
- linux-mips@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
- linux-renesas-soc@vger.kernel.org
-Cc: Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>, 
- Broadcom internal kernel review list
- <bcm-kernel-feedback-list@broadcom.com>, Dong Aisheng
- <aisheng.dong@nxp.com>,  Fabio Estevam <festevam@gmail.com>, Shawn Guo
- <shawnguo@kernel.org>, Jacky Bai <ping.bai@nxp.com>,  Pengutronix Kernel
- Team <kernel@pengutronix.de>, Sascha Hauer <s.hauer@pengutronix.de>, NXP
- Linux Team <linux-imx@nxp.com>, Sean Wang <sean.wang@kernel.org>, Lakshmi
- Sowjanya D <lakshmi.sowjanya.d@intel.com>, Andy Gross <agross@kernel.org>,
- Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio
- <konrad.dybcio@linaro.org>, Emil Renner Berthing <kernel@esmil.dk>, Hal
- Feng <hal.feng@starfivetech.com>
-Date: Fri, 24 Nov 2023 12:10:47 +0100
-In-Reply-To: <20231123193355.3400852-17-andriy.shevchenko@linux.intel.com>
-References: <20231123193355.3400852-1-andriy.shevchenko@linux.intel.com>
-	 <20231123193355.3400852-17-andriy.shevchenko@linux.intel.com>
-Autocrypt: addr=paul@crapouillou.net; prefer-encrypt=mutual;
- keydata=mQENBF0KhcEBCADkfmrzdTOp/gFOMQX0QwKE2WgeCJiHPWkpEuPH81/HB2dpjPZNW03ZMLQfECbbaEkdbN4YnPfXgcc1uBe5mwOAPV1MBlaZcEt4M67iYQwSNrP7maPS3IaQJ18ES8JJ5Uf5UzFZaUawgH+oipYGW+v31cX6L3k+dGsPRM0Pyo0sQt52fsopNPZ9iag0iY7dGNuKenaEqkYNjwEgTtNz8dt6s3hMpHIKZFL3OhAGi88wF/21isv0zkF4J0wlf9gYUTEEY3Eulx80PTVqGIcHZzfavlWIdzhe+rxHTDGVwseR2Y1WjgFGQ2F+vXetAB8NEeygXee+i9nY5qt9c07m8mzjABEBAAG0JFBhdWwgQ2VyY3VlaWwgPHBhdWxAY3JhcG91aWxsb3UubmV0PokBTgQTAQoAOBYhBNdHYd8OeCBwpMuVxnPua9InSr1BBQJdCoXBAhsDBQsJCAcCBhUKCQgLAgQWAgMBAh4BAheAAAoJEHPua9InSr1BgvIH/0kLyrI3V0f33a6D3BJwc1grbygPVYGuC5l5eMnAI+rDmLR19E2yvibRpgUc87NmPEQPpbbtAZt8On/2WZoE5OIPdlId/AHNpdgAtGXo0ZX4LGeVPjxjdkbrKVHxbcdcnY+zzaFglpbVSvp76pxqgVg8PgxkAAeeJV+ET4t0823Gz2HzCL/6JZhvKAEtHVulOWoBh368SYdolp1TSfORWmHzvQiCCCA+j0cMkYVGzIQzEQhX7Urf9N/nhU5/SGLFEi9DcBfXoGzhyQyLXflhJtKm3XGB1K/pPulbKaPcKAl6rIDWPuFpHkSbmZ9r4KFlBwgAhlGy6nqP7O3u7q23hRW5AQ0EXQqFwQEIAMo+MgvYHsyjX3Ja4Oolg1Txzm8woj30ch2nACFCqaO0R/1kLj2VVeLrDyQUOlXx9PD6IQI4M8wy8m0sR4wV2p/g/paw7k65cjzYYLh+FdLNyO7IW
-	YXndJO+wDPi3aK/YKUYepqlP+QsmaHNYNdXEQDRKqNfJg8t0f5rfzp9ryxd1tCnbV+tG8VHQWiZXNqN7062DygSNXFUfQ0vZ3J2D4oAcIAEXTymRQ2+hr3Hf7I61KMHWeSkCvCG2decTYsHlw5Erix/jYWqVOtX0roOOLqWkqpQQJWtU+biWrAksmFmCp5fXIg1Nlg39v21xCXBGxJkxyTYuhdWyu1yDQ+LSIUAEQEAAYkBNgQYAQoAIBYhBNdHYd8OeCBwpMuVxnPua9InSr1BBQJdCoXBAhsMAAoJEHPua9InSr1B4wsH/Az767YCT0FSsMNt1jkkdLCBi7nY0GTW+PLP1a4zvVqFMo/vD6uz1ZflVTUAEvcTi3VHYZrlgjcxmcGu239oruqUS8Qy/xgZBp9KF0NTWQSl1iBfVbIU5VV1vHS6r77W5x0qXgfvAUWOH4gmN3MnF01SH2zMcLiaUGF+mcwl15rHbjnT3Nu2399aSE6cep86igfCAyFUOXjYEGlJy+c6UyT+DUylpjQg0nl8MlZ/7Whg2fAU9+FALIbQYQzGlT4c71SibR9T741jnegHhlmV4WXXUD6roFt54t0MSAFSVxzG8mLcSjR2cLUJ3NIPXixYUSEn3tQhfZj07xIIjWxAYZo=
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2AB11172D;
+	Fri, 24 Nov 2023 05:21:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1700832080; x=1732368080;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=oS8G9RbkHOAGAKexG7oDoBknf5c2EZYgB9loDAbntcE=;
+  b=HYqx8wXcA92WquS+RiF+n51fUu4itig07M6YPyCGpUn1y+oBFQIkq5iC
+   1JSRbRV927sfR1H3RNgDTdKt8S29gqI4ou4vhUAkA4khdQQHPLXtwIYBu
+   P2rk4ZTjt9lFeZzdb7ziKoyFevMPJAQqpAD5XxckfDFUmLoUVRpBKnjhm
+   Dpsw2xDSwi6ZPITjGjQQrGgRcHnirX0AltBVb1lGGptzyyj9BSpXB2Ng4
+   6a6iZCyQ96Zfjho6hrGibL0xgIrjb+U6zFMWMxK0cnP4RRBnu+s407nt5
+   m1ltDBvnw8mMmT1wLwDVNBhKbDAC52ZZIMx0cK92PO63WLWva+xLMYmGJ
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10904"; a="456765147"
+X-IronPort-AV: E=Sophos;i="6.04,224,1695711600"; 
+   d="scan'208";a="456765147"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Nov 2023 05:20:33 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10902"; a="767477118"
+X-IronPort-AV: E=Sophos;i="6.04,224,1695711600"; 
+   d="scan'208";a="767477118"
+Received: from lkp-server01.sh.intel.com (HELO d584ee6ebdcc) ([10.239.97.150])
+  by orsmga002.jf.intel.com with ESMTP; 24 Nov 2023 05:20:25 -0800
+Received: from kbuild by d584ee6ebdcc with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1r6W6Z-0002nt-14;
+	Fri, 24 Nov 2023 13:20:23 +0000
+Date: Fri, 24 Nov 2023 21:19:45 +0800
+From: kernel test robot <lkp@intel.com>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	Jonathan =?iso-8859-1?Q?Neusch=E4fer?= <j.neuschaefer@gmx.net>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
+	Jianlong Huang <jianlong.huang@starfivetech.com>,
+	linux-arm-kernel@lists.infradead.org, linux-gpio@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-mediatek@lists.infradead.org,
+	openbmc@lists.ozlabs.org, linux-mips@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Ray Jui <rjui@broadcom.com>,
+	Scott Branden <sbranden@broadcom.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Dong Aisheng <aisheng.dong@nxp.com>,
+	Fabio Estevam <festevam@gmail.com>, Shawn Guo <shawnguo@kernel.org>,
+	Jacky Bai <ping.bai@nxp.com>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	NXP Linux Team <linux-imx@nxp.com>,
+	Sean Wang <sean.wang@kernel.org>
+Subject: Re: [PATCH v2 06/21] pinctrl: equilibrium: Convert to use struct
+ pingroup
+Message-ID: <202311241401.ZPILPdov-lkp@intel.com>
+References: <20231123193355.3400852-7-andriy.shevchenko@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231123193355.3400852-7-andriy.shevchenko@linux.intel.com>
 
 Hi Andy,
 
-Le jeudi 23 novembre 2023 =C3=A0 21:31 +0200, Andy Shevchenko a =C3=A9crit=
-=C2=A0:
-> Convert drivers to use grp member embedded in struct group_desc.
->=20
-> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+kernel test robot noticed the following build warnings:
 
-Acked-by: Paul Cercueil <paul@crapouillou.net>
+[auto build test WARNING on linusw-pinctrl/devel]
+[also build test WARNING on linusw-pinctrl/for-next next-20231124]
+[cannot apply to geert-renesas-drivers/renesas-pinctrl pinctrl-samsung/for-next linus/master v6.7-rc2]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Cheers,
--Paul
+url:    https://github.com/intel-lab-lkp/linux/commits/Andy-Shevchenko/pinctrl-qcom-lpass-lpi-Remove-unused-member-in-struct-lpi_pingroup/20231124-043212
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-pinctrl.git devel
+patch link:    https://lore.kernel.org/r/20231123193355.3400852-7-andriy.shevchenko%40linux.intel.com
+patch subject: [PATCH v2 06/21] pinctrl: equilibrium: Convert to use struct pingroup
+config: i386-randconfig-141-20231124 (https://download.01.org/0day-ci/archive/20231124/202311241401.ZPILPdov-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce: (https://download.01.org/0day-ci/archive/20231124/202311241401.ZPILPdov-lkp@intel.com/reproduce)
 
-> ---
-> =C2=A0drivers/pinctrl/pinctrl-ingenic.c | 18 +++++++++---------
-> =C2=A01 file changed, 9 insertions(+), 9 deletions(-)
->=20
-> diff --git a/drivers/pinctrl/pinctrl-ingenic.c
-> b/drivers/pinctrl/pinctrl-ingenic.c
-> index 393873de910a..6806fede5df4 100644
-> --- a/drivers/pinctrl/pinctrl-ingenic.c
-> +++ b/drivers/pinctrl/pinctrl-ingenic.c
-> @@ -3756,17 +3756,17 @@ static int ingenic_pinmux_set_mux(struct
-> pinctrl_dev *pctldev,
-> =C2=A0		return -EINVAL;
-> =C2=A0
-> =C2=A0	dev_dbg(pctldev->dev, "enable function %s group %s\n",
-> -		func->name, grp->name);
-> +		func->name, grp->grp.name);
-> =C2=A0
-> =C2=A0	mode =3D (uintptr_t)grp->data;
-> =C2=A0	if (mode <=3D 3) {
-> -		for (i =3D 0; i < grp->num_pins; i++)
-> -			ingenic_pinmux_set_pin_fn(jzpc, grp-
-> >pins[i], mode);
-> +		for (i =3D 0; i < grp->grp.npins; i++)
-> +			ingenic_pinmux_set_pin_fn(jzpc, grp-
-> >grp.pins[i], mode);
-> =C2=A0	} else {
-> =C2=A0		pin_modes =3D grp->data;
-> =C2=A0
-> -		for (i =3D 0; i < grp->num_pins; i++)
-> -			ingenic_pinmux_set_pin_fn(jzpc, grp-
-> >pins[i], pin_modes[i]);
-> +		for (i =3D 0; i < grp->grp.npins; i++)
-> +			ingenic_pinmux_set_pin_fn(jzpc, grp-
-> >grp.pins[i], pin_modes[i]);
-> =C2=A0	}
-> =C2=A0
-> =C2=A0	return 0;
-> @@ -4293,12 +4293,12 @@ static int __init
-> ingenic_pinctrl_probe(struct platform_device *pdev)
-> =C2=A0
-> =C2=A0	for (i =3D 0; i < chip_info->num_groups; i++) {
-> =C2=A0		const struct group_desc *group =3D &chip_info-
-> >groups[i];
-> +		const struct pingroup *grp =3D &group->grp;
-> =C2=A0
-> -		err =3D pinctrl_generic_add_group(jzpc->pctl, group-
-> >name,
-> -				group->pins, group->num_pins, group-
-> >data);
-> +		err =3D pinctrl_generic_add_group(jzpc->pctl, grp-
-> >name, grp->pins, grp->npins,
-> +						group->data);
-> =C2=A0		if (err < 0) {
-> -			dev_err(dev, "Failed to register group
-> %s\n",
-> -					group->name);
-> +			dev_err(dev, "Failed to register group
-> %s\n", grp->name);
-> =C2=A0			return err;
-> =C2=A0		}
-> =C2=A0	}
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311241401.ZPILPdov-lkp@intel.com/
 
+smatch warnings:
+drivers/pinctrl/pinctrl-equilibrium.c:719 eqbr_build_groups() warn: unsigned 'grp->npins' is never less than zero.
+
+vim +719 drivers/pinctrl/pinctrl-equilibrium.c
+
+   702	
+   703	static int eqbr_build_groups(struct eqbr_pinctrl_drv_data *drvdata)
+   704	{
+   705		struct device *dev = drvdata->dev;
+   706		struct device_node *node = dev->of_node;
+   707		unsigned int *pins, *pinmux, pin_id, pinmux_id;
+   708		struct pingroup group, *grp = &group;
+   709		struct device_node *np;
+   710		struct property *prop;
+   711		int j, err;
+   712	
+   713		for_each_child_of_node(node, np) {
+   714			prop = of_find_property(np, "groups", NULL);
+   715			if (!prop)
+   716				continue;
+   717	
+   718			grp->npins = of_property_count_u32_elems(np, "pins");
+ > 719			if (grp->npins < 0) {
+   720				dev_err(dev, "No pins in the group: %s\n", prop->name);
+   721				of_node_put(np);
+   722				return -EINVAL;
+   723			}
+   724			grp->name = prop->value;
+   725			pins = devm_kcalloc(dev, grp->npins, sizeof(*pins), GFP_KERNEL);
+   726			if (!pins) {
+   727				of_node_put(np);
+   728				return -ENOMEM;
+   729			}
+   730			grp->pins = pins;
+   731	
+   732			pinmux = devm_kcalloc(dev, grp->npins, sizeof(*pinmux), GFP_KERNEL);
+   733			if (!pinmux) {
+   734				of_node_put(np);
+   735				return -ENOMEM;
+   736			}
+   737	
+   738			for (j = 0; j < grp->npins; j++) {
+   739				if (of_property_read_u32_index(np, "pins", j, &pin_id)) {
+   740					dev_err(dev, "Group %s: Read intel pins id failed\n",
+   741						grp->name);
+   742					of_node_put(np);
+   743					return -EINVAL;
+   744				}
+   745				if (pin_id >= drvdata->pctl_desc.npins) {
+   746					dev_err(dev, "Group %s: Invalid pin ID, idx: %d, pin %u\n",
+   747						grp->name, j, pin_id);
+   748					of_node_put(np);
+   749					return -EINVAL;
+   750				}
+   751				pins[j] = pin_id;
+   752				if (of_property_read_u32_index(np, "pinmux", j, &pinmux_id)) {
+   753					dev_err(dev, "Group %s: Read intel pinmux id failed\n",
+   754						grp->name);
+   755					of_node_put(np);
+   756					return -EINVAL;
+   757				}
+   758				pinmux[j] = pinmux_id;
+   759			}
+   760	
+   761			err = pinctrl_generic_add_group(drvdata->pctl_dev,
+   762							grp->name, grp->pins, grp->npins,
+   763							pinmux);
+   764			if (err < 0) {
+   765				dev_err(dev, "Failed to register group %s\n", grp->name);
+   766				of_node_put(np);
+   767				return err;
+   768			}
+   769			memset(&group, 0, sizeof(group));
+   770			pinmux = NULL;
+   771		}
+   772	
+   773		return 0;
+   774	}
+   775	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
