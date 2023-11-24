@@ -1,375 +1,125 @@
-Return-Path: <linux-renesas-soc+bounces-229-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-230-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id B13717F6F78
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 Nov 2023 10:24:56 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D8857F70BB
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 Nov 2023 11:03:36 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1E3EB281C0B
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 Nov 2023 09:24:55 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id AE97C1C20F34
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 Nov 2023 10:03:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5F5A18C18;
-	Fri, 24 Nov 2023 09:24:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2E7EC1804E;
+	Fri, 24 Nov 2023 10:03:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="Co9JE82E"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kbOp1eJ3"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com [IPv6:2a00:1450:4864:20::52b])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 81698D46
-	for <linux-renesas-soc@vger.kernel.org>; Fri, 24 Nov 2023 01:24:44 -0800 (PST)
-Received: by mail-ed1-x52b.google.com with SMTP id 4fb4d7f45d1cf-548f0b7ab11so2356957a12.1
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 24 Nov 2023 01:24:44 -0800 (PST)
+Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com [IPv6:2a00:1450:4864:20::12a])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E6D81B6;
+	Fri, 24 Nov 2023 02:03:26 -0800 (PST)
+Received: by mail-lf1-x12a.google.com with SMTP id 2adb3069b0e04-5079f3f3d7aso2448801e87.1;
+        Fri, 24 Nov 2023 02:03:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1700817883; x=1701422683; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=tP7iDHeY/GImPwmVPQj8nL6E/oGA2tu11UlMq0fOEuY=;
-        b=Co9JE82EK+QdDBxpvOsoAHUn9KmvE0NtViDmEyaS7ge1lpXFI45ON5XgjBjj3asx6q
-         hKJ8ZH3y9GYcnygpbeZmZw01S19IlBVfJU1nnElZ2VP5Dw70GiLoxvJvYoWCRcNDHtKL
-         ++YDCJ6NO8NvMGXfxvi1X86dZTYxCR6ewIidNJ/X/qHKMuPmn4GWow+g9tcEWDPoT248
-         FOeqyRcJwMM4sAff7/ipjeu9xZZuC4C1pUVlJsrAP8f8yWYA8Bkc1o6Zhzj8NDRHFCc5
-         1+UDsoQMtl1/S/ONDXk3Wzw33FglMSu66mo/LBRelD9qgusDT6tvqp+UX/G2Ux+pjnhj
-         5gUg==
+        d=gmail.com; s=20230601; t=1700820205; x=1701425005; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=lmNkkj8bOMsrzoaba81g1QSDAv4tnTjLgBhqzOK6UK4=;
+        b=kbOp1eJ34ADnT/53m0tY0wZ7qNtupNh7+7n4BxWzkiT7hKXOdx5B7btsvFlw4Y6TKl
+         sdD9TRvAJbbPc3XLYhdxYiKKUevAO5bCXBJ25/I4PuKScEXWdlYL3xVocQbO7LYRzcir
+         xxlhnmDNn70VHG5bG39niXGxleuy3nGnJAr95ZpbXUhOuIH7QM4gzFVl9/QEepZbV2M1
+         q38B7VnEVPHj50rg11uKqxzEB4SnNeiBUq9+tsrK7vkchPEFVqahVgqCFT45KtvnJ9St
+         vBhm26FKZbqe4p/0BtBq+xQiR+7Hu961Hd95p4o+KWNsbmrW1eiRV573XcjOC5hg8Jk1
+         1BKw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700817883; x=1701422683;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=tP7iDHeY/GImPwmVPQj8nL6E/oGA2tu11UlMq0fOEuY=;
-        b=Bkfb2qh0yHiZaDcmDnWmc6EqAQxo8NF8tGYg7dkfWIOaHKTLnLNe+LvpEmmsNb1C2k
-         LUk/DVxA4hnYW34dWazZhNzwQ7sHp6IMHm5K47cgQM3Fxhs65f/KpBOdyZq7jmDOyLNF
-         hCEMbES/MLjRSfAjZvRRJ6y0Hl8AvgK6d276dKW4IZVRvtk29GnSaLq9GTcVSoGhcynm
-         AXpq23c/BnVVAIBuKpue5qmO+wzO+3+KmBISCTdOZEJmaU4PwqISGkYYajHso/GuTrjS
-         kVNblfTQ3OXM8fmhvTeoO5fhPzORYboaj8rg8hTmMsphoWDQd5eBA2sT5MoT/lZ7EFPp
-         Th6A==
-X-Gm-Message-State: AOJu0YyZtcp4+wwJlEf5OEJNtZ34VX7AWQdOiapKXUO51jHlGkfYKEhn
-	+fqX+hcmhyiBF/LuQfZrDdzLSw==
-X-Google-Smtp-Source: AGHT+IF5wnmdU+9Ge45kUoBqgtGwPWqSG7G8vXh5qyjB+1hbTEU57wYmB+BsFMxgRrbV9yMfGGawnQ==
-X-Received: by 2002:a17:906:2c45:b0:9da:eefb:854c with SMTP id f5-20020a1709062c4500b009daeefb854cmr1507598ejh.25.1700817882750;
-        Fri, 24 Nov 2023 01:24:42 -0800 (PST)
-Received: from [192.168.50.4] ([82.78.167.3])
-        by smtp.gmail.com with ESMTPSA id dv23-20020a170906b81700b009fc6e3ef4e4sm1808465ejb.42.2023.11.24.01.24.40
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 24 Nov 2023 01:24:42 -0800 (PST)
-Message-ID: <a162c0df-6c1d-4cdf-a25e-528c79106374@tuxon.dev>
-Date: Fri, 24 Nov 2023 11:24:39 +0200
+        d=1e100.net; s=20230601; t=1700820205; x=1701425005;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=lmNkkj8bOMsrzoaba81g1QSDAv4tnTjLgBhqzOK6UK4=;
+        b=n2XE4152UHIcz/lGp6r2HPrDHb6eXRf37KYgqTog9J7QDVzEASg70B/9QggjlAt9/S
+         DcdXI6413HXVsvB55sRLQFEc/YWLS89f5de/zmhBlg2pYs5LtcgZqMbBrIcSrQnXMHgl
+         zE1ox2MiCYJc11b0iioZt4VV/S+fxvN3LwuaS5CXvW26mM6tysiHY2x5zhOZWV+RN0wY
+         knCMlSbbzBHS0WX+cWWbKKjqSe7Y9RzJbgGQXPT3asnKn3maVgMpGTnAxTSfWezX+W57
+         Q22wMRLbjXwFV/9qlRhi+IzxxrTDhF6v4z85pgO+mud0lBR9XnFMbwQcKx+eR1STCUVi
+         mmPA==
+X-Gm-Message-State: AOJu0Yy+7SV0v3JUJdhhALmOvvtyVB8X10YLdkC9Iih4v7/JzKALLJ32
+	X7zX3UCsKCKm1weE7zfHZ5c=
+X-Google-Smtp-Source: AGHT+IGKGiygZo1ggtDKRtbhF6qntEfAzuGcJlCZ7Ty9ql0DU8t3NC6/D4pEnRb/0csFDzpVt8tilA==
+X-Received: by 2002:ac2:4284:0:b0:509:7301:5738 with SMTP id m4-20020ac24284000000b0050973015738mr1398924lfh.62.1700820204401;
+        Fri, 24 Nov 2023 02:03:24 -0800 (PST)
+Received: from mobilestation ([178.176.56.174])
+        by smtp.gmail.com with ESMTPSA id g36-20020a0565123ba400b0050aaa7147b8sm464495lfv.141.2023.11.24.02.03.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 24 Nov 2023 02:03:23 -0800 (PST)
+Date: Fri, 24 Nov 2023 13:03:21 +0300
+From: Serge Semin <fancer.lancer@gmail.com>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Rob Herring <robh+dt@kernel.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Stephen Boyd <sboyd@kernel.org>, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-clk@vger.kernel.org, linux-iio@vger.kernel.org, linux-mmc@vger.kernel.org, 
+	netdev@vger.kernel.org, linux-pci@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org, linux-pm@vger.kernel.org, 
+	linux-remoteproc@vger.kernel.org
+Subject: Re: [PATCH] dt-bindings: correct white-spaces in examples
+Message-ID: <bianfx2bkdgtecquvvzxcyjzqim3ristgipzosqrljmhls2cxg@wlifizchsz4o>
+References: <20231124092121.16866-1-krzysztof.kozlowski@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 03/14] clk: renesas: rzg2l-cpg: Add support for MSTOP
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: s.shtylyov@omp.ru, davem@davemloft.net, edumazet@google.com,
- kuba@kernel.org, pabeni@redhat.com, robh+dt@kernel.org,
- krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
- linux@armlinux.org.uk, magnus.damm@gmail.com, mturquette@baylibre.com,
- sboyd@kernel.org, linus.walleij@linaro.org, p.zabel@pengutronix.de,
- arnd@arndb.de, m.szyprowski@samsung.com, alexandre.torgue@foss.st.com,
- afd@ti.com, broonie@kernel.org, alexander.stein@ew.tq-group.com,
- eugen.hristev@collabora.com, sergei.shtylyov@gmail.com,
- prabhakar.mahadev-lad.rj@bp.renesas.com, biju.das.jz@bp.renesas.com,
- linux-renesas-soc@vger.kernel.org, netdev@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org,
- linux-gpio@vger.kernel.org, Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-References: <20231120070024.4079344-1-claudiu.beznea.uj@bp.renesas.com>
- <20231120070024.4079344-4-claudiu.beznea.uj@bp.renesas.com>
- <CAMuHMdVMpKVY8WX7dbtHfgnwgePH+i9+2BAumb37sFmqccb44g@mail.gmail.com>
-From: claudiu beznea <claudiu.beznea@tuxon.dev>
-Content-Language: en-US
-In-Reply-To: <CAMuHMdVMpKVY8WX7dbtHfgnwgePH+i9+2BAumb37sFmqccb44g@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231124092121.16866-1-krzysztof.kozlowski@linaro.org>
 
-Hi, Geert,
+On Fri, Nov 24, 2023 at 10:21:21AM +0100, Krzysztof Kozlowski wrote:
+> Use only one and exactly one space around '=' in DTS example.
+> 
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> 
+> ---
+> 
+> Merging idea: Rob's DT.
+> Should apply cleanly on Rob's for-next.
+> ---
+>  .../devicetree/bindings/auxdisplay/hit,hd44780.yaml       | 2 +-
+>  .../devicetree/bindings/clock/baikal,bt1-ccu-pll.yaml     | 2 +-
+>  Documentation/devicetree/bindings/iio/adc/adi,ad7780.yaml | 6 +++---
+>  .../devicetree/bindings/iio/adc/qcom,spmi-iadc.yaml       | 2 +-
+>  .../devicetree/bindings/iio/adc/qcom,spmi-rradc.yaml      | 2 +-
+>  .../interrupt-controller/st,stih407-irq-syscfg.yaml       | 4 ++--
+>  Documentation/devicetree/bindings/mmc/arm,pl18x.yaml      | 2 +-
+>  Documentation/devicetree/bindings/net/sff,sfp.yaml        | 2 +-
+>  .../devicetree/bindings/pci/toshiba,visconti-pcie.yaml    | 2 +-
+>  .../bindings/pinctrl/renesas,rzg2l-pinctrl.yaml           | 6 +++---
+>  .../devicetree/bindings/power/supply/richtek,rt9455.yaml  | 8 ++++----
+>  .../devicetree/bindings/regulator/mps,mp5416.yaml         | 4 ++--
+>  .../devicetree/bindings/regulator/mps,mpq7920.yaml        | 4 ++--
+>  .../devicetree/bindings/remoteproc/fsl,imx-rproc.yaml     | 8 ++++----
+>  14 files changed, 27 insertions(+), 27 deletions(-)
+> 
 
-On 23.11.2023 18:35, Geert Uytterhoeven wrote:
-> Hi Claudiu,
-> 
-> On Mon, Nov 20, 2023 at 8:01 AM Claudiu <claudiu.beznea@tuxon.dev> wrote:
->> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
->>
->> RZ/{G2L, V2L, G3S} based CPG versions have support for saving extra
->> power when clocks are disabled by activating module standby. This is done
->> though MSTOP specific registers that are part of CPG. Each individual
->> module have one or more bits associated in one MSTOP register (see table
->> "Registers for Module Standby Mode" from HW manuals). Hardware manual
->> associates modules' clocks to one or more MSTOP bits. There are 3 mappings
->> available (identified by researching RZ/G2L, RZ/G3S, RZ/V2L HW manuals):
->>
->> case 1: N clocks mapped to N MSTOP bits (with N={0, ..., X})
->> case 2: N clocks mapped to 1 MSTOP bit  (with N={0, ..., X})
->> case 3: N clocks mapped to M MSTOP bits (with N={0, ..., X}, M={0, ..., Y})
->>
->> Case 3 has been currently identified on RZ/V2L for VCPL4 module.
->>
->> To cover all 3 cases the individual platform drivers will provide to
->> clock driver MSTOP register offset and associated bits in this register
->> as a bitmask and the clock driver will apply this bitmask to proper
->> MSTOP register.
->>
->> As most of the modules have more than one clock and these clocks are
->> mapped to 1 MSTOP bitmap that need to be applied to MSTOP registers,
->> to avoid switching the module to/out of standby when the module has
->> enabled/disabled clocks a counter has been associated to each module
->> (though struct mstop::count) which is incremented/decremented every
->> time a module's clock is enabled/disabled and the settings to MSTOP
->> register are applied only when the counter reaches zero (counter zero
->> means either 1st clock of the module is going to be enabled or all clocks
->> of the module are going to be disabled).
-> 
-> Thanks for your patch!
-> 
->> The MSTOP functionality has been instantiated at the moment for RZ/G3S.
-> 
-> Do you plan to add support for the other SoCs, too?
+[nip]
 
-Yes.
+> diff --git a/Documentation/devicetree/bindings/clock/baikal,bt1-ccu-pll.yaml b/Documentation/devicetree/bindings/clock/baikal,bt1-ccu-pll.yaml
+> index 624984d51c10..7f8d98226437 100644
+> --- a/Documentation/devicetree/bindings/clock/baikal,bt1-ccu-pll.yaml
+> +++ b/Documentation/devicetree/bindings/clock/baikal,bt1-ccu-pll.yaml
+> @@ -125,7 +125,7 @@ examples:
+>      clk25m: clock-oscillator-25m {
+>        compatible = "fixed-clock";
+>        #clock-cells = <0>;
+> -      clock-frequency  = <25000000>;
+> +      clock-frequency = <25000000>;
+>        clock-output-names = "clk25m";
+>      };
+>  ...
 
-> 
->> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-> 
->> --- a/drivers/clk/renesas/r9a08g045-cpg.c
->> +++ b/drivers/clk/renesas/r9a08g045-cpg.c
->> @@ -187,23 +187,39 @@ static const struct cpg_core_clk r9a08g045_core_clks[] __initconst = {
->>  };
->>
->>  static const struct rzg2l_mod_clk r9a08g045_mod_clks[] = {
->> -       DEF_MOD("gic_gicclk",           R9A08G045_GIC600_GICCLK, R9A08G045_CLK_P1, 0x514, 0),
->> -       DEF_MOD("ia55_clk",             R9A08G045_IA55_CLK, R9A08G045_CLK_P1, 0x518, 1),
->> -       DEF_MOD("dmac_aclk",            R9A08G045_DMAC_ACLK, R9A08G045_CLK_P3, 0x52c, 0),
->> -       DEF_MOD("sdhi0_imclk",          R9A08G045_SDHI0_IMCLK, CLK_SD0_DIV4, 0x554, 0),
->> -       DEF_MOD("sdhi0_imclk2",         R9A08G045_SDHI0_IMCLK2, CLK_SD0_DIV4, 0x554, 1),
->> -       DEF_MOD("sdhi0_clk_hs",         R9A08G045_SDHI0_CLK_HS, R9A08G045_CLK_SD0, 0x554, 2),
->> -       DEF_MOD("sdhi0_aclk",           R9A08G045_SDHI0_ACLK, R9A08G045_CLK_P1, 0x554, 3),
->> -       DEF_MOD("sdhi1_imclk",          R9A08G045_SDHI1_IMCLK, CLK_SD1_DIV4, 0x554, 4),
->> -       DEF_MOD("sdhi1_imclk2",         R9A08G045_SDHI1_IMCLK2, CLK_SD1_DIV4, 0x554, 5),
->> -       DEF_MOD("sdhi1_clk_hs",         R9A08G045_SDHI1_CLK_HS, R9A08G045_CLK_SD1, 0x554, 6),
->> -       DEF_MOD("sdhi1_aclk",           R9A08G045_SDHI1_ACLK, R9A08G045_CLK_P1, 0x554, 7),
->> -       DEF_MOD("sdhi2_imclk",          R9A08G045_SDHI2_IMCLK, CLK_SD2_DIV4, 0x554, 8),
->> -       DEF_MOD("sdhi2_imclk2",         R9A08G045_SDHI2_IMCLK2, CLK_SD2_DIV4, 0x554, 9),
->> -       DEF_MOD("sdhi2_clk_hs",         R9A08G045_SDHI2_CLK_HS, R9A08G045_CLK_SD2, 0x554, 10),
->> -       DEF_MOD("sdhi2_aclk",           R9A08G045_SDHI2_ACLK, R9A08G045_CLK_P1, 0x554, 11),
->> -       DEF_MOD("scif0_clk_pck",        R9A08G045_SCIF0_CLK_PCK, R9A08G045_CLK_P0, 0x584, 0),
->> -       DEF_MOD("gpio_hclk",            R9A08G045_GPIO_HCLK, R9A08G045_OSCCLK, 0x598, 0),
->> +       DEF_MOD("gic_gicclk",           R9A08G045_GIC600_GICCLK, R9A08G045_CLK_P1, 0x514, 0,
->> +                                       MSTOP(ACPU, BIT(3))),
-> 
-> According to Rev. 1.00 of the Hardware User's Manual, bit 3 of the
-> CPG_BUS_ACPU_MSTOP register is reserved?
+For Baikal-T1 CCU PLL DT-schema
+Acked-by: Serge Semin <fancer.lancer@gmail.com>
 
-Hm... you're right. I've followed table 44.4 Registers for Module Standby
-Mode to populate MSTOPs in r9a08g045_mod_clks[]. That table indicates bit 3
-for GIC.
-
-> 
-> Also, gic_gicclk is a critical module clock, so I guess this module
-> must never be put into standby?
-
-Good point. I'll remove the MSTOPs for critical clocks.
-
-> 
->> --- a/drivers/clk/renesas/rzg2l-cpg.c
->> +++ b/drivers/clk/renesas/rzg2l-cpg.c
->> @@ -1177,6 +1177,17 @@ rzg2l_cpg_register_core_clk(const struct cpg_core_clk *core,
->>                 core->name, PTR_ERR(clk));
->>  }
->>
->> +/**
->> + * struct mstop - MSTOP specific data structure
->> + * @count: reference counter for MSTOP settings (when zero the settings
->> + *        are applied to register)
->> + * @conf: MSTOP configuration (register offset, setup bits)
->> + */
->> +struct mstop {
->> +       u32 count;
->> +       u32 conf;
->> +};
->> +
->>  /**
->>   * struct mstp_clock - MSTP gating clock
->>   *
->> @@ -1186,6 +1197,7 @@ rzg2l_cpg_register_core_clk(const struct cpg_core_clk *core,
->>   * @enabled: soft state of the clock, if it is coupled with another clock
->>   * @priv: CPG/MSTP private data
->>   * @sibling: pointer to the other coupled clock
->> + * @mstop: MSTOP configuration
->>   */
->>  struct mstp_clock {
->>         struct clk_hw hw;
->> @@ -1194,10 +1206,46 @@ struct mstp_clock {
->>         bool enabled;
->>         struct rzg2l_cpg_priv *priv;
->>         struct mstp_clock *sibling;
->> +       struct mstop *mstop;
->>  };
->>
->>  #define to_mod_clock(_hw) container_of(_hw, struct mstp_clock, hw)
->>
->> +/* Need to be called with a lock held to avoid concurent access to mstop->count. */
-> 
-> concurrent
-> 
->> +static void rzg2l_mod_clock_module_set_standby(struct mstp_clock *clock,
->> +                                              bool standby)
->> +{
->> +       struct rzg2l_cpg_priv *priv = clock->priv;
->> +       struct mstop *mstop = clock->mstop;
->> +       bool update = false;
->> +       u32 value;
->> +
->> +       if (!mstop)
->> +               return;
->> +
->> +       value = MSTOP_MASK(mstop->conf) << 16;
->> +
->> +       if (standby) {
->> +               value |= MSTOP_MASK(mstop->conf);
->> +               /* Avoid overflow. */
->> +               if (mstop->count > 0)
->> +                       mstop->count--;
-> 
-> Should we add a WARN() here, or is it sufficient to rely on the WARN()
-> in drivers/clk/clk.c:clk_core_disable()?
-
-I think it would be good to have it as mstop->count could be
-incremented/decremented by more than one clock and could overflow faster
-than struct clk_core::enable_count
-
-> 
->> +
->> +               if (!mstop->count)
->> +                       update = true;
->> +       } else {
->> +               if (!mstop->count)
->> +                       update = true;
->> +
->> +               /* Avoid overflow. */
->> +               if (mstop->count + 1 != 0)
->> +                       mstop->count++;
-> 
-> Trying to avoid an overflow won't help much here.  The counter
-> will be wrong afterwards anyway, and when decrementing again later, the
-> module will be put in standby too soon...
-
-That's true. Would you prefer to have a WARN() for this too?
-
-> 
->> +       }
->> +
->> +       if (update)
->> +               writel(value, priv->base + MSTOP_OFF(mstop->conf));
->> +}
->> +
->>  static int rzg2l_mod_clock_endisable(struct clk_hw *hw, bool enable)
->>  {
->>         struct mstp_clock *clock = to_mod_clock(hw);
-> 
->> @@ -1401,6 +1474,37 @@ rzg2l_cpg_register_mod_clk(const struct rzg2l_mod_clk *mod,
->>                 }
->>         }
->>
->> +       if (mod->mstop_conf) {
->> +               struct mstop *mstop = rzg2l_mod_clock_get_mstop(priv, mod->mstop_conf);
->> +
->> +               if (mstop) {
->> +                       clock->mstop = mstop;
-> 
-> Please move the common assignment after the if/else block...
-> 
->> +               } else {
-> 
-> ... so this can just become "if (!mstop) {".
-
-Ok, I'll review it.
-
-> 
->> +                       mstop = devm_kzalloc(dev, sizeof(*mstop), GFP_KERNEL);
->> +                       if (!mstop) {
->> +                               clk_unregister(clk);
->> +                               goto fail;
-> 
-> Please use "goto unregister", and call clk_unregister() after the new
-> unregister label.
-
-I kept it like this as I considered otherwise the error path might become
-unnecessary complicated.
-
-> 
->> +                       }
->> +
->> +                       mstop->conf = mod->mstop_conf;
->> +                       clock->mstop = mstop;
->> +               }
->> +
->> +               if (rzg2l_mod_clock_is_enabled(&clock->hw)) {
->> +                       if (clock->sibling)
->> +                               clock->mstop->count = 1;
->> +                       else
->> +                               clock->mstop->count++;
->> +               }
->> +
->> +               /*
->> +                * Out of reset all modules are enabled. Set module to standby
->> +                * in case associated clocks are disabled at probe.
-> 
-> Is that always true?
-> What about kexec and crashdump kernels?
-
-I was referring to the hardware reset. In case we reach this point with
-clocks already enabled by a previous kernel the state of the clocks in
-hardware should be enabled and the mstop->count should be updated
-accordingly by the above if block. Let me know if I'm missing something.
-
-> 
->> +                */
->> +               if (!clock->mstop->count)
->> +                       rzg2l_mod_clock_module_set_standby(clock, true);
->> +       }
->> +
->>         return;
->>
->>  fail:
->> diff --git a/drivers/clk/renesas/rzg2l-cpg.h b/drivers/clk/renesas/rzg2l-cpg.h
->> index 6e38c8fc888c..10ee8aa4a5da 100644
->> --- a/drivers/clk/renesas/rzg2l-cpg.h
->> +++ b/drivers/clk/renesas/rzg2l-cpg.h
-> 
->> @@ -68,6 +73,10 @@
->>  #define SEL_PLL6_2     SEL_PLL_PACK(CPG_PL6_ETH_SSEL, 0, 1)
->>  #define SEL_GPU2       SEL_PLL_PACK(CPG_PL6_SSEL, 12, 1)
->>
->> +#define MSTOP(name, bitmask)   ((CPG_##name##_MSTOP) << 16 | (bitmask))
-> 
-> I believe the bitmask is always a single bit.
-> So perhaps let MSTOP() take the bit number instead of the bitmaskl?
-> You can still store BIT(bit) inside the macro.
-
-It is not always the case. That is why I've added the bitmask. The
-identified scenarios are highlighted in commit description:
-
-case 1: N clocks mapped to N MSTOP bits (with N={0, ..., X})
-case 2: N clocks mapped to 1 MSTOP bit  (with N={0, ..., X})
-case 3: N clocks mapped to M MSTOP bits (with N={0, ..., X}, M={0, ..., Y})
-
-Thank you for your review,
-Claudiu Beznea
-
-> 
->> +#define MSTOP_OFF(conf)                ((conf) >> 16)
->> +#define MSTOP_MASK(conf)       ((conf) & GENMASK(15, 0))
->> +
->>  #define EXTAL_FREQ_IN_MEGA_HZ  (24)
->>
->>  /**
-> 
-> Gr{oetje,eeting}s,
-> 
->                         Geert
-> 
+-Serge(y)
 
