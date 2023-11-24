@@ -1,67 +1,67 @@
-Return-Path: <linux-renesas-soc+bounces-243-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-244-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4402A7F773F
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 Nov 2023 16:07:16 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A7FB7F7745
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 Nov 2023 16:07:57 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E9A7728226B
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 Nov 2023 15:07:14 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A5750B2120B
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 Nov 2023 15:07:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 554DA2E633;
-	Fri, 24 Nov 2023 15:07:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 51E652E637;
+	Fri, 24 Nov 2023 15:07:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HHTPYCXa"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Tmb2G/tv"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-oo1-xc31.google.com (mail-oo1-xc31.google.com [IPv6:2607:f8b0:4864:20::c31])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7AB09D72;
-	Fri, 24 Nov 2023 07:07:08 -0800 (PST)
-Received: by mail-oo1-xc31.google.com with SMTP id 006d021491bc7-58d4e32ea2fso5432eaf.3;
-        Fri, 24 Nov 2023 07:07:08 -0800 (PST)
+Received: from mail-ua1-x932.google.com (mail-ua1-x932.google.com [IPv6:2607:f8b0:4864:20::932])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6F6F8D72;
+	Fri, 24 Nov 2023 07:07:48 -0800 (PST)
+Received: by mail-ua1-x932.google.com with SMTP id a1e0cc1a2514c-7ba8e3107c9so540750241.1;
+        Fri, 24 Nov 2023 07:07:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1700838428; x=1701443228; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1700838467; x=1701443267; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=9/dTev5nHvONcZhOqL01hgn/Q4opZ1thPfAJg2rBUFo=;
-        b=HHTPYCXaxY962yr/HKFltzi4t0aS+dgZHjk4cdKQ3TBsuPKWdi/DoVaEXCs3wYcb8L
-         EL0dCBtEKsDZ8n0EjhFFhnr9eytZ/3l6UMU6sJjNoKSckSCkPb/JezhYTzGHf2ZH9+7o
-         D0tL61sEy9xfaGe6YKRHLUTTztZ1opuXn+NxcpuczHJM1wubqoJ9IpWCR+02RTqB/1m9
-         O+a43AksOMLjH6ijHrkMkMpSK4OmbIPoR85LZb3OpghfNqKouqnHxiBYIQeRSX4sCp38
-         G/S9VMP9p5UWDhOW24gzqPbw49/vdOM31atv2pkkxWndOsJ0SsQV8vM4FolDQLeR3F+2
-         VU8g==
+        bh=9cD4XTfLDfdBaVvLQQvVIb/DdNn7sLhHYoYCs/LHKvs=;
+        b=Tmb2G/tvnGHshFZERUzXCMdsTYiFF9G3xS/HWzA6vu2aCZOBU7L53IItm58m/bSEoy
+         Nf7IPuoR723L33Sdnk7hnkkDCShdIs7zLlcIqVFx3baex9Ly3Me8LrErfEgUmNVhUzmh
+         hsXFdddvwkH+EfDyCltb7TOmQjs5ddvHdhjX9616Z4sHxaTqUr5+gt6lU+ru52OAs9be
+         /8897Rw9UtKxokrkDHZzsOH9YeV3v0SZ7Ex2zt367HWaUBw60II24RxEheeCN/cirwcG
+         o8NUx8NlZbs3OH0VHq+S0TEwmIcUUL8/Ptc+VnorCmwE47i/IUwSH7mARFIbuuwDQADA
+         ikaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700838428; x=1701443228;
+        d=1e100.net; s=20230601; t=1700838467; x=1701443267;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=9/dTev5nHvONcZhOqL01hgn/Q4opZ1thPfAJg2rBUFo=;
-        b=FPBQPnMsjvexLDQXSah+Mwurxr3Z/qgeHf5aa4tz8C6ITjhzEB5PkmZfF8d3QM7Pqz
-         yMViZ58fawGDB6zVOckybq/k0hZfkWqbJT8Qdl5mtMgA9vaAt4WGSB2fzgARp0wSc8hZ
-         kPTplEDJgfgWeVSHMt+Q3I5u5WTz7QiM/4A0fZDw8/OZA3nZiBdwaxLrqMnYIDjI5M34
-         Ygn/jYeU/4wNwR6GDT0c9p9aGjMDNeC8ks63rHuJmJiPOe6AQzZ+VaxUsZG52mJHDigE
-         2Wa8VSRRsgYpjlggPXX9Kv5cVH5X2EzBxCRSchBCCUL1qT/9iOXkDKdQE5pIGrTZ81R2
-         vIHg==
-X-Gm-Message-State: AOJu0YyjsFqRANbsj6Gya7zQwY9QXr6f/5UFw1509kEgIQmYwRsijvMV
-	BEaHeylzVC+zoYn9v9neZeear1lZNoCg5gp5JVE=
-X-Google-Smtp-Source: AGHT+IHX4a1mFAHgj6zlYZqw6+PVp9C5SmPB9wJoYRmcX9dAcMGzzMzXgdrp6shAUIbgNyHCgSK8VqBzakNW9Y4zfMs=
-X-Received: by 2002:a05:6358:7e47:b0:16d:e1d6:e822 with SMTP id
- p7-20020a0563587e4700b0016de1d6e822mr3552796rwm.4.1700838427639; Fri, 24 Nov
- 2023 07:07:07 -0800 (PST)
+        bh=9cD4XTfLDfdBaVvLQQvVIb/DdNn7sLhHYoYCs/LHKvs=;
+        b=qr+WFPBOjK0oHWZLt1ZgwnbvalJxUpY1UeUOOXeCIf9HolEbYo612qSG+rGjI39P/g
+         tRHPnDR66kcac3tNe1SpizugQAZCs41kMjKGSfWjh5q6dEksnQR64h45Gc4xgVEwdsHS
+         P7fvmyEEjOfWoZHYp+t0VqchKFAX1qK8qgSG6houFhzLjJ/gfsouFRpPZ/T1BUP+ugjH
+         +LxeJKidY3UGKfkEnf6uN0mXpPq3px0PClwczMiryzgAJ0ELB/KksycH+cOJqNr0KXyH
+         LMVF/7Cr+lA3rh8Vg7f7IB8upeaz0W7MQVi2eX4kdjSdOenzkw5Xrxb/j0kS7aWEB0pH
+         9RSg==
+X-Gm-Message-State: AOJu0YzEfja9nkf95zBVl0oqgs8yuSTb7A5t2LZH2nIRcdh4kn51wNHw
+	1XYx4lQV9HKl/YH7SIcIh9AvBoSE/4y/Bz57rXU=
+X-Google-Smtp-Source: AGHT+IGwXCccI84TpN5xF2DxNx/5Qx0U4TpwtpfvD5tAf/GoEOLYxxD2REsWw4Dlpn477SB/DfDmefE9drxOV1y67p8=
+X-Received: by 2002:a05:6122:903:b0:49a:466c:199e with SMTP id
+ j3-20020a056122090300b0049a466c199emr3335155vka.2.1700838467503; Fri, 24 Nov
+ 2023 07:07:47 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231122121235.827122-1-peterlin@andestech.com> <20231122121235.827122-9-peterlin@andestech.com>
-In-Reply-To: <20231122121235.827122-9-peterlin@andestech.com>
+References: <20231122121235.827122-1-peterlin@andestech.com> <20231122121235.827122-11-peterlin@andestech.com>
+In-Reply-To: <20231122121235.827122-11-peterlin@andestech.com>
 From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Fri, 24 Nov 2023 15:06:41 +0000
-Message-ID: <CA+V-a8sdaNeCjZNpfGuxB1rZ9EXGFmepE4-2TKuk9RsBcpgvJg@mail.gmail.com>
-Subject: Re: [PATCH v4 08/13] perf: RISC-V: Introduce Andes PMU for perf event sampling
+Date: Fri, 24 Nov 2023 15:07:21 +0000
+Message-ID: <CA+V-a8s2Ep3cC_qJ-a=3xf+D_90SJKe_MObywmnm6UJzEbvA6w@mail.gmail.com>
+Subject: Re: [PATCH v4 10/13] dt-bindings: riscv: Add Andes PMU extension description
 To: Yu Chien Peter Lin <peterlin@andestech.com>
 Cc: acme@kernel.org, adrian.hunter@intel.com, ajones@ventanamicro.com, 
 	alexander.shishkin@linux.intel.com, andre.przywara@arm.com, 
@@ -87,190 +87,49 @@ Content-Transfer-Encoding: quoted-printable
 On Wed, Nov 22, 2023 at 12:18=E2=80=AFPM Yu Chien Peter Lin
 <peterlin@andestech.com> wrote:
 >
-> The Andes PMU extension provides the same mechanism as Sscofpmf,
-> allowing us to reuse the SBI PMU driver to support event sampling
-> and mode filtering.
->
-> To make use of this custom PMU extension, "xandespmu" needs
-> to be appended to the riscv,isa-extensions for each cpu node
-> in device-tree, and enable CONFIG_ANDES_CUSTOM_PMU.
+> Document the ISA string for Andes Technology performance monitor
+> extension which provides counter overflow interrupt and mode
+> filtering mechanisms.
 >
 > Signed-off-by: Yu Chien Peter Lin <peterlin@andestech.com>
-> Reviewed-by: Charles Ci-Jyun Wu <dminus@andestech.com>
-> Reviewed-by: Leo Yu-Chi Liang <ycliang@andestech.com>
-> Co-developed-by: Locus Wei-Han Chen <locus84@andestech.com>
-> Signed-off-by: Locus Wei-Han Chen <locus84@andestech.com>
+> Acked-by: Conor Dooley <conor.dooley@microchip.com>
 > ---
-> Changes v1 -> v2:
->   - New patch
 > Changes v2 -> v3:
->   - Reordered list in riscv_isa_ext[]
->   - Removed mvendorid check in pmu_sbi_setup_irqs()
+>   - New patch
 > Changes v3 -> v4:
->   - No change
+>   - Include Conor's Acked-by
 > ---
->  arch/riscv/include/asm/hwcap.h |  1 +
->  arch/riscv/kernel/cpufeature.c |  1 +
->  drivers/perf/Kconfig           | 14 ++++++++++++++
->  drivers/perf/riscv_pmu_sbi.c   | 30 +++++++++++++++++++++++++-----
->  4 files changed, 41 insertions(+), 5 deletions(-)
+>  Documentation/devicetree/bindings/riscv/extensions.yaml | 7 +++++++
+>  1 file changed, 7 insertions(+)
 >
 Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Tested-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
 Cheers,
 Prabhakar
 
-> diff --git a/arch/riscv/include/asm/hwcap.h b/arch/riscv/include/asm/hwca=
-p.h
-> index c85ee34c78d9..cbfbc3505d2c 100644
-> --- a/arch/riscv/include/asm/hwcap.h
-> +++ b/arch/riscv/include/asm/hwcap.h
-> @@ -58,6 +58,7 @@
->  #define RISCV_ISA_EXT_SMSTATEEN                43
->  #define RISCV_ISA_EXT_ZICOND           44
->  #define RISCV_ISA_EXT_XTHEADPMU                45
-> +#define RISCV_ISA_EXT_XANDESPMU                46
+> diff --git a/Documentation/devicetree/bindings/riscv/extensions.yaml b/Do=
+cumentation/devicetree/bindings/riscv/extensions.yaml
+> index 694efaea8fce..4e0066afc848 100644
+> --- a/Documentation/devicetree/bindings/riscv/extensions.yaml
+> +++ b/Documentation/devicetree/bindings/riscv/extensions.yaml
+> @@ -258,6 +258,13 @@ properties:
+>              in commit 2e5236 ("Ztso is now ratified.") of the
+>              riscv-isa-manual.
 >
->  #define RISCV_ISA_EXT_MAX              64
->
-> diff --git a/arch/riscv/kernel/cpufeature.c b/arch/riscv/kernel/cpufeatur=
-e.c
-> index e606f588d366..42fda134c4a3 100644
-> --- a/arch/riscv/kernel/cpufeature.c
-> +++ b/arch/riscv/kernel/cpufeature.c
-> @@ -185,6 +185,7 @@ const struct riscv_isa_ext_data riscv_isa_ext[] =3D {
->         __RISCV_ISA_EXT_DATA(svinval, RISCV_ISA_EXT_SVINVAL),
->         __RISCV_ISA_EXT_DATA(svnapot, RISCV_ISA_EXT_SVNAPOT),
->         __RISCV_ISA_EXT_DATA(svpbmt, RISCV_ISA_EXT_SVPBMT),
-> +       __RISCV_ISA_EXT_DATA(xandespmu, RISCV_ISA_EXT_XANDESPMU),
->         __RISCV_ISA_EXT_DATA(xtheadpmu, RISCV_ISA_EXT_XTHEADPMU),
->  };
->
-> diff --git a/drivers/perf/Kconfig b/drivers/perf/Kconfig
-> index c71b6f16bdfa..c1a490829d15 100644
-> --- a/drivers/perf/Kconfig
-> +++ b/drivers/perf/Kconfig
-> @@ -86,6 +86,20 @@ config RISCV_PMU_SBI
->           full perf feature support i.e. counter overflow, privilege mode
->           filtering, counter configuration.
->
-> +config ANDES_CUSTOM_PMU
-> +       bool "Andes custom PMU support"
-> +       depends on RISCV_ALTERNATIVE && RISCV_PMU_SBI
-> +       default y
-> +       help
-> +         The Andes cores implement a PMU overflow extension very
-> +         similar to the core SSCOFPMF extension.
+> +        - const: xandespmu
+> +          description:
+> +            The Andes Technology performance monitor extension for count=
+er overflow
+> +            and privilege mode filtering. For more details, see Counter =
+Related
+> +            Registers in the AX45MP datasheet.
+> +            https://www.andestech.com/wp-content/uploads/AX45MP-1C-Rev.-=
+5.0.0-Datasheet.pdf
 > +
-> +         This will patch the overflow/pending CSR and handle the
-> +         non-standard behaviour via the regular SBI PMU driver and
-> +         interface.
-> +
-> +         If you don't know what to do here, say "Y".
-> +
->  config THEAD_CUSTOM_PMU
->         bool "T-Head custom PMU support"
->         depends on RISCV_ALTERNATIVE && RISCV_PMU_SBI
-> diff --git a/drivers/perf/riscv_pmu_sbi.c b/drivers/perf/riscv_pmu_sbi.c
-> index 31ca79846399..1e0c709efbfc 100644
-> --- a/drivers/perf/riscv_pmu_sbi.c
-> +++ b/drivers/perf/riscv_pmu_sbi.c
-> @@ -19,6 +19,7 @@
->  #include <linux/of.h>
->  #include <linux/cpu_pm.h>
->  #include <linux/sched/clock.h>
-> +#include <linux/soc/andes/irq.h>
->
->  #include <asm/sbi.h>
->  #include <asm/cpufeature.h>
-> @@ -27,14 +28,26 @@
->  #define THEAD_C9XX_CSR_SCOUNTEROF      0x5c5
->
->  #define ALT_SBI_PMU_OVERFLOW(__ovl)                                    \
-> -asm volatile(ALTERNATIVE(                                              \
-> +asm volatile(ALTERNATIVE_2(                                            \
->         "csrr %0, " __stringify(CSR_SSCOUNTOVF),                        \
->         "csrr %0, " __stringify(THEAD_C9XX_CSR_SCOUNTEROF),             \
->                 0, RISCV_ISA_EXT_XTHEADPMU,                             \
-> -               CONFIG_THEAD_CUSTOM_PMU)                                \
-> +               CONFIG_THEAD_CUSTOM_PMU,                                \
-> +       "csrr %0, " __stringify(ANDES_CSR_SCOUNTEROF),                  \
-> +               0, RISCV_ISA_EXT_XANDESPMU,             \
-> +               CONFIG_ANDES_CUSTOM_PMU)                                \
->         : "=3Dr" (__ovl) :                                               =
- \
->         : "memory")
->
-> +#define ALT_SBI_PMU_OVF_CLEAR_PENDING(__irq_mask)                      \
-> +asm volatile(ALTERNATIVE(                                              \
-> +       "csrc " __stringify(CSR_IP) ", %0\n\t",                         \
-> +       "csrc " __stringify(ANDES_CSR_SLIP) ", %0\n\t",                 \
-> +               0, RISCV_ISA_EXT_XANDESPMU,                             \
-> +               CONFIG_ANDES_CUSTOM_PMU)                                \
-> +       : : "r"(__irq_mask)                                             \
-> +       : "memory")
-> +
->  #define SYSCTL_NO_USER_ACCESS  0
->  #define SYSCTL_USER_ACCESS     1
->  #define SYSCTL_LEGACY          2
-> @@ -72,6 +85,7 @@ static int sysctl_perf_user_access __read_mostly =3D SY=
-SCTL_USER_ACCESS;
->  static union sbi_pmu_ctr_info *pmu_ctr_list;
->  static bool riscv_pmu_use_irq;
->  static unsigned int riscv_pmu_irq_num;
-> +static unsigned int riscv_pmu_irq_mask;
->  static unsigned int riscv_pmu_irq;
->
->  /* Cache the available counters in a bitmask */
-> @@ -705,7 +719,7 @@ static irqreturn_t pmu_sbi_ovf_handler(int irq, void =
-*dev)
->
->         event =3D cpu_hw_evt->events[fidx];
->         if (!event) {
-> -               csr_clear(CSR_SIP, BIT(riscv_pmu_irq_num));
-> +               ALT_SBI_PMU_OVF_CLEAR_PENDING(riscv_pmu_irq_mask);
->                 return IRQ_NONE;
->         }
->
-> @@ -719,7 +733,7 @@ static irqreturn_t pmu_sbi_ovf_handler(int irq, void =
-*dev)
->          * Overflow interrupt pending bit should only be cleared after st=
-opping
->          * all the counters to avoid any race condition.
->          */
-> -       csr_clear(CSR_SIP, BIT(riscv_pmu_irq_num));
-> +       ALT_SBI_PMU_OVF_CLEAR_PENDING(riscv_pmu_irq_mask);
->
->         /* No overflow bit is set */
->         if (!overflow)
-> @@ -791,7 +805,7 @@ static int pmu_sbi_starting_cpu(unsigned int cpu, str=
-uct hlist_node *node)
->
->         if (riscv_pmu_use_irq) {
->                 cpu_hw_evt->irq =3D riscv_pmu_irq;
-> -               csr_clear(CSR_IP, BIT(riscv_pmu_irq_num));
-> +               ALT_SBI_PMU_OVF_CLEAR_PENDING(riscv_pmu_irq_mask);
->                 enable_percpu_irq(riscv_pmu_irq, IRQ_TYPE_NONE);
->         }
->
-> @@ -823,8 +837,14 @@ static int pmu_sbi_setup_irqs(struct riscv_pmu *pmu,=
- struct platform_device *pde
->                    IS_ENABLED(CONFIG_THEAD_CUSTOM_PMU)) {
->                 riscv_pmu_irq_num =3D THEAD_C9XX_RV_IRQ_PMU;
->                 riscv_pmu_use_irq =3D true;
-> +       } else if (riscv_isa_extension_available(NULL, XANDESPMU) &&
-> +                  IS_ENABLED(CONFIG_ANDES_CUSTOM_PMU)) {
-> +               riscv_pmu_irq_num =3D ANDES_SLI_CAUSE_BASE + ANDES_RV_IRQ=
-_PMU;
-> +               riscv_pmu_use_irq =3D true;
->         }
->
-> +       riscv_pmu_irq_mask =3D BIT(riscv_pmu_irq_num % BITS_PER_LONG);
-> +
->         if (!riscv_pmu_use_irq)
->                 return -EOPNOTSUPP;
->
+>          - const: xtheadpmu
+>            description:
+>              The T-Head performance monitor extension for counter overflo=
+w. For more
 > --
 > 2.34.1
 >
