@@ -1,67 +1,67 @@
-Return-Path: <linux-renesas-soc+bounces-244-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-245-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A7FB7F7745
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 Nov 2023 16:07:57 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 82B477F7748
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 Nov 2023 16:08:25 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A5750B2120B
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 Nov 2023 15:07:54 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3CD24282060
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 Nov 2023 15:08:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 51E652E637;
-	Fri, 24 Nov 2023 15:07:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EF7D52E63C;
+	Fri, 24 Nov 2023 15:08:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Tmb2G/tv"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JWA60m8G"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ua1-x932.google.com (mail-ua1-x932.google.com [IPv6:2607:f8b0:4864:20::932])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6F6F8D72;
-	Fri, 24 Nov 2023 07:07:48 -0800 (PST)
-Received: by mail-ua1-x932.google.com with SMTP id a1e0cc1a2514c-7ba8e3107c9so540750241.1;
-        Fri, 24 Nov 2023 07:07:48 -0800 (PST)
+Received: from mail-oi1-x236.google.com (mail-oi1-x236.google.com [IPv6:2607:f8b0:4864:20::236])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 039EE9E;
+	Fri, 24 Nov 2023 07:08:20 -0800 (PST)
+Received: by mail-oi1-x236.google.com with SMTP id 5614622812f47-3b5714439b3so1040490b6e.3;
+        Fri, 24 Nov 2023 07:08:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1700838467; x=1701443267; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1700838499; x=1701443299; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=9cD4XTfLDfdBaVvLQQvVIb/DdNn7sLhHYoYCs/LHKvs=;
-        b=Tmb2G/tvnGHshFZERUzXCMdsTYiFF9G3xS/HWzA6vu2aCZOBU7L53IItm58m/bSEoy
-         Nf7IPuoR723L33Sdnk7hnkkDCShdIs7zLlcIqVFx3baex9Ly3Me8LrErfEgUmNVhUzmh
-         hsXFdddvwkH+EfDyCltb7TOmQjs5ddvHdhjX9616Z4sHxaTqUr5+gt6lU+ru52OAs9be
-         /8897Rw9UtKxokrkDHZzsOH9YeV3v0SZ7Ex2zt367HWaUBw60II24RxEheeCN/cirwcG
-         o8NUx8NlZbs3OH0VHq+S0TEwmIcUUL8/Ptc+VnorCmwE47i/IUwSH7mARFIbuuwDQADA
-         ikaA==
+        bh=Wqb6gmrOIr6APnQsTYHkPk1borpFhD009W5cTbT2h40=;
+        b=JWA60m8GVHCmekGm5TrSzEdzMNxhDZMrBoumpJ/qvPdSuFxWwRhhDdpR840Op5eTM2
+         Z/B3/rsFK/eIpYUADW3dA6jwQPM6zhw8xBG2ufcfILvQY6HleyLo/dq+aHdTJOM3kxfc
+         KyWn7jk+nq+3cR4HRQXDPUbZkPLirXCxSHDF7DOKjh3ZLcz9fVbZ3R3yowdl3tqaA2x/
+         j47EX143TK10KWviGFekz0RJWS55ZguvMrIgjGAQ3IgPcYpFstA7JGicWRKgY6ZqQ5vi
+         kEPBxwHOIZu5KFPxpZ9/lgFSWwPfCdP+NzThvzDztKZw4bc5V4T63su3vXRCUgzABqw5
+         yL7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700838467; x=1701443267;
+        d=1e100.net; s=20230601; t=1700838499; x=1701443299;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=9cD4XTfLDfdBaVvLQQvVIb/DdNn7sLhHYoYCs/LHKvs=;
-        b=qr+WFPBOjK0oHWZLt1ZgwnbvalJxUpY1UeUOOXeCIf9HolEbYo612qSG+rGjI39P/g
-         tRHPnDR66kcac3tNe1SpizugQAZCs41kMjKGSfWjh5q6dEksnQR64h45Gc4xgVEwdsHS
-         P7fvmyEEjOfWoZHYp+t0VqchKFAX1qK8qgSG6houFhzLjJ/gfsouFRpPZ/T1BUP+ugjH
-         +LxeJKidY3UGKfkEnf6uN0mXpPq3px0PClwczMiryzgAJ0ELB/KksycH+cOJqNr0KXyH
-         LMVF/7Cr+lA3rh8Vg7f7IB8upeaz0W7MQVi2eX4kdjSdOenzkw5Xrxb/j0kS7aWEB0pH
-         9RSg==
-X-Gm-Message-State: AOJu0YzEfja9nkf95zBVl0oqgs8yuSTb7A5t2LZH2nIRcdh4kn51wNHw
-	1XYx4lQV9HKl/YH7SIcIh9AvBoSE/4y/Bz57rXU=
-X-Google-Smtp-Source: AGHT+IGwXCccI84TpN5xF2DxNx/5Qx0U4TpwtpfvD5tAf/GoEOLYxxD2REsWw4Dlpn477SB/DfDmefE9drxOV1y67p8=
-X-Received: by 2002:a05:6122:903:b0:49a:466c:199e with SMTP id
- j3-20020a056122090300b0049a466c199emr3335155vka.2.1700838467503; Fri, 24 Nov
- 2023 07:07:47 -0800 (PST)
+        bh=Wqb6gmrOIr6APnQsTYHkPk1borpFhD009W5cTbT2h40=;
+        b=uKU2EztxoZNlOuBfSJWOXcXvrbetMd42bUVmFEf9Sp3ig9qTbbsjHEzSRd3cJ3A3nS
+         3avQ9ASjh2DWn7RAXpgC8NBWB1NWoJZ0RJZRJ/l0NysHpSzFh6Au8hgW9+t8nsu9Yxtc
+         1uXjs3DjJ21LUBB0FU/EbSxCMkLIyc2CAixO5PyJe65KlGmtGBFjG2JQVf2VvJ2Qrn1w
+         aVuOwv9YaC417ZnKvsfZU60rYa//Dtc1I8eYMYA8iXLmar3DE09WDWFTV8AkS5sekDVE
+         3bIx3s5mIjJOVI8bvpfr08V3gwA97Jmu/s8lZp+OuPvV6b2s1InMJxSeaxf2TYYzimfV
+         8gOg==
+X-Gm-Message-State: AOJu0YxzUSIcGTI38H3557uVO8iJKWGFsHb5qd7GFRCvvNQ7uT1njWcb
+	CJbom+m1jnKsS+bgZClT5HpqI4zmioACjfMCzbM=
+X-Google-Smtp-Source: AGHT+IG77ETgp0DMV9KXOevkcc677tVxeO+ugYI4hI1PX92j15kxePilfPhpPcHEZVQAcN8ZK/GbSo2YogMF+v/oHCA=
+X-Received: by 2002:a05:6358:998a:b0:168:e707:2e56 with SMTP id
+ j10-20020a056358998a00b00168e7072e56mr2295754rwb.16.1700838499153; Fri, 24
+ Nov 2023 07:08:19 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231122121235.827122-1-peterlin@andestech.com> <20231122121235.827122-11-peterlin@andestech.com>
-In-Reply-To: <20231122121235.827122-11-peterlin@andestech.com>
+References: <20231122121235.827122-1-peterlin@andestech.com> <20231122121235.827122-13-peterlin@andestech.com>
+In-Reply-To: <20231122121235.827122-13-peterlin@andestech.com>
 From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Fri, 24 Nov 2023 15:07:21 +0000
-Message-ID: <CA+V-a8s2Ep3cC_qJ-a=3xf+D_90SJKe_MObywmnm6UJzEbvA6w@mail.gmail.com>
-Subject: Re: [PATCH v4 10/13] dt-bindings: riscv: Add Andes PMU extension description
+Date: Fri, 24 Nov 2023 15:07:53 +0000
+Message-ID: <CA+V-a8swHt079fxZfzMnzr3w7MfKpLnceHU_p4zvU+6X-Po0zg@mail.gmail.com>
+Subject: Re: [PATCH v4 12/13] riscv: dts: renesas: Add Andes PMU extension
 To: Yu Chien Peter Lin <peterlin@andestech.com>
 Cc: acme@kernel.org, adrian.hunter@intel.com, ajones@ventanamicro.com, 
 	alexander.shishkin@linux.intel.com, andre.przywara@arm.com, 
@@ -84,52 +84,47 @@ Cc: acme@kernel.org, adrian.hunter@intel.com, ajones@ventanamicro.com,
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Nov 22, 2023 at 12:18=E2=80=AFPM Yu Chien Peter Lin
+On Wed, Nov 22, 2023 at 12:19=E2=80=AFPM Yu Chien Peter Lin
 <peterlin@andestech.com> wrote:
 >
-> Document the ISA string for Andes Technology performance monitor
-> extension which provides counter overflow interrupt and mode
-> filtering mechanisms.
+> xandespmu stands for Andes Performance Monitor Unit extension.
+> Based on the added Andes PMU ISA string, the SBI PMU driver
+> will make use of the non-standard irq source.
 >
 > Signed-off-by: Yu Chien Peter Lin <peterlin@andestech.com>
-> Acked-by: Conor Dooley <conor.dooley@microchip.com>
 > ---
-> Changes v2 -> v3:
+> Changes v1 -> v2:
 >   - New patch
+> Changes v2 -> v3:
+>   - No change
 > Changes v3 -> v4:
->   - Include Conor's Acked-by
+>   - No change
 > ---
->  Documentation/devicetree/bindings/riscv/extensions.yaml | 7 +++++++
->  1 file changed, 7 insertions(+)
+>  arch/riscv/boot/dts/renesas/r9a07g043f.dtsi | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
 Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Tested-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
 Cheers,
 Prabhakar
 
-> diff --git a/Documentation/devicetree/bindings/riscv/extensions.yaml b/Do=
-cumentation/devicetree/bindings/riscv/extensions.yaml
-> index 694efaea8fce..4e0066afc848 100644
-> --- a/Documentation/devicetree/bindings/riscv/extensions.yaml
-> +++ b/Documentation/devicetree/bindings/riscv/extensions.yaml
-> @@ -258,6 +258,13 @@ properties:
->              in commit 2e5236 ("Ztso is now ratified.") of the
->              riscv-isa-manual.
->
-> +        - const: xandespmu
-> +          description:
-> +            The Andes Technology performance monitor extension for count=
-er overflow
-> +            and privilege mode filtering. For more details, see Counter =
-Related
-> +            Registers in the AX45MP datasheet.
-> +            https://www.andestech.com/wp-content/uploads/AX45MP-1C-Rev.-=
-5.0.0-Datasheet.pdf
-> +
->          - const: xtheadpmu
->            description:
->              The T-Head performance monitor extension for counter overflo=
-w. For more
+> diff --git a/arch/riscv/boot/dts/renesas/r9a07g043f.dtsi b/arch/riscv/boo=
+t/dts/renesas/r9a07g043f.dtsi
+> index 78072e80793d..5f2f2181638a 100644
+> --- a/arch/riscv/boot/dts/renesas/r9a07g043f.dtsi
+> +++ b/arch/riscv/boot/dts/renesas/r9a07g043f.dtsi
+> @@ -26,7 +26,7 @@ cpu0: cpu@0 {
+>                         riscv,isa =3D "rv64imafdc";
+>                         riscv,isa-base =3D "rv64i";
+>                         riscv,isa-extensions =3D "i", "m", "a", "f", "d",=
+ "c", "zicntr", "zicsr",
+> -                                              "zifencei", "zihpm";
+> +                                              "zifencei", "zihpm", "xand=
+espmu";
+>                         mmu-type =3D "riscv,sv39";
+>                         i-cache-size =3D <0x8000>;
+>                         i-cache-line-size =3D <0x40>;
 > --
 > 2.34.1
 >
