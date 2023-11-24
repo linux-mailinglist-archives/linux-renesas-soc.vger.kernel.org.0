@@ -1,125 +1,118 @@
-Return-Path: <linux-renesas-soc+bounces-230-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-231-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D8857F70BB
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 Nov 2023 11:03:36 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id EF3727F713B
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 Nov 2023 11:18:20 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id AE97C1C20F34
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 Nov 2023 10:03:35 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A9F3A281A78
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 Nov 2023 10:18:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2E7EC1804E;
-	Fri, 24 Nov 2023 10:03:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0258C18026;
+	Fri, 24 Nov 2023 10:18:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kbOp1eJ3"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="y0MEdI7E"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com [IPv6:2a00:1450:4864:20::12a])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E6D81B6;
-	Fri, 24 Nov 2023 02:03:26 -0800 (PST)
-Received: by mail-lf1-x12a.google.com with SMTP id 2adb3069b0e04-5079f3f3d7aso2448801e87.1;
-        Fri, 24 Nov 2023 02:03:26 -0800 (PST)
+Received: from mail-yb1-xb31.google.com (mail-yb1-xb31.google.com [IPv6:2607:f8b0:4864:20::b31])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 91C2D1BDB
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 24 Nov 2023 02:18:05 -0800 (PST)
+Received: by mail-yb1-xb31.google.com with SMTP id 3f1490d57ef6-db40898721fso1611497276.3
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 24 Nov 2023 02:18:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1700820205; x=1701425005; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=lmNkkj8bOMsrzoaba81g1QSDAv4tnTjLgBhqzOK6UK4=;
-        b=kbOp1eJ34ADnT/53m0tY0wZ7qNtupNh7+7n4BxWzkiT7hKXOdx5B7btsvFlw4Y6TKl
-         sdD9TRvAJbbPc3XLYhdxYiKKUevAO5bCXBJ25/I4PuKScEXWdlYL3xVocQbO7LYRzcir
-         xxlhnmDNn70VHG5bG39niXGxleuy3nGnJAr95ZpbXUhOuIH7QM4gzFVl9/QEepZbV2M1
-         q38B7VnEVPHj50rg11uKqxzEB4SnNeiBUq9+tsrK7vkchPEFVqahVgqCFT45KtvnJ9St
-         vBhm26FKZbqe4p/0BtBq+xQiR+7Hu961Hd95p4o+KWNsbmrW1eiRV573XcjOC5hg8Jk1
-         1BKw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700820205; x=1701425005;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+        d=linaro.org; s=google; t=1700821085; x=1701425885; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=lmNkkj8bOMsrzoaba81g1QSDAv4tnTjLgBhqzOK6UK4=;
-        b=n2XE4152UHIcz/lGp6r2HPrDHb6eXRf37KYgqTog9J7QDVzEASg70B/9QggjlAt9/S
-         DcdXI6413HXVsvB55sRLQFEc/YWLS89f5de/zmhBlg2pYs5LtcgZqMbBrIcSrQnXMHgl
-         zE1ox2MiCYJc11b0iioZt4VV/S+fxvN3LwuaS5CXvW26mM6tysiHY2x5zhOZWV+RN0wY
-         knCMlSbbzBHS0WX+cWWbKKjqSe7Y9RzJbgGQXPT3asnKn3maVgMpGTnAxTSfWezX+W57
-         Q22wMRLbjXwFV/9qlRhi+IzxxrTDhF6v4z85pgO+mud0lBR9XnFMbwQcKx+eR1STCUVi
-         mmPA==
-X-Gm-Message-State: AOJu0Yy+7SV0v3JUJdhhALmOvvtyVB8X10YLdkC9Iih4v7/JzKALLJ32
-	X7zX3UCsKCKm1weE7zfHZ5c=
-X-Google-Smtp-Source: AGHT+IGKGiygZo1ggtDKRtbhF6qntEfAzuGcJlCZ7Ty9ql0DU8t3NC6/D4pEnRb/0csFDzpVt8tilA==
-X-Received: by 2002:ac2:4284:0:b0:509:7301:5738 with SMTP id m4-20020ac24284000000b0050973015738mr1398924lfh.62.1700820204401;
-        Fri, 24 Nov 2023 02:03:24 -0800 (PST)
-Received: from mobilestation ([178.176.56.174])
-        by smtp.gmail.com with ESMTPSA id g36-20020a0565123ba400b0050aaa7147b8sm464495lfv.141.2023.11.24.02.03.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 24 Nov 2023 02:03:23 -0800 (PST)
-Date: Fri, 24 Nov 2023 13:03:21 +0300
-From: Serge Semin <fancer.lancer@gmail.com>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: Rob Herring <robh+dt@kernel.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Stephen Boyd <sboyd@kernel.org>, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-clk@vger.kernel.org, linux-iio@vger.kernel.org, linux-mmc@vger.kernel.org, 
-	netdev@vger.kernel.org, linux-pci@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org, linux-pm@vger.kernel.org, 
-	linux-remoteproc@vger.kernel.org
-Subject: Re: [PATCH] dt-bindings: correct white-spaces in examples
-Message-ID: <bianfx2bkdgtecquvvzxcyjzqim3ristgipzosqrljmhls2cxg@wlifizchsz4o>
-References: <20231124092121.16866-1-krzysztof.kozlowski@linaro.org>
+        bh=Xe7iByES8qCcfT1IfYNFaShLSvrVUDFw50wM8vwtGhs=;
+        b=y0MEdI7EHts4uF/isdmDFTtTGZzOpe6XZRUlT4bnZlmi+z8jT2bgyTejtglnxO9N38
+         PyjPF0QCy9KqQEBUbaO3L68e7vAzJ9EIPNPFwjz/fAd2jfSwzi/ocRwoO4x4qRPisCYg
+         Ms43zhEkuyLL5WSACdD29u2aNfzfFzMZS9thH8LISc3AbKNgTenxKxqqbwzU4sbNcOXl
+         Xr7UPj6hZGvuVCOlOvcfutwYDStQNLAvEo0jkrOHxKe3OIMTDSnISfr49RURHyHPa501
+         VShz1iC03befwAK8VkqrCGIFIhf+znF1JbZKQN2I0s080KdT/Gw1ZKBxmjSxCjmY3gJJ
+         ec5w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1700821085; x=1701425885;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Xe7iByES8qCcfT1IfYNFaShLSvrVUDFw50wM8vwtGhs=;
+        b=SFTIo19Ru4jcrM/vSRxXthwhpEpzwvqylZq5t4WjDCKS5ltvKFz6CYL4M28Lbv9yId
+         aO6hEUi9sMgE0+Ciuan1WvoYTv1DbCrjK7sn93lHQAaG6+HRj+NfsVsNgGpBdHLHUK1J
+         re6yh7DCRa9c4/9aQ5XX0rUnSwiOAhKAC+MCaIIakMUVxoP8fZN8OWb1XJ6ilNB5joa3
+         PwsB9tpLjAhtQQ0UVxYIHXmi0vBdGPlun9520T3RMnhk21FyiYl7oSiulxfSsdt4NzjH
+         j5sCFdYtRI5/97fRqbhn2l6qjLj2H9pJgcG9VZMIZ4+o6WhFEBFyitF7SWqhZmyJU/5m
+         Ngbw==
+X-Gm-Message-State: AOJu0YxZpwn6+w9t9jK5GswSrDKqzLlk+oz/p0K7MOxt3uDwZiQ31Ryx
+	j/v+T0ABxIdQRJsTEYJtsNIGydbUZsbR1xeV48GAqQ==
+X-Google-Smtp-Source: AGHT+IG8iaEyiFM59ESevDjE9vPuHHbQDr1w/P/tGmZWOMIBN3A2ZiFwbVfmEed56HUcIuuKQk+nI+Fh1ToiAf1nTUE=
+X-Received: by 2002:a25:6d7:0:b0:db0:2f97:8757 with SMTP id
+ 206-20020a2506d7000000b00db02f978757mr1792022ybg.38.1700821084607; Fri, 24
+ Nov 2023 02:18:04 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231124092121.16866-1-krzysztof.kozlowski@linaro.org>
+References: <20231123193355.3400852-1-andriy.shevchenko@linux.intel.com>
+In-Reply-To: <20231123193355.3400852-1-andriy.shevchenko@linux.intel.com>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Fri, 24 Nov 2023 11:17:53 +0100
+Message-ID: <CACRpkdbEoAvTs4c5e910bsBZej2Gs6H+SPLAXUnKM2qRk+5MTw@mail.gmail.com>
+Subject: Re: [PATCH v2 00/21] pinctrl: Convert struct group_desc to use struct pingroup
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>, 
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>, =?UTF-8?Q?Jonathan_Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
+	=?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, Biju Das <biju.das.jz@bp.renesas.com>, 
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>, 
+	Jianlong Huang <jianlong.huang@starfivetech.com>, linux-arm-kernel@lists.infradead.org, 
+	linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-mediatek@lists.infradead.org, openbmc@lists.ozlabs.org, 
+	linux-mips@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org, Ray Jui <rjui@broadcom.com>, 
+	Scott Branden <sbranden@broadcom.com>, 
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Dong Aisheng <aisheng.dong@nxp.com>, 
+	Fabio Estevam <festevam@gmail.com>, Shawn Guo <shawnguo@kernel.org>, Jacky Bai <ping.bai@nxp.com>, 
+	Pengutronix Kernel Team <kernel@pengutronix.de>, Sascha Hauer <s.hauer@pengutronix.de>, 
+	NXP Linux Team <linux-imx@nxp.com>, Sean Wang <sean.wang@kernel.org>, 
+	Paul Cercueil <paul@crapouillou.net>, Lakshmi Sowjanya D <lakshmi.sowjanya.d@intel.com>, 
+	Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>, 
+	Konrad Dybcio <konrad.dybcio@linaro.org>, Emil Renner Berthing <kernel@esmil.dk>, 
+	Hal Feng <hal.feng@starfivetech.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Nov 24, 2023 at 10:21:21AM +0100, Krzysztof Kozlowski wrote:
-> Use only one and exactly one space around '=' in DTS example.
-> 
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> 
-> ---
-> 
-> Merging idea: Rob's DT.
-> Should apply cleanly on Rob's for-next.
-> ---
->  .../devicetree/bindings/auxdisplay/hit,hd44780.yaml       | 2 +-
->  .../devicetree/bindings/clock/baikal,bt1-ccu-pll.yaml     | 2 +-
->  Documentation/devicetree/bindings/iio/adc/adi,ad7780.yaml | 6 +++---
->  .../devicetree/bindings/iio/adc/qcom,spmi-iadc.yaml       | 2 +-
->  .../devicetree/bindings/iio/adc/qcom,spmi-rradc.yaml      | 2 +-
->  .../interrupt-controller/st,stih407-irq-syscfg.yaml       | 4 ++--
->  Documentation/devicetree/bindings/mmc/arm,pl18x.yaml      | 2 +-
->  Documentation/devicetree/bindings/net/sff,sfp.yaml        | 2 +-
->  .../devicetree/bindings/pci/toshiba,visconti-pcie.yaml    | 2 +-
->  .../bindings/pinctrl/renesas,rzg2l-pinctrl.yaml           | 6 +++---
->  .../devicetree/bindings/power/supply/richtek,rt9455.yaml  | 8 ++++----
->  .../devicetree/bindings/regulator/mps,mp5416.yaml         | 4 ++--
->  .../devicetree/bindings/regulator/mps,mpq7920.yaml        | 4 ++--
->  .../devicetree/bindings/remoteproc/fsl,imx-rproc.yaml     | 8 ++++----
->  14 files changed, 27 insertions(+), 27 deletions(-)
-> 
+On Thu, Nov 23, 2023 at 8:34=E2=80=AFPM Andy Shevchenko
+<andriy.shevchenko@linux.intel.com> wrote:
 
-[nip]
+> The struct group_desc has a lot of duplication with struct pingroup.
+> Deduplicate that by embeddind the latter in the former and convert
+> users.
+>
+> Linus, assuming everything is fine, I can push this to my tree.
+> Or you can apply it (assumming all CIs and people are happy with
+> the series).
 
-> diff --git a/Documentation/devicetree/bindings/clock/baikal,bt1-ccu-pll.yaml b/Documentation/devicetree/bindings/clock/baikal,bt1-ccu-pll.yaml
-> index 624984d51c10..7f8d98226437 100644
-> --- a/Documentation/devicetree/bindings/clock/baikal,bt1-ccu-pll.yaml
-> +++ b/Documentation/devicetree/bindings/clock/baikal,bt1-ccu-pll.yaml
-> @@ -125,7 +125,7 @@ examples:
->      clk25m: clock-oscillator-25m {
->        compatible = "fixed-clock";
->        #clock-cells = <0>;
-> -      clock-frequency  = <25000000>;
-> +      clock-frequency = <25000000>;
->        clock-output-names = "clk25m";
->      };
->  ...
+I would give people some time to test the changes and ACK it,
+but admittedly it's a very tasty patch set and I am eager to merge
+it ASAP.
 
-For Baikal-T1 CCU PLL DT-schema
-Acked-by: Serge Semin <fancer.lancer@gmail.com>
+Shall we give people a week and then we merge it?
 
--Serge(y)
+> NB. This series contains previously sent patches for Qualcomm and
+> Nuovoton. Here the updated version for Qualcomm that splits previous
+> patch to two and fixes compilation warnings.
+
+Fair enough, I'll just use this series.
+
+> NB. The function_desc is in plan to follow the similar deduplication.
+
+Yes!
+
+Yours,
+Linus Walleij
 
