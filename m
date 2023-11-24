@@ -1,122 +1,209 @@
-Return-Path: <linux-renesas-soc+bounces-238-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-239-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id E01EC7F76D5
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 Nov 2023 15:47:48 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 520047F770A
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 Nov 2023 15:57:52 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 71A08B217E6
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 Nov 2023 14:47:46 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 069672822AE
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 Nov 2023 14:57:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0CB032C870;
-	Fri, 24 Nov 2023 14:47:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0DB6426AC8;
+	Fri, 24 Nov 2023 14:57:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Nbjffjun"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iYAgDlSt"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A8E0419A4;
-	Fri, 24 Nov 2023 06:47:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700837257; x=1732373257;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=kuw3+1Pm03Ibm+MVDWAtmPGqCx+P0c0EstmoCAQl4jQ=;
-  b=Nbjffjunu+vcoywq0V49QHxI6C0dNhFBspFeEDLZVtz7dJEx7BVUE50H
-   ViaiOXJ8oRXaJIeuWtlMCqbRzCoyAK55e072msxC1wOHv3caTNE0QJM73
-   4Rt+iFpBz4VMmPOVzAasEAFITaQ6/0hHy1Jsyp2WP+ivYX6+ghAf1cb1O
-   X+gWpARHCbqQWRWJtyI0QdJZImkpslMk+3iMRwGMsRcQYoJiyFuPL55gv
-   FDcnEFnQdFBzZKVxv/g3I8Zu0epeWezptu0XQBQyWHltuBYVf4TSIBNLS
-   gPG8TFkLU/y6PSf90eG1wpZ/CQZRR+LIo1qynPCLo2j7UgQlHjTEsVDD4
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10904"; a="395249771"
-X-IronPort-AV: E=Sophos;i="6.04,224,1695711600"; 
-   d="scan'208";a="395249771"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Nov 2023 06:47:37 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10904"; a="767501852"
-X-IronPort-AV: E=Sophos;i="6.04,224,1695711600"; 
-   d="scan'208";a="767501852"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by orsmga002.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Nov 2023 06:47:28 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.97)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1r6XSm-0000000Gk4Z-1lzv;
-	Fri, 24 Nov 2023 16:47:24 +0200
-Date: Fri, 24 Nov 2023 16:47:24 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Linus Walleij <linus.walleij@linaro.org>
-Cc: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	Jonathan =?iso-8859-1?Q?Neusch=E4fer?= <j.neuschaefer@gmx.net>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
-	Jianlong Huang <jianlong.huang@starfivetech.com>,
-	linux-arm-kernel@lists.infradead.org, linux-gpio@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-mediatek@lists.infradead.org,
-	openbmc@lists.ozlabs.org, linux-mips@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Dong Aisheng <aisheng.dong@nxp.com>,
-	Fabio Estevam <festevam@gmail.com>, Shawn Guo <shawnguo@kernel.org>,
-	Jacky Bai <ping.bai@nxp.com>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	NXP Linux Team <linux-imx@nxp.com>,
-	Sean Wang <sean.wang@kernel.org>,
-	Paul Cercueil <paul@crapouillou.net>,
-	Lakshmi Sowjanya D <lakshmi.sowjanya.d@intel.com>,
-	Andy Gross <agross@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konrad.dybcio@linaro.org>,
-	Emil Renner Berthing <kernel@esmil.dk>,
-	Hal Feng <hal.feng@starfivetech.com>
-Subject: Re: [PATCH v2 00/21] pinctrl: Convert struct group_desc to use
- struct pingroup
-Message-ID: <ZWC3fNnYM9qDKT-5@smile.fi.intel.com>
-References: <20231123193355.3400852-1-andriy.shevchenko@linux.intel.com>
- <CACRpkdbEoAvTs4c5e910bsBZej2Gs6H+SPLAXUnKM2qRk+5MTw@mail.gmail.com>
+Received: from mail-oi1-x22d.google.com (mail-oi1-x22d.google.com [IPv6:2607:f8b0:4864:20::22d])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B909AD72;
+	Fri, 24 Nov 2023 06:57:41 -0800 (PST)
+Received: by mail-oi1-x22d.google.com with SMTP id 5614622812f47-3b83c4c5aefso1200748b6e.1;
+        Fri, 24 Nov 2023 06:57:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1700837861; x=1701442661; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=McONVnnVXBzrRAKYWOt6koN2Gq2PdEQz7Bj2evyzgvA=;
+        b=iYAgDlStmihvaAAHvkuY517osyQUEeXuPRxlxbpuIx6Jqc6qzTOBdMbBNgMAgOokDQ
+         bE9+1Wba+KgixwrhJoeDGs7r3OSjA1J7UCR2seVBEW18VAO0CJmGLXhOuNwg/FwJdys6
+         69tl+lx9LSSeVTSfhMAxUBc5SgWA+FzGj/yVuKXc/HDtGA84O5GrWpKXD54CTY2C8RPX
+         wRjvzbhmiNXUcB1og0gspWRAC2u/8cxBk01zwLDxdOdauM/8+vtE4f6u+vi5TAzRHJrU
+         RbbOqKRHLXN9HV7F+BAOBD/NHLA528OFGGhJHc2ngJn/kE9mlT2/Qmfknb2z0LLCsHy7
+         QDjw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1700837861; x=1701442661;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=McONVnnVXBzrRAKYWOt6koN2Gq2PdEQz7Bj2evyzgvA=;
+        b=UU0rRCrWkd9sPgFQvwfCrMMDUsmJOBRr7C6Tt7SEVqNm/Tq23QwGOmzKkAGqgkwoPa
+         X7SualHbi94NeifXcDg0sp6blzlPz9fgMs3NBJfOxEBGgj+37CtJAT3jBkmAAc/e0gw7
+         6t2ACvNtxB5paXzYCZStksIc1lGdJR9SqTy5Yd8GbFfW3tQMcTtVb1TggZweRSfi90+K
+         qZfupPcUkQmUlbrQK/G1SVxUdK5McCE2OaWP64E4eNYcFJzc1r4L9HzHMsh1ldjMlLcC
+         YnibFP1/enM+w/z7hKFG34TQf+6OxfNszE6WDzl4Dfh9fDHCTA2uayrtGRlokruUZLGi
+         v2Vg==
+X-Gm-Message-State: AOJu0Yx3q8Iv0+reFcNMUQjWY87i6mZAV5848CCYvn0LouamtYVcGFfW
+	OSdBTPZLWApjBOBOMZBk7cDITbca2dwnO3okxBs=
+X-Google-Smtp-Source: AGHT+IFyw54KdvX5NZtpjxNOebZ/DdQWx5nul4bTgzQLtaMiqrgW8bakiEzPtq/Ulcd5S/faM446P2Jo1/UeRTY/fHI=
+X-Received: by 2002:a05:6358:9198:b0:16d:f02d:d394 with SMTP id
+ j24-20020a056358919800b0016df02dd394mr2754632rwa.14.1700837860947; Fri, 24
+ Nov 2023 06:57:40 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CACRpkdbEoAvTs4c5e910bsBZej2Gs6H+SPLAXUnKM2qRk+5MTw@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20231122121235.827122-1-peterlin@andestech.com> <20231122121235.827122-2-peterlin@andestech.com>
+In-Reply-To: <20231122121235.827122-2-peterlin@andestech.com>
+From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date: Fri, 24 Nov 2023 14:57:15 +0000
+Message-ID: <CA+V-a8tS0hE_aDEk6RwhhjjEPP-OQpg1zuRbFrK7JdHtLCUTYA@mail.gmail.com>
+Subject: Re: [PATCH v4 01/13] riscv: errata: Rename defines for Andes
+To: Yu Chien Peter Lin <peterlin@andestech.com>
+Cc: acme@kernel.org, adrian.hunter@intel.com, ajones@ventanamicro.com, 
+	alexander.shishkin@linux.intel.com, andre.przywara@arm.com, 
+	anup@brainfault.org, aou@eecs.berkeley.edu, atishp@atishpatra.org, 
+	conor+dt@kernel.org, conor.dooley@microchip.com, conor@kernel.org, 
+	devicetree@vger.kernel.org, dminus@andestech.com, evan@rivosinc.com, 
+	geert+renesas@glider.be, guoren@kernel.org, heiko@sntech.de, 
+	irogers@google.com, jernej.skrabec@gmail.com, jolsa@kernel.org, 
+	jszhang@kernel.org, krzysztof.kozlowski+dt@linaro.org, 
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	linux-perf-users@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	linux-riscv@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+	locus84@andestech.com, magnus.damm@gmail.com, mark.rutland@arm.com, 
+	mingo@redhat.com, n.shubin@yadro.com, namhyung@kernel.org, palmer@dabbelt.com, 
+	paul.walmsley@sifive.com, peterz@infradead.org, 
+	prabhakar.mahadev-lad.rj@bp.renesas.com, rdunlap@infradead.org, 
+	robh+dt@kernel.org, samuel@sholland.org, sunilvl@ventanamicro.com, 
+	tglx@linutronix.de, tim609@andestech.com, uwu@icenowy.me, wens@csie.org, 
+	will@kernel.org, ycliang@andestech.com, inochiama@outlook.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Nov 24, 2023 at 11:17:53AM +0100, Linus Walleij wrote:
-> On Thu, Nov 23, 2023 at 8:34 PM Andy Shevchenko
-> <andriy.shevchenko@linux.intel.com> wrote:
+On Wed, Nov 22, 2023 at 12:18=E2=80=AFPM Yu Chien Peter Lin
+<peterlin@andestech.com> wrote:
+>
+> Using "ANDES" rather than "ANDESTECH" to unify the naming
+> convention with directory, file names, Kconfig options
+> and other definitions.
+>
+> Signed-off-by: Yu Chien Peter Lin <peterlin@andestech.com>
+> Reviewed-by: Charles Ci-Jyun Wu <dminus@andestech.com>
+> Reviewed-by: Leo Yu-Chi Liang <ycliang@andestech.com>
+> Acked-by: Conor Dooley <conor.dooley@microchip.com>
+> ---
+> Changes v1 -> v2:
+>   - No change
+> Changes v2 -> v3:
+>   - Rewrote commit message (suggested by Conor)
+> Changes v3 -> v4:
+>   - Include Conor's Acked-by tag
+> ---
+>  arch/riscv/errata/andes/errata.c       | 10 +++++-----
+>  arch/riscv/include/asm/errata_list.h   |  4 ++--
+>  arch/riscv/include/asm/vendorid_list.h |  2 +-
+>  arch/riscv/kernel/alternative.c        |  2 +-
+>  4 files changed, 9 insertions(+), 9 deletions(-)
+>
+Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-...
+Cheers,
+Prabhakar
 
-> > Linus, assuming everything is fine, I can push this to my tree.
-> > Or you can apply it (assumming all CIs and people are happy with
-> > the series).
-> 
-> I would give people some time to test the changes and ACK it,
-> but admittedly it's a very tasty patch set and I am eager to merge
-> it ASAP.
-> 
-> Shall we give people a week and then we merge it?
-
-Yes, and since it's again some small issues, I want to send a v3
-next week (presumably on Monday).
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+> diff --git a/arch/riscv/errata/andes/errata.c b/arch/riscv/errata/andes/e=
+rrata.c
+> index 197db68cc8da..d2e1abcac967 100644
+> --- a/arch/riscv/errata/andes/errata.c
+> +++ b/arch/riscv/errata/andes/errata.c
+> @@ -18,9 +18,9 @@
+>  #include <asm/sbi.h>
+>  #include <asm/vendorid_list.h>
+>
+> -#define ANDESTECH_AX45MP_MARCHID       0x8000000000008a45UL
+> -#define ANDESTECH_AX45MP_MIMPID                0x500UL
+> -#define ANDESTECH_SBI_EXT_ANDES                0x0900031E
+> +#define ANDES_AX45MP_MARCHID           0x8000000000008a45UL
+> +#define ANDES_AX45MP_MIMPID            0x500UL
+> +#define ANDES_SBI_EXT_ANDES            0x0900031E
+>
+>  #define ANDES_SBI_EXT_IOCP_SW_WORKAROUND       1
+>
+> @@ -32,7 +32,7 @@ static long ax45mp_iocp_sw_workaround(void)
+>          * ANDES_SBI_EXT_IOCP_SW_WORKAROUND SBI EXT checks if the IOCP is=
+ missing and
+>          * cache is controllable only then CMO will be applied to the pla=
+tform.
+>          */
+> -       ret =3D sbi_ecall(ANDESTECH_SBI_EXT_ANDES, ANDES_SBI_EXT_IOCP_SW_=
+WORKAROUND,
+> +       ret =3D sbi_ecall(ANDES_SBI_EXT_ANDES, ANDES_SBI_EXT_IOCP_SW_WORK=
+AROUND,
+>                         0, 0, 0, 0, 0, 0);
+>
+>         return ret.error ? 0 : ret.value;
+> @@ -43,7 +43,7 @@ static bool errata_probe_iocp(unsigned int stage, unsig=
+ned long arch_id, unsigne
+>         if (!IS_ENABLED(CONFIG_ERRATA_ANDES_CMO))
+>                 return false;
+>
+> -       if (arch_id !=3D ANDESTECH_AX45MP_MARCHID || impid !=3D ANDESTECH=
+_AX45MP_MIMPID)
+> +       if (arch_id !=3D ANDES_AX45MP_MARCHID || impid !=3D ANDES_AX45MP_=
+MIMPID)
+>                 return false;
+>
+>         if (!ax45mp_iocp_sw_workaround())
+> diff --git a/arch/riscv/include/asm/errata_list.h b/arch/riscv/include/as=
+m/errata_list.h
+> index 83ed25e43553..4ed21a62158c 100644
+> --- a/arch/riscv/include/asm/errata_list.h
+> +++ b/arch/riscv/include/asm/errata_list.h
+> @@ -12,8 +12,8 @@
+>  #include <asm/vendorid_list.h>
+>
+>  #ifdef CONFIG_ERRATA_ANDES
+> -#define ERRATA_ANDESTECH_NO_IOCP       0
+> -#define ERRATA_ANDESTECH_NUMBER                1
+> +#define ERRATA_ANDES_NO_IOCP 0
+> +#define ERRATA_ANDES_NUMBER 1
+>  #endif
+>
+>  #ifdef CONFIG_ERRATA_SIFIVE
+> diff --git a/arch/riscv/include/asm/vendorid_list.h b/arch/riscv/include/=
+asm/vendorid_list.h
+> index e55407ace0c3..2f2bb0c84f9a 100644
+> --- a/arch/riscv/include/asm/vendorid_list.h
+> +++ b/arch/riscv/include/asm/vendorid_list.h
+> @@ -5,7 +5,7 @@
+>  #ifndef ASM_VENDOR_LIST_H
+>  #define ASM_VENDOR_LIST_H
+>
+> -#define ANDESTECH_VENDOR_ID    0x31e
+> +#define ANDES_VENDOR_ID                0x31e
+>  #define SIFIVE_VENDOR_ID       0x489
+>  #define THEAD_VENDOR_ID                0x5b7
+>
+> diff --git a/arch/riscv/kernel/alternative.c b/arch/riscv/kernel/alternat=
+ive.c
+> index 319a1da0358b..0128b161bfda 100644
+> --- a/arch/riscv/kernel/alternative.c
+> +++ b/arch/riscv/kernel/alternative.c
+> @@ -43,7 +43,7 @@ static void riscv_fill_cpu_mfr_info(struct cpu_manufact=
+urer_info_t *cpu_mfr_info
+>
+>         switch (cpu_mfr_info->vendor_id) {
+>  #ifdef CONFIG_ERRATA_ANDES
+> -       case ANDESTECH_VENDOR_ID:
+> +       case ANDES_VENDOR_ID:
+>                 cpu_mfr_info->patch_func =3D andes_errata_patch_func;
+>                 break;
+>  #endif
+> --
+> 2.34.1
+>
+>
 
