@@ -1,235 +1,280 @@
-Return-Path: <linux-renesas-soc+bounces-226-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-227-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A5197F6E56
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 Nov 2023 09:38:14 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D331A7F6F22
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 Nov 2023 10:09:17 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BD38F281399
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 Nov 2023 08:38:12 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 0D23BB20F97
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 Nov 2023 09:09:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6B47F4427;
-	Fri, 24 Nov 2023 08:38:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="b6SvHPkM"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 60FAF4C64;
+	Fri, 24 Nov 2023 09:09:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com [IPv6:2a00:1450:4864:20::632])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B59E9D68
-	for <linux-renesas-soc@vger.kernel.org>; Fri, 24 Nov 2023 00:38:08 -0800 (PST)
-Received: by mail-ej1-x632.google.com with SMTP id a640c23a62f3a-9e1021dbd28so216556566b.3
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 24 Nov 2023 00:38:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1700815087; x=1701419887; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=CYqzi/+XlQ/s+DJqiECuwYHNpVRCGbZDGfLfIlCHIxk=;
-        b=b6SvHPkMkQgell54qC4wOZhJcYM2VQ17kjDJhwTJT0v3CLuGY1+6P9pBlYJjuTARUK
-         2nq5tNdbcFez11QXjUa9xbVQyglAiOGlMwIIsfesLy3GX6HoBu1+ECheIN6qRZpLnRyY
-         bC+PHSwZRH3xwPF+OgGA5wegoRVf0aCd60fCBUZcdgvDEvfUWEKcdSbUOwvDLR09WgEN
-         9kHAbsZdws4NpHRvOtzK0FwPCnh4GW+En4NFITa77WLhRKQP7Qt9CJqNbAORr+zXRJNf
-         W1PnlnCRCG3y6WbGgUziDgmPB0h+JAAJK/kK/orsNA2nD4wHIrw+i7TZSxuVbmve5z9k
-         A5Kw==
+Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com [209.85.128.177])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8B1A41BD;
+	Fri, 24 Nov 2023 01:09:05 -0800 (PST)
+Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-5cccd2d4c4dso15504097b3.3;
+        Fri, 24 Nov 2023 01:09:05 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700815087; x=1701419887;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=CYqzi/+XlQ/s+DJqiECuwYHNpVRCGbZDGfLfIlCHIxk=;
-        b=PC9GWjmZlakG2WkibrAXyOT17gU6aR0FvFGsdt+FE4qsK4BTaqBdtKWMUkUtZwWVa+
-         NbJ2JEhSFzoJDIEZoUSsO2cC9TzvUaqz75fJp8zT4gVQXQXgm8H1CtGi/hvV9DCs3IcO
-         ZsKomYECe/XhgXm7xWNB6hg/jZ6zB9YSjC3MPz99bbCI10sZobT0WruaaixUSc3aCOqA
-         j495kukPTnIY7gKLVfOtA7BQwajpkSaZUKZLimPmXQRj9rZ52OfOTREfKWvUWL9x9QsQ
-         VMaeewtEQ7CGKW53B73aN7LQ23+uy36Cdam/Tm7SqCyeAtiY4bUzcCpeYbIwvgd99Zhi
-         N9+A==
-X-Gm-Message-State: AOJu0YxwpljejjLgjWXpq5o+KXenUjaf9VrGzaDWg0ky76euJkWrJT6F
-	+deTT1BF9/h0XQ2MlNjzSGEsHw==
-X-Google-Smtp-Source: AGHT+IE/6AvzGFpXeoUuooNv8Hkv3iVH5oo4ItGvDeCTDaiH0at3wQHZPjucHgaXdu9YSCtq8CFIyQ==
-X-Received: by 2002:a17:906:2756:b0:9bd:9bfe:e40b with SMTP id a22-20020a170906275600b009bd9bfee40bmr1324090ejd.75.1700815087137;
-        Fri, 24 Nov 2023 00:38:07 -0800 (PST)
-Received: from krzk-bin.. ([178.197.218.100])
-        by smtp.gmail.com with ESMTPSA id ks20-20020a170906f85400b009db53aa4f7bsm1781574ejb.28.2023.11.24.00.38.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 24 Nov 2023 00:38:06 -0800 (PST)
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-To: Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-	Banajit Goswami <bgoswami@quicinc.com>,
-	Andy Gross <agross@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konrad.dybcio@linaro.org>,
-	Shenghao Ding <shenghao-ding@ti.com>,
-	Kevin Lu <kevin-lu@ti.com>,
-	Baojun Xu <baojun.xu@ti.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Seven Lee <wtli@nuvoton.com>,
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	Alexander Stein <alexander.stein@ew.tq-group.com>,
-	linux-sound@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	alsa-devel@alsa-project.org,
-	linux-arm-msm@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	Neil Armstrong <neil.armstrong@linaro.org>
-Subject: [PATCH] ASoC: dt-bindings: correct white-spaces in examples
-Date: Fri, 24 Nov 2023 09:38:03 +0100
-Message-Id: <20231124083803.12773-1-krzysztof.kozlowski@linaro.org>
-X-Mailer: git-send-email 2.34.1
+        d=1e100.net; s=20230601; t=1700816944; x=1701421744;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=FMVmVofscPCswjqH7+PiI4VBRnjaZZqlA6AYpnp6bDY=;
+        b=jEeWS8UtWKMOJZG5BWRGJ3vuxEBQ7ivjwK3qaRUuet/AvZj16jqiEp69nbf+tU+mIp
+         6q3ROHVM/CNuuNZ+iWupE+JdOuCjWRsFyfShSkJDKsOTATZrt7RFqBbP31oEoET87+0t
+         XVH7UXgQV16BUKh1RHlJiwSCiHJTtrepesAPtMgcShO85GlF3H5GvWx1oCuWAxXMusiZ
+         ifmIvLiLKCOf6A+urvPn9o7vGJHebbKrImNhAGphUXS2cY2LdxhiHJuCWfaxm3GyJeCB
+         5wPtU+5HFkvxRNTlF8OFP+TrMYABj+mIqmDzi4MGjnIn9/qmZW4rI/dTe9LCkyo08lvN
+         6RJw==
+X-Gm-Message-State: AOJu0YzUTqS2GdmYWadhTm5kgOz0zis8MqAAQpFC4UKM8mycdHY7QZiL
+	Jiy4ysMkP5rriut0GGVJbIIkBctflSatog==
+X-Google-Smtp-Source: AGHT+IGRHJ/cQ/alKt52kl/2RM+i8rfU4lJJU6GTB1TOt70h3oySn8GBe9PStcnUrdh0DzLxpqW8cQ==
+X-Received: by 2002:a0d:d5d3:0:b0:5ca:697e:ee17 with SMTP id x202-20020a0dd5d3000000b005ca697eee17mr2218553ywd.38.1700816944480;
+        Fri, 24 Nov 2023 01:09:04 -0800 (PST)
+Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com. [209.85.128.181])
+        by smtp.gmail.com with ESMTPSA id h125-20020a815383000000b005a7f676f305sm882968ywb.106.2023.11.24.01.09.03
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 24 Nov 2023 01:09:03 -0800 (PST)
+Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-5cd81e76164so10939807b3.1;
+        Fri, 24 Nov 2023 01:09:03 -0800 (PST)
+X-Received: by 2002:a0d:e653:0:b0:5a8:1812:a7ed with SMTP id
+ p80-20020a0de653000000b005a81812a7edmr1770393ywe.15.1700816943381; Fri, 24
+ Nov 2023 01:09:03 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20231120070024.4079344-1-claudiu.beznea.uj@bp.renesas.com>
+ <20231120070024.4079344-4-claudiu.beznea.uj@bp.renesas.com> <CAMuHMdVMpKVY8WX7dbtHfgnwgePH+i9+2BAumb37sFmqccb44g@mail.gmail.com>
+In-Reply-To: <CAMuHMdVMpKVY8WX7dbtHfgnwgePH+i9+2BAumb37sFmqccb44g@mail.gmail.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Fri, 24 Nov 2023 10:08:49 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdVWvVtFMUe+J9R2ZU8Hi5CGs0NQfwUxitganM85183KkA@mail.gmail.com>
+Message-ID: <CAMuHMdVWvVtFMUe+J9R2ZU8Hi5CGs0NQfwUxitganM85183KkA@mail.gmail.com>
+Subject: Re: [PATCH 03/14] clk: renesas: rzg2l-cpg: Add support for MSTOP
+To: Claudiu <claudiu.beznea@tuxon.dev>
+Cc: s.shtylyov@omp.ru, davem@davemloft.net, edumazet@google.com, 
+	kuba@kernel.org, pabeni@redhat.com, robh+dt@kernel.org, 
+	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, linux@armlinux.org.uk, 
+	magnus.damm@gmail.com, mturquette@baylibre.com, sboyd@kernel.org, 
+	linus.walleij@linaro.org, p.zabel@pengutronix.de, arnd@arndb.de, 
+	m.szyprowski@samsung.com, alexandre.torgue@foss.st.com, afd@ti.com, 
+	broonie@kernel.org, alexander.stein@ew.tq-group.com, 
+	eugen.hristev@collabora.com, sergei.shtylyov@gmail.com, 
+	prabhakar.mahadev-lad.rj@bp.renesas.com, biju.das.jz@bp.renesas.com, 
+	linux-renesas-soc@vger.kernel.org, netdev@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org, 
+	linux-gpio@vger.kernel.org, Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Use only one and exactly one space around '=' in DTS example.
+Hi Claudiu,
 
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+On Thu, Nov 23, 2023 at 5:35=E2=80=AFPM Geert Uytterhoeven <geert@linux-m68=
+k.org> wrote:
+> On Mon, Nov 20, 2023 at 8:01=E2=80=AFAM Claudiu <claudiu.beznea@tuxon.dev=
+> wrote:
+> > From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+> >
+> > RZ/{G2L, V2L, G3S} based CPG versions have support for saving extra
+> > power when clocks are disabled by activating module standby. This is do=
+ne
+> > though MSTOP specific registers that are part of CPG. Each individual
+> > module have one or more bits associated in one MSTOP register (see tabl=
+e
+> > "Registers for Module Standby Mode" from HW manuals). Hardware manual
+> > associates modules' clocks to one or more MSTOP bits. There are 3 mappi=
+ngs
+> > available (identified by researching RZ/G2L, RZ/G3S, RZ/V2L HW manuals)=
+:
+> >
+> > case 1: N clocks mapped to N MSTOP bits (with N=3D{0, ..., X})
+> > case 2: N clocks mapped to 1 MSTOP bit  (with N=3D{0, ..., X})
+> > case 3: N clocks mapped to M MSTOP bits (with N=3D{0, ..., X}, M=3D{0, =
+..., Y})
+> >
+> > Case 3 has been currently identified on RZ/V2L for VCPL4 module.
+> >
+> > To cover all 3 cases the individual platform drivers will provide to
+> > clock driver MSTOP register offset and associated bits in this register
+> > as a bitmask and the clock driver will apply this bitmask to proper
+> > MSTOP register.
+> >
+> > As most of the modules have more than one clock and these clocks are
+> > mapped to 1 MSTOP bitmap that need to be applied to MSTOP registers,
+> > to avoid switching the module to/out of standby when the module has
+> > enabled/disabled clocks a counter has been associated to each module
+> > (though struct mstop::count) which is incremented/decremented every
+> > time a module's clock is enabled/disabled and the settings to MSTOP
+> > register are applied only when the counter reaches zero (counter zero
+> > means either 1st clock of the module is going to be enabled or all cloc=
+ks
+> > of the module are going to be disabled).
+>
+> Thanks for your patch!
+>
+> > The MSTOP functionality has been instantiated at the moment for RZ/G3S.
+> >
+> > Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 
----
+> > --- a/drivers/clk/renesas/rzg2l-cpg.c
+> > +++ b/drivers/clk/renesas/rzg2l-cpg.c
+> > @@ -1177,6 +1177,17 @@ rzg2l_cpg_register_core_clk(const struct cpg_cor=
+e_clk *core,
+> >                 core->name, PTR_ERR(clk));
+> >  }
+> >
+> > +/**
+> > + * struct mstop - MSTOP specific data structure
+> > + * @count: reference counter for MSTOP settings (when zero the setting=
+s
+> > + *        are applied to register)
+> > + * @conf: MSTOP configuration (register offset, setup bits)
+> > + */
+> > +struct mstop {
+> > +       u32 count;
+> > +       u32 conf;
+> > +};
+> > +
+> >  /**
+> >   * struct mstp_clock - MSTP gating clock
+> >   *
+> > @@ -1186,6 +1197,7 @@ rzg2l_cpg_register_core_clk(const struct cpg_core=
+_clk *core,
+> >   * @enabled: soft state of the clock, if it is coupled with another cl=
+ock
+> >   * @priv: CPG/MSTP private data
+> >   * @sibling: pointer to the other coupled clock
+> > + * @mstop: MSTOP configuration
+> >   */
+> >  struct mstp_clock {
+> >         struct clk_hw hw;
+> > @@ -1194,10 +1206,46 @@ struct mstp_clock {
+> >         bool enabled;
+> >         struct rzg2l_cpg_priv *priv;
+> >         struct mstp_clock *sibling;
+> > +       struct mstop *mstop;
+> >  };
+> >
+> >  #define to_mod_clock(_hw) container_of(_hw, struct mstp_clock, hw)
+> >
+> > +/* Need to be called with a lock held to avoid concurent access to mst=
+op->count. */
+>
+> concurrent
+>
+> > +static void rzg2l_mod_clock_module_set_standby(struct mstp_clock *cloc=
+k,
+> > +                                              bool standby)
+> > +{
+> > +       struct rzg2l_cpg_priv *priv =3D clock->priv;
+> > +       struct mstop *mstop =3D clock->mstop;
+> > +       bool update =3D false;
+> > +       u32 value;
+> > +
+> > +       if (!mstop)
+> > +               return;
+> > +
+> > +       value =3D MSTOP_MASK(mstop->conf) << 16;
+> > +
+> > +       if (standby) {
+> > +               value |=3D MSTOP_MASK(mstop->conf);
+> > +               /* Avoid overflow. */
+> > +               if (mstop->count > 0)
+> > +                       mstop->count--;
+>
+> Should we add a WARN() here, or is it sufficient to rely on the WARN()
+> in drivers/clk/clk.c:clk_core_disable()?
+>
+> > +
+> > +               if (!mstop->count)
+> > +                       update =3D true;
+> > +       } else {
+> > +               if (!mstop->count)
+> > +                       update =3D true;
+> > +
+> > +               /* Avoid overflow. */
+> > +               if (mstop->count + 1 !=3D 0)
+> > +                       mstop->count++;
+>
+> Trying to avoid an overflow won't help much here.  The counter
+> will be wrong afterwards anyway, and when decrementing again later, the
+> module will be put in standby too soon...
+>
+> > +       }
+> > +
+> > +       if (update)
+> > +               writel(value, priv->base + MSTOP_OFF(mstop->conf));
+> > +}
 
-Cc: Neil Armstrong <neil.armstrong@linaro.org>
----
- .../devicetree/bindings/sound/nuvoton,nau8821.yaml        | 2 +-
- Documentation/devicetree/bindings/sound/qcom,wcd934x.yaml | 4 ++--
- .../devicetree/bindings/sound/qcom,wcd938x-sdw.yaml       | 4 ++--
- Documentation/devicetree/bindings/sound/qcom,wcd938x.yaml | 4 ++--
- Documentation/devicetree/bindings/sound/renesas,rsnd.yaml | 8 ++++----
- .../devicetree/bindings/sound/ti,tlv320aic32x4.yaml       | 2 +-
- 6 files changed, 12 insertions(+), 12 deletions(-)
+After giving this some more thought, it feels odd to derive the standby
+state of a module from the state of its module clocks, while the latter
+are already controlled through Runtime PM and a Clock Domain.
 
-diff --git a/Documentation/devicetree/bindings/sound/nuvoton,nau8821.yaml b/Documentation/devicetree/bindings/sound/nuvoton,nau8821.yaml
-index 3380b6aa9542..054b53954ac3 100644
---- a/Documentation/devicetree/bindings/sound/nuvoton,nau8821.yaml
-+++ b/Documentation/devicetree/bindings/sound/nuvoton,nau8821.yaml
-@@ -135,7 +135,7 @@ examples:
-             nuvoton,jack-insert-debounce = <7>;
-             nuvoton,jack-eject-debounce = <0>;
-             nuvoton,dmic-clk-threshold = <3072000>;
--            nuvoton,dmic-slew-rate= <0>;
-+            nuvoton,dmic-slew-rate = <0>;
-             #sound-dai-cells = <0>;
-         };
-     };
-diff --git a/Documentation/devicetree/bindings/sound/qcom,wcd934x.yaml b/Documentation/devicetree/bindings/sound/qcom,wcd934x.yaml
-index 4df59f3b7b01..beb0ff0245b0 100644
---- a/Documentation/devicetree/bindings/sound/qcom,wcd934x.yaml
-+++ b/Documentation/devicetree/bindings/sound/qcom,wcd934x.yaml
-@@ -201,9 +201,9 @@ examples:
-   - |
-     codec@1,0{
-         compatible = "slim217,250";
--        reg  = <1 0>;
-+        reg = <1 0>;
-         reset-gpios = <&tlmm 64 0>;
--        slim-ifc-dev  = <&wcd9340_ifd>;
-+        slim-ifc-dev = <&wcd9340_ifd>;
-         #sound-dai-cells = <1>;
-         interrupt-parent = <&tlmm>;
-         interrupts = <54 4>;
-diff --git a/Documentation/devicetree/bindings/sound/qcom,wcd938x-sdw.yaml b/Documentation/devicetree/bindings/sound/qcom,wcd938x-sdw.yaml
-index b430dd3e1841..7b31bf93f1a1 100644
---- a/Documentation/devicetree/bindings/sound/qcom,wcd938x-sdw.yaml
-+++ b/Documentation/devicetree/bindings/sound/qcom,wcd938x-sdw.yaml
-@@ -51,7 +51,7 @@ examples:
-         reg = <0x03210000 0x2000>;
-         wcd938x_rx: codec@0,4 {
-             compatible = "sdw20217010d00";
--            reg  = <0 4>;
-+            reg = <0 4>;
-             qcom,rx-port-mapping = <1 2 3 4 5>;
-         };
-     };
-@@ -62,7 +62,7 @@ examples:
-         reg = <0x03230000 0x2000>;
-         wcd938x_tx: codec@0,3 {
-             compatible = "sdw20217010d00";
--            reg  = <0 3>;
-+            reg = <0 3>;
-             qcom,tx-port-mapping = <2 3 4 5>;
-         };
-     };
-diff --git a/Documentation/devicetree/bindings/sound/qcom,wcd938x.yaml b/Documentation/devicetree/bindings/sound/qcom,wcd938x.yaml
-index 018565793a3e..adbfa67f88ed 100644
---- a/Documentation/devicetree/bindings/sound/qcom,wcd938x.yaml
-+++ b/Documentation/devicetree/bindings/sound/qcom,wcd938x.yaml
-@@ -137,7 +137,7 @@ examples:
-         reg = <0x03210000 0x2000>;
-         wcd938x_rx: codec@0,4 {
-             compatible = "sdw20217010d00";
--            reg  = <0 4>;
-+            reg = <0 4>;
-             qcom,rx-port-mapping = <1 2 3 4 5>;
-         };
-     };
-@@ -148,7 +148,7 @@ examples:
-         reg = <0x03230000 0x2000>;
-         wcd938x_tx: codec@0,3 {
-             compatible = "sdw20217010d00";
--            reg  = <0 3>;
-+            reg = <0 3>;
-             qcom,tx-port-mapping = <2 3 4 5>;
-         };
-     };
-diff --git a/Documentation/devicetree/bindings/sound/renesas,rsnd.yaml b/Documentation/devicetree/bindings/sound/renesas,rsnd.yaml
-index 1174205286d4..0d7a6b576d88 100644
---- a/Documentation/devicetree/bindings/sound/renesas,rsnd.yaml
-+++ b/Documentation/devicetree/bindings/sound/renesas,rsnd.yaml
-@@ -497,19 +497,19 @@ examples:
-         rcar_sound,dai {
-             dai0 {
-                 playback = <&ssi5>, <&src5>;
--                capture  = <&ssi6>;
-+                capture = <&ssi6>;
-             };
-             dai1 {
-                 playback = <&ssi3>;
-             };
-             dai2 {
--                capture  = <&ssi4>;
-+                capture = <&ssi4>;
-             };
-             dai3 {
-                 playback = <&ssi7>;
-             };
-             dai4 {
--                capture  = <&ssi8>;
-+                capture = <&ssi8>;
-             };
-         };
- 
-@@ -523,7 +523,7 @@ examples:
-                 frame-master = <&rsnd_endpoint0>;
- 
-                 playback = <&ssi0>, <&src0>, <&dvc0>;
--                capture  = <&ssi1>, <&src1>, <&dvc1>;
-+                capture = <&ssi1>, <&src1>, <&dvc1>;
-             };
-         };
-     };
-diff --git a/Documentation/devicetree/bindings/sound/ti,tlv320aic32x4.yaml b/Documentation/devicetree/bindings/sound/ti,tlv320aic32x4.yaml
-index a7cc9aa34468..4783e6dbb5c4 100644
---- a/Documentation/devicetree/bindings/sound/ti,tlv320aic32x4.yaml
-+++ b/Documentation/devicetree/bindings/sound/ti,tlv320aic32x4.yaml
-@@ -90,7 +90,7 @@ examples:
-         ldoin-supply = <&reg_3v3>;
-         clocks = <&clks 201>;
-         clock-names = "mclk";
--        aic32x4-gpio-func= <
-+        aic32x4-gpio-func = <
-           0xff /* AIC32X4_MFPX_DEFAULT_VALUE */
-           0xff /* AIC32X4_MFPX_DEFAULT_VALUE */
-           0x04 /* MFP3 AIC32X4_MFP3_GPIO_ENABLED */
--- 
-2.34.1
+A first alternative solution could be to drop the GENPD_FLAG_PM_CLK
+flag from the RZ/G2L CPG clock domain, and provide your own
+gpd_dev_ops.start() and .stop() callbacks that take care of both
+module standby and clocks (through pm_clk_{resume,suspend}().
+(See https://elixir.bootlin.com/linux/v6.7-rc2/source/drivers/base/power/do=
+main.c#L2093
+for the GENPD_FLAG_PM_CLK case).
+That still leaves you with a need to associate an MSTOP register and
+bitmask with a device through its module clocks.
 
+A second alternative solution could be to increase #power-domain-cells
+from zero to one, and register individual PM Domains for each module,
+and control module standby from the generic_pm_domain.power_{on,off}()
+callbacks.  Devices would specify the module using the power-domains =3D
+<&cpg <id> > property in DT, with <id> one of the to-be-added list of
+modules in include/dt-bindings/clock/r9a08g045-cpg.h.  The RZ/G2L CPG
+driver can handle the mapping from <id> to MSTOP register and bitmask.
+This solution requires updates to DT, but you can keep compatibility
+with old DTBs by only registering the new PM Domains when
+#power-domain-cells is one.
+The extra power saving would only be applicable with new DTBs, though.
+
+Thoughts?
+
+> > --- a/drivers/clk/renesas/rzg2l-cpg.h
+> > +++ b/drivers/clk/renesas/rzg2l-cpg.h
+>
+> > @@ -68,6 +73,10 @@
+> >  #define SEL_PLL6_2     SEL_PLL_PACK(CPG_PL6_ETH_SSEL, 0, 1)
+> >  #define SEL_GPU2       SEL_PLL_PACK(CPG_PL6_SSEL, 12, 1)
+> >
+> > +#define MSTOP(name, bitmask)   ((CPG_##name##_MSTOP) << 16 | (bitmask)=
+)
+>
+> I believe the bitmask is always a single bit.
+> So perhaps let MSTOP() take the bit number instead of the bitmaskl?
+> You can still store BIT(bit) inside the macro.
+
+I was wrong, the N->N or N->M cases need a bitmask.
+
+> > +#define MSTOP_OFF(conf)                ((conf) >> 16)
+> > +#define MSTOP_MASK(conf)       ((conf) & GENMASK(15, 0))
+> > +
+> >  #define EXTAL_FREQ_IN_MEGA_HZ  (24)
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
