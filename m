@@ -1,27 +1,28 @@
-Return-Path: <linux-renesas-soc+bounces-249-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-250-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4C7B7F8253
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 Nov 2023 20:06:41 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id E4B607F828B
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 Nov 2023 20:08:43 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2EF41284D60
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 Nov 2023 19:06:40 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9D39F2857CD
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 Nov 2023 19:08:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 369CB364C1;
-	Fri, 24 Nov 2023 19:06:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3F5AC35F04;
+	Fri, 24 Nov 2023 19:08:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dkim=none
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from mx01.omp.ru (mx01.omp.ru [90.154.21.10])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BC06426B1;
-	Fri, 24 Nov 2023 11:02:12 -0800 (PST)
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CBF932699;
+	Fri, 24 Nov 2023 11:04:32 -0800 (PST)
 Received: from [192.168.1.103] (31.173.82.189) by msexch01.omp.ru
  (10.188.4.12) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.1258.12; Fri, 24 Nov
- 2023 22:02:04 +0300
-Subject: Re: [PATCH 02/13] net: ravb: Use pm_runtime_resume_and_get()
+ 2023 22:04:25 +0300
+Subject: Re: [PATCH 01/13] net: ravb: Check return value of
+ reset_control_deassert()
 To: claudiu beznea <claudiu.beznea@tuxon.dev>, <davem@davemloft.net>,
 	<edumazet@google.com>, <kuba@kernel.org>, <pabeni@redhat.com>,
 	<p.zabel@pengutronix.de>, <yoshihiro.shimoda.uh@renesas.com>,
@@ -33,13 +34,13 @@ CC: <netdev@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>,
 	<linux-kernel@vger.kernel.org>, Claudiu Beznea
 	<claudiu.beznea.uj@bp.renesas.com>
 References: <20231120084606.4083194-1-claudiu.beznea.uj@bp.renesas.com>
- <20231120084606.4083194-3-claudiu.beznea.uj@bp.renesas.com>
- <a465e1fb-6ef8-0e10-1dc9-c6a17b955d11@omp.ru>
- <33a44057-eefa-44ba-8e06-b6eb8bd79e59@tuxon.dev>
+ <20231120084606.4083194-2-claudiu.beznea.uj@bp.renesas.com>
+ <2ac71d8d-84d8-2092-70b4-9ed21e78541f@omp.ru>
+ <12e63ae7-bc25-4790-883a-ee0eaa28317d@tuxon.dev>
 From: Sergey Shtylyov <s.shtylyov@omp.ru>
 Organization: Open Mobile Platform
-Message-ID: <c9424992-98cd-c675-22dd-360b7392054b@omp.ru>
-Date: Fri, 24 Nov 2023 22:02:03 +0300
+Message-ID: <06c3815d-3ec7-7e2e-8ef7-6fd9caa4cf04@omp.ru>
+Date: Fri, 24 Nov 2023 22:04:20 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.10.1
 Precedence: bulk
@@ -48,7 +49,7 @@ List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <33a44057-eefa-44ba-8e06-b6eb8bd79e59@tuxon.dev>
+In-Reply-To: <12e63ae7-bc25-4790-883a-ee0eaa28317d@tuxon.dev>
 Content-Type: text/plain; charset="utf-8"
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -89,38 +90,47 @@ X-KSE-Attachment-Filter-Triggered-Rules: Clean
 X-KSE-Attachment-Filter-Triggered-Filters: Clean
 X-KSE-BulkMessagesFiltering-Scan-Result: InTheLimit
 
-On 11/21/23 8:57 AM, claudiu beznea wrote:
+On 11/21/23 8:59 AM, claudiu beznea wrote:
 
 [...]
-
 >>> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 >>>
->>> pm_runtime_get_sync() may return with error. In case it returns with error
->>> dev->power.usage_count needs to be decremented. pm_runtime_resume_and_get()
->>> takes care of this. Thus use it.
+>>> reset_control_deassert() could return an error. Some devices cannot work
+>>> if reset signal de-assert operation fails. To avoid this check the return
+>>> code of reset_control_deassert() in ravb_probe() and take proper action.
 >>>
->>> Along with this pm_runtime_resume_and_get() and reset_control_deassert()
->>> were moved before alloc_etherdev_mqs() to simplify the error path.
+>>> Fixes: 0d13a1a464a0 ("ravb: Add reset support")
+>>> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+>>> ---
+>>>  drivers/net/ethernet/renesas/ravb_main.c | 7 ++++++-
+>>>  1 file changed, 6 insertions(+), 1 deletion(-)
+>>>
+>>> diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
+>>> index c70cff80cc99..342978bdbd7e 100644
+>>> --- a/drivers/net/ethernet/renesas/ravb_main.c
+>>> +++ b/drivers/net/ethernet/renesas/ravb_main.c
+>>> @@ -2645,7 +2645,12 @@ static int ravb_probe(struct platform_device *pdev)
+>>>  	ndev->features = info->net_features;
+>>>  	ndev->hw_features = info->net_hw_features;
+>>>  
+>>> -	reset_control_deassert(rstc);
+>>> +	error = reset_control_deassert(rstc);
+>>> +	if (error) {
+>>> +		free_netdev(ndev);
+>>> +		return error;
 >>
->>    I don't see how it simplifies the error path...
+>>   No, please use *goto* here. And please fix up the order of statements under
+>> the out_release label before doing that.
 > 
-> By not changing it... Actually, I took the other approach: you suggested in
+> This will lead to a bit more complicated patch, AFAICT. I tried to keep it
 
-   But it does need to be changed! It's not currently in the reverse order
-compared to the buildup path...
+   It's OK! :-)
 
-> patch 1 to re-arrange the error path, I did it the other way around:
-> changed the initialization path...
+> simple for a fix. Same thing for patch 2.
 
-   That way you needlessly obfuscate (by moving the code around) the core
-change you do in this patch: switching from calling pm_runtime_get_sync()
-to calling pm_runtime_resume_and_get(). :-/
+   Patch 2 is not as simple as it could have been...
 
 [...]
-
->>> Fixes: c156633f1353 ("Renesas Ethernet AVB driver proper")
->>> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
->> [...]
 
 MBR, Sergey
 
