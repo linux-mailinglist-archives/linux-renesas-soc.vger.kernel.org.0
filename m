@@ -1,42 +1,41 @@
-Return-Path: <linux-renesas-soc+bounces-283-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-284-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 753767F9F80
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 Nov 2023 13:24:31 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 047327FA05E
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 Nov 2023 14:10:51 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A5F0F1C20B6B
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 Nov 2023 12:24:30 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B28AA280401
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 Nov 2023 13:10:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 62D711DFCB;
-	Mon, 27 Nov 2023 12:24:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CB6472CCBB;
+	Mon, 27 Nov 2023 13:10:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="C/MYFV2C"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTP id C8B9C13A;
-	Mon, 27 Nov 2023 04:24:23 -0800 (PST)
-X-IronPort-AV: E=Sophos;i="6.04,230,1695654000"; 
-   d="scan'208";a="188255212"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie6.idc.renesas.com with ESMTP; 27 Nov 2023 21:24:22 +0900
-Received: from localhost.localdomain (unknown [10.166.13.99])
-	by relmlir5.idc.renesas.com (Postfix) with ESMTP id DEFC04009414;
-	Mon, 27 Nov 2023 21:24:22 +0900 (JST)
-From: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-To: s.shtylyov@omp.ru,
-	davem@davemloft.net,
-	edumazet@google.com,
-	kuba@kernel.org,
-	pabeni@redhat.com
-Cc: netdev@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Subject: [PATCH net v4] ravb: Fix races between ravb_tx_timeout_work() and net related ops
-Date: Mon, 27 Nov 2023 21:24:20 +0900
-Message-Id: <20231127122420.3706751-1-yoshihiro.shimoda.uh@renesas.com>
-X-Mailer: git-send-email 2.25.1
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD5721DFD5
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 27 Nov 2023 13:10:47 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 7E190C433C8
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 27 Nov 2023 13:10:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1701090647;
+	bh=Yc7s/WfXaKA/UP9JmjPm4eMGaq6zUNufz5BZe/xwIdY=;
+	h=Subject:From:Date:To:From;
+	b=C/MYFV2C8aPTs4Vzored4jVNv/q1hL1sPDqHEbWXInYfAjldu1iXyf2XBdS6wp8cM
+	 4PRXBly0ew6BcbSUCtWvFLZxNWlI9wl1FpFxIYwx1kEvsxm/CresLkSAyN5JuDDrby
+	 AaIiLPxYgehVCQ8NzeIgrQRKb3YtPBYws4/T4I4P6KO+4rG8U9r1xEYaxZyTgDlH8f
+	 qQYWgQcK2e4+r7L6DImT7PRqkGMhmKIk/OBWD4xDk+Yp1TeMqDGUivyStNBcMWTyZq
+	 NDPFWico/Y5py/bj/xkLeQ2W1XGj+TxDNkIMeK7p5XMAByvrwGDoV7CzuNctdtZ9hv
+	 1EKF3wzf9nB5g==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 6309DE1F66D
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 27 Nov 2023 13:10:47 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -44,83 +43,66 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Subject: Patchwork summary for: linux-renesas-soc
+From: patchwork-bot+linux-renesas-soc@kernel.org
+Message-Id: 
+ <170109064733.29074.5472266324427460026.git-patchwork-summary@kernel.org>
+Date: Mon, 27 Nov 2023 13:10:47 +0000
+To: linux-renesas-soc@vger.kernel.org
 
-Fix races between ravb_tx_timeout_work() and functions of net_device_ops
-and ethtool_ops by using rtnl_trylock() and rtnl_unlock(). Note that
-since ravb_close() is under the rtnl lock and calls cancel_work_sync(),
-ravb_tx_timeout_work() should calls rtnl_trylock(). Otherwise, a deadlock
-may happen in ravb_tx_timeout_work() like below:
+Hello:
 
-CPU0			CPU1
-			ravb_tx_timeout()
-			schedule_work()
-...
-__dev_close_many()
-// Under rtnl lock
-ravb_close()
-cancel_work_sync()
-// Waiting
-			ravb_tx_timeout_work()
-			rtnl_lock()
-			// This is possible to cause a deadlock
+The following patches were marked "mainlined", because they were applied to
+geert/renesas-devel.git (master):
 
-If rtnl_trylock() fails, rescheduling the work with sleep for 1 msec.
+Patch: ARM: shmobile: defconfig: Refresh for v6.7-rc1
+  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
+  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=803343
+  Lore link: https://lore.kernel.org/r/b9bdb0fe3635a7eb51a7eca9a06e8146d6ad82db.1700667824.git.geert+renesas@glider.be
 
-Fixes: c156633f1353 ("Renesas Ethernet AVB driver proper")
-Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
----
-Changes from v3:
-https://lore.kernel.org/all/20231115022644.2316961-1-yoshihiro.shimoda.uh@renesas.com/
- - Based on v2 patch. This means that delayed work is not used.
- - Add rescheduling the work if rtnl_trylock() fails.
- - Drop Reviewed-by tags because implementation was changed.
+Series: ARM: dts: renesas: r8a7740/armadillo800eva: Add LCD support
+  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
+  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=803353
+  Lore link: https://lore.kernel.org/r/cover.1700669207.git.geert+renesas@glider.be
+    Patches: [v2,1/3] ARM: shmobile: defconfig: Switch to DRM_SHMOBILE
+             [v2,2/3] ARM: dts: renesas: r8a7740: Add LCDC nodes
+             [v2,3/3] ARM: dts: renesas: armadillo800eva: Add LCD panel
 
-Changes from v2:
-https://lore.kernel.org/netdev/20231019113308.1133944-1-yoshihiro.shimoda.uh@renesas.com/
- - Add rescheduling if rtnl_trylock() fails and the netif is still running
-   and update commit description for it.
- - Add Reviewed-by tags.
+Series: renesas: rzg3s: Add support for Ethernet
+  Submitter: Claudiu <claudiu.beznea@tuxon.dev>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=802368
+  Lore link: https://lore.kernel.org/r/20231120070024.4079344-1-claudiu.beznea.uj@bp.renesas.com
+    Patches: [01/14] clk: renesas: rzg2l-cpg: Reuse code in rzg2l_cpg_reset()
+             [14/14] arm: multi_v7_defconfig: Enable CONFIG_RAVB
 
- drivers/net/ethernet/renesas/ravb_main.c | 11 ++++++++++-
- 1 file changed, 10 insertions(+), 1 deletion(-)
+Patch: [PATCH/LOCAL,v2] arm64: renesas: defconfig: Refresh for v6.7-rc1
+  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
+  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=803620
+  Lore link: https://lore.kernel.org/r/f690f4ab553305df9ff738e5f00db80532ff4f46.1700731806.git.geert+renesas@glider.be
 
-diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
-index c70cff80cc99..7c007ecd3ff6 100644
---- a/drivers/net/ethernet/renesas/ravb_main.c
-+++ b/drivers/net/ethernet/renesas/ravb_main.c
-@@ -1874,6 +1874,12 @@ static void ravb_tx_timeout_work(struct work_struct *work)
- 	struct net_device *ndev = priv->ndev;
- 	int error;
- 
-+	if (!rtnl_trylock()) {
-+		usleep_range(1000, 2000);
-+		schedule_work(&priv->work);
-+		return;
-+	}
-+
- 	netif_tx_stop_all_queues(ndev);
- 
- 	/* Stop PTP Clock driver */
-@@ -1907,7 +1913,7 @@ static void ravb_tx_timeout_work(struct work_struct *work)
- 		 */
- 		netdev_err(ndev, "%s: ravb_dmac_init() failed, error %d\n",
- 			   __func__, error);
--		return;
-+		goto out_unlock;
- 	}
- 	ravb_emac_init(ndev);
- 
-@@ -1917,6 +1923,9 @@ static void ravb_tx_timeout_work(struct work_struct *work)
- 		ravb_ptp_init(ndev, priv->pdev);
- 
- 	netif_tx_start_all_queues(ndev);
-+
-+out_unlock:
-+	rtnl_unlock();
- }
- 
- /* Packet transmit function for Ethernet AVB */
+Series: arm64: dts: renesas: draak: Make HDMI default video source
+  Submitter: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=795436
+  Lore link: https://lore.kernel.org/r/20231022181910.898040-1-niklas.soderlund+renesas@ragnatech.se
+    Patches: [v2,1/2] arm64: dts: renesas: draak: Make HDMI the default video input
+             [v2,2/2] arm64: dts: renesas: draak: Move HDMI bus properties to correct node
+
+Patch: arm64: defconfig: Enable Renesas versa3 clock generator config
+  Submitter: Biju Das <biju.das.jz@bp.renesas.com>
+  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=778889
+  Lore link: https://lore.kernel.org/r/20230824083006.88944-1-biju.das.jz@bp.renesas.com
+
+
+Total patches: 10
+
 -- 
-2.25.1
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
 
 
