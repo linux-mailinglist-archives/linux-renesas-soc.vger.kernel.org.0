@@ -1,328 +1,142 @@
-Return-Path: <linux-renesas-soc+bounces-296-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-297-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 173E57FA81F
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 Nov 2023 18:35:23 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 24F9A7FA97F
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 Nov 2023 20:01:34 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3A7131C20A3A
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 Nov 2023 17:35:22 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D6A4C281705
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 Nov 2023 19:01:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4BC8739FFF;
-	Mon, 27 Nov 2023 17:35:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="CRwsOlxE"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8A3673C46E;
+	Mon, 27 Nov 2023 19:01:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-pl1-x630.google.com (mail-pl1-x630.google.com [IPv6:2607:f8b0:4864:20::630])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8228210F4
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 27 Nov 2023 09:35:13 -0800 (PST)
-Received: by mail-pl1-x630.google.com with SMTP id d9443c01a7336-1cc9b626a96so32845715ad.2
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 27 Nov 2023 09:35:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1701106513; x=1701711313; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=CTJlPmL67mqQHQt9cjcLyt689DNtIDqgGshXcQsxtcg=;
-        b=CRwsOlxEX7dFMB0hs+F6M6dsAgmsVsBjaddWCzWS4CABAI64QU/L6lLjLW6RVEqq6o
-         uqedBdafJl93ykqpw3vpK2kXwEpvHj84LQlN974E/Z3/c7YVJQX6H9Z24xotMZ3H49I8
-         rcfmUEg55qfbvZGi9v1po+FGaY5Rquu0BEWf9AEMDHZ21HYH51IMTsoOcQNCxKCvpHJm
-         BOtW/UWrz1igveMsSPt7JsZ16pTB0csS7mxER2V85Eu7ezI38JJPRNFICiVhGLiJJR8v
-         yaueLeiLsBTQc7bls+pSi4aR/m8TpFOLgfid9Phl5k6ocyC3T0DC4F8LoX2E1IidSO9O
-         Wn+w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701106513; x=1701711313;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=CTJlPmL67mqQHQt9cjcLyt689DNtIDqgGshXcQsxtcg=;
-        b=DuZmXKVmfRB1sAvDODMYjvsCForplrQNVAK2LhbK4jZwMyTBqOBpsh3b0fOPShweu3
-         PjvST2QDixKVA7mV1BopP7cmCsi7OLEho677/E9tPKjpDop1ts7708SSVHKhtOCKMRHZ
-         7EHRsr+ljGigth72d8Dv2vQx6zzwvy3SwuqPncV6rebYOsyC8ejFcbP2+he+OLWLWoDC
-         TsBDBpyVWXMHKZya14t9GWZ7EzOctHmcX8XhXYd6AngiXcJ5jFuJzxRHIJ+1E5xKXqeT
-         b0B2FX75UQs+yx2KcaI6LdS3F1JwsPfopXGOm4nMGE32hxHUtuvS6Hlt+5K24aCbipBp
-         Z+qg==
-X-Gm-Message-State: AOJu0YyXUofk+1NbTBDnNbg+fekpIpDn8/LzwaXShsevgSUmoTFaCdu6
-	4icP7e1eZoP94OkbU+1dE7fUsw==
-X-Google-Smtp-Source: AGHT+IE+WnLBAAioYY6kU40XE2Y7lnA0y06FmkeQ4YIFqavRam5H78HmIiskYAR7duIiVYCBdD1Bmg==
-X-Received: by 2002:a17:902:e882:b0:1cf:d634:361 with SMTP id w2-20020a170902e88200b001cfd6340361mr3320340plg.43.1701106512867;
-        Mon, 27 Nov 2023 09:35:12 -0800 (PST)
-Received: from p14s ([2604:3d09:148c:c800:eb81:232:a693:3576])
-        by smtp.gmail.com with ESMTPSA id j6-20020a17090276c600b001c9b384731esm8487827plt.270.2023.11.27.09.35.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Nov 2023 09:35:12 -0800 (PST)
-Date: Mon, 27 Nov 2023 10:35:09 -0700
-From: Mathieu Poirier <mathieu.poirier@linaro.org>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>, Stephen Boyd <sboyd@kernel.org>,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-clk@vger.kernel.org, linux-iio@vger.kernel.org,
-	linux-mmc@vger.kernel.org, netdev@vger.kernel.org,
-	linux-pci@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org,
-	linux-pm@vger.kernel.org, linux-remoteproc@vger.kernel.org
-Subject: Re: [PATCH] dt-bindings: correct white-spaces in examples
-Message-ID: <ZWTTTSScBPWBKMrw@p14s>
-References: <20231124092121.16866-1-krzysztof.kozlowski@linaro.org>
+Received: from mx01.omp.ru (mx01.omp.ru [90.154.21.10])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C3B35D4D;
+	Mon, 27 Nov 2023 11:01:25 -0800 (PST)
+Received: from [192.168.1.103] (31.173.82.188) by msexch01.omp.ru
+ (10.188.4.12) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.1258.12; Mon, 27 Nov
+ 2023 22:01:17 +0300
+Subject: Re: [PATCH 13/13] net: ravb: Add runtime PM support
+To: Geert Uytterhoeven <geert@linux-m68k.org>, claudiu beznea
+	<claudiu.beznea@tuxon.dev>
+CC: <davem@davemloft.net>, <edumazet@google.com>, <kuba@kernel.org>,
+	<pabeni@redhat.com>, <p.zabel@pengutronix.de>,
+	<yoshihiro.shimoda.uh@renesas.com>, <wsa+renesas@sang-engineering.com>,
+	<biju.das.jz@bp.renesas.com>, <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	<sergei.shtylyov@cogentembedded.com>, <mitsuhiro.kimura.kc@renesas.com>,
+	<masaru.nagai.vx@renesas.com>, <netdev@vger.kernel.org>,
+	<linux-renesas-soc@vger.kernel.org>, <linux-kernel@vger.kernel.org>, Claudiu
+ Beznea <claudiu.beznea.uj@bp.renesas.com>
+References: <20231120084606.4083194-1-claudiu.beznea.uj@bp.renesas.com>
+ <20231120084606.4083194-14-claudiu.beznea.uj@bp.renesas.com>
+ <04cb07fe-cccc-774a-f14d-763ce7ae7b07@omp.ru>
+ <b3456a4d-336c-434d-9fd5-4c87582443cb@tuxon.dev>
+ <9af21eb9-6fe1-de3a-f2eb-4493778ebb32@omp.ru>
+ <e35882ea-c325-4039-bb84-c18b0244dbe0@tuxon.dev>
+ <CAMuHMdVCRXYKtcwaC=v-HhJW-PLV-zhj_3GmeU6Vu1JOK_eu0Q@mail.gmail.com>
+From: Sergey Shtylyov <s.shtylyov@omp.ru>
+Organization: Open Mobile Platform
+Message-ID: <ec9b6604-839f-d31f-59c6-72367804d06a@omp.ru>
+Date: Mon, 27 Nov 2023 22:01:16 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231124092121.16866-1-krzysztof.kozlowski@linaro.org>
+In-Reply-To: <CAMuHMdVCRXYKtcwaC=v-HhJW-PLV-zhj_3GmeU6Vu1JOK_eu0Q@mail.gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: msexch01.omp.ru (10.188.4.12) To msexch01.omp.ru
+ (10.188.4.12)
+X-KSE-ServerInfo: msexch01.omp.ru, 9
+X-KSE-AntiSpam-Interceptor-Info: scan successful
+X-KSE-AntiSpam-Version: 6.0.0, Database issued on: 11/27/2023 18:45:24
+X-KSE-AntiSpam-Status: KAS_STATUS_NOT_DETECTED
+X-KSE-AntiSpam-Method: none
+X-KSE-AntiSpam-Rate: 59
+X-KSE-AntiSpam-Info: Lua profiles 181629 [Nov 27 2023]
+X-KSE-AntiSpam-Info: Version: 6.0.0.2
+X-KSE-AntiSpam-Info: Envelope from: s.shtylyov@omp.ru
+X-KSE-AntiSpam-Info: LuaCore: 5 0.3.5 98d108ddd984cca1d7e65e595eac546a62b0144b
+X-KSE-AntiSpam-Info: {rep_avail}
+X-KSE-AntiSpam-Info: {Tracking_all_Bitcoin, text}
+X-KSE-AntiSpam-Info: {Tracking_from_domain_doesnt_match_to}
+X-KSE-AntiSpam-Info: {relay has no DNS name}
+X-KSE-AntiSpam-Info: {SMTP from is not routable}
+X-KSE-AntiSpam-Info: {Found in DNSBL: 31.173.82.188 in (user)
+ b.barracudacentral.org}
+X-KSE-AntiSpam-Info:
+	omp.ru:7.1.1;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;127.0.0.199:7.1.2
+X-KSE-AntiSpam-Info: ApMailHostAddress: 31.173.82.188
+X-KSE-AntiSpam-Info: {DNS response errors}
+X-KSE-AntiSpam-Info: Rate: 59
+X-KSE-AntiSpam-Info: Status: not_detected
+X-KSE-AntiSpam-Info: Method: none
+X-KSE-AntiSpam-Info: Auth:dmarc=temperror header.from=omp.ru;spf=temperror
+ smtp.mailfrom=omp.ru;dkim=none
+X-KSE-Antiphishing-Info: Clean
+X-KSE-Antiphishing-ScanningType: Heuristic
+X-KSE-Antiphishing-Method: None
+X-KSE-Antiphishing-Bases: 11/27/2023 18:53:00
+X-KSE-Antivirus-Interceptor-Info: scan successful
+X-KSE-Antivirus-Info: Clean, bases: 11/27/2023 4:12:00 PM
+X-KSE-Attachment-Filter-Triggered-Rules: Clean
+X-KSE-Attachment-Filter-Triggered-Filters: Clean
+X-KSE-BulkMessagesFiltering-Scan-Result: InTheLimit
 
-On Fri, Nov 24, 2023 at 10:21:21AM +0100, Krzysztof Kozlowski wrote:
-> Use only one and exactly one space around '=' in DTS example.
-> 
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> 
-> ---
-> 
-> Merging idea: Rob's DT.
-> Should apply cleanly on Rob's for-next.
-> ---
->  .../devicetree/bindings/auxdisplay/hit,hd44780.yaml       | 2 +-
->  .../devicetree/bindings/clock/baikal,bt1-ccu-pll.yaml     | 2 +-
->  Documentation/devicetree/bindings/iio/adc/adi,ad7780.yaml | 6 +++---
->  .../devicetree/bindings/iio/adc/qcom,spmi-iadc.yaml       | 2 +-
->  .../devicetree/bindings/iio/adc/qcom,spmi-rradc.yaml      | 2 +-
->  .../interrupt-controller/st,stih407-irq-syscfg.yaml       | 4 ++--
->  Documentation/devicetree/bindings/mmc/arm,pl18x.yaml      | 2 +-
->  Documentation/devicetree/bindings/net/sff,sfp.yaml        | 2 +-
->  .../devicetree/bindings/pci/toshiba,visconti-pcie.yaml    | 2 +-
->  .../bindings/pinctrl/renesas,rzg2l-pinctrl.yaml           | 6 +++---
->  .../devicetree/bindings/power/supply/richtek,rt9455.yaml  | 8 ++++----
->  .../devicetree/bindings/regulator/mps,mp5416.yaml         | 4 ++--
->  .../devicetree/bindings/regulator/mps,mpq7920.yaml        | 4 ++--
->  .../devicetree/bindings/remoteproc/fsl,imx-rproc.yaml     | 8 ++++----
+On 11/27/23 5:05 PM, Geert Uytterhoeven wrote:
 
-Reviewed-by: Mathieu Poirier <mathieu.poirier@linaro.org>
+[...]
+>>>>>> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+>>>>>
+>>>>>> RZ/G3S supports enabling/disabling clocks for its modules (including
+>>>>>> Ethernet module). For this commit adds runtime PM support which
+>>>>>> relies on PM domain to enable/disable Ethernet clocks.
+>>>>>
+>>>>>    That's not exactly something new in RZ/G3S. The ravb driver has unconditional
+>>>>> RPM calls already in the probe() and remove() methods...
+>>>>> And the sh_eth driver
+>>>>> has RPM support since 2009...
+>>>>>
+>>>>>> At the end of probe ravb_pm_runtime_put() is called which will turn
+>>>>>
+>>>>>    I'd suggest a shorter name, like ravb_rpm_put() but (looking at this function)
+>>>>>> off the Ethernet clocks (if no other request arrives at the driver).
+>>>>>> After that if the interface is brought up (though ravb_open()) then
+>>>>>> the clocks remain enabled until interface is brought down (operation
+>>>>>> done though ravb_close()).
+>>>>>>
+>>>>>> If any request arrives to the driver while the interface is down the
+>>>>>> clocks are enabled to serve the request and then disabled.
+>>>>>>
+>>>>>> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 
->  14 files changed, 27 insertions(+), 27 deletions(-)
+[...]
+
+> Sergey: does sh_eth.c really reinitialize the hardware completely after
+> pm_runtime_get_sync()?
+
+   Well, even with the original Magnus' commit that added the RPM support (bcd5149ded6b2edbf3732fa1483600a716b1cba6) it wasn't so -- sh_eth_open()
+indeed seemed to re-init everything (but not TSU!) but sh_eth_get_stats()
+surely didn't (the RPM calls there have been removed since); other RPM
+"wrappers" have been added to the driver methods since -- which also
+don't init anything... thus the comment in sh_eth_runtime_nop(() seems
+to be wrong from the very start...
+
+[...]
+
+> Gr{oetje,eeting}s,
 > 
-> diff --git a/Documentation/devicetree/bindings/auxdisplay/hit,hd44780.yaml b/Documentation/devicetree/bindings/auxdisplay/hit,hd44780.yaml
-> index fde07e4b119d..406a922a714e 100644
-> --- a/Documentation/devicetree/bindings/auxdisplay/hit,hd44780.yaml
-> +++ b/Documentation/devicetree/bindings/auxdisplay/hit,hd44780.yaml
-> @@ -113,7 +113,7 @@ examples:
->      hd44780 {
->              compatible = "hit,hd44780";
->              display-height-chars = <2>;
-> -            display-width-chars  = <16>;
-> +            display-width-chars = <16>;
->              data-gpios = <&pcf8574 4 0>,
->                           <&pcf8574 5 0>,
->                           <&pcf8574 6 0>,
-> diff --git a/Documentation/devicetree/bindings/clock/baikal,bt1-ccu-pll.yaml b/Documentation/devicetree/bindings/clock/baikal,bt1-ccu-pll.yaml
-> index 624984d51c10..7f8d98226437 100644
-> --- a/Documentation/devicetree/bindings/clock/baikal,bt1-ccu-pll.yaml
-> +++ b/Documentation/devicetree/bindings/clock/baikal,bt1-ccu-pll.yaml
-> @@ -125,7 +125,7 @@ examples:
->      clk25m: clock-oscillator-25m {
->        compatible = "fixed-clock";
->        #clock-cells = <0>;
-> -      clock-frequency  = <25000000>;
-> +      clock-frequency = <25000000>;
->        clock-output-names = "clk25m";
->      };
->  ...
-> diff --git a/Documentation/devicetree/bindings/iio/adc/adi,ad7780.yaml b/Documentation/devicetree/bindings/iio/adc/adi,ad7780.yaml
-> index 5fcc8dd012f1..be2616ff9af6 100644
-> --- a/Documentation/devicetree/bindings/iio/adc/adi,ad7780.yaml
-> +++ b/Documentation/devicetree/bindings/iio/adc/adi,ad7780.yaml
-> @@ -80,9 +80,9 @@ examples:
->              compatible = "adi,ad7780";
->              reg = <0>;
->  
-> -            avdd-supply      = <&vdd_supply>;
-> -            powerdown-gpios  = <&gpio0 12 GPIO_ACTIVE_HIGH>;
-> -            adi,gain-gpios   = <&gpio1  5 GPIO_ACTIVE_LOW>;
-> +            avdd-supply = <&vdd_supply>;
-> +            powerdown-gpios = <&gpio0 12 GPIO_ACTIVE_HIGH>;
-> +            adi,gain-gpios = <&gpio1  5 GPIO_ACTIVE_LOW>;
->              adi,filter-gpios = <&gpio2 15 GPIO_ACTIVE_LOW>;
->          };
->      };
-> diff --git a/Documentation/devicetree/bindings/iio/adc/qcom,spmi-iadc.yaml b/Documentation/devicetree/bindings/iio/adc/qcom,spmi-iadc.yaml
-> index 73def67fbe01..b6a233cd5f6b 100644
-> --- a/Documentation/devicetree/bindings/iio/adc/qcom,spmi-iadc.yaml
-> +++ b/Documentation/devicetree/bindings/iio/adc/qcom,spmi-iadc.yaml
-> @@ -58,7 +58,7 @@ examples:
->              reg = <0x3600>;
->              interrupts = <0x0 0x36 0x0 IRQ_TYPE_EDGE_RISING>;
->              qcom,external-resistor-micro-ohms = <10000>;
-> -            #io-channel-cells  = <1>;
-> +            #io-channel-cells = <1>;
->          };
->      };
->  ...
-> diff --git a/Documentation/devicetree/bindings/iio/adc/qcom,spmi-rradc.yaml b/Documentation/devicetree/bindings/iio/adc/qcom,spmi-rradc.yaml
-> index b3a626389870..64abe9a4cd9e 100644
-> --- a/Documentation/devicetree/bindings/iio/adc/qcom,spmi-rradc.yaml
-> +++ b/Documentation/devicetree/bindings/iio/adc/qcom,spmi-rradc.yaml
-> @@ -46,6 +46,6 @@ examples:
->          pmic_rradc: adc@4500 {
->              compatible = "qcom,pmi8998-rradc";
->              reg = <0x4500>;
-> -            #io-channel-cells  = <1>;
-> +            #io-channel-cells = <1>;
->          };
->      };
-> diff --git a/Documentation/devicetree/bindings/interrupt-controller/st,stih407-irq-syscfg.yaml b/Documentation/devicetree/bindings/interrupt-controller/st,stih407-irq-syscfg.yaml
-> index 2b153d7c5421..e44e4e5708a7 100644
-> --- a/Documentation/devicetree/bindings/interrupt-controller/st,stih407-irq-syscfg.yaml
-> +++ b/Documentation/devicetree/bindings/interrupt-controller/st,stih407-irq-syscfg.yaml
-> @@ -55,8 +55,8 @@ examples:
->    - |
->      #include <dt-bindings/interrupt-controller/irq-st.h>
->      irq-syscfg {
-> -        compatible    = "st,stih407-irq-syscfg";
-> -        st,syscfg     = <&syscfg_cpu>;
-> +        compatible = "st,stih407-irq-syscfg";
-> +        st,syscfg = <&syscfg_cpu>;
->          st,irq-device = <ST_IRQ_SYSCFG_PMU_0>,
->                          <ST_IRQ_SYSCFG_PMU_1>;
->          st,fiq-device = <ST_IRQ_SYSCFG_DISABLED>,
-> diff --git a/Documentation/devicetree/bindings/mmc/arm,pl18x.yaml b/Documentation/devicetree/bindings/mmc/arm,pl18x.yaml
-> index 2459a55ed540..940b12688167 100644
-> --- a/Documentation/devicetree/bindings/mmc/arm,pl18x.yaml
-> +++ b/Documentation/devicetree/bindings/mmc/arm,pl18x.yaml
-> @@ -203,7 +203,7 @@ examples:
->        bus-width = <4>;
->        cap-sd-highspeed;
->        cap-mmc-highspeed;
-> -      cd-gpios  = <&gpio2 31 0x4>;
-> +      cd-gpios = <&gpio2 31 0x4>;
->        st,sig-dir-dat0;
->        st,sig-dir-dat2;
->        st,sig-dir-cmd;
-> diff --git a/Documentation/devicetree/bindings/net/sff,sfp.yaml b/Documentation/devicetree/bindings/net/sff,sfp.yaml
-> index 973e478a399d..bf6cbc7c2ba3 100644
-> --- a/Documentation/devicetree/bindings/net/sff,sfp.yaml
-> +++ b/Documentation/devicetree/bindings/net/sff,sfp.yaml
-> @@ -120,7 +120,7 @@ examples:
->        pinctrl-names = "default";
->        pinctrl-0 = <&cps_sfpp0_pins>;
->        tx-disable-gpios = <&cps_gpio1 29 GPIO_ACTIVE_HIGH>;
-> -      tx-fault-gpios  = <&cps_gpio1 26 GPIO_ACTIVE_HIGH>;
-> +      tx-fault-gpios = <&cps_gpio1 26 GPIO_ACTIVE_HIGH>;
->      };
->  
->      mdio {
-> diff --git a/Documentation/devicetree/bindings/pci/toshiba,visconti-pcie.yaml b/Documentation/devicetree/bindings/pci/toshiba,visconti-pcie.yaml
-> index 53da2edd7c9a..120e3bb1e545 100644
-> --- a/Documentation/devicetree/bindings/pci/toshiba,visconti-pcie.yaml
-> +++ b/Documentation/devicetree/bindings/pci/toshiba,visconti-pcie.yaml
-> @@ -83,7 +83,7 @@ examples:
->                    <0x0 0x28050000 0x0 0x00010000>,
->                    <0x0 0x24200000 0x0 0x00002000>,
->                    <0x0 0x24162000 0x0 0x00001000>;
-> -            reg-names  = "dbi", "config", "ulreg", "smu", "mpu";
-> +            reg-names = "dbi", "config", "ulreg", "smu", "mpu";
->              device_type = "pci";
->              bus-range = <0x00 0xff>;
->              num-lanes = <2>;
-> diff --git a/Documentation/devicetree/bindings/pinctrl/renesas,rzg2l-pinctrl.yaml b/Documentation/devicetree/bindings/pinctrl/renesas,rzg2l-pinctrl.yaml
-> index b5ca40d0e251..d476de82e5c3 100644
-> --- a/Documentation/devicetree/bindings/pinctrl/renesas,rzg2l-pinctrl.yaml
-> +++ b/Documentation/devicetree/bindings/pinctrl/renesas,rzg2l-pinctrl.yaml
-> @@ -185,17 +185,17 @@ examples:
->                      sd1_mux {
->                              pinmux = <RZG2L_PORT_PINMUX(19, 0, 1)>, /* CD */
->                                       <RZG2L_PORT_PINMUX(19, 1, 1)>; /* WP */
-> -                            power-source  = <3300>;
-> +                            power-source = <3300>;
->                      };
->  
->                      sd1_data {
->                              pins = "SD1_DATA0", "SD1_DATA1", "SD1_DATA2", "SD1_DATA3";
-> -                            power-source  = <3300>;
-> +                            power-source = <3300>;
->                      };
->  
->                      sd1_ctrl {
->                              pins = "SD1_CLK", "SD1_CMD";
-> -                            power-source  = <3300>;
-> +                            power-source = <3300>;
->                      };
->              };
->      };
-> diff --git a/Documentation/devicetree/bindings/power/supply/richtek,rt9455.yaml b/Documentation/devicetree/bindings/power/supply/richtek,rt9455.yaml
-> index 07e38be39f1b..89f9603499b4 100644
-> --- a/Documentation/devicetree/bindings/power/supply/richtek,rt9455.yaml
-> +++ b/Documentation/devicetree/bindings/power/supply/richtek,rt9455.yaml
-> @@ -79,10 +79,10 @@ examples:
->          interrupt-parent = <&gpio1>;
->          interrupts = <0 IRQ_TYPE_LEVEL_LOW>;
->  
-> -        richtek,output-charge-current	    = <500000>;
-> -        richtek,end-of-charge-percentage    = <10>;
-> -        richtek,battery-regulation-voltage  = <4200000>;
-> -        richtek,boost-output-voltage	    = <5050000>;
-> +        richtek,output-charge-current = <500000>;
-> +        richtek,end-of-charge-percentage = <10>;
-> +        richtek,battery-regulation-voltage = <4200000>;
-> +        richtek,boost-output-voltage = <5050000>;
->  
->          richtek,min-input-voltage-regulation = <4500000>;
->          richtek,avg-input-current-regulation = <500000>;
-> diff --git a/Documentation/devicetree/bindings/regulator/mps,mp5416.yaml b/Documentation/devicetree/bindings/regulator/mps,mp5416.yaml
-> index 0221397eb51e..f825ee9efd81 100644
-> --- a/Documentation/devicetree/bindings/regulator/mps,mp5416.yaml
-> +++ b/Documentation/devicetree/bindings/regulator/mps,mp5416.yaml
-> @@ -62,8 +62,8 @@ examples:
->               regulator-name = "buck1";
->               regulator-min-microvolt = <600000>;
->               regulator-max-microvolt = <2187500>;
-> -             regulator-min-microamp  = <3800000>;
-> -             regulator-max-microamp  = <6800000>;
-> +             regulator-min-microamp = <3800000>;
-> +             regulator-max-microamp = <6800000>;
->               regulator-boot-on;
->              };
->  
-> diff --git a/Documentation/devicetree/bindings/regulator/mps,mpq7920.yaml b/Documentation/devicetree/bindings/regulator/mps,mpq7920.yaml
-> index 6de5b027f990..0d34af98403f 100644
-> --- a/Documentation/devicetree/bindings/regulator/mps,mpq7920.yaml
-> +++ b/Documentation/devicetree/bindings/regulator/mps,mpq7920.yaml
-> @@ -98,8 +98,8 @@ examples:
->               regulator-name = "buck1";
->               regulator-min-microvolt = <400000>;
->               regulator-max-microvolt = <3587500>;
-> -             regulator-min-microamp  = <460000>;
-> -             regulator-max-microamp  = <7600000>;
-> +             regulator-min-microamp = <460000>;
-> +             regulator-max-microamp = <7600000>;
->               regulator-boot-on;
->               mps,buck-ovp-disable;
->               mps,buck-phase-delay = /bits/ 8 <2>;
-> diff --git a/Documentation/devicetree/bindings/remoteproc/fsl,imx-rproc.yaml b/Documentation/devicetree/bindings/remoteproc/fsl,imx-rproc.yaml
-> index 30632efdad8b..df36e29d974c 100644
-> --- a/Documentation/devicetree/bindings/remoteproc/fsl,imx-rproc.yaml
-> +++ b/Documentation/devicetree/bindings/remoteproc/fsl,imx-rproc.yaml
-> @@ -113,10 +113,10 @@ examples:
->      };
->  
->      imx7d-cm4 {
-> -      compatible	= "fsl,imx7d-cm4";
-> -      memory-region	= <&m4_reserved_sysmem1>, <&m4_reserved_sysmem2>;
-> -      syscon		= <&src>;
-> -      clocks		= <&clks IMX7D_ARM_M4_ROOT_CLK>;
-> +      compatible = "fsl,imx7d-cm4";
-> +      memory-region = <&m4_reserved_sysmem1>, <&m4_reserved_sysmem2>;
-> +      syscon = <&src>;
-> +      clocks = <&clks IMX7D_ARM_M4_ROOT_CLK>;
->      };
->  
->    - |
-> -- 
-> 2.34.1
-> 
-> 
+>                         Geert
+
+MBR, Sergey
 
