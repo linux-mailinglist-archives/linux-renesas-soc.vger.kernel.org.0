@@ -1,106 +1,80 @@
-Return-Path: <linux-renesas-soc+bounces-270-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-271-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71EB67F9D1E
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 Nov 2023 11:08:27 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E1B27F9D78
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 Nov 2023 11:28:18 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id DAD3AB20D73
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 Nov 2023 10:08:24 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6F2F01C20A83
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 Nov 2023 10:28:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 516DC1802E;
-	Mon, 27 Nov 2023 10:08:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3662D182DA;
+	Mon, 27 Nov 2023 10:28:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dkim=none
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-oa1-f44.google.com (mail-oa1-f44.google.com [209.85.160.44])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0DDE6C0;
-	Mon, 27 Nov 2023 02:08:16 -0800 (PST)
-Received: by mail-oa1-f44.google.com with SMTP id 586e51a60fabf-1fa4b632198so464242fac.1;
-        Mon, 27 Nov 2023 02:08:16 -0800 (PST)
+Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com [209.85.128.175])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 94E0610F;
+	Mon, 27 Nov 2023 02:28:12 -0800 (PST)
+Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-5b383b4184fso40823377b3.1;
+        Mon, 27 Nov 2023 02:28:12 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701079695; x=1701684495;
+        d=1e100.net; s=20230601; t=1701080891; x=1701685691;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=/VnyBshkvXGTRRsL4y6lDrPgLjR5JtfcTMrPcPvPYA4=;
-        b=QUtqLED33HtNG437p14zBWcM4SfHTEF9znRZwISMeRQvYo7yCMS7p7EU2/l0OCne7p
-         +9EcGlUUuBNCcXMqvHwDx7Bx6jjDnniA57CkWogSYadvHFBhflw93VezeEDRoE7FWuNl
-         Si+fNaqMWyTjM6xBqbiEsMPKZw2MR3pVwSbF7fhRqf5Kb5+KaTOBS1V25n1/Ic4U+88R
-         PtDiiutjumpFHvDuCIyrva2Oge9zheG7Y+g6/VYhkurpPZCnZsTguFMw0t7bqCuVgDWu
-         gYi3GLO4dV9rrfavnNdQK8ZGcbJx9T6DAqFX4GJf+g++tTOXl+zWclhUfeL04dTehjdH
-         zC7A==
-X-Gm-Message-State: AOJu0YzZ8pWa/DIuXFshRDQGxdxFhztJsBiiMqGnQ4cmxMARMKPCNLcv
-	tKrZgYQarAERahy7SPNyHYWp2/kT4nKNAQ==
-X-Google-Smtp-Source: AGHT+IHBatFEKsPQJkcu6tgxnyooX+qUGzUREsYOnQk4kiyIbtLawY1X7SUpYwr5DJByTKNNmyvkhQ==
-X-Received: by 2002:a05:6870:4d08:b0:1e9:9179:4c6f with SMTP id pn8-20020a0568704d0800b001e991794c6fmr14319770oab.49.1701079695133;
-        Mon, 27 Nov 2023 02:08:15 -0800 (PST)
-Received: from mail-oa1-f47.google.com (mail-oa1-f47.google.com. [209.85.160.47])
-        by smtp.gmail.com with ESMTPSA id gb10-20020a056870670a00b001dd8c46ed49sm1525052oab.8.2023.11.27.02.08.14
+        bh=w2MrYlyFk9vAAKCcyLHvMRthDomGQ7+yTct4LR3NVc4=;
+        b=CaMzy9TOqjlDaormMibwM3twyra1KpWYxiurnrlvpqR0n3BuNRA3RA+XQcewHfY5Xq
+         TJa0XajDI8YMW5iO06baVSgdTqX/pgCVR92jAefRJ4e2vBYZmdk0z3bR84Z3WYfOjNHI
+         U1loX2S8PRtxA5HASg82cEyGSe2QfeaRE2hAP3c7eb0Q7jiZeOktgJ26LsH9Y8/Bbhbz
+         BrQDC3LS4G9D9tWeT/kjNAe/SeonWWyVhVpdfWBd8/I9BD/2B/utwo/MGgptGxN0d30F
+         H1j2uRtToQ+YGZAP0p3XLCtfbnS/WR8ortP32xqbaVCCAoUpilyqHNZOj1A8RmFgUDPu
+         iMAA==
+X-Gm-Message-State: AOJu0YysdqJDFrVUY1oXTtFccIJgi5tJW/bxpk0B7YKG+t5kDEDiTb33
+	lp0t+vsvcj/thc5RSvwfOQTympdPovVKVQ==
+X-Google-Smtp-Source: AGHT+IFYlUbB0WokcuCPxMKOcuf3Su0WDdqpLjiYNKM/+CsSrbUZwwHu/kzwa/6+z+yqqzcfUBjW3A==
+X-Received: by 2002:a05:690c:2505:b0:5ce:e0a8:ed6f with SMTP id dt5-20020a05690c250500b005cee0a8ed6fmr8291628ywb.22.1701080891685;
+        Mon, 27 Nov 2023 02:28:11 -0800 (PST)
+Received: from mail-yb1-f169.google.com (mail-yb1-f169.google.com. [209.85.219.169])
+        by smtp.gmail.com with ESMTPSA id x126-20020a814a84000000b005ca7a00a9b0sm3147065ywa.64.2023.11.27.02.28.11
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 27 Nov 2023 02:08:14 -0800 (PST)
-Received: by mail-oa1-f47.google.com with SMTP id 586e51a60fabf-1eb39505ba4so2654872fac.0;
-        Mon, 27 Nov 2023 02:08:14 -0800 (PST)
-X-Received: by 2002:a0d:eb0b:0:b0:5cc:d0bc:fc31 with SMTP id
- u11-20020a0deb0b000000b005ccd0bcfc31mr10889619ywe.24.1701079330823; Mon, 27
- Nov 2023 02:02:10 -0800 (PST)
+        Mon, 27 Nov 2023 02:28:11 -0800 (PST)
+Received: by mail-yb1-f169.google.com with SMTP id 3f1490d57ef6-d9caf5cc948so3600678276.0;
+        Mon, 27 Nov 2023 02:28:11 -0800 (PST)
+X-Received: by 2002:a25:cec6:0:b0:d9b:311f:e9cc with SMTP id
+ x189-20020a25cec6000000b00d9b311fe9ccmr11611974ybe.34.1701080891379; Mon, 27
+ Nov 2023 02:28:11 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231120070024.4079344-1-claudiu.beznea.uj@bp.renesas.com>
- <20231120070024.4079344-15-claudiu.beznea.uj@bp.renesas.com>
- <bd25377b-b191-4d81-b144-2936cb5139d9@app.fastmail.com> <CAMuHMdUkVO7cXpsHd_oGvEpZdJpP6GP+VC8H5GAZ94KJf2joLA@mail.gmail.com>
-In-Reply-To: <CAMuHMdUkVO7cXpsHd_oGvEpZdJpP6GP+VC8H5GAZ94KJf2joLA@mail.gmail.com>
+References: <20231125233327.238575-1-niklas.soderlund+renesas@ragnatech.se>
+In-Reply-To: <20231125233327.238575-1-niklas.soderlund+renesas@ragnatech.se>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 27 Nov 2023 11:01:59 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdUWHMgA8EAhYk1DUx0P85D5=K26aUoBrLsCMr4=Uw4Qrg@mail.gmail.com>
-Message-ID: <CAMuHMdUWHMgA8EAhYk1DUx0P85D5=K26aUoBrLsCMr4=Uw4Qrg@mail.gmail.com>
-Subject: Re: [PATCH 14/14] arm: multi_v7_defconfig: Enable CONFIG_RAVB
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: Claudiu Beznea <claudiu.beznea@tuxon.dev>, Sergey Shtylyov <s.shtylyov@omp.ru>, 
-	"David S . Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Rob Herring <robh+dt@kernel.org>, 
-	krzysztof.kozlowski+dt@linaro.org, Conor Dooley <conor+dt@kernel.org>, 
-	Russell King <linux@armlinux.org.uk>, Magnus Damm <magnus.damm@gmail.com>, 
-	Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
-	Linus Walleij <linus.walleij@linaro.org>, Philipp Zabel <p.zabel@pengutronix.de>, 
-	Marek Szyprowski <m.szyprowski@samsung.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
-	Andrew Davis <afd@ti.com>, Mark Brown <broonie@kernel.org>, 
-	Alexander Stein <alexander.stein@ew.tq-group.com>, eugen.hristev@collabora.com, 
-	sergei.shtylyov@gmail.com, 
-	"Lad, Prabhakar" <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
-	Biju Das <biju.das.jz@bp.renesas.com>, 
-	Linux-Renesas <linux-renesas-soc@vger.kernel.org>, Netdev <netdev@vger.kernel.org>, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org, 
-	"open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>, 
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+Date: Mon, 27 Nov 2023 11:28:00 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdVxmhXvt+xcDe_=sbx4d-U=KaDNHsHF9kRvdYKGzSUoiw@mail.gmail.com>
+Message-ID: <CAMuHMdVxmhXvt+xcDe_=sbx4d-U=KaDNHsHF9kRvdYKGzSUoiw@mail.gmail.com>
+Subject: Re: [PATCH] ARM: dts: renesas: r9a06g032: Add missing space in compatible
+To: =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+Cc: Rob Herring <robh+dt@kernel.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
+	linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Nov 20, 2023 at 9:58=E2=80=AFAM Geert Uytterhoeven <geert@linux-m68=
-k.org> wrote:
-> On Mon, Nov 20, 2023 at 9:44=E2=80=AFAM Arnd Bergmann <arnd@arndb.de> wro=
-te:
-> > On Mon, Nov 20, 2023, at 08:00, Claudiu wrote:
-> > > From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-> > >
-> > > ravb driver is used by RZ/G1H. Enable it in multi_v7_defconfig.
+On Sun, Nov 26, 2023 at 12:33=E2=80=AFAM Niklas S=C3=B6derlund
+<niklas.soderlund+renesas@ragnatech.se> wrote:
+> Add missing space in compatible property and align style with rest of
+> the file.
 >
-> Used by:
->   - iWave-RZ/G1M/G1N Qseven carrier board,
->   - iWave-RZ/G1H Qseven board,
->   - iWave-RZG1E SODIMM carrier board,
->   - iWave-RZ/G1C single board computer.
->
-> So I'd write "used by various iWave RZ/G1 development boards".
+> Signed-off-by: Niklas S=C3=B6derlund <niklas.soderlund+renesas@ragnatech.=
+se>
 
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-devel for v6.8, with the above updated.
+i.e. will queue in renesas-devel for v6.8.
 
 Gr{oetje,eeting}s,
 
