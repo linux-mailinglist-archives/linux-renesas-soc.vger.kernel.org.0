@@ -1,137 +1,166 @@
-Return-Path: <linux-renesas-soc+bounces-299-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-300-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 334267FAC95
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 Nov 2023 22:32:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0108E7FAD84
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 Nov 2023 23:34:36 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 634BA1C20DD0
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 Nov 2023 21:32:32 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 328DD1C20AE0
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 Nov 2023 22:34:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5713646454;
-	Mon, 27 Nov 2023 21:32:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 82F3A4643C;
+	Mon, 27 Nov 2023 22:34:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LgGa0Jrc"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AwxDQvYh"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3342A31580;
-	Mon, 27 Nov 2023 21:32:28 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7C7FBC433C8;
-	Mon, 27 Nov 2023 21:32:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1701120748;
-	bh=oKVuzSwUsB23sGbqCUdMKzeZOFoBgjY8WDwms9OBRnc=;
-	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-	b=LgGa0JrcD0Mjn91d/RumF0tZD9/oib+k4L290CqFgpd4gZ/96SKvsPaMyLK6OZcug
-	 xNz664QoqgXdNYqM0DHe929wTJPfBM5hsa3Xc/1ragtuWoLImhBNNX8iugp4iAOJyS
-	 4h/k+A2p++OxoxLV2tmRzMoDvWhxDEMZXLoUuu063Ae7tesDJuM33sS5ETOmzzq3q0
-	 J8E9ONxnyws2yXI/HwKuK3iB+1ZUnBMOMq3rquVc/jNLgkfUjuFn+g6P6upN2xow7i
-	 b/P+TdfnjF9TJd+FPvwM2SzGCqJxGQ5zz0KAjxiNbh99zGgi97NofVtKH7P4xipToR
-	 p5n2lUED4T+Iw==
-Message-ID: <31afd614c5eb5e82a860fecfc1c21c39.sboyd@kernel.org>
-Content-Type: text/plain; charset="utf-8"
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 51A8F136;
+	Mon, 27 Nov 2023 14:34:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1701124470; x=1732660470;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ts77A1VNiEc2CT8sAwLfGF3duEMUZ+i3j/tFM1XLqJM=;
+  b=AwxDQvYheNxk5PpJM9MeOtrqnj9g/dSOdAT7gTLTpWmgBhn+78TQzU8P
+   TI7POBG2RBEGlOPDxcSfcOH1fxGn62RASKcydoefKVNEYvh9c+W7uNy8s
+   oellzRYzPwKBaCRLWb2Vg3o4C9hdR9b3hlwPjgdwk0KtD/SV0Huo6Brhl
+   N5jddgLxB0CiFpTbxT31jfez1rvyLIEYnmACdJRZXOMM5L86/ksT53DwF
+   EEvevC119a6/1NqDpmGLPQkLzIQ1H9qw1Ujpaf/4eRcb6ihWws+qbEHpa
+   HLEz3N4/zQMBtvpaCc9l4AUBSB2zgehg66UTyL+5yavkNpbhO5FmbP7xq
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10907"; a="392557646"
+X-IronPort-AV: E=Sophos;i="6.04,232,1695711600"; 
+   d="scan'208";a="392557646"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2023 14:34:29 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10907"; a="1099898612"
+X-IronPort-AV: E=Sophos;i="6.04,232,1695711600"; 
+   d="scan'208";a="1099898612"
+Received: from lkp-server01.sh.intel.com (HELO d584ee6ebdcc) ([10.239.97.150])
+  by fmsmga005.fm.intel.com with ESMTP; 27 Nov 2023 14:34:27 -0800
+Received: from kbuild by d584ee6ebdcc with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1r7kBN-0006j2-0f;
+	Mon, 27 Nov 2023 22:34:25 +0000
+Date: Tue, 28 Nov 2023 06:33:48 +0800
+From: kernel test robot <lkp@intel.com>
+To: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>, s.shtylyov@omp.ru,
+	davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+	pabeni@redhat.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Subject: Re: [PATCH net-next 8/9] net: rswitch: Add jumbo frames handling for
+ TX
+Message-ID: <202311280447.HzrM7Jdd-lkp@intel.com>
+References: <20231127115334.3670790-9-yoshihiro.shimoda.uh@renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <CAMuHMdU0Hqem8Ooehoo64rrGn8q8+5A8_DjGZd9Tvh=Xej6mdA@mail.gmail.com>
-References: <8734x9tda9.wl-kuninori.morimoto.gx@renesas.com> <87wmulrynq.wl-kuninori.morimoto.gx@renesas.com> <20231116192324.GB2821275-robh@kernel.org> <CAMuHMdU0Hqem8Ooehoo64rrGn8q8+5A8_DjGZd9Tvh=Xej6mdA@mail.gmail.com>
-Subject: Re: [PATCH 4/4] drivers: clk: renesas: enable all clocks which is assinged to non Linux system
-From: Stephen Boyd <sboyd@kernel.org>
-Cc: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, Frank Rowand <frowand.list@gmail.com>, Michael Turquette <mturquette@baylibre.com>, devicetree@vger.kernel.org, linux-clk@vger.kernel.org, linux-renesas-soc@vger.kernel.org, Aymeric Aillet <aymeric.aillet@iot.bzh>, Yusuke Goda <yusuke.goda.sx@renesas.com>
-To: Geert Uytterhoeven <geert@linux-m68k.org>, Rob Herring <robh@kernel.org>
-Date: Mon, 27 Nov 2023 13:32:26 -0800
-User-Agent: alot/0.10
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231127115334.3670790-9-yoshihiro.shimoda.uh@renesas.com>
 
-Quoting Geert Uytterhoeven (2023-11-16 13:08:46)
-> On Thu, Nov 16, 2023 at 8:23=E2=80=AFPM Rob Herring <robh@kernel.org> wro=
-te:
-> > On Tue, Nov 14, 2023 at 12:01:14AM +0000, Kuninori Morimoto wrote:
-> > > Some board might use Linux and another OS in the same time. In such
-> > > case, current Linux will stop necessary module clock when booting
-> > > which is not used on Linux side, but is used on another OS side.
-> > >
-> > > To avoid such situation, renesas-cpg-mssr try to find
-> > > status =3D "reserved" devices (A), and add CLK_IGNORE_UNUSED flag to =
-its
-> > > <&cgp CPG_MOD xxx> clock (B).
-> >
-> > See Stephen's presentation from Plumbers this week. The default behavior
-> > for unused clocks may be changing soon.
->=20
-> Thank you!
->=20
-> ou mean "Make sync_state()/handoff work for the common clk
-> framework"[1]? IIUIC, that presentation didn't cover the problem we are
-> facing, except for the big "Kconfig for clk_ignore_unused=3Dtrue" hammer.
+Hi Yoshihiro,
 
-:)
+kernel test robot noticed the following build warnings:
 
->=20
-> > > Table 2.4: Values for status property
-> > > https://github.com/devicetree-org/devicetree-specification/releases/d=
-ownload/v0.4/devicetree-specification-v0.4.pdf
-> > >
-> > > "reserved"
-> > >       Indicates that the device is operational, but should not be
-> > >       used. Typically this is used for devices that are controlled
-> > >       by another software component, such as platform firmware.
-> > >
-> > > ex)
-> > >       scif5: serial@e6f30000 {
-> > >               ...
-> > > (B)           clocks =3D <&cpg CPG_MOD 202>,
-> > >                        <&cpg CPG_CORE R8A7795_CLK_S3D1>,
-> > >                        <&scif_clk>;
-> > >               ...
-> > > (A)           status =3D "reserved";
-> > >       };
-> >
-> > I have some reservations about whether a reserved node should be touched
-> > at all by Linux. I suppose since it is platform specific, it's okay. I
-> > don't think we could apply such behavior globally.
->=20
-> That's an interesting comment, as the issue is that currently Linux
-> does touch (resources belonging to) reserved nodes, and this patch
-> would prevent doing that for module clock resources;-)
+[auto build test WARNING on net/main]
+[cannot apply to net-next/main linus/master horms-ipvs/master v6.7-rc3]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-I think I get it.
+url:    https://github.com/intel-lab-lkp/linux/commits/Yoshihiro-Shimoda/net-rswitch-Drop-unused-argument-return-value/20231127-195705
+base:   net/main
+patch link:    https://lore.kernel.org/r/20231127115334.3670790-9-yoshihiro.shimoda.uh%40renesas.com
+patch subject: [PATCH net-next 8/9] net: rswitch: Add jumbo frames handling for TX
+config: arm64-allyesconfig (https://download.01.org/0day-ci/archive/20231128/202311280447.HzrM7Jdd-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231128/202311280447.HzrM7Jdd-lkp@intel.com/reproduce)
 
->=20
-> The core issue is that Linux distinguishes only between two cases:
->   1. "device is used by Linux" (if a driver is available),
->      as indicated by 'status =3D "okay"' in DT, or
->   2. "device is unused by Linux".
-> On a heterogenous system, the latter actually comprises two cases:
->   2a. "device is unused", or
->   2b. "device is used by another OS running on another CPU core".
->=20
-> Looking for 'status =3D "reserved"' allows us to distinguish between 2a
-> and 2b, and can prevent disabling clocks that are used by another OS.
-> Probably we need a similar solution for power domains.
->=20
-> Do you have a better or alternative suggestion?
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311280447.HzrM7Jdd-lkp@intel.com/
 
-Does the protected-clocks property work? That basically says "don't use
-these clks in the OS". The driver implementation would not register
-those clks and then the framework would be unaware of their existence,
-leading to them never being disabled during late init.
+All warnings (new ones prefixed by >>):
 
-This approach also looks OK to me, basically programmatically creating
-the protected-clocks list by parsing DT for reserved consumer nodes and
-then figuring out that no consumer exists so we can skip registering the
-clk entirely, or add the flag. I'm not sure we want to implement that
-policy globally, because maybe someone really wants to disable the clk
-still to clean up bootloader state and then let a remoteproc use the clk
-later.
+>> drivers/net/ethernet/renesas/rswitch.c:1680:42: warning: variable 'dma_addr' is uninitialized when used here [-Wuninitialized]
+    1680 |         if (dma_mapping_error(ndev->dev.parent, dma_addr))
+         |                                                 ^~~~~~~~
+   drivers/net/ethernet/renesas/rswitch.c:1663:21: note: initialize the variable 'dma_addr' to silence this warning
+    1663 |         dma_addr_t dma_addr, dma_addr_orig;
+         |                            ^
+         |                             = 0
+   1 warning generated.
 
-Do you want to keep those clks registered with the framework? Is there
-any benefit to keeping clks around if linux can't do anything with them?
+
+vim +/dma_addr +1680 drivers/net/ethernet/renesas/rswitch.c
+
+9ce54e0ed5479a1 Yoshihiro Shimoda 2023-11-27  1658  
+8e0aa1ff44ca30b Nathan Chancellor 2022-11-03  1659  static netdev_tx_t rswitch_start_xmit(struct sk_buff *skb, struct net_device *ndev)
+3590918b5d07aa5 Yoshihiro Shimoda 2022-10-31  1660  {
+3590918b5d07aa5 Yoshihiro Shimoda 2022-10-31  1661  	struct rswitch_device *rdev = netdev_priv(ndev);
+3590918b5d07aa5 Yoshihiro Shimoda 2022-10-31  1662  	struct rswitch_gwca_queue *gq = rdev->tx_queue;
+9ce54e0ed5479a1 Yoshihiro Shimoda 2023-11-27  1663  	dma_addr_t dma_addr, dma_addr_orig;
+109b25d13e00543 Yoshihiro Shimoda 2023-11-22  1664  	netdev_tx_t ret = NETDEV_TX_OK;
+3590918b5d07aa5 Yoshihiro Shimoda 2022-10-31  1665  	struct rswitch_ext_desc *desc;
+9ce54e0ed5479a1 Yoshihiro Shimoda 2023-11-27  1666  	unsigned int i, nr_desc;
+9ce54e0ed5479a1 Yoshihiro Shimoda 2023-11-27  1667  	u8 die_dt;
+9ce54e0ed5479a1 Yoshihiro Shimoda 2023-11-27  1668  	u16 len;
+3590918b5d07aa5 Yoshihiro Shimoda 2022-10-31  1669  
+9ce54e0ed5479a1 Yoshihiro Shimoda 2023-11-27  1670  	nr_desc = (skb->len - 1) / RSWITCH_DESC_BUF_SIZE + 1;
+9ce54e0ed5479a1 Yoshihiro Shimoda 2023-11-27  1671  	if (rswitch_get_num_cur_queues(gq) >= gq->ring_size - nr_desc) {
+3590918b5d07aa5 Yoshihiro Shimoda 2022-10-31  1672  		netif_stop_subqueue(ndev, 0);
+a60caf039e96d80 Yoshihiro Shimoda 2023-05-29  1673  		return NETDEV_TX_BUSY;
+3590918b5d07aa5 Yoshihiro Shimoda 2022-10-31  1674  	}
+3590918b5d07aa5 Yoshihiro Shimoda 2022-10-31  1675  
+3590918b5d07aa5 Yoshihiro Shimoda 2022-10-31  1676  	if (skb_put_padto(skb, ETH_ZLEN))
+3590918b5d07aa5 Yoshihiro Shimoda 2022-10-31  1677  		return ret;
+3590918b5d07aa5 Yoshihiro Shimoda 2022-10-31  1678  
+9ce54e0ed5479a1 Yoshihiro Shimoda 2023-11-27  1679  	dma_addr_orig = dma_map_single(ndev->dev.parent, skb->data, skb->len, DMA_TO_DEVICE);
+782486af9b5b764 Yoshihiro Shimoda 2023-11-22 @1680  	if (dma_mapping_error(ndev->dev.parent, dma_addr))
+782486af9b5b764 Yoshihiro Shimoda 2023-11-22  1681  		goto err_kfree;
+3590918b5d07aa5 Yoshihiro Shimoda 2022-10-31  1682  
+3590918b5d07aa5 Yoshihiro Shimoda 2022-10-31  1683  	gq->skbs[gq->cur] = skb;
+e0e4f789171ba70 Yoshihiro Shimoda 2023-11-27  1684  	gq->unmap_addrs[gq->cur] = dma_addr;
+9ce54e0ed5479a1 Yoshihiro Shimoda 2023-11-27  1685  
+9ce54e0ed5479a1 Yoshihiro Shimoda 2023-11-27  1686  	/* DT_FSTART should be set at last. So, this is reverse order. */
+9ce54e0ed5479a1 Yoshihiro Shimoda 2023-11-27  1687  	for (i = nr_desc; i-- > 0; ) {
+9ce54e0ed5479a1 Yoshihiro Shimoda 2023-11-27  1688  		desc = &gq->tx_ring[rswitch_next_queue_index(gq, true, i)];
+9ce54e0ed5479a1 Yoshihiro Shimoda 2023-11-27  1689  		die_dt = rswitch_ext_desc_get_die_dt(nr_desc, i);
+9ce54e0ed5479a1 Yoshihiro Shimoda 2023-11-27  1690  		dma_addr = dma_addr_orig + i * RSWITCH_DESC_BUF_SIZE;
+9ce54e0ed5479a1 Yoshihiro Shimoda 2023-11-27  1691  		len = rswitch_ext_desc_get_len(die_dt, skb->len);
+9ce54e0ed5479a1 Yoshihiro Shimoda 2023-11-27  1692  		if (!rswitch_ext_desc_set(rdev, skb, desc, dma_addr, len, die_dt))
+782486af9b5b764 Yoshihiro Shimoda 2023-11-22  1693  			goto err_unmap;
+9ce54e0ed5479a1 Yoshihiro Shimoda 2023-11-27  1694  	}
+33f5d733b589031 Yoshihiro Shimoda 2023-02-09  1695  
+3590918b5d07aa5 Yoshihiro Shimoda 2022-10-31  1696  	wmb();	/* gq->cur must be incremented after die_dt was set */
+3590918b5d07aa5 Yoshihiro Shimoda 2022-10-31  1697  
+9ce54e0ed5479a1 Yoshihiro Shimoda 2023-11-27  1698  	gq->cur = rswitch_next_queue_index(gq, true, nr_desc);
+3590918b5d07aa5 Yoshihiro Shimoda 2022-10-31  1699  	rswitch_modify(rdev->addr, GWTRC(gq->index), 0, BIT(gq->index % 32));
+3590918b5d07aa5 Yoshihiro Shimoda 2022-10-31  1700  
+782486af9b5b764 Yoshihiro Shimoda 2023-11-22  1701  	return ret;
+782486af9b5b764 Yoshihiro Shimoda 2023-11-22  1702  
+782486af9b5b764 Yoshihiro Shimoda 2023-11-22  1703  err_unmap:
+782486af9b5b764 Yoshihiro Shimoda 2023-11-22  1704  	dma_unmap_single(ndev->dev.parent, dma_addr, skb->len, DMA_TO_DEVICE);
+782486af9b5b764 Yoshihiro Shimoda 2023-11-22  1705  
+782486af9b5b764 Yoshihiro Shimoda 2023-11-22  1706  err_kfree:
+782486af9b5b764 Yoshihiro Shimoda 2023-11-22  1707  	dev_kfree_skb_any(skb);
+782486af9b5b764 Yoshihiro Shimoda 2023-11-22  1708  
+3590918b5d07aa5 Yoshihiro Shimoda 2022-10-31  1709  	return ret;
+3590918b5d07aa5 Yoshihiro Shimoda 2022-10-31  1710  }
+3590918b5d07aa5 Yoshihiro Shimoda 2022-10-31  1711  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
