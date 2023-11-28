@@ -1,169 +1,192 @@
-Return-Path: <linux-renesas-soc+bounces-368-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-382-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 800D07FC4C2
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Nov 2023 21:04:41 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FAF07FC8D9
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Nov 2023 22:54:53 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 096C2B213B0
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Nov 2023 20:04:39 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 914F71C20C1A
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Nov 2023 21:54:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EE14940BF5;
-	Tue, 28 Nov 2023 20:04:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 371CB42A84;
+	Tue, 28 Nov 2023 21:54:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lFaUrj5M"
+	dkim=pass (2048-bit key) header.d=kernelci-org.20230601.gappssmtp.com header.i=@kernelci-org.20230601.gappssmtp.com header.b="nGWYjHCg"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C580A19B9;
-	Tue, 28 Nov 2023 12:04:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701201873; x=1732737873;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=AMy4L5MTw99Pqy+OTzGL349/EMT3/j4eidtVRe1PNcE=;
-  b=lFaUrj5MTFtb55DpbRIVEFhZnQklMQP/KNR7nb6sGY9f/dGpEzL04SMJ
-   9sb2uit5YglvR814VDSyd3yWelPhyDMtdqWbVFMonlxqzDsbW7TiQFWst
-   iZvM9r2Jk3JveBVM7FhcWZC0dYY4jnJHJg1t6KvfTLuVPoMVtllHTIPgN
-   AncihKjVkV/WyFkYT6IS1MpV9X20w2TrNwa3RK5eSDF5UEuJpUWL25QwJ
-   KJoCQw0SgP/e/7uf1GK10JUwqvltA3HTnrC8OErUDLAELzOrnWQTNFN9I
-   EZppF/s+0xzzWMp33JB1ZzI6Y/2ZHtI3x61c6r9NCGWVOVMhE2pILDjNq
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10908"; a="457345749"
-X-IronPort-AV: E=Sophos;i="6.04,234,1695711600"; 
-   d="scan'208";a="457345749"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Nov 2023 12:02:47 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10908"; a="772420483"
-X-IronPort-AV: E=Sophos;i="6.04,234,1695711600"; 
-   d="scan'208";a="772420483"
-Received: from black.fi.intel.com ([10.237.72.28])
-  by fmsmga007.fm.intel.com with ESMTP; 28 Nov 2023 12:02:37 -0800
-Received: by black.fi.intel.com (Postfix, from userid 1003)
-	id 16434CA9; Tue, 28 Nov 2023 22:01:59 +0200 (EET)
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Linus Walleij <linus.walleij@linaro.org>,
-	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	=?UTF-8?q?Jonathan=20Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
-	Jianlong Huang <jianlong.huang@starfivetech.com>,
-	linux-arm-kernel@lists.infradead.org,
-	linux-gpio@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-mediatek@lists.infradead.org,
-	openbmc@lists.ozlabs.org,
-	linux-mips@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org
-Cc: Ray Jui <rjui@broadcom.com>,
-	Scott Branden <sbranden@broadcom.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Dong Aisheng <aisheng.dong@nxp.com>,
-	Fabio Estevam <festevam@gmail.com>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Jacky Bai <ping.bai@nxp.com>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	NXP Linux Team <linux-imx@nxp.com>,
-	Sean Wang <sean.wang@kernel.org>,
-	Paul Cercueil <paul@crapouillou.net>,
-	Lakshmi Sowjanya D <lakshmi.sowjanya.d@intel.com>,
-	Andy Gross <agross@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konrad.dybcio@linaro.org>,
-	Emil Renner Berthing <kernel@esmil.dk>,
-	Hal Feng <hal.feng@starfivetech.com>
-Subject: [PATCH v3 22/22] pinctrl: core: Remove unused members from struct group_desc
-Date: Tue, 28 Nov 2023 21:57:11 +0200
-Message-ID: <20231128200155.438722-23-andriy.shevchenko@linux.intel.com>
-X-Mailer: git-send-email 2.43.0.rc1.1.gbec44491f096
-In-Reply-To: <20231128200155.438722-1-andriy.shevchenko@linux.intel.com>
-References: <20231128200155.438722-1-andriy.shevchenko@linux.intel.com>
+Received: from mail-pf1-x434.google.com (mail-pf1-x434.google.com [IPv6:2607:f8b0:4864:20::434])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 14CAE197
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 28 Nov 2023 13:54:47 -0800 (PST)
+Received: by mail-pf1-x434.google.com with SMTP id d2e1a72fcca58-6c4eb5fda3cso5962248b3a.2
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 28 Nov 2023 13:54:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernelci-org.20230601.gappssmtp.com; s=20230601; t=1701208486; x=1701813286; darn=vger.kernel.org;
+        h=from:to:subject:content-transfer-encoding:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=mgqTaSyUKytg/7yztnhPqs1Bi/McnnQHHQoEsV3COg4=;
+        b=nGWYjHCg/Yer/rUY8DlJjKudSQw2d2vp44v7+EeccpbJa/gZACtHvYWe+UkQC8PcBy
+         /bMXNqorYd6L+acqmCHiB7vLNlskg2PFdmzcZggOFAbzusqgiovReTdv95kQ6JMyPyFZ
+         R550trkAS8QCtpNM+mnr6uJOot7C01DBVPFPrvjf5FAcD7kRM84bn6ZTPqM823GEGb59
+         9cIIGaTTaXX7HJ8fXex9ZqSNBHzwoNbNEostt+I/gmv7Eq5GHhnrXae6orq2ppQ0MvUI
+         Mno5n7Ulk3yR3325T/0eEGk7x5gmhgy2fjKa6wXHIymFO91IXaBN6rcgW+lmDP2F4QbS
+         RwVQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701208486; x=1701813286;
+        h=from:to:subject:content-transfer-encoding:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=mgqTaSyUKytg/7yztnhPqs1Bi/McnnQHHQoEsV3COg4=;
+        b=T+KWgxGghadIEGqcQJCd1wNzR6drndk84EhWSnoHWcVZXNH230Ie2bAbQUS3Qi2lPW
+         ll4nUAOkUproLSzmdqSTSVXPuAXo80scHbETzIGzR6MQ2fOfghxYmaNsWrSK+FCC5V78
+         oEnXJCym/5Y2e5pk9I4lfphcRvfMVS7yEsFHn4pLwVtkcLagwoVIrUOmiLpuTli3MMoK
+         DZdZldSVtwQIeqN7KR7Q5TR72hfQTMns7OkXG0e7uesx2wFPu2a56GLWuvK19TVB/sn/
+         bpae5V/sqKfEU51ehqPK8jTMly3Z/84FMEu9IQb8tyVcQEYSjh6lOnGIY4jeF6bAoz2y
+         Ibpw==
+X-Gm-Message-State: AOJu0YzheqSywt/cIcfLB6p18jtt0ylaK2+3pFsG/CYZ15Jt7s0H5e3O
+	9L+kY7lfrlwp4uWdg8Hs9FZYSElm90qTs5pxXZw=
+X-Google-Smtp-Source: AGHT+IEHkRQ5/lV2NhlXDrgUHciD0cphvQ2vWheP03S283AdOb44f/hPwxWmsiqeWGcA/QCjZPLn7w==
+X-Received: by 2002:a05:6a20:8e12:b0:18c:f73:6133 with SMTP id y18-20020a056a208e1200b0018c0f736133mr22124521pzj.28.1701208485983;
+        Tue, 28 Nov 2023 13:54:45 -0800 (PST)
+Received: from kernelci-production.internal.cloudapp.net ([20.171.243.82])
+        by smtp.gmail.com with ESMTPSA id u9-20020a632349000000b005c2422a1171sm9781426pgm.66.2023.11.28.13.54.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 28 Nov 2023 13:54:45 -0800 (PST)
+Message-ID: <656661a5.630a0220.d488e.8cf5@mx.google.com>
+Date: Tue, 28 Nov 2023 13:54:45 -0800 (PST)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+X-Kernelci-Report-Type: test
+X-Kernelci-Branch: master
+X-Kernelci-Tree: renesas
+X-Kernelci-Kernel: renesas-devel-2023-11-28-v6.7-rc3
+Subject: renesas/master baseline-nfs: 22 runs,
+ 2 regressions (renesas-devel-2023-11-28-v6.7-rc3)
+To: linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
+From: "kernelci.org bot" <bot@kernelci.org>
 
-All drivers are converted to use embedded struct pingroup.
-Remove unused members from struct group_desc.
+renesas/master baseline-nfs: 22 runs, 2 regressions (renesas-devel-2023-11-=
+28-v6.7-rc3)
 
-Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
----
- drivers/pinctrl/core.c | 9 ---------
- drivers/pinctrl/core.h | 9 ---------
- 2 files changed, 18 deletions(-)
+Regressions Summary
+-------------------
 
-diff --git a/drivers/pinctrl/core.c b/drivers/pinctrl/core.c
-index e08d4b3b0a56..88de80187445 100644
---- a/drivers/pinctrl/core.c
-+++ b/drivers/pinctrl/core.c
-@@ -559,9 +559,6 @@ const char *pinctrl_generic_get_group_name(struct pinctrl_dev *pctldev,
- 	if (!group)
- 		return NULL;
- 
--	if (group->name)
--		return group->name;
--
- 	return group->grp.name;
- }
- EXPORT_SYMBOL_GPL(pinctrl_generic_get_group_name);
-@@ -588,12 +585,6 @@ int pinctrl_generic_get_group_pins(struct pinctrl_dev *pctldev,
- 		return -EINVAL;
- 	}
- 
--	if (group->pins) {
--		*pins = group->pins;
--		*num_pins = group->num_pins;
--		return 0;
--	}
--
- 	*pins = group->grp.pins;
- 	*num_pins = group->grp.npins;
- 
-diff --git a/drivers/pinctrl/core.h b/drivers/pinctrl/core.h
-index 863b4956a41e..c1ace4c2eccc 100644
---- a/drivers/pinctrl/core.h
-+++ b/drivers/pinctrl/core.h
-@@ -199,16 +199,10 @@ struct pinctrl_maps {
- /**
-  * struct group_desc - generic pin group descriptor
-  * @grp: generic data of the pin group (name and pins)
-- * @name: name of the pin group
-- * @pins: array of pins that belong to the group
-- * @num_pins: number of pins in the group
-  * @data: pin controller driver specific data
-  */
- struct group_desc {
- 	struct pingroup grp;
--	const char *name;
--	const int *pins;
--	int num_pins;
- 	void *data;
- };
- 
-@@ -216,9 +210,6 @@ struct group_desc {
- #define PINCTRL_GROUP_DESC(_name, _pins, _num_pins, _data)	\
- (struct group_desc) {						\
- 	.grp = PINCTRL_PINGROUP(_name, _pins, _num_pins),	\
--	.name = _name,						\
--	.pins = _pins,						\
--	.num_pins = _num_pins,					\
- 	.data = _data,						\
- }
- 
--- 
-2.43.0.rc1.1.gbec44491f096
+platform         | arch | lab             | compiler | defconfig          |=
+ regressions
+-----------------+------+-----------------+----------+--------------------+=
+------------
+dove-cubox       | arm  | lab-pengutronix | gcc-10   | multi_v7_defconfig |=
+ 1          =
 
+imx6dl-riotboard | arm  | lab-pengutronix | gcc-10   | multi_v7_defconfig |=
+ 1          =
+
+
+  Details:  https://kernelci.org/test/job/renesas/branch/master/kernel/rene=
+sas-devel-2023-11-28-v6.7-rc3/plan/baseline-nfs/
+
+  Test:     baseline-nfs
+  Tree:     renesas
+  Branch:   master
+  Describe: renesas-devel-2023-11-28-v6.7-rc3
+  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-d=
+evel.git
+  SHA:      273eac6f81f3427b5219f85d46ef26cc78669a6e =
+
+
+
+Test Regressions
+---------------- =
+
+
+
+platform         | arch | lab             | compiler | defconfig          |=
+ regressions
+-----------------+------+-----------------+----------+--------------------+=
+------------
+dove-cubox       | arm  | lab-pengutronix | gcc-10   | multi_v7_defconfig |=
+ 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/65662f3b5c5226c6b07e4aa4
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: multi_v7_defconfig
+  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
+10110)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+023-11-28-v6.7-rc3/arm/multi_v7_defconfig/gcc-10/lab-pengutronix/baseline-n=
+fs-dove-cubox.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+023-11-28-v6.7-rc3/arm/multi_v7_defconfig/gcc-10/lab-pengutronix/baseline-n=
+fs-dove-cubox.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
+230623.0/armhf/initrd.cpio.gz =
+
+
+
+  * baseline-nfs.login: https://kernelci.org/test/case/id/65662f3b5c5226c6b=
+07e4aa5
+        failing since 14 days (last pass: renesas-devel-2023-06-26-v6.4, fi=
+rst fail: renesas-devel-2023-11-13-v6.7-rc1) =
+
+ =
+
+
+
+platform         | arch | lab             | compiler | defconfig          |=
+ regressions
+-----------------+------+-----------------+----------+--------------------+=
+------------
+imx6dl-riotboard | arm  | lab-pengutronix | gcc-10   | multi_v7_defconfig |=
+ 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/65662f2790f34c7e457e4b4e
+
+  Results:     5 PASS, 1 FAIL, 1 SKIP
+  Full config: multi_v7_defconfig
+  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
+10110)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+023-11-28-v6.7-rc3/arm/multi_v7_defconfig/gcc-10/lab-pengutronix/baseline-n=
+fs-imx6dl-riotboard.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+023-11-28-v6.7-rc3/arm/multi_v7_defconfig/gcc-10/lab-pengutronix/baseline-n=
+fs-imx6dl-riotboard.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
+230623.0/armhf/initrd.cpio.gz =
+
+
+
+  * baseline-nfs.bootrr.deferred-probe-empty: https://kernelci.org/test/cas=
+e/id/65662f2790f34c7e457e4b57
+        new failure (last pass: renesas-devel-2023-11-27-v6.7-rc3)
+
+    2023-11-28T18:19:09.238181  + set[   27.394095] <LAVA_SIGNAL_ENDRUN 0_d=
+mesg 1011924_1.6.2.3.1>
+    2023-11-28T18:19:09.238356   +x
+    2023-11-28T18:19:09.344774  / # #
+    2023-11-28T18:19:09.446460  export SHELL=3D/bin/sh
+    2023-11-28T18:19:09.447094  #
+    2023-11-28T18:19:09.548110  / # export SHELL=3D/bin/sh. /lava-1011924/e=
+nvironment
+    2023-11-28T18:19:09.548575  =
+
+    2023-11-28T18:19:09.649335  / # . /lava-1011924/environment/lava-101192=
+4/bin/lava-test-runner /lava-1011924/1
+    2023-11-28T18:19:09.649884  =
+
+    2023-11-28T18:19:09.653008  / # /lava-1011924/bin/lava-test-runner /lav=
+a-1011924/1 =
+
+    ... (12 line(s) more)  =
+
+ =20
 
