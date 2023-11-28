@@ -1,94 +1,137 @@
-Return-Path: <linux-renesas-soc+bounces-315-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-316-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33AFF7FB531
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Nov 2023 10:06:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 455CD7FB53A
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Nov 2023 10:08:01 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E29BF28238E
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Nov 2023 09:06:46 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 010D1282325
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Nov 2023 09:08:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1C4DD1D557;
-	Tue, 28 Nov 2023 09:06:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A6BF0374D8;
+	Tue, 28 Nov 2023 09:07:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DdRpIuSD"
+	dkim=pass (2048-bit key) header.d=kernelci-org.20230601.gappssmtp.com header.i=@kernelci-org.20230601.gappssmtp.com header.b="Sf3AcOT5"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com [IPv6:2a00:1450:4864:20::12d])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 42360D4E;
-	Tue, 28 Nov 2023 01:06:42 -0800 (PST)
-Received: by mail-lf1-x12d.google.com with SMTP id 2adb3069b0e04-50abb83866bso7000735e87.3;
-        Tue, 28 Nov 2023 01:06:42 -0800 (PST)
+Received: from mail-pl1-x630.google.com (mail-pl1-x630.google.com [IPv6:2607:f8b0:4864:20::630])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 84CA61B8
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 28 Nov 2023 01:07:55 -0800 (PST)
+Received: by mail-pl1-x630.google.com with SMTP id d9443c01a7336-1cf8e569c35so33508795ad.0
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 28 Nov 2023 01:07:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1701162400; x=1701767200; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-language:in-reply-to:mime-version
-         :user-agent:date:message-id:from:references:cc:to:subject:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=2TtVT9r6Ap3lfSrLlJlyUkvyevyK8TC9uXcXi9Em2ck=;
-        b=DdRpIuSDjUEvliC0MrWNGdzlBgvv+ozex/jhSKx9S4a8PDJgfnde+LQiUWf9bF92yr
-         dy/1Z9FmGK0s3CG6lFU5TgFdFLPwEMoWpF6l07muF6ZROIbVV9hUNgaTtqz+a9KZlEdI
-         4LBrow/yL8SJTejJboPnADd3nwyLUCeDCIBZG8a+yCWjThMeOC3nOMukYpAaZXsrXN1g
-         PXRAw4KeVhooj+30HDuXGYj2MU6LwmXGKKumBh4Cm/oZriERDigyyUrU9W780vfzB+VX
-         UZjtJ4yYg+3zrkxPcbnzNgAm39vvI3+VGHNy++5zkRM12n0GWwgp59p9RruBa7KHXlg8
-         iP8g==
+        d=kernelci-org.20230601.gappssmtp.com; s=20230601; t=1701162474; x=1701767274; darn=vger.kernel.org;
+        h=from:to:subject:content-transfer-encoding:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=s/Fu1qAhAsmPwxhLqt7LGcUZxTOhzkhzts5V0uRRvq8=;
+        b=Sf3AcOT591OGrJlUK2t1flidgNyZA3cN9Wh3wM2VdDiOrenzwRDEisEboUUfpAgUWu
+         hiH6w8Z1fAVLUGhYBxeCMlJyl077Qim+eC0lK8ElYCzJtBGQsE7Qe4n4JFKFZIKKWTCA
+         mkAtrivdvbCsa73qGKhGx4EMrnxyVsFS69CdVYtaaOIZs/NMUz6fCxobqWtkaGoUg1su
+         RVxqATJjQSf0HKbmQ47w3LlPXYMsGGzv2k36rOVi8eRaA+I0IK4hQP7r3hY6M4rdtZ4s
+         KJOw19q9nrrgjvSMGSMLrxUZrnN+FBpH0c86oVvGiTf2NSZq721da15ACSz5P7ZZK7QS
+         oE6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701162400; x=1701767200;
-        h=content-transfer-encoding:content-language:in-reply-to:mime-version
-         :user-agent:date:message-id:from:references:cc:to:subject
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=2TtVT9r6Ap3lfSrLlJlyUkvyevyK8TC9uXcXi9Em2ck=;
-        b=VYMGgfsAi7uJvDQXs7qW4CtfxNkEOW9cAKUQcutNej93tCUrlyZtE0CTuFadKYzA59
-         3YjbEryVxW1MvVXh7wEAaQ5WKoeVZZ44d0AHkzcYtBZPnf3svkqQVFlERfhH3uoVpJIU
-         SaCdlTLSo42FblvsmM20t3ser335qw/ORDxq1B4kBaoAy094xBRsdN27t5GjslIksdfy
-         xKsNW1YFt4SibiN4SXtHck0c89JuEZaX3oNKcVTn2txB9kfIOctbqxdeVeKYDKBEu1GH
-         5Tmb/RJ7dEwMwIh9zo6vYjkvKFa8GpSONxLcEO9tzA1/wGQT3J/C2hFvlhG6VeHKK2QH
-         sFrg==
-X-Gm-Message-State: AOJu0YzmEgKv9kCMp3Q3uSwT1v2yVbIMha+Wq6RpNH7ismiyvpMyZTIH
-	MA9WafTSOgwz7HxlMzpECQf7amahQWA=
-X-Google-Smtp-Source: AGHT+IEks0iYLKuPkU+ZqjROCRlZBcpTEHp1SOXzfxZ3Rs3N9Trq5Cn99U9xniHpg6RrI4W/7v+hFg==
-X-Received: by 2002:a05:6512:3e05:b0:50a:7868:d3c5 with SMTP id i5-20020a0565123e0500b0050a7868d3c5mr12720377lfv.0.1701162399842;
-        Tue, 28 Nov 2023 01:06:39 -0800 (PST)
-Received: from [192.168.1.103] ([178.176.72.137])
-        by smtp.gmail.com with ESMTPSA id br3-20020a056512400300b0050aabfb8807sm1788245lfb.4.2023.11.28.01.06.38
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 28 Nov 2023 01:06:39 -0800 (PST)
-Subject: Re: [PATCH net-next 4/9] net: rswitch: Add unmap_addrs instead of dma
- address in each desc
-To: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>, s.shtylyov@omp.ru,
- davem@davemloft.net, edumazet@google.com, kuba@kernel.org, pabeni@redhat.com
-Cc: netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-References: <20231127115334.3670790-1-yoshihiro.shimoda.uh@renesas.com>
- <20231127115334.3670790-5-yoshihiro.shimoda.uh@renesas.com>
-From: Sergei Shtylyov <sergei.shtylyov@gmail.com>
-Message-ID: <39248b92-3439-c1ed-e4f5-9f1f61fada34@gmail.com>
-Date: Tue, 28 Nov 2023 12:06:37 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+        d=1e100.net; s=20230601; t=1701162474; x=1701767274;
+        h=from:to:subject:content-transfer-encoding:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=s/Fu1qAhAsmPwxhLqt7LGcUZxTOhzkhzts5V0uRRvq8=;
+        b=w0kuHRaTlNWYBtJFY54z6hK/sBZ1S/uqEvDzQ5REcDPSqNP0+ArPuy52ejCxLbqKQZ
+         cttLpKiTh7YpX4ZsdvsjI/1Nc6a0y1nuyubHDl/A2XstAjdUdxMBL5p8EvLPp+rEkCDM
+         GkeP0a7ES4MoEQ7xkMz6garKXXn3TwdZDrEKbdLldPOd7dSgo7dk52LfERi31ZVBSh9g
+         blxIZKxwgLLscNxiY5VPimXDvnDgyCsw8uIfs64ERknqSMvsrOQDGtD9Zm0TNPErrU9F
+         pbfWiWXWUmbmzMN7byRj+HYoIdk3g/CjjQ3jo22Y98FkXSCY6wm+Q2+j19Yq4hCqD0Q8
+         M/SQ==
+X-Gm-Message-State: AOJu0YzI6xo+ygj/eqI/rkF2idoabTqqdNzlkfJabBU+SjHtEyntV1W1
+	6kMxZli4IYVKafyfudyARo+1IYjk7n+4vVSz1/E=
+X-Google-Smtp-Source: AGHT+IFVB/bOXDhsyx6aoai0qqLxisoI1s8uBJmw+YoTRRLTk6lnCzHuaxym3xlXXjIfB3QkJ99gMQ==
+X-Received: by 2002:a17:903:11c8:b0:1cf:5760:43f9 with SMTP id q8-20020a17090311c800b001cf576043f9mr15848899plh.64.1701162474312;
+        Tue, 28 Nov 2023 01:07:54 -0800 (PST)
+Received: from kernelci-production.internal.cloudapp.net ([20.171.243.82])
+        by smtp.gmail.com with ESMTPSA id jd12-20020a170903260c00b001bdb85291casm9739458plb.208.2023.11.28.01.07.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 28 Nov 2023 01:07:53 -0800 (PST)
+Message-ID: <6565ade9.170a0220.58255.77ff@mx.google.com>
+Date: Tue, 28 Nov 2023 01:07:53 -0800 (PST)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <20231127115334.3670790-5-yoshihiro.shimoda.uh@renesas.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
+X-Kernelci-Report-Type: test
+X-Kernelci-Branch: master
+X-Kernelci-Tree: renesas
+X-Kernelci-Kernel: renesas-devel-2023-11-27-v6.7-rc3
+Subject: renesas/master baseline-nfs: 22 runs,
+ 1 regressions (renesas-devel-2023-11-27-v6.7-rc3)
+To: linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
+From: "kernelci.org bot" <bot@kernelci.org>
 
-On 11/27/23 2:53 PM, Yoshihiro Shimoda wrote:
+renesas/master baseline-nfs: 22 runs, 1 regressions (renesas-devel-2023-11-=
+27-v6.7-rc3)
 
-> If the driver would like to transmit a jumbo frame like 2KiB or more,
-> it should be split into multiple queues. In near the future, to support
+Regressions Summary
+-------------------
 
-   In the near future, you mean?
+platform   | arch | lab             | compiler | defconfig          | regre=
+ssions
+-----------+------+-----------------+----------+--------------------+------=
+------
+dove-cubox | arm  | lab-pengutronix | gcc-10   | multi_v7_defconfig | 1    =
+      =
 
-> this, add unmap_addrs array to unmap dma mapping address instead of dma
-> address in each TX descriptor because the descriptors may not have
-> the top dma address.
-> 
-> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-[...]
 
-MBR, Sergey
+  Details:  https://kernelci.org/test/job/renesas/branch/master/kernel/rene=
+sas-devel-2023-11-27-v6.7-rc3/plan/baseline-nfs/
+
+  Test:     baseline-nfs
+  Tree:     renesas
+  Branch:   master
+  Describe: renesas-devel-2023-11-27-v6.7-rc3
+  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-d=
+evel.git
+  SHA:      beabd6ea98fb86ef053f9a25b8f3bdf91bef4be1 =
+
+
+
+Test Regressions
+---------------- =
+
+
+
+platform   | arch | lab             | compiler | defconfig          | regre=
+ssions
+-----------+------+-----------------+----------+--------------------+------=
+------
+dove-cubox | arm  | lab-pengutronix | gcc-10   | multi_v7_defconfig | 1    =
+      =
+
+
+  Details:     https://kernelci.org/test/plan/id/65657bfc49b0ad2fbf7e4a89
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: multi_v7_defconfig
+  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
+10110)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+023-11-27-v6.7-rc3/arm/multi_v7_defconfig/gcc-10/lab-pengutronix/baseline-n=
+fs-dove-cubox.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+023-11-27-v6.7-rc3/arm/multi_v7_defconfig/gcc-10/lab-pengutronix/baseline-n=
+fs-dove-cubox.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
+230623.0/armhf/initrd.cpio.gz =
+
+
+
+  * baseline-nfs.login: https://kernelci.org/test/case/id/65657bfc49b0ad2fb=
+f7e4a8a
+        failing since 14 days (last pass: renesas-devel-2023-06-26-v6.4, fi=
+rst fail: renesas-devel-2023-11-13-v6.7-rc1) =
+
+ =20
 
