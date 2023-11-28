@@ -1,232 +1,300 @@
-Return-Path: <linux-renesas-soc+bounces-313-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-314-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA8677FB394
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Nov 2023 09:05:17 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C00D7FB3A7
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Nov 2023 09:11:21 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 65713282323
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Nov 2023 08:05:16 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3F61D1C20BB0
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 Nov 2023 08:11:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6A06D14A88;
-	Tue, 28 Nov 2023 08:04:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BC521156C2;
+	Tue, 28 Nov 2023 08:11:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="PrE3MAkP"
+	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="efOJcSB6"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com [IPv6:2a00:1450:4864:20::333])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A1D411A5
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 28 Nov 2023 00:04:52 -0800 (PST)
-Received: by mail-wm1-x333.google.com with SMTP id 5b1f17b1804b1-40b4f6006d5so456635e9.1
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 28 Nov 2023 00:04:52 -0800 (PST)
+Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com [IPv6:2a00:1450:4864:20::12a])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 92EE798
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 28 Nov 2023 00:11:13 -0800 (PST)
+Received: by mail-lf1-x12a.google.com with SMTP id 2adb3069b0e04-50bb8ff22e6so430234e87.0
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 28 Nov 2023 00:11:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1701158691; x=1701763491; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=llunhkM8sKXrafDQaQtl/MAyFYLs2dUG+zsrZHGyqOA=;
-        b=PrE3MAkPkGQcth7uVaMUssbZEHhpQknLEbWRZVyPUW/LT+seWNHo8Ox1JohwEXY1qP
-         R4EF+8QaGmNSOEzhfiP7ywLFi8++Mr/S1eL6p2Y4BinebiRPwRdvDKfUg5ABPUdrTJuf
-         85ZVmWxqVQ4zRVwVPrFJw8wuQ/LJuGDVNsBkryLqb3PkOPgu7e6NjBXhIu0hi/c4ul4m
-         APwfDK/yLoS0wElgR1SgQLjB/Jwct5XYTH5Gb//1nXeKYp3NZJR3ElYaBnQxbVvQY3Bl
-         ABfJSq5FUTxP7SGiQYl58FAu3Y7Hyeyrmt7wgPIBLHwhUibLsXHmAKBABUZY8pn2r5/l
-         5Mjw==
+        d=broadcom.com; s=google; t=1701159072; x=1701763872; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=Fa2rk0rbbAksau9pnzuntjLiYdhb8M7Kh1VWk+u/5dw=;
+        b=efOJcSB6h1EVmU91H1QYhhb8kvEmapBZQKXLofqJrPxbqijDlRWFs4K5UY2W2wqLRx
+         KfjgzQtgmCzU52VRHUoYUkXbtTMGmFkpBt30H+YolvXsqMusof++sBPfmeebAqzfURIh
+         GQYIvlcTP+CbWKj9ZiCTS3ChabnNhUKcBYFeg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701158691; x=1701763491;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=llunhkM8sKXrafDQaQtl/MAyFYLs2dUG+zsrZHGyqOA=;
-        b=txoUYxdTghqyLuz/8wJP8N8yKTVYa3MKAmFseNntjeuJs+qKcteoG7AE/xvdU0EyR4
-         +rRb4e37GVV8XvGOOCe97TOWcxz73CweiuWEhLdsI0oy640Gsf3OYrrejTuEidchHQ/7
-         CyVtG/lj93nHE/1jLVpzRSQmBgYZUCryh1wf46orbbzSj3GSRJjjo82hI8o9sxUqrcUg
-         V9Hdagcyd7V6BJO0tbZ5wLXDO81DUUVPAIjd8ZPkFb1QhZ3Qfx2wwCJSjB0V+OrkPsdi
-         MEKSfZkfDPJyZQhiYQJjdpVdhjSw+fI4rigSPzwIQtz0sMZkcrKv7V2TSZ0eBQdcQBB3
-         DKbw==
-X-Gm-Message-State: AOJu0Yzq0lOUh/lAqgrMVz4KeYCRi9zEs6qZQ/6z8vsHZwC4gzyhKQAe
-	VAtKgP+hYYfkoBGudF6mjoDqtg==
-X-Google-Smtp-Source: AGHT+IGnCMgf0SdfdRgyacJnLuJ5KyPuGcHpPOquhV3N6OvasOIFBd4jOd1MCEmiwzmtXLhZkt/QWg==
-X-Received: by 2002:a05:600c:1f82:b0:408:364e:34a2 with SMTP id je2-20020a05600c1f8200b00408364e34a2mr6194992wmb.10.1701158691121;
-        Tue, 28 Nov 2023 00:04:51 -0800 (PST)
-Received: from claudiu-X670E-Pro-RS.. ([82.78.167.125])
-        by smtp.gmail.com with ESMTPSA id g18-20020a05600c4ed200b0040b4ccdcffbsm1127534wmq.2.2023.11.28.00.04.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Nov 2023 00:04:50 -0800 (PST)
-From: Claudiu <claudiu.beznea@tuxon.dev>
-X-Google-Original-From: Claudiu <claudiu.beznea.uj@bp.renesas.com>
-To: s.shtylyov@omp.ru,
-	davem@davemloft.net,
-	edumazet@google.com,
-	kuba@kernel.org,
-	pabeni@redhat.com,
-	richardcochran@gmail.com,
-	p.zabel@pengutronix.de,
-	yoshihiro.shimoda.uh@renesas.com,
-	renesas@sang-engineering.com,
-	robh@kernel.org,
-	biju.das.jz@bp.renesas.com,
-	prabhakar.mahadev-lad.rj@bp.renesas.com,
-	mitsuhiro.kimura.kc@renesas.com,
-	masaru.nagai.vx@renesas.com
-Cc: netdev@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 6/6] net: ravb: Keep reverse order of operations in ravb_remove()
-Date: Tue, 28 Nov 2023 10:04:39 +0200
-Message-Id: <20231128080439.852467-7-claudiu.beznea.uj@bp.renesas.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20231128080439.852467-1-claudiu.beznea.uj@bp.renesas.com>
-References: <20231128080439.852467-1-claudiu.beznea.uj@bp.renesas.com>
+        d=1e100.net; s=20230601; t=1701159072; x=1701763872;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Fa2rk0rbbAksau9pnzuntjLiYdhb8M7Kh1VWk+u/5dw=;
+        b=kD9TRMpmfkWP9whlX7zwIaWoIfvndog/MrxIbnaifvwxmqSo7KFWL5BFHbi0b/Y4XM
+         KqAMi/SPhdNAYLmiAquFwsQWR3w7oPP0GC8b4CdR3D7r1Ky2kORdED5yB0AaydlyPAdv
+         D/uBF/aqTX2voZAKkne4H9srYy7BuflLg84ox+V5l3ePnhgCVgadFnSMHKDSKmBJESLT
+         n/XtzFa+dL7pJ+qVGjUNsmP7f1QsLc2RFn0bPCwtKr/15UGCSYp6C2qnVzNwjmC9c6qT
+         RO0g+mlnSxo+T/UaZBch9hN0wvyRZAhJgHKLCi5fiBFfImpSQ/JbfXUT40JxoZoD1QiT
+         2NbA==
+X-Gm-Message-State: AOJu0Yws0PuXiK5U28OxmGON65N+GnETe3Yq/u9p+Mtr5Ay3w8MZ3hfr
+	Z7SVCai4nVQhN2kaPnaOi5JkP4TS+TVxt0aBejKViA==
+X-Google-Smtp-Source: AGHT+IEVLSFrtmdD/nLG1W906crPaKgkuvdvuK+3zNOfwrIAqZ691PRwMS3qRINOEbF51K4waGkGdRSsihFkX1WPuxQ=
+X-Received: by 2002:ac2:4d04:0:b0:50b:abb5:287a with SMTP id
+ r4-20020ac24d04000000b0050babb5287amr2334034lfi.30.1701159071682; Tue, 28 Nov
+ 2023 00:11:11 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20231128080439.852467-1-claudiu.beznea.uj@bp.renesas.com> <20231128080439.852467-5-claudiu.beznea.uj@bp.renesas.com>
+In-Reply-To: <20231128080439.852467-5-claudiu.beznea.uj@bp.renesas.com>
+From: Kalesh Anakkur Purayil <kalesh-anakkur.purayil@broadcom.com>
+Date: Tue, 28 Nov 2023 13:41:00 +0530
+Message-ID: <CAH-L+nM0PwO93V3NFUobh+6MhaiOsyS3eJ=Lg92HK7vhnMxTaQ@mail.gmail.com>
+Subject: Re: [PATCH v2 4/6] net: ravb: Start TX queues after HW initialization succeeded
+To: Claudiu <claudiu.beznea@tuxon.dev>
+Cc: s.shtylyov@omp.ru, davem@davemloft.net, edumazet@google.com, 
+	kuba@kernel.org, pabeni@redhat.com, richardcochran@gmail.com, 
+	p.zabel@pengutronix.de, yoshihiro.shimoda.uh@renesas.com, 
+	renesas@sang-engineering.com, robh@kernel.org, biju.das.jz@bp.renesas.com, 
+	prabhakar.mahadev-lad.rj@bp.renesas.com, mitsuhiro.kimura.kc@renesas.com, 
+	masaru.nagai.vx@renesas.com, netdev@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
+	boundary="00000000000033c3f6060b31f692"
 
-From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+--00000000000033c3f6060b31f692
+Content-Type: multipart/alternative; boundary="0000000000002cf9fe060b31f6df"
 
-On RZ/G3S SMARC Carrier II board having RGMII connections b/w Ethernet
-MACs and PHYs it has been discovered that doing unbind/bind for ravb
-driver in a loop leads to wrong speed and duplex for Ethernet links and
-broken connectivity (the connectivity cannot be restored even with
-bringing interface down/up). Before doing unbind/bind the Ethernet
-interfaces were configured though systemd. The sh instructions used to
-do unbind/bind were:
+--0000000000002cf9fe060b31f6df
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-$ cd /sys/bus/platform/drivers/ravb/
-$ while :; do echo 11c30000.ethernet > unbind ; \
-  echo 11c30000.ethernet > bind; done
+On Tue, Nov 28, 2023 at 1:35=E2=80=AFPM Claudiu <claudiu.beznea@tuxon.dev> =
+wrote:
 
-It has been discovered that there is a race b/w IOCTLs initialized by
-systemd at the response of success binding and the
-"ravb_write(ndev, CCC_OPC_RESET, CCC)" call in ravb_remove() as
-follows:
+> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+>
+> ravb_phy_start() may fail. If that happens, the TX queues will remain
+> started. Thus, move the netif_tx_start_all_queues() after PHY is
+> successfully initialized.
+>
+> Fixes: c156633f1353 ("Renesas Ethernet AVB driver proper")
+> Reviewed-by: Sergey Shtylyov <s.shtylyov@omp.ru>
+> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+> ---
+>
+> Changes in v2:
+> - none
+>
+> Changes since [1]:
+> - collected Rb tag
+>
+> [1]
+> https://lore.kernel.org/all/20231120084606.4083194-1-claudiu.beznea.uj@bp=
+.renesas.com/
+>
+>  drivers/net/ethernet/renesas/ravb_main.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
 
-1/ as a result of bind success the user space open/configures the
-   interfaces tough an IOCTL; the following stack trace has been
-   identified on RZ/G3S:
+Looks good to me.
 
-Call trace:
-dump_backtrace+0x9c/0x100
-show_stack+0x20/0x38
-dump_stack_lvl+0x48/0x60
-dump_stack+0x18/0x28
-ravb_open+0x70/0xa58
-__dev_open+0xf4/0x1e8
-__dev_change_flags+0x198/0x218
-dev_change_flags+0x2c/0x80
-devinet_ioctl+0x640/0x708
-inet_ioctl+0x1e4/0x200
-sock_do_ioctl+0x50/0x108
-sock_ioctl+0x240/0x358
-__arm64_sys_ioctl+0xb0/0x100
-invoke_syscall+0x50/0x128
-el0_svc_common.constprop.0+0xc8/0xf0
-do_el0_svc+0x24/0x38
-el0_svc+0x34/0xb8
-el0t_64_sync_handler+0xc0/0xc8
-el0t_64_sync+0x190/0x198
+Reviewed-by: Kalesh AP <kalesh-anakkur.purayil@broadcom.com>
 
-2/ this call may execute concurrently with ravb_remove() as the
-   unbind/bind operation was executed in a loop
-3/ if the operation mode is changed to RESET (through
-   ravb_write(ndev, CCC_OPC_RESET, CCC) call in ravb_remove())
-   while the above ravb_open() is in progress it may lead to MAC
-   (or PHY, or MAC-PHY connection, the right point hasn't been identified
-   at the moment) to be broken, thus the Ethernet connectivity fails to
-   restore.
+>
+> diff --git a/drivers/net/ethernet/renesas/ravb_main.c
+> b/drivers/net/ethernet/renesas/ravb_main.c
+> index 62a986b5de41..2ef46c71f2bb 100644
+> --- a/drivers/net/ethernet/renesas/ravb_main.c
+> +++ b/drivers/net/ethernet/renesas/ravb_main.c
+> @@ -1812,13 +1812,13 @@ static int ravb_open(struct net_device *ndev)
+>         if (info->gptp)
+>                 ravb_ptp_init(ndev, priv->pdev);
+>
+> -       netif_tx_start_all_queues(ndev);
+> -
+>         /* PHY control start */
+>         error =3D ravb_phy_start(ndev);
+>         if (error)
+>                 goto out_ptp_stop;
+>
+> +       netif_tx_start_all_queues(ndev);
+> +
+>         return 0;
+>
+>  out_ptp_stop:
+> --
+> 2.39.2
+>
+>
+>
 
-The simple fix for this is to move ravb_write(ndev, CCC_OPC_RESET, CCC))
-after unregister_netdev() to avoid resetting the controller while the
-netdev interface is still registered.
+--=20
+Regards,
+Kalesh A P
 
-To avoid future issues in ravb_remove(), the patch follows the proper order
-of operations in ravb_remove(): reverse order compared with ravb_probe().
-This avoids described races as the IOCTLs as well as unregister_netdev()
-(called now at the beginning of ravb_remove()) calls rtnl_lock() before
-continuing and IOCTLs check (though devinet_ioctl()) if device is still
-registered just after taking the lock:
+--0000000000002cf9fe060b31f6df
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-int devinet_ioctl(struct net *net, unsigned int cmd, struct ifreq *ifr)
-{
-	// ...
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Tue, Nov 28, 2023 at 1:35=E2=80=AF=
+PM Claudiu &lt;<a href=3D"mailto:claudiu.beznea@tuxon.dev">claudiu.beznea@t=
+uxon.dev</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D=
+"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-le=
+ft:1ex">From: Claudiu Beznea &lt;<a href=3D"mailto:claudiu.beznea.uj@bp.ren=
+esas.com" target=3D"_blank">claudiu.beznea.uj@bp.renesas.com</a>&gt;<br>
+<br>
+ravb_phy_start() may fail. If that happens, the TX queues will remain<br>
+started. Thus, move the netif_tx_start_all_queues() after PHY is<br>
+successfully initialized.<br>
+<br>
+Fixes: c156633f1353 (&quot;Renesas Ethernet AVB driver proper&quot;)<br>
+Reviewed-by: Sergey Shtylyov &lt;<a href=3D"mailto:s.shtylyov@omp.ru" targe=
+t=3D"_blank">s.shtylyov@omp.ru</a>&gt;<br>
+Signed-off-by: Claudiu Beznea &lt;<a href=3D"mailto:claudiu.beznea.uj@bp.re=
+nesas.com" target=3D"_blank">claudiu.beznea.uj@bp.renesas.com</a>&gt;<br>
+---<br>
+<br>
+Changes in v2:<br>
+- none<br>
+<br>
+Changes since [1]:<br>
+- collected Rb tag<br>
+<br>
+[1] <a href=3D"https://lore.kernel.org/all/20231120084606.4083194-1-claudiu=
+.beznea.uj@bp.renesas.com/" rel=3D"noreferrer" target=3D"_blank">https://lo=
+re.kernel.org/all/20231120084606.4083194-1-claudiu.beznea.uj@bp.renesas.com=
+/</a><br>
+<br>
+=C2=A0drivers/net/ethernet/renesas/ravb_main.c | 4 ++--<br>
+=C2=A01 file changed, 2 insertions(+), 2 deletions(-)<br></blockquote><div>=
+<br></div>Looks good to me.<br><br><div>Reviewed-by: Kalesh AP &lt;<a href=
+=3D"mailto:kalesh-anakkur.purayil@broadcom.com">kalesh-anakkur.purayil@broa=
+dcom.com</a>&gt;=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"marg=
+in:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1e=
+x">
+<br>
+diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/etherne=
+t/renesas/ravb_main.c<br>
+index 62a986b5de41..2ef46c71f2bb 100644<br>
+--- a/drivers/net/ethernet/renesas/ravb_main.c<br>
++++ b/drivers/net/ethernet/renesas/ravb_main.c<br>
+@@ -1812,13 +1812,13 @@ static int ravb_open(struct net_device *ndev)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (info-&gt;gptp)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ravb_ptp_init(ndev,=
+ priv-&gt;pdev);<br>
+<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0netif_tx_start_all_queues(ndev);<br>
+-<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 /* PHY control start */<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 error =3D ravb_phy_start(ndev);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (error)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 goto out_ptp_stop;<=
+br>
+<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0netif_tx_start_all_queues(ndev);<br>
++<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 return 0;<br>
+<br>
+=C2=A0out_ptp_stop:<br>
+-- <br>
+2.39.2<br>
+<br>
+<br>
+</blockquote></div><br clear=3D"all"><div><br></div><span class=3D"gmail_si=
+gnature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_signature"><d=
+iv dir=3D"ltr">Regards,<div>Kalesh A P</div></div></div></div>
 
-        rtnl_lock();
+--0000000000002cf9fe060b31f6df--
 
-        ret = -ENODEV;
-        dev = __dev_get_by_name(net, ifr->ifr_name);
-        if (!dev)
-                goto done;
+--00000000000033c3f6060b31f692
+Content-Type: application/pkcs7-signature; name="smime.p7s"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="smime.p7s"
+Content-Description: S/MIME Cryptographic Signature
 
-	// ...
-done:
-        rtnl_unlock();
-out:
-        return ret;
-}
-
-Fixes: c156633f1353 ("Renesas Ethernet AVB driver proper")
-Reviewed-by: Sergey Shtylyov <s.shtylyov@omp.ru>
-Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
----
-
-Changes in v2:
-- fixed typos in commit description
-- collected Rb tag
-
-Changes since [1]:
-- s/ravb_dma_init/ravb_dmac_init in commit description
-- collected Rb tag
-
-[1] https://lore.kernel.org/all/20231120084606.4083194-1-claudiu.beznea.uj@bp.renesas.com/
-
- drivers/net/ethernet/renesas/ravb_main.c | 22 +++++++++++++---------
- 1 file changed, 13 insertions(+), 9 deletions(-)
-
-diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
-index 2396fab3f608..9178f6d60e74 100644
---- a/drivers/net/ethernet/renesas/ravb_main.c
-+++ b/drivers/net/ethernet/renesas/ravb_main.c
-@@ -2894,22 +2894,26 @@ static void ravb_remove(struct platform_device *pdev)
- 	struct ravb_private *priv = netdev_priv(ndev);
- 	const struct ravb_hw_info *info = priv->info;
- 
--	/* Stop PTP Clock driver */
--	if (info->ccc_gac)
--		ravb_ptp_stop(ndev);
--
--	clk_disable_unprepare(priv->gptp_clk);
--	clk_disable_unprepare(priv->refclk);
--
--	/* Set reset mode */
--	ravb_write(ndev, CCC_OPC_RESET, CCC);
- 	unregister_netdev(ndev);
- 	if (info->nc_queues)
- 		netif_napi_del(&priv->napi[RAVB_NC]);
- 	netif_napi_del(&priv->napi[RAVB_BE]);
-+
- 	ravb_mdio_release(priv);
-+
-+	/* Stop PTP Clock driver */
-+	if (info->ccc_gac)
-+		ravb_ptp_stop(ndev);
-+
- 	dma_free_coherent(ndev->dev.parent, priv->desc_bat_size, priv->desc_bat,
- 			  priv->desc_bat_dma);
-+
-+	/* Set reset mode */
-+	ravb_write(ndev, CCC_OPC_RESET, CCC);
-+
-+	clk_disable_unprepare(priv->gptp_clk);
-+	clk_disable_unprepare(priv->refclk);
-+
- 	pm_runtime_put_sync(&pdev->dev);
- 	pm_runtime_disable(&pdev->dev);
- 	reset_control_assert(priv->rstc);
--- 
-2.39.2
-
+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
+riBJ/K1AFUjRAjFhGV64l++td7dkmnq/X8ET75ti+w1s4FRpFqkD2m7pg5NxdsZphYIXAgMBAAGj
+QjBAMA4GA1UdDwEB/wQEAwIBBjAPBgNVHRMBAf8EBTADAQH/MB0GA1UdDgQWBBSP8Et/qC5FJK5N
+UPpjmove4t0bvDANBgkqhkiG9w0BAQsFAAOCAQEAS0DbwFCq/sgM7/eWVEVJu5YACUGssxOGhigH
+M8pr5nS5ugAtrqQK0/Xx8Q+Kv3NnSoPHRHt44K9ubG8DKY4zOUXDjuS5V2yq/BKW7FPGLeQkbLmU
+Y/vcU2hnVj6DuM81IcPJaP7O2sJTqsyQiunwXUaMld16WCgaLx3ezQA3QY/tRG3XUyiXfvNnBB4V
+14qWtNPeTCekTBtzc3b0F5nCH3oO4y0IrQocLP88q1UOD5F+NuvDV0m+4S4tfGCLw0FREyOdzvcy
+a5QBqJnnLDMfOjsl0oZAzjsshnjJYS8Uuu7bVW/fhO4FCU29KNhyztNiUGUe65KXgzHZs7XKR1g/
+XzCCBWowggRSoAMCAQICDDfBRQmwNSI92mit0zANBgkqhkiG9w0BAQsFADBbMQswCQYDVQQGEwJC
+RTEZMBcGA1UEChMQR2xvYmFsU2lnbiBudi1zYTExMC8GA1UEAxMoR2xvYmFsU2lnbiBHQ0MgUjMg
+UGVyc29uYWxTaWduIDIgQ0EgMjAyMDAeFw0yMjA5MTAwODI5NTZaFw0yNTA5MTAwODI5NTZaMIGi
+MQswCQYDVQQGEwJJTjESMBAGA1UECBMJS2FybmF0YWthMRIwEAYDVQQHEwlCYW5nYWxvcmUxFjAU
+BgNVBAoTDUJyb2FkY29tIEluYy4xHzAdBgNVBAMTFkthbGVzaCBBbmFra3VyIFB1cmF5aWwxMjAw
+BgkqhkiG9w0BCQEWI2thbGVzaC1hbmFra3VyLnB1cmF5aWxAYnJvYWRjb20uY29tMIIBIjANBgkq
+hkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAxnv1Reaeezfr6NEmg3xZlh4cz9m7QCN13+j4z1scrX+b
+JfnV8xITT5yvwdQv3R3p7nzD/t29lTRWK3wjodUd2nImo6vBaH3JbDwleIjIWhDXLNZ4u7WIXYwx
+aQ8lYCdKXRsHXgGPY0+zSx9ddpqHZJlHwcvas3oKnQN9WgzZtsM7A8SJefWkNvkcOtef6bL8Ew+3
+FBfXmtsPL9I2vita8gkYzunj9Nu2IM+MnsP7V/+Coy/yZDtFJHp30hDnYGzuOhJchDF9/eASvE8T
+T1xqJODKM9xn5xXB1qezadfdgUs8k8QAYyP/oVBafF9uqDudL6otcBnziyDBQdFCuAQN7wIDAQAB
+o4IB5DCCAeAwDgYDVR0PAQH/BAQDAgWgMIGjBggrBgEFBQcBAQSBljCBkzBOBggrBgEFBQcwAoZC
+aHR0cDovL3NlY3VyZS5nbG9iYWxzaWduLmNvbS9jYWNlcnQvZ3NnY2NyM3BlcnNvbmFsc2lnbjJj
+YTIwMjAuY3J0MEEGCCsGAQUFBzABhjVodHRwOi8vb2NzcC5nbG9iYWxzaWduLmNvbS9nc2djY3Iz
+cGVyc29uYWxzaWduMmNhMjAyMDBNBgNVHSAERjBEMEIGCisGAQQBoDIBKAowNDAyBggrBgEFBQcC
+ARYmaHR0cHM6Ly93d3cuZ2xvYmFsc2lnbi5jb20vcmVwb3NpdG9yeS8wCQYDVR0TBAIwADBJBgNV
+HR8EQjBAMD6gPKA6hjhodHRwOi8vY3JsLmdsb2JhbHNpZ24uY29tL2dzZ2NjcjNwZXJzb25hbHNp
+Z24yY2EyMDIwLmNybDAuBgNVHREEJzAlgSNrYWxlc2gtYW5ha2t1ci5wdXJheWlsQGJyb2FkY29t
+LmNvbTATBgNVHSUEDDAKBggrBgEFBQcDBDAfBgNVHSMEGDAWgBSWM9HmWBdbNHWKgVZk1b5I3qGP
+zzAdBgNVHQ4EFgQUI3+tdStI+ABRGSqksMsiCmO9uDAwDQYJKoZIhvcNAQELBQADggEBAGfe1o9b
+4wUud0FMjb/FNdc433meL15npjdYWUeioHdlCGB5UvEaMGu71QysfoDOfUNeyO9YKp0h0fm7clvo
+cBqeWe4CPv9TQbmLEtXKdEpj5kFZBGmav69mGTlu1A9KDQW3y0CDzCPG2Fdm4s73PnkwvemRk9E2
+u9/kcZ8KWVeS+xq+XZ78kGTKQ6Wii3dMK/EHQhnDfidadoN/n+x2ySC8yyDNvy81BocnblQzvbuB
+a30CvRuhokNO6Jzh7ZFtjKVMzYas3oo6HXgA+slRszMu4pc+fRPO41FHjeDM76e6P5OnthhnD+NY
+x6xokUN65DN1bn2MkeNs0nQpizDqd0QxggJtMIICaQIBATBrMFsxCzAJBgNVBAYTAkJFMRkwFwYD
+VQQKExBHbG9iYWxTaWduIG52LXNhMTEwLwYDVQQDEyhHbG9iYWxTaWduIEdDQyBSMyBQZXJzb25h
+bFNpZ24gMiBDQSAyMDIwAgw3wUUJsDUiPdpordMwDQYJYIZIAWUDBAIBBQCggdQwLwYJKoZIhvcN
+AQkEMSIEIF/LID0f2DkzvhJJoLBJ2jQa/VLl5WFhMXCvQs9NosYbMBgGCSqGSIb3DQEJAzELBgkq
+hkiG9w0BBwEwHAYJKoZIhvcNAQkFMQ8XDTIzMTEyODA4MTExMlowaQYJKoZIhvcNAQkPMVwwWjAL
+BglghkgBZQMEASowCwYJYIZIAWUDBAEWMAsGCWCGSAFlAwQBAjAKBggqhkiG9w0DBzALBgkqhkiG
+9w0BAQowCwYJKoZIhvcNAQEHMAsGCWCGSAFlAwQCATANBgkqhkiG9w0BAQEFAASCAQBpiu5lDZcd
+epKZYr7cRDMwnMjEEcGugVcaEzJFFw+EiQcoYPRS4MLRiJikh5ANU+nRju6oe8G0Zl+QQIlTix62
+AKExxKPOLmSu0YONFdyj3TldRYWlFiIKcO99qJMZzXOAxL8CNhzNUuP/UgiEsR3wcQdbvbZ7GJCh
+z5/FbbormUYGRWPn7GiFOdkRgbYE/WKsffnOVDRz3J+CmwqNjSvvO2Qt4DUNi4jBuk8M7TYQ3nQ/
+MS4DoMhHEKmOm96AdXZ0mbtpd88hOMe+V2c+45jdXLDcVnW+Nk4fN3lvMWvIm+hOwzF1Zr+/wpta
+Nf1nYIYxfo05VSYAiHdIPxJ+m6aB
+--00000000000033c3f6060b31f692--
 
