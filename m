@@ -1,362 +1,121 @@
-Return-Path: <linux-renesas-soc+bounces-434-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-435-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BDD27FDDB1
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Nov 2023 17:56:39 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 451277FDDD9
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Nov 2023 18:01:07 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 7677FB20DA9
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Nov 2023 16:56:36 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 75B361C20C0C
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Nov 2023 17:01:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6946C3AC0B;
-	Wed, 29 Nov 2023 16:56:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0627A3B78E;
+	Wed, 29 Nov 2023 17:01:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hOmYpUQl"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jH/cOi2D"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1FFC3B6
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 29 Nov 2023 08:56:28 -0800 (PST)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E39A2BC;
+	Wed, 29 Nov 2023 09:00:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701276988; x=1732812988;
-  h=date:from:to:cc:subject:message-id;
-  bh=TDj4AXpYMDTk/BeKYVinjvmske2Hnd0FjyW8tVhKmF0=;
-  b=hOmYpUQlTu3LOZ2cdRTJr03Ioe8VBzvz5MXDDSNqLc2gDd1qmITmaD0d
-   ZyfuJ+mbOnWIFOsmIHTUbOcVzvE1Bs+8Jte9bOiFtJXPbwgXd1N/iw8/r
-   n++ApI1yjQM8nrpK+ewUzVGZOhVwswCykrXuzuIlpkR+D1LckhMtaKf3i
-   m8UDOMBD5ppVKhxO4teHhVzuhHgs8v1sP9J3c+AhjvYyJBgogKFZo/xZB
-   qJvdglliJct/RWhgMseWyt9EIdDu8yNIojgGPclU4zRlUd8J+FFfVEjGP
-   GRucHz0tabnFjqaa+GwEOYfhEPpNep6g78xiQa3j3jWUczvJamNYgxlfl
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10909"; a="397088610"
+  t=1701277259; x=1732813259;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=M9ssJjd+HXfjISSW4felR1dBwTKed2/2pddd3sy0Bbo=;
+  b=jH/cOi2DhbplREYyau/uulKgPb29GyxMO0+sLryLdtpYT7PbOKSRO70r
+   OVR57oZ+TNqUoexs4teS3mTrYKpMLXJflcvImsU0bKtmBHfDTko1uo1IV
+   4wj1hR5wFN2ccKSauYX44vgPpmhxhfInnSGax/fJ0jw+LnbWrXUEVPvGm
+   3bQjP8GQlPLsIPE+05O6CTLAYygngUc7aZvMav3r4h6PZ3WDbNrZzV9OD
+   7B1vSx8cMVnL+WsohoIpc0Ft5GIWEqe0OUuXXCBbLkyVBPzm72jFRDbrp
+   /yqQaFj/hUhx4xd3XMhTdb6Kp3JD2tWRuO164VBSv3ijEenDlj9VHt+HR
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10909"; a="6405651"
 X-IronPort-AV: E=Sophos;i="6.04,235,1695711600"; 
-   d="scan'208";a="397088610"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2023 08:56:27 -0800
+   d="scan'208";a="6405651"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2023 09:00:58 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10909"; a="718804737"
+X-IronPort-AV: E=McAfee;i="6600,9927,10909"; a="942389594"
 X-IronPort-AV: E=Sophos;i="6.04,235,1695711600"; 
-   d="scan'208";a="718804737"
-Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga003.jf.intel.com with ESMTP; 29 Nov 2023 08:56:26 -0800
-Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1r8NrL-0000YI-1L;
-	Wed, 29 Nov 2023 16:56:23 +0000
-Date: Thu, 30 Nov 2023 00:56:21 +0800
-From: kernel test robot <lkp@intel.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: linux-renesas-soc@vger.kernel.org
-Subject: [geert-renesas-drivers:master] BUILD SUCCESS
- 23cf697036aab5a6ba8ed130d10fee1d2dd257fc
-Message-ID: <202311300018.C9kJ0Wja-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+   d="scan'208";a="942389594"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by orsmga005.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2023 09:00:49 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.97)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1r8NvY-00000000Usn-3nmv;
+	Wed, 29 Nov 2023 19:00:44 +0200
+Date: Wed, 29 Nov 2023 19:00:44 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Fabio Estevam <festevam@gmail.com>
+Cc: Linus Walleij <linus.walleij@linaro.org>,
+	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	Jonathan =?iso-8859-1?Q?Neusch=E4fer?= <j.neuschaefer@gmx.net>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
+	Jianlong Huang <jianlong.huang@starfivetech.com>,
+	linux-arm-kernel@lists.infradead.org, linux-gpio@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-mediatek@lists.infradead.org,
+	openbmc@lists.ozlabs.org, linux-mips@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Dong Aisheng <aisheng.dong@nxp.com>,
+	Shawn Guo <shawnguo@kernel.org>, Jacky Bai <ping.bai@nxp.com>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	NXP Linux Team <linux-imx@nxp.com>,
+	Sean Wang <sean.wang@kernel.org>,
+	Paul Cercueil <paul@crapouillou.net>,
+	Lakshmi Sowjanya D <lakshmi.sowjanya.d@intel.com>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Andy Gross <agross@kernel.org>,
+	Konrad Dybcio <konrad.dybcio@linaro.org>,
+	Emil Renner Berthing <kernel@esmil.dk>,
+	Hal Feng <hal.feng@starfivetech.com>
+Subject: Re: [PATCH v4 16/23] pinctrl: imx: Convert to use grp member
+Message-ID: <ZWduPKmBWkaIdLhi@smile.fi.intel.com>
+References: <20231129161459.1002323-1-andriy.shevchenko@linux.intel.com>
+ <20231129161459.1002323-17-andriy.shevchenko@linux.intel.com>
+ <CAOMZO5CZpQjWKimNReUkwHOc-mF8vWoq2HDhjGKSu6E3g5-aVw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAOMZO5CZpQjWKimNReUkwHOc-mF8vWoq2HDhjGKSu6E3g5-aVw@mail.gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git master
-branch HEAD: 23cf697036aab5a6ba8ed130d10fee1d2dd257fc  [LOCAL] arm64: renesas: defconfig: Update renesas_defconfig
+On Wed, Nov 29, 2023 at 01:36:49PM -0300, Fabio Estevam wrote:
+> Hi Andy,
+> 
+> On Wed, Nov 29, 2023 at 1:15 PM Andy Shevchenko
+> <andriy.shevchenko@linux.intel.com> wrote:
+> >
+> > Convert drivers to use grp member embedded in struct group_desc.
+> 
+> You explained what you did, but you did not explain the reason.
 
-Warning ids grouped by kconfigs:
+It's explained in the first paragraph in the cover letter. Do you
+want to copy this into each commit message?
 
-gcc_recent_errors
-|-- arm-allmodconfig
-|   |-- kernel-power-snapshot.c:warning:Function-parameter-or-member-ca-not-described-in-add_rtree_block
-|   |-- kernel-power-snapshot.c:warning:Function-parameter-or-member-ca-not-described-in-create_zone_bm_rtree
-|   |-- kernel-power-snapshot.c:warning:Function-parameter-or-member-clear_nosave_free-not-described-in-memory_bm_free
-|   |-- kernel-power-snapshot.c:warning:Function-parameter-or-member-gfp_mask-not-described-in-memory_bm_create
-|   `-- kernel-power-snapshot.c:warning:Function-parameter-or-member-pfn-not-described-in-memory_bm_find_bit
-|-- arm64-defconfig
-|   |-- kernel-power-snapshot.c:warning:Function-parameter-or-member-ca-not-described-in-add_rtree_block
-|   |-- kernel-power-snapshot.c:warning:Function-parameter-or-member-ca-not-described-in-create_zone_bm_rtree
-|   |-- kernel-power-snapshot.c:warning:Function-parameter-or-member-clear_nosave_free-not-described-in-memory_bm_free
-|   |-- kernel-power-snapshot.c:warning:Function-parameter-or-member-gfp_mask-not-described-in-memory_bm_create
-|   `-- kernel-power-snapshot.c:warning:Function-parameter-or-member-pfn-not-described-in-memory_bm_find_bit
-|-- arm64-randconfig-001-20231129
-|   |-- kernel-power-snapshot.c:warning:Function-parameter-or-member-ca-not-described-in-add_rtree_block
-|   |-- kernel-power-snapshot.c:warning:Function-parameter-or-member-ca-not-described-in-create_zone_bm_rtree
-|   |-- kernel-power-snapshot.c:warning:Function-parameter-or-member-clear_nosave_free-not-described-in-memory_bm_free
-|   |-- kernel-power-snapshot.c:warning:Function-parameter-or-member-gfp_mask-not-described-in-memory_bm_create
-|   `-- kernel-power-snapshot.c:warning:Function-parameter-or-member-pfn-not-described-in-memory_bm_find_bit
-|-- i386-buildonly-randconfig-002-20231129
-|   |-- kernel-power-snapshot.c:warning:Function-parameter-or-member-ca-not-described-in-add_rtree_block
-|   |-- kernel-power-snapshot.c:warning:Function-parameter-or-member-ca-not-described-in-create_zone_bm_rtree
-|   |-- kernel-power-snapshot.c:warning:Function-parameter-or-member-clear_nosave_free-not-described-in-memory_bm_free
-|   |-- kernel-power-snapshot.c:warning:Function-parameter-or-member-gfp_mask-not-described-in-memory_bm_create
-|   `-- kernel-power-snapshot.c:warning:Function-parameter-or-member-pfn-not-described-in-memory_bm_find_bit
-|-- i386-defconfig
-|   |-- kernel-power-snapshot.c:warning:Function-parameter-or-member-ca-not-described-in-add_rtree_block
-|   |-- kernel-power-snapshot.c:warning:Function-parameter-or-member-ca-not-described-in-create_zone_bm_rtree
-|   |-- kernel-power-snapshot.c:warning:Function-parameter-or-member-clear_nosave_free-not-described-in-memory_bm_free
-|   |-- kernel-power-snapshot.c:warning:Function-parameter-or-member-gfp_mask-not-described-in-memory_bm_create
-|   `-- kernel-power-snapshot.c:warning:Function-parameter-or-member-pfn-not-described-in-memory_bm_find_bit
-|-- i386-randconfig-001-20231129
-|   |-- kernel-power-snapshot.c:warning:Function-parameter-or-member-ca-not-described-in-add_rtree_block
-|   |-- kernel-power-snapshot.c:warning:Function-parameter-or-member-ca-not-described-in-create_zone_bm_rtree
-|   |-- kernel-power-snapshot.c:warning:Function-parameter-or-member-clear_nosave_free-not-described-in-memory_bm_free
-|   |-- kernel-power-snapshot.c:warning:Function-parameter-or-member-gfp_mask-not-described-in-memory_bm_create
-|   `-- kernel-power-snapshot.c:warning:Function-parameter-or-member-pfn-not-described-in-memory_bm_find_bit
-|-- i386-randconfig-006-20231129
-|   |-- kernel-power-snapshot.c:warning:Function-parameter-or-member-ca-not-described-in-add_rtree_block
-|   |-- kernel-power-snapshot.c:warning:Function-parameter-or-member-ca-not-described-in-create_zone_bm_rtree
-|   |-- kernel-power-snapshot.c:warning:Function-parameter-or-member-clear_nosave_free-not-described-in-memory_bm_free
-|   |-- kernel-power-snapshot.c:warning:Function-parameter-or-member-gfp_mask-not-described-in-memory_bm_create
-|   `-- kernel-power-snapshot.c:warning:Function-parameter-or-member-pfn-not-described-in-memory_bm_find_bit
-|-- loongarch-allmodconfig
-|   |-- kernel-power-snapshot.c:warning:Function-parameter-or-member-ca-not-described-in-add_rtree_block
-|   |-- kernel-power-snapshot.c:warning:Function-parameter-or-member-ca-not-described-in-create_zone_bm_rtree
-|   |-- kernel-power-snapshot.c:warning:Function-parameter-or-member-clear_nosave_free-not-described-in-memory_bm_free
-|   |-- kernel-power-snapshot.c:warning:Function-parameter-or-member-gfp_mask-not-described-in-memory_bm_create
-|   `-- kernel-power-snapshot.c:warning:Function-parameter-or-member-pfn-not-described-in-memory_bm_find_bit
-|-- loongarch-allnoconfig
-|   `-- drivers-acpi-acpica-tbfind.c:warning:strncpy-specified-bound-equals-destination-size
-|-- loongarch-defconfig
-|   |-- drivers-acpi-acpica-tbfind.c:warning:strncpy-specified-bound-equals-destination-size
-|   |-- kernel-power-snapshot.c:warning:Function-parameter-or-member-ca-not-described-in-add_rtree_block
-|   |-- kernel-power-snapshot.c:warning:Function-parameter-or-member-ca-not-described-in-create_zone_bm_rtree
-|   |-- kernel-power-snapshot.c:warning:Function-parameter-or-member-clear_nosave_free-not-described-in-memory_bm_free
-|   |-- kernel-power-snapshot.c:warning:Function-parameter-or-member-gfp_mask-not-described-in-memory_bm_create
-|   `-- kernel-power-snapshot.c:warning:Function-parameter-or-member-pfn-not-described-in-memory_bm_find_bit
-|-- mips-allyesconfig
-|   |-- kernel-power-snapshot.c:warning:Function-parameter-or-member-ca-not-described-in-add_rtree_block
-|   |-- kernel-power-snapshot.c:warning:Function-parameter-or-member-ca-not-described-in-create_zone_bm_rtree
-|   |-- kernel-power-snapshot.c:warning:Function-parameter-or-member-clear_nosave_free-not-described-in-memory_bm_free
-|   |-- kernel-power-snapshot.c:warning:Function-parameter-or-member-gfp_mask-not-described-in-memory_bm_create
-|   `-- kernel-power-snapshot.c:warning:Function-parameter-or-member-pfn-not-described-in-memory_bm_find_bit
-|-- riscv-allmodconfig
-|   |-- kernel-power-snapshot.c:warning:Function-parameter-or-member-ca-not-described-in-add_rtree_block
-|   |-- kernel-power-snapshot.c:warning:Function-parameter-or-member-ca-not-described-in-create_zone_bm_rtree
-|   |-- kernel-power-snapshot.c:warning:Function-parameter-or-member-clear_nosave_free-not-described-in-memory_bm_free
-|   |-- kernel-power-snapshot.c:warning:Function-parameter-or-member-gfp_mask-not-described-in-memory_bm_create
-|   `-- kernel-power-snapshot.c:warning:Function-parameter-or-member-pfn-not-described-in-memory_bm_find_bit
-|-- riscv-allyesconfig
-|   |-- kernel-power-snapshot.c:warning:Function-parameter-or-member-ca-not-described-in-add_rtree_block
-|   |-- kernel-power-snapshot.c:warning:Function-parameter-or-member-ca-not-described-in-create_zone_bm_rtree
-|   |-- kernel-power-snapshot.c:warning:Function-parameter-or-member-clear_nosave_free-not-described-in-memory_bm_free
-|   |-- kernel-power-snapshot.c:warning:Function-parameter-or-member-gfp_mask-not-described-in-memory_bm_create
-|   `-- kernel-power-snapshot.c:warning:Function-parameter-or-member-pfn-not-described-in-memory_bm_find_bit
-|-- sparc-allmodconfig
-|   |-- kernel-power-snapshot.c:warning:Function-parameter-or-member-ca-not-described-in-add_rtree_block
-|   |-- kernel-power-snapshot.c:warning:Function-parameter-or-member-ca-not-described-in-create_zone_bm_rtree
-|   |-- kernel-power-snapshot.c:warning:Function-parameter-or-member-clear_nosave_free-not-described-in-memory_bm_free
-|   |-- kernel-power-snapshot.c:warning:Function-parameter-or-member-gfp_mask-not-described-in-memory_bm_create
-|   `-- kernel-power-snapshot.c:warning:Function-parameter-or-member-pfn-not-described-in-memory_bm_find_bit
-|-- sparc64-allmodconfig
-|   |-- kernel-power-snapshot.c:warning:Function-parameter-or-member-ca-not-described-in-add_rtree_block
-|   |-- kernel-power-snapshot.c:warning:Function-parameter-or-member-ca-not-described-in-create_zone_bm_rtree
-|   |-- kernel-power-snapshot.c:warning:Function-parameter-or-member-clear_nosave_free-not-described-in-memory_bm_free
-|   |-- kernel-power-snapshot.c:warning:Function-parameter-or-member-gfp_mask-not-described-in-memory_bm_create
-|   `-- kernel-power-snapshot.c:warning:Function-parameter-or-member-pfn-not-described-in-memory_bm_find_bit
-|-- sparc64-allyesconfig
-|   |-- kernel-power-snapshot.c:warning:Function-parameter-or-member-ca-not-described-in-add_rtree_block
-|   |-- kernel-power-snapshot.c:warning:Function-parameter-or-member-ca-not-described-in-create_zone_bm_rtree
-|   |-- kernel-power-snapshot.c:warning:Function-parameter-or-member-clear_nosave_free-not-described-in-memory_bm_free
-|   |-- kernel-power-snapshot.c:warning:Function-parameter-or-member-gfp_mask-not-described-in-memory_bm_create
-|   `-- kernel-power-snapshot.c:warning:Function-parameter-or-member-pfn-not-described-in-memory_bm_find_bit
-`-- x86_64-defconfig
-    |-- kernel-power-snapshot.c:warning:Function-parameter-or-member-ca-not-described-in-add_rtree_block
-    |-- kernel-power-snapshot.c:warning:Function-parameter-or-member-ca-not-described-in-create_zone_bm_rtree
-    |-- kernel-power-snapshot.c:warning:Function-parameter-or-member-clear_nosave_free-not-described-in-memory_bm_free
-    |-- kernel-power-snapshot.c:warning:Function-parameter-or-member-gfp_mask-not-described-in-memory_bm_create
-    `-- kernel-power-snapshot.c:warning:Function-parameter-or-member-pfn-not-described-in-memory_bm_find_bit
-clang_recent_errors
-|-- i386-allmodconfig
-|   |-- kernel-power-snapshot.c:warning:Function-parameter-or-member-ca-not-described-in-add_rtree_block
-|   |-- kernel-power-snapshot.c:warning:Function-parameter-or-member-ca-not-described-in-create_zone_bm_rtree
-|   |-- kernel-power-snapshot.c:warning:Function-parameter-or-member-clear_nosave_free-not-described-in-memory_bm_free
-|   |-- kernel-power-snapshot.c:warning:Function-parameter-or-member-gfp_mask-not-described-in-memory_bm_create
-|   `-- kernel-power-snapshot.c:warning:Function-parameter-or-member-pfn-not-described-in-memory_bm_find_bit
-|-- i386-allyesconfig
-|   |-- kernel-power-snapshot.c:warning:Function-parameter-or-member-ca-not-described-in-add_rtree_block
-|   |-- kernel-power-snapshot.c:warning:Function-parameter-or-member-ca-not-described-in-create_zone_bm_rtree
-|   |-- kernel-power-snapshot.c:warning:Function-parameter-or-member-clear_nosave_free-not-described-in-memory_bm_free
-|   |-- kernel-power-snapshot.c:warning:Function-parameter-or-member-gfp_mask-not-described-in-memory_bm_create
-|   `-- kernel-power-snapshot.c:warning:Function-parameter-or-member-pfn-not-described-in-memory_bm_find_bit
-|-- i386-randconfig-015-20231129
-|   |-- kernel-power-snapshot.c:warning:Function-parameter-or-member-ca-not-described-in-add_rtree_block
-|   |-- kernel-power-snapshot.c:warning:Function-parameter-or-member-ca-not-described-in-create_zone_bm_rtree
-|   |-- kernel-power-snapshot.c:warning:Function-parameter-or-member-clear_nosave_free-not-described-in-memory_bm_free
-|   |-- kernel-power-snapshot.c:warning:Function-parameter-or-member-gfp_mask-not-described-in-memory_bm_create
-|   `-- kernel-power-snapshot.c:warning:Function-parameter-or-member-pfn-not-described-in-memory_bm_find_bit
-|-- powerpc-allmodconfig
-|   |-- kernel-power-snapshot.c:warning:Function-parameter-or-member-ca-not-described-in-add_rtree_block
-|   |-- kernel-power-snapshot.c:warning:Function-parameter-or-member-ca-not-described-in-create_zone_bm_rtree
-|   |-- kernel-power-snapshot.c:warning:Function-parameter-or-member-clear_nosave_free-not-described-in-memory_bm_free
-|   |-- kernel-power-snapshot.c:warning:Function-parameter-or-member-gfp_mask-not-described-in-memory_bm_create
-|   `-- kernel-power-snapshot.c:warning:Function-parameter-or-member-pfn-not-described-in-memory_bm_find_bit
-|-- powerpc-allyesconfig
-|   |-- kernel-power-snapshot.c:warning:Function-parameter-or-member-ca-not-described-in-add_rtree_block
-|   |-- kernel-power-snapshot.c:warning:Function-parameter-or-member-ca-not-described-in-create_zone_bm_rtree
-|   |-- kernel-power-snapshot.c:warning:Function-parameter-or-member-clear_nosave_free-not-described-in-memory_bm_free
-|   |-- kernel-power-snapshot.c:warning:Function-parameter-or-member-gfp_mask-not-described-in-memory_bm_create
-|   `-- kernel-power-snapshot.c:warning:Function-parameter-or-member-pfn-not-described-in-memory_bm_find_bit
-|-- x86_64-allyesconfig
-|   |-- kernel-power-snapshot.c:warning:Function-parameter-or-member-ca-not-described-in-add_rtree_block
-|   |-- kernel-power-snapshot.c:warning:Function-parameter-or-member-ca-not-described-in-create_zone_bm_rtree
-|   |-- kernel-power-snapshot.c:warning:Function-parameter-or-member-clear_nosave_free-not-described-in-memory_bm_free
-|   |-- kernel-power-snapshot.c:warning:Function-parameter-or-member-gfp_mask-not-described-in-memory_bm_create
-|   `-- kernel-power-snapshot.c:warning:Function-parameter-or-member-pfn-not-described-in-memory_bm_find_bit
-`-- x86_64-rhel-8.3-rust
-    |-- kernel-power-snapshot.c:warning:Function-parameter-or-member-ca-not-described-in-add_rtree_block
-    |-- kernel-power-snapshot.c:warning:Function-parameter-or-member-ca-not-described-in-create_zone_bm_rtree
-    |-- kernel-power-snapshot.c:warning:Function-parameter-or-member-clear_nosave_free-not-described-in-memory_bm_free
-    |-- kernel-power-snapshot.c:warning:Function-parameter-or-member-gfp_mask-not-described-in-memory_bm_create
-    `-- kernel-power-snapshot.c:warning:Function-parameter-or-member-pfn-not-described-in-memory_bm_find_bit
+Note, `b4 shazam ...` has an ability to consider patch series as Git PR,
+where the cover letter goes as template for the merge commit message.
+That's how I plan to merge it to my tree.
 
-elapsed time: 1460m
-
-configs tested: 138
-configs skipped: 2
-
-The following configs have been built successfully.
-More configs may be tested in the coming days.
-
-tested configs:
-alpha                             allnoconfig   gcc  
-alpha                            allyesconfig   gcc  
-alpha                               defconfig   gcc  
-arc                              allmodconfig   gcc  
-arc                               allnoconfig   gcc  
-arc                              allyesconfig   gcc  
-arc                                 defconfig   gcc  
-arc                   randconfig-001-20231129   gcc  
-arc                   randconfig-002-20231129   gcc  
-arm                              allmodconfig   gcc  
-arm                               allnoconfig   gcc  
-arm                              allyesconfig   gcc  
-arm                                 defconfig   clang
-arm                   randconfig-001-20231129   gcc  
-arm                   randconfig-002-20231129   gcc  
-arm                   randconfig-003-20231129   gcc  
-arm                   randconfig-004-20231129   gcc  
-arm64                            allmodconfig   clang
-arm64                             allnoconfig   gcc  
-arm64                               defconfig   gcc  
-arm64                 randconfig-001-20231129   gcc  
-arm64                 randconfig-002-20231129   gcc  
-arm64                 randconfig-003-20231129   gcc  
-arm64                 randconfig-004-20231129   gcc  
-csky                             allmodconfig   gcc  
-csky                              allnoconfig   gcc  
-csky                             allyesconfig   gcc  
-csky                                defconfig   gcc  
-csky                  randconfig-001-20231129   gcc  
-csky                  randconfig-002-20231129   gcc  
-hexagon                          allmodconfig   clang
-hexagon                           allnoconfig   clang
-hexagon                          allyesconfig   clang
-hexagon                             defconfig   clang
-hexagon               randconfig-001-20231129   clang
-hexagon               randconfig-002-20231129   clang
-i386                             allmodconfig   clang
-i386                              allnoconfig   clang
-i386                             allyesconfig   clang
-i386         buildonly-randconfig-001-20231129   gcc  
-i386         buildonly-randconfig-002-20231129   gcc  
-i386         buildonly-randconfig-003-20231129   gcc  
-i386         buildonly-randconfig-004-20231129   gcc  
-i386         buildonly-randconfig-005-20231129   gcc  
-i386         buildonly-randconfig-006-20231129   gcc  
-i386                                defconfig   gcc  
-i386                  randconfig-001-20231129   gcc  
-i386                  randconfig-002-20231129   gcc  
-i386                  randconfig-003-20231129   gcc  
-i386                  randconfig-004-20231129   gcc  
-i386                  randconfig-005-20231129   gcc  
-i386                  randconfig-006-20231129   gcc  
-i386                  randconfig-011-20231129   clang
-i386                  randconfig-012-20231129   clang
-i386                  randconfig-013-20231129   clang
-i386                  randconfig-014-20231129   clang
-i386                  randconfig-015-20231129   clang
-i386                  randconfig-016-20231129   clang
-loongarch                        allmodconfig   gcc  
-loongarch                         allnoconfig   gcc  
-loongarch                           defconfig   gcc  
-loongarch             randconfig-001-20231129   gcc  
-loongarch             randconfig-002-20231129   gcc  
-m68k                             allmodconfig   gcc  
-m68k                              allnoconfig   gcc  
-m68k                             allyesconfig   gcc  
-m68k                                defconfig   gcc  
-microblaze                       allmodconfig   gcc  
-microblaze                        allnoconfig   gcc  
-microblaze                       allyesconfig   gcc  
-microblaze                          defconfig   gcc  
-mips                              allnoconfig   clang
-mips                             allyesconfig   gcc  
-nios2                            allmodconfig   gcc  
-nios2                             allnoconfig   gcc  
-nios2                            allyesconfig   gcc  
-nios2                               defconfig   gcc  
-nios2                 randconfig-001-20231129   gcc  
-nios2                 randconfig-002-20231129   gcc  
-openrisc                          allnoconfig   gcc  
-openrisc                         allyesconfig   gcc  
-openrisc                            defconfig   gcc  
-parisc                           allmodconfig   gcc  
-parisc                            allnoconfig   gcc  
-parisc                           allyesconfig   gcc  
-parisc                              defconfig   gcc  
-parisc                randconfig-001-20231129   gcc  
-parisc                randconfig-002-20231129   gcc  
-parisc64                            defconfig   gcc  
-powerpc                          allmodconfig   clang
-powerpc                           allnoconfig   gcc  
-powerpc                          allyesconfig   clang
-powerpc               randconfig-001-20231129   gcc  
-powerpc               randconfig-002-20231129   gcc  
-powerpc               randconfig-003-20231129   gcc  
-powerpc64             randconfig-001-20231129   gcc  
-powerpc64             randconfig-002-20231129   gcc  
-powerpc64             randconfig-003-20231129   gcc  
-riscv                            allmodconfig   gcc  
-riscv                             allnoconfig   clang
-riscv                            allyesconfig   gcc  
-riscv                               defconfig   gcc  
-riscv                 randconfig-001-20231129   gcc  
-riscv                 randconfig-002-20231129   gcc  
-riscv                          rv32_defconfig   clang
-s390                             allmodconfig   gcc  
-s390                              allnoconfig   gcc  
-s390                             allyesconfig   gcc  
-s390                                defconfig   gcc  
-s390                  randconfig-001-20231129   clang
-s390                  randconfig-002-20231129   clang
-sh                               allmodconfig   gcc  
-sh                                allnoconfig   gcc  
-sh                               allyesconfig   gcc  
-sh                                  defconfig   gcc  
-sh                    randconfig-001-20231129   gcc  
-sh                    randconfig-002-20231129   gcc  
-sparc                            allmodconfig   gcc  
-sparc64                          allmodconfig   gcc  
-sparc64                          allyesconfig   gcc  
-sparc64                             defconfig   gcc  
-sparc64               randconfig-001-20231129   gcc  
-sparc64               randconfig-002-20231129   gcc  
-um                               allmodconfig   clang
-um                                allnoconfig   clang
-um                               allyesconfig   clang
-um                                  defconfig   gcc  
-um                             i386_defconfig   gcc  
-um                    randconfig-001-20231129   gcc  
-um                    randconfig-002-20231129   gcc  
-um                           x86_64_defconfig   gcc  
-x86_64                            allnoconfig   gcc  
-x86_64                           allyesconfig   clang
-x86_64                              defconfig   gcc  
-x86_64                          rhel-8.3-rust   clang
-xtensa                            allnoconfig   gcc  
-xtensa                randconfig-001-20231129   gcc  
-xtensa                randconfig-002-20231129   gcc  
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+With Best Regards,
+Andy Shevchenko
+
+
 
