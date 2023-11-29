@@ -1,96 +1,159 @@
-Return-Path: <linux-renesas-soc+bounces-390-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-391-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7F8C7FD2DE
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Nov 2023 10:36:38 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B20C57FD525
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Nov 2023 12:10:57 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2368F282DDF
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Nov 2023 09:36:30 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E151F1C21205
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Nov 2023 11:10:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D2B1015E9D;
-	Wed, 29 Nov 2023 09:36:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DC8901C2AB;
+	Wed, 29 Nov 2023 11:10:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dkim=none
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from Atcsqr.andestech.com (60-248-80-70.hinet-ip.hinet.net [60.248.80.70])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E8A3B170B;
-	Wed, 29 Nov 2023 01:36:23 -0800 (PST)
-Received: from mail.andestech.com (ATCPCS16.andestech.com [10.0.1.222])
-	by Atcsqr.andestech.com with ESMTP id 3AT9Ya14074351;
-	Wed, 29 Nov 2023 17:34:36 +0800 (+08)
-	(envelope-from peterlin@andestech.com)
-Received: from APC323 (10.0.12.98) by ATCPCS16.andestech.com (10.0.1.222) with
- Microsoft SMTP Server id 14.3.498.0; Wed, 29 Nov 2023 17:34:33 +0800
-Date: Wed, 29 Nov 2023 17:34:30 +0800
-From: Yu-Chien Peter Lin <peterlin@andestech.com>
-To: Conor Dooley <conor.dooley@microchip.com>
-CC: <acme@kernel.org>, <adrian.hunter@intel.com>, <ajones@ventanamicro.com>,
-        <alexander.shishkin@linux.intel.com>, <andre.przywara@arm.com>,
-        <anup@brainfault.org>, <aou@eecs.berkeley.edu>,
-        <atishp@atishpatra.org>, <conor+dt@kernel.org>, <conor@kernel.org>,
-        <devicetree@vger.kernel.org>, <dminus@andestech.com>,
-        <evan@rivosinc.com>, <geert+renesas@glider.be>, <guoren@kernel.org>,
-        <heiko@sntech.de>, <irogers@google.com>, <jernej.skrabec@gmail.com>,
-        <jolsa@kernel.org>, <jszhang@kernel.org>,
-        <krzysztof.kozlowski+dt@linaro.org>,
-        <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
-        <linux-perf-users@vger.kernel.org>,
-        <linux-renesas-soc@vger.kernel.org>, <linux-riscv@lists.infradead.org>,
-        <linux-sunxi@lists.linux.dev>, <locus84@andestech.com>,
-        <magnus.damm@gmail.com>, <mark.rutland@arm.com>, <mingo@redhat.com>,
-        <n.shubin@yadro.com>, <namhyung@kernel.org>, <palmer@dabbelt.com>,
-        <paul.walmsley@sifive.com>, <peterz@infradead.org>,
-        <prabhakar.mahadev-lad.rj@bp.renesas.com>, <rdunlap@infradead.org>,
-        <robh+dt@kernel.org>, <samuel@sholland.org>,
-        <sunilvl@ventanamicro.com>, <tglx@linutronix.de>,
-        <tim609@andestech.com>, <uwu@icenowy.me>, <wens@csie.org>,
-        <will@kernel.org>, <ycliang@andestech.com>, <inochiama@outlook.com>
-Subject: Re: [PATCH v4 11/13] riscv: dts: allwinner: Add T-Head PMU extension
-Message-ID: <ZWcFpjLbAf1-YtLs@APC323>
-References: <20231122121235.827122-1-peterlin@andestech.com>
- <20231122121235.827122-12-peterlin@andestech.com>
- <20231123-coping-revenue-be284a351c9d@wendy>
+Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com [209.85.128.178])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3C9BD271D;
+	Wed, 29 Nov 2023 03:10:50 -0800 (PST)
+Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-5c08c47c055so65164407b3.1;
+        Wed, 29 Nov 2023 03:10:50 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701256248; x=1701861048;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=CIg/lVR/UB6jNsuQOE2z1pZZGLYqtdqMUy/N5XrA7+s=;
+        b=j+nbdeiOc68h3LVA3Aoy2C4hsk4nNwNLPR0NNmEmeCvLKu6rHi+Xq0Q1lALUmg9sZG
+         4ZjlzEcDkfxRprrK50DTrXKBHyNTEcLjsNnQ07zOkUh1zyL7Cl0D55RMsji2TsZfPaWp
+         9tcgDCdnyqU76l5RVXGnHGvfAaz/OYSNipC0xgWxw8n12rkJZwY2D+R/km4DsTJ9BT0S
+         jlNn/SmRcH2TCKJXC70vwxYzJ7jROxi/+m0gFLsW8TdqRlPHeGfkGArdjbUru23XqwGW
+         QVWpH2jrrt3NVj2s3KbL86ryfhMfXMrRXU+SujiahWGXKJkhaTTtVZnDOCXssyrrDznR
+         rH9w==
+X-Gm-Message-State: AOJu0YwBeWSFzRXuoEPp1qM71DVXkEAyKJDzNjCxTE9VncZPtoZqVZmE
+	BYAX4deyGpJSIMjPzvjmzN01xfvtx/6Gjw==
+X-Google-Smtp-Source: AGHT+IGobGQMHmqiy2cLdoyY99eiWypJdrD0bQrkSVLPAPEh8boWvFdsGyiVjYCXdWVZROMHHs/0CQ==
+X-Received: by 2002:a05:690c:2a93:b0:5ce:a930:d641 with SMTP id ek19-20020a05690c2a9300b005cea930d641mr14096395ywb.4.1701256248544;
+        Wed, 29 Nov 2023 03:10:48 -0800 (PST)
+Received: from mail-yb1-f176.google.com (mail-yb1-f176.google.com. [209.85.219.176])
+        by smtp.gmail.com with ESMTPSA id t5-20020a0dd105000000b0057087e7691bsm4486383ywd.56.2023.11.29.03.10.47
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 29 Nov 2023 03:10:47 -0800 (PST)
+Received: by mail-yb1-f176.google.com with SMTP id 3f1490d57ef6-db40898721fso6138611276.3;
+        Wed, 29 Nov 2023 03:10:47 -0800 (PST)
+X-Received: by 2002:a05:6902:566:b0:d7b:90c6:683c with SMTP id
+ a6-20020a056902056600b00d7b90c6683cmr19865805ybt.26.1701256247010; Wed, 29
+ Nov 2023 03:10:47 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20231123-coping-revenue-be284a351c9d@wendy>
-User-Agent: Mutt/2.2.10 (2023-03-25)
-X-DNSRBL: 
-X-SPAM-SOURCE-CHECK: pass
-X-MAIL:Atcsqr.andestech.com 3AT9Ya14074351
+References: <20231128200155.438722-1-andriy.shevchenko@linux.intel.com> <20231128200155.438722-21-andriy.shevchenko@linux.intel.com>
+In-Reply-To: <20231128200155.438722-21-andriy.shevchenko@linux.intel.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Wed, 29 Nov 2023 12:10:35 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdXPPHN=G8Ej0apBch4hFWic+jWBBt1SWjgz0xD_wFw=Gw@mail.gmail.com>
+Message-ID: <CAMuHMdXPPHN=G8Ej0apBch4hFWic+jWBBt1SWjgz0xD_wFw=Gw@mail.gmail.com>
+Subject: Re: [PATCH v3 20/22] pinctrl: renesas: Convert to use grp member
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Linus Walleij <linus.walleij@linaro.org>, 
+	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>, 
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>, =?UTF-8?Q?Jonathan_Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
+	=?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, Biju Das <biju.das.jz@bp.renesas.com>, 
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>, 
+	Jianlong Huang <jianlong.huang@starfivetech.com>, linux-arm-kernel@lists.infradead.org, 
+	linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-mediatek@lists.infradead.org, openbmc@lists.ozlabs.org, 
+	linux-mips@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org, Ray Jui <rjui@broadcom.com>, 
+	Scott Branden <sbranden@broadcom.com>, 
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Dong Aisheng <aisheng.dong@nxp.com>, 
+	Fabio Estevam <festevam@gmail.com>, Shawn Guo <shawnguo@kernel.org>, Jacky Bai <ping.bai@nxp.com>, 
+	Pengutronix Kernel Team <kernel@pengutronix.de>, Sascha Hauer <s.hauer@pengutronix.de>, 
+	NXP Linux Team <linux-imx@nxp.com>, Sean Wang <sean.wang@kernel.org>, 
+	Paul Cercueil <paul@crapouillou.net>, Lakshmi Sowjanya D <lakshmi.sowjanya.d@intel.com>, 
+	Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>, 
+	Konrad Dybcio <konrad.dybcio@linaro.org>, Emil Renner Berthing <kernel@esmil.dk>, 
+	Hal Feng <hal.feng@starfivetech.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Conor,
+Hi Andy,
 
-On Thu, Nov 23, 2023 at 02:58:55PM +0000, Conor Dooley wrote:
-> On Wed, Nov 22, 2023 at 08:12:33PM +0800, Yu Chien Peter Lin wrote:
-> > xtheadpmu stands for T-Head Performance Monitor Unit extension.
-> > Based on the added T-Head PMU ISA string, the SBI PMU driver
-> > will make use of the non-standard irq source.
-> 
-> Allwinner aren't the only ones using T-Head CPUs that the previous
-> m*id pmu detection code would have matched on. I think the first three
-> files below will also need to be updated:
-> 
-> rg -l "thead,c[0-9]*\b[^-]" arch/riscv/boot/dts/
-> arch/riscv/boot/dts/sophgo/sg2042-cpus.dtsi
-> arch/riscv/boot/dts/sophgo/cv1800b.dtsi
-> arch/riscv/boot/dts/thead/th1520.dtsi
-> arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi
+On Tue, Nov 28, 2023 at 9:04=E2=80=AFPM Andy Shevchenko
+<andriy.shevchenko@linux.intel.com> wrote:
+> Convert drivers to use grp member embedded in struct group_desc.
+>
+> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 
-That's really helpful, I'll add these .dtsi files in the patchset v5.
+Thanks for your patch!
 
-Thanks,
-Peter Lin
+> --- a/drivers/pinctrl/renesas/pinctrl-rzg2l.c
+> +++ b/drivers/pinctrl/renesas/pinctrl-rzg2l.c
+> @@ -273,7 +273,7 @@ static int rzg2l_pinctrl_set_mux(struct pinctrl_dev *=
+pctldev,
+>         struct function_desc *func;
+>         unsigned int i, *psel_val;
+>         struct group_desc *group;
+> -       int *pins;
+> +       const int *pins;
 
-> Cheers,
-> Conor.
+unsigned, as this no longer signed.
 
+>
+>         func =3D pinmux_generic_get_function(pctldev, func_selector);
+>         if (!func)
+> @@ -283,9 +283,9 @@ static int rzg2l_pinctrl_set_mux(struct pinctrl_dev *=
+pctldev,
+>                 return -EINVAL;
+>
+>         psel_val =3D func->data;
+> -       pins =3D group->pins;
+> +       pins =3D group->grp.pins;
 
+> --- a/drivers/pinctrl/renesas/pinctrl-rzv2m.c
+> +++ b/drivers/pinctrl/renesas/pinctrl-rzv2m.c
+> @@ -165,7 +165,7 @@ static int rzv2m_pinctrl_set_mux(struct pinctrl_dev *=
+pctldev,
+>         struct function_desc *func;
+>         unsigned int i, *psel_val;
+>         struct group_desc *group;
+> -       int *pins;
+> +       const int *pins;
+
+unsigned
+
+>
+>         func =3D pinmux_generic_get_function(pctldev, func_selector);
+>         if (!func)
+> @@ -175,9 +175,9 @@ static int rzv2m_pinctrl_set_mux(struct pinctrl_dev *=
+pctldev,
+>                 return -EINVAL;
+>
+>         psel_val =3D func->data;
+> -       pins =3D group->pins;
+> +       pins =3D group->grp.pins;
+
+With the above fixed:
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Acked-by: Geert Uytterhoeven <geert+renesas@glider.be>
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
