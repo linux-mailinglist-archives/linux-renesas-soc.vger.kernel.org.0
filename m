@@ -1,187 +1,252 @@
-Return-Path: <linux-renesas-soc+bounces-472-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-473-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C0587FFD80
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 30 Nov 2023 22:27:28 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 53E897FFF36
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  1 Dec 2023 00:11:51 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id AB701B20FF5
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 30 Nov 2023 21:27:25 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8309F1C20BE2
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 30 Nov 2023 23:11:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 36FA855C28;
-	Thu, 30 Nov 2023 21:27:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E257861FB4;
+	Thu, 30 Nov 2023 23:11:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="isu3R+Py"
+	dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b="X9z/nyoi"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com [IPv6:2a00:1450:4864:20::429])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DDFD0133;
-	Thu, 30 Nov 2023 13:27:18 -0800 (PST)
-Received: by mail-wr1-x429.google.com with SMTP id ffacd0b85a97d-3333074512bso40468f8f.1;
-        Thu, 30 Nov 2023 13:27:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1701379637; x=1701984437; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=KqgjcL24ZMnKLsXbYwH0Kk7Ypb9AJnVc4DeykxITi3c=;
-        b=isu3R+PyHMfWu5eH8kC5q5DDANjZdpYGp6bHfr62a4B5D3LfAezAlyuqg4Lj2MqmSk
-         8cpYeXxUW4UzmQE3WY0YRQcRKKHOgjpeoifjiccIqKPBFsgx2S5JURZKkRNT3AaWY4rd
-         E3JH+Oq3irY1U8CS7VEqr2srRGUNPdC/iLQBGIQXDY8D7zogZuX4rgtYCCd7KHAn7c8z
-         Lhxt3uPVHBj79yVJm0kONaYQwQ8mpw0aYbLU1PygR2YKgTvqhqD+MiSwjBexYaVE+Z8I
-         L3+LtbrGy7gOmC+i4EPz3p/3FuAK2sx1W5Gn5Iy8dUd96aZKyYhYI+wM9MMcDhKIeKqm
-         HysQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701379637; x=1701984437;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=KqgjcL24ZMnKLsXbYwH0Kk7Ypb9AJnVc4DeykxITi3c=;
-        b=sFzJgfPmM/RBywqCZq+ltJTcWz6QiWSTSfALjiP8D6VbbtzYaa0kFAptGPcucxjCvN
-         wpeOuserHg5KuMTKlQMdr2Kw2uUmIBV96Qucj43IUTAb+ChOZcmrGIbBvjWc5rOAvyxn
-         8rjY3wwoPh8mCgG5rnnckHQNHN4lNLP2GXUtzXq4OpgivHFHIHb7tgB9hRdVjapzujkh
-         47b+63qwZ4Eez21BRQ5zUM2rzqeoXlcrosJ1SLg6ZUNZoeV4kNUR3eB5HG3XJnys+CUh
-         UIFURoBwzspQvEYQv6UCQqw4DMjfgsAuaIQEV+ft8oUUy6cmkTQZ3mD2LDYA/but9rNI
-         yErQ==
-X-Gm-Message-State: AOJu0YzNUXcqjRoveZuSkD11CFPu41pC5XZqIn2uDdqXKiLLbmVrYDss
-	yAY3eqiBasEr2Pm41ezigK0=
-X-Google-Smtp-Source: AGHT+IHKBeHl7stvLYTFaI4jG/zWMybVzNEIz41y+IHoeV42m4AZDHT+xqfJgF2OkZwBJforvNzzyA==
-X-Received: by 2002:a05:600c:4da4:b0:40b:5e26:238c with SMTP id v36-20020a05600c4da400b0040b5e26238cmr95459wmp.61.1701379637105;
-        Thu, 30 Nov 2023 13:27:17 -0800 (PST)
-Received: from prasmi.home ([2a00:23c8:2500:a01:3c2e:cd45:f50f:f083])
-        by smtp.gmail.com with ESMTPSA id az27-20020a05600c601b00b003fc0505be19sm3271440wmb.37.2023.11.30.13.27.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 Nov 2023 13:27:16 -0800 (PST)
-From: Prabhakar <prabhakar.csengg@gmail.com>
-X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To: Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Conor Dooley <conor.dooley@microchip.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: Yu Chien Peter Lin <peterlin@andestech.com>,
-	Samuel Holland <samuel.holland@sifive.com>,
-	linux-riscv@lists.infradead.org,
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com (mail-mw2nam12olkn2067.outbound.protection.outlook.com [40.92.23.67])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0DCFB1B3;
+	Thu, 30 Nov 2023 15:11:44 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=mDWDdYvSCRgicLmSfsRGH9+d2hzz6qpVphF8tx4vJOswfzJS/9CuoA/MmdN9jO7q31AwdmNSxVI5QmbtVOR9lvM6m4QZngJcUzXQQz6Ceak5QUCwPXEijasNniqjsg+jsxIM5bII9+4AGSNEo0XRvDhTzJT+imYxK9KwvyQWGlunW65ytHUxoogdOQdQfs2upXcS1CINlmIcLAShvTK+EUn9/fuLOfGPH0ScE00ee+HrmIyx+sbpd6JY3yO9UEBaj60TOuTpLKGXnSAT/2XSQpPgmTMQ93KBfjm9IxOz9kU/H6ho8sk6YSNEXUB1CKNATONJQQGGuDDpacDxAbCLNQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=m8BHqhZn4539bNCaSZPXRguwoIBBdI81N4SjxUZcP7Q=;
+ b=RtD6N6ZL9dtgVhqWkKepLudubHDE+UKy3XmwFzMYrfloTdZVJHvr2oR101kIjVd1nzzBPhkS9Ani6XSy9GVELlzoEIekGj9pnb8+oeKAEQ/lWQ28fwptxJObPICxjI91K6tGSov0NNVRjV76z5qmCN8tptCVVhTiuZyyxx/UBWyHzEiZRWXuhHTRC+hZYuFDCXP75w5WYk7dOGT0WVYtQog8YdqvaYn+64FF7kkxr2JJIsZ5/k+j4vIplOT6N2mt5iw5m2jXyEE8GreggxbCFFUwTPlToT6W+kDhkjYOR4kaWhf1tkl7adb/QRoCGir8mDZXMgu+pWLe/y4G4WBqEw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=m8BHqhZn4539bNCaSZPXRguwoIBBdI81N4SjxUZcP7Q=;
+ b=X9z/nyoiPYsGVOFEhb5X9udEei8ZOdV2QqQj5W0yFBZ9gWjuC51WyNhK1Sb3auKG4XHR3KqgMdLky5cg7+IaRTdz43piMCCaTsfN/jUkMzt3sGnjiq2jkba84+ywE6pD5mx/drqc51SUgF43upTtxVZSAkgFn/ci2z+LaopgYcNymtFvTO11HbnA+5nW0yhtD39TudHTDAWowRoD49ZOffPaaXyrmKLeA0SuBSeMDpqPSV4Q8z0IP9g2aU76G3vNfmx+Y5Rv0w+CNoIDrUXj0ZIk1jFMYIbVD44RRyx02B1yjQWwE4ccn0S2b6Sz9k5jflccz49Qtl9c+GQdcA6M1Q==
+Received: from IA1PR20MB4953.namprd20.prod.outlook.com (2603:10b6:208:3af::19)
+ by DM4PR20MB4579.namprd20.prod.outlook.com (2603:10b6:8:5e::6) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.7046.24; Thu, 30 Nov 2023 23:11:42 +0000
+Received: from IA1PR20MB4953.namprd20.prod.outlook.com
+ ([fe80::55b:c350:980:ad8]) by IA1PR20MB4953.namprd20.prod.outlook.com
+ ([fe80::55b:c350:980:ad8%6]) with mapi id 15.20.7046.024; Thu, 30 Nov 2023
+ 23:11:42 +0000
+From: Inochi Amaoto <inochiama@outlook.com>
+To: Conor Dooley <conor@kernel.org>
+Cc: Inochi Amaoto <inochiama@outlook.com>,
+	Yu-Chien Peter Lin <peterlin@andestech.com>,
+	Guo Ren <guoren@kernel.org>,
+	acme@kernel.org,
+	adrian.hunter@intel.com,
+	ajones@ventanamicro.com,
+	alexander.shishkin@linux.intel.com,
+	andre.przywara@arm.com,
+	anup@brainfault.org,
+	aou@eecs.berkeley.edu,
+	atishp@atishpatra.org,
+	conor+dt@kernel.org,
+	conor.dooley@microchip.com,
+	devicetree@vger.kernel.org,
+	dminus@andestech.com,
+	evan@rivosinc.com,
+	geert+renesas@glider.be,
+	heiko@sntech.de,
+	irogers@google.com,
+	jernej.skrabec@gmail.com,
+	jolsa@kernel.org,
+	jszhang@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org,
+	linux-arm-kernel@lists.infradead.org,
 	linux-kernel@vger.kernel.org,
+	linux-perf-users@vger.kernel.org,
 	linux-renesas-soc@vger.kernel.org,
-	Prabhakar <prabhakar.csengg@gmail.com>,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH v3] riscv: errata: andes: Probe for IOCP only once in boot stage
-Date: Thu, 30 Nov 2023 21:26:47 +0000
-Message-Id: <20231130212647.108746-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Mailer: git-send-email 2.34.1
+	linux-riscv@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	locus84@andestech.com,
+	magnus.damm@gmail.com,
+	mark.rutland@arm.com,
+	mingo@redhat.com,
+	n.shubin@yadro.com,
+	namhyung@kernel.org,
+	palmer@dabbelt.com,
+	paul.walmsley@sifive.com,
+	peterz@infradead.org,
+	prabhakar.mahadev-lad.rj@bp.renesas.com,
+	rdunlap@infradead.org,
+	robh+dt@kernel.org,
+	samuel@sholland.org,
+	sunilvl@ventanamicro.com,
+	tglx@linutronix.de,
+	tim609@andestech.com,
+	uwu@icenowy.me,
+	wens@csie.org,
+	will@kernel.org,
+	ycliang@andestech.com
+Subject: Re: [PATCH v4 09/13] dt-bindings: riscv: Add T-Head PMU extension description
+Date: Fri,  1 Dec 2023 07:11:31 +0800
+Message-ID:
+ <IA1PR20MB495378652B09B37E92D8BB04BB82A@IA1PR20MB4953.namprd20.prod.outlook.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20231130-isotope-runaround-9afb98579734@spud>
+References: <20231130-isotope-runaround-9afb98579734@spud>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-TMN: [ncJoUExl3SuevRzpqks02K/yP4DXvlwShqlGCXmGcak=]
+X-ClientProxiedBy: TY2PR0101CA0030.apcprd01.prod.exchangelabs.com
+ (2603:1096:404:8000::16) To IA1PR20MB4953.namprd20.prod.outlook.com
+ (2603:10b6:208:3af::19)
+X-Microsoft-Original-Message-ID: <20231130231132.9090-1-inochiama@outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: IA1PR20MB4953:EE_|DM4PR20MB4579:EE_
+X-MS-Office365-Filtering-Correlation-Id: a06f4373-8804-4e35-0e7e-08dbf1f9b675
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	lruw79LHkd+PYq272i8fkuGmuCThsHqF9UnT3vHV64in58VLYZSC0M9oCgM42UVP/+7PaerSiBGY3V9qSXdWZW22rr1U86D8qpKtXo5f440NrqbTVHN6BH9X+qnfSJnGRuBP4l5emS2Roh289veP/sRh3nG+a20o85uuUHVdJZKc+YxO6MZUXe06zHsK63tPSWxGYh4TR2dPx1scI5dX42l+TYnb0lg+aRkwq77EMJ2Ui6sUYTYQVg1t3YXgiIrhck9gMQ1pNkLgOmd80yBtUalJkrhNaZQsQKVk0/tJ2v+uk4rLFWQBGkcdb3p/HJT2zjuzXFxkswmw9fC5olBEc3THtxvFWOBtzAMe2iLj594Zp1zM4ib0jdwJTyGct4MNIY/j6QMfj5LJCkdtf866ZKHs0DrFpu2JS1bibg38G8x2X+OgLrYyvDzmz7rPMwWFYC+mlk33MruGmTuGInsdYn4eEjBkk7Ol1m1rzAKW+13KdME/gcvB84YYLp2SeGSelXlg/K8LwA2NlxRnS411RFS9RJ8uctUcEZSCpaMXPVLAT/Hl/Sw+ztRGXNXCsB+YE/OWM0TF4e+qpQfYj+hFdF2wpB/BDkmJu5ITh807iLFPyOpPBhD+y2zx4Ek261TcyyWbHEL8ZAOXqTGr9o5ezV6gc/nax/rmY+PR0QugLo8=
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?VmgwUHhIeEZjSFp2MTVJSndrbjc0WTMvUjAzU3Ivck56ZXNRYXRBYU1EanM5?=
+ =?utf-8?B?UFE2REpnZ2N0OVFUcVdJSms1ZzB4UlozQmt1Qk9Cb21GcHM0bTRzaHpzR3VD?=
+ =?utf-8?B?L3VPZ05JSXJwWEZKdDJCaWgvSVFoTGROTGNGZ0liWmd4VmpHdDFmTGhKMXM1?=
+ =?utf-8?B?L2RaaTgzc0lMUHc2aHVzUUN2aHhTU2JacjA5UmhvZnNiMiszZS9ZdmVKVlA1?=
+ =?utf-8?B?T1FPbkQ3eHRpNWJ5SEdoTmNJVmZweEw2dG52ZVhGYUx1bHVkWjNCcmVvV2xI?=
+ =?utf-8?B?SWVDeldRMWVleDZJQWhtb0FFY2RURDIvb1lHbklnK2txUjRabkZKUW8zNkpT?=
+ =?utf-8?B?VWY1TkQvMFliMnRxcEJ1Tk1sU3JRK0pKeUI0a3Jmb2R0T3pZYWxjTldGTWxS?=
+ =?utf-8?B?cW9ydWtRSlhLNS9mWTdTbStGNWg0MFVRNTdSd3ZaMDkwWTRqVXg3NGFGM3Zx?=
+ =?utf-8?B?dHNnZkRLbTA2eVZRSVFweWZCUHVHMmVRRGtKRWVXaUxjMnhTNTFVOUpWU0xz?=
+ =?utf-8?B?YW51M3BwbXJrYzhoMHpTT2lIeEVOdlNoWnlCOXd1bk1wQTgxbmlIQ3Q0cGVJ?=
+ =?utf-8?B?RTNBdnAzaDYxVEpBcTA4a0F0S3Q4Wmxzb0FoNHROc1pIcy9lZEE2Y1YxQSsw?=
+ =?utf-8?B?ZU90K2NOSzhINGdvUFRCV0VmTlRIa0tLbWJDYjRzek9KbUtJVHd5S29VYkFJ?=
+ =?utf-8?B?RHlKendPWmV0UXBnejEwdWZsMWd4djVSaTd6ZSt4ZnFiQ0VpaTRucmd1cll0?=
+ =?utf-8?B?TmF4bUhVeDh4eERyTXpMd0R3cndlY1ZrTklvNmVGbDJpcWo3b0orcXF5VEhW?=
+ =?utf-8?B?RFpYN0hJV0lTTWJETngyalpGRXJoRFVWdW5SNk4zS1NON3V1aHo3cVdHWlY0?=
+ =?utf-8?B?NUlhUmpzUXJnYkZBWlhxc05BL3ZaeDdnVU9NZVMzaFNZQy9xaXhabHJoRlZz?=
+ =?utf-8?B?aUhlWnE1TEhCYWx5elFwWXFxUFljMnRMK3l4enM2ZlBjd2t5Y0o1WHZsT0Zr?=
+ =?utf-8?B?S1B4UVZKb20za0lGWG9QemhUdjFKOGNlTDZGTWRFa0dmRmRGZlZYNUZKVVI4?=
+ =?utf-8?B?ZURIOVJHdklFdUxhckNnOUxZUzVWYll0R3poa0JPT0JnOS90OWtyVmFqWU5P?=
+ =?utf-8?B?RE0zL3JmYXVrYmxGV0lTQTkrU3ZrM3hmOUxMUnBuS1UzbS8zYnBieE45WEYr?=
+ =?utf-8?B?TXdCU0NlM1dIWXl0RVcxeGYyMnhxaFhaWGdLVkdaVEQ1d1o1NFNoY2RzNGV5?=
+ =?utf-8?B?a2FWUUdLb3F1VUpaYUVxTE93aENKQW5sNEl5WmFCYk5ZSGtRQnJPYW9YREY1?=
+ =?utf-8?B?Qk9lQ0JxRHBoQTdWQUpyNFphRlZRTnpXZWN5K0NSZ05GQmRsUFVCTWxCb2Z4?=
+ =?utf-8?B?amQ3TzVPYk0xblVTWnZxdllMeU9jbmU1REM2RFdaaFU3ckFmVFJqUUQxNWxL?=
+ =?utf-8?B?ZExuZURKTWJ5L0ppMUZCWEdDcDB2Vmx3T0hyWnJMZDQzR0VuNzR4U01aWkx5?=
+ =?utf-8?B?WXdYb0wzRm1QeVM0cWplMG9uZzRqTGE2OHc1WThJcjNPYUZpSytiV0t5Z3JJ?=
+ =?utf-8?B?NUx0STBYbDFUMUdoTEcrcmY5ZmNBUGxYb0gwUHFPN0ZYVWxKSmlHZHp2VVhr?=
+ =?utf-8?Q?GJj7RzLiRVQ/RbX4hRnOqJQZdnkTedKcKs6RQN/bokyg=3D?=
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a06f4373-8804-4e35-0e7e-08dbf1f9b675
+X-MS-Exchange-CrossTenant-AuthSource: IA1PR20MB4953.namprd20.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Nov 2023 23:11:41.7481
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
+	00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR20MB4579
 
-From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+>
+>On Thu, Nov 30, 2023 at 08:16:38PM +0800, Inochi Amaoto wrote:
+>>>
+>>> Hi Inochi,
+>>>
+>>> On Thu, Nov 30, 2023 at 04:29:22PM +0800, Inochi Amaoto wrote:
+>>>>>
+>>>>> Hi Guo Ren,
+>>>>>
+>>>>> On Thu, Nov 23, 2023 at 05:14:30AM +0800, Guo Ren wrote:
+>>>>>> On Wed, Nov 22, 2023 at 8:17 PM Yu Chien Peter Lin
+>>>>>> <peterlin@andestech.com> wrote:
+>>>>>>>
+>>>>>>> Document the ISA string for T-Head performance monitor extension
+>>>>>>> which provides counter overflow interrupt mechanism.
+>>>>>>>
+>>>>>>> Signed-off-by: Yu Chien Peter Lin <peterlin@andestech.com>
+>>>>>>> ---
+>>>>>>> Changes v2 -> v3:
+>>>>>>>   - New patch
+>>>>>>> Changes v3 -> v4:
+>>>>>>>   - No change
+>>>>>>> ---
+>>>>>>>  Documentation/devicetree/bindings/riscv/extensions.yaml | 6 ++++++
+>>>>>>>  1 file changed, 6 insertions(+)
+>>>>>>>
+>>>>>>> diff --git a/Documentation/devicetree/bindings/riscv/extensions.yaml b/Documentation/devicetree/bindings/riscv/extensions.yaml
+>>>>>>> index c91ab0e46648..694efaea8fce 100644
+>>>>>>> --- a/Documentation/devicetree/bindings/riscv/extensions.yaml
+>>>>>>> +++ b/Documentation/devicetree/bindings/riscv/extensions.yaml
+>>>>>>> @@ -258,5 +258,11 @@ properties:
+>>>>>>>              in commit 2e5236 ("Ztso is now ratified.") of the
+>>>>>>>              riscv-isa-manual.
+>>>>>>>
+>>>>>>> +        - const: xtheadpmu
+>>>>>>> +          description:
+>>>>>>> +            The T-Head performance monitor extension for counter overflow. For more
+>>>>>>> +            details, see the chapter 12 in the Xuantie C906 user manual.
+>>>>>>> +            https://github.com/T-head-Semi/openc906/tree/main/doc
+>>>>>>> +
+>>>>>>>  additionalProperties: true
+>>>>>>>  ...
+>>>>>>> --
+>>>>>>> 2.34.1
+>>>>>>>
+>>>>>> Reviewed-by: Guo Ren <guoren@kernel.org>
+>>>>>
+>>>>> Thanks for the review.
+>>>>> Would you share document about T-Head PMU?
+>>>>>
+>>>>
+>>>> Hi, Peter Lin:
+>>>>
+>>>> You can use the following two document to get all events:
+>>>> https://github.com/T-head-Semi/openc906/tree/main/doc
+>>>> https://github.com/T-head-Semi/openc910/tree/main/doc
+>>>>
+>>>> There are also some RTL code can describe these events:
+>>>> https://github.com/T-head-Semi/openc910/blob/e0c4ad8ec7f8c70f649d826ebd6c949086453272/C910_RTL_FACTORY/gen_rtl/pmu/rtl/ct_hpcp_top.v#L1123
+>>>> https://github.com/T-head-Semi/openc906/blob/af5614d72de7e5a4b8609c427d2e20af1deb21c4/C906_RTL_FACTORY/gen_rtl/pmu/rtl/aq_hpcp_top.v#L543
+>>>>
+>>>> The perf events json can also be used as document, this is already
+>>>> applied (with more detailed explanation):
+>>>> https://lore.kernel.org/all/IA1PR20MB495325FCF603BAA841E29281BBBAA@IA1PR20MB4953.namprd20.prod.outlook.com/
+>>>
+>>> Thanks for reaching out!
+>>> The updated description will be:
+>>>
+>>> - const: xtheadpmu
+>>>  description:
+>>>    The T-Head performance monitor extension for counter overflow, as ratified
+>>>    in commit bd9206 ("Initial commit") of Xuantie C906 user manual.
+>>>    https://github.com/T-head-Semi/openc906/tree/main/doc
+>>>
+>>> Is it OK with you?
+>>>
+>>
+>> I suggest using perf event json as event description. The jsons provide
+>> more detailed explanation for these events than the user manual.
+>
+>Does the "perf event json" describe the registers and interrupt behaviour?
+>
 
-We need to probe for IOCP only once during boot stage, as we were probing
-for IOCP for all the stages this caused the below issue during module-init
-stage,
+It does not. IIRC, the linux just uses SBI as perf driver backend. So
+the registers and interrupt behaviour is primarily for SBI developer.
 
-[9.019104] Unable to handle kernel paging request at virtual address ffffffff8100d3a0
-[9.027153] Oops [#1]
-[9.029421] Modules linked in: rcar_canfd renesas_usbhs i2c_riic can_dev spi_rspi i2c_core
-[9.037686] CPU: 0 PID: 90 Comm: udevd Not tainted 6.7.0-rc1+ #57
-[9.043756] Hardware name: Renesas SMARC EVK based on r9a07g043f01 (DT)
-[9.050339] epc : riscv_noncoherent_supported+0x10/0x3e
-[9.055558]  ra : andes_errata_patch_func+0x4a/0x52
-[9.060418] epc : ffffffff8000d8c2 ra : ffffffff8000d95c sp : ffffffc8003abb00
-[9.067607]  gp : ffffffff814e25a0 tp : ffffffd80361e540 t0 : 0000000000000000
-[9.074795]  t1 : 000000000900031e t2 : 0000000000000001 s0 : ffffffc8003abb20
-[9.081984]  s1 : ffffffff015b57c7 a0 : 0000000000000000 a1 : 0000000000000001
-[9.089172]  a2 : 0000000000000000 a3 : 0000000000000000 a4 : ffffffff8100d8be
-[9.096360]  a5 : 0000000000000001 a6 : 0000000000000001 a7 : 000000000900031e
-[9.103548]  s2 : ffffffff015b57d7 s3 : 0000000000000001 s4 : 000000000000031e
-[9.110736]  s5 : 8000000000008a45 s6 : 0000000000000500 s7 : 000000000000003f
-[9.117924]  s8 : ffffffc8003abd48 s9 : ffffffff015b1140 s10: ffffffff8151a1b0
-[9.125113]  s11: ffffffff015b1000 t3 : 0000000000000001 t4 : fefefefefefefeff
-[9.132301]  t5 : ffffffff015b57c7 t6 : ffffffd8b63a6000
-[9.137587] status: 0000000200000120 badaddr: ffffffff8100d3a0 cause: 000000000000000f
-[9.145468] [<ffffffff8000d8c2>] riscv_noncoherent_supported+0x10/0x3e
-[9.151972] [<ffffffff800027e8>] _apply_alternatives+0x84/0x86
-[9.157784] [<ffffffff800029be>] apply_module_alternatives+0x10/0x1a
-[9.164113] [<ffffffff80008fcc>] module_finalize+0x5e/0x7a
-[9.169583] [<ffffffff80085cd6>] load_module+0xfd8/0x179c
-[9.174965] [<ffffffff80086630>] init_module_from_file+0x76/0xaa
-[9.180948] [<ffffffff800867f6>] __riscv_sys_finit_module+0x176/0x2a8
-[9.187365] [<ffffffff80889862>] do_trap_ecall_u+0xbe/0x130
-[9.192922] [<ffffffff808920bc>] ret_from_exception+0x0/0x64
-[9.198573] Code: 0009 b7e9 6797 014d a783 85a7 c799 4785 0717 0100 (0123) aef7
-[9.205994] ---[ end trace 0000000000000000 ]---
-
-This is because we called riscv_noncoherent_supported() for all the stages
-during IOCP probe. riscv_noncoherent_supported() function sets
-noncoherent_supported variable to true which has an annotation set to
-"__ro_after_init" due to which we were seeing the above splat. Fix this by
-probing for IOCP only once in boot stage by having a boolean variable
-"done" which will be set to true upon IOCP probe in errata_probe_iocp()
-and we bail out early if "done" is set to true.
-
-While at it make return type of errata_probe_iocp() to void as we were
-not checking the return value in andes_errata_patch_func().
-
-Fixes: e021ae7f5145 ("riscv: errata: Add Andes alternative ports")
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
----
- arch/riscv/errata/andes/errata.c | 20 +++++++++++++-------
- 1 file changed, 13 insertions(+), 7 deletions(-)
-
-diff --git a/arch/riscv/errata/andes/errata.c b/arch/riscv/errata/andes/errata.c
-index 197db68cc8da..17a904869724 100644
---- a/arch/riscv/errata/andes/errata.c
-+++ b/arch/riscv/errata/andes/errata.c
-@@ -38,29 +38,35 @@ static long ax45mp_iocp_sw_workaround(void)
- 	return ret.error ? 0 : ret.value;
- }
- 
--static bool errata_probe_iocp(unsigned int stage, unsigned long arch_id, unsigned long impid)
-+static void errata_probe_iocp(unsigned int stage, unsigned long arch_id, unsigned long impid)
- {
-+	static bool done;
-+
- 	if (!IS_ENABLED(CONFIG_ERRATA_ANDES_CMO))
--		return false;
-+		return;
-+
-+	if (done)
-+		return;
-+
-+	done = true;
- 
- 	if (arch_id != ANDESTECH_AX45MP_MARCHID || impid != ANDESTECH_AX45MP_MIMPID)
--		return false;
-+		return;
- 
- 	if (!ax45mp_iocp_sw_workaround())
--		return false;
-+		return;
- 
- 	/* Set this just to make core cbo code happy */
- 	riscv_cbom_block_size = 1;
- 	riscv_noncoherent_supported();
--
--	return true;
- }
- 
- void __init_or_module andes_errata_patch_func(struct alt_entry *begin, struct alt_entry *end,
- 					      unsigned long archid, unsigned long impid,
- 					      unsigned int stage)
- {
--	errata_probe_iocp(stage, archid, impid);
-+	if (stage == RISCV_ALTERNATIVES_BOOT)
-+		errata_probe_iocp(stage, archid, impid);
- 
- 	/* we have nothing to patch here ATM so just return back */
- }
--- 
-2.34.1
-
+For registers and interrup detail, just reference the openc910 doc url
+(https://github.com/T-head-Semi/openc910/tree/main/doc) and the T-HEAD
+PMU driver in OpenSBI.
 
