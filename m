@@ -1,195 +1,180 @@
-Return-Path: <linux-renesas-soc+bounces-454-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-455-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03D2E7FEF95
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 30 Nov 2023 13:56:44 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B16F47FEF9B
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 30 Nov 2023 13:58:57 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A010AB20D35
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 30 Nov 2023 12:56:41 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E31B81C20BC5
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 30 Nov 2023 12:58:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D59B838FB4;
-	Thu, 30 Nov 2023 12:56:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F22923B2AB;
+	Thu, 30 Nov 2023 12:58:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PjNhhZOd"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uZiioLM3"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com [IPv6:2a00:1450:4864:20::42e])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7D30810C2;
-	Thu, 30 Nov 2023 04:56:35 -0800 (PST)
-Received: by mail-wr1-x42e.google.com with SMTP id ffacd0b85a97d-332ed1bd4cbso567188f8f.2;
-        Thu, 30 Nov 2023 04:56:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1701348994; x=1701953794; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=kyD+yl2bHZjrxQ6uqMRfoBj0ywuOG/6z0iIPw0pQbBM=;
-        b=PjNhhZOdBh9lo5TrxJxjFgeWogrfj2OcmCoXFii9EgcnRw5nlX/dpUedxpmNGtx/le
-         hkhHUHAV2ePhhPlXdQF831BM44VdJcHm3C8YZ6AAMgp4xbUUJRh3L+1Xtey6Ok1lmL3I
-         5IXFZ+kfTpds5ZOi+NjDlUPcxpEMD92TdpiwoWMCL2zMIUxe3CyTbTIkX+HUDtf7Jib4
-         jr9N9ahFMNrcJXa+Z+UCqTzJlHENcasLez7sOmXh0nSWrpWCQ7DN0cf9/+81p1nOUlTR
-         UKmINX6p5XIL4LlSbve52iify8mstN9Ajbbsmx7Il8JPvnq9hUAPQ76drZcI0Ptynxru
-         bGJg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701348994; x=1701953794;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=kyD+yl2bHZjrxQ6uqMRfoBj0ywuOG/6z0iIPw0pQbBM=;
-        b=CpB6Slf58wcyIqcfnIylpnrkGGEHRZfyyDpa3Ndsyublzl5WBalz9M+YW5PhhXwI2V
-         wwOUPJCVROrp72hIb41xVHl2dJLbl4TgXF5/InFTpkN/zlIX38xDNI+z5I35eC+St31i
-         fQWY7r3hK+2W5rIVwlHiU36f5wkoutPZRdhhceqI55ZGk8B3fH7p2w4iTXB3N6pR+3Na
-         9NYgdWGRZDJ7G+WPJWIq+8ZzX8i6jDqpQ7+S5uBZrwNrRfqDtVc/DviIb269ItoTbg7b
-         +NfRgVeehV4EJFua8Dj0O1rncLzH1o6JG96wULAvDoYceAzxHmzn191ZYnj68pnth9Hm
-         I8cg==
-X-Gm-Message-State: AOJu0YxyM6DsauQ28KwAVAhM9fBKsjSg60UYOOsktE5DHc/3Mw1NvsbH
-	EZjls+RP3KmvX3MaAqJOSMY=
-X-Google-Smtp-Source: AGHT+IH7MbMZQhB4klE0BbfdgOc2EVNygz66QSdNWQ8VAEJy9K365/fx1q+fEAVewBWf1IDSVP1Hzw==
-X-Received: by 2002:adf:e841:0:b0:333:179:d8ef with SMTP id d1-20020adfe841000000b003330179d8efmr7830573wrn.24.1701348993691;
-        Thu, 30 Nov 2023 04:56:33 -0800 (PST)
-Received: from prasmi.home ([2a00:23c8:2500:a01:3c2e:cd45:f50f:f083])
-        by smtp.gmail.com with ESMTPSA id t9-20020a5d6a49000000b0033172f984eesm1488463wrw.50.2023.11.30.04.56.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 Nov 2023 04:56:33 -0800 (PST)
-From: Prabhakar <prabhakar.csengg@gmail.com>
-X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To: Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Conor Dooley <conor.dooley@microchip.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: Yu Chien Peter Lin <peterlin@andestech.com>,
-	Samuel Holland <samuel.holland@sifive.com>,
-	linux-riscv@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	Prabhakar <prabhakar.csengg@gmail.com>,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH v2] riscv: errata: andes: Probe for IOCP only once in boot stage
-Date: Thu, 30 Nov 2023 12:56:06 +0000
-Message-Id: <20231130125606.64931-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Mailer: git-send-email 2.34.1
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0DB03C683;
+	Thu, 30 Nov 2023 12:58:52 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 65182C433C8;
+	Thu, 30 Nov 2023 12:58:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1701349132;
+	bh=k61SVR5HqRg7HEBrqbj2RC0wILozeLcKJTkF4ff/FCY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=uZiioLM3vGhd04qm7k7+NnViHdFYh5nUaeVbfNcQ7pkEQfQ53udUJq2BV1hqCB+tL
+	 ktmNEhQ5jqdFf0dT1SJRszxd0JNbSxbkgN657cvdVJeVjiqAeOClH5yxYy+qxIT1Sh
+	 g93Vc52elbcNEYTcBo891fzZPSWoZiIZZBmjfWHSTHtRfV1qGgNeL1vp3I9yn/wi4g
+	 roKhPGMFpeCfecjaRhTv7mdoySSRfO43EizHR3SUVJBZL38KudxZlQ+s3oS+7Zjttc
+	 uPBXl52i2/u3veXdotEqe7ANYTsFEwOMLs+S+b4X/3k+frVOkG1tHrGjWiaYGlLkIp
+	 WTVcmgGk9zreA==
+Date: Thu, 30 Nov 2023 12:58:41 +0000
+From: Conor Dooley <conor@kernel.org>
+To: Inochi Amaoto <inochiama@outlook.com>
+Cc: Yu-Chien Peter Lin <peterlin@andestech.com>,
+	Guo Ren <guoren@kernel.org>, acme@kernel.org,
+	adrian.hunter@intel.com, ajones@ventanamicro.com,
+	alexander.shishkin@linux.intel.com, andre.przywara@arm.com,
+	anup@brainfault.org, aou@eecs.berkeley.edu, atishp@atishpatra.org,
+	conor+dt@kernel.org, conor.dooley@microchip.com,
+	devicetree@vger.kernel.org, dminus@andestech.com, evan@rivosinc.com,
+	geert+renesas@glider.be, heiko@sntech.de, irogers@google.com,
+	jernej.skrabec@gmail.com, jolsa@kernel.org, jszhang@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	linux-perf-users@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+	linux-riscv@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	locus84@andestech.com, magnus.damm@gmail.com, mark.rutland@arm.com,
+	mingo@redhat.com, n.shubin@yadro.com, namhyung@kernel.org,
+	palmer@dabbelt.com, paul.walmsley@sifive.com, peterz@infradead.org,
+	prabhakar.mahadev-lad.rj@bp.renesas.com, rdunlap@infradead.org,
+	robh+dt@kernel.org, samuel@sholland.org, sunilvl@ventanamicro.com,
+	tglx@linutronix.de, tim609@andestech.com, uwu@icenowy.me,
+	wens@csie.org, will@kernel.org, ycliang@andestech.com
+Subject: Re: [PATCH v4 09/13] dt-bindings: riscv: Add T-Head PMU extension
+ description
+Message-ID: <20231130-isotope-runaround-9afb98579734@spud>
+References: <ZWhT_VSpl2aksVK7@APC323>
+ <IA1PR20MB4953A05B9162AA2659DE78A5BB82A@IA1PR20MB4953.namprd20.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="+TcmYWDdQWc1nRE2"
+Content-Disposition: inline
+In-Reply-To: <IA1PR20MB4953A05B9162AA2659DE78A5BB82A@IA1PR20MB4953.namprd20.prod.outlook.com>
 
-From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-We need to probe for IOCP only once during boot stage, as we were probing
-for IOCP for all the stages this caused the below issue during module-init
-stage,
+--+TcmYWDdQWc1nRE2
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-[9.019104] Unable to handle kernel paging request at virtual address ffffffff8100d3a0
-[9.027153] Oops [#1]
-[9.029421] Modules linked in: rcar_canfd renesas_usbhs i2c_riic can_dev spi_rspi i2c_core
-[9.037686] CPU: 0 PID: 90 Comm: udevd Not tainted 6.7.0-rc1+ #57
-[9.043756] Hardware name: Renesas SMARC EVK based on r9a07g043f01 (DT)
-[9.050339] epc : riscv_noncoherent_supported+0x10/0x3e
-[9.055558]  ra : andes_errata_patch_func+0x4a/0x52
-[9.060418] epc : ffffffff8000d8c2 ra : ffffffff8000d95c sp : ffffffc8003abb00
-[9.067607]  gp : ffffffff814e25a0 tp : ffffffd80361e540 t0 : 0000000000000000
-[9.074795]  t1 : 000000000900031e t2 : 0000000000000001 s0 : ffffffc8003abb20
-[9.081984]  s1 : ffffffff015b57c7 a0 : 0000000000000000 a1 : 0000000000000001
-[9.089172]  a2 : 0000000000000000 a3 : 0000000000000000 a4 : ffffffff8100d8be
-[9.096360]  a5 : 0000000000000001 a6 : 0000000000000001 a7 : 000000000900031e
-[9.103548]  s2 : ffffffff015b57d7 s3 : 0000000000000001 s4 : 000000000000031e
-[9.110736]  s5 : 8000000000008a45 s6 : 0000000000000500 s7 : 000000000000003f
-[9.117924]  s8 : ffffffc8003abd48 s9 : ffffffff015b1140 s10: ffffffff8151a1b0
-[9.125113]  s11: ffffffff015b1000 t3 : 0000000000000001 t4 : fefefefefefefeff
-[9.132301]  t5 : ffffffff015b57c7 t6 : ffffffd8b63a6000
-[9.137587] status: 0000000200000120 badaddr: ffffffff8100d3a0 cause: 000000000000000f
-[9.145468] [<ffffffff8000d8c2>] riscv_noncoherent_supported+0x10/0x3e
-[9.151972] [<ffffffff800027e8>] _apply_alternatives+0x84/0x86
-[9.157784] [<ffffffff800029be>] apply_module_alternatives+0x10/0x1a
-[9.164113] [<ffffffff80008fcc>] module_finalize+0x5e/0x7a
-[9.169583] [<ffffffff80085cd6>] load_module+0xfd8/0x179c
-[9.174965] [<ffffffff80086630>] init_module_from_file+0x76/0xaa
-[9.180948] [<ffffffff800867f6>] __riscv_sys_finit_module+0x176/0x2a8
-[9.187365] [<ffffffff80889862>] do_trap_ecall_u+0xbe/0x130
-[9.192922] [<ffffffff808920bc>] ret_from_exception+0x0/0x64
-[9.198573] Code: 0009 b7e9 6797 014d a783 85a7 c799 4785 0717 0100 (0123) aef7
-[9.205994] ---[ end trace 0000000000000000 ]---
+On Thu, Nov 30, 2023 at 08:16:38PM +0800, Inochi Amaoto wrote:
+> >
+> >Hi Inochi,
+> >
+> >On Thu, Nov 30, 2023 at 04:29:22PM +0800, Inochi Amaoto wrote:
+> >>>
+> >>> Hi Guo Ren,
+> >>>
+> >>> On Thu, Nov 23, 2023 at 05:14:30AM +0800, Guo Ren wrote:
+> >>>> On Wed, Nov 22, 2023 at 8:17=E2=80=AFPM Yu Chien Peter Lin
+> >>>> <peterlin@andestech.com> wrote:
+> >>>>>
+> >>>>> Document the ISA string for T-Head performance monitor extension
+> >>>>> which provides counter overflow interrupt mechanism.
+> >>>>>
+> >>>>> Signed-off-by: Yu Chien Peter Lin <peterlin@andestech.com>
+> >>>>> ---
+> >>>>> Changes v2 -> v3:
+> >>>>>   - New patch
+> >>>>> Changes v3 -> v4:
+> >>>>>   - No change
+> >>>>> ---
+> >>>>>  Documentation/devicetree/bindings/riscv/extensions.yaml | 6 ++++++
+> >>>>>  1 file changed, 6 insertions(+)
+> >>>>>
+> >>>>> diff --git a/Documentation/devicetree/bindings/riscv/extensions.yam=
+l b/Documentation/devicetree/bindings/riscv/extensions.yaml
+> >>>>> index c91ab0e46648..694efaea8fce 100644
+> >>>>> --- a/Documentation/devicetree/bindings/riscv/extensions.yaml
+> >>>>> +++ b/Documentation/devicetree/bindings/riscv/extensions.yaml
+> >>>>> @@ -258,5 +258,11 @@ properties:
+> >>>>>              in commit 2e5236 ("Ztso is now ratified.") of the
+> >>>>>              riscv-isa-manual.
+> >>>>>
+> >>>>> +        - const: xtheadpmu
+> >>>>> +          description:
+> >>>>> +            The T-Head performance monitor extension for counter o=
+verflow. For more
+> >>>>> +            details, see the chapter 12 in the Xuantie C906 user m=
+anual.
+> >>>>> +            https://github.com/T-head-Semi/openc906/tree/main/doc
+> >>>>> +
+> >>>>>  additionalProperties: true
+> >>>>>  ...
+> >>>>> --
+> >>>>> 2.34.1
+> >>>>>
+> >>>> Reviewed-by: Guo Ren <guoren@kernel.org>
+> >>>
+> >>> Thanks for the review.
+> >>> Would you share document about T-Head PMU?
+> >>>
+> >>
+> >> Hi, Peter Lin:
+> >>
+> >> You can use the following two document to get all events:
+> >> https://github.com/T-head-Semi/openc906/tree/main/doc
+> >> https://github.com/T-head-Semi/openc910/tree/main/doc
+> >>
+> >> There are also some RTL code can describe these events:
+> >> https://github.com/T-head-Semi/openc910/blob/e0c4ad8ec7f8c70f649d826eb=
+d6c949086453272/C910_RTL_FACTORY/gen_rtl/pmu/rtl/ct_hpcp_top.v#L1123
+> >> https://github.com/T-head-Semi/openc906/blob/af5614d72de7e5a4b8609c427=
+d2e20af1deb21c4/C906_RTL_FACTORY/gen_rtl/pmu/rtl/aq_hpcp_top.v#L543
+> >>
+> >> The perf events json can also be used as document, this is already
+> >> applied (with more detailed explanation):
+> >> https://lore.kernel.org/all/IA1PR20MB495325FCF603BAA841E29281BBBAA@IA1=
+PR20MB4953.namprd20.prod.outlook.com/
+> >
+> >Thanks for reaching out!
+> >The updated description will be:
+> >
+> >- const: xtheadpmu
+> >  description:
+> >    The T-Head performance monitor extension for counter overflow, as ra=
+tified
+> >    in commit bd9206 ("Initial commit") of Xuantie C906 user manual.
+> >    https://github.com/T-head-Semi/openc906/tree/main/doc
+> >
+> >Is it OK with you?
+> >
+>=20
+> I suggest using perf event json as event description. The jsons provide
+> more detailed explanation for these events than the user manual.
 
-This is because we called riscv_noncoherent_supported() for all the stages
-during IOCP probe. riscv_noncoherent_supported() function sets
-noncoherent_supported variable to true which has an annotation set to
-"__ro_after_init" due to which we were seeing the above splat. Fix this by
-probing for IOCP only once in boot stage by having a boolean variable
-is_iocp_probe_done which will be set to true upon IOCP probe in
-errata_probe_iocp() and we bail out early if is_iocp_probe_done is set.
+Does the "perf event json" describe the registers and interrupt behaviour?
 
-While at it make return type of errata_probe_iocp() to void as we were
-not checking the return value in andes_errata_patch_func().
+--+TcmYWDdQWc1nRE2
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Fixes: e021ae7f5145 ("riscv: errata: Add Andes alternative ports")
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
----
-v1->v2
-* As RISCV_ALTERNATIVES_BOOT stage can happen twice add a is_iocp_probe_done
-  variable to probe for IOCP only once.
-* Updated commit message
-* Make return value of errata_probe_iocp() to void
----
- arch/riscv/errata/andes/errata.c | 23 +++++++++++++++--------
- 1 file changed, 15 insertions(+), 8 deletions(-)
+-----BEGIN PGP SIGNATURE-----
 
-diff --git a/arch/riscv/errata/andes/errata.c b/arch/riscv/errata/andes/errata.c
-index 197db68cc8da..b8eadb3b10d8 100644
---- a/arch/riscv/errata/andes/errata.c
-+++ b/arch/riscv/errata/andes/errata.c
-@@ -38,29 +38,36 @@ static long ax45mp_iocp_sw_workaround(void)
- 	return ret.error ? 0 : ret.value;
- }
- 
--static bool errata_probe_iocp(unsigned int stage, unsigned long arch_id, unsigned long impid)
-+static void errata_probe_iocp(unsigned int stage, unsigned long arch_id, unsigned long impid)
- {
-+	static bool is_iocp_probe_done;
-+
- 	if (!IS_ENABLED(CONFIG_ERRATA_ANDES_CMO))
--		return false;
-+		return;
-+
-+	if (is_iocp_probe_done)
-+		return;
- 
- 	if (arch_id != ANDESTECH_AX45MP_MARCHID || impid != ANDESTECH_AX45MP_MIMPID)
--		return false;
-+		return;
- 
--	if (!ax45mp_iocp_sw_workaround())
--		return false;
-+	if (!ax45mp_iocp_sw_workaround()) {
-+		is_iocp_probe_done = true;
-+		return;
-+	}
- 
- 	/* Set this just to make core cbo code happy */
- 	riscv_cbom_block_size = 1;
- 	riscv_noncoherent_supported();
--
--	return true;
-+	is_iocp_probe_done = true;
- }
- 
- void __init_or_module andes_errata_patch_func(struct alt_entry *begin, struct alt_entry *end,
- 					      unsigned long archid, unsigned long impid,
- 					      unsigned int stage)
- {
--	errata_probe_iocp(stage, archid, impid);
-+	if (stage == RISCV_ALTERNATIVES_BOOT)
-+		errata_probe_iocp(stage, archid, impid);
- 
- 	/* we have nothing to patch here ATM so just return back */
- }
--- 
-2.34.1
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZWiHAAAKCRB4tDGHoIJi
+0igkAQDOfuuBe9DSefozhmWIFmSJzSSWtODAmHdNEeaJ2/bbUAD+KQI5g0aV+rX2
+4Hztl6JmSKirDEkCeX2FqX9R+Ln89A0=
+=qBbG
+-----END PGP SIGNATURE-----
 
+--+TcmYWDdQWc1nRE2--
 
