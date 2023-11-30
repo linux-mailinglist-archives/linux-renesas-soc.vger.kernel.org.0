@@ -1,149 +1,137 @@
-Return-Path: <linux-renesas-soc+bounces-448-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-449-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90D467FEBC8
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 30 Nov 2023 10:23:47 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 61D057FEC50
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 30 Nov 2023 10:55:15 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C13801C20BD2
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 30 Nov 2023 09:23:46 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1CC07282364
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 30 Nov 2023 09:55:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2EA7638DDB;
-	Thu, 30 Nov 2023 09:23:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 37EE13AC1A;
+	Thu, 30 Nov 2023 09:55:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dkim=none
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from Atcsqr.andestech.com (60-248-80-70.hinet-ip.hinet.net [60.248.80.70])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EE35E10C2;
-	Thu, 30 Nov 2023 01:23:40 -0800 (PST)
-Received: from mail.andestech.com (ATCPCS16.andestech.com [10.0.1.222])
-	by Atcsqr.andestech.com with ESMTP id 3AU9L7OD077461;
-	Thu, 30 Nov 2023 17:21:07 +0800 (+08)
-	(envelope-from peterlin@andestech.com)
-Received: from APC323 (10.0.12.98) by ATCPCS16.andestech.com (10.0.1.222) with
- Microsoft SMTP Server id 14.3.498.0; Thu, 30 Nov 2023 17:21:04 +0800
-Date: Thu, 30 Nov 2023 17:21:01 +0800
-From: Yu-Chien Peter Lin <peterlin@andestech.com>
-To: Inochi Amaoto <inochiama@outlook.com>
-CC: Guo Ren <guoren@kernel.org>, <acme@kernel.org>, <adrian.hunter@intel.com>,
-        <ajones@ventanamicro.com>, <alexander.shishkin@linux.intel.com>,
-        <andre.przywara@arm.com>, <anup@brainfault.org>,
-        <aou@eecs.berkeley.edu>, <atishp@atishpatra.org>,
-        <conor+dt@kernel.org>, <conor.dooley@microchip.com>,
-        <conor@kernel.org>, <devicetree@vger.kernel.org>,
-        <dminus@andestech.com>, <evan@rivosinc.com>, <geert+renesas@glider.be>,
-        <heiko@sntech.de>, <irogers@google.com>, <jernej.skrabec@gmail.com>,
-        <jolsa@kernel.org>, <jszhang@kernel.org>,
-        <krzysztof.kozlowski+dt@linaro.org>,
-        <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
-        <linux-perf-users@vger.kernel.org>,
-        <linux-renesas-soc@vger.kernel.org>, <linux-riscv@lists.infradead.org>,
-        <linux-sunxi@lists.linux.dev>, <locus84@andestech.com>,
-        <magnus.damm@gmail.com>, <mark.rutland@arm.com>, <mingo@redhat.com>,
-        <n.shubin@yadro.com>, <namhyung@kernel.org>, <palmer@dabbelt.com>,
-        <paul.walmsley@sifive.com>, <peterz@infradead.org>,
-        <prabhakar.mahadev-lad.rj@bp.renesas.com>, <rdunlap@infradead.org>,
-        <robh+dt@kernel.org>, <samuel@sholland.org>,
-        <sunilvl@ventanamicro.com>, <tglx@linutronix.de>,
-        <tim609@andestech.com>, <uwu@icenowy.me>, <wens@csie.org>,
-        <will@kernel.org>, <ycliang@andestech.com>
-Subject: Re: [PATCH v4 09/13] dt-bindings: riscv: Add T-Head PMU extension
- description
-Message-ID: <ZWhT_VSpl2aksVK7@APC323>
-References: <ZWb6-LEkyh5RRpcP@APC323>
- <IA1PR20MB49537364BDF1ADE185CA8FE4BB82A@IA1PR20MB4953.namprd20.prod.outlook.com>
+Received: from mail-yb1-f173.google.com (mail-yb1-f173.google.com [209.85.219.173])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BE90710E2;
+	Thu, 30 Nov 2023 01:55:06 -0800 (PST)
+Received: by mail-yb1-f173.google.com with SMTP id 3f1490d57ef6-d9beb865a40so664163276.1;
+        Thu, 30 Nov 2023 01:55:06 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701338105; x=1701942905;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=/kl3Cyom3VKHlW1GdXvF57049dn4ixhhiJNdSH5QXH4=;
+        b=ThV1zXVjgeL2o6qm/ngXJMTKvjPsXQRDbig3iCmK90rdA7SWVKTPHPIoeqjz+lnmhh
+         LVqgiBMlRJx/yf3glxVYxhTEFSLNW3ocKs56hanJW5SYwu3VXNv+xhSj/wKOq3s/XBMw
+         wRSzlVb19rGENx2nL6rJNEkXlvHWl4IT3/OtVrKP3nqQnO+nF6LhNdChr5toz+gf4yZc
+         /PslSlDz9jktsW2zoAmzHuOi7lA1p+UZKza4+00H+//bS6F1fIJiJKyDozFeNEtjuSHn
+         S9szfSdcAOe4JuLAfAWrDG6qENbbjyQaoc6fkJOsWK697OrZRVSrtmv+Jz4bao8YvmGa
+         lkLA==
+X-Gm-Message-State: AOJu0YycV+K2bQzfXSRn99gHL8gZURUQcqBRGYNjb8+6vz7Il4WZgUC+
+	H9fO7zcq0zYhX3+n/9rVxCEn5ls/T874Vg==
+X-Google-Smtp-Source: AGHT+IGad/xbG4AWM4LSIJNFYbwM6pNaT28G+jf3I/a25gC6jZTk3p0GLY2L+0DYJY9VobqtnG1vCQ==
+X-Received: by 2002:a0d:d146:0:b0:5cb:c143:cd90 with SMTP id t67-20020a0dd146000000b005cbc143cd90mr22789105ywd.35.1701338104996;
+        Thu, 30 Nov 2023 01:55:04 -0800 (PST)
+Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com. [209.85.128.179])
+        by smtp.gmail.com with ESMTPSA id z2-20020a816502000000b00597e912e67esm257647ywb.131.2023.11.30.01.55.03
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 30 Nov 2023 01:55:03 -0800 (PST)
+Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-5d34d85e610so4119657b3.3;
+        Thu, 30 Nov 2023 01:55:03 -0800 (PST)
+X-Received: by 2002:a81:92d7:0:b0:5ca:e49:c98b with SMTP id
+ j206-20020a8192d7000000b005ca0e49c98bmr23203204ywg.8.1701338103524; Thu, 30
+ Nov 2023 01:55:03 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <IA1PR20MB49537364BDF1ADE185CA8FE4BB82A@IA1PR20MB4953.namprd20.prod.outlook.com>
-User-Agent: Mutt/2.2.10 (2023-03-25)
-X-DNSRBL: 
-X-SPAM-SOURCE-CHECK: pass
-X-MAIL:Atcsqr.andestech.com 3AU9L7OD077461
+References: <20231017104638.201260-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <CA+V-a8t3sGn83vpgjECf5dw=bbz2yPXpnn+v2Dx2q3yJRPsKgA@mail.gmail.com>
+ <CAMuHMdXMRj4quvO87LbLHCCLr14EK2AXsvr_muTDrBrA8+BMjg@mail.gmail.com> <CA+V-a8tjy2Ttp_TbZT63PC_UY12J8FLcziCtef-D-jgw_CmKaA@mail.gmail.com>
+In-Reply-To: <CA+V-a8tjy2Ttp_TbZT63PC_UY12J8FLcziCtef-D-jgw_CmKaA@mail.gmail.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Thu, 30 Nov 2023 10:54:52 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdVcUXY+J36X6iG_jtT1mQhXFbEdF57oOT4DFZAridp2_A@mail.gmail.com>
+Message-ID: <CAMuHMdVcUXY+J36X6iG_jtT1mQhXFbEdF57oOT4DFZAridp2_A@mail.gmail.com>
+Subject: Re: [PATCH v2 0/3] Add missing port pins for RZ/Five SoC
+To: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Cc: Magnus Damm <magnus.damm@gmail.com>, Linus Walleij <linus.walleij@linaro.org>, 
+	Rob Herring <robh+dt@kernel.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
+	devicetree@vger.kernel.org, linux-riscv@lists.infradead.org, 
+	linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Inochi,
+Hi Prabhakar,
 
-On Thu, Nov 30, 2023 at 04:29:22PM +0800, Inochi Amaoto wrote:
+On Thu, Nov 30, 2023 at 9:48=E2=80=AFAM Lad, Prabhakar
+<prabhakar.csengg@gmail.com> wrote:
+> On Wed, Nov 29, 2023 at 3:32=E2=80=AFPM Geert Uytterhoeven <geert@linux-m=
+68k.org> wrote:
+> > On Wed, Nov 29, 2023 at 3:44=E2=80=AFPM Lad, Prabhakar
+> > <prabhakar.csengg@gmail.com> wrote:
+> > > On Tue, Oct 17, 2023 at 11:47=E2=80=AFAM Prabhakar <prabhakar.csengg@=
+gmail.com> wrote:
+> > > > This patch series intends to incorporate the absent port pins P19 t=
+o P28,
+> > > > which are exclusively available on the RZ/Five SoC.
+> > > >
+> > > > Cheers,
+> > > > Prabhakar
+> > > >
+> > > > RFC -> v2:
+> > > > * Fixed review comments pointed by Geert & Biju
+> > > >
+> > > > RFC: https://lore.kernel.org/lkml/20230630120433.49529-3-prabhakar.=
+mahadev-lad.rj@bp.renesas.com/T/
+> > > >
+> > > > Lad Prabhakar (3):
+> > > >   pinctrl: renesas: rzg2l: Include pinmap in RZG2L_GPIO_PORT_PACK()
+> > > >     macro
+> > > >   pinctrl: renesas: pinctrl-rzg2l: Add the missing port pins P19 to=
+ P28
+> > > >   riscv: dts: renesas: r9a07g043f: Update gpio-ranges property
+> > > >
+> > > >  arch/riscv/boot/dts/renesas/r9a07g043f.dtsi |   4 +
+> > > >  drivers/pinctrl/renesas/pinctrl-rzg2l.c     | 263 ++++++++++++++++=
+++--
+> > > >  2 files changed, 242 insertions(+), 25 deletions(-)
+> > > >
+> > > Gentle ping.
 > >
-> >Hi Guo Ren,
+> > As the kernel test robot reported a build issue for PATCH 1/3, I had
+> > removed this series from my review queue.
+> Strange patchwork status didnt mention it as "rejected".
+
+Actually I do not use patchwork that much...
+
+> > Do you still want me to review v2, or do you want to send a v3 first?
 > >
-> >On Thu, Nov 23, 2023 at 05:14:30AM +0800, Guo Ren wrote:
-> >> On Wed, Nov 22, 2023 at 8:17 PM Yu Chien Peter Lin
-> >> <peterlin@andestech.com> wrote:
-> >>>
-> >>> Document the ISA string for T-Head performance monitor extension
-> >>> which provides counter overflow interrupt mechanism.
-> >>>
-> >>> Signed-off-by: Yu Chien Peter Lin <peterlin@andestech.com>
-> >>> ---
-> >>> Changes v2 -> v3:
-> >>>   - New patch
-> >>> Changes v3 -> v4:
-> >>>   - No change
-> >>> ---
-> >>>  Documentation/devicetree/bindings/riscv/extensions.yaml | 6 ++++++
-> >>>  1 file changed, 6 insertions(+)
-> >>>
-> >>> diff --git a/Documentation/devicetree/bindings/riscv/extensions.yaml b/Documentation/devicetree/bindings/riscv/extensions.yaml
-> >>> index c91ab0e46648..694efaea8fce 100644
-> >>> --- a/Documentation/devicetree/bindings/riscv/extensions.yaml
-> >>> +++ b/Documentation/devicetree/bindings/riscv/extensions.yaml
-> >>> @@ -258,5 +258,11 @@ properties:
-> >>>              in commit 2e5236 ("Ztso is now ratified.") of the
-> >>>              riscv-isa-manual.
-> >>>
-> >>> +        - const: xtheadpmu
-> >>> +          description:
-> >>> +            The T-Head performance monitor extension for counter overflow. For more
-> >>> +            details, see the chapter 12 in the Xuantie C906 user manual.
-> >>> +            https://github.com/T-head-Semi/openc906/tree/main/doc
-> >>> +
-> >>>  additionalProperties: true
-> >>>  ...
-> >>> --
-> >>> 2.34.1
-> >>>
-> >> Reviewed-by: Guo Ren <guoren@kernel.org>
-> >
-> >Thanks for the review.
-> >Would you share document about T-Head PMU?
-> >
-> 
-> Hi, Peter Lin:
-> 
-> You can use the following two document to get all events:
-> https://github.com/T-head-Semi/openc906/tree/main/doc
-> https://github.com/T-head-Semi/openc910/tree/main/doc
-> 
-> There are also some RTL code can describe these events:
-> https://github.com/T-head-Semi/openc910/blob/e0c4ad8ec7f8c70f649d826ebd6c949086453272/C910_RTL_FACTORY/gen_rtl/pmu/rtl/ct_hpcp_top.v#L1123
-> https://github.com/T-head-Semi/openc906/blob/af5614d72de7e5a4b8609c427d2e20af1deb21c4/C906_RTL_FACTORY/gen_rtl/pmu/rtl/aq_hpcp_top.v#L543
-> 
-> The perf events json can also be used as document, this is already
-> applied (with more detailed explanation):
-> https://lore.kernel.org/all/IA1PR20MB495325FCF603BAA841E29281BBBAA@IA1PR20MB4953.namprd20.prod.outlook.com/
+> No worries, I'll send a v3 and we can go from there.
 
-Thanks for reaching out!
-The updated description will be:
+OK.
 
-- const: xtheadpmu
-  description:
-    The T-Head performance monitor extension for counter overflow, as ratified
-    in commit bd9206 ("Initial commit") of Xuantie C906 user manual.
-    https://github.com/T-head-Semi/openc906/tree/main/doc
+Gr{oetje,eeting}s,
 
-Is it OK with you?
+                        Geert
 
-Best regards,
-Peter Lin
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
 
-> Best regards,
-> Inochi
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
