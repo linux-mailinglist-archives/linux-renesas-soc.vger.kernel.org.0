@@ -1,124 +1,241 @@
-Return-Path: <linux-renesas-soc+bounces-463-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-464-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 519267FF467
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 30 Nov 2023 17:08:15 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 067B37FF4CD
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 30 Nov 2023 17:23:32 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id DCD02B20DCD
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 30 Nov 2023 16:08:12 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 374A31C20E4A
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 30 Nov 2023 16:23:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1490C5467E;
-	Thu, 30 Nov 2023 16:08:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DB798495C2;
+	Thu, 30 Nov 2023 16:23:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MEqvCscY"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com [209.85.128.182])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E9442197;
-	Thu, 30 Nov 2023 08:08:04 -0800 (PST)
-Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-5d3644ca426so7348967b3.1;
-        Thu, 30 Nov 2023 08:08:04 -0800 (PST)
+Received: from mail-ua1-x92f.google.com (mail-ua1-x92f.google.com [IPv6:2607:f8b0:4864:20::92f])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 401C2196;
+	Thu, 30 Nov 2023 08:23:24 -0800 (PST)
+Received: by mail-ua1-x92f.google.com with SMTP id a1e0cc1a2514c-7c461a8cb0dso338560241.0;
+        Thu, 30 Nov 2023 08:23:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1701361403; x=1701966203; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=/Rz1SfkoBLt1wzKfSCUoXy9avUjy1X29wSOetvydD2A=;
+        b=MEqvCscYI2CGaNvi8Xyyb2spUF1pXVrX4EGdYlHdPj/e7LR10qcYjk80dCoyr/+JbL
+         9339rXgjV+APtV1JqJOp7G2iEFjMw4CwR5lk/GZ4eFnN3v+l8H9GZq3zl11mhyFaEdra
+         iEneBl0lM4geKJFhfJDNnNdF24gnwkOynXy8l9mFuuNPZAvHevziblM0Ercxi7oeIzRE
+         zR+6ghLdPxil05su9CVkYcZlGRt670E2mVXsij7g2RoST+Tu1qttN8VEgkZa7ElUxur5
+         UEb9F6jseTgbAUx8w+Ps99qumms6lTYsmaQ9frNeQRiZqXwhcQVQY5rOjVhKlUJbmSC0
+         dMkg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701360484; x=1701965284;
+        d=1e100.net; s=20230601; t=1701361403; x=1701966203;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=USygHB1/ocQdMpKf1b2YTxPh0tPPcvtaGsWmUdR471Q=;
-        b=ViBlFzmrbA1vF+vqcYy0ZOc9bIP7h6YjdGgK0TsgE0lWPjlVZGo9JcoO4usMgauR8K
-         KY8KgCR7HqWdGey9FnVNugfv2692hZZk4KYP9awi4yGF4pa7dXjyJIwULC8kzh6WMFeo
-         NHDqQ4AYAa2Cr8oT6EWqaxBEKlQX4Bo7fiT+0rk/QfAwJBdC6mLHvy7UYQIDtpU96RAJ
-         wdmICy1n94PhC6C4444Ub1SHbW1YY9R/gkMCg0v/33XoooL04zdiFFJaqgVpHAI32XaW
-         4VA9Mmk3GQQ4Zefjac61yyAkUdbrJgfYoa0DtL4acgLrwlgCT2csKCL1E+xL/vOcPfu6
-         3RJA==
-X-Gm-Message-State: AOJu0YzfD6qFDb9FqNy77abFATTaxDqQ54HuhF/5uL/VCXllUwhV6DO2
-	Kr9ejbNoKmWG4af7zGSaj1oZ7HT7FXmkPQ==
-X-Google-Smtp-Source: AGHT+IEFKkW5Av9BnrhCW4DDFMvqdGP+gzyLzUbdXw0wLznVuZFKrOy3CfPfLyRXPddaJf6vFBC5gg==
-X-Received: by 2002:a81:ed12:0:b0:5d3:42a1:8ce1 with SMTP id k18-20020a81ed12000000b005d342a18ce1mr2639272ywm.23.1701360483666;
-        Thu, 30 Nov 2023 08:08:03 -0800 (PST)
-Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com. [209.85.128.169])
-        by smtp.gmail.com with ESMTPSA id r20-20020a0de814000000b005d39c874019sm207355ywe.66.2023.11.30.08.08.02
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 30 Nov 2023 08:08:02 -0800 (PST)
-Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-5d3644ca426so7348507b3.1;
-        Thu, 30 Nov 2023 08:08:02 -0800 (PST)
-X-Received: by 2002:a0d:f903:0:b0:5c9:fed2:89c7 with SMTP id
- j3-20020a0df903000000b005c9fed289c7mr23030225ywf.32.1701360481877; Thu, 30
- Nov 2023 08:08:01 -0800 (PST)
+        bh=/Rz1SfkoBLt1wzKfSCUoXy9avUjy1X29wSOetvydD2A=;
+        b=KGLBRnn/z8gzoEmeZfsOqGdKU/K+2ab4kALBA1T48dz/AHNeR8vMheMO2WUy05FwjC
+         HAlq9dplf7YHkKc2bpuG99heJcXMlceEdwo+LSKW6pvxVCynFvKVcjWmVxtKVv6+ZV7i
+         0/RQ7W6ARKAvsTb78KhE0PwOpvOiSvAwAIdN3rs6blwceLSaTmcOGlb3GsyLR4Hq8Egl
+         WK4Leq/ChQq2yn7BUayiN/E8DqqWLNA2BOeQtEveHEnJ8Y1YjHLosZTuhuk+lOZW5h08
+         bjtd+V7IaBQhfXiiZPQl+yNcQ7FLIwT9lvzvtG7bynu2Yj3Nzc1cSoF9fgQz3S+Ip+NX
+         eW3Q==
+X-Gm-Message-State: AOJu0Yxq3XP/pp6kmy6ldGg2GOVv2qTKc4FdfJz1CXL8nrW+owbnRa6C
+	g5tZhIvpb1ONh9LDw86kqmGAL8udMjxiv8XQtRM=
+X-Google-Smtp-Source: AGHT+IEeLnCxqQ7A3j/755SDmM5BlKzV7pAi/QkjP/SQBY+0Bp1bz64n5BIgfrQ4BicLBjnC7HYNorOLEhX1IY8dU4M=
+X-Received: by 2002:a05:6122:2528:b0:49b:289a:cc44 with SMTP id
+ cl40-20020a056122252800b0049b289acc44mr20528331vkb.6.1701361403215; Thu, 30
+ Nov 2023 08:23:23 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <87fs0zc14m.wl-kuninori.morimoto.gx@renesas.com>
- <87a5r7c13d.wl-kuninori.morimoto.gx@renesas.com> <20231128153413.GA3301324-robh@kernel.org>
- <87v89l4gl8.wl-kuninori.morimoto.gx@renesas.com>
-In-Reply-To: <87v89l4gl8.wl-kuninori.morimoto.gx@renesas.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 30 Nov 2023 17:07:50 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdXkSEaAtYqAVsns+fo3XJs0og84oed_VNCgrhwcBB3cQw@mail.gmail.com>
-Message-ID: <CAMuHMdXkSEaAtYqAVsns+fo3XJs0og84oed_VNCgrhwcBB3cQw@mail.gmail.com>
-Subject: Re: [PATCH v2 4/4] drivers: clk: renesas: enable all clocks which is
- assinged to non Linux system
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: Rob Herring <robh@kernel.org>, Frank Rowand <frowand.list@gmail.com>, 
-	Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, devicetree@vger.kernel.org, 
-	linux-clk@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	Aymeric Aillet <aymeric.aillet@iot.bzh>, Yusuke Goda <yusuke.goda.sx@renesas.com>
+References: <20231130125606.64931-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAMuHMdWd3XY8r-Db_JgazCin_xgSmTGttKzAaHGRKAXsM5xJOQ@mail.gmail.com>
+In-Reply-To: <CAMuHMdWd3XY8r-Db_JgazCin_xgSmTGttKzAaHGRKAXsM5xJOQ@mail.gmail.com>
+From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date: Thu, 30 Nov 2023 16:22:56 +0000
+Message-ID: <CA+V-a8uKCfdOXVQ6cEPQfXFdrJQT_NDztt=++o95AQEAeM9GGg@mail.gmail.com>
+Subject: Re: [PATCH v2] riscv: errata: andes: Probe for IOCP only once in boot stage
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
+	Albert Ou <aou@eecs.berkeley.edu>, Conor Dooley <conor.dooley@microchip.com>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, Yu Chien Peter Lin <peterlin@andestech.com>, 
+	Samuel Holland <samuel.holland@sifive.com>, linux-riscv@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	Biju Das <biju.das.jz@bp.renesas.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Morimoto-san,
+Hi Geert,
 
-On Wed, Nov 29, 2023 at 12:13=E2=80=AFAM Kuninori Morimoto
-<kuninori.morimoto.gx@renesas.com> wrote:
-> > > +static int __init cpg_mssr_reserved_init(struct cpg_mssr_priv *priv,
-> > > +                                    const struct cpg_mssr_info *info=
-)
-> > > +{
-> > > +   struct device_node *root =3D of_find_node_by_path("/soc");
-> >
-> > 'root' is '/', so I find this slightly confusing.
-> (snip)
-> > > +    *      scif5: serial@e6f30000 {
-> > > +    *              ...
-> > > +    * =3D>           clocks =3D <&cpg CPG_MOD 202>,
-> > > +    *                       <&cpg CPG_CORE R8A7795_CLK_S3D1>,
-> > > +    *                       <&scif_clk>;
-> > > +    *                       ...
-> > > +    *               status =3D "reserved";
-> > > +    *      };
-> > > +    */
-> > > +   for_each_reserved_child_of_node(root, node) {
-> >
-> > Don't you really want to find all reserved nodes in the DT rather than
-> > just child nodes of a single node?
+Thank you for the review.
+
+On Thu, Nov 30, 2023 at 2:34=E2=80=AFPM Geert Uytterhoeven <geert@linux-m68=
+k.org> wrote:
 >
-> The all devices which we need to check (and ignore the clock) in this
-> driver is defined under /soc for now.
+> Hi Prabhakar,
+>
+> On Thu, Nov 30, 2023 at 1:56=E2=80=AFPM Prabhakar <prabhakar.csengg@gmail=
+.com> wrote:
+> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> >
+> > We need to probe for IOCP only once during boot stage, as we were probi=
+ng
+> > for IOCP for all the stages this caused the below issue during module-i=
+nit
+> > stage,
+> >
+> > [9.019104] Unable to handle kernel paging request at virtual address ff=
+ffffff8100d3a0
+> > [9.027153] Oops [#1]
+> > [9.029421] Modules linked in: rcar_canfd renesas_usbhs i2c_riic can_dev=
+ spi_rspi i2c_core
+> > [9.037686] CPU: 0 PID: 90 Comm: udevd Not tainted 6.7.0-rc1+ #57
+> > [9.043756] Hardware name: Renesas SMARC EVK based on r9a07g043f01 (DT)
+> > [9.050339] epc : riscv_noncoherent_supported+0x10/0x3e
+> > [9.055558]  ra : andes_errata_patch_func+0x4a/0x52
+> > [9.060418] epc : ffffffff8000d8c2 ra : ffffffff8000d95c sp : ffffffc800=
+3abb00
+> > [9.067607]  gp : ffffffff814e25a0 tp : ffffffd80361e540 t0 : 0000000000=
+000000
+> > [9.074795]  t1 : 000000000900031e t2 : 0000000000000001 s0 : ffffffc800=
+3abb20
+> > [9.081984]  s1 : ffffffff015b57c7 a0 : 0000000000000000 a1 : 0000000000=
+000001
+> > [9.089172]  a2 : 0000000000000000 a3 : 0000000000000000 a4 : ffffffff81=
+00d8be
+> > [9.096360]  a5 : 0000000000000001 a6 : 0000000000000001 a7 : 0000000009=
+00031e
+> > [9.103548]  s2 : ffffffff015b57d7 s3 : 0000000000000001 s4 : 0000000000=
+00031e
+> > [9.110736]  s5 : 8000000000008a45 s6 : 0000000000000500 s7 : 0000000000=
+00003f
+> > [9.117924]  s8 : ffffffc8003abd48 s9 : ffffffff015b1140 s10: ffffffff81=
+51a1b0
+> > [9.125113]  s11: ffffffff015b1000 t3 : 0000000000000001 t4 : fefefefefe=
+fefeff
+> > [9.132301]  t5 : ffffffff015b57c7 t6 : ffffffd8b63a6000
+> > [9.137587] status: 0000000200000120 badaddr: ffffffff8100d3a0 cause: 00=
+0000000000000f
+> > [9.145468] [<ffffffff8000d8c2>] riscv_noncoherent_supported+0x10/0x3e
+> > [9.151972] [<ffffffff800027e8>] _apply_alternatives+0x84/0x86
+> > [9.157784] [<ffffffff800029be>] apply_module_alternatives+0x10/0x1a
+> > [9.164113] [<ffffffff80008fcc>] module_finalize+0x5e/0x7a
+> > [9.169583] [<ffffffff80085cd6>] load_module+0xfd8/0x179c
+> > [9.174965] [<ffffffff80086630>] init_module_from_file+0x76/0xaa
+> > [9.180948] [<ffffffff800867f6>] __riscv_sys_finit_module+0x176/0x2a8
+> > [9.187365] [<ffffffff80889862>] do_trap_ecall_u+0xbe/0x130
+> > [9.192922] [<ffffffff808920bc>] ret_from_exception+0x0/0x64
+> > [9.198573] Code: 0009 b7e9 6797 014d a783 85a7 c799 4785 0717 0100 (012=
+3) aef7
+> > [9.205994] ---[ end trace 0000000000000000 ]---
+> >
+> > This is because we called riscv_noncoherent_supported() for all the sta=
+ges
+> > during IOCP probe. riscv_noncoherent_supported() function sets
+> > noncoherent_supported variable to true which has an annotation set to
+> > "__ro_after_init" due to which we were seeing the above splat. Fix this=
+ by
+> > probing for IOCP only once in boot stage by having a boolean variable
+> > is_iocp_probe_done which will be set to true upon IOCP probe in
+> > errata_probe_iocp() and we bail out early if is_iocp_probe_done is set.
+> >
+> > While at it make return type of errata_probe_iocp() to void as we were
+> > not checking the return value in andes_errata_patch_func().
+> >
+> > Fixes: e021ae7f5145 ("riscv: errata: Add Andes alternative ports")
+> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > ---
+> > v1->v2
+> > * As RISCV_ALTERNATIVES_BOOT stage can happen twice add a is_iocp_probe=
+_done
+> >   variable to probe for IOCP only once.
+> > * Updated commit message
+> > * Make return value of errata_probe_iocp() to void
+>
+> Thanks for the update!
+>
+> > --- a/arch/riscv/errata/andes/errata.c
+> > +++ b/arch/riscv/errata/andes/errata.c
+> > @@ -38,29 +38,36 @@ static long ax45mp_iocp_sw_workaround(void)
+> >         return ret.error ? 0 : ret.value;
+> >  }
+> >
+> > -static bool errata_probe_iocp(unsigned int stage, unsigned long arch_i=
+d, unsigned long impid)
+> > +static void errata_probe_iocp(unsigned int stage, unsigned long arch_i=
+d, unsigned long impid)
+> >  {
+> > +       static bool is_iocp_probe_done;
+>
+> done?
+>
+OK I'll rename it to "done".
 
-"For now" is the right clause: all module clocks are inputs to on-SoC
-devices under the "soc" node.
+> > +
+> >         if (!IS_ENABLED(CONFIG_ERRATA_ANDES_CMO))
+> > -               return false;
+> > +               return;
+> > +
+> > +       if (is_iocp_probe_done)
+> > +               return;
+> >
+>
+> Why not keep it simple, and just do
+>
+>     done =3D true;
+>
+OK.
 
-However, once the clock drivers become aware[1]* of programmable (core)
-clocks driving the real-time CPU cores not running Linux, you may need
-special handling for these, too.
+> here?
+> Can arch_id or impid suddenly change, so you have to recheck?
+I only check arch_id and impid here. Are you suggesting I drop it?
 
-[1] On R-Car V3U, the clock driver already supports R8A779A0_CLK_ZR,
-    but it is a fixed clock that cannot be disabled nor changed.
+> If the SBI call in ax45mp_iocp_sw_workaround() fails, is there really
+> a need to try it again later?
+>
+No if it fails we just continue with a broken system.
 
-Gr{oetje,eeting}s,
-
-                        Geert
-
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+Cheers,
+Prabhakar
+> >         if (arch_id !=3D ANDESTECH_AX45MP_MARCHID || impid !=3D ANDESTE=
+CH_AX45MP_MIMPID)
+> > -               return false;
+> > +               return;
+> >
+> > -       if (!ax45mp_iocp_sw_workaround())
+> > -               return false;
+> > +       if (!ax45mp_iocp_sw_workaround()) {
+> > +               is_iocp_probe_done =3D true;
+> > +               return;
+> > +       }
+> >
+> >         /* Set this just to make core cbo code happy */
+> >         riscv_cbom_block_size =3D 1;
+> >         riscv_noncoherent_supported();
+> > -
+> > -       return true;
+> > +       is_iocp_probe_done =3D true;
+> >  }
+>
+> Gr{oetje,eeting}s,
+>
+>                         Geert
+>
+> --
+> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m6=
+8k.org
+>
+> In personal conversations with technical people, I call myself a hacker. =
+But
+> when I'm talking to journalists I just say "programmer" or something like=
+ that.
+>                                 -- Linus Torvalds
 
