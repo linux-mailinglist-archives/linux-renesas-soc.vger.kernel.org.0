@@ -1,82 +1,105 @@
-Return-Path: <linux-renesas-soc+bounces-469-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-470-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09DDC7FF850
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 30 Nov 2023 18:32:54 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6899E7FF85A
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 30 Nov 2023 18:35:23 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 845D3B20B5E
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 30 Nov 2023 17:32:51 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2347D2816BE
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 30 Nov 2023 17:35:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E3DFC56777;
-	Thu, 30 Nov 2023 17:32:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F37A856769;
+	Thu, 30 Nov 2023 17:35:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YM+oXZR1"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTP id 945DA1700;
-	Thu, 30 Nov 2023 09:32:41 -0800 (PST)
-X-IronPort-AV: E=Sophos;i="6.04,239,1695654000"; 
-   d="scan'208";a="188746418"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie6.idc.renesas.com with ESMTP; 01 Dec 2023 02:32:40 +0900
-Received: from localhost.localdomain (unknown [10.226.92.210])
-	by relmlir6.idc.renesas.com (Postfix) with ESMTP id C734A401786F;
-	Fri,  1 Dec 2023 02:32:37 +0900 (JST)
-From: Biju Das <biju.das.jz@bp.renesas.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: Biju Das <biju.das.jz@bp.renesas.com>,
-	linux-media@vger.kernel.org,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Biju Das <biju.das.au@gmail.com>,
-	linux-renesas-soc@vger.kernel.org
-Subject: [PATCH] media: v4l: async: Fix double pointer free on v4l2_async_unregister_subdev()
-Date: Thu, 30 Nov 2023 17:32:32 +0000
-Message-Id: <20231130173232.130731-1-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.25.1
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF86F47A5A;
+	Thu, 30 Nov 2023 17:35:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B65B5C433C8;
+	Thu, 30 Nov 2023 17:35:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1701365719;
+	bh=8tB+d3+DCHPtwWHOb3AAbeDRc2KBSaXv3m0Macm8Qh4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=YM+oXZR12HQ5LY5CCuIiplh3+5Mv37hmnRcJWaur+3vbaiTwqtyaeEUFiOXMawL0m
+	 5dBlsmcVPt3+fZHE2Jr8/cAEobFZxP7z85UaMo+SvwPnf3W0Pn7SfUYLD5yTaV0dov
+	 hQVSui3wQfuWv9PHPxa2H3Js4WpDsnQnH7acW1UhC4QwQNzIg2qFotSgANuMRY7DUt
+	 9tTNjQkTuZ4d6HMt3rCEGMFyQXxHb+9GNPTYgw2JRqa72OJplwMFxBYaUtvIXmJJSQ
+	 8Ro8oa+J+PsuDpkE4ilkXCaMZXvZ5+yI4GGZSDxM3H260gjuq64M/CaE8gnwKUOYP1
+	 Ist+fnuVzc5ng==
+Date: Thu, 30 Nov 2023 17:35:12 +0000
+From: Simon Horman <horms@kernel.org>
+To: Claudiu <claudiu.beznea@tuxon.dev>
+Cc: s.shtylyov@omp.ru, davem@davemloft.net, edumazet@google.com,
+	kuba@kernel.org, pabeni@redhat.com, p.zabel@pengutronix.de,
+	yoshihiro.shimoda.uh@renesas.com, geert+renesas@glider.be,
+	wsa+renesas@sang-engineering.com, biju.das.jz@bp.renesas.com,
+	prabhakar.mahadev-lad.rj@bp.renesas.com,
+	sergei.shtylyov@cogentembedded.com, mitsuhiro.kimura.kc@renesas.com,
+	masaru.nagai.vx@renesas.com, netdev@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+Subject: Re: [PATCH 13/13] net: ravb: Add runtime PM support
+Message-ID: <20231130173512.GI32077@kernel.org>
+References: <20231120084606.4083194-1-claudiu.beznea.uj@bp.renesas.com>
+ <20231120084606.4083194-14-claudiu.beznea.uj@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231120084606.4083194-14-claudiu.beznea.uj@bp.renesas.com>
 
-The v4l2_async_unbind_subdev_one() deallocates the pointer
-&asc->asc_subdev_entry. The same pointer is again used to
-deallocate in list_del() leading to the below kernel crash.
+On Mon, Nov 20, 2023 at 10:46:06AM +0200, Claudiu wrote:
 
-Unable to handle kernel paging request at virtual address dead000000000108
-v4l2_async_unregister_subdev+0xf8/0x164
-rzg2l_csi2_remove+0x30/0x5c
-platform_remove+0x28/0x64
-device_remove+0x48/0x74
-device_release_driver_internal+0x1d8/0x234
-device_driver_detach+0x14/0x1c
-unbind_store+0xac/0xb0
+...
 
-Fixes: 28a1295795d8 ("media: v4l: async: Allow multiple connections between entities")
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
----
- drivers/media/v4l2-core/v4l2-async.c | 1 -
- 1 file changed, 1 deletion(-)
+>  		}
+>  	}
+>  
+> +	error = ravb_pm_runtime_get(priv);
+> +	if (error < 0)
+> +		return error;
 
-diff --git a/drivers/media/v4l2-core/v4l2-async.c b/drivers/media/v4l2-core/v4l2-async.c
-index 091e8cf4114b..8cfd593d293d 100644
---- a/drivers/media/v4l2-core/v4l2-async.c
-+++ b/drivers/media/v4l2-core/v4l2-async.c
-@@ -880,7 +880,6 @@ void v4l2_async_unregister_subdev(struct v4l2_subdev *sd)
- 				  &asc->notifier->waiting_list);
- 
- 			v4l2_async_unbind_subdev_one(asc->notifier, asc);
--			list_del(&asc->asc_subdev_entry);
- 		}
- 	}
- 
--- 
-2.25.1
+Hi Claudiu,
 
+the error handling doesn't seem right here.
+I think you need:
+
+		goto out_free_irq_mgmta;
+
+> +
+>  	/* Device init */
+>  	error = ravb_dmac_init(ndev);
+>  	if (error)
+> -		goto out_free_irq_mgmta;
+> +		goto pm_runtime_put;
+>  	ravb_emac_init(ndev);
+>  
+>  	/* Initialise PTP Clock driver */
+> @@ -1820,7 +1862,8 @@ static int ravb_open(struct net_device *ndev)
+>  	if (info->gptp)
+>  		ravb_ptp_stop(ndev);
+>  	ravb_stop_dma(ndev);
+> -out_free_irq_mgmta:
+> +pm_runtime_put:
+> +	ravb_pm_runtime_put(priv);
+
+And the out_free_irq_mgmta label should go here.
+
+Flagged by Smatch.
+
+>  	if (!info->multi_irqs)
+>  		goto out_free_irq;
+>  	if (info->err_mgmt_irqs)
+
+...
 
