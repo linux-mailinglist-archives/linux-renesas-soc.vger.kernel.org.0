@@ -1,180 +1,199 @@
-Return-Path: <linux-renesas-soc+bounces-455-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-456-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B16F47FEF9B
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 30 Nov 2023 13:58:57 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id C20A97FEFD3
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 30 Nov 2023 14:17:17 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E31B81C20BC5
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 30 Nov 2023 12:58:56 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 204F1B20D71
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 30 Nov 2023 13:17:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F22923B2AB;
-	Thu, 30 Nov 2023 12:58:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 472FD3E47A;
+	Thu, 30 Nov 2023 13:17:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uZiioLM3"
+	dkim=pass (2048-bit key) header.d=ragnatech-se.20230601.gappssmtp.com header.i=@ragnatech-se.20230601.gappssmtp.com header.b="c1zz94ao"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0DB03C683;
-	Thu, 30 Nov 2023 12:58:52 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 65182C433C8;
-	Thu, 30 Nov 2023 12:58:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1701349132;
-	bh=k61SVR5HqRg7HEBrqbj2RC0wILozeLcKJTkF4ff/FCY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=uZiioLM3vGhd04qm7k7+NnViHdFYh5nUaeVbfNcQ7pkEQfQ53udUJq2BV1hqCB+tL
-	 ktmNEhQ5jqdFf0dT1SJRszxd0JNbSxbkgN657cvdVJeVjiqAeOClH5yxYy+qxIT1Sh
-	 g93Vc52elbcNEYTcBo891fzZPSWoZiIZZBmjfWHSTHtRfV1qGgNeL1vp3I9yn/wi4g
-	 roKhPGMFpeCfecjaRhTv7mdoySSRfO43EizHR3SUVJBZL38KudxZlQ+s3oS+7Zjttc
-	 uPBXl52i2/u3veXdotEqe7ANYTsFEwOMLs+S+b4X/3k+frVOkG1tHrGjWiaYGlLkIp
-	 WTVcmgGk9zreA==
-Date: Thu, 30 Nov 2023 12:58:41 +0000
-From: Conor Dooley <conor@kernel.org>
-To: Inochi Amaoto <inochiama@outlook.com>
-Cc: Yu-Chien Peter Lin <peterlin@andestech.com>,
-	Guo Ren <guoren@kernel.org>, acme@kernel.org,
-	adrian.hunter@intel.com, ajones@ventanamicro.com,
-	alexander.shishkin@linux.intel.com, andre.przywara@arm.com,
-	anup@brainfault.org, aou@eecs.berkeley.edu, atishp@atishpatra.org,
-	conor+dt@kernel.org, conor.dooley@microchip.com,
-	devicetree@vger.kernel.org, dminus@andestech.com, evan@rivosinc.com,
-	geert+renesas@glider.be, heiko@sntech.de, irogers@google.com,
-	jernej.skrabec@gmail.com, jolsa@kernel.org, jszhang@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-perf-users@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-	linux-riscv@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	locus84@andestech.com, magnus.damm@gmail.com, mark.rutland@arm.com,
-	mingo@redhat.com, n.shubin@yadro.com, namhyung@kernel.org,
-	palmer@dabbelt.com, paul.walmsley@sifive.com, peterz@infradead.org,
-	prabhakar.mahadev-lad.rj@bp.renesas.com, rdunlap@infradead.org,
-	robh+dt@kernel.org, samuel@sholland.org, sunilvl@ventanamicro.com,
-	tglx@linutronix.de, tim609@andestech.com, uwu@icenowy.me,
-	wens@csie.org, will@kernel.org, ycliang@andestech.com
-Subject: Re: [PATCH v4 09/13] dt-bindings: riscv: Add T-Head PMU extension
- description
-Message-ID: <20231130-isotope-runaround-9afb98579734@spud>
-References: <ZWhT_VSpl2aksVK7@APC323>
- <IA1PR20MB4953A05B9162AA2659DE78A5BB82A@IA1PR20MB4953.namprd20.prod.outlook.com>
+Received: from mail-lj1-x22d.google.com (mail-lj1-x22d.google.com [IPv6:2a00:1450:4864:20::22d])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1E700B5
+	for <linux-renesas-soc@vger.kernel.org>; Thu, 30 Nov 2023 05:17:06 -0800 (PST)
+Received: by mail-lj1-x22d.google.com with SMTP id 38308e7fff4ca-2c9b8363683so11545381fa.3
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 30 Nov 2023 05:17:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ragnatech-se.20230601.gappssmtp.com; s=20230601; t=1701350224; x=1701955024; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=NNu7981w+b/EsarpnTnNbtY/sRZQqtfWb3hWpd3oycg=;
+        b=c1zz94aoCFk2x8YbXh+aDxQnQ2iV5kB1rzFIFrDBuPUxqOqQ+C33mh1MZMD4aw30ef
+         NxRQAkp7yPfFnZB2fpjv5zMEwIPsXZi7aSsvb99EvUXiYmO7ho/3UOv82zw0r1ZGAVFh
+         rch9lO/w7GInVTOGSOrqaOTTcMpoOY5VMiLZXtWvNqe85tUIHvJg7o2AbarwQyO6xlHb
+         tSb2mUyz8io4oWc8E+1qGuYyTxY3LbpKbmfBs+CSuC3zpDe6c+BgTk/O2X0BHmudoBTg
+         HyH6+a6y238cg2lmbPq4pL7t5q+4sEcmpgO8QcQihKGnOiHaxMV7EzsWOOtVM7ilrSxQ
+         m0jQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701350224; x=1701955024;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=NNu7981w+b/EsarpnTnNbtY/sRZQqtfWb3hWpd3oycg=;
+        b=dmSuX15wyT6iT+9GLndKVu5XX22VSh9LFxMoVlAYbsnGV1R4hRq7MW4XwpiLG+BANf
+         oDUqjtZp4q20N5fmrLGrxQggtfniJRlTcEUY9c5w5qffQZzfpvXKLtoeVd6FNBEY0IZc
+         C/E9Q+05WFj0hfzSstkdUj1GyPtue8rOZWDgGclmZLT0N3qkJVosp6xQeWErW8czN1eV
+         fYJ6hT/CJiBW+IsZiLrRNV3plxskd4GUP5BOEnJqIwYo5EkGf/aRbH03QjSb2nkTwH9p
+         lHbimBeUf/BnANn7Hp7ddwNk5Kgj23WWSmDKag0LjwPKyfJ2243/tUKjNrSrRHO+QbMM
+         LiOQ==
+X-Gm-Message-State: AOJu0YxQINSXmi+zWyw6v8yZvA032WyV/Y9q9zW19gKMoOiLCc7WggAy
+	bn5Txy+sHhXItFnpLmdSWR2xMg==
+X-Google-Smtp-Source: AGHT+IE6Fk5mUymExBFFbYGMykHg37q2l+bapF/at/yPgH4L69vguyhE9w1VT0LcWJ9+IM+shvK/5A==
+X-Received: by 2002:a2e:9d91:0:b0:2c9:c0c5:ab7d with SMTP id c17-20020a2e9d91000000b002c9c0c5ab7dmr3263228ljj.13.1701350224208;
+        Thu, 30 Nov 2023 05:17:04 -0800 (PST)
+Received: from localhost (h-46-59-36-206.A463.priv.bahnhof.se. [46.59.36.206])
+        by smtp.gmail.com with ESMTPSA id u3-20020a2e9b03000000b002c9c61cdcbasm140981lji.5.2023.11.30.05.17.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 30 Nov 2023 05:17:02 -0800 (PST)
+Date: Thu, 30 Nov 2023 14:17:01 +0100
+From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH] dt-bindings: renesas: Document preferred compatible
+ naming
+Message-ID: <ZWiLTYU_Hj0bl1gn@oden.dyn.berto.se>
+References: <20231125232821.234631-1-niklas.soderlund+renesas@ragnatech.se>
+ <deacc7ea-6fad-47d6-978b-3f639aa5da35@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="+TcmYWDdQWc1nRE2"
-Content-Disposition: inline
-In-Reply-To: <IA1PR20MB4953A05B9162AA2659DE78A5BB82A@IA1PR20MB4953.namprd20.prod.outlook.com>
-
-
---+TcmYWDdQWc1nRE2
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <deacc7ea-6fad-47d6-978b-3f639aa5da35@linaro.org>
 
-On Thu, Nov 30, 2023 at 08:16:38PM +0800, Inochi Amaoto wrote:
-> >
-> >Hi Inochi,
-> >
-> >On Thu, Nov 30, 2023 at 04:29:22PM +0800, Inochi Amaoto wrote:
-> >>>
-> >>> Hi Guo Ren,
-> >>>
-> >>> On Thu, Nov 23, 2023 at 05:14:30AM +0800, Guo Ren wrote:
-> >>>> On Wed, Nov 22, 2023 at 8:17=E2=80=AFPM Yu Chien Peter Lin
-> >>>> <peterlin@andestech.com> wrote:
-> >>>>>
-> >>>>> Document the ISA string for T-Head performance monitor extension
-> >>>>> which provides counter overflow interrupt mechanism.
-> >>>>>
-> >>>>> Signed-off-by: Yu Chien Peter Lin <peterlin@andestech.com>
-> >>>>> ---
-> >>>>> Changes v2 -> v3:
-> >>>>>   - New patch
-> >>>>> Changes v3 -> v4:
-> >>>>>   - No change
-> >>>>> ---
-> >>>>>  Documentation/devicetree/bindings/riscv/extensions.yaml | 6 ++++++
-> >>>>>  1 file changed, 6 insertions(+)
-> >>>>>
-> >>>>> diff --git a/Documentation/devicetree/bindings/riscv/extensions.yam=
-l b/Documentation/devicetree/bindings/riscv/extensions.yaml
-> >>>>> index c91ab0e46648..694efaea8fce 100644
-> >>>>> --- a/Documentation/devicetree/bindings/riscv/extensions.yaml
-> >>>>> +++ b/Documentation/devicetree/bindings/riscv/extensions.yaml
-> >>>>> @@ -258,5 +258,11 @@ properties:
-> >>>>>              in commit 2e5236 ("Ztso is now ratified.") of the
-> >>>>>              riscv-isa-manual.
-> >>>>>
-> >>>>> +        - const: xtheadpmu
-> >>>>> +          description:
-> >>>>> +            The T-Head performance monitor extension for counter o=
-verflow. For more
-> >>>>> +            details, see the chapter 12 in the Xuantie C906 user m=
-anual.
-> >>>>> +            https://github.com/T-head-Semi/openc906/tree/main/doc
-> >>>>> +
-> >>>>>  additionalProperties: true
-> >>>>>  ...
-> >>>>> --
-> >>>>> 2.34.1
-> >>>>>
-> >>>> Reviewed-by: Guo Ren <guoren@kernel.org>
-> >>>
-> >>> Thanks for the review.
-> >>> Would you share document about T-Head PMU?
-> >>>
-> >>
-> >> Hi, Peter Lin:
-> >>
-> >> You can use the following two document to get all events:
-> >> https://github.com/T-head-Semi/openc906/tree/main/doc
-> >> https://github.com/T-head-Semi/openc910/tree/main/doc
-> >>
-> >> There are also some RTL code can describe these events:
-> >> https://github.com/T-head-Semi/openc910/blob/e0c4ad8ec7f8c70f649d826eb=
-d6c949086453272/C910_RTL_FACTORY/gen_rtl/pmu/rtl/ct_hpcp_top.v#L1123
-> >> https://github.com/T-head-Semi/openc906/blob/af5614d72de7e5a4b8609c427=
-d2e20af1deb21c4/C906_RTL_FACTORY/gen_rtl/pmu/rtl/aq_hpcp_top.v#L543
-> >>
-> >> The perf events json can also be used as document, this is already
-> >> applied (with more detailed explanation):
-> >> https://lore.kernel.org/all/IA1PR20MB495325FCF603BAA841E29281BBBAA@IA1=
-PR20MB4953.namprd20.prod.outlook.com/
-> >
-> >Thanks for reaching out!
-> >The updated description will be:
-> >
-> >- const: xtheadpmu
-> >  description:
-> >    The T-Head performance monitor extension for counter overflow, as ra=
-tified
-> >    in commit bd9206 ("Initial commit") of Xuantie C906 user manual.
-> >    https://github.com/T-head-Semi/openc906/tree/main/doc
-> >
-> >Is it OK with you?
-> >
->=20
-> I suggest using perf event json as event description. The jsons provide
-> more detailed explanation for these events than the user manual.
+Hi Krzysztof,
 
-Does the "perf event json" describe the registers and interrupt behaviour?
+On 2023-11-28 10:51:03 +0100, Krzysztof Kozlowski wrote:
+> > +properties:
+> > +  compatible:
+> > +    oneOf:
+> > +      # Preferred naming style for compatibles of SoC components:
+> > +      - pattern: "^renesas,emev2-[a-z0-9-]+$"
+> > +      - pattern: "^renesas,r7s[0-9]+-[a-z0-9-]+$"
+> > +      - pattern: "^renesas,r8a[a-z0-9]+-[a-z0-9-]+$"
+> > +      - pattern: "^renesas,r9a[0-9]+g[a-z0-9]+-[a-z0-9-]+$"
+> > +      - pattern: "^renesas,rcar-[a-z0-9-]+$"
+> > +      - pattern: "^renesas,rz-[a-z0-9-]+$"
+> > +      - pattern: "^renesas,rza-[a-z0-9-]+$"
+> > +      - pattern: "^renesas,rza1-[a-z0-9-]+$"
+> > +      - pattern: "^renesas,rza2-[a-z0-9-]+$"
+> > +      - pattern: "^renesas,rzg2l-[a-z0-9-]+$"
+> > +      - pattern: "^renesas,rzn1[a-z0-9]*-[a-z0-9-]+$"
+> > +      - pattern: "^renesas,rzv2m-[a-z0-9-]+$"
+> > +      - pattern: "^renesas,sh-[a-z0-9-]+$"
+> > +      - pattern: "^renesas,sh7[a-z0-9]+-[a-z0-9-]+$"
+> 
+> Why so many different patterns? Why it cannot be for example:
+> "^renesas,rz[a-z0-9]*-[a-z0-9-]+$" to cover multiple entries?
+> 
+> The point is not to validate the devices. Other bindings do it. The
+> point is to have one or two patterns to enforce ordering of SoC-block.
+> 
+> The size of this file suggests you either over-complicated the thing or
+> there is little benefit of adding it.
 
---+TcmYWDdQWc1nRE2
-Content-Type: application/pgp-signature; name="signature.asc"
+As you point out below there is a lot of patterns that use the style not 
+preferred and the idea to detect future additions of this I thought it a 
+good idea to make these more specialized. If we think that is a bad idea 
+I can try to make fewer more generic ones.
 
------BEGIN PGP SIGNATURE-----
+> 
+> > +
+> > +      # SoC agnostic compatibles - new compatibles are OK:
+> 
+> Why new compatibles are ok?
+> 
+> > +      - enum:
+> > +          - renesas,cpg-div6-clock
+> > +          - renesas,cpg-mstp-clocks
+> > +          - renesas,intc-irqpin
+> > +          - renesas,smp-sram
+> 
+> smp-sram can have new compatibles? I am sorry, but this needs explanation...
 
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZWiHAAAKCRB4tDGHoIJi
-0igkAQDOfuuBe9DSefozhmWIFmSJzSSWtODAmHdNEeaJ2/bbUAD+KQI5g0aV+rX2
-4Hztl6JmSKirDEkCeX2FqX9R+Ln89A0=
-=qBbG
------END PGP SIGNATURE-----
+The intention is to list SoC agnostic compatibles here, or put another 
+way false positives to the generic pattern "renesas,.*-.*". So no 
+"renesas,smp-sram" can't have new compatibles but there might be new 
+renesas compatible strings that hit the pattern that is not related to a 
+SoC. Does this make sens?
 
---+TcmYWDdQWc1nRE2--
+> 
+> > +
+> > +      # Legacy namings - variations of existing patterns/compatibles are OK,
+> > +      # but do not add completely new entries to these:
+> > +      - pattern: "^renesas,can-[a-z0-9]+$"
+> > +      - pattern: "^renesas,dmac-[a-z0-9]+$"
+> > +      - pattern: "^renesas,du-[a-z0-9]+$"
+> > +      - pattern: "^renesas,ether-[a-z0-9]+$"
+> > +      - pattern: "^renesas,etheravb-[a-z0-9]+$"
+> > +      - pattern: "^renesas,etheravb-rcar-gen[0-9]$"
+> > +      - pattern: "^renesas,gether-[a-z0-9]+$"
+> > +      - pattern: "^renesas,gpio-[a-z0-9]+$"
+> > +      - pattern: "^renesas,hscif-[a-z0-9]+$"
+> > +      - pattern: "^renesas,i2c-[a-z0-9]+$"
+> > +      - pattern: "^renesas,iic-[a-z0-9]+$"
+> > +      - pattern: "^renesas,intc-ex-[a-z0-9]+$"
+> > +      - pattern: "^renesas,intc-irqpin-[a-z0-9]+$"
+> > +      - pattern: "^renesas,ipmmu-[a-z0-9]+$"
+> > +      - pattern: "^renesas,irqc-[a-z0-9]+$"
+> > +      - pattern: "^renesas,jpu-[a-z0-9]+$"
+> > +      - pattern: "^renesas,mmcif-[a-z0-9]+$"
+> > +      - pattern: "^renesas,msiof-[a-z0-9]+$"
+> > +      - pattern: "^renesas,pci-[a-z0-9]+$"
+> > +      - pattern: "^renesas,pci-rcar-gen[0-9]$"
+> > +      - pattern: "^renesas,pcie-[a-z0-9]+$"
+> > +      - pattern: "^renesas,pcie-rcar-gen[0-9]$"
+> > +      - pattern: "^renesas,pfc-[a-z0-9]+$"
+> > +      - pattern: "^renesas,pwm-[a-z0-9]+$"
+> > +      - pattern: "^renesas,qspi-[a-z0-9]+$"
+> > +      - pattern: "^renesas,rcar_sound-[a-z0-9]+$"
+> > +      - pattern: "^renesas,riic-[a-z0-9]+$"
+> > +      - pattern: "^renesas,rspi-[a-z0-9]+$"
+> > +      - pattern: "^renesas,sata-[a-z0-9]+(-es1)?$"
+> > +      - pattern: "^renesas,scif-[a-z0-9]+$"
+> > +      - pattern: "^renesas,scifa-[a-z0-9]+$"
+> > +      - pattern: "^renesas,scifb-[a-z0-9]+$"
+> > +      - pattern: "^renesas,sdhi-[a-z0-9]+$"
+> > +      - pattern: "^renesas,thermal-[a-z0-9]+$"
+> > +      - pattern: "^renesas,tmu-[a-z0-9]+$"
+> > +      - pattern: "^renesas,tpu-[a-z0-9]+$"
+> > +      - pattern: "^renesas,usb-phy-[a-z0-9]+$"
+> > +      - pattern: "^renesas,usb2-phy-[a-z0-9]+$"
+> > +      - pattern: "^renesas,usbhs-[a-z0-9]+$"
+> > +      - pattern: "^renesas,vin-[a-z0-9]+$"
+> > +      - pattern: "^renesas,xhci-[a-z0-9]+$"
+> 
+> No, wait, you basically listed most of the SoC as exceptions. What SoC
+> blocks exactly are you going to cover in such case with your rules?
+
+As Geert points out these exists for historical reasons, but we don't 
+want any more of this style.
+
+You ask in your reply to Geert that we should reconsider if this is 
+still useful. I think it is as it achieves the over all goal, detect if 
+any new of the not preferred style is added. But I won't press it, if 
+you or Geert think this is a bad route I won't spend more time on this 
+work.
+
+@Geert: What do you think?
+
+-- 
+Kind Regards,
+Niklas Söderlund
 
