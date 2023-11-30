@@ -1,140 +1,249 @@
-Return-Path: <linux-renesas-soc+bounces-452-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-453-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E863E7FED6B
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 30 Nov 2023 11:59:26 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id C86687FEEBA
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 30 Nov 2023 13:16:54 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2057E1C20A71
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 30 Nov 2023 10:59:26 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4EE2C1F20623
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 30 Nov 2023 12:16:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 60EC43B7BC;
-	Thu, 30 Nov 2023 10:59:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4650746436;
+	Thu, 30 Nov 2023 12:16:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b="sbhmQ1Hd"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yb1-f174.google.com (mail-yb1-f174.google.com [209.85.219.174])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 956A0D50;
-	Thu, 30 Nov 2023 02:59:17 -0800 (PST)
-Received: by mail-yb1-f174.google.com with SMTP id 3f1490d57ef6-db49aa82c89so745665276.1;
-        Thu, 30 Nov 2023 02:59:17 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701341956; x=1701946756;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=5e5pButv/GNRKf0pwfcJuwzofE23cLgi792/N6uJGVc=;
-        b=KfTvSujtHuvwapBq1CsAs+NsuUR0xhXwtbuvKuSuyaFi+4Ia/dVSSsDnB/3rGslC7U
-         CXFg0ip1XJUji1i4pjj5lavZRNo7hh1SoMxW2nfCibt4ly9i7uWUIE3eaUpuWcKCP9TS
-         rPoQFtZ+xPaeoxtXz8iEm1bLMbAccRs3pDxflO1yllxK+bSsSbY64wzirlhuCxH2YXuV
-         g0a7hwmlD4n9RHgpqahf5l8pzWLMQI0AcCq3dFstmXQMdsTwij2rqZPHvlN6nusGvqkG
-         88Sy0JiBUmMUGbE1B2C4ePsB+cfIJKRoiAu6EqlAIZ/3fq+0pvcVwhVeOVeAQERsoF6g
-         HVFA==
-X-Gm-Message-State: AOJu0YyxBfT1TAgcVL6UVYUachs9h5IMmQfG8yu8rcCBwBSXk+1Rau4d
-	qnRFwQefEnj0eYEMFuQ6GtQZfpP3HkrzqQ==
-X-Google-Smtp-Source: AGHT+IHR3Ch5z8xAL+LXg63IVW8V5/Hqx59ag3oRrc/vH6beKdJe+oNErxFp7SOH9SHiL4ADH4Qklw==
-X-Received: by 2002:a25:d28f:0:b0:db5:44b4:ee65 with SMTP id j137-20020a25d28f000000b00db544b4ee65mr168606ybg.45.1701341956585;
-        Thu, 30 Nov 2023 02:59:16 -0800 (PST)
-Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com. [209.85.219.171])
-        by smtp.gmail.com with ESMTPSA id n71-20020a25d64a000000b00dafa5f86dc2sm179705ybg.16.2023.11.30.02.59.15
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 30 Nov 2023 02:59:15 -0800 (PST)
-Received: by mail-yb1-f171.google.com with SMTP id 3f1490d57ef6-db538b07865so518957276.2;
-        Thu, 30 Nov 2023 02:59:15 -0800 (PST)
-X-Received: by 2002:a25:6f46:0:b0:da0:cb88:b890 with SMTP id
- k67-20020a256f46000000b00da0cb88b890mr20914448ybc.60.1701341955554; Thu, 30
- Nov 2023 02:59:15 -0800 (PST)
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (mail-dm6nam12olkn2096.outbound.protection.outlook.com [40.92.22.96])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A5A3810E0;
+	Thu, 30 Nov 2023 04:16:46 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=BHVmPhQ19fk1OC3DPtecWzLAVtxSKfQhRMryMaINBYZ6Bh0CFK0wG8Qat29cpV6DU7y/8r4vmWyrbHqXl9co5SiaLzZqXPBF5QwjVhw+HHtf3d7dzglXNNgts9SW+hvVz7ZwEr1O/UooNLN1sCRPPAyZC4xvKM1knQ4lYBGMdPx8tNucBSOAPHpto8H8A217Op3mGcDJNFzaSpnGsFmIJoUv91XFLrT6snTrpP05pMd+lkWwx9fO5jaPA9CttClDnKchrxwNw25eDOCgMqnNDQ5XVzIDt/cBAgdwhVbthFMlJh+kqZjSzjnFxj2LDNEu1hfYSmcfe1FXeL9G6clQZA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=J+M/M9nICUXJYjG/hmaDCxcFvuxVJL7LsPIweNBcjmo=;
+ b=O8+2IKPiPsW2K3cD6dhDOoL4Au6ZAiziH7pVf6mVjqsJJWENEfUpWvZaYnfRbgDp4IR9IFtFSzZuks/upsfbdNnFeNewovQBbZHxODc+BCL2+fCZ/GGihiSSV8W3ouuVPs3rSgPEYDA5LOYT+GCDPbDb+YLYL9nL/XYAmDx2oF1uRvVE1/BALtwqlwcKBq4Lkr6v+Lel9VtgQ7zGHXYW3LnkAKYEuKt5494+SC033r5wnM9vsXbGE+tjT2VfFIIQ9n68xTXbZYQTC7PufgpBKOy7jjZNrqYzpsJ8m0ngmXzpgMxWH4bUh0rv8t3fluljUns25+5t7BndxloOLibDgQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=J+M/M9nICUXJYjG/hmaDCxcFvuxVJL7LsPIweNBcjmo=;
+ b=sbhmQ1HdtGBy0HREo4PpUvkDSUIzMnLEpD8xosYP0yGNlebPm3MAaaAnb75g7E9vdDhB+Luk3GISK/Rv34mUm1YkRiT8qnOpUHUkVNX0Z6a1+evXGGgpnYeit/uyw7aVf8l8XvOcpFn/KwS9/Drya+axrVDPYGNl1qDYcB0vvaFp9z0bUL1QbPMWLoIP4EQx29YAhpOg21hq6D7AHFTHpQpgbZ6FOyx9CEsbR6JG8n+UqFsjAgXGni300wE38mH/1tsTk+H+1EHh3A/642sVAH4UTYIjn/VmfQX5QO9uQHF2OlsNiM/QUP7rOuIGXoKwIsNkhG1tpM88di+ogWI90w==
+Received: from IA1PR20MB4953.namprd20.prod.outlook.com (2603:10b6:208:3af::19)
+ by MW3PR20MB3548.namprd20.prod.outlook.com (2603:10b6:303:59::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7046.24; Thu, 30 Nov
+ 2023 12:16:42 +0000
+Received: from IA1PR20MB4953.namprd20.prod.outlook.com
+ ([fe80::55b:c350:980:ad8]) by IA1PR20MB4953.namprd20.prod.outlook.com
+ ([fe80::55b:c350:980:ad8%6]) with mapi id 15.20.7046.024; Thu, 30 Nov 2023
+ 12:16:42 +0000
+From: Inochi Amaoto <inochiama@outlook.com>
+To: Yu-Chien Peter Lin <peterlin@andestech.com>
+Cc: Inochi Amaoto <inochiama@outlook.com>,
+	Guo Ren <guoren@kernel.org>,
+	acme@kernel.org,
+	adrian.hunter@intel.com,
+	ajones@ventanamicro.com,
+	alexander.shishkin@linux.intel.com,
+	andre.przywara@arm.com,
+	anup@brainfault.org,
+	aou@eecs.berkeley.edu,
+	atishp@atishpatra.org,
+	conor+dt@kernel.org,
+	conor.dooley@microchip.com,
+	conor@kernel.org,
+	devicetree@vger.kernel.org,
+	dminus@andestech.com,
+	evan@rivosinc.com,
+	geert+renesas@glider.be,
+	heiko@sntech.de,
+	irogers@google.com,
+	jernej.skrabec@gmail.com,
+	jolsa@kernel.org,
+	jszhang@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	linux-perf-users@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	linux-riscv@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	locus84@andestech.com,
+	magnus.damm@gmail.com,
+	mark.rutland@arm.com,
+	mingo@redhat.com,
+	n.shubin@yadro.com,
+	namhyung@kernel.org,
+	palmer@dabbelt.com,
+	paul.walmsley@sifive.com,
+	peterz@infradead.org,
+	prabhakar.mahadev-lad.rj@bp.renesas.com,
+	rdunlap@infradead.org,
+	robh+dt@kernel.org,
+	samuel@sholland.org,
+	sunilvl@ventanamicro.com,
+	tglx@linutronix.de,
+	tim609@andestech.com,
+	uwu@icenowy.me,
+	wens@csie.org,
+	will@kernel.org,
+	ycliang@andestech.com
+Subject: Re: [PATCH v4 09/13] dt-bindings: riscv: Add T-Head PMU extension description
+Date: Thu, 30 Nov 2023 20:16:38 +0800
+Message-ID:
+ <IA1PR20MB4953A05B9162AA2659DE78A5BB82A@IA1PR20MB4953.namprd20.prod.outlook.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <ZWhT_VSpl2aksVK7@APC323>
+References: <ZWhT_VSpl2aksVK7@APC323>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-TMN: [mIfqZYRrVxkVYQFgFS+wTBDERuDYG1VI49vmpWfNEtE=]
+X-ClientProxiedBy: TYCP286CA0304.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:400:38b::12) To IA1PR20MB4953.namprd20.prod.outlook.com
+ (2603:10b6:208:3af::19)
+X-Microsoft-Original-Message-ID:
+ <20231130121638.372252-1-inochiama@outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231129143431.34459-1-liuhaoran14@163.com>
-In-Reply-To: <20231129143431.34459-1-liuhaoran14@163.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 30 Nov 2023 11:59:04 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdUrd+LT3FnR255OWKQP-U2EXSpZ=7Q4k+pUZdy4es_vRQ@mail.gmail.com>
-Message-ID: <CAMuHMdUrd+LT3FnR255OWKQP-U2EXSpZ=7Q4k+pUZdy4es_vRQ@mail.gmail.com>
-Subject: Re: [PATCH] [soc/renesas] renesas-soc: Add error handling in renesas_soc_init
-To: Haoran Liu <liuhaoran14@163.com>
-Cc: magnus.damm@gmail.com, linux-renesas-soc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: IA1PR20MB4953:EE_|MW3PR20MB3548:EE_
+X-MS-Office365-Filtering-Correlation-Id: 23919dd2-30a1-4421-6388-08dbf19e3637
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	mTQoCdoH2i2LeG/N07kZ/eXNisTe23G25Bw+0q72Ymjsr5lrpF93R9VT+nzQYjM4lopWcELUq5TCeI5VEn6U+NIWFnfi/mnUacFUfnBOTV6WFFRxCWBgYGxABjG+XV7+A0DPg6aigY+nH1IMWnWFiPBF053OF1z1IplVmOQah3WuoD1zsMJ1BiAdMfUcjj9YJluN5XWusRcnPCVN9eZOAKKySN8s7PKConZv82EshNUjha114/blZJfOVChHZzJy5N3elj98ir0FCsA1wh30scRKVSlt0s9MSfikYbAdO9ysY59M1eoF0iBMSdfxeUhMbEUe3rLRkNRGYzKKCtr67PtRR+DlnzyW0bd9oAmJ7P8eAPh+mqVHonyq/Dv2khZb105jfgDDaffrA03ZsMpnwWpX7qvdwEFfuxIduidahPKG95sl0L7jRijxocSQw1EQISw1Gva00/hW2kCm7MvIhtiMWbHvtYt28I89VyKFBHZN/ukQrVcX3qgU9VgrU7BBDMg5b8jsXIwqyLrHRu9XPzMTitaRhqFZ3SwSY0I0PV+/2ZLFhcLI+SeN3fzJCWqGBexfkfskFuH6RG7rmb+zPrfNiGwhlmi52+7avL6sYu1/ALf8IKuC1izUjnCIBcnYQ0mL29HlGqvtAzD8sspaZYnJ2MqduQemVCUK16ReBZE=
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?WjFmNmlrMnY4bXZoTGFiWllybjJsZGtkN2p4My9PTk5obUZOU042enpCcE1P?=
+ =?utf-8?B?Z28zbWRqWUk5T3RDMTByaGZQUVV5bXJLRmpqdThlbzhuczFXWm10cnE2cFEz?=
+ =?utf-8?B?MVZzclNjcXJuNm1rRnNrZ0JJVldsUHJnQ0gzTE5TdnNRMDVYRkw3bVBJQXdv?=
+ =?utf-8?B?K2FIcjdHbTNGeUtKeUo5cSt3S3k4K1hSQVkyVTNCQitVaUtvdVgyOG11MFpR?=
+ =?utf-8?B?ZjV6dEplaHQxMmZhV0VYRWhzaktvS29WQStJL3FpcDZ4ckpmZUp0eXc1VTZk?=
+ =?utf-8?B?TldaVjZ0bFM0MXdFZzB6VTlRZ1ZtVG8vWTRqeG9IMHRCcnBDOURydTIxYUcw?=
+ =?utf-8?B?T3pXeG9mdHNvRldaZCtLdVdqVC9tRFdQMDJHRGdBY3JPejJ5UC82SXBSNGpn?=
+ =?utf-8?B?WFhod2ZoOFZFd01QcHJ3bVA2RUhQWXJQTFhwWU9wTkxtWXRJOXFabEQ4bkM4?=
+ =?utf-8?B?dU9FUGRuUlRod0txbzRJbmIyYW1OL25yQVB6NWViY0lBUG5YU0Q1S2x6dVpK?=
+ =?utf-8?B?MVprbzZZTEkxODFEMEhaRlJxY0dzYzBsbk9WNXI3Zm1nRkJWTzFPUVdPT3Ry?=
+ =?utf-8?B?NHpiSzJiWTMyMnVjeDYzU09ZNGFXci9DQUVvYm93Yyt4dk9FKzRNT3JaSDZm?=
+ =?utf-8?B?OUxVVnJROGlyaXVIc08rTUF4ZHlldDNTWk94aTBxRk1tamJxcC9iL2J2TzF6?=
+ =?utf-8?B?WDlTdW0yVDhaMlNyNjNiQzZCTFFUTzF1M1JVVkgyZ1BHZlRJNEw3cXZoUkNl?=
+ =?utf-8?B?akdlOWtpWHAydkZ1VVdaSGFaSWliM09BR3ErdytyVHBmQzhaOU1JaGQzeTZx?=
+ =?utf-8?B?WldYRmZxS3NQSTJHNnRydExhRDREOTRqV2RYbW1ya3ZqR25Odm5ZVlo1c0Fy?=
+ =?utf-8?B?OEw2azdqZ21RY21pZ2VqRm9LL2laSVBjODdDSktKVks5d2hqZFZYSjlWODZn?=
+ =?utf-8?B?YktZc3B2QlpSUTFnT2Z0TzRaZmxUcVpvdXhlLzFhNVFvVVB1Z1gxdG5ESHda?=
+ =?utf-8?B?TmhzcVBhc0VIajNxVmJSWEdzay80d3JWMkJPQWlUQ2Vzbi9zQ2cvcUNVWmd5?=
+ =?utf-8?B?Z2xmN0lTQm1Yc0I4b1FCSkloTFM5RFkrbDlCNGVTblVrVzllMHBvNGdXVFVS?=
+ =?utf-8?B?M2xxckpJYkxOT3RCL3YwbGRzcmhKRHBqQ2xyYXRrQUROdG5SVlJpcGdwWDkz?=
+ =?utf-8?B?RWNYQnZyMThVZytIZGRvVTJNdmpVbWxXUVZmMmQxdXZaeUJnRTU4bk5EREVX?=
+ =?utf-8?B?QS80T0NvSURhYldOaTN6RWtMZEUzMG1OTUp4R0U5Z01jL0VmSElIdXNxU0ZD?=
+ =?utf-8?B?c29UNkFPY3hPN0p3dXlmaXhwQVhCQitLUElSY2J5dUtGMGhsd25QVWlNZGQ2?=
+ =?utf-8?B?MVRpRWYwMHcrb05rZzJVODF3ZkVtZW1IVTliam1tYlFPNEdhcjJTWHdVaDEv?=
+ =?utf-8?B?MUdMS3puVGM5NkZCTHBkZkhhSXJtakxLbnVYdG0xZDJYZ1AyMnlsMlJDNmoy?=
+ =?utf-8?B?QlBoUWttYzBoUXU3M1lGT08zb3ZkRDFMaGxGSjNxNkh4WmRLWHowa3ZUQzFW?=
+ =?utf-8?B?K3ZVNDAzeXlHRGh2V0swaXU3L3M2akRROHlPOEQyOVZHUzhweGhrR2ZGbFRH?=
+ =?utf-8?Q?HL4/t2zz/JQf5ncvoxRmiQWlM0MeH305i3K6vMEk58S4=3D?=
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 23919dd2-30a1-4421-6388-08dbf19e3637
+X-MS-Exchange-CrossTenant-AuthSource: IA1PR20MB4953.namprd20.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Nov 2023 12:16:42.2227
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
+	00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW3PR20MB3548
 
-Hi Haoran,
-
-Thanks for your patch!
-
-On Wed, Nov 29, 2023 at 3:34=E2=80=AFPM Haoran Liu <liuhaoran14@163.com> wr=
-ote:
-> This patch enhances the renesas_soc_init function in
-> drivers/soc/renesas/renesas-soc.c by adding error handling for the
-> of_property_read_string call. Previously, the function did not check
-> for failure cases of of_property_read_string, which could lead to
-> improper behavior if the required device tree properties were missing
-
-Which improper behavior did you encounter? All of the
-soc_device_attribute fields are optional, and drivers/base/soc.c
-considers that when handling the machine field (sysfs_emit() handles
-NULL pointer strings fine).
-
-> or incorrect.
-
-FTR, "model" is a required property of the root node.
-
-> Although the error addressed by this patch may not occur in the current
-> environment, I still suggest implementing these error handling routines
-> if the function is not highly time-sensitive. As the environment evolves
-> or the code gets reused in different contexts, there's a possibility that
-> these errors might occur. Addressing them now can prevent potential
-> debugging efforts in the future, which could be quite resource-intensive.
 >
-> Signed-off-by: Haoran Liu <liuhaoran14@163.com>
-
-> --- a/drivers/soc/renesas/renesas-soc.c
-> +++ b/drivers/soc/renesas/renesas-soc.c
-> @@ -487,7 +487,13 @@ static int __init renesas_soc_init(void)
->         }
+>Hi Inochi,
 >
->         np =3D of_find_node_by_path("/");
-> -       of_property_read_string(np, "model", &soc_dev_attr->machine);
-> +       ret =3D of_property_read_string(np, "model", &soc_dev_attr->machi=
-ne);
-> +       if (ret) {
-> +               dev_err(dev, "Failed to read model property: %d\n", ret);
-
-As reported by the kernel test robot:
-
-    error: use of undeclared identifier 'dev'
-
-Please do not submit completely untested patches.
-
-> +               kfree(soc_dev_attr);
-> +               return ret;
-
-As the machine field is optional, there is no need for this check,
-let alone to make this a fatal error condition.
-
-> +       }
-> +
->         of_node_put(np);
+>On Thu, Nov 30, 2023 at 04:29:22PM +0800, Inochi Amaoto wrote:
+>>>
+>>> Hi Guo Ren,
+>>>
+>>> On Thu, Nov 23, 2023 at 05:14:30AM +0800, Guo Ren wrote:
+>>>> On Wed, Nov 22, 2023 at 8:17 PM Yu Chien Peter Lin
+>>>> <peterlin@andestech.com> wrote:
+>>>>>
+>>>>> Document the ISA string for T-Head performance monitor extension
+>>>>> which provides counter overflow interrupt mechanism.
+>>>>>
+>>>>> Signed-off-by: Yu Chien Peter Lin <peterlin@andestech.com>
+>>>>> ---
+>>>>> Changes v2 -> v3:
+>>>>>   - New patch
+>>>>> Changes v3 -> v4:
+>>>>>   - No change
+>>>>> ---
+>>>>>  Documentation/devicetree/bindings/riscv/extensions.yaml | 6 ++++++
+>>>>>  1 file changed, 6 insertions(+)
+>>>>>
+>>>>> diff --git a/Documentation/devicetree/bindings/riscv/extensions.yaml b/Documentation/devicetree/bindings/riscv/extensions.yaml
+>>>>> index c91ab0e46648..694efaea8fce 100644
+>>>>> --- a/Documentation/devicetree/bindings/riscv/extensions.yaml
+>>>>> +++ b/Documentation/devicetree/bindings/riscv/extensions.yaml
+>>>>> @@ -258,5 +258,11 @@ properties:
+>>>>>              in commit 2e5236 ("Ztso is now ratified.") of the
+>>>>>              riscv-isa-manual.
+>>>>>
+>>>>> +        - const: xtheadpmu
+>>>>> +          description:
+>>>>> +            The T-Head performance monitor extension for counter overflow. For more
+>>>>> +            details, see the chapter 12 in the Xuantie C906 user manual.
+>>>>> +            https://github.com/T-head-Semi/openc906/tree/main/doc
+>>>>> +
+>>>>>  additionalProperties: true
+>>>>>  ...
+>>>>> --
+>>>>> 2.34.1
+>>>>>
+>>>> Reviewed-by: Guo Ren <guoren@kernel.org>
+>>>
+>>> Thanks for the review.
+>>> Would you share document about T-Head PMU?
+>>>
+>>
+>> Hi, Peter Lin:
+>>
+>> You can use the following two document to get all events:
+>> https://github.com/T-head-Semi/openc906/tree/main/doc
+>> https://github.com/T-head-Semi/openc910/tree/main/doc
+>>
+>> There are also some RTL code can describe these events:
+>> https://github.com/T-head-Semi/openc910/blob/e0c4ad8ec7f8c70f649d826ebd6c949086453272/C910_RTL_FACTORY/gen_rtl/pmu/rtl/ct_hpcp_top.v#L1123
+>> https://github.com/T-head-Semi/openc906/blob/af5614d72de7e5a4b8609c427d2e20af1deb21c4/C906_RTL_FACTORY/gen_rtl/pmu/rtl/aq_hpcp_top.v#L543
+>>
+>> The perf events json can also be used as document, this is already
+>> applied (with more detailed explanation):
+>> https://lore.kernel.org/all/IA1PR20MB495325FCF603BAA841E29281BBBAA@IA1PR20MB4953.namprd20.prod.outlook.com/
 >
->         soc_dev_attr->family =3D kstrdup_const(family->name, GFP_KERNEL);
+>Thanks for reaching out!
+>The updated description will be:
+>
+>- const: xtheadpmu
+>  description:
+>    The T-Head performance monitor extension for counter overflow, as ratified
+>    in commit bd9206 ("Initial commit") of Xuantie C906 user manual.
+>    https://github.com/T-head-Semi/openc906/tree/main/doc
+>
+>Is it OK with you?
+>
 
-Gr{oetje,eeting}s,
+I suggest using perf event json as event description. The jsons provide
+more detailed explanation for these events than the user manual.
 
-                        Geert
-
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+>Best regards,
+>Peter Lin
+>
+>> Best regards,
+>> Inochi
+>
 
