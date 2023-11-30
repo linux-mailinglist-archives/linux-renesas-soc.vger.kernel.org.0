@@ -1,97 +1,110 @@
-Return-Path: <linux-renesas-soc+bounces-450-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-451-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBDF67FECCA
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 30 Nov 2023 11:20:39 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A21B7FECE0
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 30 Nov 2023 11:35:18 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id EC4951C20D2E
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 30 Nov 2023 10:20:38 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id AA7A31C20E3B
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 30 Nov 2023 10:35:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 87EE33C07E;
-	Thu, 30 Nov 2023 10:20:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gnBvxW/o"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 62F6E36AFC;
+	Thu, 30 Nov 2023 10:35:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 648943C061;
-	Thu, 30 Nov 2023 10:20:27 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id C0F38C433CB;
-	Thu, 30 Nov 2023 10:20:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1701339626;
-	bh=jlMAthDr8tpF9CYaRufXkToH4ZNXgCZlcijzkEV466Q=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=gnBvxW/okGUirICH5ZtbW2bwoWyRE49JUOVl0wOGhYcUBSGEKW//NtPpboTShE09m
-	 ipBgdTp2eQPkG7AdssuXfcxSQ5bjmwdoRJ1fsSWCWbMcJE34N4kPgIBkGhRuSkIdii
-	 IOUJ02pyTETpSFe1L2N/FVhJK2tWBMBqmDNNLYY2w2VtOC9hhKk0LmaztNAJfy8BjJ
-	 UyAgo56LSTTcTDMHuCzjlvFAqmuBwp1Wj9J0MO78vtJMAY9Lxv0x66rzE4EbSGUT1E
-	 /zkRUm/+dtWuloyY2cVOr0Hq/K18QElJVikgqZPzShlixjzlH+Au8WnlXtgYamdsRI
-	 QHHv50endLmIA==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 8267DDFAA86;
-	Thu, 30 Nov 2023 10:20:26 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com [209.85.128.178])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2D91910DB;
+	Thu, 30 Nov 2023 02:35:13 -0800 (PST)
+Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-5cfc3a48ab2so8117387b3.0;
+        Thu, 30 Nov 2023 02:35:13 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701340512; x=1701945312;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=DUdP6LeO/4HAezqcq7YXUkxax+n83AqIPO6DNMdfcCg=;
+        b=fM+yICvpWyE3KUK7SHzjzjq+iYJ2Zp5DyGJfuK695CTd4m9c6bOYdDuPMbCkQqY9TV
+         7UFO5Zw8WWvcr5i714gs+7tCynDPqG6syXvOvDXaMCsRYVQyQGtyOueBsYFfcUruLUfj
+         4Bpd1m9Q6goyYq4wP0NbMs6pyRSiubN2AH9iZyWKjU3zYt8GEdcOQdddvI8siXBVl5ON
+         RIt7EK4s3II7oB52RwMs8d/DXRLa1HM7pF35yaWJv/yVInGnDL3Exn68dNCSGkcjVuhp
+         xNbvdAKt+V1EJ9Q6csU88N/TkGYk3cMLxowGleZrMBRUUotog7LU1mOyPiKFKgrBnUoD
+         vPKg==
+X-Gm-Message-State: AOJu0YzBLiW3JEcvjgtW5YMQe3oqD7q3uPBNz4zKC17UrHJRiRdsENj3
+	QmTmRaYPCN8HrxhLkvwHt3B+x09N0TgaGQ==
+X-Google-Smtp-Source: AGHT+IF0pJeBKISCmyDcQ1B1b0A34RUrl6WFHjFX1LvlcVoN7JOfqf+QfLNSvA6QMNG7B5JdHHZrFQ==
+X-Received: by 2002:a81:5344:0:b0:5ca:e4a6:bb47 with SMTP id h65-20020a815344000000b005cae4a6bb47mr21993982ywb.35.1701340512210;
+        Thu, 30 Nov 2023 02:35:12 -0800 (PST)
+Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com. [209.85.128.173])
+        by smtp.gmail.com with ESMTPSA id v127-20020a818585000000b00583b144fe51sm275622ywf.118.2023.11.30.02.35.11
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 30 Nov 2023 02:35:11 -0800 (PST)
+Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-5cfc3a48ab2so8117187b3.0;
+        Thu, 30 Nov 2023 02:35:11 -0800 (PST)
+X-Received: by 2002:a0d:cc4f:0:b0:5c9:ff96:d78b with SMTP id
+ o76-20020a0dcc4f000000b005c9ff96d78bmr21925523ywd.37.1701340511007; Thu, 30
+ Nov 2023 02:35:11 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH v2 0/6] net: ravb: Fixes for the ravb driver
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <170133962652.30027.7032016375127706992.git-patchwork-notify@kernel.org>
-Date: Thu, 30 Nov 2023 10:20:26 +0000
-References: <20231128080439.852467-1-claudiu.beznea.uj@bp.renesas.com>
-In-Reply-To: <20231128080439.852467-1-claudiu.beznea.uj@bp.renesas.com>
-To: claudiu beznea <claudiu.beznea@tuxon.dev>
-Cc: s.shtylyov@omp.ru, davem@davemloft.net, edumazet@google.com,
- kuba@kernel.org, pabeni@redhat.com, richardcochran@gmail.com,
- p.zabel@pengutronix.de, yoshihiro.shimoda.uh@renesas.com,
- renesas@sang-engineering.com, robh@kernel.org, biju.das.jz@bp.renesas.com,
- prabhakar.mahadev-lad.rj@bp.renesas.com, mitsuhiro.kimura.kc@renesas.com,
- masaru.nagai.vx@renesas.com, netdev@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20231129161459.1002323-1-andriy.shevchenko@linux.intel.com> <20231129161459.1002323-7-andriy.shevchenko@linux.intel.com>
+In-Reply-To: <20231129161459.1002323-7-andriy.shevchenko@linux.intel.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Thu, 30 Nov 2023 11:34:59 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdUCEVrg1Dsu9u-cECyXJP4PKXkXibU0QK1G=+juwG9rxQ@mail.gmail.com>
+Message-ID: <CAMuHMdUCEVrg1Dsu9u-cECyXJP4PKXkXibU0QK1G=+juwG9rxQ@mail.gmail.com>
+Subject: Re: [PATCH v4 06/23] pinctrl: core: Make pins const unsigned int
+ pointer in struct group_desc
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Linus Walleij <linus.walleij@linaro.org>, 
+	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>, 
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>, =?UTF-8?Q?Jonathan_Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
+	=?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>, 
+	Biju Das <biju.das.jz@bp.renesas.com>, 
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>, 
+	Jianlong Huang <jianlong.huang@starfivetech.com>, linux-arm-kernel@lists.infradead.org, 
+	linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-mediatek@lists.infradead.org, openbmc@lists.ozlabs.org, 
+	linux-mips@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org, Ray Jui <rjui@broadcom.com>, 
+	Scott Branden <sbranden@broadcom.com>, 
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Dong Aisheng <aisheng.dong@nxp.com>, 
+	Fabio Estevam <festevam@gmail.com>, Shawn Guo <shawnguo@kernel.org>, Jacky Bai <ping.bai@nxp.com>, 
+	Pengutronix Kernel Team <kernel@pengutronix.de>, Sascha Hauer <s.hauer@pengutronix.de>, 
+	NXP Linux Team <linux-imx@nxp.com>, Sean Wang <sean.wang@kernel.org>, 
+	Paul Cercueil <paul@crapouillou.net>, Lakshmi Sowjanya D <lakshmi.sowjanya.d@intel.com>, 
+	Bjorn Andersson <andersson@kernel.org>, Andy Gross <agross@kernel.org>, 
+	Konrad Dybcio <konrad.dybcio@linaro.org>, Emil Renner Berthing <kernel@esmil.dk>, 
+	Hal Feng <hal.feng@starfivetech.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hello:
+On Wed, Nov 29, 2023 at 5:15=E2=80=AFPM Andy Shevchenko
+<andriy.shevchenko@linux.intel.com> wrote:
+> It's unclear why it's not a const unsigned int pointer from day 1.
+> Make the pins member const unsigned int pointer in struct group_desc.
+> Update necessary APIs.
+>
+> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 
-This series was applied to netdev/net.git (main)
-by Paolo Abeni <pabeni@redhat.com>:
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-On Tue, 28 Nov 2023 10:04:33 +0200 you wrote:
-> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-> 
-> Hi,
-> 
-> This series adds some fixes for ravb driver. Patches in this series
-> were initilly part of series at [1].
-> 
-> [...]
+Gr{oetje,eeting}s,
 
-Here is the summary with links:
-  - [v2,1/6] net: ravb: Check return value of reset_control_deassert()
-    https://git.kernel.org/netdev/net/c/d8eb6ea4b302
-  - [v2,2/6] net: ravb: Use pm_runtime_resume_and_get()
-    https://git.kernel.org/netdev/net/c/88b74831faae
-  - [v2,3/6] net: ravb: Make write access to CXR35 first before accessing other EMAC registers
-    https://git.kernel.org/netdev/net/c/d78c0ced60d5
-  - [v2,4/6] net: ravb: Start TX queues after HW initialization succeeded
-    https://git.kernel.org/netdev/net/c/6f32c0866020
-  - [v2,5/6] net: ravb: Stop DMA in case of failures on ravb_open()
-    https://git.kernel.org/netdev/net/c/eac16a733427
-  - [v2,6/6] net: ravb: Keep reverse order of operations in ravb_remove()
-    https://git.kernel.org/netdev/net/c/edf9bc396e05
+                        Geert
 
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
 
-
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
