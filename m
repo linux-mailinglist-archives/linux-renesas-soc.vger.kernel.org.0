@@ -1,91 +1,161 @@
-Return-Path: <linux-renesas-soc+bounces-507-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-508-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D481800B3B
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  1 Dec 2023 13:42:05 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 15902800B5B
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  1 Dec 2023 14:00:42 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9EFC01C20AA7
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  1 Dec 2023 12:42:04 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A29A12813FF
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  1 Dec 2023 13:00:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9C93A1CF87;
-	Fri,  1 Dec 2023 12:42:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 831D325558;
+	Fri,  1 Dec 2023 13:00:38 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from laurent.telenet-ops.be (laurent.telenet-ops.be [IPv6:2a02:1800:110:4::f00:19])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EA27310D7
-	for <linux-renesas-soc@vger.kernel.org>; Fri,  1 Dec 2023 04:41:55 -0800 (PST)
-Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed40:7f2e:4977:a943:cc87])
-	by laurent.telenet-ops.be with bizsmtp
-	id H0ht2B00M0rKVV8010htPG; Fri, 01 Dec 2023 13:41:53 +0100
-Received: from rox.of.borg ([192.168.97.57])
-	by ramsan.of.borg with esmtp (Exim 4.95)
-	(envelope-from <geert@linux-m68k.org>)
-	id 1r92pq-00ARdR-GS;
-	Fri, 01 Dec 2023 13:41:53 +0100
-Received: from geert by rox.of.borg with local (Exim 4.95)
-	(envelope-from <geert@linux-m68k.org>)
-	id 1r92q9-00CVOe-53;
-	Fri, 01 Dec 2023 13:41:53 +0100
-From: Geert Uytterhoeven <geert+renesas@glider.be>
-To: Linus Walleij <linus.walleij@linaro.org>
-Cc: linux-gpio@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [GIT PULL] pinctrl: renesas: Updates for v6.8
-Date: Fri,  1 Dec 2023 13:41:52 +0100
-Message-Id: <cover.1701434258.git.geert+renesas@glider.be>
-X-Mailer: git-send-email 2.34.1
+Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com [209.85.128.182])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A6DED1B3;
+	Fri,  1 Dec 2023 05:00:33 -0800 (PST)
+Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-5d05ff42db0so23810387b3.2;
+        Fri, 01 Dec 2023 05:00:33 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701435633; x=1702040433;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=TJhEMe1AeqYIN9p2y46F827GG58Kx/8vX8ipCQuZDHc=;
+        b=dpSvY4Nja4/9OmJpLLvZFJUiP5UXeSGgDvFECZIJZKmWaAGAa9RLdX+Ay/RoJwbRw0
+         YebcPmOTQH3BQnea/JkQH+uh8v5jF6JWmjXnpYsK3daWVeSLOMUqHl0UdiyQj3hIfiMS
+         m0lENYzc4zx4jnDGnCoaeR6HAoBChmEOhOWWFmQQNH+R7RekBTQ2K2VcrUDwESdDQzJ1
+         i0wgPF5h5OFce2CJxpP7ziee+D9HrEx1T4assxVEo8OMjIPRbIvdgogX1mJ23t/9sG5Q
+         6urTtFPGoLCZGAaIzqug6X68Fak+FXy7k74JQBFoqZew7hLChXs3CO2xQDUI8UZabPwY
+         Mtxw==
+X-Gm-Message-State: AOJu0YztQ/IpYbuCrQAx4otqDL5o71Nwqtbplc2c8/RlBCOGb93cxYj9
+	otAYU3bqt5+/VBJmZlB9sj/C4GfzjfB/dA==
+X-Google-Smtp-Source: AGHT+IGery/2E128FPKYeXvlqHr7uYVq74lB2MgnOMOYn5kvM5yUZVvRVxstoB8/6F94keXMtoeu+Q==
+X-Received: by 2002:a0d:c441:0:b0:5ae:c0f2:cd42 with SMTP id g62-20020a0dc441000000b005aec0f2cd42mr27359179ywd.43.1701435632608;
+        Fri, 01 Dec 2023 05:00:32 -0800 (PST)
+Received: from mail-yb1-f172.google.com (mail-yb1-f172.google.com. [209.85.219.172])
+        by smtp.gmail.com with ESMTPSA id i71-20020a0ddf4a000000b005d3758fda7dsm930329ywe.31.2023.12.01.05.00.26
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 01 Dec 2023 05:00:28 -0800 (PST)
+Received: by mail-yb1-f172.google.com with SMTP id 3f1490d57ef6-db5e692d4e0so396173276.2;
+        Fri, 01 Dec 2023 05:00:26 -0800 (PST)
+X-Received: by 2002:a25:ec0d:0:b0:db5:4677:6e1a with SMTP id
+ j13-20020a25ec0d000000b00db546776e1amr3624535ybh.47.1701435618708; Fri, 01
+ Dec 2023 05:00:18 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20231201110840.37408-1-biju.das.jz@bp.renesas.com> <20231201110840.37408-2-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20231201110840.37408-2-biju.das.jz@bp.renesas.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Fri, 1 Dec 2023 14:00:06 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdUQaUaJdj-mNBZXNGmCAvgD9ne1ULbhzeoS+WVuvJOM0w@mail.gmail.com>
+Message-ID: <CAMuHMdUQaUaJdj-mNBZXNGmCAvgD9ne1ULbhzeoS+WVuvJOM0w@mail.gmail.com>
+Subject: Re: [PATCH 1/6] rtc: da9063: Make IRQ as optional
+To: Biju Das <biju.das.jz@bp.renesas.com>
+Cc: Alessandro Zummo <a.zummo@towertech.it>, Alexandre Belloni <alexandre.belloni@bootlin.com>, 
+	Support Opensource <support.opensource@diasemi.com>, linux-rtc@vger.kernel.org, 
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>, Biju Das <biju.das.au@gmail.com>, 
+	linux-renesas-soc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-	Hi Linus,
+Hi Biju,
 
-The following changes since commit b85ea95d086471afb4ad062012a4d73cd328fa86:
+On Fri, Dec 1, 2023 at 12:08=E2=80=AFPM Biju Das <biju.das.jz@bp.renesas.co=
+m> wrote:
+> On some platforms (eg: RZ/{G2UL,Five} SMARC EVK), there is no IRQ
+> populated by default. Add irq optional support.
+>
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 
-  Linux 6.7-rc1 (2023-11-12 16:19:07 -0800)
+Thanks for your patch!
 
-are available in the Git repository at:
+> --- a/drivers/rtc/rtc-da9063.c
+> +++ b/drivers/rtc/rtc-da9063.c
+> @@ -485,25 +485,26 @@ static int da9063_rtc_probe(struct platform_device =
+*pdev)
+>                 clear_bit(RTC_FEATURE_UPDATE_INTERRUPT, rtc->rtc_dev->fea=
+tures);
+>         }
+>
+> -       irq_alarm =3D platform_get_irq_byname(pdev, "ALARM");
+> -       if (irq_alarm < 0)
+> -               return irq_alarm;
+> -
+> -       ret =3D devm_request_threaded_irq(&pdev->dev, irq_alarm, NULL,
+> -                                       da9063_alarm_event,
+> -                                       IRQF_TRIGGER_LOW | IRQF_ONESHOT,
+> -                                       "ALARM", rtc);
+> -       if (ret)
+> -               dev_err(&pdev->dev, "Failed to request ALARM IRQ %d: %d\n=
+",
+> -                       irq_alarm, ret);
+> -
+> -       ret =3D dev_pm_set_wake_irq(&pdev->dev, irq_alarm);
+> -       if (ret)
+> -               dev_warn(&pdev->dev,
+> -                        "Failed to set IRQ %d as a wake IRQ: %d\n",
+> -                        irq_alarm, ret);
+> -
+> -       device_init_wakeup(&pdev->dev, true);
+> +       irq_alarm =3D platform_get_irq_byname_optional(pdev, "ALARM");
+> +       if (irq_alarm >=3D 0) {
+> +               ret =3D devm_request_threaded_irq(&pdev->dev, irq_alarm, =
+NULL,
+> +                                               da9063_alarm_event,
+> +                                               IRQF_TRIGGER_LOW | IRQF_O=
+NESHOT,
+> +                                               "ALARM", rtc);
+> +               if (ret)
+> +                       dev_err(&pdev->dev, "Failed to request ALARM IRQ =
+%d: %d\n",
+> +                               irq_alarm, ret);
+> +
+> +               ret =3D dev_pm_set_wake_irq(&pdev->dev, irq_alarm);
+> +               if (ret)
+> +                       dev_warn(&pdev->dev,
+> +                                "Failed to set IRQ %d as a wake IRQ: %d\=
+n",
+> +                                irq_alarm, ret);
+> +
+> +               device_init_wakeup(&pdev->dev, true);
+> +       } else {
+> +               clear_bit(RTC_FEATURE_UPDATE_INTERRUPT, rtc->rtc_dev->fea=
+tures);
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git tags/renesas-pinctrl-for-v6.8-tag1
+This does not handle and propagate real errors (e.g. -EPROBE_DEFER).
 
-for you to fetch changes up to dc99d4c8ac46bf533b9519a53795c4cd6ff0fa39:
+    } else if (irq_alarm !=3D -ENXIO) {
+            return irq_alarm;
+    } else {
+            ....
+    }
 
-  dt-bindings: pinctrl: renesas: Drop unneeded quotes (2023-11-27 11:12:12 +0100)
+(I think -ENXIO is the correct error to check for,
+ platform_get_irq_byname_optional() really should start returning
+ zero for not found)
 
-----------------------------------------------------------------
-pinctrl: renesas: Updates for v6.8
-
-  - Add support for interrupt affinity to the RZ/G2L GPIO driver,
-  - Drop unneeded quotes in the RZ/A2 Pin controller DT bindings.
-
-Thanks for pulling!
-
-----------------------------------------------------------------
-Lad Prabhakar (1):
-      pinctrl: renesas: rzg2l: Enhance driver to support interrupt affinity setting
-
-Rob Herring (1):
-      dt-bindings: pinctrl: renesas: Drop unneeded quotes
-
- Documentation/devicetree/bindings/pinctrl/renesas,rza2-pinctrl.yaml | 2 +-
- drivers/pinctrl/renesas/pinctrl-rzg2l.c                             | 1 +
- 2 files changed, 2 insertions(+), 1 deletion(-)
+> +       }
+>
+>         return devm_rtc_register_device(rtc->rtc_dev);
 
 Gr{oetje,eeting}s,
 
-						Geert
+                        Geert
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-							    -- Linus Torvalds
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
