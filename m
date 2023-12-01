@@ -1,197 +1,178 @@
-Return-Path: <linux-renesas-soc+bounces-533-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-534-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34296800ED9
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  1 Dec 2023 16:54:56 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B48D800EDD
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  1 Dec 2023 16:55:22 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id D2D6F1F20F74
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  1 Dec 2023 15:54:55 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8C29D1C20959
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  1 Dec 2023 15:55:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C931A4B5C5;
-	Fri,  1 Dec 2023 15:54:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 094C44B5D8;
+	Fri,  1 Dec 2023 15:55:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gRIP9moF"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="dEWmARe/"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A48A84AF78;
-	Fri,  1 Dec 2023 15:54:52 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A09FAC433C8;
-	Fri,  1 Dec 2023 15:54:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1701446092;
-	bh=Jtu29b+nOsCTYQenPURoVfRuZhdP2TIPsH0zcju5w4w=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=gRIP9moFcb+aF3ZyUlKmTL+xHjvRS03ZH9ayXoFwHKTvTVFbd9fyfKFQLW74XN175
-	 VRVx6FsRhQN0OdK/UFwoEuz1m+8MHwNf3eMgxR8sgMZC9wJ+m1IUSfE5WGu2K1mgMg
-	 S1251vmjVEEzwYBeEW9zvAr375NMWcyfLBXMYCYLIFHfJS2C4UQsWKn0adZljRaTcm
-	 SJsppbmtig1RGghtVzw5jbx1yBhk/iuVPkSI/NdW6WNZ7yLIoRtCRA6oSClzibhYdt
-	 taa+SyvcxNsoWJdaHf0EkfbENOtj7XwvTpQrsWoRJBBxxqR2T54BMtVINrcBDbKTi5
-	 LChHPGruv8sDw==
-Date: Fri, 1 Dec 2023 15:54:47 +0000
-From: Conor Dooley <conor@kernel.org>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Biju Das <biju.das.jz@bp.renesas.com>, Lee Jones <lee@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
+Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::221])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 96ECE19E;
+	Fri,  1 Dec 2023 07:55:12 -0800 (PST)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id DA9EA240002;
+	Fri,  1 Dec 2023 15:55:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1701446111;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=d/JiElhpvxO5Zz75JHOlPlXFOjvQRYEYqqDZwksk2oQ=;
+	b=dEWmARe/EmdXKdz6Ne4R/N9IsvTHBjBaGKGqbdrErjjw2mHcr8ExhgF/czFWObnr4AyYDn
+	8St+NwIcVYBWz+9GMmdicgSF7CHNTrE1AMEsw1No50vr7SJ0av9lWNWeV66gj37Iv9fG0B
+	6OLp5Hw8PL8Lr4FZx1E5oEdPz68TriOm7ALNprPVkHidyUMTj/d1NXlQQcGzlNeAXRLbmW
+	IHZub6lp1U+FEcs8HhjZDK8eUP9FVWZRyu7xFu+Pdw6GfyyexougsuQfh6ey2wB3zYaf+n
+	AnviNV10oSnjzqZpbZtVTEmbfh19AG6ZJFkXZ/hVjEwLKlPMUHoGY7icuGokuw==
+Date: Fri, 1 Dec 2023 16:55:09 +0100
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+To: Biju Das <biju.das.jz@bp.renesas.com>
+Cc: Geert Uytterhoeven <geert@linux-m68k.org>,
+	Alessandro Zummo <a.zummo@towertech.it>,
 	Support Opensource <support.opensource@diasemi.com>,
-	devicetree@vger.kernel.org,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
+	"linux-rtc@vger.kernel.org" <linux-rtc@vger.kernel.org>,
 	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Biju Das <biju.das.au@gmail.com>, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH 4/6] dt-bindings: mfd: Convert da9062 to json-schema
-Message-ID: <20231201-rockstar-automated-cdbc70605ca7@spud>
+	"biju.das.au" <biju.das.au@gmail.com>,
+	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>
+Subject: Re: [PATCH 3/6] rtc: da9063: Use dev_err_probe()
+Message-ID: <202312011555095065168a@mail.local>
 References: <20231201110840.37408-1-biju.das.jz@bp.renesas.com>
- <20231201110840.37408-5-biju.das.jz@bp.renesas.com>
- <CAMuHMdVGuEKOeXkK8wbUzjx3UMOOcpyW2yp=i2A6V4auGbqoEQ@mail.gmail.com>
+ <20231201110840.37408-4-biju.das.jz@bp.renesas.com>
+ <CAMuHMdUoRpHnzLg+FPTpJ49RdwuUJKEVHkaSzifEH2oKoV=6zA@mail.gmail.com>
+ <TYVPR01MB112796ACC50655F7C107420B58681A@TYVPR01MB11279.jpnprd01.prod.outlook.com>
+ <202312011520103c5f28dc@mail.local>
+ <TYCPR01MB1126992FDD7B1F2DEFEFD8BE68681A@TYCPR01MB11269.jpnprd01.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="Y0XkUaylXbXKLGco"
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdVGuEKOeXkK8wbUzjx3UMOOcpyW2yp=i2A6V4auGbqoEQ@mail.gmail.com>
-
-
---Y0XkUaylXbXKLGco
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <TYCPR01MB1126992FDD7B1F2DEFEFD8BE68681A@TYCPR01MB11269.jpnprd01.prod.outlook.com>
+X-GND-Sasl: alexandre.belloni@bootlin.com
 
-On Fri, Dec 01, 2023 at 02:33:29PM +0100, Geert Uytterhoeven wrote:
-> Hi Biju,
->=20
-> On Fri, Dec 1, 2023 at 12:09=E2=80=AFPM Biju Das <biju.das.jz@bp.renesas.=
-com> wrote:
-> > Convert the da9062 PMIC device tree binding documentation to json-schem=
-a.
-> >
-> > Update the example to match reality.
-> >
-> > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
->=20
-> Thanks for your patch!
->=20
-> > --- a/Documentation/devicetree/bindings/mfd/da9062.txt
-> > +++ /dev/null
->=20
-> This file is still referred to from other files:
->=20
->     $ git grep Documentation/devicetree/bindings/mfd/da9062.txt
->     Documentation/devicetree/bindings/input/da9062-onkey.txt:DA9062
-> and DA9061 chips see Documentation/devicetree/bindings/mfd/da9062.txt
->     Documentation/devicetree/bindings/thermal/da9062-thermal.txt:DA9062
-> and DA9061 chips see Documentation/devicetree/bindings/mfd/da9062.txt
->=20
-> > -- onkey : See ../input/da9062-onkey.txt
->=20
-> Documentation/devicetree/bindings/input/da9062-onkey.txt still exists,
-> and covers more variants than your new dlg,da9062.yaml.
->=20
-> > -
-> > -- watchdog: See ../watchdog/da9062-wdt.txt
->=20
-> This was replaced by
-> Documentation/devicetree/bindings/watchdog/dlg,da9062-watchdog.yaml
-> a while ago, and covers more variants than your new dlg,da9062.yaml.
->=20
-> > -
-> > -- thermal : See ../thermal/da9062-thermal.txt
->=20
-> Documentation/devicetree/bindings/thermal/da9062-thermal.txt still exists,
-> and covers more variants than your new dlg,da9062.yaml.
->=20
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/mfd/dlg,da9062.yaml
-> > @@ -0,0 +1,220 @@
-> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > +%YAML 1.2
-> > +---
-> > +$id: http://devicetree.org/schemas/mfd/dlg,da9062.yaml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > +
-> > +title: Dialog DA9062 Power Management Integrated Circuit (PMIC)
-> > +
-> > +maintainers:
-> > +  - Biju Das <biju.das.jz@bp.renesas.com>
-> > +
-> > +description: |
-> > +  Product information for the DA9062 and DA9061 devices can be found h=
-ere:
-> > +  - https://www.dialog-semiconductor.com/products/da9062
-> > +  - https://www.dialog-semiconductor.com/products/da9061
-> > +
-> > +  The DA9062 PMIC consists of:
-> > +
+On 01/12/2023 15:43:27+0000, Biju Das wrote:
+> Hi Alexandre Belloni,
+> 
+> Thanks for the feedback.
+> 
+> > -----Original Message-----
+> > Subject: Re: [PATCH 3/6] rtc: da9063: Use dev_err_probe()
+> > 
+> > On 01/12/2023 13:30:05+0000, Biju Das wrote:
+> > > Hi Geert,
+> > >
+> > > Thanks for the feedback.
+> > >
+> > > > -----Original Message-----
+> > > > From: Geert Uytterhoeven <geert@linux-m68k.org>
+> > > > Subject: Re: [PATCH 3/6] rtc: da9063: Use dev_err_probe()
+> > > >
+> > > > Hi Biju,
+> > > >
+> > > > On Fri, Dec 1, 2023 at 12:08 PM Biju Das
+> > > > <biju.das.jz@bp.renesas.com>
+> > > > wrote:
+> > > > > Replace dev_err()->dev_err_probe() to simpilfy probe().
+> > > > >
+> > > > > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> > > >
+> > > > Thanks for your patch!
+> > > >
+> > > > > --- a/drivers/rtc/rtc-da9063.c
+> > > > > +++ b/drivers/rtc/rtc-da9063.c
+> > > > > @@ -488,8 +480,9 @@ static int da9063_rtc_probe(struct
+> > > > > platform_device
+> > > > *pdev)
+> > > > >                                                 IRQF_TRIGGER_LOW |
+> > > > IRQF_ONESHOT,
+> > > > >                                                 "ALARM", rtc);
+> > > > >                 if (ret)
+> > > > > -                       dev_err(&pdev->dev, "Failed to request ALARM
+> > > > IRQ %d: %d\n",
+> > > > > -                               irq_alarm, ret);
+> > > > > +                       return dev_err_probe(&pdev->dev, ret,
+> > > > > +                                            "Failed to request
+> > > > > + ALARM
+> > > > IRQ %d\n",
+> > > > > +                                            irq_alarm);
+> > > >
+> > > > This changes behavior: before, this was not considered fatal.
+> > >
+> > > Agreed. Maybe a separate patch?
+> > >
+> > > if there is no irqhandler on platform with IRQ populated nothing will
+> > > work, RTC won't work as "rtc_update_irq " updated in irq handler.
+> > > I think it is a fatal condition.
+> > 
+> > This is not true, an RTC can wake up a system without an IRQ.
+> 
+> Agreed, I will restore the behaviour for this case.
+> It may not be fatal. But basic "hwclock -r" from userspace won't
+> work as " RTC_FEATURE_UPDATE_INTERRUPT" set and there is no irqhandler.
+> 
 
-> > +  Device                   Supply Names    Description
-> > +  ------                   ------------    -----------
-> > +  da9062-regulator        :               : LDOs & BUCKs
-> > +  da9062-rtc              :               : Real-Time Clock
-> > +  da9062-onkey            :               : On Key
-> > +  da9062-watchdog         :               : Watchdog Timer
-> > +  da9062-thermal          :               : Thermal
-> > +  da9062-gpio             :               : GPIOs
-> > +
-> > +  The DA9061 PMIC consists of:
-> > +
-> > +  Device                   Supply Names    Description
-> > +  ------                   ------------    -----------
-> > +  da9062-regulator        :               : LDOs & BUCKs
-> > +  da9062-onkey            :               : On Key
-> > +  da9062-watchdog         :               : Watchdog Timer
-> > +  da9062-thermal          :               : Thermal
->=20
-> da9061 (x4)
+RTC_FEATURE_ALARM is what you should clear and you have to fallback to
+the irq is not present case.
 
-Is retaining this even needed with a yaml binding that correctly
-constrains the children?
+> Cheers,
+> Biju
+> 
+> 
+> 
+> Cheers,
+> Biju
+> 
+> > 
+> > >
+> > > Cheers,
+> > > Biju
+> > >
+> > > >
+> > > > >
+> > > > >                 ret = dev_pm_set_wake_irq(&pdev->dev, irq_alarm);
+> > > > >                 if (ret)
+> > > >
+> > > > The rest LGTM, so with the above fixed/clarified:
+> > > > Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> > > >
+> > > > Gr{oetje,eeting}s,
+> > > >
+> > > >                         Geert
+> > > >
+> > > > --
+> > > > Geert Uytterhoeven -- There's lots of Linux beyond ia32 --
+> > > > geert@linux- m68k.org
+> > > >
+> > > > In personal conversations with technical people, I call myself a
+> > hacker.
+> > > > But when I'm talking to journalists I just say "programmer" or
+> > > > something like that.
+> > > >                                 -- Linus Torvalds
+> > 
+> > --
+> > Alexandre Belloni, co-owner and COO, Bootlin Embedded Linux and Kernel
+> > engineering
+> > https://jpn01.safelinks.protection.outlook.com/?url=https%3A%2F%2Fbootlin.
+> > com%2F&data=05%7C01%7Cbiju.das.jz%40bp.renesas.com%7Cb699f48656d34a923a640
+> > 8dbf28104af%7C53d82571da1947e49cb4625a166a4a2a%7C0%7C0%7C63837040817604431
+> > 5%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1h
+> > aWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&sdata=E9tDi08sBRoh4tBccQB%2B8az%2BqQ4%2
+> > FtQOpFjdPgU8zQXc%3D&reserved=0
 
->=20
-> > +
-> > +properties:
->=20
-> > +  watchdog:
->=20
-> Please sort subnodes alphabetically.
->=20
-> > +    type: object
-> > +    $ref: /schemas/watchdog/watchdog.yaml#
-> > +    unevaluatedProperties: false
-> > +    properties:
-> > +      compatible:
-> > +        const: dlg,da9062-watchdog
->=20
-> What about dlg,da9061-watchdog? Probably this should refer to
-> Documentation/devicetree/bindings/watchdog/dlg,da9062-watchdog.yaml
-> instead?
->=20
-> This applies to the other subnodes, too.
->=20
-
-> Perhaps this binding should be merged with dlg,da9063.yaml?
-> Or should it be split in dlg,da9061.yaml and dlg,da9062.yaml?
-
-The former sounds like a noble goal to me.
-
---Y0XkUaylXbXKLGco
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZWoBxwAKCRB4tDGHoIJi
-0g4nAP9DzL9WvU1oaXmeRo+xqDm9uDpnlqhUFG1+NFE5x4id1AD9Ht4G/Syqdm4v
-WW9USV2B/b1H+nJKgwdStTjmPYfhYAE=
-=XWny
------END PGP SIGNATURE-----
-
---Y0XkUaylXbXKLGco--
+-- 
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
