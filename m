@@ -1,114 +1,138 @@
-Return-Path: <linux-renesas-soc+bounces-526-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-527-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 288A5800D0C
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  1 Dec 2023 15:20:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 994BD800DB2
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  1 Dec 2023 15:50:59 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id BF2DEB20DF4
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  1 Dec 2023 14:20:14 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 2370EB20E4F
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  1 Dec 2023 14:50:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B0E603D97C;
-	Fri,  1 Dec 2023 14:20:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="A6nhsSFw"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 87BCB38DD6;
+	Fri,  1 Dec 2023 14:50:53 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1058B10F0;
-	Fri,  1 Dec 2023 06:20:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701440406; x=1732976406;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=Nohkkl4s3y6AfXGiwW4EpCBCQ1susQG/vrKsFqWPPH0=;
-  b=A6nhsSFw2Bf1DFBjOLrSoQpNWJ/OF/obXLS1m0/OCYO79eN1JOgq5NJh
-   Oz28TTCyRNI1s022XebiU4rwi+P6utYie4BYWYRMeytnKwipoNm7X2jK6
-   vcap8mFQ5MYCdajXhtvePEluqzMNy34tP+SRJpsxXcgA4VO77kh82wjGF
-   2z9VuOUIi3MidA6JrU9Q0KBec0gcuZtdLrvgptjaJ6rWkAefquhhZYcrk
-   IeigcgEB9wXDcdKtuXTXY7b4ZiwY4AMyFKfDZxH+UHxYMqhdTpzUP72cz
-   D0q2kO/pVsVQwjSjC73bjOUa3p/wWdlrAMwMg/NMKOK/DhiAjwmEy1CVD
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10911"; a="378535808"
-X-IronPort-AV: E=Sophos;i="6.04,241,1695711600"; 
-   d="scan'208";a="378535808"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Dec 2023 06:20:05 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10911"; a="1101323341"
-X-IronPort-AV: E=Sophos;i="6.04,241,1695711600"; 
-   d="scan'208";a="1101323341"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by fmsmga005.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Dec 2023 06:19:57 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.97)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1r94Mz-000000010dH-0tMb;
-	Fri, 01 Dec 2023 16:19:53 +0200
-Date: Fri, 1 Dec 2023 16:19:52 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Linus Walleij <linus.walleij@linaro.org>
-Cc: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	Jonathan =?iso-8859-1?Q?Neusch=E4fer?= <j.neuschaefer@gmx.net>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
-	Jianlong Huang <jianlong.huang@starfivetech.com>,
-	linux-arm-kernel@lists.infradead.org, linux-gpio@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-mediatek@lists.infradead.org,
-	openbmc@lists.ozlabs.org, linux-mips@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Dong Aisheng <aisheng.dong@nxp.com>,
-	Fabio Estevam <festevam@gmail.com>, Shawn Guo <shawnguo@kernel.org>,
-	Jacky Bai <ping.bai@nxp.com>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	NXP Linux Team <linux-imx@nxp.com>,
-	Sean Wang <sean.wang@kernel.org>,
-	Paul Cercueil <paul@crapouillou.net>,
-	Lakshmi Sowjanya D <lakshmi.sowjanya.d@intel.com>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Andy Gross <agross@kernel.org>,
-	Konrad Dybcio <konrad.dybcio@linaro.org>,
-	Emil Renner Berthing <kernel@esmil.dk>,
-	Hal Feng <hal.feng@starfivetech.com>
-Subject: Re: [PATCH v4 00/23] pinctrl: Convert struct group_desc to use
- struct pingroup
-Message-ID: <ZWnriFqDsEEE1vlJ@smile.fi.intel.com>
-References: <20231129161459.1002323-1-andriy.shevchenko@linux.intel.com>
- <CACRpkdZAriTP3iOgmwvoAH-3-aO_ugoEkBHE7mHH5YLxhMXSXg@mail.gmail.com>
+Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com [209.85.128.175])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 55F5DD6C;
+	Fri,  1 Dec 2023 06:50:49 -0800 (PST)
+Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-5d3687a6574so19772247b3.2;
+        Fri, 01 Dec 2023 06:50:49 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701442248; x=1702047048;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=3M7EoJ54GWiJhbBfXyqo1Y8wwLQezejAIFdBP9qR8vI=;
+        b=Dv6zb5+ZOvJuy7uO/M4aTRMKxYMJ7bEk2iGGHaw8V1fuRgcSMighFNYo8XaaJSCnRm
+         fvShrPCE/hsKQdkDoeWtdcoTINCTwMZzR7k4w/LJPp+iNM9mQzUnHcwqUSSNoZ7nb8em
+         mkZ/fEmstZW5ZP0iCmdQ4NWKE46gxIDDYwpkNB0S4a8iqzoRlU0idGmpvX4cwdua6vWJ
+         Vw29W81WY/WZyt+mS8VtYeKn95AlVN4BJqKmWWGb+65EK7H2NsiLfYioHpwZ8v8oRRIP
+         tLuTeKo75izkkaOzE0cbTRFhKhYu3LVstzvn584OtqFZhUTNpRsflsOZC3raXeK6VePB
+         pl3Q==
+X-Gm-Message-State: AOJu0Yw3JpNSnWLrxibpXIZuL+zwB2/L3HQSGL2oq+DlFWGMZPFJpjry
+	Z9XJPiukWQMsKioju0YwbJWNb5p9cWtSgQ==
+X-Google-Smtp-Source: AGHT+IEfubUZG5DYXHsR1LmwirWjxbZBTvIncwwq62+VlAMZQhzhBMjlim261rS6bXBXv6uO2waEyg==
+X-Received: by 2002:a81:bb48:0:b0:5ae:c0e2:da1b with SMTP id a8-20020a81bb48000000b005aec0e2da1bmr27146371ywl.45.1701442248289;
+        Fri, 01 Dec 2023 06:50:48 -0800 (PST)
+Received: from mail-yb1-f172.google.com (mail-yb1-f172.google.com. [209.85.219.172])
+        by smtp.gmail.com with ESMTPSA id l68-20020a815747000000b005d36f6c7836sm986942ywb.104.2023.12.01.06.50.47
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 01 Dec 2023 06:50:47 -0800 (PST)
+Received: by mail-yb1-f172.google.com with SMTP id 3f1490d57ef6-d9caf5cc948so578765276.0;
+        Fri, 01 Dec 2023 06:50:47 -0800 (PST)
+X-Received: by 2002:a25:4086:0:b0:db5:46ef:b3ca with SMTP id
+ n128-20020a254086000000b00db546efb3camr4102295yba.47.1701442247565; Fri, 01
+ Dec 2023 06:50:47 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CACRpkdZAriTP3iOgmwvoAH-3-aO_ugoEkBHE7mHH5YLxhMXSXg@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20231006121823.229193-1-biju.das.jz@bp.renesas.com>
+ <CAMuHMdWHkhonVmbjVCfc-s1iiUSOBNg9djWxaURNLHoAEaS3+w@mail.gmail.com> <TYCPR01MB112691C60EC823F8B55C6AEBB86D3A@TYCPR01MB11269.jpnprd01.prod.outlook.com>
+In-Reply-To: <TYCPR01MB112691C60EC823F8B55C6AEBB86D3A@TYCPR01MB11269.jpnprd01.prod.outlook.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Fri, 1 Dec 2023 15:50:35 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdXBWbhL-wNEkcX63P68WSAK1V8ef0MQPj_NCnAQZPtCNg@mail.gmail.com>
+Message-ID: <CAMuHMdXBWbhL-wNEkcX63P68WSAK1V8ef0MQPj_NCnAQZPtCNg@mail.gmail.com>
+Subject: Re: [PATCH] pinctrl: renesas: rzg2l: Configure interrupt input mode
+To: Biju Das <biju.das.jz@bp.renesas.com>
+Cc: Linus Walleij <linus.walleij@linaro.org>, 
+	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>, 
+	"linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>, 
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>, Biju Das <biju.das.au@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Dec 01, 2023 at 03:05:30PM +0100, Linus Walleij wrote:
-> On Wed, Nov 29, 2023 at 5:15 PM Andy Shevchenko
-> <andriy.shevchenko@linux.intel.com> wrote:
+Hi Biju,
 
-...
+On Thu, Oct 12, 2023 at 6:24=E2=80=AFPM Biju Das <biju.das.jz@bp.renesas.co=
+m> wrote:
+> > Subject: Re: [PATCH] pinctrl: renesas: rzg2l: Configure interrupt input
+> > mode
+> > On Fri, Oct 6, 2023 at 2:18=E2=80=AFPM Biju Das <biju.das.jz@bp.renesas=
+.com> wrote:
+> > > Configure GPIO interrupt as input mode. Also if the bootloader sets
+> > > gpio interrupt pin as function, override it as gpio.
+> > >
+> > > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> >
+> > Thanks for your patch!
+> >
+> > > --- a/drivers/pinctrl/renesas/pinctrl-rzg2l.c
+> > > +++ b/drivers/pinctrl/renesas/pinctrl-rzg2l.c
+> > > @@ -1580,6 +1580,26 @@ static const struct irq_chip rzg2l_gpio_irqchi=
+p =3D
+> > {
+> > >         GPIOCHIP_IRQ_RESOURCE_HELPERS,  };
+> > >
+> > > +static int rzg2l_gpio_interrupt_input_mode(struct gpio_chip *chip,
+> > > +unsigned int offset) {
+> > > +       struct rzg2l_pinctrl *pctrl =3D gpiochip_get_data(chip);
+> > > +       const struct pinctrl_pin_desc *pin_desc =3D &pctrl-
+> > >desc.pins[offset];
+> > > +       u32 *pin_data =3D pin_desc->drv_data;
 
-> I applied the series to devel so we get some rotation in linux-next,
-> augmenting the relevant commit messages as discussed!
+Note to self: Prabhakar's patch[1] changes this to an array of u64s.
 
-Thank you very much and have a good weekend!
+> > > +       u32 off =3D RZG2L_PIN_CFG_TO_PORT_OFFSET(*pin_data);
+> > > +       u8 bit =3D RZG2L_PIN_ID_TO_PIN(offset);
+> > > +       u8 reg8;
+> > > +       int ret;
+> > > +
+> > > +       reg8 =3D readb(pctrl->base + PMC(off));
+> > > +       if (reg8 & BIT(bit)) {
+> > > +               ret =3D rzg2l_gpio_request(chip, offset);
+> >
+> > Who is taking care of calling pinctrl_gpio_free() when the interrupt ha=
+s
+> > been freed?
+>
+> At the moment no, maybe we can use of rzg2l_gpio_irq_domain_free() to cal=
+l pinctrl_gpio_free(),
+> Similar to freeing bitmap region??
 
--- 
-With Best Regards,
-Andy Shevchenko
+Sounds good to me.
+Thanks!
 
+[1] "[PATCH v3 1/3] pinctrl: renesas: rzg2l: Include pinmap in
+    RZG2L_GPIO_PORT_PACK() macro"
+    https://lore.kernel.org/linux-renesas-soc/20231201131551.201503-2-prabh=
+akar.mahadev-lad.rj@bp.renesas.com
 
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
