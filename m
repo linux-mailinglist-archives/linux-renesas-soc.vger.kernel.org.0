@@ -1,152 +1,156 @@
-Return-Path: <linux-renesas-soc+bounces-492-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-493-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CFD98006B0
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  1 Dec 2023 10:19:28 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id B8E778007C9
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  1 Dec 2023 10:57:56 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id DF817B20FC1
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  1 Dec 2023 09:19:25 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 745272817D3
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  1 Dec 2023 09:57:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 61D571CF8A;
-	Fri,  1 Dec 2023 09:19:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="pxiTBCZ3"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B62FF1EA73;
+	Fri,  1 Dec 2023 09:57:53 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com [IPv6:2a00:1450:4864:20::62e])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E4221171C
-	for <linux-renesas-soc@vger.kernel.org>; Fri,  1 Dec 2023 01:19:16 -0800 (PST)
-Received: by mail-ej1-x62e.google.com with SMTP id a640c23a62f3a-a00b01955acso277916366b.1
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 01 Dec 2023 01:19:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1701422355; x=1702027155; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=/pUisg/HAFsznbcf9vBzbMFf7OuIqovsaYXwlmUzHgk=;
-        b=pxiTBCZ3qeHgn8GPTC4fdKjCE5DWlljDY5JFvJwHUnPsFITwsFpUmj7MGdjbSL5CGx
-         i5UQbOjhH0nY9nqOKWI8KRGhBfAW8eCiXwcUiaAjA8Dz9Xf18W7BFH5mc4V31m7YezI/
-         +dlK1kI3ktVywC5A3OrwZLyG1nG7fMV5j3VdfnNZgk00MrBwpD7/OEPhJrBOAJKuNYRh
-         EhYq00tTfGF1svezB5dS3YvPEadvCvYB4lsyx9Nh329LcWgbfC1vEOBDgqvmHIZE1UVg
-         R8IiJqWgGRhn+rI6oExLwYrRIgOP9TpJFXr/n5Bx2zdjKcqSAlKSt5OqVHkxHY7UU0Ib
-         FFpw==
+Received: from mail-yb1-f175.google.com (mail-yb1-f175.google.com [209.85.219.175])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E30D82134;
+	Fri,  1 Dec 2023 01:57:43 -0800 (PST)
+Received: by mail-yb1-f175.google.com with SMTP id 3f1490d57ef6-db510605572so322835276.0;
+        Fri, 01 Dec 2023 01:57:43 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701422355; x=1702027155;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=/pUisg/HAFsznbcf9vBzbMFf7OuIqovsaYXwlmUzHgk=;
-        b=gjhZX7ckJY9UQVs9TnKVVUIQYUotDCXB5Lm8YsfafuAuJE92JV54dvf7wjX5vwrfvN
-         cgXGoraKBhA2K0EP29YfcuJ06a2slA8qQQ3paX5LJoAB8OYz6O3w9BLYolpow/3VkO3N
-         znwJKv/c34AkrU6FCPrfWh6W+HUxyK8BavGXJZiabDo3NwUv/QpBZEaB/KmVGhACfe6M
-         skVyiaBXB7LeakfWpn7j+vYGvpk8ntCOGdPYLT2ttgP0w8N3wUmmYXZqTmbjzpZsnBJr
-         Y3oq9lpBzQMszTGbw368bmzFjl7jZjQKNWDb8YEhSSaHwBye+sWzLenEr8yut4Ykwn35
-         yf9Q==
-X-Gm-Message-State: AOJu0Yx2s3HQS9kiN+zF+QQU3gyrveg1m5IxSt4zUrlivzDKOE4lLFON
-	5Jibq3bHr9gg7QqigyOj5bgTyg==
-X-Google-Smtp-Source: AGHT+IFUnI7y9x836aG8/Dob2ZnzAntAXzYfxZ08TjINaMW87sr/od+26mi1Ay6w2XLHTzWru2UZ3w==
-X-Received: by 2002:a17:906:44:b0:a19:a19b:789e with SMTP id 4-20020a170906004400b00a19a19b789emr508487ejg.97.1701422355260;
-        Fri, 01 Dec 2023 01:19:15 -0800 (PST)
-Received: from [192.168.1.20] ([178.197.223.109])
-        by smtp.gmail.com with ESMTPSA id ub12-20020a170907c80c00b009d268e3b801sm492032ejc.37.2023.12.01.01.19.13
+        d=1e100.net; s=20230601; t=1701424662; x=1702029462;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=hDOIqFg4pESUQz8ST7BsU3RSPktSqE3GKIxBJ7SXCTM=;
+        b=RYdqDyRpsXDhlymiuPrIzXx3bwpBvTm4FoFWZUk/GPTHCjt/py4Yb19kx7jgdnU/Vn
+         oxcynVqMOAtZsLcwbIk6Y4hMivHWXYdcRxXBrpVQUrIl/ihhU/QbKxz5g8AIgtwVpFRY
+         TeLHn6Pjskl7OAv/GG4MpsJIIYkZdlfpb64svQexFq9grxVRGdGGg7ZboYWKxaC9idHz
+         l8VxorEoh8TY0wlnsPeSpd3FlFoDsQkqLcAP7Us0XohHAMwphMUcAX+eEGawKlLpuUH5
+         VF3N6kcDSSwERBtH+soSmsc/CkG3SfYYvr1i9/YNENfiXa5VsJ97PVek8dn/vVZdnmtC
+         oSNw==
+X-Gm-Message-State: AOJu0YwqWSK39qCIfcKKomHd0vYMXfFfylkEm5t5sSXtwPf359q2GFx0
+	ht7m+DMs1V6AKIJpWXArx3g/DDYKkQQmag==
+X-Google-Smtp-Source: AGHT+IHY5Vfq0h4QhouT3wnV7oV0XZfnBeef88ASo/MtLd1cFnHGr45GkLyjel5mZJo6H7agECKSnw==
+X-Received: by 2002:a05:6902:e81:b0:da0:cea9:2b3b with SMTP id dg1-20020a0569020e8100b00da0cea92b3bmr27301329ybb.62.1701424662324;
+        Fri, 01 Dec 2023 01:57:42 -0800 (PST)
+Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com. [209.85.128.175])
+        by smtp.gmail.com with ESMTPSA id e134-20020a25e78c000000b00d9a36ded1besm283114ybh.6.2023.12.01.01.57.40
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 01 Dec 2023 01:19:14 -0800 (PST)
-Message-ID: <9792147e-da08-4215-94fb-dadbddc23384@linaro.org>
-Date: Fri, 1 Dec 2023 10:19:12 +0100
+        Fri, 01 Dec 2023 01:57:41 -0800 (PST)
+Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-5d33574f64eso18843277b3.3;
+        Fri, 01 Dec 2023 01:57:40 -0800 (PST)
+X-Received: by 2002:a0d:c607:0:b0:5c8:708f:1ea with SMTP id
+ i7-20020a0dc607000000b005c8708f01eamr26098779ywd.32.1701424660131; Fri, 01
+ Dec 2023 01:57:40 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] dt-bindings: renesas: Document preferred compatible
- naming
-Content-Language: en-US
-To: =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org
-References: <20231125232821.234631-1-niklas.soderlund+renesas@ragnatech.se>
- <deacc7ea-6fad-47d6-978b-3f639aa5da35@linaro.org>
- <ZWiLTYU_Hj0bl1gn@oden.dyn.berto.se>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <ZWiLTYU_Hj0bl1gn@oden.dyn.berto.se>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20231130212647.108746-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20231130212647.108746-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Fri, 1 Dec 2023 10:57:29 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdXf=xDeM7qz=n-YNPpkZD25R04RQZMG0C+BP5O6VvMDiA@mail.gmail.com>
+Message-ID: <CAMuHMdXf=xDeM7qz=n-YNPpkZD25R04RQZMG0C+BP5O6VvMDiA@mail.gmail.com>
+Subject: Re: [PATCH v3] riscv: errata: andes: Probe for IOCP only once in boot stage
+To: Prabhakar <prabhakar.csengg@gmail.com>
+Cc: Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
+	Albert Ou <aou@eecs.berkeley.edu>, Conor Dooley <conor.dooley@microchip.com>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, Yu Chien Peter Lin <peterlin@andestech.com>, 
+	Samuel Holland <samuel.holland@sifive.com>, linux-riscv@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	Biju Das <biju.das.jz@bp.renesas.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 30/11/2023 14:17, Niklas Söderlund wrote:
->>
->>> +      - enum:
->>> +          - renesas,cpg-div6-clock
->>> +          - renesas,cpg-mstp-clocks
->>> +          - renesas,intc-irqpin
->>> +          - renesas,smp-sram
->>
->> smp-sram can have new compatibles? I am sorry, but this needs explanation...
-> 
-> The intention is to list SoC agnostic compatibles here, or put another 
-> way false positives to the generic pattern "renesas,.*-.*". So no 
-> "renesas,smp-sram" can't have new compatibles but there might be new 
-> renesas compatible strings that hit the pattern that is not related to a 
-> SoC. Does this make sens?
+On Thu, Nov 30, 2023 at 10:27=E2=80=AFPM Prabhakar <prabhakar.csengg@gmail.=
+com> wrote:
+> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+>
+> We need to probe for IOCP only once during boot stage, as we were probing
+> for IOCP for all the stages this caused the below issue during module-ini=
+t
+> stage,
+>
+> [9.019104] Unable to handle kernel paging request at virtual address ffff=
+ffff8100d3a0
+> [9.027153] Oops [#1]
+> [9.029421] Modules linked in: rcar_canfd renesas_usbhs i2c_riic can_dev s=
+pi_rspi i2c_core
+> [9.037686] CPU: 0 PID: 90 Comm: udevd Not tainted 6.7.0-rc1+ #57
+> [9.043756] Hardware name: Renesas SMARC EVK based on r9a07g043f01 (DT)
+> [9.050339] epc : riscv_noncoherent_supported+0x10/0x3e
+> [9.055558]  ra : andes_errata_patch_func+0x4a/0x52
+> [9.060418] epc : ffffffff8000d8c2 ra : ffffffff8000d95c sp : ffffffc8003a=
+bb00
+> [9.067607]  gp : ffffffff814e25a0 tp : ffffffd80361e540 t0 : 000000000000=
+0000
+> [9.074795]  t1 : 000000000900031e t2 : 0000000000000001 s0 : ffffffc8003a=
+bb20
+> [9.081984]  s1 : ffffffff015b57c7 a0 : 0000000000000000 a1 : 000000000000=
+0001
+> [9.089172]  a2 : 0000000000000000 a3 : 0000000000000000 a4 : ffffffff8100=
+d8be
+> [9.096360]  a5 : 0000000000000001 a6 : 0000000000000001 a7 : 000000000900=
+031e
+> [9.103548]  s2 : ffffffff015b57d7 s3 : 0000000000000001 s4 : 000000000000=
+031e
+> [9.110736]  s5 : 8000000000008a45 s6 : 0000000000000500 s7 : 000000000000=
+003f
+> [9.117924]  s8 : ffffffc8003abd48 s9 : ffffffff015b1140 s10: ffffffff8151=
+a1b0
+> [9.125113]  s11: ffffffff015b1000 t3 : 0000000000000001 t4 : fefefefefefe=
+feff
+> [9.132301]  t5 : ffffffff015b57c7 t6 : ffffffd8b63a6000
+> [9.137587] status: 0000000200000120 badaddr: ffffffff8100d3a0 cause: 0000=
+00000000000f
+> [9.145468] [<ffffffff8000d8c2>] riscv_noncoherent_supported+0x10/0x3e
+> [9.151972] [<ffffffff800027e8>] _apply_alternatives+0x84/0x86
+> [9.157784] [<ffffffff800029be>] apply_module_alternatives+0x10/0x1a
+> [9.164113] [<ffffffff80008fcc>] module_finalize+0x5e/0x7a
+> [9.169583] [<ffffffff80085cd6>] load_module+0xfd8/0x179c
+> [9.174965] [<ffffffff80086630>] init_module_from_file+0x76/0xaa
+> [9.180948] [<ffffffff800867f6>] __riscv_sys_finit_module+0x176/0x2a8
+> [9.187365] [<ffffffff80889862>] do_trap_ecall_u+0xbe/0x130
+> [9.192922] [<ffffffff808920bc>] ret_from_exception+0x0/0x64
+> [9.198573] Code: 0009 b7e9 6797 014d a783 85a7 c799 4785 0717 0100 (0123)=
+ aef7
+> [9.205994] ---[ end trace 0000000000000000 ]---
+>
+> This is because we called riscv_noncoherent_supported() for all the stage=
+s
+> during IOCP probe. riscv_noncoherent_supported() function sets
+> noncoherent_supported variable to true which has an annotation set to
+> "__ro_after_init" due to which we were seeing the above splat. Fix this b=
+y
+> probing for IOCP only once in boot stage by having a boolean variable
+> "done" which will be set to true upon IOCP probe in errata_probe_iocp()
+> and we bail out early if "done" is set to true.
+>
+> While at it make return type of errata_probe_iocp() to void as we were
+> not checking the return value in andes_errata_patch_func().
+>
+> Fixes: e021ae7f5145 ("riscv: errata: Add Andes alternative ports")
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-Well, now I get the meaning, but I don't find this obvious especially
-considering that contributors many, many times misunderstand "SoC
-agnostic" with "generic is OK". Generic compatible is not OK for the
-SoC. I think it is still the most repeated feedback from me.
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-I hope you will be explaining this for Renesas contributors :)
+Gr{oetje,eeting}s,
 
-Best regards,
-Krzysztof
+                        Geert
 
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
