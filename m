@@ -1,69 +1,69 @@
-Return-Path: <linux-renesas-soc+bounces-519-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-520-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB12F800C43
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  1 Dec 2023 14:33:49 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DEE0800C57
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  1 Dec 2023 14:40:18 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 96150281A60
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  1 Dec 2023 13:33:48 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A0FFD1C20AAB
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  1 Dec 2023 13:40:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1306C38DD3;
-	Fri,  1 Dec 2023 13:33:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4ABE538F8C;
+	Fri,  1 Dec 2023 13:40:15 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com [209.85.128.171])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 74F56A6;
-	Fri,  1 Dec 2023 05:33:43 -0800 (PST)
-Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-5c85e8fdd2dso23571827b3.2;
-        Fri, 01 Dec 2023 05:33:43 -0800 (PST)
+Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com [209.85.128.170])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3376D170F;
+	Fri,  1 Dec 2023 05:40:08 -0800 (PST)
+Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-5d3a7aa1ed5so15383487b3.2;
+        Fri, 01 Dec 2023 05:40:08 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701437622; x=1702042422;
+        d=1e100.net; s=20230601; t=1701438007; x=1702042807;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Pi5CLdTBD3o6A552c2yKlmz+TRIKCo5UoCCyICzwCGA=;
-        b=RTr6A4c9iHeApMB5eH9NtZFLA6c3l1JgupkgHOXcT7o46sn52CtPybdXFx+OgV+Yk0
-         S6lvb78R3pXAxgC8wm8oaIKptnpNUyRTL+P6Zc21cQnoUDImh6g+ttZVpl2dqu5b5SIM
-         u9EpF+giH489hXIarTNaTMPOjLdLLGRY13dc+Bc3Tkcdz5C5GDszjOfnG5RqcvY5L/Rj
-         L0CLRSAGgdxet9VNRYY0CKEpG0OdmioXp1ZC6gXjNm4l72i4XscA7bsTCTIKW6Yf5IBG
-         LD8wulVSyvrq9xIXrApUCsd09Ja1f+6oocfw/vy578L3HMWrNqLY/KczT4WWY2aIKLnb
-         3ITg==
-X-Gm-Message-State: AOJu0YyNGit0Rm5ZFZsg/ssNTT58rUwN0Jm3R9wgNXVsjKCej0ro6eAP
-	32TPyyNWT+FbShYQ9sLVxmEnvJwM2g5cMw==
-X-Google-Smtp-Source: AGHT+IHOFcWoD4tNySYUF4If0O72uowXXFBBZUMPQPPyc2ssWiYBgtwCQoM74PcBYb0zxVVNKFuR1Q==
-X-Received: by 2002:a05:690c:3348:b0:5ce:a72e:a30a with SMTP id fk8-20020a05690c334800b005cea72ea30amr25402000ywb.24.1701437622441;
-        Fri, 01 Dec 2023 05:33:42 -0800 (PST)
-Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com. [209.85.128.180])
-        by smtp.gmail.com with ESMTPSA id u204-20020a8160d5000000b005d29344e625sm1077058ywb.114.2023.12.01.05.33.40
+        bh=CeONMnbnc9ooOiJhSyauRgrdy4vIJP3VYKHaPtaPM+s=;
+        b=OiaX9DvTxwfbhIcE74Nj1XsxWLYxRtYD1rbaQp4LDq8s+8lPEo84ZemYxM/AWHimAb
+         Ghlh2hv02e8fBPlbwaUb9twrl2KXWXtm8oC2co6CNFVeJ9PkDWv9ZGizb9xB87bTnQn0
+         176uYpRODMlrVwuzCNI5V9LjQZsvcMzgfA6H8wRC89dqcoRakzvQvb2PbE/qeerP2fg0
+         UMsZhnijLGAw2cAfwPTpEicvGedYKBKCSO5JGJsK05BLq3HqWikJYDBkGw3L6c6raB1T
+         6QQjIwnovwNBdV18JlX2yOTxUHYOaH0BpHig8cMF6aYz63O2CQVYuikpkL+9xigSF1JQ
+         0ErQ==
+X-Gm-Message-State: AOJu0YwYiuR7B5nvDRwNmG3j9h9yli6JWg0+VzLaqw1VRw8dK7Skcr7W
+	2HPYXwk2tBsXYHE72p/xHmrUDLtzH9rqgg==
+X-Google-Smtp-Source: AGHT+IHK3hjJ6/enyV9lNxuDz0/yhF8tGLKuH7d/e0hOw09hna4IbeGA8VHGg4SQ6LltFxtXttBWTQ==
+X-Received: by 2002:a05:690c:c1c:b0:5d0:960c:e2b4 with SMTP id cl28-20020a05690c0c1c00b005d0960ce2b4mr19674710ywb.19.1701438003887;
+        Fri, 01 Dec 2023 05:40:03 -0800 (PST)
+Received: from mail-yb1-f175.google.com (mail-yb1-f175.google.com. [209.85.219.175])
+        by smtp.gmail.com with ESMTPSA id j66-20020a0de045000000b005cb3510c8b2sm1083998ywe.96.2023.12.01.05.40.03
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 01 Dec 2023 05:33:41 -0800 (PST)
-Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-5c85e8fdd2dso23571357b3.2;
-        Fri, 01 Dec 2023 05:33:40 -0800 (PST)
-X-Received: by 2002:a81:9b46:0:b0:5d3:627c:7e11 with SMTP id
- s67-20020a819b46000000b005d3627c7e11mr4775995ywg.34.1701437620680; Fri, 01
- Dec 2023 05:33:40 -0800 (PST)
+        Fri, 01 Dec 2023 05:40:03 -0800 (PST)
+Received: by mail-yb1-f175.google.com with SMTP id 3f1490d57ef6-d9fe0a598d8so511367276.2;
+        Fri, 01 Dec 2023 05:40:03 -0800 (PST)
+X-Received: by 2002:a25:dcd2:0:b0:db5:4677:6e1f with SMTP id
+ y201-20020a25dcd2000000b00db546776e1fmr3755738ybe.41.1701438003304; Fri, 01
+ Dec 2023 05:40:03 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231201110840.37408-1-biju.das.jz@bp.renesas.com> <20231201110840.37408-5-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20231201110840.37408-5-biju.das.jz@bp.renesas.com>
+References: <20231201110840.37408-1-biju.das.jz@bp.renesas.com> <20231201110840.37408-6-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20231201110840.37408-6-biju.das.jz@bp.renesas.com>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 1 Dec 2023 14:33:29 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdVGuEKOeXkK8wbUzjx3UMOOcpyW2yp=i2A6V4auGbqoEQ@mail.gmail.com>
-Message-ID: <CAMuHMdVGuEKOeXkK8wbUzjx3UMOOcpyW2yp=i2A6V4auGbqoEQ@mail.gmail.com>
-Subject: Re: [PATCH 4/6] dt-bindings: mfd: Convert da9062 to json-schema
+Date: Fri, 1 Dec 2023 14:39:52 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdXH3VVg0KmC0rtjeb_A_Awj805Mirc4pZu=KDZO9pdZZQ@mail.gmail.com>
+Message-ID: <CAMuHMdXH3VVg0KmC0rtjeb_A_Awj805Mirc4pZu=KDZO9pdZZQ@mail.gmail.com>
+Subject: Re: [PATCH 5/6] arm64: dts: renesas: rzg2ul-smarc: Enable PMIC and
+ built-in RTC
 To: Biju Das <biju.das.jz@bp.renesas.com>
-Cc: Lee Jones <lee@kernel.org>, Rob Herring <robh+dt@kernel.org>, 
+Cc: Rob Herring <robh+dt@kernel.org>, 
 	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Support Opensource <support.opensource@diasemi.com>, devicetree@vger.kernel.org, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, 
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>, Biju Das <biju.das.au@gmail.com>, 
-	linux-renesas-soc@vger.kernel.org
+	Magnus Damm <magnus.damm@gmail.com>, linux-renesas-soc@vger.kernel.org, 
+	devicetree@vger.kernel.org, 
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>, Biju Das <biju.das.au@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
@@ -71,107 +71,58 @@ Hi Biju,
 
 On Fri, Dec 1, 2023 at 12:09=E2=80=AFPM Biju Das <biju.das.jz@bp.renesas.co=
 m> wrote:
-> Convert the da9062 PMIC device tree binding documentation to json-schema.
->
-> Update the example to match reality.
+> Enable PMIC DA9062 and the built-in RTC on the RZ/{G2UL,Five} SMARC
+> EVK.
 >
 > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 
 Thanks for your patch!
 
-> --- a/Documentation/devicetree/bindings/mfd/da9062.txt
-> +++ /dev/null
-
-This file is still referred to from other files:
-
-    $ git grep Documentation/devicetree/bindings/mfd/da9062.txt
-    Documentation/devicetree/bindings/input/da9062-onkey.txt:DA9062
-and DA9061 chips see Documentation/devicetree/bindings/mfd/da9062.txt
-    Documentation/devicetree/bindings/thermal/da9062-thermal.txt:DA9062
-and DA9061 chips see Documentation/devicetree/bindings/mfd/da9062.txt
-
-> -- onkey : See ../input/da9062-onkey.txt
-
-Documentation/devicetree/bindings/input/da9062-onkey.txt still exists,
-and covers more variants than your new dlg,da9062.yaml.
-
-> -
-> -- watchdog: See ../watchdog/da9062-wdt.txt
-
-This was replaced by
-Documentation/devicetree/bindings/watchdog/dlg,da9062-watchdog.yaml
-a while ago, and covers more variants than your new dlg,da9062.yaml.
-
-> -
-> -- thermal : See ../thermal/da9062-thermal.txt
-
-Documentation/devicetree/bindings/thermal/da9062-thermal.txt still exists,
-and covers more variants than your new dlg,da9062.yaml.
-
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/mfd/dlg,da9062.yaml
-> @@ -0,0 +1,220 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/mfd/dlg,da9062.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> --- a/arch/arm64/boot/dts/renesas/rzg2ul-smarc.dtsi
+> +++ b/arch/arm64/boot/dts/renesas/rzg2ul-smarc.dtsi
+> @@ -23,6 +23,35 @@ &cpu_dai {
+>  &i2c0 {
+>         clock-frequency =3D <400000>;
+>
+> +       da9062: pmic@58 {
+> +               compatible =3D "dlg,da9062";
+> +               reg =3D <0x58>;
 > +
-> +title: Dialog DA9062 Power Management Integrated Circuit (PMIC)
+> +               da9062_rtc: rtc {
+> +                       compatible =3D "dlg,da9062-rtc";
+> +               };
 > +
-> +maintainers:
-> +  - Biju Das <biju.das.jz@bp.renesas.com>
+> +               da9062_onkey: onkey {
+> +                       compatible =3D "dlg,da9062-onkey";
+> +                       status =3D "disabled";
+
+Why is this disabled? This is connected to the power button.
+
+> +               };
 > +
-> +description: |
-> +  Product information for the DA9062 and DA9061 devices can be found her=
-e:
-> +  - https://www.dialog-semiconductor.com/products/da9062
-> +  - https://www.dialog-semiconductor.com/products/da9061
+> +               watchdog {
+> +                       compatible =3D "dlg,da9062-watchdog";
+> +                       status =3D "disabled";
+> +               };
 > +
-> +  The DA9062 PMIC consists of:
+> +               thermal {
+> +                       compatible =3D "dlg,da9062-thermal";
+> +                       status =3D "disabled";
+> +               };
 > +
-> +  Device                   Supply Names    Description
-> +  ------                   ------------    -----------
-> +  da9062-regulator        :               : LDOs & BUCKs
-> +  da9062-rtc              :               : Real-Time Clock
-> +  da9062-onkey            :               : On Key
-> +  da9062-watchdog         :               : Watchdog Timer
-> +  da9062-thermal          :               : Thermal
-> +  da9062-gpio             :               : GPIOs
+> +               gpio {
+> +                       compatible =3D "dlg,da9062-gpio";
+> +                       status =3D "disabled";
+> +               };
+
+Why are these three disabled?
+If they are truly unused, you can just drop the nodes instead.
+
+> +       };
 > +
-> +  The DA9061 PMIC consists of:
-> +
-> +  Device                   Supply Names    Description
-> +  ------                   ------------    -----------
-> +  da9062-regulator        :               : LDOs & BUCKs
-> +  da9062-onkey            :               : On Key
-> +  da9062-watchdog         :               : Watchdog Timer
-> +  da9062-thermal          :               : Thermal
-
-da9061 (x4)
-
-> +
-> +properties:
-
-> +  watchdog:
-
-Please sort subnodes alphabetically.
-
-> +    type: object
-> +    $ref: /schemas/watchdog/watchdog.yaml#
-> +    unevaluatedProperties: false
-> +    properties:
-> +      compatible:
-> +        const: dlg,da9062-watchdog
-
-What about dlg,da9061-watchdog? Probably this should refer to
-Documentation/devicetree/bindings/watchdog/dlg,da9062-watchdog.yaml
-instead?
-
-This applies to the other subnodes, too.
-
-Perhaps this binding should be merged with dlg,da9063.yaml?
-Or should it be split in dlg,da9061.yaml and dlg,da9062.yaml?
+>         versa3: clock-generator@68 {
+>                 compatible =3D "renesas,5p35023";
+>                 reg =3D <0x68>;
 
 Gr{oetje,eeting}s,
 
