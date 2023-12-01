@@ -1,161 +1,173 @@
-Return-Path: <linux-renesas-soc+bounces-508-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-509-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15902800B5B
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  1 Dec 2023 14:00:42 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CCA0800B68
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  1 Dec 2023 14:04:17 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A29A12813FF
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  1 Dec 2023 13:00:40 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 9FFD1B20CA8
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  1 Dec 2023 13:04:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 831D325558;
-	Fri,  1 Dec 2023 13:00:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DB5FD2134C;
+	Fri,  1 Dec 2023 13:04:11 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com [209.85.128.182])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A6DED1B3;
-	Fri,  1 Dec 2023 05:00:33 -0800 (PST)
-Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-5d05ff42db0so23810387b3.2;
-        Fri, 01 Dec 2023 05:00:33 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701435633; x=1702040433;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=TJhEMe1AeqYIN9p2y46F827GG58Kx/8vX8ipCQuZDHc=;
-        b=dpSvY4Nja4/9OmJpLLvZFJUiP5UXeSGgDvFECZIJZKmWaAGAa9RLdX+Ay/RoJwbRw0
-         YebcPmOTQH3BQnea/JkQH+uh8v5jF6JWmjXnpYsK3daWVeSLOMUqHl0UdiyQj3hIfiMS
-         m0lENYzc4zx4jnDGnCoaeR6HAoBChmEOhOWWFmQQNH+R7RekBTQ2K2VcrUDwESdDQzJ1
-         i0wgPF5h5OFce2CJxpP7ziee+D9HrEx1T4assxVEo8OMjIPRbIvdgogX1mJ23t/9sG5Q
-         6urTtFPGoLCZGAaIzqug6X68Fak+FXy7k74JQBFoqZew7hLChXs3CO2xQDUI8UZabPwY
-         Mtxw==
-X-Gm-Message-State: AOJu0YztQ/IpYbuCrQAx4otqDL5o71Nwqtbplc2c8/RlBCOGb93cxYj9
-	otAYU3bqt5+/VBJmZlB9sj/C4GfzjfB/dA==
-X-Google-Smtp-Source: AGHT+IGery/2E128FPKYeXvlqHr7uYVq74lB2MgnOMOYn5kvM5yUZVvRVxstoB8/6F94keXMtoeu+Q==
-X-Received: by 2002:a0d:c441:0:b0:5ae:c0f2:cd42 with SMTP id g62-20020a0dc441000000b005aec0f2cd42mr27359179ywd.43.1701435632608;
-        Fri, 01 Dec 2023 05:00:32 -0800 (PST)
-Received: from mail-yb1-f172.google.com (mail-yb1-f172.google.com. [209.85.219.172])
-        by smtp.gmail.com with ESMTPSA id i71-20020a0ddf4a000000b005d3758fda7dsm930329ywe.31.2023.12.01.05.00.26
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 01 Dec 2023 05:00:28 -0800 (PST)
-Received: by mail-yb1-f172.google.com with SMTP id 3f1490d57ef6-db5e692d4e0so396173276.2;
-        Fri, 01 Dec 2023 05:00:26 -0800 (PST)
-X-Received: by 2002:a25:ec0d:0:b0:db5:4677:6e1a with SMTP id
- j13-20020a25ec0d000000b00db546776e1amr3624535ybh.47.1701435618708; Fri, 01
- Dec 2023 05:00:18 -0800 (PST)
+Received: from Atcsqr.andestech.com (60-248-80-70.hinet-ip.hinet.net [60.248.80.70])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1D3E010D
+	for <linux-renesas-soc@vger.kernel.org>; Fri,  1 Dec 2023 05:04:06 -0800 (PST)
+Received: from mail.andestech.com (ATCPCS16.andestech.com [10.0.1.222])
+	by Atcsqr.andestech.com with ESMTP id 3B1D37RU008087;
+	Fri, 1 Dec 2023 21:03:07 +0800 (+08)
+	(envelope-from peterlin@andestech.com)
+Received: from APC323 (10.0.12.98) by ATCPCS16.andestech.com (10.0.1.222) with
+ Microsoft SMTP Server id 14.3.498.0; Fri, 1 Dec 2023 21:03:07 +0800
+Date: Fri, 1 Dec 2023 21:03:03 +0800
+From: Yu-Chien Peter Lin <peterlin@andestech.com>
+To: Prabhakar <prabhakar.csengg@gmail.com>
+CC: Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt
+	<palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Conor Dooley
+	<conor.dooley@microchip.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Samuel Holland <samuel.holland@sifive.com>,
+        <linux-riscv@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
+        <linux-renesas-soc@vger.kernel.org>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH v3] riscv: errata: andes: Probe for IOCP only once in
+ boot stage
+Message-ID: <ZWnZh8vqaNaZmsHf@APC323>
+References: <20231130212647.108746-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231201110840.37408-1-biju.das.jz@bp.renesas.com> <20231201110840.37408-2-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20231201110840.37408-2-biju.das.jz@bp.renesas.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 1 Dec 2023 14:00:06 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdUQaUaJdj-mNBZXNGmCAvgD9ne1ULbhzeoS+WVuvJOM0w@mail.gmail.com>
-Message-ID: <CAMuHMdUQaUaJdj-mNBZXNGmCAvgD9ne1ULbhzeoS+WVuvJOM0w@mail.gmail.com>
-Subject: Re: [PATCH 1/6] rtc: da9063: Make IRQ as optional
-To: Biju Das <biju.das.jz@bp.renesas.com>
-Cc: Alessandro Zummo <a.zummo@towertech.it>, Alexandre Belloni <alexandre.belloni@bootlin.com>, 
-	Support Opensource <support.opensource@diasemi.com>, linux-rtc@vger.kernel.org, 
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>, Biju Das <biju.das.au@gmail.com>, 
-	linux-renesas-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20231130212647.108746-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+User-Agent: Mutt/2.2.10 (2023-03-25)
+X-DNSRBL: 
+X-SPAM-SOURCE-CHECK: pass
+X-MAIL:Atcsqr.andestech.com 3B1D37RU008087
 
-Hi Biju,
+On Thu, Nov 30, 2023 at 09:26:47PM +0000, Prabhakar wrote:
+> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> 
+> We need to probe for IOCP only once during boot stage, as we were probing
+> for IOCP for all the stages this caused the below issue during module-init
+> stage,
+> 
+> [9.019104] Unable to handle kernel paging request at virtual address ffffffff8100d3a0
+> [9.027153] Oops [#1]
+> [9.029421] Modules linked in: rcar_canfd renesas_usbhs i2c_riic can_dev spi_rspi i2c_core
+> [9.037686] CPU: 0 PID: 90 Comm: udevd Not tainted 6.7.0-rc1+ #57
+> [9.043756] Hardware name: Renesas SMARC EVK based on r9a07g043f01 (DT)
+> [9.050339] epc : riscv_noncoherent_supported+0x10/0x3e
+> [9.055558]  ra : andes_errata_patch_func+0x4a/0x52
+> [9.060418] epc : ffffffff8000d8c2 ra : ffffffff8000d95c sp : ffffffc8003abb00
+> [9.067607]  gp : ffffffff814e25a0 tp : ffffffd80361e540 t0 : 0000000000000000
+> [9.074795]  t1 : 000000000900031e t2 : 0000000000000001 s0 : ffffffc8003abb20
+> [9.081984]  s1 : ffffffff015b57c7 a0 : 0000000000000000 a1 : 0000000000000001
+> [9.089172]  a2 : 0000000000000000 a3 : 0000000000000000 a4 : ffffffff8100d8be
+> [9.096360]  a5 : 0000000000000001 a6 : 0000000000000001 a7 : 000000000900031e
+> [9.103548]  s2 : ffffffff015b57d7 s3 : 0000000000000001 s4 : 000000000000031e
+> [9.110736]  s5 : 8000000000008a45 s6 : 0000000000000500 s7 : 000000000000003f
+> [9.117924]  s8 : ffffffc8003abd48 s9 : ffffffff015b1140 s10: ffffffff8151a1b0
+> [9.125113]  s11: ffffffff015b1000 t3 : 0000000000000001 t4 : fefefefefefefeff
+> [9.132301]  t5 : ffffffff015b57c7 t6 : ffffffd8b63a6000
+> [9.137587] status: 0000000200000120 badaddr: ffffffff8100d3a0 cause: 000000000000000f
+> [9.145468] [<ffffffff8000d8c2>] riscv_noncoherent_supported+0x10/0x3e
+> [9.151972] [<ffffffff800027e8>] _apply_alternatives+0x84/0x86
+> [9.157784] [<ffffffff800029be>] apply_module_alternatives+0x10/0x1a
+> [9.164113] [<ffffffff80008fcc>] module_finalize+0x5e/0x7a
+> [9.169583] [<ffffffff80085cd6>] load_module+0xfd8/0x179c
+> [9.174965] [<ffffffff80086630>] init_module_from_file+0x76/0xaa
+> [9.180948] [<ffffffff800867f6>] __riscv_sys_finit_module+0x176/0x2a8
+> [9.187365] [<ffffffff80889862>] do_trap_ecall_u+0xbe/0x130
+> [9.192922] [<ffffffff808920bc>] ret_from_exception+0x0/0x64
+> [9.198573] Code: 0009 b7e9 6797 014d a783 85a7 c799 4785 0717 0100 (0123) aef7
+> [9.205994] ---[ end trace 0000000000000000 ]---
+> 
+> This is because we called riscv_noncoherent_supported() for all the stages
+> during IOCP probe. riscv_noncoherent_supported() function sets
+> noncoherent_supported variable to true which has an annotation set to
+> "__ro_after_init" due to which we were seeing the above splat. Fix this by
+> probing for IOCP only once in boot stage by having a boolean variable
+> "done" which will be set to true upon IOCP probe in errata_probe_iocp()
+> and we bail out early if "done" is set to true.
+> 
+> While at it make return type of errata_probe_iocp() to void as we were
+> not checking the return value in andes_errata_patch_func().
+> 
+> Fixes: e021ae7f5145 ("riscv: errata: Add Andes alternative ports")
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-On Fri, Dec 1, 2023 at 12:08=E2=80=AFPM Biju Das <biju.das.jz@bp.renesas.co=
-m> wrote:
-> On some platforms (eg: RZ/{G2UL,Five} SMARC EVK), there is no IRQ
-> populated by default. Add irq optional support.
->
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+It seems that vdso.so currently does not have a .alternative section.
+Anyway, it makes sense to me.
 
-Thanks for your patch!
+Reviewed-by: Yu Chien Peter Lin <peterlin@andestech.com>
 
-> --- a/drivers/rtc/rtc-da9063.c
-> +++ b/drivers/rtc/rtc-da9063.c
-> @@ -485,25 +485,26 @@ static int da9063_rtc_probe(struct platform_device =
-*pdev)
->                 clear_bit(RTC_FEATURE_UPDATE_INTERRUPT, rtc->rtc_dev->fea=
-tures);
->         }
->
-> -       irq_alarm =3D platform_get_irq_byname(pdev, "ALARM");
-> -       if (irq_alarm < 0)
-> -               return irq_alarm;
-> -
-> -       ret =3D devm_request_threaded_irq(&pdev->dev, irq_alarm, NULL,
-> -                                       da9063_alarm_event,
-> -                                       IRQF_TRIGGER_LOW | IRQF_ONESHOT,
-> -                                       "ALARM", rtc);
-> -       if (ret)
-> -               dev_err(&pdev->dev, "Failed to request ALARM IRQ %d: %d\n=
-",
-> -                       irq_alarm, ret);
-> -
-> -       ret =3D dev_pm_set_wake_irq(&pdev->dev, irq_alarm);
-> -       if (ret)
-> -               dev_warn(&pdev->dev,
-> -                        "Failed to set IRQ %d as a wake IRQ: %d\n",
-> -                        irq_alarm, ret);
-> -
-> -       device_init_wakeup(&pdev->dev, true);
-> +       irq_alarm =3D platform_get_irq_byname_optional(pdev, "ALARM");
-> +       if (irq_alarm >=3D 0) {
-> +               ret =3D devm_request_threaded_irq(&pdev->dev, irq_alarm, =
-NULL,
-> +                                               da9063_alarm_event,
-> +                                               IRQF_TRIGGER_LOW | IRQF_O=
-NESHOT,
-> +                                               "ALARM", rtc);
-> +               if (ret)
-> +                       dev_err(&pdev->dev, "Failed to request ALARM IRQ =
-%d: %d\n",
-> +                               irq_alarm, ret);
+Thanks,
+Peter Lin
+
+> ---
+>  arch/riscv/errata/andes/errata.c | 20 +++++++++++++-------
+>  1 file changed, 13 insertions(+), 7 deletions(-)
+> 
+> diff --git a/arch/riscv/errata/andes/errata.c b/arch/riscv/errata/andes/errata.c
+> index 197db68cc8da..17a904869724 100644
+> --- a/arch/riscv/errata/andes/errata.c
+> +++ b/arch/riscv/errata/andes/errata.c
+> @@ -38,29 +38,35 @@ static long ax45mp_iocp_sw_workaround(void)
+>  	return ret.error ? 0 : ret.value;
+>  }
+>  
+> -static bool errata_probe_iocp(unsigned int stage, unsigned long arch_id, unsigned long impid)
+> +static void errata_probe_iocp(unsigned int stage, unsigned long arch_id, unsigned long impid)
+>  {
+> +	static bool done;
 > +
-> +               ret =3D dev_pm_set_wake_irq(&pdev->dev, irq_alarm);
-> +               if (ret)
-> +                       dev_warn(&pdev->dev,
-> +                                "Failed to set IRQ %d as a wake IRQ: %d\=
-n",
-> +                                irq_alarm, ret);
+>  	if (!IS_ENABLED(CONFIG_ERRATA_ANDES_CMO))
+> -		return false;
+> +		return;
 > +
-> +               device_init_wakeup(&pdev->dev, true);
-> +       } else {
-> +               clear_bit(RTC_FEATURE_UPDATE_INTERRUPT, rtc->rtc_dev->fea=
-tures);
-
-This does not handle and propagate real errors (e.g. -EPROBE_DEFER).
-
-    } else if (irq_alarm !=3D -ENXIO) {
-            return irq_alarm;
-    } else {
-            ....
-    }
-
-(I think -ENXIO is the correct error to check for,
- platform_get_irq_byname_optional() really should start returning
- zero for not found)
-
-> +       }
->
->         return devm_rtc_register_device(rtc->rtc_dev);
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+> +	if (done)
+> +		return;
+> +
+> +	done = true;
+>  
+>  	if (arch_id != ANDESTECH_AX45MP_MARCHID || impid != ANDESTECH_AX45MP_MIMPID)
+> -		return false;
+> +		return;
+>  
+>  	if (!ax45mp_iocp_sw_workaround())
+> -		return false;
+> +		return;
+>  
+>  	/* Set this just to make core cbo code happy */
+>  	riscv_cbom_block_size = 1;
+>  	riscv_noncoherent_supported();
+> -
+> -	return true;
+>  }
+>  
+>  void __init_or_module andes_errata_patch_func(struct alt_entry *begin, struct alt_entry *end,
+>  					      unsigned long archid, unsigned long impid,
+>  					      unsigned int stage)
+>  {
+> -	errata_probe_iocp(stage, archid, impid);
+> +	if (stage == RISCV_ALTERNATIVES_BOOT)
+> +		errata_probe_iocp(stage, archid, impid);
+>  
+>  	/* we have nothing to patch here ATM so just return back */
+>  }
+> -- 
+> 2.34.1
+> 
 
