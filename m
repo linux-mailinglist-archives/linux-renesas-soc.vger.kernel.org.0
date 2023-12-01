@@ -1,116 +1,117 @@
-Return-Path: <linux-renesas-soc+bounces-511-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-512-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8912800B7B
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  1 Dec 2023 14:11:40 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 36BA4800B8F
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  1 Dec 2023 14:16:30 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A46C52815E4
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  1 Dec 2023 13:11:39 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E6AF0281465
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  1 Dec 2023 13:16:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D797225767;
-	Fri,  1 Dec 2023 13:11:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 22AD725774;
+	Fri,  1 Dec 2023 13:16:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Lm2Dg8hk"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yb1-f177.google.com (mail-yb1-f177.google.com [209.85.219.177])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E06471B3;
-	Fri,  1 Dec 2023 05:11:34 -0800 (PST)
-Received: by mail-yb1-f177.google.com with SMTP id 3f1490d57ef6-db547d3631fso512531276.1;
-        Fri, 01 Dec 2023 05:11:34 -0800 (PST)
+Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com [IPv6:2a00:1450:4864:20::330])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 34A9CA0;
+	Fri,  1 Dec 2023 05:16:23 -0800 (PST)
+Received: by mail-wm1-x330.google.com with SMTP id 5b1f17b1804b1-40b397793aaso13688305e9.0;
+        Fri, 01 Dec 2023 05:16:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1701436581; x=1702041381; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=0Oefvw8vfrlQSt1SiU7MAz2Q9oKRpPY1beWRnn6ETdA=;
+        b=Lm2Dg8hkZVwc6mRC3vov3Ip1tRqB171LzdmOvvo72IdehHu6EXvjqeT3Ispg4Gj1hS
+         kWGg3ME0e7Hbei17DEcJg2LRY1yS/P3mBWaL4uERRJPX2DXT17n9R8tjQjaGCSiVbKnw
+         sSyAwZeCx1FoI8Zzlx8p/tfHuFqRoAevmj4DOd6OMcB+iLtWVJ4YOpWt3haTQiIJM7bQ
+         cwjbzirTO1FCanrAWWGRC56bNkwDK5zSo2r8CKTJWO2FNQyyiZQYw+Z+RvxTjU4+6lVN
+         VTmYOdFdV/WetyMISDkTtKS3Ir5zUioNsj5O8CL2VEVe2R/sgTH0UvN5EVyIkXxQS2Bm
+         crYA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701436294; x=1702041094;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=aHsVxos7OlkDogcgLyWTArXFwEO5M/AIOsvOJ3rKQgE=;
-        b=GULB916P4Ez0o5ZRf+71Qizq1DC/hRUAvTBcpLxEBJQbZZbU+gjT6x1ietTVOztqHZ
-         dhpNC7CSCYm61r1+006LdiZZDlz5Y/LUdBxiF6iQCRKuqgfpn5LV0RM//yn+KFsfEkNB
-         1Meh2Lp8FYuko+3y89ghIsIqdPO6ml2AJJjhcupxvSYQir8cCx/6lWwnqCSyKSL1t8FC
-         14kkDyQ8xGgvCSRlGnN/CW8rNNWPsAijn2/w5JrNHNAwbSdnzeUgys655IS1MPx3okxe
-         mbG5xlgv1DMhJUy7iLpqNJA+QNgDgOmFaK4r4E2043gboGKAtiVXa+lprEV94O0r/IvF
-         wmRA==
-X-Gm-Message-State: AOJu0YwQu4YQ/eXfayHgKVm9iM2H7ej9TTEVFbMFO+smWGt5qMAf7ndB
-	0mxfMgQuaR8Y2mN5KAxNMdGO3WdljpAvZw==
-X-Google-Smtp-Source: AGHT+IEOezujr5iF0E1OfPsiT3Ii7ndvXDxKvAUVoYt5TpNAgmHkzdaq344neFW3jGl+gD70ulM0Zg==
-X-Received: by 2002:a25:c08f:0:b0:db5:44c9:26c2 with SMTP id c137-20020a25c08f000000b00db544c926c2mr3817231ybf.53.1701436293914;
-        Fri, 01 Dec 2023 05:11:33 -0800 (PST)
-Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com. [209.85.128.180])
-        by smtp.gmail.com with ESMTPSA id h11-20020a255f4b000000b00db54cf1383esm349040ybm.10.2023.12.01.05.11.33
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 01 Dec 2023 05:11:33 -0800 (PST)
-Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-5c8c26cf056so23946387b3.1;
-        Fri, 01 Dec 2023 05:11:33 -0800 (PST)
-X-Received: by 2002:a05:690c:f0e:b0:5d4:87d5:ae0c with SMTP id
- dc14-20020a05690c0f0e00b005d487d5ae0cmr1413695ywb.26.1701436293031; Fri, 01
- Dec 2023 05:11:33 -0800 (PST)
+        d=1e100.net; s=20230601; t=1701436581; x=1702041381;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=0Oefvw8vfrlQSt1SiU7MAz2Q9oKRpPY1beWRnn6ETdA=;
+        b=TVZOgZ5IxBG1uj5tS+okDwROHuwY01+kIGjhjKxNXXGpG8jGAOIqXe0tt/MSQgifac
+         dBgSt1edHXUmKrz8fSpAzy0pIsi2X73X6IuzeCmOqoa+FEygUk84FXgBy7U2xvSYosdD
+         kgKr7BOxOk3viBJdzVjONKk0EVOpkaaxLCdPqfby7XGme0VR/qfs58r+4bTvkSl0vBaa
+         bOpzLYjfoypHgJ3wVz3SJom9B7fbuVo5PRwEQ7HkS3Y8xGRDE7p4Pg+CLF35aBTVVpmX
+         UfzxemTB5312Z/hH3Ptf5XBGS3t/pt5yLRlrztgylwXsV28uMNpwX8jp5E4YDx0Fywp0
+         CGTQ==
+X-Gm-Message-State: AOJu0YzrJATSkfjMz/qawqWv60tud9R7C2HYN4iuOhpquvynTq/TBa1y
+	/loGWDM1CDLO7wEvIYnfVsk=
+X-Google-Smtp-Source: AGHT+IEHAMpWGDplKBye0RkYxyWg5uIkbLq3Ug6U1LqAC8O2pKq7QhmYO/iPQ1ktZG4tdA77mc2N1w==
+X-Received: by 2002:a05:600c:4687:b0:409:6e0e:e95a with SMTP id p7-20020a05600c468700b004096e0ee95amr719556wmo.19.1701436581462;
+        Fri, 01 Dec 2023 05:16:21 -0800 (PST)
+Received: from prasmi.home ([2a00:23c8:2500:a01:3c2e:cd45:f50f:f083])
+        by smtp.gmail.com with ESMTPSA id fm21-20020a05600c0c1500b0040b3dbb5c93sm1451723wmb.1.2023.12.01.05.16.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 01 Dec 2023 05:16:20 -0800 (PST)
+From: Prabhakar <prabhakar.csengg@gmail.com>
+X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+To: Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Linus Walleij <linus.walleij@linaro.org>
+Cc: linux-kernel@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-riscv@lists.infradead.org,
+	linux-gpio@vger.kernel.org,
+	Prabhakar <prabhakar.csengg@gmail.com>,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH v3 0/3] Add missing port pins for RZ/Five SoC
+Date: Fri,  1 Dec 2023 13:15:48 +0000
+Message-Id: <20231201131551.201503-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231201110840.37408-1-biju.das.jz@bp.renesas.com> <20231201110840.37408-4-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20231201110840.37408-4-biju.das.jz@bp.renesas.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 1 Dec 2023 14:11:22 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdUoRpHnzLg+FPTpJ49RdwuUJKEVHkaSzifEH2oKoV=6zA@mail.gmail.com>
-Message-ID: <CAMuHMdUoRpHnzLg+FPTpJ49RdwuUJKEVHkaSzifEH2oKoV=6zA@mail.gmail.com>
-Subject: Re: [PATCH 3/6] rtc: da9063: Use dev_err_probe()
-To: Biju Das <biju.das.jz@bp.renesas.com>
-Cc: Alessandro Zummo <a.zummo@towertech.it>, Alexandre Belloni <alexandre.belloni@bootlin.com>, 
-	Support Opensource <support.opensource@diasemi.com>, linux-rtc@vger.kernel.org, 
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>, Biju Das <biju.das.au@gmail.com>, 
-	linux-renesas-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Hi Biju,
+From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-On Fri, Dec 1, 2023 at 12:08=E2=80=AFPM Biju Das <biju.das.jz@bp.renesas.co=
-m> wrote:
-> Replace dev_err()->dev_err_probe() to simpilfy probe().
->
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+Hi All,
 
-Thanks for your patch!
+This patch series intends to incorporate the absent port pins P19 to P28,
+which are exclusively available on the RZ/Five SoC.
 
-> --- a/drivers/rtc/rtc-da9063.c
-> +++ b/drivers/rtc/rtc-da9063.c
-> @@ -488,8 +480,9 @@ static int da9063_rtc_probe(struct platform_device *p=
-dev)
->                                                 IRQF_TRIGGER_LOW | IRQF_O=
-NESHOT,
->                                                 "ALARM", rtc);
->                 if (ret)
-> -                       dev_err(&pdev->dev, "Failed to request ALARM IRQ =
-%d: %d\n",
-> -                               irq_alarm, ret);
-> +                       return dev_err_probe(&pdev->dev, ret,
-> +                                            "Failed to request ALARM IRQ=
- %d\n",
-> +                                            irq_alarm);
+Cheers,
+Prabhakar
 
-This changes behavior: before, this was not considered fatal.
+v2->v3:
+* Fixed build warnings for m68k as reported by Kernel test robot.
 
->
->                 ret =3D dev_pm_set_wake_irq(&pdev->dev, irq_alarm);
->                 if (ret)
+RFC -> v2:
+* Fixed review comments pointed by Geert & Biju
 
-The rest LGTM, so with the above fixed/clarified:
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+RFC: https://lore.kernel.org/lkml/20230630120433.49529-3-prabhakar.mahadev-lad.rj@bp.renesas.com/T/
 
-Gr{oetje,eeting}s,
+Lad Prabhakar (3):
+  pinctrl: renesas: rzg2l: Include pinmap in RZG2L_GPIO_PORT_PACK()
+    macro
+  pinctrl: renesas: pinctrl-rzg2l: Add the missing port pins P19 to P28
+  riscv: dts: renesas: r9a07g043f: Update gpio-ranges property
 
-                        Geert
+ arch/riscv/boot/dts/renesas/r9a07g043f.dtsi |   4 +
+ drivers/pinctrl/renesas/pinctrl-rzg2l.c     | 265 ++++++++++++++++++--
+ 2 files changed, 243 insertions(+), 26 deletions(-)
 
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
+-- 
+2.34.1
 
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
 
