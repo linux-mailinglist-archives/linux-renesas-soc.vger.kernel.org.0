@@ -1,130 +1,170 @@
-Return-Path: <linux-renesas-soc+bounces-490-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-491-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F8AF800654
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  1 Dec 2023 09:55:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E5ED98006A4
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  1 Dec 2023 10:15:18 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1A1E22816B7
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  1 Dec 2023 08:55:16 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9F64F2814FB
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  1 Dec 2023 09:15:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BD38D1C699;
-	Fri,  1 Dec 2023 08:55:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 69E9579F5;
+	Fri,  1 Dec 2023 09:15:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WXNoQo5p"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mx01.omp.ru (mx01.omp.ru [90.154.21.10])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DDADC12A;
-	Fri,  1 Dec 2023 00:55:08 -0800 (PST)
-Received: from [192.168.1.103] (178.176.73.221) by msexch01.omp.ru
- (10.188.4.12) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.1258.12; Fri, 1 Dec
- 2023 11:54:59 +0300
-Subject: Re: [PATCH net-next v2 8/9] net: rswitch: Add jumbo frames handling
- for TX
-To: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-	<davem@davemloft.net>, <edumazet@google.com>, <kuba@kernel.org>,
-	<pabeni@redhat.com>
-CC: <netdev@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>
-References: <20231201054655.3731772-1-yoshihiro.shimoda.uh@renesas.com>
- <20231201054655.3731772-9-yoshihiro.shimoda.uh@renesas.com>
-From: Sergey Shtylyov <s.shtylyov@omp.ru>
-Organization: Open Mobile Platform
-Message-ID: <3d3d27f6-a0ee-993e-f5b8-cd940a5e042f@omp.ru>
-Date: Fri, 1 Dec 2023 11:54:47 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 69D2A10A;
+	Fri,  1 Dec 2023 01:15:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1701422113; x=1732958113;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=seK9BB9W5x1wulNi9afBuKyCtNetftImiKASE0PZgVo=;
+  b=WXNoQo5pUr6WYf40nNiY1Rf7gdAIghcvUtuqeEeiZcqYmPlQzFVMBJCO
+   j5fcoOhciO7pUdUk7nJ3d6Ajrfw63VvPG0fb967YCNQP4QMn0K+VztPpP
+   dSK8/UXtEyG2w1ONrXHeiiahTBinCyXPTZaP27F6ztqpWQ8ESqUaPJsYL
+   0bhlq6aq2MWWSDKKz2jy75Hyh2magucbLpghsGHK8wcGj06tk5lSy5Hcr
+   3FVLbv0oDHX3vkcFfiWoeR04WxJ7znhBj0w2yM4ns1qA674gPym8O2VZ/
+   g0JsUSKnM3q/l5LqALKBc5mZEafYMQxICdK5E4Qi9G6npmvO663nk30XG
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10910"; a="6745407"
+X-IronPort-AV: E=Sophos;i="6.04,241,1695711600"; 
+   d="scan'208";a="6745407"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Dec 2023 01:15:13 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10910"; a="719435631"
+X-IronPort-AV: E=Sophos;i="6.04,241,1695711600"; 
+   d="scan'208";a="719435631"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+  by orsmga003.jf.intel.com with ESMTP; 01 Dec 2023 01:15:09 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1r8zc3-0003Ni-1a;
+	Fri, 01 Dec 2023 09:15:07 +0000
+Date: Fri, 1 Dec 2023 17:14:51 +0800
+From: kernel test robot <lkp@intel.com>
+To: Haoran Liu <liuhaoran14@163.com>, geert+renesas@glider.be
+Cc: oe-kbuild-all@lists.linux.dev, magnus.damm@gmail.com,
+	linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Haoran Liu <liuhaoran14@163.com>
+Subject: Re: [PATCH] [soc/renesas] renesas-soc: Add error handling in
+ renesas_soc_init
+Message-ID: <202312011703.teVKAipZ-lkp@intel.com>
+References: <20231129143431.34459-1-liuhaoran14@163.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <20231201054655.3731772-9-yoshihiro.shimoda.uh@renesas.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: msexch01.omp.ru (10.188.4.12) To msexch01.omp.ru
- (10.188.4.12)
-X-KSE-ServerInfo: msexch01.omp.ru, 9
-X-KSE-AntiSpam-Interceptor-Info: scan successful
-X-KSE-AntiSpam-Version: 6.0.0, Database issued on: 12/01/2023 08:39:42
-X-KSE-AntiSpam-Status: KAS_STATUS_NOT_DETECTED
-X-KSE-AntiSpam-Method: none
-X-KSE-AntiSpam-Rate: 59
-X-KSE-AntiSpam-Info: Lua profiles 181754 [Dec 01 2023]
-X-KSE-AntiSpam-Info: Version: 6.0.0.2
-X-KSE-AntiSpam-Info: Envelope from: s.shtylyov@omp.ru
-X-KSE-AntiSpam-Info: LuaCore: 5 0.3.5 98d108ddd984cca1d7e65e595eac546a62b0144b
-X-KSE-AntiSpam-Info: {rep_avail}
-X-KSE-AntiSpam-Info: {Tracking_from_domain_doesnt_match_to}
-X-KSE-AntiSpam-Info: {relay has no DNS name}
-X-KSE-AntiSpam-Info: {SMTP from is not routable}
-X-KSE-AntiSpam-Info:
-	omp.ru:7.1.1;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;127.0.0.199:7.1.2
-X-KSE-AntiSpam-Info: ApMailHostAddress: 178.176.73.221
-X-KSE-AntiSpam-Info: {DNS response errors}
-X-KSE-AntiSpam-Info: Rate: 59
-X-KSE-AntiSpam-Info: Status: not_detected
-X-KSE-AntiSpam-Info: Method: none
-X-KSE-AntiSpam-Info: Auth:dmarc=temperror header.from=omp.ru;spf=temperror
- smtp.mailfrom=omp.ru;dkim=none
-X-KSE-Antiphishing-Info: Clean
-X-KSE-Antiphishing-ScanningType: Heuristic
-X-KSE-Antiphishing-Method: None
-X-KSE-Antiphishing-Bases: 12/01/2023 08:45:00
-X-KSE-Antivirus-Interceptor-Info: scan successful
-X-KSE-Antivirus-Info: Clean, bases: 12/1/2023 5:09:00 AM
-X-KSE-Attachment-Filter-Triggered-Rules: Clean
-X-KSE-Attachment-Filter-Triggered-Filters: Clean
-X-KSE-BulkMessagesFiltering-Scan-Result: InTheLimit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231129143431.34459-1-liuhaoran14@163.com>
 
-On 12/1/23 8:46 AM, Yoshihiro Shimoda wrote:
+Hi Haoran,
 
-> If the driver would like to transmit a jumbo frame like 2KiB or more,
-> it should be split into multiple queues. In the near future, to support
-> this, add handling specific descriptor types F{START,MID,END}. However,
-> such jumbo frames will not happen yet because the maximum MTU size is
-> still default for now.
-> 
-> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-[...]
+kernel test robot noticed the following build errors:
 
-> diff --git a/drivers/net/ethernet/renesas/rswitch.c b/drivers/net/ethernet/renesas/rswitch.c
-> index 009e6bfdad27..c5e3ee8f82bc 100644
-> --- a/drivers/net/ethernet/renesas/rswitch.c
-> +++ b/drivers/net/ethernet/renesas/rswitch.c
-> @@ -1631,15 +1631,44 @@ static bool rswitch_ext_desc_set(struct rswitch_device *rdev,
-[...]
->  static netdev_tx_t rswitch_start_xmit(struct sk_buff *skb, struct net_device *ndev)
->  {
->  	struct rswitch_device *rdev = netdev_priv(ndev);
->  	struct rswitch_gwca_queue *gq = rdev->tx_queue;
-> +	dma_addr_t dma_addr, dma_addr_orig;
->  	netdev_tx_t ret = NETDEV_TX_OK;
->  	struct rswitch_ext_desc *desc;
-> -	dma_addr_t dma_addr;
-> +	unsigned int i, nr_desc;
-> +	u8 die_dt;
-> +	u16 len;
->  
-> -	if (rswitch_get_num_cur_queues(gq) >= gq->ring_size - 1) {
-> +	nr_desc = (skb->len - 1) / RSWITCH_DESC_BUF_SIZE + 1;
-> +	if (rswitch_get_num_cur_queues(gq) >= gq->ring_size - nr_desc) {
->  		netif_stop_subqueue(ndev, 0);
->  		return NETDEV_TX_BUSY;
->  	}
-> @@ -1647,19 +1676,26 @@ static netdev_tx_t rswitch_start_xmit(struct sk_buff *skb, struct net_device *nd
->  	if (skb_put_padto(skb, ETH_ZLEN))
->  		return ret;
->  
-> -	dma_addr = dma_map_single(ndev->dev.parent, skb->data, skb->len, DMA_TO_DEVICE);
-> +	dma_addr_orig = dma_map_single(ndev->dev.parent, skb->data, skb->len, DMA_TO_DEVICE);
->  	if (dma_mapping_error(ndev->dev.parent, dma_addr))
+[auto build test ERROR on geert-renesas-devel/next]
+[also build test ERROR on linus/master v6.7-rc3 next-20231201]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-   Not dma_addr_orig? dma_addr isn't even set at this point, no?
+url:    https://github.com/intel-lab-lkp/linux/commits/Haoran-Liu/renesas-soc-Add-error-handling-in-renesas_soc_init/20231129-225113
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git next
+patch link:    https://lore.kernel.org/r/20231129143431.34459-1-liuhaoran14%40163.com
+patch subject: [PATCH] [soc/renesas] renesas-soc: Add error handling in renesas_soc_init
+config: openrisc-allyesconfig (https://download.01.org/0day-ci/archive/20231201/202312011703.teVKAipZ-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231201/202312011703.teVKAipZ-lkp@intel.com/reproduce)
 
-[...]
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312011703.teVKAipZ-lkp@intel.com/
 
-MBR, Sergey
+All errors (new ones prefixed by >>):
+
+   In file included from include/linux/device.h:15,
+                    from include/linux/sys_soc.h:9,
+                    from drivers/soc/renesas/renesas-soc.c:13:
+   drivers/soc/renesas/renesas-soc.c: In function 'renesas_soc_init':
+>> drivers/soc/renesas/renesas-soc.c:492:25: error: 'dev' undeclared (first use in this function); did you mean 'cdev'?
+     492 |                 dev_err(dev, "Failed to read model property: %d\n", ret);
+         |                         ^~~
+   include/linux/dev_printk.h:110:25: note: in definition of macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                         ^~~
+   drivers/soc/renesas/renesas-soc.c:492:17: note: in expansion of macro 'dev_err'
+     492 |                 dev_err(dev, "Failed to read model property: %d\n", ret);
+         |                 ^~~~~~~
+   drivers/soc/renesas/renesas-soc.c:492:25: note: each undeclared identifier is reported only once for each function it appears in
+     492 |                 dev_err(dev, "Failed to read model property: %d\n", ret);
+         |                         ^~~
+   include/linux/dev_printk.h:110:25: note: in definition of macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                         ^~~
+   drivers/soc/renesas/renesas-soc.c:492:17: note: in expansion of macro 'dev_err'
+     492 |                 dev_err(dev, "Failed to read model property: %d\n", ret);
+         |                 ^~~~~~~
+
+
+vim +492 drivers/soc/renesas/renesas-soc.c
+
+   447	
+   448	static int __init renesas_soc_init(void)
+   449	{
+   450		struct soc_device_attribute *soc_dev_attr;
+   451		unsigned int product, eshi = 0, eslo;
+   452		const struct renesas_family *family;
+   453		const struct of_device_id *match;
+   454		const struct renesas_soc *soc;
+   455		const struct renesas_id *id;
+   456		void __iomem *chipid = NULL;
+   457		const char *rev_prefix = "";
+   458		struct soc_device *soc_dev;
+   459		struct device_node *np;
+   460		const char *soc_id;
+   461		int ret;
+   462	
+   463		match = of_match_node(renesas_socs, of_root);
+   464		if (!match)
+   465			return -ENODEV;
+   466	
+   467		soc_id = strchr(match->compatible, ',') + 1;
+   468		soc = match->data;
+   469		family = soc->family;
+   470	
+   471		np = of_find_matching_node_and_match(NULL, renesas_ids, &match);
+   472		if (np) {
+   473			id = match->data;
+   474			chipid = of_iomap(np, 0);
+   475			of_node_put(np);
+   476		} else if (soc->id && family->reg) {
+   477			/* Try hardcoded CCCR/PRR fallback */
+   478			id = &id_prr;
+   479			chipid = ioremap(family->reg, 4);
+   480		}
+   481	
+   482		soc_dev_attr = kzalloc(sizeof(*soc_dev_attr), GFP_KERNEL);
+   483		if (!soc_dev_attr) {
+   484			if (chipid)
+   485				iounmap(chipid);
+   486			return -ENOMEM;
+   487		}
+   488	
+   489		np = of_find_node_by_path("/");
+   490		ret = of_property_read_string(np, "model", &soc_dev_attr->machine);
+   491		if (ret) {
+ > 492			dev_err(dev, "Failed to read model property: %d\n", ret);
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
