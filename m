@@ -1,137 +1,114 @@
-Return-Path: <linux-renesas-soc+bounces-541-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-542-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3E348011CF
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  1 Dec 2023 18:36:27 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2384D801698
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  1 Dec 2023 23:39:56 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6528828114C
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  1 Dec 2023 17:36:26 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id CCD3A1F21061
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  1 Dec 2023 22:39:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A05EB4EB20;
-	Fri,  1 Dec 2023 17:36:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 84EBC3D75;
+	Fri,  1 Dec 2023 22:39:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WQ5xW0PG"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com [209.85.219.180])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 074CBFE;
-	Fri,  1 Dec 2023 09:36:12 -0800 (PST)
-Received: by mail-yb1-f180.google.com with SMTP id 3f1490d57ef6-daf26d84100so751179276.3;
-        Fri, 01 Dec 2023 09:36:11 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701452171; x=1702056971;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=zk2S3SIrcftqOvoDhsi4gAIcuYBEVIeIZ5ZZ+mwqTiw=;
-        b=EQNUsP9BSg/rXbx5nDaJ4L0fKG84XySX+oeYduyl2mOFYLbXlrKYqJXwUUAUUFxoeh
-         squ64H+nGTDDwEO6rOCkqyoaCrkR+aGfY/LAs1FkLbVpqoG6qSIcKWigqiLmhpMi4Tq0
-         cMhMzuz86+eMHZmKhUb+FFhDv1XEiYIxUlATMMAIFcypbbV8kBcio1M98QsEpWHMCgRn
-         XH9uToghs3SsvAaFqh/Wx+IQyp4FzI+ETA8CCYHUbau/jXGer+zC6Qu1bMXhkiCRqbZ8
-         ChEz38CzlpoMjFzY/9omkVIgL4xfgFtQeTsFR7/JaMrV1iPPZ2MIbm7zgE8+z1MK0w7L
-         5F6g==
-X-Gm-Message-State: AOJu0YzO+W1QdcvAXfxYkgNGZEQYHRIB5mP36s4JrdF8TCMTAOc60HEF
-	3CYv0XQoRuhBVlb7Is6IfYyRPlESilaTDA==
-X-Google-Smtp-Source: AGHT+IGMJZLpeH28JslXaXLL6mgyIy6G2sNXs8zVPt/CpyYrsuHpMwOAe5nLb0EASmWyS+0nJ9W2Mg==
-X-Received: by 2002:a25:687:0:b0:daf:81e5:d2fa with SMTP id 129-20020a250687000000b00daf81e5d2famr23278194ybg.33.1701452171063;
-        Fri, 01 Dec 2023 09:36:11 -0800 (PST)
-Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com. [209.85.128.176])
-        by smtp.gmail.com with ESMTPSA id l36-20020a25b324000000b00d9abff76f5csm501019ybj.9.2023.12.01.09.36.09
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 01 Dec 2023 09:36:09 -0800 (PST)
-Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-5d2d0661a8dso26173127b3.2;
-        Fri, 01 Dec 2023 09:36:09 -0800 (PST)
-X-Received: by 2002:a81:a0c3:0:b0:5d6:85f1:1539 with SMTP id
- x186-20020a81a0c3000000b005d685f11539mr1605684ywg.18.1701452168947; Fri, 01
- Dec 2023 09:36:08 -0800 (PST)
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52734210A;
+	Fri,  1 Dec 2023 22:39:51 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ACC1BC433C9;
+	Fri,  1 Dec 2023 22:39:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1701470391;
+	bh=u6GaIbIyC8a69wwdRUdazP2geJ52q1bBtcXs0O51XL4=;
+	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+	b=WQ5xW0PGeDnLuodMDPI8infn9jmtMouUNJra1NyhlZEI1ghM6i6cm6YZHHIifoWXj
+	 bj5ruP+LSLyBZQvhDHI5JKSY8gUrp7jkbmQ0XptFrTBHsaAEtIII/nHpXVXXSdCUnD
+	 ndYzlcxVKAWg2AM+6WrapF65cuA3ftDRUEYE5mywkrvBmp2eXpg/PHv3J9YDPqGEFv
+	 D2soCHorvdbDPTWdCoTTLzvt1GX0P0bPZilucDJve3tT7JpYczTkuDZtVP7C3djJSD
+	 p4HhJ8t5T57tz5um8uLZXf+1ykb5QGR9eYxHOeqMrK6ehamZHyCZ2XbfK4Aebn9Mo7
+	 kd+XRScnwMmrA==
+Message-ID: <d7cd97fb5dd2f320fbf52bf96b8fe79d.sboyd@kernel.org>
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231120070024.4079344-1-claudiu.beznea.uj@bp.renesas.com> <20231120070024.4079344-11-claudiu.beznea.uj@bp.renesas.com>
-In-Reply-To: <20231120070024.4079344-11-claudiu.beznea.uj@bp.renesas.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 1 Dec 2023 18:35:57 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdW9Unpw7NQOGWd4SeFV8XgvRYTKTXnt9Tsagb3Q3U9tNA@mail.gmail.com>
-Message-ID: <CAMuHMdW9Unpw7NQOGWd4SeFV8XgvRYTKTXnt9Tsagb3Q3U9tNA@mail.gmail.com>
-Subject: Re: [PATCH 10/14] arm64: renesas: r9a08g045: Add Ethernet nodes
-To: Claudiu <claudiu.beznea@tuxon.dev>
-Cc: s.shtylyov@omp.ru, davem@davemloft.net, edumazet@google.com, 
-	kuba@kernel.org, pabeni@redhat.com, robh+dt@kernel.org, 
-	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, linux@armlinux.org.uk, 
-	magnus.damm@gmail.com, mturquette@baylibre.com, sboyd@kernel.org, 
-	linus.walleij@linaro.org, p.zabel@pengutronix.de, arnd@arndb.de, 
-	m.szyprowski@samsung.com, alexandre.torgue@foss.st.com, afd@ti.com, 
-	broonie@kernel.org, alexander.stein@ew.tq-group.com, 
-	eugen.hristev@collabora.com, sergei.shtylyov@gmail.com, 
-	prabhakar.mahadev-lad.rj@bp.renesas.com, biju.das.jz@bp.renesas.com, 
-	linux-renesas-soc@vger.kernel.org, netdev@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org, 
-	linux-gpio@vger.kernel.org, Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <871qca92s2.wl-kuninori.morimoto.gx@renesas.com>
+References: <8734x9tda9.wl-kuninori.morimoto.gx@renesas.com> <87wmulrynq.wl-kuninori.morimoto.gx@renesas.com> <20231116192324.GB2821275-robh@kernel.org> <CAMuHMdU0Hqem8Ooehoo64rrGn8q8+5A8_DjGZd9Tvh=Xej6mdA@mail.gmail.com> <31afd614c5eb5e82a860fecfc1c21c39.sboyd@kernel.org> <871qca92s2.wl-kuninori.morimoto.gx@renesas.com>
+Subject: Re: [PATCH 4/4] drivers: clk: renesas: enable all clocks which is assinged to non Linux system
+From: Stephen Boyd <sboyd@kernel.org>
+Cc: Geert Uytterhoeven <geert@linux-m68k.org>, Rob Herring <robh@kernel.org>, Frank Rowand <frowand.list@gmail.com>, Michael Turquette <mturquette@baylibre.com>, devicetree@vger.kernel.org, linux-clk@vger.kernel.org, linux-renesas-soc@vger.kernel.org, Aymeric Aillet <aymeric.aillet@iot.bzh>, Yusuke Goda <yusuke.goda.sx@renesas.com>
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Date: Fri, 01 Dec 2023 22:39:49 +0000
+User-Agent: alot/0.10
 
-Hi Claudiu,
+Quoting Kuninori Morimoto (2023-11-27 23:48:04)
+>=20
+> Hi Stephen
+>=20
+> Thank you for your feedback
+>=20
+> > Does the protected-clocks property work? That basically says "don't use
+> > these clks in the OS". The driver implementation would not register
+> > those clks and then the framework would be unaware of their existence,
+> > leading to them never being disabled during late init.
+> >=20
+> > This approach also looks OK to me, basically programmatically creating
+> > the protected-clocks list by parsing DT for reserved consumer nodes and
+> > then figuring out that no consumer exists so we can skip registering the
+> > clk entirely, or add the flag. I'm not sure we want to implement that
+> > policy globally, because maybe someone really wants to disable the clk
+> > still to clean up bootloader state and then let a remoteproc use the clk
+> > later.
+> >=20
+> > Do you want to keep those clks registered with the framework? Is there
+> > any benefit to keeping clks around if linux can't do anything with them?
+>=20
+> Actually, this idea (=3D using "protected-clocks" property style) was our=
+ 1st
+> idea, but I noticed that it is not enough. Because clock driver is possib=
+le
+> to know which module was not used on Linux, but other driver can't, in th=
+is
+> idea. For example, power-domain control driver might want to know about i=
+t.
+>=20
+> In case of using "protected-clocks" property, we need to have same/similar
+> settings on each driver, but in case of using "status =3D reserved", all
+> driver is possible to know it. It has consistent, and no contradict like
+> some module was listed as "protected-clocks" on clock / power driver,
+> but has "status =3D ok" on its driver, etc.
+>=20
+> It seems we have different opinions around here ?
 
-On Mon, Nov 20, 2023 at 8:01=E2=80=AFAM Claudiu <claudiu.beznea@tuxon.dev> =
-wrote:
-> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
->
-> Add Ethernet nodes available on RZ/G3S (R9A08G045).
->
-> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+I don't really have any opinion here.
 
-Thanks for your patch!
+>=20
+> Our other idea was having "unassigned" node instead of
+> "status =3D reserved", like below.
+> clock driver checks "unassigned" node's "devices" property, and
+> ignore/disable listed device's "clocks".
+>=20
+>         unassigned {
+>                 devices =3D <&scif1>, <&hsusb>;
+>         };
 
-> --- a/arch/arm64/boot/dts/renesas/r9a08g045.dtsi
-> +++ b/arch/arm64/boot/dts/renesas/r9a08g045.dtsi
-> @@ -149,6 +149,38 @@ sdhi2: mmc@11c20000 {
->                         status =3D "disabled";
->                 };
->
-> +               eth0: ethernet@11c30000 {
-> +                       compatible =3D "renesas,r9a08g045-gbeth", "renesa=
-s,rzg2l-gbeth";
-> +                       reg =3D <0 0x11c30000 0 0x10000>;
-> +                       interrupts =3D <GIC_SPI 68 IRQ_TYPE_LEVEL_HIGH>,
-> +                                    <GIC_SPI 69 IRQ_TYPE_LEVEL_HIGH>,
-> +                                    <GIC_SPI 70 IRQ_TYPE_LEVEL_HIGH>;
-> +                       interrupt-names =3D "mux", "fil", "arp_ns";
-> +                       clocks =3D <&cpg CPG_MOD R9A08G045_ETH0_CLK_AXI>,
-> +                                <&cpg CPG_MOD R9A08G045_ETH0_CLK_CHI>,
-> +                                <&cpg CPG_MOD R9A08G045_ETH0_REFCLK>;
-> +                       clock-names =3D "axi", "chi", "refclk";
-> +                       resets =3D <&cpg R9A08G045_ETH0_RST_HW_N>;
-> +                       power-domains =3D <&cpg>;
-
-Perhaps add a default phy mode, like on other SoCs?
-
-    phy-mode =3D "rgmii"';
-
-Also missing:
-
-    #address-cells =3D <1>;
-    #size-cells =3D <0>;
-
-> +                       status =3D "disabled";
-> +               };
-
-Same comments for eth1.
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+This approach looks like the chosen node. I'd say what you have done in
+this patch series is better. The protected-clocks property is really
+about clks that shouldn't be used by the OS on some board. In your case
+it sounds like you want to still be able to read the clk hardware? Does
+anything go wrong if you let some consumer get the clk and change
+settings? Do you want to prevent that from happening? I'm mostly
+thinking it may be useful to have this logic be common in the clk
+framework by having the framework search through DT and figure out that
+the only consumers are reserved and thus we should treat those clks as
+read-only in the framework.
 
