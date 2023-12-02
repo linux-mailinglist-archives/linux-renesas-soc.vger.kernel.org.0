@@ -1,41 +1,55 @@
-Return-Path: <linux-renesas-soc+bounces-543-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-544-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E2BD801AA7
-	for <lists+linux-renesas-soc@lfdr.de>; Sat,  2 Dec 2023 05:30:31 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F0D6801E3A
+	for <lists+linux-renesas-soc@lfdr.de>; Sat,  2 Dec 2023 20:26:03 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 3EF20B20D2E
-	for <lists+linux-renesas-soc@lfdr.de>; Sat,  2 Dec 2023 04:30:29 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9651C1F210C5
+	for <lists+linux-renesas-soc@lfdr.de>; Sat,  2 Dec 2023 19:26:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E95198F7D;
-	Sat,  2 Dec 2023 04:30:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZvNYn0gi"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D2BC5208B3;
+	Sat,  2 Dec 2023 19:25:55 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C52F1BE67;
-	Sat,  2 Dec 2023 04:30:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 40B38C433CB;
-	Sat,  2 Dec 2023 04:30:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1701491425;
-	bh=PoWIqTH0mN0BrOjN4NLWRNHF3E0J9dWWpted9GPFRUA=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=ZvNYn0giq7DMnwjgNSKhirQCJUmEzOe9bhVkB1dyQiyBi+fH/a938arbitJtLpLt/
-	 au/6g0KM74GNWdo5LISxwz4wNbTDJ72Dbae4jKH2HkZaK1sMYNiMpZl/6jSQDD7e5o
-	 V+85zQCUqUEkL/22yohcavSeWf12pfQJqsbh4u6JAdaYA0hSJlgGL7Lu3ld/RQTymA
-	 u5Xd49XPhsDlmpj10QXqij3I1duC7m+QzqWkpYPc9T9qDJfXll+jtKCMGmXgo8MV/t
-	 /Zg6tiPFGuesqk5Fb4yd/3sD3UlNpwVrdiaRDwd7HDbbsHU/ktNUEOlbsoV+/pnjDg
-	 sdTFu+9Wn67UQ==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 29448C73FEA;
-	Sat,  2 Dec 2023 04:30:25 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTP id 3FA6811A;
+	Sat,  2 Dec 2023 11:25:51 -0800 (PST)
+X-IronPort-AV: E=Sophos;i="6.04,246,1695654000"; 
+   d="scan'208";a="185089874"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie5.idc.renesas.com with ESMTP; 03 Dec 2023 04:25:49 +0900
+Received: from localhost.localdomain (unknown [10.226.92.28])
+	by relmlir6.idc.renesas.com (Postfix) with ESMTP id 2369340764EE;
+	Sun,  3 Dec 2023 04:25:40 +0900 (JST)
+From: Biju Das <biju.das.jz@bp.renesas.com>
+To: Wim Van Sebroeck <wim@linux-watchdog.org>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Lee Jones <lee@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>
+Cc: Biju Das <biju.das.jz@bp.renesas.com>,
+	Steve Twiss <stwiss.opensource@diasemi.com>,
+	Support Opensource <support.opensource@diasemi.com>,
+	linux-watchdog@vger.kernel.org,
+	linux-input@vger.kernel.org,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Daniel Lezcano <daniel.lezcano@linaro.org>,
+	Zhang Rui <rui.zhang@intel.com>,
+	Lukasz Luba <lukasz.luba@arm.com>,
+	linux-pm@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	Biju Das <biju.das.au@gmail.com>,
+	linux-renesas-soc@vger.kernel.org
+Subject: [PATCH v2 00/11] Convert DA906{1,2} bindings to json-schema
+Date: Sat,  2 Dec 2023 19:25:24 +0000
+Message-Id: <20231202192536.266885-1-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -43,43 +57,51 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Subject: Re: [net-next] net: ethernet: renesas: rcar_gen4_ptp: Depend on
- PTP_1588_CLOCK
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <170149142516.10970.16359351222269905219.git-patchwork-notify@kernel.org>
-Date: Sat, 02 Dec 2023 04:30:25 +0000
-References: <20231129111142.3322667-1-niklas.soderlund+renesas@ragnatech.se>
-In-Reply-To: <20231129111142.3322667-1-niklas.soderlund+renesas@ragnatech.se>
-To: =?utf-8?q?Niklas_S=C3=B6derlund_=3Cniklas=2Esoderlund+renesas=40ragnatech=2E?=@codeaurora.org,
-	=?utf-8?q?se=3E?=@codeaurora.org
-Cc: davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
- pabeni@redhat.com, richardcochran@gmail.com, netdev@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org, arnd@arndb.de
 
-Hello:
+Convert the below bindings to json-schema
+1) DA906{1,2} mfd bindings
+2) DA906{1,2,3} onkey bindings
+3) DA906{1,2,3} thermal bindings
 
-This patch was applied to netdev/net-next.git (main)
-by Jakub Kicinski <kuba@kernel.org>:
+Also add fallback for DA9061 watchdog device and document
+DA9063 watchdog device.
 
-On Wed, 29 Nov 2023 12:11:42 +0100 you wrote:
-> When breaking out the Gen4 gPTP support to its own module the dependency
-> on the PTP_1588_CLOCK framework was left as optional and only stated for
-> the driver using the module. This leads to issues when doing
-> COMPILE_TEST of RENESAS_GEN4_PTP separately and PTP_1588_CLOCK is built
-> as a module and the other as a built-in. Add an explicit depend on
-> PTP_1588_CLOCK.
-> 
-> [...]
+v1->v2:
+ Ref : https://lore.kernel.org/all/20231201110840.37408-5-biju.das.jz@bp.renesas.com/
+ * Made as a separate series
+ * DA9062 and DA9061 merged with DA9063
+ * Sorted the child devices
+ * mfd,onkey and thermal are pointing to child bindings
+ 
+Biju Das (11):
+  dt-bindings: watchdog: dlg,da9062-watchdog: Add fallback for DA9061
+    watchdog
+  dt-bindings: watchdog: dlg,da9062-watchdog: Document DA9063 watchdog
+  dt-bindings: input: Convert da906{1,2,3} onkey to json-schema
+  dt-bindings: thermal: Convert da906{1,2} thermal to json-schema
+  dt-bindings: mfd: dlg,da9063: Update watchdog property
+  dt-bindings: mfd: dlg,da9063: Update onkey property
+  dt-bindings: mfd: dlg,da9063: Sort child devices
+  dt-bindings: mfd: da9062: Update watchdog description
+  dt-bindings: mfd: da9062: Update onkey description
+  dt-bindings: mfd: da9062: Update thermal description
+  dt-bindings: mfd: dlg,da9063: Convert da9062 to json-schema
 
-Here is the summary with links:
-  - [net-next] net: ethernet: renesas: rcar_gen4_ptp: Depend on PTP_1588_CLOCK
-    https://git.kernel.org/netdev/net-next/c/078e07570359
+ .../bindings/input/da9062-onkey.txt           |  47 ----
+ .../bindings/input/dlg,da9062-onkey.yaml      |  61 +++++
+ .../devicetree/bindings/mfd/da9062.txt        | 124 ----------
+ .../devicetree/bindings/mfd/dlg,da9063.yaml   | 220 +++++++++++++++---
+ .../bindings/thermal/da9062-thermal.txt       |  36 ---
+ .../bindings/thermal/dlg,da9062-thermal.yaml  |  58 +++++
+ .../watchdog/dlg,da9062-watchdog.yaml         |  12 +-
+ 7 files changed, 313 insertions(+), 245 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/input/da9062-onkey.txt
+ create mode 100644 Documentation/devicetree/bindings/input/dlg,da9062-onkey.yaml
+ delete mode 100644 Documentation/devicetree/bindings/mfd/da9062.txt
+ delete mode 100644 Documentation/devicetree/bindings/thermal/da9062-thermal.txt
+ create mode 100644 Documentation/devicetree/bindings/thermal/dlg,da9062-thermal.yaml
 
-You are awesome, thank you!
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
+2.39.2
 
 
