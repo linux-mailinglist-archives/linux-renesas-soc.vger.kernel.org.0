@@ -1,52 +1,40 @@
-Return-Path: <linux-renesas-soc+bounces-560-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-559-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4CD080230E
-	for <lists+linux-renesas-soc@lfdr.de>; Sun,  3 Dec 2023 12:32:22 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1962B80230A
+	for <lists+linux-renesas-soc@lfdr.de>; Sun,  3 Dec 2023 12:32:19 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7244C1F2105A
-	for <lists+linux-renesas-soc@lfdr.de>; Sun,  3 Dec 2023 11:32:22 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C78772807BF
+	for <lists+linux-renesas-soc@lfdr.de>; Sun,  3 Dec 2023 11:32:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6EDD2B671;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 165A9947F;
 	Sun,  3 Dec 2023 11:32:15 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTP id 29E83B6;
-	Sun,  3 Dec 2023 03:32:10 -0800 (PST)
+	by lindbergh.monkeyblade.net (Postfix) with ESMTP id 0AC75CB
+	for <linux-renesas-soc@vger.kernel.org>; Sun,  3 Dec 2023 03:32:11 -0800 (PST)
 X-IronPort-AV: E=Sophos;i="6.04,247,1695654000"; 
-   d="scan'208";a="185128626"
+   d="scan'208";a="185128631"
 Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie5.idc.renesas.com with ESMTP; 03 Dec 2023 20:32:08 +0900
+  by relmlie5.idc.renesas.com with ESMTP; 03 Dec 2023 20:32:11 +0900
 Received: from localhost.localdomain (unknown [10.226.92.30])
-	by relmlir6.idc.renesas.com (Postfix) with ESMTP id A373A403E66D;
-	Sun,  3 Dec 2023 20:32:02 +0900 (JST)
+	by relmlir6.idc.renesas.com (Postfix) with ESMTP id 7EB8E4006373;
+	Sun,  3 Dec 2023 20:32:09 +0900 (JST)
 From: Biju Das <biju.das.jz@bp.renesas.com>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Lee Jones <lee@kernel.org>
+To: Geert Uytterhoeven <geert+renesas@glider.be>
 Cc: Biju Das <biju.das.jz@bp.renesas.com>,
-	Support Opensource <support.opensource@diasemi.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Daniel Lezcano <daniel.lezcano@linaro.org>,
-	Zhang Rui <rui.zhang@intel.com>,
-	Lukasz Luba <lukasz.luba@arm.com>,
-	Steve Twiss <stwiss.opensource@diasemi.com>,
-	linux-input@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-pm@vger.kernel.org,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
 	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
 	Biju Das <biju.das.au@gmail.com>,
 	linux-renesas-soc@vger.kernel.org
-Subject: [PATCH v3 00/11] Convert DA906{1,2} bindings to json-schema
-Date: Sun,  3 Dec 2023 11:31:48 +0000
-Message-Id: <20231203113159.92316-1-biju.das.jz@bp.renesas.com>
+Subject: [PATCH v3 01/11] MAINTAINERS: Update da9062-watchdog entries
+Date: Sun,  3 Dec 2023 11:31:49 +0000
+Message-Id: <20231203113159.92316-2-biju.das.jz@bp.renesas.com>
 X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20231203113159.92316-1-biju.das.jz@bp.renesas.com>
+References: <20231203113159.92316-1-biju.das.jz@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -55,56 +43,29 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Convert the below bindings to json-schema
-1) DA906{1,2} mfd bindings
-2) DA906{1,2,3} onkey bindings
-3) DA906{1,2,3} thermal bindings
+Update da9062-watchdog binding file entries.
 
-Also add fallback for DA9061 watchdog device and document
-DA9063 watchdog device.
+Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+---
+v3:
+ New patch
+---
+ MAINTAINERS | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-v2->v3:
- * Updated Maintainer entries for watchdog,onkey and thermal bindings
- * Fixed bot errors related to MAINTAINERS entry, invalid doc
-   references and thermal examples by merging patch#4. 
-
-v1->v2:
- Ref: https://lore.kernel.org/all/20231201110840.37408-5-biju.das.jz@bp.renesas.com/
- * DA9062 and DA9061 merged with DA9063
- * Sorted the child devices
- * mfd,onkey and thermal are pointing to child bindings
-
-
-
-Biju Das (11):
-  MAINTAINERS: Update da9062-watchdog bindings
-  dt-bindings: watchdog: dlg,da9062-watchdog: Add fallback for DA9061
-    watchdog
-  dt-bindings: watchdog: dlg,da9062-watchdog: Document DA9063 watchdog
-  dt-bindings: input: Convert da906{1,2,3} onkey to json-schema
-  dt-bindings: mfd: dlg,da9063: Update watchdog property
-  dt-bindings: mfd: dlg,da9063: Update onkey property
-  dt-bindings: mfd: dlg,da9063: Sort child devices
-  dt-bindings: mfd: da9062: Update watchdog description
-  dt-bindings: mfd: da9062: Update onkey description
-  dt-bindings: mfd: da9062: Update thermal description
-  dt-bindings: mfd: dlg,da9063: Convert da9062 to json-schema
-
- .../bindings/input/da9062-onkey.txt           |  47 ----
- .../bindings/input/dlg,da9062-onkey.yaml      |  60 +++++
- .../devicetree/bindings/mfd/da9062.txt        | 124 ----------
- .../devicetree/bindings/mfd/dlg,da9063.yaml   | 221 +++++++++++++++---
- .../bindings/thermal/da9062-thermal.txt       |  36 ---
- .../bindings/thermal/dlg,da9062-thermal.yaml  |  78 +++++++
- .../watchdog/dlg,da9062-watchdog.yaml         |  12 +-
- MAINTAINERS                                   |   6 +-
- 8 files changed, 336 insertions(+), 248 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/input/da9062-onkey.txt
- create mode 100644 Documentation/devicetree/bindings/input/dlg,da9062-onkey.yaml
- delete mode 100644 Documentation/devicetree/bindings/mfd/da9062.txt
- delete mode 100644 Documentation/devicetree/bindings/thermal/da9062-thermal.txt
- create mode 100644 Documentation/devicetree/bindings/thermal/dlg,da9062-thermal.yaml
-
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 9d46229fe21b..ab455fc2d64a 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -6137,7 +6137,7 @@ F:	Documentation/devicetree/bindings/regulator/dlg,da9*.yaml
+ F:	Documentation/devicetree/bindings/regulator/dlg,slg51000.yaml
+ F:	Documentation/devicetree/bindings/sound/da[79]*.txt
+ F:	Documentation/devicetree/bindings/thermal/da90??-thermal.txt
+-F:	Documentation/devicetree/bindings/watchdog/da90??-wdt.txt
++F:	Documentation/devicetree/bindings/watchdog/dlg,da9062-watchdog.yaml
+ F:	Documentation/hwmon/da90??.rst
+ F:	drivers/gpio/gpio-da90??.c
+ F:	drivers/hwmon/da90??-hwmon.c
 -- 
 2.39.2
 
