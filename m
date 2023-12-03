@@ -1,38 +1,38 @@
-Return-Path: <linux-renesas-soc+bounces-574-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-575-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91D6E802333
-	for <lists+linux-renesas-soc@lfdr.de>; Sun,  3 Dec 2023 12:39:46 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id F0D45802334
+	for <lists+linux-renesas-soc@lfdr.de>; Sun,  3 Dec 2023 12:40:35 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 2FEBEB20A07
-	for <lists+linux-renesas-soc@lfdr.de>; Sun,  3 Dec 2023 11:39:44 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2C1CE1C20492
+	for <lists+linux-renesas-soc@lfdr.de>; Sun,  3 Dec 2023 11:40:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7598F9465;
-	Sun,  3 Dec 2023 11:39:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8F2A99465;
+	Sun,  3 Dec 2023 11:40:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oe3vWzzI"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Fmdsv4Ak"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B8FE28F0;
-	Sun,  3 Dec 2023 11:39:38 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 57AFEC433C7;
-	Sun,  3 Dec 2023 11:39:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C6DA28F0;
+	Sun,  3 Dec 2023 11:40:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4BDA4C433C7;
+	Sun,  3 Dec 2023 11:40:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1701603578;
-	bh=IsNDQXvcV8oNcM8qJi0HdMM6+rmuZV0KItfHdfblRL0=;
+	s=k20201202; t=1701603631;
+	bh=buvZcPAcm+4JN+L52lErx+iUwSJCvQsdlQSPCe/mgRY=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=oe3vWzzINrWXp878HuuAe/7JnpDFC0JAgsd2wRzgUmgq84TaI4K4gaPJlyzcg5Qhx
-	 EnP43bgX4Lu/aTepMVQ4shW2W7rNO5ij10cqG0LEP8HIcG2SnYf7riKHoFx5higg6R
-	 3SPIqULL3YVojBNv+PZRRGRZyUJL4zU+iBFp+XCTv//n+I73zqU1UIEHUOgkRFkb1z
-	 xUBKJeUvRvOmfTfLZUaCZR6ZA9Oq99m2w7Dih5IH+QZjJ/xs1I4bNYKU9LLEr3EFcA
-	 iRjcQkIH6mJdM0My3BCfjJfXXebpJz3CA6KmSOJUoZoHtXItzeL7ht4aXPzZv1US1x
-	 sgoTh0uWsUriQ==
-Date: Sun, 3 Dec 2023 11:39:34 +0000
+	b=Fmdsv4Akbvm+rzlY8rlOp/2PHghdj4gay8ypbn/su6If30LN632o4kaTcO4AgERan
+	 ocmLOnwpFQD5K7kmNltnognxsAi2OQEaWjNUz3BgVz1bLo8rlf/Bs/tdhyAn/8unDU
+	 1qjGeo8dKFTHgdXmmJK7k7clJUGLPwRp9uKvY83RAJjFusAGoIQJeznkPwqy/sp0d2
+	 Z7EqdFds6/XDzcjXPftdHFb09dCSfEIeLwjK114cgnDq3a8VPJLlwNrDpNiEoTZPRa
+	 uZ9CjiIV+l0OhN1lUkpFGTQENYgILeqSaOUsyPMl6oi2QIR1dJADWBTOrlQBK6D3IX
+	 xe2cw1SOPHvYA==
+Date: Sun, 3 Dec 2023 11:40:25 +0000
 From: Conor Dooley <conor@kernel.org>
 To: Biju Das <biju.das.jz@bp.renesas.com>
 Cc: Lee Jones <lee@kernel.org>, Rob Herring <robh+dt@kernel.org>,
@@ -44,11 +44,10 @@ Cc: Lee Jones <lee@kernel.org>, Rob Herring <robh+dt@kernel.org>,
 	Geert Uytterhoeven <geert+renesas@glider.be>,
 	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
 	Biju Das <biju.das.au@gmail.com>, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v2 05/11] dt-bindings: mfd: dlg,da9063: Update watchdog
- property
-Message-ID: <20231203-pond-thrash-82386f60d283@spud>
+Subject: Re: [PATCH v2 07/11] dt-bindings: mfd: dlg,da9063: Sort child devices
+Message-ID: <20231203-easing-panorama-f3fe8695dd39@spud>
 References: <20231202192536.266885-1-biju.das.jz@bp.renesas.com>
- <20231202192536.266885-6-biju.das.jz@bp.renesas.com>
+ <20231202192536.266885-8-biju.das.jz@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -56,99 +55,79 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="lJDrleECt3C3Sbl5"
+	protocol="application/pgp-signature"; boundary="eeHzAl0fC37/icXn"
 Content-Disposition: inline
-In-Reply-To: <20231202192536.266885-6-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20231202192536.266885-8-biju.das.jz@bp.renesas.com>
 
 
---lJDrleECt3C3Sbl5
+--eeHzAl0fC37/icXn
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Sat, Dec 02, 2023 at 07:25:29PM +0000, Biju Das wrote:
-> Update watchdog property by referring to dlg,da9062-watchdog binding file
-> and drop its definition from this file.
+On Sat, Dec 02, 2023 at 07:25:31PM +0000, Biju Das wrote:
+> Sort child devices alphabetically.
 >=20
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 
-> While at, update description with link to product information.
-
-This is unrelated IMO.
-Otherwise,
 Acked-by: Conor Dooley <conor.dooley@microchip.com>
 
 Cheers,
 Conor.
 
-
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 > ---
->  .../devicetree/bindings/mfd/dlg,da9063.yaml   | 21 ++++++-------------
->  1 file changed, 6 insertions(+), 15 deletions(-)
+>  .../devicetree/bindings/mfd/dlg,da9063.yaml      | 16 ++++++++--------
+>  1 file changed, 8 insertions(+), 8 deletions(-)
 >=20
 > diff --git a/Documentation/devicetree/bindings/mfd/dlg,da9063.yaml b/Docu=
 mentation/devicetree/bindings/mfd/dlg,da9063.yaml
-> index c5a7e10d7d80..1bdfb2be2e17 100644
+> index 468d31b1135b..ecdef322723d 100644
 > --- a/Documentation/devicetree/bindings/mfd/dlg,da9063.yaml
 > +++ b/Documentation/devicetree/bindings/mfd/dlg,da9063.yaml
-> @@ -17,6 +17,9 @@ description: |
->    moment where all voltage monitors are disabled. Next, as da9063 only s=
-upports
->    UV *and* OV monitoring, both must be set to the same severity and value
->    (0: disable, 1: enable).
-> +  Product information for the DA906{3L,3} devices can be found here:
-> +  - https://www.dialog-semiconductor.com/products/da9063l
-> +  - https://www.dialog-semiconductor.com/products/da9063
-> =20
->  properties:
->    compatible:
-> @@ -35,21 +38,6 @@ properties:
+> @@ -38,14 +38,6 @@ properties:
 >    "#interrupt-cells":
 >      const: 2
 > =20
-> -  dlg,use-sw-pm:
-> -    type: boolean
-> -    description:
-> -      Disable the watchdog during suspend.
-> -      Only use this option if you can't use the watchdog automatic suspe=
-nd
-> -      function during a suspend (see register CONTROL_B).
-> -
-> -  watchdog:
+> -  rtc:
 > -    type: object
-> -    $ref: /schemas/watchdog/watchdog.yaml#
+> -    $ref: /schemas/rtc/rtc.yaml#
 > -    unevaluatedProperties: false
 > -    properties:
 > -      compatible:
-> -        const: dlg,da9063-watchdog
+> -        const: dlg,da9063-rtc
 > -
->    rtc:
->      type: object
->      $ref: /schemas/rtc/rtc.yaml#
-> @@ -82,6 +70,9 @@ properties:
+>    onkey:
+>      $ref: /schemas/input/dlg,da9062-onkey.yaml
+> =20
+> @@ -57,6 +49,14 @@ properties:
 >          $ref: /schemas/regulator/regulator.yaml
 >          unevaluatedProperties: false
 > =20
-> +  watchdog:
-> +    $ref: /schemas/watchdog/dlg,da9062-watchdog.yaml
+> +  rtc:
+> +    type: object
+> +    $ref: /schemas/rtc/rtc.yaml#
+> +    unevaluatedProperties: false
+> +    properties:
+> +      compatible:
+> +        const: dlg,da9063-rtc
 > +
->  required:
->    - compatible
->    - reg
+>    watchdog:
+>      $ref: /schemas/watchdog/dlg,da9062-watchdog.yaml
+> =20
 > --=20
 > 2.39.2
 >=20
 
---lJDrleECt3C3Sbl5
+--eeHzAl0fC37/icXn
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZWxo9QAKCRB4tDGHoIJi
-0lxmAQCZiPPu1GH49G+JcOH0BtnSVarKp68Hl6rlwx1ICV2/mAEAqLaFmn92JqF7
-B7dow6AwvAEGufCKFaNsHjQHKggqLgY=
-=GUht
+iHQEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZWxpKQAKCRB4tDGHoIJi
+0pJCAPYyP6WpbqbA8dyiYOY7bR34Nv47qmMkDxFfFszFXcuNAQCp4o4nIExwgZZ1
+k++j5xHjkQS/GyV9mMLa5mZhh7uuAw==
+=FUz6
 -----END PGP SIGNATURE-----
 
---lJDrleECt3C3Sbl5--
+--eeHzAl0fC37/icXn--
 
