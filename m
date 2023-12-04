@@ -1,95 +1,165 @@
-Return-Path: <linux-renesas-soc+bounces-652-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-653-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id B82198039F9
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  4 Dec 2023 17:19:11 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 498DE803B29
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  4 Dec 2023 18:10:38 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E4D151C20A53
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  4 Dec 2023 16:19:10 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id C037C1F211B0
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  4 Dec 2023 17:10:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5C5A02D794;
-	Mon,  4 Dec 2023 16:19:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 461812E636;
+	Mon,  4 Dec 2023 17:10:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="naWk9UmZ"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yb1-f178.google.com (mail-yb1-f178.google.com [209.85.219.178])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DDE5CCB;
-	Mon,  4 Dec 2023 08:19:03 -0800 (PST)
-Received: by mail-yb1-f178.google.com with SMTP id 3f1490d57ef6-da7ea62e76cso3051801276.3;
-        Mon, 04 Dec 2023 08:19:03 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701706743; x=1702311543;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=p7w+3vK1cdmy3dgE8i5YLvNj03CSI+W7QHOKK1BsUDk=;
-        b=Yd2/xKa+HXY8quN6KqHD4odBxQHNcYG71LvKD71RZgiOXB7CEjXCp58SCuJLJKKxnM
-         y6YAdi9VRxb9yvJ2NohFzcRnbSjbrvn9aqcC7pjxuCN2o0MG3PexNpzfFLSoWB35E4TY
-         yA8ok86YR5gC3CrY/1PEN7aQYbu0jiP4PVcAei9Yd/4sgK1iqfbO2uthQB4xWn+GUCh9
-         e9s459ZRCJLLR49NZKLr22/IOLY/qsAI/+ZU3NGXaotwwkRI12S50BvM4CQ6yg52zwrE
-         g69QbdfDrTbS7YPMl+qM81sOt46WI4aei6bZfaKMnklY8NpM4eXfep3LdMGFL9pSq1qo
-         aurA==
-X-Gm-Message-State: AOJu0Yy19Nsgoh+V0+8aw0FRfrbI56EChKB5Wp4elUV/aRyyprPQpmTT
-	cizJ+YmyAELYoQHRDNUbHb99T56XLOwQYg==
-X-Google-Smtp-Source: AGHT+IGiV1NdBNdmG+XCdpSpHlBoKkLvNa8BpKiX4YQW400Yhduo9FygSvUQvfZlI6LMeImPb/kpNg==
-X-Received: by 2002:a0d:dbd5:0:b0:5d7:1941:aad with SMTP id d204-20020a0ddbd5000000b005d719410aadmr3154455ywe.72.1701706742991;
-        Mon, 04 Dec 2023 08:19:02 -0800 (PST)
-Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com. [209.85.128.169])
-        by smtp.gmail.com with ESMTPSA id u189-20020a8179c6000000b005d34a381f59sm3368108ywc.102.2023.12.04.08.19.01
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 04 Dec 2023 08:19:01 -0800 (PST)
-Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-5d3d5b10197so37164417b3.2;
-        Mon, 04 Dec 2023 08:19:01 -0800 (PST)
-X-Received: by 2002:a81:9808:0:b0:5d3:464d:18d4 with SMTP id
- p8-20020a819808000000b005d3464d18d4mr3058167ywg.21.1701706740819; Mon, 04 Dec
- 2023 08:19:00 -0800 (PST)
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 225E42557A;
+	Mon,  4 Dec 2023 17:10:34 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5C692C433C8;
+	Mon,  4 Dec 2023 17:10:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1701709834;
+	bh=YUtRTPoK+tW4AtegcB6or0aHS1jwSCry6p86GjMrycM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=naWk9UmZ+0O0Fr45lIji8VEMQ0cPq1FHELZdFD9a7vEd5KGbcTtbd5j79h0XLikRP
+	 WFJOe0K44PXgHROCohlsHUdFxIYONO2IWD+c9JJOj5wWGfv0PdoQpIAl61nwxNh5pl
+	 loC8u+T1HDSKzBTnPGRibHd7m0ryl7vcVt6Wr80eHfQnNFYuluDUhzU5J0CCGbqQfK
+	 1pVOf0//CGLT0SGWEf92zjsQ7Jee/FjdubSZufoP55M/K8Vi2UW1clrWhMXviDYlEk
+	 42Gacx/dNeHsHhvTVpqKMxh00YM7fTUbyCZt0xPHlvQCM8hKKoljzNergTmcpPK4Ah
+	 l+qUR9SQLwsoQ==
+Date: Mon, 4 Dec 2023 17:10:29 +0000
+From: Conor Dooley <conor@kernel.org>
+To: Biju Das <biju.das.jz@bp.renesas.com>
+Cc: Wim Van Sebroeck <wim@linux-watchdog.org>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Steve Twiss <stwiss.opensource@diasemi.com>,
+	"linux-watchdog@vger.kernel.org" <linux-watchdog@vger.kernel.org>,
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	"biju.das.au" <biju.das.au@gmail.com>,
+	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>
+Subject: Re: [PATCH v2 01/11] dt-bindings: watchdog: dlg,da9062-watchdog: Add
+ fallback for DA9061 watchdog
+Message-ID: <20231204-wrist-docile-d6107670140e@spud>
+References: <20231202192536.266885-1-biju.das.jz@bp.renesas.com>
+ <20231202192536.266885-2-biju.das.jz@bp.renesas.com>
+ <20231203-daisy-palm-9e97126eaf3f@spud>
+ <TYCPR01MB1126961003EB5830E645742BE8687A@TYCPR01MB11269.jpnprd01.prod.outlook.com>
+ <TYCPR01MB112697ABEBD60A1ADB32ECA248686A@TYCPR01MB11269.jpnprd01.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231204160033.1872569-1-andriy.shevchenko@linux.intel.com> <20231204160033.1872569-2-andriy.shevchenko@linux.intel.com>
-In-Reply-To: <20231204160033.1872569-2-andriy.shevchenko@linux.intel.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 4 Dec 2023 17:18:49 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdU58NjjdOOLA_T1jr1u=H+2eVN69f1FDc6GhiXEenaxLw@mail.gmail.com>
-Message-ID: <CAMuHMdU58NjjdOOLA_T1jr1u=H+2eVN69f1FDc6GhiXEenaxLw@mail.gmail.com>
-Subject: Re: [PATCH v1 1/5] pinctrl: renesas: Mark local variable with const
- in ->set_mux()
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Linus Walleij <linus.walleij@linaro.org>, 
-	=?UTF-8?Q?Jonathan_Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>, 
-	linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	openbmc@lists.ozlabs.org, linux-renesas-soc@vger.kernel.org, 
-	Lakshmi Sowjanya D <lakshmi.sowjanya.d@intel.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="M8mGZHn7Y3eYQmc1"
+Content-Disposition: inline
+In-Reply-To: <TYCPR01MB112697ABEBD60A1ADB32ECA248686A@TYCPR01MB11269.jpnprd01.prod.outlook.com>
+
+
+--M8mGZHn7Y3eYQmc1
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Dec 4, 2023 at 5:02=E2=80=AFPM Andy Shevchenko
-<andriy.shevchenko@linux.intel.com> wrote:
-> We are not going to change pins in the ->set_mux() callback. Mark
-> the local variable with a const qualifier. While at it, make it
-> also unsigned.
->
-> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+On Mon, Dec 04, 2023 at 10:55:20AM +0000, Biju Das wrote:
+> Hi Conor Dooley,
+>=20
+> > Subject: RE: [PATCH v2 01/11] dt-bindings: watchdog: dlg,da9062-watchdo=
+g:
+> > Add fallback for DA9061 watchdog
+> >=20
+> > Hi Conor Dooley,
+> >=20
+> > Thanks for the feedback.
+> >=20
+> > > Subject: Re: [PATCH v2 01/11] dt-bindings: watchdog: dlg,da9062-
+> > watchdog:
+> > > Add fallback for DA9061 watchdog
+> > >
+> > > On Sat, Dec 02, 2023 at 07:25:25PM +0000, Biju Das wrote:
+> > > > The DA9061 watchdog is identical to DA9062 watchdog, so no driver
+> > > > changes are required. The fallback compatible string
+> > > > "dlg,da9062-watchdog" will be used on DA9061 watchdog.
+> > > >
+> > > > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> > > > ---
+> > > > v2:
+> > > >  * New patch
+> > > > ---
+> > > >  .../bindings/watchdog/dlg,da9062-watchdog.yaml        | 11 +++++++=
++--
+> > -
+> > > >  1 file changed, 8 insertions(+), 3 deletions(-)
+> > > >
+> > > > diff --git
+> > > > a/Documentation/devicetree/bindings/watchdog/dlg,da9062-watchdog.yam
+> > > > l
+> > > > b/Documentation/devicetree/bindings/watchdog/dlg,da9062-watchdog.yam
+> > > > l index f058628bb632..2b71fdb9251c 100644
+> > > > ---
+> > > > a/Documentation/devicetree/bindings/watchdog/dlg,da9062-watchdog.yam
+> > > > l
+> > > > +++ b/Documentation/devicetree/bindings/watchdog/dlg,da9062-watchdog
+> > > > +++ .y
+> > > > +++ aml
+> > > > @@ -14,9 +14,14 @@ allOf:
+> > > >
+> > > >  properties:
+> > > >    compatible:
+> > > > -    enum:
+> > > > -      - dlg,da9061-watchdog
+> > > > -      - dlg,da9062-watchdog
+> > > > +    oneOf:
+> > > > +      - items:
+> > > > +          - enum:
+> > > > +              - dlg,da9062-watchdog
+> > > > +      - items:
+> > > > +          - enum:
+> > > > +              - dlg,da9061-watchdog
+> > >
+> > > If there is no da9064 on the horizon, I'd just make this const.
+> >=20
+> > You mean since it is single device having a fallback, define both device
+> > compatible and fallback as const instead of enum and const??
+> >=20
+> > >
+> > > > +          - const: dlg,da9062-watchdog # da9062-watchdog fallback
+> > >
+> > > The comment here is just noise IMO.
+>=20
+> Yes it make sense, comment is not needed.
+>=20
+>     oneOf:
+>       - items:
+>           - enum:
+>               - dlg,da9062-watchdog
+>       - items:
+>           - const: dlg,da9061-watchdog
+>           - const: dlg,da9062-watchdog
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Acked-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Ye, this looks good. Thanks.
 
-Gr{oetje,eeting}s,
+--M8mGZHn7Y3eYQmc1
+Content-Type: application/pgp-signature; name="signature.asc"
 
-                        Geert
+-----BEGIN PGP SIGNATURE-----
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZW4IBAAKCRB4tDGHoIJi
+0kE8AQCcC7P7CwbjI8mpyPErFJHTFEwz3vrCNUDGiTNrth5GGwD/TI9FzFZQsqoN
+zDBdPRztUuv2Hc+3w2sYVRWR7YxnHAA=
+=jkrD
+-----END PGP SIGNATURE-----
 
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+--M8mGZHn7Y3eYQmc1--
 
