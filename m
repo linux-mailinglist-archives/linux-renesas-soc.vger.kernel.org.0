@@ -1,148 +1,204 @@
-Return-Path: <linux-renesas-soc+bounces-614-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-615-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C4E5803186
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  4 Dec 2023 12:30:14 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7175E8031A1
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  4 Dec 2023 12:40:47 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id AD3DB1C20A5A
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  4 Dec 2023 11:30:13 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1E1C0280E9B
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  4 Dec 2023 11:40:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 62F6F22EFD;
-	Mon,  4 Dec 2023 11:30:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9B60A22F0A;
+	Mon,  4 Dec 2023 11:40:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="ZiElWQBW"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from baptiste.telenet-ops.be (baptiste.telenet-ops.be [IPv6:2a02:1800:120:4::f00:13])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E833AF2
-	for <linux-renesas-soc@vger.kernel.org>; Mon,  4 Dec 2023 03:30:03 -0800 (PST)
-Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed40:f143:dd2b:2cfe:eb7c])
-	by baptiste.telenet-ops.be with bizsmtp
-	id JBVz2B00R5Tnyl201BVzsb; Mon, 04 Dec 2023 12:30:00 +0100
-Received: from rox.of.borg ([192.168.97.57])
-	by ramsan.of.borg with esmtp (Exim 4.95)
-	(envelope-from <geert@linux-m68k.org>)
-	id 1rA78t-00Aw16-H5;
-	Mon, 04 Dec 2023 12:29:59 +0100
-Received: from geert by rox.of.borg with local (Exim 4.95)
-	(envelope-from <geert@linux-m68k.org>)
-	id 1rA79D-002BS4-EQ;
-	Mon, 04 Dec 2023 12:29:59 +0100
-From: Geert Uytterhoeven <geert+renesas@glider.be>
-To: Ulf Hansson <ulf.hansson@linaro.org>,
-	Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Cc: linux-mmc@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH v2] mmc: core: Cancel delayed work before releasing host
-Date: Mon,  4 Dec 2023 12:29:53 +0100
-Message-Id: <205dc4c91b47e31b64392fe2498c7a449e717b4b.1701689330.git.geert+renesas@glider.be>
-X-Mailer: git-send-email 2.34.1
+Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com [210.118.77.12])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6ADCAB0;
+	Mon,  4 Dec 2023 03:40:41 -0800 (PST)
+Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
+	by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id 20231204114040euoutp02292a0127f27ad873afe25d97659f31a9~dnhNdbYt51544815448euoutp02O;
+	Mon,  4 Dec 2023 11:40:40 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com 20231204114040euoutp02292a0127f27ad873afe25d97659f31a9~dnhNdbYt51544815448euoutp02O
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1701690040;
+	bh=qoSlDlAlmyMO1fD/zESFlbZVGoR0yDyo5RovorKXLGU=;
+	h=Date:From:Subject:To:Cc:In-Reply-To:References:From;
+	b=ZiElWQBWoN/gMkxnTbl4EIJxJaE/qWzC15BE8zltHkDgiAkzy4jcRQQtE89lZJRFE
+	 y0CAFQMH/8r3YrWb6vhMFfNnjlRU4OQG3F1D5CcUm6baAXYgCF3nBRHZq0UuUfINyM
+	 b9rZMUmPEL+y10xZs8D85HkEGozViYSZ4VZGZ/5w=
+Received: from eusmges2new.samsung.com (unknown [203.254.199.244]) by
+	eucas1p2.samsung.com (KnoxPortal) with ESMTP id
+	20231204114040eucas1p22e4e9d56a0f68b1e4d48c13f2cc13892~dnhNR4TKl1052710527eucas1p2C;
+	Mon,  4 Dec 2023 11:40:40 +0000 (GMT)
+Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
+	eusmges2new.samsung.com (EUCPMTA) with SMTP id 47.26.09814.7BABD656; Mon,  4
+	Dec 2023 11:40:39 +0000 (GMT)
+Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
+	eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
+	20231204114039eucas1p29c6f8a162191e58ff658d3a1c44429bf~dnhM11-r21052710527eucas1p2B;
+	Mon,  4 Dec 2023 11:40:39 +0000 (GMT)
+Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
+	eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
+	20231204114039eusmtrp2aa892cf8db8bcd9cc62f775c443bc043~dnhMyrE4x3101831018eusmtrp2K;
+	Mon,  4 Dec 2023 11:40:39 +0000 (GMT)
+X-AuditID: cbfec7f4-711ff70000002656-67-656dbab7ff2e
+Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
+	eusmgms1.samsung.com (EUCPMTA) with SMTP id 1A.00.09146.7BABD656; Mon,  4
+	Dec 2023 11:40:39 +0000 (GMT)
+Received: from [106.210.134.192] (unknown [106.210.134.192]) by
+	eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
+	20231204114037eusmtip1af7cdf53ae21703af228f6e129f28260~dnhLNXjH_2303523035eusmtip1g;
+	Mon,  4 Dec 2023 11:40:37 +0000 (GMT)
+Message-ID: <9e4e65de-7234-4234-8091-796277a1f1c5@samsung.com>
+Date: Mon, 4 Dec 2023 12:40:38 +0100
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+From: Marek Szyprowski <m.szyprowski@samsung.com>
+Subject: Re: [PATCH v4 12/23] pinctrl: mediatek: Make use of
+ PINCTRL_GROUP_DESC()
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Linus Walleij
+	<linus.walleij@linaro.org>, Bartosz Golaszewski
+	<bartosz.golaszewski@linaro.org>, Rasmus Villemoes
+	<linux@rasmusvillemoes.dk>, =?UTF-8?Q?Jonathan_Neusch=C3=A4fer?=
+	<j.neuschaefer@gmx.net>, Krzysztof Kozlowski
+	<krzysztof.kozlowski@linaro.org>, =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?=
+	<u.kleine-koenig@pengutronix.de>, Geert Uytterhoeven
+	<geert+renesas@glider.be>, Biju Das <biju.das.jz@bp.renesas.com>, Claudiu
+	Beznea <claudiu.beznea.uj@bp.renesas.com>, Jianlong Huang
+	<jianlong.huang@starfivetech.com>, linux-arm-kernel@lists.infradead.org,
+	linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-mediatek@lists.infradead.org, openbmc@lists.ozlabs.org,
+	linux-mips@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org
+Cc: Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
+	Broadcom internal kernel review list
+	<bcm-kernel-feedback-list@broadcom.com>, Dong Aisheng
+	<aisheng.dong@nxp.com>, Fabio Estevam <festevam@gmail.com>, Shawn Guo
+	<shawnguo@kernel.org>, Jacky Bai <ping.bai@nxp.com>, Pengutronix Kernel Team
+	<kernel@pengutronix.de>, Sascha Hauer <s.hauer@pengutronix.de>, NXP Linux
+	Team <linux-imx@nxp.com>, Sean Wang <sean.wang@kernel.org>, Paul Cercueil
+	<paul@crapouillou.net>, Lakshmi Sowjanya D <lakshmi.sowjanya.d@intel.com>,
+	Bjorn Andersson <andersson@kernel.org>, Andy Gross <agross@kernel.org>,
+	Konrad Dybcio <konrad.dybcio@linaro.org>, Emil Renner Berthing
+	<kernel@esmil.dk>, Hal Feng <hal.feng@starfivetech.com>, Krzysztof Kozlowski
+	<krzk@kernel.org>
+Content-Language: en-US
+In-Reply-To: <20231129161459.1002323-13-andriy.shevchenko@linux.intel.com>
+Content-Transfer-Encoding: 7bit
+X-Brightmail-Tracker: H4sIAAAAAAAAA01Ta0xTZxjed87hnAOueKxsfEEJCQGjC3JZAL8NgmOT5EzdJpOxuBs2coZC
+	uaSF1REWG0GETgTacStQNBCuCqzcK6bKBg0wLlZhpEMZ4yJggHUSN0B0tgc3/j3v+z7P97zP
+	m3w0LlwgnegzcYmcJE4kdiXtiNae1cH9bbpYznvDfAANTq0TaCVPh6PWjECUdb4AQ9VPrmHo
+	elY3gTTtTzD0fXedDZoc+QiVFisBMl7owlDJ+TYKZa72AzR9rQig2rwOAmWo2gg0NNRIoZuP
+	Wii0rBmj0A9PqzCknRq1Qbn6AQo1lT0FSLFWg6O7uhIS3U29A1CmtgWglvklDE2pNSTqS5sj
+	UHa5kUB1g7dJNFPURKKNNi2BluqmAVLVv4/mmh3Rb7kq8M4etmaumGLVEwMkW2e8SLIZl58R
+	bO7AfrZDfZ9iy7V6ki3vnMdYbW0myY6PdpKspjeUbao4xw4VXgXsj0vtGJu94c0OK2KOCT+z
+	C4zkxGe+4SReQSftTqfNPiQTftp+tnW9gZKDvlcVwJaGjC+c1KzaKIAdLWSqAbxU30jwxQqA
+	Ff/c35w8BnAmdYN4KZFf7yD5QRWAFxYqMb4wAzhSc+sFi6YFTBB8oAIWAcG4wZnVAdKCBcwO
+	2Fs0bX3oNcYFTpgKKQsmGR+oWFRYOTuZ4/Dn8QdWAwfmFxLeK222GuBMDgkbeu5Z1TjjCE3T
+	ZZgF2zKH4aRy1obvu8C2xRLcIoCMfBvMX36+ufchqDT0kzzeCRcMzRSPd8PnHWUYL7gI4JX1
+	ic0iB0D5QxPgWQFwfHCNtGTDmX2wQefFt4PhLd2yNTJk7OHY4g5+CXuobC3A+bYAZqQLefYe
+	qDbU/2d7e9iI5wBX9ZbDqLdEU2+Jo/7f9wogaoEjlySNjeKkb8ZxMk+pKFaaFBfleSo+Vgte
+	fIf+Z4aVdlC1YPbsAhgNugCkcVcHgcYUwwkFkaJvkzlJfIQkScxJu8AumnB1FLhHunBCJkqU
+	yMVwXAIneTnFaFsnOVZj2q7sVh4Z85jpOfFK/Agnya/3EZszsuTy90aDvgpwp+cpMjPiQOhs
+	aVjKTffdic75Rx8Fiw4ZZB59Rv1JcU9kchf3eW/649+VMb5npz/9YFdIxK8uDmF3ZI3V7wZM
+	pWDLxUkHjc4H3ZzsQ4ZLR+3OReQ3OPVFJ4evb4CpTwL9C3NEl96O2isPNZRXJvy1z+DjvLJU
+	o0+LNoccSdSd8vvicGXn8VWpSe3fd/RPuUtHoD7ULXjc71gWIwv/o7TZIUUm/rgiKvDyiWy3
+	70K8C0zFVV+m9/ukKh23JYf7/e3lm2f8Gn3YemNNp/IQ+5r1BWGvJ/vfoIvfqotURbP1NriT
+	2ZWQnhb5vIFLpKJ/Ac8KBzB9BAAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA02Sf1CTdRzH+T579mxQq6eJ7HtcRO66PPGY29zoixHVJfVQaSZedmhHU5/A
+	Y2PcNrDsrIVU41GkbZJj4KjwFwxkbcCALHKhHHiAwsURTBAYAwowI7yQyQWs7vjvdZ/P+/35
+	fO5zby6L/4AdyT2cpaM1WQqlkAjDbyy13Y51N6to8bwXoq6xRRz9XdzMQg2GBFSYdwZDl+5X
+	Y6im8BqObI33MXTimp2NRn59C50tNQHU87kHQ2V5bg4qWLgBkK+6BKCq4iYcGcxuHHV3Ozjo
+	xz/qOeiurZ+DTgcuYsg51sdGxpZODnKVBwBiHlSyUG9zGYF6j98CqMBZD1D91CyGxqw2AnXk
+	T+KoqKIHR/auqwQaL3ER6KHbiaNZuw8g8+VkNFknQINGM3jpWapyspRDWYc7Ccre8yVBGU4t
+	4ZSxM5Zqst7mUBXOFoKquDKFUc6qAoLy9l0hKFv725Tr3KdUt+VbQH0/24hRRQ/F1E0mcxc/
+	VZSgUefo6Kcz1FrdC8J9EiQVSeKRSCqLF0m2PvfeNqlcuCUx4RCtPJxLa7Ykvi/KyPdPENm/
+	PP5hw2ItRw86HmVAKBeSMqivaSIYEMblk+cBHG0rx4ONJ2H713p2kNfBQB/zn+gugIsDo4AB
+	XC6PTIRDZrCiwcln4PhCJ7HCPPIJ2F7iW52znoyGwwMWzgoTpAQyM8yqZh2ZAlu9Q6scTnYR
+	0GhJW2EWaSLg8Jg0uMsA4NVbJ7FgQwAHfOWrHEq+DkdMfnawHgeZegYEORq6Z8pYXwG+dc0d
+	1jV26xqLdY3lG4BXgXA6R6tKV2klIq1Cpc3JShcdVKucYDmEDdcXXI3A9vs9kQdgXOABkMsS
+	hvNsA5k0n3dI8dFRWqNO0+Qoaa0HyJefYWRFrj+oXk5xli5NEieWS2Rx8WJ5fNxWoYCXnG1Q
+	8Ml0hY7OpOlsWvO/D+OGRuox9lL3u7uVNdKW0rCZs+7vilJvxso29qeM7KhLntjwmqPK8lf2
+	xiOj4qN5S09FDbp/cM+fsCd9cuQNSWrl5tqXDR6f75jjz4shJrKxS2baMdi2Vxohn5tXO1oP
+	6PIddz6uLX5Tb88P+BsDnL3nXIK6uk61xJ9k3u5Mn1OcDszlbst1CKriJl717vlg/2M7LYk7
+	W8v4l6XdPp/hWLUs5foj4v3eL2Yu9LuizpMXPBFNuy8l9b4yrRrMihiPjqmImRhNn/+tY1fI
+	0ELE9uMgtbmwuta/iR7+h+39Wft81FTIHlgUual8X8p02b2ozfq66QMbfjqDFU++46NPmV50
+	f9anvENUCnFthkISw9JoFf8CmRY9FQ0EAAA=
+X-CMS-MailID: 20231204114039eucas1p29c6f8a162191e58ff658d3a1c44429bf
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-RootMTR: 20231204114039eucas1p29c6f8a162191e58ff658d3a1c44429bf
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20231204114039eucas1p29c6f8a162191e58ff658d3a1c44429bf
+References: <20231129161459.1002323-1-andriy.shevchenko@linux.intel.com>
+	<20231129161459.1002323-13-andriy.shevchenko@linux.intel.com>
+	<CGME20231204114039eucas1p29c6f8a162191e58ff658d3a1c44429bf@eucas1p2.samsung.com>
 
-On RZ/Five SMARC EVK, where probing of SDHI is deferred due to probe
-deferral of the vqmmc-supply regulator:
+On 29.11.2023 17:06, Andy Shevchenko wrote:
+> Make use of PINCTRL_GROUP_DESC() instead of open coding it.
+>
+> Signed-off-by: Andy Shevchenko<andriy.shevchenko@linux.intel.com>
 
-    ------------[ cut here ]------------
-    WARNING: CPU: 0 PID: 0 at kernel/time/timer.c:1738 __run_timers.part.0+0x1d0/0x1e8
-    Modules linked in:
-    CPU: 0 PID: 0 Comm: swapper Not tainted 6.7.0-rc4 #101
-    Hardware name: Renesas SMARC EVK based on r9a07g043f01 (DT)
-    epc : __run_timers.part.0+0x1d0/0x1e8
-     ra : __run_timers.part.0+0x134/0x1e8
-    epc : ffffffff800771a4 ra : ffffffff80077108 sp : ffffffc800003e60
-     gp : ffffffff814f5028 tp : ffffffff8140c5c0 t0 : ffffffc800000000
-     t1 : 0000000000000001 t2 : ffffffff81201300 s0 : ffffffc800003f20
-     s1 : ffffffd8023bc4a0 a0 : 00000000fffee6b0 a1 : 0004010000400000
-     a2 : ffffffffc0000016 a3 : ffffffff81488640 a4 : ffffffc800003e60
-     a5 : 0000000000000000 a6 : 0000000004000000 a7 : ffffffc800003e68
-     s2 : 0000000000000122 s3 : 0000000000200000 s4 : 0000000000000000
-     s5 : ffffffffffffffff s6 : ffffffff81488678 s7 : ffffffff814886c0
-     s8 : ffffffff814f49c0 s9 : ffffffff81488640 s10: 0000000000000000
-     s11: ffffffc800003e60 t3 : 0000000000000240 t4 : 0000000000000a52
-     t5 : ffffffd8024ae018 t6 : ffffffd8024ae038
-    status: 0000000200000100 badaddr: 0000000000000000 cause: 0000000000000003
-    [<ffffffff800771a4>] __run_timers.part.0+0x1d0/0x1e8
-    [<ffffffff800771e0>] run_timer_softirq+0x24/0x4a
-    [<ffffffff80809092>] __do_softirq+0xc6/0x1fa
-    [<ffffffff80028e4c>] irq_exit_rcu+0x66/0x84
-    [<ffffffff80800f7a>] handle_riscv_irq+0x40/0x4e
-    [<ffffffff80808f48>] call_on_irq_stack+0x1c/0x28
-    ---[ end trace 0000000000000000 ]---
+This patch landed in linux-next as commit 1949e4630c3b ("pinctrl: 
+mediatek: Make use of PINCTRL_GROUP_DESC()"). Unfortunately it causes a 
+build break of ARM64 arch with standard defconfig.
 
-What happens?
+> ---
+>   drivers/pinctrl/mediatek/pinctrl-moore.h | 7 +------
+>   drivers/pinctrl/mediatek/pinctrl-paris.h | 7 +------
+>   2 files changed, 2 insertions(+), 12 deletions(-)
+>
+> diff --git a/drivers/pinctrl/mediatek/pinctrl-moore.h b/drivers/pinctrl/mediatek/pinctrl-moore.h
+> index e1b4b82b9d3d..22ef1ffbcdcb 100644
+> --- a/drivers/pinctrl/mediatek/pinctrl-moore.h
+> +++ b/drivers/pinctrl/mediatek/pinctrl-moore.h
+> @@ -38,12 +38,7 @@
+>   	}
+>   
+>   #define PINCTRL_PIN_GROUP(name, id)			\
+> -	{						\
+> -		name,					\
+> -		id##_pins,				\
+> -		ARRAY_SIZE(id##_pins),			\
+> -		id##_funcs,				\
+> -	}
+> +	PINCTRL_GROUP_DESC(name, id##_pins, ARRAY_SIZE(id##_pins), id##_funcs)
+>   int mtk_moore_pinctrl_probe(struct platform_device *pdev,
+>   			    const struct mtk_pin_soc *soc);
+> diff --git a/drivers/pinctrl/mediatek/pinctrl-paris.h b/drivers/pinctrl/mediatek/pinctrl-paris.h
+> index 8762ac599329..f208a904c4a8 100644
+> --- a/drivers/pinctrl/mediatek/pinctrl-paris.h
+> +++ b/drivers/pinctrl/mediatek/pinctrl-paris.h
+> @@ -50,12 +50,7 @@
+>   	}
+>   
+>   #define PINCTRL_PIN_GROUP(name, id)			\
+> -	{						\
+> -		name,					\
+> -		id##_pins,				\
+> -		ARRAY_SIZE(id##_pins),			\
+> -		id##_funcs,				\
+> -	}
+> +	PINCTRL_GROUP_DESC(name, id##_pins, ARRAY_SIZE(id##_pins), id##_funcs)
+>   
+>   int mtk_paris_pinctrl_probe(struct platform_device *pdev);
 
-    renesas_sdhi_probe()
-    {
-    	tmio_mmc_host_alloc()
-	    mmc_alloc_host()
-		INIT_DELAYED_WORK(&host->detect, mmc_rescan);
 
-	devm_request_irq(tmio_mmc_irq);
+PINCTRL_GROUP_DESC() macro from drivers/pinctrl/core.h contains a cast 
+to (struct group_desc), what breaks users of the above macros.
 
-	/*
-	 * After this, the interrupt handler may be invoked at any time
-	 *
-	 *  tmio_mmc_irq()
-	 *  {
-	 *	__tmio_mmc_card_detect_irq()
-	 *	    mmc_detect_change()
-	 *		_mmc_detect_change()
-	 *		    mmc_schedule_delayed_work(&host->detect, delay);
-	 *  }
-	 */
-
-	tmio_mmc_host_probe()
-	    tmio_mmc_init_ocr()
-		-EPROBE_DEFER
-
-	tmio_mmc_host_free()
-	    mmc_free_host()
-    }
-
-When expire_timers() runs later, it warns because the MMC host structure
-containing the delayed work was freed, and now contains an invalid work
-function pointer.
-
-Fix this by cancelling any pending delayed work before releasing the
-MMC host structure.
-
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
-This is v2 of "[RFC] mmc: tmio: Cancel delayed work before freeing
-host".
-
-v2:
-  - Move cancel_delayed_work_sync() call from tmio_mmc_host_free() to
-    mmc_free_host(),
-  - Correct explanation from missing pin control to vqmmc-supply probe
-    deferral,
-  - Update backtrace.
----
- drivers/mmc/core/host.c | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/drivers/mmc/core/host.c b/drivers/mmc/core/host.c
-index 096093f7be006353..2f51db4df1a8571b 100644
---- a/drivers/mmc/core/host.c
-+++ b/drivers/mmc/core/host.c
-@@ -692,6 +692,7 @@ EXPORT_SYMBOL(mmc_remove_host);
-  */
- void mmc_free_host(struct mmc_host *host)
- {
-+	cancel_delayed_work_sync(&host->detect);
- 	mmc_pwrseq_free(host);
- 	put_device(&host->class_dev);
- }
+Best regards
 -- 
-2.34.1
+Marek Szyprowski, PhD
+Samsung R&D Institute Poland
 
 
