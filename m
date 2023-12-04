@@ -1,99 +1,102 @@
-Return-Path: <linux-renesas-soc+bounces-610-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-611-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9878802DEC
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  4 Dec 2023 10:10:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C85FA802EF5
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  4 Dec 2023 10:42:27 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 823A3280D06
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  4 Dec 2023 09:10:47 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8420F2802A1
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  4 Dec 2023 09:42:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 77D321171B;
-	Mon,  4 Dec 2023 09:10:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8D5D11C6A6;
+	Mon,  4 Dec 2023 09:42:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PeV0eZad"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="haiWJzfH"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C654C8F9
-	for <linux-renesas-soc@vger.kernel.org>; Mon,  4 Dec 2023 09:10:44 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id BD0F3C433C9
-	for <linux-renesas-soc@vger.kernel.org>; Mon,  4 Dec 2023 09:10:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1701681044;
-	bh=+WxpRiAUSazKru6pIyLmJDlz9LLq7kjdBujgqwXGrBY=;
-	h=Subject:From:Date:To:From;
-	b=PeV0eZadUsBF/8rr2Uecbwukzh8U7uYEEpGuY5bLW0Es4GdfnPh7dh3aMMgcMw5Jf
-	 ygtjPP9sffukqY1+GzqVpJ3LF/ZNQ6xURccy/CUzDcWfn99ibM0ysTbdn0+zzb/J4k
-	 pMu0Yv8rUpu9GVwIfsA4FL7loZ8A5Dq+MWBE0vNRuA4DcVg/mS08BRAZQ4sBNSv+9Q
-	 aYBWQyezYakYYF3nDeSnB9kKdZKkoxewXME89LyA7gXTjW9wwlfENASxdj5M0ASh/C
-	 p/MIO22y6nEBpKBwIaakz6kpUq4wJENp2EtgvL7904t1NVm0q6F/GUl5cN0GRYW9rp
-	 PZ/zdvqIbyZmQ==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 9DD57C41677
-	for <linux-renesas-soc@vger.kernel.org>; Mon,  4 Dec 2023 09:10:44 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B205B10F9
+	for <linux-renesas-soc@vger.kernel.org>; Mon,  4 Dec 2023 01:42:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1701682925;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=VaGns7gznEtfoHG5/ry6CysbEWdXBIzB19dd6KHGP/0=;
+	b=haiWJzfH9lYDPxiwl3WlCBLs23LPQ3wdncQ3Vqgmlr0Y/1iIwoZG7ocWU5BIrZvPUsj9yI
+	vUNeTKZNWMMKATt2Sx95jAyM7HA8EMfVOFEv3GLjZCCOe+5aWc4xhHAkYsUQud7xN0vVpT
+	bV0kKuKDpwbmsEyBKtp/I+q8Wiydyxw=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-274-_pRqqbPfP1e4PH26geGcaQ-1; Mon, 04 Dec 2023 04:42:03 -0500
+X-MC-Unique: _pRqqbPfP1e4PH26geGcaQ-1
+Received: by mail-wm1-f69.google.com with SMTP id 5b1f17b1804b1-40b3712ef28so31271665e9.2
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 04 Dec 2023 01:42:03 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701682922; x=1702287722;
+        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=VaGns7gznEtfoHG5/ry6CysbEWdXBIzB19dd6KHGP/0=;
+        b=AhA9rUceUEv9TGKONP4jHRBVYZmNUdcCiLIFp8oV21TPs379C/pETJz0MdrlJZaKSz
+         Ukhsla2tthpksGxm5P1C/gmDLckJsaApgCuT49JwBU6Yla3nxyM5TbNVJpSsCRU9tN7v
+         37u9jWVhZSp05LsJTfgbFMACsE2yxJE92r6BQWtOEz/d9zcGMGg8guwyDxPz0ZX3/2h6
+         +07Z5W9y6JS31aWxQbWzc0lujWAwUAhuX0KkuC7T8d2dJU3qQgrG3W5TZyVhakHoS0Ec
+         gMkajE7rHBQ83h9/pp2zvDheheRXCM1H5pFq9Ezl6BsIYL5Rovj7KgHrC1OXgi53e1sY
+         7M9w==
+X-Gm-Message-State: AOJu0YzE/sOp8NiaQpokkG9yU4u1NUUxbBo10vO/Qj/y3A2C4uo1kfmc
+	An3zb+ekn3SzBrncoFG463umHaMoanJxGTwrwnDZi9uRAKrkAMtzQWXxbHxuumXsVp1KYngVBya
+	f2blxkf/yLHBISlRN/i94uwWjTGGlzUk=
+X-Received: by 2002:a05:600c:230c:b0:40b:5e21:bde1 with SMTP id 12-20020a05600c230c00b0040b5e21bde1mr1992490wmo.112.1701682922722;
+        Mon, 04 Dec 2023 01:42:02 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IHKbDMlcSZRmYxfwIMqNYsq1c9B1PO0Imfj1CH1zWIpq+H+b1PJuusoLSRaiunDJaNEcQNA8g==
+X-Received: by 2002:a05:600c:230c:b0:40b:5e21:bde1 with SMTP id 12-20020a05600c230c00b0040b5e21bde1mr1992482wmo.112.1701682922357;
+        Mon, 04 Dec 2023 01:42:02 -0800 (PST)
+Received: from localhost (205.pool92-176-231.dynamic.orange.es. [92.176.231.205])
+        by smtp.gmail.com with ESMTPSA id p23-20020a05600c1d9700b0040b3645a7c2sm18214724wms.40.2023.12.04.01.42.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 04 Dec 2023 01:42:02 -0800 (PST)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>, mripard@kernel.org,
+ maarten.lankhorst@linux.intel.com, daniel@ffwll.ch, airlied@gmail.com,
+ suijingfeng@loongson.cn
+Cc: laurent.pinchart@ideasonboard.com, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, Thomas Zimmermann
+ <tzimmermann@suse.de>
+Subject: Re: [PATCH v2 7/8] drm/simpledrm: Do not include
+ <drm/drm_plane_helper.h>
+In-Reply-To: <20231204090852.1650-8-tzimmermann@suse.de>
+References: <20231204090852.1650-1-tzimmermann@suse.de>
+ <20231204090852.1650-8-tzimmermann@suse.de>
+Date: Mon, 04 Dec 2023 10:42:01 +0100
+Message-ID: <877cluxq1i.fsf@minerva.mail-host-address-is-not-set>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Patchwork summary for: linux-renesas-soc
-From: patchwork-bot+linux-renesas-soc@kernel.org
-Message-Id: 
- <170168104459.26380.7779314004763659143.git-patchwork-summary@kernel.org>
-Date: Mon, 04 Dec 2023 09:10:44 +0000
-To: linux-renesas-soc@vger.kernel.org
+Content-Type: text/plain
 
-Hello:
+Thomas Zimmermann <tzimmermann@suse.de> writes:
 
-The following patches were marked "mainlined", because they were applied to
-geert/renesas-devel.git (master):
+> Remove unnecessary include statements for <drm/drm_plane_helper.h>.
+> The file contains helpers for non-atomic code and should not be
+> required by most drivers. No functional changes.
+>
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Reviewed-by: Sui Jingfeng <suijingfeng@loongson.cn>
+> ---
 
-Patch: media: vsp1: Remove unbalanced .s_stream(0) calls
-  Submitter: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-  Committer: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=796036
-  Lore link: https://lore.kernel.org/r/20231024142522.29658-1-laurent.pinchart+renesas@ideasonboard.com
-
-Series: net: ravb: Fixes for the ravb driver
-  Submitter: claudiu beznea <claudiu.beznea@tuxon.dev>
-  Committer: Paolo Abeni <pabeni@redhat.com>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=804761
-  Lore link: https://lore.kernel.org/r/20231128080439.852467-1-claudiu.beznea.uj@bp.renesas.com
-    Patches: [v2,1/6] net: ravb: Check return value of reset_control_deassert()
-             [v2,2/6] net: ravb: Use pm_runtime_resume_and_get()
-             [v2,3/6] net: ravb: Make write access to CXR35 first before accessing other EMAC registers
-             [v2,4/6] net: ravb: Start TX queues after HW initialization succeeded
-             [v2,5/6] net: ravb: Stop DMA in case of failures on ravb_open()
-             [v2,6/6] net: ravb: Keep reverse order of operations in ravb_remove()
-
-Series: net: rswitch: Fix issues in rswitch_start_xmit()
-  Submitter: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-  Committer: David S. Miller <davem@davemloft.net>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=803110
-  Lore link: https://lore.kernel.org/r/20231122051143.3660780-1-yoshihiro.shimoda.uh@renesas.com
-    Patches: [net,v3,1/3] net: rswitch: Fix type of ret in rswitch_start_xmit()
-             [net,v3,2/3] net: rswitch: Fix return value in rswitch_start_xmit()
-             [net,v3,3/3] net: rswitch: Fix missing dev_kfree_skb_any() in error path
-
-Patch: [net,v4] ravb: Fix races between ravb_tx_timeout_work() and net related ops
-  Submitter: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-  Committer: Jakub Kicinski <kuba@kernel.org>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=804482
-  Lore link: https://lore.kernel.org/r/20231127122420.3706751-1-yoshihiro.shimoda.uh@renesas.com
-
-
-Total patches: 11
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+Best regards,
 
+Javier Martinez Canillas
+Core Platforms
+Red Hat
 
 
