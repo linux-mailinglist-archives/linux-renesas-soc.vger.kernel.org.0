@@ -1,181 +1,99 @@
-Return-Path: <linux-renesas-soc+bounces-618-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-619-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA3648033AF
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  4 Dec 2023 14:00:29 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FF728033B4
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  4 Dec 2023 14:00:42 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 85DD3280FDF
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  4 Dec 2023 13:00:28 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id BB00FB2081B
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  4 Dec 2023 13:00:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0BDEA249EF;
-	Mon,  4 Dec 2023 13:00:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XHg6aGlB"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 89472249F0;
+	Mon,  4 Dec 2023 13:00:36 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vk1-xa2d.google.com (mail-vk1-xa2d.google.com [IPv6:2607:f8b0:4864:20::a2d])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7D04CFD;
-	Mon,  4 Dec 2023 05:00:21 -0800 (PST)
-Received: by mail-vk1-xa2d.google.com with SMTP id 71dfb90a1353d-4b2d526a509so170957e0c.2;
-        Mon, 04 Dec 2023 05:00:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1701694820; x=1702299620; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=u7aJCeBo2guqu/RUQW0zkVfwd6W/nONHlzvSur6h+mg=;
-        b=XHg6aGlB/J9ijd2fKK/DyfM2mGeDHhQpUZzG72ePxj+Wgp4G3YLGq1CZXJzwOahG4t
-         7PVbZez7OyCtT1zpWu8au72kzCB6mXMkOjRHhFui2hbmxh14W/K0iPmhepDD22dz4lmo
-         C/kebn3y5rJpjHmznSGurtsbEve7rENYF+B6ls3hnPVClpuxzHAAk6MMPz5zzWb1i/OU
-         Kbv0Tq+YPnKhWiLTqT+ushTwbgBRrSzx5K3RzkKPQrW/qzSwM85/jQ8jpUPlqwC4Mmms
-         TU4zNJawCIroDOG4GtJOzh7J2FZzsFrkowqDpv95ddSM24DjSS+n5CMcEP6wMwDrvY2Y
-         r+6g==
+Received: from mail-yb1-f173.google.com (mail-yb1-f173.google.com [209.85.219.173])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0D30A103
+	for <linux-renesas-soc@vger.kernel.org>; Mon,  4 Dec 2023 05:00:32 -0800 (PST)
+Received: by mail-yb1-f173.google.com with SMTP id 3f1490d57ef6-db539f21712so2279043276.1
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 04 Dec 2023 05:00:32 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701694820; x=1702299620;
+        d=1e100.net; s=20230601; t=1701694831; x=1702299631;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=u7aJCeBo2guqu/RUQW0zkVfwd6W/nONHlzvSur6h+mg=;
-        b=D+eblzng7t+13HunIBFS9XKDRUugITsyHNCaH/cX3PnUpUe8oxRDSpFA+vS+lOiFpd
-         Fr2qzLDi7ZecGYOPzkK74jibpTo59MDdKO47DJCfOvcJGKp23ie1w3T0EAtv+GH4eBJf
-         Ozq7L45JwxD0SQaZrobZ+xmVddmh5I0eOd9zNLIHQvRA4idLm7+JhB1nuyMDiqTHSNK8
-         QKFQcnbdd2TsC8tJrpHTGzdMO9f7hLeTgLOEZ7JZx85BzFSvLcRgJiI99MIjZKTBfJxL
-         5dWSXEzfbhodCKLsEbz9q5di1r0pDsP4ZrPE0e/drDmYa0lrxN+GPAIEuHyAxz2Q0WUX
-         UwAw==
-X-Gm-Message-State: AOJu0YyunZpAcR3xW+nd9MhVFC6H7M4pZ7h42WAOzMjrWRxiPqPvia7V
-	WM4PvFn259MwU9FIDP3vwbgWcGKNF9NJ76GRZ5+IIHIiXwo=
-X-Google-Smtp-Source: AGHT+IGE2npKlsB5rnj3DkCMZSLRvpJrnSD0wKo8FdTtM/D3jLAOT3B9nLe5s9Y0fW0XOiax8rHgS+gYYv3uTUx/8UY=
-X-Received: by 2002:a05:6122:718:b0:4b2:c554:e3fe with SMTP id
- 24-20020a056122071800b004b2c554e3femr828907vki.30.1701694820422; Mon, 04 Dec
- 2023 05:00:20 -0800 (PST)
+        bh=B4uLjxMfCZPiVGwr1ETNjC9eJCAWm609taKdtXgu+uw=;
+        b=nNgzQeKa+/Oxv8KdvjFh5GhfgnJg4E6noLQDT/mD3PhRKRBUGaXQgJwcriMPznkJ9N
+         AXhVAdwGUHAc4E/o1DDCkJpXAfgZi+GYZPQpyiFm4Ufu0aE5RRi7iV/DtAmOkb69l8Ig
+         ltg1jr1Z3BbYlUgUyeJ63zET8EJ5EGuLyLegn3mxQ5t4lJB4rACROyQ+4zhVUU7S8Noy
+         0T6dC8EwR97KnX/KEmPOKVvPgsxi2pou3o40wUD2EiPwi2ZH+ri3S4LX+IGsroY091v+
+         kez+T5AufUlDL2wUrnGy4Xzze2aqNT9/BywEh6qXk3Dz7kJ5Ra05b9C4cJGwgFaTdOnF
+         HMDQ==
+X-Gm-Message-State: AOJu0Yxz0siBRYHEQQaA3wmKvDxYrP+wDgnKT6JyDQVXZuYf40oHS3go
+	Ee6rrFVesAlWszKURGqE7KoKcdl9UYbcRQ==
+X-Google-Smtp-Source: AGHT+IFWk+skaSI+MHKB5BNdbmGzMKFZ2NxVUuej7FMf7vCEF+ToV7e0LZ3quJDoRZgs3h3Xp21oTw==
+X-Received: by 2002:a25:bc13:0:b0:db7:daec:ec62 with SMTP id i19-20020a25bc13000000b00db7daecec62mr1818640ybh.41.1701694830965;
+        Mon, 04 Dec 2023 05:00:30 -0800 (PST)
+Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com. [209.85.128.178])
+        by smtp.gmail.com with ESMTPSA id h21-20020a816c15000000b005d75bce5836sm1739168ywc.28.2023.12.04.05.00.28
+        for <linux-renesas-soc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 04 Dec 2023 05:00:28 -0800 (PST)
+Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-5d77a1163faso12242117b3.0
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 04 Dec 2023 05:00:28 -0800 (PST)
+X-Received: by 2002:a05:690c:c0d:b0:5d7:e2b8:bcca with SMTP id
+ cl13-20020a05690c0c0d00b005d7e2b8bccamr1589995ywb.18.1701694828558; Mon, 04
+ Dec 2023 05:00:28 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <205dc4c91b47e31b64392fe2498c7a449e717b4b.1701689330.git.geert+renesas@glider.be>
-In-Reply-To: <205dc4c91b47e31b64392fe2498c7a449e717b4b.1701689330.git.geert+renesas@glider.be>
-From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Mon, 4 Dec 2023 12:59:54 +0000
-Message-ID: <CA+V-a8u6JGtidCd13HBQC9XJFedSetGS-H+tudzJ=azaMnW=Cg@mail.gmail.com>
-Subject: Re: [PATCH v2] mmc: core: Cancel delayed work before releasing host
-To: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: Ulf Hansson <ulf.hansson@linaro.org>, Wolfram Sang <wsa+renesas@sang-engineering.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, linux-mmc@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20231204124507.124758-1-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20231204124507.124758-1-biju.das.jz@bp.renesas.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Mon, 4 Dec 2023 14:00:17 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdWE89yQEqJA4r0VMUAdqr=GVZ4YFP4XpkBaVTsq5RfD9w@mail.gmail.com>
+Message-ID: <CAMuHMdWE89yQEqJA4r0VMUAdqr=GVZ4YFP4XpkBaVTsq5RfD9w@mail.gmail.com>
+Subject: Re: [PATCH] mfd: da9062: Simplify obtaining I2C match data
+To: Biju Das <biju.das.jz@bp.renesas.com>
+Cc: Lee Jones <lee@kernel.org>, Support Opensource <support.opensource@diasemi.com>, 
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>, Biju Das <biju.das.au@gmail.com>, 
+	linux-renesas-soc@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Dec 4, 2023 at 11:30=E2=80=AFAM Geert Uytterhoeven
-<geert+renesas@glider.be> wrote:
+On Mon, Dec 4, 2023 at 1:45=E2=80=AFPM Biju Das <biju.das.jz@bp.renesas.com=
+> wrote:
+> Simplify probe() by replacing of_device_get_match_data() and ID lookup fo=
+r
+> retrieving match data by i2c_get_match_data().
 >
-> On RZ/Five SMARC EVK, where probing of SDHI is deferred due to probe
-> deferral of the vqmmc-supply regulator:
+> Some minor cleanups:
+>  * Remove the trailing comma in the terminator entry for the ID
+>    table making code robust against (theoretical) misrebases or other
+>    similar things where the new entry goes _after_ the termination withou=
+t
+>    the compiler noticing.
+>  * Move OF table near to the user.
 >
->     ------------[ cut here ]------------
->     WARNING: CPU: 0 PID: 0 at kernel/time/timer.c:1738 __run_timers.part.=
-0+0x1d0/0x1e8
->     Modules linked in:
->     CPU: 0 PID: 0 Comm: swapper Not tainted 6.7.0-rc4 #101
->     Hardware name: Renesas SMARC EVK based on r9a07g043f01 (DT)
->     epc : __run_timers.part.0+0x1d0/0x1e8
->      ra : __run_timers.part.0+0x134/0x1e8
->     epc : ffffffff800771a4 ra : ffffffff80077108 sp : ffffffc800003e60
->      gp : ffffffff814f5028 tp : ffffffff8140c5c0 t0 : ffffffc800000000
->      t1 : 0000000000000001 t2 : ffffffff81201300 s0 : ffffffc800003f20
->      s1 : ffffffd8023bc4a0 a0 : 00000000fffee6b0 a1 : 0004010000400000
->      a2 : ffffffffc0000016 a3 : ffffffff81488640 a4 : ffffffc800003e60
->      a5 : 0000000000000000 a6 : 0000000004000000 a7 : ffffffc800003e68
->      s2 : 0000000000000122 s3 : 0000000000200000 s4 : 0000000000000000
->      s5 : ffffffffffffffff s6 : ffffffff81488678 s7 : ffffffff814886c0
->      s8 : ffffffff814f49c0 s9 : ffffffff81488640 s10: 0000000000000000
->      s11: ffffffc800003e60 t3 : 0000000000000240 t4 : 0000000000000a52
->      t5 : ffffffd8024ae018 t6 : ffffffd8024ae038
->     status: 0000000200000100 badaddr: 0000000000000000 cause: 00000000000=
-00003
->     [<ffffffff800771a4>] __run_timers.part.0+0x1d0/0x1e8
->     [<ffffffff800771e0>] run_timer_softirq+0x24/0x4a
->     [<ffffffff80809092>] __do_softirq+0xc6/0x1fa
->     [<ffffffff80028e4c>] irq_exit_rcu+0x66/0x84
->     [<ffffffff80800f7a>] handle_riscv_irq+0x40/0x4e
->     [<ffffffff80808f48>] call_on_irq_stack+0x1c/0x28
->     ---[ end trace 0000000000000000 ]---
->
-> What happens?
->
->     renesas_sdhi_probe()
->     {
->         tmio_mmc_host_alloc()
->             mmc_alloc_host()
->                 INIT_DELAYED_WORK(&host->detect, mmc_rescan);
->
->         devm_request_irq(tmio_mmc_irq);
->
->         /*
->          * After this, the interrupt handler may be invoked at any time
->          *
->          *  tmio_mmc_irq()
->          *  {
->          *      __tmio_mmc_card_detect_irq()
->          *          mmc_detect_change()
->          *              _mmc_detect_change()
->          *                  mmc_schedule_delayed_work(&host->detect, dela=
-y);
->          *  }
->          */
->
->         tmio_mmc_host_probe()
->             tmio_mmc_init_ocr()
->                 -EPROBE_DEFER
->
->         tmio_mmc_host_free()
->             mmc_free_host()
->     }
->
-> When expire_timers() runs later, it warns because the MMC host structure
-> containing the delayed work was freed, and now contains an invalid work
-> function pointer.
->
-> Fix this by cancelling any pending delayed work before releasing the
-> MMC host structure.
->
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> ---
-> This is v2 of "[RFC] mmc: tmio: Cancel delayed work before freeing
-> host".
->
-> v2:
->   - Move cancel_delayed_work_sync() call from tmio_mmc_host_free() to
->     mmc_free_host(),
->   - Correct explanation from missing pin control to vqmmc-supply probe
->     deferral,
->   - Update backtrace.
-> ---
->  drivers/mmc/core/host.c | 1 +
->  1 file changed, 1 insertion(+)
->
-Tested-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 
-Cheers,
-Prabhakar
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-> diff --git a/drivers/mmc/core/host.c b/drivers/mmc/core/host.c
-> index 096093f7be006353..2f51db4df1a8571b 100644
-> --- a/drivers/mmc/core/host.c
-> +++ b/drivers/mmc/core/host.c
-> @@ -692,6 +692,7 @@ EXPORT_SYMBOL(mmc_remove_host);
->   */
->  void mmc_free_host(struct mmc_host *host)
->  {
-> +       cancel_delayed_work_sync(&host->detect);
->         mmc_pwrseq_free(host);
->         put_device(&host->class_dev);
->  }
-> --
-> 2.34.1
->
->
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
