@@ -1,114 +1,95 @@
-Return-Path: <linux-renesas-soc+bounces-651-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-652-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7270D8039E8
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  4 Dec 2023 17:16:10 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id B82198039F9
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  4 Dec 2023 17:19:11 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 1308CB20AF8
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  4 Dec 2023 16:16:08 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E4D151C20A53
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  4 Dec 2023 16:19:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2541D2D62F;
-	Mon,  4 Dec 2023 16:16:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MEZGu5Q3"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5C5A02D794;
+	Mon,  4 Dec 2023 16:19:07 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ot1-x32d.google.com (mail-ot1-x32d.google.com [IPv6:2607:f8b0:4864:20::32d])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B0CD5FD
-	for <linux-renesas-soc@vger.kernel.org>; Mon,  4 Dec 2023 08:16:01 -0800 (PST)
-Received: by mail-ot1-x32d.google.com with SMTP id 46e09a7af769-6d9a1c13ea6so598742a34.2
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 04 Dec 2023 08:16:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1701706561; x=1702311361; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=d3Rq26SmtNxjBHL+7sodH6Y3hH55K8uHLftxea/5aOE=;
-        b=MEZGu5Q3khJEbOkNpg1YAx4YZo/JKbjdcTVDAl2kOJ+fMZGoYo2Y1IUNrRtwPxuIL6
-         KEV8V5YFMd8WqZ7NP6mOOeGwf85x6JUq3+t23mWqtk6KZa5smCd8f14A3HGDp3ADS9Fu
-         q7K6oTEy7vfpfRfq3CjkGitTOG8AijPsrwSL8q07yqk6fumklSH01/Zd4aG+DY16/3Ak
-         j8F7ZnnZBwcJIsY0A9smQc7gyUVV5gPiBiC/jP6cNeHEvBlEn7K62eZP0JfeS40OSGUD
-         kRnSBFSS9UnTvxw4pSa+EByg2zVsEuY0r0bz5McG98DiZz9/lTzmd/pIId0UJHLpI1Eu
-         rJFQ==
+Received: from mail-yb1-f178.google.com (mail-yb1-f178.google.com [209.85.219.178])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DDE5CCB;
+	Mon,  4 Dec 2023 08:19:03 -0800 (PST)
+Received: by mail-yb1-f178.google.com with SMTP id 3f1490d57ef6-da7ea62e76cso3051801276.3;
+        Mon, 04 Dec 2023 08:19:03 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701706561; x=1702311361;
+        d=1e100.net; s=20230601; t=1701706743; x=1702311543;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=d3Rq26SmtNxjBHL+7sodH6Y3hH55K8uHLftxea/5aOE=;
-        b=axTuAuuL7ccrX9T/S+rYhIaE/0+hAfNnMDzPZzL6Fg4SZqYLw0XHZOE4xf+i/kvdHP
-         vj8UJ46kihjw/lVdhFhyyJjRz4GljH/R8VOmtPbUWydIlcvPsJRoUK6CpwKnNR1shKsO
-         QqxaTFagHwpWPZ6N3CS75NwCo4Q7WRfI57CQgh6WuHq9d8q1LM3kXPY1H+iDJJGw006k
-         xkkZMB3GDt5Wkey/JmqpDIYFJXppvmeHeH15TCUuyhqC24nXVPvQ9L6Z9olQ8kJTyeWL
-         2ha7bft/vN4s+6bLdKu+3BSrFDcFRBDy3NDfmwRuLmnzV99dRAfd8EwnEBA+ZKXZYty2
-         GwTA==
-X-Gm-Message-State: AOJu0YziVpoAdTZ3hJJ8l1Ey4OXiM6A0WtuCGF9ZtasQas6Z2tK9EPko
-	vtZsldxw4lCng1eyNw474VfqPryEGsSnHIPEMfFnnvxQ
-X-Google-Smtp-Source: AGHT+IHeMg3IqYv1oObxg/a3nddlTB0cG433u6nB+9rzQjWp1RCFYTc4EHF1sSTYAthQMD9Dil0L+gzurrYUA6JyMAM=
-X-Received: by 2002:a05:6870:c152:b0:1fb:75a:778d with SMTP id
- g18-20020a056870c15200b001fb075a778dmr4120921oad.62.1701706560957; Mon, 04
- Dec 2023 08:16:00 -0800 (PST)
+        bh=p7w+3vK1cdmy3dgE8i5YLvNj03CSI+W7QHOKK1BsUDk=;
+        b=Yd2/xKa+HXY8quN6KqHD4odBxQHNcYG71LvKD71RZgiOXB7CEjXCp58SCuJLJKKxnM
+         y6YAdi9VRxb9yvJ2NohFzcRnbSjbrvn9aqcC7pjxuCN2o0MG3PexNpzfFLSoWB35E4TY
+         yA8ok86YR5gC3CrY/1PEN7aQYbu0jiP4PVcAei9Yd/4sgK1iqfbO2uthQB4xWn+GUCh9
+         e9s459ZRCJLLR49NZKLr22/IOLY/qsAI/+ZU3NGXaotwwkRI12S50BvM4CQ6yg52zwrE
+         g69QbdfDrTbS7YPMl+qM81sOt46WI4aei6bZfaKMnklY8NpM4eXfep3LdMGFL9pSq1qo
+         aurA==
+X-Gm-Message-State: AOJu0Yy19Nsgoh+V0+8aw0FRfrbI56EChKB5Wp4elUV/aRyyprPQpmTT
+	cizJ+YmyAELYoQHRDNUbHb99T56XLOwQYg==
+X-Google-Smtp-Source: AGHT+IGiV1NdBNdmG+XCdpSpHlBoKkLvNa8BpKiX4YQW400Yhduo9FygSvUQvfZlI6LMeImPb/kpNg==
+X-Received: by 2002:a0d:dbd5:0:b0:5d7:1941:aad with SMTP id d204-20020a0ddbd5000000b005d719410aadmr3154455ywe.72.1701706742991;
+        Mon, 04 Dec 2023 08:19:02 -0800 (PST)
+Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com. [209.85.128.169])
+        by smtp.gmail.com with ESMTPSA id u189-20020a8179c6000000b005d34a381f59sm3368108ywc.102.2023.12.04.08.19.01
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 04 Dec 2023 08:19:01 -0800 (PST)
+Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-5d3d5b10197so37164417b3.2;
+        Mon, 04 Dec 2023 08:19:01 -0800 (PST)
+X-Received: by 2002:a81:9808:0:b0:5d3:464d:18d4 with SMTP id
+ p8-20020a819808000000b005d3464d18d4mr3058167ywg.21.1701706740819; Mon, 04 Dec
+ 2023 08:19:00 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231204090852.1650-1-tzimmermann@suse.de>
-In-Reply-To: <20231204090852.1650-1-tzimmermann@suse.de>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Mon, 4 Dec 2023 11:15:49 -0500
-Message-ID: <CADnq5_PRqcugQHibGbhGb2LvnJ5uEtLFqOf=HQOf8_8zthgt2Q@mail.gmail.com>
-Subject: Re: [PATCH v2 0/8] drm/plane-helpers: Minor clean ups
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: mripard@kernel.org, maarten.lankhorst@linux.intel.com, daniel@ffwll.ch, 
-	airlied@gmail.com, suijingfeng@loongson.cn, dri-devel@lists.freedesktop.org, 
-	javierm@redhat.com, amd-gfx@lists.freedesktop.org, 
-	linux-renesas-soc@vger.kernel.org, laurent.pinchart@ideasonboard.com, 
-	linux-arm-kernel@lists.infradead.org
+References: <20231204160033.1872569-1-andriy.shevchenko@linux.intel.com> <20231204160033.1872569-2-andriy.shevchenko@linux.intel.com>
+In-Reply-To: <20231204160033.1872569-2-andriy.shevchenko@linux.intel.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Mon, 4 Dec 2023 17:18:49 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdU58NjjdOOLA_T1jr1u=H+2eVN69f1FDc6GhiXEenaxLw@mail.gmail.com>
+Message-ID: <CAMuHMdU58NjjdOOLA_T1jr1u=H+2eVN69f1FDc6GhiXEenaxLw@mail.gmail.com>
+Subject: Re: [PATCH v1 1/5] pinctrl: renesas: Mark local variable with const
+ in ->set_mux()
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Linus Walleij <linus.walleij@linaro.org>, 
+	=?UTF-8?Q?Jonathan_Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>, 
+	linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	openbmc@lists.ozlabs.org, linux-renesas-soc@vger.kernel.org, 
+	Lakshmi Sowjanya D <lakshmi.sowjanya.d@intel.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Dec 4, 2023 at 4:09=E2=80=AFAM Thomas Zimmermann <tzimmermann@suse.=
-de> wrote:
+On Mon, Dec 4, 2023 at 5:02=E2=80=AFPM Andy Shevchenko
+<andriy.shevchenko@linux.intel.com> wrote:
+> We are not going to change pins in the ->set_mux() callback. Mark
+> the local variable with a const qualifier. While at it, make it
+> also unsigned.
 >
-> Move drm_plane_helper_atomic_check() into udl, which is the only
-> driver using it. Remove several unnecessary include statements for
-> <drm/drm_plane_helper.h>.
->
-> v2:
->         * fix documentation (Sui)
->
-> Thomas Zimmermann (8):
->   drm/plane-helper: Move drm_plane_helper_atomic_check() into udl
->   drm/amdgpu: Do not include <drm/drm_plane_helper.h>
->   drm/loongson: Do not include <drm/drm_plane_helper.h>
->   drm/shmobile: Do not include <drm/drm_plane_helper.h>
->   drm/solomon: Do not include <drm/drm_plane_helper.h>
->   drm/ofdrm: Do not include <drm/drm_plane_helper.h>
->   drm/simpledrm: Do not include <drm/drm_plane_helper.h>
->   drm/xlnx: Do not include <drm/drm_plane_helper.h>
+> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 
-Series is:
-Reviewed-by: Alex Deucher <alexander.deucher@amd.com>
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Acked-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
->
->  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |  1 -
->  drivers/gpu/drm/drm_crtc_helper.c             |  7 ++--
->  drivers/gpu/drm/drm_plane_helper.c            | 32 -------------------
->  drivers/gpu/drm/loongson/lsdc_plane.c         |  1 -
->  .../drm/renesas/shmobile/shmob_drm_plane.c    |  1 -
->  drivers/gpu/drm/solomon/ssd130x.h             |  1 -
->  drivers/gpu/drm/tiny/ofdrm.c                  |  1 -
->  drivers/gpu/drm/tiny/simpledrm.c              |  1 -
->  drivers/gpu/drm/udl/udl_modeset.c             | 19 +++++++++--
->  drivers/gpu/drm/xlnx/zynqmp_kms.c             |  1 -
->  include/drm/drm_plane_helper.h                |  2 --
->  11 files changed, 19 insertions(+), 48 deletions(-)
->
-> --
-> 2.43.0
->
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
