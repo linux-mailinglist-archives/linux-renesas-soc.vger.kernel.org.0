@@ -1,165 +1,126 @@
-Return-Path: <linux-renesas-soc+bounces-653-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-654-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 498DE803B29
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  4 Dec 2023 18:10:38 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id C3DBC803B61
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  4 Dec 2023 18:25:32 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id C037C1F211B0
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  4 Dec 2023 17:10:37 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 56F4BB20A8B
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  4 Dec 2023 17:25:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 461812E636;
-	Mon,  4 Dec 2023 17:10:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="naWk9UmZ"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 79D792E826;
+	Mon,  4 Dec 2023 17:25:24 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 225E42557A;
-	Mon,  4 Dec 2023 17:10:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5C692C433C8;
-	Mon,  4 Dec 2023 17:10:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1701709834;
-	bh=YUtRTPoK+tW4AtegcB6or0aHS1jwSCry6p86GjMrycM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=naWk9UmZ+0O0Fr45lIji8VEMQ0cPq1FHELZdFD9a7vEd5KGbcTtbd5j79h0XLikRP
-	 WFJOe0K44PXgHROCohlsHUdFxIYONO2IWD+c9JJOj5wWGfv0PdoQpIAl61nwxNh5pl
-	 loC8u+T1HDSKzBTnPGRibHd7m0ryl7vcVt6Wr80eHfQnNFYuluDUhzU5J0CCGbqQfK
-	 1pVOf0//CGLT0SGWEf92zjsQ7Jee/FjdubSZufoP55M/K8Vi2UW1clrWhMXviDYlEk
-	 42Gacx/dNeHsHhvTVpqKMxh00YM7fTUbyCZt0xPHlvQCM8hKKoljzNergTmcpPK4Ah
-	 l+qUR9SQLwsoQ==
-Date: Mon, 4 Dec 2023 17:10:29 +0000
-From: Conor Dooley <conor@kernel.org>
-To: Biju Das <biju.das.jz@bp.renesas.com>
-Cc: Wim Van Sebroeck <wim@linux-watchdog.org>,
-	Guenter Roeck <linux@roeck-us.net>,
+Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTP id 27BD8A1;
+	Mon,  4 Dec 2023 09:25:19 -0800 (PST)
+X-IronPort-AV: E=Sophos;i="6.04,250,1695654000"; 
+   d="scan'208";a="185273244"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie5.idc.renesas.com with ESMTP; 05 Dec 2023 02:25:18 +0900
+Received: from localhost.localdomain (unknown [10.226.93.142])
+	by relmlir6.idc.renesas.com (Postfix) with ESMTP id 46F144031BE0;
+	Tue,  5 Dec 2023 02:25:13 +0900 (JST)
+From: Biju Das <biju.das.jz@bp.renesas.com>
+To: Lee Jones <lee@kernel.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
 	Rob Herring <robh+dt@kernel.org>,
 	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>
+Cc: Biju Das <biju.das.jz@bp.renesas.com>,
+	Support Opensource <support.opensource@diasemi.com>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Daniel Lezcano <daniel.lezcano@linaro.org>,
+	Zhang Rui <rui.zhang@intel.com>,
+	Lukasz Luba <lukasz.luba@arm.com>,
 	Steve Twiss <stwiss.opensource@diasemi.com>,
-	"linux-watchdog@vger.kernel.org" <linux-watchdog@vger.kernel.org>,
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+	linux-input@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-pm@vger.kernel.org,
 	Geert Uytterhoeven <geert+renesas@glider.be>,
 	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	"biju.das.au" <biju.das.au@gmail.com>,
-	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>
-Subject: Re: [PATCH v2 01/11] dt-bindings: watchdog: dlg,da9062-watchdog: Add
- fallback for DA9061 watchdog
-Message-ID: <20231204-wrist-docile-d6107670140e@spud>
-References: <20231202192536.266885-1-biju.das.jz@bp.renesas.com>
- <20231202192536.266885-2-biju.das.jz@bp.renesas.com>
- <20231203-daisy-palm-9e97126eaf3f@spud>
- <TYCPR01MB1126961003EB5830E645742BE8687A@TYCPR01MB11269.jpnprd01.prod.outlook.com>
- <TYCPR01MB112697ABEBD60A1ADB32ECA248686A@TYCPR01MB11269.jpnprd01.prod.outlook.com>
+	Biju Das <biju.das.au@gmail.com>,
+	linux-renesas-soc@vger.kernel.org
+Subject: [PATCH v3.1 0/8] Convert DA906{1,2} bindings to json-schema
+Date: Mon,  4 Dec 2023 17:25:02 +0000
+Message-Id: <20231204172510.35041-1-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="M8mGZHn7Y3eYQmc1"
-Content-Disposition: inline
-In-Reply-To: <TYCPR01MB112697ABEBD60A1ADB32ECA248686A@TYCPR01MB11269.jpnprd01.prod.outlook.com>
+Content-Transfer-Encoding: 8bit
 
+Convert the below bindings to json-schema
+1) DA906{1,2} mfd bindings
+2) DA906{1,2,3} onkey bindings
+3) DA906{1,2,3} thermal bindings
 
---M8mGZHn7Y3eYQmc1
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Also add fallback for DA9061 watchdog device and document
+DA9063 watchdog device.
 
-On Mon, Dec 04, 2023 at 10:55:20AM +0000, Biju Das wrote:
-> Hi Conor Dooley,
->=20
-> > Subject: RE: [PATCH v2 01/11] dt-bindings: watchdog: dlg,da9062-watchdo=
-g:
-> > Add fallback for DA9061 watchdog
-> >=20
-> > Hi Conor Dooley,
-> >=20
-> > Thanks for the feedback.
-> >=20
-> > > Subject: Re: [PATCH v2 01/11] dt-bindings: watchdog: dlg,da9062-
-> > watchdog:
-> > > Add fallback for DA9061 watchdog
-> > >
-> > > On Sat, Dec 02, 2023 at 07:25:25PM +0000, Biju Das wrote:
-> > > > The DA9061 watchdog is identical to DA9062 watchdog, so no driver
-> > > > changes are required. The fallback compatible string
-> > > > "dlg,da9062-watchdog" will be used on DA9061 watchdog.
-> > > >
-> > > > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> > > > ---
-> > > > v2:
-> > > >  * New patch
-> > > > ---
-> > > >  .../bindings/watchdog/dlg,da9062-watchdog.yaml        | 11 +++++++=
-+--
-> > -
-> > > >  1 file changed, 8 insertions(+), 3 deletions(-)
-> > > >
-> > > > diff --git
-> > > > a/Documentation/devicetree/bindings/watchdog/dlg,da9062-watchdog.yam
-> > > > l
-> > > > b/Documentation/devicetree/bindings/watchdog/dlg,da9062-watchdog.yam
-> > > > l index f058628bb632..2b71fdb9251c 100644
-> > > > ---
-> > > > a/Documentation/devicetree/bindings/watchdog/dlg,da9062-watchdog.yam
-> > > > l
-> > > > +++ b/Documentation/devicetree/bindings/watchdog/dlg,da9062-watchdog
-> > > > +++ .y
-> > > > +++ aml
-> > > > @@ -14,9 +14,14 @@ allOf:
-> > > >
-> > > >  properties:
-> > > >    compatible:
-> > > > -    enum:
-> > > > -      - dlg,da9061-watchdog
-> > > > -      - dlg,da9062-watchdog
-> > > > +    oneOf:
-> > > > +      - items:
-> > > > +          - enum:
-> > > > +              - dlg,da9062-watchdog
-> > > > +      - items:
-> > > > +          - enum:
-> > > > +              - dlg,da9061-watchdog
-> > >
-> > > If there is no da9064 on the horizon, I'd just make this const.
-> >=20
-> > You mean since it is single device having a fallback, define both device
-> > compatible and fallback as const instead of enum and const??
-> >=20
-> > >
-> > > > +          - const: dlg,da9062-watchdog # da9062-watchdog fallback
-> > >
-> > > The comment here is just noise IMO.
->=20
-> Yes it make sense, comment is not needed.
->=20
->     oneOf:
->       - items:
->           - enum:
->               - dlg,da9062-watchdog
->       - items:
->           - const: dlg,da9061-watchdog
->           - const: dlg,da9062-watchdog
+v3->v3.1:
+ * Patch#1 is merge of patch#1 from v2 + patch#8 from v2.
+ * Dropped comment for d9061 watchdog fallback
+ * Replaced enum->const for dlg,da9061-watchdog and its fallback.
+ * Restored patch#4 in series 1 and dropped the thermal example
+ * Added Ack from Conor Dooley for da9063 watchdog binding support.
+ * Updated title DA9062/61->DA906{1,2,3} as it supports DA9063.
+ * Retained Rb tag since the changes are trivial.
+ * Added Ack from Conor for updating watchdog property
+ * Dropped link to product information.
+ * Patch#5(onkey) is squashed with patch#6 and patch#9 from v2.
+ * Replaced enum->const for dlg,da9061-onkey and its fallback.
+ * Dropped example
+ * Restored the thermal binding patch from v2.
+ * Dropped example
+ * Replaced enum->const for compatible property.
+ * Added Rb tag from Rob and retained Rb tag as changes are trivial.
+ * Added Ack from Conor Dooley for patch#7.
+ * Split the thermal binding patch separate
+ * Updated the description
+v2->v3:
+ * Updated Maintainer entries for watchdog,onkey and thermal bindings
+ * Fixed bot errors related to MAINTAINERS entry, invalid doc
+   references and thermal examples by merging patch#4. 
 
-Ye, this looks good. Thanks.
+v1->v2:
+ Link: https://lore.kernel.org/all/20231201110840.37408-5-biju.das.jz@bp.renesas.com/
+ * DA9062 and DA9061 merged with DA9063
+ * Sorted the child devices
+ * mfd,onkey and thermal are pointing to child bindings
 
---M8mGZHn7Y3eYQmc1
-Content-Type: application/pgp-signature; name="signature.asc"
+Biju Das (8):
+  dt-bindings: mfd: da9062: Update watchdog description
+  dt-bindings: watchdog: dlg,da9062-watchdog: Add fallback for DA9061
+    watchdog
+  dt-bindings: watchdog: dlg,da9062-watchdog: Document DA9063 watchdog
+  dt-bindings: mfd: dlg,da9063: Update watchdog property
+  dt-bindings: input: Convert da906{1,2,3} onkey to json-schema
+  dt-bindings: thermal: Convert da906{1,2} thermal to json-schema
+  dt-bindings: mfd: dlg,da9063: Sort child devices
+  dt-bindings: mfd: dlg,da9063: Convert da9062 to json-schema
 
------BEGIN PGP SIGNATURE-----
+ .../bindings/input/da9062-onkey.txt           |  47 ----
+ .../bindings/input/dlg,da9062-onkey.yaml      |  39 ++++
+ .../devicetree/bindings/mfd/da9062.txt        | 124 ----------
+ .../devicetree/bindings/mfd/dlg,da9063.yaml   | 221 +++++++++++++++---
+ .../bindings/thermal/da9062-thermal.txt       |  36 ---
+ .../bindings/thermal/dlg,da9062-thermal.yaml  |  35 +++
+ .../watchdog/dlg,da9062-watchdog.yaml         |  13 +-
+ MAINTAINERS                                   |   6 +-
+ 8 files changed, 272 insertions(+), 249 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/input/da9062-onkey.txt
+ create mode 100644 Documentation/devicetree/bindings/input/dlg,da9062-onkey.yaml
+ delete mode 100644 Documentation/devicetree/bindings/mfd/da9062.txt
+ delete mode 100644 Documentation/devicetree/bindings/thermal/da9062-thermal.txt
+ create mode 100644 Documentation/devicetree/bindings/thermal/dlg,da9062-thermal.yaml
 
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZW4IBAAKCRB4tDGHoIJi
-0kE8AQCcC7P7CwbjI8mpyPErFJHTFEwz3vrCNUDGiTNrth5GGwD/TI9FzFZQsqoN
-zDBdPRztUuv2Hc+3w2sYVRWR7YxnHAA=
-=jkrD
------END PGP SIGNATURE-----
+-- 
+2.39.2
 
---M8mGZHn7Y3eYQmc1--
 
