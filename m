@@ -1,90 +1,79 @@
-Return-Path: <linux-renesas-soc+bounces-628-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-629-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0EA3C8034E0
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  4 Dec 2023 14:28:25 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A64E38034FA
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  4 Dec 2023 14:32:19 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BDAA2280FB8
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  4 Dec 2023 13:28:23 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 2E425B20766
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  4 Dec 2023 13:32:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7177125102;
-	Mon,  4 Dec 2023 13:27:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6D1D52375B;
+	Mon,  4 Dec 2023 13:32:13 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com [209.85.128.179])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 35E314489;
-	Mon,  4 Dec 2023 05:25:40 -0800 (PST)
-Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-5d8a772157fso7461407b3.3;
-        Mon, 04 Dec 2023 05:25:39 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701696339; x=1702301139;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=WZ036GFFDHBlFE81YbGeEaLCeTtejW2ukTzBXjgPmIg=;
-        b=Cn4vTuNuwb0CHl9WJItdjxV6pMPu545s202f+m7UkSxbbzmr0Vyb/DkTkDHJCeLOI2
-         lzBsvgBBedNHQFGTQ2jaJSvlImkF3bvbzZT7hWR5XfPB6xw85m+5UQnqDKNhSeBGCqyr
-         1zI0MfpEvPLgx4MulWNOJXtHzUcwhRhextUTjR0slaPNEYvb+em44Egptg4cz3Xvqdof
-         p7LFfLsOFR514d+Nnzt03w+CQ1+aC+56jprbeQi0jVpxjYGqEmylaEKCBHSkwfcnud9/
-         QJAuum/MEZ+kyMLmUfB2DUb/OmE+RaqtdvwAxNoesF40TTsPHxYRYBM0slpqUxROSJy0
-         U3PA==
-X-Gm-Message-State: AOJu0YwCMyy6fDIUmzdlwLuXV/ShqEGijKrXd9zAQjr0fAp1kLg01gSW
-	UtlFTjMwGd+DxA3m7ZAl1BjqLhX650eG8w==
-X-Google-Smtp-Source: AGHT+IG6n3XyJux7Uj3HuOaHtEBQ8YGlNRDROUaR4niUN1F2tJt2XzLejcQI7vjTUqIgMbFo/nRVbQ==
-X-Received: by 2002:a05:690c:dd0:b0:5d7:1941:aa1 with SMTP id db16-20020a05690c0dd000b005d719410aa1mr3075906ywb.60.1701696338939;
-        Mon, 04 Dec 2023 05:25:38 -0800 (PST)
-Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com. [209.85.128.174])
-        by smtp.gmail.com with ESMTPSA id d3-20020a0df403000000b005b34d8b33ffsm3312941ywf.119.2023.12.04.05.25.38
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 04 Dec 2023 05:25:38 -0800 (PST)
-Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-5d3d5b10197so34886847b3.2;
-        Mon, 04 Dec 2023 05:25:38 -0800 (PST)
-X-Received: by 2002:a81:ae1b:0:b0:5d7:1941:a9c with SMTP id
- m27-20020a81ae1b000000b005d719410a9cmr2666054ywh.55.1701696338400; Mon, 04
- Dec 2023 05:25:38 -0800 (PST)
+Received: from andre.telenet-ops.be (andre.telenet-ops.be [IPv6:2a02:1800:120:4::f00:15])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1E9FDA1
+	for <linux-renesas-soc@vger.kernel.org>; Mon,  4 Dec 2023 05:32:09 -0800 (PST)
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed40:f143:dd2b:2cfe:eb7c])
+	by andre.telenet-ops.be with bizsmtp
+	id JDY42B00J5Tnyl201DY4yE; Mon, 04 Dec 2023 14:32:07 +0100
+Received: from rox.of.borg ([192.168.97.57])
+	by ramsan.of.borg with esmtp (Exim 4.95)
+	(envelope-from <geert@linux-m68k.org>)
+	id 1rA932-00Awgb-Bo;
+	Mon, 04 Dec 2023 14:32:04 +0100
+Received: from geert by rox.of.borg with local (Exim 4.95)
+	(envelope-from <geert@linux-m68k.org>)
+	id 1rA93M-002C9A-96;
+	Mon, 04 Dec 2023 14:32:04 +0100
+From: Geert Uytterhoeven <geert+renesas@glider.be>
+To: Magnus Damm <magnus.damm@gmail.com>
+Cc: Heiner Kallweit <hkallweit1@gmail.com>,
+	linux-renesas-soc@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH] soc: renesas: Remove duplicate setup of soc_device_attribute.family
+Date: Mon,  4 Dec 2023 14:32:03 +0100
+Message-Id: <4c5e4d0d1819028466748ed684254fec41aae816.1701696627.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231204130504.126787-1-biju.das.jz@bp.renesas.com> <20231204130504.126787-2-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20231204130504.126787-2-biju.das.jz@bp.renesas.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 4 Dec 2023 14:25:27 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdVFnMgL2Ldo3Giv6_s4=mNOWqRCZOQHZJJA9c=GKBpCKw@mail.gmail.com>
-Message-ID: <CAMuHMdVFnMgL2Ldo3Giv6_s4=mNOWqRCZOQHZJJA9c=GKBpCKw@mail.gmail.com>
-Subject: Re: [PATCH v2 1/3] rtc: da9063: Make IRQ as optional
-To: Biju Das <biju.das.jz@bp.renesas.com>
-Cc: Alessandro Zummo <a.zummo@towertech.it>, Alexandre Belloni <alexandre.belloni@bootlin.com>, 
-	Support Opensource <support.opensource@diasemi.com>, linux-rtc@vger.kernel.org, 
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>, Biju Das <biju.das.au@gmail.com>, 
-	linux-renesas-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Mon, Dec 4, 2023 at 2:05=E2=80=AFPM Biju Das <biju.das.jz@bp.renesas.com=
-> wrote:
-> On some platforms (eg: RZ/{G2UL,Five} SMARC EVK), there is no IRQ
-> populated by default. Add irq optional support.
->
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+As of commit 3f84aa5ec052dba9 ("base: soc: populate machine name in
+soc_device_register if empty") in v6.4, soc_device_register() fills in
+soc_device_attribute.family when it is still empty.  Hence the identical
+code in renesas_soc_init() doing the same can be removed.
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+To be queued in renesas-devel for v6.8.
 
-Gr{oetje,eeting}s,
+ drivers/soc/renesas/renesas-soc.c | 4 ----
+ 1 file changed, 4 deletions(-)
 
-                        Geert
+diff --git a/drivers/soc/renesas/renesas-soc.c b/drivers/soc/renesas/renesas-soc.c
+index 3d8e18923bddebf9..67de980ec4244c41 100644
+--- a/drivers/soc/renesas/renesas-soc.c
++++ b/drivers/soc/renesas/renesas-soc.c
+@@ -487,10 +487,6 @@ static int __init renesas_soc_init(void)
+ 		return -ENOMEM;
+ 	}
+ 
+-	np = of_find_node_by_path("/");
+-	of_property_read_string(np, "model", &soc_dev_attr->machine);
+-	of_node_put(np);
+-
+ 	soc_dev_attr->family = kstrdup_const(family->name, GFP_KERNEL);
+ 	soc_dev_attr->soc_id = kstrdup_const(soc_id, GFP_KERNEL);
+ 
+-- 
+2.34.1
 
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
 
