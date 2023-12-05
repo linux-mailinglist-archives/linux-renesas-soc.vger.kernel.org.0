@@ -1,53 +1,54 @@
-Return-Path: <linux-renesas-soc+bounces-745-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-746-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8361B805A98
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  5 Dec 2023 17:57:32 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 50CA0805A9F
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  5 Dec 2023 18:01:53 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 38BAF1F21748
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  5 Dec 2023 16:57:32 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8AE3F1C21166
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  5 Dec 2023 17:01:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DCEF360B8F;
-	Tue,  5 Dec 2023 16:57:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 181E165EB1;
+	Tue,  5 Dec 2023 17:01:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="isAYfAH9"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fR2Hc/Os"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB5823F8C3;
-	Tue,  5 Dec 2023 16:57:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 49393C433C8;
-	Tue,  5 Dec 2023 16:57:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE15763DF8;
+	Tue,  5 Dec 2023 17:01:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 438B8C433C8;
+	Tue,  5 Dec 2023 17:01:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1701795446;
-	bh=Bnbbb/t/neU8v4aEB3GzaAgUlxHPniDC3dcRbHvEclQ=;
+	s=k20201202; t=1701795708;
+	bh=hvoZmvi5kVxk0mKJg/p4H7TFldJx6GDXwB6b10p0uR4=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=isAYfAH9S0p4OXdDl65YejvoRK2LFcFaH+0n9QDR/IZYxfwmieLqzVjc/g8s0HZ9H
-	 Hy6GzxygzVaolbY+kM2SkCspvU7iUznIly6eIrftEO+RpY7X8aywc26iurNEgeRMRx
-	 eZeDlWH8WWNjKUA5RM1ehQONqhb5HrhaM9yDVe93RXy8TRSmZwGKnxbe452YK4RC9G
-	 Rg52rgTucYUbYpcDF/PsyPnpCxq2K8iPzt1VTNJR79kvhZj4pLPlMH1XHgespMQyvK
-	 AUMt6+jOGbgvIRMgn6mbRa7fOPHDdZSZMNGqOX7lKlWvbFfTdNMKYZ0R+tTTjnH0C7
-	 9koaOR56soTwQ==
-Date: Tue, 5 Dec 2023 16:57:21 +0000
+	b=fR2Hc/OslizATX35uwXnI7Yz3TsBy2irvFrhCksyJFJeKU7QY3Pv6S1TiijifowEi
+	 NKF9D7AFAqoMoxJ7sCnsaylG3pihVGZiJUGDjsxpb2QAI5MkLTZ1pjLTyWW0CbMcXd
+	 ivXTpjZKGhOD9bJ7pOPudMirLdpL6WP6rZPx9VKjM0kdtFfeaVpZlakvloRnIHNXYl
+	 PIG6C6EAgDcIR6PIhfJbGpxhMGIxHNbyXmqORzU4Y1w4hAZ0wkaAuvBEWXLcCVTGl5
+	 DMmPmopRNYUVpWEWMZeJLZnTfbpnhUTd2DgGsXiDOV7ms2Ax9WmPUD4I48Y0uXlIS9
+	 A1eFJEWJsvpKA==
+Date: Tue, 5 Dec 2023 17:01:43 +0000
 From: Conor Dooley <conor@kernel.org>
 To: Biju Das <biju.das.jz@bp.renesas.com>
-Cc: Lee Jones <lee@kernel.org>, Rob Herring <robh+dt@kernel.org>,
+Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Rob Herring <robh+dt@kernel.org>,
 	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
 	Conor Dooley <conor+dt@kernel.org>,
 	Support Opensource <support.opensource@diasemi.com>,
-	devicetree@vger.kernel.org,
+	linux-input@vger.kernel.org, devicetree@vger.kernel.org,
 	Geert Uytterhoeven <geert+renesas@glider.be>,
 	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
 	Biju Das <biju.das.au@gmail.com>, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v3.1 1/8] dt-bindings: mfd: da9062: Update watchdog
- description
-Message-ID: <20231205-resubmit-grumpily-bd2490dfa8d5@spud>
+Subject: Re: [PATCH v3.1 5/8] dt-bindings: input: Convert da906{1,2,3} onkey
+ to json-schema
+Message-ID: <20231205-mobilize-eldercare-868f30da5018@spud>
 References: <20231204172510.35041-1-biju.das.jz@bp.renesas.com>
- <20231204172510.35041-2-biju.das.jz@bp.renesas.com>
+ <20231204172510.35041-6-biju.das.jz@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -55,36 +56,46 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="LjToOVLe5mRBkJCE"
+	protocol="application/pgp-signature"; boundary="EOW+nDDhcTc8iYm6"
 Content-Disposition: inline
-In-Reply-To: <20231204172510.35041-2-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20231204172510.35041-6-biju.das.jz@bp.renesas.com>
 
 
---LjToOVLe5mRBkJCE
+--EOW+nDDhcTc8iYm6
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Dec 04, 2023 at 05:25:03PM +0000, Biju Das wrote:
-> Update watchdog description by referring to dlg,da9062-watchdog binding
-> file.
+On Mon, Dec 04, 2023 at 05:25:07PM +0000, Biju Das wrote:
+> Convert the da906{1,2,3} onkey device tree binding documentation to
+> json-schema.
 >=20
-> Update MAINTAINERS entries.
+> Update MAINTAINERS entries, description and onkey property by
+> referring to dlg,da9062-onkey binding file.
 >=20
 > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> ---
+> v3->v3.1:
+>  * Squashed with patch#6 and patch#9 from v2.
+>  * Replaced enum->const for dlg,da9061-onkey and its fallback.
+>  * Dropped example
 
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
+I think this looks good
+Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
 
---LjToOVLe5mRBkJCE
+Cheers,
+Conor.
+
+--EOW+nDDhcTc8iYm6
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZW9WcQAKCRB4tDGHoIJi
-0p0uAQC3G4ZXXxM1lO3/KXzAAlMWiLzmqLEX4HA9oS4yxVMJcAEAr9ALfshBHak2
-+drhazTbmJOlvNDZynJyraMW604k3Qs=
-=yqle
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZW9XdwAKCRB4tDGHoIJi
+0lIGAQDo5aN83IrA9nHWbyIhxaqc8rLOnl9ey0qNKRcC3jTXUgEAwFsn3VUZCK8j
+2YPZeSTnjUf6JZtL0DDYVPkgf56P9g0=
+=h6KR
 -----END PGP SIGNATURE-----
 
---LjToOVLe5mRBkJCE--
+--EOW+nDDhcTc8iYm6--
 
