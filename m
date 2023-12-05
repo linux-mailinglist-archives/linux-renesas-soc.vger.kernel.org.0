@@ -1,122 +1,98 @@
-Return-Path: <linux-renesas-soc+bounces-669-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-670-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75DA0804B6F
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  5 Dec 2023 08:51:03 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id A9F68804C62
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  5 Dec 2023 09:30:33 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1ED611F20C17
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  5 Dec 2023 07:51:03 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 56F922816D0
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  5 Dec 2023 08:30:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1EF732CCCF;
-	Tue,  5 Dec 2023 07:51:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="b4vhiER6"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 00B113C480;
+	Tue,  5 Dec 2023 08:30:31 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::229])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AF6D4CA;
-	Mon,  4 Dec 2023 23:50:55 -0800 (PST)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 15DFEFF80A;
-	Tue,  5 Dec 2023 07:50:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1701762654;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=33Cr2ldAlMbcSRdOfjbnL3I/Zg4ZMoiw1vVYuAFexRo=;
-	b=b4vhiER6a0L6V8r2zxzPP/QzfzSTlhkeU1AriyKxFIiplNb1XZ+XCg2+EjeucXV/uV/YO1
-	A6h6P+g9lkmW+V/niTIfxHvrUoEZvRPzOqCAIDa3DT3VFQTc+CsmYxgkF04Y5f60h3AyTB
-	LGT8ZexvnP/khyItrTvFEaSAjyBJLtzeazAio64kaoWBvk9/Cf5MbKMwt/WGwhkx/tsdFN
-	mh73fi+AM6pxPwChmWZxPfMalh+OE/yLyktflvwxRIlg6Tb8lQh+mjSaNsubYNsZFYEufg
-	rM38OiIl0V2/qYiI4jNoAbSvYw49xiCSmt3syB9uLbezVsY4n/msm/yXn2SWag==
-Date: Tue, 5 Dec 2023 08:50:46 +0100
-From: Miquel Raynal <miquel.raynal@bootlin.com>
-To: Uwe =?UTF-8?B?S2xlaW5lLUvDtm5pZw==?= <u.kleine-koenig@pengutronix.de>
-Cc: Andrew Lunn <andrew@lunn.ch>, Alexander Aring <alex.aring@gmail.com>,
- Sergey Ryazanov <ryazanov.s.a@gmail.com>, Eric Dumazet
- <edumazet@google.com>, Stefan Schmidt <stefan@datenfreihafen.org>, Zhao
- Qiang <qiang.zhao@nxp.com>, Bjorn Andersson <andersson@kernel.org>, Konrad
- Dybcio <konrad.dybcio@linaro.org>, Russell King <linux@armlinux.org.uk>,
- linux-wpan@vger.kernel.org, Andy Gross <agross@kernel.org>, Jakub Kicinski
- <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, =?UTF-8?B?Q2zDqW1l?=
- =?UTF-8?B?bnQgTMOpZ2Vy?= <clement.leger@bootlin.com>, Christian Marangi
- <ansuelsmth@gmail.com>, Nick Child <nnac123@linux.ibm.com>, Stephan Gerhold
- <stephan@gerhold.net>, linux-arm-msm@vger.kernel.org, Loic Poulain
- <loic.poulain@linaro.org>, Marc Kleine-Budde <mkl@pengutronix.de>,
- linux-arm-kernel@lists.infradead.org, Alex Elder <elder@kernel.org>,
- netdev@vger.kernel.org, Linus Walleij <linusw@kernel.org>,
- linux-renesas-soc@vger.kernel.org, kernel@pengutronix.de, Johannes Berg
- <johannes@sipsolutions.net>, Imre Kaloz <kaloz@openwrt.org>,
- linuxppc-dev@lists.ozlabs.org, "David S. Miller" <davem@davemloft.net>,
- Heiner Kallweit <hkallweit1@gmail.com>
-Subject: Re: [PATCH net-next v2 0/9] net*: Convert to platform remove
- callback returning void
-Message-ID: <20231205085046.7307ca9b@xps-13>
-In-Reply-To: <20231205073911.e6nphzhc6yjan5vu@pengutronix.de>
-References: <cover.1701713943.git.u.kleine-koenig@pengutronix.de>
-	<20231205075110.795b88d2@xps-13>
-	<20231205073911.e6nphzhc6yjan5vu@pengutronix.de>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
+Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com [209.85.128.171])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EDF5AC0;
+	Tue,  5 Dec 2023 00:30:27 -0800 (PST)
+Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-5d3758fdd2eso51194427b3.0;
+        Tue, 05 Dec 2023 00:30:27 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701765027; x=1702369827;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=MXcsyir3a7SBDDGCoBHp70/mRJJIxewAzXRQ0oT/0fw=;
+        b=l3pCq2P8xUY6gIW1kjxSpIiPmIb4aYYEhL0j+1vQS/8WFwq9Ql3SnPKcjHIPtElXVG
+         IP1F0NnojmJAYQbIN51KWy32BKctddu6zb3fM31KQr1UV5KpV420xN2HaWARF/Zxd51+
+         I+d0VbfOqyaL5zASzAYCeEGtyCOsZmG2CsScH/oGsMne1hzUILBjG5rRxaPUWVM6Hfka
+         GWJG8rSp2TNLrVU6WvwtBeCIZGWs5knITShR4qwLJQAQodYS1apAKj1q6hEq8rTxrx5f
+         cUSOAuN94xvrilcU2og8QTvlPEsnn6kt07jH540PiiBpx25TctHISbseLNtlenBhAjM1
+         r+rA==
+X-Gm-Message-State: AOJu0YwbVvYVku819vkYzjjBydlhATFSYyfzKzLZrEq2sLbyD9CvqaX4
+	qIuHVKuPbIn6ct3GmbBbzrbP9gBBC6NWcw==
+X-Google-Smtp-Source: AGHT+IEuC9FmKfND1IgC/oooQgncgGNkX0d8XoCJWWzSWhoRO/096JYs4Uzj6jN8urGaGOEuJxnD4g==
+X-Received: by 2002:a05:6902:248:b0:db7:dad0:76b5 with SMTP id k8-20020a056902024800b00db7dad076b5mr3316558ybs.81.1701765026994;
+        Tue, 05 Dec 2023 00:30:26 -0800 (PST)
+Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com. [209.85.128.171])
+        by smtp.gmail.com with ESMTPSA id j129-20020a25d287000000b00d7ba4c5e31fsm2937054ybg.39.2023.12.05.00.30.26
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 05 Dec 2023 00:30:26 -0800 (PST)
+Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-5d3644ca426so51844327b3.1;
+        Tue, 05 Dec 2023 00:30:26 -0800 (PST)
+X-Received: by 2002:a25:ca4f:0:b0:db7:dad0:76b7 with SMTP id
+ a76-20020a25ca4f000000b00db7dad076b7mr3257272ybg.83.1701765025931; Tue, 05
+ Dec 2023 00:30:25 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+References: <20231204172510.35041-1-biju.das.jz@bp.renesas.com> <20231204172510.35041-2-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20231204172510.35041-2-biju.das.jz@bp.renesas.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 5 Dec 2023 09:30:15 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdW0VU8f2oRVuS0WZQazrF__rhGebOV_V7LO4uJKwecDLA@mail.gmail.com>
+Message-ID: <CAMuHMdW0VU8f2oRVuS0WZQazrF__rhGebOV_V7LO4uJKwecDLA@mail.gmail.com>
+Subject: Re: [PATCH v3.1 1/8] dt-bindings: mfd: da9062: Update watchdog description
+To: Biju Das <biju.das.jz@bp.renesas.com>
+Cc: Lee Jones <lee@kernel.org>, Rob Herring <robh+dt@kernel.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Support Opensource <support.opensource@diasemi.com>, devicetree@vger.kernel.org, 
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>, Biju Das <biju.das.au@gmail.com>, 
+	linux-renesas-soc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-GND-Sasl: miquel.raynal@bootlin.com
 
-Hello Uwe,
+On Mon, Dec 4, 2023 at 6:25=E2=80=AFPM Biju Das <biju.das.jz@bp.renesas.com=
+> wrote:
+> Update watchdog description by referring to dlg,da9062-watchdog binding
+> file.
+>
+> Update MAINTAINERS entries.
+>
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> ---
+> v3.1:
+>  Merged with patch#8 from v2.
 
-u.kleine-koenig@pengutronix.de wrote on Tue, 5 Dec 2023 08:39:11 +0100:
+Fixes: bd888a4377ae1030 ("dt-bindings: watchdog: da9062-wdt: convert
+txt to yaml")
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-> Hello Miquel,
->=20
-> On Tue, Dec 05, 2023 at 07:51:10AM +0100, Miquel Raynal wrote:
-> > u.kleine-koenig@pengutronix.de wrote on Mon,  4 Dec 2023 19:30:40 +0100=
-: =20
-> > > (implicit) v1 of this series can be found at
-> > > https://lore.kernel.org/netdev/20231117095922.876489-1-u.kleine-koeni=
-g@pengutronix.de.
-> > > Changes since then:
-> > >=20
-> > >  - Dropped patch #1 as Alex objected. Patch #1 (was #2 before) now
-> > >    converts ipa to remove_new() and introduces an error message in the
-> > >    error path that failed before.
-> > >=20
-> > >  - Rebased to today's next
-> > >=20
-> > >  - Add the tags received in the previous round.
-> > >=20
-> > > Uwe Kleine-K=C3=B6nig (9):
-> > >   net: ipa: Convert to platform remove callback returning void
-> > >   net: fjes: Convert to platform remove callback returning void
-> > >   net: pcs: rzn1-miic: Convert to platform remove callback returning
-> > >     void
-> > >   net: sfp: Convert to platform remove callback returning void
-> > >   net: wan/fsl_ucc_hdlc: Convert to platform remove callback returning
-> > >     void
-> > >   net: wan/ixp4xx_hss: Convert to platform remove callback returning
-> > >     void
-> > >   net: wwan: qcom_bam_dmux: Convert to platform remove callback
-> > >     returning void
-> > >   ieee802154: fakelb: Convert to platform remove callback returning v=
-oid
-> > >   ieee802154: hwsim: Convert to platform remove callback returning vo=
-id =20
-> >=20
-> > FYI, I plan on taking patches 8 and 9 through wpan-next. =20
->=20
-> I forgot to mention explicitly that there are no interdependencies in
-> this series. So each maintainer picking up up their patches is fine.
+Gr{oetje,eeting}s,
 
-Yes, no problem, it was quick to figure out.
+                        Geert
 
-Thanks,
-Miqu=C3=A8l
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
