@@ -1,143 +1,142 @@
-Return-Path: <linux-renesas-soc+bounces-727-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-728-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id C062E8055FB
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  5 Dec 2023 14:31:45 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 02000805618
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  5 Dec 2023 14:35:08 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B07A81C20F77
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  5 Dec 2023 13:31:44 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id A02931F21554
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  5 Dec 2023 13:35:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id ECEC55D8EB;
-	Tue,  5 Dec 2023 13:31:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 22B475D907;
+	Tue,  5 Dec 2023 13:35:01 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com [209.85.128.178])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 207251AB
-	for <linux-renesas-soc@vger.kernel.org>; Tue,  5 Dec 2023 05:31:38 -0800 (PST)
-Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-5d3644ca426so54879707b3.1
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 05 Dec 2023 05:31:38 -0800 (PST)
+Received: from mail-yb1-f179.google.com (mail-yb1-f179.google.com [209.85.219.179])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E52F71AB;
+	Tue,  5 Dec 2023 05:34:57 -0800 (PST)
+Received: by mail-yb1-f179.google.com with SMTP id 3f1490d57ef6-da7ea62e76cso4131655276.3;
+        Tue, 05 Dec 2023 05:34:57 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701783097; x=1702387897;
+        d=1e100.net; s=20230601; t=1701783297; x=1702388097;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=+WLCGfltwE6Kjvks8kpsa3EEhQwG2EjNCMrRG0bAxcU=;
-        b=EW0Rvfgp1GVa1RVLwrAgJqpgLCRSabzyKkKtL237GHZdDkR9RA3X/sGgs73feneYdJ
-         V2l7/SKOgPPj02zttflqZ5oUAGJNXxCkbd+t5ovA6oeZikYO8waiZOj941VhH6DM+pgo
-         bxryh8NaPU2BHQEJeReKJgNROOHzSK0bEqgwDDXGIYTi61tnzpiv7HzZSVv95HjnXreh
-         NrsWQjpwJJtIEmRSikOhAJM+cXdgl3SpdC3u61m1l50V0TdOcKcXuYZ3l0+pR8daQht+
-         SLhNt/7lLfAOyTsNVPsisacOk82sKt853Pi9HA+tz62E2AtiSphAT+S+6i/0rof03t5S
-         72Yw==
-X-Gm-Message-State: AOJu0YwghTthZBEALG9xsPOFJKgnqbtOd26jeeF7EvN5r3lQc16MnipW
-	npFABdX/SNt8VBy4ELa1XS/c9SKd27l+og==
-X-Google-Smtp-Source: AGHT+IHzYUzTv2l9ncMi54qBSCAcXxTs7/R1xaGXxbiglIdKePKgHg5RVExhoFhuKQHbw53q57hz9Q==
-X-Received: by 2002:a81:ae02:0:b0:5d7:1941:3552 with SMTP id m2-20020a81ae02000000b005d719413552mr3612085ywh.57.1701783097177;
-        Tue, 05 Dec 2023 05:31:37 -0800 (PST)
-Received: from mail-yb1-f177.google.com (mail-yb1-f177.google.com. [209.85.219.177])
-        by smtp.gmail.com with ESMTPSA id g188-20020a0df6c5000000b005a7daa09f43sm4146260ywf.125.2023.12.05.05.31.35
-        for <linux-renesas-soc@vger.kernel.org>
+        bh=NRBQrJMVxE74uMXuNQQqL8IIVVzyGsSzO2s+5zIiPV0=;
+        b=A0lZMQ1jFbKkhWWutDWrcWz7KFIlSeDMWb1jPQCJENqyjmXg0wY/2Kn2MPaK0MRxqS
+         A94Ly5u1RVRKpEUDu8eckDuiBnTaYa7yKMceKQZMc80C+yuzJSs4linVi+x+fJN6DZdc
+         /TRoWqhZh/u+jlHS0V8IYZqUbwS3qTK8lJButkwMA8q9ZienD7LOGgoh6b1iIAN2fRMI
+         aNL+GDzB0ANlNKqviqB85g4opF69Jcbvweq/A++LhAk4UR7R4gZK38VWrRtblXSXjBYJ
+         waRGGIxdCAtPGGQvAzbq+QACoZCHDwY3QedHaxNi5MWWtTHraPCwlyNLqWIGbpGMPx16
+         4dZw==
+X-Gm-Message-State: AOJu0YxZ1wQ3AEYlphbshfxy+Xh/RPffxu2FOhnIFNalr5wdTUGjcB5b
+	KP5vxfEevjecCE2pqbEfzqGunisHbMU5OQ==
+X-Google-Smtp-Source: AGHT+IGyLaLTwPahXKI2ENXiTAFxqP6MFZUyHT+uzxy1jFrdayp+/7ksG2rXpEX81TvsKl4xBj/nxg==
+X-Received: by 2002:a25:ae8c:0:b0:db7:dacf:eda1 with SMTP id b12-20020a25ae8c000000b00db7dacfeda1mr3881355ybj.130.1701783297125;
+        Tue, 05 Dec 2023 05:34:57 -0800 (PST)
+Received: from mail-yb1-f170.google.com (mail-yb1-f170.google.com. [209.85.219.170])
+        by smtp.gmail.com with ESMTPSA id z28-20020a25ad9c000000b00d9ca7c2c8e2sm3098327ybi.11.2023.12.05.05.34.56
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 05 Dec 2023 05:31:36 -0800 (PST)
-Received: by mail-yb1-f177.google.com with SMTP id 3f1490d57ef6-d9fe0a598d8so3343677276.2
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 05 Dec 2023 05:31:35 -0800 (PST)
-X-Received: by 2002:a25:f205:0:b0:db7:dad0:76d0 with SMTP id
- i5-20020a25f205000000b00db7dad076d0mr3644485ybe.108.1701783095615; Tue, 05
- Dec 2023 05:31:35 -0800 (PST)
+        Tue, 05 Dec 2023 05:34:56 -0800 (PST)
+Received: by mail-yb1-f170.google.com with SMTP id 3f1490d57ef6-db549f869a3so4132947276.1;
+        Tue, 05 Dec 2023 05:34:56 -0800 (PST)
+X-Received: by 2002:a25:cc01:0:b0:db7:dacf:ed92 with SMTP id
+ l1-20020a25cc01000000b00db7dacfed92mr4614162ybf.115.1701783296324; Tue, 05
+ Dec 2023 05:34:56 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <0a13f43d1e519b88e0762cce178d7852b7dba2b1.1701775726.git.geert+renesas@glider.be>
- <20231205121617.GF17394@pendragon.ideasonboard.com>
-In-Reply-To: <20231205121617.GF17394@pendragon.ideasonboard.com>
+References: <cover.1701768028.git.ysato@users.sourceforge.jp>
+ <602e1ba4f02489fcbc47e8f9904f3c1db1c9f14a.1701768028.git.ysato@users.sourceforge.jp>
+ <2ef81211-9525-4f96-a6b2-3fcfbed0c6e5@app.fastmail.com>
+In-Reply-To: <2ef81211-9525-4f96-a6b2-3fcfbed0c6e5@app.fastmail.com>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 5 Dec 2023 14:31:24 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdWziG0T6XdtcyvLz2si7Ai6sQN0tDU1345nSouz2tUq8A@mail.gmail.com>
-Message-ID: <CAMuHMdWziG0T6XdtcyvLz2si7Ai6sQN0tDU1345nSouz2tUq8A@mail.gmail.com>
-Subject: Re: [PATCH] drm: renesas: shmobile: Call drm_helper_force_disable_all()
- at shutdown time
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>, Douglas Anderson <dianders@chromium.org>, 
-	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Maxime Ripard <mripard@kernel.org>, 
-	dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org
+Date: Tue, 5 Dec 2023 14:34:44 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdVPO13i8n=QZDnbds1=iMPtfZDcvmFZdst3r+Xf+82U_w@mail.gmail.com>
+Message-ID: <CAMuHMdVPO13i8n=QZDnbds1=iMPtfZDcvmFZdst3r+Xf+82U_w@mail.gmail.com>
+Subject: Re: [DO NOT MERGE v5 11/37] pci: pci-sh7751: Add SH7751 PCI driver
+To: Arnd Bergmann <arnd@arndb.de>
+Cc: Yoshinori Sato <ysato@users.sourceforge.jp>, linux-sh@vger.kernel.org, 
+	Damien Le Moal <dlemoal@kernel.org>, Rob Herring <robh+dt@kernel.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
+	Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, Thomas Gleixner <tglx@linutronix.de>, 
+	Lorenzo Pieralisi <lpieralisi@kernel.org>, =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>, 
+	Bjorn Helgaas <bhelgaas@google.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Jiri Slaby <jirislaby@kernel.org>, Magnus Damm <magnus.damm@gmail.com>, 
+	Daniel Lezcano <daniel.lezcano@linaro.org>, Rich Felker <dalias@libc.org>, 
+	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>, Lee Jones <lee@kernel.org>, 
+	Helge Deller <deller@gmx.de>, =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Chris Morgan <macromorgan@hotmail.com>, 
+	Linus Walleij <linus.walleij@linaro.org>, Randy Dunlap <rdunlap@infradead.org>, 
+	Hyeonggon Yoo <42.hyeyoo@gmail.com>, David Rientjes <rientjes@google.com>, 
+	Vlastimil Babka <vbabka@suse.cz>, Baoquan He <bhe@redhat.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, Guenter Roeck <linux@roeck-us.net>, 
+	Stephen Rothwell <sfr@canb.auug.org.au>, guoren <guoren@kernel.org>, 
+	Javier Martinez Canillas <javierm@redhat.com>, Azeem Shaikh <azeemshaikh38@gmail.com>, 
+	Palmer Dabbelt <palmer@rivosinc.com>, Bin Meng <bmeng@tinylab.org>, 
+	Max Filippov <jcmvbkbc@gmail.com>, Tom Rix <trix@redhat.com>, 
+	Herve Codina <herve.codina@bootlin.com>, Jacky Huang <ychuang3@nuvoton.com>, 
+	Lukas Bulwahn <lukas.bulwahn@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Biju Das <biju.das.jz@bp.renesas.com>, 
+	=?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>, 
+	Sam Ravnborg <sam@ravnborg.org>, Michael Karcher <kernel@mkarcher.dialup.fu-berlin.de>, 
+	Sergey Shtylyov <s.shtylyov@omp.ru>, 
+	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, linux-ide@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Linux-Renesas <linux-renesas-soc@vger.kernel.org>, linux-clk@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, linux-pci@vger.kernel.org, 
+	linux-serial@vger.kernel.org, linux-fbdev@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Laurent,
+Hi Arnd,
 
-On Tue, Dec 5, 2023 at 1:16=E2=80=AFPM Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
-> On Tue, Dec 05, 2023 at 12:30:02PM +0100, Geert Uytterhoeven wrote:
-> > From: Douglas Anderson <dianders@chromium.org>
-> >
-> > Based on grepping through the source code, this driver appears to be
-> > missing a call to drm_atomic_helper_shutdown() at system shutdown time.
-> > This is important because drm_helper_force_disable_all() will cause
-> > panels to get disabled cleanly which may be important for their power
-> > sequencing.  Future changes will remove any custom powering off in
-> > individual panel drivers so the DRM drivers need to start getting this
-> > right.
-> >
-> > The fact that we should call drm_atomic_helper_shutdown() in the case o=
-f
-> > OS shutdown comes straight out of the kernel doc "driver instance
-> > overview" in drm_drv.c.
-> >
-> > Suggested-by: Maxime Ripard <mripard@kernel.org>
-> > Signed-off-by: Douglas Anderson <dianders@chromium.org>
-> > Link: https://lore.kernel.org/r/20230901164111.RFT.15.Iaf638a1d4c8b3c30=
-7a6192efabb4cbb06b195f15@changeid
-> > [geert: s/drm_helper_force_disable_all/drm_atomic_helper_shutdown/]
-> > [geert: shmob_drm_remove() already calls drm_atomic_helper_shutdown]
-> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+On Tue, Dec 5, 2023 at 2:26=E2=80=AFPM Arnd Bergmann <arnd@arndb.de> wrote:
+> On Tue, Dec 5, 2023, at 10:45, Yoshinori Sato wrote:
+> > +     bscres =3D platform_get_resource(pdev, IORESOURCE_MEM, 1);
+> > +     bsc =3D devm_ioremap_resource(&pdev->dev, bscres);
+> > +     if (IS_ERR(bsc))
+> > +             return PTR_ERR(bsc);
+> > +
+> > +     if (of_property_read_u32_array(pdev->dev.of_node,
+> > +                                    "renesas,memory", memory, 2) < 0) =
+{
+> > +             /*
+> > +              * If no memory range is specified,
+> > +              *  the entire main memory will be targeted for DMA.
+> > +              */
+> > +             memory[0] =3D memory_start;
+> > +             memory[1] =3D memory_end - memory_start;
+> > +     }
 >
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> There is a generic "dma-ranges" proerty for describing
+> which memory is visible by a bus.
 
-Thanks!
+I was just going to give that comment on the bindings patch ;-)
 
-> > Panel-simple does print two new warnings:
-> >
-> >     +panel-simple panel: Skipping disable of already disabled panel
-> >     +panel-simple panel: Skipping unprepare of already unprepared panel
+> > --- /dev/null
+> > +++ b/drivers/pci/controller/pci-sh7751.h
+> > @@ -0,0 +1,76 @@
 >
-> Have you investigated where this comes from ?
+> If the header is only included from one file, just removed
+> it and add the register definitions to the driver directly.
 
-Meh, I knew I forgot something ;-)
-
-The panel is unprepared and disabled a first time from shmob_drm's
-.shutdown() callback:
-
-  shmob_drm_shutdown
-    drm_atomic_helper_shutdown
-      drm_atomic_helper_disable_all
-        drm_atomic_commit
-          drm_atomic_helper_commit
-            commit_tail
-              drm_atomic_helper_commit_tail
-                drm_atomic_helper_commit_modeset_disables
-                  disable_outputs
-                    drm_atomic_bridge_chain_disable
-                        drm_panel_disable
-                    drm_atomic_bridge_chain_post_disable
-                        drm_panel_unprepare
-
-And a second time from simple_panel's .shutdown() callback():
-
-  panel_simple_platform_shutdown
-    panel_simple_shutdown
-      drm_panel_disable
-      drm_panel_unprepare
+$ git grep pci-sh7751.h
+arch/sh/drivers/pci/pci-sh4.h:#include "pci-sh7751.h"
+drivers/pci/controller/pci-sh7751.c:#include "pci-sh7751.h"
 
 Gr{oetje,eeting}s,
 
                         Geert
 
-
---
+--=20
 Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
 .org
 
