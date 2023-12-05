@@ -1,161 +1,134 @@
-Return-Path: <linux-renesas-soc+bounces-734-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-735-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C72280579E
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  5 Dec 2023 15:41:46 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E7F2980580A
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  5 Dec 2023 15:58:04 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 965171C21047
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  5 Dec 2023 14:41:45 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 86DD3B20EC5
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  5 Dec 2023 14:58:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B8C7E65ECA;
-	Tue,  5 Dec 2023 14:41:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="isv2tuYR"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F014167E6E;
+	Tue,  5 Dec 2023 14:57:56 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11on2059.outbound.protection.outlook.com [40.107.223.59])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 06AE6194
-	for <linux-renesas-soc@vger.kernel.org>; Tue,  5 Dec 2023 06:41:37 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=U3FO31uUQdzbhvZAh1G3aNGX58KtTZmPC+5u5plTH1jA3sBkSHeeL1O9UVsqKEkys3M0IXDkUbHwtv0H1nDpQCVL0X99khss5NM+ffdGNousKRkoeF5JdN5QNa8k0L4GCdIRjItuhRkL/FuLDLrL2u+pHQAQj30clcrZcPezu+V+5lCWqzlySBIlUhcJCAep81cbxWeiKB9ZbIlgSbCMO3KhXBG9Rd1JGmyWtLvommLMumxYhGI178sBRFHCK8x+QrHIQ2f4WjVipjL2QBFjvoAy1SYihbMsqwktTKWiZCnroJNpsAm3Yfz76N3IfZIkX1avtJAxb+3Uqsy3IJcZ6Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=OAAz11jV4icSbUhhKsMhRtWI538gZZplUGY8x5Oj/Rg=;
- b=YETlW50eQmH8vEXwTLpgw07mwDE0Lk+JLoJQIQzORdPVMOQOfidZFjzEEOwN7V5LtwEK9L+5xgQvPer6G12CaL/Ikf5Z0O4jEm1pEWZyjr70X+XXhZXWjVr1x4WOVQPygYt96U4qQymd0VvQA1YoLMjqZvjsS7lGeQR2s+iFiK4qhmQ3xXZNjHm7kWZwSr47ICptbaddRtMR4RbPyPqU/pmmqZO+Tyb6zobf7LTOri257aH9Dmo1rSDAqqeeR9E6QGM8CMLoapPQ686dR9mR1/9EQsGxkx6PoyL5hW3Tjl/M86TIAdus/V+k6b2QtYGRteuxDMv7C8MFxgS7NpdAtw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=OAAz11jV4icSbUhhKsMhRtWI538gZZplUGY8x5Oj/Rg=;
- b=isv2tuYR2SY5rscGT15+PMRMavRlDvV+mWlI92GSEMo8l4AFFDPQW5TIBdQ6RlqygFwNuKMyqq7PffcEil1RLVMN2u1O3ZkQScDEXkAGmiTzzObtQQr4xiJeH5DmnrIoNRWOMZzy82gu/nDPOfXcfh/2LrVsEr1oZJvppvsxhpA=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from CO6PR12MB5427.namprd12.prod.outlook.com (2603:10b6:5:358::13)
- by PH7PR12MB6668.namprd12.prod.outlook.com (2603:10b6:510:1aa::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7046.34; Tue, 5 Dec
- 2023 14:41:34 +0000
-Received: from CO6PR12MB5427.namprd12.prod.outlook.com
- ([fe80::3a35:139f:8361:ab66]) by CO6PR12MB5427.namprd12.prod.outlook.com
- ([fe80::3a35:139f:8361:ab66%6]) with mapi id 15.20.7046.034; Tue, 5 Dec 2023
- 14:41:33 +0000
-Message-ID: <f339bfd5-8748-464a-b6ca-188778ed4371@amd.com>
-Date: Tue, 5 Dec 2023 09:41:29 -0500
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/8] drm/amdgpu: Do not include
- <drm/drm_plane_helper.h>
-To: Thomas Zimmermann <tzimmermann@suse.de>, mripard@kernel.org,
- maarten.lankhorst@linux.intel.com, daniel@ffwll.ch, airlied@gmail.com,
- suijingfeng@loongson.cn
-Cc: dri-devel@lists.freedesktop.org, javierm@redhat.com,
- amd-gfx@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
- laurent.pinchart@ideasonboard.com, linux-arm-kernel@lists.infradead.org
-References: <20231204090852.1650-1-tzimmermann@suse.de>
- <20231204090852.1650-3-tzimmermann@suse.de>
-Content-Language: en-US
-From: Harry Wentland <harry.wentland@amd.com>
-In-Reply-To: <20231204090852.1650-3-tzimmermann@suse.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: YT4PR01CA0502.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b01:10c::11) To CO6PR12MB5427.namprd12.prod.outlook.com
- (2603:10b6:5:358::13)
+Received: from mail-yb1-f196.google.com (mail-yb1-f196.google.com [209.85.219.196])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8F221129;
+	Tue,  5 Dec 2023 06:57:52 -0800 (PST)
+Received: by mail-yb1-f196.google.com with SMTP id 3f1490d57ef6-db3a09e96daso4253926276.3;
+        Tue, 05 Dec 2023 06:57:52 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701788271; x=1702393071;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=2OSy1fkE1VPCMMZW3HW28WvB6VxFaRMTrE1La3jBwPw=;
+        b=H5EsiOalP3wPRYTrmCyX7LM5E6IlxQEl5ZpKo7uk0EnaN1FCXHYBwLP3t2tNe0aS9m
+         DaFQp/om0wB97vG4+Xt00c7JfkCCaP+dqgDlRt+/dQB1vPMWiuLzk8mJ6Rlk++syoBa5
+         xRJQuroejthMcN/RBYGCb3Rim9K9+jMZduxdrUybACWV5rsD3+pmKWjegcuXH0fXA2Wu
+         z8P1RGlOy+dgtlPt99vhS/a0wy8428UNF507D153SjNB3tay1PR48FbVqdD1nJFYdyZc
+         N5Zz7yGtK5SJex4ZppZ8tGOywv6ZTdWwXZeGqA68T2bwjmRpeFRbaSLbmeYVnh7yoSzx
+         WJGg==
+X-Gm-Message-State: AOJu0Yy0nOCHbpCu0qhu7ax/zxs3oBJkkUccKlMzNulBeGMwEXK3ZjXQ
+	0Ig6I/17nVYPnvMOq8iO5+wMFX/w00RVCyGx
+X-Google-Smtp-Source: AGHT+IFLodowK5y27eVR6eQAnJr24kgV1N0rDxhSnfD+dOfoslVZNjUyIGOONG4pfS50TELYBsRXoA==
+X-Received: by 2002:a25:8543:0:b0:db8:357:f032 with SMTP id f3-20020a258543000000b00db80357f032mr3405933ybn.89.1701788271716;
+        Tue, 05 Dec 2023 06:57:51 -0800 (PST)
+Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com. [209.85.128.175])
+        by smtp.gmail.com with ESMTPSA id p82-20020a254255000000b00db3fdaaa4fasm3155660yba.1.2023.12.05.06.57.51
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 05 Dec 2023 06:57:51 -0800 (PST)
+Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-5d279bcce64so64342657b3.3;
+        Tue, 05 Dec 2023 06:57:51 -0800 (PST)
+X-Received: by 2002:a05:690c:c9d:b0:5d7:1941:2c27 with SMTP id
+ cm29-20020a05690c0c9d00b005d719412c27mr4909480ywb.84.1701788271024; Tue, 05
+ Dec 2023 06:57:51 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO6PR12MB5427:EE_|PH7PR12MB6668:EE_
-X-MS-Office365-Filtering-Correlation-Id: 38683b25-8f86-4cee-111f-08dbf5a046e8
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	1+l3/4EA5Cmrz5nM7A+kO1iFMcrJFUQttedOUiPa/p1kf139kNI8D4U0PBIT/cVpZSQsZhW6hnAKtvgSexepVSlpN86tGrORsbMKgtUqD+GgxoqbKGYvkIXlAyvlmO+dnnuWVeHQA/HRBlsEyW5En9qLrpy3aQVehKTPvuCwGNeWsV47ClQ4onxjo1D6EQzUOFsWOXUfTEm3pCYhKCcpb2aZWtB/YF65LTDmN4W3GVj/rttglEGcHbD7KeTkTkDbFvQTCcjpLNCg7OS0n22mosfQLXXohmXFKVPXBb1EdvEVdaFINFvBh9Xs4uFwYZJvLF/9UAhYMoawN0/bP6ICfsxEWht3eAcp3muv84+MIvH0u2QeitS13N//mkl0Kv4HCCcToJQiTEFYMcJqhYxav0yo+a3Qn0OnoOUd5uoAfb93/zuvhdHGzz7S+ISFN6hGYn6tV95WzdfOIBFvDfFdm7OVThAk5CEJpx2iUNE4UpCKm4imxJKJlIFHoyxIUGBsCvnNJgjFPmuUiV3KdEa/Xfx37Sb1gonI2tARfLTc57Lr+MAy50gVclMBlQdvys0tYw0Kt4f/JhihlGSES/dDeCkwrnMvdarbQCLQxVg6EsKeLpx42jP2qEuS2XTuwEo6VyEHzphrw7GP0P5klpFJ9w==
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO6PR12MB5427.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366004)(39860400002)(396003)(376002)(136003)(346002)(230922051799003)(186009)(1800799012)(64100799003)(451199024)(2906002)(86362001)(5660300002)(4744005)(7416002)(83380400001)(31686004)(38100700002)(31696002)(53546011)(36756003)(6506007)(44832011)(6512007)(2616005)(6666004)(26005)(8676002)(8936002)(4326008)(41300700001)(478600001)(6486002)(66946007)(316002)(66476007)(66556008)(43740500002)(45980500001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?OVpSdnpyMzBuVHBhcGpHV1BPVnM0MEhSMktMNWowOVVxQ05KVlczOEVJRndm?=
- =?utf-8?B?czRDVnFYMU4zeTBhdWxRNW5XcVFzRHdCKy9vVmkxYXlFOEw1eUtWMTdIdjdi?=
- =?utf-8?B?Y0dxQlpScXhCL0hocU1HcUhmRXFTaWVCZmZVbEdNa3NGNFpmTXhITldvb2Jj?=
- =?utf-8?B?WEJZa1JVdUdjMXdQQWhySk10UUJFditwb3FyT0JPVWVIbHE3QnFyTW12eDJm?=
- =?utf-8?B?S0RPZjdYUWJlSmVuZUhWUnc0bEEzd2VmM3J4c2NsZGlOdkZzWTJiMWVvYXhC?=
- =?utf-8?B?WWs2c2pDelVrZEFnZ2lmTUVnYjIyNGZ5eDdweERSRkJpMWlHSDhMSUZ0VmZo?=
- =?utf-8?B?Y2hOZkZ5N1RQVFlsWlkwTGgzaGdFTG5wZ1lFbENpRTdkM29lZ1dzWTA0cm1L?=
- =?utf-8?B?ZTZ1dWcwbmNaZHVNV3hVYm9ZQnI3bm1tSUZncGdDVmhzR1hva2R4M3JROUgv?=
- =?utf-8?B?YWtDZW5XYjdOSzJmc1puUVFJb1lKc3ViM3N5d2w4MmhBQXd2VzNEQm94cGEw?=
- =?utf-8?B?Wlg2TkRxaGI5NTFVM3RPL0I1ck5YQmM4NlZ3akdMQXJNTjFHdVZTS1hJVmtL?=
- =?utf-8?B?cnRuOFBrMHphNTkxcW81VkswdU1PSkdZKzRJMHB2N29NT0VrK3c5TWxINVU5?=
- =?utf-8?B?MnBIU1VNZHJYaTQ0eUJ6MDNDMXFpV2VlbnB4akF6RHJiSjYxQzVMODM5a3lt?=
- =?utf-8?B?cXA2KzVybnJrVDlTQ1hoUmFzQzhUS0FYSnpKM1h6ZitQWnNlKy9yQ3dvOW9P?=
- =?utf-8?B?eE9rdDNGVzYxUU4xemF4cEl5dExoUXd4VncrOEZvS3dxQmp4NWRVYXZGWFJr?=
- =?utf-8?B?aUxqeUhrWnhYWWRrcmV3VEF1Z1ZPOWhFODQ4UC9yR1RmNHNZN21USUNleVps?=
- =?utf-8?B?Q2NBMzdDeFdvVlh6a0dlcGkzdzhhd21sZUoyeXI5OGpGZUQzOEM0UDdRSjhU?=
- =?utf-8?B?c016b0piMEFWdmdTS2VsbnAwZGt2cnlQRzRBQnAxOXF6R2NUMkU3aTZ5eWFl?=
- =?utf-8?B?dUI0aUEzN1FiOFZRYnlYenQwZmx1OHBZM1VSa2l6SnUvNVJWZDNJcVhCVTdw?=
- =?utf-8?B?OVVhSVBwSXNjVWc4U1NzR1N3M0ZZUzZDVWZTWGpOL1AyV2xpZXAvWUJuNU4r?=
- =?utf-8?B?RXZGdjNwcVMvUVlsNE1DeGgvV2dLak9FK2pSTDRQNE1ib0ZIaTJBQWhqNDYx?=
- =?utf-8?B?Z3BYMFJEMzdYQnMyMzM5M1pib3hUeVlpMnRzdzBORGJ0QUFHQ3NNSUNSY2o3?=
- =?utf-8?B?Z3ZLaWVkWWs0MnJjNmE4U0FNa3kra3NuMHhTS0JneVF2TmQ3OU9aL091T29F?=
- =?utf-8?B?MWNVMHlPeFhyeEpJWWJGc0h5dDRKV0JsdEI3WTFSSG4rQmNBcFZTVDU0MXRx?=
- =?utf-8?B?a1dIMnI3dG4xNGpXeHNBQXFMTzkyQ1BUUElzWDNnV3Z1T3NmaGFQSGxlYWRV?=
- =?utf-8?B?TlRtZGhhZHR4NGpZUy9aU2c4OGVmZW9ZQmlrWGkvMytTQVV2dXpUNWQ2cW96?=
- =?utf-8?B?WGhTNjdUSnBBQnNuSmpBSk9KSTVaaGNmMWUzWkYrNTd4NlB3bk5Md2ErNWdv?=
- =?utf-8?B?T21zS3NhQ0dITVl2M0NUQlZ0c1VyNFNzS0N1ODVJQVAvS3hyamJCQ3VEaWtk?=
- =?utf-8?B?aTVDRFcveGQxTVZwbGpKQnA5Mjh1OFFuR0xHTmZaaUFXUXJaUm5sc3crVEpw?=
- =?utf-8?B?MkJzSG5GZk1OZFlDNkdFUGVsbHA4Q3lqVzROWTJRWEJIWFdkNUVnRzh1MzNV?=
- =?utf-8?B?bFBVYzRIbVpNQWZhUFVnL3JNeGdjejdZdU8wWHlsU0Q5Y3Vtc1pGV0xYeHlm?=
- =?utf-8?B?RGN0QWVaeWwya29Nc21KTjJMSnpNSmx1KythK1FSS1RlMFdKbm02S2hBSmNq?=
- =?utf-8?B?SDRsZGlvbXlmMHQxU3NxOGNNdGg4WXJhR21PNUV3enV5dm55dTlXaCtGRTZy?=
- =?utf-8?B?Vk85WXNTS2NhZDZuK2w2ZGFNbnN5VkF6TjBYdTBadnh0SjQ2c0tRS0pyRmd5?=
- =?utf-8?B?YTJBVFc1b2Nxb0ErUXQ3NHE4NFBqYTNpRGlaM1Y1TCtwT3VDQlQrRlp1NEpw?=
- =?utf-8?B?VURibGNES3NVMUxESU5Xa2t4UjhocWwyekl6ZGFTKzlJekRhMXQrZTY2SXB2?=
- =?utf-8?Q?QvmKz6xUoIhgLs3w3/BOJWGC8?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 38683b25-8f86-4cee-111f-08dbf5a046e8
-X-MS-Exchange-CrossTenant-AuthSource: CO6PR12MB5427.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Dec 2023 14:41:33.8218
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: BjhDrvueMtyd1zf0awyeFBepoHRQ5yclkRUF6uSVmpvG5H1Ffhjlad4Sp5WkfiRCrgKoDOUTkduJzW76MERpXQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB6668
+References: <cover.1701768028.git.ysato@users.sourceforge.jp> <9f1485220fbfaba9b30bf2d9352640f988f35b04.1701768028.git.ysato@users.sourceforge.jp>
+In-Reply-To: <9f1485220fbfaba9b30bf2d9352640f988f35b04.1701768028.git.ysato@users.sourceforge.jp>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 5 Dec 2023 15:57:39 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdWsBOs0Y7CkzhxkMYWWzyBpp1MesiCHc728FoTMNQs+qA@mail.gmail.com>
+Message-ID: <CAMuHMdWsBOs0Y7CkzhxkMYWWzyBpp1MesiCHc728FoTMNQs+qA@mail.gmail.com>
+Subject: Re: [DO NOT MERGE v5 21/37] dt-bindings: serial: renesas,scif: Add scif-sh7751.
+To: Yoshinori Sato <ysato@users.sourceforge.jp>
+Cc: linux-sh@vger.kernel.org, Damien Le Moal <dlemoal@kernel.org>, 
+	Rob Herring <robh+dt@kernel.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, Michael Turquette <mturquette@baylibre.com>, 
+	Stephen Boyd <sboyd@kernel.org>, David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, Thomas Gleixner <tglx@linutronix.de>, 
+	Lorenzo Pieralisi <lpieralisi@kernel.org>, =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>, 
+	Bjorn Helgaas <bhelgaas@google.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Jiri Slaby <jirislaby@kernel.org>, Magnus Damm <magnus.damm@gmail.com>, 
+	Daniel Lezcano <daniel.lezcano@linaro.org>, Rich Felker <dalias@libc.org>, 
+	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>, Lee Jones <lee@kernel.org>, 
+	Helge Deller <deller@gmx.de>, Heiko Stuebner <heiko@sntech.de>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Chris Morgan <macromorgan@hotmail.com>, 
+	Linus Walleij <linus.walleij@linaro.org>, Randy Dunlap <rdunlap@infradead.org>, 
+	Arnd Bergmann <arnd@arndb.de>, Hyeonggon Yoo <42.hyeyoo@gmail.com>, 
+	David Rientjes <rientjes@google.com>, Vlastimil Babka <vbabka@suse.cz>, Baoquan He <bhe@redhat.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, Guenter Roeck <linux@roeck-us.net>, 
+	Stephen Rothwell <sfr@canb.auug.org.au>, Guo Ren <guoren@kernel.org>, 
+	Javier Martinez Canillas <javierm@redhat.com>, Azeem Shaikh <azeemshaikh38@gmail.com>, 
+	Palmer Dabbelt <palmer@rivosinc.com>, Bin Meng <bmeng@tinylab.org>, 
+	Max Filippov <jcmvbkbc@gmail.com>, Tom Rix <trix@redhat.com>, 
+	Herve Codina <herve.codina@bootlin.com>, Jacky Huang <ychuang3@nuvoton.com>, 
+	Lukas Bulwahn <lukas.bulwahn@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Biju Das <biju.das.jz@bp.renesas.com>, 
+	=?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>, 
+	Sam Ravnborg <sam@ravnborg.org>, Michael Karcher <kernel@mkarcher.dialup.fu-berlin.de>, 
+	Sergey Shtylyov <s.shtylyov@omp.ru>, 
+	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, linux-ide@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, linux-pci@vger.kernel.org, 
+	linux-serial@vger.kernel.org, linux-fbdev@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 2023-12-04 04:07, Thomas Zimmermann wrote:
-> Remove unnecessary include statements for <drm/drm_plane_helper.h>.
-> The file contains helpers for non-atomic code and should not be
-> required by most drivers. No functional changes.
-> 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+Hi Sato-san,
 
-Reviewed-by: Harry Wentland <harry.wentland@amd.com>
+On Tue, Dec 5, 2023 at 10:46=E2=80=AFAM Yoshinori Sato
+<ysato@users.sourceforge.jp> wrote:
+> Add Renesas SH7751 SCIF.
+>
+> Signed-off-by: Yoshinori Sato <ysato@users.sourceforge.jp>
 
-Harry
+Thanks for your patch!
 
-> ---
->  drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 1 -
->  1 file changed, 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> index aa43f1761acd3..b8c3a9b104a41 100644
-> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> @@ -92,7 +92,6 @@
->  #include <drm/drm_vblank.h>
->  #include <drm/drm_audio_component.h>
->  #include <drm/drm_gem_atomic_helper.h>
-> -#include <drm/drm_plane_helper.h>
->  
->  #include <acpi/video.h>
->  
+> --- a/Documentation/devicetree/bindings/serial/renesas,scif.yaml
+> +++ b/Documentation/devicetree/bindings/serial/renesas,scif.yaml
+> @@ -17,6 +17,7 @@ properties:
+>      oneOf:
+>        - items:
+>            - enum:
+> +              - renesas,scif-sh7751       # SH7751
 
+Please preserve alphabetical sort order.
+The actual compatible value LGTM.
+
+>                - renesas,scif-r7s72100     # RZ/A1H
+>            - const: renesas,scif           # generic SCIF compatible UART
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
