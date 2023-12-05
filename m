@@ -1,60 +1,60 @@
-Return-Path: <linux-renesas-soc+bounces-741-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-742-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4752F805959
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  5 Dec 2023 17:01:24 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 43BCB805967
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  5 Dec 2023 17:04:34 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id AEA821F216EC
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  5 Dec 2023 16:01:23 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 81BB1281E7C
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  5 Dec 2023 16:04:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id ED00F60BA5;
-	Tue,  5 Dec 2023 16:01:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6F35F60BAC;
+	Tue,  5 Dec 2023 16:04:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="bpZGeEk3"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="kg6KBv8A"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com [IPv6:2a00:1450:4864:20::32f])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A391E1B2
-	for <linux-renesas-soc@vger.kernel.org>; Tue,  5 Dec 2023 08:01:12 -0800 (PST)
-Received: by mail-wm1-x32f.google.com with SMTP id 5b1f17b1804b1-40c09d62b70so30231275e9.1
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 05 Dec 2023 08:01:12 -0800 (PST)
+Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com [IPv6:2a00:1450:4864:20::629])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 940D5120
+	for <linux-renesas-soc@vger.kernel.org>; Tue,  5 Dec 2023 08:04:25 -0800 (PST)
+Received: by mail-ej1-x629.google.com with SMTP id a640c23a62f3a-a1cee2c1620so58438566b.2
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 05 Dec 2023 08:04:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1701792071; x=1702396871; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1701792264; x=1702397064; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=EITfd3r5nf7P48LA181bNkau3CscdZfUTize8JbXHBE=;
-        b=bpZGeEk3IJu2/UJtLw5aX6mNw5LDaS30BUScuz+PjEXh4vgWn44QcPj5ehMsSdhwN6
-         HM9Tw0vBm7bEayFlgNcM7+1DRpjAFh4Clu+fY2hpkzgdFLZ9m6WtPahEWoadk0GJCxxG
-         39b/CYYYUppTxZO3yHZ0oTryYHm8mRgHy31z07lGzouSU/BeajoiF4wi0ik3/4zSjNWX
-         GDzMcsPrJp44vo5Nr4iU0ffyWkbIWLIi6dw8UXizVW+sjOmYtBNtdoLI5v8zFwCWROlw
-         f5RxQIRC1bnpC/jlhhuD5yqTNlEdiEwHRkBa9CDL8CYnjp3DFnUJKwz57B0PJBQtGVDh
-         J1xg==
+        bh=ueB6I2UkSgD9Goo0ueWdFF2OUn4YP4cOmqEsc/9hoFc=;
+        b=kg6KBv8AVXxZxVbWjAk2vHx4PWKjxVLllMcbHGzXCOJoTT3lgVMCuxYOIf6sj9AW/0
+         /a14UFynMT0G6ENCbk1ifgm+8EufgRDWEmnhfSSh3vhF1BkPqhz+I4xJT6IyDQKuorRu
+         Y8N3QwIsJMqP0KafY+7tj053G0kRWB6CeASAjopcwMNxG5CzdibmaECD5NyqaHI3xB72
+         CBUgIOlE3l7vFw7ik51+WCFu3Zhyp+PIQnJEG0Z1A1CjmRIpsvymExJa42hHH3G6KuVt
+         HxmkO1VnXUF4tBYugFMq1va8wtcg/iP1TTWlO742e0fQxb49LCbkcFjVjf/kAbPXqrlb
+         gpQg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701792071; x=1702396871;
+        d=1e100.net; s=20230601; t=1701792264; x=1702397064;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=EITfd3r5nf7P48LA181bNkau3CscdZfUTize8JbXHBE=;
-        b=Iy1LZh8n1u3YMu7LtC29Z+cJO4qqUemofo6TwR76aLJcLVQzC5tiKi53hZ+C/nkUek
-         a2dTFq0rTFeOincDqCqzXhp7tlcBueNfZT/wTKmzjD9GUPOexgjzYgO88ymgraaYfE/A
-         AA0CzKRAg0E36dnz40mlmKuYUAUDGIJxJVCbaOhzkvB9mRlp5ZaLiGRcY0BLvYEQXR9z
-         h8qD2AXsA6agEh+qRam5FqFkwhn/Rohed3lfmtKlNzkrsG6Y37aIkwnUrmPZwGX2Pcxf
-         RfibFJjc8IcV8D4XlXZoxHtzvPDnYuveIJE5tXDQsiP8e4OZ5eBX4OM0uJGDP4XYO/Of
-         n90A==
-X-Gm-Message-State: AOJu0YyUrSIoFYj9sIpeR1nc23a7UTZukRzt4sbzG9t/e4yOkzBAZZtU
-	5XlgRViM+v+17K4rzZibU2mvLg==
-X-Google-Smtp-Source: AGHT+IH9gChkUItZ8Bdn3aOa1zE9knEu7O0Iec2wEcQGBv+8gvgTNBUTm7//Mist2brtq83hisd4Rw==
-X-Received: by 2002:a05:600c:cb:b0:40c:b79:1f8 with SMTP id u11-20020a05600c00cb00b0040c0b7901f8mr454890wmm.229.1701792070246;
-        Tue, 05 Dec 2023 08:01:10 -0800 (PST)
+        bh=ueB6I2UkSgD9Goo0ueWdFF2OUn4YP4cOmqEsc/9hoFc=;
+        b=r+iCS9iBb+1W69zfu0Q7sszzqwY84XCr8+zCxQYQ4YI4K7wkWfSQvplo3GWFG/6bU4
+         +ajysuPcM7zBZEH574WHob78fCTMKodL5Qk+9vBvF6OQbhATxv4q7WqVI3IKT1cebM0Y
+         3wBuMZgj03YrC63J0+cLGdzskiM+RT5MCUsb+e7Uf4yfB+eWNzsfpaDltrHVGk4f4i12
+         +HFS5jT7di0j8GTjQVoPizL56CnYWzvEQiuc0q8BTwDoHQr7wCZo8tYlzxt48VrMwVXR
+         53bDOAmpwWJD+QCrrJpqOV6bprlaXO8yJIfCJy7T3PJBSQlFKKKiaRpXLJx2bqxZmB1/
+         EHNA==
+X-Gm-Message-State: AOJu0Yxi+Wk36VWpyQotjdwVc4Xyr4B33eHqJK9lDIdSFFtjVkS7W8F0
+	BgmSGVqqpMS+Bt14ezaK5qtmrg==
+X-Google-Smtp-Source: AGHT+IHbq53ZFp4bfxBK3FtQxIJHrdlvm3xVH/Yxjog4NGTK90zRrrwXqW53LMiUSrecuMtupwD1jw==
+X-Received: by 2002:a17:906:1:b0:a19:d40a:d1e4 with SMTP id 1-20020a170906000100b00a19d40ad1e4mr2040169eja.176.1701792263900;
+        Tue, 05 Dec 2023 08:04:23 -0800 (PST)
 Received: from [192.168.1.20] ([178.197.218.27])
-        by smtp.gmail.com with ESMTPSA id i17-20020a1709064fd100b00a1b70ff43e8sm3007438ejw.6.2023.12.05.08.01.05
+        by smtp.gmail.com with ESMTPSA id v19-20020a170906565300b00a19644675aasm6184442ejr.23.2023.12.05.08.04.15
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 05 Dec 2023 08:01:09 -0800 (PST)
-Message-ID: <a5a7769c-4e35-4717-9cd8-33df11fc572e@linaro.org>
-Date: Tue, 5 Dec 2023 17:01:04 +0100
+        Tue, 05 Dec 2023 08:04:23 -0800 (PST)
+Message-ID: <bca9f847-1ec8-46c5-bbee-1379e74eb081@linaro.org>
+Date: Tue, 5 Dec 2023 17:04:14 +0100
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -62,8 +62,8 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [DO NOT MERGE v5 04/37] dt-bindings: interrupt-controller: Add
- header for Renesas SH3/4 INTC.
+Subject: Re: [DO NOT MERGE v5 17/37] dt-bindings: interrupt-controller:
+ renesas,sh7751-intc: Add json-schema
 Content-Language: en-US
 To: Yoshinori Sato <ysato@users.sourceforge.jp>, linux-sh@vger.kernel.org
 Cc: Damien Le Moal <dlemoal@kernel.org>, Rob Herring <robh+dt@kernel.org>,
@@ -110,7 +110,7 @@ Cc: Damien Le Moal <dlemoal@kernel.org>, Rob Herring <robh+dt@kernel.org>,
  linux-pci@vger.kernel.org, linux-serial@vger.kernel.org,
  linux-fbdev@vger.kernel.org
 References: <cover.1701768028.git.ysato@users.sourceforge.jp>
- <7b00e02e77d8c9fec4f5ecb5176e28837c87b062.1701768028.git.ysato@users.sourceforge.jp>
+ <1fafcf1c70ee4e38847bac1379bcb4555a237505.1701768028.git.ysato@users.sourceforge.jp>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
@@ -156,54 +156,99 @@ Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
  fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
  D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <7b00e02e77d8c9fec4f5ecb5176e28837c87b062.1701768028.git.ysato@users.sourceforge.jp>
+In-Reply-To: <1fafcf1c70ee4e38847bac1379bcb4555a237505.1701768028.git.ysato@users.sourceforge.jp>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 05/12/2023 10:45, Yoshinori Sato wrote:
-> Renesas SH7751 Interrupt controller priority register define.
+> Renesas SH7751 INTC json-schema.
 > 
+
+This should not be a separate commit from the header bindings. I already
+gave such feedback before. Binding headers and bindings documentation
+for the same block come together.
+
 > Signed-off-by: Yoshinori Sato <ysato@users.sourceforge.jp>
 > ---
->  .../interrupt-controller/sh7751-intc.h        | 21 +++++++++++++++++++
->  1 file changed, 21 insertions(+)
->  create mode 100644 include/dt-bindings/interrupt-controller/sh7751-intc.h
-
-Still missing vendor prefix. This applies to all your bindings.
-
+>  .../renesas,sh7751-intc.yaml                  | 105 ++++++++++++++++++
+>  1 file changed, 105 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/interrupt-controller/renesas,sh7751-intc.yaml
 > 
-> diff --git a/include/dt-bindings/interrupt-controller/sh7751-intc.h b/include/dt-bindings/interrupt-controller/sh7751-intc.h
+> diff --git a/Documentation/devicetree/bindings/interrupt-controller/renesas,sh7751-intc.yaml b/Documentation/devicetree/bindings/interrupt-controller/renesas,sh7751-intc.yaml
 > new file mode 100644
-> index 000000000000..5783ec72d70f
+> index 000000000000..9d05c10f5c32
 > --- /dev/null
-> +++ b/include/dt-bindings/interrupt-controller/sh7751-intc.h
-> @@ -0,0 +1,21 @@
-> +/* SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> + *
-> + * SH3/4 INTC EVT - IRQ conversion
-> + */
+> +++ b/Documentation/devicetree/bindings/interrupt-controller/renesas,sh7751-intc.yaml
+> @@ -0,0 +1,105 @@
+> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/interrupt-controller/renesas,sh7751-intc.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
 > +
-> +#ifndef __DT_BINDINGS_RENESAS_SH7751_INTC
-> +#define __DT_BINDINGS_RENESAS_SH7751_INTC
+> +title: Renesas SH7751 Interrupt Controller
 > +
-> +#define evt2irq(evt)		((evt) >> 5)
+> +maintainers:
+> +  - Yoshinori Sato <ysato@users.sourceforge.jp>
+> +
+> +properties:
+> +  compatible:
+> +    items:
+> +      - const: renesas,sh7751-intc
+> +
+> +  '#interrupt-cells':
+> +    const: 1
+> +
+> +  interrupt-controller: true
+> +
+> +  reg:
+> +    maxItems: 2
+> +
+> +  reg-names:
+> +    items:
+> +      - const: ICR
+> +      - const: INTPRI00
 
-Still not a binding.
+Both lowercase
 
 > +
-> +#define IPRA			0
-> +#define IPRB			4
-> +#define IPRC			8
-> +#define IPRD			12
-> +#define INTPRI00		256
-> +#define IPR_B12			12
-> +#define IPR_B8			8
-> +#define IPR_B4			4
-> +#define IPR_B0			0
+> +  renesas,icr-irlm:
+> +    type: boolean
+> +    description: If true ICR.IRLM=1
 
-Neither these. Your commit msg says these are register values, so not
-bindings.
+Unfortunately neither description nor property name tells me anything.
+Description basically copies property name, so it's not useful.
 
+> +
+> +  renesas,ipr-map:
+> +    $ref: /schemas/types.yaml#/definitions/uint32-array
+> +    description: |
+> +      IRQ to IPR mapping definition.
+> +      1st - INTEVT
+> +      2nd - Register
+> +      3rd - bit index
+> +
+> +required:
+> +  - compatible
+> +  - '#interrupt-cells'
+> +  - interrupt-controller
+> +  - reg
+> +  - reg-names
+> +  - renesas,ipr-map
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/interrupt-controller/sh_intc.h>
+> +    shintc: interrupt-controller@ffd00000 {
+> +            compatible = "renesas,sh7751-intc";
+> +            #interrupt-cells = <1>;
+> +            interrupt-controller;
+> +            reg = <0xffd00000 14>, <0xfe080000 128>;
+> +            reg-names = "ICR", "INTPRI00";
+
+reg should be the second property, reg-names should follow.
 
 Best regards,
 Krzysztof
