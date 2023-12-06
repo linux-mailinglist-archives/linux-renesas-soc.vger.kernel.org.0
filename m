@@ -1,60 +1,60 @@
-Return-Path: <linux-renesas-soc+bounces-764-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-765-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 481CD806D56
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  6 Dec 2023 12:06:33 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id C541D806D84
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  6 Dec 2023 12:12:12 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 036B9281984
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  6 Dec 2023 11:06:32 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E3DE11C20974
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  6 Dec 2023 11:12:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2887530FA7;
-	Wed,  6 Dec 2023 11:06:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8FEF0315B6;
+	Wed,  6 Dec 2023 11:12:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Wrs6mYs9"
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="DlncmySJ"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com [IPv6:2a00:1450:4864:20::32a])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6BD49173D
-	for <linux-renesas-soc@vger.kernel.org>; Wed,  6 Dec 2023 03:06:20 -0800 (PST)
-Received: by mail-wm1-x32a.google.com with SMTP id 5b1f17b1804b1-40c09f5a7cfso38696305e9.0
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 06 Dec 2023 03:06:20 -0800 (PST)
+Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com [IPv6:2a00:1450:4864:20::633])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 707F5DE
+	for <linux-renesas-soc@vger.kernel.org>; Wed,  6 Dec 2023 03:12:00 -0800 (PST)
+Received: by mail-ej1-x633.google.com with SMTP id a640c23a62f3a-a1d93da3eb7so64782366b.0
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 06 Dec 2023 03:12:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1701860778; x=1702465578; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
+        d=tuxon.dev; s=google; t=1701861119; x=1702465919; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=jClcqTKkEdlh/0n7GUFJamNERw69d7IUU8YIMDhi+mA=;
-        b=Wrs6mYs9AEL6tIA5ntG7olO4OAA+eBadszsc7d5gZeNW+0+X6R8Wt1s4Eja2DY6Ym+
-         6YJyGClcon6llEifVlGeBdq7p3U477c2tf0aDpJvzYuMwx1hkjkCaLUsSzf5cIMWTUgs
-         Lxr0E0CEp6tdYyUxkJ5e+F2Ffiyy9cGEbxeyYRrWVPH6+cLzXU9YUonRTO8TWqNriDpV
-         nGXvSvUh/kgqAnD7nO2dxVPTw9B9c4U8pwsLDAN/ghegY5n6g8NLphmclHt2ZCN+SlTi
-         BPQLB3d65E1jWJ9RwDvk39+qVixHH25DgBsvarheXLsyzPG3p2nb9nnqDLJRF0jnVLIJ
-         fIJg==
+        bh=dcUwLRWzoKCiLujNLbeBgYDSgnjO4m7YhLdFf0vhr4A=;
+        b=DlncmySJI0BK09GpYxHKtmX5lq6kWZTu+SiBkeOU6alFzv21K4opxJnQMZQ35bi2aw
+         KaeRLP0JT+qSl/jIXwIxniERDGPVmyxzwxrO1jEechOUwuVIIgmuZ5e+JbFfyZxcKHd0
+         4JzXLkXx1Un11ugPboa5KhsJesspWH1ag2BjvEVBIih+Fp7H2sBKZf5f1NPEC5U940FQ
+         JersVQ1FyvU4Jnr47TZVmGeug+OVT4yC2A2jbHbRhnMszJtAzU6aY4IleFCvoQEfmpMD
+         nQ9m5Ynq+mL+LV50A1RBK1DwMfuAxtoz29tIhi6nvZNqAXhmDVOmdy+3wlbcRO+8srRp
+         2K2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701860778; x=1702465578;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
+        d=1e100.net; s=20230601; t=1701861119; x=1702465919;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=jClcqTKkEdlh/0n7GUFJamNERw69d7IUU8YIMDhi+mA=;
-        b=js+3HYgWQ8J6Xse1gCKrvzzD2f4hNjmGQtrhyTrp+XasjJFtIUHlIlep0Jx0lAlW/4
-         IbaLIVQMplTB15jOosnqFWZX+eOdbMauirl1sEy2/bIVKJnEU+mUGcVCIF4a6pV8EkeC
-         DXT/MONAYAFWqObomaZ0a25e/53NFeopQbyMw8+cOT8kPKRfNbVBzDuFhoYZzud7NjGo
-         FCSDPcoCB44NzyXpcYvqCY3iwiaAp90LEajtNgRigL/3/ZojUwfmQZpyEFKjxXuwZ/a5
-         ePb5En5rfFdva9ajxR8KmI2ob/bjbvxNL0qRjJPJtY71dSTgXJLxERMqgA00Nfd1nzpx
-         7IeQ==
-X-Gm-Message-State: AOJu0YzEXCAX4f66pRFsvSC+7uHsBMNna40aXUE1MEBJ4kQ8kPH24eLl
-	ctutWnbjhG9oeS5xBmvUIanttXlXDCCfwx91C5Y=
-X-Google-Smtp-Source: AGHT+IH0VuWe5InqREqifmqooyinWBx+yfuLzH9q5QbfammxeOLg8AeNYOhYqj0HtNtgF1CVmZH67A==
-X-Received: by 2002:a7b:c447:0:b0:40b:5e59:e9df with SMTP id l7-20020a7bc447000000b0040b5e59e9dfmr489123wmi.126.1701860778670;
-        Wed, 06 Dec 2023 03:06:18 -0800 (PST)
-Received: from [192.168.1.20] ([178.197.218.27])
-        by smtp.gmail.com with ESMTPSA id je18-20020a05600c1f9200b003feea62440bsm21897673wmb.43.2023.12.06.03.06.17
+        bh=dcUwLRWzoKCiLujNLbeBgYDSgnjO4m7YhLdFf0vhr4A=;
+        b=P6Z9cGasA0ezqS7vRroX4fB+kLsTFF25e0PpzZyhqTKkr0/lfKk9mgoNe6GxRq2b3R
+         JPtljpRRYC3M1inK8+VSU9El9ZNfomNTRPshIk52Hmbp6Pv1HsidLOzx2bQdepgrvvvT
+         HC/4IwGD/RPumJGkjVGKLp6EL3zSlKDlltNz1GYPAGqjRyfkOcZ+eFuHcHsBipUoj5n7
+         25UFEsvfbppAFIo/A6HbFsbEp+QltpZQk++cfKxXMgllFLbaJntTrkCUHh+WfbjPHdpa
+         xjHaHkwzP7jGIPetHC77JVQVCK3k+ZrYv4L0yJ7gqE2TBUYdxp+kDJVC0VB9qfj/PIia
+         /ONw==
+X-Gm-Message-State: AOJu0Yw33/meclZdKvkXTx6PGvqny9kf4d+AozNnr56BX8y7+Nz73yD1
+	8PHNiPlToA1gHK48zW9fYtl86A==
+X-Google-Smtp-Source: AGHT+IG3qcWvsI2ibZlg8aF3jqdwhI35Pva3o+lOtVXoK2FasThHPg+BRgLUAXOVFiJ2Rh0QB4rE+A==
+X-Received: by 2002:a17:906:3f5b:b0:9ff:53b6:f951 with SMTP id f27-20020a1709063f5b00b009ff53b6f951mr451808ejj.23.1701861118706;
+        Wed, 06 Dec 2023 03:11:58 -0800 (PST)
+Received: from [192.168.50.4] ([82.78.167.22])
+        by smtp.gmail.com with ESMTPSA id o26-20020a170906289a00b009e5ce1acb01sm8100203ejd.103.2023.12.06.03.11.55
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 06 Dec 2023 03:06:18 -0800 (PST)
-Message-ID: <332dfce5-f2a8-421a-878e-85f95aa64d10@linaro.org>
-Date: Wed, 6 Dec 2023 12:06:16 +0100
+        Wed, 06 Dec 2023 03:11:58 -0800 (PST)
+Message-ID: <248d24a9-589e-4b92-94b6-98504f78d7b9@tuxon.dev>
+Date: Wed, 6 Dec 2023 13:11:55 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -62,116 +62,155 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3.1 0/8] Convert DA906{1,2} bindings to json-schema
+Subject: Re: [PATCH 11/14] arm64: renesas: rzg3s-smarc-som: Invert the logic
+ for SW_SD2_EN macro
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: s.shtylyov@omp.ru, davem@davemloft.net, edumazet@google.com,
+ kuba@kernel.org, pabeni@redhat.com, robh+dt@kernel.org,
+ krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+ linux@armlinux.org.uk, geert+renesas@glider.be, magnus.damm@gmail.com,
+ mturquette@baylibre.com, sboyd@kernel.org, linus.walleij@linaro.org,
+ p.zabel@pengutronix.de, arnd@arndb.de, m.szyprowski@samsung.com,
+ alexandre.torgue@foss.st.com, afd@ti.com, broonie@kernel.org,
+ alexander.stein@ew.tq-group.com, eugen.hristev@collabora.com,
+ sergei.shtylyov@gmail.com, prabhakar.mahadev-lad.rj@bp.renesas.com,
+ biju.das.jz@bp.renesas.com, linux-renesas-soc@vger.kernel.org,
+ netdev@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-clk@vger.kernel.org, linux-gpio@vger.kernel.org,
+ Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+References: <20231120070024.4079344-1-claudiu.beznea.uj@bp.renesas.com>
+ <20231120070024.4079344-12-claudiu.beznea.uj@bp.renesas.com>
+ <CAMuHMdUbKe=yiXWNmk5BJFLtF2psx9khiDRGasT9WsnHz4RWsg@mail.gmail.com>
+ <CAMuHMdXwSo1L9UuFg9RL0TLL_xzVt2r6QEFc0gtPoydpr4FmSQ@mail.gmail.com>
+From: claudiu beznea <claudiu.beznea@tuxon.dev>
 Content-Language: en-US
-To: Biju Das <biju.das.jz@bp.renesas.com>, Lee Jones <lee@kernel.org>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, Rob Herring
- <robh+dt@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>
-Cc: Support Opensource <support.opensource@diasemi.com>,
- "Rafael J. Wysocki" <rafael@kernel.org>,
- Daniel Lezcano <daniel.lezcano@linaro.org>, Zhang Rui <rui.zhang@intel.com>,
- Lukasz Luba <lukasz.luba@arm.com>,
- Steve Twiss <stwiss.opensource@diasemi.com>, linux-input@vger.kernel.org,
- devicetree@vger.kernel.org, linux-pm@vger.kernel.org,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- Biju Das <biju.das.au@gmail.com>, linux-renesas-soc@vger.kernel.org
-References: <20231204172510.35041-1-biju.das.jz@bp.renesas.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20231204172510.35041-1-biju.das.jz@bp.renesas.com>
+In-Reply-To: <CAMuHMdXwSo1L9UuFg9RL0TLL_xzVt2r6QEFc0gtPoydpr4FmSQ@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 04/12/2023 18:25, Biju Das wrote:
-> Convert the below bindings to json-schema
-> 1) DA906{1,2} mfd bindings
-> 2) DA906{1,2,3} onkey bindings
-> 3) DA906{1,2,3} thermal bindings
+Hi, Geert,
+
+On 06.12.2023 12:56, Geert Uytterhoeven wrote:
+> On Wed, Dec 6, 2023 at 11:33 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+>> On Mon, Nov 20, 2023 at 8:03 AM Claudiu <claudiu.beznea@tuxon.dev> wrote:
+>>> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+>>>
+>>> The intention of SW_SD2_EN macro was to reflect the state of SW_CONFIG3
+>>> switch available on RZ/G3S Smarc Module. According to documentation SD2
+>>> is enabled when switch is in OFF state. For this, changed the logic of
+>>> marco to map value 0 to switch's OFF state and value 1 to switch's ON
+>>> state. Along with this update the description for each state for better
+>>> understanding.
+>>>
+>>> The value of SW_SD2_EN macro was not changed in file because, according to
+>>> documentation, the default state for this switch is ON.
+>>>
+>>> Fixes: adb4f0c5699c ("arm64: dts: renesas: Add initial support for RZ/G3S SMARC SoM")
+>>> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+>>
+>> Thanks for your patch!
+>>
+>>> --- a/arch/arm64/boot/dts/renesas/rzg3s-smarc-som.dtsi
+>>> +++ b/arch/arm64/boot/dts/renesas/rzg3s-smarc-som.dtsi
+>>> @@ -14,8 +14,8 @@
+>>>   *     0 - SD0 is connected to eMMC
+>>>   *     1 - SD0 is connected to uSD0 card
+>>>   * @SW_SD2_EN:
+>>> - *     0 - SCIF1, SSI0, IRQ0, IRQ1 connected to SoC
+>>> - *     1 - SD2 is connected to SoC
+>>> + *     0 - (switch OFF) SD2 is connected to SoC
+>>> + *     1 - (switch ON)  SCIF1, SSI0, IRQ0, IRQ1 connected to SoC
+>>
+>> I think this is still confusing: SW_SD2_EN refers to an active-low signal
+>> (SW_SD2_EN#) in the schematics.
 > 
-> Also add fallback for DA9061 watchdog device and document
-> DA9063 watchdog device.
+> OMG, while the signal is called "SW_SD2_EN#" in the schematics, it is
+> _not_ active-low!
+> SW_D2_EN# drives a STG3692 quad SPDT switch, and SD2 is enabled
+> if SW_D2_EN# is high...
 > 
-> v3->v3.1:
->  * Patch#1 is merge of patch#1 from v2 + patch#8 from v2.
->  * Dropped comment for d9061 watchdog fallback
->  * Replaced enum->const for dlg,da9061-watchdog and its fallback.
->  * Restored patch#4 in series 1 and dropped the thermal example
->  * Added Ack from Conor Dooley for da9063 watchdog binding support.
->  * Updated title DA9062/61->DA906{1,2,3} as it supports DA9063.
->  * Retained Rb tag since the changes are trivial.
->  * Added Ack from Conor for updating watchdog property
->  * Dropped link to product information.
->  * Patch#5(onkey) is squashed with patch#6 and patch#9 from v2.
->  * Replaced enum->const for dlg,da9061-onkey and its fallback.
->  * Dropped example
->  * Restored the thermal binding patch from v2.
->  * Dropped example
->  * Replaced enum->const for compatible property.
->  * Added Rb tag from Rob and retained Rb tag as changes are trivial.
->  * Added Ack from Conor Dooley for patch#7.
->  * Split the thermal binding patch separate
->  * Updated the description
+> The RZ/G3S SMARC Module User Manual says:
+> 
+> Signal SW_SD2_EN ON: SD2 is disabled.
+> Signal SW_SD2_EN OFF: SD2 is enabled.
 
+I followed the description in this manual, chapter 2.1.1 SW_CONFIG. The
+idea was that these macros to correspond to individual switches, to match
+that table (describing switches position) with this code as the user in the
+end sets those switches described in table at 2.1.1 w/o necessary going
+deep into schematic (at least in the beginning when trying different
+functionalities).
 
-Hundreds of changes and just "3 -> 3.1"? This does not make sense.
+Do you think it would be better if we will have these macros named
+SWCONFIGX, X in {1, 2, 3, 4, 5, 6} ?
 
-Also, use normal versioning:
+> 
+> So whatever we do, something will look odd :-(
+> 
+>> Before, SW_SD2_EN used assertion-logic (1 is enabled), and didn't
+>> match the physical signal level.
+>> After your patch, SW_SD2_EN matches the active-low physical level, but
+>> this is not reflected in the name...
+>>
+>>>   */
+>>>  #define SW_SD0_DEV_SEL 1
+>>>  #define SW_SD2_EN      1
+>>> @@ -25,7 +25,7 @@ / {
+>>>
+>>>         aliases {
+>>>                 mmc0 = &sdhi0;
+>>> -#if SW_SD2_EN
+>>> +#if !SW_SD2_EN
+>>
+>> ... so this condition looks really weird.
+> 
+> Still, I think the original looks nicer here.
+> 
+> So I suggest to keep the original logic, but clarify the position of
+> the switch.
+> Does that make sense?
 
-b4 diff '<20231204172510.35041-9-biju.das.jz@bp.renesas.com>'
-Grabbing thread from
-lore.kernel.org/all/20231204172510.35041-9-biju.das.jz@bp.renesas.com/t.mbox.gz
----
-Analyzing 21 messages in the thread
-ERROR: Could not auto-find previous revision
-       Run "b4 am -T" manually, then "b4 diff -m mbx1 mbx2"
+It will still be odd, AFAICT, as this way as we will map 0 to ON and 1 to
+OFF... A bit counterintuitive.
 
-
-Best regards,
-Krzysztof
-
+> 
+> 
+>>
+>>>                 mmc2 = &sdhi2;
+>>>  #endif
+>>>         };
+>>> @@ -116,7 +116,7 @@ &sdhi0 {
+>>>  };
+>>>  #endif
+>>>
+>>> -#if SW_SD2_EN
+>>> +#if !SW_SD2_EN
+>>>  &sdhi2 {
+>>>         pinctrl-0 = <&sdhi2_pins>;
+>>>         pinctrl-names = "default";
+>>
+>> So I think SW_SD2_EN should be renamed to SW_SD2_EN_N.
+>>
+>> Cfr. SW_ET0_EN_N on RZ/G2UL:
+>>
+>> arch/arm64/boot/dts/renesas/r9a07g043u11-smarc.dts- * DIP-Switch SW1 setting
+>> arch/arm64/boot/dts/renesas/r9a07g043u11-smarc.dts- * 1 : High; 0: Low
+>> arch/arm64/boot/dts/renesas/r9a07g043u11-smarc.dts- * SW1-2 :
+>> SW_SD0_DEV_SEL    (0: uSD; 1: eMMC)
+>> arch/arm64/boot/dts/renesas/r9a07g043u11-smarc.dts- * SW1-3 :
+>> SW_ET0_EN_N               (0: ETHER0; 1: CAN0, CAN1, SSI1, RSPI1)
+>> arch/arm64/boot/dts/renesas/r9a07g043u11-smarc.dts- * Please change
+>> below macros according to SW1 setting on the SoM
+> 
+> Gr{oetje,eeting}s,
+> 
+>                         Geert
+> 
+> --
+> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+> 
+> In personal conversations with technical people, I call myself a hacker. But
+> when I'm talking to journalists I just say "programmer" or something like that.
+>                                 -- Linus Torvalds
 
