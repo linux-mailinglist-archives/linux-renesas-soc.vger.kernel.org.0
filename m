@@ -1,107 +1,172 @@
-Return-Path: <linux-renesas-soc+bounces-760-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-761-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B910806BCD
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  6 Dec 2023 11:21:24 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0527C806BFB
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  6 Dec 2023 11:33:41 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 0AF47B20CE9
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  6 Dec 2023 10:21:22 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id AE2901F213DE
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  6 Dec 2023 10:33:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 50CF51C6A3;
-	Wed,  6 Dec 2023 10:21:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="YBDP9tA3"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A42D12D7B3;
+	Wed,  6 Dec 2023 10:33:35 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 54E20D59
-	for <linux-renesas-soc@vger.kernel.org>; Wed,  6 Dec 2023 02:21:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1701858073;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=yRpm8LJyiiRWUlz6GAxojgBjtryrOUDizfbbrpySu3o=;
-	b=YBDP9tA39XTVxFlQrMnwVtyUY0/x9/gnDlAEyj+xw2auyIPnoZTqjwhAvxVIXLGSG0A5SA
-	8vTuoZwsO+cCaPxw+s4WP/9ifnqYUL8N+ItSkfz0Iv0IN0+HbR6SAmxq60cU7aTy6Yt5tX
-	SQ4nZwuF5OiRpq7xW7Xo+3B04n/rk6E=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-687-8UlvpzE6MF21W021MFmU2g-1; Wed, 06 Dec 2023 05:21:12 -0500
-X-MC-Unique: 8UlvpzE6MF21W021MFmU2g-1
-Received: by mail-wm1-f72.google.com with SMTP id 5b1f17b1804b1-40c0938c508so6257365e9.1
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 06 Dec 2023 02:21:11 -0800 (PST)
+Received: from mail-yb1-f178.google.com (mail-yb1-f178.google.com [209.85.219.178])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D4236120;
+	Wed,  6 Dec 2023 02:33:31 -0800 (PST)
+Received: by mail-yb1-f178.google.com with SMTP id 3f1490d57ef6-db539f21712so652903276.1;
+        Wed, 06 Dec 2023 02:33:31 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701858070; x=1702462870;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=yRpm8LJyiiRWUlz6GAxojgBjtryrOUDizfbbrpySu3o=;
-        b=DyJR7mq3Gt4SGiXVbqEzQ5NcVbPNzeAADdH/lN6dFod3QLVTQsuTergYfgXZlsDY+Y
-         e43boHfizW5IXz4htBgwH2GnWWXULNgyOOpXxTvW6zQhTPACrZ4HU/Zq0zqaalX0mxU7
-         rM7tba/CS7CRtGsso2s7Zj82cCEFJiKsvNTkwSGqK5N8ElYZlB33QAbXjRQUdsLW/cPJ
-         p/ug9ylKironOKJGNGu5539D+kcDZbtmyWr7s3k/1aX3YSAcuSqlpGf1z6EtxYb1Q/lQ
-         ZEsXvTC65h6LoXz868jkNyyUF1hB82JkddIuEWYDGQF3xCFWIsbusCDuR3Gmjd0cz3rR
-         pR9w==
-X-Gm-Message-State: AOJu0YxG8vQmnC7sDBOVHD1eq/OiyofM9HV2PU7qDEYqPaRSWhxtrVr5
-	ordbEtRb72OVebVjawXETGcXyoPEWUObkpA7KRzbsX2ArRwwJwEncUrBqHprKddHNTbrO2VGW1b
-	6v7J3VdsVhjA704zWJUndL/di+0QKTBL9+cchFl4=
-X-Received: by 2002:a05:600c:1387:b0:3fe:d637:7b25 with SMTP id u7-20020a05600c138700b003fed6377b25mr1011187wmf.0.1701858070607;
-        Wed, 06 Dec 2023 02:21:10 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IEzLXIFZZc9kH9a0qoOjJc2dMhzqVfyNK62mNXv/pQ96Mjtxwek/hMFKj/u8yGU1IkKMmv2iA==
-X-Received: by 2002:a05:600c:1387:b0:3fe:d637:7b25 with SMTP id u7-20020a05600c138700b003fed6377b25mr1011177wmf.0.1701858070221;
-        Wed, 06 Dec 2023 02:21:10 -0800 (PST)
-Received: from gerbillo.redhat.com (146-241-243-102.dyn.eolo.it. [146.241.243.102])
-        by smtp.gmail.com with ESMTPSA id f15-20020a05600c4e8f00b0040b3632e993sm25050697wmq.46.2023.12.06.02.21.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 06 Dec 2023 02:21:09 -0800 (PST)
-Message-ID: <6d2d35c48875e8881509f94aeb9fb37d32238069.camel@redhat.com>
-Subject: Re: [PATCH net-next v3 8/9] net: rswitch: Add jumbo frames handling
- for TX
-From: Paolo Abeni <pabeni@redhat.com>
-To: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>, s.shtylyov@omp.ru,
-  davem@davemloft.net, edumazet@google.com, kuba@kernel.org
-Cc: netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Date: Wed, 06 Dec 2023 11:21:08 +0100
-In-Reply-To: <20231204012058.3876078-9-yoshihiro.shimoda.uh@renesas.com>
-References: <20231204012058.3876078-1-yoshihiro.shimoda.uh@renesas.com>
-	 <20231204012058.3876078-9-yoshihiro.shimoda.uh@renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.4 (3.46.4-1.fc37) 
+        d=1e100.net; s=20230601; t=1701858811; x=1702463611;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ppJZHeeq4GSLMzo9BpRtzV0XWoMwWQg5YLkR/Wat1cc=;
+        b=K8k5k5sOYoug2XUHkcx6KvsW0Nd1WuEGpsy3ggnh4knAlOt+kLdjEaDoQef6TD1I6e
+         AsF6wBYdgWlUMz4kDicjgprNyyM/qJvsPYgamcfWOFhi8PxMzNMett9SnAQPYDUIBC+m
+         M6LKIGmFeHXPw0X1ekr0t0pzh+XnA3Zntwk893ykxZ5Yj+zZX5cWRCJnXsEfP/FeMBNP
+         /t1BGmCd6BOO65BoUoAb89L4Jwcn1ENIcWCo3vtlUf/pBh+z3Jc/y0ttCy9oimYpSrCh
+         1VxaKeU4e6aRElFYaTBJ8xGUALE8L3MoB6B/UcNJwcozwLFoGlGAL6X204Og0SOMzp8X
+         NIQQ==
+X-Gm-Message-State: AOJu0YxQ9MKje57m5dn/WUmA49vE6SRlVfJzlefl0vtL/G8WrjAD3HTN
+	V8bMFdHbZL09TU5QVJX19oiM8IZFGRv8rw==
+X-Google-Smtp-Source: AGHT+IFj3vKNwuS8BPb5D5X8gceRBPbMXcMarr7GKumB/3oi0KM+Cjt+rjPFFUBhbVdQzEH9mlrGvA==
+X-Received: by 2002:a25:ae4b:0:b0:db9:8713:14f6 with SMTP id g11-20020a25ae4b000000b00db9871314f6mr1749784ybe.31.1701858810701;
+        Wed, 06 Dec 2023 02:33:30 -0800 (PST)
+Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com. [209.85.128.171])
+        by smtp.gmail.com with ESMTPSA id p127-20020a252985000000b00db3fa34142bsm3785711ybp.49.2023.12.06.02.33.29
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 06 Dec 2023 02:33:29 -0800 (PST)
+Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-5cdc0b3526eso6576337b3.1;
+        Wed, 06 Dec 2023 02:33:29 -0800 (PST)
+X-Received: by 2002:a81:ad49:0:b0:5d7:e2b8:bcca with SMTP id
+ l9-20020a81ad49000000b005d7e2b8bccamr505400ywk.18.1701858809241; Wed, 06 Dec
+ 2023 02:33:29 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+References: <20231120070024.4079344-1-claudiu.beznea.uj@bp.renesas.com> <20231120070024.4079344-12-claudiu.beznea.uj@bp.renesas.com>
+In-Reply-To: <20231120070024.4079344-12-claudiu.beznea.uj@bp.renesas.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Wed, 6 Dec 2023 11:33:17 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdUbKe=yiXWNmk5BJFLtF2psx9khiDRGasT9WsnHz4RWsg@mail.gmail.com>
+Message-ID: <CAMuHMdUbKe=yiXWNmk5BJFLtF2psx9khiDRGasT9WsnHz4RWsg@mail.gmail.com>
+Subject: Re: [PATCH 11/14] arm64: renesas: rzg3s-smarc-som: Invert the logic
+ for SW_SD2_EN macro
+To: Claudiu <claudiu.beznea@tuxon.dev>
+Cc: s.shtylyov@omp.ru, davem@davemloft.net, edumazet@google.com, 
+	kuba@kernel.org, pabeni@redhat.com, robh+dt@kernel.org, 
+	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, linux@armlinux.org.uk, 
+	geert+renesas@glider.be, magnus.damm@gmail.com, mturquette@baylibre.com, 
+	sboyd@kernel.org, linus.walleij@linaro.org, p.zabel@pengutronix.de, 
+	arnd@arndb.de, m.szyprowski@samsung.com, alexandre.torgue@foss.st.com, 
+	afd@ti.com, broonie@kernel.org, alexander.stein@ew.tq-group.com, 
+	eugen.hristev@collabora.com, sergei.shtylyov@gmail.com, 
+	prabhakar.mahadev-lad.rj@bp.renesas.com, biju.das.jz@bp.renesas.com, 
+	linux-renesas-soc@vger.kernel.org, netdev@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org, 
+	linux-gpio@vger.kernel.org, Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, 2023-12-04 at 10:20 +0900, Yoshihiro Shimoda wrote:
-> @@ -1647,25 +1676,32 @@ static netdev_tx_t rswitch_start_xmit(struct sk_b=
-uff *skb, struct net_device *nd
->  	if (skb_put_padto(skb, ETH_ZLEN))
->  		return ret;
-> =20
-> -	dma_addr =3D dma_map_single(ndev->dev.parent, skb->data, skb->len, DMA_=
-TO_DEVICE);
-> -	if (dma_mapping_error(ndev->dev.parent, dma_addr))
-> +	dma_addr_orig =3D dma_map_single(ndev->dev.parent, skb->data, skb->len,=
- DMA_TO_DEVICE);
-> +	if (dma_mapping_error(ndev->dev.parent, dma_addr_orig))
->  		goto err_kfree;
-> =20
->  	gq->skbs[gq->cur] =3D skb;
->  	gq->unmap_addrs[gq->cur] =3D dma_addr;
+Hi Claudiu,
 
-Here 'dma_addr' is still used uninitialized. I guess you should use
-'dma_addr_orig' even here.
+On Mon, Nov 20, 2023 at 8:03=E2=80=AFAM Claudiu <claudiu.beznea@tuxon.dev> =
+wrote:
+> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+>
+> The intention of SW_SD2_EN macro was to reflect the state of SW_CONFIG3
+> switch available on RZ/G3S Smarc Module. According to documentation SD2
+> is enabled when switch is in OFF state. For this, changed the logic of
+> marco to map value 0 to switch's OFF state and value 1 to switch's ON
+> state. Along with this update the description for each state for better
+> understanding.
+>
+> The value of SW_SD2_EN macro was not changed in file because, according t=
+o
+> documentation, the default state for this switch is ON.
+>
+> Fixes: adb4f0c5699c ("arm64: dts: renesas: Add initial support for RZ/G3S=
+ SMARC SoM")
+> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 
-Cheers,
+Thanks for your patch!
 
-Paolo
+> --- a/arch/arm64/boot/dts/renesas/rzg3s-smarc-som.dtsi
+> +++ b/arch/arm64/boot/dts/renesas/rzg3s-smarc-som.dtsi
+> @@ -14,8 +14,8 @@
+>   *     0 - SD0 is connected to eMMC
+>   *     1 - SD0 is connected to uSD0 card
+>   * @SW_SD2_EN:
+> - *     0 - SCIF1, SSI0, IRQ0, IRQ1 connected to SoC
+> - *     1 - SD2 is connected to SoC
+> + *     0 - (switch OFF) SD2 is connected to SoC
+> + *     1 - (switch ON)  SCIF1, SSI0, IRQ0, IRQ1 connected to SoC
 
+I think this is still confusing: SW_SD2_EN refers to an active-low signal
+(SW_SD2_EN#) in the schematics.
+
+Before, SW_SD2_EN used assertion-logic (1 is enabled), and didn't
+match the physical signal level.
+After your patch, SW_SD2_EN matches the active-low physical level, but
+this is not reflected in the name...
+
+>   */
+>  #define SW_SD0_DEV_SEL 1
+>  #define SW_SD2_EN      1
+> @@ -25,7 +25,7 @@ / {
+>
+>         aliases {
+>                 mmc0 =3D &sdhi0;
+> -#if SW_SD2_EN
+> +#if !SW_SD2_EN
+
+... so this condition looks really weird.
+
+>                 mmc2 =3D &sdhi2;
+>  #endif
+>         };
+> @@ -116,7 +116,7 @@ &sdhi0 {
+>  };
+>  #endif
+>
+> -#if SW_SD2_EN
+> +#if !SW_SD2_EN
+>  &sdhi2 {
+>         pinctrl-0 =3D <&sdhi2_pins>;
+>         pinctrl-names =3D "default";
+
+So I think SW_SD2_EN should be renamed to SW_SD2_EN_N.
+
+Cfr. SW_ET0_EN_N on RZ/G2UL:
+
+arch/arm64/boot/dts/renesas/r9a07g043u11-smarc.dts- * DIP-Switch SW1 settin=
+g
+arch/arm64/boot/dts/renesas/r9a07g043u11-smarc.dts- * 1 : High; 0: Low
+arch/arm64/boot/dts/renesas/r9a07g043u11-smarc.dts- * SW1-2 :
+SW_SD0_DEV_SEL    (0: uSD; 1: eMMC)
+arch/arm64/boot/dts/renesas/r9a07g043u11-smarc.dts- * SW1-3 :
+SW_ET0_EN_N               (0: ETHER0; 1: CAN0, CAN1, SSI1, RSPI1)
+arch/arm64/boot/dts/renesas/r9a07g043u11-smarc.dts- * Please change
+below macros according to SW1 setting on the SoM
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
