@@ -1,113 +1,106 @@
-Return-Path: <linux-renesas-soc+bounces-754-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-755-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 219338065EC
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  6 Dec 2023 05:00:31 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id DF74A806638
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  6 Dec 2023 05:34:50 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id C142F1F216CC
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  6 Dec 2023 04:00:30 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 63B60B21231
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  6 Dec 2023 04:34:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 07379DDC3;
-	Wed,  6 Dec 2023 04:00:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D1451101C4;
+	Wed,  6 Dec 2023 04:34:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZYE/lnhN"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Y5LOseMX"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3EB9D52D;
-	Wed,  6 Dec 2023 04:00:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 4EAC3C433C7;
-	Wed,  6 Dec 2023 04:00:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1701835226;
-	bh=Ch1hvqB7GoU/Da3vC7CIzaXtBMwgu6lLK49eDRsfEOE=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=ZYE/lnhNZ3fA7P/wA+eB9LFbhPHXs3kAIOnr+YOv9rCZ7ppJ3BYKlspx+veJIu9IR
-	 1tlRQS64na1gSBNEEIFPG9UqDgeWg3Pzkh7R/92HmqN1NPxi17zWLTaO9Y61cgTzXF
-	 ImL8dzW3qa2OpjM0VveLuVfHJ74VtOrtCgufpD1OwFK9ndVEF0GNaKnIrnG6pqU5R5
-	 Jbz4BGfJON0+RNpKFFJFdJBwzRVA0W5LIzCXZ1yCu+rM2YNdydCpYqGZxpJ9duTFKY
-	 pxXFLizsaqjyP1mldslbUD4XscngoE7J7MOFl2QNIYfkK+YxeNha9XX74dRmWfsoLm
-	 C1zuuBh2FM9WQ==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 30028C41671;
-	Wed,  6 Dec 2023 04:00:26 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2C8A718D;
+	Tue,  5 Dec 2023 20:34:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1701837280; x=1733373280;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=I4YIdo4r6+RuqAhQdmGrQgweel6rL1bH9e4OqtOU62s=;
+  b=Y5LOseMX36mZ92AAqzM3VBuq0zqm62cQdPRQk+0m52fOZd2bkpF2hwqh
+   6zdVXtdDyxE6l51Qw/75zZTdDpST0+ez+KyNE5v/cWT6jTr1DhKND8Q7d
+   mvclXItmuE/R8tkRFuYfavN+5eL1uLpwfIOUqyR7VyJ5HPYZl37O7p490
+   EtYDaDoihdtTBKw+GOt3jxJ3z/iMDTyCON0JSxLkCp+rUwgHuyxTzyoWK
+   6OUy/oOuxHrwAaAGAd2Hrn3eXq+XjvslkB8f+ssV2VQoszqFuW+7LpQX7
+   4+PZiGIP+ylPdKEvYBYWC27jVMjmd9DvrnTyOI+2cfckxRQUzxQEcRkvN
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10915"; a="379023572"
+X-IronPort-AV: E=Sophos;i="6.04,254,1695711600"; 
+   d="scan'208";a="379023572"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2023 20:34:39 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10915"; a="944514533"
+X-IronPort-AV: E=Sophos;i="6.04,254,1695711600"; 
+   d="scan'208";a="944514533"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+  by orsmga005.jf.intel.com with ESMTP; 05 Dec 2023 20:34:35 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rAjcH-000AGK-1y;
+	Wed, 06 Dec 2023 04:34:33 +0000
+Date: Wed, 6 Dec 2023 12:34:03 +0800
+From: kernel test robot <lkp@intel.com>
+To: Biju Das <biju.das.jz@bp.renesas.com>, Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, Biju Das <biju.das.jz@bp.renesas.com>,
+	Support Opensource <support.opensource@diasemi.com>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Daniel Lezcano <daniel.lezcano@linaro.org>,
+	Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>,
+	linux-pm@vger.kernel.org, devicetree@vger.kernel.org,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v2 04/11] dt-bindings: thermal: Convert da906{1,2}
+ thermal to json-schema
+Message-ID: <202312061242.lKDoAY9g-lkp@intel.com>
+References: <20231202192536.266885-5-biju.das.jz@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH net-next v2 0/9] net*: Convert to platform remove callback
- returning void
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <170183522618.32207.8967841669098706210.git-patchwork-notify@kernel.org>
-Date: Wed, 06 Dec 2023 04:00:26 +0000
-References: <cover.1701713943.git.u.kleine-koenig@pengutronix.de>
-In-Reply-To: <cover.1701713943.git.u.kleine-koenig@pengutronix.de>
-To: =?utf-8?q?Uwe_Kleine-K=C3=B6nig_=3Cu=2Ekleine-koenig=40pengutronix=2Ede=3E?=@codeaurora.org
-Cc: davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
- pabeni@redhat.com, elder@kernel.org, netdev@vger.kernel.org,
- kernel@pengutronix.de, mkl@pengutronix.de, nnac123@linux.ibm.com,
- ansuelsmth@gmail.com, clement.leger@bootlin.com, andrew@lunn.ch,
- hkallweit1@gmail.com, linux@armlinux.org.uk,
- linux-renesas-soc@vger.kernel.org, qiang.zhao@nxp.com,
- linuxppc-dev@lists.ozlabs.org, linusw@kernel.org, kaloz@openwrt.org,
- linux-arm-kernel@lists.infradead.org, stephan@gerhold.net, agross@kernel.org,
- andersson@kernel.org, konrad.dybcio@linaro.org, loic.poulain@linaro.org,
- ryazanov.s.a@gmail.com, johannes@sipsolutions.net,
- linux-arm-msm@vger.kernel.org, alex.aring@gmail.com,
- stefan@datenfreihafen.org, miquel.raynal@bootlin.com,
- linux-wpan@vger.kernel.org
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231202192536.266885-5-biju.das.jz@bp.renesas.com>
 
-Hello:
+Hi Biju,
 
-This series was applied to netdev/net-next.git (main)
-by Jakub Kicinski <kuba@kernel.org>:
+kernel test robot noticed the following build warnings:
 
-On Mon,  4 Dec 2023 19:30:40 +0100 you wrote:
-> Hello,
-> 
-> (implicit) v1 of this series can be found at
-> https://lore.kernel.org/netdev/20231117095922.876489-1-u.kleine-koenig@pengutronix.de.
-> Changes since then:
-> 
->  - Dropped patch #1 as Alex objected. Patch #1 (was #2 before) now
->    converts ipa to remove_new() and introduces an error message in the
->    error path that failed before.
-> 
-> [...]
+[auto build test WARNING on lee-mfd/for-mfd-next]
+[also build test WARNING on robh/for-next rafael-pm/thermal groeck-staging/hwmon-next linus/master v6.7-rc4 next-20231205]
+[cannot apply to dtor-input/next dtor-input/for-linus lee-mfd/for-mfd-fixes]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Here is the summary with links:
-  - [net-next,v2,1/9] net: ipa: Convert to platform remove callback returning void
-    https://git.kernel.org/netdev/net-next/c/a92dbb9cdf04
-  - [net-next,v2,2/9] net: fjes: Convert to platform remove callback returning void
-    https://git.kernel.org/netdev/net-next/c/2ce19934a4dc
-  - [net-next,v2,3/9] net: pcs: rzn1-miic: Convert to platform remove callback returning void
-    https://git.kernel.org/netdev/net-next/c/e36dc85c245f
-  - [net-next,v2,4/9] net: sfp: Convert to platform remove callback returning void
-    https://git.kernel.org/netdev/net-next/c/bb1afee98466
-  - [net-next,v2,5/9] net: wan/fsl_ucc_hdlc: Convert to platform remove callback returning void
-    https://git.kernel.org/netdev/net-next/c/2d0c06fd39be
-  - [net-next,v2,6/9] net: wan/ixp4xx_hss: Convert to platform remove callback returning void
-    https://git.kernel.org/netdev/net-next/c/2d8590858753
-  - [net-next,v2,7/9] net: wwan: qcom_bam_dmux: Convert to platform remove callback returning void
-    https://git.kernel.org/netdev/net-next/c/a06041e2f4ae
-  - [net-next,v2,8/9] ieee802154: fakelb: Convert to platform remove callback returning void
-    (no matching commit)
-  - [net-next,v2,9/9] ieee802154: hwsim: Convert to platform remove callback returning void
-    (no matching commit)
+url:    https://github.com/intel-lab-lkp/linux/commits/Biju-Das/dt-bindings-watchdog-dlg-da9062-watchdog-Document-DA9063-watchdog/20231203-042557
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git for-mfd-next
+patch link:    https://lore.kernel.org/r/20231202192536.266885-5-biju.das.jz%40bp.renesas.com
+patch subject: [PATCH v2 04/11] dt-bindings: thermal: Convert da906{1,2} thermal to json-schema
+reproduce: (https://download.01.org/0day-ci/archive/20231206/202312061242.lKDoAY9g-lkp@intel.com/reproduce)
 
-You are awesome, thank you!
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312061242.lKDoAY9g-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/thermal/da90??-thermal.txt
+
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
