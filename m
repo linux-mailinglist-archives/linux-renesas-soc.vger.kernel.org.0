@@ -1,485 +1,409 @@
-Return-Path: <linux-renesas-soc+bounces-789-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-790-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6411B807430
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  6 Dec 2023 16:58:35 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CEB28077AE
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  6 Dec 2023 19:38:39 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 18B59281E4A
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  6 Dec 2023 15:58:34 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id A37E51F2125B
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  6 Dec 2023 18:38:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A5DC745C0C;
-	Wed,  6 Dec 2023 15:58:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2506F4187E;
+	Wed,  6 Dec 2023 18:38:37 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTP id 24616DC;
-	Wed,  6 Dec 2023 07:58:28 -0800 (PST)
-X-IronPort-AV: E=Sophos;i="6.04,255,1695654000"; 
-   d="scan'208";a="189413115"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie6.idc.renesas.com with ESMTP; 07 Dec 2023 00:58:27 +0900
-Received: from localhost.localdomain (unknown [10.226.92.248])
-	by relmlir6.idc.renesas.com (Postfix) with ESMTP id 06174400FC25;
-	Thu,  7 Dec 2023 00:58:21 +0900 (JST)
-From: Biju Das <biju.das.jz@bp.renesas.com>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Lee Jones <lee@kernel.org>
-Cc: Biju Das <biju.das.jz@bp.renesas.com>,
-	Support Opensource <support.opensource@diasemi.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Daniel Lezcano <daniel.lezcano@linaro.org>,
-	Zhang Rui <rui.zhang@intel.com>,
-	Lukasz Luba <lukasz.luba@arm.com>,
-	Steve Twiss <stwiss.opensource@diasemi.com>,
-	linux-input@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-pm@vger.kernel.org,
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A649D4B
+	for <linux-renesas-soc@vger.kernel.org>; Wed,  6 Dec 2023 10:38:31 -0800 (PST)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1rAwmw-0003nR-9X; Wed, 06 Dec 2023 19:38:26 +0100
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1rAwmu-00E1KG-PN; Wed, 06 Dec 2023 19:38:24 +0100
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1rAwmu-00Ff7p-Eg; Wed, 06 Dec 2023 19:38:24 +0100
+Date: Wed, 6 Dec 2023 19:38:24 +0100
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Biju Das <biju.das.jz@bp.renesas.com>
+Cc: Thierry Reding <thierry.reding@gmail.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
 	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Biju Das <biju.das.au@gmail.com>,
-	linux-renesas-soc@vger.kernel.org
-Subject: [PATCH v4 8/8] dt-bindings: mfd: dlg,da9063: Convert da9062 to json-schema
-Date: Wed,  6 Dec 2023 15:57:40 +0000
-Message-Id: <20231206155740.5278-9-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20231206155740.5278-1-biju.das.jz@bp.renesas.com>
-References: <20231206155740.5278-1-biju.das.jz@bp.renesas.com>
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Magnus Damm <magnus.damm@gmail.com>, linux-pwm@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH v17 3/4] pwm: Add support for RZ/G2L GPT
+Message-ID: <20231206183824.g6dc5ib2dfb7um7n@pengutronix.de>
+References: <20231120113307.80710-1-biju.das.jz@bp.renesas.com>
+ <20231120113307.80710-4-biju.das.jz@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="nbbrl6lrzovx3fyc"
+Content-Disposition: inline
+In-Reply-To: <20231120113307.80710-4-biju.das.jz@bp.renesas.com>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-renesas-soc@vger.kernel.org
 
-Convert the da9062 PMIC device tree binding documentation to json-schema.
 
-Update the example to match reality.
+--nbbrl6lrzovx3fyc
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-While at it, update description with link to product information.
+Hello Biju,
 
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
----
-v3->v4:
- * Split the thermal binding patch separate.
- * Updated the description.
-v2->v3:
- * Fixed bot errors related to MAINTAINERS entry, invalid doc
-   references and thermal examples by merging patch#4.
-v2:
- * New patch
----
- .../bindings/input/dlg,da9062-onkey.yaml      |   3 +-
- .../devicetree/bindings/mfd/da9062.txt        | 124 ------------
- .../devicetree/bindings/mfd/dlg,da9063.yaml   | 186 +++++++++++++++++-
- .../bindings/thermal/dlg,da9062-thermal.yaml  |   2 +-
- 4 files changed, 183 insertions(+), 132 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/mfd/da9062.txt
+On Mon, Nov 20, 2023 at 11:33:06AM +0000, Biju Das wrote:
+> diff --git a/drivers/pwm/pwm-rzg2l-gpt.c b/drivers/pwm/pwm-rzg2l-gpt.c
+> new file mode 100644
+> index 000000000000..428e6e577db6
+> --- /dev/null
+> +++ b/drivers/pwm/pwm-rzg2l-gpt.c
+> @@ -0,0 +1,572 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Renesas RZ/G2L General PWM Timer (GPT) driver
+> + *
+> + * Copyright (C) 2023 Renesas Electronics Corporation
+> + *
+> + * Hardware manual for this IP can be found here
+> + * https://www.renesas.com/eu/en/document/mah/rzg2l-group-rzg2lc-group-u=
+sers-manual-hardware-0?language=3Den
+> + *
+> + * Limitations:
+> + * - Counter must be stopped before modifying Mode and Prescaler.
+> + * - When PWM is disabled, the output is driven to inactive.
+> + * - While the hardware supports both polarities, the driver (for now)
+> + *   only handles normal polarity.
+> + * - When both channels are used, disabling the channel on one stops the
+> + *   other.
 
-diff --git a/Documentation/devicetree/bindings/input/dlg,da9062-onkey.yaml b/Documentation/devicetree/bindings/input/dlg,da9062-onkey.yaml
-index 4cff91f4bd34..18b6a3f02c07 100644
---- a/Documentation/devicetree/bindings/input/dlg,da9062-onkey.yaml
-+++ b/Documentation/devicetree/bindings/input/dlg,da9062-onkey.yaml
-@@ -11,8 +11,7 @@ maintainers:
- 
- description: |
-   This module is part of the DA9061/DA9062/DA9063. For more details about entire
--  DA9062 and DA9061 chips see Documentation/devicetree/bindings/mfd/da9062.txt
--  For DA9063 see Documentation/devicetree/bindings/mfd/dlg,da9063.yaml
-+  DA906{1,2,3} chips see Documentation/devicetree/bindings/mfd/dlg,da9063.yaml
- 
-   This module provides the KEY_POWER event.
- 
-diff --git a/Documentation/devicetree/bindings/mfd/da9062.txt b/Documentation/devicetree/bindings/mfd/da9062.txt
-deleted file mode 100644
-index c8a7f119ac84..000000000000
---- a/Documentation/devicetree/bindings/mfd/da9062.txt
-+++ /dev/null
-@@ -1,124 +0,0 @@
--* Dialog DA9062 Power Management Integrated Circuit (PMIC)
--
--Product information for the DA9062 and DA9061 devices can be found here:
--- https://www.dialog-semiconductor.com/products/da9062
--- https://www.dialog-semiconductor.com/products/da9061
--
--The DA9062 PMIC consists of:
--
--Device                   Supply Names    Description
--------                   ------------    -----------
--da9062-regulator        :               : LDOs & BUCKs
--da9062-rtc              :               : Real-Time Clock
--da9062-onkey            :               : On Key
--da9062-watchdog         :               : Watchdog Timer
--da9062-thermal          :               : Thermal
--da9062-gpio             :               : GPIOs
--
--The DA9061 PMIC consists of:
--
--Device                   Supply Names    Description
--------                   ------------    -----------
--da9062-regulator        :               : LDOs & BUCKs
--da9062-onkey            :               : On Key
--da9062-watchdog         :               : Watchdog Timer
--da9062-thermal          :               : Thermal
--
--======
--
--Required properties:
--
--- compatible : Should be
--    "dlg,da9062" for DA9062
--    "dlg,da9061" for DA9061
--- reg : Specifies the I2C slave address (this defaults to 0x58 but it can be
--  modified to match the chip's OTP settings).
--
--Optional properties:
--
--- gpio-controller : Marks the device as a gpio controller.
--- #gpio-cells     : Should be two. The first cell is the pin number and the
--                    second cell is used to specify the gpio polarity.
--
--See Documentation/devicetree/bindings/gpio/gpio.txt for further information on
--GPIO bindings.
--
--- interrupts : IRQ line information.
--- interrupt-controller
--
--See Documentation/devicetree/bindings/interrupt-controller/interrupts.txt for
--further information on IRQ bindings.
--
--Sub-nodes:
--
--- regulators : This node defines the settings for the LDOs and BUCKs.
--  The DA9062 regulators are bound using their names listed below:
--
--    buck1    : BUCK_1
--    buck2    : BUCK_2
--    buck3    : BUCK_3
--    buck4    : BUCK_4
--    ldo1     : LDO_1
--    ldo2     : LDO_2
--    ldo3     : LDO_3
--    ldo4     : LDO_4
--
--  The DA9061 regulators are bound using their names listed below:
--
--    buck1    : BUCK_1
--    buck2    : BUCK_2
--    buck3    : BUCK_3
--    ldo1     : LDO_1
--    ldo2     : LDO_2
--    ldo3     : LDO_3
--    ldo4     : LDO_4
--
--  The component follows the standard regulator framework and the bindings
--  details of individual regulator device can be found in:
--  Documentation/devicetree/bindings/regulator/regulator.txt
--
--  regulator-initial-mode may be specified for buck regulators using mode values
--  from include/dt-bindings/regulator/dlg,da9063-regulator.h.
--
--- rtc : This node defines settings required for the Real-Time Clock associated
--  with the DA9062. There are currently no entries in this binding, however
--  compatible = "dlg,da9062-rtc" should be added if a node is created.
--
--- onkey : See ../input/dlg,da9062-onkey.yaml
--
--- watchdog: See ../watchdog/dlg,da9062-watchdog.yaml
--
--- thermal : See ../thermal/dlg,da9062-thermal.yaml
--
--Example:
--
--	pmic0: da9062@58 {
--		compatible = "dlg,da9062";
--		reg = <0x58>;
--		interrupt-parent = <&gpio6>;
--		interrupts = <11 IRQ_TYPE_LEVEL_LOW>;
--		interrupt-controller;
--
--		rtc {
--			compatible = "dlg,da9062-rtc";
--		};
--
--		regulators {
--			DA9062_BUCK1: buck1 {
--				regulator-name = "BUCK1";
--				regulator-min-microvolt = <300000>;
--				regulator-max-microvolt = <1570000>;
--				regulator-min-microamp = <500000>;
--				regulator-max-microamp = <2000000>;
--				regulator-initial-mode = <DA9063_BUCK_MODE_SYNC>;
--				regulator-boot-on;
--			};
--			DA9062_LDO1: ldo1 {
--				regulator-name = "LDO_1";
--				regulator-min-microvolt = <900000>;
--				regulator-max-microvolt = <3600000>;
--				regulator-boot-on;
--			};
--		};
--	};
--
-diff --git a/Documentation/devicetree/bindings/mfd/dlg,da9063.yaml b/Documentation/devicetree/bindings/mfd/dlg,da9063.yaml
-index 676b4f2566ae..54bb23dbc73f 100644
---- a/Documentation/devicetree/bindings/mfd/dlg,da9063.yaml
-+++ b/Documentation/devicetree/bindings/mfd/dlg,da9063.yaml
-@@ -4,7 +4,7 @@
- $id: http://devicetree.org/schemas/mfd/dlg,da9063.yaml#
- $schema: http://devicetree.org/meta-schemas/core.yaml#
- 
--title: Dialog DA9063/DA9063L Power Management Integrated Circuit (PMIC)
-+title: Dialog DA906{3L,3,2,1} Power Management Integrated Circuit (PMIC)
- 
- maintainers:
-   - Steve Twiss <stwiss.opensource@diasemi.com>
-@@ -17,10 +17,17 @@ description: |
-   moment where all voltage monitors are disabled. Next, as da9063 only supports
-   UV *and* OV monitoring, both must be set to the same severity and value
-   (0: disable, 1: enable).
-+  Product information for the DA906{3L,3,2,1} devices can be found here:
-+  - https://www.dialog-semiconductor.com/products/da9063l
-+  - https://www.dialog-semiconductor.com/products/da9063
-+  - https://www.dialog-semiconductor.com/products/da9062
-+  - https://www.dialog-semiconductor.com/products/da9061
- 
- properties:
-   compatible:
-     enum:
-+      - dlg,da9061
-+      - dlg,da9062
-       - dlg,da9063
-       - dlg,da9063l
- 
-@@ -35,6 +42,19 @@ properties:
-   "#interrupt-cells":
-     const: 2
- 
-+  gpio:
-+    type: object
-+    $ref: /schemas/gpio/gpio.yaml#
-+    unevaluatedProperties: false
-+    properties:
-+      compatible:
-+        const: dlg,da9062-gpio
-+
-+  gpio-controller: true
-+
-+  "#gpio-cells":
-+    const: 2
-+
-   onkey:
-     $ref: /schemas/input/dlg,da9062-onkey.yaml
- 
-@@ -42,7 +62,7 @@ properties:
-     type: object
-     additionalProperties: false
-     patternProperties:
--      "^(ldo([1-9]|1[01])|bcore([1-2]|s-merged)|b(pro|mem|io|peri)|bmem-bio-merged)$":
-+      "^(ldo([1-9]|1[01])|bcore([1-2]|s-merged)|b(pro|mem|io|peri)|bmem-bio-merged|buck[1-4])$":
-         $ref: /schemas/regulator/regulator.yaml
-         unevaluatedProperties: false
- 
-@@ -52,7 +72,12 @@ properties:
-     unevaluatedProperties: false
-     properties:
-       compatible:
--        const: dlg,da9063-rtc
-+        enum:
-+          - dlg,da9063-rtc
-+          - dlg,da9062-rtc
-+
-+  thermal:
-+    $ref: /schemas/thermal/dlg,da9062-thermal.yaml
- 
-   watchdog:
-     $ref: /schemas/watchdog/dlg,da9062-watchdog.yaml
-@@ -60,8 +85,65 @@ properties:
- required:
-   - compatible
-   - reg
--  - interrupts
--  - interrupt-controller
-+
-+allOf:
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            enum:
-+              - dlg,da9063
-+              - dlg,da9063l
-+    then:
-+      properties:
-+        thermal: false
-+        gpio: false
-+        gpio-controller: false
-+        "#gpio-cells": false
-+        regulators:
-+          patternProperties:
-+            "^buck[1-4]$": false
-+      required:
-+        - interrupts
-+        - interrupt-controller
-+
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            enum:
-+              - dlg,da9062
-+    then:
-+      properties:
-+        regulators:
-+          patternProperties:
-+            "^(ldo([5-9]|10|11)|bcore([1-2]|s-merged)|b(pro|mem|io|peri)|bmem-bio-merged)$": false
-+      required:
-+        - gpio
-+        - onkey
-+        - rtc
-+        - thermal
-+        - watchdog
-+
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            enum:
-+              - dlg,da9061
-+    then:
-+      properties:
-+        gpio: false
-+        gpio-controller: false
-+        "#gpio-cells": false
-+        regulators:
-+          patternProperties:
-+            "^(ldo([5-9]|10|11)|bcore([1-2]|s-merged)|b(pro|mem|io|peri)|bmem-bio-merged|buck4)$": false
-+        rtc: false
-+      required:
-+        - onkey
-+        - thermal
-+        - watchdog
- 
- additionalProperties: false
- 
-@@ -118,4 +200,98 @@ examples:
-         };
-       };
-     };
-+
-+  - |
-+    #include <dt-bindings/interrupt-controller/irq.h>
-+    #include <dt-bindings/regulator/dlg,da9063-regulator.h>
-+    i2c {
-+      #address-cells = <1>;
-+      #size-cells = <0>;
-+      pmic@58 {
-+        compatible = "dlg,da9062";
-+        reg = <0x58>;
-+        #interrupt-cells = <2>;
-+        interrupt-parent = <&gpio1>;
-+        interrupts = <2 IRQ_TYPE_LEVEL_LOW>;
-+        interrupt-controller;
-+
-+        gpio {
-+          compatible = "dlg,da9062-gpio";
-+          status = "disabled";
-+        };
-+
-+        onkey {
-+          compatible = "dlg,da9062-onkey";
-+        };
-+
-+        regulators {
-+          buck1 {
-+            regulator-name = "vdd_arm";
-+            regulator-min-microvolt = <925000>;
-+            regulator-max-microvolt = <1380000>;
-+            regulator-initial-mode = <DA9063_BUCK_MODE_SYNC>;
-+            regulator-always-on;
-+          };
-+          buck2 {
-+            regulator-name = "vdd_soc";
-+            regulator-min-microvolt = <1150000>;
-+            regulator-max-microvolt = <1380000>;
-+            regulator-initial-mode = <DA9063_BUCK_MODE_SYNC>;
-+            regulator-always-on;
-+          };
-+          buck3 {
-+            regulator-name = "vdd_ddr3";
-+            regulator-min-microvolt = <1500000>;
-+            regulator-max-microvolt = <1500000>;
-+            regulator-initial-mode = <DA9063_BUCK_MODE_SYNC>;
-+            regulator-always-on;
-+          };
-+          buck4 {
-+            regulator-name = "vdd_eth";
-+            regulator-min-microvolt = <1200000>;
-+            regulator-max-microvolt = <1200000>;
-+            regulator-initial-mode = <DA9063_BUCK_MODE_SYNC>;
-+            regulator-always-on;
-+          };
-+          ldo1 {
-+            regulator-name = "vdd_snvs";
-+            regulator-min-microvolt = <3000000>;
-+            regulator-max-microvolt = <3000000>;
-+            regulator-always-on;
-+          };
-+          ldo2 {
-+            regulator-name = "vdd_high";
-+            regulator-min-microvolt = <3000000>;
-+            regulator-max-microvolt = <3000000>;
-+            regulator-always-on;
-+          };
-+          ldo3 {
-+            regulator-name = "vdd_eth_io";
-+            regulator-min-microvolt = <2500000>;
-+            regulator-max-microvolt = <2500000>;
-+          };
-+          ldo4 {
-+            regulator-name = "vdd_emmc";
-+            regulator-min-microvolt = <1800000>;
-+            regulator-max-microvolt = <1800000>;
-+            regulator-always-on;
-+          };
-+        };
-+
-+        rtc {
-+          compatible = "dlg,da9062-rtc";
-+          status = "disabled";
-+        };
-+
-+        thermal {
-+          compatible = "dlg,da9062-thermal";
-+          status = "disabled";
-+        };
-+
-+        watchdog {
-+          compatible = "dlg,da9062-watchdog";
-+          dlg,use-sw-pm;
-+        };
-+      };
-+    };
- ...
-diff --git a/Documentation/devicetree/bindings/thermal/dlg,da9062-thermal.yaml b/Documentation/devicetree/bindings/thermal/dlg,da9062-thermal.yaml
-index 206635f74850..e8b2cac41084 100644
---- a/Documentation/devicetree/bindings/thermal/dlg,da9062-thermal.yaml
-+++ b/Documentation/devicetree/bindings/thermal/dlg,da9062-thermal.yaml
-@@ -11,7 +11,7 @@ maintainers:
- 
- description: |
-   This module is part of the DA9061/DA9062. For more details about entire
--  DA9062 and DA9061 chips see Documentation/devicetree/bindings/mfd/da9062.txt
-+  DA906{1,2} chips see Documentation/devicetree/bindings/mfd/dlg,da9063.yaml
- 
-   Junction temperature thermal module uses an interrupt signal to identify
-   high THERMAL_TRIP_HOT temperatures for the PMIC device.
--- 
-2.39.2
+Just for my understanding: The combination of the first and the last
+item means you cannot update Moed and Prescaler for one channel without
+affecting the other one, right?
 
+> + */
+> +
+> +#include <linux/bitfield.h>
+> +#include <linux/clk.h>
+> +#include <linux/io.h>
+> +#include <linux/limits.h>
+> +#include <linux/module.h>
+> +#include <linux/of.h>
+> +#include <linux/platform_device.h>
+> +#include <linux/pm_runtime.h>
+> +#include <linux/pwm.h>
+> +#include <linux/reset.h>
+> +#include <linux/time.h>
+> +
+> +#define RZG2L_GTCR		0x2c
+> +#define RZG2L_GTUDDTYC		0x30
+> +#define RZG2L_GTIOR		0x34
+> +#define RZG2L_GTBER		0x40
+> +#define RZG2L_GTCNT		0x48
+> +#define RZG2L_GTCCRA		0x4c
+> +#define RZG2L_GTCCRB		0x50
+> +#define RZG2L_GTPR		0x64
+> +
+> +#define RZG2L_GTCR_CST		BIT(0)
+> +#define RZG2L_GTCR_MD		GENMASK(18, 16)
+> +#define RZG2L_GTCR_TPCS		GENMASK(26, 24)
+> +
+> +#define RZG2L_GTCR_MD_SAW_WAVE_PWM_MODE	FIELD_PREP(RZG2L_GTCR_MD, 0)
+> +
+> +#define RZG2L_GTUDDTYC_UP	BIT(0)
+> +#define RZG2L_GTUDDTYC_UDF	BIT(1)
+> +#define RZG2L_UP_COUNTING	(RZG2L_GTUDDTYC_UP | RZG2L_GTUDDTYC_UDF)
+> +
+> +#define RZG2L_GTIOR_GTIOA	GENMASK(4, 0)
+> +#define RZG2L_GTIOR_GTIOB	GENMASK(20, 16)
+> +#define RZG2L_GTIOR_OAE		BIT(8)
+> +#define RZG2L_GTIOR_OBE		BIT(24)
+> +
+> +#define RZG2L_INIT_OUT_LO_OUT_LO_END_TOGGLE	0x07
+> +#define RZG2L_INIT_OUT_HI_OUT_HI_END_TOGGLE	0x1b
+> +
+> +#define RZG2L_GTIOR_GTIOA_OUT_HI_END_TOGGLE_CMP_MATCH \
+> +	(RZG2L_INIT_OUT_HI_OUT_HI_END_TOGGLE | RZG2L_GTIOR_OAE)
+> +#define RZG2L_GTIOR_GTIOA_OUT_LO_END_TOGGLE_CMP_MATCH \
+> +	(RZG2L_INIT_OUT_LO_OUT_LO_END_TOGGLE | RZG2L_GTIOR_OAE)
+> +#define RZG2L_GTIOR_GTIOB_OUT_HI_END_TOGGLE_CMP_MATCH \
+> +	(FIELD_PREP(RZG2L_GTIOR_GTIOB, RZG2L_INIT_OUT_HI_OUT_HI_END_TOGGLE) | R=
+ZG2L_GTIOR_OBE)
+> +#define RZG2L_GTIOR_GTIOB_OUT_LO_END_TOGGLE_CMP_MATCH \
+> +	(FIELD_PREP(RZG2L_GTIOR_GTIOB, RZG2L_INIT_OUT_LO_OUT_LO_END_TOGGLE) | R=
+ZG2L_GTIOR_OBE)
+
+These are not all used. Is it sensible to still keep them?
+
+> +#define RZG2L_GTCCR(i) (0x4c + 4 * (i))
+
+For i =3D 0 this is RZG2L_GTCCRA, for i =3D 1 it's RZG2L_GTCCRB. Als
+RZG2L_GTCCRA and RZG2L_GTCCRB are unused. Maybe move the definition of
+RZG2L_GTCCR to the list of registers above?
+
+> +#define RZG2L_MAX_HW_CHANNELS	8
+> +#define RZG2L_CHANNELS_PER_IO	2
+> +#define RZG2L_MAX_PWM_CHANNELS	(RZG2L_MAX_HW_CHANNELS * RZG2L_CHANNELS_P=
+ER_IO)
+> +#define RZG2L_MAX_SCALE_FACTOR	1024
+> +
+> +#define RZG2L_IS_IOB(a)	((a) & 0x1)
+> +#define RZG2L_GET_CH(a)	((a) / 2)
+> +
+> +#define RZG2L_GET_CH_OFFS(i) (0x100 * (i))
+> +
+> +struct rzg2l_gpt_chip {
+> +	struct pwm_chip chip;
+> +	void __iomem *mmio;
+> +	struct reset_control *rstc;
+> +	struct clk *clk;
+> +	struct mutex lock; /* lock to protect shared channel resources */
+> +	unsigned long rate;
+> +	u64 max_val;
+> +	u32 state_period[RZG2L_MAX_HW_CHANNELS];
+> +	u32 user_count[RZG2L_MAX_HW_CHANNELS];
+> +	u32 enable_count[RZG2L_MAX_HW_CHANNELS];
+> +	DECLARE_BITMAP(ch_en_bits, RZG2L_MAX_PWM_CHANNELS);
+> +};
+> +
+> [...]
+> +
+> +static bool rzg2l_gpt_is_ch_enabled(struct rzg2l_gpt_chip *rzg2l_gpt, u8=
+ hwpwm)
+> +{
+> +	u8 ch =3D RZG2L_GET_CH(hwpwm);
+> +	u32 offs =3D RZG2L_GET_CH_OFFS(ch);
+> +	bool is_counter_running, is_output_en;
+> +	u32 val;
+> +
+> +	val =3D rzg2l_gpt_read(rzg2l_gpt, offs + RZG2L_GTCR);
+> +	is_counter_running =3D val & RZG2L_GTCR_CST;
+> +
+> +	val =3D rzg2l_gpt_read(rzg2l_gpt, offs + RZG2L_GTIOR);
+> +	if (RZG2L_IS_IOB(hwpwm))
+> +		is_output_en =3D val & RZG2L_GTIOR_OBE;
+> +	else
+> +		is_output_en =3D val & RZG2L_GTIOR_OAE;
+
+IIUC the i in RZG2L_GTCCR(i) stands for either A (0) or B (1), right?
+Maybe define RZG2L_GTIOR_OxE(i) assuming this is about the same A and B
+here? Then this could be simplified to:
+
+	is_output_en =3D val & RZG2L_GTIOR_OxE(rzg2l_gpt_subchannel(hwpwm));
+
+(maybe modulo better names).
+
+> +	return (is_counter_running && is_output_en);
+
+You could return early after knowing that is_counter_running is false
+without determining is_output_en.
+
+> +}
+> +
+> +static int rzg2l_gpt_enable(struct rzg2l_gpt_chip *rzg2l_gpt,
+> +			    struct pwm_device *pwm)
+> +{
+> +	u8 ch =3D RZG2L_GET_CH(pwm->hwpwm);
+> +	u32 offs =3D RZG2L_GET_CH_OFFS(ch);
+> +
+> +	/* Enable pin output */
+> +	if (RZG2L_IS_IOB(pwm->hwpwm))
+> +		rzg2l_gpt_modify(rzg2l_gpt, offs + RZG2L_GTIOR,
+> +				 RZG2L_GTIOR_GTIOB | RZG2L_GTIOR_OBE,
+> +				 RZG2L_GTIOR_GTIOB_OUT_HI_END_TOGGLE_CMP_MATCH);
+> +	else
+> +		rzg2l_gpt_modify(rzg2l_gpt, offs + RZG2L_GTIOR,
+> +				 RZG2L_GTIOR_GTIOA | RZG2L_GTIOR_OAE,
+> +				 RZG2L_GTIOR_GTIOA_OUT_HI_END_TOGGLE_CMP_MATCH);
+
+Similar suggestion as above for A and B?!
+
+> +	mutex_lock(&rzg2l_gpt->lock);
+> +	if (!rzg2l_gpt->enable_count[ch])
+> +		rzg2l_gpt_modify(rzg2l_gpt, offs + RZG2L_GTCR, 0, RZG2L_GTCR_CST);
+> +
+> +	rzg2l_gpt->enable_count[ch]++;
+> +	mutex_unlock(&rzg2l_gpt->lock);
+> +
+> +	return 0;
+> +}
+> +
+> [...]
+> +
+> +static u64 calculate_period_or_duty(struct rzg2l_gpt_chip *rzg2l_gpt, u3=
+2 val, u8 prescale)
+> +{
+> +	u64 retval;
+> +	u64 tmp;
+> +
+> +	tmp =3D NSEC_PER_SEC * (u64)val;
+> +	/*
+> +	 * To avoid losing precision for smaller period/duty cycle values
+> +	 * ((2^32 * 10^9 << 2) < 2^64), do not process the rounded values.
+> +	 */
+> +	if (prescale < 2)
+> +		retval =3D DIV64_U64_ROUND_UP(tmp << (2 * prescale), rzg2l_gpt->rate);
+> +	else
+> +		retval =3D DIV64_U64_ROUND_UP(tmp, rzg2l_gpt->rate) << (2 * prescale);
+
+Maybe introduce a mul_u64_u64_div64_roundup (similar to
+mul_u64_u64_div64) to also be exact for prescale >=3D 2?
+
+With prescale <=3D 5 and rzg2l_gpt->rate >=3D 1024 this shouldn't work just
+fine.
+
+> +	return retval;
+> +}
+> +
+> [...]
+> +static u32 rzg2l_gpt_calculate_pv_or_dc(u64 period_or_duty_cycle, u8 pre=
+scale)
+> +{
+> +	return min_t(u64, DIV64_U64_ROUND_UP(period_or_duty_cycle, 1 << (2 * pr=
+escale)),
+> +		     (u64)U32_MAX);
+
+DIV64_U64_ROUND_UP(period_or_duty_cycle, 1 << (2 * prescale)) can be
+calculated a bit cheaper by using:
+
+	(period_or_duty_cycle + 1 << (2 * prescale) - 1) >> (2 * prescale)
+
+assuming the LHS doesn't overflow.
+
+When using min_t, you can drop the cast for U32_MAX.
+
+> +}
+> +
+> +/* Caller holds the lock while calling rzg2l_gpt_config() */
+> +static int rzg2l_gpt_config(struct pwm_chip *chip, struct pwm_device *pw=
+m,
+> +			    const struct pwm_state *state)
+> +{
+> +	struct rzg2l_gpt_chip *rzg2l_gpt =3D to_rzg2l_gpt_chip(chip);
+> +	u8 ch =3D RZG2L_GET_CH(pwm->hwpwm);
+> +	u32 offs =3D RZG2L_GET_CH_OFFS(ch);
+> +	unsigned long pv, dc;
+> +	u64 period_cycles;
+> +	u64 duty_cycles;
+> +	u8 prescale;
+> +
+> +	/*
+> +	 * GPT counter is shared by multiple channels, so prescale and period
+> +	 * can NOT be modified when there are multiple channels in use with
+> +	 * different settings.
+> +	 */
+> +	if (state->period !=3D rzg2l_gpt->state_period[ch] && rzg2l_gpt->user_c=
+ount[ch] > 1)
+> +		return -EBUSY;
+
+if (state->period < rzg2l_gpt->state_period[ch] && rzg2l_gpt->user_count[ch=
+] > 1)
+
+would be more forgiving and still correct.
+
+> +	/* Limit period/duty cycle to max value supported by the HW */
+> +	if (state->period > rzg2l_gpt->max_val)
+> +		period_cycles =3D rzg2l_gpt->max_val;
+> +	else
+> +		period_cycles =3D state->period;
+> +
+> +	period_cycles =3D mul_u64_u32_div(period_cycles, rzg2l_gpt->rate, NSEC_=
+PER_SEC);
+> +	prescale =3D rzg2l_gpt_calculate_prescale(rzg2l_gpt, period_cycles);
+> +
+> +	pv =3D rzg2l_gpt_calculate_pv_or_dc(period_cycles, prescale);
+> +
+> +	if (state->duty_cycle > rzg2l_gpt->max_val)
+> +		duty_cycles =3D rzg2l_gpt->max_val;
+> +	else
+> +		duty_cycles =3D state->duty_cycle;
+> +
+> +	duty_cycles =3D mul_u64_u32_div(duty_cycles, rzg2l_gpt->rate, NSEC_PER_=
+SEC);
+> +	dc =3D rzg2l_gpt_calculate_pv_or_dc(duty_cycles, prescale);
+> +
+> +	/*
+> +	 * GPT counter is shared by multiple channels, we cache the period value
+> +	 * from the first enabled channel and use the same value for both
+> +	 * channels.
+> +	 */
+> +	rzg2l_gpt->state_period[ch] =3D state->period;
+
+With the rounding that happens above, I think it would be more
+approriate to track period_cycles here instead of period.
+
+> [...]
+> +	rzg2l_gpt->clk =3D devm_clk_get(&pdev->dev, NULL);
+> +	if (IS_ERR(rzg2l_gpt->clk))
+> +		return dev_err_probe(&pdev->dev, PTR_ERR(rzg2l_gpt->clk),
+> +				     "cannot get clock\n");
+> +
+> +	ret =3D reset_control_deassert(rzg2l_gpt->rstc);
+> +	if (ret)
+> +		return dev_err_probe(&pdev->dev, ret,
+> +				     "cannot deassert reset control\n");
+> +
+> +	ret =3D clk_prepare_enable(rzg2l_gpt->clk);
+> +	if (ret)
+> +		goto err_reset;
+
+devm_clk_get_enabled()?
+
+> [...]
+> +	/*
+> +	 * Refuse clk rates > 1 GHz to prevent overflow later for computing
+> +	 * period and duty cycle.
+> +	 */
+> +	if (rzg2l_gpt->rate > NSEC_PER_SEC) {
+> +		ret =3D -EINVAL;
+> +		goto err_clk_rate_put;
+> +	}
+> +
+> +	rzg2l_gpt->max_val =3D mul_u64_u64_div_u64(U32_MAX, NSEC_PER_SEC,
+> +						 rzg2l_gpt->rate) * RZG2L_MAX_SCALE_FACTOR;
+
+Is it clear that this won't overflow?
+
+> +	/*
+> +	 *  We need to keep the clock on, in case the bootloader has enabled the
+> +	 *  PWM and is running during probe().
+> +	 */
+
+Best regards
+Uwe
+
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--nbbrl6lrzovx3fyc
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmVwv58ACgkQj4D7WH0S
+/k489gf/Si/pInTnpkfaQ3cGFW8hcNMpfx2/Iy6LBxXUFf+m5yf6nhWmO9FDHbMT
+3C0ZTdHOz9gIWKj3NA85leHly5AXrN4bdaXXvWmSnQX30JBbjcDcTKFZcsMIVUsT
+OaMSognmCDzo5hVPpuCORIIDs8zRbv8/iMcF21/Wgrdq9IbykOYRUvB2tc6YL+eC
+h2W9EoJrnjSH7G8ZIgJV5SYBGNxzMoXyVr+KonSpiwNuApYQd65inrJ3ymWqoJFh
+cQ1NdGIrWChdGheN+CzHNB8G1OuSPJBbqjBonAJLZl9vEfWDzf1iv4SL/X6iDpa8
+P6QqwO+2ruH24FBjIvomlFKAGfoq2A==
+=5ib9
+-----END PGP SIGNATURE-----
+
+--nbbrl6lrzovx3fyc--
 
