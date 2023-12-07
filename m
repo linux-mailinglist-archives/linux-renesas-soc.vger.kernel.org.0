@@ -1,494 +1,161 @@
-Return-Path: <linux-renesas-soc+bounces-820-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-821-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F538808367
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  7 Dec 2023 09:43:58 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id DB0D58083B5
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  7 Dec 2023 10:01:26 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3202D1C21D03
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  7 Dec 2023 08:43:57 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 84DC72841E7
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  7 Dec 2023 09:01:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7E0CF199CA;
-	Thu,  7 Dec 2023 08:43:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8BD3331A71;
+	Thu,  7 Dec 2023 09:01:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="c+HI7W2z"
+	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="XDIDdG8A"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com [IPv6:2a00:1450:4864:20::529])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F148AD57
-	for <linux-renesas-soc@vger.kernel.org>; Thu,  7 Dec 2023 00:43:48 -0800 (PST)
-Received: by mail-ed1-x529.google.com with SMTP id 4fb4d7f45d1cf-54dcfca54e0so320093a12.1
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 07 Dec 2023 00:43:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1701938627; x=1702543427; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=RJsI1iyVrzkD4HE017Pl+ikJ/8c50MiFk/XRDKW8Bao=;
-        b=c+HI7W2zzxmytyoUq6ghNTdussr0A8hv0aNNUyS9xjcbLNMhtSymK6FiOWIh2B8PS0
-         V5QLlrQoHBep2kbkbjSpT5PqNnOzcU54qaMFFmlYSGA5pQNgHW8YjanPIjZ0Zag1tEMD
-         tqFoWeJnMs/apRn7viDE0ZFspWpmZt8HhSliW4eHxnp+jtNI17RNvcVWG7rsnj3bAo4A
-         tjNV7h5idKXM9yKac8VqTGPiizlxDXQhW7irDOdRSEXcyFekLIA6qM94VqVWve0H2pCA
-         AFoXFWZ3lDYai2iGdm0/q/xxxzOHNdsiwS+loALs0NZbmRbT3xglk9XSorN0mpd9Air+
-         mIsQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701938627; x=1702543427;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=RJsI1iyVrzkD4HE017Pl+ikJ/8c50MiFk/XRDKW8Bao=;
-        b=hP0wT+4e5M9Xj3H5rEb78Depgq/UoMv++kvWBG8gMf5oTnx7mT9u0Z5p0etSED5kQp
-         3b+DisLEwXeVd4Tsck6qLOFymNHyld4Ey9l4CjtAxBX0A91X9+Mv0rs3lFaIYIRBm4x4
-         mtGNkvfUPk+I3VyUW3XFQx3xizuHEblpM2/+bJkm0IGdrsHv3C4F71KH2cc4XC7TxNyE
-         EFeMPZrUykE3Pt+XT8jojsUxq35yCQ4uFlacgoZbEJnRCqz0Be79PWyhZhPTizrNQNbP
-         9jqy6VP+GmnhFirQ30m2o+xDD/msiL47UCP8762Xn4gXxO3e/tsl7FRJNVikfVEhsPQT
-         cqLQ==
-X-Gm-Message-State: AOJu0YwRTX/Zg0ubzxVGK5QihQM7Z2tuNNx9vmMf5TDfZhnF751CgbPB
-	Qrwt+0aFT60ZlUHXl1INfTyXwg==
-X-Google-Smtp-Source: AGHT+IGXAZfmHKuPnV3Z3Iqo8Tq3e9H4qHa638hZCzYhQXfJC2C4Gu3E0ImYKDSx09n2Ncmvvb3rnQ==
-X-Received: by 2002:a17:906:81c2:b0:a19:a1ba:da49 with SMTP id e2-20020a17090681c200b00a19a1bada49mr1467077ejx.112.1701938627315;
-        Thu, 07 Dec 2023 00:43:47 -0800 (PST)
-Received: from [192.168.1.20] ([178.197.218.27])
-        by smtp.gmail.com with ESMTPSA id ov3-20020a170906fc0300b00a1c76114fcesm516299ejb.218.2023.12.07.00.43.45
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 07 Dec 2023 00:43:46 -0800 (PST)
-Message-ID: <114c9baf-66d1-4055-a47c-916642b6dedd@linaro.org>
-Date: Thu, 7 Dec 2023 09:43:44 +0100
+Received: from JPN01-TYC-obe.outbound.protection.outlook.com (mail-tycjpn01on2123.outbound.protection.outlook.com [40.107.114.123])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 57C8310B;
+	Thu,  7 Dec 2023 01:01:19 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=R1QFDaY4Qt35NG/tsqmZKRXEL1272AG8t9hPX0rutdzUCsRJfvvBe6eN8BqzlUpSfmlMrfYuOCY3JYho0hJN7wL8FwOMicbbUuXd71cUZ/cENz6uQXB5tXrxFFP6oLWybPglpsoY9EHFLpJz1jSI7Y8/jMCtdZSatRoYs2YBGOZHGpXXQJQbXRWF8o3ETYwV6Hhac9/XLDT5muCS3nRf0Al3GyWzTCao5KsPWlS7GM3f8QwLrAgptCU4z23qc7VLv3c4ZxGZSYttnnBvBbLzCt2BuqOk8FXJ5GYdYGnb3ixKqTjuL9tRc8ptpmQ3hkqcYA9WljkdCorqSwKhgFQfHA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=w3+MYSmHisuelDjPvQbnR8NxGh1ThqpmoouvP/7f4L8=;
+ b=SwZXgbxgLGT+50/gmbRKm+RN0ar09mClDzFs+LHlPzdfudlnp9S1IT5Cd9a0redlKI2mGFarhzOzDcPTtUEd2Txd+a91kcL+6h/ZmWnLbde4manxXTLuEbuDDUItnFjuyI8LHUPtL8jf5P4DbamxKxtButiaix1lF+1W/l+kCdYqm/xcWmfsED2JENzNMxD+iQD4pXJebwGaxM7GAwXmLuKcWgz1YZzGuCXvsX4iH1Ac1jL0Kp1yCjYPlSjY3jUJMF9XFP3zsINBoEe0z/gJr8dOibBJj3XsMOz3GQAPkZuNyv0FH4mylNJk6YIpPrNCLhg2AsI2ky5WXPwyANY/3Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=w3+MYSmHisuelDjPvQbnR8NxGh1ThqpmoouvP/7f4L8=;
+ b=XDIDdG8A3fpbaNxKqS7WPGb6PIAkVTpU5n50Ml2GHjbFP0r5VnBpQg4t/xlyETm9qrA0kO/qDaC42Q3AAvWmBH4eC+30xHwJaaxX+IdNIxkePArr+SRQeh04X6ny5ey+xqeP7bXEmVc2zzHd5+MftjwSWPD4Un9MircQluQtzoQ=
+Received: from TYCPR01MB11269.jpnprd01.prod.outlook.com
+ (2603:1096:400:3c0::10) by OS3PR01MB6273.jpnprd01.prod.outlook.com
+ (2603:1096:604:f3::6) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7046.34; Thu, 7 Dec
+ 2023 09:01:15 +0000
+Received: from TYCPR01MB11269.jpnprd01.prod.outlook.com
+ ([fe80::4af6:b31a:8826:51ac]) by TYCPR01MB11269.jpnprd01.prod.outlook.com
+ ([fe80::4af6:b31a:8826:51ac%6]) with mapi id 15.20.7091.010; Thu, 7 Dec 2023
+ 09:01:14 +0000
+From: Biju Das <biju.das.jz@bp.renesas.com>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Lee Jones
+	<lee@kernel.org>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, Rob Herring
+	<robh+dt@kernel.org>, Krzysztof Kozlowski
+	<krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>
+CC: Support Opensource <support.opensource@diasemi.com>, "Rafael J. Wysocki"
+	<rafael@kernel.org>, Daniel Lezcano <daniel.lezcano@linaro.org>, Zhang Rui
+	<rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>, Steve Twiss
+	<stwiss.opensource@diasemi.com>, "linux-input@vger.kernel.org"
+	<linux-input@vger.kernel.org>, "devicetree@vger.kernel.org"
+	<devicetree@vger.kernel.org>, "linux-pm@vger.kernel.org"
+	<linux-pm@vger.kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>,
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>, biju.das.au
+	<biju.das.au@gmail.com>, "linux-renesas-soc@vger.kernel.org"
+	<linux-renesas-soc@vger.kernel.org>
+Subject: RE: [PATCH v4 0/8] Convert DA906{1,2} bindings to json-schema
+Thread-Topic: [PATCH v4 0/8] Convert DA906{1,2} bindings to json-schema
+Thread-Index: AQHaKFz3HbsQIYu8ikSsYixCn8jyCrCdgLMAgAAE/aA=
+Date: Thu, 7 Dec 2023 09:01:14 +0000
+Message-ID:
+ <TYCPR01MB11269663E4EE04920195D708D868BA@TYCPR01MB11269.jpnprd01.prod.outlook.com>
+References: <20231206155740.5278-1-biju.das.jz@bp.renesas.com>
+ <874165ae-c7a2-4f04-825a-aa9d6f4d4cb3@linaro.org>
+In-Reply-To: <874165ae-c7a2-4f04-825a-aa9d6f4d4cb3@linaro.org>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=bp.renesas.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: TYCPR01MB11269:EE_|OS3PR01MB6273:EE_
+x-ms-office365-filtering-correlation-id: ca93fd52-7313-4be9-61ff-08dbf7031138
+x-ld-processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info:
+ YYj7keJ7CfzH+mVm+euW431tp/ouKv+Xyj8e6RaaFZtMOSYnoG/rg5WeBZNgRKQ7wHPN/alssd2uR7U54IsiztsbBjCOYxJCd9bjS6wS2y4rhzjD7HNGHNuTLGxn70RuIpWanFBjzYw5DF5qoGezicXbb12C5ClXh0TMU7nR6DeXz30IO/qtd7xtGUMKzE/19p+dI2a5upCkhy92woIpHocJxovRIVjcOQPorYHEECzPwwPVR0kTdvQlZHjCasf5FlZWOFDdNHPDzYonVun4r78UeFtE7Nos+n368vha2pC+kpI2Xh3t1PDX8bYjfXD+fz182pG640BoHBZPXnfbuaLM+w09jg8ZxmCyr77sYiqHR8rZCEpvdd3Y4YOVXBq1rX1IHnSo4g6sLQYfEyKTPW/xqV7g2NE3PGxGTCyiJyIrFlD678oZsoQt9LZuQuhYE5jykg8EgelyGy+piSVRZLjRQ+yDlT23f0THJBXIKYJE5PvB7AyRFy0vAV0oqIce6YaGVAwr+mC5xzaxzI6nqhx1loJS6h+wFuycw+rVtw6jqyFaKxwtN0dGH+yliPymZ1ORgNpPXd+2HMjqd6xGEStgf6hYK3VnpLIoxF/I2Xc=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB11269.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(396003)(366004)(136003)(376002)(39860400002)(346002)(230922051799003)(1800799012)(451199024)(64100799003)(186009)(9686003)(53546011)(6506007)(7696005)(38070700009)(86362001)(122000001)(38100700002)(33656002)(41300700001)(26005)(7416002)(83380400001)(5660300002)(110136005)(4326008)(4744005)(54906003)(316002)(52536014)(8936002)(2906002)(66946007)(55016003)(76116006)(66476007)(66556008)(64756008)(66446008)(478600001)(966005)(8676002)(71200400001);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?utf-8?B?dHR5V0t5U1pOVklrWVlXMzlwemZWWm00b0xsd3IzUFpjeFNUOHQ3Q1VuYzdX?=
+ =?utf-8?B?UUtFOFpPMHR3TzVIbkdjMzJERkxIMlRVa1dBNDBRWHdVbDJqSkpiVngvdStI?=
+ =?utf-8?B?RXlpT3M0Mnpuc1FnMUVwSmdqQlBRL3UyQlQvcGlVbWJydE1UQ0oyakthUWJS?=
+ =?utf-8?B?Q0ZPZ0Iyckxlb0dCU29nUHBnSkJZSVdycitSTkdTd0tWZGNnc0VBcEVXNFF5?=
+ =?utf-8?B?dDI0ODRTNkVqTlNRbG5mSGloT0hsL0xQRVZDZDV0aGdiUStoTHRNS2IxYlJz?=
+ =?utf-8?B?YWVjc3c0UG9sUE0zVlRQd0ZLN2JDaWI0eFp0Q0ROZExlNG4xYnAwY0hpd2o2?=
+ =?utf-8?B?a3BBczFhNWJCbzd6VmpxQ0p3NFBxb2ZUcEhHVG5qTEU5U0s2bUF1bnlyT3JL?=
+ =?utf-8?B?OTl3VkN6S3JwM1h6YVhyUUJKV1JDekt4ckZtL0kvL0ZHNERHdGlwVWdCTVJZ?=
+ =?utf-8?B?TUxGaUVIdTdRYUZBMkdaeFZ1TGpEWTNiaFdiV0ZPN2RMYThUUkRYZlRBYnNz?=
+ =?utf-8?B?dlgvOTRxRTFEY2hHdFk3WEhZeTNnaWhRZGNXNkd0cU5zdWRoOUsyK0drWUlU?=
+ =?utf-8?B?RVZBUzRTb3l0NHR2MUUrLzFhekRLTFNRQWxOcURWK2I2WmpYUy9XL25hdnBT?=
+ =?utf-8?B?Y3N3MU1sUVYybXYzYTVuWGd1b2VZVVdyUGtKYkNPQWl3NjFhZm9ZaGJubDlq?=
+ =?utf-8?B?ZkNuNzdpR0xPV2dZcVpxM3Z6Qlg2elhhdm94NUJUenJ6NWNkeUc2ZHZWWFQ2?=
+ =?utf-8?B?YUIrUkZtNFJoR0YreWY4ck1nSkliWDFtb3NGMkdxY0FtVndhTTZMem92TnRT?=
+ =?utf-8?B?dkZhMkg5aXhyaTJ4dE1mWW1jdnJoTEJseHRvU0pqa1Vmd25Qc1Q3cW03UHJF?=
+ =?utf-8?B?SEdlSnhZMWlzd1NkbXRSY1JCVEF1N0dXaTVpdjNBd1Q1QWI2RmR1K1YxaHhC?=
+ =?utf-8?B?RGNrbmJwcVkzSGpSZ1Vka0FIblF6c3grVHNzM1krWE5BbEVid2Mvb2czQnJV?=
+ =?utf-8?B?c2Z1a09JVmJqWGdsaDJZS0w1akFqcXY3UVdTN1dPdzFoYm5UMHlsdjJFaFNv?=
+ =?utf-8?B?TTNQaVZWS0w2cC9HUU9iMEpTNzd5cGFiUWdVWk1ZczhyQVRRQXNrTlJtNm85?=
+ =?utf-8?B?d29IZ1lNdnNQaUt2aFRxREpPWWIrSU1BVXdEbEROR01jeHQ5VmI4aDU1VkRW?=
+ =?utf-8?B?RGtCUlJqZ3dIU1FxbTMzdFlwM2VudkcrNC9tRTZBMk9rOVJSNnI4Y21JOWEy?=
+ =?utf-8?B?dy94M1dyOUt0QUVqZUFFNVpGbXZUcUorZWZ1aVFGckZuOVZGQk1VVnIxeTBX?=
+ =?utf-8?B?UCtGK2hJUTdvNEdpOThGS29YVTZHQzJiNU9nZlJFSFJ3Nm80QWlqaEpUM1BH?=
+ =?utf-8?B?WVdhZ3g1L3prUURyZnNBM250L08vaExURTNyOHVSbFdpKzkrUFlCcXdvL0xx?=
+ =?utf-8?B?eTdYRGlIYjZFYzZHTFBNUXA2L01BellQVTJVS2N4NEYxVmRVUm1aMnhVcnJ2?=
+ =?utf-8?B?Tlo3OGI0UCt6MmZ1T0ZSMWlXOHBQMUZIMlRCSUIyYU8xQ3puNlZaallrVkln?=
+ =?utf-8?B?M3Jsa01HVi80a3p4cWx2MzJGN2dUcHZnZVRQK0l6eFRFWE1UZTRZOUhaRU1X?=
+ =?utf-8?B?UkNmWFlCRk5yNjBldDBLd2QrNVBDekFvZXMxNGphdHdqbUVGbWdFYm13eGVr?=
+ =?utf-8?B?dGRxeEE0WXVWay8zN2JRME5qbnNxd3djL1hTN0tvUzNHZSttQUtVREpjQTJX?=
+ =?utf-8?B?cmRiN3JoWkwwZFEwWG1RYTRNTUFWcVZaWUpTQWJDbklZMVhyMXFpYktwUmIv?=
+ =?utf-8?B?SExlQXVLRlVhWDlWY1RURWhtaFR2ZTAyQ2FZUFZETHZXUUhMcmZ1bmVlcDhO?=
+ =?utf-8?B?NU42Y3lkQzNJb2YxQ2xFYmxHQ0ZsdGxFcGhkVUoyQ0FJUlkzakJpc3FwcE1z?=
+ =?utf-8?B?MXRPcmRSdCtmdzc2cEladlB2L0VxajJHZEVYU2pSS3U2RVFUUU5BZUhKclcx?=
+ =?utf-8?B?OWZoZzd0bDdORmFWS3dyQThuL0U4d3ZKa0o2ODhzd2dCWWI5UkdTVWtzUDRS?=
+ =?utf-8?B?K1BlakR6RVBVcXJnVmxYY0s0YmlDdGxlSjluRm1hZlhhNDFGTWVNY0p1Ti8x?=
+ =?utf-8?B?MFlNRWhqSU5IRlRIMzRHSzEvN0t6SEwrVjVYV0dwSmJNNGgzWXlxUVpBbTVC?=
+ =?utf-8?B?VVE9PQ==?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 8/8] dt-bindings: mfd: dlg,da9063: Convert da9062 to
- json-schema
-Content-Language: en-US
-To: Biju Das <biju.das.jz@bp.renesas.com>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, Rob Herring
- <robh+dt@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
- Lee Jones <lee@kernel.org>
-Cc: Support Opensource <support.opensource@diasemi.com>,
- "Rafael J. Wysocki" <rafael@kernel.org>,
- Daniel Lezcano <daniel.lezcano@linaro.org>, Zhang Rui <rui.zhang@intel.com>,
- Lukasz Luba <lukasz.luba@arm.com>,
- Steve Twiss <stwiss.opensource@diasemi.com>, linux-input@vger.kernel.org,
- devicetree@vger.kernel.org, linux-pm@vger.kernel.org,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- Biju Das <biju.das.au@gmail.com>, linux-renesas-soc@vger.kernel.org
-References: <20231206155740.5278-1-biju.das.jz@bp.renesas.com>
- <20231206155740.5278-9-biju.das.jz@bp.renesas.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20231206155740.5278-9-biju.das.jz@bp.renesas.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB11269.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ca93fd52-7313-4be9-61ff-08dbf7031138
+X-MS-Exchange-CrossTenant-originalarrivaltime: 07 Dec 2023 09:01:14.8717
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: R3XcYw7pdgYLwPBziM4IC2ljUTty3esByG4UOZfyCBDRY0Vr1H1Ow0NbjSVrgrfiHIKmBsrRBZKPoXFHmPSJV5g/avnGkKlrI5rYt7zaACE=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS3PR01MB6273
 
-On 06/12/2023 16:57, Biju Das wrote:
-> Convert the da9062 PMIC device tree binding documentation to json-schema.
-> 
-> Update the example to match reality.
-> 
-> While at it, update description with link to product information.
-> 
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> ---
-> v3->v4:
->  * Split the thermal binding patch separate.
->  * Updated the description.
-> v2->v3:
->  * Fixed bot errors related to MAINTAINERS entry, invalid doc
->    references and thermal examples by merging patch#4.
-> v2:
->  * New patch
-> ---
->  .../bindings/input/dlg,da9062-onkey.yaml      |   3 +-
->  .../devicetree/bindings/mfd/da9062.txt        | 124 ------------
->  .../devicetree/bindings/mfd/dlg,da9063.yaml   | 186 +++++++++++++++++-
->  .../bindings/thermal/dlg,da9062-thermal.yaml  |   2 +-
->  4 files changed, 183 insertions(+), 132 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/mfd/da9062.txt
-> 
-> diff --git a/Documentation/devicetree/bindings/input/dlg,da9062-onkey.yaml b/Documentation/devicetree/bindings/input/dlg,da9062-onkey.yaml
-> index 4cff91f4bd34..18b6a3f02c07 100644
-> --- a/Documentation/devicetree/bindings/input/dlg,da9062-onkey.yaml
-> +++ b/Documentation/devicetree/bindings/input/dlg,da9062-onkey.yaml
-> @@ -11,8 +11,7 @@ maintainers:
->  
->  description: |
->    This module is part of the DA9061/DA9062/DA9063. For more details about entire
-> -  DA9062 and DA9061 chips see Documentation/devicetree/bindings/mfd/da9062.txt
-> -  For DA9063 see Documentation/devicetree/bindings/mfd/dlg,da9063.yaml
-> +  DA906{1,2,3} chips see Documentation/devicetree/bindings/mfd/dlg,da9063.yaml
->  
->    This module provides the KEY_POWER event.
->  
-> diff --git a/Documentation/devicetree/bindings/mfd/da9062.txt b/Documentation/devicetree/bindings/mfd/da9062.txt
-> deleted file mode 100644
-> index c8a7f119ac84..000000000000
-> --- a/Documentation/devicetree/bindings/mfd/da9062.txt
-> +++ /dev/null
-> @@ -1,124 +0,0 @@
-> -* Dialog DA9062 Power Management Integrated Circuit (PMIC)
-> -
-> -Product information for the DA9062 and DA9061 devices can be found here:
-> -- https://www.dialog-semiconductor.com/products/da9062
-> -- https://www.dialog-semiconductor.com/products/da9061
-> -
-> -The DA9062 PMIC consists of:
-> -
-> -Device                   Supply Names    Description
-> -------                   ------------    -----------
-> -da9062-regulator        :               : LDOs & BUCKs
-> -da9062-rtc              :               : Real-Time Clock
-> -da9062-onkey            :               : On Key
-> -da9062-watchdog         :               : Watchdog Timer
-> -da9062-thermal          :               : Thermal
-> -da9062-gpio             :               : GPIOs
-> -
-> -The DA9061 PMIC consists of:
-> -
-> -Device                   Supply Names    Description
-> -------                   ------------    -----------
-> -da9062-regulator        :               : LDOs & BUCKs
-> -da9062-onkey            :               : On Key
-> -da9062-watchdog         :               : Watchdog Timer
-> -da9062-thermal          :               : Thermal
-> -
-> -======
-> -
-> -Required properties:
-> -
-> -- compatible : Should be
-> -    "dlg,da9062" for DA9062
-> -    "dlg,da9061" for DA9061
-> -- reg : Specifies the I2C slave address (this defaults to 0x58 but it can be
-> -  modified to match the chip's OTP settings).
-> -
-> -Optional properties:
-> -
-> -- gpio-controller : Marks the device as a gpio controller.
-> -- #gpio-cells     : Should be two. The first cell is the pin number and the
-> -                    second cell is used to specify the gpio polarity.
-> -
-> -See Documentation/devicetree/bindings/gpio/gpio.txt for further information on
-> -GPIO bindings.
-> -
-> -- interrupts : IRQ line information.
-> -- interrupt-controller
-> -
-> -See Documentation/devicetree/bindings/interrupt-controller/interrupts.txt for
-> -further information on IRQ bindings.
-> -
-> -Sub-nodes:
-> -
-> -- regulators : This node defines the settings for the LDOs and BUCKs.
-> -  The DA9062 regulators are bound using their names listed below:
-> -
-> -    buck1    : BUCK_1
-> -    buck2    : BUCK_2
-> -    buck3    : BUCK_3
-> -    buck4    : BUCK_4
-> -    ldo1     : LDO_1
-> -    ldo2     : LDO_2
-> -    ldo3     : LDO_3
-> -    ldo4     : LDO_4
-> -
-> -  The DA9061 regulators are bound using their names listed below:
-> -
-> -    buck1    : BUCK_1
-> -    buck2    : BUCK_2
-> -    buck3    : BUCK_3
-> -    ldo1     : LDO_1
-> -    ldo2     : LDO_2
-> -    ldo3     : LDO_3
-> -    ldo4     : LDO_4
-> -
-> -  The component follows the standard regulator framework and the bindings
-> -  details of individual regulator device can be found in:
-> -  Documentation/devicetree/bindings/regulator/regulator.txt
-> -
-> -  regulator-initial-mode may be specified for buck regulators using mode values
-> -  from include/dt-bindings/regulator/dlg,da9063-regulator.h.
-> -
-> -- rtc : This node defines settings required for the Real-Time Clock associated
-> -  with the DA9062. There are currently no entries in this binding, however
-> -  compatible = "dlg,da9062-rtc" should be added if a node is created.
-> -
-> -- onkey : See ../input/dlg,da9062-onkey.yaml
-> -
-> -- watchdog: See ../watchdog/dlg,da9062-watchdog.yaml
-> -
-> -- thermal : See ../thermal/dlg,da9062-thermal.yaml
-> -
-> -Example:
-> -
-> -	pmic0: da9062@58 {
-> -		compatible = "dlg,da9062";
-> -		reg = <0x58>;
-> -		interrupt-parent = <&gpio6>;
-> -		interrupts = <11 IRQ_TYPE_LEVEL_LOW>;
-> -		interrupt-controller;
-> -
-> -		rtc {
-> -			compatible = "dlg,da9062-rtc";
-> -		};
-> -
-> -		regulators {
-> -			DA9062_BUCK1: buck1 {
-> -				regulator-name = "BUCK1";
-> -				regulator-min-microvolt = <300000>;
-> -				regulator-max-microvolt = <1570000>;
-> -				regulator-min-microamp = <500000>;
-> -				regulator-max-microamp = <2000000>;
-> -				regulator-initial-mode = <DA9063_BUCK_MODE_SYNC>;
-> -				regulator-boot-on;
-> -			};
-> -			DA9062_LDO1: ldo1 {
-> -				regulator-name = "LDO_1";
-> -				regulator-min-microvolt = <900000>;
-> -				regulator-max-microvolt = <3600000>;
-> -				regulator-boot-on;
-> -			};
-> -		};
-> -	};
-> -
-> diff --git a/Documentation/devicetree/bindings/mfd/dlg,da9063.yaml b/Documentation/devicetree/bindings/mfd/dlg,da9063.yaml
-> index 676b4f2566ae..54bb23dbc73f 100644
-> --- a/Documentation/devicetree/bindings/mfd/dlg,da9063.yaml
-> +++ b/Documentation/devicetree/bindings/mfd/dlg,da9063.yaml
-> @@ -4,7 +4,7 @@
->  $id: http://devicetree.org/schemas/mfd/dlg,da9063.yaml#
->  $schema: http://devicetree.org/meta-schemas/core.yaml#
->  
-> -title: Dialog DA9063/DA9063L Power Management Integrated Circuit (PMIC)
-> +title: Dialog DA906{3L,3,2,1} Power Management Integrated Circuit (PMIC)
->  
->  maintainers:
->    - Steve Twiss <stwiss.opensource@diasemi.com>
-> @@ -17,10 +17,17 @@ description: |
->    moment where all voltage monitors are disabled. Next, as da9063 only supports
->    UV *and* OV monitoring, both must be set to the same severity and value
->    (0: disable, 1: enable).
-> +  Product information for the DA906{3L,3,2,1} devices can be found here:
-> +  - https://www.dialog-semiconductor.com/products/da9063l
-> +  - https://www.dialog-semiconductor.com/products/da9063
-> +  - https://www.dialog-semiconductor.com/products/da9062
-> +  - https://www.dialog-semiconductor.com/products/da9061
->  
->  properties:
->    compatible:
->      enum:
-> +      - dlg,da9061
-> +      - dlg,da9062
->        - dlg,da9063
->        - dlg,da9063l
->  
-> @@ -35,6 +42,19 @@ properties:
->    "#interrupt-cells":
->      const: 2
->  
-> +  gpio:
-
-Old binding did not have such node and nothing in commit msg explained
-changes from pure conversion.
-
-> +    type: object
-> +    $ref: /schemas/gpio/gpio.yaml#
-
-?!? Why? First: It's always selected. Second, so you have two gpio
-controllers? And original binding had 0? Why this is not explained at
-all? Open the binding and look at its properties.
-
-
-> +    unevaluatedProperties: false
-> +    properties:
-> +      compatible:
-> +        const: dlg,da9062-gpio
-> +
-> +  gpio-controller: true
-
-And here is the second gpio-controller...
-
-> +
-> +  "#gpio-cells":
-> +    const: 2
-> +
->    onkey:
->      $ref: /schemas/input/dlg,da9062-onkey.yaml
->  
-> @@ -42,7 +62,7 @@ properties:
->      type: object
->      additionalProperties: false
->      patternProperties:
-> -      "^(ldo([1-9]|1[01])|bcore([1-2]|s-merged)|b(pro|mem|io|peri)|bmem-bio-merged)$":
-> +      "^(ldo([1-9]|1[01])|bcore([1-2]|s-merged)|b(pro|mem|io|peri)|bmem-bio-merged|buck[1-4])$":
->          $ref: /schemas/regulator/regulator.yaml
->          unevaluatedProperties: false
->  
-> @@ -52,7 +72,12 @@ properties:
->      unevaluatedProperties: false
->      properties:
->        compatible:
-> -        const: dlg,da9063-rtc
-> +        enum:
-> +          - dlg,da9063-rtc
-> +          - dlg,da9062-rtc
-> +
-> +  thermal:
-> +    $ref: /schemas/thermal/dlg,da9062-thermal.yaml
->  
->    watchdog:
->      $ref: /schemas/watchdog/dlg,da9062-watchdog.yaml
-> @@ -60,8 +85,65 @@ properties:
->  required:
->    - compatible
->    - reg
-> -  - interrupts
-> -  - interrupt-controller
-> +
-> +allOf:
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            enum:
-> +              - dlg,da9063
-> +              - dlg,da9063l
-> +    then:
-> +      properties:
-> +        thermal: false
-> +        gpio: false
-> +        gpio-controller: false
-> +        "#gpio-cells": false
-> +        regulators:
-> +          patternProperties:
-> +            "^buck[1-4]$": false
-> +      required:
-> +        - interrupts
-> +        - interrupt-controller
-> +
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            enum:
-> +              - dlg,da9062
-> +    then:
-> +      properties:
-> +        regulators:
-> +          patternProperties:
-> +            "^(ldo([5-9]|10|11)|bcore([1-2]|s-merged)|b(pro|mem|io|peri)|bmem-bio-merged)$": false
-> +      required:
-> +        - gpio
-> +        - onkey
-> +        - rtc
-> +        - thermal
-> +        - watchdog
-> +
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            enum:
-> +              - dlg,da9061
-> +    then:
-> +      properties:
-> +        gpio: false
-> +        gpio-controller: false
-> +        "#gpio-cells": false
-> +        regulators:
-> +          patternProperties:
-> +            "^(ldo([5-9]|10|11)|bcore([1-2]|s-merged)|b(pro|mem|io|peri)|bmem-bio-merged|buck4)$": false
-> +        rtc: false
-> +      required:
-> +        - onkey
-> +        - thermal
-> +        - watchdog
->  
->  additionalProperties: false
->  
-> @@ -118,4 +200,98 @@ examples:
->          };
->        };
->      };
-> +
-> +  - |
-> +    #include <dt-bindings/interrupt-controller/irq.h>
-> +    #include <dt-bindings/regulator/dlg,da9063-regulator.h>
-> +    i2c {
-> +      #address-cells = <1>;
-> +      #size-cells = <0>;
-> +      pmic@58 {
-> +        compatible = "dlg,da9062";
-> +        reg = <0x58>;
-> +        #interrupt-cells = <2>;
-> +        interrupt-parent = <&gpio1>;
-> +        interrupts = <2 IRQ_TYPE_LEVEL_LOW>;
-> +        interrupt-controller;
-> +
-> +        gpio {
-> +          compatible = "dlg,da9062-gpio";
-> +          status = "disabled";
-
-Why?
-Where are gpio-controller and cells? For this node and for parent? Why
-this example is incomplete?
-
-> +        };
-> +
-> +        onkey {
-> +          compatible = "dlg,da9062-onkey";
-> +        };
-
-
-Best regards,
-Krzysztof
-
+SGkgS3J6eXN6dG9mIEtvemxvd3NraSwgTGVlIEpvbmVzLA0KDQo+IC0tLS0tT3JpZ2luYWwgTWVz
+c2FnZS0tLS0tDQo+IEZyb206IEtyenlzenRvZiBLb3psb3dza2kgPGtyenlzenRvZi5rb3psb3dz
+a2lAbGluYXJvLm9yZz4NCj4gU2VudDogVGh1cnNkYXksIERlY2VtYmVyIDcsIDIwMjMgODozOCBB
+TQ0KPiBTdWJqZWN0OiBSZTogW1BBVENIIHY0IDAvOF0gQ29udmVydCBEQTkwNnsxLDJ9IGJpbmRp
+bmdzIHRvIGpzb24tc2NoZW1hDQo+IA0KPiBPbiAwNi8xMi8yMDIzIDE2OjU3LCBCaWp1IERhcyB3
+cm90ZToNCj4gPiBDb252ZXJ0IHRoZSBiZWxvdyBiaW5kaW5ncyB0byBqc29uLXNjaGVtYQ0KPiA+
+IDEpIERBOTA2ezEsMn0gbWZkIGJpbmRpbmdzDQo+ID4gMikgREE5MDZ7MSwyLDN9IG9ua2V5IGJp
+bmRpbmdzDQo+ID4gMykgREE5MDZ7MSwyLDN9IHRoZXJtYWwgYmluZGluZ3MNCj4gPg0KPiA+IEFs
+c28gYWRkIGZhbGxiYWNrIGZvciBEQTkwNjEgd2F0Y2hkb2cgZGV2aWNlIGFuZCBkb2N1bWVudA0K
+PiA+IERBOTA2MyB3YXRjaGRvZyBkZXZpY2UuDQo+IA0KPiBQbGVhc2UgZXhwbGFpbiBoZXJlIGRl
+cGVuZGVuY2llcyBhbmQgbWFrZSBjbGVhciBtZXJnaW5nIHN0cmF0ZWd5LiBUaGUNCj4gcGF0Y2hl
+cyBjYW5ub3QgYmUgdGFrZW4gaW5kZXBlbmRlbnRseS4NCg0KUm9iIG1lbnRpb25lZCBpdCBuZWVk
+cyB0byBiZSB0YWtlbiB0aHJvdWdoIE1GRCB0cmVlLiBTZWUgWzFdDQoNClsxXSBodHRwczovL3Bh
+dGNod29yay5rZXJuZWwub3JnL3Byb2plY3QvbGludXgtcmVuZXNhcy1zb2MvcGF0Y2gvMjAyMzEy
+MDIxOTI1MzYuMjY2ODg1LTktYmlqdS5kYXMuanpAYnAucmVuZXNhcy5jb20vIzI1NjIwNjM2DQoN
+CkNoZWVycywNCkJpanUNCg==
 
