@@ -1,116 +1,87 @@
-Return-Path: <linux-renesas-soc+bounces-825-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-826-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BC268084F5
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  7 Dec 2023 10:50:34 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F9BA8084FE
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  7 Dec 2023 10:55:01 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 99B33B21A01
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  7 Dec 2023 09:50:31 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1BA17283C1B
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  7 Dec 2023 09:55:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B92D835281;
-	Thu,  7 Dec 2023 09:50:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D742735287;
+	Thu,  7 Dec 2023 09:54:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="JGY43OkJ"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="muUcdWEd"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yw1-x1136.google.com (mail-yw1-x1136.google.com [IPv6:2607:f8b0:4864:20::1136])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F835121
-	for <linux-renesas-soc@vger.kernel.org>; Thu,  7 Dec 2023 01:50:20 -0800 (PST)
-Received: by mail-yw1-x1136.google.com with SMTP id 00721157ae682-5d05ff42db0so4634407b3.2
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 07 Dec 2023 01:50:20 -0800 (PST)
+Received: from mail-yw1-x1132.google.com (mail-yw1-x1132.google.com [IPv6:2607:f8b0:4864:20::1132])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 89598193
+	for <linux-renesas-soc@vger.kernel.org>; Thu,  7 Dec 2023 01:54:48 -0800 (PST)
+Received: by mail-yw1-x1132.google.com with SMTP id 00721157ae682-5d3d5b10197so4485277b3.2
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 07 Dec 2023 01:54:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1701942619; x=1702547419; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1701942887; x=1702547687; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=rIX1RNQkc6dFT3GzufGFqm5IkObG6UPnE4BiG2zpzws=;
-        b=JGY43OkJ8dPiGSg/LM9PIVXUJ2A0MvHlLWMYb+4Q0e0DkIEUC6pvOjRDN2GVrSHTvM
-         CAFsPeTBhY5GMRjyiNyCuuHiXH6LeNGNf1Yb1gy9NKKXOASspl6XGYzoeg4JVXU1Eoiu
-         bLs2XqnTulIN8kd4YQ/bnlB54G4RFtytKq0OA6FPH5KyoQNjSJh6QP6eGPosfzpZxNnt
-         kw5ztsMUb57SGZVUPGQ0+RcP7IJHNTf89IY8AF8e7CycAXvOdhU7Wjo7XY/yDc1vpm5f
-         OeSGpndfs66BBIB/vyExrapfTwXu1avdkBZpfy34fgZ7ZUHmss2sOL0EnzNvpa5djdSV
-         kE+Q==
+        bh=mE7xYQUlzv02mponHAUbU9YxaUMHPxUWeHaAlOpaiO0=;
+        b=muUcdWEdZBQSHf5DcrG9edy4cYcAeoXc6q+aqt85J0QKd7YubFEQBeH8NDEuJ+o9cM
+         PmyB58KDxa3L5atwABY4KZFsSTC8g6xrh/+jkqIpEmfhyjZKdxQS3md8TiQLi7CoI+mo
+         LcLTepAFJP1Al5ljPBF0gmPGOzM2IVv2v0SdOTXzTrpl0t5IEXsIJXiGQw1WNTrdiW0+
+         W9OgiHfj6yvO5v+80eAX7RqMGSbP8//Ku+aPiP2N1nr7Cp/IQufFnydKOy0+4BZLY40r
+         iQDrXVSOeIIgUewAoMzhbQmA48Dpzs+HbYUAxK5Sy9CTrLSFszKyd0C9Uq1kfXNbLo4m
+         e3hw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701942619; x=1702547419;
+        d=1e100.net; s=20230601; t=1701942887; x=1702547687;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=rIX1RNQkc6dFT3GzufGFqm5IkObG6UPnE4BiG2zpzws=;
-        b=FbdHfy7H+9xEIVNVRp1MxCIMCtDj91wGASmJNMgahmDjfsTtL1hh4K3A/5VghyDr/t
-         QL63Oc/RPB5HWss4gtfAaUlJQ+AGyY+OQlUDb9i2vAqjXUYRH1YG8RsNGWef/OqljUGO
-         3tdnYAIrA1Fzme8Aaar5pgNbWm6kjKp8SjKhnhrsfBo1gXp10n6tI7QV0gP89AYT3oFo
-         0+o9L4pKPBxAfsM4MjKG2rEwrZqPeEiZXoiSqBu8LhIha6T9UG4an5fRlVLBYql7oIY7
-         HXeLZnTCo/n4xrnsxLToKSSgc+Myer8p7Dei4OFsfKOcJPwaOXuXqtOnxnkZ0RS5dS3W
-         7Q7g==
-X-Gm-Message-State: AOJu0YzJUiQ4Thspzix2eRGpEgNYChaWD31A3X17hZ6DX+SWkwc9luZ8
-	wZ1Dza0vkYuxhyCvdN+naxdoc9hvBY31RrHXijR8FQ==
-X-Google-Smtp-Source: AGHT+IEEJzWHmSbZphkfBLVNWSrStTPwZmWuytH0kY6FxBii24pm/m34J3igBSJ8TViq0A9/s3USCc7X5N9RAXK7HsM=
-X-Received: by 2002:a81:bd42:0:b0:5d3:761e:d835 with SMTP id
- n2-20020a81bd42000000b005d3761ed835mr1947189ywk.28.1701942619477; Thu, 07 Dec
- 2023 01:50:19 -0800 (PST)
+        bh=mE7xYQUlzv02mponHAUbU9YxaUMHPxUWeHaAlOpaiO0=;
+        b=hSlIo+Dv8eevLo8s3FO/Jw985Oj0Ky5KjmMU0xp61ghNZVYa1IvCtoKD1bPR56yM2B
+         IWm9up/rGa76q8BdAEPbZWaM576Ve7/cejyHlT1YKFqnBSrhhEQUj1w9yheh5tL/EfVx
+         6t+42KOg53yNJ5yLc47Kq0E/d2xdpPIEbhco/JYwSmGTTf0mRBbC0LyFHP+5SdSv+arx
+         yixsWRvTVlUX1+KYiQ+juNTX2cqUaA9dUTbLxkizyKp1S8WuM2A2Pruuc4zqIlCtyXyX
+         nBHkkaizGVS57Mc2kc/Let2lmi/7v2/O3p/LYxTuwUVU8zp7WAuIdtVMft0i5LXCGlNW
+         q+Pg==
+X-Gm-Message-State: AOJu0Yy2HsT7hImWWRc2BG7Oej8mH30T4GsqCxTnhrgyEq1YTmjPkUf9
+	pJOQFpBLFFK9ur0BbNHjJfeLRnhwhli4X64vnP8KNg==
+X-Google-Smtp-Source: AGHT+IEOjV+e4fO7tLGjEoQWjOkdeRdGdcIMPsTYSMvX6xAX0W3EEwj2XzT9z0JeD0O7EwAjfnACJWMxZ/0hDFeMo1s=
+X-Received: by 2002:a81:4515:0:b0:5d4:3596:5ace with SMTP id
+ s21-20020a814515000000b005d435965acemr2061763ywa.12.1701942887739; Thu, 07
+ Dec 2023 01:54:47 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231129161459.1002323-1-andriy.shevchenko@linux.intel.com>
- <CACRpkdZhpXcx2FZYKM69j3x4dP5Nu-=3sXW+BQAw3k6c5aRrWw@mail.gmail.com> <ZW3m-KDhs39i0E5n@smile.fi.intel.com>
-In-Reply-To: <ZW3m-KDhs39i0E5n@smile.fi.intel.com>
+References: <20231204160033.1872569-1-andriy.shevchenko@linux.intel.com>
+In-Reply-To: <20231204160033.1872569-1-andriy.shevchenko@linux.intel.com>
 From: Linus Walleij <linus.walleij@linaro.org>
-Date: Thu, 7 Dec 2023 10:50:29 +0100
-Message-ID: <CACRpkdaDDJfDznGZE1OGNt0Rc6Wbh0-0suu6PgL+veJea9rBRQ@mail.gmail.com>
-Subject: Re: [PATCH v4 00/23] pinctrl: Convert struct group_desc to use struct pingroup
+Date: Thu, 7 Dec 2023 10:54:58 +0100
+Message-ID: <CACRpkdYVTgNCdDE6qK8wnbPAL2=S6RyDQYwPUVdtfQSSTratnQ@mail.gmail.com>
+Subject: Re: [PATCH v1 0/5] pinctrl: Use struct pingroup and PINCTRL_PINGROUP()
 To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>, 
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>, =?UTF-8?Q?Jonathan_Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
-	=?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Biju Das <biju.das.jz@bp.renesas.com>, 
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>, 
-	Jianlong Huang <jianlong.huang@starfivetech.com>, linux-arm-kernel@lists.infradead.org, 
+Cc: =?UTF-8?Q?Jonathan_Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>, 
 	linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-mediatek@lists.infradead.org, openbmc@lists.ozlabs.org, 
-	linux-mips@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org, Ray Jui <rjui@broadcom.com>, 
-	Scott Branden <sbranden@broadcom.com>, 
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Dong Aisheng <aisheng.dong@nxp.com>, 
-	Fabio Estevam <festevam@gmail.com>, Shawn Guo <shawnguo@kernel.org>, Jacky Bai <ping.bai@nxp.com>, 
-	Pengutronix Kernel Team <kernel@pengutronix.de>, Sascha Hauer <s.hauer@pengutronix.de>, 
-	NXP Linux Team <linux-imx@nxp.com>, Sean Wang <sean.wang@kernel.org>, 
-	Paul Cercueil <paul@crapouillou.net>, Lakshmi Sowjanya D <lakshmi.sowjanya.d@intel.com>, 
-	Bjorn Andersson <andersson@kernel.org>, Andy Gross <agross@kernel.org>, 
-	Konrad Dybcio <konrad.dybcio@linaro.org>, Emil Renner Berthing <kernel@esmil.dk>, 
-	Hal Feng <hal.feng@starfivetech.com>
+	openbmc@lists.ozlabs.org, linux-renesas-soc@vger.kernel.org, 
+	Lakshmi Sowjanya D <lakshmi.sowjanya.d@intel.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Dec 4, 2023 at 3:49=E2=80=AFPM Andy Shevchenko
+On Mon, Dec 4, 2023 at 5:00=E2=80=AFPM Andy Shevchenko
 <andriy.shevchenko@linux.intel.com> wrote:
-> On Mon, Dec 04, 2023 at 03:38:43PM +0100, Linus Walleij wrote:
-> > Hi Andy,
-> >
-> > due to compile errors on arm32 and arm64 I had to drop most of the
-> > patches again but I kept the preparatory patches so your
-> > patch stack don't need to be so deep.
->
-> Thank you!
->
-> ...
->
-> > >   pinctrl: core: Make pins const unsigned int pointer in struct
-> > >     group_desc
-> > >   pinctrl: equilibrium: Convert to use struct pingroup
-> > >   pinctrl: keembay: Convert to use struct pingroup
-> > >   pinctrl: nuvoton: Convert to use struct pingroup and
-> > >     PINCTRL_PINGROUP()
->
-> Hmm... Why these to be dropped?
 
-I couldn't tell apart which ones could cross depend on the others,
-simple as that...
+> This is an excerpt from v4 of the "pinctrl: Convert struct group_desc
+> to use struct pingroup" [1]. The series has been compiled with GCC 8
+> for ARM64 besides x86_64 GCC 13 and LLVM 16.
+>
+> Changelog to the mother series [1]:
+> - added a new patch against Renesas code, so no warnings will be seen
+
+Patches applied!
 
 Yours,
 Linus Walleij
