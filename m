@@ -1,126 +1,179 @@
-Return-Path: <linux-renesas-soc+bounces-838-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-839-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8EFE808FF0
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  7 Dec 2023 19:33:25 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9ABAD8094D3
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  7 Dec 2023 22:42:15 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 746AA28179F
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  7 Dec 2023 18:33:24 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CAEC91C20B1A
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  7 Dec 2023 21:42:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2FCDF4E62D;
-	Thu,  7 Dec 2023 18:33:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 79929840CC;
+	Thu,  7 Dec 2023 21:42:12 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from xavier.telenet-ops.be (xavier.telenet-ops.be [IPv6:2a02:1800:120:4::f00:14])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 946AA10E7
-	for <linux-renesas-soc@vger.kernel.org>; Thu,  7 Dec 2023 10:33:19 -0800 (PST)
-Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed40:f5c7:c244:a7e3:47bf])
-	by xavier.telenet-ops.be with bizsmtp
-	id KWZG2B00S2nBfCd01WZGRb; Thu, 07 Dec 2023 19:33:17 +0100
-Received: from rox.of.borg ([192.168.97.57])
-	by ramsan.of.borg with esmtp (Exim 4.95)
-	(envelope-from <geert@linux-m68k.org>)
-	id 1rBJB7-00BL2d-Md;
-	Thu, 07 Dec 2023 19:33:16 +0100
-Received: from geert by rox.of.borg with local (Exim 4.95)
-	(envelope-from <geert@linux-m68k.org>)
-	id 1rBJBU-003ZDD-Az;
-	Thu, 07 Dec 2023 19:33:16 +0100
-From: Geert Uytterhoeven <geert+renesas@glider.be>
-To: John Stultz <jstultz@google.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Shuah Khan <shuah@kernel.org>,
-	Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	=?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
-Cc: linux-kernel@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH] selftests: timers: clocksource-switch: Adapt progress to kselftest framework
-Date: Thu,  7 Dec 2023 19:33:10 +0100
-Message-Id: <6d7a665392e75c0af8fd4ad5b95bd3f0489236ee.1701973869.git.geert+renesas@glider.be>
-X-Mailer: git-send-email 2.34.1
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1E0B019A6
+	for <linux-renesas-soc@vger.kernel.org>; Thu,  7 Dec 2023 13:42:07 -0800 (PST)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1rBM8A-00016p-9Y; Thu, 07 Dec 2023 22:42:02 +0100
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1rBM87-00EHBk-UV; Thu, 07 Dec 2023 22:41:59 +0100
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1rBM87-00GEFH-Kz; Thu, 07 Dec 2023 22:41:59 +0100
+Date: Thu, 7 Dec 2023 22:41:59 +0100
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Biju Das <biju.das.jz@bp.renesas.com>
+Cc: Thierry Reding <thierry.reding@gmail.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	"linux-pwm@vger.kernel.org" <linux-pwm@vger.kernel.org>,
+	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH v17 3/4] pwm: Add support for RZ/G2L GPT
+Message-ID: <20231207214159.i5347ikpbt2ihznr@pengutronix.de>
+References: <20231120113307.80710-1-biju.das.jz@bp.renesas.com>
+ <20231120113307.80710-4-biju.das.jz@bp.renesas.com>
+ <20231206183824.g6dc5ib2dfb7um7n@pengutronix.de>
+ <TYCPR01MB1126952E843AC08DB732C18A5868BA@TYCPR01MB11269.jpnprd01.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="ekhwc4sfyeifnj5w"
+Content-Disposition: inline
+In-Reply-To: <TYCPR01MB1126952E843AC08DB732C18A5868BA@TYCPR01MB11269.jpnprd01.prod.outlook.com>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-renesas-soc@vger.kernel.org
 
-When adapting the test to the kselftest framework, a few printf() calls
-indicating test progress were not updated.
 
-Fix this by replacing these printf() calls by ksft_print_msg() calls.
+--ekhwc4sfyeifnj5w
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Fixes: ce7d101750ff8450 ("selftests: timers: clocksource-switch: adapt to kselftest framework")
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
-When just running the test, the output looks like:
+Hello Biju,
 
-    # Validating clocksource arch_sys_counter
-    TAP version 13
-    1..12
-    ok 1 CLOCK_REALTIME
-    ...
-    # Validating clocksource ffca0000.timer
-    TAP version 13
-    1..12
-    ok 1 CLOCK_REALTIME
-    ...
+On Thu, Dec 07, 2023 at 06:26:44PM +0000, Biju Das wrote:
+> > -----Original Message-----
+> > From: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
+> > Sent: Wednesday, December 6, 2023 6:38 PM
+> > Subject: Re: [PATCH v17 3/4] pwm: Add support for RZ/G2L GPT
+> > On Mon, Nov 20, 2023 at 11:33:06AM +0000, Biju Das wrote:
+> > > +static u64 calculate_period_or_duty(struct rzg2l_gpt_chip *rzg2l_gpt,
+> > > +u32 val, u8 prescale) {
+> > > +	u64 retval;
+> > > +	u64 tmp;
+> > > +
+> > > +	tmp =3D NSEC_PER_SEC * (u64)val;
+> > > +	/*
+> > > +	 * To avoid losing precision for smaller period/duty cycle values
+> > > +	 * ((2^32 * 10^9 << 2) < 2^64), do not process the rounded values.
+> > > +	 */
+> > > +	if (prescale < 2)
+> > > +		retval =3D DIV64_U64_ROUND_UP(tmp << (2 * prescale), rzg2l_gpt-
+> > >rate);
+> > > +	else
+> > > +		retval =3D DIV64_U64_ROUND_UP(tmp, rzg2l_gpt->rate) << (2 *
+> > > +prescale);
+> >=20
+> > Maybe introduce a mul_u64_u64_div64_roundup (similar to
+> > mul_u64_u64_div64) to also be exact for prescale >=3D 2?
+>=20
+> mul_u64_u64_div_u64()has a bug already and we are losing precision with v=
+ery high values.
+> See the output with CONFIG_PWM_DEBUG enabled[1]. So we cannot reuse mul_u=
+64_u64_div64()
+> for roundup operation.
+>=20
+> Maybe we need to come with 128bit operations for mul_u64_u64_div64_roundu=
+p().
+> Do you have any specific algorithm in mind for doing mul_u64_u64_div64_ro=
+undup()?
+>=20
+> Fabrizio already developed an algorithm for 128 bit operation, I could re=
+use once it
+> hits the mainline.
+>=20
+> [1]
+> ######[  304.213944] pwm-rzg2l-gpt 10048000.pwm: .apply is not idempotent=
+ (ena=3D1 pol=3D0 5500000000000/43980352512000) -> (ena=3D1 pol=3D0 5500000=
+000000/43980239923200)
+> 	 High setting##
+> 	[  304.230854] pwm-rzg2l-gpt 10048000.pwm: .apply is not idempotent (ena=
+=3D1 pol=3D0 23980465100800/43980352512000) -> (ena=3D1 pol=3D0 23980465100=
+800/43980239923200)
 
-When redirecting the test output to a file, the progress prints are not
-interspersed with the test output, but collated at the end:
+Have you tried to understand that? What is the clk rate when this
+happens? You're not suggesting that mul_u64_u64_div_u64 is wrong, are
+you?
 
-    TAP version 13
-    1..12
-    ok 1 CLOCK_REALTIME
-    ...
-    TAP version 13
-    1..12
-    ok 1 CLOCK_REALTIME
-    ...
-    # Totals: pass:6 fail:0 xfail:0 xpass:0 skip:6 error:0
-    # Validating clocksource arch_sys_counter
-    # Validating clocksource ffca0000.timer
-    ...
+> > With prescale <=3D 5 and rzg2l_gpt->rate >=3D 1024 this shouldn't work =
+just
+> > fine.
 
-This makes it hard to match the test results with the timer under test.
-Is there a way to fix this?  The test does use fork().
+I meant here "this should work just fine", I guess you understood that
+right.
 
-Thanks!
----
- tools/testing/selftests/timers/clocksource-switch.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+> Practically this is not possible. Yes, from theoretical point, rate=3D1kH=
+z=20
+> compared to the practical case, 100MHz won't work.
+>=20
+> For the practical case, the current logic is fine. If we need to achieve
+> theoretical example like you mentioned then we need to have=20
+> mul_u64_u64_div64_roundup().
 
-diff --git a/tools/testing/selftests/timers/clocksource-switch.c b/tools/testing/selftests/timers/clocksource-switch.c
-index c5264594064c8516..83faa4e354e389c2 100644
---- a/tools/testing/selftests/timers/clocksource-switch.c
-+++ b/tools/testing/selftests/timers/clocksource-switch.c
-@@ -156,8 +156,8 @@ int main(int argc, char **argv)
- 	/* Check everything is sane before we start switching asynchronously */
- 	if (do_sanity_check) {
- 		for (i = 0; i < count; i++) {
--			printf("Validating clocksource %s\n",
--				clocksource_list[i]);
-+			ksft_print_msg("Validating clocksource %s\n",
-+					clocksource_list[i]);
- 			if (change_clocksource(clocksource_list[i])) {
- 				status = -1;
- 				goto out;
-@@ -169,7 +169,7 @@ int main(int argc, char **argv)
- 		}
- 	}
- 
--	printf("Running Asynchronous Switching Tests...\n");
-+	ksft_print_msg("Running Asynchronous Switching Tests...\n");
- 	pid = fork();
- 	if (!pid)
- 		return run_tests(runtime);
--- 
-2.34.1
+That shouldn't be so hard to implement.
 
+> > > +	rzg2l_gpt->max_val =3D mul_u64_u64_div_u64(U32_MAX, NSEC_PER_SEC,
+> > > +						 rzg2l_gpt->rate) * RZG2L_MAX_SCALE_FACTOR;
+> >=20
+> > Is it clear that this won't overflow?
+
+U32_MAX * NSEC_PER_SEC doesn't even overflow an u64, so using a plain
+u64 division would be more efficient.
+
+You'd get a smaller rounding error with:
+
+	rzg2l_gpt->max_val =3D mul_u64_u64_div_u64((u64)U32_MAX * NSEC_PER_SEC, RZ=
+G2L_MAX_SCALE_FACTOR, rzg2l_gpt->rate);
+
+Best regards
+Uwe
+
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--ekhwc4sfyeifnj5w
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmVyPCYACgkQj4D7WH0S
+/k5SEAf9FJQJGPRf6pVXHNRm7nyoiMjxWH7+X8Of6LjANoPBeK20X/3ttyA31dUI
+Q6OsRib0QxS9zH2khyPy1Fxigxc1QOmSBbUfXzlqdcIl2LkgntOkTKK3TIHBc1zd
+WfWwx+tv0h9XJ/m7DS1Puv9ihmUOSchAy6/lpM/JgM2ga4GSTQT4UDVWvC/tg3GY
+OQIDdF2C6/CPHHdzqHCLyjpPZoRr93SKBA9JjI7SO9foYk+rnryj7x5Ewh4DqVDC
+ftXVeKm63LpkxdcnbDstFgP0wa+rrw7vpdf6rYzSzoqXAl2JiPf3DT0XKRJTxp6j
+Fcw1bYcxs+iqDBQqf/Nuf0XimMMCxw==
+=sEx9
+-----END PGP SIGNATURE-----
+
+--ekhwc4sfyeifnj5w--
 
