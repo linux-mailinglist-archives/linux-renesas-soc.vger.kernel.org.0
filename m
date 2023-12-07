@@ -1,60 +1,60 @@
-Return-Path: <linux-renesas-soc+bounces-816-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-817-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF1F7808311
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  7 Dec 2023 09:34:37 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 69DF9808313
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  7 Dec 2023 09:35:28 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 798CBB21B82
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  7 Dec 2023 08:34:35 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 20F6B281A45
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  7 Dec 2023 08:35:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DB18F2EB0F;
-	Thu,  7 Dec 2023 08:34:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C07A4341AE;
+	Thu,  7 Dec 2023 08:35:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="O6vwmG7r"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="uAYJ8+fT"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com [IPv6:2a00:1450:4864:20::431])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 67EEB193
-	for <linux-renesas-soc@vger.kernel.org>; Thu,  7 Dec 2023 00:34:30 -0800 (PST)
-Received: by mail-wr1-x431.google.com with SMTP id ffacd0b85a97d-3316c6e299eso670398f8f.1
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 07 Dec 2023 00:34:30 -0800 (PST)
+Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com [IPv6:2a00:1450:4864:20::32c])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DECBD193
+	for <linux-renesas-soc@vger.kernel.org>; Thu,  7 Dec 2023 00:35:23 -0800 (PST)
+Received: by mail-wm1-x32c.google.com with SMTP id 5b1f17b1804b1-40c0a074e71so7129615e9.1
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 07 Dec 2023 00:35:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1701938069; x=1702542869; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1701938122; x=1702542922; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=iKq5vTeMC+FO5jE6qqeDHhaZsY5YE6hVHTOkS21kHCc=;
-        b=O6vwmG7ryq8tPHyQtnWT5Rmz0t/8zSqPQQrfITXkqHAR/YjtxlvA1UWICelCspjJvK
-         HGc9okpOLogHHiUCRzMd75+3t+QiarCJab9TxZshpJotrBIXHYl2ujnQev77NMkjvjEy
-         PRt4C8V89VKc2f44BiHmIY4Z4dl7JxUJsxOH4E9WJs486czMXYT4l7Xd74Sp9Yp9d0C0
-         oVRfDhLJUmmSkNfk81dUca0PXij3WzxcVnuWAyAKDB07bZDCd5dyDvlzb2LBp/p1tuNN
-         AmXX1E4l8ke5B7Bk0F5QkeOfqw/PFK+mJlF1ONNcU8/WDeoGI26gwTNPodip5tq6sT9W
-         DJLg==
+        bh=wvZEdJ7VfSTKuvucd1PfBHEoSVTPvgXh7yERR1veQNE=;
+        b=uAYJ8+fTf8eANbFzqRKJ5SahFWbblRj7AYyMq3l2ly5UCMk+L74xchYyzqvpBCJ6N3
+         fBkJ+VHSxSKgpbdZPVH3d9qmU8MV+2SVnvGZlSkDDN4C0lXjddNZUk5eEmqFtyeN6Kpn
+         QtYpjZsgSyAXxcuSKHCCwp067LuLxTQqpY2ZHQbXaDwX1unsI+yD7wlxWobRuuZvNm24
+         +wWhcyLnOuYXkDX3VyMZXLfImE+NkELZxCX3XqM1nBa/Vhe9zEYoabvPbv6VXaM8FnIp
+         49YpTGldz5oQtM8xjZF/d6LZEdY7lFASQpbvoZc99gAwHgneFMxtCd59YJmflXGRF90i
+         IRVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701938069; x=1702542869;
+        d=1e100.net; s=20230601; t=1701938122; x=1702542922;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=iKq5vTeMC+FO5jE6qqeDHhaZsY5YE6hVHTOkS21kHCc=;
-        b=EJbRazY6j+sx3TgD1Zo6DViFPO/rWI3VIZJLOGSMSLjDkLm9vRS/oSb9WjHx2WaXV1
-         y+a0ZaAYBMYd5wO/kRF3//6+Qbsk0xZQmUngB83hxFbDEmj9elKW2YIuzAFkWxuvKkwD
-         gXLqUjCWrnXE/kDuPngM0QA7qbzlHXj8ipf2WI1O5Lb22Sk87M9XtWNBJvEwv5NKDAGM
-         FlAvWp093ThEMX+VnLIVN0IDpDV9dr9R0OCN3oeAd+MR4IEV84XJiZu/yzXsjlpI7nqc
-         2AIrZEEt04GlUH4RiZNXpL/sfRmM80YCKQcJI8YOvLDnvPMenEiMp45Sb3O0MJkA9ZD9
-         bq2A==
-X-Gm-Message-State: AOJu0Yx8nydM6i+2z3YX9VWR0V0Gce+pJjlP54PfjlGoMYLxItbfbJZM
-	DJfsdpUqY9A3Mq8b7pfocd87bA==
-X-Google-Smtp-Source: AGHT+IE7wOtN8GZJOMYuvObriXyuGQvehRnDdTzLtDHvxdZ1LSx+92WwolmCtjcq3chpfQgH78gqeQ==
-X-Received: by 2002:a05:600c:1c93:b0:409:3f53:c9c7 with SMTP id k19-20020a05600c1c9300b004093f53c9c7mr993314wms.35.1701938068791;
-        Thu, 07 Dec 2023 00:34:28 -0800 (PST)
+        bh=wvZEdJ7VfSTKuvucd1PfBHEoSVTPvgXh7yERR1veQNE=;
+        b=m2YV650rMhdcznzTyzonnKsQbcDU9jM/1kNkzTGdd/0UGn+cZ0KONx0FJDL+tg+PpK
+         axdbKwj/Bwq/bNbZNu4KLU0ExDIH46B2ldW3j8UpqHq+IOauhVwfxIscph4ibhO0moVp
+         kncm8vzlPj52dvHEyqMOTRTIsEsgFWkijc/Jw0KHxiRmt8NLrCA2xWQwU9cxJs6cPH3a
+         nSeMMmbC6GSBBE0QcsEkFcVkf1jHt96oReMnYvXzE0VDTthOXjTAC/1dCi7s8yUoQa4R
+         pfcbBrZ8/ch//uPoodSP6RC9IbihoGwJgm44FC3HV6MOX98Wrlxl7UbSXar58DpjhtHK
+         EItg==
+X-Gm-Message-State: AOJu0YwgbANYTp6rMvv0mAS9DYg1Ue3JIaT9dqT1DO9R2afeO5NuS3XN
+	1aY3u3uUH1xlvHhe7Xa8+Ga6vw==
+X-Google-Smtp-Source: AGHT+IGnVid0TpE+9PkOJT1lVj3hM6HUsKRzoTzN50/8BCGsSIUZv/n0cTOk3ke7NTl+XGkUch1a9g==
+X-Received: by 2002:a05:600c:4444:b0:40b:5583:e44a with SMTP id v4-20020a05600c444400b0040b5583e44amr1429356wmn.0.1701938122256;
+        Thu, 07 Dec 2023 00:35:22 -0800 (PST)
 Received: from [192.168.1.20] ([178.197.218.27])
-        by smtp.gmail.com with ESMTPSA id ek10-20020a05600c3eca00b0040b3d33ab55sm1149728wmb.47.2023.12.07.00.34.27
+        by smtp.gmail.com with ESMTPSA id ek10-20020a05600c3eca00b0040b3d33ab55sm1149728wmb.47.2023.12.07.00.35.20
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 07 Dec 2023 00:34:28 -0800 (PST)
-Message-ID: <4ca8d82e-5bee-4727-8f7c-54ceadf1a10e@linaro.org>
-Date: Thu, 7 Dec 2023 09:34:27 +0100
+        Thu, 07 Dec 2023 00:35:21 -0800 (PST)
+Message-ID: <a27c0fc9-614d-4207-b087-87b44bc38156@linaro.org>
+Date: Thu, 7 Dec 2023 09:35:20 +0100
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -62,19 +62,21 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 1/8] dt-bindings: mfd: da9062: Update watchdog
- description
+Subject: Re: [PATCH v4 2/8] dt-bindings: watchdog: dlg,da9062-watchdog: Add
+ fallback for DA9061 watchdog
 Content-Language: en-US
 To: Biju Das <biju.das.jz@bp.renesas.com>, Lee Jones <lee@kernel.org>,
- Rob Herring <robh+dt@kernel.org>,
+ Wim Van Sebroeck <wim@linux-watchdog.org>, Guenter Roeck
+ <linux@roeck-us.net>, Rob Herring <robh+dt@kernel.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
  Conor Dooley <conor+dt@kernel.org>
 Cc: Support Opensource <support.opensource@diasemi.com>,
+ Steve Twiss <stwiss.opensource@diasemi.com>, linux-watchdog@vger.kernel.org,
  devicetree@vger.kernel.org, Geert Uytterhoeven <geert+renesas@glider.be>,
  Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
  Biju Das <biju.das.au@gmail.com>, linux-renesas-soc@vger.kernel.org
 References: <20231206155740.5278-1-biju.das.jz@bp.renesas.com>
- <20231206155740.5278-2-biju.das.jz@bp.renesas.com>
+ <20231206155740.5278-3-biju.das.jz@bp.renesas.com>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
@@ -120,28 +122,51 @@ Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
  fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
  D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20231206155740.5278-2-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20231206155740.5278-3-biju.das.jz@bp.renesas.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 06/12/2023 16:57, Biju Das wrote:
-> Update watchdog description by referring to dlg,da9062-watchdog binding
-> file.
-> 
-> Update MAINTAINERS entries.
+> The DA9061 watchdog is identical to DA9062 watchdog, so no driver changes
+> are required. The fallback compatible string "dlg,da9062-watchdog" will be
+> used on DA9061 watchdog.
 > 
 > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 > ---
-> v4:
->  Merged with patch#8 from v2.
-> v3:
->  New patch
+> v3->v4:
+>  * Dropped comment for d9061 watchdog fallback.
+>  * Replaced enum->const for dlg,da9061-watchdog and its fallback.
+> v2->v3:
+>  * No change
+> v2:
+>  * New patch
 > ---
->  Documentation/devicetree/bindings/mfd/da9062.txt | 2 +-
->  MAINTAINERS                                      | 2 +-
->  2 files changed, 2 insertions(+), 2 deletions(-)
+>  .../bindings/watchdog/dlg,da9062-watchdog.yaml         | 10 +++++++---
+>  1 file changed, 7 insertions(+), 3 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/watchdog/dlg,da9062-watchdog.yaml b/Documentation/devicetree/bindings/watchdog/dlg,da9062-watchdog.yaml
+> index f058628bb632..7c63b99dac85 100644
+> --- a/Documentation/devicetree/bindings/watchdog/dlg,da9062-watchdog.yaml
+> +++ b/Documentation/devicetree/bindings/watchdog/dlg,da9062-watchdog.yaml
+> @@ -14,9 +14,13 @@ allOf:
+>  
+>  properties:
+>    compatible:
+> -    enum: 
+> -      - dlg,da9061-watchdog
+> -      - dlg,da9062-watchdog
+> +    oneOf:
+> +      - items:
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Drop items, just enum. Easier to read so usually we keep such syntax for
+compatibles.
+
+> +          - enum:
+> +              - dlg,da9062-watchdog
+> +      - items:
+> +          - const: dlg,da9061-watchdog
+> +          - const: dlg,da9062-watchdog
+
 
 Best regards,
 Krzysztof
