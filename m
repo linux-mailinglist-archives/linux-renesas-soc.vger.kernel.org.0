@@ -1,27 +1,27 @@
-Return-Path: <linux-renesas-soc+bounces-851-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-846-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27584809AE3
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  8 Dec 2023 05:11:29 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DE12809AD9
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  8 Dec 2023 05:11:02 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id BB81F1F2140B
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  8 Dec 2023 04:11:28 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CE7F01C20CE2
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  8 Dec 2023 04:11:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CC19D6FD6;
-	Fri,  8 Dec 2023 04:10:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 69F6B569F;
+	Fri,  8 Dec 2023 04:10:46 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTP id 490411725;
-	Thu,  7 Dec 2023 20:10:43 -0800 (PST)
+Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTP id C3E5D1723;
+	Thu,  7 Dec 2023 20:10:42 -0800 (PST)
 X-IronPort-AV: E=Sophos;i="6.04,259,1695654000"; 
-   d="scan'208";a="189614343"
+   d="scan'208";a="185740765"
 Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie6.idc.renesas.com with ESMTP; 08 Dec 2023 13:10:38 +0900
+  by relmlie5.idc.renesas.com with ESMTP; 08 Dec 2023 13:10:38 +0900
 Received: from localhost.localdomain (unknown [10.166.13.99])
-	by relmlir6.idc.renesas.com (Postfix) with ESMTP id 19575415E8E5;
+	by relmlir6.idc.renesas.com (Postfix) with ESMTP id 2F2A8415E8D6;
 	Fri,  8 Dec 2023 13:10:38 +0900 (JST)
 From: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 To: s.shtylyov@omp.ru,
@@ -32,9 +32,9 @@ To: s.shtylyov@omp.ru,
 Cc: netdev@vger.kernel.org,
 	linux-renesas-soc@vger.kernel.org,
 	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Subject: [PATCH net-next v5 8/9] net: rswitch: Add jumbo frames handling for TX
-Date: Fri,  8 Dec 2023 13:10:29 +0900
-Message-Id: <20231208041030.2497657-9-yoshihiro.shimoda.uh@renesas.com>
+Subject: [PATCH net-next v5 9/9] net: rswitch: Allow jumbo frames
+Date: Fri,  8 Dec 2023 13:10:30 +0900
+Message-Id: <20231208041030.2497657-10-yoshihiro.shimoda.uh@renesas.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20231208041030.2497657-1-yoshihiro.shimoda.uh@renesas.com>
 References: <20231208041030.2497657-1-yoshihiro.shimoda.uh@renesas.com>
@@ -46,109 +46,43 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-If the driver would like to transmit a jumbo frame like 2KiB or more,
-it should be split into multiple queues. In the near future, to support
-this, add handling specific descriptor types F{START,MID,END}. However,
-such jumbo frames will not happen yet because the maximum MTU size is
-still default for now.
+Allow jumbo frames by changing maximum MTU size and number of RX queues.
 
 Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 ---
- drivers/net/ethernet/renesas/rswitch.c | 56 +++++++++++++++++++++-----
- 1 file changed, 46 insertions(+), 10 deletions(-)
+ drivers/net/ethernet/renesas/rswitch.c | 2 ++
+ drivers/net/ethernet/renesas/rswitch.h | 3 ++-
+ 2 files changed, 4 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/net/ethernet/renesas/rswitch.c b/drivers/net/ethernet/renesas/rswitch.c
-index 36c70131594d..d43f705f410b 100644
+index d43f705f410b..dcab638c57fe 100644
 --- a/drivers/net/ethernet/renesas/rswitch.c
 +++ b/drivers/net/ethernet/renesas/rswitch.c
-@@ -1632,15 +1632,44 @@ static bool rswitch_ext_desc_set(struct rswitch_device *rdev,
- 	return true;
- }
+@@ -1883,6 +1883,8 @@ static int rswitch_device_alloc(struct rswitch_private *priv, unsigned int index
+ 	snprintf(ndev->name, IFNAMSIZ, "tsn%d", index);
+ 	ndev->netdev_ops = &rswitch_netdev_ops;
+ 	ndev->ethtool_ops = &rswitch_ethtool_ops;
++	ndev->max_mtu = RSWITCH_MAX_MTU;
++	ndev->min_mtu = ETH_MIN_MTU;
  
-+static u8 rswitch_ext_desc_get_die_dt(unsigned int nr_desc, unsigned int index)
-+{
-+	if (nr_desc == 1)
-+		return DT_FSINGLE | DIE;
-+	if (index == 0)
-+		return DT_FSTART;
-+	if (nr_desc - 1 == index)
-+		return DT_FEND | DIE;
-+	return DT_FMID;
-+}
-+
-+static u16 rswitch_ext_desc_get_len(u8 die_dt, unsigned int orig_len)
-+{
-+	switch (die_dt & DT_MASK) {
-+	case DT_FSINGLE:
-+	case DT_FEND:
-+		return (orig_len % RSWITCH_DESC_BUF_SIZE) ?: RSWITCH_DESC_BUF_SIZE;
-+	case DT_FSTART:
-+	case DT_FMID:
-+		return RSWITCH_DESC_BUF_SIZE;
-+	default:
-+		return 0;
-+	}
-+}
-+
- static netdev_tx_t rswitch_start_xmit(struct sk_buff *skb, struct net_device *ndev)
- {
- 	struct rswitch_device *rdev = netdev_priv(ndev);
- 	struct rswitch_gwca_queue *gq = rdev->tx_queue;
-+	dma_addr_t dma_addr, dma_addr_orig;
- 	netdev_tx_t ret = NETDEV_TX_OK;
- 	struct rswitch_ext_desc *desc;
--	dma_addr_t dma_addr;
-+	unsigned int i, nr_desc;
-+	u8 die_dt;
-+	u16 len;
+ 	netif_napi_add(ndev, &rdev->napi, rswitch_poll);
  
--	if (rswitch_get_num_cur_queues(gq) >= gq->ring_size - 1) {
-+	nr_desc = (skb->len - 1) / RSWITCH_DESC_BUF_SIZE + 1;
-+	if (rswitch_get_num_cur_queues(gq) >= gq->ring_size - nr_desc) {
- 		netif_stop_subqueue(ndev, 0);
- 		return NETDEV_TX_BUSY;
- 	}
-@@ -1648,25 +1677,32 @@ static netdev_tx_t rswitch_start_xmit(struct sk_buff *skb, struct net_device *nd
- 	if (skb_put_padto(skb, ETH_ZLEN))
- 		return ret;
+diff --git a/drivers/net/ethernet/renesas/rswitch.h b/drivers/net/ethernet/renesas/rswitch.h
+index 4252677e2a55..72e3ff596d31 100644
+--- a/drivers/net/ethernet/renesas/rswitch.h
++++ b/drivers/net/ethernet/renesas/rswitch.h
+@@ -26,9 +26,10 @@
+ 		else
  
--	dma_addr = dma_map_single(ndev->dev.parent, skb->data, skb->len, DMA_TO_DEVICE);
--	if (dma_mapping_error(ndev->dev.parent, dma_addr))
-+	dma_addr_orig = dma_map_single(ndev->dev.parent, skb->data, skb->len, DMA_TO_DEVICE);
-+	if (dma_mapping_error(ndev->dev.parent, dma_addr_orig))
- 		goto err_kfree;
+ #define TX_RING_SIZE		1024
+-#define RX_RING_SIZE		1024
++#define RX_RING_SIZE		4096
+ #define TS_RING_SIZE		(TX_RING_SIZE * RSWITCH_NUM_PORTS)
  
- 	gq->skbs[gq->cur] = skb;
--	gq->unmap_addrs[gq->cur] = dma_addr;
--	desc = &gq->tx_ring[gq->cur];
--	if (!rswitch_ext_desc_set(rdev, skb, desc, dma_addr, skb->len, DT_FSINGLE | DIE))
--		goto err_unmap;
-+	gq->unmap_addrs[gq->cur] = dma_addr_orig;
-+
-+	/* DT_FSTART should be set at last. So, this is reverse order. */
-+	for (i = nr_desc; i-- > 0; ) {
-+		desc = &gq->tx_ring[rswitch_next_queue_index(gq, true, i)];
-+		die_dt = rswitch_ext_desc_get_die_dt(nr_desc, i);
-+		dma_addr = dma_addr_orig + i * RSWITCH_DESC_BUF_SIZE;
-+		len = rswitch_ext_desc_get_len(die_dt, skb->len);
-+		if (!rswitch_ext_desc_set(rdev, skb, desc, dma_addr, len, die_dt))
-+			goto err_unmap;
-+	}
- 
- 	wmb();	/* gq->cur must be incremented after die_dt was set */
- 
--	gq->cur = rswitch_next_queue_index(gq, true, 1);
-+	gq->cur = rswitch_next_queue_index(gq, true, nr_desc);
- 	rswitch_modify(rdev->addr, GWTRC(gq->index), 0, BIT(gq->index % 32));
- 
- 	return ret;
- 
- err_unmap:
--	dma_unmap_single(ndev->dev.parent, dma_addr, skb->len, DMA_TO_DEVICE);
-+	dma_unmap_single(ndev->dev.parent, dma_addr_orig, skb->len, DMA_TO_DEVICE);
- 
- err_kfree:
- 	dev_kfree_skb_any(skb);
++#define RSWITCH_MAX_MTU		9600
+ #define RSWITCH_HEADROOM	(NET_SKB_PAD + NET_IP_ALIGN)
+ #define RSWITCH_DESC_BUF_SIZE	2048
+ #define RSWITCH_TAILROOM	SKB_DATA_ALIGN(sizeof(struct skb_shared_info))
 -- 
 2.25.1
 
