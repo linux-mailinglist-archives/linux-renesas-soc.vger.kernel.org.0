@@ -1,89 +1,234 @@
-Return-Path: <linux-renesas-soc+bounces-846-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-852-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DE12809AD9
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  8 Dec 2023 05:11:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0614D809D9C
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  8 Dec 2023 08:55:55 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CE7F01C20CE2
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  8 Dec 2023 04:11:01 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 807941C209E1
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  8 Dec 2023 07:55:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 69F6B569F;
-	Fri,  8 Dec 2023 04:10:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 88C4B10960;
+	Fri,  8 Dec 2023 07:55:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="gx8dOrbl"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTP id C3E5D1723;
-	Thu,  7 Dec 2023 20:10:42 -0800 (PST)
-X-IronPort-AV: E=Sophos;i="6.04,259,1695654000"; 
-   d="scan'208";a="185740765"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie5.idc.renesas.com with ESMTP; 08 Dec 2023 13:10:38 +0900
-Received: from localhost.localdomain (unknown [10.166.13.99])
-	by relmlir6.idc.renesas.com (Postfix) with ESMTP id 2F2A8415E8D6;
-	Fri,  8 Dec 2023 13:10:38 +0900 (JST)
-From: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-To: s.shtylyov@omp.ru,
-	davem@davemloft.net,
-	edumazet@google.com,
-	kuba@kernel.org,
-	pabeni@redhat.com
-Cc: netdev@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Subject: [PATCH net-next v5 9/9] net: rswitch: Allow jumbo frames
-Date: Fri,  8 Dec 2023 13:10:30 +0900
-Message-Id: <20231208041030.2497657-10-yoshihiro.shimoda.uh@renesas.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20231208041030.2497657-1-yoshihiro.shimoda.uh@renesas.com>
-References: <20231208041030.2497657-1-yoshihiro.shimoda.uh@renesas.com>
+Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com [IPv6:2a00:1450:4864:20::333])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CF725171F
+	for <linux-renesas-soc@vger.kernel.org>; Thu,  7 Dec 2023 23:55:45 -0800 (PST)
+Received: by mail-wm1-x333.google.com with SMTP id 5b1f17b1804b1-40c2308faedso18615125e9.1
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 07 Dec 2023 23:55:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1702022144; x=1702626944; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=uHm62M5jwRi7iYi7IHAISb40o03/KQfYK7QFQL572kA=;
+        b=gx8dOrblD7VTDayrZPyl8kqge4JP9Uc0CcyrNLnriKaIqQVIqYhTool6xKxipnSMmB
+         ccJIi7+/8cP2i/0GhZz2vnUcI7drNdaI0o6YWLaUmYA60fkat31f0Wks/ZqpncHRm7It
+         3Avx9Uhos3/snUp8cxEf/rkeE9lE3LHrOxd6NKR709fJjlsgEfM5TtkoVLhAgcDc/i+q
+         tB4cTRFrg6eXXXxAb01Ay8mfuGnib75S4lzxWQ8vM6fjqxhRww3mRAfbOUPRV3CBf918
+         CZO543ka5IyUAq8/C5ou9szrMHP7KsQZL5EkFBLyjxlwRuPv31XG9ILF0W982UgRnW7/
+         8acA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1702022144; x=1702626944;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=uHm62M5jwRi7iYi7IHAISb40o03/KQfYK7QFQL572kA=;
+        b=epIs/cv7rFizgz7JYlQ54ecSrJj9SdrBZuWUNR/88ut5tZMkJ+N8cjAF4K2CZDKtsj
+         UYOTF16l0JoIVqI3TLeK5hDTICjZIRMLwzDjj8iPecyvpH1yZ6H41eIOUyxC2UfHZgV8
+         g9mIzbj1yVZS92k2lYWN4zbRmG+vcWz1HQND34w51/esJd98J7yYNQHIpDCBlsD2tiOa
+         /mZZ999ftlk3scnaefsb9Btlkr2LmhKGSYc4Mkn3Lr4Bx+JdzAJSOlw5jCHTCifPduyY
+         cXIpVUMmxqZh/K7HKPxFP2/8fDEGwsuxtVrfhH13dOxetpNebbq4Q8yM7gTEvSLdHeUm
+         +JKg==
+X-Gm-Message-State: AOJu0YzwaULtCXJGd02eACRTEIwE7yLH/5uAK/MvwRht6A8otPySWBv3
+	T/XHS2mMiFMDW2Gr3ULniabEKg==
+X-Google-Smtp-Source: AGHT+IGifDXkEn0OeTASRJ3qAeneLdfWlqJjxkOxATBQnYLCawzcT498tM5YBxDS8Aomow8q1jOYdA==
+X-Received: by 2002:a05:600c:1e16:b0:40c:2082:a38f with SMTP id ay22-20020a05600c1e1600b0040c2082a38fmr2182773wmb.14.1702022144112;
+        Thu, 07 Dec 2023 23:55:44 -0800 (PST)
+Received: from [192.168.1.20] ([178.197.218.27])
+        by smtp.gmail.com with ESMTPSA id az23-20020a05600c601700b0040c0902dc22sm2033038wmb.31.2023.12.07.23.55.42
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 07 Dec 2023 23:55:43 -0800 (PST)
+Message-ID: <11ec89a8-5fdd-456c-b070-988bbf8f312d@linaro.org>
+Date: Fri, 8 Dec 2023 08:55:41 +0100
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 8/8] dt-bindings: mfd: dlg,da9063: Convert da9062 to
+ json-schema
+Content-Language: en-US
+To: Biju Das <biju.das.jz@bp.renesas.com>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, Rob Herring
+ <robh+dt@kernel.org>, Krzysztof Kozlowski
+ <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
+ Lee Jones <lee@kernel.org>
+Cc: Support Opensource <support.opensource@diasemi.com>,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ Daniel Lezcano <daniel.lezcano@linaro.org>, Zhang Rui <rui.zhang@intel.com>,
+ Lukasz Luba <lukasz.luba@arm.com>,
+ Steve Twiss <stwiss.opensource@diasemi.com>,
+ "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+ "biju.das.au" <biju.das.au@gmail.com>,
+ "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>
+References: <20231206155740.5278-1-biju.das.jz@bp.renesas.com>
+ <20231206155740.5278-9-biju.das.jz@bp.renesas.com>
+ <114c9baf-66d1-4055-a47c-916642b6dedd@linaro.org>
+ <TYCPR01MB11269C774B8FFE9E43455EB61868BA@TYCPR01MB11269.jpnprd01.prod.outlook.com>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
+ 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
+ D2GYIS41Kv4Isx2dEFh+/Q==
+In-Reply-To: <TYCPR01MB11269C774B8FFE9E43455EB61868BA@TYCPR01MB11269.jpnprd01.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Allow jumbo frames by changing maximum MTU size and number of RX queues.
+On 07/12/2023 18:03, Biju Das wrote:
 
-Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
----
- drivers/net/ethernet/renesas/rswitch.c | 2 ++
- drivers/net/ethernet/renesas/rswitch.h | 3 ++-
- 2 files changed, 4 insertions(+), 1 deletion(-)
+Trim the quote from irrelevant context, especially if your email client
+malforms replies... (because it does)
 
-diff --git a/drivers/net/ethernet/renesas/rswitch.c b/drivers/net/ethernet/renesas/rswitch.c
-index d43f705f410b..dcab638c57fe 100644
---- a/drivers/net/ethernet/renesas/rswitch.c
-+++ b/drivers/net/ethernet/renesas/rswitch.c
-@@ -1883,6 +1883,8 @@ static int rswitch_device_alloc(struct rswitch_private *priv, unsigned int index
- 	snprintf(ndev->name, IFNAMSIZ, "tsn%d", index);
- 	ndev->netdev_ops = &rswitch_netdev_ops;
- 	ndev->ethtool_ops = &rswitch_ethtool_ops;
-+	ndev->max_mtu = RSWITCH_MAX_MTU;
-+	ndev->min_mtu = ETH_MIN_MTU;
- 
- 	netif_napi_add(ndev, &rdev->napi, rswitch_poll);
- 
-diff --git a/drivers/net/ethernet/renesas/rswitch.h b/drivers/net/ethernet/renesas/rswitch.h
-index 4252677e2a55..72e3ff596d31 100644
---- a/drivers/net/ethernet/renesas/rswitch.h
-+++ b/drivers/net/ethernet/renesas/rswitch.h
-@@ -26,9 +26,10 @@
- 		else
- 
- #define TX_RING_SIZE		1024
--#define RX_RING_SIZE		1024
-+#define RX_RING_SIZE		4096
- #define TS_RING_SIZE		(TX_RING_SIZE * RSWITCH_NUM_PORTS)
- 
-+#define RSWITCH_MAX_MTU		9600
- #define RSWITCH_HEADROOM	(NET_SKB_PAD + NET_IP_ALIGN)
- #define RSWITCH_DESC_BUF_SIZE	2048
- #define RSWITCH_TAILROOM	SKB_DATA_ALIGN(sizeof(struct skb_shared_info))
--- 
-2.25.1
+>>> @@ -35,6 +42,19 @@ properties:
+>>>    "#interrupt-cells":
+>>>      const: 2
+>>>
+>>> +  gpio:
+>>
+>> Old binding did not have such node and nothing in commit msg explained
+>> changes from pure conversion.
+> 
+> OK will update the commit message. Check patch complained about undocumented compatible.
+> 
+>>
+>>> +    type: object
+>>> +    $ref: /schemas/gpio/gpio.yaml#
+>>
+>> ?!? Why? First: It's always selected. Second, so you have two gpio
+>> controllers? And original binding had 0? Why this is not explained at all?
+>> Open the binding and look at its properties.
+> 
+> 
+> I have referred[1] and [2] to add gpio controller property. 
+> 
+> 
+> [1]
+> https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/tree/arch/arm/boot/dts/nxp/imx/imx6qdl-phytec-phycore-som.dtsi?h=next-20231207#n95
+> 
+> [2]
+> 
+> https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/tree/Documentation/devicetree/bindings/mfd/da9062.txt?h=next-20231207#n38
+
+But does it make sense? Don't just blindly copy things, but actually
+investigate whether this is correct DTS.
+
+> 
+>>
+>>
+>>> +    unevaluatedProperties: false
+>>> +    properties:
+>>> +      compatible:
+>>> +        const: dlg,da9062-gpio
+>>> +
+>>> +  gpio-controller: true
+>>
+>> And here is the second gpio-controller...
+> 
+> So you mean it is redundant as $ref: /schemas/gpio/gpio.yaml
+> has already defined gpio-controller for this object??
+
+I meant this would mean you have two GPIO controllers. Why one device
+would have two GPIO controllers? Please answer to this in commit msg, so
+there will be no questions/concerns. You have entire commit msg to
+explain all weird and unexpected things with this binding.
+
+...
+
+>>> +    #include <dt-bindings/interrupt-controller/irq.h>
+>>> +    #include <dt-bindings/regulator/dlg,da9063-regulator.h>
+>>> +    i2c {
+>>> +      #address-cells = <1>;
+>>> +      #size-cells = <0>;
+>>> +      pmic@58 {
+>>> +        compatible = "dlg,da9062";
+>>> +        reg = <0x58>;
+>>> +        #interrupt-cells = <2>;
+>>> +        interrupt-parent = <&gpio1>;
+>>> +        interrupts = <2 IRQ_TYPE_LEVEL_LOW>;
+>>> +        interrupt-controller;
+>>> +
+>>> +        gpio {
+>>> +          compatible = "dlg,da9062-gpio";
+>>> +          status = "disabled";
+>>
+>> Why?
+
+Why disabling? Drop all statuses from all your binding examples.
+
+>> Where are gpio-controller and cells? For this node and for parent? Why
+>> this example is incomplete?
+> 
+> I have used a real example [1] here.
+> 
+> [1] https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/tree/arch/arm/boot/dts/nxp/imx/imx6qdl-phytec-phycore-som.dtsi?h=next-20231207#n95
+> 
+> Currently I don't see any driver is using this compatible other than MFD.
+
+Open the MFD so you will see it...
+
+
+Best regards,
+Krzysztof
 
 
