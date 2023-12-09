@@ -1,173 +1,106 @@
-Return-Path: <linux-renesas-soc+bounces-858-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-859-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FA3280A80C
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  8 Dec 2023 17:01:45 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id D43AC80B2C1
+	for <lists+linux-renesas-soc@lfdr.de>; Sat,  9 Dec 2023 08:30:40 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CF97F1C208DB
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  8 Dec 2023 16:01:44 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 0F61EB20B11
+	for <lists+linux-renesas-soc@lfdr.de>; Sat,  9 Dec 2023 07:30:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E5EC334CEC;
-	Fri,  8 Dec 2023 16:01:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1228D1FD1;
+	Sat,  9 Dec 2023 07:30:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="F6b04T2c";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="/Egalgir"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="axr8GWJr"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from galois.linutronix.de (Galois.linutronix.de [IPv6:2a0a:51c0:0:12e:550::1])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D070B1732;
-	Fri,  8 Dec 2023 08:01:38 -0800 (PST)
-From: Thomas Gleixner <tglx@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1702051297;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=qvRAzOC1s8CTEnsQtk9rLB7j6MoLVbJs1vS74413VOI=;
-	b=F6b04T2civNLQw/P6s4AjzqPlLxejEuPzBLrsl+3EDPegBJH2cSw9MQ1smQ5Sw29sgPJQu
-	ITzGSWkzHF9HDteBgxCvuKiCROwKwUayT0g5XTT0TV2meAB/hQMDJfPOy5+E6qhvuVdcxz
-	F5h4rv9IjyTf01PH68AhJNVMolCVgX+T9+lF4iqo2ogmyFISaR7ZE58c/FEgr0Ldvm88wA
-	fuJ03avfwq9fqVlsu1VqdbvDFc5IfzeriRwuH5YnME0j4+rgIUvo8xzAw6YYf6aCuz5A6R
-	svKmtinn9ugY0gdh0PrRE0i22zRIx+ijyF9odKxUwrPUGDVK2RqBrnq/aSrTlg==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1702051297;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=qvRAzOC1s8CTEnsQtk9rLB7j6MoLVbJs1vS74413VOI=;
-	b=/EgalgirjNm9ep45ZEQnecmn1UAJ6YqdDBfC+cG20lSeVMQLVO8XCGc5FYnuScjwlSzGAe
-	kBHD3v0GQNt+fqCQ==
-To: Yu Chien Peter Lin <peterlin@andestech.com>, acme@kernel.org,
- adrian.hunter@intel.com, ajones@ventanamicro.com,
- alexander.shishkin@linux.intel.com, andre.przywara@arm.com,
- anup@brainfault.org, aou@eecs.berkeley.edu, atishp@atishpatra.org,
- conor+dt@kernel.org, conor.dooley@microchip.com, conor@kernel.org,
- devicetree@vger.kernel.org, dminus@andestech.com, evan@rivosinc.com,
- geert+renesas@glider.be, guoren@kernel.org, heiko@sntech.de,
- irogers@google.com, jernej.skrabec@gmail.com, jolsa@kernel.org,
- jszhang@kernel.org, krzysztof.kozlowski+dt@linaro.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-perf-users@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
- linux-riscv@lists.infradead.org, linux-sunxi@lists.linux.dev,
- locus84@andestech.com, magnus.damm@gmail.com, mark.rutland@arm.com,
- mingo@redhat.com, n.shubin@yadro.com, namhyung@kernel.org,
- palmer@dabbelt.com, paul.walmsley@sifive.com, peterlin@andestech.com,
- peterz@infradead.org, prabhakar.mahadev-lad.rj@bp.renesas.com,
- rdunlap@infradead.org, robh+dt@kernel.org, samuel@sholland.org,
- sunilvl@ventanamicro.com, tim609@andestech.com, uwu@icenowy.me,
- wens@csie.org, will@kernel.org, ycliang@andestech.com,
- inochiama@outlook.com
-Subject: Re: [PATCH v4 03/13] irqchip/riscv-intc: Introduce Andes hart-level
- interrupt controller
-In-Reply-To: <20231122121235.827122-4-peterlin@andestech.com>
-References: <20231122121235.827122-1-peterlin@andestech.com>
- <20231122121235.827122-4-peterlin@andestech.com>
-Date: Fri, 08 Dec 2023 17:01:36 +0100
-Message-ID: <87y1e4r8db.ffs@tglx>
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0E9D810D9;
+	Fri,  8 Dec 2023 23:30:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1702107030; x=1733643030;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=OLAtMb9Abo7AZs2KlvCLhL0Hv3r1Y8TFLeZE9y8FdXU=;
+  b=axr8GWJrOiNKOTb16PZxDKZH46D6aaGEx6WDnsj1m7t6bIO5O2ZG+YVp
+   PCoIOj87vvMqmatWFqZvKRb6fjThibew4O7aYzDPK+NpegcQ65cNd9XMh
+   Q4Fv5JX144SfcBOUwe2MyVlkSDuGxEse4BQ/pmxhjvT7ioHqlCzMASX3L
+   BlIxcUm0oX3E73gSmmdypK1kWYkAf0AC47Ku79Goo6d+OUXSO3W9plQCs
+   bNthcFrLRoF7QOZbzPYt46laC3zfbvULZcCiqcwOAJRa6Evwow837sS3F
+   l6O8YJvGIg5+pd3NcYxKQDkZXTVA3YywBAyU51eHkuT19SuW5mq2jYXgS
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10918"; a="374662079"
+X-IronPort-AV: E=Sophos;i="6.04,262,1695711600"; 
+   d="scan'208";a="374662079"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2023 23:30:29 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10918"; a="842870947"
+X-IronPort-AV: E=Sophos;i="6.04,262,1695711600"; 
+   d="scan'208";a="842870947"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+  by fmsmga004.fm.intel.com with ESMTP; 08 Dec 2023 23:30:26 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rBrn6-000EzN-2j;
+	Sat, 09 Dec 2023 07:30:24 +0000
+Date: Sat, 9 Dec 2023 15:26:40 +0800
+From: kernel test robot <lkp@intel.com>
+To: Biju Das <biju.das.jz@bp.renesas.com>, Lee Jones <lee@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, Biju Das <biju.das.jz@bp.renesas.com>,
+	Support Opensource <support.opensource@diasemi.com>,
+	Steve Twiss <stwiss.opensource@diasemi.com>,
+	devicetree@vger.kernel.org,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v2 11/11] dt-bindings: mfd: dlg,da9063: Convert da9062 to
+ json-schema
+Message-ID: <202312091536.Lf8kzxoR-lkp@intel.com>
+References: <20231202192536.266885-12-biju.das.jz@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231202192536.266885-12-biju.das.jz@bp.renesas.com>
 
-On Wed, Nov 22 2023 at 20:12, Yu Chien Peter Lin wrote:
-> To share the riscv_intc_domain_map() with the generic RISC-V INTC and
-> ACPI, we add a chip parameter to riscv_intc_init_common(), so it can be
+Hi Biju,
 
-s/we//
+kernel test robot noticed the following build warnings:
 
-See: Documentation/process/
+[auto build test WARNING on lee-mfd/for-mfd-next]
+[also build test WARNING on robh/for-next rafael-pm/thermal groeck-staging/hwmon-next linus/master v6.7-rc4 next-20231208]
+[cannot apply to dtor-input/next dtor-input/for-linus lee-mfd/for-mfd-fixes]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-> passed to the irq_domain_set_info() as private data.
-> diff --git a/drivers/irqchip/irq-riscv-intc.c b/drivers/irqchip/irq-riscv-intc.c
-> index 2fdd40f2a791..30f0036c8978 100644
-> --- a/drivers/irqchip/irq-riscv-intc.c
-> +++ b/drivers/irqchip/irq-riscv-intc.c
-> @@ -17,6 +17,7 @@
->  #include <linux/module.h>
->  #include <linux/of.h>
->  #include <linux/smp.h>
-> +#include <linux/soc/andes/irq.h>
->  
->  static struct irq_domain *intc_domain;
->  
-> @@ -46,6 +47,31 @@ static void riscv_intc_irq_unmask(struct irq_data *d)
->  	csr_set(CSR_IE, BIT(d->hwirq));
->  }
->  
-> +static void andes_intc_irq_mask(struct irq_data *d)
-> +{
-> +	/*
-> +	 * Andes specific S-mode local interrupt causes (hwirq)
-> +	 * are defined as (256 + n) and controlled by n-th bit
-> +	 * of SLIE.
-> +	 */
-> +	unsigned int mask = BIT(d->hwirq % BITS_PER_LONG);
+url:    https://github.com/intel-lab-lkp/linux/commits/Biju-Das/dt-bindings-watchdog-dlg-da9062-watchdog-Document-DA9063-watchdog/20231203-042557
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git for-mfd-next
+patch link:    https://lore.kernel.org/r/20231202192536.266885-12-biju.das.jz%40bp.renesas.com
+patch subject: [PATCH v2 11/11] dt-bindings: mfd: dlg,da9063: Convert da9062 to json-schema
+reproduce: (https://download.01.org/0day-ci/archive/20231209/202312091536.Lf8kzxoR-lkp@intel.com/reproduce)
 
-How is this supposed to be correct with BITS_PER_LONG == 64?
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312091536.Lf8kzxoR-lkp@intel.com/
 
-> +
-> +	if (d->hwirq < ANDES_SLI_CAUSE_BASE)
-> +		csr_clear(CSR_IE, mask);
-> +	else
-> +		csr_clear(ANDES_CSR_SLIE, mask);
-> +}
-> +
-> +static void andes_intc_irq_unmask(struct irq_data *d)
-> +{
-> +	unsigned int mask = BIT(d->hwirq % BITS_PER_LONG);
+All warnings (new ones prefixed by >>):
 
-Ditto.
+>> Warning: Documentation/devicetree/bindings/input/dlg,da9062-onkey.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/da9062.txt
+>> Warning: Documentation/devicetree/bindings/thermal/dlg,da9062-thermal.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/da9062.txt
 
-> +	if (d->hwirq < ANDES_SLI_CAUSE_BASE)
-> +		csr_set(CSR_IE, mask);
-> +	else
-> +		csr_set(ANDES_CSR_SLIE, mask);
-> +}
-
->  static int riscv_intc_domain_map(struct irq_domain *d, unsigned int irq,
->  				 irq_hw_number_t hwirq)
->  {
-> +	struct irq_chip *chip = d->host_data;
-> +
->  	irq_set_percpu_devid(irq);
-> -	irq_domain_set_info(d, irq, hwirq, &riscv_intc_chip, d->host_data,
-> +	irq_domain_set_info(d, irq, hwirq, chip, d->host_data,
-
-So this sets 'chip_data' to the chip itself. What's the point? Just set
-it to NULL as the chip obviously does not need chip_data at all.
-
->  			    handle_percpu_devid_irq, NULL, NULL);
->  
->  	return 0;
-> @@ -112,11 +147,12 @@ static struct fwnode_handle *riscv_intc_hwnode(void)
->  	return intc_domain->fwnode;
->  }
->  
-> -static int __init riscv_intc_init_common(struct fwnode_handle *fn)
-> +static int __init riscv_intc_init_common(struct fwnode_handle *fn,
-> +					 struct irq_chip *chip)
->  {
->  	int rc;
->  
-> -	intc_domain = irq_domain_create_tree(fn, &riscv_intc_domain_ops, NULL);
-> +	intc_domain = irq_domain_create_tree(fn, &riscv_intc_domain_ops, chip);
->  	if (!intc_domain) {
->  		pr_err("unable to add IRQ domain\n");
->  		return -ENXIO;
-> @@ -138,6 +174,7 @@ static int __init riscv_intc_init(struct device_node *node,
->  {
->  	int rc;
->  	unsigned long hartid;
-> +	struct irq_chip *chip = &riscv_intc_chip;
-
-https://www.kernel.org/doc/html/latest/process/maintainer-tip.html#variable-declarations
-
-Thanks
-
-        tglx
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
