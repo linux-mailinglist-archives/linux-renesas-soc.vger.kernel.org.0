@@ -1,106 +1,100 @@
-Return-Path: <linux-renesas-soc+bounces-921-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-922-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3F0A80DDDC
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 11 Dec 2023 23:07:00 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 177B280DFAC
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 Dec 2023 00:48:52 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9174C1F21A62
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 11 Dec 2023 22:07:00 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C76472825A6
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 11 Dec 2023 23:48:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 09FC555776;
-	Mon, 11 Dec 2023 22:06:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 09D5D56772;
+	Mon, 11 Dec 2023 23:48:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SjoP21Ct"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="x4GX/zQ/"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E045B55774
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 11 Dec 2023 22:06:55 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6E1BCC433C7;
-	Mon, 11 Dec 2023 22:06:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1702332415;
-	bh=GJIc4lcmbnE1QNCXgfA52Krp47pye0PnIUxJw5mQkV0=;
-	h=From:To:Cc:Subject:Date:From;
-	b=SjoP21CtsyjRX/8L/C9NP2DGApb80nFM3iwiEe07Hd5Klq1nOOWjh4xrzXMbUK7b+
-	 vrwfsu6sZ3PjzOBMug0mPszLIth6elZoHiPnAueSpvBBDx84+RczDfkzUktL28RVX6
-	 DQocX8a3Wm+NX9jHFzNoBivFvtOEOIFABAXJrlKGipBKxLXKmKbkjWIqcvDrqxNYdm
-	 H3ljXrIuRxfFqgUc/H17di/S+0yfi7DGWStIXYZ8cibdk6Jd0CyTG7wP8IUY3PiVbQ
-	 RbZ5V/hHLmTrAXXv2CI+N0bTRFTSnuquLRs52r4uv/ecnjIEK3kBuGhSd9JRObgO5u
-	 BOpT77Gj8zMNg==
-From: Conor Dooley <conor@kernel.org>
-To: linux-riscv@lists.infradead.org
-Cc: conor@kernel.org,
-	Conor Dooley <conor.dooley@microchip.com>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	linux-renesas-soc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v1] soc: renesas: make ARCH_R9A07G043 depend on !DMA_DIRECT_REMAP
-Date: Mon, 11 Dec 2023 22:06:36 +0000
-Message-Id: <20231211-primate-arbitrate-fbcd307a0b00@spud>
-X-Mailer: git-send-email 2.39.2
+Received: from mail-yb1-xb2f.google.com (mail-yb1-xb2f.google.com [IPv6:2607:f8b0:4864:20::b2f])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 046BEB5
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 11 Dec 2023 15:48:45 -0800 (PST)
+Received: by mail-yb1-xb2f.google.com with SMTP id 3f1490d57ef6-db548cd1c45so4641531276.2
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 11 Dec 2023 15:48:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1702338524; x=1702943324; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=euwhIsXaz0VLvDyOMBm+aGeo2N9PmOW4/s9hUBEtSZo=;
+        b=x4GX/zQ/bn9bZMeZ5vnmGHY9Bgw5VNMkl82qDdU7+7fFWYNnVCWJv7yEwYQDvldJiI
+         +ruO/a4Wpd5fxSeOo8+7CIrOO79h2a5Qb0VOu7SVfsOIY8dINIK+AHE3PwQSrBN/CL/s
+         US6FfLbb2NsW/H4g3P+5km4V8i6mLeV3jpzmUz0yPDk5kgikznNTM4LmNroElKUJhqpo
+         X/aQL49+u+ZxUVh9LaALaOQle//ExuzjBcyudB7CKWmwmxSk2SrToc98KWQkdEuWqH1u
+         QrT0S8245VmLA3p22yNloX8RbzfBKEPilN+ArhaF88nvW5vbBsR33XoV00TxokAVYxW+
+         7Q5Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1702338524; x=1702943324;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=euwhIsXaz0VLvDyOMBm+aGeo2N9PmOW4/s9hUBEtSZo=;
+        b=N2VDmLz2O911rlRErHYGI5shwBn3hub5usZm7V/Pw8p/sN5N5K0BsZbYEYYOrUjcCn
+         pVCkzx3Ado617yT49BxaaXV5BnbYUsj4vjSHVMkYgN/FDoBNyYiNnJ6wt4ER4yAh4xOB
+         GF729cOBO9IjfI1g4Ieq6If8/N70y8i+5dggVs/zT7sBmVUS6t+em13X6R+3QiuVo02H
+         x7zNfF2pa39Pz4rNBTgmED+wdpk2DdoX/WQkG8kRr/tLQPlV3VsxQQhElId9f8Afad54
+         8N4piTMBsZwfcyaW5voGLSawMGJRS4cazqPmQ+K+zh8Oi2ey02UGgxk8jDzwuUiGr3Q6
+         Nxnw==
+X-Gm-Message-State: AOJu0Yw9Rrfb4fDBYmfBN4mczAhnrsel2bXhmzixnoOYgJ0NUVpAS82O
+	nvwQI5MAvrsOSTFnebDN0833Srz/11RYI3nxwmr1FQ==
+X-Google-Smtp-Source: AGHT+IF3tcL6UUeVPz0zW8dM+eYBEA/+XZsY8k/PjoTsu5zg1gtMmDM1MoplNrzJcbsk6c/SNpSN4vT8MNFw/3YCimY=
+X-Received: by 2002:a25:254:0:b0:db5:4715:da36 with SMTP id
+ 81-20020a250254000000b00db54715da36mr3859002ybc.58.1702338524206; Mon, 11 Dec
+ 2023 15:48:44 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1934; i=conor.dooley@microchip.com; h=from:subject:message-id; bh=QZakA2jngPjyPv1mx6ddYU3DUAgBXMmCEkYM0tqgkJ0=; b=owGbwMvMwCFWscWwfUFT0iXG02pJDKnl7a82avC45SVsOHSnMmD9kqi39+oOv/E4eGLKiSyF7 VN/TtBY21HKwiDGwSArpsiSeLuvRWr9H5cdzj1vYeawMoEMYeDiFICJPNRk+KfM9DVladJpqQ75 m0teZL07tsT4/tX4e0/S9Rbr6P7c0VjI8D/TrVIzd+K13GU5e46oLdrQJREb+yKi8eFNtiuPHyq XpTMDAA==
-X-Developer-Key: i=conor.dooley@microchip.com; a=openpgp; fpr=F9ECA03CF54F12CD01F1655722E2C55B37CF380C
-Content-Transfer-Encoding: 8bit
+References: <20231211190321.307330-1-andriy.shevchenko@linux.intel.com>
+In-Reply-To: <20231211190321.307330-1-andriy.shevchenko@linux.intel.com>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Tue, 12 Dec 2023 00:48:33 +0100
+Message-ID: <CACRpkdbbDAph2gUyvPCPD0s6LtjekK8zVBPLMg1ESB_1SMow_A@mail.gmail.com>
+Subject: Re: [PATCH v5 00/13] pinctrl: Convert struct group_desc to use struct pingroup
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, Rasmus Villemoes <linux@rasmusvillemoes.dk>, 
+	Biju Das <biju.das.jz@bp.renesas.com>, 
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>, 
+	Jianlong Huang <jianlong.huang@starfivetech.com>, linux-arm-kernel@lists.infradead.org, 
+	linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-mediatek@lists.infradead.org, linux-mips@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org, Ray Jui <rjui@broadcom.com>, 
+	Scott Branden <sbranden@broadcom.com>, 
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Dong Aisheng <aisheng.dong@nxp.com>, 
+	Fabio Estevam <festevam@gmail.com>, Shawn Guo <shawnguo@kernel.org>, Jacky Bai <ping.bai@nxp.com>, 
+	Pengutronix Kernel Team <kernel@pengutronix.de>, Sascha Hauer <s.hauer@pengutronix.de>, 
+	NXP Linux Team <linux-imx@nxp.com>, Sean Wang <sean.wang@kernel.org>, 
+	Paul Cercueil <paul@crapouillou.net>, Lakshmi Sowjanya D <lakshmi.sowjanya.d@intel.com>, 
+	Emil Renner Berthing <kernel@esmil.dk>, Hal Feng <hal.feng@starfivetech.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Conor Dooley <conor.dooley@microchip.com>
+On Mon, Dec 11, 2023 at 8:03=E2=80=AFPM Andy Shevchenko
+<andriy.shevchenko@linux.intel.com> wrote:
 
-Randy reported yet another build issue with randconfigs on rv32:
-WARNING: unmet direct dependencies detected for DMA_GLOBAL_POOL
-  Depends on [n]: !ARCH_HAS_DMA_SET_UNCACHED [=n] && !DMA_DIRECT_REMAP [=y]
-  Selected by [y]:
-  - ARCH_R9A07G043 [=y] && SOC_RENESAS [=y] && RISCV [=y] && NONPORTABLE [=y] && RISCV_ALTERNATIVE [=y] && !RISCV_ISA_ZICBOM [=n] && RISCV_SBI [=y]
+> The struct group_desc has a lot of duplication with struct pingroup.
+> Deduplicate that by embeddind the latter in the former and convert
+> users.
+>
+> NB. The function_desc is in plan to follow the similar deduplication.
+>
+> This time test-compiled with old GCC 8 for arm64, besides GCC 13 and
+> LLVM 16 for x86_64.
 
-This happens when DMA_DIRECT_REMAP is selected by the T-Head CMO erratum
-option and DMA_GLOBAL_POOL is selected by the Andes CMO erratum. Block
-selecting the RZ/Five config option, and by extension DMA_GLOBAL_POOL,
-if DMA_DIRECT_REMAP has already been enabled.
+Applied to my pin control devel branch for v6.8.
 
-Fixes: 484861e09f3e ("soc: renesas: Kconfig: Select the required configs for RZ/Five SoC")
-Reported-by: Randy Dunlap <rdunlap@infradead.org>
-Tested-by: Randy Dunlap <rdunlap@infradead.org> # build-tested
-Closes: https://lore.kernel.org/all/24942b4d-d16a-463f-b39a-f9dfcb89d742@infradead.org/
-Signed-off-by: Conor Dooley <conor.dooley@microchip.com>
----
-I don't know what the exact fixes tag here is as I did not bisect with
-the randconfig, so I blamed the one that added DMA_GLOBAL_POOL.
-
-CC: Geert Uytterhoeven <geert+renesas@glider.be>
-CC: Magnus Damm <magnus.damm@gmail.com>
-CC: Conor Dooley <conor.dooley@microchip.com>
-CC: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-CC: linux-renesas-soc@vger.kernel.org
-CC: linux-kernel@vger.kernel.org
----
- drivers/soc/renesas/Kconfig | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/drivers/soc/renesas/Kconfig b/drivers/soc/renesas/Kconfig
-index 0071864c2111..0986672f6375 100644
---- a/drivers/soc/renesas/Kconfig
-+++ b/drivers/soc/renesas/Kconfig
-@@ -340,6 +340,7 @@ if RISCV
- config ARCH_R9A07G043
- 	bool "RISC-V Platform support for RZ/Five"
- 	depends on NONPORTABLE
-+	depends on !DMA_DIRECT_REMAP
- 	depends on RISCV_ALTERNATIVE
- 	depends on !RISCV_ISA_ZICBOM
- 	depends on RISCV_SBI
--- 
-2.39.2
-
+Yours,
+Linus Walleij
 
