@@ -1,210 +1,159 @@
-Return-Path: <linux-renesas-soc+bounces-903-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-908-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3D8880D923
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 11 Dec 2023 19:51:26 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id F39D480DA58
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 11 Dec 2023 20:03:45 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3A96B1F217D5
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 11 Dec 2023 18:51:26 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 30E031C2174B
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 11 Dec 2023 19:03:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B23E451C4A;
-	Mon, 11 Dec 2023 18:51:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5D9FD524C8;
+	Mon, 11 Dec 2023 19:03:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="sDLvIl9X"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RduQeacq"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01on2109.outbound.protection.outlook.com [40.107.113.109])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 82E30AC;
-	Mon, 11 Dec 2023 10:51:18 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=WepDNqSYT3QUQufQ5PziVImgzr5KBa8CmSaNDrtM+31KNVVCPC4FrcEZ9lyC9MumqJx+1EvnB7XQQYXwCWwxQkHRanqk4FGKYbgVDvbEIIhjEWHG4MSvcSSnVzsMr5CLmusjsbHhF05eF0qNHZTiCR27Fd0IoN6JkYLva5Js9qS5XsxVCJXI481vfyOGgSZ1O9Rhn6dQxDqa3cyg6ZU6e+pDohHYeaG1lkw9GtR+Avuc0J7W0eTl4EiTDS24wOhFXk7pUn2gd/oVsDE1FR2U88KKH9wyqrkRYm8SHXzMY5gNo6Jb3fbGsc54QG028IS+G/zq8lscGPvX+s6GBrk9SQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=mYJf+UViK6Qkzh9sCSxUbPeJ1OWZxJO9vbpWuAtVMYU=;
- b=A8CjWcMqSUz0J/gBToq5W8nAPtFz+WthTzrK5JdYaeoiCrZiVlhHllMCsv9gkFWY18d/9d1bSYUtIiceyalDr4ioxf1Ozn59aXplgLZF/mWHp6ob4syk6zy59gud970jVyiGGWMLNH0OP4CwxSftOzP1/WV7G2hcD7mOJhJWF59QBD8lE3tqcfZMnnvP6dKEs9lnMdO7g/MSQ3PV28M4YYaqfGb0bVhP7Ft/jTXqm7i3TBXwJ4IXaGTkteDrn9zg3Fedfb0U4+znY9KerW2qMA4ufoG0yrT/y3ep9nqRh9EsqC02ziavUMwflro1gUxzERDDNENQf6HLe73G8MjVXA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=mYJf+UViK6Qkzh9sCSxUbPeJ1OWZxJO9vbpWuAtVMYU=;
- b=sDLvIl9X/aZUUILO7wct5ofuPqKzwQHypuKMmZ+ALHONyUe458t+V7ymLc9p4IMsXoo2kLGuMY007tSQ0f1sBEUQcKfxANQL6sLN7ZOd6hVVfUDzf0ybHYmUbHnJneaY4yUOY9PkpxrY4Yj1ft6KtQBCxXjVNpcVPMgRoPJU5CU=
-Received: from TYCPR01MB11269.jpnprd01.prod.outlook.com
- (2603:1096:400:3c0::10) by OSZPR01MB8354.jpnprd01.prod.outlook.com
- (2603:1096:604:16f::9) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7091.21; Mon, 11 Dec
- 2023 18:51:15 +0000
-Received: from TYCPR01MB11269.jpnprd01.prod.outlook.com
- ([fe80::f216:24ab:3668:3a48]) by TYCPR01MB11269.jpnprd01.prod.outlook.com
- ([fe80::f216:24ab:3668:3a48%4]) with mapi id 15.20.7091.020; Mon, 11 Dec 2023
- 18:51:14 +0000
-From: Biju Das <biju.das.jz@bp.renesas.com>
-To: Conor Dooley <conor@kernel.org>
-CC: Dmitry Torokhov <dmitry.torokhov@gmail.com>, Rob Herring
-	<robh+dt@kernel.org>, Krzysztof Kozlowski
-	<krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, Lee
- Jones <lee@kernel.org>, Support Opensource <support.opensource@diasemi.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>, Daniel Lezcano
-	<daniel.lezcano@linaro.org>, Zhang Rui <rui.zhang@intel.com>, Lukasz Luba
-	<lukasz.luba@arm.com>, Steve Twiss <stwiss.opensource@diasemi.com>,
-	"linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-	"linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>, Geert Uytterhoeven
-	<geert+renesas@glider.be>, Prabhakar Mahadev Lad
-	<prabhakar.mahadev-lad.rj@bp.renesas.com>, biju.das.au
-	<biju.das.au@gmail.com>, "linux-renesas-soc@vger.kernel.org"
-	<linux-renesas-soc@vger.kernel.org>
-Subject: RE: [PATCH v5 8/8] dt-bindings: mfd: dlg,da9063: Convert da9062 to
- json-schema
-Thread-Topic: [PATCH v5 8/8] dt-bindings: mfd: dlg,da9063: Convert da9062 to
- json-schema
-Thread-Index: AQHaK2+CO5V9wAfdBEqN6/S8f3RG87Cka12AgAADMCA=
-Date: Mon, 11 Dec 2023 18:51:14 +0000
-Message-ID:
- <TYCPR01MB112697AA2A3BC9F58C7BF4B67868FA@TYCPR01MB11269.jpnprd01.prod.outlook.com>
-References: <20231210134717.94020-1-biju.das.jz@bp.renesas.com>
- <20231210134717.94020-9-biju.das.jz@bp.renesas.com>
- <20231211-dissuade-skirt-5961ef525497@spud>
-In-Reply-To: <20231211-dissuade-skirt-5961ef525497@spud>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TYCPR01MB11269:EE_|OSZPR01MB8354:EE_
-x-ms-office365-filtering-correlation-id: 1b7f57bb-e99c-4ca2-6f2b-08dbfa7a26f0
-x-ld-processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info:
- YI1+faBHMFvVQb90rCE8gI+h+Ss0iSjGa+K8kBMTHN4amXbjRQ3yOnWlLRp56NMEmBEKVjUuBWg89enA1Mqz7qILg7sHqeCJu6RLP9qzDaVRd0qyUFazgAkbkizodOkHPl5Lh4v1zsQRiUrjA0SqQSXzyS9HLwBhBQV7MGM+SIzpFOiZy/npRuxQjgrTInM8saJ8HKn+bmC2UC4q/+XEzckLQHthN2vJMQPmopwR3fMTvxEO/I15buiMQkFW1Y4HHw7ssv0wKjnruFmqapzdrJ9Qz4+iw+U/BTnBpgJbSwscpji3ks4cnoZfSX6KjBu8C+kbTZyUjZNUKtYtAC9KB4rJFZ4/wr3f5xmbNlj9VSscvORuXcegrFowTwfxzA0jq49tWV5BO/8m4XjbqbSpYrw9T4lfO8DNl1YRKM/aQOwiFE9vEPIIabOklZD48tlfL70Bfh/ccECSQULI4QvHpfNxA29dIXAArcrM5S1GYH4iV7Zm1AyjlC/Lgoc7l4ACDkVddEwZpSgqv23qwlt6ztod/mPDURAGQAwdIncrhzSm4gk+u36Xdc97AJKDU+zXrncxB1RwWx0i2WzQy++UlunLkqAHrlpwn763Y50G0wzbkOG6grAK6zzOaYzYXQ1thmEXT23y2AQjavD78kKbEA==
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB11269.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(346002)(39860400002)(366004)(396003)(376002)(136003)(230922051799003)(230273577357003)(230173577357003)(186009)(451199024)(1800799012)(64100799003)(66446008)(7696005)(53546011)(6506007)(71200400001)(966005)(478600001)(2906002)(83380400001)(26005)(9686003)(4326008)(8936002)(8676002)(5660300002)(52536014)(7416002)(38070700009)(76116006)(6916009)(54906003)(66946007)(316002)(33656002)(38100700002)(122000001)(86362001)(55016003)(66476007)(66556008)(41300700001)(64756008);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?SvXet1AEkSzttpNcz3xSOwo3Xf4s5u3QHy2IEKOO+Us9eu9BzV7AtemxxLXM?=
- =?us-ascii?Q?QLh9M0+wgxl1By+Z00+LjIlnA0yNbT8lF2M17EA59TbBWA9ZA6qwzLLNQWl/?=
- =?us-ascii?Q?1bs7Zzn4iGIWcsq6Ryn6XzLCDrN8LUxT9CIusGMcgGcjPjVotDU4QE7Ijzzr?=
- =?us-ascii?Q?RQR79NEBGsyBS75abifDkyK983RgndWIwK1yyCI0+tViMY+YUi4142fwdPA9?=
- =?us-ascii?Q?kSd47cJrdMujvHunmb83QQj355Y42WL+z2rnAIR7WIOaSOCmd5dEA8bKfk0l?=
- =?us-ascii?Q?bxc6qUa+AFHm5SVTclFXcZZEWSIHES6SKgNFWv71wdosNSFO0RI98hF/ofzV?=
- =?us-ascii?Q?LDSv2FHzbkpqPsLYntBvzy7aYUBjqxW6vSL2jzaz4Klqm4yQ1/HMRrzQFneL?=
- =?us-ascii?Q?xzK9EjHH6ffTVDCFD5AH3vQsUzo8jM6F9Xve3/UmTeld7zNvuBxBEt0Bqx9J?=
- =?us-ascii?Q?0LQD+fj4HEB6ZsgrNTmGslNnMaebgSWriU+A0FRafcs+00wH5xhYLHtmz4qS?=
- =?us-ascii?Q?XFwplmWJz3RFDA3w3u46Jz9AFI9N4a3hmSsvXujgfm6YQr8Crb3cZfkEEWcJ?=
- =?us-ascii?Q?CKMIj9ajh8T9t/chiYnWIPu/wCl1hhA6vZU0PUTm92WUnV6MN2cfS6haM3x5?=
- =?us-ascii?Q?6YsXSH/yRzMGKp/COKsp9kK6x8nc2hgYuEWZLqcBdKcjVpkSulimirgMTxC2?=
- =?us-ascii?Q?tBIYb3PE9xh3MmWEUN//rZ+eWkc2TSttTWD4PgPpi1A2ERspuNjsTfrGnvCj?=
- =?us-ascii?Q?tdTCf8oTwGZzKkzrZDPziJO65wwZtzjS0j5BYsPE9u7t/PTdSggXwIReRvHx?=
- =?us-ascii?Q?dQedluy83TGijuBAQ3vK6toaUeoyDnB8l/Ipe5Lpws1pgVeaRGJIdhc06K8v?=
- =?us-ascii?Q?BQdSOcuu+98h6JrXv1lYBe8VIgP0e2T+VZbD3qRBPTPgnj+ar9zPWqSSXBke?=
- =?us-ascii?Q?m4HY2FNzN2TqJFqL9SPHmU5JBcZBjpsBhU4kFQwUH4T2fvH9DPWTEgeeH4gt?=
- =?us-ascii?Q?2ZSGdLkBwMo4FVCTqixGAWADQfWseZY14Vy167SSazpDnnTvhppT66uXXxYp?=
- =?us-ascii?Q?1mJv6QBKOn6yZfO/1Ln9bOlT4448ZcOR5srsgKha/L+iIoQjqW+uyge8frBV?=
- =?us-ascii?Q?LdzEFYkCIR5+XrJj67dPTzxW2FeIzNmwCP9CNoWKq3oJ+Rx6Wqn5XcjF6+D9?=
- =?us-ascii?Q?Xd7o597d+OlkbRt/FSJPOCSgkZ48LPRm7SzhKCNj39Mb3nsJV6Nwb2+J2x9T?=
- =?us-ascii?Q?FEju16Bl7MhbIddbWZgVeeFK+x+/h7E4QBdTWy3idR1wj0E6/gcdJYiF0lwl?=
- =?us-ascii?Q?YI+0wv+HWZIqXswtS95rMch8ZPqUd6tBNcFslsgEmgEaJ61RWT1al+Jl8tzr?=
- =?us-ascii?Q?XlaBkuSKedapLkDKeSQRPRoRdOpBki6r/BMN1Mg8TlnqC4nuO+inqH3RydrI?=
- =?us-ascii?Q?3xZ7gRLW/nUyy2XsvX4dvP85Jbz0wBW9hBqwb5bfnh1thewunHA2NhilKfVp?=
- =?us-ascii?Q?F+AfuzD2axulIW5BCo1Afo9lzVMhnU0vDAfaL7u+ZWtpboQW6Mub0Mi7lOck?=
- =?us-ascii?Q?92+3Fz6/mpx7ZfVlejkyg1odzmkaz7BkqEDBQbf6IIE2cfQLpTIXi39BkrAo?=
- =?us-ascii?Q?xw=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 929C7C0;
+	Mon, 11 Dec 2023 11:03:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1702321417; x=1733857417;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=Q2BczxrNZm1mBCco6sqW/QGBn/6Xmav22CnVogTYodc=;
+  b=RduQeacqgb/9arZ5AqJQFik8Y/nIT4tCmYeQAn4NpAqUp6yFdRSNz9Oq
+   lfgyjfXn8Wgg4rVIg/TvBVC/AUkuh9zHYMyg/cs52y6XO0H7THj9sFfy3
+   7+vBQW082ekjdY8RrSZvIosmCaCQVOMO7o8o55jQjDID6fzu0w7kzbtJC
+   tD3+wf+KbCR68i3wtZ/yAant2SYfp59qHnOhiixi6MYJQkeq1Vo8hJpMB
+   s/OmJllyjOuH9VUPdKzhRT60S7XmvKHkFvUFKA63OF5k3J0zcWCZGib07
+   sKh2B7hN/j/Rl2+WPoJrAKhofmhxHl/1uxjxNMUykUh9l520OFnsNYWWF
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10921"; a="480893475"
+X-IronPort-AV: E=Sophos;i="6.04,268,1695711600"; 
+   d="scan'208";a="480893475"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Dec 2023 11:03:36 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10921"; a="766491653"
+X-IronPort-AV: E=Sophos;i="6.04,268,1695711600"; 
+   d="scan'208";a="766491653"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by orsmga007.jf.intel.com with ESMTP; 11 Dec 2023 11:03:24 -0800
+Received: by black.fi.intel.com (Postfix, from userid 1003)
+	id 4AFB52AB; Mon, 11 Dec 2023 21:03:23 +0200 (EET)
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Linus Walleij <linus.walleij@linaro.org>,
+	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
+	Jianlong Huang <jianlong.huang@starfivetech.com>,
+	linux-arm-kernel@lists.infradead.org,
+	linux-gpio@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-mediatek@lists.infradead.org,
+	linux-mips@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org
+Cc: Ray Jui <rjui@broadcom.com>,
+	Scott Branden <sbranden@broadcom.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Dong Aisheng <aisheng.dong@nxp.com>,
+	Fabio Estevam <festevam@gmail.com>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Jacky Bai <ping.bai@nxp.com>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	NXP Linux Team <linux-imx@nxp.com>,
+	Sean Wang <sean.wang@kernel.org>,
+	Paul Cercueil <paul@crapouillou.net>,
+	Lakshmi Sowjanya D <lakshmi.sowjanya.d@intel.com>,
+	Emil Renner Berthing <kernel@esmil.dk>,
+	Hal Feng <hal.feng@starfivetech.com>
+Subject: [PATCH v5 00/13] pinctrl: Convert struct group_desc to use struct pingroup
+Date: Mon, 11 Dec 2023 20:57:53 +0200
+Message-ID: <20231211190321.307330-1-andriy.shevchenko@linux.intel.com>
+X-Mailer: git-send-email 2.43.0.rc1.1.gbec44491f096
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB11269.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1b7f57bb-e99c-4ca2-6f2b-08dbfa7a26f0
-X-MS-Exchange-CrossTenant-originalarrivaltime: 11 Dec 2023 18:51:14.8928
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: jl9QgNJAViowR7y0YWqxPwPfrx3AA/6k02k44baC7v1/lSiTk82zne4fwXU66CYa9V04qkoKsB99dQCQCjex8bHznhjzaybPhepTX2I4P1g=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSZPR01MB8354
+Content-Transfer-Encoding: 8bit
 
-Hi Conor Dooley,
+The struct group_desc has a lot of duplication with struct pingroup.
+Deduplicate that by embeddind the latter in the former and convert
+users.
 
-Thanks for the feedback.
+NB. The function_desc is in plan to follow the similar deduplication.
 
-> -----Original Message-----
-> From: Conor Dooley <conor@kernel.org>
-> Sent: Monday, December 11, 2023 6:38 PM
-> Subject: Re: [PATCH v5 8/8] dt-bindings: mfd: dlg,da9063: Convert da9062
-> to json-schema
->=20
-> On Sun, Dec 10, 2023 at 01:47:17PM +0000, Biju Das wrote:
-> > Convert the da9062 PMIC device tree binding documentation to json-
-> schema.
-> >
-> > Document the missing gpio child node for da9062.
-> >
-> > While at it, update description with link to product information and
-> > example.
-> >
-> > The missing child node with of_compatible defined in MFD_CELL_OF is
-> > causing the below warning message:
-> > da9062-gpio: Failed to locate of_node [id: -1]
-> >
-> > So, make all child nodes with of_compatible defined in struct mfd_cell
-> > as required property for da906{1,2} devices.
->=20
-> > +  gpio-controller: true
-> > +
-> > +  "#gpio-cells":
-> > +    const: 2
-> > +
-> > +  gpio:
-> > +    type: object
-> > +    additionalProperties: false
-> > +    properties:
-> > +      compatible:
-> > +        const: dlg,da9062-gpio
->=20
-> > +  - |
-> > +    #include <dt-bindings/interrupt-controller/irq.h>
-> > +    #include <dt-bindings/regulator/dlg,da9063-regulator.h>
-> > +    i2c {
-> > +      #address-cells =3D <1>;
-> > +      #size-cells =3D <0>;
-> > +      pmic@58 {
-> > +        compatible =3D "dlg,da9062";
-> > +        reg =3D <0x58>;
-> > +        gpio-controller;
-> > +        #gpio-cells =3D <2>;
->=20
-> > +        gpio {
-> > +          compatible =3D "dlg,da9062-gpio";
-> > +        };
->=20
-> I know you had some conversation with Krzysztof, but I still don;t really
-> follow this. Why is the parent, rather than the child, the one that gets
-> the "gpio-controller" and "#gpio-cells" properties? The commit message
-> just mentions why missing child node was added, but not the reason for th=
-e
-> gpio properties being added at what appears to be the "wrong" level.
+This time test-compiled with old GCC 8 for arm64, besides GCC 13 and
+LLVM 16 for x86_64.
 
+In v5:
+- dropped applied patches
+- elaborated the need of the conversion (Fabio)
+- reworked to avoid build errors on old GCC (Marek, Krzysztof, Geert)
 
-Please see [1], The driver is checking against parent "gpio-controller"
+v4: https://lore.kernel.org/r/20231129161459.1002323-1-andriy.shevchenko@linux.intel.com
 
-[1] https://elixir.bootlin.com/linux/v6.0-rc4/source/drivers/pinctrl/pinctr=
-l-da9062.c#L270
+In v4:
+- made pins also unsigned in struct group_desc (Geert)
+- made local pins variable unsigned in renesas drivers (Geert)
+- collected more tags (Paul, Geert)
 
+v3: https://lore.kernel.org/r/20231128200155.438722-1-andriy.shevchenko@linux.intel.com
 
-Cheers,
-Biju
+In v3:
+- fixed reported bug in equilibrium code (LKP)                                                                   - collected tags (Emil, Florian, Paul)
+
+v2: https://lore.kernel.org/r/20231123193355.3400852-1-andriy.shevchenko@linux.intel.com
+
+In v2:
+- added a few patches to fix multiple compile-time errors (LKP)
+- added tag (Jonathan)
+
+v1: https://lore.kernel.org/r/20231122164040.2262742-1-andriy.shevchenko@linux.intel.com
+
+Andy Shevchenko (13):
+  pinctrl: core: Add a convenient define PINCTRL_GROUP_DESC()
+  pinctrl: mediatek: Use C99 initializers in PINCTRL_PIN_GROUP()
+  pinctrl: ingenic: Use C99 initializers in PINCTRL_PIN_GROUP()
+  pinctrl: core: Embed struct pingroup into struct group_desc
+  pinctrl: bcm: Convert to use grp member
+  pinctrl: equilibrium: Convert to use grp member
+  pinctrl: imx: Convert to use grp member
+  pinctrl: ingenic: Convert to use grp member
+  pinctrl: keembay: Convert to use grp member
+  pinctrl: mediatek: Convert to use grp member
+  pinctrl: renesas: Convert to use grp member
+  pinctrl: starfive: Convert to use grp member
+  pinctrl: core: Remove unused members from struct group_desc
+
+ drivers/pinctrl/bcm/pinctrl-ns.c              |  4 +--
+ drivers/pinctrl/core.c                        | 11 +++---
+ drivers/pinctrl/core.h                        | 17 +++++----
+ drivers/pinctrl/freescale/pinctrl-imx.c       | 31 ++++++++--------
+ drivers/pinctrl/mediatek/pinctrl-moore.c      | 13 ++++---
+ drivers/pinctrl/mediatek/pinctrl-moore.h      | 10 +++---
+ drivers/pinctrl/mediatek/pinctrl-paris.h      | 10 +++---
+ drivers/pinctrl/pinctrl-equilibrium.c         |  4 +--
+ drivers/pinctrl/pinctrl-ingenic.c             | 35 ++++++++++---------
+ drivers/pinctrl/pinctrl-keembay.c             |  2 +-
+ drivers/pinctrl/renesas/pinctrl-rza1.c        |  2 +-
+ drivers/pinctrl/renesas/pinctrl-rza2.c        | 10 +++---
+ drivers/pinctrl/renesas/pinctrl-rzg2l.c       |  4 +--
+ drivers/pinctrl/renesas/pinctrl-rzv2m.c       |  4 +--
+ .../starfive/pinctrl-starfive-jh7100.c        |  8 ++---
+ .../starfive/pinctrl-starfive-jh7110.c        |  8 ++---
+ 16 files changed, 84 insertions(+), 89 deletions(-)
+
+-- 
+2.43.0.rc1.1.gbec44491f096
+
 
