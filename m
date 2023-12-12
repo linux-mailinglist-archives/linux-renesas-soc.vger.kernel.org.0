@@ -1,166 +1,130 @@
-Return-Path: <linux-renesas-soc+bounces-944-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-945-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id F198880F3A8
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 Dec 2023 17:54:29 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 36C4C80F3B3
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 Dec 2023 17:56:11 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2E37A1C20CF5
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 Dec 2023 16:54:29 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id E25071F21681
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 Dec 2023 16:56:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 191C27B3A5;
-	Tue, 12 Dec 2023 16:54:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F19D37B3A7;
+	Tue, 12 Dec 2023 16:56:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BMFKjM8e"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gfo6NM+i"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA5357A221;
-	Tue, 12 Dec 2023 16:54:23 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A2221C433C7;
-	Tue, 12 Dec 2023 16:54:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1702400063;
-	bh=h1eNwF1ukAZwGMPIsPczsxbRoYecqddxkA6L6AgPQ40=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=BMFKjM8eqWRvgFjaSMtjvAgNnbCdSjJ5AL09SNEdeNnKdGEiFZHRNQFcY4Cle8CM0
-	 xMVLCvmHkXv0+75ziNGrHpkotS1vIivnxNmrl1cIRskaXBIB/Nyv4+ZBI89kfc3SJn
-	 CpMtXmMaR2aKMT9AzanuKoR4flQNcHnLlVnRUx6Qn65lU05s7+nLvAhBZx4pVlOIp9
-	 AjJhN+dy9SoCkaq9JBISMucJqxz0YNj95guhsLpYJZHPYQVUhEcLwitBFxFhFGtr4j
-	 HBlUka5Vws4HkuMZhZn8gM2B3AnOMwXl4R8hMhDLosVTCe03UWw78dZ49/LsBnReeJ
-	 toAdT3vgidNPw==
-Date: Tue, 12 Dec 2023 16:54:17 +0000
-From: Conor Dooley <conor@kernel.org>
+Received: from mail-oi1-x231.google.com (mail-oi1-x231.google.com [IPv6:2607:f8b0:4864:20::231])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8680CE9;
+	Tue, 12 Dec 2023 08:56:02 -0800 (PST)
+Received: by mail-oi1-x231.google.com with SMTP id 5614622812f47-3b9d2b8c3c6so4411751b6e.1;
+        Tue, 12 Dec 2023 08:56:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1702400162; x=1703004962; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=t6ivGn4rGfCASPt3DuLCJH1sjecJOwY1PoOcRd7pg4U=;
+        b=gfo6NM+iE0hZCSFRuBZUxeRfGKuFsHiPjr7XHyl9V3mA6FMWjFQzpRk8clPJTnjwOU
+         RVdnQwrAASoC11qa/ITIKMyjfwSP2w2NXaJiVMKh6wTTLEemqZIMYvtHd/jsuB1k4k4l
+         EJwt8GwTy/St6FxU118ohCEc8+pJQ882f4c9XQJifTYvv7ceEgIzeUPENcaC/M5Y0Rie
+         tNjoWWqMgRR+8pbgS53nI5ewXjwttx+HHDY0LhgFmE+vN+yEzVNh7GhxaSNELoqM9Lrd
+         KoXJ7voidGHJvYl8k9aK7EncvPJAxqWaipM4q6cO3H1ZIAtfi2RcZ3n8QOJ7V3mWxzqg
+         g78A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1702400162; x=1703004962;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=t6ivGn4rGfCASPt3DuLCJH1sjecJOwY1PoOcRd7pg4U=;
+        b=U8lE3XLBFRbI5gNAYXVMYz6aAaifMW3rEwKbFK0tXUMUgFvskxcf5A7W6dyBo5Ko54
+         +ha+cxd+63ERgl1VbGBo+krbVPnYlmszFX5mceZVYN0BZTARpbtzfd5eYsDJmO7Pptn6
+         ValHFU6B1LsAih74arVvWiI1x1RRxai5VG2sMdduLQESqndBqzMgIe3vkGejqvQwlS+D
+         81DK2LIyp6OxOdDxmLAh/MCuwnmhafmnxzWegJojauq97Q1Ew6Y+UctYOPN0RkC7sclF
+         dfwD2CVg+ZVDzBs65MU9O6UgS6Db6oQkgCzJaq51smhEVi3YEj/RqM1jT78sxvnGEU2R
+         BywA==
+X-Gm-Message-State: AOJu0Ywz5I7q8DnVjNKkDEptzmP9iEsO3k4+6jHJ+uzTGxUFzyX/ifCS
+	zlxeEivfTWm538HRWY6phlA=
+X-Google-Smtp-Source: AGHT+IEj8dy5JxVZeY50pa5vbGsXla0OALH4vjaKtaqkbKs1s++LnjmJbY4EgzS0C/Czj4V8Ep9DGQ==
+X-Received: by 2002:a05:6808:4444:b0:3ba:459:11f5 with SMTP id ep4-20020a056808444400b003ba045911f5mr7275695oib.5.1702400161777;
+        Tue, 12 Dec 2023 08:56:01 -0800 (PST)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id 25-20020aca2119000000b003b274008e46sm2457297oiz.0.2023.12.12.08.56.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 12 Dec 2023 08:56:01 -0800 (PST)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date: Tue, 12 Dec 2023 08:56:00 -0800
+From: Guenter Roeck <linux@roeck-us.net>
 To: Biju Das <biju.das.jz@bp.renesas.com>
-Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+Cc: Lee Jones <lee@kernel.org>, Wim Van Sebroeck <wim@linux-watchdog.org>,
 	Rob Herring <robh+dt@kernel.org>,
 	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>, Lee Jones <lee@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
 	Support Opensource <support.opensource@diasemi.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Daniel Lezcano <daniel.lezcano@linaro.org>,
-	Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>,
 	Steve Twiss <stwiss.opensource@diasemi.com>,
-	"linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-	"linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>,
+	linux-watchdog@vger.kernel.org, devicetree@vger.kernel.org,
 	Geert Uytterhoeven <geert+renesas@glider.be>,
 	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	"biju.das.au" <biju.das.au@gmail.com>,
-	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>
-Subject: Re: [PATCH v5 8/8] dt-bindings: mfd: dlg,da9063: Convert da9062 to
- json-schema
-Message-ID: <20231212-enrich-borax-7943611e2586@spud>
-References: <20231210134717.94020-1-biju.das.jz@bp.renesas.com>
- <20231210134717.94020-9-biju.das.jz@bp.renesas.com>
- <20231211-dissuade-skirt-5961ef525497@spud>
- <TYCPR01MB112697AA2A3BC9F58C7BF4B67868FA@TYCPR01MB11269.jpnprd01.prod.outlook.com>
+	Biju Das <biju.das.au@gmail.com>, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v3.1 2/8] dt-bindings: watchdog: dlg,da9062-watchdog: Add
+ fallback for DA9061 watchdog
+Message-ID: <a16592d3-e924-435c-bfb0-2b0f2b3cf0a9@roeck-us.net>
+References: <20231204172510.35041-1-biju.das.jz@bp.renesas.com>
+ <20231204172510.35041-3-biju.das.jz@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="AApjMWf173swIuM7"
-Content-Disposition: inline
-In-Reply-To: <TYCPR01MB112697AA2A3BC9F58C7BF4B67868FA@TYCPR01MB11269.jpnprd01.prod.outlook.com>
-
-
---AApjMWf173swIuM7
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20231204172510.35041-3-biju.das.jz@bp.renesas.com>
 
-On Mon, Dec 11, 2023 at 06:51:14PM +0000, Biju Das wrote:
-> Hi Conor Dooley,
->=20
-> Thanks for the feedback.
->=20
-> > -----Original Message-----
-> > From: Conor Dooley <conor@kernel.org>
-> > Sent: Monday, December 11, 2023 6:38 PM
-> > Subject: Re: [PATCH v5 8/8] dt-bindings: mfd: dlg,da9063: Convert da9062
-> > to json-schema
-> >=20
-> > On Sun, Dec 10, 2023 at 01:47:17PM +0000, Biju Das wrote:
-> > > Convert the da9062 PMIC device tree binding documentation to json-
-> > schema.
-> > >
-> > > Document the missing gpio child node for da9062.
-> > >
-> > > While at it, update description with link to product information and
-> > > example.
-> > >
-> > > The missing child node with of_compatible defined in MFD_CELL_OF is
-> > > causing the below warning message:
-> > > da9062-gpio: Failed to locate of_node [id: -1]
-> > >
-> > > So, make all child nodes with of_compatible defined in struct mfd_cell
-> > > as required property for da906{1,2} devices.
-> >=20
-> > > +  gpio-controller: true
-> > > +
-> > > +  "#gpio-cells":
-> > > +    const: 2
-> > > +
-> > > +  gpio:
-> > > +    type: object
-> > > +    additionalProperties: false
-> > > +    properties:
-> > > +      compatible:
-> > > +        const: dlg,da9062-gpio
-> >=20
-> > > +  - |
-> > > +    #include <dt-bindings/interrupt-controller/irq.h>
-> > > +    #include <dt-bindings/regulator/dlg,da9063-regulator.h>
-> > > +    i2c {
-> > > +      #address-cells =3D <1>;
-> > > +      #size-cells =3D <0>;
-> > > +      pmic@58 {
-> > > +        compatible =3D "dlg,da9062";
-> > > +        reg =3D <0x58>;
-> > > +        gpio-controller;
-> > > +        #gpio-cells =3D <2>;
-> >=20
-> > > +        gpio {
-> > > +          compatible =3D "dlg,da9062-gpio";
-> > > +        };
-> >=20
-> > I know you had some conversation with Krzysztof, but I still don;t real=
-ly
-> > follow this. Why is the parent, rather than the child, the one that gets
-> > the "gpio-controller" and "#gpio-cells" properties? The commit message
-> > just mentions why missing child node was added, but not the reason for =
-the
-> > gpio properties being added at what appears to be the "wrong" level.
->=20
->=20
-> Please see [1], The driver is checking against parent "gpio-controller"
->=20
-> [1] https://elixir.bootlin.com/linux/v6.0-rc4/source/drivers/pinctrl/pinc=
-trl-da9062.c#L270
+On Mon, Dec 04, 2023 at 05:25:04PM +0000, Biju Das wrote:
+> The DA9061 watchdog is identical to DA9062 watchdog, so no driver changes
+> are required. The fallback compatible string "dlg,da9062-watchdog" will be
+> used on DA9061 watchdog.
+> 
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 
-I would appreciate if you could note in your commit message the
-rationale behind the strange setup. Citing the existing driver users etc
-would be helpful.
+Reviewed-by: Guenter Roeck <linux@roeck-us.net>
 
-Thanks,
-Conor.
-
---AApjMWf173swIuM7
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZXiQOQAKCRB4tDGHoIJi
-0rh4AP9s+Bmcr/KyPluXcEi2EtRA6eePFmH6Mq5j3SFKasEY5gEAlGa4LQlVue+w
-FEKTSM6GPxE3wSMv7j6CkqL8+egPXgM=
-=G9hA
------END PGP SIGNATURE-----
-
---AApjMWf173swIuM7--
+> ---
+> v3->v3.1:
+>  * Dropped comment for d9061 watchdog fallback.
+>  * Replaced enum->const for dlg,da9061-watchdog and its fallback.
+> v2->v3:
+>  * No change
+> v2:
+>  * New patch
+> ---
+>  .../bindings/watchdog/dlg,da9062-watchdog.yaml         | 10 +++++++---
+>  1 file changed, 7 insertions(+), 3 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/watchdog/dlg,da9062-watchdog.yaml b/Documentation/devicetree/bindings/watchdog/dlg,da9062-watchdog.yaml
+> index f058628bb632..7c63b99dac85 100644
+> --- a/Documentation/devicetree/bindings/watchdog/dlg,da9062-watchdog.yaml
+> +++ b/Documentation/devicetree/bindings/watchdog/dlg,da9062-watchdog.yaml
+> @@ -14,9 +14,13 @@ allOf:
+>  
+>  properties:
+>    compatible:
+> -    enum: 
+> -      - dlg,da9061-watchdog
+> -      - dlg,da9062-watchdog
+> +    oneOf:
+> +      - items:
+> +          - enum:
+> +              - dlg,da9062-watchdog
+> +      - items:
+> +          - const: dlg,da9061-watchdog
+> +          - const: dlg,da9062-watchdog
+>  
+>    dlg,use-sw-pm:
+>      type: boolean
+> -- 
+> 2.39.2
+> 
 
