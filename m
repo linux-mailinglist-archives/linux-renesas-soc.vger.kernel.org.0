@@ -1,206 +1,131 @@
-Return-Path: <linux-renesas-soc+bounces-925-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-928-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE68680E564
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 Dec 2023 09:02:11 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E13A80E5A4
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 Dec 2023 09:13:17 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 18D921F21910
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 Dec 2023 08:02:11 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0BF071F2182E
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 Dec 2023 08:13:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 74E4A1803E;
-	Tue, 12 Dec 2023 08:02:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 45AF7182A8;
+	Tue, 12 Dec 2023 08:13:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="XipcMupa"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yb1-f177.google.com (mail-yb1-f177.google.com [209.85.219.177])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C8DF4A0;
-	Tue, 12 Dec 2023 00:02:01 -0800 (PST)
-Received: by mail-yb1-f177.google.com with SMTP id 3f1490d57ef6-dbc8b07ceddso1790793276.1;
-        Tue, 12 Dec 2023 00:02:01 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702368121; x=1702972921;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=gjnHuBn/sh8CWIcWiOxIEa34FZ6IyXTSmbDfg8QhKyM=;
-        b=sPD5mMyfs7ro6kr/xKE0vMQ3L0RYGIfWEqn7BwSE4sqHY7YOBJZG2h4pDNOAKgd/pS
-         cO6P7nk0mKVtOufsJCO0BfuyMxytCJosvVWctP1/ICiFjHKor1bITzcXsEOSvtDQbBve
-         UezQCbe3FdeSLivyWpMCGmCqM/dHvGHGr9UleapreQKq30h1c7IckpdudYJEVWu1IINK
-         SuBBhrrzRi4N8z9WL/1k3EfXXjh1rP3KLBhGnVAB1IJHnL5NWWTjG+btBUETL8qz3QZz
-         lS1zUzeqW+be+8I/C6ZjUFfVqdEwQx3nz64KUZIysCh1EkR3+i2dJfvAH+z1xSQlOsv0
-         1+6g==
-X-Gm-Message-State: AOJu0YzyMwD1INvIHqCweaOxq1hUru+YvuJevcsh5zbXFbnSJemDrXDP
-	S5z6z6p/fevQQUUWh2SWU5hf0l32B2iRhg==
-X-Google-Smtp-Source: AGHT+IF2e/Fov3My0EOuHH985V1mg9OYHbqnRET84fgK4LcM1KrsWruWcBtFRN3SOcplmC8zvPzdPA==
-X-Received: by 2002:a25:9d09:0:b0:db7:dacf:3f9c with SMTP id i9-20020a259d09000000b00db7dacf3f9cmr3616624ybp.73.1702368120853;
-        Tue, 12 Dec 2023 00:02:00 -0800 (PST)
-Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com. [209.85.128.176])
-        by smtp.gmail.com with ESMTPSA id f1-20020a056902038100b00db5331d70d5sm3030036ybs.33.2023.12.12.00.02.00
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 12 Dec 2023 00:02:00 -0800 (PST)
-Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-5b383b4184fso47757837b3.1;
-        Tue, 12 Dec 2023 00:02:00 -0800 (PST)
-X-Received: by 2002:a05:690c:300b:b0:5e1:7ac3:34bb with SMTP id
- ey11-20020a05690c300b00b005e17ac334bbmr1238801ywb.42.1702368120157; Tue, 12
- Dec 2023 00:02:00 -0800 (PST)
+Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D1D10EA
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 12 Dec 2023 00:12:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=from:to:cc:subject:date:message-id
+	:mime-version:content-transfer-encoding; s=k1; bh=7Rc13HU5Hew3Gt
+	2Ni0E4H3z03yClMr1EWHsYl1/be4g=; b=XipcMupa7b4+rqrWOvIUM2nM3R58/B
+	j4EaCMSK1eGMnNs/5JchrnI3qokaZhJtiuazHJxVJtlenKWeKSM//U8n4jIL9Lor
+	mssJ0q0YhAeBO0iofBfUHt/pzNtBBIgI3BVAS2HQYJiC2Tj6yCEMTTl/Zy4dLXfc
+	TqjdYOjrQ5hO759sxXWiVyIQllgcxa3OOnh7XpFjBvdJameBDdHCAFsca6HKLHN9
+	dEsUMsPOW/5dC61NTJ3pYkMLPnlB5CzukI6mepz3mDqORvtBRXSnuo31TIdQHrWK
+	QeffqZrY+LxmZMw9JaHMOdimK6XHRLIlD1c4+1ymb5i6PEERzoDBWakg==
+Received: (qmail 128790 invoked from network); 12 Dec 2023 09:12:49 +0100
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 12 Dec 2023 09:12:49 +0100
+X-UD-Smtp-Session: l3s3148p1@s2HDnUsMMpUujnuR
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: linux-renesas-soc@vger.kernel.org
+Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+	Mark Brown <broonie@kernel.org>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Simon Horman <horms+renesas@verge.net.au>,
+	linux-spi@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v3] spi: sh-msiof: Enforce fixed DTDL for R-Car H3
+Date: Tue, 12 Dec 2023 09:12:38 +0100
+Message-Id: <20231212081239.14254-1-wsa+renesas@sang-engineering.com>
+X-Mailer: git-send-email 2.35.1
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231211165708.161808-1-biju.das.jz@bp.renesas.com> <20231211165708.161808-3-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20231211165708.161808-3-biju.das.jz@bp.renesas.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 12 Dec 2023 09:01:49 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdWEH274CJTpMVY1c7rL0BrpHcjWDp0Acb5evDHotBEzTg@mail.gmail.com>
-Message-ID: <CAMuHMdWEH274CJTpMVY1c7rL0BrpHcjWDp0Acb5evDHotBEzTg@mail.gmail.com>
-Subject: Re: [PATCH 2/3] Input: da9063 - Use dev_err_probe()
-To: Biju Das <biju.das.jz@bp.renesas.com>
-Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
-	Support Opensource <support.opensource@diasemi.com>, linux-input@vger.kernel.org, 
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>, Biju Das <biju.das.au@gmail.com>, 
-	linux-renesas-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Hi Biju,
+Documentation says only DTDL of 200 is allowed for this SoC.
 
-On Mon, Dec 11, 2023 at 5:57=E2=80=AFPM Biju Das <biju.das.jz@bp.renesas.co=
-m> wrote:
-> Replace dev_err()->dev_err_probe() to simpilfy probe().
->
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+Fixes: 4286db8456f4 ("spi: sh-msiof: Add R-Car Gen 2 and 3 fallback bindings")
+Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Reviewed-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+---
 
-Thanks for your patch!
+This patch sadly slipped through the cracks since April.
 
-> --- a/drivers/input/misc/da9063_onkey.c
-> +++ b/drivers/input/misc/da9063_onkey.c
-> @@ -185,10 +185,9 @@ static int da9063_onkey_probe(struct platform_device=
- *pdev)
->
->         onkey =3D devm_kzalloc(&pdev->dev, sizeof(struct da9063_onkey),
->                              GFP_KERNEL);
-> -       if (!onkey) {
-> -               dev_err(&pdev->dev, "Failed to allocate memory.\n");
-> -               return -ENOMEM;
-> -       }
-> +       if (!onkey)
-> +               return dev_err_probe(&pdev->dev, -ENOMEM,
-> +                                    "Failed to allocate memory.\n");
+Changes since v2:
 
-Please drop the error printing instead, the memory allocation core
-code already takes care of that in case of OOM.
+* added fixes tag
+* rebased to v6.7-rc5
 
->
->         onkey->config =3D device_get_match_data(&pdev->dev);
->         if (!onkey->config)
-> @@ -197,19 +196,17 @@ static int da9063_onkey_probe(struct platform_devic=
-e *pdev)
->         onkey->dev =3D &pdev->dev;
->
->         onkey->regmap =3D dev_get_regmap(pdev->dev.parent, NULL);
-> -       if (!onkey->regmap) {
-> -               dev_err(&pdev->dev, "Parent regmap unavailable.\n");
-> -               return -ENXIO;
-> -       }
-> +       if (!onkey->regmap)
-> +               return dev_err_probe(&pdev->dev, -ENXIO,
-> +                                    "Parent regmap unavailable.\n");
->
->         onkey->key_power =3D !of_property_read_bool(pdev->dev.of_node,
->                                                   "dlg,disable-key-power"=
-);
->
->         onkey->input =3D devm_input_allocate_device(&pdev->dev);
-> -       if (!onkey->input) {
-> -               dev_err(&pdev->dev, "Failed to allocated input device.\n"=
-);
-> -               return -ENOMEM;
-> -       }
-> +       if (!onkey->input)
-> +               return dev_err_probe(&pdev->dev, -ENOMEM,
-> +                                    "Failed to allocated input device.\n=
-");
+ drivers/spi/spi-sh-msiof.c | 17 +++++++++++++++++
+ 1 file changed, 17 insertions(+)
 
-devm_input_allocate_device() only fails on OOM, so no need to
-print anything.
+diff --git a/drivers/spi/spi-sh-msiof.c b/drivers/spi/spi-sh-msiof.c
+index fb452bc78372..cfc3b1ddbd22 100644
+--- a/drivers/spi/spi-sh-msiof.c
++++ b/drivers/spi/spi-sh-msiof.c
+@@ -29,12 +29,15 @@
+ 
+ #include <asm/unaligned.h>
+ 
++#define SH_MSIOF_FLAG_FIXED_DTDL_200	BIT(0)
++
+ struct sh_msiof_chipdata {
+ 	u32 bits_per_word_mask;
+ 	u16 tx_fifo_size;
+ 	u16 rx_fifo_size;
+ 	u16 ctlr_flags;
+ 	u16 min_div_pow;
++	u32 flags;
+ };
+ 
+ struct sh_msiof_spi_priv {
+@@ -1072,6 +1075,16 @@ static const struct sh_msiof_chipdata rcar_gen3_data = {
+ 	.min_div_pow = 1,
+ };
+ 
++static const struct sh_msiof_chipdata rcar_r8a7795_data = {
++	.bits_per_word_mask = SPI_BPW_MASK(8) | SPI_BPW_MASK(16) |
++			      SPI_BPW_MASK(24) | SPI_BPW_MASK(32),
++	.tx_fifo_size = 64,
++	.rx_fifo_size = 64,
++	.ctlr_flags = SPI_CONTROLLER_MUST_TX,
++	.min_div_pow = 1,
++	.flags = SH_MSIOF_FLAG_FIXED_DTDL_200,
++};
++
+ static const struct of_device_id sh_msiof_match[] __maybe_unused = {
+ 	{ .compatible = "renesas,sh-mobile-msiof", .data = &sh_data },
+ 	{ .compatible = "renesas,msiof-r8a7743",   .data = &rcar_gen2_data },
+@@ -1082,6 +1095,7 @@ static const struct of_device_id sh_msiof_match[] __maybe_unused = {
+ 	{ .compatible = "renesas,msiof-r8a7793",   .data = &rcar_gen2_data },
+ 	{ .compatible = "renesas,msiof-r8a7794",   .data = &rcar_gen2_data },
+ 	{ .compatible = "renesas,rcar-gen2-msiof", .data = &rcar_gen2_data },
++	{ .compatible = "renesas,msiof-r8a7795",   .data = &rcar_r8a7795_data },
+ 	{ .compatible = "renesas,msiof-r8a7796",   .data = &rcar_gen3_data },
+ 	{ .compatible = "renesas,rcar-gen3-msiof", .data = &rcar_gen3_data },
+ 	{ .compatible = "renesas,rcar-gen4-msiof", .data = &rcar_gen3_data },
+@@ -1279,6 +1293,9 @@ static int sh_msiof_spi_probe(struct platform_device *pdev)
+ 		return -ENXIO;
+ 	}
+ 
++	if (chipdata->flags & SH_MSIOF_FLAG_FIXED_DTDL_200)
++		info->dtdl = 200;
++
+ 	if (info->mode == MSIOF_SPI_TARGET)
+ 		ctlr = spi_alloc_target(&pdev->dev,
+ 				        sizeof(struct sh_msiof_spi_priv));
+-- 
+2.35.1
 
->
->         onkey->input->name =3D onkey->config->name;
->         snprintf(onkey->phys, sizeof(onkey->phys), "%s/input0",
-> @@ -221,12 +218,9 @@ static int da9063_onkey_probe(struct platform_device=
- *pdev)
->
->         error =3D devm_delayed_work_autocancel(&pdev->dev, &onkey->work,
->                                              da9063_poll_on);
-> -       if (error) {
-> -               dev_err(&pdev->dev,
-> -                       "Failed to add cancel poll action: %d\n",
-> -                       error);
-> -               return error;
-> -       }
-> +       if (error)
-> +               return dev_err_probe(&pdev->dev, error,
-> +                                    "Failed to add cancel poll action\n"=
-);
-
-devm_delayed_work_autocancel() only fails on OOM, so no need to
-print anything.
-
->
->         irq =3D platform_get_irq_byname(pdev, "ONKEY");
->         if (irq < 0)
-> @@ -236,11 +230,9 @@ static int da9063_onkey_probe(struct platform_device=
- *pdev)
->                                           NULL, da9063_onkey_irq_handler,
->                                           IRQF_TRIGGER_LOW | IRQF_ONESHOT=
-,
->                                           "ONKEY", onkey);
-> -       if (error) {
-> -               dev_err(&pdev->dev,
-> -                       "Failed to request IRQ %d: %d\n", irq, error);
-> -               return error;
-> -       }
-> +       if (error)
-> +               return dev_err_probe(&pdev->dev, error,
-> +                                    "Failed to request IRQ %d\n", irq);
-
-platform_get_irq_byname() already prints an error message on failure.
-
->
->         error =3D dev_pm_set_wake_irq(&pdev->dev, irq);
->         if (error)
-> @@ -251,11 +243,9 @@ static int da9063_onkey_probe(struct platform_device=
- *pdev)
->                 device_init_wakeup(&pdev->dev, true);
->
->         error =3D input_register_device(onkey->input);
-> -       if (error) {
-> -               dev_err(&pdev->dev,
-> -                       "Failed to register input device: %d\n", error);
-> -               return error;
-> -       }
-> +       if (error)
-> +               return dev_err_probe(&pdev->dev, error,
-> +                                    "Failed to register input device\n")=
-;
-
-Looks like all non-OOM failure paths in input_register_device()
-already print an error message, too...
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
 
