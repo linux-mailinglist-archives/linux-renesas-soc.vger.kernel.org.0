@@ -1,354 +1,294 @@
-Return-Path: <linux-renesas-soc+bounces-1001-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-1002-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 402AC811853
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 13 Dec 2023 16:51:13 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C0118118AE
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 13 Dec 2023 17:06:41 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 318E61C20C4F
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 13 Dec 2023 15:51:11 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 4400FB20A07
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 13 Dec 2023 16:06:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CCF5C85367;
-	Wed, 13 Dec 2023 15:50:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A9D6721A1E;
+	Wed, 13 Dec 2023 16:06:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Pz3NQVa7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ycu50YSE"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F2D02B7
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 13 Dec 2023 07:50:44 -0800 (PST)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 97DD8BD1;
-	Wed, 13 Dec 2023 16:49:56 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1702482596;
-	bh=JtO/rPKqKpbxuHjqgc1fa/HQxv1i+GHSYeuvA2dOmtU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Pz3NQVa7sxXVBhmu8HFU5Oem9jGyPbOGJLIfSLeWW2ZR/Bdvx4UpoioKHBfMVhgbZ
-	 RiizCjh0A29z1QtahL9QcpfB3YHUBWszffpHEKxaJbFjfRELY59W/4+zuVRKuH9GrV
-	 iPzY6vAjM4nN6bqUWz1ANvdr48aXxmD+mYLZl2aw=
-Date: Wed, 13 Dec 2023 17:50:49 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Biju Das <biju.das.jz@bp.renesas.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Biju Das <biju.das.au@gmail.com>
-Subject: Re: [PATCH v15 3/5] drm: renesas: Add RZ/G2L DU Support
-Message-ID: <20231213155049.GH12450@pendragon.ideasonboard.com>
-References: <20231128105129.161121-1-biju.das.jz@bp.renesas.com>
- <20231128105129.161121-4-biju.das.jz@bp.renesas.com>
- <sechknyg33iucaku37vfhk7ie7xgcealfqbvaopm4rrnqbo5g5@s35peonkzzoz>
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8314AAC
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 13 Dec 2023 08:06:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1702483593; x=1734019593;
+  h=date:from:to:cc:subject:message-id;
+  bh=c46aG3Dpcfv7badflXd/gFqV+qERfFlCFgTxPg4KNW8=;
+  b=Ycu50YSEdH/1xZLHdDUz5cNwvZaqacA5ufFEGYHgjkT5hVeIVbOCdqGs
+   fimfXjUYLA0w1mv2H3Uf67cn8bZXyhhntiQp8i742hT+LQIvUKB7rVjlz
+   GRupNMZXXIuAhb1bRhWOZOER7J6ir1V/DWXFasm87jDDAL38D5emzmFIz
+   /JSKCJG3+KsQNiCvqBdlx/MCnI1/ZWnYVCB+E8lDfmlcck2QQSux1hFY2
+   lsl7HhQiJmnzfyz6C1SEkxT+2zhPXdT/zQccMis2h9udYa5324J9qthjK
+   6izUsANjpOxcpqe8puPjfbP7QjW6bSKTZfoeHcITOrjjAt/isXDLALmno
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10923"; a="2068780"
+X-IronPort-AV: E=Sophos;i="6.04,273,1695711600"; 
+   d="scan'208";a="2068780"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2023 08:06:32 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10923"; a="917703739"
+X-IronPort-AV: E=Sophos;i="6.04,273,1695711600"; 
+   d="scan'208";a="917703739"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+  by fmsmga001.fm.intel.com with ESMTP; 13 Dec 2023 08:06:30 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rDRki-000KmY-0f;
+	Wed, 13 Dec 2023 16:06:28 +0000
+Date: Thu, 14 Dec 2023 00:06:14 +0800
+From: kernel test robot <lkp@intel.com>
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: linux-renesas-soc@vger.kernel.org
+Subject: [geert-renesas-drivers:topic/renesas-overlays-v6.7-rc1]
+ BUILD REGRESSION 45c4d18771144873342eae87e68a9d38dd0086cb
+Message-ID: <202312140011.1Q1VfkCQ-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <sechknyg33iucaku37vfhk7ie7xgcealfqbvaopm4rrnqbo5g5@s35peonkzzoz>
 
-On Wed, Dec 13, 2023 at 04:47:09PM +0100, Maxime Ripard wrote:
-> On Tue, Nov 28, 2023 at 10:51:27AM +0000, Biju Das wrote:
-> > The LCD controller is composed of Frame Compression Processor (FCPVD),
-> > Video Signal Processor (VSPD), and Display Unit (DU).
-> > 
-> > It has DPI/DSI interfaces and supports a maximum resolution of 1080p
-> > along with 2 RPFs to support the blending of two picture layers and
-> > raster operations (ROPs).
-> > 
-> > The DU module is connected to VSPD. Add RZ/G2L DU support for RZ/G2L
-> > alike SoCs.
-> > 
-> > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> 
-> I'd still like a review from Geert or Laurent, I don't know the SoC.
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git topic/renesas-overlays-v6.7-rc1
+branch HEAD: 45c4d18771144873342eae87e68a9d38dd0086cb  arm64: dts: renesas: whitehawk-cpu: Add overlay for CP97/98
 
-I won't have time soon, and this driver has been blocked for way too
-long due to that :-S
+Error/Warning ids grouped by kconfigs:
 
-> > +static int rzg2l_du_crtc_get(struct rzg2l_du_crtc *rcrtc)
-> > +{
-> > +	int ret;
-> > +
-> > +	/*
-> > +	 * Guard against double-get, as the function is called from both the
-> > +	 * .atomic_enable() and .atomic_flush() handlers.
-> > +	 */
-> > +	if (rcrtc->initialized)
-> > +		return 0;
-> > +
-> > +	ret = clk_prepare_enable(rcrtc->rzg2l_clocks.aclk);
-> > +	if (ret < 0)
-> > +		return ret;
-> > +
-> > +	ret = clk_prepare_enable(rcrtc->rzg2l_clocks.pclk);
-> > +	if (ret < 0)
-> > +		goto error_bus_clock;
-> > +
-> > +	ret = reset_control_deassert(rcrtc->rstc);
-> > +	if (ret < 0)
-> > +		goto error_peri_clock;
-> > +
-> > +	rzg2l_du_crtc_setup(rcrtc);
-> > +	rcrtc->initialized = true;
-> > +
-> > +	return 0;
-> > +
-> > +error_peri_clock:
-> > +	clk_disable_unprepare(rcrtc->rzg2l_clocks.pclk);
-> > +error_bus_clock:
-> > +	clk_disable_unprepare(rcrtc->rzg2l_clocks.aclk);
-> > +	return ret;
-> > +}
-> 
-> [...]
-> 
-> > +static void rzg2l_du_crtc_atomic_flush(struct drm_crtc *crtc,
-> > +				       struct drm_atomic_state *state)
-> > +{
-> > +	struct rzg2l_du_crtc *rcrtc = to_rzg2l_crtc(crtc);
-> > +	struct drm_device *dev = rcrtc->crtc.dev;
-> > +	unsigned long flags;
-> > +
-> > +	WARN_ON(!crtc->state->enable);
-> > +
-> > +	/*
-> > +	 * If a mode set is in progress we can be called with the CRTC disabled.
-> > +	 * We thus need to first get and setup the CRTC in order to configure
-> > +	 * planes. We must *not* put the CRTC, as it must be kept awake until
-> > +	 * the .atomic_enable() call that will follow. The get operation in
-> > +	 * .atomic_enable() will in that case be a no-op, and the CRTC will be
-> > +	 * put later in .atomic_disable().
-> > +	 */
-> > +	rzg2l_du_crtc_get(rcrtc);
-> 
-> That's a bit suspicious. Have you looked at drm_atomic_helper_commit_tail_rpm() ?
-> 
-> > +static int rzg2l_du_crtc_enable_vblank(struct drm_crtc *crtc)
-> > +{
-> > +	struct rzg2l_du_crtc *rcrtc = to_rzg2l_crtc(crtc);
-> > +
-> > +	rcrtc->vblank_enable = true;
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > +static void rzg2l_du_crtc_disable_vblank(struct drm_crtc *crtc)
-> > +{
-> > +	struct rzg2l_du_crtc *rcrtc = to_rzg2l_crtc(crtc);
-> > +
-> > +	rcrtc->vblank_enable = false;
-> > +}
-> 
-> You should enable / disable your interrupts here
-> 
-> > +int rzg2l_du_crtc_create(struct rzg2l_du_device *rcdu)
-> > +{
-> > +	struct rzg2l_du_crtc *rcrtc = &rcdu->crtcs[0];
-> > +	struct drm_crtc *crtc = &rcrtc->crtc;
-> > +	struct drm_plane *primary;
-> > +	int ret;
-> > +
-> > +	rcrtc->rstc = devm_reset_control_get_shared(rcdu->dev, NULL);
-> > +	if (IS_ERR(rcrtc->rstc)) {
-> > +		dev_err(rcdu->dev, "can't get cpg reset\n");
-> > +		return PTR_ERR(rcrtc->rstc);
-> > +	}
-> > +
-> > +	rcrtc->rzg2l_clocks.aclk = devm_clk_get(rcdu->dev, "aclk");
-> > +	if (IS_ERR(rcrtc->rzg2l_clocks.aclk)) {
-> > +		dev_err(rcdu->dev, "no axi clock for DU\n");
-> > +		return PTR_ERR(rcrtc->rzg2l_clocks.aclk);
-> > +	}
-> > +
-> > +	rcrtc->rzg2l_clocks.pclk = devm_clk_get(rcdu->dev, "pclk");
-> > +	if (IS_ERR(rcrtc->rzg2l_clocks.pclk)) {
-> > +		dev_err(rcdu->dev, "no peripheral clock for DU\n");
-> > +		return PTR_ERR(rcrtc->rzg2l_clocks.pclk);
-> > +	}
-> > +
-> > +	rcrtc->rzg2l_clocks.dclk = devm_clk_get(rcdu->dev, "vclk");
-> > +	if (IS_ERR(rcrtc->rzg2l_clocks.dclk)) {
-> > +		dev_err(rcdu->dev, "no video clock for DU\n");
-> > +		return PTR_ERR(rcrtc->rzg2l_clocks.dclk);
-> > +	}
-> > +
-> > +	init_waitqueue_head(&rcrtc->flip_wait);
-> > +	rcrtc->dev = rcdu;
-> > +
-> > +	primary = &rcrtc->vsp->planes[rcrtc->vsp_pipe].plane;
-> > +
-> > +	ret = drm_crtc_init_with_planes(&rcdu->ddev, crtc, primary, NULL,
-> > +					&crtc_funcs_rz, NULL);
-> > +	if (ret < 0)
-> > +		return ret;
-> 
-> You should use the drmm variant here
-> 
-> > +static void rzg2l_du_atomic_commit_tail(struct drm_atomic_state *old_state)
-> > +{
-> > +	struct drm_device *dev = old_state->dev;
-> > +
-> > +	/* Apply the atomic update. */
-> > +	drm_atomic_helper_commit_modeset_disables(dev, old_state);
-> > +	drm_atomic_helper_commit_planes(dev, old_state,
-> > +					DRM_PLANE_COMMIT_ACTIVE_ONLY);
-> > +	drm_atomic_helper_commit_modeset_enables(dev, old_state);
-> > +
-> > +	drm_atomic_helper_commit_hw_done(old_state);
-> > +	drm_atomic_helper_wait_for_flip_done(dev, old_state);
-> > +
-> > +	drm_atomic_helper_cleanup_planes(dev, old_state);
-> > +}
-> 
-> AFAIK, there's no reason to roll your commit_tail implementation
-> yourself here. You should at the very least document why you needed to
-> do so.
-> 
-> > +int rzg2l_du_vsp_map_fb(struct rzg2l_du_vsp *vsp, struct drm_framebuffer *fb,
-> > +			struct sg_table sg_tables[3])
-> > +{
-> > +	struct rzg2l_du_device *rcdu = vsp->dev;
-> > +	unsigned int i, j;
-> > +	int ret;
-> > +
-> > +	for (i = 0; i < fb->format->num_planes; ++i) {
-> > +		struct drm_gem_dma_object *gem = drm_fb_dma_get_gem_obj(fb, i);
-> > +		struct sg_table *sgt = &sg_tables[i];
-> > +
-> > +		if (gem->sgt) {
-> > +			struct scatterlist *src;
-> > +			struct scatterlist *dst;
-> > +
-> > +			/*
-> > +			 * If the GEM buffer has a scatter gather table, it has
-> > +			 * been imported from a dma-buf and has no physical
-> > +			 * address as it might not be physically contiguous.
-> > +			 * Copy the original scatter gather table to map it to
-> > +			 * the VSP.
-> > +			 */
-> > +			ret = sg_alloc_table(sgt, gem->sgt->orig_nents,
-> > +					     GFP_KERNEL);
-> > +			if (ret)
-> > +				goto fail;
-> > +
-> > +			src = gem->sgt->sgl;
-> > +			dst = sgt->sgl;
-> > +			for (j = 0; j < gem->sgt->orig_nents; ++j) {
-> > +				sg_set_page(dst, sg_page(src), src->length,
-> > +					    src->offset);
-> > +				src = sg_next(src);
-> > +				dst = sg_next(dst);
-> > +			}
-> > +		} else {
-> > +			ret = dma_get_sgtable(rcdu->dev, sgt, gem->vaddr,
-> > +					      gem->dma_addr, gem->base.size);
-> > +			if (ret)
-> > +				goto fail;
-> > +		}
-> > +
-> > +		ret = vsp1_du_map_sg(vsp->vsp, sgt);
-> > +		if (ret) {
-> > +			sg_free_table(sgt);
-> > +			goto fail;
-> > +		}
-> > +	}
-> > +
-> > +	return 0;
-> > +
-> > +fail:
-> > +	while (i--) {
-> > +		struct sg_table *sgt = &sg_tables[i];
-> > +
-> > +		vsp1_du_unmap_sg(vsp->vsp, sgt);
-> > +		sg_free_table(sgt);
-> > +	}
-> > +
-> > +	return ret;
-> > +}
-> 
-> Ditto, you should at least document why you're not using the helpers.
-> 
-> > +static void rzg2l_du_vsp_cleanup(struct drm_device *dev, void *res)
-> > +{
-> > +	struct rzg2l_du_vsp *vsp = res;
-> > +	unsigned int i;
-> > +
-> > +	for (i = 0; i < vsp->num_planes; ++i) {
-> > +		struct rzg2l_du_vsp_plane *plane = &vsp->planes[i];
-> > +
-> > +		drm_plane_cleanup(&plane->plane);
-> > +	}
-> > +
-> > +	kfree(vsp->planes);
-> > +
-> > +	put_device(vsp->vsp);
-> > +}
-> > +
-> > +int rzg2l_du_vsp_init(struct rzg2l_du_vsp *vsp, struct device_node *np,
-> > +		      unsigned int crtcs)
-> > +{
-> > +	struct rzg2l_du_device *rcdu = vsp->dev;
-> > +	struct platform_device *pdev;
-> > +	unsigned int num_crtcs = hweight32(crtcs);
-> > +	unsigned int num_planes = 2;
-> > +	unsigned int i;
-> > +	int ret;
-> > +
-> > +	/* Find the VSP device and initialize it. */
-> > +	pdev = of_find_device_by_node(np);
-> > +	if (!pdev)
-> > +		return -ENXIO;
-> > +
-> > +	vsp->vsp = &pdev->dev;
-> > +
-> > +	ret = drmm_add_action_or_reset(&rcdu->ddev, rzg2l_du_vsp_cleanup, vsp);
-> > +	if (ret < 0)
-> > +		return ret;
-> > +
-> > +	ret = vsp1_du_init(vsp->vsp);
-> > +	if (ret < 0)
-> > +		return ret;
-> > +
-> > +	vsp->planes = kcalloc(num_planes, sizeof(*vsp->planes), GFP_KERNEL);
-> > +	if (!vsp->planes)
-> > +		return -ENOMEM;
-> 
-> drmm_kcalloc or drmm_kmalloc_array
-> 
-> > +
-> > +	for (i = 0; i < num_planes; ++i) {
-> > +		enum drm_plane_type type = i < num_crtcs
-> > +					 ? DRM_PLANE_TYPE_PRIMARY
-> > +					 : DRM_PLANE_TYPE_OVERLAY;
-> > +		struct rzg2l_du_vsp_plane *plane = &vsp->planes[i];
-> > +
-> > +		plane->vsp = vsp;
-> > +		plane->index = i;
-> > +		ret = drm_universal_plane_init(&rcdu->ddev, &plane->plane,
-> > +					       crtcs, &rzg2l_du_vsp_plane_funcs,
-> > +					       rzg2l_du_vsp_formats,
-> > +					       ARRAY_SIZE(rzg2l_du_vsp_formats),
-> > +					       NULL, type, NULL);
-> > +		if (ret < 0)
-> > +			return ret;
-> 
-> you need to use drmm variant here too.
+gcc_recent_errors
+|-- sparc-allmodconfig
+|   |-- arch-sparc-kernel-adi_64.c:error:no-previous-prototype-for-del_tag_store
+|   |-- arch-sparc-kernel-time_64.c:error:no-previous-prototype-for-sched_clock
+|   |-- arch-sparc-kernel-traps_64.c:error:no-previous-prototype-for-is_no_fault_exception
+|   |-- arch-sparc-kernel-traps_64.c:error:no-previous-prototype-for-sun4v_nonresum_error_user_handled
+|   `-- arch-sparc-kernel-uprobes.c:error:no-previous-prototype-for-uprobe_trap
+|-- sparc64-randconfig-001-20231213
+|   |-- arch-sparc-kernel-adi_64.c:error:no-previous-prototype-for-del_tag_store
+|   |-- arch-sparc-kernel-time_64.c:error:no-previous-prototype-for-sched_clock
+|   |-- arch-sparc-kernel-traps_64.c:error:no-previous-prototype-for-is_no_fault_exception
+|   `-- arch-sparc-kernel-traps_64.c:error:no-previous-prototype-for-sun4v_nonresum_error_user_handled
+`-- sparc64-randconfig-002-20231213
+    |-- arch-sparc-kernel-adi_64.c:error:no-previous-prototype-for-del_tag_store
+    |-- arch-sparc-kernel-time_64.c:error:no-previous-prototype-for-sched_clock
+    |-- arch-sparc-kernel-traps_64.c:error:no-previous-prototype-for-is_no_fault_exception
+    `-- arch-sparc-kernel-traps_64.c:error:no-previous-prototype-for-sun4v_nonresum_error_user_handled
+
+elapsed time: 1464m
+
+configs tested: 199
+configs skipped: 2
+
+tested configs:
+alpha                             allnoconfig   gcc  
+alpha                            allyesconfig   gcc  
+alpha                               defconfig   gcc  
+arc                              allmodconfig   gcc  
+arc                               allnoconfig   gcc  
+arc                              allyesconfig   gcc  
+arc                                 defconfig   gcc  
+arc                   randconfig-001-20231213   gcc  
+arc                   randconfig-002-20231213   gcc  
+arm                              allmodconfig   gcc  
+arm                               allnoconfig   gcc  
+arm                              allyesconfig   gcc  
+arm                         axm55xx_defconfig   gcc  
+arm                                 defconfig   clang
+arm                            hisi_defconfig   gcc  
+arm                         lpc18xx_defconfig   gcc  
+arm                   randconfig-001-20231213   clang
+arm                   randconfig-002-20231213   clang
+arm                   randconfig-003-20231213   clang
+arm                   randconfig-004-20231213   clang
+arm                             rpc_defconfig   gcc  
+arm64                            allmodconfig   clang
+arm64                             allnoconfig   gcc  
+arm64                               defconfig   gcc  
+arm64                 randconfig-001-20231213   clang
+arm64                 randconfig-002-20231213   clang
+arm64                 randconfig-003-20231213   clang
+arm64                 randconfig-004-20231213   clang
+csky                             alldefconfig   gcc  
+csky                             allmodconfig   gcc  
+csky                              allnoconfig   gcc  
+csky                             allyesconfig   gcc  
+csky                                defconfig   gcc  
+csky                  randconfig-001-20231213   gcc  
+csky                  randconfig-002-20231213   gcc  
+hexagon                          allmodconfig   clang
+hexagon                           allnoconfig   clang
+hexagon                          allyesconfig   clang
+hexagon                             defconfig   clang
+hexagon               randconfig-001-20231213   clang
+hexagon               randconfig-002-20231213   clang
+i386                             allmodconfig   clang
+i386                              allnoconfig   clang
+i386                             allyesconfig   clang
+i386         buildonly-randconfig-001-20231213   clang
+i386         buildonly-randconfig-002-20231213   clang
+i386         buildonly-randconfig-003-20231213   clang
+i386         buildonly-randconfig-004-20231213   clang
+i386         buildonly-randconfig-005-20231213   clang
+i386         buildonly-randconfig-006-20231213   clang
+i386                                defconfig   gcc  
+i386                  randconfig-001-20231213   clang
+i386                  randconfig-002-20231213   clang
+i386                  randconfig-003-20231213   clang
+i386                  randconfig-004-20231213   clang
+i386                  randconfig-005-20231213   clang
+i386                  randconfig-006-20231213   clang
+i386                  randconfig-011-20231213   gcc  
+i386                  randconfig-012-20231213   gcc  
+i386                  randconfig-013-20231213   gcc  
+i386                  randconfig-014-20231213   gcc  
+i386                  randconfig-015-20231213   gcc  
+i386                  randconfig-016-20231213   gcc  
+loongarch                        allmodconfig   gcc  
+loongarch                         allnoconfig   gcc  
+loongarch                        allyesconfig   gcc  
+loongarch                           defconfig   gcc  
+loongarch                 loongson3_defconfig   gcc  
+loongarch             randconfig-001-20231213   gcc  
+loongarch             randconfig-002-20231213   gcc  
+m68k                             allmodconfig   gcc  
+m68k                              allnoconfig   gcc  
+m68k                             allyesconfig   gcc  
+m68k                                defconfig   gcc  
+m68k                       m5275evb_defconfig   gcc  
+m68k                        mvme147_defconfig   gcc  
+microblaze                       allmodconfig   gcc  
+microblaze                        allnoconfig   gcc  
+microblaze                       allyesconfig   gcc  
+microblaze                          defconfig   gcc  
+mips                             allmodconfig   gcc  
+mips                              allnoconfig   clang
+mips                             allyesconfig   gcc  
+mips                  decstation_64_defconfig   gcc  
+mips                 decstation_r4k_defconfig   gcc  
+mips                           ip22_defconfig   gcc  
+mips                           ip32_defconfig   gcc  
+mips                           mtx1_defconfig   clang
+mips                        qi_lb60_defconfig   clang
+mips                           rs90_defconfig   clang
+nios2                            allmodconfig   gcc  
+nios2                             allnoconfig   gcc  
+nios2                            allyesconfig   gcc  
+nios2                               defconfig   gcc  
+nios2                 randconfig-001-20231213   gcc  
+nios2                 randconfig-002-20231213   gcc  
+openrisc                         allmodconfig   gcc  
+openrisc                          allnoconfig   gcc  
+openrisc                         allyesconfig   gcc  
+openrisc                            defconfig   gcc  
+parisc                           allmodconfig   gcc  
+parisc                            allnoconfig   gcc  
+parisc                           allyesconfig   gcc  
+parisc                              defconfig   gcc  
+parisc                randconfig-001-20231213   gcc  
+parisc                randconfig-002-20231213   gcc  
+parisc64                            defconfig   gcc  
+powerpc                          allmodconfig   clang
+powerpc                           allnoconfig   gcc  
+powerpc                          allyesconfig   clang
+powerpc                 canyonlands_defconfig   gcc  
+powerpc                      makalu_defconfig   gcc  
+powerpc               randconfig-001-20231213   clang
+powerpc               randconfig-002-20231213   clang
+powerpc               randconfig-003-20231213   clang
+powerpc                     tqm8541_defconfig   gcc  
+powerpc                      tqm8xx_defconfig   gcc  
+powerpc64             randconfig-001-20231213   clang
+powerpc64             randconfig-002-20231213   clang
+powerpc64             randconfig-003-20231213   clang
+riscv                            allmodconfig   gcc  
+riscv                             allnoconfig   clang
+riscv                            allyesconfig   gcc  
+riscv                               defconfig   gcc  
+riscv                    nommu_k210_defconfig   gcc  
+riscv                 randconfig-001-20231213   clang
+riscv                 randconfig-002-20231213   clang
+riscv                          rv32_defconfig   clang
+s390                             allmodconfig   gcc  
+s390                              allnoconfig   gcc  
+s390                             allyesconfig   gcc  
+s390                                defconfig   gcc  
+s390                  randconfig-001-20231213   gcc  
+s390                  randconfig-002-20231213   gcc  
+sh                               allmodconfig   gcc  
+sh                                allnoconfig   gcc  
+sh                               allyesconfig   gcc  
+sh                                  defconfig   gcc  
+sh                         ecovec24_defconfig   gcc  
+sh                          landisk_defconfig   gcc  
+sh                    randconfig-001-20231213   gcc  
+sh                    randconfig-002-20231213   gcc  
+sh                          rsk7264_defconfig   gcc  
+sh                          sdk7786_defconfig   gcc  
+sh                           se7619_defconfig   gcc  
+sh                           se7724_defconfig   gcc  
+sh                           se7751_defconfig   gcc  
+sparc                            allmodconfig   gcc  
+sparc                            allyesconfig   gcc  
+sparc                       sparc32_defconfig   gcc  
+sparc                       sparc64_defconfig   gcc  
+sparc64                          allmodconfig   gcc  
+sparc64                          allyesconfig   gcc  
+sparc64                             defconfig   gcc  
+sparc64               randconfig-001-20231213   gcc  
+sparc64               randconfig-002-20231213   gcc  
+um                               allmodconfig   clang
+um                                allnoconfig   clang
+um                               allyesconfig   clang
+um                                  defconfig   gcc  
+um                             i386_defconfig   gcc  
+um                    randconfig-001-20231213   clang
+um                    randconfig-002-20231213   clang
+um                           x86_64_defconfig   gcc  
+x86_64                            allnoconfig   gcc  
+x86_64                           allyesconfig   clang
+x86_64       buildonly-randconfig-001-20231213   clang
+x86_64       buildonly-randconfig-002-20231213   clang
+x86_64       buildonly-randconfig-003-20231213   clang
+x86_64       buildonly-randconfig-004-20231213   clang
+x86_64       buildonly-randconfig-005-20231213   clang
+x86_64       buildonly-randconfig-006-20231213   clang
+x86_64                              defconfig   gcc  
+x86_64                                  kexec   gcc  
+x86_64                randconfig-001-20231213   gcc  
+x86_64                randconfig-002-20231213   gcc  
+x86_64                randconfig-003-20231213   gcc  
+x86_64                randconfig-004-20231213   gcc  
+x86_64                randconfig-005-20231213   gcc  
+x86_64                randconfig-006-20231213   gcc  
+x86_64                randconfig-011-20231213   clang
+x86_64                randconfig-012-20231213   clang
+x86_64                randconfig-013-20231213   clang
+x86_64                randconfig-014-20231213   clang
+x86_64                randconfig-015-20231213   clang
+x86_64                randconfig-016-20231213   clang
+x86_64                randconfig-071-20231213   clang
+x86_64                randconfig-072-20231213   clang
+x86_64                randconfig-073-20231213   clang
+x86_64                randconfig-074-20231213   clang
+x86_64                randconfig-075-20231213   clang
+x86_64                randconfig-076-20231213   clang
+x86_64                           rhel-8.3-bpf   gcc  
+x86_64                          rhel-8.3-rust   clang
+x86_64                               rhel-8.3   gcc  
+xtensa                            allnoconfig   gcc  
+xtensa                           allyesconfig   gcc  
+xtensa                randconfig-001-20231213   gcc  
+xtensa                randconfig-002-20231213   gcc  
 
 -- 
-Regards,
-
-Laurent Pinchart
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
