@@ -1,106 +1,77 @@
-Return-Path: <linux-renesas-soc+bounces-970-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-971-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5EFA9810D71
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 13 Dec 2023 10:30:32 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id E4288810D7F
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 13 Dec 2023 10:32:36 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id DE7B3B208D6
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 13 Dec 2023 09:30:29 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9888F1F210FF
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 13 Dec 2023 09:32:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1F2BD200D9;
-	Wed, 13 Dec 2023 09:30:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 60BFB1EB5A;
+	Wed, 13 Dec 2023 09:32:33 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com [209.85.128.179])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CC3F3A4
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 13 Dec 2023 01:30:22 -0800 (PST)
-Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-5e2b8f480b3so3060927b3.0
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 13 Dec 2023 01:30:22 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702459822; x=1703064622;
-        h=content-transfer-encoding:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=QVSejphNBHhfFCu8VwDHlybiyGvLYfKl3c0xzDvIRGk=;
-        b=WrmYQL7EgNDCe2cktTTy4o5YHpWulk1flN/+SMliuBOCk5Pq9X3ipG+G55DJYWjMv9
-         /JzI+ViWpDfJSskCD6+s1X5TSV57ytB8yjYDFdHTiyEBVrNbSOjMGS4bxBRtXRsMVzyI
-         G+Wh4hlrlCFEoUDUKHQs/8oljAsklRZgjw033v47wxbjukXneqIhcTox4f3CFfN3d5l8
-         n3njVT4lY4Zg5u6NERfSVv7H/ZlB+sJXUwo/E9TcOd0jmBORSp9c5gq/maHdMI6/Qxd6
-         LZhGJpLjO81PcDX/Y2ThRvWq4n4CopXm7do5+2f84f4RrOjlZbLjCH3xikaIJBynadPn
-         k7Yw==
-X-Gm-Message-State: AOJu0YwZzj+A7GjEsAg7zuOeKG+G09/U6mXSA0HyUt5h3SliKqrAyuuQ
-	zT1gOfni3wV5MgnGKtNcWxzIE1rtArI4wg==
-X-Google-Smtp-Source: AGHT+IGeO3JyzJiXMIAAFf1XE5ShYBk6S6z5bW3ljfkaDdZ4hGBVdnfeO9kk0+l6j8G8OpLFbxGmFQ==
-X-Received: by 2002:a81:6c45:0:b0:5e2:26eb:969d with SMTP id h66-20020a816c45000000b005e226eb969dmr1435427ywc.42.1702459821807;
-        Wed, 13 Dec 2023 01:30:21 -0800 (PST)
-Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com. [209.85.128.173])
-        by smtp.gmail.com with ESMTPSA id i16-20020a0ddf10000000b005e28951e3a4sm609475ywe.51.2023.12.13.01.30.21
-        for <linux-renesas-soc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 13 Dec 2023 01:30:21 -0800 (PST)
-Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-5e2eccf46ddso1502337b3.1
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 13 Dec 2023 01:30:21 -0800 (PST)
-X-Received: by 2002:a81:d50e:0:b0:5cd:ef57:ce3a with SMTP id
- i14-20020a81d50e000000b005cdef57ce3amr5919852ywj.0.1702459821096; Wed, 13 Dec
- 2023 01:30:21 -0800 (PST)
+Received: from xavier.telenet-ops.be (xavier.telenet-ops.be [IPv6:2a02:1800:120:4::f00:14])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BCF21A4
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 13 Dec 2023 01:32:29 -0800 (PST)
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed40:1c98:dbe1:1f42:c87a])
+	by xavier.telenet-ops.be with bizsmtp
+	id MlYT2B0044GNoGY01lYTPd; Wed, 13 Dec 2023 10:32:27 +0100
+Received: from rox.of.borg ([192.168.97.57])
+	by ramsan.of.borg with esmtp (Exim 4.95)
+	(envelope-from <geert@linux-m68k.org>)
+	id 1rDLb1-00Bye0-7j;
+	Wed, 13 Dec 2023 10:32:26 +0100
+Received: from geert by rox.of.borg with local (Exim 4.95)
+	(envelope-from <geert@linux-m68k.org>)
+	id 1rDLbO-00G4Wv-Sh;
+	Wed, 13 Dec 2023 10:32:26 +0100
+From: Geert Uytterhoeven <geert+renesas@glider.be>
+To: Magnus Damm <magnus.damm@gmail.com>
+Cc: linux-renesas-soc@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH] arm64: dts: renesas: white-hawk-cpu: Fix missing serial console pin control
+Date: Wed, 13 Dec 2023 10:32:25 +0100
+Message-Id: <8a51516581cd71ecbfa174af9c7cebad1fc83c5b.1702459865.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cover.1702309604.git.geert+renesas@glider.be> <7f9c840ed44dfd57da545e87b5937b58f35cb9c9.1702309604.git.geert+renesas@glider.be>
-In-Reply-To: <7f9c840ed44dfd57da545e87b5937b58f35cb9c9.1702309604.git.geert+renesas@glider.be>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 13 Dec 2023 10:30:09 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdWX9NBwXTaor7CW5Q9VMTDCVT4F7gEYxGZmHcQeJBCd4w@mail.gmail.com>
-Message-ID: <CAMuHMdWX9NBwXTaor7CW5Q9VMTDCVT4F7gEYxGZmHcQeJBCd4w@mail.gmail.com>
-Subject: Re: [PATCH/RFC 7/7] arm64: dts: renesas: r8a779g0: Add White Hawk
- Single support
-To: linux-renesas-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Mon, Dec 11, 2023 at 5:01=E2=80=AFPM Geert Uytterhoeven
-<geert+renesas@glider.be> wrote:
-> The White Hawk Single board is a single-board integration of the Renesas
-> White Hawk CPU and Breakout board stack, based on the R-Car V4H ES2.0
-> (R8A779G2) SoC.
->
-> For now, the only visible differences compared to the board stack are:
->   - The SoC is an updated version of R-Car V4H (R8A779G0),
->   - The serial console uses an FT2232H instead of a CP2102 USB-UART
->     bridge, with CTS/RTS wired.
->
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+The pin control description for the serial console was added, but not
+enabled, due to missing pinctrl properties in the serial port device
+node.
 
-> --- /dev/null
-> +++ b/arch/arm64/boot/dts/renesas/r8a779g2-white-hawk-single.dts
+Fixes: 7a8d590de8132853 ("arm64: dts: renesas: white-hawk-cpu: Add serial port pin control")
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+To be queued in renesas-devel for v6.8.
 
-> +
-> +&pfc {
-> +       hscif0_pins: hscif0 {
+ arch/arm64/boot/dts/renesas/r8a779g0-white-hawk-cpu.dtsi | 3 +++
+ 1 file changed, 3 insertions(+)
 
-&hscif0_pins {
+diff --git a/arch/arm64/boot/dts/renesas/r8a779g0-white-hawk-cpu.dtsi b/arch/arm64/boot/dts/renesas/r8a779g0-white-hawk-cpu.dtsi
+index bb4a5270f71b6a75..913f70fe6c5cd2d8 100644
+--- a/arch/arm64/boot/dts/renesas/r8a779g0-white-hawk-cpu.dtsi
++++ b/arch/arm64/boot/dts/renesas/r8a779g0-white-hawk-cpu.dtsi
+@@ -187,6 +187,9 @@ &extalr_clk {
+ };
+ 
+ &hscif0 {
++	pinctrl-0 = <&hscif0_pins>;
++	pinctrl-names = "default";
++
+ 	status = "okay";
+ };
+ 
+-- 
+2.34.1
 
-> +               groups =3D "hscif0_data", "hscif0_ctrl";
-> +               function =3D "hscif0";
-> +       };
-> +};
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
 
