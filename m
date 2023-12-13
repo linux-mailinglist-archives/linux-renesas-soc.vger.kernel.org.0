@@ -1,136 +1,210 @@
-Return-Path: <linux-renesas-soc+bounces-972-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-973-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 833AB810DBF
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 13 Dec 2023 10:56:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9512E811056
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 13 Dec 2023 12:40:20 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3A2302813D5
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 13 Dec 2023 09:55:59 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4C89528150C
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 13 Dec 2023 11:40:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AF6D0219E9;
-	Wed, 13 Dec 2023 09:55:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=crapouillou.net header.i=@crapouillou.net header.b="PYtZ1FH7"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DBA3A249F7;
+	Wed, 13 Dec 2023 11:40:16 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from aposti.net (aposti.net [89.234.176.197])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 82ECAD0;
-	Wed, 13 Dec 2023 01:55:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
-	s=mail; t=1702461349;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=O+nOj5MYcM4srD76YhSDWHxSUN6Beaf32aCqIr/6IcY=;
-	b=PYtZ1FH72J9BtqoyieIYRE3EXQzn8sFVHJ2pZLYJ5FGmyWewc81Q1u4AxE+RdcEK48yz1b
-	16qAyF9wivlgKlaVJ7YH1liZymekiefMXYHXnuQ0i/55n0f/lmT90fEAeBt8rzxnwMWPum
-	dN45uxJ7uLcn+Pv3j2ZbVn/c0EsQsxk=
-Message-ID: <fb29c3bca8d245e3f7496539b7293aa4fc4bccd0.camel@crapouillou.net>
-Subject: Re: [PATCH v5 03/13] pinctrl: ingenic: Use C99 initializers in
- PINCTRL_PIN_GROUP()
-From: Paul Cercueil <paul@crapouillou.net>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Linus Walleij
- <linus.walleij@linaro.org>, Bartosz Golaszewski
- <bartosz.golaszewski@linaro.org>,  Geert Uytterhoeven
- <geert+renesas@glider.be>, Rasmus Villemoes <linux@rasmusvillemoes.dk>,
- Biju Das <biju.das.jz@bp.renesas.com>, Claudiu Beznea
- <claudiu.beznea.uj@bp.renesas.com>,  Jianlong Huang
- <jianlong.huang@starfivetech.com>, linux-arm-kernel@lists.infradead.org, 
- linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-mediatek@lists.infradead.org, linux-mips@vger.kernel.org, 
- linux-renesas-soc@vger.kernel.org
-Cc: Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>, 
- Broadcom internal kernel review list
- <bcm-kernel-feedback-list@broadcom.com>, Dong Aisheng
- <aisheng.dong@nxp.com>,  Fabio Estevam <festevam@gmail.com>, Shawn Guo
- <shawnguo@kernel.org>, Jacky Bai <ping.bai@nxp.com>,  Pengutronix Kernel
- Team <kernel@pengutronix.de>, Sascha Hauer <s.hauer@pengutronix.de>, NXP
- Linux Team <linux-imx@nxp.com>, Sean Wang <sean.wang@kernel.org>, Lakshmi
- Sowjanya D <lakshmi.sowjanya.d@intel.com>, Emil Renner Berthing
- <kernel@esmil.dk>, Hal Feng <hal.feng@starfivetech.com>
-Date: Wed, 13 Dec 2023 10:55:46 +0100
-In-Reply-To: <20231211190321.307330-4-andriy.shevchenko@linux.intel.com>
-References: <20231211190321.307330-1-andriy.shevchenko@linux.intel.com>
-	 <20231211190321.307330-4-andriy.shevchenko@linux.intel.com>
-Autocrypt: addr=paul@crapouillou.net; prefer-encrypt=mutual;
- keydata=mQENBF0KhcEBCADkfmrzdTOp/gFOMQX0QwKE2WgeCJiHPWkpEuPH81/HB2dpjPZNW03ZMLQfECbbaEkdbN4YnPfXgcc1uBe5mwOAPV1MBlaZcEt4M67iYQwSNrP7maPS3IaQJ18ES8JJ5Uf5UzFZaUawgH+oipYGW+v31cX6L3k+dGsPRM0Pyo0sQt52fsopNPZ9iag0iY7dGNuKenaEqkYNjwEgTtNz8dt6s3hMpHIKZFL3OhAGi88wF/21isv0zkF4J0wlf9gYUTEEY3Eulx80PTVqGIcHZzfavlWIdzhe+rxHTDGVwseR2Y1WjgFGQ2F+vXetAB8NEeygXee+i9nY5qt9c07m8mzjABEBAAG0JFBhdWwgQ2VyY3VlaWwgPHBhdWxAY3JhcG91aWxsb3UubmV0PokBTgQTAQoAOBYhBNdHYd8OeCBwpMuVxnPua9InSr1BBQJdCoXBAhsDBQsJCAcCBhUKCQgLAgQWAgMBAh4BAheAAAoJEHPua9InSr1BgvIH/0kLyrI3V0f33a6D3BJwc1grbygPVYGuC5l5eMnAI+rDmLR19E2yvibRpgUc87NmPEQPpbbtAZt8On/2WZoE5OIPdlId/AHNpdgAtGXo0ZX4LGeVPjxjdkbrKVHxbcdcnY+zzaFglpbVSvp76pxqgVg8PgxkAAeeJV+ET4t0823Gz2HzCL/6JZhvKAEtHVulOWoBh368SYdolp1TSfORWmHzvQiCCCA+j0cMkYVGzIQzEQhX7Urf9N/nhU5/SGLFEi9DcBfXoGzhyQyLXflhJtKm3XGB1K/pPulbKaPcKAl6rIDWPuFpHkSbmZ9r4KFlBwgAhlGy6nqP7O3u7q23hRW5AQ0EXQqFwQEIAMo+MgvYHsyjX3Ja4Oolg1Txzm8woj30ch2nACFCqaO0R/1kLj2VVeLrDyQUOlXx9PD6IQI4M8wy8m0sR4wV2p/g/paw7k65cjzYYLh+FdLNyO7IW
-	YXndJO+wDPi3aK/YKUYepqlP+QsmaHNYNdXEQDRKqNfJg8t0f5rfzp9ryxd1tCnbV+tG8VHQWiZXNqN7062DygSNXFUfQ0vZ3J2D4oAcIAEXTymRQ2+hr3Hf7I61KMHWeSkCvCG2decTYsHlw5Erix/jYWqVOtX0roOOLqWkqpQQJWtU+biWrAksmFmCp5fXIg1Nlg39v21xCXBGxJkxyTYuhdWyu1yDQ+LSIUAEQEAAYkBNgQYAQoAIBYhBNdHYd8OeCBwpMuVxnPua9InSr1BBQJdCoXBAhsMAAoJEHPua9InSr1B4wsH/Az767YCT0FSsMNt1jkkdLCBi7nY0GTW+PLP1a4zvVqFMo/vD6uz1ZflVTUAEvcTi3VHYZrlgjcxmcGu239oruqUS8Qy/xgZBp9KF0NTWQSl1iBfVbIU5VV1vHS6r77W5x0qXgfvAUWOH4gmN3MnF01SH2zMcLiaUGF+mcwl15rHbjnT3Nu2399aSE6cep86igfCAyFUOXjYEGlJy+c6UyT+DUylpjQg0nl8MlZ/7Whg2fAU9+FALIbQYQzGlT4c71SibR9T741jnegHhlmV4WXXUD6roFt54t0MSAFSVxzG8mLcSjR2cLUJ3NIPXixYUSEn3tQhfZj07xIIjWxAYZo=
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 23A44A5
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 13 Dec 2023 03:40:11 -0800 (PST)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1rDNav-0007rJ-Ru; Wed, 13 Dec 2023 12:40:05 +0100
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1rDNau-00FYhS-MM; Wed, 13 Dec 2023 12:40:04 +0100
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1rDNau-002GH7-Cq; Wed, 13 Dec 2023 12:40:04 +0100
+Date: Wed, 13 Dec 2023 12:40:04 +0100
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Biju Das <biju.das.jz@bp.renesas.com>
+Cc: Thierry Reding <thierry.reding@gmail.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	"linux-pwm@vger.kernel.org" <linux-pwm@vger.kernel.org>,
+	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH v17 3/4] pwm: Add support for RZ/G2L GPT
+Message-ID: <20231213114004.cuei66hi3jmcpocj@pengutronix.de>
+References: <20231120113307.80710-1-biju.das.jz@bp.renesas.com>
+ <20231120113307.80710-4-biju.das.jz@bp.renesas.com>
+ <20231206183824.g6dc5ib2dfb7um7n@pengutronix.de>
+ <TYCPR01MB1126952E843AC08DB732C18A5868BA@TYCPR01MB11269.jpnprd01.prod.outlook.com>
+ <20231207214159.i5347ikpbt2ihznr@pengutronix.de>
+ <TYCPR01MB11269C233892B6E3002622C3B868AA@TYCPR01MB11269.jpnprd01.prod.outlook.com>
+ <20231208140718.laekt3jlsmwvzc7x@pengutronix.de>
+ <TYCPR01MB11269900EF62D8CA3E906DBAC868AA@TYCPR01MB11269.jpnprd01.prod.outlook.com>
+ <TYCPR01MB1126992DD51F714AEDADF0A4F868DA@TYCPR01MB11269.jpnprd01.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="5uzhohpjibqigktr"
+Content-Disposition: inline
+In-Reply-To: <TYCPR01MB1126992DD51F714AEDADF0A4F868DA@TYCPR01MB11269.jpnprd01.prod.outlook.com>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-renesas-soc@vger.kernel.org
 
-Hi Andy,
 
-Le lundi 11 d=C3=A9cembre 2023 =C3=A0 20:57 +0200, Andy Shevchenko a =C3=A9=
-crit=C2=A0:
-> For the better flexibility use C99 initializers in
-> PINCTRL_PIN_GROUP().
+--5uzhohpjibqigktr
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Wed, Dec 13, 2023 at 09:06:56AM +0000, Biju Das wrote:
+> Hi Uwe,
 >=20
-> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> ---
-> =C2=A0drivers/pinctrl/pinctrl-ingenic.c | 21 +++++++++++++--------
-> =C2=A01 file changed, 13 insertions(+), 8 deletions(-)
+> > -----Original Message-----
+> > From: Biju Das
+> > Sent: Friday, December 8, 2023 2:12 PM
+> > Subject: RE: [PATCH v17 3/4] pwm: Add support for RZ/G2L GPT
+> >=20
+> > Hi Uwe Kleine-K=F6nig,
+> >=20
+> > > -----Original Message-----
+> > > From: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
+> > > Sent: Friday, December 8, 2023 2:07 PM
+> > > Subject: Re: [PATCH v17 3/4] pwm: Add support for RZ/G2L GPT
+> > >
+> > > Hello Biju,
+> > >
+> > > On Fri, Dec 08, 2023 at 10:34:55AM +0000, Biju Das wrote:
+> > > > > -----Original Message-----
+> > > > > From: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
+> > > > > Sent: Thursday, December 7, 2023 9:42 PM
+> > > > > Subject: Re: [PATCH v17 3/4] pwm: Add support for RZ/G2L GPT
+> > > > >
+> > > > > Hello Biju,
+> > > > >
+> > > > > On Thu, Dec 07, 2023 at 06:26:44PM +0000, Biju Das wrote:
+> > > > > > ######[  304.213944] pwm-rzg2l-gpt 10048000.pwm: .apply is not
+> > > > > > idempotent (ena=3D1 pol=3D0 5500000000000/43980352512000) -> (e=
+na=3D1
+> > > > > > pol=3D0
+> > > > > > 5500000000000/43980239923200)
+> > > > > > 	 High setting##
+> > > > > > 	[  304.230854] pwm-rzg2l-gpt 10048000.pwm: .apply is not
+> > > > > > idempotent
+> > > > > > (ena=3D1 pol=3D0 23980465100800/43980352512000) -> (ena=3D1 pol=
+=3D0
+> > > > > > 23980465100800/43980239923200)
+> > > > >
+> > > > > Have you tried to understand that? What is the clk rate when this
+> > > happens?
+> > > > > You're not suggesting that mul_u64_u64_div_u64 is wrong, are you?
+> > > >
+> > > > mul_u64_u64_div_u64() works for certain values. But for very high
+> > > > values we are losing precision and is giving unexpected values.
+> > >
+> > > Can you reduce the problem to a bogus result of mul_u64_u64_div_u64()?
+> > > I'd be very surprised if the problem was mul_u64_u64_div_u64() and not
+> > > how it's used in your pwm driver.
+> >=20
+> > When I looked last time, it drops precision here[1]. I will recheck aga=
+in.
+> > On RZ/G2L family devices, the PWM rate is 100MHz.
+> >=20
+>  [1]
+> https://elixir.bootlin.com/linux/v6.7-rc4/source/lib/math/div64.c#L214
 >=20
-> diff --git a/drivers/pinctrl/pinctrl-ingenic.c
-> b/drivers/pinctrl/pinctrl-ingenic.c
-> index ee718f6e2556..f5661dcdedf5 100644
-> --- a/drivers/pinctrl/pinctrl-ingenic.c
-> +++ b/drivers/pinctrl/pinctrl-ingenic.c
-> @@ -82,16 +82,21 @@
-> =C2=A0#define PINS_PER_GPIO_CHIP			32
-> =C2=A0#define JZ4730_PINS_PER_PAIRED_REG	16
-> =C2=A0
-> -#define INGENIC_PIN_GROUP_FUNCS(name, id, funcs)		\
-> -	{						\
-> -		name,					\
-> -		id##_pins,				\
-> -		ARRAY_SIZE(id##_pins),			\
-> -		funcs,					\
-> +#define INGENIC_PIN_GROUP_FUNCS(_name_, id,
-> funcs)					\
-> +	{						=09
-> 			\
-> +		.name =3D
-> _name_,								\
-> +		.pins =3D
-> id##_pins,							\
-> +		.num_pins =3D
-> ARRAY_SIZE(id##_pins),					\
-> +		.data =3D
-> funcs,								\
-> =C2=A0	}
-> =C2=A0
-> -#define INGENIC_PIN_GROUP(name, id, func)		\
-> -	INGENIC_PIN_GROUP_FUNCS(name, id, (void *)(func))
-> +#define INGENIC_PIN_GROUP(_name_, id,
-> func)						\
-> +	{						=09
-> 			\
-> +		.name =3D
-> _name_,								\
-> +		.pins =3D
-> id##_pins,							\
-> +		.num_pins =3D
-> ARRAY_SIZE(id##_pins),					\
-> +		.data =3D (void
-> *)func,							\
-> +	}
+>=20
+> Please find the bug details in mul_u64_u64_div_u64() compared to mul_u64_=
+u32_div()
+>=20
+> Theoretical calculation:
+>=20
+> Period =3D 43980465100800 nsec
+> Duty_cycle =3D 23980465100800 nsec
+> PWM rate =3D 100MHz
+>=20
+> period_cycles(tmp) =3D 43980465100800 * (100 * 10 ^ 6) / (10 ^ 9) =3D 439=
+8046510080
+> prescale =3D ((43980465100800 >> 32) >=3D 256) =3D 5
+> period_cycles =3D min (round_up(4398046510080,( 1 << (2 * 5 )), U32_MAX) =
+=3D min (4295162607, U32_MAX) =3D U32_MAX =3D 0xFFFFFFFF
+> duty_cycles =3D min (2398046510080, ,( 1 << (2 * 5 )), U32_MAX) =3D  min =
+(2341842295, U32_MAX) =3D 0x8B95AD77
+>=20
+>=20
+> with mul_u64_u64_div_u64 (ARM64):
+> [   54.551612] ##### period_cycles_norm=3D43980465100800
+> [   54.305923] ##### period_cycles_tmp=3D4398035251080 ---> This is the b=
+ug.
 
-This INGENIC_PIN_GROUP() macro doesn't need to be modified, does it?
+It took me a while to read from your mail that=20
 
-Cheers,
--Paul
+	mul_u64_u64_div_u64(43980465100800, 100000000, 1000000000)
 
-> =C2=A0
-> =C2=A0enum jz_version {
-> =C2=A0	ID_JZ4730,
+yields 4398035251080 on your machine (which isn't the exact result).
 
+I came to the same conclusion, damn, I thought mul_u64_u64_div_u64() was
+exact. I wonder if it's worth to improve that. One fun fact is that
+while mul_u64_u64_div_u64(43980465100800, 100000000, 1000000000) yields
+4398035251080 (which is off by 11259000), swapping the parameters (and
+thus using mul_u64_u64_div_u64(100000000, 43980465100800, 1000000000))
+yields 4398046510080 which is the exact result.
+
+So this exact issue can be improved by:
+
+diff --git a/lib/math/div64.c b/lib/math/div64.c
+index 55a81782e271..9523c3cd37f7 100644
+--- a/lib/math/div64.c
++++ b/lib/math/div64.c
+@@ -188,6 +188,9 @@ u64 mul_u64_u64_div_u64(u64 a, u64 b, u64 c)
+ 	u64 res =3D 0, div, rem;
+ 	int shift;
+=20
++	if (a > b)
++		return mul_u64_u64_div_u64(b, a, c);
++
+ 	/* can a * b overflow ? */
+ 	if (ilog2(a) + ilog2(b) > 62) {
+ 		/*
+
+but the issue stays in principle. I'll think about that for a while.
+
+Best regards
+Uwe
+
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--5uzhohpjibqigktr
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmV5mBMACgkQj4D7WH0S
+/k5SWwgAlNpH9hagxJJx+RW1bu0KU4KuHqUxRZpodeQVjF1LAmNKjzMPALMdgZOu
+CPirhdW2pgCywK0q3ReytWUwRuIn7sKGNDn9YepobkINE72k8gPzdLivqzjuDNzj
+591baq3WFWzTVRbYqlEqb6Xuo2TbNZ4Qhv7SysrtMAxDJvkJyqAFg2QBKsVSrx/+
+rSlpGERDN9BFfi808BzZ30hmaYqZgCIAX86krQVO/SZjgp6md2fKLmZvJnXmoHCb
+KCwNjBbr63c5InRN5egQfBag3LO3PQUMpD+/bcpzGLBK/UJtaRQA4drG9AnViJoN
+2jS/mluc8YI+d2/l1e+nRPuH1aBTHQ==
+=vF5I
+-----END PGP SIGNATURE-----
+
+--5uzhohpjibqigktr--
 
