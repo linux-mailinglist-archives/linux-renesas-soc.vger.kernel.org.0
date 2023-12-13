@@ -1,463 +1,245 @@
-Return-Path: <linux-renesas-soc+bounces-967-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-968-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14847810AFA
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 13 Dec 2023 08:06:12 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E9B5810CFB
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 13 Dec 2023 10:07:11 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BE1122807AB
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 13 Dec 2023 07:06:10 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CDA7D1C20840
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 13 Dec 2023 09:07:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 43AC115AD7;
-	Wed, 13 Dec 2023 07:06:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EE3EF17730;
+	Wed, 13 Dec 2023 09:07:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="JK10+ua9"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from Atcsqr.andestech.com (60-248-80-70.hinet-ip.hinet.net [60.248.80.70])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3FDAF1AB;
-	Tue, 12 Dec 2023 23:05:59 -0800 (PST)
-Received: from mail.andestech.com (ATCPCS16.andestech.com [10.0.1.222])
-	by Atcsqr.andestech.com with ESMTP id 3BD74Sii033205;
-	Wed, 13 Dec 2023 15:04:28 +0800 (+08)
-	(envelope-from peterlin@andestech.com)
-Received: from swlinux02.andestech.com (10.0.15.183) by ATCPCS16.andestech.com
- (10.0.1.222) with Microsoft SMTP Server id 14.3.498.0; Wed, 13 Dec 2023
- 15:04:24 +0800
-From: Yu Chien Peter Lin <peterlin@andestech.com>
-To: <acme@kernel.org>, <adrian.hunter@intel.com>, <ajones@ventanamicro.com>,
-        <alexander.shishkin@linux.intel.com>, <andre.przywara@arm.com>,
-        <anup@brainfault.org>, <aou@eecs.berkeley.edu>,
-        <atishp@atishpatra.org>, <conor+dt@kernel.org>,
-        <conor.dooley@microchip.com>, <conor@kernel.org>,
-        <devicetree@vger.kernel.org>, <dminus@andestech.com>,
-        <evan@rivosinc.com>, <geert+renesas@glider.be>, <guoren@kernel.org>,
-        <heiko@sntech.de>, <irogers@google.com>, <jernej.skrabec@gmail.com>,
-        <jolsa@kernel.org>, <jszhang@kernel.org>,
-        <krzysztof.kozlowski+dt@linaro.org>,
-        <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
-        <linux-perf-users@vger.kernel.org>,
-        <linux-renesas-soc@vger.kernel.org>, <linux-riscv@lists.infradead.org>,
-        <linux-sunxi@lists.linux.dev>, <locus84@andestech.com>,
-        <magnus.damm@gmail.com>, <mark.rutland@arm.com>, <mingo@redhat.com>,
-        <n.shubin@yadro.com>, <namhyung@kernel.org>, <palmer@dabbelt.com>,
-        <paul.walmsley@sifive.com>, <peterlin@andestech.com>,
-        <peterz@infradead.org>, <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        <rdunlap@infradead.org>, <robh+dt@kernel.org>, <samuel@sholland.org>,
-        <sunilvl@ventanamicro.com>, <tglx@linutronix.de>,
-        <tim609@andestech.com>, <uwu@icenowy.me>, <wens@csie.org>,
-        <will@kernel.org>, <ycliang@andestech.com>, <inochiama@outlook.com>
-Subject: [PATCH v5 16/16] riscv: andes: Support specifying symbolic firmware and hardware raw events
-Date: Wed, 13 Dec 2023 15:03:01 +0800
-Message-ID: <20231213070301.1684751-17-peterlin@andestech.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20231213070301.1684751-1-peterlin@andestech.com>
-References: <20231213070301.1684751-1-peterlin@andestech.com>
+Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01on2129.outbound.protection.outlook.com [40.107.113.129])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 13D76AB;
+	Wed, 13 Dec 2023 01:07:02 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=EE5Co4r/cuxgUS7zXXHbp+ZIj26Jjvgre0kcflkOPrk1htI7tLbRNPkNzBaHWK06ejDXatHzZIyytBIii/6Ovk1b7B3nhFAstUboxPn5EZdK0ovdLZXbKXZ+S/1FGgdrYSSnVMgKAKDzHLZ0NSzWC9/W89g62KFuFbJKIMzaLT7YNpuJERdKh15DUnS7GrSopFqroNgvqfUQLpNSq0351b9Ok1uEBToNtsFg0zCiNl6tN4O1DvHKJ5FA3BcA7PAFS0MF9uof9iUhKS6dbGd4j01eTdlcPCa5EErn+6/3/6ws8MLVYYTIwApFY5HfE6Qre6Oxiu5Ll+4cXcRkjjDaGw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=zfkd096BvdoeaQDWYYkgCZGSa21Ikuejs2CMvqbq8Ds=;
+ b=Xm4N3k19ObCU+YXLXdYZL3xrAioxB4wAJE6AcVC9bGlsuY4Y0UcujznZtDXhfgTM07h3S3clKQ7j1XvyVNXxGtJlrN0DVBX5qpnbCZxzBk903mDTq8j6eI472ar4EBPlfSdGNq9ym9sNAN3E1HdaWelB4+oaL522FFjSEeL0xv1yP+65xOrCWFIsofpf2TThuABCsIEAVWQNQDP65r9lZh5hpbutN93SCvwzzwzk0CPaaYmdd/iX+9m8LFMZdXW2sB6JetMom8vg5lV3463vny885scL8/ib7VNGm6Vmic9UndiS+qqLswIMNLLg+UNosuKxuuzbB/AIZFHhfi6kdA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=zfkd096BvdoeaQDWYYkgCZGSa21Ikuejs2CMvqbq8Ds=;
+ b=JK10+ua9uiqth0cHmAXSfQTQHhC0fQD42e9Vtvrt5NdGevV/90CD7FrH2k2+Xkuc6C14Oowk3q5hKMB6Z1YqhudLpZD9RG3bUsbb3UH0i2C7WjTxWgi9fFEEhuBr+cJbwwj6iBx5TffcQxgtXEuc9sFDj8bajOpqFhsQy/iu6Sg=
+Received: from TYCPR01MB11269.jpnprd01.prod.outlook.com
+ (2603:1096:400:3c0::10) by TYVPR01MB11260.jpnprd01.prod.outlook.com
+ (2603:1096:400:36c::11) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7091.26; Wed, 13 Dec
+ 2023 09:06:58 +0000
+Received: from TYCPR01MB11269.jpnprd01.prod.outlook.com
+ ([fe80::f216:24ab:3668:3a48]) by TYCPR01MB11269.jpnprd01.prod.outlook.com
+ ([fe80::f216:24ab:3668:3a48%4]) with mapi id 15.20.7091.022; Wed, 13 Dec 2023
+ 09:06:57 +0000
+From: Biju Das <biju.das.jz@bp.renesas.com>
+To: =?iso-8859-1?Q?Uwe_Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>
+CC: Thierry Reding <thierry.reding@gmail.com>, Philipp Zabel
+	<p.zabel@pengutronix.de>, Geert Uytterhoeven <geert+renesas@glider.be>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, Magnus Damm
+	<magnus.damm@gmail.com>, "linux-pwm@vger.kernel.org"
+	<linux-pwm@vger.kernel.org>, "linux-renesas-soc@vger.kernel.org"
+	<linux-renesas-soc@vger.kernel.org>, Prabhakar Mahadev Lad
+	<prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: RE: [PATCH v17 3/4] pwm: Add support for RZ/G2L GPT
+Thread-Topic: [PATCH v17 3/4] pwm: Add support for RZ/G2L GPT
+Thread-Index:
+ AQHaG6VjO3tWbpjOM0KBvyBIicGE/LCcr38AgAGHJgCAAD55gIAAsVCggABh/ACAAACWkIAHckBw
+Date: Wed, 13 Dec 2023 09:06:56 +0000
+Message-ID:
+ <TYCPR01MB1126992DD51F714AEDADF0A4F868DA@TYCPR01MB11269.jpnprd01.prod.outlook.com>
+References: <20231120113307.80710-1-biju.das.jz@bp.renesas.com>
+ <20231120113307.80710-4-biju.das.jz@bp.renesas.com>
+ <20231206183824.g6dc5ib2dfb7um7n@pengutronix.de>
+ <TYCPR01MB1126952E843AC08DB732C18A5868BA@TYCPR01MB11269.jpnprd01.prod.outlook.com>
+ <20231207214159.i5347ikpbt2ihznr@pengutronix.de>
+ <TYCPR01MB11269C233892B6E3002622C3B868AA@TYCPR01MB11269.jpnprd01.prod.outlook.com>
+ <20231208140718.laekt3jlsmwvzc7x@pengutronix.de>
+ <TYCPR01MB11269900EF62D8CA3E906DBAC868AA@TYCPR01MB11269.jpnprd01.prod.outlook.com>
+In-Reply-To:
+ <TYCPR01MB11269900EF62D8CA3E906DBAC868AA@TYCPR01MB11269.jpnprd01.prod.outlook.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=bp.renesas.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: TYCPR01MB11269:EE_|TYVPR01MB11260:EE_
+x-ms-office365-filtering-correlation-id: 835ae257-e197-4b70-211d-08dbfbbadb9c
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info:
+ WUr88V3ckEMkkSgApwmJI15/3lPCK/qRI/G2KXrufa1+Qo4NdzxuGAWMFgfAZvlfwvr9vylhzY16TP9PbreXXp27Y5Q1+5wcKkJTq2C+qbOWtyOamSNCy8ROoWZXiWACLAeHZbCEh2YKaZeKXjDkmiec0zu6ZJ4cE/h/KMY6/CFOGrLsOsf2mZvlFqfrny9o9WsXDo3BBV6CmqXtxOHJ2sG1oYg3PGVo4vCGo/8O66IlR/UMou4157nTmp+ppK8kBB6XJts4xAjJkV6+LRUNtIl8Bk7vpCNiRxnb/1DpE6KTYBbPUNa3Iuf4k3Y+SoFBDW06K4hjhwKg3t1cADS4Xyx1MRvIpr0UmNkhdGnq92SS35j7ZyZtOnWZaXfciD/WRGT+Bl08OOmlPt5JOjNn+iM/n4h5AzjrjSNNJv+ja1dzS9NKIG2D4p91+f3qenvg7c4sjsQFJe7WNopjsqfvpoD1Bs0k3KabZOtQ1QfQz0GeZXzvY/Ktt6kw1mWclcIGoSnwtnFk6frM0WCC4dm9mm5EkUSReY33tO2Bz06ez1u0rwVWhzu0i4iMUDpeMsxy4QPpQS4nged6oXsDo7LsvslJopawfeNSTEwx1RYe4MY=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB11269.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(39860400002)(396003)(136003)(376002)(346002)(366004)(230922051799003)(451199024)(186009)(1800799012)(64100799003)(41300700001)(52536014)(86362001)(38070700009)(5660300002)(2906002)(33656002)(83380400001)(66574015)(66556008)(122000001)(66946007)(76116006)(71200400001)(7696005)(53546011)(6506007)(966005)(478600001)(107886003)(26005)(55016003)(9686003)(66476007)(66446008)(38100700002)(8676002)(8936002)(4326008)(6916009)(64756008)(316002)(54906003);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?iso-8859-1?Q?APijd4lM6v1r1SwRPvq47IdedZbIu22YFnWOS7wLu12jP5pcFYcP4MV9pc?=
+ =?iso-8859-1?Q?UQqe/I8kVfcBLuhIW+Lm3Svl/SLG+Nnm8lrYPd158nEzpDI1AOjcglSJHV?=
+ =?iso-8859-1?Q?YV/Wesq6nU8C3Ra7rG2RpxDDgTqjYzg9WV5PXzbbbB6uuwVMZIclmcXp/n?=
+ =?iso-8859-1?Q?oH9+pk+QtgrqnQzTA/S8/uEqrpYExxTbQCG3+lPFkUPiQ+A4ECcxEDYmyE?=
+ =?iso-8859-1?Q?2zTflkP5H7CJBPy4DH5s0TJ2vpekmAVSv3d/6hbdTL5sBQ/vPDqzIXAobj?=
+ =?iso-8859-1?Q?658CI5TE0jzuZM9J/Bm8CHdgKCC5uZU2fXP3C5VTizsUQSX1wvCifoWTQS?=
+ =?iso-8859-1?Q?0Kn7kn2NqWhaIx8EPPru+LTVfUBXdCbqDL/jdDH0pH3JuHh1uw0C0q2cIi?=
+ =?iso-8859-1?Q?xlXCP+vh79gsX3oR+CmPmLrDnPQJgfE0roz7t0SWjcmsEeZb9JglMdosya?=
+ =?iso-8859-1?Q?GYF4wCqzteGZiUm8vconthYwO5wVKN+1Jc6Oujv8Ifizzzw0wAVZ5nkTxw?=
+ =?iso-8859-1?Q?TnWU8t1Q47638XcapEeckNcZAebx7wuH/ijq0B8/wOl7ao8igoh/F2wbuH?=
+ =?iso-8859-1?Q?CpoPXSApmmuuz3lVGTarjoNBySXzTArsQDgZ4eTViuNSTX1UN1rEWWthgU?=
+ =?iso-8859-1?Q?OXX/Vu/nY1aWPxTSvWtn9oUOxYJGBJAnxV6Xjjr/JnLRQriCpf9LekfyyT?=
+ =?iso-8859-1?Q?gn8KN/W/z66Fh+EAMjKhpLvnPz75zVUP8YlBEhFtH9vlVpNdwO93upmsDP?=
+ =?iso-8859-1?Q?Imp7L0ODymPfMusXqp2GwSpxmtDwxWiqD0sbB54Dvqr5/P3dK5MWTUtyr2?=
+ =?iso-8859-1?Q?EAP/XnHfq8RviTzJo/tA6GyqQQYYbLqJW0zXIAaCTzFcRh6D2easucdfF6?=
+ =?iso-8859-1?Q?wC33R7R2TssoncXfA+/tUxTqIcyzCIJHM9oMNMg6Jh0H0c7naa2a//qAJ4?=
+ =?iso-8859-1?Q?t5laBha8Q5yo7Ks16ROv2iPFmOPsOidLHWgfBGqfY/b0H4xFqxqQzxa5Hk?=
+ =?iso-8859-1?Q?SiR1BrKFg6ZW96A+9FcCjDothDdxxLaOTePQUuvei3WxshRCtnwT83BHRM?=
+ =?iso-8859-1?Q?H4jQ6ocv2gymuJo7BotmfANpU5dK4jY+IhfHDjQ/Vo5d3cY1r2usyqOyTF?=
+ =?iso-8859-1?Q?x53p+ms6Ff58PcXKX4UPZTt3ODUOS94QAOC1plyqcUP2JRlm3g2+m6Qzp9?=
+ =?iso-8859-1?Q?Ip2TAexZR6F+B9uvgfC3WpGTAMm4/ATYgGvVnbIeCnEvTfeKS0X2LQ3FIi?=
+ =?iso-8859-1?Q?nz+YEYFARfiUZWNvC427io32Ycwhm2U0b7QpWJY8RCA4JomBWOzaiVOm0d?=
+ =?iso-8859-1?Q?JtEG1XX6xHyf1ct0rAh+IHZP2aXZmOh7h6SEw+xBkBUgsNQfwcgkU+ZuMz?=
+ =?iso-8859-1?Q?uvTgzZoLdvw4vwuPheBVP4cQd6izPPHStUqkthPUBKNOXdObtrbatLOtqt?=
+ =?iso-8859-1?Q?4I/yjEk8iK9n5DdSdxBhk3qXDimXpkcf/yQmUedXcjqeP/gMjpcERHdVwm?=
+ =?iso-8859-1?Q?dSfnaq3CABxuk4z5eGpk+V0Zvy59nmFm+PzQ/HSBQvAu9WA1VLjyFNp3YW?=
+ =?iso-8859-1?Q?7ziuE4ytLPlHngIcH0Y7bYt+YKkucjKFlWJZM6PW4rhXtPvddE/qepKJHT?=
+ =?iso-8859-1?Q?i+36ufD9FeFgpLK31/8E3M5cnv8FP5TJH2npNQJiFUW88+70rjLJ0mnA?=
+ =?iso-8859-1?Q?=3D=3D?=
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-DNSRBL: 
-X-SPAM-SOURCE-CHECK: pass
-X-MAIL:Atcsqr.andestech.com 3BD74Sii033205
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB11269.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 835ae257-e197-4b70-211d-08dbfbbadb9c
+X-MS-Exchange-CrossTenant-originalarrivaltime: 13 Dec 2023 09:06:56.9488
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: hEV58gFHyMaswpuOsbgHTgQj0QCm2ISn7DzQYQ6eqlJUvbbBEjkeurcupzlHdvNy9nrWWjYNT7p2hPnMLDTKvfVLXoX5VBbDvakyJuoh4yc=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYVPR01MB11260
 
-From: Locus Wei-Han Chen <locus84@andestech.com>
+Hi Uwe,
 
-Add the Andes AX45 JSON files that allows specifying symbolic event
-names for the raw PMU events.
+> -----Original Message-----
+> From: Biju Das
+> Sent: Friday, December 8, 2023 2:12 PM
+> Subject: RE: [PATCH v17 3/4] pwm: Add support for RZ/G2L GPT
+>=20
+> Hi Uwe Kleine-K=F6nig,
+>=20
+> > -----Original Message-----
+> > From: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
+> > Sent: Friday, December 8, 2023 2:07 PM
+> > Subject: Re: [PATCH v17 3/4] pwm: Add support for RZ/G2L GPT
+> >
+> > Hello Biju,
+> >
+> > On Fri, Dec 08, 2023 at 10:34:55AM +0000, Biju Das wrote:
+> > > > -----Original Message-----
+> > > > From: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
+> > > > Sent: Thursday, December 7, 2023 9:42 PM
+> > > > Subject: Re: [PATCH v17 3/4] pwm: Add support for RZ/G2L GPT
+> > > >
+> > > > Hello Biju,
+> > > >
+> > > > On Thu, Dec 07, 2023 at 06:26:44PM +0000, Biju Das wrote:
+> > > > > ######[  304.213944] pwm-rzg2l-gpt 10048000.pwm: .apply is not
+> > > > > idempotent (ena=3D1 pol=3D0 5500000000000/43980352512000) -> (ena=
+=3D1
+> > > > > pol=3D0
+> > > > > 5500000000000/43980239923200)
+> > > > > 	 High setting##
+> > > > > 	[  304.230854] pwm-rzg2l-gpt 10048000.pwm: .apply is not
+> > > > > idempotent
+> > > > > (ena=3D1 pol=3D0 23980465100800/43980352512000) -> (ena=3D1 pol=
+=3D0
+> > > > > 23980465100800/43980239923200)
+> > > >
+> > > > Have you tried to understand that? What is the clk rate when this
+> > happens?
+> > > > You're not suggesting that mul_u64_u64_div_u64 is wrong, are you?
+> > >
+> > > mul_u64_u64_div_u64() works for certain values. But for very high
+> > > values we are losing precision and is giving unexpected values.
+> >
+> > Can you reduce the problem to a bogus result of mul_u64_u64_div_u64()?
+> > I'd be very surprised if the problem was mul_u64_u64_div_u64() and not
+> > how it's used in your pwm driver.
+>=20
+> When I looked last time, it drops precision here[1]. I will recheck again=
+.
+> On RZ/G2L family devices, the PWM rate is 100MHz.
+>=20
+ [1]
+https://elixir.bootlin.com/linux/v6.7-rc4/source/lib/math/div64.c#L214
 
-Signed-off-by: Locus Wei-Han Chen <locus84@andestech.com>
-Reviewed-by: Yu Chien Peter Lin <peterlin@andestech.com>
-Reviewed-by: Charles Ci-Jyun Wu <dminus@andestech.com>
-Reviewed-by: Leo Yu-Chi Liang <ycliang@andestech.com>
-Tested-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
----
-Changes v1 -> v2:
-  - No change
-Changes v2 -> v3:
-  - No change
-Changes v3 -> v4:
-  - No change
-Changes v4 -> v5:
-  - Include Prabhakar's Tested-by
----
- .../arch/riscv/andes/ax45/firmware.json       |  68 ++++++++++
- .../arch/riscv/andes/ax45/instructions.json   | 127 ++++++++++++++++++
- .../arch/riscv/andes/ax45/memory.json         |  57 ++++++++
- .../arch/riscv/andes/ax45/microarch.json      |  77 +++++++++++
- tools/perf/pmu-events/arch/riscv/mapfile.csv  |   1 +
- 5 files changed, 330 insertions(+)
- create mode 100644 tools/perf/pmu-events/arch/riscv/andes/ax45/firmware.json
- create mode 100644 tools/perf/pmu-events/arch/riscv/andes/ax45/instructions.json
- create mode 100644 tools/perf/pmu-events/arch/riscv/andes/ax45/memory.json
- create mode 100644 tools/perf/pmu-events/arch/riscv/andes/ax45/microarch.json
 
-diff --git a/tools/perf/pmu-events/arch/riscv/andes/ax45/firmware.json b/tools/perf/pmu-events/arch/riscv/andes/ax45/firmware.json
-new file mode 100644
-index 000000000000..9b4a032186a7
---- /dev/null
-+++ b/tools/perf/pmu-events/arch/riscv/andes/ax45/firmware.json
-@@ -0,0 +1,68 @@
-+[
-+  {
-+    "ArchStdEvent": "FW_MISALIGNED_LOAD"
-+  },
-+  {
-+    "ArchStdEvent": "FW_MISALIGNED_STORE"
-+  },
-+  {
-+    "ArchStdEvent": "FW_ACCESS_LOAD"
-+  },
-+  {
-+    "ArchStdEvent": "FW_ACCESS_STORE"
-+  },
-+  {
-+    "ArchStdEvent": "FW_ILLEGAL_INSN"
-+  },
-+  {
-+    "ArchStdEvent": "FW_SET_TIMER"
-+  },
-+  {
-+    "ArchStdEvent": "FW_IPI_SENT"
-+  },
-+  {
-+    "ArchStdEvent": "FW_IPI_RECEIVED"
-+  },
-+  {
-+    "ArchStdEvent": "FW_FENCE_I_SENT"
-+  },
-+  {
-+    "ArchStdEvent": "FW_FENCE_I_RECEIVED"
-+  },
-+  {
-+    "ArchStdEvent": "FW_SFENCE_VMA_SENT"
-+  },
-+  {
-+    "ArchStdEvent": "FW_SFENCE_VMA_RECEIVED"
-+  },
-+  {
-+    "ArchStdEvent": "FW_SFENCE_VMA_RECEIVED"
-+  },
-+  {
-+    "ArchStdEvent": "FW_SFENCE_VMA_ASID_RECEIVED"
-+  },
-+  {
-+    "ArchStdEvent": "FW_HFENCE_GVMA_SENT"
-+  },
-+  {
-+    "ArchStdEvent": "FW_HFENCE_GVMA_RECEIVED"
-+  },
-+  {
-+    "ArchStdEvent": "FW_HFENCE_GVMA_VMID_SENT"
-+  },
-+  {
-+    "ArchStdEvent": "FW_HFENCE_GVMA_VMID_RECEIVED"
-+  },
-+  {
-+    "ArchStdEvent": "FW_HFENCE_VVMA_SENT"
-+  },
-+  {
-+    "ArchStdEvent": "FW_HFENCE_VVMA_RECEIVED"
-+  },
-+  {
-+    "ArchStdEvent": "FW_HFENCE_VVMA_ASID_SENT"
-+  },
-+  {
-+    "ArchStdEvent": "FW_HFENCE_VVMA_ASID_RECEIVED"
-+  }
-+]
-diff --git a/tools/perf/pmu-events/arch/riscv/andes/ax45/instructions.json b/tools/perf/pmu-events/arch/riscv/andes/ax45/instructions.json
-new file mode 100644
-index 000000000000..713a08c1a40f
---- /dev/null
-+++ b/tools/perf/pmu-events/arch/riscv/andes/ax45/instructions.json
-@@ -0,0 +1,127 @@
-+[
-+	{
-+		"EventCode": "0x10",
-+		"EventName": "cycle_count",
-+		"BriefDescription": "Cycle count"
-+	},
-+	{
-+		"EventCode": "0x20",
-+		"EventName": "inst_count",
-+		"BriefDescription": "Retired instruction count"
-+	},
-+	{
-+		"EventCode": "0x30",
-+		"EventName": "int_load_inst",
-+		"BriefDescription": "Integer load instruction count"
-+	},
-+	{
-+		"EventCode": "0x40",
-+		"EventName": "int_store_inst",
-+		"BriefDescription": "Integer store instruction count"
-+	},
-+	{
-+		"EventCode": "0x50",
-+		"EventName": "atomic_inst",
-+		"BriefDescription": "Atomic instruction count"
-+	},
-+	{
-+		"EventCode": "0x60",
-+		"EventName": "sys_inst",
-+		"BriefDescription": "System instruction count"
-+	},
-+	{
-+		"EventCode": "0x70",
-+		"EventName": "int_compute_inst",
-+		"BriefDescription": "Integer computational instruction count"
-+	},
-+	{
-+		"EventCode": "0x80",
-+		"EventName": "condition_br",
-+		"BriefDescription": "Conditional branch instruction count"
-+	},
-+	{
-+		"EventCode": "0x90",
-+		"EventName": "taken_condition_br",
-+		"BriefDescription": "Taken conditional branch instruction count"
-+	},
-+	{
-+		"EventCode": "0xA0",
-+		"EventName": "jal_inst",
-+		"BriefDescription": "JAL instruction count"
-+	},
-+	{
-+		"EventCode": "0xB0",
-+		"EventName": "jalr_inst",
-+		"BriefDescription": "JALR instruction count"
-+	},
-+	{
-+		"EventCode": "0xC0",
-+		"EventName": "ret_inst",
-+		"BriefDescription": "Return instruction count"
-+	},
-+	{
-+		"EventCode": "0xD0",
-+		"EventName": "control_trans_inst",
-+		"BriefDescription": "Control transfer instruction count"
-+	},
-+	{
-+		"EventCode": "0xE0",
-+		"EventName": "ex9_inst",
-+		"BriefDescription": "EXEC.IT instruction count"
-+	},
-+	{
-+		"EventCode": "0xF0",
-+		"EventName": "int_mul_inst",
-+		"BriefDescription": "Integer multiplication instruction count"
-+	},
-+	{
-+		"EventCode": "0x100",
-+		"EventName": "int_div_rem_inst",
-+		"BriefDescription": "Integer division/remainder instruction count"
-+	},
-+	{
-+		"EventCode": "0x110",
-+		"EventName": "float_load_inst",
-+		"BriefDescription": "Floating-point load instruction count"
-+	},
-+	{
-+		"EventCode": "0x120",
-+		"EventName": "float_store_inst",
-+		"BriefDescription": "Floating-point store instruction count"
-+	},
-+	{
-+		"EventCode": "0x130",
-+		"EventName": "float_add_sub_inst",
-+		"BriefDescription": "Floating-point addition/subtraction instruction count"
-+	},
-+	{
-+		"EventCode": "0x140",
-+		"EventName": "float_mul_inst",
-+		"BriefDescription": "Floating-point multiplication instruction count"
-+	},
-+	{
-+		"EventCode": "0x150",
-+		"EventName": "float_fused_muladd_inst",
-+		"BriefDescription": "Floating-point fused multiply-add instruction count"
-+	},
-+	{
-+		"EventCode": "0x160",
-+		"EventName": "float_div_sqrt_inst",
-+		"BriefDescription": "Floating-point division or square-root instruction count"
-+	},
-+	{
-+		"EventCode": "0x170",
-+		"EventName": "other_float_inst",
-+		"BriefDescription": "Other floating-point instruction count"
-+	},
-+	{
-+		"EventCode": "0x180",
-+		"EventName": "int_mul_add_sub_inst",
-+		"BriefDescription": "Integer multiplication and add/sub instruction count"
-+	},
-+	{
-+		"EventCode": "0x190",
-+		"EventName": "retired_ops",
-+		"BriefDescription": "Retired operation count"
-+	}
-+]
-diff --git a/tools/perf/pmu-events/arch/riscv/andes/ax45/memory.json b/tools/perf/pmu-events/arch/riscv/andes/ax45/memory.json
-new file mode 100644
-index 000000000000..c7401b526c77
---- /dev/null
-+++ b/tools/perf/pmu-events/arch/riscv/andes/ax45/memory.json
-@@ -0,0 +1,57 @@
-+[
-+	{
-+		"EventCode": "0x01",
-+		"EventName": "ilm_access",
-+		"BriefDescription": "ILM access"
-+	},
-+	{
-+		"EventCode": "0x11",
-+		"EventName": "dlm_access",
-+		"BriefDescription": "DLM access"
-+	},
-+	{
-+		"EventCode": "0x21",
-+		"EventName": "icache_access",
-+		"BriefDescription": "ICACHE access"
-+	},
-+	{
-+		"EventCode": "0x31",
-+		"EventName": "icache_miss",
-+		"BriefDescription": "ICACHE miss"
-+	},
-+	{
-+		"EventCode": "0x41",
-+		"EventName": "dcache_access",
-+		"BriefDescription": "DCACHE access"
-+	},
-+	{
-+		"EventCode": "0x51",
-+		"EventName": "dcache_miss",
-+		"BriefDescription": "DCACHE miss"
-+	},
-+	{
-+		"EventCode": "0x61",
-+		"EventName": "dcache_load_access",
-+		"BriefDescription": "DCACHE load access"
-+	},
-+	{
-+		"EventCode": "0x71",
-+		"EventName": "dcache_load_miss",
-+		"BriefDescription": "DCACHE load miss"
-+	},
-+	{
-+		"EventCode": "0x81",
-+		"EventName": "dcache_store_access",
-+		"BriefDescription": "DCACHE store access"
-+	},
-+	{
-+		"EventCode": "0x91",
-+		"EventName": "dcache_store_miss",
-+		"BriefDescription": "DCACHE store miss"
-+	},
-+	{
-+		"EventCode": "0xA1",
-+		"EventName": "dcache_wb",
-+		"BriefDescription": "DCACHE writeback"
-+	}
-+]
-diff --git a/tools/perf/pmu-events/arch/riscv/andes/ax45/microarch.json b/tools/perf/pmu-events/arch/riscv/andes/ax45/microarch.json
-new file mode 100644
-index 000000000000..a6d378cbaa74
---- /dev/null
-+++ b/tools/perf/pmu-events/arch/riscv/andes/ax45/microarch.json
-@@ -0,0 +1,77 @@
-+[
-+	{
-+		"EventCode": "0xB1",
-+		"EventName": "cycle_wait_icache_fill",
-+		"BriefDescription": "Cycles waiting for ICACHE fill data"
-+	},
-+	{
-+		"EventCode": "0xC1",
-+		"EventName": "cycle_wait_dcache_fill",
-+		"BriefDescription": "Cycles waiting for DCACHE fill data"
-+	},
-+	{
-+		"EventCode": "0xD1",
-+		"EventName": "uncached_ifetch_from_bus",
-+		"BriefDescription": "Uncached ifetch data access from bus"
-+	},
-+	{
-+		"EventCode": "0xE1",
-+		"EventName": "uncached_load_from_bus",
-+		"BriefDescription": "Uncached load data access from bus"
-+	},
-+	{
-+		"EventCode": "0xF1",
-+		"EventName": "cycle_wait_uncached_ifetch",
-+		"BriefDescription": "Cycles waiting for uncached ifetch data from bus"
-+	},
-+	{
-+		"EventCode": "0x101",
-+		"EventName": "cycle_wait_uncached_load",
-+		"BriefDescription": "Cycles waiting for uncached load data from bus"
-+	},
-+	{
-+		"EventCode": "0x111",
-+		"EventName": "main_itlb_access",
-+		"BriefDescription": "Main ITLB access"
-+	},
-+	{
-+		"EventCode": "0x121",
-+		"EventName": "main_itlb_miss",
-+		"BriefDescription": "Main ITLB miss"
-+	},
-+	{
-+		"EventCode": "0x131",
-+		"EventName": "main_dtlb_access",
-+		"BriefDescription": "Main DTLB access"
-+	},
-+	{
-+		"EventCode": "0x141",
-+		"EventName": "main_dtlb_miss",
-+		"BriefDescription": "Main DTLB miss"
-+	},
-+	{
-+		"EventCode": "0x151",
-+		"EventName": "cycle_wait_itlb_fill",
-+		"BriefDescription": "Cycles waiting for Main ITLB fill data"
-+	},
-+	{
-+		"EventCode": "0x161",
-+		"EventName": "pipe_stall_cycle_dtlb_miss",
-+		"BriefDescription": "Pipeline stall cycles caused by Main DTLB miss"
-+	},
-+	{
-+		"EventCode": "0x02",
-+		"EventName": "mispredict_condition_br",
-+		"BriefDescription": "Misprediction of conditional branches"
-+	},
-+	{
-+		"EventCode": "0x12",
-+		"EventName": "mispredict_take_condition_br",
-+		"BriefDescription": "Misprediction of taken conditional branches"
-+	},
-+	{
-+		"EventCode": "0x22",
-+		"EventName": "mispredict_target_ret_inst",
-+		"BriefDescription": "Misprediction of targets of Return instructions"
-+	}
-+]
-diff --git a/tools/perf/pmu-events/arch/riscv/mapfile.csv b/tools/perf/pmu-events/arch/riscv/mapfile.csv
-index c61b3d6ef616..5bf09af14c1b 100644
---- a/tools/perf/pmu-events/arch/riscv/mapfile.csv
-+++ b/tools/perf/pmu-events/arch/riscv/mapfile.csv
-@@ -15,3 +15,4 @@
- #
- #MVENDORID-MARCHID-MIMPID,Version,Filename,EventType
- 0x489-0x8000000000000007-0x[[:xdigit:]]+,v1,sifive/u74,core
-+0x31e-0x8000000000008a45-0x[[:xdigit:]]+,v1,andes/ax45,core
--- 
-2.34.1
+Please find the bug details in mul_u64_u64_div_u64() compared to mul_u64_u3=
+2_div()
+
+Theoretical calculation:
+
+Period =3D 43980465100800 nsec
+Duty_cycle =3D 23980465100800 nsec
+PWM rate =3D 100MHz
+
+period_cycles(tmp) =3D 43980465100800 * (100 * 10 ^ 6) / (10 ^ 9) =3D 43980=
+46510080
+prescale =3D ((43980465100800 >> 32) >=3D 256) =3D 5
+period_cycles =3D min (round_up(4398046510080,( 1 << (2 * 5 )), U32_MAX) =
+=3D min (4295162607, U32_MAX) =3D U32_MAX =3D 0xFFFFFFFF
+duty_cycles =3D min (2398046510080, ,( 1 << (2 * 5 )), U32_MAX) =3D  min (2=
+341842295, U32_MAX) =3D 0x8B95AD77
+
+
+with mul_u64_u64_div_u64 (ARM64):
+[   54.551612] ##### period_cycles_norm=3D43980465100800
+[   54.305923] ##### period_cycles_tmp=3D4398035251080 ---> This is the bug=
+.
+[   54.311828] ##### pv=3Dffffd50c
+[   54.386047] ##### duty_cycles_tmp=3D2398046510080
+[   54.390903] ##### dc=3D8b95ad77
+[   54.395574] ##### period_cycles_norm=3D43980352512000
+[   54.398715] ##### period_cycles_tmp=3D4398023992229
+[   54.403717] ##### pv=3Dffffaa19
+[   54.408594] ##### duty_cycles_norm=3D23980465100800
+[   54.411673] ##### duty_cycles_tmp=3D2398046510080
+[   54.416557] ##### dc=3D8b95ad77
+
+with mul_u64_u32_div(ARM64):
+
+[   46.725909] ##### period_cycles_norm=3D43980465100800
+[   46.732468] ##### period_cycles_tmp=3D4398046510080
+[   46.740484] ##### pv=3Dffffffff
+[   46.748457] ##### duty_cycles_norm=3D23980465100800
+[   46.751510] ##### duty_cycles_tmp=3D2398046510080
+[   46.760462] ##### dc=3D8b95ad77
+[   46.765256] ##### period_cycles_norm=3D43980465100800
+[   46.768282] ##### period_cycles_tmp=3D4398046510080
+[   46.776590] ##### pv=3Dffffffff
+[   46.782762] ##### duty_cycles_norm=3D23980465100800
+[   46.802617] ##### dc=3D8b95ad77
+
+Cheers,
+Biju
+
+
 
 
