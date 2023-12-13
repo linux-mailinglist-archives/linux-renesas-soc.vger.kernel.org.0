@@ -1,63 +1,63 @@
-Return-Path: <linux-renesas-soc+bounces-983-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-984-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A160A81142B
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 13 Dec 2023 15:07:01 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 98DBE81144E
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 13 Dec 2023 15:10:19 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 262B6B209F0
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 13 Dec 2023 14:06:59 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5376A2828BB
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 13 Dec 2023 14:10:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8BA282E64E;
-	Wed, 13 Dec 2023 14:06:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E27412E832;
+	Wed, 13 Dec 2023 14:10:12 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yb1-f173.google.com (mail-yb1-f173.google.com [209.85.219.173])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3AB4310C;
-	Wed, 13 Dec 2023 06:06:51 -0800 (PST)
-Received: by mail-yb1-f173.google.com with SMTP id 3f1490d57ef6-dbcb4747d84so2105998276.2;
-        Wed, 13 Dec 2023 06:06:51 -0800 (PST)
+Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com [209.85.128.177])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B73929C;
+	Wed, 13 Dec 2023 06:10:09 -0800 (PST)
+Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-5d8a772157fso61503027b3.3;
+        Wed, 13 Dec 2023 06:10:09 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702476410; x=1703081210;
+        d=1e100.net; s=20230601; t=1702476608; x=1703081408;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=AHtA4+5hw0ZCgkf626DbpUSnNmhCHpzTn/EppkNnPGk=;
-        b=STodZEAY1ZRbWScTqLUVmPUu6JqByrHbYPfhiL2r5O6ywVTrNKlkkmA9dhpLSG6rxz
-         sZlb/PBEH+OwAd9leAa4OUTmWQQ2W7ZcYEkJXGZgk/GRLjeR8pJm2LKjGORdIp9d4bOQ
-         c2JgvFj/rZeAY5JbhUlPki6L+HryTsT677mLZVQm0IBmY1Jxeg7HKQAz1/5IOd+0NQdi
-         xcJtQC3xZTnZxONx8WEXel5U4MfFUo+BElNYn8x49TyLlUh4bc7HiqIdfIV0ikZiKuGi
-         6kVMAY5kaeO+nUWfenMFhCiWJUe1O0thSCjgnzTb/xI0WS+rp7G1RhdYRJsK3u4UZlp/
-         YNxg==
-X-Gm-Message-State: AOJu0Ywa4vCQqN+nYsGyGEKxhigLW607yx30ZTdToRsO2wGy853C11sl
-	lxhearvoCfGPkP7c5ylxZE+bmAdbd7oEEg==
-X-Google-Smtp-Source: AGHT+IE/kSD4AerLImjJX51M2asFtS1RA6vUj5HhlglpmC7xw/mk9qcxuBMk48TxRahJipNvY1aulg==
-X-Received: by 2002:a25:424e:0:b0:dbc:d05a:18a9 with SMTP id p75-20020a25424e000000b00dbcd05a18a9mr563828yba.55.1702476410177;
-        Wed, 13 Dec 2023 06:06:50 -0800 (PST)
-Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com. [209.85.128.173])
-        by smtp.gmail.com with ESMTPSA id p135-20020a25d88d000000b00dbccd3a2d02sm581815ybg.55.2023.12.13.06.06.49
+        bh=lctB7HRIwcjgOPSYwLKN7AvXZwasrHyg/ppK58pb6FQ=;
+        b=rgAthnrB6ry20TwHvow877fohFwKW75PmFBDsAnV4g4DeSxKtDtQPv9wFQpPJ0EmN6
+         fRDwiQfysGWH4AnyNbnTlN3QDAnH3uAc32SaLwKd5kmyLuyzMXiKVX/OtSpk5I9ovLk5
+         aKHkY6sOKm3kCLyS8j1qOlZ7j2av4idIAlueo/P3VXElM1uqRCNnYkoSO+r4uBBwH3LE
+         WOw8/F6OLKwYbpkrsYZ9iPXFzF6ndMiFT4inhwQheLhmgutm1jDlBDOVDhKFe5BnPJnW
+         brVTcsDGX0qX2v3hIgZpAasy6lbRY5POZdlyr/hVRAWSoz/5ZL+1kUlQv5ZwAFJIaQh2
+         XBzA==
+X-Gm-Message-State: AOJu0YyS6dugah+M+RaGUBwTHXeZ+kgYN7dLrc+59iST9cfrrCGeCdLy
+	3H3TvzppGSLvdIUIUdkMeEcIC9xe6buQKg==
+X-Google-Smtp-Source: AGHT+IEod+B+NCcMD5ZPfsOWfS7gVSwpF/VNt02LFpFTCsItur++77J5mCfNM43w39sxyHR7vcHILg==
+X-Received: by 2002:a25:ab23:0:b0:dbc:d22a:9135 with SMTP id u32-20020a25ab23000000b00dbcd22a9135mr446757ybi.105.1702476608583;
+        Wed, 13 Dec 2023 06:10:08 -0800 (PST)
+Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com. [209.85.128.169])
+        by smtp.gmail.com with ESMTPSA id u4-20020a258f84000000b00dafa5f86dc2sm3967368ybl.16.2023.12.13.06.10.07
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 13 Dec 2023 06:06:50 -0800 (PST)
-Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-5cbcfdeaff3so69862747b3.0;
-        Wed, 13 Dec 2023 06:06:49 -0800 (PST)
-X-Received: by 2002:a0d:d3c6:0:b0:5d7:1940:f3f1 with SMTP id
- v189-20020a0dd3c6000000b005d71940f3f1mr7064945ywd.89.1702476409703; Wed, 13
- Dec 2023 06:06:49 -0800 (PST)
+        Wed, 13 Dec 2023 06:10:07 -0800 (PST)
+Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-5d8a772157fso61502697b3.3;
+        Wed, 13 Dec 2023 06:10:07 -0800 (PST)
+X-Received: by 2002:a81:6582:0:b0:5d3:f36c:4aa3 with SMTP id
+ z124-20020a816582000000b005d3f36c4aa3mr6180811ywb.15.1702476607543; Wed, 13
+ Dec 2023 06:10:07 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231207070700.4156557-1-claudiu.beznea.uj@bp.renesas.com> <20231207070700.4156557-11-claudiu.beznea.uj@bp.renesas.com>
-In-Reply-To: <20231207070700.4156557-11-claudiu.beznea.uj@bp.renesas.com>
+References: <20231207070700.4156557-1-claudiu.beznea.uj@bp.renesas.com> <20231207070700.4156557-12-claudiu.beznea.uj@bp.renesas.com>
+In-Reply-To: <20231207070700.4156557-12-claudiu.beznea.uj@bp.renesas.com>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 13 Dec 2023 15:06:37 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdXD4WO-LR02wOgd3SsQ8Rfb+SUErUTcO7wPhAdyb-NF_A@mail.gmail.com>
-Message-ID: <CAMuHMdXD4WO-LR02wOgd3SsQ8Rfb+SUErUTcO7wPhAdyb-NF_A@mail.gmail.com>
-Subject: Re: [PATCH v2 10/11] arm64: renesas: rzg3s-smarc-som: Use switches'
- names to select on-board functionalities
+Date: Wed, 13 Dec 2023 15:09:56 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdW5PdFc6AE-G6u3hiRn8g45AYfyqytBvzWPB_Maj2x45Q@mail.gmail.com>
+Message-ID: <CAMuHMdW5PdFc6AE-G6u3hiRn8g45AYfyqytBvzWPB_Maj2x45Q@mail.gmail.com>
+Subject: Re: [PATCH v2 11/11] arm64: dts: renesas: rzg3s-smarc-som: Enable the
+ Ethernet interfaces
 To: Claudiu <claudiu.beznea@tuxon.dev>
 Cc: s.shtylyov@omp.ru, davem@davemloft.net, edumazet@google.com, 
 	kuba@kernel.org, pabeni@redhat.com, robh+dt@kernel.org, 
@@ -75,28 +75,32 @@ On Thu, Dec 7, 2023 at 8:08=E2=80=AFAM Claudiu <claudiu.beznea@tuxon.dev> w=
 rote:
 > From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 >
-> The intention of the SW_SD0_DEV_SEL and SW_SD2_EN macros was to reflect t=
-he
-> state of SW_CONFIG individual switches available on the RZ/G3S Smarc Modu=
-le
-> and at the same time to have a descriptive name for the switch itself.
-> Each individual switch is associated with a signal name, which might be
-> active-low or not on the board. Using signal names instead of SW_CONFIG
-> switch names may be confusing for a user who just playes with switches to
-> select individual functionalities, but also for the advanced user that
-> looks over schematics. To avoid even further confusions, use the switches=
-'
-> names here and instantitate them with an ON/OFF state. This should be
-> simpler, even though the name of the switch is not that intuitive. The
-> switch names documentation reflects the switch's purpose.
+> The RZ/G3S Smarc Module has Ethernet PHYs (KSZ9131) connected to each
+> Ethernet IP. For this, add proper DT bindings to enable the Ethernet
+> communication through these PHYs.
+>
+> The interface b/w PHYs and MACs is RGMII. The skew settings were set to
+> zero as based on phy-mode (rgmii-id) the KSZ9131 driver enables internal
+> DLL, which adds a 2ns delay b/w clocks (TX/RX) and data signals.
+>
+> Different pin settings were applied to TXC and TX_CTL compared with the
+> rest of the RGMII pins to comply with requirements for these pins imposed
+> by HW manual of RZ/G3S (see chapters "Ether Ch0 Voltage Mode Control
+> Register (ETH0_POC)", "Ether Ch1 Voltage Mode Control Register (ETH1_POC)=
+",
+> for power source selection, "Ether MII/RGMII Mode Control Register
+> (ETH_MODE)" for output-enable and "Input Enable Control Register (IEN_m)"
+> for input-enable configurations).
+>
+> Commit also enables the Ethernet interfaces by selecting
+> SW_CONFIG3 =3D SW_ON.
 >
 > Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 > ---
 >
 > Changes in v2:
-> - this patch is new and aims to replace patch "arm64: renesas: rzg3s-smar=
-c-som:
->   Invert the logic of the SW_SD2_EN macro" from v1
+> - removed #address-cells, #size-cells
+> - adapted patch description to reflect the usage of SW_CONFIG
 
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 i.e. will queue in renesas-devel for v6.8.
