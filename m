@@ -1,28 +1,28 @@
-Return-Path: <linux-renesas-soc+bounces-960-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-963-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D0D8810AEC
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 13 Dec 2023 08:05:41 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D565810AF2
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 13 Dec 2023 08:05:51 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id BF0351C208DE
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 13 Dec 2023 07:05:40 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 489331F2163F
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 13 Dec 2023 07:05:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8CD13168B6;
-	Wed, 13 Dec 2023 07:05:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EDFD1171C7;
+	Wed, 13 Dec 2023 07:05:42 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from Atcsqr.andestech.com (60-248-80-70.hinet-ip.hinet.net [60.248.80.70])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4386213A;
-	Tue, 12 Dec 2023 23:05:20 -0800 (PST)
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 221AB10F4;
+	Tue, 12 Dec 2023 23:05:34 -0800 (PST)
 Received: from mail.andestech.com (ATCPCS16.andestech.com [10.0.1.222])
-	by Atcsqr.andestech.com with ESMTP id 3BD73wCq032352;
-	Wed, 13 Dec 2023 15:03:58 +0800 (+08)
+	by Atcsqr.andestech.com with ESMTP id 3BD743Ru032519;
+	Wed, 13 Dec 2023 15:04:03 +0800 (+08)
 	(envelope-from peterlin@andestech.com)
 Received: from swlinux02.andestech.com (10.0.15.183) by ATCPCS16.andestech.com
  (10.0.1.222) with Microsoft SMTP Server id 14.3.498.0; Wed, 13 Dec 2023
- 15:03:54 +0800
+ 15:03:59 +0800
 From: Yu Chien Peter Lin <peterlin@andestech.com>
 To: <acme@kernel.org>, <adrian.hunter@intel.com>, <ajones@ventanamicro.com>,
         <alexander.shishkin@linux.intel.com>, <andre.przywara@arm.com>,
@@ -46,9 +46,9 @@ To: <acme@kernel.org>, <adrian.hunter@intel.com>, <ajones@ventanamicro.com>,
         <sunilvl@ventanamicro.com>, <tglx@linutronix.de>,
         <tim609@andestech.com>, <uwu@icenowy.me>, <wens@csie.org>,
         <will@kernel.org>, <ycliang@andestech.com>, <inochiama@outlook.com>
-Subject: [PATCH v5 10/16] dt-bindings: riscv: Add Andes PMU extension description
-Date: Wed, 13 Dec 2023 15:02:55 +0800
-Message-ID: <20231213070301.1684751-11-peterlin@andestech.com>
+Subject: [PATCH v5 11/16] riscv: dts: allwinner: Add T-Head PMU extension for sun20i-d1s
+Date: Wed, 13 Dec 2023 15:02:56 +0800
+Message-ID: <20231213070301.1684751-12-peterlin@andestech.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20231213070301.1684751-1-peterlin@andestech.com>
 References: <20231213070301.1684751-1-peterlin@andestech.com>
@@ -62,44 +62,38 @@ Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-DNSRBL: 
 X-SPAM-SOURCE-CHECK: pass
-X-MAIL:Atcsqr.andestech.com 3BD73wCq032352
+X-MAIL:Atcsqr.andestech.com 3BD743Ru032519
 
-Document the ISA string for Andes Technology performance monitor
-extension which provides counter overflow interrupt and mode
-filtering mechanisms.
+xtheadpmu stands for T-Head Performance Monitor Unit extension.
+Based on the added T-Head PMU ISA string, the SBI PMU driver
+will make use of the non-standard irq source.
 
 Signed-off-by: Yu Chien Peter Lin <peterlin@andestech.com>
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
-Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Reviewed-by: Guo Ren <guoren@kernel.org>
 ---
 Changes v2 -> v3:
   - New patch
 Changes v3 -> v4:
-  - Include Conor's Acked-by
+  - No change
 Changes v4 -> v5:
-  - Include Prabhakar's Reviewed-by
+  - Include Guo's Reviewed-by
 ---
- Documentation/devicetree/bindings/riscv/extensions.yaml | 7 +++++++
- 1 file changed, 7 insertions(+)
+ arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/devicetree/bindings/riscv/extensions.yaml b/Documentation/devicetree/bindings/riscv/extensions.yaml
-index b5cb8ac7ac80..daef6c3b1580 100644
---- a/Documentation/devicetree/bindings/riscv/extensions.yaml
-+++ b/Documentation/devicetree/bindings/riscv/extensions.yaml
-@@ -258,6 +258,13 @@ properties:
-             in commit 2e5236 ("Ztso is now ratified.") of the
-             riscv-isa-manual.
+diff --git a/arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi b/arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi
+index 64c3c2e6cbe0..7dcba86cfdd0 100644
+--- a/arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi
++++ b/arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi
+@@ -27,7 +27,7 @@ cpu0: cpu@0 {
+ 			riscv,isa = "rv64imafdc";
+ 			riscv,isa-base = "rv64i";
+ 			riscv,isa-extensions = "i", "m", "a", "f", "d", "c", "zicntr", "zicsr",
+-					       "zifencei", "zihpm";
++					       "zifencei", "zihpm", "xtheadpmu";
+ 			#cooling-cells = <2>;
  
-+        - const: xandespmu
-+          description:
-+            The Andes Technology performance monitor extension for counter overflow
-+            and privilege mode filtering. For more details, see Counter Related
-+            Registers in the AX45MP datasheet.
-+            https://www.andestech.com/wp-content/uploads/AX45MP-1C-Rev.-5.0.0-Datasheet.pdf
-+
-         - const: xtheadpmu
-           description:
-             The T-Head performance monitor extension for counter overflow, as ratified
+ 			cpu0_intc: interrupt-controller {
 -- 
 2.34.1
 
