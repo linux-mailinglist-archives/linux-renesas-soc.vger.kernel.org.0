@@ -1,58 +1,58 @@
-Return-Path: <linux-renesas-soc+bounces-1049-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-1048-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1062812F35
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 Dec 2023 12:47:25 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 79594812F2D
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 Dec 2023 12:47:20 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7EA4C282A09
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 Dec 2023 11:47:24 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 718B41C215D0
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 Dec 2023 11:47:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id ECE494B5A9;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 320154AF62;
 	Thu, 14 Dec 2023 11:46:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="YHA90Fx5"
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="afNLmCDo"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com [IPv6:2a00:1450:4864:20::62b])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A1DD1A1
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 14 Dec 2023 03:46:32 -0800 (PST)
-Received: by mail-ej1-x62b.google.com with SMTP id a640c23a62f3a-a1e7971db2aso926228266b.3
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 14 Dec 2023 03:46:32 -0800 (PST)
+Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com [IPv6:2a00:1450:4864:20::635])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 87C4E1AB
+	for <linux-renesas-soc@vger.kernel.org>; Thu, 14 Dec 2023 03:46:34 -0800 (PST)
+Received: by mail-ej1-x635.google.com with SMTP id a640c23a62f3a-a1d93da3eb7so928383266b.0
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 14 Dec 2023 03:46:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1702554391; x=1703159191; darn=vger.kernel.org;
+        d=tuxon.dev; s=google; t=1702554393; x=1703159193; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=UvqstCJTSxpQ0zTFtZeVFyf9XwS489IYbBY9tfQ8I8w=;
-        b=YHA90Fx5I0cqQCkOrzTgfef48t0Rv4Tx/CMTl22g7xUdS5+QGJ2zs8USYnHzL5hMBM
-         vu2g0DZN9ncR8e8S6jpA3qKCpioPYE12zLka/DrvUkXYbiMBvDaNiFCY0t7BHKb+Qt5O
-         dfHm2txXvptwludAcCX57vjrnsXhILUfXg+JPHaIMdyfLGx547mFz9k8nE/S9dhUcQjN
-         UjorlfyrVt2G4/ChIrWgQ8y0P9aOfX/i6Uz/SAT9KV/tz7uvHUJUhradi3Hq7HVy9arr
-         /Y/NaV2+PmFDlDSNhTjqoRjyBfnHQ+NjJHk16J7hlsdu2U7F4WruPRrJnVuRpCCBRdto
-         ZYvA==
+        bh=YyI1qtZFZcgDtG22qwfuXsbXZVe5eXhdPaWlE8gTXKo=;
+        b=afNLmCDoJRxkUHNdlGGFw1CwSqctb3GiQWNg7AxoSZjnEUce426nKHYivo+n2l5jed
+         Te/TW6i7VH34ZEOJ4lPq7JbRjsw+FbJ3eTdNEGsSbOK95fiLPef7oDmEnU8+10EMwpuW
+         nC8qpsiIvCMokiQULb329ppIq35FgZkqufRQbrZbliYk6mNxqvLwmQjvWXQXSp7oE79z
+         W4zHPz3QgHOvRoo4RiPBr/Z+C3UloXcWlLqEKGLQkvT/DMYpBphZFgUN9vpbNI2UPL9/
+         Vn0S8R5mLHISzbX2PB2U+IS2yAfg1WxQ/oQMFKSN95m3Qr0cNwLrIodCyJ/c6pM7Bpi2
+         O36w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702554391; x=1703159191;
+        d=1e100.net; s=20230601; t=1702554393; x=1703159193;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=UvqstCJTSxpQ0zTFtZeVFyf9XwS489IYbBY9tfQ8I8w=;
-        b=higC0unFdUGhJ4491tAih00e8NDEy/C0esGUQB8Q4RL/m3HP6jtvKqikY3TxxuZmtI
-         S4ywoKYD6mATqQHLL4aoircW6fMs4xGRWJl9axslXzzhCQNTWd5XnwusOKLGr92qYxqd
-         whvAs0QxKP7c58Dhu04/Ovwfzlj4lKV7qijtvfNxDD+kQb+kkzxv4vYE4zqWsRZ/DDGW
-         OP6/Uv+C4rpIyLTzC6U+DKMHSNB6Uf+Wb2vh7udx+brgKe/ebFl5Bg1Y++XEnNX4WQth
-         Lr8yvDz3xfYrixM1yjamry4T20Wpfy9jvS2sjhuYNLCJ14MCD9Ix7LR7PCrSnXpV6jQm
-         46mg==
-X-Gm-Message-State: AOJu0YzBoUK++Kg7NiF0KNtgWM1PJn590Is9iOPaw4twIIdve9zpZONI
-	O0Pf6Dbe8d/VFfN8II5Ly0FmLQ==
-X-Google-Smtp-Source: AGHT+IFgAP23xaHhWugO0C8DEtcDbctnuWlDzqn1ezvfAwo7Xo5UqKOcKz77/sBDQ6B+eyrxjZz8FQ==
-X-Received: by 2002:a17:906:3f5b:b0:a19:a19a:eab5 with SMTP id f27-20020a1709063f5b00b00a19a19aeab5mr4216369ejj.110.1702554391078;
-        Thu, 14 Dec 2023 03:46:31 -0800 (PST)
+        bh=YyI1qtZFZcgDtG22qwfuXsbXZVe5eXhdPaWlE8gTXKo=;
+        b=V0yziX3Ks6o9NJCPrMJjSbVjurhK3McWjKym4vzEmASvK97J5rmmlbUEltpvtgMZpF
+         riGg0WcGle49h01cKJ1CFM8hFZ3xiG5AivbzVqDGd8TtQIdUJarrITlHDtJDcKZaJMq9
+         J5Jt7k7k6KqzVDUQeVQ2hsUvyFDU59sCLaC/WzTDqoIIfHgQmPwC5eLIYR9YKVsYb2MH
+         T1KVYtFYbjG9qV/Wzg82gco+QttY2I7HtCkF1de1ZXcRxvBEoVSWR4N5lHMvVNKo6O/S
+         nOTBV5z5J+YXqvPuI4RzPWpiqezqYMAB9Frd+JMUxnUy1dOn8mXI8iK3inv8shd/BmPW
+         u6yA==
+X-Gm-Message-State: AOJu0YzcNae46Vk+D8T7BXqUzmxRXZ0LwzALd9jel8c8TLqcUejqIbOP
+	HUQ2HrdljE7LNSQVnAcVLrl+fw==
+X-Google-Smtp-Source: AGHT+IH9hM6E8wlCul1HJ/7okzFNjCrfqFi/Oe3i2fnJoRVgpavpdhWPnxBeFos40NXvLSmFMhssBA==
+X-Received: by 2002:a17:906:20d6:b0:a22:fe3c:49c9 with SMTP id c22-20020a17090620d600b00a22fe3c49c9mr1251684ejc.27.1702554392844;
+        Thu, 14 Dec 2023 03:46:32 -0800 (PST)
 Received: from claudiu-X670E-Pro-RS.. ([82.78.167.103])
-        by smtp.gmail.com with ESMTPSA id ll9-20020a170907190900b00a1da2f7c1d8sm9240877ejc.77.2023.12.14.03.46.29
+        by smtp.gmail.com with ESMTPSA id ll9-20020a170907190900b00a1da2f7c1d8sm9240877ejc.77.2023.12.14.03.46.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 Dec 2023 03:46:30 -0800 (PST)
+        Thu, 14 Dec 2023 03:46:32 -0800 (PST)
 From: Claudiu <claudiu.beznea@tuxon.dev>
 X-Google-Original-From: Claudiu <claudiu.beznea.uj@bp.renesas.com>
 To: s.shtylyov@omp.ru,
@@ -69,9 +69,9 @@ Cc: netdev@vger.kernel.org,
 	linux-renesas-soc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-Subject: [PATCH net-next v2 08/21] net: ravb: Move the IRQs get and request in the probe function
-Date: Thu, 14 Dec 2023 13:45:47 +0200
-Message-Id: <20231214114600.2451162-9-claudiu.beznea.uj@bp.renesas.com>
+Subject: [PATCH net-next v2 09/21] net: ravb: Split GTI computation and set operations
+Date: Thu, 14 Dec 2023 13:45:48 +0200
+Message-Id: <20231214114600.2451162-10-claudiu.beznea.uj@bp.renesas.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20231214114600.2451162-1-claudiu.beznea.uj@bp.renesas.com>
 References: <20231214114600.2451162-1-claudiu.beznea.uj@bp.renesas.com>
@@ -85,12 +85,14 @@ Content-Transfer-Encoding: 8bit
 
 From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 
-Move the IRQs get and request in the driver's probe function. As some IP
-variants switches to reset operation mode as a result of setting module
-standby through clock enable/disable APIs, to implement runtime PM the
-resource parsing and requests are moved in the probe function and IP
-settings are moved in the open functions. This is a preparatory change to
-add runtime PM support for all IP variants.
+ravb_set_gti() was computing the value of GTI based on the reference clock
+rate and then applied it to register. This was done on the driver's probe
+function. In order to implement runtime PM for all IP variants (as some IP
+variants switches to reset operation mode (and thus the register's content
+is lost) when module standby is configured through clock APIs) the GTI was
+split in 2 parts: one computing the value of the GTI register (done in the
+driver's probe function) and one applying the computed value to register
+(done in the driver's ndo_open API).
 
 Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 ---
@@ -98,360 +100,179 @@ Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 Changes in v2:
 - none; this patch is new
 
- drivers/net/ethernet/renesas/ravb_main.c | 274 +++++++++++------------
- 1 file changed, 132 insertions(+), 142 deletions(-)
+ drivers/net/ethernet/renesas/ravb.h      |   2 +
+ drivers/net/ethernet/renesas/ravb_main.c | 110 ++++++++++++-----------
+ 2 files changed, 58 insertions(+), 54 deletions(-)
 
+diff --git a/drivers/net/ethernet/renesas/ravb.h b/drivers/net/ethernet/renesas/ravb.h
+index e0f8276cffed..76202395b68d 100644
+--- a/drivers/net/ethernet/renesas/ravb.h
++++ b/drivers/net/ethernet/renesas/ravb.h
+@@ -1106,6 +1106,8 @@ struct ravb_private {
+ 
+ 	const struct ravb_hw_info *info;
+ 	struct reset_control *rstc;
++
++	uint64_t gti_tiv;
+ };
+ 
+ static inline u32 ravb_read(struct net_device *ndev, enum ravb_reg reg)
 diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
-index 83691a0f0cc2..d7f6e8ea8e79 100644
+index d7f6e8ea8e79..5e01e03e1b43 100644
 --- a/drivers/net/ethernet/renesas/ravb_main.c
 +++ b/drivers/net/ethernet/renesas/ravb_main.c
-@@ -1731,7 +1731,7 @@ static inline int ravb_hook_irq(unsigned int irq, irq_handler_t handler,
- 	name = devm_kasprintf(dev, GFP_KERNEL, "%s:%s", ndev->name, ch);
- 	if (!name)
- 		return -ENOMEM;
--	error = request_irq(irq, handler, 0, name, ndev);
-+	error = devm_request_irq(dev, irq, handler, 0, name, ndev);
- 	if (error)
- 		netdev_err(ndev, "cannot request IRQ %s\n", name);
- 
-@@ -1755,63 +1755,16 @@ static int ravb_open(struct net_device *ndev)
- {
- 	struct ravb_private *priv = netdev_priv(ndev);
- 	const struct ravb_hw_info *info = priv->info;
--	struct platform_device *pdev = priv->pdev;
--	struct device *dev = &pdev->dev;
- 	int error;
- 
- 	napi_enable(&priv->napi[RAVB_BE]);
- 	if (info->nc_queues)
- 		napi_enable(&priv->napi[RAVB_NC]);
- 
--	if (!info->multi_irqs) {
--		error = request_irq(ndev->irq, ravb_interrupt, IRQF_SHARED,
--				    ndev->name, ndev);
--		if (error) {
--			netdev_err(ndev, "cannot request IRQ\n");
--			goto out_napi_off;
--		}
--	} else {
--		error = ravb_hook_irq(ndev->irq, ravb_multi_interrupt, ndev,
--				      dev, "ch22:multi");
--		if (error)
--			goto out_napi_off;
--		error = ravb_hook_irq(priv->emac_irq, ravb_emac_interrupt, ndev,
--				      dev, "ch24:emac");
--		if (error)
--			goto out_free_irq;
--		error = ravb_hook_irq(priv->rx_irqs[RAVB_BE], ravb_be_interrupt,
--				      ndev, dev, "ch0:rx_be");
--		if (error)
--			goto out_free_irq_emac;
--		error = ravb_hook_irq(priv->tx_irqs[RAVB_BE], ravb_be_interrupt,
--				      ndev, dev, "ch18:tx_be");
--		if (error)
--			goto out_free_irq_be_rx;
--		error = ravb_hook_irq(priv->rx_irqs[RAVB_NC], ravb_nc_interrupt,
--				      ndev, dev, "ch1:rx_nc");
--		if (error)
--			goto out_free_irq_be_tx;
--		error = ravb_hook_irq(priv->tx_irqs[RAVB_NC], ravb_nc_interrupt,
--				      ndev, dev, "ch19:tx_nc");
--		if (error)
--			goto out_free_irq_nc_rx;
--
--		if (info->err_mgmt_irqs) {
--			error = ravb_hook_irq(priv->erra_irq, ravb_multi_interrupt,
--					      ndev, dev, "err_a");
--			if (error)
--				goto out_free_irq_nc_tx;
--			error = ravb_hook_irq(priv->mgmta_irq, ravb_multi_interrupt,
--					      ndev, dev, "mgmt_a");
--			if (error)
--				goto out_free_irq_erra;
--		}
--	}
--
- 	/* Device init */
- 	error = ravb_dmac_init(ndev);
- 	if (error)
--		goto out_free_irq_mgmta;
-+		goto out_napi_off;
- 	ravb_emac_init(ndev);
- 
- 	/* Initialise PTP Clock driver */
-@@ -1832,26 +1785,6 @@ static int ravb_open(struct net_device *ndev)
- 	if (info->gptp)
- 		ravb_ptp_stop(ndev);
- 	ravb_stop_dma(ndev);
--out_free_irq_mgmta:
--	if (!info->multi_irqs)
--		goto out_free_irq;
--	if (info->err_mgmt_irqs)
--		free_irq(priv->mgmta_irq, ndev);
--out_free_irq_erra:
--	if (info->err_mgmt_irqs)
--		free_irq(priv->erra_irq, ndev);
--out_free_irq_nc_tx:
--	free_irq(priv->tx_irqs[RAVB_NC], ndev);
--out_free_irq_nc_rx:
--	free_irq(priv->rx_irqs[RAVB_NC], ndev);
--out_free_irq_be_tx:
--	free_irq(priv->tx_irqs[RAVB_BE], ndev);
--out_free_irq_be_rx:
--	free_irq(priv->rx_irqs[RAVB_BE], ndev);
--out_free_irq_emac:
--	free_irq(priv->emac_irq, ndev);
--out_free_irq:
--	free_irq(ndev->irq, ndev);
- out_napi_off:
- 	if (info->nc_queues)
- 		napi_disable(&priv->napi[RAVB_NC]);
-@@ -2177,19 +2110,6 @@ static int ravb_close(struct net_device *ndev)
- 
- 	cancel_work_sync(&priv->work);
- 
--	if (info->multi_irqs) {
--		free_irq(priv->tx_irqs[RAVB_NC], ndev);
--		free_irq(priv->rx_irqs[RAVB_NC], ndev);
--		free_irq(priv->tx_irqs[RAVB_BE], ndev);
--		free_irq(priv->rx_irqs[RAVB_BE], ndev);
--		free_irq(priv->emac_irq, ndev);
--		if (info->err_mgmt_irqs) {
--			free_irq(priv->erra_irq, ndev);
--			free_irq(priv->mgmta_irq, ndev);
--		}
--	}
--	free_irq(ndev->irq, ndev);
--
- 	if (info->nc_queues)
- 		napi_disable(&priv->napi[RAVB_NC]);
- 	napi_disable(&priv->napi[RAVB_BE]);
-@@ -2616,6 +2536,127 @@ static void ravb_parse_delay_mode(struct device_node *np, struct net_device *nde
- 	}
+@@ -1750,6 +1750,51 @@ static int ravb_set_reset_mode(struct net_device *ndev)
+ 	return error;
  }
  
-+static int ravb_get_irqs(struct ravb_private *priv)
++static int ravb_set_gti(struct net_device *ndev)
 +{
-+	const char *err_a_irq_name = NULL, *mgmt_a_irq_name = NULL;
++	struct ravb_private *priv = netdev_priv(ndev);
 +	const struct ravb_hw_info *info = priv->info;
-+	struct platform_device *pdev = priv->pdev;
-+	struct net_device *ndev = priv->ndev;
-+	const char *irq_name, *emac_irq_name;
-+	int i, irq;
 +
-+	if (!info->multi_irqs) {
-+		irq = platform_get_irq(pdev, 0);
-+		if (irq < 0)
-+			return irq;
-+
-+		ndev->irq = irq;
++	if (!(info->gptp || info->ccc_gac))
 +		return 0;
-+	}
 +
-+	if (info->err_mgmt_irqs) {
-+		irq_name = "dia";
-+		emac_irq_name = "line3";
-+		err_a_irq_name = "err_a";
-+		mgmt_a_irq_name = "mgmt_a";
-+	} else {
-+		irq_name = "ch22";
-+		emac_irq_name = "ch24";
-+	}
++	ravb_write(ndev, priv->gti_tiv, GTI);
 +
-+	irq = platform_get_irq_byname(pdev, irq_name);
-+	if (irq < 0)
-+		return irq;
-+	ndev->irq = irq;
++	/* Request GTI loading */
++	ravb_modify(ndev, GCCR, GCCR_LTI, GCCR_LTI);
 +
-+	irq = platform_get_irq_byname(pdev, emac_irq_name);
-+	if (irq < 0)
-+		return irq;
-+	priv->emac_irq = irq;
++	/* Check completion status. */
++	return ravb_wait(ndev, GCCR, GCCR_LTI, 0);
++}
 +
-+	if (err_a_irq_name) {
-+		irq = platform_get_irq_byname(pdev, "err_a");
-+		if (irq < 0)
-+			return irq;
-+		priv->erra_irq = irq;
-+	}
++static int ravb_compute_gti(struct net_device *ndev)
++{
++	struct ravb_private *priv = netdev_priv(ndev);
++	const struct ravb_hw_info *info = priv->info;
++	struct device *dev = ndev->dev.parent;
++	unsigned long rate;
 +
-+	if (mgmt_a_irq_name) {
-+		irq = platform_get_irq_byname(pdev, "mgmt_a");
-+		if (irq < 0)
-+			return irq;
-+		priv->mgmta_irq = irq;
-+	}
++	if (!(info->gptp || info->ccc_gac))
++		return 0;
 +
-+	for (i = 0; i < NUM_RX_QUEUE; i++) {
-+		irq = platform_get_irq_byname(pdev, ravb_rx_irqs[i]);
-+		if (irq < 0)
-+			return irq;
-+		priv->rx_irqs[i] = irq;
-+	}
-+	for (i = 0; i < NUM_TX_QUEUE; i++) {
-+		irq = platform_get_irq_byname(pdev, ravb_tx_irqs[i]);
-+		if (irq < 0)
-+			return irq;
-+		priv->tx_irqs[i] = irq;
++	if (info->gptp_ref_clk)
++		rate = clk_get_rate(priv->gptp_clk);
++	else
++		rate = clk_get_rate(priv->clk);
++	if (!rate)
++		return -EINVAL;
++
++	priv->gti_tiv = div64_ul(1000000000ULL << 20, rate);
++
++	if (priv->gti_tiv < GTI_TIV_MIN || priv->gti_tiv > GTI_TIV_MAX) {
++		dev_err(dev, "gti.tiv increment 0x%llx is outside the range 0x%x - 0x%x\n",
++			priv->gti_tiv, GTI_TIV_MIN, GTI_TIV_MAX);
++		return -EINVAL;
 +	}
 +
 +	return 0;
 +}
 +
-+static int ravb_request_irqs(struct ravb_private *priv)
-+{
-+	const struct ravb_hw_info *info = priv->info;
-+	struct net_device *ndev = priv->ndev;
-+	struct device *dev = &priv->pdev->dev;
-+	int error;
-+
-+	if (!info->multi_irqs) {
-+		error = devm_request_irq(dev, ndev->irq, ravb_interrupt, IRQF_SHARED,
-+					 ndev->name, ndev);
-+		if (error)
-+			netdev_err(ndev, "cannot request IRQ\n");
-+
-+		return error;
-+	}
-+
-+	error = ravb_hook_irq(ndev->irq, ravb_multi_interrupt, ndev,
-+			      dev, "ch22:multi");
+ /* Network device open function for Ethernet AVB */
+ static int ravb_open(struct net_device *ndev)
+ {
+@@ -1767,6 +1812,10 @@ static int ravb_open(struct net_device *ndev)
+ 		goto out_napi_off;
+ 	ravb_emac_init(ndev);
+ 
++	error = ravb_set_gti(ndev);
 +	if (error)
-+		return error;
-+	error = ravb_hook_irq(priv->emac_irq, ravb_emac_interrupt, ndev,
-+			      dev, "ch24:emac");
-+	if (error)
-+		return error;
-+	error = ravb_hook_irq(priv->rx_irqs[RAVB_BE], ravb_be_interrupt,
-+			      ndev, dev, "ch0:rx_be");
-+	if (error)
-+		return error;
-+	error = ravb_hook_irq(priv->tx_irqs[RAVB_BE], ravb_be_interrupt,
-+			      ndev, dev, "ch18:tx_be");
-+	if (error)
-+		return error;
-+	error = ravb_hook_irq(priv->rx_irqs[RAVB_NC], ravb_nc_interrupt,
-+			      ndev, dev, "ch1:rx_nc");
-+	if (error)
-+		return error;
-+	error = ravb_hook_irq(priv->tx_irqs[RAVB_NC], ravb_nc_interrupt,
-+			      ndev, dev, "ch19:tx_nc");
-+	if (error)
-+		return error;
++		goto out_dma_stop;
 +
-+	if (!info->err_mgmt_irqs)
-+		return 0;
-+
-+	error = ravb_hook_irq(priv->erra_irq, ravb_multi_interrupt,
-+			      ndev, dev, "err_a");
-+	if (error)
-+		return error;
-+
-+	return ravb_hook_irq(priv->mgmta_irq, ravb_multi_interrupt,
-+			     ndev, dev, "mgmt_a");
-+}
-+
- static void ravb_set_delay_mode(struct net_device *ndev)
+ 	/* Initialise PTP Clock driver */
+ 	if (info->gptp)
+ 		ravb_ptp_init(ndev, priv->pdev);
+@@ -1784,6 +1833,7 @@ static int ravb_open(struct net_device *ndev)
+ 	/* Stop PTP Clock driver */
+ 	if (info->gptp)
+ 		ravb_ptp_stop(ndev);
++out_dma_stop:
+ 	ravb_stop_dma(ndev);
+ out_napi_off:
+ 	if (info->nc_queues)
+@@ -2449,34 +2499,6 @@ static const struct of_device_id ravb_match_table[] = {
+ };
+ MODULE_DEVICE_TABLE(of, ravb_match_table);
+ 
+-static int ravb_set_gti(struct net_device *ndev)
+-{
+-	struct ravb_private *priv = netdev_priv(ndev);
+-	const struct ravb_hw_info *info = priv->info;
+-	struct device *dev = ndev->dev.parent;
+-	unsigned long rate;
+-	uint64_t inc;
+-
+-	if (info->gptp_ref_clk)
+-		rate = clk_get_rate(priv->gptp_clk);
+-	else
+-		rate = clk_get_rate(priv->clk);
+-	if (!rate)
+-		return -EINVAL;
+-
+-	inc = div64_ul(1000000000ULL << 20, rate);
+-
+-	if (inc < GTI_TIV_MIN || inc > GTI_TIV_MAX) {
+-		dev_err(dev, "gti.tiv increment 0x%llx is outside the range 0x%x - 0x%x\n",
+-			inc, GTI_TIV_MIN, GTI_TIV_MAX);
+-		return -EINVAL;
+-	}
+-
+-	ravb_write(ndev, inc, GTI);
+-
+-	return 0;
+-}
+-
+ static int ravb_set_config_mode(struct net_device *ndev)
  {
  	struct ravb_private *priv = netdev_priv(ndev);
-@@ -2635,9 +2676,8 @@ static int ravb_probe(struct platform_device *pdev)
- 	struct reset_control *rstc;
- 	struct ravb_private *priv;
- 	struct net_device *ndev;
--	int error, irq, q;
- 	struct resource *res;
--	int i;
-+	int error, q;
- 
- 	if (!np) {
- 		dev_err(&pdev->dev,
-@@ -2664,20 +2704,6 @@ static int ravb_probe(struct platform_device *pdev)
+@@ -2792,19 +2814,9 @@ static int ravb_probe(struct platform_device *pdev)
  	if (error)
- 		goto out_free_netdev;
+ 		goto out_rpm_put;
  
--	if (info->multi_irqs) {
--		if (info->err_mgmt_irqs)
--			irq = platform_get_irq_byname(pdev, "dia");
--		else
--			irq = platform_get_irq_byname(pdev, "ch22");
--	} else {
--		irq = platform_get_irq(pdev, 0);
--	}
--	if (irq < 0) {
--		error = irq;
--		goto out_reset_assert;
--	}
--	ndev->irq = irq;
--
- 	SET_NETDEV_DEV(ndev, &pdev->dev);
- 
- 	priv = netdev_priv(ndev);
-@@ -2692,6 +2718,14 @@ static int ravb_probe(struct platform_device *pdev)
- 		priv->num_rx_ring[RAVB_NC] = NC_RX_RING_SIZE;
- 	}
- 
-+	error = ravb_get_irqs(priv);
-+	if (error)
-+		goto out_reset_assert;
-+
-+	error = ravb_request_irqs(priv);
-+	if (error)
-+		goto out_reset_assert;
-+
- 	priv->refclk = devm_clk_get_optional(&pdev->dev, "refclk");
- 	if (IS_ERR(priv->refclk)) {
- 		error = PTR_ERR(priv->refclk);
-@@ -2725,50 +2759,6 @@ static int ravb_probe(struct platform_device *pdev)
- 	priv->avb_link_active_low =
- 		of_property_read_bool(np, "renesas,ether-link-active-low");
- 
--	if (info->multi_irqs) {
--		if (info->err_mgmt_irqs)
--			irq = platform_get_irq_byname(pdev, "line3");
--		else
--			irq = platform_get_irq_byname(pdev, "ch24");
--		if (irq < 0) {
--			error = irq;
+-	if (info->gptp || info->ccc_gac) {
+-		/* Set GTI value */
+-		error = ravb_set_gti(ndev);
+-		if (error)
 -			goto out_rpm_put;
--		}
--		priv->emac_irq = irq;
--		for (i = 0; i < NUM_RX_QUEUE; i++) {
--			irq = platform_get_irq_byname(pdev, ravb_rx_irqs[i]);
--			if (irq < 0) {
--				error = irq;
--				goto out_rpm_put;
--			}
--			priv->rx_irqs[i] = irq;
--		}
--		for (i = 0; i < NUM_TX_QUEUE; i++) {
--			irq = platform_get_irq_byname(pdev, ravb_tx_irqs[i]);
--			if (irq < 0) {
--				error = irq;
--				goto out_rpm_put;
--			}
--			priv->tx_irqs[i] = irq;
--		}
 -
--		if (info->err_mgmt_irqs) {
--			irq = platform_get_irq_byname(pdev, "err_a");
--			if (irq < 0) {
--				error = irq;
--				goto out_rpm_put;
--			}
--			priv->erra_irq = irq;
--
--			irq = platform_get_irq_byname(pdev, "mgmt_a");
--			if (irq < 0) {
--				error = irq;
--				goto out_rpm_put;
--			}
--			priv->mgmta_irq = irq;
--		}
+-		/* Request GTI loading */
+-		ravb_modify(ndev, GCCR, GCCR_LTI, GCCR_LTI);
+-		/* Check completion status. */
+-		error = ravb_wait(ndev, GCCR, GCCR_LTI, 0);
+-		if (error)
+-			goto out_rpm_put;
 -	}
++	error = ravb_compute_gti(ndev);
++	if (error)
++		goto out_rpm_put;
+ 
+ 	if (info->internal_delay) {
+ 		ravb_parse_delay_mode(np, ndev);
+@@ -3020,19 +3032,9 @@ static int ravb_resume(struct device *dev)
+ 	if (ret)
+ 		return ret;
+ 
+-	if (info->gptp || info->ccc_gac) {
+-		/* Set GTI value */
+-		ret = ravb_set_gti(ndev);
+-		if (ret)
+-			return ret;
 -
- 	priv->clk = devm_clk_get(&pdev->dev, NULL);
- 	if (IS_ERR(priv->clk)) {
- 		error = PTR_ERR(priv->clk);
+-		/* Request GTI loading */
+-		ravb_modify(ndev, GCCR, GCCR_LTI, GCCR_LTI);
+-		/* Check completion status. */
+-		ret = ravb_wait(ndev, GCCR, GCCR_LTI, 0);
+-		if (ret)
+-			return ret;
+-	}
++	ret = ravb_set_gti(ndev);
++	if (ret)
++		return ret;
+ 
+ 	if (info->internal_delay)
+ 		ravb_set_delay_mode(ndev);
 -- 
 2.39.2
 
