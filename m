@@ -1,51 +1,48 @@
-Return-Path: <linux-renesas-soc+bounces-1070-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-1071-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A8C881353D
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 Dec 2023 16:51:37 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8985881354E
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 Dec 2023 16:53:15 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7CF3F1C20AD5
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 Dec 2023 15:51:36 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 469AF282925
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 Dec 2023 15:53:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 44D525D90D;
-	Thu, 14 Dec 2023 15:51:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E2E485D915;
+	Thu, 14 Dec 2023 15:53:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="j2tM1WaS"
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="KhVRJ8Bc"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E233298
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 14 Dec 2023 07:51:27 -0800 (PST)
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9C9CF12A
+	for <linux-renesas-soc@vger.kernel.org>; Thu, 14 Dec 2023 07:53:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=SWD5
-	0egKwLc0Rybwi1RAvz7QScMU5f/Ur7h95KrgliU=; b=j2tM1WaStkNaKN+yr1RR
-	s50Kn/z2eapPW+OrIq8j0AnGUlzSEezIVhXFoiijiVysPGSsQ3DQ+QeiWkyHwy72
-	yPkF3Jiky+QwoC02lGZK7uB+jzALuEzaeEBP08NxUDS5YipV+mdFt2uIZMY2rqkj
-	zThG5pSGjdVjzbF+xocSH5wrWyevC+AEP+T7IUa/Lwx4o8r2tOFuXupLJYFd8F/d
-	32x9jiaVL2vKgbye2+0Bz3zYs33WXQtsaSQlHpxcTiS6dh3OU7H2hE72NurAs7mX
-	m1chOTFGgbI5DIpPNY+ilgzX/WVfXfucLH/pZhM83uXL8kGLah425UFOc4T1pV2/
-	Vw==
-Received: (qmail 972578 invoked from network); 14 Dec 2023 16:51:24 +0100
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 14 Dec 2023 16:51:24 +0100
-X-UD-Smtp-Session: l3s3148p1@+qV/QXoMAMIujnuR
-Date: Thu, 14 Dec 2023 16:51:23 +0100
+	sang-engineering.com; h=date:from:to:subject:message-id
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=AY8d
+	+sEQGQaRJ6K6hiCtr1zH809ucxRUF3zOxIkfyL8=; b=KhVRJ8Bc7B347PKoXwOY
+	TVIo7wzTa2JPIO5GoWUkSMGo/c+syKKehuU2+ISCRiBvOM2xJSeoyhLvAR3/0y5D
+	HKS3wKIW4vDmFx68Neef3S0fn6Q0K8qlVrmD2L0w8m29qWNGGjHZDB6UBY0ST2LG
+	LUzBjdzroekMVaL3XJE/rtfJNhXRVIXw6yatDwm2bBv27JegV5CcA/aOdewtXSPd
+	X3WqPOkr/swlT8xTX0FFydG7p+Kzv8mgpWIRUDFRdZ7NChN1zpSL30jkeCrFzbaB
+	EWY8bzb2j2pVVPPiGbV/pu5IBOyfbGSxBlphCug5dncwXC4hLF1DgS2FHjw9iqMA
+	eQ==
+Received: (qmail 973020 invoked from network); 14 Dec 2023 16:53:08 +0100
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 14 Dec 2023 16:53:08 +0100
+X-UD-Smtp-Session: l3s3148p1@mZakR3oMsukujnuR
+Date: Thu, 14 Dec 2023 16:53:06 +0100
 From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: linux-renesas-soc@vger.kernel.org
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-pci@vger.kernel.org,
-	Marek Vasut <marek.vasut+renesas@gmail.com>,
-	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Subject: Re: [PATCH v5 RESEND 0/2] PCI: rcar: support regulators for PCIe
-Message-ID: <ZXske3k8CkMcGjr5@shikoro>
+To: linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+	Johan Hovold <johan@kernel.org>, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v5 0/3] gnss: ubx: support the reset pin of the Neo-M8
+ variant
+Message-ID: <ZXsk4i/OTGFhiCk9@shikoro>
 Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
 	linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
-	Marek Vasut <marek.vasut+renesas@gmail.com>,
-	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-References: <20231105092908.3792-1-wsa+renesas@sang-engineering.com>
+	Johan Hovold <johan@kernel.org>, linux-kernel@vger.kernel.org
+References: <20231113005152.10656-1-wsa+renesas@sang-engineering.com>
+ <ZXfTwscAltoVY1lV@shikoro>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -53,54 +50,52 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="iYf0e0WBJmy2fgy7"
+	protocol="application/pgp-signature"; boundary="PKRATVOl1tJO9Tu6"
 Content-Disposition: inline
-In-Reply-To: <20231105092908.3792-1-wsa+renesas@sang-engineering.com>
+In-Reply-To: <ZXfTwscAltoVY1lV@shikoro>
 
 
---iYf0e0WBJmy2fgy7
+--PKRATVOl1tJO9Tu6
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Sun, Nov 05, 2023 at 10:29:06AM +0100, Wolfram Sang wrote:
-> Here are the patches to make PCIe cards work in slot CN15 on a Renesas
-> KingFisher board. Please apply.
+On Tue, Dec 12, 2023 at 04:30:10AM +0100, Wolfram Sang wrote:
+> On Sun, Nov 12, 2023 at 07:51:48PM -0500, Wolfram Sang wrote:
+> > The Renesas KingFisher board includes a U-Blox Neo-M8 chip with its
+> > reset pin wired to a GPIO. To support that, we need "reset-gpio" support
+> > (patches 2+3). But first, simplify regulator handling with a new helper
+> > (patch 1).
+> >=20
+> > Changes since v4:
+> >=20
+> > * don't touch reset during open/close. Only deassert it during probe.
+> >   [patch 3]
 >=20
-> Changes since v4:
-> * rebased to 6.6
-> * added ack from Mani (Thanks!)
->=20
-> Wolfram Sang (2):
->   dt-bindings: PCI: rcar-pci-host: add optional regulators
->   PCI: rcar-host: add support for optional regulators
->=20
->  .../devicetree/bindings/pci/rcar-pci-host.yaml   | 11 +++++++++++
->  drivers/pci/controller/pcie-rcar-host.c          | 16 +++++++++++++++-
->  2 files changed, 26 insertions(+), 1 deletion(-)
+> Johan, all good now?
 
-Can we have this series in 6.8, pretty please?
+If there are no further comments, can we have this series in 6.8.?
 
 
---iYf0e0WBJmy2fgy7
+--PKRATVOl1tJO9Tu6
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmV7JHgACgkQFA3kzBSg
-KbY3KhAAn1LjgCchuymBK5WOFv1iQU8JHdrudMbyioMalewF7lH/NVT6vA2FPeNN
-X5X0FZ6JmGyrnOj8qbkakl0iB1ZYf1lKOoGjiAVzS3qj2lxsP5NpBXX3yQuF2m2A
-Ajc8wp0P6z2q11gWkVHjYnDAW1SawtLSJtHhsFdfDL9WzTOXO01CDYU87Rshckno
-Ckyjo9Mc69R8XNdsubdYzIipRBQGnFuz6lTjYXlJvWk/siwTPc95pB9fmF398eJn
-DIoqYPBccsb4484o9oJ5LUlG/pov1ud7kPsKu197A1SaxUwS3j+C/ghIhTl3Rq7W
-jpK2eZp/tGyfPnkr72niLCJvd+mkwg6EB4Xy9tocBMgUsK0JG7dBzuD5AJopbOVu
-fm94Wc2/mKaUXVdMY4REG9u4kLMl3v9RZxlbtqvv4aSHobnIGWX2jkMmrnm5ztQf
-HbK+X809vP3owl++JmD0K+CjxLNusiYqVHZmfbXgR5IzlnLCgShsROPquuVT1bvG
-EJti4TXSAxUU8zbDDEoBF7xcaxiynRlsg9NROsQ3hs60rz6JYAG/oxdnv050juSV
-bIwnZLSAdaYbx8UxevSSX+TXxMjzUmBHvyj96w09U0ckVTcz4AEm4gH2lXppL3qi
-8bwbzUJ2CV3ZlsYOgBTdgWpPFQIqm8XVgnB9TyFX4FpPmBtP8UE=
-=8XDE
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmV7JOIACgkQFA3kzBSg
+KbYO4hAAn1J7NbLQ2GuIZrT6AKKsXZdHGWDc0ThG1vWgO1WYOxdSnvm6eGEUk0Bc
+AFEKVxyNAe/jP0EHUHylnBxgoSjA2Hse/zXERqjijVdJLr4X09D3o5PWNbalcXWE
+3wxEO/2cIcwe9W+5uBOy5miHEIwjJN4+gDdBl1w2SOVQiOAuFFF8Ihp+5Q/sNPBv
+7lSM2TL+mRnkVfSyCW/viAtrWSfjn+FVHrc5AsILWl3na0ux7nMqSyKjGV7IGjfq
+vrEU3QxB62BeOtLG0hZXpzbYKPHuRCFocp0WBsjNBgRSE9bysDRT+Hmm4kh7frdN
+0eC6mTunToh70ziCg6y2DIN+ix/9jl34BncbOavCszGYrXKz1lgLtDQkes7T6xKH
+eVBS3VatU9W/Sf5w/ttLv/kya6KJ5KrTdyq5He19Xov4G6sC0ZQVZr6tOnXTeinH
+7MdXPgzZTf/ub5MrffIEj869A5rmeyqEoczJYovCtOga+IOQJ8JrYrMQczRgsxRF
+3wdcLqdqVI4YHboaidKlefZxxdgoLEPQcyYE+3puiLo0hk0SEqw5FKzlzGRxytiL
+r9UHSu9UFYYIEFKGgggIwZLDcx5UX7cGWR6ocygGGw2aUB9/Oo6V2ckiEv58Ozqi
+Rgdle6iawBwe5K2KVl3dgoSoHrJ6PwWSyX3Lf677z/dfLJA/rgY=
+=NTsT
 -----END PGP SIGNATURE-----
 
---iYf0e0WBJmy2fgy7--
+--PKRATVOl1tJO9Tu6--
 
