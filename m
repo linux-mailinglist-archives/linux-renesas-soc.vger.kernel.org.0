@@ -1,101 +1,112 @@
-Return-Path: <linux-renesas-soc+bounces-1071-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-1072-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8985881354E
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 Dec 2023 16:53:15 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 50267813584
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 Dec 2023 17:00:00 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 469AF282925
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 Dec 2023 15:53:14 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 03D621F20582
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 Dec 2023 16:00:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E2E485D915;
-	Thu, 14 Dec 2023 15:53:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 90BC45E0C0;
+	Thu, 14 Dec 2023 15:59:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="KhVRJ8Bc"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oE/U4nNR"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9C9CF12A
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 14 Dec 2023 07:53:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=AY8d
-	+sEQGQaRJ6K6hiCtr1zH809ucxRUF3zOxIkfyL8=; b=KhVRJ8Bc7B347PKoXwOY
-	TVIo7wzTa2JPIO5GoWUkSMGo/c+syKKehuU2+ISCRiBvOM2xJSeoyhLvAR3/0y5D
-	HKS3wKIW4vDmFx68Neef3S0fn6Q0K8qlVrmD2L0w8m29qWNGGjHZDB6UBY0ST2LG
-	LUzBjdzroekMVaL3XJE/rtfJNhXRVIXw6yatDwm2bBv27JegV5CcA/aOdewtXSPd
-	X3WqPOkr/swlT8xTX0FFydG7p+Kzv8mgpWIRUDFRdZ7NChN1zpSL30jkeCrFzbaB
-	EWY8bzb2j2pVVPPiGbV/pu5IBOyfbGSxBlphCug5dncwXC4hLF1DgS2FHjw9iqMA
-	eQ==
-Received: (qmail 973020 invoked from network); 14 Dec 2023 16:53:08 +0100
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 14 Dec 2023 16:53:08 +0100
-X-UD-Smtp-Session: l3s3148p1@mZakR3oMsukujnuR
-Date: Thu, 14 Dec 2023 16:53:06 +0100
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-	Johan Hovold <johan@kernel.org>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5 0/3] gnss: ubx: support the reset pin of the Neo-M8
- variant
-Message-ID: <ZXsk4i/OTGFhiCk9@shikoro>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-	Johan Hovold <johan@kernel.org>, linux-kernel@vger.kernel.org
-References: <20231113005152.10656-1-wsa+renesas@sang-engineering.com>
- <ZXfTwscAltoVY1lV@shikoro>
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 671BB5D91C;
+	Thu, 14 Dec 2023 15:59:56 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 326FEC433C8;
+	Thu, 14 Dec 2023 15:59:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1702569595;
+	bh=7CoqfRw4JMr1mH61QnY6pnHqNDAJkzpjjIZkWX4fWDo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=oE/U4nNRQ8qAZMz6rhJ8Sce7YX983atw1Ny0Zxc1hMmAY3JxOc7pXYNlvPBXeaGuQ
+	 loSUdaeJXdWV/b3HHhWHdDDfT6hOK0eKn3Pt3dYKl6FVkwhr2ptTCiXvrUv9tSOUBV
+	 KDfMM8KNsKA3mz02PUm3IzzbDmXD8pzBQINycWQ65iM94UygxbumUS/VhfEFlA+nQF
+	 9iMziNRgNs4Q/XbCBepT75LTFGS1psYisR0ReKKYzFozGOYLbjC1TLjHBrdDMCiJEO
+	 mUmt/Ay9ptppcOBYMVi3QK87vU8cfcMSXYvX6HW4Fx9kLEIg1b77B9osyiebHQrJvD
+	 eKcW3URUzhcqg==
+Date: Thu, 14 Dec 2023 15:59:49 +0000
+From: Conor Dooley <conor@kernel.org>
+To: Biju Das <biju.das.jz@bp.renesas.com>
+Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>, Lee Jones <lee@kernel.org>,
+	Support Opensource <support.opensource@diasemi.com>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Daniel Lezcano <daniel.lezcano@linaro.org>,
+	Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>,
+	Steve Twiss <stwiss.opensource@diasemi.com>,
+	linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-pm@vger.kernel.org,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	Biju Das <biju.das.au@gmail.com>, linux-renesas-soc@vger.kernel.org,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: Re: [PATCH v6 8/8] dt-bindings: mfd: dlg,da9063: Convert da9062 to
+ json-schema
+Message-ID: <20231214-muzzle-spectator-6d8c278ccf8b@spud>
+References: <20231214080911.23359-1-biju.das.jz@bp.renesas.com>
+ <20231214080911.23359-9-biju.das.jz@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="PKRATVOl1tJO9Tu6"
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="HqlfYCRaK1p8RYfx"
 Content-Disposition: inline
-In-Reply-To: <ZXfTwscAltoVY1lV@shikoro>
+In-Reply-To: <20231214080911.23359-9-biju.das.jz@bp.renesas.com>
 
 
---PKRATVOl1tJO9Tu6
+--HqlfYCRaK1p8RYfx
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Dec 12, 2023 at 04:30:10AM +0100, Wolfram Sang wrote:
-> On Sun, Nov 12, 2023 at 07:51:48PM -0500, Wolfram Sang wrote:
-> > The Renesas KingFisher board includes a U-Blox Neo-M8 chip with its
-> > reset pin wired to a GPIO. To support that, we need "reset-gpio" support
-> > (patches 2+3). But first, simplify regulator handling with a new helper
-> > (patch 1).
-> >=20
-> > Changes since v4:
-> >=20
-> > * don't touch reset during open/close. Only deassert it during probe.
-> >   [patch 3]
+On Thu, Dec 14, 2023 at 08:09:11AM +0000, Biju Das wrote:
+> Convert the da9062 PMIC device tree binding documentation to json-schema.
 >=20
-> Johan, all good now?
+> Document the missing gpio child node for da9062.
+>=20
+> While at it, update description with link to product information and
+> example.
+>=20
+> The missing child node with of_compatible defined in MFD_CELL_OF is
+> causing the below warning message:
+> da9062-gpio: Failed to locate of_node [id: -1]
+>=20
+> So, make all child nodes with of_compatible defined in struct mfd_cell
+> as required property for da906{1,2} devices.
+>=20
+> The "gpio-controller" and "#gpio-cells" properties are defined in the
+> parent instead of gpio child node as there are existing driver users
+> based on these parent properties.
 
-If there are no further comments, can we have this series in 6.8.?
+Thanks for updating the commit message :)
+Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
 
+Cheers,
+Conor.
 
---PKRATVOl1tJO9Tu6
+--HqlfYCRaK1p8RYfx
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmV7JOIACgkQFA3kzBSg
-KbYO4hAAn1J7NbLQ2GuIZrT6AKKsXZdHGWDc0ThG1vWgO1WYOxdSnvm6eGEUk0Bc
-AFEKVxyNAe/jP0EHUHylnBxgoSjA2Hse/zXERqjijVdJLr4X09D3o5PWNbalcXWE
-3wxEO/2cIcwe9W+5uBOy5miHEIwjJN4+gDdBl1w2SOVQiOAuFFF8Ihp+5Q/sNPBv
-7lSM2TL+mRnkVfSyCW/viAtrWSfjn+FVHrc5AsILWl3na0ux7nMqSyKjGV7IGjfq
-vrEU3QxB62BeOtLG0hZXpzbYKPHuRCFocp0WBsjNBgRSE9bysDRT+Hmm4kh7frdN
-0eC6mTunToh70ziCg6y2DIN+ix/9jl34BncbOavCszGYrXKz1lgLtDQkes7T6xKH
-eVBS3VatU9W/Sf5w/ttLv/kya6KJ5KrTdyq5He19Xov4G6sC0ZQVZr6tOnXTeinH
-7MdXPgzZTf/ub5MrffIEj869A5rmeyqEoczJYovCtOga+IOQJ8JrYrMQczRgsxRF
-3wdcLqdqVI4YHboaidKlefZxxdgoLEPQcyYE+3puiLo0hk0SEqw5FKzlzGRxytiL
-r9UHSu9UFYYIEFKGgggIwZLDcx5UX7cGWR6ocygGGw2aUB9/Oo6V2ckiEv58Ozqi
-Rgdle6iawBwe5K2KVl3dgoSoHrJ6PwWSyX3Lf677z/dfLJA/rgY=
-=NTsT
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZXsmdQAKCRB4tDGHoIJi
+0lzGAP4oEdT2WUJUxiyRRCFGE6OT0WvQwnCe1E3iSspn6sqjPAEA2Ki0TvwYTowX
+TGIvSJPBorLjAV43jOT30EsDyvL91gg=
+=3PTg
 -----END PGP SIGNATURE-----
 
---PKRATVOl1tJO9Tu6--
+--HqlfYCRaK1p8RYfx--
 
