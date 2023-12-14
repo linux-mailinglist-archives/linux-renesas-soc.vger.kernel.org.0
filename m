@@ -1,200 +1,81 @@
-Return-Path: <linux-renesas-soc+bounces-1014-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-1015-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A58EA8120E7
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 13 Dec 2023 22:48:31 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 90FDF8124A1
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 Dec 2023 02:33:31 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 35423282704
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 13 Dec 2023 21:48:30 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 02064B211F2
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 Dec 2023 01:33:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4DCE85C084;
-	Wed, 13 Dec 2023 21:48:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2F6E17EE;
+	Thu, 14 Dec 2023 01:33:23 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTP id 95583DB;
-	Wed, 13 Dec 2023 13:48:24 -0800 (PST)
-X-IronPort-AV: E=Sophos;i="6.04,273,1695654000"; 
-   d="scan'208";a="186385655"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie5.idc.renesas.com with ESMTP; 14 Dec 2023 06:48:24 +0900
-Received: from localhost.localdomain (unknown [10.26.240.14])
-	by relmlir6.idc.renesas.com (Postfix) with ESMTP id 4A6B340BB731;
-	Thu, 14 Dec 2023 06:48:21 +0900 (JST)
-From: Biju Das <biju.das.jz@bp.renesas.com>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: Biju Das <biju.das.jz@bp.renesas.com>,
-	Support Opensource <support.opensource@diasemi.com>,
-	linux-input@vger.kernel.org,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Biju Das <biju.das.au@gmail.com>,
-	linux-renesas-soc@vger.kernel.org
-Subject: [PATCH v2 4/4] Input: da9063 - Add polling support
-Date: Wed, 13 Dec 2023 21:48:03 +0000
-Message-Id: <20231213214803.9931-5-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20231213214803.9931-1-biju.das.jz@bp.renesas.com>
-References: <20231213214803.9931-1-biju.das.jz@bp.renesas.com>
+Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2D3C0F4;
+	Wed, 13 Dec 2023 17:33:20 -0800 (PST)
+Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-6ceb93fb381so116676b3a.0;
+        Wed, 13 Dec 2023 17:33:20 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1702517599; x=1703122399;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=DTDqfs/xpXbeTqhhiS0RXQWRiBAFOfATWckEZsTas7k=;
+        b=mLmFZrSp8bGK4osXFo3/XVFm/PtQgpqG66bgtEfVEmDa9Tw+0zjm80U+Dv4r6JVHBV
+         BxSGDAUs+naRRFN0Fi6JP7LMyVl29VvLonJkeeglo+alBp8/EOxv9z6NgPj7WPIMGsE6
+         QOlOgC2I8G/mW27GoQpN9KB8bbkGmWoATOhBCMHptpS4cSN+nbM8UCgZPSoaVXEzBJx6
+         rN4fw2FctJHHEgSF9vSTtSlMhRJ+NBhN9s5ACX+hK8gql7LTmGVR6e1W5SUmEooQtR2Z
+         cMH9P4HCH0ekQ8kJ5DUyvLNGvyP6+fil5/SthIgyBOcdu+XKnMNqri2nuCxkJB0MIx6a
+         QYOA==
+X-Gm-Message-State: AOJu0YybmiKOSjMcVZR4KWmD38qHZe8FJGam1hf73prxiZwOz8B+tEAr
+	9FErFkRregbMkOOUnR6i49Y=
+X-Google-Smtp-Source: AGHT+IGAIN9gY4DiS0U84Eu9n8KQJC8+FtTi/0mWx/rE/bLHHnUHj+tFBkH+GnNJV6exxFjVLVUDEg==
+X-Received: by 2002:a05:6a00:310d:b0:6ce:f62c:dc66 with SMTP id bi13-20020a056a00310d00b006cef62cdc66mr7341604pfb.30.1702517599451;
+        Wed, 13 Dec 2023 17:33:19 -0800 (PST)
+Received: from localhost (fpd11144dd.ap.nuro.jp. [209.17.68.221])
+        by smtp.gmail.com with ESMTPSA id g12-20020a056a0023cc00b006cde2889213sm11002760pfc.14.2023.12.13.17.33.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 13 Dec 2023 17:33:18 -0800 (PST)
+Date: Thu, 14 Dec 2023 10:33:16 +0900
+From: Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>
+To: Rob Herring <robh@kernel.org>
+Cc: Marek Vasut <marek.vasut+renesas@gmail.com>,
+	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Bjorn Helgaas <bhelgaas@google.com>, linux-pci@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] pci: rcar-gen4: Replace of_device.h with explicit of.h
+ include
+Message-ID: <20231214013316.GA1462914@rocinante>
+References: <20231207165251.2855783-1-robh@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231207165251.2855783-1-robh@kernel.org>
 
-On some platforms (eg: RZ/{G2UL,Five} SMARC EVK), there is no
-onkey IRQ populated by default. Add polling support.
+Hello,
 
-While at it, doing some cleanups in da9063_poll_on()
-as regmap_read() and dev_err() can fit in single line.
+> The DT of_device.h and of_platform.h date back to the separate
+> of_platform_bus_type before it was merged into the regular platform bus.
+> As part of that merge prepping Arm DT support 13 years ago, they
+> "temporarily" include each other. They also include platform_device.h
+> and of.h. As a result, there's a pretty much random mix of those include
+> files used throughout the tree. In order to detangle these headers and
+> replace the implicit includes with struct declarations, users need to
+> explicitly include the correct includes.
 
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
----
-v1->v2:
- * Updated commit description
- * Fixed the logical mistake for optional IRQ handling.
----
- drivers/input/misc/da9063_onkey.c | 89 +++++++++++++++++++++++--------
- 1 file changed, 66 insertions(+), 23 deletions(-)
+Applied to controller/rcar, thank you!
 
-diff --git a/drivers/input/misc/da9063_onkey.c b/drivers/input/misc/da9063_onkey.c
-index b18232e91844..734cee9e9253 100644
---- a/drivers/input/misc/da9063_onkey.c
-+++ b/drivers/input/misc/da9063_onkey.c
-@@ -19,6 +19,8 @@
- #include <linux/mfd/da9062/core.h>
- #include <linux/mfd/da9062/registers.h>
- 
-+#define DA9062_KEY_THRESHOLD_MSEC	(200)
-+
- struct da906x_chip_config {
- 	/* REGS */
- 	int onkey_status;
-@@ -42,6 +44,8 @@ struct da9063_onkey {
- 	const struct da906x_chip_config *config;
- 	char phys[32];
- 	bool key_power;
-+	unsigned int poll_interval;
-+	unsigned int key_threshold_release_time;
- };
- 
- static const struct da906x_chip_config da9063_regs = {
-@@ -86,15 +90,27 @@ static void da9063_poll_on(struct work_struct *work)
- 	int error;
- 
- 	/* Poll to see when the pin is released */
--	error = regmap_read(onkey->regmap,
--			    config->onkey_status,
--			    &val);
-+	error = regmap_read(onkey->regmap, config->onkey_status, &val);
- 	if (error) {
--		dev_err(onkey->dev,
--			"Failed to read ON status: %d\n", error);
-+		dev_err(onkey->dev, "Failed to read ON status: %d\n", error);
- 		goto err_poll;
- 	}
- 
-+	if (onkey->poll_interval &&
-+	    onkey->key_threshold_release_time <= DA9062_KEY_THRESHOLD_MSEC) {
-+		/* detect short or long key press */
-+		if (!(val & config->onkey_nonkey_mask)) {
-+			input_report_key(onkey->input, KEY_POWER, 0);
-+			input_sync(onkey->input);
-+			onkey->key_threshold_release_time = 0;
-+			dev_dbg(onkey->dev, "KEY_POWER short press.\n");
-+		} else {
-+			schedule_delayed_work(&onkey->work, msecs_to_jiffies(50));
-+			onkey->key_threshold_release_time += 50;
-+		}
-+		return;
-+	}
-+
- 	if (!(val & config->onkey_nonkey_mask)) {
- 		error = regmap_update_bits(onkey->regmap,
- 					   config->onkey_pwr_signalling,
-@@ -177,6 +193,21 @@ static irqreturn_t da9063_onkey_irq_handler(int irq, void *data)
- 	return IRQ_HANDLED;
- }
- 
-+static void da9063_onkey_polled_poll(struct input_dev *input)
-+{
-+	struct da9063_onkey *onkey = input_get_drvdata(input);
-+	const struct da906x_chip_config *config = onkey->config;
-+	unsigned int val;
-+	int error;
-+
-+	error = regmap_read(onkey->regmap, config->onkey_status, &val);
-+	if (onkey->key_power && !error && (val & config->onkey_nonkey_mask)) {
-+		input_report_key(onkey->input, KEY_POWER, 1);
-+		input_sync(onkey->input);
-+		schedule_delayed_work(&onkey->work, 0);
-+	}
-+}
-+
- static int da9063_onkey_probe(struct platform_device *pdev)
- {
- 	struct da9063_onkey *onkey;
-@@ -219,25 +250,37 @@ static int da9063_onkey_probe(struct platform_device *pdev)
- 	if (error)
- 		return error;
- 
--	irq = platform_get_irq_byname(pdev, "ONKEY");
--	if (irq < 0)
-+	irq = platform_get_irq_byname_optional(pdev, "ONKEY");
-+	if (irq >= 0) {
-+		error = devm_request_threaded_irq(&pdev->dev, irq,
-+						  NULL, da9063_onkey_irq_handler,
-+						  IRQF_TRIGGER_LOW | IRQF_ONESHOT,
-+						  "ONKEY", onkey);
-+		if (error)
-+			return dev_err_probe(&pdev->dev, error,
-+					     "Failed to allocate onkey irq\n");
-+
-+		error = dev_pm_set_wake_irq(&pdev->dev, irq);
-+		if (error)
-+			dev_warn(&pdev->dev,
-+				 "Failed to set IRQ %d as a wake IRQ: %d\n",
-+				 irq, error);
-+		else
-+			device_init_wakeup(&pdev->dev, true);
-+	} else if (irq != -ENXIO) {
- 		return irq;
--
--	error = devm_request_threaded_irq(&pdev->dev, irq,
--					  NULL, da9063_onkey_irq_handler,
--					  IRQF_TRIGGER_LOW | IRQF_ONESHOT,
--					  "ONKEY", onkey);
--	if (error)
--		return dev_err_probe(&pdev->dev, error,
--				     "Failed to allocate onkey IRQ\n");
--
--	error = dev_pm_set_wake_irq(&pdev->dev, irq);
--	if (error)
--		dev_warn(&pdev->dev,
--			 "Failed to set IRQ %d as a wake IRQ: %d\n",
--			 irq, error);
--	else
--		device_init_wakeup(&pdev->dev, true);
-+	} else {
-+		input_set_drvdata(onkey->input, onkey);
-+		device_property_read_u32(&pdev->dev, "poll-interval",
-+					 &onkey->poll_interval);
-+		error = input_setup_polling(onkey->input,
-+					    da9063_onkey_polled_poll);
-+		if (error)
-+			return dev_err_probe(&pdev->dev, error,
-+					     "unable to set up polling\n");
-+
-+		input_set_poll_interval(onkey->input, onkey->poll_interval);
-+	}
- 
- 	return input_register_device(onkey->input);
- }
--- 
-2.25.1
+[1/1] PCI: rcar-gen4: Replace of_device.h with explicit of.h include
+      https://git.kernel.org/pci/pci/c/263714f5fcf8
 
+	Krzysztof
 
