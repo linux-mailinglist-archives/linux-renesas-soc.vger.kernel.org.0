@@ -1,61 +1,61 @@
-Return-Path: <linux-renesas-soc+bounces-1080-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-1081-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11C33813B25
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 Dec 2023 20:58:18 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0235E813B29
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 Dec 2023 21:00:18 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C34092848BC
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 Dec 2023 19:58:16 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id AD767280F2F
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 Dec 2023 20:00:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F23BA6A006;
-	Thu, 14 Dec 2023 19:58:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 529526A006;
+	Thu, 14 Dec 2023 20:00:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Eh8hgm6b"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GkusnqSf"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4A7D697BC
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 14 Dec 2023 19:58:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CE17697B9
+	for <linux-renesas-soc@vger.kernel.org>; Thu, 14 Dec 2023 20:00:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702583892; x=1734119892;
+  t=1702584013; x=1734120013;
   h=date:from:to:cc:subject:message-id;
-  bh=bRYMZmj9NmFnOxyzl4NwS/pIbwmdEf6xh/LEVtG00C4=;
-  b=Eh8hgm6bOk3dQh8IHaPUSdn2a25/+X1NYJbZfhcotnxUvTOnsCclzVTw
-   Boa/yHv/NhK2Ln3JOBMoIuTfYus+rP3d5WVw5viWyp3mHGJJLjJmriEoJ
-   I9HatMf25PS23PACP1IDTZW1yRhd9jC3zWNBZ2OI3OptIwOP4gfFtchaT
-   h0lgXaMsNoSxxmT/PLoxuMxUdcX3ZOkTnn3M6Diu2xX9QtcT9w8btoUfE
-   nx0jJeNzBEIIvzZ49ZbE8P6CL55t5YLTVsFl75enukw//Oqee/gG8kfnt
-   Oh8lhqPOawiXgAMIcahmZySz0JI6wBoGlSmkLtHH6CdVgCAou5Rkdfz6H
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10924"; a="481370904"
+  bh=YQCz8vvHZX1aZjRjl91seX5ShsK1d4ux2w1rzXAUWmc=;
+  b=GkusnqSfhhutQupqmEukyal2M9sVA7lEV69Nk/WxxVbVmjz7qacYbV4c
+   aKSnK1uMMyHMb/d7G/Sjuf57ufmIUgMlW/WrJHKyjePkfsE6y66SZgnHg
+   2/GrIBvbkkhDLsDgDvblS4BLu0O6d5WoiZ3LI+MYimdMxUNR+Pa43q6Cf
+   99SAJ80dpWxl9TkFYBXCsMaoXBYKI5ffddZZjyy6plKjZrcp6yFzJ3mtO
+   jO+jliEY/yEGMw0ICKW7Te7dSYFOj1iXGW6x4wtvoXH3IJj85uEDbz7s/
+   Ox1XTxq3K6noipfNPg6286702CP1uu7DsEiQhWXvgFaBFlIQ660mdAd9F
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10924"; a="426311321"
 X-IronPort-AV: E=Sophos;i="6.04,276,1695711600"; 
-   d="scan'208";a="481370904"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2023 11:58:11 -0800
+   d="scan'208";a="426311321"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2023 12:00:11 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10924"; a="840395870"
+X-IronPort-AV: E=McAfee;i="6600,9927,10924"; a="1105850551"
 X-IronPort-AV: E=Sophos;i="6.04,276,1695711600"; 
-   d="scan'208";a="840395870"
+   d="scan'208";a="1105850551"
 Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga008.fm.intel.com with ESMTP; 14 Dec 2023 11:58:10 -0800
+  by fmsmga005.fm.intel.com with ESMTP; 14 Dec 2023 12:00:10 -0800
 Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rDrqS-000MX4-0u;
-	Thu, 14 Dec 2023 19:58:08 +0000
-Date: Fri, 15 Dec 2023 03:57:50 +0800
+	id 1rDrsO-000MXe-1l;
+	Thu, 14 Dec 2023 20:00:08 +0000
+Date: Fri, 15 Dec 2023 03:59:58 +0800
 From: kernel test robot <lkp@intel.com>
 To: Geert Uytterhoeven <geert+renesas@glider.be>
 Cc: linux-renesas-soc@vger.kernel.org
-Subject: [geert-renesas-devel:renesas-drivers-for-v6.8] BUILD SUCCESS
- 31b2daea07643d8b83d62c670c76d95acca84f06
-Message-ID: <202312150347.CCjw23bS-lkp@intel.com>
+Subject: [geert-renesas-devel:renesas-dts-for-v6.8] BUILD SUCCESS
+ fc67495680f60e88bb8ca43421c1dd628928d581
+Message-ID: <202312150355.NeG5ibJa-lkp@intel.com>
 User-Agent: s-nail v14.9.24
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
@@ -63,13 +63,13 @@ List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git renesas-drivers-for-v6.8
-branch HEAD: 31b2daea07643d8b83d62c670c76d95acca84f06  soc: renesas: Make RZ/Five depend on !DMA_DIRECT_REMAP
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git renesas-dts-for-v6.8
+branch HEAD: fc67495680f60e88bb8ca43421c1dd628928d581  arm64: dts: renesas: white-hawk-cpu: Fix missing serial console pin control
 
-elapsed time: 1471m
+elapsed time: 1473m
 
-configs tested: 199
-configs skipped: 2
+configs tested: 183
+configs skipped: 83
 
 The following configs have been built successfully.
 More configs may be tested in the coming days.
@@ -113,25 +113,11 @@ csky                                defconfig   gcc
 csky                  randconfig-001-20231214   gcc  
 csky                  randconfig-002-20231214   gcc  
 hexagon                          allmodconfig   clang
-hexagon                           allnoconfig   clang
 hexagon                          allyesconfig   clang
-hexagon                             defconfig   clang
 i386                             allmodconfig   clang
 i386                              allnoconfig   clang
 i386                             allyesconfig   clang
-i386         buildonly-randconfig-001-20231214   gcc  
-i386         buildonly-randconfig-002-20231214   gcc  
-i386         buildonly-randconfig-003-20231214   gcc  
-i386         buildonly-randconfig-004-20231214   gcc  
-i386         buildonly-randconfig-005-20231214   gcc  
-i386         buildonly-randconfig-006-20231214   gcc  
 i386                                defconfig   gcc  
-i386                  randconfig-001-20231214   gcc  
-i386                  randconfig-002-20231214   gcc  
-i386                  randconfig-003-20231214   gcc  
-i386                  randconfig-004-20231214   gcc  
-i386                  randconfig-005-20231214   gcc  
-i386                  randconfig-006-20231214   gcc  
 i386                  randconfig-011-20231214   clang
 i386                  randconfig-012-20231214   clang
 i386                  randconfig-013-20231214   clang
@@ -154,7 +140,6 @@ microblaze                        allnoconfig   gcc
 microblaze                       allyesconfig   gcc  
 microblaze                          defconfig   gcc  
 mips                             allmodconfig   gcc  
-mips                              allnoconfig   clang
 mips                             allyesconfig   gcc  
 mips                         cobalt_defconfig   gcc  
 mips                           gcw0_defconfig   gcc  
@@ -236,7 +221,6 @@ sparc64                             defconfig   gcc
 sparc64               randconfig-001-20231214   gcc  
 sparc64               randconfig-002-20231214   gcc  
 um                               allmodconfig   clang
-um                                allnoconfig   clang
 um                               allyesconfig   clang
 um                                  defconfig   gcc  
 um                             i386_defconfig   gcc  
