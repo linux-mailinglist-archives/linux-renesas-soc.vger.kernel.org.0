@@ -1,102 +1,205 @@
-Return-Path: <linux-renesas-soc+bounces-1107-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-1108-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA5C48143B0
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 15 Dec 2023 09:34:18 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2908E814451
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 15 Dec 2023 10:15:50 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A6E80283618
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 15 Dec 2023 08:34:17 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 28B6A1C2289D
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 15 Dec 2023 09:15:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C9B70168B9;
-	Fri, 15 Dec 2023 08:34:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4495F171BA;
+	Fri, 15 Dec 2023 09:15:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cQZdR34U"
+	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="bJ6Q4Qq5"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from JPN01-TYC-obe.outbound.protection.outlook.com (mail-tycjpn01on2101.outbound.protection.outlook.com [40.107.114.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A84EC168B7;
-	Fri, 15 Dec 2023 08:34:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 40F6FC433C9;
-	Fri, 15 Dec 2023 08:34:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1702629245;
-	bh=rss/R2yr8u3xOa9j+hUBTknCPEWH5RN5Y0uY7UIDmog=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=cQZdR34UJ/BTJ7VG/KfJZNszJHl9kgkTwTsZp5FVTai07fg3xqRGfN3856pAsbtpk
-	 NgiI4h16ZpxpV7UwaEbOlJfwOCFTHAGN7p8U3HtimC84vbx8ymhwEmUTxmHiKx+Olv
-	 ghfAY7z3JY0SDklpjDZB0qKz7KaSH1fCtV5ZvExyKcpe23j/D6q/lt/SVmyzUpg+7V
-	 xvwRtgHO4wheC8ypj2ApkwfMt1qwoAObp5Ekh0GPQ7Bc5BifIsBM0P1LFFC00UbRBe
-	 WQFj0jdMOZRf4DlvwI481Cs+CduR38zEm/88DObRH1+Uu3cV/BfDyDgecBbeZmO1Jp
-	 EpZxaFYf+kexg==
-Received: from johan by xi.lan with local (Exim 4.96.2)
-	(envelope-from <johan@kernel.org>)
-	id 1rE3dw-0007LZ-1w;
-	Fri, 15 Dec 2023 09:34:00 +0100
-Date: Fri, 15 Dec 2023 09:34:00 +0100
-From: Johan Hovold <johan@kernel.org>
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc: linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5 0/3] gnss: ubx: support the reset pin of the Neo-M8
- variant
-Message-ID: <ZXwPeJFdEERbhj3b@hovoldconsulting.com>
-References: <20231113005152.10656-1-wsa+renesas@sang-engineering.com>
- <ZXfTwscAltoVY1lV@shikoro>
- <ZXsk4i/OTGFhiCk9@shikoro>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4961514290
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 15 Dec 2023 09:15:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=cKpzYXrE5joSEtGKhJzNRewZt1/PY1hf5MMpO3dwHic01BFqVAD1Dv4ZxwgA08nPQgNJFjUkHtP/pIkWfNoVn/DNY7VpJsFXo08MoXLyNLAbwzl9u8nsAGe/VFqdnFop1iExXGpr5kAbjTjrCIZ8+NMwIi3hJLe6qArVUffGPAtLsSUpq2qY0RhiXZaogwBxx0n0kAg+f1/m4NvLcetiRGyg0eB/HzfyLygIPbYn/onSQXZ9tVmp5SqXLqjpQLPwskbhJoTaZSNeKqfhALqW4WDStL0YWCdgQrcUFBTw1095DnCBhfH4WdEF0Z2SybcU19Ctzx5qDHBgbYBl3Wgm2w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=VHlXBPqoT51Ts8b2S6hrfWmIm/7nhnnxDWaLsEHLkZo=;
+ b=JjODsrLcPwvlkFzIh4N1wR3ElOps6vuThxBucBng0nrKrOvnfFFbZgK4iZYSXAeHGmx8sCPqUj3N/Ccr1TOT32fA67+uxscwk6ZUNUK6nuBwtBBNKmWkWLlgVtUItSczHLsIU0x0uMUiaIGZVKGTBbGKMiBPDXHEMHuiYt4rWPWYVXdk3fFmbVnlih8avHBJ+IheskyJ5PTLJtmETx4bxa3hoqg5ubIxo/00azYHGi7F/Uj+TqdmRNiyCZ607eMnkjsmnCoLZCjlN23IKpxqCi0mMCRDNBCLvL9YXep8W8jjcLnp3Xp5NXK0JuOnoy3xmCIYYA0V3ECvZH1a6Kxceg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=VHlXBPqoT51Ts8b2S6hrfWmIm/7nhnnxDWaLsEHLkZo=;
+ b=bJ6Q4Qq5QH+0WrfzFQzSNOVNOlnbPzhl7z9Hi30v/MzhR6YBca1i2lrjfUsAHgayzcKZ0Su0CIn2WqC0CeOuqSEUzuN3MnbNY5MoIdK3uaJoEe+CcEN1IItzJsIq8lxXHbrvMCvOPT5b0unSS1NEPNuczl78UTOnfOuYzt7CQwA=
+Received: from TYCPR01MB11269.jpnprd01.prod.outlook.com
+ (2603:1096:400:3c0::10) by TY1PR01MB10706.jpnprd01.prod.outlook.com
+ (2603:1096:400:31d::13) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7113.12; Fri, 15 Dec
+ 2023 09:15:40 +0000
+Received: from TYCPR01MB11269.jpnprd01.prod.outlook.com
+ ([fe80::f216:24ab:3668:3a48]) by TYCPR01MB11269.jpnprd01.prod.outlook.com
+ ([fe80::f216:24ab:3668:3a48%4]) with mapi id 15.20.7113.010; Fri, 15 Dec 2023
+ 09:15:40 +0000
+From: Biju Das <biju.das.jz@bp.renesas.com>
+To: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+CC: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Kieran Bingham
+	<kieran.bingham+renesas@ideasonboard.com>, Jacopo Mondi
+	<jacopo.mondi@ideasonboard.com>, "dri-devel@lists.freedesktop.org"
+	<dri-devel@lists.freedesktop.org>, "linux-renesas-soc@vger.kernel.org"
+	<linux-renesas-soc@vger.kernel.org>, Geert Uytterhoeven
+	<geert+renesas@glider.be>, Prabhakar Mahadev Lad
+	<prabhakar.mahadev-lad.rj@bp.renesas.com>, biju.das.au
+	<biju.das.au@gmail.com>
+Subject: RE: [PATCH v2] drm: rcar-du: Fix memory leak in rcar_du_vsps_init()
+Thread-Topic: [PATCH v2] drm: rcar-du: Fix memory leak in rcar_du_vsps_init()
+Thread-Index: AQHaGIfbNkLqQJf+iUioLkutiw4N1LCqPUPg
+Date: Fri, 15 Dec 2023 09:15:40 +0000
+Message-ID:
+ <TYCPR01MB11269D843BCF84CC0335208438693A@TYCPR01MB11269.jpnprd01.prod.outlook.com>
+References: <20231116122424.80136-1-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20231116122424.80136-1-biju.das.jz@bp.renesas.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=bp.renesas.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: TYCPR01MB11269:EE_|TY1PR01MB10706:EE_
+x-ms-office365-filtering-correlation-id: d13bfba2-705f-4b60-0d4b-08dbfd4e685f
+x-ld-processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info:
+ POeUPOgYbcyvJ7ZTcNt6m5TlsCNmxxMfOu0KCm6nQVB1AyaHItTE40puc+QCymypv2xWwLs2zC/r7nhF+Z5I2c+4Yw8Eja/acU4oI3tNT18bmMi4LQ5aymGyDCHmoVAGAwr2xuqDB3jrQXAr68oBoDuIEcPbDm8CcyP1LXbycA63fMZXT7n2QTsI89k8J8wplBEWmF407DsBlDisnlwZgQtl5D0v8AUSF8nt3AxGz5CWx2uK+5/QNAod2VJPPcVlvgBJ7JdiV6zgaJOJerdVm79WdIBnfVmuuZE+lKyDgkq104y2IoCTfHGEDzzjP5dEIEeiu2W5TOnP1cWijk+pMoMxw8w2RPBqaRhEYQ8OU02fw/yKS60IIQDB/Gd9XyUz70B/b6ZL16wLv3oztcgaal8hdVEmgRFgWiBzNrr/nHf5xDPdrhtBERwLtplGA5dXHHdDZzx0FNOxNRXosxJCmT0nSQ4djD3plm+tqJIwmcZCf7of2emAvl/6ptQ1lU2hbo2OgMFdrjpLwFfrbs5bcC0phFxpoDeP/GyTKVO8UOfS3Q+omUHKQhXWumtHInY3LsQzgXFlA2/yrgn/NdT8hoYi5tHHJsWKm8ZusyTDXg/YnbkKnsRxo8xGCBjizSaF
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB11269.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(136003)(346002)(39860400002)(366004)(396003)(376002)(230922051799003)(451199024)(1800799012)(186009)(64100799003)(26005)(6506007)(7696005)(71200400001)(53546011)(9686003)(83380400001)(5660300002)(52536014)(4326008)(41300700001)(2906002)(478600001)(8676002)(8936002)(76116006)(110136005)(66946007)(316002)(54906003)(64756008)(66446008)(66476007)(66556008)(33656002)(86362001)(122000001)(38100700002)(38070700009)(55016003);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?us-ascii?Q?JhhHFuLDfnxKJBgwScGo3Utw+we2QKSGH/4ZjYbdjkXrIUaS+839PPpGp8Ol?=
+ =?us-ascii?Q?GKifJOwdPBkbxwwbEIMkAIOIqbglOGra/KfPu3sADjcdN7QH5NP/7D6fAbDf?=
+ =?us-ascii?Q?0oVsiXALRi0QGItRx8kXYiVW+b64BNWIOPSsXkD8kJZrBaFW+wqlsPCyw7Jd?=
+ =?us-ascii?Q?fV+tBb3vEAEb82bCtXTnOCuO3Qq1hkOVfWRnxpWZHUIgvAU9mem4jt+pJI14?=
+ =?us-ascii?Q?Xjc3wk9y8GOi0H3dG5TdHJQ+8vfPXrY84uMhoitmhaKXLwbbqnWG5ECN3rQR?=
+ =?us-ascii?Q?QNKHx/vYNu3XcazyUREkWKmvUVFh7YKAnRDLaB6ne68Zfg+ldhulO51lSkMo?=
+ =?us-ascii?Q?B8tgaAFljMogXiExVJCO4qxaVq9gJN1v8Rz8v5cmtz317vpqztXNzCLhtOan?=
+ =?us-ascii?Q?SWsV9mrvzbfZLNfu0ouUy3OOHf0v5Kq6Zd5+iEF/8B3CeO4ECTh1OPEcaCGM?=
+ =?us-ascii?Q?6Ick1ITu0jGHBinyFbK/EultL3rLsLcwAXBxtiXmAhjU89u+GREd1/5eE6eY?=
+ =?us-ascii?Q?NAfCgD7XtS1t9HKncG70CIj0tNUR9CVfRvDzWzVdjCkQgOMHsiABXX2gNopG?=
+ =?us-ascii?Q?Fg7gKnZImOZTUT22EbWKexCyczet7RIlvPnyCFA2iIgj6Szrb5mEziUZYavu?=
+ =?us-ascii?Q?oQaSqogx2CkPkzxKo8oCyiUiHNGNQuKw9YTbX4BFAy+YEexusufK9kFdGvQ9?=
+ =?us-ascii?Q?KaeX+3pWEFG+MRBwA4M66YmkCLMtb5r/jo7t6x9VPvRooSUmeTiRUw2b0JyG?=
+ =?us-ascii?Q?7sBTVPnLEH51244qAupTTMOlCv2N/2jqQw8CKTs5EyWXvHL8/xNnqzyjvWoS?=
+ =?us-ascii?Q?XBvAwELDKoYbKbmJhEh4niYdR+cJ1sPQhA5FBOfNXCbVgykpfBEu3b7llsyc?=
+ =?us-ascii?Q?aE2Zqa+2JR5TKLzC9L4pnHOvvk5AUcqsDGT4e59UaBZuA+rjGmxLqCzssqjf?=
+ =?us-ascii?Q?I3vi2+lZCd6E1LLHHazdVssdu6SbXXFaT9DztgRXW6h0qGbEvZ98KavIWW/s?=
+ =?us-ascii?Q?PrbwawBgz0AdP+soVJdOoOGbz/OjhS8w1uSf2KNuGKivQI9Qw1DkSwheVigu?=
+ =?us-ascii?Q?wrDfxCFmZJKC7ndZNDJyYwbRZ055bDd8fo73OCgq4kij8+Cgw+t4kQrRoPoo?=
+ =?us-ascii?Q?3i/LeNobT5i/77XCMRd4Y7SRtsl1yM2ufZkpkXWqgMpapqu4MNBKS8vOQoE5?=
+ =?us-ascii?Q?yoryfUGG0ruYwDG7XYZOfEZVURxjkAaGrZBkNtxDcvw9vbiec6MZagrBB7/B?=
+ =?us-ascii?Q?ItKD37E6VMddTh0GnKHA5RnQGCjKTiOFGq52BrEVsQdIZgvPyHRCkk+3Zwjv?=
+ =?us-ascii?Q?v2A7M3+/lXtuTYLgewQjveNbwOGaviAJ5PkIINxeUDR4IdG2djf9gQu+uWZg?=
+ =?us-ascii?Q?njNBXfnitrmt8APSGYptmlSqe3Hrqzhxssq4me8ynRWOpftmAFOiHBcbO+Ie?=
+ =?us-ascii?Q?XywsJTOet+MtNisRLQRrMGpWBrDlh+JtZ/f412HlK7/ONL6RO6ZmJGZlM96h?=
+ =?us-ascii?Q?EVis2Xbqp5+nZC1LvmcRdlbe65X83ig6S2OxSvb7307NopCZbICa56hUkEKa?=
+ =?us-ascii?Q?oeq9u3utxoFQGFpDLAO+IoztHWloJePm95yPMZvfc/I7vQskxosyp2XV77eR?=
+ =?us-ascii?Q?Xg=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="jMxtUNg6do9ROjXB"
-Content-Disposition: inline
-In-Reply-To: <ZXsk4i/OTGFhiCk9@shikoro>
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB11269.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d13bfba2-705f-4b60-0d4b-08dbfd4e685f
+X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Dec 2023 09:15:40.3297
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: AbqGGY5giLl5nY34voNqYC1QbY0zy9xir1wUYFyyAz1OfvrtqvIwWgraxpSj7vao8WeNLqX8HF3a6VmJ8lbA1c+cBCrcjqF385ZiBkh6ozA=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY1PR01MB10706
 
+Hi All,
 
---jMxtUNg6do9ROjXB
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Gentle ping.
 
-On Thu, Dec 14, 2023 at 04:53:06PM +0100, Wolfram Sang wrote:
-> On Tue, Dec 12, 2023 at 04:30:10AM +0100, Wolfram Sang wrote:
-> > On Sun, Nov 12, 2023 at 07:51:48PM -0500, Wolfram Sang wrote:
-> > > The Renesas KingFisher board includes a U-Blox Neo-M8 chip with its
-> > > reset pin wired to a GPIO. To support that, we need "reset-gpio" supp=
-ort
-> > > (patches 2+3). But first, simplify regulator handling with a new help=
-er
-> > > (patch 1).
-> > >=20
-> > > Changes since v4:
-> > >=20
-> > > * don't touch reset during open/close. Only deassert it during probe.
-> > >   [patch 3]
-> >=20
-> > Johan, all good now?
+> -----Original Message-----
+> From: Biju Das <biju.das.jz@bp.renesas.com>
+> Sent: Thursday, November 16, 2023 12:24 PM
+> Subject: [PATCH v2] drm: rcar-du: Fix memory leak in rcar_du_vsps_init()
 >=20
-> If there are no further comments, can we have this series in 6.8.?
+> The rcar_du_vsps_init() doesn't free the np allocated by
+> of_parse_phandle_with_fixed_args() for the non-error case.
+>=20
+> Fix memory leak for the non-error case.
+>=20
+> While at it, replace the label 'error'->'done' as it applies to non-error
+> case as well and update the error check condition for rcar_du_vsp_init()
+> to avoid breakage in future, if it returns positive value.
+>=20
+> Fixes: 3e81374e2014 ("drm: rcar-du: Support multiple sources from the sam=
+e
+> VSP")
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> ---
+> v1->v2:
+>  * Replaced the label 'error'->'done' as it applies to non-error case as
+>    well.
+>  * Update the error check condition for rcar_du_vsp_init() to avoid
+>    breakage in future, if it returns positive value.
+> ---
+>  drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c | 10 ++++------
+>  1 file changed, 4 insertions(+), 6 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c
+> b/drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c
+> index 70d8ad065bfa..4c8fe83dd610 100644
+> --- a/drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c
+> +++ b/drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c
+> @@ -705,7 +705,7 @@ static int rcar_du_vsps_init(struct rcar_du_device
+> *rcdu)
+>  		ret =3D of_parse_phandle_with_fixed_args(np, vsps_prop_name,
+>  						       cells, i, &args);
+>  		if (ret < 0)
+> -			goto error;
+> +			goto done;
+>=20
+>  		/*
+>  		 * Add the VSP to the list or update the corresponding
+> existing @@ -743,13 +743,11 @@ static int rcar_du_vsps_init(struct
+> rcar_du_device *rcdu)
+>  		vsp->dev =3D rcdu;
+>=20
+>  		ret =3D rcar_du_vsp_init(vsp, vsps[i].np, vsps[i].crtcs_mask);
+> -		if (ret < 0)
+> -			goto error;
+> +		if (ret)
+> +			goto done;
+>  	}
+>=20
+> -	return 0;
+> -
+> -error:
+> +done:
+>  	for (i =3D 0; i < ARRAY_SIZE(vsps); ++i)
+>  		of_node_put(vsps[i].np);
+>=20
+> --
+> 2.25.1
 
-All good. Now applied for 6.8.
+Cheers,
+Biju
 
-Johan
-
---jMxtUNg6do9ROjXB
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQQHbPq+cpGvN/peuzMLxc3C7H1lCAUCZXwPdAAKCRALxc3C7H1l
-CLHtAQCcwG7tS+xoay2ulLA84bKG3CfqhW0ec8vHzF+qVEhRwAD9HSRu2FD/yDJc
-cQqJm4HM5XgX8VtoR9uqmHZxAxQfiw0=
-=pi5t
------END PGP SIGNATURE-----
-
---jMxtUNg6do9ROjXB--
 
