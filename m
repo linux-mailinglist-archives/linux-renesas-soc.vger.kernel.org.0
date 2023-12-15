@@ -1,49 +1,45 @@
-Return-Path: <linux-renesas-soc+bounces-1125-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-1124-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C509814A5F
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 384CF814A5D
 	for <lists+linux-renesas-soc@lfdr.de>; Fri, 15 Dec 2023 15:20:52 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 06B731F23BF8
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 15 Dec 2023 14:20:52 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id B0A2A1F23942
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 15 Dec 2023 14:20:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E63843158A;
-	Fri, 15 Dec 2023 14:20:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 38D9130D0B;
+	Fri, 15 Dec 2023 14:20:35 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from riemann.telenet-ops.be (riemann.telenet-ops.be [195.130.137.80])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from baptiste.telenet-ops.be (baptiste.telenet-ops.be [195.130.132.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAEC930FBC
-	for <linux-renesas-soc@vger.kernel.org>; Fri, 15 Dec 2023 14:20:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A78431599
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 15 Dec 2023 14:20:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
-Received: from xavier.telenet-ops.be (xavier.telenet-ops.be [IPv6:2a02:1800:120:4::f00:14])
-	by riemann.telenet-ops.be (Postfix) with ESMTPS id 4SsBFv43ljz4x1Fj
-	for <linux-renesas-soc@vger.kernel.org>; Fri, 15 Dec 2023 15:20:35 +0100 (CET)
 Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed40:28e5:a835:e0b1:5291])
-	by xavier.telenet-ops.be with bizsmtp
-	id NeLT2B00729mzEW01eLTf4; Fri, 15 Dec 2023 15:20:27 +0100
+	by baptiste.telenet-ops.be with bizsmtp
+	id NeLT2B00F29mzEW01eLTog; Fri, 15 Dec 2023 15:20:27 +0100
 Received: from rox.of.borg ([192.168.97.57])
 	by ramsan.of.borg with esmtp (Exim 4.95)
 	(envelope-from <geert@linux-m68k.org>)
-	id 1rE92o-00C71t-2t;
+	id 1rE92o-00C71q-0j;
 	Fri, 15 Dec 2023 15:20:27 +0100
 Received: from geert by rox.of.borg with local (Exim 4.95)
 	(envelope-from <geert@linux-m68k.org>)
-	id 1rE7BO-00GsMs-84;
-	Fri, 15 Dec 2023 13:20:46 +0100
+	id 1rE7Bb-00GsNq-Sf;
+	Fri, 15 Dec 2023 13:20:59 +0100
 From: Geert Uytterhoeven <geert+renesas@glider.be>
-To: Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>
-Cc: linux-clk@vger.kernel.org,
+To: Linus Walleij <linus.walleij@linaro.org>
+Cc: linux-gpio@vger.kernel.org,
 	linux-renesas-soc@vger.kernel.org,
 	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [GIT PULL] clk: renesas: Updates for v6.8 (take two)
-Date: Fri, 15 Dec 2023 13:20:44 +0100
-Message-Id: <cover.1702642574.git.geert+renesas@glider.be>
+Subject: [GIT PULL] pinctrl: renesas: Updates for v6.8 (take two)
+Date: Fri, 15 Dec 2023 13:20:58 +0100
+Message-Id: <cover.1702642700.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
@@ -53,37 +49,39 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-	Hi Mike, Stephen,
+	Hi Linus,
 
-The following changes since commit 5f9e29b9159a41fcf6733c3b59fa46a90ce3ae20:
+The following changes since commit dc99d4c8ac46bf533b9519a53795c4cd6ff0fa39:
 
-  clk: renesas: rzg2l-cpg: Reuse code in rzg2l_cpg_reset() (2023-11-27 11:09:53 +0100)
+  dt-bindings: pinctrl: renesas: Drop unneeded quotes (2023-11-27 11:12:12 +0100)
 
 are available in the Git repository at:
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git tags/renesas-clk-for-v6.8-tag2
+  git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git tags/renesas-pinctrl-for-v6.8-tag2
 
-for you to fetch changes up to 515f05da372aedf347a1ac99d17fb832ba371d4d:
+for you to fetch changes up to 9e5889c68d992b65efd10aa0a4523c96fd07077f:
 
-  clk: renesas: r9a08g045: Add clock and reset support for ETH0 and ETH1 (2023-12-13 20:05:55 +0100)
+  pinctrl: renesas: rzg2l: Add input enable to the Ethernet pins (2023-12-15 11:34:34 +0100)
 
 ----------------------------------------------------------------
-clk: renesas: Updates for v6.8 (take two)
+pinctrl: renesas: Updates for v6.8 (take two)
 
-  - Add interrupt controller and Ethernet clocks and resets on RZ/G3S,
-  - Check reset monitor registers on RZ/G2L-alike SoCs.
+  - Add pinmux groups, power source, and input/output enable support for
+    Ethernet pins on RZ/G2L SoCs,
+  - Miscellaneous fixes and improvements.
 
 Thanks for pulling!
 
 ----------------------------------------------------------------
-Claudiu Beznea (3):
-      clk: renesas: r9a08g045: Add IA55 pclk and its reset
-      clk: renesas: rzg2l: Check reset monitor registers
-      clk: renesas: r9a08g045: Add clock and reset support for ETH0 and ETH1
+Claudiu Beznea (5):
+      pinctrl: renesas: rzg2l: Move arg and index in the main function block
+      pinctrl: renesas: rzg2l: Add pin configuration support for pinmux groups
+      pinctrl: renesas: rzg2l: Add support to select power source for Ethernet pins
+      pinctrl: renesas: rzg2l: Add output enable support
+      pinctrl: renesas: rzg2l: Add input enable to the Ethernet pins
 
- drivers/clk/renesas/r9a08g045-cpg.c | 13 ++++++++
- drivers/clk/renesas/rzg2l-cpg.c     | 59 +++++++++++++++++++++++++++----------
- 2 files changed, 57 insertions(+), 15 deletions(-)
+ drivers/pinctrl/renesas/pinctrl-rzg2l.c | 164 ++++++++++++++++++++++++++++----
+ 1 file changed, 145 insertions(+), 19 deletions(-)
 
 Gr{oetje,eeting}s,
 
