@@ -1,111 +1,574 @@
-Return-Path: <linux-renesas-soc+bounces-1111-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-1112-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD6338144CE
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 15 Dec 2023 10:44:48 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id A48638144DD
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 15 Dec 2023 10:51:40 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 2345AB20EE6
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 15 Dec 2023 09:44:46 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C91B91C224CA
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 15 Dec 2023 09:51:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DF932182B9;
-	Fri, 15 Dec 2023 09:44:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7325F18041;
+	Fri, 15 Dec 2023 09:51:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="ZIgQnAFu"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GZDbZd90"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com [209.85.208.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03AB518AEE
-	for <linux-renesas-soc@vger.kernel.org>; Fri, 15 Dec 2023 09:44:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-40c6736d10fso5843345e9.1
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 15 Dec 2023 01:44:37 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38C0E18C01;
+	Fri, 15 Dec 2023 09:51:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lj1-f181.google.com with SMTP id 38308e7fff4ca-2c9f62fca3bso5335031fa.0;
+        Fri, 15 Dec 2023 01:51:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1702633476; x=1703238276; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=BGsQv8WEe/6SR5Ajt9iPU5Ka1yMz6Xn6B/vWUWwGUcI=;
-        b=ZIgQnAFuf67ryf7vlJ04+RmEeQKeCvejjrq4DGbz0HiUpM7jICIQYJ8m1ROjcpOCVd
-         n03/Cn9WSxN2ksAmFXnDqOV1ciAg15D8PEqtntabEOhHqoGlRLW+W66ScxgoVtnDnruM
-         jjbv7RVS2iC7avWNxdI/5+mQs2IO+gfmzDWoE2eD13K1NJoDa8NB0m8scLCS0xOiRRS2
-         +/Zpk+9ZFp3RQWVWGE0bIrlgOYN0x7UDti6JAFCC1IMsy4i2qLQpoeLgvxYnSOhGpZv7
-         5DBD0EAprRnNtnyHVH0IqVRSF8+FlKnhmqvQSC87Tywcn5FZ8+3iMHuCx0+/apNpLGt+
-         5Z4g==
+        d=gmail.com; s=20230601; t=1702633892; x=1703238692; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=7n5lxb1KLjuy4R7txxN/TCzM2s1tE7EV1DRD/HtNhbI=;
+        b=GZDbZd90qtwksjMGdVhqyFwcaJZxrjtpXJOJtst+RqjlbbI4m0G6dhOwGwM88L183j
+         o9FE2xaFqOxyv7TiUIE8pg2bt00HtbhKZ8c1YNmV55AgszGPa+2+2aLkLoWuKecoqkGB
+         PyJ69nJfeoA5+56QtoLxrV6INYYuQX74O5aC0pN83HZjy2RSSBTRGpDNgmOVy2wkN8lZ
+         F8MkR7MyCapX8WKT+m2ezhr4Iqg3HM1Sn0/yx0EAO8ewt5cM3PzdMpBtbTxUVJurN9BH
+         dKpZq4iv9cw72qviS0kDCVXDzLbljG6hkKzZFsFBnNc62NQnM7gaB0UiX/HwOihRZSDY
+         ezeg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702633476; x=1703238276;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=BGsQv8WEe/6SR5Ajt9iPU5Ka1yMz6Xn6B/vWUWwGUcI=;
-        b=xBwAgASuvU4phlqA4CkvI99COgmQy+od7Af+TlQD0sDqkIeltTybWcUfdi+7AN+D1f
-         LsVgeA85n1r/DrjiFFqS/yGGVp/wh9SfBmF405norglprHNndOofOfKT8txRJAF4MzYK
-         jziAElQDOy+7bmOxAHuxB4U9sJY7PRdAbZCdVcUvrHJGKVgSLUVm1PmlHWWCw/jM1EXe
-         CK/tdsvLq4dSMVcGjfeMdFMT5ffI27vUv8bS6i0D8m8Tey1EdBc/EAmeUBLwVRwxjD1B
-         t1eFm7nnXNDoaOuUkWOeTDi+98boTjnxlZyBTFdO1Ck0A7JrsUcHDctFgwkBdxXQUoGG
-         Lyqw==
-X-Gm-Message-State: AOJu0YxMXNdidcTzy/SC88VVjIuGLc8peD5rvKvxmVpwvPHnrCeHHMkq
-	6KdBtC7yFsGlh42B2h+YQxVTIw==
-X-Google-Smtp-Source: AGHT+IEhdstdUJHu0rGrumgYO5BxsGJGxVRyybI/e7vIAz8ZZQmv5SIhKmNAC37d45CSLy/6N+G4xA==
-X-Received: by 2002:a05:600c:2d4c:b0:40c:37f8:5186 with SMTP id a12-20020a05600c2d4c00b0040c37f85186mr6154327wmg.13.1702633476034;
-        Fri, 15 Dec 2023 01:44:36 -0800 (PST)
-Received: from [192.168.50.4] ([82.78.167.103])
-        by smtp.gmail.com with ESMTPSA id o5-20020a05600c510500b0040b3e26872dsm30750429wms.8.2023.12.15.01.44.33
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 15 Dec 2023 01:44:35 -0800 (PST)
-Message-ID: <a84b6250-dfd8-4a33-b247-5dfe2d28472d@tuxon.dev>
-Date: Fri, 15 Dec 2023 11:44:32 +0200
+        d=1e100.net; s=20230601; t=1702633892; x=1703238692;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=7n5lxb1KLjuy4R7txxN/TCzM2s1tE7EV1DRD/HtNhbI=;
+        b=EHr8bE3zeTpkawDnCem1baQLDL5HX/TxVtFmW7ZNY8Ygahwpsi5Bz6Vm+CbM0x8+uf
+         3BoKYIQmWIrKqHvKCBCpSF04R5gKiJpqJ0FZ9x6YfRPrRbF7X4+HGxE+A4y4NQTt+uTG
+         WlkfsZjrN+AeubwEt9nfMxz0Gh7PWDnv+WuaFQsvwUO9/CUdyCuB8WNsNyt+xueCF0wL
+         RycVj8trbCrfhS3nQMVrU/GRoqab+8oAy16TTLBvVYcsrXvo9Hnf47auohTwrRsMEKUY
+         yCNcNrIdU3H4NNsOrmICz4U4skLTYYGS5kb/SMgHl69zzN1GhPJ0Fn6G042IJyRayv4i
+         xNHA==
+X-Gm-Message-State: AOJu0Ywc9eg60x2bsx7rsAHvH+oCJH+5T0jLh0p0i2WHxXZVqhXDkQLm
+	rC5HQlM5d2eAyGZwIbRnFsw=
+X-Google-Smtp-Source: AGHT+IEoPaFUdhAVssSe7dNZsEpBKIkfuMLWAwZqh/6D2ahqglanv1aDTU+NfnY1fYrqeKT6by8Knw==
+X-Received: by 2002:a2e:3004:0:b0:2cc:45df:71ea with SMTP id w4-20020a2e3004000000b002cc45df71eamr1136739ljw.11.1702633891790;
+        Fri, 15 Dec 2023 01:51:31 -0800 (PST)
+Received: from mobilestation ([178.176.56.174])
+        by smtp.gmail.com with ESMTPSA id z6-20020a2e7e06000000b002ca25f11f56sm2267013ljc.103.2023.12.15.01.51.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 15 Dec 2023 01:51:31 -0800 (PST)
+Date: Fri, 15 Dec 2023 12:51:28 +0300
+From: Serge Semin <fancer.lancer@gmail.com>
+To: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc: lpieralisi@kernel.org, kw@linux.com, robh@kernel.org, 
+	bhelgaas@google.com, jingoohan1@gmail.com, gustavo.pimentel@synopsys.com, 
+	mani@kernel.org, linux-pci@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v3 4/6] PCI: dwc: Add dw_pcie_ep_{read,write}_dbi[2]
+ helpers
+Message-ID: <lgwp4u2pzfkax6qdozen74cl6bddyaloz57wiso62swafslz2n@7di6ura7omzo>
+References: <20231215022955.3574063-1-yoshihiro.shimoda.uh@renesas.com>
+ <20231215022955.3574063-5-yoshihiro.shimoda.uh@renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v2 00/21] net: ravb: Add suspend to RAM and
- runtime PM support for RZ/G3S
-Content-Language: en-US
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: s.shtylyov@omp.ru, davem@davemloft.net, edumazet@google.com,
- pabeni@redhat.com, richardcochran@gmail.com, p.zabel@pengutronix.de,
- yoshihiro.shimoda.uh@renesas.com, wsa+renesas@sang-engineering.com,
- geert+renesas@glider.be, netdev@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
- Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-References: <20231214114600.2451162-1-claudiu.beznea.uj@bp.renesas.com>
- <20231214112658.583cfc60@kernel.org>
-From: claudiu beznea <claudiu.beznea@tuxon.dev>
-In-Reply-To: <20231214112658.583cfc60@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231215022955.3574063-5-yoshihiro.shimoda.uh@renesas.com>
 
+Hi Yoshihiro
 
-
-On 14.12.2023 21:26, Jakub Kicinski wrote:
-> On Thu, 14 Dec 2023 13:45:39 +0200 Claudiu wrote:
->> Subject: [PATCH net-next v2 00/21] 
+On Fri, Dec 15, 2023 at 11:29:53AM +0900, Yoshihiro Shimoda wrote:
+> The current code calculated some dbi[2] registers' offset by calling
+> dw_pcie_ep_get_dbi[2]_offset() in each function. To improve code
+> readability, add dw_pcie_ep_{read,write}_dbi[2} and some data-width
+> related helpers.
 > 
-> We got 260 patches in the review queue. Please pace your patches:
-> https://www.kernel.org/doc/html/next/process/maintainer-netdev.html#tl-dr
+> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+> Reviewed-by: Serge Semin <fancer.lancer@gmail.com>
+> ---
+>  .../pci/controller/dwc/pcie-designware-ep.c   | 184 ++++++------------
+>  drivers/pci/controller/dwc/pcie-designware.h  |  93 +++++++++
+>  2 files changed, 153 insertions(+), 124 deletions(-)
 > 
->> Patches are based on series at [1].
->>
->> [1] https://lore.kernel.org/all/20231214113137.2450292-1-claudiu.beznea.uj@bp.renesas.com/
+> diff --git a/drivers/pci/controller/dwc/pcie-designware-ep.c b/drivers/pci/controller/dwc/pcie-designware-ep.c
+> index 1100671db887..3ab03c0c14c0 100644
+> --- a/drivers/pci/controller/dwc/pcie-designware-ep.c
+> +++ b/drivers/pci/controller/dwc/pcie-designware-ep.c
+> @@ -43,46 +43,19 @@ dw_pcie_ep_get_func_from_ep(struct dw_pcie_ep *ep, u8 func_no)
+>  	return NULL;
+>  }
+>  
+> -static unsigned int dw_pcie_ep_get_dbi_offset(struct dw_pcie_ep *ep, u8 func_no)
+> -{
+> -	unsigned int dbi_offset = 0;
+> -
+> -	if (ep->ops->get_dbi_offset)
+> -		dbi_offset = ep->ops->get_dbi_offset(ep, func_no);
+> -
+> -	return dbi_offset;
+> -}
+> -
+> -static unsigned int dw_pcie_ep_get_dbi2_offset(struct dw_pcie_ep *ep, u8 func_no)
+> -{
+> -	unsigned int dbi2_offset = 0;
+> -
+> -	if (ep->ops->get_dbi2_offset)
+> -		dbi2_offset = ep->ops->get_dbi2_offset(ep, func_no);
+> -	else if (ep->ops->get_dbi_offset)     /* for backward compatibility */
+> -		dbi2_offset = ep->ops->get_dbi_offset(ep, func_no);
+> -
+> -	return dbi2_offset;
+> -}
+> -
+>  static void __dw_pcie_ep_reset_bar(struct dw_pcie *pci, u8 func_no,
+>  				   enum pci_barno bar, int flags)
+>  {
+> -	unsigned int dbi_offset, dbi2_offset;
+>  	struct dw_pcie_ep *ep = &pci->ep;
+> -	u32 reg, reg_dbi2;
+> -
+> -	dbi_offset = dw_pcie_ep_get_dbi_offset(ep, func_no);
+> -	dbi2_offset = dw_pcie_ep_get_dbi2_offset(ep, func_no);
+> +	u32 reg;
+>  
+> -	reg = dbi_offset + PCI_BASE_ADDRESS_0 + (4 * bar);
+> -	reg_dbi2 = dbi2_offset + PCI_BASE_ADDRESS_0 + (4 * bar);
+> +	reg = PCI_BASE_ADDRESS_0 + (4 * bar);
+>  	dw_pcie_dbi_ro_wr_en(pci);
+> -	dw_pcie_writel_dbi2(pci, reg_dbi2, 0x0);
+> -	dw_pcie_writel_dbi(pci, reg, 0x0);
+> +	dw_pcie_ep_writel_dbi2(ep, func_no, reg, 0x0);
+> +	dw_pcie_ep_writel_dbi(ep, func_no, reg, 0x0);
+>  	if (flags & PCI_BASE_ADDRESS_MEM_TYPE_64) {
+> -		dw_pcie_writel_dbi2(pci, reg_dbi2 + 4, 0x0);
+> -		dw_pcie_writel_dbi(pci, reg + 4, 0x0);
+> +		dw_pcie_ep_writel_dbi2(ep, func_no, reg + 4, 0x0);
+> +		dw_pcie_ep_writel_dbi(ep, func_no, reg + 4, 0x0);
+>  	}
+>  	dw_pcie_dbi_ro_wr_dis(pci);
+>  }
+> @@ -99,19 +72,15 @@ void dw_pcie_ep_reset_bar(struct dw_pcie *pci, enum pci_barno bar)
+>  EXPORT_SYMBOL_GPL(dw_pcie_ep_reset_bar);
+>  
+>  static u8 __dw_pcie_ep_find_next_cap(struct dw_pcie_ep *ep, u8 func_no,
+> -		u8 cap_ptr, u8 cap)
+> +				     u8 cap_ptr, u8 cap)
+>  {
+> -	struct dw_pcie *pci = to_dw_pcie_from_ep(ep);
+> -	unsigned int dbi_offset = 0;
+>  	u8 cap_id, next_cap_ptr;
+>  	u16 reg;
+>  
+>  	if (!cap_ptr)
+>  		return 0;
+>  
+> -	dbi_offset = dw_pcie_ep_get_dbi_offset(ep, func_no);
+> -
+> -	reg = dw_pcie_readw_dbi(pci, dbi_offset + cap_ptr);
+> +	reg = dw_pcie_ep_readw_dbi(ep, func_no, cap_ptr);
+>  	cap_id = (reg & 0x00ff);
+>  
+>  	if (cap_id > PCI_CAP_ID_MAX)
+> @@ -126,14 +95,10 @@ static u8 __dw_pcie_ep_find_next_cap(struct dw_pcie_ep *ep, u8 func_no,
+>  
+>  static u8 dw_pcie_ep_find_capability(struct dw_pcie_ep *ep, u8 func_no, u8 cap)
+>  {
+> -	struct dw_pcie *pci = to_dw_pcie_from_ep(ep);
+> -	unsigned int dbi_offset = 0;
+>  	u8 next_cap_ptr;
+>  	u16 reg;
+>  
+> -	dbi_offset = dw_pcie_ep_get_dbi_offset(ep, func_no);
+> -
+> -	reg = dw_pcie_readw_dbi(pci, dbi_offset + PCI_CAPABILITY_LIST);
+> +	reg = dw_pcie_ep_readw_dbi(ep, func_no, PCI_CAPABILITY_LIST);
+>  	next_cap_ptr = (reg & 0x00ff);
+>  
+>  	return __dw_pcie_ep_find_next_cap(ep, func_no, next_cap_ptr, cap);
+> @@ -144,24 +109,21 @@ static int dw_pcie_ep_write_header(struct pci_epc *epc, u8 func_no, u8 vfunc_no,
+>  {
+>  	struct dw_pcie_ep *ep = epc_get_drvdata(epc);
+>  	struct dw_pcie *pci = to_dw_pcie_from_ep(ep);
+> -	unsigned int dbi_offset = 0;
+> -
+> -	dbi_offset = dw_pcie_ep_get_dbi_offset(ep, func_no);
+>  
+>  	dw_pcie_dbi_ro_wr_en(pci);
+> -	dw_pcie_writew_dbi(pci, dbi_offset + PCI_VENDOR_ID, hdr->vendorid);
+> -	dw_pcie_writew_dbi(pci, dbi_offset + PCI_DEVICE_ID, hdr->deviceid);
+> -	dw_pcie_writeb_dbi(pci, dbi_offset + PCI_REVISION_ID, hdr->revid);
+> -	dw_pcie_writeb_dbi(pci, dbi_offset + PCI_CLASS_PROG, hdr->progif_code);
+> -	dw_pcie_writew_dbi(pci, dbi_offset + PCI_CLASS_DEVICE,
+> -			   hdr->subclass_code | hdr->baseclass_code << 8);
+> -	dw_pcie_writeb_dbi(pci, dbi_offset + PCI_CACHE_LINE_SIZE,
+> -			   hdr->cache_line_size);
+> -	dw_pcie_writew_dbi(pci, dbi_offset + PCI_SUBSYSTEM_VENDOR_ID,
+> -			   hdr->subsys_vendor_id);
+> -	dw_pcie_writew_dbi(pci, dbi_offset + PCI_SUBSYSTEM_ID, hdr->subsys_id);
+> -	dw_pcie_writeb_dbi(pci, dbi_offset + PCI_INTERRUPT_PIN,
+> -			   hdr->interrupt_pin);
+> +	dw_pcie_ep_writew_dbi(ep, func_no, PCI_VENDOR_ID, hdr->vendorid);
+> +	dw_pcie_ep_writew_dbi(ep, func_no, PCI_DEVICE_ID, hdr->deviceid);
+> +	dw_pcie_ep_writeb_dbi(ep, func_no, PCI_REVISION_ID, hdr->revid);
+> +	dw_pcie_ep_writeb_dbi(ep, func_no, PCI_CLASS_PROG, hdr->progif_code);
+> +	dw_pcie_ep_writew_dbi(ep, func_no, PCI_CLASS_DEVICE,
+> +			      hdr->subclass_code | hdr->baseclass_code << 8);
+> +	dw_pcie_ep_writeb_dbi(ep, func_no, PCI_CACHE_LINE_SIZE,
+> +			      hdr->cache_line_size);
+> +	dw_pcie_ep_writew_dbi(ep, func_no, PCI_SUBSYSTEM_VENDOR_ID,
+> +			      hdr->subsys_vendor_id);
+> +	dw_pcie_ep_writew_dbi(ep, func_no, PCI_SUBSYSTEM_ID, hdr->subsys_id);
+> +	dw_pcie_ep_writeb_dbi(ep, func_no, PCI_INTERRUPT_PIN,
+> +			      hdr->interrupt_pin);
+>  	dw_pcie_dbi_ro_wr_dis(pci);
+>  
+>  	return 0;
+> @@ -243,18 +205,13 @@ static int dw_pcie_ep_set_bar(struct pci_epc *epc, u8 func_no, u8 vfunc_no,
+>  {
+>  	struct dw_pcie_ep *ep = epc_get_drvdata(epc);
+>  	struct dw_pcie *pci = to_dw_pcie_from_ep(ep);
+> -	unsigned int dbi_offset, dbi2_offset;
+>  	enum pci_barno bar = epf_bar->barno;
+>  	size_t size = epf_bar->size;
+>  	int flags = epf_bar->flags;
+> -	u32 reg, reg_dbi2;
+>  	int ret, type;
+> +	u32 reg;
+>  
+> -	dbi_offset = dw_pcie_ep_get_dbi_offset(ep, func_no);
+> -	dbi2_offset = dw_pcie_ep_get_dbi2_offset(ep, func_no);
+> -
+> -	reg = PCI_BASE_ADDRESS_0 + (4 * bar) + dbi_offset;
+> -	reg_dbi2 = PCI_BASE_ADDRESS_0 + (4 * bar) + dbi2_offset;
+> +	reg = PCI_BASE_ADDRESS_0 + (4 * bar);
+>  
+>  	if (!(flags & PCI_BASE_ADDRESS_SPACE))
+>  		type = PCIE_ATU_TYPE_MEM;
+> @@ -270,12 +227,12 @@ static int dw_pcie_ep_set_bar(struct pci_epc *epc, u8 func_no, u8 vfunc_no,
+>  
+>  	dw_pcie_dbi_ro_wr_en(pci);
+>  
+> -	dw_pcie_writel_dbi2(pci, reg_dbi2, lower_32_bits(size - 1));
+> -	dw_pcie_writel_dbi(pci, reg, flags);
+> +	dw_pcie_ep_writel_dbi2(ep, func_no, reg, lower_32_bits(size - 1));
+> +	dw_pcie_ep_writel_dbi(ep, func_no, reg, flags);
+>  
+>  	if (flags & PCI_BASE_ADDRESS_MEM_TYPE_64) {
+> -		dw_pcie_writel_dbi2(pci, reg_dbi2 + 4, upper_32_bits(size - 1));
+> -		dw_pcie_writel_dbi(pci, reg + 4, 0);
+> +		dw_pcie_ep_writel_dbi2(ep, func_no, reg + 4, upper_32_bits(size - 1));
+> +		dw_pcie_ep_writel_dbi(ep, func_no, reg + 4, 0);
+>  	}
+>  
+>  	ep->epf_bar[bar] = epf_bar;
+> @@ -335,19 +292,15 @@ static int dw_pcie_ep_map_addr(struct pci_epc *epc, u8 func_no, u8 vfunc_no,
+>  static int dw_pcie_ep_get_msi(struct pci_epc *epc, u8 func_no, u8 vfunc_no)
+>  {
+>  	struct dw_pcie_ep *ep = epc_get_drvdata(epc);
+> -	struct dw_pcie *pci = to_dw_pcie_from_ep(ep);
+> -	u32 val, reg;
+> -	unsigned int dbi_offset = 0;
+>  	struct dw_pcie_ep_func *ep_func;
+> +	u32 val, reg;
+>  
+>  	ep_func = dw_pcie_ep_get_func_from_ep(ep, func_no);
+>  	if (!ep_func || !ep_func->msi_cap)
+>  		return -EINVAL;
+>  
+> -	dbi_offset = dw_pcie_ep_get_dbi_offset(ep, func_no);
+> -
+> -	reg = ep_func->msi_cap + dbi_offset + PCI_MSI_FLAGS;
+> -	val = dw_pcie_readw_dbi(pci, reg);
+> +	reg = ep_func->msi_cap + PCI_MSI_FLAGS;
+> +	val = dw_pcie_ep_readw_dbi(ep, func_no, reg);
+>  	if (!(val & PCI_MSI_FLAGS_ENABLE))
+>  		return -EINVAL;
+>  
+> @@ -361,22 +314,19 @@ static int dw_pcie_ep_set_msi(struct pci_epc *epc, u8 func_no, u8 vfunc_no,
+>  {
+>  	struct dw_pcie_ep *ep = epc_get_drvdata(epc);
+>  	struct dw_pcie *pci = to_dw_pcie_from_ep(ep);
+> -	u32 val, reg;
+> -	unsigned int dbi_offset = 0;
+>  	struct dw_pcie_ep_func *ep_func;
+> +	u32 val, reg;
+>  
+>  	ep_func = dw_pcie_ep_get_func_from_ep(ep, func_no);
+>  	if (!ep_func || !ep_func->msi_cap)
+>  		return -EINVAL;
+>  
+> -	dbi_offset = dw_pcie_ep_get_dbi_offset(ep, func_no);
+> -
+> -	reg = ep_func->msi_cap + dbi_offset + PCI_MSI_FLAGS;
+> -	val = dw_pcie_readw_dbi(pci, reg);
+> +	reg = ep_func->msi_cap + PCI_MSI_FLAGS;
+> +	val = dw_pcie_ep_readw_dbi(ep, func_no, reg);
+>  	val &= ~PCI_MSI_FLAGS_QMASK;
+>  	val |= FIELD_PREP(PCI_MSI_FLAGS_QMASK, interrupts);
+>  	dw_pcie_dbi_ro_wr_en(pci);
+> -	dw_pcie_writew_dbi(pci, reg, val);
+> +	dw_pcie_ep_writew_dbi(ep, func_no, reg, val);
+>  	dw_pcie_dbi_ro_wr_dis(pci);
+>  
+>  	return 0;
+> @@ -385,19 +335,15 @@ static int dw_pcie_ep_set_msi(struct pci_epc *epc, u8 func_no, u8 vfunc_no,
+>  static int dw_pcie_ep_get_msix(struct pci_epc *epc, u8 func_no, u8 vfunc_no)
+>  {
+>  	struct dw_pcie_ep *ep = epc_get_drvdata(epc);
+> -	struct dw_pcie *pci = to_dw_pcie_from_ep(ep);
+> -	u32 val, reg;
+> -	unsigned int dbi_offset = 0;
+>  	struct dw_pcie_ep_func *ep_func;
+> +	u32 val, reg;
+>  
+>  	ep_func = dw_pcie_ep_get_func_from_ep(ep, func_no);
+>  	if (!ep_func || !ep_func->msix_cap)
+>  		return -EINVAL;
+>  
+> -	dbi_offset = dw_pcie_ep_get_dbi_offset(ep, func_no);
+> -
+> -	reg = ep_func->msix_cap + dbi_offset + PCI_MSIX_FLAGS;
+> -	val = dw_pcie_readw_dbi(pci, reg);
+> +	reg = ep_func->msix_cap + PCI_MSIX_FLAGS;
+> +	val = dw_pcie_ep_readw_dbi(ep, func_no, reg);
+>  	if (!(val & PCI_MSIX_FLAGS_ENABLE))
+>  		return -EINVAL;
+>  
+> @@ -411,9 +357,8 @@ static int dw_pcie_ep_set_msix(struct pci_epc *epc, u8 func_no, u8 vfunc_no,
+>  {
+>  	struct dw_pcie_ep *ep = epc_get_drvdata(epc);
+>  	struct dw_pcie *pci = to_dw_pcie_from_ep(ep);
+> -	u32 val, reg;
+> -	unsigned int dbi_offset = 0;
+>  	struct dw_pcie_ep_func *ep_func;
+> +	u32 val, reg;
+>  
+>  	ep_func = dw_pcie_ep_get_func_from_ep(ep, func_no);
+>  	if (!ep_func || !ep_func->msix_cap)
+> @@ -421,21 +366,19 @@ static int dw_pcie_ep_set_msix(struct pci_epc *epc, u8 func_no, u8 vfunc_no,
+>  
+>  	dw_pcie_dbi_ro_wr_en(pci);
+>  
+> -	dbi_offset = dw_pcie_ep_get_dbi_offset(ep, func_no);
+> -
+> -	reg = ep_func->msix_cap + dbi_offset + PCI_MSIX_FLAGS;
+> -	val = dw_pcie_readw_dbi(pci, reg);
+> +	reg = ep_func->msix_cap + PCI_MSIX_FLAGS;
+> +	val = dw_pcie_ep_readw_dbi(ep, func_no, reg);
+>  	val &= ~PCI_MSIX_FLAGS_QSIZE;
+>  	val |= interrupts;
+>  	dw_pcie_writew_dbi(pci, reg, val);
+>  
+> -	reg = ep_func->msix_cap + dbi_offset + PCI_MSIX_TABLE;
+> +	reg = ep_func->msix_cap + PCI_MSIX_TABLE;
+>  	val = offset | bir;
+> -	dw_pcie_writel_dbi(pci, reg, val);
+> +	dw_pcie_ep_writel_dbi(ep, func_no, reg, val);
+>  
+> -	reg = ep_func->msix_cap + dbi_offset + PCI_MSIX_PBA;
+> +	reg = ep_func->msix_cap + PCI_MSIX_PBA;
+>  	val = (offset + (interrupts * PCI_MSIX_ENTRY_SIZE)) | bir;
+> -	dw_pcie_writel_dbi(pci, reg, val);
+> +	dw_pcie_ep_writel_dbi(ep, func_no, reg, val);
+>  
+>  	dw_pcie_dbi_ro_wr_dis(pci);
+>  
+> @@ -510,38 +453,34 @@ EXPORT_SYMBOL_GPL(dw_pcie_ep_raise_legacy_irq);
+>  int dw_pcie_ep_raise_msi_irq(struct dw_pcie_ep *ep, u8 func_no,
+>  			     u8 interrupt_num)
+>  {
+> -	struct dw_pcie *pci = to_dw_pcie_from_ep(ep);
+> +	u32 msg_addr_lower, msg_addr_upper, reg;
+>  	struct dw_pcie_ep_func *ep_func;
+>  	struct pci_epc *epc = ep->epc;
+>  	unsigned int aligned_offset;
+> -	unsigned int dbi_offset = 0;
+>  	u16 msg_ctrl, msg_data;
+> -	u32 msg_addr_lower, msg_addr_upper, reg;
+> -	u64 msg_addr;
+>  	bool has_upper;
+> +	u64 msg_addr;
+>  	int ret;
+>  
+>  	ep_func = dw_pcie_ep_get_func_from_ep(ep, func_no);
+>  	if (!ep_func || !ep_func->msi_cap)
+>  		return -EINVAL;
+>  
+> -	dbi_offset = dw_pcie_ep_get_dbi_offset(ep, func_no);
+> -
+>  	/* Raise MSI per the PCI Local Bus Specification Revision 3.0, 6.8.1. */
+> -	reg = ep_func->msi_cap + dbi_offset + PCI_MSI_FLAGS;
+> -	msg_ctrl = dw_pcie_readw_dbi(pci, reg);
+> +	reg = ep_func->msi_cap + PCI_MSI_FLAGS;
+> +	msg_ctrl = dw_pcie_ep_readw_dbi(ep, func_no, reg);
+>  	has_upper = !!(msg_ctrl & PCI_MSI_FLAGS_64BIT);
+> -	reg = ep_func->msi_cap + dbi_offset + PCI_MSI_ADDRESS_LO;
+> -	msg_addr_lower = dw_pcie_readl_dbi(pci, reg);
+> +	reg = ep_func->msi_cap + PCI_MSI_ADDRESS_LO;
+> +	msg_addr_lower = dw_pcie_ep_readl_dbi(ep, func_no, reg);
+>  	if (has_upper) {
+> -		reg = ep_func->msi_cap + dbi_offset + PCI_MSI_ADDRESS_HI;
+> -		msg_addr_upper = dw_pcie_readl_dbi(pci, reg);
+> -		reg = ep_func->msi_cap + dbi_offset + PCI_MSI_DATA_64;
+> -		msg_data = dw_pcie_readw_dbi(pci, reg);
+> +		reg = ep_func->msi_cap + PCI_MSI_ADDRESS_HI;
+> +		msg_addr_upper = dw_pcie_ep_readl_dbi(ep, func_no, reg);
+> +		reg = ep_func->msi_cap + PCI_MSI_DATA_64;
+> +		msg_data = dw_pcie_ep_readw_dbi(ep, func_no, reg);
+>  	} else {
+>  		msg_addr_upper = 0;
+> -		reg = ep_func->msi_cap + dbi_offset + PCI_MSI_DATA_32;
+> -		msg_data = dw_pcie_readw_dbi(pci, reg);
+> +		reg = ep_func->msi_cap + PCI_MSI_DATA_32;
+> +		msg_data = dw_pcie_ep_readw_dbi(ep, func_no, reg);
+>  	}
+>  	aligned_offset = msg_addr_lower & (epc->mem->window.page_size - 1);
+>  	msg_addr = ((u64)msg_addr_upper) << 32 |
+> @@ -582,10 +521,9 @@ int dw_pcie_ep_raise_msix_irq(struct dw_pcie_ep *ep, u8 func_no,
+>  			      u16 interrupt_num)
+>  {
+>  	struct dw_pcie *pci = to_dw_pcie_from_ep(ep);
+> -	struct dw_pcie_ep_func *ep_func;
+>  	struct pci_epf_msix_tbl *msix_tbl;
+> +	struct dw_pcie_ep_func *ep_func;
+>  	struct pci_epc *epc = ep->epc;
+> -	unsigned int dbi_offset = 0;
+>  	u32 reg, msg_data, vec_ctrl;
+>  	unsigned int aligned_offset;
+>  	u32 tbl_offset;
+> @@ -597,10 +535,8 @@ int dw_pcie_ep_raise_msix_irq(struct dw_pcie_ep *ep, u8 func_no,
+>  	if (!ep_func || !ep_func->msix_cap)
+>  		return -EINVAL;
+>  
+> -	dbi_offset = dw_pcie_ep_get_dbi_offset(ep, func_no);
+> -
+> -	reg = ep_func->msix_cap + dbi_offset + PCI_MSIX_TABLE;
+> -	tbl_offset = dw_pcie_readl_dbi(pci, reg);
+> +	reg = ep_func->msix_cap + PCI_MSIX_TABLE;
+> +	tbl_offset = dw_pcie_ep_readl_dbi(ep, func_no, reg);
+>  	bir = FIELD_GET(PCI_MSIX_TABLE_BIR, tbl_offset);
+>  	tbl_offset &= PCI_MSIX_TABLE_OFFSET;
+>  
+> diff --git a/drivers/pci/controller/dwc/pcie-designware.h b/drivers/pci/controller/dwc/pcie-designware.h
+> index 5e36da166ffe..b92e69041fe8 100644
+> --- a/drivers/pci/controller/dwc/pcie-designware.h
+> +++ b/drivers/pci/controller/dwc/pcie-designware.h
+> @@ -534,6 +534,99 @@ static inline enum dw_pcie_ltssm dw_pcie_get_ltssm(struct dw_pcie *pci)
+>  	return (enum dw_pcie_ltssm)FIELD_GET(PORT_LOGIC_LTSSM_STATE_MASK, val);
+>  }
+>  
+
+> +static inline unsigned int dw_pcie_ep_get_dbi_offset(struct dw_pcie_ep *ep,
+> +						     u8 func_no)
+> +{
+> +	unsigned int dbi_offset = 0;
+> +
+> +	if (ep->ops->get_dbi_offset)
+> +		dbi_offset = ep->ops->get_dbi_offset(ep, func_no);
+> +
+> +	return dbi_offset;
+> +}
+> +
+> +static inline unsigned int dw_pcie_ep_get_dbi2_offset(struct dw_pcie_ep *ep,
+> +						      u8 func_no)
+> +{
+> +	unsigned int dbi2_offset = 0;
+> +
+> +	if (ep->ops->get_dbi2_offset)
+> +		dbi2_offset = ep->ops->get_dbi2_offset(ep, func_no);
+> +	else if (ep->ops->get_dbi_offset)     /* for backward compatibility */
+> +		dbi2_offset = ep->ops->get_dbi_offset(ep, func_no);
+> +
+> +	return dbi2_offset;
+> +}
+> +
+> +static inline u32 dw_pcie_ep_read_dbi(struct dw_pcie_ep *ep, u8 func_no,
+> +				      u32 reg, size_t size)
+> +{
+> +	unsigned int offset = dw_pcie_ep_get_dbi_offset(ep, func_no);
+> +	struct dw_pcie *pci = to_dw_pcie_from_ep(ep);
+> +
+> +	return dw_pcie_read_dbi(pci, offset + reg, size);
+> +}
+> +
+> +static inline void dw_pcie_ep_write_dbi(struct dw_pcie_ep *ep, u8 func_no,
+> +					u32 reg, size_t size, u32 val)
+> +{
+> +	unsigned int offset = dw_pcie_ep_get_dbi_offset(ep, func_no);
+> +	struct dw_pcie *pci = to_dw_pcie_from_ep(ep);
+> +
+> +	dw_pcie_write_dbi(pci, offset + reg, size, val);
+> +}
+> +
+> +static inline void dw_pcie_ep_write_dbi2(struct dw_pcie_ep *ep, u8 func_no,
+> +					 u32 reg, size_t size, u32 val)
+> +{
+> +	unsigned int offset = dw_pcie_ep_get_dbi2_offset(ep, func_no);
+> +	struct dw_pcie *pci = to_dw_pcie_from_ep(ep);
+> +
+> +	dw_pcie_write_dbi2(pci, offset + reg, size, val);
+> +}
+> +
+> +static inline void dw_pcie_ep_writel_dbi(struct dw_pcie_ep *ep, u8 func_no,
+> +					 u32 reg, u32 val)
+> +{
+> +	dw_pcie_ep_write_dbi(ep, func_no, reg, 0x4, val);
+> +}
+> +
+> +static inline u32 dw_pcie_ep_readl_dbi(struct dw_pcie_ep *ep, u8 func_no,
+> +				       u32 reg)
+> +{
+> +	return dw_pcie_ep_read_dbi(ep, func_no, reg, 0x4);
+> +}
+> +
+> +static inline void dw_pcie_ep_writew_dbi(struct dw_pcie_ep *ep, u8 func_no,
+> +					 u32 reg, u16 val)
+> +{
+> +	dw_pcie_ep_write_dbi(ep, func_no, reg, 0x2, val);
+> +}
+> +
+> +static inline u16 dw_pcie_ep_readw_dbi(struct dw_pcie_ep *ep, u8 func_no,
+> +				       u32 reg)
+> +{
+> +	return dw_pcie_ep_read_dbi(ep, func_no, reg, 0x2);
+> +}
+> +
+> +static inline void dw_pcie_ep_writeb_dbi(struct dw_pcie_ep *ep, u8 func_no,
+> +					 u32 reg, u8 val)
+> +{
+> +	dw_pcie_ep_write_dbi(ep, func_no, reg, 0x1, val);
+> +}
+> +
+> +static inline u8 dw_pcie_ep_readb_dbi(struct dw_pcie_ep *ep, u8 func_no,
+> +				      u32 reg)
+> +{
+> +	return dw_pcie_ep_read_dbi(ep, func_no, reg, 0x1);
+> +}
+> +
+> +static inline void dw_pcie_ep_writel_dbi2(struct dw_pcie_ep *ep, u8 func_no,
+> +					  u32 reg, u32 val)
+> +{
+> +	dw_pcie_ep_write_dbi2(ep, func_no, reg, 0x4, val);
+> +}
+> +
+
+A tiny nitpick. Since these are CSRs accessors it would be better for
+readability to have them grouped with the rest of the IO-accessors
+dw_pcie_writel_dbi()..dw_pcie_writel_dbi2(). Particularly have them
+defined below the already available ones. So first normal
+DBI-accessors would be placed and the EP-specific DBI-accessors
+afterwords. Not sure whether it's that much required. So it's up to
+Mani to decide. Perhaps the subsystem maintainers could fix it on
+merge in? Bjorn, Krzysztof, Lorenzo?
+
+-Serge(y)
+
+>  #ifdef CONFIG_PCIE_DW_HOST
+>  irqreturn_t dw_handle_msi_irq(struct dw_pcie_rp *pp);
+>  int dw_pcie_setup_rc(struct dw_pcie_rp *pp);
+> -- 
+> 2.34.1
 > 
-> Meaning there's a dependency we're supposed to track?
-
-The intention was to have a review on this series (from driver's
-maintainers) while the fixes are integrated, if any.
-
-> You have to wait for fixes to land, we marge the trees every week.
-
-The intention was to let the reviewers know they should apply [1] (if any)
-for reviewing this series.
-
-Sorry for any inconvenience,
-Claudiu Beznea
 
