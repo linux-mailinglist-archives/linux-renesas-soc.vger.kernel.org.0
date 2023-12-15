@@ -1,99 +1,286 @@
-Return-Path: <linux-renesas-soc+bounces-1115-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-1116-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD57E81456C
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 15 Dec 2023 11:22:49 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B0AFC814576
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 15 Dec 2023 11:23:56 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A13EC1C23001
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 15 Dec 2023 10:22:48 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 26601B20A0D
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 15 Dec 2023 10:23:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 589371A5AD;
-	Fri, 15 Dec 2023 10:22:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C14A519454;
+	Fri, 15 Dec 2023 10:23:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DRltX7kY"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com [209.85.128.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EF4C1A720;
-	Fri, 15 Dec 2023 10:22:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-5d279bcce64so4116577b3.3;
-        Fri, 15 Dec 2023 02:22:02 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702635720; x=1703240520;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=zIqyMLDoz3bUGP62JyhcKO5VrQi/N9+QK4f+5otTgHs=;
-        b=KnL/SxQP8xtqjlIYBGfNHSIza/5jnuoRmUiad3gZu8EbVHF5NYKBIoqFO18Bg8KyXy
-         DDpZvxTWqjMzDKg4/O0gaPWlB7asGix9+Lb4ZRrKwf3OY6rvd6Y/Wq3Rq2yV7QWY1P+V
-         TerhfYCd/zWDOpXR3wBJHAlCgZ/aYpxvAsMDwEILlCDVf7cUxAe2KAx5cSCbfAeL5Rcw
-         4SwGkfUa0I0LlEEre3ZaEq0yxI5Hhj4ngD21WKXGGBc8rFkKk4tFW7h37eBr+/g0konp
-         qlWrDFJ07yqWC+uLUSmY9FKBDwMQlctbVfAtV+y1UcuuUqVZf7mfizZiGwHYYQt0PYme
-         uNpA==
-X-Gm-Message-State: AOJu0YxBk4Jnz5DckkIPCXB0dnNwNatHT4pLHmOvMVbHxIbrVMS8vkvt
-	VdgHN8W5nP1mPGxkNck2Icq8oJgQSi/spw==
-X-Google-Smtp-Source: AGHT+IHrK0C2ZiIt+zrexReq7miKG1eUegeuz9keqdLcdp0m93zdrcTPsp6CewNjd0XcWnLLfQBV4A==
-X-Received: by 2002:a81:a04e:0:b0:5e2:93f0:884b with SMTP id x75-20020a81a04e000000b005e293f0884bmr3901907ywg.85.1702635719797;
-        Fri, 15 Dec 2023 02:21:59 -0800 (PST)
-Received: from mail-yb1-f172.google.com (mail-yb1-f172.google.com. [209.85.219.172])
-        by smtp.gmail.com with ESMTPSA id ey7-20020a05690c300700b005e33364be2bsm39852ywb.70.2023.12.15.02.21.59
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 15 Dec 2023 02:21:59 -0800 (PST)
-Received: by mail-yb1-f172.google.com with SMTP id 3f1490d57ef6-db3fa47c2f7so338801276.0;
-        Fri, 15 Dec 2023 02:21:59 -0800 (PST)
-X-Received: by 2002:a05:6902:100d:b0:dbc:f470:33e1 with SMTP id
- w13-20020a056902100d00b00dbcf47033e1mr744766ybt.72.1702635719251; Fri, 15 Dec
- 2023 02:21:59 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7A6F19452
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 15 Dec 2023 10:23:49 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D52A8C433C8;
+	Fri, 15 Dec 2023 10:23:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1702635829;
+	bh=tCAHS66eVgmZ57iqN7Mrr0Y2TmAFZVdVWNz4apn9D/I=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=DRltX7kYW7hLAHMkTv/XvtLnhKZHFOzBIsonzQT95l9YaTUeAf6WyY3iLkVzwWZ8J
+	 0+Uj3NTd1x0MBA0ke9/C7YggGnLyXLGehjyCHiqFzKuhI+eLwm48LS1K0bjYP8qEX8
+	 ZRZwKflTyaju8L2VQHD/WKTh7I30Rv/yqgWJuWLhzih/UY2GfUoJVjzGNpEPZwUtbu
+	 EqY5cLAQHX1SxWVAdhYA/LqjhYrl03pWg6iRQfenueOHvX5K2+6O1FnEHlD/RHpzNm
+	 sEaD1wq/5dyYO32fEHf1oletcXhwNmP8EVcAqs0NjVClYt5br17yuQ8XzYNhfh6w2R
+	 GB6ayJLNweHbg==
+Date: Fri, 15 Dec 2023 11:23:46 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Biju Das <biju.das.jz@bp.renesas.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+	Daniel Vetter <daniel@ffwll.ch>, Philipp Zabel <p.zabel@pengutronix.de>, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>, Geert Uytterhoeven <geert+renesas@glider.be>, 
+	Magnus Damm <magnus.damm@gmail.com>, 
+	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, 
+	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>, Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>, "biju.das.au" <biju.das.au@gmail.com>
+Subject: Re: [PATCH v15 3/5] drm: renesas: Add RZ/G2L DU Support
+Message-ID: <zp2ews2by6fg5irmb7ms6blox6vruezdjlor3rutqtokbvlle2@tl775slyvhyf>
+References: <20231128105129.161121-1-biju.das.jz@bp.renesas.com>
+ <20231128105129.161121-4-biju.das.jz@bp.renesas.com>
+ <sechknyg33iucaku37vfhk7ie7xgcealfqbvaopm4rrnqbo5g5@s35peonkzzoz>
+ <TYCPR01MB11269767836DEB995747B7ED3868CA@TYCPR01MB11269.jpnprd01.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231215004700.46147-1-yang.lee@linux.alibaba.com>
-In-Reply-To: <20231215004700.46147-1-yang.lee@linux.alibaba.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 15 Dec 2023 11:21:45 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdVR-HgRkOkfGRaAVmxRQhepQSspyCS1YyOwwfPW5-R7tA@mail.gmail.com>
-Message-ID: <CAMuHMdVR-HgRkOkfGRaAVmxRQhepQSspyCS1YyOwwfPW5-R7tA@mail.gmail.com>
-Subject: Re: [PATCH -next] pinctrl: renesas: rzg2l: Remove unneeded semicolon
-To: Yang Li <yang.lee@linux.alibaba.com>
-Cc: linus.walleij@linaro.org, linux-renesas-soc@vger.kernel.org, 
-	linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Abaci Robot <abaci@linux.alibaba.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="h75ngiwxrejsdylk"
+Content-Disposition: inline
+In-Reply-To: <TYCPR01MB11269767836DEB995747B7ED3868CA@TYCPR01MB11269.jpnprd01.prod.outlook.com>
+
+
+--h75ngiwxrejsdylk
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Dec 15, 2023 at 1:47=E2=80=AFAM Yang Li <yang.lee@linux.alibaba.com=
-> wrote:
-> ./drivers/pinctrl/renesas/pinctrl-rzg2l.c:485:2-3: Unneeded semicolon
->
-> Reported-by: Abaci Robot <abaci@linux.alibaba.com>
-> Closes: https://bugzilla.openanolis.cn/show_bug.cgi?id=3D7749
-> Signed-off-by: Yang Li <yang.lee@linux.alibaba.com>
+On Thu, Dec 14, 2023 at 03:24:17PM +0000, Biju Das wrote:
+> Hi Maxime Ripard,
+>=20
+> Thanks for the feedback.
+>=20
+> > -----Original Message-----
+> > From: Maxime Ripard <mripard@kernel.org>
+> > Sent: Wednesday, December 13, 2023 3:47 PM
+> > To: Biju Das <biju.das.jz@bp.renesas.com>
+> > Subject: Re: [PATCH v15 3/5] drm: renesas: Add RZ/G2L DU Support
+> >=20
+> > On Tue, Nov 28, 2023 at 10:51:27AM +0000, Biju Das wrote:
+> > > The LCD controller is composed of Frame Compression Processor (FCPVD),
+> > > Video Signal Processor (VSPD), and Display Unit (DU).
+> > >
+> > > It has DPI/DSI interfaces and supports a maximum resolution of 1080p
+> > > along with 2 RPFs to support the blending of two picture layers and
+> > > raster operations (ROPs).
+> > >
+> > > The DU module is connected to VSPD. Add RZ/G2L DU support for RZ/G2L
+> > > alike SoCs.
+> > >
+> > > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> >=20
+> > I'd still like a review from Geert or Laurent, I don't know the SoC.
+>=20
+> Since Laurent is super busy, maybe Kieran and Jacopo can provide feedback=
+ if any.
+>=20
+> The display blocks is shown in [1] and the pipe line is as below
+>=20
+> Memory-> fcpvd -->VSPD --> DU --> DSI --> Display panel.
+>=20
+> Fcpvd: Frame Compression Processor
+> VSPD: Video Signal Processor, Basically a blitter engine which directly r=
+ender images to DU
+> DU: Display Unit.
+>=20
+> On R-Car fpvcd, VSPD and (DU with planes) IPs are separate blocks
+> whereas here it is integrated inside LCDC.
+>=20
+> fcpvd and VSPD are in media subsystem and we are reusing the code here.
+> The vspd is based on display list, it downloads the register contents fro=
+m linked list in memory
+> and execute composite operation and generates interrupts for display star=
+t and frame end.
+>=20
+> du_vsp registers the frame completion callback with vspd driver in media =
+framework.
+> and we call the drm_crtc_handle_vblank() in this context.
+>=20
+> [1]
+> https://pasteboard.co/MDmbXdK3psSD.png
+>=20
+> =E2=97=8F FCPVD
+> =E2=88=92 Support out-of-order for the whole outstanding transactions
+> =E2=88=92 Read linear addressing image data
+> =E2=88=92 Read display list data
+> =E2=88=92 Write image data
+> =E2=97=8F VSPD
+> =E2=88=92 Supports various data formats and conversion
+> =E2=88=92 Supports YCbCr444/422/420, RGB, =CE=B1 RGB, =CE=B1 plane
+> =E2=88=92 Color space conversion and changes to the number of colors by d=
+ithering
+> =E2=88=92 Color keying
+> =E2=88=92 Supports combination between pixel alpha and global alpha
+> =E2=88=92 Supports generating pre multiplied alpha
+> =E2=88=92 Video processing
+> =E2=88=92 Blending of two picture layers and raster operations (ROPs)
+> =E2=88=92 Clipping
+> =E2=88=92 1D look up table
+> =E2=88=92 Vertical flipping in case of output to memory
+> =E2=88=92 Direct connection to display module
+> =E2=88=92 Supporting 1920 pixels in horizontal direction
+> =E2=88=92 Writing back image data which is transferred to Display Unit (D=
+U) to memory
+> =E2=97=8F DU
+> =E2=88=92 Supporting Display Parallel Interface (DPI) and MIPI LINK Video=
+ Interface
+> =E2=88=92 Display timing master
+> =E2=88=92 Generating video timings (Front porch, Back porch, Sync active,=
+ Active video area)
+> =E2=88=92 Selecting the polarity of output DCLK, HSYNC, VSYNC, and DE
+> =E2=88=92 Supporting Progressive (Non-interlace)
+> =E2=88=92 Not supports Interlace
+> =E2=88=92 Input data format (from VSPD): RGB888, RGB666 (not supports dit=
+hering of RGB565)
+> =E2=88=92 Output data format: same as Input data format
+> =E2=88=92 Supporting Full HD (1920 pixels =C3=97 1080 lines) for MIPI-DSI=
+ Output
+> =E2=88=92 Supporting WXGA (1280 pixels =C3=97 800 lines) for Parallel Out=
+put
 
-Thanks for your patch!
+Thanks, that's super helpful. The architecture is thus similar to vc4
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Some general questions related to bugs we had at some point with vc4:
 
-As the issue is not yet upstream, I will fold your fix into the original
-commit in renesas-pinctrl-for-v6.8.
+  * Where is the display list stored? In RAM or in a dedicated SRAM?
 
-Gr{oetje,eeting}s,
+  * Are the pointer to the current display list latched?
 
-                        Geert
+  * Is the display list itself latched? If it's not, what happens when
+    the display list is changed while the frame is being generated?
 
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
+> >=20
+> > > +static int rzg2l_du_crtc_get(struct rzg2l_du_crtc *rcrtc) {
+> > > +	int ret;
+> > > +
+> > > +	/*
+> > > +	 * Guard against double-get, as the function is called from both the
+> > > +	 * .atomic_enable() and .atomic_flush() handlers.
+> > > +	 */
+> > > +	if (rcrtc->initialized)
+> > > +		return 0;
+> > > +
+> > > +	ret =3D clk_prepare_enable(rcrtc->rzg2l_clocks.aclk);
+> > > +	if (ret < 0)
+> > > +		return ret;
+> > > +
+> > > +	ret =3D clk_prepare_enable(rcrtc->rzg2l_clocks.pclk);
+> > > +	if (ret < 0)
+> > > +		goto error_bus_clock;
+> > > +
+> > > +	ret =3D reset_control_deassert(rcrtc->rstc);
+> > > +	if (ret < 0)
+> > > +		goto error_peri_clock;
+> > > +
+> > > +	rzg2l_du_crtc_setup(rcrtc);
+> > > +	rcrtc->initialized =3D true;
+> > > +
+> > > +	return 0;
+> > > +
+> > > +error_peri_clock:
+> > > +	clk_disable_unprepare(rcrtc->rzg2l_clocks.pclk);
+> > > +error_bus_clock:
+> > > +	clk_disable_unprepare(rcrtc->rzg2l_clocks.aclk);
+> > > +	return ret;
+> > > +}
+> >=20
+> > [...]
+> >=20
+> > > +static void rzg2l_du_crtc_atomic_flush(struct drm_crtc *crtc,
+> > > +				       struct drm_atomic_state *state) {
+> > > +	struct rzg2l_du_crtc *rcrtc =3D to_rzg2l_crtc(crtc);
+> > > +	struct drm_device *dev =3D rcrtc->crtc.dev;
+> > > +	unsigned long flags;
+> > > +
+> > > +	WARN_ON(!crtc->state->enable);
+> > > +
+> > > +	/*
+> > > +	 * If a mode set is in progress we can be called with the CRTC
+> > disabled.
+> > > +	 * We thus need to first get and setup the CRTC in order to
+> > configure
+> > > +	 * planes. We must *not* put the CRTC, as it must be kept awake
+> > until
+> > > +	 * the .atomic_enable() call that will follow. The get operation in
+> > > +	 * .atomic_enable() will in that case be a no-op, and the CRTC will
+> > be
+> > > +	 * put later in .atomic_disable().
+> > > +	 */
+> > > +	rzg2l_du_crtc_get(rcrtc);
+> >=20
+> > That's a bit suspicious. Have you looked at
+> > drm_atomic_helper_commit_tail_rpm() ?
+>=20
+> Ok, I will drop this and start using  drm_atomic_helper_commit_tail_rpm()
+> instead of rzg2l_du_atomic_commit_tail().
 
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+It was more of a suggestion, really. I'm not sure whether it works for
+you, but it usually addresses similar issues in drivers.
+
+> >=20
+> > > +static int rzg2l_du_crtc_enable_vblank(struct drm_crtc *crtc) {
+> > > +	struct rzg2l_du_crtc *rcrtc =3D to_rzg2l_crtc(crtc);
+> > > +
+> > > +	rcrtc->vblank_enable =3D true;
+> > > +
+> > > +	return 0;
+> > > +}
+> > > +
+> > > +static void rzg2l_du_crtc_disable_vblank(struct drm_crtc *crtc) {
+> > > +	struct rzg2l_du_crtc *rcrtc =3D to_rzg2l_crtc(crtc);
+> > > +
+> > > +	rcrtc->vblank_enable =3D false;
+> > > +}
+> >=20
+> > You should enable / disable your interrupts here
+>=20
+> We don't have dedicated vblank IRQ for enabling/disabling vblank.
+>=20
+> vblank is handled by vspd.
+>=20
+> vspd is directly rendering images to display,
+> rcar_du_crtc_finish_page_flip() and drm_crtc_handle_vblank()
+> called in vspd's pageflip context.
+>=20
+> See rzg2l_du_vsp_complete()in rzg2l_du_vsp.c
+
+Sorry, I couldn't really get how the interrupt flow / vblank reporting
+is going to work. Could you explain it a bit more?
+
+Maxime
+
+--h75ngiwxrejsdylk
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZXwpMgAKCRDj7w1vZxhR
+xf9TAP4gKIDW41SXJZ8HXazfzRRo7CTDtG1gXhGJEYWKBexirwEA1nImmi++Jrx3
+17S1SWTPsal00Aw7d5bewG3VqbWF3w0=
+=dLne
+-----END PGP SIGNATURE-----
+
+--h75ngiwxrejsdylk--
 
