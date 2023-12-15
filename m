@@ -1,29 +1,29 @@
-Return-Path: <linux-renesas-soc+bounces-1136-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-1137-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDE1C815071
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 15 Dec 2023 20:58:28 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0EBA881507A
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 15 Dec 2023 20:59:02 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 29FF31C203A9
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 15 Dec 2023 19:58:28 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 41EF71C20AE5
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 15 Dec 2023 19:59:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9C28C41867;
-	Fri, 15 Dec 2023 19:58:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7D2674596D;
+	Fri, 15 Dec 2023 19:58:53 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from mx01.omp.ru (mx01.omp.ru [90.154.21.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5386B4185D;
-	Fri, 15 Dec 2023 19:58:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D431841846;
+	Fri, 15 Dec 2023 19:58:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=omp.ru
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=omp.ru
 Received: from [192.168.1.104] (31.173.86.106) by msexch01.omp.ru
  (10.188.4.12) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.1258.12; Fri, 15 Dec
- 2023 22:58:05 +0300
+ 2023 22:58:43 +0300
 Subject: Re: [PATCH net-next v2 10/21] net: ravb: Move delay mode set in the
  driver's ndo_open API
 To: Claudiu <claudiu.beznea@tuxon.dev>, <davem@davemloft.net>,
@@ -38,8 +38,8 @@ References: <20231214114600.2451162-1-claudiu.beznea.uj@bp.renesas.com>
  <20231214114600.2451162-11-claudiu.beznea.uj@bp.renesas.com>
 From: Sergey Shtylyov <s.shtylyov@omp.ru>
 Organization: Open Mobile Platform
-Message-ID: <85cf1e48-3751-9f3e-63eb-5c635decd6ef@omp.ru>
-Date: Fri, 15 Dec 2023 22:58:05 +0300
+Message-ID: <421c684d-7092-d7a8-e00a-6abe40c557c5@omp.ru>
+Date: Fri, 15 Dec 2023 22:58:42 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.10.1
 Precedence: bulk
@@ -69,7 +69,7 @@ X-KSE-AntiSpam-Info: {Tracking_from_domain_doesnt_match_to}
 X-KSE-AntiSpam-Info: {relay has no DNS name}
 X-KSE-AntiSpam-Info: {SMTP from is not routable}
 X-KSE-AntiSpam-Info:
-	127.0.0.199:7.1.2;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;omp.ru:7.1.1
+	d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;127.0.0.199:7.1.2;omp.ru:7.1.1
 X-KSE-AntiSpam-Info: ApMailHostAddress: 31.173.86.106
 X-KSE-AntiSpam-Info: {DNS response errors}
 X-KSE-AntiSpam-Info: Rate: 59
@@ -96,6 +96,9 @@ On 12/14/23 2:45 PM, Claudiu wrote:
    Parsing and setting?
 
 > variants switch to reset mode (and thus registers' content is lost) when
+
+   Register.
+
 > setting clocks (due to module standby functionality) to be able to
 > implement runtime PM keep the delay parsing in the driver's probe function
 > and move the delay apply function to the driver's ndo_open API.
