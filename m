@@ -1,38 +1,38 @@
-Return-Path: <linux-renesas-soc+bounces-1126-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-1127-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5156814A65
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 15 Dec 2023 15:23:19 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 845A4814A67
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 15 Dec 2023 15:24:29 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 68A58283D60
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 15 Dec 2023 14:23:18 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3B1AF1F20F52
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 15 Dec 2023 14:24:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 231D231A73;
-	Fri, 15 Dec 2023 14:23:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CFA173172A;
+	Fri, 15 Dec 2023 14:24:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bDN+3h0s"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="npdlo1HQ"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08A4831A72
-	for <linux-renesas-soc@vger.kernel.org>; Fri, 15 Dec 2023 14:23:04 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 41C77C433C7;
-	Fri, 15 Dec 2023 14:23:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B375B31721
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 15 Dec 2023 14:24:25 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C2C83C433C8;
+	Fri, 15 Dec 2023 14:24:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1702650184;
-	bh=BZFnYzW7YZTXtkTyTtLONk7MbUaXR0Vw+rIVriH8hSA=;
+	s=k20201202; t=1702650265;
+	bh=n//Zk2gdkH/iGcaZ7tRqNwsbso51mNHgRXktukJtHgI=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=bDN+3h0sQL1BSRMAbpiHvfzBj7zg4/XJR8MxiYIYluyTpCodrr1dNmIiuu7/g8V5q
-	 1dtS8ewYCSHg8PB3d/XVIm8Nebh9hRmHicU6QDuo6QbOMUlGEVTIlWbpddCLYKbeQr
-	 N1k0QuJkxH6Xu+0hOOyNioxOClNwS1dTMMTM9PDD6n5flPUhQywWTpnHUxZqnkmhgW
-	 a33Msou9/jM+uhWCF8E3E4Fg8YiOvJ/PAGcPqjeavia998JxAvfH7EPOiijSiVZajg
-	 V8dxXHGW/6Xwpb8QF3oTVnIKA5QrsAZ01QlwUeQo6jYzWT3RR4mbUUvSn4JRm7ZRWu
-	 RTFwaxsmdX/pw==
-Date: Fri, 15 Dec 2023 15:23:02 +0100
+	b=npdlo1HQ8Pn+/5wgKaQIVR1AiVBKw/CqspZ8QqAict90UGsCuqr6d48XIDO3/G8Mp
+	 JD19pAmuRfYy2Ec+Kuuun/R6s8bJeGm233mUhhn4Z1iPLl8KBIkvTcqHEJqcfYZDue
+	 zkXuc75JGr1L+97rQOFASW0CGOCuM7o7ST7TLxN39dvgh40UAvUutYFSJrJ/abW4KI
+	 I6bO52e9vR4qDSpIGb+Mhb8tEI4+2ap5bK77X5x+ofcr9Lpu/docxW/XTB2aGvliWI
+	 3jEtNN6kTx52OmdMmaGM4Cu5Eh+kQ0cWMfBtvs19Wpmv9IB+arAV/5/tPh9ABBemnp
+	 SP/sqgSM6b5Wg==
+Date: Fri, 15 Dec 2023 15:24:22 +0100
 From: Maxime Ripard <mripard@kernel.org>
 To: Biju Das <biju.das.jz@bp.renesas.com>
 Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -45,16 +45,13 @@ Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
 	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>, Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
 	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>, "biju.das.au" <biju.das.au@gmail.com>
 Subject: Re: [PATCH v15 3/5] drm: renesas: Add RZ/G2L DU Support
-Message-ID: <5xmkpbymmvsqdfjxgkrjf7r4b7sgxdd7gq7qmohg5id6ljjg7z@rznod4o464iy>
+Message-ID: <he23e5al3hinegebvq7qai4jdw3qjgbzmnx34xgxqnu3hw4jke@dts2vi5kcs4u>
 References: <20231128105129.161121-1-biju.das.jz@bp.renesas.com>
  <20231128105129.161121-4-biju.das.jz@bp.renesas.com>
  <sechknyg33iucaku37vfhk7ie7xgcealfqbvaopm4rrnqbo5g5@s35peonkzzoz>
  <TYCPR01MB11269767836DEB995747B7ED3868CA@TYCPR01MB11269.jpnprd01.prod.outlook.com>
  <zp2ews2by6fg5irmb7ms6blox6vruezdjlor3rutqtokbvlle2@tl775slyvhyf>
- <TYCPR01MB112699C55873FA75B8F4469C18693A@TYCPR01MB11269.jpnprd01.prod.outlook.com>
- <bw3qxved377k5pmh3dbnimiyxra7k6dgb2tmg23bvxnfglti4g@uqdxmgnqrkg2>
- <TYCPR01MB11269CC132B84CFAD11D307578693A@TYCPR01MB11269.jpnprd01.prod.outlook.com>
- <TYCPR01MB11269A92241B3469FAC06AF398693A@TYCPR01MB11269.jpnprd01.prod.outlook.com>
+ <TYCPR01MB1126964899D432355ACAF49D18693A@TYCPR01MB11269.jpnprd01.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -62,156 +59,70 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="cuf2qri4iqampkgy"
+	protocol="application/pgp-signature"; boundary="zhsfxp6q5wlnvcc3"
 Content-Disposition: inline
-In-Reply-To: <TYCPR01MB11269A92241B3469FAC06AF398693A@TYCPR01MB11269.jpnprd01.prod.outlook.com>
+In-Reply-To: <TYCPR01MB1126964899D432355ACAF49D18693A@TYCPR01MB11269.jpnprd01.prod.outlook.com>
 
 
---cuf2qri4iqampkgy
+--zhsfxp6q5wlnvcc3
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Dec 15, 2023 at 02:19:25PM +0000, Biju Das wrote:
+On Fri, Dec 15, 2023 at 01:25:48PM +0000, Biju Das wrote:
 > Hi Maxime Ripard,
 >=20
 > > -----Original Message-----
-> > From: Biju Das
-> > Sent: Friday, December 15, 2023 1:52 PM
-> > Subject: RE: [PATCH v15 3/5] drm: renesas: Add RZ/G2L DU Support
+> > From: Maxime Ripard <mripard@kernel.org>
+> > Sent: Friday, December 15, 2023 10:24 AM
+> > Subject: Re: [PATCH v15 3/5] drm: renesas: Add RZ/G2L DU Support
 > >=20
-> > Hi Maxime Ripard,
-> >=20
-> > > -----Original Message-----
-> > > From: Maxime Ripard <mripard@kernel.org>
-> > > Sent: Friday, December 15, 2023 12:58 PM
-> > > Subject: Re: [PATCH v15 3/5] drm: renesas: Add RZ/G2L DU Support
+> > On Thu, Dec 14, 2023 at 03:24:17PM +0000, Biju Das wrote:
+> > > Hi Maxime Ripard,
 > > >
-> > > On Fri, Dec 15, 2023 at 11:37:07AM +0000, Biju Das wrote:
-> > > > Hi Maxime Ripard,
-> > > >
-> > > > > -----Original Message-----
-> > > > > From: Maxime Ripard <mripard@kernel.org>
-> > > > > Sent: Friday, December 15, 2023 10:24 AM
-> > > > > To: Biju Das <biju.das.jz@bp.renesas.com>
-> > > > > Subject: Re: [PATCH v15 3/5] drm: renesas: Add RZ/G2L DU Support
-> > > > >
-> > > > > On Thu, Dec 14, 2023 at 03:24:17PM +0000, Biju Das wrote:
-> > > > > > Hi Maxime Ripard,
-> > > > > >
-> > > > > > Thanks for the feedback.
-> > > > > >
-> > > > > > > -----Original Message-----
-> > > > > > > From: Maxime Ripard <mripard@kernel.org>
-> > > > > > > Sent: Wednesday, December 13, 2023 3:47 PM
-> > > > > > > To: Biju Das <biju.das.jz@bp.renesas.com>
-> > > > > > > Subject: Re: [PATCH v15 3/5] drm: renesas: Add RZ/G2L DU
-> > > > > > > Support
-> > > > > > >
-> > > > > > > > +	 */
-> > > > > > > > +	rzg2l_du_crtc_get(rcrtc);
-> > > > > > >
-> > > > > > > That's a bit suspicious. Have you looked at
-> > > > > > > drm_atomic_helper_commit_tail_rpm() ?
-> > > > > >
-> > > > > > Ok, I will drop this and start using
-> > > > > > drm_atomic_helper_commit_tail_rpm()
-> > > > > > instead of rzg2l_du_atomic_commit_tail().
-> > > > >
-> > > > > It was more of a suggestion, really. I'm not sure whether it works
-> > > > > for you, but it usually addresses similar issues in drivers.
-> > > >
-> > > > I confirm, it is working in my case, even after removing
-> > > > rzg2l_du_crtc_get() and using the helper function
-> > > drm_atomic_helper_commit_tail_rpm().
-> > > >
-> > > > >
-> > > > > > >
-> > > > > > > > +static int rzg2l_du_crtc_enable_vblank(struct drm_crtc *cr=
-tc)
-> > {
-> > > > > > > > +	struct rzg2l_du_crtc *rcrtc =3D to_rzg2l_crtc(crtc);
-> > > > > > > > +
-> > > > > > > > +	rcrtc->vblank_enable =3D true;
-> > > > > > > > +
-> > > > > > > > +	return 0;
-> > > > > > > > +}
-> > > > > > > > +
-> > > > > > > > +static void rzg2l_du_crtc_disable_vblank(struct drm_crtc
-> > > > > > > > +*crtc)
-> > > {
-> > > > > > > > +	struct rzg2l_du_crtc *rcrtc =3D to_rzg2l_crtc(crtc);
-> > > > > > > > +
-> > > > > > > > +	rcrtc->vblank_enable =3D false; }
-> > > > > > >
-> > > > > > > You should enable / disable your interrupts here
-> > > > > >
-> > > > > > We don't have dedicated vblank IRQ for enabling/disabling vblan=
-k.
-> > > > > >
-> > > > > > vblank is handled by vspd.
-> > > > > >
-> > > > > > vspd is directly rendering images to display,
-> > > > > > rcar_du_crtc_finish_page_flip() and drm_crtc_handle_vblank()
-> > > > > > called in vspd's pageflip context.
-> > > > > >
-> > > > > > See rzg2l_du_vsp_complete()in rzg2l_du_vsp.c
-> > > > >
-> > > > > Sorry, I couldn't really get how the interrupt flow / vblank
-> > > > > reporting is going to work. Could you explain it a bit more?
-> > > >
-> > > > We just need to handle vertical blanking in the VSP frame end handl=
-er.
-> > > > See the code below.
-> > > >
-> > > > static void rzg2l_du_vsp_complete(void *private, unsigned int
-> > > > status,
-> > > > u32 crc) {
-> > > > 	struct rzg2l_du_crtc *crtc =3D private;
-> > > >
-> > > > 	if (crtc->vblank_enable)
-> > > > 		drm_crtc_handle_vblank(&crtc->crtc);
-> > > >
-> > > > 	if (status & VSP1_DU_STATUS_COMPLETE)
-> > > > 		rzg2l_du_crtc_finish_page_flip(crtc);
-> > > >
-> > > > 	drm_crtc_add_crc_entry(&crtc->crtc, false, 0, &crc); }
-> > >
-> > > Then we're back to the same question :)
-> > >
-> > > Why can't you mask the frame end interrupt?
+> > > Thanks for the feedback.
 > >=20
-> > We are masking interrupts.
+> > Thanks, that's super helpful. The architecture is thus similar to vc4
 > >=20
-> > [   70.639139] #######rzg2l_du_crtc_disable_vblank#######
-> > [   70.650243] #########rzg2l_du_vsp_disable ############
-> > [   70.652003] ########## vsp1_wpf_stop###
+> > Some general questions related to bugs we had at some point with vc4:
 > >=20
-> > Unmask is,
-> >=20
-> > [ 176.354520] #######rzg2l_du_crtc_enable_vblank#######
-> > [  176.354922] #########rzg2l_du_vsp_atomic_flush ############
-> > [  176.355198] ########## wpf_configure_stream###
-> >=20
+> >   * Where is the display list stored? In RAM or in a dedicated SRAM?
 >=20
-> Shall I send V16 now as I am going for xmas vacation or
-> Do you prefer to wait?
+> [1] It is in DDR (RAM).
+>=20
+> >=20
+> >   * Are the pointer to the current display list latched?
+> >=20
+> >   * Is the display list itself latched? If it's not, what happens when
+> >     the display list is changed while the frame is being generated?
+>=20
+> There is some protocol defined for SW side and HW side for updating displ=
+ay list
+> See [1] 33.4.8.1 Operation flow of VSPD and DU.
+>=20
+> All the display list operations are manged here[2]
+>=20
+> [1] https://www.renesas.com/us/en/document/mah/rzg2l-group-rzg2lc-group-u=
+sers-manual-hardware-0
+>=20
+> [2] https://elixir.bootlin.com/linux/v6.7-rc5/source/drivers/media/platfo=
+rm/renesas/vsp1/vsp1_dl.c#L863
 
-Waiting is fine, most of us are going to be in holidays too so you won't
-get any reviews either :)
+I'm sorry, but I'm not going to read a 3500+ to try to figure it out.
+Could you answer the questions above?
 
 Maxime
 
---cuf2qri4iqampkgy
+--zhsfxp6q5wlnvcc3
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZXxhRgAKCRDj7w1vZxhR
-xRTYAQCZ5+kRxw5upf2F2fYnch09iMY4aJ+1gIoketVUIpcbWAD/WTeR2Eg8C92x
-dJ8TOIhhaezmP0YS++Gu2wiR54RqnQE=
-=j+/Q
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZXxhlgAKCRDj7w1vZxhR
+xQ97AP9yP2lSDsHP9g4HSUqxtJV7cgXsj9Xauf5TPZ/M7DeWMAD/R6c5ZBcVu2MX
+UhuMQnlqnnHP5Iv8yKhrgkM7DNU0CQ8=
+=qOGM
 -----END PGP SIGNATURE-----
 
---cuf2qri4iqampkgy--
+--zhsfxp6q5wlnvcc3--
 
