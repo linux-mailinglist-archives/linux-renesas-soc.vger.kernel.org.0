@@ -1,286 +1,248 @@
-Return-Path: <linux-renesas-soc+bounces-1116-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-1117-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0AFC814576
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 15 Dec 2023 11:23:56 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 49FC98146AB
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 15 Dec 2023 12:19:26 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 26601B20A0D
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 15 Dec 2023 10:23:54 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7C8101C20E49
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 15 Dec 2023 11:19:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C14A519454;
-	Fri, 15 Dec 2023 10:23:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 36BD21C292;
+	Fri, 15 Dec 2023 11:19:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DRltX7kY"
+	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="L3CEFxYk"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01on2095.outbound.protection.outlook.com [40.107.113.95])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7A6F19452
-	for <linux-renesas-soc@vger.kernel.org>; Fri, 15 Dec 2023 10:23:49 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D52A8C433C8;
-	Fri, 15 Dec 2023 10:23:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1702635829;
-	bh=tCAHS66eVgmZ57iqN7Mrr0Y2TmAFZVdVWNz4apn9D/I=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=DRltX7kYW7hLAHMkTv/XvtLnhKZHFOzBIsonzQT95l9YaTUeAf6WyY3iLkVzwWZ8J
-	 0+Uj3NTd1x0MBA0ke9/C7YggGnLyXLGehjyCHiqFzKuhI+eLwm48LS1K0bjYP8qEX8
-	 ZRZwKflTyaju8L2VQHD/WKTh7I30Rv/yqgWJuWLhzih/UY2GfUoJVjzGNpEPZwUtbu
-	 EqY5cLAQHX1SxWVAdhYA/LqjhYrl03pWg6iRQfenueOHvX5K2+6O1FnEHlD/RHpzNm
-	 sEaD1wq/5dyYO32fEHf1oletcXhwNmP8EVcAqs0NjVClYt5br17yuQ8XzYNhfh6w2R
-	 GB6ayJLNweHbg==
-Date: Fri, 15 Dec 2023 11:23:46 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Biju Das <biju.das.jz@bp.renesas.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
-	Daniel Vetter <daniel@ffwll.ch>, Philipp Zabel <p.zabel@pengutronix.de>, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>, Geert Uytterhoeven <geert+renesas@glider.be>, 
-	Magnus Damm <magnus.damm@gmail.com>, 
-	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, 
-	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>, Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>, "biju.das.au" <biju.das.au@gmail.com>
-Subject: Re: [PATCH v15 3/5] drm: renesas: Add RZ/G2L DU Support
-Message-ID: <zp2ews2by6fg5irmb7ms6blox6vruezdjlor3rutqtokbvlle2@tl775slyvhyf>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A42A91A271
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 15 Dec 2023 11:19:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=JarShhxYSsSiovaDvghTF87yc/H+bxfr0D7d9xfkp2BghUaSvZgptUCBWvsmmxISRJKducYJD/iald/gjl3TvkKmm7izrwtCIt8w7cgM5DCuIThW77mxXFh/yoic613GPQ13rUfdWMJtynNoE08CiIZSDdAkIfvcEW9Ewkb5s6q55C2owkbFUflIREqbiM8ed8oR8K7gvauntvURNmnMeKBGI8XYgxVcdM0NHq0HDBRF+dH67QFz2pqqRvCasiMhyknSyMpJrV76UyEPAX4SRDVb1dXroFAALYeBg3Nhzyg5rC8K3AoRb3K3yxP/lSxmR49khOfAwasHi3ylt6VQMg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=OfVsEYzkkkbU2C7GiHXlR9n/xOUr6vwfnlTqte5j7hA=;
+ b=Akrqt1dsMTh3xz8XBcigN/P2rBEXeya5FgSYY2pT+FSuuwyhtexzNYyG9KQqbL3ypF88Jhww4MKJlXL12U5aq660KfpBPBd2jricL+Bi7gdaHYyiLNr7j/4ae1+T3OObD+0YojNXcutWv7U+TjF9JkBNnoOC65M9JqH23UxG+zqEOhmtm5neWnt7KiDirKxuQhqoN/ikk1Oi97vHVaIhkJpcI8y/yV/TS/ZHyHVw0g5IDhlLMFX0soevFIQ/AEzxcmIUmomtbdDPMmPyROTMMm98pPOjXXWPTi5WmcVBc6KJiqYxFGCvMLYnzvLiXCLNAgqBQjrnVNQUoer53nUKQw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=OfVsEYzkkkbU2C7GiHXlR9n/xOUr6vwfnlTqte5j7hA=;
+ b=L3CEFxYkQxp3FvkooqneY1A1anx4ZL7XKksh2olCivJNx4Y9Hc8VSbyXpf6m16bsXklfcme7utUM99UtJSMMrJ9IJBnHMaCRS+TNBlhnj9m1o4Ili5LeS+n3rVJge+cw0ieZbgca2FuAAVj6tT2cCxKds2TMcZdsmeXkJuQU9ew=
+Received: from TYCPR01MB11269.jpnprd01.prod.outlook.com
+ (2603:1096:400:3c0::10) by TYAPR01MB5481.jpnprd01.prod.outlook.com
+ (2603:1096:404:8037::15) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7113.10; Fri, 15 Dec
+ 2023 11:19:16 +0000
+Received: from TYCPR01MB11269.jpnprd01.prod.outlook.com
+ ([fe80::f216:24ab:3668:3a48]) by TYCPR01MB11269.jpnprd01.prod.outlook.com
+ ([fe80::f216:24ab:3668:3a48%4]) with mapi id 15.20.7113.010; Fri, 15 Dec 2023
+ 11:19:16 +0000
+From: Biju Das <biju.das.jz@bp.renesas.com>
+To: Maxime Ripard <mripard@kernel.org>
+CC: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
+	<tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Daniel Vetter
+	<daniel@ffwll.ch>, Philipp Zabel <p.zabel@pengutronix.de>, Laurent Pinchart
+	<laurent.pinchart@ideasonboard.com>, Kieran Bingham
+	<kieran.bingham+renesas@ideasonboard.com>, Jacopo Mondi
+	<jacopo.mondi@ideasonboard.com>, Geert Uytterhoeven
+	<geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>,
+	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, Prabhakar Mahadev Lad
+	<prabhakar.mahadev-lad.rj@bp.renesas.com>, biju.das.au
+	<biju.das.au@gmail.com>
+Subject: RE: [PATCH v15 3/5] drm: renesas: Add RZ/G2L DU Support
+Thread-Topic: [PATCH v15 3/5] drm: renesas: Add RZ/G2L DU Support
+Thread-Index:
+ AQHaIejqQbh+O2CetkGmd2PHSouIl7Cnc3CAgAFZmGCAAIbOgIAAt8VAgAAhsACAAB96EA==
+Date: Fri, 15 Dec 2023 11:19:16 +0000
+Message-ID:
+ <TYCPR01MB11269E63B4CBB97576DBF03F68693A@TYCPR01MB11269.jpnprd01.prod.outlook.com>
 References: <20231128105129.161121-1-biju.das.jz@bp.renesas.com>
  <20231128105129.161121-4-biju.das.jz@bp.renesas.com>
  <sechknyg33iucaku37vfhk7ie7xgcealfqbvaopm4rrnqbo5g5@s35peonkzzoz>
  <TYCPR01MB11269767836DEB995747B7ED3868CA@TYCPR01MB11269.jpnprd01.prod.outlook.com>
+ <TYVPR01MB112799FA3028E651D8BC9AA1F868CA@TYVPR01MB11279.jpnprd01.prod.outlook.com>
+ <TYCPR01MB11269E2263C8D2A14F94CE50F8693A@TYCPR01MB11269.jpnprd01.prod.outlook.com>
+ <jxjqwytay24p5g7rl23asjucbwswpjyw3znrbu6z7eigrvl7jy@5vxwqtgpg35g>
+In-Reply-To: <jxjqwytay24p5g7rl23asjucbwswpjyw3znrbu6z7eigrvl7jy@5vxwqtgpg35g>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=bp.renesas.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: TYCPR01MB11269:EE_|TYAPR01MB5481:EE_
+x-ms-office365-filtering-correlation-id: 63e3700c-cca8-4641-a562-08dbfd5facc6
+x-ld-processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info:
+ 47sWKBxbcm9KIMNrhWkK4VcNkmN99U2+bp7j3P9m8o39QYM5+PlCIaUDxiaBZXBImN5NP+aZyJwE6AnG7pzwjfpw/ADkmLwdb1+JxUnWeeAYP2AWxbbkhBHKERQt5tWil6jfQZ0UTMSDj+p9ldwMj1E/WICLx4c3i1nlOnTuXhgk/CWcBepQcfcKAZBzgMEm23/Sz7ITtgHg2ulmQ45kcxr8fIIQw0ay+rfuVT5rCgIcdDXmGDhFOVlNlq9M0j8OI9lHbVhVPZ54tWM730aocEZoYeafEsksnTqbL7k4nnAXV60Gnad2cAJc3i1K8zdv5ec+ekkshQwCN4q/u9/FxU5idLiQunv8TKx6dIdZ/V6BAjuzBhwT40N3fJOI4Hk8BkjLJmwWdJLFvWdY4Td1Mzv3H82NZVl+pRdI3E2kQof1NsHWfdL6mg3K0CGJTL5XnjjEXCrJYN5Rc7PmTPA7a9gQN6QKQy+bX04OM8+lIXcQLAtJHgG/N2zLx6p36YvV7wDsJ/OAYlwr3UoINVAHpWGA7eHCxTeeXlJ66nVBtWTglOeeV9FRpqHHZ2UppYTCYMn8KpcVuRwequ6xaEL0X+OxMF75xtZmmUbPiBXm1lcaj7pjL3u3x0P8ncwosk6G
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB11269.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376002)(39860400002)(136003)(396003)(366004)(346002)(230922051799003)(1800799012)(64100799003)(451199024)(186009)(2906002)(33656002)(86362001)(4326008)(8676002)(8936002)(52536014)(5660300002)(7416002)(38070700009)(41300700001)(478600001)(83380400001)(9686003)(26005)(71200400001)(6506007)(7696005)(55016003)(53546011)(66946007)(76116006)(38100700002)(122000001)(6916009)(316002)(66476007)(66446008)(64756008)(66556008)(54906003);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?us-ascii?Q?6y6mb+Xoq/nAXW/IMj92pX6mrcFdM8eR2fXTXQG7CewAcip+99aaBH9snJVm?=
+ =?us-ascii?Q?wRcOgrTxufkI7T04TSfmblY7ysUPbIxidtfx2SZ5oBlxog4w78K/KwYbqtTE?=
+ =?us-ascii?Q?ouAwZip6XOyj4wONhtE8wx3tQeVShk6171sHK/I54TY6JlWkSLZl5Fm3zR30?=
+ =?us-ascii?Q?ZAnl47dfvrtHWOP7RDEAxfWLHNR38L97bGDWKthLUWoaOa+KPYr91NZM3Pa6?=
+ =?us-ascii?Q?1PiRZV5i8EOj+KjefJe0zaiWmxhHlwgqRIVa4KhgcvPT/+rjzdhljoGV2DQp?=
+ =?us-ascii?Q?FvLBZBJGCK62Qcn+d+oNmN8WExsYPpHudQYW+Z1Mew7ltg9uvSkLMU6qblk0?=
+ =?us-ascii?Q?jyDxHC5ZnVsKLVFM4j5VR/vWm5ImZvZBBWEJr3swJsTGkuRuXmvLb3rqMSVi?=
+ =?us-ascii?Q?3JLp+xvMMv+Q/RMRLmBwCrveqL4gxbWH85OVqBnfZW2m8JGB3RcvzptnfPRZ?=
+ =?us-ascii?Q?vr2LRHUS1IYtmakJGUM0/Tfwhik/WAZezNFxzxG2hCMIHcvvme7IPa4cadDX?=
+ =?us-ascii?Q?WMcIg/ql0vX7s2g673vO9fqO/GXPpWsYILgPDExtIH4FNr3i0efmlyddY7Kp?=
+ =?us-ascii?Q?KSIyW8tZ1IOj6DNv006rumBc3vSCSODPXQn5AkEulwC2v3CiYjL37YjPtZVX?=
+ =?us-ascii?Q?DoMqeN884sYPJD7u8Jyk5uoo8ygTzk0H58WSHmiy5BwA6Z4VXsBfl7fdTtD2?=
+ =?us-ascii?Q?asmH4pEEwXPih7RwAeb5TSV9rAd+oSfCjkKhrsoMIvk1KsNWdxmi+SYJdCrV?=
+ =?us-ascii?Q?Iu1fo3cLEISBzHlS4vtBx2CzlkIVFO5tmAN2kmDQBBGi66+Q6pl9m7jrLDmc?=
+ =?us-ascii?Q?102xsChvYmG4SI1ohhoM63mKLpDxZH/DhWhfb/WUG8w7EaToJoEaSqdRlkA7?=
+ =?us-ascii?Q?47kNY6UkLtkSPH43eB0Iv/jnq9ZvgSyYuj46OOOA3OV1xp7Nf+Uu86E/e1lv?=
+ =?us-ascii?Q?G5zZgKTlizLU2Ug41UwrELuBJCHZYEnoQeII/5TU9lngMUgS9FetNNK9ogvg?=
+ =?us-ascii?Q?Gz49QIl64AaWCFtullEC0wG2t7TNs8sO9jAMEo7shNggEpvrMkWY0Kqu/7cY?=
+ =?us-ascii?Q?YNKmxSonjF4MG7RohuRj6h6FSLkpQ1Wv8zT+1KwtNFU+84DUIv4omsce4XMJ?=
+ =?us-ascii?Q?3cbhTWWarmTKh7qrWks4vYQ8PwVRn/a9WB4quuuaimbKenCBP16bF0Z+Zyed?=
+ =?us-ascii?Q?k3MRxSRwa5EBD/zKy03MTVO8JqaEcTmvioSSHGz5Ijpi9YKT5JUS9WOXUI4h?=
+ =?us-ascii?Q?bsZZr6hgT+8vZpam4DWOARO7yv1z24W7/x071hM9Kp5MDRg2oAXM+dDfzSTr?=
+ =?us-ascii?Q?83EIRhmydqpMMS4Z2D2lf89sBxwom8aIZ57CszW0UXjYZiRHOgiG5XfvmrEC?=
+ =?us-ascii?Q?bULGPRYprKqmtQrBouMIC6TbbrdjDihSa7gldzTt6Dd4ENFuM9jOUtEhfJPV?=
+ =?us-ascii?Q?JzrQubEHhjkfTWsdaeDRqhAJ5ShGswy++wZmQswuahN9iC5+a8tE/IiG1Bu2?=
+ =?us-ascii?Q?bNBbNxOjhkg7nL//R47Qdybi0KLRzHAJaC9/+cArq/UGWZH5QODnI41uIUPb?=
+ =?us-ascii?Q?u9ndGPhA03VMwNEfzRKdbSPzsC4TPpHnk+/GjI6fdBeqrOLaJsWe1T8NbKXo?=
+ =?us-ascii?Q?6g=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="h75ngiwxrejsdylk"
-Content-Disposition: inline
-In-Reply-To: <TYCPR01MB11269767836DEB995747B7ED3868CA@TYCPR01MB11269.jpnprd01.prod.outlook.com>
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB11269.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 63e3700c-cca8-4641-a562-08dbfd5facc6
+X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Dec 2023 11:19:16.5413
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: GWTGCgdBdL2+CemAPqWxxkiTqY2ifN+e7wA8EcbjEjDGZLell8D3o/7ZCbHLDeteeGdk1ikdqQd9ozi3vouIYBmvuQ8eWAx20fVXKuqF6Bs=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYAPR01MB5481
+
+Hi Maxime Ripard,
 
 
---h75ngiwxrejsdylk
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Thu, Dec 14, 2023 at 03:24:17PM +0000, Biju Das wrote:
-> Hi Maxime Ripard,
+> -----Original Message-----
+> From: Maxime Ripard <mripard@kernel.org>
+> Sent: Friday, December 15, 2023 9:25 AM
+> Subject: Re: [PATCH v15 3/5] drm: renesas: Add RZ/G2L DU Support
 >=20
-> Thanks for the feedback.
->=20
-> > -----Original Message-----
-> > From: Maxime Ripard <mripard@kernel.org>
-> > Sent: Wednesday, December 13, 2023 3:47 PM
-> > To: Biju Das <biju.das.jz@bp.renesas.com>
-> > Subject: Re: [PATCH v15 3/5] drm: renesas: Add RZ/G2L DU Support
-> >=20
-> > On Tue, Nov 28, 2023 at 10:51:27AM +0000, Biju Das wrote:
-> > > The LCD controller is composed of Frame Compression Processor (FCPVD),
-> > > Video Signal Processor (VSPD), and Display Unit (DU).
+> On Fri, Dec 15, 2023 at 07:47:07AM +0000, Biju Das wrote:
+> > Hi Maxime Ripard,
+> >
+> > > -----Original Message-----
+> > > From: Biju Das
+> > > Sent: Thursday, December 14, 2023 8:50 PM
+> > > Subject: RE: [PATCH v15 3/5] drm: renesas: Add RZ/G2L DU Support
 > > >
-> > > It has DPI/DSI interfaces and supports a maximum resolution of 1080p
-> > > along with 2 RPFs to support the blending of two picture layers and
-> > > raster operations (ROPs).
+> > > Hi Maxime Ripard,
 > > >
-> > > The DU module is connected to VSPD. Add RZ/G2L DU support for RZ/G2L
-> > > alike SoCs.
 > > >
-> > > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> >=20
-> > I'd still like a review from Geert or Laurent, I don't know the SoC.
+> > > > -----Original Message-----
+> > > > From: Biju Das
+> > > > Sent: Thursday, December 14, 2023 3:24 PM
+> > > > Subject: RE: [PATCH v15 3/5] drm: renesas: Add RZ/G2L DU Support
+> > > >
+> > > > >
+> > > > > > +
+> > > > > > +	for (i =3D 0; i < num_planes; ++i) {
+> > > > > > +		enum drm_plane_type type =3D i < num_crtcs
+> > > > > > +					 ? DRM_PLANE_TYPE_PRIMARY
+> > > > > > +					 : DRM_PLANE_TYPE_OVERLAY;
+> > > > > > +		struct rzg2l_du_vsp_plane *plane =3D &vsp->planes[i];
+> > > > > > +
+> > > > > > +		plane->vsp =3D vsp;
+> > > > > > +		plane->index =3D i;
+> > > > > > +		ret =3D drm_universal_plane_init(&rcdu->ddev, &plane-
+> > > >plane,
+> > > > > > +					       crtcs,
+> > > &rzg2l_du_vsp_plane_funcs,
+> > > > > > +					       rzg2l_du_vsp_formats,
+> > > > > > +
+> > > ARRAY_SIZE(rzg2l_du_vsp_formats),
+> > > > > > +					       NULL, type, NULL);
+> > > > > > +		if (ret < 0)
+> > > > > > +			return ret;
+> > > > >
+> > > > > you need to use drmm variant here too.
+> > > >
+> > > > I did rebased to latest drm_misc_next and I don't find the
+> > > > drmm_universal_plane_init()
+> > > >
+> > > > Can you please point me to the API?
+> > >
+> > > We cannot use drmm_universal_plane_alloc() in this architecture.
+> > >
+> > > rzg2l_du_vsps_init() stores the VSP pointer and pipe index from DT
+> first.
+> > >
+> > > Then all the planes are created using rzg2l_du_vsp_init()
+> > >
+> > > CRTC uses VSP pointer and pipe_index to set the
+> > > plane(rzg2l_du_crtc_create()).
+> > >
+> > > CRTC->vsp->planes[rcrtc->vsp_pipe].plane
+> > >
+> >
+> > Thinking again, it is possible to use drmm_universal_plane_alloc()
+> > here
+> >
+> > Introduce a linked list [1] and use an API [2] to retrieve plane by
+> > matching vsp_pipe index against plane->index.
+> >
+> > With this we don't need drmm_kcalloc() any more.
+> >
+> > I will implement and test this and send v16, if there are no comments.
+> >
+> >
+> > [1]
+> > struct rzg2l_du_vsp_plane {
+> > 	struct drm_plane plane;
+> > 	struct rzg2l_du_vsp *vsp;
+> > 	unsigned int index;
+> > 	struct rzg2l_du_vsp_plane *next;
+> > };
+> >
+> > [2]
+> > struct drm_plane *rzg2l_du_vsp_get_drm_plane(struct rzg2l_du_crtc *crtc=
+,
+> > 					 unsigned int pipe_index);
 >=20
-> Since Laurent is super busy, maybe Kieran and Jacopo can provide feedback=
- if any.
->=20
-> The display blocks is shown in [1] and the pipe line is as below
->=20
-> Memory-> fcpvd -->VSPD --> DU --> DSI --> Display panel.
->=20
-> Fcpvd: Frame Compression Processor
-> VSPD: Video Signal Processor, Basically a blitter engine which directly r=
-ender images to DU
-> DU: Display Unit.
->=20
-> On R-Car fpvcd, VSPD and (DU with planes) IPs are separate blocks
-> whereas here it is integrated inside LCDC.
->=20
-> fcpvd and VSPD are in media subsystem and we are reusing the code here.
-> The vspd is based on display list, it downloads the register contents fro=
-m linked list in memory
-> and execute composite operation and generates interrupts for display star=
-t and frame end.
->=20
-> du_vsp registers the frame completion callback with vspd driver in media =
-framework.
-> and we call the drm_crtc_handle_vblank() in this context.
->=20
-> [1]
-> https://pasteboard.co/MDmbXdK3psSD.png
->=20
-> =E2=97=8F FCPVD
-> =E2=88=92 Support out-of-order for the whole outstanding transactions
-> =E2=88=92 Read linear addressing image data
-> =E2=88=92 Read display list data
-> =E2=88=92 Write image data
-> =E2=97=8F VSPD
-> =E2=88=92 Supports various data formats and conversion
-> =E2=88=92 Supports YCbCr444/422/420, RGB, =CE=B1 RGB, =CE=B1 plane
-> =E2=88=92 Color space conversion and changes to the number of colors by d=
-ithering
-> =E2=88=92 Color keying
-> =E2=88=92 Supports combination between pixel alpha and global alpha
-> =E2=88=92 Supports generating pre multiplied alpha
-> =E2=88=92 Video processing
-> =E2=88=92 Blending of two picture layers and raster operations (ROPs)
-> =E2=88=92 Clipping
-> =E2=88=92 1D look up table
-> =E2=88=92 Vertical flipping in case of output to memory
-> =E2=88=92 Direct connection to display module
-> =E2=88=92 Supporting 1920 pixels in horizontal direction
-> =E2=88=92 Writing back image data which is transferred to Display Unit (D=
-U) to memory
-> =E2=97=8F DU
-> =E2=88=92 Supporting Display Parallel Interface (DPI) and MIPI LINK Video=
- Interface
-> =E2=88=92 Display timing master
-> =E2=88=92 Generating video timings (Front porch, Back porch, Sync active,=
- Active video area)
-> =E2=88=92 Selecting the polarity of output DCLK, HSYNC, VSYNC, and DE
-> =E2=88=92 Supporting Progressive (Non-interlace)
-> =E2=88=92 Not supports Interlace
-> =E2=88=92 Input data format (from VSPD): RGB888, RGB666 (not supports dit=
-hering of RGB565)
-> =E2=88=92 Output data format: same as Input data format
-> =E2=88=92 Supporting Full HD (1920 pixels =C3=97 1080 lines) for MIPI-DSI=
- Output
-> =E2=88=92 Supporting WXGA (1280 pixels =C3=97 800 lines) for Parallel Out=
-put
+> Why do you need a linked list for? There's one already: the DRM device
+> will store all the planes registered in the DRM device, and you can
+> already iterate over all the planes with drm_for_each_plane, or
+> drm_for_each_plane_mask if you want to reduce the scope of the iterator.
 
-Thanks, that's super helpful. The architecture is thus similar to vc4
 
-Some general questions related to bugs we had at some point with vc4:
+Thanks for the pointer, it is simple now.
 
-  * Where is the display list stored? In RAM or in a dedicated SRAM?
+Vsp->planes[] aswell as linked list is not required using drm_for_each_plan=
+e()
 
-  * Are the pointer to the current display list latched?
+Cheers,
+Biju
 
-  * Is the display list itself latched? If it's not, what happens when
-    the display list is changed while the frame is being generated?
-
-> >=20
-> > > +static int rzg2l_du_crtc_get(struct rzg2l_du_crtc *rcrtc) {
-> > > +	int ret;
-> > > +
-> > > +	/*
-> > > +	 * Guard against double-get, as the function is called from both the
-> > > +	 * .atomic_enable() and .atomic_flush() handlers.
-> > > +	 */
-> > > +	if (rcrtc->initialized)
-> > > +		return 0;
-> > > +
-> > > +	ret =3D clk_prepare_enable(rcrtc->rzg2l_clocks.aclk);
-> > > +	if (ret < 0)
-> > > +		return ret;
-> > > +
-> > > +	ret =3D clk_prepare_enable(rcrtc->rzg2l_clocks.pclk);
-> > > +	if (ret < 0)
-> > > +		goto error_bus_clock;
-> > > +
-> > > +	ret =3D reset_control_deassert(rcrtc->rstc);
-> > > +	if (ret < 0)
-> > > +		goto error_peri_clock;
-> > > +
-> > > +	rzg2l_du_crtc_setup(rcrtc);
-> > > +	rcrtc->initialized =3D true;
-> > > +
-> > > +	return 0;
-> > > +
-> > > +error_peri_clock:
-> > > +	clk_disable_unprepare(rcrtc->rzg2l_clocks.pclk);
-> > > +error_bus_clock:
-> > > +	clk_disable_unprepare(rcrtc->rzg2l_clocks.aclk);
-> > > +	return ret;
-> > > +}
-> >=20
-> > [...]
-> >=20
-> > > +static void rzg2l_du_crtc_atomic_flush(struct drm_crtc *crtc,
-> > > +				       struct drm_atomic_state *state) {
-> > > +	struct rzg2l_du_crtc *rcrtc =3D to_rzg2l_crtc(crtc);
-> > > +	struct drm_device *dev =3D rcrtc->crtc.dev;
-> > > +	unsigned long flags;
-> > > +
-> > > +	WARN_ON(!crtc->state->enable);
-> > > +
-> > > +	/*
-> > > +	 * If a mode set is in progress we can be called with the CRTC
-> > disabled.
-> > > +	 * We thus need to first get and setup the CRTC in order to
-> > configure
-> > > +	 * planes. We must *not* put the CRTC, as it must be kept awake
-> > until
-> > > +	 * the .atomic_enable() call that will follow. The get operation in
-> > > +	 * .atomic_enable() will in that case be a no-op, and the CRTC will
-> > be
-> > > +	 * put later in .atomic_disable().
-> > > +	 */
-> > > +	rzg2l_du_crtc_get(rcrtc);
-> >=20
-> > That's a bit suspicious. Have you looked at
-> > drm_atomic_helper_commit_tail_rpm() ?
->=20
-> Ok, I will drop this and start using  drm_atomic_helper_commit_tail_rpm()
-> instead of rzg2l_du_atomic_commit_tail().
-
-It was more of a suggestion, really. I'm not sure whether it works for
-you, but it usually addresses similar issues in drivers.
-
-> >=20
-> > > +static int rzg2l_du_crtc_enable_vblank(struct drm_crtc *crtc) {
-> > > +	struct rzg2l_du_crtc *rcrtc =3D to_rzg2l_crtc(crtc);
-> > > +
-> > > +	rcrtc->vblank_enable =3D true;
-> > > +
-> > > +	return 0;
-> > > +}
-> > > +
-> > > +static void rzg2l_du_crtc_disable_vblank(struct drm_crtc *crtc) {
-> > > +	struct rzg2l_du_crtc *rcrtc =3D to_rzg2l_crtc(crtc);
-> > > +
-> > > +	rcrtc->vblank_enable =3D false;
-> > > +}
-> >=20
-> > You should enable / disable your interrupts here
->=20
-> We don't have dedicated vblank IRQ for enabling/disabling vblank.
->=20
-> vblank is handled by vspd.
->=20
-> vspd is directly rendering images to display,
-> rcar_du_crtc_finish_page_flip() and drm_crtc_handle_vblank()
-> called in vspd's pageflip context.
->=20
-> See rzg2l_du_vsp_complete()in rzg2l_du_vsp.c
-
-Sorry, I couldn't really get how the interrupt flow / vblank reporting
-is going to work. Could you explain it a bit more?
-
-Maxime
-
---h75ngiwxrejsdylk
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZXwpMgAKCRDj7w1vZxhR
-xf9TAP4gKIDW41SXJZ8HXazfzRRo7CTDtG1gXhGJEYWKBexirwEA1nImmi++Jrx3
-17S1SWTPsal00Aw7d5bewG3VqbWF3w0=
-=dLne
------END PGP SIGNATURE-----
-
---h75ngiwxrejsdylk--
 
