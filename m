@@ -1,243 +1,68 @@
-Return-Path: <linux-renesas-soc+bounces-1133-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-1134-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id E676C814B08
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 15 Dec 2023 15:58:16 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7291C814D91
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 15 Dec 2023 17:53:03 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5D49D1F24488
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 15 Dec 2023 14:58:16 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 282381F23B17
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 15 Dec 2023 16:53:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 82C9C35884;
-	Fri, 15 Dec 2023 14:58:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ADA063DBB5;
+	Fri, 15 Dec 2023 16:52:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="phiqXBkn"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fDKJ9dkh"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from JPN01-TYC-obe.outbound.protection.outlook.com (mail-tycjpn01on2130.outbound.protection.outlook.com [40.107.114.130])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 015C31856
-	for <linux-renesas-soc@vger.kernel.org>; Fri, 15 Dec 2023 14:58:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=E92fZh75Ykf7YoWD6wNUtS4I6dKrroMhnZaP3Lw0Gr31LTvN72fWVt3Gs7ytqGkmpWkTQ3N5QcbvU2y67+/5+/mBtJSU7twjTvOdsS5jJh/YDe4n6pPxRSsDe/iAOTSZC4LAhAgyBnYt1hgPQwh7dVE/0jUzxqYrZVzLN5k8ApHzbM1moFQxxTwGM4++gMhPKsFy5N54PLR9Y33zeohzEodNIbEBIyvdPbOYmr9gGQS/m1pEBM5f2imo6yDfMEsTBH2UTtAG1daWo9OHzWYLjeY32hCi1NwgAOcmqTGp6k5jZzdtyGGEq9egl/PUFOpccBjhSqQhHzDYAMClmS3jPA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=dmGiryPWFYf744x4E2b6i+3HcAn46nRtQteTf7RUCb0=;
- b=DDrdbI59+jsIYKvbLA/g1UnzwMmSL4K32hSICmk+o7p/S/FPYYHWqBdKbHLoyWi9aAkmMJrx0no3pf9KgyiTxpbpu7nv8z9tqUtGnuLSOO7jBSlmq8OwgBPtwQ9mWq2E1dzWpezEOjnsdNufNuwOf8oUE8SmrThwboLAK3+1gaDOycWjC/AnCDEZDoam7PyBOSQIij/Zc8QsXqxvCu5es0HklwAKcXb4g4XWGmzYUyrSFbhVmOu9qZZtt68XUtLKeqVz1bVKWmOJkShltyqIxuUmLS4qOvVym7Vsv7xloWmsOMqNzy4kIg7qIUr90DVgsB6ul6yUNAY3pHAok2+7Cw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=dmGiryPWFYf744x4E2b6i+3HcAn46nRtQteTf7RUCb0=;
- b=phiqXBkn86khvqzzrv3D4t/leepl+t8u+6IdbhONz3dPMmN91sX05lgVDAsHRFK734p1XmHFy4akKR09wERdLYl6rpGoJF+jqbJoLyBFeEtBc5SdReLNhX+aAKby698lXe8PaPDEmapvoXwSMnGOnJHrqqerjs73Ww4xHvaa/Lo=
-Received: from TYCPR01MB11269.jpnprd01.prod.outlook.com
- (2603:1096:400:3c0::10) by TYYPR01MB10497.jpnprd01.prod.outlook.com
- (2603:1096:400:2f6::12) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7113.12; Fri, 15 Dec
- 2023 14:58:06 +0000
-Received: from TYCPR01MB11269.jpnprd01.prod.outlook.com
- ([fe80::f216:24ab:3668:3a48]) by TYCPR01MB11269.jpnprd01.prod.outlook.com
- ([fe80::f216:24ab:3668:3a48%4]) with mapi id 15.20.7113.010; Fri, 15 Dec 2023
- 14:58:06 +0000
-From: Biju Das <biju.das.jz@bp.renesas.com>
-To: Maxime Ripard <mripard@kernel.org>
-CC: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
-	<tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Daniel Vetter
-	<daniel@ffwll.ch>, Philipp Zabel <p.zabel@pengutronix.de>, Laurent Pinchart
-	<laurent.pinchart@ideasonboard.com>, Kieran Bingham
-	<kieran.bingham+renesas@ideasonboard.com>, Jacopo Mondi
-	<jacopo.mondi@ideasonboard.com>, Geert Uytterhoeven
-	<geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>,
-	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, Prabhakar Mahadev Lad
-	<prabhakar.mahadev-lad.rj@bp.renesas.com>, biju.das.au
-	<biju.das.au@gmail.com>
-Subject: RE: [PATCH v15 3/5] drm: renesas: Add RZ/G2L DU Support
-Thread-Topic: [PATCH v15 3/5] drm: renesas: Add RZ/G2L DU Support
-Thread-Index:
- AQHaIejqQbh+O2CetkGmd2PHSouIl7Cnc3CAgAFZmGCAAXC4AIAAEXwwgAAZsoCAAANogIAAEt4AgAADUYCAAAewQA==
-Date: Fri, 15 Dec 2023 14:58:06 +0000
-Message-ID:
- <TYCPR01MB11269F94CD7854904B196933B8693A@TYCPR01MB11269.jpnprd01.prod.outlook.com>
-References: <20231128105129.161121-1-biju.das.jz@bp.renesas.com>
- <20231128105129.161121-4-biju.das.jz@bp.renesas.com>
- <sechknyg33iucaku37vfhk7ie7xgcealfqbvaopm4rrnqbo5g5@s35peonkzzoz>
- <TYCPR01MB11269767836DEB995747B7ED3868CA@TYCPR01MB11269.jpnprd01.prod.outlook.com>
- <zp2ews2by6fg5irmb7ms6blox6vruezdjlor3rutqtokbvlle2@tl775slyvhyf>
- <TYCPR01MB112699C55873FA75B8F4469C18693A@TYCPR01MB11269.jpnprd01.prod.outlook.com>
- <bw3qxved377k5pmh3dbnimiyxra7k6dgb2tmg23bvxnfglti4g@uqdxmgnqrkg2>
- <TYCPR01MB11269CC132B84CFAD11D307578693A@TYCPR01MB11269.jpnprd01.prod.outlook.com>
- <g4uqcavglw2md4ojiw7yxequy37ttozjazr3b4ypqzznlrsinv@zm6mvzaempwp>
- <TYCPR01MB11269BCE6CAEE3C5063C4D1728693A@TYCPR01MB11269.jpnprd01.prod.outlook.com>
-In-Reply-To:
- <TYCPR01MB11269BCE6CAEE3C5063C4D1728693A@TYCPR01MB11269.jpnprd01.prod.outlook.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TYCPR01MB11269:EE_|TYYPR01MB10497:EE_
-x-ms-office365-filtering-correlation-id: ddf7b2b9-6509-46d5-ec36-08dbfd7e3ebd
-x-ld-processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info:
- W+RQBr16YCrDm6fijrxO7IBRVnLSvRen19IssjemtyTv3rIhrMTaCBaCPtqrkWU9EDlYKL3sfUvV7s/o/jF0p4F0rEBst7Zw79YTRQ7kRQqZZwZhnEJ4+p5V25isdhpd4g+2GX2Eu8T5QvhGwHG6j6+cZPeKQUxFsxwrwSW647JfYhK1XQ9PX3mKr9eqzegUvdRCGsCRybBrzVaw0Gh5yKePQNvURUyh3/vErgi7ALjTBIecyW80va4Kqjp3LBla2SDXV7N0BP72ZHgwvj4ad7bRZyyMrdT3B0enYTrs9Deb+6Juyq6zMlNlCx88ZmVqN+mNvUe3gRBMsri0K4ssm0xD2xD8iYxzFR/2vcttiSL0f357cVhTLoQTgBDuTPESkCw1/j3qwzaL3V4t9DCSyjbHqdtCwdKE0/Wt2mdhfo0CHj24EZKn/2n6QNgRMAm25OyOQxLs+pqiwfM4sVNXWIFNR8x7DZFojkRmzDIot0fw2PGnt4srkgqRXF2XKeETjQsccAHuEXdW+NVqAy05U2a71piK4+KBFez4xFUwIlsGEypODSVwekp+bj/ivBbJ4/EJX9Wbsd9/ua7qqS30bTlJGAESWIF0yrQi71R74ZYoeiVUN09fIfCZ9Xyrv8Oo
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB11269.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366004)(396003)(39860400002)(136003)(346002)(376002)(230922051799003)(451199024)(1800799012)(186009)(64100799003)(55016003)(26005)(7696005)(6506007)(33656002)(38070700009)(86362001)(38100700002)(122000001)(83380400001)(4326008)(52536014)(5660300002)(7416002)(53546011)(9686003)(2940100002)(71200400001)(76116006)(6916009)(316002)(66946007)(8676002)(8936002)(54906003)(66556008)(66476007)(66446008)(64756008)(2906002)(41300700001)(478600001);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?1SQ26YdVCa70DOrpcK3qf//W3yqZ5PUL+3rfqXQc5ONqiK586L6ecwRiNBAv?=
- =?us-ascii?Q?2r+ppV9vEcq+OoJ8WJs4/XGkv8BhZEg+8qSTrXDKNZ8MP0/1zDo2DJNZyJe0?=
- =?us-ascii?Q?qKeTctwpDS5PDU6vIm95urbYwuXiCNj8zo3oCBHOzysAFrXOtAKi535Bq3Rb?=
- =?us-ascii?Q?nufnUSFJ19/XCYE+4NkMKj5boYdzgUUs3ok+Qq9TdGiOHZSDnDM4V5BWUWuv?=
- =?us-ascii?Q?plvUWV+wEi7ZdAweD1jGZTJKdTZju5d+KHN1udfcMQQcRLh9auyKZx506ZP9?=
- =?us-ascii?Q?TRlDVjic41fpCaABCOZImHLNn6LklZ9P8FxSsYxpWJDGQaCLzx4SspYkbmKQ?=
- =?us-ascii?Q?JMdDm+Z9DW+DydJARL6Q0A7MNGNEIgU5uMRXc9K91GOqiU8sNjt4FbQcS1o4?=
- =?us-ascii?Q?4Cy+87p7wyo2hNll/z4T7LWB2fEd6em0oAThwl/j9+CXIxYtU9pnSxZhQIPY?=
- =?us-ascii?Q?c+0WoLFEHPqRLApxHDLsurrWAFxZb3z5BEcO3zP+iJ3xkxdGkp0iL45KHqmM?=
- =?us-ascii?Q?KCvhF8+0J86QsuwHexBhKG1zrRgBbEfLkphdhJRLKp2ff+GCUQM8TRDfvaXb?=
- =?us-ascii?Q?O6vhlvibG3WNIKRG7fM8HJRAfbzNILjKMis4Vi41QJjL8HJXlFB2Yh+vY4It?=
- =?us-ascii?Q?6YespmLiu5TXFJ47tnmtr2SOk8HltW7WuhdsGS8tddX/5zV/YhWW3Su2SqPM?=
- =?us-ascii?Q?21tKeCD7U3FwolgUfunVaZHadl5MpwCi5ubHesmywXmAyt0IywDeMQiQNMzK?=
- =?us-ascii?Q?ULxYDpKLlnK3yevHh0wKa2XxUhgtBGsWCr7ggtxF92pPrEB/OJ8AXd6DN3AD?=
- =?us-ascii?Q?vg2QKPRRJMbbbdueXqaOA4zpAgykqQ53J1tD9ye4PAypMUWfeU85f4s5ouoM?=
- =?us-ascii?Q?4gqvP8FegOCiGkYJ+C/8o+P7sG6Xb5ePE+6cWRIgAyoA9s7fZOHBMKljj2hI?=
- =?us-ascii?Q?xFasqlot6VjDSj7fA4qateO0A/u9wtpjpaDPUR3PmbUBvIS5u6SjoH/C6PAP?=
- =?us-ascii?Q?MG2gHD2McmnW0cCxpBx/LrNzPEiMo/hixjqXpQR+8C0O+JCkhfF8+tSA3cUq?=
- =?us-ascii?Q?3RpX8kpk8dWztSuYfpip6gdOv7WSBNhyY82HJc0kfYNrneWOEKYHqgL2qMvN?=
- =?us-ascii?Q?XZyFQJfwd+bhxETZ8fBrI4NXc8OAFte9tOJ9cNJ41KUwcnVQLB6owHrH5H2p?=
- =?us-ascii?Q?RkNsjNmkFZmN8tKxwi1jNMyhPj95qqE8R5QyQgaCpkQjn6PyT73NmrFuBYzo?=
- =?us-ascii?Q?/Bp5vnzJixWgjZzrcD2vZlg0N45NGk6TPk7a34uUC1g666UTfnWG4/4cVcfs?=
- =?us-ascii?Q?Yi0Gte4giPktOyINwNZ3VvcFBTFylmFLgy0vBlOxDKNIe6g3v0FG5xmiSUwe?=
- =?us-ascii?Q?y7mqAcfdPkX+hgyNAFcTUN72bTlZqU0sR515P+qfYJMyIVVq52Cf7P6Nathl?=
- =?us-ascii?Q?3I3u0Be9kTt2HojIP9s1CKeXWmPJIvcI9RelwrgR4FEi/x9Go5DJ9A9XoCUl?=
- =?us-ascii?Q?nyhTdgaI5xUt+60xGiXINXQ6Z+CCcZlVOxURJwOv+wN5lGN1zqZa4ega2vTQ?=
- =?us-ascii?Q?G7bZy1ROAU42KQkYe92o97lDHj/8CzVjwzxt3bi4qnZ1GPGUDFGC0ub+b8Se?=
- =?us-ascii?Q?HA=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B2CE3EA62;
+	Fri, 15 Dec 2023 16:52:58 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 959DBC433C7;
+	Fri, 15 Dec 2023 16:52:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1702659178;
+	bh=8IjvF5iJkjju7Z3yvp4kM4LeQ9eitPcA1kCaKqS2XcA=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=fDKJ9dkhvD9n3sIcnsjDipC3oElLx6SP8Jc52RE73Hw+kZvmY1VNkc9Gy2kekBWbz
+	 UULa1KTBYL5g3W4CsCzG+jOUaH8HjVOpUswiyFE6TEyn2EQuhJR4KbtDXegXC7VUnp
+	 OJTvcRN3mH6KB76GP+1rX+jeWE6+gWhX2HEkiE+uXbJ8kqVGQOV455HgeCqNxcSZMf
+	 hop51bq4wAeK4G5YQ/+v0YMpISQQGZ0Jt2k5fr3Mg0vW5g68eL6tKld4fTTBvtm+iG
+	 ViolCq1Bjf+MX7akGl8ueSlmWIBkyiCRsxJER89AnM8I423aOQb8gFDW4OY0il5n1M
+	 Rh8s8DfJgOUyg==
+Date: Fri, 15 Dec 2023 08:52:56 -0800
+From: Jakub Kicinski <kuba@kernel.org>
+To: claudiu beznea <claudiu.beznea@tuxon.dev>
+Cc: s.shtylyov@omp.ru, davem@davemloft.net, edumazet@google.com,
+ pabeni@redhat.com, richardcochran@gmail.com, p.zabel@pengutronix.de,
+ yoshihiro.shimoda.uh@renesas.com, wsa+renesas@sang-engineering.com,
+ geert+renesas@glider.be, netdev@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org, Claudiu
+ Beznea <claudiu.beznea.uj@bp.renesas.com>
+Subject: Re: [PATCH net-next v2 00/21] net: ravb: Add suspend to RAM and
+ runtime PM support for RZ/G3S
+Message-ID: <20231215085256.1b275115@kernel.org>
+In-Reply-To: <a84b6250-dfd8-4a33-b247-5dfe2d28472d@tuxon.dev>
+References: <20231214114600.2451162-1-claudiu.beznea.uj@bp.renesas.com>
+	<20231214112658.583cfc60@kernel.org>
+	<a84b6250-dfd8-4a33-b247-5dfe2d28472d@tuxon.dev>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB11269.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ddf7b2b9-6509-46d5-ec36-08dbfd7e3ebd
-X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Dec 2023 14:58:06.3075
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 9+j7/4GIKCaLo7eH52vpja5fVUZwvaJaNIclwDKm0/ZtHkDOHehvQA3CcjLGaYrYuupjjUPbd6SZEIbJ+Di9XxN+Znj/X1+a/reZY2TkH/M=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYYPR01MB10497
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-> Subject: RE: [PATCH v15 3/5] drm: renesas: Add RZ/G2L DU Support
->=20
-> Hi Maxime Ripard,
->=20
-> > -----Original Message-----
-> > From: Maxime Ripard <mripard@kernel.org>
-> > Sent: Friday, December 15, 2023 2:18 PM
-> > Subject: Re: [PATCH v15 3/5] drm: renesas: Add RZ/G2L DU Support
-> >
-> > On Fri, Dec 15, 2023 at 01:52:28PM +0000, Biju Das wrote:
-> > > > > > > > > +static int rzg2l_du_crtc_enable_vblank(struct drm_crtc
-> > *crtc) {
-> > > > > > > > > +	struct rzg2l_du_crtc *rcrtc =3D to_rzg2l_crtc(crtc);
-> > > > > > > > > +
-> > > > > > > > > +	rcrtc->vblank_enable =3D true;
-> > > > > > > > > +
-> > > > > > > > > +	return 0;
-> > > > > > > > > +}
-> > > > > > > > > +
-> > > > > > > > > +static void rzg2l_du_crtc_disable_vblank(struct
-> > > > > > > > > +drm_crtc
-> > > > > > > > > +*crtc)
-> > > > {
-> > > > > > > > > +	struct rzg2l_du_crtc *rcrtc =3D to_rzg2l_crtc(crtc);
-> > > > > > > > > +
-> > > > > > > > > +	rcrtc->vblank_enable =3D false; }
-> > > > > > > >
-> > > > > > > > You should enable / disable your interrupts here
-> > > > > > >
-> > > > > > > We don't have dedicated vblank IRQ for enabling/disabling
-> > vblank.
-> > > > > > >
-> > > > > > > vblank is handled by vspd.
-> > > > > > >
-> > > > > > > vspd is directly rendering images to display,
-> > > > > > > rcar_du_crtc_finish_page_flip() and drm_crtc_handle_vblank()
-> > > > > > > called in vspd's pageflip context.
-> > > > > > >
-> > > > > > > See rzg2l_du_vsp_complete()in rzg2l_du_vsp.c
-> > > > > >
-> > > > > > Sorry, I couldn't really get how the interrupt flow / vblank
-> > > > > > reporting is going to work. Could you explain it a bit more?
-> > > > >
-> > > > > We just need to handle vertical blanking in the VSP frame end
-> > handler.
-> > > > > See the code below.
-> > > > >
-> > > > > static void rzg2l_du_vsp_complete(void *private, unsigned int
-> > > > > status,
-> > > > > u32 crc) {
-> > > > > 	struct rzg2l_du_crtc *crtc =3D private;
-> > > > >
-> > > > > 	if (crtc->vblank_enable)
-> > > > > 		drm_crtc_handle_vblank(&crtc->crtc);
-> > > > >
-> > > > > 	if (status & VSP1_DU_STATUS_COMPLETE)
-> > > > > 		rzg2l_du_crtc_finish_page_flip(crtc);
-> > > > >
-> > > > > 	drm_crtc_add_crc_entry(&crtc->crtc, false, 0, &crc); }
-> > > >
-> > > > Then we're back to the same question :)
-> > > >
-> > > > Why can't you mask the frame end interrupt?
-> > >
-> > > We are masking interrupts.
-> > >
-> > > [   70.639139] #######rzg2l_du_crtc_disable_vblank#######
-> > > [   70.650243] #########rzg2l_du_vsp_disable ############
-> > > [   70.652003] ########## vsp1_wpf_stop###
-> > >
-> > > Unmask is,
-> > >
-> > > [ 176.354520] #######rzg2l_du_crtc_enable_vblank#######
-> > > [  176.354922] #########rzg2l_du_vsp_atomic_flush ############ [
-> > > 176.355198] ########## wpf_configure_stream###
-> >
-> > Sorry, my question was why aren't you unmasking and masking them in
-> > the enable/disable_vblank hooks of the CRTC.
->=20
-> I have n't tried that. Will try and provide feedback.
->=20
-> Currently the IRQ source belongs to VSPD in media subsystem.
-> So I need to export an API though vsp1_drm and test it.
->=20
->=20
-> Currently we disable IRQ in rzg2l_du_crtc_atomic_disable() context
->=20
-> And enable IRQ in rzg2l_du_vsp_atomic_flush().
+On Fri, 15 Dec 2023 11:44:32 +0200 claudiu beznea wrote:
+> > You have to wait for fixes to land, we marge the trees every week.  
+> 
+> The intention was to let the reviewers know they should apply [1] (if any)
+> for reviewing this series.
 
-
-Typo, it is rzg2l_du_crtc_atomic_flush().
-
-Cheers,
-Biju
+If there's a dependency please post the "later" thing as RFC.
+We can't apply it, and it saves us clicking it away in patchwork.
 
