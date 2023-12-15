@@ -1,95 +1,184 @@
-Return-Path: <linux-renesas-soc+bounces-1139-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-1140-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE2228150F5
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 15 Dec 2023 21:15:32 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 93A9F81531C
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 15 Dec 2023 23:07:09 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2BE0B1C23C99
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 15 Dec 2023 20:15:32 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 3EDDCB2542B
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 15 Dec 2023 22:07:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5B1A745BE8;
-	Fri, 15 Dec 2023 20:15:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="dE/u/h8q"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 199B713B14D;
+	Fri, 15 Dec 2023 21:53:45 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55A0E41863
-	for <linux-renesas-soc@vger.kernel.org>; Fri, 15 Dec 2023 20:15:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=EwV6
-	ANXcfpuqKizL5vgUsaHNQwbJJyivDm3DkJD6bBY=; b=dE/u/h8qJTnMc/3Bj0s5
-	BzgxKlmUWO1Bm7j2jl1ZTMzq5ZDhKO777BJ8rmj1PoqM+XOiO7wb8OVcA4ucN7LL
-	buDb1lzufAiTcdIHyvp0wM0rNH4mJqi0Hk95HdttMzMSSBdPmSOwYRJg9cVO4xMW
-	frU1Z/1wr3FnkLkCMy85yBiVRDASlF4cvkQGUWgsvjRr0FDpEblkwbDvenSQxaUu
-	pbIo4rQJGqmvjrO0kIFWKeD1The9ahLZxFC74BwKrT4dBEh97G2k7hg2b1Hre1Ny
-	rYiLjSHNoEJa2q6L8BpYpdq+ArDEZtxSRvxTvdVNNitfTVyV9iJFdjJdftpAE7Tf
-	qw==
-Received: (qmail 1358809 invoked from network); 15 Dec 2023 21:15:15 +0100
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 15 Dec 2023 21:15:15 +0100
-X-UD-Smtp-Session: l3s3148p1@LVvmDpIMfUQucvBI
-Date: Fri, 15 Dec 2023 21:15:14 +0100
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: Johan Hovold <johan@kernel.org>
-Cc: linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5 0/3] gnss: ubx: support the reset pin of the Neo-M8
- variant
-Message-ID: <ZXyz0l3KFqx9hliG@shikoro>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Johan Hovold <johan@kernel.org>, linux-renesas-soc@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20231113005152.10656-1-wsa+renesas@sang-engineering.com>
- <ZXfTwscAltoVY1lV@shikoro>
- <ZXsk4i/OTGFhiCk9@shikoro>
- <ZXwPeJFdEERbhj3b@hovoldconsulting.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A87244B15F;
+	Fri, 15 Dec 2023 21:53:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=linux.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-6d3165ac96bso3830b3a.0;
+        Fri, 15 Dec 2023 13:53:43 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1702677223; x=1703282023;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=7hA3Hgf6nqLzdqHtPQW16dypUAXOdqP0k3RFbxDCTWU=;
+        b=NRCFh5gzgm4N+1Y2mnY423XgYDbnmrCILTW4D29S/PKrp6GZrhrnfFA+gtcw/fPKMp
+         4SsPWpdDL67q8WtRmnMBWP7p7cBtRIfxmLRV/tA+pLkwf8G1agyzW16QW8sVSPMQChNl
+         lM3YtHfWBP1ghJEcRUUZ7xiENZ9y/M2vWz8alvbS84lhelz+QZUCNcbigOc4E3Jr62er
+         spDK511xDCpr4RTYntyI1dfETagrN0G6wSocZ2dgbRqnF6Bn0WWzlI9d6g+GAyXtiecr
+         Qe0USmvoukc2yzp3Jv2y0u8pLmHGr4ni+ksx2Htqea9m9eouobkXLn+0MtcDeP6f9Buc
+         z2+g==
+X-Gm-Message-State: AOJu0YwQ6bReWVOM8CKMJeCrWZ8icCzGTsQogncP1X8t7XfCH/D1hV2S
+	kehiG3X0txklO1iUmjqJX0g=
+X-Google-Smtp-Source: AGHT+IF2/YGHNdbW1xBXfJiqLH3eObzr2iLIti5qGi+SF7q+N+5lL4mkwdo3xswfGbiLNa2+CHGkDg==
+X-Received: by 2002:a05:6a00:c91:b0:6ce:5fbf:3cd8 with SMTP id a17-20020a056a000c9100b006ce5fbf3cd8mr8062574pfv.21.1702677222905;
+        Fri, 15 Dec 2023 13:53:42 -0800 (PST)
+Received: from localhost (fpd11144dd.ap.nuro.jp. [209.17.68.221])
+        by smtp.gmail.com with ESMTPSA id kr5-20020a056a004b4500b006ce83da3076sm14267311pfb.170.2023.12.15.13.53.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 15 Dec 2023 13:53:41 -0800 (PST)
+Date: Sat, 16 Dec 2023 06:53:39 +0900
+From: Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>
+To: Serge Semin <fancer.lancer@gmail.com>
+Cc: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+	lpieralisi@kernel.org, robh@kernel.org, bhelgaas@google.com,
+	jingoohan1@gmail.com, gustavo.pimentel@synopsys.com,
+	mani@kernel.org, linux-pci@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v3 4/6] PCI: dwc: Add dw_pcie_ep_{read,write}_dbi[2]
+ helpers
+Message-ID: <20231215215339.GA766237@rocinante>
+References: <20231215022955.3574063-1-yoshihiro.shimoda.uh@renesas.com>
+ <20231215022955.3574063-5-yoshihiro.shimoda.uh@renesas.com>
+ <lgwp4u2pzfkax6qdozen74cl6bddyaloz57wiso62swafslz2n@7di6ura7omzo>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="gQzt5N1o3G2NrJOX"
-Content-Disposition: inline
-In-Reply-To: <ZXwPeJFdEERbhj3b@hovoldconsulting.com>
-
-
---gQzt5N1o3G2NrJOX
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <lgwp4u2pzfkax6qdozen74cl6bddyaloz57wiso62swafslz2n@7di6ura7omzo>
 
-> All good. Now applied for 6.8.
+Hello,
 
-Thank you! :)
+[...]
+> > The current code calculated some dbi[2] registers' offset by calling
+> > dw_pcie_ep_get_dbi[2]_offset() in each function. To improve code
+> > readability, add dw_pcie_ep_{read,write}_dbi[2} and some data-width
+> > related helpers.
+[...]
+> > +static inline unsigned int dw_pcie_ep_get_dbi_offset(struct dw_pcie_ep *ep,
+> > +						     u8 func_no)
+> > +{
+> > +	unsigned int dbi_offset = 0;
+> > +
+> > +	if (ep->ops->get_dbi_offset)
+> > +		dbi_offset = ep->ops->get_dbi_offset(ep, func_no);
+> > +
+> > +	return dbi_offset;
+> > +}
+> > +
+> > +static inline unsigned int dw_pcie_ep_get_dbi2_offset(struct dw_pcie_ep *ep,
+> > +						      u8 func_no)
+> > +{
+> > +	unsigned int dbi2_offset = 0;
+> > +
+> > +	if (ep->ops->get_dbi2_offset)
+> > +		dbi2_offset = ep->ops->get_dbi2_offset(ep, func_no);
+> > +	else if (ep->ops->get_dbi_offset)     /* for backward compatibility */
+> > +		dbi2_offset = ep->ops->get_dbi_offset(ep, func_no);
+> > +
+> > +	return dbi2_offset;
+> > +}
+> > +
+> > +static inline u32 dw_pcie_ep_read_dbi(struct dw_pcie_ep *ep, u8 func_no,
+> > +				      u32 reg, size_t size)
+> > +{
+> > +	unsigned int offset = dw_pcie_ep_get_dbi_offset(ep, func_no);
+> > +	struct dw_pcie *pci = to_dw_pcie_from_ep(ep);
+> > +
+> > +	return dw_pcie_read_dbi(pci, offset + reg, size);
+> > +}
+> > +
+> > +static inline void dw_pcie_ep_write_dbi(struct dw_pcie_ep *ep, u8 func_no,
+> > +					u32 reg, size_t size, u32 val)
+> > +{
+> > +	unsigned int offset = dw_pcie_ep_get_dbi_offset(ep, func_no);
+> > +	struct dw_pcie *pci = to_dw_pcie_from_ep(ep);
+> > +
+> > +	dw_pcie_write_dbi(pci, offset + reg, size, val);
+> > +}
+> > +
+> > +static inline void dw_pcie_ep_write_dbi2(struct dw_pcie_ep *ep, u8 func_no,
+> > +					 u32 reg, size_t size, u32 val)
+> > +{
+> > +	unsigned int offset = dw_pcie_ep_get_dbi2_offset(ep, func_no);
+> > +	struct dw_pcie *pci = to_dw_pcie_from_ep(ep);
+> > +
+> > +	dw_pcie_write_dbi2(pci, offset + reg, size, val);
+> > +}
+> > +
+> > +static inline void dw_pcie_ep_writel_dbi(struct dw_pcie_ep *ep, u8 func_no,
+> > +					 u32 reg, u32 val)
+> > +{
+> > +	dw_pcie_ep_write_dbi(ep, func_no, reg, 0x4, val);
+> > +}
+> > +
+> > +static inline u32 dw_pcie_ep_readl_dbi(struct dw_pcie_ep *ep, u8 func_no,
+> > +				       u32 reg)
+> > +{
+> > +	return dw_pcie_ep_read_dbi(ep, func_no, reg, 0x4);
+> > +}
+> > +
+> > +static inline void dw_pcie_ep_writew_dbi(struct dw_pcie_ep *ep, u8 func_no,
+> > +					 u32 reg, u16 val)
+> > +{
+> > +	dw_pcie_ep_write_dbi(ep, func_no, reg, 0x2, val);
+> > +}
+> > +
+> > +static inline u16 dw_pcie_ep_readw_dbi(struct dw_pcie_ep *ep, u8 func_no,
+> > +				       u32 reg)
+> > +{
+> > +	return dw_pcie_ep_read_dbi(ep, func_no, reg, 0x2);
+> > +}
+> > +
+> > +static inline void dw_pcie_ep_writeb_dbi(struct dw_pcie_ep *ep, u8 func_no,
+> > +					 u32 reg, u8 val)
+> > +{
+> > +	dw_pcie_ep_write_dbi(ep, func_no, reg, 0x1, val);
+> > +}
+> > +
+> > +static inline u8 dw_pcie_ep_readb_dbi(struct dw_pcie_ep *ep, u8 func_no,
+> > +				      u32 reg)
+> > +{
+> > +	return dw_pcie_ep_read_dbi(ep, func_no, reg, 0x1);
+> > +}
+> > +
+> > +static inline void dw_pcie_ep_writel_dbi2(struct dw_pcie_ep *ep, u8 func_no,
+> > +					  u32 reg, u32 val)
+> > +{
+> > +	dw_pcie_ep_write_dbi2(ep, func_no, reg, 0x4, val);
+> > +}
+> > +
+> 
+> A tiny nitpick. Since these are CSRs accessors it would be better for
+> readability to have them grouped with the rest of the IO-accessors
+> dw_pcie_writel_dbi()..dw_pcie_writel_dbi2(). Particularly have them
+> defined below the already available ones. So first normal
+> DBI-accessors would be placed and the EP-specific DBI-accessors
+> afterwords. Not sure whether it's that much required. So it's up to
+> Mani to decide. Perhaps the subsystem maintainers could fix it on
+> merge in? Bjorn, Krzysztof, Lorenzo?
 
+Yes, I can change order after I pull this series.  Not to worry.
 
---gQzt5N1o3G2NrJOX
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmV8s84ACgkQFA3kzBSg
-KbYQwg//bP2qP2thoiTVZrXHDShR4T7g8iJNJQKFDp7BQ2UNPeIb71VEsa1MsHJE
-BPgmKM0t6pExI0I5kZTKRxhnYbsZMD6lEyit0d4W4tY0Z0bmLPy5zoaciPgX1tsz
-ffzLa4CFcu4MC171/5UkPBOhpE893/1OdQuQvUtx2UOxOY73/QSWuh+MyTSrxLPk
-gGkah96y83Ara4qAeyeMpF/IGkrCklq8k5pEUVfWBNDF3iB1z1E6MW0wUegThCbi
-x5bUT4o3yoaJiHqxtM+FGTgBp1tYcwmlSocoAbH8otTscW311zCKgawSX6UNzivJ
-grzwRU9fVN795OZI+nlI0yiyNlSpNAKLnGfo+u0Vr+oXKHOBFT+0KRMf+PE5YWxj
-yiLFNtapPNQMyEjYRyNgZzK0npg82POB8tzrpUSh4iXzlXkwCI0fay6qo1BrJBha
-ChglGgnZ56huvX+UkIlR2H7vrvekOo5VnzWJkfnVYxD99TcgeUiZa9a6nLcpcWd+
-+h0i+ZtuhaEubtLuhLhonbgqK9Jldj/n0GG1To0GsipFeFNRn/H6ddBQYmxYCQ1H
-U0Vh95Gd+yQaBkpYyjTeqf1lcr8VMWF0EPEvLtxYSVyZjdvqPbp0SFNoYALkN3Xv
-GNTyzF6D6TW/O+x5tar7U+a73UZcNo9YTUjK9Bq0meKjt7C4iJA=
-=xa0h
------END PGP SIGNATURE-----
-
---gQzt5N1o3G2NrJOX--
+	Krzysztof
 
