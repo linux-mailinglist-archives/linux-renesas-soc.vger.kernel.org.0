@@ -1,108 +1,115 @@
-Return-Path: <linux-renesas-soc+bounces-1098-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-1099-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8ACB813F96
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 15 Dec 2023 03:10:42 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 44D13813FD2
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 15 Dec 2023 03:35:18 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 992F31F22AF6
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 15 Dec 2023 02:10:42 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C48C428298D
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 15 Dec 2023 02:35:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 36678A34;
-	Fri, 15 Dec 2023 02:10:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="ISAgexRu"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 703C87FC;
+	Fri, 15 Dec 2023 02:35:15 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30E4CA44
-	for <linux-renesas-soc@vger.kernel.org>; Fri, 15 Dec 2023 02:10:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=TwBE
-	iHEpUbhtrkorike2pkAY7DbUk61pqDisyiVmNIc=; b=ISAgexRuVWXqtud5L/8M
-	WuMqnXw9WppTZycTirMNJF47efuX+/YwQAPP/WknMvuqu2jC0qV7hA5znD/bCpm6
-	I//ObAk4sGby2IRK8Jxsxo8MiJqcrQ7WE557UL3AIkHtt2QsmFQAAa080CiohqXg
-	wHwPSy7wWg3cw2RcHcHdgqPq35noSVSPym9QFPTtv8c7vdRAkSofsEQYcTpOVjJx
-	V4+8UT7K0BEA0xrEVzC9QiQdMPt0v4lh9wjA4BHlV9hVKjrpcF6sdBqJFEcNHsUK
-	2BJTQFu+1asElcKejFtSGR4OkagABKXIYK5uUf8o2pmC2Vyzq6KTJT3v4vJl5zRh
-	Tw==
-Received: (qmail 1100441 invoked from network); 15 Dec 2023 03:10:31 +0100
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 15 Dec 2023 03:10:31 +0100
-X-UD-Smtp-Session: l3s3148p1@ED5t54IMYMMujnuR
-Date: Fri, 15 Dec 2023 03:10:28 +0100
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: Andi Shyti <andi.shyti@kernel.org>
-Cc: linux-renesas-soc@vger.kernel.org,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>, linux-i2c@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 2/2] i2c: rcar: add FastMode+ support for Gen4
-Message-ID: <ZXu1lMgg8dc40PVC@shikoro>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Andi Shyti <andi.shyti@kernel.org>,
+Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 125AD18F;
+	Fri, 15 Dec 2023 02:35:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
+X-IronPort-AV: E=Sophos;i="6.04,277,1695654000"; 
+   d="scan'208";a="186553897"
+Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
+  by relmlie5.idc.renesas.com with ESMTP; 15 Dec 2023 11:30:03 +0900
+Received: from localhost.localdomain (unknown [10.166.13.99])
+	by relmlir5.idc.renesas.com (Postfix) with ESMTP id BFF5A40121A3;
+	Fri, 15 Dec 2023 11:30:03 +0900 (JST)
+From: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+To: lpieralisi@kernel.org,
+	kw@linux.com,
+	robh@kernel.org,
+	bhelgaas@google.com,
+	jingoohan1@gmail.com,
+	gustavo.pimentel@synopsys.com,
+	mani@kernel.org
+Cc: linux-pci@vger.kernel.org,
 	linux-renesas-soc@vger.kernel.org,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>, linux-i2c@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-References: <20231214074358.8711-1-wsa+renesas@sang-engineering.com>
- <20231214074358.8711-3-wsa+renesas@sang-engineering.com>
- <20231214205449.x7bbu7i7m52ihibz@zenone.zhora.eu>
+	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Subject: [PATCH v3 0/6] PCI: controllers: tidy code up
+Date: Fri, 15 Dec 2023 11:29:49 +0900
+Message-Id: <20231215022955.3574063-1-yoshihiro.shimoda.uh@renesas.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="A/YQQ/mR7JlW/8CY"
-Content-Disposition: inline
-In-Reply-To: <20231214205449.x7bbu7i7m52ihibz@zenone.zhora.eu>
+Content-Transfer-Encoding: 8bit
 
+This patch series tidies the code of PCIe dwc controllers and some
+controllers up.
 
---A/YQQ/mR7JlW/8CY
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Changes from v2:
+https://lore.kernel.org/linux-pci/20231114055456.2231990-1-yoshihiro.shimoda.uh@renesas.com/
+ - Based on the latest pci.git / next branch.
+ - Add Suggestion-by and Reviewed-by tags.
+ - Move read/write accessors to the header file in the patch 4/6.
+ - Revise the commit description in the patch 5/6.
 
-Hi Andi,
+Changes from v1:
+https://lore.kernel.org/linux-pci/20231113013300.2132152-1-yoshihiro.shimoda.uh@renesas.com/
+ - Based on the latest pci.git / next branch.
+ - Add a new patch to drop host prefix of members from dw_pcie_host_ops
+   in the patch 1/6.
+ - Add Reviewed-by tag in the patch 3/6.
+ - Drop unneeded local variable in the patch 4/6.
+ - Add new patches to resolve issues of clang warnings in the patch [56]/6.
 
-> as we were here we could have written the register values as
-> 0x%x, but it's also OK to keep the change with a minimal impact.
+Justin Stitt (1):
+  PCI: iproc: fix -Wvoid-pointer-to-enum-cast warning
 
-I think it is OK like it is because the datasheet also uses decimal
-values in the formulas.
+Yoshihiro Shimoda (5):
+  PCI: dwc: Drop host prefix from struct dw_pcie_host_ops
+  PCI: dwc: Rename to .init in struct dw_pcie_ep_ops
+  PCI: dwc: Rename to .get_dbi_offset in struct dw_pcie_ep_ops
+  PCI: dwc: Add dw_pcie_ep_{read,write}_dbi[2] helpers
+  PCI: rcar-gen4: fix -Wvoid-pointer-to-enum-cast warning
 
-> Reviewed-by: Andi Shyti <andi.shyti@kernel.org>
+ drivers/pci/controller/dwc/pci-dra7xx.c       |   4 +-
+ drivers/pci/controller/dwc/pci-exynos.c       |   2 +-
+ drivers/pci/controller/dwc/pci-imx6.c         |   6 +-
+ drivers/pci/controller/dwc/pci-keystone.c     |   8 +-
+ .../pci/controller/dwc/pci-layerscape-ep.c    |   7 +-
+ drivers/pci/controller/dwc/pci-layerscape.c   |   2 +-
+ drivers/pci/controller/dwc/pci-meson.c        |   2 +-
+ drivers/pci/controller/dwc/pcie-al.c          |   2 +-
+ drivers/pci/controller/dwc/pcie-armada8k.c    |   2 +-
+ drivers/pci/controller/dwc/pcie-artpec6.c     |   4 +-
+ drivers/pci/controller/dwc/pcie-bt1.c         |   4 +-
+ .../pci/controller/dwc/pcie-designware-ep.c   | 188 ++++++------------
+ .../pci/controller/dwc/pcie-designware-host.c |  30 +--
+ .../pci/controller/dwc/pcie-designware-plat.c |   2 +-
+ drivers/pci/controller/dwc/pcie-designware.h  | 105 +++++++++-
+ drivers/pci/controller/dwc/pcie-dw-rockchip.c |   2 +-
+ drivers/pci/controller/dwc/pcie-fu740.c       |   2 +-
+ drivers/pci/controller/dwc/pcie-histb.c       |   2 +-
+ drivers/pci/controller/dwc/pcie-intel-gw.c    |   2 +-
+ drivers/pci/controller/dwc/pcie-keembay.c     |   2 +-
+ drivers/pci/controller/dwc/pcie-kirin.c       |   2 +-
+ drivers/pci/controller/dwc/pcie-qcom-ep.c     |   2 +-
+ drivers/pci/controller/dwc/pcie-qcom.c        |   6 +-
+ drivers/pci/controller/dwc/pcie-rcar-gen4.c   |  12 +-
+ drivers/pci/controller/dwc/pcie-spear13xx.c   |   2 +-
+ drivers/pci/controller/dwc/pcie-tegra194.c    |   2 +-
+ drivers/pci/controller/dwc/pcie-uniphier-ep.c |   2 +-
+ drivers/pci/controller/dwc/pcie-uniphier.c    |   2 +-
+ drivers/pci/controller/dwc/pcie-visconti.c    |   2 +-
+ drivers/pci/controller/pcie-iproc-platform.c  |   2 +-
+ 30 files changed, 220 insertions(+), 192 deletions(-)
 
-Thanks!
+-- 
+2.34.1
 
-   Wolfram
-
-
---A/YQQ/mR7JlW/8CY
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmV7tZAACgkQFA3kzBSg
-KbY/NA//fvFqdNgWEsXUtKHDPd6njCRFknId5nlIWCwqK0IEyEW3F+7DvNViRWg4
-MW4fqfW2vFyXx62C2/hovPDfPwWy2ifJ2vvETPzmDnjJv3gOCOO5x7h43h21Fsg2
-zBFz6CodLgXX+pc0mvUw7tJy85UspGwZlTwiq0iIzLuwyo3m9HwJu3yWU/xBslKf
-2qVHOzJ9Xo1rAwx6B7AT5+7yTSiUYagJjG6JJjqn/VUJGcQoX0l5/PRoCVlsjz1C
-29WJU8S1HIa/LI+EtPo+5TvmSN7o12uTK8EVWzFajtSgsMdiO5eMRm+C0HOzGdAA
-t40tQIHS75BWkJAacsbY+BD7rP43Xoami+7ap36ww3b9KGTbHPiLAqcF+Di/5QBi
-n9tUWG5tW0uH2KjVH13ygGAo7O7awvT4HpoIyIPuamyFBgmLguzX5oxWZwWI0bog
-jNclfkv8zPGXUmVxnP1zygVp9p7Ec/eyF+GxbwsfejTYKRYLPKHFhrJ+/KQfkp1F
-CE7wh53pEL151QFdXPwuD1x/ID7M5BeKhMc3Oyi4MAwq+xz04aRoGA/xEIkLMP0M
-AUWhOAjjd0AoI7446crdb60TXsMxiRa0oi6/Ktcj3eG8EHFBHP1NCf0nYilV7r7X
-dM+sAiaiq538+Ljo9vHcr8d9Ajwi1WxGvhM7fk2OQRqN70H9HAs=
-=7mmp
------END PGP SIGNATURE-----
-
---A/YQQ/mR7JlW/8CY--
 
