@@ -1,269 +1,218 @@
-Return-Path: <linux-renesas-soc+bounces-1141-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-1142-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A7278158EC
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 16 Dec 2023 13:16:08 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 70AA8815A0C
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 16 Dec 2023 16:53:54 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id D5AC11F224D1
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 16 Dec 2023 12:16:07 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id DCF251F2325C
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 16 Dec 2023 15:53:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 29DB63064F;
-	Sat, 16 Dec 2023 12:15:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="B3z+RePk"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 875233010E;
+	Sat, 16 Dec 2023 15:53:50 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mx01.omp.ru (mx01.omp.ru [90.154.21.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF8363034C
-	for <linux-renesas-soc@vger.kernel.org>; Sat, 16 Dec 2023 12:15:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702728939; x=1734264939;
-  h=date:from:to:cc:subject:message-id;
-  bh=479SwHcEGOaLyjMseCEmaxVPmw3lrC52Ts4Y1DCXMRk=;
-  b=B3z+RePktshQ2sJRVJcaE0+eRD1HMr8buqXT4gga7n7TifY1+1nxsS8/
-   w7T/fM/hQbChiyqLpD3HtK/NeGcd34vt33KgeLETKDXZ85/IOyuoACUEH
-   ocj8J/MVTtz1slabEG2yXDQKIXYUlJDwC8guY4rjaI0Eulu8rJotWEPVW
-   +ON86QFk3oCmk9lZrbN2RdrvpWO1ii5unoZmzxnWHCJnkxNkbBPVIXSRe
-   B9WjnEOFyyJk+/nAzCZg+ZqP5rwgzMSfzFY6lbqE1Wu9DA2XnWBTPFztU
-   c+63EMuBm2PpGzJhcoPaOd7lfymYJ3lKvv9j2ZNNVg+IbHPBd5m3qYZrX
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10925"; a="2210940"
-X-IronPort-AV: E=Sophos;i="6.04,281,1695711600"; 
-   d="scan'208";a="2210940"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Dec 2023 04:15:39 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10925"; a="840963549"
-X-IronPort-AV: E=Sophos;i="6.04,281,1695711600"; 
-   d="scan'208";a="840963549"
-Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga008.fm.intel.com with ESMTP; 16 Dec 2023 04:15:36 -0800
-Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rETZu-0001Z6-2R;
-	Sat, 16 Dec 2023 12:15:34 +0000
-Date: Sat, 16 Dec 2023 20:14:53 +0800
-From: kernel test robot <lkp@intel.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: linux-renesas-soc@vger.kernel.org
-Subject: [geert-renesas-drivers:renesas-pinctrl-for-v6.8] BUILD
- SUCCESS 9e5889c68d992b65efd10aa0a4523c96fd07077f
-Message-ID: <202312162050.rwjld0lM-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94A0530641;
+	Sat, 16 Dec 2023 15:53:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=omp.ru
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=omp.ru
+Received: from [192.168.1.104] (31.173.82.73) by msexch01.omp.ru (10.188.4.12)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.1258.12; Sat, 16 Dec
+ 2023 18:53:35 +0300
+From: Sergey Shtylyov <s.shtylyov@omp.ru>
+Subject: Re: [PATCH net-next v2 08/21] net: ravb: Move the IRQs get and
+ request in the probe function
+To: Claudiu <claudiu.beznea@tuxon.dev>, <davem@davemloft.net>,
+	<edumazet@google.com>, <kuba@kernel.org>, <pabeni@redhat.com>,
+	<richardcochran@gmail.com>, <p.zabel@pengutronix.de>,
+	<yoshihiro.shimoda.uh@renesas.com>, <wsa+renesas@sang-engineering.com>,
+	<geert+renesas@glider.be>
+CC: <netdev@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, Claudiu Beznea
+	<claudiu.beznea.uj@bp.renesas.com>
+References: <20231214114600.2451162-1-claudiu.beznea.uj@bp.renesas.com>
+ <20231214114600.2451162-9-claudiu.beznea.uj@bp.renesas.com>
+Organization: Open Mobile Platform
+Message-ID: <b3c03bd5-83f2-331e-07c0-eeabca139224@omp.ru>
+Date: Sat, 16 Dec 2023 18:53:35 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+In-Reply-To: <20231214114600.2451162-9-claudiu.beznea.uj@bp.renesas.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: msexch01.omp.ru (10.188.4.12) To msexch01.omp.ru
+ (10.188.4.12)
+X-KSE-ServerInfo: msexch01.omp.ru, 9
+X-KSE-AntiSpam-Interceptor-Info: scan successful
+X-KSE-AntiSpam-Version: 6.1.0, Database issued on: 12/16/2023 15:35:22
+X-KSE-AntiSpam-Status: KAS_STATUS_NOT_DETECTED
+X-KSE-AntiSpam-Method: none
+X-KSE-AntiSpam-Rate: 59
+X-KSE-AntiSpam-Info: Lua profiles 182146 [Dec 15 2023]
+X-KSE-AntiSpam-Info: Version: 6.1.0.3
+X-KSE-AntiSpam-Info: Envelope from: s.shtylyov@omp.ru
+X-KSE-AntiSpam-Info: LuaCore: 7 0.3.7 6d6bf5bd8eea7373134f756a2fd73e9456bb7d1a
+X-KSE-AntiSpam-Info: {rep_avail}
+X-KSE-AntiSpam-Info: {Tracking_from_domain_doesnt_match_to}
+X-KSE-AntiSpam-Info: {relay has no DNS name}
+X-KSE-AntiSpam-Info: {SMTP from is not routable}
+X-KSE-AntiSpam-Info: {Found in DNSBL: 31.173.82.73 in (user)
+ b.barracudacentral.org}
+X-KSE-AntiSpam-Info:
+	127.0.0.199:7.1.2;omp.ru:7.1.1;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1
+X-KSE-AntiSpam-Info: ApMailHostAddress: 31.173.82.73
+X-KSE-AntiSpam-Info: {DNS response errors}
+X-KSE-AntiSpam-Info: Rate: 59
+X-KSE-AntiSpam-Info: Status: not_detected
+X-KSE-AntiSpam-Info: Method: none
+X-KSE-AntiSpam-Info: Auth:dmarc=temperror header.from=omp.ru;spf=temperror
+ smtp.mailfrom=omp.ru;dkim=none
+X-KSE-Antiphishing-Info: Clean
+X-KSE-Antiphishing-ScanningType: Heuristic
+X-KSE-Antiphishing-Method: None
+X-KSE-Antiphishing-Bases: 12/16/2023 15:39:00
+X-KSE-Antivirus-Interceptor-Info: scan successful
+X-KSE-Antivirus-Info: Clean, bases: 12/16/2023 1:10:00 PM
+X-KSE-Attachment-Filter-Triggered-Rules: Clean
+X-KSE-Attachment-Filter-Triggered-Filters: Clean
+X-KSE-BulkMessagesFiltering-Scan-Result: InTheLimit
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git renesas-pinctrl-for-v6.8
-branch HEAD: 9e5889c68d992b65efd10aa0a4523c96fd07077f  pinctrl: renesas: rzg2l: Add input enable to the Ethernet pins
+On 12/14/23 2:45 PM, Claudiu wrote:
 
-elapsed time: 1466m
+> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+> 
+> Move the IRQs get and request in the driver's probe function. As some IP
+> variants switches to reset operation mode as a result of setting module
 
-configs tested: 187
-configs skipped: 2
+   s/switches/switch/.
+   Also, the manuals call this "operating mode", not to mix with one of
+the modes -- "operation mode".
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+> standby through clock enable/disable APIs, to implement runtime PM the
+> resource parsing and requests are moved in the probe function and IP
 
-tested configs:
-alpha                             allnoconfig   gcc  
-alpha                            allyesconfig   gcc  
-alpha                               defconfig   gcc  
-arc                              allmodconfig   gcc  
-arc                               allnoconfig   gcc  
-arc                              allyesconfig   gcc  
-arc                          axs101_defconfig   gcc  
-arc                                 defconfig   gcc  
-arc                   randconfig-001-20231216   gcc  
-arc                   randconfig-002-20231216   gcc  
-arm                              allmodconfig   gcc  
-arm                               allnoconfig   gcc  
-arm                              allyesconfig   gcc  
-arm                                 defconfig   clang
-arm                       omap2plus_defconfig   gcc  
-arm                          pxa168_defconfig   clang
-arm                   randconfig-001-20231216   gcc  
-arm                   randconfig-002-20231216   gcc  
-arm                   randconfig-003-20231216   gcc  
-arm                   randconfig-004-20231216   gcc  
-arm                         wpcm450_defconfig   gcc  
-arm64                            allmodconfig   clang
-arm64                             allnoconfig   gcc  
-arm64                               defconfig   gcc  
-arm64                 randconfig-001-20231216   gcc  
-arm64                 randconfig-002-20231216   gcc  
-arm64                 randconfig-003-20231216   gcc  
-arm64                 randconfig-004-20231216   gcc  
-csky                             allmodconfig   gcc  
-csky                              allnoconfig   gcc  
-csky                             allyesconfig   gcc  
-csky                                defconfig   gcc  
-csky                  randconfig-001-20231216   gcc  
-csky                  randconfig-002-20231216   gcc  
-hexagon                          allmodconfig   clang
-hexagon                           allnoconfig   clang
-hexagon                          allyesconfig   clang
-hexagon                             defconfig   clang
-hexagon               randconfig-001-20231216   clang
-hexagon               randconfig-002-20231216   clang
-i386                             allmodconfig   clang
-i386                              allnoconfig   clang
-i386                             allyesconfig   clang
-i386         buildonly-randconfig-001-20231216   gcc  
-i386         buildonly-randconfig-002-20231216   gcc  
-i386         buildonly-randconfig-003-20231216   gcc  
-i386         buildonly-randconfig-004-20231216   gcc  
-i386         buildonly-randconfig-005-20231216   gcc  
-i386         buildonly-randconfig-006-20231216   gcc  
-i386                                defconfig   gcc  
-i386                  randconfig-001-20231216   gcc  
-i386                  randconfig-002-20231216   gcc  
-i386                  randconfig-003-20231216   gcc  
-i386                  randconfig-004-20231216   gcc  
-i386                  randconfig-005-20231216   gcc  
-i386                  randconfig-006-20231216   gcc  
-i386                  randconfig-011-20231216   clang
-i386                  randconfig-012-20231216   clang
-i386                  randconfig-013-20231216   clang
-i386                  randconfig-014-20231216   clang
-i386                  randconfig-015-20231216   clang
-i386                  randconfig-016-20231216   clang
-loongarch                        allmodconfig   gcc  
-loongarch                         allnoconfig   gcc  
-loongarch                           defconfig   gcc  
-loongarch                 loongson3_defconfig   gcc  
-loongarch             randconfig-001-20231216   gcc  
-loongarch             randconfig-002-20231216   gcc  
-m68k                             allmodconfig   gcc  
-m68k                              allnoconfig   gcc  
-m68k                             allyesconfig   gcc  
-m68k                                defconfig   gcc  
-m68k                       m5208evb_defconfig   gcc  
-microblaze                       allmodconfig   gcc  
-microblaze                        allnoconfig   gcc  
-microblaze                       allyesconfig   gcc  
-microblaze                          defconfig   gcc  
-mips                              allnoconfig   clang
-mips                             allyesconfig   gcc  
-mips                         bigsur_defconfig   gcc  
-mips                      bmips_stb_defconfig   clang
-mips                     cu1000-neo_defconfig   clang
-mips                      maltaaprp_defconfig   clang
-nios2                         10m50_defconfig   gcc  
-nios2                            allmodconfig   gcc  
-nios2                             allnoconfig   gcc  
-nios2                            allyesconfig   gcc  
-nios2                               defconfig   gcc  
-nios2                 randconfig-001-20231216   gcc  
-openrisc                          allnoconfig   gcc  
-openrisc                         allyesconfig   gcc  
-openrisc                            defconfig   gcc  
-parisc                           allmodconfig   gcc  
-parisc                            allnoconfig   gcc  
-parisc                           allyesconfig   gcc  
-parisc                              defconfig   gcc  
-parisc64                            defconfig   gcc  
-powerpc                          allmodconfig   clang
-powerpc                           allnoconfig   gcc  
-powerpc                          allyesconfig   clang
-powerpc                      chrp32_defconfig   gcc  
-powerpc                      cm5200_defconfig   gcc  
-powerpc                       holly_defconfig   gcc  
-powerpc                     kilauea_defconfig   clang
-powerpc                     kmeter1_defconfig   clang
-powerpc                 linkstation_defconfig   gcc  
-powerpc                       maple_defconfig   gcc  
-powerpc                 mpc837x_rdb_defconfig   gcc  
-powerpc                     redwood_defconfig   gcc  
-powerpc                    sam440ep_defconfig   gcc  
-powerpc                     tqm8560_defconfig   gcc  
-powerpc                        warp_defconfig   gcc  
-powerpc64             randconfig-002-20231216   gcc  
-riscv                            alldefconfig   clang
-riscv                            allmodconfig   gcc  
-riscv                             allnoconfig   clang
-riscv                            allyesconfig   gcc  
-riscv                               defconfig   gcc  
-riscv                 randconfig-001-20231216   gcc  
-riscv                          rv32_defconfig   clang
-s390                             allmodconfig   gcc  
-s390                              allnoconfig   gcc  
-s390                             allyesconfig   gcc  
-s390                                defconfig   gcc  
-s390                  randconfig-001-20231216   clang
-s390                  randconfig-002-20231216   clang
-sh                               allmodconfig   gcc  
-sh                                allnoconfig   gcc  
-sh                               allyesconfig   gcc  
-sh                        apsh4ad0a_defconfig   gcc  
-sh                                  defconfig   gcc  
-sh                    randconfig-001-20231216   gcc  
-sh                    randconfig-002-20231216   gcc  
-sh                          rsk7203_defconfig   gcc  
-sh                           se7724_defconfig   gcc  
-sh                        sh7757lcr_defconfig   gcc  
-sh                  sh7785lcr_32bit_defconfig   gcc  
-sh                        sh7785lcr_defconfig   gcc  
-sparc                            allmodconfig   gcc  
-sparc                             allnoconfig   gcc  
-sparc                               defconfig   gcc  
-sparc                 randconfig-001-20231216   gcc  
-sparc                 randconfig-002-20231216   gcc  
-sparc64                          allmodconfig   gcc  
-sparc64                          allyesconfig   gcc  
-sparc64                             defconfig   gcc  
-sparc64               randconfig-001-20231216   gcc  
-sparc64               randconfig-002-20231216   gcc  
-um                               allmodconfig   clang
-um                                allnoconfig   clang
-um                               allyesconfig   clang
-um                                  defconfig   gcc  
-um                             i386_defconfig   gcc  
-um                    randconfig-001-20231216   gcc  
-um                    randconfig-002-20231216   gcc  
-um                           x86_64_defconfig   gcc  
-x86_64                            allnoconfig   gcc  
-x86_64                           allyesconfig   clang
-x86_64       buildonly-randconfig-001-20231216   gcc  
-x86_64       buildonly-randconfig-002-20231216   gcc  
-x86_64       buildonly-randconfig-003-20231216   gcc  
-x86_64       buildonly-randconfig-004-20231216   gcc  
-x86_64       buildonly-randconfig-005-20231216   gcc  
-x86_64       buildonly-randconfig-006-20231216   gcc  
-x86_64                              defconfig   gcc  
-x86_64                randconfig-001-20231216   clang
-x86_64                randconfig-002-20231216   clang
-x86_64                randconfig-003-20231216   clang
-x86_64                randconfig-004-20231216   clang
-x86_64                randconfig-005-20231216   clang
-x86_64                randconfig-006-20231216   clang
-x86_64                randconfig-011-20231216   gcc  
-x86_64                randconfig-012-20231216   gcc  
-x86_64                randconfig-013-20231216   gcc  
-x86_64                randconfig-014-20231216   gcc  
-x86_64                randconfig-015-20231216   gcc  
-x86_64                randconfig-016-20231216   gcc  
-x86_64                randconfig-071-20231216   gcc  
-x86_64                randconfig-072-20231216   gcc  
-x86_64                randconfig-073-20231216   gcc  
-x86_64                randconfig-074-20231216   gcc  
-x86_64                randconfig-075-20231216   gcc  
-x86_64                randconfig-076-20231216   gcc  
-x86_64                          rhel-8.3-rust   clang
-xtensa                            allnoconfig   gcc  
-xtensa                randconfig-001-20231216   gcc  
-xtensa                randconfig-002-20231216   gcc  
+   Requesting.
+   Could you explain in more detail why you need to do this?
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> settings are moved in the open functions. This is a preparatory change to
+
+   I don't see you moving anything into ravb_open() here...
+
+> add runtime PM support for all IP variants.
+> 
+> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+[...]
+
+> diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
+> index 83691a0f0cc2..d7f6e8ea8e79 100644
+> --- a/drivers/net/ethernet/renesas/ravb_main.c
+> +++ b/drivers/net/ethernet/renesas/ravb_main.c
+> @@ -1731,7 +1731,7 @@ static inline int ravb_hook_irq(unsigned int irq, irq_handler_t handler,
+>  	name = devm_kasprintf(dev, GFP_KERNEL, "%s:%s", ndev->name, ch);
+
+   Ugh, I didn't realize we had the managed device API call in a function
+called from ravb_open()... :-/
+
+[...]
+> @@ -2616,6 +2536,127 @@ static void ravb_parse_delay_mode(struct device_node *np, struct net_device *nde
+>  	}
+>  }
+>  
+> +static int ravb_get_irqs(struct ravb_private *priv)
+> +{
+> +	const char *err_a_irq_name = NULL, *mgmt_a_irq_name = NULL;
+
+   You don't seem to use these as the pointers. Could be bool instead?
+But even that doesn't seem necessary..
+
+> +	const struct ravb_hw_info *info = priv->info;
+> +	struct platform_device *pdev = priv->pdev;
+> +	struct net_device *ndev = priv->ndev;
+> +	const char *irq_name, *emac_irq_name;
+> +	int i, irq;
+> +
+> +	if (!info->multi_irqs) {
+> +		irq = platform_get_irq(pdev, 0);
+> +		if (irq < 0)
+> +			return irq;
+> +
+> +		ndev->irq = irq;
+> +		return 0;
+> +	}
+> +
+> +	if (info->err_mgmt_irqs) {
+> +		irq_name = "dia";
+> +		emac_irq_name = "line3";
+> +		err_a_irq_name = "err_a";
+> +		mgmt_a_irq_name = "mgmt_a";
+> +	} else {
+> +		irq_name = "ch22";
+> +		emac_irq_name = "ch24";
+> +	}
+> +
+> +	irq = platform_get_irq_byname(pdev, irq_name);
+> +	if (irq < 0)
+> +		return irq;
+> +	ndev->irq = irq;
+> +
+> +	irq = platform_get_irq_byname(pdev, emac_irq_name);
+> +	if (irq < 0)
+> +		return irq;
+> +	priv->emac_irq = irq;
+> +
+> +	if (err_a_irq_name) {
+
+   Why not just ctest info->err_mgmt_irqs here, as it was before
+this patch?
+
+> +		irq = platform_get_irq_byname(pdev, "err_a");
+> +		if (irq < 0)
+> +			return irq;
+> +		priv->erra_irq = irq;
+> +	}
+> +
+> +	if (mgmt_a_irq_name) {
+> +		irq = platform_get_irq_byname(pdev, "mgmt_a");
+> +		if (irq < 0)
+> +			return irq;
+> +		priv->mgmta_irq = irq;
+> +	}
+> +
+> +	for (i = 0; i < NUM_RX_QUEUE; i++) {
+> +		irq = platform_get_irq_byname(pdev, ravb_rx_irqs[i]);
+> +		if (irq < 0)
+> +			return irq;
+> +		priv->rx_irqs[i] = irq;
+> +	}
+> +	for (i = 0; i < NUM_TX_QUEUE; i++) {
+> +		irq = platform_get_irq_byname(pdev, ravb_tx_irqs[i]);
+> +		if (irq < 0)
+> +			return irq;
+> +		priv->tx_irqs[i] = irq;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static int ravb_request_irqs(struct ravb_private *priv)
+
+   I'm not sure separating getting and requesting IRQs is a good idea.
+As you're switching to using the managed device API anyway, you could
+save on some IRQ-related fields in the *struct* ravb_private, I think...
+
+[...]
+
+MBR, Sergey
 
