@@ -1,184 +1,269 @@
-Return-Path: <linux-renesas-soc+bounces-1140-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-1141-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93A9F81531C
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 15 Dec 2023 23:07:09 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A7278158EC
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 16 Dec 2023 13:16:08 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 3EDDCB2542B
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 15 Dec 2023 22:07:07 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id D5AC11F224D1
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 16 Dec 2023 12:16:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 199B713B14D;
-	Fri, 15 Dec 2023 21:53:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 29DB63064F;
+	Sat, 16 Dec 2023 12:15:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="B3z+RePk"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A87244B15F;
-	Fri, 15 Dec 2023 21:53:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=linux.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-6d3165ac96bso3830b3a.0;
-        Fri, 15 Dec 2023 13:53:43 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702677223; x=1703282023;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=7hA3Hgf6nqLzdqHtPQW16dypUAXOdqP0k3RFbxDCTWU=;
-        b=NRCFh5gzgm4N+1Y2mnY423XgYDbnmrCILTW4D29S/PKrp6GZrhrnfFA+gtcw/fPKMp
-         4SsPWpdDL67q8WtRmnMBWP7p7cBtRIfxmLRV/tA+pLkwf8G1agyzW16QW8sVSPMQChNl
-         lM3YtHfWBP1ghJEcRUUZ7xiENZ9y/M2vWz8alvbS84lhelz+QZUCNcbigOc4E3Jr62er
-         spDK511xDCpr4RTYntyI1dfETagrN0G6wSocZ2dgbRqnF6Bn0WWzlI9d6g+GAyXtiecr
-         Qe0USmvoukc2yzp3Jv2y0u8pLmHGr4ni+ksx2Htqea9m9eouobkXLn+0MtcDeP6f9Buc
-         z2+g==
-X-Gm-Message-State: AOJu0YwQ6bReWVOM8CKMJeCrWZ8icCzGTsQogncP1X8t7XfCH/D1hV2S
-	kehiG3X0txklO1iUmjqJX0g=
-X-Google-Smtp-Source: AGHT+IF2/YGHNdbW1xBXfJiqLH3eObzr2iLIti5qGi+SF7q+N+5lL4mkwdo3xswfGbiLNa2+CHGkDg==
-X-Received: by 2002:a05:6a00:c91:b0:6ce:5fbf:3cd8 with SMTP id a17-20020a056a000c9100b006ce5fbf3cd8mr8062574pfv.21.1702677222905;
-        Fri, 15 Dec 2023 13:53:42 -0800 (PST)
-Received: from localhost (fpd11144dd.ap.nuro.jp. [209.17.68.221])
-        by smtp.gmail.com with ESMTPSA id kr5-20020a056a004b4500b006ce83da3076sm14267311pfb.170.2023.12.15.13.53.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 15 Dec 2023 13:53:41 -0800 (PST)
-Date: Sat, 16 Dec 2023 06:53:39 +0900
-From: Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>
-To: Serge Semin <fancer.lancer@gmail.com>
-Cc: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-	lpieralisi@kernel.org, robh@kernel.org, bhelgaas@google.com,
-	jingoohan1@gmail.com, gustavo.pimentel@synopsys.com,
-	mani@kernel.org, linux-pci@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v3 4/6] PCI: dwc: Add dw_pcie_ep_{read,write}_dbi[2]
- helpers
-Message-ID: <20231215215339.GA766237@rocinante>
-References: <20231215022955.3574063-1-yoshihiro.shimoda.uh@renesas.com>
- <20231215022955.3574063-5-yoshihiro.shimoda.uh@renesas.com>
- <lgwp4u2pzfkax6qdozen74cl6bddyaloz57wiso62swafslz2n@7di6ura7omzo>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF8363034C
+	for <linux-renesas-soc@vger.kernel.org>; Sat, 16 Dec 2023 12:15:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1702728939; x=1734264939;
+  h=date:from:to:cc:subject:message-id;
+  bh=479SwHcEGOaLyjMseCEmaxVPmw3lrC52Ts4Y1DCXMRk=;
+  b=B3z+RePktshQ2sJRVJcaE0+eRD1HMr8buqXT4gga7n7TifY1+1nxsS8/
+   w7T/fM/hQbChiyqLpD3HtK/NeGcd34vt33KgeLETKDXZ85/IOyuoACUEH
+   ocj8J/MVTtz1slabEG2yXDQKIXYUlJDwC8guY4rjaI0Eulu8rJotWEPVW
+   +ON86QFk3oCmk9lZrbN2RdrvpWO1ii5unoZmzxnWHCJnkxNkbBPVIXSRe
+   B9WjnEOFyyJk+/nAzCZg+ZqP5rwgzMSfzFY6lbqE1Wu9DA2XnWBTPFztU
+   c+63EMuBm2PpGzJhcoPaOd7lfymYJ3lKvv9j2ZNNVg+IbHPBd5m3qYZrX
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10925"; a="2210940"
+X-IronPort-AV: E=Sophos;i="6.04,281,1695711600"; 
+   d="scan'208";a="2210940"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Dec 2023 04:15:39 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10925"; a="840963549"
+X-IronPort-AV: E=Sophos;i="6.04,281,1695711600"; 
+   d="scan'208";a="840963549"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+  by fmsmga008.fm.intel.com with ESMTP; 16 Dec 2023 04:15:36 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rETZu-0001Z6-2R;
+	Sat, 16 Dec 2023 12:15:34 +0000
+Date: Sat, 16 Dec 2023 20:14:53 +0800
+From: kernel test robot <lkp@intel.com>
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: linux-renesas-soc@vger.kernel.org
+Subject: [geert-renesas-drivers:renesas-pinctrl-for-v6.8] BUILD
+ SUCCESS 9e5889c68d992b65efd10aa0a4523c96fd07077f
+Message-ID: <202312162050.rwjld0lM-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <lgwp4u2pzfkax6qdozen74cl6bddyaloz57wiso62swafslz2n@7di6ura7omzo>
 
-Hello,
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git renesas-pinctrl-for-v6.8
+branch HEAD: 9e5889c68d992b65efd10aa0a4523c96fd07077f  pinctrl: renesas: rzg2l: Add input enable to the Ethernet pins
 
-[...]
-> > The current code calculated some dbi[2] registers' offset by calling
-> > dw_pcie_ep_get_dbi[2]_offset() in each function. To improve code
-> > readability, add dw_pcie_ep_{read,write}_dbi[2} and some data-width
-> > related helpers.
-[...]
-> > +static inline unsigned int dw_pcie_ep_get_dbi_offset(struct dw_pcie_ep *ep,
-> > +						     u8 func_no)
-> > +{
-> > +	unsigned int dbi_offset = 0;
-> > +
-> > +	if (ep->ops->get_dbi_offset)
-> > +		dbi_offset = ep->ops->get_dbi_offset(ep, func_no);
-> > +
-> > +	return dbi_offset;
-> > +}
-> > +
-> > +static inline unsigned int dw_pcie_ep_get_dbi2_offset(struct dw_pcie_ep *ep,
-> > +						      u8 func_no)
-> > +{
-> > +	unsigned int dbi2_offset = 0;
-> > +
-> > +	if (ep->ops->get_dbi2_offset)
-> > +		dbi2_offset = ep->ops->get_dbi2_offset(ep, func_no);
-> > +	else if (ep->ops->get_dbi_offset)     /* for backward compatibility */
-> > +		dbi2_offset = ep->ops->get_dbi_offset(ep, func_no);
-> > +
-> > +	return dbi2_offset;
-> > +}
-> > +
-> > +static inline u32 dw_pcie_ep_read_dbi(struct dw_pcie_ep *ep, u8 func_no,
-> > +				      u32 reg, size_t size)
-> > +{
-> > +	unsigned int offset = dw_pcie_ep_get_dbi_offset(ep, func_no);
-> > +	struct dw_pcie *pci = to_dw_pcie_from_ep(ep);
-> > +
-> > +	return dw_pcie_read_dbi(pci, offset + reg, size);
-> > +}
-> > +
-> > +static inline void dw_pcie_ep_write_dbi(struct dw_pcie_ep *ep, u8 func_no,
-> > +					u32 reg, size_t size, u32 val)
-> > +{
-> > +	unsigned int offset = dw_pcie_ep_get_dbi_offset(ep, func_no);
-> > +	struct dw_pcie *pci = to_dw_pcie_from_ep(ep);
-> > +
-> > +	dw_pcie_write_dbi(pci, offset + reg, size, val);
-> > +}
-> > +
-> > +static inline void dw_pcie_ep_write_dbi2(struct dw_pcie_ep *ep, u8 func_no,
-> > +					 u32 reg, size_t size, u32 val)
-> > +{
-> > +	unsigned int offset = dw_pcie_ep_get_dbi2_offset(ep, func_no);
-> > +	struct dw_pcie *pci = to_dw_pcie_from_ep(ep);
-> > +
-> > +	dw_pcie_write_dbi2(pci, offset + reg, size, val);
-> > +}
-> > +
-> > +static inline void dw_pcie_ep_writel_dbi(struct dw_pcie_ep *ep, u8 func_no,
-> > +					 u32 reg, u32 val)
-> > +{
-> > +	dw_pcie_ep_write_dbi(ep, func_no, reg, 0x4, val);
-> > +}
-> > +
-> > +static inline u32 dw_pcie_ep_readl_dbi(struct dw_pcie_ep *ep, u8 func_no,
-> > +				       u32 reg)
-> > +{
-> > +	return dw_pcie_ep_read_dbi(ep, func_no, reg, 0x4);
-> > +}
-> > +
-> > +static inline void dw_pcie_ep_writew_dbi(struct dw_pcie_ep *ep, u8 func_no,
-> > +					 u32 reg, u16 val)
-> > +{
-> > +	dw_pcie_ep_write_dbi(ep, func_no, reg, 0x2, val);
-> > +}
-> > +
-> > +static inline u16 dw_pcie_ep_readw_dbi(struct dw_pcie_ep *ep, u8 func_no,
-> > +				       u32 reg)
-> > +{
-> > +	return dw_pcie_ep_read_dbi(ep, func_no, reg, 0x2);
-> > +}
-> > +
-> > +static inline void dw_pcie_ep_writeb_dbi(struct dw_pcie_ep *ep, u8 func_no,
-> > +					 u32 reg, u8 val)
-> > +{
-> > +	dw_pcie_ep_write_dbi(ep, func_no, reg, 0x1, val);
-> > +}
-> > +
-> > +static inline u8 dw_pcie_ep_readb_dbi(struct dw_pcie_ep *ep, u8 func_no,
-> > +				      u32 reg)
-> > +{
-> > +	return dw_pcie_ep_read_dbi(ep, func_no, reg, 0x1);
-> > +}
-> > +
-> > +static inline void dw_pcie_ep_writel_dbi2(struct dw_pcie_ep *ep, u8 func_no,
-> > +					  u32 reg, u32 val)
-> > +{
-> > +	dw_pcie_ep_write_dbi2(ep, func_no, reg, 0x4, val);
-> > +}
-> > +
-> 
-> A tiny nitpick. Since these are CSRs accessors it would be better for
-> readability to have them grouped with the rest of the IO-accessors
-> dw_pcie_writel_dbi()..dw_pcie_writel_dbi2(). Particularly have them
-> defined below the already available ones. So first normal
-> DBI-accessors would be placed and the EP-specific DBI-accessors
-> afterwords. Not sure whether it's that much required. So it's up to
-> Mani to decide. Perhaps the subsystem maintainers could fix it on
-> merge in? Bjorn, Krzysztof, Lorenzo?
+elapsed time: 1466m
 
-Yes, I can change order after I pull this series.  Not to worry.
+configs tested: 187
+configs skipped: 2
 
-	Krzysztof
+The following configs have been built successfully.
+More configs may be tested in the coming days.
+
+tested configs:
+alpha                             allnoconfig   gcc  
+alpha                            allyesconfig   gcc  
+alpha                               defconfig   gcc  
+arc                              allmodconfig   gcc  
+arc                               allnoconfig   gcc  
+arc                              allyesconfig   gcc  
+arc                          axs101_defconfig   gcc  
+arc                                 defconfig   gcc  
+arc                   randconfig-001-20231216   gcc  
+arc                   randconfig-002-20231216   gcc  
+arm                              allmodconfig   gcc  
+arm                               allnoconfig   gcc  
+arm                              allyesconfig   gcc  
+arm                                 defconfig   clang
+arm                       omap2plus_defconfig   gcc  
+arm                          pxa168_defconfig   clang
+arm                   randconfig-001-20231216   gcc  
+arm                   randconfig-002-20231216   gcc  
+arm                   randconfig-003-20231216   gcc  
+arm                   randconfig-004-20231216   gcc  
+arm                         wpcm450_defconfig   gcc  
+arm64                            allmodconfig   clang
+arm64                             allnoconfig   gcc  
+arm64                               defconfig   gcc  
+arm64                 randconfig-001-20231216   gcc  
+arm64                 randconfig-002-20231216   gcc  
+arm64                 randconfig-003-20231216   gcc  
+arm64                 randconfig-004-20231216   gcc  
+csky                             allmodconfig   gcc  
+csky                              allnoconfig   gcc  
+csky                             allyesconfig   gcc  
+csky                                defconfig   gcc  
+csky                  randconfig-001-20231216   gcc  
+csky                  randconfig-002-20231216   gcc  
+hexagon                          allmodconfig   clang
+hexagon                           allnoconfig   clang
+hexagon                          allyesconfig   clang
+hexagon                             defconfig   clang
+hexagon               randconfig-001-20231216   clang
+hexagon               randconfig-002-20231216   clang
+i386                             allmodconfig   clang
+i386                              allnoconfig   clang
+i386                             allyesconfig   clang
+i386         buildonly-randconfig-001-20231216   gcc  
+i386         buildonly-randconfig-002-20231216   gcc  
+i386         buildonly-randconfig-003-20231216   gcc  
+i386         buildonly-randconfig-004-20231216   gcc  
+i386         buildonly-randconfig-005-20231216   gcc  
+i386         buildonly-randconfig-006-20231216   gcc  
+i386                                defconfig   gcc  
+i386                  randconfig-001-20231216   gcc  
+i386                  randconfig-002-20231216   gcc  
+i386                  randconfig-003-20231216   gcc  
+i386                  randconfig-004-20231216   gcc  
+i386                  randconfig-005-20231216   gcc  
+i386                  randconfig-006-20231216   gcc  
+i386                  randconfig-011-20231216   clang
+i386                  randconfig-012-20231216   clang
+i386                  randconfig-013-20231216   clang
+i386                  randconfig-014-20231216   clang
+i386                  randconfig-015-20231216   clang
+i386                  randconfig-016-20231216   clang
+loongarch                        allmodconfig   gcc  
+loongarch                         allnoconfig   gcc  
+loongarch                           defconfig   gcc  
+loongarch                 loongson3_defconfig   gcc  
+loongarch             randconfig-001-20231216   gcc  
+loongarch             randconfig-002-20231216   gcc  
+m68k                             allmodconfig   gcc  
+m68k                              allnoconfig   gcc  
+m68k                             allyesconfig   gcc  
+m68k                                defconfig   gcc  
+m68k                       m5208evb_defconfig   gcc  
+microblaze                       allmodconfig   gcc  
+microblaze                        allnoconfig   gcc  
+microblaze                       allyesconfig   gcc  
+microblaze                          defconfig   gcc  
+mips                              allnoconfig   clang
+mips                             allyesconfig   gcc  
+mips                         bigsur_defconfig   gcc  
+mips                      bmips_stb_defconfig   clang
+mips                     cu1000-neo_defconfig   clang
+mips                      maltaaprp_defconfig   clang
+nios2                         10m50_defconfig   gcc  
+nios2                            allmodconfig   gcc  
+nios2                             allnoconfig   gcc  
+nios2                            allyesconfig   gcc  
+nios2                               defconfig   gcc  
+nios2                 randconfig-001-20231216   gcc  
+openrisc                          allnoconfig   gcc  
+openrisc                         allyesconfig   gcc  
+openrisc                            defconfig   gcc  
+parisc                           allmodconfig   gcc  
+parisc                            allnoconfig   gcc  
+parisc                           allyesconfig   gcc  
+parisc                              defconfig   gcc  
+parisc64                            defconfig   gcc  
+powerpc                          allmodconfig   clang
+powerpc                           allnoconfig   gcc  
+powerpc                          allyesconfig   clang
+powerpc                      chrp32_defconfig   gcc  
+powerpc                      cm5200_defconfig   gcc  
+powerpc                       holly_defconfig   gcc  
+powerpc                     kilauea_defconfig   clang
+powerpc                     kmeter1_defconfig   clang
+powerpc                 linkstation_defconfig   gcc  
+powerpc                       maple_defconfig   gcc  
+powerpc                 mpc837x_rdb_defconfig   gcc  
+powerpc                     redwood_defconfig   gcc  
+powerpc                    sam440ep_defconfig   gcc  
+powerpc                     tqm8560_defconfig   gcc  
+powerpc                        warp_defconfig   gcc  
+powerpc64             randconfig-002-20231216   gcc  
+riscv                            alldefconfig   clang
+riscv                            allmodconfig   gcc  
+riscv                             allnoconfig   clang
+riscv                            allyesconfig   gcc  
+riscv                               defconfig   gcc  
+riscv                 randconfig-001-20231216   gcc  
+riscv                          rv32_defconfig   clang
+s390                             allmodconfig   gcc  
+s390                              allnoconfig   gcc  
+s390                             allyesconfig   gcc  
+s390                                defconfig   gcc  
+s390                  randconfig-001-20231216   clang
+s390                  randconfig-002-20231216   clang
+sh                               allmodconfig   gcc  
+sh                                allnoconfig   gcc  
+sh                               allyesconfig   gcc  
+sh                        apsh4ad0a_defconfig   gcc  
+sh                                  defconfig   gcc  
+sh                    randconfig-001-20231216   gcc  
+sh                    randconfig-002-20231216   gcc  
+sh                          rsk7203_defconfig   gcc  
+sh                           se7724_defconfig   gcc  
+sh                        sh7757lcr_defconfig   gcc  
+sh                  sh7785lcr_32bit_defconfig   gcc  
+sh                        sh7785lcr_defconfig   gcc  
+sparc                            allmodconfig   gcc  
+sparc                             allnoconfig   gcc  
+sparc                               defconfig   gcc  
+sparc                 randconfig-001-20231216   gcc  
+sparc                 randconfig-002-20231216   gcc  
+sparc64                          allmodconfig   gcc  
+sparc64                          allyesconfig   gcc  
+sparc64                             defconfig   gcc  
+sparc64               randconfig-001-20231216   gcc  
+sparc64               randconfig-002-20231216   gcc  
+um                               allmodconfig   clang
+um                                allnoconfig   clang
+um                               allyesconfig   clang
+um                                  defconfig   gcc  
+um                             i386_defconfig   gcc  
+um                    randconfig-001-20231216   gcc  
+um                    randconfig-002-20231216   gcc  
+um                           x86_64_defconfig   gcc  
+x86_64                            allnoconfig   gcc  
+x86_64                           allyesconfig   clang
+x86_64       buildonly-randconfig-001-20231216   gcc  
+x86_64       buildonly-randconfig-002-20231216   gcc  
+x86_64       buildonly-randconfig-003-20231216   gcc  
+x86_64       buildonly-randconfig-004-20231216   gcc  
+x86_64       buildonly-randconfig-005-20231216   gcc  
+x86_64       buildonly-randconfig-006-20231216   gcc  
+x86_64                              defconfig   gcc  
+x86_64                randconfig-001-20231216   clang
+x86_64                randconfig-002-20231216   clang
+x86_64                randconfig-003-20231216   clang
+x86_64                randconfig-004-20231216   clang
+x86_64                randconfig-005-20231216   clang
+x86_64                randconfig-006-20231216   clang
+x86_64                randconfig-011-20231216   gcc  
+x86_64                randconfig-012-20231216   gcc  
+x86_64                randconfig-013-20231216   gcc  
+x86_64                randconfig-014-20231216   gcc  
+x86_64                randconfig-015-20231216   gcc  
+x86_64                randconfig-016-20231216   gcc  
+x86_64                randconfig-071-20231216   gcc  
+x86_64                randconfig-072-20231216   gcc  
+x86_64                randconfig-073-20231216   gcc  
+x86_64                randconfig-074-20231216   gcc  
+x86_64                randconfig-075-20231216   gcc  
+x86_64                randconfig-076-20231216   gcc  
+x86_64                          rhel-8.3-rust   clang
+xtensa                            allnoconfig   gcc  
+xtensa                randconfig-001-20231216   gcc  
+xtensa                randconfig-002-20231216   gcc  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
