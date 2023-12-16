@@ -1,30 +1,31 @@
-Return-Path: <linux-renesas-soc+bounces-1147-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-1148-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 062BE815B4C
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 16 Dec 2023 20:26:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 700BF815B5C
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 16 Dec 2023 20:38:35 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 04375B225FC
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 16 Dec 2023 19:26:49 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 65C1EB22F34
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 16 Dec 2023 19:38:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id ADABE31A7E;
-	Sat, 16 Dec 2023 19:26:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E2B47321AD;
+	Sat, 16 Dec 2023 19:38:29 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from mx01.omp.ru (mx01.omp.ru [90.154.21.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2591930126;
-	Sat, 16 Dec 2023 19:26:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E3B030F8A;
+	Sat, 16 Dec 2023 19:38:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=omp.ru
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=omp.ru
 Received: from [192.168.1.104] (31.173.82.73) by msexch01.omp.ru (10.188.4.12)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.1258.12; Sat, 16 Dec
- 2023 22:26:30 +0300
-Subject: Re: [PATCH net-next v2 15/21] net: ravb: Simplify ravb_resume()
+ 2023 22:38:16 +0300
+Subject: Re: [PATCH net-next v2 16/21] net: ravb: Keep the reverse order of
+ operations in ravb_close()
 To: Claudiu <claudiu.beznea@tuxon.dev>, <davem@davemloft.net>,
 	<edumazet@google.com>, <kuba@kernel.org>, <pabeni@redhat.com>,
 	<richardcochran@gmail.com>, <p.zabel@pengutronix.de>,
@@ -34,11 +35,11 @@ CC: <netdev@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>,
 	<linux-kernel@vger.kernel.org>, Claudiu Beznea
 	<claudiu.beznea.uj@bp.renesas.com>
 References: <20231214114600.2451162-1-claudiu.beznea.uj@bp.renesas.com>
- <20231214114600.2451162-16-claudiu.beznea.uj@bp.renesas.com>
+ <20231214114600.2451162-17-claudiu.beznea.uj@bp.renesas.com>
 From: Sergey Shtylyov <s.shtylyov@omp.ru>
 Organization: Open Mobile Platform
-Message-ID: <6990d2f2-2faf-5dfc-f342-c1362c865ffb@omp.ru>
-Date: Sat, 16 Dec 2023 22:26:30 +0300
+Message-ID: <665f3a75-2687-d8bf-9fe0-9693759b8f3f@omp.ru>
+Date: Sat, 16 Dec 2023 22:38:16 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.10.1
 Precedence: bulk
@@ -47,7 +48,7 @@ List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <20231214114600.2451162-16-claudiu.beznea.uj@bp.renesas.com>
+In-Reply-To: <20231214114600.2451162-17-claudiu.beznea.uj@bp.renesas.com>
 Content-Type: text/plain; charset="utf-8"
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -69,6 +70,7 @@ X-KSE-AntiSpam-Info: {relay has no DNS name}
 X-KSE-AntiSpam-Info: {SMTP from is not routable}
 X-KSE-AntiSpam-Info: {Found in DNSBL: 31.173.82.73 in (user)
  b.barracudacentral.org}
+X-KSE-AntiSpam-Info: {Found in DNSBL: 31.173.82.73 in (user) dbl.spamhaus.org}
 X-KSE-AntiSpam-Info:
 	omp.ru:7.1.1;31.173.82.73:7.1.2;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;127.0.0.199:7.1.2
 X-KSE-AntiSpam-Info: ApMailHostAddress: 31.173.82.73
@@ -92,19 +94,12 @@ On 12/14/23 2:45 PM, Claudiu wrote:
 
 > From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 > 
-> Remove explicit calls to functions that are called ravb_open(). There is
-                                                    ^ by?
+> Keep the reverse order of operations in ravb_close() when comparing with
 
-> no need to have them doubled now that the ravb_open() already contains
-> what is needed for the interface configuration. Along with it, PTP needed
-> configurations were moved to ravb_wol_restore(). With this, code in
+   Compared.
 
-   Configurations needed by PTP?
-
-> ravb_resume() is simpler.
-
-   s/is/becomes/?
-
+> ravb_open(). This is the recommended configuration sequence.
+> 
 > Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 
 Reviewed-by: Sergey Shtylyov <s.shtylyov@omp.ru>
