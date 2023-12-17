@@ -1,173 +1,122 @@
-Return-Path: <linux-renesas-soc+bounces-1164-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-1165-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6751815FDA
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 17 Dec 2023 15:34:52 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8920E815FE7
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 17 Dec 2023 15:43:40 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5B1AB1F22A69
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 17 Dec 2023 14:34:52 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id DC735B21EFE
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 17 Dec 2023 14:43:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 272D944C7F;
-	Sun, 17 Dec 2023 14:34:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2E319358AC;
+	Sun, 17 Dec 2023 14:43:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="mNvFjsTE"
+	dkim=pass (1024-bit key) header.d=crapouillou.net header.i=@crapouillou.net header.b="QFc0hG3c"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+Received: from aposti.net (aposti.net [89.234.176.197])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5735A31741
-	for <linux-renesas-soc@vger.kernel.org>; Sun, 17 Dec 2023 14:34:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-40c31f18274so27646035e9.0
-        for <linux-renesas-soc@vger.kernel.org>; Sun, 17 Dec 2023 06:34:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1702823675; x=1703428475; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=aqCEu2l0NGB07K1ndlA1ZvH3rmbMfoOKQJlevWlQ0i0=;
-        b=mNvFjsTE28oh6pStQtHcJfP+XYNpCucW7lKKo4u1ElTYWSQcpIKjVPkKgikcGRu6kJ
-         W4ZlJWqHpSjC3yzrKeeQmMipQ0JFt7Zo58A9x6zl6EsYcoH1bQxfwiAqovq04HgLvpCT
-         OdjxBYNQej7RczBU6bsRM0yhl4IMPbOJcrOA0nRnTQOG2uYT5fjrXF5R9sg1re7q4ekJ
-         u/G2Z9bqKPKryHRFezmv9orZ/DP40hy2WcINeKvoYCGWvcn+o1JrFcCM7QEDYBx9lx6s
-         XaJ3TnTX0E04jl7Y0IUl3aQ9BxP8T2GrVAlK+A6IDLVds/C+zdjt44vkLQz/4dLENoSZ
-         EtYQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702823675; x=1703428475;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=aqCEu2l0NGB07K1ndlA1ZvH3rmbMfoOKQJlevWlQ0i0=;
-        b=uqqXIxqqESa4HHWHHYZLqiULh3Io+et2vaiKrhBUMxmdrI3buo0CZZbypEoL2Dwqjn
-         Y6SZ4Dzv6N1/ilp7SbcohX0SWbU4/DyIwkUxm2vyIuyWZ+L4Wi+lnDCT9MqHk6l4PciK
-         BzyNWHniSVj/liOr58mdD1SeyunESDfbvxR+Qbd4FOF746nOxxn7RGMmei45HvHuyWLv
-         Xb6IbKo5+iK+rCDDNeX5yW58AK6LPSCrA5B8spgdXvLmVWAstdRdO1NrM3ke1tqyBUPL
-         uBebCkCiMrANhJfohVKsiUzoDTHsdV3WDjZKJexIZB32XLPnvftvWoTkpy+djgq2cfUv
-         Jdtg==
-X-Gm-Message-State: AOJu0Yx6f2RQaXHRY8igxEoPPmikOcawOcvtpR5MzWNu0zlteh+MI4++
-	3fqynrgzqG88kTwNPigfVefk7Q==
-X-Google-Smtp-Source: AGHT+IHF3xKWYIHsI8tvXbw1+h7osXEx8EMefr1MhYNl8r0c1B9owVBM0V0DkArB3hBHKZwEAB/Lvw==
-X-Received: by 2002:a7b:ca5a:0:b0:40c:2a41:4a1f with SMTP id m26-20020a7bca5a000000b0040c2a414a1fmr7002927wml.183.1702823675283;
-        Sun, 17 Dec 2023 06:34:35 -0800 (PST)
-Received: from [192.168.50.4] ([82.78.167.103])
-        by smtp.gmail.com with ESMTPSA id k40-20020a05600c1ca800b0040b45356b72sm40209275wms.33.2023.12.17.06.34.33
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 17 Dec 2023 06:34:34 -0800 (PST)
-Message-ID: <322c95f1-d42d-447d-89d1-7c61112b0cfd@tuxon.dev>
-Date: Sun, 17 Dec 2023 16:34:33 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F83346441;
+	Sun, 17 Dec 2023 14:43:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=crapouillou.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=crapouillou.net
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
+	s=mail; t=1702824208;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=7up0xNh2ORIiEUbqH50P1CWetD6TUmJxMwpCW1gSaUg=;
+	b=QFc0hG3cmXDMi3vrAYkSLc6BdDem19p8J1FM6D82oDIWr/84AKpWtkks6/DQwUZKr4KSci
+	OuW+zMEoP0YFfK03Yl0nGn5VmsaxudxMw8KsIhRvTHtNlOlF1RXb71RG5cmjwuj+cqS6H/
+	uh9RrmXCiT55qFgDCBcB3GP3RfoYN1s=
+Message-ID: <9cbaf60cd6cf1a581e7587088f71ca7cf6b6ff37.camel@crapouillou.net>
+Subject: Re: [PATCH v5 03/13] pinctrl: ingenic: Use C99 initializers in
+ PINCTRL_PIN_GROUP()
+From: Paul Cercueil <paul@crapouillou.net>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Linus Walleij <linus.walleij@linaro.org>, Bartosz Golaszewski
+ <bartosz.golaszewski@linaro.org>, Geert Uytterhoeven
+ <geert+renesas@glider.be>,  Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+ Biju Das <biju.das.jz@bp.renesas.com>, Claudiu Beznea
+ <claudiu.beznea.uj@bp.renesas.com>, Jianlong Huang
+ <jianlong.huang@starfivetech.com>, linux-arm-kernel@lists.infradead.org, 
+ linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-mediatek@lists.infradead.org, linux-mips@vger.kernel.org, 
+ linux-renesas-soc@vger.kernel.org, Ray Jui <rjui@broadcom.com>, Scott
+ Branden <sbranden@broadcom.com>, Broadcom internal kernel review list
+ <bcm-kernel-feedback-list@broadcom.com>, Dong Aisheng
+ <aisheng.dong@nxp.com>,  Fabio Estevam <festevam@gmail.com>, Shawn Guo
+ <shawnguo@kernel.org>, Jacky Bai <ping.bai@nxp.com>,  Pengutronix Kernel
+ Team <kernel@pengutronix.de>, Sascha Hauer <s.hauer@pengutronix.de>, NXP
+ Linux Team <linux-imx@nxp.com>, Sean Wang <sean.wang@kernel.org>, Lakshmi
+ Sowjanya D <lakshmi.sowjanya.d@intel.com>, Emil Renner Berthing
+ <kernel@esmil.dk>, Hal Feng <hal.feng@starfivetech.com>
+Date: Sun, 17 Dec 2023 15:43:24 +0100
+In-Reply-To: <ZXmv81bJRMqB1GLY@smile.fi.intel.com>
+References: <20231211190321.307330-1-andriy.shevchenko@linux.intel.com>
+	 <20231211190321.307330-4-andriy.shevchenko@linux.intel.com>
+	 <fb29c3bca8d245e3f7496539b7293aa4fc4bccd0.camel@crapouillou.net>
+	 <ZXmv81bJRMqB1GLY@smile.fi.intel.com>
+Autocrypt: addr=paul@crapouillou.net; prefer-encrypt=mutual;
+ keydata=mQENBF0KhcEBCADkfmrzdTOp/gFOMQX0QwKE2WgeCJiHPWkpEuPH81/HB2dpjPZNW03ZMLQfECbbaEkdbN4YnPfXgcc1uBe5mwOAPV1MBlaZcEt4M67iYQwSNrP7maPS3IaQJ18ES8JJ5Uf5UzFZaUawgH+oipYGW+v31cX6L3k+dGsPRM0Pyo0sQt52fsopNPZ9iag0iY7dGNuKenaEqkYNjwEgTtNz8dt6s3hMpHIKZFL3OhAGi88wF/21isv0zkF4J0wlf9gYUTEEY3Eulx80PTVqGIcHZzfavlWIdzhe+rxHTDGVwseR2Y1WjgFGQ2F+vXetAB8NEeygXee+i9nY5qt9c07m8mzjABEBAAG0JFBhdWwgQ2VyY3VlaWwgPHBhdWxAY3JhcG91aWxsb3UubmV0PokBTgQTAQoAOBYhBNdHYd8OeCBwpMuVxnPua9InSr1BBQJdCoXBAhsDBQsJCAcCBhUKCQgLAgQWAgMBAh4BAheAAAoJEHPua9InSr1BgvIH/0kLyrI3V0f33a6D3BJwc1grbygPVYGuC5l5eMnAI+rDmLR19E2yvibRpgUc87NmPEQPpbbtAZt8On/2WZoE5OIPdlId/AHNpdgAtGXo0ZX4LGeVPjxjdkbrKVHxbcdcnY+zzaFglpbVSvp76pxqgVg8PgxkAAeeJV+ET4t0823Gz2HzCL/6JZhvKAEtHVulOWoBh368SYdolp1TSfORWmHzvQiCCCA+j0cMkYVGzIQzEQhX7Urf9N/nhU5/SGLFEi9DcBfXoGzhyQyLXflhJtKm3XGB1K/pPulbKaPcKAl6rIDWPuFpHkSbmZ9r4KFlBwgAhlGy6nqP7O3u7q23hRW5AQ0EXQqFwQEIAMo+MgvYHsyjX3Ja4Oolg1Txzm8woj30ch2nACFCqaO0R/1kLj2VVeLrDyQUOlXx9PD6IQI4M8wy8m0sR4wV2p/g/paw7k65cjzYYLh+FdLNyO7IW
+	YXndJO+wDPi3aK/YKUYepqlP+QsmaHNYNdXEQDRKqNfJg8t0f5rfzp9ryxd1tCnbV+tG8VHQWiZXNqN7062DygSNXFUfQ0vZ3J2D4oAcIAEXTymRQ2+hr3Hf7I61KMHWeSkCvCG2decTYsHlw5Erix/jYWqVOtX0roOOLqWkqpQQJWtU+biWrAksmFmCp5fXIg1Nlg39v21xCXBGxJkxyTYuhdWyu1yDQ+LSIUAEQEAAYkBNgQYAQoAIBYhBNdHYd8OeCBwpMuVxnPua9InSr1BBQJdCoXBAhsMAAoJEHPua9InSr1B4wsH/Az767YCT0FSsMNt1jkkdLCBi7nY0GTW+PLP1a4zvVqFMo/vD6uz1ZflVTUAEvcTi3VHYZrlgjcxmcGu239oruqUS8Qy/xgZBp9KF0NTWQSl1iBfVbIU5VV1vHS6r77W5x0qXgfvAUWOH4gmN3MnF01SH2zMcLiaUGF+mcwl15rHbjnT3Nu2399aSE6cep86igfCAyFUOXjYEGlJy+c6UyT+DUylpjQg0nl8MlZ/7Whg2fAU9+FALIbQYQzGlT4c71SibR9T741jnegHhlmV4WXXUD6roFt54t0MSAFSVxzG8mLcSjR2cLUJ3NIPXixYUSEn3tQhfZj07xIIjWxAYZo=
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v2 20/21] net: ravb: Do not apply RX CSUM
- settings to hardware if the interface is down
-Content-Language: en-US
-To: Sergey Shtylyov <s.shtylyov@omp.ru>, davem@davemloft.net,
- edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
- richardcochran@gmail.com, p.zabel@pengutronix.de,
- yoshihiro.shimoda.uh@renesas.com, wsa+renesas@sang-engineering.com,
- geert+renesas@glider.be
-Cc: netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
- linux-kernel@vger.kernel.org,
- Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-References: <20231214114600.2451162-1-claudiu.beznea.uj@bp.renesas.com>
- <20231214114600.2451162-21-claudiu.beznea.uj@bp.renesas.com>
- <247ad9d9-298e-017b-f6e4-e672ee458ee7@omp.ru>
-From: claudiu beznea <claudiu.beznea@tuxon.dev>
-In-Reply-To: <247ad9d9-298e-017b-f6e4-e672ee458ee7@omp.ru>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
 
+Hi Andy,
 
+Le mercredi 13 d=C3=A9cembre 2023 =C3=A0 15:21 +0200, Andy Shevchenko a =C3=
+=A9crit=C2=A0:
+> On Wed, Dec 13, 2023 at 10:55:46AM +0100, Paul Cercueil wrote:
+> > Le lundi 11 d=C3=A9cembre 2023 =C3=A0 20:57 +0200, Andy Shevchenko a =
+=C3=A9crit=C2=A0:
+>=20
+> ...
+>=20
+> > > -#define INGENIC_PIN_GROUP(name, id, func)		\
+> > > -	INGENIC_PIN_GROUP_FUNCS(name, id, (void *)(func))
+> > > +#define INGENIC_PIN_GROUP(_name_, id,
+> > > func)						\
+> > > +	{						=09
+> > > 			\
+> > > +		.name =3D
+> > > _name_,								\
+> > > +		.pins =3D
+> > > id##_pins,							\
+> > > +		.num_pins =3D
+> > > ARRAY_SIZE(id##_pins),					\
+> > > +		.data =3D (void
+> > > *)func,							\
+> > > +	}
+> >=20
+> > This INGENIC_PIN_GROUP() macro doesn't need to be modified, does
+> > it?
+>=20
+> We can go either way. I prefer to go this way as it reduces level of
+> indirections in the macros. It makes code easier to read and
+> understand.
+> But if you insist, I can drop that change in next version.
+>=20
 
-On 16.12.2023 22:36, Sergey Shtylyov wrote:
-> On 12/14/23 2:45 PM, Claudiu wrote:
-> 
->> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
->>
->> Do not apply the RX CSUM settings to hardware if the interface is down. In
->> case runtime PM is enabled, and while the interface is down, the IP will be
->> in reset mode (as for some platforms disabling/enabling the clocks will
->> switch the IP to standby mode, which will lead to losing registers'
-> 
->    To/From perhaps?
->    And just "register".
-> 
->> content) and applying settings in reset mode is not an option. Instead,
->> cache the RX CSUM settings and apply them in ravb_open().
-> 
->    Have this issue actually occurred for you?
+I like the patches to be minimal. But I understand your point of view
+as well.
 
-Setting RX CSUM while the if is down? No.
+If you have to issue a v6, maybe state the reason why you also modify
+INGENIC_PIN_GROUP() then. But I don't care enough to request a v6 just
+for that.
 
-> 
->> Commit prepares for the addition of runtime PM.
->>
->> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-> [...]
-> 
->> diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
->> index 633346b6cd7c..9ff943dff522 100644
->> --- a/drivers/net/ethernet/renesas/ravb_main.c
->> +++ b/drivers/net/ethernet/renesas/ravb_main.c
->> @@ -1868,6 +1868,15 @@ static int ravb_open(struct net_device *ndev)
->>  	if (info->gptp || info->ccc_gac)
->>  		ravb_ptp_init(ndev, priv->pdev);
->>  
->> +	/* Apply features that might have been changed while the interface
->> +	 * was down.
->> +	 */
->> +	if (ndev->hw_features & NETIF_F_RXCSUM) {
-> 
->    I'm afraid this is a wrong field; we need ndev->features, no?
+So:
+Acked-by: Paul Cercueil <paul@crapouillou.net>
 
-RX CSUM is not enabled for all ravb aware devices (see struct
-ravb_hw_info::net_hw_features). We should be setting the ECMR only for
-these ones. ravb_hw_info::net_hw_features is set in ndev->hw_features in
-probe(). So here code checks if platforms supports RXCSUM and then below it
-applies what has been requested though ndo_set_features(), if any.
-
-> 
->> +		u32 val = (ndev->features & NETIF_F_RXCSUM) ? ECMR_RCSC : 0;
->> +
->> +		ravb_modify(ndev, ECMR, ECMR_RCSC, val);
->> +	}
->> +
-> 
->    The ECMR setting is already done in ravb_emac_init_rcar(), no need
-> to duplicate it here, I think...
-
-Ok, it worth being moved there.
-
-> 
->>  	/* PHY control start */
->>  	error = ravb_phy_start(ndev);
->>  	if (error)
->> @@ -2337,6 +2346,9 @@ static void ravb_set_rx_csum(struct net_device *ndev, bool enable)
->>  	struct ravb_private *priv = netdev_priv(ndev);
->>  	unsigned long flags;
->>  
->> +	if (!netif_running(ndev))
-> 
->    Racy as well...
-
-It's also called with rtnl_mutex locked.
-
-> 
->> +		return;
->> +
-> 
->    Hm, sh_eth.c doesn't have such check -- perhaps should be fixed
-> as well...
-> 
-> [...]
-> 
-> MBR, Sergey
+Cheers,
+-Paul
 
