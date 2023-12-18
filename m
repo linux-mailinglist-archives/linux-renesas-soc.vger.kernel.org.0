@@ -1,122 +1,144 @@
-Return-Path: <linux-renesas-soc+bounces-1183-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-1184-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00A60816B49
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 18 Dec 2023 11:39:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 469A1816D0E
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 18 Dec 2023 12:56:15 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B0BD42811EF
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 18 Dec 2023 10:39:01 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E3F68283AAA
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 18 Dec 2023 11:56:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8388F182BE;
-	Mon, 18 Dec 2023 10:39:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1DDE41A286;
+	Mon, 18 Dec 2023 11:43:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="r3TeZa9Y"
+	dkim=pass (1024-bit key) header.d=crapouillou.net header.i=@crapouillou.net header.b="jNzKRNbn"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from aposti.net (aposti.net [89.234.176.197])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 789A7168B0
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 18 Dec 2023 10:38:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1BB491583;
-	Mon, 18 Dec 2023 11:38:07 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1702895887;
-	bh=NK82jHPRPfVYGy/vPkJOfacdFlxuccF09ZQE3BF+LRE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=r3TeZa9YSBy4Z4Aq3fksHKD2/+bfY7e+odJ5HXMjCY+b2WVrgaLWR4kOY5mpNDJkZ
-	 W22wHsqNrmAYWGCY3H2zmtDdPrQaia8taxV5jOlSducdwYWYr+i+EFDrTmTPm5CRLO
-	 hZSZqKB3OQpJRrWv0BIj9FVNv1vzzwGvpPbiwmTo=
-Date: Mon, 18 Dec 2023 12:39:03 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Biju Das <biju.das.jz@bp.renesas.com>
-Cc: David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
-	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Biju Das <biju.das.au@gmail.com>
-Subject: Re: [PATCH v2] drm: rcar-du: Fix memory leak in rcar_du_vsps_init()
-Message-ID: <20231218103903.GP5290@pendragon.ideasonboard.com>
-References: <20231116122424.80136-1-biju.das.jz@bp.renesas.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECB5031A77;
+	Mon, 18 Dec 2023 11:43:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=crapouillou.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=crapouillou.net
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
+	s=mail; t=1702899811;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=LNg5IATYeTVfmVN7U+vHHKtunfYiqKkNJSMnTCvWnvs=;
+	b=jNzKRNbn+bk2+FLVUVK40QmeVTpHZZctmN3P6eddA1ljbeOvrTQZjMevXhU3eyE+JRSULY
+	MXA/0ANVEXaA9ipwzLvz9bR5HXNpBcPgVshIzvBRWYX8Agfdko91rTKybU8dPC6Qaa7YFr
+	1HCeMNUXlrsBd5IntbeD3N6AB/bswwI=
+Message-ID: <5b127bcdd11ebb6857c9ecd70b946a5add7a93e9.camel@crapouillou.net>
+Subject: Re: [PATCH v5 03/13] pinctrl: ingenic: Use C99 initializers in
+ PINCTRL_PIN_GROUP()
+From: Paul Cercueil <paul@crapouillou.net>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Linus Walleij <linus.walleij@linaro.org>, Bartosz Golaszewski
+ <bartosz.golaszewski@linaro.org>, Geert Uytterhoeven
+ <geert+renesas@glider.be>,  Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+ Biju Das <biju.das.jz@bp.renesas.com>, Claudiu Beznea
+ <claudiu.beznea.uj@bp.renesas.com>, Jianlong Huang
+ <jianlong.huang@starfivetech.com>, linux-arm-kernel@lists.infradead.org, 
+ linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-mediatek@lists.infradead.org, linux-mips@vger.kernel.org, 
+ linux-renesas-soc@vger.kernel.org, Ray Jui <rjui@broadcom.com>, Scott
+ Branden <sbranden@broadcom.com>, Broadcom internal kernel review list
+ <bcm-kernel-feedback-list@broadcom.com>, Dong Aisheng
+ <aisheng.dong@nxp.com>,  Fabio Estevam <festevam@gmail.com>, Shawn Guo
+ <shawnguo@kernel.org>, Jacky Bai <ping.bai@nxp.com>,  Pengutronix Kernel
+ Team <kernel@pengutronix.de>, Sascha Hauer <s.hauer@pengutronix.de>, NXP
+ Linux Team <linux-imx@nxp.com>, Sean Wang <sean.wang@kernel.org>, Lakshmi
+ Sowjanya D <lakshmi.sowjanya.d@intel.com>, Emil Renner Berthing
+ <kernel@esmil.dk>, Hal Feng <hal.feng@starfivetech.com>
+Date: Mon, 18 Dec 2023 12:43:28 +0100
+In-Reply-To: <ZYAhyWxh5sEyK1RC@smile.fi.intel.com>
+References: <20231211190321.307330-1-andriy.shevchenko@linux.intel.com>
+	 <20231211190321.307330-4-andriy.shevchenko@linux.intel.com>
+	 <fb29c3bca8d245e3f7496539b7293aa4fc4bccd0.camel@crapouillou.net>
+	 <ZXmv81bJRMqB1GLY@smile.fi.intel.com>
+	 <9cbaf60cd6cf1a581e7587088f71ca7cf6b6ff37.camel@crapouillou.net>
+	 <ZYAhyWxh5sEyK1RC@smile.fi.intel.com>
+Autocrypt: addr=paul@crapouillou.net; prefer-encrypt=mutual;
+ keydata=mQENBF0KhcEBCADkfmrzdTOp/gFOMQX0QwKE2WgeCJiHPWkpEuPH81/HB2dpjPZNW03ZMLQfECbbaEkdbN4YnPfXgcc1uBe5mwOAPV1MBlaZcEt4M67iYQwSNrP7maPS3IaQJ18ES8JJ5Uf5UzFZaUawgH+oipYGW+v31cX6L3k+dGsPRM0Pyo0sQt52fsopNPZ9iag0iY7dGNuKenaEqkYNjwEgTtNz8dt6s3hMpHIKZFL3OhAGi88wF/21isv0zkF4J0wlf9gYUTEEY3Eulx80PTVqGIcHZzfavlWIdzhe+rxHTDGVwseR2Y1WjgFGQ2F+vXetAB8NEeygXee+i9nY5qt9c07m8mzjABEBAAG0JFBhdWwgQ2VyY3VlaWwgPHBhdWxAY3JhcG91aWxsb3UubmV0PokBTgQTAQoAOBYhBNdHYd8OeCBwpMuVxnPua9InSr1BBQJdCoXBAhsDBQsJCAcCBhUKCQgLAgQWAgMBAh4BAheAAAoJEHPua9InSr1BgvIH/0kLyrI3V0f33a6D3BJwc1grbygPVYGuC5l5eMnAI+rDmLR19E2yvibRpgUc87NmPEQPpbbtAZt8On/2WZoE5OIPdlId/AHNpdgAtGXo0ZX4LGeVPjxjdkbrKVHxbcdcnY+zzaFglpbVSvp76pxqgVg8PgxkAAeeJV+ET4t0823Gz2HzCL/6JZhvKAEtHVulOWoBh368SYdolp1TSfORWmHzvQiCCCA+j0cMkYVGzIQzEQhX7Urf9N/nhU5/SGLFEi9DcBfXoGzhyQyLXflhJtKm3XGB1K/pPulbKaPcKAl6rIDWPuFpHkSbmZ9r4KFlBwgAhlGy6nqP7O3u7q23hRW5AQ0EXQqFwQEIAMo+MgvYHsyjX3Ja4Oolg1Txzm8woj30ch2nACFCqaO0R/1kLj2VVeLrDyQUOlXx9PD6IQI4M8wy8m0sR4wV2p/g/paw7k65cjzYYLh+FdLNyO7IW
+	YXndJO+wDPi3aK/YKUYepqlP+QsmaHNYNdXEQDRKqNfJg8t0f5rfzp9ryxd1tCnbV+tG8VHQWiZXNqN7062DygSNXFUfQ0vZ3J2D4oAcIAEXTymRQ2+hr3Hf7I61KMHWeSkCvCG2decTYsHlw5Erix/jYWqVOtX0roOOLqWkqpQQJWtU+biWrAksmFmCp5fXIg1Nlg39v21xCXBGxJkxyTYuhdWyu1yDQ+LSIUAEQEAAYkBNgQYAQoAIBYhBNdHYd8OeCBwpMuVxnPua9InSr1BBQJdCoXBAhsMAAoJEHPua9InSr1B4wsH/Az767YCT0FSsMNt1jkkdLCBi7nY0GTW+PLP1a4zvVqFMo/vD6uz1ZflVTUAEvcTi3VHYZrlgjcxmcGu239oruqUS8Qy/xgZBp9KF0NTWQSl1iBfVbIU5VV1vHS6r77W5x0qXgfvAUWOH4gmN3MnF01SH2zMcLiaUGF+mcwl15rHbjnT3Nu2399aSE6cep86igfCAyFUOXjYEGlJy+c6UyT+DUylpjQg0nl8MlZ/7Whg2fAU9+FALIbQYQzGlT4c71SibR9T741jnegHhlmV4WXXUD6roFt54t0MSAFSVxzG8mLcSjR2cLUJ3NIPXixYUSEn3tQhfZj07xIIjWxAYZo=
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20231116122424.80136-1-biju.das.jz@bp.renesas.com>
 
-Hi Biju,
+Hi Andy,
 
-Thank you for the patch.
+Le lundi 18 d=C3=A9cembre 2023 =C3=A0 12:41 +0200, Andy Shevchenko a =C3=A9=
+crit=C2=A0:
+> On Sun, Dec 17, 2023 at 03:43:24PM +0100, Paul Cercueil wrote:
+> > Le mercredi 13 d=C3=A9cembre 2023 =C3=A0 15:21 +0200, Andy Shevchenko a
+> > =C3=A9crit=C2=A0:
+> > > On Wed, Dec 13, 2023 at 10:55:46AM +0100, Paul Cercueil wrote:
+> > > > Le lundi 11 d=C3=A9cembre 2023 =C3=A0 20:57 +0200, Andy Shevchenko =
+a
+> > > > =C3=A9crit=C2=A0:
+>=20
+> ...
+>=20
+> > > > > -#define INGENIC_PIN_GROUP(name, id, func)		\
+> > > > > -	INGENIC_PIN_GROUP_FUNCS(name, id, (void *)(func))
+> > > > > +#define INGENIC_PIN_GROUP(_name_, id,
+> > > > > func)						\
+> > > > > +	{					=09
+> > > > > =09
+> > > > > 			\
+> > > > > +		.name =3D
+> > > > > _name_,						=09
+> > > > > 	\
+> > > > > +		.pins =3D
+> > > > > id##_pins,					=09
+> > > > > 	\
+> > > > > +		.num_pins =3D
+> > > > > ARRAY_SIZE(id##_pins),					\
+> > > > > +		.data =3D (void
+> > > > > *)func,							\
+> > > > > +	}
+> > > >=20
+> > > > This INGENIC_PIN_GROUP() macro doesn't need to be modified,
+> > > > does
+> > > > it?
+> > >=20
+> > > We can go either way. I prefer to go this way as it reduces level
+> > > of
+> > > indirections in the macros. It makes code easier to read and
+> > > understand.
+> > > But if you insist, I can drop that change in next version.
+> >=20
+> > I like the patches to be minimal. But I understand your point of
+> > view
+> > as well.
+> >=20
+> > If you have to issue a v6, maybe state the reason why you also
+> > modify
+> > INGENIC_PIN_GROUP() then. But I don't care enough to request a v6
+> > just
+> > for that.
+> >=20
+> > So:
+> > Acked-by: Paul Cercueil <paul@crapouillou.net>
+>=20
+> Thank you!
+>=20
+> But as I already noted, the series had been applied (by Linus W.)
+> and this does not seem to be a critical to fix, do you agree?
+>=20
 
-On Thu, Nov 16, 2023 at 12:24:24PM +0000, Biju Das wrote:
-> The rcar_du_vsps_init() doesn't free the np allocated by
-> of_parse_phandle_with_fixed_args() for the non-error case.
-> 
-> Fix memory leak for the non-error case.
-> 
-> While at it, replace the label 'error'->'done' as it applies to non-error
-> case as well and update the error check condition for rcar_du_vsp_init()
-> to avoid breakage in future, if it returns positive value.
-> 
-> Fixes: 3e81374e2014 ("drm: rcar-du: Support multiple sources from the same VSP")
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+Well I only suggested to change the commit message - so no, it is not
+critical to fix.
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-
-> ---
-> v1->v2:
->  * Replaced the label 'error'->'done' as it applies to non-error case as
->    well.
->  * Update the error check condition for rcar_du_vsp_init() to avoid
->    breakage in future, if it returns positive value.
-> ---
->  drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c | 10 ++++------
->  1 file changed, 4 insertions(+), 6 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c b/drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c
-> index 70d8ad065bfa..4c8fe83dd610 100644
-> --- a/drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c
-> +++ b/drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c
-> @@ -705,7 +705,7 @@ static int rcar_du_vsps_init(struct rcar_du_device *rcdu)
->  		ret = of_parse_phandle_with_fixed_args(np, vsps_prop_name,
->  						       cells, i, &args);
->  		if (ret < 0)
-> -			goto error;
-> +			goto done;
->  
->  		/*
->  		 * Add the VSP to the list or update the corresponding existing
-> @@ -743,13 +743,11 @@ static int rcar_du_vsps_init(struct rcar_du_device *rcdu)
->  		vsp->dev = rcdu;
->  
->  		ret = rcar_du_vsp_init(vsp, vsps[i].np, vsps[i].crtcs_mask);
-> -		if (ret < 0)
-> -			goto error;
-> +		if (ret)
-> +			goto done;
->  	}
->  
-> -	return 0;
-> -
-> -error:
-> +done:
->  	for (i = 0; i < ARRAY_SIZE(vsps); ++i)
->  		of_node_put(vsps[i].np);
->  
-
--- 
-Regards,
-
-Laurent Pinchart
+Cheers,
+-Paul
 
