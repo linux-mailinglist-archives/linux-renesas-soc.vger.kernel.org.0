@@ -1,100 +1,141 @@
-Return-Path: <linux-renesas-soc+bounces-1185-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-1186-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C72B817277
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 18 Dec 2023 15:09:33 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id B167F817D4D
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 18 Dec 2023 23:33:29 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8227E1C24E0A
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 18 Dec 2023 14:09:32 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 408ED1F22F4F
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 18 Dec 2023 22:33:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C469C37888;
-	Mon, 18 Dec 2023 14:06:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 16CCB129EFB;
+	Mon, 18 Dec 2023 22:33:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ZQOr/ghN"
+	dkim=pass (2048-bit key) header.d=kernelci-org.20230601.gappssmtp.com header.i=@kernelci-org.20230601.gappssmtp.com header.b="x4B7XEBB"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-oi1-f176.google.com (mail-oi1-f176.google.com [209.85.167.176])
+Received: from mail-oi1-f170.google.com (mail-oi1-f170.google.com [209.85.167.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68BD35A84B
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 18 Dec 2023 14:06:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-oi1-f176.google.com with SMTP id 5614622812f47-3b9d8bfe845so2606123b6e.0
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 18 Dec 2023 06:06:56 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4711D1FAB
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 18 Dec 2023 22:33:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernelci.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=kernelci.org
+Received: by mail-oi1-f170.google.com with SMTP id 5614622812f47-3ba52d0f9feso1674353b6e.0
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 18 Dec 2023 14:33:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1702908415; x=1703513215; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=9wIOhibGJXFofpfSDEGIwPzynecnxLJGufeFrCuiEGA=;
-        b=ZQOr/ghNQs+H55FQ63Hr/LxN7Y5r9rKEerXLGgsu7I333f7ruJ2mVzWqaJqsiVPjUi
-         5ny/6aaF+v1PSQ2uLMBWFlfWYuDzk15XMGWSq/n854LCnh9OEIywp2hxbz4zDHK5/W79
-         zasOC7OjSCmHDiVaj1otAwqTYImPGOuyK5bJK7me+LA8xrG1zoZJT/knM1/XBIQ6TCPy
-         gbnT9D0WhJjR5y9oPIITX0iM2PkYIer37bhsU5bzK0FjsoYeCaPUvMqXqa1Wis/FO3rK
-         1rLT64ldaKYq+tNcBEBsTSan8gaYxwZ5JXSifizoltDCSp1GcffEAwK960artqN3HJYH
-         +v2Q==
+        d=kernelci-org.20230601.gappssmtp.com; s=20230601; t=1702938803; x=1703543603; darn=vger.kernel.org;
+        h=from:to:subject:content-transfer-encoding:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=BKGJ1aRP0pwwStnjfjxkdnKamsshTYp3dmb+oKsbgjc=;
+        b=x4B7XEBB4KZ4sEf6STisHU87QR7jSfyczzzL07ZOOmVnumVL4IdfPwBLnFYbFUN2Q8
+         g5UKQ5GfJykW9x2F5XkV33+GjwtjULanaRFs7GL/R89SIGqFbMbgRj4j1R6QBPfhbwrE
+         wAiEP1xOyGRCqrMvHiBokAuvKpz9fPdyuYjm7U6uTKZksoxSFkfCAELWb5pA/tXnxH9k
+         PuBlku38ZDWRcIOen4KvfnXT0lY7gP103A4u1m4EuZAWhKsE3EzjLJ05yiCcpOYsx4oV
+         qHF+1pmOJ1a+v6byFxpNrsXON1R3UX4V3w6i4sOs7MQU5xIQ/XnMh+1YTyp+d430cUk1
+         NS0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702908415; x=1703513215;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=9wIOhibGJXFofpfSDEGIwPzynecnxLJGufeFrCuiEGA=;
-        b=CuoZyyTDqqZxEXDIL2aJoMrF5hMS9+JQl5CFdpxAAd77ckcFOzuW5gmUCrc60TE39a
-         04B9yXaPjJMJOxBPy4ygOrpWdxUvWyTnf8Dl9zCxzpR1bddNPYDR1VoqNoiaW6pjr7QP
-         DGH79ZqqIVXaDp/XRooC0lTGgJun7wNGPaOCYGzvCYLYDv9EFJxqcyuW5BdYY3ijMChk
-         QhrQCkFvUFcaE1lgcjLwviyb5v/967278W5Q7WPuROV+Y35t38pofOXTuenqFIZehXKp
-         ynXuqZipr0wAJTMUV4h0D2mPjULrpR8WypUkyt2W08I1I0R3gPnzopUFZ+0f7CQFzhTC
-         /36A==
-X-Gm-Message-State: AOJu0Yzai64yJB2cYhZIZmBkb2iqS9RYHBrYjzaoMswe5gmddJzkOzPo
-	BRIGO75eMF3xyE6ekxK3WpItFZeix4BDesr+HAaGhyoBJdwjQO/DrlY=
-X-Google-Smtp-Source: AGHT+IGW9lwauNcpVu3C788nmkRoMvRhPi/6Vtdkith2DcDMCYrdIGJRCyTh2167K6c/ggb0E03sWA/dWtsLOc3323Y=
-X-Received: by 2002:a05:6808:1307:b0:3b8:3442:8d99 with SMTP id
- y7-20020a056808130700b003b834428d99mr21287470oiv.20.1702908415587; Mon, 18
- Dec 2023 06:06:55 -0800 (PST)
+        d=1e100.net; s=20230601; t=1702938803; x=1703543603;
+        h=from:to:subject:content-transfer-encoding:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=BKGJ1aRP0pwwStnjfjxkdnKamsshTYp3dmb+oKsbgjc=;
+        b=c24Aa4BYeOiFnpXfo+l2wLcOBuqbcPZmTkmqcPPYFPqXQ9N+tJIDn2eli3bsPhMK7u
+         v8S2t5XJH+TMgy1DvsRvUkGA/tbCRZT6M7hPopm9p6UvKgMM5vlRYbojMuww9eyT0kni
+         KD6f4KVFMKO0J5f4FgRUqdHaeDYTDI0P2qaQmerdD4txpeHsloL2BDwIcY5iAcdnjqAb
+         3uu7gN8R+KYbs7XO2nPkXd7W15OMPIFwNpOVGISDTkSZmkFyCkV6BfnAjHlBNr9lhUAb
+         vVE9SyKsxX3aOJTEK9EwvBeRocSdHQ0YpDgU4gC81cYZBCzXtN6lGw9tH5NScdCH1PWt
+         N+MA==
+X-Gm-Message-State: AOJu0YzeJC2Um4H3YGF4TIiPIb2yZo8Y0aifig32zMud+U0JZp523rVQ
+	cymWBlEoLFtvIs/01kb7A6kQMB7JK41OjOKNzN8=
+X-Google-Smtp-Source: AGHT+IFTlD+5SAkB7A8aNTK3DLNuM/zKPqROUqe+tX9BA1zWPc5bhLMmUx/PSyWAoUntlGWCuH1orA==
+X-Received: by 2002:a05:6808:2dcc:b0:3ba:f4a:4310 with SMTP id gn12-20020a0568082dcc00b003ba0f4a4310mr20323573oib.11.1702938803007;
+        Mon, 18 Dec 2023 14:33:23 -0800 (PST)
+Received: from kernelci-production.internal.cloudapp.net ([20.171.243.82])
+        by smtp.gmail.com with ESMTPSA id w190-20020a6362c7000000b005cd8866cccesm3559252pgb.27.2023.12.18.14.33.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 18 Dec 2023 14:33:22 -0800 (PST)
+Message-ID: <6580c8b2.630a0220.1ddfe.8e2c@mx.google.com>
+Date: Mon, 18 Dec 2023 14:33:22 -0800 (PST)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cover.1702642700.git.geert+renesas@glider.be>
-In-Reply-To: <cover.1702642700.git.geert+renesas@glider.be>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Mon, 18 Dec 2023 15:06:44 +0100
-Message-ID: <CACRpkdbtWtLEFr_AvgHZ6yfL17+0zXY_Czwc2zJdaSTU1dbWHQ@mail.gmail.com>
-Subject: Re: [GIT PULL] pinctrl: renesas: Updates for v6.8 (take two)
-To: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: linux-gpio@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+X-Kernelci-Branch: master
+X-Kernelci-Tree: renesas
+X-Kernelci-Report-Type: test
+X-Kernelci-Kernel: renesas-devel-2023-12-18-v6.7-rc6
+Subject: renesas/master baseline-nfs: 21 runs,
+ 1 regressions (renesas-devel-2023-12-18-v6.7-rc6)
+To: linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
+From: "kernelci.org bot" <bot@kernelci.org>
 
-On Fri, Dec 15, 2023 at 3:20=E2=80=AFPM Geert Uytterhoeven
-<geert+renesas@glider.be> wrote:
+renesas/master baseline-nfs: 21 runs, 1 regressions (renesas-devel-2023-12-=
+18-v6.7-rc6)
+
+Regressions Summary
+-------------------
+
+platform   | arch | lab             | compiler | defconfig          | regre=
+ssions
+-----------+------+-----------------+----------+--------------------+------=
+------
+dove-cubox | arm  | lab-pengutronix | gcc-10   | multi_v7_defconfig | 1    =
+      =
 
 
-> The following changes since commit dc99d4c8ac46bf533b9519a53795c4cd6ff0fa=
-39:
->
->   dt-bindings: pinctrl: renesas: Drop unneeded quotes (2023-11-27 11:12:1=
-2 +0100)
->
-> are available in the Git repository at:
->
->   git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git=
- tags/renesas-pinctrl-for-v6.8-tag2
->
-> for you to fetch changes up to 9e5889c68d992b65efd10aa0a4523c96fd07077f:
->
->   pinctrl: renesas: rzg2l: Add input enable to the Ethernet pins (2023-12=
--15 11:34:34 +0100)
+  Details:  https://kernelci.org/test/job/renesas/branch/master/kernel/rene=
+sas-devel-2023-12-18-v6.7-rc6/plan/baseline-nfs/
 
-Pulled in!
+  Test:     baseline-nfs
+  Tree:     renesas
+  Branch:   master
+  Describe: renesas-devel-2023-12-18-v6.7-rc6
+  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-d=
+evel.git
+  SHA:      b68ca22afe86db36f59f8bfe7b72b5fbda26187b =
 
-Thanks!
 
-Yours,
-Linus Walleij
+
+Test Regressions
+---------------- =
+
+
+
+platform   | arch | lab             | compiler | defconfig          | regre=
+ssions
+-----------+------+-----------------+----------+--------------------+------=
+------
+dove-cubox | arm  | lab-pengutronix | gcc-10   | multi_v7_defconfig | 1    =
+      =
+
+
+  Details:     https://kernelci.org/test/plan/id/65809813f51b0d3e48e135a9
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: multi_v7_defconfig
+  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
+10110)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+023-12-18-v6.7-rc6/arm/multi_v7_defconfig/gcc-10/lab-pengutronix/baseline-n=
+fs-dove-cubox.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+023-12-18-v6.7-rc6/arm/multi_v7_defconfig/gcc-10/lab-pengutronix/baseline-n=
+fs-dove-cubox.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
+230623.0/armhf/initrd.cpio.gz =
+
+
+
+  * baseline-nfs.login: https://kernelci.org/test/case/id/65809813f51b0d3e4=
+8e135aa
+        failing since 34 days (last pass: renesas-devel-2023-06-26-v6.4, fi=
+rst fail: renesas-devel-2023-11-13-v6.7-rc1) =
+
+ =20
 
