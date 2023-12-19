@@ -1,161 +1,204 @@
-Return-Path: <linux-renesas-soc+bounces-1196-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-1197-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06EF5818CE4
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 Dec 2023 17:50:34 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3934F818F34
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 Dec 2023 19:06:05 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 95DD92886C1
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 Dec 2023 16:50:32 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A3344B211B1
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 Dec 2023 18:06:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6E70E1F95F;
-	Tue, 19 Dec 2023 16:49:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5383537D00;
+	Tue, 19 Dec 2023 18:05:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eTGuRqEi"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mx01.omp.ru (mx01.omp.ru [90.154.21.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 339CD20DFE;
-	Tue, 19 Dec 2023 16:49:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=omp.ru
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=omp.ru
-Received: from [192.168.1.104] (178.176.72.19) by msexch01.omp.ru
- (10.188.4.12) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.1258.12; Tue, 19 Dec
- 2023 19:49:30 +0300
-Subject: Re: [PATCH net 1/2] net: ravb: Wait for operation mode to be applied
-To: claudiu beznea <claudiu.beznea@tuxon.dev>, <davem@davemloft.net>,
-	<edumazet@google.com>, <kuba@kernel.org>, <pabeni@redhat.com>,
-	<claudiu.beznea.uj@bp.renesas.com>, <yoshihiro.shimoda.uh@renesas.com>,
-	<wsa+renesas@sang-engineering.com>, <niklas.soderlund+renesas@ragnatech.se>,
-	<biju.das.jz@bp.renesas.com>, <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	<mitsuhiro.kimura.kc@renesas.com>, <geert+renesas@glider.be>
-CC: <netdev@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>
-References: <20231214113137.2450292-1-claudiu.beznea.uj@bp.renesas.com>
- <20231214113137.2450292-2-claudiu.beznea.uj@bp.renesas.com>
- <d08dbbd4-2e63-c436-6935-df68c291bf75@omp.ru>
- <0b807496-f387-4aef-8650-a43a9249468f@tuxon.dev>
-From: Sergey Shtylyov <s.shtylyov@omp.ru>
-Organization: Open Mobile Platform
-Message-ID: <2e70a095-8079-84f1-f842-eb90059610ed@omp.ru>
-Date: Tue, 19 Dec 2023 19:49:29 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB968374FB
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 19 Dec 2023 18:05:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1703009156; x=1734545156;
+  h=date:from:to:cc:subject:message-id;
+  bh=2gk6iRsqw9YaCZpqEW9NLHpGhlDrTLP9Na4kSsMU1SE=;
+  b=eTGuRqEiB/0tmUy/37o704F1a0OAHiCM9vxSEkLB/B7mCM9Y5qkCNIP2
+   iqCo5/VonquPWxIT+O442E/mvSrXlO3NrIYgMRiO8vOLr63iAJ0ZmQg8a
+   agHKjom/l70Qsm0ClXOPKkU50+QsVlAEvzCLPSmJ8S3nQqMPMJJRJHwoz
+   tTTZ9HgwImqI791EL9EJwMEGQXMdV54J/PEHTeqDEyOlc6/UWZoyBPMFG
+   XL2wtlkUTyoQt1zrJbPZzf1X/pgKrLTkVoaWnj6+7m+8zqx3Z4a6Ix3pl
+   KqSRMTXvlaVNP8EcHrHTTSJbX/VJBnCGMmq9CJZSuwsrzxyGNUKEbZktK
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10929"; a="375847233"
+X-IronPort-AV: E=Sophos;i="6.04,289,1695711600"; 
+   d="scan'208";a="375847233"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Dec 2023 10:02:25 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10929"; a="894375465"
+X-IronPort-AV: E=Sophos;i="6.04,289,1695711600"; 
+   d="scan'208";a="894375465"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+  by fmsmga002.fm.intel.com with ESMTP; 19 Dec 2023 10:02:23 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rFeQ9-0005mo-2u;
+	Tue, 19 Dec 2023 18:02:21 +0000
+Date: Wed, 20 Dec 2023 02:01:58 +0800
+From: kernel test robot <lkp@intel.com>
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: linux-renesas-soc@vger.kernel.org
+Subject: [geert-renesas-devel:master] BUILD SUCCESS
+ b68ca22afe86db36f59f8bfe7b72b5fbda26187b
+Message-ID: <202312200255.mIlY926B-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-In-Reply-To: <0b807496-f387-4aef-8650-a43a9249468f@tuxon.dev>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: msexch01.omp.ru (10.188.4.12) To msexch01.omp.ru
- (10.188.4.12)
-X-KSE-ServerInfo: msexch01.omp.ru, 9
-X-KSE-AntiSpam-Interceptor-Info: scan successful
-X-KSE-AntiSpam-Version: 6.1.0, Database issued on: 12/19/2023 16:26:24
-X-KSE-AntiSpam-Status: KAS_STATUS_NOT_DETECTED
-X-KSE-AntiSpam-Method: none
-X-KSE-AntiSpam-Rate: 59
-X-KSE-AntiSpam-Info: Lua profiles 182235 [Dec 19 2023]
-X-KSE-AntiSpam-Info: Version: 6.1.0.3
-X-KSE-AntiSpam-Info: Envelope from: s.shtylyov@omp.ru
-X-KSE-AntiSpam-Info: LuaCore: 7 0.3.7 6d6bf5bd8eea7373134f756a2fd73e9456bb7d1a
-X-KSE-AntiSpam-Info: {rep_avail}
-X-KSE-AntiSpam-Info: {Tracking_from_domain_doesnt_match_to}
-X-KSE-AntiSpam-Info: {relay has no DNS name}
-X-KSE-AntiSpam-Info: {SMTP from is not routable}
-X-KSE-AntiSpam-Info:
-	omp.ru:7.1.1;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;178.176.72.19:7.7.3,7.4.1;127.0.0.199:7.1.2
-X-KSE-AntiSpam-Info: {cloud_iprep_silent}
-X-KSE-AntiSpam-Info: ApMailHostAddress: 178.176.72.19
-X-KSE-AntiSpam-Info: {DNS response errors}
-X-KSE-AntiSpam-Info: Rate: 59
-X-KSE-AntiSpam-Info: Status: not_detected
-X-KSE-AntiSpam-Info: Method: none
-X-KSE-AntiSpam-Info: Auth:dmarc=temperror header.from=omp.ru;spf=temperror
- smtp.mailfrom=omp.ru;dkim=none
-X-KSE-Antiphishing-Info: Clean
-X-KSE-Antiphishing-ScanningType: Heuristic
-X-KSE-Antiphishing-Method: None
-X-KSE-Antiphishing-Bases: 12/19/2023 16:32:00
-X-KSE-Antivirus-Interceptor-Info: scan successful
-X-KSE-Antivirus-Info: Clean, bases: 12/19/2023 2:00:00 PM
-X-KSE-Attachment-Filter-Triggered-Rules: Clean
-X-KSE-Attachment-Filter-Triggered-Filters: Clean
-X-KSE-BulkMessagesFiltering-Scan-Result: InTheLimit
 
-On 12/15/23 1:04 PM, claudiu beznea wrote:
-[...]
->>> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
->>>
->>> CSR.OPS bits specify the current operating mode and (according to
->>> documentation) they are updated when the operating mode change request
->>> is processed. Thus, check CSR.OPS before proceeding.
->>
->>    The manuals I have indeed say we need to check CSR.OPS... But we only
->> need to wait iff we transfer from the operation mode to the config mode...
-> 
-> RZ/G3S manual say about CSR.OPS "These bits are updated when an operating
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git master
+branch HEAD: b68ca22afe86db36f59f8bfe7b72b5fbda26187b  Merge tag 'v6.7-rc6' into renesas-devel
 
-   I was unable to find the RZ/G3 manuals on ther Renesas' website... :-(
+elapsed time: 1457m
 
-> mode changes is processed". From this I get we need to check it for any mode.
+configs tested: 122
+configs skipped: 2
 
-  I don't argue with the (safety) checking of CSR.OPS, I was just pointing
-out that the R-Car gen3 manual says that only transfer from operation to
-the config mode happens after a considerable amount of time, other transfers
-do happen immediately after updating CCC.OPC.
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-> Also, on configuration procedure (of RZ/G3S) it say CSR.OPS need to be
-> checked when switching from reset -> config.
+tested configs:
+alpha                             allnoconfig   gcc  
+alpha                               defconfig   gcc  
+arc                               allnoconfig   gcc  
+arc                                 defconfig   gcc  
+arc                     nsimosci_hs_defconfig   gcc  
+arm                               allnoconfig   gcc  
+arm                                 defconfig   clang
+arm                            mmp2_defconfig   clang
+arm                        shmobile_defconfig   gcc  
+arm                           tegra_defconfig   gcc  
+arm64                             allnoconfig   gcc  
+arm64                               defconfig   gcc  
+csky                              allnoconfig   gcc  
+csky                                defconfig   gcc  
+hexagon                           allnoconfig   clang
+hexagon                             defconfig   clang
+i386                             allmodconfig   clang
+i386                              allnoconfig   clang
+i386                             allyesconfig   clang
+i386         buildonly-randconfig-001-20231219   clang
+i386         buildonly-randconfig-002-20231219   clang
+i386         buildonly-randconfig-003-20231219   clang
+i386         buildonly-randconfig-004-20231219   clang
+i386         buildonly-randconfig-005-20231219   clang
+i386         buildonly-randconfig-006-20231219   clang
+i386                                defconfig   gcc  
+i386                  randconfig-001-20231219   clang
+i386                  randconfig-002-20231219   clang
+i386                  randconfig-003-20231219   clang
+i386                  randconfig-004-20231219   clang
+i386                  randconfig-005-20231219   clang
+i386                  randconfig-006-20231219   clang
+i386                  randconfig-011-20231219   gcc  
+i386                  randconfig-012-20231219   gcc  
+i386                  randconfig-013-20231219   gcc  
+i386                  randconfig-014-20231219   gcc  
+i386                  randconfig-015-20231219   gcc  
+i386                  randconfig-016-20231219   gcc  
+loongarch                        allmodconfig   gcc  
+loongarch                         allnoconfig   gcc  
+loongarch                           defconfig   gcc  
+m68k                             allmodconfig   gcc  
+m68k                              allnoconfig   gcc  
+m68k                             allyesconfig   gcc  
+m68k                                defconfig   gcc  
+m68k                        m5307c3_defconfig   gcc  
+microblaze                       allmodconfig   gcc  
+microblaze                        allnoconfig   gcc  
+microblaze                       allyesconfig   gcc  
+microblaze                          defconfig   gcc  
+mips                              allnoconfig   clang
+mips                             allyesconfig   gcc  
+mips                  cavium_octeon_defconfig   clang
+mips                     cu1830-neo_defconfig   clang
+mips                 decstation_r4k_defconfig   gcc  
+mips                           ip27_defconfig   gcc  
+nios2                            allmodconfig   gcc  
+nios2                             allnoconfig   gcc  
+nios2                            allyesconfig   gcc  
+nios2                               defconfig   gcc  
+openrisc                          allnoconfig   gcc  
+openrisc                            defconfig   gcc  
+parisc                            allnoconfig   gcc  
+parisc                              defconfig   gcc  
+parisc64                            defconfig   gcc  
+powerpc                      acadia_defconfig   clang
+powerpc                    adder875_defconfig   gcc  
+powerpc                           allnoconfig   gcc  
+powerpc                        fsp2_defconfig   clang
+powerpc                      ppc40x_defconfig   gcc  
+riscv                             allnoconfig   clang
+riscv                               defconfig   gcc  
+s390                             allmodconfig   gcc  
+s390                              allnoconfig   gcc  
+s390                             allyesconfig   gcc  
+s390                                defconfig   gcc  
+sh                               allmodconfig   gcc  
+sh                                allnoconfig   gcc  
+sh                               allyesconfig   gcc  
+sh                                  defconfig   gcc  
+sh                            titan_defconfig   gcc  
+sparc                            allmodconfig   gcc  
+sparc64                          allmodconfig   gcc  
+sparc64                          allyesconfig   gcc  
+sparc64                             defconfig   gcc  
+um                               allmodconfig   clang
+um                                allnoconfig   clang
+um                               allyesconfig   clang
+um                                  defconfig   gcc  
+um                             i386_defconfig   gcc  
+um                           x86_64_defconfig   gcc  
+x86_64                            allnoconfig   gcc  
+x86_64                           allyesconfig   clang
+x86_64       buildonly-randconfig-001-20231219   clang
+x86_64       buildonly-randconfig-002-20231219   clang
+x86_64       buildonly-randconfig-003-20231219   clang
+x86_64       buildonly-randconfig-004-20231219   clang
+x86_64       buildonly-randconfig-005-20231219   clang
+x86_64       buildonly-randconfig-006-20231219   clang
+x86_64                              defconfig   gcc  
+x86_64                randconfig-001-20231219   gcc  
+x86_64                randconfig-002-20231219   gcc  
+x86_64                randconfig-003-20231219   gcc  
+x86_64                randconfig-004-20231219   gcc  
+x86_64                randconfig-005-20231219   gcc  
+x86_64                randconfig-006-20231219   gcc  
+x86_64                randconfig-011-20231219   clang
+x86_64                randconfig-012-20231219   clang
+x86_64                randconfig-013-20231219   clang
+x86_64                randconfig-014-20231219   clang
+x86_64                randconfig-015-20231219   clang
+x86_64                randconfig-016-20231219   clang
+x86_64                randconfig-071-20231219   clang
+x86_64                randconfig-072-20231219   clang
+x86_64                randconfig-073-20231219   clang
+x86_64                randconfig-074-20231219   clang
+x86_64                randconfig-075-20231219   clang
+x86_64                randconfig-076-20231219   clang
+x86_64                          rhel-8.3-rust   clang
+xtensa                            allnoconfig   gcc  
+xtensa                generic_kc705_defconfig   gcc  
+xtensa                          iss_defconfig   gcc  
 
-   Just checked or waited on?
-   The R-car does have a specific algorithm for transferring from the operation
-to the reset mode (you need to set CC.DTSR first and then wait for CSR.DTS to
-clear before updating CCC.OPC)...
-
-[...]
-
->>> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
->>> ---
->>>  drivers/net/ethernet/renesas/ravb_main.c | 47 ++++++++++++++++++++----
->>>  1 file changed, 39 insertions(+), 8 deletions(-)
->>>
->>> diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
->>> index 9178f6d60e74..ce95eb5af354 100644
->>> --- a/drivers/net/ethernet/renesas/ravb_main.c
->>> +++ b/drivers/net/ethernet/renesas/ravb_main.c
-[...]
->>> @@ -1744,6 +1747,18 @@ static inline int ravb_hook_irq(unsigned int irq, irq_handler_t handler,
->>>  	return error;
->>>  }
->>>  
->>> +static int ravb_set_reset_mode(struct net_device *ndev)
->>> +{
->>> +	int error;
->>> +
->>> +	ravb_write(ndev, CCC_OPC_RESET, CCC);
->>> +	error = ravb_wait(ndev, CSR, CSR_OPS, CSR_OPS_RESET);
->>> +	if (error)
->>> +		netdev_err(ndev, "failed to switch device to reset mode\n");
->>> +
->>> +	return error;
->>> +}
->>> +
->>
->>    Again, ravb_wait() call doesn't seem necessary here...
-> 
-> Ok. I followed the guideline from the description of CSR.OPS. Let me know
-> if you want to keep it or not. I think I haven't saw any issues w/o this.
-
-  Yes, please remove the waiting.
-
-[...]
-
-MBR, Sergey
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
