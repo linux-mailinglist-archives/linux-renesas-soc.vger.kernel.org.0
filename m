@@ -1,64 +1,64 @@
-Return-Path: <linux-renesas-soc+bounces-1214-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-1215-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD773819E4A
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 20 Dec 2023 12:41:43 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 65571819E97
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 20 Dec 2023 13:03:16 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 92FB01F22FF2
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 20 Dec 2023 11:41:43 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E428AB25BFC
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 20 Dec 2023 12:03:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 357F52137F;
-	Wed, 20 Dec 2023 11:41:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E444522307;
+	Wed, 20 Dec 2023 12:03:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="hCIQKu+V"
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="CDlW5m+b"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB83F22310
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 20 Dec 2023 11:41:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFD6921A17
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 20 Dec 2023 12:03:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-40c3ceded81so56072015e9.1
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 20 Dec 2023 03:41:22 -0800 (PST)
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-40d352c826eso5904645e9.0
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 20 Dec 2023 04:03:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1703072481; x=1703677281; darn=vger.kernel.org;
+        d=tuxon.dev; s=google; t=1703073779; x=1703678579; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=SZWhqtv1uYgAtrEvWORH5Jkai5M2Z/ROl6KfWhfHkKU=;
-        b=hCIQKu+Vbkex63tChfosUR/zvPPmw6Hgoz9w9dgx8GYL58b5wM6+5PhSZbIAqqxRE1
-         5e4t3mYaXvvLzC4MK3+Q70+hWDNmhtOU9dW0tNa97vMIwD/ymWvpzsEYW+ZhF3mYRwgt
-         33B4Icep/S83qd8FvEa7KJ6zwiflKWri63WZosr2J0ZmMnRSOCFPSk4J5hzVluiz6FP8
-         0il8U5fYQf+ZWV0r7sfBahOPWGtz9XAcBwN3fn4S/IIbM4WtXKWsnk+CgIfy2Gd7dF2K
-         C806ZRENcOhTY2QP9iMfXJ/aOUzH/sV9SEtxdQy2GiuQO7cU/QmYgXQX9feCeOojev2c
-         jZqQ==
+        bh=KUAWcggGlYjJDHpexg8uCDxDaM55qcNzqk8PKWCzWqM=;
+        b=CDlW5m+bL0/9rfOey+Q2NRkGHpblNC3XLSSvxH2MbACKf0iR6fZ6NwFEgmnfxQ3NlF
+         iDKdn93b0xTUkObxFB63ZMqN6pQj+VFgJdxBucazvcVsjIBH6hx32ncFRApfG0V3SZmf
+         upHQoLbam+1ekIyegXf/wQwsPBo2cvAnPrNsYatQeZjapJG4nseOi7eKxnZQ4IKQaXFE
+         u7W3S1G8RqqP4nc5LWBes4zgLEO98VIsYYJ75iWPT8KqYPmGsy9XB3GMxEOK4DkTrwsa
+         4OCPmelwpNuRjy5VwK0k9Ycor4GQV1c7sO2Ui9E/kShDXseW6ZOafn7piW+QiOrLc6J1
+         PvmQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703072481; x=1703677281;
+        d=1e100.net; s=20230601; t=1703073779; x=1703678579;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=SZWhqtv1uYgAtrEvWORH5Jkai5M2Z/ROl6KfWhfHkKU=;
-        b=wcIX+dSIZou8vnX8FcwyyOOzQgqqG5qsWi6Io0+yDnulEhNhnwiI+Kr8wZFEQBGvUc
-         8jf9i0rPoPToQrE9v27gLoFDEkRSRoWY83aK8N5cMaKGuhmzTs6uMKhOsfKL0ks70+uJ
-         SVJWcvmdMPm1zjWxfqPu29vg8tdi7F3U1CgjZ6ZqTx6r1w4vMopUdZyNPJ9Vh4+zyReS
-         5EHxdyN8xV7h/Zsvno910iRZ90UJ4ovZ70mxGnBO2tV+B3AL1S7bZMWpuB74OkuSyIRc
-         /qe44IY90/NVL8gZohVldVaon2Y5Mf9ScFVgFUDXoSnJAhYF7ZzS1VuFKNm5BZYUqhGE
-         n/2A==
-X-Gm-Message-State: AOJu0YyLkaDpKP2NwWUSr/ahaM6V71Uiodon0yKVQwDh1WFpKHeTL2Es
-	Aercv/ElkAVxOdrgiFITNOV3ig==
-X-Google-Smtp-Source: AGHT+IGrOP3rCvSQlLOPOY+Br1f+srVKe7B5d6K6/Ee1K7y3SdFosWv+1eHUoS5ib1QvAzNgoIZg0w==
-X-Received: by 2002:a05:600c:1688:b0:40b:2a53:7913 with SMTP id k8-20020a05600c168800b0040b2a537913mr9715344wmn.13.1703072480998;
-        Wed, 20 Dec 2023 03:41:20 -0800 (PST)
+        bh=KUAWcggGlYjJDHpexg8uCDxDaM55qcNzqk8PKWCzWqM=;
+        b=IEAqIeGgFyGuiWPQ49sHkEeDXk/PwT7wi2cJO/HHJa82HQN0JKagt6cEW/t5RfWEfl
+         ZOGb0xovnzAq96Ni1cYWEWMNftwtgxV4rURcrqXs4H8c5Zlwh7mV1LTRx8ZY8sKb7365
+         Hw0chFxDugWs0RNOVSfDpzem951FUj2K7YeeJSOPtUJucSzS2bk9sUtB/XP5MCxlQTnF
+         Sg3cwW4EWIuYkHPWFlEwhwbW/cMd9l1qMY2Lo+wtvc58jjEFcemor+cVGDT74WX6UmKV
+         x0KwjetyT1DizfMzRnR91BvHzqRXtefnapLF8Klg6g/sgI30U50PWKG648ledBDzHr79
+         BwKw==
+X-Gm-Message-State: AOJu0YxSm41WPgzD1X4aSmldZE3lTQ9rpC699KNJ9pWY+72ckIGww70B
+	VirxeosyhKDVuRmBh7aoFWprdw==
+X-Google-Smtp-Source: AGHT+IHTSCCX2cPlsO5ArlAPj0bWvwgIpkaJLzAeGri/FT7uuiMUHSi9oNF4nVsOpvT9KkzGyMAuaQ==
+X-Received: by 2002:a05:600c:35c9:b0:40d:18c4:d744 with SMTP id r9-20020a05600c35c900b0040d18c4d744mr2892179wmq.97.1703073779124;
+        Wed, 20 Dec 2023 04:02:59 -0800 (PST)
 Received: from [192.168.50.4] ([82.78.167.103])
-        by smtp.gmail.com with ESMTPSA id z5-20020a05600c0a0500b0040c2963e5f3sm7135141wmp.38.2023.12.20.03.41.19
+        by smtp.gmail.com with ESMTPSA id fc14-20020a05600c524e00b0040d1746f672sm7185461wmb.14.2023.12.20.04.02.57
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 20 Dec 2023 03:41:20 -0800 (PST)
-Message-ID: <3d4511bd-fd96-4281-a5cb-ac1765bded31@tuxon.dev>
-Date: Wed, 20 Dec 2023 13:41:18 +0200
+        Wed, 20 Dec 2023 04:02:58 -0800 (PST)
+Message-ID: <5b6eaff5-5358-46ff-8072-8a70af1e5d5f@tuxon.dev>
+Date: Wed, 20 Dec 2023 14:02:57 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -66,8 +66,8 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v2 11/21] net: ravb: Move DBAT configuration to
- the driver's ndo_open API
+Subject: Re: [PATCH net-next v2 10/21] net: ravb: Move delay mode set in the
+ driver's ndo_open API
 Content-Language: en-US
 To: Sergey Shtylyov <s.shtylyov@omp.ru>, davem@davemloft.net,
  edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
@@ -78,80 +78,73 @@ Cc: netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
  linux-kernel@vger.kernel.org,
  Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 References: <20231214114600.2451162-1-claudiu.beznea.uj@bp.renesas.com>
- <20231214114600.2451162-12-claudiu.beznea.uj@bp.renesas.com>
- <a93c0673-2876-5bb2-29aa-0d0208b97b10@omp.ru>
- <4721c4e6-cc0f-48bd-8b14-4a8217ada1fd@omp.ru>
- <b17c6124-0b84-40b2-a254-cce617f73cf2@tuxon.dev>
- <59ba595a-ab79-cc5d-feff-dad60e80c44f@omp.ru>
+ <20231214114600.2451162-11-claudiu.beznea.uj@bp.renesas.com>
+ <421c684d-7092-d7a8-e00a-6abe40c557c5@omp.ru>
+ <58b11076-3e8e-42a0-864f-7ad16abaccd6@tuxon.dev>
+ <c00db758-54ca-80a9-7ba3-9a6ce61f9224@omp.ru>
 From: claudiu beznea <claudiu.beznea@tuxon.dev>
-In-Reply-To: <59ba595a-ab79-cc5d-feff-dad60e80c44f@omp.ru>
+In-Reply-To: <c00db758-54ca-80a9-7ba3-9a6ce61f9224@omp.ru>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 
 
-On 19.12.2023 20:54, Sergey Shtylyov wrote:
-> On 12/17/23 3:54 PM, claudiu beznea wrote:
+On 19.12.2023 20:40, Sergey Shtylyov wrote:
+> On 12/17/23 3:49 PM, claudiu beznea wrote:
 > 
 > [...]
-> 
->>>>> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
->>>>>
->>>>> DBAT setup was done in the driver's probe API. As some IP variants switch
->>>>> to reset mode (and thus registers' content is lost) when setting clocks
->>>>> (due to module standby functionality) to be able to implement runtime PM
->>>>> move the DBAT configuration in the driver's ndo_open API.
->>>>>
->>>>> This commit prepares the code for the addition of runtime PM.
->>>>>
->>>>> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+>>>> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 >>>>
->>>> Reviewed-by: Sergey Shtylyov <s.shtylyov@omp.ru>
->>>>
->>>> [...]
->>>>> diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
->>>>> index 04eaa1967651..6b8ca08be35e 100644
->>>>> --- a/drivers/net/ethernet/renesas/ravb_main.c
->>>>> +++ b/drivers/net/ethernet/renesas/ravb_main.c
->>>>> @@ -1822,6 +1822,7 @@ static int ravb_open(struct net_device *ndev)
->>>>>  		napi_enable(&priv->napi[RAVB_NC]);
->>>>>  
->>>>>  	ravb_set_delay_mode(ndev);
->>>>> +	ravb_write(ndev, priv->desc_bat_dma, DBAT);
+>>>> Delay parse and set were done in the driver's probe API. As some IP
 >>>
->>>    Looking at it again, I suspect this belong in ravb_dmac_init()...
+>>>    Parsing and setting?
+>>>
+>>>> variants switch to reset mode (and thus registers' content is lost) when
+>>>
+>>>    Register.
+>>>
+>>>> setting clocks (due to module standby functionality) to be able to
+>>>> implement runtime PM keep the delay parsing in the driver's probe function
+>>>> and move the delay apply function to the driver's ndo_open API.
+>>>
+>>>    Applying?
+>>>
+>>>> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+>>> [...]
+>>>
+>>>> diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
+>>>> index 5e01e03e1b43..04eaa1967651 100644
+>>>> --- a/drivers/net/ethernet/renesas/ravb_main.c
+>>>> +++ b/drivers/net/ethernet/renesas/ravb_main.c
+>>> [...]
+>>>> @@ -1806,6 +1821,8 @@ static int ravb_open(struct net_device *ndev)
+>>>>  	if (info->nc_queues)
+>>>>  		napi_enable(&priv->napi[RAVB_NC]);
+>>>>  
+>>>> +	ravb_set_delay_mode(ndev);
+>>>> +
+>>>
+>>>    I suspect this belongs in ravb_dmac_init() now...
 >>
->> ravb_dmac_init() is called from multiple places in this driver, e.g.,
+>> I'm confused... Why? To me this seems more like MAC-PHY interface related.
 > 
->    It's purpose is to configure AVB-DMAC and DBAT is the AVB-DMAC register,
-> right?
+>    APSR's full name is AVB-DMAC product specific register. :-)
 
-It is. But it is pointless to configure it more than one time after
-ravb_open() has been called as the register content is not changed until IP
-enters reset mode (though ravb_close() now).
+As ravb_dmac_init() is called in multiple places I don't think it worth
+configuring delays more than once in ravb_open().
 
-> 
->> ravb_set_ringparam(), ravb_tx_timeout_work().
-> 
->    I know. Its value is only calculated once, in ravb_probe(), right?
+Moreover TX/RX delay is something specific to the MAC-PHY interface (and
+could be influenced also by the wiring length b/w MAC and PHY).
 
-right
+Just because it is in the DMAC address space I don't think it worth having
+it in ravb_dmac_init() (for the above mentioned reasons).
 
 > 
->> I'm afraid we may broke the behavior of these if DBAT setup is moved
-
-I was wrong here. DBAT is not changed by IP while TX/RX is working.
-
+>> Though I'm not sure what ravb_dmac_init() purpose is.
 > 
->    Do not be afraid! :-)
-> 
->> in ravb_dmac_init(). This is also
->> valid for setting delay (see patch 10/12).
-> 
->    I don't think there will be a problem either... but maybe we
-> should call it in ravb_emac_init() indeed.
+>    To configure and start the AVB-DMAC, apparently. :-)
 > 
 > [...]
 > 
-> MBR, Sergey
+> MRB, Sergey
 
