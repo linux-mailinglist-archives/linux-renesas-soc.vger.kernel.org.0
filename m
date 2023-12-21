@@ -1,143 +1,214 @@
-Return-Path: <linux-renesas-soc+bounces-1224-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-1225-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id D597281BF43
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 21 Dec 2023 20:55:09 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C3F681BFD8
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 21 Dec 2023 22:05:00 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1365C1C23510
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 21 Dec 2023 19:55:09 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2374428856B
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 21 Dec 2023 21:04:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A22FF651BB;
-	Thu, 21 Dec 2023 19:55:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F2C4A76DA2;
+	Thu, 21 Dec 2023 21:04:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Eh2YgSCb"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mx01.omp.ru (mx01.omp.ru [90.154.21.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+Received: from mail-oi1-f178.google.com (mail-oi1-f178.google.com [209.85.167.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D54A773185;
-	Thu, 21 Dec 2023 19:55:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=omp.ru
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=omp.ru
-Received: from [192.168.1.104] (178.176.75.203) by msexch01.omp.ru
- (10.188.4.12) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.1258.12; Thu, 21 Dec
- 2023 22:54:52 +0300
-Subject: Re: [PATCH net-next v2 11/21] net: ravb: Move DBAT configuration to
- the driver's ndo_open API
-To: claudiu beznea <claudiu.beznea@tuxon.dev>, <davem@davemloft.net>,
-	<edumazet@google.com>, <kuba@kernel.org>, <pabeni@redhat.com>,
-	<richardcochran@gmail.com>, <p.zabel@pengutronix.de>,
-	<yoshihiro.shimoda.uh@renesas.com>, <wsa+renesas@sang-engineering.com>,
-	<geert+renesas@glider.be>
-CC: <netdev@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, Claudiu Beznea
-	<claudiu.beznea.uj@bp.renesas.com>
-References: <20231214114600.2451162-1-claudiu.beznea.uj@bp.renesas.com>
- <20231214114600.2451162-12-claudiu.beznea.uj@bp.renesas.com>
- <a93c0673-2876-5bb2-29aa-0d0208b97b10@omp.ru>
- <4721c4e6-cc0f-48bd-8b14-4a8217ada1fd@omp.ru>
- <b17c6124-0b84-40b2-a254-cce617f73cf2@tuxon.dev>
- <59ba595a-ab79-cc5d-feff-dad60e80c44f@omp.ru>
- <3d4511bd-fd96-4281-a5cb-ac1765bded31@tuxon.dev>
-From: Sergey Shtylyov <s.shtylyov@omp.ru>
-Organization: Open Mobile Platform
-Message-ID: <3aa8a9f5-fe7b-1484-ac89-64b4a1d5face@omp.ru>
-Date: Thu, 21 Dec 2023 22:54:52 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A2347690B;
+	Thu, 21 Dec 2023 21:04:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-oi1-f178.google.com with SMTP id 5614622812f47-3b9f8c9307dso1006523b6e.0;
+        Thu, 21 Dec 2023 13:04:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1703192692; x=1703797492; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=a3iK+XCFKHi89cS9qJf066rKv09q1lojAXsmMshz01Y=;
+        b=Eh2YgSCbF9rWIrYAmUeVg1hMg7FRx7oW5XWCD0ynvWxsy7INwMHK6w2fwxmJGXjImA
+         849zrLUY3Tit8+sV714A6aVZPyehOvRLUu+tvlUik0aUkQWUb54SD4/auYdwIASJM9gM
+         ikwjAYNsN1+HiMB/wIcm0QM9z363h6avn/P/pfN9jzWkCuMRIn5MviC1rF+L2TheDTkG
+         TdLSou6CqJ+nAO5hUwn+O2yxbS6sC1CMaenO928c3340ilDUSv/INRoCZqgSISfIlFDi
+         5EJ7gjb3hqnCGSsNaHBOxo1shEfp4bnXKTdvTBZqtqUpmWQUPYY8KMr7RFbPe/dWlIAv
+         Jbbw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1703192692; x=1703797492;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=a3iK+XCFKHi89cS9qJf066rKv09q1lojAXsmMshz01Y=;
+        b=KsSbpvPjDknVL58zlK+XFHZL88Tlu4zLjIIt/iiRz46v9n/R1948bGvws3FtCh3scJ
+         mkz+/stt535GRm1L5E4xZ00kjRR5MfYGNXoboRp9itLSPBh1UoeLlZ7OKuU/RB7hQsrO
+         R+NMfM8YFPBFhpWzcOpVchlVX5Qsls9loYSTTiuRgYQqkhrRg5x1FsRfabmbJOJegvy8
+         cslvgxCcePpzJQ5lbIEhH062dqKlNbMSDdoCEGogT/7zrJq+/b4DLxFS/WBZFhbHft1x
+         95+izei1yyFBQFhN+npnhb8gS5RDutvDcbHpohz8vXjAV1ZAul+Trmnwce7hLU3CFuSc
+         t48g==
+X-Gm-Message-State: AOJu0YzPHFahowdLNgaCscn2byWfRtNaHG7IU5hGNSQccoDKoWIZNS2C
+	xfn5ZRE1Cb7UktuvFoo27ymKcMyRoWQlCpPIhsg=
+X-Google-Smtp-Source: AGHT+IEUZcUgQO01TA3QnTE4wGBRJXR3a8c0TbyeunrTHBygIVKvTGF9lNP5Ysmbw0AZg+9ePrkWX8aaxUxn15ecHP0=
+X-Received: by 2002:a05:6870:b150:b0:203:a833:237e with SMTP id
+ a16-20020a056870b15000b00203a833237emr553136oal.9.1703192692341; Thu, 21 Dec
+ 2023 13:04:52 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <3d4511bd-fd96-4281-a5cb-ac1765bded31@tuxon.dev>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: msexch01.omp.ru (10.188.4.12) To msexch01.omp.ru
- (10.188.4.12)
-X-KSE-ServerInfo: msexch01.omp.ru, 9
-X-KSE-AntiSpam-Interceptor-Info: scan successful
-X-KSE-AntiSpam-Version: 6.1.0, Database issued on: 12/21/2023 19:37:26
-X-KSE-AntiSpam-Status: KAS_STATUS_NOT_DETECTED
-X-KSE-AntiSpam-Method: none
-X-KSE-AntiSpam-Rate: 59
-X-KSE-AntiSpam-Info: Lua profiles 182285 [Dec 21 2023]
-X-KSE-AntiSpam-Info: Version: 6.1.0.3
-X-KSE-AntiSpam-Info: Envelope from: s.shtylyov@omp.ru
-X-KSE-AntiSpam-Info: LuaCore: 7 0.3.7 6d6bf5bd8eea7373134f756a2fd73e9456bb7d1a
-X-KSE-AntiSpam-Info: {rep_avail}
-X-KSE-AntiSpam-Info: {Tracking_from_domain_doesnt_match_to}
-X-KSE-AntiSpam-Info: {relay has no DNS name}
-X-KSE-AntiSpam-Info: {SMTP from is not routable}
-X-KSE-AntiSpam-Info: {Found in DNSBL: 178.176.75.203 in (user)
- b.barracudacentral.org}
-X-KSE-AntiSpam-Info: {Found in DNSBL: 178.176.75.203 in (user)
- dbl.spamhaus.org}
-X-KSE-AntiSpam-Info:
-	d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;omp.ru:7.1.1;127.0.0.199:7.1.2
-X-KSE-AntiSpam-Info: ApMailHostAddress: 178.176.75.203
-X-KSE-AntiSpam-Info: {DNS response errors}
-X-KSE-AntiSpam-Info: Rate: 59
-X-KSE-AntiSpam-Info: Status: not_detected
-X-KSE-AntiSpam-Info: Method: none
-X-KSE-AntiSpam-Info: Auth:dmarc=temperror header.from=omp.ru;spf=temperror
- smtp.mailfrom=omp.ru;dkim=none
-X-KSE-Antiphishing-Info: Clean
-X-KSE-Antiphishing-ScanningType: Heuristic
-X-KSE-Antiphishing-Method: None
-X-KSE-Antiphishing-Bases: 12/21/2023 19:41:00
-X-KSE-Antivirus-Interceptor-Info: scan successful
-X-KSE-Antivirus-Info: Clean, bases: 12/21/2023 5:11:00 PM
-X-KSE-Attachment-Filter-Triggered-Rules: Clean
-X-KSE-Attachment-Filter-Triggered-Filters: Clean
-X-KSE-BulkMessagesFiltering-Scan-Result: InTheLimit
+References: <20231201131551.201503-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20231201131551.201503-2-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAMuHMdUiaL__+CDaFxRbUFgrz69SYBNfZm4JvY_qQRKLMTCY0w@mail.gmail.com>
+In-Reply-To: <CAMuHMdUiaL__+CDaFxRbUFgrz69SYBNfZm4JvY_qQRKLMTCY0w@mail.gmail.com>
+From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date: Thu, 21 Dec 2023 21:04:12 +0000
+Message-ID: <CA+V-a8tTWf8Kx-Ex=DPsSR2ZWHC29N_pAoEZN1sR5Nqobf139A@mail.gmail.com>
+Subject: Re: [PATCH v3 1/3] pinctrl: renesas: rzg2l: Include pinmap in
+ RZG2L_GPIO_PORT_PACK() macro
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Magnus Damm <magnus.damm@gmail.com>, Rob Herring <robh+dt@kernel.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
+	Albert Ou <aou@eecs.berkeley.edu>, Linus Walleij <linus.walleij@linaro.org>, 
+	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-riscv@lists.infradead.org, 
+	linux-gpio@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 12/20/23 2:41 PM, claudiu beznea wrote:
+Hi Geert,
 
-[...]
+Thank you for the review.
 
->>>>>> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
->>>>>>
->>>>>> DBAT setup was done in the driver's probe API. As some IP variants switch
->>>>>> to reset mode (and thus registers' content is lost) when setting clocks
->>>>>> (due to module standby functionality) to be able to implement runtime PM
->>>>>> move the DBAT configuration in the driver's ndo_open API.
->>>>>>
->>>>>> This commit prepares the code for the addition of runtime PM.
->>>>>>
->>>>>> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
->>>>>
->>>>> Reviewed-by: Sergey Shtylyov <s.shtylyov@omp.ru>
->>>>>
->>>>> [...]
->>>>>> diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
->>>>>> index 04eaa1967651..6b8ca08be35e 100644
->>>>>> --- a/drivers/net/ethernet/renesas/ravb_main.c
->>>>>> +++ b/drivers/net/ethernet/renesas/ravb_main.c
->>>>>> @@ -1822,6 +1822,7 @@ static int ravb_open(struct net_device *ndev)
->>>>>>  		napi_enable(&priv->napi[RAVB_NC]);
->>>>>>  
->>>>>>  	ravb_set_delay_mode(ndev);
->>>>>> +	ravb_write(ndev, priv->desc_bat_dma, DBAT);
->>>>
->>>>    Looking at it again, I suspect this belong in ravb_dmac_init()...
->>>
->>> ravb_dmac_init() is called from multiple places in this driver, e.g.,
->>
->>    It's purpose is to configure AVB-DMAC and DBAT is the AVB-DMAC register,
->> right?
-> 
-> It is. But it is pointless to configure it more than one time after
-> ravb_open() has been called as the register content is not changed until IP
-> enters reset mode (though ravb_close() now).
+On Wed, Dec 6, 2023 at 1:13=E2=80=AFPM Geert Uytterhoeven <geert@linux-m68k=
+.org> wrote:
+>
+> Hi Prabhakar,
+>
+> On Fri, Dec 1, 2023 at 2:16=E2=80=AFPM Prabhakar <prabhakar.csengg@gmail.=
+com> wrote:
+> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> >
+> > Currently we assume all the port pins are sequential ie always PX_0 to
+> > PX_n (n=3D1..7) exist, but on RZ/Five SoC we have additional pins P19_1=
+ to
+> > P28_5 which have holes in them, for example only one pin on port19 is
+> > available and that is P19_1 and not P19_0. So to handle such cases
+> > include pinmap for each port which would indicate the pin availability
+> > on each port. As the pincount can be calculated based on pinmap drop th=
+is
+> > from RZG2L_GPIO_PORT_PACK() macro and update RZG2L_GPIO_PORT_GET_PINCNT=
+()
+> > macro.
+> >
+> > Previously we had a max of 7 pins on each port but on RZ/Five Port-20
+> > has 8 pins, so move the single pin configuration to BIT(63).
+> >
+> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+>
+> Thanks for your patch!
+>
+> > --- a/drivers/pinctrl/renesas/pinctrl-rzg2l.c
+> > +++ b/drivers/pinctrl/renesas/pinctrl-rzg2l.c
+> > @@ -80,15 +80,17 @@
+> >   * n indicates number of pins in the port, a is the register index
+> >   * and f is pin configuration capabilities supported.
+> >   */
+> > -#define RZG2L_GPIO_PORT_PACK(n, a, f)  (((n) << 28) | ((a) << 20) | (f=
+))
+> > -#define RZG2L_GPIO_PORT_GET_PINCNT(x)  (((x) & GENMASK(30, 28)) >> 28)
+> > +#define RZG2L_GPIO_PORT_PACK(n, a, f)  (((n) > 0 ? ((u64)(GENMASK_ULL(=
+((n) - 1 + 28), 28))) : 0) | \
+>
+> The mask creation can be simplified to
+>
+>     ((1ULL << (n)) - 1) << 28
+>
+OK.
 
-   The same is true for the most registers set by ravb_dmac_init()!
+> but see below...
+>
+> > +                                        ((a) << 20) | (f))
+> > +#define RZG2L_GPIO_PORT_GET_PINMAP(x)  (((x) & GENMASK_ULL(35, 28)) >>=
+ 28)
+> > +#define RZG2L_GPIO_PORT_GET_PINCNT(x)  (hweight8(RZG2L_GPIO_PORT_GET_P=
+INMAP((x))))
+>
+> I think we've reached the point where it would be easier for the
+> casual reviewer to #define PIN_CFG_*_MASK for all fields, and use
+> FIELD_{PREP,GET}() to pack resp. extract values.  That would also
+> make it more obvious which bits are in use, and how many bits are
+> still available for future use.
+>
+If I use the FIELD_PREP() macro like below I get build issues as below:
 
-[...]
+#define RZG2L_GPIO_PORT_PIN_CNT_MASK    GENMASK(31, 28)
+#define RZG2L_GPIO_PORT_PIN_REG_MASK    GENMASK(27, 20)
+#define RZG2L_GPIO_PORT_PIN_CFG_MASK    GENMASK(19, 0)
+#define RZG2L_GPIO_PORT_PACK(n, a, f)
+FIELD_PREP(RZG2L_GPIO_PORT_PIN_CNT_MASK, n) | \
+                    FIELD_PREP(RZG2L_GPIO_PORT_PIN_REG_MASK, a) | \
+                    FIELD_PREP(RZG2L_GPIO_PORT_PIN_CFG_MASK, f)
 
-MBR, Sergey
+
+drivers/pinctrl/renesas/pinctrl-rzg2l.c:91:41: note: in expansion of
+macro 'FIELD_PREP'
+   91 |
+FIELD_PREP(RZG2L_GPIO_PORT_PIN_CFG_MASK, f)
+      |                                         ^~~~~~~~~~
+drivers/pinctrl/renesas/pinctrl-rzg2l.c:1486:9: note: in expansion of
+macro 'RZG2L_GPIO_PORT_PACK'
+ 1486 |         RZG2L_GPIO_PORT_PACK(6, 0x2a,
+RZG3S_MPXED_PIN_FUNCS(A)),                        /* P18 */
+      |         ^~~~~~~~~~~~~~~~~~~~
+
+Do you have any pointers?
+
+Cheers,
+Prabhakar
+
+> >
+> >  /*
+> > - * BIT(31) indicates dedicated pin, p is the register index while
+> > + * BIT(63) indicates dedicated pin, p is the register index while
+> >   * referencing to SR/IEN/IOLH/FILxx registers, b is the register bits
+> >   * (b * 8) and f is the pin configuration capabilities supported.
+> >   */
+> > -#define RZG2L_SINGLE_PIN               BIT(31)
+> > +#define RZG2L_SINGLE_PIN               BIT_ULL(63)
+> >  #define RZG2L_SINGLE_PIN_PACK(p, b, f) (RZG2L_SINGLE_PIN | \
+> >                                          ((p) << 24) | ((b) << 20) | (f=
+))
+> >  #define RZG2L_SINGLE_PIN_GET_BIT(x)    (((x) & GENMASK(22, 20)) >> 20)
+>
+> Likewise.
+>
+> > @@ -180,12 +182,12 @@ struct rzg2l_hwcfg {
+> >
+> >  struct rzg2l_dedicated_configs {
+> >         const char *name;
+> > -       u32 config;
+> > +       u64 config;
+> >  };
+>
+> The rest LGTM.  It's a pity we have to switch to 64 bits, but I'm
+> afraid there is not much we can do about that...
+>
+> Gr{oetje,eeting}s,
+>
+>                         Geert
+>
+> --
+> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m6=
+8k.org
+>
+> In personal conversations with technical people, I call myself a hacker. =
+But
+> when I'm talking to journalists I just say "programmer" or something like=
+ that.
+>                                 -- Linus Torvalds
 
