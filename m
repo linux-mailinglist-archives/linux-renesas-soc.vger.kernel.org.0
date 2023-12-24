@@ -1,115 +1,145 @@
-Return-Path: <linux-renesas-soc+bounces-1229-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-1230-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3055381D65D
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 23 Dec 2023 20:43:49 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0EB6D81DAC1
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 24 Dec 2023 14:02:55 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id C3ECD1F21FB2
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 23 Dec 2023 19:43:48 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3670A1C20CE2
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 24 Dec 2023 13:02:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C349B14F62;
-	Sat, 23 Dec 2023 19:43:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8750B5663;
+	Sun, 24 Dec 2023 13:02:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernelci-org.20230601.gappssmtp.com header.i=@kernelci-org.20230601.gappssmtp.com header.b="FWKRdUJ+"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mx01.omp.ru (mx01.omp.ru [90.154.21.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA91718053;
-	Sat, 23 Dec 2023 19:43:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=omp.ru
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=omp.ru
-Received: from [192.168.1.104] (31.173.85.112) by msexch01.omp.ru
- (10.188.4.12) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.1258.12; Sat, 23 Dec
- 2023 22:43:34 +0300
-Subject: Re: [PATCH net v2 1/1] net: ravb: Wait for operation mode to be
- applied
-To: Claudiu <claudiu.beznea@tuxon.dev>, <davem@davemloft.net>,
-	<edumazet@google.com>, <kuba@kernel.org>, <pabeni@redhat.com>,
-	<yoshihiro.shimoda.uh@renesas.com>, <wsa+renesas@sang-engineering.com>,
-	<mitsuhiro.kimura.kc@renesas.com>
-CC: <netdev@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, Claudiu Beznea
-	<claudiu.beznea.uj@bp.renesas.com>
-References: <20231222113552.2049088-1-claudiu.beznea.uj@bp.renesas.com>
- <20231222113552.2049088-2-claudiu.beznea.uj@bp.renesas.com>
-From: Sergey Shtylyov <s.shtylyov@omp.ru>
-Organization: Open Mobile Platform
-Message-ID: <110a8720-e7a6-ebf1-b286-4834dc32651c@omp.ru>
-Date: Sat, 23 Dec 2023 22:43:33 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD5E4566B
+	for <linux-renesas-soc@vger.kernel.org>; Sun, 24 Dec 2023 13:02:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernelci.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=kernelci.org
+Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-28b6218d102so2485419a91.0
+        for <linux-renesas-soc@vger.kernel.org>; Sun, 24 Dec 2023 05:02:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernelci-org.20230601.gappssmtp.com; s=20230601; t=1703422970; x=1704027770; darn=vger.kernel.org;
+        h=from:to:subject:content-transfer-encoding:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=YAEtO9ar7Sy8oSs8kY/BFskOkuHatih1S0UFegsfGPo=;
+        b=FWKRdUJ+iyL1AR9g4jBXP/w0c1NqQyooZT6swrP/u+jRNF6d0Cgq1EA8D6IZH2J8qG
+         x9Ox8AKy2qW+0h17bBG7cQ2zGK/eC+Ms11R2GpmPnpgTrJjv9rkFxXofzSGzmEyhrXH3
+         XOuICgTr4qeHj743piZEmo/wmHhp6krthmMm0Pvm2PojmU+d9OCFJo3YXdM8JRFa6YIL
+         R9MEzqYDZIISwTGcpBY//wN11kmp3Mnb1yRqk1//zduDVVqnWuyMOPfcOww7hr8wobhh
+         fRGUJkhCjTEZhYp+geFsT+N77QFr14109JT3Ref6BXPXzxNOJauKMBNHe0JR/b8SnIZu
+         gSKg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1703422970; x=1704027770;
+        h=from:to:subject:content-transfer-encoding:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=YAEtO9ar7Sy8oSs8kY/BFskOkuHatih1S0UFegsfGPo=;
+        b=u0E7+03AE4UoAlXNr6YAkpsQn1UixoT7Bi7/86gNb5K0pwIt8CHJZPQPt8r6SxpGUL
+         i0kdhiPzcB90FdOPLLN3wTqFqMoO/r1v1NxR4zS+VlhMN8U//pTif5ymcwqs5oqSJEZQ
+         36gg/QlwAmHWuRbErSPNdrCXfiHrL1pprgJT9OQ4xzj4Esp9mnqKIRSPgQqzx4MzdQKj
+         83xtLuwOAieV+EWggQEuMnLzStdgEVcsyKTAVZXoHhGb4t/dz0XxW1pQNtMp1GKgzwhI
+         gMI9V13jrA2bVDGn6daefFIm1AIEOMmscExvB9as2QfMoXuZ9/0LFO1TbT2sI3EfhNpz
+         PF2w==
+X-Gm-Message-State: AOJu0Yz2+bsHW5LnLybX46BC6LI6p6ArzBliBQtwxNtR/YG/u0FuMvhI
+	Octr18xYTisa6fBYP52gG4XjBbICSM0fCj1/FBxdSFG8MZs=
+X-Google-Smtp-Source: AGHT+IEWwkuco76/s4irvDkAvoA2QJXInzZP8buJ96WtggyPLZoN71uZqxPkkaSCuNvpjCz8ksv08A==
+X-Received: by 2002:a17:90b:1244:b0:28c:3e39:2191 with SMTP id gx4-20020a17090b124400b0028c3e392191mr553102pjb.62.1703422969804;
+        Sun, 24 Dec 2023 05:02:49 -0800 (PST)
+Received: from kernelci-production.internal.cloudapp.net ([20.171.243.82])
+        by smtp.gmail.com with ESMTPSA id sj10-20020a17090b2d8a00b0028b845f2890sm4954161pjb.33.2023.12.24.05.02.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 24 Dec 2023 05:02:49 -0800 (PST)
+Message-ID: <65882bf9.170a0220.bb62d.d690@mx.google.com>
+Date: Sun, 24 Dec 2023 05:02:49 -0800 (PST)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <20231222113552.2049088-2-claudiu.beznea.uj@bp.renesas.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: msexch01.omp.ru (10.188.4.12) To msexch01.omp.ru
- (10.188.4.12)
-X-KSE-ServerInfo: msexch01.omp.ru, 9
-X-KSE-AntiSpam-Interceptor-Info: scan successful
-X-KSE-AntiSpam-Version: 6.1.0, Database issued on: 12/23/2023 19:28:38
-X-KSE-AntiSpam-Status: KAS_STATUS_NOT_DETECTED
-X-KSE-AntiSpam-Method: none
-X-KSE-AntiSpam-Rate: 59
-X-KSE-AntiSpam-Info: Lua profiles 182322 [Dec 23 2023]
-X-KSE-AntiSpam-Info: Version: 6.1.0.3
-X-KSE-AntiSpam-Info: Envelope from: s.shtylyov@omp.ru
-X-KSE-AntiSpam-Info: LuaCore: 7 0.3.7 6d6bf5bd8eea7373134f756a2fd73e9456bb7d1a
-X-KSE-AntiSpam-Info: {rep_avail}
-X-KSE-AntiSpam-Info: {Tracking_from_domain_doesnt_match_to}
-X-KSE-AntiSpam-Info: {relay has no DNS name}
-X-KSE-AntiSpam-Info: {SMTP from is not routable}
-X-KSE-AntiSpam-Info: {Found in DNSBL: 31.173.85.112 in (user)
- b.barracudacentral.org}
-X-KSE-AntiSpam-Info: {Found in DNSBL: 31.173.85.112 in (user)
- dbl.spamhaus.org}
-X-KSE-AntiSpam-Info:
-	omp.ru:7.1.1;127.0.0.199:7.1.2;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1
-X-KSE-AntiSpam-Info: ApMailHostAddress: 31.173.85.112
-X-KSE-AntiSpam-Info: {DNS response errors}
-X-KSE-AntiSpam-Info: Rate: 59
-X-KSE-AntiSpam-Info: Status: not_detected
-X-KSE-AntiSpam-Info: Method: none
-X-KSE-AntiSpam-Info: Auth:dmarc=temperror header.from=omp.ru;spf=temperror
- smtp.mailfrom=omp.ru;dkim=none
-X-KSE-Antiphishing-Info: Clean
-X-KSE-Antiphishing-ScanningType: Heuristic
-X-KSE-Antiphishing-Method: None
-X-KSE-Antiphishing-Bases: 12/23/2023 19:32:00
-X-KSE-Antivirus-Interceptor-Info: scan successful
-X-KSE-Antivirus-Info: Clean, bases: 12/23/2023 4:14:00 PM
-X-KSE-Attachment-Filter-Triggered-Rules: Clean
-X-KSE-Attachment-Filter-Triggered-Filters: Clean
-X-KSE-BulkMessagesFiltering-Scan-Result: InTheLimit
+Content-Transfer-Encoding: quoted-printable
+X-Kernelci-Branch: master
+X-Kernelci-Tree: renesas
+X-Kernelci-Report-Type: test
+X-Kernelci-Kernel: renesas-devel-2023-12-24-v6.7-rc7
+Subject: renesas/master ltp-ipc: 7 runs,
+ 1 regressions (renesas-devel-2023-12-24-v6.7-rc7)
+To: linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
+From: "kernelci.org bot" <bot@kernelci.org>
 
-On 12/22/23 2:35 PM, Claudiu wrote:
+renesas/master ltp-ipc: 7 runs, 1 regressions (renesas-devel-2023-12-24-v6.=
+7-rc7)
 
-> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-> 
-> CSR.OPS bits specify the current operating mode and (according to
-> documentation) they are updated by HW when the operating mode change
-> request is processed. To comply with this check CSR.OPS before proceeding.
-> 
-> Commit introduces ravb_set_opmode() that does all the necessities for
-> setting the operating mode (set DMA.CCC and wait for CSR.OPS) and call it
+Regressions Summary
+-------------------
 
-   What's DMA.CCC? Maybe CCC.OPC?
+platform         | arch | lab     | compiler | defconfig          | regress=
+ions
+-----------------+------+---------+----------+--------------------+--------=
+----
+beaglebone-black | arm  | lab-cip | gcc-10   | multi_v7_defconfig | 1      =
+    =
 
-> where needed. This should comply with all the HW manuals requirements as
-> different manual variants specify that different modes need to be checked
-> in CSR.OPS when setting DMA.CCC.
-> 
-> Fixes: c156633f1353 ("Renesas Ethernet AVB driver proper")
-> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-[...]
 
-MBR, Sergey
+  Details:  https://kernelci.org/test/job/renesas/branch/master/kernel/rene=
+sas-devel-2023-12-24-v6.7-rc7/plan/ltp-ipc/
+
+  Test:     ltp-ipc
+  Tree:     renesas
+  Branch:   master
+  Describe: renesas-devel-2023-12-24-v6.7-rc7
+  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-d=
+evel.git
+  SHA:      db69966489aabddb179fc8aced341e2a4283c272
+
+  Test suite revisions:
+    ltp-tests
+      URL:  https://github.com/linux-test-project/ltp.git
+      SHA:  3f0b2176930cf15a26597e28abf4356050136bbe =
+
+
+
+Test Regressions
+---------------- =
+
+
+
+platform         | arch | lab     | compiler | defconfig          | regress=
+ions
+-----------------+------+---------+----------+--------------------+--------=
+----
+beaglebone-black | arm  | lab-cip | gcc-10   | multi_v7_defconfig | 1      =
+    =
+
+
+  Details:     https://kernelci.org/test/plan/id/658820cc3b696b0631e134ec
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: multi_v7_defconfig
+  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
+10110)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+023-12-24-v6.7-rc7/arm/multi_v7_defconfig/gcc-10/lab-cip/ltp-ipc-beaglebone=
+-black.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+023-12-24-v6.7-rc7/arm/multi_v7_defconfig/gcc-10/lab-cip/ltp-ipc-beaglebone=
+-black.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye-lt=
+p/20230623.0/armhf/initrd.cpio.gz =
+
+
+
+  * ltp-ipc.login: https://kernelci.org/test/case/id/658820cc3b696b0631e134=
+ed
+        new failure (last pass: renesas-devel-2023-12-18-v6.7-rc6) =
+
+ =20
 
