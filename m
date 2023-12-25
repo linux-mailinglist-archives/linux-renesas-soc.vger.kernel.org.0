@@ -1,250 +1,195 @@
-Return-Path: <linux-renesas-soc+bounces-1249-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-1250-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 905BE81E1FE
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 25 Dec 2023 19:29:33 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id EBACF81E262
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 25 Dec 2023 22:06:58 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3405428159F
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 25 Dec 2023 18:29:32 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 694151F21D3B
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 25 Dec 2023 21:06:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 28816537E7;
-	Mon, 25 Dec 2023 18:29:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 96A7253E02;
+	Mon, 25 Dec 2023 21:06:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gN7wWk/4"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f173.google.com (mail-qk1-f173.google.com [209.85.222.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64445537E6
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 25 Dec 2023 18:29:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1rHpha-0005Uu-DZ; Mon, 25 Dec 2023 19:29:22 +0100
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1rHphW-001Tbp-AQ; Mon, 25 Dec 2023 19:29:19 +0100
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.96)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1rHphX-000xji-13;
-	Mon, 25 Dec 2023 19:29:19 +0100
-Date: Mon, 25 Dec 2023 19:29:19 +0100
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Biju Das <biju.das.jz@bp.renesas.com>
-Cc: Thierry Reding <thierry.reding@gmail.com>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
-	Magnus Damm <magnus.damm@gmail.com>, linux-pwm@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: Re: [PATCH v17 4/4] pwm: rzg2l-gpt: Add support for gpt linking with
- poeg
-Message-ID: <iukf4j5bewacpg4k2ucczwjdcv2wvmokjqxasvgij6l6436chp@r242vjhfwaee>
-References: <20231120113307.80710-1-biju.das.jz@bp.renesas.com>
- <20231120113307.80710-5-biju.das.jz@bp.renesas.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D3885380C;
+	Mon, 25 Dec 2023 21:06:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-qk1-f173.google.com with SMTP id af79cd13be357-7810c332a2cso345713585a.1;
+        Mon, 25 Dec 2023 13:06:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1703538410; x=1704143210; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=rGDVYoNIIWyiCkgdSSFbUJbJwyQv1O09fglEbTWCQV4=;
+        b=gN7wWk/4RUXrGdt/U5Fbk00GIf5sNVzWWlyXeqE1jRUaS0bKxszuTFEn+VDuAKAQLb
+         y/z5glY2jk2QZN0okLSdarHigqJWWY0IHVOc/O/wCqnyYjPJiwev8PI/0khIWuQqvrMJ
+         EgXRoa2zXHWOeD/AJ8HlGUhltTpmLYkM8mwnc21BPrONgix9GbHNibgqAMu5TyghBm4S
+         TQJgRNmWmdTWe5gd3DMFJpMvQHyhSNDT9R/EynpdqDT7osG1drfK0QZl/gv3yZ16pTJ1
+         JcAwPZWANEWuoc/NrGcFXtvis2FSmjHrfzWPR8WqJU0e/UYKk83EesK/knEh68wD3Twu
+         hMeg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1703538410; x=1704143210;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=rGDVYoNIIWyiCkgdSSFbUJbJwyQv1O09fglEbTWCQV4=;
+        b=aGNhLUS7wor02lZfcxgkY2PS0N/MlTq7o5qqpN5xy2w1y8n4ppeTYBGdoDImUInxeI
+         7xtoEbriVUVzbaqbV5fZooHB4NPojJu24VziMyrSe2MDZA2kicycbRf4KKvJaR1hHDcx
+         epTwvxdsbykBXjpWJP1na3vtyiv3ybKEn4EI50ble7XKiCGUpjalAjuEwxB2BeqhiQ7d
+         uQ9X8c7dhD3pCT9QovmmMtK17TmGVNN5qAnKbnZdOOvhp3NnzA7J0v9NqMWSv9O2e5cc
+         YPjJNcJJkoSS+XmI1OPa61YGSz+F0lQpEpF/dYCe6DAtMXvoBARREVX5iSNir4fwnkSv
+         FLxA==
+X-Gm-Message-State: AOJu0YzkNuKwk1QxaR398WFeATQ0RaVQQ2SpEb/2oqJ9SyH9F/GjVONg
+	ke3Sjvk7S2ur60GD16RLd5W8WVcOOp1ysUbD4gQ=
+X-Google-Smtp-Source: AGHT+IHTfC4IvI32xoqINCBSsocRoTKNzkLjTfpAEtn6LgG4kDC6m58rQ0mR6tMnU/vPvukNQS74BZgTSh6h+p/YqWY=
+X-Received: by 2002:a05:620a:14a9:b0:77f:8c54:da15 with SMTP id
+ x9-20020a05620a14a900b0077f8c54da15mr7742403qkj.40.1703538409803; Mon, 25 Dec
+ 2023 13:06:49 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="mn7jhgqhkjbtvxo3"
-Content-Disposition: inline
-In-Reply-To: <20231120113307.80710-5-biju.das.jz@bp.renesas.com>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-renesas-soc@vger.kernel.org
-
-
---mn7jhgqhkjbtvxo3
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+References: <20231225103308.1557548-1-peterlin@andestech.com>
+In-Reply-To: <20231225103308.1557548-1-peterlin@andestech.com>
+From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date: Mon, 25 Dec 2023 21:06:04 +0000
+Message-ID: <CA+V-a8t7g8ctPQrwdB9tgtmgtGfqQ-k2N-1sSwnjB-b1F71-AQ@mail.gmail.com>
+Subject: Re: [PATCH v6 00/16] Support Andes PMU extension
+To: Yu Chien Peter Lin <peterlin@andestech.com>
+Cc: acme@kernel.org, adrian.hunter@intel.com, ajones@ventanamicro.com, 
+	alexander.shishkin@linux.intel.com, andre.przywara@arm.com, 
+	anup@brainfault.org, aou@eecs.berkeley.edu, atishp@atishpatra.org, 
+	conor+dt@kernel.org, conor.dooley@microchip.com, conor@kernel.org, 
+	devicetree@vger.kernel.org, dminus@andestech.com, evan@rivosinc.com, 
+	geert+renesas@glider.be, guoren@kernel.org, heiko@sntech.de, 
+	irogers@google.com, jernej.skrabec@gmail.com, jolsa@kernel.org, 
+	jszhang@kernel.org, krzysztof.kozlowski+dt@linaro.org, 
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	linux-perf-users@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	linux-riscv@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+	locus84@andestech.com, magnus.damm@gmail.com, mark.rutland@arm.com, 
+	mingo@redhat.com, n.shubin@yadro.com, namhyung@kernel.org, palmer@dabbelt.com, 
+	paul.walmsley@sifive.com, peterz@infradead.org, 
+	prabhakar.mahadev-lad.rj@bp.renesas.com, rdunlap@infradead.org, 
+	robh+dt@kernel.org, samuel@sholland.org, sunilvl@ventanamicro.com, 
+	tglx@linutronix.de, tim609@andestech.com, uwu@icenowy.me, wens@csie.org, 
+	will@kernel.org, ycliang@andestech.com, inochiama@outlook.com, 
+	chao.wei@sophgo.com, unicorn_wang@outlook.com, wefu@redhat.com
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Nov 20, 2023 at 11:33:07AM +0000, Biju Das wrote:
-> The General PWM Timer (GPT) is capable of detecting "dead time error
-> and short-circuits between output pins" and send Output disable
-> request to poeg(Port Output Enable for GPT).
->=20
-> Add support for linking poeg group with gpt, so that
-> gpt can control the output disable function.
->=20
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> ---
-> v16->v17:
->  * No change
-> v15->v16:
->  * No change.
-> v14->v15:
->  * Updated commit description by replacing "This patch add"-> "Add".
-> v3->v14:
->  * Removed the parenthesis for RZG2L_MAX_POEG_GROUPS.
->  * Renamed rzg2l_gpt_parse_properties()->rzg2l_gpt_poeg_init() as it not =
-only parse
->    the properties but also implements the needed register writes.
->  * Added acomment here about the purpose of the function rzg2l_gpt_poeg_i=
-nit()
->  * Removed magic numbers from rzg2l_gpt_poeg_init()
->  * Fixed resource leak in rzg2l_gpt_poeg_init().
->  * Moved the patch from series[1] to here
->  [1] https://lore.kernel.org/linux-renesas-soc/20221215205843.4074504-1-b=
-iju.das.jz@bp.renesas.com/T/#t
-> v2->v3:
->  * Updated commit header and description
->  * Added check for poeg group in rzg2l_gpt_parse_properties().
-> v1->v2:
->  * Replaced id->poeg-id as per poeg bindings.
-> This patch depend upon [1]
-> [1] https://patchwork.kernel.org/project/linux-renesas-soc/patch/20221214=
-132232.2835828-3-biju.das.jz@bp.renesas.com/
-> ---
->  drivers/pwm/pwm-rzg2l-gpt.c | 83 +++++++++++++++++++++++++++++++++++++
->  1 file changed, 83 insertions(+)
->=20
-> diff --git a/drivers/pwm/pwm-rzg2l-gpt.c b/drivers/pwm/pwm-rzg2l-gpt.c
-> index 428e6e577db6..a309131db8ee 100644
-> --- a/drivers/pwm/pwm-rzg2l-gpt.c
-> +++ b/drivers/pwm/pwm-rzg2l-gpt.c
-> @@ -31,6 +31,7 @@
->  #define RZG2L_GTCR		0x2c
->  #define RZG2L_GTUDDTYC		0x30
->  #define RZG2L_GTIOR		0x34
-> +#define RZG2L_GTINTAD		0x38
->  #define RZG2L_GTBER		0x40
->  #define RZG2L_GTCNT		0x48
->  #define RZG2L_GTCCRA		0x4c
-> @@ -48,9 +49,15 @@
->  #define RZG2L_UP_COUNTING	(RZG2L_GTUDDTYC_UP | RZG2L_GTUDDTYC_UDF)
-> =20
->  #define RZG2L_GTIOR_GTIOA	GENMASK(4, 0)
-> +#define RZG2L_GTIOR_OADF	GENMASK(10, 9)
->  #define RZG2L_GTIOR_GTIOB	GENMASK(20, 16)
-> +#define RZG2L_GTIOR_OBDF	GENMASK(26, 25)
->  #define RZG2L_GTIOR_OAE		BIT(8)
->  #define RZG2L_GTIOR_OBE		BIT(24)
-> +#define RZG2L_GTIOR_OADF_HIGH_IMP_ON_OUT_DISABLE	BIT(9)
-> +#define RZG2L_GTIOR_OBDF_HIGH_IMP_ON_OUT_DISABLE	BIT(25)
-> +#define RZG2L_GTIOR_PIN_DISABLE_SETTING \
-> +	(RZG2L_GTIOR_OADF_HIGH_IMP_ON_OUT_DISABLE | RZG2L_GTIOR_OBDF_HIGH_IMP_O=
-N_OUT_DISABLE)
-> =20
->  #define RZG2L_INIT_OUT_LO_OUT_LO_END_TOGGLE	0x07
->  #define RZG2L_INIT_OUT_HI_OUT_HI_END_TOGGLE	0x1b
-> @@ -64,6 +71,8 @@
->  #define RZG2L_GTIOR_GTIOB_OUT_LO_END_TOGGLE_CMP_MATCH \
->  	(FIELD_PREP(RZG2L_GTIOR_GTIOB, RZG2L_INIT_OUT_LO_OUT_LO_END_TOGGLE) | R=
-ZG2L_GTIOR_OBE)
-> =20
-> +#define RZG2L_GTINTAD_GRP_MASK			GENMASK(25, 24)
-> +
->  #define RZG2L_GTCCR(i) (0x4c + 4 * (i))
-> =20
->  #define RZG2L_MAX_HW_CHANNELS	8
-> @@ -76,6 +85,9 @@
-> =20
->  #define RZG2L_GET_CH_OFFS(i) (0x100 * (i))
-> =20
-> +#define RZG2L_MAX_POEG_GROUPS	4
-> +#define RZG2L_LAST_POEG_GROUP	3
-> +
->  struct rzg2l_gpt_chip {
->  	struct pwm_chip chip;
->  	void __iomem *mmio;
-> @@ -88,6 +100,7 @@ struct rzg2l_gpt_chip {
->  	u32 user_count[RZG2L_MAX_HW_CHANNELS];
->  	u32 enable_count[RZG2L_MAX_HW_CHANNELS];
->  	DECLARE_BITMAP(ch_en_bits, RZG2L_MAX_PWM_CHANNELS);
-> +	DECLARE_BITMAP(poeg_gpt_link, RZG2L_MAX_POEG_GROUPS * RZG2L_MAX_HW_CHAN=
-NELS);
->  };
-> =20
->  static inline struct rzg2l_gpt_chip *to_rzg2l_gpt_chip(struct pwm_chip *=
-chip)
-> @@ -454,6 +467,75 @@ static void rzg2l_gpt_reset_assert_pm_disable(void *=
-data)
->  	reset_control_assert(rzg2l_gpt->rstc);
->  }
-> =20
-> +/*
-> + * This function links a poeg group{A,B,C,D} with a gpt channel{0..7} and
-> + * configure the pin for output disable.
-> + */
-> +static void rzg2l_gpt_poeg_init(struct platform_device *pdev,
-> +				struct rzg2l_gpt_chip *rzg2l_gpt)
-> +{
-> +	struct of_phandle_args of_args;
-> +	unsigned int i;
-> +	u32 poeg_grp;
-> +	u32 bitpos;
-> +	int cells;
-> +	u32 offs;
-> +	int ret;
-> +
-> +	cells =3D of_property_count_u32_elems(pdev->dev.of_node, "renesas,poegs=
-");
-> +	if (cells =3D=3D -EINVAL)
-> +		return;
-> +
-> +	cells >>=3D 1;
-> +	for (i =3D 0; i < cells; i++) {
-> +		ret =3D of_parse_phandle_with_fixed_args(pdev->dev.of_node,
-> +						       "renesas,poegs", 1, i,
-> +						       &of_args);
+Hi Lin-san,
 
-If you use of_for_each_phandle() here, you don't need to determine the
-length first.
+On Mon, Dec 25, 2023 at 10:37=E2=80=AFAM Yu Chien Peter Lin
+<peterlin@andestech.com> wrote:
+>
+> Hi All,
+>
+> This patch series introduces the Andes PMU extension, which serves
+> the same purpose as Sscofpmf. To use FDT-based probing for hardware
+> support of the PMU extensions, we first convert T-Head's PMU to CPU
+> feature alternative, then add Andes PMU alternatives.
+>
+> Its non-standard local interrupt is assigned to bit 18 in the
+> custom S-mode local interrupt enable/pending registers (slie/slip),
+> while the interrupt cause is (256 + 18).
+>
+> Mainline OpenSBI has supported Andes PMU extension:
+> - https://github.com/riscv-software-src/opensbi/tree/master
+> Linux patches (based on v6.7-rc7) can be found on Andes Technology GitHub
+> - https://github.com/andestech/linux/commits/andes-pmu-support-v6
+>
+> The PMU device tree node used on AX45MP:
+> - https://github.com/riscv-software-src/opensbi/blob/master/docs/pmu_supp=
+ort.md#example-3
+>
+> Locus Wei-Han Chen (1):
+>   riscv: andes: Support specifying symbolic firmware and hardware raw
+>     events
+>
+> Yu Chien Peter Lin (15):
+>   riscv: errata: Rename defines for Andes
+>   irqchip/riscv-intc: Allow large non-standard interrupt number
+>   irqchip/riscv-intc: Introduce Andes hart-level interrupt controller
+>   dt-bindings: riscv: Add Andes interrupt controller compatible string
+>   riscv: dts: renesas: r9a07g043f: Update compatible string to use Andes
+>     INTC
+>   perf: RISC-V: Eliminate redundant interrupt enable/disable operations
+>   RISC-V: Move T-Head PMU to CPU feature alternative framework
+>   perf: RISC-V: Introduce Andes PMU for perf event sampling
+>   dt-bindings: riscv: Add T-Head PMU extension description
+>   dt-bindings: riscv: Add Andes PMU extension description
+>   riscv: dts: allwinner: Add T-Head PMU extension for sun20i-d1s
+>   riscv: dts: sophgo: Add T-Head PMU extension for cv1800b
+>   riscv: dts: sophgo: Add T-Head PMU extension for sg2042
+>   riscv: dts: thead: Add T-Head PMU extension for th1520
+>   riscv: dts: renesas: Add Andes PMU extension for r9a07g043f
+>
+The above patches dont apply cleanly on top of below branches. Can you
+please rebase and re-send.
 
-> +		if (ret) {
-> +			dev_err(&pdev->dev,
-> +				"Failed to parse 'renesas,poegs' property\n");
-> +			return;
-> +		}
-> +
-> +		if (of_args.args[0] >=3D RZG2L_MAX_HW_CHANNELS) {
-> +			dev_err(&pdev->dev, "Invalid channel %d >=3D %d\n",
-> +				of_args.args[0], RZG2L_MAX_HW_CHANNELS);
-> +			of_node_put(of_args.np);
-> +			return;
-> +		}
-> +
-> +		bitpos =3D of_args.args[0];
+https://git.kernel.org/pub/scm/linux/kernel/git/palmer/linux.git/log/?h=3Df=
+ixes
+https://git.kernel.org/pub/scm/linux/kernel/git/palmer/linux.git/log/?h=3Df=
+or-next
+https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git/log=
+/?h=3Drenesas-dts-for-v6.8
 
-This can be moved further down, and so nearer to where it is actually
-used.
+Cheers,
+Prabhakar
 
-> +		if (!of_device_is_available(of_args.np)) {
-> +			/* It's fine to have a phandle to a non-enabled poeg. */
-> +			of_node_put(of_args.np);
-> +			continue;
-> +		}
-
-Best regards
-Uwe
-
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
-
---mn7jhgqhkjbtvxo3
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmWJyfkACgkQj4D7WH0S
-/k5PWgf/UOxCoa5DJPl8CXTDBZz+itaPzQOgDYU+ewswxWlrAghErEd+Uv6c+E+i
-MEcZHmqByTRsR2Lj42od4fOQa8o5pxwYp54UyL19qgrK1ELrnoFRt/8QygObvCBk
-h138rJ4DtAZss0baxQb6IaMwtM0Qo8o6K/FMBufmEU+21Cg3/FR+4eyZCDIF192M
-QZ+0i8pR+xa3tyCyF6TlFi0SmnEG6EBI3WDiaKchO/jTVTWjxPTziVyo2/DfpcWg
-LBpPitootrabDQz+eTLFvG47PxpCnmEMjgM1wrp0GqAH4t48sxFsHPJXvaZdi4N6
-KGORoN4gMGmxDg8yjzDcVNMPIM2HdQ==
-=pQNf
------END PGP SIGNATURE-----
-
---mn7jhgqhkjbtvxo3--
+>  .../devicetree/bindings/riscv/cpus.yaml       |   6 +-
+>  .../devicetree/bindings/riscv/extensions.yaml |  13 ++
+>  arch/riscv/Kconfig.errata                     |  13 --
+>  arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi |   2 +-
+>  arch/riscv/boot/dts/renesas/r9a07g043f.dtsi   |   4 +-
+>  arch/riscv/boot/dts/sophgo/cv1800b.dtsi       |   2 +-
+>  arch/riscv/boot/dts/sophgo/sg2042-cpus.dtsi   | 128 +++++++++---------
+>  arch/riscv/boot/dts/thead/th1520.dtsi         |   8 +-
+>  arch/riscv/errata/andes/errata.c              |  10 +-
+>  arch/riscv/errata/thead/errata.c              |  19 ---
+>  arch/riscv/include/asm/errata_list.h          |  19 +--
+>  arch/riscv/include/asm/hwcap.h                |   2 +
+>  arch/riscv/include/asm/vendorid_list.h        |   2 +-
+>  arch/riscv/kernel/alternative.c               |   2 +-
+>  arch/riscv/kernel/cpufeature.c                |   2 +
+>  drivers/irqchip/irq-riscv-intc.c              |  89 ++++++++++--
+>  drivers/perf/Kconfig                          |  27 ++++
+>  drivers/perf/riscv_pmu_sbi.c                  |  47 +++++--
+>  include/linux/soc/andes/irq.h                 |  18 +++
+>  .../arch/riscv/andes/ax45/firmware.json       |  68 ++++++++++
+>  .../arch/riscv/andes/ax45/instructions.json   | 127 +++++++++++++++++
+>  .../arch/riscv/andes/ax45/memory.json         |  57 ++++++++
+>  .../arch/riscv/andes/ax45/microarch.json      |  77 +++++++++++
+>  tools/perf/pmu-events/arch/riscv/mapfile.csv  |   1 +
+>  24 files changed, 592 insertions(+), 151 deletions(-)
+>  create mode 100644 include/linux/soc/andes/irq.h
+>  create mode 100644 tools/perf/pmu-events/arch/riscv/andes/ax45/firmware.=
+json
+>  create mode 100644 tools/perf/pmu-events/arch/riscv/andes/ax45/instructi=
+ons.json
+>  create mode 100644 tools/perf/pmu-events/arch/riscv/andes/ax45/memory.js=
+on
+>  create mode 100644 tools/perf/pmu-events/arch/riscv/andes/ax45/microarch=
+.json
+>
+> --
+> 2.34.1
+>
+>
+> _______________________________________________
+> linux-riscv mailing list
+> linux-riscv@lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-riscv
 
