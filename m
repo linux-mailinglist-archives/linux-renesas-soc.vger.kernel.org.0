@@ -1,261 +1,170 @@
-Return-Path: <linux-renesas-soc+bounces-1256-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-1257-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 652B181F03A
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 27 Dec 2023 17:19:13 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id C532081FA92
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 28 Dec 2023 20:07:50 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id BED78B20E89
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 27 Dec 2023 16:19:10 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1740D1F21E40
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 28 Dec 2023 19:07:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EB97D45BFA;
-	Wed, 27 Dec 2023 16:19:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GqEA8jrx"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C7FCE101C1;
+	Thu, 28 Dec 2023 19:07:46 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mx01.omp.ru (mx01.omp.ru [90.154.21.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 484FC45BF9
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 27 Dec 2023 16:19:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1703693945; x=1735229945;
-  h=date:from:to:cc:subject:message-id;
-  bh=0hkWlrN5g6OaIlKMSHncMZ47o623814oWglVL0DnMRU=;
-  b=GqEA8jrxalpas3Dy2HD9GTj/ur0hRxsHtQ1mejUYPyFSFwYdTcHegn8X
-   Nw3tZ0gC/MZOuGs+E5IgTOMuqtIXgTu8uublfKkyYa4iwiWSiII8vCjb4
-   f59T9GtdCymcBYTietMSjVd53cRR/aedCJ6AG92Eq4PfZKOvdRAbKCnAT
-   vLa83QrS6Ahs6ytZCCODMMuZVROu6N8WOE9YSbgleLVKvugCbR9tHCN1U
-   hAUeweQ9MJxLn3EQDpqP00Q5sUgbxBE39oid/Jsx2LPnewuqbCLlDPHYh
-   5f0NHpiPy+bklFb/CZcmQyZ1PkqPa6QgAUs3zDRth+2DaFqc2PjH3APXq
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10936"; a="400274798"
-X-IronPort-AV: E=Sophos;i="6.04,309,1695711600"; 
-   d="scan'208";a="400274798"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Dec 2023 08:19:04 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10936"; a="754494587"
-X-IronPort-AV: E=Sophos;i="6.04,309,1695711600"; 
-   d="scan'208";a="754494587"
-Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga006.jf.intel.com with ESMTP; 27 Dec 2023 08:19:03 -0800
-Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rIWcW-000FXh-3A;
-	Wed, 27 Dec 2023 16:19:00 +0000
-Date: Thu, 28 Dec 2023 00:18:50 +0800
-From: kernel test robot <lkp@intel.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: linux-renesas-soc@vger.kernel.org
-Subject: [geert-renesas-drivers:master] BUILD SUCCESS
- f081482e9dfd1864319ab056672d12071d941770
-Message-ID: <202312280047.Y8YZaI2K-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49FE58479;
+	Thu, 28 Dec 2023 19:07:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=omp.ru
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=omp.ru
+Received: from [192.168.1.104] (178.176.76.176) by msexch01.omp.ru
+ (10.188.4.12) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.1258.12; Thu, 28 Dec
+ 2023 22:07:31 +0300
+Subject: Re: [PATCH net v2 1/1] net: ravb: Wait for operation mode to be
+ applied
+To: claudiu beznea <claudiu.beznea@tuxon.dev>, <davem@davemloft.net>,
+	<edumazet@google.com>, <kuba@kernel.org>, <pabeni@redhat.com>,
+	<yoshihiro.shimoda.uh@renesas.com>, <wsa+renesas@sang-engineering.com>,
+	<mitsuhiro.kimura.kc@renesas.com>
+CC: <netdev@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, Claudiu Beznea
+	<claudiu.beznea.uj@bp.renesas.com>
+References: <20231222113552.2049088-1-claudiu.beznea.uj@bp.renesas.com>
+ <20231222113552.2049088-2-claudiu.beznea.uj@bp.renesas.com>
+ <98efc508-c431-2509-5799-96decc124136@omp.ru>
+ <d5448a91-a4d8-444d-9f96-083049b1e33e@tuxon.dev>
+From: Sergey Shtylyov <s.shtylyov@omp.ru>
+Organization: Open Mobile Platform
+Message-ID: <9ebf96fb-c07a-8269-e5cd-0e71110941dd@omp.ru>
+Date: Thu, 28 Dec 2023 22:07:30 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+In-Reply-To: <d5448a91-a4d8-444d-9f96-083049b1e33e@tuxon.dev>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: msexch01.omp.ru (10.188.4.12) To msexch01.omp.ru
+ (10.188.4.12)
+X-KSE-ServerInfo: msexch01.omp.ru, 9
+X-KSE-AntiSpam-Interceptor-Info: scan successful
+X-KSE-AntiSpam-Version: 6.1.0, Database issued on: 12/28/2023 18:48:23
+X-KSE-AntiSpam-Status: KAS_STATUS_NOT_DETECTED
+X-KSE-AntiSpam-Method: none
+X-KSE-AntiSpam-Rate: 59
+X-KSE-AntiSpam-Info: Lua profiles 182418 [Dec 28 2023]
+X-KSE-AntiSpam-Info: Version: 6.1.0.3
+X-KSE-AntiSpam-Info: Envelope from: s.shtylyov@omp.ru
+X-KSE-AntiSpam-Info: LuaCore: 7 0.3.7 6d6bf5bd8eea7373134f756a2fd73e9456bb7d1a
+X-KSE-AntiSpam-Info: {rep_avail}
+X-KSE-AntiSpam-Info: {Tracking_from_domain_doesnt_match_to}
+X-KSE-AntiSpam-Info: {relay has no DNS name}
+X-KSE-AntiSpam-Info: {SMTP from is not routable}
+X-KSE-AntiSpam-Info: {Found in DNSBL: 178.176.76.176 in (user)
+ b.barracudacentral.org}
+X-KSE-AntiSpam-Info:
+	127.0.0.199:7.1.2;178.176.76.176:7.1.2;omp.ru:7.1.1;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1
+X-KSE-AntiSpam-Info: ApMailHostAddress: 178.176.76.176
+X-KSE-AntiSpam-Info: {DNS response errors}
+X-KSE-AntiSpam-Info: Rate: 59
+X-KSE-AntiSpam-Info: Status: not_detected
+X-KSE-AntiSpam-Info: Method: none
+X-KSE-AntiSpam-Info: Auth:dmarc=temperror header.from=omp.ru;spf=temperror
+ smtp.mailfrom=omp.ru;dkim=none
+X-KSE-Antiphishing-Info: Clean
+X-KSE-Antiphishing-ScanningType: Heuristic
+X-KSE-Antiphishing-Method: None
+X-KSE-Antiphishing-Bases: 12/28/2023 18:54:00
+X-KSE-Antivirus-Interceptor-Info: scan successful
+X-KSE-Antivirus-Info: Clean, bases: 12/28/2023 3:49:00 PM
+X-KSE-Attachment-Filter-Triggered-Rules: Clean
+X-KSE-Attachment-Filter-Triggered-Filters: Clean
+X-KSE-BulkMessagesFiltering-Scan-Result: InTheLimit
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git master
-branch HEAD: f081482e9dfd1864319ab056672d12071d941770  [LOCAL] arm64: renesas: defconfig: Update renesas_defconfig
+On 12/27/23 1:10 PM, claudiu beznea wrote:
 
-elapsed time: 1457m
+[...]
 
-configs tested: 179
-configs skipped: 2
+>>> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+>>>
+>>> CSR.OPS bits specify the current operating mode and (according to
+>>> documentation) they are updated by HW when the operating mode change
+>>> request is processed. To comply with this check CSR.OPS before proceeding.
+>>>
+>>> Commit introduces ravb_set_opmode() that does all the necessities for
+>>> setting the operating mode (set DMA.CCC and wait for CSR.OPS) and call it
+>>> where needed. This should comply with all the HW manuals requirements as
+>>> different manual variants specify that different modes need to be checked
+>>> in CSR.OPS when setting DMA.CCC.
+>>>
+>>> Fixes: c156633f1353 ("Renesas Ethernet AVB driver proper")
+>>> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+>>> ---
+>>>  drivers/net/ethernet/renesas/ravb_main.c | 52 ++++++++++++++----------
+>>>  1 file changed, 31 insertions(+), 21 deletions(-)
+>>>
+>>> diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
+>>> index 664eda4b5a11..ae99d035a3b6 100644
+>>> --- a/drivers/net/ethernet/renesas/ravb_main.c
+>>> +++ b/drivers/net/ethernet/renesas/ravb_main.c
+>>> @@ -66,14 +66,15 @@ int ravb_wait(struct net_device *ndev, enum ravb_reg reg, u32 mask, u32 value)
+>>>  	return -ETIMEDOUT;
+>>>  }
+>>>  
+>>> -static int ravb_config(struct net_device *ndev)
+>>> +static int ravb_set_opmode(struct net_device *ndev, u32 opmode)
+>>
+>>    Since you pass the complete CCC register value below, you should
+>> rather call the function ravb_set_ccc() and call the parameter opmode
+>> ccc.
+> 
+> This will be confusing. E.g., if renaming it ravb_set_ccc() one would
+> expect to set any fields of CCC though this function but this is not true
+> as ravb_modify() in this function masks only CCC_OPC. The call of:
+> 
+> error = ravb_set_opmode(ndev, CCC_OPC_CONFIG | CCC_GAC | CCC_CSEL_HPB);
+> 
+> bellow is just to comply with datasheet requirements, previous code and at
+> the same time re-use this function.
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+   How about the following then (ugly... but does the job):
 
-tested configs:
-alpha                             allnoconfig   gcc  
-alpha                            allyesconfig   gcc  
-alpha                               defconfig   gcc  
-arc                              allmodconfig   gcc  
-arc                               allnoconfig   gcc  
-arc                              allyesconfig   gcc  
-arc                      axs103_smp_defconfig   gcc  
-arc                                 defconfig   gcc  
-arc                   randconfig-001-20231227   gcc  
-arc                   randconfig-002-20231227   gcc  
-arm                              allmodconfig   gcc  
-arm                               allnoconfig   gcc  
-arm                              allyesconfig   gcc  
-arm                                 defconfig   clang
-arm                          ep93xx_defconfig   clang
-arm                          ixp4xx_defconfig   clang
-arm                           omap1_defconfig   clang
-arm                       omap2plus_defconfig   gcc  
-arm                   randconfig-001-20231227   clang
-arm                   randconfig-002-20231227   clang
-arm                   randconfig-003-20231227   clang
-arm                   randconfig-004-20231227   clang
-arm64                            allmodconfig   clang
-arm64                             allnoconfig   gcc  
-arm64                               defconfig   gcc  
-arm64                 randconfig-001-20231227   clang
-arm64                 randconfig-002-20231227   clang
-arm64                 randconfig-003-20231227   clang
-arm64                 randconfig-004-20231227   clang
-csky                             allmodconfig   gcc  
-csky                              allnoconfig   gcc  
-csky                             allyesconfig   gcc  
-csky                                defconfig   gcc  
-csky                  randconfig-001-20231227   gcc  
-csky                  randconfig-002-20231227   gcc  
-hexagon                          allmodconfig   clang
-hexagon                           allnoconfig   clang
-hexagon                          allyesconfig   clang
-hexagon                             defconfig   clang
-hexagon               randconfig-001-20231227   clang
-hexagon               randconfig-002-20231227   clang
-i386                             allmodconfig   clang
-i386                              allnoconfig   clang
-i386                             allyesconfig   clang
-i386         buildonly-randconfig-001-20231227   clang
-i386         buildonly-randconfig-002-20231227   clang
-i386         buildonly-randconfig-003-20231227   clang
-i386         buildonly-randconfig-004-20231227   clang
-i386         buildonly-randconfig-005-20231227   clang
-i386         buildonly-randconfig-006-20231227   clang
-i386                                defconfig   gcc  
-i386                  randconfig-001-20231227   clang
-i386                  randconfig-002-20231227   clang
-i386                  randconfig-003-20231227   clang
-i386                  randconfig-004-20231227   clang
-i386                  randconfig-005-20231227   clang
-i386                  randconfig-006-20231227   clang
-i386                  randconfig-011-20231227   gcc  
-i386                  randconfig-012-20231227   gcc  
-i386                  randconfig-013-20231227   gcc  
-i386                  randconfig-014-20231227   gcc  
-i386                  randconfig-015-20231227   gcc  
-i386                  randconfig-016-20231227   gcc  
-loongarch                        allmodconfig   gcc  
-loongarch                         allnoconfig   gcc  
-loongarch                           defconfig   gcc  
-loongarch             randconfig-001-20231227   gcc  
-loongarch             randconfig-002-20231227   gcc  
-m68k                             allmodconfig   gcc  
-m68k                              allnoconfig   gcc  
-m68k                             allyesconfig   gcc  
-m68k                                defconfig   gcc  
-m68k                       m5475evb_defconfig   gcc  
-microblaze                       allmodconfig   gcc  
-microblaze                        allnoconfig   gcc  
-microblaze                       allyesconfig   gcc  
-microblaze                          defconfig   gcc  
-mips                              allnoconfig   clang
-mips                             allyesconfig   gcc  
-mips                       lemote2f_defconfig   gcc  
-nios2                            allmodconfig   gcc  
-nios2                             allnoconfig   gcc  
-nios2                            allyesconfig   gcc  
-nios2                               defconfig   gcc  
-nios2                 randconfig-001-20231227   gcc  
-nios2                 randconfig-002-20231227   gcc  
-openrisc                          allnoconfig   gcc  
-openrisc                         allyesconfig   gcc  
-openrisc                            defconfig   gcc  
-openrisc                       virt_defconfig   gcc  
-parisc                           allmodconfig   gcc  
-parisc                            allnoconfig   gcc  
-parisc                           allyesconfig   gcc  
-parisc                              defconfig   gcc  
-parisc                generic-32bit_defconfig   gcc  
-parisc                randconfig-001-20231227   gcc  
-parisc                randconfig-002-20231227   gcc  
-parisc64                         alldefconfig   gcc  
-parisc64                            defconfig   gcc  
-powerpc                     akebono_defconfig   clang
-powerpc                          allmodconfig   clang
-powerpc                           allnoconfig   gcc  
-powerpc                          allyesconfig   clang
-powerpc                     mpc5200_defconfig   clang
-powerpc               randconfig-001-20231227   clang
-powerpc               randconfig-002-20231227   clang
-powerpc               randconfig-003-20231227   clang
-powerpc                     tqm8548_defconfig   gcc  
-powerpc64             randconfig-001-20231227   clang
-powerpc64             randconfig-002-20231227   clang
-powerpc64             randconfig-003-20231227   clang
-riscv                            allmodconfig   gcc  
-riscv                             allnoconfig   clang
-riscv                            allyesconfig   gcc  
-riscv                               defconfig   gcc  
-riscv                 randconfig-001-20231227   clang
-riscv                 randconfig-002-20231227   clang
-riscv                          rv32_defconfig   clang
-s390                             allmodconfig   gcc  
-s390                              allnoconfig   gcc  
-s390                             allyesconfig   gcc  
-s390                                defconfig   gcc  
-s390                  randconfig-001-20231227   gcc  
-s390                  randconfig-002-20231227   gcc  
-sh                               allmodconfig   gcc  
-sh                                allnoconfig   gcc  
-sh                               allyesconfig   gcc  
-sh                         ap325rxa_defconfig   gcc  
-sh                                  defconfig   gcc  
-sh                    randconfig-001-20231227   gcc  
-sh                    randconfig-002-20231227   gcc  
-sh                           se7780_defconfig   gcc  
-sparc                            allmodconfig   gcc  
-sparc                       sparc32_defconfig   gcc  
-sparc64                          allmodconfig   gcc  
-sparc64                          allyesconfig   gcc  
-sparc64                             defconfig   gcc  
-sparc64               randconfig-001-20231227   gcc  
-sparc64               randconfig-002-20231227   gcc  
-um                               allmodconfig   clang
-um                                allnoconfig   clang
-um                               allyesconfig   clang
-um                                  defconfig   gcc  
-um                             i386_defconfig   gcc  
-um                    randconfig-001-20231227   clang
-um                    randconfig-002-20231227   clang
-um                           x86_64_defconfig   gcc  
-x86_64                            allnoconfig   gcc  
-x86_64                           allyesconfig   clang
-x86_64       buildonly-randconfig-001-20231227   clang
-x86_64       buildonly-randconfig-002-20231227   clang
-x86_64       buildonly-randconfig-003-20231227   clang
-x86_64       buildonly-randconfig-004-20231227   clang
-x86_64       buildonly-randconfig-005-20231227   clang
-x86_64       buildonly-randconfig-006-20231227   clang
-x86_64                              defconfig   gcc  
-x86_64                randconfig-001-20231227   gcc  
-x86_64                randconfig-002-20231227   gcc  
-x86_64                randconfig-003-20231227   gcc  
-x86_64                randconfig-004-20231227   gcc  
-x86_64                randconfig-005-20231227   gcc  
-x86_64                randconfig-006-20231227   gcc  
-x86_64                randconfig-011-20231227   clang
-x86_64                randconfig-012-20231227   clang
-x86_64                randconfig-013-20231227   clang
-x86_64                randconfig-014-20231227   clang
-x86_64                randconfig-015-20231227   clang
-x86_64                randconfig-016-20231227   clang
-x86_64                randconfig-071-20231227   clang
-x86_64                randconfig-072-20231227   clang
-x86_64                randconfig-073-20231227   clang
-x86_64                randconfig-074-20231227   clang
-x86_64                randconfig-075-20231227   clang
-x86_64                randconfig-076-20231227   clang
-x86_64                          rhel-8.3-rust   clang
-xtensa                            allnoconfig   gcc  
-xtensa                  cadence_csp_defconfig   gcc  
-xtensa                randconfig-001-20231227   gcc  
-xtensa                randconfig-002-20231227   gcc  
+	/* Set operating mode */
+	if (opmode & ~CCC_OPC)
+		ravb_write(ndev, opmode, CCC);
+	else
+		ravb_modify(ndev, CCC, CCC_OPC, opmode);
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+   Either that or just don't use ravb_set_opmode() when writing the whole
+32-bit value below...
+
+[...]
+
+>>> @@ -2560,21 +2559,23 @@ static int ravb_set_gti(struct net_device *ndev)
+[...]
+>>
+>>>  		/* Set CSEL value */
+>>>  		ravb_modify(ndev, CCC, CCC_CSEL, CCC_CSEL_HPB);
+>>>  	} else if (info->ccc_gac) {
+>>> -		ravb_modify(ndev, CCC, CCC_OPC, CCC_OPC_CONFIG |
+>>> -			    CCC_GAC | CCC_CSEL_HPB);
+>>> +		error = ravb_set_opmode(ndev, CCC_OPC_CONFIG | CCC_GAC | CCC_CSEL_HPB);
+
+   ... like this?
+
+		ravb_write(ndev, CCC_OPC_CONFIG | CCC_GAC | CCC_CSEL_HPB, CCC);
+		error = ravb_wait(ndev, CSR, CSR_OPS, CSR_OPS_CONFIG);
+
+[...]
+
+MBR, Sergey
 
