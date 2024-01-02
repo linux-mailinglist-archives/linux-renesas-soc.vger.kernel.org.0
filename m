@@ -1,61 +1,62 @@
-Return-Path: <linux-renesas-soc+bounces-1261-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-1262-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F3C6821AA0
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Jan 2024 12:02:26 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 586D0821AA5
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Jan 2024 12:02:38 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id AE15D282AAD
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Jan 2024 11:02:24 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6EF3D1C218E8
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Jan 2024 11:02:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6A893DDC7;
-	Tue,  2 Jan 2024 11:02:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 75A9EE558;
+	Tue,  2 Jan 2024 11:02:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="QpkwuAKI"
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="HiXTEiNk"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4492DDAD
-	for <linux-renesas-soc@vger.kernel.org>; Tue,  2 Jan 2024 11:02:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7A28DDC3
+	for <linux-renesas-soc@vger.kernel.org>; Tue,  2 Jan 2024 11:02:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-3373a30af67so1779889f8f.0
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 02 Jan 2024 03:02:17 -0800 (PST)
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-3368b9bbeb4so8685501f8f.2
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 02 Jan 2024 03:02:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1704193336; x=1704798136; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=YNkzD5zb9njcCx0vZ1b8LhvhJtEiy9sSNkU33s6Ms8o=;
-        b=QpkwuAKIDPD87V5blayD2BznfUXpz+EZjreaCyYdfBL50druAcodF67sDfeIhf6bmC
-         wglfKYHNajTgLHy9m3I0nYkzcTjRNLaUMFKFwADdr/x03Pog4epWFaCzoJdFSFnvG7n3
-         WiJaxa09QNZ4eNccNcrjpA9NKSRWfmXVi0lf7VcIMUHNR0/PIbNlHfuujOv5Dv1ZO3SG
-         C1XjrBSPLaJQPLThP5/9c+Rlwr8AbyjRZW6y0KCelqKNWyJ0SlT142U7YzkzP6PIPYi2
-         Cxizg+3zutRdr1HtZGly0PUA8boGnLcv2YsVDkkeOHUmOCGW96KR68mwa8Wzy2KqQZLF
-         jYHQ==
+        d=tuxon.dev; s=google; t=1704193337; x=1704798137; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=mbfHeUli9qVZSeK5qz1KYXw4fdMH2IEIwbM+g++TvkU=;
+        b=HiXTEiNkquiYiLHA9KyUjlEbhGqbsQ7fujrjKcE6FimO7MGej/7K3enaNf2tE7rPxv
+         YIDSmuSW83jfZhVufab1CoFt++RXE5BbmZAfD4VJ20d/otvpy6WoIyZJi1MUO1dzc01E
+         a1bE3kjvRyhFLyHaXPuHW+3xPMwzV55d6xFKRXSB4qZCpEmWyDZRWA2ZVjLQq6lB4K3U
+         BtrAqz+JJdGUB5JDsJ+p9ySmKkLsVcEbg5wIVu6J2V3NHsrd8XRNWOpt7cKlVcHvA6nq
+         TPKHA38Joe5JjfoJZ45XHYbvx4joucnhlGQUZU8UotaDuSZ+We/hs9+PVmhP7p+HPfGL
+         uVdg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704193336; x=1704798136;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=YNkzD5zb9njcCx0vZ1b8LhvhJtEiy9sSNkU33s6Ms8o=;
-        b=CfCwcYX3E39bL/O0p4ZjxdK9beGZPkH/rp9uVHAJLUN9I6rYL+C5gI1yuGLg4QLD6E
-         JuY84jucp5YhgZl8iRqUZ+VB9toVfNcWieozLMx+SWouALzt5UYXcD0stSYRnojMguZP
-         JXWcG22Mtr/HIfw8O523DgxF1B0Qh1ybNU66Vfm49nNvp4lW9XrAvVEEmVB/RPx5b5lF
-         zAvduSes//BK3fYoZFPFGxd8fkLtLKH1zIavCG6gbboq2tDmveGOn4Ihxq9GFBb0R1Ql
-         P479Ghjtu+S7OgKqJ6T5D2QX3OjM+GtjXXBMHk/N46hjO1wK21HhGNtmpcIHSvpWemlX
-         h5JA==
-X-Gm-Message-State: AOJu0Yxwnt+cJD1Nk62LwIxzbW5UAOZNlxIKdESYztvkwJn9fLyPEq+E
-	nKrpnUVYcvVxDhZMkAqqTdwH1YJ+DO4gIQ==
-X-Google-Smtp-Source: AGHT+IHSPwvftzsShAfp3RqKi8xUNIaJQQWio+a7Wuf89z50BJDygo/PhLL41rlBR57mF8CZsuQ0Bw==
-X-Received: by 2002:adf:ea10:0:b0:336:60f7:3951 with SMTP id q16-20020adfea10000000b0033660f73951mr6901281wrm.162.1704193335805;
-        Tue, 02 Jan 2024 03:02:15 -0800 (PST)
+        d=1e100.net; s=20230601; t=1704193337; x=1704798137;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=mbfHeUli9qVZSeK5qz1KYXw4fdMH2IEIwbM+g++TvkU=;
+        b=tJf49Fg7grfBidNglTF+dJZ1oPyTXxjnQeDsbKupjuXGbTIMSZHPfFb2OxRnpUoE0q
+         xWy45nHGdhxLPB8Rql4k5+uv3h0Ibl76ln6nMKHdKc47Re4tS9ULOMZEcrKjcWlfANdL
+         bAi+16MHcY0cLaju1rYW4KGTZJX0JdM8S6ToGHW0FABKIoAbHu4SPoPKEBCN7uJukCaI
+         mp0LSk5rHZhHyB8HNrX4RFkGbWSlEhmFYiA0hVZrRUjaKMfuEArz1ZU17SxQRb/FEN6X
+         jVd57BWoOOReGtyFEbzAC4QzmuNScbQlbiUVbBlXMfFQ+jbbcN9ooXaln0yTk/jzxe+A
+         gzmw==
+X-Gm-Message-State: AOJu0Ywg9JcEa0r9mJH98sPFG6/Br/8IqKXVrDxqFmXlVN4yLM6wgwbL
+	mn8OcicY8NyhoOAn8WBPNOKuTwVXZ1QXXg==
+X-Google-Smtp-Source: AGHT+IHE9JEwHWy/m6dZV/qC47KHMcm/LgVBhlOY3XjCtL4OnH+q997HZPOe+b8yF824UFIACJ64+Q==
+X-Received: by 2002:a5d:5244:0:b0:336:7ff6:af9 with SMTP id k4-20020a5d5244000000b003367ff60af9mr4305358wrc.212.1704193337064;
+        Tue, 02 Jan 2024 03:02:17 -0800 (PST)
 Received: from claudiu-X670E-Pro-RS.. ([82.78.167.5])
-        by smtp.gmail.com with ESMTPSA id l4-20020a5d6744000000b00336710ddea0sm28174229wrw.59.2024.01.02.03.02.14
+        by smtp.gmail.com with ESMTPSA id l4-20020a5d6744000000b00336710ddea0sm28174229wrw.59.2024.01.02.03.02.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 02 Jan 2024 03:02:15 -0800 (PST)
+        Tue, 02 Jan 2024 03:02:16 -0800 (PST)
 From: Claudiu <claudiu.beznea@tuxon.dev>
 X-Google-Original-From: Claudiu <claudiu.beznea.uj@bp.renesas.com>
 To: s.shtylyov@omp.ru,
@@ -69,10 +70,12 @@ Cc: mitsuhiro.kimura.kc@renesas.com,
 	linux-kernel@vger.kernel.org,
 	claudiu.beznea@tuxon.dev,
 	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-Subject: [PATCH net v3 0/1] net: ravb: fixes for the ravb driver
-Date: Tue,  2 Jan 2024 13:01:15 +0200
-Message-Id: <20240102110116.4005187-1-claudiu.beznea.uj@bp.renesas.com>
+Subject: [PATCH net v3 1/1] net: ravb: Wait for operating mode to be applied
+Date: Tue,  2 Jan 2024 13:01:16 +0200
+Message-Id: <20240102110116.4005187-2-claudiu.beznea.uj@bp.renesas.com>
 X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20240102110116.4005187-1-claudiu.beznea.uj@bp.renesas.com>
+References: <20240102110116.4005187-1-claudiu.beznea.uj@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -83,40 +86,168 @@ Content-Transfer-Encoding: 8bit
 
 From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 
-Hi,
+CSR.OPS bits specify the current operating mode and (according to
+documentation) they are updated by HW when the operating mode change
+request is processed. To comply with this check CSR.OPS before proceeding.
 
-Series adds one fix for the ravb driver to wait for the operating
-mode to be applied by hardware before proceeding.
+Commit introduces ravb_set_opmode() that does all the necessities for
+setting the operating mode (set CCC.OPC (and CCC.GAC, CCC.CSEL, if any) and
+wait for CSR.OPS) and call it where needed. This should comply with all the
+HW manuals requirements as different manual variants specify that different
+modes need to be checked in CSR.OPS when setting CCC.OPC.
 
-Thank you,
-Claudiu Beznea
+In case of platforms with GAC, if GAC needs to be enabled, the CCC.GAC and
+CCC.CSEL needs to be configured along with CCC.OPC. For this,
+ravb_set_opmode() allows passing GAC and CSEL as part of opmode and the
+function updates accordingly CCC register.
 
-Changes in v3:
-- s/csr_opmode/csr_ops in ravb_set_opmode()
-- mask opmode with CCC_OPC when retrieveing csr_ops
-- in ravb_set_opmode() updated modify mask passed to ravb_modify() to
-  include GAC and CSEL bits if these are part of opmode
-- s/failed to switch device to config mode/failed to switch device to
-  requested mode/ in ravb_set_opmode()
-- s/operation/operating in the title of patch 1/1
-
-Changes in v2:
-- dropped patch 2/2 from v1 ("net: ravb: Check that GTI loading request is
-  done")
-- kept a single "Fixes" entry in commit description
-- updated commit description for patch 1/1
-- introduce ravb_set_opmode() that does all the necessities for
-  setting the operating mode (set DMA.CCC and wait for CSR.OPS) and call it
-  where needed; this should comply with all the HW manuals requirements as
-  different manual variants specify different modes need to be checked in
-  CSR.OPS when setting DMA.CCC.
-
-Claudiu Beznea (1):
-  net: ravb: Wait for operation mode to be applied
-
+Fixes: c156633f1353 ("Renesas Ethernet AVB driver proper")
+Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+---
  drivers/net/ethernet/renesas/ravb_main.c | 61 +++++++++++++++---------
  1 file changed, 38 insertions(+), 23 deletions(-)
 
+diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
+index 664eda4b5a11..9835d18a7adf 100644
+--- a/drivers/net/ethernet/renesas/ravb_main.c
++++ b/drivers/net/ethernet/renesas/ravb_main.c
+@@ -66,16 +66,23 @@ int ravb_wait(struct net_device *ndev, enum ravb_reg reg, u32 mask, u32 value)
+ 	return -ETIMEDOUT;
+ }
+ 
+-static int ravb_config(struct net_device *ndev)
++static int ravb_set_opmode(struct net_device *ndev, u32 opmode)
+ {
++	u32 csr_ops = 1U << (opmode & CCC_OPC);
++	u32 ccc_mask = CCC_OPC;
+ 	int error;
+ 
+-	/* Set config mode */
+-	ravb_modify(ndev, CCC, CCC_OPC, CCC_OPC_CONFIG);
+-	/* Check if the operating mode is changed to the config mode */
+-	error = ravb_wait(ndev, CSR, CSR_OPS, CSR_OPS_CONFIG);
+-	if (error)
+-		netdev_err(ndev, "failed to switch device to config mode\n");
++	if (opmode & CCC_GAC)
++		ccc_mask |= CCC_GAC | CCC_CSEL;
++
++	/* Set operating mode */
++	ravb_modify(ndev, CCC, ccc_mask, opmode);
++	/* Check if the operating mode is changed to the requested one */
++	error = ravb_wait(ndev, CSR, CSR_OPS, csr_ops);
++	if (error) {
++		netdev_err(ndev, "failed to switch device to requested mode (%u)\n",
++			   opmode & CCC_OPC);
++	}
+ 
+ 	return error;
+ }
+@@ -673,7 +680,7 @@ static int ravb_dmac_init(struct net_device *ndev)
+ 	int error;
+ 
+ 	/* Set CONFIG mode */
+-	error = ravb_config(ndev);
++	error = ravb_set_opmode(ndev, CCC_OPC_CONFIG);
+ 	if (error)
+ 		return error;
+ 
+@@ -682,9 +689,7 @@ static int ravb_dmac_init(struct net_device *ndev)
+ 		return error;
+ 
+ 	/* Setting the control will start the AVB-DMAC process. */
+-	ravb_modify(ndev, CCC, CCC_OPC, CCC_OPC_OPERATION);
+-
+-	return 0;
++	return ravb_set_opmode(ndev, CCC_OPC_OPERATION);
+ }
+ 
+ static void ravb_get_tx_tstamp(struct net_device *ndev)
+@@ -1046,7 +1051,7 @@ static int ravb_stop_dma(struct net_device *ndev)
+ 		return error;
+ 
+ 	/* Stop AVB-DMAC process */
+-	return ravb_config(ndev);
++	return ravb_set_opmode(ndev, CCC_OPC_CONFIG);
+ }
+ 
+ /* E-MAC interrupt handler */
+@@ -2560,21 +2565,25 @@ static int ravb_set_gti(struct net_device *ndev)
+ 	return 0;
+ }
+ 
+-static void ravb_set_config_mode(struct net_device *ndev)
++static int ravb_set_config_mode(struct net_device *ndev)
+ {
+ 	struct ravb_private *priv = netdev_priv(ndev);
+ 	const struct ravb_hw_info *info = priv->info;
++	int error;
+ 
+ 	if (info->gptp) {
+-		ravb_modify(ndev, CCC, CCC_OPC, CCC_OPC_CONFIG);
++		error = ravb_set_opmode(ndev, CCC_OPC_CONFIG);
++		if (error)
++			return error;
+ 		/* Set CSEL value */
+ 		ravb_modify(ndev, CCC, CCC_CSEL, CCC_CSEL_HPB);
+ 	} else if (info->ccc_gac) {
+-		ravb_modify(ndev, CCC, CCC_OPC, CCC_OPC_CONFIG |
+-			    CCC_GAC | CCC_CSEL_HPB);
++		error = ravb_set_opmode(ndev, CCC_OPC_CONFIG | CCC_GAC | CCC_CSEL_HPB);
+ 	} else {
+-		ravb_modify(ndev, CCC, CCC_OPC, CCC_OPC_CONFIG);
++		error = ravb_set_opmode(ndev, CCC_OPC_CONFIG);
+ 	}
++
++	return error;
+ }
+ 
+ /* Set tx and rx clock internal delay modes */
+@@ -2794,7 +2803,9 @@ static int ravb_probe(struct platform_device *pdev)
+ 	ndev->ethtool_ops = &ravb_ethtool_ops;
+ 
+ 	/* Set AVB config mode */
+-	ravb_set_config_mode(ndev);
++	error = ravb_set_config_mode(ndev);
++	if (error)
++		goto out_disable_gptp_clk;
+ 
+ 	if (info->gptp || info->ccc_gac) {
+ 		/* Set GTI value */
+@@ -2917,8 +2928,7 @@ static void ravb_remove(struct platform_device *pdev)
+ 	dma_free_coherent(ndev->dev.parent, priv->desc_bat_size, priv->desc_bat,
+ 			  priv->desc_bat_dma);
+ 
+-	/* Set reset mode */
+-	ravb_write(ndev, CCC_OPC_RESET, CCC);
++	ravb_set_opmode(ndev, CCC_OPC_RESET);
+ 
+ 	clk_disable_unprepare(priv->gptp_clk);
+ 	clk_disable_unprepare(priv->refclk);
+@@ -3000,8 +3010,11 @@ static int __maybe_unused ravb_resume(struct device *dev)
+ 	int ret = 0;
+ 
+ 	/* If WoL is enabled set reset mode to rearm the WoL logic */
+-	if (priv->wol_enabled)
+-		ravb_write(ndev, CCC_OPC_RESET, CCC);
++	if (priv->wol_enabled) {
++		ret = ravb_set_opmode(ndev, CCC_OPC_RESET);
++		if (ret)
++			return ret;
++	}
+ 
+ 	/* All register have been reset to default values.
+ 	 * Restore all registers which where setup at probe time and
+@@ -3009,7 +3022,9 @@ static int __maybe_unused ravb_resume(struct device *dev)
+ 	 */
+ 
+ 	/* Set AVB config mode */
+-	ravb_set_config_mode(ndev);
++	ret = ravb_set_config_mode(ndev);
++	if (ret)
++		return ret;
+ 
+ 	if (info->gptp || info->ccc_gac) {
+ 		/* Set GTI value */
 -- 
 2.39.2
 
