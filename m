@@ -1,152 +1,97 @@
-Return-Path: <linux-renesas-soc+bounces-1264-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-1265-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 166A082213C
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Jan 2024 19:43:33 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id C293A82215B
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Jan 2024 19:50:50 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2B00F1C20A13
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Jan 2024 18:43:32 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 71FBE1F21357
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Jan 2024 18:50:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2EDB815ACB;
-	Tue,  2 Jan 2024 18:43:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 70EF615AD0;
+	Tue,  2 Jan 2024 18:50:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="j6s9xs/z"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mx01.omp.ru (mx01.omp.ru [90.154.21.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37F9A15AC3;
-	Tue,  2 Jan 2024 18:43:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=omp.ru
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=omp.ru
-Received: from [192.168.1.104] (31.173.80.188) by msexch01.omp.ru
- (10.188.4.12) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.1258.12; Tue, 2 Jan
- 2024 21:43:15 +0300
-Subject: Re: [PATCH net v3 1/1] net: ravb: Wait for operating mode to be
- applied
-To: Claudiu <claudiu.beznea@tuxon.dev>, <davem@davemloft.net>,
-	<edumazet@google.com>, <kuba@kernel.org>, <pabeni@redhat.com>
-CC: <mitsuhiro.kimura.kc@renesas.com>, <netdev@vger.kernel.org>,
-	<linux-renesas-soc@vger.kernel.org>, <linux-kernel@vger.kernel.org>, Claudiu
- Beznea <claudiu.beznea.uj@bp.renesas.com>
-References: <20240102110116.4005187-1-claudiu.beznea.uj@bp.renesas.com>
- <20240102110116.4005187-2-claudiu.beznea.uj@bp.renesas.com>
-From: Sergey Shtylyov <s.shtylyov@omp.ru>
-Organization: Open Mobile Platform
-Message-ID: <df73cd5f-4185-233d-eada-7b5598a070fc@omp.ru>
-Date: Tue, 2 Jan 2024 21:43:14 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 389FA15AD2;
+	Tue,  2 Jan 2024 18:50:42 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9A2EEC433C7;
+	Tue,  2 Jan 2024 18:50:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1704221442;
+	bh=yOE/YHnF1UAW/Il+r+WmLQDz4UIfzONUe1nYkxnQURc=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=j6s9xs/zjOmU+d7T/tdZnQp5Cuk604kN70iRsyKMds+yoU3x1HHhgxT2KkyCURaIs
+	 Qr96vgrsvnUD6MUf/xBw0mOtdpmunUgXPLEbW2vYLsQLyHGNgKJ6+HTkj7pGDuYHuy
+	 AoyYp+6ZajXBej4Z5Qs5yFHhVZxcFDbUihHI/tcEEauBCRu+aM/h56KRfSA9QbcrrD
+	 3vourfOaMgJrTThurFkxHnPZOueAUALkUtD324vEqHHot378Ad9pGGvZ7wrMq0a4Lp
+	 a85yB4ounWrwYHONaIKsUgFnJtBBAhBm3QYGQ8UFKgehYCyVbioiEp8Sr3IN7JUHxu
+	 rXaEYLgmj28lQ==
+Received: by mail-lj1-f181.google.com with SMTP id 38308e7fff4ca-2cd10001532so10910161fa.0;
+        Tue, 02 Jan 2024 10:50:42 -0800 (PST)
+X-Gm-Message-State: AOJu0YwZObPalzsZx70Y1/TfP0VASFtBh/tG8mUDhZNLin+NEtgPsoi/
+	kE8nEYIP6pyBaJG04E6Z4xIgkszjIeLfXhnd4Q==
+X-Google-Smtp-Source: AGHT+IEkg0lOcyuaw3VHV9V69o18PA2gIkrX3H8AL273tC0pEndlNYSNfmgExwmdDjXZq9K3LzSGyhgmBw4TShB3LPU=
+X-Received: by 2002:a2e:4c0a:0:b0:2cc:a253:a4a4 with SMTP id
+ z10-20020a2e4c0a000000b002cca253a4a4mr7816833lja.21.1704221440847; Tue, 02
+ Jan 2024 10:50:40 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <20240102110116.4005187-2-claudiu.beznea.uj@bp.renesas.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: msexch01.omp.ru (10.188.4.12) To msexch01.omp.ru
- (10.188.4.12)
-X-KSE-ServerInfo: msexch01.omp.ru, 9
-X-KSE-AntiSpam-Interceptor-Info: scan successful
-X-KSE-AntiSpam-Version: 6.1.0, Database issued on: 01/02/2024 18:31:01
-X-KSE-AntiSpam-Status: KAS_STATUS_NOT_DETECTED
-X-KSE-AntiSpam-Method: none
-X-KSE-AntiSpam-Rate: 59
-X-KSE-AntiSpam-Info: Lua profiles 182449 [Jan 02 2024]
-X-KSE-AntiSpam-Info: Version: 6.1.0.3
-X-KSE-AntiSpam-Info: Envelope from: s.shtylyov@omp.ru
-X-KSE-AntiSpam-Info: LuaCore: 7 0.3.7 6d6bf5bd8eea7373134f756a2fd73e9456bb7d1a
-X-KSE-AntiSpam-Info: {rep_avail}
-X-KSE-AntiSpam-Info: {Tracking_from_domain_doesnt_match_to}
-X-KSE-AntiSpam-Info: {relay has no DNS name}
-X-KSE-AntiSpam-Info: {SMTP from is not routable}
-X-KSE-AntiSpam-Info: {Found in DNSBL: 31.173.80.188 in (user)
- b.barracudacentral.org}
-X-KSE-AntiSpam-Info: {Found in DNSBL: 31.173.80.188 in (user)
- dbl.spamhaus.org}
-X-KSE-AntiSpam-Info:
-	d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;127.0.0.199:7.1.2;omp.ru:7.1.1
-X-KSE-AntiSpam-Info: ApMailHostAddress: 31.173.80.188
-X-KSE-AntiSpam-Info: {DNS response errors}
-X-KSE-AntiSpam-Info: Rate: 59
-X-KSE-AntiSpam-Info: Status: not_detected
-X-KSE-AntiSpam-Info: Method: none
-X-KSE-AntiSpam-Info: Auth:dmarc=temperror header.from=omp.ru;spf=temperror
- smtp.mailfrom=omp.ru;dkim=none
-X-KSE-Antiphishing-Info: Clean
-X-KSE-Antiphishing-ScanningType: Heuristic
-X-KSE-Antiphishing-Method: None
-X-KSE-Antiphishing-Bases: 01/02/2024 18:35:00
-X-KSE-Antivirus-Interceptor-Info: scan successful
-X-KSE-Antivirus-Info: Clean, bases: 1/2/2024 5:17:00 PM
-X-KSE-Attachment-Filter-Triggered-Rules: Clean
-X-KSE-Attachment-Filter-Triggered-Filters: Clean
-X-KSE-BulkMessagesFiltering-Scan-Result: InTheLimit
+References: <20231207070700.4156557-1-claudiu.beznea.uj@bp.renesas.com> <20231207070700.4156557-9-claudiu.beznea.uj@bp.renesas.com>
+In-Reply-To: <20231207070700.4156557-9-claudiu.beznea.uj@bp.renesas.com>
+From: Rob Herring <robh+dt@kernel.org>
+Date: Tue, 2 Jan 2024 11:50:27 -0700
+X-Gmail-Original-Message-ID: <CAL_JsqK113msK_ZZopzF59LaOQJMCVbvXnJkfMpn6iT1tj_+JQ@mail.gmail.com>
+Message-ID: <CAL_JsqK113msK_ZZopzF59LaOQJMCVbvXnJkfMpn6iT1tj_+JQ@mail.gmail.com>
+Subject: Re: [PATCH v2 08/11] dt-bindings: net: renesas,etheravb: Document
+ RZ/G3S support
+To: Claudiu <claudiu.beznea@tuxon.dev>
+Cc: s.shtylyov@omp.ru, davem@davemloft.net, edumazet@google.com, 
+	kuba@kernel.org, pabeni@redhat.com, krzysztof.kozlowski+dt@linaro.org, 
+	conor+dt@kernel.org, geert+renesas@glider.be, magnus.damm@gmail.com, 
+	mturquette@baylibre.com, sboyd@kernel.org, linus.walleij@linaro.org, 
+	prabhakar.mahadev-lad.rj@bp.renesas.com, biju.das.jz@bp.renesas.com, 
+	linux-renesas-soc@vger.kernel.org, netdev@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-clk@vger.kernel.org, linux-gpio@vger.kernel.org, 
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>, 
+	Conor Dooley <conor.dooley@microchip.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 1/2/24 2:01 PM, Claudiu wrote:
-
+On Thu, Dec 7, 2023 at 12:08=E2=80=AFAM Claudiu <claudiu.beznea@tuxon.dev> =
+wrote:
+>
 > From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-> 
-> CSR.OPS bits specify the current operating mode and (according to
-> documentation) they are updated by HW when the operating mode change
-> request is processed. To comply with this check CSR.OPS before proceeding.
-> 
-> Commit introduces ravb_set_opmode() that does all the necessities for
-> setting the operating mode (set CCC.OPC (and CCC.GAC, CCC.CSEL, if any) and
-> wait for CSR.OPS) and call it where needed. This should comply with all the
-> HW manuals requirements as different manual variants specify that different
-> modes need to be checked in CSR.OPS when setting CCC.OPC.
-> 
-> In case of platforms with GAC, if GAC needs to be enabled, the CCC.GAC and
-
-   Better to spell it out, I think: in case of platforms that support gPTP
-while in the config[uration] mode..
-
-> CCC.CSEL needs to be configured along with CCC.OPC. For this,
-> ravb_set_opmode() allows passing GAC and CSEL as part of opmode and the
-> function updates accordingly CCC register.
-> 
-> Fixes: c156633f1353 ("Renesas Ethernet AVB driver proper")
+>
+> Document Ethernet RZ/G3S support. Ethernet IP is similar to the one
+> available on RZ/G2L devices.
+>
 > Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+> Acked-by: Conor Dooley <conor.dooley@microchip.com>
+> Reviewed-by: Sergey Shtylyov <s.shtylyov@omp.ru>
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
+>
+> Changes in v2:
+> - collected tags
+>
+>
+>  Documentation/devicetree/bindings/net/renesas,etheravb.yaml | 1 +
+>  1 file changed, 1 insertion(+)
 
-Reviewed-by: Sergey Shtylyov <s.shtylyov@omp.ru>
+Seems this one slipped thru the cracks.
 
-[...]
+Using this trick I just learned:
 
-> diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c> index 664eda4b5a11..9835d18a7adf 100644
-> --- a/drivers/net/ethernet/renesas/ravb_main.c
-> +++ b/drivers/net/ethernet/renesas/ravb_main.c
-> @@ -66,16 +66,23 @@ int ravb_wait(struct net_device *ndev, enum ravb_reg reg, u32 mask, u32 value)
->  	return -ETIMEDOUT;
->  }
->  
-> -static int ravb_config(struct net_device *ndev)
-> +static int ravb_set_opmode(struct net_device *ndev, u32 opmode)
->  {
-> +	u32 csr_ops = 1U << (opmode & CCC_OPC);
-> +	u32 ccc_mask = CCC_OPC;
->  	int error;
->  
-> -	/* Set config mode */
-> -	ravb_modify(ndev, CCC, CCC_OPC, CCC_OPC_CONFIG);
-> -	/* Check if the operating mode is changed to the config mode */
-> -	error = ravb_wait(ndev, CSR, CSR_OPS, CSR_OPS_CONFIG);
-> -	if (error)
-> -		netdev_err(ndev, "failed to switch device to config mode\n");
-> +	if (opmode & CCC_GAC)
-
-   Worth a comment?
-
-> +		ccc_mask |= CCC_GAC | CCC_CSEL;
-
-   Adding CCC.GAC to the mask not strictly necessary but OK...
-
-[...]
-
-MBR, Sergey
+pw-bot: new
 
