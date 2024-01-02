@@ -1,188 +1,213 @@
-Return-Path: <linux-renesas-soc+bounces-1259-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-1260-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91487821544
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  1 Jan 2024 21:49:30 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9392F82198A
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Jan 2024 11:18:43 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3EA432819CD
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  1 Jan 2024 20:49:29 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 149751F22537
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Jan 2024 10:18:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 80F20DDDF;
-	Mon,  1 Jan 2024 20:49:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 10280D2F1;
+	Tue,  2 Jan 2024 10:18:06 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mx01.omp.ru (mx01.omp.ru [90.154.21.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com [209.85.128.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EF15DF42;
-	Mon,  1 Jan 2024 20:49:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=omp.ru
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=omp.ru
-Received: from [192.168.1.104] (178.176.77.76) by msexch01.omp.ru
- (10.188.4.12) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.1258.12; Mon, 1 Jan
- 2024 23:49:07 +0300
-Subject: Re: [PATCH net v2 1/1] net: ravb: Wait for operation mode to be
- applied
-To: claudiu beznea <claudiu.beznea@tuxon.dev>, <davem@davemloft.net>,
-	<edumazet@google.com>, <kuba@kernel.org>, <pabeni@redhat.com>,
-	<yoshihiro.shimoda.uh@renesas.com>, <wsa+renesas@sang-engineering.com>,
-	<mitsuhiro.kimura.kc@renesas.com>
-CC: <netdev@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, Claudiu Beznea
-	<claudiu.beznea.uj@bp.renesas.com>
-References: <20231222113552.2049088-1-claudiu.beznea.uj@bp.renesas.com>
- <20231222113552.2049088-2-claudiu.beznea.uj@bp.renesas.com>
- <98efc508-c431-2509-5799-96decc124136@omp.ru>
- <d5448a91-a4d8-444d-9f96-083049b1e33e@tuxon.dev>
- <9ebf96fb-c07a-8269-e5cd-0e71110941dd@omp.ru>
- <ca01da5f-0928-4a95-83f4-8d9056107f42@tuxon.dev>
-From: Sergey Shtylyov <s.shtylyov@omp.ru>
-Organization: Open Mobile Platform
-Message-ID: <aa9a9929-92ff-ab4b-a2ea-142b522eb344@omp.ru>
-Date: Mon, 1 Jan 2024 23:49:06 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA548D266;
+	Tue,  2 Jan 2024 10:18:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-5eefd0da5c0so35964757b3.2;
+        Tue, 02 Jan 2024 02:18:03 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1704190682; x=1704795482;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=X5DxLXP6EyqotRgw2MuRFibbW2LOWQylrBdAXWNwj0E=;
+        b=kDmWk4+qMWPq3ulZECXV/fAqE+GbkVeQ+8oIByA45X30vt9CZteil2nJnx2kmmRghp
+         86oxzkOdzqTaALCAt9HYvQhqxPUf99lFl4s21vRc+6cEnFArwK0wuzzvcf+gsFUDdJbf
+         tOr291omrrtq7HgG18g6OH6H/RnJNrMuPoRVpwpw5a4/RP/z2wmc0ekNpRyOQB+KvW+x
+         0zkdCEFssFYiCMHjrKkx9zTIXM50hQz7i15To78tz/tC8MG0wkhWj5cOTvtqMweAYzO+
+         /+2Wm0ZC4OYrr8khpkXPNEeC2DMLak+g7wmqbrzLwvbTp4lMFkfEzDr6R9I9PCJ9Y+QQ
+         NB3A==
+X-Gm-Message-State: AOJu0YzdK4/d4mXOQV/xWhpoQjrla7j2ZTRY3jlj1XnsgC77U65q9/as
+	s0QY6g3JiBfB36RUADr4Wz0ylUsvQl2xWA==
+X-Google-Smtp-Source: AGHT+IFHm7SGgWLdlth02VAk2lQAvQcEQ6zfBgw66YQXK7ZWQsZrYxsxiII4aqrljuaUM64w5A3Uyg==
+X-Received: by 2002:a81:73c3:0:b0:5e8:e973:31ad with SMTP id o186-20020a8173c3000000b005e8e97331admr13001380ywc.33.1704190682530;
+        Tue, 02 Jan 2024 02:18:02 -0800 (PST)
+Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com. [209.85.128.169])
+        by smtp.gmail.com with ESMTPSA id gu6-20020a05690c458600b005f21555182bsm1934161ywb.1.2024.01.02.02.18.01
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 02 Jan 2024 02:18:02 -0800 (PST)
+Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-5eefd0da5c0so35964627b3.2;
+        Tue, 02 Jan 2024 02:18:01 -0800 (PST)
+X-Received: by 2002:a0d:c383:0:b0:5d8:e267:78e5 with SMTP id
+ f125-20020a0dc383000000b005d8e26778e5mr12357254ywd.61.1704190681747; Tue, 02
+ Jan 2024 02:18:01 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <ca01da5f-0928-4a95-83f4-8d9056107f42@tuxon.dev>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: msexch01.omp.ru (10.188.4.12) To msexch01.omp.ru
- (10.188.4.12)
-X-KSE-ServerInfo: msexch01.omp.ru, 9
-X-KSE-AntiSpam-Interceptor-Info: scan successful
-X-KSE-AntiSpam-Version: 6.1.0, Database issued on: 01/01/2024 20:37:31
-X-KSE-AntiSpam-Status: KAS_STATUS_NOT_DETECTED
-X-KSE-AntiSpam-Method: none
-X-KSE-AntiSpam-Rate: 59
-X-KSE-AntiSpam-Info: Lua profiles 182447 [Dec 31 2023]
-X-KSE-AntiSpam-Info: Version: 6.1.0.3
-X-KSE-AntiSpam-Info: Envelope from: s.shtylyov@omp.ru
-X-KSE-AntiSpam-Info: LuaCore: 7 0.3.7 6d6bf5bd8eea7373134f756a2fd73e9456bb7d1a
-X-KSE-AntiSpam-Info: {rep_avail}
-X-KSE-AntiSpam-Info: {Tracking_from_domain_doesnt_match_to}
-X-KSE-AntiSpam-Info: {relay has no DNS name}
-X-KSE-AntiSpam-Info: {SMTP from is not routable}
-X-KSE-AntiSpam-Info: {Found in DNSBL: 178.176.77.76 in (user)
- b.barracudacentral.org}
-X-KSE-AntiSpam-Info:
-	127.0.0.199:7.1.2;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;omp.ru:7.1.1
-X-KSE-AntiSpam-Info: ApMailHostAddress: 178.176.77.76
-X-KSE-AntiSpam-Info: {DNS response errors}
-X-KSE-AntiSpam-Info: Rate: 59
-X-KSE-AntiSpam-Info: Status: not_detected
-X-KSE-AntiSpam-Info: Method: none
-X-KSE-AntiSpam-Info: Auth:dmarc=temperror header.from=omp.ru;spf=temperror
- smtp.mailfrom=omp.ru;dkim=none
-X-KSE-Antiphishing-Info: Clean
-X-KSE-Antiphishing-ScanningType: Heuristic
-X-KSE-Antiphishing-Method: None
-X-KSE-Antiphishing-Bases: 01/01/2024 20:41:00
-X-KSE-Antivirus-Interceptor-Info: scan successful
-X-KSE-Antivirus-Info: Clean, bases: 1/1/2024 5:15:00 PM
-X-KSE-Attachment-Filter-Triggered-Rules: Clean
-X-KSE-Attachment-Filter-Triggered-Filters: Clean
-X-KSE-BulkMessagesFiltering-Scan-Result: InTheLimit
+References: <20231201131551.201503-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20231201131551.201503-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <CAMuHMdUiaL__+CDaFxRbUFgrz69SYBNfZm4JvY_qQRKLMTCY0w@mail.gmail.com> <CA+V-a8tTWf8Kx-Ex=DPsSR2ZWHC29N_pAoEZN1sR5Nqobf139A@mail.gmail.com>
+In-Reply-To: <CA+V-a8tTWf8Kx-Ex=DPsSR2ZWHC29N_pAoEZN1sR5Nqobf139A@mail.gmail.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 2 Jan 2024 11:17:50 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdXosvV=EuRtL69r6=UT0SO8Aq-XjWwJMJQpWAhT2z+ffA@mail.gmail.com>
+Message-ID: <CAMuHMdXosvV=EuRtL69r6=UT0SO8Aq-XjWwJMJQpWAhT2z+ffA@mail.gmail.com>
+Subject: Re: [PATCH v3 1/3] pinctrl: renesas: rzg2l: Include pinmap in
+ RZG2L_GPIO_PORT_PACK() macro
+To: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Cc: Magnus Damm <magnus.damm@gmail.com>, Rob Herring <robh+dt@kernel.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
+	Albert Ou <aou@eecs.berkeley.edu>, Linus Walleij <linus.walleij@linaro.org>, 
+	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-riscv@lists.infradead.org, 
+	linux-gpio@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 12/29/23 6:07 PM, claudiu beznea wrote:
+Hi Prabhakar,
 
-[...]
+On Thu, Dec 21, 2023 at 10:04=E2=80=AFPM Lad, Prabhakar
+<prabhakar.csengg@gmail.com> wrote:
+> On Wed, Dec 6, 2023 at 1:13=E2=80=AFPM Geert Uytterhoeven <geert@linux-m6=
+8k.org> wrote:
+> > On Fri, Dec 1, 2023 at 2:16=E2=80=AFPM Prabhakar <prabhakar.csengg@gmai=
+l.com> wrote:
+> > > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > >
+> > > Currently we assume all the port pins are sequential ie always PX_0 t=
+o
+> > > PX_n (n=3D1..7) exist, but on RZ/Five SoC we have additional pins P19=
+_1 to
+> > > P28_5 which have holes in them, for example only one pin on port19 is
+> > > available and that is P19_1 and not P19_0. So to handle such cases
+> > > include pinmap for each port which would indicate the pin availabilit=
+y
+> > > on each port. As the pincount can be calculated based on pinmap drop =
+this
+> > > from RZG2L_GPIO_PORT_PACK() macro and update RZG2L_GPIO_PORT_GET_PINC=
+NT()
+> > > macro.
+> > >
+> > > Previously we had a max of 7 pins on each port but on RZ/Five Port-20
+> > > has 8 pins, so move the single pin configuration to BIT(63).
+> > >
+> > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com=
+>
+> >
+> > Thanks for your patch!
+> >
+> > > --- a/drivers/pinctrl/renesas/pinctrl-rzg2l.c
+> > > +++ b/drivers/pinctrl/renesas/pinctrl-rzg2l.c
+> > > @@ -80,15 +80,17 @@
+> > >   * n indicates number of pins in the port, a is the register index
+> > >   * and f is pin configuration capabilities supported.
+> > >   */
+> > > -#define RZG2L_GPIO_PORT_PACK(n, a, f)  (((n) << 28) | ((a) << 20) | =
+(f))
+> > > -#define RZG2L_GPIO_PORT_GET_PINCNT(x)  (((x) & GENMASK(30, 28)) >> 2=
+8)
+> > > +#define RZG2L_GPIO_PORT_PACK(n, a, f)  (((n) > 0 ? ((u64)(GENMASK_UL=
+L(((n) - 1 + 28), 28))) : 0) | \
+> >
+> > The mask creation can be simplified to
+> >
+> >     ((1ULL << (n)) - 1) << 28
+> >
+> OK.
+>
+> > but see below...
+> >
+> > > +                                        ((a) << 20) | (f))
+> > > +#define RZG2L_GPIO_PORT_GET_PINMAP(x)  (((x) & GENMASK_ULL(35, 28)) =
+>> 28)
+> > > +#define RZG2L_GPIO_PORT_GET_PINCNT(x)  (hweight8(RZG2L_GPIO_PORT_GET=
+_PINMAP((x))))
+> >
+> > I think we've reached the point where it would be easier for the
+> > casual reviewer to #define PIN_CFG_*_MASK for all fields, and use
+> > FIELD_{PREP,GET}() to pack resp. extract values.  That would also
+> > make it more obvious which bits are in use, and how many bits are
+> > still available for future use.
+> >
+> If I use the FIELD_PREP() macro like below I get build issues as below:
+>
+> #define RZG2L_GPIO_PORT_PIN_CNT_MASK    GENMASK(31, 28)
+> #define RZG2L_GPIO_PORT_PIN_REG_MASK    GENMASK(27, 20)
+> #define RZG2L_GPIO_PORT_PIN_CFG_MASK    GENMASK(19, 0)
+> #define RZG2L_GPIO_PORT_PACK(n, a, f)
+> FIELD_PREP(RZG2L_GPIO_PORT_PIN_CNT_MASK, n) | \
+>                     FIELD_PREP(RZG2L_GPIO_PORT_PIN_REG_MASK, a) | \
+>                     FIELD_PREP(RZG2L_GPIO_PORT_PIN_CFG_MASK, f)
+>
+>
+> drivers/pinctrl/renesas/pinctrl-rzg2l.c:91:41: note: in expansion of
+> macro 'FIELD_PREP'
+>    91 |
+> FIELD_PREP(RZG2L_GPIO_PORT_PIN_CFG_MASK, f)
+>       |                                         ^~~~~~~~~~
+> drivers/pinctrl/renesas/pinctrl-rzg2l.c:1486:9: note: in expansion of
+> macro 'RZG2L_GPIO_PORT_PACK'
+>  1486 |         RZG2L_GPIO_PORT_PACK(6, 0x2a,
+> RZG3S_MPXED_PIN_FUNCS(A)),                        /* P18 */
+>       |         ^~~~~~~~~~~~~~~~~~~~
+>
+> Do you have any pointers?
 
->>>>> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
->>>>>
->>>>> CSR.OPS bits specify the current operating mode and (according to
->>>>> documentation) they are updated by HW when the operating mode change
->>>>> request is processed. To comply with this check CSR.OPS before proceeding.
->>>>>
->>>>> Commit introduces ravb_set_opmode() that does all the necessities for
->>>>> setting the operating mode (set DMA.CCC and wait for CSR.OPS) and call it
->>>>> where needed. This should comply with all the HW manuals requirements as
->>>>> different manual variants specify that different modes need to be checked
->>>>> in CSR.OPS when setting DMA.CCC.
->>>>>
->>>>> Fixes: c156633f1353 ("Renesas Ethernet AVB driver proper")
->>>>> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
->>>>> ---
->>>>>  drivers/net/ethernet/renesas/ravb_main.c | 52 ++++++++++++++----------
->>>>>  1 file changed, 31 insertions(+), 21 deletions(-)
->>>>>
->>>>> diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
->>>>> index 664eda4b5a11..ae99d035a3b6 100644
->>>>> --- a/drivers/net/ethernet/renesas/ravb_main.c
->>>>> +++ b/drivers/net/ethernet/renesas/ravb_main.c
->>>>> @@ -66,14 +66,15 @@ int ravb_wait(struct net_device *ndev, enum ravb_reg reg, u32 mask, u32 value)
->>>>>  	return -ETIMEDOUT;
->>>>>  }
->>>>>  
->>>>> -static int ravb_config(struct net_device *ndev)
->>>>> +static int ravb_set_opmode(struct net_device *ndev, u32 opmode)
->>>>
->>>>    Since you pass the complete CCC register value below, you should
->>>> rather call the function ravb_set_ccc() and call the parameter opmode
->>>> ccc.
->>>
->>> This will be confusing. E.g., if renaming it ravb_set_ccc() one would
->>> expect to set any fields of CCC though this function but this is not true
->>> as ravb_modify() in this function masks only CCC_OPC. The call of:
->>>
->>> error = ravb_set_opmode(ndev, CCC_OPC_CONFIG | CCC_GAC | CCC_CSEL_HPB);
->>>
->>> bellow is just to comply with datasheet requirements, previous code and at
->>> the same time re-use this function.
->>
->>    How about the following then (ugly... but does the job):
->>
->> 	/* Set operating mode */
->> 	if (opmode & ~CCC_OPC)
->> 		ravb_write(ndev, opmode, CCC);
->> 	else
->> 		ravb_modify(ndev, CCC, CCC_OPC, opmode);
->>
->>    Either that or just don't use ravb_set_opmode() when writing the whole
->> 32-bit value below...
-> 
-> This looks uglier to me...
-> 
-> We have this discussion because of ccc_gac. For ccc_gac platforms we need
-> to set OPC, GAC, CSEL at the same time. This is how we can change the
-> operating mode to configuration mode in case we also need to configure GAC
-> (due to restrictions imposed by hardware).
-> 
-> What I want to say is that setting GAC and CSEL along with CCC is part of
-> changing the operating mode to configuration mode for platforms supporting
-> GAC because of hardware limitations.
+You left out the actual error :-(
 
-   After thinking about it once more, your description seems correct.
-But then we need something like this:
+include/linux/bitfield.h:113:9: error: braced-group within expression
+allowed only inside a function
+  113 |         ({
+         \
+      |         ^
+drivers/pinctrl/renesas/pinctrl-rzg2l.c:93:39: note: in expansion of
+macro =E2=80=98FIELD_PREP=E2=80=99
+   93 | #define RZG2L_GPIO_PORT_PACK(n, a, f)
+FIELD_PREP(RZG2L_GPIO_PORT_PIN_CNT_MASK, n) | \
+      |                                       ^~~~~~~~~~
+drivers/pinctrl/renesas/pinctrl-rzg2l.c:1555:9: note: in expansion of
+macro =E2=80=98RZG2L_GPIO_PORT_PACK=E2=80=99
+ 1555 |         RZG2L_GPIO_PORT_PACK(2, 0x10, RZG2L_MPXED_PIN_FUNCS),
+      |         ^~~~~~~~~~~~~~~~~~~~
 
-static int ravb_set_opmode(struct net_device *ndev, u32 opmode)
-{
-	u32 ccc_mask = CCC_OPC;
-	u32 csr_ops = 1U << (opmode & CCC_OPC);
- 	int error;
+Using FIELD_PREP_CONST() instead makes it build.
 
- 	if (opmode & CCC_GAC)
- 		ccc_mask |= CCC_CSEL;
+/**
+ * FIELD_PREP_CONST() - prepare a constant bitfield element
+ * @_mask: shifted mask defining the field's length and position
+ * @_val:  value to put in the field
+ *
+ * FIELD_PREP_CONST() masks and shifts up the value.  The result should
+ * be combined with other fields of the bitfield using logical OR.
+ *
+ * Unlike FIELD_PREP() this is a constant expression and can therefore
+ * be used in initializers. Error checking is less comfortable for this
+ * version, and non-constant masks cannot be used.
+ */
 
-	/* Set operating mode */
-	ravb_modify(ndev, CCC, ccc_mask, opmode);
-	/* Check if the operating mode is changed to the requested one */
-	error = ravb_wait(ndev, CSR, CSR_OPS, csr_ops);
- 	if (error)
- 		netdev_err(ndev, "failed to switch device to  requested mode\n");
+Gr{oetje,eeting}s,
 
-	return error;
-}
+                        Geert
 
-[...]
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
 
-MBR, Sergey
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
