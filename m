@@ -1,97 +1,110 @@
-Return-Path: <linux-renesas-soc+bounces-1265-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-1266-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id C293A82215B
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Jan 2024 19:50:50 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F5DA8224E1
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Jan 2024 23:40:36 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 71FBE1F21357
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Jan 2024 18:50:50 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 6DEB6B2165C
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Jan 2024 22:40:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 70EF615AD0;
-	Tue,  2 Jan 2024 18:50:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 969EB171D8;
+	Tue,  2 Jan 2024 22:40:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="j6s9xs/z"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XLiwZxOi"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 389FA15AD2;
-	Tue,  2 Jan 2024 18:50:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9A2EEC433C7;
-	Tue,  2 Jan 2024 18:50:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 628F817722;
+	Tue,  2 Jan 2024 22:40:25 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id C8C54C433CA;
+	Tue,  2 Jan 2024 22:40:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1704221442;
-	bh=yOE/YHnF1UAW/Il+r+WmLQDz4UIfzONUe1nYkxnQURc=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=j6s9xs/zjOmU+d7T/tdZnQp5Cuk604kN70iRsyKMds+yoU3x1HHhgxT2KkyCURaIs
-	 Qr96vgrsvnUD6MUf/xBw0mOtdpmunUgXPLEbW2vYLsQLyHGNgKJ6+HTkj7pGDuYHuy
-	 AoyYp+6ZajXBej4Z5Qs5yFHhVZxcFDbUihHI/tcEEauBCRu+aM/h56KRfSA9QbcrrD
-	 3vourfOaMgJrTThurFkxHnPZOueAUALkUtD324vEqHHot378Ad9pGGvZ7wrMq0a4Lp
-	 a85yB4ounWrwYHONaIKsUgFnJtBBAhBm3QYGQ8UFKgehYCyVbioiEp8Sr3IN7JUHxu
-	 rXaEYLgmj28lQ==
-Received: by mail-lj1-f181.google.com with SMTP id 38308e7fff4ca-2cd10001532so10910161fa.0;
-        Tue, 02 Jan 2024 10:50:42 -0800 (PST)
-X-Gm-Message-State: AOJu0YwZObPalzsZx70Y1/TfP0VASFtBh/tG8mUDhZNLin+NEtgPsoi/
-	kE8nEYIP6pyBaJG04E6Z4xIgkszjIeLfXhnd4Q==
-X-Google-Smtp-Source: AGHT+IEkg0lOcyuaw3VHV9V69o18PA2gIkrX3H8AL273tC0pEndlNYSNfmgExwmdDjXZq9K3LzSGyhgmBw4TShB3LPU=
-X-Received: by 2002:a2e:4c0a:0:b0:2cc:a253:a4a4 with SMTP id
- z10-20020a2e4c0a000000b002cca253a4a4mr7816833lja.21.1704221440847; Tue, 02
- Jan 2024 10:50:40 -0800 (PST)
+	s=k20201202; t=1704235224;
+	bh=TYmyaLmtrD1cirMWGNO8g+3fto9TzrYtNubox6icnAI=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=XLiwZxOiZosnthuFXBIG2y1aPYcvYRawalg/x73AEZfoq4ssPQrndx2gOtCp/xbyr
+	 hSFTA31e7JoPYAwFNphYdBQwytVxpOniQ3PfgvmqNqe1sFDl9Fmsdabnol5El0YxD3
+	 gHcLYc6aCl4bFT/3nowuIpeOmkRGKmBicUs3o0/bvVOmel5EfY8PI/Jnxro4qPU+3c
+	 t5Q5fy8klQJ0Bxqn3cHeDgVgF3aK71SMEHE2gHEvbUNSmswfdbDGEqVP8yoK/TQ1vf
+	 VWbwXcBje+zH/vCwGxJIhkQlGQ+zgzMnt0XNi4b+ssEUj9FwY/Y73Uqcmg94+BUECI
+	 2GUBqYOxksxRg==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id AE547C395C5;
+	Tue,  2 Jan 2024 22:40:24 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231207070700.4156557-1-claudiu.beznea.uj@bp.renesas.com> <20231207070700.4156557-9-claudiu.beznea.uj@bp.renesas.com>
-In-Reply-To: <20231207070700.4156557-9-claudiu.beznea.uj@bp.renesas.com>
-From: Rob Herring <robh+dt@kernel.org>
-Date: Tue, 2 Jan 2024 11:50:27 -0700
-X-Gmail-Original-Message-ID: <CAL_JsqK113msK_ZZopzF59LaOQJMCVbvXnJkfMpn6iT1tj_+JQ@mail.gmail.com>
-Message-ID: <CAL_JsqK113msK_ZZopzF59LaOQJMCVbvXnJkfMpn6iT1tj_+JQ@mail.gmail.com>
-Subject: Re: [PATCH v2 08/11] dt-bindings: net: renesas,etheravb: Document
- RZ/G3S support
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH v2 00/11] renesas: rzg3s: Add support for Ethernet
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: 
+ <170423522471.27299.969624057457704166.git-patchwork-notify@kernel.org>
+Date: Tue, 02 Jan 2024 22:40:24 +0000
+References: <20231207070700.4156557-1-claudiu.beznea.uj@bp.renesas.com>
+In-Reply-To: <20231207070700.4156557-1-claudiu.beznea.uj@bp.renesas.com>
 To: Claudiu <claudiu.beznea@tuxon.dev>
-Cc: s.shtylyov@omp.ru, davem@davemloft.net, edumazet@google.com, 
-	kuba@kernel.org, pabeni@redhat.com, krzysztof.kozlowski+dt@linaro.org, 
-	conor+dt@kernel.org, geert+renesas@glider.be, magnus.damm@gmail.com, 
-	mturquette@baylibre.com, sboyd@kernel.org, linus.walleij@linaro.org, 
-	prabhakar.mahadev-lad.rj@bp.renesas.com, biju.das.jz@bp.renesas.com, 
-	linux-renesas-soc@vger.kernel.org, netdev@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-clk@vger.kernel.org, linux-gpio@vger.kernel.org, 
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>, 
-	Conor Dooley <conor.dooley@microchip.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Cc: s.shtylyov@omp.ru, davem@davemloft.net, edumazet@google.com,
+ kuba@kernel.org, pabeni@redhat.com, robh+dt@kernel.org,
+ krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+ geert+renesas@glider.be, magnus.damm@gmail.com, mturquette@baylibre.com,
+ sboyd@kernel.org, linus.walleij@linaro.org,
+ prabhakar.mahadev-lad.rj@bp.renesas.com, biju.das.jz@bp.renesas.com,
+ linux-renesas-soc@vger.kernel.org, netdev@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-clk@vger.kernel.org, linux-gpio@vger.kernel.org,
+ claudiu.beznea.uj@bp.renesas.com
 
-On Thu, Dec 7, 2023 at 12:08=E2=80=AFAM Claudiu <claudiu.beznea@tuxon.dev> =
-wrote:
->
+Hello:
+
+This series was applied to netdev/net-next.git (main)
+by Jakub Kicinski <kuba@kernel.org>:
+
+On Thu,  7 Dec 2023 09:06:49 +0200 you wrote:
 > From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
->
-> Document Ethernet RZ/G3S support. Ethernet IP is similar to the one
-> available on RZ/G2L devices.
->
-> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-> Acked-by: Conor Dooley <conor.dooley@microchip.com>
-> Reviewed-by: Sergey Shtylyov <s.shtylyov@omp.ru>
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> ---
->
-> Changes in v2:
-> - collected tags
->
->
->  Documentation/devicetree/bindings/net/renesas,etheravb.yaml | 1 +
->  1 file changed, 1 insertion(+)
+> 
+> Hi,
+> 
+> Series adds Ethernet support for Renesas RZ/G3S.
+> Along with it preparatory cleanups and fixes were included.
+> 
+> [...]
 
-Seems this one slipped thru the cracks.
+Here is the summary with links:
+  - [v2,01/11] clk: renesas: rzg2l-cpg: Check reset monitor registers
+    (no matching commit)
+  - [v2,02/11] clk: renesas: r9a08g045-cpg: Add clock and reset support for ETH0 and ETH1
+    (no matching commit)
+  - [v2,03/11] pinctrl: renesas: rzg2l: Move arg and index in the main function block
+    (no matching commit)
+  - [v2,04/11] pinctrl: renesas: rzg2l: Add pin configuration support for pinmux groups
+    (no matching commit)
+  - [v2,05/11] pinctrl: renesas: rzg2l: Add support to select power source for Ethernet pins
+    (no matching commit)
+  - [v2,06/11] pinctrl: renesas: rzg2l: Add output enable support
+    (no matching commit)
+  - [v2,07/11] pinctrl: renesas: rzg2l: Add input enable to the Ethernet pins
+    (no matching commit)
+  - [v2,08/11] dt-bindings: net: renesas,etheravb: Document RZ/G3S support
+    https://git.kernel.org/netdev/net-next/c/060baa9b90d4
+  - [v2,09/11] arm64: renesas: r9a08g045: Add the Ethernet nodes
+    (no matching commit)
+  - [v2,10/11] arm64: renesas: rzg3s-smarc-som: Use switches' names to select on-board functionalities
+    (no matching commit)
+  - [v2,11/11] arm64: dts: renesas: rzg3s-smarc-som: Enable the Ethernet interfaces
+    (no matching commit)
 
-Using this trick I just learned:
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
-pw-bot: new
+
 
