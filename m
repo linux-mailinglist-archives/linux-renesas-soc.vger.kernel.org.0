@@ -1,41 +1,41 @@
-Return-Path: <linux-renesas-soc+bounces-1271-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-1272-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 566A1822F78
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  3 Jan 2024 15:28:38 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id A3B46822F79
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  3 Jan 2024 15:28:43 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id E8FE41F24739
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  3 Jan 2024 14:28:37 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 58B281F24430
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  3 Jan 2024 14:28:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7F7D41A703;
-	Wed,  3 Jan 2024 14:28:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6A0211A599;
+	Wed,  3 Jan 2024 14:28:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="PjkXE8zV"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="oB/z7ORE"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [217.70.183.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E2791A5A6;
-	Wed,  3 Jan 2024 14:28:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8029B1A704;
+	Wed,  3 Jan 2024 14:28:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Received: by mail.gandi.net (Postfix) with ESMTPSA id D3ABE60006;
-	Wed,  3 Jan 2024 14:28:21 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id D156B6000C;
+	Wed,  3 Jan 2024 14:28:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1704292102;
+	t=1704292104;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=yi/l6zN1wrokE9qEz9TLn6vcJko+Bnseka46HyXgyU4=;
-	b=PjkXE8zV+hyPTh8jtSX8pVHB1Rto9Ayqaet+5qq1/JUSrwutQmvqOcPDB+ZknY6SrSwSna
-	i3cLoBqrLCd4AJPJE4qdOcaJcqpPgbGJyyHduLtkEojAH21k/fdjghBbAr+XuQxpt6hq/6
-	zzKkYaaOjPjYMjax1X6mEFux2vheRcTyfnmH0d8BYqa0drrZzEnAV/UHU9ON6NUQoQ3Nyd
-	bEs1zWjyP0NQHvQF19r26RdIYWJN76MnGGcjGn8L91Oaf3Ks/gDmS+zYqEYRxEU/v4T1cA
-	hH1YDeA+Dmy2PLY1iSQXUWlbtwngc6qNxTS8IbqAmgAKlGj5SkI/NSUU3R3hfQ==
+	bh=Wp8DYMknUb7GCV6xvdPdeHPJMzkPaB2xD+HrP3VM8GM=;
+	b=oB/z7ORENEshnW+G77deGCmY+G/XJmhFAHxDZVQxBKRiwPDd6b0sVihw/tZuLR1iR5hWVz
+	r2xRI0DVcDyB/23d4rCbk3s1w6ZzfQMNyZXUHPXS+JyMEhaW21lBTxgSkqWvzXK+GswyYn
+	tNyjC6NHEq4Hs0asFaZMkUYuKcam4NxRb9uhHB/UCk04pk3moUDgdBvvGuV+ciBAPd7brb
+	EbEIPNpJI1YCw9jqMJhsw7HaoRkD/nP1E1ECTV+5guiN/Ygfgviabqi5gHKa8SHGlie8ek
+	R8IAxuHRQAZciwGtGnm43swudWzoz8mxFVrWS/xqEdDwTmfFD4W2vhPLDEyfzw==
 From: Romain Gantois <romain.gantois@bootlin.com>
 To: Alexandre Torgue <alexandre.torgue@foss.st.com>,
 	Jose Abreu <joabreu@synopsys.com>,
@@ -43,8 +43,7 @@ To: Alexandre Torgue <alexandre.torgue@foss.st.com>,
 	Andrew Lunn <andrew@lunn.ch>,
 	Jakub Kicinski <kuba@kernel.org>,
 	Heiner Kallweit <hkallweit1@gmail.com>
-Cc: Romain Gantois <romain.gantois@bootlin.com>,
-	"David S. Miller" <davem@davemloft.net>,
+Cc: "David S. Miller" <davem@davemloft.net>,
 	Eric Dumazet <edumazet@google.com>,
 	Paolo Abeni <pabeni@redhat.com>,
 	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
@@ -57,10 +56,11 @@ Cc: Romain Gantois <romain.gantois@bootlin.com>,
 	netdev@vger.kernel.org,
 	linux-stm32@st-md-mailman.stormreply.com,
 	linux-arm-kernel@lists.infradead.org,
-	linux-renesas-soc@vger.kernel.org
-Subject: [PATCH net 2/5] net: phy: add rxc_always_on flag to phylink_pcs
-Date: Wed,  3 Jan 2024 15:28:22 +0100
-Message-ID: <20240103142827.168321-3-romain.gantois@bootlin.com>
+	linux-renesas-soc@vger.kernel.org,
+	Romain Gantois <romain.gantois@bootlin.com>
+Subject: [PATCH net 3/5] net: stmmac: Signal to PHY/PCS drivers to keep RX clock on
+Date: Wed,  3 Jan 2024 15:28:23 +0100
+Message-ID: <20240103142827.168321-4-romain.gantois@bootlin.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20240103142827.168321-1-romain.gantois@bootlin.com>
 References: <20240103142827.168321-1-romain.gantois@bootlin.com>
@@ -70,61 +70,50 @@ List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-GND-Sasl: romain.gantois@bootlin.com
 
-Some MAC drivers (e.g. stmmac) require a continuous receive clock signal to
-be generated by a PCS that is handled by a standalone PCS driver.
+From: Russell King <linux@armlinux.org.uk>
 
-Such a PCS driver does not have access to a PHY device, thus cannot check
-the PHY_F_RXC_ALWAYS_ON flag. They cannot check max_requires_rxc in the
-phylink config either, since it is a private member. Therefore, a new flag
-is needed to signal to the PCS that it should keep the RX clock signal up
-at all times.
+There is a reocurring issue with stmmac controllers where the MAC fails to
+initialize its hardware if an RX clock signal isn't provided on the MAC/PHY
+link.
 
+This causes issues when PHY or PCS devices either go into suspend while
+cutting the RX clock or do not bring the clock signal up early enough for
+the MAC to initialize successfully.
+
+Set the mac_requires_rxc flag in the stmmac phylink config so that PHY/PCS
+drivers know to keep the RX clock up at all times.
+
+Reported-by: Clark Wang <xiaoning.wang@nxp.com>
+Link: https://lore.kernel.org/all/20230202081559.3553637-1-xiaoning.wang@nxp.com/
+Reported-by: Clément Léger <clement.leger@bootlin.com>
+Link: https://lore.kernel.org/linux-arm-kernel/20230116103926.276869-4-clement.leger@bootlin.com/
+Signed-off-by: Russell King <linux@armlinux.org.uk>
+[rgantois: commit log]
 Signed-off-by: Romain Gantois <romain.gantois@bootlin.com>
 ---
- drivers/net/phy/phylink.c | 3 +++
- include/linux/phylink.h   | 5 +++++
- 2 files changed, 8 insertions(+)
+ drivers/net/ethernet/stmicro/stmmac/stmmac_main.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/drivers/net/phy/phylink.c b/drivers/net/phy/phylink.c
-index f26b13d916d4..a5a5fe91d213 100644
---- a/drivers/net/phy/phylink.c
-+++ b/drivers/net/phy/phylink.c
-@@ -663,6 +663,9 @@ static int phylink_validate_mac_and_pcs(struct phylink *pl,
- 			return -EINVAL;
- 		}
+diff --git a/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c b/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
+index 37e64283f910..ffecc28de234 100644
+--- a/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
++++ b/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
+@@ -1221,6 +1221,11 @@ static int stmmac_phy_setup(struct stmmac_priv *priv)
+ 	priv->phylink_config.type = PHYLINK_NETDEV;
+ 	priv->phylink_config.mac_managed_pm = true;
  
-+		if (pl->config->mac_requires_rxc)
-+			pcs->rxc_always_on = true;
++	/* stmmac always requires a receive clock in order for things like
++	 * hardware reset to work.
++	 */
++	priv->phylink_config.mac_requires_rxc = true;
 +
- 		/* Validate the link parameters with the PCS */
- 		if (pcs->ops->pcs_validate) {
- 			ret = pcs->ops->pcs_validate(pcs, supported, state);
-diff --git a/include/linux/phylink.h b/include/linux/phylink.h
-index 8430ac7ead11..e1527e35f997 100644
---- a/include/linux/phylink.h
-+++ b/include/linux/phylink.h
-@@ -462,6 +462,10 @@ struct phylink_pcs_ops;
-  * @phylink: pointer to &struct phylink_config
-  * @neg_mode: provide PCS neg mode via "mode" argument
-  * @poll: poll the PCS for link changes
-+ * @rxc_always_on: The MAC driver requires the reference clock
-+ *                 to always be on. Standalone PCS drivers who
-+ *                 do not have access to a PHY device can check
-+ *                 this instead of PHY_F_RXC_ALWAYS_ON.
-  *
-  * This structure is designed to be embedded within the PCS private data,
-  * and will be passed between phylink and the PCS.
-@@ -474,6 +478,7 @@ struct phylink_pcs {
- 	struct phylink *phylink;
- 	bool neg_mode;
- 	bool poll;
-+	bool rxc_always_on;
- };
- 
- /**
+ 	mdio_bus_data = priv->plat->mdio_bus_data;
+ 	if (mdio_bus_data)
+ 		priv->phylink_config.ovr_an_inband =
 -- 
 2.43.0
 
