@@ -1,71 +1,86 @@
-Return-Path: <linux-renesas-soc+bounces-1286-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-1287-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B4ED82403E
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  4 Jan 2024 12:06:27 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 78F8F824381
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  4 Jan 2024 15:19:16 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id F2E942865FC
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  4 Jan 2024 11:06:25 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6ACC21C22158
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  4 Jan 2024 14:19:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8668A20DE8;
-	Thu,  4 Jan 2024 11:05:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 83D35224F8;
+	Thu,  4 Jan 2024 14:17:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="oXLIgZOX"
+	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="F/NL0XKK"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from JPN01-TYC-obe.outbound.protection.outlook.com (mail-tycjpn01on2102.outbound.protection.outlook.com [40.107.114.102])
+Received: from JPN01-TYC-obe.outbound.protection.outlook.com (mail-tycjpn01on2109.outbound.protection.outlook.com [40.107.114.109])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08BFF2136B;
-	Thu,  4 Jan 2024 11:05:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8091C22F1B;
+	Thu,  4 Jan 2024 14:17:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=I3xjkB5gAQFF8+jID9KpjsYB9onZzl50MWT9xq2afU5lx+sU1M6CvTnQkQHAYgkVAYr/YscrdT/8PIo6/IKAYAjbfv7+IR4xLh5UnGbdVoQFfzDSPBkZxVE/Izeth+Pjt8c7Sz0n/2WRIn4cDgk9NmQI2eqBZ/RCXMdp2OyuiM5695vchU5X9qrsYAALCqS5Df54+Q1za2heBXZYkOegFjsCCjxOYtF1ltf5r2H69Ok9PbQESjg7m+54L3i+UdwKbBtfnVcoCtk/5axtpqbqhntUdZk0IatY6d4zBm6nArbFDIuocS0Z+1+vrELQw40sG0HjLQbjryLmtmrYuSOymg==
+ b=YSB+3HTu9jdwo96EWZPRjvQIPne36PmbftCmFS0YAOixeLwReQy32HdKPoWR/dn9E4KzHFGAfvt4UFKULWsALyS3NnjLXiQ96eifAauC1bpTOH1MqDwyA8+mF+C4zTVTPq6zvv0cfmvehjoHhJKBcmJa3WCTVtsTD3GI7BHMAA8+/Nyi4Pat0pTYQHsEdk5hSsZwDo9VAaXe1ezWijap0oFtoOyMwLuM5zJ2M+B0h3x1FME/jWP3vvnoGVOTzBKA4CU9HrvJRgGD9XfgylAGbIaP+VWs2WjHZk3hRr0SjhgzIsj38tSXxXq2m+Niphv2M3JTs0lO0NlCmfM/Iw4pvg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ZgHArS1RqCmm92eB5JQSOzpqfn01Ks4kY1+5fRKc0Qg=;
- b=eTbjvGQPThkASD2LLnZYsoEbzZE/OMyu2SELB+b0X+PAQEKkXnuerjWFVCftbeTvqhWIiQ194udFNFNdYDSR/M2kTSqjWJaT5aQFmZ24/i3gdvERj18qNQDGbzss+S0NdFwv0wQZNRsTFM1ZECb+/v8DEekyhBqu2kSA/flHluFVGvzG3TFfGm7g43LxSUHklSq/qwyJez9qmwof10+2m4/PfALp4xy1vBCpoMOV8FCuAPnkxdCufU5nX+YaFyzFycn4TyS/0BxM8mfahAhYCe8S2RauwUW64rUqY9OsMvSJi78RPKZrLJVBFUsD29/y8AYkqRfnbqwVlg7pk0cAnA==
+ bh=AqFeUNVy9TvWWZ4j/GQsbh9gji/V5ss32n3CNVojFRU=;
+ b=Sp+eD64wOfXbixzgNWdPXUo8qFHzjwLv3lPbJtOZI6vYgRPT8au4WFQQns8plpKI/1FRf4FhwTIrOlP5wdhP2Um0rmyYV8Gx/JYeOT5vipW1/geYYTUNHM946eGGF9tnIjg6Q0tVayUv+GllVBmvlTXxmiHv7d0xaSorMaNbsMXsmOBnMJiKiPHKCRd96LWaECFnHedVAQfjQk6bSVYQ6dK4/sRnBKNfRhk1O1jDU0P5dAl9tFLxyzolMGzi9iO41QjNQWJ/6TkpYg24QbdK4hkB6nUe98PeTML0ou+DmJZcKAYm1ZosilAmyOl3M9GFxGiqc8XzUy/6GTYgLUnJCw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
  header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ZgHArS1RqCmm92eB5JQSOzpqfn01Ks4kY1+5fRKc0Qg=;
- b=oXLIgZOXzoSqIWCdByQoN5YLp13i5h/Fkr248+6vvrkyMx4Gr2QRMAaHTwAACT4SpwP5fVjW/xzFh9q1dN5Mh8gYhISWVSQgi3yU5/uLMhf8LrFARtAYOPeJrTG9L6KvVWQhwl++A60IXwDYWijPL2uqo9QWGYMjQ4XEGfhluDk=
+ bh=AqFeUNVy9TvWWZ4j/GQsbh9gji/V5ss32n3CNVojFRU=;
+ b=F/NL0XKKGE7KR/OcikGRD+NCA3JEZiF96smtke4vgStgEN6H/ZxM0oBTKau/nEFw9wsevZlpY2GrwuqfJdXxcw8hdO2wfaXmaktZkJ9cQ7JAp20KevmF25mNnVYzT+Z0yTfdbfBdlR3Xh1RX4VbWuVQucd79YXAIIJHMs7Q7hXg=
 Received: from TYCPR01MB11269.jpnprd01.prod.outlook.com
- (2603:1096:400:3c0::10) by TYAPR01MB5530.jpnprd01.prod.outlook.com
- (2603:1096:404:803b::10) with Microsoft SMTP Server (version=TLS1_2,
+ (2603:1096:400:3c0::10) by TYWPR01MB10130.jpnprd01.prod.outlook.com
+ (2603:1096:400:1e6::14) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7159.14; Thu, 4 Jan
- 2024 11:05:46 +0000
+ 2024 14:17:40 +0000
 Received: from TYCPR01MB11269.jpnprd01.prod.outlook.com
  ([fe80::8d12:a02a:9fdc:9c78]) by TYCPR01MB11269.jpnprd01.prod.outlook.com
  ([fe80::8d12:a02a:9fdc:9c78%5]) with mapi id 15.20.7181.009; Thu, 4 Jan 2024
- 11:05:46 +0000
+ 14:17:40 +0000
 From: Biju Das <biju.das.jz@bp.renesas.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>, Mauro Carvalho Chehab
-	<mchehab@kernel.org>
-CC: "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>, Geert
- Uytterhoeven <geert+renesas@glider.be>, Prabhakar Mahadev Lad
+To: Maxime Ripard <mripard@kernel.org>, Laurent Pinchart
+	<laurent.pinchart@ideasonboard.com>
+CC: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
+	<tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Daniel Vetter
+	<daniel@ffwll.ch>, Philipp Zabel <p.zabel@pengutronix.de>, Laurent Pinchart
+	<laurent.pinchart@ideasonboard.com>, Kieran Bingham
+	<kieran.bingham+renesas@ideasonboard.com>, Jacopo Mondi
+	<jacopo.mondi@ideasonboard.com>, Geert Uytterhoeven
+	<geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>,
+	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, Prabhakar Mahadev Lad
 	<prabhakar.mahadev-lad.rj@bp.renesas.com>, biju.das.au
-	<biju.das.au@gmail.com>, "linux-renesas-soc@vger.kernel.org"
-	<linux-renesas-soc@vger.kernel.org>
-Subject: RE: [PATCH] media: v4l: async: Fix double pointer free on
- v4l2_async_unregister_subdev()
-Thread-Topic: [PATCH] media: v4l: async: Fix double pointer free on
- v4l2_async_unregister_subdev()
-Thread-Index: AQHaI7M5bfzjfA5nV0+qnOeAaLyhXLCkYgIwgCVSXpA=
-Date: Thu, 4 Jan 2024 11:05:46 +0000
+	<biju.das.au@gmail.com>, "linux-media@vger.kernel.org"
+	<linux-media@vger.kernel.org>
+Subject: RE: [PATCH v15 3/5] drm: renesas: Add RZ/G2L DU Support
+Thread-Topic: [PATCH v15 3/5] drm: renesas: Add RZ/G2L DU Support
+Thread-Index:
+ AQHaIejqQbh+O2CetkGmd2PHSouIl7Cnc3CAgAFZmGCAAXC4AIAAEXwwgAAZsoCAAANogIAAEt4AgAADUYCAH1ohsA==
+Date: Thu, 4 Jan 2024 14:17:39 +0000
 Message-ID:
- <TYCPR01MB112699751EF10B9BEF3B7511B86672@TYCPR01MB11269.jpnprd01.prod.outlook.com>
-References: <20231130173232.130731-1-biju.das.jz@bp.renesas.com>
- <TYCPR01MB11269FCC5199547299AFDAAF3868FA@TYCPR01MB11269.jpnprd01.prod.outlook.com>
+ <TYCPR01MB11269726F051D0F497597F28A86672@TYCPR01MB11269.jpnprd01.prod.outlook.com>
+References: <20231128105129.161121-1-biju.das.jz@bp.renesas.com>
+ <20231128105129.161121-4-biju.das.jz@bp.renesas.com>
+ <sechknyg33iucaku37vfhk7ie7xgcealfqbvaopm4rrnqbo5g5@s35peonkzzoz>
+ <TYCPR01MB11269767836DEB995747B7ED3868CA@TYCPR01MB11269.jpnprd01.prod.outlook.com>
+ <zp2ews2by6fg5irmb7ms6blox6vruezdjlor3rutqtokbvlle2@tl775slyvhyf>
+ <TYCPR01MB112699C55873FA75B8F4469C18693A@TYCPR01MB11269.jpnprd01.prod.outlook.com>
+ <bw3qxved377k5pmh3dbnimiyxra7k6dgb2tmg23bvxnfglti4g@uqdxmgnqrkg2>
+ <TYCPR01MB11269CC132B84CFAD11D307578693A@TYCPR01MB11269.jpnprd01.prod.outlook.com>
+ <g4uqcavglw2md4ojiw7yxequy37ttozjazr3b4ypqzznlrsinv@zm6mvzaempwp>
+ <TYCPR01MB11269BCE6CAEE3C5063C4D1728693A@TYCPR01MB11269.jpnprd01.prod.outlook.com>
 In-Reply-To:
- <TYCPR01MB11269FCC5199547299AFDAAF3868FA@TYCPR01MB11269.jpnprd01.prod.outlook.com>
+ <TYCPR01MB11269BCE6CAEE3C5063C4D1728693A@TYCPR01MB11269.jpnprd01.prod.outlook.com>
 Accept-Language: en-GB, en-US
 Content-Language: en-US
 X-MS-Has-Attach:
@@ -73,45 +88,45 @@ X-MS-TNEF-Correlator:
 authentication-results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=bp.renesas.com;
 x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TYCPR01MB11269:EE_|TYAPR01MB5530:EE_
-x-ms-office365-filtering-correlation-id: 4c706a97-72e9-485f-6a7e-08dc0d151a55
+x-ms-traffictypediagnostic: TYCPR01MB11269:EE_|TYWPR01MB10130:EE_
+x-ms-office365-filtering-correlation-id: 880b0111-0a82-4393-9f1d-08dc0d2fe8c7
 x-ld-processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
 x-ms-exchange-senderadcheck: 1
 x-ms-exchange-antispam-relay: 0
 x-microsoft-antispam: BCL:0;
 x-microsoft-antispam-message-info:
- u7IKdjoxNztZT0Am1VAr/ou8hMtdZY/oJDhFODQAPcpnhAX1yHZXo1uX6lBl76gupwrrvspgeSwR4FpfRN/DNC6QAaG6TDB/wwtAMKCE/Ime9U2b1XVdpDoW388SrezELQnapm30c6jGUKwxF9XlEg2XRIvvJz65e0N/SWjTsplkAM+6Vi0hCtjeNGP1RPjqWM5uxex6P/5ULD9SoQNEu5NBcy0YEq4/Hr9z7+BmE3LYB9Lim1C2x7xkX7TUdg6ZF5EEs+smCfXdhEdbHb2yHq/FwBKAktG/Yk7P+WJ5d9gEpRzjpabLNM4boq6EQKp0eP6ralqTNC/ucihze8ZSNYg58m5b+VwazQ5QxpW+D0kPXsrt+enw5joSg6tmOZiRZcE/ZYZa20gUUIQ54pXTOLLRc3OftK6MqmGBniETSA8h77wsDr93x1jsr+kbZXxTMhX0oxk90V+EbOJSzPpkOZyq1yh2w7skFqzNSJeA6ZeQBVoPKw5KLN0QDZjKxpdwW/mrJpOsak4IlxY8eQFcr6ClNt9rNcPsz69AQIGhI0v/QGZW2yg4GREzQCEs9B1yMrqwKxOf9xgXzzKXxfwlOg9tiS4EDSjmd1ocUfFvF8dZJSOzpmK1bVwKXBAZcGnv
+ OmfQWkXeQJ/Eyhr+XqoKSHNl6OujsOj3ditdB/DDXWQnttS8/RHo2Sc8/dou7g9fqJTQ7El7Yzy1bgP4n02uRto076Taa74USsIccQzSr5rT7wVjYZhmoflV2D2cO+AuYYIKkeZyt0qjH7lK2gTsdOaY1DeWIfMB0KJ9TsBcAO0O3miH96XGJNW/FfOfvaBx0VcukUdryz94G5KPHJrKuoCkuVYC2oprFLSHjDcaEGArL8KtbzURxu3HPVBUxjRY/9yS8lvc5MQUDpEjKiN1dmR5ybMI712ZbNpjBDXP33BiVDMplHsJ3hB3XMJi+NcHah8vN17uY0NXAA0lF9iOnlUjDTB2H2OG6kAOyURtjdxQVI1JjIAG1noAIQ3nhlZ1evgQYMqmqD/LLFlEAITdEJv7SP1J8Rb6qdGC51u/vxthTxUDqiNRFImFHldP9Brmj0RAY1W7LpaYlRBUNkYiXEmFjy65z9aYR6r0nbXwhbfTre1sIOhT/pKTKqmdmlAdQ09S85LIUVgw6vaJdnVgkEmAC4/kV/LMGoLyhf+EiRvBC223pPXbDpC9aljCBRIOwM1Q5AAfOtWOc0H0WEzaIMLNO8xdHN+OJAEGKPw/fjpbXibeAtv/SQ76Vh7rDA6n
 x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB11269.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376002)(136003)(366004)(396003)(39860400002)(346002)(230922051799003)(451199024)(1800799012)(186009)(64100799003)(38100700002)(66899024)(122000001)(38070700009)(55016003)(86362001)(4326008)(53546011)(9686003)(6506007)(76116006)(66476007)(64756008)(66946007)(71200400001)(66446008)(66556008)(8676002)(478600001)(8936002)(52536014)(7696005)(316002)(110136005)(54906003)(33656002)(83380400001)(41300700001)(5660300002)(2906002);DIR:OUT;SFP:1102;
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB11269.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(136003)(396003)(346002)(376002)(366004)(39860400002)(230922051799003)(186009)(64100799003)(1800799012)(451199024)(53546011)(4326008)(55016003)(52536014)(110136005)(316002)(54906003)(8676002)(122000001)(6506007)(8936002)(7416002)(9686003)(5660300002)(2906002)(38100700002)(76116006)(66556008)(66946007)(66446008)(66476007)(7696005)(71200400001)(64756008)(86362001)(83380400001)(478600001)(33656002)(41300700001)(38070700009);DIR:OUT;SFP:1102;
 x-ms-exchange-antispam-messagedata-chunkcount: 1
 x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?frv1aaUC/a1uPqA9izswcCG9CuT4n2B4mCRmx6+v/gHskt3j6JUBGPH8AzwQ?=
- =?us-ascii?Q?CnVxTRarwN1opfWtcHHx/WFa3muXtomsHW9ohJd/k6iRnutTf/ZZQ5hqkPdp?=
- =?us-ascii?Q?wz2OzhcP/nVAp+/fCjspX8YM75fNLQfAoKOrpzOfv1VBn/bKtdisg4jL+yqq?=
- =?us-ascii?Q?4vtI1rjDI1AZQvwZW2FA+TL4nvWr3b3Ni7VSyhOC55Vz4RyMrof98cjhnn0w?=
- =?us-ascii?Q?//EksMXPqHOdZYVdkJCcIHiE+a9U4ZDNmRX4+O83d8/eVoCaWcsE0XwIBoOo?=
- =?us-ascii?Q?QddjfR7e4VwUmUGTz1TbzYzvzc84IZpnqXA1c7gj4j2iyTqi4YQhT0qd8TKN?=
- =?us-ascii?Q?49jS6xRqIipaKXuO93CMNuAgYi2jCBCU+ldNubw11Ht+ZSXvTTnEVoOQR0by?=
- =?us-ascii?Q?2Zr8ZTsoF5791qSpiHx29yGBIOUx2sM0r/6G0z84wwBkEFS9LE8c5rVgCbtz?=
- =?us-ascii?Q?odHv/bBmQX/vuhkaZtOEmizgyX8xSSywqbenDcYxfDKW4Oud78JsoimlVjSX?=
- =?us-ascii?Q?QvFCh1AUz4JCKalUoJByH6UCtfLZgnRq+5Ui1v2/mhkzRtM9cux9UU+iLsE1?=
- =?us-ascii?Q?L5LCs+Ubjg18KAiAKrx6yobynoHqkXHoigrE8KprhBWKy0Tdy2vGCHDYBjT4?=
- =?us-ascii?Q?4iExERN+rQLFust1iUujOq6DT84jBBlCp5Vv9ZuHN53ZAD1t2aKOsVqQIczg?=
- =?us-ascii?Q?GrlkUc+iJJXL92B7RiqdBYfnUL1NzOMjX58M+b/T13WsNnZIu0ZFRJovlph5?=
- =?us-ascii?Q?z7OvTovwg3uMtcw/JbRR1Cdrt6kHZyy9BuvhSqj+U3h3fDVQwwZevb0yIhrd?=
- =?us-ascii?Q?seHXOBGV29YHLMXmAAOQEnyVuXq8HJIlJvzy/DNqCeMLzteBmTG2XCiiRN0C?=
- =?us-ascii?Q?+6iinF7kpZbR94YtJib6OG5IgkHfODRr85X3DM22H32yc19Vs3e/X/eqo3+N?=
- =?us-ascii?Q?eZUq50icdn06g8ztM+oNNBrxbdBuyJ8TqzYJPt6/HjHE3MlkHpHt7Uz0MkRS?=
- =?us-ascii?Q?Y5VvAzW4c9fCjxAaM7utAfC4zHNS0/yJWB4IWPhAcWjuO36B2UsxI4CNhIAX?=
- =?us-ascii?Q?8UqM0JE32OJybHMZ02u5Hg63/vEpiqUi3wr34bN80ZzX+VbhdR/Gp7tV8Gb9?=
- =?us-ascii?Q?QnRd2GaXHpgey9xjFrVetUOrvmFjr7MQq4kDvoOx0AGyl7gvZ1IR9GXZ4ecL?=
- =?us-ascii?Q?EewMTMG/KH8DTzIMtuTtLphdiEG6BbmVdzUiBDuu/kiu6BGNaf45Wl8J9Eqk?=
- =?us-ascii?Q?aVs9zf+cu0ycX6pEEz9BZNqK1//TtcU3Jg3jlLm8xsmgoUdIjDeZ6ZZXxrL7?=
- =?us-ascii?Q?7T2PlTpJdmPTJsJALulLGYpIfYXFS8dmrq5pu9aSamFqjTmrdPH20PjS0nj+?=
- =?us-ascii?Q?SzjHaJiEVlzEWUPRprOisiprd+E/C1/pgr9FJ3hYHQIYrOIyWUdA1m/XD+Rl?=
- =?us-ascii?Q?u+I9pRdAHF3bEbtNGqfXRrReu+AGCuJBbs0kyVCPJOpka9DWzpE3Ef4eQPAC?=
- =?us-ascii?Q?ayGBIkqxvZJmKZroZX9RzVtsbUoyF1nHGU0CwhXi1z02ZasP7X31rBqMR8KV?=
- =?us-ascii?Q?nUraWEji6KV3YOSo274=3D?=
+ =?us-ascii?Q?QYUmvyQ+1+2rn3S3W6ZjknKUFO8bEnSMkKYR1ybQsbGlSVR06rTeT16kfmCo?=
+ =?us-ascii?Q?I4fwKOVFoQepeP8UNqgilfcyHMVSGcKES76M0auCQ6+KeFjVykHtBnLHgLhq?=
+ =?us-ascii?Q?81G3KUGkWk+5iIcJf8Kna1OclqoQevIu5o06LtQZOJv9mD8tsoixuHdKN6VL?=
+ =?us-ascii?Q?BdO/sS4NUbrvscRSTV9L4cmQw1qJ20Wdl4FMcrsUQTwsKAqbJfBUg/XYjyPJ?=
+ =?us-ascii?Q?HuuRByNZiDmVWSkEdta8Rku0bS6Jmpg77llER77uFVt05dv4hx1DB6BtV7+R?=
+ =?us-ascii?Q?1xodQ5qm0n5uXr6cwxwSnlo6i4AvLjk5eMnbtDXw4w1NGid7IVCDvaUY1/Qw?=
+ =?us-ascii?Q?U1+cSxXGXMlbYamPQuedXFbG43dhgu6N1PYtCf4/FfcgSs8eMUT132bd1wUw?=
+ =?us-ascii?Q?7yCKqJ3fsQYdWYuOwngcJatltdf1GSFc1sagy1cK4aKfeTCJ0QTt+T2IyoTo?=
+ =?us-ascii?Q?zR9e1tXg1/D60MwVoVbyTzQxqaUaZHT77N/xQWikuhykdhBzKt//5qIJZzuf?=
+ =?us-ascii?Q?s600vXSOWGhnM58pSiNPoH56VdTldWhx06RlkGnrUQyvGlcl0aJ8AKFWfYcn?=
+ =?us-ascii?Q?XNjqwa/Ov03H7ogqowp3bJq83OGEct834mXxYr15iF4Pq2CyjkeabmoTOFEf?=
+ =?us-ascii?Q?AqxhG/T5vsVbmNgUuJyCANxJ8Vyre8AZFArUh6J2FE780vyBnZJ6soJrk9oy?=
+ =?us-ascii?Q?CYa0D/q65W3S4fL47MbMFie4FokvFmGb+qXA9GUBVvZjfLfPAwiYRBOt7ZBn?=
+ =?us-ascii?Q?FQCPseoppZrSeFGbgvXe+gOfS3Xjo6xy4zOsRZLSKI1PKOhnCGMs3lKOdgMA?=
+ =?us-ascii?Q?I6stM8ER2msD+HYNcYTyUmRcKV9sGhjCHBAp3e/ZD6Om1DWUY6xxFzAwAB8u?=
+ =?us-ascii?Q?e5ETMFe5qL2EB5b7c6iWUYPuNwI++G9AeW12/YtUN+HVDEFpDpq+8sTH//t7?=
+ =?us-ascii?Q?lJNOgY7DyVcXmqj+uhRGS5cxdue+KYAB/c0P17+x8SwZW0tG5u0/jyMlMXwQ?=
+ =?us-ascii?Q?d4QcS3fqn3OsJoGltKoIzdm+n9/IGNVOOT0ZtsAeYGmfrcF37uZ6/5F0LY4q?=
+ =?us-ascii?Q?FqjRuZH4IlcHTaD1Zn2nXhIXwPl+wWvUs3iRxgRJulsNFLXd3lBMvoGr+Jl8?=
+ =?us-ascii?Q?p+i71eQWsFGzsYHiLhixCE5QIPBdCPwpYLOfW4iMcNOxd28IqPudKtY5ldWv?=
+ =?us-ascii?Q?6xBQwaH5aOxBCP5iGgKW8hfzeoqRR8i+6CNw5k1ODO9jqVQGFxP/wqPBiCpF?=
+ =?us-ascii?Q?xGqfA7Acx1h8khlriAhVBNtyUUWkJh20AOCUouxl0EpFGIa+DBLlGJLTKuM6?=
+ =?us-ascii?Q?yBlrJ+A1E12OnxSl55xiSjaGYw4CH37SUMuhLlx2oc3X60HGiU0lzhv6OkJb?=
+ =?us-ascii?Q?fqas54zz5FpjJkmYXoHz8TVrm5Nomq+dbqgvxhD4lmAWkklk4uaptibB9O85?=
+ =?us-ascii?Q?+wOSpTUOR7ldZefeIB5izPqTEP6y34E3QuzAk6fUJ14Jz2mJNkGf8tPRgvHG?=
+ =?us-ascii?Q?NIn5gazQz1nbeMrfAHwgA3tEfx3bwUGy69tj7L+YbsSu8pQG1rffK0TgtJ34?=
+ =?us-ascii?Q?JjOLvBOjazNQjwpxF/k=3D?=
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
@@ -123,81 +138,150 @@ MIME-Version: 1.0
 X-OriginatorOrg: bp.renesas.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB11269.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4c706a97-72e9-485f-6a7e-08dc0d151a55
-X-MS-Exchange-CrossTenant-originalarrivaltime: 04 Jan 2024 11:05:46.6512
+X-MS-Exchange-CrossTenant-Network-Message-Id: 880b0111-0a82-4393-9f1d-08dc0d2fe8c7
+X-MS-Exchange-CrossTenant-originalarrivaltime: 04 Jan 2024 14:17:39.9390
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: ZGwnQbtPNIFxKgllP5q8JddXjx0jDESzMlUoekie0CKoe44pZ+PQiC+neNQhDhflfuvP/t9Lnu9Rv3V8kZvKJk9jer4nes4UnfFCPJOPq1s=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYAPR01MB5530
+X-MS-Exchange-CrossTenant-userprincipalname: fd96gg5MqzlcjRM5nn0IOhjoGCN/6KfKffiWQO4YKCtWBuhqogIKIxMnEyjKBbeB8/pFMZBMgFcmUd1h//NeAsxHL8ZsNoWcSiAA8J5z6f4=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYWPR01MB10130
 
-Hi All,=20
-
-Gentle ping. Are we happy with this fix? Please let me know.
-
-Cheers,
-Biju
-
+Hi Maxime Ripard,
 
 > -----Original Message-----
 > From: Biju Das <biju.das.jz@bp.renesas.com>
-> Sent: Monday, December 11, 2023 5:10 PM
-> Subject: RE: [PATCH] media: v4l: async: Fix double pointer free on
-> v4l2_async_unregister_subdev()
+> Sent: Friday, December 15, 2023 2:56 PM
+> Subject: RE: [PATCH v15 3/5] drm: renesas: Add RZ/G2L DU Support
 >=20
-> Hi All,
->=20
-> Gentle ping. Are we happy with this fix? Please let me know.
->=20
-> This issue is reproducible on RZ/G2L SMARC EVK.
->=20
-> Cheers,
-> Biju
->=20
-> > -----Original Message-----
-> > From: Biju Das <biju.das.jz@bp.renesas.com>
-> > Sent: Thursday, November 30, 2023 5:33 PM
-> > Subject: [PATCH] media: v4l: async: Fix double pointer free on
-> > v4l2_async_unregister_subdev()
-> >
-> > The v4l2_async_unbind_subdev_one() deallocates the pointer &asc-
-> > >asc_subdev_entry. The same pointer is again used to deallocate in
-> > list_del() leading to the below kernel crash.
-> >
-> > Unable to handle kernel paging request at virtual address
-> > dead000000000108
-> > v4l2_async_unregister_subdev+0xf8/0x164
-> > rzg2l_csi2_remove+0x30/0x5c
-> > platform_remove+0x28/0x64
-> > device_remove+0x48/0x74
-> > device_release_driver_internal+0x1d8/0x234
-> > device_driver_detach+0x14/0x1c
-> > unbind_store+0xac/0xb0
-> >
-> > Fixes: 28a1295795d8 ("media: v4l: async: Allow multiple connections
-> > between entities")
-> > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> > ---
-> >  drivers/media/v4l2-core/v4l2-async.c | 1 -
-> >  1 file changed, 1 deletion(-)
-> >
-> > diff --git a/drivers/media/v4l2-core/v4l2-async.c
-> > b/drivers/media/v4l2- core/v4l2-async.c index
-> > 091e8cf4114b..8cfd593d293d 100644
-> > --- a/drivers/media/v4l2-core/v4l2-async.c
-> > +++ b/drivers/media/v4l2-core/v4l2-async.c
-> > @@ -880,7 +880,6 @@ void v4l2_async_unregister_subdev(struct
-> > v4l2_subdev
-> > *sd)
-> >  				  &asc->notifier->waiting_list);
-> >
-> >  			v4l2_async_unbind_subdev_one(asc->notifier, asc);
-> > -			list_del(&asc->asc_subdev_entry);
-> >  		}
-> >  	}
-> >
-> > --
-> > 2.25.1
 
+> > -----Original Message-----
+> > From: Maxime Ripard <mripard@kernel.org>
+> > Sent: Friday, December 15, 2023 2:18 PM
+> > Subject: Re: [PATCH v15 3/5] drm: renesas: Add RZ/G2L DU Support
+> >
+> > On Fri, Dec 15, 2023 at 01:52:28PM +0000, Biju Das wrote:
+> > > > > > > > > +static int rzg2l_du_crtc_enable_vblank(struct drm_crtc
+> > *crtc) {
+> > > > > > > > > +	struct rzg2l_du_crtc *rcrtc =3D to_rzg2l_crtc(crtc);
+> > > > > > > > > +
+> > > > > > > > > +	rcrtc->vblank_enable =3D true;
+> > > > > > > > > +
+> > > > > > > > > +	return 0;
+> > > > > > > > > +}
+> > > > > > > > > +
+> > > > > > > > > +static void rzg2l_du_crtc_disable_vblank(struct
+> > > > > > > > > +drm_crtc
+> > > > > > > > > +*crtc)
+> > > > {
+> > > > > > > > > +	struct rzg2l_du_crtc *rcrtc =3D to_rzg2l_crtc(crtc);
+> > > > > > > > > +
+> > > > > > > > > +	rcrtc->vblank_enable =3D false; }
+> > > > > > > >
+> > > > > > > > You should enable / disable your interrupts here
+> > > > > > >
+> > > > > > > We don't have dedicated vblank IRQ for enabling/disabling
+> > vblank.
+> > > > > > >
+> > > > > > > vblank is handled by vspd.
+> > > > > > >
+> > > > > > > vspd is directly rendering images to display,
+> > > > > > > rcar_du_crtc_finish_page_flip() and drm_crtc_handle_vblank()
+> > > > > > > called in vspd's pageflip context.
+> > > > > > >
+> > > > > > > See rzg2l_du_vsp_complete()in rzg2l_du_vsp.c
+> > > > > >
+> > > > > > Sorry, I couldn't really get how the interrupt flow / vblank
+> > > > > > reporting is going to work. Could you explain it a bit more?
+> > > > >
+> > > > > We just need to handle vertical blanking in the VSP frame end
+> > handler.
+> > > > > See the code below.
+> > > > >
+> > > > > static void rzg2l_du_vsp_complete(void *private, unsigned int
+> > > > > status,
+> > > > > u32 crc) {
+> > > > > 	struct rzg2l_du_crtc *crtc =3D private;
+> > > > >
+> > > > > 	if (crtc->vblank_enable)
+> > > > > 		drm_crtc_handle_vblank(&crtc->crtc);
+> > > > >
+> > > > > 	if (status & VSP1_DU_STATUS_COMPLETE)
+> > > > > 		rzg2l_du_crtc_finish_page_flip(crtc);
+> > > > >
+> > > > > 	drm_crtc_add_crc_entry(&crtc->crtc, false, 0, &crc); }
+> > > >
+> > > > Then we're back to the same question :)
+> > > >
+> > > > Why can't you mask the frame end interrupt?
+> > >
+> > > We are masking interrupts.
+> > >
+> > > [   70.639139] #######rzg2l_du_crtc_disable_vblank#######
+> > > [   70.650243] #########rzg2l_du_vsp_disable ############
+> > > [   70.652003] ########## vsp1_wpf_stop###
+> > >
+> > > Unmask is,
+> > >
+> > > [ 176.354520] #######rzg2l_du_crtc_enable_vblank#######
+> > > [  176.354922] #########rzg2l_du_vsp_atomic_flush ############ [
+> > > 176.355198] ########## wpf_configure_stream###
+> >
+> > Sorry, my question was why aren't you unmasking and masking them in
+> > the enable/disable_vblank hooks of the CRTC.
+>=20
+> I have n't tried that. Will try and provide feedback.
+>=20
+> Currently the IRQ source belongs to VSPD in media subsystem.
+> So I need to export an API though vsp1_drm and test it.
+>=20
+
++ linux-media
+
+Laurent, are you ok with the below RZ/G2L specific patch[1] for enabling/di=
+sabling frame end interrupt in VSP driver?
+Note:
+I need to add a quirk for handling this only for RZ/G2L family as other SoC=
+s have Vblank specific interrupt available in DU.
+
+[1]
+
+diff --git a/drivers/media/platform/renesas/vsp1/vsp1_drm.c b/drivers/media=
+/platform/renesas/vsp1/vsp1_drm.c
+index 9b087bd8df7d..39347c16bb27 100644
+--- a/drivers/media/platform/renesas/vsp1/vsp1_drm.c
++++ b/drivers/media/platform/renesas/vsp1/vsp1_drm.c
+@@ -936,6 +936,14 @@ void vsp1_du_unmap_sg(struct device *dev, struct sg_ta=
+ble *sgt)
+ }
+ EXPORT_SYMBOL_GPL(vsp1_du_unmap_sg);
+=20
++void vsp1_du_mask_frame_end_interrupt(struct device *dev, bool mask)
++{
++       struct vsp1_device *vsp1 =3D dev_get_drvdata(dev);
++
++       vsp1_write(vsp1, VI6_WPF_IRQ_ENB(0), mask ? 0 : VI6_WPF_IRQ_ENB_DFE=
+E);
++}
++EXPORT_SYMBOL_GPL(vsp1_du_mask_frame_end_interrupt);
++
+ /* -----------------------------------------------------------------------=
+------
+  * Initialization
+  */
+diff --git a/include/media/vsp1.h b/include/media/vsp1.h
+index 48f4a5023d81..ccac48a6bdd2 100644
+--- a/include/media/vsp1.h
++++ b/include/media/vsp1.h
+@@ -117,4 +117,6 @@ void vsp1_du_atomic_flush(struct device *dev, unsigned =
+int pipe_index,
+ int vsp1_du_map_sg(struct device *dev, struct sg_table *sgt);
+ void vsp1_du_unmap_sg(struct device *dev, struct sg_table *sgt);
+=20
++void vsp1_du_mask_frame_end_interrupt(struct device *dev, bool mask);
++
+ #endif /* __MEDIA_VSP1_H__ */
+
+Cheers,
+Biju
 
