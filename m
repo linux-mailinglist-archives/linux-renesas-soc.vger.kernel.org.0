@@ -1,206 +1,323 @@
-Return-Path: <linux-renesas-soc+bounces-1288-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-1289-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02BA38243DE
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  4 Jan 2024 15:34:45 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A7CC8243F3
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  4 Jan 2024 15:38:15 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 80C441F23935
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  4 Jan 2024 14:34:44 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E96B0B22BC6
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  4 Jan 2024 14:38:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 14D3222F1B;
-	Thu,  4 Jan 2024 14:34:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1388B22F1C;
+	Thu,  4 Jan 2024 14:38:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="pKXNhARO"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="U3QGbaXP"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from JPN01-TYC-obe.outbound.protection.outlook.com (mail-tycjpn01on2115.outbound.protection.outlook.com [40.107.114.115])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29F4422F1D
-	for <linux-renesas-soc@vger.kernel.org>; Thu,  4 Jan 2024 14:34:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=fdmxaor6RZLl11EcHx/eoDGIVJwk13a5WsBPj9y8sShh8zjoyNHUQFgcrXMKHaQBb4gjFW0BBYNzuUYubRO8P42iq8842eh5eGKCgNYYupuHx0wjv+8cqMo52v2bCtk7guvo48XD+QKC4gXP3FmU5MXcEihoXvUI2ZpnWqHQocPICkxE6HFIjKa5eIfSqt1Zfqxa49eiGr6ILyhvxZJX123gglIkT6TDFJ36ZGoAZf7vzzq3p/kVIQ6IabOkKj7aIwIBOTWnwlgTPrPZYNqkj/VFOLKzH5I01zI/zb00dku894cM5uySoVGAYv2nMXn1rYd/qHsNo/KuQMdjK324gQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=WhA/+ekj8Odv31UAlY3qDWO3cnpGRQ52vV7FbFN6AsI=;
- b=FW4j83GT8FnSy+M5zKibY162Emccvp8wdDokCioaLQ844G8GMb10ILqBtU3Brv3erxR1EUzpaFu04/tWrleRv7AWGAVspC02viOL/gpSFUVVeI1OOFaEL28UhicJBm/bYnSUg9R9rghUINuScLmBNCaqITXTm0thmlq0LHw8OeAWqP/90SjN8Orv7fn2bnWTYhRseZf3PDjQoiXcTzaPijQZ+sJEORs4Zp/RuZGSb8SrOlMt2w91dMr1pLmtNnSyUuhy2J16h7DVIvq9mDyFr10eeGNXgJElv8zrTIAAlGC0Pc6AlavCf1NIugLo+lWs4gIelrzeANRwHowDLb8L/A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=WhA/+ekj8Odv31UAlY3qDWO3cnpGRQ52vV7FbFN6AsI=;
- b=pKXNhAROExHVxKof3Aro/wr57HCFd4IBw1cN3G6LqfZiUkXNQY6FS5Vlz+m7NeqIJQCORqdgxlcIIy0r9NmTMeHYuoBkTdKzN5QlWmA+0RUEURzeYzF7XaflYcIBwiR6d9s/GvxGgmZSpaTBF6w6m92hZy8PmQEd/KfzLJ874eI=
-Received: from TYCPR01MB11269.jpnprd01.prod.outlook.com
- (2603:1096:400:3c0::10) by OSZPR01MB9550.jpnprd01.prod.outlook.com
- (2603:1096:604:1d4::12) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7181.9; Thu, 4 Jan
- 2024 14:34:33 +0000
-Received: from TYCPR01MB11269.jpnprd01.prod.outlook.com
- ([fe80::8d12:a02a:9fdc:9c78]) by TYCPR01MB11269.jpnprd01.prod.outlook.com
- ([fe80::8d12:a02a:9fdc:9c78%5]) with mapi id 15.20.7181.009; Thu, 4 Jan 2024
- 14:34:33 +0000
-From: Biju Das <biju.das.jz@bp.renesas.com>
-To: Maxime Ripard <mripard@kernel.org>
-CC: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
-	<tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Daniel Vetter
-	<daniel@ffwll.ch>, Philipp Zabel <p.zabel@pengutronix.de>, Laurent Pinchart
-	<laurent.pinchart@ideasonboard.com>, Kieran Bingham
-	<kieran.bingham+renesas@ideasonboard.com>, Jacopo Mondi
-	<jacopo.mondi@ideasonboard.com>, Geert Uytterhoeven
-	<geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>,
-	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, Prabhakar Mahadev Lad
-	<prabhakar.mahadev-lad.rj@bp.renesas.com>, biju.das.au
-	<biju.das.au@gmail.com>
-Subject: RE: [PATCH v15 3/5] drm: renesas: Add RZ/G2L DU Support
-Thread-Topic: [PATCH v15 3/5] drm: renesas: Add RZ/G2L DU Support
-Thread-Index:
- AQHaIejqQbh+O2CetkGmd2PHSouIl7Cnc3CAgAFZmGCAAXC4AIAAKdWwgAAZZACAH25AgA==
-Date: Thu, 4 Jan 2024 14:34:33 +0000
-Message-ID:
- <TYCPR01MB112697575E0CF41CC26A8140086672@TYCPR01MB11269.jpnprd01.prod.outlook.com>
-References: <20231128105129.161121-1-biju.das.jz@bp.renesas.com>
- <20231128105129.161121-4-biju.das.jz@bp.renesas.com>
- <sechknyg33iucaku37vfhk7ie7xgcealfqbvaopm4rrnqbo5g5@s35peonkzzoz>
- <TYCPR01MB11269767836DEB995747B7ED3868CA@TYCPR01MB11269.jpnprd01.prod.outlook.com>
- <zp2ews2by6fg5irmb7ms6blox6vruezdjlor3rutqtokbvlle2@tl775slyvhyf>
- <TYCPR01MB1126964899D432355ACAF49D18693A@TYCPR01MB11269.jpnprd01.prod.outlook.com>
- <he23e5al3hinegebvq7qai4jdw3qjgbzmnx34xgxqnu3hw4jke@dts2vi5kcs4u>
-In-Reply-To: <he23e5al3hinegebvq7qai4jdw3qjgbzmnx34xgxqnu3hw4jke@dts2vi5kcs4u>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TYCPR01MB11269:EE_|OSZPR01MB9550:EE_
-x-ms-office365-filtering-correlation-id: 0d26eca5-fe4d-405a-0426-08dc0d3244f7
-x-ld-processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info:
- RAkjMsWteu9kL9VVhp5O/xLXWSa6qA2PEjaFmOkhG1773ALsbZWOegc7LyW8gjT0jmcq3Kfhk50UnWtzpuOZFtooERidaB9QIZPIaftXxw1oP0lMGZyM5cV68K3Idt4+yH6zBiesKM7wpHUvs56OLCVeicje3YlGMLEHvRmzRcL95zBKQaw+rBNHRym4KvqF/suxEflMA1MiSnQ0jZJcDIaD1HQ56NMMSOIroe9BkVvdxTLB5U3aNS+3rhjJLjTCnaaNKXKPhYrpUi/mJmnhkrK/9Tx5P5cZh6dkp/kGdK0qC3VwbQ0dnzf/+2WFPeiM1Z/2I9AsSQglk0BLpo2jgjEfvzsHAiON+zOYjiAU148cCWfBBToAMFIcbppM623826kxjFa3BZk0+UfAG9V0N3IhHDp9XlrC75fwGnY4FtwsdZex6cJcoTl2x7LlTCVBm7TWJgQbywlkTiZ0U+LU1qJg53xuuDEtnolldUo4xJZESqUvn/xA1gr+73UCx0pTbK++4tME2GaNmXAmZNmwiTbV4uxYAt7seEuvj/fB5epG5bLMp76KwKz7unjUH463Wmn8T2ai2/Y1uHAJscWq903E3i18lA1+jTvutL3omOA=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB11269.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376002)(396003)(136003)(346002)(39860400002)(366004)(230922051799003)(186009)(64100799003)(1800799012)(451199024)(53546011)(71200400001)(478600001)(966005)(6506007)(9686003)(7696005)(83380400001)(7416002)(2906002)(41300700001)(66446008)(66476007)(66556008)(76116006)(54906003)(6916009)(316002)(64756008)(66946007)(52536014)(4326008)(8676002)(8936002)(5660300002)(38070700009)(38100700002)(122000001)(86362001)(33656002)(55016003);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?OVb0HwubbEvIdEMmzscOz4iUs7v3ilYnM1oMswU+ixc5tuvHN7MZF20bQJZb?=
- =?us-ascii?Q?NuGS7K1bpY5LIhb/+cYcDhE8FGN0xa4nr3uh+q7m4sQOEag+DQtXqoKe8T4T?=
- =?us-ascii?Q?L32bXIoJJfB2tSTaluCeNVjMe+qeVpigfVhaN5Uy2n6u+yRX+HrhtN/TzzHA?=
- =?us-ascii?Q?nnUaxUOPfiwiBziXEznwOdL5u1el2cybqNhsVluUKPSk6R6fx+gjTQHNOg0r?=
- =?us-ascii?Q?CfOaNIjbduQUgF9rPtH63afVgqkb7U9OSW4R2cZkHuYmh6kV7ursI5rl4lBC?=
- =?us-ascii?Q?NQamYX78vFVdRHJymWpf28x9262J3ccUyviC/4yrcXUJfbGY1nadil95gNG9?=
- =?us-ascii?Q?0qX7jqr+dvQzeVbDmUvd5rDkZnCoBTW6NBtvLOBsgDzR0ywU8HbRpvhAaW4l?=
- =?us-ascii?Q?Tq2s1wn8UXxq7mI7i03Z5yHrEhnd52pbp5AZ8zLgtU0o+typlTHX0R8fHkr0?=
- =?us-ascii?Q?yKvP11lmsO7RGAbmiPyQKjEaDQk+Q5fXO+F1YSXCg0rG+xJMvr0eBcJINKud?=
- =?us-ascii?Q?WcTfVjWytgIOhvAIi6nB4v1t7hti6px1UyAvlqab4pKBCK8MaYt7egpy8EwI?=
- =?us-ascii?Q?hrVuRlkBmB1FZjSKRQE8GrbC9QvFLx8LrzPeGTA48p6ss9fTd3WHSLeqRJR6?=
- =?us-ascii?Q?9QoNWFTWa6mcCGJN9bxGp4UpSANarKKQUTlAk569eZq/ZGj5XOe7dJbrQoHl?=
- =?us-ascii?Q?Up9mrXIfIrgijc3t5EwhLtcsoIFyYyWkXNyirq+Zw4iJVvpUZzZ0kaGPvvU0?=
- =?us-ascii?Q?xgmWrpHj9mQtN9B1jKcRDJpz2blzT9p9SoVV6IcaDiZtKtiX0UJFqXDgpsvF?=
- =?us-ascii?Q?izBNgUNQiARh64gq+N8UOmI00q4je0B5qVMyV9wDpDeLgNlISEZbnA0Ak9l/?=
- =?us-ascii?Q?BW+YJKI/Es37X/MkDJy5b5UozkoxAcz4oGKkhNz9+S3BmV9xUzHTqr23As85?=
- =?us-ascii?Q?F5eolAeZ12yTWQLIlznyxcYnUEAC2gnnxQokyTwoLickm4VnAd8q3BbjNwaT?=
- =?us-ascii?Q?YP1UIxY2T/o8cIrXAAgyhOandQ7ihk5EYUJZx13Rf4LaoW8zWWsrOcXLA8U1?=
- =?us-ascii?Q?y3Iq6koHq58VGSsBM4UGm2AG+m6sz9aDwso0j4CYeXwjc3m0K4O5W51jy3qv?=
- =?us-ascii?Q?1jS7yb7UO5Br/xJLSKYB2huOsiDd+W7va3oRqm9vouHzAnyfR8nepwLOyByY?=
- =?us-ascii?Q?k90s22dVSkgbLXL79oJAMuAPCNMsItfpyHzPKQxgwrSKbffAKkJE4DCYpHHu?=
- =?us-ascii?Q?Stxct2RIrlD/mMkdAAjtlS4CO9RtR/TyODex/nZTvQRVcbkcKh/FH50KNUbZ?=
- =?us-ascii?Q?V4jBvRR7PJob034QV6/eiHCEbq8Zu+iljw3VWj9697ET+zu3h6MuYPbJnXzB?=
- =?us-ascii?Q?q7mqXE1B8jfb2N9oEPeAE42n8iIIjGGsZGAIINu0OHUZDcqCqt6tA2K2lkpL?=
- =?us-ascii?Q?Q+6ILy9lw8YmMtWLidrX7cI1rJrrYfaC8zGBuI47I5e8Mo5mhLNvQ0VcuN+i?=
- =?us-ascii?Q?QJcubXe4sT7FyUL1rRmsRzH6cU/gatqCYeD5ELhFJZOLzvtfmr2d7wR79fPi?=
- =?us-ascii?Q?uo4R0e+DMl6lKffP6C8=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E857A21A05;
+	Thu,  4 Jan 2024 14:38:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 83763C433C8;
+	Thu,  4 Jan 2024 14:38:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1704379086;
+	bh=WlYpjvT30jRf/dwAdbDN9Ba4Mz05UIfVBguP0C38l0I=;
+	h=From:To:Cc:Subject:Date:From;
+	b=U3QGbaXPz23/FfqcCyYNpwWKtUOty4SeVg2N67/f6xtv5yc9BTPgF5zREsqI7+jgc
+	 Smri44QOgbTIi+b0nAhuHiBdRu3UnRMbR1VPu2bxBtmVOas9fN1qoFm1uicVM8oljN
+	 kBVnu7Peznpp5sT3F95HAdxHnZ9dFyptHEiCVCZx0LpySI6QxIk1hHB5e+LCuDtO6I
+	 mHzamUwf5gtEWwpkeopzxi6q+D5DQVMqh/uSyeHCI8Ub+I28y/nww6p1GlcKL3nkMx
+	 vb0Lf3eJZREryzhm0s01UgP8LGBeHS6QVaZ/8hycfwQUxmbqdbscF7EZTinInWWogP
+	 y76adzMnsgGRg==
+From: Jakub Kicinski <kuba@kernel.org>
+To: davem@davemloft.net
+Cc: netdev@vger.kernel.org,
+	edumazet@google.com,
+	pabeni@redhat.com,
+	Jakub Kicinski <kuba@kernel.org>,
+	andrew@lunn.ch,
+	f.fainelli@gmail.com,
+	olteanv@gmail.com,
+	hauke@hauke-m.de,
+	kurt@linutronix.de,
+	woojung.huh@microchip.com,
+	UNGLinuxDriver@microchip.com,
+	arinc.unal@arinc9.com,
+	daniel@makrotopia.org,
+	Landen.Chao@mediatek.com,
+	dqfext@gmail.com,
+	sean.wang@mediatek.com,
+	matthias.bgg@gmail.com,
+	angelogioacchino.delregno@collabora.com,
+	claudiu.manoil@nxp.com,
+	alexandre.belloni@bootlin.com,
+	clement.leger@bootlin.com,
+	george.mccollister@gmail.com,
+	linux-renesas-soc@vger.kernel.org
+Subject: [PATCH net-next] net: fill in MODULE_DESCRIPTION()s for DSA tags
+Date: Thu,  4 Jan 2024 06:37:59 -0800
+Message-ID: <20240104143759.1318137-1-kuba@kernel.org>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB11269.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0d26eca5-fe4d-405a-0426-08dc0d3244f7
-X-MS-Exchange-CrossTenant-originalarrivaltime: 04 Jan 2024 14:34:33.5921
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: UuwILXQpGeIz+7mfci4Vu0B8bYv/FAtX0VkztK+FX3oJDa+aqMoegyIBDWWPlKzfuz4e3n06Sz6kRNp24RTLRoCmp48S4WbVpxoWcVG96aI=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSZPR01MB9550
+Content-Transfer-Encoding: 8bit
 
-Hi Maxime Ripard,
+W=1 builds now warn if module is built without a MODULE_DESCRIPTION().
+Add descriptions to all the DSA tag modules.
 
-> -----Original Message-----
-> From: Maxime Ripard <mripard@kernel.org>
-> Sent: Friday, December 15, 2023 2:24 PM
-> Subject: Re: [PATCH v15 3/5] drm: renesas: Add RZ/G2L DU Support
->=20
-> On Fri, Dec 15, 2023 at 01:25:48PM +0000, Biju Das wrote:
-> > Hi Maxime Ripard,
-> >
-> > > -----Original Message-----
-> > > From: Maxime Ripard <mripard@kernel.org>
-> > > Sent: Friday, December 15, 2023 10:24 AM
-> > > Subject: Re: [PATCH v15 3/5] drm: renesas: Add RZ/G2L DU Support
-> > >
-> > > On Thu, Dec 14, 2023 at 03:24:17PM +0000, Biju Das wrote:
-> > > > Hi Maxime Ripard,
-> > > >
-> > > > Thanks for the feedback.
-> > >
-> > > Thanks, that's super helpful. The architecture is thus similar to
-> > > vc4
-> > >
-> > > Some general questions related to bugs we had at some point with vc4:
-> > >
-> > >   * Where is the display list stored? In RAM or in a dedicated SRAM?
-> >
-> > [1] It is in DDR (RAM).
-> >
-> > >
-> > >   * Are the pointer to the current display list latched?
-> > >
-> > >   * Is the display list itself latched? If it's not, what happens whe=
-n
-> > >     the display list is changed while the frame is being generated?
-> >
-> > There is some protocol defined for SW side and HW side for updating
-> > display list See [1] 33.4.8.1 Operation flow of VSPD and DU.
-> >
-> > All the display list operations are manged here[2]
-> >
-> > [1]
-> > https://www.renesas.com/us/en/document/mah/rzg2l-group-rzg2lc-group-us
-> > ers-manual-hardware-0
-> >
-> > [2]
-> > https://elixir.bootlin.com/linux/v6.7-rc5/source/drivers/media/platfor
-> > m/renesas/vsp1/vsp1_dl.c#L863
->=20
-> I'm sorry, but I'm not going to read a 3500+ to try to figure it out.
-> Could you answer the questions above?
+The descriptions are copy/pasted Kconfig names, with s/^Tag/DSA tag/.
 
-The answer for your question is,
+Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+---
+CC: andrew@lunn.ch
+CC: f.fainelli@gmail.com
+CC: olteanv@gmail.com
+CC: hauke@hauke-m.de
+CC: kurt@linutronix.de
+CC: woojung.huh@microchip.com
+CC: UNGLinuxDriver@microchip.com
+CC: arinc.unal@arinc9.com
+CC: daniel@makrotopia.org
+CC: Landen.Chao@mediatek.com
+CC: dqfext@gmail.com
+CC: sean.wang@mediatek.com
+CC: matthias.bgg@gmail.com
+CC: angelogioacchino.delregno@collabora.com
+CC: claudiu.manoil@nxp.com
+CC: alexandre.belloni@bootlin.com
+CC: clement.leger@bootlin.com
+CC: george.mccollister@gmail.com
+CC: linux-renesas-soc@vger.kernel.org
+---
+ net/dsa/tag_ar9331.c       | 1 +
+ net/dsa/tag_brcm.c         | 1 +
+ net/dsa/tag_dsa.c          | 1 +
+ net/dsa/tag_gswip.c        | 1 +
+ net/dsa/tag_hellcreek.c    | 1 +
+ net/dsa/tag_ksz.c          | 1 +
+ net/dsa/tag_lan9303.c      | 1 +
+ net/dsa/tag_mtk.c          | 1 +
+ net/dsa/tag_none.c         | 1 +
+ net/dsa/tag_ocelot.c       | 1 +
+ net/dsa/tag_ocelot_8021q.c | 1 +
+ net/dsa/tag_qca.c          | 1 +
+ net/dsa/tag_rtl4_a.c       | 1 +
+ net/dsa/tag_rtl8_4.c       | 1 +
+ net/dsa/tag_rzn1_a5psw.c   | 1 +
+ net/dsa/tag_sja1105.c      | 1 +
+ net/dsa/tag_trailer.c      | 1 +
+ net/dsa/tag_xrs700x.c      | 1 +
+ 18 files changed, 18 insertions(+)
 
-If a previous display list has been queued to the hardware but not
-processed yet, the VSP can start processing it at any time. In that
-case we can't replace the queued list by the new one, as we could
-race with the hardware. We thus mark the update as pending, it will
-be queued up to the hardware by the frame end interrupt handler.
+diff --git a/net/dsa/tag_ar9331.c b/net/dsa/tag_ar9331.c
+index 92ce67b93a58..cbb588ca73aa 100644
+--- a/net/dsa/tag_ar9331.c
++++ b/net/dsa/tag_ar9331.c
+@@ -89,6 +89,7 @@ static const struct dsa_device_ops ar9331_netdev_ops = {
+ 	.needed_headroom = AR9331_HDR_LEN,
+ };
+ 
++MODULE_DESCRIPTION("DSA tag driver for Atheros AR9331 SoC with built-in switch");
+ MODULE_LICENSE("GPL v2");
+ MODULE_ALIAS_DSA_TAG_DRIVER(DSA_TAG_PROTO_AR9331, AR9331_NAME);
+ module_dsa_tag_driver(ar9331_netdev_ops);
+diff --git a/net/dsa/tag_brcm.c b/net/dsa/tag_brcm.c
+index 83d283a5d27e..8c3c068728e5 100644
+--- a/net/dsa/tag_brcm.c
++++ b/net/dsa/tag_brcm.c
+@@ -335,4 +335,5 @@ static struct dsa_tag_driver *dsa_tag_driver_array[] =	{
+ 
+ module_dsa_tag_drivers(dsa_tag_driver_array);
+ 
++MODULE_DESCRIPTION("DSA tag driver for Broadcom switches using in-frame headers");
+ MODULE_LICENSE("GPL");
+diff --git a/net/dsa/tag_dsa.c b/net/dsa/tag_dsa.c
+index 8ed52dd663ab..2a2c4fb61a65 100644
+--- a/net/dsa/tag_dsa.c
++++ b/net/dsa/tag_dsa.c
+@@ -406,4 +406,5 @@ static struct dsa_tag_driver *dsa_tag_drivers[] = {
+ 
+ module_dsa_tag_drivers(dsa_tag_drivers);
+ 
++MODULE_DESCRIPTION("DSA tag driver for Marvell switches using DSA headers");
+ MODULE_LICENSE("GPL");
+diff --git a/net/dsa/tag_gswip.c b/net/dsa/tag_gswip.c
+index 3539141b5350..51a1f46a567f 100644
+--- a/net/dsa/tag_gswip.c
++++ b/net/dsa/tag_gswip.c
+@@ -107,6 +107,7 @@ static const struct dsa_device_ops gswip_netdev_ops = {
+ 	.needed_headroom = GSWIP_RX_HEADER_LEN,
+ };
+ 
++MODULE_DESCRIPTION("DSA tag driver for Lantiq / Intel GSWIP switches");
+ MODULE_LICENSE("GPL");
+ MODULE_ALIAS_DSA_TAG_DRIVER(DSA_TAG_PROTO_GSWIP, GSWIP_NAME);
+ 
+diff --git a/net/dsa/tag_hellcreek.c b/net/dsa/tag_hellcreek.c
+index 6e233cd0aa38..663b25785d95 100644
+--- a/net/dsa/tag_hellcreek.c
++++ b/net/dsa/tag_hellcreek.c
+@@ -67,6 +67,7 @@ static const struct dsa_device_ops hellcreek_netdev_ops = {
+ 	.needed_tailroom = HELLCREEK_TAG_LEN,
+ };
+ 
++MODULE_DESCRIPTION("DSA tag driver for Hirschmann Hellcreek TSN switches");
+ MODULE_LICENSE("Dual MIT/GPL");
+ MODULE_ALIAS_DSA_TAG_DRIVER(DSA_TAG_PROTO_HELLCREEK, HELLCREEK_NAME);
+ 
+diff --git a/net/dsa/tag_ksz.c b/net/dsa/tag_ksz.c
+index 9be341fa88f0..ee7b272ab715 100644
+--- a/net/dsa/tag_ksz.c
++++ b/net/dsa/tag_ksz.c
+@@ -459,4 +459,5 @@ static struct dsa_tag_driver *dsa_tag_driver_array[] = {
+ 
+ module_dsa_tag_drivers(dsa_tag_driver_array);
+ 
++MODULE_DESCRIPTION("DSA tag driver for Microchip 8795/937x/9477/9893 families of switches");
+ MODULE_LICENSE("GPL");
+diff --git a/net/dsa/tag_lan9303.c b/net/dsa/tag_lan9303.c
+index 1ed8ee24855d..258e5d7dc5ef 100644
+--- a/net/dsa/tag_lan9303.c
++++ b/net/dsa/tag_lan9303.c
+@@ -119,6 +119,7 @@ static const struct dsa_device_ops lan9303_netdev_ops = {
+ 	.needed_headroom = LAN9303_TAG_LEN,
+ };
+ 
++MODULE_DESCRIPTION("DSA tag driver for SMSC/Microchip LAN9303 family of switches");
+ MODULE_LICENSE("GPL");
+ MODULE_ALIAS_DSA_TAG_DRIVER(DSA_TAG_PROTO_LAN9303, LAN9303_NAME);
+ 
+diff --git a/net/dsa/tag_mtk.c b/net/dsa/tag_mtk.c
+index 2483785f6ab1..b670e3c53e91 100644
+--- a/net/dsa/tag_mtk.c
++++ b/net/dsa/tag_mtk.c
+@@ -102,6 +102,7 @@ static const struct dsa_device_ops mtk_netdev_ops = {
+ 	.needed_headroom = MTK_HDR_LEN,
+ };
+ 
++MODULE_DESCRIPTION("DSA tag driver for Mediatek switches");
+ MODULE_LICENSE("GPL");
+ MODULE_ALIAS_DSA_TAG_DRIVER(DSA_TAG_PROTO_MTK, MTK_NAME);
+ 
+diff --git a/net/dsa/tag_none.c b/net/dsa/tag_none.c
+index 9a473624db50..e9c9670a9c44 100644
+--- a/net/dsa/tag_none.c
++++ b/net/dsa/tag_none.c
+@@ -27,4 +27,5 @@ static const struct dsa_device_ops none_ops = {
+ 
+ module_dsa_tag_driver(none_ops);
+ MODULE_ALIAS_DSA_TAG_DRIVER(DSA_TAG_PROTO_NONE, NONE_NAME);
++MODULE_DESCRIPTION("DSA no-op tag driver");
+ MODULE_LICENSE("GPL");
+diff --git a/net/dsa/tag_ocelot.c b/net/dsa/tag_ocelot.c
+index ef2f8fffb2c7..e0e4300bfbd3 100644
+--- a/net/dsa/tag_ocelot.c
++++ b/net/dsa/tag_ocelot.c
+@@ -217,4 +217,5 @@ static struct dsa_tag_driver *ocelot_tag_driver_array[] = {
+ 
+ module_dsa_tag_drivers(ocelot_tag_driver_array);
+ 
++MODULE_DESCRIPTION("DSA tag driver for Ocelot family of switches, using NPI port");
+ MODULE_LICENSE("GPL v2");
+diff --git a/net/dsa/tag_ocelot_8021q.c b/net/dsa/tag_ocelot_8021q.c
+index 210039320888..b059381310fe 100644
+--- a/net/dsa/tag_ocelot_8021q.c
++++ b/net/dsa/tag_ocelot_8021q.c
+@@ -133,6 +133,7 @@ static const struct dsa_device_ops ocelot_8021q_netdev_ops = {
+ 	.promisc_on_conduit	= true,
+ };
+ 
++MODULE_DESCRIPTION("DSA tag driver for Ocelot family of switches, using VLAN");
+ MODULE_LICENSE("GPL v2");
+ MODULE_ALIAS_DSA_TAG_DRIVER(DSA_TAG_PROTO_OCELOT_8021Q, OCELOT_8021Q_NAME);
+ 
+diff --git a/net/dsa/tag_qca.c b/net/dsa/tag_qca.c
+index 6514aa7993ce..0cf61286b426 100644
+--- a/net/dsa/tag_qca.c
++++ b/net/dsa/tag_qca.c
+@@ -119,6 +119,7 @@ static const struct dsa_device_ops qca_netdev_ops = {
+ 	.promisc_on_conduit = true,
+ };
+ 
++MODULE_DESCRIPTION("DSA tag driver for Qualcomm Atheros QCA8K switches");
+ MODULE_LICENSE("GPL");
+ MODULE_ALIAS_DSA_TAG_DRIVER(DSA_TAG_PROTO_QCA, QCA_NAME);
+ 
+diff --git a/net/dsa/tag_rtl4_a.c b/net/dsa/tag_rtl4_a.c
+index a019226ec6d2..feaefa0e179b 100644
+--- a/net/dsa/tag_rtl4_a.c
++++ b/net/dsa/tag_rtl4_a.c
+@@ -121,5 +121,6 @@ static const struct dsa_device_ops rtl4a_netdev_ops = {
+ };
+ module_dsa_tag_driver(rtl4a_netdev_ops);
+ 
++MODULE_DESCRIPTION("DSA tag driver for Realtek 4 byte protocol A tags");
+ MODULE_LICENSE("GPL");
+ MODULE_ALIAS_DSA_TAG_DRIVER(DSA_TAG_PROTO_RTL4_A, RTL4_A_NAME);
+diff --git a/net/dsa/tag_rtl8_4.c b/net/dsa/tag_rtl8_4.c
+index 07e857debabf..15c2bae2b429 100644
+--- a/net/dsa/tag_rtl8_4.c
++++ b/net/dsa/tag_rtl8_4.c
+@@ -258,4 +258,5 @@ static struct dsa_tag_driver *dsa_tag_drivers[] = {
+ };
+ module_dsa_tag_drivers(dsa_tag_drivers);
+ 
++MODULE_DESCRIPTION("DSA tag driver for Realtek 8 byte protocol 4 tags");
+ MODULE_LICENSE("GPL");
+diff --git a/net/dsa/tag_rzn1_a5psw.c b/net/dsa/tag_rzn1_a5psw.c
+index 2ce866b45615..69d51221b1e5 100644
+--- a/net/dsa/tag_rzn1_a5psw.c
++++ b/net/dsa/tag_rzn1_a5psw.c
+@@ -110,6 +110,7 @@ static const struct dsa_device_ops a5psw_netdev_ops = {
+ 	.needed_headroom = A5PSW_TAG_LEN,
+ };
+ 
++MODULE_DESCRIPTION("DSA tag driver for Renesas RZ/N1 A5PSW switch");
+ MODULE_LICENSE("GPL v2");
+ MODULE_ALIAS_DSA_TAG_DRIVER(DSA_TAG_PROTO_A5PSW, A5PSW_NAME);
+ module_dsa_tag_driver(a5psw_netdev_ops);
+diff --git a/net/dsa/tag_sja1105.c b/net/dsa/tag_sja1105.c
+index 1fffe8c2b589..2717e9d7b612 100644
+--- a/net/dsa/tag_sja1105.c
++++ b/net/dsa/tag_sja1105.c
+@@ -806,4 +806,5 @@ static struct dsa_tag_driver *sja1105_tag_driver_array[] = {
+ 
+ module_dsa_tag_drivers(sja1105_tag_driver_array);
+ 
++MODULE_DESCRIPTION("DSA tag driver for NXP SJA1105 switches");
+ MODULE_LICENSE("GPL v2");
+diff --git a/net/dsa/tag_trailer.c b/net/dsa/tag_trailer.c
+index 1ebb25a8b140..22742a53d6f4 100644
+--- a/net/dsa/tag_trailer.c
++++ b/net/dsa/tag_trailer.c
+@@ -59,6 +59,7 @@ static const struct dsa_device_ops trailer_netdev_ops = {
+ 	.needed_tailroom = 4,
+ };
+ 
++MODULE_DESCRIPTION("DSA tag driver for switches using a trailer tag");
+ MODULE_LICENSE("GPL");
+ MODULE_ALIAS_DSA_TAG_DRIVER(DSA_TAG_PROTO_TRAILER, TRAILER_NAME);
+ 
+diff --git a/net/dsa/tag_xrs700x.c b/net/dsa/tag_xrs700x.c
+index c9c163598ef2..68d4633ddd5e 100644
+--- a/net/dsa/tag_xrs700x.c
++++ b/net/dsa/tag_xrs700x.c
+@@ -60,6 +60,7 @@ static const struct dsa_device_ops xrs700x_netdev_ops = {
+ 	.needed_tailroom = 1,
+ };
+ 
++MODULE_DESCRIPTION("DSA tag driver for XRS700x switches");
+ MODULE_LICENSE("GPL");
+ MODULE_ALIAS_DSA_TAG_DRIVER(DSA_TAG_PROTO_XRS700X, XRS700X_NAME);
+ 
+-- 
+2.43.0
 
-Cheers,
-Biju
 
