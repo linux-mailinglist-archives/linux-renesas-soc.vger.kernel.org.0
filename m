@@ -1,86 +1,123 @@
-Return-Path: <linux-renesas-soc+bounces-1323-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-1322-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7F53825103
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  5 Jan 2024 10:42:31 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3EF9B8250F8
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  5 Jan 2024 10:39:15 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 05698B20E3D
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  5 Jan 2024 09:42:29 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2598F1C21BC4
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  5 Jan 2024 09:39:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 428FD250E1;
-	Fri,  5 Jan 2024 09:42:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E0DD7241F7;
+	Fri,  5 Jan 2024 09:39:11 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 23056250E0
-	for <linux-renesas-soc@vger.kernel.org>; Fri,  5 Jan 2024 09:42:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
-X-IronPort-AV: E=Sophos;i="6.04,333,1695654000"; 
-   d="scan'208";a="193323643"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie6.idc.renesas.com with ESMTP; 05 Jan 2024 18:37:12 +0900
-Received: from localhost.localdomain (unknown [10.166.13.99])
-	by relmlir6.idc.renesas.com (Postfix) with ESMTP id DB01A420DBDA;
-	Fri,  5 Jan 2024 18:37:12 +0900 (JST)
-From: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-To: vkoul@kernel.org,
-	kishon@kernel.org
-Cc: error27@gmail.com,
-	linux-phy@lists.infradead.org,
-	linux-renesas-soc@vger.kernel.org,
-	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-	kernel test robot <lkp@intel.com>
-Subject: [PATCH] phy: renesas: rcar-gen3-usb2: Fix returning wrong error code
-Date: Fri,  5 Jan 2024 18:37:03 +0900
-Message-Id: <20240105093703.3359949-1-yoshihiro.shimoda.uh@renesas.com>
-X-Mailer: git-send-email 2.25.1
+Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com [209.85.128.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25C01241E7;
+	Fri,  5 Jan 2024 09:39:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-5e74b4d5445so12278947b3.1;
+        Fri, 05 Jan 2024 01:39:09 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1704447549; x=1705052349;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ADivkWK4lWs4Zr5dQX009Mb26e7oIT3IDUBbQqeyIfg=;
+        b=nOqYqhs43LlfFJuJRjiotdqHn8KAICw422qKN6oSoKWgKhONbh+foVK/RFLJ4oEGgq
+         MkTtp8ZSHwsV6xghu7u9xCAXaJ1Gc2RaQxlk/wingY27DbHdepsB/+e0WPxYxs9CDHco
+         hvJmO5N1TXWrn3VtGCpsQZMSfZ5lO4UmnWt1mPRHHVLXM/JpFGee5iuXKH+76g0JfYEp
+         dDTKsH6BpnqQTTfK3wxgD75SGMCv51eY718WbqzyqliX1Yk3St49L5mp54QQIYSemERd
+         Mjpvl5vytf3OlvXLyCFr+CN1au8+k//MYFLdEpagwTgX8TLhCpZKyfBWSnksliCyT5rY
+         ycNw==
+X-Gm-Message-State: AOJu0YzRxQ/+pVcqCU3/uv3gwONcaRIwT763vbeb0ImGwi6VglTkbw4M
+	voE5o52YAVrkl4Eqo5PBxH/QIIUH6cT0DA==
+X-Google-Smtp-Source: AGHT+IFYXVbQLCou/QnjuW46WFagGdZwGM0eKmpsLBARP4ZrUW0XtveIfHs6X2UfdHTH+a/Aasv4yA==
+X-Received: by 2002:a81:8701:0:b0:5f0:b992:d5f8 with SMTP id x1-20020a818701000000b005f0b992d5f8mr1946479ywf.64.1704447548942;
+        Fri, 05 Jan 2024 01:39:08 -0800 (PST)
+Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com. [209.85.128.174])
+        by smtp.gmail.com with ESMTPSA id s62-20020a818241000000b005f48f4e0d4bsm509457ywf.64.2024.01.05.01.39.08
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 05 Jan 2024 01:39:08 -0800 (PST)
+Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-5e734d6cbe4so12338917b3.3;
+        Fri, 05 Jan 2024 01:39:08 -0800 (PST)
+X-Received: by 2002:a0d:f4c1:0:b0:5e8:f2e7:c48a with SMTP id
+ d184-20020a0df4c1000000b005e8f2e7c48amr1763943ywf.98.1704447548262; Fri, 05
+ Jan 2024 01:39:08 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20240105082339.1468817-1-claudiu.beznea.uj@bp.renesas.com> <20240105082339.1468817-4-claudiu.beznea.uj@bp.renesas.com>
+In-Reply-To: <20240105082339.1468817-4-claudiu.beznea.uj@bp.renesas.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Fri, 5 Jan 2024 10:38:56 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdWTE=AUEd5iqd4Qm04sgFcGtHkbYEQJH9A=qPWph=S4+g@mail.gmail.com>
+Message-ID: <CAMuHMdWTE=AUEd5iqd4Qm04sgFcGtHkbYEQJH9A=qPWph=S4+g@mail.gmail.com>
+Subject: Re: [PATCH net-next v3 03/19] net: ravb: Make reset controller
+ support mandatory
+To: Claudiu <claudiu.beznea@tuxon.dev>
+Cc: s.shtylyov@omp.ru, davem@davemloft.net, edumazet@google.com, 
+	kuba@kernel.org, pabeni@redhat.com, richardcochran@gmail.com, 
+	p.zabel@pengutronix.de, yoshihiro.shimoda.uh@renesas.com, 
+	wsa+renesas@sang-engineering.com, netdev@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	geert+renesas@glider.be, Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Even if device_create_file() returns error code,
-rcar_gen3_phy_usb2_probe() will return zero because the "ret" is
-variable shadowing.
+Hi Claudiu,
 
-Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <error27@gmail.com>
-Closes: https://lore.kernel.org/r/202312161021.gOLDl48K-lkp@intel.com/
-Fixes: 441a681b8843 ("phy: rcar-gen3-usb2: fix implementation for runtime PM")
-Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
----
- drivers/phy/renesas/phy-rcar-gen3-usb2.c | 4 ----
- 1 file changed, 4 deletions(-)
+On Fri, Jan 5, 2024 at 9:24=E2=80=AFAM Claudiu <claudiu.beznea@tuxon.dev> w=
+rote:
+> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+>
+> On the RZ/G3S SoC the reset controller is mandatory for the IP to work.
+> The device tree binding documentation for the ravb driver specifies that
+> the resets are mandatory. Based on this, make the resets mandatory also i=
+n
+> driver for all ravb devices.
+>
+> Reviewed-by: Sergey Shtylyov <s.shtylyov@omp.ru>
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 
-diff --git a/drivers/phy/renesas/phy-rcar-gen3-usb2.c b/drivers/phy/renesas/phy-rcar-gen3-usb2.c
-index e53eace7c91e..6387c0d34c55 100644
---- a/drivers/phy/renesas/phy-rcar-gen3-usb2.c
-+++ b/drivers/phy/renesas/phy-rcar-gen3-usb2.c
-@@ -673,8 +673,6 @@ static int rcar_gen3_phy_usb2_probe(struct platform_device *pdev)
- 	channel->irq = platform_get_irq_optional(pdev, 0);
- 	channel->dr_mode = rcar_gen3_get_dr_mode(dev->of_node);
- 	if (channel->dr_mode != USB_DR_MODE_UNKNOWN) {
--		int ret;
--
- 		channel->is_otg_channel = true;
- 		channel->uses_otg_pins = !of_property_read_bool(dev->of_node,
- 							"renesas,no-otg-pins");
-@@ -738,8 +736,6 @@ static int rcar_gen3_phy_usb2_probe(struct platform_device *pdev)
- 		ret = PTR_ERR(provider);
- 		goto error;
- 	} else if (channel->is_otg_channel) {
--		int ret;
--
- 		ret = device_create_file(dev, &dev_attr_role);
- 		if (ret < 0)
- 			goto error;
--- 
-2.25.1
+> --- a/drivers/net/ethernet/renesas/ravb_main.c
+> +++ b/drivers/net/ethernet/renesas/ravb_main.c
+> @@ -2645,7 +2645,7 @@ static int ravb_probe(struct platform_device *pdev)
+>                 return -EINVAL;
+>         }
+>
+> -       rstc =3D devm_reset_control_get_optional_exclusive(&pdev->dev, NU=
+LL);
+> +       rstc =3D devm_reset_control_get_exclusive(&pdev->dev, NULL);
+>         if (IS_ERR(rstc))
+>                 return dev_err_probe(&pdev->dev, PTR_ERR(rstc),
+>                                      "failed to get cpg reset\n");
 
+Upon second look, you also have to make config RAVB select
+RESET_CONTROLLER.
+Currently, you can build an R-Car Gen[234] kernel with RESET_CONTROLLER
+disabled, causing devm_reset_control_get_exclusive() to fail
+unconditionally.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
