@@ -1,285 +1,93 @@
-Return-Path: <linux-renesas-soc+bounces-1319-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-1320-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18D62824FF1
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  5 Jan 2024 09:30:31 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F903825006
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  5 Jan 2024 09:32:16 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2FE091C217F4
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  5 Jan 2024 08:30:30 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B5D8E1C22D66
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  5 Jan 2024 08:32:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 32CD731747;
-	Fri,  5 Jan 2024 08:25:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 06665225D6;
+	Fri,  5 Jan 2024 08:30:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="lfFQt1IV"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LIJ6bPzA"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E9C531722
-	for <linux-renesas-soc@vger.kernel.org>; Fri,  5 Jan 2024 08:25:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
-Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-a275b3a1167so154323966b.3
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 05 Jan 2024 00:25:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1704443129; x=1705047929; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=D52HtaDyG1yQmVNxfMf3+ZvDLZVTUO44eFJ4THAqFfQ=;
-        b=lfFQt1IVBbUjxJzX7wU88vnF+faewzzYXcdtenrNORr6NHzk1P5lLd6wYrwnA25cwc
-         hAS7yxXkaNpXDxEuyZIuSmAmIXWixm1QBXYi9q1Y7saCa7FAm50EWKvNc35AXEwTk20N
-         78XDUUjysSz76c0JSCef8DMznILqaciOV3aHub5YYts3Yjxe39+rKdyLRBr+dcWhO0I3
-         VQFL9HAt+AyFmiLafdXtaoKMYtsL9J/rK9xDPDstfGfMSdbEKCcpJFHTTYUwSDOJGRry
-         G32qO9mbPQcirQY9h1GmavC8rLU49GZWlk2ByRKEghpMAgtbz9axtRqdrCx4XhYypJex
-         oGfw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704443129; x=1705047929;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=D52HtaDyG1yQmVNxfMf3+ZvDLZVTUO44eFJ4THAqFfQ=;
-        b=tGDxfFfDaTwZHxdAal784flocjRlsuiTBSGeqsW9LVxS9TLXOnjllQwCY4IO7sdW5R
-         MVcl5fVc6oPli6jr6ZKorE7HfvPzvWKrlSnQty4b3jZMWNt5mM8wAGJ7/BLlc5vKZ1f2
-         NZtPshe2/9cTftndJqhN5JUIuxzeuwnopj+Kf2YSWfumSFY1bqe0wxbFnsveU1TygR1u
-         tq//ySu98bMGrRrLFwNoqBnfE36tm1DGVdk932KxCOpmdQEKceMuBhOtMA7AkxJfOKTA
-         Mza/0GnW2QMX7l17+wV6psmcYMpJcHtuviupLMaCiQMRIUya8dYy2exj4BJoX/HI/7J5
-         jROw==
-X-Gm-Message-State: AOJu0YwnawXrUtLlAD4UXfjUaEVF2eBugEiPh2oWtJdJ05ME2Tf0Kn70
-	yWnqmVKaEyeeOotl2URmZbs9XmaGT9kzTw==
-X-Google-Smtp-Source: AGHT+IGupMTvlbpzG5ZEVKfHUzeR+3LC7MnHzEXa0jX2qmlVtmewPRTkwwV8k2b68gfov4MttdLUNQ==
-X-Received: by 2002:a17:906:4554:b0:a28:b6a5:a26b with SMTP id s20-20020a170906455400b00a28b6a5a26bmr1003355ejq.141.1704443129678;
-        Fri, 05 Jan 2024 00:25:29 -0800 (PST)
-Received: from claudiu-X670E-Pro-RS.. ([82.78.167.5])
-        by smtp.gmail.com with ESMTPSA id j15-20020a1709064b4f00b00a28e759a447sm596198ejv.213.2024.01.05.00.25.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 05 Jan 2024 00:25:29 -0800 (PST)
-From: Claudiu <claudiu.beznea@tuxon.dev>
-X-Google-Original-From: Claudiu <claudiu.beznea.uj@bp.renesas.com>
-To: s.shtylyov@omp.ru,
-	davem@davemloft.net,
-	edumazet@google.com,
-	kuba@kernel.org,
-	pabeni@redhat.com,
-	richardcochran@gmail.com,
-	p.zabel@pengutronix.de,
-	yoshihiro.shimoda.uh@renesas.com,
-	wsa+renesas@sang-engineering.com
-Cc: netdev@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	claudiu.beznea@tuxon.dev,
-	geert+renesas@glider.be,
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-Subject: [PATCH net-next v3 19/19] net: ravb: Add runtime PM support
-Date: Fri,  5 Jan 2024 10:23:39 +0200
-Message-Id: <20240105082339.1468817-20-claudiu.beznea.uj@bp.renesas.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20240105082339.1468817-1-claudiu.beznea.uj@bp.renesas.com>
-References: <20240105082339.1468817-1-claudiu.beznea.uj@bp.renesas.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A872820DC8;
+	Fri,  5 Jan 2024 08:30:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1704443410; x=1735979410;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=yqHCtlTmTJcO38lbC2SPW6R6TtGpO8FQxb04uVEzvW4=;
+  b=LIJ6bPzA/s5YItbBGXJg1Rozw1aQfDMbeAMmwJj6DpX+2Y2cuAjAaBX2
+   wrRKb2YsTJ7r1FwZHQ7uy5MPo7x9puXE5nMe2kONhhdukJ71RcygVpMR/
+   tDdZTLFBVSrU/I30UOJoOzIAlI/1ZXca5DMLp7zhPNSmnvGKYO9+wfav2
+   uMD5a1vbdxQ0TglKDkDEp4A1QwsG6xsSAaXZTrtJ/HERo0NAfru0GeW5S
+   94HQtve4OXbRscTd8K1qNBcbxvFSgex4niNuHpaPrJ92GGuxruko3OEOB
+   O9vZqBBStQbrk29jx/3HgBojFsPa7vYKBFIgd2TZRVhUIVrZ41L8hdhTL
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10943"; a="4567218"
+X-IronPort-AV: E=Sophos;i="6.04,333,1695711600"; 
+   d="scan'208";a="4567218"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jan 2024 00:30:10 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10943"; a="773790066"
+X-IronPort-AV: E=Sophos;i="6.04,333,1695711600"; 
+   d="scan'208";a="773790066"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jan 2024 00:30:08 -0800
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 8619311F7E4;
+	Fri,  5 Jan 2024 10:30:05 +0200 (EET)
+Date: Fri, 5 Jan 2024 08:30:05 +0000
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Biju Das <biju.das.jz@bp.renesas.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	"biju.das.au" <biju.das.au@gmail.com>,
+	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>
+Subject: Re: [PATCH] media: v4l: async: Fix double pointer free on
+ v4l2_async_unregister_subdev()
+Message-ID: <ZZe-DeImcJLVm7Vd@kekkonen.localdomain>
+References: <20231130173232.130731-1-biju.das.jz@bp.renesas.com>
+ <TYCPR01MB11269FCC5199547299AFDAAF3868FA@TYCPR01MB11269.jpnprd01.prod.outlook.com>
+ <TYCPR01MB112699751EF10B9BEF3B7511B86672@TYCPR01MB11269.jpnprd01.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <TYCPR01MB112699751EF10B9BEF3B7511B86672@TYCPR01MB11269.jpnprd01.prod.outlook.com>
 
-From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+Hi Biju,
 
-Add runtime PM support for the ravb driver. As the driver is used by
-different IP variants, with different behaviors, to be able to have the
-runtime PM support available for all devices, the preparatory commits
-moved all the resources parsing and allocations in the driver's probe
-function and kept the settings for ravb_open(). This is due to the fact
-that on some IP variants-platforms tuples disabling/enabling the clocks
-will switch the IP to the reset operation mode where registers' content is
-lost and reconfiguration needs to be done. For this the rabv_open()
-function enables the clocks, switches the IP to configuration mode, applies
-all the registers settings and switches the IP to the operational mode. At
-the end of ravb_open() IP is ready to send/receive data.
+On Thu, Jan 04, 2024 at 11:05:46AM +0000, Biju Das wrote:
+> Hi All, 
+> 
+> Gentle ping. Are we happy with this fix? Please let me know.
 
-In ravb_close() necessary reverts are done (compared with ravb_open()), the
-IP is switched to reset mode and clocks are disabled.
+Thanks for the patch.
 
-The ethtool APIs or IOCTLs that might execute while the interface is down
-are either cached (and applied in ravb_open()) or rejected (as at that time
-the IP is in reset mode). Keeping the IP in the reset mode also increases
-the power saved (according to the hardware manual).
+The issue has been fixed by Sebastian's patch (commit
+3de6ee94aae701fa949cd3b5df6b6a440ddfb8f2 in media tree master).
 
-Reviewed-by: Sergey Shtylyov <s.shtylyov@omp.ru>
-Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
----
-
-Changes in v3:
-- this was patch 21/21 in v2
-- collected tags
-- fixed typos in patch description
-
-Changes in v2:
-- keep RPM support for all platforms
-
- drivers/net/ethernet/renesas/ravb_main.c | 54 ++++++++++++++++++++++--
- 1 file changed, 50 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
-index e909960fbc30..e99351fe8d7f 100644
---- a/drivers/net/ethernet/renesas/ravb_main.c
-+++ b/drivers/net/ethernet/renesas/ravb_main.c
-@@ -1840,16 +1840,21 @@ static int ravb_open(struct net_device *ndev)
- {
- 	struct ravb_private *priv = netdev_priv(ndev);
- 	const struct ravb_hw_info *info = priv->info;
-+	struct device *dev = &priv->pdev->dev;
- 	int error;
- 
- 	napi_enable(&priv->napi[RAVB_BE]);
- 	if (info->nc_queues)
- 		napi_enable(&priv->napi[RAVB_NC]);
- 
-+	error = pm_runtime_resume_and_get(dev);
-+	if (error < 0)
-+		goto out_napi_off;
-+
- 	/* Set AVB config mode */
- 	error = ravb_set_config_mode(ndev);
- 	if (error)
--		goto out_napi_off;
-+		goto out_rpm_put;
- 
- 	ravb_set_delay_mode(ndev);
- 	ravb_write(ndev, priv->desc_bat_dma, DBAT);
-@@ -1883,6 +1888,9 @@ static int ravb_open(struct net_device *ndev)
- 	ravb_stop_dma(ndev);
- out_set_reset:
- 	ravb_set_opmode(ndev, CCC_OPC_RESET);
-+out_rpm_put:
-+	pm_runtime_mark_last_busy(dev);
-+	pm_runtime_put_autosuspend(dev);
- out_napi_off:
- 	if (info->nc_queues)
- 		napi_disable(&priv->napi[RAVB_NC]);
-@@ -2184,6 +2192,8 @@ static int ravb_close(struct net_device *ndev)
- 	struct ravb_private *priv = netdev_priv(ndev);
- 	const struct ravb_hw_info *info = priv->info;
- 	struct ravb_tstamp_skb *ts_skb, *ts_skb2;
-+	struct device *dev = &priv->pdev->dev;
-+	int error;
- 
- 	netif_tx_stop_all_queues(ndev);
- 
-@@ -2233,7 +2243,14 @@ static int ravb_close(struct net_device *ndev)
- 	ravb_get_stats(ndev);
- 
- 	/* Set reset mode. */
--	return ravb_set_opmode(ndev, CCC_OPC_RESET);
-+	error = ravb_set_opmode(ndev, CCC_OPC_RESET);
-+	if (error)
-+		return error;
-+
-+	pm_runtime_mark_last_busy(dev);
-+	pm_runtime_put_autosuspend(dev);
-+
-+	return 0;
- }
- 
- static int ravb_hwtstamp_get(struct net_device *ndev, struct ifreq *req)
-@@ -2725,6 +2742,8 @@ static int ravb_probe(struct platform_device *pdev)
- 	clk_prepare(priv->refclk);
- 
- 	platform_set_drvdata(pdev, ndev);
-+	pm_runtime_set_autosuspend_delay(&pdev->dev, 100);
-+	pm_runtime_use_autosuspend(&pdev->dev);
- 	pm_runtime_enable(&pdev->dev);
- 	error = pm_runtime_resume_and_get(&pdev->dev);
- 	if (error < 0)
-@@ -2830,6 +2849,9 @@ static int ravb_probe(struct platform_device *pdev)
- 	netdev_info(ndev, "Base address at %#x, %pM, IRQ %d.\n",
- 		    (u32)ndev->base_addr, ndev->dev_addr, ndev->irq);
- 
-+	pm_runtime_mark_last_busy(&pdev->dev);
-+	pm_runtime_put_autosuspend(&pdev->dev);
-+
- 	return 0;
- 
- out_napi_del:
-@@ -2847,6 +2869,7 @@ static int ravb_probe(struct platform_device *pdev)
- 	pm_runtime_put(&pdev->dev);
- out_rpm_disable:
- 	pm_runtime_disable(&pdev->dev);
-+	pm_runtime_dont_use_autosuspend(&pdev->dev);
- 	clk_unprepare(priv->refclk);
- out_reset_assert:
- 	reset_control_assert(rstc);
-@@ -2860,6 +2883,12 @@ static void ravb_remove(struct platform_device *pdev)
- 	struct net_device *ndev = platform_get_drvdata(pdev);
- 	struct ravb_private *priv = netdev_priv(ndev);
- 	const struct ravb_hw_info *info = priv->info;
-+	struct device *dev = &priv->pdev->dev;
-+	int error;
-+
-+	error = pm_runtime_resume_and_get(dev);
-+	if (error < 0)
-+		return;
- 
- 	unregister_netdev(ndev);
- 	if (info->nc_queues)
-@@ -2871,8 +2900,9 @@ static void ravb_remove(struct platform_device *pdev)
- 	dma_free_coherent(ndev->dev.parent, priv->desc_bat_size, priv->desc_bat,
- 			  priv->desc_bat_dma);
- 
--	pm_runtime_put_sync(&pdev->dev);
-+	pm_runtime_put_sync_suspend(&pdev->dev);
- 	pm_runtime_disable(&pdev->dev);
-+	pm_runtime_dont_use_autosuspend(dev);
- 	clk_unprepare(priv->refclk);
- 	reset_control_assert(priv->rstc);
- 	free_netdev(ndev);
-@@ -2954,6 +2984,10 @@ static int ravb_suspend(struct device *dev)
- 	if (ret)
- 		return ret;
- 
-+	ret = pm_runtime_force_suspend(&priv->pdev->dev);
-+	if (ret)
-+		return ret;
-+
- reset_assert:
- 	return reset_control_assert(priv->rstc);
- }
-@@ -2976,16 +3010,28 @@ static int ravb_resume(struct device *dev)
- 		ret = ravb_wol_restore(ndev);
- 		if (ret)
- 			return ret;
-+	} else {
-+		ret = pm_runtime_force_resume(dev);
-+		if (ret)
-+			return ret;
- 	}
- 
- 	/* Reopening the interface will restore the device to the working state. */
- 	ret = ravb_open(ndev);
- 	if (ret < 0)
--		return ret;
-+		goto out_rpm_put;
- 
- 	ravb_set_rx_mode(ndev);
- 	netif_device_attach(ndev);
- 
-+	return 0;
-+
-+out_rpm_put:
-+	if (!priv->wol_enabled) {
-+		pm_runtime_mark_last_busy(dev);
-+		pm_runtime_put_autosuspend(dev);
-+	}
-+
- 	return ret;
- }
- 
 -- 
-2.39.2
+Regards,
 
+Sakari Ailus
 
