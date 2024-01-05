@@ -1,100 +1,176 @@
-Return-Path: <linux-renesas-soc+bounces-1328-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-1329-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id C490D8251DF
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  5 Jan 2024 11:26:20 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C19F825250
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  5 Jan 2024 11:46:59 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id EB9301C22DB3
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  5 Jan 2024 10:26:19 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 094E7285051
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  5 Jan 2024 10:46:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C3C112C852;
-	Fri,  5 Jan 2024 10:25:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E3EF425565;
+	Fri,  5 Jan 2024 10:46:46 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com [209.85.128.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx01.omp.ru (mx01.omp.ru [90.154.21.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25B502C857
-	for <linux-renesas-soc@vger.kernel.org>; Fri,  5 Jan 2024 10:25:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-5f588ce1b6dso2965887b3.1
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 05 Jan 2024 02:25:49 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704450349; x=1705055149;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Tr6Cnonppc3S63EdOWbNPx3ZvYGnpDOLV4ON9zv6lps=;
-        b=hybfDAAj0QnJN9MG1AmhQXSkzZQUUHMCIOKkpht+l4Nk/24naTiSxRy0mozIMhlQO4
-         AUGkq1OMivvazQwUOi//WGlptOjpNDE+efTLu0sQhgrjbJFNMEIcopzn3kiOkIgVa3ij
-         nG1VmVD23rrUahajBuoZqZUWqtjsKSKUqbTVAP8KupAwFxBLarnzL1kUQF38/JE51TfV
-         28Znu9eAKCXXkhCve1yZ6SUZ4Z4A8KrLcUJMv4ncICCW/hWef/3BEuDgVd3t3Iir4kqe
-         f1uSQPzPXqxtNmVVC1dhKMqB31mSFVphw18tsUFuYZn2xf0nSZ/Rvi0Z0o45y/I7C5lp
-         oPvw==
-X-Gm-Message-State: AOJu0YwL8fcsMNDm6pWBUXtpTSB6yffttflTC1pW5hdJ55uC50pSaX1U
-	wnEETkLy5TeqOljw++ZTc+p222rOEGBS6g==
-X-Google-Smtp-Source: AGHT+IFNB0Ha9qoNeA+5HlMO4pMY5KT/CBlNgleiUmVas85HkDN7+KAexnRkYcmUgWLuMPWNYFB6Dg==
-X-Received: by 2002:a0d:fd82:0:b0:5e9:a678:deac with SMTP id n124-20020a0dfd82000000b005e9a678deacmr1342676ywf.30.1704450348947;
-        Fri, 05 Jan 2024 02:25:48 -0800 (PST)
-Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com. [209.85.128.176])
-        by smtp.gmail.com with ESMTPSA id w128-20020a0ded86000000b005e506ee2860sm546088ywe.38.2024.01.05.02.25.48
-        for <linux-renesas-soc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 05 Jan 2024 02:25:48 -0800 (PST)
-Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-5e784ce9bb8so3289507b3.0
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 05 Jan 2024 02:25:48 -0800 (PST)
-X-Received: by 2002:a81:5dc5:0:b0:5e0:66ef:bca5 with SMTP id
- r188-20020a815dc5000000b005e066efbca5mr1188952ywb.40.1704450348254; Fri, 05
- Jan 2024 02:25:48 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAE542C684;
+	Fri,  5 Jan 2024 10:46:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=omp.ru
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=omp.ru
+Received: from [192.168.1.104] (178.176.73.147) by msexch01.omp.ru
+ (10.188.4.12) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.1258.12; Fri, 5 Jan
+ 2024 13:46:33 +0300
+Subject: Re: [PATCH net] MAINTAINERS: I don't want to review Renesas Ethernet
+ Switch driver
+To: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>, Simon Horman
+	<horms@kernel.org>
+CC: "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>
+References: <6498e2dd-7960-daeb-acce-a8d2207f3404@omp.ru>
+ <20240103212822.GA48301@kernel.org>
+ <8f9b5376-647a-7b59-886c-142990b8c9e4@omp.ru>
+ <TYBPR01MB5341F4C4340200CABBFF5C05D8662@TYBPR01MB5341.jpnprd01.prod.outlook.com>
+From: Sergey Shtylyov <s.shtylyov@omp.ru>
+Organization: Open Mobile Platform
+Message-ID: <ef96eb69-636c-a91c-e7b7-46b02241ad0d@omp.ru>
+Date: Fri, 5 Jan 2024 13:46:32 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240105093703.3359949-1-yoshihiro.shimoda.uh@renesas.com>
-In-Reply-To: <20240105093703.3359949-1-yoshihiro.shimoda.uh@renesas.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 5 Jan 2024 11:25:36 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdXd39y6dOsBTJcBYfbTmqTGXnvQaiGOF_M0RBqfTA0UnA@mail.gmail.com>
-Message-ID: <CAMuHMdXd39y6dOsBTJcBYfbTmqTGXnvQaiGOF_M0RBqfTA0UnA@mail.gmail.com>
-Subject: Re: [PATCH] phy: renesas: rcar-gen3-usb2: Fix returning wrong error code
-To: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Cc: vkoul@kernel.org, kishon@kernel.org, error27@gmail.com, 
-	linux-phy@lists.infradead.org, linux-renesas-soc@vger.kernel.org, 
-	kernel test robot <lkp@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <TYBPR01MB5341F4C4340200CABBFF5C05D8662@TYBPR01MB5341.jpnprd01.prod.outlook.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: msexch01.omp.ru (10.188.4.12) To msexch01.omp.ru
+ (10.188.4.12)
+X-KSE-ServerInfo: msexch01.omp.ru, 9
+X-KSE-AntiSpam-Interceptor-Info: scan successful
+X-KSE-AntiSpam-Version: 6.1.0, Database issued on: 01/05/2024 10:35:16
+X-KSE-AntiSpam-Status: KAS_STATUS_NOT_DETECTED
+X-KSE-AntiSpam-Method: none
+X-KSE-AntiSpam-Rate: 59
+X-KSE-AntiSpam-Info: Lua profiles 182464 [Jan 04 2024]
+X-KSE-AntiSpam-Info: Version: 6.1.0.3
+X-KSE-AntiSpam-Info: Envelope from: s.shtylyov@omp.ru
+X-KSE-AntiSpam-Info: LuaCore: 7 0.3.7 6d6bf5bd8eea7373134f756a2fd73e9456bb7d1a
+X-KSE-AntiSpam-Info: {rep_avail}
+X-KSE-AntiSpam-Info: {Tracking_from_domain_doesnt_match_to}
+X-KSE-AntiSpam-Info: {relay has no DNS name}
+X-KSE-AntiSpam-Info: {SMTP from is not routable}
+X-KSE-AntiSpam-Info: {Found in DNSBL: 178.176.73.147 in (user)
+ b.barracudacentral.org}
+X-KSE-AntiSpam-Info: {Found in DNSBL: 178.176.73.147 in (user)
+ dbl.spamhaus.org}
+X-KSE-AntiSpam-Info:
+	127.0.0.199:7.1.2;omp.ru:7.1.1;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;178.176.73.147:7.1.2
+X-KSE-AntiSpam-Info: ApMailHostAddress: 178.176.73.147
+X-KSE-AntiSpam-Info: {DNS response errors}
+X-KSE-AntiSpam-Info: Rate: 59
+X-KSE-AntiSpam-Info: Status: not_detected
+X-KSE-AntiSpam-Info: Method: none
+X-KSE-AntiSpam-Info: Auth:dmarc=temperror header.from=omp.ru;spf=temperror
+ smtp.mailfrom=omp.ru;dkim=none
+X-KSE-Antiphishing-Info: Clean
+X-KSE-Antiphishing-ScanningType: Heuristic
+X-KSE-Antiphishing-Method: None
+X-KSE-Antiphishing-Bases: 01/05/2024 10:40:00
+X-KSE-Antivirus-Interceptor-Info: scan successful
+X-KSE-Antivirus-Info: Clean, bases: 1/5/2024 9:01:00 AM
+X-KSE-Attachment-Filter-Triggered-Rules: Clean
+X-KSE-Attachment-Filter-Triggered-Filters: Clean
+X-KSE-BulkMessagesFiltering-Scan-Result: InTheLimit
 
-On Fri, Jan 5, 2024 at 10:42=E2=80=AFAM Yoshihiro Shimoda
-<yoshihiro.shimoda.uh@renesas.com> wrote:
-> Even if device_create_file() returns error code,
-> rcar_gen3_phy_usb2_probe() will return zero because the "ret" is
-> variable shadowing.
->
-> Reported-by: kernel test robot <lkp@intel.com>
-> Reported-by: Dan Carpenter <error27@gmail.com>
-> Closes: https://lore.kernel.org/r/202312161021.gOLDl48K-lkp@intel.com/
-> Fixes: 441a681b8843 ("phy: rcar-gen3-usb2: fix implementation for runtime=
- PM")
-> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+On 1/5/24 5:42 AM, Yoshihiro Shimoda wrote:
+[...]
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+>>>> I don't know this hardware, I don't have the manuals for it, so I can't
+>>>> provide a good review.  Let's exclude the Ethernet Switch related files.
+>>>>
+>>>> Signed-off-by: Sergey Shtylyov <s.shtylyov@omp.ru>
+>>>
+>>> Hi Sergey,
+>>
+>>   Hi Simon, long time, no see... :-)
+>>
+>>> I don't know the back story to this, if there is one.
+>>
+>>    Not much of a history: I got a lot of the rswitch patches in my
+>> inbox and I mostly ignored them... but kept deferring this patch due
+>> to a high load with fixing Svace's reports at work...
+>>
+>>> But could I suggest that:
+>>>
+>>> 1. The patch also updates the title MAINTAINERS section to cover the
+>>>    remaining two drivers.
+>>>
+>>>    e.g.: RENESAS ETHERNET DRIVERS ->
+>>>          RENESAS ETHERNET AVB AND SUPERH ETHERNET DRIVERS
+>>>
+>>>    Or alternatively, create separate sections for each driver.
+>>
+>>    Yeah, this 2nd option seems cleaner. Still not sure about Kconfig/
+>> Makefile though...
+> 
+> How about adding "COMMON PARTS" section?
+> 
+> - RENESAS ETHERNET AVB AND SUPERH ETHERNET DRIVERS : For ravb and sh_eth
+> - RENESAS ETHERNET DRIVERS (COMMON PARTS) : For Kconfig/Makefile in drivers/net/ethernet/renesas
+> - RENESAS ETHERNET SWITCH DRIVER : For rswitch
 
-Gr{oetje,eeting}s,
+   No, this seems too much for these poor little couple files. :-)
+Listing them in each new MAINTAINERS entry should achieve the same goal
+and seems a biut cleaner...
 
-                        Geert
+>>>    n.b.: This may involve moving sections to maintain alphabetical order
+>>>          by section title
+>>>
+>>> 2. Reaching out to Shimoda-san (CCed) or other relevant parties
+>>>    to see if an appropriate maintainer or maintainers for the
+>>>    Renesas Ethernet Switch driver can be found.
+> 
+> I'm happy if I'm a maintainer for Renesas Ethernet Switch driver.
 
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
+   Do you want to be a maintainer or just a reviewer (like me)?
 
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+> So, if my idea above is acceptable, perhaps the maintainers can be:
+> 
+> - RENESAS ETHERNET AVB AND SUPERH ETHERNET DRIVERS : Sergey
+
+   There will be separate entries for those...
+
+> - RENESAS ETHERNET DRIVERS (COMMON PARTS) : Sergey and Shimoda
+
+   I'd like to avoid that... :-)
+
+> - RENESAS ETHERNET SWITCH DRIVER : Shimoda
+
+>>>    n.b.: It may still be a holiday period in Japan for the rest of the week.
+>>
+>>    It's a holiday period here in Russia as well, till the 8th of Jaunary. :-)
+> 
+> I'm back from today, but next Monday (8th) is a holiday in Japan :)
+
+   You're back for 1 day? :-)
+
+> Best regards,
+> Yoshihiro Shimoda
+> 
+>>> 3. Rephrase the subject and patch description as splitting out maintenance of
+>>>    the Renesas Ethernet Switch driver .
+
+   The question that remains still unaddressed: should I do the MAINTAINERS
+"directory split" with a single patch?
+
+[...]
+
+MBR, Sergey
 
