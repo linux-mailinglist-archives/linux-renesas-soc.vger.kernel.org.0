@@ -1,104 +1,100 @@
-Return-Path: <linux-renesas-soc+bounces-1327-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-1328-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7FA38251AA
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  5 Jan 2024 11:16:37 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id C490D8251DF
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  5 Jan 2024 11:26:20 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 595E81F2154B
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  5 Jan 2024 10:16:37 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id EB9301C22DB3
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  5 Jan 2024 10:26:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 05CAC25101;
-	Fri,  5 Jan 2024 10:15:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="UVqyFBGd";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="AIt7iYti"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C3C112C852;
+	Fri,  5 Jan 2024 10:25:51 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com [209.85.128.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10BC624B47;
-	Fri,  5 Jan 2024 10:15:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
-From: Kurt Kanzenbach <kurt@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1704449721;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=jO+VO3wXFRu66UkMcvjqElGeC5Sv8WT5wY6xOwIw/S4=;
-	b=UVqyFBGdRkvhbOLA+ppFaGAfNm0Vonvxuottzyh/4XWb7L+OG07Kg6jdcXmeVHoWlI7JLR
-	NKGJ7s5rZ8EwJgk99uiQrQAmz2zcbxx5qbAWIT3ywz/Qx0QS+l9keHU+RwHC9a1b81C+Uo
-	eYXwBmz7dQibvSINhYdtV/vMNzjokYrD4SrJBOxsz16TOwrT29tdeRsOTDcjq84QSJVhJe
-	g1/qxvYVgxjrHXiRLLDsHhoUeqP+FjfYw2ZlCysFpo/d+8xx51bgAPTt916UxE69UHp4PM
-	S4yy5te1FBYR8Dp/opZ5sszDj7MNcvTLPVrpox0TvMvIfCk1KoI2Dvs608hSig==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1704449721;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=jO+VO3wXFRu66UkMcvjqElGeC5Sv8WT5wY6xOwIw/S4=;
-	b=AIt7iYtiUvQDrEKJug3LyhX4SHG++vgGesong5Ppvswqs8G7nnWz5dyDPY0iX407QgSYib
-	fhToLweazCrkaWBQ==
-To: Jakub Kicinski <kuba@kernel.org>, davem@davemloft.net
-Cc: netdev@vger.kernel.org, edumazet@google.com, pabeni@redhat.com, Jakub
- Kicinski <kuba@kernel.org>, andrew@lunn.ch, f.fainelli@gmail.com,
- olteanv@gmail.com, hauke@hauke-m.de, woojung.huh@microchip.com,
- UNGLinuxDriver@microchip.com, arinc.unal@arinc9.com,
- daniel@makrotopia.org, Landen.Chao@mediatek.com, dqfext@gmail.com,
- sean.wang@mediatek.com, matthias.bgg@gmail.com,
- angelogioacchino.delregno@collabora.com, claudiu.manoil@nxp.com,
- alexandre.belloni@bootlin.com, clement.leger@bootlin.com,
- george.mccollister@gmail.com, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH net-next] net: fill in MODULE_DESCRIPTION()s for DSA tags
-In-Reply-To: <20240104143759.1318137-1-kuba@kernel.org>
-References: <20240104143759.1318137-1-kuba@kernel.org>
-Date: Fri, 05 Jan 2024 11:15:17 +0100
-Message-ID: <87plygqe6i.fsf@kurt>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25B502C857
+	for <linux-renesas-soc@vger.kernel.org>; Fri,  5 Jan 2024 10:25:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-5f588ce1b6dso2965887b3.1
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 05 Jan 2024 02:25:49 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1704450349; x=1705055149;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Tr6Cnonppc3S63EdOWbNPx3ZvYGnpDOLV4ON9zv6lps=;
+        b=hybfDAAj0QnJN9MG1AmhQXSkzZQUUHMCIOKkpht+l4Nk/24naTiSxRy0mozIMhlQO4
+         AUGkq1OMivvazQwUOi//WGlptOjpNDE+efTLu0sQhgrjbJFNMEIcopzn3kiOkIgVa3ij
+         nG1VmVD23rrUahajBuoZqZUWqtjsKSKUqbTVAP8KupAwFxBLarnzL1kUQF38/JE51TfV
+         28Znu9eAKCXXkhCve1yZ6SUZ4Z4A8KrLcUJMv4ncICCW/hWef/3BEuDgVd3t3Iir4kqe
+         f1uSQPzPXqxtNmVVC1dhKMqB31mSFVphw18tsUFuYZn2xf0nSZ/Rvi0Z0o45y/I7C5lp
+         oPvw==
+X-Gm-Message-State: AOJu0YwL8fcsMNDm6pWBUXtpTSB6yffttflTC1pW5hdJ55uC50pSaX1U
+	wnEETkLy5TeqOljw++ZTc+p222rOEGBS6g==
+X-Google-Smtp-Source: AGHT+IFNB0Ha9qoNeA+5HlMO4pMY5KT/CBlNgleiUmVas85HkDN7+KAexnRkYcmUgWLuMPWNYFB6Dg==
+X-Received: by 2002:a0d:fd82:0:b0:5e9:a678:deac with SMTP id n124-20020a0dfd82000000b005e9a678deacmr1342676ywf.30.1704450348947;
+        Fri, 05 Jan 2024 02:25:48 -0800 (PST)
+Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com. [209.85.128.176])
+        by smtp.gmail.com with ESMTPSA id w128-20020a0ded86000000b005e506ee2860sm546088ywe.38.2024.01.05.02.25.48
+        for <linux-renesas-soc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 05 Jan 2024 02:25:48 -0800 (PST)
+Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-5e784ce9bb8so3289507b3.0
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 05 Jan 2024 02:25:48 -0800 (PST)
+X-Received: by 2002:a81:5dc5:0:b0:5e0:66ef:bca5 with SMTP id
+ r188-20020a815dc5000000b005e066efbca5mr1188952ywb.40.1704450348254; Fri, 05
+ Jan 2024 02:25:48 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="=-=-=";
-	micalg=pgp-sha512; protocol="application/pgp-signature"
+References: <20240105093703.3359949-1-yoshihiro.shimoda.uh@renesas.com>
+In-Reply-To: <20240105093703.3359949-1-yoshihiro.shimoda.uh@renesas.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Fri, 5 Jan 2024 11:25:36 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdXd39y6dOsBTJcBYfbTmqTGXnvQaiGOF_M0RBqfTA0UnA@mail.gmail.com>
+Message-ID: <CAMuHMdXd39y6dOsBTJcBYfbTmqTGXnvQaiGOF_M0RBqfTA0UnA@mail.gmail.com>
+Subject: Re: [PATCH] phy: renesas: rcar-gen3-usb2: Fix returning wrong error code
+To: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc: vkoul@kernel.org, kishon@kernel.org, error27@gmail.com, 
+	linux-phy@lists.infradead.org, linux-renesas-soc@vger.kernel.org, 
+	kernel test robot <lkp@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
---=-=-=
-Content-Type: text/plain
-
-On Thu Jan 04 2024, Jakub Kicinski wrote:
-> W=1 builds now warn if module is built without a MODULE_DESCRIPTION().
-> Add descriptions to all the DSA tag modules.
+On Fri, Jan 5, 2024 at 10:42=E2=80=AFAM Yoshihiro Shimoda
+<yoshihiro.shimoda.uh@renesas.com> wrote:
+> Even if device_create_file() returns error code,
+> rcar_gen3_phy_usb2_probe() will return zero because the "ret" is
+> variable shadowing.
 >
-> The descriptions are copy/pasted Kconfig names, with s/^Tag/DSA tag/.
->
-> Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+> Reported-by: kernel test robot <lkp@intel.com>
+> Reported-by: Dan Carpenter <error27@gmail.com>
+> Closes: https://lore.kernel.org/r/202312161021.gOLDl48K-lkp@intel.com/
+> Fixes: 441a681b8843 ("phy: rcar-gen3-usb2: fix implementation for runtime=
+ PM")
+> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 
-Acked-by: Kurt Kanzenbach <kurt@linutronix.de>
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
---=-=-=
-Content-Type: application/pgp-signature; name="signature.asc"
+Gr{oetje,eeting}s,
 
------BEGIN PGP SIGNATURE-----
+                        Geert
 
-iQJHBAEBCgAxFiEEvLm/ssjDfdPf21mSwZPR8qpGc4IFAmWX1rUTHGt1cnRAbGlu
-dXRyb25peC5kZQAKCRDBk9HyqkZzgk55D/9zqbT5fC7AXgLULEkx0VKj1404ulqK
-ZxXhPu2NW1/G+/+5iFZvce7q0JEJDNcRPG0IVYc0WxkbVN2pLZoFKFO4omzAi1OF
-lHzUaB9SjVp4kS3B1mJbj7q6+JPfU6Lt06d23cWp2GI8O1wp7C7Hu+fSW325k1dx
-ccw8/jfnFyuxKe1VhAPuQfSZ6erM79r6zi8sf1iwwU8l8hUr/WjFD4iREXKyL93j
-G0W6Gw10DwRp4lgwy8WPdydwjvE0sbeMKh7ijtnqCYwnD5j2DCSKZuevoglZXzSR
-fyrSIjUclxys7VbWfQtn3QYa3y6O+mJKMD6Q4DLoAm9X/dyran49xRCboJC3KrUI
-7exTGoXUPVA452Jy5wKZccG+RS+HpQi6AC3L7v1tPWg6mltmusQc/SHK5MVm1riz
-qNTMJP9uCojCUiP+UWbh20HpOt16yHP0+xGRiX3pUBl16RGmyWRtixJPb/4MQz8T
-xiN9HaGi+9jRF0v7I+/iUwWkmMEThaBY+mtl2e8rWInOPyLVC0Bddr/KwzxFJ6fK
-3dmsIztl8lvC47jH86xriXJDp8QXKkjo0bwq/TonB8w4g5OeR04bvZmo/A73M10k
-jn+4pSKyO9c1NHyS7nCs2dpO3Xlrdj9p1HZ2Uv8N1BbogRcU+v5KPeGoe7QYvcOz
-vd9YY2W+WapiiA==
-=U6fC
------END PGP SIGNATURE-----
---=-=-=--
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
