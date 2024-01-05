@@ -1,50 +1,75 @@
-Return-Path: <linux-renesas-soc+bounces-1325-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-1326-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2617E825141
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  5 Jan 2024 10:54:14 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 022A3825154
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  5 Jan 2024 10:58:42 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B6710284A70
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  5 Jan 2024 09:54:12 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id B718AB219D7
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  5 Jan 2024 09:58:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 80B17249F7;
-	Fri,  5 Jan 2024 09:54:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9BBA524B2A;
+	Fri,  5 Jan 2024 09:58:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jhxIVMs4"
+	dkim=pass (2048-bit key) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.b="aeBX0fml"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 616542377E;
-	Fri,  5 Jan 2024 09:54:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E7A8DC433C8;
-	Fri,  5 Jan 2024 09:54:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1704448449;
-	bh=Q3++BYkXZTDLMuoxfoR51GqwhiF3CPpgmZlQRvO2s3k=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=jhxIVMs4sbwEQmRjPAggVHXlGggOwyozFmukxqlcFA7UP6BCcJKevnKQMUQGh8ba7
-	 u3jfC63/75dQadsEZ3MPTJcmCP9Y8yg8CqkLMsviRCEQ7TWFtV4K0+L/1arNpPNtCi
-	 vetodr7e5SjmL+gCUYF8hJ1jOh75q22xDEuegv/GqemAWnjupVYzLBfTlMkeVa0AnN
-	 q0KAG74QOUOOc5ftl4Y1lpxceorZ1prCgvTRCWCuOCSF8f7oF31BEHhE9queVxCUjB
-	 5l3k7yF6Ctm2Qrgnaq29rPTC5Qk5DhxhMIG+9FFaKuriQmUddM8bhhK2L7Mft5eWHG
-	 6la1nqbf6av5w==
-Date: Fri, 5 Jan 2024 09:54:06 +0000
-From: Simon Horman <horms@kernel.org>
-To: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Cc: Sergey Shtylyov <s.shtylyov@omp.ru>,
-	"netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>
-Subject: Re: [PATCH net] MAINTAINERS: I don't want to review Renesas Ethernet
- Switch driver
-Message-ID: <20240105095406.GQ31813@kernel.org>
-References: <6498e2dd-7960-daeb-acce-a8d2207f3404@omp.ru>
- <20240103212822.GA48301@kernel.org>
- <8f9b5376-647a-7b59-886c-142990b8c9e4@omp.ru>
- <TYBPR01MB5341F4C4340200CABBFF5C05D8662@TYBPR01MB5341.jpnprd01.prod.outlook.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3514C24A16
+	for <linux-renesas-soc@vger.kernel.org>; Fri,  5 Jan 2024 09:58:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=resnulli.us
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-3374c693f92so1005167f8f.1
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 05 Jan 2024 01:58:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=resnulli-us.20230601.gappssmtp.com; s=20230601; t=1704448710; x=1705053510; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=OiN3TPuhyBrv7j37UKptDKPBW0Pi8aCzPO8pse8xtfU=;
+        b=aeBX0fml4PCa5E/uM9gNE4hZYElG6dWhfwWCxCn4tT721qot01lX04YHnYXfzOzXwi
+         2TUCyx1gHw8rwgtT26XtggV+620RTpAe+J+HfqfloUEPUJWTjwrwpDOrYCUgc+LiEx+Y
+         OAVWleqVLPp+7SRjFwKAgv6nWb8PYjLpBNUDKff8iBUl+F4KaPtFySVDxK/eyMtGr77M
+         gS8yyaAXdgMaWYMgUbk9cpnR/fF0XSS/UKmT04wl5N7wgEwa4FL3XSEA2NbsC1EAvA/0
+         a6PDEkPNwvR0Sjfbho+7JAcanUxIYxIB3s2yvjz3zQxIBRy89epwKPXvLb9gUkdEifIC
+         Jefg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1704448710; x=1705053510;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=OiN3TPuhyBrv7j37UKptDKPBW0Pi8aCzPO8pse8xtfU=;
+        b=TfGzK6sHBA7M7bDpdqIIEhJ5rBJY0s7oYjHuGJTqurmmKUt6AoiwuY1DG++rwZVJWi
+         X5kEGRAZTG93gGLQ3M4tLlAHpb8Yu0sq/WfpWSL1sgEG0tw5/dER0bNbA7uTfuZUutNa
+         v/SQCQYEox/7gGqyiYUMaxAnKXDlKRESg+7Apq4WYMTHPFsgBBF9ZpOHE324Cs9QQWu2
+         yzojwdb6eciWJmZo7hZl2focuBMGhA/pFQsRXpJ7E3/OqaRR9wUuKTG3aKgJ3hoa8xSd
+         Neonmm0UHrTpHDJdy8vNwE4+ldAvujj/vkCLwJlhSvQWZi5F1zzoVtVyPfhdBCkqI1Hu
+         uQYQ==
+X-Gm-Message-State: AOJu0YzeKd1M5IH/c6bMO1+5h5p1L7ZboF3spLaGvrbzpdEHEK1C5Tpp
+	Z6slBv8YqJ/3I7PsjpF7oV5OX7heXlWgdw==
+X-Google-Smtp-Source: AGHT+IHCKz0QgH4x9ErxisQfTQBTzESEcMiWbolukF4NZfuxPNfjgTiMcpHPek4LQdms67Qpjzv34Q==
+X-Received: by 2002:a5d:65c7:0:b0:336:7449:2da4 with SMTP id e7-20020a5d65c7000000b0033674492da4mr1016729wrw.95.1704448710436;
+        Fri, 05 Jan 2024 01:58:30 -0800 (PST)
+Received: from localhost (host-213-179-129-39.customer.m-online.net. [213.179.129.39])
+        by smtp.gmail.com with ESMTPSA id w1-20020a5d5441000000b0033674734a58sm1077540wrv.79.2024.01.05.01.58.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 05 Jan 2024 01:58:29 -0800 (PST)
+Date: Fri, 5 Jan 2024 10:58:28 +0100
+From: Jiri Pirko <jiri@resnulli.us>
+To: Claudiu <claudiu.beznea@tuxon.dev>
+Cc: s.shtylyov@omp.ru, davem@davemloft.net, edumazet@google.com,
+	kuba@kernel.org, pabeni@redhat.com, richardcochran@gmail.com,
+	p.zabel@pengutronix.de, yoshihiro.shimoda.uh@renesas.com,
+	wsa+renesas@sang-engineering.com, netdev@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	geert+renesas@glider.be,
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+Subject: Re: [PATCH net-next v3 00/19] net: ravb: Add suspend to RAM and
+ runtime PM support for RZ/G3S
+Message-ID: <ZZfSxLblUpW2jCyu@nanopsycho>
+References: <20240105082339.1468817-1-claudiu.beznea.uj@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -53,97 +78,11 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <TYBPR01MB5341F4C4340200CABBFF5C05D8662@TYBPR01MB5341.jpnprd01.prod.outlook.com>
+In-Reply-To: <20240105082339.1468817-1-claudiu.beznea.uj@bp.renesas.com>
 
-On Fri, Jan 05, 2024 at 02:42:54AM +0000, Yoshihiro Shimoda wrote:
-> Hello,
-> 
-> Thank you for adding CC to me.
+Fri, Jan 05, 2024 at 09:23:20AM CET, claudiu.beznea@tuxon.dev wrote:
+>From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 
-Likewise, thanks for your response.
-
-> > From: Sergey Shtylyov, Sent: Friday, January 5, 2024 5:47 AM
-> > 
-> > On 1/4/24 12:28 AM, Simon Horman wrote:
-> > [...]
-> > >> I don't know this hardware, I don't have the manuals for it, so I can't
-> > >> provide a good review.  Let's exclude the Ethernet Switch related files.
-> > >>
-> > >> Signed-off-by: Sergey Shtylyov <s.shtylyov@omp.ru>
-> > >
-> > > Hi Sergey,
-> > 
-> >   Hi Simon, long time, no see... :-)
-> > 
-> > > I don't know the back story to this, if there is one.
-> > 
-> >    Not much of a history: I got a lot of the rswitch patches in my
-> > inbox and I mostly ignored them... but kept deferring this patch due
-> > to a high load with fixing Svace's reports at work...
-> > 
-> > > But could I suggest that:
-> > >
-> > > 1. The patch also updates the title MAINTAINERS section to cover the
-> > >    remaining two drivers.
-> > >
-> > >    e.g.: RENESAS ETHERNET DRIVERS ->
-> > >          RENESAS ETHERNET AVB AND SUPERH ETHERNET DRIVERS
-> > >
-> > >    Or alternatively, create separate sections for each driver.
-> > 
-> >    Yeah, this 2nd option seems cleaner. Still not sure about Kconfig/
-> > Makefile though...
-> 
-> How about adding "COMMON PARTS" section?
-
-I think that would be fine.
-
-> - RENESAS ETHERNET AVB AND SUPERH ETHERNET DRIVERS : For ravb and sh_eth
-
-I think Sergey prefers two sections for the above.
-Perhaps:
-
-  - RENESAS ETHERNET AVB DRIVER
-  - RENESAS SUPERH ETHERNET DRIVER
-
-Whoever drafts the patch, please be sure to maintain
-alphabetical order by section title.
-
-> - RENESAS ETHERNET DRIVERS (COMMON PARTS) : For Kconfig/Makefile in drivers/net/ethernet/renesas
-> - RENESAS ETHERNET SWITCH DRIVER : For rswitch
-> 
-> > >    n.b.: This may involve moving sections to maintain alphabetical order
-> > >          by section title
-> > >
-> > > 2. Reaching out to Shimoda-san (CCed) or other relevant parties
-> > >    to see if an appropriate maintainer or maintainers for the
-> > >    Renesas Ethernet Switch driver can be found.
-> 
-> I'm happy if I'm a maintainer for Renesas Ethernet Switch driver.
-> So, if my idea above is acceptable, perhaps the maintainers can be:
-> 
-> - RENESAS ETHERNET AVB AND SUPERH ETHERNET DRIVERS : Sergey
-> - RENESAS ETHERNET DRIVERS (COMMON PARTS) : Sergey and Shimoda
-> - RENESAS ETHERNET SWITCH DRIVER : Shimoda
-
-Modulo my comments above, this sounds reasonable to me.
-
-> > >    n.b.: It may still be a holiday period in Japan for the rest of the week.
-> > 
-> >    It's a holiday period here in Russia as well, till the 8th of Jaunary. :-)
-> 
-> I'm back from today, but next Monday (8th) is a holiday in Japan :)
-
-Enjoy.
-
-> 
-> Best regards,
-> Yoshihiro Shimoda
-> 
-> > > 3. Rephrase the subject and patch description as splitting out maintenance of
-> > >    the Renesas Ethernet Switch driver .
-> > 
-> > [...]
-> > 
-> > MBR, Sergey
+https://www.kernel.org/doc/html/v6.6/process/maintainer-netdev.html#netdev
+"don't post large series (> 15 patches), break them up"
 
