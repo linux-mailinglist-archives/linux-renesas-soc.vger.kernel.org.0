@@ -1,119 +1,121 @@
-Return-Path: <linux-renesas-soc+bounces-1342-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-1343-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2446D825EF0
-	for <lists+linux-renesas-soc@lfdr.de>; Sat,  6 Jan 2024 09:43:03 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id A3FDC82615D
+	for <lists+linux-renesas-soc@lfdr.de>; Sat,  6 Jan 2024 20:58:57 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 59597282F4A
-	for <lists+linux-renesas-soc@lfdr.de>; Sat,  6 Jan 2024 08:43:01 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id AE4A81C20EFE
+	for <lists+linux-renesas-soc@lfdr.de>; Sat,  6 Jan 2024 19:58:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E96BA3FDD;
-	Sat,  6 Jan 2024 08:42:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 31479EAF2;
+	Sat,  6 Jan 2024 19:58:53 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx01.omp.ru (mx01.omp.ru [90.154.21.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 809225233;
-	Sat,  6 Jan 2024 08:42:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=linux.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-1d3ed1ca402so2541745ad.2;
-        Sat, 06 Jan 2024 00:42:57 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704530577; x=1705135377;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=hzSpcIavoyReTEOiYnKgTmz4B3FykorYQgoSNgSH6UA=;
-        b=BreqQe8kNQ6SQBzeYIA4ad0SwVSXOAhtAh6+jC/drGzSJx04lTw6XhWSxbrP2vAoQn
-         14TA2H5YxhjBoquu1yTuNr+oi1dRJWJ7gmmXZbBz++wn3HYdR6+oDe/By2+nftYKLmhS
-         6xh9aQ1Jld5oIH2/3+pjoipVsEMFMlCZWH/2AVBXnZBdUxQbdlbnGOIWySFsPsud9/sN
-         A8zJebKVUuUODgdFvmMlIKeWWLOHrnCPptnCWcujluiVuts5dJ92vT4DjDUy6sRF7EWH
-         qKm+ml1Bz8KNoeiF9ceXfIFdRKuiWz7C6EOnTxUf9ZeHsaaTtN9sH7O+917dPNXsWDaJ
-         N2Tw==
-X-Gm-Message-State: AOJu0YwBTgswHtRXp4cYlXUxLJIXa6c3DpMDJCGEM0qIv3tpX3UfPdSf
-	WFViNMvW0rgbdVXWic0G/gVSYS9IGX9BfQ==
-X-Google-Smtp-Source: AGHT+IHzyCA6YhDhaj0FSeozHPpYI1Em6n+NGIGifHHAldeTpzU/LLimNtK9cabCu1Qa3doOkarELQ==
-X-Received: by 2002:a17:902:d4c2:b0:1d5:307:7b74 with SMTP id o2-20020a170902d4c200b001d503077b74mr914039plg.43.1704530576795;
-        Sat, 06 Jan 2024 00:42:56 -0800 (PST)
-Received: from localhost (fpd11144dd.ap.nuro.jp. [209.17.68.221])
-        by smtp.gmail.com with ESMTPSA id m2-20020a170902db0200b001cca8a01e68sm2578078plx.278.2024.01.06.00.42.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 06 Jan 2024 00:42:56 -0800 (PST)
-Date: Sat, 6 Jan 2024 17:42:54 +0900
-From: Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>
-To: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Cc: lpieralisi@kernel.org, robh@kernel.org, bhelgaas@google.com,
-	jingoohan1@gmail.com, gustavo.pimentel@synopsys.com,
-	mani@kernel.org, linux-pci@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v4 0/6] PCI: controllers: tidy code up
-Message-ID: <20240106084254.GE1227754@rocinante>
-References: <20231220053829.1921187-1-yoshihiro.shimoda.uh@renesas.com>
- <20240106083340.GD1227754@rocinante>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C31A0F4E3;
+	Sat,  6 Jan 2024 19:58:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=omp.ru
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=omp.ru
+Received: from [192.168.1.104] (31.173.84.255) by msexch01.omp.ru
+ (10.188.4.12) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.1258.12; Sat, 6 Jan
+ 2024 22:58:34 +0300
+Subject: Re: [PATCH net-next v3 09/19] net: ravb: Split GTI computation and
+ set operations
+To: Claudiu <claudiu.beznea@tuxon.dev>, <davem@davemloft.net>,
+	<edumazet@google.com>, <kuba@kernel.org>, <pabeni@redhat.com>,
+	<richardcochran@gmail.com>, <p.zabel@pengutronix.de>,
+	<yoshihiro.shimoda.uh@renesas.com>, <wsa+renesas@sang-engineering.com>
+CC: <netdev@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <geert+renesas@glider.be>, Claudiu Beznea
+	<claudiu.beznea.uj@bp.renesas.com>
+References: <20240105082339.1468817-1-claudiu.beznea.uj@bp.renesas.com>
+ <20240105082339.1468817-10-claudiu.beznea.uj@bp.renesas.com>
+From: Sergey Shtylyov <s.shtylyov@omp.ru>
+Organization: Open Mobile Platform
+Message-ID: <bdb6fbea-6445-e63f-c0c5-8688037b628a@omp.ru>
+Date: Sat, 6 Jan 2024 22:58:34 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240106083340.GD1227754@rocinante>
+In-Reply-To: <20240105082339.1468817-10-claudiu.beznea.uj@bp.renesas.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: msexch01.omp.ru (10.188.4.12) To msexch01.omp.ru
+ (10.188.4.12)
+X-KSE-ServerInfo: msexch01.omp.ru, 9
+X-KSE-AntiSpam-Interceptor-Info: scan successful
+X-KSE-AntiSpam-Version: 6.1.0, Database issued on: 01/06/2024 19:41:27
+X-KSE-AntiSpam-Status: KAS_STATUS_NOT_DETECTED
+X-KSE-AntiSpam-Method: none
+X-KSE-AntiSpam-Rate: 59
+X-KSE-AntiSpam-Info: Lua profiles 182473 [Jan 06 2024]
+X-KSE-AntiSpam-Info: Version: 6.1.0.3
+X-KSE-AntiSpam-Info: Envelope from: s.shtylyov@omp.ru
+X-KSE-AntiSpam-Info: LuaCore: 7 0.3.7 6d6bf5bd8eea7373134f756a2fd73e9456bb7d1a
+X-KSE-AntiSpam-Info: {rep_avail}
+X-KSE-AntiSpam-Info: {Tracking_from_domain_doesnt_match_to}
+X-KSE-AntiSpam-Info: {relay has no DNS name}
+X-KSE-AntiSpam-Info: {SMTP from is not routable}
+X-KSE-AntiSpam-Info: {Found in DNSBL: 31.173.84.255 in (user)
+ b.barracudacentral.org}
+X-KSE-AntiSpam-Info:
+	omp.ru:7.1.1;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;127.0.0.199:7.1.2
+X-KSE-AntiSpam-Info: ApMailHostAddress: 31.173.84.255
+X-KSE-AntiSpam-Info: {DNS response errors}
+X-KSE-AntiSpam-Info: Rate: 59
+X-KSE-AntiSpam-Info: Status: not_detected
+X-KSE-AntiSpam-Info: Method: none
+X-KSE-AntiSpam-Info: Auth:dmarc=temperror header.from=omp.ru;spf=temperror
+ smtp.mailfrom=omp.ru;dkim=none
+X-KSE-Antiphishing-Info: Clean
+X-KSE-Antiphishing-ScanningType: Heuristic
+X-KSE-Antiphishing-Method: None
+X-KSE-Antiphishing-Bases: 01/06/2024 19:45:00
+X-KSE-Antivirus-Interceptor-Info: scan successful
+X-KSE-Antivirus-Info: Clean, bases: 1/6/2024 5:22:00 PM
+X-KSE-Attachment-Filter-Triggered-Rules: Clean
+X-KSE-Attachment-Filter-Triggered-Filters: Clean
+X-KSE-BulkMessagesFiltering-Scan-Result: InTheLimit
 
-Hello,
+On 1/5/24 11:23 AM, Claudiu wrote:
 
-> > This patch series tidies the code of PCIe dwc controllers and some
-> > controllers up.
+> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 > 
-> Applied to controller/dwc, thank you!
+> ravb_set_gti() was computing the value of GTI based on the reference clock
+> rate and then applied it to register. This was done on the driver's probe
+> function. In order to implement runtime PM for all IP variants (as some IP
+> variants switches to reset mode (and thus the registers content is lost)
+> when module standby is configured through clock APIs) the GTI setup was
+> split in 2 parts: one computing the value of the GTI register (done in the
+> driver's probe function) and one applying the computed value to register
+> (done in the driver's ndo_open API).
 > 
-> [01/06] PCI: dwc: Drop host prefix from struct dw_pcie_host_ops members
->         https://git.kernel.org/pci/pci/c/aea370b2aec9
-> [02/06] PCI: dwc: Rename .ep_init to .init in struct dw_pcie_ep_ops
->         https://git.kernel.org/pci/pci/c/756dcb5a820a
-> [03/06] PCI: dwc: Rename .func_conf_select to .get_dbi_offset in struct dw_pcie_ep_ops
->         https://git.kernel.org/pci/pci/c/641f79beeebc
-> [04/06] PCI: dwc: Add dw_pcie_ep_{read,write}_dbi[2] helpers
->         https://git.kernel.org/pci/pci/c/70fa02ca1446
-> [05/06] PCI: iproc: Fix -Wvoid-pointer-to-enum-cast warning
->         https://git.kernel.org/pci/pci/c/f72896721621
-> [06/06] PCI: rcar-gen4: Fix -Wvoid-pointer-to-enum-cast error
->         https://git.kernel.org/pci/pci/c/7682f19c3c8c
+> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 
-Bjorn, there will be a minor conflict with the controller/layerscape branch
-when you pull these changes to apply against our "next"—a side effect of
-this particular series, which was rebased against our "next" rather than
-being kept aligned with our HEAD branch, no longer including changes
-against Frank Li's updates to the driver.
+Reviewed-by: Sergey Shtylyov <s.shtylyov@omp.ru>
 
-The following simple patch would be needed:
+> ---
+> 
+> Changes in v3:
+> - fixed typos in patch description
+> - use u64 instead of uint64_t
 
-diff --git i/drivers/pci/controller/dwc/pci-layerscape.c w/drivers/pci/controller/dwc/pci-layerscape.c
-index 7cdada200de7..9db079bbd947 100644
---- i/drivers/pci/controller/dwc/pci-layerscape.c
-+++ w/drivers/pci/controller/dwc/pci-layerscape.c
-@@ -278,7 +278,7 @@ static const struct dw_pcie_host_ops ls_pcie_host_ops = {
- };
- 
- static const struct dw_pcie_host_ops ls1021a_pcie_host_ops = {
--	.host_init = ls_pcie_host_init,
-+	.init = ls_pcie_host_init,
- 	.pme_turn_off = ls1021a_pcie_send_turnoff_msg,
- };
- 
-@@ -290,7 +290,7 @@ static const struct ls_pcie_drvdata ls1021a_drvdata = {
- };
- 
- static const struct dw_pcie_host_ops ls1043a_pcie_host_ops = {
--	.host_init = ls_pcie_host_init,
-+	.init = ls_pcie_host_init,
- 	.pme_turn_off = ls1043a_pcie_send_turnoff_msg,
- };
- 
-	Krzysztof
+   Well, u64 in one place, u32 in another...
+
+> - remove ravb_wait() for setting GCCR.LTI
+
+[...]
+
+MBR, Sergey
 
