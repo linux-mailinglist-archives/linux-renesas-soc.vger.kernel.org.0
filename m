@@ -1,46 +1,64 @@
-Return-Path: <linux-renesas-soc+bounces-1352-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-1361-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D57482712E
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  8 Jan 2024 15:24:34 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id BCCDB82736E
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  8 Jan 2024 16:35:03 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id AF02C1F23406
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  8 Jan 2024 14:24:33 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 4EABAB22BAC
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  8 Jan 2024 15:34:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 23C3546556;
-	Mon,  8 Jan 2024 14:24:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 09F3A52F97;
+	Mon,  8 Jan 2024 15:34:18 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from baptiste.telenet-ops.be (baptiste.telenet-ops.be [195.130.132.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from weierstrass.telenet-ops.be (weierstrass.telenet-ops.be [195.130.137.81])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1D8544C81
-	for <linux-renesas-soc@vger.kernel.org>; Mon,  8 Jan 2024 14:24:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D45F852F94
+	for <linux-renesas-soc@vger.kernel.org>; Mon,  8 Jan 2024 15:34:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
+Received: from laurent.telenet-ops.be (laurent.telenet-ops.be [IPv6:2a02:1800:110:4::f00:19])
+	by weierstrass.telenet-ops.be (Postfix) with ESMTPS id 4T7ylp2dJnz4x2f3
+	for <linux-renesas-soc@vger.kernel.org>; Mon,  8 Jan 2024 16:34:14 +0100 (CET)
 Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed40:d323:2fd4:4f64:e281])
-	by baptiste.telenet-ops.be with bizsmtp
-	id YEQN2B00A0Qz0eJ01EQNLQ; Mon, 08 Jan 2024 15:24:22 +0100
+	by laurent.telenet-ops.be with bizsmtp
+	id YFZw2B00A0Qz0eJ01FZw4R; Mon, 08 Jan 2024 16:34:07 +0100
 Received: from rox.of.borg ([192.168.97.57])
 	by ramsan.of.borg with esmtp (Exim 4.95)
 	(envelope-from <geert@linux-m68k.org>)
-	id 1rMqXV-00EtGp-5h;
-	Mon, 08 Jan 2024 15:24:22 +0100
+	id 1rMrco-00EtLl-Vn;
+	Mon, 08 Jan 2024 16:33:56 +0100
 Received: from geert by rox.of.borg with local (Exim 4.95)
 	(envelope-from <geert@linux-m68k.org>)
-	id 1rMqYA-00D2AC-Ad;
-	Mon, 08 Jan 2024 15:24:22 +0100
+	id 1rMrdU-00D7nm-4O;
+	Mon, 08 Jan 2024 16:33:56 +0100
 From: Geert Uytterhoeven <geert+renesas@glider.be>
-To: Andi Shyti <andi.shyti@kernel.org>,
-	Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc: linux-i2c@vger.kernel.org,
+To: Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>,
+	Ulf Hansson <ulf.hansson@linaro.org>
+Cc: Cong Dang <cong.dang.xn@renesas.com>,
+	Duy Nguyen <duy.nguyen.rh@renesas.com>,
+	Hai Pham <hai.pham.ud@renesas.com>,
+	Linh Phung <linh.phung.jy@renesas.com>,
 	linux-renesas-soc@vger.kernel.org,
+	linux-clk@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-pm@vger.kernel.org,
 	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH] i2c: rcar: Prepare for the advent of ARCH_RCAR_GEN4
-Date: Mon,  8 Jan 2024 15:24:20 +0100
-Message-Id: <bf7b105f7d9728ae5cd9fa99d1cdd278d71e7df2.1704723713.git.geert+renesas@glider.be>
+Subject: [PATCH 00/15] arm64: renesas: Add R-Car V4M and Gray Hawk Single support
+Date: Mon,  8 Jan 2024 16:33:39 +0100
+Message-Id: <cover.1704726960.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
@@ -50,30 +68,94 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Currently, all Kconfig symbols for R-Car Gen4 SoCs select
-ARCH_RCAR_GEN3, which might confuse the casual reader.  Prepare for the
-advent of ARCH_RCAR_GEN4 by extending the dependency for auto-selecting
-reset controller support.
+	Hi all,
 
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
- drivers/i2c/busses/Kconfig | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+This patch series adds initial support for the Renesas R-Car V4M
+(R8A779G0) SoC and the Renesas Gray Hawk Single development board.
 
-diff --git a/drivers/i2c/busses/Kconfig b/drivers/i2c/busses/Kconfig
-index 819fd76545d99d1f..71ff107e82a009fc 100644
---- a/drivers/i2c/busses/Kconfig
-+++ b/drivers/i2c/busses/Kconfig
-@@ -1242,7 +1242,7 @@ config I2C_RCAR
- 	depends on ARCH_RENESAS || COMPILE_TEST
- 	select I2C_SLAVE
- 	select I2C_SMBUS
--	select RESET_CONTROLLER if ARCH_RCAR_GEN3
-+	select RESET_CONTROLLER if ARCH_RCAR_GEN3 || ARCH_RCAR_GEN4
- 	help
- 	  If you say yes to this option, support will be included for the
- 	  R-Car I2C controller.
+As both driver code and DTS have hard dependencies on DT binding
+definitions, all patches in this series are supposed to go in through
+the renesas-devel, renesas-clk, and/or renesas-pmdomain trees, using a
+shared branch for DT binding definitions, as usual.
+
+Note that this series does not include the DT binding update for the
+HSCIF serial ports, as Greg does not like receiving new patches during
+the merge window.
+
+For testing, this series can be found at
+https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git/log/?h=topic/v4m-gray-hawk-single-v1
+
+Thanks for your comments (especially about the naming of the compatible
+value and DTB for Gray Hawk Single :-)!
+
+Cong Dang (1):
+  clk: renesas: cpg-mssr: Add support for R-Car V4M
+
+Duy Nguyen (6):
+  dt-bindings: clock: Add R8A779H0 V4M CPG Core Clock Definitions
+  dt-bindings: power: renesas,rcar-sysc: Document R-Car V4M support
+  dt-bindings: power: Add r8a779h0 SYSC power domain definitions
+  pmdomain: renesas: r8a779h0-sysc: Add r8a779h0 support
+  soc: renesas: Identify R-Car V4M
+  soc: renesas: rcar-rst: Add support for R-Car V4M
+
+Geert Uytterhoeven (6):
+  dt-bindings: clock: renesas,cpg-mssr: Document R-Car V4M support
+  dt-bindings: reset: renesas,rst: Document R-Car V4M support
+  dt-bindings: soc: renesas: Document R-Car V4M Gray Hawk Single
+  clk: renesas: rcar-gen4: Add support for FRQCRC1
+  soc: renesas: Introduce ARCH_RCAR_GEN4
+  arm64: dts: renesas: Add Gray Hawk Single board support
+
+Hai Pham (1):
+  arm64: dts: renesas: Add Renesas R8A779H0 SoC support
+
+Linh Phung (1):
+  arm64: defconfig: Enable R8A779H0 SoC
+
+ .../bindings/clock/renesas,cpg-mssr.yaml      |   1 +
+ .../bindings/power/renesas,rcar-sysc.yaml     |   1 +
+ .../bindings/reset/renesas,rst.yaml           |   1 +
+ .../bindings/soc/renesas/renesas.yaml         |   6 +
+ arch/arm64/boot/dts/renesas/Makefile          |   2 +
+ .../dts/renesas/r8a779h0-gray-hawk-single.dts |  52 ++++
+ arch/arm64/boot/dts/renesas/r8a779h0.dtsi     | 121 +++++++++
+ arch/arm64/configs/defconfig                  |   1 +
+ drivers/clk/renesas/Kconfig                   |   5 +
+ drivers/clk/renesas/Makefile                  |   1 +
+ drivers/clk/renesas/r8a779h0-cpg-mssr.c       | 240 ++++++++++++++++++
+ drivers/clk/renesas/rcar-gen4-cpg.c           |  10 +-
+ drivers/clk/renesas/renesas-cpg-mssr.c        |   6 +
+ drivers/clk/renesas/renesas-cpg-mssr.h        |   1 +
+ drivers/pmdomain/renesas/Kconfig              |   4 +
+ drivers/pmdomain/renesas/Makefile             |   1 +
+ drivers/pmdomain/renesas/r8a779h0-sysc.c      |  55 ++++
+ drivers/pmdomain/renesas/rcar-gen4-sysc.c     |   3 +
+ drivers/pmdomain/renesas/rcar-gen4-sysc.h     |   1 +
+ drivers/soc/renesas/Kconfig                   |  17 +-
+ drivers/soc/renesas/rcar-rst.c                |   1 +
+ drivers/soc/renesas/renesas-soc.c             |   8 +
+ include/dt-bindings/clock/r8a779h0-cpg-mssr.h |  96 +++++++
+ include/dt-bindings/power/r8a779h0-sysc.h     |  49 ++++
+ 24 files changed, 678 insertions(+), 5 deletions(-)
+ create mode 100644 arch/arm64/boot/dts/renesas/r8a779h0-gray-hawk-single.dts
+ create mode 100644 arch/arm64/boot/dts/renesas/r8a779h0.dtsi
+ create mode 100644 drivers/clk/renesas/r8a779h0-cpg-mssr.c
+ create mode 100644 drivers/pmdomain/renesas/r8a779h0-sysc.c
+ create mode 100644 include/dt-bindings/clock/r8a779h0-cpg-mssr.h
+ create mode 100644 include/dt-bindings/power/r8a779h0-sysc.h
+
 -- 
 2.34.1
 
+Gr{oetje,eeting}s,
+
+						Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+							    -- Linus Torvalds
 
