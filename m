@@ -1,64 +1,64 @@
-Return-Path: <linux-renesas-soc+bounces-1348-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-1349-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A44F82690F
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  8 Jan 2024 09:03:47 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E27C82695F
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  8 Jan 2024 09:23:54 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 892AF1F21D01
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  8 Jan 2024 08:03:46 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 366671C21BCA
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  8 Jan 2024 08:23:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A08AC8F77;
-	Mon,  8 Jan 2024 08:03:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B820A9474;
+	Mon,  8 Jan 2024 08:23:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="c9B40Qea"
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="qhu/VzqD"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 103C48F47
-	for <linux-renesas-soc@vger.kernel.org>; Mon,  8 Jan 2024 08:03:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB465D29B
+	for <linux-renesas-soc@vger.kernel.org>; Mon,  8 Jan 2024 08:23:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
-Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-557a3ce9942so803001a12.1
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 08 Jan 2024 00:03:36 -0800 (PST)
+Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-50e8ca6c76dso1486252e87.3
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 08 Jan 2024 00:23:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1704701015; x=1705305815; darn=vger.kernel.org;
+        d=tuxon.dev; s=google; t=1704702224; x=1705307024; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=ts+NmJfy37G+YbrxOx7UXF/c1gu0BAsdKnFg/SdX5UE=;
-        b=c9B40Qea9NnejROvXugg8Fbj2n2sLR+6KbJWXOBtfe3op3lD6TDhMl5t/auabIsv06
-         oWdPB6cJAi/GPE5nSikWqVJ+7REQxPN+tweZN2KfkX1KrOIY/9m2CSWqj35ur5xn8eXL
-         4ozKrpuWvClHihErxC/hBjUOo3saf/OJLNm0IJ7q7Q023U0u8GfuhF5SI0XkKf2jL6i4
-         wA7egRtnU1K8PQfVjCBeiXWPsGk0rUQxQplPaGpjS4ujGfntaiBvGtv2+EUA+qnpTfk1
-         pdKbSAovSVs3S13co78AEJgvzX6vx5G4/KZsIJwoUYv1HGn25jq/A9pa/7vjsHrYWOTr
-         wQKw==
+        bh=cM0TFj8jxeSZZv1W4sPXCNVKXy97CkTU2U3yhoJbBY8=;
+        b=qhu/VzqDtfFgnUz0+l0D5zdaJ7KBPvbNyYpOC02G6uB+3dVjNXv2VsCCLtUuiAwSjL
+         z4VnFv/HZJWxeXD7A6GtCOZjfJnNeOBF+kW3b20yOE7rX767cBhrtuMae+N/SvtFjtWp
+         3PG7vHTBIVjH0pBoeeMikoJmIe6Ts8ksS32IfUdpmc1iqW+3Tl6uknzQYk7E0DM+WKVo
+         CZO41wJCTxJw/imtMLuBMzhtcLMipbZlzJp8Be6XCb7lki5JM/kP0kojPzIQZi1XD2i3
+         RE5zGHR3/+5dtdRsWEfzNPLdyVmCoqNLqdKsteHY0HLD/PHJvUeccstq/tzaZrqbqTJZ
+         E5EA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704701015; x=1705305815;
+        d=1e100.net; s=20230601; t=1704702224; x=1705307024;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ts+NmJfy37G+YbrxOx7UXF/c1gu0BAsdKnFg/SdX5UE=;
-        b=GbUiXs5OpRCIkU9tKYQHZYE4/IrIwe+c6sHxlW+t5Ur5q/mXAME442LFC3zykhfQsG
-         t+0n3ZOvKtJYaZDVsKSNZkkEDj2ohaUACEEzCe3bpm+PCC4XM0IcAe2WneuUqou3Bujg
-         L5gwwfcD1LAPrNsYbVr34+qktBM7KkX3DcCUcfJCjr+8P/PnxvAOYYDApn2n2kbapGTf
-         7Bducs6Ldi4klJwzsgS5V60bgDvg7MhLhAZBoxuCsl+hYj3aNV/FREVVyS/ao8nLz5o4
-         atT4az0nGa4RyLKcG78uIp850LibFXj5oJtqfzY4aGpnuLvdI/F8IHrUz4Nc/IeLfdWw
-         zhYg==
-X-Gm-Message-State: AOJu0YxddROOmtQgpxjKk0P79YzomA/tx8uJ5gYvwjyFMlEvXM0hRvkS
-	lrJzkqd2HhzIkHAZwxYqFKizzqrDj3bZog==
-X-Google-Smtp-Source: AGHT+IFuSsF8lEpiUlBdXk+1cqyfmVZrb2tAeSNo8oho+yu0mHNvEoU4h68vusuwcy+RL5qnUTnvVQ==
-X-Received: by 2002:a17:907:2ccc:b0:a2a:3d65:e871 with SMTP id hg12-20020a1709072ccc00b00a2a3d65e871mr483232ejc.175.1704701015177;
-        Mon, 08 Jan 2024 00:03:35 -0800 (PST)
+        bh=cM0TFj8jxeSZZv1W4sPXCNVKXy97CkTU2U3yhoJbBY8=;
+        b=Z3IKDMwQTSiw/XNV1ydQP38j9Jepxcx63+oY+KyrUJYAD2Nx6jfyqO/t/A2WP9VCwo
+         H28DHVomzPPmmH3kqUvqhTA5RG5YXPGglNKJhTRJQQNtUAZokUjOBrrOA43QsbC07cb2
+         tFxnQmrMYzuA+OhIomGFe+Lb7K+wKufrbQOjqegtvSJl19jl/4TI2bJ4ccnVoCKamJgw
+         g/p/OpdJCTy/3CQKPYAXjuPRxN4na2PpAS6d5dhhsU2wtaMf7BYuodKH3Ij4ysw2exlt
+         Q0h3vYliT7YckZlrfFfCHZLQbgAaePVoB2+sspiETFC7ToligmaVzFhoSF6eUjP6dsxD
+         S7rw==
+X-Gm-Message-State: AOJu0YyiY+4vgXF/Klm4tpxrPLCEBnzNlWNoXJQLb8W8vWmw2NFjtkNR
+	lYYPWBtNFqWLlyxS13Sbc3pFkNJ6eQtPFw==
+X-Google-Smtp-Source: AGHT+IGSracrlfmURsxZblED6Vb2WigU+HoU7WFjcf863XobKF4zuEjubz30uiCqu5wKqalXN+SvbA==
+X-Received: by 2002:a05:6512:3d94:b0:50e:6d96:4b3c with SMTP id k20-20020a0565123d9400b0050e6d964b3cmr1378695lfv.81.1704702223603;
+        Mon, 08 Jan 2024 00:23:43 -0800 (PST)
 Received: from [192.168.50.4] ([82.78.167.5])
-        by smtp.gmail.com with ESMTPSA id lk16-20020a170906cb1000b00a26afb7fd54sm3740326ejb.15.2024.01.08.00.03.33
+        by smtp.gmail.com with ESMTPSA id m14-20020a50ef0e000000b00554930be765sm4019766eds.97.2024.01.08.00.23.42
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 08 Jan 2024 00:03:34 -0800 (PST)
-Message-ID: <488abcaa-6f1c-4524-8cd4-375caa5bdf42@tuxon.dev>
-Date: Mon, 8 Jan 2024 10:03:33 +0200
+        Mon, 08 Jan 2024 00:23:43 -0800 (PST)
+Message-ID: <2ba1b5d7-cf89-4942-a65e-674347389cbe@tuxon.dev>
+Date: Mon, 8 Jan 2024 10:23:41 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -66,8 +66,8 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v3 07/19] net: ravb: Move reference clock
- enable/disable on runtime PM APIs
+Subject: Re: [PATCH net-next v3 08/19] net: ravb: Move the IRQs get and
+ request in the probe function
 Content-Language: en-US
 To: Sergey Shtylyov <s.shtylyov@omp.ru>, davem@davemloft.net,
  edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
@@ -77,155 +77,203 @@ Cc: netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
  linux-kernel@vger.kernel.org, geert+renesas@glider.be,
  Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 References: <20240105082339.1468817-1-claudiu.beznea.uj@bp.renesas.com>
- <20240105082339.1468817-8-claudiu.beznea.uj@bp.renesas.com>
- <80b7337b-5fc2-07bc-a05f-b583ccaac3da@omp.ru>
+ <20240105082339.1468817-9-claudiu.beznea.uj@bp.renesas.com>
+ <fa9c8db4-ed80-f64d-aae2-8b95281f302e@omp.ru>
 From: claudiu beznea <claudiu.beznea@tuxon.dev>
-In-Reply-To: <80b7337b-5fc2-07bc-a05f-b583ccaac3da@omp.ru>
+In-Reply-To: <fa9c8db4-ed80-f64d-aae2-8b95281f302e@omp.ru>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 
 
-On 05.01.2024 21:52, Sergey Shtylyov wrote:
+On 05.01.2024 22:57, Sergey Shtylyov wrote:
 > On 1/5/24 11:23 AM, Claudiu wrote:
 > 
 >> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 >>
->> Reference clock could be or not part of the power domain. If it is part of
->> the power domain, the power domain takes care of propertly setting it. In
->> case it is not part of the power domain and full runtime PM support is
->> available in driver the clock will not be propertly disabled/enabled at
->> runtime. For this, keep the prepare/unprepare operations in the driver's
->> probe()/remove() functions and move the enable/disable in runtime PM
->> functions.
+>> The runtime PM implementation will disable clocks at the end of
+>> ravb_probe(). As some IP variants switch to reset mode as a result of
+>> setting module standby through clock disable APIs, to implement runtime PM
+>> the resource parsing and requesting are moved in the probe function and IP
+>> settings are moved in the open function. This is done because at the end of
+>> the probe some IP variants will switch anyway to reset mode and the
+>> registers content is lost. Also keeping only register specific operations
+>> in the ravb_open()/ravb_close() functions will make them faster.
 >>
->> Along with it, the other clock request operations were moved close to
->> reference clock request and prepare to have all the clock requests
->> specific code grouped together.
+>> Commit moves IRQ requests to ravb_probe() to have all the IRQs ready when
+>> the interface is open. As now IRQs gets and requests are in a single place
+>> there is no need to keep intermediary data (like ravb_rx_irqs[] and
+>> ravb_tx_irqs[] arrays or IRQs in struct ravb_private).
 >>
->> Reviewed-by: Sergey Shtylyov <s.shtylyov@omp.ru>
-> 
->    It's not that I reviewed the squashed version of this patch...
-
-I had a Rb on "net: ravb: Move reference clock enable/disable on runtime PM
-APIs" from v2 and an OK from you (no other comments) to do the squash on
-"net: ravb: Keep clock request operations grouped together" from v2 thus I
-consider keeping Rb is OK.
-
-> 
+>> This is a preparatory change to add runtime PM support for all IP variants.
+>>
 >> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
->> ---
->>
->> Changes in v3:
->> - squashed with patch 17/21 ("net: ravb: Keep clock request operations grouped
->>   together") from v2
->> - collected tags
->>
->> Changes in v2:
->> - this patch is new and follows the recommendations proposed in the
->>   discussion of patch 08/13 ("net: ravb: Rely on PM domain to enable refclk")
->>   from v2
->>
->>  drivers/net/ethernet/renesas/ravb_main.c | 110 ++++++++++++-----------
->>  1 file changed, 57 insertions(+), 53 deletions(-)
->>
+> [...]
+>> diff --git a/drivers/net/ethernet/renesas/ravb.h b/drivers/net/ethernet/renesas/ravb.h
+>> index e0f8276cffed..e3506888cca6 100644
+>> --- a/drivers/net/ethernet/renesas/ravb.h
+>> +++ b/drivers/net/ethernet/renesas/ravb.h
+>> @@ -1089,10 +1089,6 @@ struct ravb_private {
+>>  	int msg_enable;
+>>  	int speed;
+>>  	int emac_irq;
+>> -	int erra_irq;
+>> -	int mgmta_irq;
+>> -	int rx_irqs[NUM_RX_QUEUE];
+>> -	int tx_irqs[NUM_TX_QUEUE];
+> 
+>    Good! :-)
+> 
+> [...]
 >> diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
->> index 844ac3306e93..4673cc2faec0 100644
+>> index 4673cc2faec0..ac6488ffa29a 100644
 >> --- a/drivers/net/ethernet/renesas/ravb_main.c
 >> +++ b/drivers/net/ethernet/renesas/ravb_main.c
 > [...]
->> @@ -2697,10 +2692,37 @@ static int ravb_probe(struct platform_device *pdev)
->>  		priv->num_rx_ring[RAVB_NC] = NC_RX_RING_SIZE;
->>  	}
+>> @@ -1727,85 +1717,21 @@ static const struct ethtool_ops ravb_ethtool_ops = {
+>>  	.set_wol		= ravb_set_wol,
+>>  };
 >>  
->> +	priv->clk = devm_clk_get(&pdev->dev, NULL);
->> +	if (IS_ERR(priv->clk)) {
->> +		error = PTR_ERR(priv->clk);
->> +		goto out_reset_assert;
->> +	}
->> +
->> +	if (info->gptp_ref_clk) {
->> +		priv->gptp_clk = devm_clk_get(&pdev->dev, "gptp");
->> +		if (IS_ERR(priv->gptp_clk)) {
->> +			error = PTR_ERR(priv->gptp_clk);
->> +			goto out_reset_assert;
->> +		}
->> +	}
->> +
->> +	priv->refclk = devm_clk_get_optional(&pdev->dev, "refclk");
->> +	if (IS_ERR(priv->refclk)) {
->> +		error = PTR_ERR(priv->refclk);
->> +		goto out_reset_assert;
->> +	}
->> +	clk_prepare(priv->refclk);
->> +
->> +	platform_set_drvdata(pdev, ndev);
-> 
->    Why exactly you had to move this line?
-
-Calling pm_runtime_resume_and_get() above will implicitly call the
-ravb_runtime_resume() which calls dev_get_drvdata() to get proper data for
-refclk.
-
-> 
->> +	pm_runtime_enable(&pdev->dev);
->> +	error = pm_runtime_resume_and_get(&pdev->dev);
->> +	if (error < 0)
->> +		goto out_rpm_disable;
->> +
->>  	priv->addr = devm_platform_get_and_ioremap_resource(pdev, 0, &res);
->>  	if (IS_ERR(priv->addr)) {
->>  		error = PTR_ERR(priv->addr);
->> -		goto out_release;
->> +		goto out_rpm_put;
->>  	}
->>  
->>  	/* The Ether-specific entries in the device structure. */
-> [...]
->> @@ -2871,8 +2872,6 @@ static int ravb_probe(struct platform_device *pdev)
->>  	netdev_info(ndev, "Base address at %#x, %pM, IRQ %d.\n",
->>  		    (u32)ndev->base_addr, ndev->dev_addr, ndev->irq);
->>  
->> -	platform_set_drvdata(pdev, ndev);
-> 
->    Hm, wasn't calling it here racy?
-
-Haven't noticed that. Racing with who? AFAICT the only functions that uses
-this are remove, suspend, resume specific ones.
-
-> 
+>> -static inline int ravb_hook_irq(unsigned int irq, irq_handler_t handler,
+>> -				struct net_device *ndev, struct device *dev,
+>> -				const char *ch)
+>> -{
+>> -	char *name;
+>> -	int error;
 >> -
->>  	return 0;
->>  
->>  out_napi_del:
+>> -	name = devm_kasprintf(dev, GFP_KERNEL, "%s:%s", ndev->name, ch);
+> 
+>    Ugh! Should've fixed this outrage... :-/
+> 
 > [...]
->> @@ -3060,21 +3058,27 @@ static int ravb_resume(struct device *dev)
->>  	return ret;
+>> @@ -2616,6 +2509,90 @@ static void ravb_parse_delay_mode(struct device_node *np, struct net_device *nde
+>>  	}
 >>  }
 >>  
->> -static int ravb_runtime_nop(struct device *dev)
->> +static int ravb_runtime_suspend(struct device *dev)
->>  {
->> -	/* Runtime PM callback shared between ->runtime_suspend()
->> -	 * and ->runtime_resume(). Simply returns success.
->> -	 *
->> -	 * This driver re-initializes all registers after
->> -	 * pm_runtime_get_sync() anyway so there is no need
->> -	 * to save and restore registers here.
->> -	 */
+>> +static int ravb_setup_irq(struct ravb_private *priv, const char *irq_name,
+>> +			  const char *ch, int *irq, irq_handler_t handler)
+>> +{
+>> +	struct platform_device *pdev = priv->pdev;
+>> +	struct net_device *ndev = priv->ndev;
+>> +	struct device *dev = &pdev->dev;
+>> +	const char *dev_name;
+>> +	unsigned long flags;
+>> +	int error;
+>> +
+>> +	if (irq_name) {
+>> +		dev_name = devm_kasprintf(dev, GFP_KERNEL, "%s:%s", ndev->name, ch);
+>> +		if (!dev_name)
+>> +			return -ENOMEM;
+>> +
+>> +		*irq = platform_get_irq_byname(pdev, irq_name);
+>> +		flags = 0;
+>> +	} else {
+>> +		dev_name = ndev->name;
+>> +		*irq = platform_get_irq(pdev, 0);
+>> +		flags = IRQF_SHARED;
+>> +	}
+>> +	if (*irq < 0)
+>> +		return *irq;
+>> +
+>> +	error = devm_request_irq(dev, *irq, handler, flags, dev_name, ndev);
+>> +	if (error)
+>> +		netdev_err(ndev, "cannot request IRQ %s\n", irq_name);
 > 
->    Perhaps even worth a separate patch to completely remove this function
-> which doesn't seem to make sense?
+>    What will be printed when irq_name is NULL? Shouldn't this be dev_name
+> instead?
 
-Why? With that the refclk will not be properly enabled/disabled when it
-will not be part of the power domain. Take
-https://elixir.bootlin.com/linux/v6.7/source/arch/arm64/boot/dts/renesas/beacon-renesom-som.dtsi#L57
-as an example. Here refclk is from an external source (not part of power
-domain).
+Indeed, should have been dev_name.
 
-Thank you,
-Claudiu Beznea
+Maybe better would be to have irq_name and IRQ0 instead as the users of
+this don't request IRQ from buf (where buf is sprintf(buf, "%s:%s",
+ndev->name, ch)) but they request irq_name or IRQ0.
 
+> 
+>> +
+>> +	return error;
+>> +}
+>> +
+>> +static int ravb_setup_irqs(struct ravb_private *priv)
+>> +{
+>> +	const struct ravb_hw_info *info = priv->info;
+>> +	struct net_device *ndev = priv->ndev;
+>> +	const char *irq_name, *emac_irq_name;
+>> +	int error, irq;
+>> +
+>> +	if (!info->multi_irqs)
+>> +		return ravb_setup_irq(priv, NULL, NULL, &ndev->irq, ravb_interrupt);
+>> +
+>> +	if (info->err_mgmt_irqs) {
+>> +		irq_name = "dia";
+>> +		emac_irq_name = "line3";
+>> +	} else {
+>> +		irq_name = "ch22";
+>> +		emac_irq_name = "ch24";
+>> +	}
+>> +
+>> +	error = ravb_setup_irq(priv, irq_name, "ch22:multi", &ndev->irq, ravb_multi_interrupt);
+>> +	if (error)
+>> +		return error;
+>> +
+>> +	error = ravb_setup_irq(priv, emac_irq_name, "ch24:emac", &priv->emac_irq,
+>> +			       ravb_emac_interrupt);
+>> +	if (error)
+>> +		return error;
+>> +
+>> +	if (info->err_mgmt_irqs) {
+>> +		error = ravb_setup_irq(priv, "err_a", "err_a", &irq, ravb_multi_interrupt);
+> 
+>    Hm, why pass 2 identical names?
+
+1st name is what is used by platform_get_irq_by_name(), 2nd name is used to
+fill the name of the IRQ after it has been requested. Perviously the same
+naming schema was used.
+
+> 
+>> +		if (error)
+>> +			return error;
+>> +
+>> +		error = ravb_setup_irq(priv, "mgmt_a", "mgmt_a", &irq, ravb_multi_interrupt);
+> 
+>    Here as well?
+> 
+>> +		if (error)
+>> +			return error;
+>> +	}
+>> +
+>> +	error = ravb_setup_irq(priv, "ch0", "ch0:rx_be", &irq, ravb_be_interrupt);
+> 
+>    Hm, won't this result in "ch0:ch0:rx_be" as IRQ name?
+
+No, first "ch0" is to call:
+platform_get_irq_byname(pdev, "ch0");
+
+"ch0:rx_be" is passed to
+devm_kasprintf(..., "%s:%s", ndev->name, "ch0:rx_be");
+
+and fill the name of IRQ after devm_request_irq(). Previously it was the same.
+
+> 
+>> +	if (error)
+>> +		return error;
+>> +
+>> +	error = ravb_setup_irq(priv, "ch1", "ch1:rx_nc", &irq, ravb_nc_interrupt);
+> 
+>    Same question...
+> 
+>> +	if (error)
+>> +		return error;
+>> +
+>> +	error = ravb_setup_irq(priv, "ch18", "ch18:tx_be", &irq, ravb_be_interrupt);
+> 
+>    And here as well...
+> 
+>> +	if (error)
+>> +		return error;
+>> +
+>> +	return ravb_setup_irq(priv, "ch19", "ch19:tx_nc", &irq, ravb_nc_interrupt);
+> 
+>    Here too...
 > 
 > [...]
 > 
