@@ -1,192 +1,312 @@
-Return-Path: <linux-renesas-soc+bounces-1420-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-1421-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id C95A4828329
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  9 Jan 2024 10:29:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D15A9828396
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  9 Jan 2024 10:59:36 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 536561F222D1
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  9 Jan 2024 09:29:49 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 567811F28B35
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  9 Jan 2024 09:59:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C031532C63;
-	Tue,  9 Jan 2024 09:29:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DAB97358AE;
+	Tue,  9 Jan 2024 09:59:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eZcM/sgl"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B88E02E840;
-	Tue,  9 Jan 2024 09:29:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-28be8ebcdc1so1740857a91.0;
-        Tue, 09 Jan 2024 01:29:39 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704792579; x=1705397379;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=RiE9JhZtKhaS/KxqbPfpfOX4N5rDOmwf01u4q8UXOQE=;
-        b=b+BXsGnikaQqti8A4F83LKul2u+/a6u3mWzTMLb1mBdypqpb3ihHEEJ48JDgeccl97
-         5OfyEDBqHIVx2fsMbHXRVCq2fi/1HBbXe/MU1hECOqHOgv2guI9cXKYWhuLK0laX5bQp
-         EhRF3F6LAEC99+hXLwrKbBXiKMjAZrwp8TVfj87P8RCgfkwcgS9lr7qqlvrShr/Psfk2
-         CEYXQMChMnt9N3vaDr71xEGGTDZ6roZmlK9ke7WO7OS7yevv/7v/woPAR0mq2E5BfjP+
-         DujHF1RSvmFSPz76lmyKQKJwTJXNmPd9XwOZrAxckcH9810859pdZpHK6cDjW8tQ3met
-         aK4w==
-X-Gm-Message-State: AOJu0YyaswCch2rZ6TYYrZCjoFIxfXMc9JWtXkN/HGMBhXquC5BTJhq7
-	xR2FA2oLn+BF1AEnfeSAtSPjKAtyqfSbQTEK
-X-Google-Smtp-Source: AGHT+IHBcFvFoOETrm48MVZ6LivrWHHGUpA0ptze/XO7HFdUGNL4cBOcKvHeyhUgPPGVac96WU9Gbw==
-X-Received: by 2002:a17:90a:8001:b0:28b:fdf0:6aa7 with SMTP id b1-20020a17090a800100b0028bfdf06aa7mr1971970pjn.51.1704792578583;
-        Tue, 09 Jan 2024 01:29:38 -0800 (PST)
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com. [209.85.214.177])
-        by smtp.gmail.com with ESMTPSA id d88-20020a17090a6f6100b0028d42741efasm1582006pjk.43.2024.01.09.01.29.38
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 09 Jan 2024 01:29:38 -0800 (PST)
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-1d542701796so10046925ad.1;
-        Tue, 09 Jan 2024 01:29:38 -0800 (PST)
-X-Received: by 2002:a25:9389:0:b0:d9a:cd62:410c with SMTP id
- a9-20020a259389000000b00d9acd62410cmr2548564ybm.4.1704792556992; Tue, 09 Jan
- 2024 01:29:16 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B68831A7E
+	for <linux-renesas-soc@vger.kernel.org>; Tue,  9 Jan 2024 09:59:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1704794341; x=1736330341;
+  h=date:from:to:cc:subject:message-id;
+  bh=Qr5zaKtW9Dg20i/K8miC5TAEkiXSiFE5FKoKsMUlFEE=;
+  b=eZcM/sgl6Vqf2Viw2U7+9WHC/ld07UqLNb/pfsO3ZSFTA2p8l8Dznnmm
+   0dgVYMToQ8LeJJfARU7zxOkyvko/Bidp2chY5Dn+fMYLzlg/7LOgSgJds
+   4wuOHJ7jIUV4l+e8ybKopwXZtUlATDRVR8xdX0P7rSTgDHCVAMR45Bu7y
+   A6Vir6WFEh5WkfZ25y7ym9Grai8sA+GgXKE4G8h1uH3cCDmgtrF6rCB64
+   fu5iZcgnd8AdZaHl1iE6z2N2SyVU7qqhp3/i2syFIgHgb4l7TUq7j7M2g
+   hF8idDBF1F/CMpvcHbWUFm86mUz4Ms9fgF2RhMtPqpxVDMgn6aZnCbc9E
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10947"; a="11495943"
+X-IronPort-AV: E=Sophos;i="6.04,182,1695711600"; 
+   d="scan'208";a="11495943"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jan 2024 01:59:00 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10947"; a="925192715"
+X-IronPort-AV: E=Sophos;i="6.04,182,1695711600"; 
+   d="scan'208";a="925192715"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+  by fmsmga001.fm.intel.com with ESMTP; 09 Jan 2024 01:58:57 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rN8sp-0005iC-1l;
+	Tue, 09 Jan 2024 09:58:55 +0000
+Date: Tue, 09 Jan 2024 17:58:00 +0800
+From: kernel test robot <lkp@intel.com>
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: linux-renesas-soc@vger.kernel.org
+Subject: [geert-renesas-devel:master] BUILD SUCCESS
+ 6789dc4e85595424b3dd2b1b11d6da32ff4a4149
+Message-ID: <202401091758.f1NnkJ1h-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20240104130123.37115-1-brgl@bgdev.pl> <a85dbfc3-e327-442a-9aab-5115f86944f7@gmail.com>
- <CAGXv+5EtvMgbr9oZ7cfnDCDN15BKqgpuiacHHf8_T5kLqYJpJw@mail.gmail.com>
-In-Reply-To: <CAGXv+5EtvMgbr9oZ7cfnDCDN15BKqgpuiacHHf8_T5kLqYJpJw@mail.gmail.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 9 Jan 2024 10:29:04 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdV7YJZTPFL+ECLh3f9jAuaxqnuooggjHp-QLLxsrMu1Mw@mail.gmail.com>
-Message-ID: <CAMuHMdV7YJZTPFL+ECLh3f9jAuaxqnuooggjHp-QLLxsrMu1Mw@mail.gmail.com>
-Subject: Re: [RFC 0/9] PCI: introduce the concept of power sequencing of PCIe devices
-To: Chen-Yu Tsai <wenst@chromium.org>
-Cc: Florian Fainelli <f.fainelli@gmail.com>, Bartosz Golaszewski <brgl@bgdev.pl>, Kalle Valo <kvalo@kernel.org>, 
-	"David S . Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Rob Herring <robh+dt@kernel.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konrad.dybcio@linaro.org>, 
-	Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
-	Bjorn Helgaas <bhelgaas@google.com>, Heiko Stuebner <heiko@sntech.de>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Chris Morgan <macromorgan@hotmail.com>, 
-	Linus Walleij <linus.walleij@linaro.org>, Geert Uytterhoeven <geert+renesas@glider.be>, 
-	Arnd Bergmann <arnd@arndb.de>, Neil Armstrong <neil.armstrong@linaro.org>, 
-	=?UTF-8?B?TsOtY29sYXMgRiAuIFIgLiBBIC4gUHJhZG8=?= <nfraprado@collabora.com>, 
-	Marek Szyprowski <m.szyprowski@samsung.com>, Peng Fan <peng.fan@nxp.com>, 
-	Robert Richter <rrichter@amd.com>, Dan Williams <dan.j.williams@intel.com>, 
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>, Terry Bowman <terry.bowman@amd.com>, 
-	Kuppuswamy Sathyanarayanan <sathyanarayanan.kuppuswamy@linux.intel.com>, 
-	=?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
-	Huacai Chen <chenhuacai@kernel.org>, Alex Elder <elder@linaro.org>, 
-	Srini Kandagatla <srinivas.kandagatla@linaro.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Jim Quinlan <jim2101024@gmail.com>, 
-	james.quinlan@broadcom.com, linux-wireless@vger.kernel.org, 
-	netdev@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-pci@vger.kernel.org, 
-	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>, 
-	Wolfram Sang <wsa+renesas@sang-engineering.com>, 
-	Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-Hi ChenYu,
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git master
+branch HEAD: 6789dc4e85595424b3dd2b1b11d6da32ff4a4149  Merge tag 'v6.7' into renesas-devel
 
-CC wsa + renesas-soc
+elapsed time: 1454m
 
-On Tue, Jan 9, 2024 at 8:08=E2=80=AFAM Chen-Yu Tsai <wenst@chromium.org> wr=
-ote:
-> On Tue, Jan 9, 2024 at 12:09=E2=80=AFPM Florian Fainelli <f.fainelli@gmai=
-l.com> wrote:
-> > On 1/4/2024 5:01 AM, Bartosz Golaszewski wrote:
-> > > From: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-> > >
-> > > During last year's Linux Plumbers we had several discussions centered
-> > > around the need to power-on PCI devices before they can be detected o=
-n
-> > > the bus.
-> > >
-> > > The consensus during the conference was that we need to introduce a
-> > > class of "PCI slot drivers" that would handle the power-sequencing.
-> > >
-> > > After some additional brain-storming with Manivannan and the realizat=
-ion
-> > > that the DT maintainers won't like adding any "fake" nodes not
-> > > representing actual devices, we decided to reuse the existing
-> > > infrastructure provided by the PCIe port drivers.
-> > >
-> > > The general idea is to instantiate platform devices for child nodes o=
-f
-> > > the PCIe port DT node. For those nodes for which a power-sequencing
-> > > driver exists, we bind it and let it probe. The driver then triggers =
-a
-> > > rescan of the PCI bus with the aim of detecting the now powered-on
-> > > device. The device will consume the same DT node as the platform,
-> > > power-sequencing device. We use device links to make the latter becom=
-e
-> > > the parent of the former.
-> > >
-> > > The main advantage of this approach is not modifying the existing DT =
-in
-> > > any way and especially not adding any "fake" platform devices.
-> >
-> > There is prior work in that area which was applied, but eventually reve=
-rted:
-> >
-> > https://www.spinics.net/lists/linux-pci/msg119136.html
-> >
-> > and finally re-applied albeit in a different shape:
-> >
-> > https://lore.kernel.org/all/20220716222454.29914-1-jim2101024@gmail.com=
-/
-> >
-> > so we might want to think about how to have pcie-brcmstb.c converted
-> > over your proposed approach. AFAIR there is also pcie-rockchip.c which
-> > has some rudimentary support for voltage regulators of PCIe end-points.
->
-> I think the current in-tree approaches mostly target either PCIe slots,
-> whether full size or mini-PCIe or M.2, or soldered-on components that
-> either only have a single power rail, have internal regulators, or have
-> surrounding circuitry that would be incorporated on a PCIe card.
->
-> These all have standardized power rails (+12V, +3.3V, +3.3V aux, etc.).
+configs tested: 230
+configs skipped: 2
 
-Indeed. E.g. R-Car PCIe just got support for that in commit
-6797e4da2dd1e2c8 ("PCI: rcar-host: Add support for optional regulators")
-in pci/next.
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-> > What does not yet appear in this RFC is support for suspend/resume,
-> > especially for power states where both the RC and the EP might be losin=
-g
-> > power. There also needs to be some thoughts given to wake-up enabled
-> > PCIe devices like Wi-Fi which might need to remain powered on to servic=
-e
-> > Wake-on-WLAN frames if nothing else.
-> >
-> > I sense a potential for a lot of custom power sequencing drivers being
-> > added and ultimately leading to the decision to create a "generic" one
-> > which is entirely driven by Device Tree properties...
->
-> We can have one "generic" slot power sequencing driver, which just
-> enables all the power rails together. I would very much like to see that.
->
-> I believe the power sequencing in this series is currently targeting more
-> tightly coupled designs that use power rails directly from the PMIC, and
-> thus require more explicit power sequencing.
+tested configs:
+alpha                             allnoconfig   gcc  
+alpha                            allyesconfig   gcc  
+alpha                               defconfig   gcc  
+arc                              allmodconfig   gcc  
+arc                               allnoconfig   gcc  
+arc                              allyesconfig   gcc  
+arc                                 defconfig   gcc  
+arc                     haps_hs_smp_defconfig   gcc  
+arc                            hsdk_defconfig   gcc  
+arc                     nsimosci_hs_defconfig   gcc  
+arc                   randconfig-001-20240108   gcc  
+arc                   randconfig-001-20240109   gcc  
+arc                   randconfig-002-20240108   gcc  
+arc                   randconfig-002-20240109   gcc  
+arc                    vdk_hs38_smp_defconfig   gcc  
+arm                              allmodconfig   gcc  
+arm                               allnoconfig   gcc  
+arm                              allyesconfig   gcc  
+arm                         at91_dt_defconfig   gcc  
+arm                                 defconfig   clang
+arm                           h3600_defconfig   gcc  
+arm                   randconfig-001-20240108   gcc  
+arm                   randconfig-002-20240108   gcc  
+arm                   randconfig-003-20240108   gcc  
+arm                   randconfig-004-20240108   gcc  
+arm                        shmobile_defconfig   gcc  
+arm                           tegra_defconfig   gcc  
+arm64                            allmodconfig   clang
+arm64                             allnoconfig   gcc  
+arm64                               defconfig   gcc  
+arm64                 randconfig-001-20240108   gcc  
+arm64                 randconfig-002-20240108   gcc  
+arm64                 randconfig-003-20240108   gcc  
+arm64                 randconfig-004-20240108   gcc  
+csky                             allmodconfig   gcc  
+csky                              allnoconfig   gcc  
+csky                             allyesconfig   gcc  
+csky                                defconfig   gcc  
+csky                  randconfig-001-20240108   gcc  
+csky                  randconfig-001-20240109   gcc  
+csky                  randconfig-002-20240108   gcc  
+csky                  randconfig-002-20240109   gcc  
+hexagon                          allmodconfig   clang
+hexagon                           allnoconfig   clang
+hexagon                          allyesconfig   clang
+hexagon                             defconfig   clang
+i386                             alldefconfig   gcc  
+i386                             allmodconfig   clang
+i386                              allnoconfig   clang
+i386                             allyesconfig   clang
+i386         buildonly-randconfig-001-20240108   gcc  
+i386         buildonly-randconfig-002-20240108   gcc  
+i386         buildonly-randconfig-003-20240108   gcc  
+i386         buildonly-randconfig-004-20240108   gcc  
+i386         buildonly-randconfig-005-20240108   gcc  
+i386         buildonly-randconfig-006-20240108   gcc  
+i386                                defconfig   gcc  
+i386                  randconfig-001-20240108   gcc  
+i386                  randconfig-002-20240108   gcc  
+i386                  randconfig-003-20240108   gcc  
+i386                  randconfig-004-20240108   gcc  
+i386                  randconfig-005-20240108   gcc  
+i386                  randconfig-006-20240108   gcc  
+i386                  randconfig-011-20240108   clang
+i386                  randconfig-012-20240108   clang
+i386                  randconfig-013-20240108   clang
+i386                  randconfig-014-20240108   clang
+i386                  randconfig-015-20240108   clang
+i386                  randconfig-016-20240108   clang
+loongarch                        allmodconfig   gcc  
+loongarch                         allnoconfig   gcc  
+loongarch                        allyesconfig   gcc  
+loongarch                           defconfig   gcc  
+loongarch             randconfig-001-20240108   gcc  
+loongarch             randconfig-001-20240109   gcc  
+loongarch             randconfig-002-20240108   gcc  
+loongarch             randconfig-002-20240109   gcc  
+m68k                             allmodconfig   gcc  
+m68k                              allnoconfig   gcc  
+m68k                             allyesconfig   gcc  
+m68k                                defconfig   gcc  
+m68k                       m5208evb_defconfig   gcc  
+m68k                       m5275evb_defconfig   gcc  
+microblaze                       allmodconfig   gcc  
+microblaze                        allnoconfig   gcc  
+microblaze                       allyesconfig   gcc  
+microblaze                          defconfig   gcc  
+mips                             allmodconfig   gcc  
+mips                              allnoconfig   clang
+mips                             allyesconfig   gcc  
+mips                         db1xxx_defconfig   gcc  
+mips                       lemote2f_defconfig   gcc  
+mips                       rbtx49xx_defconfig   gcc  
+mips                   sb1250_swarm_defconfig   gcc  
+nios2                         10m50_defconfig   gcc  
+nios2                            allmodconfig   gcc  
+nios2                             allnoconfig   gcc  
+nios2                            allyesconfig   gcc  
+nios2                               defconfig   gcc  
+nios2                 randconfig-001-20240108   gcc  
+nios2                 randconfig-001-20240109   gcc  
+nios2                 randconfig-002-20240108   gcc  
+nios2                 randconfig-002-20240109   gcc  
+openrisc                         allmodconfig   gcc  
+openrisc                          allnoconfig   gcc  
+openrisc                         allyesconfig   gcc  
+openrisc                            defconfig   gcc  
+parisc                           allmodconfig   gcc  
+parisc                            allnoconfig   gcc  
+parisc                           allyesconfig   gcc  
+parisc                              defconfig   gcc  
+parisc                generic-64bit_defconfig   gcc  
+parisc                randconfig-001-20240108   gcc  
+parisc                randconfig-001-20240109   gcc  
+parisc                randconfig-002-20240108   gcc  
+parisc                randconfig-002-20240109   gcc  
+parisc64                            defconfig   gcc  
+powerpc                          allmodconfig   clang
+powerpc                           allnoconfig   gcc  
+powerpc                          allyesconfig   clang
+powerpc                      cm5200_defconfig   gcc  
+powerpc                       holly_defconfig   gcc  
+powerpc                    klondike_defconfig   gcc  
+powerpc                     mpc83xx_defconfig   gcc  
+powerpc               randconfig-001-20240108   gcc  
+powerpc               randconfig-002-20240108   gcc  
+powerpc               randconfig-003-20240108   gcc  
+powerpc                     redwood_defconfig   gcc  
+powerpc                        warp_defconfig   gcc  
+powerpc                 xes_mpc85xx_defconfig   gcc  
+powerpc64             randconfig-001-20240108   gcc  
+powerpc64             randconfig-002-20240108   gcc  
+powerpc64             randconfig-003-20240108   gcc  
+riscv                            allmodconfig   gcc  
+riscv                             allnoconfig   clang
+riscv                            allyesconfig   gcc  
+riscv                               defconfig   gcc  
+riscv                 randconfig-001-20240108   gcc  
+riscv                 randconfig-002-20240108   gcc  
+riscv                          rv32_defconfig   clang
+s390                             allmodconfig   gcc  
+s390                              allnoconfig   gcc  
+s390                             allyesconfig   gcc  
+s390                                defconfig   gcc  
+s390                  randconfig-001-20240109   gcc  
+s390                  randconfig-002-20240109   gcc  
+sh                               allmodconfig   gcc  
+sh                                allnoconfig   gcc  
+sh                               allyesconfig   gcc  
+sh                        apsh4ad0a_defconfig   gcc  
+sh                                  defconfig   gcc  
+sh                          landisk_defconfig   gcc  
+sh                            migor_defconfig   gcc  
+sh                          r7785rp_defconfig   gcc  
+sh                    randconfig-001-20240108   gcc  
+sh                    randconfig-001-20240109   gcc  
+sh                    randconfig-002-20240108   gcc  
+sh                    randconfig-002-20240109   gcc  
+sh                           se7343_defconfig   gcc  
+sh                             sh03_defconfig   gcc  
+sh                           sh2007_defconfig   gcc  
+sh                            titan_defconfig   gcc  
+sparc                            allmodconfig   gcc  
+sparc                            allyesconfig   gcc  
+sparc                       sparc32_defconfig   gcc  
+sparc64                          allmodconfig   gcc  
+sparc64                          allyesconfig   gcc  
+sparc64                             defconfig   gcc  
+sparc64               randconfig-001-20240108   gcc  
+sparc64               randconfig-001-20240109   gcc  
+sparc64               randconfig-002-20240108   gcc  
+sparc64               randconfig-002-20240109   gcc  
+um                               alldefconfig   gcc  
+um                               allmodconfig   clang
+um                                allnoconfig   clang
+um                               allyesconfig   clang
+um                                  defconfig   gcc  
+um                             i386_defconfig   gcc  
+um                    randconfig-001-20240108   gcc  
+um                    randconfig-002-20240108   gcc  
+um                           x86_64_defconfig   gcc  
+x86_64                            allnoconfig   gcc  
+x86_64                           allyesconfig   clang
+x86_64       buildonly-randconfig-001-20240108   gcc  
+x86_64       buildonly-randconfig-001-20240109   clang
+x86_64       buildonly-randconfig-002-20240108   gcc  
+x86_64       buildonly-randconfig-002-20240109   clang
+x86_64       buildonly-randconfig-003-20240108   gcc  
+x86_64       buildonly-randconfig-003-20240109   clang
+x86_64       buildonly-randconfig-004-20240108   gcc  
+x86_64       buildonly-randconfig-004-20240109   clang
+x86_64       buildonly-randconfig-005-20240108   gcc  
+x86_64       buildonly-randconfig-005-20240109   clang
+x86_64       buildonly-randconfig-006-20240108   gcc  
+x86_64       buildonly-randconfig-006-20240109   clang
+x86_64                              defconfig   gcc  
+x86_64                                  kexec   gcc  
+x86_64                randconfig-011-20240108   gcc  
+x86_64                randconfig-011-20240109   clang
+x86_64                randconfig-012-20240108   gcc  
+x86_64                randconfig-012-20240109   clang
+x86_64                randconfig-013-20240108   gcc  
+x86_64                randconfig-013-20240109   clang
+x86_64                randconfig-014-20240108   gcc  
+x86_64                randconfig-014-20240109   clang
+x86_64                randconfig-015-20240108   gcc  
+x86_64                randconfig-015-20240109   clang
+x86_64                randconfig-016-20240108   gcc  
+x86_64                randconfig-016-20240109   clang
+x86_64                randconfig-071-20240108   gcc  
+x86_64                randconfig-071-20240109   clang
+x86_64                randconfig-072-20240108   gcc  
+x86_64                randconfig-072-20240109   clang
+x86_64                randconfig-073-20240108   gcc  
+x86_64                randconfig-073-20240109   clang
+x86_64                randconfig-074-20240108   gcc  
+x86_64                randconfig-074-20240109   clang
+x86_64                randconfig-075-20240108   gcc  
+x86_64                randconfig-075-20240109   clang
+x86_64                randconfig-076-20240108   gcc  
+x86_64                randconfig-076-20240109   clang
+x86_64                          rhel-8.3-rust   clang
+x86_64                               rhel-8.3   gcc  
+xtensa                            allnoconfig   gcc  
+xtensa                           allyesconfig   gcc  
+xtensa                randconfig-001-20240108   gcc  
+xtensa                randconfig-001-20240109   gcc  
+xtensa                randconfig-002-20240108   gcc  
+xtensa                randconfig-002-20240109   gcc  
+xtensa                         virt_defconfig   gcc  
 
-Gr{oetje,eeting}s,
-
-                        Geert
-
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
