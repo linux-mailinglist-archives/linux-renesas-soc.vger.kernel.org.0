@@ -1,157 +1,140 @@
-Return-Path: <linux-renesas-soc+bounces-1438-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-1439-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 313CB828D44
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  9 Jan 2024 20:22:03 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9ABAC828E41
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  9 Jan 2024 20:54:43 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4A34D1C2445C
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  9 Jan 2024 19:22:02 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 272D1B24DEC
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  9 Jan 2024 19:54:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D3C603D0C6;
-	Tue,  9 Jan 2024 19:21:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="bY5HjZq3"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CA6C53D54B;
+	Tue,  9 Jan 2024 19:54:03 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx01.omp.ru (mx01.omp.ru [90.154.21.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2430E3D393
-	for <linux-renesas-soc@vger.kernel.org>; Tue,  9 Jan 2024 19:21:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-3368b1e056eso2949434f8f.3
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 09 Jan 2024 11:21:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1704828105; x=1705432905; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=0iDPQxfpa6JYqwDR22u630bpc83RjBN/ltpfDHg9liI=;
-        b=bY5HjZq39DGqzwm+PvYUziY4bxiOjODOLsi4lAnPJfqQNr7JaAEEgwmUF2L9HLhtBB
-         tQCZ1Xw8qh4wHKeW7nThrhdq4rf5OZ4BemJkCt1cYkwIMD+6SC4SgAVEXrAjDUt7DSbY
-         nPD1jG6tl635NXEhMo5jVWs0+zxHHaMyZfuKqYF0mlkm0VM9AfzlKE+bKscUZTrOE1Ax
-         Y9XCc+gUD4I1wl0hXQo497LSbaKjUMP+ub6r9ffn33B7P8xhKSdrg5l9UK+o76z48s22
-         j0h+QLQvrN2laYXJrzEx9yHGdsgc784Ls6xdbpIcgOZQaFYnFHUmt4goYf/VlunKqKmx
-         GJIA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704828105; x=1705432905;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=0iDPQxfpa6JYqwDR22u630bpc83RjBN/ltpfDHg9liI=;
-        b=fjhNvzSD21N0jBRk0KGlKiMmpLh0tEpVjdw3DLMd5sGmhSlatkUXAkOq46hBXpwwIO
-         8IyL5u/zS3YHhOAmHtENxbIDJgcMHAqeXr/xc26M5fnVsUMKd8ZeDE2hjeXcxMWv1Qyr
-         NIA0h+YVrc0Lrif7MnmqnGMVNNrD9R0sjHNsHKgi5lj1DiPDxq9v9Zad/bteU2nqUxOM
-         Q9kEK9MyfdXXFDyU8CmR+YQFK84G+LGz63jkJiAXmzavW26B9/eFRLKf9dj2hp10c0I2
-         wfsa5eErhVJEOR7nifidf+DL0pMuZ3fGqSFMzwskYpeReDIs7mQaggt9ngThwxdV3mGd
-         HgFQ==
-X-Gm-Message-State: AOJu0Yxl+eqMPA6k2JIODwVp3L8h5Wx2Abc+23AnyBxAvpMUwAFnZD/q
-	sFzoPqDVjJ9A7UmMYEThIMUJQLqVOJ+iFg==
-X-Google-Smtp-Source: AGHT+IFwgwgDOI4/Q6Y34zCKB/l0HiTfMab4ag9pxzy1vIZSIh6QYhf3vaHuo+ZbeSKwvdygEJLD7A==
-X-Received: by 2002:a05:600c:3d05:b0:40e:45aa:30d7 with SMTP id bh5-20020a05600c3d0500b0040e45aa30d7mr2258569wmb.171.1704828105371;
-        Tue, 09 Jan 2024 11:21:45 -0800 (PST)
-Received: from [192.168.1.20] ([178.197.223.112])
-        by smtp.gmail.com with ESMTPSA id g11-20020a05600c310b00b0040d94b65342sm15897181wmo.48.2024.01.09.11.21.43
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 09 Jan 2024 11:21:44 -0800 (PST)
-Message-ID: <ca0cb671-43ce-4bda-aad5-da38bace4132@linaro.org>
-Date: Tue, 9 Jan 2024 20:21:42 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 554363D969;
+	Tue,  9 Jan 2024 19:53:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=omp.ru
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=omp.ru
+Received: from [192.168.1.105] (31.173.83.101) by msexch01.omp.ru
+ (10.188.4.12) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.1258.12; Tue, 9 Jan
+ 2024 22:53:49 +0300
+Subject: Re: [PATCH net-next v3 19/19] net: ravb: Add runtime PM support
+To: Claudiu <claudiu.beznea@tuxon.dev>, <davem@davemloft.net>,
+	<edumazet@google.com>, <kuba@kernel.org>, <pabeni@redhat.com>,
+	<richardcochran@gmail.com>, <p.zabel@pengutronix.de>,
+	<yoshihiro.shimoda.uh@renesas.com>, <wsa+renesas@sang-engineering.com>
+CC: <netdev@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <geert+renesas@glider.be>, Claudiu Beznea
+	<claudiu.beznea.uj@bp.renesas.com>
+References: <20240105082339.1468817-1-claudiu.beznea.uj@bp.renesas.com>
+ <20240105082339.1468817-20-claudiu.beznea.uj@bp.renesas.com>
+From: Sergey Shtylyov <s.shtylyov@omp.ru>
+Organization: Open Mobile Platform
+Message-ID: <6c53095c-2d63-d6d3-e233-a7709a6e48b1@omp.ru>
+Date: Tue, 9 Jan 2024 22:53:48 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 02/15] dt-bindings: clock: Add R8A779H0 V4M CPG Core Clock
- Definitions
+In-Reply-To: <20240105082339.1468817-20-claudiu.beznea.uj@bp.renesas.com>
+Content-Type: text/plain; charset="utf-8"
 Content-Language: en-US
-To: Geert Uytterhoeven <geert+renesas@glider.be>,
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
- <sboyd@kernel.org>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>,
- Magnus Damm <magnus.damm@gmail.com>,
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
- Ulf Hansson <ulf.hansson@linaro.org>
-Cc: Cong Dang <cong.dang.xn@renesas.com>,
- Duy Nguyen <duy.nguyen.rh@renesas.com>, Hai Pham <hai.pham.ud@renesas.com>,
- Linh Phung <linh.phung.jy@renesas.com>, linux-renesas-soc@vger.kernel.org,
- linux-clk@vger.kernel.org, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-pm@vger.kernel.org
-References: <cover.1704726960.git.geert+renesas@glider.be>
- <2e083461752c9d52fdb251ad9071f6111f13c3c5.1704726960.git.geert+renesas@glider.be>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <2e083461752c9d52fdb251ad9071f6111f13c3c5.1704726960.git.geert+renesas@glider.be>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: msexch01.omp.ru (10.188.4.12) To msexch01.omp.ru
+ (10.188.4.12)
+X-KSE-ServerInfo: msexch01.omp.ru, 9
+X-KSE-AntiSpam-Interceptor-Info: scan successful
+X-KSE-AntiSpam-Version: 6.1.0, Database issued on: 01/09/2024 19:41:39
+X-KSE-AntiSpam-Status: KAS_STATUS_NOT_DETECTED
+X-KSE-AntiSpam-Method: none
+X-KSE-AntiSpam-Rate: 0
+X-KSE-AntiSpam-Info: Lua profiles 182518 [Jan 09 2024]
+X-KSE-AntiSpam-Info: Version: 6.1.0.3
+X-KSE-AntiSpam-Info: Envelope from: s.shtylyov@omp.ru
+X-KSE-AntiSpam-Info: LuaCore: 7 0.3.7 6d6bf5bd8eea7373134f756a2fd73e9456bb7d1a
+X-KSE-AntiSpam-Info: {rep_avail}
+X-KSE-AntiSpam-Info: {Tracking_from_domain_doesnt_match_to}
+X-KSE-AntiSpam-Info:
+	d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;127.0.0.199:7.1.2;omp.ru:7.1.1
+X-KSE-AntiSpam-Info: ApMailHostAddress: 31.173.83.101
+X-KSE-AntiSpam-Info: Rate: 0
+X-KSE-AntiSpam-Info: Status: not_detected
+X-KSE-AntiSpam-Info: Method: none
+X-KSE-AntiSpam-Info: Auth:dmarc=temperror header.from=omp.ru;spf=temperror
+ smtp.mailfrom=omp.ru;dkim=none
+X-KSE-Antiphishing-Info: Clean
+X-KSE-Antiphishing-ScanningType: Heuristic
+X-KSE-Antiphishing-Method: None
+X-KSE-Antiphishing-Bases: 01/09/2024 19:46:00
+X-KSE-Antivirus-Interceptor-Info: scan successful
+X-KSE-Antivirus-Info: Clean, bases: 1/9/2024 2:55:00 PM
+X-KSE-Attachment-Filter-Triggered-Rules: Clean
+X-KSE-Attachment-Filter-Triggered-Filters: Clean
+X-KSE-BulkMessagesFiltering-Scan-Result: InTheLimit
 
-On 08/01/2024 16:33, Geert Uytterhoeven wrote:
-> From: Duy Nguyen <duy.nguyen.rh@renesas.com>
+On 1/5/24 11:23 AM, Claudiu wrote:
+
+> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 > 
-> Add all Clock Pulse Generator Core Clock Outputs for the Renesas R-Car
-> V4M (R8A779H0) SoC.
+> Add runtime PM support for the ravb driver. As the driver is used by
+> different IP variants, with different behaviors, to be able to have the
+> runtime PM support available for all devices, the preparatory commits
+> moved all the resources parsing and allocations in the driver's probe
+> function and kept the settings for ravb_open(). This is due to the fact
+> that on some IP variants-platforms tuples disabling/enabling the clocks
+> will switch the IP to the reset operation mode where registers' content is
+> lost and reconfiguration needs to be done. For this the rabv_open()
+> function enables the clocks, switches the IP to configuration mode, applies
+> all the registers settings and switches the IP to the operational mode. At
+> the end of ravb_open() IP is ready to send/receive data.
 > 
-> Signed-off-by: Duy Nguyen <duy.nguyen.rh@renesas.com>
-> Signed-off-by: Hai Pham <hai.pham.ud@renesas.com>
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> ---
-> Changes compared to the BSP:
->   - Drop POST* clocks, as they are internal clocks.
-> ---
->  include/dt-bindings/clock/r8a779h0-cpg-mssr.h | 96 +++++++++++++++++++
+> In ravb_close() necessary reverts are done (compared with ravb_open()), the
+> IP is switched to reset mode and clocks are disabled.
+> 
+> The ethtool APIs or IOCTLs that might execute while the interface is down
+> are either cached (and applied in ravb_open()) or rejected (as at that time
+> the IP is in reset mode). Keeping the IP in the reset mode also increases
+> the power saved (according to the hardware manual).
+> 
+> Reviewed-by: Sergey Shtylyov <s.shtylyov@omp.ru>
+> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+[...]
 
-Mediatek was able to switch to vendor,device naming scheme, so Renesas
-should follow as well.
+> diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
+> index e909960fbc30..e99351fe8d7f 100644
+> --- a/drivers/net/ethernet/renesas/ravb_main.c
+> +++ b/drivers/net/ethernet/renesas/ravb_main.c
+[...]
+> @@ -2233,7 +2243,14 @@ static int ravb_close(struct net_device *ndev)
+>  	ravb_get_stats(ndev);
+>  
+>  	/* Set reset mode. */
+> -	return ravb_set_opmode(ndev, CCC_OPC_RESET);
+> +	error = ravb_set_opmode(ndev, CCC_OPC_RESET);
+> +	if (error)
+> +		return error;
+> +
+> +	pm_runtime_mark_last_busy(dev);
+> +	pm_runtime_put_autosuspend(dev);
 
-Best regards,
-Krzysztof
+   BTW, doesn't make sense to check/return the result?
 
+> +
+> +	return 0;
+>  }
+>  
+>  static int ravb_hwtstamp_get(struct net_device *ndev, struct ifreq *req)
+[...]
+
+MBR, Sergey
 
