@@ -1,77 +1,43 @@
-Return-Path: <linux-renesas-soc+bounces-1444-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-1445-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48DBC828F39
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  9 Jan 2024 22:51:34 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E2098290CE
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Jan 2024 00:28:58 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id ECBCD2816DC
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  9 Jan 2024 21:51:32 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 143A21F264F0
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  9 Jan 2024 23:28:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B5CDB3DB94;
-	Tue,  9 Jan 2024 21:51:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XWHQz/3w"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E84F63E478;
+	Tue,  9 Jan 2024 23:28:53 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+Received: from mail11.truemail.it (mail11.truemail.it [217.194.8.81])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F7A83DB89;
-	Tue,  9 Jan 2024 21:51:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-1d3e05abcaeso20750905ad.1;
-        Tue, 09 Jan 2024 13:51:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1704837089; x=1705441889; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=p4XACuuvaxg6iNNy3U1OF2HVW2+gq8zC1xPatIaJOAU=;
-        b=XWHQz/3wmsJ7wPuDR2XmqxB8Q1DKHeny5uPB2eaJjoAU49spZYThOdvtSMfvNG9hLp
-         wkRGggFUZY7tcZJmzrPjx3kAhelkUbaaQh1IMwEap5F2h8nQpIY/fp7CHrlvoht+0jZd
-         aEPQCJ/XgiTADe/IShczxqoMLb1jn1ZdNCJ4b38nqUc/45BoJlmZNbZyEfgaeHur7/IN
-         qAEqaJdh/QlDGOnZoP7PLeu9d40t9u6MsmXEctZQdtm0lCAqIBMOEGTkw7GAbFAqQIde
-         ZVdpUVwUgL/FCMvxEu6TlPR7UeWWnDJOmYeg/CRBZD73R4b10KfqurveWzDlf8ZAe7R+
-         kHmg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704837089; x=1705441889;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=p4XACuuvaxg6iNNy3U1OF2HVW2+gq8zC1xPatIaJOAU=;
-        b=d9c7Cu3qJHE404AoyaXo36DNX61MQmNweVPsDEcUEINJJ1uNTt+RidoUvcffHVbySY
-         UmgznPa8fDUZMzUTKzezOlFgRXvdGeJjJ7nNLh9KH8j8dPI/F6N5N4D6rQ3UinliTHWv
-         U9+MhwcWgR+WH5nBpOC7rzEXFP9M5rVrj5+FpnSuKfj2IkKHkvG7LSgEMDJodZiLiSxs
-         +1L/MN66XKKa1jmASn/E/VbZuZ+kThbZrM/AZuS1mVgrfhA0qxcDIu06awS68ZHTih64
-         lkst4kdYr3zQQpbeJ5/D6JJ9iNzEQQyAHrlCexNuEOLapehBjgESXeZO3DNQ9SYFBmao
-         eDPQ==
-X-Gm-Message-State: AOJu0YywJ3b9YNlTIuQgDT/wBPN78L08m1NkqfMBfZRQ7iHB9im+sMw2
-	X/goTwELosfPU/79CnxpElbZNFgmmxk=
-X-Google-Smtp-Source: AGHT+IGQoepg3uVolJbpdyHgBEwX4/pMIRql3JTpVTXDgDIA1REodRjuLopMrrujNQWq4ChAhIRUcg==
-X-Received: by 2002:a17:90a:d811:b0:285:b3a8:40ac with SMTP id a17-20020a17090ad81100b00285b3a840acmr2945010pjv.19.1704837088696;
-        Tue, 09 Jan 2024 13:51:28 -0800 (PST)
-Received: from localhost ([2620:10d:c090:400::4:fd50])
-        by smtp.gmail.com with ESMTPSA id o1-20020a17090aac0100b0028bd303dc58sm2472323pjq.11.2024.01.09.13.51.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 Jan 2024 13:51:28 -0800 (PST)
-Sender: Tejun Heo <htejun@gmail.com>
-Date: Tue, 9 Jan 2024 11:51:26 -1000
-From: Tejun Heo <tj@kernel.org>
-To: Andrea Righi <andrea.righi@canonical.com>
-Cc: Geert Uytterhoeven <geert@linux-m68k.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Alexei Starovoitov <ast@kernel.org>, linux-kernel@vger.kernel.org,
-	Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Subject: Re: [PATCH] kernfs: convert kernfs_idr_lock to an irq safe raw
- spinlock
-Message-ID: <ZZ2_3n9rJnhcYmpk@slm.duckdns.org>
-References: <20231229074916.53547-1-andrea.righi@canonical.com>
- <CAMuHMdV=AKt+mwY7svEq5gFPx41LoSQZ_USME5_MEdWQze13ww@mail.gmail.com>
- <ZZ18xVq4GtQsTC8Z@gpd>
- <ZZ2ZdoNyBhR7o83I@slm.duckdns.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2485912E41;
+	Tue,  9 Jan 2024 23:28:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dolcini.it
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dolcini.it
+Received: from francesco-nb (93-49-2-63.ip317.fastwebnet.it [93.49.2.63])
+	by mail11.truemail.it (Postfix) with ESMTPA id 758F92028F;
+	Wed, 10 Jan 2024 00:28:42 +0100 (CET)
+Date: Wed, 10 Jan 2024 00:28:38 +0100
+From: Francesco Dolcini <francesco@dolcini.it>
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc: linux-renesas-soc@vger.kernel.org, netdev@vger.kernel.org,
+	Francesco Dolcini <francesco.dolcini@toradex.com>,
+	Andrew Lunn <andrew@lunn.ch>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	linux-kernel@vger.kernel.org
+Subject: Re: [RFC PATCH] net: phy: micrel: reset KSZ9x31 when resuming
+Message-ID: <20240109232838.GA3626@francesco-nb>
+References: <20240109205223.40219-1-wsa+renesas@sang-engineering.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -80,46 +46,77 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ZZ2ZdoNyBhR7o83I@slm.duckdns.org>
+In-Reply-To: <20240109205223.40219-1-wsa+renesas@sang-engineering.com>
 
-On Tue, Jan 09, 2024 at 09:07:34AM -1000, Tejun Heo wrote:
-> On Tue, Jan 09, 2024 at 06:05:09PM +0100, Andrea Righi wrote:
-> > On Tue, Jan 09, 2024 at 05:35:36PM +0100, Geert Uytterhoeven wrote:
-> > > Reverting commit c312828c37a72fe2 fixes that.
-> > > I have seen this issue on several Renesas arm32 and arm64 platforms.
-> > > 
-> > > Also, I am wondering if the issue fixed by commit c312828c37a72fe2
-> > > can still be reproduced on v6.7-rc5 or later?
-> > 
-> > Yep, I can still reproduce it (this is with v6.7):
-> ...
-> > I'm wondering if using a regular spinlock instead of a raw spinlock
-> > could be a reasonable compromise.
+- Philippe, email address is no longer valid.
+
+On Tue, Jan 09, 2024 at 09:52:22PM +0100, Wolfram Sang wrote:
+> On a Renesas Ebisu board, the KSZ9031 PHY is stalled after resuming if
+> the interface has not been brought up before suspending. If it had been
+> brought up before, phylib ensures that reset is asserted before
+> suspending. But if it had never been brought up, there is no instance
+> which could ensure that reset is asserted. And upon resume, the PHY is
+> in an unknown state without reset being asserted. To bring it back to a
+> known state, simply reset it when it is about to be resumed.
 > 
-> I don't think that'd work on RT as we can end up nesting mutex inside a raw
-> spinlock.
+> This likely also helps another issue [1] where a KSZ9131 can be powered
+> using regulators. After switching power on again in resume, a reset is
+> also needed.
 > 
-> > We have a GFP_ATOMIC allocation in __kernfs_new_node():
-> > 
-> > 	raw_spin_lock_irqsave(&kernfs_idr_lock, irqflags);
-> > 	ret = idr_alloc_cyclic(&root->ino_idr, kn, 1, 0, GFP_ATOMIC);
-> > 	...
-> >         raw_spin_unlock_irqrestore(&kernfs_idr_lock, irqflags);
-> > 
-> > That should become valid using a
-> > spin_lock_irqsave/spin_unlock_irqrestore(), right?
+> [1] https://patchwork.kernel.org/project/netdevbpf/patch/20211214121638.138784-4-philippe.schenker@toradex.com/
 > 
-> Yeah, this part should be fine. I think the right thing to do here is making
-> the idr RCU safe so that lookup path doesn't depend on the lock.
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> ---
 > 
-> Greg, can you please revert c312828c37a72fe2 for now?
+> This is a different solution to a problem I already tried to solve
+> here[2]. Back then, I added code to the MAC, but I now believe it should
+> be solved on PHY level. We never saw the problem with other PHYs.
+> Looking at [1], it seems that KSZ9x31 is also sensitive to being
+> powered down without reset being asserted. I know it is not a perfect
+> proof, but I guess these assumptions are all we have.
+> 
+> Philippe, Francesco: do you still have access to machines with this
+> issue? Could you kindly test if so?
 
-I sent out a patchset to revert the commit and implement a different fix.
+I have access, however
+ - Philippe is long gone from Toradex and he was the one looking into
+   this topic
+ - we did solve the issue in a different way, e.g. we no longer
+   power-off the phy in suspend
 
-  http://lkml.kernel.org/r/20240109214828.252092-1-tj@kernel.org
+Therefore is not straightforward to provide valuable feedback to you
+now.
 
-Thanks.
 
--- 
-tejun
+> 
+> Patch is based on 6.7. Looking forward for comments if this is the
+> correct layer to tackle the problem. Thanks!
+> 
+> 
+> [2] https://lore.kernel.org/all/20230321103357.18940-1-wsa+renesas@sang-engineering.com/
+> 
+>  drivers/net/phy/micrel.c | 12 ++++++++++--
+>  1 file changed, 10 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/net/phy/micrel.c b/drivers/net/phy/micrel.c
+> index 08e3915001c3..c38d7982c06c 100644
+> --- a/drivers/net/phy/micrel.c
+> +++ b/drivers/net/phy/micrel.c
+> @@ -1984,6 +1984,14 @@ static int kszphy_resume(struct phy_device *phydev)
+>  	return 0;
+>  }
+>  
+> +static int ksz9x31_resume(struct phy_device *phydev)
+> +{
+> +	phy_device_reset(phydev, 1);
+> +	phy_device_reset(phydev, 0);
+
+Is something like that fine?
+Don't we need to reconfigure the ethernet phy completely on resume
+if we do reset it? kszphy_config_reset() is taking care of something,
+but I think that the phy being reset on resume is not handled
+correctly.
+
+Francesco
+
 
