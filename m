@@ -1,147 +1,139 @@
-Return-Path: <linux-renesas-soc+bounces-1440-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-1441-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C13BB828EA0
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  9 Jan 2024 21:48:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA0FF828EA6
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  9 Jan 2024 21:53:05 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 1C16FB24A74
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  9 Jan 2024 20:48:13 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 428CAB228C6
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  9 Jan 2024 20:53:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6DBEB3D99A;
-	Tue,  9 Jan 2024 20:48:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6C3893D98B;
+	Tue,  9 Jan 2024 20:52:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="aoRbrk/G"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mx01.omp.ru (mx01.omp.ru [90.154.21.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40D1B3D961;
-	Tue,  9 Jan 2024 20:47:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=omp.ru
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=omp.ru
-Received: from [192.168.1.105] (31.173.83.101) by msexch01.omp.ru
- (10.188.4.12) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.1258.12; Tue, 9 Jan
- 2024 23:47:47 +0300
-Subject: Re: [PATCH net-next v3 08/19] net: ravb: Move the IRQs get and
- request in the probe function
-To: claudiu beznea <claudiu.beznea@tuxon.dev>, <davem@davemloft.net>,
-	<edumazet@google.com>, <kuba@kernel.org>, <pabeni@redhat.com>,
-	<richardcochran@gmail.com>, <p.zabel@pengutronix.de>,
-	<yoshihiro.shimoda.uh@renesas.com>, <wsa+renesas@sang-engineering.com>
-CC: <netdev@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <geert+renesas@glider.be>, Claudiu Beznea
-	<claudiu.beznea.uj@bp.renesas.com>
-References: <20240105082339.1468817-1-claudiu.beznea.uj@bp.renesas.com>
- <20240105082339.1468817-9-claudiu.beznea.uj@bp.renesas.com>
- <02548b1b-d32c-78b1-f1b6-5fdb505d31bb@omp.ru>
- <ee783b61-95fc-44ab-a311-0ca7d058ac39@tuxon.dev>
-From: Sergey Shtylyov <s.shtylyov@omp.ru>
-Organization: Open Mobile Platform
-Message-ID: <dce944a1-9557-9ab0-d30d-7a51a47c6d96@omp.ru>
-Date: Tue, 9 Jan 2024 23:47:47 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CA673D986
+	for <linux-renesas-soc@vger.kernel.org>; Tue,  9 Jan 2024 20:52:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=from:to:cc:subject:date:message-id
+	:mime-version:content-transfer-encoding; s=k1; bh=nAIjW3Vd6AO7np
+	gt9Xb/HqJrmYFkWeDl3YQgZw/BnJA=; b=aoRbrk/G0kEMU3fMqSP/zuBGxnipqQ
+	W/IL/0pu0zKEh5gwSrc2625INKWMeAdvM0BCmicDgZkqT3l+FOGPeNwdU4Paw4cJ
+	FCWb6LG2qB2FiCHDinX3nkuJ5VXk64DDa44Rfr3kTw+GDaXvtTPHBk2VQhuSRgCW
+	rHr6S4uRQ9fggP+cWqWU7BGb4d1HbYj5CXn345uOHizdf26IMVFlwAKNZAwXUT5b
+	vXauhpOxhixgq0zt62ge8Az5TABXH90s8QTQDrRFWP+sal4V3FKBhJE7N9ccYd3x
+	BqRbakLoAeT0c1ILGMmOZJ4TMKw8I6niTxRbs9Xybfr5HiIfMMG32QHQ==
+Received: (qmail 354471 invoked from network); 9 Jan 2024 21:52:45 +0100
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 9 Jan 2024 21:52:45 +0100
+X-UD-Smtp-Session: l3s3148p1@Ly0Of4kOTpRehhrQ
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: linux-renesas-soc@vger.kernel.org
+Cc: netdev@vger.kernel.org,
+	Philippe Schenker <philippe.schenker@toradex.com>,
+	Francesco Dolcini <francesco.dolcini@toradex.com>,
+	Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Andrew Lunn <andrew@lunn.ch>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	linux-kernel@vger.kernel.org
+Subject: [RFC PATCH] net: phy: micrel: reset KSZ9x31 when resuming
+Date: Tue,  9 Jan 2024 21:52:22 +0100
+Message-Id: <20240109205223.40219-1-wsa+renesas@sang-engineering.com>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <ee783b61-95fc-44ab-a311-0ca7d058ac39@tuxon.dev>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: msexch01.omp.ru (10.188.4.12) To msexch01.omp.ru
- (10.188.4.12)
-X-KSE-ServerInfo: msexch01.omp.ru, 9
-X-KSE-AntiSpam-Interceptor-Info: scan successful
-X-KSE-AntiSpam-Version: 6.1.0, Database issued on: 01/09/2024 20:35:52
-X-KSE-AntiSpam-Status: KAS_STATUS_NOT_DETECTED
-X-KSE-AntiSpam-Method: none
-X-KSE-AntiSpam-Rate: 59
-X-KSE-AntiSpam-Info: Lua profiles 182518 [Jan 09 2024]
-X-KSE-AntiSpam-Info: Version: 6.1.0.3
-X-KSE-AntiSpam-Info: Envelope from: s.shtylyov@omp.ru
-X-KSE-AntiSpam-Info: LuaCore: 7 0.3.7 6d6bf5bd8eea7373134f756a2fd73e9456bb7d1a
-X-KSE-AntiSpam-Info: {rep_avail}
-X-KSE-AntiSpam-Info: {Tracking_from_domain_doesnt_match_to}
-X-KSE-AntiSpam-Info: {relay has no DNS name}
-X-KSE-AntiSpam-Info: {SMTP from is not routable}
-X-KSE-AntiSpam-Info: {Found in DNSBL: 31.173.83.101 in (user)
- b.barracudacentral.org}
-X-KSE-AntiSpam-Info: {Found in DNSBL: 31.173.83.101 in (user)
- dbl.spamhaus.org}
-X-KSE-AntiSpam-Info:
-	127.0.0.199:7.1.2;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;omp.ru:7.1.1
-X-KSE-AntiSpam-Info: ApMailHostAddress: 31.173.83.101
-X-KSE-AntiSpam-Info: {DNS response errors}
-X-KSE-AntiSpam-Info: Rate: 59
-X-KSE-AntiSpam-Info: Status: not_detected
-X-KSE-AntiSpam-Info: Method: none
-X-KSE-AntiSpam-Info: Auth:dmarc=temperror header.from=omp.ru;spf=temperror
- smtp.mailfrom=omp.ru;dkim=none
-X-KSE-Antiphishing-Info: Clean
-X-KSE-Antiphishing-ScanningType: Heuristic
-X-KSE-Antiphishing-Method: None
-X-KSE-Antiphishing-Bases: 01/09/2024 20:39:00
-X-KSE-Antivirus-Interceptor-Info: scan successful
-X-KSE-Antivirus-Info: Clean, bases: 1/9/2024 6:50:00 PM
-X-KSE-Attachment-Filter-Triggered-Rules: Clean
-X-KSE-Attachment-Filter-Triggered-Filters: Clean
-X-KSE-BulkMessagesFiltering-Scan-Result: InTheLimit
+Content-Transfer-Encoding: 8bit
 
-On 1/8/24 11:58 AM, claudiu beznea wrote:
+On a Renesas Ebisu board, the KSZ9031 PHY is stalled after resuming if
+the interface has not been brought up before suspending. If it had been
+brought up before, phylib ensures that reset is asserted before
+suspending. But if it had never been brought up, there is no instance
+which could ensure that reset is asserted. And upon resume, the PHY is
+in an unknown state without reset being asserted. To bring it back to a
+known state, simply reset it when it is about to be resumed.
 
-[...]
->>> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
->>>
->>> The runtime PM implementation will disable clocks at the end of
->>> ravb_probe(). As some IP variants switch to reset mode as a result of
->>> setting module standby through clock disable APIs, to implement runtime PM
->>> the resource parsing and requesting are moved in the probe function and IP
->>> settings are moved in the open function. This is done because at the end of
->>> the probe some IP variants will switch anyway to reset mode and the
->>> registers content is lost. Also keeping only register specific operations
->>> in the ravb_open()/ravb_close() functions will make them faster.
->>>
->>> Commit moves IRQ requests to ravb_probe() to have all the IRQs ready when
->>> the interface is open. As now IRQs gets and requests are in a single place
->>> there is no need to keep intermediary data (like ravb_rx_irqs[] and
->>> ravb_tx_irqs[] arrays or IRQs in struct ravb_private).
->>
->>    There's one thing that you probably didn't take into account: after
->> you call request_irq(), you should be able to handle your IRQ as it's
->> automatically unmasked, unless you pass IRQF_NO_AUTOEN to request_irq().
->> Your device may be held i reset or even powered off but if you pass IRQF_SHARED to request_irq() (you do in a single IRQ config), you must
->> be prepared to get your device's registers read (in order to ascertain
+This likely also helps another issue [1] where a KSZ9131 can be powered
+using regulators. After switching power on again in resume, a reset is
+also needed.
 
-   And, at least on arm32, reading a powered off (or not clocked?) device's
-register causes an imprecise external abort exception -- which results in a
-kernel oops...
+[1] https://patchwork.kernel.org/project/netdevbpf/patch/20211214121638.138784-4-philippe.schenker@toradex.com/
 
->> whether it's your IRQ or not). And you can't even pass IRQF_NO_AUTOEN
->> along with IRQF_SHARED, according to my reading of the IRQ code...
-> 
-> Good point!
-> 
->>> This is a preparatory change to add runtime PM support for all IP variants.
->>
->>   I don't readily see why this is necessary for the full-fledged RPM
->> support...
-> 
-> I tried to speed up the ravb_open()/ravb_close() but missed the IRQF_SHARED
+Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+---
 
-   I doubt that optimizing ravb_{open,close}() is worth pursuing, frankly...
+This is a different solution to a problem I already tried to solve
+here[2]. Back then, I added code to the MAC, but I now believe it should
+be solved on PHY level. We never saw the problem with other PHYs.
+Looking at [1], it seems that KSZ9x31 is also sensitive to being
+powered down without reset being asserted. I know it is not a perfect
+proof, but I guess these assumptions are all we have.
 
-> IRQ. As there is only one IRQ requested w/ IRQF_SHARED, are you OK with
-> still keeping the rest of IRQs handled as proposed by this patch?
+Philippe, Francesco: do you still have access to machines with this
+issue? Could you kindly test if so?
 
-   I'm not, as this doesn't really seem necessary for your main goal.
-It's not clear in what state U-Boot leaves EtherAVB...
+Patch is based on 6.7. Looking forward for comments if this is the
+correct layer to tackle the problem. Thanks!
 
-[...]
 
-MBR, Sergey
+[2] https://lore.kernel.org/all/20230321103357.18940-1-wsa+renesas@sang-engineering.com/
+
+ drivers/net/phy/micrel.c | 12 ++++++++++--
+ 1 file changed, 10 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/net/phy/micrel.c b/drivers/net/phy/micrel.c
+index 08e3915001c3..c38d7982c06c 100644
+--- a/drivers/net/phy/micrel.c
++++ b/drivers/net/phy/micrel.c
+@@ -1984,6 +1984,14 @@ static int kszphy_resume(struct phy_device *phydev)
+ 	return 0;
+ }
+ 
++static int ksz9x31_resume(struct phy_device *phydev)
++{
++	phy_device_reset(phydev, 1);
++	phy_device_reset(phydev, 0);
++
++	return kszphy_resume(phydev);
++}
++
+ static int kszphy_probe(struct phy_device *phydev)
+ {
+ 	const struct kszphy_type *type = phydev->drv->driver_data;
+@@ -4778,7 +4786,7 @@ static struct phy_driver ksphy_driver[] = {
+ 	.get_strings	= kszphy_get_strings,
+ 	.get_stats	= kszphy_get_stats,
+ 	.suspend	= kszphy_suspend,
+-	.resume		= kszphy_resume,
++	.resume		= ksz9x31_resume,
+ 	.cable_test_start	= ksz9x31_cable_test_start,
+ 	.cable_test_get_status	= ksz9x31_cable_test_get_status,
+ }, {
+@@ -4851,7 +4859,7 @@ static struct phy_driver ksphy_driver[] = {
+ 	.get_strings	= kszphy_get_strings,
+ 	.get_stats	= kszphy_get_stats,
+ 	.suspend	= kszphy_suspend,
+-	.resume		= kszphy_resume,
++	.resume		= ksz9x31_resume,
+ 	.cable_test_start	= ksz9x31_cable_test_start,
+ 	.cable_test_get_status	= ksz9x31_cable_test_get_status,
+ 	.get_features	= ksz9477_get_features,
+-- 
+2.39.2
+
 
