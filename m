@@ -1,215 +1,133 @@
-Return-Path: <linux-renesas-soc+bounces-1423-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-1424-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74DC2828631
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  9 Jan 2024 13:43:28 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D3188288B4
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  9 Jan 2024 16:05:11 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id DF7901F248C2
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  9 Jan 2024 12:43:22 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 903F0B2492E
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  9 Jan 2024 15:05:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 72C1638DE6;
-	Tue,  9 Jan 2024 12:43:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="QeIOoMPx"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CFAEE39AEA;
+	Tue,  9 Jan 2024 15:05:02 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com [209.85.128.181])
+Received: from xavier.telenet-ops.be (xavier.telenet-ops.be [195.130.132.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CFA2381CF
-	for <linux-renesas-soc@vger.kernel.org>; Tue,  9 Jan 2024 12:43:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-5ebca94cf74so24318527b3.0
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 09 Jan 2024 04:43:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1704804184; x=1705408984; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=YRdzfj7JEW1eBQjWfVgccO0cPj0nGjhcrGXH3osu83E=;
-        b=QeIOoMPxJmnP7J6Ahz9RoFYBBAyFE1JBl58mDEbiOpjOXlXa4xctkyQ4nrjf58hZKM
-         UXAqgSfKfhBETJo7a6hI3NqYN/e/itjolyWBN7FXOOc1GVl4LoyzphSDupJkrBa6CcUx
-         uhg8+zb05cg3wX8odOqH1lntKqpAMgurMrtZCrBQHowdaKJVPOJ+e0AXNkXtdjlgelGx
-         e+KH88M4t756B0qSvZN4tKYQFQflFf4mg2QDBHbjdVtjW53sR3LDi55rkiBQ0f84/fuJ
-         bjjACC4hup/9yntLNcJlH8FzrZr8+C15ucKIwwVU8w2GBCAXJrzU3XiImhpFHY+eE/Ve
-         zvaw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704804184; x=1705408984;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=YRdzfj7JEW1eBQjWfVgccO0cPj0nGjhcrGXH3osu83E=;
-        b=c/1JvuL6C8BqP+aQ0fm1tHkqzMWrQeqx0GXW8E+1C9GYvuthnJt2XPpc9nnR5YZcoq
-         t4b/BCy1L5wlFuhW/vVQ1U6koxQEHxmIruiE5sreP9yzPVfocNjrVKGYJ33xWSZoRT1s
-         s22cCW6OLuPZGqoyCobcwisLc4YLwOnCfqA8gOE7yHsPUtZql4AF3L9RYV8hK9WDpAa/
-         fYWjcKhyqeP6yeo8tBya1Wwu343mRA/B5pUAjA9RNXceVrnyvf5c977b0EFpsusgrmDw
-         CsKtCkUtb9vfrmVNVxfaWpX/2aueHS+aJTeqdBd5/6dnT7zCpLUQqsOFrV6C6gpAbR7E
-         D/bA==
-X-Gm-Message-State: AOJu0YzeKsRM3uYRisDTYe7rw+K22UUptjSbB8HZnVT8o6DI/ttzhX43
-	6ip+PYyOHpfOruUeBPUNkN57ny48mEhJvvBbA5ierRJdCBYdKw==
-X-Google-Smtp-Source: AGHT+IGP2TpOD/2aQljjLpEh7rgxkZ1rPK7JLdhb+SJI4gzWB4npHJxZY6IBNmQ0p0RFR21+Q3sEEaYhEw7pDx3EeW0=
-X-Received: by 2002:a0d:cb85:0:b0:5f1:7189:b9d with SMTP id
- n127-20020a0dcb85000000b005f171890b9dmr2932736ywd.82.1704804184379; Tue, 09
- Jan 2024 04:43:04 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 962FC39AEC
+	for <linux-renesas-soc@vger.kernel.org>; Tue,  9 Jan 2024 15:04:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed40:b0d9:a4e2:30ba:1f13])
+	by xavier.telenet-ops.be with bizsmtp
+	id Yf4r2B00R1LwnfP01f4rge; Tue, 09 Jan 2024 16:04:51 +0100
+Received: from rox.of.borg ([192.168.97.57])
+	by ramsan.of.borg with esmtp (Exim 4.95)
+	(envelope-from <geert@linux-m68k.org>)
+	id 1rNDeD-00Eznh-Sk
+	for linux-renesas-soc@vger.kernel.org;
+	Tue, 09 Jan 2024 16:04:51 +0100
+Received: from geert by rox.of.borg with local (Exim 4.95)
+	(envelope-from <geert@linux-m68k.org>)
+	id 1rNDet-00Gu5x-IC
+	for linux-renesas-soc@vger.kernel.org;
+	Tue, 09 Jan 2024 16:04:51 +0100
+From: Geert Uytterhoeven <geert+renesas@glider.be>
+To: linux-renesas-soc@vger.kernel.org
+Subject: renesas-drivers-2024-01-09-v6.7
+Date: Tue,  9 Jan 2024 16:04:51 +0100
+Message-Id: <20240109150451.4028865-1-geert+renesas@glider.be>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cover.1704788539.git.ysato@users.sourceforge.jp> <160ee086771703c951c5522d997662aeac122a28.1704788539.git.ysato@users.sourceforge.jp>
-In-Reply-To: <160ee086771703c951c5522d997662aeac122a28.1704788539.git.ysato@users.sourceforge.jp>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Tue, 9 Jan 2024 13:42:53 +0100
-Message-ID: <CACRpkdZMkyJdkFt_x-6iubLZ-KzewvmT0zi4HAas0Xy9DpPn3g@mail.gmail.com>
-Subject: Re: [DO NOT MERGE v6 12/37] dt-bindings: pci: pci-sh7751: Add SH7751 PCI
-To: Yoshinori Sato <ysato@users.sourceforge.jp>
-Cc: linux-sh@vger.kernel.org, Damien Le Moal <dlemoal@kernel.org>, 
-	Rob Herring <robh+dt@kernel.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Michael Turquette <mturquette@baylibre.com>, 
-	Stephen Boyd <sboyd@kernel.org>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
-	Thomas Gleixner <tglx@linutronix.de>, Lorenzo Pieralisi <lpieralisi@kernel.org>, 
-	=?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>, 
-	Bjorn Helgaas <bhelgaas@google.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Jiri Slaby <jirislaby@kernel.org>, Magnus Damm <magnus.damm@gmail.com>, 
-	Daniel Lezcano <daniel.lezcano@linaro.org>, Rich Felker <dalias@libc.org>, 
-	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>, Lee Jones <lee@kernel.org>, 
-	Helge Deller <deller@gmx.de>, Heiko Stuebner <heiko@sntech.de>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Chris Morgan <macromorgan@hotmail.com>, 
-	Yang Xiwen <forbidden405@foxmail.com>, Sebastian Reichel <sre@kernel.org>, 
-	Randy Dunlap <rdunlap@infradead.org>, Arnd Bergmann <arnd@arndb.de>, Vlastimil Babka <vbabka@suse.cz>, 
-	Hyeonggon Yoo <42.hyeyoo@gmail.com>, David Rientjes <rientjes@google.com>, Baoquan He <bhe@redhat.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, Guenter Roeck <linux@roeck-us.net>, 
-	Stephen Rothwell <sfr@canb.auug.org.au>, Azeem Shaikh <azeemshaikh38@gmail.com>, 
-	Javier Martinez Canillas <javierm@redhat.com>, Max Filippov <jcmvbkbc@gmail.com>, 
-	Palmer Dabbelt <palmer@rivosinc.com>, Bin Meng <bmeng@tinylab.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Jacky Huang <ychuang3@nuvoton.com>, 
-	Lukas Bulwahn <lukas.bulwahn@gmail.com>, Biju Das <biju.das.jz@bp.renesas.com>, 
-	=?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>, 
-	Sam Ravnborg <sam@ravnborg.org>, Sergey Shtylyov <s.shtylyov@omp.ru>, 
-	Michael Karcher <kernel@mkarcher.dialup.fu-berlin.de>, 
-	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, linux-ide@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, linux-pci@vger.kernel.org, 
-	linux-serial@vger.kernel.org, linux-fbdev@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Hi Yoshinori,
+I have pushed renesas-drivers-2024-01-09-v6.7 to
+https://git.kernel.org/cgit/linux/kernel/git/geert/renesas-drivers.git
 
-thanks for your patch!
+This tree is meant to ease development of platform support and drivers
+for Renesas ARM and RISC-V SoCs.  It is created by merging (a) the
+for-next branches of various subsystem trees and (b) branches with
+driver code submitted or planned for submission to maintainers into the
+master branch of my renesas-devel.git tree.
 
-On Tue, Jan 9, 2024 at 9:24=E2=80=AFAM Yoshinori Sato
-<ysato@users.sourceforge.jp> wrote:
+Today's version is based on renesas-devel-2024-01-08-v6.7.
 
-> Renesas SH7751 PCI Controller json-schema.
->
-> Signed-off-by: Yoshinori Sato <ysato@users.sourceforge.jp>
-(...)
-> +  renesas,bus-arbit-round-robin:
-> +    $ref: /schemas/types.yaml#/definitions/flag
-> +    description: |
-> +      Set DMA bus arbitration to round robin.
-> +
-> +  pci-command-reg-fast-back-to-back:
-> +    $ref: /schemas/types.yaml#/definitions/flag
-> +    description: |
-> +      Set for PCI command register Fast Back-to-Back enable bit.
-> +
-> +  pci-command-reg-serr:
-> +    $ref: /schemas/types.yaml#/definitions/flag
-> +    description: |
-> +      Set for PCI command register SERR# enable.
-> +
-> +  pci-command-reg-wait-cycle-control:
-> +    $ref: /schemas/types.yaml#/definitions/flag
-> +    description: |
-> +      Set for PCI command register Wait cycle control bit.
-> +
-> +  pci-command-reg-parity-error-response:
-> +    $ref: /schemas/types.yaml#/definitions/flag
-> +    description: |
-> +      Set for PCI Command register Parity error response bit.
-> +
-> +  pci-command-reg-vga-snoop:
-> +    $ref: /schemas/types.yaml#/definitions/flag
-> +    description: |
-> +      Set for PCI Command register VGA palette snoop bit.
-> +
-> +  pci-command-reg-write-invalidate:
-> +    $ref: /schemas/types.yaml#/definitions/flag
-> +    description: |
-> +      Set for PCI Command register Memory write and invaldate enable bit=
-.
-> +
-> +  pci-command-reg-special-cycle:
-> +    $ref: /schemas/types.yaml#/definitions/flag
-> +    description: |
-> +      Set for PCI Command register Special cycle bit.
-> +
-> +  pci-command-reg-bus-master:
-> +    $ref: /schemas/types.yaml#/definitions/flag
-> +    description: |
-> +      Set for PCI Command register Bus master bit.
-> +
-> +  pci-command-reg-memory-space:
-> +    $ref: /schemas/types.yaml#/definitions/flag
-> +    description: |
-> +      Set for PCI Command register Memory space bit.
-> +
-> +  pci-command-reg-io-space:
-> +    $ref: /schemas/types.yaml#/definitions/flag
-> +    description: |
-> +      Set for PCI Command register I/O space bit.
+Included branches with driver code:
+  - topic/v4m-gray-hawk-single-v1
+  - git://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git#renesas/gpio-logic-analyzer-v8~1
 
-Do you really need to configure all these things? It seems they are
-just set to default values anyway?
+Included fixes:
+  - ARM: shmobile: defconfig: Update shmobile_defconfig
+  - [LOCAL] arm64: renesas: defconfig: Update renesas_defconfig
 
-Can't you just look at the compatible "renesas,sh7751-pci" and
-set it to the values you know are needed for that compatible?
+Included subsystem trees:
+  - git://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git#linux-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git#clk-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-pinctrl.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/brgl/linux.git#gpio/for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/mtd/linux.git#mtd/next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/netdev/net-next.git#main
+  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git#tty-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git#i2c/for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/andi.shyti/linux.git#i2c/andi-for-current
+  - git://git.kernel.org/pub/scm/linux/kernel/git/andi.shyti/linux.git#i2c/andi-for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/mkl/linux-can-next.git#master
+  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git#usb-next
+  - git://git.freedesktop.org/git/drm/drm.git#drm-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/joro/iommu.git#next
+  - git://linuxtv.org/media_tree.git#master
+  - git://git.kernel.org/pub/scm/linux/kernel/git/ulfh/mmc.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/thierry.reding/linux-pwm.git#for-next
+  - git://git.linaro.org/people/daniel.lezcano/linux.git#timers/drivers/next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/vkoul/dmaengine.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git#staging-next
+  - git://git.armlinux.org.uk/~rmk/linux-arm.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/regmap.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git#irq/core
+  - git://git.kernel.org/pub/scm/linux/kernel/git/maz/arm-platforms.git#irq/irqchip-fixes
+  - git://git.kernel.org/pub/scm/linux/kernel/git/maz/arm-platforms.git#irq/irqchip-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/dlemoal/libata.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/sre/linux-power-supply.git#for-next
+  - git://www.linux-watchdog.org/linux-watchdog-next.git#master
+  - git://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/regulator.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git#for-next/core
+  - git://anongit.freedesktop.org/drm/drm-misc#for-linux-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/phy/linux-phy.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/thermal/linux.git#thermal/linux-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git#for-mfd-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2.6.git#master
+  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/driver-core.git#driver-core-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/glaubitz/sh-linux.git#for-next
+  - git://git.pengutronix.de/git/pza/linux#reset/next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/krzk/linux-mem-ctrl.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/deller/linux-fbdev.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/jejb/scsi.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/mkp/scsi.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/riscv/linux.git#fixes
+  - git://git.kernel.org/pub/scm/linux/kernel/git/riscv/linux.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/ulfh/linux-pm.git#next
 
-> +  pci-bar:
-> +    $ref: /schemas/types.yaml#/definitions/uint32-matrix
-> +    description: Overwrite to  PCI CONFIG Base Address Registers value.
-> +    items:
-> +      items:
-> +        - description: BAR register number
-> +        - description: BAR register value
-> +    minItems: 1
-> +    maxItems: 6
+Gr{oetje,eeting}s,
 
-Same with this, isn't this always the same (hardcoded) values
-for "renesas,sh7751-pci" if used?
+						Geert
 
-> +            interrupt-map =3D <0x0000 0 0 1 &julianintc 5>,
-> +                            <0x0000 0 0 2 &julianintc 6>,
-> +                            <0x0000 0 0 3 &julianintc 7>,
-> +                            <0x0000 0 0 4 &julianintc 8>,
-> +                            <0x0800 0 0 1 &julianintc 6>,
-> +                            <0x0800 0 0 2 &julianintc 7>,
-> +                            <0x0800 0 0 3 &julianintc 8>,
-> +                            <0x0800 0 0 4 &julianintc 5>,
-> +                            <0x1000 0 0 1 &julianintc 7>,
-> +                            <0x1000 0 0 2 &julianintc 8>,
-> +                            <0x1000 0 0 3 &julianintc 5>,
-> +                            <0x1000 0 0 4 &julianintc 6>;
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-This interrupt-map looks very strange, usually the last cell is the polarit=
-y
-flag and here it is omitted? I would expect something like:
-
-<0x0000 0 0 1 &julianintc 5 IRQ_TYPE_LEVEL_LOW>, (...)
-
-The interrupt-map schema in dtschema isn't really looking at this
-so it is easy to get it wrong.
-
-Yours,
-Linus Walleij
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+							    -- Linus Torvalds
 
