@@ -1,333 +1,259 @@
-Return-Path: <linux-renesas-soc+bounces-1486-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-1487-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF61E829D32
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Jan 2024 16:13:14 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id E54CB829E1E
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Jan 2024 17:01:07 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E8F381C21FD8
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Jan 2024 15:13:12 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 4992EB265C4
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Jan 2024 16:01:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6DAF34C3AC;
-	Wed, 10 Jan 2024 15:13:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9CDDC4C3C8;
+	Wed, 10 Jan 2024 16:01:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=brainfault-org.20230601.gappssmtp.com header.i=@brainfault-org.20230601.gappssmtp.com header.b="Gj383Vmc"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NHmjL9MU"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-il1-f180.google.com (mail-il1-f180.google.com [209.85.166.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFF194BA9C
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 10 Jan 2024 15:13:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=brainfault.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=brainfault.org
-Received: by mail-il1-f180.google.com with SMTP id e9e14a558f8ab-3606f133b1fso11769535ab.0
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 10 Jan 2024 07:13:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=brainfault-org.20230601.gappssmtp.com; s=20230601; t=1704899582; x=1705504382; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=CLmfrw2jsSN60tMCB/PEONVy5KPpeeDlWefaJWRpQVA=;
-        b=Gj383VmcW2gMF508XBtyA8e1ddp26AVQqZrh3fAxNXvNivJODnS62dLuBoT+qSSRzK
-         CuU5rtk8FPUEzSXLcjic2MsVJVqBO/1Relt7HeByWgXI+kHYAWxQIOT3msNWF5BsXh72
-         AZrsY4GAiKayhgQVyPtWm5TPYK/R+TPzR8wiJTdT1O3+Pe5L/V0Z9tXtYbqGMffEjKuS
-         B28/D95PYlgkKf/KH3TYXW8yaaLQkDGYWHXDSCmtxan4sDsTrlRKDfOQmDfRUWCoFtte
-         XjQ/QPTBL2E7fWKTLd0DUIMzEO1c1RWB8DZoRvzYZpMlcKKFBume1vo2qiui7wVmqh0V
-         dIxQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704899582; x=1705504382;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=CLmfrw2jsSN60tMCB/PEONVy5KPpeeDlWefaJWRpQVA=;
-        b=NwJo+33s93uMbFAGoyh1o+Rsmpc5PNbSM0t8kk7jFnqwkSZtIYrXCiHqBObFQ188D8
-         lr3BRNY3VMC5kmgl2yJTKI+OHPRD/mgbdceMUMwYDiwyVP2jAReScYu6TEZjscHZGYci
-         HolW+jcPLY7JARZgdNIQDFgDeRcPXZArhzegHbxhzONxFxG/qUVAy/NARmJEe1a72Piv
-         bCQgLWQBhqBk3bj4mvhuVjNiTwKa2lHAEvjx18slCV65gzZbk4lgZpZ1j/7tMaQaRLjH
-         l9Wg6K/iovswY2mPwiOCe3Il7rNPx8aVUz+op7OTf7E239P3bEGMGdVcpF/0FHKNVKr7
-         FWnA==
-X-Gm-Message-State: AOJu0YyosxFDgqelRufwXjC/D1skzxq5KmRqY9a15zfHznelhUPeZcIy
-	JgbA5aOyf3eKlNzJj3kmIUJDL8npdG1EnAX4oRUFpoz2mVZJYg==
-X-Google-Smtp-Source: AGHT+IFw/X6CIWamQROjC4ZRQCvZflW+gMP7cNCJOi9mY8EYrqD9A+TpR1UT0WY6zElbjQktNj/ob+qZDfTjcmm69QA=
-X-Received: by 2002:a05:6e02:16c6:b0:35f:b61f:a8a0 with SMTP id
- 6-20020a056e0216c600b0035fb61fa8a0mr178722ilx.13.1704899581750; Wed, 10 Jan
- 2024 07:13:01 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C14524C3BD
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 10 Jan 2024 16:01:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1704902461; x=1736438461;
+  h=date:from:to:cc:subject:message-id;
+  bh=YROTFMaYwm01P2SPgEteT/rvX13nECbbr/m3vwfpY/s=;
+  b=NHmjL9MUrYNlPNBRPN+Ny0+ewABjzHOZYz3u27Mhi2MiSdGmrEhVZ9QA
+   7WxBMwadMNhqWFqXV5vgQB4ysry9j5hksWdLvXMPt5rCge4lfRmyGhsTT
+   EYICMaM+l41QEVQWDaog65Gnta5XJKimJR8pWOgXDRL2hoNdItzRPE2J8
+   GO4ElWubc4cfce5u64S5QAD4KOkvA6OP/IR8G9h6ydEWea4SsrS3h4SEX
+   o/or2VwXSF7lQEyzBqxD9x/+8qbeM7ibpUJV7yXkdGYMPQ+hxX/3az7Y2
+   6+DP8NNkGci0CO3SwSZA3yLMTgTb0/9xzsBrg5Z9UwR0X9Yxi1GiPbzFo
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10948"; a="17151752"
+X-IronPort-AV: E=Sophos;i="6.04,184,1695711600"; 
+   d="scan'208";a="17151752"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jan 2024 08:00:09 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10948"; a="782239727"
+X-IronPort-AV: E=Sophos;i="6.04,184,1695711600"; 
+   d="scan'208";a="782239727"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+  by orsmga002.jf.intel.com with ESMTP; 10 Jan 2024 08:00:07 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rNazt-0007DI-0R;
+	Wed, 10 Jan 2024 16:00:05 +0000
+Date: Wed, 10 Jan 2024 23:59:11 +0800
+From: kernel test robot <lkp@intel.com>
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: linux-renesas-soc@vger.kernel.org
+Subject: [geert-renesas-drivers:master] BUILD SUCCESS
+ b975e4dc77c1fdeaac0cc8589ff48c9ab070de40
+Message-ID: <202401102310.3XxS1eqT-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20240110073917.2398826-1-peterlin@andestech.com> <20240110073917.2398826-4-peterlin@andestech.com>
-In-Reply-To: <20240110073917.2398826-4-peterlin@andestech.com>
-From: Anup Patel <anup@brainfault.org>
-Date: Wed, 10 Jan 2024 20:42:50 +0530
-Message-ID: <CAAhSdy1vsngrYj2tjUJqxepLEcz1zOFfYHvAvL4kqX4p62gnGA@mail.gmail.com>
-Subject: Re: [PATCH v7 03/16] irqchip/riscv-intc: Introduce Andes hart-level
- interrupt controller
-To: Yu Chien Peter Lin <peterlin@andestech.com>
-Cc: acme@kernel.org, adrian.hunter@intel.com, ajones@ventanamicro.com, 
-	alexander.shishkin@linux.intel.com, andre.przywara@arm.com, 
-	aou@eecs.berkeley.edu, atishp@atishpatra.org, conor+dt@kernel.org, 
-	conor.dooley@microchip.com, conor@kernel.org, devicetree@vger.kernel.org, 
-	dminus@andestech.com, evan@rivosinc.com, geert+renesas@glider.be, 
-	guoren@kernel.org, heiko@sntech.de, irogers@google.com, 
-	jernej.skrabec@gmail.com, jolsa@kernel.org, jszhang@kernel.org, 
-	krzysztof.kozlowski+dt@linaro.org, linux-arm-kernel@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org, linux-riscv@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev, locus84@andestech.com, magnus.damm@gmail.com, 
-	mark.rutland@arm.com, mingo@redhat.com, n.shubin@yadro.com, 
-	namhyung@kernel.org, palmer@dabbelt.com, paul.walmsley@sifive.com, 
-	peterz@infradead.org, prabhakar.mahadev-lad.rj@bp.renesas.com, 
-	rdunlap@infradead.org, robh+dt@kernel.org, samuel@sholland.org, 
-	sunilvl@ventanamicro.com, tglx@linutronix.de, tim609@andestech.com, 
-	uwu@icenowy.me, wens@csie.org, will@kernel.org, ycliang@andestech.com, 
-	inochiama@outlook.com, chao.wei@sophgo.com, unicorn_wang@outlook.com, 
-	wefu@redhat.com, Randolph <randolph@andestech.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Wed, Jan 10, 2024 at 1:10=E2=80=AFPM Yu Chien Peter Lin
-<peterlin@andestech.com> wrote:
->
-> Add support for the Andes hart-level interrupt controller. This
-> controller provides interrupt mask/unmask functions to access the
-> custom register (SLIE) where the non-standard S-mode local interrupt
-> enable bits are located. The base of custom interrupt number is set
-> to 256.
->
-> To share the riscv_intc_domain_map() with the generic RISC-V INTC and
-> ACPI, add a chip parameter to riscv_intc_init_common(), so it can be
-> passed to the irq_domain_set_info() as a private data.
->
-> Andes hart-level interrupt controller requires the "andestech,cpu-intc"
-> compatible string to be present in interrupt-controller of cpu node to
-> enable the use of custom local interrupt source.
-> e.g.,
->
->   cpu0: cpu@0 {
->       compatible =3D "andestech,ax45mp", "riscv";
->       ...
->       cpu0-intc: interrupt-controller {
->           #interrupt-cells =3D <0x01>;
->           compatible =3D "andestech,cpu-intc", "riscv,cpu-intc";
->           interrupt-controller;
->       };
->   };
->
-> Signed-off-by: Yu Chien Peter Lin <peterlin@andestech.com>
-> Reviewed-by: Randolph <randolph@andestech.com>
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git master
+branch HEAD: b975e4dc77c1fdeaac0cc8589ff48c9ab070de40  [LOCAL] arm64: renesas: defconfig: Update renesas_defconfig
 
-Looks good to me.
+elapsed time: 1463m
 
-Reviewed-by: Anup Patel <anup@brainfault.org>
+configs tested: 177
+configs skipped: 3
 
-Regards,
-Anup
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-> ---
-> Changes v1 -> v2:
->   - New patch
-> Changes v2 -> v3:
->   - Return -ENXIO if no valid compatible INTC found
->   - Allow falling back to generic RISC-V INTC
-> Changes v3 -> v4: (Suggested by Thomas [1])
->   - Add comment to andes irq chip function
->   - Refine code flow to share with generic RISC-V INTC and ACPI
->   - Move Andes specific definitions to include/linux/soc/andes/irq.h
-> Changes v4 -> v5: (Suggested by Thomas)
->   - Fix commit message
->   - Subtract ANDES_SLI_CAUSE_BASE from d->hwirq to calculate the value of=
- mask
->   - Do not set chip_data to the chip itself with irq_domain_set_info()
->   - Follow reverse fir tree order variable declarations
-> Changes v5 -> v6:
->   - To follow the naming on datasheet, rename ANDES_RV_IRQ_PMU to ANDES_R=
-V_IRQ_PMOVI
->   - Initialize the riscv_intc_* global variables for Andes INTC (Suggeste=
-d by Anup)
->   - Use BITS_PER_LONG to compute the bit mask of SIE/SLIE as they are 64-=
-bit registers (32-bit for RV32)
-> Changes v6 -> v7:
->   - No change
->
-> [1] https://patchwork.kernel.org/project/linux-riscv/patch/20231019135723=
-.3657156-1-peterlin@andestech.com/
-> ---
->  drivers/irqchip/irq-riscv-intc.c | 66 +++++++++++++++++++++++++++-----
->  include/linux/soc/andes/irq.h    | 18 +++++++++
->  2 files changed, 74 insertions(+), 10 deletions(-)
->  create mode 100644 include/linux/soc/andes/irq.h
->
-> diff --git a/drivers/irqchip/irq-riscv-intc.c b/drivers/irqchip/irq-riscv=
--intc.c
-> index b13a16b164c9..7064857f1f1d 100644
-> --- a/drivers/irqchip/irq-riscv-intc.c
-> +++ b/drivers/irqchip/irq-riscv-intc.c
-> @@ -17,6 +17,7 @@
->  #include <linux/module.h>
->  #include <linux/of.h>
->  #include <linux/smp.h>
-> +#include <linux/soc/andes/irq.h>
->
->  static struct irq_domain *intc_domain;
->  static unsigned int riscv_intc_nr_irqs __ro_after_init;
-> @@ -49,6 +50,31 @@ static void riscv_intc_irq_unmask(struct irq_data *d)
->         csr_set(CSR_IE, BIT(d->hwirq));
->  }
->
-> +static void andes_intc_irq_mask(struct irq_data *d)
-> +{
-> +       /*
-> +        * Andes specific S-mode local interrupt causes (hwirq)
-> +        * are defined as (256 + n) and controlled by n-th bit
-> +        * of SLIE.
-> +        */
-> +       unsigned int mask =3D BIT(d->hwirq % BITS_PER_LONG);
-> +
-> +       if (d->hwirq < ANDES_SLI_CAUSE_BASE)
-> +               csr_clear(CSR_IE, mask);
-> +       else
-> +               csr_clear(ANDES_CSR_SLIE, mask);
-> +}
-> +
-> +static void andes_intc_irq_unmask(struct irq_data *d)
-> +{
-> +       unsigned int mask =3D BIT(d->hwirq % BITS_PER_LONG);
-> +
-> +       if (d->hwirq < ANDES_SLI_CAUSE_BASE)
-> +               csr_set(CSR_IE, mask);
-> +       else
-> +               csr_set(ANDES_CSR_SLIE, mask);
-> +}
-> +
->  static void riscv_intc_irq_eoi(struct irq_data *d)
->  {
->         /*
-> @@ -72,12 +98,21 @@ static struct irq_chip riscv_intc_chip =3D {
->         .irq_eoi =3D riscv_intc_irq_eoi,
->  };
->
-> +static struct irq_chip andes_intc_chip =3D {
-> +       .name           =3D "RISC-V INTC",
-> +       .irq_mask       =3D andes_intc_irq_mask,
-> +       .irq_unmask     =3D andes_intc_irq_unmask,
-> +       .irq_eoi        =3D riscv_intc_irq_eoi,
-> +};
-> +
->  static int riscv_intc_domain_map(struct irq_domain *d, unsigned int irq,
->                                  irq_hw_number_t hwirq)
->  {
-> +       struct irq_chip *chip =3D d->host_data;
-> +
->         irq_set_percpu_devid(irq);
-> -       irq_domain_set_info(d, irq, hwirq, &riscv_intc_chip, d->host_data=
-,
-> -                           handle_percpu_devid_irq, NULL, NULL);
-> +       irq_domain_set_info(d, irq, hwirq, chip, NULL, handle_percpu_devi=
-d_irq,
-> +                           NULL, NULL);
->
->         return 0;
->  }
-> @@ -123,11 +158,12 @@ static struct fwnode_handle *riscv_intc_hwnode(void=
-)
->         return intc_domain->fwnode;
->  }
->
-> -static int __init riscv_intc_init_common(struct fwnode_handle *fn)
-> +static int __init riscv_intc_init_common(struct fwnode_handle *fn,
-> +                                        struct irq_chip *chip)
->  {
->         int rc;
->
-> -       intc_domain =3D irq_domain_create_tree(fn, &riscv_intc_domain_ops=
-, NULL);
-> +       intc_domain =3D irq_domain_create_tree(fn, &riscv_intc_domain_ops=
-, chip);
->         if (!intc_domain) {
->                 pr_err("unable to add IRQ domain\n");
->                 return -ENXIO;
-> @@ -152,8 +188,9 @@ static int __init riscv_intc_init_common(struct fwnod=
-e_handle *fn)
->  static int __init riscv_intc_init(struct device_node *node,
->                                   struct device_node *parent)
->  {
-> -       int rc;
-> +       struct irq_chip *chip;
->         unsigned long hartid;
-> +       int rc;
->
->         rc =3D riscv_of_parent_hartid(node, &hartid);
->         if (rc < 0) {
-> @@ -178,14 +215,23 @@ static int __init riscv_intc_init(struct device_nod=
-e *node,
->                 return 0;
->         }
->
-> -       riscv_intc_nr_irqs =3D BITS_PER_LONG;
-> -       riscv_intc_custom_base =3D riscv_intc_nr_irqs;
-> -       riscv_intc_custom_nr_irqs =3D 0;
-> +       if (of_device_is_compatible(node, "andestech,cpu-intc")) {
-> +               riscv_intc_nr_irqs =3D BITS_PER_LONG;
-> +               riscv_intc_custom_base =3D ANDES_SLI_CAUSE_BASE;
-> +               riscv_intc_custom_nr_irqs =3D ANDES_RV_IRQ_LAST;
-> +               chip =3D &andes_intc_chip;
-> +       } else {
-> +               riscv_intc_nr_irqs =3D BITS_PER_LONG;
-> +               riscv_intc_custom_base =3D riscv_intc_nr_irqs;
-> +               riscv_intc_custom_nr_irqs =3D 0;
-> +               chip =3D &riscv_intc_chip;
-> +       }
->
-> -       return riscv_intc_init_common(of_node_to_fwnode(node));
-> +       return riscv_intc_init_common(of_node_to_fwnode(node), chip);
->  }
->
->  IRQCHIP_DECLARE(riscv, "riscv,cpu-intc", riscv_intc_init);
-> +IRQCHIP_DECLARE(andes, "andestech,cpu-intc", riscv_intc_init);
->
->  #ifdef CONFIG_ACPI
->
-> @@ -212,7 +258,7 @@ static int __init riscv_intc_acpi_init(union acpi_sub=
-table_headers *header,
->                 return -ENOMEM;
->         }
->
-> -       return riscv_intc_init_common(fn);
-> +       return riscv_intc_init_common(fn, &riscv_intc_chip);
->  }
->
->  IRQCHIP_ACPI_DECLARE(riscv_intc, ACPI_MADT_TYPE_RINTC, NULL,
-> diff --git a/include/linux/soc/andes/irq.h b/include/linux/soc/andes/irq.=
-h
-> new file mode 100644
-> index 000000000000..edc3182d6e66
-> --- /dev/null
-> +++ b/include/linux/soc/andes/irq.h
-> @@ -0,0 +1,18 @@
-> +/* SPDX-License-Identifier: GPL-2.0-only */
-> +/*
-> + * Copyright (C) 2023 Andes Technology Corporation
-> + */
-> +#ifndef __ANDES_IRQ_H
-> +#define __ANDES_IRQ_H
-> +
-> +/* Andes PMU irq number */
-> +#define ANDES_RV_IRQ_PMOVI             18
-> +#define ANDES_RV_IRQ_LAST              ANDES_RV_IRQ_PMOVI
-> +#define ANDES_SLI_CAUSE_BASE           256
-> +
-> +/* Andes PMU related registers */
-> +#define ANDES_CSR_SLIE                 0x9c4
-> +#define ANDES_CSR_SLIP                 0x9c5
-> +#define ANDES_CSR_SCOUNTEROF           0x9d4
-> +
-> +#endif /* __ANDES_IRQ_H */
-> --
-> 2.34.1
->
+tested configs:
+alpha                             allnoconfig   gcc  
+alpha                            allyesconfig   gcc  
+alpha                               defconfig   gcc  
+arc                              allmodconfig   gcc  
+arc                               allnoconfig   gcc  
+arc                              allyesconfig   gcc  
+arc                                 defconfig   gcc  
+arc                   randconfig-001-20240110   gcc  
+arc                   randconfig-002-20240110   gcc  
+arm                              allmodconfig   gcc  
+arm                               allnoconfig   gcc  
+arm                              allyesconfig   gcc  
+arm                                 defconfig   clang
+arm                   randconfig-001-20240110   clang
+arm                   randconfig-002-20240110   clang
+arm                   randconfig-003-20240110   clang
+arm                   randconfig-004-20240110   clang
+arm                           stm32_defconfig   gcc  
+arm64                            allmodconfig   clang
+arm64                             allnoconfig   gcc  
+arm64                               defconfig   gcc  
+arm64                 randconfig-001-20240110   clang
+arm64                 randconfig-002-20240110   clang
+arm64                 randconfig-003-20240110   clang
+arm64                 randconfig-004-20240110   clang
+csky                             allmodconfig   gcc  
+csky                              allnoconfig   gcc  
+csky                             allyesconfig   gcc  
+csky                                defconfig   gcc  
+csky                  randconfig-001-20240110   gcc  
+csky                  randconfig-002-20240110   gcc  
+hexagon                          allmodconfig   clang
+hexagon                           allnoconfig   clang
+hexagon                          allyesconfig   clang
+hexagon                             defconfig   clang
+hexagon               randconfig-001-20240110   clang
+hexagon               randconfig-002-20240110   clang
+i386                             allmodconfig   clang
+i386                              allnoconfig   clang
+i386                             allyesconfig   clang
+i386         buildonly-randconfig-001-20240110   clang
+i386         buildonly-randconfig-002-20240110   clang
+i386         buildonly-randconfig-003-20240110   clang
+i386         buildonly-randconfig-004-20240110   clang
+i386         buildonly-randconfig-005-20240110   clang
+i386         buildonly-randconfig-006-20240110   clang
+i386                                defconfig   gcc  
+i386                  randconfig-001-20240110   clang
+i386                  randconfig-002-20240110   clang
+i386                  randconfig-003-20240110   clang
+i386                  randconfig-004-20240110   clang
+i386                  randconfig-005-20240110   clang
+i386                  randconfig-006-20240110   clang
+i386                  randconfig-011-20240110   gcc  
+i386                  randconfig-012-20240110   gcc  
+i386                  randconfig-013-20240110   gcc  
+i386                  randconfig-014-20240110   gcc  
+i386                  randconfig-015-20240110   gcc  
+i386                  randconfig-016-20240110   gcc  
+loongarch                        allmodconfig   gcc  
+loongarch                         allnoconfig   gcc  
+loongarch                           defconfig   gcc  
+loongarch             randconfig-001-20240110   gcc  
+loongarch             randconfig-002-20240110   gcc  
+m68k                             allmodconfig   gcc  
+m68k                              allnoconfig   gcc  
+m68k                             allyesconfig   gcc  
+m68k                       bvme6000_defconfig   gcc  
+m68k                                defconfig   gcc  
+m68k                        stmark2_defconfig   gcc  
+microblaze                       allmodconfig   gcc  
+microblaze                        allnoconfig   gcc  
+microblaze                       allyesconfig   gcc  
+microblaze                          defconfig   gcc  
+mips                              allnoconfig   clang
+mips                             allyesconfig   gcc  
+mips                          ath79_defconfig   clang
+mips                      bmips_stb_defconfig   clang
+mips                         cobalt_defconfig   gcc  
+mips                          rb532_defconfig   gcc  
+mips                        vocore2_defconfig   gcc  
+mips                           xway_defconfig   gcc  
+nios2                            allmodconfig   gcc  
+nios2                             allnoconfig   gcc  
+nios2                            allyesconfig   gcc  
+nios2                               defconfig   gcc  
+nios2                 randconfig-001-20240110   gcc  
+nios2                 randconfig-002-20240110   gcc  
+openrisc                          allnoconfig   gcc  
+openrisc                         allyesconfig   gcc  
+openrisc                            defconfig   gcc  
+parisc                           allmodconfig   gcc  
+parisc                            allnoconfig   gcc  
+parisc                           allyesconfig   gcc  
+parisc                              defconfig   gcc  
+parisc                randconfig-001-20240110   gcc  
+parisc                randconfig-002-20240110   gcc  
+parisc64                            defconfig   gcc  
+powerpc                          allmodconfig   clang
+powerpc                           allnoconfig   gcc  
+powerpc                          allyesconfig   clang
+powerpc                      mgcoge_defconfig   gcc  
+powerpc                  mpc885_ads_defconfig   clang
+powerpc                      pasemi_defconfig   gcc  
+powerpc                      pmac32_defconfig   clang
+powerpc               randconfig-001-20240110   clang
+powerpc               randconfig-002-20240110   clang
+powerpc               randconfig-003-20240110   clang
+powerpc                 xes_mpc85xx_defconfig   gcc  
+powerpc64             randconfig-001-20240110   clang
+powerpc64             randconfig-002-20240110   clang
+powerpc64             randconfig-003-20240110   clang
+riscv                            allmodconfig   gcc  
+riscv                             allnoconfig   clang
+riscv                            allyesconfig   gcc  
+riscv                               defconfig   gcc  
+riscv                 randconfig-001-20240110   clang
+riscv                 randconfig-002-20240110   clang
+s390                             allmodconfig   gcc  
+s390                              allnoconfig   gcc  
+s390                             allyesconfig   gcc  
+s390                                defconfig   gcc  
+s390                  randconfig-001-20240110   gcc  
+s390                  randconfig-002-20240110   gcc  
+sh                               allmodconfig   gcc  
+sh                                allnoconfig   gcc  
+sh                               allyesconfig   gcc  
+sh                                  defconfig   gcc  
+sh                    randconfig-001-20240110   gcc  
+sh                    randconfig-002-20240110   gcc  
+sh                           se7750_defconfig   gcc  
+sparc                            allmodconfig   gcc  
+sparc64                          allmodconfig   gcc  
+sparc64                          allyesconfig   gcc  
+sparc64                             defconfig   gcc  
+sparc64               randconfig-001-20240110   gcc  
+sparc64               randconfig-002-20240110   gcc  
+um                               alldefconfig   gcc  
+um                               allmodconfig   clang
+um                                allnoconfig   clang
+um                               allyesconfig   clang
+um                                  defconfig   gcc  
+um                             i386_defconfig   gcc  
+um                    randconfig-001-20240110   clang
+um                    randconfig-002-20240110   clang
+um                           x86_64_defconfig   gcc  
+x86_64                            allnoconfig   gcc  
+x86_64                           allyesconfig   clang
+x86_64       buildonly-randconfig-001-20240110   clang
+x86_64       buildonly-randconfig-002-20240110   clang
+x86_64       buildonly-randconfig-003-20240110   clang
+x86_64       buildonly-randconfig-004-20240110   clang
+x86_64       buildonly-randconfig-005-20240110   clang
+x86_64       buildonly-randconfig-006-20240110   clang
+x86_64                              defconfig   gcc  
+x86_64                randconfig-001-20240110   gcc  
+x86_64                randconfig-002-20240110   gcc  
+x86_64                randconfig-003-20240110   gcc  
+x86_64                randconfig-004-20240110   gcc  
+x86_64                randconfig-005-20240110   gcc  
+x86_64                randconfig-006-20240110   gcc  
+x86_64                randconfig-011-20240110   clang
+x86_64                randconfig-012-20240110   clang
+x86_64                randconfig-013-20240110   clang
+x86_64                randconfig-014-20240110   clang
+x86_64                randconfig-015-20240110   clang
+x86_64                randconfig-016-20240110   clang
+x86_64                randconfig-071-20240110   clang
+x86_64                randconfig-072-20240110   clang
+x86_64                randconfig-073-20240110   clang
+x86_64                randconfig-074-20240110   clang
+x86_64                randconfig-075-20240110   clang
+x86_64                randconfig-076-20240110   clang
+x86_64                          rhel-8.3-rust   clang
+xtensa                            allnoconfig   gcc  
+xtensa                randconfig-001-20240110   gcc  
+xtensa                randconfig-002-20240110   gcc  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
