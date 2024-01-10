@@ -1,133 +1,149 @@
-Return-Path: <linux-renesas-soc+bounces-1455-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-1460-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4225882943D
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Jan 2024 08:25:29 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 45AB4829501
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Jan 2024 09:26:29 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 672B91C256BD
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Jan 2024 07:25:23 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6B1911C253BA
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Jan 2024 08:26:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CBCCD39AF4;
-	Wed, 10 Jan 2024 07:25:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kwLNTr+s"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 169A43E472;
+	Wed, 10 Jan 2024 08:25:20 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from Atcsqr.andestech.com (60-248-80-70.hinet-ip.hinet.net [60.248.80.70])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FCB438FA6;
-	Wed, 10 Jan 2024 07:25:17 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 71E53C433C7;
-	Wed, 10 Jan 2024 07:25:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1704871516;
-	bh=y0XYir9hehV1QYoG8yiAHQAvf4oF+CEU/HIxmrlgqD0=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=kwLNTr+szIOaRkpRZoDgbFhI9S8qYT6jpV0hXCZE5cflXXWNyOCDzFwDuK4h9slGy
-	 Qg4fsDlf7+nOKVOl6YuCy3QQl8R0hc+l1J9N16iEikNi4H490UNePCs/0gsWOtIJSK
-	 sYXIOLMzaRzIWpBfCkgzGgLzfUAX87+ztuN49TqFz3Ax6OpU9GvL0Oclg1imlijMXU
-	 YRDUD1RyiUDumrGm0WOvf1L4FDUKylYTC9u9Y1IVMlvideoeSIq5GJAOrUfZ51Qg5W
-	 //KglQA8Jm7AtnnpTE5zNayD2c5Bb1Vwk0spa6Q+D1vwfZ9Ih+RpZzCnWEx5fjAGXj
-	 jN0LDsl1A6H2Q==
-Message-ID: <7011f139-93c8-4b8c-9e90-dfafffd2a134@kernel.org>
-Date: Wed, 10 Jan 2024 16:25:08 +0900
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D0DC3FB16;
+	Wed, 10 Jan 2024 08:25:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=andestech.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=andestech.com
+Received: from Atcsqr.andestech.com (localhost [127.0.0.2] (may be forged))
+	by Atcsqr.andestech.com with ESMTP id 40A7ftHr088651;
+	Wed, 10 Jan 2024 15:41:55 +0800 (+08)
+	(envelope-from peterlin@andestech.com)
+Received: from mail.andestech.com (ATCPCS16.andestech.com [10.0.1.222])
+	by Atcsqr.andestech.com with ESMTP id 40A7dRfJ086364;
+	Wed, 10 Jan 2024 15:39:27 +0800 (+08)
+	(envelope-from peterlin@andestech.com)
+Received: from swlinux02.andestech.com (10.0.15.183) by ATCPCS16.andestech.com
+ (10.0.1.222) with Microsoft SMTP Server id 14.3.498.0; Wed, 10 Jan 2024
+ 15:39:22 +0800
+From: Yu Chien Peter Lin <peterlin@andestech.com>
+To: <acme@kernel.org>, <adrian.hunter@intel.com>, <ajones@ventanamicro.com>,
+        <alexander.shishkin@linux.intel.com>, <andre.przywara@arm.com>,
+        <anup@brainfault.org>, <aou@eecs.berkeley.edu>,
+        <atishp@atishpatra.org>, <conor+dt@kernel.org>,
+        <conor.dooley@microchip.com>, <conor@kernel.org>,
+        <devicetree@vger.kernel.org>, <dminus@andestech.com>,
+        <evan@rivosinc.com>, <geert+renesas@glider.be>, <guoren@kernel.org>,
+        <heiko@sntech.de>, <irogers@google.com>, <jernej.skrabec@gmail.com>,
+        <jolsa@kernel.org>, <jszhang@kernel.org>,
+        <krzysztof.kozlowski+dt@linaro.org>,
+        <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
+        <linux-perf-users@vger.kernel.org>,
+        <linux-renesas-soc@vger.kernel.org>, <linux-riscv@lists.infradead.org>,
+        <linux-sunxi@lists.linux.dev>, <locus84@andestech.com>,
+        <magnus.damm@gmail.com>, <mark.rutland@arm.com>, <mingo@redhat.com>,
+        <n.shubin@yadro.com>, <namhyung@kernel.org>, <palmer@dabbelt.com>,
+        <paul.walmsley@sifive.com>, <peterlin@andestech.com>,
+        <peterz@infradead.org>, <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        <rdunlap@infradead.org>, <robh+dt@kernel.org>, <samuel@sholland.org>,
+        <sunilvl@ventanamicro.com>, <tglx@linutronix.de>,
+        <tim609@andestech.com>, <uwu@icenowy.me>, <wens@csie.org>,
+        <will@kernel.org>, <ycliang@andestech.com>, <inochiama@outlook.com>,
+        <chao.wei@sophgo.com>, <unicorn_wang@outlook.com>, <wefu@redhat.com>
+Subject: [PATCH v7 00/16] Support Andes PMU extension
+Date: Wed, 10 Jan 2024 15:39:01 +0800
+Message-ID: <20240110073917.2398826-1-peterlin@andestech.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [DO NOT MERGE v6 27/37] dt-bindings: ata: ata-generic: Add new
- targets
-Content-Language: en-US
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Yoshinori Sato <ysato@users.sourceforge.jp>, linux-sh@vger.kernel.org
-Cc: Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
- <sboyd@kernel.org>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Thomas Gleixner <tglx@linutronix.de>,
- Lorenzo Pieralisi <lpieralisi@kernel.org>,
- =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>,
- Bjorn Helgaas <bhelgaas@google.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Jiri Slaby <jirislaby@kernel.org>, Magnus Damm <magnus.damm@gmail.com>,
- Daniel Lezcano <daniel.lezcano@linaro.org>, Rich Felker <dalias@libc.org>,
- John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
- Lee Jones <lee@kernel.org>, Helge Deller <deller@gmx.de>,
- Heiko Stuebner <heiko@sntech.de>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Chris Morgan <macromorgan@hotmail.com>, Yang Xiwen
- <forbidden405@foxmail.com>, Sebastian Reichel <sre@kernel.org>,
- Linus Walleij <linus.walleij@linaro.org>,
- Randy Dunlap <rdunlap@infradead.org>, Arnd Bergmann <arnd@arndb.de>,
- Vlastimil Babka <vbabka@suse.cz>, Hyeonggon Yoo <42.hyeyoo@gmail.com>,
- David Rientjes <rientjes@google.com>, Baoquan He <bhe@redhat.com>,
- Andrew Morton <akpm@linux-foundation.org>, Guenter Roeck
- <linux@roeck-us.net>, Stephen Rothwell <sfr@canb.auug.org.au>,
- Azeem Shaikh <azeemshaikh38@gmail.com>,
- Javier Martinez Canillas <javierm@redhat.com>,
- Max Filippov <jcmvbkbc@gmail.com>, Palmer Dabbelt <palmer@rivosinc.com>,
- Bin Meng <bmeng@tinylab.org>, Jonathan Corbet <corbet@lwn.net>,
- Jacky Huang <ychuang3@nuvoton.com>, Lukas Bulwahn <lukas.bulwahn@gmail.com>,
- Biju Das <biju.das.jz@bp.renesas.com>,
- =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
- Sam Ravnborg <sam@ravnborg.org>, Sergey Shtylyov <s.shtylyov@omp.ru>,
- Michael Karcher <kernel@mkarcher.dialup.fu-berlin.de>,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- linux-ide@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
- linux-clk@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-pci@vger.kernel.org, linux-serial@vger.kernel.org,
- linux-fbdev@vger.kernel.org
-References: <cover.1704788539.git.ysato@users.sourceforge.jp>
- <06fdb2cf7927681acf3099b826390ef75ba321af.1704788539.git.ysato@users.sourceforge.jp>
- <c2f88d7b-cded-42ab-bc5c-3d9a723daa1f@kernel.org>
- <8cae92cf-ac7f-4e73-b28b-ee543a9064d9@linaro.org>
-From: Damien Le Moal <dlemoal@kernel.org>
-Organization: Western Digital Research
-In-Reply-To: <8cae92cf-ac7f-4e73-b28b-ee543a9064d9@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-DNSRBL: 
+X-SPAM-SOURCE-CHECK: pass
+X-MAIL:Atcsqr.andestech.com 40A7ftHr088651
 
-On 1/10/24 16:19, Krzysztof Kozlowski wrote:
-> On 10/01/2024 03:06, Damien Le Moal wrote:
->> On 1/9/24 17:23, Yoshinori Sato wrote:
->>> Added new ata-generic target.
->>> - iodata,usl-5p-ata
->>> - renesas,rts7751r2d-ata
->>>
->>> Each boards have simple IDE Interface. Use ATA generic driver.
->>
->> This looks OK to me, so feel free to add:
->>
->> Acked-by: Damien Le Moal <dlemoal@kernel.org>
->>
->> Note: The "DO NOT MERGE" patch prefix almost got me to immediately delete this
->> 37 patches in my inbox... If you wish to get this work merged after review,
->> please use the regular "PATCH" prefix. No worries, the series will not be merged
->> until is is reviewed :)
-> 
-> The point of DO NOT MERGE was that feedback was not being implemented
-> and same set of patches with same issues were kept sending. :/
+Hi All,
 
-OK. I found that prefix unusual, but not a big deal.
-Thanks.
+This patch series introduces the Andes PMU extension, which serves
+the same purpose as Sscofpmf. To use FDT-based probing for hardware
+support of the PMU extensions and introduce Andes PMU alternatives,
+we first convert T-Head's PMU to CPU feature alternative.
 
-> 
-> Best regards,
-> Krzysztof
-> 
+Its non-standard local interrupt is assigned to bit 18 in the
+custom S-mode local interrupt enable/pending registers (slie/slip),
+while the interrupt cause is (256 + 18).
+
+Linux patches based on:
+- ed5b7cf ("riscv: errata: andes: Probe for IOCP only once in boot stage")
+It can be found on Andes Technology GitHub:
+- https://github.com/andestech/linux/commits/andes-pmu-support-v7
+
+The PMU device tree node used on AX45MP:
+- https://github.com/riscv-software-src/opensbi/blob/master/docs/pmu_support.md#example-3
+
+Locus Wei-Han Chen (1):
+  riscv: andes: Support specifying symbolic firmware and hardware raw
+    events
+
+Yu Chien Peter Lin (15):
+  riscv: errata: Rename defines for Andes
+  irqchip/riscv-intc: Allow large non-standard interrupt number
+  irqchip/riscv-intc: Introduce Andes hart-level interrupt controller
+  dt-bindings: riscv: Add Andes interrupt controller compatible string
+  riscv: dts: renesas: r9a07g043f: Update compatible string to use Andes
+    INTC
+  perf: RISC-V: Eliminate redundant interrupt enable/disable operations
+  RISC-V: Move T-Head PMU to CPU feature alternative framework
+  perf: RISC-V: Introduce Andes PMU for perf event sampling
+  dt-bindings: riscv: Add T-Head PMU extension description
+  dt-bindings: riscv: Add Andes PMU extension description
+  riscv: dts: allwinner: Add T-Head PMU extension for sun20i-d1s
+  riscv: dts: sophgo: Add T-Head PMU extension for cv1800b
+  riscv: dts: sophgo: Add T-Head PMU extension for sg2042
+  riscv: dts: thead: Add T-Head PMU extension for th1520
+  riscv: dts: renesas: Add Andes PMU extension for r9a07g043f
+
+ .../devicetree/bindings/riscv/cpus.yaml       |   6 +-
+ .../devicetree/bindings/riscv/extensions.yaml |  13 ++
+ arch/riscv/Kconfig.errata                     |  13 --
+ arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi |   2 +-
+ arch/riscv/boot/dts/renesas/r9a07g043f.dtsi   |   4 +-
+ arch/riscv/boot/dts/sophgo/cv1800b.dtsi       |   2 +-
+ arch/riscv/boot/dts/sophgo/sg2042-cpus.dtsi   | 128 +++++++++---------
+ arch/riscv/boot/dts/thead/th1520.dtsi         |   8 +-
+ arch/riscv/errata/andes/errata.c              |  10 +-
+ arch/riscv/errata/thead/errata.c              |  19 ---
+ arch/riscv/include/asm/errata_list.h          |  19 +--
+ arch/riscv/include/asm/hwcap.h                |   2 +
+ arch/riscv/include/asm/vendorid_list.h        |   2 +-
+ arch/riscv/kernel/alternative.c               |   2 +-
+ arch/riscv/kernel/cpufeature.c                |   2 +
+ drivers/irqchip/irq-riscv-intc.c              |  88 ++++++++++--
+ drivers/perf/Kconfig                          |  27 ++++
+ drivers/perf/riscv_pmu_sbi.c                  |  47 +++++--
+ include/linux/soc/andes/irq.h                 |  18 +++
+ .../arch/riscv/andes/ax45/firmware.json       |  68 ++++++++++
+ .../arch/riscv/andes/ax45/instructions.json   | 127 +++++++++++++++++
+ .../arch/riscv/andes/ax45/memory.json         |  57 ++++++++
+ .../arch/riscv/andes/ax45/microarch.json      |  77 +++++++++++
+ tools/perf/pmu-events/arch/riscv/mapfile.csv  |   1 +
+ 24 files changed, 591 insertions(+), 151 deletions(-)
+ create mode 100644 include/linux/soc/andes/irq.h
+ create mode 100644 tools/perf/pmu-events/arch/riscv/andes/ax45/firmware.json
+ create mode 100644 tools/perf/pmu-events/arch/riscv/andes/ax45/instructions.json
+ create mode 100644 tools/perf/pmu-events/arch/riscv/andes/ax45/memory.json
+ create mode 100644 tools/perf/pmu-events/arch/riscv/andes/ax45/microarch.json
 
 -- 
-Damien Le Moal
-Western Digital Research
+2.34.1
 
 
