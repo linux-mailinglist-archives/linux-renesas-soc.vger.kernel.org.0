@@ -1,212 +1,231 @@
-Return-Path: <linux-renesas-soc+bounces-1484-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-1485-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54ECF829C90
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Jan 2024 15:28:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 23DEA829D26
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Jan 2024 16:11:34 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id D1A991F21F75
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Jan 2024 14:28:57 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9428B1F22D86
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Jan 2024 15:11:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4CA434B5AC;
-	Wed, 10 Jan 2024 14:28:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ED0D54BAA4;
+	Wed, 10 Jan 2024 15:11:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Nyea32r8"
+	dkim=pass (2048-bit key) header.d=brainfault-org.20230601.gappssmtp.com header.i=@brainfault-org.20230601.gappssmtp.com header.b="TklbYuii"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ot1-f53.google.com (mail-ot1-f53.google.com [209.85.210.53])
+Received: from mail-il1-f172.google.com (mail-il1-f172.google.com [209.85.166.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D09B4A9B5;
-	Wed, 10 Jan 2024 14:28:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ot1-f53.google.com with SMTP id 46e09a7af769-6ddeb015ec6so1049707a34.0;
-        Wed, 10 Jan 2024 06:28:51 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85B054BA9F
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 10 Jan 2024 15:11:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=brainfault.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=brainfault.org
+Received: by mail-il1-f172.google.com with SMTP id e9e14a558f8ab-3606f133b1fso11763835ab.0
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 10 Jan 2024 07:11:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1704896930; x=1705501730; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=zIaoX1yjQhXHbsmhohdAZwhtmgurjO4w2Fx+LKGYccs=;
-        b=Nyea32r8R/C0mH32mtZ2WbQtXIE5o7xBaJxVL2XElvGvYMcoXcaDenqoh/0pw4HbND
-         vE4hLziPzckFewL+k6T5sg89paRFXvq/gdaVZAsFsnoo7LL9M1Wtx+Fey/9qCrSPBcVa
-         jN+FgYp7SDzwPb5UzA8UywD8oJDlWpbF1Xdp1j+xLu4038TX668QfBKoL1QhiBzf4N3I
-         748+Wq+6lN3ARvco0eLpHK2lDGS0p/5L2dAltHdKLBhCM3t8810/6UORJj9MeJAlSsl4
-         EeAH3+vVKQvfiyZhfKNyTkSEwMHTMYcZA4YBKxWtHNsWXAlo0wboUKnFrIUrB6gxR/HY
-         lYwA==
+        d=brainfault-org.20230601.gappssmtp.com; s=20230601; t=1704899488; x=1705504288; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=u7dnx0armDk/+RvWWpSg/XyhmNCzgM7h7SgaiA/YSV0=;
+        b=TklbYuiioxlzjnWfAA24zNXJlHUJ8ZH1uZVbhZ696vnd2G3jJ8Ko9rhkdiyfh9xLgX
+         t/jTP9OI8Q2iBqKqYFYV1Znshpcsaic/1pHXVGjj7RKbjOiRGZoKch11IulXC4GIEpk5
+         5+rFCjENgBwniQJDhzFSIpRa6fHzcSNalGWibqv/H0xUxCMFJme3WZGxMg7exb3TCWvX
+         wk5Fw+/Cqv5IwmHFsuUVq26CrXMUvE99iaJGPNzPD4IHYo4GzU1n9MnHUIBGSXMzm5L0
+         nQW7v0rrntORL8uHR5hAF/mQ6odNs5Qh/ethdEEwtCbtHxgP6CX8uzZxE1PwvU50JFGM
+         eFgA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704896930; x=1705501730;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :sender:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=zIaoX1yjQhXHbsmhohdAZwhtmgurjO4w2Fx+LKGYccs=;
-        b=B3U9Uk3UY9T1/gTYCPAkfOrUriffv2BQo7EllAd7QmDJ2McW80wJd2pbpLoGMG65Ge
-         jdXBzflSWttq2IoaAQFcWI02+Zvcxoq35416SaNKMHkzfzbKjgNZ/QI0JGODIs8lDhJB
-         qiau+7kiNp5MUVoB+t5EUopPqTn/q2n0+ANuj6tseuFJBzMy4G2a/gdafodcDbSnfuT6
-         n06WVriHXuGs8NVfVscSeow7U1b2mEN9k+qODx+qdcSpf8M2h5Lz2VLNgcztbx5FGJYC
-         opYQflUSEot0+VYNYkmbofnYcKYywwBeAADYlEbB5sajcAy4y1qtDMKm2xtZoJMMQqJG
-         hc6A==
-X-Gm-Message-State: AOJu0Yy6+V7okdryRmjebv/O9COr2cqYeksXgBZ6bSFJ3oIszmWdlUZK
-	r7PpmBOYAyC1kLf8UlrBE6c=
-X-Google-Smtp-Source: AGHT+IG7sLERgE1XfKcrO3RXf8zO3OfNiwPA15eOOZxyAfLlJXqm615gjKSh1CGFCVXN4fmaNYQHXQ==
-X-Received: by 2002:a05:6871:4319:b0:203:ceec:933c with SMTP id lu25-20020a056871431900b00203ceec933cmr845505oab.69.1704896930388;
-        Wed, 10 Jan 2024 06:28:50 -0800 (PST)
-Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id x190-20020a6363c7000000b005cd945c0399sm3608310pgb.80.2024.01.10.06.28.46
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 10 Jan 2024 06:28:49 -0800 (PST)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <a854bbd3-2862-4ea4-b14d-aab2d89ac2df@roeck-us.net>
-Date: Wed, 10 Jan 2024 06:28:45 -0800
+        d=1e100.net; s=20230601; t=1704899488; x=1705504288;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=u7dnx0armDk/+RvWWpSg/XyhmNCzgM7h7SgaiA/YSV0=;
+        b=cp2VFnTaqKDblqKfzWWjAzK0yT7BByBSMVb851HY4HZ7a22QP5QJCDXYX4SaeTtXl5
+         dZ6Vzo7740Bs+02Dcwvl6xmeMDR7JFfsWKMkW0gUvR+ZZWziNHkwE4vjm89ChMPLgX/E
+         yCrNm7ZqYmuJycagu7KVB1ZtVAR+4fMF3urufb39YEvwu8H6Uejxa2mL36qMFxCKKYil
+         xGEsvFkGu1YraQgSB/kTbZVYAgZCLl3kGTIERim51m/fSPWgb1BSzXjgIImhoS+NRTqV
+         iDki4nKm9wjiFnjlGyUMYohwE3BNZkP0Ur6bp7AhgzFkhldKYFTuMqHZFlPmUcUyLMvW
+         chAA==
+X-Gm-Message-State: AOJu0Yw0cYCxUnenh5Qar+VdvGZ5rfwWW9S229qFPfuZJ3K55KyjyrTN
+	es7v2aWavczLzy9O/1vd8JZKbM3goVhs6lAoNRu2kKcyOSLinw==
+X-Google-Smtp-Source: AGHT+IEuq58zauZkEQ1xO5LVtDSLalCCv+/Jivx2TA3XmedpEjlVHqJRGlt6ZOsWmnTKoMBajwuUrebUCLahkbpfozk=
+X-Received: by 2002:a92:c56b:0:b0:360:8a0b:50dc with SMTP id
+ b11-20020a92c56b000000b003608a0b50dcmr143554ilj.10.1704899488291; Wed, 10 Jan
+ 2024 07:11:28 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [DO NOT MERGE v6 26/37] dt-bindings: vendor-prefixes: Add smi
-Content-Language: en-US
-To: Geert Uytterhoeven <geert@linux-m68k.org>, Conor Dooley <conor@kernel.org>
-Cc: Yoshinori Sato <ysato@users.sourceforge.jp>, linux-sh@vger.kernel.org,
- Damien Le Moal <dlemoal@kernel.org>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
- <sboyd@kernel.org>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Thomas Gleixner <tglx@linutronix.de>,
- Lorenzo Pieralisi <lpieralisi@kernel.org>,
- =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>,
- Bjorn Helgaas <bhelgaas@google.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Jiri Slaby <jirislaby@kernel.org>, Magnus Damm <magnus.damm@gmail.com>,
- Daniel Lezcano <daniel.lezcano@linaro.org>, Rich Felker <dalias@libc.org>,
- John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
- Lee Jones <lee@kernel.org>, Helge Deller <deller@gmx.de>,
- Heiko Stuebner <heiko@sntech.de>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Chris Morgan <macromorgan@hotmail.com>, Yang Xiwen
- <forbidden405@foxmail.com>, Sebastian Reichel <sre@kernel.org>,
- Linus Walleij <linus.walleij@linaro.org>,
- Randy Dunlap <rdunlap@infradead.org>, Arnd Bergmann <arnd@arndb.de>,
- Vlastimil Babka <vbabka@suse.cz>, Hyeonggon Yoo <42.hyeyoo@gmail.com>,
- David Rientjes <rientjes@google.com>, Baoquan He <bhe@redhat.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Stephen Rothwell <sfr@canb.auug.org.au>,
- Azeem Shaikh <azeemshaikh38@gmail.com>,
- Javier Martinez Canillas <javierm@redhat.com>,
- Max Filippov <jcmvbkbc@gmail.com>, Palmer Dabbelt <palmer@rivosinc.com>,
- Bin Meng <bmeng@tinylab.org>, Jonathan Corbet <corbet@lwn.net>,
- Jacky Huang <ychuang3@nuvoton.com>, Lukas Bulwahn <lukas.bulwahn@gmail.com>,
- Biju Das <biju.das.jz@bp.renesas.com>,
- =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
- Sam Ravnborg <sam@ravnborg.org>, Sergey Shtylyov <s.shtylyov@omp.ru>,
- Michael Karcher <kernel@mkarcher.dialup.fu-berlin.de>,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- linux-ide@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
- linux-clk@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-pci@vger.kernel.org, linux-serial@vger.kernel.org,
- linux-fbdev@vger.kernel.org
-References: <cover.1704788539.git.ysato@users.sourceforge.jp>
- <c8aaf67e3fcdb7e60632c53a784691aabfc7733e.1704788539.git.ysato@users.sourceforge.jp>
- <20240109-fructose-bundle-05d01033277b@spud>
- <CAMuHMdU1z64QHJOVd3jUsOfyuDApB1+khkUV8PvjoKbwsi327g@mail.gmail.com>
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- xsFNBE6H1WcBEACu6jIcw5kZ5dGeJ7E7B2uweQR/4FGxH10/H1O1+ApmcQ9i87XdZQiB9cpN
- RYHA7RCEK2dh6dDccykQk3bC90xXMPg+O3R+C/SkwcnUak1UZaeK/SwQbq/t0tkMzYDRxfJ7
- nyFiKxUehbNF3r9qlJgPqONwX5vJy4/GvDHdddSCxV41P/ejsZ8PykxyJs98UWhF54tGRWFl
- 7i1xvaDB9lN5WTLRKSO7wICuLiSz5WZHXMkyF4d+/O5ll7yz/o/JxK5vO/sduYDIlFTvBZDh
- gzaEtNf5tQjsjG4io8E0Yq0ViobLkS2RTNZT8ICq/Jmvl0SpbHRvYwa2DhNsK0YjHFQBB0FX
- IdhdUEzNefcNcYvqigJpdICoP2e4yJSyflHFO4dr0OrdnGLe1Zi/8Xo/2+M1dSSEt196rXaC
- kwu2KgIgmkRBb3cp2vIBBIIowU8W3qC1+w+RdMUrZxKGWJ3juwcgveJlzMpMZNyM1jobSXZ0
- VHGMNJ3MwXlrEFPXaYJgibcg6brM6wGfX/LBvc/haWw4yO24lT5eitm4UBdIy9pKkKmHHh7s
- jfZJkB5fWKVdoCv/omy6UyH6ykLOPFugl+hVL2Prf8xrXuZe1CMS7ID9Lc8FaL1ROIN/W8Vk
- BIsJMaWOhks//7d92Uf3EArDlDShwR2+D+AMon8NULuLBHiEUQARAQABzTJHdWVudGVyIFJv
- ZWNrIChMaW51eCBhY2NvdW50KSA8bGludXhAcm9lY2stdXMubmV0PsLBgQQTAQIAKwIbAwYL
- CQgHAwIGFQgCCQoLBBYCAwECHgECF4ACGQEFAlVcphcFCRmg06EACgkQyx8mb86fmYFg0RAA
- nzXJzuPkLJaOmSIzPAqqnutACchT/meCOgMEpS5oLf6xn5ySZkl23OxuhpMZTVX+49c9pvBx
- hpvl5bCWFu5qC1jC2eWRYU+aZZE4sxMaAGeWenQJsiG9lP8wkfCJP3ockNu0ZXXAXwIbY1O1
- c+l11zQkZw89zNgWgKobKzrDMBFOYtAh0pAInZ9TSn7oA4Ctejouo5wUugmk8MrDtUVXmEA9
- 7f9fgKYSwl/H7dfKKsS1bDOpyJlqhEAH94BHJdK/b1tzwJCFAXFhMlmlbYEk8kWjcxQgDWMu
- GAthQzSuAyhqyZwFcOlMCNbAcTSQawSo3B9yM9mHJne5RrAbVz4TWLnEaX8gA5xK3uCNCeyI
- sqYuzA4OzcMwnnTASvzsGZoYHTFP3DQwf2nzxD6yBGCfwNGIYfS0i8YN8XcBgEcDFMWpOQhT
- Pu3HeztMnF3HXrc0t7e5rDW9zCh3k2PA6D2NV4fews9KDFhLlTfCVzf0PS1dRVVWM+4jVl6l
- HRIAgWp+2/f8dx5vPc4Ycp4IsZN0l1h9uT7qm1KTwz+sSl1zOqKD/BpfGNZfLRRxrXthvvY8
- BltcuZ4+PGFTcRkMytUbMDFMF9Cjd2W9dXD35PEtvj8wnEyzIos8bbgtLrGTv/SYhmPpahJA
- l8hPhYvmAvpOmusUUyB30StsHIU2LLccUPPOwU0ETofVZwEQALlLbQeBDTDbwQYrj0gbx3bq
- 7kpKABxN2MqeuqGr02DpS9883d/t7ontxasXoEz2GTioevvRmllJlPQERVxM8gQoNg22twF7
- pB/zsrIjxkE9heE4wYfN1AyzT+AxgYN6f8hVQ7Nrc9XgZZe+8IkuW/Nf64KzNJXnSH4u6nJM
- J2+Dt274YoFcXR1nG76Q259mKwzbCukKbd6piL+VsT/qBrLhZe9Ivbjq5WMdkQKnP7gYKCAi
- pNVJC4enWfivZsYupMd9qn7Uv/oCZDYoBTdMSBUblaLMwlcjnPpOYK5rfHvC4opxl+P/Vzyz
- 6WC2TLkPtKvYvXmdsI6rnEI4Uucg0Au/Ulg7aqqKhzGPIbVaL+U0Wk82nz6hz+WP2ggTrY1w
- ZlPlRt8WM9w6WfLf2j+PuGklj37m+KvaOEfLsF1v464dSpy1tQVHhhp8LFTxh/6RWkRIR2uF
- I4v3Xu/k5D0LhaZHpQ4C+xKsQxpTGuYh2tnRaRL14YMW1dlI3HfeB2gj7Yc8XdHh9vkpPyuT
- nY/ZsFbnvBtiw7GchKKri2gDhRb2QNNDyBnQn5mRFw7CyuFclAksOdV/sdpQnYlYcRQWOUGY
- HhQ5eqTRZjm9z+qQe/T0HQpmiPTqQcIaG/edgKVTUjITfA7AJMKLQHgp04Vylb+G6jocnQQX
- JqvvP09whbqrABEBAAHCwWUEGAECAA8CGwwFAlVcpi8FCRmg08MACgkQyx8mb86fmYHNRQ/+
- J0OZsBYP4leJvQF8lx9zif+v4ZY/6C9tTcUv/KNAE5leyrD4IKbnV4PnbrVhjq861it/zRQW
- cFpWQszZyWRwNPWUUz7ejmm9lAwPbr8xWT4qMSA43VKQ7ZCeTQJ4TC8kjqtcbw41SjkjrcTG
- wF52zFO4bOWyovVAPncvV9eGA/vtnd3xEZXQiSt91kBSqK28yjxAqK/c3G6i7IX2rg6pzgqh
- hiH3/1qM2M/LSuqAv0Rwrt/k+pZXE+B4Ud42hwmMr0TfhNxG+X7YKvjKC+SjPjqp0CaztQ0H
- nsDLSLElVROxCd9m8CAUuHplgmR3seYCOrT4jriMFBtKNPtj2EE4DNV4s7k0Zy+6iRQ8G8ng
- QjsSqYJx8iAR8JRB7Gm2rQOMv8lSRdjva++GT0VLXtHULdlzg8VjDnFZ3lfz5PWEOeIMk7Rj
- trjv82EZtrhLuLjHRCaG50OOm0hwPSk1J64R8O3HjSLdertmw7eyAYOo4RuWJguYMg5DRnBk
- WkRwrSuCn7UG+qVWZeKEsFKFOkynOs3pVbcbq1pxbhk3TRWCGRU5JolI4ohy/7JV1TVbjiDI
- HP/aVnm6NC8of26P40Pg8EdAhajZnHHjA7FrJXsy3cyIGqvg9os4rNkUWmrCfLLsZDHD8FnU
- mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
-In-Reply-To: <CAMuHMdU1z64QHJOVd3jUsOfyuDApB1+khkUV8PvjoKbwsi327g@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20240110073917.2398826-1-peterlin@andestech.com> <20240110073917.2398826-3-peterlin@andestech.com>
+In-Reply-To: <20240110073917.2398826-3-peterlin@andestech.com>
+From: Anup Patel <anup@brainfault.org>
+Date: Wed, 10 Jan 2024 20:41:16 +0530
+Message-ID: <CAAhSdy1KLSFBA_vD+NX15wuiOsz5QadQWj4ZWOK11qfL1LuHqA@mail.gmail.com>
+Subject: Re: [PATCH v7 02/16] irqchip/riscv-intc: Allow large non-standard
+ interrupt number
+To: Yu Chien Peter Lin <peterlin@andestech.com>
+Cc: acme@kernel.org, adrian.hunter@intel.com, ajones@ventanamicro.com, 
+	alexander.shishkin@linux.intel.com, andre.przywara@arm.com, 
+	aou@eecs.berkeley.edu, atishp@atishpatra.org, conor+dt@kernel.org, 
+	conor.dooley@microchip.com, conor@kernel.org, devicetree@vger.kernel.org, 
+	dminus@andestech.com, evan@rivosinc.com, geert+renesas@glider.be, 
+	guoren@kernel.org, heiko@sntech.de, irogers@google.com, 
+	jernej.skrabec@gmail.com, jolsa@kernel.org, jszhang@kernel.org, 
+	krzysztof.kozlowski+dt@linaro.org, linux-arm-kernel@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org, linux-riscv@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev, locus84@andestech.com, magnus.damm@gmail.com, 
+	mark.rutland@arm.com, mingo@redhat.com, n.shubin@yadro.com, 
+	namhyung@kernel.org, palmer@dabbelt.com, paul.walmsley@sifive.com, 
+	peterz@infradead.org, prabhakar.mahadev-lad.rj@bp.renesas.com, 
+	rdunlap@infradead.org, robh+dt@kernel.org, samuel@sholland.org, 
+	sunilvl@ventanamicro.com, tglx@linutronix.de, tim609@andestech.com, 
+	uwu@icenowy.me, wens@csie.org, will@kernel.org, ycliang@andestech.com, 
+	inochiama@outlook.com, chao.wei@sophgo.com, unicorn_wang@outlook.com, 
+	wefu@redhat.com, Randolph <randolph@andestech.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 1/10/24 03:23, Geert Uytterhoeven wrote:
-> Hi Conor,
-> 
-> On Tue, Jan 9, 2024 at 7:06 PM Conor Dooley <conor@kernel.org> wrote:
->> On Tue, Jan 09, 2024 at 05:23:23PM +0900, Yoshinori Sato wrote:
->>> Add Silicon Mortion Technology Corporation
-> 
-> Motion
-> 
->>> https://www.siliconmotion.com/
->>>
->>> Signed-off-by: Yoshinori Sato <ysato@users.sourceforge.jp>
->>> ---
->>>   Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
->>>   1 file changed, 2 insertions(+)
->>>
->>> diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
->>> index 94ed63d9f7de..a338bdd743ab 100644
->>> --- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
->>> +++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
->>> @@ -1283,6 +1283,8 @@ patternProperties:
->>>       description: Skyworks Solutions, Inc.
->>>     "^smartlabs,.*":
->>>       description: SmartLabs LLC
->>> +  "^smi,.*":
->>> +    description: Silicon Motion Technology Corporation
->>
->> How come "smi" is used for a company with this name?
->> Why is it not something like SMTC? There's probably some history here
->> that I am unaware of.
-> 
-> See Documentation/devicetree/bindings/display/sm501fb.txt
-> The stock ticker is "SIMO", though.
-> https://www.nasdaq.com/market-activity/stocks/simo
-> 
+On Wed, Jan 10, 2024 at 1:10=E2=80=AFPM Yu Chien Peter Lin
+<peterlin@andestech.com> wrote:
+>
+> Currently, the implementation of the RISC-V INTC driver uses the
+> interrupt cause as the hardware interrupt number, with a maximum of
+> 64 interrupts. However, the platform can expand the interrupt number
+> further for custom local interrupts.
+>
+> To fully utilize the available local interrupt sources, switch
+> to using irq_domain_create_tree() that creates the radix tree
+> map, add global variables (riscv_intc_nr_irqs, riscv_intc_custom_base
+> and riscv_intc_custom_nr_irqs) to determine the valid range of local
+> interrupt number (hwirq).
+>
+> Signed-off-by: Yu Chien Peter Lin <peterlin@andestech.com>
+> Reviewed-by: Randolph <randolph@andestech.com>
 
- From https://en.wikipedia.org/wiki/Silicon_Motion:
+Looks good to me.
 
-"Controllers are marketed under the “SMI” brand,
-  enterprise-grade SSDs under the "Shannon Systems" brand.
-"
+Reviewed-by: Anup Patel <anup@brainfault.org>
 
-Guenter
+Regards,
+Anup
 
+> ---
+> Changes v1 -> v2:
+>   - Fixed irq mapping failure checking (suggested by Cl=C3=A9ment and Anu=
+p)
+> Changes v2 -> v3:
+>   - No change
+> Changes v3 -> v4: (Suggested by Thomas [1])
+>   - Use pr_warn_ratelimited instead
+>   - Fix coding style and commit message
+> Changes v4 -> v5: (Suggested by Thomas)
+>   - Fix commit message
+> Changes v5 -> v6: (Suggested by Anup [2])
+>   - Add riscv_intc_* global variables for checking range in riscv_intc_do=
+main_alloc()
+>   - Advertise the number of interrupts allowed
+> Changes v6 -> v7:
+>   - No functional change
+>
+> [1] https://patchwork.kernel.org/project/linux-riscv/patch/20231023004100=
+.2663486-3-peterlin@andestech.com/#25573085
+> [2] https://patchwork.kernel.org/project/linux-riscv/patch/20231213070301=
+.1684751-3-peterlin@andestech.com/#25636589
+> ---
+>  drivers/irqchip/irq-riscv-intc.c | 30 +++++++++++++++++++++++-------
+>  1 file changed, 23 insertions(+), 7 deletions(-)
+>
+> diff --git a/drivers/irqchip/irq-riscv-intc.c b/drivers/irqchip/irq-riscv=
+-intc.c
+> index e8d01b14ccdd..b13a16b164c9 100644
+> --- a/drivers/irqchip/irq-riscv-intc.c
+> +++ b/drivers/irqchip/irq-riscv-intc.c
+> @@ -19,15 +19,17 @@
+>  #include <linux/smp.h>
+>
+>  static struct irq_domain *intc_domain;
+> +static unsigned int riscv_intc_nr_irqs __ro_after_init;
+> +static unsigned int riscv_intc_custom_base __ro_after_init;
+> +static unsigned int riscv_intc_custom_nr_irqs __ro_after_init;
+>
+>  static asmlinkage void riscv_intc_irq(struct pt_regs *regs)
+>  {
+>         unsigned long cause =3D regs->cause & ~CAUSE_IRQ_FLAG;
+>
+> -       if (unlikely(cause >=3D BITS_PER_LONG))
+> -               panic("unexpected interrupt cause");
+> -
+> -       generic_handle_domain_irq(intc_domain, cause);
+> +       if (generic_handle_domain_irq(intc_domain, cause))
+> +               pr_warn_ratelimited("Failed to handle interrupt (cause: %=
+ld)\n",
+> +                                   cause);
+>  }
+>
+>  /*
+> @@ -93,6 +95,14 @@ static int riscv_intc_domain_alloc(struct irq_domain *=
+domain,
+>         if (ret)
+>                 return ret;
+>
+> +       /*
+> +        * Only allow hwirq for which we have corresponding standard or
+> +        * custom interrupt enable register.
+> +        */
+> +       if ((riscv_intc_nr_irqs <=3D hwirq && hwirq < riscv_intc_custom_b=
+ase) ||
+> +           (riscv_intc_custom_base + riscv_intc_custom_nr_irqs) <=3D hwi=
+rq)
+> +               return -EINVAL;
+> +
+>         for (i =3D 0; i < nr_irqs; i++) {
+>                 ret =3D riscv_intc_domain_map(domain, virq + i, hwirq + i=
+);
+>                 if (ret)
+> @@ -117,8 +127,7 @@ static int __init riscv_intc_init_common(struct fwnod=
+e_handle *fn)
+>  {
+>         int rc;
+>
+> -       intc_domain =3D irq_domain_create_linear(fn, BITS_PER_LONG,
+> -                                              &riscv_intc_domain_ops, NU=
+LL);
+> +       intc_domain =3D irq_domain_create_tree(fn, &riscv_intc_domain_ops=
+, NULL);
+>         if (!intc_domain) {
+>                 pr_err("unable to add IRQ domain\n");
+>                 return -ENXIO;
+> @@ -132,7 +141,10 @@ static int __init riscv_intc_init_common(struct fwno=
+de_handle *fn)
+>
+>         riscv_set_intc_hwnode_fn(riscv_intc_hwnode);
+>
+> -       pr_info("%d local interrupts mapped\n", BITS_PER_LONG);
+> +       pr_info("%d local interrupts mapped\n", riscv_intc_nr_irqs);
+> +       if (riscv_intc_custom_nr_irqs)
+> +               pr_info("%d custom local interrupts mapped\n",
+> +                       riscv_intc_custom_nr_irqs);
+>
+>         return 0;
+>  }
+> @@ -166,6 +178,10 @@ static int __init riscv_intc_init(struct device_node=
+ *node,
+>                 return 0;
+>         }
+>
+> +       riscv_intc_nr_irqs =3D BITS_PER_LONG;
+> +       riscv_intc_custom_base =3D riscv_intc_nr_irqs;
+> +       riscv_intc_custom_nr_irqs =3D 0;
+> +
+>         return riscv_intc_init_common(of_node_to_fwnode(node));
+>  }
+>
+> --
+> 2.34.1
+>
 
