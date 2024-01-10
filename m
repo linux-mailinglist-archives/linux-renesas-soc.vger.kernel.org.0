@@ -1,154 +1,130 @@
-Return-Path: <linux-renesas-soc+bounces-1474-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-1475-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id E79338299DE
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Jan 2024 12:55:31 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 57C21829A0F
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Jan 2024 13:01:33 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1586A1C220A7
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Jan 2024 11:55:31 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E3E97289DD2
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Jan 2024 12:01:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AAEE247A7D;
-	Wed, 10 Jan 2024 11:55:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EFA3047F6F;
+	Wed, 10 Jan 2024 11:59:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="aXWv6Vmz"
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="HCp4vY2Z"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF03547F47
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 10 Jan 2024 11:55:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-40e5770d34fso4145535e9.3
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 10 Jan 2024 03:55:23 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A02E47F72
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 10 Jan 2024 11:59:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
+Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-2cd0f4f306fso47858521fa.0
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 10 Jan 2024 03:59:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1704887722; x=1705492522; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=p22+unadpjiuSy6RGYATC6dS70dMkUd0mDAJ61uro9I=;
-        b=aXWv6VmzjH5x7RWHFSyBQC5qfCLssOfMva95/wI6S21LP0NBkVvstfZR+Gqm1V6dow
-         KwsUt7hIY+F6IUPzZm1B2HAGtVmARYUMAO2Hx1Wx/i4jyWSRYgrKjr2Uq1WMbm53/Rw/
-         Ro8oQlAI6R8ATShhNYSEF/LBT4CLSR3ED3A7JL1F1EcT9uYYXuCXWcN9XRRYisPH+Kxf
-         sxG0vLB5BW7rfn9ddWHmAHWfLnPz2AJpm5kDjQu9Df7RbAuZNb2A3kbFjbpk/Wpuo+sw
-         jFwbXWEyex7fi5dwz+eDjCQuBxUFwfg26XM1x3iRM8CL9DZfzsqTKdKt/hi8+GKJlvfj
-         LelQ==
+        d=ragnatech.se; s=google; t=1704887985; x=1705492785; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=ISdmhcRR/GVAZSppZHeKDEjXMJ9voCrSTY/WHRDPz+M=;
+        b=HCp4vY2ZbZply1USFWqt5b1iDJTqh9TcJVVGasPNOnnLkwh/B9r0B8EUOs97IU9FuH
+         Syyrp/QnIoStZWzbsfL6JXH4vsA9V5TuuHNFLqyx7XBRrjtA67E2NxWnIWzCDkRYi1a4
+         4XZteIjckrLT1p7YJnvBHSJox7xyLsd2TLVBdC8HzuRJOhx4AKFe/frNq54aa1oNPOU4
+         uJn8+oLiFt98RdODFEUzRRxdcOTktSbJsNZZ+CJJgwY7ErPI3VDNj2DlfKjzoPSOlHP5
+         HFhNiq2nVpuqPkdst6eZKP2CrTKEQwG40j+Uq7Npc+fo0uwc4/a3vWUw7DgnxWu1jKf+
+         /qUA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704887722; x=1705492522;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
+        d=1e100.net; s=20230601; t=1704887985; x=1705492785;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=p22+unadpjiuSy6RGYATC6dS70dMkUd0mDAJ61uro9I=;
-        b=DMgigMz9BT3ypcPBbgU8nxqnaW4ip2wELqyBXZ5owWxpxkWKhiJvrA62a6/NpEk8wb
-         2x2k817veFYGS/CqQ5HgQkvMhfuaRelFLnKO3ozpAARk/JSAAT9xttYwgHSNdjR1BJe6
-         /uq87fq4GAE0LU1liiDaVX9u+FJytjxxwp58c1GGU7SrwgXWvv9DD3e42TWEkskSsI1x
-         Ur75ln7jNZpBt1HdSMS2c1jHsNSM5G+OzKyLqhRP6NxIKb77VuRbyWXYSOljzmDsF/C0
-         eoQZC4kNE5f7z06hdFPCfS/rZbzmb5NZ7WDA2dBc6HBEkPODh6Ib1ZPnPuQvNKWm2WXa
-         UlMw==
-X-Gm-Message-State: AOJu0YwDeNrNgX1wlR2B3UwFg02FJ2cHBwcMC4yMyaBl1Om3hE+YOlY9
-	pcPtYd8wuu6RimK0BY1wJ7tC+MG9uZgWvQ==
-X-Google-Smtp-Source: AGHT+IEce4ODuGwcEn2BKXeEu1OoSU3T5p4yP+WdC1xjqjakHlYuOMiREbeBunnkwWykVuXti0AI4A==
-X-Received: by 2002:a05:600c:84ca:b0:40e:52ce:f05 with SMTP id er10-20020a05600c84ca00b0040e52ce0f05mr482062wmb.70.1704887721880;
-        Wed, 10 Jan 2024 03:55:21 -0800 (PST)
-Received: from [192.168.50.4] ([82.78.167.5])
-        by smtp.gmail.com with ESMTPSA id g4-20020adfa484000000b00336344c3c3fsm4739160wrb.90.2024.01.10.03.55.20
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 10 Jan 2024 03:55:21 -0800 (PST)
-Message-ID: <3e430f8e-b327-485f-ae19-6f1938083dd3@tuxon.dev>
-Date: Wed, 10 Jan 2024 13:55:18 +0200
+        bh=ISdmhcRR/GVAZSppZHeKDEjXMJ9voCrSTY/WHRDPz+M=;
+        b=YgqXGkTgOnO6mgTvyeDdw2bx/vHXIbtmBFb+QXyx7XXHbMGx8H5YmsFspTNrQrzlEF
+         g1I0BuQtuV2tupriqax/zbLXkPGHG7LyZPga/y4mH6X1jGgiJ6NjQ22tEDioCJ1sk0c+
+         4w5M/U1s4qGugXlixVUr/Yfpx09n8mNLYfzG72CG0iuD4XfoOj8e7Z1Pj+k49KdRsIk9
+         BqSobSULPBMTBQBViVeuiBM77jWjXNp7vyWKwFZp5gtX+aI6oh/7vgd1KLAlYBNg49uu
+         Fx3IgEhG6lZBmoPdueI94RMbFMmyAdNbRiJt6rtf/J9xKVhIpUVpGu4Np17UmbeuC+am
+         lHzg==
+X-Gm-Message-State: AOJu0YykKMZIfNpKtIY1Ij6Nxcvda1fik4YDw4famHhtHNOWZAiJFn39
+	bdor9mKsfC+d0GFKLS4S1V2kgk/mt1ReEg==
+X-Google-Smtp-Source: AGHT+IGRceqNc3d0nTVh7e6+mL9Lw5I93LQLv+D4klCI5dK4DBKjF4S3gi0+1qjOna0v/0HlpNqqng==
+X-Received: by 2002:a2e:a305:0:b0:2c8:39fc:acf5 with SMTP id l5-20020a2ea305000000b002c839fcacf5mr513508lje.2.1704887984601;
+        Wed, 10 Jan 2024 03:59:44 -0800 (PST)
+Received: from localhost (h-46-59-36-113.A463.priv.bahnhof.se. [46.59.36.113])
+        by smtp.gmail.com with ESMTPSA id u1-20020a2eb801000000b002cd39846d92sm724889ljo.103.2024.01.10.03.59.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 10 Jan 2024 03:59:44 -0800 (PST)
+Date: Wed, 10 Jan 2024 12:59:43 +0100
+From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>, Ulf Hansson <ulf.hansson@linaro.org>,
+	Cong Dang <cong.dang.xn@renesas.com>,
+	Duy Nguyen <duy.nguyen.rh@renesas.com>,
+	Hai Pham <hai.pham.ud@renesas.com>,
+	Linh Phung <linh.phung.jy@renesas.com>,
+	linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-pm@vger.kernel.org
+Subject: Re: [PATCH 01/15] dt-bindings: clock: renesas,cpg-mssr: Document
+ R-Car V4M support
+Message-ID: <20240110115943.GA1625657@ragnatech.se>
+References: <cover.1704726960.git.geert+renesas@glider.be>
+ <81f5a2b55795af06f6fd54b3d566156e91138a17.1704726960.git.geert+renesas@glider.be>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v3 08/19] net: ravb: Move the IRQs get and
- request in the probe function
-Content-Language: en-US
-To: Sergey Shtylyov <s.shtylyov@omp.ru>, davem@davemloft.net,
- edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
- richardcochran@gmail.com, p.zabel@pengutronix.de,
- yoshihiro.shimoda.uh@renesas.com, wsa+renesas@sang-engineering.com
-Cc: netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
- linux-kernel@vger.kernel.org, geert+renesas@glider.be,
- Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-References: <20240105082339.1468817-1-claudiu.beznea.uj@bp.renesas.com>
- <20240105082339.1468817-9-claudiu.beznea.uj@bp.renesas.com>
- <02548b1b-d32c-78b1-f1b6-5fdb505d31bb@omp.ru>
- <ee783b61-95fc-44ab-a311-0ca7d058ac39@tuxon.dev>
- <dce944a1-9557-9ab0-d30d-7a51a47c6d96@omp.ru>
-From: claudiu beznea <claudiu.beznea@tuxon.dev>
-In-Reply-To: <dce944a1-9557-9ab0-d30d-7a51a47c6d96@omp.ru>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <81f5a2b55795af06f6fd54b3d566156e91138a17.1704726960.git.geert+renesas@glider.be>
 
+Hi Geert,
 
+Thanks for your work.
 
-On 09.01.2024 22:47, Sergey Shtylyov wrote:
-> On 1/8/24 11:58 AM, claudiu beznea wrote:
+On 2024-01-08 16:33:40 +0100, Geert Uytterhoeven wrote:
+> Document support for the Clock Pulse Generator (CPG) and Module Standby
+> Software Reset (MSSR) module on the Renesas R-Car V4M (R8A779H0) SoC.
 > 
-> [...]
->>>> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
->>>>
->>>> The runtime PM implementation will disable clocks at the end of
->>>> ravb_probe(). As some IP variants switch to reset mode as a result of
->>>> setting module standby through clock disable APIs, to implement runtime PM
->>>> the resource parsing and requesting are moved in the probe function and IP
->>>> settings are moved in the open function. This is done because at the end of
->>>> the probe some IP variants will switch anyway to reset mode and the
->>>> registers content is lost. Also keeping only register specific operations
->>>> in the ravb_open()/ravb_close() functions will make them faster.
->>>>
->>>> Commit moves IRQ requests to ravb_probe() to have all the IRQs ready when
->>>> the interface is open. As now IRQs gets and requests are in a single place
->>>> there is no need to keep intermediary data (like ravb_rx_irqs[] and
->>>> ravb_tx_irqs[] arrays or IRQs in struct ravb_private).
->>>
->>>    There's one thing that you probably didn't take into account: after
->>> you call request_irq(), you should be able to handle your IRQ as it's
->>> automatically unmasked, unless you pass IRQF_NO_AUTOEN to request_irq().
->>> Your device may be held i reset or even powered off but if you pass IRQF_SHARED to request_irq() (you do in a single IRQ config), you must
->>> be prepared to get your device's registers read (in order to ascertain
-> 
->    And, at least on arm32, reading a powered off (or not clocked?) device's
-> register causes an imprecise external abort exception -- which results in a
-> kernel oops...
-> 
->>> whether it's your IRQ or not). And you can't even pass IRQF_NO_AUTOEN
->>> along with IRQF_SHARED, according to my reading of the IRQ code...
->>
->> Good point!
->>
->>>> This is a preparatory change to add runtime PM support for all IP variants.
->>>
->>>   I don't readily see why this is necessary for the full-fledged RPM
->>> support...
->>
->> I tried to speed up the ravb_open()/ravb_close() but missed the IRQF_SHARED
-> 
->    I doubt that optimizing ravb_{open,close}() is worth pursuing, frankly...
-> 
->> IRQ. As there is only one IRQ requested w/ IRQF_SHARED, are you OK with
->> still keeping the rest of IRQs handled as proposed by this patch?
-> 
->    I'm not, as this doesn't really seem necessary for your main goal.
-> It's not clear in what state U-Boot leaves EtherAVB...
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-Ok. One other reason I did this is, as commit message states, to keep
-resource parsing and allocation/freeing in probe/remove and hardware
-settings in open/close.
+Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 
-Anyway, I'll revert all the changes IRQ related.
-
-Thank you,
-Claudiu Beznea
-
+> ---
+>  Documentation/devicetree/bindings/clock/renesas,cpg-mssr.yaml | 1 +
+>  1 file changed, 1 insertion(+)
 > 
-> [...]
+> diff --git a/Documentation/devicetree/bindings/clock/renesas,cpg-mssr.yaml b/Documentation/devicetree/bindings/clock/renesas,cpg-mssr.yaml
+> index 9c3dc6c4fa94218c..084259d30232aa68 100644
+> --- a/Documentation/devicetree/bindings/clock/renesas,cpg-mssr.yaml
+> +++ b/Documentation/devicetree/bindings/clock/renesas,cpg-mssr.yaml
+> @@ -50,6 +50,7 @@ properties:
+>        - renesas,r8a779a0-cpg-mssr # R-Car V3U
+>        - renesas,r8a779f0-cpg-mssr # R-Car S4-8
+>        - renesas,r8a779g0-cpg-mssr # R-Car V4H
+> +      - renesas,r8a779h0-cpg-mssr # R-Car V4M
+>  
+>    reg:
+>      maxItems: 1
+> -- 
+> 2.34.1
 > 
-> MBR, Sergey
+> 
+
+-- 
+Kind Regards,
+Niklas Söderlund
 
