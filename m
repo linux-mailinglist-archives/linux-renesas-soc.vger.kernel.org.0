@@ -1,124 +1,201 @@
-Return-Path: <linux-renesas-soc+bounces-1493-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-1494-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A470682A05C
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Jan 2024 19:42:02 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6303582A11B
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Jan 2024 20:38:57 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 2BF0CB25DA9
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Jan 2024 18:42:00 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id D12331F2235A
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Jan 2024 19:38:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5ED5E4D59E;
-	Wed, 10 Jan 2024 18:41:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A271D4D581;
+	Wed, 10 Jan 2024 19:38:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Lbg0e0H+"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="iwonAFm5"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86D734D586
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 10 Jan 2024 18:41:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-40d8902da73so42662495e9.2
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 10 Jan 2024 10:41:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1704912105; x=1705516905; darn=vger.kernel.org;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=WFUXY3mgVSfGBpcTG7FlJdmYxdRI+GVT2C0gkL18kmE=;
-        b=Lbg0e0H+66RpqrsFiKSo8IfUkt0HeFysdZOmKfsLpRsDBVQjDS8ikN4DMoL7x8BYyn
-         896rKuUEOPUbzdZHpYrcxyittsIAKz/1pLoDpDdzXyRSDPsKaob/z6Z1nWaW4lHufCuL
-         exJ4x8e1xqzyRl8cmUaonkN2M9VD2b2xKMAL20HmazCWsuRT9Izaf0tjUuORbSABVxWb
-         7UvYm/yup+dpuoI+/dIz2U8yWKb3Ckt92rtQfw0LuAgd44iJgoPi3g5ylA6J1JyDDc7O
-         LGWae/FHySSziCpVEu7Q4cDTJ+85s1CVTivHTM+D54wbeUcOiszKATwjhobd0CwZv6K1
-         yzQQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704912105; x=1705516905;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=WFUXY3mgVSfGBpcTG7FlJdmYxdRI+GVT2C0gkL18kmE=;
-        b=j9+UBLaqPDsAIeT6k6NHupMSob8+gO0O20U5w8jxLp/jTsUXg2zLQCwgZmMNWdXCEg
-         f5ohf8wIIHFQKz2+D0jHtRvt4tzluXJO0Cb5YWrO5GBoIOUWI9VxKkN4ScleV2wGnRHI
-         Vb4kEjMDVko484M16D8Wx9dsvnCEX9vSwSFqwYKRajgOolSWxWBD844y7TFH+ghH0Lgj
-         tXrHoxiSlk9agsjrgM/h9i9n3x4AhrplyBi+Hhgcs+fGN4Af+sFwHS3cJkSowc8prE2y
-         ACkjYQKU11Ju21Vet7ieasTLBesZNLfQSAuY88Esgzon2zSVqQXXKzDxrRKSJrpJwAF+
-         H3Og==
-X-Gm-Message-State: AOJu0YyIwt97azx/tQNbvfK0oldZRWOpoZrp4KW19UzJBH2QRj9/1X/V
-	45576O0S/8mZ5rcEqfO4j+gwbjq+dxXd6w==
-X-Google-Smtp-Source: AGHT+IHxsvSsfYuKgjq18TXM7EAmInXRbNUHe/2iJNQR3LVZbL9ImQqfMCj6LQoBHHXesj3fGGayPA==
-X-Received: by 2002:a05:600c:4452:b0:40e:40fc:6d43 with SMTP id v18-20020a05600c445200b0040e40fc6d43mr957913wmn.98.1704912104738;
-        Wed, 10 Jan 2024 10:41:44 -0800 (PST)
-Received: from localhost ([102.140.209.237])
-        by smtp.gmail.com with ESMTPSA id g14-20020a05600c4ece00b0040d5f3ef2a2sm3029695wmq.16.2024.01.10.10.41.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 Jan 2024 10:41:44 -0800 (PST)
-Date: Wed, 10 Jan 2024 21:41:41 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org,
-	linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
-Subject: [PATCH] pinctrl: renesas: rzg2l: Fix double unlock in
- rzg2l_dt_subnode_to_map()
-Message-ID: <f8c3a3a0-7c48-4e40-8af0-ed4e9d9b049f@moroto.mountain>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0CDC22063;
+	Wed, 10 Jan 2024 19:38:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (89-27-53-110.bb.dnainternet.fi [89.27.53.110])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 08D433DFA;
+	Wed, 10 Jan 2024 20:37:39 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1704915460;
+	bh=zHQis5xP8OgIGCs3kY8BouPwXp7i9V/rpOTbYi87Dt4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=iwonAFm5HQi0o+Au9y/q+DfG+zSyytUBy6pmUaq3Sl78QhwsRPPKKldiddGuntkZe
+	 RMO4DfamtJuMOiH3PcUfp6fQmR+13IAYxHl/isR8NsnV8+Hi9s9bfiHP2BGhTPO/Z/
+	 WjdtwmUpQ+rf1psExbd//T/q5p+aEZbWzULLZjPc=
+Date: Wed, 10 Jan 2024 21:38:52 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Biju Das <biju.das.jz@bp.renesas.com>
+Cc: Maxime Ripard <mripard@kernel.org>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	"biju.das.au" <biju.das.au@gmail.com>,
+	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
+Subject: Re: [PATCH v15 3/5] drm: renesas: Add RZ/G2L DU Support
+Message-ID: <20240110193852.GF23633@pendragon.ideasonboard.com>
+References: <20231128105129.161121-4-biju.das.jz@bp.renesas.com>
+ <sechknyg33iucaku37vfhk7ie7xgcealfqbvaopm4rrnqbo5g5@s35peonkzzoz>
+ <TYCPR01MB11269767836DEB995747B7ED3868CA@TYCPR01MB11269.jpnprd01.prod.outlook.com>
+ <zp2ews2by6fg5irmb7ms6blox6vruezdjlor3rutqtokbvlle2@tl775slyvhyf>
+ <TYCPR01MB112699C55873FA75B8F4469C18693A@TYCPR01MB11269.jpnprd01.prod.outlook.com>
+ <bw3qxved377k5pmh3dbnimiyxra7k6dgb2tmg23bvxnfglti4g@uqdxmgnqrkg2>
+ <TYCPR01MB11269CC132B84CFAD11D307578693A@TYCPR01MB11269.jpnprd01.prod.outlook.com>
+ <g4uqcavglw2md4ojiw7yxequy37ttozjazr3b4ypqzznlrsinv@zm6mvzaempwp>
+ <TYCPR01MB11269BCE6CAEE3C5063C4D1728693A@TYCPR01MB11269.jpnprd01.prod.outlook.com>
+ <TYCPR01MB11269726F051D0F497597F28A86672@TYCPR01MB11269.jpnprd01.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-X-Mailer: git-send-email haha only kidding
+In-Reply-To: <TYCPR01MB11269726F051D0F497597F28A86672@TYCPR01MB11269.jpnprd01.prod.outlook.com>
 
-If rzg2l_map_add_config() fails then the error handling calls
-mutex_unlock(&pctrl->mutex) but we're not holding that mutex.  Move
-the unlocks to before the gotos to avoid this situation.
+Hi Biju,
 
-Fixes: d3aaa7203a17 ("pinctrl: renesas: rzg2l: Add pin configuration support for pinmux groups")
-Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
----
-(Not tested).
+On Thu, Jan 04, 2024 at 02:17:39PM +0000, Biju Das wrote:
+> On Friday, December 15, 2023 2:56 PM, Biju Das wrote:
+> > On Friday, December 15, 2023 2:18 PM, Maxime Ripard wrote:
+> > > On Fri, Dec 15, 2023 at 01:52:28PM +0000, Biju Das wrote:
+> > > > > > > > > > +static int rzg2l_du_crtc_enable_vblank(struct drm_crtc *crtc) {
+> > > > > > > > > > +	struct rzg2l_du_crtc *rcrtc = to_rzg2l_crtc(crtc);
+> > > > > > > > > > +
+> > > > > > > > > > +	rcrtc->vblank_enable = true;
+> > > > > > > > > > +
+> > > > > > > > > > +	return 0;
+> > > > > > > > > > +}
+> > > > > > > > > > +
+> > > > > > > > > > +static void rzg2l_du_crtc_disable_vblank(struct drm_crtc *crtc)
+> > > > > > > > > > +{
+> > > > > > > > > > +	struct rzg2l_du_crtc *rcrtc = to_rzg2l_crtc(crtc);
+> > > > > > > > > > +
+> > > > > > > > > > +	rcrtc->vblank_enable = false; }
+> > > > > > > > >
+> > > > > > > > > You should enable / disable your interrupts here
+> > > > > > > >
+> > > > > > > > We don't have dedicated vblank IRQ for enabling/disabling vblank.
+> > > > > > > >
+> > > > > > > > vblank is handled by vspd.
+> > > > > > > >
+> > > > > > > > vspd is directly rendering images to display,
+> > > > > > > > rcar_du_crtc_finish_page_flip() and drm_crtc_handle_vblank()
+> > > > > > > > called in vspd's pageflip context.
+> > > > > > > >
+> > > > > > > > See rzg2l_du_vsp_complete()in rzg2l_du_vsp.c
+> > > > > > >
+> > > > > > > Sorry, I couldn't really get how the interrupt flow / vblank
+> > > > > > > reporting is going to work. Could you explain it a bit more?
+> > > > > >
+> > > > > > We just need to handle vertical blanking in the VSP frame end handler.
+> > > > > > See the code below.
+> > > > > >
+> > > > > > static void rzg2l_du_vsp_complete(void *private, unsigned int status,
+> > > > > > u32 crc) {
+> > > > > > 	struct rzg2l_du_crtc *crtc = private;
+> > > > > >
+> > > > > > 	if (crtc->vblank_enable)
+> > > > > > 		drm_crtc_handle_vblank(&crtc->crtc);
+> > > > > >
+> > > > > > 	if (status & VSP1_DU_STATUS_COMPLETE)
+> > > > > > 		rzg2l_du_crtc_finish_page_flip(crtc);
+> > > > > >
+> > > > > > 	drm_crtc_add_crc_entry(&crtc->crtc, false, 0, &crc); }
+> > > > >
+> > > > > Then we're back to the same question :)
+> > > > >
+> > > > > Why can't you mask the frame end interrupt?
+> > > >
+> > > > We are masking interrupts.
+> > > >
+> > > > [   70.639139] #######rzg2l_du_crtc_disable_vblank#######
+> > > > [   70.650243] #########rzg2l_du_vsp_disable ############
+> > > > [   70.652003] ########## vsp1_wpf_stop###
+> > > >
+> > > > Unmask is,
+> > > >
+> > > > [ 176.354520] #######rzg2l_du_crtc_enable_vblank#######
+> > > > [ 176.354922] #########rzg2l_du_vsp_atomic_flush ############
+> > > > [ 176.355198] ########## wpf_configure_stream###
+> > >
+> > > Sorry, my question was why aren't you unmasking and masking them in
+> > > the enable/disable_vblank hooks of the CRTC.
+> > 
+> > I have n't tried that. Will try and provide feedback.
+> > 
+> > Currently the IRQ source belongs to VSPD in media subsystem.
+> > So I need to export an API though vsp1_drm and test it.
+> 
+> + linux-media
+> 
+> Laurent, are you ok with the below RZ/G2L specific patch[1] for
+> enabling/disabling frame end interrupt in VSP driver?
+> Note:
+> I need to add a quirk for handling this only for RZ/G2L family as
+> other SoCs have Vblank specific interrupt available in DU.
 
- drivers/pinctrl/renesas/pinctrl-rzg2l.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+The DU driver on Gen3 handles vblank exactly as in your patch. What's
+the problem with that ?
 
-diff --git a/drivers/pinctrl/renesas/pinctrl-rzg2l.c b/drivers/pinctrl/renesas/pinctrl-rzg2l.c
-index 80fb5011c7bb..8bbfb0530538 100644
---- a/drivers/pinctrl/renesas/pinctrl-rzg2l.c
-+++ b/drivers/pinctrl/renesas/pinctrl-rzg2l.c
-@@ -453,7 +453,8 @@ static int rzg2l_dt_subnode_to_map(struct pinctrl_dev *pctldev,
- 	gsel = pinctrl_generic_add_group(pctldev, name, pins, num_pinmux, NULL);
- 	if (gsel < 0) {
- 		ret = gsel;
--		goto unlock;
-+		mutex_unlock(&pctrl->mutex);
-+		goto done;
- 	}
- 
- 	/*
-@@ -464,6 +465,7 @@ static int rzg2l_dt_subnode_to_map(struct pinctrl_dev *pctldev,
- 	fsel = pinmux_generic_add_function(pctldev, name, pin_fn, 1, psel_val);
- 	if (fsel < 0) {
- 		ret = fsel;
-+		mutex_unlock(&pctrl->mutex);
- 		goto remove_group;
- 	}
- 
-@@ -490,8 +492,6 @@ static int rzg2l_dt_subnode_to_map(struct pinctrl_dev *pctldev,
- 
- remove_group:
- 	pinctrl_generic_remove_group(pctldev, gsel);
--unlock:
--	mutex_unlock(&pctrl->mutex);
- done:
- 	*index = idx;
- 	kfree(configs);
+> [1]
+> 
+> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_drm.c b/drivers/media/platform/renesas/vsp1/vsp1_drm.c
+> index 9b087bd8df7d..39347c16bb27 100644
+> --- a/drivers/media/platform/renesas/vsp1/vsp1_drm.c
+> +++ b/drivers/media/platform/renesas/vsp1/vsp1_drm.c
+> @@ -936,6 +936,14 @@ void vsp1_du_unmap_sg(struct device *dev, struct sg_table *sgt)
+>  }
+>  EXPORT_SYMBOL_GPL(vsp1_du_unmap_sg);
+>  
+> +void vsp1_du_mask_frame_end_interrupt(struct device *dev, bool mask)
+> +{
+> +       struct vsp1_device *vsp1 = dev_get_drvdata(dev);
+> +
+> +       vsp1_write(vsp1, VI6_WPF_IRQ_ENB(0), mask ? 0 : VI6_WPF_IRQ_ENB_DFEE);
+
+That will break everything. As soon as you turn of vblank reporting, the
+VSP will stop processing frames and the display will freeze.
+
+> +}
+> +EXPORT_SYMBOL_GPL(vsp1_du_mask_frame_end_interrupt);
+> +
+>  /* -----------------------------------------------------------------------------
+>   * Initialization
+>   */
+> diff --git a/include/media/vsp1.h b/include/media/vsp1.h
+> index 48f4a5023d81..ccac48a6bdd2 100644
+> --- a/include/media/vsp1.h
+> +++ b/include/media/vsp1.h
+> @@ -117,4 +117,6 @@ void vsp1_du_atomic_flush(struct device *dev, unsigned int pipe_index,
+>  int vsp1_du_map_sg(struct device *dev, struct sg_table *sgt);
+>  void vsp1_du_unmap_sg(struct device *dev, struct sg_table *sgt);
+>  
+> +void vsp1_du_mask_frame_end_interrupt(struct device *dev, bool mask);
+> +
+>  #endif /* __MEDIA_VSP1_H__ */
+
 -- 
-2.43.0
+Regards,
 
+Laurent Pinchart
 
