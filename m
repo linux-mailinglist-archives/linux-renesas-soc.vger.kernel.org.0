@@ -1,201 +1,160 @@
-Return-Path: <linux-renesas-soc+bounces-1494-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-1495-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6303582A11B
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Jan 2024 20:38:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 264C782A3DE
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Jan 2024 23:23:58 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id D12331F2235A
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Jan 2024 19:38:56 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id CDD0C1F28AE9
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Jan 2024 22:23:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A271D4D581;
-	Wed, 10 Jan 2024 19:38:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 934CC4F887;
+	Wed, 10 Jan 2024 22:23:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="iwonAFm5"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="M5wSflxF"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0CDC22063;
-	Wed, 10 Jan 2024 19:38:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (89-27-53-110.bb.dnainternet.fi [89.27.53.110])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 08D433DFA;
-	Wed, 10 Jan 2024 20:37:39 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1704915460;
-	bh=zHQis5xP8OgIGCs3kY8BouPwXp7i9V/rpOTbYi87Dt4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=iwonAFm5HQi0o+Au9y/q+DfG+zSyytUBy6pmUaq3Sl78QhwsRPPKKldiddGuntkZe
-	 RMO4DfamtJuMOiH3PcUfp6fQmR+13IAYxHl/isR8NsnV8+Hi9s9bfiHP2BGhTPO/Z/
-	 WjdtwmUpQ+rf1psExbd//T/q5p+aEZbWzULLZjPc=
-Date: Wed, 10 Jan 2024 21:38:52 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Biju Das <biju.das.jz@bp.renesas.com>
-Cc: Maxime Ripard <mripard@kernel.org>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D55454F601;
+	Wed, 10 Jan 2024 22:23:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-40e4f692d06so14706805e9.1;
+        Wed, 10 Jan 2024 14:23:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1704925417; x=1705530217; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=X/QfoypIDMO0K2Ndnvr0HB3tyVcDqG7prMuOY7ywE+0=;
+        b=M5wSflxFA6hBL0MG8HWJrcWPsCO93dZS5Xtw7PUZdF5GmRWF+5PheI4uQYVn/qaA5J
+         ehBtNVjnCIhdUvktSaPYik56l71xhWWB7S/Ndf6TfEjDPZUPnIo4+Jn+hu+KBzk6oH0M
+         lEPD+L8NbVbdGEl5PHu/Ny9vQNMCI9NefDvc+Dfmk+CNV+nBreMZhfUKDQh2+SgwbE4I
+         EbaWbxZVF2q1pqEgPCw0qpAtHSX2s8MOs3Xt+U5l8u8Wdf/VZTZK3Y11UG6wfgW4b0hK
+         2XrJ7oPf1+skl7+cn2pCsIDo65zfSydu4OaXDCtyYd5jNB3ux3dSlOT7FqwR9KK3KtIt
+         sOJg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1704925417; x=1705530217;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=X/QfoypIDMO0K2Ndnvr0HB3tyVcDqG7prMuOY7ywE+0=;
+        b=f22ifJIgQhKIgZjVpBQFKvTKS9OmG273YSazQx8us9FPtkS6sI7tsENJ3ilssVgYzw
+         Tj8x8qxu1xkHz2GwYHcaPaqOlLf55i0lPzvZNA+J+4OWq114EQQy2JdICJ1K8TNqZFDH
+         eg6mV4Gisz0KSOV2X9nMuOpz8/ruiTmvi5BP8hVtMOOHW9/qRyj7ow2t9DraigeKOWT8
+         ihlE5wM/t45HFnfXphYUqjFDOMQY6s3wF4FLWHfA4lg8reu9tglJLYzZguVvM7Gpfyhq
+         GgXHNVMaCYA5gnQ2g5jHtswuzo227IyiHYvp3pduLXVRevN6SWJsLVwpRHa5/cqGp8/K
+         LYfQ==
+X-Gm-Message-State: AOJu0Yzvo2yqDdnIyULV8yKAVyCYVnfpirqiHmbtbqzfWSUFDrbcGmJF
+	b/D2Wcu6t/rAqf64b1tRBYU=
+X-Google-Smtp-Source: AGHT+IEQSzkrGcyzOzDt5HHZwxk+SVLjbEhbbOLOo1a99znKrBnoXfptSw+f92Jwo0GKCKhxJYyVRg==
+X-Received: by 2002:a05:600c:a12:b0:40d:8a05:33a4 with SMTP id z18-20020a05600c0a1200b0040d8a0533a4mr74502wmp.33.1704925416622;
+        Wed, 10 Jan 2024 14:23:36 -0800 (PST)
+Received: from prasmi.home ([2a00:23c8:2500:a01:3989:437:3f03:172f])
+        by smtp.gmail.com with ESMTPSA id v21-20020a05600c445500b0040e3bdff98asm3494498wmn.23.2024.01.10.14.23.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 10 Jan 2024 14:23:36 -0800 (PST)
+From: Prabhakar <prabhakar.csengg@gmail.com>
+X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+To: Vinod Koul <vkoul@kernel.org>,
 	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	"biju.das.au" <biju.das.au@gmail.com>,
-	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
-Subject: Re: [PATCH v15 3/5] drm: renesas: Add RZ/G2L DU Support
-Message-ID: <20240110193852.GF23633@pendragon.ideasonboard.com>
-References: <20231128105129.161121-4-biju.das.jz@bp.renesas.com>
- <sechknyg33iucaku37vfhk7ie7xgcealfqbvaopm4rrnqbo5g5@s35peonkzzoz>
- <TYCPR01MB11269767836DEB995747B7ED3868CA@TYCPR01MB11269.jpnprd01.prod.outlook.com>
- <zp2ews2by6fg5irmb7ms6blox6vruezdjlor3rutqtokbvlle2@tl775slyvhyf>
- <TYCPR01MB112699C55873FA75B8F4469C18693A@TYCPR01MB11269.jpnprd01.prod.outlook.com>
- <bw3qxved377k5pmh3dbnimiyxra7k6dgb2tmg23bvxnfglti4g@uqdxmgnqrkg2>
- <TYCPR01MB11269CC132B84CFAD11D307578693A@TYCPR01MB11269.jpnprd01.prod.outlook.com>
- <g4uqcavglw2md4ojiw7yxequy37ttozjazr3b4ypqzznlrsinv@zm6mvzaempwp>
- <TYCPR01MB11269BCE6CAEE3C5063C4D1728693A@TYCPR01MB11269.jpnprd01.prod.outlook.com>
- <TYCPR01MB11269726F051D0F497597F28A86672@TYCPR01MB11269.jpnprd01.prod.outlook.com>
+	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+	Tudor Ambarus <tudor.ambarus@linaro.org>,
+	Kees Cook <keescook@chromium.org>
+Cc: dmaengine@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	Prabhakar <prabhakar.csengg@gmail.com>,
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH] dmaengine: usb-dmac: Avoid format-overflow warning
+Date: Wed, 10 Jan 2024 22:22:10 +0000
+Message-Id: <20240110222210.193479-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <TYCPR01MB11269726F051D0F497597F28A86672@TYCPR01MB11269.jpnprd01.prod.outlook.com>
+Content-Transfer-Encoding: 8bit
 
-Hi Biju,
+From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-On Thu, Jan 04, 2024 at 02:17:39PM +0000, Biju Das wrote:
-> On Friday, December 15, 2023 2:56 PM, Biju Das wrote:
-> > On Friday, December 15, 2023 2:18 PM, Maxime Ripard wrote:
-> > > On Fri, Dec 15, 2023 at 01:52:28PM +0000, Biju Das wrote:
-> > > > > > > > > > +static int rzg2l_du_crtc_enable_vblank(struct drm_crtc *crtc) {
-> > > > > > > > > > +	struct rzg2l_du_crtc *rcrtc = to_rzg2l_crtc(crtc);
-> > > > > > > > > > +
-> > > > > > > > > > +	rcrtc->vblank_enable = true;
-> > > > > > > > > > +
-> > > > > > > > > > +	return 0;
-> > > > > > > > > > +}
-> > > > > > > > > > +
-> > > > > > > > > > +static void rzg2l_du_crtc_disable_vblank(struct drm_crtc *crtc)
-> > > > > > > > > > +{
-> > > > > > > > > > +	struct rzg2l_du_crtc *rcrtc = to_rzg2l_crtc(crtc);
-> > > > > > > > > > +
-> > > > > > > > > > +	rcrtc->vblank_enable = false; }
-> > > > > > > > >
-> > > > > > > > > You should enable / disable your interrupts here
-> > > > > > > >
-> > > > > > > > We don't have dedicated vblank IRQ for enabling/disabling vblank.
-> > > > > > > >
-> > > > > > > > vblank is handled by vspd.
-> > > > > > > >
-> > > > > > > > vspd is directly rendering images to display,
-> > > > > > > > rcar_du_crtc_finish_page_flip() and drm_crtc_handle_vblank()
-> > > > > > > > called in vspd's pageflip context.
-> > > > > > > >
-> > > > > > > > See rzg2l_du_vsp_complete()in rzg2l_du_vsp.c
-> > > > > > >
-> > > > > > > Sorry, I couldn't really get how the interrupt flow / vblank
-> > > > > > > reporting is going to work. Could you explain it a bit more?
-> > > > > >
-> > > > > > We just need to handle vertical blanking in the VSP frame end handler.
-> > > > > > See the code below.
-> > > > > >
-> > > > > > static void rzg2l_du_vsp_complete(void *private, unsigned int status,
-> > > > > > u32 crc) {
-> > > > > > 	struct rzg2l_du_crtc *crtc = private;
-> > > > > >
-> > > > > > 	if (crtc->vblank_enable)
-> > > > > > 		drm_crtc_handle_vblank(&crtc->crtc);
-> > > > > >
-> > > > > > 	if (status & VSP1_DU_STATUS_COMPLETE)
-> > > > > > 		rzg2l_du_crtc_finish_page_flip(crtc);
-> > > > > >
-> > > > > > 	drm_crtc_add_crc_entry(&crtc->crtc, false, 0, &crc); }
-> > > > >
-> > > > > Then we're back to the same question :)
-> > > > >
-> > > > > Why can't you mask the frame end interrupt?
-> > > >
-> > > > We are masking interrupts.
-> > > >
-> > > > [   70.639139] #######rzg2l_du_crtc_disable_vblank#######
-> > > > [   70.650243] #########rzg2l_du_vsp_disable ############
-> > > > [   70.652003] ########## vsp1_wpf_stop###
-> > > >
-> > > > Unmask is,
-> > > >
-> > > > [ 176.354520] #######rzg2l_du_crtc_enable_vblank#######
-> > > > [ 176.354922] #########rzg2l_du_vsp_atomic_flush ############
-> > > > [ 176.355198] ########## wpf_configure_stream###
-> > >
-> > > Sorry, my question was why aren't you unmasking and masking them in
-> > > the enable/disable_vblank hooks of the CRTC.
-> > 
-> > I have n't tried that. Will try and provide feedback.
-> > 
-> > Currently the IRQ source belongs to VSPD in media subsystem.
-> > So I need to export an API though vsp1_drm and test it.
-> 
-> + linux-media
-> 
-> Laurent, are you ok with the below RZ/G2L specific patch[1] for
-> enabling/disabling frame end interrupt in VSP driver?
-> Note:
-> I need to add a quirk for handling this only for RZ/G2L family as
-> other SoCs have Vblank specific interrupt available in DU.
+gcc points out that the fix-byte buffer might be too small:
+drivers/dma/sh/usb-dmac.c: In function 'usb_dmac_probe':
+drivers/dma/sh/usb-dmac.c:720:34: warning: '%u' directive writing between 1 and 10 bytes into a region of size 3 [-Wformat-overflow=]
+  720 |         sprintf(pdev_irqname, "ch%u", index);
+      |                                  ^~
+In function 'usb_dmac_chan_probe',
+    inlined from 'usb_dmac_probe' at drivers/dma/sh/usb-dmac.c:814:9:
+drivers/dma/sh/usb-dmac.c:720:31: note: directive argument in the range [0, 4294967294]
+  720 |         sprintf(pdev_irqname, "ch%u", index);
+      |                               ^~~~~~
+drivers/dma/sh/usb-dmac.c:720:9: note: 'sprintf' output between 4 and 13 bytes into a destination of size 5
+  720 |         sprintf(pdev_irqname, "ch%u", index);
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The DU driver on Gen3 handles vblank exactly as in your patch. What's
-the problem with that ?
+Maximum number of channels for USB-DMAC as per the driver is 1-99 so use
+u8 instead of unsigned int/int for DMAC channel indexing and make the
+pdev_irqname string long enough to avoid the warning.
 
-> [1]
-> 
-> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_drm.c b/drivers/media/platform/renesas/vsp1/vsp1_drm.c
-> index 9b087bd8df7d..39347c16bb27 100644
-> --- a/drivers/media/platform/renesas/vsp1/vsp1_drm.c
-> +++ b/drivers/media/platform/renesas/vsp1/vsp1_drm.c
-> @@ -936,6 +936,14 @@ void vsp1_du_unmap_sg(struct device *dev, struct sg_table *sgt)
->  }
->  EXPORT_SYMBOL_GPL(vsp1_du_unmap_sg);
->  
-> +void vsp1_du_mask_frame_end_interrupt(struct device *dev, bool mask)
-> +{
-> +       struct vsp1_device *vsp1 = dev_get_drvdata(dev);
-> +
-> +       vsp1_write(vsp1, VI6_WPF_IRQ_ENB(0), mask ? 0 : VI6_WPF_IRQ_ENB_DFEE);
+While at it use scnprintf() instead of sprintf() to make the code more
+robust.
 
-That will break everything. As soon as you turn of vblank reporting, the
-VSP will stop processing frames and the display will freeze.
+Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+---
+ drivers/dma/sh/usb-dmac.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-> +}
-> +EXPORT_SYMBOL_GPL(vsp1_du_mask_frame_end_interrupt);
-> +
->  /* -----------------------------------------------------------------------------
->   * Initialization
->   */
-> diff --git a/include/media/vsp1.h b/include/media/vsp1.h
-> index 48f4a5023d81..ccac48a6bdd2 100644
-> --- a/include/media/vsp1.h
-> +++ b/include/media/vsp1.h
-> @@ -117,4 +117,6 @@ void vsp1_du_atomic_flush(struct device *dev, unsigned int pipe_index,
->  int vsp1_du_map_sg(struct device *dev, struct sg_table *sgt);
->  void vsp1_du_unmap_sg(struct device *dev, struct sg_table *sgt);
->  
-> +void vsp1_du_mask_frame_end_interrupt(struct device *dev, bool mask);
-> +
->  #endif /* __MEDIA_VSP1_H__ */
-
+diff --git a/drivers/dma/sh/usb-dmac.c b/drivers/dma/sh/usb-dmac.c
+index a9b4302f6050..f7cd0cad056c 100644
+--- a/drivers/dma/sh/usb-dmac.c
++++ b/drivers/dma/sh/usb-dmac.c
+@@ -706,10 +706,10 @@ static const struct dev_pm_ops usb_dmac_pm = {
+ 
+ static int usb_dmac_chan_probe(struct usb_dmac *dmac,
+ 			       struct usb_dmac_chan *uchan,
+-			       unsigned int index)
++			       u8 index)
+ {
+ 	struct platform_device *pdev = to_platform_device(dmac->dev);
+-	char pdev_irqname[5];
++	char pdev_irqname[6];
+ 	char *irqname;
+ 	int ret;
+ 
+@@ -717,7 +717,7 @@ static int usb_dmac_chan_probe(struct usb_dmac *dmac,
+ 	uchan->iomem = dmac->iomem + USB_DMAC_CHAN_OFFSET(index);
+ 
+ 	/* Request the channel interrupt. */
+-	sprintf(pdev_irqname, "ch%u", index);
++	scnprintf(pdev_irqname, sizeof(pdev_irqname), "ch%u", index);
+ 	uchan->irq = platform_get_irq_byname(pdev, pdev_irqname);
+ 	if (uchan->irq < 0)
+ 		return -ENODEV;
+@@ -768,8 +768,8 @@ static int usb_dmac_probe(struct platform_device *pdev)
+ 	const enum dma_slave_buswidth widths = USB_DMAC_SLAVE_BUSWIDTH;
+ 	struct dma_device *engine;
+ 	struct usb_dmac *dmac;
+-	unsigned int i;
+ 	int ret;
++	u8 i;
+ 
+ 	dmac = devm_kzalloc(&pdev->dev, sizeof(*dmac), GFP_KERNEL);
+ 	if (!dmac)
+@@ -869,7 +869,7 @@ static void usb_dmac_chan_remove(struct usb_dmac *dmac,
+ static void usb_dmac_remove(struct platform_device *pdev)
+ {
+ 	struct usb_dmac *dmac = platform_get_drvdata(pdev);
+-	int i;
++	u8 i;
+ 
+ 	for (i = 0; i < dmac->n_channels; ++i)
+ 		usb_dmac_chan_remove(dmac, &dmac->channels[i]);
 -- 
-Regards,
+2.34.1
 
-Laurent Pinchart
 
