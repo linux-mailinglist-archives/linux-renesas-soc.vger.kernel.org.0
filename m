@@ -1,43 +1,52 @@
-Return-Path: <linux-renesas-soc+bounces-1445-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-1446-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E2098290CE
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Jan 2024 00:28:58 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 202A0829132
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Jan 2024 01:22:00 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 143A21F264F0
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  9 Jan 2024 23:28:58 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BEC9F288BC7
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Jan 2024 00:21:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E84F63E478;
-	Tue,  9 Jan 2024 23:28:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 31C13383;
+	Wed, 10 Jan 2024 00:21:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="k/Qa3jQh"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail11.truemail.it (mail11.truemail.it [217.194.8.81])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2485912E41;
-	Tue,  9 Jan 2024 23:28:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dolcini.it
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dolcini.it
-Received: from francesco-nb (93-49-2-63.ip317.fastwebnet.it [93.49.2.63])
-	by mail11.truemail.it (Postfix) with ESMTPA id 758F92028F;
-	Wed, 10 Jan 2024 00:28:42 +0100 (CET)
-Date: Wed, 10 Jan 2024 00:28:38 +0100
-From: Francesco Dolcini <francesco@dolcini.it>
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc: linux-renesas-soc@vger.kernel.org, netdev@vger.kernel.org,
-	Francesco Dolcini <francesco.dolcini@toradex.com>,
-	Andrew Lunn <andrew@lunn.ch>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	linux-kernel@vger.kernel.org
-Subject: Re: [RFC PATCH] net: phy: micrel: reset KSZ9x31 when resuming
-Message-ID: <20240109232838.GA3626@francesco-nb>
-References: <20240109205223.40219-1-wsa+renesas@sang-engineering.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11779182;
+	Wed, 10 Jan 2024 00:21:54 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 49D54C433F1;
+	Wed, 10 Jan 2024 00:21:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1704846114;
+	bh=gGBxlJSlNg+HT+kUxK4TBKVg9fAdjhFVaiJGQOyoLKY=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:From;
+	b=k/Qa3jQhzuR++vA4wt7WgyP1urHFGxgjYhS3UphugiSjRLaj5SLKGQwpX4l21msgN
+	 tShbyt1lfmRc/VdmPt0NEFIR9Xi0Z4jpX7/Znts3Xbwv86/+7eGbsfMziGgDdJgMPb
+	 eESHfJCW6XyIg7jE1fsOO2ayqUNKOnBtuaOqrpmzCYm0NwCYvOLz3Q4xMwBhf2EN9F
+	 Kv2FWN2YWj8LXk2y7HzoSuHhzhLkjK7dey7sHPqTfMzjEl1I6bebp4JTK9+Rd+gQ2g
+	 yJ3pO+FZ7R/CHunWLvGCuvKWdGpAq9sMt6bgEL2yLqorUk3bmmoJEep1dPi9fufLkR
+	 K8KVC2Rw38UUg==
+Date: Tue, 9 Jan 2024 18:21:52 -0600
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc: Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
+	Serge Semin <fancer.lancer@gmail.com>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	"robh@kernel.org" <robh@kernel.org>,
+	"jingoohan1@gmail.com" <jingoohan1@gmail.com>,
+	"gustavo.pimentel@synopsys.com" <gustavo.pimentel@synopsys.com>,
+	"linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
+	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>
+Subject: Re: [PATCH v4 0/6] PCI: controllers: tidy code up
+Message-ID: <20240110002152.GA2085796@bhelgaas>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -46,77 +55,23 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240109205223.40219-1-wsa+renesas@sang-engineering.com>
+In-Reply-To: <TYBPR01MB5341FE0273707AAE4A9F92E7D86A2@TYBPR01MB5341.jpnprd01.prod.outlook.com>
 
-- Philippe, email address is no longer valid.
+On Tue, Jan 09, 2024 at 01:34:54AM +0000, Yoshihiro Shimoda wrote:
+> ...
 
-On Tue, Jan 09, 2024 at 09:52:22PM +0100, Wolfram Sang wrote:
-> On a Renesas Ebisu board, the KSZ9031 PHY is stalled after resuming if
-> the interface has not been brought up before suspending. If it had been
-> brought up before, phylib ensures that reset is asserted before
-> suspending. But if it had never been brought up, there is no instance
-> which could ensure that reset is asserted. And upon resume, the PHY is
-> in an unknown state without reset being asserted. To bring it back to a
-> known state, simply reset it when it is about to be resumed.
-> 
-> This likely also helps another issue [1] where a KSZ9131 can be powered
-> using regulators. After switching power on again in resume, a reset is
-> also needed.
-> 
-> [1] https://patchwork.kernel.org/project/netdevbpf/patch/20211214121638.138784-4-philippe.schenker@toradex.com/
-> 
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-> ---
-> 
-> This is a different solution to a problem I already tried to solve
-> here[2]. Back then, I added code to the MAC, but I now believe it should
-> be solved on PHY level. We never saw the problem with other PHYs.
-> Looking at [1], it seems that KSZ9x31 is also sensitive to being
-> powered down without reset being asserted. I know it is not a perfect
-> proof, but I guess these assumptions are all we have.
-> 
-> Philippe, Francesco: do you still have access to machines with this
-> issue? Could you kindly test if so?
+> Now v6.7 had been released. So, should I resubmit this series after
+> v6.8-rc1 was released?  Or, would you resolve the conflicts for
+> merging this series into v6.8-rc1?
 
-I have access, however
- - Philippe is long gone from Toradex and he was the one looking into
-   this topic
- - we did solve the issue in a different way, e.g. we no longer
-   power-off the phy in suspend
+No need, I think this is already merged in the PCI "next" branch and
+should appear in v6.8-rc1.
 
-Therefore is not straightforward to provide valuable feedback to you
-now.
+If you take a look at
+https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git/log/?h=fbfdb71c8c79,
+you should be able to confirm that your series is included correctly.
 
+If it's not, please let me know!
 
-> 
-> Patch is based on 6.7. Looking forward for comments if this is the
-> correct layer to tackle the problem. Thanks!
-> 
-> 
-> [2] https://lore.kernel.org/all/20230321103357.18940-1-wsa+renesas@sang-engineering.com/
-> 
->  drivers/net/phy/micrel.c | 12 ++++++++++--
->  1 file changed, 10 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/net/phy/micrel.c b/drivers/net/phy/micrel.c
-> index 08e3915001c3..c38d7982c06c 100644
-> --- a/drivers/net/phy/micrel.c
-> +++ b/drivers/net/phy/micrel.c
-> @@ -1984,6 +1984,14 @@ static int kszphy_resume(struct phy_device *phydev)
->  	return 0;
->  }
->  
-> +static int ksz9x31_resume(struct phy_device *phydev)
-> +{
-> +	phy_device_reset(phydev, 1);
-> +	phy_device_reset(phydev, 0);
-
-Is something like that fine?
-Don't we need to reconfigure the ethernet phy completely on resume
-if we do reset it? kszphy_config_reset() is taking care of something,
-but I think that the phy being reset on resume is not handled
-correctly.
-
-Francesco
-
+Bjorn
 
