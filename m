@@ -1,144 +1,155 @@
-Return-Path: <linux-renesas-soc+bounces-1504-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-1505-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6537E82ADB6
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 11 Jan 2024 12:42:29 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id EAFCC82B134
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 11 Jan 2024 15:59:42 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8B8CA1C23307
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 11 Jan 2024 11:42:28 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 87118B21449
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 11 Jan 2024 14:59:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8320A14A8B;
-	Thu, 11 Jan 2024 11:42:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7E2D94A9B3;
+	Thu, 11 Jan 2024 14:59:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="e/vn3dqn"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nHYalyDO"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vk1-f172.google.com (mail-vk1-f172.google.com [209.85.221.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01E198F62;
-	Thu, 11 Jan 2024 11:42:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f172.google.com with SMTP id 71dfb90a1353d-4b77948f7deso1603258e0c.0;
-        Thu, 11 Jan 2024 03:42:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1704973341; x=1705578141; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=U34z3M5y8NqKnCvOeskNHlh3oGzO6JvIqhzswOkQUmk=;
-        b=e/vn3dqn4K7/DqoMHPhU7mTETwTpDUQ3f3huhh4s6IfKR5XGSiXY//NUKYdwSGr5ia
-         WVqU2eXqp5FEbsUgHXqfM8QfcHv3pilUOo+kq9r8OhZ8hrs8qdDTe3gJOf8jOjbTzFgJ
-         yOrWJBwV7NfulignmnNohG/m5diu09O0ibwMr+9SNUBdTRDiP3rVyfMz63CsviFEOZtY
-         XsusipAjrBro4HR7C9ZvbvU6SThANS4bIG6kui2aj+YK2dPzUImLbmLlGSNo1NL0Py9x
-         90AduWYKX8Kej3EouEqArhinAu6aBX00jBKCURd84V+Ln5IBNv6/mBPPP2e27GLFJ6N2
-         mv0Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704973341; x=1705578141;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=U34z3M5y8NqKnCvOeskNHlh3oGzO6JvIqhzswOkQUmk=;
-        b=ojbtwqKYvx7tRkpgEr+MdpRgsq484O6krW30OIQy1Tn6c62s7v1XvwsiOd3Y4PecJr
-         t6yI4PtIcv+AorK/DVdVscMS5fC+1/QHD/Umm0IdY1puyVpcMinYPZ0M3WryyqW77e5L
-         PF4j2ksT2eCyOtEEbg6O+TAyft2odX919MfjpOk3+e1p2GDlT7Y+aZ1sNCHaY3+hfuzd
-         TC4eX+WNR+pBpKYpww5XAwEA3SS7PcBhvDKGbGyuulUVnrjK3Sx+vOwIlBXwAGoQyRR0
-         iZ5QhpIZnxxFZIilR5TZ/kJHzsIddI6NCBt+IEL2Y2+WU0ZlNIaSMkY8ePjhoNw3jkaA
-         zUnw==
-X-Gm-Message-State: AOJu0YwXuK33VbEFNchDiM5aprVkUnoBuDOILyZ2P89lNnx1o4BK2tB9
-	ogrQtIpPDzEAQbISGrEbjVJSv0x4Aqy4JmiwxW4=
-X-Google-Smtp-Source: AGHT+IGiJJoU0Nw3B68wa0YIFKcUk/MwLlprqtndI6rNs4+OFJG3dn9vSfPhJnmB2vK7IC/PxSJ9JG3zd5CxFW2uPK0=
-X-Received: by 2002:a05:6122:14af:b0:4b6:d1da:5bd1 with SMTP id
- c15-20020a05612214af00b004b6d1da5bd1mr242032vkq.2.1704973340720; Thu, 11 Jan
- 2024 03:42:20 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35D6E390;
+	Thu, 11 Jan 2024 14:59:30 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6F65AC43390;
+	Thu, 11 Jan 2024 14:59:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1704985170;
+	bh=obzljcLiJ4GpVaa5SSKo4cJxW9OvkYGDmnjlyQfIlZI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=nHYalyDOvAOPCXFghAM1koa8SyyhhJbx2NS7oaSccjGMgH7hd8K6PgCbgUYNNxNlV
+	 RmGKdU8H/qelbOpHbdK6lY3z94gtQDkXFLwmXpIo6se2QKdb2/eJHuEYRWwCvqRZqz
+	 d6c/2VhyfKTHc2AOeMEj2o2oEeAhfzNCGN+6T/O6RApd1aGtGh6rdqf/jl/505e4yX
+	 2vkmubzDVpwuYZ5TSUe6C8cnpmoESUorVaftbQJbcjgGD8ONaUd6KceQOl+dy+Jwil
+	 R5sfhQjmbOfzkWmuihvw8I2rFw5SlSma30PRhfosHts/KPzeyEknOc/usqeCbKIhN0
+	 6Aj8MjPf72M2w==
+Date: Thu, 11 Jan 2024 08:59:28 -0600
+From: Rob Herring <robh@kernel.org>
+To: Conor Dooley <conor@kernel.org>
+Cc: Geert Uytterhoeven <geert@linux-m68k.org>,
+	Yoshinori Sato <ysato@users.sourceforge.jp>,
+	linux-sh@vger.kernel.org, Damien Le Moal <dlemoal@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jiri Slaby <jirislaby@kernel.org>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Daniel Lezcano <daniel.lezcano@linaro.org>,
+	Rich Felker <dalias@libc.org>,
+	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+	Lee Jones <lee@kernel.org>, Helge Deller <deller@gmx.de>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Chris Morgan <macromorgan@hotmail.com>,
+	Yang Xiwen <forbidden405@foxmail.com>,
+	Sebastian Reichel <sre@kernel.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Randy Dunlap <rdunlap@infradead.org>, Arnd Bergmann <arnd@arndb.de>,
+	Vlastimil Babka <vbabka@suse.cz>,
+	Hyeonggon Yoo <42.hyeyoo@gmail.com>,
+	David Rientjes <rientjes@google.com>, Baoquan He <bhe@redhat.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Stephen Rothwell <sfr@canb.auug.org.au>,
+	Azeem Shaikh <azeemshaikh38@gmail.com>,
+	Javier Martinez Canillas <javierm@redhat.com>,
+	Max Filippov <jcmvbkbc@gmail.com>,
+	Palmer Dabbelt <palmer@rivosinc.com>, Bin Meng <bmeng@tinylab.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Jacky Huang <ychuang3@nuvoton.com>,
+	Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
+	Sam Ravnborg <sam@ravnborg.org>,
+	Sergey Shtylyov <s.shtylyov@omp.ru>,
+	Michael Karcher <kernel@mkarcher.dialup.fu-berlin.de>,
+	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+	linux-ide@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+	linux-clk@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	linux-pci@vger.kernel.org, linux-serial@vger.kernel.org,
+	linux-fbdev@vger.kernel.org
+Subject: Re: [DO NOT MERGE v6 26/37] dt-bindings: vendor-prefixes: Add smi
+Message-ID: <20240111145928.GA538344-robh@kernel.org>
+References: <cover.1704788539.git.ysato@users.sourceforge.jp>
+ <c8aaf67e3fcdb7e60632c53a784691aabfc7733e.1704788539.git.ysato@users.sourceforge.jp>
+ <20240109-fructose-bundle-05d01033277b@spud>
+ <CAMuHMdU1z64QHJOVd3jUsOfyuDApB1+khkUV8PvjoKbwsi327g@mail.gmail.com>
+ <20240110-sincere-tripod-9d34175fcbce@spud>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240110222210.193479-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAMuHMdXSLBARbtc91F=cWqTdL+UcT4wJbr0_m5+iz_6BXA4Acw@mail.gmail.com>
-In-Reply-To: <CAMuHMdXSLBARbtc91F=cWqTdL+UcT4wJbr0_m5+iz_6BXA4Acw@mail.gmail.com>
-From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Thu, 11 Jan 2024 11:41:54 +0000
-Message-ID: <CA+V-a8vwcyVbxyKkZyepcQsxSooa-gy_-KYDJdTnQkRW9MQ01w@mail.gmail.com>
-Subject: Re: [PATCH] dmaengine: usb-dmac: Avoid format-overflow warning
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Vinod Koul <vkoul@kernel.org>, =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>, 
-	Tudor Ambarus <tudor.ambarus@linaro.org>, Kees Cook <keescook@chromium.org>, 
-	dmaengine@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org, 
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240110-sincere-tripod-9d34175fcbce@spud>
 
-Hi Geert,
+On Wed, Jan 10, 2024 at 04:11:44PM +0000, Conor Dooley wrote:
+> On Wed, Jan 10, 2024 at 12:23:37PM +0100, Geert Uytterhoeven wrote:
+> > Hi Conor,
+> > 
+> > On Tue, Jan 9, 2024 at 7:06 PM Conor Dooley <conor@kernel.org> wrote:
+> > > On Tue, Jan 09, 2024 at 05:23:23PM +0900, Yoshinori Sato wrote:
+> > > > Add Silicon Mortion Technology Corporation
+> > 
+> > Motion
+> > 
+> > > > https://www.siliconmotion.com/
+> > > >
+> > > > Signed-off-by: Yoshinori Sato <ysato@users.sourceforge.jp>
+> > > > ---
+> > > >  Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
+> > > >  1 file changed, 2 insertions(+)
+> > > >
+> > > > diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+> > > > index 94ed63d9f7de..a338bdd743ab 100644
+> > > > --- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
+> > > > +++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+> > > > @@ -1283,6 +1283,8 @@ patternProperties:
+> > > >      description: Skyworks Solutions, Inc.
+> > > >    "^smartlabs,.*":
+> > > >      description: SmartLabs LLC
+> > > > +  "^smi,.*":
+> > > > +    description: Silicon Motion Technology Corporation
+> > >
+> > > How come "smi" is used for a company with this name?
+> > > Why is it not something like SMTC? There's probably some history here
+> > > that I am unaware of.
+> > 
+> > See Documentation/devicetree/bindings/display/sm501fb.txt
+> > The stock ticker is "SIMO", though.
+> > https://www.nasdaq.com/market-activity/stocks/simo
+> 
+> If there's an existing user, there's little reason to stand in the way I
+> think.
+> Acked-by: Conor Dooley <conor.dooley@microchip.com>
 
-Thank you for the review.
+Or reason not to apply, so I'm applying this.
 
-On Thu, Jan 11, 2024 at 9:05=E2=80=AFAM Geert Uytterhoeven <geert@linux-m68=
-k.org> wrote:
->
-> Hi Prabhakar,
->
-> On Wed, Jan 10, 2024 at 11:23=E2=80=AFPM Prabhakar <prabhakar.csengg@gmai=
-l.com> wrote:
-> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> >
-> > gcc points out that the fix-byte buffer might be too small:
-> > drivers/dma/sh/usb-dmac.c: In function 'usb_dmac_probe':
-> > drivers/dma/sh/usb-dmac.c:720:34: warning: '%u' directive writing betwe=
-en 1 and 10 bytes into a region of size 3 [-Wformat-overflow=3D]
-> >   720 |         sprintf(pdev_irqname, "ch%u", index);
-> >       |                                  ^~
-> > In function 'usb_dmac_chan_probe',
-> >     inlined from 'usb_dmac_probe' at drivers/dma/sh/usb-dmac.c:814:9:
-> > drivers/dma/sh/usb-dmac.c:720:31: note: directive argument in the range=
- [0, 4294967294]
-> >   720 |         sprintf(pdev_irqname, "ch%u", index);
-> >       |                               ^~~~~~
-> > drivers/dma/sh/usb-dmac.c:720:9: note: 'sprintf' output between 4 and 1=
-3 bytes into a destination of size 5
-> >   720 |         sprintf(pdev_irqname, "ch%u", index);
-> >       |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> >
-> > Maximum number of channels for USB-DMAC as per the driver is 1-99 so us=
-e
-> > u8 instead of unsigned int/int for DMAC channel indexing and make the
-> > pdev_irqname string long enough to avoid the warning.
-> >
-> > While at it use scnprintf() instead of sprintf() to make the code more
-> > robust.
-> >
-> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
->
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
->
-> One nit below.
->
-> > --- a/drivers/dma/sh/usb-dmac.c
-> > +++ b/drivers/dma/sh/usb-dmac.c
->
-> > @@ -768,8 +768,8 @@ static int usb_dmac_probe(struct platform_device *p=
-dev)
-> >         const enum dma_slave_buswidth widths =3D USB_DMAC_SLAVE_BUSWIDT=
-H;
-> >         struct dma_device *engine;
-> >         struct usb_dmac *dmac;
-> > -       unsigned int i;
-> >         int ret;
-> > +       u8 i;
->
-> Personally, I'm not much a fan of making loop counters smaller than
-> (unsigned) int.  If you do go this way, there are more loops over all
-> channels still using int.
->
-Agreed. So shall I drop Kees suggestion and leave the patch as is?
+BTW, 'RFC' is the standard way to say 'DO NOT MERGE'.
 
-Cheers,
-Prabhakar
+Rob
 
