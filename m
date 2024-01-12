@@ -1,162 +1,349 @@
-Return-Path: <linux-renesas-soc+bounces-1533-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-1534-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F9A282C6FB
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 12 Jan 2024 23:08:20 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FC7282C814
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 13 Jan 2024 00:44:15 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 2CF4FB23A15
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 12 Jan 2024 22:08:18 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B8BFC1C22718
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 12 Jan 2024 23:44:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0537517727;
-	Fri, 12 Jan 2024 22:08:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2A3351A598;
+	Fri, 12 Jan 2024 23:44:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Z/Hd5SsC"
+	dkim=pass (1024-bit key) header.d=atishpatra.org header.i=@atishpatra.org header.b="MlYt6vMR"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com [209.85.222.175])
+Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F7D4171DC;
-	Fri, 12 Jan 2024 22:08:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-qk1-f175.google.com with SMTP id af79cd13be357-78313f4d149so648486485a.1;
-        Fri, 12 Jan 2024 14:08:13 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 178421A5A9
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 12 Jan 2024 23:44:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=atishpatra.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=atishpatra.org
+Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-2cd64022164so71539571fa.3
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 12 Jan 2024 15:44:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1705097292; x=1705702092; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=L+7rof0WGlCw1G9RYMZg6Un65fjMjn71sH8lI9OCckg=;
-        b=Z/Hd5SsC8hJoSqn1bBPk3BCewsKnbrtX4TLiG+sbOXGpqSGzxC2Y9LQlYqtHzNpLUS
-         7+THXT53qF2TPtHx7ufqfmtjhzdxBIbiCvtVt2ileWjG2dhyLiBw4SuH7UZCYIyRZ/hF
-         hEKF/VwSUaJVOsZ17EK+2bcr3wRs7+M1R8pbyrS+skXlEwHVMS9DgMy5KjS3fmLp65xU
-         Tmkbm5z+Lw5aiECBJ2y0MtunSNiTMGyDBSOBsI6AZO4ifH14AEo/kf/vswCwSdS0iesh
-         wPowlj1sxSv5rQk9r7tOopw7PTebAVhc4tQ6UJiUc1YDCpDq02DcdMNTRHhIdOKYdOTt
-         J8PQ==
+        d=atishpatra.org; s=google; t=1705103044; x=1705707844; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=FKzoznfuhAU3mzAePIS1P1Z8bzedL+mTaXOxTBLMlgg=;
+        b=MlYt6vMRJ1Y5DSGSH8KdOy+/Pe1uqDWbAkXOcAPAil8kVVkXzjqeTLfxHuRnYPSZmg
+         qc28jO2jxMvBEjTK0GjAB1lxah/cj04CpN+D0h/iqrS3+GzxNPGRFLofg6Wa1FBjfYln
+         KmjzUAdRrXbCPM5VlEFzi64E1A2lCWdz0r2m4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705097292; x=1705702092;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=L+7rof0WGlCw1G9RYMZg6Un65fjMjn71sH8lI9OCckg=;
-        b=rN75zFfViFNf6tpZclYAcoYToadpMsPpkxMPRQxLVLcDyCcWYi5ZoA/93b64a3munO
-         jHp0t9AbY14RnJja5RgNiynEsOH/v5I2BipRcUgL5yFQRBRp9LNHNE0UI28UJu0mODj4
-         neXMnswO3F73biQTeTTrN280XuNU/D/wz5MTh28HwDN0m+DPc/bnmnmZTurfy1gz673Y
-         SOdUUWxmheOhIicRj23VfiSD8xT0HC7hz2G4dqjb8f6BXqTMeKV6rwEjP28ddv+4Giog
-         3Zh9tNWjYJHiLs+a4Y41VxPWUYxrxgVnRSG3jFyu/sLcX0lAUP1entYyVrX0xLkm9f75
-         BhLg==
-X-Gm-Message-State: AOJu0YzmIJw8e5bkWZStMuUFZJ9YECK8R4eNGyeUNBO2kynzngp3KaTw
-	Wll3fibGkm9ntwaGututirU=
-X-Google-Smtp-Source: AGHT+IFMWkakS3L4QJvpofeuSpyOj3jN5og4vYpEA7zXTSj2qfQO35AsSgQitanirAcz/0rgJsgdDg==
-X-Received: by 2002:a37:e20d:0:b0:783:35c0:d912 with SMTP id g13-20020a37e20d000000b0078335c0d912mr2433654qki.107.1705097292268;
-        Fri, 12 Jan 2024 14:08:12 -0800 (PST)
-Received: from [10.67.48.245] ([192.19.223.252])
-        by smtp.googlemail.com with ESMTPSA id cn3-20020a05622a248300b00429c8ae9b94sm1417880qtb.85.2024.01.12.14.08.09
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 12 Jan 2024 14:08:11 -0800 (PST)
-Message-ID: <e1a9f5cf-d935-4754-9e8c-d34fcae000ed@gmail.com>
-Date: Fri, 12 Jan 2024 14:08:08 -0800
+        d=1e100.net; s=20230601; t=1705103044; x=1705707844;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=FKzoznfuhAU3mzAePIS1P1Z8bzedL+mTaXOxTBLMlgg=;
+        b=NFssdytmdq61BFm2TrHFhDRgfjcZ/Mtki1OWsSC0+sXwo0BbAbDcgf3wtOFwG24aWQ
+         gvJl3xXbM27PirJMNpXEoC4bZnTFOLpPn3hvYT32hYMErEgrs8Ata8QRN8a09+/jy5UF
+         YjxAjD+va9O6vvUvr7gyhucRW/KFtTOe/kZMuhWLMyl8C8aivVQfew1pI1sOdytWaiXb
+         etCWYY9PlpTK1qwcqfQD/GEHr3rQDasBwiiLIAqTq1/jjm00AMRHIzdJUUrCi+nUE2pN
+         FQ/NWBN19dTNt9NsF09yiCGJU1S3bfuFu6mmohvasLtu8b8rI9bLIa4O2+VX9kKbuKOY
+         KFVQ==
+X-Gm-Message-State: AOJu0YyqoG0tDm+BGRHJMUUAabqnhvjJCrFZdOshjG33dKn3Cw0EgAFu
+	4g2sWiuTSd5/CIqKB54clYH5wAdooHybmMPuxoDzTEtjJtVj
+X-Google-Smtp-Source: AGHT+IEuYhuaV0YfY7INlEFt2mMjJ+bbLhiRwxnYyuWvovTDvwX91aHjf1fNHKr+qqOgIt/FeATkjXnlLnqfQo777wg=
+X-Received: by 2002:a2e:b04b:0:b0:2cd:10be:cf1b with SMTP id
+ d11-20020a2eb04b000000b002cd10becf1bmr1260693ljl.12.1705103043924; Fri, 12
+ Jan 2024 15:44:03 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] net: ethernet: ravb: fix dma mapping failure handling
-Content-Language: en-US
-To: Nikita Yushchenko <nikita.yoush@cogentembedded.com>,
- Denis Kirjanov <dkirjanov@suse.de>, "David S. Miller" <davem@davemloft.net>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>
-Cc: Sergey Shtylyov <s.shtylyov@omp.ru>,
- Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
- Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
- Wolfram Sang <wsa+renesas@sang-engineering.com>,
- =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
- netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20240112050639.405784-1-nikita.yoush@cogentembedded.com>
- <64deebbd-93d0-47dc-835e-f719655e076c@suse.de>
- <804a4586-1909-44ee-a40c-d9cb615f75ad@cogentembedded.com>
-From: Florian Fainelli <f.fainelli@gmail.com>
-In-Reply-To: <804a4586-1909-44ee-a40c-d9cb615f75ad@cogentembedded.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20240110073917.2398826-1-peterlin@andestech.com>
+ <20240110073917.2398826-4-peterlin@andestech.com> <CAAhSdy1vsngrYj2tjUJqxepLEcz1zOFfYHvAvL4kqX4p62gnGA@mail.gmail.com>
+In-Reply-To: <CAAhSdy1vsngrYj2tjUJqxepLEcz1zOFfYHvAvL4kqX4p62gnGA@mail.gmail.com>
+From: Atish Patra <atishp@atishpatra.org>
+Date: Fri, 12 Jan 2024 15:43:51 -0800
+Message-ID: <CAOnJCULm0DOEkWZN6sXx-jGzZZaHsQ+H5=dvx15f2KsgfsMrPA@mail.gmail.com>
+Subject: Re: [PATCH v7 03/16] irqchip/riscv-intc: Introduce Andes hart-level
+ interrupt controller
+To: Anup Patel <anup@brainfault.org>
+Cc: Yu Chien Peter Lin <peterlin@andestech.com>, acme@kernel.org, adrian.hunter@intel.com, 
+	ajones@ventanamicro.com, alexander.shishkin@linux.intel.com, 
+	andre.przywara@arm.com, aou@eecs.berkeley.edu, conor+dt@kernel.org, 
+	conor.dooley@microchip.com, conor@kernel.org, devicetree@vger.kernel.org, 
+	dminus@andestech.com, evan@rivosinc.com, geert+renesas@glider.be, 
+	guoren@kernel.org, heiko@sntech.de, irogers@google.com, 
+	jernej.skrabec@gmail.com, jolsa@kernel.org, jszhang@kernel.org, 
+	krzysztof.kozlowski+dt@linaro.org, linux-arm-kernel@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org, linux-riscv@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev, locus84@andestech.com, magnus.damm@gmail.com, 
+	mark.rutland@arm.com, mingo@redhat.com, n.shubin@yadro.com, 
+	namhyung@kernel.org, palmer@dabbelt.com, paul.walmsley@sifive.com, 
+	peterz@infradead.org, prabhakar.mahadev-lad.rj@bp.renesas.com, 
+	rdunlap@infradead.org, robh+dt@kernel.org, samuel@sholland.org, 
+	sunilvl@ventanamicro.com, tglx@linutronix.de, tim609@andestech.com, 
+	uwu@icenowy.me, wens@csie.org, will@kernel.org, ycliang@andestech.com, 
+	inochiama@outlook.com, chao.wei@sophgo.com, unicorn_wang@outlook.com, 
+	wefu@redhat.com, Randolph <randolph@andestech.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 1/12/24 01:04, Nikita Yushchenko wrote:
-> 
-> 
-> 12.01.2024 14:56, Denis Kirjanov wrote:
->>
->>
->> On 1/12/24 08:06, Nikita Yushchenko wrote:
->>> dma_mapping_error() depends on getting full 64-bit dma_addr_t and does
->>> not work correctly if 32-bit value is passed instead.
->>>
->>> Fix handling of dma_map_single() failures on Rx ring entries:
->>> - do not store return value of dma_map_signle() in 32-bit variable,
->>> - do not use dma_mapping_error() against 32-bit descriptor field when
->>>    checking if unmap is needed, check for zero size instead.
->>
->> Hmm, something is wrong here since you're mixing DMA api and forced 
->> 32bit values.
->> if dma uses 32bit addresses then dma_addr_t need only be 32 bits wide
-> 
-> dma_addr_t is arch-wide type and it is 64bit on arm64
+On Wed, Jan 10, 2024 at 7:13=E2=80=AFAM Anup Patel <anup@brainfault.org> wr=
+ote:
+>
+> On Wed, Jan 10, 2024 at 1:10=E2=80=AFPM Yu Chien Peter Lin
+> <peterlin@andestech.com> wrote:
+> >
+> > Add support for the Andes hart-level interrupt controller. This
+> > controller provides interrupt mask/unmask functions to access the
+> > custom register (SLIE) where the non-standard S-mode local interrupt
+> > enable bits are located. The base of custom interrupt number is set
+> > to 256.
+> >
+> > To share the riscv_intc_domain_map() with the generic RISC-V INTC and
+> > ACPI, add a chip parameter to riscv_intc_init_common(), so it can be
+> > passed to the irq_domain_set_info() as a private data.
+> >
+> > Andes hart-level interrupt controller requires the "andestech,cpu-intc"
+> > compatible string to be present in interrupt-controller of cpu node to
+> > enable the use of custom local interrupt source.
+> > e.g.,
+> >
+> >   cpu0: cpu@0 {
+> >       compatible =3D "andestech,ax45mp", "riscv";
+> >       ...
+> >       cpu0-intc: interrupt-controller {
+> >           #interrupt-cells =3D <0x01>;
+> >           compatible =3D "andestech,cpu-intc", "riscv,cpu-intc";
+> >           interrupt-controller;
+> >       };
+> >   };
+> >
+> > Signed-off-by: Yu Chien Peter Lin <peterlin@andestech.com>
+> > Reviewed-by: Randolph <randolph@andestech.com>
+>
+> Looks good to me.
+>
+> Reviewed-by: Anup Patel <anup@brainfault.org>
+>
+> Regards,
+> Anup
+>
+> > ---
+> > Changes v1 -> v2:
+> >   - New patch
+> > Changes v2 -> v3:
+> >   - Return -ENXIO if no valid compatible INTC found
+> >   - Allow falling back to generic RISC-V INTC
+> > Changes v3 -> v4: (Suggested by Thomas [1])
+> >   - Add comment to andes irq chip function
+> >   - Refine code flow to share with generic RISC-V INTC and ACPI
+> >   - Move Andes specific definitions to include/linux/soc/andes/irq.h
+> > Changes v4 -> v5: (Suggested by Thomas)
+> >   - Fix commit message
+> >   - Subtract ANDES_SLI_CAUSE_BASE from d->hwirq to calculate the value =
+of mask
+> >   - Do not set chip_data to the chip itself with irq_domain_set_info()
+> >   - Follow reverse fir tree order variable declarations
+> > Changes v5 -> v6:
+> >   - To follow the naming on datasheet, rename ANDES_RV_IRQ_PMU to ANDES=
+_RV_IRQ_PMOVI
+> >   - Initialize the riscv_intc_* global variables for Andes INTC (Sugges=
+ted by Anup)
+> >   - Use BITS_PER_LONG to compute the bit mask of SIE/SLIE as they are 6=
+4-bit registers (32-bit for RV32)
+> > Changes v6 -> v7:
+> >   - No change
+> >
+> > [1] https://patchwork.kernel.org/project/linux-riscv/patch/202310191357=
+23.3657156-1-peterlin@andestech.com/
+> > ---
+> >  drivers/irqchip/irq-riscv-intc.c | 66 +++++++++++++++++++++++++++-----
+> >  include/linux/soc/andes/irq.h    | 18 +++++++++
+> >  2 files changed, 74 insertions(+), 10 deletions(-)
+> >  create mode 100644 include/linux/soc/andes/irq.h
+> >
+> > diff --git a/drivers/irqchip/irq-riscv-intc.c b/drivers/irqchip/irq-ris=
+cv-intc.c
+> > index b13a16b164c9..7064857f1f1d 100644
+> > --- a/drivers/irqchip/irq-riscv-intc.c
+> > +++ b/drivers/irqchip/irq-riscv-intc.c
+> > @@ -17,6 +17,7 @@
+> >  #include <linux/module.h>
+> >  #include <linux/of.h>
+> >  #include <linux/smp.h>
+> > +#include <linux/soc/andes/irq.h>
+> >
+> >  static struct irq_domain *intc_domain;
+> >  static unsigned int riscv_intc_nr_irqs __ro_after_init;
+> > @@ -49,6 +50,31 @@ static void riscv_intc_irq_unmask(struct irq_data *d=
+)
+> >         csr_set(CSR_IE, BIT(d->hwirq));
+> >  }
+> >
+> > +static void andes_intc_irq_mask(struct irq_data *d)
+> > +{
+> > +       /*
+> > +        * Andes specific S-mode local interrupt causes (hwirq)
+> > +        * are defined as (256 + n) and controlled by n-th bit
+> > +        * of SLIE.
+> > +        */
+> > +       unsigned int mask =3D BIT(d->hwirq % BITS_PER_LONG);
+> > +
+> > +       if (d->hwirq < ANDES_SLI_CAUSE_BASE)
+> > +               csr_clear(CSR_IE, mask);
+> > +       else
+> > +               csr_clear(ANDES_CSR_SLIE, mask);
+> > +}
+> > +
+> > +static void andes_intc_irq_unmask(struct irq_data *d)
+> > +{
+> > +       unsigned int mask =3D BIT(d->hwirq % BITS_PER_LONG);
+> > +
+> > +       if (d->hwirq < ANDES_SLI_CAUSE_BASE)
+> > +               csr_set(CSR_IE, mask);
+> > +       else
+> > +               csr_set(ANDES_CSR_SLIE, mask);
+> > +}
+> > +
+> >  static void riscv_intc_irq_eoi(struct irq_data *d)
+> >  {
+> >         /*
+> > @@ -72,12 +98,21 @@ static struct irq_chip riscv_intc_chip =3D {
+> >         .irq_eoi =3D riscv_intc_irq_eoi,
+> >  };
+> >
+> > +static struct irq_chip andes_intc_chip =3D {
+> > +       .name           =3D "RISC-V INTC",
+> > +       .irq_mask       =3D andes_intc_irq_mask,
+> > +       .irq_unmask     =3D andes_intc_irq_unmask,
+> > +       .irq_eoi        =3D riscv_intc_irq_eoi,
+> > +};
+> > +
+> >  static int riscv_intc_domain_map(struct irq_domain *d, unsigned int ir=
+q,
+> >                                  irq_hw_number_t hwirq)
+> >  {
+> > +       struct irq_chip *chip =3D d->host_data;
+> > +
+> >         irq_set_percpu_devid(irq);
+> > -       irq_domain_set_info(d, irq, hwirq, &riscv_intc_chip, d->host_da=
+ta,
+> > -                           handle_percpu_devid_irq, NULL, NULL);
+> > +       irq_domain_set_info(d, irq, hwirq, chip, NULL, handle_percpu_de=
+vid_irq,
+> > +                           NULL, NULL);
+> >
+> >         return 0;
+> >  }
+> > @@ -123,11 +158,12 @@ static struct fwnode_handle *riscv_intc_hwnode(vo=
+id)
+> >         return intc_domain->fwnode;
+> >  }
+> >
+> > -static int __init riscv_intc_init_common(struct fwnode_handle *fn)
+> > +static int __init riscv_intc_init_common(struct fwnode_handle *fn,
+> > +                                        struct irq_chip *chip)
+> >  {
+> >         int rc;
+> >
+> > -       intc_domain =3D irq_domain_create_tree(fn, &riscv_intc_domain_o=
+ps, NULL);
+> > +       intc_domain =3D irq_domain_create_tree(fn, &riscv_intc_domain_o=
+ps, chip);
+> >         if (!intc_domain) {
+> >                 pr_err("unable to add IRQ domain\n");
+> >                 return -ENXIO;
+> > @@ -152,8 +188,9 @@ static int __init riscv_intc_init_common(struct fwn=
+ode_handle *fn)
+> >  static int __init riscv_intc_init(struct device_node *node,
+> >                                   struct device_node *parent)
+> >  {
+> > -       int rc;
+> > +       struct irq_chip *chip;
+> >         unsigned long hartid;
+> > +       int rc;
+> >
+> >         rc =3D riscv_of_parent_hartid(node, &hartid);
+> >         if (rc < 0) {
+> > @@ -178,14 +215,23 @@ static int __init riscv_intc_init(struct device_n=
+ode *node,
+> >                 return 0;
+> >         }
+> >
+> > -       riscv_intc_nr_irqs =3D BITS_PER_LONG;
+> > -       riscv_intc_custom_base =3D riscv_intc_nr_irqs;
+> > -       riscv_intc_custom_nr_irqs =3D 0;
+> > +       if (of_device_is_compatible(node, "andestech,cpu-intc")) {
+> > +               riscv_intc_nr_irqs =3D BITS_PER_LONG;
+> > +               riscv_intc_custom_base =3D ANDES_SLI_CAUSE_BASE;
+> > +               riscv_intc_custom_nr_irqs =3D ANDES_RV_IRQ_LAST;
+> > +               chip =3D &andes_intc_chip;
 
-Correct, does not mean all of the bits will be used, nor that there is 
-not an offset, see below.
+There may be similar usage of custom interrupt space in the future as
+well. I think it will be better if we define a generic structure and
+vendor
+specific registration mechanism based on compatible strings. This will
+avoid a bunch of if else blocks here.
 
-> 
-> Still, some devices use 32-bit dma addresses.
-> Proper setting of dma masks and/of configuring iommu ensures that in no 
-> error case, dma address fits into 32 bits.
+> > +       } else {
+> > +               riscv_intc_nr_irqs =3D BITS_PER_LONG;
+> > +               riscv_intc_custom_base =3D riscv_intc_nr_irqs;
+> > +               riscv_intc_custom_nr_irqs =3D 0;
+> > +               chip =3D &riscv_intc_chip;
+> > +       }
+> >
+> > -       return riscv_intc_init_common(of_node_to_fwnode(node));
+> > +       return riscv_intc_init_common(of_node_to_fwnode(node), chip);
+> >  }
+> >
+> >  IRQCHIP_DECLARE(riscv, "riscv,cpu-intc", riscv_intc_init);
+> > +IRQCHIP_DECLARE(andes, "andestech,cpu-intc", riscv_intc_init);
+> >
+> >  #ifdef CONFIG_ACPI
+> >
+> > @@ -212,7 +258,7 @@ static int __init riscv_intc_acpi_init(union acpi_s=
+ubtable_headers *header,
+> >                 return -ENOMEM;
+> >         }
+> >
+> > -       return riscv_intc_init_common(fn);
+> > +       return riscv_intc_init_common(fn, &riscv_intc_chip);
+> >  }
+> >
+> >  IRQCHIP_ACPI_DECLARE(riscv_intc, ACPI_MADT_TYPE_RINTC, NULL,
+> > diff --git a/include/linux/soc/andes/irq.h b/include/linux/soc/andes/ir=
+q.h
+> > new file mode 100644
+> > index 000000000000..edc3182d6e66
+> > --- /dev/null
+> > +++ b/include/linux/soc/andes/irq.h
+> > @@ -0,0 +1,18 @@
+> > +/* SPDX-License-Identifier: GPL-2.0-only */
+> > +/*
+> > + * Copyright (C) 2023 Andes Technology Corporation
+> > + */
+> > +#ifndef __ANDES_IRQ_H
+> > +#define __ANDES_IRQ_H
+> > +
+> > +/* Andes PMU irq number */
+> > +#define ANDES_RV_IRQ_PMOVI             18
+> > +#define ANDES_RV_IRQ_LAST              ANDES_RV_IRQ_PMOVI
+> > +#define ANDES_SLI_CAUSE_BASE           256
+> > +
+> > +/* Andes PMU related registers */
+> > +#define ANDES_CSR_SLIE                 0x9c4
+> > +#define ANDES_CSR_SLIP                 0x9c5
+> > +#define ANDES_CSR_SCOUNTEROF           0x9d4
+> > +
+> > +#endif /* __ANDES_IRQ_H */
+> > --
+> > 2.34.1
+> >
 
-Yes, because dma_addr_t must be sized to the maximum supportable DMA 
-address in any given system, hence it is 64-bit for a 64-bit 
-architecture. If someone had a system with 32-bit DMA addressing 
-limitation, they could technically introduce a Kconfig option to narrow 
-dma_addr_t, not that this should ever be done. Anyway, I digress.
 
-> Still, in error case dma_map_single() returns ~((dma_addr_t)0) which 
-> uses fill dma_addr_t width and gets corrupted if assigned to 32-bit 
-> value, then later call to dma_mapping_error() does not recognize it. The 
-> patch fixes exactly this issue.
 
-Your patch is actually fine, but you might have to write a lot more 
-about it to tell the reviewers that it is fine.
-
-At the very least you should explain that in case of DMA mapping failure 
-by ravb_rx_ring_format_gbeth() and ravb_rx_ring_format_rcar(), the 
-dsecriptor's ds_cc field is written to 0 to denote a mapping failure.
-
-Note that we will still write a dma_addr_t cookie that corresponds to an 
-error, but this may be OK, because the hardware looks for a ds_cc != 0 
-to determine whether to DMA the packet into memory or not.
-
-Because of the convention established in ravb_rx_ring_format_gbeth() and 
-ravb_rx_ring_format_rcar(), checking for ds_cc == 0 to denote a mapping 
-error in ravb_rx_ring_free_gbeth() and ravb_rx_ring_free_rcar() is an 
-acceptable way of checking for a valid mapping.
-
-What is however not valid, is that again, we use desc->dptr and pass 
-that to dma_unmap_single() which would expect the non-truncated 
-dma_addr_t. Again, probably works by design, chance, whatever, but is 
-not supposed to be done that way.
-
-It looks like the hardware is limited to 32-bit of DMA addressing, and 
-assumes that the dma_addr_t cookie is 0-indexed, which may very well be 
-the case, even with 64-bit SoCs thanks to an IOMMU.
-
-It would feel a lot more comfortable if there was an actual check on the 
-upper 32-bits of dma_addr_t being zero, and issue a big fat warning in 
-case they are not.
-
-Thanks!
--- 
-Florian
-
+--=20
+Regards,
+Atish
 
