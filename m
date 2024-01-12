@@ -1,86 +1,128 @@
-Return-Path: <linux-renesas-soc+bounces-1527-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-1528-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4281582C39B
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 12 Jan 2024 17:34:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BEF7882C433
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 12 Jan 2024 18:06:23 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 68C831C20E02
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 12 Jan 2024 16:34:13 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E64CD1C215C7
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 12 Jan 2024 17:06:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 591145917B;
-	Fri, 12 Jan 2024 16:34:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ED39A1B5A6;
+	Fri, 12 Jan 2024 17:06:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kKkRoJNr"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from albert.telenet-ops.be (albert.telenet-ops.be [195.130.137.90])
+Received: from mail-oa1-f53.google.com (mail-oa1-f53.google.com [209.85.160.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4E2A58AB8
-	for <linux-renesas-soc@vger.kernel.org>; Fri, 12 Jan 2024 16:34:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
-Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed40:8291:a340:26b8:8238])
-	by albert.telenet-ops.be with bizsmtp
-	id ZsZx2B0024LvM1A06sZxgn; Fri, 12 Jan 2024 17:33:57 +0100
-Received: from rox.of.borg ([192.168.97.57])
-	by ramsan.of.borg with esmtp (Exim 4.95)
-	(envelope-from <geert@linux-m68k.org>)
-	id 1rOKT3-00FGRn-6J;
-	Fri, 12 Jan 2024 17:33:57 +0100
-Received: from geert by rox.of.borg with local (Exim 4.95)
-	(envelope-from <geert@linux-m68k.org>)
-	id 1rOKTk-0051dg-WD;
-	Fri, 12 Jan 2024 17:33:57 +0100
-From: Geert Uytterhoeven <geert+renesas@glider.be>
-To: Magnus Damm <magnus.damm@gmail.com>,
-	Ulf Hansson <ulf.hansson@linaro.org>,
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: linux-renesas-soc@vger.kernel.org,
-	linux-pm@vger.kernel.org,
-	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH] pmdomain: renesas: r8a77980-sysc: CR7 must be always on
-Date: Fri, 12 Jan 2024 17:33:55 +0100
-Message-Id: <fdad9a86132d53ecddf72b734dac406915c4edc0.1705076735.git.geert+renesas@glider.be>
-X-Mailer: git-send-email 2.34.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A1E717C78;
+	Fri, 12 Jan 2024 17:06:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-oa1-f53.google.com with SMTP id 586e51a60fabf-20503dc09adso4122939fac.2;
+        Fri, 12 Jan 2024 09:06:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1705079175; x=1705683975; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=vxDmPbTUZ80+lOlOzGwr67WCJ4FJvPU58qXtdfRO14Y=;
+        b=kKkRoJNryBvbESNylrTjr9EYEcGkzSFvFwMduSgYT8/ESpx3kn63h+SlN16hQnecse
+         4a8YKxUguGWa+zKXK7RILw7p/+anwtaJMOxxF+I39ogqX9Cf4TC7HJiCUNmCkB1WuX9B
+         4NdJYpi3sgzClQi/3nQIAq9PTv8OF3YBOGOWvsJEmJ2yg107pAkPJQfh1wroRmr0dXRH
+         JmxJqSu7g8llUMs6B8immYJZHUDopr1Ydvh5l2xYsUulfwIKxVKt+rWRFnx5ZtGs8haO
+         svDKlmDiN0xITtz1RBH4FjERsObz6/+3U3lRdfK3JJVJVr6MzMFdAV7HzLkIYrRhTpgj
+         4mfA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1705079175; x=1705683975;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=vxDmPbTUZ80+lOlOzGwr67WCJ4FJvPU58qXtdfRO14Y=;
+        b=nP8Wms2qhMbMpTrT3jwCTPZGiOSD55oBo8hwl3CHWeLZmoQoFcbToR8iXRPFQJKigx
+         fbcSTLXTatsDYHJtYaqJX90TI2MdSSrJdtBZqzlN1rAUYX9f/24fktqu8CAqw7ciQmoA
+         kVIBBRiy1+J76xUOVam6AX9MaS/FKqRdBe7u6svFL680FprDrg4mHUV/AOgTBUvMJ5RL
+         Ykt9wc0hOEsmfR0H+tFYP1pYlKFTtxE3rne8iBrJl2cm3LleT7JESPWksIuAVDWNQSsh
+         C2XGp1w7t/rtJvOwXQrTdQWnMPkjDT6EUzb+9QOYddX2tYhpXmmE+AcVSc56n9UrpuFj
+         00sA==
+X-Gm-Message-State: AOJu0YyhP26p9SwCbDIUi5pBUSS8KAJ920X4o1jdx7XoBsicBvlJtOfj
+	dr5n2iu7Gjz9Gse9nf0KG0d8v7kFSifQDXM7ggo=
+X-Google-Smtp-Source: AGHT+IHJs7Sb6cRG8FtEN2BTrbb3u51J7kM7B9co7sQh7KIPYGKioMWBlt7G2jC3jaUY9GU6LXslcm+q7S40rx3lBCA=
+X-Received: by 2002:a05:6871:413:b0:203:743e:ba22 with SMTP id
+ d19-20020a056871041300b00203743eba22mr1879464oag.89.1705079175449; Fri, 12
+ Jan 2024 09:06:15 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20240112142621.13525-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20240112142621.13525-4-prabhakar.mahadev-lad.rj@bp.renesas.com> <TYCPR01MB112699FAB53E6E4647893516B866F2@TYCPR01MB11269.jpnprd01.prod.outlook.com>
+In-Reply-To: <TYCPR01MB112699FAB53E6E4647893516B866F2@TYCPR01MB11269.jpnprd01.prod.outlook.com>
+From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date: Fri, 12 Jan 2024 17:05:48 +0000
+Message-ID: <CA+V-a8smkiub9ACDsqxv0z8yF_iLVEXG2OHwS7iJ+tmsdmTQ6g@mail.gmail.com>
+Subject: Re: [PATCH v4 3/4] pinctrl: renesas: pinctrl-rzg2l: Add the missing
+ port pins P19 to P28
+To: Biju Das <biju.das.jz@bp.renesas.com>
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
+	Linus Walleij <linus.walleij@linaro.org>, Rob Herring <robh+dt@kernel.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
+	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>, 
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, 
+	"linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+	"linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>, 
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>, 
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The power domain containing the Cortex-R7 CPU core on the R-Car V3H SoC
-must always be in power-on state, unlike on other SoCs in the R-Car Gen3
-family.  See Table 9.4 "Power domains" in the R-Car Series, 3rd
-Generation Hardware User’s Manual Rev.1.00 and later.
+Hi Biju,
 
-Fix this by marking the domain as a CPU domain without control
-registers, so the driver will not touch it.
+Thank you for the review.
 
-Fixes: 41d6d8bd8ae94ca9 ("soc: renesas: rcar-sysc: add R8A77980 support")
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
- drivers/pmdomain/renesas/r8a77980-sysc.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+On Fri, Jan 12, 2024 at 2:31=E2=80=AFPM Biju Das <biju.das.jz@bp.renesas.co=
+m> wrote:
+>
+>
+> Hi Prabhakar,
+>
+> > -----Original Message-----
+> > From: Prabhakar <prabhakar.csengg@gmail.com>
+> > Sent: Friday, January 12, 2024 2:26 PM
+> > Subject: [PATCH v4 3/4] pinctrl: renesas: pinctrl-rzg2l: Add the missin=
+g
+> > port pins P19 to P28
+> >
+<snip>
+> >
+> > +/**
+> > + * struct rzg2l_variable_pin_cfg - pin data cfg
+> > + * @cfg: port pin configuration
+> > + * @port: port number
+> > + * @pin: port pin
+> > + */
+> > +struct rzg2l_variable_pin_cfg {
+> > +     u32 cfg:20;
+> > +     u8 port:5;
+>
+>  u32 ??
+This is done based on the feedback provided previously by Geert [0].
 
-diff --git a/drivers/pmdomain/renesas/r8a77980-sysc.c b/drivers/pmdomain/renesas/r8a77980-sysc.c
-index 39ca84a67daadd21..621e411fc9991a40 100644
---- a/drivers/pmdomain/renesas/r8a77980-sysc.c
-+++ b/drivers/pmdomain/renesas/r8a77980-sysc.c
-@@ -25,7 +25,8 @@ static const struct rcar_sysc_area r8a77980_areas[] __initconst = {
- 	  PD_CPU_NOCR },
- 	{ "ca53-cpu3",	0x200, 3, R8A77980_PD_CA53_CPU3, R8A77980_PD_CA53_SCU,
- 	  PD_CPU_NOCR },
--	{ "cr7",	0x240, 0, R8A77980_PD_CR7,	R8A77980_PD_ALWAYS_ON },
-+	{ "cr7",	0x240, 0, R8A77980_PD_CR7,	R8A77980_PD_ALWAYS_ON,
-+	  PD_CPU_NOCR },
- 	{ "a3ir",	0x180, 0, R8A77980_PD_A3IR,	R8A77980_PD_ALWAYS_ON },
- 	{ "a2ir0",	0x400, 0, R8A77980_PD_A2IR0,	R8A77980_PD_A3IR },
- 	{ "a2ir1",	0x400, 1, R8A77980_PD_A2IR1,	R8A77980_PD_A3IR },
--- 
-2.34.1
+> > +     u8 pin:5;
+>
+>  u32 ??
+>
+ditto.
 
+[0] https://patchwork.kernel.org/project/linux-renesas-soc/patch/2023120113=
+1551.201503-3-prabhakar.mahadev-lad.rj@bp.renesas.com/#25625118
+
+Cheers,
+Prabhakar
 
