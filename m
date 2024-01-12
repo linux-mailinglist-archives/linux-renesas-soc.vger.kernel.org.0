@@ -1,114 +1,157 @@
-Return-Path: <linux-renesas-soc+bounces-1509-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-1510-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id A31D782BCA1
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 12 Jan 2024 10:04:29 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CDE082BDE9
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 12 Jan 2024 10:54:30 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C27C41C24F88
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 12 Jan 2024 09:04:28 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 52BDD1C23C00
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 12 Jan 2024 09:54:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E0F8454F9A;
-	Fri, 12 Jan 2024 09:04:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7C08A5730D;
+	Fri, 12 Jan 2024 09:53:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cogentembedded-com.20230601.gappssmtp.com header.i=@cogentembedded-com.20230601.gappssmtp.com header.b="J+QCA1+J"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="p0lADas1"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com [209.85.208.179])
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5694056760
-	for <linux-renesas-soc@vger.kernel.org>; Fri, 12 Jan 2024 09:04:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cogentembedded.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cogentembedded.com
-Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-2cca8eb0509so76586341fa.3
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 12 Jan 2024 01:04:23 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE0365D912
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 12 Jan 2024 09:53:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-3366e78d872so6537040f8f.3
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 12 Jan 2024 01:53:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cogentembedded-com.20230601.gappssmtp.com; s=20230601; t=1705050261; x=1705655061; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=FMOEBUTyrxAFteCOdbuePmYjjamQBShc/8fenoo2NDg=;
-        b=J+QCA1+J4EIlik86ZsMQxwOCMJINQ3x7UWwiv2oNz9Mys+I0qE3JEPdzZ56W9Nhgle
-         ejOZeqq5gR1SDyBJimpQKODwoTWvvU/WBzXY0LY0qkOnSJSrkbHpx3/KgKxQszlEADwB
-         2364fw0E0ESQ27LrFnFR2wSoYE5LnlYAy2Mmh4kJpElCuFXbs87DmvRgXFPLRplNfJbZ
-         V10AtQ/+hALNf3RNC+/JpDr9Z5jaDuaIXMurEQLXCD7H7jJHKMD5dFXXYY82XXLSjdil
-         DNMMI81eTqvJ6vcVpBJBv89CaebJTyVnPbPZddCsTnXhRMpkLtPkn6jkao24UV/5VeVq
-         W59w==
+        d=linaro.org; s=google; t=1705053194; x=1705657994; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=PmPRDDpe1a2Em5SXxYrA1LLppbMT+QjFBtfOB+D16p8=;
+        b=p0lADas1W8/t09EJVfCnxgY2Ynp1808wQWnoZRigkLuyrUvB+m8EEwJBwJXWvQF4MI
+         XJopB0DzaFXPWjZPMaRBXaEGAVOl/xpLdAAcGJ60J5PbnSW//aO3p8mV4dGcblQj4bvj
+         2LXVvsNSmOq/2jwl2tKTNIVxCMBKGEdAuHBNVe8ks0gEm7Rq216UmkVohSwShDV46u1M
+         qzOmQ9WvPp8fFaW/hwbBOzZzO4Isf7DKyhDPhEH1vDaJ2Y0ex1Qc3fZZOMg/sT10Eslf
+         VGKSnQIVxx8D776HUijwRrT/rHccIHcL48x5WgwLme4XewbkaEoTMh5rBkZinBfAwpGD
+         k+Jg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705050261; x=1705655061;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=FMOEBUTyrxAFteCOdbuePmYjjamQBShc/8fenoo2NDg=;
-        b=mqC9E79DhY/vgIUdPm0Tn6y2T0psNYX+dDH1f84XLxqQc1DmWJGIKbY6t2TdVUBWA5
-         I34t8UVQEyW/D30N9/ZjXsmeiXBTl13sf8D19Y9Mw0kZn65ZH5i+Zyr0EDw6wjaI9uE8
-         +X4OTEIqpUrYo5uOvul/Xi4GBzeWzomXsNTyqQC2FSs8XdwU/sAUpzn8z9adjXfeOU6E
-         tsi89sgkxmNlQndQNtgx99v8eH1ZACkYJx15o2k2FN/AE/S7VPHotDHp4FLLm+OHHwzy
-         rruyj/GRWiMAD8p1EO5IM0gdVIpoQkal+7dnuqQu+xNkMwWF091Ehwv7t+PxWErocR0O
-         0tug==
-X-Gm-Message-State: AOJu0YwaHUyL5ogPymU59CwsAzNOR/vHcxaojblU+TknR3wTDGi75Ex0
-	et7RtZJkJM/6/mcd+euDBXeqLwzXoMzDqQ==
-X-Google-Smtp-Source: AGHT+IHdDV0zW9ct7lpVWRmoAkfRX62ksO05UlwuC1BnHaNkmnr0sx8vh+sbrHII1V73V2ewYYk8gA==
-X-Received: by 2002:a2e:6e03:0:b0:2cd:8ce7:71e1 with SMTP id j3-20020a2e6e03000000b002cd8ce771e1mr483215ljc.4.1705050260789;
-        Fri, 12 Jan 2024 01:04:20 -0800 (PST)
-Received: from [192.168.0.104] ([91.231.66.25])
-        by smtp.gmail.com with ESMTPSA id n26-20020a2e86da000000b002ccdb0a00bcsm403541ljj.54.2024.01.12.01.04.19
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 12 Jan 2024 01:04:20 -0800 (PST)
-Message-ID: <804a4586-1909-44ee-a40c-d9cb615f75ad@cogentembedded.com>
-Date: Fri, 12 Jan 2024 15:04:17 +0600
+        d=1e100.net; s=20230601; t=1705053194; x=1705657994;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=PmPRDDpe1a2Em5SXxYrA1LLppbMT+QjFBtfOB+D16p8=;
+        b=R1m0TPYiP6mK5DPJ9rMNlgw3atqRCsCxlSK4iMb2OtFQ+WeUYRBHfOYJ8nbUbtQ7ki
+         S7hc85uyzK6NmG2iABRZ82WGCmLFVE/Q/fJXJUZsOepRrXaZ6ror8c1tG9O+mApv7sIl
+         /QhVLjAIxVROofKfSllgMTLf8CB+2BMJZ+ze24sN73iszGLZDw6Z1bKpu+RFXKhMJh+R
+         9jwN6sNCWPvURNDTbRLnAgbokHiVb9kpSw8KT34R/uHGHWe8lbNaY8eS/CTPHuxjWJH9
+         F6x90mPD5QlPczZKapUeHPehyaW/11C2bRKCQZc9T2dxK8h55bZ8+rRhq1crkNMv33G1
+         MTUg==
+X-Gm-Message-State: AOJu0Yw4EOKffz40u449Z1mBHEaCncr1i5LOBIzdI6Ke2WR8jK8rJZ8M
+	9055vm/+PzplNg6cGKwNuXTTWmlzR1ZhcQ==
+X-Google-Smtp-Source: AGHT+IHRcRqWpb2C0sctjOIkcYeOwOLsysdMzT4MGiJc2oWytkY9z63i0pxI/Cz6nwK8Y1OE8B13Bg==
+X-Received: by 2002:adf:ed4c:0:b0:336:6af9:9f2c with SMTP id u12-20020adfed4c000000b003366af99f2cmr320437wro.65.1705053193935;
+        Fri, 12 Jan 2024 01:53:13 -0800 (PST)
+Received: from localhost ([102.140.209.237])
+        by smtp.gmail.com with ESMTPSA id dr18-20020a5d5f92000000b0033677a4e0d6sm3428824wrb.13.2024.01.12.01.53.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 12 Jan 2024 01:53:13 -0800 (PST)
+Date: Fri, 12 Jan 2024 12:53:10 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: claudiu beznea <claudiu.beznea@tuxon.dev>
+Cc: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org,
+	linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
+Subject: Re: [PATCH] pinctrl: renesas: rzg2l: Fix double unlock in
+ rzg2l_dt_subnode_to_map()
+Message-ID: <300d204b-8151-45f3-9977-7ceb3a5c5eb0@moroto.mountain>
+References: <f8c3a3a0-7c48-4e40-8af0-ed4e9d9b049f@moroto.mountain>
+ <185128ab-f229-4b40-91cd-ebdc138e11ac@tuxon.dev>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] net: ethernet: ravb: fix dma mapping failure handling
-Content-Language: en-US, ru-RU
-To: Denis Kirjanov <dkirjanov@suse.de>, "David S. Miller"
- <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>
-Cc: Sergey Shtylyov <s.shtylyov@omp.ru>,
- Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
- Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
- Wolfram Sang <wsa+renesas@sang-engineering.com>,
- =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
- netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20240112050639.405784-1-nikita.yoush@cogentembedded.com>
- <64deebbd-93d0-47dc-835e-f719655e076c@suse.de>
-From: Nikita Yushchenko <nikita.yoush@cogentembedded.com>
-In-Reply-To: <64deebbd-93d0-47dc-835e-f719655e076c@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <185128ab-f229-4b40-91cd-ebdc138e11ac@tuxon.dev>
 
-
-
-12.01.2024 14:56, Denis Kirjanov wrote:
+On Fri, Jan 12, 2024 at 10:55:40AM +0200, claudiu beznea wrote:
+> Hi, Dan,
 > 
+> Thanks for your patch!
 > 
-> On 1/12/24 08:06, Nikita Yushchenko wrote:
->> dma_mapping_error() depends on getting full 64-bit dma_addr_t and does
->> not work correctly if 32-bit value is passed instead.
->>
->> Fix handling of dma_map_single() failures on Rx ring entries:
->> - do not store return value of dma_map_signle() in 32-bit variable,
->> - do not use dma_mapping_error() against 32-bit descriptor field when
->>    checking if unmap is needed, check for zero size instead.
+> On 10.01.2024 20:41, Dan Carpenter wrote:
+> > If rzg2l_map_add_config() fails then the error handling calls
+> > mutex_unlock(&pctrl->mutex) but we're not holding that mutex.  Move
+> > the unlocks to before the gotos to avoid this situation.
+> > 
+> > Fixes: d3aaa7203a17 ("pinctrl: renesas: rzg2l: Add pin configuration support for pinmux groups")
+> > Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
+> > ---
+> > (Not tested).
 > 
-> Hmm, something is wrong here since you're mixing DMA api and forced 32bit values.
-> if dma uses 32bit addresses then dma_addr_t need only be 32 bits wide
+> I've tested it on RZ/G3S SoC and all is good.
+> 
+> However, I think, to keep the locking scheme unchanged and simpler (FMPOV),
+> commit d3aaa7203a17 ("pinctrl: renesas: rzg2l: Add pin configuration
+> support for pinmux groups") should have been call rzg2l_map_add_config()
+> just before the mutex is locked. That would be the following diff:
+> 
+> --- a/drivers/pinctrl/renesas/pinctrl-rzg2l.c
+> +++ b/drivers/pinctrl/renesas/pinctrl-rzg2l.c
+> @@ -447,6 +447,16 @@ static int rzg2l_dt_subnode_to_map(struct pinctrl_dev
+> *pctldev,
+>  		name = np->name;
+>  	}
+> 
+> +	if (num_configs) {
+> +		ret = rzg2l_map_add_config(&maps[idx], name,
+> +					   PIN_MAP_TYPE_CONFIGS_GROUP,
+> +					   configs, num_configs);
+> +		if (ret < 0)
+> +			goto done;
+> +
+> +		idx++;
+> +	}
+> +
+>  	mutex_lock(&pctrl->mutex);
+> 
+>  	/* Register a single pin group listing all the pins we read from DT */
+> @@ -474,16 +484,6 @@ static int rzg2l_dt_subnode_to_map(struct pinctrl_dev
+> *pctldev,
+>  	maps[idx].data.mux.function = name;
+>  	idx++;
+        ^^^^^
 
-dma_addr_t is arch-wide type and it is 64bit on arm64
+> 
+> -	if (num_configs) {
+> -		ret = rzg2l_map_add_config(&maps[idx], name,
+> -					   PIN_MAP_TYPE_CONFIGS_GROUP,
+> -					   configs, num_configs);
+> -		if (ret < 0)
+> -			goto remove_group;
+> -
+> -		idx++;
+> -	}
 
-Still, some devices use 32-bit dma addresses.
-Proper setting of dma masks and/of configuring iommu ensures that in no error case, dma address fits 
-into 32 bits.
-Still, in error case dma_map_single() returns ~((dma_addr_t)0) which uses fill dma_addr_t width and gets 
-corrupted if assigned to 32-bit value, then later call to dma_mapping_error() does not recognize it. The 
-patch fixes exactly this issue.
+Does the ordering of the maps[] not matter?
+
+> -
+>  	dev_dbg(pctrl->dev, "Parsed %pOF with %d pins\n", np, num_pinmux);
+>  	ret = 0;
+>  	goto done;
+> 
+> Would you mind doing it like this?
+> 
+> Please, let me know if you want me to handle it.
+
+Either way is fine.  Whatever is easiest.
+
+regards,
+dan carpenter
 
 
