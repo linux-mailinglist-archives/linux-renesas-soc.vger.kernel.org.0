@@ -1,153 +1,109 @@
-Return-Path: <linux-renesas-soc+bounces-1515-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-1516-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0ABE82C12F
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 12 Jan 2024 14:55:57 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 263C282C168
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 12 Jan 2024 15:13:25 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2461528403A
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 12 Jan 2024 13:55:56 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id BB4DEB22824
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 12 Jan 2024 14:13:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3B9166BB41;
-	Fri, 12 Jan 2024 13:55:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CD55F6D1DA;
+	Fri, 12 Jan 2024 14:13:16 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com [209.85.128.176])
+Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com [209.85.128.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFBE854747;
-	Fri, 12 Jan 2024 13:55:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 328F864AAA;
+	Fri, 12 Jan 2024 14:13:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-5e734251f48so51365657b3.1;
-        Fri, 12 Jan 2024 05:55:50 -0800 (PST)
+Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-5fa52e173f7so33196367b3.3;
+        Fri, 12 Jan 2024 06:13:14 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705067749; x=1705672549;
+        d=1e100.net; s=20230601; t=1705068794; x=1705673594;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=EGC/g2xK3NLCm39yP+e6r0PYYA1RCJNgKN4yfeuv1jg=;
-        b=j464jAxDojn+mpXZ8DF+0zxFhFgq2Fz7Btb3Td37lyyBNc4b8xkWpjihox/ClQ5N05
-         MfYx4nHRB2eikvVsagt7HSA6k4Wvcp8pmD8CcSuhmb21Xjd4GuQ5kZsDefg+T9PCQCzW
-         v3B6sHZMY99BU+28//x9yrmErQB27bf48npNneOWCCz1qjbhmp/RFARByyIDgFhBuIxE
-         e8yBfTxc/p0/LbCaSf8d3ugCKBHC3W8BVyq+cdHkmibeiSijgjZWRbFUE7AQJwhNyCQy
-         iTYZyARJXGfQ9+qj+yIzeVPh9JK/E04oxMu14AqfuNkXPz5Vi6GO5GoW/M0nlzqjpKlz
-         T7EQ==
-X-Gm-Message-State: AOJu0YzHAp6avRtMlUBZxlj46PBV0ERIDzbxLizyqH3ZCPNN5boqaENE
-	Ttjiqh0j67raZyudHCnNoPW2IbcXZu0AKw==
-X-Google-Smtp-Source: AGHT+IGi1dBhWOyIkyhYxPs19Jgh4+Mqa0q+fC5Sry7mDnl0KRNeAhVDlVuKH1WYpyeFATALIuFDeA==
-X-Received: by 2002:a81:a188:0:b0:5e7:6f9c:38fe with SMTP id y130-20020a81a188000000b005e76f9c38femr1363891ywg.46.1705067749663;
-        Fri, 12 Jan 2024 05:55:49 -0800 (PST)
-Received: from mail-yb1-f172.google.com (mail-yb1-f172.google.com. [209.85.219.172])
-        by smtp.gmail.com with ESMTPSA id x203-20020a81a0d4000000b00583b144fe51sm1345771ywg.118.2024.01.12.05.55.49
+        bh=ogmBK4GcHnlicaeksl+88HTGrvs80uzfrt9z9GfN5KM=;
+        b=q2aQdezOMkTi488Fx34hxeBwzrkyVLaeinNhuwXDd38KvpoGJdiVGn1Z0RuBk6nTxH
+         vnG7yb8otKUq/XmDKQqYf73CD8H71pYw5p7eJNfG3dVPEZmOBKK8fVFTM8Zne+976aAi
+         etHhbJmsm9IWWfCwipad99M/LkFPixXS+BbFqUMVYW5ESFCFkfHeG1HRABtOglR0qHx1
+         r+KYKYChvyuLN8igq/jfM+5L/3EEKsBLHhASW7Pznf0QOZeEvA1fOgDyzYbOM5ta8GsO
+         b9elZKuwWNGoRGTldXWiHUEc+0KNhyqNaFY4k6pGr4vYR4sENzBY7944fMAbeJU3FyYE
+         212A==
+X-Gm-Message-State: AOJu0YycU/2j2nLLMW1fq7294fsJBQ0uKw/yviRkhMPudvMaj8wd6mPp
+	90hxatdOdvDT70LSgVkllnEP0E9AKXltZg==
+X-Google-Smtp-Source: AGHT+IFIzJ/PmIVOEEFVeKiaFwHi+rAUcGrgk0Vxlk7x5Le2iSnlytZAHamkfjeUZMjWbL7z83XYkQ==
+X-Received: by 2002:a81:6dca:0:b0:5fb:9321:9ff5 with SMTP id i193-20020a816dca000000b005fb93219ff5mr1289598ywc.61.1705068793959;
+        Fri, 12 Jan 2024 06:13:13 -0800 (PST)
+Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com. [209.85.128.176])
+        by smtp.gmail.com with ESMTPSA id g139-20020a0ddd91000000b005d6f34893dfsm1355399ywe.135.2024.01.12.06.13.12
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 12 Jan 2024 05:55:49 -0800 (PST)
-Received: by mail-yb1-f172.google.com with SMTP id 3f1490d57ef6-dbed179f0faso5183234276.1;
-        Fri, 12 Jan 2024 05:55:49 -0800 (PST)
-X-Received: by 2002:a25:2e0c:0:b0:dbd:c783:c456 with SMTP id
- u12-20020a252e0c000000b00dbdc783c456mr515265ybu.0.1705067749329; Fri, 12 Jan
- 2024 05:55:49 -0800 (PST)
+        Fri, 12 Jan 2024 06:13:13 -0800 (PST)
+Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-5fa52e173f7so33196057b3.3;
+        Fri, 12 Jan 2024 06:13:12 -0800 (PST)
+X-Received: by 2002:a05:690c:7:b0:5fb:86a1:3e57 with SMTP id
+ bc7-20020a05690c000700b005fb86a13e57mr1510809ywb.39.1705068792784; Fri, 12
+ Jan 2024 06:13:12 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231227130810.2744550-1-claudiu.beznea.uj@bp.renesas.com>
-In-Reply-To: <20231227130810.2744550-1-claudiu.beznea.uj@bp.renesas.com>
+References: <87edeqgfbu.wl-kuninori.morimoto.gx@renesas.com> <878r4ygfap.wl-kuninori.morimoto.gx@renesas.com>
+In-Reply-To: <878r4ygfap.wl-kuninori.morimoto.gx@renesas.com>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 12 Jan 2024 14:55:37 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdVnsJfOtZPpr+_MRNkx-bSXrCm8Hy_j6Gy58WnGn_kaMA@mail.gmail.com>
-Message-ID: <CAMuHMdVnsJfOtZPpr+_MRNkx-bSXrCm8Hy_j6Gy58WnGn_kaMA@mail.gmail.com>
-Subject: Re: [PATCH] arm64: dts: renesas: rzg3s-smarc: Add gpio keys
-To: Claudiu <claudiu.beznea@tuxon.dev>
-Cc: geert+renesas@glider.be, magnus.damm@gmail.com, robh+dt@kernel.org, 
-	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, 
-	linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, 
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+Date: Fri, 12 Jan 2024 15:13:01 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdVq8gjv=NFQdN0PcMoQsZ8QWYF0A9sej1mLPPF_SOSS-Q@mail.gmail.com>
+Message-ID: <CAMuHMdVq8gjv=NFQdN0PcMoQsZ8QWYF0A9sej1mLPPF_SOSS-Q@mail.gmail.com>
+Subject: Re: [PATCH v5 resend 4/4] drivers: clk: renesas: ignore all clocks
+ which are assigned to non-Linux system
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, Rob Herring <robh+dt@kernel.org>
+Cc: Frank Rowand <frowand.list@gmail.com>, Michael Turquette <mturquette@baylibre.com>, 
+	Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org, 
+	linux-clk@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	Aymeric Aillet <aymeric.aillet@iot.bzh>, Yusuke Goda <yusuke.goda.sx@renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Claudiu,
-
-On Wed, Dec 27, 2023 at 2:08=E2=80=AFPM Claudiu <claudiu.beznea@tuxon.dev> =
-wrote:
-> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+On Wed, Jan 10, 2024 at 2:15=E2=80=AFAM Kuninori Morimoto
+<kuninori.morimoto.gx@renesas.com> wrote:
+> Some boards might use Linux and another OS at the same time. In such
+> case, currently, during booting, Linux will stop necessary module clocks
+> which are not used on the Linux side, but are used by another OS.
 >
-> RZ SMARC Carrier II board has 3 user buttons called USER_SW1, USER_SW2,
-> USER_SW3. Add a DT node in device tree to propertly instantiate the
-> gpio-keys driver for these buttons.
+> To avoid such situation, renesas-cpg-mssr tries to find
+> status =3D "reserved" devices (A), and adds CLK_IGNORE_UNUSED flag to its
+> <&cgp CPG_MOD xxx> clock (B).
 >
-> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-
-Thanks for your patch!
-
-> --- a/arch/arm64/boot/dts/renesas/rzg3s-smarc.dtsi
-> +++ b/arch/arm64/boot/dts/renesas/rzg3s-smarc.dtsi
-> @@ -6,6 +6,7 @@
->   */
+> Table 2.4: Values for status property
+> https://github.com/devicetree-org/devicetree-specification/releases/downl=
+oad/v0.4/devicetree-specification-v0.4.pdf
 >
->  #include <dt-bindings/gpio/gpio.h>
-> +#include <dt-bindings/input/input.h>
->  #include <dt-bindings/pinctrl/rzg2l-pinctrl.h>
+> "reserved"
+>         Indicates that the device is operational, but should not be
+>         used. Typically this is used for devices that are controlled
+>         by another software component, such as platform firmware.
 >
->  / {
-> @@ -14,6 +15,37 @@ aliases {
->                 mmc1 =3D &sdhi1;
+> ex)
+>         scif5: serial@e6f30000 {
+>                 ...
+> (B)             clocks =3D <&cpg CPG_MOD 202>,
+>                          <&cpg CPG_CORE R8A7795_CLK_S3D1>,
+>                          <&scif_clk>;
+>                 ...
+> (A)             status =3D "reserved";
 >         };
 >
-> +       keys {
-
-Do you mind if I s/keys/keypad/ while applying? ...
-
-> +               compatible =3D "gpio-keys";
-> +
-> +               key-1 {
-> +                       interrupts =3D <RZG2L_GPIO(18, 0) IRQ_TYPE_EDGE_F=
-ALLING>;
-
-Oh, the horror of interrupt controllers that don't support generating
-interrupts on both edges...
-
-> +                       interrupt-parent =3D <&pinctrl>;
-
-... and move these one level up, to avoid duplication?
-
-> +                       linux,code =3D <KEY_1>;
-> +                       label =3D "USER_SW1";
-> +                       wakeup-source;
-> +                       debounce-interval =3D <20>;
-> +               };
-> +
-> +               key-2 {
-> +                       interrupts =3D <RZG2L_GPIO(0, 1) IRQ_TYPE_EDGE_FA=
-LLING>;
-> +                       interrupt-parent =3D <&pinctrl>;
-> +                       linux,code =3D <KEY_2>;
-> +                       label =3D "USER_SW2";
-> +                       wakeup-source;
-> +                       debounce-interval =3D <20>;
-> +               };
-> +
-> +               key-3 {
-> +                       interrupts =3D <RZG2L_GPIO(0, 3) IRQ_TYPE_EDGE_FA=
-LLING>;
-> +                       interrupt-parent =3D <&pinctrl>;
-> +                       linux,code =3D <KEY_3>;
-> +                       label =3D "USER_SW3";
-> +                       wakeup-source;
-> +                       debounce-interval =3D <20>;
-> +               };
-> +       };
-> +
->         vcc_sdhi1: regulator-vcc-sdhi1 {
->                 compatible =3D "regulator-fixed";
->                 regulator-name =3D "SDHI1 Vcc";
+> Cc: Aymeric Aillet <aymeric.aillet@iot.bzh>
+> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+> Tested-by: Yusuke Goda <yusuke.goda.sx@renesas.com>
 
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-devel for v6.9, with the above fixed.
 
 Gr{oetje,eeting}s,
 
