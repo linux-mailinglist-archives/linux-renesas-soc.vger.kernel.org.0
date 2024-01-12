@@ -1,199 +1,153 @@
-Return-Path: <linux-renesas-soc+bounces-1514-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-1515-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5989382BFC5
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 12 Jan 2024 13:29:28 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A0ABE82C12F
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 12 Jan 2024 14:55:57 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id D34141F211B5
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 12 Jan 2024 12:29:27 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2461528403A
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 12 Jan 2024 13:55:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 291456A33F;
-	Fri, 12 Jan 2024 12:29:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3B9166BB41;
+	Fri, 12 Jan 2024 13:55:53 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com [209.85.128.178])
+Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com [209.85.128.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B70E11F5F3;
-	Fri, 12 Jan 2024 12:29:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFBE854747;
+	Fri, 12 Jan 2024 13:55:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-5edfcba97e3so69534417b3.2;
-        Fri, 12 Jan 2024 04:29:21 -0800 (PST)
+Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-5e734251f48so51365657b3.1;
+        Fri, 12 Jan 2024 05:55:50 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705062560; x=1705667360;
+        d=1e100.net; s=20230601; t=1705067749; x=1705672549;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=61+Evgg1Vmw2HkVJsOdUzlpSbrHkjczepzLoD8ftGEw=;
-        b=DSJ79EjAA0rakUyh4pJqJIB/PynAs/OAIUtzQQwjiy+PzzbL16WQYfRJjAmWZEyDJi
-         x+pqn4cmjkQZ6+/SyxXU6n7/bdaWV6eO/kNRJB/7SJhuYKOJ9iQ71ANgNidPiJJfKzAw
-         5D1/2ol176WmPC3eqf4NHfNPN4jazPnVKYmGO0iQJMwmRlKWfj1fT8griSMIaOSnCm7T
-         CBs4FQJt/8roqnp3//ZZkziCt/yBLvcZttpcPBMGrJ0OMaD1xyd3NVir7mCqXW63j80N
-         zJTauHeg2CBI7geFkKfy8Sag+k+O3STmDXJ+i+QMglKBSN732aprnfMj0bjq0F+vFiDq
-         zZIw==
-X-Gm-Message-State: AOJu0Yy+nBMwWC0lcIVo4Fd64DGI+gN5UQcn9mJ73vGV+ZROAyvBgQlh
-	HIGTsIgU4kxwLuAniaDND/uNLKQCja+k+g==
-X-Google-Smtp-Source: AGHT+IE7+0PduRjPzpJ/9+GpEHxwQCZvLhbY27qoAw0WoFGliebEuHaLNIs8x5ENbsk1CZWFAUG/Ag==
-X-Received: by 2002:a81:790a:0:b0:5ec:38b5:3f8c with SMTP id u10-20020a81790a000000b005ec38b53f8cmr1092836ywc.91.1705062560542;
-        Fri, 12 Jan 2024 04:29:20 -0800 (PST)
-Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com. [209.85.128.177])
-        by smtp.gmail.com with ESMTPSA id cd10-20020a05690c088a00b005fb56881fa9sm1097336ywb.15.2024.01.12.04.29.20
+        bh=EGC/g2xK3NLCm39yP+e6r0PYYA1RCJNgKN4yfeuv1jg=;
+        b=j464jAxDojn+mpXZ8DF+0zxFhFgq2Fz7Btb3Td37lyyBNc4b8xkWpjihox/ClQ5N05
+         MfYx4nHRB2eikvVsagt7HSA6k4Wvcp8pmD8CcSuhmb21Xjd4GuQ5kZsDefg+T9PCQCzW
+         v3B6sHZMY99BU+28//x9yrmErQB27bf48npNneOWCCz1qjbhmp/RFARByyIDgFhBuIxE
+         e8yBfTxc/p0/LbCaSf8d3ugCKBHC3W8BVyq+cdHkmibeiSijgjZWRbFUE7AQJwhNyCQy
+         iTYZyARJXGfQ9+qj+yIzeVPh9JK/E04oxMu14AqfuNkXPz5Vi6GO5GoW/M0nlzqjpKlz
+         T7EQ==
+X-Gm-Message-State: AOJu0YzHAp6avRtMlUBZxlj46PBV0ERIDzbxLizyqH3ZCPNN5boqaENE
+	Ttjiqh0j67raZyudHCnNoPW2IbcXZu0AKw==
+X-Google-Smtp-Source: AGHT+IGi1dBhWOyIkyhYxPs19Jgh4+Mqa0q+fC5Sry7mDnl0KRNeAhVDlVuKH1WYpyeFATALIuFDeA==
+X-Received: by 2002:a81:a188:0:b0:5e7:6f9c:38fe with SMTP id y130-20020a81a188000000b005e76f9c38femr1363891ywg.46.1705067749663;
+        Fri, 12 Jan 2024 05:55:49 -0800 (PST)
+Received: from mail-yb1-f172.google.com (mail-yb1-f172.google.com. [209.85.219.172])
+        by smtp.gmail.com with ESMTPSA id x203-20020a81a0d4000000b00583b144fe51sm1345771ywg.118.2024.01.12.05.55.49
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 12 Jan 2024 04:29:20 -0800 (PST)
-Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-5f3da7ba2bfso65697527b3.3;
-        Fri, 12 Jan 2024 04:29:20 -0800 (PST)
-X-Received: by 2002:a0d:d616:0:b0:5ec:ab18:ba7e with SMTP id
- y22-20020a0dd616000000b005ecab18ba7emr1276247ywd.3.1705062559134; Fri, 12 Jan
- 2024 04:29:19 -0800 (PST)
+        Fri, 12 Jan 2024 05:55:49 -0800 (PST)
+Received: by mail-yb1-f172.google.com with SMTP id 3f1490d57ef6-dbed179f0faso5183234276.1;
+        Fri, 12 Jan 2024 05:55:49 -0800 (PST)
+X-Received: by 2002:a25:2e0c:0:b0:dbd:c783:c456 with SMTP id
+ u12-20020a252e0c000000b00dbdc783c456mr515265ybu.0.1705067749329; Fri, 12 Jan
+ 2024 05:55:49 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240112114147.1977955-1-claudiu.beznea.uj@bp.renesas.com>
-In-Reply-To: <20240112114147.1977955-1-claudiu.beznea.uj@bp.renesas.com>
+References: <20231227130810.2744550-1-claudiu.beznea.uj@bp.renesas.com>
+In-Reply-To: <20231227130810.2744550-1-claudiu.beznea.uj@bp.renesas.com>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 12 Jan 2024 13:29:07 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdUoDhZSmD5rxhZ7t_DydsZ13UX3eHD3i-OaxDs9P6awAg@mail.gmail.com>
-Message-ID: <CAMuHMdUoDhZSmD5rxhZ7t_DydsZ13UX3eHD3i-OaxDs9P6awAg@mail.gmail.com>
-Subject: Re: [PATCH] mmc: renesas_sdhi: Fix change point of data handling
+Date: Fri, 12 Jan 2024 14:55:37 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdVnsJfOtZPpr+_MRNkx-bSXrCm8Hy_j6Gy58WnGn_kaMA@mail.gmail.com>
+Message-ID: <CAMuHMdVnsJfOtZPpr+_MRNkx-bSXrCm8Hy_j6Gy58WnGn_kaMA@mail.gmail.com>
+Subject: Re: [PATCH] arm64: dts: renesas: rzg3s-smarc: Add gpio keys
 To: Claudiu <claudiu.beznea@tuxon.dev>
-Cc: wsa+renesas@sang-engineering.com, ulf.hansson@linaro.org, 
-	yoshihiro.shimoda.uh@renesas.com, takeshi.saito.xv@renesas.com, 
-	masaharu.hayakawa.ry@renesas.com, linux-mmc@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+Cc: geert+renesas@glider.be, magnus.damm@gmail.com, robh+dt@kernel.org, 
+	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, 
+	linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, 
 	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 Hi Claudiu,
 
-On Fri, Jan 12, 2024 at 12:42=E2=80=AFPM Claudiu <claudiu.beznea@tuxon.dev>=
- wrote:
+On Wed, Dec 27, 2023 at 2:08=E2=80=AFPM Claudiu <claudiu.beznea@tuxon.dev> =
+wrote:
 > From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 >
-> On latest kernel revisions it has been noticed (on a RZ/G3S system) that
-> when booting Linux and root file system is on eMMC, at some point in
-> the booting process, when the systemd applications are started, the
-> "mmc0: tuning execution failed: -5" message is displayed on console.
-> On kernel v6.7-rc5 this is reproducible in 90% of the boots. This was
-> missing on the same system with kernel v6.5.0-rc1. It was also noticed on
-> kernel revisions v6.6-rcX on a RZ/G2UL based system but not on the kernel
-> this fix is based on (v6.7-rc5).
+> RZ SMARC Carrier II board has 3 user buttons called USER_SW1, USER_SW2,
+> USER_SW3. Add a DT node in device tree to propertly instantiate the
+> gpio-keys driver for these buttons.
 >
-> Investigating it on RZ/G3S lead to the conclusion that every time the iss=
-ue
-> is reproduced all the probed TAPs are OK. According to datasheet, when th=
-is
-> happens the change point of data need to be considered for tuning.
->
-> Previous code considered the change point of data happens when the conten=
-t
-> of the SMPCMP register is zero. According to RZ/V2M hardware manual,
-> chapter "Change Point of the Input Data" (as this is the most clear
-> description that I've found about change point of the input data and all
-> RZ hardware manual are similar on this chapter), at the time of tuning,
-> data is captured by the previous and next TAPs and the result is stored i=
-n
-> the SMPCMP register (previous TAP in bits 22..16, next TAP in bits 7..0).
-> If there is a mismatch b/w the previous and the next TAPs, it indicates
-> that there is a change point of the input data.
->
-> To comply with this, the code checks if this mismatch is present and
-> updates the priv->smpcmp mask.
->
-> This change has been checked on the devices with the following DTSes by
-> doing 50 consecutive reboots and checking for the tuning failure message:
-> - r9a08g045s33-smarc.dts
-> - r8a7742-iwg21d-q7.dts
-> - r8a7743-iwg20d-q7.dts
-> - r8a7744-iwg20d-q7.dts
-> - r8a7745-iwg22d-sodimm.dts
-> - r8a77470-iwg23s-sbc.dts
-> - r8a774a1-hihope-rzg2m-ex.dts
-> - r8a774b1-hihope-rzg2n-ex.dts
-> - r8a774c0-ek874.dts
-> - r8a774e1-hihope-rzg2h-ex.dts
-> - r9a07g043u11-smarc-rzg2ul.dts
-> - r9a07g044c2-smarc-rzg2lc.dts
-> - r9a07g044l2-smarc-rzg2l.dts
-> - r9a07g054l2-smarc-rzv2l.dts
->
-> On r8a774a1-hihope-rzg2m-ex, even though the hardware manual doesn't say
-> anything special about it in the "Change Point of the Input Data" chapter
-> or SMPCMP register description, it has been noticed that although all TAP=
-s
-> probed in the tuning process are OK the SMPCMP is zero. For this updated
-> the renesas_sdhi_select_tuning() function to use priv->taps in case all
-> TAPs are OK.
->
-> Fixes: 5fb6bf51f6d1 ("mmc: renesas_sdhi: improve TAP selection if all TAP=
-s are good")
 > Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 
 Thanks for your patch!
 
-> --- a/drivers/mmc/host/renesas_sdhi_core.c
-> +++ b/drivers/mmc/host/renesas_sdhi_core.c
-> @@ -641,7 +645,14 @@ static int renesas_sdhi_select_tuning(struct tmio_mm=
-c_host *host)
->          * identifying the change point of data.
->          */
->         if (bitmap_full(priv->taps, taps_size)) {
-> -               bitmap =3D priv->smpcmp;
-> +               /*
-> +                * On some setups it happens that all TAPS are OK but
-> +                * no change point of data. Any tap should be OK for this=
-.
-> +                */
-> +               if (bitmap_empty(priv->smpcmp, taps_size))
-> +                       bitmap =3D priv->taps;
-> +               else
-> +                       bitmap =3D priv->smpcmp;
->                 min_tap_row =3D 1;
-
-I know nothing about tuning, but should min_tap_row still be 1?
-Or can you fall back to the else case if priv->smpcmp is empty?
-I.e. can this be simplified to:
-
-    if (!bitmap_empty(priv->smpcmp, taps_size) &&
-        bitmap_full(priv->taps, taps_size)) {
-            ...
-    } else {
-            ...
-    }
-
->         } else {
->                 bitmap =3D priv->taps;
-> @@ -706,7 +718,10 @@ static int renesas_sdhi_execute_tuning(struct mmc_ho=
-st *mmc, u32 opcode)
->                 if (mmc_send_tuning(mmc, opcode, &cmd_error) =3D=3D 0)
->                         set_bit(i, priv->taps);
+> --- a/arch/arm64/boot/dts/renesas/rzg3s-smarc.dtsi
+> +++ b/arch/arm64/boot/dts/renesas/rzg3s-smarc.dtsi
+> @@ -6,6 +6,7 @@
+>   */
 >
-> -               if (sd_scc_read32(host, priv, SH_MOBILE_SDHI_SCC_SMPCMP) =
-=3D=3D 0)
-> +               val =3D sd_scc_read32(host, priv, SH_MOBILE_SDHI_SCC_SMPC=
-MP);
-
-The SH_MOBILE_SDHI_SCC_SMPCMP register is read even if its value is
-not used below.
-
-> +               cmpngu_data =3D FIELD_GET(SH_MOBILE_SDHI_SCC_SMPCMP_CMPNG=
-U_DATA, val);
-> +               cmpngd_data =3D FIELD_GET(SH_MOBILE_SDHI_SCC_SMPCMP_CMPNG=
-D_DATA, val);
-> +               if (!cmd_error && cmpngu_data !=3D cmpngd_data)
->                         set_bit(i, priv->smpcmp);
-
-So better move the SH_MOBILE_SDHI_SCC_SMPCMP register access
-inside the if (), and change the below to else.
-
+>  #include <dt-bindings/gpio/gpio.h>
+> +#include <dt-bindings/input/input.h>
+>  #include <dt-bindings/pinctrl/rzg2l-pinctrl.h>
 >
->                 if (cmd_error)
+>  / {
+> @@ -14,6 +15,37 @@ aliases {
+>                 mmc1 =3D &sdhi1;
+>         };
+>
+> +       keys {
+
+Do you mind if I s/keys/keypad/ while applying? ...
+
+> +               compatible =3D "gpio-keys";
+> +
+> +               key-1 {
+> +                       interrupts =3D <RZG2L_GPIO(18, 0) IRQ_TYPE_EDGE_F=
+ALLING>;
+
+Oh, the horror of interrupt controllers that don't support generating
+interrupts on both edges...
+
+> +                       interrupt-parent =3D <&pinctrl>;
+
+... and move these one level up, to avoid duplication?
+
+> +                       linux,code =3D <KEY_1>;
+> +                       label =3D "USER_SW1";
+> +                       wakeup-source;
+> +                       debounce-interval =3D <20>;
+> +               };
+> +
+> +               key-2 {
+> +                       interrupts =3D <RZG2L_GPIO(0, 1) IRQ_TYPE_EDGE_FA=
+LLING>;
+> +                       interrupt-parent =3D <&pinctrl>;
+> +                       linux,code =3D <KEY_2>;
+> +                       label =3D "USER_SW2";
+> +                       wakeup-source;
+> +                       debounce-interval =3D <20>;
+> +               };
+> +
+> +               key-3 {
+> +                       interrupts =3D <RZG2L_GPIO(0, 3) IRQ_TYPE_EDGE_FA=
+LLING>;
+> +                       interrupt-parent =3D <&pinctrl>;
+> +                       linux,code =3D <KEY_3>;
+> +                       label =3D "USER_SW3";
+> +                       wakeup-source;
+> +                       debounce-interval =3D <20>;
+> +               };
+> +       };
+> +
+>         vcc_sdhi1: regulator-vcc-sdhi1 {
+>                 compatible =3D "regulator-fixed";
+>                 regulator-name =3D "SDHI1 Vcc";
+
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+i.e. will queue in renesas-devel for v6.9, with the above fixed.
 
 Gr{oetje,eeting}s,
 
