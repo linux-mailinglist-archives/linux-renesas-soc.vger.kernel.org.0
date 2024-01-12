@@ -1,155 +1,133 @@
-Return-Path: <linux-renesas-soc+bounces-1505-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-1506-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id EAFCC82B134
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 11 Jan 2024 15:59:42 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 75A1582BA9C
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 12 Jan 2024 06:06:59 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 87118B21449
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 11 Jan 2024 14:59:40 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 580A71C24FD5
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 12 Jan 2024 05:06:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7E2D94A9B3;
-	Thu, 11 Jan 2024 14:59:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7782C5B5C7;
+	Fri, 12 Jan 2024 05:06:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nHYalyDO"
+	dkim=pass (2048-bit key) header.d=cogentembedded-com.20230601.gappssmtp.com header.i=@cogentembedded-com.20230601.gappssmtp.com header.b="QA0/dBLr"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35D6E390;
-	Thu, 11 Jan 2024 14:59:30 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6F65AC43390;
-	Thu, 11 Jan 2024 14:59:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1704985170;
-	bh=obzljcLiJ4GpVaa5SSKo4cJxW9OvkYGDmnjlyQfIlZI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=nHYalyDOvAOPCXFghAM1koa8SyyhhJbx2NS7oaSccjGMgH7hd8K6PgCbgUYNNxNlV
-	 RmGKdU8H/qelbOpHbdK6lY3z94gtQDkXFLwmXpIo6se2QKdb2/eJHuEYRWwCvqRZqz
-	 d6c/2VhyfKTHc2AOeMEj2o2oEeAhfzNCGN+6T/O6RApd1aGtGh6rdqf/jl/505e4yX
-	 2vkmubzDVpwuYZ5TSUe6C8cnpmoESUorVaftbQJbcjgGD8ONaUd6KceQOl+dy+Jwil
-	 R5sfhQjmbOfzkWmuihvw8I2rFw5SlSma30PRhfosHts/KPzeyEknOc/usqeCbKIhN0
-	 6Aj8MjPf72M2w==
-Date: Thu, 11 Jan 2024 08:59:28 -0600
-From: Rob Herring <robh@kernel.org>
-To: Conor Dooley <conor@kernel.org>
-Cc: Geert Uytterhoeven <geert@linux-m68k.org>,
-	Yoshinori Sato <ysato@users.sourceforge.jp>,
-	linux-sh@vger.kernel.org, Damien Le Moal <dlemoal@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jiri Slaby <jirislaby@kernel.org>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Daniel Lezcano <daniel.lezcano@linaro.org>,
-	Rich Felker <dalias@libc.org>,
-	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
-	Lee Jones <lee@kernel.org>, Helge Deller <deller@gmx.de>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Chris Morgan <macromorgan@hotmail.com>,
-	Yang Xiwen <forbidden405@foxmail.com>,
-	Sebastian Reichel <sre@kernel.org>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Randy Dunlap <rdunlap@infradead.org>, Arnd Bergmann <arnd@arndb.de>,
-	Vlastimil Babka <vbabka@suse.cz>,
-	Hyeonggon Yoo <42.hyeyoo@gmail.com>,
-	David Rientjes <rientjes@google.com>, Baoquan He <bhe@redhat.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Stephen Rothwell <sfr@canb.auug.org.au>,
-	Azeem Shaikh <azeemshaikh38@gmail.com>,
-	Javier Martinez Canillas <javierm@redhat.com>,
-	Max Filippov <jcmvbkbc@gmail.com>,
-	Palmer Dabbelt <palmer@rivosinc.com>, Bin Meng <bmeng@tinylab.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Jacky Huang <ychuang3@nuvoton.com>,
-	Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
-	Sam Ravnborg <sam@ravnborg.org>,
-	Sergey Shtylyov <s.shtylyov@omp.ru>,
-	Michael Karcher <kernel@mkarcher.dialup.fu-berlin.de>,
-	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-	linux-ide@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-	linux-clk@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linux-pci@vger.kernel.org, linux-serial@vger.kernel.org,
-	linux-fbdev@vger.kernel.org
-Subject: Re: [DO NOT MERGE v6 26/37] dt-bindings: vendor-prefixes: Add smi
-Message-ID: <20240111145928.GA538344-robh@kernel.org>
-References: <cover.1704788539.git.ysato@users.sourceforge.jp>
- <c8aaf67e3fcdb7e60632c53a784691aabfc7733e.1704788539.git.ysato@users.sourceforge.jp>
- <20240109-fructose-bundle-05d01033277b@spud>
- <CAMuHMdU1z64QHJOVd3jUsOfyuDApB1+khkUV8PvjoKbwsi327g@mail.gmail.com>
- <20240110-sincere-tripod-9d34175fcbce@spud>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6890EC5
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 12 Jan 2024 05:06:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cogentembedded.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cogentembedded.com
+Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-50e5a9bcec9so7415042e87.3
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 11 Jan 2024 21:06:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=cogentembedded-com.20230601.gappssmtp.com; s=20230601; t=1705036007; x=1705640807; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=b+4tG41mP4l7Ohc5Jalm3vix0bi5L8YN+ujb4C4h1ag=;
+        b=QA0/dBLrisqNG8n97OoRBUwxzMDg8z7YrDfZpmLAO1xicBRSPcGevCYwcfDJS3On4C
+         apC+axC1RXrqjrBB1BtT772wsiXjaOjJGN3hjnD1eRCFN/Dk5dbeIzHP3CZMV4NgaqkJ
+         w5tKYNm6Pjb78H/keE2NB2rHmw4QRR/e+dp848kib7sKr5Vfvah/Y2lGR1t2tAPKuxnY
+         oXEGcF9YnYFbDPLknBXqEO9xtluielzbF5SEs2eVSk7gx3Fq33Ec8+EpPjJyZTANGasH
+         Za9Wxt1SI9WzubLJ36JEvNO2c+yICK97/4sad1parm30szI+8DddKW31iN3yH27UsjLx
+         6LWw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1705036007; x=1705640807;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=b+4tG41mP4l7Ohc5Jalm3vix0bi5L8YN+ujb4C4h1ag=;
+        b=a+1YP8f1jy/iKGXv1FZ/tc1AM+O2Saj1rMIkddSvAq/RHgC5pnRCIaijnXnP6cZgcY
+         jjP/XMTEZGmv/4nef4UHvpyTJfWbda0SFlb2J3uUxAbNnusqcVi+yAO1A1IKefXGXqGe
+         YYGnTxVwyGutchPT6L61vy9dmwKAJzuv1No4m6IdVRaovnev08oVc79X1aj/jjhVpt11
+         vvzznVK35HVgMneajueQgbgvly7K8wCDGBQliHAFviOGDR7CvKu5IniSsEEl6CBE5zPf
+         qEMI3Ff6kcJVqi8ewdUDDqYak7rga33DtVMcs/Lb6BKXwxB5+9I93SxkCeNpWs75gE4Z
+         tq1Q==
+X-Gm-Message-State: AOJu0YwCBCKRCP6f+dCmRzNAfZ+1kM9OA37JREc8ZUTnSkrEMI+7dJab
+	Vo2uU7jcdf19EM3vMSMI6KDGNBYkLCNnjrar71HgBXdmQfI=
+X-Google-Smtp-Source: AGHT+IH1MOKZzlEESJbBk4sKtsahzm0eQd1Of14vPnbqmfztXRNy/qS2PVwoSGypEfBpRUe90CGB3g==
+X-Received: by 2002:a05:6512:3a94:b0:50e:55d0:855c with SMTP id q20-20020a0565123a9400b0050e55d0855cmr400740lfu.17.1705036006695;
+        Thu, 11 Jan 2024 21:06:46 -0800 (PST)
+Received: from cobook.home ([91.231.66.25])
+        by smtp.gmail.com with ESMTPSA id q23-20020a056512211700b0050e7ed9585asm381507lfr.233.2024.01.11.21.06.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 11 Jan 2024 21:06:46 -0800 (PST)
+From: Nikita Yushchenko <nikita.yoush@cogentembedded.com>
+To: "David S. Miller" <davem@davemloft.net>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>
+Cc: Sergey Shtylyov <s.shtylyov@omp.ru>,
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
+	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+	Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+	netdev@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Nikita Yushchenko <nikita.yoush@cogentembedded.com>
+Subject: [PATCH] net: ethernet: ravb: fix dma mapping failure handling
+Date: Fri, 12 Jan 2024 11:06:39 +0600
+Message-Id: <20240112050639.405784-1-nikita.yoush@cogentembedded.com>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240110-sincere-tripod-9d34175fcbce@spud>
 
-On Wed, Jan 10, 2024 at 04:11:44PM +0000, Conor Dooley wrote:
-> On Wed, Jan 10, 2024 at 12:23:37PM +0100, Geert Uytterhoeven wrote:
-> > Hi Conor,
-> > 
-> > On Tue, Jan 9, 2024 at 7:06 PM Conor Dooley <conor@kernel.org> wrote:
-> > > On Tue, Jan 09, 2024 at 05:23:23PM +0900, Yoshinori Sato wrote:
-> > > > Add Silicon Mortion Technology Corporation
-> > 
-> > Motion
-> > 
-> > > > https://www.siliconmotion.com/
-> > > >
-> > > > Signed-off-by: Yoshinori Sato <ysato@users.sourceforge.jp>
-> > > > ---
-> > > >  Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
-> > > >  1 file changed, 2 insertions(+)
-> > > >
-> > > > diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
-> > > > index 94ed63d9f7de..a338bdd743ab 100644
-> > > > --- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
-> > > > +++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
-> > > > @@ -1283,6 +1283,8 @@ patternProperties:
-> > > >      description: Skyworks Solutions, Inc.
-> > > >    "^smartlabs,.*":
-> > > >      description: SmartLabs LLC
-> > > > +  "^smi,.*":
-> > > > +    description: Silicon Motion Technology Corporation
-> > >
-> > > How come "smi" is used for a company with this name?
-> > > Why is it not something like SMTC? There's probably some history here
-> > > that I am unaware of.
-> > 
-> > See Documentation/devicetree/bindings/display/sm501fb.txt
-> > The stock ticker is "SIMO", though.
-> > https://www.nasdaq.com/market-activity/stocks/simo
-> 
-> If there's an existing user, there's little reason to stand in the way I
-> think.
-> Acked-by: Conor Dooley <conor.dooley@microchip.com>
+dma_mapping_error() depends on getting full 64-bit dma_addr_t and does
+not work correctly if 32-bit value is passed instead.
 
-Or reason not to apply, so I'm applying this.
+Fix handling of dma_map_single() failures on Rx ring entries:
+- do not store return value of dma_map_signle() in 32-bit variable,
+- do not use dma_mapping_error() against 32-bit descriptor field when
+  checking if unmap is needed, check for zero size instead.
 
-BTW, 'RFC' is the standard way to say 'DO NOT MERGE'.
+Signed-off-by: Nikita Yushchenko <nikita.yoush@cogentembedded.com>
+---
+ drivers/net/ethernet/renesas/ravb_main.c | 8 +++-----
+ 1 file changed, 3 insertions(+), 5 deletions(-)
 
-Rob
+diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
+index 8649b3e90edb..4d4b5d44c4e7 100644
+--- a/drivers/net/ethernet/renesas/ravb_main.c
++++ b/drivers/net/ethernet/renesas/ravb_main.c
+@@ -256,8 +256,7 @@ static void ravb_rx_ring_free_gbeth(struct net_device *ndev, int q)
+ 	for (i = 0; i < priv->num_rx_ring[q]; i++) {
+ 		struct ravb_rx_desc *desc = &priv->gbeth_rx_ring[i];
+ 
+-		if (!dma_mapping_error(ndev->dev.parent,
+-				       le32_to_cpu(desc->dptr)))
++		if (le16_to_cpu(desc->ds_cc) != 0)
+ 			dma_unmap_single(ndev->dev.parent,
+ 					 le32_to_cpu(desc->dptr),
+ 					 GBETH_RX_BUFF_MAX,
+@@ -281,8 +280,7 @@ static void ravb_rx_ring_free_rcar(struct net_device *ndev, int q)
+ 	for (i = 0; i < priv->num_rx_ring[q]; i++) {
+ 		struct ravb_ex_rx_desc *desc = &priv->rx_ring[q][i];
+ 
+-		if (!dma_mapping_error(ndev->dev.parent,
+-				       le32_to_cpu(desc->dptr)))
++		if (le16_to_cpu(desc->ds_cc) != 0)
+ 			dma_unmap_single(ndev->dev.parent,
+ 					 le32_to_cpu(desc->dptr),
+ 					 RX_BUF_SZ,
+@@ -1949,7 +1947,7 @@ static netdev_tx_t ravb_start_xmit(struct sk_buff *skb, struct net_device *ndev)
+ 	struct ravb_tstamp_skb *ts_skb;
+ 	struct ravb_tx_desc *desc;
+ 	unsigned long flags;
+-	u32 dma_addr;
++	dma_addr_t dma_addr;
+ 	void *buffer;
+ 	u32 entry;
+ 	u32 len;
+-- 
+2.39.2
+
 
