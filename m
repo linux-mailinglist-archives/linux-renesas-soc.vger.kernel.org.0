@@ -1,64 +1,64 @@
-Return-Path: <linux-renesas-soc+bounces-1524-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-1525-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 082CF82C253
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 12 Jan 2024 15:59:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D9F182C2E4
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 12 Jan 2024 16:38:52 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 55AD8281539
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 12 Jan 2024 14:59:43 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 11B0128264C
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 12 Jan 2024 15:38:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C6E366E2B7;
-	Fri, 12 Jan 2024 14:59:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EFFA16A349;
+	Fri, 12 Jan 2024 15:38:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="FRqqA6bl"
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="NquVzITc"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F4B06E2B0
-	for <linux-renesas-soc@vger.kernel.org>; Fri, 12 Jan 2024 14:59:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C3251D53F
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 12 Jan 2024 15:38:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-3367601a301so5521581f8f.2
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 12 Jan 2024 06:59:40 -0800 (PST)
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-40e68d0dc2aso3698545e9.3
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 12 Jan 2024 07:38:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1705071579; x=1705676379; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
+        d=tuxon.dev; s=google; t=1705073925; x=1705678725; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=k/BtQRkPRo0PDkqr7h2go7WXT8nDwFvbbHMJTq+1IaQ=;
-        b=FRqqA6bl56wSbCuNV+dihl+jf78ouFMTNYdWFoz0CGOAf836RIbyBRHPvnmFptU60c
-         Zs6zaIB1n/hRnK1vCUg2t+LwlJlRkCxOxeW2uzoimORx6FZqxz5C4rWxzL2oPI5iiZWR
-         4vu4uPLlr1xdTG3v4Av70K/l5orvCx6ECGVD6UpVIp2R/sw7wD6/c2XzEyosDVXlEdIQ
-         oFmoQicyxeNNtub1IVW9kp3TlfJGORnM1T/MA6DTGJVlICrU+EspckNTrfxmz+gnUkss
-         aKmWzH9SYn2zgXlxOf0ifW4lNP6k/pQItk0FQuGtK6vs6XeBfJDG8dz5YiYVOnEULPBh
-         9tUg==
+        bh=rcF2XsVN5qfBcTnWBw/ZNq4CN89fzFSDAjr71tltvUY=;
+        b=NquVzITc9CUNEHvFsBIGQNJLEO9tlGBF/7BB1idU8AGYFwUavhGWbKTZT/yqBIUk+U
+         QUfUyyrecNUgLoSm37k8i8sRXiJoLHnNNghtmhjS6VgYLkLjA33UkxFakVLaHDw7bZrN
+         l4SFxtvlrRojdIVZTFD0DXvh1fuHwoI3vk/t/hWHpt9eTwRI2rPXpA76azObRyG8acAl
+         ZZLcEddSsdbxwim7gGF2AUrplwHwDC5tsRzMZuK9ssLgxLJTTdJH59Okydltv2q0zgv4
+         HzqVuvRql7wTL46/VJY80CQ4KYW6LthHIw++jtSDx6Tg/weUSALg/eWu3A5WkAHdZCw4
+         HvkQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705071579; x=1705676379;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
+        d=1e100.net; s=20230601; t=1705073925; x=1705678725;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=k/BtQRkPRo0PDkqr7h2go7WXT8nDwFvbbHMJTq+1IaQ=;
-        b=VwCuDL7q6Exx1ErWNmwdX+6Cc27ttO51Tafqz1CndMpTiRKA92p9ydBRQeUIY4SHG+
-         ENlpWWv8b8YqSQUi2ZWLoG8tA9ghPk9x3TzgLwQLi0qDrNwO0AOXFygWqir0/ALJaR3J
-         j9oX8XmcO6FzCwNXd71oTQnya5+ngjHlQQKGujxT4n611FWoG2UVEMgXwI4UlcrJk/lI
-         5eaPJOWSeru+eHxvBpiu672BJRlEsAws3SMuHVrAoNbpygY9iDyK5i2V2RqL6L3qlm5g
-         PbMJy/ONmFrPOBmAzy/k9V15nyHHa4q9FlZKSlwKi4MqRSaAhpJmc7239kxk5ZRB52l2
-         UlqQ==
-X-Gm-Message-State: AOJu0YwqiCOAWAg1GUzhBAuz2OHK3SrtVXjz8wkaac+s0YrVe4FxGpbP
-	cveqswyoLSUkHZcDA/BZgxpsstvuae3daQ==
-X-Google-Smtp-Source: AGHT+IHlzOnEPzQA5ipb6HisnDyIT67m1rDMx0qCjw3pajHcuG78NaTaRWbEy1sMIitmndhhKsBi6g==
-X-Received: by 2002:a5d:598c:0:b0:336:5c93:aef6 with SMTP id n12-20020a5d598c000000b003365c93aef6mr700610wri.34.1705071578640;
-        Fri, 12 Jan 2024 06:59:38 -0800 (PST)
+        bh=rcF2XsVN5qfBcTnWBw/ZNq4CN89fzFSDAjr71tltvUY=;
+        b=hWiNmO4qYrNawA88pexKxnEfpAG8WfHGnEDZ0GrTr+xKgDx0f/8TIos3LSqPmwL3Hd
+         bPLGZ5vRLCv48aDS9q8BAo0hlsX/r6fdV5gOw3LA1YrNvlfjWKrCtjAoifcIOv66nsXP
+         0yfA6U0jfzanV5RFQHJtSRc0tpHR+EfYwgrz8KDgcSV9mLxjxhDFdWuvKfY9Tne0C3zv
+         2cjs8KjM7hU6oaGm7WvsH0jJeGd3XfKXkA/RxnqGrZuL5eivkgfiG2kpsgByDXjZ5KxH
+         /y9r7AOHmhWNsavhFNuvfxDY/R5Nag5H6i/RSimK+hU9ndg7TtUQ98Nn8d3Djv8GH4Zc
+         6tAw==
+X-Gm-Message-State: AOJu0YxG5TXqIIQJMDSTuDYjLne3fFmByIan2/HwRb2vCfFN28+XU3Wq
+	+v+JZMVxqBTD/61Vzc9ykn4jz7fmYSINGg==
+X-Google-Smtp-Source: AGHT+IF0zG9DS1T1lBHEK7Tyf5JdSHUKjdp3RO4nxo4seLerrUeIhtouJLMU3LHaBbB/oj0JVvXr3w==
+X-Received: by 2002:a05:600c:4795:b0:40e:470a:d867 with SMTP id k21-20020a05600c479500b0040e470ad867mr560082wmo.222.1705073925366;
+        Fri, 12 Jan 2024 07:38:45 -0800 (PST)
 Received: from [192.168.50.4] ([82.78.167.5])
-        by smtp.gmail.com with ESMTPSA id co8-20020a0560000a0800b00336755f15b0sm4136419wrb.68.2024.01.12.06.59.37
+        by smtp.gmail.com with ESMTPSA id m6-20020adffa06000000b00336c6b77584sm4192623wrr.91.2024.01.12.07.38.44
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 12 Jan 2024 06:59:38 -0800 (PST)
-Message-ID: <a6a4136a-c3b6-4224-bf73-2948fb849095@tuxon.dev>
-Date: Fri, 12 Jan 2024 16:59:36 +0200
+        Fri, 12 Jan 2024 07:38:45 -0800 (PST)
+Message-ID: <30608a28-b1e3-4ad3-aad5-1033eb8adc6f@tuxon.dev>
+Date: Fri, 12 Jan 2024 17:38:43 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -66,157 +66,127 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] mmc: renesas_sdhi: Fix change point of data handling
-Content-Language: en-US
+Subject: Re: [PATCH] arm64: dts: renesas: rzg3s-smarc: Add gpio keys
 To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: wsa+renesas@sang-engineering.com, ulf.hansson@linaro.org,
- yoshihiro.shimoda.uh@renesas.com, takeshi.saito.xv@renesas.com,
- masaharu.hayakawa.ry@renesas.com, linux-mmc@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+Cc: geert+renesas@glider.be, magnus.damm@gmail.com, robh+dt@kernel.org,
+ krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+ linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org,
  Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-References: <20240112114147.1977955-1-claudiu.beznea.uj@bp.renesas.com>
- <CAMuHMdUoDhZSmD5rxhZ7t_DydsZ13UX3eHD3i-OaxDs9P6awAg@mail.gmail.com>
+References: <20231227130810.2744550-1-claudiu.beznea.uj@bp.renesas.com>
+ <CAMuHMdVnsJfOtZPpr+_MRNkx-bSXrCm8Hy_j6Gy58WnGn_kaMA@mail.gmail.com>
 From: claudiu beznea <claudiu.beznea@tuxon.dev>
-In-Reply-To: <CAMuHMdUoDhZSmD5rxhZ7t_DydsZ13UX3eHD3i-OaxDs9P6awAg@mail.gmail.com>
+Content-Language: en-US
+In-Reply-To: <CAMuHMdVnsJfOtZPpr+_MRNkx-bSXrCm8Hy_j6Gy58WnGn_kaMA@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
 Hi, Geert,
 
-On 12.01.2024 14:29, Geert Uytterhoeven wrote:
+On 12.01.2024 15:55, Geert Uytterhoeven wrote:
 > Hi Claudiu,
 > 
-> On Fri, Jan 12, 2024 at 12:42 PM Claudiu <claudiu.beznea@tuxon.dev> wrote:
+> On Wed, Dec 27, 2023 at 2:08 PM Claudiu <claudiu.beznea@tuxon.dev> wrote:
 >> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 >>
->> On latest kernel revisions it has been noticed (on a RZ/G3S system) that
->> when booting Linux and root file system is on eMMC, at some point in
->> the booting process, when the systemd applications are started, the
->> "mmc0: tuning execution failed: -5" message is displayed on console.
->> On kernel v6.7-rc5 this is reproducible in 90% of the boots. This was
->> missing on the same system with kernel v6.5.0-rc1. It was also noticed on
->> kernel revisions v6.6-rcX on a RZ/G2UL based system but not on the kernel
->> this fix is based on (v6.7-rc5).
+>> RZ SMARC Carrier II board has 3 user buttons called USER_SW1, USER_SW2,
+>> USER_SW3. Add a DT node in device tree to propertly instantiate the
+>> gpio-keys driver for these buttons.
 >>
->> Investigating it on RZ/G3S lead to the conclusion that every time the issue
->> is reproduced all the probed TAPs are OK. According to datasheet, when this
->> happens the change point of data need to be considered for tuning.
->>
->> Previous code considered the change point of data happens when the content
->> of the SMPCMP register is zero. According to RZ/V2M hardware manual,
->> chapter "Change Point of the Input Data" (as this is the most clear
->> description that I've found about change point of the input data and all
->> RZ hardware manual are similar on this chapter), at the time of tuning,
->> data is captured by the previous and next TAPs and the result is stored in
->> the SMPCMP register (previous TAP in bits 22..16, next TAP in bits 7..0).
->> If there is a mismatch b/w the previous and the next TAPs, it indicates
->> that there is a change point of the input data.
->>
->> To comply with this, the code checks if this mismatch is present and
->> updates the priv->smpcmp mask.
->>
->> This change has been checked on the devices with the following DTSes by
->> doing 50 consecutive reboots and checking for the tuning failure message:
->> - r9a08g045s33-smarc.dts
->> - r8a7742-iwg21d-q7.dts
->> - r8a7743-iwg20d-q7.dts
->> - r8a7744-iwg20d-q7.dts
->> - r8a7745-iwg22d-sodimm.dts
->> - r8a77470-iwg23s-sbc.dts
->> - r8a774a1-hihope-rzg2m-ex.dts
->> - r8a774b1-hihope-rzg2n-ex.dts
->> - r8a774c0-ek874.dts
->> - r8a774e1-hihope-rzg2h-ex.dts
->> - r9a07g043u11-smarc-rzg2ul.dts
->> - r9a07g044c2-smarc-rzg2lc.dts
->> - r9a07g044l2-smarc-rzg2l.dts
->> - r9a07g054l2-smarc-rzv2l.dts
->>
->> On r8a774a1-hihope-rzg2m-ex, even though the hardware manual doesn't say
->> anything special about it in the "Change Point of the Input Data" chapter
->> or SMPCMP register description, it has been noticed that although all TAPs
->> probed in the tuning process are OK the SMPCMP is zero. For this updated
->> the renesas_sdhi_select_tuning() function to use priv->taps in case all
->> TAPs are OK.
->>
->> Fixes: 5fb6bf51f6d1 ("mmc: renesas_sdhi: improve TAP selection if all TAPs are good")
 >> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 > 
 > Thanks for your patch!
 > 
->> --- a/drivers/mmc/host/renesas_sdhi_core.c
->> +++ b/drivers/mmc/host/renesas_sdhi_core.c
->> @@ -641,7 +645,14 @@ static int renesas_sdhi_select_tuning(struct tmio_mmc_host *host)
->>          * identifying the change point of data.
->>          */
->>         if (bitmap_full(priv->taps, taps_size)) {
->> -               bitmap = priv->smpcmp;
->> +               /*
->> +                * On some setups it happens that all TAPS are OK but
->> +                * no change point of data. Any tap should be OK for this.
->> +                */
->> +               if (bitmap_empty(priv->smpcmp, taps_size))
->> +                       bitmap = priv->taps;
->> +               else
->> +                       bitmap = priv->smpcmp;
->>                 min_tap_row = 1;
-> 
-> I know nothing about tuning, but should min_tap_row still be 1?
-
-As of my understanding of this code, yes, it should be harmless in keeping
-it 1 as the above:
-	if (tap_cnt >= min_tap_row)
-
-will be true due to the fact that priv->taps is full.
-
-> Or can you fall back to the else case if priv->smpcmp is empty?
-> I.e. can this be simplified to:
-> 
->     if (!bitmap_empty(priv->smpcmp, taps_size) &&
->         bitmap_full(priv->taps, taps_size)) {
-
-This will not cover all the cases, if I understand your request.
-
-The idea was to keep the code as it previously was and, as I mentioned in
-the comment, it happens that priv->taps to be full but smpcmp to be empty
-(and code tries to address this scenario, too).
-
-As of my understanding of the tuning, if all the taps are OK ( ==
-priv->taps is full) then a change point of the input data should be
-reported though priv->smpcmp but that doesn't happens on
-r8a774a1-hihope-rzg2m-ex as of my experiments, thus I tried to address this
-case, too.
-
->             ...
->     } else {
->             ...
->     }
-> 
->>         } else {
->>                 bitmap = priv->taps;
->> @@ -706,7 +718,10 @@ static int renesas_sdhi_execute_tuning(struct mmc_host *mmc, u32 opcode)
->>                 if (mmc_send_tuning(mmc, opcode, &cmd_error) == 0)
->>                         set_bit(i, priv->taps);
+>> --- a/arch/arm64/boot/dts/renesas/rzg3s-smarc.dtsi
+>> +++ b/arch/arm64/boot/dts/renesas/rzg3s-smarc.dtsi
+>> @@ -6,6 +6,7 @@
+>>   */
 >>
->> -               if (sd_scc_read32(host, priv, SH_MOBILE_SDHI_SCC_SMPCMP) == 0)
->> +               val = sd_scc_read32(host, priv, SH_MOBILE_SDHI_SCC_SMPCMP);
-> 
-> The SH_MOBILE_SDHI_SCC_SMPCMP register is read even if its value is
-> not used below.
-> 
->> +               cmpngu_data = FIELD_GET(SH_MOBILE_SDHI_SCC_SMPCMP_CMPNGU_DATA, val);
->> +               cmpngd_data = FIELD_GET(SH_MOBILE_SDHI_SCC_SMPCMP_CMPNGD_DATA, val);
->> +               if (!cmd_error && cmpngu_data != cmpngd_data)
->>                         set_bit(i, priv->smpcmp);
-> 
-> So better move the SH_MOBILE_SDHI_SCC_SMPCMP register access
-> inside the if (), and change the below to else.
-
-Ok, agree.
-
-> 
+>>  #include <dt-bindings/gpio/gpio.h>
+>> +#include <dt-bindings/input/input.h>
+>>  #include <dt-bindings/pinctrl/rzg2l-pinctrl.h>
 >>
->>                 if (cmd_error)
+>>  / {
+>> @@ -14,6 +15,37 @@ aliases {
+>>                 mmc1 = &sdhi1;
+>>         };
+>>
+>> +       keys {
+> 
+> Do you mind if I s/keys/keypad/ while applying? ...
+
+Is not actually a keypad... there are 3 buttons in a corner of the board...
+
+I see only 2 entries in arm64 and arm DTS directory following this pattern
+for gpio-keys compatible node:
+
+ arch/arm/boot/dts/renesas/r8a7779-marzen.dts
+ arch/arm/boot/dts/renesas/r8a7779-marzen.dts
+
+But if you prefer it like this, I have nothing against.
+
+Just asking, do you have a particular reason for naming it like this?
+
+> 
+>> +               compatible = "gpio-keys";
+>> +
+>> +               key-1 {
+>> +                       interrupts = <RZG2L_GPIO(18, 0) IRQ_TYPE_EDGE_FALLING>;
+> 
+> Oh, the horror of interrupt controllers that don't support generating
+> interrupts on both edges...
+
+Yes.
+
+> 
+>> +                       interrupt-parent = <&pinctrl>;
+> 
+> ... and move these one level up, to avoid duplication?
+
+Moving it just near compatible will make the schema validation to fail with
+this (driver is working, though):
+
+arch/arm64/boot/dts/renesas/r9a08g045s33-smarc.dtb: keys:
+'interrupt-parent' does not match any of the regexes:
+'^(button|event|key|switch|(button|event|key|switch)-[a-z0-9-]+|[a-z0-9-]+-(button|event|key|switch))$',
+'pinctrl-[0-9]+'
+	from schema $id: http://devicetree.org/schemas/input/gpio-keys.yaml#
+
+Thank  you,
+Claudiu Beznea
+
+> 
+>> +                       linux,code = <KEY_1>;
+>> +                       label = "USER_SW1";
+>> +                       wakeup-source;
+>> +                       debounce-interval = <20>;
+>> +               };
+>> +
+>> +               key-2 {
+>> +                       interrupts = <RZG2L_GPIO(0, 1) IRQ_TYPE_EDGE_FALLING>;
+>> +                       interrupt-parent = <&pinctrl>;
+>> +                       linux,code = <KEY_2>;
+>> +                       label = "USER_SW2";
+>> +                       wakeup-source;
+>> +                       debounce-interval = <20>;
+>> +               };
+>> +
+>> +               key-3 {
+>> +                       interrupts = <RZG2L_GPIO(0, 3) IRQ_TYPE_EDGE_FALLING>;
+>> +                       interrupt-parent = <&pinctrl>;
+>> +                       linux,code = <KEY_3>;
+>> +                       label = "USER_SW3";
+>> +                       wakeup-source;
+>> +                       debounce-interval = <20>;
+>> +               };
+>> +       };
+>> +
+>>         vcc_sdhi1: regulator-vcc-sdhi1 {
+>>                 compatible = "regulator-fixed";
+>>                 regulator-name = "SDHI1 Vcc";
+> 
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> i.e. will queue in renesas-devel for v6.9, with the above fixed.
 > 
 > Gr{oetje,eeting}s,
 > 
