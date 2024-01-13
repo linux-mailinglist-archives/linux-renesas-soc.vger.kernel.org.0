@@ -1,188 +1,120 @@
-Return-Path: <linux-renesas-soc+bounces-1539-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-1540-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E8BD82C85E
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 13 Jan 2024 01:32:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E328182C953
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 13 Jan 2024 05:22:36 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 55E541C22AA9
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 13 Jan 2024 00:32:15 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 154DA1C21EDA
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 13 Jan 2024 04:22:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 55E1B7F6;
-	Sat, 13 Jan 2024 00:32:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 707C2DF5E;
+	Sat, 13 Jan 2024 04:22:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=atishpatra.org header.i=@atishpatra.org header.b="i7j9h0iC"
+	dkim=pass (2048-bit key) header.d=cogentembedded-com.20230601.gappssmtp.com header.i=@cogentembedded-com.20230601.gappssmtp.com header.b="eWoZ5X5a"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com [209.85.208.179])
+Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C0F5F4F9
-	for <linux-renesas-soc@vger.kernel.org>; Sat, 13 Jan 2024 00:32:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=atishpatra.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=atishpatra.org
-Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-2ccbbb5eb77so82649621fa.2
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 12 Jan 2024 16:32:09 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6B87DF4F
+	for <linux-renesas-soc@vger.kernel.org>; Sat, 13 Jan 2024 04:22:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cogentembedded.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cogentembedded.com
+Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-50ea9e189ebso8018577e87.3
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 12 Jan 2024 20:22:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=atishpatra.org; s=google; t=1705105928; x=1705710728; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=lzga2b4T8jG3LT+m5ymrl6IfG+dETUDO8ivjxyijZE0=;
-        b=i7j9h0iCFz/eSF0SJWrQi+uIUyPIqa86NfX4XoV/u/5WyOfAsrJcb1StnweUlvTyr2
-         ZQIt9OYjTt30604dsGrCmrb+ILnk4wPE3bxReZzJJgPO4sLAABJh+80nWbK4cwUW0c1Z
-         Xs5k2/sGJCF2skjiLZM0i1Ewa/3d7F1g3FvDw=
+        d=cogentembedded-com.20230601.gappssmtp.com; s=20230601; t=1705119750; x=1705724550; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=vS+L0Cm6LHGXUIGYvUEf/XfnPHJWEGKxQ2S4NgJfQXE=;
+        b=eWoZ5X5aJ9X9vYT2Bg04rXk2+jUECS8GnWxfEfn8oGQKYZ8CzyLgJ1n29q2FwO/VMZ
+         TFSZ0dnENXjee4VBF4G8VtWsRj9FiYYrCwosteh7eDRpqzwNkeZZRzqjUinABmq6+NI1
+         G0d+KEjE67qN/F4fut8HbLa01U1CdvxjiTIv4X3zbuczrzsrhxrAqiJIOwU0hRiDTSAe
+         71KmP+upUz2/TLymD4yS69iTYtjjMDcQ8D3ukrdWe1iV92ZKlGpe++2TOgysSzJ/xp5N
+         S56t8mPJBMj6iWVBJ+wO1cs1SWl73GP10YYokoKm64OYXbYwMHjHj7DtGuM+paN3MjTd
+         0TRg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705105928; x=1705710728;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=lzga2b4T8jG3LT+m5ymrl6IfG+dETUDO8ivjxyijZE0=;
-        b=wonLSK1u7q/EyALvnzYJ4nGW/9jAAb+/djl8a6I94ZQ+Ab+z8a0LGAlEoqT1SdctTR
-         Ay7PD+t5RXHB0wr8ScvlQbarLmm3Btd7foXZqvzIwzl+LiyXwlOzqKBB6S+443+VVMtN
-         TXDk/PEG54cXRObf0TPPIDsvPAcXBrFql4HFVBf0KkibHnuBsetnMysC2efCpNIJuExH
-         j3kT+4a1qj+JTpOXJQqT+3GhDkQ03XfFdO9FaB8ioMSFTlzh0XgmJzNr8mqYDd9R2Qpq
-         kTcdLxP6ybKb/W5Icc5I0vuz4MNez8SUEdDo4w7fTzS2Je5Mn3GE/+aUulLFXX7SymdG
-         8bhw==
-X-Gm-Message-State: AOJu0Yzux1bv22q2LrSOUn5JzvXX3xs+plbJtqqlBDPwx5MWpvu8X9JO
-	NqKdtC+nJLmXlQaRC1KIOAaZybe4MGkuimXJI1GPxb1Ua/6X
-X-Google-Smtp-Source: AGHT+IFYVmL/8V0hnK36wD0F+Tj56+5iO0c+zitkdAxQYpkX5w2AMpz8U0JxqKR9numdiRkolOnOQ4vwuN8VuMQU6Xw=
-X-Received: by 2002:a2e:b619:0:b0:2cc:68f0:c10d with SMTP id
- r25-20020a2eb619000000b002cc68f0c10dmr1029870ljn.34.1705105927728; Fri, 12
- Jan 2024 16:32:07 -0800 (PST)
+        d=1e100.net; s=20230601; t=1705119750; x=1705724550;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=vS+L0Cm6LHGXUIGYvUEf/XfnPHJWEGKxQ2S4NgJfQXE=;
+        b=Iy77j0SKyC6WXA52vPpnKUQGPoZ5iF7BWD4s8TiUWGwO9YmvC3CeMivyrxtJJgeLhB
+         CpW7zD0Au6UrQPXGiqJ8naRGPwK1u9bwEz+9+O3fPrVKt39+n2c9cOSfue7TIn1oIDjK
+         vcrIUWbSpQfeJTlrznKdiTVNa+si9Xmq5qlGe7zP8uz5a8RLyon30T3nOrnor61KJJvg
+         cLcuVSaQzV0thdERSN3ck6Ze8S8DzzATETJ9OXbt/khb+YsKbxfa1h1f3r9KKWIu2oG6
+         YqobP/xUqkLlmYRhq0oFlnPj7YUjMsUnh81WJ9pxcp9UxovUl4L/7OmR+u2JhASsQp3d
+         0XCA==
+X-Gm-Message-State: AOJu0YwgNlVyXQPzAv7eIhGbSDKHtnRTOumr8BFps2I+kquG+5Aygn9L
+	c8XS+LfbIP5BGthGbEjmSTcv4prHj4RuAQ==
+X-Google-Smtp-Source: AGHT+IGyZAS8k6b7yIU8QdArXsZAO6Moe7/hurvssB3FoaDxzskCyCpPG4rUxeqWBB16o+5YxVFLPA==
+X-Received: by 2002:a19:e04d:0:b0:50e:aa46:757b with SMTP id g13-20020a19e04d000000b0050eaa46757bmr1036342lfj.4.1705119749617;
+        Fri, 12 Jan 2024 20:22:29 -0800 (PST)
+Received: from cobook.home ([91.231.66.25])
+        by smtp.gmail.com with ESMTPSA id c15-20020a05651221af00b0050e73a2ae87sm710788lft.43.2024.01.12.20.22.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 12 Jan 2024 20:22:29 -0800 (PST)
+From: Nikita Yushchenko <nikita.yoush@cogentembedded.com>
+To: "David S. Miller" <davem@davemloft.net>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>
+Cc: Sergey Shtylyov <s.shtylyov@omp.ru>,
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
+	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+	Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+	netdev@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Nikita Yushchenko <nikita.yoush@cogentembedded.com>
+Subject: [PATCH] net: ravb: Fix dma_addr_t truncation in error case
+Date: Sat, 13 Jan 2024 10:22:21 +0600
+Message-Id: <20240113042221.480650-1-nikita.yoush@cogentembedded.com>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240110073917.2398826-1-peterlin@andestech.com>
- <20240110073917.2398826-5-peterlin@andestech.com> <CAOnJCUJ0fN5=+b4jDx+NPqUwgwGKuBNYt7d86dXYNyjzUYFAWQ@mail.gmail.com>
- <20240113-sensuous-scraggly-dee35f3e213f@spud>
-In-Reply-To: <20240113-sensuous-scraggly-dee35f3e213f@spud>
-From: Atish Patra <atishp@atishpatra.org>
-Date: Fri, 12 Jan 2024 16:31:56 -0800
-Message-ID: <CAOnJCU+JjcpH0t3kGcdM4hjj-di9UKWwtaEpMdwQmOQSnEtKJg@mail.gmail.com>
-Subject: Re: [PATCH v7 04/16] dt-bindings: riscv: Add Andes interrupt
- controller compatible string
-To: Conor Dooley <conor@kernel.org>
-Cc: Yu Chien Peter Lin <peterlin@andestech.com>, acme@kernel.org, adrian.hunter@intel.com, 
-	ajones@ventanamicro.com, alexander.shishkin@linux.intel.com, 
-	andre.przywara@arm.com, anup@brainfault.org, aou@eecs.berkeley.edu, 
-	conor+dt@kernel.org, conor.dooley@microchip.com, devicetree@vger.kernel.org, 
-	dminus@andestech.com, evan@rivosinc.com, geert+renesas@glider.be, 
-	guoren@kernel.org, heiko@sntech.de, irogers@google.com, 
-	jernej.skrabec@gmail.com, jolsa@kernel.org, jszhang@kernel.org, 
-	krzysztof.kozlowski+dt@linaro.org, linux-arm-kernel@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org, linux-riscv@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev, locus84@andestech.com, magnus.damm@gmail.com, 
-	mark.rutland@arm.com, mingo@redhat.com, n.shubin@yadro.com, 
-	namhyung@kernel.org, palmer@dabbelt.com, paul.walmsley@sifive.com, 
-	peterz@infradead.org, prabhakar.mahadev-lad.rj@bp.renesas.com, 
-	rdunlap@infradead.org, robh+dt@kernel.org, samuel@sholland.org, 
-	sunilvl@ventanamicro.com, tglx@linutronix.de, tim609@andestech.com, 
-	uwu@icenowy.me, wens@csie.org, will@kernel.org, ycliang@andestech.com, 
-	inochiama@outlook.com, chao.wei@sophgo.com, unicorn_wang@outlook.com, 
-	wefu@redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Fri, Jan 12, 2024 at 4:19=E2=80=AFPM Conor Dooley <conor@kernel.org> wro=
-te:
->
-> On Fri, Jan 12, 2024 at 03:50:15PM -0800, Atish Patra wrote:
-> > On Tue, Jan 9, 2024 at 11:40=E2=80=AFPM Yu Chien Peter Lin
-> > <peterlin@andestech.com> wrote:
-> > >
-> > > Add "andestech,cpu-intc" compatible string to indicate that
-> > > Andes specific local interrupt is supported on the core,
-> > > e.g. AX45MP cores have 3 types of non-standard local interrupt
-> > > which can be handled in supervisor mode:
-> > >
-> >
-> > PATCH1 in this series renames everything from ANDESTECH to ANDES to be
-> > consistent.
-> > Here you are adding DT binding with "andestech". Is there any
-> > fundamental difference between these two to demand
-> > this change ?
->
-> This one is the vendor prefix and the company has been assigned
-> "andestech" and they're not getting a second one. The rename of the
+In ravb_start_xmit(), ravb driver uses u32 variable to store result of
+dma_map_single() call. Since ravb hardware has 32-bit address fields in
+descriptors, this works properly when mapping is successful - it is
+platform's job to provide mapping addresses that fit into hardware
+limitations.
 
-Thanks for the clarification.
+However, in failure case dma_map_single() returns DMA_MAPPING_ERROR
+constant that is 64-bit when dma_addr_t is 64-bit. Storing this constant
+in u32 leads to truncation, and further call to dma_mapping_error()
+fails to notice the error.
 
-> variables is a bit gratuitous tbf.
->
+Fix that by storing result of dma_map_single() in a dma_addr_t
+variable.
 
-I felt the same.
+Fixes: c156633f1353 ("Renesas Ethernet AVB driver proper")
+Signed-off-by: Nikita Yushchenko <nikita.yoush@cogentembedded.com>
+---
+ drivers/net/ethernet/renesas/ravb_main.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> Cheers,
-> Conor.
->
-> > FYI: I don't mind either way as I don't have skin in the game. Just
-> > something I noticed while reviewing the series.
-> >
-> > > - Slave port ECC error interrupt
-> > > - Bus write transaction error interrupt
-> > > - Performance monitor overflow interrupt
-> > >
-> > > These interrupts are enabled/disabled via a custom register
-> > > SLIE instead of the standard interrupt enable register SIE.
-> > >
-> > > Signed-off-by: Yu Chien Peter Lin <peterlin@andestech.com>
-> > > Acked-by: Conor Dooley <conor.dooley@microchip.com>
-> > > Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > > ---
-> > > Changes v1 -> v2:
-> > >   - New patch
-> > > Changes v2 -> v3:
-> > >   - Updated commit message
-> > >   - Fixed possible compatibles for Andes INTC
-> > > Changes v3 -> v4:
-> > >   - Add const entry instead of enum (Suggested by Conor)
-> > > Changes v4 -> v5:
-> > >   - Include Conor's Acked-by
-> > >   - Include Prabhakar's Reviewed-by
-> > > Changes v5 -> v6:
-> > >   - No change
-> > > Changes v6 -> v7:
-> > >   - No change
-> > > ---
-> > >  Documentation/devicetree/bindings/riscv/cpus.yaml | 6 +++++-
-> > >  1 file changed, 5 insertions(+), 1 deletion(-)
-> > >
-> > > diff --git a/Documentation/devicetree/bindings/riscv/cpus.yaml b/Docu=
-mentation/devicetree/bindings/riscv/cpus.yaml
-> > > index 23646b684ea2..33c2b620a59f 100644
-> > > --- a/Documentation/devicetree/bindings/riscv/cpus.yaml
-> > > +++ b/Documentation/devicetree/bindings/riscv/cpus.yaml
-> > > @@ -101,7 +101,11 @@ properties:
-> > >          const: 1
-> > >
-> > >        compatible:
-> > > -        const: riscv,cpu-intc
-> > > +        oneOf:
-> > > +          - items:
-> > > +              - const: andestech,cpu-intc
-> > > +              - const: riscv,cpu-intc
-> > > +          - const: riscv,cpu-intc
-> > >
-> > >        interrupt-controller: true
-> > >
-> > > --
-> > > 2.34.1
-> > >
-> >
-> >
-> > --
-> > Regards,
-> > Atish
+diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
+index 8649b3e90edb..0e3731f50fc2 100644
+--- a/drivers/net/ethernet/renesas/ravb_main.c
++++ b/drivers/net/ethernet/renesas/ravb_main.c
+@@ -1949,7 +1949,7 @@ static netdev_tx_t ravb_start_xmit(struct sk_buff *skb, struct net_device *ndev)
+ 	struct ravb_tstamp_skb *ts_skb;
+ 	struct ravb_tx_desc *desc;
+ 	unsigned long flags;
+-	u32 dma_addr;
++	dma_addr_t dma_addr;
+ 	void *buffer;
+ 	u32 entry;
+ 	u32 len;
+-- 
+2.39.2
 
-
-
---=20
-Regards,
-Atish
 
