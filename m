@@ -1,148 +1,156 @@
-Return-Path: <linux-renesas-soc+bounces-1544-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-1545-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 871C782CAEB
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 13 Jan 2024 10:48:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94C5782CBBB
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 13 Jan 2024 11:14:17 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 09ABA1F230FC
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 13 Jan 2024 09:48:06 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3276B1F229A7
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 13 Jan 2024 10:14:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 119417E6;
-	Sat, 13 Jan 2024 09:48:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9F8B612E67;
+	Sat, 13 Jan 2024 10:14:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="eMWZUR++"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mx01.omp.ru (mx01.omp.ru [90.154.21.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 762F817E8;
-	Sat, 13 Jan 2024 09:47:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=omp.ru
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=omp.ru
-Received: from [192.168.1.105] (31.173.83.83) by msexch01.omp.ru (10.188.4.12)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.1258.12; Sat, 13 Jan
- 2024 12:47:49 +0300
-Subject: Re: [PATCH] net: ravb: Fix wrong dma_unmap_single() calls in ring
- unmapping
-To: Nikita Yushchenko <nikita.yoush@cogentembedded.com>, "David S. Miller"
-	<davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
-	<pabeni@redhat.com>
-CC: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>, Yoshihiro Shimoda
-	<yoshihiro.shimoda.uh@renesas.com>, Wolfram Sang
-	<wsa+renesas@sang-engineering.com>, =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?=
-	<u.kleine-koenig@pengutronix.de>, <netdev@vger.kernel.org>,
-	<linux-renesas-soc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-References: <20240113044721.481131-1-nikita.yoush@cogentembedded.com>
-From: Sergey Shtylyov <s.shtylyov@omp.ru>
-Organization: Open Mobile Platform
-Message-ID: <c40ebf74-e7a7-4fa6-098c-42341a030bb5@omp.ru>
-Date: Sat, 13 Jan 2024 12:47:48 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D17B317542
+	for <linux-renesas-soc@vger.kernel.org>; Sat, 13 Jan 2024 10:14:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-40e6fa6f9e7so437265e9.1
+        for <linux-renesas-soc@vger.kernel.org>; Sat, 13 Jan 2024 02:14:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=tuxon.dev; s=google; t=1705140842; x=1705745642; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=jDetwflOykzL5RhAxaaI/u51dq18i05MsncmHilsi1o=;
+        b=eMWZUR++XVu80xgAe4rMfMrjHqbNTb/y1pf8w/n8Irs1u9FtqFslwBHYhLqRoDX47x
+         CHJWlp3BRbaGy58hbGd5rsvP99YPo5XUQHVWqeREW7+eK3ju0vP2LUQ2bcRnSq5bW2PF
+         tg3u3vTheXWoXhRqIyZCcDvricY8Ux77ZI+YLl3T8TvGM134HUgA/FZToqfbN9mAlIvs
+         ebdSFMicIVUcltpCPh1/ABjttPscdc5b3XNiUwlqr6fSvB/Yw9voDx/EGzj4+2QggTCr
+         qcWbuSB5OX1vg9LiVWXLHCErft7uTOoUx51yWZUb8r17vgt8DoUdErqCKUy3UjE32UZR
+         5esw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1705140842; x=1705745642;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=jDetwflOykzL5RhAxaaI/u51dq18i05MsncmHilsi1o=;
+        b=KBoE6+oZeT9tAvELI+IuyQVB2TvBBTO3uOfftVSYuXH57tvQ8GD6PgzyvZobWYMiu4
+         i+qD9AenubOD/qiIz1d2B8NQWTNWzKm8c8fRodOtr2YlcvCWHhLMX2sK5sZpv3/bHlo2
+         7Q1devAtJB6yJe1ub+kGpCKKeOxEB0RpJGCsR+T18VG8KSF9DKS5L+OtG66RYXra0H6j
+         YFV+hJpMls9WT6m6yvOFVl9UZFBM8P5xZWc4g3N7hwGS/8/5pILfobjBzA0ffQw57Iut
+         dOQxm/tYjg7/zY3WRfUBABDmxDPbqlLYCfJNijkaPk0G/WVyIaGscov66joX7hqDvts4
+         Rpkg==
+X-Gm-Message-State: AOJu0YwwsEbx2NOaZV+v8DS6w+XkGRQrpPpirWDtQiFcmoynyH7V13sR
+	Rrqa1MnDlmyn7PokI6JTbbiB0eA2MpH9iQ==
+X-Google-Smtp-Source: AGHT+IFZ3DCtVK91Rdao2Q9Ai8lXJwRVm4MUO6nNsmnW7POWKovY0EtAWYNzwHjKXSN5iXVGrgWmqw==
+X-Received: by 2002:a05:600c:4f50:b0:40e:5aa4:44f9 with SMTP id m16-20020a05600c4f5000b0040e5aa444f9mr1622321wmq.10.1705140841757;
+        Sat, 13 Jan 2024 02:14:01 -0800 (PST)
+Received: from [192.168.50.4] ([82.78.167.46])
+        by smtp.gmail.com with ESMTPSA id z10-20020a05600c0a0a00b0040e4bcfd826sm8976075wmp.47.2024.01.13.02.14.00
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 13 Jan 2024 02:14:01 -0800 (PST)
+Message-ID: <a1ef3681-a3c9-47fd-ad9e-4e14182b1c1d@tuxon.dev>
+Date: Sat, 13 Jan 2024 12:13:59 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <20240113044721.481131-1-nikita.yoush@cogentembedded.com>
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] arm64: dts: renesas: rzg3s-smarc: Add gpio keys
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: msexch01.omp.ru (10.188.4.12) To msexch01.omp.ru
- (10.188.4.12)
-X-KSE-ServerInfo: msexch01.omp.ru, 9
-X-KSE-AntiSpam-Interceptor-Info: scan successful
-X-KSE-AntiSpam-Version: 6.1.0, Database issued on: 01/13/2024 09:34:15
-X-KSE-AntiSpam-Status: KAS_STATUS_NOT_DETECTED
-X-KSE-AntiSpam-Method: none
-X-KSE-AntiSpam-Rate: 59
-X-KSE-AntiSpam-Info: Lua profiles 182619 [Jan 13 2024]
-X-KSE-AntiSpam-Info: Version: 6.1.0.3
-X-KSE-AntiSpam-Info: Envelope from: s.shtylyov@omp.ru
-X-KSE-AntiSpam-Info: LuaCore: 7 0.3.7 6d6bf5bd8eea7373134f756a2fd73e9456bb7d1a
-X-KSE-AntiSpam-Info: {rep_avail}
-X-KSE-AntiSpam-Info: {Tracking_from_domain_doesnt_match_to}
-X-KSE-AntiSpam-Info: {relay has no DNS name}
-X-KSE-AntiSpam-Info: {SMTP from is not routable}
-X-KSE-AntiSpam-Info: {Found in DNSBL: 31.173.83.83 in (user)
- b.barracudacentral.org}
-X-KSE-AntiSpam-Info: {Found in DNSBL: 31.173.83.83 in (user) dbl.spamhaus.org}
-X-KSE-AntiSpam-Info:
-	127.0.0.199:7.1.2;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;omp.ru:7.1.1
-X-KSE-AntiSpam-Info: ApMailHostAddress: 31.173.83.83
-X-KSE-AntiSpam-Info: {DNS response errors}
-X-KSE-AntiSpam-Info: Rate: 59
-X-KSE-AntiSpam-Info: Status: not_detected
-X-KSE-AntiSpam-Info: Method: none
-X-KSE-AntiSpam-Info: Auth:dmarc=temperror header.from=omp.ru;spf=temperror
- smtp.mailfrom=omp.ru;dkim=none
-X-KSE-Antiphishing-Info: Clean
-X-KSE-Antiphishing-ScanningType: Heuristic
-X-KSE-Antiphishing-Method: None
-X-KSE-Antiphishing-Bases: 01/13/2024 09:38:00
-X-KSE-Antivirus-Interceptor-Info: scan successful
-X-KSE-Antivirus-Info: Clean, bases: 1/13/2024 6:00:00 AM
-X-KSE-Attachment-Filter-Triggered-Rules: Clean
-X-KSE-Attachment-Filter-Triggered-Filters: Clean
-X-KSE-BulkMessagesFiltering-Scan-Result: InTheLimit
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: magnus.damm@gmail.com, robh+dt@kernel.org,
+ krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+ linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org,
+ Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+References: <20231227130810.2744550-1-claudiu.beznea.uj@bp.renesas.com>
+ <CAMuHMdVnsJfOtZPpr+_MRNkx-bSXrCm8Hy_j6Gy58WnGn_kaMA@mail.gmail.com>
+ <30608a28-b1e3-4ad3-aad5-1033eb8adc6f@tuxon.dev>
+ <CAMuHMdXokhEEARUSSY_x74A0eRGpeJ2Y30neMP57fnjRJ7HQeg@mail.gmail.com>
+From: claudiu beznea <claudiu.beznea@tuxon.dev>
+In-Reply-To: <CAMuHMdXokhEEARUSSY_x74A0eRGpeJ2Y30neMP57fnjRJ7HQeg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On 1/13/24 7:47 AM, Nikita Yushchenko wrote:
+Hi, Geert,
 
-> When unmapping ring entries on Rx ring release, ravb driver needs to
-> unmap only those entries that have been mapped successfully.
+On 12.01.2024 18:20, Geert Uytterhoeven wrote:
+> Hi Claudiu,
 > 
-> To check if an entry needs to be unmapped, currently the address stored
-> inside descriptor is passed to dma_mapping_error() call. But, address
-> field inside descriptor is 32-bit, while dma_mapping_error() is
-> implemented by comparing it's argument with DMA_MAPPING_ERROR constant
-> that is 64-bit when dma_addr_t is 64-bit. So the comparison gets wrong,
-> resulting into ravb driver calling dma_unnmap_single() for 0xffffffff
-
-   It's dma_unmap_single(). :-)
-
-> address.
+> On Fri, Jan 12, 2024 at 4:38 PM claudiu beznea <claudiu.beznea@tuxon.dev> wrote:
+>> On 12.01.2024 15:55, Geert Uytterhoeven wrote:
+>>> On Wed, Dec 27, 2023 at 2:08 PM Claudiu <claudiu.beznea@tuxon.dev> wrote:
+>>>> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+>>>>
+>>>> RZ SMARC Carrier II board has 3 user buttons called USER_SW1, USER_SW2,
+>>>> USER_SW3. Add a DT node in device tree to propertly instantiate the
+>>>> gpio-keys driver for these buttons.
+>>>>
+>>>> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+>>>
+>>> Thanks for your patch!
+>>>
+>>>> --- a/arch/arm64/boot/dts/renesas/rzg3s-smarc.dtsi
+>>>> +++ b/arch/arm64/boot/dts/renesas/rzg3s-smarc.dtsi
+>>>> @@ -14,6 +15,37 @@ aliases {
+>>>>                 mmc1 = &sdhi1;
+>>>>         };
+>>>>
+>>>> +       keys {
+>>>
+>>> Do you mind if I s/keys/keypad/ while applying? ...
+>>
+>> Is not actually a keypad... there are 3 buttons in a corner of the board...
+>>
+>> I see only 2 entries in arm64 and arm DTS directory following this pattern
+>> for gpio-keys compatible node:
+>>
+>>  arch/arm/boot/dts/renesas/r8a7779-marzen.dts
+>>  arch/arm/boot/dts/renesas/r8a7779-marzen.dts
+>>
+>> But if you prefer it like this, I have nothing against.
+>>
+>> Just asking, do you have a particular reason for naming it like this?
 > 
-> When the ring entries are mapped, in case of mapping failure the driver
-> sets descriptor's size field to zero (which is a signal to hardware to
-> not use this descriptor). Fix ring unmapping to detect if an entry needs
-> to be unmapped by checking for zero size field.
+> See the discussion in [1], and the resulting patch[2], which added the
+> (so far) single user in arch/arm/boot/dts/renesas/r8a7779-marzen.dts
 > 
-> Fixes: a47b70ea86bd ("ravb: unmap descriptors when freeing rings")
-> Signed-off-by: Nikita Yushchenko <nikita.yoush@cogentembedded.com>
+> [1] https://lore.kernel.org/all/20231023144134.1881973-1-geert+renesas@glider.be
 
-Reviewed-by: Sergey Shtylyov <s.shtylyov@omp.ru>
+Ah, I remember part of this discussion. Good for me to rename it as you
+proposed.
 
-[...]
-
-> diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
-> index 0e3731f50fc2..4d4b5d44c4e7 100644
-> --- a/drivers/net/ethernet/renesas/ravb_main.c
-> +++ b/drivers/net/ethernet/renesas/ravb_main.c
-> @@ -256,8 +256,7 @@ static void ravb_rx_ring_free_gbeth(struct net_device *ndev, int q)
->  	for (i = 0; i < priv->num_rx_ring[q]; i++) {
->  		struct ravb_rx_desc *desc = &priv->gbeth_rx_ring[i];
->  
-> -		if (!dma_mapping_error(ndev->dev.parent,
-> -				       le32_to_cpu(desc->dptr)))
-> +		if (le16_to_cpu(desc->ds_cc) != 0)
-
-   It's not that != 0 or le16_to_cpu() are necessary here but we're on
-the little-endian platforms anyways...
-
-[...]
-> @@ -281,8 +280,7 @@ static void ravb_rx_ring_free_rcar(struct net_device *ndev, int q)
->  	for (i = 0; i < priv->num_rx_ring[q]; i++) {
->  		struct ravb_ex_rx_desc *desc = &priv->rx_ring[q][i];
->  
-> -		if (!dma_mapping_error(ndev->dev.parent,
-> -				       le32_to_cpu(desc->dptr)))
-> +		if (le16_to_cpu(desc->ds_cc) != 0)
->  			dma_unmap_single(ndev->dev.parent,
->  					 le32_to_cpu(desc->dptr),
->  					 RX_BUF_SZ,
-
-MBR, Sergey
+> [2] https://lore.kernel.org/all/eec1ccfb75c6215428609fdcaf3a37c75fe1fc87.1698228163.git.geert+renesas@glider.be
+>>
+>>>> +                       interrupt-parent = <&pinctrl>;
+>>>
+>>> ... and move these one level up, to avoid duplication?
+>>
+>> Moving it just near compatible will make the schema validation to fail with
+>> this (driver is working, though):
+>>
+>> arch/arm64/boot/dts/renesas/r9a08g045s33-smarc.dtb: keys:
+>> 'interrupt-parent' does not match any of the regexes:
+>> '^(button|event|key|switch|(button|event|key|switch)-[a-z0-9-]+|[a-z0-9-]+-(button|event|key|switch))$',
+>> 'pinctrl-[0-9]+'
+>>         from schema $id: http://devicetree.org/schemas/input/gpio-keys.yaml#
+> 
+> Oops, I had completely forgotten r8a7779-marzen.dts triggers this, too...
+> Let's keep it for now.
+> 
+> Gr{oetje,eeting}s,
+> 
+>                         Geert
+> 
 
