@@ -1,94 +1,142 @@
-Return-Path: <linux-renesas-soc+bounces-1552-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-1553-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67F4682D003
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 14 Jan 2024 09:34:17 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7808A82D08A
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 14 Jan 2024 13:38:18 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id F1E7F1F213DB
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 14 Jan 2024 08:34:16 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id F352B282935
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 14 Jan 2024 12:38:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 00C6B1877;
-	Sun, 14 Jan 2024 08:34:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="abAvIo5G"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 54ECA626;
+	Sun, 14 Jan 2024 12:38:11 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mx01.omp.ru (mx01.omp.ru [90.154.21.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 002EB186B
-	for <linux-renesas-soc@vger.kernel.org>; Sun, 14 Jan 2024 08:34:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=JYdZ
-	TJOgA1hh+qhARPKertZnUoZS1wEqx8XXCR7Nh7E=; b=abAvIo5GDVhVYeCW14FO
-	+JtO4zzzYsGFGUrxbeTDeQjMwvWxyI9+0CfBtUpoEjJazQ0yUVp4phDFGQsSw6Jn
-	LJu9H5FcPYq6iBNWYySsIq4ifLY6gMKmlEPxkhZblXqS4VnXUdOB3z3FLuBJ3GGJ
-	tuYXYdsy80B9jdPh5M7qShsRe0Kt92fBIUOxI2IAJacFgpqVHrG5Kujj+RxgJ1co
-	yZqO/5m23i8DSGDOz2GR0ulNqjwfHGcXiuwKwivy1vtvPbVYtjiDcVWnNz8SH1KW
-	DwEpbZwJX5DxekCwP3aXx1G3vn1QITGl419J/Nm4AEv0yRXZdHGah3593FVV1zri
-	cg==
-Received: (qmail 1756940 invoked from network); 14 Jan 2024 09:34:06 +0100
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 14 Jan 2024 09:34:06 +0100
-X-UD-Smtp-Session: l3s3148p1@5GCbwuMOeF5Qk7GI
-Date: Sun, 14 Jan 2024 09:34:05 +0100
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: linux-i2c@vger.kernel.org
-Cc: linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH] MAINTAINERS: use proper email for my I2C work
-Message-ID: <ZaOcfeFY4lgtOmn8@shikoro>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	linux-i2c@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-References: <20240113193942.2388-2-wsa+renesas@sang-engineering.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8551820EE;
+	Sun, 14 Jan 2024 12:38:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=omp.ru
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=omp.ru
+Received: from [192.168.1.105] (178.176.75.181) by msexch01.omp.ru
+ (10.188.4.12) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.1258.12; Sun, 14 Jan
+ 2024 15:22:47 +0300
+Subject: Re: [PATCH net-next v3 17/19] net: ravb: Return cached statistics if
+ the interface is down
+To: claudiu beznea <claudiu.beznea@tuxon.dev>, <davem@davemloft.net>,
+	<edumazet@google.com>, <kuba@kernel.org>, <pabeni@redhat.com>,
+	<richardcochran@gmail.com>, <p.zabel@pengutronix.de>,
+	<yoshihiro.shimoda.uh@renesas.com>, <wsa+renesas@sang-engineering.com>
+CC: <netdev@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <geert+renesas@glider.be>, Claudiu Beznea
+	<claudiu.beznea.uj@bp.renesas.com>
+References: <20240105082339.1468817-1-claudiu.beznea.uj@bp.renesas.com>
+ <20240105082339.1468817-18-claudiu.beznea.uj@bp.renesas.com>
+ <af5ab82e-5904-c33b-983e-b37844dab3f5@omp.ru>
+ <aed6534b-ad5e-4f5c-9861-9a784968adcc@tuxon.dev>
+From: Sergey Shtylyov <s.shtylyov@omp.ru>
+Organization: Open Mobile Platform
+Message-ID: <28754087-8685-015e-7e8a-d8c3ed26930c@omp.ru>
+Date: Sun, 14 Jan 2024 15:22:47 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="+BUwKiRL+Rj5C8ab"
-Content-Disposition: inline
-In-Reply-To: <20240113193942.2388-2-wsa+renesas@sang-engineering.com>
+In-Reply-To: <aed6534b-ad5e-4f5c-9861-9a784968adcc@tuxon.dev>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: msexch01.omp.ru (10.188.4.12) To msexch01.omp.ru
+ (10.188.4.12)
+X-KSE-ServerInfo: msexch01.omp.ru, 9
+X-KSE-AntiSpam-Interceptor-Info: scan successful
+X-KSE-AntiSpam-Version: 6.1.0, Database issued on: 01/14/2024 12:05:15
+X-KSE-AntiSpam-Status: KAS_STATUS_NOT_DETECTED
+X-KSE-AntiSpam-Method: none
+X-KSE-AntiSpam-Rate: 59
+X-KSE-AntiSpam-Info: Lua profiles 182622 [Jan 14 2024]
+X-KSE-AntiSpam-Info: Version: 6.1.0.3
+X-KSE-AntiSpam-Info: Envelope from: s.shtylyov@omp.ru
+X-KSE-AntiSpam-Info: LuaCore: 7 0.3.7 6d6bf5bd8eea7373134f756a2fd73e9456bb7d1a
+X-KSE-AntiSpam-Info: {rep_avail}
+X-KSE-AntiSpam-Info: {Tracking_from_domain_doesnt_match_to}
+X-KSE-AntiSpam-Info: {relay has no DNS name}
+X-KSE-AntiSpam-Info: {SMTP from is not routable}
+X-KSE-AntiSpam-Info: {Found in DNSBL: 178.176.75.181 in (user)
+ b.barracudacentral.org}
+X-KSE-AntiSpam-Info:
+	omp.ru:7.1.1;127.0.0.199:7.1.2;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1
+X-KSE-AntiSpam-Info: ApMailHostAddress: 178.176.75.181
+X-KSE-AntiSpam-Info: {DNS response errors}
+X-KSE-AntiSpam-Info: Rate: 59
+X-KSE-AntiSpam-Info: Status: not_detected
+X-KSE-AntiSpam-Info: Method: none
+X-KSE-AntiSpam-Info: Auth:dmarc=temperror header.from=omp.ru;spf=temperror
+ smtp.mailfrom=omp.ru;dkim=none
+X-KSE-Antiphishing-Info: Clean
+X-KSE-Antiphishing-ScanningType: Heuristic
+X-KSE-Antiphishing-Method: None
+X-KSE-Antiphishing-Bases: 01/14/2024 12:10:00
+X-KSE-Antivirus-Interceptor-Info: scan successful
+X-KSE-Antivirus-Info: Clean, bases: 1/14/2024 10:56:00 AM
+X-KSE-Attachment-Filter-Triggered-Rules: Clean
+X-KSE-Attachment-Filter-Triggered-Filters: Clean
+X-KSE-BulkMessagesFiltering-Scan-Result: InTheLimit
 
+On 1/10/24 4:17 PM, claudiu beznea wrote:
 
---+BUwKiRL+Rj5C8ab
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+[...]
 
-On Sat, Jan 13, 2024 at 08:39:43PM +0100, Wolfram Sang wrote:
-> Renesas is solely funding my I2C maintenance meanwhile, give them credit
-> for that by using this email address.
->=20
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+>>> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+>>>
+>>> Return the cached statistics in case the interface is down. There should be
+>>> no drawback to this, as cached statistics are updated in ravb_close().
+>>>
+>>> The commit prepares the code for the addition of runtime PM support.
+>>>
+>>> Suggested-by: Sergey Shtylyov <s.shtylyov@omp.ru>
+>>> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+>> [...]
+>>
+>>> diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
+>>> index 76035afd4054..168b6208db37 100644
+>>> --- a/drivers/net/ethernet/renesas/ravb_main.c
+>>> +++ b/drivers/net/ethernet/renesas/ravb_main.c
+>>> @@ -2117,6 +2117,9 @@ static struct net_device_stats *ravb_get_stats(struct net_device *ndev)
+>>>  	const struct ravb_hw_info *info = priv->info;
+>>>  	struct net_device_stats *nstats, *stats0, *stats1;
+>>>  
+>>> +	if (!(ndev->flags & IFF_UP))
+>>
+>>    Well, I guess it's OK to read the counters in the reset mode... BUT
+>> won't this race with pm_runtime_put_autosuspend() when its call gets added
+>> to ravb_close()?
+> 
+> I re-checked it and, yes, this is true. A sync runtime suspend would be
+> better here. But, as of my current investigation, even with this
 
-Applied to for-next, thanks!
+   No, the sync form of the RPM call won't fix the race...
 
+> ravb_get_stats() can still race with ravb_open()/ravb_close() as they are
+> called though different locking scheme (ravb_open()/ravb_close() is called
+> with rtnl locked while ravb_get_stats() can be called only with
+> dev_base_lock rwlock locked for reading).
+> 
+> A mutex in the driver should to help with this.
 
---+BUwKiRL+Rj5C8ab
-Content-Type: application/pgp-signature; name="signature.asc"
+   Why don't you want to mimic what the sh_eth driver does?
 
------BEGIN PGP SIGNATURE-----
+> Thank you,
+> Claudiu Beznea
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmWjnHkACgkQFA3kzBSg
-KbZbEA/+IHInM7qp/6WOsRQZbfinbSstUjMaV1BuF2nKf1IXzxfabsbH5okAuh1B
-8xOEMjuvtjiVd0uf89Uk3B0qgOnt9y1ydBPPUwe91h6MpC7AWpW1gGw5LLcfCX2Y
-qIlXiMHPNF9A44v8mVQ1grsPVhapqfGXVRc/Cd29dcxoX4HWyyGyjh/PFuPf7sNE
-ovIbDdPJ9HgIVD1pMfRhCc14YwCvCMlMWoXCxDsutOUOehsumaZid1+WP66VYU9L
-+4TsFMhftSVM4EbNiCmNs//e92GTqy9XHr2m05trS05+Eejeh32xqnrAMkI8rUeS
-DzxY5eKranOv+ELvE1EyBEiugcNDi7ObKig/joikimuIbEWBi86lGOrBnc1sJaqR
-z3PVOJamMtRHK1dlyzBC5pkBFPu4DSl6wHJXtpsBikKyePlA5EMsDkGwujnV0ZOv
-Pwf7HmIoXJc37EM1Kaljk/VTh8RqppNnonLZjU9fmzcBIjoUhbIbUO+ond8dmm0p
-auwfdKvbGJ16dRwzljBLmn4rWL9z1vFQtsMHww9LY7Jlh3kk6DipWgVkzMnHeEHi
-3bVtq2OIQRbdSQ33RmcyuOiGpoVwTRofDaG5gibCFUobP5vr7ZGkTl6UAiZEAiBA
-32Mak9nSURykVqdR2O52nbxzLucz42YocmUWQcvPdK+T1Az++rU=
-=YuLa
------END PGP SIGNATURE-----
+[...]
 
---+BUwKiRL+Rj5C8ab--
+MBR, Sergey
 
