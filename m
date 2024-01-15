@@ -1,854 +1,242 @@
-Return-Path: <linux-renesas-soc+bounces-1579-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-1580-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F15082DA7B
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 15 Jan 2024 14:46:58 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id D4F6D82DAC2
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 15 Jan 2024 14:59:31 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 28BED1C213D8
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 15 Jan 2024 13:46:57 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4ABE81F21C2F
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 15 Jan 2024 13:59:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 96A091754C;
-	Mon, 15 Jan 2024 13:46:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D395117578;
+	Mon, 15 Jan 2024 13:59:24 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from baptiste.telenet-ops.be (baptiste.telenet-ops.be [195.130.132.51])
+Received: from mail-yb1-f178.google.com (mail-yb1-f178.google.com [209.85.219.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8ADA4171C1
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 15 Jan 2024 13:46:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
-Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed40:1376:70aa:e074:32d3])
-	by baptiste.telenet-ops.be with bizsmtp
-	id b1ml2B00U34Hgv9011mlrD; Mon, 15 Jan 2024 14:46:45 +0100
-Received: from rox.of.borg ([192.168.97.57])
-	by ramsan.of.borg with esmtp (Exim 4.95)
-	(envelope-from <geert@linux-m68k.org>)
-	id 1rPNHs-00FdxX-Ru;
-	Mon, 15 Jan 2024 14:46:45 +0100
-Received: from geert by rox.of.borg with local (Exim 4.95)
-	(envelope-from <geert@linux-m68k.org>)
-	id 1rPNIb-00C0Wp-Jp;
-	Mon, 15 Jan 2024 14:46:45 +0100
-From: Geert Uytterhoeven <geert+renesas@glider.be>
-To: Magnus Damm <magnus.damm@gmail.com>,
-	Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc: linux-renesas-soc@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH 2/2] arm64: dts: renesas: Improve TMU interrupt descriptions
-Date: Mon, 15 Jan 2024 14:46:40 +0100
-Message-Id: <5c70ad8c2ea14333616c5add31a4a958f4a47081.1705325654.git.geert+renesas@glider.be>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <cover.1705325654.git.geert+renesas@glider.be>
-References: <cover.1705325654.git.geert+renesas@glider.be>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE90C17584;
+	Mon, 15 Jan 2024 13:59:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yb1-f178.google.com with SMTP id 3f1490d57ef6-dbedb1ee3e4so7115395276.3;
+        Mon, 15 Jan 2024 05:59:22 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1705327161; x=1705931961;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=nCoI6wmXQhas4p+QHjRACvDabiOp6RlTb///RFp+bYk=;
+        b=tiSTZFK9+adD4pS2CiBp3H8TjNvhxoFkiEeyDJM3qLno8Xx43Uvjdy/whJLepRGP40
+         f/JUNxXcbwBC1NiMKrPQ5O6mjxsEMayOZw+l7hP+OGkvJ0cIlp9/xrESL6ud2rc14k5c
+         +g4LU/CdOIf1P42IpSu7NCDGmFEWWr8a34O/gElzv6KrM0MO5K/Qxo1/E4zAPazwrvcz
+         iAzMy4H6DJ4l8hwdexcGGRgmLQxnHtYDmYYfHnlNJC6S723bxAXTI6frA3GfAEDGGtJ0
+         idx+3WYRQKDVqknRh6cJB2Lh44m1MIyWNgsSDwT+H0KWkJS4ugZ3/y4ecfpbQ2cOsGwi
+         VyKw==
+X-Gm-Message-State: AOJu0Yw+ysJ8APvGt4ir1qpo8FTztilyNSmmUF09L5UA6NgCR2jYtVdT
+	g/D3hUPw+w1FiPxLKxUmpTfNug4I8TlWKw==
+X-Google-Smtp-Source: AGHT+IE88cEfoMkTPLs3uXh1bjP2h2ZDA1PqvxGd+SApFuHgdVhtMFJ+iBdwagRwRd4K9ubiXU6JRg==
+X-Received: by 2002:a05:6902:2687:b0:db5:c77d:1fae with SMTP id dx7-20020a056902268700b00db5c77d1faemr2834232ybb.29.1705327161525;
+        Mon, 15 Jan 2024 05:59:21 -0800 (PST)
+Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com. [209.85.219.180])
+        by smtp.gmail.com with ESMTPSA id c6-20020a25a2c6000000b00d9caecd5c86sm3481218ybn.62.2024.01.15.05.59.20
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 15 Jan 2024 05:59:20 -0800 (PST)
+Received: by mail-yb1-f180.google.com with SMTP id 3f1490d57ef6-dbed5d2ad18so7074363276.0;
+        Mon, 15 Jan 2024 05:59:20 -0800 (PST)
+X-Received: by 2002:a25:ad8b:0:b0:dbe:e4d3:bbb7 with SMTP id
+ z11-20020a25ad8b000000b00dbee4d3bbb7mr2479427ybi.99.1705327159968; Mon, 15
+ Jan 2024 05:59:19 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <cover.1704788539.git.ysato@users.sourceforge.jp> <183bc01316cab97a7ae96df525a5a450c477210d.1704788539.git.ysato@users.sourceforge.jp>
+In-Reply-To: <183bc01316cab97a7ae96df525a5a450c477210d.1704788539.git.ysato@users.sourceforge.jp>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Mon, 15 Jan 2024 14:59:08 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdW-Ak6P3nFH7cdomSYec9=WZf8mZaVwmG=qoYHz1thLMQ@mail.gmail.com>
+Message-ID: <CAMuHMdW-Ak6P3nFH7cdomSYec9=WZf8mZaVwmG=qoYHz1thLMQ@mail.gmail.com>
+Subject: Re: [DO NOT MERGE v6 09/37] dt-bindings: timer: renesas,tmu: add renesas,tmu-sh7750
+To: Yoshinori Sato <ysato@users.sourceforge.jp>
+Cc: linux-sh@vger.kernel.org, Damien Le Moal <dlemoal@kernel.org>, 
+	Rob Herring <robh+dt@kernel.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, Michael Turquette <mturquette@baylibre.com>, 
+	Stephen Boyd <sboyd@kernel.org>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+	Thomas Gleixner <tglx@linutronix.de>, Lorenzo Pieralisi <lpieralisi@kernel.org>, 
+	=?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>, 
+	Bjorn Helgaas <bhelgaas@google.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Jiri Slaby <jirislaby@kernel.org>, Magnus Damm <magnus.damm@gmail.com>, 
+	Daniel Lezcano <daniel.lezcano@linaro.org>, Rich Felker <dalias@libc.org>, 
+	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>, Lee Jones <lee@kernel.org>, 
+	Helge Deller <deller@gmx.de>, Heiko Stuebner <heiko@sntech.de>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Chris Morgan <macromorgan@hotmail.com>, 
+	Yang Xiwen <forbidden405@foxmail.com>, Sebastian Reichel <sre@kernel.org>, 
+	Linus Walleij <linus.walleij@linaro.org>, Randy Dunlap <rdunlap@infradead.org>, 
+	Arnd Bergmann <arnd@arndb.de>, Vlastimil Babka <vbabka@suse.cz>, Hyeonggon Yoo <42.hyeyoo@gmail.com>, 
+	David Rientjes <rientjes@google.com>, Baoquan He <bhe@redhat.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, Guenter Roeck <linux@roeck-us.net>, 
+	Stephen Rothwell <sfr@canb.auug.org.au>, Azeem Shaikh <azeemshaikh38@gmail.com>, 
+	Javier Martinez Canillas <javierm@redhat.com>, Max Filippov <jcmvbkbc@gmail.com>, 
+	Palmer Dabbelt <palmer@rivosinc.com>, Bin Meng <bmeng@tinylab.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Jacky Huang <ychuang3@nuvoton.com>, 
+	Lukas Bulwahn <lukas.bulwahn@gmail.com>, Biju Das <biju.das.jz@bp.renesas.com>, 
+	=?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>, 
+	Sam Ravnborg <sam@ravnborg.org>, Sergey Shtylyov <s.shtylyov@omp.ru>, 
+	Michael Karcher <kernel@mkarcher.dialup.fu-berlin.de>, 
+	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, linux-ide@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, linux-pci@vger.kernel.org, 
+	linux-serial@vger.kernel.org, linux-fbdev@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Add the input capture interrupt on Timer Unit instances that have it.
-Add "interrupt-names" properties for clarity.
+Hi Sato-san,
 
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
- arch/arm64/boot/dts/renesas/r8a774a1.dtsi | 11 +++++++++--
- arch/arm64/boot/dts/renesas/r8a774b1.dtsi | 11 +++++++++--
- arch/arm64/boot/dts/renesas/r8a774c0.dtsi | 11 +++++++++--
- arch/arm64/boot/dts/renesas/r8a774e1.dtsi | 11 +++++++++--
- arch/arm64/boot/dts/renesas/r8a77951.dtsi | 11 +++++++++--
- arch/arm64/boot/dts/renesas/r8a77960.dtsi | 11 +++++++++--
- arch/arm64/boot/dts/renesas/r8a77961.dtsi | 11 +++++++++--
- arch/arm64/boot/dts/renesas/r8a77965.dtsi | 11 +++++++++--
- arch/arm64/boot/dts/renesas/r8a77970.dtsi | 11 +++++++++--
- arch/arm64/boot/dts/renesas/r8a77980.dtsi | 17 +++++++++++++----
- arch/arm64/boot/dts/renesas/r8a77990.dtsi | 11 +++++++++--
- arch/arm64/boot/dts/renesas/r8a77995.dtsi | 11 +++++++++--
- arch/arm64/boot/dts/renesas/r8a779a0.dtsi | 17 +++++++++++++----
- arch/arm64/boot/dts/renesas/r8a779f0.dtsi | 17 +++++++++++++----
- arch/arm64/boot/dts/renesas/r8a779g0.dtsi | 17 +++++++++++++----
- 15 files changed, 151 insertions(+), 38 deletions(-)
+On Tue, Jan 9, 2024 at 9:23=E2=80=AFAM Yoshinori Sato
+<ysato@users.sourceforge.jp> wrote:
+> Add SH7750 TMU entry.
+>
+> I wanted to replace interrupts and interrupt-names in the if compatible i=
+s
+> "renesas,tmu-7750", but it seems that I can't rewrite it as expected.
+> This resulted in a redundant conditional statement.
+>
+> Signed-off-by: Yoshinori Sato <ysato@users.sourceforge.jp>
 
-diff --git a/arch/arm64/boot/dts/renesas/r8a774a1.dtsi b/arch/arm64/boot/dts/renesas/r8a774a1.dtsi
-index 95b0a1f6debfcefb..a8a44fe5e83bbd5c 100644
---- a/arch/arm64/boot/dts/renesas/r8a774a1.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r8a774a1.dtsi
-@@ -529,6 +529,7 @@ tmu0: timer@e61e0000 {
- 			interrupts = <GIC_SPI 136 IRQ_TYPE_LEVEL_HIGH>,
- 				     <GIC_SPI 137 IRQ_TYPE_LEVEL_HIGH>,
- 				     <GIC_SPI 138 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "tuni0", "tuni1", "tuni2";
- 			clocks = <&cpg CPG_MOD 125>;
- 			clock-names = "fck";
- 			power-domains = <&sysc R8A774A1_PD_ALWAYS_ON>;
-@@ -541,7 +542,9 @@ tmu1: timer@e6fc0000 {
- 			reg = <0 0xe6fc0000 0 0x30>;
- 			interrupts = <GIC_SPI 128 IRQ_TYPE_LEVEL_HIGH>,
- 				     <GIC_SPI 129 IRQ_TYPE_LEVEL_HIGH>,
--				     <GIC_SPI 130 IRQ_TYPE_LEVEL_HIGH>;
-+				     <GIC_SPI 130 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 147 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "tuni0", "tuni1", "tuni2", "ticpi2";
- 			clocks = <&cpg CPG_MOD 124>;
- 			clock-names = "fck";
- 			power-domains = <&sysc R8A774A1_PD_ALWAYS_ON>;
-@@ -554,7 +557,9 @@ tmu2: timer@e6fd0000 {
- 			reg = <0 0xe6fd0000 0 0x30>;
- 			interrupts = <GIC_SPI 303 IRQ_TYPE_LEVEL_HIGH>,
- 				     <GIC_SPI 304 IRQ_TYPE_LEVEL_HIGH>,
--				     <GIC_SPI 305 IRQ_TYPE_LEVEL_HIGH>;
-+				     <GIC_SPI 305 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 306 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "tuni0", "tuni1", "tuni2", "ticpi2";
- 			clocks = <&cpg CPG_MOD 123>;
- 			clock-names = "fck";
- 			power-domains = <&sysc R8A774A1_PD_ALWAYS_ON>;
-@@ -568,6 +573,7 @@ tmu3: timer@e6fe0000 {
- 			interrupts = <GIC_SPI 131 IRQ_TYPE_LEVEL_HIGH>,
- 				     <GIC_SPI 132 IRQ_TYPE_LEVEL_HIGH>,
- 				     <GIC_SPI 133 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "tuni0", "tuni1", "tuni2";
- 			clocks = <&cpg CPG_MOD 122>;
- 			clock-names = "fck";
- 			power-domains = <&sysc R8A774A1_PD_ALWAYS_ON>;
-@@ -581,6 +587,7 @@ tmu4: timer@ffc00000 {
- 			interrupts = <GIC_SPI 406 IRQ_TYPE_LEVEL_HIGH>,
- 				     <GIC_SPI 407 IRQ_TYPE_LEVEL_HIGH>,
- 				     <GIC_SPI 408 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "tuni0", "tuni1", "tuni2";
- 			clocks = <&cpg CPG_MOD 121>;
- 			clock-names = "fck";
- 			power-domains = <&sysc R8A774A1_PD_ALWAYS_ON>;
-diff --git a/arch/arm64/boot/dts/renesas/r8a774b1.dtsi b/arch/arm64/boot/dts/renesas/r8a774b1.dtsi
-index 786660fcdea42b47..4fff511e994cf840 100644
---- a/arch/arm64/boot/dts/renesas/r8a774b1.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r8a774b1.dtsi
-@@ -413,6 +413,7 @@ tmu0: timer@e61e0000 {
- 			interrupts = <GIC_SPI 136 IRQ_TYPE_LEVEL_HIGH>,
- 				     <GIC_SPI 137 IRQ_TYPE_LEVEL_HIGH>,
- 				     <GIC_SPI 138 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "tuni0", "tuni1", "tuni2";
- 			clocks = <&cpg CPG_MOD 125>;
- 			clock-names = "fck";
- 			power-domains = <&sysc R8A774B1_PD_ALWAYS_ON>;
-@@ -425,7 +426,9 @@ tmu1: timer@e6fc0000 {
- 			reg = <0 0xe6fc0000 0 0x30>;
- 			interrupts = <GIC_SPI 128 IRQ_TYPE_LEVEL_HIGH>,
- 				     <GIC_SPI 129 IRQ_TYPE_LEVEL_HIGH>,
--				     <GIC_SPI 130 IRQ_TYPE_LEVEL_HIGH>;
-+				     <GIC_SPI 130 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 147 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "tuni0", "tuni1", "tuni2", "ticpi2";
- 			clocks = <&cpg CPG_MOD 124>;
- 			clock-names = "fck";
- 			power-domains = <&sysc R8A774B1_PD_ALWAYS_ON>;
-@@ -438,7 +441,9 @@ tmu2: timer@e6fd0000 {
- 			reg = <0 0xe6fd0000 0 0x30>;
- 			interrupts = <GIC_SPI 303 IRQ_TYPE_LEVEL_HIGH>,
- 				     <GIC_SPI 304 IRQ_TYPE_LEVEL_HIGH>,
--				     <GIC_SPI 305 IRQ_TYPE_LEVEL_HIGH>;
-+				     <GIC_SPI 305 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 306 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "tuni0", "tuni1", "tuni2", "ticpi2";
- 			clocks = <&cpg CPG_MOD 123>;
- 			clock-names = "fck";
- 			power-domains = <&sysc R8A774B1_PD_ALWAYS_ON>;
-@@ -452,6 +457,7 @@ tmu3: timer@e6fe0000 {
- 			interrupts = <GIC_SPI 131 IRQ_TYPE_LEVEL_HIGH>,
- 				     <GIC_SPI 132 IRQ_TYPE_LEVEL_HIGH>,
- 				     <GIC_SPI 133 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "tuni0", "tuni1", "tuni2";
- 			clocks = <&cpg CPG_MOD 122>;
- 			clock-names = "fck";
- 			power-domains = <&sysc R8A774B1_PD_ALWAYS_ON>;
-@@ -465,6 +471,7 @@ tmu4: timer@ffc00000 {
- 			interrupts = <GIC_SPI 406 IRQ_TYPE_LEVEL_HIGH>,
- 				     <GIC_SPI 407 IRQ_TYPE_LEVEL_HIGH>,
- 				     <GIC_SPI 408 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "tuni0", "tuni1", "tuni2";
- 			clocks = <&cpg CPG_MOD 121>;
- 			clock-names = "fck";
- 			power-domains = <&sysc R8A774B1_PD_ALWAYS_ON>;
-diff --git a/arch/arm64/boot/dts/renesas/r8a774c0.dtsi b/arch/arm64/boot/dts/renesas/r8a774c0.dtsi
-index eed94ffed7c11cbf..1ef43d78c3a5740b 100644
---- a/arch/arm64/boot/dts/renesas/r8a774c0.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r8a774c0.dtsi
-@@ -384,6 +384,7 @@ tmu0: timer@e61e0000 {
- 			interrupts = <GIC_SPI 136 IRQ_TYPE_LEVEL_HIGH>,
- 				     <GIC_SPI 137 IRQ_TYPE_LEVEL_HIGH>,
- 				     <GIC_SPI 138 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "tuni0", "tuni1", "tuni2";
- 			clocks = <&cpg CPG_MOD 125>;
- 			clock-names = "fck";
- 			power-domains = <&sysc R8A774C0_PD_ALWAYS_ON>;
-@@ -396,7 +397,9 @@ tmu1: timer@e6fc0000 {
- 			reg = <0 0xe6fc0000 0 0x30>;
- 			interrupts = <GIC_SPI 128 IRQ_TYPE_LEVEL_HIGH>,
- 				     <GIC_SPI 129 IRQ_TYPE_LEVEL_HIGH>,
--				     <GIC_SPI 130 IRQ_TYPE_LEVEL_HIGH>;
-+				     <GIC_SPI 130 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 147 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "tuni0", "tuni1", "tuni2", "ticpi2";
- 			clocks = <&cpg CPG_MOD 124>;
- 			clock-names = "fck";
- 			power-domains = <&sysc R8A774C0_PD_ALWAYS_ON>;
-@@ -409,7 +412,9 @@ tmu2: timer@e6fd0000 {
- 			reg = <0 0xe6fd0000 0 0x30>;
- 			interrupts = <GIC_SPI 303 IRQ_TYPE_LEVEL_HIGH>,
- 				     <GIC_SPI 304 IRQ_TYPE_LEVEL_HIGH>,
--				     <GIC_SPI 305 IRQ_TYPE_LEVEL_HIGH>;
-+				     <GIC_SPI 305 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 306 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "tuni0", "tuni1", "tuni2", "ticpi2";
- 			clocks = <&cpg CPG_MOD 123>;
- 			clock-names = "fck";
- 			power-domains = <&sysc R8A774C0_PD_ALWAYS_ON>;
-@@ -423,6 +428,7 @@ tmu3: timer@e6fe0000 {
- 			interrupts = <GIC_SPI 131 IRQ_TYPE_LEVEL_HIGH>,
- 				     <GIC_SPI 132 IRQ_TYPE_LEVEL_HIGH>,
- 				     <GIC_SPI 133 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "tuni0", "tuni1", "tuni2";
- 			clocks = <&cpg CPG_MOD 122>;
- 			clock-names = "fck";
- 			power-domains = <&sysc R8A774C0_PD_ALWAYS_ON>;
-@@ -436,6 +442,7 @@ tmu4: timer@ffc00000 {
- 			interrupts = <GIC_SPI 406 IRQ_TYPE_LEVEL_HIGH>,
- 				     <GIC_SPI 407 IRQ_TYPE_LEVEL_HIGH>,
- 				     <GIC_SPI 408 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "tuni0", "tuni1", "tuni2";
- 			clocks = <&cpg CPG_MOD 121>;
- 			clock-names = "fck";
- 			power-domains = <&sysc R8A774C0_PD_ALWAYS_ON>;
-diff --git a/arch/arm64/boot/dts/renesas/r8a774e1.dtsi b/arch/arm64/boot/dts/renesas/r8a774e1.dtsi
-index 175e5d296da6cec6..be55ae83944cf225 100644
---- a/arch/arm64/boot/dts/renesas/r8a774e1.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r8a774e1.dtsi
-@@ -593,6 +593,7 @@ tmu0: timer@e61e0000 {
- 			interrupts = <GIC_SPI 136 IRQ_TYPE_LEVEL_HIGH>,
- 				     <GIC_SPI 137 IRQ_TYPE_LEVEL_HIGH>,
- 				     <GIC_SPI 138 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "tuni0", "tuni1", "tuni2";
- 			clocks = <&cpg CPG_MOD 125>;
- 			clock-names = "fck";
- 			power-domains = <&sysc R8A774E1_PD_ALWAYS_ON>;
-@@ -605,7 +606,9 @@ tmu1: timer@e6fc0000 {
- 			reg = <0 0xe6fc0000 0 0x30>;
- 			interrupts = <GIC_SPI 128 IRQ_TYPE_LEVEL_HIGH>,
- 				     <GIC_SPI 129 IRQ_TYPE_LEVEL_HIGH>,
--				     <GIC_SPI 130 IRQ_TYPE_LEVEL_HIGH>;
-+				     <GIC_SPI 130 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 147 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "tuni0", "tuni1", "tuni2", "ticpi2";
- 			clocks = <&cpg CPG_MOD 124>;
- 			clock-names = "fck";
- 			power-domains = <&sysc R8A774E1_PD_ALWAYS_ON>;
-@@ -618,7 +621,9 @@ tmu2: timer@e6fd0000 {
- 			reg = <0 0xe6fd0000 0 0x30>;
- 			interrupts = <GIC_SPI 303 IRQ_TYPE_LEVEL_HIGH>,
- 				     <GIC_SPI 304 IRQ_TYPE_LEVEL_HIGH>,
--				     <GIC_SPI 305 IRQ_TYPE_LEVEL_HIGH>;
-+				     <GIC_SPI 305 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 306 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "tuni0", "tuni1", "tuni2", "ticpi2";
- 			clocks = <&cpg CPG_MOD 123>;
- 			clock-names = "fck";
- 			power-domains = <&sysc R8A774E1_PD_ALWAYS_ON>;
-@@ -632,6 +637,7 @@ tmu3: timer@e6fe0000 {
- 			interrupts = <GIC_SPI 131 IRQ_TYPE_LEVEL_HIGH>,
- 				     <GIC_SPI 132 IRQ_TYPE_LEVEL_HIGH>,
- 				     <GIC_SPI 133 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "tuni0", "tuni1", "tuni2";
- 			clocks = <&cpg CPG_MOD 122>;
- 			clock-names = "fck";
- 			power-domains = <&sysc R8A774E1_PD_ALWAYS_ON>;
-@@ -645,6 +651,7 @@ tmu4: timer@ffc00000 {
- 			interrupts = <GIC_SPI 406 IRQ_TYPE_LEVEL_HIGH>,
- 				     <GIC_SPI 407 IRQ_TYPE_LEVEL_HIGH>,
- 				     <GIC_SPI 408 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "tuni0", "tuni1", "tuni2";
- 			clocks = <&cpg CPG_MOD 121>;
- 			clock-names = "fck";
- 			power-domains = <&sysc R8A774E1_PD_ALWAYS_ON>;
-diff --git a/arch/arm64/boot/dts/renesas/r8a77951.dtsi b/arch/arm64/boot/dts/renesas/r8a77951.dtsi
-index a4260d9291bac365..bea4edd17d534909 100644
---- a/arch/arm64/boot/dts/renesas/r8a77951.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r8a77951.dtsi
-@@ -614,6 +614,7 @@ tmu0: timer@e61e0000 {
- 			interrupts = <GIC_SPI 136 IRQ_TYPE_LEVEL_HIGH>,
- 				     <GIC_SPI 137 IRQ_TYPE_LEVEL_HIGH>,
- 				     <GIC_SPI 138 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "tuni0", "tuni1", "tuni2";
- 			clocks = <&cpg CPG_MOD 125>;
- 			clock-names = "fck";
- 			power-domains = <&sysc R8A7795_PD_ALWAYS_ON>;
-@@ -626,7 +627,9 @@ tmu1: timer@e6fc0000 {
- 			reg = <0 0xe6fc0000 0 0x30>;
- 			interrupts = <GIC_SPI 128 IRQ_TYPE_LEVEL_HIGH>,
- 				     <GIC_SPI 129 IRQ_TYPE_LEVEL_HIGH>,
--				     <GIC_SPI 130 IRQ_TYPE_LEVEL_HIGH>;
-+				     <GIC_SPI 130 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 147 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "tuni0", "tuni1", "tuni2", "ticpi2";
- 			clocks = <&cpg CPG_MOD 124>;
- 			clock-names = "fck";
- 			power-domains = <&sysc R8A7795_PD_ALWAYS_ON>;
-@@ -639,7 +642,9 @@ tmu2: timer@e6fd0000 {
- 			reg = <0 0xe6fd0000 0 0x30>;
- 			interrupts = <GIC_SPI 303 IRQ_TYPE_LEVEL_HIGH>,
- 				     <GIC_SPI 304 IRQ_TYPE_LEVEL_HIGH>,
--				     <GIC_SPI 305 IRQ_TYPE_LEVEL_HIGH>;
-+				     <GIC_SPI 305 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 306 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "tuni0", "tuni1", "tuni2", "ticpi2";
- 			clocks = <&cpg CPG_MOD 123>;
- 			clock-names = "fck";
- 			power-domains = <&sysc R8A7795_PD_ALWAYS_ON>;
-@@ -653,6 +658,7 @@ tmu3: timer@e6fe0000 {
- 			interrupts = <GIC_SPI 131 IRQ_TYPE_LEVEL_HIGH>,
- 				     <GIC_SPI 132 IRQ_TYPE_LEVEL_HIGH>,
- 				     <GIC_SPI 133 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "tuni0", "tuni1", "tuni2";
- 			clocks = <&cpg CPG_MOD 122>;
- 			clock-names = "fck";
- 			power-domains = <&sysc R8A7795_PD_ALWAYS_ON>;
-@@ -666,6 +672,7 @@ tmu4: timer@ffc00000 {
- 			interrupts = <GIC_SPI 406 IRQ_TYPE_LEVEL_HIGH>,
- 				     <GIC_SPI 407 IRQ_TYPE_LEVEL_HIGH>,
- 				     <GIC_SPI 408 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "tuni0", "tuni1", "tuni2";
- 			clocks = <&cpg CPG_MOD 121>;
- 			clock-names = "fck";
- 			power-domains = <&sysc R8A7795_PD_ALWAYS_ON>;
-diff --git a/arch/arm64/boot/dts/renesas/r8a77960.dtsi b/arch/arm64/boot/dts/renesas/r8a77960.dtsi
-index a631ead171b29a43..7846fea8e40da725 100644
---- a/arch/arm64/boot/dts/renesas/r8a77960.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r8a77960.dtsi
-@@ -578,6 +578,7 @@ tmu0: timer@e61e0000 {
- 			interrupts = <GIC_SPI 136 IRQ_TYPE_LEVEL_HIGH>,
- 				     <GIC_SPI 137 IRQ_TYPE_LEVEL_HIGH>,
- 				     <GIC_SPI 138 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "tuni0", "tuni1", "tuni2";
- 			clocks = <&cpg CPG_MOD 125>;
- 			clock-names = "fck";
- 			power-domains = <&sysc R8A7796_PD_ALWAYS_ON>;
-@@ -590,7 +591,9 @@ tmu1: timer@e6fc0000 {
- 			reg = <0 0xe6fc0000 0 0x30>;
- 			interrupts = <GIC_SPI 128 IRQ_TYPE_LEVEL_HIGH>,
- 				     <GIC_SPI 129 IRQ_TYPE_LEVEL_HIGH>,
--				     <GIC_SPI 130 IRQ_TYPE_LEVEL_HIGH>;
-+				     <GIC_SPI 130 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 147 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "tuni0", "tuni1", "tuni2", "ticpi2";
- 			clocks = <&cpg CPG_MOD 124>;
- 			clock-names = "fck";
- 			power-domains = <&sysc R8A7796_PD_ALWAYS_ON>;
-@@ -603,7 +606,9 @@ tmu2: timer@e6fd0000 {
- 			reg = <0 0xe6fd0000 0 0x30>;
- 			interrupts = <GIC_SPI 303 IRQ_TYPE_LEVEL_HIGH>,
- 				     <GIC_SPI 304 IRQ_TYPE_LEVEL_HIGH>,
--				     <GIC_SPI 305 IRQ_TYPE_LEVEL_HIGH>;
-+				     <GIC_SPI 305 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 306 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "tuni0", "tuni1", "tuni2", "ticpi2";
- 			clocks = <&cpg CPG_MOD 123>;
- 			clock-names = "fck";
- 			power-domains = <&sysc R8A7796_PD_ALWAYS_ON>;
-@@ -617,6 +622,7 @@ tmu3: timer@e6fe0000 {
- 			interrupts = <GIC_SPI 131 IRQ_TYPE_LEVEL_HIGH>,
- 				     <GIC_SPI 132 IRQ_TYPE_LEVEL_HIGH>,
- 				     <GIC_SPI 133 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "tuni0", "tuni1", "tuni2";
- 			clocks = <&cpg CPG_MOD 122>;
- 			clock-names = "fck";
- 			power-domains = <&sysc R8A7796_PD_ALWAYS_ON>;
-@@ -630,6 +636,7 @@ tmu4: timer@ffc00000 {
- 			interrupts = <GIC_SPI 406 IRQ_TYPE_LEVEL_HIGH>,
- 				     <GIC_SPI 407 IRQ_TYPE_LEVEL_HIGH>,
- 				     <GIC_SPI 408 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "tuni0", "tuni1", "tuni2";
- 			clocks = <&cpg CPG_MOD 121>;
- 			clock-names = "fck";
- 			power-domains = <&sysc R8A7796_PD_ALWAYS_ON>;
-diff --git a/arch/arm64/boot/dts/renesas/r8a77961.dtsi b/arch/arm64/boot/dts/renesas/r8a77961.dtsi
-index 7254912a241f96f3..58f9286a5ab57534 100644
---- a/arch/arm64/boot/dts/renesas/r8a77961.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r8a77961.dtsi
-@@ -578,6 +578,7 @@ tmu0: timer@e61e0000 {
- 			interrupts = <GIC_SPI 136 IRQ_TYPE_LEVEL_HIGH>,
- 				     <GIC_SPI 137 IRQ_TYPE_LEVEL_HIGH>,
- 				     <GIC_SPI 138 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "tuni0", "tuni1", "tuni2";
- 			clocks = <&cpg CPG_MOD 125>;
- 			clock-names = "fck";
- 			power-domains = <&sysc R8A77961_PD_ALWAYS_ON>;
-@@ -590,7 +591,9 @@ tmu1: timer@e6fc0000 {
- 			reg = <0 0xe6fc0000 0 0x30>;
- 			interrupts = <GIC_SPI 128 IRQ_TYPE_LEVEL_HIGH>,
- 				     <GIC_SPI 129 IRQ_TYPE_LEVEL_HIGH>,
--				     <GIC_SPI 130 IRQ_TYPE_LEVEL_HIGH>;
-+				     <GIC_SPI 130 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 147 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "tuni0", "tuni1", "tuni2", "ticpi2";
- 			clocks = <&cpg CPG_MOD 124>;
- 			clock-names = "fck";
- 			power-domains = <&sysc R8A77961_PD_ALWAYS_ON>;
-@@ -603,7 +606,9 @@ tmu2: timer@e6fd0000 {
- 			reg = <0 0xe6fd0000 0 0x30>;
- 			interrupts = <GIC_SPI 303 IRQ_TYPE_LEVEL_HIGH>,
- 				     <GIC_SPI 304 IRQ_TYPE_LEVEL_HIGH>,
--				     <GIC_SPI 305 IRQ_TYPE_LEVEL_HIGH>;
-+				     <GIC_SPI 305 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 306 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "tuni0", "tuni1", "tuni2", "ticpi2";
- 			clocks = <&cpg CPG_MOD 123>;
- 			clock-names = "fck";
- 			power-domains = <&sysc R8A77961_PD_ALWAYS_ON>;
-@@ -617,6 +622,7 @@ tmu3: timer@e6fe0000 {
- 			interrupts = <GIC_SPI 131 IRQ_TYPE_LEVEL_HIGH>,
- 				     <GIC_SPI 132 IRQ_TYPE_LEVEL_HIGH>,
- 				     <GIC_SPI 133 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "tuni0", "tuni1", "tuni2";
- 			clocks = <&cpg CPG_MOD 122>;
- 			clock-names = "fck";
- 			power-domains = <&sysc R8A77961_PD_ALWAYS_ON>;
-@@ -630,6 +636,7 @@ tmu4: timer@ffc00000 {
- 			interrupts = <GIC_SPI 406 IRQ_TYPE_LEVEL_HIGH>,
- 				     <GIC_SPI 407 IRQ_TYPE_LEVEL_HIGH>,
- 				     <GIC_SPI 408 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "tuni0", "tuni1", "tuni2";
- 			clocks = <&cpg CPG_MOD 121>;
- 			clock-names = "fck";
- 			power-domains = <&sysc R8A77961_PD_ALWAYS_ON>;
-diff --git a/arch/arm64/boot/dts/renesas/r8a77965.dtsi b/arch/arm64/boot/dts/renesas/r8a77965.dtsi
-index e57b9027066eb6e7..692940662d38d89a 100644
---- a/arch/arm64/boot/dts/renesas/r8a77965.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r8a77965.dtsi
-@@ -449,6 +449,7 @@ tmu0: timer@e61e0000 {
- 			interrupts = <GIC_SPI 136 IRQ_TYPE_LEVEL_HIGH>,
- 				     <GIC_SPI 137 IRQ_TYPE_LEVEL_HIGH>,
- 				     <GIC_SPI 138 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "tuni0", "tuni1", "tuni2";
- 			clocks = <&cpg CPG_MOD 125>;
- 			clock-names = "fck";
- 			power-domains = <&sysc R8A77965_PD_ALWAYS_ON>;
-@@ -461,7 +462,9 @@ tmu1: timer@e6fc0000 {
- 			reg = <0 0xe6fc0000 0 0x30>;
- 			interrupts = <GIC_SPI 128 IRQ_TYPE_LEVEL_HIGH>,
- 				     <GIC_SPI 129 IRQ_TYPE_LEVEL_HIGH>,
--				     <GIC_SPI 130 IRQ_TYPE_LEVEL_HIGH>;
-+				     <GIC_SPI 130 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 147 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "tuni0", "tuni1", "tuni2", "ticpi2";
- 			clocks = <&cpg CPG_MOD 124>;
- 			clock-names = "fck";
- 			power-domains = <&sysc R8A77965_PD_ALWAYS_ON>;
-@@ -474,7 +477,9 @@ tmu2: timer@e6fd0000 {
- 			reg = <0 0xe6fd0000 0 0x30>;
- 			interrupts = <GIC_SPI 303 IRQ_TYPE_LEVEL_HIGH>,
- 				     <GIC_SPI 304 IRQ_TYPE_LEVEL_HIGH>,
--				     <GIC_SPI 305 IRQ_TYPE_LEVEL_HIGH>;
-+				     <GIC_SPI 305 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 306 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "tuni0", "tuni1", "tuni2", "ticpi2";
- 			clocks = <&cpg CPG_MOD 123>;
- 			clock-names = "fck";
- 			power-domains = <&sysc R8A77965_PD_ALWAYS_ON>;
-@@ -488,6 +493,7 @@ tmu3: timer@e6fe0000 {
- 			interrupts = <GIC_SPI 131 IRQ_TYPE_LEVEL_HIGH>,
- 				     <GIC_SPI 132 IRQ_TYPE_LEVEL_HIGH>,
- 				     <GIC_SPI 133 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "tuni0", "tuni1", "tuni2";
- 			clocks = <&cpg CPG_MOD 122>;
- 			clock-names = "fck";
- 			power-domains = <&sysc R8A77965_PD_ALWAYS_ON>;
-@@ -501,6 +507,7 @@ tmu4: timer@ffc00000 {
- 			interrupts = <GIC_SPI 406 IRQ_TYPE_LEVEL_HIGH>,
- 				     <GIC_SPI 407 IRQ_TYPE_LEVEL_HIGH>,
- 				     <GIC_SPI 408 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "tuni0", "tuni1", "tuni2";
- 			clocks = <&cpg CPG_MOD 121>;
- 			clock-names = "fck";
- 			power-domains = <&sysc R8A77965_PD_ALWAYS_ON>;
-diff --git a/arch/arm64/boot/dts/renesas/r8a77970.dtsi b/arch/arm64/boot/dts/renesas/r8a77970.dtsi
-index ed6e2e47c60479ef..d2d3cecc76d52f86 100644
---- a/arch/arm64/boot/dts/renesas/r8a77970.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r8a77970.dtsi
-@@ -328,6 +328,7 @@ tmu0: timer@e61e0000 {
- 			interrupts = <GIC_SPI 136 IRQ_TYPE_LEVEL_HIGH>,
- 				     <GIC_SPI 137 IRQ_TYPE_LEVEL_HIGH>,
- 				     <GIC_SPI 138 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "tuni0", "tuni1", "tuni2";
- 			clocks = <&cpg CPG_MOD 125>;
- 			clock-names = "fck";
- 			power-domains = <&sysc R8A77970_PD_ALWAYS_ON>;
-@@ -340,7 +341,9 @@ tmu1: timer@e6fc0000 {
- 			reg = <0 0xe6fc0000 0 0x30>;
- 			interrupts = <GIC_SPI 128 IRQ_TYPE_LEVEL_HIGH>,
- 				     <GIC_SPI 129 IRQ_TYPE_LEVEL_HIGH>,
--				     <GIC_SPI 130 IRQ_TYPE_LEVEL_HIGH>;
-+				     <GIC_SPI 130 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 147 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "tuni0", "tuni1", "tuni2", "ticpi2";
- 			clocks = <&cpg CPG_MOD 124>;
- 			clock-names = "fck";
- 			power-domains = <&sysc R8A77970_PD_ALWAYS_ON>;
-@@ -353,7 +356,9 @@ tmu2: timer@e6fd0000 {
- 			reg = <0 0xe6fd0000 0 0x30>;
- 			interrupts = <GIC_SPI 303 IRQ_TYPE_LEVEL_HIGH>,
- 				     <GIC_SPI 304 IRQ_TYPE_LEVEL_HIGH>,
--				     <GIC_SPI 305 IRQ_TYPE_LEVEL_HIGH>;
-+				     <GIC_SPI 305 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 306 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "tuni0", "tuni1", "tuni2", "ticpi2";
- 			clocks = <&cpg CPG_MOD 123>;
- 			clock-names = "fck";
- 			power-domains = <&sysc R8A77970_PD_ALWAYS_ON>;
-@@ -367,6 +372,7 @@ tmu3: timer@e6fe0000 {
- 			interrupts = <GIC_SPI 131 IRQ_TYPE_LEVEL_HIGH>,
- 				     <GIC_SPI 132 IRQ_TYPE_LEVEL_HIGH>,
- 				     <GIC_SPI 133 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "tuni0", "tuni1", "tuni2";
- 			clocks = <&cpg CPG_MOD 122>;
- 			clock-names = "fck";
- 			power-domains = <&sysc R8A77970_PD_ALWAYS_ON>;
-@@ -380,6 +386,7 @@ tmu4: timer@ffc00000 {
- 			interrupts = <GIC_SPI 116 IRQ_TYPE_LEVEL_HIGH>,
- 				     <GIC_SPI 117 IRQ_TYPE_LEVEL_HIGH>,
- 				     <GIC_SPI 118 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "tuni0", "tuni1", "tuni2";
- 			clocks = <&cpg CPG_MOD 121>;
- 			clock-names = "fck";
- 			power-domains = <&sysc R8A77970_PD_ALWAYS_ON>;
-diff --git a/arch/arm64/boot/dts/renesas/r8a77980.dtsi b/arch/arm64/boot/dts/renesas/r8a77980.dtsi
-index 5ed2daaca1f00649..c0ba110c74d6a3ac 100644
---- a/arch/arm64/boot/dts/renesas/r8a77980.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r8a77980.dtsi
-@@ -357,6 +357,7 @@ tmu0: timer@e61e0000 {
- 			interrupts = <GIC_SPI 136 IRQ_TYPE_LEVEL_HIGH>,
- 				     <GIC_SPI 137 IRQ_TYPE_LEVEL_HIGH>,
- 				     <GIC_SPI 138 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "tuni0", "tuni1", "tuni2";
- 			clocks = <&cpg CPG_MOD 125>;
- 			clock-names = "fck";
- 			power-domains = <&sysc R8A77980_PD_ALWAYS_ON>;
-@@ -369,7 +370,9 @@ tmu1: timer@e6fc0000 {
- 			reg = <0 0xe6fc0000 0 0x30>;
- 			interrupts = <GIC_SPI 128 IRQ_TYPE_LEVEL_HIGH>,
- 				     <GIC_SPI 129 IRQ_TYPE_LEVEL_HIGH>,
--				     <GIC_SPI 130 IRQ_TYPE_LEVEL_HIGH>;
-+				     <GIC_SPI 130 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 147 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "tuni0", "tuni1", "tuni2", "ticpi2";
- 			clocks = <&cpg CPG_MOD 124>;
- 			clock-names = "fck";
- 			power-domains = <&sysc R8A77980_PD_ALWAYS_ON>;
-@@ -382,7 +385,9 @@ tmu2: timer@e6fd0000 {
- 			reg = <0 0xe6fd0000 0 0x30>;
- 			interrupts = <GIC_SPI 303 IRQ_TYPE_LEVEL_HIGH>,
- 				     <GIC_SPI 304 IRQ_TYPE_LEVEL_HIGH>,
--				     <GIC_SPI 305 IRQ_TYPE_LEVEL_HIGH>;
-+				     <GIC_SPI 305 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 306 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "tuni0", "tuni1", "tuni2", "ticpi2";
- 			clocks = <&cpg CPG_MOD 123>;
- 			clock-names = "fck";
- 			power-domains = <&sysc R8A77980_PD_ALWAYS_ON>;
-@@ -395,7 +400,9 @@ tmu3: timer@e6fe0000 {
- 			reg = <0 0xe6fe0000 0 0x30>;
- 			interrupts = <GIC_SPI 131 IRQ_TYPE_LEVEL_HIGH>,
- 				     <GIC_SPI 132 IRQ_TYPE_LEVEL_HIGH>,
--				     <GIC_SPI 133 IRQ_TYPE_LEVEL_HIGH>;
-+				     <GIC_SPI 133 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 146 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "tuni0", "tuni1", "tuni2", "ticpi2";
- 			clocks = <&cpg CPG_MOD 122>;
- 			clock-names = "fck";
- 			power-domains = <&sysc R8A77980_PD_ALWAYS_ON>;
-@@ -408,7 +415,9 @@ tmu4: timer@ffc00000 {
- 			reg = <0 0xffc00000 0 0x30>;
- 			interrupts = <GIC_SPI 116 IRQ_TYPE_LEVEL_HIGH>,
- 				     <GIC_SPI 117 IRQ_TYPE_LEVEL_HIGH>,
--				     <GIC_SPI 118 IRQ_TYPE_LEVEL_HIGH>;
-+				     <GIC_SPI 118 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 369 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "tuni0", "tuni1", "tuni2", "ticpi2";
- 			clocks = <&cpg CPG_MOD 121>;
- 			clock-names = "fck";
- 			power-domains = <&sysc R8A77980_PD_ALWAYS_ON>;
-diff --git a/arch/arm64/boot/dts/renesas/r8a77990.dtsi b/arch/arm64/boot/dts/renesas/r8a77990.dtsi
-index 8c2b28342387c7f2..37063e3f4e1be06d 100644
---- a/arch/arm64/boot/dts/renesas/r8a77990.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r8a77990.dtsi
-@@ -415,6 +415,7 @@ tmu0: timer@e61e0000 {
- 			interrupts = <GIC_SPI 136 IRQ_TYPE_LEVEL_HIGH>,
- 				     <GIC_SPI 137 IRQ_TYPE_LEVEL_HIGH>,
- 				     <GIC_SPI 138 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "tuni0", "tuni1", "tuni2";
- 			clocks = <&cpg CPG_MOD 125>;
- 			clock-names = "fck";
- 			power-domains = <&sysc R8A77990_PD_ALWAYS_ON>;
-@@ -427,7 +428,9 @@ tmu1: timer@e6fc0000 {
- 			reg = <0 0xe6fc0000 0 0x30>;
- 			interrupts = <GIC_SPI 128 IRQ_TYPE_LEVEL_HIGH>,
- 				     <GIC_SPI 129 IRQ_TYPE_LEVEL_HIGH>,
--				     <GIC_SPI 130 IRQ_TYPE_LEVEL_HIGH>;
-+				     <GIC_SPI 130 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 147 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "tuni0", "tuni1", "tuni2", "ticpi2";
- 			clocks = <&cpg CPG_MOD 124>;
- 			clock-names = "fck";
- 			power-domains = <&sysc R8A77990_PD_ALWAYS_ON>;
-@@ -440,7 +443,9 @@ tmu2: timer@e6fd0000 {
- 			reg = <0 0xe6fd0000 0 0x30>;
- 			interrupts = <GIC_SPI 303 IRQ_TYPE_LEVEL_HIGH>,
- 				     <GIC_SPI 304 IRQ_TYPE_LEVEL_HIGH>,
--				     <GIC_SPI 305 IRQ_TYPE_LEVEL_HIGH>;
-+				     <GIC_SPI 305 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 306 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "tuni0", "tuni1", "tuni2", "ticpi2";
- 			clocks = <&cpg CPG_MOD 123>;
- 			clock-names = "fck";
- 			power-domains = <&sysc R8A77990_PD_ALWAYS_ON>;
-@@ -454,6 +459,7 @@ tmu3: timer@e6fe0000 {
- 			interrupts = <GIC_SPI 131 IRQ_TYPE_LEVEL_HIGH>,
- 				     <GIC_SPI 132 IRQ_TYPE_LEVEL_HIGH>,
- 				     <GIC_SPI 133 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "tuni0", "tuni1", "tuni2";
- 			clocks = <&cpg CPG_MOD 122>;
- 			clock-names = "fck";
- 			power-domains = <&sysc R8A77990_PD_ALWAYS_ON>;
-@@ -467,6 +473,7 @@ tmu4: timer@ffc00000 {
- 			interrupts = <GIC_SPI 406 IRQ_TYPE_LEVEL_HIGH>,
- 				     <GIC_SPI 407 IRQ_TYPE_LEVEL_HIGH>,
- 				     <GIC_SPI 408 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "tuni0", "tuni1", "tuni2";
- 			clocks = <&cpg CPG_MOD 121>;
- 			clock-names = "fck";
- 			power-domains = <&sysc R8A77990_PD_ALWAYS_ON>;
-diff --git a/arch/arm64/boot/dts/renesas/r8a77995.dtsi b/arch/arm64/boot/dts/renesas/r8a77995.dtsi
-index 8cf6473c63d37dd0..89990dd8ebf7f182 100644
---- a/arch/arm64/boot/dts/renesas/r8a77995.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r8a77995.dtsi
-@@ -336,6 +336,7 @@ tmu0: timer@e61e0000 {
- 			interrupts = <GIC_SPI 136 IRQ_TYPE_LEVEL_HIGH>,
- 				     <GIC_SPI 137 IRQ_TYPE_LEVEL_HIGH>,
- 				     <GIC_SPI 138 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "tuni0", "tuni1", "tuni2";
- 			clocks = <&cpg CPG_MOD 125>;
- 			clock-names = "fck";
- 			power-domains = <&sysc R8A77995_PD_ALWAYS_ON>;
-@@ -348,7 +349,9 @@ tmu1: timer@e6fc0000 {
- 			reg = <0 0xe6fc0000 0 0x30>;
- 			interrupts = <GIC_SPI 128 IRQ_TYPE_LEVEL_HIGH>,
- 				     <GIC_SPI 129 IRQ_TYPE_LEVEL_HIGH>,
--				     <GIC_SPI 130 IRQ_TYPE_LEVEL_HIGH>;
-+				     <GIC_SPI 130 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 147 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "tuni0", "tuni1", "tuni2", "ticpi2";
- 			clocks = <&cpg CPG_MOD 124>;
- 			clock-names = "fck";
- 			power-domains = <&sysc R8A77995_PD_ALWAYS_ON>;
-@@ -361,7 +364,9 @@ tmu2: timer@e6fd0000 {
- 			reg = <0 0xe6fd0000 0 0x30>;
- 			interrupts = <GIC_SPI 303 IRQ_TYPE_LEVEL_HIGH>,
- 				     <GIC_SPI 304 IRQ_TYPE_LEVEL_HIGH>,
--				     <GIC_SPI 305 IRQ_TYPE_LEVEL_HIGH>;
-+				     <GIC_SPI 305 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 306 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "tuni0", "tuni1", "tuni2", "ticpi2";
- 			clocks = <&cpg CPG_MOD 123>;
- 			clock-names = "fck";
- 			power-domains = <&sysc R8A77995_PD_ALWAYS_ON>;
-@@ -375,6 +380,7 @@ tmu3: timer@e6fe0000 {
- 			interrupts = <GIC_SPI 131 IRQ_TYPE_LEVEL_HIGH>,
- 				     <GIC_SPI 132 IRQ_TYPE_LEVEL_HIGH>,
- 				     <GIC_SPI 133 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "tuni0", "tuni1", "tuni2";
- 			clocks = <&cpg CPG_MOD 122>;
- 			clock-names = "fck";
- 			power-domains = <&sysc R8A77995_PD_ALWAYS_ON>;
-@@ -388,6 +394,7 @@ tmu4: timer@ffc00000 {
- 			interrupts = <GIC_SPI 406 IRQ_TYPE_LEVEL_HIGH>,
- 				     <GIC_SPI 407 IRQ_TYPE_LEVEL_HIGH>,
- 				     <GIC_SPI 408 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "tuni0", "tuni1", "tuni2";
- 			clocks = <&cpg CPG_MOD 121>;
- 			clock-names = "fck";
- 			power-domains = <&sysc R8A77995_PD_ALWAYS_ON>;
-diff --git a/arch/arm64/boot/dts/renesas/r8a779a0.dtsi b/arch/arm64/boot/dts/renesas/r8a779a0.dtsi
-index 4e67a03564971b89..2f8f2ccab8c23728 100644
---- a/arch/arm64/boot/dts/renesas/r8a779a0.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r8a779a0.dtsi
-@@ -370,6 +370,7 @@ tmu0: timer@e61e0000 {
- 			interrupts = <GIC_SPI 512 IRQ_TYPE_LEVEL_HIGH>,
- 				     <GIC_SPI 513 IRQ_TYPE_LEVEL_HIGH>,
- 				     <GIC_SPI 514 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "tuni0", "tuni1", "tuni2";
- 			clocks = <&cpg CPG_MOD 713>;
- 			clock-names = "fck";
- 			power-domains = <&sysc R8A779A0_PD_ALWAYS_ON>;
-@@ -382,7 +383,9 @@ tmu1: timer@e6fc0000 {
- 			reg = <0 0xe6fc0000 0 0x30>;
- 			interrupts = <GIC_SPI 504 IRQ_TYPE_LEVEL_HIGH>,
- 				     <GIC_SPI 505 IRQ_TYPE_LEVEL_HIGH>,
--				     <GIC_SPI 506 IRQ_TYPE_LEVEL_HIGH>;
-+				     <GIC_SPI 506 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 507 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "tuni0", "tuni1", "tuni2", "ticpi2";
- 			clocks = <&cpg CPG_MOD 714>;
- 			clock-names = "fck";
- 			power-domains = <&sysc R8A779A0_PD_ALWAYS_ON>;
-@@ -395,7 +398,9 @@ tmu2: timer@e6fd0000 {
- 			reg = <0 0xe6fd0000 0 0x30>;
- 			interrupts = <GIC_SPI 508 IRQ_TYPE_LEVEL_HIGH>,
- 				     <GIC_SPI 509 IRQ_TYPE_LEVEL_HIGH>,
--				     <GIC_SPI 510 IRQ_TYPE_LEVEL_HIGH>;
-+				     <GIC_SPI 510 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 511 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "tuni0", "tuni1", "tuni2", "ticpi2";
- 			clocks = <&cpg CPG_MOD 715>;
- 			clock-names = "fck";
- 			power-domains = <&sysc R8A779A0_PD_ALWAYS_ON>;
-@@ -408,7 +413,9 @@ tmu3: timer@e6fe0000 {
- 			reg = <0 0xe6fe0000 0 0x30>;
- 			interrupts = <GIC_SPI 472 IRQ_TYPE_LEVEL_HIGH>,
- 				     <GIC_SPI 473 IRQ_TYPE_LEVEL_HIGH>,
--				     <GIC_SPI 474 IRQ_TYPE_LEVEL_HIGH>;
-+				     <GIC_SPI 474 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 475 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "tuni0", "tuni1", "tuni2", "ticpi2";
- 			clocks = <&cpg CPG_MOD 716>;
- 			clock-names = "fck";
- 			power-domains = <&sysc R8A779A0_PD_ALWAYS_ON>;
-@@ -421,7 +428,9 @@ tmu4: timer@ffc00000 {
- 			reg = <0 0xffc00000 0 0x30>;
- 			interrupts = <GIC_SPI 476 IRQ_TYPE_LEVEL_HIGH>,
- 				     <GIC_SPI 477 IRQ_TYPE_LEVEL_HIGH>,
--				     <GIC_SPI 478 IRQ_TYPE_LEVEL_HIGH>;
-+				     <GIC_SPI 478 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 479 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "tuni0", "tuni1", "tuni2", "ticpi2";
- 			clocks = <&cpg CPG_MOD 717>;
- 			clock-names = "fck";
- 			power-domains = <&sysc R8A779A0_PD_ALWAYS_ON>;
-diff --git a/arch/arm64/boot/dts/renesas/r8a779f0.dtsi b/arch/arm64/boot/dts/renesas/r8a779f0.dtsi
-index 7fb4989cce8a63f1..72cf30341fc4d63e 100644
---- a/arch/arm64/boot/dts/renesas/r8a779f0.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r8a779f0.dtsi
-@@ -501,6 +501,7 @@ tmu0: timer@e61e0000 {
- 			interrupts = <GIC_SPI 474 IRQ_TYPE_LEVEL_HIGH>,
- 				     <GIC_SPI 475 IRQ_TYPE_LEVEL_HIGH>,
- 				     <GIC_SPI 476 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "tuni0", "tuni1", "tuni2";
- 			clocks = <&cpg CPG_MOD 713>;
- 			clock-names = "fck";
- 			power-domains = <&sysc R8A779F0_PD_ALWAYS_ON>;
-@@ -513,7 +514,9 @@ tmu1: timer@e6fc0000 {
- 			reg = <0 0xe6fc0000 0 0x30>;
- 			interrupts = <GIC_SPI 477 IRQ_TYPE_LEVEL_HIGH>,
- 				     <GIC_SPI 478 IRQ_TYPE_LEVEL_HIGH>,
--				     <GIC_SPI 479 IRQ_TYPE_LEVEL_HIGH>;
-+				     <GIC_SPI 479 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 480 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "tuni0", "tuni1", "tuni2", "ticpi2";
- 			clocks = <&cpg CPG_MOD 714>;
- 			clock-names = "fck";
- 			power-domains = <&sysc R8A779F0_PD_ALWAYS_ON>;
-@@ -526,7 +529,9 @@ tmu2: timer@e6fd0000 {
- 			reg = <0 0xe6fd0000 0 0x30>;
- 			interrupts = <GIC_SPI 481 IRQ_TYPE_LEVEL_HIGH>,
- 				     <GIC_SPI 482 IRQ_TYPE_LEVEL_HIGH>,
--				     <GIC_SPI 483 IRQ_TYPE_LEVEL_HIGH>;
-+				     <GIC_SPI 483 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 484 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "tuni0", "tuni1", "tuni2", "ticpi2";
- 			clocks = <&cpg CPG_MOD 715>;
- 			clock-names = "fck";
- 			power-domains = <&sysc R8A779F0_PD_ALWAYS_ON>;
-@@ -539,7 +544,9 @@ tmu3: timer@e6fe0000 {
- 			reg = <0 0xe6fe0000 0 0x30>;
- 			interrupts = <GIC_SPI 485 IRQ_TYPE_LEVEL_HIGH>,
- 				     <GIC_SPI 486 IRQ_TYPE_LEVEL_HIGH>,
--				     <GIC_SPI 487 IRQ_TYPE_LEVEL_HIGH>;
-+				     <GIC_SPI 487 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 488 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "tuni0", "tuni1", "tuni2", "ticpi2";
- 			clocks = <&cpg CPG_MOD 716>;
- 			clock-names = "fck";
- 			power-domains = <&sysc R8A779F0_PD_ALWAYS_ON>;
-@@ -552,7 +559,9 @@ tmu4: timer@ffc00000 {
- 			reg = <0 0xffc00000 0 0x30>;
- 			interrupts = <GIC_SPI 489 IRQ_TYPE_LEVEL_HIGH>,
- 				     <GIC_SPI 490 IRQ_TYPE_LEVEL_HIGH>,
--				     <GIC_SPI 491 IRQ_TYPE_LEVEL_HIGH>;
-+				     <GIC_SPI 491 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 492 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "tuni0", "tuni1", "tuni2", "ticpi2";
- 			clocks = <&cpg CPG_MOD 717>;
- 			clock-names = "fck";
- 			power-domains = <&sysc R8A779F0_PD_ALWAYS_ON>;
-diff --git a/arch/arm64/boot/dts/renesas/r8a779g0.dtsi b/arch/arm64/boot/dts/renesas/r8a779g0.dtsi
-index 3be1159982b204e9..0a46f315c307e3cb 100644
---- a/arch/arm64/boot/dts/renesas/r8a779g0.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r8a779g0.dtsi
-@@ -479,6 +479,7 @@ tmu0: timer@e61e0000 {
- 			interrupts = <GIC_SPI 289 IRQ_TYPE_LEVEL_HIGH>,
- 				     <GIC_SPI 290 IRQ_TYPE_LEVEL_HIGH>,
- 				     <GIC_SPI 291 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "tuni0", "tuni1", "tuni2";
- 			clocks = <&cpg CPG_MOD 713>;
- 			clock-names = "fck";
- 			power-domains = <&sysc R8A779G0_PD_ALWAYS_ON>;
-@@ -491,7 +492,9 @@ tmu1: timer@e6fc0000 {
- 			reg = <0 0xe6fc0000 0 0x30>;
- 			interrupts = <GIC_SPI 292 IRQ_TYPE_LEVEL_HIGH>,
- 				     <GIC_SPI 293 IRQ_TYPE_LEVEL_HIGH>,
--				     <GIC_SPI 294 IRQ_TYPE_LEVEL_HIGH>;
-+				     <GIC_SPI 294 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 295 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "tuni0", "tuni1", "tuni2", "ticpi2";
- 			clocks = <&cpg CPG_MOD 714>;
- 			clock-names = "fck";
- 			power-domains = <&sysc R8A779G0_PD_ALWAYS_ON>;
-@@ -504,7 +507,9 @@ tmu2: timer@e6fd0000 {
- 			reg = <0 0xe6fd0000 0 0x30>;
- 			interrupts = <GIC_SPI 296 IRQ_TYPE_LEVEL_HIGH>,
- 				     <GIC_SPI 297 IRQ_TYPE_LEVEL_HIGH>,
--				     <GIC_SPI 298 IRQ_TYPE_LEVEL_HIGH>;
-+				     <GIC_SPI 298 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 299 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "tuni0", "tuni1", "tuni2", "ticpi2";
- 			clocks = <&cpg CPG_MOD 715>;
- 			clock-names = "fck";
- 			power-domains = <&sysc R8A779G0_PD_ALWAYS_ON>;
-@@ -517,7 +522,9 @@ tmu3: timer@e6fe0000 {
- 			reg = <0 0xe6fe0000 0 0x30>;
- 			interrupts = <GIC_SPI 300 IRQ_TYPE_LEVEL_HIGH>,
- 				     <GIC_SPI 301 IRQ_TYPE_LEVEL_HIGH>,
--				     <GIC_SPI 302 IRQ_TYPE_LEVEL_HIGH>;
-+				     <GIC_SPI 302 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 303 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "tuni0", "tuni1", "tuni2", "ticpi2";
- 			clocks = <&cpg CPG_MOD 716>;
- 			clock-names = "fck";
- 			power-domains = <&sysc R8A779G0_PD_ALWAYS_ON>;
-@@ -530,7 +537,9 @@ tmu4: timer@ffc00000 {
- 			reg = <0 0xffc00000 0 0x30>;
- 			interrupts = <GIC_SPI 304 IRQ_TYPE_LEVEL_HIGH>,
- 				     <GIC_SPI 305 IRQ_TYPE_LEVEL_HIGH>,
--				     <GIC_SPI 306 IRQ_TYPE_LEVEL_HIGH>;
-+				     <GIC_SPI 306 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 307 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "tuni0", "tuni1", "tuni2", "ticpi2";
- 			clocks = <&cpg CPG_MOD 717>;
- 			clock-names = "fck";
- 			power-domains = <&sysc R8A779G0_PD_ALWAYS_ON>;
--- 
-2.34.1
+Thanks for your patch!
 
+> --- a/Documentation/devicetree/bindings/timer/renesas,tmu.yaml
+> +++ b/Documentation/devicetree/bindings/timer/renesas,tmu.yaml
+> @@ -39,14 +39,15 @@ properties:
+>            - renesas,tmu-r8a779a0 # R-Car V3U
+>            - renesas,tmu-r8a779f0 # R-Car S4-8
+>            - renesas,tmu-r8a779g0 # R-Car V4H
+> +          - renesas,tmu-sh7750   # SH7750
+
+OK
+
+>        - const: renesas,tmu
+>
+>    reg:
+>      maxItems: 1
+>
+> -  interrupts:
+> -    minItems: 2
+> -    maxItems: 3
+> +  interrupts: true
+> +
+> +  interrupt-names: true
+
+I would drop this change (see below).
+
+>
+>    clocks:
+>      maxItems: 1
+> @@ -75,21 +76,55 @@ required:
+>    - clock-names
+>    - power-domains
+>
+> -if:
+> -  not:
+> -    properties:
+> -      compatible:
+> -        contains:
+> -          enum:
+> -            - renesas,tmu-r8a7740
+> -            - renesas,tmu-r8a7778
+> -            - renesas,tmu-r8a7779
+> -then:
+> -  required:
+> -    - resets
+> -
+>  additionalProperties: false
+>
+> +allOf:
+> +  - if:
+> +      not:
+> +        properties:
+> +          compatible:
+> +            contains:
+> +              enum:
+> +                - renesas,tmu-r8a7740
+> +                - renesas,tmu-r8a7778
+> +                - renesas,tmu-r8a7779
+> +                - renesas,tmu-sh7750
+
+Adding renesas,tmu-sh7750 to this list is OK.
+
+> +
+> +    then:
+> +      required:
+> +        - resets
+> +
+> +  - if:
+> +      not:
+> +        properties:
+> +          compatible:
+> +            contains:
+> +              enum:
+> +                - renesas,tmu-sh7750
+> +
+> +    then:
+> +      properties:
+> +        interrupts:
+> +          minItems: 2
+> +          maxItems: 3
+> +        interrupt-names:
+> +          items:
+> +            - const: tuni0
+> +            - const: tuni1
+> +            - const: tuni2
+> +
+> +    else:
+> +      properties:
+> +        interrupts:
+> +          minItems: 2
+> +          maxItems: 4
+> +        interrupt-names:
+> +          items:
+> +            - const: tuni0
+> +            - const: tuni1
+> +            - const: tuni2
+> +            - const: ticpi2
+> +
+>  examples:
+>    - |
+>      #include <dt-bindings/clock/r8a7779-clock.h>
+
+The new interrupt logic is not really correct: several TMU instances
+on other SoCs do support the fourth interrupt.  It just was not
+documented before, or supported by the driver.
+
+I have sent a patch to document the fourth interrupt[1].  Once that
+patch has been applied, adding support for sh7751 involves adding just
+two new lines.
+
+[1] "PATCH] dt-bindings: timer: renesas,tmu: Document input capture
+     interrupt"
+    https://lore.kernel.org/r/fb1e38c93e62221f94304edd980a2fb79c1f2995.1705=
+325608.git.geert+renesas@glider.be
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
