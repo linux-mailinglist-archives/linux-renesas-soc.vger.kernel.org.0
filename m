@@ -1,129 +1,104 @@
-Return-Path: <linux-renesas-soc+bounces-1587-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-1588-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB1F282DDE0
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 15 Jan 2024 17:48:40 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6721382DE12
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 15 Jan 2024 17:59:30 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 6F146B20B88
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 15 Jan 2024 16:48:38 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8E54E1C2160B
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 15 Jan 2024 16:59:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 73DB817BCF;
-	Mon, 15 Jan 2024 16:48:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3064F17C63;
+	Mon, 15 Jan 2024 16:59:27 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com [209.85.128.171])
+Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com [209.85.128.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B05C17BBB;
-	Mon, 15 Jan 2024 16:48:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A90D18021;
+	Mon, 15 Jan 2024 16:59:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-5e778e484dbso79355617b3.0;
-        Mon, 15 Jan 2024 08:48:31 -0800 (PST)
+Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-5e54d40cca2so67389197b3.3;
+        Mon, 15 Jan 2024 08:59:25 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705337311; x=1705942111;
+        d=1e100.net; s=20230601; t=1705337964; x=1705942764;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=6Xom6xncqDax048LAWipCjONrGVwUc7wt4+JM1uzSZY=;
-        b=LEPnoPuxuer9/ZiDq7iJe/f/qr99jDh0kOBblKLqTzFQBGPNlJe7zoY6Q6HbdHlSq0
-         w+XqVnLTRzjT4esFBesrfYOzDnRETPo2U0vvCrHTPjnLTE4h0KgJqO00+mO2zYlNTReH
-         78mhwEZrvCR/31LFqIjeY8FULcV/vLcd/9OrlQWZFvdDVEtA0Etg7cZUb21G+PnKNJKF
-         fcFZs4es0Cu+uY/UyOZh1jL+ePX6pN3FRX3jcmaf5wCD4gIkcQjU8SKj5QhONcIhvm+f
-         1V/N3thToMo53XXh4W4mvfV+nRcIn6LrO33WvxO2HZBHXAf40puvW1DIxO9vbN3bPwUi
-         yLGQ==
-X-Gm-Message-State: AOJu0YwbEyw7PeJztTrTvFtHDj3jw8Hr41A21AuPGcgtpiZWL1yA+b69
-	QpdtSCGfeUqA92fB7+Dp7LJootIbyAIfdw==
-X-Google-Smtp-Source: AGHT+IGPc2kGPa+rPHUjg3iCnVulW/PAu7ISq1WSFpkeugYPVjR21uP5oCa4oMaYP/IDjafAuXlNAA==
-X-Received: by 2002:a81:ad1c:0:b0:5ff:3ee4:956c with SMTP id l28-20020a81ad1c000000b005ff3ee4956cmr534904ywh.23.1705337310737;
-        Mon, 15 Jan 2024 08:48:30 -0800 (PST)
-Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com. [209.85.128.179])
-        by smtp.gmail.com with ESMTPSA id d70-20020a814f49000000b005fdc47c460dsm285001ywb.23.2024.01.15.08.48.30
+        bh=JTTYbhFYpBwHX0wKOJ+oWprTegK07QidRl5wy0SlVyo=;
+        b=BJbZxluJjBUqN9kkK1IHLpzxX6DYgC6f1gBLRc5exNmiSwiQkTFWAVeZEwh7jsBldu
+         ekf867Kkaln2E3lWSJngSr3ty2pXBQNgCJi5arFAtV3gvyzRMzgSnNxXYbaTM1Oeognc
+         YtpF8O7RjSbviHbEDD0kIb/HL5/56HxrAK7XAQ6JLoe0XVlPQYyQX3GLMfKoZiAkyD7h
+         FgQ5s4FliQR/W/GcOV8Mr+OHTybDiGSIMWBv2IOAF/EXS7xIspsyYWds+1zdSyHdn/XD
+         s3cLQR1wonaRLqpTbnIyuM+srx3g5LvoEIhEkA/zyGWOjEsL9R2nUwngJc4417BokTBe
+         99Xg==
+X-Gm-Message-State: AOJu0YzuTE5+nJ10CUEvB22Lk+nBCgDfF4J6HsATqBZiTGQTFEVqv1I/
+	amB4C5XfNtVkbDjzx5J4Etb8JKFQgsOCpQ==
+X-Google-Smtp-Source: AGHT+IGCFEhjMFTQ73ACCqn+2YxEfktP5HCEJzBnreIVgZ20IWZ/a6LIMr3mWULHOEmHRWnv8e+zvA==
+X-Received: by 2002:a81:4cd6:0:b0:5eb:6c37:6b46 with SMTP id z205-20020a814cd6000000b005eb6c376b46mr2678304ywa.22.1705337964399;
+        Mon, 15 Jan 2024 08:59:24 -0800 (PST)
+Received: from mail-yb1-f178.google.com (mail-yb1-f178.google.com. [209.85.219.178])
+        by smtp.gmail.com with ESMTPSA id y68-20020a81a147000000b005fa95a2f418sm4069173ywg.103.2024.01.15.08.59.24
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 15 Jan 2024 08:48:30 -0800 (PST)
-Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-5f0c0ca5ef1so87109787b3.2;
-        Mon, 15 Jan 2024 08:48:30 -0800 (PST)
-X-Received: by 2002:a05:690c:a98:b0:5e9:f386:dd63 with SMTP id
- ci24-20020a05690c0a9800b005e9f386dd63mr4282644ywb.39.1705337310443; Mon, 15
- Jan 2024 08:48:30 -0800 (PST)
+        Mon, 15 Jan 2024 08:59:24 -0800 (PST)
+Received: by mail-yb1-f178.google.com with SMTP id 3f1490d57ef6-db4364ecd6aso6075709276.2;
+        Mon, 15 Jan 2024 08:59:24 -0800 (PST)
+X-Received: by 2002:a25:d502:0:b0:dbe:2063:72b9 with SMTP id
+ r2-20020a25d502000000b00dbe206372b9mr1905510ybe.50.1705337963803; Mon, 15 Jan
+ 2024 08:59:23 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <fb1e38c93e62221f94304edd980a2fb79c1f2995.1705325608.git.geert+renesas@glider.be>
- <20240115-wages-secluded-b44f4eb13323@spud>
-In-Reply-To: <20240115-wages-secluded-b44f4eb13323@spud>
+References: <cover.1704726960.git.geert+renesas@glider.be> <ee3e57bafef123194b9779dbf5b9c181dc3b37ed.1704726960.git.geert+renesas@glider.be>
+ <CAPDyKFpc1ZsVhFM22zum=54LQ3Tiow7kG0nnt3WD3DBTGY6KFg@mail.gmail.com>
+In-Reply-To: <CAPDyKFpc1ZsVhFM22zum=54LQ3Tiow7kG0nnt3WD3DBTGY6KFg@mail.gmail.com>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 15 Jan 2024 17:48:18 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdWY3D45NGHvGXSZRLZz4TyCRgRCQLZV6CzYs=mSFcherw@mail.gmail.com>
-Message-ID: <CAMuHMdWY3D45NGHvGXSZRLZz4TyCRgRCQLZV6CzYs=mSFcherw@mail.gmail.com>
-Subject: Re: [PATCH] dt-bindings: timer: renesas,tmu: Document input capture interrupt
-To: Conor Dooley <conor@kernel.org>
-Cc: Daniel Lezcano <daniel.lezcano@linaro.org>, Thomas Gleixner <tglx@linutronix.de>, 
-	Rob Herring <robh+dt@kernel.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
-	Yoshinori Sato <ysato@users.sourceforge.jp>, devicetree@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org, linux-sh@vger.kernel.org
+Date: Mon, 15 Jan 2024 17:59:12 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdU0aQR4qki0Yqd0WGPf=hRR4UqWxY0C=ctAnV0oWxbmxw@mail.gmail.com>
+Message-ID: <CAMuHMdU0aQR4qki0Yqd0WGPf=hRR4UqWxY0C=ctAnV0oWxbmxw@mail.gmail.com>
+Subject: Re: [PATCH 09/15] pmdomain: renesas: r8a779h0-sysc: Add r8a779h0 support
+To: Ulf Hansson <ulf.hansson@linaro.org>
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>, linux-renesas-soc@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-pm@vger.kernel.org, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Conor,
+Hi Ulf,
 
-On Mon, Jan 15, 2024 at 5:13=E2=80=AFPM Conor Dooley <conor@kernel.org> wro=
-te:
-> On Mon, Jan 15, 2024 at 02:45:39PM +0100, Geert Uytterhoeven wrote:
-> > Some Timer Unit (TMU) instances with 3 channels support a fourth
-> > interrupt: an input capture interrupt for the third channel.
+On Mon, Jan 15, 2024 at 5:39=E2=80=AFPM Ulf Hansson <ulf.hansson@linaro.org=
+> wrote:
+> - trimmed cc-list
+
+CC krzk ;-)
+
+> On Mon, 8 Jan 2024 at 16:34, Geert Uytterhoeven <geert+renesas@glider.be>=
+ wrote:
+> > From: Duy Nguyen <duy.nguyen.rh@renesas.com>
 > >
-> > While at it, document the meaning of the four interrupts, and add
-> > "interrupt-names" for clarity.
+> > Add support for R-Car V4M (R8A779H0) SoC power areas to the R-Car SYSC
+> > driver.
 > >
-> > Update the example to match reality.
-> >
-> > Inspired by a patch by Yoshinori Sato for SH.
-> >
+> > Signed-off-by: Duy Nguyen <duy.nguyen.rh@renesas.com>
 > > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-
-> > --- a/Documentation/devicetree/bindings/timer/renesas,tmu.yaml
-> > +++ b/Documentation/devicetree/bindings/timer/renesas,tmu.yaml
-> > @@ -46,7 +46,19 @@ properties:
-> >
-> >    interrupts:
-> >      minItems: 2
-> > -    maxItems: 3
-> > +    items:
-> > +      - description: Underflow interrupt 0
-> > +      - description: Underflow interrupt 1
-> > +      - description: Underflow interrupt 2
-> > +      - description: Input capture interrupt 2
 >
-> Seeing "input capture interrupt 2" makes me wonder, are there two (or
-> more!) other input capture interrupts that are still out there,
-> undocumented, and looking for a home?
+> To make sure we agree on the merge strategy; should I pick up $subject
+> patch, patch3 and patch4 through my pmdomain tree? DT patches, like
+> patch3 and patch4, I should share as usual via my immutable "dt"
+> branch, so you can pull it into your renesas tree?
 
-SoCs can have multiple TMU instances.
-Each TMU instance has 2 or 3 timer channels.
-Each timer channel has an underflow interrupt.
-Only the third channel may have an optional input capture interrupt
-(which is not supported yet by the Linux driver).
-Hence each instance can have 2, 3, or 4 interrupts.
+Thanks, that would be great!
 
-See "RZ/G Series, 2nd Generation User's Manual: Hardware"[1],
-Section 69 ("Timer Unit (TMU)":
-  - Figure 69.2: Block Diagram of TMU,
-  - Section 69: Interrupt
+However, please note that Krzysztof wants me to add a vendor-prefix
+to DT binding definition files[1], so there will be a v2.
 
-Note that the documentation uses a monotonic increasing numbering
-of the channels, across all instances.
-
-[1] https://www.renesas.com/us/en/products/microcontrollers-microprocessors=
-/rz-mpus/rzg2h-ultra-high-performance-microprocessors-quad-core-arm-cortex-=
-a57-and-quad-core-arm-cortex-a53-cpus-3d
+[1] include/dt-bindings/power/r8a779h0-sysc.h
 
 Gr{oetje,eeting}s,
 
