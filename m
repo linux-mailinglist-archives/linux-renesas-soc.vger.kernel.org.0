@@ -1,36 +1,36 @@
-Return-Path: <linux-renesas-soc+bounces-1564-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-1567-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B40682D7FD
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 15 Jan 2024 12:03:25 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BEDA82D7FF
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 15 Jan 2024 12:03:27 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3D90D1F21217
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8023E281AB1
 	for <lists+linux-renesas-soc@lfdr.de>; Mon, 15 Jan 2024 11:03:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6F9851E86C;
-	Mon, 15 Jan 2024 11:03:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B2CF91E86A;
+	Mon, 15 Jan 2024 11:03:22 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from xavier.telenet-ops.be (xavier.telenet-ops.be [195.130.132.52])
+Received: from albert.telenet-ops.be (albert.telenet-ops.be [195.130.137.90])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF0B61E867
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 15 Jan 2024 11:03:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C00DD1E86B
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 15 Jan 2024 11:03:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
 Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed40:1376:70aa:e074:32d3])
-	by xavier.telenet-ops.be with bizsmtp
-	id az3A2B00j34Hgv901z3ArW; Mon, 15 Jan 2024 12:03:11 +0100
+	by albert.telenet-ops.be with bizsmtp
+	id az3A2B00W34Hgv906z3A18; Mon, 15 Jan 2024 12:03:12 +0100
 Received: from rox.of.borg ([192.168.97.57])
 	by ramsan.of.borg with esmtp (Exim 4.95)
 	(envelope-from <geert@linux-m68k.org>)
-	id 1rPKjZ-00Fdgv-Tr;
+	id 1rPKjZ-00Fdgw-Tq;
 	Mon, 15 Jan 2024 12:03:10 +0100
 Received: from geert by rox.of.borg with local (Exim 4.95)
 	(envelope-from <geert@linux-m68k.org>)
-	id 1rPKkI-00Bz8j-LA;
+	id 1rPKkI-00Bz8m-MT;
 	Mon, 15 Jan 2024 12:03:10 +0100
 From: Geert Uytterhoeven <geert+renesas@glider.be>
 To: Magnus Damm <magnus.damm@gmail.com>
@@ -38,10 +38,12 @@ Cc: Ulrich Hecht <ulrich.hecht+renesas@gmail.com>,
 	linux-renesas-soc@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH 0/3] ARM: dts: renesas: r8a73a4: Clock fixes and improvements
-Date: Mon, 15 Jan 2024 12:03:02 +0100
-Message-Id: <cover.1705315614.git.geert+renesas@glider.be>
+Subject: [PATCH 1/3] ARM: dts: renesas: r8a73a4: Fix external clocks and clock rate
+Date: Mon, 15 Jan 2024 12:03:03 +0100
+Message-Id: <1692bc8cd465d62168cbf110522ad62a7af3f606.1705315614.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <cover.1705315614.git.geert+renesas@glider.be>
+References: <cover.1705315614.git.geert+renesas@glider.be>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -50,45 +52,76 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-	Hi all,
+External clocks should be defined as zero-Hz clocks in the SoC .dtsi,
+and overridden in the board .dts when present.
 
-This patch series contains fixes and improvements for clock descriptions
-of the Renesas R-Mobile APE6 SoC and the APE6-EVM development board.
+Correct the clock rate of extal1 from 25 to 26 MHz, to match the crystal
+oscillator present on the APE6-EVM board.
 
-After comparing CPU core performance over a wide range of SoCs, I had
-been wondering for a long time why DMIPS/MHZ for the Cortex-A15 CPU
-cores on R-Mobile APE6 is slightly higher than on R-Car Gen2 SoCs.
-It turned out to be untrue, as the R-Mobile APE6 DTS contains a wrong
-crystal osciallator freqency, causing the CPU cores on R-Mobile APE6 to
-run 4% faster than assumed by Linux.  The first patch fixes this.
-The two other patches contain small improvements and a small fix, none
-of which have any functional impact.
+Fixes: a76809a329d6ebae ("ARM: shmobile: r8a73a4: Common clock framework DT description")
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+Before, DMIPS/MHZ for the Cortex-A15 CPU cores was slightly higher
+than on R-Car M2-W, due to most clocks running 4% faster than assumed.
 
-I plan to queue this in renesas-devel for v6.9.
+Also verified by measuring I2C clock rates using a logic analyzer.
+---
+ arch/arm/boot/dts/renesas/r8a73a4-ape6evm.dts | 12 ++++++++++++
+ arch/arm/boot/dts/renesas/r8a73a4.dtsi        |  9 ++++++---
+ 2 files changed, 18 insertions(+), 3 deletions(-)
 
-
-Thanks for your comments!
-
-Geert Uytterhoeven (3):
-  ARM: dts: renesas: r8a73a4: Fix external clocks and clock rate
-  ARM: dts: renesas: r8a73a4: Add cp clock
-  ARM: dts: renesas: r8a73a4: Fix thermal parent clock
-
- arch/arm/boot/dts/renesas/r8a73a4-ape6evm.dts | 12 ++++++++++
- arch/arm/boot/dts/renesas/r8a73a4.dtsi        | 23 +++++++++++++------
- 2 files changed, 28 insertions(+), 7 deletions(-)
-
+diff --git a/arch/arm/boot/dts/renesas/r8a73a4-ape6evm.dts b/arch/arm/boot/dts/renesas/r8a73a4-ape6evm.dts
+index de87f2682e323866..ae656ee27124c745 100644
+--- a/arch/arm/boot/dts/renesas/r8a73a4-ape6evm.dts
++++ b/arch/arm/boot/dts/renesas/r8a73a4-ape6evm.dts
+@@ -223,6 +223,18 @@ &cmt1 {
+ 	status = "okay";
+ };
+ 
++&extal1_clk {
++	clock-frequency = <26000000>;
++};
++
++&extal2_clk {
++	clock-frequency = <48000000>;
++};
++
++&extalr_clk {
++	clock-frequency = <32768>;
++};
++
+ &pfc {
+ 	scifa0_pins: scifa0 {
+ 		groups = "scifa0_data";
+diff --git a/arch/arm/boot/dts/renesas/r8a73a4.dtsi b/arch/arm/boot/dts/renesas/r8a73a4.dtsi
+index 704b0e4acb4dedf6..b9c20e8ac14f2156 100644
+--- a/arch/arm/boot/dts/renesas/r8a73a4.dtsi
++++ b/arch/arm/boot/dts/renesas/r8a73a4.dtsi
+@@ -553,17 +553,20 @@ clocks {
+ 		extalr_clk: extalr {
+ 			compatible = "fixed-clock";
+ 			#clock-cells = <0>;
+-			clock-frequency = <32768>;
++			/* This value must be overridden by the board. */
++			clock-frequency = <0>;
+ 		};
+ 		extal1_clk: extal1 {
+ 			compatible = "fixed-clock";
+ 			#clock-cells = <0>;
+-			clock-frequency = <25000000>;
++			/* This value must be overridden by the board. */
++			clock-frequency = <0>;
+ 		};
+ 		extal2_clk: extal2 {
+ 			compatible = "fixed-clock";
+ 			#clock-cells = <0>;
+-			clock-frequency = <48000000>;
++			/* This value must be overridden by the board. */
++			clock-frequency = <0>;
+ 		};
+ 		fsiack_clk: fsiack {
+ 			compatible = "fixed-clock";
 -- 
 2.34.1
 
-Gr{oetje,eeting}s,
-
-						Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-							    -- Linus Torvalds
 
