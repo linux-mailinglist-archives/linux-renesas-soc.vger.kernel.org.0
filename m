@@ -1,227 +1,141 @@
-Return-Path: <linux-renesas-soc+bounces-1586-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-1587-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56E3382DDB8
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 15 Jan 2024 17:39:26 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id CB1F282DDE0
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 15 Jan 2024 17:48:40 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id F4067281D52
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 15 Jan 2024 16:39:24 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 6F146B20B88
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 15 Jan 2024 16:48:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BA23C17BB6;
-	Mon, 15 Jan 2024 16:39:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="IjUYZaEC"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 73DB817BCF;
+	Mon, 15 Jan 2024 16:48:34 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yb1-f170.google.com (mail-yb1-f170.google.com [209.85.219.170])
+Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com [209.85.128.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16DD117BBB
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 15 Jan 2024 16:39:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-yb1-f170.google.com with SMTP id 3f1490d57ef6-dbd721384c0so7042919276.1
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 15 Jan 2024 08:39:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1705336757; x=1705941557; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=s/fqnYPq+dkxltZBpseJmaWi5P52GcYKf8Hz52+kYdw=;
-        b=IjUYZaECxzKfYLrIA6JZzfm/WyjSzCqj+ZaR3B/yqVXZfdIbfIalky8b+JGoH3NI3K
-         oIQhhDgEQUm91cIXyGgYivNQxQiONX5/J6XVIGuoD9YqKc5uEfmnR2iVx2ibEQnklPcV
-         7kHm7u0Az29VHRc5AyX57An1zAQB5RtH0Gyj0/ezzU+K0GoPhA1zPzlI7j0ML5MpbNyb
-         aUjb7v5PdTekQKR/bARWs2x2Cp0CAZMDiXsBN3D4WKvh3FckB9/Vssb334V71DaNV4d2
-         GjQIHsHTvOqIlAH8qeRtzLs5mB+s8z9sUNqD64FNeWIOhtvsAxshySe7SV9q1/sJzBm6
-         h7JA==
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B05C17BBB;
+	Mon, 15 Jan 2024 16:48:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-5e778e484dbso79355617b3.0;
+        Mon, 15 Jan 2024 08:48:31 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705336757; x=1705941557;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=s/fqnYPq+dkxltZBpseJmaWi5P52GcYKf8Hz52+kYdw=;
-        b=BLFEUq6Tl2gyMvl9730+b5+cm+Su5B2itND37og00kkaKhfLn7w8z3+n4x1/LJPVzM
-         udc30dL+TZICs7dcsqgsCKd17wnyim+R2DMSTgdthODqcCOVVtnaWjHLUDXcdWDNULEQ
-         LgWovoNrLAyAkmVLoqzPgdRewodqDJtVmQVBrA1OO/hVp1ZLhICTWQnwB6xyMO1TQx4H
-         zMwWg9B8PtG4oLeMg1lkJ4FZA4lXO7ozuwYdZT0ecR9+rwAVWZ0hgc27zMt1cOVNfdDL
-         Hv+WxZpq+AsAbRcPsl6xWyXcQvgt3owjB9ZGGQR3gSGrzYSvhpRtvPEjIjWuAr1l0tsl
-         bosg==
-X-Gm-Message-State: AOJu0YzLM7w6X9CS7tPJCg4r1feL4KMMEFMhCH/MBKdiVKxJ4+W7F7b1
-	Z/IHCdUKhzL30/Gz4wa/vUzrugCwi9JQHI93ASc6FLQDLLMLuA==
-X-Google-Smtp-Source: AGHT+IHETO9D5PNXpCW0t0+ryr9d6gweyKG6zA7bPc8EVqB2nhkeswrpOk/2xV5U8DLwdyukn9i/vGUKpTbnfZA43ds=
-X-Received: by 2002:a05:6902:1b13:b0:dbd:98db:f6ec with SMTP id
- eh19-20020a0569021b1300b00dbd98dbf6ecmr3260792ybb.33.1705336756978; Mon, 15
- Jan 2024 08:39:16 -0800 (PST)
+        d=1e100.net; s=20230601; t=1705337311; x=1705942111;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=6Xom6xncqDax048LAWipCjONrGVwUc7wt4+JM1uzSZY=;
+        b=LEPnoPuxuer9/ZiDq7iJe/f/qr99jDh0kOBblKLqTzFQBGPNlJe7zoY6Q6HbdHlSq0
+         w+XqVnLTRzjT4esFBesrfYOzDnRETPo2U0vvCrHTPjnLTE4h0KgJqO00+mO2zYlNTReH
+         78mhwEZrvCR/31LFqIjeY8FULcV/vLcd/9OrlQWZFvdDVEtA0Etg7cZUb21G+PnKNJKF
+         fcFZs4es0Cu+uY/UyOZh1jL+ePX6pN3FRX3jcmaf5wCD4gIkcQjU8SKj5QhONcIhvm+f
+         1V/N3thToMo53XXh4W4mvfV+nRcIn6LrO33WvxO2HZBHXAf40puvW1DIxO9vbN3bPwUi
+         yLGQ==
+X-Gm-Message-State: AOJu0YwbEyw7PeJztTrTvFtHDj3jw8Hr41A21AuPGcgtpiZWL1yA+b69
+	QpdtSCGfeUqA92fB7+Dp7LJootIbyAIfdw==
+X-Google-Smtp-Source: AGHT+IGPc2kGPa+rPHUjg3iCnVulW/PAu7ISq1WSFpkeugYPVjR21uP5oCa4oMaYP/IDjafAuXlNAA==
+X-Received: by 2002:a81:ad1c:0:b0:5ff:3ee4:956c with SMTP id l28-20020a81ad1c000000b005ff3ee4956cmr534904ywh.23.1705337310737;
+        Mon, 15 Jan 2024 08:48:30 -0800 (PST)
+Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com. [209.85.128.179])
+        by smtp.gmail.com with ESMTPSA id d70-20020a814f49000000b005fdc47c460dsm285001ywb.23.2024.01.15.08.48.30
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 15 Jan 2024 08:48:30 -0800 (PST)
+Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-5f0c0ca5ef1so87109787b3.2;
+        Mon, 15 Jan 2024 08:48:30 -0800 (PST)
+X-Received: by 2002:a05:690c:a98:b0:5e9:f386:dd63 with SMTP id
+ ci24-20020a05690c0a9800b005e9f386dd63mr4282644ywb.39.1705337310443; Mon, 15
+ Jan 2024 08:48:30 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cover.1704726960.git.geert+renesas@glider.be> <ee3e57bafef123194b9779dbf5b9c181dc3b37ed.1704726960.git.geert+renesas@glider.be>
-In-Reply-To: <ee3e57bafef123194b9779dbf5b9c181dc3b37ed.1704726960.git.geert+renesas@glider.be>
-From: Ulf Hansson <ulf.hansson@linaro.org>
-Date: Mon, 15 Jan 2024 17:38:40 +0100
-Message-ID: <CAPDyKFpc1ZsVhFM22zum=54LQ3Tiow7kG0nnt3WD3DBTGY6KFg@mail.gmail.com>
-Subject: Re: [PATCH 09/15] pmdomain: renesas: r8a779h0-sysc: Add r8a779h0 support
-To: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-pm@vger.kernel.org
+References: <fb1e38c93e62221f94304edd980a2fb79c1f2995.1705325608.git.geert+renesas@glider.be>
+ <20240115-wages-secluded-b44f4eb13323@spud>
+In-Reply-To: <20240115-wages-secluded-b44f4eb13323@spud>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Mon, 15 Jan 2024 17:48:18 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdWY3D45NGHvGXSZRLZz4TyCRgRCQLZV6CzYs=mSFcherw@mail.gmail.com>
+Message-ID: <CAMuHMdWY3D45NGHvGXSZRLZz4TyCRgRCQLZV6CzYs=mSFcherw@mail.gmail.com>
+Subject: Re: [PATCH] dt-bindings: timer: renesas,tmu: Document input capture interrupt
+To: Conor Dooley <conor@kernel.org>
+Cc: Daniel Lezcano <daniel.lezcano@linaro.org>, Thomas Gleixner <tglx@linutronix.de>, 
+	Rob Herring <robh+dt@kernel.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
+	Yoshinori Sato <ysato@users.sourceforge.jp>, devicetree@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org, linux-sh@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-- trimmed cc-list
+Hi Conor,
 
-On Mon, 8 Jan 2024 at 16:34, Geert Uytterhoeven <geert+renesas@glider.be> wrote:
->
-> From: Duy Nguyen <duy.nguyen.rh@renesas.com>
->
-> Add support for R-Car V4M (R8A779H0) SoC power areas to the R-Car SYSC
-> driver.
->
-> Signed-off-by: Duy Nguyen <duy.nguyen.rh@renesas.com>
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+On Mon, Jan 15, 2024 at 5:13=E2=80=AFPM Conor Dooley <conor@kernel.org> wro=
+te:
+> On Mon, Jan 15, 2024 at 02:45:39PM +0100, Geert Uytterhoeven wrote:
+> > Some Timer Unit (TMU) instances with 3 channels support a fourth
+> > interrupt: an input capture interrupt for the third channel.
+> >
+> > While at it, document the meaning of the four interrupts, and add
+> > "interrupt-names" for clarity.
+> >
+> > Update the example to match reality.
+> >
+> > Inspired by a patch by Yoshinori Sato for SH.
+> >
+> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-To make sure we agree on the merge strategy; should I pick up $subject
-patch, patch3 and patch4 through my pmdomain tree? DT patches, like
-patch3 and patch4, I should share as usual via my immutable "dt"
-branch, so you can pull it into your renesas tree?
+> > --- a/Documentation/devicetree/bindings/timer/renesas,tmu.yaml
+> > +++ b/Documentation/devicetree/bindings/timer/renesas,tmu.yaml
+> > @@ -46,7 +46,19 @@ properties:
+> >
+> >    interrupts:
+> >      minItems: 2
+> > -    maxItems: 3
+> > +    items:
+> > +      - description: Underflow interrupt 0
+> > +      - description: Underflow interrupt 1
+> > +      - description: Underflow interrupt 2
+> > +      - description: Input capture interrupt 2
+>
+> Seeing "input capture interrupt 2" makes me wonder, are there two (or
+> more!) other input capture interrupts that are still out there,
+> undocumented, and looking for a home?
 
-Kind regards
-Uffe
+SoCs can have multiple TMU instances.
+Each TMU instance has 2 or 3 timer channels.
+Each timer channel has an underflow interrupt.
+Only the third channel may have an optional input capture interrupt
+(which is not supported yet by the Linux driver).
+Hence each instance can have 2, 3, or 4 interrupts.
 
-> ---
-> Changes compared to the BSP:
->   - Move from drivers/soc/renesas/ to drivers/pmdomain/renesas/,
->   - Include rcar-gen4-sysc glue from "soc: renesas: rcar-gen4-sysc:
->     Introduce R-Car Gen4 SYSC driver",
->   - Remove unneeded includes,
->   - Align second column,
->   - Fix names of "a33dga" and "a23dgb" domains,
->   - Add missing "a3cr[012]" domains.
-> ---
->  drivers/pmdomain/renesas/Kconfig          |  4 ++
->  drivers/pmdomain/renesas/Makefile         |  1 +
->  drivers/pmdomain/renesas/r8a779h0-sysc.c  | 55 +++++++++++++++++++++++
->  drivers/pmdomain/renesas/rcar-gen4-sysc.c |  3 ++
->  drivers/pmdomain/renesas/rcar-gen4-sysc.h |  1 +
->  5 files changed, 64 insertions(+)
->  create mode 100644 drivers/pmdomain/renesas/r8a779h0-sysc.c
->
-> diff --git a/drivers/pmdomain/renesas/Kconfig b/drivers/pmdomain/renesas/Kconfig
-> index 80bf2cf8b60e6f63..54acb4b1ec7c4892 100644
-> --- a/drivers/pmdomain/renesas/Kconfig
-> +++ b/drivers/pmdomain/renesas/Kconfig
-> @@ -71,6 +71,10 @@ config SYSC_R8A779G0
->         bool "System Controller support for R-Car V4H" if COMPILE_TEST
->         select SYSC_RCAR_GEN4
->
-> +config SYSC_R8A779H0
-> +       bool "System Controller support for R-Car V4M" if COMPILE_TEST
-> +       select SYSC_RCAR_GEN4
-> +
->  config SYSC_RMOBILE
->         bool "System Controller support for R-Mobile" if COMPILE_TEST
->
-> diff --git a/drivers/pmdomain/renesas/Makefile b/drivers/pmdomain/renesas/Makefile
-> index e306e396fc8c10e3..89180f19c23be732 100644
-> --- a/drivers/pmdomain/renesas/Makefile
-> +++ b/drivers/pmdomain/renesas/Makefile
-> @@ -24,6 +24,7 @@ obj-$(CONFIG_SYSC_R8A77995)   += r8a77995-sysc.o
->  obj-$(CONFIG_SYSC_R8A779A0)    += r8a779a0-sysc.o
->  obj-$(CONFIG_SYSC_R8A779F0)    += r8a779f0-sysc.o
->  obj-$(CONFIG_SYSC_R8A779G0)    += r8a779g0-sysc.o
-> +obj-$(CONFIG_SYSC_R8A779H0)     += r8a779h0-sysc.o
->  # Family
->  obj-$(CONFIG_SYSC_RCAR)                += rcar-sysc.o
->  obj-$(CONFIG_SYSC_RCAR_GEN4)   += rcar-gen4-sysc.o
-> diff --git a/drivers/pmdomain/renesas/r8a779h0-sysc.c b/drivers/pmdomain/renesas/r8a779h0-sysc.c
-> new file mode 100644
-> index 0000000000000000..bf3fd50dc8dccaf0
-> --- /dev/null
-> +++ b/drivers/pmdomain/renesas/r8a779h0-sysc.c
-> @@ -0,0 +1,55 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * Renesas R-Car V4M System Controller
-> + *
-> + * Copyright (C) 2016-2017 Glider bvba
-> + * Copyright (C) 2023 Renesas Electronics Corp
-> + */
-> +
-> +#include <linux/kernel.h>
-> +
-> +#include <dt-bindings/power/r8a779h0-sysc.h>
-> +
-> +#include "rcar-gen4-sysc.h"
-> +
-> +static struct rcar_gen4_sysc_area r8a779h0_areas[] __initdata = {
-> +       { "always-on",  R8A779H0_PD_ALWAYS_ON, -1, PD_ALWAYS_ON },
-> +       { "c4",         R8A779H0_PD_C4, R8A779H0_PD_ALWAYS_ON },
-> +       { "a2e0d0",     R8A779H0_PD_A2E0D0, R8A779H0_PD_C4, PD_SCU },
-> +       { "a1e0d0c0",   R8A779H0_PD_A1E0D0C0, R8A779H0_PD_A2E0D0, PD_CPU_NOCR },
-> +       { "a1e0d0c1",   R8A779H0_PD_A1E0D0C1, R8A779H0_PD_A2E0D0, PD_CPU_NOCR },
-> +       { "a1e0d0c2",   R8A779H0_PD_A1E0D0C2, R8A779H0_PD_A2E0D0, PD_CPU_NOCR },
-> +       { "a1e0d0c3",   R8A779H0_PD_A1E0D0C3, R8A779H0_PD_A2E0D0, PD_CPU_NOCR },
-> +       { "a3cr0",      R8A779H0_PD_A3CR0, R8A779H0_PD_ALWAYS_ON, PD_CPU_NOCR },
-> +       { "a3cr1",      R8A779H0_PD_A3CR1, R8A779H0_PD_ALWAYS_ON, PD_CPU_NOCR },
-> +       { "a3cr2",      R8A779H0_PD_A3CR2, R8A779H0_PD_ALWAYS_ON, PD_CPU_NOCR },
-> +       { "a33dga",     R8A779H0_PD_A33DGA, R8A779H0_PD_C4 },
-> +       { "a23dgb",     R8A779H0_PD_A23DGB, R8A779H0_PD_A33DGA },
-> +       { "a3vip0",     R8A779H0_PD_A3VIP0, R8A779H0_PD_C4 },
-> +       { "a3vip2",     R8A779H0_PD_A3VIP2, R8A779H0_PD_C4 },
-> +       { "a3dul",      R8A779H0_PD_A3DUL, R8A779H0_PD_C4 },
-> +       { "a3isp0",     R8A779H0_PD_A3ISP0, R8A779H0_PD_C4 },
-> +       { "a2cn0",      R8A779H0_PD_A2CN0, R8A779H0_PD_C4 },
-> +       { "a1cn0",      R8A779H0_PD_A1CN0, R8A779H0_PD_A2CN0 },
-> +       { "a1dsp0",     R8A779H0_PD_A1DSP0, R8A779H0_PD_A2CN0 },
-> +       { "a1dsp1",     R8A779H0_PD_A1DSP1, R8A779H0_PD_A2CN0 },
-> +       { "a2imp01",    R8A779H0_PD_A2IMP01, R8A779H0_PD_C4 },
-> +       { "a2psc",      R8A779H0_PD_A2PSC, R8A779H0_PD_C4 },
-> +       { "a2dma",      R8A779H0_PD_A2DMA, R8A779H0_PD_C4 },
-> +       { "a2cv0",      R8A779H0_PD_A2CV0, R8A779H0_PD_C4 },
-> +       { "a2cv1",      R8A779H0_PD_A2CV1, R8A779H0_PD_C4 },
-> +       { "a2cv2",      R8A779H0_PD_A2CV2, R8A779H0_PD_C4 },
-> +       { "a2cv3",      R8A779H0_PD_A2CV3, R8A779H0_PD_C4 },
-> +       { "a3imr0",     R8A779H0_PD_A3IMR0, R8A779H0_PD_C4 },
-> +       { "a3imr1",     R8A779H0_PD_A3IMR1, R8A779H0_PD_C4 },
-> +       { "a3imr2",     R8A779H0_PD_A3IMR2, R8A779H0_PD_C4 },
-> +       { "a3imr3",     R8A779H0_PD_A3IMR3, R8A779H0_PD_C4 },
-> +       { "a3vc",       R8A779H0_PD_A3VC, R8A779H0_PD_C4 },
-> +       { "a3pci",      R8A779H0_PD_A3PCI, R8A779H0_PD_C4 },
-> +       { "a2pciphy",   R8A779H0_PD_A2PCIPHY, R8A779H0_PD_A3PCI },
-> +};
-> +
-> +const struct rcar_gen4_sysc_info r8a779h0_sysc_info __initconst = {
-> +       .areas = r8a779h0_areas,
-> +       .num_areas = ARRAY_SIZE(r8a779h0_areas),
-> +};
-> diff --git a/drivers/pmdomain/renesas/rcar-gen4-sysc.c b/drivers/pmdomain/renesas/rcar-gen4-sysc.c
-> index 9e5e6e077abc081c..728248659a97e8cc 100644
-> --- a/drivers/pmdomain/renesas/rcar-gen4-sysc.c
-> +++ b/drivers/pmdomain/renesas/rcar-gen4-sysc.c
-> @@ -284,6 +284,9 @@ static const struct of_device_id rcar_gen4_sysc_matches[] __initconst = {
->  #endif
->  #ifdef CONFIG_SYSC_R8A779G0
->         { .compatible = "renesas,r8a779g0-sysc", .data = &r8a779g0_sysc_info },
-> +#endif
-> +#ifdef CONFIG_SYSC_R8A779H0
-> +       { .compatible = "renesas,r8a779h0-sysc", .data = &r8a779h0_sysc_info },
->  #endif
->         { /* sentinel */ }
->  };
-> diff --git a/drivers/pmdomain/renesas/rcar-gen4-sysc.h b/drivers/pmdomain/renesas/rcar-gen4-sysc.h
-> index 388cfa8f8f9fd656..fdf843aa51134f87 100644
-> --- a/drivers/pmdomain/renesas/rcar-gen4-sysc.h
-> +++ b/drivers/pmdomain/renesas/rcar-gen4-sysc.h
-> @@ -40,5 +40,6 @@ struct rcar_gen4_sysc_info {
->  extern const struct rcar_gen4_sysc_info r8a779a0_sysc_info;
->  extern const struct rcar_gen4_sysc_info r8a779f0_sysc_info;
->  extern const struct rcar_gen4_sysc_info r8a779g0_sysc_info;
-> +extern const struct rcar_gen4_sysc_info r8a779h0_sysc_info;
->
->  #endif /* __SOC_RENESAS_RCAR_GEN4_SYSC_H__ */
-> --
-> 2.34.1
->
+See "RZ/G Series, 2nd Generation User's Manual: Hardware"[1],
+Section 69 ("Timer Unit (TMU)":
+  - Figure 69.2: Block Diagram of TMU,
+  - Section 69: Interrupt
+
+Note that the documentation uses a monotonic increasing numbering
+of the channels, across all instances.
+
+[1] https://www.renesas.com/us/en/products/microcontrollers-microprocessors=
+/rz-mpus/rzg2h-ultra-high-performance-microprocessors-quad-core-arm-cortex-=
+a57-and-quad-core-arm-cortex-a53-cpus-3d
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
