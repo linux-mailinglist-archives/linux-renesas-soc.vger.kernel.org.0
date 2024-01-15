@@ -1,73 +1,55 @@
-Return-Path: <linux-renesas-soc+bounces-1589-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-1590-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D71582DE21
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 15 Jan 2024 18:04:32 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 81E9482DE24
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 15 Jan 2024 18:08:12 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 11DA21F22797
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 15 Jan 2024 17:04:32 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7A4FB1C21DB0
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 15 Jan 2024 17:08:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2DAF518C03;
-	Mon, 15 Jan 2024 17:04:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 05C9D17C6A;
+	Mon, 15 Jan 2024 17:08:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="sVKfcz1b"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="oVwAVo5/"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 481CD18C01
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 15 Jan 2024 17:04:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
-Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-50e80d40a41so11393284e87.1
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 15 Jan 2024 09:04:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech.se; s=google; t=1705338262; x=1705943062; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=/g7PQUHmI+Dvtdedh9KbNdIVUsZuxXRmOLtkVe/RM3E=;
-        b=sVKfcz1bwl6VDhCJn0ePLASnle4u8uoo1QTmCW9jSQhNDWUHWbWP9CtdVbv0y5IA/I
-         8jva4l5gS5db194ll+KddHbZoBAG3swqouxFuxbQjCN1RuUEh9E8U6YzCrJMwsRd3473
-         U0IY3NPOICJXZFIa1pniSwwgklin9cLo8gI4jqhj3dl2c9PkOlK0CTvyKFIxGi5pOkcE
-         4rIewOpIFPrlTY+J5txUHGaSj57GlPY/kxcdIgDgNh6wj1P/w8yYrpboMIOpg/rOsqvI
-         Vwf8bEv/ZE7ezZn79kVUoSf9lyknMM0UiUxHilT/AsPyidPG4DueUsSUgnQ9RI/ya8QQ
-         plBQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705338262; x=1705943062;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=/g7PQUHmI+Dvtdedh9KbNdIVUsZuxXRmOLtkVe/RM3E=;
-        b=HxJHSOo8OQvIWsG2ZE8mJN8buYvn+EYCEKkLsS7MTJb5bs9jkFfeHkiNRa8dcVQqpL
-         jooVKUYqbGrbUqxIG3wMyj9Q5n1amrvWVpq9kMklE/IIeNSwM/4yX8EAAZsoeEqpRaxV
-         3aBZJMuTQbiyHHQtWXUJWgTTlVGM0iJflBisZm4Yo0RN2DlpQISMehcl8N1iq9MsfRlG
-         CiI960heb+DY4dI0b0Ol4MxNPj5axqOsTmtWbxyYOsrswBtfuydIl4Mkwan9yYZLlgQW
-         eBz00eh6jonzIiShw/pYCcpvJ1/Maj2z2E6wleeWhiIrYC36dO5DfLg0zCsQVJmn5xz9
-         KtRA==
-X-Gm-Message-State: AOJu0YyQCvNsFQ54ajjCS64hIWSwbhIGRVudMQ7wnLMpPGhIS7VdYbw5
-	Ymlc53GlJ3g4l2Rw0Xohjdo48K9Yr1fwTw==
-X-Google-Smtp-Source: AGHT+IF7PlPTzlcTv5+X0PVJt6MqY1Hp+6/htenkTGo1AuYfQVmq86wQB5KmxD6CanT9GBDj9kCCOg==
-X-Received: by 2002:a05:6512:3d14:b0:50e:76e0:9ef7 with SMTP id d20-20020a0565123d1400b0050e76e09ef7mr3473525lfv.99.1705338261884;
-        Mon, 15 Jan 2024 09:04:21 -0800 (PST)
-Received: from localhost (h-46-59-36-113.A463.priv.bahnhof.se. [46.59.36.113])
-        by smtp.gmail.com with ESMTPSA id c26-20020ac2415a000000b0050e85108daesm1500580lfi.222.2024.01.15.09.04.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Jan 2024 09:04:21 -0800 (PST)
-Date: Mon, 15 Jan 2024 18:04:20 +0100
-From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
-To: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: Magnus Damm <magnus.damm@gmail.com>,
-	Ulrich Hecht <ulrich.hecht+renesas@gmail.com>,
-	linux-renesas-soc@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH 0/3] ARM: dts: renesas: r8a73a4: Clock fixes and
- improvements
-Message-ID: <20240115170420.GA3147291@ragnatech.se>
-References: <cover.1705315614.git.geert+renesas@glider.be>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61F6017C61;
+	Mon, 15 Jan 2024 17:08:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (89-27-53-110.bb.dnainternet.fi [89.27.53.110])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id E4BF6326;
+	Mon, 15 Jan 2024 18:06:54 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1705338415;
+	bh=uwLriwGBwVqO+vIJmWA62zXQ9unh/1idFNknbmZDxdI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=oVwAVo5/G8XYNZl4mOZD2oAS8pK8lDrySsWleTwgGo8iWg2oZWrOdhSPzjr4cdTBp
+	 GjhD/Efh0ly7Lpk2oJadrQ6MSf9RSlp6xFEU8/bK25JTkuJ0wxo9JnN1C672+V9MdN
+	 lky+IvCUGq7n/aDIJoC7tQTyhgj9yPCFfNXIMUhc=
+Date: Mon, 15 Jan 2024 19:08:07 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Conor Dooley <conor@kernel.org>,
+	Daniel Lezcano <daniel.lezcano@linaro.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Yoshinori Sato <ysato@users.sourceforge.jp>,
+	devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+	linux-sh@vger.kernel.org
+Subject: Re: [PATCH] dt-bindings: timer: renesas,tmu: Document input capture
+ interrupt
+Message-ID: <20240115170807.GJ5869@pendragon.ideasonboard.com>
+References: <fb1e38c93e62221f94304edd980a2fb79c1f2995.1705325608.git.geert+renesas@glider.be>
+ <20240115-wages-secluded-b44f4eb13323@spud>
+ <CAMuHMdWY3D45NGHvGXSZRLZz4TyCRgRCQLZV6CzYs=mSFcherw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -77,62 +59,74 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <cover.1705315614.git.geert+renesas@glider.be>
+In-Reply-To: <CAMuHMdWY3D45NGHvGXSZRLZz4TyCRgRCQLZV6CzYs=mSFcherw@mail.gmail.com>
 
-Hi Geert,
+On Mon, Jan 15, 2024 at 05:48:18PM +0100, Geert Uytterhoeven wrote:
+> Hi Conor,
+> 
+> On Mon, Jan 15, 2024 at 5:13 PM Conor Dooley <conor@kernel.org> wrote:
+> > On Mon, Jan 15, 2024 at 02:45:39PM +0100, Geert Uytterhoeven wrote:
+> > > Some Timer Unit (TMU) instances with 3 channels support a fourth
+> > > interrupt: an input capture interrupt for the third channel.
+> > >
+> > > While at it, document the meaning of the four interrupts, and add
+> > > "interrupt-names" for clarity.
+> > >
+> > > Update the example to match reality.
+> > >
+> > > Inspired by a patch by Yoshinori Sato for SH.
+> > >
+> > > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> 
+> > > --- a/Documentation/devicetree/bindings/timer/renesas,tmu.yaml
+> > > +++ b/Documentation/devicetree/bindings/timer/renesas,tmu.yaml
+> > > @@ -46,7 +46,19 @@ properties:
+> > >
+> > >    interrupts:
+> > >      minItems: 2
+> > > -    maxItems: 3
+> > > +    items:
+> > > +      - description: Underflow interrupt 0
+> > > +      - description: Underflow interrupt 1
+> > > +      - description: Underflow interrupt 2
+> > > +      - description: Input capture interrupt 2
+> >
+> > Seeing "input capture interrupt 2" makes me wonder, are there two (or
+> > more!) other input capture interrupts that are still out there,
+> > undocumented, and looking for a home?
 
-Thanks for your work.
+Maybe writing this as
 
-On 2024-01-15 12:03:02 +0100, Geert Uytterhoeven wrote:
-> 	Hi all,
-> 
-> This patch series contains fixes and improvements for clock descriptions
-> of the Renesas R-Mobile APE6 SoC and the APE6-EVM development board.
-> 
-> After comparing CPU core performance over a wide range of SoCs, I had
-> been wondering for a long time why DMIPS/MHZ for the Cortex-A15 CPU
-> cores on R-Mobile APE6 is slightly higher than on R-Car Gen2 SoCs.
-> It turned out to be untrue, as the R-Mobile APE6 DTS contains a wrong
-> crystal osciallator freqency, causing the CPU cores on R-Mobile APE6 to
-> run 4% faster than assumed by Linux.  The first patch fixes this.
-> The two other patches contain small improvements and a small fix, none
-> of which have any functional impact.
-> 
-> I plan to queue this in renesas-devel for v6.9.
+      - description: Underflow interrupt, channel 0
+      - description: Underflow interrupt, channel 1
+      - description: Underflow interrupt, channel 2
+      - description: Input capture interrupt, channel 2
 
-For the whole series,
+would make it clearer ?
 
-Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+I'm also wondering if we really need to add interrupt-names. Drivers
+can't depend on the names due to backward compatibility, what benefit
+does it bring to add them to the bindings ?
 
+> SoCs can have multiple TMU instances.
+> Each TMU instance has 2 or 3 timer channels.
+> Each timer channel has an underflow interrupt.
+> Only the third channel may have an optional input capture interrupt
+> (which is not supported yet by the Linux driver).
+> Hence each instance can have 2, 3, or 4 interrupts.
 > 
+> See "RZ/G Series, 2nd Generation User's Manual: Hardware"[1],
+> Section 69 ("Timer Unit (TMU)":
+>   - Figure 69.2: Block Diagram of TMU,
+>   - Section 69: Interrupt
 > 
-> Thanks for your comments!
+> Note that the documentation uses a monotonic increasing numbering
+> of the channels, across all instances.
 > 
-> Geert Uytterhoeven (3):
->   ARM: dts: renesas: r8a73a4: Fix external clocks and clock rate
->   ARM: dts: renesas: r8a73a4: Add cp clock
->   ARM: dts: renesas: r8a73a4: Fix thermal parent clock
-> 
->  arch/arm/boot/dts/renesas/r8a73a4-ape6evm.dts | 12 ++++++++++
->  arch/arm/boot/dts/renesas/r8a73a4.dtsi        | 23 +++++++++++++------
->  2 files changed, 28 insertions(+), 7 deletions(-)
-> 
-> -- 
-> 2.34.1
-> 
-> Gr{oetje,eeting}s,
-> 
-> 						Geert
-> 
-> --
-> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-> 
-> In personal conversations with technical people, I call myself a hacker. But
-> when I'm talking to journalists I just say "programmer" or something like that.
-> 							    -- Linus Torvalds
-> 
+> [1] https://www.renesas.com/us/en/products/microcontrollers-microprocessors/rz-mpus/rzg2h-ultra-high-performance-microprocessors-quad-core-arm-cortex-a57-and-quad-core-arm-cortex-a53-cpus-3d
 
 -- 
-Kind Regards,
-Niklas Söderlund
+Regards,
+
+Laurent Pinchart
 
