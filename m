@@ -1,116 +1,138 @@
-Return-Path: <linux-renesas-soc+bounces-1588-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-1589-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6721382DE12
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 15 Jan 2024 17:59:30 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D71582DE21
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 15 Jan 2024 18:04:32 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8E54E1C2160B
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 15 Jan 2024 16:59:29 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 11DA21F22797
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 15 Jan 2024 17:04:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3064F17C63;
-	Mon, 15 Jan 2024 16:59:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2DAF518C03;
+	Mon, 15 Jan 2024 17:04:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="sVKfcz1b"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com [209.85.128.177])
+Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A90D18021;
-	Mon, 15 Jan 2024 16:59:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-5e54d40cca2so67389197b3.3;
-        Mon, 15 Jan 2024 08:59:25 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 481CD18C01
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 15 Jan 2024 17:04:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
+Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-50e80d40a41so11393284e87.1
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 15 Jan 2024 09:04:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ragnatech.se; s=google; t=1705338262; x=1705943062; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=/g7PQUHmI+Dvtdedh9KbNdIVUsZuxXRmOLtkVe/RM3E=;
+        b=sVKfcz1bwl6VDhCJn0ePLASnle4u8uoo1QTmCW9jSQhNDWUHWbWP9CtdVbv0y5IA/I
+         8jva4l5gS5db194ll+KddHbZoBAG3swqouxFuxbQjCN1RuUEh9E8U6YzCrJMwsRd3473
+         U0IY3NPOICJXZFIa1pniSwwgklin9cLo8gI4jqhj3dl2c9PkOlK0CTvyKFIxGi5pOkcE
+         4rIewOpIFPrlTY+J5txUHGaSj57GlPY/kxcdIgDgNh6wj1P/w8yYrpboMIOpg/rOsqvI
+         Vwf8bEv/ZE7ezZn79kVUoSf9lyknMM0UiUxHilT/AsPyidPG4DueUsSUgnQ9RI/ya8QQ
+         plBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705337964; x=1705942764;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=JTTYbhFYpBwHX0wKOJ+oWprTegK07QidRl5wy0SlVyo=;
-        b=BJbZxluJjBUqN9kkK1IHLpzxX6DYgC6f1gBLRc5exNmiSwiQkTFWAVeZEwh7jsBldu
-         ekf867Kkaln2E3lWSJngSr3ty2pXBQNgCJi5arFAtV3gvyzRMzgSnNxXYbaTM1Oeognc
-         YtpF8O7RjSbviHbEDD0kIb/HL5/56HxrAK7XAQ6JLoe0XVlPQYyQX3GLMfKoZiAkyD7h
-         FgQ5s4FliQR/W/GcOV8Mr+OHTybDiGSIMWBv2IOAF/EXS7xIspsyYWds+1zdSyHdn/XD
-         s3cLQR1wonaRLqpTbnIyuM+srx3g5LvoEIhEkA/zyGWOjEsL9R2nUwngJc4417BokTBe
-         99Xg==
-X-Gm-Message-State: AOJu0YzuTE5+nJ10CUEvB22Lk+nBCgDfF4J6HsATqBZiTGQTFEVqv1I/
-	amB4C5XfNtVkbDjzx5J4Etb8JKFQgsOCpQ==
-X-Google-Smtp-Source: AGHT+IGCFEhjMFTQ73ACCqn+2YxEfktP5HCEJzBnreIVgZ20IWZ/a6LIMr3mWULHOEmHRWnv8e+zvA==
-X-Received: by 2002:a81:4cd6:0:b0:5eb:6c37:6b46 with SMTP id z205-20020a814cd6000000b005eb6c376b46mr2678304ywa.22.1705337964399;
-        Mon, 15 Jan 2024 08:59:24 -0800 (PST)
-Received: from mail-yb1-f178.google.com (mail-yb1-f178.google.com. [209.85.219.178])
-        by smtp.gmail.com with ESMTPSA id y68-20020a81a147000000b005fa95a2f418sm4069173ywg.103.2024.01.15.08.59.24
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 15 Jan 2024 08:59:24 -0800 (PST)
-Received: by mail-yb1-f178.google.com with SMTP id 3f1490d57ef6-db4364ecd6aso6075709276.2;
-        Mon, 15 Jan 2024 08:59:24 -0800 (PST)
-X-Received: by 2002:a25:d502:0:b0:dbe:2063:72b9 with SMTP id
- r2-20020a25d502000000b00dbe206372b9mr1905510ybe.50.1705337963803; Mon, 15 Jan
- 2024 08:59:23 -0800 (PST)
+        d=1e100.net; s=20230601; t=1705338262; x=1705943062;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=/g7PQUHmI+Dvtdedh9KbNdIVUsZuxXRmOLtkVe/RM3E=;
+        b=HxJHSOo8OQvIWsG2ZE8mJN8buYvn+EYCEKkLsS7MTJb5bs9jkFfeHkiNRa8dcVQqpL
+         jooVKUYqbGrbUqxIG3wMyj9Q5n1amrvWVpq9kMklE/IIeNSwM/4yX8EAAZsoeEqpRaxV
+         3aBZJMuTQbiyHHQtWXUJWgTTlVGM0iJflBisZm4Yo0RN2DlpQISMehcl8N1iq9MsfRlG
+         CiI960heb+DY4dI0b0Ol4MxNPj5axqOsTmtWbxyYOsrswBtfuydIl4Mkwan9yYZLlgQW
+         eBz00eh6jonzIiShw/pYCcpvJ1/Maj2z2E6wleeWhiIrYC36dO5DfLg0zCsQVJmn5xz9
+         KtRA==
+X-Gm-Message-State: AOJu0YyQCvNsFQ54ajjCS64hIWSwbhIGRVudMQ7wnLMpPGhIS7VdYbw5
+	Ymlc53GlJ3g4l2Rw0Xohjdo48K9Yr1fwTw==
+X-Google-Smtp-Source: AGHT+IF7PlPTzlcTv5+X0PVJt6MqY1Hp+6/htenkTGo1AuYfQVmq86wQB5KmxD6CanT9GBDj9kCCOg==
+X-Received: by 2002:a05:6512:3d14:b0:50e:76e0:9ef7 with SMTP id d20-20020a0565123d1400b0050e76e09ef7mr3473525lfv.99.1705338261884;
+        Mon, 15 Jan 2024 09:04:21 -0800 (PST)
+Received: from localhost (h-46-59-36-113.A463.priv.bahnhof.se. [46.59.36.113])
+        by smtp.gmail.com with ESMTPSA id c26-20020ac2415a000000b0050e85108daesm1500580lfi.222.2024.01.15.09.04.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 15 Jan 2024 09:04:21 -0800 (PST)
+Date: Mon, 15 Jan 2024 18:04:20 +0100
+From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: Magnus Damm <magnus.damm@gmail.com>,
+	Ulrich Hecht <ulrich.hecht+renesas@gmail.com>,
+	linux-renesas-soc@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH 0/3] ARM: dts: renesas: r8a73a4: Clock fixes and
+ improvements
+Message-ID: <20240115170420.GA3147291@ragnatech.se>
+References: <cover.1705315614.git.geert+renesas@glider.be>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cover.1704726960.git.geert+renesas@glider.be> <ee3e57bafef123194b9779dbf5b9c181dc3b37ed.1704726960.git.geert+renesas@glider.be>
- <CAPDyKFpc1ZsVhFM22zum=54LQ3Tiow7kG0nnt3WD3DBTGY6KFg@mail.gmail.com>
-In-Reply-To: <CAPDyKFpc1ZsVhFM22zum=54LQ3Tiow7kG0nnt3WD3DBTGY6KFg@mail.gmail.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 15 Jan 2024 17:59:12 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdU0aQR4qki0Yqd0WGPf=hRR4UqWxY0C=ctAnV0oWxbmxw@mail.gmail.com>
-Message-ID: <CAMuHMdU0aQR4qki0Yqd0WGPf=hRR4UqWxY0C=ctAnV0oWxbmxw@mail.gmail.com>
-Subject: Re: [PATCH 09/15] pmdomain: renesas: r8a779h0-sysc: Add r8a779h0 support
-To: Ulf Hansson <ulf.hansson@linaro.org>
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>, linux-renesas-soc@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-pm@vger.kernel.org, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <cover.1705315614.git.geert+renesas@glider.be>
 
-Hi Ulf,
+Hi Geert,
 
-On Mon, Jan 15, 2024 at 5:39=E2=80=AFPM Ulf Hansson <ulf.hansson@linaro.org=
-> wrote:
-> - trimmed cc-list
+Thanks for your work.
 
-CC krzk ;-)
+On 2024-01-15 12:03:02 +0100, Geert Uytterhoeven wrote:
+> 	Hi all,
+> 
+> This patch series contains fixes and improvements for clock descriptions
+> of the Renesas R-Mobile APE6 SoC and the APE6-EVM development board.
+> 
+> After comparing CPU core performance over a wide range of SoCs, I had
+> been wondering for a long time why DMIPS/MHZ for the Cortex-A15 CPU
+> cores on R-Mobile APE6 is slightly higher than on R-Car Gen2 SoCs.
+> It turned out to be untrue, as the R-Mobile APE6 DTS contains a wrong
+> crystal osciallator freqency, causing the CPU cores on R-Mobile APE6 to
+> run 4% faster than assumed by Linux.  The first patch fixes this.
+> The two other patches contain small improvements and a small fix, none
+> of which have any functional impact.
+> 
+> I plan to queue this in renesas-devel for v6.9.
 
-> On Mon, 8 Jan 2024 at 16:34, Geert Uytterhoeven <geert+renesas@glider.be>=
- wrote:
-> > From: Duy Nguyen <duy.nguyen.rh@renesas.com>
-> >
-> > Add support for R-Car V4M (R8A779H0) SoC power areas to the R-Car SYSC
-> > driver.
-> >
-> > Signed-off-by: Duy Nguyen <duy.nguyen.rh@renesas.com>
-> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
->
-> To make sure we agree on the merge strategy; should I pick up $subject
-> patch, patch3 and patch4 through my pmdomain tree? DT patches, like
-> patch3 and patch4, I should share as usual via my immutable "dt"
-> branch, so you can pull it into your renesas tree?
+For the whole series,
 
-Thanks, that would be great!
+Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 
-However, please note that Krzysztof wants me to add a vendor-prefix
-to DT binding definition files[1], so there will be a v2.
+> 
+> 
+> Thanks for your comments!
+> 
+> Geert Uytterhoeven (3):
+>   ARM: dts: renesas: r8a73a4: Fix external clocks and clock rate
+>   ARM: dts: renesas: r8a73a4: Add cp clock
+>   ARM: dts: renesas: r8a73a4: Fix thermal parent clock
+> 
+>  arch/arm/boot/dts/renesas/r8a73a4-ape6evm.dts | 12 ++++++++++
+>  arch/arm/boot/dts/renesas/r8a73a4.dtsi        | 23 +++++++++++++------
+>  2 files changed, 28 insertions(+), 7 deletions(-)
+> 
+> -- 
+> 2.34.1
+> 
+> Gr{oetje,eeting}s,
+> 
+> 						Geert
+> 
+> --
+> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+> 
+> In personal conversations with technical people, I call myself a hacker. But
+> when I'm talking to journalists I just say "programmer" or something like that.
+> 							    -- Linus Torvalds
+> 
 
-[1] include/dt-bindings/power/r8a779h0-sysc.h
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+-- 
+Kind Regards,
+Niklas Söderlund
 
