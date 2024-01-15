@@ -1,143 +1,150 @@
-Return-Path: <linux-renesas-soc+bounces-1584-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-1585-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9131B82DC6A
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 15 Jan 2024 16:35:27 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6868E82DD1B
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 15 Jan 2024 17:13:28 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 97A2E1C21CFE
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 15 Jan 2024 15:35:21 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8D9CF1C2148F
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 15 Jan 2024 16:13:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 87DE217758;
-	Mon, 15 Jan 2024 15:35:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A2FD6179AE;
+	Mon, 15 Jan 2024 16:13:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="TGBmuxBA"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="vKBw81Ha"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C09317740
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 15 Jan 2024 15:35:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-40e67e90d5aso29231565e9.1
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 15 Jan 2024 07:35:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1705332908; x=1705937708; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=7sXP2wWN7OS4lxiu3tRx0xrGyfyR6bYdV+7zNUsquuY=;
-        b=TGBmuxBAZl8Vp63Enop9B5lCqjpcckTKcw/1wJQ59Cs6qHeJRXeYIv7ZCn4tiiVMCm
-         Xc2J9hbKtaS81RmiQQKvfwz/yij2KD3khaBog//GHWrazKSoP714yGI4SmPgKqflThKf
-         iQYZxsYNzoqfzcWh9Nwx3yDpUOSvvL8scf1SeFNxMc99G8tLI44A5MXhKuDO2FG8v8V7
-         rnBxGSRgAD0DPZxTyfUaXtCyuCH4jKsI/srvY5GvSlqdvBagQzhWWaDS7L/KY76PFbIf
-         pCR/X4pg9qJ78dR4SrFZ2io8G1Nr4IauVSd87RLXyRfxguwP18km/gnPnKk82gdWMW7W
-         lPJg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705332908; x=1705937708;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=7sXP2wWN7OS4lxiu3tRx0xrGyfyR6bYdV+7zNUsquuY=;
-        b=hssNqaPTpE2/Ezol8i6jcryA3zOa+S/i/TfojFekBHy10II0Obd4vi+cFTldmflh5b
-         DsTRjsnSaK+9wQCcKyxzRFXqtfKxIf5YpYsbnUGNFMvl4uYtx05JKI0+2/0sxJUY+Yk2
-         dHXBW+zYbuibl7EhDD5uNpAz1EM72duLJ8crwnrgkpYWewUzuba1pUziiPhFAWBrNi82
-         5L/z1v3DIc+C/4VL4wRM29g6hjerhVuVjkPlHTo8hGbjurliGW8lKJOrQIQAHwIEuRzr
-         C5vlcI/ikp4LyAF/AsYppLlxC8o9KIftLyxQuGXTDD+o2WO1bnxSlmGwVZA9vlHvXbTS
-         Htug==
-X-Gm-Message-State: AOJu0YwZ7Ydax38s3ZLC9/HJObADFe/6DoBfP2JwBd2e8fQEc+qQenxV
-	havbs4Ksjr2+VwXQz/uGmn0sHagGBUd4kA==
-X-Google-Smtp-Source: AGHT+IGzatJ/7hZOzre8B/o78msUnDuMXcCh6wtybHE/L06ZrvWzCB2OANnn2yShig0nnWnnUXjO1w==
-X-Received: by 2002:a05:600c:46d4:b0:40c:4904:bb72 with SMTP id q20-20020a05600c46d400b0040c4904bb72mr3013214wmo.18.1705332908291;
-        Mon, 15 Jan 2024 07:35:08 -0800 (PST)
-Received: from claudiu-X670E-Pro-RS.. ([82.78.167.46])
-        by smtp.gmail.com with ESMTPSA id p31-20020a05600c1d9f00b0040e6ea6d2d0sm476627wms.24.2024.01.15.07.35.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Jan 2024 07:35:07 -0800 (PST)
-From: Claudiu <claudiu.beznea@tuxon.dev>
-X-Google-Original-From: Claudiu <claudiu.beznea.uj@bp.renesas.com>
-To: geert+renesas@glider.be,
-	linus.walleij@linaro.org
-Cc: linux-renesas-soc@vger.kernel.org,
-	linux-gpio@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	dan.carpenter@linaro.org,
-	claudiu.beznea@tuxon.dev,
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-Subject: [PATCH] pinctrl: renesas: rzg2l: Fix locking in rzg2l_dt_subnode_to_map()
-Date: Mon, 15 Jan 2024 17:34:53 +0200
-Message-Id: <20240115153453.99226-1-claudiu.beznea.uj@bp.renesas.com>
-X-Mailer: git-send-email 2.39.2
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B933179A8;
+	Mon, 15 Jan 2024 16:13:22 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1EFDBC433F1;
+	Mon, 15 Jan 2024 16:13:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1705335202;
+	bh=/Udn5btmcKZ81o6zntRILY52O0+BbAVgkogRfVpdH4I=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=vKBw81HaIt5FUW+hc+ycf5KpoKe8QoQ7Kb2NrDW1ifiq8W7ZlKuq3kLYM5/hUI2HD
+	 QDSYQbVnIX1AHeVN3fKmYo9PjG4PyRgs4Oy69kdL6Gd0tCt83/DKXznku8x6mSZBNk
+	 XWQxtZo23C6bSdKZtZ7Ldr3nM02leyFg2fjoya8XqzdUJWF2W/Ozmk0jIYT53+22X+
+	 rbo3EXnhm49IZtTFsGFZaQwXUSn8tZUIWXT0sK8ZzDxRtaHQWI0j4bVVmMw5tMPjP8
+	 hWRah2Q2fD0pxh+ygsdq2KXgdn0db/XLqDcZE/eIl8UKmvaU2NRk4HjkiK92WVUDvi
+	 966h4QAwEpCZQ==
+Date: Mon, 15 Jan 2024 16:13:16 +0000
+From: Conor Dooley <conor@kernel.org>
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: Daniel Lezcano <daniel.lezcano@linaro.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+	Yoshinori Sato <ysato@users.sourceforge.jp>,
+	devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+	linux-sh@vger.kernel.org
+Subject: Re: [PATCH] dt-bindings: timer: renesas,tmu: Document input capture
+ interrupt
+Message-ID: <20240115-wages-secluded-b44f4eb13323@spud>
+References: <fb1e38c93e62221f94304edd980a2fb79c1f2995.1705325608.git.geert+renesas@glider.be>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="D9JecHxJ6soLeUK4"
+Content-Disposition: inline
+In-Reply-To: <fb1e38c93e62221f94304edd980a2fb79c1f2995.1705325608.git.geert+renesas@glider.be>
 
-From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 
-Commit d3aaa7203a17 ("pinctrl: renesas: rzg2l: Add pin configuration
-support for pinmux groups") introduced the possibility to parse pin
-configuration for pinmux groups. It did that by calling
-rzg2l_map_add_config() at the end of rzg2l_dt_subnode_to_map() and
-jumping to the remove_group label in case rzg2l_map_add_config() failed.
-But if that happens, the mutex will already be unlocked, thus this it will
-lead to double mutex unlock operation. To fix this move the
-rzg2l_map_add_config() call just after all the name argument is ready and
-before the mutex is locked. There is no harm in doing this, as this only
-parses the data from device tree that will be further processed by
-pinctrl core code.
+--D9JecHxJ6soLeUK4
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Fixes: d3aaa7203a17 ("pinctrl: renesas: rzg2l: Add pin configuration support for pinmux groups")
-Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
----
- drivers/pinctrl/renesas/pinctrl-rzg2l.c | 20 ++++++++++----------
- 1 file changed, 10 insertions(+), 10 deletions(-)
+On Mon, Jan 15, 2024 at 02:45:39PM +0100, Geert Uytterhoeven wrote:
+> Some Timer Unit (TMU) instances with 3 channels support a fourth
+> interrupt: an input capture interrupt for the third channel.
+>=20
+> While at it, document the meaning of the four interrupts, and add
+> "interrupt-names" for clarity.
+>=20
+> Update the example to match reality.
+>=20
+> Inspired by a patch by Yoshinori Sato for SH.
+>=20
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
+> The corresponding DTS updates can be found in series "[PATCH 0/2]
+> ARM/arm64: dts: renesas: Improve TMU interrupt descriptions".
+> https://lore.kernel.org/r/cover.1705325654.git.geert+renesas@glider.be
+>=20
+>  .../devicetree/bindings/timer/renesas,tmu.yaml | 18 ++++++++++++++++--
+>  1 file changed, 16 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/Documentation/devicetree/bindings/timer/renesas,tmu.yaml b/D=
+ocumentation/devicetree/bindings/timer/renesas,tmu.yaml
+> index a67e427a9e7e22aa..9a823224c144f7d4 100644
+> --- a/Documentation/devicetree/bindings/timer/renesas,tmu.yaml
+> +++ b/Documentation/devicetree/bindings/timer/renesas,tmu.yaml
+> @@ -46,7 +46,19 @@ properties:
+> =20
+>    interrupts:
+>      minItems: 2
+> -    maxItems: 3
+> +    items:
+> +      - description: Underflow interrupt 0
+> +      - description: Underflow interrupt 1
+> +      - description: Underflow interrupt 2
+> +      - description: Input capture interrupt 2
 
-diff --git a/drivers/pinctrl/renesas/pinctrl-rzg2l.c b/drivers/pinctrl/renesas/pinctrl-rzg2l.c
-index 80fb5011c7bb..01ef6921cb35 100644
---- a/drivers/pinctrl/renesas/pinctrl-rzg2l.c
-+++ b/drivers/pinctrl/renesas/pinctrl-rzg2l.c
-@@ -447,6 +447,16 @@ static int rzg2l_dt_subnode_to_map(struct pinctrl_dev *pctldev,
- 		name = np->name;
- 	}
- 
-+	if (num_configs) {
-+		ret = rzg2l_map_add_config(&maps[idx], name,
-+					   PIN_MAP_TYPE_CONFIGS_GROUP,
-+					   configs, num_configs);
-+		if (ret < 0)
-+			goto done;
-+
-+		idx++;
-+	}
-+
- 	mutex_lock(&pctrl->mutex);
- 
- 	/* Register a single pin group listing all the pins we read from DT */
-@@ -474,16 +484,6 @@ static int rzg2l_dt_subnode_to_map(struct pinctrl_dev *pctldev,
- 	maps[idx].data.mux.function = name;
- 	idx++;
- 
--	if (num_configs) {
--		ret = rzg2l_map_add_config(&maps[idx], name,
--					   PIN_MAP_TYPE_CONFIGS_GROUP,
--					   configs, num_configs);
--		if (ret < 0)
--			goto remove_group;
--
--		idx++;
--	}
--
- 	dev_dbg(pctrl->dev, "Parsed %pOF with %d pins\n", np, num_pinmux);
- 	ret = 0;
- 	goto done;
--- 
-2.39.2
+Seeing "input capture interrupt 2" makes me wonder, are there two (or
+more!) other input capture interrupts that are still out there,
+undocumented, and looking for a home?
 
+Cheers,
+Conor.
+
+> +
+> +  interrupt-names:
+> +    minItems: 2
+> +    items:
+> +      - const: tuni0
+> +      - const: tuni1
+> +      - const: tuni2
+> +      - const: ticpi2
+> =20
+>    clocks:
+>      maxItems: 1
+> @@ -100,7 +112,9 @@ examples:
+>              reg =3D <0xffd80000 0x30>;
+>              interrupts =3D <GIC_SPI 32 IRQ_TYPE_LEVEL_HIGH>,
+>                           <GIC_SPI 33 IRQ_TYPE_LEVEL_HIGH>,
+> -                         <GIC_SPI 34 IRQ_TYPE_LEVEL_HIGH>;
+> +                         <GIC_SPI 34 IRQ_TYPE_LEVEL_HIGH>,
+> +                         <GIC_SPI 35 IRQ_TYPE_LEVEL_HIGH>;
+> +            interrupt-names =3D "tuni0", "tuni1", "tuni2", "ticpi2";
+>              clocks =3D <&mstp0_clks R8A7779_CLK_TMU0>;
+>              clock-names =3D "fck";
+>              power-domains =3D <&sysc R8A7779_PD_ALWAYS_ON>;
+> --=20
+> 2.34.1
+>=20
+>=20
+
+--D9JecHxJ6soLeUK4
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZaVZnAAKCRB4tDGHoIJi
+0ncYAQDlET2wYW1oPcGLuPX5StJ7ZYz4oqIZmek/mCyzmqU+5QEA0LHWuV+uQl1L
+tyDL9jR7lcURTHIY/U2kGi/3Pe8OGwA=
+=4RIc
+-----END PGP SIGNATURE-----
+
+--D9JecHxJ6soLeUK4--
 
