@@ -1,127 +1,143 @@
-Return-Path: <linux-renesas-soc+bounces-1582-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-1584-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A8F182DAF7
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 15 Jan 2024 15:07:31 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9131B82DC6A
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 15 Jan 2024 16:35:27 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C2B85281F29
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 15 Jan 2024 14:07:29 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 97A2E1C21CFE
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 15 Jan 2024 15:35:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A398817587;
-	Mon, 15 Jan 2024 14:07:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 87DE217758;
+	Mon, 15 Jan 2024 15:35:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="TGBmuxBA"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com [209.85.128.181])
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B96B17584;
-	Mon, 15 Jan 2024 14:07:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-5e86fc3f1e2so71379417b3.0;
-        Mon, 15 Jan 2024 06:07:23 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C09317740
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 15 Jan 2024 15:35:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-40e67e90d5aso29231565e9.1
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 15 Jan 2024 07:35:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=tuxon.dev; s=google; t=1705332908; x=1705937708; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=7sXP2wWN7OS4lxiu3tRx0xrGyfyR6bYdV+7zNUsquuY=;
+        b=TGBmuxBAZl8Vp63Enop9B5lCqjpcckTKcw/1wJQ59Cs6qHeJRXeYIv7ZCn4tiiVMCm
+         Xc2J9hbKtaS81RmiQQKvfwz/yij2KD3khaBog//GHWrazKSoP714yGI4SmPgKqflThKf
+         iQYZxsYNzoqfzcWh9Nwx3yDpUOSvvL8scf1SeFNxMc99G8tLI44A5MXhKuDO2FG8v8V7
+         rnBxGSRgAD0DPZxTyfUaXtCyuCH4jKsI/srvY5GvSlqdvBagQzhWWaDS7L/KY76PFbIf
+         pCR/X4pg9qJ78dR4SrFZ2io8G1Nr4IauVSd87RLXyRfxguwP18km/gnPnKk82gdWMW7W
+         lPJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705327642; x=1705932442;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=QOou55N2EN6e58V59PT+366RWYrogOI3loiDbYwDF18=;
-        b=KYrBhJH0dCPiq1ue1VjA49OL7f4LKkx489v4pScejeIf7wAf7N+TmCa/9sPbRD8f5q
-         4G0U06QzA/NlnBGRz+bCw2lKHEjkBuOdyA1V2U8Eq1vc4roGh3qaiXU0cnWqhTeAtRxG
-         7EjITJwiIYQPWFdZRMmBXe8HZGDU0EB31JThpJHOhCvGN9yuZ4Q1Jw5gTFK3vDxPe5MM
-         2/Ih2Nt4S4pDY9ZGMN7weTEW3vycKdHBhwk88Ps64dRJiuBN0iPNxFcOYEqPA7v7mRjt
-         qAgYBw86eWZPDkvBrsRO1rE6pWBDvKMM7uTuBwJIro8nlZWEOy3HI4XU75Nnu2WEFiOd
-         JMOg==
-X-Gm-Message-State: AOJu0YxyxaJb+JMsq6sxSgfxZQb6EAN1YKFOmn67Y+cfmMZDavjHL/ZR
-	HyGRfyJ6L/8Olq5+hcdUtubxUZ3+Pj5VWQ==
-X-Google-Smtp-Source: AGHT+IFK/yvxQHDdnHwF8dC3j0/M+snFXM6wzDcXP/cq3A4zdGU+i/TtFeLRpXwi4PTL0vLUmTCeeA==
-X-Received: by 2002:a81:6d57:0:b0:5fb:700d:100d with SMTP id i84-20020a816d57000000b005fb700d100dmr4154131ywc.22.1705327642068;
-        Mon, 15 Jan 2024 06:07:22 -0800 (PST)
-Received: from mail-yb1-f179.google.com (mail-yb1-f179.google.com. [209.85.219.179])
-        by smtp.gmail.com with ESMTPSA id r68-20020a0dcf47000000b005f66a83db14sm3995048ywd.131.2024.01.15.06.07.21
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 15 Jan 2024 06:07:21 -0800 (PST)
-Received: by mail-yb1-f179.google.com with SMTP id 3f1490d57ef6-dc202317415so681315276.0;
-        Mon, 15 Jan 2024 06:07:21 -0800 (PST)
-X-Received: by 2002:a25:268b:0:b0:dbf:11e:d0a5 with SMTP id
- m133-20020a25268b000000b00dbf011ed0a5mr2764196ybm.123.1705327641690; Mon, 15
- Jan 2024 06:07:21 -0800 (PST)
+        d=1e100.net; s=20230601; t=1705332908; x=1705937708;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=7sXP2wWN7OS4lxiu3tRx0xrGyfyR6bYdV+7zNUsquuY=;
+        b=hssNqaPTpE2/Ezol8i6jcryA3zOa+S/i/TfojFekBHy10II0Obd4vi+cFTldmflh5b
+         DsTRjsnSaK+9wQCcKyxzRFXqtfKxIf5YpYsbnUGNFMvl4uYtx05JKI0+2/0sxJUY+Yk2
+         dHXBW+zYbuibl7EhDD5uNpAz1EM72duLJ8crwnrgkpYWewUzuba1pUziiPhFAWBrNi82
+         5L/z1v3DIc+C/4VL4wRM29g6hjerhVuVjkPlHTo8hGbjurliGW8lKJOrQIQAHwIEuRzr
+         C5vlcI/ikp4LyAF/AsYppLlxC8o9KIftLyxQuGXTDD+o2WO1bnxSlmGwVZA9vlHvXbTS
+         Htug==
+X-Gm-Message-State: AOJu0YwZ7Ydax38s3ZLC9/HJObADFe/6DoBfP2JwBd2e8fQEc+qQenxV
+	havbs4Ksjr2+VwXQz/uGmn0sHagGBUd4kA==
+X-Google-Smtp-Source: AGHT+IGzatJ/7hZOzre8B/o78msUnDuMXcCh6wtybHE/L06ZrvWzCB2OANnn2yShig0nnWnnUXjO1w==
+X-Received: by 2002:a05:600c:46d4:b0:40c:4904:bb72 with SMTP id q20-20020a05600c46d400b0040c4904bb72mr3013214wmo.18.1705332908291;
+        Mon, 15 Jan 2024 07:35:08 -0800 (PST)
+Received: from claudiu-X670E-Pro-RS.. ([82.78.167.46])
+        by smtp.gmail.com with ESMTPSA id p31-20020a05600c1d9f00b0040e6ea6d2d0sm476627wms.24.2024.01.15.07.35.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 15 Jan 2024 07:35:07 -0800 (PST)
+From: Claudiu <claudiu.beznea@tuxon.dev>
+X-Google-Original-From: Claudiu <claudiu.beznea.uj@bp.renesas.com>
+To: geert+renesas@glider.be,
+	linus.walleij@linaro.org
+Cc: linux-renesas-soc@vger.kernel.org,
+	linux-gpio@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	dan.carpenter@linaro.org,
+	claudiu.beznea@tuxon.dev,
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+Subject: [PATCH] pinctrl: renesas: rzg2l: Fix locking in rzg2l_dt_subnode_to_map()
+Date: Mon, 15 Jan 2024 17:34:53 +0200
+Message-Id: <20240115153453.99226-1-claudiu.beznea.uj@bp.renesas.com>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240115130817.88456-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20240115130817.88456-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20240115130817.88456-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 15 Jan 2024 15:07:10 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdXGBxFbjy+WZYzCq3ARB7HrKUAQpYmKea1bDmvny3myag@mail.gmail.com>
-Message-ID: <CAMuHMdXGBxFbjy+WZYzCq3ARB7HrKUAQpYmKea1bDmvny3myag@mail.gmail.com>
-Subject: Re: [PATCH v5 4/4] riscv: dts: renesas: r9a07g043f: Update
- gpio-ranges property
-To: Prabhakar <prabhakar.csengg@gmail.com>
-Cc: Magnus Damm <magnus.damm@gmail.com>, Linus Walleij <linus.walleij@linaro.org>, 
-	Rob Herring <robh+dt@kernel.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
-	linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	linux-gpio@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Mon, Jan 15, 2024 at 2:08=E2=80=AFPM Prabhakar <prabhakar.csengg@gmail.c=
-om> wrote:
-> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
->
-> On RZ/Five we have additional pins compared to the RZ/G2UL SoC so update
-> the gpio-ranges property in RZ/Five SoC DTSI.
->
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 
-My
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-on v3 is still valid.
+Commit d3aaa7203a17 ("pinctrl: renesas: rzg2l: Add pin configuration
+support for pinmux groups") introduced the possibility to parse pin
+configuration for pinmux groups. It did that by calling
+rzg2l_map_add_config() at the end of rzg2l_dt_subnode_to_map() and
+jumping to the remove_group label in case rzg2l_map_add_config() failed.
+But if that happens, the mutex will already be unlocked, thus this it will
+lead to double mutex unlock operation. To fix this move the
+rzg2l_map_add_config() call just after all the name argument is ready and
+before the mutex is locked. There is no harm in doing this, as this only
+parses the data from device tree that will be further processed by
+pinctrl core code.
 
-> --- a/arch/riscv/boot/dts/renesas/r9a07g043f.dtsi
-> +++ b/arch/riscv/boot/dts/renesas/r9a07g043f.dtsi
-> @@ -46,6 +46,10 @@ cpu0_intc: interrupt-controller {
->         };
->  };
->
-> +&pinctrl {
-> +       gpio-ranges =3D <&pinctrl 0 0 232>;
-> +};
-> +
->  &soc {
->         dma-noncoherent;
->         interrupt-parent =3D <&plic>;
+Fixes: d3aaa7203a17 ("pinctrl: renesas: rzg2l: Add pin configuration support for pinmux groups")
+Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+---
+ drivers/pinctrl/renesas/pinctrl-rzg2l.c | 20 ++++++++++----------
+ 1 file changed, 10 insertions(+), 10 deletions(-)
 
-I believe this has a hard dependency on the pinctrl driver changes, due to
-the following check in in rzg2l_gpio_register():
+diff --git a/drivers/pinctrl/renesas/pinctrl-rzg2l.c b/drivers/pinctrl/renesas/pinctrl-rzg2l.c
+index 80fb5011c7bb..01ef6921cb35 100644
+--- a/drivers/pinctrl/renesas/pinctrl-rzg2l.c
++++ b/drivers/pinctrl/renesas/pinctrl-rzg2l.c
+@@ -447,6 +447,16 @@ static int rzg2l_dt_subnode_to_map(struct pinctrl_dev *pctldev,
+ 		name = np->name;
+ 	}
+ 
++	if (num_configs) {
++		ret = rzg2l_map_add_config(&maps[idx], name,
++					   PIN_MAP_TYPE_CONFIGS_GROUP,
++					   configs, num_configs);
++		if (ret < 0)
++			goto done;
++
++		idx++;
++	}
++
+ 	mutex_lock(&pctrl->mutex);
+ 
+ 	/* Register a single pin group listing all the pins we read from DT */
+@@ -474,16 +484,6 @@ static int rzg2l_dt_subnode_to_map(struct pinctrl_dev *pctldev,
+ 	maps[idx].data.mux.function = name;
+ 	idx++;
+ 
+-	if (num_configs) {
+-		ret = rzg2l_map_add_config(&maps[idx], name,
+-					   PIN_MAP_TYPE_CONFIGS_GROUP,
+-					   configs, num_configs);
+-		if (ret < 0)
+-			goto remove_group;
+-
+-		idx++;
+-	}
+-
+ 	dev_dbg(pctrl->dev, "Parsed %pOF with %d pins\n", np, num_pinmux);
+ 	ret = 0;
+ 	goto done;
+-- 
+2.39.2
 
-    if (of_args.args[0] !=3D 0 || of_args.args[1] !=3D 0 ||
-        of_args.args[2] !=3D pctrl->data->n_port_pins) {
-            dev_err(pctrl->dev, "gpio-ranges does not match selected SOC\n"=
-);
-            return -EINVAL;
-    }
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
 
