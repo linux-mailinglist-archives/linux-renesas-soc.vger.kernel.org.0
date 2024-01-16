@@ -1,356 +1,176 @@
-Return-Path: <linux-renesas-soc+bounces-1593-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-1594-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8AF6682FC65
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Jan 2024 23:19:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76B1082FDBD
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 17 Jan 2024 00:27:43 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 009781F29551
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Jan 2024 22:19:25 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id CDAE61F284EE
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Jan 2024 23:27:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1C6DE28688;
-	Tue, 16 Jan 2024 20:55:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CEC075232;
+	Tue, 16 Jan 2024 23:27:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=atishpatra.org header.i=@atishpatra.org header.b="f6jxmEtM"
+	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="DxCIBURT"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com [209.85.208.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01on2114.outbound.protection.outlook.com [40.107.113.114])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE1092577D
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 16 Jan 2024 20:55:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.182
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705438558; cv=none; b=BipwSI8d3L3daGicjyL28mkPcTuM6Oifg+vshL7Ksa+N9M7d8c70H32a52gWdY4s9Bpm5DAswav2AyJvRm7X0P0EFUiWazV4S6iaM3JnMwvOaMPRNQdKqTNs5hIRBUv2nc5JWlp6Rk0e9K9qUFfw0Fwvdk62ikHDzUvxPv0kSAM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705438558; c=relaxed/simple;
-	bh=EDcdzIOhXQ/52ms8gzeDSrTpan3bCbvz3619AOQ1tBU=;
-	h=Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Google-Smtp-Source:X-Received:MIME-Version:
-	 References:In-Reply-To:From:Date:Message-ID:Subject:To:Cc:
-	 Content-Type:Content-Transfer-Encoding; b=gW3meL+zbUNi5KzJKf/LNQB3qSm7kTbI3e1nGkLi7hGTx5akYlK8urCuqvsI5UJTNlmFA34NQhB2a/mNupUbb1XZyuYFhBKLd5bEdMzW0qBqf3FsigXkyHVRbpRtSfGke5vRDhjomNC33YXr4iahpW1N6HONfljXyVPaaXQNfzU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=atishpatra.org; spf=pass smtp.mailfrom=atishpatra.org; dkim=pass (1024-bit key) header.d=atishpatra.org header.i=@atishpatra.org header.b=f6jxmEtM; arc=none smtp.client-ip=209.85.208.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=atishpatra.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=atishpatra.org
-Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-2cd0f4f306fso120666581fa.0
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 16 Jan 2024 12:55:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=atishpatra.org; s=google; t=1705438553; x=1706043353; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=n7aeoNCGecPYipNdateEPrHUR8jipxighb0wJVc74QM=;
-        b=f6jxmEtM54r8oDuQFOwdHbMg+z9y4Mx2xlj8j/f4tae/HrtpLQA3PhPnK9GU28CEim
-         V1Mect/gAQQ3fP38vycuywdeUFP4qCMVZJk925B0u2KNYqP2IotPH1TI0DcZGSZBXKHv
-         YJSJZy64DlAjbK5pqL6xN+Ie69TxMzx4tx9pI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705438553; x=1706043353;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=n7aeoNCGecPYipNdateEPrHUR8jipxighb0wJVc74QM=;
-        b=aWztiBwcTqgt334bxtFeVLZgdeMIy0trausCgceSLqeYNR9JiaVv3UZDFkzwM7GC0H
-         zzNVaCOaA3hCJiulPr08ghRkhrYoDEa6J4KwRtVQcID8H5Wrv7CrojYlm8ZNozLIQgMZ
-         HXznsDcH6201n0eTzi4yNGcNeIw1aoUPJoqCfogDRTwjh3ArM6yywxlt1AL4nnfrL5qr
-         nVYWoc4YAYYezat1QO5PNqwgjZjrb+tHsmypB3F531cWdRftgyd2M9UenTpBAd8sCaK0
-         tk2VlbCKAblQnzJI/KI/uOILWk9HPG7nye8RnHEGY2GABTpV9RNBhi3+lO27b6DToF4N
-         7NOg==
-X-Gm-Message-State: AOJu0YxFKey7gp3wxOHl1jujH8C6mbngPikQSFgugFJYy9GHYDKNnaXX
-	fHRH6C6RlznfZooNYVvE5vvILQbpm+hs0mwsR+82WbHWn4aA
-X-Google-Smtp-Source: AGHT+IG3hQqwOEAuQIEe26wVuEJZ0hqaSYghTTXqBTohi8bagHfjNbU3GhlWTUQwbqnDsE5lrjQe3fr3XFikPueYIHg=
-X-Received: by 2002:a2e:b0f2:0:b0:2cd:2ac6:9685 with SMTP id
- h18-20020a2eb0f2000000b002cd2ac69685mr3760083ljl.92.1705438552740; Tue, 16
- Jan 2024 12:55:52 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DACCD67C49
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 16 Jan 2024 23:27:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.113.114
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1705447658; cv=fail; b=hbeMebvMtGWumsYRL4lODP4Tq8XC/a2ZLvwEKm3YOL5Rbq7v9OTxFA/5J8zsKoqiNJoYicXyXSMYw7OOZmcoYDevkFm9x251PCduVy0BeO+1tEYq6vxlwzRG9RnY+KBGTlflsna2K6WG0OqYtJJuTqcKm2m982HzegYfIESjZvQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1705447658; c=relaxed/simple;
+	bh=kkd+AB4Vf1M4BIv7yBKQMt6Tw7RrhwQKGc7MOyhdSeg=;
+	h=ARC-Message-Signature:ARC-Authentication-Results:DKIM-Signature:
+	 Received:Received:Message-ID:From:To:Cc:Subject:In-Reply-To:
+	 References:User-Agent:Content-Type:Date:X-ClientProxiedBy:
+	 MIME-Version:X-MS-PublicTrafficType:X-MS-TrafficTypeDiagnostic:
+	 X-MS-Office365-Filtering-Correlation-Id:
+	 X-MS-Exchange-SenderADCheck:X-MS-Exchange-AntiSpam-Relay:
+	 X-Microsoft-Antispam:X-Microsoft-Antispam-Message-Info:
+	 X-Forefront-Antispam-Report:
+	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
+	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
+	 X-MS-Exchange-CrossTenant-Network-Message-Id:
+	 X-MS-Exchange-CrossTenant-AuthSource:
+	 X-MS-Exchange-CrossTenant-AuthAs:
+	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
+	 X-MS-Exchange-CrossTenant-FromEntityHeader:
+	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
+	 X-MS-Exchange-CrossTenant-UserPrincipalName:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped; b=aD0AmGkv9N//0bbsfxelS0eAUg029fSGYlB6AnjHQvWOCl+/e+JLXP2UwHHH+HPB2QKnBGjH9nk6+y+Lf6E3BtaXoP8uSw/l07Aj21HMm5y2mebqBBfd4vUycWWmLqLw3aftj/SEvHRlywORDmJ4S74d4dqEzxDyAEF/4UXI4HU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=DxCIBURT; arc=fail smtp.client-ip=40.107.113.114
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=h5rvVyaWY0Uty5iRY9+ZYpQK13t48SkxTBldeoBnx0wRUom0D1Sew/zQ4dAsJbrpIXM1//c0PrOxkKmHtVv51AaRQc7D+EAGRCzmW747My6BlRclrbsNlDk2G8QNzLAeBXseL+IORnhh5yp4XYRclrzwBwBkvbDOJxFP6N+Ok6of/0m1zux/kYkyTO8dXwKTBukgSlRWfH4Qhlhcr+TEC1T00eKWJHIX470ETUF/l+jdJcgdMwaI4eNx2L+2kThkoybMdpofYTgTOUfi4ODHr+SLUOL6mEmgclgthRh518FQnkuPwfbbiQTAhjQnBKRO+56Xdf9WFEWAddLsYY6s4A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=KO1TpmECr7NibNHhr+al+67c+J6HgEWZbXG4u6gmGLo=;
+ b=I/LhWo+vzV1nYvzVOthit19LTEai8pv1rUtjEJPp7Jv0oo9VAq2LUTIMwgxVly1+1JjfFuyQ/Bo4AKtlP1W2ynU/epxAunMg4wgQ9uUlyPByTssVhAsHFhrHM/LZwC1ynZ0MCltk702NqHQiNutrenkqEeLDV0G9uR4mlZSqtn7stJl7n9BMFIQdb2qHpofmOmqf7JNw/JpEuz6BzEbnksDqsehFsBKZPWJgFE8qxfol6cwI+Q5Cs92ryxVkSejaTXcSdi7tnmkKbelXmKufIjm5E1onq5GG5UGiDVvR0xQ9bn48jQ5WzW5C+Uz8JDknbnTfG/O8BRU2uhPEp3omcQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=KO1TpmECr7NibNHhr+al+67c+J6HgEWZbXG4u6gmGLo=;
+ b=DxCIBURT5/Y1vIzrv/ADsxiEpZ/X8m7tbuhybL92kvc5gUK/cEWaCb7qB9nHtpi8N3U5C0qZNetwj6E00M50aV4Pd5tGr99Dd0RLFLPiBMOCscFtRkjb414MBMsW0bWhHy51y9Ppm5UHL+h1NNVipleAtRJpKsXG1Ts3PYhlwDQ=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=renesas.com;
+Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
+ (2603:1096:400:3a9::11) by TYCPR01MB9782.jpnprd01.prod.outlook.com
+ (2603:1096:400:20c::14) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7202.23; Tue, 16 Jan
+ 2024 23:27:33 +0000
+Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
+ ([fe80::91d:1bfa:edc4:1c5b]) by TYCPR01MB10914.jpnprd01.prod.outlook.com
+ ([fe80::91d:1bfa:edc4:1c5b%7]) with mapi id 15.20.7202.020; Tue, 16 Jan 2024
+ 23:27:33 +0000
+Message-ID: <874jfcvoyj.wl-kuninori.morimoto.gx@renesas.com>
+From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
+	Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Subject: Re: [PATCH] arm64: renesas_defconfig: add R-Car Gen4 PCIe
+In-Reply-To: <CAMuHMdWOkL=AzLM0j8UqtNsvAMGPWQ-rU9vcA+NvG_9xDq3OGQ@mail.gmail.com>
+References: <87sf2ztoq4.wl-kuninori.morimoto.gx@renesas.com>
+	<CAMuHMdWOkL=AzLM0j8UqtNsvAMGPWQ-rU9vcA+NvG_9xDq3OGQ@mail.gmail.com>
+User-Agent: Wanderlust/2.15.9 Emacs/27.1 Mule/6.0
+Content-Type: text/plain; charset=US-ASCII
+Date: Tue, 16 Jan 2024 23:27:33 +0000
+X-ClientProxiedBy: TYAPR01CA0084.jpnprd01.prod.outlook.com
+ (2603:1096:404:2c::24) To TYCPR01MB10914.jpnprd01.prod.outlook.com
+ (2603:1096:400:3a9::11)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240110073917.2398826-1-peterlin@andestech.com> <20240110073917.2398826-8-peterlin@andestech.com>
-In-Reply-To: <20240110073917.2398826-8-peterlin@andestech.com>
-From: Atish Patra <atishp@atishpatra.org>
-Date: Tue, 16 Jan 2024 12:55:41 -0800
-Message-ID: <CAOnJCUKY8H+pvgTWW5zkfm8O4WR-OWOKmyPTcMjUZBCC5RaLWQ@mail.gmail.com>
-Subject: Re: [PATCH v7 07/16] RISC-V: Move T-Head PMU to CPU feature
- alternative framework
-To: Yu Chien Peter Lin <peterlin@andestech.com>
-Cc: acme@kernel.org, adrian.hunter@intel.com, ajones@ventanamicro.com, 
-	alexander.shishkin@linux.intel.com, andre.przywara@arm.com, 
-	anup@brainfault.org, aou@eecs.berkeley.edu, conor+dt@kernel.org, 
-	conor.dooley@microchip.com, conor@kernel.org, devicetree@vger.kernel.org, 
-	dminus@andestech.com, evan@rivosinc.com, geert+renesas@glider.be, 
-	guoren@kernel.org, heiko@sntech.de, irogers@google.com, 
-	jernej.skrabec@gmail.com, jolsa@kernel.org, jszhang@kernel.org, 
-	krzysztof.kozlowski+dt@linaro.org, linux-arm-kernel@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org, linux-riscv@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev, locus84@andestech.com, magnus.damm@gmail.com, 
-	mark.rutland@arm.com, mingo@redhat.com, n.shubin@yadro.com, 
-	namhyung@kernel.org, palmer@dabbelt.com, paul.walmsley@sifive.com, 
-	peterz@infradead.org, prabhakar.mahadev-lad.rj@bp.renesas.com, 
-	rdunlap@infradead.org, robh+dt@kernel.org, samuel@sholland.org, 
-	sunilvl@ventanamicro.com, tglx@linutronix.de, tim609@andestech.com, 
-	uwu@icenowy.me, wens@csie.org, will@kernel.org, ycliang@andestech.com, 
-	inochiama@outlook.com, chao.wei@sophgo.com, unicorn_wang@outlook.com, 
-	wefu@redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-On Tue, Jan 9, 2024 at 11:40=E2=80=AFPM Yu Chien Peter Lin
-<peterlin@andestech.com> wrote:
->
-> The custom PMU extension aims to support perf event sampling prior
-> to the ratification of Sscofpmf. Instead of diverting the bits and
-> register reserved for future standard, a set of custom registers is
-> added.  Hence, we may consider it as a CPU feature rather than an
-> erratum.
->
-
-I don't think we should do that. Any custom implementation that
-violates the standard RISC-V spec should
-be an errata not a feature.
-As per my understanding, a vendor can call an extension custom ISA
-extension if the same feature is not available
-in the standard ISA extensions or the mechanism is completely
-different. It must also not violate any standard spec as well.
-
-In this case, a standard sscofpmf is already available. Moreover, both
-Andes and T-head extensions violate the standard
-spec by reusing local interrupt numbers (17(Thead) & 18(Andes)) which
-are clearly specified as reserved for standard local interrupts
-in the AIA specification.
-
-Please implementation Andes PMU support as an errata as well similar to T-h=
-ead
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: TYCPR01MB10914:EE_|TYCPR01MB9782:EE_
+X-MS-Office365-Filtering-Correlation-Id: 5b9f6e77-c268-4864-a89e-08dc16eab73f
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	gCE4uSdMPORRMRra8Vs8MksEcIiOOOM41fO5KnLZlBNAOuCvlMPu+4bmAgF4Ho4ZbjMEPtH1kwcD+ffjxcPpRIpq3l/UeXXZRuQ+CwFC2g51r1OHr9yT2Ir7y/X1LBCe4JyWTYdw9HKRyS0g1K4jE3xDqshJ6GsPOgTkXIWdndan8OfwMq0f+JZVPvRtNpJ7OCrbwFDrhDxKQW+UxIC4KnsDH0o1geBM+coUG6PIYJag7B2TinNm1pYXqQfi1K6SnBoDZbTMbqpfEv/EDIMjJzG8h1I/mZ7yum0PGvW8gXGMiIVNQvKzEL/VX3gCVP+1g3Nt2LTW+BEJWvu1Dxoyoe5xHFVOB9RmIYm4AF9XFER9/8jezqW6n1w62QVKaN1zThwGNr6YgeQDXgUWDOWYRZwDqK5lZ74/JRTCigGcq18tNulJIUvQFYEhowcx1Rcq0av7C9l/4zNehVKhvk4MJP4nv3NUqf75DbufWcjb0JIQlaKZDXOuDiF6oEDjL+dFP5DSwiWLRn64TWV9VoNDKDoYPm+VDrhTbEmM9OcFcNNIZL2By+E3/G4h1uUNnZyzDS+dQT8TIledfeVbfkW8dQ7gGGDlIWd84p7A/4U1WakbTTuarWQf9GDCCEsksJan
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB10914.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(39860400002)(346002)(396003)(376002)(136003)(366004)(230922051799003)(451199024)(186009)(64100799003)(1800799012)(41300700001)(86362001)(36756003)(4326008)(38100700002)(26005)(6486002)(66556008)(66946007)(2906002)(66476007)(316002)(6916009)(54906003)(4744005)(2616005)(107886003)(478600001)(8936002)(52116002)(8676002)(5660300002)(6506007)(6512007)(38350700005);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?Gf4UNOpn0vSnmZ0SUoJvJz5AJc6Glr1iisyBwNspNwTgpGeMHNagsnsegemz?=
+ =?us-ascii?Q?D5aj5NZHWM71byRihfcBZ6fH55vSbBRDQ50IZlSCmUj4ouBPT1bKyEv0yEhh?=
+ =?us-ascii?Q?E5nz69/iYLWdCsyv6Ie7YK5IzVVn25QPykRzRAqsRvaOi0c8AYULyX+5QYqy?=
+ =?us-ascii?Q?GM9lzFy5pOLavyqf4VrgTFvWJGPmfBdar0BNEmRDZaGhT6TuVf4YHMQ130E0?=
+ =?us-ascii?Q?xam+3c/ckmTZVUDl7S/gDdBkedcsFRe4W8i+KkdyunTuE6a4OFLf/0cbxlJx?=
+ =?us-ascii?Q?qb+cDlczt9v3S8Yqq4GKhHp0pXKnp0aFmG49o0tS1weKER4JEOTfnD4Pwmzf?=
+ =?us-ascii?Q?ngJjN+3ePa0L8NdqrgyTsF1n1RuryLdZmp12aQzVkTGJYMWx3LlCH3aqq8qo?=
+ =?us-ascii?Q?R1U08gJtFBAu459sOHcg/78bUJq5f7nqEodroA7aItimb+D+u4AXdzDlW8z7?=
+ =?us-ascii?Q?bvsrkojULAmrcYbntOefbLIMSpwTUrWj7QFRXBWmNy094s+t/8iZO/3/KHIe?=
+ =?us-ascii?Q?XibKWAFOHHx+d3dP8wLOBWgbEDR5b8EjArs1xm49o8j44db+tOaVok8vfnsn?=
+ =?us-ascii?Q?e/pbdcEP80ujW0a0XRMdiMuCcaeoGTUzJg2B99JWjGOLW2zTQShOGl7c+36J?=
+ =?us-ascii?Q?SzfyEv5IVTG3dZGgcX+FvWuSql3PRNCf3fPj4ZF4C9zxNWO+6ryUWf50z9Qs?=
+ =?us-ascii?Q?MVV9PnE8kENRqD6WGr5LUFPlQXwt/V5jLIiSonqPTn26EN53+w6OcU6Pv5cS?=
+ =?us-ascii?Q?osEV5por1eZ9Rx6mPf2SmQa5/IfP9h2Y5iXOuSYAB8NK8Enz1zg32wz+3smj?=
+ =?us-ascii?Q?1p7g+xUqubUYs+t0NNlBNeXzmITsm4x4VTRSjof4QSFPyl4crcXcoMkPerJg?=
+ =?us-ascii?Q?qlQK+NRc0JVIacM4Z7gCjiqvoD7/0S3vg2ofekD54QFzUKky1kLVPh0uVqJQ?=
+ =?us-ascii?Q?oP2xPmbuFMXsMQV9G8lfsJy6udzMyapok0xLGj4wLYqpgapLJLJUfNn9PAo+?=
+ =?us-ascii?Q?nJQWgN6cRnzc/ALeYGloGJbdAAcVF6T1XACc1apZEPLF0OGgoj2uJrLGuaba?=
+ =?us-ascii?Q?RFeksBIH8CIN8mAGca9hmD88D9JlTJKv7UG70b0jh6XuifpLZaMpUrHXgBze?=
+ =?us-ascii?Q?qOs3uVKNbmtI86zpco0aXabullk6TAlb2tKzEz0EUBzdut5N2ifYStjVIJqB?=
+ =?us-ascii?Q?oMDHGxoIYr57jNhY9uQG+G7uc8N5/yAyUmwLm4crrRheIcj0h472OdwWR5iL?=
+ =?us-ascii?Q?XUNzvk/UBp1CDOKtiVMJEa1AiSJjWk1NhWewjYnLcfki3kIdBqP+ySH/N1E0?=
+ =?us-ascii?Q?ROm8I15PG6QMm5RsrA7kcA3crzPgYgudksfXeCL8kdv/kzFepJbN8fu9wOtB?=
+ =?us-ascii?Q?LOXqSn682NfcOyU4Ikh+HMvNGj+OtWsBxDUVjzCF/AlOxJrCt/4ILImKPGoH?=
+ =?us-ascii?Q?1k7kKm0VPgy/yzz48TlBjieJxpC3Vy4g72fX/qx3/r5gKjsRXV9gCYO8OQaq?=
+ =?us-ascii?Q?I7Xt2GZPcj7ST41wP3hRVj9XkxBriabPT7bWC++GYGcNbcs426IGpfs/bgLK?=
+ =?us-ascii?Q?n3fdXAOKoL/o4bMVAS06uumGj9g0S4Pj5bv67r9lT7mqy5FFEox+Lq4k7jXt?=
+ =?us-ascii?Q?3XlWF8E9Qo9Q7S62oSiGzbg=3D?=
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5b9f6e77-c268-4864-a89e-08dc16eab73f
+X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB10914.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jan 2024 23:27:33.3484
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: nszmroKQgyR9pwvPtdU+R3gNDtmi2Iki426wfs/fKQdeHRPdQnbeFUGsfK7q8bAg0ypd7y6S6nXZqjxKRmsDgYgc4JA4topoDfO/VXW331Q3Jhu8lRVuDb1POk17sr1B
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYCPR01MB9782
 
 
-> T-Head cores need to append "xtheadpmu" to the riscv,isa-extensions
-> for each cpu node in device tree, and enable CONFIG_THEAD_CUSTOM_PMU
-> for proper functioning as of this commit.
->
-> Signed-off-by: Yu Chien Peter Lin <peterlin@andestech.com>
-> Reviewed-by: Guo Ren <guoren@kernel.org>
-> Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
-> ---
-> Changes v1 -> v2:
->   - New patch
-> Changes v2 -> v3:
->   - Removed m{vendor/arch/imp}id checks in pmu_sbi_setup_irqs()
-> Changes v3 -> v4:
->   - No change
-> Changes v4 -> v5:
->   - Include Guo's Reviewed-by
->   - Let THEAD_CUSTOM_PMU depend on ARCH_THEAD
-> Changes v5 -> v6:
->   - Include Conor's Reviewed-by
-> Changes v6 -> v7:
->   - No change
-> ---
->  arch/riscv/Kconfig.errata            | 13 -------------
->  arch/riscv/errata/thead/errata.c     | 19 -------------------
->  arch/riscv/include/asm/errata_list.h | 15 +--------------
->  arch/riscv/include/asm/hwcap.h       |  1 +
->  arch/riscv/kernel/cpufeature.c       |  1 +
->  drivers/perf/Kconfig                 | 13 +++++++++++++
->  drivers/perf/riscv_pmu_sbi.c         | 19 ++++++++++++++-----
->  7 files changed, 30 insertions(+), 51 deletions(-)
->
-> diff --git a/arch/riscv/Kconfig.errata b/arch/riscv/Kconfig.errata
-> index e2c731cfed8c..0d19f47d1018 100644
-> --- a/arch/riscv/Kconfig.errata
-> +++ b/arch/riscv/Kconfig.errata
-> @@ -86,17 +86,4 @@ config ERRATA_THEAD_CMO
->
->           If you don't know what to do here, say "Y".
->
-> -config ERRATA_THEAD_PMU
-> -       bool "Apply T-Head PMU errata"
-> -       depends on ERRATA_THEAD && RISCV_PMU_SBI
-> -       default y
-> -       help
-> -         The T-Head C9xx cores implement a PMU overflow extension very
-> -         similar to the core SSCOFPMF extension.
-> -
-> -         This will apply the overflow errata to handle the non-standard
-> -         behaviour via the regular SBI PMU driver and interface.
-> -
-> -         If you don't know what to do here, say "Y".
-> -
->  endmenu # "CPU errata selection"
-> diff --git a/arch/riscv/errata/thead/errata.c b/arch/riscv/errata/thead/e=
-rrata.c
-> index 0554ed4bf087..5de5f7209132 100644
-> --- a/arch/riscv/errata/thead/errata.c
-> +++ b/arch/riscv/errata/thead/errata.c
-> @@ -53,22 +53,6 @@ static bool errata_probe_cmo(unsigned int stage,
->         return true;
->  }
->
-> -static bool errata_probe_pmu(unsigned int stage,
-> -                            unsigned long arch_id, unsigned long impid)
-> -{
-> -       if (!IS_ENABLED(CONFIG_ERRATA_THEAD_PMU))
-> -               return false;
-> -
-> -       /* target-c9xx cores report arch_id and impid as 0 */
-> -       if (arch_id !=3D 0 || impid !=3D 0)
-> -               return false;
-> -
-> -       if (stage =3D=3D RISCV_ALTERNATIVES_EARLY_BOOT)
-> -               return false;
-> -
-> -       return true;
-> -}
-> -
->  static u32 thead_errata_probe(unsigned int stage,
->                               unsigned long archid, unsigned long impid)
->  {
-> @@ -80,9 +64,6 @@ static u32 thead_errata_probe(unsigned int stage,
->         if (errata_probe_cmo(stage, archid, impid))
->                 cpu_req_errata |=3D BIT(ERRATA_THEAD_CMO);
->
-> -       if (errata_probe_pmu(stage, archid, impid))
-> -               cpu_req_errata |=3D BIT(ERRATA_THEAD_PMU);
-> -
->         return cpu_req_errata;
->  }
->
-> diff --git a/arch/riscv/include/asm/errata_list.h b/arch/riscv/include/as=
-m/errata_list.h
-> index 4ed21a62158c..9bccc2ba0eb5 100644
-> --- a/arch/riscv/include/asm/errata_list.h
-> +++ b/arch/riscv/include/asm/errata_list.h
-> @@ -25,8 +25,7 @@
->  #ifdef CONFIG_ERRATA_THEAD
->  #define        ERRATA_THEAD_PBMT 0
->  #define        ERRATA_THEAD_CMO 1
-> -#define        ERRATA_THEAD_PMU 2
-> -#define        ERRATA_THEAD_NUMBER 3
-> +#define        ERRATA_THEAD_NUMBER 2
->  #endif
->
->  #ifdef __ASSEMBLY__
-> @@ -147,18 +146,6 @@ asm volatile(ALTERNATIVE_2(                         =
-                       \
->             "r"((unsigned long)(_start) + (_size))                      \
->         : "a0")
->
-> -#define THEAD_C9XX_RV_IRQ_PMU                  17
-> -#define THEAD_C9XX_CSR_SCOUNTEROF              0x5c5
-> -
-> -#define ALT_SBI_PMU_OVERFLOW(__ovl)                                    \
-> -asm volatile(ALTERNATIVE(                                              \
-> -       "csrr %0, " __stringify(CSR_SSCOUNTOVF),                        \
-> -       "csrr %0, " __stringify(THEAD_C9XX_CSR_SCOUNTEROF),             \
-> -               THEAD_VENDOR_ID, ERRATA_THEAD_PMU,                      \
-> -               CONFIG_ERRATA_THEAD_PMU)                                \
-> -       : "=3Dr" (__ovl) :                                               =
- \
-> -       : "memory")
-> -
->  #endif /* __ASSEMBLY__ */
->
->  #endif
-> diff --git a/arch/riscv/include/asm/hwcap.h b/arch/riscv/include/asm/hwca=
-p.h
-> index 5340f818746b..480f9da7fba7 100644
-> --- a/arch/riscv/include/asm/hwcap.h
-> +++ b/arch/riscv/include/asm/hwcap.h
-> @@ -80,6 +80,7 @@
->  #define RISCV_ISA_EXT_ZFA              71
->  #define RISCV_ISA_EXT_ZTSO             72
->  #define RISCV_ISA_EXT_ZACAS            73
-> +#define RISCV_ISA_EXT_XTHEADPMU                74
->
->  #define RISCV_ISA_EXT_MAX              128
->  #define RISCV_ISA_EXT_INVALID          U32_MAX
-> diff --git a/arch/riscv/kernel/cpufeature.c b/arch/riscv/kernel/cpufeatur=
-e.c
-> index e32591e9da90..4aded5bf8fc3 100644
-> --- a/arch/riscv/kernel/cpufeature.c
-> +++ b/arch/riscv/kernel/cpufeature.c
-> @@ -303,6 +303,7 @@ const struct riscv_isa_ext_data riscv_isa_ext[] =3D {
->         __RISCV_ISA_EXT_DATA(svinval, RISCV_ISA_EXT_SVINVAL),
->         __RISCV_ISA_EXT_DATA(svnapot, RISCV_ISA_EXT_SVNAPOT),
->         __RISCV_ISA_EXT_DATA(svpbmt, RISCV_ISA_EXT_SVPBMT),
-> +       __RISCV_ISA_EXT_DATA(xtheadpmu, RISCV_ISA_EXT_XTHEADPMU),
->  };
->
->  const size_t riscv_isa_ext_count =3D ARRAY_SIZE(riscv_isa_ext);
-> diff --git a/drivers/perf/Kconfig b/drivers/perf/Kconfig
-> index 273d67ecf6d2..6cef15ec7c25 100644
-> --- a/drivers/perf/Kconfig
-> +++ b/drivers/perf/Kconfig
-> @@ -86,6 +86,19 @@ config RISCV_PMU_SBI
->           full perf feature support i.e. counter overflow, privilege mode
->           filtering, counter configuration.
->
-> +config THEAD_CUSTOM_PMU
-> +       bool "T-Head custom PMU support"
-> +       depends on ARCH_THEAD && RISCV_ALTERNATIVE && RISCV_PMU_SBI
-> +       default y
-> +       help
-> +         The T-Head C9xx cores implement a PMU overflow extension very
-> +         similar to the core SSCOFPMF extension.
-> +
-> +         This will patch the overflow CSR and handle the non-standard
-> +         behaviour via the regular SBI PMU driver and interface.
-> +
-> +         If you don't know what to do here, say "Y".
-> +
->  config ARM_PMU_ACPI
->         depends on ARM_PMU && ACPI
->         def_bool y
-> diff --git a/drivers/perf/riscv_pmu_sbi.c b/drivers/perf/riscv_pmu_sbi.c
-> index 2edbc37abadf..31ca79846399 100644
-> --- a/drivers/perf/riscv_pmu_sbi.c
-> +++ b/drivers/perf/riscv_pmu_sbi.c
-> @@ -20,10 +20,21 @@
->  #include <linux/cpu_pm.h>
->  #include <linux/sched/clock.h>
->
-> -#include <asm/errata_list.h>
->  #include <asm/sbi.h>
->  #include <asm/cpufeature.h>
->
-> +#define THEAD_C9XX_RV_IRQ_PMU          17
-> +#define THEAD_C9XX_CSR_SCOUNTEROF      0x5c5
-> +
-> +#define ALT_SBI_PMU_OVERFLOW(__ovl)                                    \
-> +asm volatile(ALTERNATIVE(                                              \
-> +       "csrr %0, " __stringify(CSR_SSCOUNTOVF),                        \
-> +       "csrr %0, " __stringify(THEAD_C9XX_CSR_SCOUNTEROF),             \
-> +               0, RISCV_ISA_EXT_XTHEADPMU,                             \
-> +               CONFIG_THEAD_CUSTOM_PMU)                                \
-> +       : "=3Dr" (__ovl) :                                               =
- \
-> +       : "memory")
-> +
->  #define SYSCTL_NO_USER_ACCESS  0
->  #define SYSCTL_USER_ACCESS     1
->  #define SYSCTL_LEGACY          2
-> @@ -808,10 +819,8 @@ static int pmu_sbi_setup_irqs(struct riscv_pmu *pmu,=
- struct platform_device *pde
->         if (riscv_isa_extension_available(NULL, SSCOFPMF)) {
->                 riscv_pmu_irq_num =3D RV_IRQ_PMU;
->                 riscv_pmu_use_irq =3D true;
-> -       } else if (IS_ENABLED(CONFIG_ERRATA_THEAD_PMU) &&
-> -                  riscv_cached_mvendorid(0) =3D=3D THEAD_VENDOR_ID &&
-> -                  riscv_cached_marchid(0) =3D=3D 0 &&
-> -                  riscv_cached_mimpid(0) =3D=3D 0) {
-> +       } else if (riscv_isa_extension_available(NULL, XTHEADPMU) &&
-> +                  IS_ENABLED(CONFIG_THEAD_CUSTOM_PMU)) {
->                 riscv_pmu_irq_num =3D THEAD_C9XX_RV_IRQ_PMU;
->                 riscv_pmu_use_irq =3D true;
->         }
-> --
-> 2.34.1
->
+Hi Geert
 
+> Thanks for your patch!
+> 
+> > --- a/arch/arm64/configs/renesas_defconfig
+> > +++ b/arch/arm64/configs/renesas_defconfig
+> > @@ -108,6 +108,8 @@ CONFIG_HOTPLUG_PCI=y
+> >  CONFIG_PCI_HOST_GENERIC=y
+> >  CONFIG_PCIE_RCAR_HOST=y
+> >  CONFIG_PCIE_RCAR_EP=y
+> > +CONFIG_PCIE_RCAR_GEN4_HOST=y
+> > +CONFIG_PCIE_RCAR_GEN4_EP=y
+> >  CONFIG_PCI_ENDPOINT=y
+> >  CONFIG_PCI_ENDPOINT_CONFIGFS=y
+> >  CONFIG_PCI_EPF_TEST=y
+> 
+> These two options are already enabled, cfr.
 
---
-Regards,
-Atish
+Wow ! Nice !
+Thank you for your help !!
+
+Best regards
+---
+Renesas Electronics
+Ph.D. Kuninori Morimoto
 
