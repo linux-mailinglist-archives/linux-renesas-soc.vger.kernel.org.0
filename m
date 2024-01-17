@@ -1,95 +1,109 @@
-Return-Path: <linux-renesas-soc+bounces-1595-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-1596-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DC1182FDEF
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 17 Jan 2024 01:16:24 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id EE8D882FF4F
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 17 Jan 2024 04:35:57 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6ABAA28BACC
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 17 Jan 2024 00:16:22 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0017D1C24718
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 17 Jan 2024 03:35:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3E945633;
-	Wed, 17 Jan 2024 00:16:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 06F4846B5;
+	Wed, 17 Jan 2024 03:35:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="B3hv6iL7"
+	dkim=pass (2048-bit key) header.d=ventanamicro.com header.i=@ventanamicro.com header.b="SRt8WnhD"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3F8D8BE7;
-	Wed, 17 Jan 2024 00:16:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1702379F4
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 17 Jan 2024 03:35:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705450576; cv=none; b=CD7wD6VBcZS0BwNZ98Jb+oPpQjmFMHqDnce5bRdkYm2TeO/bfKDr8NehpHpMU27ovTv/1wer001uGDzjLRESIs4x8r8qbeKTZx2XTRlrfuFzwkerd84snm7TtCffsmVcFUy8jksUxBWsCopfqlqr69z7+rS6Usm6TvA9SYQ3/+w=
+	t=1705462547; cv=none; b=LY14NY3GOvzhVlF7RqziEmQooSL0iFiThvkLBLLkDda3hvAs9PDTQMx/tAHx2F7eb+fr9CccIdL7Pntr3PWWiXkEpISBXzRVjdAcMzR40dBaxPXEcgxJu618ox2dKsG9qCF6bV22sIUid57tlx4uL4PhQWlhJE1tNtqfpDhxDMA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705450576; c=relaxed/simple;
-	bh=kJ+3QD+8rJuaqWPfNZqBAEGz53Een08dtx5nqhngH34=;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:
-	 In-Reply-To; b=gCIJpXo8Q13ZbEzVwkwYmWXBMqjfu/ounmGycqgU6brdc6ygXL2HwDHB+XoxG2pPhpYagyLa9t/QJP60SICKxUOrIqHvWS09By1loYcsuNm/bMZVN54eTmhAe98tXawDRJjvk07ITCVuSXjI21WC8o0sAzoP/XXryuBVrPAi9fs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=B3hv6iL7; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1F4B0C433F1;
-	Wed, 17 Jan 2024 00:16:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1705450575;
-	bh=kJ+3QD+8rJuaqWPfNZqBAEGz53Een08dtx5nqhngH34=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=B3hv6iL7rThGsk1Tg6o4AfzxvjZ/XqJTNKv6YT/d/sGsmEmmAjKoHppJuPK+SRjPH
-	 gSgG4wFra8+DT4Un4e0PH3dJ1taY08GjkG62acK6iWHPFOXSj8WGVvTGuXUir1xe4u
-	 Tpxv6qy7TvDYCdnV19cmHNAfIeH65xBY/8CGKZAeeTXdEm109SDek9cb7fRb3KXfcn
-	 dsMkqGDX1shZvDBHKNhjTb3oxHsworI3LTVrGn+C/dVrpowg16J7wSuRfpPzykQCj2
-	 sW049hlhYKNPNpdh9hauJfNWrush+FWxZpM3u/nxoE8uTpMxv8qJUAu5BI/BvEAdOl
-	 bolDbDBX9Onfg==
-Date: Wed, 17 Jan 2024 00:16:03 +0000
-From: Conor Dooley <conor@kernel.org>
-To: Atish Patra <atishp@atishpatra.org>
-Cc: Yu Chien Peter Lin <peterlin@andestech.com>, acme@kernel.org,
-	adrian.hunter@intel.com, ajones@ventanamicro.com,
-	alexander.shishkin@linux.intel.com, andre.przywara@arm.com,
-	anup@brainfault.org, aou@eecs.berkeley.edu, conor+dt@kernel.org,
-	conor.dooley@microchip.com, devicetree@vger.kernel.org,
-	dminus@andestech.com, evan@rivosinc.com, geert+renesas@glider.be,
-	guoren@kernel.org, heiko@sntech.de, irogers@google.com,
-	jernej.skrabec@gmail.com, jolsa@kernel.org, jszhang@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-perf-users@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-	linux-riscv@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	locus84@andestech.com, magnus.damm@gmail.com, mark.rutland@arm.com,
-	mingo@redhat.com, n.shubin@yadro.com, namhyung@kernel.org,
-	palmer@dabbelt.com, paul.walmsley@sifive.com, peterz@infradead.org,
-	prabhakar.mahadev-lad.rj@bp.renesas.com, rdunlap@infradead.org,
-	robh+dt@kernel.org, samuel@sholland.org, sunilvl@ventanamicro.com,
-	tglx@linutronix.de, tim609@andestech.com, uwu@icenowy.me,
-	wens@csie.org, will@kernel.org, ycliang@andestech.com,
-	inochiama@outlook.com, chao.wei@sophgo.com,
-	unicorn_wang@outlook.com, wefu@redhat.com
-Subject: Re: [PATCH v7 07/16] RISC-V: Move T-Head PMU to CPU feature
- alternative framework
-Message-ID: <20240116-cherub-revival-5d32cc5f1fd0@spud>
-References: <20240110073917.2398826-1-peterlin@andestech.com>
- <20240110073917.2398826-8-peterlin@andestech.com>
- <CAOnJCUKY8H+pvgTWW5zkfm8O4WR-OWOKmyPTcMjUZBCC5RaLWQ@mail.gmail.com>
+	s=arc-20240116; t=1705462547; c=relaxed/simple;
+	bh=cBfsCb32nUijnXH54o/TiQ0y5BseV36p/OWgKgIsIlo=;
+	h=Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Gm-Message-State:X-Google-Smtp-Source:X-Received:MIME-Version:
+	 References:In-Reply-To:From:Date:Message-ID:Subject:To:Cc:
+	 Content-Type:Content-Transfer-Encoding; b=WycoL7iEO8e0ixXnanje9zJhaAI0tpT6ZcUz10z1vCj/YwAaFTpa1c9IQhX98FU87WNU4JNfZqFnDY0sjPaVuGE+YgrSrBIiGdoGMk+Nxv9WIRRPn2rL1vpsmC+ZfClf7FpmfzKDE6spqFsJ3+FQ0j+b7/EoWAVVQnC0i3j4TmU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ventanamicro.com; spf=pass smtp.mailfrom=ventanamicro.com; dkim=pass (2048-bit key) header.d=ventanamicro.com header.i=@ventanamicro.com header.b=SRt8WnhD; arc=none smtp.client-ip=209.85.167.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ventanamicro.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ventanamicro.com
+Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-50e7dd8bce8so12871609e87.1
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 16 Jan 2024 19:35:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ventanamicro.com; s=google; t=1705462543; x=1706067343; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=xPVeCK5B9gXpBTr58po98cr58qEX6SUXFpMHlNs4+4k=;
+        b=SRt8WnhDtqXaTRJlroK+b1NSlUxmgZe695eZO64J7052Q7ZgKIxqbDwhR+Fk3Hs5yN
+         uBax2mZNH+CGIOAP/KAJ2KsyskcH7eyXED0+FyaOjlAw7vyKlxQKD/dU4hpWL3jf3Lry
+         MoTPGUxO8BTeEWeOzXd1du8Rwv7z5CqZP8BbEHjK3o0wNE2CIlqYhI+2u++hC/Y/+UO9
+         2QtiLzhArF+P/TjHEWTknr8SsJeFggl/x0oPmg1PqKxBKG/tqfrmLxSbKvKcnYZxb81e
+         +l3OScbPdM6PJXKEdxP1XlKcrfQg7AVKdKSLZmBhPiozJBgTa46B2a2TzxlYxKEyfHLl
+         i2+w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1705462543; x=1706067343;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=xPVeCK5B9gXpBTr58po98cr58qEX6SUXFpMHlNs4+4k=;
+        b=DXUSkns3pJ2GmgtY3UEt9T8gNTWMBNI2IvQgbYW3z+0UFODgFEYRLNcgdc9fT8g7ik
+         SyYjB59mnz/bu0v/WHXKQRC8pbSOUSlSHS29K75wLPOZ16GFGM/1HzCq/81iVgOHntZ+
+         sEgCsxw0oAlXzCf7P2RTSTKoZ1P2V7YiyaDhSS3q4OhNkdUiS/2zmuqEh23rBJcsblK5
+         a4bO3dNKE/PAKN6j85mPqKNZsZ/y2/27cssSvS05KDwiTtbNph8ogLkbMyv+BKXkJhC6
+         gQU7Z9LpxcfAo9KbU7fGp4pwy+MeLaR0iTHuj5W4mYaV4TguWGYoIDtJ94fpFWk6/iVa
+         wLVQ==
+X-Gm-Message-State: AOJu0YxBvMCBH26fz+q3rQ5T76BHk9ZoG4aRXk/fvfXiAmpcwRWRTpNr
+	EsM4csOsnDfLBA3X41t1oN6TZ2ZwMv5YB59KZ1UhjbE2QQTbUg==
+X-Google-Smtp-Source: AGHT+IHD9rX+AypBxN5wLbJtFq2oz+0qCtxWPENssoBJF6WaLlzLLisFCbSvBoR6Qt8OOfZpDduvBPuY6PDtvcPgU7U=
+X-Received: by 2002:a05:6512:3da0:b0:50e:d514:77c3 with SMTP id
+ k32-20020a0565123da000b0050ed51477c3mr4684846lfv.10.1705462542798; Tue, 16
+ Jan 2024 19:35:42 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="Ja0AtvSzsJhuxWGO"
-Content-Disposition: inline
+References: <20240110073917.2398826-1-peterlin@andestech.com>
+ <20240110073917.2398826-8-peterlin@andestech.com> <CAOnJCUKY8H+pvgTWW5zkfm8O4WR-OWOKmyPTcMjUZBCC5RaLWQ@mail.gmail.com>
 In-Reply-To: <CAOnJCUKY8H+pvgTWW5zkfm8O4WR-OWOKmyPTcMjUZBCC5RaLWQ@mail.gmail.com>
-
-
---Ja0AtvSzsJhuxWGO
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+From: Anup Patel <apatel@ventanamicro.com>
+Date: Wed, 17 Jan 2024 09:05:31 +0530
+Message-ID: <CAK9=C2WHX6f3miX3ceUnFT6PyjnUNHnUOKoRSmJr_rt78njaQA@mail.gmail.com>
+Subject: Re: [PATCH v7 07/16] RISC-V: Move T-Head PMU to CPU feature
+ alternative framework
+To: Atish Patra <atishp@atishpatra.org>
+Cc: Yu Chien Peter Lin <peterlin@andestech.com>, mark.rutland@arm.com, irogers@google.com, 
+	heiko@sntech.de, geert+renesas@glider.be, alexander.shishkin@linux.intel.com, 
+	linux-kernel@vger.kernel.org, conor.dooley@microchip.com, guoren@kernel.org, 
+	krzysztof.kozlowski+dt@linaro.org, linux-riscv@lists.infradead.org, 
+	will@kernel.org, linux-renesas-soc@vger.kernel.org, tim609@andestech.com, 
+	samuel@sholland.org, anup@brainfault.org, dminus@andestech.com, 
+	magnus.damm@gmail.com, jernej.skrabec@gmail.com, peterz@infradead.org, 
+	wens@csie.org, mingo@redhat.com, jszhang@kernel.org, inochiama@outlook.com, 
+	linux-sunxi@lists.linux.dev, ajones@ventanamicro.com, 
+	devicetree@vger.kernel.org, conor+dt@kernel.org, aou@eecs.berkeley.edu, 
+	andre.przywara@arm.com, locus84@andestech.com, acme@kernel.org, 
+	prabhakar.mahadev-lad.rj@bp.renesas.com, robh+dt@kernel.org, 
+	paul.walmsley@sifive.com, namhyung@kernel.org, tglx@linutronix.de, 
+	linux-arm-kernel@lists.infradead.org, ycliang@andestech.com, 
+	n.shubin@yadro.com, rdunlap@infradead.org, chao.wei@sophgo.com, 
+	adrian.hunter@intel.com, conor@kernel.org, linux-perf-users@vger.kernel.org, 
+	evan@rivosinc.com, palmer@dabbelt.com, jolsa@kernel.org, 
+	unicorn_wang@outlook.com, wefu@redhat.com
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jan 16, 2024 at 12:55:41PM -0800, Atish Patra wrote:
+On Wed, Jan 17, 2024 at 2:26=E2=80=AFAM Atish Patra <atishp@atishpatra.org>=
+ wrote:
+>
 > On Tue, Jan 9, 2024 at 11:40=E2=80=AFPM Yu Chien Peter Lin
 > <peterlin@andestech.com> wrote:
 > >
@@ -99,7 +113,7 @@ On Tue, Jan 16, 2024 at 12:55:41PM -0800, Atish Patra wrote:
 > > added.  Hence, we may consider it as a CPU feature rather than an
 > > erratum.
 > >
->=20
+>
 > I don't think we should do that. Any custom implementation that
 > violates the standard RISC-V spec should
 > be an errata not a feature.
@@ -107,58 +121,37 @@ On Tue, Jan 16, 2024 at 12:55:41PM -0800, Atish Patra wrote:
 > extension if the same feature is not available
 > in the standard ISA extensions or the mechanism is completely
 > different. It must also not violate any standard spec as well.
->=20
+
+I agree with Atish here. There is a well defined encoding space for
+custom extensions.
+
+If a custom extension spills over to standard encoding space then
+it should be treated as an errata and not a proper custom extension.
+
+>
 > In this case, a standard sscofpmf is already available. Moreover, both
 > Andes and T-head extensions violate the standard
 > spec by reusing local interrupt numbers (17(Thead) & 18(Andes)) which
 > are clearly specified as reserved for standard local interrupts
 > in the AIA specification.
-
-I disagree with you here. The Andes implementation predated (IIRC that
-is what was said in replies to an earlier revision) the Sscofpmf
-extension and certainly predates the AIA specification. I would be on
-board with this line of thinking if someone comes along in 2030 with
-"Zbb but with this one tweak" or where something flies entirely in the
-face of the standard (like the IOCP cache stuff). The relevant section
-in the AIA spec seems to say:
-| Interrupt causes that are standardized by the Privileged Architecture
-| have major identities in the range 0=E2=80=9315, while numbers 16 and hig=
-her are
-| officially available for platform standards or for custom use.
-| The Advanced Interrupt Architecture claims further authority over
-| identity numbers in the ranges 16=E2=80=9323 and 32=E2=80=9347, leaving n=
-umbers in the
-| range 24=E2=80=9331 and all major identities 48 and higher still free for=
- custom
-| use.
-I don't see how that can be problematic given the Andes implemtation
-dates from before AIA was a thing. It would be silly to say that because
-an optional extension later came along and took over something previously
-allowed for indiscriminate custom use, that support for that custom
-extension is not permitted.
-
-I may well be missing something here though, you clearly know these
-specs better than I do, but from what I have read I disagree.
-
+>
 > Please implementation Andes PMU support as an errata as well similar to T=
 -head
-
-I certainly _do not_ want to see things like this detected via lookup
-tables of marchid and co in the kernel unless it is absolutely required.
-We have standard probing mechanisms for feature detection (because to me
-this _is_ a feature) and they should be used. Additionally, we define what
-entries in the DT properties mean, and if it is convenient to put
-"psuedo" extensions into the DT, then we should do so. Getting away from
-being tied to what RVI decrees was one of the goals of the new
-properties after all, so that we could use a standard mechanism of DT
-probing for things like this.
-
-Thanks,
-Conor.
-
+>
+>
 > > T-Head cores need to append "xtheadpmu" to the riscv,isa-extensions
 > > for each cpu node in device tree, and enable CONFIG_THEAD_CUSTOM_PMU
 > > for proper functioning as of this commit.
+
+T-Head has many violations of using standard encoding space. I don't see
+why this series should be touching T-Head erratas.
+
+If Andes custom PMU CSRs are defined in custom encoding space then
+Andes PMU can be treated as proper custom extension.
+
+Regards,
+Anup
+
 > >
 > > Signed-off-by: Yu Chien Peter Lin <peterlin@andestech.com>
 > > Reviewed-by: Guo Ren <guoren@kernel.org>
@@ -203,7 +196,8 @@ Conor.
 > > -         The T-Head C9xx cores implement a PMU overflow extension very
 > > -         similar to the core SSCOFPMF extension.
 > > -
-> > -         This will apply the overflow errata to handle the non-standard
+> > -         This will apply the overflow errata to handle the non-standar=
+d
 > > -         behaviour via the regular SBI PMU driver and interface.
 > > -
 > > -         If you don't know what to do here, say "Y".
@@ -219,7 +213,8 @@ Conor.
 > >  }
 > >
 > > -static bool errata_probe_pmu(unsigned int stage,
-> > -                            unsigned long arch_id, unsigned long impid)
+> > -                            unsigned long arch_id, unsigned long impid=
+)
 > > -{
 > > -       if (!IS_ENABLED(CONFIG_ERRATA_THEAD_PMU))
 > > -               return false;
@@ -235,7 +230,8 @@ Conor.
 > > -}
 > > -
 > >  static u32 thead_errata_probe(unsigned int stage,
-> >                               unsigned long archid, unsigned long impid)
+> >                               unsigned long archid, unsigned long impid=
+)
 > >  {
 > > @@ -80,9 +64,6 @@ static u32 thead_errata_probe(unsigned int stage,
 > >         if (errata_probe_cmo(stage, archid, impid))
@@ -342,7 +338,8 @@ de
 > >  config ARM_PMU_ACPI
 > >         depends on ARM_PMU && ACPI
 > >         def_bool y
-> > diff --git a/drivers/perf/riscv_pmu_sbi.c b/drivers/perf/riscv_pmu_sbi.c
+> > diff --git a/drivers/perf/riscv_pmu_sbi.c b/drivers/perf/riscv_pmu_sbi.=
+c
 > > index 2edbc37abadf..31ca79846399 100644
 > > --- a/drivers/perf/riscv_pmu_sbi.c
 > > +++ b/drivers/perf/riscv_pmu_sbi.c
@@ -393,22 +390,14 @@ u, struct platform_device *pde
 > > --
 > > 2.34.1
 > >
->=20
->=20
+>
+>
 > --
 > Regards,
 > Atish
-
---Ja0AtvSzsJhuxWGO
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZaccQwAKCRB4tDGHoIJi
-0p9LAP4lKt2fPkjiqgNc9uaPp+mBmBRmTvk2mZYXXudRmZ9KLQEA76er2vGFoSCY
-Pk+BW+aC3iayHMkG/y+YBALKLHJc3g8=
-=aiVi
------END PGP SIGNATURE-----
-
---Ja0AtvSzsJhuxWGO--
+>
+> _______________________________________________
+> linux-riscv mailing list
+> linux-riscv@lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-riscv
 
