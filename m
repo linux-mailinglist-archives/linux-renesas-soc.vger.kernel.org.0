@@ -1,80 +1,63 @@
-Return-Path: <linux-renesas-soc+bounces-1609-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-1610-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70AF7830798
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 17 Jan 2024 15:08:42 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id CB1FA83082A
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 17 Jan 2024 15:34:26 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 938F81C21492
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 17 Jan 2024 14:08:41 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E25781C21354
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 17 Jan 2024 14:34:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4D9C620312;
-	Wed, 17 Jan 2024 14:08:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E6EE720DC1;
+	Wed, 17 Jan 2024 14:34:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Jxq1VhGe"
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="gRzKd6rc"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E03C200DE;
-	Wed, 17 Jan 2024 14:08:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3CE120DC4
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 17 Jan 2024 14:34:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705500518; cv=none; b=u1KCRhivcF/uRyoMLRNhdbp2yAMKPRpMbC48xEutrM9GE+TCPpBMVY3eOUj8Xdjl69IFMdb9ecZfEjvKGP6EuxRtG6FeBQ/AePR5KNL6xHZFwR8CznN3oP11cVdI3xjEpccAqHHzKVoXPkDAcD6VygElHbpUAo2EfB9X33PmLiU=
+	t=1705502059; cv=none; b=e+Qk2K7OgIm7xy43fKzTUtlv8TeGlz43cWvFTmQVMksZPlWQgQSL3RIb5hvQrX8APltAcxDdVg6d1gHDMqzUo2tUUlh27Xv+YaKeZEfkVv7lqItAsqAetlON0SalC1TCQQDZfwktfNG28pfZay41jRU4VJTv92IHbdaZjKVwBnU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705500518; c=relaxed/simple;
-	bh=qjYGIkHICpe0Z0dACHKFFmyiWosuvqoeWCRjzmSc9hw=;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 Mail-Followup-To:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=K+zm1lLShhcgrYiIeRJaE2x/vlM4NfUnmyScNqmXv2SehDsloR1p2iAm1Sf/hvNEIfQHxDheS2RA6c/kRmc0FFdC4hEf0jJ5h5PmpXzgyJDbk1dVqecQFV1L61tdh1tw1Nco4ncSZtboQ6Q5kC0HLobaYIAUTicCqRs9rAtdaYo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Jxq1VhGe; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2C7D7C433C7;
-	Wed, 17 Jan 2024 14:08:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1705500517;
-	bh=qjYGIkHICpe0Z0dACHKFFmyiWosuvqoeWCRjzmSc9hw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Jxq1VhGeBHXXzjpnwUH+hoiBgw4k7S2cHqouGInnFW2VI8pBU/srH+FipPV6FFAiA
-	 CjSD9tbuYuaIusakunF7ikLsHn29ZPflFYeHO1/47LvT2cN4T7rSNGFtyIMaIAfga8
-	 60qa1sTSYCNsVfH9Kjt9A17tU0G5dS7AY+GT9k4mWFkmEJmo+jZ6hLpFXNfMnHOtRi
-	 YiR8UTT9g6UciTH3rwq2s04/Nss2ZdCYr9E1pluxfYEhy9Qe5kMbX5t0of0sPi1nP8
-	 O5wz1wFIIT9sm3k/Uy+vO9A6MJXNgSB/fiuvwvCRpc6GXFRyjRhznare4nxQNRaU0R
-	 0ltb+zjIrj/tg==
-Date: Wed, 17 Jan 2024 15:08:33 +0100
-From: Wolfram Sang <wsa@kernel.org>
-To: Conor Dooley <conor@kernel.org>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	Daniel Lezcano <daniel.lezcano@linaro.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Yoshinori Sato <ysato@users.sourceforge.jp>,
-	devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-	linux-sh@vger.kernel.org
-Subject: Re: [PATCH] dt-bindings: timer: renesas,tmu: Document input capture
- interrupt
-Message-ID: <ZaffYczD0E34zNMo@ninjato>
-Mail-Followup-To: Wolfram Sang <wsa@kernel.org>,
-	Conor Dooley <conor@kernel.org>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	Daniel Lezcano <daniel.lezcano@linaro.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Yoshinori Sato <ysato@users.sourceforge.jp>,
-	devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-	linux-sh@vger.kernel.org
-References: <fb1e38c93e62221f94304edd980a2fb79c1f2995.1705325608.git.geert+renesas@glider.be>
- <20240115-wages-secluded-b44f4eb13323@spud>
- <CAMuHMdWY3D45NGHvGXSZRLZz4TyCRgRCQLZV6CzYs=mSFcherw@mail.gmail.com>
- <20240115170807.GJ5869@pendragon.ideasonboard.com>
- <20240116-coasting-pastrami-1dda8d1025d0@spud>
+	s=arc-20240116; t=1705502059; c=relaxed/simple;
+	bh=iXIorhSRKYFl6yPszr/Q9J6QyFF46qLQ4H5CNhC5m8s=;
+	h=DKIM-Signature:Received:Received:X-UD-Smtp-Session:Date:From:To:
+	 Cc:Subject:Message-ID:Mail-Followup-To:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=pGVcW6dCE2dyf0q1w2ZqLBgUb5XcJv9ieHrFovFrY/Nri8QdBZzzOj986Kouavpopp2Finet0qtrfggPR5KOEcvdHIvKI48NRKea4mZAwL9AtrZJ++1gx9kkRc7dLTZcQIkQTmnNAh/AUZRsjp+T0wpPXZL7SZnr/6q5asSlcus=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=gRzKd6rc; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=date:from:to:cc:subject:message-id
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=qXGe
+	GqjSieG7Fx55bT7gX7jzHoXKG7dkBusX2A5yooE=; b=gRzKd6rcqI0j4wsg1Yu4
+	ZjulY8ohlrl2vkr5SIVRm+/e9vmJBwtF6uQIcaYHso39SC6A4+3djcOHX8bMLkey
+	IeyM/2w7PZX/KjPu+yqU4pFNkBol73Df53pCR1QYHaplZlwzhAjUxklYUMjJbA3D
+	7QnZ709zh4dsZrRpQiFQTj4vrpcCerYeDcSi20NPNZYotIyPS8oPtyecOFAk07P5
+	zR52X/jJfNmqcbXRL2p4Skg05OOtmOJLERkBN4/n2Xqz3Q8n+ZQelJ6h10zGjTQW
+	LwpaTJzIpIBxF9KOrkONVCgeFODUZ4O0KVgwE2NcHcsdhYk06Su0rs8bX6uGNpFo
+	Tw==
+Received: (qmail 2776129 invoked from network); 17 Jan 2024 15:34:12 +0100
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 17 Jan 2024 15:34:12 +0100
+X-UD-Smtp-Session: l3s3148p1@Pqf3IyUPkrNehhtJ
+Date: Wed, 17 Jan 2024 15:34:11 +0100
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: Andi Shyti <andi.shyti@kernel.org>, linux-renesas-soc@vger.kernel.org,
+	linux-i2c@vger.kernel.org
+Subject: Re: [PATCH/RFC] i2c: sh_mobile: Switch R-Mobile A1/APE6 and
+ SH-Mobile AG5 to new frequency calculation
+Message-ID: <ZaflY6TN9Pl_L0Tk@ninjato>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Andi Shyti <andi.shyti@kernel.org>,
+	linux-renesas-soc@vger.kernel.org, linux-i2c@vger.kernel.org
+References: <f030f08f72dbcf83887013d000c1e2a1a9ffac81.1705324589.git.geert+renesas@glider.be>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -82,48 +65,109 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="BnJW/9g9dKSPOiUT"
+	protocol="application/pgp-signature"; boundary="NHMHFVJHs4i5pUp3"
 Content-Disposition: inline
-In-Reply-To: <20240116-coasting-pastrami-1dda8d1025d0@spud>
+In-Reply-To: <f030f08f72dbcf83887013d000c1e2a1a9ffac81.1705324589.git.geert+renesas@glider.be>
 
 
---BnJW/9g9dKSPOiUT
+--NHMHFVJHs4i5pUp3
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
+Hi Geert,
 
-> > Maybe writing this as
-> >=20
-> >       - description: Underflow interrupt, channel 0
-> >       - description: Underflow interrupt, channel 1
-> >       - description: Underflow interrupt, channel 2
-> >       - description: Input capture interrupt, channel 2
+On Mon, Jan 15, 2024 at 02:18:12PM +0100, Geert Uytterhoeven wrote:
+> Switch the R-Mobile A1, R-Mobile APE6, and SH-Mobile AG5 SoCs to the new
+> frequency calculation formula, to (a) avoid running the I2C bus too fast,
+> and (b) bring the low/high ratio closer to the recommended ratio 5/4.
 >=20
-> I, for one, prefer this wording.
+> Measurement results on R-Mobile APE6 and SH-Mobile AG5 (fck=3D104 MHz,
+> clks_per_count=3D2):
+>   100 kHz: 106 kHz LH=3D1.12 before, 99.6 kHz L/H=3D1.22 after
+>   400 kHz: 384 kHz LH=3D1.67 before, 392 kHz L/H=3D1.27 after
+>=20
+> Measurement results on R-Mobile A1 (fck=3D49.5 MHz, clks_per_count=3D1):
+>   100 kHz: 106 kHz L/H=3D1.09 before, 99.6 kHz L/H=3D1.20 after
+>=20
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-I agree.
+Looks good to me, and it seems to comply with the datasheets? (I haven't
+checked)
+
+> Notes:
+>   - fast_clock_dt_config is now unused, so I guess we should drop it,
+>     and rename v2_freq_calc_dt_config to fast_clock_dt_config?
+
+Yes, we can (and should do that).
+
+>   - The formulas in the documentation for R-Mobile A1 do not include the
+>     "-1" and "-5", presumably this is for rounding?
+
+Sounds reasonable. The formulas evolved over time :)
+
+>   - The formulas in the documentation for SH-Mobile AG5 include
+>     the "-1" and "-5" in the example for 400 kHz, but not in the example
+>     for 100 kHz.
+
+*shrug*
+
+>   - The SH-Mobile AG5 documentation suggests to use an L/H ratio of 5/3
+>     instead of 5/4 for 400 kHz, which means the old formula is better
+>     for 400 kHz?
+
+Both ratios are within the I2C specifications for minimum SCL lo/hi
+time. 5/3 is a little further away from the minimum requirements, so
+maybe a tad more robust. But both should work(tm).
+
+>   - Remaining users of the old formula are sh7343, sh7366, and sh772[234].
+>     At least for sh772[234], the "Transfer Rate" formula in the
+>     documentation is the same as for R-Mobile A1.  Hence probably we
+>     should switch the default_dt_config and the default fallback to the
+>     "v2" formula, too?
+
+I think we could. But touching old systems without testing and a need is
+more risky than leaving them alone.
+
+>   - I am still a bit puzzled, as the "v2" formula introduced in commit
+>     4ecfb9d3b229fff5 ("i2c: sh_mobile: add new frequency calculation for
+>     later SoC") is basically what the driver did before commit
+>     23a612916a51cc37 ("i2c: i2c-sh_mobile: optimize ICCH/ICCL values
+>     according to I2C bus speed")?
+
+Interesting. I can't recall that I analyzed the back then existing
+formula when I implemented v2. I recall that I used R-Car Gen2
+datasheets as the reference. I probably thought those are the "new"
+algorithms. I likely didn't have the old datasheets back then. Still,
+my memory is not clear about this.
+
+Obvious to say, this I2C core is not used anymore in newer R-Car SoCs.
+So, I won't dive too deep into it...
+
+Happy hacking,
+
+   Wolfram
 
 
---BnJW/9g9dKSPOiUT
+--NHMHFVJHs4i5pUp3
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmWn32EACgkQFA3kzBSg
-KbaH3g/9FB2Z/5Mpn3Q8jmWo+Xi/7IOOZYsMhlye6Vh3DXao/Yp9kjgUF6+/vnJi
-F/Xf4k4mKWN/mP+NEdMvm2QuJsWeRtWXHNHBK+en2AIhTxRLDTFb6g/B614VCTyQ
-9haXR7RQndmsYwnfvbflHy0wzkRV31Bpp738fWYMUv39XqBePftZw6+j8yok0Zg2
-Boy3HpirVMUUjSJvDUVmYEnsON8/LWUK23q7XldORcUn8zbE2lg13lEntKW9tZjk
-6vsSAHs2bjhRjl3sIBGPVHafDoGZSf2l4P2d7Z+ttlzeFryQVUnpih4L6E3ddhfq
-DqiiNwJY8UEDBOdDFCIHu6MoJcn5HkUVJmcDTJU9jAzvQuwr5ZJqBO3HIC4XeErz
-YAM7MFTsvt0MkxvMxRuaip8dmMMtArZ9+WgZjxL/BBezysw44CCI/gbt+UQ7RIBM
-ySlWtcx5dARH56I1CEUhBOc1NyNVhtcd6fYxOVP1BakeOCy8F0XFtmvrcRqzNDVa
-0EcqN2jRKfbqsPN0oP6al7mA2P40yVV4fFEwzX/NQ2ZW3OVPhXyrJQI6XmOrhdkk
-fkpo+3raNI/kBLgSS/TvMonwlgO8ax6xbzsaiLIeaPgEyafuWEh3ux4RGp2B8AzX
-1075MNXwlFvlmBsp8T3v0YIHiZ/wur9Q0KaIJFHIPMyzQoHGMGg=
-=E/0h
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmWn5WMACgkQFA3kzBSg
+KbbzOA/6AgHaxhcwwKmjC5WL7rDn8DOZ+VB+Yr3xvblueaItHpnEuSkD+9g7Bje+
+J/eAxk/4VyN3nAFSFha7IKqEbCQR8uNiey2V6xsfEv5wYKP9RTpe9KwV3tgLNnBY
+k628nW5ljBrh210wDV1aW9ZSVh94NWN8yTtxnSsbgHP9aWup28CG7cN52DrwqDLt
+pKgSrMFO+VkPEbAKh9IEZCNazvJFuHefNfi1bsDXS+SYWiB6iZurZrdxin9dyRxF
+wP+au6EG9/CoXEPOh6uLyLi/pp2Bhhs0q5PD4uXGdNh1ck3rWQkps7mZoInvKqZj
+skJcc9+tojlaaIhb1oPOf7ajmcFEZF1sWbKaioxmegiJLJAy1n5zhml1jFIKipsR
+Dyu3dZ/rHnu26n2IX0zFZPAJFOz37S84xkGAxYZRi11vfz3rU+ZUpPYMHOMVPP5A
+wFzFP3WOQyAZZQmPEHX9hQsztQ2xPTl/U02THIrcY3wL8oAifllWy86YJijLnuEx
+MjiLrrEQuWnAo27huC4a+hpt0KOGJjMM5Scxl9wlL2k2qLulv502TsV2cz96Nh/6
+zZ7IadsCDZn9uLKTs5iKmxg4w6VicrgrMaYO2BdBH7Dqh394jr7ARpA/ryVqsoXe
+2wE2d76bhaT5ErrXaaZDQfRe46nKGbNu6Oue3Cxv3hA59PR7nGg=
+=JKWR
 -----END PGP SIGNATURE-----
 
---BnJW/9g9dKSPOiUT--
+--NHMHFVJHs4i5pUp3--
 
