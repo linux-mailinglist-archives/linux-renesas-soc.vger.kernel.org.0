@@ -1,125 +1,97 @@
-Return-Path: <linux-renesas-soc+bounces-1617-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-1618-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78A6E831D94
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Jan 2024 17:33:05 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id B295F8329B7
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 19 Jan 2024 13:50:56 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A4AD51C222E5
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Jan 2024 16:33:04 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6A50E2858E6
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 19 Jan 2024 12:50:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 957D828DD8;
-	Thu, 18 Jan 2024 16:33:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B284A524B1;
+	Fri, 19 Jan 2024 12:50:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eGm1yU+4"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from laurent.telenet-ops.be (laurent.telenet-ops.be [195.130.137.89])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E14A1E494
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 18 Jan 2024 16:32:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.137.89
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B628524AC;
+	Fri, 19 Jan 2024 12:50:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705595580; cv=none; b=UilaCNNX1lCJwQi71xVhLXYxUbr2lXFbYYhQGS4/JcTS5pKqCh3WidtJDYbRsVklM8uSW/D6ZMY05YgBFGwWDtPOYnXC/zBxFe12OQIl8DqB30j8B7O1RRC756Cn32ui+9RjbZ+aRK6jte9fFDVniuwk7h3T3TJABKIc87KYc8E=
+	t=1705668639; cv=none; b=pP6P5fCWIcgy05yscUaE8i5fUulCL67+wlPb26VGXQAVaNX9+2peXt6Kne1R4nvydFDLOpVaOY0UfPkmuoy2WD2Jsxy2b8r9GRKUM5+02tsWFFUJfbotPCgtAa18kdtYRteHxqVC/a2/yyl4Iy6x1Kryi64ycXc27gdz57ExLqE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705595580; c=relaxed/simple;
-	bh=xp5wqNmO+F5SY7+tEzQiJmR8UD4Aq+XQHZnGT1wC76c=;
-	h=Received:Received:Received:From:To:Cc:Subject:Date:Message-Id:
-	 X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding; b=Jmwe6i1ZC4pL1uMiCMGJgSvUVhOva2uiBYFjrygGVVbt+hSc/RefIoe0dy+smLF5pWGFxb8fPod+zyn0CWyGq3+te0y5+5DpC/XUW9UjAKRx+A8DpmRxa0eQ8OrT85Kd/VmK+zZh1UOFtg5ZGgvLGMfy7HUc5C3sSTRRfGA/VT4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.137.89
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
-Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed40:ba0a:9cd8:eeb4:49de])
-	by laurent.telenet-ops.be with bizsmtp
-	id cGYo2B005041RrH01GYoiS; Thu, 18 Jan 2024 17:32:48 +0100
-Received: from rox.of.borg ([192.168.97.57])
-	by ramsan.of.borg with esmtp (Exim 4.95)
-	(envelope-from <geert@linux-m68k.org>)
-	id 1rQVJB-00FqQQ-38;
-	Thu, 18 Jan 2024 17:32:48 +0100
-Received: from geert by rox.of.borg with local (Exim 4.95)
-	(envelope-from <geert@linux-m68k.org>)
-	id 1rQVJw-001nEn-58;
-	Thu, 18 Jan 2024 17:32:48 +0100
-From: Geert Uytterhoeven <geert+renesas@glider.be>
-To: Linus Walleij <linus.walleij@linaro.org>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc: Phong Hoang <phong.hoang.wz@renesas.com>,
-	Takeshi Kihara <takeshi.kihara.df@renesas.com>,
-	linux-gpio@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH 2/2] arm64: dts: renesas: r8a779g0: Add missing SCIF_CLK2
-Date: Thu, 18 Jan 2024 17:32:37 +0100
-Message-Id: <72f20c1bf32187bd30a963cafe27252907d661f9.1705589612.git.geert+renesas@glider.be>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <cover.1705589612.git.geert+renesas@glider.be>
-References: <cover.1705589612.git.geert+renesas@glider.be>
+	s=arc-20240116; t=1705668639; c=relaxed/simple;
+	bh=tdBgxUvVzcXBF9SmsxBHx3Yis3K+qMm2hq5/YBJT9x0=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=eAQ+MWRP5rd2uE307PgMmX2cBJqudk4AVKnt5PEO8uAu52ZuH6XjF5+NI0YZ50HYn7D8Vp4Sff7hrKxHcevHGysIDkUWuM6N5BsyFSHRfHwejSMk9V5GBnuhwdNVt01ug7acXz6ct419vSDNslqGugXRrMnipWciJbxoEXqz4Jk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eGm1yU+4; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7248EC433C7;
+	Fri, 19 Jan 2024 12:50:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1705668639;
+	bh=tdBgxUvVzcXBF9SmsxBHx3Yis3K+qMm2hq5/YBJT9x0=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=eGm1yU+4cjPVMqBHDcPc0vaupWHKr38GtQUrcLk6L7tl0SHUyPemd11phIqO7kJ/t
+	 PNrd58LwrRjeTIi7r9rsZFYR6cevUEOrnBnA9chm9/WcwsrVLNvo/NIVHMgVBbpo8Z
+	 qK85JGeOA5Iko3TRxS/DaODqZKQadgNqpNcrocwvE46L+6p59ZgvMAqpy+kINzY7tQ
+	 Oh6bYQEf79AkWSve5IhbPcGGo/lDT3AU70HdAjtEAujozAnSDSYQkiZrS3VP28DoAD
+	 W+t3IQ+rb2QbMHDy+CSxSfBLhIDMLyU1W4cIoytWF4wPYelUWZTx0V8QU4szavdPUp
+	 KbJkXwuF7M1/w==
+From: Vinod Koul <vkoul@kernel.org>
+To: Geert Uytterhoeven <geert+renesas@glider.be>, 
+ Prabhakar <prabhakar.csengg@gmail.com>
+Cc: Biju Das <biju.das.jz@bp.renesas.com>, dmaengine@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+ Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>, 
+ Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20240110222717.193719-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20240110222717.193719-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH] dmaengine: sh: rz-dmac: Avoid format-overflow warning
+Message-Id: <170566863608.152659.9747569338162328197.b4-ty@kernel.org>
+Date: Fri, 19 Jan 2024 18:20:36 +0530
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
+X-Mailer: b4 0.12.3
 
-R-Car V4H actually has two SCIF_CLK pins.
-The second pin provides the SCIF_CLK signal for HSCIF2 and SCIF4.
 
-Fixes: a4c31c56d2d35641 ("arm64: dts: renesas: r8a779g0: Add SCIF nodes")
-Fixes: 39d9dfc6fbe1860e ("arm64: dts: renesas: r8a779g0: Add remaining HSCIF nodes")
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
- arch/arm64/boot/dts/renesas/r8a779g0.dtsi | 12 +++++++++---
- 1 file changed, 9 insertions(+), 3 deletions(-)
+On Wed, 10 Jan 2024 22:27:17 +0000, Prabhakar wrote:
+> The max channel count for RZ DMAC is 16, hence use u8 instead of unsigned
+> int and make the pdev_irqname string long enough to avoid the warning.
+> 
+> This fixes the below issue:
+> drivers/dma/sh/rz-dmac.c: In function ‘rz_dmac_probe’:
+> drivers/dma/sh/rz-dmac.c:770:34: warning: ‘%u’ directive writing between 1 and 10 bytes into a region of size 3 [-Wformat-overflow=]
+>   770 |         sprintf(pdev_irqname, "ch%u", index);
+>       |                                  ^~
+> In function ‘rz_dmac_chan_probe’,
+>     inlined from ‘rz_dmac_probe’ at drivers/dma/sh/rz-dmac.c:910:9:
+> drivers/dma/sh/rz-dmac.c:770:31: note: directive argument in the range [0, 4294967294]
+>   770 |         sprintf(pdev_irqname, "ch%u", index);
+>       |                               ^~~~~~
+> drivers/dma/sh/rz-dmac.c:770:9: note: ‘sprintf’ output between 4 and 13 bytes into a destination of size 5
+>   770 |         sprintf(pdev_irqname, "ch%u", index);
+>       |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> 
+> [...]
 
-diff --git a/arch/arm64/boot/dts/renesas/r8a779g0.dtsi b/arch/arm64/boot/dts/renesas/r8a779g0.dtsi
-index 0a46f315c307e3cb..7b05b9b3e0a85f44 100644
---- a/arch/arm64/boot/dts/renesas/r8a779g0.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r8a779g0.dtsi
-@@ -185,13 +185,19 @@ psci {
- 		method = "smc";
- 	};
- 
--	/* External SCIF clock - to be overridden by boards that provide it */
-+	/* External SCIF clocks - to be overridden by boards that provide them */
- 	scif_clk: scif {
- 		compatible = "fixed-clock";
- 		#clock-cells = <0>;
- 		clock-frequency = <0>;
- 	};
- 
-+	scif_clk2: scif2 {
-+		compatible = "fixed-clock";
-+		#clock-cells = <0>;
-+		clock-frequency = <0>;
-+	};
-+
- 	soc: soc {
- 		compatible = "simple-bus";
- 		interrupt-parent = <&gic>;
-@@ -690,7 +696,7 @@ hscif2: serial@e6560000 {
- 			interrupts = <GIC_SPI 248 IRQ_TYPE_LEVEL_HIGH>;
- 			clocks = <&cpg CPG_MOD 516>,
- 				 <&cpg CPG_CORE R8A779G0_CLK_SASYNCPERD1>,
--				 <&scif_clk>;
-+				 <&scif_clk2>;
- 			clock-names = "fck", "brg_int", "scif_clk";
- 			dmas = <&dmac0 0x35>, <&dmac0 0x34>,
- 			       <&dmac1 0x35>, <&dmac1 0x34>;
-@@ -1066,7 +1072,7 @@ scif4: serial@e6c40000 {
- 			interrupts = <GIC_SPI 254 IRQ_TYPE_LEVEL_HIGH>;
- 			clocks = <&cpg CPG_MOD 705>,
- 				 <&cpg CPG_CORE R8A779G0_CLK_SASYNCPERD1>,
--				 <&scif_clk>;
-+				 <&scif_clk2>;
- 			clock-names = "fck", "brg_int", "scif_clk";
- 			dmas = <&dmac0 0x59>, <&dmac0 0x58>,
- 			       <&dmac1 0x59>, <&dmac1 0x58>;
+Applied, thanks!
+
+[1/1] dmaengine: sh: rz-dmac: Avoid format-overflow warning
+      commit: c4d6dcb3b6250ea546a952ad33382daf7cd32425
+
+Best regards,
 -- 
-2.34.1
+~Vinod
+
 
 
