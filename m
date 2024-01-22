@@ -1,53 +1,54 @@
-Return-Path: <linux-renesas-soc+bounces-1642-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-1643-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D644E8364A0
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Jan 2024 14:44:56 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 69D6F8364C0
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Jan 2024 14:49:57 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0632B1C22C93
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Jan 2024 13:44:56 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 639EA1C22CA6
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Jan 2024 13:49:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B30863CF74;
-	Mon, 22 Jan 2024 13:44:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F1CF93D0B4;
+	Mon, 22 Jan 2024 13:49:52 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from albert.telenet-ops.be (albert.telenet-ops.be [195.130.137.90])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B2D53C48E
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 22 Jan 2024 13:44:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABBB63D0A9
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 22 Jan 2024 13:49:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.137.90
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705931092; cv=none; b=tuqcPQyXMn7X8Tzo4VCFGLJzJiW5+M+eli5dj4bCMg5n5M/30zZhLC7SDUe4JCSVRc0FeDR3FcJm6gZiq2tAeqKkNsVAJ+5354WgnqDvEBy7gVhsjjYoEBLgScXdUdvRuKzCcDhe9FUtsPnunvpbPUM5WYfxcOGZlTU4dsjTpXY=
+	t=1705931392; cv=none; b=DodQKKx+ysxNGFqXzkKFCoVhQVe0nY37hQm+9AvRhM0vb5ZAVtPcazvgpoQaelt3/lImfKMKxUh9BFi2l/1Eq0KJ/mVudbwcH53cL3fPsgJu+FeoZLGu9Eb1wVCvi89gOIuUY0WWyk57twGjpPqg5hWIEFSW5R8o6btXAxA4jgQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705931092; c=relaxed/simple;
-	bh=Ws1i+RPwsccyora2CDuFVgafFOxIP4PCN3rla7F9MVw=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=SGTHEmxgeEhZxyoJ8Rjfnyvb5wT8vNF/T2eW+YN49k+1aJkvhHinNC+0OIXxcNohxA1sJSpzwWMjPJ7WmRvYRa28TuSWC0lIJUYTdXwRqFJ52OTcDEUFGzQSSXQqKTLsItJyWn7RMya75c6MNVhswNkipP6luKpEUWjcUzJVnTc=
+	s=arc-20240116; t=1705931392; c=relaxed/simple;
+	bh=JThqksEFWTF8uLx+x7NyMsFlcUdDrQwrkxPKhDD2Yw0=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=WIYuTeqHHlp0W4cYO9bHJX8sRmEBC6BWDN0UsCQJoktFT2a+Pp8XEoukl9lrb4EqjnDtcUawWDiEHZP4ZR1QZJvuCefw7Mw5oNpl6wcGl6buLAnYB64vLDW3D2pb1VZbvk5CK+FzvvMkSiDvIrATdWYVGos+UZvywuZezpQ6Y38=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.137.90
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
 Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed40:955e:bba5:7ff4:cfb6])
 	by albert.telenet-ops.be with bizsmtp
-	id dpkj2B0070ZxL6o06pkj2V; Mon, 22 Jan 2024 14:44:43 +0100
+	id dppo2B00D0ZxL6o06ppovs; Mon, 22 Jan 2024 14:49:48 +0100
 Received: from rox.of.borg ([192.168.97.57])
 	by ramsan.of.borg with esmtp (Exim 4.95)
 	(envelope-from <geert@linux-m68k.org>)
-	id 1rRuaf-00GGvC-W1;
-	Mon, 22 Jan 2024 14:44:43 +0100
+	id 1rRufb-00GGvS-DN;
+	Mon, 22 Jan 2024 14:49:48 +0100
 Received: from geert by rox.of.borg with local (Exim 4.95)
 	(envelope-from <geert@linux-m68k.org>)
-	id 1rRubT-00CDuK-08;
-	Mon, 22 Jan 2024 14:44:43 +0100
+	id 1rRugO-00CDwv-CX;
+	Mon, 22 Jan 2024 14:49:48 +0100
 From: Geert Uytterhoeven <geert+renesas@glider.be>
-To: Ulf Hansson <ulf.hansson@linaro.org>
-Cc: linux-pm@vger.kernel.org,
+To: Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>
+Cc: linux-clk@vger.kernel.org,
 	linux-renesas-soc@vger.kernel.org,
 	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH] pmdomain: renesas: rcar-gen4-sysc: Remove unneeded includes
-Date: Mon, 22 Jan 2024 14:44:41 +0100
-Message-Id: <5b440f84ab8b52499ab307c84154dcbc0f41d1d7.1705931035.git.geert+renesas@glider.be>
+Subject: [PATCH] clk: renesas: mstp: Remove obsolete clkdev registration
+Date: Mon, 22 Jan 2024 14:49:45 +0100
+Message-Id: <e98a6e47ebecc44fa41de6d88b4ed20c6efbd177.1705931322.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
@@ -57,93 +58,67 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The R-Car V3U System Controller (SYSC) driver no longer needs these
-includes since the factoring out of the common R-Car Gen4 SYSC driver in
-commit e62906d6315f652b ("soc: renesas: rcar-gen4-sysc: Introduce R-Car
-Gen4 SYSC driver").
+After the DT conversion of SH-Mobile and Armadillo-800-EVA display
+support, all devices are registered from DT, so we can remove the
+registration of clkdevs.
 
-The R-Car S4-8 and V4H SYSC drivers never needed these includes, as
-these drivers always used the common R-Car Gen4 SYSC driver.
+Add the missing #include <linux/slab.h>, which was included implicitly
+through <linux/clkdev.h> before.
 
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
- drivers/pmdomain/renesas/r8a779a0-sysc.c | 12 ------------
- drivers/pmdomain/renesas/r8a779f0-sysc.c | 12 ------------
- drivers/pmdomain/renesas/r8a779g0-sysc.c | 12 ------------
- 3 files changed, 36 deletions(-)
+Patch written in 2015 ;-)
 
-diff --git a/drivers/pmdomain/renesas/r8a779a0-sysc.c b/drivers/pmdomain/renesas/r8a779a0-sysc.c
-index 04f1bc322ae7b671..54cdf250f7c2d143 100644
---- a/drivers/pmdomain/renesas/r8a779a0-sysc.c
-+++ b/drivers/pmdomain/renesas/r8a779a0-sysc.c
-@@ -5,19 +5,7 @@
-  * Copyright (C) 2020 Renesas Electronics Corp.
-  */
+To be queued in renesas-clk for v6.9.
+---
+ drivers/clk/renesas/clk-mstp.c | 16 +++-------------
+ 1 file changed, 3 insertions(+), 13 deletions(-)
+
+diff --git a/drivers/clk/renesas/clk-mstp.c b/drivers/clk/renesas/clk-mstp.c
+index e96457371b4cce88..cab4c89c4d657740 100644
+--- a/drivers/clk/renesas/clk-mstp.c
++++ b/drivers/clk/renesas/clk-mstp.c
+@@ -10,7 +10,6 @@
  
--#include <linux/bits.h>
--#include <linux/clk/renesas.h>
--#include <linux/delay.h>
--#include <linux/err.h>
--#include <linux/io.h>
--#include <linux/iopoll.h>
- #include <linux/kernel.h>
--#include <linux/mm.h>
--#include <linux/of_address.h>
--#include <linux/pm_domain.h>
--#include <linux/slab.h>
--#include <linux/spinlock.h>
--#include <linux/types.h>
+ #include <linux/clk.h>
+ #include <linux/clk-provider.h>
+-#include <linux/clkdev.h>
+ #include <linux/clk/renesas.h>
+ #include <linux/device.h>
+ #include <linux/io.h>
+@@ -19,6 +18,7 @@
+ #include <linux/of_address.h>
+ #include <linux/pm_clock.h>
+ #include <linux/pm_domain.h>
++#include <linux/slab.h>
+ #include <linux/spinlock.h>
  
- #include <dt-bindings/power/r8a779a0-sysc.h>
+ /*
+@@ -238,22 +238,12 @@ static void __init cpg_mstp_clocks_init(struct device_node *np)
  
-diff --git a/drivers/pmdomain/renesas/r8a779f0-sysc.c b/drivers/pmdomain/renesas/r8a779f0-sysc.c
-index 5602aa6bd7ed1529..6ed13cd1cb249df5 100644
---- a/drivers/pmdomain/renesas/r8a779f0-sysc.c
-+++ b/drivers/pmdomain/renesas/r8a779f0-sysc.c
-@@ -5,19 +5,7 @@
-  * Copyright (C) 2021 Renesas Electronics Corp.
-  */
+ 		clks[clkidx] = cpg_mstp_clock_register(name, parent_name,
+ 						       clkidx, group);
+-		if (!IS_ERR(clks[clkidx])) {
++		if (!IS_ERR(clks[clkidx]))
+ 			group->data.clk_num = max(group->data.clk_num,
+ 						  clkidx + 1);
+-			/*
+-			 * Register a clkdev to let board code retrieve the
+-			 * clock by name and register aliases for non-DT
+-			 * devices.
+-			 *
+-			 * FIXME: Remove this when all devices that require a
+-			 * clock will be instantiated from DT.
+-			 */
+-			clk_register_clkdev(clks[clkidx], name, NULL);
+-		} else {
++		else
+ 			pr_err("%s: failed to register %pOFn %s clock (%ld)\n",
+ 			       __func__, np, name, PTR_ERR(clks[clkidx]));
+-		}
+ 	}
  
--#include <linux/bits.h>
--#include <linux/clk/renesas.h>
--#include <linux/delay.h>
--#include <linux/err.h>
--#include <linux/io.h>
--#include <linux/iopoll.h>
- #include <linux/kernel.h>
--#include <linux/mm.h>
--#include <linux/of_address.h>
--#include <linux/pm_domain.h>
--#include <linux/slab.h>
--#include <linux/spinlock.h>
--#include <linux/types.h>
- 
- #include <dt-bindings/power/r8a779f0-sysc.h>
- 
-diff --git a/drivers/pmdomain/renesas/r8a779g0-sysc.c b/drivers/pmdomain/renesas/r8a779g0-sysc.c
-index b932eba1b8042d8f..249cf43af45b6445 100644
---- a/drivers/pmdomain/renesas/r8a779g0-sysc.c
-+++ b/drivers/pmdomain/renesas/r8a779g0-sysc.c
-@@ -5,19 +5,7 @@
-  * Copyright (C) 2022 Renesas Electronics Corp.
-  */
- 
--#include <linux/bits.h>
--#include <linux/clk/renesas.h>
--#include <linux/delay.h>
--#include <linux/err.h>
--#include <linux/io.h>
--#include <linux/iopoll.h>
- #include <linux/kernel.h>
--#include <linux/mm.h>
--#include <linux/of_address.h>
--#include <linux/pm_domain.h>
--#include <linux/slab.h>
--#include <linux/spinlock.h>
--#include <linux/types.h>
- 
- #include <dt-bindings/power/r8a779g0-sysc.h>
- 
+ 	of_clk_add_provider(np, of_clk_src_onecell_get, &group->data);
 -- 
 2.34.1
 
