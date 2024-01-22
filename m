@@ -1,53 +1,53 @@
-Return-Path: <linux-renesas-soc+bounces-1641-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-1642-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09E2983649E
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Jan 2024 14:44:02 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D644E8364A0
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Jan 2024 14:44:56 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id B8274B238C4
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Jan 2024 13:43:54 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0632B1C22C93
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Jan 2024 13:44:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9648C3CF74;
-	Mon, 22 Jan 2024 13:43:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B30863CF74;
+	Mon, 22 Jan 2024 13:44:52 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from laurent.telenet-ops.be (laurent.telenet-ops.be [195.130.137.89])
+Received: from albert.telenet-ops.be (albert.telenet-ops.be [195.130.137.90])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 738293CF7C
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 22 Jan 2024 13:43:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.137.89
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B2D53C48E
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 22 Jan 2024 13:44:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.137.90
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705931030; cv=none; b=rlkjOFnNdiI37eI/7W0tCQCc13ApDimLNPzdX6GhBXXKEA8NkgO40XzdUYQubmk3W0S1Diq8lgkYNuFWYO2UtIEh+3vSmmjLRH7655epnQnZhjC9MuVvQyKC4AOG+RmlCBBMIPUmmuuVDrug7mYz/1Fw/i2aWguSVWwUx7ePN9E=
+	t=1705931092; cv=none; b=tuqcPQyXMn7X8Tzo4VCFGLJzJiW5+M+eli5dj4bCMg5n5M/30zZhLC7SDUe4JCSVRc0FeDR3FcJm6gZiq2tAeqKkNsVAJ+5354WgnqDvEBy7gVhsjjYoEBLgScXdUdvRuKzCcDhe9FUtsPnunvpbPUM5WYfxcOGZlTU4dsjTpXY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705931030; c=relaxed/simple;
-	bh=qZCpKYRn/rMmDIaM/pktkAZ1VLB0JuYM+7dXHmKtgpw=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=XKjEk4d/Y28eGkhhOyDq88lBGM5g2dGihqF07PavWNrNqbiHuhQeXcnXclql1qjF4cKmYh9P2cUPyebsREtl2vqYnTcY28tAs5/bKIRKHzydbfAP+C7+xRaPRAhuauAn91p/IqBN2aqNnXmlQjZWD6G27rZ8+PaSThZniE//3Yo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.137.89
+	s=arc-20240116; t=1705931092; c=relaxed/simple;
+	bh=Ws1i+RPwsccyora2CDuFVgafFOxIP4PCN3rla7F9MVw=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=SGTHEmxgeEhZxyoJ8Rjfnyvb5wT8vNF/T2eW+YN49k+1aJkvhHinNC+0OIXxcNohxA1sJSpzwWMjPJ7WmRvYRa28TuSWC0lIJUYTdXwRqFJ52OTcDEUFGzQSSXQqKTLsItJyWn7RMya75c6MNVhswNkipP6luKpEUWjcUzJVnTc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.137.90
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
 Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed40:955e:bba5:7ff4:cfb6])
-	by laurent.telenet-ops.be with bizsmtp
-	id dpjg2B0050ZxL6o01pjgNo; Mon, 22 Jan 2024 14:43:40 +0100
+	by albert.telenet-ops.be with bizsmtp
+	id dpkj2B0070ZxL6o06pkj2V; Mon, 22 Jan 2024 14:44:43 +0100
 Received: from rox.of.borg ([192.168.97.57])
 	by ramsan.of.borg with esmtp (Exim 4.95)
 	(envelope-from <geert@linux-m68k.org>)
-	id 1rRuZf-00GGv6-2y;
-	Mon, 22 Jan 2024 14:43:40 +0100
+	id 1rRuaf-00GGvC-W1;
+	Mon, 22 Jan 2024 14:44:43 +0100
 Received: from geert by rox.of.borg with local (Exim 4.95)
 	(envelope-from <geert@linux-m68k.org>)
-	id 1rRuaS-00CDsf-2i;
-	Mon, 22 Jan 2024 14:43:40 +0100
+	id 1rRubT-00CDuK-08;
+	Mon, 22 Jan 2024 14:44:43 +0100
 From: Geert Uytterhoeven <geert+renesas@glider.be>
-To: Linus Walleij <linus.walleij@linaro.org>
-Cc: linux-gpio@vger.kernel.org,
+To: Ulf Hansson <ulf.hansson@linaro.org>
+Cc: linux-pm@vger.kernel.org,
 	linux-renesas-soc@vger.kernel.org,
 	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH] pinctrl: renesas: checker: Limit cfg reg enum checks to provided IDs
-Date: Mon, 22 Jan 2024 14:43:38 +0100
-Message-Id: <c7385f44f2faebb8856bcbb4e908d846fc1531fb.1705930809.git.geert+renesas@glider.be>
+Subject: [PATCH] pmdomain: renesas: rcar-gen4-sysc: Remove unneeded includes
+Date: Mon, 22 Jan 2024 14:44:41 +0100
+Message-Id: <5b440f84ab8b52499ab307c84154dcbc0f41d1d7.1705931035.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
@@ -57,43 +57,93 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-If the number of provided enum IDs in a variable width config register
-description does not match the expected number, the checker uses the
-expected number for validating the individual enum IDs.
+The R-Car V3U System Controller (SYSC) driver no longer needs these
+includes since the factoring out of the common R-Car Gen4 SYSC driver in
+commit e62906d6315f652b ("soc: renesas: rcar-gen4-sysc: Introduce R-Car
+Gen4 SYSC driver").
 
-However, this may cause out-of-bounds accesses on the array holding the
-enum IDs, leading to bogus enum_id conflict warnings.  Worse, if the bug
-is an incorrect bit field description (e.g. accidentally using "12"
-instead of "-12" for a reserved field), thousands of warnings may be
-printed, overflowing the kernel log buffer.
-
-Fix this by limiting the enum ID check to the number of provided enum
-IDs.
+The R-Car S4-8 and V4H SYSC drivers never needed these includes, as
+these drivers always used the common R-Car Gen4 SYSC driver.
 
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
-To be queued in renesas-pinctrl for v6.9.
+ drivers/pmdomain/renesas/r8a779a0-sysc.c | 12 ------------
+ drivers/pmdomain/renesas/r8a779f0-sysc.c | 12 ------------
+ drivers/pmdomain/renesas/r8a779g0-sysc.c | 12 ------------
+ 3 files changed, 36 deletions(-)
 
- drivers/pinctrl/renesas/core.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/pinctrl/renesas/core.c b/drivers/pinctrl/renesas/core.c
-index 93e51abbf519aa8e..8f6d7cc25b599149 100644
---- a/drivers/pinctrl/renesas/core.c
-+++ b/drivers/pinctrl/renesas/core.c
-@@ -907,9 +907,11 @@ static void __init sh_pfc_check_cfg_reg(const char *drvname,
- 		sh_pfc_err("reg 0x%x: var_field_width declares %u instead of %u bits\n",
- 			   cfg_reg->reg, rw, cfg_reg->reg_width);
+diff --git a/drivers/pmdomain/renesas/r8a779a0-sysc.c b/drivers/pmdomain/renesas/r8a779a0-sysc.c
+index 04f1bc322ae7b671..54cdf250f7c2d143 100644
+--- a/drivers/pmdomain/renesas/r8a779a0-sysc.c
++++ b/drivers/pmdomain/renesas/r8a779a0-sysc.c
+@@ -5,19 +5,7 @@
+  * Copyright (C) 2020 Renesas Electronics Corp.
+  */
  
--	if (n != cfg_reg->nr_enum_ids)
-+	if (n != cfg_reg->nr_enum_ids) {
- 		sh_pfc_err("reg 0x%x: enum_ids[] has %u instead of %u values\n",
- 			   cfg_reg->reg, cfg_reg->nr_enum_ids, n);
-+		n = cfg_reg->nr_enum_ids;
-+	}
+-#include <linux/bits.h>
+-#include <linux/clk/renesas.h>
+-#include <linux/delay.h>
+-#include <linux/err.h>
+-#include <linux/io.h>
+-#include <linux/iopoll.h>
+ #include <linux/kernel.h>
+-#include <linux/mm.h>
+-#include <linux/of_address.h>
+-#include <linux/pm_domain.h>
+-#include <linux/slab.h>
+-#include <linux/spinlock.h>
+-#include <linux/types.h>
  
- check_enum_ids:
- 	sh_pfc_check_reg_enums(drvname, cfg_reg->reg, cfg_reg->enum_ids, n);
+ #include <dt-bindings/power/r8a779a0-sysc.h>
+ 
+diff --git a/drivers/pmdomain/renesas/r8a779f0-sysc.c b/drivers/pmdomain/renesas/r8a779f0-sysc.c
+index 5602aa6bd7ed1529..6ed13cd1cb249df5 100644
+--- a/drivers/pmdomain/renesas/r8a779f0-sysc.c
++++ b/drivers/pmdomain/renesas/r8a779f0-sysc.c
+@@ -5,19 +5,7 @@
+  * Copyright (C) 2021 Renesas Electronics Corp.
+  */
+ 
+-#include <linux/bits.h>
+-#include <linux/clk/renesas.h>
+-#include <linux/delay.h>
+-#include <linux/err.h>
+-#include <linux/io.h>
+-#include <linux/iopoll.h>
+ #include <linux/kernel.h>
+-#include <linux/mm.h>
+-#include <linux/of_address.h>
+-#include <linux/pm_domain.h>
+-#include <linux/slab.h>
+-#include <linux/spinlock.h>
+-#include <linux/types.h>
+ 
+ #include <dt-bindings/power/r8a779f0-sysc.h>
+ 
+diff --git a/drivers/pmdomain/renesas/r8a779g0-sysc.c b/drivers/pmdomain/renesas/r8a779g0-sysc.c
+index b932eba1b8042d8f..249cf43af45b6445 100644
+--- a/drivers/pmdomain/renesas/r8a779g0-sysc.c
++++ b/drivers/pmdomain/renesas/r8a779g0-sysc.c
+@@ -5,19 +5,7 @@
+  * Copyright (C) 2022 Renesas Electronics Corp.
+  */
+ 
+-#include <linux/bits.h>
+-#include <linux/clk/renesas.h>
+-#include <linux/delay.h>
+-#include <linux/err.h>
+-#include <linux/io.h>
+-#include <linux/iopoll.h>
+ #include <linux/kernel.h>
+-#include <linux/mm.h>
+-#include <linux/of_address.h>
+-#include <linux/pm_domain.h>
+-#include <linux/slab.h>
+-#include <linux/spinlock.h>
+-#include <linux/types.h>
+ 
+ #include <dt-bindings/power/r8a779g0-sysc.h>
+ 
 -- 
 2.34.1
 
