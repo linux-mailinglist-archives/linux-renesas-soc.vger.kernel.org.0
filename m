@@ -1,182 +1,131 @@
-Return-Path: <linux-renesas-soc+bounces-1656-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-1660-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B189836C85
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Jan 2024 18:08:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB399836D19
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Jan 2024 18:24:04 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C5BACB229DA
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Jan 2024 16:50:01 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id D3BD5B2CF62
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Jan 2024 16:57:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AD9F040BEE;
-	Mon, 22 Jan 2024 15:22:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0155A40C0C;
+	Mon, 22 Jan 2024 15:30:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="NHOWNqQ/"
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="Gn7qjNT4"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yb1-f178.google.com (mail-yb1-f178.google.com [209.85.219.178])
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6E365A795
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 22 Jan 2024 15:22:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 523873D963
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 22 Jan 2024 15:30:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705936948; cv=none; b=IvlLrZw4qmLLtceZGb34Si1KTMgKZRfgc38XFXgQeKOWlAxX2VcL0i5nycL1ydf0yRp+FKpIdkkZElhfxABqWf+Mo+5hvX5UbgjCx3nTLSoMINqmaXOplkPrd+3E6CFIX1BlDyYsB2ogla6V2gQne9rgsPnoPQV6lKDC20DOX9s=
+	t=1705937420; cv=none; b=jYz3c8zPK+gJlInQQ8JsUu435zBgj1BlCvw+rXtn2iKXxVH+Ph15rKUmLLAcA6kVDloLvEUZad8zHshUymYZvX7PpVgsBZiHqG/fCUwHlUxRqi+U4y1gsTtTSO8snXCuQJWqKhAZ9NlRAHBfas8hurgTji1Iv2msSElnLdoV+GE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705936948; c=relaxed/simple;
-	bh=s2CEPgXF2dnPJQTkJBzncHW/CdQrBKXkUFM7T6qq52o=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=pexsiQHdRxOiircZ5NdEZGECLShlBKbLRbOBz6XX5Fjd3qoW5Y1RW3SCnXm7+WWZZRz/OnfYMWyjgRBcY8HgPUC6UgCcgPHGPjmVZru16l8dlLK4cuRFiLvVrg0r32TgGSlWtZ5JkMWH3s3CmHkymU0xf/fqwQ+qXWDK19ekUZM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=NHOWNqQ/; arc=none smtp.client-ip=209.85.219.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-yb1-f178.google.com with SMTP id 3f1490d57ef6-dbedb1ee3e4so2799467276.3
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 22 Jan 2024 07:22:25 -0800 (PST)
+	s=arc-20240116; t=1705937420; c=relaxed/simple;
+	bh=kCZwEZ+wJzaFpV0EvhZAbU5dHsRbuDW5t+QH4LLvk0I=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=gdRgRYO5O2RiX1fTfRluJMn3crNq83AwaB5VFINHglScaYjtKMHPG9hmCX3Cwtu0f8EsvjeRXGFwJc3tzp4hhwUN+2ndR/FLPgV/QaSpa0kMEYRV+w5rj+/8NXyEZAsOPznGShr7E26nDI6ucywQlZk7Rwu4+WNFlTId+IiQl9M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=Gn7qjNT4; arc=none smtp.client-ip=209.85.167.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
+Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-50e7b51b0ceso3856238e87.1
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 22 Jan 2024 07:30:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1705936945; x=1706541745; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=vc0fzJAdCvYQscypRiFgQ18nWFhi2YTnJ0gQXl/95EA=;
-        b=NHOWNqQ/NNciGkr4/qKhFa9YLhy46CaHtbbXoDJeb3h8rsHTo6N0KZzMiru7wiZ+i0
-         oZzVJo7TuDUq0W9K3ocPNF2GZb/iYeYzoTTiLKmvomtk6WlROQRxAogdwGWL9hJciAtz
-         E37BVcvwQf2BraesqttR//0rAcFn/CyLgIPFYXjKNSEgpsFPwLyrmMfti+QHC7Kzh+xB
-         naLZMTpHMhD2LyXi7+7P8ia1sLGvZguZsQrV3c/FAOwHV/29VSGe+UCnWDb04j+8Vjm+
-         WK/XR/b+kDgBpF9qRD5c1ZvqsQQVYCkGrnjp1nb1//N/QiCpnTJm0rWksZaV5UCrNjlD
-         DDYQ==
+        d=ragnatech.se; s=google; t=1705937417; x=1706542217; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=Aj8EWz+HrScAIC1mY+rzX6PdMR8LuWkCs7D/5OXYQSs=;
+        b=Gn7qjNT411KL1J2ICi4DDdCM1tEO26CZ1dQ4EF9o9mI8HNlLD/6LWJhpss8UOWcZOi
+         CYO5cx0bQtkrizyuL7xmAA/8IkNzDqaNua3cG3B5xn76yCPtIJr3bSqwH1DTjxzk5Kh7
+         DXUedQip93BkPOdxzf2MT2tll6BY1t2ILIwLPD12O9FVD9NgwzrvYd4wQU5zsyHG1cfp
+         XNeApjzzEWvQ+F7fIy89TjC1DMnFfvE2l2d1ZHYjxb3H9dq437gHHNVDo3Vo+iYWHn+R
+         E5Y9BNmciMC2YnsEnDgu0z8mBWA1WKTb+WkZ0yoqDutbGqy4K6qTSEhFy/4uVafWeW8W
+         glwA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705936945; x=1706541745;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=vc0fzJAdCvYQscypRiFgQ18nWFhi2YTnJ0gQXl/95EA=;
-        b=slBTdSVzmjH9NuNUa0lEwaSmAXj03yp/MpL/dBRR9qnZhgkyGjYXfU/y3EbQ7hoAEp
-         eNK+pNkp4hl7VXIGDdelp8/8U7J5mTc02Z936CZZBT64uWdWl6Okx0Gzij03KGfmkYLB
-         TsfiZp9hRkDprFrPqSgj08lGcOt8Z3iSHyDaRMi2kNVYuDG3mFjlmRDiyDzwSoRbezmr
-         VIZylqrHSlJdK7tWP6KUr9Veu4lnepJlvw2yxrGqDU0ck5iNJkePKLy2IDKJdJSAepK8
-         BDmmNtp8SDsdQx6UVkAtZqkEj2GqqUagP0YgP7ZbfZGJzezqbGf/IduqNQX6VyLDXwel
-         MmPQ==
-X-Gm-Message-State: AOJu0Yw0bdMtbGYUCi3cDyFVnLOnbF3+9K+9Lrd9XFAmnnm+3++5RVMX
-	PE5794iHnKYhM+wFsWl9eFYh78f5VR4tC7IuKuPjwN6m69H3gRGMHX+X3ceSy0SmzIX5lF6ab14
-	cD6q7EyEwgb2XPX4sazIT9BOiA7L+3iMRTJHHA2wWN2CeHqYJ14A=
-X-Google-Smtp-Source: AGHT+IGmvmbAGNSnSFXJ8ZKIH1QeBjdt527i6bLFKHt4ckhptNDJJNL2BiFBE/u/DZo+I321dEj84B5Sh0fW5BFj/LQ=
-X-Received: by 2002:a25:820d:0:b0:dc2:3257:913a with SMTP id
- q13-20020a25820d000000b00dc23257913amr2201892ybk.17.1705936944993; Mon, 22
- Jan 2024 07:22:24 -0800 (PST)
+        d=1e100.net; s=20230601; t=1705937417; x=1706542217;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Aj8EWz+HrScAIC1mY+rzX6PdMR8LuWkCs7D/5OXYQSs=;
+        b=ih1nn6n2x30D+/xRCz3b2cYjvdR7QQJBzJNb/JZkTCJvOU3aM/Qk4CxN0FDlnNeOIk
+         Dm63QGgMOzj7PmGq2R7kDJUjlHh923aTk5f1h7h9DRfwPBjz46meqsuSUk7yhOSi3oxo
+         0lzdGtIsimXh4y8xhpGrKC6JfeEvYzFs4aRMLdq7tHooCqgAUlF3lO8ypAcGMWSkHM1h
+         qMW+vmn+jjPF4gR7s42AO4mP4vV4zkXiaDC2HqnsXasURmiPvb1VPhWNO+0zzI8C9WMT
+         Pby1kfsA2hLMRhH8P+yKKz1jb4C/3jZytLMycUvQONVSwGZJCnbir+736RuKDaM3Y3X0
+         5RPw==
+X-Gm-Message-State: AOJu0YwZZ1Wbodl5Yje6HYKtA+nzECwHsw0b6AW573g40plx9lsjZkQE
+	LiHjfipRVld5+qNUxcBM8Qu8y1qLS0CNvw6hTe3RuK4VdpqhV0cidJyVvtJ0Fls=
+X-Google-Smtp-Source: AGHT+IERzrZnFY8TRrAZ09lXGpKp5t0M6UvuKvOc0P77gSkXTOZ0JqkAiGKf/UTyoTaOsreCPkshnA==
+X-Received: by 2002:ac2:5b41:0:b0:50e:7bbf:f365 with SMTP id i1-20020ac25b41000000b0050e7bbff365mr2107258lfp.31.1705937417129;
+        Mon, 22 Jan 2024 07:30:17 -0800 (PST)
+Received: from localhost (h-46-59-36-113.A463.priv.bahnhof.se. [46.59.36.113])
+        by smtp.gmail.com with ESMTPSA id k17-20020a192d11000000b0050e9323408csm2058818lfj.57.2024.01.22.07.30.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 22 Jan 2024 07:30:16 -0800 (PST)
+Date: Mon, 22 Jan 2024 16:30:16 +0100
+From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: Magnus Damm <magnus.damm@gmail.com>, linux-renesas-soc@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH] ARM: multi_v7_defconfig: Disable board staging
+Message-ID: <20240122153016.GH4126432@ragnatech.se>
+References: <64c1d4613d5dfc1f70816f2136d66b75c8e39c1f.1705933656.git.geert+renesas@glider.be>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <5b440f84ab8b52499ab307c84154dcbc0f41d1d7.1705931035.git.geert+renesas@glider.be>
-In-Reply-To: <5b440f84ab8b52499ab307c84154dcbc0f41d1d7.1705931035.git.geert+renesas@glider.be>
-From: Ulf Hansson <ulf.hansson@linaro.org>
-Date: Mon, 22 Jan 2024 16:21:49 +0100
-Message-ID: <CAPDyKFqNpivthZxfzoeDS0FABGxmJjJq4caYRHga6+c6nmR_uA@mail.gmail.com>
-Subject: Re: [PATCH] pmdomain: renesas: rcar-gen4-sysc: Remove unneeded includes
-To: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: linux-pm@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <64c1d4613d5dfc1f70816f2136d66b75c8e39c1f.1705933656.git.geert+renesas@glider.be>
 
-On Mon, 22 Jan 2024 at 14:44, Geert Uytterhoeven
-<geert+renesas@glider.be> wrote:
->
-> The R-Car V3U System Controller (SYSC) driver no longer needs these
-> includes since the factoring out of the common R-Car Gen4 SYSC driver in
-> commit e62906d6315f652b ("soc: renesas: rcar-gen4-sysc: Introduce R-Car
-> Gen4 SYSC driver").
->
-> The R-Car S4-8 and V4H SYSC drivers never needed these includes, as
-> these drivers always used the common R-Car Gen4 SYSC driver.
->
+Hi Geert,
+
+Thanks for your patch.
+
+On 2024-01-22 15:28:59 +0100, Geert Uytterhoeven wrote:
+> After the DT conversion the SH-Mobile and Armadillo-800-EVA display
+> support, and the removal of the EMMA Mobile USB Gadget staging driver,
+> there is no longer a need to enable support for board staging drivers.
+> 
 > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-Applied for next, thanks!
-
-Kind regards
-Uffe
-
+Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 
 > ---
->  drivers/pmdomain/renesas/r8a779a0-sysc.c | 12 ------------
->  drivers/pmdomain/renesas/r8a779f0-sysc.c | 12 ------------
->  drivers/pmdomain/renesas/r8a779g0-sysc.c | 12 ------------
->  3 files changed, 36 deletions(-)
->
-> diff --git a/drivers/pmdomain/renesas/r8a779a0-sysc.c b/drivers/pmdomain/renesas/r8a779a0-sysc.c
-> index 04f1bc322ae7b671..54cdf250f7c2d143 100644
-> --- a/drivers/pmdomain/renesas/r8a779a0-sysc.c
-> +++ b/drivers/pmdomain/renesas/r8a779a0-sysc.c
-> @@ -5,19 +5,7 @@
->   * Copyright (C) 2020 Renesas Electronics Corp.
->   */
->
-> -#include <linux/bits.h>
-> -#include <linux/clk/renesas.h>
-> -#include <linux/delay.h>
-> -#include <linux/err.h>
-> -#include <linux/io.h>
-> -#include <linux/iopoll.h>
->  #include <linux/kernel.h>
-> -#include <linux/mm.h>
-> -#include <linux/of_address.h>
-> -#include <linux/pm_domain.h>
-> -#include <linux/slab.h>
-> -#include <linux/spinlock.h>
-> -#include <linux/types.h>
->
->  #include <dt-bindings/power/r8a779a0-sysc.h>
->
-> diff --git a/drivers/pmdomain/renesas/r8a779f0-sysc.c b/drivers/pmdomain/renesas/r8a779f0-sysc.c
-> index 5602aa6bd7ed1529..6ed13cd1cb249df5 100644
-> --- a/drivers/pmdomain/renesas/r8a779f0-sysc.c
-> +++ b/drivers/pmdomain/renesas/r8a779f0-sysc.c
-> @@ -5,19 +5,7 @@
->   * Copyright (C) 2021 Renesas Electronics Corp.
->   */
->
-> -#include <linux/bits.h>
-> -#include <linux/clk/renesas.h>
-> -#include <linux/delay.h>
-> -#include <linux/err.h>
-> -#include <linux/io.h>
-> -#include <linux/iopoll.h>
->  #include <linux/kernel.h>
-> -#include <linux/mm.h>
-> -#include <linux/of_address.h>
-> -#include <linux/pm_domain.h>
-> -#include <linux/slab.h>
-> -#include <linux/spinlock.h>
-> -#include <linux/types.h>
->
->  #include <dt-bindings/power/r8a779f0-sysc.h>
->
-> diff --git a/drivers/pmdomain/renesas/r8a779g0-sysc.c b/drivers/pmdomain/renesas/r8a779g0-sysc.c
-> index b932eba1b8042d8f..249cf43af45b6445 100644
-> --- a/drivers/pmdomain/renesas/r8a779g0-sysc.c
-> +++ b/drivers/pmdomain/renesas/r8a779g0-sysc.c
-> @@ -5,19 +5,7 @@
->   * Copyright (C) 2022 Renesas Electronics Corp.
->   */
->
-> -#include <linux/bits.h>
-> -#include <linux/clk/renesas.h>
-> -#include <linux/delay.h>
-> -#include <linux/err.h>
-> -#include <linux/io.h>
-> -#include <linux/iopoll.h>
->  #include <linux/kernel.h>
-> -#include <linux/mm.h>
-> -#include <linux/of_address.h>
-> -#include <linux/pm_domain.h>
-> -#include <linux/slab.h>
-> -#include <linux/spinlock.h>
-> -#include <linux/types.h>
->
->  #include <dt-bindings/power/r8a779g0-sysc.h>
->
-> --
+> To be queued in renesas-devel for v6.9.
+> 
+> EMMA Mobile USB Gadget staging driver removal submitted in "[PATCH v2
+> 0/4] staging: Remove EMMA Mobile USB Gadget and board staging support"
+> https://lore.kernel.org/r/eec1bfb2878237888a8c3bc866d18dc53900739f.1705932585.git.geert+renesas@glider.be
+> ---
+>  arch/arm/configs/multi_v7_defconfig | 1 -
+>  1 file changed, 1 deletion(-)
+> 
+> diff --git a/arch/arm/configs/multi_v7_defconfig b/arch/arm/configs/multi_v7_defconfig
+> index ecb3e286107a4c1a..4299f8f8aa9b6b40 100644
+> --- a/arch/arm/configs/multi_v7_defconfig
+> +++ b/arch/arm/configs/multi_v7_defconfig
+> @@ -1047,7 +1047,6 @@ CONFIG_KEYBOARD_NVEC=y
+>  CONFIG_SERIO_NVEC_PS2=y
+>  CONFIG_NVEC_POWER=y
+>  CONFIG_NVEC_PAZ00=y
+> -CONFIG_STAGING_BOARD=y
+>  CONFIG_CHROME_PLATFORMS=y
+>  CONFIG_CROS_EC=m
+>  CONFIG_CROS_EC_I2C=m
+> -- 
 > 2.34.1
->
+> 
+> 
+
+-- 
+Kind Regards,
+Niklas Söderlund
 
