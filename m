@@ -1,421 +1,292 @@
-Return-Path: <linux-renesas-soc+bounces-1623-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-1624-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 004F1835DD5
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Jan 2024 10:14:45 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 66A5E835E38
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Jan 2024 10:31:23 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6D4FC1F21499
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Jan 2024 09:14:45 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id EA8701F22419
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Jan 2024 09:31:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BA9E439FC0;
-	Mon, 22 Jan 2024 09:13:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3384B39ACE;
+	Mon, 22 Jan 2024 09:31:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Hung7FVj"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from Atcsqr.andestech.com (60-248-80-70.hinet-ip.hinet.net [60.248.80.70])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5D493984B;
-	Mon, 22 Jan 2024 09:13:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=60.248.80.70
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EA6039ACA
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 22 Jan 2024 09:31:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705914828; cv=none; b=AtuToZ82MZLFCyGrVIqT83L0IlYMRJ6DnEWYtsgx1h0UAw0tsDtBN7EyHtt0+bLOGuDwcbtDjBv4cVIzynvyePnH8siESZjL7csZWfoFLepFI2dllhpIjXtEaFOz1aZYueM6H8zK8i/JL7Dx6vRohxq5ArDJEpTM+O81RgaX+z8=
+	t=1705915877; cv=none; b=YsXoMlIpP/dgiolKfY+E5f4G6grtRovlcQBhsmS39Vb3AmF4LTs7SPdORou324qFKbVPjcvGJ7M7dKCHsJPKHD8NJdofQn6hPIGnvLQkxZVhovgb7RyEipJO4HBWGG12uP7enfnddR8kbjGiXZEaOX26utaVYNnWtyFaVrWbh60=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705914828; c=relaxed/simple;
-	bh=qjTJunYxd6Ymn/24Ra171UNwHdkldPIjlP/bvZ0nGQI=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qakd7+3+OWGyM6k0M0qI35xY7kY1p/6ztK79ZpkHD7DKGsjylgJw66+8a5Dn0lEx/6RrtdfFkOJb6Vl3XcCAWnwWZz/F2HF9wTuQ/xcLdookMdgimUS9x42cRsGe1vmQDYGVEqvXVnj/ZAzYnMh2ijucm4avz/nb2+XtlUvMNH4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=andestech.com; spf=pass smtp.mailfrom=andestech.com; arc=none smtp.client-ip=60.248.80.70
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=andestech.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=andestech.com
-Received: from Atcsqr.andestech.com (localhost [127.0.0.2] (may be forged))
-	by Atcsqr.andestech.com with ESMTP id 40M8pNQq089573;
-	Mon, 22 Jan 2024 16:51:23 +0800 (+08)
-	(envelope-from peterlin@andestech.com)
-Received: from mail.andestech.com (ATCPCS16.andestech.com [10.0.1.222])
-	by Atcsqr.andestech.com with ESMTP id 40M8mbXp088104;
-	Mon, 22 Jan 2024 16:48:37 +0800 (+08)
-	(envelope-from peterlin@andestech.com)
-Received: from APC323 (10.0.12.98) by ATCPCS16.andestech.com (10.0.1.222) with
- Microsoft SMTP Server id 14.3.498.0; Mon, 22 Jan 2024 16:48:36 +0800
-Date: Mon, 22 Jan 2024 16:48:32 +0800
-From: Yu-Chien Peter Lin <peterlin@andestech.com>
-To: Atish Patra <atishp@atishpatra.org>
-CC: Conor Dooley <conor@kernel.org>, <acme@kernel.org>,
-        <adrian.hunter@intel.com>, <ajones@ventanamicro.com>,
-        <alexander.shishkin@linux.intel.com>, <andre.przywara@arm.com>,
-        <anup@brainfault.org>, <aou@eecs.berkeley.edu>, <conor+dt@kernel.org>,
-        <conor.dooley@microchip.com>, <devicetree@vger.kernel.org>,
-        <dminus@andestech.com>, <evan@rivosinc.com>, <geert+renesas@glider.be>,
-        <guoren@kernel.org>, <heiko@sntech.de>, <irogers@google.com>,
-        <jernej.skrabec@gmail.com>, <jolsa@kernel.org>, <jszhang@kernel.org>,
-        <krzysztof.kozlowski+dt@linaro.org>,
-        <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
-        <linux-perf-users@vger.kernel.org>,
-        <linux-renesas-soc@vger.kernel.org>, <linux-riscv@lists.infradead.org>,
-        <linux-sunxi@lists.linux.dev>, <locus84@andestech.com>,
-        <magnus.damm@gmail.com>, <mark.rutland@arm.com>, <mingo@redhat.com>,
-        <n.shubin@yadro.com>, <namhyung@kernel.org>, <palmer@dabbelt.com>,
-        <paul.walmsley@sifive.com>, <peterz@infradead.org>,
-        <prabhakar.mahadev-lad.rj@bp.renesas.com>, <rdunlap@infradead.org>,
-        <robh+dt@kernel.org>, <samuel@sholland.org>,
-        <sunilvl@ventanamicro.com>, <tglx@linutronix.de>,
-        <tim609@andestech.com>, <uwu@icenowy.me>, <wens@csie.org>,
-        <will@kernel.org>, <ycliang@andestech.com>, <inochiama@outlook.com>,
-        <chao.wei@sophgo.com>, <unicorn_wang@outlook.com>, <wefu@redhat.com>
-Subject: Re: [PATCH v7 07/16] RISC-V: Move T-Head PMU to CPU feature
- alternative framework
-Message-ID: <Za4r4FB9NVXaCOv5@APC323>
-References: <20240110073917.2398826-1-peterlin@andestech.com>
- <20240110073917.2398826-8-peterlin@andestech.com>
- <CAOnJCUKY8H+pvgTWW5zkfm8O4WR-OWOKmyPTcMjUZBCC5RaLWQ@mail.gmail.com>
- <20240116-cherub-revival-5d32cc5f1fd0@spud>
- <CAOnJCU+DvoV08n5LLv-yrPOnUKNEQU9w344UBJ4Ou5-2LJwrrw@mail.gmail.com>
+	s=arc-20240116; t=1705915877; c=relaxed/simple;
+	bh=4751aJ1V+ee4o5j2PldEBFr0MjOvF0QgLYjj0C9Nlzw=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:To; b=LTSS5duHsFvYXbKZHtZ0bnxS26e8PJmh1ynJ2+nl/SB0s7ykcarST4PcNf4eCZJ2qYSana/Meijshc43udnQtsreWqJWCLhtlkz26Cx2dbE+jrnJPPjlb1VZMn6AURQl0Ui8i0Bitv2Da1zYKvbrt9qGNHxJmxgW0O8G3wrtWic=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Hung7FVj; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 97C86C43609
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 22 Jan 2024 09:31:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1705915876;
+	bh=4751aJ1V+ee4o5j2PldEBFr0MjOvF0QgLYjj0C9Nlzw=;
+	h=Subject:From:Date:To:From;
+	b=Hung7FVjcEaJhkXsw7G7+hIG1TqkqoujQZOOAMbeCKg6fb18QS5RDKvWBemmStiTF
+	 WzfjUrjz1MYmhs/IlCvOBRvd5LHjuQo2mEUPHczMQS4ftu8ozWmqBfIzOYJNL3ZUOJ
+	 YyhpV1+lO8f3i+KHV2qiZ7xvFN7Xav0LKqTqkLzWVI6s+sFOGOb1j8Vq+lKMm9WG29
+	 owOXgDH53/XOZd/nyaAab29qGW4IBiRq54aRaqNyyHyZpaeDwjba6QDEPBOLh8oVnk
+	 Xoexc2qbXFGFYfD36++RfQwqbHpGVD0Nms5hrtGLg++DuXHMnz/G/rbAtC+OEgj2J9
+	 isR6RMckVje3A==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 81F47D8C9A8
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 22 Jan 2024 09:31:16 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAOnJCU+DvoV08n5LLv-yrPOnUKNEQU9w344UBJ4Ou5-2LJwrrw@mail.gmail.com>
-User-Agent: Mutt/2.2.12 (2023-09-09)
-X-DNSRBL: 
-X-SPAM-SOURCE-CHECK: pass
-X-MAIL:Atcsqr.andestech.com 40M8pNQq089573
+Subject: Patchwork summary for: linux-renesas-soc
+From: patchwork-bot+linux-renesas-soc@kernel.org
+Message-Id: 
+ <170591587646.4141.3819616151628055064.git-patchwork-summary@kernel.org>
+Date: Mon, 22 Jan 2024 09:31:16 +0000
+To: linux-renesas-soc@vger.kernel.org
 
-Thank you all for your opinion,
-In fact, the Sscofpmf has been implemented in Andes cores newer than
-AX45, which is the last one to support Andes PMU. Additionally, this
-feature will be switched to Sscofpmf once Andes core supports AIA.
+Hello:
 
-On Wed, Jan 17, 2024 at 12:58:21AM -0800, Atish Patra wrote:
-> On Tue, Jan 16, 2024 at 4:16 PM Conor Dooley <conor@kernel.org> wrote:
-> >
-> > On Tue, Jan 16, 2024 at 12:55:41PM -0800, Atish Patra wrote:
-> > > On Tue, Jan 9, 2024 at 11:40 PM Yu Chien Peter Lin
-> > > <peterlin@andestech.com> wrote:
-> > > >
-> > > > The custom PMU extension aims to support perf event sampling prior
-> > > > to the ratification of Sscofpmf. Instead of diverting the bits and
-> > > > register reserved for future standard, a set of custom registers is
-> > > > added.  Hence, we may consider it as a CPU feature rather than an
-> > > > erratum.
-> > > >
-> > >
-> > > I don't think we should do that. Any custom implementation that
-> > > violates the standard RISC-V spec should
-> > > be an errata not a feature.
-> > > As per my understanding, a vendor can call an extension custom ISA
-> > > extension if the same feature is not available
-> > > in the standard ISA extensions or the mechanism is completely
-> > > different. It must also not violate any standard spec as well.
-> > >
-> > > In this case, a standard sscofpmf is already available. Moreover, both
-> > > Andes and T-head extensions violate the standard
-> > > spec by reusing local interrupt numbers (17(Thead) & 18(Andes)) which
-> > > are clearly specified as reserved for standard local interrupts
-> > > in the AIA specification.
-> >
-> > I disagree with you here. The Andes implementation predated (IIRC that
-> > is what was said in replies to an earlier revision) the Sscofpmf
-> > extension and certainly predates the AIA specification. I would be on
-> > board with this line of thinking if someone comes along in 2030 with
-> > "Zbb but with this one tweak" or where something flies entirely in the
-> > face of the standard (like the IOCP cache stuff). The relevant section
-> > in the AIA spec seems to say:
-> > | Interrupt causes that are standardized by the Privileged Architecture
-> > | have major identities in the range 0–15, while numbers 16 and higher are
-> > | officially available for platform standards or for custom use.
-> > | The Advanced Interrupt Architecture claims further authority over
-> > | identity numbers in the ranges 16–23 and 32–47, leaving numbers in the
-> > | range 24–31 and all major identities 48 and higher still free for custom
-> > | use.
-> > I don't see how that can be problematic given the Andes implemtation
-> > dates from before AIA was a thing. It would be silly to say that because
-> > an optional extension later came along and took over something previously
-> > allowed for indiscriminate custom use, that support for that custom
-> > extension is not permitted.
-> >
-> 
-> AIA is not some optional extension. It defines the RISC-V interrupt
-> architecture going forward and will be the default implementation
-> in the future. IMO, this will be a slippery slope if we start
-> supporting custom implementations to override interrupt ID definitions
-> via custom cpu features. T-head implementation works perfectly fine as
-> an errata and I don't understand why
-> there is a push to make it a cpu feature. We should try to improve the
-> ecosystem for future platforms rather than bending
-> backwards to support older implementations.
-> 
-> I understand the push to brand this as a custom extension if current
-> errata/alternative can't support it. But I don't think that's the case
-> here though. Please correct me if I am wrong.
-> 
-> > I may well be missing something here though, you clearly know these
-> > specs better than I do, but from what I have read I disagree.
-> >
-> > > Please implementation Andes PMU support as an errata as well similar to T-head
-> >
-> > I certainly _do not_ want to see things like this detected via lookup
-> > tables of marchid and co in the kernel unless it is absolutely required.
-> > We have standard probing mechanisms for feature detection (because to me
-> > this _is_ a feature) and they should be used. Additionally, we define what
-> > entries in the DT properties mean, and if it is convenient to put
-> > "psuedo" extensions into the DT, then we should do so. Getting away from
-> > being tied to what RVI decrees was one of the goals of the new
-> > properties after all, so that we could use a standard mechanism of DT
-> > probing for things like this.
-> >
-> 
-> Yes. That's a perfectly valid mechanism for actual custom/vendor ISA extensions.
-> I'm sure we'll have many of those, which will be leveraged via pseudo
-> extensions in the DT.
-> However, these shouldn't co-exist with standard ISA extensions in the
-> namespace in riscv_isa_ext and/or hwprobe.
-> The vendor-specific extensions should be defined under a
-> vendor-specific namespace.
+The following patches were marked "mainlined", because they were applied to
+geert/renesas-devel.git (master):
 
-I will remove T-Head PMU changes from this series.
-Could you please elaborate a bit more on how should I add a vendor-specific
-extension?
+Series: gnss: ubx: updates to support the Renesas KingFisher board
+  Submitter: Wolfram Sang <wsa+renesas@sang-engineering.com>
+  Committer: Johan Hovold <johan@kernel.org>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=786390
+  Lore link: https://lore.kernel.org/r/20230921133202.5828-1-wsa+renesas@sang-engineering.com
+    Patches: [v3,1/3] gnss: ubx: use new helper to remove open coded regulator handling
 
-Thanks,
-Peter Lin
+Series: gnss: ubx: support the reset pin of the Neo-M8 variant
+  Submitter: Wolfram Sang <wsa+renesas@sang-engineering.com>
+  Committer: Johan Hovold <johan@kernel.org>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=800517
+  Lore link: https://lore.kernel.org/r/20231113005152.10656-1-wsa+renesas@sang-engineering.com
+    Patches: [v5,1/3] gnss: ubx: use new helper to remove open coded regulator handling
 
-> This was another issue with this series as well. I didn't raise this
-> topic earlier because I don't think overriding interrupt
-> identities qualifies for a custom ISA extension
-> 
-> > Thanks,
-> > Conor.
-> >
-> > > > T-Head cores need to append "xtheadpmu" to the riscv,isa-extensions
-> > > > for each cpu node in device tree, and enable CONFIG_THEAD_CUSTOM_PMU
-> > > > for proper functioning as of this commit.
-> > > >
-> > > > Signed-off-by: Yu Chien Peter Lin <peterlin@andestech.com>
-> > > > Reviewed-by: Guo Ren <guoren@kernel.org>
-> > > > Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
-> > > > ---
-> > > > Changes v1 -> v2:
-> > > >   - New patch
-> > > > Changes v2 -> v3:
-> > > >   - Removed m{vendor/arch/imp}id checks in pmu_sbi_setup_irqs()
-> > > > Changes v3 -> v4:
-> > > >   - No change
-> > > > Changes v4 -> v5:
-> > > >   - Include Guo's Reviewed-by
-> > > >   - Let THEAD_CUSTOM_PMU depend on ARCH_THEAD
-> > > > Changes v5 -> v6:
-> > > >   - Include Conor's Reviewed-by
-> > > > Changes v6 -> v7:
-> > > >   - No change
-> > > > ---
-> > > >  arch/riscv/Kconfig.errata            | 13 -------------
-> > > >  arch/riscv/errata/thead/errata.c     | 19 -------------------
-> > > >  arch/riscv/include/asm/errata_list.h | 15 +--------------
-> > > >  arch/riscv/include/asm/hwcap.h       |  1 +
-> > > >  arch/riscv/kernel/cpufeature.c       |  1 +
-> > > >  drivers/perf/Kconfig                 | 13 +++++++++++++
-> > > >  drivers/perf/riscv_pmu_sbi.c         | 19 ++++++++++++++-----
-> > > >  7 files changed, 30 insertions(+), 51 deletions(-)
-> > > >
-> > > > diff --git a/arch/riscv/Kconfig.errata b/arch/riscv/Kconfig.errata
-> > > > index e2c731cfed8c..0d19f47d1018 100644
-> > > > --- a/arch/riscv/Kconfig.errata
-> > > > +++ b/arch/riscv/Kconfig.errata
-> > > > @@ -86,17 +86,4 @@ config ERRATA_THEAD_CMO
-> > > >
-> > > >           If you don't know what to do here, say "Y".
-> > > >
-> > > > -config ERRATA_THEAD_PMU
-> > > > -       bool "Apply T-Head PMU errata"
-> > > > -       depends on ERRATA_THEAD && RISCV_PMU_SBI
-> > > > -       default y
-> > > > -       help
-> > > > -         The T-Head C9xx cores implement a PMU overflow extension very
-> > > > -         similar to the core SSCOFPMF extension.
-> > > > -
-> > > > -         This will apply the overflow errata to handle the non-standard
-> > > > -         behaviour via the regular SBI PMU driver and interface.
-> > > > -
-> > > > -         If you don't know what to do here, say "Y".
-> > > > -
-> > > >  endmenu # "CPU errata selection"
-> > > > diff --git a/arch/riscv/errata/thead/errata.c b/arch/riscv/errata/thead/errata.c
-> > > > index 0554ed4bf087..5de5f7209132 100644
-> > > > --- a/arch/riscv/errata/thead/errata.c
-> > > > +++ b/arch/riscv/errata/thead/errata.c
-> > > > @@ -53,22 +53,6 @@ static bool errata_probe_cmo(unsigned int stage,
-> > > >         return true;
-> > > >  }
-> > > >
-> > > > -static bool errata_probe_pmu(unsigned int stage,
-> > > > -                            unsigned long arch_id, unsigned long impid)
-> > > > -{
-> > > > -       if (!IS_ENABLED(CONFIG_ERRATA_THEAD_PMU))
-> > > > -               return false;
-> > > > -
-> > > > -       /* target-c9xx cores report arch_id and impid as 0 */
-> > > > -       if (arch_id != 0 || impid != 0)
-> > > > -               return false;
-> > > > -
-> > > > -       if (stage == RISCV_ALTERNATIVES_EARLY_BOOT)
-> > > > -               return false;
-> > > > -
-> > > > -       return true;
-> > > > -}
-> > > > -
-> > > >  static u32 thead_errata_probe(unsigned int stage,
-> > > >                               unsigned long archid, unsigned long impid)
-> > > >  {
-> > > > @@ -80,9 +64,6 @@ static u32 thead_errata_probe(unsigned int stage,
-> > > >         if (errata_probe_cmo(stage, archid, impid))
-> > > >                 cpu_req_errata |= BIT(ERRATA_THEAD_CMO);
-> > > >
-> > > > -       if (errata_probe_pmu(stage, archid, impid))
-> > > > -               cpu_req_errata |= BIT(ERRATA_THEAD_PMU);
-> > > > -
-> > > >         return cpu_req_errata;
-> > > >  }
-> > > >
-> > > > diff --git a/arch/riscv/include/asm/errata_list.h b/arch/riscv/include/asm/errata_list.h
-> > > > index 4ed21a62158c..9bccc2ba0eb5 100644
-> > > > --- a/arch/riscv/include/asm/errata_list.h
-> > > > +++ b/arch/riscv/include/asm/errata_list.h
-> > > > @@ -25,8 +25,7 @@
-> > > >  #ifdef CONFIG_ERRATA_THEAD
-> > > >  #define        ERRATA_THEAD_PBMT 0
-> > > >  #define        ERRATA_THEAD_CMO 1
-> > > > -#define        ERRATA_THEAD_PMU 2
-> > > > -#define        ERRATA_THEAD_NUMBER 3
-> > > > +#define        ERRATA_THEAD_NUMBER 2
-> > > >  #endif
-> > > >
-> > > >  #ifdef __ASSEMBLY__
-> > > > @@ -147,18 +146,6 @@ asm volatile(ALTERNATIVE_2(                                                \
-> > > >             "r"((unsigned long)(_start) + (_size))                      \
-> > > >         : "a0")
-> > > >
-> > > > -#define THEAD_C9XX_RV_IRQ_PMU                  17
-> > > > -#define THEAD_C9XX_CSR_SCOUNTEROF              0x5c5
-> > > > -
-> > > > -#define ALT_SBI_PMU_OVERFLOW(__ovl)                                    \
-> > > > -asm volatile(ALTERNATIVE(                                              \
-> > > > -       "csrr %0, " __stringify(CSR_SSCOUNTOVF),                        \
-> > > > -       "csrr %0, " __stringify(THEAD_C9XX_CSR_SCOUNTEROF),             \
-> > > > -               THEAD_VENDOR_ID, ERRATA_THEAD_PMU,                      \
-> > > > -               CONFIG_ERRATA_THEAD_PMU)                                \
-> > > > -       : "=r" (__ovl) :                                                \
-> > > > -       : "memory")
-> > > > -
-> > > >  #endif /* __ASSEMBLY__ */
-> > > >
-> > > >  #endif
-> > > > diff --git a/arch/riscv/include/asm/hwcap.h b/arch/riscv/include/asm/hwcap.h
-> > > > index 5340f818746b..480f9da7fba7 100644
-> > > > --- a/arch/riscv/include/asm/hwcap.h
-> > > > +++ b/arch/riscv/include/asm/hwcap.h
-> > > > @@ -80,6 +80,7 @@
-> > > >  #define RISCV_ISA_EXT_ZFA              71
-> > > >  #define RISCV_ISA_EXT_ZTSO             72
-> > > >  #define RISCV_ISA_EXT_ZACAS            73
-> > > > +#define RISCV_ISA_EXT_XTHEADPMU                74
-> > > >
-> > > >  #define RISCV_ISA_EXT_MAX              128
-> > > >  #define RISCV_ISA_EXT_INVALID          U32_MAX
-> > > > diff --git a/arch/riscv/kernel/cpufeature.c b/arch/riscv/kernel/cpufeature.c
-> > > > index e32591e9da90..4aded5bf8fc3 100644
-> > > > --- a/arch/riscv/kernel/cpufeature.c
-> > > > +++ b/arch/riscv/kernel/cpufeature.c
-> > > > @@ -303,6 +303,7 @@ const struct riscv_isa_ext_data riscv_isa_ext[] = {
-> > > >         __RISCV_ISA_EXT_DATA(svinval, RISCV_ISA_EXT_SVINVAL),
-> > > >         __RISCV_ISA_EXT_DATA(svnapot, RISCV_ISA_EXT_SVNAPOT),
-> > > >         __RISCV_ISA_EXT_DATA(svpbmt, RISCV_ISA_EXT_SVPBMT),
-> > > > +       __RISCV_ISA_EXT_DATA(xtheadpmu, RISCV_ISA_EXT_XTHEADPMU),
-> > > >  };
-> > > >
-> > > >  const size_t riscv_isa_ext_count = ARRAY_SIZE(riscv_isa_ext);
-> > > > diff --git a/drivers/perf/Kconfig b/drivers/perf/Kconfig
-> > > > index 273d67ecf6d2..6cef15ec7c25 100644
-> > > > --- a/drivers/perf/Kconfig
-> > > > +++ b/drivers/perf/Kconfig
-> > > > @@ -86,6 +86,19 @@ config RISCV_PMU_SBI
-> > > >           full perf feature support i.e. counter overflow, privilege mode
-> > > >           filtering, counter configuration.
-> > > >
-> > > > +config THEAD_CUSTOM_PMU
-> > > > +       bool "T-Head custom PMU support"
-> > > > +       depends on ARCH_THEAD && RISCV_ALTERNATIVE && RISCV_PMU_SBI
-> > > > +       default y
-> > > > +       help
-> > > > +         The T-Head C9xx cores implement a PMU overflow extension very
-> > > > +         similar to the core SSCOFPMF extension.
-> > > > +
-> > > > +         This will patch the overflow CSR and handle the non-standard
-> > > > +         behaviour via the regular SBI PMU driver and interface.
-> > > > +
-> > > > +         If you don't know what to do here, say "Y".
-> > > > +
-> > > >  config ARM_PMU_ACPI
-> > > >         depends on ARM_PMU && ACPI
-> > > >         def_bool y
-> > > > diff --git a/drivers/perf/riscv_pmu_sbi.c b/drivers/perf/riscv_pmu_sbi.c
-> > > > index 2edbc37abadf..31ca79846399 100644
-> > > > --- a/drivers/perf/riscv_pmu_sbi.c
-> > > > +++ b/drivers/perf/riscv_pmu_sbi.c
-> > > > @@ -20,10 +20,21 @@
-> > > >  #include <linux/cpu_pm.h>
-> > > >  #include <linux/sched/clock.h>
-> > > >
-> > > > -#include <asm/errata_list.h>
-> > > >  #include <asm/sbi.h>
-> > > >  #include <asm/cpufeature.h>
-> > > >
-> > > > +#define THEAD_C9XX_RV_IRQ_PMU          17
-> > > > +#define THEAD_C9XX_CSR_SCOUNTEROF      0x5c5
-> > > > +
-> > > > +#define ALT_SBI_PMU_OVERFLOW(__ovl)                                    \
-> > > > +asm volatile(ALTERNATIVE(                                              \
-> > > > +       "csrr %0, " __stringify(CSR_SSCOUNTOVF),                        \
-> > > > +       "csrr %0, " __stringify(THEAD_C9XX_CSR_SCOUNTEROF),             \
-> > > > +               0, RISCV_ISA_EXT_XTHEADPMU,                             \
-> > > > +               CONFIG_THEAD_CUSTOM_PMU)                                \
-> > > > +       : "=r" (__ovl) :                                                \
-> > > > +       : "memory")
-> > > > +
-> > > >  #define SYSCTL_NO_USER_ACCESS  0
-> > > >  #define SYSCTL_USER_ACCESS     1
-> > > >  #define SYSCTL_LEGACY          2
-> > > > @@ -808,10 +819,8 @@ static int pmu_sbi_setup_irqs(struct riscv_pmu *pmu, struct platform_device *pde
-> > > >         if (riscv_isa_extension_available(NULL, SSCOFPMF)) {
-> > > >                 riscv_pmu_irq_num = RV_IRQ_PMU;
-> > > >                 riscv_pmu_use_irq = true;
-> > > > -       } else if (IS_ENABLED(CONFIG_ERRATA_THEAD_PMU) &&
-> > > > -                  riscv_cached_mvendorid(0) == THEAD_VENDOR_ID &&
-> > > > -                  riscv_cached_marchid(0) == 0 &&
-> > > > -                  riscv_cached_mimpid(0) == 0) {
-> > > > +       } else if (riscv_isa_extension_available(NULL, XTHEADPMU) &&
-> > > > +                  IS_ENABLED(CONFIG_THEAD_CUSTOM_PMU)) {
-> > > >                 riscv_pmu_irq_num = THEAD_C9XX_RV_IRQ_PMU;
-> > > >                 riscv_pmu_use_irq = true;
-> > > >         }
-> > > > --
-> > > > 2.34.1
-> > > >
-> > >
-> > >
-> > > --
-> > > Regards,
-> > > Atish
-> 
-> 
-> 
-> -- 
-> Regards,
-> Atish
+Series: PCI: controllers: tidy code up
+  Submitter: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=811669
+  Lore link: https://lore.kernel.org/r/20231220053829.1921187-1-yoshihiro.shimoda.uh@renesas.com
+    Patches: [v4,1/6] PCI: dwc: Drop host prefix from struct dw_pcie_host_ops
+             [v4,2/6] PCI: dwc: Rename to .init in struct dw_pcie_ep_ops
+             [v4,3/6] PCI: dwc: Rename to .get_dbi_offset in struct dw_pcie_ep_ops
+             [v4,4/6] PCI: dwc: Add dw_pcie_ep_{read,write}_dbi[2] helpers
+             [v4,5/6] PCI: iproc: fix -Wvoid-pointer-to-enum-cast warning
+             [v4,6/6] PCI: rcar-gen4: fix -Wvoid-pointer-to-enum-cast warning
+
+Patch: net*: Convert to platform remove callback returning void
+  Submitter: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+  Committer: Jakub Kicinski <kuba@kernel.org>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=806748
+  Lore link: https://lore.kernel.org/r/cover.1701713943.git.u.kleine-koenig@pengutronix.de
+
+Series: Add polling support for DA9063 onkey driver
+  Submitter: Biju Das <biju.das.jz@bp.renesas.com>
+  Committer: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=809829
+  Lore link: https://lore.kernel.org/r/20231213214803.9931-1-biju.das.jz@bp.renesas.com
+    Patches: [v2,1/4] Input: da9063 - Simplify obtaining OF match data
+             [v2,2/4] Input: da9063 - Drop redundant prints in probe()
+             [v2,3/4] Input: da9063 - Use dev_err_probe()
+
+Patch: [net-next] net: fill in MODULE_DESCRIPTION()s for DSA tags
+  Submitter: Jakub Kicinski <kuba@kernel.org>
+  Committer: Jakub Kicinski <kuba@kernel.org>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=814372
+  Lore link: https://lore.kernel.org/r/20240104143759.1318137-1-kuba@kernel.org
+
+Series: rtc: da9063: Make IRQ as optional
+  Submitter: Biju Das <biju.das.jz@bp.renesas.com>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=806603
+  Lore link: https://lore.kernel.org/r/20231204130504.126787-1-biju.das.jz@bp.renesas.com
+    Patches: [v2,1/3] rtc: da9063: Make IRQ as optional
+             [v2,2/3] rtc: da9063: Use device_get_match_data()
+             [v2,3/3] rtc: da9063: Use dev_err_probe()
+
+Series: Make IRQ as optional
+  Submitter: Biju Das <biju.das.jz@bp.renesas.com>
+  Committer: Alexandre Belloni <alexandre.belloni@bootlin.com>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=814689
+  Lore link: https://lore.kernel.org/r/20240105145344.204453-1-biju.das.jz@bp.renesas.com
+    Patches: [v3,1/3] rtc: da9063: Make IRQ as optional
+             [v3,2/3] rtc: da9063: Use device_get_match_data()
+             [v3,3/3] rtc: da9063: Use dev_err_probe()
+
+Patch: mfd: da9062: Simplify obtaining I2C match data
+  Submitter: Biju Das <biju.das.jz@bp.renesas.com>
+  Committer: Lee Jones <lee@kernel.org>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=806597
+  Lore link: https://lore.kernel.org/r/20231204124507.124758-1-biju.das.jz@bp.renesas.com
+
+Series: pinctrl: Use struct pingroup and PINCTRL_PINGROUP()
+  Submitter: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=806694
+  Lore link: https://lore.kernel.org/r/20231204160033.1872569-1-andriy.shevchenko@linux.intel.com
+    Patches: [v1,1/5] pinctrl: renesas: Mark local variable with const in ->set_mux()
+             [v1,2/5] pinctrl: core: Make pins const unsigned int pointer in struct group_desc
+             [v1,3/5] pinctrl: equilibrium: Convert to use struct pingroup
+             [v1,4/5] pinctrl: keembay: Convert to use struct pingroup
+             [v1,5/5] pinctrl: nuvoton: Convert to use struct pingroup and PINCTRL_PINGROUP()
+
+Patch: dt-bindings: correct white-spaces in examples
+  Submitter: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+  Committer: Rob Herring <robh@kernel.org>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=803936
+  Lore link: https://lore.kernel.org/r/20231124092121.16866-1-krzysztof.kozlowski@linaro.org
+
+Series: Convert DA906{1,2} bindings to json-schema
+  Submitter: Biju Das <biju.das.jz@bp.renesas.com>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=809949
+  Lore link: https://lore.kernel.org/r/20231214080911.23359-1-biju.das.jz@bp.renesas.com
+    Patches: [v6,1/8] dt-bindings: mfd: da9062: Update watchdog description
+             [v6,2/8] dt-bindings: watchdog: dlg,da9062-watchdog: Add fallback for DA9061 watchdog
+             [v6,3/8] dt-bindings: watchdog: dlg,da9062-watchdog: Document DA9063 watchdog
+
+Series: pinctrl: Convert struct group_desc to use struct pingroup
+  Submitter: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+  Committer: Linus Walleij <linus.walleij@linaro.org>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=808910
+  Lore link: https://lore.kernel.org/r/20231211190321.307330-1-andriy.shevchenko@linux.intel.com
+    Patches: [v5,01/13] pinctrl: core: Add a convenient define PINCTRL_GROUP_DESC()
+             [v5,02/13] pinctrl: mediatek: Use C99 initializers in PINCTRL_PIN_GROUP()
+             [v5,03/13] pinctrl: ingenic: Use C99 initializers in PINCTRL_PIN_GROUP()
+             [v5,04/13] pinctrl: core: Embed struct pingroup into struct group_desc
+             [v5,05/13] pinctrl: bcm: Convert to use grp member
+             [v5,06/13] pinctrl: equilibrium: Convert to use grp member
+             [v5,07/13] pinctrl: imx: Convert to use grp member
+             [v5,08/13] pinctrl: ingenic: Convert to use grp member
+             [v5,09/13] pinctrl: keembay: Convert to use grp member
+             [v5,10/13] pinctrl: mediatek: Convert to use grp member
+             [v5,11/13] pinctrl: renesas: Convert to use grp member
+             [v5,12/13] pinctrl: starfive: Convert to use grp member
+             [v5,13/13] pinctrl: core: Remove unused members from struct group_desc
+
+Series: ARM: dts: renesas: r8a73a4: Clock fixes and improvements
+  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
+  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=816891
+  Lore link: https://lore.kernel.org/r/cover.1705315614.git.geert+renesas@glider.be
+    Patches: [1/3] ARM: dts: renesas: r8a73a4: Fix external clocks and clock rate
+             [2/3] ARM: dts: renesas: r8a73a4: Add cp clock
+             [3/3] ARM: dts: renesas: r8a73a4: Fix thermal parent clock
+
+Patch: dmaengine: usb-dmac: Avoid format-overflow warning
+  Submitter: Lad, Prabhakar <prabhakar.csengg@gmail.com>
+  Committer: Vinod Koul <vkoul@kernel.org>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=815874
+  Lore link: https://lore.kernel.org/r/20240110222210.193479-1-prabhakar.mahadev-lad.rj@bp.renesas.com
+
+Series: PCI: dwc: Improve code readability
+  Submitter: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+  Committer: Krzysztof Wilczyński <kwilczynski@kernel.org>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=800522
+  Lore link: https://lore.kernel.org/r/20231113013300.2132152-1-yoshihiro.shimoda.uh@renesas.com
+    Patches: [1/3] PCI: dwc: Rename to .init in struct dw_pcie_ep_ops
+             [2/3] PCI: dwc: Rename to .get_dbi_offset in struct dw_pcie_ep_ops
+
+Series: drm/plane-helpers: Minor clean ups
+  Submitter: Thomas Zimmermann <tzimmermann@suse.de>
+  Committer: Thomas Zimmermann <tzimmermann@suse.de>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=806515
+  Lore link: https://lore.kernel.org/r/20231204090852.1650-1-tzimmermann@suse.de
+    Patches: [v2,1/8] drm/plane-helper: Move drm_plane_helper_atomic_check() into udl
+             [v2,2/8] drm/amdgpu: Do not include <drm/drm_plane_helper.h>
+             [v2,3/8] drm/loongson: Do not include <drm/drm_plane_helper.h>
+             [v2,4/8] drm/shmobile: Do not include <drm/drm_plane_helper.h>
+             [v2,5/8] drm/solomon: Do not include <drm/drm_plane_helper.h>
+             [v2,6/8] drm/ofdrm: Do not include <drm/drm_plane_helper.h>
+             [v2,7/8] drm/simpledrm: Do not include <drm/drm_plane_helper.h>
+             [v2,8/8] drm/xlnx: Do not include <drm/drm_plane_helper.h>
+
+Series: Device Tree support for SH7751 based board
+  Submitter: Yoshinori Sato <ysato@users.sourceforge.jp>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=815313
+  Lore link: https://lore.kernel.org/r/cover.1704788539.git.ysato@users.sourceforge.jp
+    Patches: [DO,NOT,MERGE,v6,01/37] sh: passing FDT address to kernel startup.
+             [DO,NOT,MERGE,v6,26/37] dt-bindings: vendor-prefixes: Add smi
+
+Patch: dmaengine: sh: rz-dmac: Avoid format-overflow warning
+  Submitter: Lad, Prabhakar <prabhakar.csengg@gmail.com>
+  Committer: Vinod Koul <vkoul@kernel.org>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=815877
+  Lore link: https://lore.kernel.org/r/20240110222717.193719-1-prabhakar.mahadev-lad.rj@bp.renesas.com
+
+Patch: arm64: dts: renesas: r8a779g0: Restore sort order
+  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
+  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=816919
+  Lore link: https://lore.kernel.org/r/f00ef274a73c8fd60f940a1649423a8927b9ae8a.1705324708.git.geert+renesas@glider.be
+
+Patch: [v3] spi: sh-msiof: Enforce fixed DTDL for R-Car H3
+  Submitter: Wolfram Sang <wsa+renesas@sang-engineering.com>
+  Committer: Mark Brown <broonie@kernel.org>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=809090
+  Lore link: https://lore.kernel.org/r/20231212081239.14254-1-wsa+renesas@sang-engineering.com
+
+Patch: regulator: Convert to platform remove callback returning void
+  Submitter: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+  Committer: Mark Brown <broonie@kernel.org>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=807012
+  Lore link: https://lore.kernel.org/r/cover.1701778038.git.u.kleine-koenig@pengutronix.de
+
+Patch: net: ravb: Fix dma_addr_t truncation in error case
+  Submitter: Nikita Yushchenko <nikita.yoush@cogentembedded.com>
+  Committer: David S. Miller <davem@davemloft.net>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=816639
+  Lore link: https://lore.kernel.org/r/20240113042221.480650-1-nikita.yoush@cogentembedded.com
+
+Patch: ASoC: dt-bindings: correct white-spaces in examples
+  Submitter: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+  Committer: Mark Brown <broonie@kernel.org>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=803916
+  Lore link: https://lore.kernel.org/r/20231124083803.12773-1-krzysztof.kozlowski@linaro.org
+
+Patch: MAINTAINERS: use proper email for my I2C work
+  Submitter: Wolfram Sang <wsa+renesas@sang-engineering.com>
+  Committer: Wolfram Sang <wsa@kernel.org>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=816704
+  Lore link: https://lore.kernel.org/r/20240113193942.2388-2-wsa+renesas@sang-engineering.com
+
+Series: irqchip/renesas-rzg2l: add support for RZ/G3S SoC
+  Submitter: Claudiu <claudiu.beznea@tuxon.dev>
+  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=802440
+  Lore link: https://lore.kernel.org/r/20231120111820.87398-1-claudiu.beznea.uj@bp.renesas.com
+    Patches: [v3,1/9] clk: renesas: r9a08g045: Add IA55 pclk and its reset
+
+Series: KingFisher: support regulators for PCIe
+  Submitter: Wolfram Sang <wsa+renesas@sang-engineering.com>
+  Committer: Krzysztof Wilczyński <kwilczynski@kernel.org>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=764788
+  Lore link: https://lore.kernel.org/r/20230712103916.1631-1-wsa+renesas@sang-engineering.com
+    Patches: [v3,RESEND,1/2] dt-bindings: PCI: rcar-pci-host: add optional regulators
+
+Patch: arm64: dts: renesas: rzg3s-smarc: Add gpio keys
+  Submitter: Claudiu <claudiu.beznea@tuxon.dev>
+  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=813047
+  Lore link: https://lore.kernel.org/r/20231227130810.2744550-1-claudiu.beznea.uj@bp.renesas.com
+
+
+Total patches: 68
+
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
+
 
