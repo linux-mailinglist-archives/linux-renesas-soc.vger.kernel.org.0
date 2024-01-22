@@ -1,46 +1,46 @@
-Return-Path: <linux-renesas-soc+bounces-1652-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-1653-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B15F8366C6
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Jan 2024 16:07:35 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id ED085836876
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Jan 2024 16:37:13 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 71F341C21909
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Jan 2024 15:07:34 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2D76C1F2236F
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Jan 2024 15:37:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 435144A9B3;
-	Mon, 22 Jan 2024 14:56:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E6FD2612D7;
+	Mon, 22 Jan 2024 15:05:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eR9dcBXm"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="t4XEeExf"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 145514A9AD;
-	Mon, 22 Jan 2024 14:56:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB93B612D2;
+	Mon, 22 Jan 2024 15:05:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705935409; cv=none; b=q/lZJNKVyTNvC4dJppCJ3vXGLjriM2aSkICv0WIcw5XMAaeeThJBnSzaB5RuOasA704KUOAiMihV4RiVYybQCVa+AoHH6NwAnEbFWF8dEXdVoQvCnDIzx2AxaTfw0K5a42u3EQqC8yMqc5ySc4jcomJTMYR9Vm9W+pkhAS5YN0c=
+	t=1705935906; cv=none; b=WOTW2f+Q1UkzCnTZO77wU37ByZNlMXd51Q5+CuaiFBf7Xe8MsuGf7quzgVs9oO4k43LuIxkcJJmz/UutO8RXX9lx5/+Kf5SsITKRKViC1wUWdRBy4n7EGs6GmHW+ocLY/1dIqunb+0cNH6e9JZSnw/h8f8oi7kbNttHEqjAu/KM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705935409; c=relaxed/simple;
-	bh=2F48M5aabZXa0gXoivEKJhcrihgcGxNHjVYIf040JBk=;
+	s=arc-20240116; t=1705935906; c=relaxed/simple;
+	bh=csh5jbD+WB62ItYPOOH4iWY9JbaAVUZp9iwGCqMa9KA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=gpGuhnPchJf0oa+TtgUvRjRRiWx8GyLx9g+asGQXEqX5TwnRSAvcpJEfNPf4GVitiXinJ8g2bDvZq4pQKcvgzzTkcME0L7Br6PhgQvYBJ1dUiW0GSkqpgaclh21yrRIIRAsty+GwsNboGu2SDfFCciZWZGv29RgHMsZkdCxc420=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eR9dcBXm; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 70ED5C433F1;
-	Mon, 22 Jan 2024 14:56:47 +0000 (UTC)
+	 MIME-Version; b=u7Osw0MVtRxCFFUR+GUS5HGo9Q0om9xaibXRUK658fx5/m2LMCqPaKGmMMRCxS965lp6iwNVBhoIY6k50GTr3/PRMmvQhCPW2zIInwW1Qh1a9RmLxcofnxZ3JuoaV4uxYqYEQZjpj41Pj/PF7GQZaAkEXrbdbwW61iu2iwmwk44=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=t4XEeExf; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B7A21C433B2;
+	Mon, 22 Jan 2024 15:05:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1705935408;
-	bh=2F48M5aabZXa0gXoivEKJhcrihgcGxNHjVYIf040JBk=;
+	s=k20201202; t=1705935906;
+	bh=csh5jbD+WB62ItYPOOH4iWY9JbaAVUZp9iwGCqMa9KA=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=eR9dcBXmlcG3IogblXB2VQ1GgtQ3fTKqExyfb612k7QzoxZILZDZK+aqZ+i+Quusg
-	 X3xWIbDT3Avi+XwKnOri7unJUHv9Ix0PRV1pskZVgNgdmZALqTYy8Iu8hC2zKa8MNr
-	 PfSG3XAWoxnxiTONGCJavpTMO6hSRtP8mYl30MXtdpavV6g9ANL8bWXsuwaIRV39p7
-	 6V7Hi4TvktUK6Jhuxy+qKRtWdOceBgnLylwbZIpvCBv/05aK8sHlCn4Cqq8GdFt+Gr
-	 1lpBroLe5+E4EzYpH4PPKKbTa0bfqUlNk5jESnYSU/89sb3nII6aGSzJ1x8FiggEit
-	 Oxgy/s6RvEb4Q==
+	b=t4XEeExftD15gbdWz774JNVavfDu+1a8B4m69V6lEZsfCIVie+vzDXN9Xfp2okWxZ
+	 xbVEoU5Cf8O1etdwt9ZC8fDhOTQYE6zrYL1FkZsOTy1m3hde7O/ON31rh+yDHrcGuD
+	 sS6ocl8EtkID1HTfGMxhjgtF3D+8qp1PoJd9y8Mi23O/iWiml4hL3b361/ZNtfFXdN
+	 eBIg6EkQEAbrIBPLQHPGAhHIt4vat3fN6qqRRjMIhHaMmcBsWG1PeV8hvsqcrEFyum
+	 0QReUB5pcebx3C97P3zbso2uJge6PxjF+gadfBEIaUX+CPsP7xLSTwhWdcV3tAsLXq
+	 n1qsbrQmATQlw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -53,12 +53,12 @@ Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
 	mchehab@kernel.org,
 	linux-media@vger.kernel.org,
 	linux-renesas-soc@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.7 14/88] media: renesas: vsp1: Fix references to pad config
-Date: Mon, 22 Jan 2024 09:50:47 -0500
-Message-ID: <20240122145608.990137-14-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.6 12/73] media: renesas: vsp1: Fix references to pad config
+Date: Mon, 22 Jan 2024 10:01:26 -0500
+Message-ID: <20240122150432.992458-12-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240122145608.990137-1-sashal@kernel.org>
-References: <20240122145608.990137-1-sashal@kernel.org>
+In-Reply-To: <20240122150432.992458-1-sashal@kernel.org>
+References: <20240122150432.992458-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -67,7 +67,7 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.7.1
+X-stable-base: Linux 6.6.13
 Content-Transfer-Encoding: 8bit
 
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
@@ -679,10 +679,10 @@ index 0ab2e0c70474..75c24df41a7a 100644
  
  	switch (entity->vsp1->version & VI6_IP_VERSION_MODEL_MASK) {
 diff --git a/drivers/media/platform/renesas/vsp1/vsp1_rpf.c b/drivers/media/platform/renesas/vsp1/vsp1_rpf.c
-index ea12c3f12c92..c47579efc65f 100644
+index 3b17f5fa4067..fb2d5873924e 100644
 --- a/drivers/media/platform/renesas/vsp1/vsp1_rpf.c
 +++ b/drivers/media/platform/renesas/vsp1/vsp1_rpf.c
-@@ -81,10 +81,10 @@ static void rpf_configure_stream(struct vsp1_entity *entity,
+@@ -89,10 +89,10 @@ static void rpf_configure_stream(struct vsp1_entity *entity,
  
  	/* Format */
  	sink_format = vsp1_entity_get_pad_format(&rpf->entity,
@@ -695,7 +695,7 @@ index ea12c3f12c92..c47579efc65f 100644
  						   RWPF_PAD_SOURCE);
  
  	infmt = VI6_RPF_INFMT_CIPM
-@@ -158,7 +158,7 @@ static void rpf_configure_stream(struct vsp1_entity *entity,
+@@ -166,7 +166,7 @@ static void rpf_configure_stream(struct vsp1_entity *entity,
  		const struct v4l2_rect *compose;
  
  		compose = vsp1_entity_get_pad_selection(pipe->brx,
@@ -704,7 +704,7 @@ index ea12c3f12c92..c47579efc65f 100644
  							rpf->brx_input,
  							V4L2_SEL_TGT_COMPOSE);
  		left = compose->left;
-@@ -302,7 +302,7 @@ static void rpf_configure_partition(struct vsp1_entity *entity,
+@@ -310,7 +310,7 @@ static void rpf_configure_partition(struct vsp1_entity *entity,
  	 * offsets are needed, as planes 2 and 3 always have identical
  	 * strides.
  	 */
@@ -714,7 +714,7 @@ index ea12c3f12c92..c47579efc65f 100644
  	/*
  	 * Partition Algorithm Control
 diff --git a/drivers/media/platform/renesas/vsp1/vsp1_rwpf.c b/drivers/media/platform/renesas/vsp1/vsp1_rwpf.c
-index e0f87c8103ca..1ec921fa5bdd 100644
+index 22a82d218152..8a4165368f53 100644
 --- a/drivers/media/platform/renesas/vsp1/vsp1_rwpf.c
 +++ b/drivers/media/platform/renesas/vsp1/vsp1_rwpf.c
 @@ -62,15 +62,14 @@ static int vsp1_rwpf_set_format(struct v4l2_subdev *subdev,
@@ -1161,7 +1161,7 @@ index e9d5027761bb..5a9cb0e5640e 100644
  	div_size = format->width;
  
 diff --git a/drivers/media/platform/renesas/vsp1/vsp1_wpf.c b/drivers/media/platform/renesas/vsp1/vsp1_wpf.c
-index cab4445eca69..9693aeab1cac 100644
+index d0074ca00920..23cd1cef03a9 100644
 --- a/drivers/media/platform/renesas/vsp1/vsp1_wpf.c
 +++ b/drivers/media/platform/renesas/vsp1/vsp1_wpf.c
 @@ -66,10 +66,10 @@ static int vsp1_wpf_set_rotation(struct vsp1_rwpf *wpf, unsigned int rotation)
@@ -1177,7 +1177,7 @@ index cab4445eca69..9693aeab1cac 100644
  						   RWPF_PAD_SOURCE);
  
  	mutex_lock(&wpf->entity.lock);
-@@ -246,10 +246,10 @@ static void wpf_configure_stream(struct vsp1_entity *entity,
+@@ -269,10 +269,10 @@ static void wpf_configure_stream(struct vsp1_entity *entity,
  	int ret;
  
  	sink_format = vsp1_entity_get_pad_format(&wpf->entity,
@@ -1190,7 +1190,7 @@ index cab4445eca69..9693aeab1cac 100644
  						   RWPF_PAD_SOURCE);
  
  	/* Format */
-@@ -384,7 +384,7 @@ static void wpf_configure_partition(struct vsp1_entity *entity,
+@@ -407,7 +407,7 @@ static void wpf_configure_partition(struct vsp1_entity *entity,
  	unsigned int i;
  
  	sink_format = vsp1_entity_get_pad_format(&wpf->entity,
