@@ -1,98 +1,103 @@
-Return-Path: <linux-renesas-soc+bounces-1661-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-1663-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE6DC836CB1
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Jan 2024 18:14:43 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A436836CC3
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Jan 2024 18:16:57 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2DDDD1C25598
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Jan 2024 17:14:43 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 400A328432F
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Jan 2024 17:16:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 731633EA97;
-	Mon, 22 Jan 2024 16:04:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3D50D64CEC;
+	Mon, 22 Jan 2024 16:06:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YO8HccBY"
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="Vc06XKXG"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49AF53EA8A;
-	Mon, 22 Jan 2024 16:04:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8104A64ABD
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 22 Jan 2024 16:06:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705939463; cv=none; b=NcrSzmGapqYey+CK7KrT+KLORfWyAjzHx4RVWB/uvDNuHHmztOQeepefAbZcG6d316WNNHNd7KzA0Lq/wuYvWLpxz95NsErEvWE3jyyMjfHuzhpr9kTxsjaID5PS8sb+dSFb2HpH3YifyafQy8Pa621zVVBTkfqnPnbD5u5eXZ0=
+	t=1705939562; cv=none; b=NFVZGMoAUoQth1cMj0SdE0b2L7Psw+TwvqDYYObATxVLEFdQ2QsNUoTg5WH6mV9jPFxuNKYYaR0b5dMNu9dLJNKBO22WO1u9+Q3cSy8zfR5hLDO1cwsEuxCTjUnBZylbY4uWvvsuxIe5DX1R9QZUs1MiPs5rErRgyxuwcvXUFCs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705939463; c=relaxed/simple;
-	bh=qLSgpbBBjjg35owhN/n1BlJHspH8+vAvlKmDPma2+BA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fsX+Vvj2J/cGARBs7VKH4mCCJYW1Vz2al6YyimPnuGj8bfOEtnkUNjiazMtaG1wxFyxkMXZMo3fokLyYYfpvgPtOw0vjkKhBBRS529Rkcc0Txjfy35C8bazWcsbwEnq4j0J7aVmNDRu/GiRtJK3Tk7A9X64Jyu/yagKMOKYgbwA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YO8HccBY; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9465AC433F1;
-	Mon, 22 Jan 2024 16:04:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1705939462;
-	bh=qLSgpbBBjjg35owhN/n1BlJHspH8+vAvlKmDPma2+BA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=YO8HccBYFKH8Refu6bMmvbllXSeC0OF/Efvh/rVL0L6W9YV0Fqse3g36Jhh8enxa8
-	 avDc+ZvDTR4gXd4Apqd93gGxsC2E73xQanifhYh4+ovSHe5/cfNIePcaJFo8vtW8Rd
-	 UwJuxO3+dKAumwrow+VsBmGMHfTk0Nc9IzdxyY6rdeTY4nOE3HbIWOGbn7VhqlX3E8
-	 kByuuqEcUtCdrm6Xn+t7eTC/QbXzmdmR6h8OkeENMFm+oGRu0AsUurZSZT4ou9l7yU
-	 Ts34s+romNCTlZefwEMLKEIYUdIWuAEh7IOdaH0cgG4ezmgEzNadC15vpqMUXPyiTx
-	 H6fKjzHZP1ZvA==
-Date: Mon, 22 Jan 2024 10:04:20 -0600
-From: Rob Herring <robh@kernel.org>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	Frank Rowand <frowand.list@gmail.com>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>, devicetree@vger.kernel.org,
-	linux-clk@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-	Aymeric Aillet <aymeric.aillet@iot.bzh>,
-	Yusuke Goda <yusuke.goda.sx@renesas.com>
-Subject: Re: [PATCH v5 resend 0/4] drivers: clk: renesas: ignore all clocks
- which are assigned to non-Linux system
-Message-ID: <20240122160420.GE601827-robh@kernel.org>
-References: <87edeqgfbu.wl-kuninori.morimoto.gx@renesas.com>
- <CAMuHMdV1GLYZGn_TgYbxfPakkLpUNTsP5hsEk9tUqLzpb5wOdQ@mail.gmail.com>
+	s=arc-20240116; t=1705939562; c=relaxed/simple;
+	bh=1jYXZfWrLOHinxcNKnqEFxQDsZbalKVKG1PbYFoqvqc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Rk+uXbaeshh7XdRcL9/Tx5F57j7h+l+sloE1JqLIoXhiqLUnRkoKr1kEYeaoNJZLrxcvvYz1uBod5fn983M4REMIzhERDBFAtv0SijVRa22wo4S0emi2ILed0+4eMCcalIZvpVJqYQyhboCo7eXfFTp2S9UQbVaOuQ7FO/YkT54=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=Vc06XKXG; arc=none smtp.client-ip=209.85.221.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-33922d2cb92so2991188f8f.1
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 22 Jan 2024 08:06:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ragnatech.se; s=google; t=1705939558; x=1706544358; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=NZNHZS0q4byKDJuigPQ/QfD5/RuPKZ9eozHLiGNZ04E=;
+        b=Vc06XKXGvLhVRZE1m9M47tLdkuzN5nGATiR0bCudTly6bPuLTeel83UVMFX1Dm2slU
+         8konDazj34ba3/MbajljOrdYT8vED6gjAjf7Eba+jwvvQiFbs4vXNIEmcEewoDnMg2/U
+         zqv6zZxy5nckeAFdMLvLgk8Q9+zKgimLFiHJCASBjYoKcG0GqRlOW23ZrXxkCfaad9IX
+         qFZWYgL4GrzyJJzVEhjyW9pO5aiYLaDo/5ulOS+rx6IKktwBA4a3LRNNXcj9OMzHumdq
+         jAVtKw03m5n9VhxXmZZHPjTxQDzsZUDM0d/FvvrT4CKoDF3+CLrgL/T3ThAvQ8VdM9LL
+         wYhw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1705939558; x=1706544358;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=NZNHZS0q4byKDJuigPQ/QfD5/RuPKZ9eozHLiGNZ04E=;
+        b=uxhP1nhkD8hgedXjsOn7UvTVIZvPfgowVjPuXATlit1S11FYQShY+TD7Z8xSrUC81F
+         bGqtlsbPYCoVuQyIAebrmWZW7kNAUeFYwfxvGccSWlqmBToOIEQFkX+D9oOMTByoyfAq
+         ypKvsgutokkcLqHjpiMfzhsv3r96CSKuxdDPHOvx34oy6E4lSRIQo5XPi1TTChBOScNL
+         xLxSp91Mu8DaYh7izsy2Hnla+eWJmdhGS9xmCaapz7n1mMbX+MKZsZTVIUxWmWxjmUmJ
+         YQW4i8lvt1sMJafKUSAxGTNu3kuIPwSVhhpjrO2225hvZY8pYX9ltLoBAyTeGycuGtMT
+         dH0w==
+X-Gm-Message-State: AOJu0YwoJvu5kYmlB//nnsZHceZBrLjGZdTQKxajEsjJFU7p9A0J8p2y
+	YRPoSp5anwNO0MdO8gjH6BzYFkELSsaMInAFpvIVKPivoR27M5wici7fMfhHUyg=
+X-Google-Smtp-Source: AGHT+IGn7YldabyJ8traxss0J6ziCM/pWKKHJnDem27L82NDnqNWUKPwQVuy81geKMmmj6Suep2AbA==
+X-Received: by 2002:adf:e3c5:0:b0:333:3117:c46c with SMTP id k5-20020adfe3c5000000b003333117c46cmr1367025wrm.253.1705939558595;
+        Mon, 22 Jan 2024 08:05:58 -0800 (PST)
+Received: from sleipner.berto.se (p4fcc8c6a.dip0.t-ipconnect.de. [79.204.140.106])
+        by smtp.googlemail.com with ESMTPSA id q6-20020a5d6586000000b0033921f48044sm8808860wru.55.2024.01.22.08.05.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 22 Jan 2024 08:05:58 -0800 (PST)
+From: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: linux-renesas-soc@vger.kernel.org,
+	=?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+Subject: [PATCH 0/2] arm64: dts: renesas: Add TSN support for V4H
+Date: Mon, 22 Jan 2024 17:04:39 +0100
+Message-ID: <20240122160441.759620-1-niklas.soderlund+renesas@ragnatech.se>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAMuHMdV1GLYZGn_TgYbxfPakkLpUNTsP5hsEk9tUqLzpb5wOdQ@mail.gmail.com>
 
-On Fri, Jan 12, 2024 at 03:21:41PM +0100, Geert Uytterhoeven wrote:
-> Hi Morimoto-san, Rob,
-> 
-> On Wed, Jan 10, 2024 at 2:14 AM Kuninori Morimoto
-> <kuninori.morimoto.gx@renesas.com> wrote:
-> > This is v5 resend of ignoring non Linux system assinged device.
-> 
-> Thanks for the update!
-> 
-> > v5 resend
-> >         - add Acked-by from Rob
-> 
-> You mean Reviewed-by?
-> With an Acked-by, I wouldn't have to ask the next question ;-)
-> 
-> Rob: How to proceed:
->   1. I give my Acked-by, you merge the series?
->   2. You give your Acked-by, I merge the series?
->   3. We do the immutable branch dance?
->        a. You apply 1-3 to an immutable branch
->        b. I merge the immutable branch and apply 4.
-> 
-> You get to choose, as there are more DT than renesas-clk patches ;-)
+Hi,
 
-You can take it. I don't give Reviewed-by nor Acked-by if I plan to 
-apply it.
+This series describes the Ethernet TSN on V4H. Patch 1 adds the device 
+to the base DTSI while patch 2 adds an overlay that can be used when a 
+PHY is mounted on the board.
 
-Rob
+Niklas Söderlund (2):
+  arm64: dts: renesas: r8a779g0: R-Car Ethernet TSN support
+  arm64: dts: renesas: white-hawk: Add Ethernet TSN overlay
+
+ arch/arm64/boot/dts/renesas/Makefile          |  2 +
+ .../dts/renesas/r8a779g0-white-hawk-tsn.dtso  | 53 +++++++++++++++++++
+ arch/arm64/boot/dts/renesas/r8a779g0.dtsi     | 16 ++++++
+ 3 files changed, 71 insertions(+)
+ create mode 100644 arch/arm64/boot/dts/renesas/r8a779g0-white-hawk-tsn.dtso
+
+-- 
+2.43.0
+
 
