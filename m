@@ -1,201 +1,174 @@
-Return-Path: <linux-renesas-soc+bounces-1702-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-1703-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3FAF838E8B
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 23 Jan 2024 13:30:47 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A6E6838EFC
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 23 Jan 2024 13:58:59 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 33E9FB24403
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 23 Jan 2024 12:30:45 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7D1EC1C23D88
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 23 Jan 2024 12:58:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 217955674E;
-	Tue, 23 Jan 2024 12:30:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YB1k92L1"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9EE3C5F56D;
+	Tue, 23 Jan 2024 12:54:42 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com [209.85.128.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAE71210E0;
-	Tue, 23 Jan 2024 12:30:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.55.52.120
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F37F60DD3;
+	Tue, 23 Jan 2024 12:54:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706013042; cv=none; b=N6eMvnuSB6M9+xa0mbGUE5FBzPp0XpI9uUcv5+97uK3JlNoNBgWMp6fntjWdPCdnDJBEWkjIi3UbJNNmC14aNGqkCabns+ht4d/KDdQvt2zd5Oa5nSGxSWKIGBN1FyDTExX8xqlY0VJJJFuBbljiB2ksKMDJDQCvFef60anvDlk=
+	t=1706014482; cv=none; b=MLkGGRSCccHV095eEX5zjN+VXdWE4pk3hKGGkq9zl9Qqkt8hX6NupEIMvcKiCJwpriGyD7OjXsxyZ5egMVhHELF5O8P2J5jbE5ryWQ7bXPnGUjWxWybNGz+SO85u+5ZWl3bbhbbYXan1xDeF+7UV504+HLJV2WserIlxNFhgydI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706013042; c=relaxed/simple;
-	bh=uz0038rx2LAK85LDl9b2xmv0MILynVQSt1GlOE+mjZE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HKPN68xWsPKVmxwOPTKY4hG7GIL5Ch6h77l8vfruXItzAQtKuFsantFB1UrQREI6CaQR1MN3RRIBeIE8H59OK02dw4bop7F3yS6NFFowVg53RCZ2gsXX+J0jRI2gNL4AG3kz5Xmt1WmxZwhT8ut7CZehLkWv+5vGtlgnkUFaZoA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YB1k92L1; arc=none smtp.client-ip=192.55.52.120
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706013040; x=1737549040;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=uz0038rx2LAK85LDl9b2xmv0MILynVQSt1GlOE+mjZE=;
-  b=YB1k92L1oODCLTatII64AfvA9qBqmUkckBCTnt2x1ImlTFs3awGBPP2A
-   kDL/7mxHxKVD4h4Asibw1QYCXTzqq0u6cYQvcFvjiWI8+HoNhniYuztKV
-   SCJLRCaE0s7bRCO67WdYVeK+/lAw+EyUypo4QjRU7pYmoOmwKpPF8xGar
-   Evq106k/DLf8TXdSj0MssIFmp8862AqsmygTCfx8uT0AvbMPiklK1G62c
-   M9n1LA2aCwOj3eaR92/OwQBq0O2nOBPj0Ug/UQvbWkj/x6/GuIygCJ+Z8
-   cHCEpfA4KIptjjoOWPmWElHXDnex1OTj/gWAwPg2JF+1POBKWGibyo3SN
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10961"; a="400361412"
-X-IronPort-AV: E=Sophos;i="6.05,214,1701158400"; 
-   d="scan'208";a="400361412"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2024 04:30:38 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10961"; a="909280684"
-X-IronPort-AV: E=Sophos;i="6.05,214,1701158400"; 
-   d="scan'208";a="909280684"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2024 04:30:35 -0800
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id 5DE8911FAD4;
-	Tue, 23 Jan 2024 14:20:05 +0200 (EET)
-Date: Tue, 23 Jan 2024 12:20:05 +0000
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Biju Das <biju.das.jz@bp.renesas.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
-	Rob Herring <robh@kernel.org>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	linux-media@vger.kernel.org,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Biju Das <biju.das.au@gmail.com>, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH 4/4] media: platform: rzg2l-cru: rzg2l-video: Restructure
- clk handling
-Message-ID: <Za-u9VO2OuY6vhT8@kekkonen.localdomain>
-References: <20240123115821.292787-1-biju.das.jz@bp.renesas.com>
- <20240123115821.292787-5-biju.das.jz@bp.renesas.com>
+	s=arc-20240116; t=1706014482; c=relaxed/simple;
+	bh=oRU/RyjFvOO7wA+Xb77PQqteNh6Vj5WDQWTQdsu1fEc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Ngjf3nGaAcuzkvJCeF05ipJuEVScdVXp1wweDC38+DTcec+dBB5lQDzJTWzkMHDbxeklXywchip1FR524chFx/EoEnld1StTx2hBCcUanJqDznaBvque9lBcs33ULNlpYfAuidM9+MmI2XdW3iiw2v6NgmLxnjLiA5XvA3Sxp38=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-5f2d4aaa2fdso43470737b3.1;
+        Tue, 23 Jan 2024 04:54:40 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1706014479; x=1706619279;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=sHHavJJZellzhmUqcClWUg6SvALOrX1d3Nb7eJVRrKA=;
+        b=cS2X+ap9caNeyDlre7H0wuQvDZUL6Ib+Zz6paiQCXTAm59e5t2EgQK2opFHrNN+urc
+         QhYLCZq8t7sRdBHBTTYmKX0DKNltMcLszg06r2ZdKbuQGhZjvsyUiuxUjqrmu6fHqx0k
+         uWyCn0wE+Ry92Gr5jNM/2WaJqVQ5CK63gLLqGxd18KolRb1XkD/fjgw3PAXQO3j57AIJ
+         6lVOZK/8CN1tyOX+AzeyGv9QNnZqaab4TGvbndfKyIW4GVXAV0U3IxGSyWvyNfpTG8xm
+         ppRdZVVmbVghwCdrY5+SkQBI990ijQwK4+yiy+gexYXa20LGPRg8gkR0TzGDPWRuTOJ7
+         DS7A==
+X-Gm-Message-State: AOJu0Yzvhs675GnhF6QlkVd3dA47GHfhpsr+sK2OBvjVnDI68rugKB5s
+	61kBbP+ewXNfSPn1Rf5ivoRskEtTXd670TzP9cfO1ZRCqBUjspSQH7JWbIVLqyo=
+X-Google-Smtp-Source: AGHT+IG84ZHI5letcdwzAQ72lTZQvGZrDld8iaHL6ITWPTBVsl4ON0KU73TfWsNn3ysHMa835ifMqA==
+X-Received: by 2002:a0d:d7c1:0:b0:5ff:9fa1:7d3 with SMTP id z184-20020a0dd7c1000000b005ff9fa107d3mr4928215ywd.67.1706014479411;
+        Tue, 23 Jan 2024 04:54:39 -0800 (PST)
+Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com. [209.85.128.170])
+        by smtp.gmail.com with ESMTPSA id x199-20020a81a0d0000000b005ff8950ed82sm3958422ywg.38.2024.01.23.04.54.39
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 23 Jan 2024 04:54:39 -0800 (PST)
+Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-5f2d4aaa2fdso43470587b3.1;
+        Tue, 23 Jan 2024 04:54:39 -0800 (PST)
+X-Received: by 2002:a81:7746:0:b0:5ff:7b0c:6993 with SMTP id
+ s67-20020a817746000000b005ff7b0c6993mr4569351ywc.22.1706014478941; Tue, 23
+ Jan 2024 04:54:38 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240123115821.292787-5-biju.das.jz@bp.renesas.com>
+References: <20231125163559.824210-1-masahiroy@kernel.org>
+In-Reply-To: <20231125163559.824210-1-masahiroy@kernel.org>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 23 Jan 2024 13:54:27 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdWm6u1wX7efZQf=2XUAHascps76YQac6rdnQGhc8nop_Q@mail.gmail.com>
+Message-ID: <CAMuHMdWm6u1wX7efZQf=2XUAHascps76YQac6rdnQGhc8nop_Q@mail.gmail.com>
+Subject: Re: [PATCH 1/2] kconfig: remove unneeded symbol_empty variable
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Linux-Renesas <linux-renesas-soc@vger.kernel.org>, 
+	Vegard Nossum <vegard.nossum@oracle.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Biju,
+Hi Yamada-san,
 
-Thanks for the patch.
+On Sat, Nov 25, 2023 at 5:36=E2=80=AFPM Masahiro Yamada <masahiroy@kernel.o=
+rg> wrote:
+> This is used only for initializing other variables.
+>
+> Use the empty string "".
+>
+> Please note newval.tri is unused for S_INT/HEX/STRING.
+>
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 
-On Tue, Jan 23, 2024 at 11:58:21AM +0000, Biju Das wrote:
-> As per section 35.3.1 Starting Reception for the MIPI CSI-2 Input on the
-> latest hardware manual(R01UH0914EJ0140 Rev.1.40) it is mentioned that
-> we need to supply all CRU clks and  we need to disable the vclk before
-> enabling the LINK reception and enable the vclk after enabling the link
-> Reception. So restructure clk handling as per the HW manual.
-> 
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> ---
->  .../platform/renesas/rzg2l-cru/rzg2l-cru.h    |  3 -
->  .../platform/renesas/rzg2l-cru/rzg2l-csi2.c   | 55 ++++++++++++---
->  .../platform/renesas/rzg2l-cru/rzg2l-ip.c     | 15 +---
->  .../platform/renesas/rzg2l-cru/rzg2l-video.c  | 69 ++++++++-----------
->  4 files changed, 74 insertions(+), 68 deletions(-)
-> 
-> diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h
-> index 811603f18af0..a5a99b004322 100644
-> --- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h
-> +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h
-> @@ -133,9 +133,6 @@ struct rzg2l_cru_dev {
->  	struct v4l2_pix_format format;
+Thanks for your patch, which is now commit 4e244c10eab345a7
+("kconfig: remove unneeded symbol_empty variable") in v6.8-rc1.
+
+When running "make <foo>_defconfig" with <foo>_defconfig an SMP
+defconfig without explicit configuration of CONFIG_LOG_CPU_MAX_BUF_SHIFT,
+the aforementioned commit causes a change in the generated .config:
+
+-CONFIG_LOG_CPU_MAX_BUF_SHIFT=3D12
++CONFIG_LOG_CPU_MAX_BUF_SHIFT=3D0
+
+It looks like CONFIG_BASE_SMALL=3D0 is treated as a string instead of
+the integer number zero?
+
+init/Kconfig=3Dconfig LOG_CPU_MAX_BUF_SHIFT
+init/Kconfig-   int "CPU kernel log buffer size contribution (13 =3D> 8
+KB, 17 =3D> 128KB)"
+init/Kconfig-   depends on SMP
+init/Kconfig-   range 0 21
+init/Kconfig:   default 12 if !BASE_SMALL
+init/Kconfig:   default 0 if BASE_SMALL
+
+Note that reverting 4e244c10eab345a7 is not sufficient to fix the issue.
+Also reverting commit 6262afa10ef7cc8f ("kconfig: default to zero if
+int/hex symbol lacks default property") does fix it.
+
+Thanks!
+
+> --- a/scripts/kconfig/symbol.c
+> +++ b/scripts/kconfig/symbol.c
+> @@ -29,12 +29,6 @@ struct symbol symbol_no =3D {
+>         .flags =3D SYMBOL_CONST|SYMBOL_VALID,
 >  };
->  
-> -void rzg2l_cru_vclk_unprepare(struct rzg2l_cru_dev *cru);
-> -int rzg2l_cru_vclk_prepare(struct rzg2l_cru_dev *cru);
+>
+> -static struct symbol symbol_empty =3D {
+> -       .name =3D "",
+> -       .curr =3D { "", no },
+> -       .flags =3D SYMBOL_VALID,
+> -};
 > -
->  int rzg2l_cru_start_image_processing(struct rzg2l_cru_dev *cru);
->  void rzg2l_cru_stop_image_processing(struct rzg2l_cru_dev *cru);
->  
-> diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c
-> index c4609da9bf1a..f4c5cbb30bc9 100644
-> --- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c
-> +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c
-> @@ -6,6 +6,7 @@
->   */
->  
->  #include <linux/clk.h>
-> +#include <linux/clk-provider.h>
->  #include <linux/delay.h>
->  #include <linux/interrupt.h>
->  #include <linux/io.h>
-> @@ -108,6 +109,7 @@ struct rzg2l_csi2 {
->  	struct reset_control *presetn;
->  	struct reset_control *cmn_rstb;
->  	struct clk *sysclk;
-> +	struct clk *vclk;
->  	unsigned long vclk_rate;
->  
->  	struct v4l2_subdev subdev;
-> @@ -361,10 +363,11 @@ static int rzg2l_csi2_dphy_setting(struct v4l2_subdev *sd, bool on)
->  	return rzg2l_csi2_dphy_disable(csi2);
->  }
->  
-> -static void rzg2l_csi2_mipi_link_enable(struct rzg2l_csi2 *csi2)
-> +static int rzg2l_csi2_mipi_link_enable(struct rzg2l_csi2 *csi2)
+>  struct symbol *modules_sym;
+>  static tristate modules_val;
+>
+> @@ -346,7 +340,7 @@ void sym_calc_value(struct symbol *sym)
+>         case S_INT:
+>         case S_HEX:
+>         case S_STRING:
+> -               newval =3D symbol_empty.curr;
+> +               newval.val =3D "";
+>                 break;
+>         case S_BOOLEAN:
+>         case S_TRISTATE:
+> @@ -697,13 +691,12 @@ const char *sym_get_string_default(struct symbol *s=
+ym)
 >  {
->  	unsigned long vclk_rate = csi2->vclk_rate / HZ_PER_MHZ;
->  	u32 frrskw, frrclk, frrskw_coeff, frrclk_coeff;
-> +	int ret, count;
->  
->  	/* Select data lanes */
->  	rzg2l_csi2_write(csi2, CSI2nMCT0, CSI2nMCT0_VDLN(csi2->lanes));
-> @@ -386,11 +389,40 @@ static void rzg2l_csi2_mipi_link_enable(struct rzg2l_csi2 *csi2)
->  	rzg2l_csi2_write(csi2, CSI2nDTEL, 0xf778ff0f);
->  	rzg2l_csi2_write(csi2, CSI2nDTEH, 0x00ffff1f);
->  
-> +	clk_disable_unprepare(csi2->vclk);
-> +	for (count = 0; count < 5; count++) {
-> +		if (!(__clk_is_enabled(csi2->vclk)))
-> +			break;
-> +		usleep_range(10, 20);
-> +	}
-> +
-> +	if (count == 5) {
-> +		dev_err(csi2->dev, "Timeout, not able to turn OFF vclk\n");
-> +		return -ETIMEDOUT;
-> +	}
+>         struct property *prop;
+>         struct symbol *ds;
+> -       const char *str;
+> +       const char *str =3D "";
+>         tristate val;
+>
+>         sym_calc_visibility(sym);
+>         sym_calc_value(modules_sym);
+>         val =3D symbol_no.curr.tri;
+> -       str =3D symbol_empty.curr.val;
+>
+>         /* If symbol has a default value look it up */
+>         prop =3D sym_get_default_prop(sym);
 
-It'd be nice to have a CCF function to do this. Either way, you can use
-read_poll_timeout().
+Gr{oetje,eeting}s,
 
-> +
->  	/* Enable LINK reception */
->  	rzg2l_csi2_write(csi2, CSI2nMCT3, CSI2nMCT3_RXEN);
-> +
-> +	ret = clk_prepare_enable(csi2->vclk);
-> +	if (ret)
-> +		return ret;
-> +
-> +	for (count = 0; count < 5; count++) {
-> +		if (__clk_is_enabled(csi2->vclk))
-> +			break;
-> +		usleep_range(10, 20);
-> +	}
-> +
-> +	if (count == 5) {
-> +		dev_err(csi2->dev, "Timeout, not able to turn ON vclk\n");
-> +		return -ETIMEDOUT;
-> +	}
-> +
-> +	return 0;
->  }
->  
+                        Geert
 
--- 
-Regards,
 
-Sakari Ailus
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
