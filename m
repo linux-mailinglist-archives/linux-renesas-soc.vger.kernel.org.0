@@ -1,334 +1,165 @@
-Return-Path: <linux-renesas-soc+bounces-1721-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-1722-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id E65748391C6
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 23 Jan 2024 15:54:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F693839234
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 23 Jan 2024 16:11:20 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1A00E1C21F04
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 23 Jan 2024 14:54:50 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C3E1F1C21CB9
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 23 Jan 2024 15:11:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D62C95D8F5;
-	Tue, 23 Jan 2024 14:54:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B8B825FDA8;
+	Tue, 23 Jan 2024 15:11:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="Ck8EwNqH"
+	dkim=pass (2048-bit key) header.d=smile-fr.20230601.gappssmtp.com header.i=@smile-fr.20230601.gappssmtp.com header.b="tUWJUe48"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 806595C5FF
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 23 Jan 2024 14:54:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80EAD5FDA3
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 23 Jan 2024 15:11:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706021687; cv=none; b=dObi/lfhSLxJh+HBI9/snjVKJ4t5vInvIYl98mY6MrFEYPs0eHztjvHJtbCwUypZ2Mdn2nvHNmHzNQWIH28xx6V9TeIgt2KIE4H8oRiqwFokJgiBB8wSzBBS5ki0CBOVm6ZfvJ5Qno82HLgJm9EvYgeXnKBrtMrH1AIn+zcFN/M=
+	t=1706022669; cv=none; b=BPejo87ql3Ir3I04j+gqKA+O6dr9uB8tatim7tyRvCa9Vrut+QUWwH0UDbmpVyIo9PvSPUMv6lXkNg5nTP7N4ArkixOOIPOJAyLhM4Tb1CCnaA+/BYK6x5WE3S+lNX3u64Ox7RhWUIRFHhh95C1dJmk8/dhnKx6sH2u2in7jU7I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706021687; c=relaxed/simple;
-	bh=gSJ1orbvGr+1ihOc0cJYe27rdeYMVmgHp8NvQ7zVsHw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=XWPgtC4vU4giF0YjjXygSbf40Gf8aB0Z2H+8y23s3NQyGA38/C2B0qgzkS1+0Fwj+HwGhBtXyv2CP1D3BF5SZuljA81oss6OsYMDjOeeZiKnoY2FpyRdMvCbCUN8c8aPakQu9c5C5u2WwQ5Jp1/9MNeL4nIT+p3ayN1zdfLoQhg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=Ck8EwNqH; arc=none smtp.client-ip=209.85.208.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
-Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-55a45a453eeso5607112a12.0
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 23 Jan 2024 06:54:43 -0800 (PST)
+	s=arc-20240116; t=1706022669; c=relaxed/simple;
+	bh=zfo4K02LIHKNeJfY1nYMveQnev4v7V0gPyH1RcMLZT4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=PakYkzJP4qzRYeqkTLx50RhschTqYvRUr1GCnd/VVLTNxmnvC/b3E1+DxPBRZuWi3YUBTUtNWT6gx9DAG2UxRuKgLe54d7gshCeJNTdu7pqidI+9aqZS2ddgpdak9IPYRexZrO4tbHce7kqMMVPs7YI/8VxVPrpKI8M3/EwFWfw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=smile.fr; spf=pass smtp.mailfrom=smile.fr; dkim=pass (2048-bit key) header.d=smile-fr.20230601.gappssmtp.com header.i=@smile-fr.20230601.gappssmtp.com header.b=tUWJUe48; arc=none smtp.client-ip=209.85.221.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=smile.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=smile.fr
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-336c9acec03so3863978f8f.2
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 23 Jan 2024 07:11:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech.se; s=google; t=1706021681; x=1706626481; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=2EieKrTyEuYjMh3Wo+2+3O4vUBWHeZwxVW/MCGZBmUI=;
-        b=Ck8EwNqHKEOBtns1oKoy860/w7HJt0dadhmfDV/zcCBhkKMDZTdfegWaHcZbWBnUOh
-         sO5Q5vPy+eLPvEw8omZidv3A/N9BQy5Qwcmqc92zpJ0/aKCJfG9yrYxQJVIPRk2Qk71/
-         b6JVKu161owoBEvCq1Da0ML44XUSO8bkp3bYKf94CvBH4gZqnYh4cE8gimwUxNNWBimv
-         DQYYeTkLIw2R49V2qFHcO+NTk5oZ/VB9QhdAppWcbMQMQhWFisaj5vxOuzfZm+jUnmYl
-         vYqvLoBVA2NScYQEftJ07OzG2ekwn+QUraIsR75v6j6OdOgLsjhphK8JW4LEDftIcwfU
-         n+lg==
+        d=smile-fr.20230601.gappssmtp.com; s=20230601; t=1706022666; x=1706627466; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:organization:from:references
+         :cc:to:content-language:subject:user-agent:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=zsl/7GB8mLkTbghZ8k3RJP7xDY8xQ2VmTN1DxHEnNkg=;
+        b=tUWJUe48XHunZ9Rfw3W40bEG8eqcybv5AC5t3wODvEyKDheYefsWbEr4QurHqbQYP7
+         JeBeR2inmLEN9aRz5SoQ4zJL5XP+aBbT3B3dBkEfxueNGGkUtS8LUcJgfdvvfycCY7Rp
+         4qg9kmveN7vrNCwN0tevgXvL6kV/NUqXqnTKjPq+FJTZv4dCxIeCkJTP41glK2EAWdHK
+         N5YyFqcEvmkHLEql+SzSUa7tCcGMl5CxxJ6NOgCotO24Y7B7TZZW0YI+e4VALtLjUOAb
+         6XbCGBDIfOOuuiMcysQ8dHBZKMQ5quIs1Tv4tPClSE7r9nZqNDFijmVx1j+5GK+vqc8h
+         g2lA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706021681; x=1706626481;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1706022666; x=1706627466;
+        h=content-transfer-encoding:in-reply-to:organization:from:references
+         :cc:to:content-language:subject:user-agent:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=2EieKrTyEuYjMh3Wo+2+3O4vUBWHeZwxVW/MCGZBmUI=;
-        b=XCni1THRmC0uAefGi4L99y+Y/q9CM1upJToL4OwqnCLprKqEbuPeXHWerxVz+yji2s
-         sLl9RdAg8qhxIiX3bYVZZthMOPAro5eAJPAxhn3Ol3V9szN6EPBbWUJUzoNiPRT7smn+
-         4aaoO5hDMDADx1q7CF7UTP0mZrRTra/G9r7F4JSJ/2VHDk1XqWxx4D3id0icEC9SdFM9
-         Bqde+lOX0PdcUTsB+csSoUGwBIilPs0SYER+Nn/jcgFZQ6TTvtW0EY9TPhQT6ATZqV7e
-         gxbqrDSbkIm84dPPzxrWPetWYzqMYKUnSmGNtPKoWkk9L2KWHyJNRIbAFH831tm1QXML
-         iBRA==
-X-Gm-Message-State: AOJu0YyFTYpMUn7LW6UmENHnWOQgVkI9WAQ5uiUyzylNBaqmnIcFi/8S
-	aZKsB1AJ/LKEpbRWCmxx3SOwR+IeeYlCpWlo1b+xVYwwKa+QKk9obXnJy9PIlI8=
-X-Google-Smtp-Source: AGHT+IGeNkrePGiXEJtJ87STg6Z9E4TPMnqL89kb2Rh6jz8xc2kA6Sr+U2uoJoJTPHsLqLjShyGeZA==
-X-Received: by 2002:a05:6402:1ca5:b0:55c:6c21:5f0d with SMTP id cz5-20020a0564021ca500b0055c6c215f0dmr1030559edb.30.1706021681402;
-        Tue, 23 Jan 2024 06:54:41 -0800 (PST)
-Received: from sleipner.berto.se (p4fcc8c6a.dip0.t-ipconnect.de. [79.204.140.106])
-        by smtp.googlemail.com with ESMTPSA id cs5-20020a0564020c4500b0055c875c2095sm651427edb.96.2024.01.23.06.54.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 23 Jan 2024 06:54:40 -0800 (PST)
-From: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-To: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: linux-renesas-soc@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	=?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Subject: [PATCH] arm64: dts: renesas: eagle: Add capture overlay for expansion board
-Date: Tue, 23 Jan 2024 15:53:54 +0100
-Message-ID: <20240123145354.1571800-1-niklas.soderlund+renesas@ragnatech.se>
-X-Mailer: git-send-email 2.43.0
+        bh=zsl/7GB8mLkTbghZ8k3RJP7xDY8xQ2VmTN1DxHEnNkg=;
+        b=osRxKnjZ0yLVww26WZ++Faxiwc6U0lksVw01TLZCsuuEoo62PTPaWRz79ldDymoyOF
+         O0TaMHuS9fbCtcyGLINw1RKDPqsf+Ig557CLEHoe4lhszTOCuZ6OHw4C80WQiqe1dml7
+         ibt21WdbUCiVmRW7qRqPSLNm+SUnUDiNtZNQDEhpwcUfIca9w9jiRlwSd9M3o6pWa2IN
+         Hig6eFlpzLqZBQH/X62nMH1Jkbcu7Fb182mgWhC93uGR34QWr42dEQr3pkhYzE786grn
+         Rws/nJcqP44Ux39yKGUNnqC0p3KowDyCRwYMoCklCCjFI31tqXK/0GuzqTdkBFjjnFiI
+         kolg==
+X-Gm-Message-State: AOJu0YwK+7HLLBAan1WaXONqPSubaA0xgqDshEOFaldEfMHvPzDnUP8/
+	d4wdwrbyU2J8862Rb3Soarrus2KNoOE2k4YKyQF+DjeWRglzZLloS4lZ7Gx9SXs=
+X-Google-Smtp-Source: AGHT+IGwFc3cfRZvt0Bggv2cC3e4b5nf882Tcy4F+xnhQwtxfGuC4Wl/QsA7DXC4/1RG6BiJTLDRXA==
+X-Received: by 2002:a5d:4d0a:0:b0:336:ee8a:a44e with SMTP id z10-20020a5d4d0a000000b00336ee8aa44emr2558160wrt.94.1706022665555;
+        Tue, 23 Jan 2024 07:11:05 -0800 (PST)
+Received: from [192.168.0.20] ([89.159.1.53])
+        by smtp.gmail.com with ESMTPSA id u7-20020a5d6da7000000b00337d735c193sm3583401wrs.49.2024.01.23.07.11.04
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 23 Jan 2024 07:11:05 -0800 (PST)
+Message-ID: <d21298d9-fed6-4e08-9780-dbcb388b9ccc@smile.fr>
+Date: Tue, 23 Jan 2024 16:11:04 +0100
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] kconfig: remove unneeded symbol_empty variable
+Content-Language: en-US
+To: Geert Uytterhoeven <geert@linux-m68k.org>,
+ Masahiro Yamada <masahiroy@kernel.org>
+Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+ Vegard Nossum <vegard.nossum@oracle.com>
+References: <20231125163559.824210-1-masahiroy@kernel.org>
+ <CAMuHMdWm6u1wX7efZQf=2XUAHascps76YQac6rdnQGhc8nop_Q@mail.gmail.com>
+From: Yoann Congal <yoann.congal@smile.fr>
+Organization: Smile ECS
+In-Reply-To: <CAMuHMdWm6u1wX7efZQf=2XUAHascps76YQac6rdnQGhc8nop_Q@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-The Eagle board supports an optional expansion board. The expansion
-board adds support for HDMI OUT, HDMI capture from two different sources
-and eMMC.
+Le 23/01/2024 à 13:54, Geert Uytterhoeven a écrit :
+> Hi Yamada-san,
 
-This change only adds support for the two HDMI capture sources.
-
-Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
----
- arch/arm64/boot/dts/renesas/Makefile          |   2 +
- .../dts/renesas/r8a77970-eagle-expansion.dtso | 214 ++++++++++++++++++
- 2 files changed, 216 insertions(+)
- create mode 100644 arch/arm64/boot/dts/renesas/r8a77970-eagle-expansion.dtso
-
-diff --git a/arch/arm64/boot/dts/renesas/Makefile b/arch/arm64/boot/dts/renesas/Makefile
-index 8ea68d582710..38fadc161709 100644
---- a/arch/arm64/boot/dts/renesas/Makefile
-+++ b/arch/arm64/boot/dts/renesas/Makefile
-@@ -62,6 +62,8 @@ dtb-$(CONFIG_ARCH_R8A77965) += r8a77965-ulcb.dtb
- dtb-$(CONFIG_ARCH_R8A77965) += r8a77965-ulcb-kf.dtb
+Hello,
  
- dtb-$(CONFIG_ARCH_R8A77970) += r8a77970-eagle.dtb
-+r8a77970-eagle-expansion-dtbs := r8a77970-eagle.dtb r8a77970-eagle-expansion.dtbo
-+dtb-$(CONFIG_ARCH_R8A77970) += r8a77970-eagle-expansion.dtb
- dtb-$(CONFIG_ARCH_R8A77970) += r8a77970-v3msk.dtb
- 
- dtb-$(CONFIG_ARCH_R8A77980) += r8a77980-condor.dtb
-diff --git a/arch/arm64/boot/dts/renesas/r8a77970-eagle-expansion.dtso b/arch/arm64/boot/dts/renesas/r8a77970-eagle-expansion.dtso
-new file mode 100644
-index 000000000000..bd32f263e740
---- /dev/null
-+++ b/arch/arm64/boot/dts/renesas/r8a77970-eagle-expansion.dtso
-@@ -0,0 +1,214 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Device Tree Source for the Eagle V3M expansion board.
-+ *
-+ * Copyright (C) 2024 Niklas Söderlund <niklas.soderlund@ragnatech.se>
-+ */
-+
-+#include <dt-bindings/gpio/gpio.h>
-+#include <dt-bindings/interrupt-controller/irq.h>
-+
-+/dts-v1/;
-+/plugin/;
-+
-+/ {
-+	/* CN4 */
-+	/* Eagle: SW18 set to OFF */
-+	cvbs-in-cn4 {
-+		compatible = "composite-video-connector";
-+		label = "CVBS IN CN4";
-+
-+		port {
-+			cvbs_con: endpoint {
-+				remote-endpoint = <&adv7482_ain7>;
-+			};
-+		};
-+	};
-+
-+	/* CN3 */
-+	/* Eagle: SW18 set to OFF */
-+	hdmi-in-cn3 {
-+		compatible = "hdmi-connector";
-+		label = "HDMI IN CN3";
-+		type = "a";
-+
-+		port {
-+			hdmi_in_con: endpoint {
-+				remote-endpoint = <&adv7482_hdmi>;
-+			};
-+		};
-+	};
-+
-+	/* CN2 */
-+	/* Eagle: SW35 set 5, 6 and 8 to OFF */
-+	hdmi-in-cn2 {
-+		compatible = "hdmi-connector";
-+		label = "HDMI IN CN2";
-+		type = "a";
-+
-+		port {
-+			hdmi_in_con2: endpoint {
-+				remote-endpoint = <&adv7612_in>;
-+			};
-+		};
-+	};
-+};
-+
-+/* Disconnect MAX9286 GMSL i2c. */
-+&i2c3 {
-+	status = "disabled";
-+};
-+
-+/* Connect expansion board i2c. */
-+&i2c0 {
-+	#address-cells = <1>;
-+	#size-cells = <0>;
-+
-+	io_expander_27: gpio@27 {
-+		compatible = "onnn,pca9654";
-+		reg = <0x27>;
-+		gpio-controller;
-+		#gpio-cells = <2>;
-+
-+		vin0_adv7612_en {
-+                       gpio-hog;
-+                       gpios = <0x3 0x0>;
-+                       output-low;
-+                       line-name = "VIN0_ADV7612_ENn";
-+               };
-+	};
-+
-+	dmi-decoder@4c {
-+		compatible = "adi,adv7612";
-+		reg = <0x4c>, <0x50>, <0x52>, <0x54>, <0x56>, <0x58>;
-+		reg-names = "main", "afe", "rep", "edid", "hdmi", "cp";
-+		interrupt-parent = <&gpio3>;
-+		interrupts = <2 IRQ_TYPE_LEVEL_LOW>;
-+		default-input = <0>;
-+
-+		ports {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+
-+			port@0 {
-+				reg = <0>;
-+
-+				adv7612_in: endpoint {
-+					remote-endpoint = <&hdmi_in_con2>;
-+				};
-+			};
-+
-+			port@2 {
-+				reg = <2>;
-+
-+				adv7612_out: endpoint {
-+					remote-endpoint = <&vin0_in>;
-+				};
-+			};
-+		};
-+	};
-+
-+	adv7482_70: video-receiver@70 {
-+		compatible = "adi,adv7482";
-+		reg = <0x70 0x71 0x72 0x73 0x74 0x75
-+		       0x60 0x61 0x62 0x63 0x64 0x65>;
-+		reg-names = "main", "dpll", "cp", "hdmi", "edid", "repeater",
-+			    "infoframe", "cbus", "cec", "sdp", "txa", "txb" ;
-+		interrupt-parent = <&gpio3>;
-+		interrupts = <03 IRQ_TYPE_LEVEL_LOW>, <04 IRQ_TYPE_LEVEL_LOW>;
-+		interrupt-names = "intrq1", "intrq2";
-+
-+		ports {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+
-+			port@7 {
-+				reg = <7>;
-+
-+				adv7482_ain7: endpoint {
-+					remote-endpoint = <&cvbs_con>;
-+				};
-+			};
-+
-+			port@8 {
-+				reg = <8>;
-+
-+				adv7482_hdmi: endpoint {
-+					remote-endpoint = <&hdmi_in_con>;
-+				};
-+			};
-+
-+			port@a {
-+				reg = <10>;
-+
-+				adv7482_txa: endpoint {
-+					clock-lanes = <0>;
-+					data-lanes = <1 2 3 4>;
-+					remote-endpoint = <&csi40_in>;
-+				};
-+			};
-+		};
-+	};
-+
-+};
-+
-+&csi40 {
-+	status = "okay";
-+
-+	ports {
-+		#address-cells = <1>;
-+		#size-cells = <0>;
-+
-+		port@0 {
-+			reg = <0>;
-+
-+			csi40_in: endpoint {
-+				clock-lanes = <0>;
-+				data-lanes = <1 2 3 4>;
-+				remote-endpoint = <&adv7482_txa>;
-+			};
-+		};
-+	};
-+};
-+
-+&pfc {
-+	vin0_pins_parallel: vin0 {
-+		groups = "vin0_data12", "vin0_sync", "vin0_clk", "vin0_clkenb";
-+		function = "vin0";
-+	};
-+};
-+
-+&vin0 {
-+	status = "okay";
-+
-+	pinctrl-0 = <&vin0_pins_parallel>;
-+	pinctrl-names = "default";
-+
-+	ports {
-+		#address-cells = <1>;
-+		#size-cells = <0>;
-+
-+		port@0 {
-+			reg = <0>;
-+
-+			vin0_in: endpoint {
-+				pclk-sample = <0>;
-+				hsync-active = <0>;
-+				vsync-active = <0>;
-+				remote-endpoint = <&adv7612_out>;
-+			};
-+		};
-+	};
-+};
-+
-+&vin1 {
-+	status = "okay";
-+};
-+
-+&vin2 {
-+	status = "okay";
-+};
-+
-+&vin3 {
-+	status = "okay";
-+};
+> On Sat, Nov 25, 2023 at 5:36 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
+>> This is used only for initializing other variables.
+>>
+>> Use the empty string "".
+>>
+>> Please note newval.tri is unused for S_INT/HEX/STRING.
+>>
+>> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> 
+> Thanks for your patch, which is now commit 4e244c10eab345a7
+> ("kconfig: remove unneeded symbol_empty variable") in v6.8-rc1.
+> 
+> When running "make <foo>_defconfig" with <foo>_defconfig an SMP
+> defconfig without explicit configuration of CONFIG_LOG_CPU_MAX_BUF_SHIFT,
+> the aforementioned commit causes a change in the generated .config:
+> 
+> -CONFIG_LOG_CPU_MAX_BUF_SHIFT=12
+> +CONFIG_LOG_CPU_MAX_BUF_SHIFT=0
+> 
+> It looks like CONFIG_BASE_SMALL=0 is treated as a string instead of
+> the integer number zero?
+> 
+> init/Kconfig=config LOG_CPU_MAX_BUF_SHIFT
+> init/Kconfig-   int "CPU kernel log buffer size contribution (13 => 8
+> KB, 17 => 128KB)"
+> init/Kconfig-   depends on SMP
+> init/Kconfig-   range 0 21
+> init/Kconfig:   default 12 if !BASE_SMALL
+> init/Kconfig:   default 0 if BASE_SMALL
+> 
+> Note that reverting 4e244c10eab345a7 is not sufficient to fix the issue.
+> Also reverting commit 6262afa10ef7cc8f ("kconfig: default to zero if
+> int/hex symbol lacks default property") does fix it.
+
+(Since I'd really like 6262afa10ef7cc8f ("kconfig: default to zero if int/hex symbol lacks default property") to stay, allow me to try to help)
+
+The problem is quite easy to reproduce:
+  $ make x86_64_defconfig
+  $ grep 'LOG_CPU_MAX_BUF_SHIFT\|BASE_SMALL\|BASE_FULL' .config
+  CONFIG_LOG_CPU_MAX_BUF_SHIFT=0
+  CONFIG_BASE_FULL=y
+  CONFIG_BASE_SMALL=0
+Here, CONFIG_LOG_CPU_MAX_BUF_SHIFT should be 12 not 0.
+
+For what it is worth, CONFIG_BASE_SMALL is defined as an int but is only used as a bool :
+   $ git grep BASE_SMALL
+  arch/x86/include/asm/mpspec.h:#if CONFIG_BASE_SMALL == 0
+  drivers/tty/vt/vc_screen.c:#define CON_BUF_SIZE (CONFIG_BASE_SMALL ? 256 : PAGE_SIZE)
+  include/linux/threads.h:#define PID_MAX_DEFAULT (CONFIG_BASE_SMALL ? 0x1000 : 0x8000)
+  include/linux/threads.h:#define PID_MAX_LIMIT (CONFIG_BASE_SMALL ? PAGE_SIZE * 8 : \
+  include/linux/udp.h:#define UDP_HTABLE_SIZE_MIN         (CONFIG_BASE_SMALL ? 128 : 256)
+  include/linux/xarray.h:#define XA_CHUNK_SHIFT           (CONFIG_BASE_SMALL ? 4 : 6)
+  init/Kconfig:   default 12 if !BASE_SMALL
+  init/Kconfig:   default 0 if BASE_SMALL
+  init/Kconfig:config BASE_SMALL
+  kernel/futex/core.c:#if CONFIG_BASE_SMALL
+  kernel/user.c:#define UIDHASH_BITS      (CONFIG_BASE_SMALL ? 3 : 7)
+
+Maybe we should change CONFIG_BASE_SMALL to the bool type?
+
+I'll poke around to see if I can understand why a int="0" is true for kconfig.
+
+Regards,
 -- 
-2.43.0
-
+Yoann Congal
+Smile ECS - Tech Expert
 
