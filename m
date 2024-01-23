@@ -1,309 +1,181 @@
-Return-Path: <linux-renesas-soc+bounces-1737-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-1738-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61497839988
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 23 Jan 2024 20:30:02 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6387D8399F9
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 23 Jan 2024 21:07:20 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 5D756B294C5
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 23 Jan 2024 19:25:11 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1BF4C287D99
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 23 Jan 2024 20:07:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2CBEB8003A;
-	Tue, 23 Jan 2024 19:25:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernelci-org.20230601.gappssmtp.com header.i=@kernelci-org.20230601.gappssmtp.com header.b="oaWVTX7m"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ACD7B82D88;
+	Tue, 23 Jan 2024 20:07:18 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx01.omp.ru (mx01.omp.ru [90.154.21.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A0A081207
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 23 Jan 2024 19:25:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6A48823AF;
+	Tue, 23 Jan 2024 20:07:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.154.21.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706037906; cv=none; b=PGrZujwA385y0ym+3UQgi9icke8qPQlj0fDPvjpawXYrFtCPwkrYXDEZ4TlgahWHhutleCZA+jBNdNPGJ4HywrW4BVUMr9ovgQHByYSsuUNh2zHu/5MI0fcyw59mmxIEUUriUj2itbQyxaJ7BoiD25cXwUXicxnCF0RITZBaKyU=
+	t=1706040438; cv=none; b=kFHtrSMy9dbwGCYggcNXiJu+GQTRULSZ2e/sCi9wUDE8EmIbsffly2UH6qka24i1q+aixWJBtRhyK0jrYfzyW+jp51GPC7sZw+JKYGWxaImh+cFhd6RDHe3GRb2BqLlu9ZVPDX1TiZVSMvRR2A4a1DpRIvRA4EXNOnFe7c2dFXs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706037906; c=relaxed/simple;
-	bh=JKyTygTHBu7tYwcE4V8skNvGQoSJcWwAbBBq5SeU+pg=;
-	h=Message-ID:Date:Content-Type:MIME-Version:Subject:To:From; b=AQTgOmrE0GPBYtXOT7I/a7FZsTKE4AfBw56bc88e3hJVLD1ikslTvJIIA0a4yM3rX/buFnn60dovqc2hZLIkJocymLWMH/YPJ23+YZuSDcTkiV6q6FzYS+sKFakfcbtrXCLYAwn0BlTVfJ4rfurz0vHrBYDcor8GcAEsXI1l6i0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernelci.org; spf=none smtp.mailfrom=kernelci.org; dkim=pass (2048-bit key) header.d=kernelci-org.20230601.gappssmtp.com header.i=@kernelci-org.20230601.gappssmtp.com header.b=oaWVTX7m; arc=none smtp.client-ip=209.85.214.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernelci.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=kernelci.org
-Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-1d730b6943bso13004795ad.2
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 23 Jan 2024 11:25:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernelci-org.20230601.gappssmtp.com; s=20230601; t=1706037903; x=1706642703; darn=vger.kernel.org;
-        h=from:to:subject:content-transfer-encoding:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=PmleK6+jOgIuGuZ59nzed7iHfIMcmJgKyFOp8i5amb4=;
-        b=oaWVTX7mMDfNesP3SvEFhxkhs/tK64UUVIb5wI8IDhLc5kY7lfmpIt9x5h/1m5d67x
-         gKE9WKUejfBwC/qXVvy8O08lM6bdSs4aaDM3u4mLvDMllnY3K0Jqih0/LTcg2VVNRaGW
-         W8BbU1kotnT6VyzwQ9WphP28Ck/fIJVCP88tqLoyXGG+IIiNGprTYNYVQubgLczorXDI
-         1QE88uD5ntBHXp5zO4sRTWQBzomLhaOMhs3NTB+LOzVvZ8sopjxaeiw3kIDZe/MYBNeD
-         7djkDyhMh93+Flt3RlufcVA5A69n3+/Vj2QPysxYgbgXTiz1e5XRUrI5eCHOZUdcR+6R
-         +6Gg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706037903; x=1706642703;
-        h=from:to:subject:content-transfer-encoding:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=PmleK6+jOgIuGuZ59nzed7iHfIMcmJgKyFOp8i5amb4=;
-        b=e97+gKicWkvhYFjz52uYUp5XYk4+fRPCBoThXdQTN9EZFYJ7mpm1wY34czuQuS9LOY
-         4FZHKZ+9tG10Ls55AxeLL/mrWtqq5cvl8ALt0oJg/8XdLru1YWEGB47vUdVbcC8kc5bn
-         ZkXfJIc000UqFMr1yi2zablEbYv0UYMLXJEirr1XEBrMNnVjz5QZ2wRaJusDmMIJXGkT
-         oowwKYNiB1qr4B7zDWVvuul4hDkELIHIOdsv0sOaiGO1kDOosmF6dnrmZllmMkdtyJQW
-         +LPi9eD/Vb5+lm4eWY+VRCOi4fIC7UiVPjFcdE7RcWye1nY1eGcfU2RNX86mkkGpVJYV
-         cZ5w==
-X-Gm-Message-State: AOJu0YwOPsr3HnW1cgFQ3gdvjmZxPPdyIt7GHgJN/enhbMwRL7zGB5U0
-	csB/+pdpISeWdyDDs+sVjnrJlttiDBJRLyS4HMrpBPZhoD7lNvKiKAExaLgWHyajZKVwOB5mOo9
-	Gszk=
-X-Google-Smtp-Source: AGHT+IFwwZfeA+UWMBxHslXF6bVWu+DZsLVe1ewf3uEK6IXPlefEJCbY5Wg6ush6o7P+Hp11nKHRgA==
-X-Received: by 2002:a17:902:ed13:b0:1d7:2279:15e9 with SMTP id b19-20020a170902ed1300b001d7227915e9mr3136984pld.122.1706037903438;
-        Tue, 23 Jan 2024 11:25:03 -0800 (PST)
-Received: from kernelci-production.internal.cloudapp.net ([20.171.243.82])
-        by smtp.gmail.com with ESMTPSA id e2-20020a170902744200b001d6f584ee1esm9151078plt.34.2024.01.23.11.25.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 23 Jan 2024 11:25:03 -0800 (PST)
-Message-ID: <65b0128f.170a0220.424dc.0a43@mx.google.com>
-Date: Tue, 23 Jan 2024 11:25:03 -0800 (PST)
-Content-Type: text/plain; charset="utf-8"
+	s=arc-20240116; t=1706040438; c=relaxed/simple;
+	bh=KhzYZEpq/SwWKNc90K35ycdH0fzUhA7Rf9ol9UpQrQU=;
+	h=Subject:To:CC:References:From:Message-ID:Date:MIME-Version:
+	 In-Reply-To:Content-Type; b=BQlssHUBrmrgNbyUW6yC3OT7rPj2KeYvz+a8KBgePtEAYBfrx33/ZiMbjeokvMiyd+r+oAnvtS7OWJNvRvTxRbkYoaCFKb+dIdJeJL2Lg0LQAun4gv2UslbLtx7lVQ+M88+LtiPLB45GGwpkpFvx5YanUBggYCHn0DTQZ1rmgNI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=omp.ru; spf=pass smtp.mailfrom=omp.ru; arc=none smtp.client-ip=90.154.21.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=omp.ru
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=omp.ru
+Received: from [192.168.1.105] (31.173.84.3) by msexch01.omp.ru (10.188.4.12)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.1258.12; Tue, 23 Jan
+ 2024 23:06:57 +0300
+Subject: Re: [PATCH net-next v3 07/19] net: ravb: Move reference clock
+ enable/disable on runtime PM APIs
+To: claudiu beznea <claudiu.beznea@tuxon.dev>, <davem@davemloft.net>,
+	<edumazet@google.com>, <kuba@kernel.org>, <pabeni@redhat.com>,
+	<richardcochran@gmail.com>, <p.zabel@pengutronix.de>,
+	<yoshihiro.shimoda.uh@renesas.com>, <wsa+renesas@sang-engineering.com>
+CC: <netdev@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <geert+renesas@glider.be>, Claudiu Beznea
+	<claudiu.beznea.uj@bp.renesas.com>
+References: <20240105082339.1468817-1-claudiu.beznea.uj@bp.renesas.com>
+ <20240105082339.1468817-8-claudiu.beznea.uj@bp.renesas.com>
+ <80b7337b-5fc2-07bc-a05f-b583ccaac3da@omp.ru>
+ <488abcaa-6f1c-4524-8cd4-375caa5bdf42@tuxon.dev>
+From: Sergey Shtylyov <s.shtylyov@omp.ru>
+Organization: Open Mobile Platform
+Message-ID: <a836b47d-55a3-4a06-93c8-5af75f1f00f6@omp.ru>
+Date: Tue, 23 Jan 2024 23:06:56 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Kernelci-Branch: master
-X-Kernelci-Tree: renesas
-X-Kernelci-Kernel: renesas-devel-2024-01-23-v6.8-rc1
-X-Kernelci-Report-Type: test
-Subject: renesas/master baseline: 54 runs,
- 8 regressions (renesas-devel-2024-01-23-v6.8-rc1)
-To: linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
-From: "kernelci.org bot" <bot@kernelci.org>
-
-renesas/master baseline: 54 runs, 8 regressions (renesas-devel-2024-01-23-v=
-6.8-rc1)
-
-Regressions Summary
--------------------
-
-platform               | arch  | lab           | compiler | defconfig      =
-    | regressions
------------------------+-------+---------------+----------+----------------=
-----+------------
-kontron-kbox-a-230-ls  | arm64 | lab-kontron   | gcc-10   | defconfig      =
-    | 5          =
-
-kontron-sl28-var3-ads2 | arm64 | lab-kontron   | gcc-10   | defconfig      =
-    | 2          =
-
-odroid-xu3             | arm   | lab-collabora | gcc-10   | multi_v7_defcon=
-fig | 1          =
-
-
-  Details:  https://kernelci.org/test/job/renesas/branch/master/kernel/rene=
-sas-devel-2024-01-23-v6.8-rc1/plan/baseline/
-
-  Test:     baseline
-  Tree:     renesas
-  Branch:   master
-  Describe: renesas-devel-2024-01-23-v6.8-rc1
-  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-d=
-evel.git
-  SHA:      05f5ab22e2ee3974e366c09d59419933c49f7a14 =
-
-
-
-Test Regressions
----------------- =
-
-
-
-platform               | arch  | lab           | compiler | defconfig      =
-    | regressions
------------------------+-------+---------------+----------+----------------=
-----+------------
-kontron-kbox-a-230-ls  | arm64 | lab-kontron   | gcc-10   | defconfig      =
-    | 5          =
-
-
-  Details:     https://kernelci.org/test/plan/id/65afe1be98affa443252a401
-
-  Results:     90 PASS, 5 FAIL, 1 SKIP
-  Full config: defconfig
-  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
-110)
-  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
-024-01-23-v6.8-rc1/arm64/defconfig/gcc-10/lab-kontron/baseline-kontron-kbox=
--a-230-ls.txt
-  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
-024-01-23-v6.8-rc1/arm64/defconfig/gcc-10/lab-kontron/baseline-kontron-kbox=
--a-230-ls.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
-t-baseline/20230623.0/arm64/rootfs.cpio.gz =
-
-
-
-  * baseline.bootrr.deferred-probe-empty: https://kernelci.org/test/case/id=
-/65afe1be98affa443252a408
-        failing since 1 day (last pass: renesas-devel-2024-01-08-v6.7, firs=
-t fail: renesas-devel-2024-01-22-v6.8-rc1)
-
-    2024-01-23T15:56:13.626187  / # #
-    2024-01-23T15:56:13.728270  export SHELL=3D/bin/sh
-    2024-01-23T15:56:13.728591  #
-    2024-01-23T15:56:13.829460  / # export SHELL=3D/bin/sh. /lava-421073/en=
-vironment
-    2024-01-23T15:56:13.830261  =
-
-    2024-01-23T15:56:13.931623  / # . /lava-421073/environment/lava-421073/=
-bin/lava-test-runner /lava-421073/1
-    2024-01-23T15:56:13.932874  =
-
-    2024-01-23T15:56:13.937514  / # /lava-421073/bin/lava-test-runner /lava=
--421073/1
-    2024-01-23T15:56:14.001702  + export 'TESTRUN_ID=3D1_bootrr'
-    2024-01-23T15:56:14.035617  + cd /lava-421073/1/tests/1_bootrr =
-
-    ... (14 line(s) more)  =
-
-
-  * baseline.bootrr.fsl_enetc-enetc2-probed: https://kernelci.org/test/case=
-/id/65afe1be98affa443252a40c
-        failing since 1 day (last pass: renesas-devel-2024-01-08-v6.7, firs=
-t fail: renesas-devel-2024-01-22-v6.8-rc1)
-
-    2024-01-23T15:56:16.252046  /lava-421073/1/../bin/lava-test-case
-    2024-01-23T15:56:16.279491  <8>[   26.070378] <LAVA_SIGNAL_TESTCASE TES=
-T_CASE_ID=3Dfsl_enetc-enetc2-probed RESULT=3Dfail>   =
-
-
-  * baseline.bootrr.mscc_felix-probed: https://kernelci.org/test/case/id/65=
-afe1be98affa443252a40e
-        failing since 1 day (last pass: renesas-devel-2024-01-08-v6.7, firs=
-t fail: renesas-devel-2024-01-22-v6.8-rc1)
-
-    2024-01-23T15:56:17.340574  /lava-421073/1/../bin/lava-test-case
-    2024-01-23T15:56:17.367137  <8>[   27.158503] <LAVA_SIGNAL_TESTCASE TES=
-T_CASE_ID=3Dmscc_felix-probed RESULT=3Dfail>   =
-
-
-  * baseline.bootrr.fsl_enetc-enetc0-probed: https://kernelci.org/test/case=
-/id/65afe1be98affa443252a413
-        failing since 1 day (last pass: renesas-devel-2024-01-08-v6.7, firs=
-t fail: renesas-devel-2024-01-22-v6.8-rc1)
-
-    2024-01-23T15:56:18.599503  /lava-421073/1/../bin/lava-test-case
-    2024-01-23T15:56:18.627842  <8>[   28.418251] <LAVA_SIGNAL_TESTCASE TES=
-T_CASE_ID=3Dfsl_enetc-enetc0-probed RESULT=3Dfail>   =
-
-
-  * baseline.bootrr.fsl_enetc-enetc1-probed: https://kernelci.org/test/case=
-/id/65afe1be98affa443252a414
-        failing since 1 day (last pass: renesas-devel-2024-01-08-v6.7, firs=
-t fail: renesas-devel-2024-01-22-v6.8-rc1)
-
-    2024-01-23T15:56:19.651184  /lava-421073/1/../bin/lava-test-case
-    2024-01-23T15:56:19.677280  <8>[   29.468310] <LAVA_SIGNAL_TESTCASE TES=
-T_CASE_ID=3Dfsl_enetc-enetc1-probed RESULT=3Dfail>   =
-
- =
-
-
-
-platform               | arch  | lab           | compiler | defconfig      =
-    | regressions
------------------------+-------+---------------+----------+----------------=
-----+------------
-kontron-sl28-var3-ads2 | arm64 | lab-kontron   | gcc-10   | defconfig      =
-    | 2          =
-
-
-  Details:     https://kernelci.org/test/plan/id/65afe1d3979b9ee76b52a424
-
-  Results:     101 PASS, 2 FAIL, 1 SKIP
-  Full config: defconfig
-  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
-110)
-  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
-024-01-23-v6.8-rc1/arm64/defconfig/gcc-10/lab-kontron/baseline-kontron-sl28=
--var3-ads2.txt
-  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
-024-01-23-v6.8-rc1/arm64/defconfig/gcc-10/lab-kontron/baseline-kontron-sl28=
--var3-ads2.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
-t-baseline/20230623.0/arm64/rootfs.cpio.gz =
-
-
-
-  * baseline.bootrr.deferred-probe-empty: https://kernelci.org/test/case/id=
-/65afe1d3979b9ee76b52a42b
-        failing since 1 day (last pass: renesas-devel-2024-01-08-v6.7, firs=
-t fail: renesas-devel-2024-01-22-v6.8-rc1)
-
-    2024-01-23T15:56:36.110738  / # #
-    2024-01-23T15:56:36.212763  export SHELL=3D/bin/sh
-    2024-01-23T15:56:36.213381  #
-    2024-01-23T15:56:36.314510  / # export SHELL=3D/bin/sh. /lava-421075/en=
-vironment
-    2024-01-23T15:56:36.315269  =
-
-    2024-01-23T15:56:36.416482  / # . /lava-421075/environment/lava-421075/=
-bin/lava-test-runner /lava-421075/1
-    2024-01-23T15:56:36.417176  =
-
-    2024-01-23T15:56:36.421877  / # /lava-421075/bin/lava-test-runner /lava=
--421075/1
-    2024-01-23T15:56:36.486071  + export 'TESTRUN_ID=3D1_bootrr'
-    2024-01-23T15:56:36.519730  + cd /lava-421075/1/tests/1_bootrr =
-
-    ... (10 line(s) more)  =
-
-
-  * baseline.bootrr.fsl_enetc-enetc0-probed: https://kernelci.org/test/case=
-/id/65afe1d3979b9ee76b52a43e
-        failing since 1 day (last pass: renesas-devel-2024-01-08-v6.7, firs=
-t fail: renesas-devel-2024-01-22-v6.8-rc1)
-
-    2024-01-23T15:56:39.449144  /lava-421075/1/../bin/lava-test-case
-    2024-01-23T15:56:39.479267  <8>[   27.056008] <LAVA_SIGNAL_TESTCASE TES=
-T_CASE_ID=3Dfsl_enetc-enetc0-probed RESULT=3Dfail>   =
-
- =
-
-
-
-platform               | arch  | lab           | compiler | defconfig      =
-    | regressions
------------------------+-------+---------------+----------+----------------=
-----+------------
-odroid-xu3             | arm   | lab-collabora | gcc-10   | multi_v7_defcon=
-fig | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/65afdff70f679bda3252a3f1
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: multi_v7_defconfig
-  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
-10110)
-  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
-024-01-23-v6.8-rc1/arm/multi_v7_defconfig/gcc-10/lab-collabora/baseline-odr=
-oid-xu3.txt
-  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
-024-01-23-v6.8-rc1/arm/multi_v7_defconfig/gcc-10/lab-collabora/baseline-odr=
-oid-xu3.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
-t-baseline/20230623.0/armel/rootfs.cpio.gz =
-
-
-
-  * baseline.login: https://kernelci.org/test/case/id/65afdff70f679bda3252a=
-3f2
-        new failure (last pass: renesas-devel-2024-01-22-v6.8-rc1) =
-
- =20
+In-Reply-To: <488abcaa-6f1c-4524-8cd4-375caa5bdf42@tuxon.dev>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: msexch01.omp.ru (10.188.4.12) To msexch01.omp.ru
+ (10.188.4.12)
+X-KSE-ServerInfo: msexch01.omp.ru, 9
+X-KSE-AntiSpam-Interceptor-Info: scan successful
+X-KSE-AntiSpam-Version: 6.1.0, Database issued on: 01/23/2024 19:55:12
+X-KSE-AntiSpam-Status: KAS_STATUS_NOT_DETECTED
+X-KSE-AntiSpam-Method: none
+X-KSE-AntiSpam-Rate: 59
+X-KSE-AntiSpam-Info: Lua profiles 182874 [Jan 23 2024]
+X-KSE-AntiSpam-Info: Version: 6.1.0.3
+X-KSE-AntiSpam-Info: Envelope from: s.shtylyov@omp.ru
+X-KSE-AntiSpam-Info: LuaCore: 7 0.3.7 6d6bf5bd8eea7373134f756a2fd73e9456bb7d1a
+X-KSE-AntiSpam-Info: {rep_avail}
+X-KSE-AntiSpam-Info: {Tracking_uf_ne_domains}
+X-KSE-AntiSpam-Info: {Tracking_from_domain_doesnt_match_to}
+X-KSE-AntiSpam-Info: {relay has no DNS name}
+X-KSE-AntiSpam-Info: {SMTP from is not routable}
+X-KSE-AntiSpam-Info: {Found in DNSBL: 31.173.84.3 in (user) dbl.spamhaus.org}
+X-KSE-AntiSpam-Info:
+	d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;omp.ru:7.1.1;127.0.0.199:7.1.2;elixir.bootlin.com:7.1.1
+X-KSE-AntiSpam-Info: ApMailHostAddress: 31.173.84.3
+X-KSE-AntiSpam-Info: {DNS response errors}
+X-KSE-AntiSpam-Info: Rate: 59
+X-KSE-AntiSpam-Info: Status: not_detected
+X-KSE-AntiSpam-Info: Method: none
+X-KSE-AntiSpam-Info: Auth:dmarc=temperror header.from=omp.ru;spf=temperror
+ smtp.mailfrom=omp.ru;dkim=none
+X-KSE-Antiphishing-Info: Clean
+X-KSE-Antiphishing-ScanningType: Heuristic
+X-KSE-Antiphishing-Method: None
+X-KSE-Antiphishing-Bases: 01/23/2024 19:59:00
+X-KSE-Antivirus-Interceptor-Info: scan successful
+X-KSE-Antivirus-Info: Clean, bases: 1/23/2024 5:23:00 PM
+X-KSE-Attachment-Filter-Triggered-Rules: Clean
+X-KSE-Attachment-Filter-Triggered-Filters: Clean
+X-KSE-BulkMessagesFiltering-Scan-Result: InTheLimit
+
+On 1/8/24 11:03 AM, claudiu beznea wrote:
+
+   Oops, looks like I forgot to reply to this one...
+
+[...]
+>>> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+>>>
+>>> Reference clock could be or not part of the power domain. If it is part of
+>>> the power domain, the power domain takes care of propertly setting it. In
+>>> case it is not part of the power domain and full runtime PM support is
+>>> available in driver the clock will not be propertly disabled/enabled at
+>>> runtime. For this, keep the prepare/unprepare operations in the driver's
+>>> probe()/remove() functions and move the enable/disable in runtime PM
+>>> functions.
+>>>
+>>> Along with it, the other clock request operations were moved close to
+>>> reference clock request and prepare to have all the clock requests
+>>> specific code grouped together.
+>>>
+>>> Reviewed-by: Sergey Shtylyov <s.shtylyov@omp.ru>
+
+[...]
+
+>>> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+[...]
+
+>>> diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
+>>> index 844ac3306e93..4673cc2faec0 100644
+>>> --- a/drivers/net/ethernet/renesas/ravb_main.c
+>>> +++ b/drivers/net/ethernet/renesas/ravb_main.c
+[...]
+>>> +	pm_runtime_enable(&pdev->dev);
+>>> +	error = pm_runtime_resume_and_get(&pdev->dev);
+>>> +	if (error < 0)
+>>> +		goto out_rpm_disable;
+>>> +
+>>>  	priv->addr = devm_platform_get_and_ioremap_resource(pdev, 0, &res);
+>>>  	if (IS_ERR(priv->addr)) {
+>>>  		error = PTR_ERR(priv->addr);
+>>> -		goto out_release;
+>>> +		goto out_rpm_put;
+>>>  	}
+>>>  
+>>>  	/* The Ether-specific entries in the device structure. */
+[...]
+>>> @@ -3060,21 +3058,27 @@ static int ravb_resume(struct device *dev)
+>>>  	return ret;
+>>>  }
+>>>  
+>>> -static int ravb_runtime_nop(struct device *dev)
+>>> +static int ravb_runtime_suspend(struct device *dev)
+>>>  {
+>>> -	/* Runtime PM callback shared between ->runtime_suspend()
+>>> -	 * and ->runtime_resume(). Simply returns success.
+>>> -	 *
+>>> -	 * This driver re-initializes all registers after
+>>> -	 * pm_runtime_get_sync() anyway so there is no need
+>>> -	 * to save and restore registers here.
+>>> -	 */
+>>
+>>    Perhaps even worth a separate patch to completely remove this function
+>> which doesn't seem to make sense?
+> 
+> Why? With that the refclk will not be properly enabled/disabled when it
+> will not be part of the power domain. Take
+
+   That's what you are adding in this patch, right? Before this patch
+this was ravb_runtime_nop(), always returning 0. Did it make any sense?
+
+> https://elixir.bootlin.com/linux/v6.7/source/arch/arm64/boot/dts/renesas/beacon-renesom-som.dtsi#L57
+> as an example. Here refclk is from an external source (not part of power
+> domain).
+> 
+> Thank you,
+> Claudiu Beznea
+
+[...]
+
+MBR, Sergey
 
