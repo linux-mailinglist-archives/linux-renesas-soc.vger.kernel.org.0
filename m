@@ -1,193 +1,107 @@
-Return-Path: <linux-renesas-soc+bounces-1744-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-1745-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1EEC839BF5
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 23 Jan 2024 23:17:21 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id C1B6D839DF6
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Jan 2024 02:09:31 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6DAAB283A7B
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 23 Jan 2024 22:17:20 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 4A4D3B216F4
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Jan 2024 01:09:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id ADE814E1D8;
-	Tue, 23 Jan 2024 22:17:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9346710E3;
+	Wed, 24 Jan 2024 01:09:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="ZddDnMBI"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="O1wMluka"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8817D3A8F5;
-	Tue, 23 Jan 2024 22:17:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B19E137B;
+	Wed, 24 Jan 2024 01:09:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706048236; cv=none; b=XqtZjg/D/mO4Cu77zZPaM8djDMJGJlb1UQ5S+BHlD3KKwmqSnR2wNONqv/KNAx2E/AMZ6VvgLWQKNg2GMlPOf5PETE1g+CTCAg3uj8vT+EatLSfFeJndEEU1ZRCRZ6JTZWd4r/xfCy9SC3mFgmwixwzx0huezq3EGYbuTStQvCg=
+	t=1706058563; cv=none; b=CZXRTkvWS5eWlgKXBFqkjp8WuEIk/8PU+90AJDTRWMW3aqlzzXkYlG/53O+ZDbmA8rTJZCdmAWunQEUGfeLldhoPp5dp1aphm/hEhQ1XX6n0eD+Iy+rRDFibpaA4kXs3AWnITr4BVfTwPmdBbCUPh9b330xvYEp9SzLlsP9OewI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706048236; c=relaxed/simple;
-	bh=ZYrkozOyLePsyDUHkFeLK+Ms9MTJKTDC30haTRwkBfE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kQVAO4OGIBUs7DImpXI5VwN2aCIGmYodfPBamOWTYEkA6Sc5yyqZFtRn+gw5yrTsUs5ES/tkihi3/JoVhqeXeiFEajEp5Ec7wgXcj68/Gr7gMyN1WpOBeaFR0A0+q4/QDtTMGdm47qkrNaF0laGPxSdg156P7D92G3+AeUhpkdw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=ZddDnMBI; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (89-27-53-110.bb.dnainternet.fi [89.27.53.110])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id A1AC71890;
-	Tue, 23 Jan 2024 23:15:57 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1706048157;
-	bh=ZYrkozOyLePsyDUHkFeLK+Ms9MTJKTDC30haTRwkBfE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ZddDnMBIjyJ/f4w1rGaDYwbdRpJfJQZXc3qPnS/UpBP16aGtIwxAqIPjjshVmuwkr
-	 PDjPjKjC6iKaaFsqY92yM29onhtS4+9+jBd9CxY9086SmMx3aQlemnFnZpHJ+ODwwi
-	 ZcfowKlCok8fQG81IKdaprQxlEHX/JZE6HhXxAD8=
-Date: Wed, 24 Jan 2024 00:17:09 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+	s=arc-20240116; t=1706058563; c=relaxed/simple;
+	bh=hh+BQBDKz7XNgSUhocwrdf0ZJxAtOsRrIA4Y4xBDuAQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=gQDwPlhIK0JfTYKNKaSnyuf6qo27OHBCNSqcWQ1Mdp3mvEdy+vv9uAX2XTgFf5JXj31H0idI5dI9ZLf/Nt/n4ayOWsjY+Bk3uROwBPkoLu3sJiCkMEK8M+n+QhgsJV2NPXDbckSI6Mlx8v/YjdZn7XRGf87BxQ5aWJC2APEO2s8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=O1wMluka; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A6AFFC433F1;
+	Wed, 24 Jan 2024 01:09:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1706058563;
+	bh=hh+BQBDKz7XNgSUhocwrdf0ZJxAtOsRrIA4Y4xBDuAQ=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=O1wMluka/uXixVJQrH8yD4sb19h30O5qLKpQjZqIHtk8baGxHk2vaVkE2bBabxq8I
+	 +wFON6A1OCvMdCoDOBX+/ae1aN0Dw8VVbJZD6yhp1bA0fmluco84DThmnVde1kVS6r
+	 fPdYkpFfvtEaEisL/OUfgHgzeavfq9VVzpXrq41neRffd8DmqmJVDY1ZS/voQME25c
+	 EOBXU/YNK0c4YfyuDFFojhURVfHPLO7g7dkeWOMj02FWbJG8xv3FUpkGOGO2Xj4t/Z
+	 a4plablGfJkvdF/wBTjYNdITaWqVGx9vutOD4exYFHRhUk57JX2NVaj2dlKpydkcKQ
+	 YRmf8pqGyxiXg==
+Date: Tue, 23 Jan 2024 17:09:21 -0800
+From: Jakub Kicinski <kuba@kernel.org>
 To: Biju Das <biju.das.jz@bp.renesas.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
-	Rob Herring <robh@kernel.org>,
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	"biju.das.au" <biju.das.au@gmail.com>,
-	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>
-Subject: Re: [PATCH 1/4] media: platform: rzg2l-cru: rzg2l-csi2: Switch to
- RUNTIME_PM_OPS()
-Message-ID: <20240123221709.GB16581@pendragon.ideasonboard.com>
-References: <20240123115821.292787-1-biju.das.jz@bp.renesas.com>
- <20240123115821.292787-2-biju.das.jz@bp.renesas.com>
- <20240123152906.GP10679@pendragon.ideasonboard.com>
- <TYCPR01MB11269085947ED450E817D54BB86742@TYCPR01MB11269.jpnprd01.prod.outlook.com>
+Cc: "David S. Miller" <davem@davemloft.net>, Eric Dumazet
+ <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Sergey Shtylyov
+ <s.shtylyov@omp.ru>, Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
+ Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>, Wolfram Sang
+ <wsa+renesas@sang-engineering.com>, Nikita Yushchenko
+ <nikita.yoush@cogentembedded.com>, netdev@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org, Geert Uytterhoeven
+ <geert+renesas@glider.be>, Prabhakar Mahadev Lad
+ <prabhakar.mahadev-lad.rj@bp.renesas.com>, Biju Das <biju.das.au@gmail.com>
+Subject: Re: [PATCH net-next 1/2] ravb: Add Rx checksum offload support
+Message-ID: <20240123170921.51089d41@kernel.org>
+In-Reply-To: <20240123151924.373917-2-biju.das.jz@bp.renesas.com>
+References: <20240123151924.373917-1-biju.das.jz@bp.renesas.com>
+	<20240123151924.373917-2-biju.das.jz@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <TYCPR01MB11269085947ED450E817D54BB86742@TYCPR01MB11269.jpnprd01.prod.outlook.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Tue, Jan 23, 2024 at 06:33:57PM +0000, Biju Das wrote:
-> > On Tue, Jan 23, 2024 at 11:58:18AM +0000, Biju Das wrote:
-> > > SET_RUNTIME_PM_OPS() are deprecated
-> > 
-> > Not that I particularly care about SET_RUNTIME_PM_OPS, but I'm not aware
-> > of it being deprecated. Has that been announced somewhere ?
-> 
-> I was under the impression from [1], this is new style and old style going to be deprecated.
-> 
-> If it is not the case, I would like to drop this patch.
-> 
-> [1] https://www.spinics.net/lists/stable/msg691416.html
+On Tue, 23 Jan 2024 15:19:23 +0000 Biju Das wrote:
+> +static void ravb_rx_csum_gbeth(struct sk_buff *skb)
+> +{
+> +	__sum16 csum_ip_hdr, csum_proto;
+> +	u8 *hw_csum;
+> +
+> +	/* The hardware checksum status is contained in sizeof(__sum16) * 2 = 4
+> +	 * bytes appended to packet data. First 2 bytes is ip header csum and
+> +	 * last 2 bytes is protocol csum.
+> +	 */
+> +	if (unlikely(skb->len < sizeof(__sum16) * 2))
+> +		return;
+> +
+> +	hw_csum = skb_tail_pointer(skb) - sizeof(__sum16);
+> +	csum_proto = csum_unfold((__force __sum16)get_unaligned_le16(hw_csum));
+> +
+> +	hw_csum -= sizeof(__sum16);
+> +	csum_ip_hdr = csum_unfold((__force __sum16)get_unaligned_le16(hw_csum));
+> +	skb_trim(skb, skb->len - 2 * sizeof(__sum16));
+> +
+> +	/* TODO: IPV6 Rx csum */
+> +	if (skb->protocol == htons(ETH_P_IP) && csum_ip_hdr == TOE_RX_CSUM_OK &&
+> +	    csum_proto == TOE_RX_CSUM_OK)
+> +		/* Hardware validated our checksum */
+> +		skb->ip_summed = CHECKSUM_UNNECESSARY;
+> +}
 
-I'm not against this change, I was just wondering about the status of
-SET_RUNTIME_PM_OPS. If you think using RUNTIME_PM_OPS is better, I have
-no problem with that. The commit message should probably state that the
-latter is better, instead of saying that SET_RUNTIME_PM_OPS is
-deprecated.
+sparse does not seem to be onboard:
 
-> > > and require __maybe_unused
-> > > protection against unused function warnings. The usage of pm_ptr() and
-> > > RUNTIME_PM_OPS() allows the compiler to see the functions, thus
-> > > suppressing the warning. Thus drop the __maybe_unused markings.
-> > 
-> > Have you tried to compile this with CONFIG_PM disabled, and confirmed the
-> > compiler doesn't generate any warning ?
-> 
-> I am not able to compile with CONFIG_PM disabled as it is throwing errors in power management code.
-> 
-> kernel/power/suspend.c: In function ‘suspend_prepare’:
-> kernel/power/suspend.c:360:10: error: implicit declaration of function ‘pm_notifier_call_chain_robust’; did you mean ‘raw_notifier_call_chain_robust’? [-Werror=implicit-function-declaration]
->   360 |  error = pm_notifier_call_chain_robust(PM_SUSPEND_PREPARE, PM_POST_SUSPEND);
->       |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->       |          raw_notifier_call_chain_robust
-> kernel/power/hibernate.c:325:2: error: implicit declaration of function ‘save_processor_state’ [-Werror=implicit-function-declaration]
->   325 |  save_processor_state();
->       |  ^~~~~~~~~~~~~~~~~~~~
-> kernel/power/suspend.c:372:2: error: implicit declaration of function ‘pm_notifier_call_chain’; did you mean ‘raw_notifier_call_chain’? [-Werror=implicit-function-declaration]
->   372 |  pm_notifier_call_chain(PM_POST_SUSPEND);
->       |  ^~~~~~~~~~~~~~~~~~~~~~
->       |  raw_notifier_call_chain
->   CC      io_uring/timeout.o
-> kernel/power/suspend.c: In function ‘suspend_enter’:
-> kernel/power/suspend.c:405:10: error: implicit declaration of function ‘dpm_suspend_late’; did you mean ‘dpm_suspend_start’? [-Werror=implicit-function-declaration]
->   405 |  error = dpm_suspend_late(PMSG_SUSPEND);
->       |          ^~~~~~~~~~~~~~~~
->       |          dpm_suspend_start 
-
-I'm surprised. Sakari, isn't !CONFIG_PM supposed to be supported ?
-
-> > > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> > > ---
-> > >  drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c | 8 ++++----
-> > >  1 file changed, 4 insertions(+), 4 deletions(-)
-> > >
-> > > diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c
-> > > b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c
-> > > index d20f4eff93a4..c4609da9bf1a 100644
-> > > --- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c
-> > > +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c
-> > > @@ -834,7 +834,7 @@ static void rzg2l_csi2_remove(struct platform_device
-> > *pdev)
-> > >  	pm_runtime_disable(&pdev->dev);
-> > >  }
-> > >
-> > > -static int __maybe_unused rzg2l_csi2_pm_runtime_suspend(struct device
-> > > *dev)
-> > > +static int rzg2l_csi2_pm_runtime_suspend(struct device *dev)
-> > >  {
-> > >  	struct rzg2l_csi2 *csi2 = dev_get_drvdata(dev);
-> > >
-> > > @@ -843,7 +843,7 @@ static int __maybe_unused
-> > rzg2l_csi2_pm_runtime_suspend(struct device *dev)
-> > >  	return 0;
-> > >  }
-> > >
-> > > -static int __maybe_unused rzg2l_csi2_pm_runtime_resume(struct device
-> > > *dev)
-> > > +static int rzg2l_csi2_pm_runtime_resume(struct device *dev)
-> > >  {
-> > >  	struct rzg2l_csi2 *csi2 = dev_get_drvdata(dev);
-> > >
-> > > @@ -851,7 +851,7 @@ static int __maybe_unused
-> > > rzg2l_csi2_pm_runtime_resume(struct device *dev)  }
-> > >
-> > >  static const struct dev_pm_ops rzg2l_csi2_pm_ops = {
-> > > -	SET_RUNTIME_PM_OPS(rzg2l_csi2_pm_runtime_suspend,
-> > rzg2l_csi2_pm_runtime_resume, NULL)
-> > > +	RUNTIME_PM_OPS(rzg2l_csi2_pm_runtime_suspend,
-> > > +rzg2l_csi2_pm_runtime_resume, NULL)
-> > 
-> > While at it, I would wrap the line to
-> > 
-> > 	RUNTIME_PM_OPS(rzg2l_csi2_pm_runtime_suspend,
-> > 		       rzg2l_csi2_pm_runtime_resume, NULL)
-> > 
-> > Up to you.
-> 
-> If it is not a requirement to move to use the modern pm_ops/pm_sleep_ops
-> then as said in the above I would like to drop this patch.
-> 
-> > >  };
-> > >
-> > >  static const struct of_device_id rzg2l_csi2_of_table[] = { @@ -865,7
-> > > +865,7 @@ static struct platform_driver rzg2l_csi2_pdrv = {
-> > >  	.driver	= {
-> > >  		.name = "rzg2l-csi2",
-> > >  		.of_match_table = rzg2l_csi2_of_table,
-> > > -		.pm = &rzg2l_csi2_pm_ops,
-> > > +		.pm = pm_ptr(&rzg2l_csi2_pm_ops),
-> > >  	},
-> > >  };
-> > >
-
+drivers/net/ethernet/renesas/ravb_main.c:771:20: warning: incorrect type in assignment (different base types)
+drivers/net/ethernet/renesas/ravb_main.c:771:20:    expected restricted __sum16 [usertype] csum_proto
+drivers/net/ethernet/renesas/ravb_main.c:771:20:    got restricted __wsum
+drivers/net/ethernet/renesas/ravb_main.c:774:21: warning: incorrect type in assignment (different base types)
+drivers/net/ethernet/renesas/ravb_main.c:774:21:    expected restricted __sum16 [usertype] csum_ip_hdr
+drivers/net/ethernet/renesas/ravb_main.c:774:21:    got restricted __wsum
 -- 
-Regards,
-
-Laurent Pinchart
+pw-bot: cr
 
