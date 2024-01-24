@@ -1,133 +1,95 @@
-Return-Path: <linux-renesas-soc+bounces-1771-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-1772-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DA2A83A742
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Jan 2024 11:53:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A966883A7CD
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Jan 2024 12:28:39 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2534D1F23877
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Jan 2024 10:53:15 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 608961F2198D
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Jan 2024 11:28:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 21CC3199DC;
-	Wed, 24 Jan 2024 10:53:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ixOxMw5F"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7980B2BAFD;
+	Wed, 24 Jan 2024 11:27:25 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from andre.telenet-ops.be (andre.telenet-ops.be [195.130.132.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E756019478;
-	Wed, 24 Jan 2024 10:53:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 608904F213
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 24 Jan 2024 11:27:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.132.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706093589; cv=none; b=XVam+Z1HFeatYV4lxYd2nAuYrudCAyO4/s3lY6q64WYMDe5qoxKY2oayY8yV/zCEwDfsbrIPWoVDFQLetWBzOBv8paA5Sds3UfEV0MxN1bNhMndf5ZbIgT8Z6sdgoQ7zEkeiev9oIakYzqfhqli4E9KwjvurgDssPcGp2SzwPUQ=
+	t=1706095645; cv=none; b=cVP5t8EtVzvEYoTEUKd4iipt8i/vM1KRG/pD3CzMzEZNjM+Xnq10cicfpcvIMX+eewWIc5IBMaw6ISot7xHJR0chI17WffdY3OwIpwrGDenpUl2JMag6fTdILrmDIzuJGw57N9PYaLWQ9t/hQ8zypQg+afZL5aMf1MZzcnbG/1g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706093589; c=relaxed/simple;
-	bh=fRgI8TKe4TKT/CoqSe6b8eZTQCRj+3aZnKViQg8ViUY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cZvohiZRqmoItiJVzUlzHLWDXKTvKqg3M5szZ77CYeRqq/AwA/odE46X7zjwxmrznPeNrV/YA57+FrzKx2YEUVMARiXk/3LJ0uQLqNhk/YXRETYdcR6kE/N6QvF/E4GFSBLbkYFMgv4LZvbEsXfCRT1idNyNlAj9FKEZ14Dr0oo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ixOxMw5F; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EE588C433C7;
-	Wed, 24 Jan 2024 10:53:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1706093588;
-	bh=fRgI8TKe4TKT/CoqSe6b8eZTQCRj+3aZnKViQg8ViUY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ixOxMw5FcDNAqJhnJyrgJmvMbZ1a5j6Aa5lWfeiyWmx6Ch/xgFkX166AtrluDWK/c
-	 3gxEoXGl5KfF2eo8XKNkkn9FdNkATkEGcxV4Xt/4sgzGCRVZKhI4Qzye0a5QjTjZgX
-	 GsCbuvU9/7yFHDwo0zichXRUK68Lty75ebKlSUueQPJr6t7ds8BDog97Pwq3iqU44T
-	 S4WL9jlWOeKrlPz4vl9l6wUQjfdqjYo7YP9F1XLbWA6l/qoU7JLirvtUhNBs2c3zY0
-	 BrRxzGf8OVQICKnEc9pjDm7lVuBbiNtBRJ8WLPVSPMOUxxJE26HGRv5EksXfcDYRfi
-	 hcJkhJpFe75Mw==
-Date: Wed, 24 Jan 2024 11:53:05 +0100
-From: Wolfram Sang <wsa@kernel.org>
-To: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh+dt@kernel.org>,
+	s=arc-20240116; t=1706095645; c=relaxed/simple;
+	bh=6VDh3wL5ti4wgvGDaxABXFql+P9T7N0Vzenk3+vbTjU=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=mBNllMtS14Dv2npPiCGDEUxJnjzJ26f4LnNDHjPG09AylhKxfLrAoNg3iwqXP+7VRqiBVkumq4hJF2XK1dbDQTHWtctkhvzBDykBo3U6UQaDbbbhGPrqtPWKrSPx8m9oatBzS/yEG0EQvl54CIMKfnqtUBWMVY/vltEKl3q4vL0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.132.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed40:bc9e:fcb8:8aa3:5dc0])
+	by andre.telenet-ops.be with bizsmtp
+	id ebTJ2B00F58agq201bTJ0u; Wed, 24 Jan 2024 12:27:19 +0100
+Received: from rox.of.borg ([192.168.97.57])
+	by ramsan.of.borg with esmtp (Exim 4.95)
+	(envelope-from <geert@linux-m68k.org>)
+	id 1rSbOm-00GQaV-JD;
+	Wed, 24 Jan 2024 12:27:18 +0100
+Received: from geert by rox.of.borg with local (Exim 4.95)
+	(envelope-from <geert@linux-m68k.org>)
+	id 1rSbPa-00F3vH-Fp;
+	Wed, 24 Jan 2024 12:27:18 +0100
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jiri Slaby <jirislaby@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>,
 	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>, Ulf Hansson <ulf.hansson@linaro.org>,
-	Cong Dang <cong.dang.xn@renesas.com>,
-	Duy Nguyen <duy.nguyen.rh@renesas.com>,
-	Hai Pham <hai.pham.ud@renesas.com>,
-	Linh Phung <linh.phung.jy@renesas.com>,
-	linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-pm@vger.kernel.org
-Subject: Re: [PATCH 15/15] arm64: defconfig: Enable R8A779H0 SoC
-Message-ID: <ZbDsEU2z1C_4diTM@ninjato>
-Mail-Followup-To: Wolfram Sang <wsa@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>, Ulf Hansson <ulf.hansson@linaro.org>,
-	Cong Dang <cong.dang.xn@renesas.com>,
-	Duy Nguyen <duy.nguyen.rh@renesas.com>,
-	Hai Pham <hai.pham.ud@renesas.com>,
-	Linh Phung <linh.phung.jy@renesas.com>,
-	linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-pm@vger.kernel.org
-References: <cover.1704726960.git.geert+renesas@glider.be>
- <db4ab7b72dc2f40085f19957f93b5442ca391fd6.1704726960.git.geert+renesas@glider.be>
+	Conor Dooley <conor+dt@kernel.org>
+Cc: linux-serial@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	Nghia Nguyen <nghia.nguyen.jg@renesas.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH] dt-bindings: serial: renesas,hscif: Document r8a779h0 bindings
+Date: Wed, 24 Jan 2024 12:27:15 +0100
+Message-Id: <55b458e0ba9824e1246e556075bf882032c37279.1706095578.git.geert@linux-m68k.org>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="bJ2xvEoFeWU4mZ1F"
-Content-Disposition: inline
-In-Reply-To: <db4ab7b72dc2f40085f19957f93b5442ca391fd6.1704726960.git.geert+renesas@glider.be>
+Content-Transfer-Encoding: 8bit
 
+From: Nghia Nguyen <nghia.nguyen.jg@renesas.com>
 
---bJ2xvEoFeWU4mZ1F
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+The R-Car V4M (R8A779H0) SoC has R-Car Gen4 compatible HSCIF ports, so
+document the SoC-specific bindings.
 
-On Mon, Jan 08, 2024 at 04:33:54PM +0100, Geert Uytterhoeven wrote:
-> From: Linh Phung <linh.phung.jy@renesas.com>
->=20
-> Enable support for the Renesas R-Car V4M (R8A779H0) SoC in the ARM64
-> defconfig.
->=20
-> Signed-off-by: Linh Phung <linh.phung.jy@renesas.com>
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Signed-off-by: Nghia Nguyen <nghia.nguyen.jg@renesas.com>
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+Changes compared to the BSP:
+  - Split in separate HSCIF and SCIF commits.
+---
+ Documentation/devicetree/bindings/serial/renesas,hscif.yaml | 1 +
+ 1 file changed, 1 insertion(+)
 
-Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+diff --git a/Documentation/devicetree/bindings/serial/renesas,hscif.yaml b/Documentation/devicetree/bindings/serial/renesas,hscif.yaml
+index 2046e2dc0a3d190e..9480ed30915c9c4e 100644
+--- a/Documentation/devicetree/bindings/serial/renesas,hscif.yaml
++++ b/Documentation/devicetree/bindings/serial/renesas,hscif.yaml
+@@ -59,6 +59,7 @@ properties:
+               - renesas,hscif-r8a779a0     # R-Car V3U
+               - renesas,hscif-r8a779f0     # R-Car S4-8
+               - renesas,hscif-r8a779g0     # R-Car V4H
++              - renesas,hscif-r8a779h0     # R-Car V4M
+           - const: renesas,rcar-gen4-hscif # R-Car Gen4
+           - const: renesas,hscif           # generic HSCIF compatible UART
+ 
+-- 
+2.34.1
 
-
---bJ2xvEoFeWU4mZ1F
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmWw7BEACgkQFA3kzBSg
-KbY/JQ/+PT+Y/iWQ+m3vrkErMMKgF415lb7D4ZbGmFGHODMFjNAD0FIJTffZ2fDo
-q95UUvlxu3M2VQddneEB97ZsQWgZ+2szRyTrOogmbf3XEbgNY2rhkhbH3FR157u3
-Jth6Ai6kvNvcYK5AjYyLLIvgyEfT2L8N8AVrmEAYiRaWhOAwSqnE8V4fesmR87Uy
-8Tn4cSWklQggQG9AWQ9Q+3056ZctyHhUFmqXmFmaQ5ZVevrmxiSuPTikUrfYxBop
-ui35IS6UkyIANuQipqULfuwBuyrxTgAZzEZX5ga8/LPFYG3zMuRhf/FyE6Qtedsq
-/oW3WixgN/sh7faXKvmEZt8eg9VPTqO+dJ50BgbuZ6sJZTm6dOlFkFB+1/+e+iaZ
-ExMVBiVCS4nTZnDywl5Rpo+7QPzB6KqPe0z0kWCSgwcwHlr9zUD1hP4U/cWkNuA/
-2ST+nKJUxD03xLiLWFXN54z7BqfjloKwI0XS4phJQhP88LttG72Kb2tey7kemARx
-QpH3Hn0CGKtqZTjIGoSDnFkyVY8KzbMrEr+BLgVNXGfj7Km9rB3uCfotK3IvjAGS
-KZVhlRiln+Ea1E+CyglqUBOUaz7PI6hW4eZAr+h9kJ+zIAtqVhTbsstWZIy+nIPS
-QghhOGVEoieCsd/D88YYDRpiKs0PMtv5UfnQVOWWox6vvSYb3Uk=
-=dHbB
------END PGP SIGNATURE-----
-
---bJ2xvEoFeWU4mZ1F--
 
