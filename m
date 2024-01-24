@@ -1,47 +1,47 @@
-Return-Path: <linux-renesas-soc+bounces-1766-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-1767-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id B904F83A708
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Jan 2024 11:41:55 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id C321783A727
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Jan 2024 11:48:47 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2D3CC1F2CC83
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Jan 2024 10:41:55 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7CC7528C624
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Jan 2024 10:48:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 81E1217C65;
-	Wed, 24 Jan 2024 10:41:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4CF52199A2;
+	Wed, 24 Jan 2024 10:48:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="K1GgWZHo"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cDy3LpDW"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5341E156E4;
-	Wed, 24 Jan 2024 10:41:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20D561AAAE;
+	Wed, 24 Jan 2024 10:48:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706092910; cv=none; b=opIDwRtGKnpyz9JV2Lc9K4vPJ3R+pS0hboc0HpjsqctXYOfhL7a6NRPEEBn43wZvMxZ1DJrUIkuwOLaKd/VO/nEpzkMC44WgDNovS0d+LQLxk5E0uxeVKLgY/ytUa8iVDv4aqS05oXxPtl/+cgKEGza8u/XycjGfSXcvO1GhERI=
+	t=1706093318; cv=none; b=sDDg5zUMoveOP1/pgwQA+l428DuRFPOkgZAAKryjM5n96v+Cwgrv6AI8WqhuWUp+EV3vK0eyweF4ZMLUDLWL05pjrLP3ju3+MmxjvRfTrmTAQ6zFSpecqvPJgRPapLOYghfFkCABGAlnhrI56oFo9guEmPyfqCxK1a15W+vh48c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706092910; c=relaxed/simple;
-	bh=VOpDAR9/icTczlTjQajuoNH5r9cQnm2A3HLZ4/ljiH0=;
+	s=arc-20240116; t=1706093318; c=relaxed/simple;
+	bh=dA9b756dE5TNVjW47hwdr/q7DlseW+eVJMgaVDohXW0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Vf9XGTfh979+o9LreXI27pB5dnAWEjv2aeDg/Ji07mI06IdUxeLauztye0OWpzJlKj8v9t5vyKdm44XScCV4lxk+sfk04mX/OvoedGlLxHUu3Oiq5COIpNq42hTcLSmxX5XqIsVrk1Mib/+crcyUDVBakQ9udZn23QnXnGzl8C8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=K1GgWZHo; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5C60FC433F1;
-	Wed, 24 Jan 2024 10:41:49 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=tY3tHRrMb3rd5bmuACYMgkZT6yf4ylAEjoTJ1aZ0F8AqCDO/PLEN+4JfAUIfp3qh1qVK2Vh6COUiI91QQl2TOKcjuhfpIoMDFXKWjcjby/qkyZK3aPsKD7lfAUv8Gn4KF51OwDSX2kap3248jdXtzVXJdHweCG+HqAZ5goIq8So=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cDy3LpDW; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1F30BC433F1;
+	Wed, 24 Jan 2024 10:48:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1706092909;
-	bh=VOpDAR9/icTczlTjQajuoNH5r9cQnm2A3HLZ4/ljiH0=;
+	s=k20201202; t=1706093317;
+	bh=dA9b756dE5TNVjW47hwdr/q7DlseW+eVJMgaVDohXW0=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=K1GgWZHoF5aagXH8LM3/qmVZcLHTpf3nuAcKhCO2CJ5XS9CtMmON+YJJ981hOWzPP
-	 ynWgxAeFw/t+RdPAfqdFGUZeioKgrqT4u5a0hohn1m240nsK9txmPiD0vM+P9vfmdK
-	 3K0j+HccPkkm28VLqFkm1APJP59Pq/ZDH8Lgmm+0+QihEx4ACWrQZq8rTzE8Q2FwS2
-	 7AEJy6N4E5L3GeCs3Fitn7TUjtg59KQtaKMcXldSyetWEVmN2nqaOqbk93J7og14Vu
-	 cvwQ5gRaDGzV0xQqfS1RN0UvhL/S9q1xmKi4agMmZaAvSpTqFDuAEjKEHCiCXMFtrz
-	 mgwTz4qA+BRqg==
-Date: Wed, 24 Jan 2024 11:41:46 +0100
+	b=cDy3LpDWRfgV1B0QKPekbAdNagB6INtG+2cpfVX24ZdTJaT8sMI0BosJ5rhu/n3Dr
+	 /k4rmFcW3HpSgHpIMrF5RylW4CzVyfKfD4JZePTKDwJCwo/FJNm0Lp6I825I4i0Nv7
+	 BjP5CKWDRr2kRr8bg+B0gJ/ZlQW3hhRfwGzraaDDCguhjBt/S83FDvFnkTPGjzAThz
+	 s9OxGm1wYBvF2VO2GWc7CEdPm2HuVp86jD+EmOkPRLEd04OlOeZAT4B0YJ2X8TDs0m
+	 e/dyJ1lQhTrfPNHVL4lsHXYWyC3U7o+rlWF1x/RIXt9wmePN0wCVmCUWyWRHWL2lHr
+	 hIsA+FSNwVzAw==
+Date: Wed, 24 Jan 2024 11:48:34 +0100
 From: Wolfram Sang <wsa@kernel.org>
 To: Geert Uytterhoeven <geert+renesas@glider.be>
 Cc: Michael Turquette <mturquette@baylibre.com>,
@@ -59,8 +59,8 @@ Cc: Michael Turquette <mturquette@baylibre.com>,
 	linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
 	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
 	linux-pm@vger.kernel.org
-Subject: Re: [PATCH 07/15] clk: renesas: rcar-gen4: Add support for FRQCRC1
-Message-ID: <ZbDpaijWZ-yVWMz1@ninjato>
+Subject: Re: [PATCH 10/15] soc: renesas: Introduce ARCH_RCAR_GEN4
+Message-ID: <ZbDrAh0Wp1yxzy9a@ninjato>
 Mail-Followup-To: Wolfram Sang <wsa@kernel.org>,
 	Geert Uytterhoeven <geert+renesas@glider.be>,
 	Michael Turquette <mturquette@baylibre.com>,
@@ -79,7 +79,7 @@ Mail-Followup-To: Wolfram Sang <wsa@kernel.org>,
 	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
 	linux-pm@vger.kernel.org
 References: <cover.1704726960.git.geert+renesas@glider.be>
- <b7ec45c86c2bd17cf3b3de43194c4821b606e483.1704726960.git.geert+renesas@glider.be>
+ <4f4a2dbdb6ba51e151cbdc128da377083b0d850d.1704726960.git.geert+renesas@glider.be>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -87,48 +87,61 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="ZLw8yXuJlwt3Ol4k"
+	protocol="application/pgp-signature"; boundary="0u9aeG4dzSw4b8kX"
 Content-Disposition: inline
-In-Reply-To: <b7ec45c86c2bd17cf3b3de43194c4821b606e483.1704726960.git.geert+renesas@glider.be>
+In-Reply-To: <4f4a2dbdb6ba51e151cbdc128da377083b0d850d.1704726960.git.geert+renesas@glider.be>
 
 
---ZLw8yXuJlwt3Ol4k
+--0u9aeG4dzSw4b8kX
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jan 08, 2024 at 04:33:46PM +0100, Geert Uytterhoeven wrote:
-> R-Car V4H and V4M have a second Frequency Control Register C.
-> Add support for this by treating bit field offsets beyond 31 as
-> referring to the second register.
+On Mon, Jan 08, 2024 at 04:33:49PM +0100, Geert Uytterhoeven wrote:
+> Currently, all Kconfig symbols for R-Car Gen4 SoCs select the
+> ARCH_RCAR_GEN3 SoC family symbol, which might confuse the casual reader.
+>=20
+> Fix this by introducing a new SoC family symbol for R-Car Gen4 SoCs.
+> For now this just selects ARCH_RCAR_GEN3, to avoid duplication, and to
+> relax dependencies.
 >=20
 > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 > ---
-> Tested by enabling CLOCK_ALLOW_WRITE_DEBUGFS and checking the impact of
-> CPU core clk rate on CPU core speed on R-Car V4M.
 
 Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
+> Once "[PATCH] i2c: rcar: Prepare for the advent of ARCH_RCAR_GEN4"[1]
+> has been applied, ARCH_RCAR_GEN4 can stop selecting ARCH_RCAR_GEN3.
 
---ZLw8yXuJlwt3Ol4k
+Oh, that's me :)
+
+> I'm open for suggestions how to improve this.
+> Perhaps factor out common parts into ARCH_RCAR?
+
+I kinda like the situation after this patch. I'd think using ARCH_RCAR
+might hurt readability. Also, if Gen5 needs to modify ARCH_RCAR, then we
+need to fix up old archs. Potential regressions ahead.
+
+
+--0u9aeG4dzSw4b8kX
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmWw6WoACgkQFA3kzBSg
-KbYebhAAoNEvcdLcz/baTtGkYrjktAOc54NysQPel8cyihNfSbvLgNXFwa//gR/G
-rlYBhpRRt2AoU+l6UqE13XfRAp2bupQ9lyoR5gcK5C1RbKE7BljT4pATJDTM5rD4
-1iFXFgtufkDF9i8TASIctVot9cCTEnhiCJNOT/Z9tAj2z8RDUVbmzpSLrAX3azLD
-MjAxn+LpjB5hAn2ZvdtG/FiFnm1UlJ4DZT7fuZ2UjRLLHNIw7ZTAi30tAjSWcupp
-zfJ7F4nDr4O/k+aX5GrNfCWAoVeNEHg2V3RcHJp3IYp201LDadmwPRMU3804muHU
-8Ua7VP1hrGdirjRV5G7mI0t6hO7H1tOV1hRvPCQ4EdrNX9BqstqHlOl54BzldzxL
-uVzNk5nZu0QXPbo+yVFXzInyIZURqXRJeLfpFvOsW4DpcvKNbJuDwN++O2jL9kkp
-1OmlVDCGDLB77Q1tLr6Po43ATOSkoCGaPVzSrfNM9n+hk8y5rPqYOcQKe+WzR5bp
-9K7duierjlqmAHCC4gkLtCkky63R8Z8OILkoGCZKX+pXoebPby/KWT6emV+7uG4i
-1IOXXnkDbhuR0OWtqSXZOITpq0hSTgw6Ud/P6dtpZ+P0kypjd7Cmim/XjIt3CQrX
-+cLcCyKTI3D4nQxMDxCM1qkgINRtVHlkEt4Wg3On58xFuaCZ45I=
-=QjEk
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmWw6wIACgkQFA3kzBSg
+KbbloBAAs4shQCEFJDBLmp/gsHnCAwRIshO1V1BBOLcLG2SMopji71CDc/gwaBHy
+3myWZYE5uDkp41iE1Y5ioygOxhrLyVQ/34cM+TVAWqfOQP7hfcORU/g3RDq0OU7+
+AmL1y9o4jCQB+QcKaQygi/Q1VzQsPCtw83MZQpNr8/lsc4M4Sv8IBTqiWRq1mvoX
+XhJiKY6rCl+3iZJRTSryUZ9xPlfkejYRc3fTQu4eYIO3yaWF13OrXVmcidwln5Dy
++f9A+wYf3D/vn7vejkdxluccyqhgkvzknOpD3KusM4hvveTjFvpIHMczU4h/nT5M
+La6R0DGWC4UgIo4MGCaOXEgAIl1X4HHosK4fPpNB+b5SYLsN/jVH7XVIH+R7wpXY
+ogrK87uIh472cLcTfmAcY5gjgYelWaGVZ5zMn1GQ9cM+JwPLoGTTHeAsSrXeBFA9
+4+UC+JqP/8QVFWoXCuh6iFY3qtjLfgTFpVfpddEkDmjl8su0tKJIVUKurBfzvGGT
+Kw4/Kd6yNZndVkEWGql2gbMTMxQKxTPqipjnlVbFKWFS+Dv+5D/CaaNilzEf2GWB
+nsgjeAeHCMZfvEiZ1t143nNLnHo4m7Ii/JCrgZWDzFTyzfaLL+uHHkQIa1Wz+Kth
+tPO5lKN1iCSDeaOzxOxg0smIhCYkgXxb1XTaM3RppGT0Barbz4I=
+=3zZ/
 -----END PGP SIGNATURE-----
 
---ZLw8yXuJlwt3Ol4k--
+--0u9aeG4dzSw4b8kX--
 
