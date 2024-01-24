@@ -1,175 +1,95 @@
-Return-Path: <linux-renesas-soc+bounces-1752-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-1753-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 982C883A5F5
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Jan 2024 10:52:53 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id C27EF83A62A
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Jan 2024 11:00:26 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4862D286FE3
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Jan 2024 09:52:52 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 287E6281817
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Jan 2024 10:00:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B95E21804E;
-	Wed, 24 Jan 2024 09:52:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 700BF182BB;
+	Wed, 24 Jan 2024 10:00:22 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com [209.85.128.171])
+Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com [209.85.219.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12C7918625;
-	Wed, 24 Jan 2024 09:52:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 566955690;
+	Wed, 24 Jan 2024 10:00:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706089962; cv=none; b=m0+1IqX7e2b/X+c5mSNgolynGota0l1mwII4YtBn2DEXPFWfe9apu9Av7lsIwZSVI+L0KuEahOP+GlRzlQaAz2ArovD73l0SwOFnyZFtTOVbir39q6mcKrauek4VFLFtlhWgYk9S7AiteWd8Em0FMnIiM+XHdPj8Z9NRPjoTeyA=
+	t=1706090422; cv=none; b=i4YuNuMJGR2j1r5teF2il2GTE/ZpBBKEAjRRW4APTLnHkyRWpBVoWz3SSIY4+Rd/+O8SmmlRFCBNh01qkI3ETghNKLf3zQ0ewaAJX5X/nl60kPB4S+dWQupV6oUjw7cVv7JhQ1dyi5lXdr0sU/m/aG5BnSqNZFmcc16QI0SboXs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706089962; c=relaxed/simple;
-	bh=x1fsVDdsOFD6tbu+vLQ3FdacZX1F0b/QkoHTJwiwpSc=;
+	s=arc-20240116; t=1706090422; c=relaxed/simple;
+	bh=uzwzMyyRR6BpI8v/QUIVLzjcKzxhDq26lgHipI/5X5Y=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=npPifhcr46u1iuxqtjbd9Pt64dZV3jREYuYalLBNnqrk7nrCJB/3S4KY25O3p7TwJTA0b86lA++njSoCLMxW029JPqUa7hEdj71adC66rgGMlpaNpbfEev8HtmOm5oG3w8XruoklEPR+ud4NsXzs+SqsUfRbWmC3rjzBDwIvSUI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.171
+	 To:Cc:Content-Type; b=a/i4LGkjKPIh5AmuvhOkwd+hXUOjREHRgt+0olZfD06UJ1qUcBdmSgRz5bydpPbQSc6obsSbhoN35cbUi/51xb5y/r8MZ2Eveeyd5D7bavvL9y0vWHx4UPmWCMN/hisc5Sm/5cJOGr/r6osGtGvG67ygZPiVrdnY1w+pzUYWxuo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.219.180
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-5ffb07bed9bso29900077b3.0;
-        Wed, 24 Jan 2024 01:52:38 -0800 (PST)
+Received: by mail-yb1-f180.google.com with SMTP id 3f1490d57ef6-dbe344a6cf4so4676304276.0;
+        Wed, 24 Jan 2024 02:00:20 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706089958; x=1706694758;
+        d=1e100.net; s=20230601; t=1706090419; x=1706695219;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Gb9WF/ExCOiStM1ck1NToosyRyKsQZOXa+C3tVqzcsc=;
-        b=fFlGpVlzdZV89ZaTo7voBO7EWe1M0M8l4O78QQOzAuKuou5F0jqsZT1uuYUSV3lX7M
-         5oppDdJ728LArM+diyiNbH/ZiJZbOvhIpdCCmZCNHVL/QDDi66K6otR/GCEZFRQ68qkU
-         jWilULytMulFTQjV9c+sd0Y8faCAuK16ieqFnvlbd3vJno254ihjcfZH4MutjNym40kS
-         cN26WVuJtDMMh82JdzWjelCMUT7AYCOZYrftI1fJkblvIT/ifTZYV/iLJnURlZFOnNz1
-         9XDri4POJiFXlewCe3tjvQcRJX+kPUo+bVl4eZLg64y67Zh735J8+iAkWnd83l40j2Cs
-         dxUg==
-X-Gm-Message-State: AOJu0YzhtKy6RkQax8r/GQ5eF5qepsP14pk2EbE5f02crRCoa357eqhV
-	9e/JVVBqTSHXkrnVUaBV+xtUIBwRA2JEyUVgzcYywH3z2tZJtew8rfAHQXVB11o=
-X-Google-Smtp-Source: AGHT+IEOQC01b0M5bEfgaa2k8oik+PCvmRiuqQqMnZIjR3CfDSsWTus6Ql/mWEkIEurxeX6BGER6jg==
-X-Received: by 2002:a0d:d94c:0:b0:5d7:1940:8dfe with SMTP id b73-20020a0dd94c000000b005d719408dfemr329592ywe.101.1706089957751;
-        Wed, 24 Jan 2024 01:52:37 -0800 (PST)
-Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com. [209.85.219.180])
-        by smtp.gmail.com with ESMTPSA id a126-20020a0dd884000000b005ffa3fa57f9sm3548291ywe.51.2024.01.24.01.52.37
+        bh=1Xv/thtT5CkvacpZdWIS8taCoZhG0GyZivlNTL5Pu4A=;
+        b=fWCX80gQHS7QJGFeXC6d432IuaoB6Hk9TZVmhIt+4MioyfYWTDItpU/dBMsTflBmtY
+         SVBZmUBmx/vvzGS0UDqXQYD/4tkq/BfZWpi8Pz/xapR1AYzuwJC5HsgwWaUqCgI7zQ9N
+         nyJfn1YhPDf6e6kTtibXHq5FoippBh92ccRv7fZ5sm/68V6ej/P6VZCXzezai3ZnFd/a
+         c5V+PYiEle8P6AOQLZ810ad+i3b7dXteAfyVbzFDvKMgXA6G/COem2cCQvNNXI4QlYlL
+         KSAm5SUII0W5qophhrIlqAEHfULLbs8fYcg2k5daA0kwmu0eQvVJMYRG6xYD4h8sCsY1
+         xq0g==
+X-Gm-Message-State: AOJu0YyGIBTEbvrsQxfGIh7tyWsT/9vCego9Bq8z7QcWwmi3vUKML46F
+	2ZdrBex+OCx0/vKJYeG0K1irh+nkekF3bk9Qnw0S/uCEg0eoQWzDz4CyzMnDtuk=
+X-Google-Smtp-Source: AGHT+IEmHP6SbHYLkEvwSsp7Iq2KGYSOKZLwDCvY6OiNaZ/2mXz1KDr2xjB0iy1fSpNl80SR81ptxw==
+X-Received: by 2002:a05:6902:2189:b0:dc2:5456:789d with SMTP id dl9-20020a056902218900b00dc25456789dmr473864ybb.33.1706090418873;
+        Wed, 24 Jan 2024 02:00:18 -0800 (PST)
+Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com. [209.85.128.177])
+        by smtp.gmail.com with ESMTPSA id c11-20020a25f30b000000b00dc265e2b087sm2672508ybs.43.2024.01.24.02.00.18
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 24 Jan 2024 01:52:37 -0800 (PST)
-Received: by mail-yb1-f180.google.com with SMTP id 3f1490d57ef6-db4364ecd6aso3263909276.2;
-        Wed, 24 Jan 2024 01:52:37 -0800 (PST)
-X-Received: by 2002:a25:7801:0:b0:dc2:1dd0:1d1b with SMTP id
- t1-20020a257801000000b00dc21dd01d1bmr315581ybc.19.1706089957157; Wed, 24 Jan
- 2024 01:52:37 -0800 (PST)
+        Wed, 24 Jan 2024 02:00:18 -0800 (PST)
+Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-5edfcba97e3so54363437b3.2;
+        Wed, 24 Jan 2024 02:00:18 -0800 (PST)
+X-Received: by 2002:a25:ab48:0:b0:dc2:4cf0:e7c6 with SMTP id
+ u66-20020a25ab48000000b00dc24cf0e7c6mr389779ybi.124.1706090418376; Wed, 24
+ Jan 2024 02:00:18 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231125163559.824210-1-masahiroy@kernel.org> <CAMuHMdWm6u1wX7efZQf=2XUAHascps76YQac6rdnQGhc8nop_Q@mail.gmail.com>
- <d21298d9-fed6-4e08-9780-dbcb388b9ccc@smile.fr> <CAK7LNASaG4DpHTb3YHMd8d8DJ5H3z0aiUcSqX+=7CZb99kRU8A@mail.gmail.com>
-In-Reply-To: <CAK7LNASaG4DpHTb3YHMd8d8DJ5H3z0aiUcSqX+=7CZb99kRU8A@mail.gmail.com>
+References: <87sf2no5xo.wl-kuninori.morimoto.gx@renesas.com>
+In-Reply-To: <87sf2no5xo.wl-kuninori.morimoto.gx@renesas.com>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 24 Jan 2024 10:52:25 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdWLMNj=Yvf4QxxrCxf-UBr-VXUxfJei+V2bNd0M7D1OhQ@mail.gmail.com>
-Message-ID: <CAMuHMdWLMNj=Yvf4QxxrCxf-UBr-VXUxfJei+V2bNd0M7D1OhQ@mail.gmail.com>
-Subject: Re: [PATCH 1/2] kconfig: remove unneeded symbol_empty variable
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: Yoann Congal <yoann.congal@smile.fr>, linux-kbuild@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, 
-	Linux-Renesas <linux-renesas-soc@vger.kernel.org>, 
-	Vegard Nossum <vegard.nossum@oracle.com>
+Date: Wed, 24 Jan 2024 11:00:06 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdXMDXK9uXMkj48J1sbk4LCH+rjPKjfvGvNOrscS0ywpFg@mail.gmail.com>
+Message-ID: <CAMuHMdXMDXK9uXMkj48J1sbk4LCH+rjPKjfvGvNOrscS0ywpFg@mail.gmail.com>
+Subject: Re: [PATCH] pmdomain: renesas: sort each SoC on Kconfig
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: Ulf Hansson <ulf.hansson@linaro.org>, linux-pm@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Yamada-san,
+Hi Morimoto-san,
 
-On Wed, Jan 24, 2024 at 9:10=E2=80=AFAM Masahiro Yamada <masahiroy@kernel.o=
-rg> wrote:
-> On Wed, Jan 24, 2024 at 12:11=E2=80=AFAM Yoann Congal <yoann.congal@smile=
-.fr> wrote:
-> > Le 23/01/2024 =C3=A0 13:54, Geert Uytterhoeven a =C3=A9crit :
-> > > On Sat, Nov 25, 2023 at 5:36=E2=80=AFPM Masahiro Yamada <masahiroy@ke=
-rnel.org> wrote:
-> > >> This is used only for initializing other variables.
-> > >>
-> > >> Use the empty string "".
-> > >>
-> > >> Please note newval.tri is unused for S_INT/HEX/STRING.
-> > >>
-> > >> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> > >
-> > > Thanks for your patch, which is now commit 4e244c10eab345a7
-> > > ("kconfig: remove unneeded symbol_empty variable") in v6.8-rc1.
-> > >
-> > > When running "make <foo>_defconfig" with <foo>_defconfig an SMP
-> > > defconfig without explicit configuration of CONFIG_LOG_CPU_MAX_BUF_SH=
-IFT,
-> > > the aforementioned commit causes a change in the generated .config:
-> > >
-> > > -CONFIG_LOG_CPU_MAX_BUF_SHIFT=3D12
-> > > +CONFIG_LOG_CPU_MAX_BUF_SHIFT=3D0
-> > >
-> > > It looks like CONFIG_BASE_SMALL=3D0 is treated as a string instead of
-> > > the integer number zero?
-> > >
-> > > init/Kconfig=3Dconfig LOG_CPU_MAX_BUF_SHIFT
-> > > init/Kconfig-   int "CPU kernel log buffer size contribution (13 =3D>=
- 8
-> > > KB, 17 =3D> 128KB)"
-> > > init/Kconfig-   depends on SMP
-> > > init/Kconfig-   range 0 21
-> > > init/Kconfig:   default 12 if !BASE_SMALL
-> > > init/Kconfig:   default 0 if BASE_SMALL
-> > >
-> > > Note that reverting 4e244c10eab345a7 is not sufficient to fix the iss=
-ue.
-> > > Also reverting commit 6262afa10ef7cc8f ("kconfig: default to zero if
-> > > int/hex symbol lacks default property") does fix it.
-> >
-> > (Since I'd really like 6262afa10ef7cc8f ("kconfig: default to zero if i=
-nt/hex symbol lacks default property") to stay, allow me to try to help)
-> >
-> > The problem is quite easy to reproduce:
-> >   $ make x86_64_defconfig
-> >   $ grep 'LOG_CPU_MAX_BUF_SHIFT\|BASE_SMALL\|BASE_FULL' .config
-> >   CONFIG_LOG_CPU_MAX_BUF_SHIFT=3D0
-> >   CONFIG_BASE_FULL=3Dy
-> >   CONFIG_BASE_SMALL=3D0
-> > Here, CONFIG_LOG_CPU_MAX_BUF_SHIFT should be 12 not 0.
->
->
->
-> I could not produce it in this way.
-> I ran the same commands as yours.
->
-> CONFIG_LOG_CPU_MAX_BUF_SHIFT=3D12 for me.
->
->
->
-> masahiro@zoe:~/ref/linux(master)$ git describe
-> v6.8-rc1-29-g615d30064886
-> masahiro@zoe:~/ref/linux(master)$ git diff
-> masahiro@zoe:~/ref/linux(master)$ make  x86_64_defconfig
-> #
-> # No change to .config
-> #
-> masahiro@zoe:~/ref/linux(master)$ grep
-> 'LOG_CPU_MAX_BUF_SHIFT\|BASE_SMALL\|BASE_FULL' .config
-> CONFIG_LOG_CPU_MAX_BUF_SHIFT=3D12
-> CONFIG_BASE_FULL=3Dy
-> CONFIG_BASE_SMALL=3D0
+Thanks for your patch!
 
-Interesting...
+On Wed, Jan 24, 2024 at 2:51=E2=80=AFAM Kuninori Morimoto
+<kuninori.morimoto.gx@renesas.com> wrote:
+> Renesas has many SoCs and it has generation/series/model number,
+> but these are listed randomly in Kconfig. This patch tidyup it.
 
-$ git describe
-v6.8-rc1-29-g615d300648869c77
-$ make  x86_64_defconfig
-[...]
-$ grep 'LOG_CPU_MAX_BUF_SHIFT\|BASE_SMALL\|BASE_FULL' .config
-CONFIG_LOG_CPU_MAX_BUF_SHIFT=3D0
-CONFIG_BASE_FULL=3Dy
-CONFIG_BASE_SMALL=3D0
+They are not listed randomly, but sorted alphabetically by description,
+cfr. your commit 6d5aded8d57fc032 ("soc: renesas: Sort driver
+description title").  Have you changed your mind?
 
-Does it depend on the flex/bison version?
-I have Ubuntu LTS flex 2.6.4-8build2 and bison 2:3.8.2+dfsg-1build1.
+=E2=80=9CA wise man changes his mind sometimes, but a fool never." ;-)
 
 Gr{oetje,eeting}s,
 
