@@ -1,171 +1,256 @@
-Return-Path: <linux-renesas-soc+bounces-1796-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-1797-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2097083B34A
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Jan 2024 21:51:21 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id D82FC83B387
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Jan 2024 22:04:31 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 52EE91C20C1A
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Jan 2024 20:51:20 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 544AC1F24684
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Jan 2024 21:04:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C67FD134744;
-	Wed, 24 Jan 2024 20:50:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C813A1350F2;
+	Wed, 24 Jan 2024 21:04:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="J4tXfSsh"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mx01.omp.ru (mx01.omp.ru [90.154.21.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4644D131E53;
-	Wed, 24 Jan 2024 20:50:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.154.21.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B91B71350DD
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 24 Jan 2024 21:04:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706129454; cv=none; b=mi0yDlATuWWFS4Gwr6Vtgj61SjKm6MZKyPkD4KeYET4BtyD1VadyFJCmjwwBSPZfGQpQjkMbxfD27BnI5bcx60u1RFWqDipjUWDHRKpKP+DgUA21Lsnhm7nIQ1BeUGqB0r+kIvpZBYR2Jx69tIIyZ7ZaDBKjkBMHZWs3C3QWcb8=
+	t=1706130261; cv=none; b=OKYT5l7QIOzf/Y50g6l/jJ4Avl7jwyfzT8jqGUunmGwHEV9h3fgYZE/PbWBUdXfYGKgi3EV2zK4u6TFK6hIs3Qs9wTZmjKCMsWZKE5ZlUT6k8nybAzs+NDU/PJ2Z5XZmWy3RwytnPUd6cw6z5z0k2j7rPhsUOfTtPkKTzdpJyPc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706129454; c=relaxed/simple;
-	bh=rutWW45qOvOA0+vqUP8QLOIEjDbTuqWQVW8R8HLJwlY=;
-	h=Subject:To:CC:References:From:Message-ID:Date:MIME-Version:
-	 In-Reply-To:Content-Type; b=oOrXi7W7WXrcR0f7yvczw5+bd/gfVBE2+5McDq9rsd1I/IqbY5Ml1efcuRHBmA6LOOvqf0c8hpFzb9QPlkrmapr+UKd3XR6I/0vnIoLPq8YtYFJeNXOUGhVYMcGMUmEAl35jzdDe+jqTICO3XEVT6E0i2fcLLQ3Up9uyCZvzUCg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=omp.ru; spf=pass smtp.mailfrom=omp.ru; arc=none smtp.client-ip=90.154.21.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=omp.ru
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=omp.ru
-Received: from [192.168.1.105] (178.176.73.201) by msexch01.omp.ru
- (10.188.4.12) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.1258.12; Wed, 24 Jan
- 2024 23:50:42 +0300
-Subject: Re: [PATCH net-next 1/2] ravb: Add Rx checksum offload support
-To: Biju Das <biju.das.jz@bp.renesas.com>, Jakub Kicinski <kuba@kernel.org>
-CC: "David S. Miller" <davem@davemloft.net>, Eric Dumazet
-	<edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Claudiu Beznea
-	<claudiu.beznea.uj@bp.renesas.com>, Yoshihiro Shimoda
-	<yoshihiro.shimoda.uh@renesas.com>, Wolfram Sang
-	<wsa+renesas@sang-engineering.com>, nikita.yoush
-	<nikita.yoush@cogentembedded.com>, "netdev@vger.kernel.org"
-	<netdev@vger.kernel.org>, "linux-renesas-soc@vger.kernel.org"
-	<linux-renesas-soc@vger.kernel.org>, Geert Uytterhoeven
-	<geert+renesas@glider.be>, Prabhakar Mahadev Lad
-	<prabhakar.mahadev-lad.rj@bp.renesas.com>, biju.das.au
-	<biju.das.au@gmail.com>
-References: <20240123151924.373917-1-biju.das.jz@bp.renesas.com>
- <20240123151924.373917-2-biju.das.jz@bp.renesas.com>
- <20240123170921.51089d41@kernel.org>
- <TYCPR01MB11269BEF48F2C2C111C91858A867B2@TYCPR01MB11269.jpnprd01.prod.outlook.com>
-From: Sergey Shtylyov <s.shtylyov@omp.ru>
-Organization: Open Mobile Platform
-Message-ID: <e71607dc-d51f-d5b9-e95a-c11b149083cb@omp.ru>
-Date: Wed, 24 Jan 2024 23:50:42 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+	s=arc-20240116; t=1706130261; c=relaxed/simple;
+	bh=sGEmu/PdypF3hyjd6y3REYl0KrTZehMxjlqnUu7hhx4=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=q8CLYYIeOVw7vXv5aD2AIHPRPAA/PdLP9MfX8o4RMld+L1sLfFXGXsf7/t6zdb+K47urjrKL+87L7nEsTxls3oke3olU70p3bvHQlXKGsG9XqhAAIYUquNpdlQf5qocMgF7a0/1b2npNPYfWu9T7RsISQ6z0dTnh48Qd1fMgdN4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=J4tXfSsh; arc=none smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1706130259; x=1737666259;
+  h=date:from:to:cc:subject:message-id;
+  bh=sGEmu/PdypF3hyjd6y3REYl0KrTZehMxjlqnUu7hhx4=;
+  b=J4tXfSshmfJiAykL2m2BnyRK53D+EDPQasPwu9M1xcDAuTevigg1Ss9B
+   fewXbRKVy3B2BSTNjCu1cBGNytg6QDYHksAPAeZ5czlI9SnV6kBqX5Olt
+   dfpfs7HNGpy0wcwajGGbOMkMm2a6NLuFGE5qjoZRTvlAQ/5ay7OxmTymx
+   Ycu63UTYg6PpqsMJwiFy3gULrd+O1pUDrfMYwIO/J3BFZf65TA99esJke
+   +7mALMKdAwlNVYrwbCHKah+WkiBE9BxeZi8N2OmDQnDBDLhyfBX+dQK4S
+   cFzEUhqXNXYvIQXi/3MuFAO/cvMwXplMkCqiHtA3h/1qZ7pDHw+ZfPpFm
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10962"; a="15318711"
+X-IronPort-AV: E=Sophos;i="6.05,216,1701158400"; 
+   d="scan'208";a="15318711"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jan 2024 13:03:20 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.05,216,1701158400"; 
+   d="scan'208";a="28255081"
+Received: from lkp-server01.sh.intel.com (HELO 961aaaa5b03c) ([10.239.97.150])
+  by orviesa002.jf.intel.com with ESMTP; 24 Jan 2024 13:03:17 -0800
+Received: from kbuild by 961aaaa5b03c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rSkOw-0008Sb-0h;
+	Wed, 24 Jan 2024 21:03:14 +0000
+Date: Thu, 25 Jan 2024 05:02:15 +0800
+From: kernel test robot <lkp@intel.com>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: linux-renesas-soc@vger.kernel.org
+Subject: [geert-renesas-drivers:renesas-clk-for-v6.9] BUILD SUCCESS
+ 4ae2c995c4339959ef04eb9afbbda1966299e5d6
+Message-ID: <202401250512.Zm6665RI-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-In-Reply-To: <TYCPR01MB11269BEF48F2C2C111C91858A867B2@TYCPR01MB11269.jpnprd01.prod.outlook.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: msexch01.omp.ru (10.188.4.12) To msexch01.omp.ru
- (10.188.4.12)
-X-KSE-ServerInfo: msexch01.omp.ru, 9
-X-KSE-AntiSpam-Interceptor-Info: scan successful
-X-KSE-AntiSpam-Version: 6.1.0, Database issued on: 01/24/2024 20:42:08
-X-KSE-AntiSpam-Status: KAS_STATUS_NOT_DETECTED
-X-KSE-AntiSpam-Method: none
-X-KSE-AntiSpam-Rate: 59
-X-KSE-AntiSpam-Info: Lua profiles 182912 [Jan 24 2024]
-X-KSE-AntiSpam-Info: Version: 6.1.0.3
-X-KSE-AntiSpam-Info: Envelope from: s.shtylyov@omp.ru
-X-KSE-AntiSpam-Info: LuaCore: 7 0.3.7 6d6bf5bd8eea7373134f756a2fd73e9456bb7d1a
-X-KSE-AntiSpam-Info: {rep_avail}
-X-KSE-AntiSpam-Info: {Tracking_from_domain_doesnt_match_to}
-X-KSE-AntiSpam-Info: {relay has no DNS name}
-X-KSE-AntiSpam-Info: {SMTP from is not routable}
-X-KSE-AntiSpam-Info: {Found in DNSBL: 178.176.73.201 in (user)
- b.barracudacentral.org}
-X-KSE-AntiSpam-Info:
-	127.0.0.199:7.1.2;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;omp.ru:7.1.1
-X-KSE-AntiSpam-Info: ApMailHostAddress: 178.176.73.201
-X-KSE-AntiSpam-Info: {DNS response errors}
-X-KSE-AntiSpam-Info: Rate: 59
-X-KSE-AntiSpam-Info: Status: not_detected
-X-KSE-AntiSpam-Info: Method: none
-X-KSE-AntiSpam-Info: Auth:dmarc=temperror header.from=omp.ru;spf=temperror
- smtp.mailfrom=omp.ru;dkim=none
-X-KSE-Antiphishing-Info: Clean
-X-KSE-Antiphishing-ScanningType: Heuristic
-X-KSE-Antiphishing-Method: None
-X-KSE-Antiphishing-Bases: 01/24/2024 20:45:00
-X-KSE-Antivirus-Interceptor-Info: scan successful
-X-KSE-Antivirus-Info: Clean, bases: 1/24/2024 5:13:00 PM
-X-KSE-Attachment-Filter-Triggered-Rules: Clean
-X-KSE-Attachment-Filter-Triggered-Filters: Clean
-X-KSE-BulkMessagesFiltering-Scan-Result: InTheLimit
 
-On 1/24/24 11:31 AM, Biju Das wrote:
-[...]
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git renesas-clk-for-v6.9
+branch HEAD: 4ae2c995c4339959ef04eb9afbbda1966299e5d6  clk: renesas: mstp: Remove obsolete clkdev registration
 
->> -----Original Message-----
->> From: Jakub Kicinski <kuba@kernel.org>
->> Sent: Wednesday, January 24, 2024 1:09 AM
->> Subject: Re: [PATCH net-next 1/2] ravb: Add Rx checksum offload support
->>
->> On Tue, 23 Jan 2024 15:19:23 +0000 Biju Das wrote:
->>> +static void ravb_rx_csum_gbeth(struct sk_buff *skb) {
->>> +	__sum16 csum_ip_hdr, csum_proto;
->>> +	u8 *hw_csum;
->>> +
->>> +	/* The hardware checksum status is contained in sizeof(__sum16) * 2
->> = 4
->>> +	 * bytes appended to packet data. First 2 bytes is ip header csum
->> and
->>> +	 * last 2 bytes is protocol csum.
->>> +	 */
->>> +	if (unlikely(skb->len < sizeof(__sum16) * 2))
->>> +		return;
->>> +
->>> +	hw_csum = skb_tail_pointer(skb) - sizeof(__sum16);
->>> +	csum_proto = csum_unfold((__force
->>> +__sum16)get_unaligned_le16(hw_csum));
->>> +
->>> +	hw_csum -= sizeof(__sum16);
->>> +	csum_ip_hdr = csum_unfold((__force
->> __sum16)get_unaligned_le16(hw_csum));
->>> +	skb_trim(skb, skb->len - 2 * sizeof(__sum16));
->>> +
->>> +	/* TODO: IPV6 Rx csum */
->>> +	if (skb->protocol == htons(ETH_P_IP) && csum_ip_hdr ==
->> TOE_RX_CSUM_OK &&
->>> +	    csum_proto == TOE_RX_CSUM_OK)
->>> +		/* Hardware validated our checksum */
->>> +		skb->ip_summed = CHECKSUM_UNNECESSARY; }
->>
->> sparse does not seem to be onboard:
->>
->> drivers/net/ethernet/renesas/ravb_main.c:771:20: warning: incorrect type
->> in assignment (different base types)
->> drivers/net/ethernet/renesas/ravb_main.c:771:20:    expected restricted
->> __sum16 [usertype] csum_proto
->> drivers/net/ethernet/renesas/ravb_main.c:771:20:    got restricted __wsum
->> drivers/net/ethernet/renesas/ravb_main.c:774:21: warning: incorrect type
->> in assignment (different base types)
->> drivers/net/ethernet/renesas/ravb_main.c:774:21:    expected restricted
->> __sum16 [usertype] csum_ip_hdr
->> drivers/net/ethernet/renesas/ravb_main.c:774:21:    got restricted __wsum
-> 
-> I have reproduced this issue and the warning is fixed by replacing
-> __sum16->__wsum.
-> 
-> I will send v2 with this fix.
+elapsed time: 1460m
 
-   You could have waited for my review...
-   Dave, Jakub, please don't merge these patches before I have a chance
-to review them. I'm overwhelmed by reviews (both internal and public)
-ATM... :-/
+configs tested: 167
+configs skipped: 4
 
-> Cheers,
-> Biju
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-MBR, Sergey
+tested configs:
+alpha                             allnoconfig   gcc  
+alpha                            allyesconfig   gcc  
+alpha                               defconfig   gcc  
+arc                              allmodconfig   gcc  
+arc                               allnoconfig   gcc  
+arc                              allyesconfig   gcc  
+arc                                 defconfig   gcc  
+arc                   randconfig-001-20240124   gcc  
+arc                   randconfig-002-20240124   gcc  
+arm                              allmodconfig   gcc  
+arm                               allnoconfig   gcc  
+arm                              allyesconfig   gcc  
+arm                                 defconfig   clang
+arm                          ixp4xx_defconfig   clang
+arm                            mps2_defconfig   gcc  
+arm                   randconfig-001-20240124   clang
+arm                   randconfig-002-20240124   clang
+arm                   randconfig-003-20240124   clang
+arm                   randconfig-004-20240124   clang
+arm                           sunxi_defconfig   gcc  
+arm                        vexpress_defconfig   clang
+arm64                            allmodconfig   clang
+arm64                             allnoconfig   gcc  
+arm64                               defconfig   gcc  
+arm64                 randconfig-001-20240124   clang
+arm64                 randconfig-002-20240124   clang
+arm64                 randconfig-003-20240124   clang
+arm64                 randconfig-004-20240124   clang
+csky                             allmodconfig   gcc  
+csky                              allnoconfig   gcc  
+csky                             allyesconfig   gcc  
+csky                                defconfig   gcc  
+csky                  randconfig-001-20240124   gcc  
+csky                  randconfig-002-20240124   gcc  
+hexagon                          allmodconfig   clang
+hexagon                           allnoconfig   clang
+hexagon                          allyesconfig   clang
+hexagon                             defconfig   clang
+hexagon               randconfig-001-20240124   clang
+hexagon               randconfig-002-20240124   clang
+i386                             allmodconfig   clang
+i386                              allnoconfig   clang
+i386                             allyesconfig   clang
+i386         buildonly-randconfig-001-20240124   clang
+i386         buildonly-randconfig-002-20240124   clang
+i386         buildonly-randconfig-003-20240124   clang
+i386         buildonly-randconfig-004-20240124   clang
+i386         buildonly-randconfig-005-20240124   clang
+i386         buildonly-randconfig-006-20240124   clang
+i386                                defconfig   gcc  
+i386                  randconfig-001-20240124   clang
+i386                  randconfig-002-20240124   clang
+i386                  randconfig-003-20240124   clang
+i386                  randconfig-004-20240124   clang
+i386                  randconfig-005-20240124   clang
+i386                  randconfig-006-20240124   clang
+i386                  randconfig-011-20240124   gcc  
+i386                  randconfig-012-20240124   gcc  
+i386                  randconfig-013-20240124   gcc  
+i386                  randconfig-014-20240124   gcc  
+i386                  randconfig-015-20240124   gcc  
+i386                  randconfig-016-20240124   gcc  
+loongarch                        allmodconfig   gcc  
+loongarch                         allnoconfig   gcc  
+loongarch                           defconfig   gcc  
+loongarch             randconfig-001-20240124   gcc  
+loongarch             randconfig-002-20240124   gcc  
+m68k                             allmodconfig   gcc  
+m68k                              allnoconfig   gcc  
+m68k                             allyesconfig   gcc  
+m68k                         apollo_defconfig   gcc  
+m68k                                defconfig   gcc  
+microblaze                       allmodconfig   gcc  
+microblaze                        allnoconfig   gcc  
+microblaze                       allyesconfig   gcc  
+microblaze                          defconfig   gcc  
+mips                              allnoconfig   clang
+mips                             allyesconfig   gcc  
+mips                          rb532_defconfig   gcc  
+nios2                            allmodconfig   gcc  
+nios2                             allnoconfig   gcc  
+nios2                            allyesconfig   gcc  
+nios2                               defconfig   gcc  
+nios2                 randconfig-001-20240124   gcc  
+nios2                 randconfig-002-20240124   gcc  
+openrisc                          allnoconfig   gcc  
+openrisc                         allyesconfig   gcc  
+openrisc                            defconfig   gcc  
+parisc                           allmodconfig   gcc  
+parisc                            allnoconfig   gcc  
+parisc                           allyesconfig   gcc  
+parisc                              defconfig   gcc  
+parisc                randconfig-001-20240124   gcc  
+parisc                randconfig-002-20240124   gcc  
+parisc64                            defconfig   gcc  
+powerpc                          allmodconfig   clang
+powerpc                           allnoconfig   gcc  
+powerpc                          allyesconfig   clang
+powerpc               randconfig-001-20240124   clang
+powerpc               randconfig-002-20240124   clang
+powerpc               randconfig-003-20240124   clang
+powerpc64             randconfig-001-20240124   clang
+powerpc64             randconfig-002-20240124   clang
+powerpc64             randconfig-003-20240124   clang
+riscv                            allmodconfig   gcc  
+riscv                             allnoconfig   clang
+riscv                            allyesconfig   gcc  
+riscv                               defconfig   gcc  
+riscv                 randconfig-001-20240124   clang
+riscv                 randconfig-002-20240124   clang
+s390                             allmodconfig   gcc  
+s390                              allnoconfig   gcc  
+s390                             allyesconfig   gcc  
+s390                                defconfig   gcc  
+s390                  randconfig-001-20240124   gcc  
+s390                  randconfig-002-20240124   gcc  
+sh                               allmodconfig   gcc  
+sh                                allnoconfig   gcc  
+sh                               allyesconfig   gcc  
+sh                                  defconfig   gcc  
+sh                    randconfig-001-20240124   gcc  
+sh                    randconfig-002-20240124   gcc  
+sparc                            allmodconfig   gcc  
+sparc64                          allmodconfig   gcc  
+sparc64                          allyesconfig   gcc  
+sparc64                             defconfig   gcc  
+sparc64               randconfig-001-20240124   gcc  
+sparc64               randconfig-002-20240124   gcc  
+um                               allmodconfig   clang
+um                                allnoconfig   clang
+um                               allyesconfig   clang
+um                                  defconfig   gcc  
+um                             i386_defconfig   gcc  
+um                    randconfig-001-20240124   clang
+um                    randconfig-002-20240124   clang
+um                           x86_64_defconfig   gcc  
+x86_64                            allnoconfig   gcc  
+x86_64                           allyesconfig   clang
+x86_64       buildonly-randconfig-001-20240125   gcc  
+x86_64       buildonly-randconfig-002-20240125   gcc  
+x86_64       buildonly-randconfig-003-20240125   gcc  
+x86_64       buildonly-randconfig-004-20240125   gcc  
+x86_64       buildonly-randconfig-005-20240125   gcc  
+x86_64       buildonly-randconfig-006-20240125   gcc  
+x86_64                              defconfig   gcc  
+x86_64                randconfig-001-20240125   clang
+x86_64                randconfig-002-20240125   clang
+x86_64                randconfig-003-20240125   clang
+x86_64                randconfig-004-20240125   clang
+x86_64                randconfig-005-20240125   clang
+x86_64                randconfig-006-20240125   clang
+x86_64                randconfig-011-20240125   gcc  
+x86_64                randconfig-012-20240125   gcc  
+x86_64                randconfig-013-20240125   gcc  
+x86_64                randconfig-014-20240125   gcc  
+x86_64                randconfig-015-20240125   gcc  
+x86_64                randconfig-016-20240125   gcc  
+x86_64                randconfig-071-20240125   gcc  
+x86_64                randconfig-072-20240125   gcc  
+x86_64                randconfig-073-20240125   gcc  
+x86_64                randconfig-074-20240125   gcc  
+x86_64                randconfig-075-20240125   gcc  
+x86_64                randconfig-076-20240125   gcc  
+x86_64                          rhel-8.3-rust   clang
+xtensa                            allnoconfig   gcc  
+xtensa                randconfig-001-20240124   gcc  
+xtensa                randconfig-002-20240124   gcc  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
