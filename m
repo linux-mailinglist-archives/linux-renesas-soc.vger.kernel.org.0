@@ -1,207 +1,223 @@
-Return-Path: <linux-renesas-soc+bounces-1750-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-1751-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id A85F483A425
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Jan 2024 09:31:18 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id DB4A083A4AE
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Jan 2024 09:57:24 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3485A1F21AAB
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Jan 2024 08:31:18 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 7A99EB27A80
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Jan 2024 08:57:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1AD0E17552;
-	Wed, 24 Jan 2024 08:31:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E8D3E17BD8;
+	Wed, 24 Jan 2024 08:56:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="wgQ9es+a"
+	dkim=pass (2048-bit key) header.d=smile-fr.20230601.gappssmtp.com header.i=@smile-fr.20230601.gappssmtp.com header.b="aDWddyzx"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from JPN01-TYC-obe.outbound.protection.outlook.com (mail-tycjpn01on2106.outbound.protection.outlook.com [40.107.114.106])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48CA6171C9;
-	Wed, 24 Jan 2024 08:31:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.114.106
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706085074; cv=fail; b=K+Rg+9yZuhdGFH4tJgrqkPxInlsGyPuybAXyHRXcyi8lxuMDOiWN0zeWBpAyPS7NDjTJukDTmEmN2EvW/zJUdpaLmGgbw1br2hYreZRG4rVFiHPqUhUCypCzTNqNJ1o2FJrcfyzoi1YUR7DeIt0AtHveLXGhHVQjRtPYy3iEjm0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706085074; c=relaxed/simple;
-	bh=26UcZDUFcSwRbIJMA+rKGmjLe1X0ANtNxMFhnGzou3w=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=HIdcCxQv/kChhwd935Qm9jKh3ftTUHYaFIL1GnFlJvaNqS7egspE3D9ZKVN/o5QxJpov09tTqqwTTfauqfEs8GJChMCV3F9xJVvYtPwmVHnhyMf1o/Y3WxCwI74Wt6OBj/Dn+5Ghku2QLLiWl79cP45kDe6HEUhGxZfjS9LB6g8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=wgQ9es+a; arc=fail smtp.client-ip=40.107.114.106
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=dR18b+55i6wkP9YRqkH9QSbn5JkEGfOsnFlu764tZPfdYXvYb/jtZ4sa4NWK/eun0BkDFJGu3+xsAUMTB75rRhzdBYCxY0qJRz52Lmf4LmHMUhzlexjh8kaQEHsurNzvZNWwgeyegwiN65E3TMoHGivr0jAb8O35mifdrPZxKVbrlWdLxG15Dy8Odynwxh9Rtch22Z8dz8mavuizqmzEZ9E6jNyKvD2Z8ozotrTYsdzcY6ncHGxUUbpZxbDKoX0cOrleORWZQSTF7riAK2YSFYtFhqugiNtmO3y8SVFpxc749/8h5QU/UTcskq0PquONLuMKlD/3xNmTMzDcgxb4/w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=XR2w+Nn6+zHixCXCs78S/OfFQalNyfkJ5VEdkMojgBk=;
- b=KUnfTxrnS0+52nNwtwlBFumCM+wzpv03GnCerqfHgkzhNe3M4PKgp4XqFMtR5h8ReZouj/weZjPxtlaXuMiS5oXlJyoCgkLmKW2hwkGZxfM4HCIn4OypAUMo/5q2Hr8T/Z7AYloI4xbwanOgfyUTaNujY+bZUIlHQNY1M3ZWK3wGwdIFjFn1ulNBOhZsKZqNCvfcncU8QwnUqkP4whGGsKZbfrkBQm/HVgbvYKh/p0WIFw2MnESEfCEYFOTEQXR6o3SqOMWS9f6yFGdab+HTHQ5QB1+kFuxjhGHgECfjLgrLqQv12gwt5uY88CZ6lyita/0EnI0BaEnr/+7sf20TWg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=XR2w+Nn6+zHixCXCs78S/OfFQalNyfkJ5VEdkMojgBk=;
- b=wgQ9es+a0iwrhwGHZmwmjWrEtIguo+m3Bze6GcNAcktSiS29nfW7t0H8fs598tgLa25X0idZOXX+thjL0XFeK9J0gmP0/eC0SW5Lq7q/0G9NmjoPe2jJE6CMVLCfU7tZUJXEzc3K92BONpp66BkAKokROgXeydLVGkzxXdVaCgs=
-Received: from TYCPR01MB11269.jpnprd01.prod.outlook.com
- (2603:1096:400:3c0::10) by TYVPR01MB10895.jpnprd01.prod.outlook.com
- (2603:1096:400:299::10) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7228.16; Wed, 24 Jan
- 2024 08:31:06 +0000
-Received: from TYCPR01MB11269.jpnprd01.prod.outlook.com
- ([fe80::8d12:a02a:9fdc:9c78]) by TYCPR01MB11269.jpnprd01.prod.outlook.com
- ([fe80::8d12:a02a:9fdc:9c78%5]) with mapi id 15.20.7228.022; Wed, 24 Jan 2024
- 08:31:06 +0000
-From: Biju Das <biju.das.jz@bp.renesas.com>
-To: Jakub Kicinski <kuba@kernel.org>
-CC: "David S. Miller" <davem@davemloft.net>, Eric Dumazet
-	<edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Sergey Shtylyov
-	<s.shtylyov@omp.ru>, Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
-	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>, Wolfram Sang
-	<wsa+renesas@sang-engineering.com>, nikita.yoush
-	<nikita.yoush@cogentembedded.com>, "netdev@vger.kernel.org"
-	<netdev@vger.kernel.org>, "linux-renesas-soc@vger.kernel.org"
-	<linux-renesas-soc@vger.kernel.org>, Geert Uytterhoeven
-	<geert+renesas@glider.be>, Prabhakar Mahadev Lad
-	<prabhakar.mahadev-lad.rj@bp.renesas.com>, biju.das.au
-	<biju.das.au@gmail.com>
-Subject: RE: [PATCH net-next 1/2] ravb: Add Rx checksum offload support
-Thread-Topic: [PATCH net-next 1/2] ravb: Add Rx checksum offload support
-Thread-Index: AQHaTg+VEjiH3LyFqkWrw8nn5AoY4rDoJ82AgAB63UA=
-Date: Wed, 24 Jan 2024 08:31:06 +0000
-Message-ID:
- <TYCPR01MB11269BEF48F2C2C111C91858A867B2@TYCPR01MB11269.jpnprd01.prod.outlook.com>
-References: <20240123151924.373917-1-biju.das.jz@bp.renesas.com>
-	<20240123151924.373917-2-biju.das.jz@bp.renesas.com>
- <20240123170921.51089d41@kernel.org>
-In-Reply-To: <20240123170921.51089d41@kernel.org>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TYCPR01MB11269:EE_|TYVPR01MB10895:EE_
-x-ms-office365-filtering-correlation-id: 4f1558c1-7f8c-40e7-0db9-08dc1cb6cf4b
-x-ld-processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info:
- Tn/u89ObryloL7SGvU8IylcDgVj0lZQD1NXMSqpj8Q2Ogfrwkb0sih57lUgB18/O5sG30y99SW5VQCu1OL6NmzXBhHsY4vggCjWdjVq0B/bIPp6tgx3ccR89QIcUNP+91toTdNot7CegSWE9X2uPT6T8UNlW9Ej/LmHbT/hDf60K3vfTwEhrdRxnFm+LOmSzoBL1Tq0jJO9DSq2LR9kxzBBArlCJD+IhpWT7qRwcJDJ4DVJdtQFdHBX2ra2CrPN37Atin7iAOWOYf4CMBwU4IERLlg5b77g4AscFuLwAEHLWHfVVb/IOGZz/EZrNvUvmh9AvmONei4+n0zGSsjMFVHKokKWTpRWJtWSEvVvvshhetTpKkDhVrvpPwxG5e5OVokK0nUvk3pDDrsmTc3n5guwSbes+0cNniYEvSfGre1l9ovkcqYqG6Hy0KTxSMnZTPZpTHYt0H3VoqfOd07xpgpI0A6aK65gIYJUTkxYRi1mXmVwoBVEzVkKzX/NzWsAPtUCaE9HLUdACdFkCy/fScoEssCn8SAWM7AhW01kTw85yNCbZ/OcJZXVg4tC4bC+tLKxk4r88Aj8KHcPDaEQ+20snVcVmV4ZXbcAk720bM9SWp19LmSQGPQNzB0NVRFAMaBQ3lnhW1WDYwKN6/qcr3Hr3x+CDHNAkynEO2BbKPus=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB11269.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(39860400002)(396003)(376002)(136003)(366004)(346002)(230922051799003)(230173577357003)(230273577357003)(64100799003)(1800799012)(186009)(451199024)(38070700009)(55016003)(41300700001)(83380400001)(33656002)(86362001)(122000001)(9686003)(8936002)(26005)(8676002)(53546011)(6916009)(52536014)(6506007)(66556008)(5660300002)(478600001)(76116006)(316002)(66946007)(66476007)(54906003)(2906002)(64756008)(66446008)(71200400001)(7696005)(7416002)(38100700002)(4326008);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?3vpB7CtLdjwrQd5wB0tQ2TX815DISLiE4Qn+q1V8lN8tAxJYy69MH4AAFHIY?=
- =?us-ascii?Q?TjfN0GfsLkw1BUHRih3buMHKhIMFHxCCAlpbxzq4SNl0t6pe4XJMl/LnYJ67?=
- =?us-ascii?Q?BPk6u9qtubSmHxuJgnfmTAzZKb9UnOkJTN7jf1OvQjUMqHLGbY0CIG4XziXU?=
- =?us-ascii?Q?pyW/Jn34Ndr9UQ67dtNfPpvpYClGzzl6q24LVhHVY8F8ky+c/7O0vgodF5a7?=
- =?us-ascii?Q?WwzMefh40eN+knhAHWIPXwohutR58TDwGb7OuS4REWtnWralethLbbOyUlLi?=
- =?us-ascii?Q?W2DRVQD5N0x7snFH6lin69Ch39T0yWb5o3A4qQqmtCWQaOEI1hSm6ynHe/Yb?=
- =?us-ascii?Q?dItswzsPha2zYgh7yWa4GtDwDtgmzsmvEcW1mS5p7YhP0UwZBs+hRk3v9mih?=
- =?us-ascii?Q?DVUg4bjhb7pjwhX8auw5kz8JBuo4mvxryQBAo9xgQbunqlDccwvRIaMZFFdH?=
- =?us-ascii?Q?QEYl1TWyk/IeUYV3755rcxjK1Q2zBwGZJkVz4yhkvOVJkxVC9Gi2u7Yl4QsL?=
- =?us-ascii?Q?/ZXy8UjiWVgKLgsXdnx1UASFPxHm0moGMqpnvZySytGf/MN+GTV2VqR/pF21?=
- =?us-ascii?Q?8gKMB/PWlP3Og60OP8vCUNnVfzzABA/7L017CxnM/AfmK+qwIwItmWCHUHGe?=
- =?us-ascii?Q?N7X2pjpfLf9eWNvE8J/xUc32INLHWnApfK4q0RorUOE/KR2j+/v2hULwm/7A?=
- =?us-ascii?Q?09fvFak5rZWEA2kqToskfVV4KYOtqQSSJ+6vcnlphVeDZgiPKqinjWWUR+2J?=
- =?us-ascii?Q?uCIvDGkwPSTq5fXeIpoaZ+IZZbuyLU1HkSaAZqtPvWNJWTxWfEry12Udume6?=
- =?us-ascii?Q?qwXCU6K26xaM0uTG36yzKLOFB9VM9lAGOhnnNlYMo69f3I5LegQmiTm98Rc+?=
- =?us-ascii?Q?m9XIkvcvrpypmPTg76gJYg8v3STi96gAPG17Wbvs1cHjejgJ40JqPDO24CjF?=
- =?us-ascii?Q?jax0cwkPUUWri5doqDszdWEtIkRnAeGZNd/eGG9jSU3Yy2+379TA/6q2eMW6?=
- =?us-ascii?Q?q+tEa/SYPbJ+mTyHg450qJxkY+axdJlWV/jtnDZmgwGDuF+c6tvZ0QvSMrmU?=
- =?us-ascii?Q?gy3bTvo0EtfNCtF73xHVo+hdgjwMFCQLlrBOa6EWydPBRrAcuGKW43xFN3F/?=
- =?us-ascii?Q?5PAL1clWQ50zvk3Ze5IhbIbvgEbPOaQs1PZrCZ1UWlIRlblqpahpY8shh+D+?=
- =?us-ascii?Q?eIGEnJuMGaH4vK9k/U60Ezvb/yjHaXaaGUAQb4qXZel/Mr2LOxEZf49gf4K/?=
- =?us-ascii?Q?9xAZXyOkaTRqp2Vggf19ksfyxp3ZrtCS1m2JHhavlstvuwOiwv7GycR4QMld?=
- =?us-ascii?Q?swxaOmq3aWIP/CaspH8Un0thmjkFXvqhc//wSHW0TJ9QIhU/geA96b65x8YV?=
- =?us-ascii?Q?Yn4URqDokPrxfuU2A+D0DbmLg0n76gjlxjnDRYm5kBtnQ040xuhBqnAzVK89?=
- =?us-ascii?Q?Op1p1BPh5RwEplqrf4PTU3NjM4ZFUqGwnLS+qwTYfGGSjVCfdUj53+vFxA7U?=
- =?us-ascii?Q?ihO2sHgKEVQPi4B/5VWlkFN405rOCh36rOA0hMoXxeZor3zERAF7oytLCSsF?=
- =?us-ascii?Q?FoEIFS/utMDwQOOMt3T3ONlKAnWrE0ALm35HU+5TlstWDIgyoJ5kdGSWDeaV?=
- =?us-ascii?Q?0Q=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0337017BBE
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 24 Jan 2024 08:56:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1706086618; cv=none; b=iYGncEHu+6fR0rzzZF5eIqFXPOMvh9125EaRgpCb92ao01Hidiwv6AVS0E2JYUagjxZLlZRReva7qQIxMzexK4chxYGvik5ChdjuJYLUaNtvT57e8/WGkzjKuCCl8V58HBg3oWqcTXwWe/DX7waDXQjgC02+hKuVra3O1V8x2T4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1706086618; c=relaxed/simple;
+	bh=dVrMUGU5FNcHSAOsHcMw7++s/r63E4ZemMk0gk+U+90=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=KrKPTIwIb+8o70/EYfjtCxnTRSCDxAKgrxwiBPEF8SRV6o5IQHHrRFrjyUh1a3syOHoCM7aMqyMz54v4rUtFG7UA02VrLaLm37iXql6cT/2hly2FbTEKbNMKCuA6hQkwv3v2tn2cYFUJQcgKDWK1q8xOvolkC6kjsonyFY89n7Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=smile.fr; spf=pass smtp.mailfrom=smile.fr; dkim=pass (2048-bit key) header.d=smile-fr.20230601.gappssmtp.com header.i=@smile-fr.20230601.gappssmtp.com header.b=aDWddyzx; arc=none smtp.client-ip=209.85.221.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=smile.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=smile.fr
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-337d99f9cdfso4585087f8f.0
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 24 Jan 2024 00:56:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=smile-fr.20230601.gappssmtp.com; s=20230601; t=1706086613; x=1706691413; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:organization:from:references
+         :cc:to:content-language:subject:user-agent:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=skzJxlwp6Ls2mSmyBdJ2wqDfBkpLt83gmD7vZ6NH92A=;
+        b=aDWddyzxR3rlTOo9p16MWtDkkO7mGJJNs0XmUKkz7oepO3V07vpacgBjwKq83xOkW8
+         3sJYsp82MMWUXP3T6ldVUkz4uGlIO5vKUX1Mmwa2ENFKrgShQ0j/mz8Avm/gp6X03QRl
+         /JnQDgkHA5BDgHSpgPjfo1UhVA+FKn4CYGS5iBIFbRnOopJRCsJtHRNlu9YM2CpSVisY
+         f51AFPIc6pUXXJbV77lRtT4StntLYxmp8fLZsF/BQAGmwKnd3kEg6Q4cR8TA5plVk48R
+         6n2LNdHrjsQgUcuL5sXsFtremtTKRTBmF67HEa4unBKHrAdEAjiI3IvW4ecGKfvgxZi6
+         uL8g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1706086613; x=1706691413;
+        h=content-transfer-encoding:in-reply-to:organization:from:references
+         :cc:to:content-language:subject:user-agent:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=skzJxlwp6Ls2mSmyBdJ2wqDfBkpLt83gmD7vZ6NH92A=;
+        b=pMrCxPMktY1rkKcnPyBrSxctPlijpYc++uCgi7rzOnzbaSc80ZLD/GP7CQUXFAuhad
+         81n7pqbR+SiImZeNBkKcOMyMkjK74TgAP6QOhFKwC4iCAvKUgTV1BmCT6j5ewg6T3um3
+         O9aglduFnQqAk+0wvNdrtRTtaCJwwH03IutOEJE2SDF9nEHq8KjbTT3JkAFQYTO2JIQu
+         X9eSztds2srGU8oqItME8GK3Qj31+BZVwP3XNquHjUToB9goZ2Dxz97lA2Mi+07SFjHM
+         x/MZ9iTApO1hlGNLvxjY3uU/o9p6ZaHhmW8BLbXJhmgCBiHWShutU7lf5WM+nDxU3Ff7
+         WGnA==
+X-Gm-Message-State: AOJu0YyVxYAgyY4hYpUmgux8+bKqIiRrabARez2mDQjcWn9ZNvZoKBjw
+	InmGCgHZCajMzGKGntoqzoJrshtnKBqkvm0VCA/wI6qqAH16ZAsjZzMwInf78g6UJX0zQrBRuLw
+	Ey5o=
+X-Google-Smtp-Source: AGHT+IFFiHrrrfTyHBUqC/JJ9etkX7nWqsCXfzj+BfZ9FAIn6BMnmrdciUWRMyhqsb1IPO2gnY87Bg==
+X-Received: by 2002:adf:ee4d:0:b0:336:613e:9e54 with SMTP id w13-20020adfee4d000000b00336613e9e54mr281621wro.89.1706086613010;
+        Wed, 24 Jan 2024 00:56:53 -0800 (PST)
+Received: from [10.1.8.13] (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
+        by smtp.gmail.com with ESMTPSA id y3-20020adfee03000000b003368c8d120fsm18286005wrn.7.2024.01.24.00.56.52
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 24 Jan 2024 00:56:52 -0800 (PST)
+Message-ID: <b65a68eb-6b96-41ff-bbb9-38cb2dee940e@smile.fr>
+Date: Wed, 24 Jan 2024 09:56:52 +0100
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB11269.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4f1558c1-7f8c-40e7-0db9-08dc1cb6cf4b
-X-MS-Exchange-CrossTenant-originalarrivaltime: 24 Jan 2024 08:31:06.6963
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: TJUKBvU6m8l2fLxPhZVpY661pvaZlNsNFNLpnq6iqI7p8c1b+9ASa60KwtLoaZ5IJKccD3ByEpHDAEBMKXgvaG2YwjiNdlKIqtc3NJH/jG8=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYVPR01MB10895
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] kconfig: remove unneeded symbol_empty variable
+Content-Language: en-US
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: Geert Uytterhoeven <geert@linux-m68k.org>, linux-kbuild@vger.kernel.org,
+ linux-kernel@vger.kernel.org,
+ Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+ Vegard Nossum <vegard.nossum@oracle.com>
+References: <20231125163559.824210-1-masahiroy@kernel.org>
+ <CAMuHMdWm6u1wX7efZQf=2XUAHascps76YQac6rdnQGhc8nop_Q@mail.gmail.com>
+ <d21298d9-fed6-4e08-9780-dbcb388b9ccc@smile.fr>
+ <CAK7LNASaG4DpHTb3YHMd8d8DJ5H3z0aiUcSqX+=7CZb99kRU8A@mail.gmail.com>
+From: Yoann Congal <yoann.congal@smile.fr>
+Organization: Smile ECS
+In-Reply-To: <CAK7LNASaG4DpHTb3YHMd8d8DJ5H3z0aiUcSqX+=7CZb99kRU8A@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Hi Jakub Kicinski,
 
-Thanks for the feedback.
 
-> -----Original Message-----
-> From: Jakub Kicinski <kuba@kernel.org>
-> Sent: Wednesday, January 24, 2024 1:09 AM
-> Subject: Re: [PATCH net-next 1/2] ravb: Add Rx checksum offload support
->=20
-> On Tue, 23 Jan 2024 15:19:23 +0000 Biju Das wrote:
-> > +static void ravb_rx_csum_gbeth(struct sk_buff *skb) {
-> > +	__sum16 csum_ip_hdr, csum_proto;
-> > +	u8 *hw_csum;
-> > +
-> > +	/* The hardware checksum status is contained in sizeof(__sum16) * 2
-> =3D 4
-> > +	 * bytes appended to packet data. First 2 bytes is ip header csum
-> and
-> > +	 * last 2 bytes is protocol csum.
-> > +	 */
-> > +	if (unlikely(skb->len < sizeof(__sum16) * 2))
-> > +		return;
-> > +
-> > +	hw_csum =3D skb_tail_pointer(skb) - sizeof(__sum16);
-> > +	csum_proto =3D csum_unfold((__force
-> > +__sum16)get_unaligned_le16(hw_csum));
-> > +
-> > +	hw_csum -=3D sizeof(__sum16);
-> > +	csum_ip_hdr =3D csum_unfold((__force
-> __sum16)get_unaligned_le16(hw_csum));
-> > +	skb_trim(skb, skb->len - 2 * sizeof(__sum16));
-> > +
-> > +	/* TODO: IPV6 Rx csum */
-> > +	if (skb->protocol =3D=3D htons(ETH_P_IP) && csum_ip_hdr =3D=3D
-> TOE_RX_CSUM_OK &&
-> > +	    csum_proto =3D=3D TOE_RX_CSUM_OK)
-> > +		/* Hardware validated our checksum */
-> > +		skb->ip_summed =3D CHECKSUM_UNNECESSARY; }
->=20
-> sparse does not seem to be onboard:
->=20
-> drivers/net/ethernet/renesas/ravb_main.c:771:20: warning: incorrect type
-> in assignment (different base types)
-> drivers/net/ethernet/renesas/ravb_main.c:771:20:    expected restricted
-> __sum16 [usertype] csum_proto
-> drivers/net/ethernet/renesas/ravb_main.c:771:20:    got restricted __wsum
-> drivers/net/ethernet/renesas/ravb_main.c:774:21: warning: incorrect type
-> in assignment (different base types)
-> drivers/net/ethernet/renesas/ravb_main.c:774:21:    expected restricted
-> __sum16 [usertype] csum_ip_hdr
-> drivers/net/ethernet/renesas/ravb_main.c:774:21:    got restricted __wsum
+Le 24/01/2024 à 09:09, Masahiro Yamada a écrit :
+> On Wed, Jan 24, 2024 at 12:11 AM Yoann Congal <yoann.congal@smile.fr> wrote:
+>>
+>> Le 23/01/2024 à 13:54, Geert Uytterhoeven a écrit :
+>>> Hi Yamada-san,
+>>
+>> Hello,
+>>
+>>> On Sat, Nov 25, 2023 at 5:36 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
+>>>> This is used only for initializing other variables.
+>>>>
+>>>> Use the empty string "".
+>>>>
+>>>> Please note newval.tri is unused for S_INT/HEX/STRING.
+>>>>
+>>>> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+>>>
+>>> Thanks for your patch, which is now commit 4e244c10eab345a7
+>>> ("kconfig: remove unneeded symbol_empty variable") in v6.8-rc1.
+>>>
+>>> When running "make <foo>_defconfig" with <foo>_defconfig an SMP
+>>> defconfig without explicit configuration of CONFIG_LOG_CPU_MAX_BUF_SHIFT,
+>>> the aforementioned commit causes a change in the generated .config:
+>>>
+>>> -CONFIG_LOG_CPU_MAX_BUF_SHIFT=12
+>>> +CONFIG_LOG_CPU_MAX_BUF_SHIFT=0
+>>>
+>>> It looks like CONFIG_BASE_SMALL=0 is treated as a string instead of
+>>> the integer number zero?
+>>>
+>>> init/Kconfig=config LOG_CPU_MAX_BUF_SHIFT
+>>> init/Kconfig-   int "CPU kernel log buffer size contribution (13 => 8
+>>> KB, 17 => 128KB)"
+>>> init/Kconfig-   depends on SMP
+>>> init/Kconfig-   range 0 21
+>>> init/Kconfig:   default 12 if !BASE_SMALL
+>>> init/Kconfig:   default 0 if BASE_SMALL
+>>>
+>>> Note that reverting 4e244c10eab345a7 is not sufficient to fix the issue.
+>>> Also reverting commit 6262afa10ef7cc8f ("kconfig: default to zero if
+>>> int/hex symbol lacks default property") does fix it.
+>>
+>> (Since I'd really like 6262afa10ef7cc8f ("kconfig: default to zero if int/hex symbol lacks default property") to stay, allow me to try to help)
+>>
+>> The problem is quite easy to reproduce:
+>>   $ make x86_64_defconfig
+>>   $ grep 'LOG_CPU_MAX_BUF_SHIFT\|BASE_SMALL\|BASE_FULL' .config
+>>   CONFIG_LOG_CPU_MAX_BUF_SHIFT=0
+>>   CONFIG_BASE_FULL=y
+>>   CONFIG_BASE_SMALL=0
+>> Here, CONFIG_LOG_CPU_MAX_BUF_SHIFT should be 12 not 0.
+> 
+> 
+> 
+> I could not produce it in this way.
+> I ran the same commands as yours.
+> 
+> CONFIG_LOG_CPU_MAX_BUF_SHIFT=12 for me.
+> 
+> 
+> 
+> masahiro@zoe:~/ref/linux(master)$ git describe
+> v6.8-rc1-29-g615d30064886
+> masahiro@zoe:~/ref/linux(master)$ git diff
+> masahiro@zoe:~/ref/linux(master)$ make  x86_64_defconfig
+> #
+> # No change to .config
+> #
 
-I have reproduced this issue and the warning is fixed by replacing
-__sum16->__wsum.
+You already had a .config with the correct value of LOG_CPU_MAX_BUF_SHIFT (Maybe?)
 
-I will send v2 with this fix.
+> masahiro@zoe:~/ref/linux(master)$ grep
+> 'LOG_CPU_MAX_BUF_SHIFT\|BASE_SMALL\|BASE_FULL' .config
+> CONFIG_LOG_CPU_MAX_BUF_SHIFT=12
+> CONFIG_BASE_FULL=y
+> CONFIG_BASE_SMALL=0
 
-Cheers,
-Biju
+Try to remove the existing .config:
+
+   $ git describe 
+  v6.8-rc1
+   $ git diff
+   $ rm .config -f
+   $ make  x86_64_defconfig
+  #
+  # configuration written to .config
+  #
+   $ grep 'LOG_CPU_MAX_BUF_SHIFT\|BASE_SMALL\|BASE_FULL' .config
+  CONFIG_LOG_CPU_MAX_BUF_SHIFT=0
+  CONFIG_BASE_FULL=y
+  CONFIG_BASE_SMALL=0
+
+>>
+>> For what it is worth, CONFIG_BASE_SMALL is defined as an int but is only used as a bool :
+>>    $ git grep BASE_SMALL
+>>   arch/x86/include/asm/mpspec.h:#if CONFIG_BASE_SMALL == 0
+>>   drivers/tty/vt/vc_screen.c:#define CON_BUF_SIZE (CONFIG_BASE_SMALL ? 256 : PAGE_SIZE)
+>>   include/linux/threads.h:#define PID_MAX_DEFAULT (CONFIG_BASE_SMALL ? 0x1000 : 0x8000)
+>>   include/linux/threads.h:#define PID_MAX_LIMIT (CONFIG_BASE_SMALL ? PAGE_SIZE * 8 : \
+>>   include/linux/udp.h:#define UDP_HTABLE_SIZE_MIN         (CONFIG_BASE_SMALL ? 128 : 256)
+>>   include/linux/xarray.h:#define XA_CHUNK_SHIFT           (CONFIG_BASE_SMALL ? 4 : 6)
+>>   init/Kconfig:   default 12 if !BASE_SMALL
+>>   init/Kconfig:   default 0 if BASE_SMALL
+>>   init/Kconfig:config BASE_SMALL
+>>   kernel/futex/core.c:#if CONFIG_BASE_SMALL
+>>   kernel/user.c:#define UIDHASH_BITS      (CONFIG_BASE_SMALL ? 3 : 7)
+>>
+>> Maybe we should change CONFIG_BASE_SMALL to the bool type?
+
+My first test shows that switching CONFIG_BASE_SMALL to bool type does fix the LOG_CPU_MAX_BUF_SHIFT default value.
+
+>> I'll poke around to see if I can understand why a int="0" is true for kconfig.
+
+Here's what I understood:
+To get the default value of LOG_CPU_MAX_BUF_SHIFT, kconfig calls sym_get_default_prop(LOG_CPU_MAX_BUF_SHIFT)
+-> expr_calc_value("BASE_SMALL" as an expr)
+-> sym_calc_value(BASE_SMALL as a symbol) and returns sym->curr.tri
+
+But, if I understood correctly, sym_calc_value() does not set sym->curr.tri in case of a int type config.
+
+Regards,
+-- 
+Yoann Congal
+Smile ECS - Tech Expert
 
