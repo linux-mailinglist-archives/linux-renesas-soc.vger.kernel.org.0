@@ -1,58 +1,58 @@
-Return-Path: <linux-renesas-soc+bounces-1780-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-1781-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6605983AA49
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Jan 2024 13:49:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 449A783AA54
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Jan 2024 13:53:05 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1BE531F22AF6
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Jan 2024 12:49:41 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id EF7CA1F267FA
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Jan 2024 12:53:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7226B7763A;
-	Wed, 24 Jan 2024 12:49:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 793632BB03;
+	Wed, 24 Jan 2024 12:53:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="E0Kzfo+B"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XeJWTrOn"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E81877639
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 24 Jan 2024 12:49:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53F99134CA
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 24 Jan 2024 12:53:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706100577; cv=none; b=mOCQn+Qxpe608z+PeLo6+OcZihPzhVdMoS0cOWBC9lMVBByhDerl/PaZFN8OdmyZMZBpYKGuWX8Xu5tGyc/EYxr4wlSny3NwUM2Gk92uZ3QVt3YLLLsNSWp1mCWQTyTtr4x7uT+tqGRVAK+q1g8U6gbsw7pUrGTtbYMXb7Fzb/w=
+	t=1706100781; cv=none; b=RpH9pow/l5y9gNQSnwoc/aS8TkFZT1oDFm4HHD5N1g5k6YeTbl4useyyxsv7lNv5pGdpANeVjZXw37XYAFTfoGIgKafuat0An8KjZ2QZ52cdVjfDPN9cmOph39NLcqMU/XYjd/uAJk3oWRCfp9DbVQk0GaJE3VaW/sxTsdHoOlQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706100577; c=relaxed/simple;
-	bh=i4bDurkbL4DN40IsX7zxXD9WIY9yH4nISnKEFE/PsWg=;
+	s=arc-20240116; t=1706100781; c=relaxed/simple;
+	bh=u2rFHUt8VyBleF5xRXCrqJPnrFCsq8DUzalN5Awc58c=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RWgEJvH8giRHNGTbq7N6Lciyldr2rexg997n8pvpQ+IvpsDkB4jniaizDt8K7KcsWox37IRJNcNYenFZr2o+klB6tNjq62/jMaWedMBvkrIz/a3px69WvU0TxFBXDpRNbkowDzjd8CYqnU7QDhVVDWf+cVvo/b61QRWOyBFtAJU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=E0Kzfo+B; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4C787C433F1;
-	Wed, 24 Jan 2024 12:49:36 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=oSdiDlgd/o72ypDAHNqHQZ5kG7wKTQMYNKGqmTa3lUMkILXu9U8jLZynaZTeCTQXnwiCWK9AJd+DSRpHFrd/SpmdyMqx+7QD6n7ikbtZQ6cu++vof0OPTr1E57MRdW1SQCjZOBtB9W2Zs3s5cjQ65teCYQLEBzRQ2W69E59mifw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XeJWTrOn; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B47BCC433F1;
+	Wed, 24 Jan 2024 12:53:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1706100576;
-	bh=i4bDurkbL4DN40IsX7zxXD9WIY9yH4nISnKEFE/PsWg=;
+	s=k20201202; t=1706100781;
+	bh=u2rFHUt8VyBleF5xRXCrqJPnrFCsq8DUzalN5Awc58c=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=E0Kzfo+BJieFC0hIStuuQJihTs1gNDYXta704Mu5+Nlz7+9P9uTn5cml31/r6+vQ8
-	 o4JkMMjSUJIx1noOowmz1IMWz5TnB/KYkkXR015vGLy4diN2J1i8F+nyLb16G1oncr
-	 u6mIj25VoAEZr7Okw0HUxv1sbEMsLRy+ANhEiHpwP1imGMRci3v3PKCnuhev730WRy
-	 YTfrvNIx/pVUTBPv/2JmMwByM16oaXtV1KXnXVxBH9dlT/yxXML3XhgyU9y4bc996u
-	 hwq3Fx5dX3YBj303GeOM31B5QPyfRn99UOy76uKsCZDiZYbIdwDwDhauOwaEafMkrv
-	 Lr9b9XssaTfNQ==
-Date: Wed, 24 Jan 2024 13:49:33 +0100
+	b=XeJWTrOnqzTilqbAOKoDHyb3ICzPiVpVfAuzTYrBm6G8dp3/msNdbAGBpgv2OZRUt
+	 x9w/CYpLplfFSl7dqr0LWrjmeMdmDoKNMv9hZvOU/REBoW7uMdmQYn0wwsgkBf2cr/
+	 Q67Wmzdg3vXZcRUYIs6DZodkme6idbBGdvJaC/ZdK7AIkV/xl60tPihv8S7tPspqyb
+	 5ANSOD4kKK9e3mXxYzoxh9RgUH++VjaLAZnQH8N43yoUsist/LOdaPLXlucVqmYMO9
+	 QE+Aj9o9y83P9GJNtw8ujquW10WqI4sxjMVtTBserbe63ewWW49V5SMsBdTll7IjOk
+	 AkhyxCg2YFfPQ==
+Date: Wed, 24 Jan 2024 13:52:57 +0100
 From: Wolfram Sang <wsa@kernel.org>
 To: Geert Uytterhoeven <geert+renesas@glider.be>
 Cc: linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH/RFC 4/7] arm64: dts: renesas: Drop SoC part from White
- Hawk sub boards
-Message-ID: <ZbEHXc8PrOeRN9q4@ninjato>
+Subject: Re: [PATCH/RFC 5/7] arm64: dts: renesas: r8a779g0: white-hawk-cpu:
+ Factor out common parts
+Message-ID: <ZbEIKRyd82rMPGuy@ninjato>
 Mail-Followup-To: Wolfram Sang <wsa@kernel.org>,
 	Geert Uytterhoeven <geert+renesas@glider.be>,
 	linux-renesas-soc@vger.kernel.org
 References: <cover.1702309604.git.geert+renesas@glider.be>
- <9d0c5ecad6472e4c8a8cea0ec6e542193ca03a42.1702309604.git.geert+renesas@glider.be>
+ <e9a9f541870450652952bca2b50603f9f8be940a.1702309604.git.geert+renesas@glider.be>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -60,47 +60,62 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="rcEfqE6QOLN09g7T"
+	protocol="application/pgp-signature"; boundary="hAZJQn7H9WBFCEKT"
 Content-Disposition: inline
-In-Reply-To: <9d0c5ecad6472e4c8a8cea0ec6e542193ca03a42.1702309604.git.geert+renesas@glider.be>
+In-Reply-To: <e9a9f541870450652952bca2b50603f9f8be940a.1702309604.git.geert+renesas@glider.be>
 
 
---rcEfqE6QOLN09g7T
+--hAZJQn7H9WBFCEKT
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Dec 11, 2023 at 05:01:19PM +0100, Geert Uytterhoeven wrote:
-> The White Hawk CSI/DSI and RAVB/Ethernet(1000Base-T1) sub boards are not
-> specific to R-Car V4H.
->=20
-> Hence rename their DTS file names to drop the "r8a779g0-" prefix, and
-> remove any references to R-Car V4H.
->=20
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> @@ -25,6 +21,12 @@ chosen {
+>  		stdout-path =3D "serial0:921600n8";
+>  	};
+> =20
+> +	sn65dsi86_refclk: clk-x6 {
+> +		compatible =3D "fixed-clock";
+> +		#clock-cells =3D <0>;
+> +		clock-frequency =3D <38400000>;
+> +	};
+> +
+>  	keys {
+>  		compatible =3D "gpio-keys";
+> =20
+> @@ -135,12 +137,6 @@ reg_3p3v: regulator-3p3v {
+>  		regulator-boot-on;
+>  		regulator-always-on;
+>  	};
+> -
+> -	sn65dsi86_refclk: clk-x6 {
+> -		compatible =3D "fixed-clock";
+> -		#clock-cells =3D <0>;
+> -		clock-frequency =3D <38400000>;
+> -	};
 
-Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Why was this moved?
 
 
---rcEfqE6QOLN09g7T
+--hAZJQn7H9WBFCEKT
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmWxB10ACgkQFA3kzBSg
-Kbbe6Q/+Kj1wQUrFIiY7nAdIyd4oPbW5C1DyrCMXqrurKz+izy6xMRdJGUoVwoGm
-Kwup6Mud0MxXnim4gg98PR/lOihFbLkqiy/ENiOX8fYle17kodLXPgDPb56BKmwM
-XLrhxDjmLAQXqzsjhO/NiL9NJz9HstACAzIBV8ieD/SGmRvGl0DjAjRQWnGOJZW3
-NXqb2wQSK42vK1tLsqJoojXWSpdpmVZJ4sVs2gOqGfXC1srBJAAj8p9qiVecLi9f
-pxNqP92WoPhgr6uBuGadld0ofceJNT+ZNwSzPy5559ces6QYVwNuhRFdbUN6KLH/
-mVVQDrGaBJMRxUPvCBUOBvWgWDMhEoonOeZ/3Zd+FEfDuKZqywQwXxWkuGiPCzNj
-u2q/Z1KlCuhiKacVCH6YtFzvvbCa8iBtMFb7UmysUAZY5W4O4N7AFOLFp/akyEcD
-/LGlshuHchkkduv7X7jarJAZeNKbTu5vCa+Ss99x2nalVp+xT0oC8AqzeLYU3w8I
-/fs86dsXh1CtGv2gT5GCxfgNnZKvqAvWTM/REl2iyOupG/3qMiFeKQXNoK5M+iNE
-SinkY8PN5LNipV9NPdAfrXgJlx+pooBbqX9zSZ0BzZTsbXr1IBmJQZOZ8rDOAjT/
-QEODgfCYeUTJszTCU3m+ycty3dGoQjjBIbUXVLGaG+0srSl9wwc=
-=9QCt
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmWxCCkACgkQFA3kzBSg
+KbYkMw//aUExwuzeQg50XfAp1sgzVhsZN/iJ0nCo0vT3o9wZoBE0XACKYoB/r6YO
+JnaOA2EM3R+XoTIkFy1Hv8Nx2/qHpl3eOwRDSO6FJt0jVIY/+SLA1v3197zJLJ/+
+OynaT7eu4UpG/Gnu5jE68xQ5mLrBIT1oh4PvgYu+BIdDQpNMDrVSlBCIkb3/lDik
+7MLssE/HpzUhvSF8ebxfcNkTrkmmIVGkl+Pe/MU5iItNN0Ho4bLRkUh6PDkjsQXR
+h77ULV750zKKz6+412Sro75J2V97Q1xzyrCfZnF+FlJes9zGJYYCNgrWFT5ssPkf
+0wzwpnsEu3cb9pPeRPvBvgptRz8GgtRmK8jwvge2AJz5Sc1VeZG6V9ECpaJqN96z
+WWIuCZXUjECZBc+UAtm6JBTeSQ2OAyHXkCUGxBC3AcSGS4PShnYQ+hxbvOCRJ7L2
+wZhK/9rhx4qCrCNvISpECk504LCmsWOsik2AmxQqpE6cuC+MaAnUr7tC91TngkM5
+yA9jq3f3ljiy+8D1GH1KSFdmANLOSGvBBg4sExvZGq2IbniEhk3/b92lqD0qGglx
+PteWan6L46DrBWp0HpVXmLjWevmrr1NWQWBkXTgK79lq7O11Z0VufKmiJPmnejlG
+JPahBiqIQDYpBy1oFBOHKdbxLn8ZNlf2TB9rRsNg4K5pZ1XNUXY=
+=KOzD
 -----END PGP SIGNATURE-----
 
---rcEfqE6QOLN09g7T--
+--hAZJQn7H9WBFCEKT--
 
