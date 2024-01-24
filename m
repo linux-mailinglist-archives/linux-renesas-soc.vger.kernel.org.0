@@ -1,134 +1,171 @@
-Return-Path: <linux-renesas-soc+bounces-1795-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-1796-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id D276A83B334
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Jan 2024 21:49:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2097083B34A
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Jan 2024 21:51:21 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0BCE31C22C21
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Jan 2024 20:49:05 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 52EE91C20C1A
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Jan 2024 20:51:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B513E1350EF;
-	Wed, 24 Jan 2024 20:48:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="l/lDnsnr"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C67FD134744;
+	Wed, 24 Jan 2024 20:50:54 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mx01.omp.ru (mx01.omp.ru [90.154.21.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 830B9134744;
-	Wed, 24 Jan 2024 20:48:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4644D131E53;
+	Wed, 24 Jan 2024 20:50:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.154.21.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706129331; cv=none; b=B8NQtjJK6tiU07aQi+2sdvpqdveq/CxORpe5r1NZJ2sTQy3o11fp3cYf8ZsXMvTvyRVLLE7p0TFvP9vUXLPBvGz3CJCzAa0P4tAN7B6lpaBbAK3z9ayD0b5OD00T97MlY3YW/CWUxmM8cgw23nQO0Jx+3IH+KzqEhoxShiTzC8w=
+	t=1706129454; cv=none; b=mi0yDlATuWWFS4Gwr6Vtgj61SjKm6MZKyPkD4KeYET4BtyD1VadyFJCmjwwBSPZfGQpQjkMbxfD27BnI5bcx60u1RFWqDipjUWDHRKpKP+DgUA21Lsnhm7nIQ1BeUGqB0r+kIvpZBYR2Jx69tIIyZ7ZaDBKjkBMHZWs3C3QWcb8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706129331; c=relaxed/simple;
-	bh=Pu2WnJULiZ3SHOQa+Ls5gMiBM9GGmreLuufDrBDDCxY=;
-	h=Message-ID:Content-Type:MIME-Version:In-Reply-To:References:
-	 Subject:From:Cc:To:Date; b=Uf08sUOzJ4pW1qMkV9Ht2FU/CAPzzNkaah2flzseZHvvcbYmnnWdjk72RHaqqlbM6KfOz3+4LajtJRsLRe6dpHmXLFHtNdh0KAez+9rDWcKZyc1Uc8ybJAzy7Py9n0za/nLqse4q0THJyytfRhyaDFuuJWrArxu42diouFWWcGA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=l/lDnsnr; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D15F6C433C7;
-	Wed, 24 Jan 2024 20:48:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1706129330;
-	bh=Pu2WnJULiZ3SHOQa+Ls5gMiBM9GGmreLuufDrBDDCxY=;
-	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-	b=l/lDnsnrKGyL4NokUGCsi1Dqf3sT2rJfYHrXct9Zr7T2d5xHZklzHnHzME7Eh9v0M
-	 3BHNHwvIlFu/Unu8C2lQmm46LAVa2hT+wPbd81/wdHD4gh0hnjgoy4w56q3WJv2xfH
-	 q7HOrUFDXOuWYrd0wxS6m7yDHyE5reYUHX7ovIqmjpCfP5d5adU7uQf1Qb8gRaJ5Yj
-	 KlycmGGIsCESbhnKmb3TeMBdTK7Sss/DnCDlxbAgi/doD/hQ6yUzeMMuz6UHu1+MmX
-	 rlClWFvh0p71trdnWXIZXqg0HnqytUqUTGRYk+FmHqO43y8xd7c5SwvuKUnIhqYvGR
-	 3O7Y9BSLwS89w==
-Message-ID: <cae77ff909448cd7eb88716696d24091.sboyd@kernel.org>
-Content-Type: text/plain; charset="utf-8"
+	s=arc-20240116; t=1706129454; c=relaxed/simple;
+	bh=rutWW45qOvOA0+vqUP8QLOIEjDbTuqWQVW8R8HLJwlY=;
+	h=Subject:To:CC:References:From:Message-ID:Date:MIME-Version:
+	 In-Reply-To:Content-Type; b=oOrXi7W7WXrcR0f7yvczw5+bd/gfVBE2+5McDq9rsd1I/IqbY5Ml1efcuRHBmA6LOOvqf0c8hpFzb9QPlkrmapr+UKd3XR6I/0vnIoLPq8YtYFJeNXOUGhVYMcGMUmEAl35jzdDe+jqTICO3XEVT6E0i2fcLLQ3Up9uyCZvzUCg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=omp.ru; spf=pass smtp.mailfrom=omp.ru; arc=none smtp.client-ip=90.154.21.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=omp.ru
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=omp.ru
+Received: from [192.168.1.105] (178.176.73.201) by msexch01.omp.ru
+ (10.188.4.12) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.1258.12; Wed, 24 Jan
+ 2024 23:50:42 +0300
+Subject: Re: [PATCH net-next 1/2] ravb: Add Rx checksum offload support
+To: Biju Das <biju.das.jz@bp.renesas.com>, Jakub Kicinski <kuba@kernel.org>
+CC: "David S. Miller" <davem@davemloft.net>, Eric Dumazet
+	<edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Claudiu Beznea
+	<claudiu.beznea.uj@bp.renesas.com>, Yoshihiro Shimoda
+	<yoshihiro.shimoda.uh@renesas.com>, Wolfram Sang
+	<wsa+renesas@sang-engineering.com>, nikita.yoush
+	<nikita.yoush@cogentembedded.com>, "netdev@vger.kernel.org"
+	<netdev@vger.kernel.org>, "linux-renesas-soc@vger.kernel.org"
+	<linux-renesas-soc@vger.kernel.org>, Geert Uytterhoeven
+	<geert+renesas@glider.be>, Prabhakar Mahadev Lad
+	<prabhakar.mahadev-lad.rj@bp.renesas.com>, biju.das.au
+	<biju.das.au@gmail.com>
+References: <20240123151924.373917-1-biju.das.jz@bp.renesas.com>
+ <20240123151924.373917-2-biju.das.jz@bp.renesas.com>
+ <20240123170921.51089d41@kernel.org>
+ <TYCPR01MB11269BEF48F2C2C111C91858A867B2@TYCPR01MB11269.jpnprd01.prod.outlook.com>
+From: Sergey Shtylyov <s.shtylyov@omp.ru>
+Organization: Open Mobile Platform
+Message-ID: <e71607dc-d51f-d5b9-e95a-c11b149083cb@omp.ru>
+Date: Wed, 24 Jan 2024 23:50:42 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <TYCPR01MB1126908A3DCEE35723E102993867B2@TYCPR01MB11269.jpnprd01.prod.outlook.com>
-References: <20240123115821.292787-1-biju.das.jz@bp.renesas.com> <20240123115821.292787-5-biju.das.jz@bp.renesas.com> <Za-u9VO2OuY6vhT8@kekkonen.localdomain> <20240123153550.GT10679@pendragon.ideasonboard.com> <TYCPR01MB112691B281C74CAD8EB14433E86742@TYCPR01MB11269.jpnprd01.prod.outlook.com> <20240123221011.GA16581@pendragon.ideasonboard.com> <TYCPR01MB1126908A3DCEE35723E102993867B2@TYCPR01MB11269.jpnprd01.prod.outlook.com>
-Subject: RE: [PATCH 4/4] media: platform: rzg2l-cru: rzg2l-video: Restructure clk handling
-From: Stephen Boyd <sboyd@kernel.org>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, Hans Verkuil <hverkuil-cisco@xs4all.nl>, Uwe =?utf-8?q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>, Rob Herring <robh@kernel.org>, Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>, linux-media@vger.kernel.org <linux-media@vger.kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>, biju.das.au <biju.das.au@gmail.com>, linux-renesas-soc@vger.kernel.org <linux-renesas-soc@vger.kernel.org>, linux-clk@vger.kernel.org <linux-clk@vger.kernel.org>
-To: Biju Das <biju.das.jz@bp.renesas.com>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Date: Wed, 24 Jan 2024 12:48:48 -0800
-User-Agent: alot/0.10
+In-Reply-To: <TYCPR01MB11269BEF48F2C2C111C91858A867B2@TYCPR01MB11269.jpnprd01.prod.outlook.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: msexch01.omp.ru (10.188.4.12) To msexch01.omp.ru
+ (10.188.4.12)
+X-KSE-ServerInfo: msexch01.omp.ru, 9
+X-KSE-AntiSpam-Interceptor-Info: scan successful
+X-KSE-AntiSpam-Version: 6.1.0, Database issued on: 01/24/2024 20:42:08
+X-KSE-AntiSpam-Status: KAS_STATUS_NOT_DETECTED
+X-KSE-AntiSpam-Method: none
+X-KSE-AntiSpam-Rate: 59
+X-KSE-AntiSpam-Info: Lua profiles 182912 [Jan 24 2024]
+X-KSE-AntiSpam-Info: Version: 6.1.0.3
+X-KSE-AntiSpam-Info: Envelope from: s.shtylyov@omp.ru
+X-KSE-AntiSpam-Info: LuaCore: 7 0.3.7 6d6bf5bd8eea7373134f756a2fd73e9456bb7d1a
+X-KSE-AntiSpam-Info: {rep_avail}
+X-KSE-AntiSpam-Info: {Tracking_from_domain_doesnt_match_to}
+X-KSE-AntiSpam-Info: {relay has no DNS name}
+X-KSE-AntiSpam-Info: {SMTP from is not routable}
+X-KSE-AntiSpam-Info: {Found in DNSBL: 178.176.73.201 in (user)
+ b.barracudacentral.org}
+X-KSE-AntiSpam-Info:
+	127.0.0.199:7.1.2;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;omp.ru:7.1.1
+X-KSE-AntiSpam-Info: ApMailHostAddress: 178.176.73.201
+X-KSE-AntiSpam-Info: {DNS response errors}
+X-KSE-AntiSpam-Info: Rate: 59
+X-KSE-AntiSpam-Info: Status: not_detected
+X-KSE-AntiSpam-Info: Method: none
+X-KSE-AntiSpam-Info: Auth:dmarc=temperror header.from=omp.ru;spf=temperror
+ smtp.mailfrom=omp.ru;dkim=none
+X-KSE-Antiphishing-Info: Clean
+X-KSE-Antiphishing-ScanningType: Heuristic
+X-KSE-Antiphishing-Method: None
+X-KSE-Antiphishing-Bases: 01/24/2024 20:45:00
+X-KSE-Antivirus-Interceptor-Info: scan successful
+X-KSE-Antivirus-Info: Clean, bases: 1/24/2024 5:13:00 PM
+X-KSE-Attachment-Filter-Triggered-Rules: Clean
+X-KSE-Attachment-Filter-Triggered-Filters: Clean
+X-KSE-BulkMessagesFiltering-Scan-Result: InTheLimit
 
-Quoting Biju Das (2024-01-24 06:01:30)
-> > > > > > CSI2nMCT0_VDLN(csi2->lanes)); @@
-> > > > > > -386,11 +389,40 @@ static void
-> > > > > > rzg2l_csi2_mipi_link_enable(struct
-> > > > rzg2l_csi2 *csi2)
-> > > > > >       rzg2l_csi2_write(csi2, CSI2nDTEL, 0xf778ff0f);
-> > > > > >       rzg2l_csi2_write(csi2, CSI2nDTEH, 0x00ffff1f);
-> > > > > >
-> > > > > > +     clk_disable_unprepare(csi2->vclk);
-> > > > > > +     for (count =3D 0; count < 5; count++) {
-> > > > > > +             if (!(__clk_is_enabled(csi2->vclk)))
+On 1/24/24 11:31 AM, Biju Das wrote:
+[...]
 
-__clk_is_enabled() is a clk provider API. You shouldn't be using it in
-consumer drivers.
+>> -----Original Message-----
+>> From: Jakub Kicinski <kuba@kernel.org>
+>> Sent: Wednesday, January 24, 2024 1:09 AM
+>> Subject: Re: [PATCH net-next 1/2] ravb: Add Rx checksum offload support
+>>
+>> On Tue, 23 Jan 2024 15:19:23 +0000 Biju Das wrote:
+>>> +static void ravb_rx_csum_gbeth(struct sk_buff *skb) {
+>>> +	__sum16 csum_ip_hdr, csum_proto;
+>>> +	u8 *hw_csum;
+>>> +
+>>> +	/* The hardware checksum status is contained in sizeof(__sum16) * 2
+>> = 4
+>>> +	 * bytes appended to packet data. First 2 bytes is ip header csum
+>> and
+>>> +	 * last 2 bytes is protocol csum.
+>>> +	 */
+>>> +	if (unlikely(skb->len < sizeof(__sum16) * 2))
+>>> +		return;
+>>> +
+>>> +	hw_csum = skb_tail_pointer(skb) - sizeof(__sum16);
+>>> +	csum_proto = csum_unfold((__force
+>>> +__sum16)get_unaligned_le16(hw_csum));
+>>> +
+>>> +	hw_csum -= sizeof(__sum16);
+>>> +	csum_ip_hdr = csum_unfold((__force
+>> __sum16)get_unaligned_le16(hw_csum));
+>>> +	skb_trim(skb, skb->len - 2 * sizeof(__sum16));
+>>> +
+>>> +	/* TODO: IPV6 Rx csum */
+>>> +	if (skb->protocol == htons(ETH_P_IP) && csum_ip_hdr ==
+>> TOE_RX_CSUM_OK &&
+>>> +	    csum_proto == TOE_RX_CSUM_OK)
+>>> +		/* Hardware validated our checksum */
+>>> +		skb->ip_summed = CHECKSUM_UNNECESSARY; }
+>>
+>> sparse does not seem to be onboard:
+>>
+>> drivers/net/ethernet/renesas/ravb_main.c:771:20: warning: incorrect type
+>> in assignment (different base types)
+>> drivers/net/ethernet/renesas/ravb_main.c:771:20:    expected restricted
+>> __sum16 [usertype] csum_proto
+>> drivers/net/ethernet/renesas/ravb_main.c:771:20:    got restricted __wsum
+>> drivers/net/ethernet/renesas/ravb_main.c:774:21: warning: incorrect type
+>> in assignment (different base types)
+>> drivers/net/ethernet/renesas/ravb_main.c:774:21:    expected restricted
+>> __sum16 [usertype] csum_ip_hdr
+>> drivers/net/ethernet/renesas/ravb_main.c:774:21:    got restricted __wsum
+> 
+> I have reproduced this issue and the warning is fixed by replacing
+> __sum16->__wsum.
+> 
+> I will send v2 with this fix.
 
-> > > > > > +                     break;
-> > > > > > +             usleep_range(10, 20);
-> > > > > > +     }
-> > > > > > +
-> > > > > > +     if (count =3D=3D 5) {
-> > > > > > +             dev_err(csi2->dev, "Timeout, not able to turn OFF
-> > vclk\n");
-> > > > > > +             return -ETIMEDOUT;
-> > > > > > +     }
-> > > > >
-> > > > > It'd be nice to have a CCF function to do this. Either way, you
-> > > > > can use read_poll_timeout().
-> > > >
-> > > > I would have sworn that clk_disable_unprepare() is synchronous, and
-> > > > would have sworn even stronger for clk_prepare_enable(). What's
-> > > > going on here, is there really a delay ? It sounds like a bug in the
-> > clock driver.
-> > >
-> > > At the moment we are not checking clock status when we turn off a
-> > > clock However, for clock ON we are checking the status while turning =
-it
-> > ON.
-> > > We need to fix the driver for clk_disable_unprepare().
-> >=20
-> > Does that mean that the check below clk_prepare_enable() could be remov=
-ed
-> > already ?
->=20
-> Yes, that is correct I will remove in the next version as clk_prepare_ena=
-ble() is
-> synchronous as it checks the status to make sure it is turned ON.
->=20
-> >=20
-> > Regarding clock disable, it isn't clear if the API guarantees synchrono=
-us
-> > calls. I'd recommend asking the clock maintainers. If it doesn't, then =
-the
-> > clock driver isn't wrong (and may lead to faster operation in most case=
-s),
-> > but I think synchronizing the clock disable by waiting for the clock to=
- be
-> > actually disabled should be implemented as a helper in CCF.
->=20
-> +clk.
->=20
-> Hi Stephen and all,
->=20
-> Can you please shed some light on this?
->=20
+   You could have waited for my review...
+   Dave, Jakub, please don't merge these patches before I have a chance
+to review them. I'm overwhelmed by reviews (both internal and public)
+ATM... :-/
 
-clk_disable() is reference counted. The call to clk_disable() may do
-nothing besides decrement a count and return. Per the documentation in
-clk.h it means that the consumer is no longer using the clk. The clk
-could be turned off later, or not at all.
+> Cheers,
+> Biju
 
-It seems like the clk driver has a bug. Make the clk driver synchronize
-the disable with enable please.
+MBR, Sergey
 
