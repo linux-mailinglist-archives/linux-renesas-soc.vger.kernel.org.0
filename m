@@ -1,77 +1,78 @@
-Return-Path: <linux-renesas-soc+bounces-1785-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-1786-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DBA083AAE2
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Jan 2024 14:26:18 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id EF8BF83AAEE
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Jan 2024 14:29:12 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C5085B2871C
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Jan 2024 13:26:01 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2EEB81C213D9
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Jan 2024 13:29:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7EACA77645;
-	Wed, 24 Jan 2024 13:25:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E7EB177F09;
+	Wed, 24 Jan 2024 13:29:10 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com [209.85.128.172])
+Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com [209.85.128.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AA5277622
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 24 Jan 2024 13:25:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16BF277622
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 24 Jan 2024 13:29:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706102751; cv=none; b=j6wE+j5kjLJOs8AQAN9VRyRilGutPt5GpSF227pOZB4tFpt9Q5Gmr/neFinZU2hp5aFtTb1z09tJc8G0eRrmu/ve7RWtdqeJ3+cgfg48lWYofneQv06ZUPieHJt1QYP5O5X59BwV+EbajxDS4M+450nC8reEhGr2AmVcZb0DEBk=
+	t=1706102950; cv=none; b=GuKJOq0ENwCMBL3WALhcXhYPByDzi2BU3gIVIkYSPkrcdp2nop6HufUiALRL0vrW7zgMCuTsY+lNAI2ipXwh6FKcxh17aqi46uBeOi7TzC38RWYJQ7flBniEMl1MF9BHg8TKnr5qbw1aPRRib0ciwfdhLKb9b9wv2ItFf48ZObo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706102751; c=relaxed/simple;
-	bh=0YJDhKOIt2VPPmsnBnpwDSFlyoh0I0H/NLLdLdVGTAo=;
+	s=arc-20240116; t=1706102950; c=relaxed/simple;
+	bh=bn237oNNBVxV2loLWX7bfWroyrVpzSqvkxztvCXqKaA=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=prdhUCtf0He/JmbidnaeHjVZqkpfJ1aO9IHqeWJ1LpuUzo2ZKCTB6cRf/FmxilQ8wrtITEMeW5gu8QX8wWu9woYx53j2B3uxs4CrteIwb31HhGLNSO0O/W3idaeuvwNE+2AW9eVTlh4ibKHIqd/zp8oKA+mmULJt98tt9urm+U8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.172
+	 To:Cc:Content-Type; b=W9d5DHPBJeUXuTjs1yoHOdeohAiAKSVnVl44RqsWa8UHMaeyOEQFiJAOeZuLGlQ51GsLi0bdo+PTQfAwTnfiZQvAndb/ZUjN9PogpLODxDDUArWxZcchdVCm3jEDyLfLmevcV8YlZiB3hBtfdjbb+piSaXysxDvDzn5pzgUkQ9U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-6001449a2beso23839207b3.3
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 24 Jan 2024 05:25:49 -0800 (PST)
+Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-5ff7a098ab8so46081177b3.3
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 24 Jan 2024 05:29:08 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706102748; x=1706707548;
+        d=1e100.net; s=20230601; t=1706102948; x=1706707748;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Hy0H0EZVDYFtEJ0eZjsAiED2zmpVFPtoVUwT7d+/Qq0=;
-        b=tRsNGHT51//nY3l4zfHrMPXNphRPrY7tYk0uK+8mrcKXs8YrwcVpfyipwb7udcq/x/
-         Jg8EqADHfjlozQDPRtZKbtiDbOAZkYi7I68NRjLyXFf7Y2+x/nizhLLiMqcG5AtTQDF5
-         PYKDVNvaU8yScRAM6mggMwIj3rFW1WIaaU9wvmCt0vkxjN6JOYRCaJoqhk9QVtZOVTLy
-         XRPYAIFtpHPm8LGeAy0spLQWj2VBX4S6BF2xreeO0AJGjuB2mXUTYTmc2bEj3u83llqz
-         DLiGG9xQllrL2P2qIC/kRJo2c38itmXgq5fFtq+nPlhF3WSXaqE+BYk09j0uN88J3V50
-         qH5g==
-X-Gm-Message-State: AOJu0Yxr357q/SZxpVtUkOqCM4VvZ0/OZ4OTzjkk2mnXsW0HRZ/dm4Ab
-	kH3FQnC8v/nqp13z0/Xi0lPSnK+IPbbMl9sYNCJ9NFN/z+hNiRCF5d/igOEnOT0=
-X-Google-Smtp-Source: AGHT+IFootLViMsoycOCKfbByd8LoovrmiZE1CbVUIfNfIRI+3Ja9WyBhv/zfGgWSU18MWsLOyNIgQ==
-X-Received: by 2002:a81:7309:0:b0:5ff:a528:e7f3 with SMTP id o9-20020a817309000000b005ffa528e7f3mr723751ywc.103.1706102747936;
-        Wed, 24 Jan 2024 05:25:47 -0800 (PST)
-Received: from mail-yb1-f175.google.com (mail-yb1-f175.google.com. [209.85.219.175])
-        by smtp.gmail.com with ESMTPSA id m9-20020a819c09000000b006003a34bc78sm1004542ywa.139.2024.01.24.05.25.47
+        bh=he8G+pRaInKaEAtDzkFzp7UpMo9IbkEJtQjmYrpewCQ=;
+        b=jqkg4jnnzWNrXxbAbFLfbMqMjYGCSwYS34hJvtqf9zQHUmqxdbyUZcoRrcdSBDE0RE
+         iNoPI0KR5kk2qjwbH/nPkSEjb0WodrO4VQ906JaelMlX0WsAl0rrbt9bOsgUzt31h7u2
+         z1rdJTuZhlQvSHu9HgKGHmIuYAKxEjhoUt0NRNKr4zgLVRQ29ASJVqokXO1il5nH4re+
+         lIXT0mIy3QhLBvSnlYIdg0Yup1QIaSOxgHFGWlvQIT1mHIXmdqzv73HqfQjhdnRkMwA8
+         wrOOE7zA+p9DKTwQIgGYQkQczzN+7jUDFYJqTlkPJuXvG4UOT555PHJeaPVQLPGBOI87
+         U1lg==
+X-Gm-Message-State: AOJu0YzOKKRTzfdMRqO9wIYfk92mlxZ720/exzrP62ciu2rUfjdK8hMO
+	/h6nZVHobh6mlahHeMXq8yHK+iYIuZACqQjXKz49KgmmVs+oS7bcy0nbMLGoOEg=
+X-Google-Smtp-Source: AGHT+IH2KU2yJWkp7bddIy8mYUMP4hLwSi38AE9KBUPHMKnOLWfBfyqXXHnTU1myZ0+AnYGIF1DXEA==
+X-Received: by 2002:a25:b28d:0:b0:dc2:2224:b589 with SMTP id k13-20020a25b28d000000b00dc22224b589mr697239ybj.74.1706102947898;
+        Wed, 24 Jan 2024 05:29:07 -0800 (PST)
+Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com. [209.85.128.175])
+        by smtp.gmail.com with ESMTPSA id c15-20020a25af4f000000b00dc265f5ee1dsm2737596ybj.20.2024.01.24.05.29.07
         for <linux-renesas-soc@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 24 Jan 2024 05:25:47 -0800 (PST)
-Received: by mail-yb1-f175.google.com with SMTP id 3f1490d57ef6-dafe04717baso4607423276.1
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 24 Jan 2024 05:25:47 -0800 (PST)
-X-Received: by 2002:a5b:c6:0:b0:dbe:a175:3440 with SMTP id d6-20020a5b00c6000000b00dbea1753440mr514543ybp.92.1706102747496;
- Wed, 24 Jan 2024 05:25:47 -0800 (PST)
+        Wed, 24 Jan 2024 05:29:07 -0800 (PST)
+Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-5ff7a098ab8so46081037b3.3
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 24 Jan 2024 05:29:07 -0800 (PST)
+X-Received: by 2002:a81:5354:0:b0:5ee:6403:8931 with SMTP id
+ h81-20020a815354000000b005ee64038931mr781036ywb.55.1706102947486; Wed, 24 Jan
+ 2024 05:29:07 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cover.1702309604.git.geert+renesas@glider.be> <e9a9f541870450652952bca2b50603f9f8be940a.1702309604.git.geert+renesas@glider.be>
- <ZbEIKRyd82rMPGuy@ninjato>
-In-Reply-To: <ZbEIKRyd82rMPGuy@ninjato>
+References: <cover.1702309604.git.geert+renesas@glider.be> <7f9c840ed44dfd57da545e87b5937b58f35cb9c9.1702309604.git.geert+renesas@glider.be>
+ <ZbEKR7GO_aeHsmwe@ninjato>
+In-Reply-To: <ZbEKR7GO_aeHsmwe@ninjato>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 24 Jan 2024 14:25:35 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdX9aj2XpP7dGev7qqVA2r0S42WzQ6WATiJJc6UuK6NfMA@mail.gmail.com>
-Message-ID: <CAMuHMdX9aj2XpP7dGev7qqVA2r0S42WzQ6WATiJJc6UuK6NfMA@mail.gmail.com>
-Subject: Re: [PATCH/RFC 5/7] arm64: dts: renesas: r8a779g0: white-hawk-cpu:
- Factor out common parts
+Date: Wed, 24 Jan 2024 14:28:56 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdUYrjtvSpv=_501+f_SD0_gkPu9ezqAED3uC0Qd0n09+Q@mail.gmail.com>
+Message-ID: <CAMuHMdUYrjtvSpv=_501+f_SD0_gkPu9ezqAED3uC0Qd0n09+Q@mail.gmail.com>
+Subject: Re: [PATCH/RFC 7/7] arm64: dts: renesas: r8a779g0: Add White Hawk
+ Single support
 To: Wolfram Sang <wsa@kernel.org>
 Cc: linux-renesas-soc@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
@@ -79,35 +80,36 @@ Content-Transfer-Encoding: quoted-printable
 
 Hi Wolfram,
 
-On Wed, Jan 24, 2024 at 1:53=E2=80=AFPM Wolfram Sang <wsa@kernel.org> wrote=
+On Wed, Jan 24, 2024 at 2:02=E2=80=AFPM Wolfram Sang <wsa@kernel.org> wrote=
 :
-> > @@ -25,6 +21,12 @@ chosen {
-> >               stdout-path =3D "serial0:921600n8";
-> >       };
+> On Mon, Dec 11, 2023 at 05:01:22PM +0100, Geert Uytterhoeven wrote:
+> > The White Hawk Single board is a single-board integration of the Renesa=
+s
+> > White Hawk CPU and Breakout board stack, based on the R-Car V4H ES2.0
+> > (R8A779G2) SoC.
 > >
-> > +     sn65dsi86_refclk: clk-x6 {
-> > +             compatible =3D "fixed-clock";
-> > +             #clock-cells =3D <0>;
-> > +             clock-frequency =3D <38400000>;
-> > +     };
-> > +
-> >       keys {
-> >               compatible =3D "gpio-keys";
+> > For now, the only visible differences compared to the board stack are:
+> >   - The SoC is an updated version of R-Car V4H (R8A779G0),
+> >   - The serial console uses an FT2232H instead of a CP2102 USB-UART
+> >     bridge, with CTS/RTS wired.
 > >
-> > @@ -135,12 +137,6 @@ reg_3p3v: regulator-3p3v {
-> >               regulator-boot-on;
-> >               regulator-always-on;
-> >       };
-> > -
-> > -     sn65dsi86_refclk: clk-x6 {
-> > -             compatible =3D "fixed-clock";
-> > -             #clock-cells =3D <0>;
-> > -             clock-frequency =3D <38400000>;
-> > -     };
+> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 >
-> Why was this moved?
+> Modulo the HSCIF pin issue:
+>
+> Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+>
+> I like the split up and the naming. Makes sense to me.
 
-To restore sort order (alphabetical by node name)
+Thanks!
+
+> > +/*
+> > + * Device Tree Source for the White Hawk Single board
+>
+> Maybe add "R-Car V4H" here? Maybe even "Rev 2.0"?
+
+The existing r8a779g0-white-hawk.dts does not have such a comment.
+Perhaps it should be added, too?
 
 Gr{oetje,eeting}s,
 
