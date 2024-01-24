@@ -1,253 +1,111 @@
-Return-Path: <linux-renesas-soc+bounces-1758-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-1759-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE8F883A6A4
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Jan 2024 11:22:29 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C15A83A6B7
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Jan 2024 11:25:20 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6F7941F2302C
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Jan 2024 10:22:29 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id F12ED1F21E6A
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Jan 2024 10:25:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BFEE91AACF;
-	Wed, 24 Jan 2024 10:21:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 39EF318057;
+	Wed, 24 Jan 2024 10:25:16 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C68161B274;
-	Wed, 24 Jan 2024 10:21:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.171
+Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com [209.85.128.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4956E171AB
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 24 Jan 2024 10:25:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706091696; cv=none; b=BX1fmqJgEJaIkXlpC7L5VA9o/QqMyNRKz9Ibcz8wMPLDQmLvFR5/cQ5tg4VkMPo5ZGQxV1CK0pLorOr6ho+CqwH8bLx4iwuIv48a8BBLrcYzxlMeBdwohEYT1pNVJG4k/Jl5/wXlRO7+xsqF5qWqPWhXbT5FhCO/fYJEQa9Km48=
+	t=1706091916; cv=none; b=KnOg6DVGwN4oBk2L/tE1Ymf9G9bO6jdpDYQ4jpE6tjTjxZmrbDkgflu8LudJUhN3UZHX5xA/eZkiX/MyNpuRCc9GzG4SdjD6nj0ryFURyvQUKWNE4KgCgXYqt98pK77pAnn9rI3FrDggaOFubBacu5vkQnPYP7S6VtG6uj3zBjs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706091696; c=relaxed/simple;
-	bh=hsDyMT6g/pjPGliwWijn4GemfHrhalpIpWsWgOUK6KM=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=iLfWLJcEd9qx1/TVDNXN01MY5h/O56K4EEY8JF2UaSq41fYjNzkrOuPEKfFtuE7cOuFFnPnbCPGa6RNmdHujJS2Ml+2ohQ2EboPSAf0bFHgybeKs8MGINIVYTin4wC8QqV8pZEwq79/D7Aa4HqpcrC8JxZQ1EWbt05LhDVWW2LQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
-X-IronPort-AV: E=Sophos;i="6.05,216,1701097200"; 
-   d="scan'208";a="191560345"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie5.idc.renesas.com with ESMTP; 24 Jan 2024 19:21:33 +0900
-Received: from localhost.localdomain (unknown [10.226.92.243])
-	by relmlir5.idc.renesas.com (Postfix) with ESMTP id A3D9E40083C4;
-	Wed, 24 Jan 2024 19:21:28 +0900 (JST)
-From: Biju Das <biju.das.jz@bp.renesas.com>
-To: "David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>
-Cc: Biju Das <biju.das.jz@bp.renesas.com>,
-	Sergey Shtylyov <s.shtylyov@omp.ru>,
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
-	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-	Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Nikita Yushchenko <nikita.yoush@cogentembedded.com>,
-	netdev@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Biju Das <biju.das.au@gmail.com>
-Subject: [PATCH net-next v2 2/2] ravb: Add Tx checksum offload support
-Date: Wed, 24 Jan 2024 10:21:15 +0000
-Message-Id: <20240124102115.132154-3-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20240124102115.132154-1-biju.das.jz@bp.renesas.com>
-References: <20240124102115.132154-1-biju.das.jz@bp.renesas.com>
+	s=arc-20240116; t=1706091916; c=relaxed/simple;
+	bh=jo1c1cjQDnNevCb33d9r4F/oikmxOKsbijMPj25vUm8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Content-Type; b=M86QaYZJKcEgWEMtWl3yZ1gI3wkcg/DcFhC3N/se2v9bFuIX9tAOmmkX0zNHTr8AFIVoGbfaS7SOE3aJ7gnbhmsSyxwPnZBJJ0QzpGtxucEedmv7XyBDXo89DrHOBTsT2lDxrijpOdCGRRMrMR5FYf0confnzXgwWcNxHAR4XTY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-5ff7dd8d7ceso46534747b3.0
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 24 Jan 2024 02:25:14 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1706091913; x=1706696713;
+        h=content-transfer-encoding:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=l+0LuqyTp8WFTeaQw03cu6oLwLbepvbfSHYAoHPrjy0=;
+        b=YDFx/6QlUQ7Tf97wM9U4Q8/GTt0gZXRHXmr/bXJG9tgpk9i+PBLUMhrZyxelkinJES
+         yvD68yMFpuR4OJZR5+17uo28Es/n/Fsiz0p/mSeosVBrES+URJ3a7nxIVd2WFPYFaQmO
+         rMN1Ujqmlkr2RK89PtsNLGGhSOd9bkwqE1LOpCOXy/lw3lU04NPUW2W3TKKczBTKlNVL
+         trftK+5Ttxdcz7pw9pN5lRU+aMflY4YwnfT1No7mGF3cIXGN39yl2WqBstBechFyiADh
+         1GvJ7gf9M/lKoM9W4DYEWzBngFlR8tYtI7pW7r24nALHMwebso0VQwG2xwlguI5zQGW6
+         yBjQ==
+X-Gm-Message-State: AOJu0Yzq5ZoO061uC8BQVxWlNWt0YZwX1T3SlXbJiQfHL1jqfP5iSg1s
+	vuDkc4n5bjOQ0SoF0ZSOgQ4RdBLJIgZshDgubXIG9TFG/n5sRHxm+spWzdwxoyA=
+X-Google-Smtp-Source: AGHT+IESbXGoaFX4PL9r9fSxwBeCp7pcIwkL0/QYKt3LKfvivaS5/TGKkiq3eWsPMywFfeUaCllKog==
+X-Received: by 2002:a81:9c4d:0:b0:5ff:64cf:1c49 with SMTP id n13-20020a819c4d000000b005ff64cf1c49mr557445ywa.56.1706091913052;
+        Wed, 24 Jan 2024 02:25:13 -0800 (PST)
+Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com. [209.85.128.180])
+        by smtp.gmail.com with ESMTPSA id h81-20020a815354000000b005ffa62881e0sm3472306ywb.91.2024.01.24.02.25.12
+        for <linux-renesas-soc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 24 Jan 2024 02:25:12 -0800 (PST)
+Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-5fc2e997804so47594687b3.3
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 24 Jan 2024 02:25:12 -0800 (PST)
+X-Received: by 2002:a81:a14c:0:b0:5ff:57cc:dd3b with SMTP id
+ y73-20020a81a14c000000b005ff57ccdd3bmr523260ywg.15.1706091912513; Wed, 24 Jan
+ 2024 02:25:12 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <CAMuHMdWXPesKV7XE_QwLrM6pZ1z6GFC-SjJ1ceFTs4o=hv71Zg@mail.gmail.com>
+ <CAMuHMdX8HtWOAK6MDdN8F8V0aer0hTHzeAcnCGMycpS70hesNQ@mail.gmail.com>
+ <CAMuHMdUjse9v=U8=oZHDJx0Oh9uVzxVWYU+C9jaP_23UOBVMaw@mail.gmail.com>
+ <CAMuHMdVGnDg=zkjOSmCWAjEnjfSN9rhOCG-ubzeTf3mvjTEavw@mail.gmail.com>
+ <CAMuHMdXkdD0dN93zsQnjCzFo6ijS2xDzbh+GPGe6--_FuuRbHQ@mail.gmail.com>
+ <CAMuHMdV0KWN2nHDGT28ysTPwBTrachBSsGWf0hHqrci-d0U33A@mail.gmail.com> <CAMuHMdUWt+h7=rF+Z5sjQ_=xvoK8FeDGk9OnL=2KJ+gFdTnp3A@mail.gmail.com>
+In-Reply-To: <CAMuHMdUWt+h7=rF+Z5sjQ_=xvoK8FeDGk9OnL=2KJ+gFdTnp3A@mail.gmail.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Wed, 24 Jan 2024 11:25:01 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdXi1Ev3uKBVnrE5HO8=m+kkaXLc+5b92txFpB8rLUGrcw@mail.gmail.com>
+Message-ID: <CAMuHMdXi1Ev3uKBVnrE5HO8=m+kkaXLc+5b92txFpB8rLUGrcw@mail.gmail.com>
+Subject: Re: Future renesas-drivers releases
+To: Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-TOE has hw support for calculating IP header and TCP/UDP/ICMP checksum for
-both IPV4 and IPV6.
+On Mon, Nov 13, 2023 at 12:03=E2=80=AFPM Geert Uytterhoeven
+<geert@linux-m68k.org> wrote:
+>   - renesas-drivers-2024-01-02-v6.7 (TBD),
+>   - renesas-drivers-2024-01-09-v6.7 (TBD).
 
-Add Tx checksum offload supported by TOE for IPv4 and TCP/UDP.
+So that became renesas-drivers-2024-01-09-v6.7, followed by
+renesas-drivers-2024-01-23-v6.8-rc1.
 
-For Tx, the result of checksum calculation is set to the checksum field of
-each IPv4 Header/TCP/UDP/ICMP of ethernet frames. For the unsupported
-frames, those fields are not changed. If a transmission frame is an UDP
-frame of IPv4 and its checksum value in the UDP header field is H’0000,
-TOE does not calculate checksum for UDP part of this frame as it is
-optional function as per standards.
+Next planned releases, if all goes well:
+  - renesas-drivers-2024-02-06-v6.8-rc3,
+  - renesas-drivers-2024-02-20-v6.8-rc5,
+  - renesas-drivers-2024-03-05-v6.8-rc7,
+  - renesas-drivers-2024-03-12-v6.8 (TBD),
+  - renesas-drivers-2024-03-19-v6.8 (TBD).
 
-We can test this functionality by the below commands
+Gr{oetje,eeting}s,
 
-ethtool -K eth0 tx on --> to turn on Tx checksum offload
-ethtool -K eth0 tx off --> to turn off Tx checksum offload
+                        Geert
 
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
----
-v1->v2:
- * No change.
----
- drivers/net/ethernet/renesas/ravb.h      | 16 ++++++
- drivers/net/ethernet/renesas/ravb_main.c | 66 ++++++++++++++++++++++--
- 2 files changed, 77 insertions(+), 5 deletions(-)
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
 
-diff --git a/drivers/net/ethernet/renesas/ravb.h b/drivers/net/ethernet/renesas/ravb.h
-index a2c494a85d12..3cf869fb9a68 100644
---- a/drivers/net/ethernet/renesas/ravb.h
-+++ b/drivers/net/ethernet/renesas/ravb.h
-@@ -209,6 +209,7 @@ enum ravb_reg {
- 	RFCR	= 0x0760,
- 	MAFCR	= 0x0778,
- 	CSR0    = 0x0800,	/* RZ/G2L only */
-+	CSR1    = 0x0804,	/* RZ/G2L only */
- 	CSR2    = 0x0808,	/* RZ/G2L only */
- };
- 
-@@ -982,6 +983,21 @@ enum CSR0_BIT {
- 	CSR0_RPE	= 0x00000020,
- };
- 
-+enum CSR1_BIT {
-+	CSR1_TIP4	= 0x00000001,
-+	CSR1_TTCP4	= 0x00000010,
-+	CSR1_TUDP4	= 0x00000020,
-+	CSR1_TICMP4	= 0x00000040,
-+	CSR1_TTCP6	= 0x00100000,
-+	CSR1_TUDP6	= 0x00200000,
-+	CSR1_TICMP6	= 0x00400000,
-+	CSR1_THOP	= 0x01000000,
-+	CSR1_TROUT	= 0x02000000,
-+	CSR1_TAHD	= 0x04000000,
-+	CSR1_TDHD	= 0x08000000,
-+	CSR1_ALL	= 0x0F700071,
-+};
-+
- enum CSR2_BIT {
- 	CSR2_RIP4	= 0x00000001,
- 	CSR2_RTCP4	= 0x00000010,
-diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
-index 59c7bedacef6..3c748a54fae0 100644
---- a/drivers/net/ethernet/renesas/ravb_main.c
-+++ b/drivers/net/ethernet/renesas/ravb_main.c
-@@ -29,6 +29,7 @@
- #include <linux/spinlock.h>
- #include <linux/reset.h>
- #include <linux/math64.h>
-+#include <net/ip.h>
- 
- #include "ravb.h"
- 
-@@ -524,19 +525,29 @@ static int ravb_ring_init(struct net_device *ndev, int q)
- 
- static void ravb_csum_offload_init_gbeth(struct net_device *ndev)
- {
-+	bool tx_enable = ndev->features & NETIF_F_HW_CSUM;
- 	bool rx_enable = ndev->features & NETIF_F_RXCSUM;
- 	u32 csr0;
- 
--	if (!rx_enable)
-+	if (!(tx_enable || rx_enable))
- 		return;
- 
- 	csr0 = ravb_read(ndev, CSR0);
- 	ravb_write(ndev, csr0 & ~(CSR0_RPE | CSR0_TPE), CSR0);
- 	if (ravb_wait(ndev, CSR0, CSR0_RPE | CSR0_TPE, 0)) {
- 		netdev_err(ndev, "Timeout Enabling HW CSUM failed\n");
--		ndev->features &= ~NETIF_F_RXCSUM;
-+
-+		if (tx_enable)
-+			ndev->features &= ~NETIF_F_HW_CSUM;
-+
-+		if (rx_enable)
-+			ndev->features &= ~NETIF_F_RXCSUM;
- 	} else {
--		ravb_write(ndev, CSR2_ALL, CSR2);
-+		if (tx_enable)
-+			ravb_write(ndev, CSR1_ALL, CSR1);
-+
-+		if (rx_enable)
-+			ravb_write(ndev, CSR2_ALL, CSR2);
- 	}
- 
- 	ravb_write(ndev, csr0, CSR0);
-@@ -1990,6 +2001,39 @@ static void ravb_tx_timeout_work(struct work_struct *work)
- 	rtnl_unlock();
- }
- 
-+static bool ravb_is_tx_checksum_offload_gbeth_possible(struct sk_buff *skb)
-+{
-+	struct iphdr *ip = ip_hdr(skb);
-+
-+	/* TODO: Need to add support for VLAN tag 802.1Q */
-+	if (skb_vlan_tag_present(skb))
-+		return false;
-+
-+	/* TODO: Need to add HW checksum for IPV6 */
-+	if (skb->protocol != htons(ETH_P_IP))
-+		return false;
-+
-+	switch (ip->protocol) {
-+	case IPPROTO_TCP:
-+		break;
-+	case IPPROTO_UDP:
-+		/* If the checksum value in the UDP header field is “H’0000”,
-+		 * TOE does not calculate checksum for UDP part of this frame
-+		 * as it is optional function as per standards.
-+		 */
-+		if (udp_hdr(skb)->check == 0)
-+			return false;
-+		break;
-+	/* TODO: Need to add HW checksum for ICMP */
-+	case IPPROTO_ICMP:
-+		fallthrough;
-+	default:
-+		return false;
-+	}
-+
-+	return true;
-+}
-+
- /* Packet transmit function for Ethernet AVB */
- static netdev_tx_t ravb_start_xmit(struct sk_buff *skb, struct net_device *ndev)
- {
-@@ -2005,6 +2049,11 @@ static netdev_tx_t ravb_start_xmit(struct sk_buff *skb, struct net_device *ndev)
- 	u32 entry;
- 	u32 len;
- 
-+	if (skb->ip_summed == CHECKSUM_PARTIAL) {
-+		if (!ravb_is_tx_checksum_offload_gbeth_possible(skb))
-+			skb_checksum_help(skb);
-+	}
-+
- 	spin_lock_irqsave(&priv->lock, flags);
- 	if (priv->cur_tx[q] - priv->dirty_tx[q] > (priv->num_tx_ring[q] - 1) *
- 	    num_tx_desc) {
-@@ -2408,6 +2457,13 @@ static int ravb_set_features_gbeth(struct net_device *ndev,
- 			ravb_write(ndev, 0, CSR2);
- 	}
- 
-+	if (changed & NETIF_F_HW_CSUM) {
-+		if (features & NETIF_F_HW_CSUM)
-+			ravb_write(ndev, CSR1_ALL, CSR1);
-+		else
-+			ravb_write(ndev, 0, CSR1);
-+	}
-+
- 	ndev->features = features;
- err_wait:
- 	ravb_write(ndev, csr0, CSR0);
-@@ -2593,8 +2649,8 @@ static const struct ravb_hw_info gbeth_hw_info = {
- 	.emac_init = ravb_emac_init_gbeth,
- 	.gstrings_stats = ravb_gstrings_stats_gbeth,
- 	.gstrings_size = sizeof(ravb_gstrings_stats_gbeth),
--	.net_hw_features = NETIF_F_RXCSUM,
--	.net_features = NETIF_F_RXCSUM,
-+	.net_hw_features = NETIF_F_RXCSUM | NETIF_F_HW_CSUM,
-+	.net_features = NETIF_F_RXCSUM | NETIF_F_HW_CSUM,
- 	.stats_len = ARRAY_SIZE(ravb_gstrings_stats_gbeth),
- 	.max_rx_len = ALIGN(GBETH_RX_BUFF_MAX, RAVB_ALIGN),
- 	.tccr_mask = TCCR_TSRQ0,
--- 
-2.25.1
-
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
