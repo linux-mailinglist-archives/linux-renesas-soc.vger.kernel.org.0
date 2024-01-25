@@ -1,94 +1,135 @@
-Return-Path: <linux-renesas-soc+bounces-1837-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-1838-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48BA283C717
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 25 Jan 2024 16:45:22 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id E5A7083C8C0
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 25 Jan 2024 17:53:56 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id F3B751F24630
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 25 Jan 2024 15:45:21 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 24DC71C2263D
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 25 Jan 2024 16:53:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3314A6E2C9;
-	Thu, 25 Jan 2024 15:45:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EBBED140794;
+	Thu, 25 Jan 2024 16:45:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oRrNkVd0"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from xavier.telenet-ops.be (xavier.telenet-ops.be [195.130.132.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC7A773167
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 25 Jan 2024 15:45:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.132.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C24C413541E;
+	Thu, 25 Jan 2024 16:45:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706197518; cv=none; b=k6ZkVwSiC8f18SE87NskaVPvFWn9aFYkPnKhuiJwSjm60+NdWnMW4NIZk2RSk+VZNCjuEx4ZgSexYTvNF39b02R8JDjCJnLyBTUs5ibC1FXGCgZOFfyhLjYT+TNQIK66tuH6fYkDWXBxmDi4CZjKCUXbDGe5B2Dcx4kn/y1blCg=
+	t=1706201111; cv=none; b=DFf1pMjszyv7Oh1KWuB/lYh7Rxvpwn21V6RtMv0cQP9RIy5yvz+4PC4p/zcALuxPCoHBzBrnPqduDnOl9XHA9yZG35kqqyBoUw/5eF86MaVjTswrP21eFKUZg2bCog0qm3WDoVdnvcbatO8CTw63JESrUvjRNFcXLk9B9jb3v7I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706197518; c=relaxed/simple;
-	bh=tjx0kB5t1mtSiLuBIHGy52wQSendZTZpOpa1t6YeX+g=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=dd3uoJcgo2O1/4fGH1SWE3E6Ex98T/ETeR1jTutkPVKnmNFyJCInRWKBGR99f+Bn+ybOrIQF93SRhtQDuDHC+SczpLnWUwco32qNwi3D6y2mEM/bio1oRf1/D7GkUQZ9sMoWKlJTIvSmWwz8h+83dPkv7P6tDrVc77SgmI4i1ws=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.132.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
-Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed40:bc9e:fcb8:8aa3:5dc0])
-	by xavier.telenet-ops.be with bizsmtp
-	id f3lE2B00Q58agq2013lE0N; Thu, 25 Jan 2024 16:45:15 +0100
-Received: from rox.of.borg ([192.168.97.57])
-	by ramsan.of.borg with esmtp (Exim 4.95)
-	(envelope-from <geert@linux-m68k.org>)
-	id 1rT1tw-00GUxb-HX;
-	Thu, 25 Jan 2024 16:45:14 +0100
-Received: from geert by rox.of.borg with local (Exim 4.95)
-	(envelope-from <geert@linux-m68k.org>)
-	id 1rT1uk-00Fs8z-FE;
-	Thu, 25 Jan 2024 16:45:14 +0100
-From: Geert Uytterhoeven <geert+renesas@glider.be>
-To: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>
-Cc: linux-clk@vger.kernel.org,
+	s=arc-20240116; t=1706201111; c=relaxed/simple;
+	bh=+x0jNMUB0PsAx8UUuJzQkSXimj4lp6KxtD09dm3ixXo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nvX+77WWY86GnVaxCngpebB66Jl9vGvXOykhx8HvjRPoCH56vzTzkzqIon3E1BueBmB57BqgOGz+/fan7Ghf8FHzGGSauV0Y2+VLf3RoP7bERGbdneljyJiID2u/7uQgodw3wAIDTBOJC8BH82FEtnzmjAao/2TTbfmkz6bgL2A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oRrNkVd0; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 912FEC43330;
+	Thu, 25 Jan 2024 16:45:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1706201111;
+	bh=+x0jNMUB0PsAx8UUuJzQkSXimj4lp6KxtD09dm3ixXo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=oRrNkVd0usNw1Kh6FHh22H1LlbXUlVLol5NM2UjkjhcG+CMBrAEq7pjG8ag/W5fM0
+	 TA4IPzTnNKLDNd/58fbtl/G+0Zst85CZ0fqTnhvNmCadE6HNjcS9uaao1OYX6bpPqr
+	 azh7xYoBYscwB4RAF712b4Hc0I+jv1lkx8udZOhvu2ruHEv2tecvNoNvP8LDTbmNtt
+	 naxan0ET+kVKwJOP2W125UfGppS1cwTetURXX6L9j3CuDAz+vk3whqWAEHIZ/H5Ra8
+	 cyt0uovV2NFFAiM+gwsyssSSNyvM8S77fjEM30SbibXD8RiKoD0ZRhfDqr7W7U4Lz9
+	 p5i79ozhcR3DA==
+Date: Thu, 25 Jan 2024 16:45:07 +0000
+From: Conor Dooley <conor@kernel.org>
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: Magnus Damm <magnus.damm@gmail.com>, Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
 	linux-renesas-soc@vger.kernel.org,
-	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH/RFC] clk: renesas: r8a779f0: Correct PFC/GPIO parent clock
-Date: Thu, 25 Jan 2024 16:45:13 +0100
-Message-Id: <f88ec4aede0eaf0107c8bb7b28ba719ac6cd418f.1706197415.git.geert+renesas@glider.be>
-X-Mailer: git-send-email 2.34.1
+	linux-arm-kernel@lists.infradead.org,
+	Wolfram Sang <wsa+renesas@sang-engineering.com>
+Subject: Re: [PATCH v2 1/9] dt-bindings: soc: renesas: Document R-Car V4H
+ White Hawk Single
+Message-ID: <20240125-attain-legged-cacf4d597ed4@spud>
+References: <cover.1706192990.git.geert+renesas@glider.be>
+ <a44d990c962c8e0aac3b133eaa563f8c92b2ce29.1706192990.git.geert+renesas@glider.be>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="8ZnRTkyejO/hbHTc"
+Content-Disposition: inline
+In-Reply-To: <a44d990c962c8e0aac3b133eaa563f8c92b2ce29.1706192990.git.geert+renesas@glider.be>
 
-According to the R-Car S4 Series Hardware User’s Manual Rev.0.81, the
-parent clock of the Pin Function (PFC/GPIO) module clock is the CP
-clock.
 
-As this clock is not documented to exist on R-Car S4, use the CPEX clock
-instead.
+--8ZnRTkyejO/hbHTc
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Fixes: 73421f2a48e6bd1d ("clk: renesas: r8a779f0: Add PFC clock")
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
-CPEX is the clock closest to CP that is actually documented.
+On Thu, Jan 25, 2024 at 03:48:51PM +0100, Geert Uytterhoeven wrote:
+> Document the compatible values for the Renesas R-Car V4H ES2.0
+> (R8A779G2) SoC and the Renesas White Hawk Single board.
+> The former is an updated version of R-Car V4H (R8A779G0).
+> The latter is a single-board integration of the Renesas White Hawk CPU
+> and Breakout board stack.
+>=20
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
- drivers/clk/renesas/r8a779f0-cpg-mssr.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Acked-by: Conor Dooley <conor.dooley@microchip.com>
 
-diff --git a/drivers/clk/renesas/r8a779f0-cpg-mssr.c b/drivers/clk/renesas/r8a779f0-cpg-mssr.c
-index f721835c7e21248b..cc06127406ab5737 100644
---- a/drivers/clk/renesas/r8a779f0-cpg-mssr.c
-+++ b/drivers/clk/renesas/r8a779f0-cpg-mssr.c
-@@ -161,7 +161,7 @@ static const struct mssr_mod_clk r8a779f0_mod_clks[] __initconst = {
- 	DEF_MOD("cmt1",		911,	R8A779F0_CLK_R),
- 	DEF_MOD("cmt2",		912,	R8A779F0_CLK_R),
- 	DEF_MOD("cmt3",		913,	R8A779F0_CLK_R),
--	DEF_MOD("pfc0",		915,	R8A779F0_CLK_CL16M),
-+	DEF_MOD("pfc0",		915,	R8A779F0_CLK_CPEX),
- 	DEF_MOD("tsc",		919,	R8A779F0_CLK_CL16M),
- 	DEF_MOD("rswitch2",	1505,	R8A779F0_CLK_RSW2),
- 	DEF_MOD("ether-serdes",	1506,	R8A779F0_CLK_S0D2_HSC),
--- 
-2.34.1
+Cheers,
+Conor.
 
+> ---
+> v2:
+>   - Add Reviewed-by.
+> ---
+>  Documentation/devicetree/bindings/soc/renesas/renesas.yaml | 7 +++++++
+>  1 file changed, 7 insertions(+)
+>=20
+> diff --git a/Documentation/devicetree/bindings/soc/renesas/renesas.yaml b=
+/Documentation/devicetree/bindings/soc/renesas/renesas.yaml
+> index 16ca3ff7b1aea146..15b9dd52938996f4 100644
+> --- a/Documentation/devicetree/bindings/soc/renesas/renesas.yaml
+> +++ b/Documentation/devicetree/bindings/soc/renesas/renesas.yaml
+> @@ -348,6 +348,13 @@ properties:
+>                - renesas,white-hawk-cpu # White Hawk CPU board (RTP8A779G=
+0ASKB0FC0SA000)
+>            - const: renesas,r8a779g0
+> =20
+> +      - description: R-Car V4H (R8A779G2)
+> +        items:
+> +          - enum:
+> +              - renesas,white-hawk-single # White Hawk Single board (RTP=
+8A779G2ASKB0F10SA001)
+> +          - const: renesas,r8a779g2
+> +          - const: renesas,r8a779g0
+> +
+>        - items:
+>            - enum:
+>                - renesas,white-hawk-breakout # White Hawk BreakOut board =
+(RTP8A779G0ASKB0SB0SA000)
+> --=20
+> 2.34.1
+>=20
+
+--8ZnRTkyejO/hbHTc
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZbKQEwAKCRB4tDGHoIJi
+0inXAQDtx74/vguxSYwY9vNEe1B/nQiOjGebeFffrAYr3SQ9BAEAk1xPBDgNKK58
+Y2QlRASsKq+lJVQYfVWZxYXI108HMgI=
+=l9WT
+-----END PGP SIGNATURE-----
+
+--8ZnRTkyejO/hbHTc--
 
