@@ -1,38 +1,38 @@
-Return-Path: <linux-renesas-soc+bounces-1844-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-1845-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C99683CBF5
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 25 Jan 2024 20:11:15 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D63CE83CBF7
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 25 Jan 2024 20:11:29 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id A855B1F21980
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 25 Jan 2024 19:11:14 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 051401C222C1
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 25 Jan 2024 19:11:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9728E12A16D;
-	Thu, 25 Jan 2024 19:11:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1420A13472F;
+	Thu, 25 Jan 2024 19:11:26 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from mx01.omp.ru (mx01.omp.ru [90.154.21.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E15648472;
-	Thu, 25 Jan 2024 19:11:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF8D68472;
+	Thu, 25 Jan 2024 19:11:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.154.21.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706209869; cv=none; b=etsi7/VC9EL5fupsph5m592kbXMDbRWZBVyTfReq31Z+xlbHB99e+DsFTbbtYOdpFZPLFymJSwEq6KDya66xDignFJiDnUFbCJKbJUdit2eQxRA0UgLS3GplDrhqIbpND5BqKce9HHTOItjXO2VNuLeVyWnsxihGveQMiI+10GQ=
+	t=1706209886; cv=none; b=SgJ7UanpSduueN7KFDQgRYo/KBOnseudOKeKYl3sW/diWASl06+98OixjWy/KmHg60WqueA73/XTCZ8O349pqRfw84NyJfD+YyCl1dr7aZ6yrzrvXXT1o0nEuWmUs60oNuQ4k+hWjQGGh/3UEo7f/J8+Nxf7AyIVJNWr3c4vX88=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706209869; c=relaxed/simple;
-	bh=rG0wyz2mZz0eyrwCAT1LdluCvKQNeMLcaSOnUATCrQg=;
+	s=arc-20240116; t=1706209886; c=relaxed/simple;
+	bh=mYQWc3KGfKNeOJR4Q5QyR44QKXrOJ0Pv+qso7OMw0gM=;
 	h=Subject:To:CC:References:From:Message-ID:Date:MIME-Version:
-	 In-Reply-To:Content-Type; b=i5l4XtdMD7UIDyE/HYV3YuwxdG4QOT8nHtS60M2rUNh+WKGcVoYtt0nwkyUl7cT/M8KNfXwPfWTi4EyFO5/L3hgrMtmOFnmtgsl0OFKP1c4xz2g+IT1UofjuF+sPno4zL59jZgoY0zmtNLthlDvagaYgPf0zHBx3H48I6dacKLI=
+	 In-Reply-To:Content-Type; b=IZ5waVRcuAtxcdQYVaauyXrk5oo7u2oGxZs5DnT5EEMXaYxsXdCEcJ84njtsC81lSvzDbLPejQKfpdKgAtftKoBPKtpWDluLLD/c7n+hy3T+8OH3I5vjmYYQeQ1IP0cuvp5OT0WpdL3WWVN3TTVnB46ruelVWmzULMRrZtHZ1EE=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=omp.ru; spf=pass smtp.mailfrom=omp.ru; arc=none smtp.client-ip=90.154.21.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=omp.ru
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=omp.ru
 Received: from [192.168.1.105] (31.173.86.50) by msexch01.omp.ru (10.188.4.12)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.1258.12; Thu, 25 Jan
- 2024 22:10:55 +0300
+ 2024 22:11:14 +0300
 Subject: Re: [PATCH net-next v2 0/2] Add HW checksum offload support for
  RZ/G2L GbEthernet IP
 To: Biju Das <biju.das.jz@bp.renesas.com>, "David S. Miller"
@@ -49,8 +49,8 @@ CC: Vincent Guittot <vincent.guittot@linaro.org>, <peterz@infradead.org>,
 References: <20240124102115.132154-1-biju.das.jz@bp.renesas.com>
 From: Sergey Shtylyov <s.shtylyov@omp.ru>
 Organization: Open Mobile Platform
-Message-ID: <5245e582-5eea-ccdf-2ba3-fda58e261172@omp.ru>
-Date: Thu, 25 Jan 2024 22:10:55 +0300
+Message-ID: <9fdd721a-6bd8-e62b-7cf4-cf6b8fe032a4@omp.ru>
+Date: Thu, 25 Jan 2024 22:11:14 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.10.1
 Precedence: bulk
@@ -128,8 +128,8 @@ Ethernet frames", you wanted to say?
 
 > If frame does not have error "0000" attached to checksum calculation
 
-   "If a frame does not have error, 0x0000 is attached as a checksum
-calculation result", you wanted to say?
+   "If a frame does not have checksum error, 0x0000 is attached as
+a checksum calculation result", you wanted to say?
 
 > result. For unsupported frames "ffff" is attached to checksum calculation
 
