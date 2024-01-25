@@ -1,203 +1,267 @@
-Return-Path: <linux-renesas-soc+bounces-1845-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-1846-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D63CE83CBF7
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 25 Jan 2024 20:11:29 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 833A483CBFE
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 25 Jan 2024 20:15:28 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 051401C222C1
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 25 Jan 2024 19:11:29 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 96C69B21A7F
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 25 Jan 2024 19:15:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1420A13472F;
-	Thu, 25 Jan 2024 19:11:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 64870537E3;
+	Thu, 25 Jan 2024 19:15:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="y8R1QLd/"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mx01.omp.ru (mx01.omp.ru [90.154.21.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF8D68472;
-	Thu, 25 Jan 2024 19:11:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.154.21.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A66D13474F
+	for <linux-renesas-soc@vger.kernel.org>; Thu, 25 Jan 2024 19:15:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706209886; cv=none; b=SgJ7UanpSduueN7KFDQgRYo/KBOnseudOKeKYl3sW/diWASl06+98OixjWy/KmHg60WqueA73/XTCZ8O349pqRfw84NyJfD+YyCl1dr7aZ6yrzrvXXT1o0nEuWmUs60oNuQ4k+hWjQGGh/3UEo7f/J8+Nxf7AyIVJNWr3c4vX88=
+	t=1706210122; cv=none; b=Vu7kXxl0w21Q1SRm69FmLMH0J0RSp/acPpzpGp/yCli6WoJyUHv1gHbnelmRe/mp7aQOXZ2Sq5aUlv644DeUx2wo862Rs4zf/bm9+2v1ObH1bpBc60lcErSedlS989a9CqH/1UX7P7omErY7vulvVU8zEQP0NpQrHffeIcoswrA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706209886; c=relaxed/simple;
-	bh=mYQWc3KGfKNeOJR4Q5QyR44QKXrOJ0Pv+qso7OMw0gM=;
-	h=Subject:To:CC:References:From:Message-ID:Date:MIME-Version:
-	 In-Reply-To:Content-Type; b=IZ5waVRcuAtxcdQYVaauyXrk5oo7u2oGxZs5DnT5EEMXaYxsXdCEcJ84njtsC81lSvzDbLPejQKfpdKgAtftKoBPKtpWDluLLD/c7n+hy3T+8OH3I5vjmYYQeQ1IP0cuvp5OT0WpdL3WWVN3TTVnB46ruelVWmzULMRrZtHZ1EE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=omp.ru; spf=pass smtp.mailfrom=omp.ru; arc=none smtp.client-ip=90.154.21.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=omp.ru
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=omp.ru
-Received: from [192.168.1.105] (31.173.86.50) by msexch01.omp.ru (10.188.4.12)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.1258.12; Thu, 25 Jan
- 2024 22:11:14 +0300
-Subject: Re: [PATCH net-next v2 0/2] Add HW checksum offload support for
- RZ/G2L GbEthernet IP
-To: Biju Das <biju.das.jz@bp.renesas.com>, "David S. Miller"
-	<davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub Kicinski
-	<kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>
-CC: Vincent Guittot <vincent.guittot@linaro.org>, <peterz@infradead.org>,
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>, Yoshihiro Shimoda
-	<yoshihiro.shimoda.uh@renesas.com>, Wolfram Sang
-	<wsa+renesas@sang-engineering.com>, Nikita Yushchenko
-	<nikita.yoush@cogentembedded.com>, <netdev@vger.kernel.org>,
-	<linux-renesas-soc@vger.kernel.org>, Geert Uytterhoeven
-	<geert+renesas@glider.be>, Prabhakar Mahadev Lad
-	<prabhakar.mahadev-lad.rj@bp.renesas.com>, Biju Das <biju.das.au@gmail.com>
-References: <20240124102115.132154-1-biju.das.jz@bp.renesas.com>
-From: Sergey Shtylyov <s.shtylyov@omp.ru>
-Organization: Open Mobile Platform
-Message-ID: <9fdd721a-6bd8-e62b-7cf4-cf6b8fe032a4@omp.ru>
-Date: Thu, 25 Jan 2024 22:11:14 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+	s=arc-20240116; t=1706210122; c=relaxed/simple;
+	bh=kzQaYPUWbynoSnERWzMhIZje2cAZDJ5JaR8kt7YTbqY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jFulZvI/HM0QjMLxb31vmNlYl0hRg/vzmcZwzmJN4beKy3/hBEiUwFCDC69z1sdfG6fDfozg/h56ifjn+yu48B/IoQM85UuoEmF5R1rago/SiVSlGLdOWNwRMMfXEbthLEx0BxytuTWy/xG3cuFwx/KWFlcVR2kzsFWJH2E/Xpg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=y8R1QLd/; arc=none smtp.client-ip=209.85.167.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
+Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-50eab4bf47aso1149596e87.0
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 25 Jan 2024 11:15:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ragnatech.se; s=google; t=1706210118; x=1706814918; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=l5lfCYOS1NBrTdzjyrz70RC7raHVrIJ2n0SqF7ll480=;
+        b=y8R1QLd/NE2Dacorgmlgs6dJwoApduA794o+quFH7F6aviM93eTf/pF3sgVSjaFSVG
+         Td1PM9psxOXQ7QA6AJjwpK6rWSHnPXvnhJ2C45VRQ7SmwMUNQyKeEk3vQyIY+c6zX1UT
+         AyxlzypawPWvtzMx7wqVhMvUxT2dJ+xIBRg7h6kJ011nXYc3vSK6SHqKc9dmifPRf0fK
+         xIL7enjWq+ZoSZqWvjNZJ72S/furaO2dGdF0tXkBpikrfIUEsmgE9B/d5jeCPouSYB5t
+         4tB0iEr+9yMSEU4FOTbFzptoKegm9l09ZcnTpD7jt1P97vmf4fCgoYRXsuITEGkgOub4
+         IYFg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1706210118; x=1706814918;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=l5lfCYOS1NBrTdzjyrz70RC7raHVrIJ2n0SqF7ll480=;
+        b=QxN0ebdLotmhgsfe5FAatgYyfKsrrpHyJgtBC4ERVwvriP6k+ByroyQh+Tad3a/60S
+         0IuLbJAKUDQGAr1iS6ClU9NwwPmyDW9kMnF07RvQb6wgUMre8QNwnFkrS+3kt4MTFMg3
+         3PUtPAYogw4W8f1p3r6psCttKjlmPBZAJEQyyBPo1cEDYR93wziH/gHlDeBH95wGKuvj
+         wpt1spe9R9llDV8kF0Vp4nJdrFneim9Cf8hgu6JIeKxOACDiCoW4cldFvN7c41fA1pWN
+         i6RJy3LGHY+D1XG5cqk58jRkx8QI087pBO2h74hGUTn5GBci9ai/x4i5b6ccc8R42jAv
+         iuqw==
+X-Gm-Message-State: AOJu0YwAF4pXh3VKw5ARkY+591/3ipasHm96sAV8GGYB/s18HiIEhXp1
+	xMOEjej8JBfG4UIBZDSg74snTThK9l3WXKvHbCsuUe3RcogeL3PbkOD6igR88lg=
+X-Google-Smtp-Source: AGHT+IHdhRRf00wGnpJGNkIlMig5CfXGMbmF8O8TgwEHLBg4n1bEZ9kzRmDO2Ym2ZF/YsbEisx9tNA==
+X-Received: by 2002:ac2:5b0f:0:b0:50e:74f3:c320 with SMTP id v15-20020ac25b0f000000b0050e74f3c320mr7358lfn.21.1706210118492;
+        Thu, 25 Jan 2024 11:15:18 -0800 (PST)
+Received: from localhost (h-46-59-36-113.A463.priv.bahnhof.se. [46.59.36.113])
+        by smtp.gmail.com with ESMTPSA id j11-20020ac2454b000000b005100d4455a2sm635122lfm.72.2024.01.25.11.15.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 25 Jan 2024 11:15:17 -0800 (PST)
+Date: Thu, 25 Jan 2024 20:15:17 +0100
+From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>, Ulf Hansson <ulf.hansson@linaro.org>,
+	Cong Dang <cong.dang.xn@renesas.com>,
+	Duy Nguyen <duy.nguyen.rh@renesas.com>,
+	Hai Pham <hai.pham.ud@renesas.com>,
+	Linh Phung <linh.phung.jy@renesas.com>,
+	linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-pm@vger.kernel.org
+Subject: Re: [PATCH v2 13/15] arm64: dts: renesas: Add Renesas R8A779H0 SoC
+ support
+Message-ID: <20240125191517.GP4126432@ragnatech.se>
+References: <cover.1706194617.git.geert+renesas@glider.be>
+ <4107bc3d7c31932da29e671ddf4b1564ba38a84c.1706194617.git.geert+renesas@glider.be>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <20240124102115.132154-1-biju.das.jz@bp.renesas.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: msexch01.omp.ru (10.188.4.12) To msexch01.omp.ru
- (10.188.4.12)
-X-KSE-ServerInfo: msexch01.omp.ru, 9
-X-KSE-AntiSpam-Interceptor-Info: scan successful
-X-KSE-AntiSpam-Version: 6.1.0, Database issued on: 01/25/2024 18:49:35
-X-KSE-AntiSpam-Status: KAS_STATUS_NOT_DETECTED
-X-KSE-AntiSpam-Method: none
-X-KSE-AntiSpam-Rate: 59
-X-KSE-AntiSpam-Info: Lua profiles 182947 [Jan 25 2024]
-X-KSE-AntiSpam-Info: Version: 6.1.0.3
-X-KSE-AntiSpam-Info: Envelope from: s.shtylyov@omp.ru
-X-KSE-AntiSpam-Info: LuaCore: 7 0.3.7 6d6bf5bd8eea7373134f756a2fd73e9456bb7d1a
-X-KSE-AntiSpam-Info: {rep_avail}
-X-KSE-AntiSpam-Info: {Tracking_uf_ne_domains}
-X-KSE-AntiSpam-Info: {Tracking_from_domain_doesnt_match_to}
-X-KSE-AntiSpam-Info: {relay has no DNS name}
-X-KSE-AntiSpam-Info: {SMTP from is not routable}
-X-KSE-AntiSpam-Info: {Found in DNSBL: 31.173.86.50 in (user)
- b.barracudacentral.org}
-X-KSE-AntiSpam-Info: {Found in DNSBL: 31.173.86.50 in (user) dbl.spamhaus.org}
-X-KSE-AntiSpam-Info:
-	lore.kernel.org:7.1.1;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;127.0.0.199:7.1.2;omp.ru:7.1.1
-X-KSE-AntiSpam-Info: ApMailHostAddress: 31.173.86.50
-X-KSE-AntiSpam-Info: {DNS response errors}
-X-KSE-AntiSpam-Info: Rate: 59
-X-KSE-AntiSpam-Info: Status: not_detected
-X-KSE-AntiSpam-Info: Method: none
-X-KSE-AntiSpam-Info: Auth:dmarc=temperror header.from=omp.ru;spf=temperror
- smtp.mailfrom=omp.ru;dkim=none
-X-KSE-Antiphishing-Info: Clean
-X-KSE-Antiphishing-ScanningType: Heuristic
-X-KSE-Antiphishing-Method: None
-X-KSE-Antiphishing-Bases: 01/25/2024 18:55:00
-X-KSE-Antivirus-Interceptor-Info: scan successful
-X-KSE-Antivirus-Info: Clean, bases: 1/25/2024 4:13:00 PM
-X-KSE-Attachment-Filter-Triggered-Rules: Clean
-X-KSE-Attachment-Filter-Triggered-Filters: Clean
-X-KSE-BulkMessagesFiltering-Scan-Result: InTheLimit
+In-Reply-To: <4107bc3d7c31932da29e671ddf4b1564ba38a84c.1706194617.git.geert+renesas@glider.be>
 
-Hello!
+Hi Geert,
 
-On 1/24/24 1:21 PM, Biju Das wrote:
+Thanks for your work.
 
-> This patch series aims to add HW checksum offload supported by TOE module
-> found on the RZ/G2L Gb ethernet IP.
-
-   Your previous try was back in 2021, still the cover letter has the same
-issues (hm, I didn't point out those back then).
-
-> The TOE has hw support for calculating IP header and TCP/UDP/ICMP checksum
-> for both IPV4 and IPV6.
+On 2024-01-25 16:34:41 +0100, Geert Uytterhoeven wrote:
+> From: Hai Pham <hai.pham.ud@renesas.com>
 > 
-> For Rx, the result of checksum calculation is attached to last 4byte
-> of ethernet frames.
-
-   "For Rx, the 4-byte result of checksum calculation is attached to the
-Ethernet frames", you wanted to say?
-
-> First 2bytes is result of IPV4 header checksum
-> and next 2 bytes is TCP/UDP/ICMP.
-
-   TCP/UDP/ICMP checksum, you mean?
-
-> If frame does not have error "0000" attached to checksum calculation
-
-   "If a frame does not have checksum error, 0x0000 is attached as
-a checksum calculation result", you wanted to say?
-
-> result. For unsupported frames "ffff" is attached to checksum calculation
-
-   s/to/as/, again?
-
-> result. Cases like IPV6, IPV4 header is always set to "FFFF".
-
-   In case of an IPv6 packet, IPv4 checksum is always set to 0xFFFF",
-you wanted to say?
-
-> For Tx, the result of checksum calculation is set to the checksum field of
-> each IPv4 Header/TCP/UDP/ICMP of ethernet frames. For the unsupported
-> frames, those fields are not changed. If a transmission frame is an UDP
-> frame of IPv4 and its checksum value in the UDP header field is H’0000,
-
-   I think you can call it just UDPv4...
-
-> TOE does not calculate checksum for UDP part of this frame as it is
-> optional function as per standards.
+> Add initial support for the Renesas R-Car V4M (R8A779H0) SoC.
 > 
-> Add Tx/Rx checksum offload supported by TOE for IPV4 and TCP/UDP protocols.
-> 
-> Results of iperf3 in Mbps
-> 
-> RZ/V2L:
-> TCP(Tx/Rx) results with checksum offload Enabled:	{921,932}
-> TCP(Tx/Rx) results with checksum offload Disabled:	{867,612}
-> 
-> UDP(Tx/Rx) results with checksum offload Enabled:	{950,946}
-> UDP(Tx/Rx) results with checksum offload Disabled:	{952,920}
-> 
-> RZ/G2L:
-> TCP(Tx/Rx) results with checksum offload Enabled:	{920,936}
-> TCP(Tx/Rx) results with checksum offload Disabled:	{871,626}
-> 
-> UDP(Tx/Rx) results with checksum offload Enabled:	{953,950}
-> UDP(Tx/Rx) results with checksum offload Disabled:	{954,920}
-> 
-> RZ/G2LC:
-> TCP(Tx/Rx) results with checksum offload Enabled:	{927,936}
-> TCP(Tx/Rx) results with checksum offload Disabled:	{889,626}
-> 
-> UDP(Tx/Rx) results with checksum offload Enabled:	{950,946}
-> UDP(Tx/Rx) results with checksum offload Disabled:	{949,944}
+> Signed-off-by: Hai Pham <hai.pham.ud@renesas.com>
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-   Too many figures, I think... :-)
-   How RZ/G2L SoC is different from RZ/G2LC?
+Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 
-> v1->v2:
->  * Updated covering letter and results
->  * Fixed the sparse warnings for patch#1 by replacing __sum16->__wsum.
+> ---
+> v2:
+>   - Add vendor-prefixes to DT binding definition header files.
 > 
-> Note:
->  This patches are tested with [1] without the CPU performance is not good
-
-   Without CPU? I guess the performance would be 0. Seriously, this is
-hardly parseable... :-)
- 
->  [1] https://lore.kernel.org/all/20240117190545.596057-1-vincent.guittot@linaro.org/
+> Changes compared to the BSP:
+>   - Add "-clk" suffix to clock node names,
+>   - Rename "pmu_a76" node to "pmu-a76",
+>   - Drop bogus CPU masks from GICv3 PPI interrupt specifiers,
+>   - Drop hscif0 dmas and dma-names placeholder,
+>   - Add missing hypervisor virtual timer IRQ to timer node.
+> ---
+>  arch/arm64/boot/dts/renesas/r8a779h0.dtsi | 121 ++++++++++++++++++++++
+>  1 file changed, 121 insertions(+)
+>  create mode 100644 arch/arm64/boot/dts/renesas/r8a779h0.dtsi
 > 
-> Biju Das (2):
->   ravb: Add Rx checksum offload support
->   ravb: Add Tx checksum offload support
+> diff --git a/arch/arm64/boot/dts/renesas/r8a779h0.dtsi b/arch/arm64/boot/dts/renesas/r8a779h0.dtsi
+> new file mode 100644
+> index 0000000000000000..a082e2d06b696019
+> --- /dev/null
+> +++ b/arch/arm64/boot/dts/renesas/r8a779h0.dtsi
+> @@ -0,0 +1,121 @@
+> +// SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +/*
+> + * Device Tree Source for the R-Car V4M (R8A779H0) SoC
+> + *
+> + * Copyright (C) 2023 Renesas Electronics Corp.
+> + */
+> +
+> +#include <dt-bindings/clock/renesas,r8a779h0-cpg-mssr.h>
+> +#include <dt-bindings/interrupt-controller/arm-gic.h>
+> +#include <dt-bindings/power/renesas,r8a779h0-sysc.h>
+> +
+> +/ {
+> +	compatible = "renesas,r8a779h0";
+> +	#address-cells = <2>;
+> +	#size-cells = <2>;
+> +
+> +	cpus {
+> +		#address-cells = <1>;
+> +		#size-cells = <0>;
+> +
+> +		a76_0: cpu@0 {
+> +			compatible = "arm,cortex-a76";
+> +			reg = <0>;
+> +			device_type = "cpu";
+> +			power-domains = <&sysc R8A779H0_PD_A1E0D0C0>;
+> +		};
+> +	};
+> +
+> +	extal_clk: extal-clk {
+> +		compatible = "fixed-clock";
+> +		#clock-cells = <0>;
+> +		/* This value must be overridden by the board */
+> +		clock-frequency = <0>;
+> +	};
+> +
+> +	extalr_clk: extalr-clk {
+> +		compatible = "fixed-clock";
+> +		#clock-cells = <0>;
+> +		/* This value must be overridden by the board */
+> +		clock-frequency = <0>;
+> +	};
+> +
+> +	pmu-a76 {
+> +		compatible = "arm,cortex-a76-pmu";
+> +		interrupts-extended = <&gic GIC_PPI 7 IRQ_TYPE_LEVEL_LOW>;
+> +	};
+> +
+> +	/* External SCIF clock - to be overridden by boards that provide it */
+> +	scif_clk: scif-clk {
+> +		compatible = "fixed-clock";
+> +		#clock-cells = <0>;
+> +		clock-frequency = <0>;
+> +	};
+> +
+> +	soc: soc {
+> +		compatible = "simple-bus";
+> +		interrupt-parent = <&gic>;
+> +		#address-cells = <2>;
+> +		#size-cells = <2>;
+> +		ranges;
+> +
+> +		cpg: clock-controller@e6150000 {
+> +			compatible = "renesas,r8a779h0-cpg-mssr";
+> +			reg = <0 0xe6150000 0 0x4000>;
+> +			clocks = <&extal_clk>, <&extalr_clk>;
+> +			clock-names = "extal", "extalr";
+> +			#clock-cells = <2>;
+> +			#power-domain-cells = <0>;
+> +			#reset-cells = <1>;
+> +		};
+> +
+> +		rst: reset-controller@e6160000 {
+> +			compatible = "renesas,r8a779h0-rst";
+> +			reg = <0 0xe6160000 0 0x4000>;
+> +		};
+> +
+> +		sysc: system-controller@e6180000 {
+> +			compatible = "renesas,r8a779h0-sysc";
+> +			reg = <0 0xe6180000 0 0x4000>;
+> +			#power-domain-cells = <1>;
+> +		};
+> +
+> +		hscif0: serial@e6540000 {
+> +			compatible = "renesas,hscif-r8a779h0",
+> +				     "renesas,rcar-gen4-hscif", "renesas,hscif";
+> +			reg = <0 0xe6540000 0 0x60>;
+> +			interrupts = <GIC_SPI 246 IRQ_TYPE_LEVEL_HIGH>;
+> +			clocks = <&cpg CPG_MOD 514>,
+> +				 <&cpg CPG_CORE R8A779H0_CLK_SASYNCPERD1>,
+> +				 <&scif_clk>;
+> +			clock-names = "fck", "brg_int", "scif_clk";
+> +			power-domains = <&sysc R8A779H0_PD_ALWAYS_ON>;
+> +			resets = <&cpg 514>;
+> +			status = "disabled";
+> +		};
+> +
+> +		gic: interrupt-controller@f1000000 {
+> +			compatible = "arm,gic-v3";
+> +			#interrupt-cells = <3>;
+> +			#address-cells = <0>;
+> +			interrupt-controller;
+> +			reg = <0x0 0xf1000000 0 0x20000>,
+> +			      <0x0 0xf1060000 0 0x110000>;
+> +			interrupts = <GIC_PPI 9 IRQ_TYPE_LEVEL_HIGH>;
+> +		};
+> +
+> +		prr: chipid@fff00044 {
+> +			compatible = "renesas,prr";
+> +			reg = <0 0xfff00044 0 4>;
+> +		};
+> +	};
+> +
+> +	timer {
+> +		compatible = "arm,armv8-timer";
+> +		interrupts-extended = <&gic GIC_PPI 13 IRQ_TYPE_LEVEL_LOW>,
+> +				      <&gic GIC_PPI 14 IRQ_TYPE_LEVEL_LOW>,
+> +				      <&gic GIC_PPI 11 IRQ_TYPE_LEVEL_LOW>,
+> +				      <&gic GIC_PPI 10 IRQ_TYPE_LEVEL_LOW>,
+> +				      <&gic GIC_PPI 12 IRQ_TYPE_LEVEL_LOW>;
+> +	};
+> +};
+> -- 
+> 2.34.1
+> 
+> 
 
-   These summaries sound like you're adding checksum offload support for
-all supported SoCs while you only do that for those having GbEther...
-
-[...]
-
-MBR, Sergey
+-- 
+Kind Regards,
+Niklas Söderlund
 
