@@ -1,205 +1,286 @@
-Return-Path: <linux-renesas-soc+bounces-1848-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-1849-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3EEA683CCF4
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 25 Jan 2024 20:55:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE24083CDAF
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 25 Jan 2024 21:42:43 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 7440DB2390A
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 25 Jan 2024 19:55:23 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 09EA0B25AE9
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 25 Jan 2024 20:42:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A125F8472;
-	Thu, 25 Jan 2024 19:55:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="cEm0SI7f"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D168E13540C;
+	Thu, 25 Jan 2024 20:42:36 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx01.omp.ru (mx01.omp.ru [90.154.21.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDBE41350D7
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 25 Jan 2024 19:55:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C23F1CFA8;
+	Thu, 25 Jan 2024 20:42:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.154.21.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706212519; cv=none; b=GkQVXUam+Ot6LGgjC6Vagjt4pL8W/5q1ieFhoc0j10gJOzj31N+XFDPNMpS+B5+HBAs3SJIUWfZpuVbi5Io9qnVgsly816rjPi9jcz+YwdJ0GijyOzkqDfXge8geud+xDRb48XnFrQfFykoGC7DN6M5dvWnSH8EWMCjxG6s/YCg=
+	t=1706215356; cv=none; b=tZDuil2BQcoEoiWwnsvKC1hUfHWEl8HT6efIiWkPJvd97wY9XzG/YLd2Yvn8HASiZUTajx5Ku31/cMDXrH2/bFGYHvyRpViBfChDO/Ft48+vG5wqu6sX+3BCA8dUUsHUFkTOVDEUQ+y7lmAloYdctlTILI2MQ9QlTr0PL681MtE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706212519; c=relaxed/simple;
-	bh=tyGJPSdLLqL4ZqqIIV1A5m+kw+4O/iJFU53bNEEP28M=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=R5pdz5/qpgojRP8nP72ZfjYlsu0pIaQTA0bmRID31zNRuLJgxtgoaDKtHMRXb2W+FczZQgx9bIMfM/7SE7nM3+iCtai2GS4PKcuh4C1dZ4kIXQm6ALqxC9Mj0rzI/oAWWnr6eR0KhpByEZn0HypqvVeBFa6JITtHZ8T5fL9ESVo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=cEm0SI7f; arc=none smtp.client-ip=209.85.218.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
-Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-a33c91ca179so52927266b.3
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 25 Jan 2024 11:55:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech.se; s=google; t=1706212515; x=1706817315; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Yz97naasz57ghtKxH2RM1w/PN9uU/7we3O2M+hv9/1w=;
-        b=cEm0SI7f68T1dh1C+yuY8BJ310jdtJ+0fcS9BNr26rIKim06/sdE3RzdVrq5zu0nRS
-         xa4C92xy1LUTqyqa9Ktrr5N29os+utNiRDM/FX4TbNRhyYNj4rhC18BR1ouPkyh1oGLm
-         sxsr8Vimq65Xu85XIo029kc8xVKlDh3dnqzCCerh7DgjlLM5f1qmluWPlt/xfVWidE24
-         IY4AVQnT1mVHj52rxxhCxQ/E7yoZl4Fy13rD/B0e99Bgkr4dD0l5xPqCP1QG97HGBTqg
-         RUQ/DE09YRvX4ddKtSbPbYfJosOA278At5h4WmcymGxYssZfrdAk03YtGv3sLre0nsDM
-         R9Xw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706212515; x=1706817315;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Yz97naasz57ghtKxH2RM1w/PN9uU/7we3O2M+hv9/1w=;
-        b=eWpg8LUgmZ/9mK9E96y3cNqLgRjx5AZkVBt1ltRFp0cosH8kWJFLfKEumXHt7fdzRT
-         LWrTYg62aWXm+ZaFJc1XpSGTynL7WWDpNU5KsJHUZJHeGPm5kfjR3zVf+nCSYCTScQIo
-         d5X7IuMR3xl81AEtIVkbt1wtruXnwf6aC6LXW9bMZYHXVKekEUlMVoUvfHG3dwjYLjEg
-         f6Z4Geo24LvnJ99z9MTMArCdcvMcxGfji7IxtKjW4z0bxDFihV434NN+t/rQKoi2i8/7
-         mrAoxoUkUwb2ayTL/LRuyhxe+vSw2mVAxIIgTgGZCgnSR89zo+pQMh9nnNQW8dOsI04t
-         n2PA==
-X-Gm-Message-State: AOJu0YzbYf9LZSFsnXbUivEXj+lAC6M80uC1LVPHRVInxcAY5doQvTZJ
-	kfuxdZI8dZGxgGU0gInNJ3jnXtg3NwOzKImvr79dpgbuHiSq14/YS2qL/6xhZyo=
-X-Google-Smtp-Source: AGHT+IGsioElMK4m0rpxX+UtLukezKMQZyu84Omeyclfh7wfWC4t0/+Bv53Jwquvcrb42IMj7k/1vw==
-X-Received: by 2002:a17:906:4117:b0:a28:f8d2:7897 with SMTP id j23-20020a170906411700b00a28f8d27897mr74983ejk.20.1706212514953;
-        Thu, 25 Jan 2024 11:55:14 -0800 (PST)
-Received: from sleipner.berto.se (p4fcc8c6a.dip0.t-ipconnect.de. [79.204.140.106])
-        by smtp.googlemail.com with ESMTPSA id tj3-20020a170907c24300b00a2fde3a8097sm658042ejc.74.2024.01.25.11.55.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 25 Jan 2024 11:55:14 -0800 (PST)
-From: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-To: Sakari Ailus <sakari.ailus@iki.fi>,
-	Hans Verkuil <hverkuil@xs4all.nl>,
-	linux-media@vger.kernel.org
-Cc: linux-renesas-soc@vger.kernel.org,
-	=?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Subject: [PATCH] media: rcar-csi2: Move driver to renesas directory
-Date: Thu, 25 Jan 2024 20:54:58 +0100
-Message-ID: <20240125195458.960961-1-niklas.soderlund+renesas@ragnatech.se>
-X-Mailer: git-send-email 2.43.0
+	s=arc-20240116; t=1706215356; c=relaxed/simple;
+	bh=8PwFDvIdN9vLWvTMmQ79rdoxO9gxmqO8Wcjg2NUNCsc=;
+	h=Subject:To:CC:References:From:Message-ID:Date:MIME-Version:
+	 In-Reply-To:Content-Type; b=FRjPoLwF0/f8CHoLWaAEI6OUgAnkv0GD94hNBv/Iw/A5TYcdYeHmtRfMoYAm46EHFOxhgMBec0KtKr6bjklUObD8kEe/1xHxv9LRTwMHIo3gTLpVU5iZnb/bxCRAvWhFAQYelXqi7yf60SF1TDYe0dRbDEBhd9fB4FUnr9h+wMY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=omp.ru; spf=pass smtp.mailfrom=omp.ru; arc=none smtp.client-ip=90.154.21.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=omp.ru
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=omp.ru
+Received: from [192.168.1.105] (178.176.75.111) by msexch01.omp.ru
+ (10.188.4.12) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.1258.12; Thu, 25 Jan
+ 2024 23:42:15 +0300
+Subject: Re: [PATCH net-next v2 1/2] ravb: Add Rx checksum offload support
+To: Biju Das <biju.das.jz@bp.renesas.com>, "David S. Miller"
+	<davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub Kicinski
+	<kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>
+CC: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>, Yoshihiro Shimoda
+	<yoshihiro.shimoda.uh@renesas.com>, Wolfram Sang
+	<wsa+renesas@sang-engineering.com>, Nikita Yushchenko
+	<nikita.yoush@cogentembedded.com>, <netdev@vger.kernel.org>,
+	<linux-renesas-soc@vger.kernel.org>, Geert Uytterhoeven
+	<geert+renesas@glider.be>, Prabhakar Mahadev Lad
+	<prabhakar.mahadev-lad.rj@bp.renesas.com>, Biju Das <biju.das.au@gmail.com>
+References: <20240124102115.132154-1-biju.das.jz@bp.renesas.com>
+ <20240124102115.132154-2-biju.das.jz@bp.renesas.com>
+From: Sergey Shtylyov <s.shtylyov@omp.ru>
+Organization: Open Mobile Platform
+Message-ID: <e27edbff-8fa9-339a-4e6d-d72776286aa6@omp.ru>
+Date: Thu, 25 Jan 2024 23:42:15 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240124102115.132154-2-biju.das.jz@bp.renesas.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: msexch01.omp.ru (10.188.4.12) To msexch01.omp.ru
+ (10.188.4.12)
+X-KSE-ServerInfo: msexch01.omp.ru, 9
+X-KSE-AntiSpam-Interceptor-Info: scan successful
+X-KSE-AntiSpam-Version: 6.1.0, Database issued on: 01/25/2024 20:29:52
+X-KSE-AntiSpam-Status: KAS_STATUS_NOT_DETECTED
+X-KSE-AntiSpam-Method: none
+X-KSE-AntiSpam-Rate: 59
+X-KSE-AntiSpam-Info: Lua profiles 182950 [Jan 25 2024]
+X-KSE-AntiSpam-Info: Version: 6.1.0.3
+X-KSE-AntiSpam-Info: Envelope from: s.shtylyov@omp.ru
+X-KSE-AntiSpam-Info: LuaCore: 7 0.3.7 6d6bf5bd8eea7373134f756a2fd73e9456bb7d1a
+X-KSE-AntiSpam-Info: {rep_avail}
+X-KSE-AntiSpam-Info: {Tracking_from_domain_doesnt_match_to}
+X-KSE-AntiSpam-Info: {relay has no DNS name}
+X-KSE-AntiSpam-Info: {SMTP from is not routable}
+X-KSE-AntiSpam-Info: {Found in DNSBL: 178.176.75.111 in (user)
+ dbl.spamhaus.org}
+X-KSE-AntiSpam-Info:
+	omp.ru:7.1.1;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;127.0.0.199:7.1.2
+X-KSE-AntiSpam-Info: ApMailHostAddress: 178.176.75.111
+X-KSE-AntiSpam-Info: {DNS response errors}
+X-KSE-AntiSpam-Info: Rate: 59
+X-KSE-AntiSpam-Info: Status: not_detected
+X-KSE-AntiSpam-Info: Method: none
+X-KSE-AntiSpam-Info: Auth:dmarc=temperror header.from=omp.ru;spf=temperror
+ smtp.mailfrom=omp.ru;dkim=none
+X-KSE-Antiphishing-Info: Clean
+X-KSE-Antiphishing-ScanningType: Heuristic
+X-KSE-Antiphishing-Method: None
+X-KSE-Antiphishing-Bases: 01/25/2024 20:33:00
+X-KSE-Antivirus-Interceptor-Info: scan successful
+X-KSE-Antivirus-Info: Clean, bases: 1/25/2024 6:32:00 PM
+X-KSE-Attachment-Filter-Triggered-Rules: Clean
+X-KSE-Attachment-Filter-Triggered-Filters: Clean
+X-KSE-BulkMessagesFiltering-Scan-Result: InTheLimit
 
-The rcar-csi2 driver was added before the platform/renesas directory
-existed and since it was used together in a pipeline with the rcar-vin
-driver it was located together with it.
+On 1/24/24 1:21 PM, Biju Das wrote:
 
-The rcar-isp driver can also be used together with the rcar-csi2 driver
-in a pipeline that is terminated by the rcar-vin driver. However by the
-time rcar-isp was added the platform/renesas directory existed so it was
-added there.
+> TOE has hw support for calculating IP header and TCP/UDP/ICMP checksum
 
-To remove the confusion that the rcar-csi2 driver have code dependencies
-on the rcar-vin driver move it to the same directory level as the
-rcar-isp driver. This makes it clear they are three distinct drivers
-that can be used together in a pipeline, but do not depend on each
-other.
+   s/hw/hardware/.
 
-Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
----
- MAINTAINERS                                      |  1 +
- drivers/media/platform/renesas/Kconfig           | 16 ++++++++++++++++
- drivers/media/platform/renesas/Makefile          |  1 +
- .../platform/renesas/{rcar-vin => }/rcar-csi2.c  |  0
- drivers/media/platform/renesas/rcar-vin/Kconfig  | 16 ----------------
- drivers/media/platform/renesas/rcar-vin/Makefile |  1 -
- 6 files changed, 18 insertions(+), 17 deletions(-)
- rename drivers/media/platform/renesas/{rcar-vin => }/rcar-csi2.c (100%)
+> for both IPV4 and IPV6.
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 675e5d63a25b..ea49082ec3a0 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -13430,6 +13430,7 @@ T:	git git://linuxtv.org/media_tree.git
- F:	Documentation/devicetree/bindings/media/renesas,csi2.yaml
- F:	Documentation/devicetree/bindings/media/renesas,isp.yaml
- F:	Documentation/devicetree/bindings/media/renesas,vin.yaml
-+F:	drivers/media/platform/renesas/rcar-csi2.c
- F:	drivers/media/platform/renesas/rcar-isp.c
- F:	drivers/media/platform/renesas/rcar-vin/
- 
-diff --git a/drivers/media/platform/renesas/Kconfig b/drivers/media/platform/renesas/Kconfig
-index ed788e991f74..c7fc718a30a5 100644
---- a/drivers/media/platform/renesas/Kconfig
-+++ b/drivers/media/platform/renesas/Kconfig
-@@ -14,6 +14,22 @@ config VIDEO_RENESAS_CEU
- 	help
- 	  This is a v4l2 driver for the Renesas CEU Interface
- 
-+config VIDEO_RCAR_CSI2
-+	tristate "R-Car MIPI CSI-2 Receiver"
-+	depends on V4L_PLATFORM_DRIVERS
-+	depends on VIDEO_DEV && OF
-+	depends on ARCH_RENESAS || COMPILE_TEST
-+	select MEDIA_CONTROLLER
-+	select VIDEO_V4L2_SUBDEV_API
-+	select RESET_CONTROLLER
-+	select V4L2_FWNODE
-+	help
-+	  Support for Renesas R-Car MIPI CSI-2 receiver.
-+	  Supports R-Car Gen3 and RZ/G2 SoCs.
-+
-+	  To compile this driver as a module, choose M here: the
-+	  module will be called rcar-csi2.
-+
- config VIDEO_RCAR_ISP
- 	tristate "R-Car Image Signal Processor (ISP)"
- 	depends on V4L_PLATFORM_DRIVERS
-diff --git a/drivers/media/platform/renesas/Makefile b/drivers/media/platform/renesas/Makefile
-index 55854e868887..50774a20330c 100644
---- a/drivers/media/platform/renesas/Makefile
-+++ b/drivers/media/platform/renesas/Makefile
-@@ -7,6 +7,7 @@ obj-y += rcar-vin/
- obj-y += rzg2l-cru/
- obj-y += vsp1/
- 
-+obj-$(CONFIG_VIDEO_RCAR_CSI2) += rcar-csi2.o
- obj-$(CONFIG_VIDEO_RCAR_DRIF) += rcar_drif.o
- obj-$(CONFIG_VIDEO_RCAR_ISP) += rcar-isp.o
- obj-$(CONFIG_VIDEO_RENESAS_CEU) += renesas-ceu.o
-diff --git a/drivers/media/platform/renesas/rcar-vin/rcar-csi2.c b/drivers/media/platform/renesas/rcar-csi2.c
-similarity index 100%
-rename from drivers/media/platform/renesas/rcar-vin/rcar-csi2.c
-rename to drivers/media/platform/renesas/rcar-csi2.c
-diff --git a/drivers/media/platform/renesas/rcar-vin/Kconfig b/drivers/media/platform/renesas/rcar-vin/Kconfig
-index de55fe63d84c..2ec857ab83cb 100644
---- a/drivers/media/platform/renesas/rcar-vin/Kconfig
-+++ b/drivers/media/platform/renesas/rcar-vin/Kconfig
-@@ -1,20 +1,4 @@
- # SPDX-License-Identifier: GPL-2.0
--config VIDEO_RCAR_CSI2
--	tristate "R-Car MIPI CSI-2 Receiver"
--	depends on V4L_PLATFORM_DRIVERS
--	depends on VIDEO_DEV && OF
--	depends on ARCH_RENESAS || COMPILE_TEST
--	select MEDIA_CONTROLLER
--	select VIDEO_V4L2_SUBDEV_API
--	select RESET_CONTROLLER
--	select V4L2_FWNODE
--	help
--	  Support for Renesas R-Car MIPI CSI-2 receiver.
--	  Supports R-Car Gen3 and RZ/G2 SoCs.
--
--	  To compile this driver as a module, choose M here: the
--	  module will be called rcar-csi2.
--
- config VIDEO_RCAR_VIN
- 	tristate "R-Car Video Input (VIN) Driver"
- 	depends on V4L_PLATFORM_DRIVERS
-diff --git a/drivers/media/platform/renesas/rcar-vin/Makefile b/drivers/media/platform/renesas/rcar-vin/Makefile
-index 00d809f5d2c1..5938ad6290c8 100644
---- a/drivers/media/platform/renesas/rcar-vin/Makefile
-+++ b/drivers/media/platform/renesas/rcar-vin/Makefile
-@@ -1,5 +1,4 @@
- # SPDX-License-Identifier: GPL-2.0
- rcar-vin-objs = rcar-core.o rcar-dma.o rcar-v4l2.o
- 
--obj-$(CONFIG_VIDEO_RCAR_CSI2) += rcar-csi2.o
- obj-$(CONFIG_VIDEO_RCAR_VIN) += rcar-vin.o
--- 
-2.43.0
+   Those are usually called IPv4 and IPv6, no?
 
+> Add Rx checksum offload supported by TOE for IPV4 and TCP/UDP protocols.
+> 
+> For Rx, the result of checksum calculation is attached to last 4byte
+> of ethernet frames.
+
+   "For Rx, the 4-byte result of checksum calculation is attached to the
+Ethernet frames", you wanted to say?
+
+> First 2bytes is result of IPV4 header checksum
+> and next 2 bytes is TCP/UDP/ICMP.
+
+   TCP/UDP/ICMP checksum, you mean? Also, you alternatively say
+TCP/UDP/ICMP and just TCP/UDP -- which one is correct?
+
+> If frame does not have error "0000" attached to checksum calculation
+
+   "If a frame does not have checksum error, 0x0000 is attached as
+a checksum calculation result", you wanted to say?
+
+> result. For unsupported frames "ffff" is attached to checksum calculation
+
+   s/to/as/?
+
+> result. Cases like IPV6, IPV4 header is always set to "FFFF".
+
+   "In case of an IPv6 packet, IPv4 checksum is always set to 0xFFFF",
+you wanted to say?
+
+> We can test this functionality by the below commands
+> 
+> ethtool -K eth0 rx on --> to turn on Rx checksum offload
+> ethtool -K eth0 rx off --> to turn off Rx checksum offload
+> 
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+[...]
+
+> diff --git a/drivers/net/ethernet/renesas/ravb.h b/drivers/net/ethernet/renesas/ravb.h
+> index e0f8276cffed..a2c494a85d12 100644
+> --- a/drivers/net/ethernet/renesas/ravb.h
+> +++ b/drivers/net/ethernet/renesas/ravb.h
+> @@ -44,6 +44,9 @@
+>  #define RAVB_RXTSTAMP_TYPE_ALL	0x00000006
+>  #define RAVB_RXTSTAMP_ENABLED	0x00000010	/* Enable RX timestamping */
+>  
+> +/* GbEthernet TOE hardware checksum values */
+> +#define TOE_RX_CSUM_OK	0x0000
+
+   As I said before, this is hardly needed...
+
+[...]
+> diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
+> index 0e3731f50fc2..59c7bedacef6 100644
+> --- a/drivers/net/ethernet/renesas/ravb_main.c
+> +++ b/drivers/net/ethernet/renesas/ravb_main.c
+> @@ -522,6 +522,26 @@ static int ravb_ring_init(struct net_device *ndev, int q)
+>  	return -ENOMEM;
+>  }
+>  
+> +static void ravb_csum_offload_init_gbeth(struct net_device *ndev)
+
+   I'd leave out _offload...
+
+> +{
+> +	bool rx_enable = ndev->features & NETIF_F_RXCSUM;
+> +	u32 csr0;
+> +
+> +	if (!rx_enable)
+> +		return;
+> +
+> +	csr0 = ravb_read(ndev, CSR0);
+
+   Why read it here, if we'll write a constant to this reg at the end
+of ravb_emac_init_gbeth()?
+
+> +	ravb_write(ndev, csr0 & ~(CSR0_RPE | CSR0_TPE), CSR0);
+
+   We can just write 0 here, no?
+
+> +	if (ravb_wait(ndev, CSR0, CSR0_RPE | CSR0_TPE, 0)) {
+> +		netdev_err(ndev, "Timeout Enabling HW CSUM failed\n");
+
+   "Timeout enabling hardware checksum\n", perhaps?
+
+[...]
+> +
+> +	ravb_write(ndev, csr0, CSR0);
+
+    I think we should move:
+
+	ravb_write(ndev, CSR0_TPE | CSR0_RPE, CSR0);
+
+from ravb_emac_init_gbeth() here...
+
+> +}
+> +
+[...]
+> @@ -734,6 +755,32 @@ static void ravb_get_tx_tstamp(struct net_device *ndev)
+>  	}
+>  }
+>  
+> +static void ravb_rx_csum_gbeth(struct sk_buff *skb)
+> +{
+> +	__wsum csum_ip_hdr, csum_proto;
+> +	u8 *hw_csum;
+> +
+> +	/* The hardware checksum status is contained in sizeof(__sum16) * 2 = 4
+> +	 * bytes appended to packet data. First 2 bytes is ip header csum and
+> +	 * last 2 bytes is protocol csum.
+> +	 */
+> +	if (unlikely(skb->len < sizeof(__sum16) * 2))
+> +		return;
+> +
+> +	hw_csum = skb_tail_pointer(skb) - sizeof(__sum16);
+> +	csum_proto = csum_unfold((__force __sum16)get_unaligned_le16(hw_csum));
+> +
+> +	hw_csum -= sizeof(__sum16);
+> +	csum_ip_hdr = csum_unfold((__force __sum16)get_unaligned_le16(hw_csum));
+> +	skb_trim(skb, skb->len - 2 * sizeof(__sum16));
+> +
+> +	/* TODO: IPV6 Rx csum */
+> +	if (skb->protocol == htons(ETH_P_IP) && csum_ip_hdr == TOE_RX_CSUM_OK &&
+> +	    csum_proto == TOE_RX_CSUM_OK)
+> +		/* Hardware validated our checksum */
+> +		skb->ip_summed = CHECKSUM_UNNECESSARY;
+
+   Don't we need to set skb->csum_level?
+
+[...]
+> @@ -2337,8 +2388,32 @@ static void ravb_set_rx_csum(struct net_device *ndev, bool enable)
+>  static int ravb_set_features_gbeth(struct net_device *ndev,
+>  				   netdev_features_t features)
+>  {
+> -	/* Place holder */
+> -	return 0;
+> +	netdev_features_t changed = ndev->features ^ features;
+> +	struct ravb_private *priv = netdev_priv(ndev);
+> +	unsigned long flags;
+> +	u32 csr0;
+> +	int ret;
+> +
+> +	spin_lock_irqsave(&priv->lock, flags);
+> +	csr0 = ravb_read(ndev, CSR0);
+> +	ravb_write(ndev, csr0 & ~(CSR0_RPE | CSR0_TPE), CSR0);
+> +	ret = ravb_wait(ndev, CSR0, CSR0_RPE | CSR0_TPE, 0);
+> +	if (ret)
+> +		goto err_wait;
+
+   I don't understand: why do you clear the CSR0 bits even if
+(changed & NETIF_F_RXCSUM) is 0? This looks very wrong...
+
+> +
+> +	if (changed & NETIF_F_RXCSUM) {
+> +		if (features & NETIF_F_RXCSUM)
+> +			ravb_write(ndev, CSR2_ALL, CSR2);
+> +		else
+> +			ravb_write(ndev, 0, CSR2);
+> +	}
+
+   I think you should put that into a separate function, like
+is done for the EhterAVB...
+
+[...]
+> @@ -2518,6 +2593,8 @@ static const struct ravb_hw_info gbeth_hw_info = {
+>  	.emac_init = ravb_emac_init_gbeth,
+>  	.gstrings_stats = ravb_gstrings_stats_gbeth,
+>  	.gstrings_size = sizeof(ravb_gstrings_stats_gbeth),
+> +	.net_hw_features = NETIF_F_RXCSUM,
+> +	.net_features = NETIF_F_RXCSUM,
+
+   What about NETIF_F_IP_CSUM, BTW?
+
+[...]
+
+MBR, Sergey
 
