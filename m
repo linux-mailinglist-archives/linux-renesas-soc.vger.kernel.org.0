@@ -1,45 +1,45 @@
-Return-Path: <linux-renesas-soc+bounces-1814-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-1819-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4047A83C531
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 25 Jan 2024 15:49:26 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id D15BC83C538
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 25 Jan 2024 15:49:31 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id EC7C0294948
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 25 Jan 2024 14:49:24 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 733481F26885
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 25 Jan 2024 14:49:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A332F6EB57;
-	Thu, 25 Jan 2024 14:49:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0E8316DD1D;
+	Thu, 25 Jan 2024 14:49:14 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from baptiste.telenet-ops.be (baptiste.telenet-ops.be [195.130.132.51])
+Received: from albert.telenet-ops.be (albert.telenet-ops.be [195.130.137.90])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9EE46E2C9
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 25 Jan 2024 14:49:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.132.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B57C36E2DB
+	for <linux-renesas-soc@vger.kernel.org>; Thu, 25 Jan 2024 14:49:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.137.90
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706194152; cv=none; b=aO8hhE8xcEkSMChqRVFb0C7jhAPd7HKO1OnHySQlX7s1m/4Deu7Pci3XQ6vS/ds4tnaeWswJ9cSp1yqiR3ghsU6B4FRsQBYiwTw5m9EaQCQf+CJLrjZfH19/4I2kHWmYXVjyLg/nCoO15CRm9j+gW4d8YZ+wYeElLovJQ8pK9D4=
+	t=1706194154; cv=none; b=P7tkUX463oVjotmabMpRW1/EGm/FPM4nSW4G3oV97M8F5CNHBm73aPUWErIRBMDH9TjR48DpA+MIwOd6XBUGLeTUrqdBJOJKH68pBs8zAWPALwa/dPZ47wjtayb4E/MKaTdTrs4CTleNMWnaHUjOFtagXaD5RiW9Ww+xwpcN23g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706194152; c=relaxed/simple;
-	bh=h2S7gudS05g3P6ahM94tO5OpEENw4AIqEsDRznUjj7k=;
+	s=arc-20240116; t=1706194154; c=relaxed/simple;
+	bh=P/zcoZqGFctdEkXzBEUIo6CiANiocI5yPjML3sUTbAA=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=YihpLcWwRSVNewKSuuK1/qNBTwivHPN+Y3d//TDhoDCispAjIauvLiCHy3tRB/BYvYtare/DlCGYS74GUrJzyNmSeIfXWg5TiGRtopZpVpRStkgB9OO0viTPLKjY9GEH18rVMObXH6PHO/Kos0dw5CeJnPdwWbY81CXWAT8XfwA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.132.51
+	 MIME-Version; b=uJe5H43ts6I47IdcVQjaByZqSO295HbQrKUuVynKQlLJDkg+m0JYHwOm3/8fbCoWJgfBboQ4HkZqmHlutGD5jYraRK2jY8bnLF4VkrI95GW3xEaW8mcKsOkN8khbUZgYp53shOdWL5M5G9TU2hn1/cAyC10S9qiWmgoOXhoVq74=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.137.90
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
 Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed40:bc9e:fcb8:8aa3:5dc0])
-	by baptiste.telenet-ops.be with bizsmtp
-	id f2p02B00Q58agq2012p0l7; Thu, 25 Jan 2024 15:49:01 +0100
+	by albert.telenet-ops.be with bizsmtp
+	id f2p02B00W58agq2062p021; Thu, 25 Jan 2024 15:49:02 +0100
 Received: from rox.of.borg ([192.168.97.57])
 	by ramsan.of.borg with esmtp (Exim 4.95)
 	(envelope-from <geert@linux-m68k.org>)
-	id 1rT11W-00GUs3-Jd;
+	id 1rT11W-00GUs6-KZ;
 	Thu, 25 Jan 2024 15:49:00 +0100
 Received: from geert by rox.of.borg with local (Exim 4.95)
 	(envelope-from <geert@linux-m68k.org>)
-	id 1rT12K-00Flu0-J7;
+	id 1rT12K-00Flu4-Jv;
 	Thu, 25 Jan 2024 15:49:00 +0100
 From: Geert Uytterhoeven <geert+renesas@glider.be>
 To: Magnus Damm <magnus.damm@gmail.com>,
@@ -49,10 +49,11 @@ To: Magnus Damm <magnus.damm@gmail.com>,
 Cc: devicetree@vger.kernel.org,
 	linux-renesas-soc@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
-	Geert Uytterhoeven <geert@linux-m68k.org>
-Subject: [PATCH v2 3/9] arm64: dts: renesas: white-hawk-cpu: Restore sort order
-Date: Thu, 25 Jan 2024 15:48:53 +0100
-Message-Id: <f375293d6e21659ee30a86e2b46e4998a75ea3b5.1706192990.git.geert+renesas@glider.be>
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Wolfram Sang <wsa+renesas@sang-engineering.com>
+Subject: [PATCH v2 4/9] arm64: dts: renesas: white-hawk: Drop SoC parts from sub boards
+Date: Thu, 25 Jan 2024 15:48:54 +0100
+Message-Id: <f89613d0df04cfa6196f8797fe655cf7cec812de.1706192990.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1706192990.git.geert+renesas@glider.be>
 References: <cover.1706192990.git.geert+renesas@glider.be>
@@ -64,48 +65,70 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Geert Uytterhoeven <geert@linux-m68k.org>
+The White Hawk CSI/DSI and RAVB/Ethernet(1000Base-T1) sub boards are not
+specific to R-Car V4H.
 
-Alphabetical by node name.
+Hence rename their DTS file names to drop the "r8a779g0-" prefix, and
+remove any references to R-Car V4H.
 
-Signed-off-by: Geert Uytterhoeven <geert@linux-m68k.org>
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 ---
 v2:
-  - New.
+  - Add Reviewed-by.
 ---
- .../boot/dts/renesas/r8a779g0-white-hawk-cpu.dtsi    | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+ arch/arm64/boot/dts/renesas/r8a779g0-white-hawk.dts           | 4 ++--
+ ...a779g0-white-hawk-csi-dsi.dtsi => white-hawk-csi-dsi.dtsi} | 2 +-
+ ...79g0-white-hawk-ethernet.dtsi => white-hawk-ethernet.dtsi} | 2 +-
+ 3 files changed, 4 insertions(+), 4 deletions(-)
+ rename arch/arm64/boot/dts/renesas/{r8a779g0-white-hawk-csi-dsi.dtsi => white-hawk-csi-dsi.dtsi} (97%)
+ rename arch/arm64/boot/dts/renesas/{r8a779g0-white-hawk-ethernet.dtsi => white-hawk-ethernet.dtsi} (76%)
 
-diff --git a/arch/arm64/boot/dts/renesas/r8a779g0-white-hawk-cpu.dtsi b/arch/arm64/boot/dts/renesas/r8a779g0-white-hawk-cpu.dtsi
-index 19ca831756f78124..6d53b4006db3c27f 100644
---- a/arch/arm64/boot/dts/renesas/r8a779g0-white-hawk-cpu.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r8a779g0-white-hawk-cpu.dtsi
-@@ -25,6 +25,12 @@ chosen {
- 		stdout-path = "serial0:921600n8";
- 	};
+diff --git a/arch/arm64/boot/dts/renesas/r8a779g0-white-hawk.dts b/arch/arm64/boot/dts/renesas/r8a779g0-white-hawk.dts
+index eff1ef6e2cc83aba..8d82294a1a56444c 100644
+--- a/arch/arm64/boot/dts/renesas/r8a779g0-white-hawk.dts
++++ b/arch/arm64/boot/dts/renesas/r8a779g0-white-hawk.dts
+@@ -7,8 +7,8 @@
  
-+	sn65dsi86_refclk: clk-x6 {
-+		compatible = "fixed-clock";
-+		#clock-cells = <0>;
-+		clock-frequency = <38400000>;
-+	};
-+
- 	keys {
- 		compatible = "gpio-keys";
+ /dts-v1/;
+ #include "r8a779g0-white-hawk-cpu.dtsi"
+-#include "r8a779g0-white-hawk-csi-dsi.dtsi"
+-#include "r8a779g0-white-hawk-ethernet.dtsi"
++#include "white-hawk-csi-dsi.dtsi"
++#include "white-hawk-ethernet.dtsi"
  
-@@ -135,12 +141,6 @@ reg_3p3v: regulator-3p3v {
- 		regulator-boot-on;
- 		regulator-always-on;
- 	};
--
--	sn65dsi86_refclk: clk-x6 {
--		compatible = "fixed-clock";
--		#clock-cells = <0>;
--		clock-frequency = <38400000>;
--	};
- };
- 
- &avb0 {
+ / {
+ 	model = "Renesas White Hawk CPU and Breakout boards based on r8a779g0";
+diff --git a/arch/arm64/boot/dts/renesas/r8a779g0-white-hawk-csi-dsi.dtsi b/arch/arm64/boot/dts/renesas/white-hawk-csi-dsi.dtsi
+similarity index 97%
+rename from arch/arm64/boot/dts/renesas/r8a779g0-white-hawk-csi-dsi.dtsi
+rename to arch/arm64/boot/dts/renesas/white-hawk-csi-dsi.dtsi
+index f8537f7ea4defaba..3006b0a64f41e625 100644
+--- a/arch/arm64/boot/dts/renesas/r8a779g0-white-hawk-csi-dsi.dtsi
++++ b/arch/arm64/boot/dts/renesas/white-hawk-csi-dsi.dtsi
+@@ -1,6 +1,6 @@
+ // SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+ /*
+- * Device Tree Source for the R-Car V4H White Hawk CSI/DSI sub-board
++ * Device Tree Source for the White Hawk CSI/DSI sub-board
+  *
+  * Copyright (C) 2022 Glider bv
+  */
+diff --git a/arch/arm64/boot/dts/renesas/r8a779g0-white-hawk-ethernet.dtsi b/arch/arm64/boot/dts/renesas/white-hawk-ethernet.dtsi
+similarity index 76%
+rename from arch/arm64/boot/dts/renesas/r8a779g0-white-hawk-ethernet.dtsi
+rename to arch/arm64/boot/dts/renesas/white-hawk-ethernet.dtsi
+index 4f411f95c674bd51..a218fda337cf4308 100644
+--- a/arch/arm64/boot/dts/renesas/r8a779g0-white-hawk-ethernet.dtsi
++++ b/arch/arm64/boot/dts/renesas/white-hawk-ethernet.dtsi
+@@ -1,6 +1,6 @@
+ // SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+ /*
+- * Device Tree Source for the R-Car V4H White Hawk RAVB/Ethernet(1000Base-T1)
++ * Device Tree Source for the White Hawk RAVB/Ethernet(1000Base-T1)
+  * sub-board
+  *
+  * Copyright (C) 2022 Glider bv
 -- 
 2.34.1
 
