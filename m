@@ -1,45 +1,45 @@
-Return-Path: <linux-renesas-soc+bounces-1823-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-1821-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id C652E83C6D6
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 25 Jan 2024 16:35:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0817483C6D3
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 25 Jan 2024 16:35:16 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 67DEB1F23BCF
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 25 Jan 2024 15:35:17 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9AE0E1F21C8E
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 25 Jan 2024 15:35:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 76F4E745C6;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 431B8745C8;
 	Thu, 25 Jan 2024 15:35:03 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from albert.telenet-ops.be (albert.telenet-ops.be [195.130.137.90])
+Received: from xavier.telenet-ops.be (xavier.telenet-ops.be [195.130.132.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D0647316D
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 25 Jan 2024 15:34:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.137.90
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD5C57317A
+	for <linux-renesas-soc@vger.kernel.org>; Thu, 25 Jan 2024 15:34:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.132.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706196903; cv=none; b=qrf7vi+8BK9tl2V8PDjiL3w9R6hHozcTBlj3MffultSBeLjsWsDuAwQha5hBWuSuOdB547AELh9lA6J+hDDAV3N9P9sa4zvpGPn+5U1LYq1SnpXBMVwyxNNdUYv2pPHI2DJfjL/mdk024rHrfN0blMzx8l7Wy/WX9/9pYrxqDqc=
+	t=1706196903; cv=none; b=uGdRYDbx60WS7usVCVsf8H6TbJRrQNGRVDpYEVHM1DIyfC7tx1iXc/V28ZD1P31AhpndgoppahCYp/LDqHv+kV3lT3A6KT2l/8NfOHU/7TP+3wNkboUqcT7MlGfk6xe2fX2E79nRH/297Qy1BOS1sERGpUmNX2LjsBK+o7PmnDI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1706196903; c=relaxed/simple;
-	bh=PrGLmOdB4gT9pV6Vw4tAfL7M/IXCcsXdVseJO1BoioI=;
+	bh=1Ha86GYedZyfAvXE9T8wDZSA8AzYzBN645AQ0THxw3U=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=CfG/fE2QJkv23YaGR74Xi6y1VX/rIlLj2kH0JFfL2JV1QBpMn+hn5juj7RHj3tUwwmzd+kd9CPlkC+Vo7rEGmIe9ySsVjOw3PJFvDD/mSeWZ1jEjm937ILKvOQtVdFwP81Uj3WfSv23S7AaQQsaiAOmN6CYDjeJV2QtMxQRbefk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.137.90
+	 MIME-Version; b=L3s1XNrkZfpjzR+QgD1kzKykBuoKdkj/FtpkYaz198NqGS528os2y+FvcSfu/TFsuh19kOH0sZcAIygtaX9aT55vFMXN8z1dEVIIlzLi08hPI7aeyWWdN2D+ba2f5oOJ+TzrwLfqVQTtCxKtqD4PvhO1KlfGUXQoFC9R5NPs4aU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.132.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
 Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed40:bc9e:fcb8:8aa3:5dc0])
-	by albert.telenet-ops.be with bizsmtp
-	id f3am2B00M58agq2063am9X; Thu, 25 Jan 2024 16:34:56 +0100
+	by xavier.telenet-ops.be with bizsmtp
+	id f3am2B00B58agq2013amcR; Thu, 25 Jan 2024 16:34:57 +0100
 Received: from rox.of.borg ([192.168.97.57])
 	by ramsan.of.borg with esmtp (Exim 4.95)
 	(envelope-from <geert@linux-m68k.org>)
-	id 1rT1jo-00GUwK-9n;
+	id 1rT1jo-00GUwP-Ai;
 	Thu, 25 Jan 2024 16:34:46 +0100
 Received: from geert by rox.of.borg with local (Exim 4.95)
 	(envelope-from <geert@linux-m68k.org>)
-	id 1rT1kc-00Fs3K-9J;
+	id 1rT1kc-00Fs3P-AC;
 	Thu, 25 Jan 2024 16:34:46 +0100
 From: Geert Uytterhoeven <geert+renesas@glider.be>
 To: Michael Turquette <mturquette@baylibre.com>,
@@ -61,10 +61,11 @@ Cc: Cong Dang <cong.dang.xn@renesas.com>,
 	devicetree@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-pm@vger.kernel.org,
-	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH v2 14/15] arm64: dts: renesas: Add Gray Hawk Single board support
-Date: Thu, 25 Jan 2024 16:34:42 +0100
-Message-Id: <b657402113267acd57aece0b4c681b707e704455.1706194617.git.geert+renesas@glider.be>
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Wolfram Sang <wsa+renesas@sang-engineering.com>
+Subject: [PATCH v2 15/15] arm64: defconfig: Enable R8A779H0 SoC
+Date: Thu, 25 Jan 2024 16:34:43 +0100
+Message-Id: <2e3b5ac22b92bd507940d1644bbff831a773721b.1706194617.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1706194617.git.geert+renesas@glider.be>
 References: <cover.1706194617.git.geert+renesas@glider.be>
@@ -76,96 +77,33 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add initial support for the Renesas Gray Hawk Single board, which is
-based on the R-Car V4M (R8A779H0) SoC:
-  - Memory,
-  - Crystal oscillators,
-  - Serial console.
+From: Linh Phung <linh.phung.jy@renesas.com>
 
-Based on the White Hawk Single DTS, and on a patch for the Gray Hawk
-board stack in the BSP by Hai Pham.
+Enable support for the Renesas R-Car V4M (R8A779H0) SoC in the ARM64
+defconfig.
 
+Signed-off-by: Linh Phung <linh.phung.jy@renesas.com>
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 ---
 v2:
-  - Add SoC name to top-level comment.
+  - Add Reviewed-by.
 ---
- arch/arm64/boot/dts/renesas/Makefile          |  2 +
- .../dts/renesas/r8a779h0-gray-hawk-single.dts | 52 +++++++++++++++++++
- 2 files changed, 54 insertions(+)
- create mode 100644 arch/arm64/boot/dts/renesas/r8a779h0-gray-hawk-single.dts
+ arch/arm64/configs/defconfig | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/arch/arm64/boot/dts/renesas/Makefile b/arch/arm64/boot/dts/renesas/Makefile
-index 1d7d69657a1f0559..4c5ac5f02829ff58 100644
---- a/arch/arm64/boot/dts/renesas/Makefile
-+++ b/arch/arm64/boot/dts/renesas/Makefile
-@@ -86,6 +86,8 @@ dtb-$(CONFIG_ARCH_R8A779G0) += r8a779g0-white-hawk-ard-audio-da7212.dtbo
- r8a779g0-white-hawk-ard-audio-da7212-dtbs := r8a779g0-white-hawk.dtb r8a779g0-white-hawk-ard-audio-da7212.dtbo
- dtb-$(CONFIG_ARCH_R8A779G0) += r8a779g0-white-hawk-ard-audio-da7212.dtb
- 
-+dtb-$(CONFIG_ARCH_R8A779H0) += r8a779h0-gray-hawk-single.dtb
-+
- dtb-$(CONFIG_ARCH_R8A77951) += r8a779m1-salvator-xs.dtb
- r8a779m1-salvator-xs-panel-aa104xd12-dtbs := r8a779m1-salvator-xs.dtb salvator-panel-aa104xd12.dtbo
- dtb-$(CONFIG_ARCH_R8A77951) += r8a779m1-salvator-xs-panel-aa104xd12.dtb
-diff --git a/arch/arm64/boot/dts/renesas/r8a779h0-gray-hawk-single.dts b/arch/arm64/boot/dts/renesas/r8a779h0-gray-hawk-single.dts
-new file mode 100644
-index 0000000000000000..1ed404712d823871
---- /dev/null
-+++ b/arch/arm64/boot/dts/renesas/r8a779h0-gray-hawk-single.dts
-@@ -0,0 +1,52 @@
-+// SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+/*
-+ * Device Tree Source for the R-Car V4M Gray Hawk Single board
-+ *
-+ * Copyright (C) 2023 Renesas Electronics Corp.
-+ * Copyright (C) 2024 Glider bv
-+ */
-+
-+/dts-v1/;
-+#include "r8a779h0.dtsi"
-+
-+/ {
-+	model = "Renesas Gray Hawk Single board based on r8a779h0";
-+	compatible = "renesas,gray-hawk-single", "renesas,r8a779h0";
-+
-+	aliases {
-+		serial0 = &hscif0;
-+	};
-+
-+	chosen {
-+		bootargs = "ignore_loglevel";
-+		stdout-path = "serial0:921600n8";
-+	};
-+
-+	memory@48000000 {
-+		device_type = "memory";
-+		/* first 128MB is reserved for secure area. */
-+		reg = <0x0 0x48000000 0x0 0x78000000>;
-+	};
-+
-+	memory@480000000 {
-+		device_type = "memory";
-+		reg = <0x4 0x80000000 0x1 0x80000000>;
-+	};
-+};
-+
-+&extal_clk {
-+	clock-frequency = <16666666>;
-+};
-+
-+&extalr_clk {
-+	clock-frequency = <32768>;
-+};
-+
-+&hscif0 {
-+	uart-has-rtscts;
-+	status = "okay";
-+};
-+
-+&scif_clk {
-+	clock-frequency = <24000000>;
-+};
+diff --git a/arch/arm64/configs/defconfig b/arch/arm64/configs/defconfig
+index ef40c04e0ab90ec4..85057f7ec243660c 100644
+--- a/arch/arm64/configs/defconfig
++++ b/arch/arm64/configs/defconfig
+@@ -1377,6 +1377,7 @@ CONFIG_ARCH_R8A77980=y
+ CONFIG_ARCH_R8A77970=y
+ CONFIG_ARCH_R8A779A0=y
+ CONFIG_ARCH_R8A779G0=y
++CONFIG_ARCH_R8A779H0=y
+ CONFIG_ARCH_R8A774C0=y
+ CONFIG_ARCH_R8A774E1=y
+ CONFIG_ARCH_R8A774A1=y
 -- 
 2.34.1
 
