@@ -1,73 +1,73 @@
-Return-Path: <linux-renesas-soc+bounces-1854-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-1855-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB8E183D832
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 26 Jan 2024 11:31:29 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A69C83D86F
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 26 Jan 2024 11:50:01 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1C8A01C28DD0
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 26 Jan 2024 10:31:29 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 540ECB3ED05
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 26 Jan 2024 10:31:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 00B931D689;
-	Fri, 26 Jan 2024 10:16:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 92C6B1D556;
+	Fri, 26 Jan 2024 10:16:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="lFc08UVS"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="UCYJ/D0h"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC4EB1D54D
-	for <linux-renesas-soc@vger.kernel.org>; Fri, 26 Jan 2024 10:16:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D61B1D6AB
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 26 Jan 2024 10:16:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706264173; cv=none; b=gzzaVfvTuyxx3To6uPHiUNJoqfljbBW3chkY3lEjfvCW5LAOTsvPjn/tzUmJKqeey57DPxPLMA9dZMFdnIZYOjTBIVI1YNlPjv4cJgyx3+WaFtHoB7yDKqvSMHn8IeWdtjpJA5X8G++TYJz+0jkZ3y9MPU75gz/ec4XJ2bgUcas=
+	t=1706264181; cv=none; b=H5tbh7LEDQtSOwaLnoaqrbu7FjW57Sz9xDTqieokgMyVwxl8iThavZ//fw2agJelVb2//9HXz8ks4PxhOmkIJw7NSV2tM6va7Z4M4/rmYtBwA37fHfAXN0my2s/wg0Eiu82txqhsyKVfOjom2RnvfAeR/tr+uNmOtTZhKrihzRo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706264173; c=relaxed/simple;
-	bh=r2tD8TfAR7Qevgr/V5++JsGnayiSxUnVUIOR5rC1tF4=;
+	s=arc-20240116; t=1706264181; c=relaxed/simple;
+	bh=6sixhE7yhkWlhTTqjUNHipbSOTsTn2VwhmgcC5z/IDw=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=EDr5cUYi5D68e5yydA8Tj80tYdV60PlOCCd1HZ8NqYhOzBRGHrWaf7+QNZ33AmqyhE1hehvHwkNcahgE+fKFpaX90Z837Kqu83afO2azjyYws0Hu4DkOyMQGMNTTJkj62Sie8EkMTiI+2Wr1DlZQrUcwr3M942a8Goyc1zW2iVw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=lFc08UVS; arc=none smtp.client-ip=209.85.167.45
+	 In-Reply-To:Content-Type; b=RU6gDcd5eB5VlAI26cjEsdzd6c/eQC58JwbBG1T3DJ7pqvLvUbnRE5pVpStsa1TNEzL49i1RL6+VTgc1MzfJkEf/2+PHtqXUskmwmfJOvqZOSaiuzfZ2Ej28KzXrLO4dALdQB4m/T6p4nXhPkc2mc0X1VJ1ujx/CnuNAO4hHj4I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=UCYJ/D0h; arc=none smtp.client-ip=209.85.218.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-50eabfac2b7so324004e87.0
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 26 Jan 2024 02:16:11 -0800 (PST)
+Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-a2a17f3217aso32429166b.2
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 26 Jan 2024 02:16:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1706264170; x=1706868970; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1706264178; x=1706868978; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=9il6htOC7lXil9U/x6IrQ9HRc9ukMWp9abNZLoFpHw0=;
-        b=lFc08UVSLlMekAnRaLuVyfdDSh7/nOR+hQ2QF+t0XHT00K+TiPubzGndGjXlz1UGU5
-         JEh6CqqPzV/kQMDvWRlwIZCQjAvj1kTguBi0SFwSjgkEw6jbpcib+/4R2364H9e4RHma
-         MeXYRlUDVPuNPPmIEAOIRp/N5pjV1w2O3pWeNxnmsd89HNNi9MGlnt8GwfOO26Q5l/pV
-         iTMS2Ky98rCfHLsKpdgntO4T8+pIsKbz5nvs/zb7p7dTin4ZX3+NK6UoD/7CUW331rhI
-         jKABbRRxqyudteLuEvULYhebuyNfLvnkiyd4Rj6jEqcxbSjP0ELW+Mq863oTXG/1pSi2
-         Zf5A==
+        bh=y17/GfiMiLTWhtMyJAWwdGTOZF67Y8WYspXys70blEA=;
+        b=UCYJ/D0h9qG8fNzuiMCWPqTrIA+1hUu35ll4+sipAkkWWIXI8o4pGaEyj1TpNLKHhE
+         n76ubQIjx7ZfHk9qbbfhgmnYv1kUOfuB076m5zoWuVQpBIUQcrOjlapxVF4SiMcuTiXo
+         gkV8CrdMNiVugQeTzh8imf+ND+ym+DVjx6edOxJLCd8nb6Mb0TbY3V148XwctPfWJPAe
+         xpKxz/AyUnXzgARQLCQ2wj3pwZvVagzgFsFKi3XLXzLMaEilyCHsi4DGUjj4ivILmes9
+         4t9VdizpFK3l0Gl8VYRvxYz+jNKPYN4FdExEwRde0kkdKcqClSdHQ0D8BQSWyzdS4TXl
+         QMjQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706264170; x=1706868970;
+        d=1e100.net; s=20230601; t=1706264178; x=1706868978;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=9il6htOC7lXil9U/x6IrQ9HRc9ukMWp9abNZLoFpHw0=;
-        b=xDSmc2FXrqQw/zYnNxRF7raLljAsI5j33Tt1bTdqdyPFY1QBoyILpXxwpfrQtdFapU
-         XdF7x3pe+wjanCdd1IoWlebQt49pnH9Lnpl3CmaC2Z8kf/uOOYI4qgAFK+dwk+GFu3cr
-         bDpG3bSdustOhNYFOpbr1W617mcfuSznLdp7X3mySS+Qin6KUJEQKG4roeTxo92r172n
-         RhljHDUwI/orV7vwC+Z18ZVtLLT+y5osshquTouKHXhLsRxfkpKGh2tzFnfabqhHk3ma
-         kOtXBj0KRPnl5VsEvZx0+OMUK5Cma2Et289FSCsxc74XIx3M4a5QRVj7Mi5cTy5dpkYH
-         u9GQ==
-X-Gm-Message-State: AOJu0YzOT6db8pIr6+4r82xJMClrIXs6YJBxa9DWmVfmgSHFxNhmJYaF
-	3kyZ5t//9Fi6Z77bWguxwOPxbg38DiRQIEFkpp05hv2oAh+YuphPG+IZaw1TBXw=
-X-Google-Smtp-Source: AGHT+IG/g8kU96OQf2OxjPQajc7ISxqWLUXzFtglYIv4Sw9/pU4apUsozNteayYtyXFACCgdwwuUtA==
-X-Received: by 2002:a05:6512:280e:b0:510:1096:5270 with SMTP id cf14-20020a056512280e00b0051010965270mr687070lfb.139.1706264169984;
-        Fri, 26 Jan 2024 02:16:09 -0800 (PST)
+        bh=y17/GfiMiLTWhtMyJAWwdGTOZF67Y8WYspXys70blEA=;
+        b=eEEMxlhdhUNhb0vxe2quP2l1CTzy/Z1kGodEW7zZGgOk7pee8um1jtBz/u4R56jPzn
+         wAx/cGMJf5+0VHhle8NoZ1a6kz06z4gk2QeefdxMBrvA1Pj3BeS+oeMO0eA3oNnyj0r2
+         2czLlpPl5gPlYx5DdrFd1Ox//Jz7XbyCm2HaYokKlXlZ+jVqRrpYT4un5s6h0zHm53Ip
+         f7I5+PyYUQeV3o78kOKFSRrgjIF6hoi8mLJlz/IYSZRX51raEl9DWxDqYB/RoW9Rqk09
+         fKqxVo11U1ODJ1hZA/wmbNyMC4FEVzC9vBzCjUEh+i9WuuWphX8+4FMls6c04juz6dtG
+         P8DA==
+X-Gm-Message-State: AOJu0Yw2lmxJle9CyzJM+jSAt2xQoDCOwC1zoFV//RByo65dESOe9TVM
+	KdNBa5HJyYIEn0Jw138+jrMjVOWujxmwEyZUxt623yd38Fa3Sh2xNJ03VfUiOI8=
+X-Google-Smtp-Source: AGHT+IH5NaDfT4U8OQmRiWLzSDG80922dQsNTjsH8VXzsYUpwzE/+hQ0IS7cm6eaV6ZuzlSZnz6xJQ==
+X-Received: by 2002:a17:906:1949:b0:a31:59a2:b231 with SMTP id b9-20020a170906194900b00a3159a2b231mr1261798eje.8.1706264177757;
+        Fri, 26 Jan 2024 02:16:17 -0800 (PST)
 Received: from [192.168.1.20] ([178.197.215.66])
-        by smtp.gmail.com with ESMTPSA id sn24-20020a170906629800b00a3040040011sm462787ejc.45.2024.01.26.02.16.07
+        by smtp.gmail.com with ESMTPSA id sn24-20020a170906629800b00a3040040011sm462787ejc.45.2024.01.26.02.16.15
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 26 Jan 2024 02:16:09 -0800 (PST)
-Message-ID: <db9bf8b0-9bba-4d36-890f-f26ea51f0a3f@linaro.org>
-Date: Fri, 26 Jan 2024 11:16:06 +0100
+        Fri, 26 Jan 2024 02:16:17 -0800 (PST)
+Message-ID: <7fbf03f9-32f7-465b-993e-dcd5867d9403@linaro.org>
+Date: Fri, 26 Jan 2024 11:16:14 +0100
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -75,8 +75,8 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 02/15] dt-bindings: clock: Add R8A779H0 V4M CPG Core
- Clock Definitions
+Subject: Re: [PATCH v2 04/15] dt-bindings: power: Add r8a779h0 SYSC power
+ domain definitions
 Content-Language: en-US
 To: Geert Uytterhoeven <geert+renesas@glider.be>,
  Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
@@ -93,7 +93,7 @@ Cc: Cong Dang <cong.dang.xn@renesas.com>,
  linux-arm-kernel@lists.infradead.org, linux-pm@vger.kernel.org,
  =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
 References: <cover.1706194617.git.geert+renesas@glider.be>
- <11acbd2a30b58607474e9c32eb798b3a00e85e73.1706194617.git.geert+renesas@glider.be>
+ <c5cbef71178cada761e9da7bcbb6f21334f93ef8.1706194617.git.geert+renesas@glider.be>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
@@ -139,24 +139,20 @@ Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
  fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
  D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <11acbd2a30b58607474e9c32eb798b3a00e85e73.1706194617.git.geert+renesas@glider.be>
+In-Reply-To: <c5cbef71178cada761e9da7bcbb6f21334f93ef8.1706194617.git.geert+renesas@glider.be>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
 On 25/01/2024 16:34, Geert Uytterhoeven wrote:
 > From: Duy Nguyen <duy.nguyen.rh@renesas.com>
 > 
-> Add all Clock Pulse Generator Core Clock Outputs for the Renesas R-Car
-> V4M (R8A779H0) SoC.
+> Add power domain indices for the Renesas R-Car V4M (R8A779H0) SoC.
 > 
 > Signed-off-by: Duy Nguyen <duy.nguyen.rh@renesas.com>
 > Signed-off-by: Hai Pham <hai.pham.ud@renesas.com>
 > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 > Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 > ---
-> v2:
->   - Add Reviewed-by,
->   - Add vendor-prefix to file name and update include guard.
 
 
 Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
