@@ -1,55 +1,53 @@
-Return-Path: <linux-renesas-soc+bounces-1884-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-1885-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3710983DAD9
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 26 Jan 2024 14:31:43 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 65E8C83DAE0
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 26 Jan 2024 14:31:50 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6A9821C21F49
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 26 Jan 2024 13:31:42 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id DFDD4B22E59
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 26 Jan 2024 13:31:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A0E991B81C;
-	Fri, 26 Jan 2024 13:31:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CCE3D1B940;
+	Fri, 26 Jan 2024 13:31:40 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0FC5A1B95B;
-	Fri, 26 Jan 2024 13:31:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CA5481B81D;
+	Fri, 26 Jan 2024 13:31:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706275896; cv=none; b=ErjCVA3Fd0HcrV8wnHT76Isiq3wqqicCpIoOIHpXRKZds2sHrS99MelAeRCvNMsaQqijpTSXvHLTDY59lVod6IRoT89BLFHufkJnAwZI2YkAOoS8r0Jo1eJhxVLU8h/L9T2f4pT8E0Zsx35JqORCMsTMEGeX7BKzS5ne9iGmnUs=
+	t=1706275900; cv=none; b=l9CodW/b24cwpTjRlebbyvB8fafQT4x18rKysffgycDy/mSUm8NMx7yH8BoTHOXZMmcu8EyByiNtEJmxtviUaFCfJJmj0n+gHCKGUmYSvOtZqo25/Ql9Y4WYzgwKcwHpfHVPq2lEBRT5ESgRbWBQ7ck0q2ozlZyTJwEUwoOxkTQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706275896; c=relaxed/simple;
-	bh=G0YbHSvhHbygRwbklrXB9ulhvywONDt1OTL6RMbcfho=;
+	s=arc-20240116; t=1706275900; c=relaxed/simple;
+	bh=No6e592qp1+6lmnxGwIpbj583RMBLkd3ohFfCJZvRyc=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=O2X3hKO1LvIN500MmtgntIQVe7a1e1KTxP3h3QcHwbpbnfURirc5nSdUwuV+jqkvu1x/pHJPSToRbygXUk1RyM7V0rtyQYHs3t0xi8YUqj/kgOLXFgRQsVKKWWg63p1Q9dgtu4jFjJaQUs1hoJtXHPnOBba7Fbgj3p2m98wPrYI=
+	 MIME-Version; b=Hv5P9TxhXwtUPoAlj7n57QihQD8hV4f6HKRGy6CGyPwlF9AjrvlWUGXO+Kf+5CzWfP41Wl6/GVUqlp8FzPd17wcaZNYEe3R9nM68oLOlmvyCjT/rBw7Zm7DCarS40K0DhK/WaU2WIpgt5iox5pl1rsGPqTd2b32EDAW3iq5ZRq8=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
 X-IronPort-AV: E=Sophos;i="6.05,216,1701097200"; 
-   d="scan'208";a="195755058"
+   d="scan'208";a="195755065"
 Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie6.idc.renesas.com with ESMTP; 26 Jan 2024 22:31:33 +0900
+  by relmlie6.idc.renesas.com with ESMTP; 26 Jan 2024 22:31:37 +0900
 Received: from localhost.localdomain (unknown [10.226.93.117])
-	by relmlir6.idc.renesas.com (Postfix) with ESMTP id DD07E422D9B2;
-	Fri, 26 Jan 2024 22:31:29 +0900 (JST)
+	by relmlir6.idc.renesas.com (Postfix) with ESMTP id 2E251422D9B2;
+	Fri, 26 Jan 2024 22:31:33 +0900 (JST)
 From: Biju Das <biju.das.jz@bp.renesas.com>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>,
+To: Rob Herring <robh+dt@kernel.org>,
 	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
 	Conor Dooley <conor+dt@kernel.org>
 Cc: Biju Das <biju.das.jz@bp.renesas.com>,
 	Geert Uytterhoeven <geert+renesas@glider.be>,
 	Magnus Damm <magnus.damm@gmail.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	linux-media@vger.kernel.org,
-	devicetree@vger.kernel.org,
 	linux-renesas-soc@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
 	Biju Das <biju.das.au@gmail.com>
-Subject: [PATCH v2 2/5] media: dt-bindings: renesas,rzg2l-cru: Document Renesas RZ/G2UL CRU block
-Date: Fri, 26 Jan 2024 13:31:13 +0000
-Message-Id: <20240126133116.121981-3-biju.das.jz@bp.renesas.com>
+Subject: [PATCH v2 3/5] arm64: dts: renesas: r9a07g043u: Add CSI and CRU nodes
+Date: Fri, 26 Jan 2024 13:31:14 +0000
+Message-Id: <20240126133116.121981-4-biju.das.jz@bp.renesas.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20240126133116.121981-1-biju.das.jz@bp.renesas.com>
 References: <20240126133116.121981-1-biju.das.jz@bp.renesas.com>
@@ -61,80 +59,96 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Document the CRU IP found in Renesas RZ/G2UL SoC.
-
-The CRU block on the RZ/G2UL SoC is identical to one found on the
-RZ/G2L SoC, but it does not support parallel input.
+Add CSI and CRU nodes r9a07g043 (RZ/G2UL) SoC DTSI.
 
 Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 ---
 v1->v2:
- * Dropped the description from if/else block.
- * Dropped driver reference from commit description.
+ * No change.
 ---
- .../bindings/media/renesas,rzg2l-cru.yaml     | 35 ++++++++++++++++---
- 1 file changed, 31 insertions(+), 4 deletions(-)
+ arch/arm64/boot/dts/renesas/r9a07g043u.dtsi | 69 +++++++++++++++++++++
+ 1 file changed, 69 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/media/renesas,rzg2l-cru.yaml b/Documentation/devicetree/bindings/media/renesas,rzg2l-cru.yaml
-index 1e72b8808d24..bc1245127025 100644
---- a/Documentation/devicetree/bindings/media/renesas,rzg2l-cru.yaml
-+++ b/Documentation/devicetree/bindings/media/renesas,rzg2l-cru.yaml
-@@ -19,6 +19,7 @@ properties:
-   compatible:
-     items:
-       - enum:
-+          - renesas,r9a07g043-cru       # RZ/G2UL
-           - renesas,r9a07g044-cru       # RZ/G2{L,LC}
-           - renesas,r9a07g054-cru       # RZ/V2L
-       - const: renesas,rzg2l-cru
-@@ -87,10 +88,6 @@ properties:
-           Input port node, describing the Image Processing module connected to the
-           CSI-2 receiver.
+diff --git a/arch/arm64/boot/dts/renesas/r9a07g043u.dtsi b/arch/arm64/boot/dts/renesas/r9a07g043u.dtsi
+index 2ab231572d95..01d08ebb4a78 100644
+--- a/arch/arm64/boot/dts/renesas/r9a07g043u.dtsi
++++ b/arch/arm64/boot/dts/renesas/r9a07g043u.dtsi
+@@ -61,6 +61,75 @@ &pinctrl {
+ &soc {
+ 	interrupt-parent = <&gic>;
  
--    required:
--      - port@0
--      - port@1
--
- required:
-   - compatible
-   - reg
-@@ -102,6 +99,36 @@ required:
-   - reset-names
-   - power-domains
- 
-+allOf:
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            enum:
-+              - renesas,r9a07g044-cru
-+              - renesas,r9a07g054-cru
-+    then:
-+      properties:
-+        ports:
-+          required:
-+            - port@0
-+            - port@1
++	cru: video@10830000 {
++		compatible = "renesas,r9a07g043-cru", "renesas,rzg2l-cru";
++		reg = <0 0x10830000 0 0x400>;
++		clocks = <&cpg CPG_MOD R9A07G043_CRU_VCLK>,
++			 <&cpg CPG_MOD R9A07G043_CRU_PCLK>,
++			 <&cpg CPG_MOD R9A07G043_CRU_ACLK>;
++		clock-names = "video", "apb", "axi";
++		interrupts = <SOC_PERIPHERAL_IRQ(167) IRQ_TYPE_LEVEL_HIGH>,
++			     <SOC_PERIPHERAL_IRQ(168) IRQ_TYPE_LEVEL_HIGH>,
++			     <SOC_PERIPHERAL_IRQ(169) IRQ_TYPE_LEVEL_HIGH>;
++		interrupt-names = "image_conv", "image_conv_err", "axi_mst_err";
++		resets = <&cpg R9A07G043_CRU_PRESETN>,
++			 <&cpg R9A07G043_CRU_ARESETN>;
++		reset-names = "presetn", "aresetn";
++		power-domains = <&cpg>;
++		status = "disabled";
 +
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            enum:
-+              - renesas,r9a07g043-cru
-+    then:
-+      properties:
-+        ports:
-+          properties:
-+            port@0: false
++		ports {
++			#address-cells = <1>;
++			#size-cells = <0>;
 +
-+          required:
-+            - port@1
++			port@1 {
++				#address-cells = <1>;
++				#size-cells = <0>;
 +
- additionalProperties: false
- 
- examples:
++				reg = <1>;
++				crucsi2: endpoint@0 {
++					reg = <0>;
++					remote-endpoint = <&csi2cru>;
++				};
++			};
++		};
++	};
++
++	csi2: csi2@10830400 {
++		compatible = "renesas,r9a07g043-csi2", "renesas,rzg2l-csi2";
++		reg = <0 0x10830400 0 0xfc00>;
++		interrupts = <SOC_PERIPHERAL_IRQ(166) IRQ_TYPE_LEVEL_HIGH>;
++		clocks = <&cpg CPG_MOD R9A07G043_CRU_SYSCLK>,
++			 <&cpg CPG_MOD R9A07G043_CRU_VCLK>,
++			 <&cpg CPG_MOD R9A07G043_CRU_PCLK>;
++		clock-names = "system", "video", "apb";
++		resets = <&cpg R9A07G043_CRU_PRESETN>,
++			 <&cpg R9A07G043_CRU_CMN_RSTB>;
++		reset-names = "presetn", "cmn-rstb";
++		power-domains = <&cpg>;
++		status = "disabled";
++
++		ports {
++			#address-cells = <1>;
++			#size-cells = <0>;
++
++			port@0 {
++				reg = <0>;
++			};
++
++			port@1 {
++				#address-cells = <1>;
++				#size-cells = <0>;
++				reg = <1>;
++
++				csi2cru: endpoint@0 {
++					reg = <0>;
++					remote-endpoint = <&crucsi2>;
++				};
++			};
++		};
++	};
++
+ 	irqc: interrupt-controller@110a0000 {
+ 		compatible = "renesas,r9a07g043u-irqc",
+ 			     "renesas,rzg2l-irqc";
 -- 
 2.25.1
 
