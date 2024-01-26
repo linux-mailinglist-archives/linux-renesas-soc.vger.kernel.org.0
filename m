@@ -1,120 +1,200 @@
-Return-Path: <linux-renesas-soc+bounces-1894-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-1895-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16C8483DEA6
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 26 Jan 2024 17:26:30 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 56EF283E21C
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 26 Jan 2024 20:01:21 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 10A3E1C234E1
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 26 Jan 2024 16:26:29 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8F6051C2197E
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 26 Jan 2024 19:01:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BE8CE1DDEB;
-	Fri, 26 Jan 2024 16:25:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="b44/OZvQ"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B2DD221A04;
+	Fri, 26 Jan 2024 19:01:17 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mx01.omp.ru (mx01.omp.ru [90.154.21.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FEB21EA95;
-	Fri, 26 Jan 2024 16:25:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05BEB1DFE4;
+	Fri, 26 Jan 2024 19:01:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.154.21.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706286346; cv=none; b=fdT5h9vZ5QtY3iIpzdlv9Y+7sOPL/2+FAp5B/7hR8epywnC8KNhHTOhDU2C5Zhok5g5G8ji0XR2pa9mIWFwTRj+86CpZW5P7/mW2qu9sKYJGmlIwnNFHqiXl/Kx7e4EIXeYrRF64C/LTt8LbzR0ySOGWg5b/mTkpPmoLn5ca4g8=
+	t=1706295677; cv=none; b=gXa41fx8j5DO3O7lEx+kVKZ0foS9aDhzJ94+xb6Xmo9xNzeuNYPSoyFITpZ3sAxqNODXaLunuLvQjLGqaUDQMHiVaY788cWo29IeJRwemtiF81EAjS1iK3hCWdBJzyAMA9FJEAWW/xssbnOz5UO20p3azRap5S9T/RHDtkrWKa4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706286346; c=relaxed/simple;
-	bh=tEiTgy5YTgZOJr30W4NNNP6rzoSFPsEg1pnYn4mgZPI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZoYx9f+S0myKEgtpBQHq7FylPcwscsKxGZuYxH3tBwoX53TFvch6FugZ5dXc3kSJHQ6uI9qbN4IN0Mhm2rxbJx/gHxifMxx5uW0AE1JaiRKZshl4tODxaGIRrW78f2Se+NG6dwxVtv2C5bnVwcOYu269HupPg2P8z4pY+9iHAHI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=b44/OZvQ; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8117EC43390;
-	Fri, 26 Jan 2024 16:25:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1706286346;
-	bh=tEiTgy5YTgZOJr30W4NNNP6rzoSFPsEg1pnYn4mgZPI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=b44/OZvQSzZzTSZ/CByymFsJolDprtk18C+RKJojolixC2krVroeopNpTKF78OG9c
-	 sZ6kHXUwJPTFTHnqHTJOeW0cPl+YlrHw3bst8pY5WTEclV7K30F/GWH4jU+5G1ls1a
-	 YcZBOJyTCPt76GlNH2RGrgyr/6lnc5HArb7fVvC2lobsoZo+qRXbYO04K1P+5JQfW4
-	 MEh+lT7zKlRMb1eP/98b2QenX4yD/re8gnwsX72FZfNkqcX+QurDc3BicLaoA94njn
-	 TSvJMJnlueGHAnWWvcAl2iACw3lg8qet1P23y8pSG3n3odAjjrEA9RIJcJIfisqekc
-	 y+sef4ulsD1EA==
-Date: Fri, 26 Jan 2024 16:25:42 +0000
-From: Conor Dooley <conor@kernel.org>
-To: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: Linus Walleij <linus.walleij@linaro.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org,
-	devicetree@vger.kernel.org
-Subject: Re: [PATCH 01/14] dt-bindings: pinctrl: renesas,pfc: Document R-Car
- V4M support
-Message-ID: <20240126-tutu-amusable-b34491e4a840@spud>
-References: <cover.1706264667.git.geert+renesas@glider.be>
- <56685dc04af3cee7cb3751e855ed5b3679b14122.1706264667.git.geert+renesas@glider.be>
+	s=arc-20240116; t=1706295677; c=relaxed/simple;
+	bh=7sHiXLSoiOdpliCAb4S82gxPhIsDMSU9EmiTu3PRmiw=;
+	h=Subject:To:CC:References:From:Message-ID:Date:MIME-Version:
+	 In-Reply-To:Content-Type; b=F6+Lr3DgwOLu0oSdMV1zr3yzueVbnrhl3v4vKn1QtwELyKGkK/lSHsww6Lb2qE9Yqu781HHsd5plSiger9h2FKpcaZRVtEUOmt6sZrgGoLCg2n/X9wedsE/tw6Fp7XtKQ34WEpkjkDzos0xo4M5ROj9oBQdWNllWd5H8rKh6REU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=omp.ru; spf=pass smtp.mailfrom=omp.ru; arc=none smtp.client-ip=90.154.21.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=omp.ru
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=omp.ru
+Received: from [192.168.1.105] (31.173.87.141) by msexch01.omp.ru
+ (10.188.4.12) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.1258.12; Fri, 26 Jan
+ 2024 22:01:02 +0300
+Subject: Re: [PATCH net-next v2 0/2] Add HW checksum offload support for
+ RZ/G2L GbEthernet IP
+To: Biju Das <biju.das.jz@bp.renesas.com>, "David S. Miller"
+	<davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub Kicinski
+	<kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>
+CC: Vincent Guittot <vincent.guittot@linaro.org>, "peterz@infradead.org"
+	<peterz@infradead.org>, Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
+	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>, Wolfram Sang
+	<wsa+renesas@sang-engineering.com>, nikita.yoush
+	<nikita.yoush@cogentembedded.com>, "netdev@vger.kernel.org"
+	<netdev@vger.kernel.org>, "linux-renesas-soc@vger.kernel.org"
+	<linux-renesas-soc@vger.kernel.org>, Geert Uytterhoeven
+	<geert+renesas@glider.be>, Prabhakar Mahadev Lad
+	<prabhakar.mahadev-lad.rj@bp.renesas.com>, biju.das.au
+	<biju.das.au@gmail.com>
+References: <20240124102115.132154-1-biju.das.jz@bp.renesas.com>
+ <5245e582-5eea-ccdf-2ba3-fda58e261172@omp.ru>
+ <TYCPR01MB11269BFD4A300AA71BA02DA85867A2@TYCPR01MB11269.jpnprd01.prod.outlook.com>
+From: Sergey Shtylyov <s.shtylyov@omp.ru>
+Organization: Open Mobile Platform
+Message-ID: <37289018-785a-7584-f636-baa7729215af@omp.ru>
+Date: Fri, 26 Jan 2024 22:01:02 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="6ZCAmEGLm4Y6B1ay"
-Content-Disposition: inline
-In-Reply-To: <56685dc04af3cee7cb3751e855ed5b3679b14122.1706264667.git.geert+renesas@glider.be>
+In-Reply-To: <TYCPR01MB11269BFD4A300AA71BA02DA85867A2@TYCPR01MB11269.jpnprd01.prod.outlook.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: msexch01.omp.ru (10.188.4.12) To msexch01.omp.ru
+ (10.188.4.12)
+X-KSE-ServerInfo: msexch01.omp.ru, 9
+X-KSE-AntiSpam-Interceptor-Info: scan successful
+X-KSE-AntiSpam-Version: 6.1.0, Database issued on: 01/26/2024 18:49:44
+X-KSE-AntiSpam-Status: KAS_STATUS_NOT_DETECTED
+X-KSE-AntiSpam-Method: none
+X-KSE-AntiSpam-Rate: 59
+X-KSE-AntiSpam-Info: Lua profiles 182973 [Jan 26 2024]
+X-KSE-AntiSpam-Info: Version: 6.1.0.3
+X-KSE-AntiSpam-Info: Envelope from: s.shtylyov@omp.ru
+X-KSE-AntiSpam-Info: LuaCore: 7 0.3.7 6d6bf5bd8eea7373134f756a2fd73e9456bb7d1a
+X-KSE-AntiSpam-Info: {rep_avail}
+X-KSE-AntiSpam-Info: {Tracking_uf_ne_domains}
+X-KSE-AntiSpam-Info: {Tracking_from_domain_doesnt_match_to}
+X-KSE-AntiSpam-Info: {relay has no DNS name}
+X-KSE-AntiSpam-Info: {SMTP from is not routable}
+X-KSE-AntiSpam-Info: {Found in DNSBL: 31.173.87.141 in (user)
+ b.barracudacentral.org}
+X-KSE-AntiSpam-Info: {Found in DNSBL: 31.173.87.141 in (user)
+ dbl.spamhaus.org}
+X-KSE-AntiSpam-Info:
+	d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;omp.ru:7.1.1;127.0.0.199:7.1.2;lore.kernel.org:7.1.1
+X-KSE-AntiSpam-Info: ApMailHostAddress: 31.173.87.141
+X-KSE-AntiSpam-Info: {DNS response errors}
+X-KSE-AntiSpam-Info: Rate: 59
+X-KSE-AntiSpam-Info: Status: not_detected
+X-KSE-AntiSpam-Info: Method: none
+X-KSE-AntiSpam-Info: Auth:dmarc=temperror header.from=omp.ru;spf=temperror
+ smtp.mailfrom=omp.ru;dkim=none
+X-KSE-Antiphishing-Info: Clean
+X-KSE-Antiphishing-ScanningType: Heuristic
+X-KSE-Antiphishing-Method: None
+X-KSE-Antiphishing-Bases: 01/26/2024 18:54:00
+X-KSE-Antivirus-Interceptor-Info: scan successful
+X-KSE-Antivirus-Info: Clean, bases: 1/26/2024 4:55:00 PM
+X-KSE-Attachment-Filter-Triggered-Rules: Clean
+X-KSE-Attachment-Filter-Triggered-Filters: Clean
+X-KSE-BulkMessagesFiltering-Scan-Result: InTheLimit
 
+On 1/26/24 1:08 AM, Biju Das wrote:
+[...]
 
---6ZCAmEGLm4Y6B1ay
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+>> -----Original Message-----
+>> From: Sergey Shtylyov <s.shtylyov@omp.ru>
+>> Sent: Thursday, January 25, 2024 7:11 PM
+>> Subject: Re: [PATCH net-next v2 0/2] Add HW checksum offload support for
+>> RZ/G2L GbEthernet IP
+>>
+>> Hello!
+>>
+>> On 1/24/24 1:21 PM, Biju Das wrote:
+>>
+>>> This patch series aims to add HW checksum offload supported by TOE
+>>> module found on the RZ/G2L Gb ethernet IP.
+>>
+>>    Your previous try was back in 2021, still the cover letter has the same
+>> issues (hm, I didn't point out those back then).
+> 
+> Thanks for correcting my bad English.
 
-On Fri, Jan 26, 2024 at 11:43:59AM +0100, Geert Uytterhoeven wrote:
-> Document support for the Pin Function Controller (PFC) in the Renesas
-> R-Car V4M (R8A779H0) SoC.
->=20
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+   I don't think you were the author of the e.g. RZ/G2L User's Manual that
+has the same wording... Or were you? :-)
 
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
+[...]
 
-Cheers,
-Conor.
+>>> TOE does not calculate checksum for UDP part of this frame as it is
+>>> optional function as per standards.
+>>>
+>>> Add Tx/Rx checksum offload supported by TOE for IPV4 and TCP/UDP
+>> protocols.
+>>>
+>>> Results of iperf3 in Mbps
+>>>
+>>> RZ/V2L:
+>>> TCP(Tx/Rx) results with checksum offload Enabled:	{921,932}
+>>> TCP(Tx/Rx) results with checksum offload Disabled:	{867,612}
+>>>
+>>> UDP(Tx/Rx) results with checksum offload Enabled:	{950,946}
+>>> UDP(Tx/Rx) results with checksum offload Disabled:	{952,920}
+>>>
+>>> RZ/G2L:
+>>> TCP(Tx/Rx) results with checksum offload Enabled:	{920,936}
+>>> TCP(Tx/Rx) results with checksum offload Disabled:	{871,626}
+>>>
+>>> UDP(Tx/Rx) results with checksum offload Enabled:	{953,950}
+>>> UDP(Tx/Rx) results with checksum offload Disabled:	{954,920}
+>>>
+>>> RZ/G2LC:
+>>> TCP(Tx/Rx) results with checksum offload Enabled:	{927,936}
+>>> TCP(Tx/Rx) results with checksum offload Disabled:	{889,626}
+>>>
+>>> UDP(Tx/Rx) results with checksum offload Enabled:	{950,946}
+>>> UDP(Tx/Rx) results with checksum offload Disabled:	{949,944}
+>>
+>>    Too many figures, I think... :-)
+>>    How RZ/G2L SoC is different from RZ/G2LC?
 
-> ---
->  Documentation/devicetree/bindings/pinctrl/renesas,pfc.yaml | 1 +
->  1 file changed, 1 insertion(+)
->=20
-> diff --git a/Documentation/devicetree/bindings/pinctrl/renesas,pfc.yaml b=
-/Documentation/devicetree/bindings/pinctrl/renesas,pfc.yaml
-> index 181cd1676c0a2a36..5d84364d13589c5e 100644
-> --- a/Documentation/devicetree/bindings/pinctrl/renesas,pfc.yaml
-> +++ b/Documentation/devicetree/bindings/pinctrl/renesas,pfc.yaml
-> @@ -46,6 +46,7 @@ properties:
->        - renesas,pfc-r8a779a0    # R-Car V3U
->        - renesas,pfc-r8a779f0    # R-Car S4-8
->        - renesas,pfc-r8a779g0    # R-Car V4H
-> +      - renesas,pfc-r8a779h0    # R-Car V4M
->        - renesas,pfc-sh73a0      # SH-Mobile AG5
-> =20
->    reg:
-> --=20
-> 2.34.1
->=20
+   At least they are described by a single manual...
 
---6ZCAmEGLm4Y6B1ay
-Content-Type: application/pgp-signature; name="signature.asc"
+> Just want to share with the wider community how the HW checksum is
+> improving the performance of various SoCs in the RZ/G2L family.
+> 
+> and the results show improved performance on all 3 SoCs.
 
------BEGIN PGP SIGNATURE-----
+   I guess RZ/V2L and RZ/G2L would've been enough... but I'm probably
+quibbling... :-)
 
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZbPdBgAKCRB4tDGHoIJi
-0kYNAP0SiF7Mf5X+Q8dojr23WnI8uM34ozkrFhi1Tt3Pw88GMgEA3qlTW63b4haO
-QJgbjYveq6fezm+N/mFyDVDC9ndskAM=
-=0aPG
------END PGP SIGNATURE-----
+>>> v1->v2:
+>>>  * Updated covering letter and results
+>>>  * Fixed the sparse warnings for patch#1 by replacing __sum16->__wsum.
+>>>
+>>> Note:
+>>>  This patches are tested with [1] without the CPU performance is not
+>>> good
+>>
+>>    Without CPU? I guess the performance would be 0. Seriously, this is
+>> hardly parseable... :-)
+> 
+> without the patch [1] CPU performance is not good which impacts the
+> network throughput.
+> 
+> [1] https://lore.kernel.org/all/20240117190545.596057-1-vincent.guittot@linaro.org/
 
---6ZCAmEGLm4Y6B1ay--
+   Thanks, that's much better. :-)
+
+> Cheers,
+> Biju
+
+MBR, Sergey
 
