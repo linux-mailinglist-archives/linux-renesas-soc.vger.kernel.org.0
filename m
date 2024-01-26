@@ -1,45 +1,45 @@
-Return-Path: <linux-renesas-soc+bounces-1862-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-1871-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76F7383D894
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 26 Jan 2024 11:57:04 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id ECD5583D8B3
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 26 Jan 2024 11:57:27 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A0EDC285DC6
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 26 Jan 2024 10:57:01 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 720AA1F21551
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 26 Jan 2024 10:57:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 857A8134A3;
-	Fri, 26 Jan 2024 10:56:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5951E13FEE;
+	Fri, 26 Jan 2024 10:56:56 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from michel.telenet-ops.be (michel.telenet-ops.be [195.130.137.88])
+Received: from xavier.telenet-ops.be (xavier.telenet-ops.be [195.130.132.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A2BB134B2
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49A0D134A9
 	for <linux-renesas-soc@vger.kernel.org>; Fri, 26 Jan 2024 10:56:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.137.88
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.132.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706266613; cv=none; b=E3ONZmVci3R6unjsHdauxIarqJ0Yalql096J+/mUnO/I6estmIwda0wsQjlshYFEsUUcKapnFIr26ZU+vmylqh6H0lyu5ixlfDa0i4+9UIvTs/qLsG3PnoFnRRB2i6KVpZh/LUBj0nqCAujSccd/Vq16PMIPpjJjWpI4sKOCZto=
+	t=1706266616; cv=none; b=YByJUeUO81ZLA7+eanyZSbaDtajDw7HGIBJYFE2g2thHxsm1A++LCngqThVwc4UW+7UfnQeb+hEAYvg3cQyC57JTOU2b9vnCUb4szm0/hwefU+nNVFXglIrpvqob4JcHB2TqTRb/7HWrUjAyv70uqdIpGeP4mx6Z0zFhG+TLCqI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706266613; c=relaxed/simple;
-	bh=6Mkbz1Au5XLOrHfRKtTNmYButidTT4C84xwLYmRVEfs=;
+	s=arc-20240116; t=1706266616; c=relaxed/simple;
+	bh=NNnm7gwM05r55sMIKuZN/1R3wYKohsfVsNI7Azt5PzQ=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=WDbx2VNyLG7X0I0l93MfHWacO0KhY48VSKo11YixVYzNfOAYKGkwfAPx+U8GevctBGIcMfecanAzpYBSk8iiABxiR6IYELbXlwHMGCzhHptBKQf+R3H5z++Ne9HvjNePXZL3doVj8Ysh1EyRQTU/t1B0xhg5Iu15PRqUOcoNhYM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.137.88
+	 MIME-Version; b=j9bfFqoPBcPFTy1OZ03hFFP6UHxNbwh5XMc+r0qB3O9cRgmgAIr4YNuSUQs+d3TUYVMoyW3wu2vF60GCRI4JCj9gav4fsSJ3IW9vj99ztkEdwd561zAm9RanqluWz46SKC3UqXCti9PEYQW9fw/GewTE6ptEUNeM+/6ju6oIgyk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.132.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
 Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed40:8d64:ae04:ce87:de06])
-	by michel.telenet-ops.be with bizsmtp
-	id fNwn2B0011AdMdB06NwnHm; Fri, 26 Jan 2024 11:56:47 +0100
+	by xavier.telenet-ops.be with bizsmtp
+	id fNwm2B00T1AdMdB01NwmSh; Fri, 26 Jan 2024 11:56:47 +0100
 Received: from rox.of.borg ([192.168.97.57])
 	by ramsan.of.borg with esmtp (Exim 4.95)
 	(envelope-from <geert@linux-m68k.org>)
-	id 1rTJsK-00GWga-KO;
+	id 1rTJsK-00GWgW-EA;
 	Fri, 26 Jan 2024 11:56:46 +0100
 Received: from geert by rox.of.borg with local (Exim 4.95)
 	(envelope-from <geert@linux-m68k.org>)
-	id 1rTJh0-00G5Tg-BH;
+	id 1rTJh0-00G5Tl-CG;
 	Fri, 26 Jan 2024 11:44:14 +0100
 From: Geert Uytterhoeven <geert+renesas@glider.be>
 To: Linus Walleij <linus.walleij@linaro.org>,
@@ -52,9 +52,9 @@ Cc: linux-renesas-soc@vger.kernel.org,
 	devicetree@vger.kernel.org,
 	Cong Dang <cong.dang.xn@renesas.com>,
 	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH 12/14] pinctrl: renesas: r8a779h0: Add CANFD pins, groups, functions
-Date: Fri, 26 Jan 2024 11:44:10 +0100
-Message-Id: <fd380a402ec4c6238aa8cafc2e602d9e0f1c8cf2.1706264667.git.geert+renesas@glider.be>
+Subject: [PATCH 13/14] pinctrl: renesas: r8a779h0: Add PCIe pins, groups, functions
+Date: Fri, 26 Jan 2024 11:44:11 +0100
+Message-Id: <d32909f5197fa2df0ca6bd6e5fda7cae8863101e.1706264667.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1706264667.git.geert+renesas@glider.be>
 References: <cover.1706264667.git.geert+renesas@glider.be>
@@ -68,124 +68,65 @@ Content-Transfer-Encoding: 8bit
 
 From: Cong Dang <cong.dang.xn@renesas.com>
 
-Add pins, groups and functions for the CAN-FD interfaces on the Renesas
+Add pins, groups and functions for the PCIe Controller on the Renesas
 R-Car V4M (R8A779H0) SoC.
 
 Signed-off-by: Cong Dang <cong.dang.xn@renesas.com>
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
- drivers/pinctrl/renesas/pfc-r8a779h0.c | 77 ++++++++++++++++++++++++++
- 1 file changed, 77 insertions(+)
+ drivers/pinctrl/renesas/pfc-r8a779h0.c | 18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
 
 diff --git a/drivers/pinctrl/renesas/pfc-r8a779h0.c b/drivers/pinctrl/renesas/pfc-r8a779h0.c
-index b5d1f6108a6efd5d..135628771807d459 100644
+index 135628771807d459..715fb81a798d4b9b 100644
 --- a/drivers/pinctrl/renesas/pfc-r8a779h0.c
 +++ b/drivers/pinctrl/renesas/pfc-r8a779h0.c
-@@ -1425,6 +1425,51 @@ static const unsigned int avb2_avtp_match_mux[] = {
- 	AVB2_AVTP_MATCH_MARK,
+@@ -1951,6 +1951,16 @@ static const unsigned int msiof5_rxd_mux[] = {
+ 	MSIOF5_RXD_MARK,
  };
  
-+/* - CANFD0 ----------------------------------------------------------------- */
-+static const unsigned int canfd0_data_pins[] = {
-+	/* CANFD0_TX, CANFD0_RX */
-+	RCAR_GP_PIN(2, 10), RCAR_GP_PIN(2, 11),
-+};
-+static const unsigned int canfd0_data_mux[] = {
-+	CANFD0_TX_MARK, CANFD0_RX_MARK,
++/* - PCIE ------------------------------------------------------------------- */
++static const unsigned int pcie0_clkreq_n_pins[] = {
++	/* PCIE0_CLKREQ_N */
++	RCAR_GP_PIN(4, 21),
 +};
 +
-+/* - CANFD1 ----------------------------------------------------------------- */
-+static const unsigned int canfd1_data_pins[] = {
-+	/* CANFD1_TX, CANFD1_RX */
-+	RCAR_GP_PIN(2, 17), RCAR_GP_PIN(2, 19),
-+};
-+static const unsigned int canfd1_data_mux[] = {
-+	CANFD1_TX_MARK, CANFD1_RX_MARK,
++static const unsigned int pcie0_clkreq_n_mux[] = {
++	PCIE0_CLKREQ_N_MARK,
 +};
 +
-+/* - CANFD2 ----------------------------------------------------------------- */
-+static const unsigned int canfd2_data_pins[] = {
-+	/* CANFD2_TX, CANFD2_RX */
-+	RCAR_GP_PIN(2, 12), RCAR_GP_PIN(2, 13),
-+};
-+static const unsigned int canfd2_data_mux[] = {
-+	CANFD2_TX_MARK, CANFD2_RX_MARK,
-+};
-+
-+/* - CANFD3 ----------------------------------------------------------------- */
-+static const unsigned int canfd3_data_pins[] = {
-+	/* CANFD3_TX, CANFD3_RX */
-+	RCAR_GP_PIN(2, 14), RCAR_GP_PIN(2, 15),
-+};
-+static const unsigned int canfd3_data_mux[] = {
-+	CANFD3_TX_MARK, CANFD3_RX_MARK,
-+};
-+
-+/* - CANFD Clock ------------------------------------------------------------ */
-+static const unsigned int can_clk_pins[] = {
-+	/* CAN_CLK */
-+	RCAR_GP_PIN(2, 9),
-+};
-+static const unsigned int can_clk_mux[] = {
-+	CAN_CLK_MARK,
-+};
-+
- /* - HSCIF0 ----------------------------------------------------------------- */
- static const unsigned int hscif0_data_pins[] = {
- 	/* HRX0, HTX0 */
-@@ -2296,6 +2341,12 @@ static const struct sh_pfc_pin_group pinmux_groups[] = {
- 	SH_PFC_PIN_GROUP(avb2_avtp_capture),
- 	SH_PFC_PIN_GROUP(avb2_avtp_match),
+ /* - PWM0_A ------------------------------------------------------------------- */
+ static const unsigned int pwm0_a_pins[] = {
+ 	/* PWM0_A */
+@@ -2421,6 +2431,8 @@ static const struct sh_pfc_pin_group pinmux_groups[] = {
+ 	SH_PFC_PIN_GROUP(msiof5_txd),
+ 	SH_PFC_PIN_GROUP(msiof5_rxd),
  
-+	SH_PFC_PIN_GROUP(canfd0_data),
-+	SH_PFC_PIN_GROUP(canfd1_data),
-+	SH_PFC_PIN_GROUP(canfd2_data),
-+	SH_PFC_PIN_GROUP(canfd3_data),
-+	SH_PFC_PIN_GROUP(can_clk),
++	SH_PFC_PIN_GROUP(pcie0_clkreq_n),
 +
- 	SH_PFC_PIN_GROUP(hscif0_data),
- 	SH_PFC_PIN_GROUP(hscif0_clk),
- 	SH_PFC_PIN_GROUP(hscif0_ctrl),
-@@ -2457,6 +2508,26 @@ static const char * const avb2_groups[] = {
- 	"avb2_avtp_match",
+ 	SH_PFC_PIN_GROUP(pwm0_a),
+ 	SH_PFC_PIN_GROUP(pwm0_b),
+ 	SH_PFC_PIN_GROUP(pwm1_a),
+@@ -2638,6 +2650,10 @@ static const char * const msiof5_groups[] = {
+ 	"msiof5_rxd",
  };
  
-+static const char * const canfd0_groups[] = {
-+	"canfd0_data",
++static const char * const pcie_groups[] = {
++	"pcie0_clkreq_n",
 +};
 +
-+static const char * const canfd1_groups[] = {
-+	"canfd1_data",
-+};
-+
-+static const char * const canfd2_groups[] = {
-+	"canfd2_data",
-+};
-+
-+static const char * const canfd3_groups[] = {
-+	"canfd3_data",
-+};
-+
-+static const char * const can_clk_groups[] = {
-+	"can_clk",
-+};
-+
- static const char * const hscif0_groups[] = {
- 	"hscif0_data",
- 	"hscif0_clk",
-@@ -2660,6 +2731,12 @@ static const struct sh_pfc_function pinmux_functions[] = {
- 	SH_PFC_FUNCTION(avb1),
- 	SH_PFC_FUNCTION(avb2),
+ static const char * const pwm0_groups[] = {
+ 	"pwm0_a",
+ 	"pwm0_b",
+@@ -2756,6 +2772,8 @@ static const struct sh_pfc_function pinmux_functions[] = {
+ 	SH_PFC_FUNCTION(msiof4),
+ 	SH_PFC_FUNCTION(msiof5),
  
-+	SH_PFC_FUNCTION(canfd0),
-+	SH_PFC_FUNCTION(canfd1),
-+	SH_PFC_FUNCTION(canfd2),
-+	SH_PFC_FUNCTION(canfd3),
-+	SH_PFC_FUNCTION(can_clk),
++	SH_PFC_FUNCTION(pcie),
 +
- 	SH_PFC_FUNCTION(hscif0),
- 	SH_PFC_FUNCTION(hscif1),
- 	SH_PFC_FUNCTION(hscif2),
+ 	SH_PFC_FUNCTION(pwm0),
+ 	SH_PFC_FUNCTION(pwm1),
+ 	SH_PFC_FUNCTION(pwm2),
 -- 
 2.34.1
 
