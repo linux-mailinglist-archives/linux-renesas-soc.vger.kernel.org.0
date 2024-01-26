@@ -1,63 +1,61 @@
-Return-Path: <linux-renesas-soc+bounces-1893-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-1894-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3623283DE5A
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 26 Jan 2024 17:10:13 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 16C8483DEA6
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 26 Jan 2024 17:26:30 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id DEF6E1F239BC
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 26 Jan 2024 16:10:12 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 10A3E1C234E1
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 26 Jan 2024 16:26:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AA0D21D54B;
-	Fri, 26 Jan 2024 16:10:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BE8CE1DDEB;
+	Fri, 26 Jan 2024 16:25:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ut8MVSe+"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="b44/OZvQ"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E1201CD3A;
-	Fri, 26 Jan 2024 16:10:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FEB21EA95;
+	Fri, 26 Jan 2024 16:25:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706285408; cv=none; b=MjbHCm/M1AvpwucCn9rfTPys3R7xhojuy/XDh+VhMbwBjB2eNZpc0FUd/W9c2UEP4+xUfdLJPJRi9Bpuyy+PTRmhKedIsMkO3W13sKQ8V3ASXsIAdBHj7GTgqLSzISjZ0JGShD1lYNfN8evuDh0GVqSvZCRwDuepMAwWLRJj7zM=
+	t=1706286346; cv=none; b=fdT5h9vZ5QtY3iIpzdlv9Y+7sOPL/2+FAp5B/7hR8epywnC8KNhHTOhDU2C5Zhok5g5G8ji0XR2pa9mIWFwTRj+86CpZW5P7/mW2qu9sKYJGmlIwnNFHqiXl/Kx7e4EIXeYrRF64C/LTt8LbzR0ySOGWg5b/mTkpPmoLn5ca4g8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706285408; c=relaxed/simple;
-	bh=RuGe721aXOgItyEsXe/xUrOR8ZxZvSgNmsK+y5G9BUk=;
+	s=arc-20240116; t=1706286346; c=relaxed/simple;
+	bh=tEiTgy5YTgZOJr30W4NNNP6rzoSFPsEg1pnYn4mgZPI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mnhhZxljHZVecD5GWnT1xeXqBtEFRi2E2O+cZxSSXIXfhoQp8egSNWoJ7vO47QNHq0Ytb68iSgQQKNtalWPGBvDX1JX1sdTyEXoh1gDx0MJzxsxRhdNqllwDOv5BdUGXvvdsMMAximVro0m20q6EMCHrLm3u/q8J0df4xGVOuiU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ut8MVSe+; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7DAF2C433C7;
-	Fri, 26 Jan 2024 16:10:05 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZoYx9f+S0myKEgtpBQHq7FylPcwscsKxGZuYxH3tBwoX53TFvch6FugZ5dXc3kSJHQ6uI9qbN4IN0Mhm2rxbJx/gHxifMxx5uW0AE1JaiRKZshl4tODxaGIRrW78f2Se+NG6dwxVtv2C5bnVwcOYu269HupPg2P8z4pY+9iHAHI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=b44/OZvQ; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8117EC43390;
+	Fri, 26 Jan 2024 16:25:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1706285407;
-	bh=RuGe721aXOgItyEsXe/xUrOR8ZxZvSgNmsK+y5G9BUk=;
+	s=k20201202; t=1706286346;
+	bh=tEiTgy5YTgZOJr30W4NNNP6rzoSFPsEg1pnYn4mgZPI=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Ut8MVSe+jtKdSuxh4/aKm3Rl6XOZYAy3WyVpeLa3+zmrq4TBerSFex539spWsuq4F
-	 yKg+S1viQCOLzWl+avm1l/qPjayBNVYGNg1KbGPLjKPeZTKDLlInVMKf3qimKzz94I
-	 yLP1F1wJSqm0CASQev3LzRtT6Bv38GOj6A8xfKI3KrkI7NsL5xqyTnYe3bb1zj1qPt
-	 oizoXreFUfIWQ7Y8LOPU08jt0LJl+b8y56xa6ni3KeFQxSEdmNOI+eEZavORaZSIXS
-	 jFl1Mo3FLG1yVBCj7R9XquxjrKlofOcCik3ZztnurFwDzncHXjW8fY8wAePN/azjbR
-	 eYB4ZvNf7SbsA==
-Date: Fri, 26 Jan 2024 16:10:03 +0000
+	b=b44/OZvQSzZzTSZ/CByymFsJolDprtk18C+RKJojolixC2krVroeopNpTKF78OG9c
+	 sZ6kHXUwJPTFTHnqHTJOeW0cPl+YlrHw3bst8pY5WTEclV7K30F/GWH4jU+5G1ls1a
+	 YcZBOJyTCPt76GlNH2RGrgyr/6lnc5HArb7fVvC2lobsoZo+qRXbYO04K1P+5JQfW4
+	 MEh+lT7zKlRMb1eP/98b2QenX4yD/re8gnwsX72FZfNkqcX+QurDc3BicLaoA94njn
+	 TSvJMJnlueGHAnWWvcAl2iACw3lg8qet1P23y8pSG3n3odAjjrEA9RIJcJIfisqekc
+	 y+sef4ulsD1EA==
+Date: Fri, 26 Jan 2024 16:25:42 +0000
 From: Conor Dooley <conor@kernel.org>
-To: Biju Das <biju.das.jz@bp.renesas.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: Linus Walleij <linus.walleij@linaro.org>,
 	Rob Herring <robh+dt@kernel.org>,
 	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
 	Conor Dooley <conor+dt@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
 	Magnus Damm <magnus.damm@gmail.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org, Biju Das <biju.das.au@gmail.com>
-Subject: Re: [PATCH v2 2/5] media: dt-bindings: renesas,rzg2l-cru: Document
- Renesas RZ/G2UL CRU block
-Message-ID: <20240126-joystick-dividers-b319ba5e1cda@spud>
-References: <20240126133116.121981-1-biju.das.jz@bp.renesas.com>
- <20240126133116.121981-3-biju.das.jz@bp.renesas.com>
+	linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org,
+	devicetree@vger.kernel.org
+Subject: Re: [PATCH 01/14] dt-bindings: pinctrl: renesas,pfc: Document R-Car
+ V4M support
+Message-ID: <20240126-tutu-amusable-b34491e4a840@spud>
+References: <cover.1706264667.git.geert+renesas@glider.be>
+ <56685dc04af3cee7cb3751e855ed5b3679b14122.1706264667.git.geert+renesas@glider.be>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -65,23 +63,21 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="datV++l/1YXNpvxC"
+	protocol="application/pgp-signature"; boundary="6ZCAmEGLm4Y6B1ay"
 Content-Disposition: inline
-In-Reply-To: <20240126133116.121981-3-biju.das.jz@bp.renesas.com>
+In-Reply-To: <56685dc04af3cee7cb3751e855ed5b3679b14122.1706264667.git.geert+renesas@glider.be>
 
 
---datV++l/1YXNpvxC
+--6ZCAmEGLm4Y6B1ay
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Jan 26, 2024 at 01:31:13PM +0000, Biju Das wrote:
-> Document the CRU IP found in Renesas RZ/G2UL SoC.
+On Fri, Jan 26, 2024 at 11:43:59AM +0100, Geert Uytterhoeven wrote:
+> Document support for the Pin Function Controller (PFC) in the Renesas
+> R-Car V4M (R8A779H0) SoC.
 >=20
-> The CRU block on the RZ/G2UL SoC is identical to one found on the
-> RZ/G2L SoC, but it does not support parallel input.
->=20
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
 Acked-by: Conor Dooley <conor.dooley@microchip.com>
 
@@ -89,89 +85,36 @@ Cheers,
 Conor.
 
 > ---
-> v1->v2:
->  * Dropped the description from if/else block.
->  * Dropped driver reference from commit description.
-> ---
->  .../bindings/media/renesas,rzg2l-cru.yaml     | 35 ++++++++++++++++---
->  1 file changed, 31 insertions(+), 4 deletions(-)
+>  Documentation/devicetree/bindings/pinctrl/renesas,pfc.yaml | 1 +
+>  1 file changed, 1 insertion(+)
 >=20
-> diff --git a/Documentation/devicetree/bindings/media/renesas,rzg2l-cru.ya=
-ml b/Documentation/devicetree/bindings/media/renesas,rzg2l-cru.yaml
-> index 1e72b8808d24..bc1245127025 100644
-> --- a/Documentation/devicetree/bindings/media/renesas,rzg2l-cru.yaml
-> +++ b/Documentation/devicetree/bindings/media/renesas,rzg2l-cru.yaml
-> @@ -19,6 +19,7 @@ properties:
->    compatible:
->      items:
->        - enum:
-> +          - renesas,r9a07g043-cru       # RZ/G2UL
->            - renesas,r9a07g044-cru       # RZ/G2{L,LC}
->            - renesas,r9a07g054-cru       # RZ/V2L
->        - const: renesas,rzg2l-cru
-> @@ -87,10 +88,6 @@ properties:
->            Input port node, describing the Image Processing module connec=
-ted to the
->            CSI-2 receiver.
+> diff --git a/Documentation/devicetree/bindings/pinctrl/renesas,pfc.yaml b=
+/Documentation/devicetree/bindings/pinctrl/renesas,pfc.yaml
+> index 181cd1676c0a2a36..5d84364d13589c5e 100644
+> --- a/Documentation/devicetree/bindings/pinctrl/renesas,pfc.yaml
+> +++ b/Documentation/devicetree/bindings/pinctrl/renesas,pfc.yaml
+> @@ -46,6 +46,7 @@ properties:
+>        - renesas,pfc-r8a779a0    # R-Car V3U
+>        - renesas,pfc-r8a779f0    # R-Car S4-8
+>        - renesas,pfc-r8a779g0    # R-Car V4H
+> +      - renesas,pfc-r8a779h0    # R-Car V4M
+>        - renesas,pfc-sh73a0      # SH-Mobile AG5
 > =20
-> -    required:
-> -      - port@0
-> -      - port@1
-> -
->  required:
->    - compatible
->    - reg
-> @@ -102,6 +99,36 @@ required:
->    - reset-names
->    - power-domains
-> =20
-> +allOf:
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            enum:
-> +              - renesas,r9a07g044-cru
-> +              - renesas,r9a07g054-cru
-> +    then:
-> +      properties:
-> +        ports:
-> +          required:
-> +            - port@0
-> +            - port@1
-> +
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            enum:
-> +              - renesas,r9a07g043-cru
-> +    then:
-> +      properties:
-> +        ports:
-> +          properties:
-> +            port@0: false
-> +
-> +          required:
-> +            - port@1
-> +
->  additionalProperties: false
-> =20
->  examples:
+>    reg:
 > --=20
-> 2.25.1
+> 2.34.1
 >=20
 
---datV++l/1YXNpvxC
+--6ZCAmEGLm4Y6B1ay
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZbPZWwAKCRB4tDGHoIJi
-0rkOAQDgBl8yHHmgw/w0hEoSq68i0daBar9ofdJlimlGDCIcjAD/YmgzbXPfn5BY
-SupcEQq83CHWwKPi5x6hymC2XkW02QQ=
-=AZZL
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZbPdBgAKCRB4tDGHoIJi
+0kYNAP0SiF7Mf5X+Q8dojr23WnI8uM34ozkrFhi1Tt3Pw88GMgEA3qlTW63b4haO
+QJgbjYveq6fezm+N/mFyDVDC9ndskAM=
+=0aPG
 -----END PGP SIGNATURE-----
 
---datV++l/1YXNpvxC--
+--6ZCAmEGLm4Y6B1ay--
 
