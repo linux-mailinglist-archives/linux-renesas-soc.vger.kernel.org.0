@@ -1,111 +1,117 @@
-Return-Path: <linux-renesas-soc+bounces-1888-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-1889-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66DAB83DB32
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 26 Jan 2024 14:53:18 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C3BE83DB6B
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 26 Jan 2024 15:05:24 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id D49611F2621B
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 26 Jan 2024 13:53:17 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 58F7E1C2253F
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 26 Jan 2024 14:05:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 386A41B956;
-	Fri, 26 Jan 2024 13:53:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BBA181BC29;
+	Fri, 26 Jan 2024 14:05:22 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yb1-f173.google.com (mail-yb1-f173.google.com [209.85.219.173])
+Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com [209.85.128.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AE221B943;
-	Fri, 26 Jan 2024 13:53:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94C611B7ED;
+	Fri, 26 Jan 2024 14:05:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706277195; cv=none; b=QGQfPp9epZx2lZR0uTIwoqiv0KQf/XeNpzzv34TxLZSN6ruC8Zsto59XCu7aKomIDvHwOdd2uY6cmmFqCQsNv7ZqIIOoKu9RN9AAf7HrD/ykatnk/4Yhh5Hy7N4jH/9Y4ZvZM95Uen6riqxwE19u2V97HBkbHzw+DSLSJPsdALM=
+	t=1706277922; cv=none; b=OjfUZjCkGgAIryf3BIImaqZeUKFqYMB2vhTkR0grZhr8ZQCNkmw6ZDMqGSAMbO5u1BdZNSwunwovPfyCeWMlLmOS6n6oAx5ni8wbPnq27jLTX3fhZnGKTta/piC+cYaF2TcJyvPW/1aeddrQKz4xFNfNYtqqtnG7x0b9m/WoYk8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706277195; c=relaxed/simple;
-	bh=Z6I31NT0BcGf7psD17XzyIlVKaXrRZiIAJ8RzTvC1l4=;
+	s=arc-20240116; t=1706277922; c=relaxed/simple;
+	bh=y5XV2iWDw/9ztxzDPozZcIidWpXfunjJxpv/NOvfRus=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=RqAmDmi4KVZNcmjY1/Mv/amksC1FK/iBPH02+MYVUw4uS/2F/37Z9iV3YIR3AYShvktMMNdWBuQuyAKo6EdzmK87Mlg4qHK88zsoXmrCEXOGqZsNRSSYwupStcFVqoR/zE88DvZydR0KfZbepdrqtOUAS03TVOOeFQ+96VSLD9M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.219.173
+	 To:Cc:Content-Type; b=b0FxzukWk69LLm7htS7/1jkIAn/IcUW8G1axsyre/w4KFqeufjFtzvWUdNJQefZzLgU9BgULxE6YRyn/qZ/W/ID76w02kawoS5KS2ZQQi8rv05mr/YX+V9+LGiFuaSw+fyUMmwR3/sXiaM10BuwJJyEKeDJDZ5lqtrrv4cnEyck=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yb1-f173.google.com with SMTP id 3f1490d57ef6-dc226dca91aso380717276.2;
-        Fri, 26 Jan 2024 05:53:12 -0800 (PST)
+Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-5ff7ec8772dso8188627b3.0;
+        Fri, 26 Jan 2024 06:05:19 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706277192; x=1706881992;
+        d=1e100.net; s=20230601; t=1706277918; x=1706882718;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=NhvF8nacolHiA8n/Jg7CYQM1D3ZaUoBxjgtxv4pX148=;
-        b=Q3m/8NuhMKooPk/jthbnLvYv0CVA+inaXuB4h2E6JUbCb1E7O9HkdhYtEXT/gKLlx3
-         R57+MC43xG3RCLhoR19MW9fUY5fSN4H21u0hB6Myftc64ra/DwDPzklzd95Hz9iHBDyC
-         UaJLkNQTysvPzFBrUjJhbHuqgdMYyuiT4UyDRQ2BqMaDR/v3VcE45nBsAnuV2AGQM60f
-         dOd4b0y8/dEOqGzO5RYfSQxxp3x5j3uUeUfCRZjloR7dJUr6V0SX4owiSHiNlzIB4gSD
-         0OhLIMGAXTXWik7DnqAree2fBMIy6G8+esf7CYShxT+1ztg2liEdPyKMqjA0QHIRxy1w
-         MjRA==
-X-Gm-Message-State: AOJu0YzPufX8gEVqAaprsIIYBqeLfY9SzWyFCQYGaN9s/pUie+mQ6X9M
-	EDwdgja3X6p5VJXO8OpGBXNBIJtQIzbaW/jzHOacVvDntZ8/ilmVaCeA9b7IZE4=
-X-Google-Smtp-Source: AGHT+IErh3yNnJjLfe5X3czrTIy+dfkAZPFsEL59r62stsg4HCfqYayJ6EHW8huJYjRIO1ejcwmdPA==
-X-Received: by 2002:a5b:c83:0:b0:dc2:3618:c119 with SMTP id i3-20020a5b0c83000000b00dc23618c119mr1063056ybq.116.1706277191830;
-        Fri, 26 Jan 2024 05:53:11 -0800 (PST)
-Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com. [209.85.128.174])
-        by smtp.gmail.com with ESMTPSA id k8-20020a5b0a08000000b00dc22f4bf808sm385169ybq.32.2024.01.26.05.53.11
+        bh=/oDyGvwYwPLztiGZb85xGU6osFH8DNpEp/o7IfIZl6c=;
+        b=Cjp1q+6nvcyutWTT86p7mQOXuR+GFRcQQJwTgKi1e2FIQmIg2vEzwl3wAQ6kvw6xVD
+         9qJKjcq4O2L+ajk4H6J6B/IVzBXUVGmQrDMILbHhka6hWP+5j1Yls9LWQbgJqM0apbwv
+         Hqxo2nwOB9rHPnV6IqUwIEk75PJ7MmooJSThW6wbz17gW4z9OUfvgt5bKnnMYj/v/XIx
+         +oNEp0zYjhrIDQABFvU5fHjf596bm9FiZWC3W3jzrJdxKiSOrt6zivZe20LuLUUulsd6
+         gytOoEvX/XB5G+23+hm/Ghvf/rCO3UEsl905fLz/vEiabj+Ll6WUSpybbZgCQa3PPlCs
+         jDcA==
+X-Gm-Message-State: AOJu0YyyoI3LAOwAw9QLZfe4no3FoOYjgmq9YcIfVJIHHJGvcwxqZb9+
+	ceu3uLiqMimcN6ld85tkJxJ76DAkWrc/P0QXsYypfo4sYJiqBxmFm1meA1E3PhA=
+X-Google-Smtp-Source: AGHT+IE+/e9P0xXvEnomhn8nWZ03JSoZhF7ggdLESbt4qZEnIP5kdXOoNDjK99a3OI5fwbkbEiBWGg==
+X-Received: by 2002:a81:4904:0:b0:5ff:9d3d:290a with SMTP id w4-20020a814904000000b005ff9d3d290amr1257026ywa.56.1706277918075;
+        Fri, 26 Jan 2024 06:05:18 -0800 (PST)
+Received: from mail-yb1-f179.google.com (mail-yb1-f179.google.com. [209.85.219.179])
+        by smtp.gmail.com with ESMTPSA id ft2-20020a05690c360200b0060026481ad9sm403177ywb.0.2024.01.26.06.05.17
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 26 Jan 2024 05:53:11 -0800 (PST)
-Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-5fc2e997804so3973147b3.3;
-        Fri, 26 Jan 2024 05:53:11 -0800 (PST)
-X-Received: by 2002:a05:690c:398:b0:5ff:dee3:b866 with SMTP id
- bh24-20020a05690c039800b005ffdee3b866mr1462172ywb.14.1706277191099; Fri, 26
- Jan 2024 05:53:11 -0800 (PST)
+        Fri, 26 Jan 2024 06:05:17 -0800 (PST)
+Received: by mail-yb1-f179.google.com with SMTP id 3f1490d57ef6-dc35fd0df02so464632276.0;
+        Fri, 26 Jan 2024 06:05:17 -0800 (PST)
+X-Received: by 2002:a25:ad1a:0:b0:dc2:2f78:bb9a with SMTP id
+ y26-20020a25ad1a000000b00dc22f78bb9amr1195792ybi.106.1706277917490; Fri, 26
+ Jan 2024 06:05:17 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240126133116.121981-1-biju.das.jz@bp.renesas.com> <20240126133116.121981-6-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20240126133116.121981-6-biju.das.jz@bp.renesas.com>
+References: <20240117131807.24997-1-wsa+renesas@sang-engineering.com> <20240117131807.24997-2-wsa+renesas@sang-engineering.com>
+In-Reply-To: <20240117131807.24997-2-wsa+renesas@sang-engineering.com>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 26 Jan 2024 14:52:59 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdUa+wd36-ErDRgb91KpRbryNYzA2Mmhvzjx0-_47=zfdg@mail.gmail.com>
-Message-ID: <CAMuHMdUa+wd36-ErDRgb91KpRbryNYzA2Mmhvzjx0-_47=zfdg@mail.gmail.com>
-Subject: Re: [PATCH v2 5/5] arm64: dts: renesas: r9a07g043u11-smarc-cru-csi-ov5645:
- Reduce I2C frequency
-To: Biju Das <biju.das.jz@bp.renesas.com>
-Cc: Rob Herring <robh+dt@kernel.org>, 
+Date: Fri, 26 Jan 2024 15:05:05 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdVtqyJDrq4MYrG7BEtppwUsa75mf=0+Tm7Ov+JvDMSHLQ@mail.gmail.com>
+Message-ID: <CAMuHMdVtqyJDrq4MYrG7BEtppwUsa75mf=0+Tm7Ov+JvDMSHLQ@mail.gmail.com>
+Subject: Re: [RFC PATCH v3 1/2] arm64: dts: renesas: ulcb-kf: drop duplicate
+ 3.3v regulators
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc: linux-renesas-soc@vger.kernel.org, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
+	Rob Herring <robh+dt@kernel.org>, 
 	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Magnus Damm <magnus.damm@gmail.com>, linux-renesas-soc@vger.kernel.org, 
-	devicetree@vger.kernel.org, 
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>, Biju Das <biju.das.au@gmail.com>
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Biju,
+Hi Wolfram,
 
-On Fri, Jan 26, 2024 at 2:31=E2=80=AFPM Biju Das <biju.das.jz@bp.renesas.co=
-m> wrote:
-> Reduce i2c freq from 400->100 kHz on RZ/G2UL SMARC EVK as the captured
-> image is not proper with the sensor configuration over I2C.
+On Wed, Jan 17, 2024 at 2:18=E2=80=AFPM Wolfram Sang
+<wsa+renesas@sang-engineering.com> wrote:
+> Schematics say that all these 3.3v sources are driven by "D3.3V". We
+> have a regulator for it already in ulcb.dtsi. Use it instead.
 >
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> ---
+>
+> Following a suggestion from Geert[1], let's inherit the 3.3V regulator
+> from ulcb.dtsi. I kept the other KF regulators because:
 
-Thanks for your patch!
+Thanks for the update!
 
-> --- a/arch/arm64/boot/dts/renesas/r9a07g043u11-smarc-cru-csi-ov5645.dtso
-> +++ b/arch/arm64/boot/dts/renesas/r9a07g043u11-smarc-cru-csi-ov5645.dtso
-> @@ -19,3 +19,7 @@ &ov5645 {
->         enable-gpios =3D <&pinctrl RZG2L_GPIO(4, 4) GPIO_ACTIVE_HIGH>;
->         reset-gpios =3D <&pinctrl RZG2L_GPIO(0, 1) GPIO_ACTIVE_LOW>;
->  };
-> +
-> +&i2c0 {
-> +       clock-frequency =3D <100000>;
-> +};
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+i.e. will queue in renesas-devel for v6.9.
 
-Is this a limitation of one of the I2C devices on the bus, or a PCB
-design issue?
+> - 'hdmi_1v8' is really derived from d3.3v on the KingFisher board. It is
+>   named "T1.8V" in the schematics. Maybe we rename it?
+>
+> - 'snd_vcc5v' looks like D5V to me. While it seems available on the
 
-Doesn't this need a Fixes tag?
+Yes, it's D5 (KF) aka D5.0V (ULCB).
+
+>   connectors, it looks unused on the ULCB. So, keep it KingFisher only.
+>   But maybe rename it to "reg_5v"?
+
+These two can be updated later.
+
+> [1] https://lore.kernel.org/r/CAMuHMdXbpBeKNL6QC_vYTrocf7xPcvUBQmoV9vboqV=
+t_ciio+g@mail.gmail.com
 
 Gr{oetje,eeting}s,
 
