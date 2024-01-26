@@ -1,96 +1,119 @@
-Return-Path: <linux-renesas-soc+bounces-1858-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-1876-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9433983D95C
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 26 Jan 2024 12:31:47 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id ADAF683D8FA
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 26 Jan 2024 12:05:13 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 1DA77B2E93D
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 26 Jan 2024 10:56:57 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6A4322859CF
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 26 Jan 2024 11:05:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A725F63A;
-	Fri, 26 Jan 2024 10:56:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BAF77134A9;
+	Fri, 26 Jan 2024 11:05:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AF71ulct"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from albert.telenet-ops.be (albert.telenet-ops.be [195.130.137.90])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC36C12E57
-	for <linux-renesas-soc@vger.kernel.org>; Fri, 26 Jan 2024 10:56:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.137.90
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 927051AACB;
+	Fri, 26 Jan 2024 11:05:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706266611; cv=none; b=nXfOnapaKkoa0WtplLX2cuCzGsuIMe7CiI/T/q9tUkwbS2WkcKKGgFtBHQkVekIIFVArm6hTtrpgKiNQBTifcLlJ9T1foCEJ0hQPNvGgJ/1UQWSv5Ww8onEm6YdTn5Plsltpe6v9Apyy3j8vuEGO6JoIGlIob1lFaZzxNqgIYp4=
+	t=1706267108; cv=none; b=r3hzDGADJ5vccDJceBptKr5GREgPcr+LID/hRQt7CENblQIpilBnYDhnxGNtRVwPubIkpckSJUj9HgE2xfu37DTRqGeDLMTbdw6rgn4Vk5s8JXPpN5U6GUtR5rfr9hAWvw1wOrKaoFNhnzDaaQWPY/76GbVAqNTM/d2QGJWcrgI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706266611; c=relaxed/simple;
-	bh=Z1K8XxAr0NS1rz0ikSX+SB4azNcTAf76x+/v/glo0BM=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=sKhGuwoyVbqhX46byIAq0uhRi2ULeBaPfmucqAFdOIfmHyB8vZcEzyqpjqoKNAx6Z2N0njEh7/j7mAdPu3w1A4CXLEihKAW1cdZUIea/6e0HqIvw6MKHRwZsjeQg/pYIofqWVzPRugLzaMkhJ9QmB+wL4BMsjvnLK+tMC78Qfbw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.137.90
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
-Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed40:8d64:ae04:ce87:de06])
-	by albert.telenet-ops.be with bizsmtp
-	id fNwm2B0091AdMdB06NwmND; Fri, 26 Jan 2024 11:56:46 +0100
-Received: from rox.of.borg ([192.168.97.57])
-	by ramsan.of.borg with esmtp (Exim 4.95)
-	(envelope-from <geert@linux-m68k.org>)
-	id 1rTJsK-00GWgN-3W;
-	Fri, 26 Jan 2024 11:56:46 +0100
-Received: from geert by rox.of.borg with local (Exim 4.95)
-	(envelope-from <geert@linux-m68k.org>)
-	id 1rTJne-00G5ZK-84;
-	Fri, 26 Jan 2024 11:51:06 +0100
-From: Geert Uytterhoeven <geert+renesas@glider.be>
-To: Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>
-Cc: linux-renesas-soc@vger.kernel.org,
-	linux-clk@vger.kernel.org,
-	Cong Dang <cong.dang.xn@renesas.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH] clk: renesas: r8a779h0: Add PFC/GPIO clocks
-Date: Fri, 26 Jan 2024 11:50:56 +0100
-Message-Id: <a7d8f4111b87decb825db5ed310de8294f90b9f9.1706266196.git.geert+renesas@glider.be>
-X-Mailer: git-send-email 2.34.1
+	s=arc-20240116; t=1706267108; c=relaxed/simple;
+	bh=sKKBwRhVjDDSpW/xrhUl7xKSnnX9RSDLylyguVsoENU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=IxOyjImq9UPF9WMP/6bYKORER2zApT6udWzC46rxCMXtbZH3YacswfYud3xWA0LinGylwpdeGVSJZtO8+U+Va5EzYNp9GgmA+7xZ0SFqkOcqPsgIGDdzZCW2MS3I4lxoynx5cKZHAX/bff1XPw12/eGK5GXblxSjF1uoqRM4tKc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AF71ulct; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 47CD6C433F1;
+	Fri, 26 Jan 2024 11:05:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1706267108;
+	bh=sKKBwRhVjDDSpW/xrhUl7xKSnnX9RSDLylyguVsoENU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=AF71ulct7TkwjD4J8g5q0DLy6JRwVjjPGuR/h9KYPTKSU1J7RUYNOvvsu/K5DN+xM
+	 Y9a2Jc1QAy9tMLYNL0Da48HQJw1i7sxgd4jae89kizsdqZ0r8C9JnUjrCpCmKWRfbI
+	 OpFm1MlD47n1EXRNISQasgbWuwS31ZcH5dWCbOeJUfN8Ul12pTxihkc/x2oxvCMl59
+	 7TJb+OE768ZdzeSkLY3RtvR7uvI9aOVqT+UV2ukO0fO2PrCZj91Oe9zGPtB+d9ZKPm
+	 Pi8+IqXMbWuAUcSJ/ntUYWTvSyf94e0oRsO64ZRPtj22+w8FhVwSuvt4rakSyAdkhP
+	 c6uUPdQSDBveQ==
+Date: Fri, 26 Jan 2024 12:05:04 +0100
+From: Wolfram Sang <wsa@kernel.org>
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: Magnus Damm <magnus.damm@gmail.com>, Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	Geert Uytterhoeven <geert@linux-m68k.org>
+Subject: Re: [PATCH v2 3/9] arm64: dts: renesas: white-hawk-cpu: Restore sort
+ order
+Message-ID: <ZbOR4KI6owaqtXMP@ninjato>
+Mail-Followup-To: Wolfram Sang <wsa@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	Geert Uytterhoeven <geert@linux-m68k.org>
+References: <cover.1706192990.git.geert+renesas@glider.be>
+ <f375293d6e21659ee30a86e2b46e4998a75ea3b5.1706192990.git.geert+renesas@glider.be>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="ksWrmbRuQDQ+aNjb"
+Content-Disposition: inline
+In-Reply-To: <f375293d6e21659ee30a86e2b46e4998a75ea3b5.1706192990.git.geert+renesas@glider.be>
 
-From: Cong Dang <cong.dang.xn@renesas.com>
 
-Add the module clocks used by the Pin Function Controller (PFC) and
-General Purpose Input/Output (GPIO) blocks on the Renesas R-Car V4M
-(R8A779H0) SoC.
+--ksWrmbRuQDQ+aNjb
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Cong Dang <cong.dang.xn@renesas.com>
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
-Changes compared to the BSP:
-  - Change parent clock from CL16M to CP.
+On Thu, Jan 25, 2024 at 03:48:53PM +0100, Geert Uytterhoeven wrote:
+> From: Geert Uytterhoeven <geert@linux-m68k.org>
+>=20
+> Alphabetical by node name.
+>=20
+> Signed-off-by: Geert Uytterhoeven <geert@linux-m68k.org>
 
-To be queued in renesas-clk for v6.9.
----
- drivers/clk/renesas/r8a779h0-cpg-mssr.c | 3 +++
- 1 file changed, 3 insertions(+)
+You probably want to use your "+renesas" address here when applying.
 
-diff --git a/drivers/clk/renesas/r8a779h0-cpg-mssr.c b/drivers/clk/renesas/r8a779h0-cpg-mssr.c
-index 1259b8544980f07a..219941047291d34d 100644
---- a/drivers/clk/renesas/r8a779h0-cpg-mssr.c
-+++ b/drivers/clk/renesas/r8a779h0-cpg-mssr.c
-@@ -177,6 +177,9 @@ static const struct mssr_mod_clk r8a779h0_mod_clks[] = {
- 	DEF_MOD("hscif1",	515,	R8A779H0_CLK_SASYNCPERD1),
- 	DEF_MOD("hscif2",	516,	R8A779H0_CLK_SASYNCPERD1),
- 	DEF_MOD("hscif3",	517,	R8A779H0_CLK_SASYNCPERD1),
-+	DEF_MOD("pfc0",		915,	R8A779H0_CLK_CP),
-+	DEF_MOD("pfc1",		916,	R8A779H0_CLK_CP),
-+	DEF_MOD("pfc2",		917,	R8A779H0_CLK_CP),
- };
- 
- /*
--- 
-2.34.1
+Other than that:
 
+Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+
+
+--ksWrmbRuQDQ+aNjb
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmWzkdwACgkQFA3kzBSg
+KbaH4g//SfTLwkRzIaU5tb4W57pg9entgqrBAvb15Doxcowk0U0Y1SlktKlvuAqf
+WdyPI8ATJvC3k0uXNjtF7nqCWT5fbYsjww5e+TTtg1H/tBBPSWHmlxNBFUELPWk/
+NIN/47iiV2uIZaNkWHrRNCATHZ/ILXVn29WbLaXfO+RhpEMeh2zZkutLN3xiXLv4
+xjFr6zmehii/MHc3WaCJthM28f+wEKcmWJQ3DSjeKzmiI3ElcFM4KnTYjb7DBXx3
+T4rC2mPDbf/eadvqBvj8KJot5shgSSMuy/15cLgQqN8f9kmxBauTIT0o1qKaAIR9
+DVfS5ptkYojuFcb0E+lrCwXR74qcrhpRRoutOLbsftObbd00DBTWBddNHTrrMDuZ
+p9y1OSGlmCMYdl73h8jkeB2jdBY1MIy9OqyHv1seJ3ZCTbk+GG3yO1gyCaENEu33
+7gYWEmQ+ro8/praZnVjMwDo2L32xDNamWf1KiDhyC8HCVWwZvvbl344kZjctjwPW
+JoodsWRttskS6hyd3bMnzynvPxmPj0V3J+a+kXiq0IIYfEeSzQi09jo8t8FU4T/v
+qSzFZ7mOlwiZuw96rmtEiKm0pxZbYasEc1KF8TfTROXjpoG/ahK9UyQYfv2nwfkk
+3o4aynq4E7ZT0XezIOeSdFm8wqfzJuaqlJgNqtt1Mk7hTYiPvws=
+=izkY
+-----END PGP SIGNATURE-----
+
+--ksWrmbRuQDQ+aNjb--
 
