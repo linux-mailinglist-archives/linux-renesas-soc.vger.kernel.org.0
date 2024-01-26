@@ -1,118 +1,116 @@
-Return-Path: <linux-renesas-soc+bounces-1877-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-1878-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1014283D900
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 26 Jan 2024 12:06:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A4AFC83D902
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 26 Jan 2024 12:07:35 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C1F82284FF7
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 26 Jan 2024 11:06:55 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4C2EA28A336
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 26 Jan 2024 11:07:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F30EF134B4;
-	Fri, 26 Jan 2024 11:06:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cEy3zySW"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3C1DC134B4;
+	Fri, 26 Jan 2024 11:07:32 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f177.google.com (mail-yb1-f177.google.com [209.85.219.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB378134A3;
-	Fri, 26 Jan 2024 11:06:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63FFD13FE4;
+	Fri, 26 Jan 2024 11:07:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706267212; cv=none; b=WVFeEabi77D+379cd49TFg4+K2RpCwI4UiZ1+DxZ+HsaSCnheQJ/UOqvbO70IpjVcV8KxvdjNCDgZ1BGZxLslfSErZmD/MIZlzWdTLBa5/5tsg9G8A68Jm11Nxka5JN66J7FKp3oqAhQnaimw8DYABywHOB4VE1J5fVpz2oVZSw=
+	t=1706267252; cv=none; b=cwXZxl8OilBEUAGIbuYw2AzZzXR49Xp7SJXWI7TQH/Fxl4S2XMPK6aL+6Dim8+8K8LACtOHhkdjSrMA2HWHbPWY98lNv/AobqU2TxXzhnKBoukARwJ13WtHhCUGcqdU867K4z6zXmjyGyNypSwUBdAzlXiLoENjTiSR8rgzi/l0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706267212; c=relaxed/simple;
-	bh=ufpNnfJru1104qXlFUoLfTNia/ycorGO/SvUYkTtyvY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gZ/3ytN1LV9yW9S+VYMXTysD5KQYPl7QX8/IWnwK0K4aNkOvM72Zg1tnLI/bYuL+utDt9btBV/pAtgGZWadqCELrxXQFBLkOh0oio/8XWHhhMW3JQLGB+mhLmhE+hVtGYB+oPSq58M31sF3yf+oJM0yhCT5NgQc0uiHrIi3RUiQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cEy3zySW; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CC863C433C7;
-	Fri, 26 Jan 2024 11:06:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1706267212;
-	bh=ufpNnfJru1104qXlFUoLfTNia/ycorGO/SvUYkTtyvY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=cEy3zySWMgdmN27HY5tP8TgfhcPAInsz9CgmnaqGVBbWdovrl8sseficXs9KQX4S7
-	 TURQVYs80yfiBntTW3q9+rgn3Vf/VKXMraTk7xf42awtVQSYgqTyvtv6Li1RPavJ+9
-	 xTIHWCH2CMTQNvSUKWCq9Yt3urBWwdQnn20CxZ7XejYi3xpcL5SN8qHMxRg8UnBJ3W
-	 NzbQm8H0gYxGt+1BEHEraR0XKLI1JBR29RNrPgq7r3PVKTo6rdr+/WddRgpBeDk82R
-	 wbCsR6OkrPZ9bYlevJkTnba3GtAfU88ez6s6E2UQaS7cgy0DRv2M5d6LGUIWclEVTc
-	 dWjbWf0GRXCAg==
-Date: Fri, 26 Jan 2024 12:06:48 +0100
-From: Wolfram Sang <wsa@kernel.org>
-To: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: Magnus Damm <magnus.damm@gmail.com>, Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	Geert Uytterhoeven <geert@linux-m68k.org>
-Subject: Re: [PATCH v2 5/9] arm64: dts: renesas: white-hawk: Add SoC name to
- top-level comment
-Message-ID: <ZbOSSL006eaoz6Ss@ninjato>
-Mail-Followup-To: Wolfram Sang <wsa@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	Geert Uytterhoeven <geert@linux-m68k.org>
-References: <cover.1706192990.git.geert+renesas@glider.be>
- <de81db7ca38c8f4737092bdac6891e9db4bb9bd6.1706192990.git.geert+renesas@glider.be>
+	s=arc-20240116; t=1706267252; c=relaxed/simple;
+	bh=6ppXA2DlA82FOJgaWaudkduaD/ykhHsK08CtpDd1gEg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=YPexM6z9m/E/I1a7vQUHEZYkWbuZ/uj06CDTsCvraMIrATTp+Yta1zxlI4O+kC3O6T5J+Wu9Xp6qcPVP9ZU4RxJaxTbNDIyAgB5M4qKlZhjoeXTMbEg1xRq0OM//yh6BxnI0sIhywo3rHSQFI6aW3QMv2QjfYi2753pGvLRwguo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.219.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yb1-f177.google.com with SMTP id 3f1490d57ef6-dc21d7a7042so219185276.2;
+        Fri, 26 Jan 2024 03:07:30 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1706267249; x=1706872049;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Jwz6QjxMfzuXSUu3G4OIPlIEOGfHePs382I3fEwHaT8=;
+        b=kjBzwIU/U7n/dpbAr3U+7LU0/jXaFCCjf1SYru4WGEWIxaMQoknD8+X/2DHnoGvASc
+         IKWm7Xf2LdqaNaBmmMZvkxa0/lnxYja4ksPaBsq1CjQF5zeyDTMzL1CeO26MqO42CuhH
+         4+ifjymP8WgfuDTtK8jXkOOUq/5g6n2B9QFgDpNyyUO7nZq3LHbUawBuCa0BK8zPNy23
+         u+KCg5LT/r3bP/puRf4djGw+05xdalK+GbXVPxzMIdB8Ie5ip3qCUD4bv96bCu7248gh
+         Ero1ojQJSjc4js1/ebo9yUnw1tP06jcYap4fMhjZzlGQWJFpY5lHbDsIvzjowFqgmRGf
+         EYxQ==
+X-Gm-Message-State: AOJu0YyiFaL62iZAjxPAdJ3DXgXSDkyCjSgSEJNOqzrBFg1VCtvgmcHz
+	BIsi/lQbTy+jqmUbiC0R81ciWXGXc9I1ujAW5UG5l6a6/O30d5pUsEDpKaXbyz4=
+X-Google-Smtp-Source: AGHT+IH4sMvWmEOpcSKgOCVpbnUuntut88i08GOgtZI/yWdysxB+rNbJDgcu1giISXS+xEnk9Qe5PQ==
+X-Received: by 2002:a25:f912:0:b0:dc6:2a46:1543 with SMTP id q18-20020a25f912000000b00dc62a461543mr873470ybe.36.1706267249220;
+        Fri, 26 Jan 2024 03:07:29 -0800 (PST)
+Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com. [209.85.128.180])
+        by smtp.gmail.com with ESMTPSA id p12-20020a056902014c00b00d677aec54ffsm305085ybh.60.2024.01.26.03.07.28
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 26 Jan 2024 03:07:29 -0800 (PST)
+Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-602cd92a75bso2683987b3.2;
+        Fri, 26 Jan 2024 03:07:28 -0800 (PST)
+X-Received: by 2002:a0d:dd91:0:b0:600:275b:2acc with SMTP id
+ g139-20020a0ddd91000000b00600275b2accmr1101442ywe.53.1706267248487; Fri, 26
+ Jan 2024 03:07:28 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="van6FlUw4Gh6h4Pt"
-Content-Disposition: inline
-In-Reply-To: <de81db7ca38c8f4737092bdac6891e9db4bb9bd6.1706192990.git.geert+renesas@glider.be>
-
-
---van6FlUw4Gh6h4Pt
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <cover.1706192990.git.geert+renesas@glider.be> <f375293d6e21659ee30a86e2b46e4998a75ea3b5.1706192990.git.geert+renesas@glider.be>
+ <ZbOR4KI6owaqtXMP@ninjato>
+In-Reply-To: <ZbOR4KI6owaqtXMP@ninjato>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Fri, 26 Jan 2024 12:07:16 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdV25EPTge=jEDqe=Q==Na0N5iYJVf5F9yvBC59uu0GbDg@mail.gmail.com>
+Message-ID: <CAMuHMdV25EPTge=jEDqe=Q==Na0N5iYJVf5F9yvBC59uu0GbDg@mail.gmail.com>
+Subject: Re: [PATCH v2 3/9] arm64: dts: renesas: white-hawk-cpu: Restore sort order
+To: Wolfram Sang <wsa@kernel.org>
+Cc: Magnus Damm <magnus.damm@gmail.com>, Rob Herring <robh+dt@kernel.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
+	devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jan 25, 2024 at 03:48:55PM +0100, Geert Uytterhoeven wrote:
-> From: Geert Uytterhoeven <geert@linux-m68k.org>
->=20
-> The White Hawk CPU and BreakOut board DTS is specific to R-Car V4H.
-> Document it in the top-level comment.
->=20
-> Signed-off-by: Geert Uytterhoeven <geert@linux-m68k.org>
+Hi Wolfram,
 
-"+renesas"?
+On Fri, Jan 26, 2024 at 12:05=E2=80=AFPM Wolfram Sang <wsa@kernel.org> wrot=
+e:
+> On Thu, Jan 25, 2024 at 03:48:53PM +0100, Geert Uytterhoeven wrote:
+> > From: Geert Uytterhoeven <geert@linux-m68k.org>
+> >
+> > Alphabetical by node name.
+> >
+> > Signed-off-by: Geert Uytterhoeven <geert@linux-m68k.org>
+>
+> You probably want to use your "+renesas" address here when applying.
 
-Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Thank you (temporarily changing .git/config considered harmful)
 
+> Other than that:
+>
+> Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
---van6FlUw4Gh6h4Pt
-Content-Type: application/pgp-signature; name="signature.asc"
+Thanks!
 
------BEGIN PGP SIGNATURE-----
+Gr{oetje,eeting}s,
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmWzkkgACgkQFA3kzBSg
-KbZSrA//RJEXxvsodV/5T/Y4aIeWLmdBDChofi3wZGhLe5msn0Da7h3mGgPIujuP
-0YFbkdKoOFO81XRUNxMziQpiI0YGLO9R8A2e4omcGNXcsIahQ1oE2MpucArJOucr
-YEh1bQJ84FcKM+uWhEbJTyr2voOdfMZ7rzD5VJ3mQs5l4RUAQ7Q0LhE8P04CwQxy
-mlQQqWMKLMlX9URvEQ9HAKP6gJvWceIG2s1agEf+pa4PO+Fs8NHznXE/BJoeBI+H
-b510CzNImz8nkns9sKB9bmYz67DglsebAfQ/NhnNlUL7HzJ7p9QiwWtsbEbzVkdF
-J3hkmNk9i+QeN2a/Oz9qIEwwpSCHsIYun+5CkvVEDyvS/FMZRa/1uoY6pQ6XU7ts
-HMTdoH5HuhjVAycEXnzmsmqsyBpY6PKD2LGaMAqk4ZwcMZtt5d37Q2RspgkQaOx/
-4r014XUI94gnsi3zB5jU8zz9IwgAvdHfexAO7+GZAai2rA4WJJAgKvpBiOYYRiA+
-tfQKKoUl0yQvjuIy3BN24BYvEROkIYIpzGj+z/c9niQS5+qt0DpoB0g93RROOy9Y
-GBdT0OEYlJJIgLyEDIM8qnNI/kltVgfQQBxgiBdtrLmpie5xA5tf6fZLBsS3gCDP
-5/VeSm5Ja8MB6gOh6wP1kTJfQsfET01ePD8xjKZSj5Odue3SR88=
-=w9Xf
------END PGP SIGNATURE-----
+                        Geert
 
---van6FlUw4Gh6h4Pt--
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
