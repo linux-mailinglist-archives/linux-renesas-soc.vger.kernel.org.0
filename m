@@ -1,132 +1,116 @@
-Return-Path: <linux-renesas-soc+bounces-1890-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-1891-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D6B583DBCD
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 26 Jan 2024 15:26:55 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id C895783DD26
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 26 Jan 2024 16:12:55 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5FCDC1C239D3
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 26 Jan 2024 14:26:54 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7D83B1F235FB
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 26 Jan 2024 15:12:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7777B1C292;
-	Fri, 26 Jan 2024 14:25:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E0EBC1CF94;
+	Fri, 26 Jan 2024 15:12:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="akmA595R"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com [209.85.128.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51C772030A;
-	Fri, 26 Jan 2024 14:25:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D5AE1D54C
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 26 Jan 2024 15:12:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706279103; cv=none; b=e+Ev/roHu/FiGq4f4q5nwW9FqJrZUnpj2XeghkzpSdeBVy58wTm1YE9abtgNokfxf67hk3lvEVx1tL7miaBHgzZkK/DxWkfZ+BmYXA2J1xsxY2E0RggIxokOyvHDE/fZOFzExz/1YN9Gf+vfR3kAopMSZQnnptprfoE5v/tkOJw=
+	t=1706281940; cv=none; b=vC8JYx4KbVEyBNNd8E+kJG55IBkNcsIEVRIoQOlc770fiue4MTVQ+0KQhjEDayuYmc+Vnwm0s77qE5bUaM1pvTOB9ZzMg4jw/CJDLLdNtLFdVKGwxM45Xowblx9L3J/3XO4aHKP9gcASDAudJ/MAuAzPRHkZjdo1iAlHFmvmuxk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706279103; c=relaxed/simple;
-	bh=lGOt20atkVEg9U8C7LSGX4rCm3axcdD6rMU6JLeU+Cg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=QLTClqRn/UhbjYul5lwdZCKdC2ZxuB2jfYIPnSmB5Icbs7g8geLY0YAszn+iIURXepf/YG/8jgJxhwHvVriSyxxnrjK07jIfIGxmxX/aKVq51ixr/WzORi494SlTXxVV3Ljv+yiVDdqEz9jqYlGH8y1673kAegpA1x9UTd6kZRI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-5ff821b9acfso4051057b3.1;
-        Fri, 26 Jan 2024 06:25:01 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706279100; x=1706883900;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=AobresbOLLicv0OGCL/TB/MYyPZSt0c9M3tIrPkCdUo=;
-        b=lGeXrvtd4F2oN121ttLZd82BYYbRlP+myEPE/aXmrjwMPwZOOekPH70dBpP+WtwcbD
-         vnqRjKb6nZ/BKlwYhVJ/jB68zSsHJQ1rkv5wNaWSwMSG8LkvBAk+WZbIbWoQH2j2/SRh
-         hTKF/cLEpC3GaeGfFKdmSOsXbLkqiBeOP0oR+c1+oEy+2m1E6WDeyT3aIENGRVMhTdCE
-         OMyFr3d67XzmHaC546ENtbUAXKUo1XIH6r1UXdm0VaQ+UhPHnXE4ebHFCp1tyyUQGIu7
-         99E9XWWXGCVF5qK7b6mWQevKxZ46hRyu5TZjVjL2TUNx3k72wd9LQtjnltkNw07FO01B
-         zuaA==
-X-Gm-Message-State: AOJu0YzxKdYarRdabX/gILdacPTyWOptmN3CZuSRm+GbWz5TffXH6gdY
-	1yGh94yHiJF68huH3ZFGsX4eqT5i9p+/GAMK6SJ4q7Mo4vXz14Uv6eHzOIluecM=
-X-Google-Smtp-Source: AGHT+IHSyl7ChSwD8TQvLm8DRI5o+x9RWRc3RQhHs0SU/W7/JYTnogKIIAfB5D3GnkEROxLImLqUtg==
-X-Received: by 2002:a0d:d895:0:b0:602:b24c:2321 with SMTP id a143-20020a0dd895000000b00602b24c2321mr1329450ywe.62.1706279099987;
-        Fri, 26 Jan 2024 06:24:59 -0800 (PST)
-Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com. [209.85.128.181])
-        by smtp.gmail.com with ESMTPSA id r12-20020a0de80c000000b005f900790763sm416158ywe.49.2024.01.26.06.24.59
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 26 Jan 2024 06:24:59 -0800 (PST)
-Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-5ffe7e7b7b3so3919657b3.3;
-        Fri, 26 Jan 2024 06:24:59 -0800 (PST)
-X-Received: by 2002:a81:a10f:0:b0:600:ec7f:5442 with SMTP id
- y15-20020a81a10f000000b00600ec7f5442mr1174685ywg.70.1706279099354; Fri, 26
- Jan 2024 06:24:59 -0800 (PST)
+	s=arc-20240116; t=1706281940; c=relaxed/simple;
+	bh=4RE9EljdMUOvnOvsl8qSrh585fszJ7BPNfle+haelpc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qT7TZx/crBOAcpMcabtoJN/KKKY+2chY0/qzCvaxTuaeXNuVby1gRVFQZf+odW2rHggs5wQF9ppFwMGXchZD4461OAvNs0n6R3Rk1o11RGUpvoQ2l9BtbexxtBGEmBJV0bjt2fRTzhesKXMil9IjKUZEjONyt3jP1vNmvqE0RMM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=akmA595R; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=date:from:to:cc:subject:message-id
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=4RE9
+	EljdMUOvnOvsl8qSrh585fszJ7BPNfle+haelpc=; b=akmA595RRupGZ7bwoG9i
+	5FPVeNPTjcyIfIxcBszYKnEAdPne6lyuMmDADPF5MPci74u83wT1iNJAkUXp+Lnq
+	2caLgNZSsdqLW6VG4149zgkZkPZ6M/3ZLxl/fP0RutpuXiJeSZJukFnQYjJCytJ+
+	CYCCZAruYH+GhXVJf+Rciv9LFJwr5IAUA4XouLJBXHNL+T652y7xG7ZKOaXInJPR
+	ajG3HTy8FeNA9sU1hJlUeSRDnYxXlhBLs53mpkC1L5xcdQrAivdqpAzNl+AuSxLR
+	ntv4Ee0A/kbeS2YODgHsVfj65vabzoDTXiQq0OFMdcfzgQ6Vz2aUErF6vKCUbf1J
+	oA==
+Received: (qmail 1549173 invoked from network); 26 Jan 2024 16:05:32 +0100
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 26 Jan 2024 16:05:32 +0100
+X-UD-Smtp-Session: l3s3148p1@KtWeoNoPUsxehhrU
+Date: Fri, 26 Jan 2024 16:05:32 +0100
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: linux-renesas-soc@vger.kernel.org, Magnus Damm <magnus.damm@gmail.com>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [RFC PATCH v3 2/2] arm64: dts: renesas: ulcb-kf: add node for
+ GNSS
+Message-ID: <ZbPKPGB7DIHhZ3GJ@ninjato>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Geert Uytterhoeven <geert@linux-m68k.org>,
+	linux-renesas-soc@vger.kernel.org,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+References: <20240117131807.24997-1-wsa+renesas@sang-engineering.com>
+ <20240117131807.24997-3-wsa+renesas@sang-engineering.com>
+ <CAMuHMdX7Z8w0JykKuboP__ZE4x+LeKSQAGdyrUezERxysPUCKA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240117131807.24997-1-wsa+renesas@sang-engineering.com> <20240117131807.24997-3-wsa+renesas@sang-engineering.com>
-In-Reply-To: <20240117131807.24997-3-wsa+renesas@sang-engineering.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 26 Jan 2024 15:24:48 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdX7Z8w0JykKuboP__ZE4x+LeKSQAGdyrUezERxysPUCKA@mail.gmail.com>
-Message-ID: <CAMuHMdX7Z8w0JykKuboP__ZE4x+LeKSQAGdyrUezERxysPUCKA@mail.gmail.com>
-Subject: Re: [RFC PATCH v3 2/2] arm64: dts: renesas: ulcb-kf: add node for GNSS
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc: linux-renesas-soc@vger.kernel.org, Magnus Damm <magnus.damm@gmail.com>, 
-	Rob Herring <robh+dt@kernel.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="rRSFQ5n7OdqjkQvG"
+Content-Disposition: inline
+In-Reply-To: <CAMuHMdX7Z8w0JykKuboP__ZE4x+LeKSQAGdyrUezERxysPUCKA@mail.gmail.com>
 
-Hi Wolfram,
 
-On Wed, Jan 17, 2024 at 2:18=E2=80=AFPM Wolfram Sang
-<wsa+renesas@sang-engineering.com> wrote:
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-> ---
-> Changes since last version:
->
-> * use 'reg_3p3v' instead of custom regulator
+--rRSFQ5n7OdqjkQvG
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Thanks for the update!
 
-> --- a/arch/arm64/boot/dts/renesas/ulcb-kf.dtsi
-> +++ b/arch/arm64/boot/dts/renesas/ulcb-kf.dtsi
-> @@ -392,6 +392,13 @@ &scif1 {
->         pinctrl-names =3D "default";
->
->         status =3D "okay";
-> +
-> +       gnss {
-> +               compatible =3D "u-blox,neo-m8";
-> +               reset-gpios =3D <&gpio_exp_75 6 GPIO_ACTIVE_LOW>;
-> +               vcc-supply =3D <&reg_3p3v>;
-> +               current-speed =3D <9600>;
-> +       };
->  };
->
->  &sdhi3 {
+> Can it be used over I2C too? Is there some strapping to select the
+> interface used? I couldn't find that in the documentation.
 
-LGTM, so
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+It looks to me they both work at the same time. I was able to write and
+read via I2C (thus not very meaningful data) while serial port was doing
+the real work. I am not aware of a full GNSS implementation supporting
+the I2C interface, so I considered it good at that point.
 
-Before I queue this, I have one remaining question.
-The device is also connected to I2C bus i2c@7 aka AUDIO_S{DA,CL}.
-Can it be used over I2C too? Is there some strapping to select the
-interface used? I couldn't find that in the documentation.
-(It does support clock stretching! ;-)
 
-Gr{oetje,eeting}s,
+--rRSFQ5n7OdqjkQvG
+Content-Type: application/pgp-signature; name="signature.asc"
 
-                        Geert
+-----BEGIN PGP SIGNATURE-----
 
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmWzyjgACgkQFA3kzBSg
+KbaRiQ//bxRG4uuUlTt8MoZCNahMBC79+M3/Ki+7+wA/uAHJkTp0HU205zSwDi8Q
+Knl7i63CbabFPED93WeqrkDm7QVW4f0iaQ7fSe0MhkLD8sHRhhr3N3KkTjEwwmJj
+r05N6Ygt6nw/d0ncZnQbpTx5aM5a6GY2h/xN6P+6SnozAylqAiNCht09P4OnFvLu
+QGybJJPafwe3KbXGK2hhNsS7fTs7Kg1dijPVhY444xcgKbRHWzdGnbu+0PfZOPCP
+A8UtgKRn+HdbDfAkH/e7naVC1MMA7PyFM7TEmi8dAz/u65c20ZlkpO/k0dWcMqKW
+94Z/dR3RZfmYBLxp7N7g9DBR/l919g+wnHU24h+1PYxmCia1YHgVyABbANXsulyW
+Mw1DM5Hm+S9J2Kn5PaOIPuyDFn/GBlqGZour/dZv1OMk9P1n9/9L8V9u/MDTXV8i
+YIQlxl5+AfyYpZqvhrOWDllBoxLTrLQX32d2hABBW7XE3pQuBm8z+RJBcfAi9WAI
+DOe31HalytJvGvhfR8je+yPDPQQ/oAe/VnhhFjnD5GVEYuQfyglN2yv+EBe23khP
+H6jlcUu73X+FVWS0CsSBkQNAHEcuTTuf/Hinge4lK4KPk4CZL1qQNNJ+nGNR7F4p
+8IDpVrtd6N/V7w49GC77/0RseWUxQiTHlBLfjFSozw1IPrcXNFc=
+=tXXw
+-----END PGP SIGNATURE-----
 
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+--rRSFQ5n7OdqjkQvG--
 
