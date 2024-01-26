@@ -1,45 +1,45 @@
-Return-Path: <linux-renesas-soc+bounces-1866-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-1870-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 149DB83D89E
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 26 Jan 2024 11:57:11 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B4E283D8AC
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 26 Jan 2024 11:57:22 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BE730288F84
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 26 Jan 2024 10:57:09 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id AE8D81C26175
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 26 Jan 2024 10:57:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F310513FFA;
-	Fri, 26 Jan 2024 10:56:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 005C417BC5;
+	Fri, 26 Jan 2024 10:56:55 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from andre.telenet-ops.be (andre.telenet-ops.be [195.130.132.53])
+Received: from albert.telenet-ops.be (albert.telenet-ops.be [195.130.137.90])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF6F513FF5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 743BD134B4
 	for <linux-renesas-soc@vger.kernel.org>; Fri, 26 Jan 2024 10:56:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.132.53
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.137.90
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706266614; cv=none; b=RcUQITM6oaub9rQY2cJFK72+EsL2N6/pjhWkrCYTmSg/9H40KlJw9RPtqR2aSuiBqXIl84RysUqXM0FAansrztZZIDNMTG/OWfY1YYAmoLzpQucPUibI95OiCokVr72m3lE6yVSJ2xa9lC6Drw+B2Qub0lK5EkqYjEC58TNJs0o=
+	t=1706266615; cv=none; b=Fb5vq7gc2ElooN+iAl4Nw1WKlX5DDFgsKcSLSx6FbYaRBEa8agSB3mpPIIogPFo1TVyZSl2uZ704E1WCGRGxQOP6wHE9r95y/cdy06s990/sFYGzmK5I6J2hONMna/hUOjNVDqecQw7TsWNE0r1V60QWErziJQNYU7q778D5LD4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706266614; c=relaxed/simple;
-	bh=Zf8NWOrDXkAHvWRVwb+qL8k1bUAAd2J3jd99PP4js8o=;
+	s=arc-20240116; t=1706266615; c=relaxed/simple;
+	bh=iGAzIOHr72l9gWy8cnDtvRiPyohyVg0gDecIhbYQg8g=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=gaeCB6nJDFfAqLw34k+SHt65hfPDmTmT98COR1ay2HjTJW6A3DWsnweZtczsjzNJnwMoKgvU8fQqOUSaPlI04T77q5yBEb/+wvs6VHW3WcVALaghlE36LmUt2wovrQ9id8DEbn6564u5NW/eJJIoqsHdRHeljpcEAstXv5E4r8o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.132.53
+	 MIME-Version; b=iEdbU2fwbeDY6zWI7+mD42USmaTLT16lUR3wxQrhyqJKF8fGy0oqDA6sRQAW0BR6O/boFyJrG4obYHIITeFY0CojMKnDF3fhhgM5zCPMZk69COk9RD85YzlFW2TZPDkeAE8CLAa06HVX4JgE1jkE05OgPgEyhRDHwhNPbVLhfes=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.137.90
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
 Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed40:8d64:ae04:ce87:de06])
-	by andre.telenet-ops.be with bizsmtp
-	id fNwn2B00F1AdMdB01NwnVF; Fri, 26 Jan 2024 11:56:47 +0100
+	by albert.telenet-ops.be with bizsmtp
+	id fNwn2B00A1AdMdB06NwnNl; Fri, 26 Jan 2024 11:56:47 +0100
 Received: from rox.of.borg ([192.168.97.57])
 	by ramsan.of.borg with esmtp (Exim 4.95)
 	(envelope-from <geert@linux-m68k.org>)
-	id 1rTJsL-00GWgr-9D;
+	id 1rTJsL-00GWgn-58;
 	Fri, 26 Jan 2024 11:56:47 +0100
 Received: from geert by rox.of.borg with local (Exim 4.95)
 	(envelope-from <geert@linux-m68k.org>)
-	id 1rTJh0-00G5TM-6g;
+	id 1rTJh0-00G5TR-7O;
 	Fri, 26 Jan 2024 11:44:14 +0100
 From: Geert Uytterhoeven <geert+renesas@glider.be>
 To: Linus Walleij <linus.walleij@linaro.org>,
@@ -52,9 +52,9 @@ Cc: linux-renesas-soc@vger.kernel.org,
 	devicetree@vger.kernel.org,
 	Cong Dang <cong.dang.xn@renesas.com>,
 	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH 08/14] pinctrl: renesas: r8a779h0: Add HSCIF pins, groups, functions
-Date: Fri, 26 Jan 2024 11:44:06 +0100
-Message-Id: <27577af0042928e4b673a2774c68a14c4ea7c157.1706264667.git.geert+renesas@glider.be>
+Subject: [PATCH 09/14] pinctrl: renesas: r8a779h0: Add I2C pins, groups, functions
+Date: Fri, 26 Jan 2024 11:44:07 +0100
+Message-Id: <23fc01c6e97e544abd23168439f5d45d3ac8fa5b.1706264667.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1706264667.git.geert+renesas@glider.be>
 References: <cover.1706264667.git.geert+renesas@glider.be>
@@ -68,238 +68,105 @@ Content-Transfer-Encoding: 8bit
 
 From: Cong Dang <cong.dang.xn@renesas.com>
 
-Add pins, groups and functions for the High Speed Serial Communication
-Interfaces with FIFO (HSCIF) on the Renesas R-Car V4M (R8A779H0) SoC.
+Add pins, groups and functions for the I2C Bus Interfaces on the Renesas
+R-Car V4M (R8A779H0) SoC.
 
 Signed-off-by: Cong Dang <cong.dang.xn@renesas.com>
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
-Changes compared to the BSP:
-  - Move SCIF_CLK pins/groups/functions into a separate patch.
----
- drivers/pinctrl/renesas/pfc-r8a779h0.c | 192 +++++++++++++++++++++++++
- 1 file changed, 192 insertions(+)
+ drivers/pinctrl/renesas/pfc-r8a779h0.c | 62 ++++++++++++++++++++++++++
+ 1 file changed, 62 insertions(+)
 
 diff --git a/drivers/pinctrl/renesas/pfc-r8a779h0.c b/drivers/pinctrl/renesas/pfc-r8a779h0.c
-index c7c3e68ca77abf4a..6203f78869d6306d 100644
+index 6203f78869d6306d..8e04f4ce36e3d804 100644
 --- a/drivers/pinctrl/renesas/pfc-r8a779h0.c
 +++ b/drivers/pinctrl/renesas/pfc-r8a779h0.c
-@@ -1425,6 +1425,144 @@ static const unsigned int avb2_avtp_match_mux[] = {
- 	AVB2_AVTP_MATCH_MARK,
+@@ -1563,6 +1563,42 @@ static const unsigned int hscif3_ctrl_b_mux[] = {
+ 	HRTS3_N_B_MARK, HCTS3_N_B_MARK,
  };
  
-+/* - HSCIF0 ----------------------------------------------------------------- */
-+static const unsigned int hscif0_data_pins[] = {
-+	/* HRX0, HTX0 */
-+	RCAR_GP_PIN(1, 16), RCAR_GP_PIN(1, 12),
++/* - I2C0 ------------------------------------------------------------------- */
++static const unsigned int i2c0_pins[] = {
++	/* SDA0, SCL0 */
++	RCAR_GP_PIN(4, 1), RCAR_GP_PIN(4, 0),
 +};
-+static const unsigned int hscif0_data_mux[] = {
-+	HRX0_MARK, HTX0_MARK,
-+};
-+static const unsigned int hscif0_clk_pins[] = {
-+	/* HSCK0 */
-+	RCAR_GP_PIN(1, 15),
-+};
-+static const unsigned int hscif0_clk_mux[] = {
-+	HSCK0_MARK,
-+};
-+static const unsigned int hscif0_ctrl_pins[] = {
-+	/* HRTS0_N, HCTS0_N */
-+	RCAR_GP_PIN(1, 14), RCAR_GP_PIN(1, 13),
-+};
-+static const unsigned int hscif0_ctrl_mux[] = {
-+	HRTS0_N_MARK, HCTS0_N_MARK,
++static const unsigned int i2c0_mux[] = {
++	SDA0_MARK, SCL0_MARK,
 +};
 +
-+/* - HSCIF1_A ----------------------------------------------------------------- */
-+static const unsigned int hscif1_data_a_pins[] = {
-+	/* HRX1_A, HTX1_A */
-+	RCAR_GP_PIN(0, 15), RCAR_GP_PIN(0, 14),
++/* - I2C1 ------------------------------------------------------------------- */
++static const unsigned int i2c1_pins[] = {
++	/* SDA1, SCL1 */
++	RCAR_GP_PIN(4, 3), RCAR_GP_PIN(4, 2),
 +};
-+static const unsigned int hscif1_data_a_mux[] = {
-+	HRX1_A_MARK, HTX1_A_MARK,
-+};
-+static const unsigned int hscif1_clk_a_pins[] = {
-+	/* HSCK1_A */
-+	RCAR_GP_PIN(0, 18),
-+};
-+static const unsigned int hscif1_clk_a_mux[] = {
-+	HSCK1_A_MARK,
-+};
-+static const unsigned int hscif1_ctrl_a_pins[] = {
-+	/* HRTS1_N_A, HCTS1_N_A */
-+	RCAR_GP_PIN(0, 17), RCAR_GP_PIN(0, 16),
-+};
-+static const unsigned int hscif1_ctrl_a_mux[] = {
-+	HRTS1_N_A_MARK, HCTS1_N_A_MARK,
++static const unsigned int i2c1_mux[] = {
++	SDA1_MARK, SCL1_MARK,
 +};
 +
-+/* - HSCIF1_B ---------------------------------------------------------------- */
-+static const unsigned int hscif1_data_b_pins[] = {
-+	/* HRX1_B, HTX1_B */
-+	RCAR_GP_PIN(1, 7), RCAR_GP_PIN(1, 6),
++/* - I2C2 ------------------------------------------------------------------- */
++static const unsigned int i2c2_pins[] = {
++	/* SDA2, SCL2 */
++	RCAR_GP_PIN(4, 5), RCAR_GP_PIN(4, 4),
 +};
-+static const unsigned int hscif1_data_b_mux[] = {
-+	HRX1_B_MARK, HTX1_B_MARK,
-+};
-+static const unsigned int hscif1_clk_b_pins[] = {
-+	/* HSCK1_B */
-+	RCAR_GP_PIN(1, 10),
-+};
-+static const unsigned int hscif1_clk_b_mux[] = {
-+	HSCK1_B_MARK,
-+};
-+static const unsigned int hscif1_ctrl_b_pins[] = {
-+	/* HRTS1_N_B, HCTS1_N_B */
-+	RCAR_GP_PIN(1, 9), RCAR_GP_PIN(1, 8),
-+};
-+static const unsigned int hscif1_ctrl_b_mux[] = {
-+	HRTS1_N_B_MARK, HCTS1_N_B_MARK,
++static const unsigned int i2c2_mux[] = {
++	SDA2_MARK, SCL2_MARK,
 +};
 +
-+/* - HSCIF2 ----------------------------------------------------------------- */
-+static const unsigned int hscif2_data_pins[] = {
-+	/* HRX2, HTX2 */
-+	RCAR_GP_PIN(4, 8), RCAR_GP_PIN(4, 9),
++/* - I2C3 ------------------------------------------------------------------- */
++static const unsigned int i2c3_pins[] = {
++	/* SDA3, SCL3 */
++	RCAR_GP_PIN(4, 7), RCAR_GP_PIN(4, 6),
 +};
-+static const unsigned int hscif2_data_mux[] = {
-+	HRX2_MARK, HTX2_MARK,
-+};
-+static const unsigned int hscif2_clk_pins[] = {
-+	/* HSCK2 */
-+	RCAR_GP_PIN(4, 13),
-+};
-+static const unsigned int hscif2_clk_mux[] = {
-+	HSCK2_MARK,
-+};
-+static const unsigned int hscif2_ctrl_pins[] = {
-+	/* HRTS2_N, HCTS2_N */
-+	RCAR_GP_PIN(4, 10), RCAR_GP_PIN(4, 12),
-+};
-+static const unsigned int hscif2_ctrl_mux[] = {
-+	HRTS2_N_MARK, HCTS2_N_MARK,
-+};
-+
-+/* - HSCIF3_A ----------------------------------------------------------------- */
-+static const unsigned int hscif3_data_a_pins[] = {
-+	/* HRX3_A, HTX3_A */
-+	RCAR_GP_PIN(1, 24), RCAR_GP_PIN(1, 28),
-+};
-+static const unsigned int hscif3_data_a_mux[] = {
-+	HRX3_A_MARK, HTX3_A_MARK,
-+};
-+static const unsigned int hscif3_clk_a_pins[] = {
-+	/* HSCK3_A */
-+	RCAR_GP_PIN(1, 25),
-+};
-+static const unsigned int hscif3_clk_a_mux[] = {
-+	HSCK3_A_MARK,
-+};
-+static const unsigned int hscif3_ctrl_a_pins[] = {
-+	/* HRTS3_N_A, HCTS3_N_A */
-+	RCAR_GP_PIN(1, 26), RCAR_GP_PIN(1, 27),
-+};
-+static const unsigned int hscif3_ctrl_a_mux[] = {
-+	HRTS3_N_A_MARK, HCTS3_N_A_MARK,
-+};
-+
-+/* - HSCIF3_B ----------------------------------------------------------------- */
-+static const unsigned int hscif3_data_b_pins[] = {
-+	/* HRX3_B, HTX3_B */
-+	RCAR_GP_PIN(1, 4), RCAR_GP_PIN(1, 0),
-+};
-+static const unsigned int hscif3_data_b_mux[] = {
-+	HRX3_B_MARK, HTX3_B_MARK,
-+};
-+static const unsigned int hscif3_clk_b_pins[] = {
-+	/* HSCK3_B */
-+	RCAR_GP_PIN(1, 3),
-+};
-+static const unsigned int hscif3_clk_b_mux[] = {
-+	HSCK3_B_MARK,
-+};
-+static const unsigned int hscif3_ctrl_b_pins[] = {
-+	/* HRTS3_N_B, HCTS3_N_B */
-+	RCAR_GP_PIN(1, 2), RCAR_GP_PIN(1, 1),
-+};
-+static const unsigned int hscif3_ctrl_b_mux[] = {
-+	HRTS3_N_B_MARK, HCTS3_N_B_MARK,
++static const unsigned int i2c3_mux[] = {
++	SDA3_MARK, SCL3_MARK,
 +};
 +
  /* - MMC -------------------------------------------------------------------- */
  static const unsigned int mmc_data_pins[] = {
  	/* MMC_SD_D[0:3], MMC_D[4:7] */
-@@ -1690,6 +1828,25 @@ static const struct sh_pfc_pin_group pinmux_groups[] = {
- 	SH_PFC_PIN_GROUP(avb2_avtp_capture),
- 	SH_PFC_PIN_GROUP(avb2_avtp_match),
+@@ -1847,6 +1883,11 @@ static const struct sh_pfc_pin_group pinmux_groups[] = {
+ 	SH_PFC_PIN_GROUP(hscif3_clk_b),
+ 	SH_PFC_PIN_GROUP(hscif3_ctrl_b),
  
-+	SH_PFC_PIN_GROUP(hscif0_data),
-+	SH_PFC_PIN_GROUP(hscif0_clk),
-+	SH_PFC_PIN_GROUP(hscif0_ctrl),
-+	SH_PFC_PIN_GROUP(hscif1_data_a),
-+	SH_PFC_PIN_GROUP(hscif1_clk_a),
-+	SH_PFC_PIN_GROUP(hscif1_ctrl_a),
-+	SH_PFC_PIN_GROUP(hscif1_data_b),
-+	SH_PFC_PIN_GROUP(hscif1_clk_b),
-+	SH_PFC_PIN_GROUP(hscif1_ctrl_b),
-+	SH_PFC_PIN_GROUP(hscif2_data),
-+	SH_PFC_PIN_GROUP(hscif2_clk),
-+	SH_PFC_PIN_GROUP(hscif2_ctrl),
-+	SH_PFC_PIN_GROUP(hscif3_data_a),
-+	SH_PFC_PIN_GROUP(hscif3_clk_a),
-+	SH_PFC_PIN_GROUP(hscif3_ctrl_a),
-+	SH_PFC_PIN_GROUP(hscif3_data_b),
-+	SH_PFC_PIN_GROUP(hscif3_clk_b),
-+	SH_PFC_PIN_GROUP(hscif3_ctrl_b),
++	SH_PFC_PIN_GROUP(i2c0),
++	SH_PFC_PIN_GROUP(i2c1),
++	SH_PFC_PIN_GROUP(i2c2),
++	SH_PFC_PIN_GROUP(i2c3),
 +
  	BUS_DATA_PIN_GROUP(mmc_data, 1),
  	BUS_DATA_PIN_GROUP(mmc_data, 4),
  	BUS_DATA_PIN_GROUP(mmc_data, 8),
-@@ -1763,6 +1920,36 @@ static const char * const avb2_groups[] = {
- 	"avb2_avtp_match",
+@@ -1950,6 +1991,22 @@ static const char * const hscif3_groups[] = {
+ 	"hscif3_ctrl_b",
  };
  
-+static const char * const hscif0_groups[] = {
-+	"hscif0_data",
-+	"hscif0_clk",
-+	"hscif0_ctrl",
++static const char * const i2c0_groups[] = {
++	"i2c0",
 +};
 +
-+static const char * const hscif1_groups[] = {
-+	"hscif1_data_a",
-+	"hscif1_clk_a",
-+	"hscif1_ctrl_a",
-+	"hscif1_data_b",
-+	"hscif1_clk_b",
-+	"hscif1_ctrl_b",
++static const char * const i2c1_groups[] = {
++	"i2c1",
 +};
 +
-+static const char * const hscif2_groups[] = {
-+	"hscif2_data",
-+	"hscif2_clk",
-+	"hscif2_ctrl",
++static const char * const i2c2_groups[] = {
++	"i2c2",
 +};
 +
-+static const char * const hscif3_groups[] = {
-+	"hscif3_data_a",
-+	"hscif3_clk_a",
-+	"hscif3_ctrl_a",
-+	"hscif3_data_b",
-+	"hscif3_clk_b",
-+	"hscif3_ctrl_b",
++static const char * const i2c3_groups[] = {
++	"i2c3",
 +};
 +
  static const char * const mmc_groups[] = {
  	"mmc_data1",
  	"mmc_data4",
-@@ -1828,6 +2015,11 @@ static const struct sh_pfc_function pinmux_functions[] = {
- 	SH_PFC_FUNCTION(avb1),
- 	SH_PFC_FUNCTION(avb2),
+@@ -2020,6 +2077,11 @@ static const struct sh_pfc_function pinmux_functions[] = {
+ 	SH_PFC_FUNCTION(hscif2),
+ 	SH_PFC_FUNCTION(hscif3),
  
-+	SH_PFC_FUNCTION(hscif0),
-+	SH_PFC_FUNCTION(hscif1),
-+	SH_PFC_FUNCTION(hscif2),
-+	SH_PFC_FUNCTION(hscif3),
++	SH_PFC_FUNCTION(i2c0),
++	SH_PFC_FUNCTION(i2c1),
++	SH_PFC_FUNCTION(i2c2),
++	SH_PFC_FUNCTION(i2c3),
 +
  	SH_PFC_FUNCTION(mmc),
  
