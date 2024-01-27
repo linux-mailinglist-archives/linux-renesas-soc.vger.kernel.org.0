@@ -1,186 +1,221 @@
-Return-Path: <linux-renesas-soc+bounces-1896-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-1897-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E6D383E389
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 26 Jan 2024 22:00:44 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id C194A83E91B
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 27 Jan 2024 02:49:23 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1CD971F24126
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 26 Jan 2024 21:00:44 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DF54A1C2191F
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 27 Jan 2024 01:49:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D66C123770;
-	Fri, 26 Jan 2024 21:00:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B60E9944D;
+	Sat, 27 Jan 2024 01:49:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="H/5l7MoF"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mx01.omp.ru (mx01.omp.ru [90.154.21.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7578D249EC;
-	Fri, 26 Jan 2024 21:00:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.154.21.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4135C33F6
+	for <linux-renesas-soc@vger.kernel.org>; Sat, 27 Jan 2024 01:49:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.55.52.88
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706302840; cv=none; b=PQsaPMwvdv5YLi5uloI8qDUDNg2FeZMTlXcXGDH9MY+b3MEzDplOJCKj1kba+NKHfPv5igt2wC9H5I+QD5uYOo55YpRDVqkcUySnd0Xt19qDsSbtWC6kBy/J7+FEIqyRI5DbJuMnV2CicB7adAyw8M3+fOQGdWOsk1S2Wvd9pfc=
+	t=1706320160; cv=none; b=uDmOtPl3gIlSfSO/J5KqDNyznmwSYiMXCmPU/sLHCx0cNSEdaE/kfCJBv8Ug8aCJkWZXbp7fx9+VbZbLE8GOhkwszy7ThtVgwNARN3Ig6UMNVFK05hhGqpD6hH7I0p5NgExiLTytOANtlZYy4MM/y63s04da76soM8UHo2VGlnA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706302840; c=relaxed/simple;
-	bh=CXgc0JmqWScFz/gV3042EpSrbQV32DXfyhpoAl1QqUs=;
-	h=Subject:To:CC:References:From:Message-ID:Date:MIME-Version:
-	 In-Reply-To:Content-Type; b=CvBq/nwQMxznyQmucT3nyiY8yHlYT8VLKgFCd9JJ6mwlb633XVlVwGCMxzbvhJ6R9lggDhpeT6Mn2Gdru/989oi5hSK5riy7IbAaCEtI60Jp2/Wb4Usb6PQRbR1ib7TQenU1fZdHnai+fKJ5e4Fz0e65PkIrskofN/GqaMUvROk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=omp.ru; spf=pass smtp.mailfrom=omp.ru; arc=none smtp.client-ip=90.154.21.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=omp.ru
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=omp.ru
-Received: from [192.168.1.105] (31.173.87.141) by msexch01.omp.ru
- (10.188.4.12) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.1258.12; Sat, 27 Jan
- 2024 00:00:21 +0300
-Subject: Re: [PATCH net-next v2 2/2] ravb: Add Tx checksum offload support
-To: Biju Das <biju.das.jz@bp.renesas.com>, "David S. Miller"
-	<davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub Kicinski
-	<kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>
-CC: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>, Yoshihiro Shimoda
-	<yoshihiro.shimoda.uh@renesas.com>, Wolfram Sang
-	<wsa+renesas@sang-engineering.com>, Nikita Yushchenko
-	<nikita.yoush@cogentembedded.com>, <netdev@vger.kernel.org>,
-	<linux-renesas-soc@vger.kernel.org>, Geert Uytterhoeven
-	<geert+renesas@glider.be>, Prabhakar Mahadev Lad
-	<prabhakar.mahadev-lad.rj@bp.renesas.com>, Biju Das <biju.das.au@gmail.com>
-References: <20240124102115.132154-1-biju.das.jz@bp.renesas.com>
- <20240124102115.132154-3-biju.das.jz@bp.renesas.com>
-From: Sergey Shtylyov <s.shtylyov@omp.ru>
-Organization: Open Mobile Platform
-Message-ID: <fb8302e3-8491-09d0-3f94-1599bbe42743@omp.ru>
-Date: Sat, 27 Jan 2024 00:00:20 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+	s=arc-20240116; t=1706320160; c=relaxed/simple;
+	bh=NzCna3mmL6X/ru+ZDUTZU0X+SoM+FF5H6fKPfZSUHZw=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=r/FlLexGjID1QsBKgjAiLkm1BAEoyaMpSofHQsv7kQ3ddZbeo4xhHFYgrxC3sQr/rmZougGimMn0Gt8dO5OBJGjBxfkloYwjCPMSgZ70OKbf1fc56I3l3q0Gzz6PhLB1vcVM715zu0yUIg/C7kKAXri0FLDEc/x2+d9/DSWFVzE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=H/5l7MoF; arc=none smtp.client-ip=192.55.52.88
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1706320158; x=1737856158;
+  h=date:from:to:cc:subject:message-id;
+  bh=NzCna3mmL6X/ru+ZDUTZU0X+SoM+FF5H6fKPfZSUHZw=;
+  b=H/5l7MoFbaAAzPHOZPkuNtZAR5oZ4vR3V8C+VEK6u1Kqrsa9UtkwlOcM
+   NjVMtZ5asMRkuXhRD3WufJ2WucduIpyCJM7mqCluwnoE3IWCulTurnHHK
+   MCUPq+UnPt8ph6UMq+ZVGiztzum1cS2p/F3MqHX+NJEoKVuOxlag37Ry7
+   b7G0bOCGXJH9dAOWyqWyTRFSJWUulH+YadMRIK7JsfnyyMuITKBKaB9RM
+   riTmOpSA2zmfPuZ24qAJwyoNWXis4Ngv6Zwq9mE+eB7ZMwtWRqFk4680Q
+   Lh4vKmH4jtBDOAYMVLNPT1HYmWKzJyZFYMi2ILMts2r7aTDUQdLjvABV+
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10964"; a="433784846"
+X-IronPort-AV: E=Sophos;i="6.05,220,1701158400"; 
+   d="scan'208";a="433784846"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2024 17:46:59 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10964"; a="960373356"
+X-IronPort-AV: E=Sophos;i="6.05,220,1701158400"; 
+   d="scan'208";a="960373356"
+Received: from lkp-server01.sh.intel.com (HELO 370188f8dc87) ([10.239.97.150])
+  by orsmga005.jf.intel.com with ESMTP; 26 Jan 2024 17:46:57 -0800
+Received: from kbuild by 370188f8dc87 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rTXmZ-0001Xe-0p;
+	Sat, 27 Jan 2024 01:46:55 +0000
+Date: Sat, 27 Jan 2024 09:46:54 +0800
+From: kernel test robot <lkp@intel.com>
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: linux-renesas-soc@vger.kernel.org
+Subject: [geert-renesas-drivers:topic/v4h-white-hawk-more-v2] BUILD
+ SUCCESS c03107ce8d2fbec6ccb6ee669a87149a6ef55e37
+Message-ID: <202401270951.fMCCSBC4-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-In-Reply-To: <20240124102115.132154-3-biju.das.jz@bp.renesas.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: msexch01.omp.ru (10.188.4.12) To msexch01.omp.ru
- (10.188.4.12)
-X-KSE-ServerInfo: msexch01.omp.ru, 9
-X-KSE-AntiSpam-Interceptor-Info: scan successful
-X-KSE-AntiSpam-Version: 6.1.0, Database issued on: 01/26/2024 20:51:42
-X-KSE-AntiSpam-Status: KAS_STATUS_NOT_DETECTED
-X-KSE-AntiSpam-Method: none
-X-KSE-AntiSpam-Rate: 59
-X-KSE-AntiSpam-Info: Lua profiles 182973 [Jan 26 2024]
-X-KSE-AntiSpam-Info: Version: 6.1.0.3
-X-KSE-AntiSpam-Info: Envelope from: s.shtylyov@omp.ru
-X-KSE-AntiSpam-Info: LuaCore: 7 0.3.7 6d6bf5bd8eea7373134f756a2fd73e9456bb7d1a
-X-KSE-AntiSpam-Info: {rep_avail}
-X-KSE-AntiSpam-Info: {Tracking_from_domain_doesnt_match_to}
-X-KSE-AntiSpam-Info: {relay has no DNS name}
-X-KSE-AntiSpam-Info: {SMTP from is not routable}
-X-KSE-AntiSpam-Info: {Found in DNSBL: 31.173.87.141 in (user)
- b.barracudacentral.org}
-X-KSE-AntiSpam-Info:
-	d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;127.0.0.199:7.1.2;omp.ru:7.1.1
-X-KSE-AntiSpam-Info: ApMailHostAddress: 31.173.87.141
-X-KSE-AntiSpam-Info: {DNS response errors}
-X-KSE-AntiSpam-Info: Rate: 59
-X-KSE-AntiSpam-Info: Status: not_detected
-X-KSE-AntiSpam-Info: Method: none
-X-KSE-AntiSpam-Info: Auth:dmarc=temperror header.from=omp.ru;spf=temperror
- smtp.mailfrom=omp.ru;dkim=none
-X-KSE-Antiphishing-Info: Clean
-X-KSE-Antiphishing-ScanningType: Heuristic
-X-KSE-Antiphishing-Method: None
-X-KSE-Antiphishing-Bases: 01/26/2024 20:56:00
-X-KSE-Antivirus-Interceptor-Info: scan successful
-X-KSE-Antivirus-Info: Clean, bases: 1/26/2024 4:55:00 PM
-X-KSE-Attachment-Filter-Triggered-Rules: Clean
-X-KSE-Attachment-Filter-Triggered-Filters: Clean
-X-KSE-BulkMessagesFiltering-Scan-Result: InTheLimit
 
-On 1/24/24 1:21 PM, Biju Das wrote:
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git topic/v4h-white-hawk-more-v2
+branch HEAD: c03107ce8d2fbec6ccb6ee669a87149a6ef55e37  arm64: dts: renesas: r8a779g2: Add White Hawk Single support
 
-> TOE has hw support for calculating IP header and TCP/UDP/ICMP checksum for
+elapsed time: 2017m
 
-   s/hw/hardware/, please...
+configs tested: 131
+configs skipped: 3
 
-> both IPV4 and IPV6.
-> 
-> Add Tx checksum offload supported by TOE for IPv4 and TCP/UDP.
-> 
-> For Tx, the result of checksum calculation is set to the checksum field of
-> each IPv4 Header/TCP/UDP/ICMP of ethernet frames. For the unsupported
-> frames, those fields are not changed. If a transmission frame is an UDP
-> frame of IPv4 and its checksum value in the UDP header field is H’0000,
-> TOE does not calculate checksum for UDP part of this frame as it is
-> optional function as per standards.
-> 
-> We can test this functionality by the below commands
-> 
-> ethtool -K eth0 tx on --> to turn on Tx checksum offload
-> ethtool -K eth0 tx off --> to turn off Tx checksum offload
-> 
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-[...]
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-> diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
-> index 59c7bedacef6..3c748a54fae0 100644
-> --- a/drivers/net/ethernet/renesas/ravb_main.c
-> +++ b/drivers/net/ethernet/renesas/ravb_main.c
-> @@ -29,6 +29,7 @@
->  #include <linux/spinlock.h>
->  #include <linux/reset.h>
->  #include <linux/math64.h>
-> +#include <net/ip.h>
+tested configs:
+alpha                             allnoconfig   gcc  
+alpha                            allyesconfig   gcc  
+alpha                               defconfig   gcc  
+arc                              allmodconfig   gcc  
+arc                               allnoconfig   gcc  
+arc                              allyesconfig   gcc  
+arc                          axs101_defconfig   gcc  
+arc                                 defconfig   gcc  
+arc                 nsimosci_hs_smp_defconfig   gcc  
+arc                   randconfig-001-20240127   gcc  
+arc                   randconfig-002-20240127   gcc  
+arm                              allmodconfig   gcc  
+arm                               allnoconfig   gcc  
+arm                              allyesconfig   gcc  
+arm                                 defconfig   clang
+arm                         lpc18xx_defconfig   gcc  
+arm                        multi_v7_defconfig   gcc  
+arm                        mvebu_v7_defconfig   gcc  
+arm                   randconfig-001-20240127   gcc  
+arm                   randconfig-002-20240127   gcc  
+arm                   randconfig-003-20240127   gcc  
+arm                   randconfig-004-20240127   gcc  
+arm                        realview_defconfig   gcc  
+arm64                            allmodconfig   clang
+arm64                             allnoconfig   gcc  
+arm64                               defconfig   gcc  
+arm64                 randconfig-001-20240127   gcc  
+csky                             allmodconfig   gcc  
+csky                              allnoconfig   gcc  
+csky                             allyesconfig   gcc  
+csky                                defconfig   gcc  
+hexagon                          allmodconfig   clang
+hexagon                           allnoconfig   clang
+hexagon                          allyesconfig   clang
+hexagon                             defconfig   clang
+i386                             allmodconfig   clang
+i386                              allnoconfig   clang
+i386                             allyesconfig   clang
+i386         buildonly-randconfig-001-20240126   clang
+i386         buildonly-randconfig-002-20240126   clang
+i386         buildonly-randconfig-003-20240126   clang
+i386         buildonly-randconfig-004-20240126   clang
+i386         buildonly-randconfig-005-20240126   clang
+i386         buildonly-randconfig-006-20240126   clang
+i386                                defconfig   gcc  
+i386                  randconfig-001-20240126   clang
+i386                  randconfig-002-20240126   clang
+i386                  randconfig-003-20240126   clang
+i386                  randconfig-004-20240126   clang
+i386                  randconfig-005-20240126   clang
+i386                  randconfig-006-20240126   clang
+i386                  randconfig-011-20240126   gcc  
+i386                  randconfig-012-20240126   gcc  
+i386                  randconfig-013-20240126   gcc  
+i386                  randconfig-014-20240126   gcc  
+i386                  randconfig-015-20240126   gcc  
+i386                  randconfig-016-20240126   gcc  
+loongarch                        allmodconfig   gcc  
+loongarch                         allnoconfig   gcc  
+loongarch                           defconfig   gcc  
+m68k                             allmodconfig   gcc  
+m68k                              allnoconfig   gcc  
+m68k                             allyesconfig   gcc  
+m68k                                defconfig   gcc  
+microblaze                       alldefconfig   gcc  
+microblaze                       allmodconfig   gcc  
+microblaze                        allnoconfig   gcc  
+microblaze                       allyesconfig   gcc  
+microblaze                          defconfig   gcc  
+mips                              allnoconfig   clang
+mips                             allyesconfig   gcc  
+mips                            gpr_defconfig   gcc  
+nios2                            allmodconfig   gcc  
+nios2                             allnoconfig   gcc  
+nios2                            allyesconfig   gcc  
+nios2                               defconfig   gcc  
+openrisc                          allnoconfig   gcc  
+openrisc                         allyesconfig   gcc  
+openrisc                            defconfig   gcc  
+parisc                           allmodconfig   gcc  
+parisc                            allnoconfig   gcc  
+parisc                           allyesconfig   gcc  
+parisc                              defconfig   gcc  
+parisc                generic-32bit_defconfig   gcc  
+parisc64                            defconfig   gcc  
+powerpc                          allmodconfig   clang
+powerpc                           allnoconfig   gcc  
+powerpc                          allyesconfig   clang
+powerpc                        icon_defconfig   clang
+powerpc                 linkstation_defconfig   gcc  
+powerpc                 mpc834x_itx_defconfig   gcc  
+powerpc                     mpc83xx_defconfig   gcc  
+powerpc                     sequoia_defconfig   gcc  
+riscv                            allmodconfig   gcc  
+riscv                             allnoconfig   clang
+riscv                            allyesconfig   gcc  
+riscv                               defconfig   gcc  
+s390                             allmodconfig   gcc  
+s390                              allnoconfig   gcc  
+s390                             allyesconfig   gcc  
+s390                                defconfig   gcc  
+sh                               allmodconfig   gcc  
+sh                                allnoconfig   gcc  
+sh                                  defconfig   gcc  
+sh                            migor_defconfig   gcc  
+sh                   secureedge5410_defconfig   gcc  
+sparc                             allnoconfig   gcc  
+sparc                               defconfig   gcc  
+sparc                       sparc32_defconfig   gcc  
+sparc64                             defconfig   gcc  
+um                               allmodconfig   clang
+um                                allnoconfig   clang
+um                               allyesconfig   clang
+um                                  defconfig   gcc  
+um                             i386_defconfig   gcc  
+um                           x86_64_defconfig   gcc  
+x86_64                            allnoconfig   gcc  
+x86_64                           allyesconfig   clang
+x86_64       buildonly-randconfig-001-20240127   gcc  
+x86_64       buildonly-randconfig-002-20240127   gcc  
+x86_64       buildonly-randconfig-003-20240127   gcc  
+x86_64       buildonly-randconfig-004-20240127   gcc  
+x86_64       buildonly-randconfig-005-20240127   gcc  
+x86_64       buildonly-randconfig-006-20240127   gcc  
+x86_64                              defconfig   gcc  
+x86_64                randconfig-001-20240127   clang
+x86_64                randconfig-002-20240127   clang
+x86_64                randconfig-003-20240127   clang
+x86_64                randconfig-004-20240127   clang
+x86_64                          rhel-8.3-rust   clang
+xtensa                            allnoconfig   gcc  
 
-   What do you need from that header, BTW?
-
-[...]
-> @@ -1990,6 +2001,39 @@ static void ravb_tx_timeout_work(struct work_struct *work)
->  	rtnl_unlock();
->  }
->  
-> +static bool ravb_is_tx_checksum_offload_gbeth_possible(struct sk_buff *skb)
-
-   I'd suggest s/th shorter and more consistent with the used naming,
-like ravb_tx_csum_possible_gbeth()...
-
-> +{
-> +	struct iphdr *ip = ip_hdr(skb);
-> +
-> +	/* TODO: Need to add support for VLAN tag 802.1Q */
-> +	if (skb_vlan_tag_present(skb))
-> +		return false;
-> +
-> +	/* TODO: Need to add HW checksum for IPV6 */
-> +	if (skb->protocol != htons(ETH_P_IP))
-> +		return false;
-
-   So maybe we need to report just NETIF_F_IP_CSUM, not NETIF_F_HW_CSUM
-ATM?
-
-> +
-> +	switch (ip->protocol) {
-> +	case IPPROTO_TCP:
-> +		break;
-> +	case IPPROTO_UDP:
-> +		/* If the checksum value in the UDP header field is “H’0000”,
-
-   Use 0x0000 or just 0, please. I don't know where Renesas found this
-weird hex notation...
-
-[...]
-> @@ -2005,6 +2049,11 @@ static netdev_tx_t ravb_start_xmit(struct sk_buff *skb, struct net_device *ndev)
->  	u32 entry;
->  	u32 len;
->  
-> +	if (skb->ip_summed == CHECKSUM_PARTIAL) {
-> +		if (!ravb_is_tx_checksum_offload_gbeth_possible(skb))
-
-   I'd collapse those 2 *if* statements...
-
-[...]
-
-MBR, Sergey
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
