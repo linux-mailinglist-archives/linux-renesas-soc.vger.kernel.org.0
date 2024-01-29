@@ -1,117 +1,97 @@
-Return-Path: <linux-renesas-soc+bounces-1925-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-1926-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16BA2840734
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 29 Jan 2024 14:39:42 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C7D3840768
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 29 Jan 2024 14:51:10 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id AB1FA1F289E4
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 29 Jan 2024 13:39:41 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4F0C41C204F6
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 29 Jan 2024 13:51:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E9B6E64CFF;
-	Mon, 29 Jan 2024 13:39:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 84558657DC;
+	Mon, 29 Jan 2024 13:50:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="Mq/rZv4g"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fKfapbz3"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BA6D64CF9
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 29 Jan 2024 13:39:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 609C8657D9
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 29 Jan 2024 13:50:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706535575; cv=none; b=OnjOGVEtJ5VRkSR9H0LE7/W4wTX+xFXRe4rxNedeqwL96zW/0iKqP569g83gEABMExOUacL0jkZZz5b7lsUTtRqmZTse5Ic4ue501H9cY8HRUuIQj/EpJ3gW4v0XTKvFwud1PvfV161AX11ZMTQd8jx0hN1S5fSnCcTMAW4+k9M=
+	t=1706536254; cv=none; b=P8rq5+oXQkCZT4AjLOEGacElZ5HzTf5lfN5JNMvYopZs6uAjJVPj7rST+qTlJLk80QG8ODuHaVG6zTu0E+1vWewh1IGYCrIWaO4c0yuB9HpnAOTKqapEG0qZ6/PzCl6/INh0lJfoI67eR48Bi7FCSkLYMoUgYwh5nDWUtdGp+ss=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706535575; c=relaxed/simple;
-	bh=DZLG/eaOFFdhgnpZbe7dOvuKH3LsocoZcT6b84kQCRU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Y+6Szd1bXFZ3RU2hYagh/mDZjNn/AR++5otbepyF3MMBRbEJdL3dKe8v8cG2TxHC3aYG4Trcs91ZEAHT/UknpdT/bj2sV+5hhrL2mB8zBNhwhhkTSooo/N6CbMIfj9SElVYgxwA6wem40+0E5qNfVrYk+8413VkWt8LwyGz+wiA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=Mq/rZv4g; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=DZLG
-	/eaOFFdhgnpZbe7dOvuKH3LsocoZcT6b84kQCRU=; b=Mq/rZv4guvldS3IWM2Ag
-	LwXdXmI/RnxvHNR/0tEUAbnWEXNfgA2RrQggsPjmuSkwuH5GU+5c7ReNkhYvnJVW
-	Ovj04jF4YuG0vkrG7EYLKNNEHaA74C16T/pCrrOLv240lUMNB4BINpGpg3Ss0kkt
-	bpd6Ex8ZKeJvq5Oqinh/FkX506nQU+En+Kv3G25//V8md8SHK2sVUIVR+/6h0JrJ
-	XLIQ/HVh3JklNJcIT8K5Cki2QRLhIZRPs/GIMpb8NOlvIXJaopQkIYDOXNWu0mEx
-	qoyqix4n4RrjBFq2aSfTA9362eT8o2Vy6LqlXhRqYxLp5GIJ4GIrsPQtGLGDyQDv
-	Tw==
-Received: (qmail 2495069 invoked from network); 29 Jan 2024 14:39:28 +0100
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 29 Jan 2024 14:39:28 +0100
-X-UD-Smtp-Session: l3s3148p1@5x5axhUQtJRehhtJ
-Date: Mon, 29 Jan 2024 14:39:27 +0100
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: linux-renesas-soc@vger.kernel.org, Magnus Damm <magnus.damm@gmail.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [RFC PATCH v3 2/2] arm64: dts: renesas: ulcb-kf: add node for
- GNSS
-Message-ID: <Zbeqj9c49GXIOWAs@ninjato>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	linux-renesas-soc@vger.kernel.org,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-References: <20240117131807.24997-1-wsa+renesas@sang-engineering.com>
- <20240117131807.24997-3-wsa+renesas@sang-engineering.com>
- <CAMuHMdX7Z8w0JykKuboP__ZE4x+LeKSQAGdyrUezERxysPUCKA@mail.gmail.com>
- <ZbPKPGB7DIHhZ3GJ@ninjato>
- <CAMuHMdW6KV0Gh-JA8x2Z_vj2n5QPDLLFFZRNLUg2rdc3wFqChg@mail.gmail.com>
+	s=arc-20240116; t=1706536254; c=relaxed/simple;
+	bh=cR6fpGtRL0HDz4zdVXWEjkvlGVqD8EVTvsAPlc36Kwc=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:To; b=Q7kIAXbeGNeRL15iK0Q8o3T/3Qy/JODm9YF1ZHblk+PTgw4+CRA6VBDcvodpipo/ruagTPQ6DK3elDqc7MGL3FNguQizDlyfWpQcHoyKme2+CbesV9Khapk18VjysS2DwInFFR4b2MqOjds/8V8naM/61wPJsaBVWNHXTDTTkXw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fKfapbz3; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id E46FFC433F1
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 29 Jan 2024 13:50:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1706536253;
+	bh=cR6fpGtRL0HDz4zdVXWEjkvlGVqD8EVTvsAPlc36Kwc=;
+	h=Subject:From:Date:To:From;
+	b=fKfapbz3H08A0SNEBZs0Y8dyBnwQ/ORrojwqupBaJO2dlzf+OzIt1AFJW6EBlch0l
+	 1FS3Ae8FPC7pJG4/l7ELPVih1ESPzVvX++r7eVT3+WxgkiTPLJ26xXbR+WRMriw46a
+	 9+bfx7fCfn1IOl2FBs78J4wZl7FcAF0+FpptznB3QylW9JZaY66PfwIPKMQaKvVXLb
+	 b2v7TmPMqqed2ToUDeDQuBOm8ZgbxAH7N0v/lkUZedBvSliB7UBDjRnwmbcPN4q875
+	 EWBrauJ4a1mLJfv6dOdhqpwDUlyR5quZXenhQr6OnsJhRowmyjcaSsy1VH0MAWJnYK
+	 +Z+6/pj5vGF1Q==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id CB8F4C43153
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 29 Jan 2024 13:50:53 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="Ylaf6ZwSg+ufLk5J"
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdW6KV0Gh-JA8x2Z_vj2n5QPDLLFFZRNLUg2rdc3wFqChg@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
+Subject: Patchwork summary for: linux-renesas-soc
+From: patchwork-bot+linux-renesas-soc@kernel.org
+Message-Id: 
+ <170653625377.6936.15762622895809922254.git-patchwork-summary@kernel.org>
+Date: Mon, 29 Jan 2024 13:50:53 +0000
+To: linux-renesas-soc@vger.kernel.org
+
+Hello:
+
+The following patches were marked "mainlined", because they were applied to
+geert/renesas-devel.git (master):
+
+Series: arm64: dts: renesas: ulcb-kf: add GNSS support
+  Submitter: Wolfram Sang <wsa+renesas@sang-engineering.com>
+  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=817516
+  Lore link: https://lore.kernel.org/r/20240117131807.24997-1-wsa+renesas@sang-engineering.com
+    Patches: [RFC,v3,1/2] arm64: dts: renesas: ulcb-kf: drop duplicate 3.3v regulators
+             [RFC,v3,2/2] arm64: dts: renesas: ulcb-kf: add node for GNSS
+
+Series: arm64: dts: renesas: Add support for more R-Car V4H and White Hawk variants
+  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
+  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=819907
+  Lore link: https://lore.kernel.org/r/cover.1706192990.git.geert+renesas@glider.be
+    Patches: [v2,1/9] dt-bindings: soc: renesas: Document R-Car V4H White Hawk Single
+             [v2,2/9] arm64: dts: renesas: r8a779g0: Add standalone White Hawk CPU support
+             [v2,3/9] arm64: dts: renesas: white-hawk-cpu: Restore sort order
+             [v2,4/9] arm64: dts: renesas: white-hawk: Drop SoC parts from sub boards
+             [v2,5/9] arm64: dts: renesas: white-hawk: Add SoC name to top-level comment
+             [v2,6/9] arm64: dts: renesas: white-hawk-cpu: Factor out common parts
+             [v2,7/9] arm64: dts: renesas: white-hawk: Factor out common parts
+             [v2,8/9] arm64: dts: renesas: Add Renesas R8A779G2 SoC support
+             [v2,9/9] arm64: dts: renesas: r8a779g2: Add White Hawk Single support
 
 
---Ylaf6ZwSg+ufLk5J
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Total patches: 11
+
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
 
-> Indeed, drivers/gnss/ seems to have no support for I2C yet.
-
-Neither does GPSD. But looking again, I found a I2C->virtualSerial
-script to do it: https://github.com/MaffooClock/gpsd-i2c
-
-Everything exists! :)
-
-
---Ylaf6ZwSg+ufLk5J
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmW3qowACgkQFA3kzBSg
-KbaquQ//T/MwgHTKgIBWLbsnEsH4+wBZgWBfHs8cJfO6pOKm6OTcSVx6+2ULqbAp
-/QMDgt6S5DMzisMTbkTHP+iA1sj11HgPP2CO3cQjRSRbdLZAPnIXvofdVLw6Fiw5
-oM0O/gW/itXtwHhmdL/jQDyJ1eRVwRyQuYmWczdbZ4ShbCem6PXJfq9bP0WEt/8Q
-KUf+sMIHgRZPeRWhRNwaLri1pzq8wZ42e/HYYYHGY9a2UWCauKriITOtbEKK4jjU
-rXPE5ShNlkhBIQuPtjc7xdAh0SJQQXt71FyN6Cv83kbHgiESJ1kj2tnHqpuFhVqp
-C3Vxop1bmXvW0y0zPDNJjVzhiFu9KcXaAUEshYulO5Ysidsu4Oz0buHJEWI9YqYv
-ks/DMCp5YCAiMFeb4duByPy7vh8e7ps01KRaX/TLpxxlWfIKtkRE7dzjhGNrGMd5
-qoE6a38lzb16AFd4/lTBfmzb8vqHd1qDSWVwSdl4t/v03SpPUjAnX3RIT5DAt98e
-QqQdygdjCG4dNJx5TAbJ8eKstePK6PKGNQRxcT+3afqgCgZya0M82Tr+i2M1JSy7
-Oo7LKL/n7L+XdA2FxFWNWOzvRQTknFxKoxa/lTylULtH6n2NQWnudiHPJptgCe+N
-ZBQWL6pzji2hJmtGSNDxm/fq4LPU8NTD2qjEZdfVH+6ix+AVGQY=
-=LQru
------END PGP SIGNATURE-----
-
---Ylaf6ZwSg+ufLk5J--
 
