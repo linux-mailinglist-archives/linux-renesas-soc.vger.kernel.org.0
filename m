@@ -1,136 +1,150 @@
-Return-Path: <linux-renesas-soc+bounces-1944-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-1945-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 991C78410DF
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 29 Jan 2024 18:38:26 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AE1D841310
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 29 Jan 2024 20:08:47 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 99C0C1C2244D
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 29 Jan 2024 17:38:25 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CDBBA1C21782
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 29 Jan 2024 19:08:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7847376C82;
-	Mon, 29 Jan 2024 17:38:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="PL+NSHgi"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 08DEA2E85E;
+	Mon, 29 Jan 2024 19:08:44 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+Received: from mail-yb1-f176.google.com (mail-yb1-f176.google.com [209.85.219.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1010C76C7D
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 29 Jan 2024 17:38:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0A052E834;
+	Mon, 29 Jan 2024 19:08:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706549902; cv=none; b=bFuTgKhXyNnWsQBAwI7X8DMsaopeCjfafkz7enCIs2pkgVN3aywHpMnkF5DBWsmt3daN8rmCMa7jVTeJ2qWXkspU1O7G1k9dlPx6zbrJMLi9vIW1o81S1+iKw/5l7dYO8bYg34SkTYsfpjFas65+aAMMUAcldJHhsQ1QYcZ3png=
+	t=1706555323; cv=none; b=pJ7vBiUhKLFptIQxH9mezXMhZ9DSRj6u5UKE1WGs7rVWOscdAVDyAWRMIUu3xgkzjV9o0FVKjtl6GSQSTtVVWdqye86jdH8R1l7uHN0ak7ZSSqaqzyyGGXlchOlH4etRqnYdRs9sbYV7yFMlUencFypVewAy9TltZlNKcubAOIA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706549902; c=relaxed/simple;
-	bh=9sPOI7F0uESoYaMUP2XYpFpXLkXAUQ0RykDgDDMeD2A=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CNsRdD1h8Wb8sNEV8OHLv5hh7/Rj5hVUpF5Thr4dya6+mMo1s/OdeCU69xrnPGDVrIqV4m7L9yuDKVtHGBxRymJNeWxY2bPMN/FEvaMcqaDzhcHZ84yB+IhtYsTb8l/Xgd/dh4QnKeG6SvmvNEsq11DKxkKX2k2yYgfnRK1GkUA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=PL+NSHgi; arc=none smtp.client-ip=209.85.214.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-1d8f3acc758so5224815ad.1
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 29 Jan 2024 09:38:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1706549900; x=1707154700; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=skReZXUWO+4CpZviMCdM9d0PhWwWTcjjV6026UZTL50=;
-        b=PL+NSHgif1nUJUrnXJMKMA1Di1VXW42KPBIPPe81fwdj67MCRki8/zLqukKiRClui/
-         s5USEBuO6T42wrlSofUws7WH6t5mwyprtVLUF3NNnu5pchF5dcEBsCFyCp+2ilHvUvXj
-         izs3Mp/Vmobgrd9yg3/K7S3Yk4cOqxReoKqvg=
+	s=arc-20240116; t=1706555323; c=relaxed/simple;
+	bh=vDDhsRzXZOn2fNYB7oE/A5QKtX16c846U4Iz8WvAq0g=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=r5xAK0IGYQLYJB3Ky9hGdMDCBUw10rEp8zmMh3PWHDxIVFEH7oj304NaKweowCKSiNcPpRIZMWhmMaSLNzG6GhHRdZiIq1HR7tjeuXMFnUeHLuHFrfWFYKMW4j9eXBaAkBmDZTefnHCN6Li5iNBvodivO9ug92VJkPcChiksPPQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.219.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yb1-f176.google.com with SMTP id 3f1490d57ef6-dbed0710c74so3340034276.1;
+        Mon, 29 Jan 2024 11:08:41 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706549900; x=1707154700;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=skReZXUWO+4CpZviMCdM9d0PhWwWTcjjV6026UZTL50=;
-        b=UUyyuBoXAY2Y2cScg56LcsCHWN+Sa+Q3uVEU3UjVTxVsHeTgpq6/FQot52p1d+Pi6+
-         ku7LNFAuUsCjmoirEyb7bqybm8FsIdqmcj5q1Os2BG9MnJkUDVtYsA/h9kaL4LtUxITo
-         ymusTzk0XKoUS3XxidWWz1V1MLvsEHuSNupd19qCcr3J+7WNNQv0ujb3xAYTbnYvVSQ4
-         RGBwN0xk1Ei4922hErtFEQsM72Hy7FvVQ3uXmTol2tip3bOj+efsA758HOcBQe+Hb0SB
-         k0yMHwcHFyLjN7+7Isu/nDGA8zXjHrYNgbwVa1htYrpqXxApv6HWoh9DvGquv3X1Fx6l
-         DOdg==
-X-Gm-Message-State: AOJu0Yx3LSR5m9lhVvpRp9LWzTVG4G8M2obs+V6FFsIHGsa7R6A6sflQ
-	MwMdTK84IzVJ9rg6/h31mX3pxyPP9IVDL+H08vKQXenIGyQXO7//JYyJBw0PaT8KvwEbpDuJeMY
-	=
-X-Google-Smtp-Source: AGHT+IGScTnnfRj1AdnqDlkNR1TKhTfrfYJdP2Uh+sgvWCJpqWThh0OktY3I9Y7NvrLzGWoWI9rmAA==
-X-Received: by 2002:a17:902:d68b:b0:1d8:ef97:229e with SMTP id v11-20020a170902d68b00b001d8ef97229emr1696645ply.33.1706549900213;
-        Mon, 29 Jan 2024 09:38:20 -0800 (PST)
-Received: from www.outflux.net ([198.0.35.241])
-        by smtp.gmail.com with ESMTPSA id i5-20020a170902eb4500b001d8d1f78845sm2743531pli.123.2024.01.29.09.38.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Jan 2024 09:38:19 -0800 (PST)
-Date: Mon, 29 Jan 2024 09:38:19 -0800
-From: Kees Cook <keescook@chromium.org>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: "Behme Dirk (CM/ESO2)" <dirk.behme@de.bosch.com>,
-	Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-	linux-hardening@vger.kernel.org
-Subject: Re: rcar-dmac.c: race condition regarding cookie handling?
-Message-ID: <202401290926.67193AB2B@keescook>
-References: <12ff20eb-d4b5-41f4-a494-cfb6b7abe617@de.bosch.com>
- <CAMuHMdW=igXesjxvNk=+in62neW=kipnFW2BUH3P7sfDnqXzEQ@mail.gmail.com>
+        d=1e100.net; s=20230601; t=1706555320; x=1707160120;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Nqme3WSvUJoFsu41T9Ti9OswToo2LcvshW4LgZ3dA34=;
+        b=fashwmx3exG/SS09ctDfOdAihHWMd9YRBk+Bl8emc/Y7452fNUCZym0AZIFw9MclJS
+         jnvcEvYTkSU9rC6FASCt9+frLlBssmPBRN0up3bgLIF+wb9hfb26OY0BvkC+c3U18zjR
+         CAddNnTaScYKAKxL0iAW/G8/+DvUixO8kemqIP9pHmLYlblsMQDctpaav8Yd7/oAE/CS
+         3gHvGVuDDOdeYsTSfaFvxVm59puM2aDvuKMdnfCytipaCnCzkSiKMVQ8HXMvs4MrOZB3
+         gsSG3I4gs3A5EYu7zFPa5dQLD1wJNwhhgE8obHHHuwKAs/f5LaVUxcz3hxheVzxwPpTw
+         0EDw==
+X-Gm-Message-State: AOJu0Yx9XKdmeXsm/ZvrmldrYkyMUWYGbkaPhpY0OLtLcKMMj2KJOkB3
+	5gBBgDevDpCKeTYTKG0YVCbsskkUxeC4kJVrGvXKCIgW0hMKsNziY+U/ClmeB8g=
+X-Google-Smtp-Source: AGHT+IHpEJYTq2c4FEFZV41f+o09xLXgYzyqjtB/Y0bZ0qVYIUBu0/YXTegeNkttDjsSl0KSIuph8Q==
+X-Received: by 2002:a25:ab2b:0:b0:dbd:e651:a32f with SMTP id u40-20020a25ab2b000000b00dbde651a32fmr5193875ybi.114.1706555320416;
+        Mon, 29 Jan 2024 11:08:40 -0800 (PST)
+Received: from mail-yb1-f182.google.com (mail-yb1-f182.google.com. [209.85.219.182])
+        by smtp.gmail.com with ESMTPSA id h16-20020a25be10000000b00dc2537d4275sm2354530ybk.64.2024.01.29.11.08.40
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 29 Jan 2024 11:08:40 -0800 (PST)
+Received: by mail-yb1-f182.google.com with SMTP id 3f1490d57ef6-dbed0710c74so3340019276.1;
+        Mon, 29 Jan 2024 11:08:40 -0800 (PST)
+X-Received: by 2002:a25:9781:0:b0:dc6:978:199d with SMTP id
+ i1-20020a259781000000b00dc60978199dmr4546789ybo.115.1706555320023; Mon, 29
+ Jan 2024 11:08:40 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdW=igXesjxvNk=+in62neW=kipnFW2BUH3P7sfDnqXzEQ@mail.gmail.com>
+References: <12ff20eb-d4b5-41f4-a494-cfb6b7abe617@de.bosch.com>
+ <CAMuHMdW=igXesjxvNk=+in62neW=kipnFW2BUH3P7sfDnqXzEQ@mail.gmail.com> <202401290926.67193AB2B@keescook>
+In-Reply-To: <202401290926.67193AB2B@keescook>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Mon, 29 Jan 2024 20:08:28 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdWjjjDbVRT6Dz0gnnNpTk2f4nKDBPKZr1GoDOhgAdEpJg@mail.gmail.com>
+Message-ID: <CAMuHMdWjjjDbVRT6Dz0gnnNpTk2f4nKDBPKZr1GoDOhgAdEpJg@mail.gmail.com>
+Subject: Re: rcar-dmac.c: race condition regarding cookie handling?
+To: Kees Cook <keescook@chromium.org>
+Cc: "Behme Dirk (CM/ESO2)" <dirk.behme@de.bosch.com>, 
+	Linux-Renesas <linux-renesas-soc@vger.kernel.org>, 
+	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>, linux-hardening@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jan 29, 2024 at 10:57:40AM +0100, Geert Uytterhoeven wrote:
-> Hi Dirk,
-> 
-> CC Kees (for the wrap-around in dma_cookie_assign() not handled in [A])
-> [...]
-> Was the system running for a very long time?
-> dma_cookie_assign() relies on 2-complement signed wrap-around:
-> 
->         cookie = chan->cookie + 1;
->         if (cookie < DMA_MIN_COOKIE)
->                 cookie = DMA_MIN_COOKIE;
-> 
-> but given the kernel is compiled with -fno-strict-overflow (which
-> implies -fwrapv) that should work.
+Hi Kees,
 
-For my own reference:
+On Mon, Jan 29, 2024 at 6:38=E2=80=AFPM Kees Cook <keescook@chromium.org> w=
+rote>
+> On Mon, Jan 29, 2024 at 10:57:40AM +0100, Geert Uytterhoeven wrote:
+> > CC Kees (for the wrap-around in dma_cookie_assign() not handled in [A])
+> > [...]
+> > Was the system running for a very long time?
+> > dma_cookie_assign() relies on 2-complement signed wrap-around:
+> >
+> >         cookie =3D chan->cookie + 1;
+> >         if (cookie < DMA_MIN_COOKIE)
+> >                 cookie =3D DMA_MIN_COOKIE;
+> >
+> > but given the kernel is compiled with -fno-strict-overflow (which
+> > implies -fwrapv) that should work.
+>
+> For my own reference:
+>
+> typedef s32 dma_cookie_t;
+> #define DMA_MIN_COOKIE  1
+>
+> struct dma_chan {
+>         ...
+>         dma_cookie_t cookie;
+>
+> Correct, as you say, with -fno-strict-overflow this is well defined, and
+> will wrap the value around negative if chan->cookie was S32_MAX.
+>
+> In the future, when the signed integer wrap-around sanitizer works
+> again, we'll want to change the math to something like:
+>
+>         cookie =3D add_wrap(typeof(cookie), chan->cookie, 1);
+>
+> But that will be an ongoing conversion once folks have agreed on the
+> semantics of the wrapping helpers, which is not settled yet.
+>
+> If you want to handle this today without depending on wrap-around,
+> it's a little bit more involved to do it open coded, but it's possible:
+>
+>         if (chan->cookie =3D=3D type_max(typeof(chan->cookie)))
+>                 cookie =3D DMA_MIN_COOKIE;
+>         else
+>                 cookie =3D chan->cookie + 1;
+>
+> the "type_max(...)" part could also just be written as S32_MAX.
 
-typedef s32 dma_cookie_t;
-#define DMA_MIN_COOKIE  1
+It's actually more complicated: this code is also used to make sure
+any other values outside the valid range (e.g. initial zero are
+converted to DMA_MIN_COOKIE.  So the above would not be correct
+replacements for the current logic.
 
-struct dma_chan {
-	...
-        dma_cookie_t cookie;
+DMA cookies can also contain negative error values, hence the signed
+type. However, I don't think that can be the case for the chan->cookie
+counter, only for cookies stored in descriptors.
 
-Correct, as you say, with -fno-strict-overflow this is well defined, and
-will wrap the value around negative if chan->cookie was S32_MAX.
+Gr{oetje,eeting}s,
 
-In the future, when the signed integer wrap-around sanitizer works
-again, we'll want to change the math to something like:
+                        Geert
 
-	cookie = add_wrap(typeof(cookie), chan->cookie, 1);
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
 
-But that will be an ongoing conversion once folks have agreed on the
-semantics of the wrapping helpers, which is not settled yet.
-
-If you want to handle this today without depending on wrap-around,
-it's a little bit more involved to do it open coded, but it's possible:
-
-	if (chan->cookie == type_max(typeof(chan->cookie)))
-		cookie = DMA_MIN_COOKIE;
-	else
-		cookie = chan->cookie + 1;
-
-the "type_max(...)" part could also just be written as S32_MAX.
-
--Kees
-
--- 
-Kees Cook
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
