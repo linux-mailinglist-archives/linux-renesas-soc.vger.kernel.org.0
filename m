@@ -1,157 +1,111 @@
-Return-Path: <linux-renesas-soc+bounces-1923-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-1924-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94BF5840349
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 29 Jan 2024 11:56:09 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 57D308406C1
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 29 Jan 2024 14:24:41 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C7AAD1C20E20
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 29 Jan 2024 10:56:08 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0F93C28CBCE
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 29 Jan 2024 13:24:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5F7C25A786;
-	Mon, 29 Jan 2024 10:56:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="ij/fcDFH"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A3BD56312F;
+	Mon, 29 Jan 2024 13:24:29 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com [209.85.128.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB0D756B67
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 29 Jan 2024 10:56:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47E48634E7;
+	Mon, 29 Jan 2024 13:24:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706525764; cv=none; b=RplIDrDSm/KcOHBGzAf7tI/UhrjtJHiKRgGON0f9cRRWrU4KRrBQ/RY+tn3+zsgaFiSFlKnEosGnbInTv+MUOsIM97nH4rOVHV6NiAYPXgk9Z8v95LBKowKz4vUrh3cpH3cmwxcvu6O05qdWOG5ltAtFj5RUAZJKzZOIaT+dfyg=
+	t=1706534669; cv=none; b=uO0K8DWJhAdp53T2CGUdmOyG8uJcY3lFYsGIiaPQUY1ctv8Jbqm+GhACYEvCZcI/VsAGn69taEmGnLJExLv3WC/NnFNn+Q9D5o+BKCpPb5ABMpf6LLKtwfNzvbdIr4C9vq4gFOtgyhBQwnx1e3neMQ+tSoyoUbS9VDoMPnuK/AM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706525764; c=relaxed/simple;
-	bh=gQ+bkqp1o7w6DpXGvLyO3qBfZJBn2zhyUnneYg5MOUI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oTseFpuvmk4ObG3O64GiMEQz46bBDR5G2HPOqXEyZMeeNF5xYI3sinz9LAxbosw/fGh4xEa/ZsIzfkqhL+2TgVKd+NPN0NJhTKta3Ka6/VKpYXjal+apPW/oG08djg+dqLbC8dm06c6CjrZMqoOGOf4yrEumRitmuQ1cQzeN29s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=ij/fcDFH; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=8Vds
-	N256lqT0aql6yEsOs12eHyuM7++ETK7rDRF3YI4=; b=ij/fcDFHetOFQcKrVOvV
-	0Qn79z/rMW7AOAtzX2mbgv68+NVz+4T0FZVtEYr+NCB6t/O3986dv6PPzJUm1zFL
-	1wro4VX0UNSyiL19hyjy6zDiLjs/OyW3ELPkuEHYN4rReSI+dD+Wy9+IzOmI0BYq
-	Z/+2AJqeSEf3EyV4cjIqOQ1XyabCHr0avzqcnkRSkPBiNAOT0FhEb2jSTFKmhC+y
-	egulRm47zDeqYzDvQpl+94qqRRhAdHKug8wXDRmH1yTrUsAPiLJHnAVxhlCdfdbO
-	/qvatcved4g9oD8KKiBwzX5LBb0hduw83gOBmP8cE3m/T6aKq++BdTaRc/CifAun
-	+g==
-Received: (qmail 2447710 invoked from network); 29 Jan 2024 11:55:59 +0100
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 29 Jan 2024 11:55:59 +0100
-X-UD-Smtp-Session: l3s3148p1@Ym6qfRMQYuRehhtJ
-Date: Mon, 29 Jan 2024 11:55:58 +0100
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: Claudiu <claudiu.beznea@tuxon.dev>
-Cc: ulf.hansson@linaro.org, takeshi.saito.xv@renesas.com,
-	masaharu.hayakawa.ry@renesas.com, yoshihiro.shimoda.uh@renesas.com,
-	linux-mmc@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-Subject: Re: [PATCH v2] mmc: renesas_sdhi: Fix change point of data handling
-Message-ID: <ZbeEPg1jc5qWJa5m@ninjato>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Claudiu <claudiu.beznea@tuxon.dev>, ulf.hansson@linaro.org,
-	takeshi.saito.xv@renesas.com, masaharu.hayakawa.ry@renesas.com,
-	yoshihiro.shimoda.uh@renesas.com, linux-mmc@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-References: <20240117110646.1317843-1-claudiu.beznea.uj@bp.renesas.com>
+	s=arc-20240116; t=1706534669; c=relaxed/simple;
+	bh=MaNdJSmcRmSoKWAWXNV6XJ3Z/352Xc8kckkjeiHFpn4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=uTZVnNlGxIeXD+OO88XTH7WE5BnursAlDKiZDjphS+B0IDh30NO1CKU7D5HXAGjFoFLxc32HcGN/ZpwnZE8D99VFfmJyYwZRC6j3nx79f1jo0Jv5Bu2Cb5NWKrJ9TMlioBixQsmT2FOr1M609dhKihSeNVsgVN0xjCmTlyuEU8w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-602ab446cd8so26499057b3.1;
+        Mon, 29 Jan 2024 05:24:27 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1706534666; x=1707139466;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=60bQeQ4OLSEiw7dGbd1NiVHh4XdBGJExrqOIQcNDss0=;
+        b=Js3uSvvore/iXnNefzIyvelUBRUSywv2T69Hv9M22Hi8vi9fv3uNI2OXvyC1yIySNC
+         aDEJ5sMfSRlMtvvkM4wKg+emlmyu42uXGwqpogejVKsLTcsz1stYUZeiDsiiDjEueJFU
+         +TBQAyYvgn5YveHJKuv+p2C988A3W6dT6toxux675tOqa4CIjI8GKJ19W3BOAU+G6Uvi
+         GXvrcVGPn4BF+6LMWSjHOKkw75+eX9EnEsIgSXgyNsFTJm/W3lSYtxClX/h2kZ5mMRbt
+         5ZwAEtXkPd95KJTFVv+A9BPddhxT/Ob9CykGSRCbElYAuN3TV1OREtb+Hr69XGp9Zyva
+         iMAA==
+X-Gm-Message-State: AOJu0YxMgaANt5JlnL7lebCkXoTl5gNMFu9ZwFUkURaR+81wU+1sNqK9
+	FY+drh1ONJfL3MzYvEG2hFKEqE2gN+6A3wb1+2Fw0n+Za5bcAhQYe/RtlQ0FO1w=
+X-Google-Smtp-Source: AGHT+IEEGHiW2XJUkOVt9t4Yty+4Oq+ZJE3BDAnGN5akOpUfyFzcMJhqZ+5Mk3T79Pe278ga2YaaHg==
+X-Received: by 2002:a0d:d4c4:0:b0:5ff:7f34:1e92 with SMTP id w187-20020a0dd4c4000000b005ff7f341e92mr4065766ywd.98.1706534666153;
+        Mon, 29 Jan 2024 05:24:26 -0800 (PST)
+Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com. [209.85.128.171])
+        by smtp.gmail.com with ESMTPSA id p64-20020a819843000000b00602b93f6f27sm2465433ywg.120.2024.01.29.05.24.25
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 29 Jan 2024 05:24:25 -0800 (PST)
+Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-602ab446cd8so26498827b3.1;
+        Mon, 29 Jan 2024 05:24:25 -0800 (PST)
+X-Received: by 2002:a81:c444:0:b0:5ff:aa81:b47d with SMTP id
+ s4-20020a81c444000000b005ffaa81b47dmr3501080ywj.88.1706534665529; Mon, 29 Jan
+ 2024 05:24:25 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="HF6yaJEjzgKGpRxK"
-Content-Disposition: inline
-In-Reply-To: <20240117110646.1317843-1-claudiu.beznea.uj@bp.renesas.com>
+References: <20240117131807.24997-1-wsa+renesas@sang-engineering.com>
+ <20240117131807.24997-3-wsa+renesas@sang-engineering.com> <CAMuHMdX7Z8w0JykKuboP__ZE4x+LeKSQAGdyrUezERxysPUCKA@mail.gmail.com>
+ <ZbPKPGB7DIHhZ3GJ@ninjato>
+In-Reply-To: <ZbPKPGB7DIHhZ3GJ@ninjato>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Mon, 29 Jan 2024 14:24:13 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdW6KV0Gh-JA8x2Z_vj2n5QPDLLFFZRNLUg2rdc3wFqChg@mail.gmail.com>
+Message-ID: <CAMuHMdW6KV0Gh-JA8x2Z_vj2n5QPDLLFFZRNLUg2rdc3wFqChg@mail.gmail.com>
+Subject: Re: [RFC PATCH v3 2/2] arm64: dts: renesas: ulcb-kf: add node for GNSS
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc: linux-renesas-soc@vger.kernel.org, Magnus Damm <magnus.damm@gmail.com>, 
+	Rob Herring <robh+dt@kernel.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+Hi Wolfram,
 
---HF6yaJEjzgKGpRxK
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+On Fri, Jan 26, 2024 at 4:05=E2=80=AFPM Wolfram Sang
+<wsa+renesas@sang-engineering.com> wrote:
+> > Can it be used over I2C too? Is there some strapping to select the
+> > interface used? I couldn't find that in the documentation.
+>
+> It looks to me they both work at the same time. I was able to write and
+> read via I2C (thus not very meaningful data) while serial port was doing
+> the real work. I am not aware of a full GNSS implementation supporting
+> the I2C interface, so I considered it good at that point.
 
-Hi Claudiu,
+Indeed, drivers/gnss/ seems to have no support for I2C yet.
+Queuing in renesas-devel for v6.9.
 
-but one thing I can ask already:
+Gr{oetje,eeting}s,
 
-> Investigating it on RZ/G3S lead to the conclusion that every time the issue
-> is reproduced all the probed TAPs are OK. According to datasheet, when this
-> happens the change point of data need to be considered for tuning.
+                        Geert
 
-Yes, "considered" means here it should be *avoided*.
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
 
-> Previous code considered the change point of data happens when the content
-> of the SMPCMP register is zero. According to RZ/V2M hardware manual,
-
-When SMPCMP is zero, there is *no* change point. Which is good.
-
-> chapter "Change Point of the Input Data" (as this is the most clear
-> description that I've found about change point of the input data and all
-> RZ hardware manual are similar on this chapter),
-
-I also have a chapter named like this. If you check the diagram, change
-point is between TAP2 and 3, so the suggested TAP to use is 6 or 7. As
-far away as possible from the change point.
-
-> at the time of tuning,
-> data is captured by the previous and next TAPs and the result is stored in
-> the SMPCMP register (previous TAP in bits 22..16, next TAP in bits 7..0).
-> If there is a mismatch b/w the previous and the next TAPs, it indicates
-> that there is a change point of the input data.
-
-This is correct.
-
-> To comply with this, the code checks if this mismatch is present and
-> updates the priv->smpcmp mask.
-
-That means you select the "change point" instead of avoiding it?
-
-> This change has been checked on the devices with the following DTSes by
-> doing 50 consecutive reboots and checking for the tuning failure message:
-
-Okay, you might not have a failure message, but you might have selected
-the worst TAP. Or?
-
-> +			if (cmpngu_data != cmpngd_data)
-> +				set_bit(i, priv->smpcmp);
-
-Really looks like you select the change point instead of avoiding it.
-
-However, with some SD cards, I also see the EIO error you see. So, there
-might be room to improve TAP selection when all TAPs are good. I need to
-check if this is really is the same case for the SD cards in question.
-
-Happy hacking,
-
-   Wolfram
-
-
---HF6yaJEjzgKGpRxK
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmW3hD4ACgkQFA3kzBSg
-Kbb8Dg/8DrowMh5CLHCBUWs2/pcKYYF4sJe4baRaxs4GocwbmVVc1hMMdKJ6BY1V
-beHVjZES8O4NnMzQqkmkMGWJEkd/M7XdKeZLT+R+SnupO3AtFcS3mBFyDSWF+wA7
-bAc5EuIyIZ4pPkrNf3f1a0xa7Dq1wpX2qGGud69e0ckprXn8xLh0f5L1Oy469L7s
-uj7xEsUxf4kgCsPtdIksFiubebBrf8GJ534R9d4byOMZap6BRNEBgrbFfRJeldkV
-U/9CH+WngENnRi+COcOjGQmPXc+9Kk/S5O4GeVS0V496Z1zMujUtQAK0S7akvLpo
-y+J1D34OyKBGcs6xf6LK6hXEPLxTrbTjV/CVope5PcO0XiEp2HsZ1SPcWT0r8OOZ
-cZe51zQWxms04J35ggkILJPAmbvvSpQLjDCANP2UvyAh63d7tXmUAdrA0qQqfbMZ
-OXREgvHNw6/+S0PkqdnS7U5vC5+PrvzS/rwM4QUCxBE5yHDZ+QPA4OXu7vNiciwL
-OZjwOxcuRXlOJf8oxgpHdFoInHVwy7SNG0716yTCEgVxpLsVCOdCzKJXet/2BWH3
-q5XspwgKQLIl/8eu78wcK81cZ4r6R6bmwrn3yV6urUzxdy0IWZVQmbY0HSaMzI6L
-q9qoNKj34IftkZVt0aTcZDy2F1jC2P33biFcYxQWzUxrJ6YT4UI=
-=jnUv
------END PGP SIGNATURE-----
-
---HF6yaJEjzgKGpRxK--
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
