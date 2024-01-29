@@ -1,102 +1,122 @@
-Return-Path: <linux-renesas-soc+bounces-1934-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-1935-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0FC88407A8
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 29 Jan 2024 14:58:04 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 414F58407B6
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 29 Jan 2024 14:59:29 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5D5FB285575
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 29 Jan 2024 13:58:03 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 73CCB1C23581
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 29 Jan 2024 13:59:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C6D596773C;
-	Mon, 29 Jan 2024 13:57:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0BBB9657D7;
+	Mon, 29 Jan 2024 13:58:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="CdFdim55"
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="lz4EXjVJ"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 134D967732
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 29 Jan 2024 13:57:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5AD9657A3
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 29 Jan 2024 13:58:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706536627; cv=none; b=kbxmYFLmVewN0ElabH27G1pFx/UvbqYwFFRY/8cNGqdD1bJZuhPY3OL2YW/euGgR4GAy/LqyCTfeyhl3Gh2hSpXgWjyWFRIcxO7/6HNat86s3+pohYxdgwZR+wWzfHfEzLBHEYfr6I3j3INr3haikc+jZfn0uxwKrpBgUeqZMiA=
+	t=1706536733; cv=none; b=ZLdJ3sJUFQjuTIuPdPqw8iNIoVhOw3XXwiJPe8BHR7kiknk52C8XuszfmerD7Uga9zOrSkmxQpP+616ZoQtQ/dtnCNUNCg/54+Cw2gt3qJBmwC922P/83KPIH0U5dDl9nwsNB3g7wGV7HP7U221glyNOHPfRNqbNNfnkyukJv1w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706536627; c=relaxed/simple;
-	bh=Ca8MXRaUc5LB1kOopLbePSXXIUNdjkZs4DNPghLWDFs=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=KVV5FyukC0LxZkijsCZd5hs4WoapDW7YiwFmDcYXGh0KVWeLeDl8eAjDH4nljKFB8inwJ8uOZUqNxvwl2gK21u4miL2p+barNnJ0G3AFsr45KklbDzQtBpAOB7fAfN0qjzfiZJY/dGXpQ7DMwJJxAz0Eg9e2BxfYssIxuKSdPGU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=CdFdim55; arc=none smtp.client-ip=209.85.208.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
-Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-55c33773c0aso2628666a12.1
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 29 Jan 2024 05:57:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1706536624; x=1707141424; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:references:cc:to:from
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Ca8MXRaUc5LB1kOopLbePSXXIUNdjkZs4DNPghLWDFs=;
-        b=CdFdim5561+uOc/UZI9C1XkgwUQldxEv3HdepZ6CN/UDROdI3+1DBs6H4IPhVnI4bw
-         vyPm7Cbs4iB98f3jpQdS6h5fZDvC93kC0REBEWIQJLEheseVyJUIR0SlHTIGkTUmwUGJ
-         pZ1d6FTak/5nl0y4rOOFqbp7wplMj0WxZ5860PTlu5tP3lqcdjlUo3pjCdgSnJQ/N7qh
-         m8PHS+0C3PGQVZa5AR3xWi2AHnD2uNofCB4+JeUx+NCyiaxQ2FxWIypJJlgEnWnnoPAM
-         xxTUDHLEI/RBrGmXiZoUSWCxfdjfDRcHHd9kJj1cgHbIIoONco8yyhb7k1A2G8iXxzUb
-         Jjfg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706536624; x=1707141424;
-        h=content-transfer-encoding:in-reply-to:references:cc:to:from
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Ca8MXRaUc5LB1kOopLbePSXXIUNdjkZs4DNPghLWDFs=;
-        b=lIYgOt6qYAL7GNTttNdcOWSkD6PthXZRO304dWJRSCrCa6OUL+ieu77IST2Ry3cGHd
-         KhKZdJEI76dybcH3MsRTIe5EUwtkaFkEp0b30bWvFGPzHgG9ktXsBwwZJrM6NPZsNI0y
-         jQNLeQ2uankAkdX1IsZ55ESB1qsB3UpHD0eUhIBl3GtnZv+6+Be3XoF7b1VmPuF0dHpm
-         Yv2SmBXvyD+5yMAGrL4vSTLUJoNSvLI0gSL9/GtrEww7l/MHleqjfGse+96XyExfNury
-         7pi7xGwgOejniD3sDDCKJD852t3kpi34X0d8fOOpNpC5UuFttac+q2p95MK53URdG+b1
-         wUQA==
-X-Gm-Message-State: AOJu0YziwwF5Jvm/djhsVIPy5x45g38i6mR+uda003MBouux/banfiT1
-	x5klHsBLr31N4AgzmKaKZhBTSBnXRjSSnRolCt6kDgmC6Bf0RdMsv8yDEDflfGA=
-X-Google-Smtp-Source: AGHT+IEZngk8qVNZ0ZJg2IQYeB89DXsyZ8UBaE7DGVYPd3w6M9dTCGVsz1F85xddMef/9D1DC0lpWg==
-X-Received: by 2002:a17:906:5fd7:b0:a30:d4f2:1603 with SMTP id k23-20020a1709065fd700b00a30d4f21603mr5299264ejv.15.1706536624234;
-        Mon, 29 Jan 2024 05:57:04 -0800 (PST)
-Received: from [192.168.50.4] ([82.78.167.87])
-        by smtp.gmail.com with ESMTPSA id vx6-20020a170907a78600b00a35ea4a21e8sm425895ejc.2.2024.01.29.05.57.02
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 29 Jan 2024 05:57:03 -0800 (PST)
-Message-ID: <2ab72042-eefd-47d7-a0a5-5259fc8098f9@tuxon.dev>
-Date: Mon, 29 Jan 2024 15:57:02 +0200
+	s=arc-20240116; t=1706536733; c=relaxed/simple;
+	bh=lvucS87GbyosylJ5xACgdTr+uXBpcMa19S30EvRZtjw=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=R1QRlQntrR+b10qLAu++DiBaTovUnbWkJVao5KebmN7bBOYhLCot57zhe/Py7KniOzAlWdt5TFzjTz5zC8d3AZq7CjCqxF/KuS+2ZLZft2IuT2N+in4DiaDFIP/sAwcgMzlN6TgiDu/EgCGJCSaarR263o7tb0O+oqq02Cto9rQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=lz4EXjVJ; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=from:to:cc:subject:date:message-id
+	:mime-version:content-transfer-encoding; s=k1; bh=sFUBZOKL1rgWIm
+	lADgR9uZisqGeOSpQQbfi/XorVR4U=; b=lz4EXjVJ+y7nNECX79Gg/PMc2Frw6V
+	Eaha0fq+Z57U0dG5YFtv+I/igqcWCDpCj1GFBcujQhrNgD0fKq6veyyFL35+na3r
+	QZcy5iF3ioFeSQVgTzI7MKE9A5LJV4wf4uOs5SQoo0b9b03PUxy2yg6BdnWdLCwA
+	f/a78Pc5jQX2WQfDcCtRFM5JfI2caJmoPvXU78LSGxx0RKeLEq0/GDyi3BUp2Awr
+	wRLZmXfYXjRp9/xI7tIjWAnasFIs5gUDi/m0QAO3yuIuTOSiWGINkw7NnB4PG7Gz
+	68kyMVhYsp4SwN9n9BgWZBi3VEMypYhpjT5w3E3G0cZe4UVwsfioGlLQ==
+Received: (qmail 2500472 invoked from network); 29 Jan 2024 14:58:49 +0100
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 29 Jan 2024 14:58:49 +0100
+X-UD-Smtp-Session: l3s3148p1@xD2RCxYQpK5ehhtJ
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: linux-renesas-soc@vger.kernel.org
+Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] arm64: dts: renesas: ulcb-kf: add regulators for PCIe ch1
+Date: Mon, 29 Jan 2024 14:58:40 +0100
+Message-Id: <20240129135840.28988-1-wsa+renesas@sang-engineering.com>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v4 10/15] net: ravb: Move delay mode set in the
- driver's ndo_open API
-Content-Language: en-US
-From: claudiu beznea <claudiu.beznea@tuxon.dev>
-To: Sergey Shtylyov <s.shtylyov@omp.ru>, davem@davemloft.net,
- edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
- richardcochran@gmail.com, p.zabel@pengutronix.de, geert+renesas@glider.be
-Cc: netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
- linux-kernel@vger.kernel.org,
- Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-References: <20240123125829.3970325-1-claudiu.beznea.uj@bp.renesas.com>
- <20240123125829.3970325-11-claudiu.beznea.uj@bp.renesas.com>
- <b0a4f320-6218-2631-a5a0-26cfa9a25ee1@omp.ru>
- <1c680be4-67b7-435b-9609-b5f7a45ca675@tuxon.dev>
-In-Reply-To: <1c680be4-67b7-435b-9609-b5f7a45ca675@tuxon.dev>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
+Without them, no power, so cards do not get recognized.
 
+Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
 
-On 29.01.2024 15:55, claudiu beznea wrote:
-> As explained in the patch description ("Along with it, both delay specific
+Changes since RFC:
 
-Or partially explained. I'll try to improve this ^
+* rebased to the GNSS changes Geert just applied
+
+ arch/arm64/boot/dts/renesas/ulcb-kf.dtsi | 21 +++++++++++++++++++++
+ 1 file changed, 21 insertions(+)
+
+diff --git a/arch/arm64/boot/dts/renesas/ulcb-kf.dtsi b/arch/arm64/boot/dts/renesas/ulcb-kf.dtsi
+index e3cc0e0e73cc..c8dc06f0dfed 100644
+--- a/arch/arm64/boot/dts/renesas/ulcb-kf.dtsi
++++ b/arch/arm64/boot/dts/renesas/ulcb-kf.dtsi
+@@ -39,6 +39,24 @@ hdmi_1v8: regulator-hdmi-1v8 {
+ 		regulator-max-microvolt = <1800000>;
+ 	};
+ 
++	pcie_1v5: regulator-pcie-1v5 {
++		compatible = "regulator-fixed";
++		regulator-name = "pcie-1v5";
++		regulator-min-microvolt = <1500000>;
++		regulator-max-microvolt = <1500000>;
++		gpio = <&gpio_exp_77 15 GPIO_ACTIVE_HIGH>;
++		enable-active-high;
++	};
++
++	pcie_3v3: regulator-pcie-3v3 {
++		compatible = "regulator-fixed";
++		regulator-name = "pcie-3v3";
++		regulator-min-microvolt = <3300000>;
++		regulator-max-microvolt = <3300000>;
++		gpio = <&gpio_exp_77 14 GPIO_ACTIVE_HIGH>;
++		enable-active-high;
++	};
++
+ 	snd_vcc5v: regulator-snd_vcc5v {
+ 		compatible = "regulator-fixed";
+ 		regulator-name = "snd-vcc5v";
+@@ -323,6 +341,9 @@ &pciec0 {
+ 
+ &pciec1 {
+ 	status = "okay";
++
++	vpcie1v5-supply = <&pcie_1v5>;
++	vpcie3v3-supply = <&pcie_3v3>;
+ };
+ 
+ &pfc {
+-- 
+2.39.2
+
 
