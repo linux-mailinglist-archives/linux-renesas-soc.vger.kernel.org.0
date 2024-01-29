@@ -1,487 +1,219 @@
-Return-Path: <linux-renesas-soc+bounces-1920-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-1921-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id F38C68401B0
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 29 Jan 2024 10:32:44 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id CB72E840250
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 29 Jan 2024 10:58:00 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 244391C21A8C
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 29 Jan 2024 09:32:44 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 423471F226BA
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 29 Jan 2024 09:58:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 91A6E6087E;
-	Mon, 29 Jan 2024 09:28:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0E90A55C2D;
+	Mon, 29 Jan 2024 09:57:56 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from Atcsqr.andestech.com (60-248-80-70.hinet-ip.hinet.net [60.248.80.70])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com [209.85.128.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80AA160864;
-	Mon, 29 Jan 2024 09:28:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=60.248.80.70
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C72B2F41
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 29 Jan 2024 09:57:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706520516; cv=none; b=VGIi7c85zh2aZH0rHCD4yXzMZNAR66fQ76yfCNK365FMtNUqagcgxvkmkBL+Tg3oqRUN8QQ5bVT9vjqToEnfu2CCwzsHkJW+WQKKtO89C8KSmJaOLw2Z5UG3MttCPhAJp8wEUmWgMf33Y7oNsSuY2ii4kL4qbcRSlHWjdB2wXnc=
+	t=1706522275; cv=none; b=e6/T+NSludXd1FprIRCCHYZavZL1zr0md4bNhyyXWXgrXXP8/5KQRwQ0uz/vcTVcYGXJjuc6aLqd1SRKaf2rqGFQCHiiTncpQXvWX4yEhM6DEyNV2nmELqBmYYMr4SGOfX7nSJ4U6bV1Acm4ckTDJ7WohrwymeAkiAM509AMXXQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706520516; c=relaxed/simple;
-	bh=KmnQCO9L3bVBcZaB+8oklJut8FyVVW78SVUs2lJgV+8=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=PhWZw9deJZckeQIU7gH7gXF9GyMxBh3uZDbB7gemfOUx4u3LdwA9tcvXJDsXtD2GEYugOjIvorsNIRC5Dk8cAHf3KN9C903mlNHSFxsNV/SiicU+gRiGTfnYedx5z1sZt3GE5Vgdrha4MmIrBweXF1x+O4dXdffS7Rt6VBR3nGY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=andestech.com; spf=pass smtp.mailfrom=andestech.com; arc=none smtp.client-ip=60.248.80.70
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=andestech.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=andestech.com
-Received: from mail.andestech.com (ATCPCS16.andestech.com [10.0.1.222])
-	by Atcsqr.andestech.com with ESMTP id 40T9Qogc080373;
-	Mon, 29 Jan 2024 17:26:50 +0800 (+08)
-	(envelope-from peterlin@andestech.com)
-Received: from swlinux02.andestech.com (10.0.15.183) by ATCPCS16.andestech.com
- (10.0.1.222) with Microsoft SMTP Server id 14.3.498.0; Mon, 29 Jan 2024
- 17:26:46 +0800
-From: Yu Chien Peter Lin <peterlin@andestech.com>
-To: <acme@kernel.org>, <adrian.hunter@intel.com>, <ajones@ventanamicro.com>,
-        <alexander.shishkin@linux.intel.com>, <andre.przywara@arm.com>,
-        <anup@brainfault.org>, <aou@eecs.berkeley.edu>,
-        <atishp@atishpatra.org>, <conor+dt@kernel.org>,
-        <conor.dooley@microchip.com>, <conor@kernel.org>,
-        <devicetree@vger.kernel.org>, <evan@rivosinc.com>,
-        <geert+renesas@glider.be>, <guoren@kernel.org>, <heiko@sntech.de>,
-        <irogers@google.com>, <jernej.skrabec@gmail.com>, <jolsa@kernel.org>,
-        <jszhang@kernel.org>, <krzysztof.kozlowski+dt@linaro.org>,
-        <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
-        <linux-perf-users@vger.kernel.org>,
-        <linux-renesas-soc@vger.kernel.org>, <linux-riscv@lists.infradead.org>,
-        <linux-sunxi@lists.linux.dev>, <locus84@andestech.com>,
-        <magnus.damm@gmail.com>, <mark.rutland@arm.com>, <mingo@redhat.com>,
-        <n.shubin@yadro.com>, <namhyung@kernel.org>, <palmer@dabbelt.com>,
-        <paul.walmsley@sifive.com>, <peterlin@andestech.com>,
-        <peterz@infradead.org>, <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        <rdunlap@infradead.org>, <robh+dt@kernel.org>, <samuel@sholland.org>,
-        <sunilvl@ventanamicro.com>, <tglx@linutronix.de>,
-        <tim609@andestech.com>, <uwu@icenowy.me>, <wens@csie.org>,
-        <will@kernel.org>, <inochiama@outlook.com>, <unicorn_wang@outlook.com>,
-        <wefu@redhat.com>
-CC: Charles Ci-Jyun Wu <dminus@andestech.com>,
-        Leo Yu-Chi Liang
-	<ycliang@andestech.com>,
-        Atish Patra <atishp@rivosinc.com>
-Subject: [PATCH v8 10/10] riscv: andes: Support specifying symbolic firmware and hardware raw events
-Date: Mon, 29 Jan 2024 17:25:53 +0800
-Message-ID: <20240129092553.2058043-11-peterlin@andestech.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240129092553.2058043-1-peterlin@andestech.com>
-References: <20240129092553.2058043-1-peterlin@andestech.com>
+	s=arc-20240116; t=1706522275; c=relaxed/simple;
+	bh=d4Icl+5pUIPQJ1fUBXwNA4S2LhfMfSrWPefqx3x6CYU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=JbOa+vY4+0DyCQyHOCgzOyJkDD3RdYnZQrcuX2k/pUZRNLs0NgDD1G3b4ClqjEc6UbFPzLudaoUC0EVPxLmXl/U4vjs1gMYfE+VT2N+KqH3lv5O1n9HCA693gAD5LPgjwYHcW1hzmwqOyNcpdDqIPYHj7u56zNkbx9sQjbl5RRc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-603c5d7997aso11650467b3.1
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 29 Jan 2024 01:57:53 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1706522272; x=1707127072;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=jzqcm2xJXD7krHm/1vrCd94y8Oa7U+0WqfNMjatQeQc=;
+        b=KYU0o/fe71xlHXfgMmwoA8MegQvPpfnPcUOorEMz28TTsRgvYQNoeAEbj72jIThSrH
+         Jx6dqWj5RUUT63Ecb+OJxPowvAr5QDesNosScGvqfBmhbHAiZucEoOq2GZEAjy3CpjZi
+         ryFXxBGSgJ2LcKgJfqXsx2uQn4eNlXonsyCZLaRcXHPd2nkdzJcCOlc/7XHmAmW9L3F6
+         6Rm3RK/K7kUDvf1qcZLNxNtnBQGRQ7r70/sQLnfEV4mFPonpxIBNbrgdxC2lwUU+LWju
+         /4V8Xu8mPqoUy6otUKxqp7cnwdCmtv2L4up7MUvuNzjaxUspSSuqD7bbRPwY8t6vepLz
+         finQ==
+X-Gm-Message-State: AOJu0YxZCLEg6GAU8VXkmdSeOaJqlO5v5Y6TzhP9yI+8rmVfrnDS6NSN
+	tzmXONDRzS1dTZjHgqvVy4BG4AQm6freq2MNIBb4BWRc+I8iGdQG94RG4JVopOc=
+X-Google-Smtp-Source: AGHT+IESpyfDv8EgmnUho4cA+fD6gb72HnB+UpNPFMOP6yimJbcpoFUOz28xLAfrI5cXk7k0qbuTCA==
+X-Received: by 2002:a81:e24c:0:b0:602:a760:8142 with SMTP id z12-20020a81e24c000000b00602a7608142mr3292810ywl.12.1706522272327;
+        Mon, 29 Jan 2024 01:57:52 -0800 (PST)
+Received: from mail-yb1-f179.google.com (mail-yb1-f179.google.com. [209.85.219.179])
+        by smtp.gmail.com with ESMTPSA id be15-20020a05690c008f00b00603cbcbf4casm960083ywb.67.2024.01.29.01.57.52
+        for <linux-renesas-soc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 29 Jan 2024 01:57:52 -0800 (PST)
+Received: by mail-yb1-f179.google.com with SMTP id 3f1490d57ef6-dc6933a46efso47603276.0
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 29 Jan 2024 01:57:52 -0800 (PST)
+X-Received: by 2002:a05:6902:1003:b0:dc2:2d75:5fde with SMTP id
+ w3-20020a056902100300b00dc22d755fdemr2026327ybt.29.1706522271978; Mon, 29 Jan
+ 2024 01:57:51 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-DNSRBL: 
-X-SPAM-SOURCE-CHECK: pass
-X-MAIL:Atcsqr.andestech.com 40T9Qogc080373
+References: <12ff20eb-d4b5-41f4-a494-cfb6b7abe617@de.bosch.com>
+In-Reply-To: <12ff20eb-d4b5-41f4-a494-cfb6b7abe617@de.bosch.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Mon, 29 Jan 2024 10:57:40 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdW=igXesjxvNk=+in62neW=kipnFW2BUH3P7sfDnqXzEQ@mail.gmail.com>
+Message-ID: <CAMuHMdW=igXesjxvNk=+in62neW=kipnFW2BUH3P7sfDnqXzEQ@mail.gmail.com>
+Subject: Re: rcar-dmac.c: race condition regarding cookie handling?
+To: "Behme Dirk (CM/ESO2)" <dirk.behme@de.bosch.com>
+Cc: Linux-Renesas <linux-renesas-soc@vger.kernel.org>, 
+	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>, Kees Cook <keescook@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Locus Wei-Han Chen <locus84@andestech.com>
+Hi Dirk,
 
-Add the Andes AX45 JSON files that allows specifying symbolic event
-names for the raw PMU events.
+CC Kees (for the wrap-around in dma_cookie_assign() not handled in [A])
 
-Signed-off-by: Locus Wei-Han Chen <locus84@andestech.com>
-Reviewed-by: Yu Chien Peter Lin <peterlin@andestech.com>
-Reviewed-by: Charles Ci-Jyun Wu <dminus@andestech.com>
-Reviewed-by: Leo Yu-Chi Liang <ycliang@andestech.com>
-Tested-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Acked-by: Atish Patra <atishp@rivosinc.com>
----
-Changes v1 -> v2:
-  - No change
-Changes v2 -> v3:
-  - No change
-Changes v3 -> v4:
-  - No change
-Changes v4 -> v5:
-  - Include Prabhakar's Tested-by
-Changes v5 -> v6:
-  - No change
-Changes v6 -> v7:
-  - No change
-Changes v7 -> v8:
-  - Include Atish's Acked-by
----
- .../arch/riscv/andes/ax45/firmware.json       |  68 ++++++++++
- .../arch/riscv/andes/ax45/instructions.json   | 127 ++++++++++++++++++
- .../arch/riscv/andes/ax45/memory.json         |  57 ++++++++
- .../arch/riscv/andes/ax45/microarch.json      |  77 +++++++++++
- tools/perf/pmu-events/arch/riscv/mapfile.csv  |   1 +
- 5 files changed, 330 insertions(+)
- create mode 100644 tools/perf/pmu-events/arch/riscv/andes/ax45/firmware.json
- create mode 100644 tools/perf/pmu-events/arch/riscv/andes/ax45/instructions.json
- create mode 100644 tools/perf/pmu-events/arch/riscv/andes/ax45/memory.json
- create mode 100644 tools/perf/pmu-events/arch/riscv/andes/ax45/microarch.json
+On Wed, Nov 22, 2023 at 8:02=E2=80=AFAM Behme Dirk (CM/ESO2)
+<dirk.behme@de.bosch.com> wrote:
+> using a rcar-dmac.c on RCar3 being quite similar to the recent mainline
+> one [1] we got a BUG_ON() being hit [2].
 
-diff --git a/tools/perf/pmu-events/arch/riscv/andes/ax45/firmware.json b/tools/perf/pmu-events/arch/riscv/andes/ax45/firmware.json
-new file mode 100644
-index 000000000000..9b4a032186a7
---- /dev/null
-+++ b/tools/perf/pmu-events/arch/riscv/andes/ax45/firmware.json
-@@ -0,0 +1,68 @@
-+[
-+  {
-+    "ArchStdEvent": "FW_MISALIGNED_LOAD"
-+  },
-+  {
-+    "ArchStdEvent": "FW_MISALIGNED_STORE"
-+  },
-+  {
-+    "ArchStdEvent": "FW_ACCESS_LOAD"
-+  },
-+  {
-+    "ArchStdEvent": "FW_ACCESS_STORE"
-+  },
-+  {
-+    "ArchStdEvent": "FW_ILLEGAL_INSN"
-+  },
-+  {
-+    "ArchStdEvent": "FW_SET_TIMER"
-+  },
-+  {
-+    "ArchStdEvent": "FW_IPI_SENT"
-+  },
-+  {
-+    "ArchStdEvent": "FW_IPI_RECEIVED"
-+  },
-+  {
-+    "ArchStdEvent": "FW_FENCE_I_SENT"
-+  },
-+  {
-+    "ArchStdEvent": "FW_FENCE_I_RECEIVED"
-+  },
-+  {
-+    "ArchStdEvent": "FW_SFENCE_VMA_SENT"
-+  },
-+  {
-+    "ArchStdEvent": "FW_SFENCE_VMA_RECEIVED"
-+  },
-+  {
-+    "ArchStdEvent": "FW_SFENCE_VMA_RECEIVED"
-+  },
-+  {
-+    "ArchStdEvent": "FW_SFENCE_VMA_ASID_RECEIVED"
-+  },
-+  {
-+    "ArchStdEvent": "FW_HFENCE_GVMA_SENT"
-+  },
-+  {
-+    "ArchStdEvent": "FW_HFENCE_GVMA_RECEIVED"
-+  },
-+  {
-+    "ArchStdEvent": "FW_HFENCE_GVMA_VMID_SENT"
-+  },
-+  {
-+    "ArchStdEvent": "FW_HFENCE_GVMA_VMID_RECEIVED"
-+  },
-+  {
-+    "ArchStdEvent": "FW_HFENCE_VVMA_SENT"
-+  },
-+  {
-+    "ArchStdEvent": "FW_HFENCE_VVMA_RECEIVED"
-+  },
-+  {
-+    "ArchStdEvent": "FW_HFENCE_VVMA_ASID_SENT"
-+  },
-+  {
-+    "ArchStdEvent": "FW_HFENCE_VVMA_ASID_RECEIVED"
-+  }
-+]
-diff --git a/tools/perf/pmu-events/arch/riscv/andes/ax45/instructions.json b/tools/perf/pmu-events/arch/riscv/andes/ax45/instructions.json
-new file mode 100644
-index 000000000000..713a08c1a40f
---- /dev/null
-+++ b/tools/perf/pmu-events/arch/riscv/andes/ax45/instructions.json
-@@ -0,0 +1,127 @@
-+[
-+	{
-+		"EventCode": "0x10",
-+		"EventName": "cycle_count",
-+		"BriefDescription": "Cycle count"
-+	},
-+	{
-+		"EventCode": "0x20",
-+		"EventName": "inst_count",
-+		"BriefDescription": "Retired instruction count"
-+	},
-+	{
-+		"EventCode": "0x30",
-+		"EventName": "int_load_inst",
-+		"BriefDescription": "Integer load instruction count"
-+	},
-+	{
-+		"EventCode": "0x40",
-+		"EventName": "int_store_inst",
-+		"BriefDescription": "Integer store instruction count"
-+	},
-+	{
-+		"EventCode": "0x50",
-+		"EventName": "atomic_inst",
-+		"BriefDescription": "Atomic instruction count"
-+	},
-+	{
-+		"EventCode": "0x60",
-+		"EventName": "sys_inst",
-+		"BriefDescription": "System instruction count"
-+	},
-+	{
-+		"EventCode": "0x70",
-+		"EventName": "int_compute_inst",
-+		"BriefDescription": "Integer computational instruction count"
-+	},
-+	{
-+		"EventCode": "0x80",
-+		"EventName": "condition_br",
-+		"BriefDescription": "Conditional branch instruction count"
-+	},
-+	{
-+		"EventCode": "0x90",
-+		"EventName": "taken_condition_br",
-+		"BriefDescription": "Taken conditional branch instruction count"
-+	},
-+	{
-+		"EventCode": "0xA0",
-+		"EventName": "jal_inst",
-+		"BriefDescription": "JAL instruction count"
-+	},
-+	{
-+		"EventCode": "0xB0",
-+		"EventName": "jalr_inst",
-+		"BriefDescription": "JALR instruction count"
-+	},
-+	{
-+		"EventCode": "0xC0",
-+		"EventName": "ret_inst",
-+		"BriefDescription": "Return instruction count"
-+	},
-+	{
-+		"EventCode": "0xD0",
-+		"EventName": "control_trans_inst",
-+		"BriefDescription": "Control transfer instruction count"
-+	},
-+	{
-+		"EventCode": "0xE0",
-+		"EventName": "ex9_inst",
-+		"BriefDescription": "EXEC.IT instruction count"
-+	},
-+	{
-+		"EventCode": "0xF0",
-+		"EventName": "int_mul_inst",
-+		"BriefDescription": "Integer multiplication instruction count"
-+	},
-+	{
-+		"EventCode": "0x100",
-+		"EventName": "int_div_rem_inst",
-+		"BriefDescription": "Integer division/remainder instruction count"
-+	},
-+	{
-+		"EventCode": "0x110",
-+		"EventName": "float_load_inst",
-+		"BriefDescription": "Floating-point load instruction count"
-+	},
-+	{
-+		"EventCode": "0x120",
-+		"EventName": "float_store_inst",
-+		"BriefDescription": "Floating-point store instruction count"
-+	},
-+	{
-+		"EventCode": "0x130",
-+		"EventName": "float_add_sub_inst",
-+		"BriefDescription": "Floating-point addition/subtraction instruction count"
-+	},
-+	{
-+		"EventCode": "0x140",
-+		"EventName": "float_mul_inst",
-+		"BriefDescription": "Floating-point multiplication instruction count"
-+	},
-+	{
-+		"EventCode": "0x150",
-+		"EventName": "float_fused_muladd_inst",
-+		"BriefDescription": "Floating-point fused multiply-add instruction count"
-+	},
-+	{
-+		"EventCode": "0x160",
-+		"EventName": "float_div_sqrt_inst",
-+		"BriefDescription": "Floating-point division or square-root instruction count"
-+	},
-+	{
-+		"EventCode": "0x170",
-+		"EventName": "other_float_inst",
-+		"BriefDescription": "Other floating-point instruction count"
-+	},
-+	{
-+		"EventCode": "0x180",
-+		"EventName": "int_mul_add_sub_inst",
-+		"BriefDescription": "Integer multiplication and add/sub instruction count"
-+	},
-+	{
-+		"EventCode": "0x190",
-+		"EventName": "retired_ops",
-+		"BriefDescription": "Retired operation count"
-+	}
-+]
-diff --git a/tools/perf/pmu-events/arch/riscv/andes/ax45/memory.json b/tools/perf/pmu-events/arch/riscv/andes/ax45/memory.json
-new file mode 100644
-index 000000000000..c7401b526c77
---- /dev/null
-+++ b/tools/perf/pmu-events/arch/riscv/andes/ax45/memory.json
-@@ -0,0 +1,57 @@
-+[
-+	{
-+		"EventCode": "0x01",
-+		"EventName": "ilm_access",
-+		"BriefDescription": "ILM access"
-+	},
-+	{
-+		"EventCode": "0x11",
-+		"EventName": "dlm_access",
-+		"BriefDescription": "DLM access"
-+	},
-+	{
-+		"EventCode": "0x21",
-+		"EventName": "icache_access",
-+		"BriefDescription": "ICACHE access"
-+	},
-+	{
-+		"EventCode": "0x31",
-+		"EventName": "icache_miss",
-+		"BriefDescription": "ICACHE miss"
-+	},
-+	{
-+		"EventCode": "0x41",
-+		"EventName": "dcache_access",
-+		"BriefDescription": "DCACHE access"
-+	},
-+	{
-+		"EventCode": "0x51",
-+		"EventName": "dcache_miss",
-+		"BriefDescription": "DCACHE miss"
-+	},
-+	{
-+		"EventCode": "0x61",
-+		"EventName": "dcache_load_access",
-+		"BriefDescription": "DCACHE load access"
-+	},
-+	{
-+		"EventCode": "0x71",
-+		"EventName": "dcache_load_miss",
-+		"BriefDescription": "DCACHE load miss"
-+	},
-+	{
-+		"EventCode": "0x81",
-+		"EventName": "dcache_store_access",
-+		"BriefDescription": "DCACHE store access"
-+	},
-+	{
-+		"EventCode": "0x91",
-+		"EventName": "dcache_store_miss",
-+		"BriefDescription": "DCACHE store miss"
-+	},
-+	{
-+		"EventCode": "0xA1",
-+		"EventName": "dcache_wb",
-+		"BriefDescription": "DCACHE writeback"
-+	}
-+]
-diff --git a/tools/perf/pmu-events/arch/riscv/andes/ax45/microarch.json b/tools/perf/pmu-events/arch/riscv/andes/ax45/microarch.json
-new file mode 100644
-index 000000000000..a6d378cbaa74
---- /dev/null
-+++ b/tools/perf/pmu-events/arch/riscv/andes/ax45/microarch.json
-@@ -0,0 +1,77 @@
-+[
-+	{
-+		"EventCode": "0xB1",
-+		"EventName": "cycle_wait_icache_fill",
-+		"BriefDescription": "Cycles waiting for ICACHE fill data"
-+	},
-+	{
-+		"EventCode": "0xC1",
-+		"EventName": "cycle_wait_dcache_fill",
-+		"BriefDescription": "Cycles waiting for DCACHE fill data"
-+	},
-+	{
-+		"EventCode": "0xD1",
-+		"EventName": "uncached_ifetch_from_bus",
-+		"BriefDescription": "Uncached ifetch data access from bus"
-+	},
-+	{
-+		"EventCode": "0xE1",
-+		"EventName": "uncached_load_from_bus",
-+		"BriefDescription": "Uncached load data access from bus"
-+	},
-+	{
-+		"EventCode": "0xF1",
-+		"EventName": "cycle_wait_uncached_ifetch",
-+		"BriefDescription": "Cycles waiting for uncached ifetch data from bus"
-+	},
-+	{
-+		"EventCode": "0x101",
-+		"EventName": "cycle_wait_uncached_load",
-+		"BriefDescription": "Cycles waiting for uncached load data from bus"
-+	},
-+	{
-+		"EventCode": "0x111",
-+		"EventName": "main_itlb_access",
-+		"BriefDescription": "Main ITLB access"
-+	},
-+	{
-+		"EventCode": "0x121",
-+		"EventName": "main_itlb_miss",
-+		"BriefDescription": "Main ITLB miss"
-+	},
-+	{
-+		"EventCode": "0x131",
-+		"EventName": "main_dtlb_access",
-+		"BriefDescription": "Main DTLB access"
-+	},
-+	{
-+		"EventCode": "0x141",
-+		"EventName": "main_dtlb_miss",
-+		"BriefDescription": "Main DTLB miss"
-+	},
-+	{
-+		"EventCode": "0x151",
-+		"EventName": "cycle_wait_itlb_fill",
-+		"BriefDescription": "Cycles waiting for Main ITLB fill data"
-+	},
-+	{
-+		"EventCode": "0x161",
-+		"EventName": "pipe_stall_cycle_dtlb_miss",
-+		"BriefDescription": "Pipeline stall cycles caused by Main DTLB miss"
-+	},
-+	{
-+		"EventCode": "0x02",
-+		"EventName": "mispredict_condition_br",
-+		"BriefDescription": "Misprediction of conditional branches"
-+	},
-+	{
-+		"EventCode": "0x12",
-+		"EventName": "mispredict_take_condition_br",
-+		"BriefDescription": "Misprediction of taken conditional branches"
-+	},
-+	{
-+		"EventCode": "0x22",
-+		"EventName": "mispredict_target_ret_inst",
-+		"BriefDescription": "Misprediction of targets of Return instructions"
-+	}
-+]
-diff --git a/tools/perf/pmu-events/arch/riscv/mapfile.csv b/tools/perf/pmu-events/arch/riscv/mapfile.csv
-index cfc449b19810..3d3a809a5446 100644
---- a/tools/perf/pmu-events/arch/riscv/mapfile.csv
-+++ b/tools/perf/pmu-events/arch/riscv/mapfile.csv
-@@ -17,3 +17,4 @@
- 0x489-0x8000000000000007-0x[[:xdigit:]]+,v1,sifive/u74,core
- 0x5b7-0x0-0x0,v1,thead/c900-legacy,core
- 0x67e-0x80000000db0000[89]0-0x[[:xdigit:]]+,v1,starfive/dubhe-80,core
-+0x31e-0x8000000000008a45-0x[[:xdigit:]]+,v1,andes/ax45,core
--- 
-2.34.1
+Thanks for your report!
+The side channel info told me this is rcar-3.9.11 based on v4.14.75?
 
+> This is
+>
+> static inline void dma_cookie_complete(struct dma_async_tx_descriptor *tx=
+)
+> {
+>         BUG_ON(tx->cookie < DMA_MIN_COOKIE);
+>          ...
+
+Note that dma_cookie_complete() also resets tx->cookie =3D 0 at the end
+of the function, which is also < 1.
+
+> from dmaengine.h. I think DMA_MIN_COOKIE is 1, so it seems that cookie
+> becomes < 1.
+>
+> Looking at rcar-dmac.c, there is one place where cookie is set to a
+> negative value [3]
+>
+> desc->async_tx.cookie =3D -EBUSY;
+>
+> And it looks like this is not protected by a spin_lock (?).
+>
+> Could it be that we hit a race condition here?
+
+rcar_dmac_chan_prep_sg() indeed does:
+
+    desc =3D rcar_dmac_desc_get(chan);
+    if (!desc)
+            return NULL;
+
+    desc->async_tx.flags =3D dma_flags;
+    desc->async_tx.cookie =3D -EBUSY;
+
+However, rcar_dmac_desc_get() does hold the spinlock while removing the
+descriptor from the free list (chan->desc.free).  So at the time its
+cookie is set to -EBUSY, the descriptor is no longer part of any list.
+In case of an error, the descriptor is returned to the free list.
+In case of success, it is returned to the caller.
+
+When the crash happens, rcar_dmac_isr_channel_thread() is processing
+descriptors on the completed list (chan->desc.done).
+
+How do descriptors end up on the completed list?
+  - rcar_dmac_tx_submit() fills in a proper cookie (from
+    dma_cookie_assign()), and adds the descriptor to the pending list
+    (chan->desc.pending), while holding the spinlock,
+  - rcar_dmac_issue_pending() moves descriptors on the pending list
+    to the active list (chan->desc.active), and, if idle, starts
+    the first one, all while holding the spinlock.
+  - rcar_dmac_isr_transfer_end() moves the current descriptor (which
+    is on the active list) to the completed list, while holding the spinloc=
+k
+    (by its caller, rcar_dmac_isr_channel()).
+
+None of this looks suspicious to me...
+
+Do you know if any calls to dmaengine_terminate_all() were done before?
+
+Was the system running for a very long time?
+dma_cookie_assign() relies on 2-complement signed wrap-around:
+
+        cookie =3D chan->cookie + 1;
+        if (cookie < DMA_MIN_COOKIE)
+                cookie =3D DMA_MIN_COOKIE;
+
+but given the kernel is compiled with -fno-strict-overflow (which
+implies -fwrapv) that should work.
+
+> [1]
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/d=
+rivers/dma/sh/rcar-dmac.c
+>
+> [2]
+>
+> kernel BUG at drivers/dma/dmaengine.h:54!
+> Internal error: Oops - BUG: 0 [#1] PREEMPT SMP
+> Hardware name: Custom board board based on r8a77990 (DT)
+> pc : rcar_dmac_isr_channel_thread+0xc0/0x190
+> lr : rcar_dmac_isr_channel_thread+0x84/0x190
+> sp : ffff000008b8bd30 pstate : a00001c5
+> x29: ffff000008b8bd30 x28: ffffe026daed4298
+> x27: dead000000000200 x26: dead000000000100
+> x25: ffff158988c28000 x24: ffffe026fb558cc8
+> x23: 0000000000000000 x22: ffffe026daed4254
+> x21: ffff1589821bd000 x20: ffffe026daed41a8
+> x19: ffffe026daed4288 x18: 0000fffff59a0c6a
+> x17: 0000ffff94c70f88 x16: ffff158981f3a17c
+> x15: 0000000000000000 x14: 0000000000000400
+> x13: 0000000000000400 x12: 0000000000000001
+> x11: ffffe026fab47000 x10: 0000000000000a10
+> x9 : ffff000008b8bd10 x8 : ffffe026fe0f1870
+> x7 : 0000000000010000 x6 : 00000000588b0000
+> x5 : ffffe026fe5d1410 x4 : 0000000000000000
+> x3 : 0000000000000002 x2 : 0000000000000000
+> x1 : 0000000000000000 x0 : 00000000e6f90060
+
+Unfortunately this does not show the actual cookie value found.
+
+> Call trace:
+>   rcar_dmac_isr_channel_thread+0xc0/0x190
+>   irq_thread_fn+0x28/0x6c
+>   irq_thread+0x134/0x198
+>   kthread+0x120/0x130
+>   ret_from_fork+0x10/0x18
+> Code: f9407293 b85a8260 7100001f 5400004c (d4210000)
+> ---[ end trace 03ab56fc988cadbc ]---
+> Kernel panic - not syncing: Fatal exception
+>
+> [3]
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/d=
+rivers/dma/sh/rcar-dmac.c#n951
+
+[A] https://lore.kernel.org/all/20240122235208.work.748-kees@kernel.org/
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
