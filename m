@@ -1,61 +1,89 @@
-Return-Path: <linux-renesas-soc+bounces-1935-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-1936-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 414F58407B6
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 29 Jan 2024 14:59:29 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id ED3B684097C
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 29 Jan 2024 16:16:36 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 73CCB1C23581
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 29 Jan 2024 13:59:28 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 8E532B22653
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 29 Jan 2024 15:16:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0BBB9657D7;
-	Mon, 29 Jan 2024 13:58:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 93B9E1534FE;
+	Mon, 29 Jan 2024 15:16:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="lz4EXjVJ"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lpKeq+3H"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5AD9657A3
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 29 Jan 2024 13:58:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8D9913DBA1;
+	Mon, 29 Jan 2024 15:16:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706536733; cv=none; b=ZLdJ3sJUFQjuTIuPdPqw8iNIoVhOw3XXwiJPe8BHR7kiknk52C8XuszfmerD7Uga9zOrSkmxQpP+616ZoQtQ/dtnCNUNCg/54+Cw2gt3qJBmwC922P/83KPIH0U5dDl9nwsNB3g7wGV7HP7U221glyNOHPfRNqbNNfnkyukJv1w=
+	t=1706541390; cv=none; b=HrB8DWgWYejiPySsznOcivuGCEQfyoEOWzphzCwaeLqE6+WMkhGxVuiYncJk8YTOXOh/yIPM/Oo+KF5b/gbnjKRr3bAwoQjeip70vulalxbwOh8sEHDVU6IewpQ76ICpA6IChAY4aEj/xPSfffjgyEIkdvZz6PBaXLzzwgAbH2w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706536733; c=relaxed/simple;
-	bh=lvucS87GbyosylJ5xACgdTr+uXBpcMa19S30EvRZtjw=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=R1QRlQntrR+b10qLAu++DiBaTovUnbWkJVao5KebmN7bBOYhLCot57zhe/Py7KniOzAlWdt5TFzjTz5zC8d3AZq7CjCqxF/KuS+2ZLZft2IuT2N+in4DiaDFIP/sAwcgMzlN6TgiDu/EgCGJCSaarR263o7tb0O+oqq02Cto9rQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=lz4EXjVJ; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=from:to:cc:subject:date:message-id
-	:mime-version:content-transfer-encoding; s=k1; bh=sFUBZOKL1rgWIm
-	lADgR9uZisqGeOSpQQbfi/XorVR4U=; b=lz4EXjVJ+y7nNECX79Gg/PMc2Frw6V
-	Eaha0fq+Z57U0dG5YFtv+I/igqcWCDpCj1GFBcujQhrNgD0fKq6veyyFL35+na3r
-	QZcy5iF3ioFeSQVgTzI7MKE9A5LJV4wf4uOs5SQoo0b9b03PUxy2yg6BdnWdLCwA
-	f/a78Pc5jQX2WQfDcCtRFM5JfI2caJmoPvXU78LSGxx0RKeLEq0/GDyi3BUp2Awr
-	wRLZmXfYXjRp9/xI7tIjWAnasFIs5gUDi/m0QAO3yuIuTOSiWGINkw7NnB4PG7Gz
-	68kyMVhYsp4SwN9n9BgWZBi3VEMypYhpjT5w3E3G0cZe4UVwsfioGlLQ==
-Received: (qmail 2500472 invoked from network); 29 Jan 2024 14:58:49 +0100
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 29 Jan 2024 14:58:49 +0100
-X-UD-Smtp-Session: l3s3148p1@xD2RCxYQpK5ehhtJ
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: linux-renesas-soc@vger.kernel.org
-Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	s=arc-20240116; t=1706541390; c=relaxed/simple;
+	bh=QlmHlZ4AiJnJUf+ZeL9SC9/lDIP5J9YhN6/lp2GI2r0=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=S8GTUBm5T8Yn3N6bEngtz5HS/Bmf8op50sIGk2sAV39AIv+CBOHniRKDPMffSZ0BYP96LfpjM9mUiuWb8IlVg1wVxmNyGLR6bDpXjNnB1YbHoozldz0fxeD1RZuvdjs58kVqGKzRqFni1OrVAjTmlxxg6ayhEAGh/dapk90IPiU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lpKeq+3H; arc=none smtp.client-ip=209.85.128.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-40ed356a6ecso25318915e9.2;
+        Mon, 29 Jan 2024 07:16:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1706541387; x=1707146187; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=BlMepFvcNokAhr6dcB9591xxdL8lwl4Op8N8VH8FV0Y=;
+        b=lpKeq+3H9hQGW0DSFN2oVSVnK23RhiKCTttJsrqL0rhQNj+R33QMYiGDSDDeNvzPUR
+         6GCY+RHZoSRjmAqgi0Yuefjqr4v0cAjxgiouC1RvQwyZX0NJxzsbMR9yxnEXx4WDpuZK
+         yrG/m8I90OEOHdQPbNrVEioa81vCc8Joxbt2ttlIziqEFOgU/gyxHGq7P6lFWjO8cqvB
+         uSfuHR1WgLW5PAZ66NwZDvRCwb7jHwrOJ44Nc6leksDj+W9B/H/isuvtbzQWkPZ+T3Cu
+         ybMDhjMeRxPuPgIpmXfVTJcVi4i0M7DM6BQ6uxXeF59HPBNC6usWOC1HcGSZb2/02mNx
+         ziOg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1706541387; x=1707146187;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=BlMepFvcNokAhr6dcB9591xxdL8lwl4Op8N8VH8FV0Y=;
+        b=eOGaUd5j944BqyKDpD+W+bfQStNtgoSGxEBUi1DK8afCFXvBIxYdmUZa/4/ECXYwUG
+         UNDN4SAvYU5eek5BsCnDMbAPPHHmcdPnPRCesaBejMlSPjXNDPpxRY2WGQUZCfk+cTes
+         AdVnZ/BuxvyWaEdmHYkFVfs+Rp4SqFlvEVi5jVB0eRFIRHiRJsV1sjxguDGdpfqovzyC
+         7mJxwRttD6k9mySBQekubjbVqDtkIAaFdpytWao0oDIpx/MtpxL6ayDz/85Y7fbIgnl5
+         BOtTA+bguKNTM4uae/Mj1s/apqloyi9Fnn0hqNhHtTk3tQNg7iEZxwPayabCw0Eh0Mta
+         vQwQ==
+X-Gm-Message-State: AOJu0YzWQPj+jxGXLF2sqzYep453tCVB3ZAyjd4afX98XBLn5zvNgjkv
+	nxDp9QnHfcvoAcJOIUcEAFeXaP441PUd136RMVL0gWj971lNYLSZ
+X-Google-Smtp-Source: AGHT+IG8u6AlgJhTdcVceOQs8uggWZYdkfIwd2mlmvgTfSMVf0Gxx8DqXCyGTBKtRenyr+Cw+lv1hQ==
+X-Received: by 2002:a05:600c:4507:b0:40e:f632:723d with SMTP id t7-20020a05600c450700b0040ef632723dmr3177999wmo.16.1706541386860;
+        Mon, 29 Jan 2024 07:16:26 -0800 (PST)
+Received: from prasmi.home ([2a00:23c8:2500:a01:5616:a18c:ea50:2995])
+        by smtp.gmail.com with ESMTPSA id h4-20020adfa4c4000000b00337d4eed87asm8397774wrb.115.2024.01.29.07.16.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 29 Jan 2024 07:16:26 -0800 (PST)
+From: Prabhakar <prabhakar.csengg@gmail.com>
+X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+To: Thomas Gleixner <tglx@linutronix.de>,
 	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
 	Rob Herring <robh+dt@kernel.org>,
 	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
 	Conor Dooley <conor+dt@kernel.org>,
+	Magnus Damm <magnus.damm@gmail.com>
+Cc: linux-renesas-soc@vger.kernel.org,
 	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] arm64: dts: renesas: ulcb-kf: add regulators for PCIe ch1
-Date: Mon, 29 Jan 2024 14:58:40 +0100
-Message-Id: <20240129135840.28988-1-wsa+renesas@sang-engineering.com>
-X-Mailer: git-send-email 2.39.2
+	linux-riscv@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	Prabhakar <prabhakar.csengg@gmail.com>,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH 0/5] Add IAX45 support for RZ/Five SoC
+Date: Mon, 29 Jan 2024 15:16:13 +0000
+Message-Id: <20240129151618.90922-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -64,59 +92,51 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Without them, no power, so cards do not get recognized.
+From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
+Hi All,
 
-Changes since RFC:
+The IAX45 block on RZ/Five SoC is almost identical to the IRQC bock found
+on the RZ/G2L family of SoCs.
 
-* rebased to the GNSS changes Geert just applied
+IAX45 performs various interrupt controls including synchronization for the
+external interrupts of NMI, IRQ, and GPIOINT and the interrupts of the
+built-in peripheral interrupts output by each module. And it notifies the
+interrupt to the PLIC.
+- Select 32 TINT from 82 GPIOINT.
+- Integration of bus error interrupts from system bus.
+- Integration of ECC error interrupts from On-chip RAM.
+- Indicate interrupt status. (NMI, IRQ, TINT, integrated bus error interrupt
+  and integrated ECC error interrupt)
+- Setting of interrupt detection method. (NMI, IRQ and TINT)
+- All interrupts are masked by INTMASK.
+- Mask function for NMI, IRQ and TINT
 
- arch/arm64/boot/dts/renesas/ulcb-kf.dtsi | 21 +++++++++++++++++++++
- 1 file changed, 21 insertions(+)
+This patch series adds support for IAX45 in the IRQC driver and enables this
+on RZ/Five SoC.
 
-diff --git a/arch/arm64/boot/dts/renesas/ulcb-kf.dtsi b/arch/arm64/boot/dts/renesas/ulcb-kf.dtsi
-index e3cc0e0e73cc..c8dc06f0dfed 100644
---- a/arch/arm64/boot/dts/renesas/ulcb-kf.dtsi
-+++ b/arch/arm64/boot/dts/renesas/ulcb-kf.dtsi
-@@ -39,6 +39,24 @@ hdmi_1v8: regulator-hdmi-1v8 {
- 		regulator-max-microvolt = <1800000>;
- 	};
- 
-+	pcie_1v5: regulator-pcie-1v5 {
-+		compatible = "regulator-fixed";
-+		regulator-name = "pcie-1v5";
-+		regulator-min-microvolt = <1500000>;
-+		regulator-max-microvolt = <1500000>;
-+		gpio = <&gpio_exp_77 15 GPIO_ACTIVE_HIGH>;
-+		enable-active-high;
-+	};
-+
-+	pcie_3v3: regulator-pcie-3v3 {
-+		compatible = "regulator-fixed";
-+		regulator-name = "pcie-3v3";
-+		regulator-min-microvolt = <3300000>;
-+		regulator-max-microvolt = <3300000>;
-+		gpio = <&gpio_exp_77 14 GPIO_ACTIVE_HIGH>;
-+		enable-active-high;
-+	};
-+
- 	snd_vcc5v: regulator-snd_vcc5v {
- 		compatible = "regulator-fixed";
- 		regulator-name = "snd-vcc5v";
-@@ -323,6 +341,9 @@ &pciec0 {
- 
- &pciec1 {
- 	status = "okay";
-+
-+	vpcie1v5-supply = <&pcie_1v5>;
-+	vpcie3v3-supply = <&pcie_3v3>;
- };
- 
- &pfc {
+Cheers,
+Prabhakar
+
+Lad Prabhakar (5):
+  dt-bindings: interrupt-controller: renesas,rzg2l-irqc: Document
+    RZ/Five SoC
+  irqchip/renesas-rzg2l: Add support for RZ/Five SoC
+  riscv: dts: renesas: r9a07g043f: Add IRQC node to RZ/Five SoC DTSI
+  arm64: dts: renesas: r9a07g043: Move interrupt-parent property to
+    common DTSI
+  riscv: dts: renesas: rzfive-smarc-som: Drop deleting interrupt
+    properties from ETH0/1 nodes
+
+ .../renesas,rzg2l-irqc.yaml                   |  27 ++++
+ arch/arm64/boot/dts/renesas/r9a07g043.dtsi    |   1 +
+ arch/arm64/boot/dts/renesas/r9a07g043u.dtsi   |   4 -
+ arch/riscv/boot/dts/renesas/r9a07g043f.dtsi   |  76 ++++++++++
+ .../boot/dts/renesas/rzfive-smarc-som.dtsi    |  16 ---
+ drivers/irqchip/irq-renesas-rzg2l.c           | 132 +++++++++++++++++-
+ 6 files changed, 232 insertions(+), 24 deletions(-)
+
 -- 
-2.39.2
+2.34.1
 
 
