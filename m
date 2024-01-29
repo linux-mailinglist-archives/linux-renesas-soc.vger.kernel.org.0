@@ -1,199 +1,136 @@
-Return-Path: <linux-renesas-soc+bounces-1909-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-1915-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9EF4840016
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 29 Jan 2024 09:30:00 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 456CF840190
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 29 Jan 2024 10:29:53 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5195B1F2536C
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 29 Jan 2024 08:30:00 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C3B59B224A1
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 29 Jan 2024 09:29:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8C1BF537F6;
-	Mon, 29 Jan 2024 08:29:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="PQkLgjxN"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 403905823F;
+	Mon, 29 Jan 2024 09:28:15 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from JPN01-TYC-obe.outbound.protection.outlook.com (mail-tycjpn01on2096.outbound.protection.outlook.com [40.107.114.96])
+Received: from Atcsqr.andestech.com (60-248-80-70.hinet-ip.hinet.net [60.248.80.70])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA3BE53E07;
-	Mon, 29 Jan 2024 08:29:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.114.96
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706516993; cv=fail; b=MYZOlyP6XsEXbfrPW19Vn3jgpLHtXH+73pM2MnQf8DgeiQuFrdlGkslWMmdqK2MfDMViuvqMQ4Zv1+M1gV42OtVSHOKdghj8VkU4fi1VffRl65YPNlZQlEAIqVuD4FL5LU1IhpMVPj8+Ee2VBRxF1h9prbx/MgClm2qn7PRj5HM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706516993; c=relaxed/simple;
-	bh=/+JvgUmL0juX3WbXNrG/lnO59GexQZw96WgPAXOF9J4=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=MW7j4xMO+Rg6mBr9lnX3ECA4i3PLvH3xyqEcNxjLGqcqJ4WvdLmaRwCFctvDmo6uSHGsK6ttgKqKA6cp99LWCwBFbTCKt8adVfikGU5rxHrFPypSBlc2ZRcvNBWoGs0BB95Tsj/01I9DQRWPnYx3S/Sv3kzYdx8PTunZOpoUWCY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=PQkLgjxN; arc=fail smtp.client-ip=40.107.114.96
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=gogjDsltdJWybt2mb62kLodTrT/s5Z20GZfIGVO4xN+3CyS7Zl2kqk7QesZn0NV4PFJ9cn2ZqCJ9cVvsS7rb08/ubkkDBHEMdGmxLEaqQA9wcAsHDjemMqIL2vVCSXqtRICM2Rs/dW8JMK2G3QX1XWoLx92bdcdJlEXDqsIGk+lc6iv10VSVB2N5tAQce4tlbJl6dEGavlvVmRMWErmr0Bcgoxy5hgxEh0HmTXkMmwwfVuojT3NXrUgoPSdjTIdo72JQZL3mD3Aiun2rDSoz6IkkecEZRb3lOBi2z4LNlJ5PyZo0Gql0F9iYdYkO5WD7gwLVF0DWwxwSRktmEM5yCw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=/+JvgUmL0juX3WbXNrG/lnO59GexQZw96WgPAXOF9J4=;
- b=QP/0hftkdK9JTIorr22N9RbEHO6oXygJveTQqQwuFFrUCZJ/QiFCnvxshRb/xSu2U6Q1U5wlB7Em7quVBgIMc1aUmObmh9rN/QK7bpfKfUc3rlwQ5/+rxd8rxHWJm/DqzpWuwshf+yPTcHsGrdHLAMWWDY5niowXiRZaHVPgPg8NkaociKa1s4+aC9FzKNGBMffKyox8qCQ+Itk6pIHpmjoA+1FyJQBlOPhADYANtcqfOgEBxRw14bqCjN2VCjwHtCINE7cMLVGRS/3jDpv8e3R351IJcKOzuXiCLbQ5yxU4dhm9FaqP5/X9lGlFFVMAZ4fqUSglezpZss6++/JIWA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=/+JvgUmL0juX3WbXNrG/lnO59GexQZw96WgPAXOF9J4=;
- b=PQkLgjxNqO2fh+JwDFm/Q61AUExFSP/7IXUN+MONFT+r5SZo2x5/fSYbIcfNasnOWqgTiOrDkcLp1j0sTDi+YJU3ag63fQYfg+TWo5TX/4CgWfIRy4RS+iod0yH2mMlkwrUZC7N431c1hqPUberUPt8rLl7JABaZGoRpxqbmUyc=
-Received: from TYCPR01MB11269.jpnprd01.prod.outlook.com
- (2603:1096:400:3c0::10) by TYCPR01MB10116.jpnprd01.prod.outlook.com
- (2603:1096:400:1ec::14) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7249.19; Mon, 29 Jan
- 2024 08:29:46 +0000
-Received: from TYCPR01MB11269.jpnprd01.prod.outlook.com
- ([fe80::8d12:a02a:9fdc:9c78]) by TYCPR01MB11269.jpnprd01.prod.outlook.com
- ([fe80::8d12:a02a:9fdc:9c78%5]) with mapi id 15.20.7249.017; Mon, 29 Jan 2024
- 08:29:46 +0000
-From: Biju Das <biju.das.jz@bp.renesas.com>
-To: Lee Jones <lee@kernel.org>, Wim Van Sebroeck <wim@linux-watchdog.org>,
-	Guenter Roeck <linux@roeck-us.net>, Dmitry Torokhov
-	<dmitry.torokhov@gmail.com>, Rob Herring <robh+dt@kernel.org>, Krzysztof
- Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley
-	<conor+dt@kernel.org>
-CC: Support Opensource <support.opensource@diasemi.com>, "Rafael J. Wysocki"
-	<rafael@kernel.org>, Daniel Lezcano <daniel.lezcano@linaro.org>, Zhang Rui
-	<rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>, Steve Twiss
-	<stwiss.opensource@diasemi.com>, "linux-input@vger.kernel.org"
-	<linux-input@vger.kernel.org>, "devicetree@vger.kernel.org"
-	<devicetree@vger.kernel.org>, "linux-pm@vger.kernel.org"
-	<linux-pm@vger.kernel.org>, "linux-watchdog@vger.kernel.org"
-	<linux-watchdog@vger.kernel.org>, Geert Uytterhoeven
-	<geert+renesas@glider.be>, Prabhakar Mahadev Lad
-	<prabhakar.mahadev-lad.rj@bp.renesas.com>, biju.das.au
-	<biju.das.au@gmail.com>, "linux-renesas-soc@vger.kernel.org"
-	<linux-renesas-soc@vger.kernel.org>
-Subject: RE: [PATCH v6 0/8] Convert DA906{1,2} bindings to json-schema
-Thread-Topic: [PATCH v6 0/8] Convert DA906{1,2} bindings to json-schema
-Thread-Index: AQHaLmTZZmVT0psB8keMNtPm4cmnmbCz04OAgAAE+gCAPOHi4A==
-Date: Mon, 29 Jan 2024 08:29:46 +0000
-Message-ID:
- <TYCPR01MB1126921A54B9260CC33505FCA867E2@TYCPR01MB11269.jpnprd01.prod.outlook.com>
-References: <20231214080911.23359-1-biju.das.jz@bp.renesas.com>
- <170316812973.586675.6248412029985031979.b4-ty@kernel.org>
- <20231221143318.GH10102@google.com>
-In-Reply-To: <20231221143318.GH10102@google.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TYCPR01MB11269:EE_|TYCPR01MB10116:EE_
-x-ms-office365-filtering-correlation-id: 4a11c383-45d9-4ae0-7ad5-08dc20a473aa
-x-ld-processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info:
- vUjVH/dNlJOwTn81uievgTht6+CS6dxhaz23ljXvwd9k2eC927yEEgX0F7hFj37TUCUjHg8ArYcSY+Fg7ABjCbqMW3IegxQJZTzyeFw6rEhp9yHDfuPtbsMX4BxDciCv9DRu9FCxcDBX3lZ5cE/A0I1zL58M3TWa1R7HhmiurIgdnUPvok15QWWbtQihodCOYBGCZ7ddxysBtPEWVR+Ky7uGgB2ytjWFMaFqJe/EgK+S0MAMVQtJkV0v13lmZ3LX15vfTDfSDbbb4aemQ9oK1pxO4koOo6iCgDPBEifQrpWFtKs9MHd+l+0/4IOXXwHJdGytxXhmtm1+63gOJ25nIQVIzQEEg5l4FRXrrWyRp3vlYXESSTSfTi9Ya8io5VYXdSOmdwJ8Pq06ZbDMW4Uod9co8Lh+H8te0O+ikf2/pptTHNaZ4Eh77CkjEpeqCANgdawscRCwgGag1bnY7fOcet2sm3CMfLLvJ0cHFs/pyUkILcF3jLg31PRuHyFMFXCWdqHfKiQCFBzWhchcRwX/F6HZ2Ko0/P7rO2NdWO0fd6bz+Lvv/X3qYijMQFQLGD/uTTwZ97tO9OlezQKbX1awsXhQyd3L6fEiNqgOIyoRR529f2QjGbRQDqdnYvQ358nD
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB11269.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(346002)(396003)(366004)(39860400002)(376002)(136003)(230922051799003)(186009)(64100799003)(451199024)(1800799012)(55016003)(83380400001)(26005)(7696005)(6506007)(53546011)(33656002)(86362001)(38070700009)(7416002)(5660300002)(52536014)(41300700001)(4326008)(8936002)(8676002)(9686003)(38100700002)(122000001)(66556008)(66446008)(76116006)(66946007)(66476007)(110136005)(64756008)(54906003)(71200400001)(2906002)(478600001)(316002);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?utf-8?B?WngzemdRTHkzYkQxZXRITmt6RHJUa0tFN0kvZ0lrRFhwZXlnVFVMcWdnTFlO?=
- =?utf-8?B?dkgxVVZFeWJCUXFzUm9qSzMzS3R0SDhxZTVzVFJpeW1qUmRjUHIrL0QwM2xv?=
- =?utf-8?B?b0FUNWNYekxVL050WEg1Y0ZhSG9YelAzZTZmcWZZQmI5cjdUamxjdXZBOWFC?=
- =?utf-8?B?NDFCU1V6dGUySFl3VjJtZVVmUkt6NFJyeXp5ZFlidVNxNnQ5YVAzL0NLRk94?=
- =?utf-8?B?dmoxaWtnK2tCWGJwUTZROFM0RHdVMy8wMWEzQkx4SzVvR1RVT29LZGluRXYz?=
- =?utf-8?B?cHNPLzR3NkN6dTVLZjlwenljKzZFWmNWNzFqa0RTRkNGMXUvZXBoYVh1WVFW?=
- =?utf-8?B?ZEswR2JEeHYwaEFyS1drWW5qU2RsM3V1dXdNbEhrejdWTGdpckhjeklOZVhv?=
- =?utf-8?B?Z1VtcVloUzAxNEdBVHlkZUxrSUVZMnV2NUtsYXNrNS9Ed1M4eGZzVVM1a0s5?=
- =?utf-8?B?V3Y0cUZKY1JGV0J6WkMvQWRXeHVNQlViTUdzK21EUElGRzVVNnM0R1lRQkly?=
- =?utf-8?B?VGZXdC91WTg5R2kzZEM4ZFd5Q2tKbEF4bDJxSXNOZDZLNklpUXZPb2R0cE5l?=
- =?utf-8?B?OVdGQmJ6Z294dDlXcW1FUUprbnhtSitvdlNkQ290L2JtN2dsTWpGK1pMTEFJ?=
- =?utf-8?B?U29lV1NUajdRcUNYTkhCWlhpK2pNcUc5R3RBUkNBbUJTRWY3MG9kWEhRY2ZI?=
- =?utf-8?B?aW91U2Uwek1kV2haM0FYMUhtWkFVSmUrZ3JGVm93cFJsdll4Z3k0bm9rNExX?=
- =?utf-8?B?SHhBMUZMRzFzcks1Yk5COUxNM1hzTkFrajV6Wnl5NTAxc2kvejFiSllxRG1N?=
- =?utf-8?B?dXNseU5OMXRJblZmVHlmbUNsOG4zUGNqU0NHaWVpQmlMWWw4NlVxNGRYeXlK?=
- =?utf-8?B?QjZ1SDZuRjJUdHdwaGJ0cFpXMEFjcXdPSUFVeXdTOUxGWWxKbFBIVG9Wb1Rx?=
- =?utf-8?B?Y3M2TkxNM2NWMnFNQnRLUVYyU1hpd2hwQk5jL2pLMjV4VGd4VFc5THptRUd1?=
- =?utf-8?B?cDBXa2d6dWRQSE9ZbllXVS9JMnlQeE9vSXlxOGwyZkk4NGdVVzRvOFlkajZ0?=
- =?utf-8?B?Z0hsK29qeFVKL1hQeHp4czdjMnRjMk9iTHBFL3RNcUxRcm1uWThiZkFGalFO?=
- =?utf-8?B?VUgzYURLUmlNMitLeTN4Z0tnOTEzY2xMVVUvcHdGbUozVk16LzBlL1IyL2VK?=
- =?utf-8?B?ZDVqL1FZRVAzMTNYYU85ZElmVWdaMkEwbHozcG9LNTZvR0V6R3RRUlVoOGp1?=
- =?utf-8?B?Tld3Q2xNRUh5b1pLNHZJMG9xRndVNW16T25ISFUwLzQ4R1B4Ylg2UHZOTHRt?=
- =?utf-8?B?bUk0UU9sN2Ywd0ROTVRzcStRL1lDcytFZzdPZndaVVFoVW9vSHoxN1pHZ0x0?=
- =?utf-8?B?U1pzRmM1NER6Wm5ueGhGd2pabXJRcjN6bU1GTlBFR2JCR3FvcDBCNXl0OE0w?=
- =?utf-8?B?dERiSktpWkNOaXZlcjFTbmlzeUlZaUloZFppMmt6d0NYS0dNZGpYZEZKZmoy?=
- =?utf-8?B?cStST1RJNzFFclNxRHdGUW1zSjZOazhhR3ovdDNXWStnSXc2bC9hb251Vy95?=
- =?utf-8?B?RDlFa1RibmtHbkhqTHE5VlhBd0xxSlRDb1I1NnVqeHlOWVN5bW1sV2FtcG9T?=
- =?utf-8?B?NjJ2YkY1eWFXakEyWWlPc2crbkZkYU9EaVZrN2NWNUVMdXQ1Z0krVTloc05t?=
- =?utf-8?B?OHNFOVlLM0EzbThPcXhwZk95MXhsZkxhSTd4VzNHM2RLVVF5OFF0dzA0dXN2?=
- =?utf-8?B?MnNDWXpYeU9mWkFmOGpQaG1iZVJBTy9JR0RMSGg0NmVmTDc2M05rZWZNdk4z?=
- =?utf-8?B?bnVQWVpuQVM4TENTQUFVblZBMDJpWTNGU01lSi9oNmszTGQ0YmJZMDNPc2Mw?=
- =?utf-8?B?cjlWZHM3dTlCWlpENmczOEpaNXI4WnVHZEFHdkNmaHNwSzIrMEZLeTEySDdj?=
- =?utf-8?B?QjhWWkVhMkVrdzhaUDkwVWROdFlOMUozYkwwWGFFUm9VSEFwM3IranZlaCtO?=
- =?utf-8?B?K1NsSG5FQ0FmbWdWcmRmZk1RKzdSakpsWTZFZ2k2VzllWGtNd1JLSW1FS0Zq?=
- =?utf-8?B?U0RpR05mNnJhVmZJeHZpaFgyZityYURWS3NQMW1OVHg0ME9KNHpzQWVDRDJh?=
- =?utf-8?B?UmR6cU1YTHhXMVpIYktiWmZKQjYrVnA5Y0lIcENSYXE4aGd4emlOL05TbFlo?=
- =?utf-8?B?T3c9PQ==?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F8F056457;
+	Mon, 29 Jan 2024 09:28:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=60.248.80.70
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1706520495; cv=none; b=NIok8W0UWGLvjH7aNq+uI9qaC3jT9uIP3vh6LgVI9ZPQXuH8k+iJl77UtAxbXueDdk1Vt72UXK+HjozYiceGrgrva8XJ4Hlm9nPDdx1dr4hLDRMc/SVqHahYjcd8dzYK4C5ot0BRGd1gBpYEATVJreF79qB3TE2KnP+OKu3hRA0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1706520495; c=relaxed/simple;
+	bh=V9Y1yX1zp9r8SCxikLX3xMWBS5X1n6TApm7GyCBw5Kw=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type; b=oO+HBYb+h6o4e0N3OQ33Ejc+SDRSUDQE+JdqBk8sc6NqUxN53Rip1P+r9LLGTi8qLKKzcgdZqzZZhojOeJTyqvWiVr0o0onTw8c8/+zdqi9W0W2gmZm23V6U/limOwe9zZfWRWq8/DNrsoYHpy5Jg5R00dIqXgIz3dtJw+Qf/D0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=andestech.com; spf=pass smtp.mailfrom=andestech.com; arc=none smtp.client-ip=60.248.80.70
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=andestech.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=andestech.com
+Received: from mail.andestech.com (ATCPCS16.andestech.com [10.0.1.222])
+	by Atcsqr.andestech.com with ESMTP id 40T9Pxn0079984;
+	Mon, 29 Jan 2024 17:25:59 +0800 (+08)
+	(envelope-from peterlin@andestech.com)
+Received: from swlinux02.andestech.com (10.0.15.183) by ATCPCS16.andestech.com
+ (10.0.1.222) with Microsoft SMTP Server id 14.3.498.0; Mon, 29 Jan 2024
+ 17:25:58 +0800
+From: Yu Chien Peter Lin <peterlin@andestech.com>
+To: <acme@kernel.org>, <adrian.hunter@intel.com>, <ajones@ventanamicro.com>,
+        <alexander.shishkin@linux.intel.com>, <andre.przywara@arm.com>,
+        <anup@brainfault.org>, <aou@eecs.berkeley.edu>,
+        <atishp@atishpatra.org>, <conor+dt@kernel.org>,
+        <conor.dooley@microchip.com>, <conor@kernel.org>,
+        <devicetree@vger.kernel.org>, <evan@rivosinc.com>,
+        <geert+renesas@glider.be>, <guoren@kernel.org>, <heiko@sntech.de>,
+        <irogers@google.com>, <jernej.skrabec@gmail.com>, <jolsa@kernel.org>,
+        <jszhang@kernel.org>, <krzysztof.kozlowski+dt@linaro.org>,
+        <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
+        <linux-perf-users@vger.kernel.org>,
+        <linux-renesas-soc@vger.kernel.org>, <linux-riscv@lists.infradead.org>,
+        <linux-sunxi@lists.linux.dev>, <locus84@andestech.com>,
+        <magnus.damm@gmail.com>, <mark.rutland@arm.com>, <mingo@redhat.com>,
+        <n.shubin@yadro.com>, <namhyung@kernel.org>, <palmer@dabbelt.com>,
+        <paul.walmsley@sifive.com>, <peterlin@andestech.com>,
+        <peterz@infradead.org>, <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        <rdunlap@infradead.org>, <robh+dt@kernel.org>, <samuel@sholland.org>,
+        <sunilvl@ventanamicro.com>, <tglx@linutronix.de>,
+        <tim609@andestech.com>, <uwu@icenowy.me>, <wens@csie.org>,
+        <will@kernel.org>, <inochiama@outlook.com>, <unicorn_wang@outlook.com>,
+        <wefu@redhat.com>
+Subject: [PATCH v8 00/10] Support Andes PMU extension
+Date: Mon, 29 Jan 2024 17:25:43 +0800
+Message-ID: <20240129092553.2058043-1-peterlin@andestech.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB11269.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4a11c383-45d9-4ae0-7ad5-08dc20a473aa
-X-MS-Exchange-CrossTenant-originalarrivaltime: 29 Jan 2024 08:29:46.6926
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: C/t1qKm224d+rLv+qby4PY2NApVbVA++2Da1WxdOVRcC8tdr3tcEcWdHPtgOFEd4N3qmvHfttQUVFkLNBMBaddW0AZSyuVN/h8MgHNRX/J4=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYCPR01MB10116
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-DNSRBL: 
+X-SPAM-SOURCE-CHECK: pass
+X-MAIL:Atcsqr.andestech.com 40T9Pxn0079984
 
-SGkgTGVlIEpvbmVzLA0KDQo+IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+IEZyb206IExl
-ZSBKb25lcyA8bGVlQGtlcm5lbC5vcmc+DQo+IFNlbnQ6IFRodXJzZGF5LCBEZWNlbWJlciAyMSwg
-MjAyMyAyOjMzIFBNDQo+IFN1YmplY3Q6IFJlOiBbUEFUQ0ggdjYgMC84XSBDb252ZXJ0IERBOTA2
-ezEsMn0gYmluZGluZ3MgdG8ganNvbi1zY2hlbWENCj4gDQo+IE9uIFRodSwgMjEgRGVjIDIwMjMs
-IExlZSBKb25lcyB3cm90ZToNCj4gDQo+ID4gT24gVGh1LCAxNCBEZWMgMjAyMyAwODowOTowMyAr
-MDAwMCwgQmlqdSBEYXMgd3JvdGU6DQo+ID4gPiBDb252ZXJ0IHRoZSBiZWxvdyBiaW5kaW5ncyB0
-byBqc29uLXNjaGVtYQ0KPiA+ID4gMSkgREE5MDZ7MSwyfSBtZmQgYmluZGluZ3MNCj4gPiA+IDIp
-IERBOTA2ezEsMiwzfSBvbmtleSBiaW5kaW5ncw0KPiA+ID4gMykgREE5MDZ7MSwyLDN9IHRoZXJt
-YWwgYmluZGluZ3MNCj4gPiA+DQo+ID4gPiBBbHNvIGFkZCBmYWxsYmFjayBmb3IgREE5MDYxIHdh
-dGNoZG9nIGRldmljZSBhbmQgZG9jdW1lbnQNCj4gPiA+IERBOTA2MyB3YXRjaGRvZyBkZXZpY2Uu
-DQo+ID4gPg0KPiA+ID4gWy4uLl0NCj4gPg0KPiA+IEFwcGxpZWQsIHRoYW5rcyENCj4gPg0KPiA+
-IFsxLzhdIGR0LWJpbmRpbmdzOiBtZmQ6IGRhOTA2MjogVXBkYXRlIHdhdGNoZG9nIGRlc2NyaXB0
-aW9uDQo+ID4gICAgICAgY29tbWl0OiA5ZTdiMTNiODA1YmNiZTUzMzVjMjkzNmQ0YzdlYTAzMjNh
-YzY5YTgxDQo+ID4gWzIvOF0gZHQtYmluZGluZ3M6IHdhdGNoZG9nOiBkbGcsZGE5MDYyLXdhdGNo
-ZG9nOiBBZGQgZmFsbGJhY2sgZm9yDQo+IERBOTA2MSB3YXRjaGRvZw0KPiA+ICAgICAgIGNvbW1p
-dDogMjhkMzRkYjc3NzJmMTg0OTBiNTIzMjhmMDRhM2JmNjllZDUzOTBkMg0KPiA+IFszLzhdIGR0
-LWJpbmRpbmdzOiB3YXRjaGRvZzogZGxnLGRhOTA2Mi13YXRjaGRvZzogRG9jdW1lbnQgREE5MDYz
-DQo+IHdhdGNoZG9nDQo+ID4gICAgICAgY29tbWl0OiBkMmE3ZGJiODA4ODcwYzE3Y2ZmYTI3NDll
-YTg3N2Y2MWYyOThkMDk4DQo+ID4gWzQvOF0gZHQtYmluZGluZ3M6IG1mZDogZGxnLGRhOTA2Mzog
-VXBkYXRlIHdhdGNoZG9nIGNoaWxkIG5vZGUNCj4gPiAgICAgICBjb21taXQ6IGQ0MDE4NTQ3YTE1
-YTk0YzdlODY1YjJjZWY4MmJmZjFjZDQzYTMyYjMNCj4gPiBbNS84XSBkdC1iaW5kaW5nczogaW5w
-dXQ6IENvbnZlcnQgZGE5MDZ7MSwyLDN9IG9ua2V5IHRvIGpzb24tc2NoZW1hDQo+ID4gICAgICAg
-Y29tbWl0OiBkYjQ1OWQzZGE3YmI5YzM3Y2I4Njg5N2M3YjMyMWE0OWY4ZTQwOTY4DQo+ID4gWzYv
-OF0gZHQtYmluZGluZ3M6IHRoZXJtYWw6IENvbnZlcnQgZGE5MDZ7MSwyfSB0aGVybWFsIHRvIGpz
-b24tc2NoZW1hDQo+ID4gICAgICAgY29tbWl0OiA5OThmNDk5Yzg0M2UzNjBiY2Q5ZWUxZmU5YWRk
-YzNiNWQzMmYxMjM0DQo+ID4gWzcvOF0gZHQtYmluZGluZ3M6IG1mZDogZGxnLGRhOTA2MzogU29y
-dCBjaGlsZCBkZXZpY2VzDQo+ID4gICAgICAgY29tbWl0OiAyYmJmOWQyYThlM2JjOTMzNzAzZGZk
-YTg3Y2FjOTUzYmVkNDU4NDk2DQo+ID4gWzgvOF0gZHQtYmluZGluZ3M6IG1mZDogZGxnLGRhOTA2
-MzogQ29udmVydCBkYTkwNjIgdG8ganNvbi1zY2hlbWENCj4gPiAgICAgICBjb21taXQ6IDUyMjIy
-NTE2MTgzMGY2YTkzZjJhYWFiZGE5OTIyNmMxZmZkZGM4YzQNCj4gDQo+IFN1Ym1pdHRlZCBmb3Ig
-dGVzdGluZy4gIFB1bGwtcmVxdWVzdCB0byBmb2xsb3cuDQoNClRoZSBjb21taXQgZGM4MDVlYTA1
-OGMwZSAoIk1BSU5UQUlORVJTOiByZWN0aWZ5IGVudHJ5IGZvciBESUFMT0cgU0VNSUNPTkRVQ1RP
-UiBEUklWRVJTIikNCmluIG1haW5saW5lIHdpbGwgZ2l2ZSBhIGNvbmZsaWN0IGZvciBwYXRjaCMx
-Lg0KDQpQYXRjaCMyIGFuZCBwYXRjaCMzIGFyZSBhbHJlYWR5IGluIG1haW5saW5lLg0KDQoNClBs
-ZWFzZSBsZXQgbWUga25vdyBpZiB5b3Ugd2FudCBtZSB0byByZWJhc2UgYW5kIHJlc2VuZCB0aGUg
-cGF0Y2ggc2VyaWVzDQoNCk9yIA0KDQp5b3Ugd2lsbCB0YWtlIGNhcmUgdGhlIE1BSU5UQUlORVJT
-IGNvbmZsaWN0IHdoaWxlIGFwcGx5aW5nLg0KDQpDaGVlcnMsDQpCaWp1DQo=
+Hi All,
+
+This patch series introduces the Andes PMU extension, which serves the
+same purpose as Sscofpmf and Smcntrpmf. Its non-standard local interrupt
+is assigned to bit 18 in the custom S-mode local interrupt enable and
+pending registers (slie/slip), while the interrupt cause is (256 + 18).
+
+Linux patches based on:
+- ed5b7cf ("riscv: errata: andes: Probe for IOCP only once in boot stage")
+It can be found on Andes Technology GitHub:
+- https://github.com/andestech/linux/commits/andes-pmu-support-v8
+
+The PMU device tree node used on AX45MP:
+- https://github.com/riscv-software-src/opensbi/blob/master/docs/pmu_support.md#example-3
+
+Locus Wei-Han Chen (1):
+  riscv: andes: Support specifying symbolic firmware and hardware raw
+    events
+
+Yu Chien Peter Lin (9):
+  riscv: errata: Rename defines for Andes
+  irqchip/riscv-intc: Allow large non-standard interrupt number
+  irqchip/riscv-intc: Introduce Andes hart-level interrupt controller
+  dt-bindings: riscv: Add Andes interrupt controller compatible string
+  riscv: dts: renesas: r9a07g043f: Update compatible string to use Andes
+    INTC
+  perf: RISC-V: Eliminate redundant interrupt enable/disable operations
+  perf: RISC-V: Introduce Andes PMU to support perf event sampling
+  dt-bindings: riscv: Add Andes PMU extension description
+  riscv: dts: renesas: Add Andes PMU extension for r9a07g043f
+
+ .../devicetree/bindings/riscv/cpus.yaml       |   6 +-
+ .../devicetree/bindings/riscv/extensions.yaml |   7 +
+ arch/riscv/boot/dts/renesas/r9a07g043f.dtsi   |   4 +-
+ arch/riscv/errata/andes/errata.c              |  10 +-
+ arch/riscv/include/asm/errata_list.h          |  13 +-
+ arch/riscv/include/asm/hwcap.h                |   1 +
+ arch/riscv/include/asm/vendorid_list.h        |   2 +-
+ arch/riscv/kernel/alternative.c               |   2 +-
+ arch/riscv/kernel/cpufeature.c                |   1 +
+ drivers/irqchip/irq-riscv-intc.c              |  88 ++++++++++--
+ drivers/perf/Kconfig                          |  14 ++
+ drivers/perf/riscv_pmu_sbi.c                  |  37 ++++-
+ include/linux/soc/andes/irq.h                 |  18 +++
+ .../arch/riscv/andes/ax45/firmware.json       |  68 ++++++++++
+ .../arch/riscv/andes/ax45/instructions.json   | 127 ++++++++++++++++++
+ .../arch/riscv/andes/ax45/memory.json         |  57 ++++++++
+ .../arch/riscv/andes/ax45/microarch.json      |  77 +++++++++++
+ tools/perf/pmu-events/arch/riscv/mapfile.csv  |   1 +
+ 18 files changed, 494 insertions(+), 39 deletions(-)
+ create mode 100644 include/linux/soc/andes/irq.h
+ create mode 100644 tools/perf/pmu-events/arch/riscv/andes/ax45/firmware.json
+ create mode 100644 tools/perf/pmu-events/arch/riscv/andes/ax45/instructions.json
+ create mode 100644 tools/perf/pmu-events/arch/riscv/andes/ax45/memory.json
+ create mode 100644 tools/perf/pmu-events/arch/riscv/andes/ax45/microarch.json
+
+-- 
+2.34.1
+
 
