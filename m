@@ -1,78 +1,79 @@
-Return-Path: <linux-renesas-soc+bounces-1947-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-1948-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CCC18413FA
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 29 Jan 2024 21:01:38 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 08E9A841421
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 29 Jan 2024 21:23:42 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 875961C22E8D
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 29 Jan 2024 20:01:37 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B3913288CE4
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 29 Jan 2024 20:23:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DA9B460EFF;
-	Mon, 29 Jan 2024 20:01:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1754076050;
+	Mon, 29 Jan 2024 20:23:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="iRu4lOil"
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="V0tA0hE+"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78A4A48790
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 29 Jan 2024 20:01:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E102B76040
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 29 Jan 2024 20:23:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706558491; cv=none; b=a/+SoC/Eku6TDHI9LsABclKaftgt+MoVRUkXFzd8EiKnGj+uKMNK50iP8XCb2pmg1mcfPE7t7CZ9QWFG1lHw87XKzuWJrf/EtwWqXf0AxOnzVQkprmgqvhXybUWm1dGS+GmkLDYbZQ6WsAVc4jhSY4mxvrv9CDDm8LBbouDpyUU=
+	t=1706559819; cv=none; b=dDXQGUBl4sGmPVIPiAxMQkExgmYoqExUnfiiTedNvIYMXxZ7jv9JceZIlk4u5MzzbzRsHQ231+g7rgTkHGlh+uqec/Y+6x14QoaMS504UWDF2UdEroSPe7mayHj4b+flioorXrrr1NTivEgdqncBu1n1m5Vh3Z4wPSQ7KRJQEzI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706558491; c=relaxed/simple;
-	bh=l74wCMgNHIGILBM62GQEer3+RAnaoh90tTNWu1/Em6M=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=dYlMUdvsRwL7ZDcMpXnEJrhVmQvHwScI8AiISHJKBUWbMmTxD+AZu+TSdypsKGijxKIbtVjMXHWqvKCtnDv8OZWOvT8/ZQoZrXD7rvNC0gay7IehAkou240T0tUiAMbjD/RarfTuoVySNIp3qYXGYpQryDa9fUvpetW9d4lIjm8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=iRu4lOil; arc=none smtp.client-ip=209.85.208.169
+	s=arc-20240116; t=1706559819; c=relaxed/simple;
+	bh=dM6ba2x4HwpYbtuGVDsq1HI2U36g/GnBYneODePkEGs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=B2QRz7byRgonCLv4pEyVzhg+zVfAdIBdxj5257+L4Ej2eTS5Y0HMhoLU7U71NTg1+Z21hqKMoTov6VXUYXimvJtCBZEoKQAxnnTBxW1mQ31B0E+DT1fiCPsvWC4SGX+e22W2lAYs3Tuj3tLnM0lMVCyuITSimvSFlvNOw6U2Dx0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=V0tA0hE+; arc=none smtp.client-ip=209.85.208.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
-Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-2cf3a095ba6so37003431fa.2
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 29 Jan 2024 12:01:26 -0800 (PST)
+Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-55ef0465507so2083033a12.3
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 29 Jan 2024 12:23:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech.se; s=google; t=1706558485; x=1707163285; darn=vger.kernel.org;
+        d=ragnatech.se; s=google; t=1706559815; x=1707164615; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZtKoU0dMc2/VwANL5DHhc0IZfKZvqlfdxMaMmK8zypg=;
-        b=iRu4lOil1eWVnmr2chWiBkIF2vB37UDpaWBmdiua49u+IE2+QebO0W1b2NS6QKvQmc
-         YHy2+JMcMnmJZwpIH1Z1CSaEefH3nZhb3niK13QGJcYNu5ybtIV8jvhM2khSxHPiN7lh
-         Mjs81EGyTpNNSQR7m91hB9Aymax54qvAY6a7fBahsyv8yiSeipKOo0Km1G9NdJaI5DHs
-         GGcuULmkqBuJRVDv8maYuDgx7P6SMMQHh3BJQuuGnlT6PspFuKlQaTa6Xu6zUYly3ajf
-         9FY13TmMBgj5uye+2MBquija0jqwjMoTULAU0JdSZRBJgkPK9vfBhoTRqoLsup+608uh
-         c0Zg==
+        bh=8QA+buKFMZTRG4ST0AJ8iQJWrU3caTyEcNko8bHD/ks=;
+        b=V0tA0hE+4ee88e29+kX/7H9En2wHirm9xpVj1S2c4bRgDEq+aGLlciLRE0nhu1uR6b
+         kAZ/Cr1zh/Xv7wh9aNxOj8Sl4xMLqhpApuXUHRuNK3YhONDP9ZJlxQKTFp6jvDBchBXB
+         bYkxPC6CE2GsfAQ0g04M1QY70ADtMQwRH6F1FzLmtHnFdruBuDyjqNqR5EMdN4bufK1z
+         4DJNz7dgYtIcPtELgov6rWq/tvHG3IkVcWXrSLqSWAdbyokLTpOC8PVOtxvUIqc3B1MX
+         +scpUKQS3sQ+pDwEeIEVnI612cekUSVy0AbJMlCrneTW1lWR4camJMZQO6ZkqbcEOhQn
+         yMvQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706558485; x=1707163285;
+        d=1e100.net; s=20230601; t=1706559815; x=1707164615;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=ZtKoU0dMc2/VwANL5DHhc0IZfKZvqlfdxMaMmK8zypg=;
-        b=lNfxGBXOmW6Xfc12YSe1SgPJscFUt5Ym30hrxTPKzI58QOvy/HYcoZpT36qQ7XybBt
-         7VXOgcNVkH+2REGzphjqJvIAD15drxcU4ar+vkvGY0E9jeLnwETRYIZsNs4ogNboSqe1
-         EoOYGc/3LOBmPp6dIrjICHGf4RCf+fd4e5BdCwNffqQGpe4AXSVvjqk19yMStkctsbKi
-         8PKU/JlVbAW2UJVCzQWrxkTYP4zlDmysPwgoW1J4Yzdkp1eQbIUGBUaVGuA7qImqnI7F
-         xDI6TUwTAt9oq0yE5Z20WeDkhTr7aVVgcydiEvcmG1FvcnoQvya1Nv+49McGPIVu9N6f
-         tn3g==
-X-Gm-Message-State: AOJu0YyYw9LdUyrOo8TU3zL5qgojtkqL+2PsDnDXH5eGy60PNFGReXMJ
-	GtXlPjLXUKde8YmYKUb0TV0elks0lJNznxTEHh9NDdYe13TqxDPFe0s6smoc7xc=
-X-Google-Smtp-Source: AGHT+IHwrrMwCYqB0UqECcVQOKDgs/9bTVL/0vnOmGCoVmeioWJ9/5gFmGemvoY77zEIlK8EEak7gA==
-X-Received: by 2002:a2e:2a82:0:b0:2cf:15b0:d14d with SMTP id q124-20020a2e2a82000000b002cf15b0d14dmr4582923ljq.41.1706558485028;
-        Mon, 29 Jan 2024 12:01:25 -0800 (PST)
+        bh=8QA+buKFMZTRG4ST0AJ8iQJWrU3caTyEcNko8bHD/ks=;
+        b=qjNYriewoVOffSdZ3D4OlYcfo5EjJmQxjVI5jusUqNYcg1T81mCZxOmGEuO4haRtlZ
+         lJFTXqhBPIflho7e2+UtBPyZNeJ3dbK6goGVyFG2wIG/LrQHdfICC3oSyyZEWWK7TNUa
+         XAuVlJtzn1/mGnn/GDb/TxKhe9uVbCXKwHyZ+DfzQ5Wh284GudHZH1uDGOhGFaoGaLL9
+         4eiZvsw2C5T2MC7ZCxwmm6g3YNCrsCuNhGQx2tz5tzRQLkItqeFEsKQieNixcihc59p6
+         ay57qmCToaX0IvJzj37F1P4vTcd1yeK26hoyCcFQ71R8tHjgnLu/DlLChKswhHPIsA71
+         h2zw==
+X-Gm-Message-State: AOJu0YwdELK/peF7/dGlNbCxV+DqEtYn0AgzrbpHGWmKCEqZlMHJFKRS
+	GrMYYgg3gVPh0+Gnxhy9msCVDSwhPevue1bpIFnqOn3Q+cELWqXeo3P/H6wZrUk=
+X-Google-Smtp-Source: AGHT+IETGB+AFgPofgFxiy09dTmzqQ7BzupeOQ/NuMTc2gGkAMd8OhNl3PVB4cTC15tE8X2SZyZW+g==
+X-Received: by 2002:a17:906:410b:b0:a35:e63d:dcfa with SMTP id j11-20020a170906410b00b00a35e63ddcfamr1717365ejk.7.1706559815102;
+        Mon, 29 Jan 2024 12:23:35 -0800 (PST)
 Received: from sleipner.berto.se (p4fcc8c6a.dip0.t-ipconnect.de. [79.204.140.106])
-        by smtp.googlemail.com with ESMTPSA id t23-20020a056402241700b00558b0c513e0sm4085223eda.61.2024.01.29.12.01.24
+        by smtp.googlemail.com with ESMTPSA id mc4-20020a170906eb4400b00a338fedb9ebsm4316386ejb.54.2024.01.29.12.23.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Jan 2024 12:01:24 -0800 (PST)
+        Mon, 29 Jan 2024 12:23:34 -0800 (PST)
 From: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>,
+To: Hans Verkuil <hverkuil@xs4all.nl>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
 	linux-media@vger.kernel.org
 Cc: linux-renesas-soc@vger.kernel.org,
 	=?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Subject: [PATCH] media: v4l: async: Fix completion of chained subnotifiers
-Date: Mon, 29 Jan 2024 20:59:54 +0100
-Message-ID: <20240129195954.1110643-1-niklas.soderlund+renesas@ragnatech.se>
+Subject: [PATCH 0/6] media: rcar-vin: Make use of multiple connections in v4l-async
+Date: Mon, 29 Jan 2024 21:22:48 +0100
+Message-ID: <20240129202254.1126012-1-niklas.soderlund+renesas@ragnatech.se>
 X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
@@ -83,157 +84,69 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Allowing multiple connections between entities are very useful but the
-addition of this feature did not considerate nested subnotifiers.
+Hello,
 
-Consider the scenario,
+Since the addition of Gen3 support to rcar-vin the driver have worked
+around the limitation in v4l-async that a subdevice could only be bound
+to one notifier. This was needed as each VIN instance can be connected
+to the same CSI-2 receiver and each capture a different virtual channel.
 
-rcar-vin.ko     rcar-isp.ko     rcar-csi2.ko    max96712.ko
+The workaround was implemented as a single notifier that was registered
+by the last VIN driver instance to attach to the device, and
+unregistered by the last VIN driver instance to go away. This lead to a
+lot of complexities as the driver had to synchronize between them at
+different points in the life-cycle (probe, v4l-async complete, remove,
+etc).
 
-video0 ---->    v4l-subdev0 ->  v4l-subdev1 ->  v4l-subdev2
-video1 -´
+To complicate things even more some VIN instances had access to its own
+private parallel interface that also needed to be a part of the media
+graph. This lead to some VIN driver instances having to deal with one
+private notifier for the parallel interface and interacting with the
+shared group notifier.
 
-Where each videoX or v4l-subdevX is controlled and register by a
-separate instance of the driver listed above it. And each driver
-instance registers a notifier (videoX) or a subnotifier (v4l-subdevX)
-trying to bind to the device pointed to.
+The limitation in v4l-async have now been addressed by [1]. This
+simplify things quiet a bit for drivers and this series removes the
+concept of a shared group notifier and implements a single notifier for
+each VIN instance. This single notifier covers both the parallel
+interface for the VIN instances that have it and all shared subdevices
+that are readable for each VIN. This also simplify the media link
+creation.
 
-If the devices probe in any other except where the vidoeX ones are
-probed last only one of them will have their complete callback called,
-the one who last registered its notifier. Both of them will however have
-their bind() callback called as expected.
+This series depends on a fix to the v4l-async multiple connections 
+posted separately in [2]. Without this fix the probe order can cause 
+regressions in functionality if the rcar-vin is not probed after all 
+subdevices it depends on.
 
-This is due to v4l2_async_nf_try_complete() only walking the chain from
-the subnotifier to one root notifier and completing it while ignoring
-all other notifiers the subdevice might be part of. This works if there
-are only one subnotifier in the mix. For example if either v4l-subdev0
-or v4l-subdev1 was not part of the pipeline above.
+Patch 1-4 are small preparation patches getting small things out of the 
+way while patch 6 is a small post cleanup patch. Patch 5 is the real 
+work in this series, it's a bit large but most of it is removal of code 
+no longer needed.
 
-This patch addresses the issue of nested subnotifiers by instead looking
-at all notifiers and try to complete all the ones that contain the
-subdevice which subnotifier was completed.
+Tested on R-Car Gen2 (M2), Gen3 (H3, M3N, V3M), Gen4 (V4H) with latest 
+v4l2-compilance and other VIN specific tests without regressions.
 
-Fixes: 28a1295795d8 ("media: v4l: async: Allow multiple connections between entities")
-Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
----
- drivers/media/v4l2-core/v4l2-async.c | 68 ++++++++++++++++++++--------
- 1 file changed, 49 insertions(+), 19 deletions(-)
+The work is based on the latest media-next/master branch.
 
-diff --git a/drivers/media/v4l2-core/v4l2-async.c b/drivers/media/v4l2-core/v4l2-async.c
-index 3ec323bd528b..8b603527923c 100644
---- a/drivers/media/v4l2-core/v4l2-async.c
-+++ b/drivers/media/v4l2-core/v4l2-async.c
-@@ -176,15 +176,16 @@ static LIST_HEAD(notifier_list);
- static DEFINE_MUTEX(list_lock);
- 
- static struct v4l2_async_connection *
--v4l2_async_find_match(struct v4l2_async_notifier *notifier,
--		      struct v4l2_subdev *sd)
-+__v4l2_async_find_in_list(struct v4l2_async_notifier *notifier,
-+			  struct v4l2_subdev *sd,
-+			  struct list_head *list)
- {
- 	bool (*match)(struct v4l2_async_notifier *notifier,
- 		      struct v4l2_subdev *sd,
- 		      struct v4l2_async_match_desc *match);
- 	struct v4l2_async_connection *asc;
- 
--	list_for_each_entry(asc, &notifier->waiting_list, asc_entry) {
-+	list_for_each_entry(asc, list, asc_entry) {
- 		/* bus_type has been verified valid before */
- 		switch (asc->match.type) {
- 		case V4L2_ASYNC_MATCH_TYPE_I2C:
-@@ -207,6 +208,20 @@ v4l2_async_find_match(struct v4l2_async_notifier *notifier,
- 	return NULL;
- }
- 
-+static struct v4l2_async_connection *
-+v4l2_async_find_match(struct v4l2_async_notifier *notifier,
-+		      struct v4l2_subdev *sd)
-+{
-+	return __v4l2_async_find_in_list(notifier, sd, &notifier->waiting_list);
-+}
-+
-+static struct v4l2_async_connection *
-+v4l2_async_find_done(struct v4l2_async_notifier *notifier,
-+		     struct v4l2_subdev *sd)
-+{
-+	return __v4l2_async_find_in_list(notifier, sd, &notifier->done_list);
-+}
-+
- /* Compare two async match descriptors for equivalence */
- static bool v4l2_async_match_equal(struct v4l2_async_match_desc *match1,
- 				   struct v4l2_async_match_desc *match2)
-@@ -274,13 +289,14 @@ v4l2_async_nf_can_complete(struct v4l2_async_notifier *notifier)
- }
- 
- /*
-- * Complete the master notifier if possible. This is done when all async
-+ * Complete the master notifiers if possible. This is done when all async
-  * sub-devices have been bound; v4l2_device is also available then.
-  */
- static int
- v4l2_async_nf_try_complete(struct v4l2_async_notifier *notifier)
- {
--	struct v4l2_async_notifier *__notifier = notifier;
-+	struct v4l2_async_notifier *n;
-+	int ret;
- 
- 	/* Quick check whether there are still more sub-devices here. */
- 	if (!list_empty(&notifier->waiting_list))
-@@ -290,24 +306,38 @@ v4l2_async_nf_try_complete(struct v4l2_async_notifier *notifier)
- 		dev_dbg(notifier_dev(notifier),
- 			"v4l2-async: trying to complete\n");
- 
--	/* Check the entire notifier tree; find the root notifier first. */
--	while (notifier->parent)
--		notifier = notifier->parent;
-+	/*
-+	 * Notifiers without a parent are either a subnotifier that have not
-+	 * yet been associated with it is a root notifier or a root notifier
-+	 * itself. If it is a root notifier try to complete it.
-+	 */
-+	if (!notifier->parent) {
-+		/* This is root if it has v4l2_dev. */
-+		if (!notifier->v4l2_dev) {
-+			dev_dbg(notifier_dev(notifier),
-+				"v4l2-async: V4L2 device not available\n");
-+			return 0;
-+		}
- 
--	/* This is root if it has v4l2_dev. */
--	if (!notifier->v4l2_dev) {
--		dev_dbg(notifier_dev(__notifier),
--			"v4l2-async: V4L2 device not available\n");
--		return 0;
--	}
-+		/* Is everything ready? */
-+		if (!v4l2_async_nf_can_complete(notifier))
-+			return 0;
-+
-+		dev_dbg(notifier_dev(notifier), "v4l2-async: complete\n");
- 
--	/* Is everything ready? */
--	if (!v4l2_async_nf_can_complete(notifier))
--		return 0;
-+		return v4l2_async_nf_call_complete(notifier);
-+	}
- 
--	dev_dbg(notifier_dev(__notifier), "v4l2-async: complete\n");
-+	/* Try to complete all notifiers containing the subdevices. */
-+	list_for_each_entry(n, &notifier_list, notifier_entry) {
-+		if (v4l2_async_find_done(n, notifier->sd)) {
-+			ret = v4l2_async_nf_try_complete(n);
-+			if (ret)
-+				return ret;
-+		}
-+	}
- 
--	return v4l2_async_nf_call_complete(notifier);
-+	return 0;
- }
- 
- static int
+1. commit 28a1295795d8 ("media: v4l: async: Allow multiple connections
+   between entities")
+
+2. [PATCH] media: v4l: async: Fix completion of chained subnotifiers
+   https://lore.kernel.org/linux-media/20240129195954.1110643-1-niklas.soderlund+renesas@ragnatech.se/T/#u
+
+Niklas Söderlund (6):
+  media: rcar-vin: Move media graph pointers to device info
+  media: rcar-vin: Simplify remote source type detection
+  media: rcar-vin: Fold simple functions into only caller
+  media: rcar-vin: Register the media device together with the group
+  media: rcar-vin: Remove the shared group notifier
+  media: rcar-vin Rename notifier helper functions
+
+ .../platform/renesas/rcar-vin/rcar-core.c     | 639 +++++++-----------
+ .../platform/renesas/rcar-vin/rcar-dma.c      |  48 +-
+ .../platform/renesas/rcar-vin/rcar-v4l2.c     |  44 +-
+ .../platform/renesas/rcar-vin/rcar-vin.h      |  34 +-
+ 4 files changed, 289 insertions(+), 476 deletions(-)
+
 -- 
 2.43.0
 
