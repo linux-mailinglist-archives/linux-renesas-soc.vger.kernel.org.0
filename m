@@ -1,122 +1,206 @@
-Return-Path: <linux-renesas-soc+bounces-1942-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-1943-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2A51840B08
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 29 Jan 2024 17:13:46 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 811A58410C0
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 29 Jan 2024 18:31:49 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 83FF9B22FA6
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 29 Jan 2024 16:13:44 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 160C81F2244D
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 29 Jan 2024 17:31:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 607B2155A56;
-	Mon, 29 Jan 2024 16:13:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1EE8976C7F;
+	Mon, 29 Jan 2024 17:30:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="m+K69jKW"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yb1-f170.google.com (mail-yb1-f170.google.com [209.85.219.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0B50155A44;
-	Mon, 29 Jan 2024 16:13:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E373F76C79;
+	Mon, 29 Jan 2024 17:30:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706544805; cv=none; b=ZZtjXtRZL+u3eEfnOYpNxPs2M03CdocG6yuwNwl3h8qGfzXVMSTP8KJ3EMWA7ozD12ldvj3PkKw2B/1LDx/f/g9seeL4SXnpBExZFcYyIeZoy4kY3Janh6EUXo6O1DDXDlnpL78EH1QynQe5/0YvuuSSUXhRt+LKrxL6ZiKWivU=
+	t=1706549437; cv=none; b=Ye7lYxlLBRFUKrH6DwSomNjG2L//fbli3w11vBgM8WSFfFFRDi0Fe4HedROKeJ8pw5b0UQfon2VpdOOkZcySXiS0sdWyawjoBMbks8agVfEgoS5sDHLm0Gf/qqZVur+H+4gDbXGS/0JDgjiNlE6y634nNdxp+82dxjUprt3aTXc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706544805; c=relaxed/simple;
-	bh=iBuWSo0zZ0zhs3nszLVS5iO2TT7tnyzjI6i6+b4CDGs=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Qbgl5BxzuCAfmoMUVCmmQsecE3akCw0CXF6sC2xWltj2WQJPwHjH5DFZ2MKHxJ7nOAY7iJkpTLGzVTR7dON0QYf/doXsWzN3VzFNOpD+XtFGJN6ldUBCi4kEIKMAbuUyclNx1w24yI2Pk1qkZ+KVBzsWVbg6nkezS2nrSNLZf5I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.219.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yb1-f170.google.com with SMTP id 3f1490d57ef6-dc6933a46efso506968276.0;
-        Mon, 29 Jan 2024 08:13:22 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706544801; x=1707149601;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=M34SovAVKIxJ85Xs2siD2UjRmVaUICuFPeB7G+JCjO0=;
-        b=U5FlurnfJr/7jEx+GmeSxjMpOuAGJpCMxBYvD+9KQDoKYVrXYQ5gHiaHpq32hOAr5O
-         RCAv9fdiiMuiPB6GU/mICSNkzKYT8Nl9orNs4z+7guao8s613r76LYYyt9ieEETBnFYf
-         5tAV9qfKDPrs18zORD2HjBaJyViBwhDXI47bWz/jnchxMmPz7ua3N9ploWKUhLTVW/4w
-         89VG6HH/Sc3qduN4qBvdCxQF4ZtmTmcnZv3GGlwi7TFy9juJuHn3WUFh0g860HwEicNR
-         DCps1WS3gvNnvTzrpOsV+ckOJ3WJqbWiFolq6ZxplZ5+iGMKFxjqIqU11q9GxLYpgGEl
-         AlSw==
-X-Gm-Message-State: AOJu0YzgPQRnyCxoiLKfFZEqkTPG12yVyGznBcdwQAMgfiaJw4eEZta+
-	5xUYhWlfvsR8d2Z8SmYpaXYLVuZwQO81+vgdA1bbGxNkDYdzPrnS8z7huXj1hO0=
-X-Google-Smtp-Source: AGHT+IHqA6CC3cQ+KmLzxCROgIdBf2cOfh+NJFawnRG0HhfD8zqHmnkna+802LAlVf+2t12PiG97GA==
-X-Received: by 2002:a25:8c8c:0:b0:dc2:1743:be55 with SMTP id m12-20020a258c8c000000b00dc21743be55mr2587882ybl.112.1706544801520;
-        Mon, 29 Jan 2024 08:13:21 -0800 (PST)
-Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com. [209.85.128.169])
-        by smtp.gmail.com with ESMTPSA id p65-20020a252944000000b00dbed7110107sm2341708ybp.12.2024.01.29.08.13.21
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 29 Jan 2024 08:13:21 -0800 (PST)
-Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-6001449a2beso19300957b3.3;
-        Mon, 29 Jan 2024 08:13:21 -0800 (PST)
-X-Received: by 2002:a05:690c:3603:b0:5ff:83f7:57e7 with SMTP id
- ft3-20020a05690c360300b005ff83f757e7mr4614143ywb.31.1706544801029; Mon, 29
- Jan 2024 08:13:21 -0800 (PST)
+	s=arc-20240116; t=1706549437; c=relaxed/simple;
+	bh=OXQd1RnjO7UJeTnd9b35uKkSkUJf85ceg9kIDyszIk8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bherHQ9hz6l9zYgm5bcqTXUky8cwJA9z+mjET0JMORDS8UOQo9pLn0p6qa8n1w6C5kF6qXR7N6EGycEUOSkRQozpdh5VbyfnviwUj6/1GDGqrmqvJUFTAQlnXmpkNiqE8Ybq0DnCN1Lmsrn2qNuJJjOjIN162nClDHxJ9y47I78=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=m+K69jKW; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D9E4CC433C7;
+	Mon, 29 Jan 2024 17:30:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1706549436;
+	bh=OXQd1RnjO7UJeTnd9b35uKkSkUJf85ceg9kIDyszIk8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=m+K69jKWZIF69OHl7PMAE41J0uqd1KVWsmsLishPqiVhnQXmGHaePGHbFCGBWgtDD
+	 833c7oemkGkJ7LfpHyexjIZnfGU0Vi+PWWnI5YUWXbZFvOtRalWswI1jfLu4rjdSgu
+	 MKoK5Jb7qx+divI6WtIGPx+HXtAm5mNGWi76TRKXD6ppuDCZF+9rNGt756SwvJa8iq
+	 4VihGKgCQ/HeC700lCi7aVVw7ggiZVLsM+c0o6uXdcBp4Q1Cq1TMfg6Or0rd7fvQdf
+	 WUQptqLE3iI4BMV63lNP9SahrI6VOONxYXfSFvWQrJEyA3aKs6EkrE10vJVDmwkeeE
+	 GHa19xQe2PbLg==
+Date: Mon, 29 Jan 2024 17:30:30 +0000
+From: Conor Dooley <conor@kernel.org>
+To: Prabhakar <prabhakar.csengg@gmail.com>
+Cc: Thomas Gleixner <tglx@linutronix.de>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH 1/5] dt-bindings: interrupt-controller:
+ renesas,rzg2l-irqc: Document RZ/Five SoC
+Message-ID: <20240129-magical-unclaimed-e725e2491ccb@spud>
+References: <20240129151618.90922-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20240129151618.90922-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240115153453.99226-1-claudiu.beznea.uj@bp.renesas.com>
-In-Reply-To: <20240115153453.99226-1-claudiu.beznea.uj@bp.renesas.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 29 Jan 2024 17:13:09 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdXrLmBOFg-9soCYD+hAcW9hXCbtM5NkLb1Pa2SJ6bxSyg@mail.gmail.com>
-Message-ID: <CAMuHMdXrLmBOFg-9soCYD+hAcW9hXCbtM5NkLb1Pa2SJ6bxSyg@mail.gmail.com>
-Subject: Re: [PATCH] pinctrl: renesas: rzg2l: Fix locking in rzg2l_dt_subnode_to_map()
-To: Claudiu <claudiu.beznea@tuxon.dev>
-Cc: linus.walleij@linaro.org, linux-renesas-soc@vger.kernel.org, 
-	linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	dan.carpenter@linaro.org, Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="Ygn/mpQIjskR0FcW"
+Content-Disposition: inline
+In-Reply-To: <20240129151618.90922-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+
+
+--Ygn/mpQIjskR0FcW
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jan 15, 2024 at 4:35=E2=80=AFPM Claudiu <claudiu.beznea@tuxon.dev> =
-wrote:
-> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
->
-> Commit d3aaa7203a17 ("pinctrl: renesas: rzg2l: Add pin configuration
-> support for pinmux groups") introduced the possibility to parse pin
-> configuration for pinmux groups. It did that by calling
-> rzg2l_map_add_config() at the end of rzg2l_dt_subnode_to_map() and
-> jumping to the remove_group label in case rzg2l_map_add_config() failed.
-> But if that happens, the mutex will already be unlocked, thus this it wil=
-l
-> lead to double mutex unlock operation. To fix this move the
-> rzg2l_map_add_config() call just after all the name argument is ready and
-> before the mutex is locked. There is no harm in doing this, as this only
-> parses the data from device tree that will be further processed by
-> pinctrl core code.
->
-> Fixes: d3aaa7203a17 ("pinctrl: renesas: rzg2l: Add pin configuration supp=
-ort for pinmux groups")
-> Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+On Mon, Jan 29, 2024 at 03:16:14PM +0000, Prabhakar wrote:
+> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+>=20
+> Document RZ/Five (R9A07G043F) IRQC bindings. The IRQC block on RZ/Five SoC
+> is almost identical to one found on the RZ/G2L SoC with below differences,
+> * Additional BUS error interrupt
+> * Additional ECCRAM error interrupt
+> * Has additional mask control registers for NMI/IRQ/TINT
+>=20
+> Hence new compatible string "renesas,r9a07g043f-irqc" is added for RZ/Five
+> SoC.
+>=20
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> ---
+>  .../renesas,rzg2l-irqc.yaml                   | 27 +++++++++++++++++++
+>  1 file changed, 27 insertions(+)
+>=20
+> diff --git a/Documentation/devicetree/bindings/interrupt-controller/renes=
+as,rzg2l-irqc.yaml b/Documentation/devicetree/bindings/interrupt-controller=
+/renesas,rzg2l-irqc.yaml
+> index d3b5aec0a3f7..3abc01e48934 100644
+> --- a/Documentation/devicetree/bindings/interrupt-controller/renesas,rzg2=
+l-irqc.yaml
+> +++ b/Documentation/devicetree/bindings/interrupt-controller/renesas,rzg2=
+l-irqc.yaml
+> @@ -23,6 +23,7 @@ properties:
+>    compatible:
+>      items:
+>        - enum:
+> +          - renesas,r9a07g043f-irqc   # RZ/Five
+>            - renesas,r9a07g043u-irqc   # RZ/G2UL
+>            - renesas,r9a07g044-irqc    # RZ/G2{L,LC}
+>            - renesas,r9a07g054-irqc    # RZ/V2L
+> @@ -88,6 +89,12 @@ properties:
+>        - description: GPIO interrupt, TINT30
+>        - description: GPIO interrupt, TINT31
+>        - description: Bus error interrupt
+> +      - description: ECCRAM0 TIE1 interrupt
+> +      - description: ECCRAM0 TIE2 interrupt
+> +      - description: ECCRAM0 overflow interrupt
+> +      - description: ECCRAM1 TIE1 interrupt
+> +      - description: ECCRAM1 TIE2 interrupt
+> +      - description: ECCRAM1 overflow interrupt
+> =20
+>    interrupt-names:
+>      minItems: 41
+> @@ -134,6 +141,12 @@ properties:
+>        - const: tint30
+>        - const: tint31
+>        - const: bus-err
+> +      - const: eccram0-tie1
+> +      - const: eccram0-tie2
+> +      - const: eccram0-ovf
+> +      - const: eccram1-tie1
+> +      - const: eccram1-tie2
+> +      - const: eccram1-ovf
 
-Closes: https://lore.kernel.org/all/f8c3a3a0-7c48-4e40-8af0-ed4e9d9b049f@mo=
-roto.mountain
+I think the restrictions already in the file become incorrect with this
+patch:
+  - if:
+      properties:
+        compatible:
+          contains:
+            enum:
+              - renesas,r9a07g043u-irqc
+              - renesas,r9a08g045-irqc
+    then:
+      properties:
+        interrupts:
+          minItems: 42
+        interrupt-names:
+          minItems: 42
+      required:
+        - interrupt-names
 
-> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+This used to require all 42 interrupts for the two compatibles here
+and at least the first 41 otherwise. Now you've increased the number of
+interrupts to 48 thereby removing the upper limits on the existing
+devices.
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-pinctrl for v6.9.
+Given the commit message, I figure that providing 48 interrupts for
+(at least some of) those devices would be incorrect?
 
-Gr{oetje,eeting}s,
+Cheers,
+Conor.
 
-                        Geert
+> =20
+>    clocks:
+>      maxItems: 2
+> @@ -180,6 +193,20 @@ allOf:
+>        required:
+>          - interrupt-names
+> =20
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            const: renesas,r9a07g043f-irqc
+> +    then:
+> +      properties:
+> +        interrupts:
+> +          minItems: 48
+> +        interrupt-names:
+> +          minItems: 48
+> +      required:
+> +        - interrupt-names
+> +
+>  unevaluatedProperties: false
+> =20
+>  examples:
+> --=20
+> 2.34.1
+>=20
 
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
+--Ygn/mpQIjskR0FcW
+Content-Type: application/pgp-signature; name="signature.asc"
 
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZbfgtgAKCRB4tDGHoIJi
+0oqzAQDRsNsMgRYlDd+DmTlEOCZC0GxDFYdGkW9k02+U2C2kUAD/Q+SgbLDfDyC8
++6lTLc/HCbiewN8LWm/xBVSaQNYbWwk=
+=5vqQ
+-----END PGP SIGNATURE-----
+
+--Ygn/mpQIjskR0FcW--
 
