@@ -1,363 +1,186 @@
-Return-Path: <linux-renesas-soc+bounces-2053-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-2054-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CD7B8429BE
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Jan 2024 17:42:25 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id A719F8429C4
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Jan 2024 17:42:47 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 04A4C1F263F8
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Jan 2024 16:42:25 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id D2F71B2B74E
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Jan 2024 16:42:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8EABC12BF0A;
-	Tue, 30 Jan 2024 16:41:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3309312837D;
+	Tue, 30 Jan 2024 16:42:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="XlCsZR8R"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 67C0D12838B;
-	Tue, 30 Jan 2024 16:41:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.172
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706632901; cv=none; b=Rb0MZXi9joVh5ChQ45nNfNaWbY37GJC71Giqrb1t+sazNDpvO7JMpdk8MMTFVgrP6ltG0OUg2RxLAqu+lgzu+xr4eSxiISNfx2SenEADTRBScF9yoVfrgdulTEETp+e+65hwr2vTH0HWxbkOFmiE7678hAdcQb1YFHYjYLzLYx8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706632901; c=relaxed/simple;
-	bh=pd+wp2JcKaucw1aDfoCbB66bI0HUCWmkn1HxtXG2nlE=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=Tjg6Ou+HL4hVsv/tjxQ0h1jB6eWIhVHuHfOcjapGgSrsEIbeWsxjYBErkBVk6zA4vU8ymjgsbWRs+GtpfkwUas4CWO/5VJ3pzXutPe8GDE815tA/6VTJK9axJFqf1WsxCAihu/Ijt/4gvpnjcxWLLYpyDNMv3KI3ilkbOLrBQoY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.172
+Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01on2100.outbound.protection.outlook.com [40.107.113.100])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D2AF6DD06;
+	Tue, 30 Jan 2024 16:42:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.113.100
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1706632953; cv=fail; b=g4vZmY2OQKWA1w1ByhAQmlIdT2YVyURWCQIoUrL0wOUsfNBCONWKXjCHhcxaDTzvAbDLnC6pBXB7dvWF2Zn2pwPqApTy5aZKrRh0g09+xQxAG6QcANWf4dWFawEefx7n9y5vCyPzhUojw9ECU/hsAEGc6B/VA5dlojJjMBAz1hU=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1706632953; c=relaxed/simple;
+	bh=ZE7VK8Drgx2/JFqUKE9iTYcyqNC6aiRNX/D1TP7E62k=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=T4CHyOKrrDnqtESD2U/x/GdwZhjqFlt1Z5QIMnt3MiJAWMCwS+gSKClXaOX++yrirME2H/JeId9wKYqLsGWBV46COFx7O1SS/PHj4ki+d6nnXhPf+phNODKBku8YoNfaT/R6agvkBoumof3W1+gJDv1fD+E2A5UnS0C97VjG46A=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=XlCsZR8R; arc=fail smtp.client-ip=40.107.113.100
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
-X-IronPort-AV: E=Sophos;i="6.05,230,1701097200"; 
-   d="scan'208";a="196171785"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie6.idc.renesas.com with ESMTP; 31 Jan 2024 01:41:39 +0900
-Received: from localhost.localdomain (unknown [10.226.92.244])
-	by relmlir5.idc.renesas.com (Postfix) with ESMTP id 73FA44002972;
-	Wed, 31 Jan 2024 01:41:35 +0900 (JST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=HTqlpCD/Bc6YYeYqVyqx9EyH7Q3B5jt4F9OxkgJtjviX3NFy6ZNhlSa+LuinEwGvlDFkGnNYeBl9EI7YVvFym9PufMCD4idQmWRSk5/I668D5DlJrKLa7cR0itkuFcp80d1fW1/76u3QU9qZgwKefMbgF2ZNsBJp3AT4BbFJhf1WxJ4+jdXOBq04eJcWnyyBGwdjlAenFO2Qza0XIKUZULDatDnADcqraNvFPVIEsGbEuu9NHqsHrd0qLYKABY7/wpnY86hNGy9rUfFB+GcTl6gT4wWpqxRWeDSg+4v3Ml63mQ8gYdnRWMF8Ny0R7wrwztfmDKKeUsutgpmElS2fgg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=l03QZaOcq1xiSBYv2Rs2yYNOIFUuOh+D5DBi52j0fn0=;
+ b=I75C4Xr6iPOEQlaN0L3L1KaEIJZboAlWtGcS9Q38BNYVOiN7WBpDnnRMiqBVYlTl1rthPX93NBEQVGSrH6m+cwTIpg76Hfqyifnp35KFf4RL4F+3GnyJief99NNbJi5HStfCIt+rbfsgAhcHrYE5lNbPnQ5thbbYUVR9yCQzjyjDQviDP2gmeNaEDgBfETBCFMRLWdc9QyUmU3bu+9aN9xHrV75MhpQr7EqSxMOLbIyj77Cp9fzWj6HZ0BFXzVtk2b5uwwZvp6IjUW6xJW5ECia7RQrDbVwsgR0xS5Uf8iiw9q6Fs6NrV6aiopfzqdC6kkJaHGvWCkeHPIUuM5ZtQA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=l03QZaOcq1xiSBYv2Rs2yYNOIFUuOh+D5DBi52j0fn0=;
+ b=XlCsZR8R06y939zFGw4oB3sPFK1E6Gz2fRX1m9AlbSH5Q76c80KdFmhVK4+LssPeN/s/k6AUaa91hniC1uqkj72QGAigN7QsYHuyZC18kst6mq9vBpD8L9XOCsACdplTirlXTYpvTObmU39w2in77zhxr3oI4rHkIPp6uDrr2Ok=
+Received: from TYCPR01MB11269.jpnprd01.prod.outlook.com
+ (2603:1096:400:3c0::10) by TYWPR01MB8590.jpnprd01.prod.outlook.com
+ (2603:1096:400:13d::9) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7249.22; Tue, 30 Jan
+ 2024 16:42:27 +0000
+Received: from TYCPR01MB11269.jpnprd01.prod.outlook.com
+ ([fe80::8d12:a02a:9fdc:9c78]) by TYCPR01MB11269.jpnprd01.prod.outlook.com
+ ([fe80::8d12:a02a:9fdc:9c78%5]) with mapi id 15.20.7249.023; Tue, 30 Jan 2024
+ 16:42:27 +0000
 From: Biju Das <biju.das.jz@bp.renesas.com>
 To: Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: Biju Das <biju.das.jz@bp.renesas.com>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
-	Rob Herring <robh@kernel.org>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	linux-media@vger.kernel.org,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Biju Das <biju.das.au@gmail.com>,
-	linux-renesas-soc@vger.kernel.org
-Subject: [PATCH v2 RESEND 4/4] media: platform: rzg2l-cru: rzg2l-video: Restructure clk handling
-Date: Tue, 30 Jan 2024 16:41:15 +0000
-Message-Id: <20240130164115.116613-5-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20240130164115.116613-1-biju.das.jz@bp.renesas.com>
-References: <20240130164115.116613-1-biju.das.jz@bp.renesas.com>
+CC: Hans Verkuil <hverkuil-cisco@xs4all.nl>, Sakari Ailus
+	<sakari.ailus@linux.intel.com>, Laurent Pinchart
+	<laurent.pinchart@ideasonboard.com>, =?iso-8859-1?Q?Uwe_Kleine-K=F6nig?=
+	<u.kleine-koenig@pengutronix.de>, Rob Herring <robh@kernel.org>, Prabhakar
+ Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>, Geert
+ Uytterhoeven <geert+renesas@glider.be>, biju.das.au <biju.das.au@gmail.com>,
+	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>
+Subject: RE: [PATCH v2 0/4] clk_disable_unprepare
+Thread-Topic: [PATCH v2 0/4] clk_disable_unprepare
+Thread-Index: AQHaU5pqmjb0Ihb4mk+2urxMCJ4idLDyjx9Q
+Date: Tue, 30 Jan 2024 16:42:27 +0000
+Message-ID:
+ <TYCPR01MB1126976A64C637D9C22ACF56C867D2@TYCPR01MB11269.jpnprd01.prod.outlook.com>
+References: <20240130163553.116249-1-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20240130163553.116249-1-biju.das.jz@bp.renesas.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=bp.renesas.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: TYCPR01MB11269:EE_|TYWPR01MB8590:EE_
+x-ms-office365-filtering-correlation-id: fc2435f4-cd70-458b-9bbf-08dc21b2719d
+x-ld-processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info:
+ DhtmDGsBx66chvs9q12GAXXQmKxVQWmT+mGNSxSDVgzoTYZlDMpIs8ZRFGC4FXD4INPUTkvFLqc/I0TR02jlHVdt2YbqolcPKGbkwSVgD5xT89nzk91CZpQx/mPY0fOO1cBt7WYqGlqUTmlqGpM9weMVtFiEtau8WRs8hjFVYJdwX6FKo9rLYAj9136WA2/tJ0hgHGZUJk5aoDleRLlsdRQ8X1IIgyC5XwqLtJZFL9Y/D4apm1piboP2BPw1OR/k7K02DqAwZWYe6usK/R7a7e8Kbcnoq8WG1TD/bJyoJk8i9Rm1PAtGMffgjPrpugYQrRJ28f6hnkHkmIPwED2JR9JRYlgYtHZMj1NIls9U6vp/TIWwmbdJeMuAyNsAgrbxeiOxvxWIoUvZcyjt4YB07IDtYEDGDIGFXHpMkJt04XgQczqITQBLA0fmsVb8HYPVbkJ5TlwufZI/UFdqUusp49PFuJAMAkJZfCtFPtci0UZQH6RpEBSZDhnNySKd5wXEK2bN2SDZ8e2X8X4cGNf4KGUWt8LHWqw8Hv5/yAW1mGxWd0boBuOPxriAJdtnWLcsOSGR6kojJVIqLnDxn0NJgUbMW7Bv02qDIYkpPE0uQTBqZfY2P0DZZlhutqH4zHO5
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB11269.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376002)(366004)(396003)(346002)(39860400002)(136003)(230922051799003)(64100799003)(1800799012)(186009)(451199024)(8676002)(122000001)(76116006)(316002)(64756008)(66446008)(66946007)(66556008)(66476007)(55016003)(6916009)(54906003)(4326008)(53546011)(7696005)(6506007)(86362001)(2906002)(8936002)(5660300002)(52536014)(38100700002)(7416002)(33656002)(38070700009)(83380400001)(26005)(9686003)(41300700001)(478600001)(71200400001);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?iso-8859-1?Q?2iXgsfEGvjVnV1iAAYkuDb2cN34rcz91Mo1VdsrfFtSIheJ8i6C3ZNqaeF?=
+ =?iso-8859-1?Q?/LZHilCTxAtFZeHduTEYGZrFuAGOvzU7GU4J8wQthjUnOd0IvI8/Z9Ath8?=
+ =?iso-8859-1?Q?LO+jx67P3D72JQcHkVh5YYDs/KAqKAHDygB6OpgHAsrtirZx/JZzDzhwFq?=
+ =?iso-8859-1?Q?bJ+i7opIycrzCJcl8Y81PjUKgueBMKmR1IQ5X3PUepnJuKmUNsHlFW6Xui?=
+ =?iso-8859-1?Q?Vb5eSQONlmZv+qXt9M12PZ7Jf782vUaViZyQXub0TFh1Mw5eE9ZhmDxKOL?=
+ =?iso-8859-1?Q?mP2SMMIPXbL+z15/jZrmCzvj71oEKbYLg5oF4ukItu+3zH0g4lUy22egCz?=
+ =?iso-8859-1?Q?mh0KTO3yoPEDUvlAvFSQfFJeHtTHfq5MJrs95Sk8x930XswS3JbHY8Ri4s?=
+ =?iso-8859-1?Q?KR2AaY6B7vYRWi+kb/X7VHQ29Ok0+fzMRi0KqQT5ipAmRUkE7AbpnG/bw0?=
+ =?iso-8859-1?Q?QU1WJojG44hh83RgsllUIK3/xSU1meilT6kFoPv/nOxNFIH+Um764jv4lz?=
+ =?iso-8859-1?Q?HYreabAKMl7nmXiNxpRbbKT2m6kQx2qwLA2+pbB2oPWjJJY7+gmAGd0y3o?=
+ =?iso-8859-1?Q?UVnwsphISzIsX7XDykc3uaR4hfHghRZNtgECiQpd8jsBjEbUBQBfRhWqMd?=
+ =?iso-8859-1?Q?qlJkhOg9/r+UJ+VrdEoDxl4BnHfOMrzL6AvpDZL5tmBSq+EC1C6pnLD1FQ?=
+ =?iso-8859-1?Q?+FGI7FgLOmbQTwtGSFyLkMfr89FmidEcmvFgdyyo6qYSeBKjt/+/9WB2hD?=
+ =?iso-8859-1?Q?1whqkm5UxkPj/H9lbQByMwwUkRd9vDqN2/h7+KWnl56yQ+T/juqZhoRmOW?=
+ =?iso-8859-1?Q?81Q5kNocsDuEvy7lAPqvaDvxtI1drtP8uMM8hb8tN0zUKbnd9tCjIKnYlt?=
+ =?iso-8859-1?Q?b8euvglhAjAejCd7sKDfj/d5bY5sBX887LPj+Twpxj0kwY2e7ue+PhEmfC?=
+ =?iso-8859-1?Q?apdXeBZSHqhT+dCjcipscH7TS2QDRpYVRyJTUXP8WVOFWkDkqMoHlQshPe?=
+ =?iso-8859-1?Q?+w78PC8/Ru4flnq6fHH15dwWz7DMkRcLqQkoTIPz+3MGWx6nt9kwKLn8qg?=
+ =?iso-8859-1?Q?UKvR9Co2PYk6gNn4laB+NINL+bPKmZIjgo9DZ/oIKwfMDlooUtIInP+6E4?=
+ =?iso-8859-1?Q?ZQ9E8vsFepghMMgbSihyQwis2vl1tXC0FWBdYigucoexE6D5cRoNL3jtFF?=
+ =?iso-8859-1?Q?re+G11bn9rS+b1vCYYzuo/f0WBuxx2lQdRhMSqMjW81do2mm57eDuSH0kQ?=
+ =?iso-8859-1?Q?DR5bt/v36qWj7NEqA9xBeODy0KbBHD86OqckNPrMFdOlQLV/zCCPmJTb3E?=
+ =?iso-8859-1?Q?0imJnToaiujRKDXuxbfElhIgidcTw896FplmUafZRSUfPuM+PfCQ6fKAiK?=
+ =?iso-8859-1?Q?FsrFDhlbYAauBUtahvzqTpTz4nYRb76AP9GtG+3VinhiXRJznnz/ZZ9QsY?=
+ =?iso-8859-1?Q?xicl1GVOyUD3dExogb5EnIK5TkeTfnhh+mPRPmEyFbOXuDozWlqx+ap3Hr?=
+ =?iso-8859-1?Q?METnzbi7zsdZlYAhcOhxq31R2pzP1mpdXmaHv7G9oLaakw2n0KSa/KcLKQ?=
+ =?iso-8859-1?Q?bk4MadTtI7S1+35DYz4PEoer4pwOoN4bEIEQNBtYqJ7dB5dGXxRkYIdV2D?=
+ =?iso-8859-1?Q?MMpRBmlmqd/0dBwS1Id2stA8ybDdmpeOSnHQ+zcZavbnbXtfLBLIL0Jg?=
+ =?iso-8859-1?Q?=3D=3D?=
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB11269.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: fc2435f4-cd70-458b-9bbf-08dc21b2719d
+X-MS-Exchange-CrossTenant-originalarrivaltime: 30 Jan 2024 16:42:27.3641
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: s0YlDp7nxv++FmoBb5iVviMJdOFe5AIS5Im+FUHPCIFJ54ICEv5exLbalWuIxCLqYILxv3NRD534WAsW7iBBUbR8CTM11dbYypRx2ohhvTQ=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYWPR01MB8590
 
-As per section 35.3.1 Starting Reception for the MIPI CSI-2 Input on the
-latest hardware manual (R01UH0914EJ0140 Rev.1.40) it is mentioned that
-we need to supply all CRU clks and we need to disable the vclk before
-enabling the LINK reception and enable the vclk after enabling the link
-Reception. So restructure clk handling as per the HW manual.
+Hi All,
 
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
----
-v1->v2:
- * Dropped clk-provider.h and __clk_is_enabled() as consumer clk should
-   not use it. Plan to send RFC for clk_disable_unprepare_sync() in ccf.
----
- .../platform/renesas/rzg2l-cru/rzg2l-cru.h    |  3 -
- .../platform/renesas/rzg2l-cru/rzg2l-csi2.c   | 28 +++++---
- .../platform/renesas/rzg2l-cru/rzg2l-ip.c     | 15 +---
- .../platform/renesas/rzg2l-cru/rzg2l-video.c  | 69 ++++++++-----------
- 4 files changed, 47 insertions(+), 68 deletions(-)
+> -----Original Message-----
+> From: Biju Das <biju.das.jz@bp.renesas.com>
+> Sent: Tuesday, January 30, 2024 4:36 PM
+> Subject: [PATCH v2 0/4] clk_disable_unprepare
 
-diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h
-index 811603f18af0..a5a99b004322 100644
---- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h
-+++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h
-@@ -133,9 +133,6 @@ struct rzg2l_cru_dev {
- 	struct v4l2_pix_format format;
- };
- 
--void rzg2l_cru_vclk_unprepare(struct rzg2l_cru_dev *cru);
--int rzg2l_cru_vclk_prepare(struct rzg2l_cru_dev *cru);
--
- int rzg2l_cru_start_image_processing(struct rzg2l_cru_dev *cru);
- void rzg2l_cru_stop_image_processing(struct rzg2l_cru_dev *cru);
- 
-diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c
-index e00d9379dd2c..e68fcdaea207 100644
---- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c
-+++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c
-@@ -108,6 +108,7 @@ struct rzg2l_csi2 {
- 	struct reset_control *presetn;
- 	struct reset_control *cmn_rstb;
- 	struct clk *sysclk;
-+	struct clk *vclk;
- 	unsigned long vclk_rate;
- 
- 	struct v4l2_subdev subdev;
-@@ -361,7 +362,7 @@ static int rzg2l_csi2_dphy_setting(struct v4l2_subdev *sd, bool on)
- 	return rzg2l_csi2_dphy_disable(csi2);
- }
- 
--static void rzg2l_csi2_mipi_link_enable(struct rzg2l_csi2 *csi2)
-+static int rzg2l_csi2_mipi_link_enable(struct rzg2l_csi2 *csi2)
- {
- 	unsigned long vclk_rate = csi2->vclk_rate / HZ_PER_MHZ;
- 	u32 frrskw, frrclk, frrskw_coeff, frrclk_coeff;
-@@ -386,11 +387,15 @@ static void rzg2l_csi2_mipi_link_enable(struct rzg2l_csi2 *csi2)
- 	rzg2l_csi2_write(csi2, CSI2nDTEL, 0xf778ff0f);
- 	rzg2l_csi2_write(csi2, CSI2nDTEH, 0x00ffff1f);
- 
-+	clk_disable_unprepare(csi2->vclk);
-+
- 	/* Enable LINK reception */
- 	rzg2l_csi2_write(csi2, CSI2nMCT3, CSI2nMCT3_RXEN);
-+
-+	return clk_prepare_enable(csi2->vclk);
- }
- 
--static void rzg2l_csi2_mipi_link_disable(struct rzg2l_csi2 *csi2)
-+static int rzg2l_csi2_mipi_link_disable(struct rzg2l_csi2 *csi2)
- {
- 	unsigned int timeout = VSRSTS_RETRIES;
- 
-@@ -409,18 +414,21 @@ static void rzg2l_csi2_mipi_link_disable(struct rzg2l_csi2 *csi2)
- 
- 	if (!timeout)
- 		dev_err(csi2->dev, "Clearing CSI2nRTST.VSRSTS timed out\n");
-+
-+	return 0;
- }
- 
- static int rzg2l_csi2_mipi_link_setting(struct v4l2_subdev *sd, bool on)
- {
- 	struct rzg2l_csi2 *csi2 = sd_to_csi2(sd);
-+	int ret;
- 
- 	if (on)
--		rzg2l_csi2_mipi_link_enable(csi2);
-+		ret = rzg2l_csi2_mipi_link_enable(csi2);
- 	else
--		rzg2l_csi2_mipi_link_disable(csi2);
-+		ret = rzg2l_csi2_mipi_link_disable(csi2);
- 
--	return 0;
-+	return ret;
- }
- 
- static int rzg2l_csi2_s_stream(struct v4l2_subdev *sd, int enable)
-@@ -731,7 +739,6 @@ static const struct media_entity_operations rzg2l_csi2_entity_ops = {
- static int rzg2l_csi2_probe(struct platform_device *pdev)
- {
- 	struct rzg2l_csi2 *csi2;
--	struct clk *vclk;
- 	int ret;
- 
- 	csi2 = devm_kzalloc(&pdev->dev, sizeof(*csi2), GFP_KERNEL);
-@@ -757,12 +764,11 @@ static int rzg2l_csi2_probe(struct platform_device *pdev)
- 		return dev_err_probe(&pdev->dev, PTR_ERR(csi2->sysclk),
- 				     "Failed to get system clk\n");
- 
--	vclk = clk_get(&pdev->dev, "video");
--	if (IS_ERR(vclk))
--		return dev_err_probe(&pdev->dev, PTR_ERR(vclk),
-+	csi2->vclk = devm_clk_get(&pdev->dev, "video");
-+	if (IS_ERR(csi2->vclk))
-+		return dev_err_probe(&pdev->dev, PTR_ERR(csi2->vclk),
- 				     "Failed to get video clock\n");
--	csi2->vclk_rate = clk_get_rate(vclk);
--	clk_put(vclk);
-+	csi2->vclk_rate = clk_get_rate(csi2->vclk);
- 
- 	csi2->dev = &pdev->dev;
- 
-diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-ip.c b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-ip.c
-index 8466b4e55909..2d22c373588b 100644
---- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-ip.c
-+++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-ip.c
-@@ -80,20 +80,9 @@ static int rzg2l_cru_ip_s_stream(struct v4l2_subdev *sd, int enable)
- 			return ret;
- 		}
- 
--		rzg2l_cru_vclk_unprepare(cru);
--
- 		ret = v4l2_subdev_call(cru->ip.remote, video, s_stream, enable);
--		if (ret == -ENOIOCTLCMD)
--			ret = 0;
--		if (!ret) {
--			ret = rzg2l_cru_vclk_prepare(cru);
--			if (!ret)
--				return 0;
--		} else {
--			/* enable back vclk so that s_stream in error path disables it */
--			if (rzg2l_cru_vclk_prepare(cru))
--				dev_err(cru->dev, "Failed to enable vclk\n");
--		}
-+		if (!ret || (ret == -ENOIOCTLCMD))
-+			return 0;
- 
- 		s_stream_ret = ret;
- 
-diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
-index a7d6fe831d54..b16b8af6e8f8 100644
---- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
-+++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
-@@ -461,16 +461,6 @@ int rzg2l_cru_start_image_processing(struct rzg2l_cru_dev *cru)
- 	return 0;
- }
- 
--void rzg2l_cru_vclk_unprepare(struct rzg2l_cru_dev *cru)
--{
--	clk_disable_unprepare(cru->vclk);
--}
--
--int rzg2l_cru_vclk_prepare(struct rzg2l_cru_dev *cru)
--{
--	return clk_prepare_enable(cru->vclk);
--}
--
- static int rzg2l_cru_set_stream(struct rzg2l_cru_dev *cru, int on)
- {
- 	struct media_pipeline *pipe;
-@@ -499,39 +489,24 @@ static int rzg2l_cru_set_stream(struct rzg2l_cru_dev *cru, int on)
- 
- 		video_device_pipeline_stop(&cru->vdev);
- 
--		pm_runtime_put_sync(cru->dev);
--		clk_disable_unprepare(cru->vclk);
--
- 		return stream_off_ret;
- 	}
- 
--	ret = pm_runtime_resume_and_get(cru->dev);
--	if (ret)
--		return ret;
--
--	ret = clk_prepare_enable(cru->vclk);
--	if (ret)
--		goto err_pm_put;
--
- 	ret = rzg2l_cru_mc_validate_format(cru, sd, pad);
- 	if (ret)
--		goto err_vclk_disable;
-+		return ret;
- 
- 	pipe = media_entity_pipeline(&sd->entity) ? : &cru->vdev.pipe;
- 	ret = video_device_pipeline_start(&cru->vdev, pipe);
- 	if (ret)
--		goto err_vclk_disable;
-+		return ret;
- 
- 	ret = v4l2_subdev_call(sd, video, pre_streamon, 0);
--	if (ret == -ENOIOCTLCMD)
--		ret = 0;
--	if (ret)
-+	if (ret && ret != -ENOIOCTLCMD)
- 		goto pipe_line_stop;
- 
- 	ret = v4l2_subdev_call(sd, video, s_stream, 1);
--	if (ret == -ENOIOCTLCMD)
--		ret = 0;
--	if (ret)
-+	if (ret && ret != -ENOIOCTLCMD)
- 		goto err_s_stream;
- 
- 	return 0;
-@@ -542,12 +517,6 @@ static int rzg2l_cru_set_stream(struct rzg2l_cru_dev *cru, int on)
- pipe_line_stop:
- 	video_device_pipeline_stop(&cru->vdev);
- 
--err_vclk_disable:
--	clk_disable_unprepare(cru->vclk);
--
--err_pm_put:
--	pm_runtime_put_sync(cru->dev);
--
- 	return ret;
- }
- 
-@@ -646,25 +615,33 @@ static int rzg2l_cru_start_streaming_vq(struct vb2_queue *vq, unsigned int count
- 	struct rzg2l_cru_dev *cru = vb2_get_drv_priv(vq);
- 	int ret;
- 
-+	ret = pm_runtime_resume_and_get(cru->dev);
-+	if (ret)
-+		return ret;
-+
-+	ret = clk_prepare_enable(cru->vclk);
-+	if (ret)
-+		goto err_pm_put;
-+
- 	/* Release reset state */
- 	ret = reset_control_deassert(cru->aresetn);
- 	if (ret) {
- 		dev_err(cru->dev, "failed to deassert aresetn\n");
--		return ret;
-+		goto err_vclk_disable;
- 	}
- 
- 	ret = reset_control_deassert(cru->presetn);
- 	if (ret) {
- 		reset_control_assert(cru->aresetn);
- 		dev_err(cru->dev, "failed to deassert presetn\n");
--		return ret;
-+		goto assert_aresetn;
- 	}
- 
- 	ret = request_irq(cru->image_conv_irq, rzg2l_cru_irq,
- 			  IRQF_SHARED, KBUILD_MODNAME, cru);
- 	if (ret) {
- 		dev_err(cru->dev, "failed to request irq\n");
--		goto assert_resets;
-+		goto assert_presetn;
- 	}
- 
- 	/* Allocate scratch buffer. */
-@@ -696,10 +673,18 @@ static int rzg2l_cru_start_streaming_vq(struct vb2_queue *vq, unsigned int count
- free_image_conv_irq:
- 	free_irq(cru->image_conv_irq, cru);
- 
--assert_resets:
-+assert_presetn:
- 	reset_control_assert(cru->presetn);
-+
-+assert_aresetn:
- 	reset_control_assert(cru->aresetn);
- 
-+err_vclk_disable:
-+	clk_disable_unprepare(cru->vclk);
-+
-+err_pm_put:
-+	pm_runtime_put_sync(cru->dev);
-+
- 	return ret;
- }
- 
-@@ -714,9 +699,11 @@ static void rzg2l_cru_stop_streaming_vq(struct vb2_queue *vq)
- 			  cru->scratch, cru->scratch_phys);
- 
- 	free_irq(cru->image_conv_irq, cru);
--	reset_control_assert(cru->presetn);
--
- 	return_unused_buffers(cru, VB2_BUF_STATE_ERROR);
-+
-+	reset_control_assert(cru->presetn);
-+	clk_disable_unprepare(cru->vclk);
-+	pm_runtime_put_sync(cru->dev);
- }
- 
- static const struct vb2_ops rzg2l_cru_qops = {
--- 
-2.25.1
+Oops, typo in commit header. Will resend fixing typo.
+
+Cheers,
+Biju
+
+>=20
+> This patch series aims to sync the CSI/CRU driver code with the latest
+> hardware manual (R01UH0914EJ0140 Rev.1.40).
+>=20
+> v1->v2:
+>  * Updated commit description for patch#1 removing deprecated for
+>    SET_RUNTIME_PM_OPS() macro.
+>  * Aligned RUNTIME_PM_OPS() macro.
+>  * Added Rb tag from Laurent for patch#2 and #3.
+>  * Replaced usleep_range()->fsleep().
+>  * Added blank space after manual in commit description for patch#{2,3}.
+>  * Dropped clk-provider.h and __clk_is_enabled() as consumer clk should
+>    not use it. Plan to send RFC for clk_disable_unprepare_sync() in ccf.
+>=20
+> Biju Das (4):
+>   media: platform: rzg2l-cru: rzg2l-csi2: Switch to RUNTIME_PM_OPS()
+>   media: platform: rzg2l-cru: rzg2l-ip: Add delay after D-PHY reset
+>   media: platform: rzg2l-cru: rzg2l-video: Fix image processing
+>     initialization
+>   media: platform: rzg2l-cru: rzg2l-video: Restructure clk handling
+>=20
+>  .../platform/renesas/rzg2l-cru/rzg2l-cru.h    |  3 -
+>  .../platform/renesas/rzg2l-cru/rzg2l-csi2.c   | 37 +++++----
+>  .../platform/renesas/rzg2l-cru/rzg2l-ip.c     | 18 ++--
+>  .../platform/renesas/rzg2l-cru/rzg2l-video.c  | 83 ++++++++-----------
+>  4 files changed, 62 insertions(+), 79 deletions(-)
+>=20
+> --
+> 2.25.1
 
 
