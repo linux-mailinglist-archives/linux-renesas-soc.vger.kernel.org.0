@@ -1,336 +1,114 @@
-Return-Path: <linux-renesas-soc+bounces-2037-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-2038-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 935A384283B
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Jan 2024 16:41:57 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 46B3084287C
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Jan 2024 16:56:06 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 25B9B284F39
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Jan 2024 15:41:56 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id EFCB51F227E4
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Jan 2024 15:56:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5796D1272C9;
-	Tue, 30 Jan 2024 15:41:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="ey/BzR22"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0A53E85C67;
+	Tue, 30 Jan 2024 15:56:01 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
+Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com [209.85.128.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2889B86AED
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 30 Jan 2024 15:41:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A89881AB9;
+	Tue, 30 Jan 2024 15:55:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706629266; cv=none; b=HIAf26kD4GZ/j6eJA93i1iwFwI4U8h/iMovu5CKx9bONbektmoTb62nQPhergwkZ2g9fhfMkQGsCDBtXrwWHG5/+90uPa56CF5xbmEX9N/rQa6/8EckpZzubW3b4RP9OlJcuIBuhiZaHnAwT8hSLoLQ+g+9G2rlB9M6zmhsqLA4=
+	t=1706630160; cv=none; b=CoNNXvSPCSy/ehHhwBhVA2zmKX0560ZLNFxe6b4MDC4CUwhmIcZn3VierZRoS0DcebsYm5an6tTJWPVEpfjbq9+R3Hm+L7m+Z4rKd0uzb/IRXy/UMtzZPM48dev9xA55uT131lj47qzyXFmHpBX9/A/L15zVYot5KnKVmFSeakA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706629266; c=relaxed/simple;
-	bh=5krMIBl4n0a1Z/ZhMsP0o/L7iNzPD+qczUGOcXgd0k8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SBf5njlXp5MTtEZii46A0A1sUyLmi1LRIxa6PyhSlB2q8Jzb7AO+IDaQXjP84tX55W1DWhw175HL3nHa3Qd6S5mnZH7cftYNDNJD7959yIU9BiAyEw3y3KKprJgaihdW4TIw1AGp9lzTkN3ik9HMnHf8jAR1eGzlaMjy+KhVZj0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=ey/BzR22; arc=none smtp.client-ip=209.85.167.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
-Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-5102a877d50so4417975e87.0
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 30 Jan 2024 07:41:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech.se; s=google; t=1706629260; x=1707234060; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=M2dQnFwI2LSx4IwikGOsCmHQ9lzvO3R64X34eGDX8QM=;
-        b=ey/BzR220ItmuysxzCYSFawfRhOarR+abCIXOk5llEAXOpaYRNbjRxeg2xndA4ZDDG
-         xb7we0/3jKF/w5sEdx8hijLKk6SFMXauL4eS3KgfbdfQvxy09zOSGrB7r+TLluSOwtbB
-         0PGS9poNIPZsH/xQtP0lYgLKZRVQtGjg6MG7DbPBXBuwgnOkvyEHdqB8NNbvbb1lcW+C
-         0qTKawrsE+JMDcyZa8wSx2v7pprW71ik+KczSQa2kY3uNFK7J6TN4QoiEy2ph6EFNDU/
-         jkh5KWH3xW3la3qfWKPuzoUjSWCeneKiNkxHhlEXiCp+FdGwt7BysturxlDTd+K1YIVU
-         WU5A==
+	s=arc-20240116; t=1706630160; c=relaxed/simple;
+	bh=L1jfrPI6QJ3MUqMI9joGiZNlAIlci14JEGMA2yifzBs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=MO60t2lRDfx71IyK5t/WGgyOEzzZ9a8kZFTWgSyeXxkNCFVnc3bhLmBydFSa/1UT9OsLp8kjGxt2INcQoiEH1MJ7Ftw10b6JerVe4xWWlvHsjXtn7IkHj48BA2uPtHN9Wli9YoEDYCpZMj/ochycUgzXwnq/GJx50n4VO14rmwA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-60403c28ff6so1155977b3.1;
+        Tue, 30 Jan 2024 07:55:58 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706629260; x=1707234060;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=M2dQnFwI2LSx4IwikGOsCmHQ9lzvO3R64X34eGDX8QM=;
-        b=UpYoJ7GG/BijDcZTZX8tafrFZWLy50KsjA4AK47UUlx0dja+XYXEeOM+f3FVVM6iMG
-         ERwYDZwVS+8P79HV/De85xV/gTfczE3GHciyNnbpPu1MHO6OAmpBIbq5VV+5FkuMEdeo
-         KtmrPdxQ0ywJ+3JIxF4vdzh09LJS1FSG8dlUFGlAfdsttaThLlsY11Xw7yaurkoHFqzE
-         E3mqkLzKl3OOidUupEodGoSFPoEwljJJVREMlEEXTixmQtOH00Iw1qkEs85TCTpZLX0A
-         YQOmwhXAO4lSy+Qnv6l20CVAjDy2HAffCmNOeoLEsN3+rcE11X4acprxYToElEJSn5sX
-         a91Q==
-X-Gm-Message-State: AOJu0YyBNqnsq9zEVXWp+lTi+kVY0GcBdVFxcQOmxMY5aqtk+quu8qAN
-	9xTon7ylPcRS+ahpw/YQ9boAPAYX6q3+RjmDIRtHhNaaXm3xSZ6uXK5NHF6qh81eNLXWAb9H4y/
-	QVSt9cg==
-X-Google-Smtp-Source: AGHT+IGTOXb5rtHZMNRQqWeGDXv0A8X4pPtz+djW3VoahcKBP6qfcZN/XX9pu2ifihI1r1oVSZnN4A==
-X-Received: by 2002:a19:8c4d:0:b0:50e:9e97:ce6b with SMTP id i13-20020a198c4d000000b0050e9e97ce6bmr5217294lfj.42.1706629259898;
-        Tue, 30 Jan 2024 07:40:59 -0800 (PST)
-Received: from localhost (h-46-59-36-113.A463.priv.bahnhof.se. [46.59.36.113])
-        by smtp.gmail.com with ESMTPSA id b16-20020a056512071000b0050ecae41c51sm1481757lfs.135.2024.01.30.07.40.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 30 Jan 2024 07:40:59 -0800 (PST)
-Date: Tue, 30 Jan 2024 16:40:58 +0100
-From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH] media: v4l: async: Fix completion of chained subnotifiers
-Message-ID: <20240130154058.GC2544372@ragnatech.se>
-References: <20240129195954.1110643-1-niklas.soderlund+renesas@ragnatech.se>
- <ZbjmDTvI0PiUWvL_@kekkonen.localdomain>
- <20240130134341.GA2544372@ragnatech.se>
- <ZbkVd79Yk5sYyql-@kekkonen.localdomain>
+        d=1e100.net; s=20230601; t=1706630158; x=1707234958;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=NuGKsC/Qb0iWtMpNOKS9WF0ULfacZ26+xBZVFiU6nPw=;
+        b=qsSNennfm8UoIswJSRjyf5iPUV1hmwVE19yYRy/SUTmrYAmZ5SNQlbMEEw8aDfu9os
+         q2YZ8kz5FBiVGG3iM0KZEJKh5OM46hLx1WtGKlTIxFZEa0uIRkn++TY6tynv0/TTFSku
+         HGFJaJNSvMDXpGYZ2gbaUeBHIBpNN1pS2LIUpzx0UZRU2Xd+Kaz8hCPSR1vmg5Unqz7n
+         65RiZtCO5uzAMVjDPEJOixkeJz5ccX2tZJjdSn4n6E3XS1NUzxdNvKlHiYAkJZh67fAB
+         31WG3YQixghzNIr2+OJMZjKw7GoGeVBfAiQwv57sHwnnqbrQdHrP5svGLbKOIFlaYLU1
+         V6cQ==
+X-Gm-Message-State: AOJu0YxMMkNbms1prPb3SzZTy7cKL75NlcPkNGP92ZN9MIF0sU6RIUI9
+	hBkgoCIHjLiDEj9WccBIIoS7tGM0DtHCL272KMDZoiMJi1H5UzNHFPhXQ+8rLtA=
+X-Google-Smtp-Source: AGHT+IGYpQAHwCWpkJWzCsPciOYxY6jhHjUNh0Ec2bMYcgrExPcCZ+Dn4brg+xCokzUdDosKS1O9Ng==
+X-Received: by 2002:a81:b187:0:b0:5ff:4b02:73b9 with SMTP id p129-20020a81b187000000b005ff4b0273b9mr6803940ywh.21.1706630157837;
+        Tue, 30 Jan 2024 07:55:57 -0800 (PST)
+Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com. [209.85.128.181])
+        by smtp.gmail.com with ESMTPSA id c72-20020a814e4b000000b006029c00d1d4sm3272344ywb.43.2024.01.30.07.55.57
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 30 Jan 2024 07:55:57 -0800 (PST)
+Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-6002317a427so34119557b3.2;
+        Tue, 30 Jan 2024 07:55:57 -0800 (PST)
+X-Received: by 2002:a05:690c:f88:b0:602:cd33:533e with SMTP id
+ df8-20020a05690c0f8800b00602cd33533emr8265544ywb.25.1706630156852; Tue, 30
+ Jan 2024 07:55:56 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <ZbkVd79Yk5sYyql-@kekkonen.localdomain>
+References: <20240126133116.121981-1-biju.das.jz@bp.renesas.com> <20240126133116.121981-2-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20240126133116.121981-2-biju.das.jz@bp.renesas.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 30 Jan 2024 16:55:45 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdXHTOrPh=rDX_Mc6F7aLGSOv4uxwMr_1w-Q1PXvpoxt4Q@mail.gmail.com>
+Message-ID: <CAMuHMdXHTOrPh=rDX_Mc6F7aLGSOv4uxwMr_1w-Q1PXvpoxt4Q@mail.gmail.com>
+Subject: Re: [PATCH v2 1/5] media: dt-bindings: renesas,rzg2l-csi2: Document
+ Renesas RZ/G2UL CSI-2 block
+To: Biju Das <biju.das.jz@bp.renesas.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh+dt@kernel.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, linux-media@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	Biju Das <biju.das.au@gmail.com>, Conor Dooley <conor.dooley@microchip.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Sakari,
+On Fri, Jan 26, 2024 at 2:31=E2=80=AFPM Biju Das <biju.das.jz@bp.renesas.co=
+m> wrote:
+> Document the CSI-2 block which is part of CRU found in Renesas RZ/G2UL
+> SoC.
+>
+> The CSI-2 block on the RZ/G2UL SoC is identical to one found on the
+> RZ/G2L SoC.
+>
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> Acked-by: Conor Dooley <conor.dooley@microchip.com>
+> ---
+> v1->v2:
+>  * Added Ack from Conor Dooley.
+>  * Dropped driver reference from commit description.
 
-On 2024-01-30 15:27:51 +0000, Sakari Ailus wrote:
-> Hej Niklas,
-> 
-> On Tue, Jan 30, 2024 at 02:43:41PM +0100, Niklas Söderlund wrote:
-> > Hi Sakari,
-> > 
-> > Thanks for your feedback.
-> > 
-> > On 2024-01-30 12:05:33 +0000, Sakari Ailus wrote:
-> > > Hi Niklas,
-> > > 
-> > > Thanks for the patch.
-> > > 
-> > > On Mon, Jan 29, 2024 at 08:59:54PM +0100, Niklas Söderlund wrote:
-> > > > Allowing multiple connections between entities are very useful but the
-> > > > addition of this feature did not considerate nested subnotifiers.
-> > > > 
-> > > > Consider the scenario,
-> > > > 
-> > > > rcar-vin.ko     rcar-isp.ko     rcar-csi2.ko    max96712.ko
-> > > > 
-> > > > video0 ---->    v4l-subdev0 ->  v4l-subdev1 ->  v4l-subdev2
-> > > > video1 -´
-> > > > 
-> > > > Where each videoX or v4l-subdevX is controlled and register by a
-> > > > separate instance of the driver listed above it. And each driver
-> > > > instance registers a notifier (videoX) or a subnotifier (v4l-subdevX)
-> > > > trying to bind to the device pointed to.
-> > > > 
-> > > > If the devices probe in any other except where the vidoeX ones are
-> > > > probed last only one of them will have their complete callback called,
-> > > > the one who last registered its notifier. Both of them will however have
-> > > > their bind() callback called as expected.
-> > > > 
-> > > > This is due to v4l2_async_nf_try_complete() only walking the chain from
-> > > > the subnotifier to one root notifier and completing it while ignoring
-> > > > all other notifiers the subdevice might be part of. This works if there
-> > > > are only one subnotifier in the mix. For example if either v4l-subdev0
-> > > > or v4l-subdev1 was not part of the pipeline above.
-> > > > 
-> > > > This patch addresses the issue of nested subnotifiers by instead looking
-> > > > at all notifiers and try to complete all the ones that contain the
-> > > > subdevice which subnotifier was completed.
-> > > 
-> > > Why do you need this?
-> > 
-> > I need this for the use-case described as an example above. In a 
-> > separate series [1] I remove the rcar-vin workaround for the earlier 
-> > lack of multiple connections between entities in v4l-async and without a 
-> > solution this patch tries to address this breaks on some boards that 
-> > already use nested subnotifiers but for which the rcar-vin workaround 
-> > addresses.
-> > 
-> > > This is also not a bug, the documentation for the complete callback says:
-> > > 
-> > >  * @complete:	All connections have been bound successfully. The complete
-> > >  *		callback is only executed for the root notifier.
-> > 
-> > Yes, and here there are two root notifiers. One in the driver 
-> > registering video0 and the one registering video1. Both notifiers wish 
-> > to bind to v4l-subdev0. And both notifers have their bind callback 
-> > called when v4l-subdev0 is registered, but only one have its complete 
-> > callback called.
-> 
-> In this respect the current framework isn't perfect, it only allows one
-> parent...
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-With this fix (or something like it) it works with multiple parents ;-) 
-If it's not a bug and we drop the Fixes tag do you think this is a step 
-in the right direction? Or shall I drop trying to solve my use-case with 
-a solution in this area and focus on trying to work around this 
-limitation in the driver?
+Gr{oetje,eeting}s,
 
-> 
-> > 
-> > > 
-> > > Rather it would be better to get rid of this callback entirely, one reason
-> > > being the impossibility of error handling. We won't be there for quite some
-> > > time but extending its scope does go to the other direction.
-> > 
-> > I agree this is the way to go. And I could do without it in my use-cases 
-> > if I was allowed to register the video device at probe time instead of 
-> > in the complete callback. I have brought this up over the years but 
-> > always been told that the video device should be registered in the 
-> > callback handler. If this is no longer true I can rework [1] and a fix 
-> 
-> Are you sure?
-> 
-> I guess there may be differing opinions on the matter but drivers such as
-> ipu3-cio2 and omap3isp do it in probe. I don't think rcar-vin should be
-> different in this respect.
+                        Geert
 
-Yes, I even tried to move it to probe [2] in 2017 to solve a different 
-issue at the time. I have also discussed this in person at various 
-conferences around that time. But 2017 was a long time ago and if you 
-think it's now OK to register the video device at probe time I will do 
-so work around my issue that way. But would be nice with a confirmation 
-that this is OK before I move down that route.
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
 
-2.  https://lore.kernel.org/linux-renesas-soc/20170524001540.13613-16-niklas.soderlund@ragnatech.se/
-
-> 
-> > like this wont be needed for my use-cases.
-> > 
-> > Looking beyond my use-case do you agree that as long as we do have the 
-> > complete callback it needs to be supported for nested subnotifiers?
-> > 
-> > 1. [PATCH 0/6] media: rcar-vin: Make use of multiple connections in v4l-async
-> > 
-> > > 
-> > > > 
-> > > > Fixes: 28a1295795d8 ("media: v4l: async: Allow multiple connections between entities")
-> > > > Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> > > > ---
-> > > >  drivers/media/v4l2-core/v4l2-async.c | 68 ++++++++++++++++++++--------
-> > > >  1 file changed, 49 insertions(+), 19 deletions(-)
-> > > > 
-> > > > diff --git a/drivers/media/v4l2-core/v4l2-async.c b/drivers/media/v4l2-core/v4l2-async.c
-> > > > index 3ec323bd528b..8b603527923c 100644
-> > > > --- a/drivers/media/v4l2-core/v4l2-async.c
-> > > > +++ b/drivers/media/v4l2-core/v4l2-async.c
-> > > > @@ -176,15 +176,16 @@ static LIST_HEAD(notifier_list);
-> > > >  static DEFINE_MUTEX(list_lock);
-> > > >  
-> > > >  static struct v4l2_async_connection *
-> > > > -v4l2_async_find_match(struct v4l2_async_notifier *notifier,
-> > > > -		      struct v4l2_subdev *sd)
-> > > > +__v4l2_async_find_in_list(struct v4l2_async_notifier *notifier,
-> > > > +			  struct v4l2_subdev *sd,
-> > > > +			  struct list_head *list)
-> > > >  {
-> > > >  	bool (*match)(struct v4l2_async_notifier *notifier,
-> > > >  		      struct v4l2_subdev *sd,
-> > > >  		      struct v4l2_async_match_desc *match);
-> > > >  	struct v4l2_async_connection *asc;
-> > > >  
-> > > > -	list_for_each_entry(asc, &notifier->waiting_list, asc_entry) {
-> > > > +	list_for_each_entry(asc, list, asc_entry) {
-> > > >  		/* bus_type has been verified valid before */
-> > > >  		switch (asc->match.type) {
-> > > >  		case V4L2_ASYNC_MATCH_TYPE_I2C:
-> > > > @@ -207,6 +208,20 @@ v4l2_async_find_match(struct v4l2_async_notifier *notifier,
-> > > >  	return NULL;
-> > > >  }
-> > > >  
-> > > > +static struct v4l2_async_connection *
-> > > > +v4l2_async_find_match(struct v4l2_async_notifier *notifier,
-> > > > +		      struct v4l2_subdev *sd)
-> > > > +{
-> > > > +	return __v4l2_async_find_in_list(notifier, sd, &notifier->waiting_list);
-> > > > +}
-> > > > +
-> > > > +static struct v4l2_async_connection *
-> > > > +v4l2_async_find_done(struct v4l2_async_notifier *notifier,
-> > > > +		     struct v4l2_subdev *sd)
-> > > > +{
-> > > > +	return __v4l2_async_find_in_list(notifier, sd, &notifier->done_list);
-> > > > +}
-> > > > +
-> > > >  /* Compare two async match descriptors for equivalence */
-> > > >  static bool v4l2_async_match_equal(struct v4l2_async_match_desc *match1,
-> > > >  				   struct v4l2_async_match_desc *match2)
-> > > > @@ -274,13 +289,14 @@ v4l2_async_nf_can_complete(struct v4l2_async_notifier *notifier)
-> > > >  }
-> > > >  
-> > > >  /*
-> > > > - * Complete the master notifier if possible. This is done when all async
-> > > > + * Complete the master notifiers if possible. This is done when all async
-> > > >   * sub-devices have been bound; v4l2_device is also available then.
-> > > >   */
-> > > >  static int
-> > > >  v4l2_async_nf_try_complete(struct v4l2_async_notifier *notifier)
-> > > >  {
-> > > > -	struct v4l2_async_notifier *__notifier = notifier;
-> > > > +	struct v4l2_async_notifier *n;
-> > > > +	int ret;
-> > > >  
-> > > >  	/* Quick check whether there are still more sub-devices here. */
-> > > >  	if (!list_empty(&notifier->waiting_list))
-> > > > @@ -290,24 +306,38 @@ v4l2_async_nf_try_complete(struct v4l2_async_notifier *notifier)
-> > > >  		dev_dbg(notifier_dev(notifier),
-> > > >  			"v4l2-async: trying to complete\n");
-> > > >  
-> > > > -	/* Check the entire notifier tree; find the root notifier first. */
-> > > > -	while (notifier->parent)
-> > > > -		notifier = notifier->parent;
-> > > > +	/*
-> > > > +	 * Notifiers without a parent are either a subnotifier that have not
-> > > > +	 * yet been associated with it is a root notifier or a root notifier
-> > > > +	 * itself. If it is a root notifier try to complete it.
-> > > > +	 */
-> > > > +	if (!notifier->parent) {
-> > > > +		/* This is root if it has v4l2_dev. */
-> > > > +		if (!notifier->v4l2_dev) {
-> > > > +			dev_dbg(notifier_dev(notifier),
-> > > > +				"v4l2-async: V4L2 device not available\n");
-> > > > +			return 0;
-> > > > +		}
-> > > >  
-> > > > -	/* This is root if it has v4l2_dev. */
-> > > > -	if (!notifier->v4l2_dev) {
-> > > > -		dev_dbg(notifier_dev(__notifier),
-> > > > -			"v4l2-async: V4L2 device not available\n");
-> > > > -		return 0;
-> > > > -	}
-> > > > +		/* Is everything ready? */
-> > > > +		if (!v4l2_async_nf_can_complete(notifier))
-> > > > +			return 0;
-> > > > +
-> > > > +		dev_dbg(notifier_dev(notifier), "v4l2-async: complete\n");
-> > > >  
-> > > > -	/* Is everything ready? */
-> > > > -	if (!v4l2_async_nf_can_complete(notifier))
-> > > > -		return 0;
-> > > > +		return v4l2_async_nf_call_complete(notifier);
-> > > > +	}
-> > > >  
-> > > > -	dev_dbg(notifier_dev(__notifier), "v4l2-async: complete\n");
-> > > > +	/* Try to complete all notifiers containing the subdevices. */
-> > > > +	list_for_each_entry(n, &notifier_list, notifier_entry) {
-> > > > +		if (v4l2_async_find_done(n, notifier->sd)) {
-> > > > +			ret = v4l2_async_nf_try_complete(n);
-> > > > +			if (ret)
-> > > > +				return ret;
-> > > > +		}
-> > > > +	}
-> > > >  
-> > > > -	return v4l2_async_nf_call_complete(notifier);
-> > > > +	return 0;
-> > > >  }
-> > > >  
-> > > >  static int
-> > > 
-> 
-> -- 
-> Hälsningar,
-> 
-> Sakari Ailus
-
--- 
-Kind Regards,
-Niklas Söderlund
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
