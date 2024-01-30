@@ -1,107 +1,121 @@
-Return-Path: <linux-renesas-soc+bounces-1981-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-1982-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5BE4842033
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Jan 2024 10:56:50 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id EBA34842064
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Jan 2024 11:02:14 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 03D1F1C20FA8
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Jan 2024 09:56:50 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8C6F61F2B93B
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Jan 2024 10:02:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 018D466B5F;
-	Tue, 30 Jan 2024 09:53:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CAFAC66B49;
+	Tue, 30 Jan 2024 09:57:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Q17YMMQg"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="t/xmO76K"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEB1D67726;
-	Tue, 30 Jan 2024 09:53:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE5B366B41;
+	Tue, 30 Jan 2024 09:57:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.32.30.218
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706608394; cv=none; b=MeyzCQLxE6xijn3BAIMmyhQYvCC81shLJi8LX1fUtSEiZFSq5ETndPa0w++5Ad+5vO5PXsPrkQk1njL3+2evqwHRgANmUqdBX02lt2Vze0kiZ/YTEPPUFRhc+IEONYE6PHjilH7C2AqUsBpel9UsateqXEY+YEm2llEaVCqB5Gg=
+	t=1706608644; cv=none; b=P4KCo4QSI64I4KBO7Tmj1HSSp0UJ1Lke84KHlvgV8LZl3cI0MiLvJjg1dPzA5OxVZ2CugKR5T31D4ngvdXYr19Rkl+c6DrmtiGUt/X/IGVu8irvTV5Dq7o6/vG06Z1jFpx3G2VlQy276s+pvg1AiVbHL1aQzstCW/Tj6kxFyDrM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706608394; c=relaxed/simple;
-	bh=aH4QtpQL+AnXelMo8WKWWufmhco7kLrBK4zmy20fJTI=;
+	s=arc-20240116; t=1706608644; c=relaxed/simple;
+	bh=XS0iLtI0bjfeC2U4ZRrX+gTU1pqLUL43DipeuEk6Jfc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CLuuZOuxzjzzyqeZqJWdh11thPLX3GjRxd6DqgFyUzfJHNex416o/opcVbuMEV1e2qPpWxVApNbROO9/Bp+6usgJ5pdj1lYl648wC9uixhjN9MiFQf41n8VKmoSIEbWDoXds54i79mcfcsXCBX2cRGKpJpWCnTCfVqYzn7jS134=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Q17YMMQg; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CDDEFC433C7;
-	Tue, 30 Jan 2024 09:53:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1706608394;
-	bh=aH4QtpQL+AnXelMo8WKWWufmhco7kLrBK4zmy20fJTI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Q17YMMQgiuAU1jEP/KuGwknZt9O2FGyBEV2J4hXetYhPAA3n4hifin2XoYyZRjVlK
-	 rXm1nTXSEp/qihgNqgeYCw29N/nxAnQ8oR9cOvdk3xJkzOx3gmwdvtVKQzLNVSYqVr
-	 2qqtFE/ilBkUSBvNjgAZvHBUaWBnfx/7RpC+7TSE5FGqL0FY76HaaA4aZv3VygyH4U
-	 xJ3NFjbLFmy/tFiI2UUuKkNVj2r4yaeDu3bctL0bvg3qWTZ7oaYsUWOdOPKmCRKib2
-	 uSnlyWp37MKJXWSVh/J0yf5+Q6I8uyTVeZ/X19pe2KG4mQr2NYQKGuH1OICip6aRTK
-	 mi75GcC0fQNOA==
-Date: Tue, 30 Jan 2024 10:53:11 +0100
-From: Wolfram Sang <wsa@kernel.org>
-To: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-	linux-clk@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH] clk: renesas: r8a779g0: Fix PCIe clock name
-Message-ID: <ZbjHB3dFonrg1tFD@ninjato>
-Mail-Followup-To: Wolfram Sang <wsa@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-	linux-clk@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-References: <f582067564f357e2183d3db67b217084ecb51888.1706608032.git.geert+renesas@glider.be>
+	 Content-Type:Content-Disposition:In-Reply-To; b=cFehKaUfMckHubSe6NvKAmb0A6yTekzkK9EnbCOQXhLXUa8k5zXV5BATfIzaLE/oz1q2kl8o+3Twqr4ta+mxq6yuakQk1KkWg0VsW38ABnInlmbfXlXs7izScKpHiPMSTLxlcJMPD2NHESU/6EibyFlpX9UiUYBtTM0+ej2u5Go=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk; spf=none smtp.mailfrom=armlinux.org.uk; dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b=t/xmO76K; arc=none smtp.client-ip=78.32.30.218
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=armlinux.org.uk
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=f+2kg4tF09LZoZ7Uh1DZzhspF8XmiCbLSzOdKc2DM8c=; b=t/xmO76K6M7GEcBjPID/JNsHAW
+	AZ1MwcrhIB//H4vms9xKoI0yIW1hDty1JK7FzvbF2bmpEHqB149JTMbhejWx/mc8D8CoHvt+Almd9
+	0t1DNdVbmlY/Ly5dlAWanUfq/znrt0z6Y95xK9U66MzG1ygCgkbTvUSvsEeBBwh0bUGmTbkW1STaY
+	JJ1koxek9bMCnaOt7Gr9qUQHKKydqclNPxPXCWMr5i3OqciM6lcWM2YBs7AZkMOP72TFsq8V9aH7Q
+	8OiIsu46FyYkPblDC8xrfd3hpySDn/ByAKIAwYgrYGLs3YGkrljf1vQKZa93v0tVhMw4EUTxaXdZb
+	pl73+ymg==;
+Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:35696)
+	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <linux@armlinux.org.uk>)
+	id 1rUkrc-0001ad-2N;
+	Tue, 30 Jan 2024 09:57:08 +0000
+Received: from linux by shell.armlinux.org.uk with local (Exim 4.94.2)
+	(envelope-from <linux@shell.armlinux.org.uk>)
+	id 1rUkrZ-0005PU-LP; Tue, 30 Jan 2024 09:57:05 +0000
+Date: Tue, 30 Jan 2024 09:57:05 +0000
+From: "Russell King (Oracle)" <linux@armlinux.org.uk>
+To: Romain Gantois <romain.gantois@bootlin.com>
+Cc: Andrew Lunn <andrew@lunn.ch>, Heiner Kallweit <hkallweit1@gmail.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Jose Abreu <joabreu@synopsys.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	=?iso-8859-1?Q?Cl=E9ment_L=E9ger?= <clement.leger@bootlin.com>,
+	Maxime Chevallier <maxime.chevallier@bootlin.com>,
+	Miquel Raynal <miquel.raynal@bootlin.com>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	netdev@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
+	linux-arm-kernel@lists.infradead.org,
+	linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH net-next v2 1/7] net: phy: add PHY_F_RXC_ALWAYS_ON to PHY
+ dev flags
+Message-ID: <ZbjH8QJO11ymezZG@shell.armlinux.org.uk>
+References: <20240130-rxc_bugfix-v2-0-5e6c3168e5f0@bootlin.com>
+ <20240130-rxc_bugfix-v2-1-5e6c3168e5f0@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="q1rakYIcTsiwcE9R"
-Content-Disposition: inline
-In-Reply-To: <f582067564f357e2183d3db67b217084ecb51888.1706608032.git.geert+renesas@glider.be>
-
-
---q1rakYIcTsiwcE9R
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20240130-rxc_bugfix-v2-1-5e6c3168e5f0@bootlin.com>
+Sender: Russell King (Oracle) <linux@armlinux.org.uk>
 
-On Tue, Jan 30, 2024 at 10:47:49AM +0100, Geert Uytterhoeven wrote:
-> Fix a typo in the name of the module clock for the second PCIe channel.
->=20
-> Fixes: 5ab16198b431ca48 ("clk: renesas: r8a779g0: Add PCIe clocks")
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+On Tue, Jan 30, 2024 at 10:28:36AM +0100, Romain Gantois wrote:
+> From: Russell King <linux@armlinux.org.uk>
+> 
+> Some MAC controllers (e.g. stmmac) require their connected PHY to
+> continuously provide a receive clock signal. This can cause issues in two
+> cases:
+> 
+>   1. The clock signal hasn't been started yet by the time the MAC driver
+>      initializes its hardware. This can make the initialization fail, as in
+>       the case of the rzn1 GMAC1 driver.
+>   2. The clock signal is cut during a power saving event. By the time the
+>      MAC is brought back up, the clock signal is still not active since
+>      phylink_start hasn't been called yet. This brings us back to case 1.
+> 
+> If a PHY driver reads this flag, it should ensure that the receive clock
+> signal is started as soon as possible, and that it isn't brought down when
+> the PHY goes into suspend.
+> 
+> Signed-off-by: Russell King <linux@armlinux.org.uk>
+> [rgantois: commit log]
+> Signed-off-by: Romain Gantois <romain.gantois@bootlin.com>
 
-Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+You seem to have combined two of my patches into this one, which touch
+two different bits of code. I'm fine with that, but please adjust the
+subject line to match the _majority_ of the code that is being touched,
+which is phylink (having the prefix net: phylink:), rather than phylib
+(having the prefix net: phy:).
 
+Thanks.
 
---q1rakYIcTsiwcE9R
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmW4xwcACgkQFA3kzBSg
-Kba2/hAAl7KJvoqh6UXtR4oI04XFl84IFVVCoUrGEI7mNcH/KTQx74rN1e8RQDxo
-A3DcD58pHkWj0uNmrl7RN8B+yuH4PTv0SCr8kN96Q5uCGPe4c2EFCDkPZYjDwIsW
-3WVShXdKzUptz/evqaT9PewGu081EY8Af2hpa0F6ksbdT73V19W5O4aUshU8iPVy
-jdGTglSqOKGNLwkSBxaQllw9AB8y/zsyWMkO5/ooolkvaaiXyHXwsA+7dmFaVHzy
-yFcn4/96PYzWeAIZotNshdnSxn94rbnuIN1h2UZ3hiD0WHM1G6++ZYX0n4oW10er
-nmD7BJHgkAnyPNKCO8Z9CxZ/UNyzhIS7Zt7e3bVQs5LXzPOrf1zwaEwRYp4ngr+3
-ABVuKh0iFDGZ1n4GtLmf2TcFoNO9eTppbzRf8BpvalhrcnNAeBf82FS72mERV4dJ
-n6AfaTJpO0zITPCDxBRGQAO4QhAizllsFURYZfrhUOrEn6rPzFTuAyC+G7ajznvl
-BTu4PUyoKhI+yMexiNKXmhfsVwf+HEFeR0/msvYpTPvEEQ3BC4pABDGhrWwfHJgH
-TVaVYkqhaMsqfLtI4P8q/2vFt8d7PL1hhmx2OHSe/SQSufnfPnPgxulSxcMyhDqF
-PQ3mfZ7n/DxYZjaapUCWUk6xm6CFq/UrMikfTi0wqjrg1xLB6iE=
-=QXmu
------END PGP SIGNATURE-----
-
---q1rakYIcTsiwcE9R--
+-- 
+RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
+FTTP is here! 80Mbps down 10Mbps up. Decent connectivity at last!
 
