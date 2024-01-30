@@ -1,110 +1,90 @@
-Return-Path: <linux-renesas-soc+bounces-2048-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-2049-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27B998429A7
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Jan 2024 17:40:23 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id A96D68429B2
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Jan 2024 17:41:44 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D8EF9289706
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Jan 2024 16:40:21 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 41C761F29053
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Jan 2024 16:41:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2365C128391;
-	Tue, 30 Jan 2024 16:38:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EC6F686AEF;
+	Tue, 30 Jan 2024 16:41:24 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ot1-f54.google.com (mail-ot1-f54.google.com [209.85.210.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39A6D1272B9;
-	Tue, 30 Jan 2024 16:38:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.54
+Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A1C158612C;
+	Tue, 30 Jan 2024 16:41:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706632738; cv=none; b=i6ryqi6obRw4PiDQAxbmmR3vbeRLSZdxWbIzDTHUn51Qtprni2zGP/S1rwxHFpyP6a7nIsWwzKuaLa0nvxHZfnSsP0RNNf6Cb762YTMMLAIRCfRfYvSA4brXSUMp9VskJVIa1q6sU2YdGUQiGWj5sVtXdkJ360JnQu100At/3v8=
+	t=1706632884; cv=none; b=YoW1kjKjZRaUMDRRS2pG78UL+OxwlIkpmexbGC+PoKo7gEZsrfBV4/GWFEMAQwMFw4f45ZkiDMOOWwb9PRI2vQHIJENi5VkTWEsEfhwNhsxaM1E+4wKQVaiuac40dn9iz3sx7/GCn2d659Z6aSvAhdVA9JPokM91IoCaf2JHjzQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706632738; c=relaxed/simple;
-	bh=PIBPXpmi0OCIaKvnVM0qRb4yDaPk3SSSwV6Rcc/6OFE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=dpgmpvjPTFQhW7PO7hIOsg2DKNDc5DdEhIV30Zva+lLD5Idf6NGh5m+BpzI4636rlLJxQCREyzbJJBJj6/J+r1Fedjk/XZaAE6snkJ6LF9xylpnqN/GfFqocmEPvaASxCQzrhhAvghaUMhReJPA1pRyWgQe2abvd4ppEJz4nBg8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.210.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ot1-f54.google.com with SMTP id 46e09a7af769-6e1149c16d4so998103a34.3;
-        Tue, 30 Jan 2024 08:38:55 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706632735; x=1707237535;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=yOwj0eDKWRdMFNfW3kWznHnSgvBdoX9GuAj6X/BuKfI=;
-        b=dqGaSvvmBvR1qtIc6Daf2leK7+4Q7HT89r2fBS0IVy6PRn+HKl6bZip34oHw0MIqIQ
-         /6sz03RCpaPhHxhBD0XqSonpq7zmdNAf294IPf1vlAujcafQRARbaJwjqAvx7cGFgLEF
-         kGIDXof+aAP8BShMwJONQQ7qCxlSl0SZWV9g1keY299v0mC/iY9jMKABKXWAjYt+oo5z
-         xgeu1d5vFyc67C6sgOLuOxtkxekd3GZTtzaJ7+Ikq3DC5N/2vIhA4arD+IuCAkgkukCT
-         cW6UAifS9HqkrTNiPxgyn+bM1XS7IFNzCZZUwqQpT4gjDqjyAzoYKCKexVZqDxT1pikY
-         7cew==
-X-Gm-Message-State: AOJu0YxTaA8/fBVkZQ+9Ufi3k+Yr0+G6Cx0c0ywyoZuhC+JVGKezh3YQ
-	dGfFMu/QcscQVGf5TMlzAREkXyCO1SOnRiF/LuRwFHjVXQdnn+SqIFKtlzCUCPg=
-X-Google-Smtp-Source: AGHT+IF+09BsOF72PezA3/7TJugovcp/S0x9xiK1+KYCvdP+xJfF2rz1xK/mGzqxWIkq8iasi+yUxA==
-X-Received: by 2002:a05:6358:7e0c:b0:176:d36b:f70c with SMTP id o12-20020a0563587e0c00b00176d36bf70cmr4877598rwm.15.1706632734926;
-        Tue, 30 Jan 2024 08:38:54 -0800 (PST)
-Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com. [209.85.128.182])
-        by smtp.gmail.com with ESMTPSA id cl1-20020a05690c0c0100b005ffa141d9f4sm3229574ywb.18.2024.01.30.08.38.54
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 30 Jan 2024 08:38:54 -0800 (PST)
-Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-6029e069e08so54168537b3.0;
-        Tue, 30 Jan 2024 08:38:54 -0800 (PST)
-X-Received: by 2002:a0d:f403:0:b0:5ff:92f1:8e24 with SMTP id
- d3-20020a0df403000000b005ff92f18e24mr6787205ywf.48.1706632734618; Tue, 30 Jan
- 2024 08:38:54 -0800 (PST)
+	s=arc-20240116; t=1706632884; c=relaxed/simple;
+	bh=8ixBQm+pgtUggLI9BZ6kZHDGNhG5Kd7cjL1HuRfUS4g=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=epP1Vo/MFDJQ0lMOYY8tTbUwOX6bWzu9eNaO71tOIjMCW+eEISttJQZhS+OErLalV2Hc7+ZScMWKy2MYSgeIiIjCipJS3m8Wdt+CudMmyePQUTyEaw21nH0L5mBNKxsdBmlDEHvw/9CL5Jm8jOM/E3D5XUweLBf25CwmsMkg9f8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
+X-IronPort-AV: E=Sophos;i="6.05,230,1701097200"; 
+   d="scan'208";a="192261111"
+Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
+  by relmlie5.idc.renesas.com with ESMTP; 31 Jan 2024 01:41:21 +0900
+Received: from localhost.localdomain (unknown [10.226.92.244])
+	by relmlir5.idc.renesas.com (Postfix) with ESMTP id EEBC6400297E;
+	Wed, 31 Jan 2024 01:41:17 +0900 (JST)
+From: Biju Das <biju.das.jz@bp.renesas.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Biju Das <biju.das.jz@bp.renesas.com>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+	Rob Herring <robh@kernel.org>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	linux-media@vger.kernel.org,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Biju Das <biju.das.au@gmail.com>,
+	linux-renesas-soc@vger.kernel.org
+Subject: [PATCH v2 RESEND 0/4] RZ/G2L CSI/CRU improvements
+Date: Tue, 30 Jan 2024 16:41:11 +0000
+Message-Id: <20240130164115.116613-1-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240122111115.2861835-1-claudiu.beznea.uj@bp.renesas.com> <20240122111115.2861835-2-claudiu.beznea.uj@bp.renesas.com>
-In-Reply-To: <20240122111115.2861835-2-claudiu.beznea.uj@bp.renesas.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 30 Jan 2024 17:38:43 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdULz1j_+NCy=wgmDsLG+qGqX-8QAFM4_eKJm4Kgv5WU9g@mail.gmail.com>
-Message-ID: <CAMuHMdULz1j_+NCy=wgmDsLG+qGqX-8QAFM4_eKJm4Kgv5WU9g@mail.gmail.com>
-Subject: Re: [PATCH 01/10] clk: renesas: r9a08g045: Add clock and reset
- support for watchdog
-To: Claudiu <claudiu.beznea@tuxon.dev>
-Cc: wim@linux-watchdog.org, linux@roeck-us.net, robh+dt@kernel.org, 
-	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, 
-	geert+renesas@glider.be, magnus.damm@gmail.com, mturquette@baylibre.com, 
-	sboyd@kernel.org, p.zabel@pengutronix.de, biju.das.jz@bp.renesas.com, 
-	linux-watchdog@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	linux-clk@vger.kernel.org, Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Mon, Jan 22, 2024 at 12:11=E2=80=AFPM Claudiu <claudiu.beznea@tuxon.dev>=
- wrote:
-> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
->
-> RZ/G3S has a watchdog module accessible by the Cortex-A core. Add clock
-> and reset support for it.
->
-> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+This patch series aims to sync the CSI/CRU driver code with the latest
+hardware manual (R01UH0914EJ0140 Rev.1.40).
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-clk for v6.9.
+v1->v2:
+ * Updated commit description for patch#1 removing deprecated for
+   SET_RUNTIME_PM_OPS() macro.
+ * Aligned RUNTIME_PM_OPS() macro.
+ * Added Rb tag from Laurent for patch#2 and #3.
+ * Replaced usleep_range()->fsleep().
+ * Added blank space after manual in commit description for patch#{2,3}.
+ * Dropped clk-provider.h and __clk_is_enabled() as consumer clk should
+   not use it. Plan to send RFC for clk_disable_unprepare_sync() in ccf.
 
-Gr{oetje,eeting}s,
+Biju Das (4):
+  media: platform: rzg2l-cru: rzg2l-csi2: Switch to RUNTIME_PM_OPS()
+  media: platform: rzg2l-cru: rzg2l-ip: Add delay after D-PHY reset
+  media: platform: rzg2l-cru: rzg2l-video: Fix image processing
+    initialization
+  media: platform: rzg2l-cru: rzg2l-video: Restructure clk handling
 
-                        Geert
+ .../platform/renesas/rzg2l-cru/rzg2l-cru.h    |  3 -
+ .../platform/renesas/rzg2l-cru/rzg2l-csi2.c   | 37 +++++----
+ .../platform/renesas/rzg2l-cru/rzg2l-ip.c     | 18 ++--
+ .../platform/renesas/rzg2l-cru/rzg2l-video.c  | 83 ++++++++-----------
+ 4 files changed, 62 insertions(+), 79 deletions(-)
 
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
+-- 
+2.25.1
 
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
 
