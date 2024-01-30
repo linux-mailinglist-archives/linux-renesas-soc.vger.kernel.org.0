@@ -1,57 +1,56 @@
-Return-Path: <linux-renesas-soc+bounces-1978-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-1979-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66AB2841FE6
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Jan 2024 10:42:39 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6EC80842012
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Jan 2024 10:49:56 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 055C31F238EE
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Jan 2024 09:42:39 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A164A1C2529F
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Jan 2024 09:49:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8775E60BB1;
-	Tue, 30 Jan 2024 09:41:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="PM033RNt"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 815D356448;
+	Tue, 30 Jan 2024 09:48:03 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from albert.telenet-ops.be (albert.telenet-ops.be [195.130.137.90])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBE8960BAB
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 30 Jan 2024 09:41:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8910F605D5
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 30 Jan 2024 09:47:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.137.90
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706607669; cv=none; b=JleGPkp1nWwZj0KGiYlxNy81yM3AhCIpH1zw6s20O24EjkYlbqeDYjFACPMfOTSsUR4OHioQyrwOdWSjx4arb+1o1VXOK0DmdgkAZIw62rhthwlCvrPAE5gnN5yL0mTayfQ4p6/ZxIBnp9z+SIpP/bGmoVJs38r9naote6eVZHo=
+	t=1706608083; cv=none; b=rsuDlVfcov2Ufx+D0LIUS2bzYLvh3O2kBZbFliQWr6LvwK6zN5m4lL109EArPPpA56WcKHwDa/4h1d8PC9ZH5sFQ+nrWD1VciFzaNu1U3FZGZzQWtt/ypNQMuPiJR5OAWBm7r4YR3yElg9JjZruxdjuTgA7v+cKPwUoM10M4m3k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706607669; c=relaxed/simple;
-	bh=2OHLsZS4PsJMPwjOKM6F0kv6fbGghDQNdDA7mW+z63U=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=VYHLCa0P0hEYJDaubAfdlojutJG3/pH7FQ65KyXDUI8GdR66tbFfkUEHepUE1Dla4r4L8IJiTC5oH7ftM5juZMyi/UaLR9RH3bEK+HIFERZYs+G7uwaOJG63Q2x/rVwSn9YRnsU3A6HgyVDpyI93ZNsBvMF8/PIBIjE66QuFTB0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=PM033RNt; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=from:to:cc:subject:date:message-id
-	:mime-version:content-transfer-encoding; s=k1; bh=AzSdhb1EFgr8m9
-	GCPzSJauJkFDRxOixnrXfrfcPby5k=; b=PM033RNtlmu+MGufEY5zm5sFAYMUyh
-	jGBh4rzolkWqBQre7/9t4OI+XsEPVYVlGZBfnT8+O1jtgJm36T0MnQRKDVxpoQf+
-	lr9ufsjd1RSLGQx9x4OaRGVZBnxDI1iJWvXr+LeKEcIPH5/u48jPDKYcyzPvhfg6
-	JzSCHoV7eJVbfuJRKEPPtOESzWyeBpQf/upvVLNUjfS4hMFjVOqaPmhMZLqlap4h
-	GeIOZMfODM2UjMpwdnj386or9JvL5vSmYBOUqk36mH2pMIFD82MmIrd+3XBrFvUy
-	12l1Du0TU7fVPUgUKwdkuZq6zFXj0TmSOCVC3LaIhi5a6wGqlzzJvqlg==
-Received: (qmail 2783205 invoked from network); 30 Jan 2024 10:41:00 +0100
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 30 Jan 2024 10:41:00 +0100
-X-UD-Smtp-Session: l3s3148p1@lKVcjyYQVJlehhtJ
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: linux-renesas-soc@vger.kernel.org
-Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Mark Brown <broonie@kernel.org>,
-	linux-spi@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] spi: sh-msiof: avoid integer overflow in constants
-Date: Tue, 30 Jan 2024 10:40:53 +0100
-Message-Id: <20240130094053.10672-1-wsa+renesas@sang-engineering.com>
-X-Mailer: git-send-email 2.39.2
+	s=arc-20240116; t=1706608083; c=relaxed/simple;
+	bh=O0/CNmJZu9q7yjVHGZm34xHy2fNGzbA46xCEL1HgCkk=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=RnOP0pm4arkoqyRWz1gh8b4XgIknEQbYCU9EcvIvLuzMe3iZw+4YKALFEEs4PTAYnocKaM0H5nBILzEdC+MGu1QnA4RX1sirvBSVk6Az0q5VoGo6A6soyIfKG738OzKRkX2KTklH7ygGNPm9A91Jm9m98A3bw7CP4ZjckTCFoks=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.137.90
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed40:f750:330f:8670:f608])
+	by albert.telenet-ops.be with bizsmtp
+	id gxnr2B0090wcXdf06xnrgu; Tue, 30 Jan 2024 10:47:51 +0100
+Received: from rox.of.borg ([192.168.97.57])
+	by ramsan.of.borg with esmtp (Exim 4.95)
+	(envelope-from <geert@linux-m68k.org>)
+	id 1rUkhn-00Glvw-80;
+	Tue, 30 Jan 2024 10:47:51 +0100
+Received: from geert by rox.of.borg with local (Exim 4.95)
+	(envelope-from <geert@linux-m68k.org>)
+	id 1rUkic-007vrE-S6;
+	Tue, 30 Jan 2024 10:47:50 +0100
+From: Geert Uytterhoeven <geert+renesas@glider.be>
+To: Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc: linux-clk@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH] clk: renesas: r8a779g0: Fix PCIe clock name
+Date: Tue, 30 Jan 2024 10:47:49 +0100
+Message-Id: <f582067564f357e2183d3db67b217084ecb51888.1706608032.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -60,44 +59,30 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-cppcheck rightfully warned:
+Fix a typo in the name of the module clock for the second PCIe channel.
 
- drivers/spi/spi-sh-msiof.c:792:28: warning: Signed integer overflow for expression '7<<29'. [integerOverflow]
- sh_msiof_write(p, SIFCTR, SIFCTR_TFWM_1 | SIFCTR_RFWM_1);
-
-Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Fixes: 5ab16198b431ca48 ("clk: renesas: r8a779g0: Add PCIe clocks")
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
- drivers/spi/spi-sh-msiof.c | 16 ++++++++--------
- 1 file changed, 8 insertions(+), 8 deletions(-)
+To be queued in renesas-clk for v6.9.
 
-diff --git a/drivers/spi/spi-sh-msiof.c b/drivers/spi/spi-sh-msiof.c
-index cfc3b1ddbd22..6f12e4fb2e2e 100644
---- a/drivers/spi/spi-sh-msiof.c
-+++ b/drivers/spi/spi-sh-msiof.c
-@@ -136,14 +136,14 @@ struct sh_msiof_spi_priv {
- 
- /* SIFCTR */
- #define SIFCTR_TFWM_MASK	GENMASK(31, 29)	/* Transmit FIFO Watermark */
--#define SIFCTR_TFWM_64		(0 << 29)	/*  Transfer Request when 64 empty stages */
--#define SIFCTR_TFWM_32		(1 << 29)	/*  Transfer Request when 32 empty stages */
--#define SIFCTR_TFWM_24		(2 << 29)	/*  Transfer Request when 24 empty stages */
--#define SIFCTR_TFWM_16		(3 << 29)	/*  Transfer Request when 16 empty stages */
--#define SIFCTR_TFWM_12		(4 << 29)	/*  Transfer Request when 12 empty stages */
--#define SIFCTR_TFWM_8		(5 << 29)	/*  Transfer Request when 8 empty stages */
--#define SIFCTR_TFWM_4		(6 << 29)	/*  Transfer Request when 4 empty stages */
--#define SIFCTR_TFWM_1		(7 << 29)	/*  Transfer Request when 1 empty stage */
-+#define SIFCTR_TFWM_64		(0UL << 29)	/*  Transfer Request when 64 empty stages */
-+#define SIFCTR_TFWM_32		(1UL << 29)	/*  Transfer Request when 32 empty stages */
-+#define SIFCTR_TFWM_24		(2UL << 29)	/*  Transfer Request when 24 empty stages */
-+#define SIFCTR_TFWM_16		(3UL << 29)	/*  Transfer Request when 16 empty stages */
-+#define SIFCTR_TFWM_12		(4UL << 29)	/*  Transfer Request when 12 empty stages */
-+#define SIFCTR_TFWM_8		(5UL << 29)	/*  Transfer Request when 8 empty stages */
-+#define SIFCTR_TFWM_4		(6UL << 29)	/*  Transfer Request when 4 empty stages */
-+#define SIFCTR_TFWM_1		(7UL << 29)	/*  Transfer Request when 1 empty stage */
- #define SIFCTR_TFUA_MASK	GENMASK(26, 20) /* Transmit FIFO Usable Area */
- #define SIFCTR_TFUA_SHIFT	20
- #define SIFCTR_TFUA(i)		((i) << SIFCTR_TFUA_SHIFT)
+ drivers/clk/renesas/r8a779g0-cpg-mssr.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/clk/renesas/r8a779g0-cpg-mssr.c b/drivers/clk/renesas/r8a779g0-cpg-mssr.c
+index 0acc301221e552f7..c4b1938db76b35f4 100644
+--- a/drivers/clk/renesas/r8a779g0-cpg-mssr.c
++++ b/drivers/clk/renesas/r8a779g0-cpg-mssr.c
+@@ -194,7 +194,7 @@ static const struct mssr_mod_clk r8a779g0_mod_clks[] __initconst = {
+ 	DEF_MOD("msi4",		622,	R8A779G0_CLK_MSO),
+ 	DEF_MOD("msi5",		623,	R8A779G0_CLK_MSO),
+ 	DEF_MOD("pciec0",	624,	R8A779G0_CLK_S0D2_HSC),
+-	DEF_MOD("pscie1",	625,	R8A779G0_CLK_S0D2_HSC),
++	DEF_MOD("pciec1",	625,	R8A779G0_CLK_S0D2_HSC),
+ 	DEF_MOD("pwm",		628,	R8A779G0_CLK_SASYNCPERD4),
+ 	DEF_MOD("rpc-if",	629,	R8A779G0_CLK_RPCD2),
+ 	DEF_MOD("scif0",	702,	R8A779G0_CLK_SASYNCPERD4),
 -- 
-2.39.2
+2.34.1
 
 
