@@ -1,130 +1,90 @@
-Return-Path: <linux-renesas-soc+bounces-2042-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-2043-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FEC28428F6
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Jan 2024 17:17:28 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 30775842975
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Jan 2024 17:36:50 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 209CDB22687
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Jan 2024 16:17:26 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DE8B32940F8
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Jan 2024 16:36:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5590386AE8;
-	Tue, 30 Jan 2024 16:17:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9AA5E6D1C8;
+	Tue, 30 Jan 2024 16:36:09 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com [209.85.128.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D483086AE7;
-	Tue, 30 Jan 2024 16:17:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.170
+Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2FDDF36102;
+	Tue, 30 Jan 2024 16:36:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706631442; cv=none; b=g7m/UJDvPLJgg8/GJHWHclizGBg5LpD9v2BbCDsb4fPc/GpQdnIM7a10jeB7OgoglgxcBujGJ1kDgODIrD68d58NWKQW2VoZYpwyvM/Tg41Yar4GGVOMwp4rt4fbmTYbFKVNX9PFHQzrFyFShKQWoe28Hjx/gk+/nmIh6Oud3SE=
+	t=1706632569; cv=none; b=fn+onMoL/XKcAM6BXeIigKkXN+lC9kD4uN0qI43JDuKgFzi6Xc1TtLt5+s1tcsaGeSadt7jeLGvyj1I48V/OhUQjNt4BvV1DosOYzkHbPFmUSZnjFCDMFtZK+757fymQ2FWLW5wP3p29vN6y6UH7LcqDMK6701tzXsPIvCjWVh4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706631442; c=relaxed/simple;
-	bh=cYg8sJvLBxgUfX0TfQ4tHGU2fdz3vqPt1EjNhv/99Sk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=rOWenPmtxKPw2Qzcr/rBrKJVYMoxMqT+NDeCiPR1e8GTW50j4W8eRY3UGCI3YFwWty6ACTnpkC0pYkGFOiWolbjTnxoeNLVKTlumHfu66l2VOiEu/sCR16BpbsB5RJX+vWqa6GOYziuIm7atuO8SKhN/saZBFQWoae6cw+UouWM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-604058c081eso253837b3.3;
-        Tue, 30 Jan 2024 08:17:20 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706631439; x=1707236239;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=d+WreUb8HaSJRmyFug6nNkyxdwP1Ic6ZfT4F/2AORjo=;
-        b=nUd7F4Li1fJqNsHiDoi2wJ5KREsBTg8tF0548hzSnnrPWT0g1v2qWhawxRAEJPVTd4
-         gBD96yl+Kfe9TDiCqSypHM45Q/53myk7DvRyKb79uDmBmaatkR1b3qPfGlHub3ScemOD
-         3mLBx1DrDAFPW44T0bc+pYMaur6xx2AEM/XC7X5YJgC9FSpStzLG3mUJ/lvuHzTDR4Wg
-         jQFHvvaM5ZuH0K9O85F8bpoieqF2XSP/42JQRjVGmOWt/oRo/Gy76awyEeqkag0N5H56
-         aUm20VJZdzV1bXoGzfPy5QrstObKFuh3SJpHRVnZW2pPfkcK5X8NYOhQaTqTqZYCYC5u
-         Hs9w==
-X-Gm-Message-State: AOJu0Yy8GIvjLM0mUymlnAJIKp3dNAHE8OHcpuwD4kDxAdTvOq8tgH+Q
-	r9g5t38BNADypmTUdf4mCmUe38RhgSF/W7ap9OUF7bbFklMAEJqPi8EeXClts5c=
-X-Google-Smtp-Source: AGHT+IG67yNnvQh4YhE5CwtsV6ClVXJjY37B5Fso5CoYREwrgfn0boIEn1hYAu37LJ7v5dsT254ipw==
-X-Received: by 2002:a81:8304:0:b0:5ff:7a74:412e with SMTP id t4-20020a818304000000b005ff7a74412emr7973515ywf.38.1706631439571;
-        Tue, 30 Jan 2024 08:17:19 -0800 (PST)
-Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com. [209.85.128.170])
-        by smtp.gmail.com with ESMTPSA id m140-20020a0dca92000000b005ffa62881e0sm3266995ywd.91.2024.01.30.08.17.19
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 30 Jan 2024 08:17:19 -0800 (PST)
-Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-604058c081eso253687b3.3;
-        Tue, 30 Jan 2024 08:17:19 -0800 (PST)
-X-Received: by 2002:a81:e201:0:b0:5ec:c970:19b6 with SMTP id
- p1-20020a81e201000000b005ecc97019b6mr6685991ywl.17.1706631439150; Tue, 30 Jan
- 2024 08:17:19 -0800 (PST)
+	s=arc-20240116; t=1706632569; c=relaxed/simple;
+	bh=8ixBQm+pgtUggLI9BZ6kZHDGNhG5Kd7cjL1HuRfUS4g=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=YmFEiId6Q8qeSJMM7OkwngKuD4KfKJqSgT8u/EY1HCaPziMubA48t5Zm9gTfxIpZ3xWlkX7zWYWaW2ZYUrfDNoeI0BnQTsFN7uPqXYGtJcXFbYiiKBeGIm41G45Bt6mWl2HZN85YCYrn9oWuftt7tzspqUz8Bdez3UtoWsJYWjE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
+X-IronPort-AV: E=Sophos;i="6.05,230,1701097200"; 
+   d="scan'208";a="192260837"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie5.idc.renesas.com with ESMTP; 31 Jan 2024 01:35:59 +0900
+Received: from localhost.localdomain (unknown [10.226.92.244])
+	by relmlir6.idc.renesas.com (Postfix) with ESMTP id 285C14021B44;
+	Wed, 31 Jan 2024 01:35:55 +0900 (JST)
+From: Biju Das <biju.das.jz@bp.renesas.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Biju Das <biju.das.jz@bp.renesas.com>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+	Rob Herring <robh@kernel.org>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	linux-media@vger.kernel.org,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Biju Das <biju.das.au@gmail.com>,
+	linux-renesas-soc@vger.kernel.org
+Subject: [PATCH v2 0/4] clk_disable_unprepare
+Date: Tue, 30 Jan 2024 16:35:49 +0000
+Message-Id: <20240130163553.116249-1-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240126133116.121981-1-biju.das.jz@bp.renesas.com> <20240126133116.121981-5-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20240126133116.121981-5-biju.das.jz@bp.renesas.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 30 Jan 2024 17:17:07 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdWR8qO_eZ_nECewVWFCnFnGiuq_q4FzJV+d_-XWWpTcsQ@mail.gmail.com>
-Message-ID: <CAMuHMdWR8qO_eZ_nECewVWFCnFnGiuq_q4FzJV+d_-XWWpTcsQ@mail.gmail.com>
-Subject: Re: [PATCH v2 4/5] arm64: dts: renesas: rzg2ul-smarc: Enable CRU, CSI support
-To: Biju Das <biju.das.jz@bp.renesas.com>
-Cc: Rob Herring <robh+dt@kernel.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
-	linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org, 
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>, Biju Das <biju.das.au@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Hi Biju,
+This patch series aims to sync the CSI/CRU driver code with the latest
+hardware manual (R01UH0914EJ0140 Rev.1.40).
 
-On Fri, Jan 26, 2024 at 2:31=E2=80=AFPM Biju Das <biju.das.jz@bp.renesas.co=
-m> wrote:
-> Enable CRU, CSI on RZ/G2UL SMARC EVK and tie the CSI to the OV5645 sensor
-> using Device Tree overlay.
->
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+v1->v2:
+ * Updated commit description for patch#1 removing deprecated for
+   SET_RUNTIME_PM_OPS() macro.
+ * Aligned RUNTIME_PM_OPS() macro.
+ * Added Rb tag from Laurent for patch#2 and #3.
+ * Replaced usleep_range()->fsleep().
+ * Added blank space after manual in commit description for patch#{2,3}.
+ * Dropped clk-provider.h and __clk_is_enabled() as consumer clk should
+   not use it. Plan to send RFC for clk_disable_unprepare_sync() in ccf.
 
-Thanks for your patch!
+Biju Das (4):
+  media: platform: rzg2l-cru: rzg2l-csi2: Switch to RUNTIME_PM_OPS()
+  media: platform: rzg2l-cru: rzg2l-ip: Add delay after D-PHY reset
+  media: platform: rzg2l-cru: rzg2l-video: Fix image processing
+    initialization
+  media: platform: rzg2l-cru: rzg2l-video: Restructure clk handling
 
-> --- a/arch/arm64/boot/dts/renesas/Makefile
-> +++ b/arch/arm64/boot/dts/renesas/Makefile
-> @@ -104,6 +104,8 @@ dtb-$(CONFIG_ARCH_R8A77965) +=3D r8a779m5-salvator-xs=
--panel-aa104xd12.dtb
->
->  dtb-$(CONFIG_ARCH_R9A07G043) +=3D r9a07g043u11-smarc.dtb
->  dtb-$(CONFIG_ARCH_R9A07G043) +=3D r9a07g043-smarc-pmod.dtbo
+ .../platform/renesas/rzg2l-cru/rzg2l-cru.h    |  3 -
+ .../platform/renesas/rzg2l-cru/rzg2l-csi2.c   | 37 +++++----
+ .../platform/renesas/rzg2l-cru/rzg2l-ip.c     | 18 ++--
+ .../platform/renesas/rzg2l-cru/rzg2l-video.c  | 83 ++++++++-----------
+ 4 files changed, 62 insertions(+), 79 deletions(-)
 
-Missing
+-- 
+2.25.1
 
-    dtb-$(CONFIG_ARCH_R9A07G043) +=3D r9a07g043u11-smarc-cru-csi-ov5645.dtb=
-o
-
-so r9a07g043u11-smarc-cru-csi-ov5645.dtbo is retained for separate use?
-
-> +r9a07g043u11-smarc-cru-csi-ov5645-dtbs :=3D r9a07g043u11-smarc.dtb r9a07=
-g043u11-smarc-cru-csi-ov5645.dtbo
-> +dtb-$(CONFIG_ARCH_R9A07G043) +=3D r9a07g043u11-smarc-cru-csi-ov5645.dtb
->  r9a07g043u11-smarc-pmod-dtbs :=3D r9a07g043u11-smarc.dtb r9a07g043-smarc=
--pmod.dtbo
->  dtb-$(CONFIG_ARCH_R9A07G043) +=3D r9a07g043u11-smarc-pmod.dtb
-
-The rest LGTM.
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
 
