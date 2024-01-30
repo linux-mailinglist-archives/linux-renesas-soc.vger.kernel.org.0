@@ -1,175 +1,220 @@
-Return-Path: <linux-renesas-soc+bounces-1990-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-1992-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id C920D8421F9
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Jan 2024 11:53:31 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7670C84226E
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Jan 2024 12:13:31 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id EB29A1C210B9
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Jan 2024 10:53:30 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9B2351C26D11
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Jan 2024 11:13:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D5B07657DC;
-	Tue, 30 Jan 2024 10:53:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5724766B2E;
+	Tue, 30 Jan 2024 11:13:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JKsKcLpy"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="NCX6mMIG"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ua1-f47.google.com (mail-ua1-f47.google.com [209.85.222.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35C84664A0;
-	Tue, 30 Jan 2024 10:53:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B704664B9;
+	Tue, 30 Jan 2024 11:13:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706612007; cv=none; b=Pot0yoJVVYQJd4bHGCNyk6a1opeocJ/lcIqY9+CNZMIdk/EFfjijvSrMvBscRwrAMpyO8B0PdrZ/KIdV822mXqxzzFVyaKLh4z7AGhrk3q7jx8HMlJaEKKY7nXEnSeEgIZdkVU0lO5wkQWCKCxHf53DoRpeFPH+RDbMNgovGg10=
+	t=1706613197; cv=none; b=Gtde2ltSNAIwahV2so9MxPihKMR/DnTMGy32UjrRezX63fbOP7xVn2FyxI4kcPR83gS2j1/h9nb2OFOBBlqu48xZVs9PN/fkIzUyrWaVWfMDUCLj37B7MfFM2HV1BrlpUWHyWxYyqMxaj2wjjOvsql/EF7bm/IeJX4EwKN8YPMQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706612007; c=relaxed/simple;
-	bh=OnuVYsvU2WNhZcmPss9Ip918LCpNRJoRqA6UpHf/Lc0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=uM/OB4boZpeVkR1+lWB/ZPvA8Zxfil3XE6S0BmzYJ9mxJ+KuD9GxJ4QiVUvpZFBf2yfYf5zCdgc6J4kgVRH8gpKp96joo1+gk4wmdtDAkZrFccP6YqEnrOzpfpEi/L4d+KY4umccCac6nfadYiijicSemgESZmf8Y5hk7iRTpkE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JKsKcLpy; arc=none smtp.client-ip=209.85.222.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ua1-f47.google.com with SMTP id a1e0cc1a2514c-7d5bbbe57b9so947889241.3;
-        Tue, 30 Jan 2024 02:53:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1706612005; x=1707216805; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=t2Wgc2ClmelSiswazxUWS0iU6q84Ug0M/jBpx2lzDSQ=;
-        b=JKsKcLpyVjRLi+cLAItKbpp09kKZ63HI4B4voAHYrNGiQNbO4+yLm/Ko3KD024geeo
-         0NlUenOPodSSBOPZyRu1Kw1MGZlKoHAJzzT028QbdklVOFZz25Exl78feGyxHidIgFll
-         PQk3pDDFUIbCJ42Qro0TEPooX9RZDvU5WPYF6/9b//bnBdPwwmiNSU7KR5Ck1VCYXAfU
-         aZ5KKPdusYGrUgSmLROymYvyQc0383CMQOUscimjH6RQxmA1SMnVs8z90arEQXE/f8si
-         x6ijFlNcrsUwOe2sp/Y0AJRwqdu1JpoEJGjD7zbDNs7RWtQseDmr1cVgggRM8cQgoGsh
-         gXZg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706612005; x=1707216805;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=t2Wgc2ClmelSiswazxUWS0iU6q84Ug0M/jBpx2lzDSQ=;
-        b=DEwe9PvajgiSvjqYpWcpT5pZDe2oMOz0IiCvSmNW1hS/EcaI9vnv+n076c77+E6kcy
-         qbyU8uFo9W6hyjDUp7Jr4XMER5FxuRf4VTiZ5E+IZWFJ71KEezgcTcdjEwqpOw+iIq8q
-         s9pJun/CJcb5sjdqldPsEVaxW5Uh7mCxh8kfY02F5dtAjC9cJCn+CT3f9kpKuckDdXNI
-         j//hRdsERZw55AYK0Nq9Aq+eHCTeIBAc9Y8BMXWMzvEwsLtfAGtztskfEQDzQnZykcqq
-         PGxRYmKgvZ/jcNmCUXdnS0BWeIjoVN0xBDIJFK79R+jnEn3DnpjUbVzGUIEdKTEVnZW6
-         V5eg==
-X-Gm-Message-State: AOJu0YyUSVvbcDNLURi6JPdI2yCRo+7e4j3cc4GGY/Wm43RDuT6U7GVg
-	X01HrMEzHbVSF2wVpoodhkdpqMs/LBZSiI+9EzrTGwaAbU6ejSfhyAAg83x4z3eUpi+HLGo2yzL
-	+MvaAzn7DlJFVX7VwLqmX7GhrjZw+3Ab+
-X-Google-Smtp-Source: AGHT+IHgpOYGVwZC7jGnAQ5quTRMCHeTj6rwn160Ts+Wqt1/jnYyj4K3u3HJFVo+yEseFc6FkttQlfm/AvfFuGOWpDg=
-X-Received: by 2002:a05:6122:d28:b0:4b6:c49a:174a with SMTP id
- az40-20020a0561220d2800b004b6c49a174amr3593381vkb.14.1706612004892; Tue, 30
- Jan 2024 02:53:24 -0800 (PST)
+	s=arc-20240116; t=1706613197; c=relaxed/simple;
+	bh=FKvT+3NXE0I7fW0WyC5auryggLUH8FeVDYu/Te5amRk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Lcc299IdA1nIQ2YRKiDn2em4dzVRpJ9Ic4bfln+fRREZXgb9Y1c+AW/kw7047KQIb4my4w5G03u7VryZbYAdWIUCe9ETMC6SSVONP12fq+oeBPnJrHj1W2SWEkYCT+eh70xEzqS//FKl/K7CSfx0Q+snTLI2Bu6GGkC1WMVBews=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=NCX6mMIG; arc=none smtp.client-ip=46.235.227.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1706613189;
+	bh=FKvT+3NXE0I7fW0WyC5auryggLUH8FeVDYu/Te5amRk=;
+	h=From:To:Cc:Subject:Date:From;
+	b=NCX6mMIGSPtDC/LmtlXOv7wqiyqEllBqsI4ssjeqCerI9om4r2MjKgERlBV1U80R3
+	 JP7dunRIUxUyIbaxwr0pfHJnv5q9qOuRACRuudWMN4E5i2ksgSIx6bTiUjStoXBX/D
+	 Hrl1/rG/qHjj0FZbYRz/d8w2dhtLxyobHDBb0UG3wzDTs2bTL2JzOLk2lTir09iWSd
+	 QTVioyREs3ko1I4jbZoD4JQj8pWG28pSELXgZAP1M+IPT4/lG+Grui+I6/CAu8g7DT
+	 WMhgE6Ey3AX3GUsF3YHbd8bGIb3VezTX6mMjZ27pyVDv4nlxUqQN36vp69aX1H25uj
+	 SvvubPhfa7+bg==
+Received: from IcarusMOD.eternityproject.eu (cola.collaboradmins.com [195.201.22.229])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: kholk11)
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id AEFED3780FC7;
+	Tue, 30 Jan 2024 11:13:07 +0000 (UTC)
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+To: daniel.lezcano@linaro.org
+Cc: miquel.raynal@bootlin.com,
+	rafael@kernel.org,
+	rui.zhang@intel.com,
+	lukasz.luba@arm.com,
+	support.opensource@diasemi.com,
+	shawnguo@kernel.org,
+	s.hauer@pengutronix.de,
+	kernel@pengutronix.de,
+	festevam@gmail.com,
+	linux-imx@nxp.com,
+	andersson@kernel.org,
+	konrad.dybcio@linaro.org,
+	amitk@kernel.org,
+	thara.gopinath@gmail.com,
+	niklas.soderlund@ragnatech.se,
+	srinivas.pandruvada@linux.intel.com,
+	angelogioacchino.delregno@collabora.com,
+	baolin.wang@linux.alibaba.com,
+	u.kleine-koenig@pengutronix.de,
+	hayashi.kunihiko@socionext.com,
+	d-gole@ti.com,
+	linus.walleij@linaro.org,
+	DLG-Adam.Ward.opensource@dm.renesas.com,
+	error27@gmail.com,
+	heiko@sntech.de,
+	hdegoede@redhat.com,
+	jernej.skrabec@gmail.com,
+	f.fainelli@gmail.com,
+	bchihi@baylibre.com,
+	linux-pm@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-arm-msm@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	kernel@collabora.com
+Subject: [PATCH v1 00/18] Thermal: Part 1 - Introduce new structs and registration
+Date: Tue, 30 Jan 2024 12:12:32 +0100
+Message-ID: <20240130111250.185718-1-angelogioacchino.delregno@collabora.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240129135556.63466-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20240129135556.63466-2-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAMuHMdWbPooCMqyKjTh+uJgAqh=az0+DOQAJYKQ7cuBrxyV1-w@mail.gmail.com>
-In-Reply-To: <CAMuHMdWbPooCMqyKjTh+uJgAqh=az0+DOQAJYKQ7cuBrxyV1-w@mail.gmail.com>
-From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Tue, 30 Jan 2024 10:52:54 +0000
-Message-ID: <CA+V-a8ux+AfF4rTmfr448Gp_=_M2TczsZ5_j2afk9qRFs3ePGQ@mail.gmail.com>
-Subject: Re: [PATCH v6 1/4] pinctrl: renesas: rzg2l: Improve code for readability
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Magnus Damm <magnus.damm@gmail.com>, Linus Walleij <linus.walleij@linaro.org>, 
-	Rob Herring <robh+dt@kernel.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
-	linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	linux-gpio@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-HI Geert,
+This series is a preparation for a bigger cleanup that will be split in
+three parts in order to avoid immutable branches on multiple subsystems,
+as in other parts of this series there will be changes in:
+- drivers/acpi
+- drivers/platform/x86
+- drivers/power/supply
+- drivers/net/wireless
+- drivers/net/ethernet
 
-Thank you for the review.
+This is the first part which adds new structures and starts reorganizing
+struct members around, plus, this migrates all of the thermal drivers
+found in drivers/thermal/ to the new thermal_zone_device_register()
+function, and advertises that the old registration functions are
+deprecated and will be removed.
 
-On Tue, Jan 30, 2024 at 10:35=E2=80=AFAM Geert Uytterhoeven
-<geert@linux-m68k.org> wrote:
->
-> Hi Prabhakar,
->
-> On Mon, Jan 29, 2024 at 2:56=E2=80=AFPM Prabhakar <prabhakar.csengg@gmail=
-.com> wrote:
-> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> >
-> > As the RZ/G2L pinctrl driver is extensively utilized by numerous SoCs a=
-nd
-> > has experienced substantial growth, enhance code readability by
-> > incorporating FIELD_PREP_CONST/FIELD_GET macros wherever necessary.
-> >
-> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
->
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> i.e. will queue in renesas-pinctrl for v6.9.
->
-> > --- a/drivers/pinctrl/renesas/pinctrl-rzg2l.c
-> > +++ b/drivers/pinctrl/renesas/pinctrl-rzg2l.c
->
-> > @@ -90,14 +93,18 @@
-> >   * (b * 8) and f is the pin configuration capabilities supported.
-> >   */
-> >  #define RZG2L_SINGLE_PIN               BIT(31)
-> > +#define RZG2L_SINGLE_PIN_INDEX_MASK    GENMASK(30, 24)
-> > +#define RZG2L_SINGLE_PIN_BITS_MASK     GENMASK(22, 20)
-> > +
-> >  #define RZG2L_SINGLE_PIN_PACK(p, b, f) (RZG2L_SINGLE_PIN | \
-> > -                                        ((p) << 24) | ((b) << 20) | (f=
-))
-> > -#define RZG2L_SINGLE_PIN_GET_BIT(x)    (((x) & GENMASK(22, 20)) >> 20)
-> > +                                        FIELD_PREP_CONST(RZG2L_SINGLE_=
-PIN_INDEX_MASK, (p)) | \
-> > +                                        FIELD_PREP_CONST(RZG2L_SINGLE_=
-PIN_BITS_MASK, (b)) | \
-> > +                                        FIELD_PREP_CONST(PIN_CFG_MASK,=
- (f)))
-> >
-> > -#define RZG2L_PIN_CFG_TO_CAPS(cfg)             ((cfg) & GENMASK(19, 0)=
-)
-> > +#define RZG2L_PIN_CFG_TO_CAPS(cfg)             ((cfg) & PIN_CFG_MASK)
->
-> Do you mind if I drop RZG2L_PIN_CFG_TO_CAPS() and replace its two
-> users by FIELD_GET(PIN_CFG_MASK, *pin_data) while applying?
->
-Fine by me.
+The reorganization is supposed to be complete (or mostly) but...
+ - struct thermal_zone_platform_params has a temporary name:
+   this is done in order to avoid compile time failures for
+   the drivers outside of drivers/thermal before migrating
+   them to thermal_zone_device_params/thermal_zone_device_register();
+ - struct thermal_zone_params temporarily has two duplicated members,
+   governor_name and no_hwmon;
+
+Part 2 of this topic will migrate all drivers that are external to
+drivers/thermal to thermal_zone_device_register(); I will send that
+part only after part 1 is confirmed to be acceptable, as otherwise
+I'd be spamming people for no reason :-)
+
+After all drivers will be migrated to thermal_zone_device_register(),
+we won't have to care about changing anything outside of drivers/thermal
+to finish this set of cleanups/changes (and no immutable branches needed)
+and this means that...
+Part 3 of this topic will contain the following changes:
+ - thermal_zone_device_register_with_trips() will be removed
+ - thermal_tripless_zone_device_register() will be removed
+ - thermal_zone_params will be renamed to thermal_governor_ipa_params
+   - governor_name, no_hwmon members will be removed
+ - thermal_zone_platform_params will be renamed to thermal_zone_params
+ - Removal of the THERMAL_NAME_LENGTH limitation for `type`
+
+More scheduled changes, which should end up in part 3 (at least that's
+my intention), or eventually entirely after this cleanup topic, include:
+ - Introduction of Thermal Zone names
+ - Disambiguation of TZ name and type
+ - Addition of `thermal-zones`, `thermal-zone-names` parsing for
+   devicetrees
+
+... Summarizing ...
+
+Part 1:
+ - Reorganize structures (some temporary names/leftovers)
+ - New registration function, deprecation of old ones
+ - Migration of drivers/thermal drivers to new registration
+
+Part 2:
+ - Migration of drivers in other subsystems to new thermal registration
+
+Part 3:
+ - Remove the two leftovers in thermal.h
+ - Rename structures with proper, final names
+ - Everything else, anyway.
+
 
 Cheers,
-Prabhakar
+Angelo
 
-> >  #define RZG2L_PIN_CFG_TO_PORT_OFFSET(cfg)      ((cfg) & RZG2L_SINGLE_P=
-IN ? \
-> > -                                               (((cfg) & GENMASK(30, 2=
-4)) >> 24) : \
-> > -                                               (((cfg) & GENMASK(26, 2=
-0)) >> 20))
-> > +                                                FIELD_GET(RZG2L_SINGLE=
-_PIN_INDEX_MASK, (cfg)) : \
-> > +                                                FIELD_GET(PIN_CFG_PIN_=
-REG_MASK, (cfg)))
-> >
-> >  #define P(off)                 (0x0000 + (off))
-> >  #define PM(off)                        (0x0100 + (off) * 2)
->
-> Gr{oetje,eeting}s,
->
->                         Geert
->
-> --
-> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m6=
-8k.org
->
-> In personal conversations with technical people, I call myself a hacker. =
-But
-> when I'm talking to journalists I just say "programmer" or something like=
- that.
->                                 -- Linus Torvalds
+AngeloGioacchino Del Regno (18):
+  thermal: core: Change governor name to const char pointer
+  thermal: Add new structures and thermal_zone_device_register()
+  thermal: Directly use thermal_zone_platform_params for
+    thermal_zone_device
+  thermal/drivers/da9062: Migrate to thermal_zone_device_register()
+  thermal/drivers/imx: Migrate to thermal_zone_device_register()
+  thermal/drivers/rcar: Migrate to thermal_zone_device_register()
+  thermal/drivers/st: Migrate to thermal_zone_device_register()
+  thermal: intel: pch_thermal: Migrate to thermal_zone_device_register()
+  thermal: intel: quark_dts: Migrate to thermal_zone_device_register()
+  thermal: intel: soc_dts_iosf: Migrate to
+    thermal_zone_device_register()
+  thermal: intel: int340x: Migrate to thermal_zone_device_register()
+  thermal: int340x: processor: Migrate to thermal_zone_device_register()
+  thermal: intel: x86_pkg_temp: Migrate to
+    thermal_zone_device_register()
+  thermal/drivers/armada: Migrate to thermal_zone_device_register()
+  thermal/drivers/dove: Migrate to thermal_zone_device_register()
+  thermal/drivers/kirkwood: Migrate to thermal_zone_device_register()
+  thermal/drivers/spear: Migrate to thermal_zone_device_register()
+  thermal/drivers/int340x: Migrate to thermal_zone_device_register()
+
+ drivers/thermal/armada_thermal.c              |  12 +-
+ drivers/thermal/da9062-thermal.c              |  16 +-
+ drivers/thermal/dove_thermal.c                |  10 +-
+ drivers/thermal/gov_power_allocator.c         |  38 ++--
+ drivers/thermal/gov_user_space.c              |   2 +-
+ drivers/thermal/imx_thermal.c                 |  21 +-
+ .../intel/int340x_thermal/int3400_thermal.c   |  20 +-
+ .../int340x_thermal/int340x_thermal_zone.c    |  28 +--
+ .../processor_thermal_device_pci.c            |  26 ++-
+ drivers/thermal/intel/intel_pch_thermal.c     |  12 +-
+ .../thermal/intel/intel_quark_dts_thermal.c   |  23 +-
+ drivers/thermal/intel/intel_soc_dts_iosf.c    |  24 ++-
+ drivers/thermal/intel/x86_pkg_temp_thermal.c  |  22 +-
+ drivers/thermal/kirkwood_thermal.c            |  10 +-
+ drivers/thermal/qcom/tsens.c                  |   4 +-
+ drivers/thermal/rcar_thermal.c                |  15 +-
+ drivers/thermal/spear_thermal.c               |  10 +-
+ drivers/thermal/st/st_thermal.c               |  15 +-
+ drivers/thermal/thermal_core.c                | 201 +++++++++++-------
+ drivers/thermal/thermal_core.h                |   6 +-
+ drivers/thermal/thermal_helpers.c             |  22 +-
+ drivers/thermal/thermal_hwmon.c               |   8 +-
+ drivers/thermal/thermal_of.c                  |  12 +-
+ drivers/thermal/thermal_sysfs.c               |  64 +++---
+ drivers/thermal/thermal_trace.h               |   8 +-
+ drivers/thermal/thermal_trip.c                |  14 +-
+ include/linux/thermal.h                       |  87 ++++++--
+ 27 files changed, 461 insertions(+), 269 deletions(-)
+
+-- 
+2.43.0
+
 
