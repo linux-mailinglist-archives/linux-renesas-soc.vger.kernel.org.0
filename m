@@ -1,116 +1,108 @@
-Return-Path: <linux-renesas-soc+bounces-2025-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-2024-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D22784264A
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Jan 2024 14:41:08 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D0FA842649
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Jan 2024 14:40:38 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 28EF7289A87
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Jan 2024 13:41:07 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id D077FB2A877
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Jan 2024 13:40:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C163F6D1A2;
-	Tue, 30 Jan 2024 13:41:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0B2DD6D1A0;
+	Tue, 30 Jan 2024 13:40:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="hETJ1YYl"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F09796BB54;
-	Tue, 30 Jan 2024 13:41:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6890D6BB5F
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 30 Jan 2024 13:40:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706622065; cv=none; b=reTrB8BEMGxGe3BjfJXQk19ulA71A6qBjGNi7aIEeuURG5Xy1UtHuLIS2/dED/Zs9D8v8O2yvAHpYptPmOY3E/+Csx6yJ3IBaqzrQXCrJWmyTULe00mXNXEdy76EUnG/u5v9+25fxV1eJFzPaGWFT5vRvzIx+gTB7JUEFiAIoQs=
+	t=1706622027; cv=none; b=VPFI+5m6ydq2sb4E+9BQC1a+Gpb1/X6bdBuKozivLTgTDto6lYo2MU+zgvXPpuo27upmh7gEEJoe4Zbcv87P5X6Qz2ZygsQsuqfolafvU8oPGZdlMEQM2VuvLWK2T+C/u0oxXvd6qChLa3webGQOQeyAoAzNY6ceZ5c/kr1ldFs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706622065; c=relaxed/simple;
-	bh=RiNHswsYrPk3kor4Gr8r0ain5u5aP5cCPnQ3TBQxNew=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=HUdlv6pfrfUr9Tg/zVSlu0qiKVeqoLb+ZOSE436MlgE/wawsBmtVdgUrAX6qdm8Le4s/Qwtdwk0uZiYng4E8s0/oXBY6+i+SOyub+lLhK67nYeFxKP+uv4Tngmk6r8wDczF5wboyopcJK+QyXU9u4kzVVmId5VZ6JYCcK99ZG3s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.210.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-6ddd19552e6so1922685b3a.1;
-        Tue, 30 Jan 2024 05:41:03 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706622063; x=1707226863;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=frJDUedpI3YTH8Ki9s8KdkIUfyDUhvcxZMMZkPB9gtA=;
-        b=F25CRAbFZaKg0ABrkpkG4pGRGalgtMoPBOM1itxRvfF2t0VBJLJxta35g/K97lHr5v
-         EPrdPp9cDG8COz7kd/Hf31zCCAoudv9fB+mO0Jkc6lEBMZ1jxuhaPVJnkH96eKDIJiyQ
-         RJ+iDfDWUDBos2+xhet5htR736OjvMdkZAl+FxT+CPEBUDCP9zPT5kVKw9wq8AUPA27V
-         IZUM/mXi3SGfwm3L5N8MnxMqc7W+a+NyWPjGqUJhHXXReFVBkD8iY7fUa8kXRlNiHJ+s
-         GIXUZjdsQEZvSvCEn/itQNwFOZnmL2/UnflioVLDeey8xPFF37FxCGX3C3ZqH+KbozJs
-         IrLw==
-X-Gm-Message-State: AOJu0YzMIB1Wi8VfnEZCp5jtv/SVxVMe8OYn1j6XvwcF+/RmGj8qXj/D
-	Ef7UK2bKf5bFH0N1y6zCO2atRSgof1nGnpqMr5Ec2KxDga4HiiDIbXGYZ+ixk08=
-X-Google-Smtp-Source: AGHT+IHHJCN/DA5nDwh/W1iGS9pLTv+8/BwgtjewsS/JVnv80HpaGXOBEGUKUqWzXskzFujFpvaFKg==
-X-Received: by 2002:a05:6a00:1805:b0:6db:cf34:8a96 with SMTP id y5-20020a056a00180500b006dbcf348a96mr8296734pfa.26.1706622062919;
-        Tue, 30 Jan 2024 05:41:02 -0800 (PST)
-Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com. [209.85.215.182])
-        by smtp.gmail.com with ESMTPSA id w18-20020a639352000000b005b458aa0541sm8089838pgm.15.2024.01.30.05.41.02
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 30 Jan 2024 05:41:02 -0800 (PST)
-Received: by mail-pg1-f182.google.com with SMTP id 41be03b00d2f7-5cfd95130c6so2224411a12.1;
-        Tue, 30 Jan 2024 05:41:02 -0800 (PST)
-X-Received: by 2002:a25:b20c:0:b0:dc3:78d1:c5a3 with SMTP id
- i12-20020a25b20c000000b00dc378d1c5a3mr5877288ybj.13.1706621652312; Tue, 30
- Jan 2024 05:34:12 -0800 (PST)
+	s=arc-20240116; t=1706622027; c=relaxed/simple;
+	bh=LBb7sT5Nl3jU1/yQicrNZLPhGLRYw1QDuFbrZiy36WM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ij7hRX0vNftpjvR2pvkH1y3nW+CWPF6Akk5+L8e8gkauSsewvHrrzag8d90BBdBEYRu9ipS36p4mADlT+dwTEP6NbYfiUlKU/tU0vXg4yZBJX0cjRD70X9TAbcvZCbu7fOpQ1WjPm5njN380RNUPP6VEQiQlPuNniWwSoNVtgVE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=hETJ1YYl; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=date:from:to:cc:subject:message-id
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=LBb7
+	sT5Nl3jU1/yQicrNZLPhGLRYw1QDuFbrZiy36WM=; b=hETJ1YYl0GYlJq+/7lHF
+	Nt4qb7RS0gT/ART42YJh1aSAr/bV0lUdYieqVDt8pcgGPyhXOo5ovQ4Nz2tJxAY5
+	I2CKv/6aH1sRa+727UAozj2hR1EIr3/XBukmLP+7ca3wD6SUmkfcnoktPOpqByuk
+	10g4UYgDX1aW86KJZQy0CMFFbqyOSfWENgOf7iQy2uX+IZlFO6blZcJqaiHeSZ0b
+	d3jcvTbnEHwqiMbK3xttbt48veAkv9sV0Y8Osv1e1d2GSXRDNUNQQ3kGiU6CXHMk
+	zcIbIv5q6or9KVCGZY6hpHoN+5Fc+HuXef0kwsGJ4PJg939U+fdelBlf8WAVLW34
+	HA==
+Received: (qmail 2856890 invoked from network); 30 Jan 2024 14:40:20 +0100
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 30 Jan 2024 14:40:20 +0100
+X-UD-Smtp-Session: l3s3148p1@wQFJ5ykQGuBehhtJ
+Date: Tue, 30 Jan 2024 14:40:19 +0100
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: linux-renesas-soc@vger.kernel.org, Mark Brown <broonie@kernel.org>,
+	linux-spi@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] spi: sh-msiof: avoid integer overflow in constants
+Message-ID: <Zbj8Qyqu8KQ4Rshp@ninjato>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Geert Uytterhoeven <geert@linux-m68k.org>,
+	linux-renesas-soc@vger.kernel.org, Mark Brown <broonie@kernel.org>,
+	linux-spi@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20240130094053.10672-1-wsa+renesas@sang-engineering.com>
+ <CAMuHMdUMeHCCiAkNyJMHTGUSTqewt=AWPUy+beA_kR26vcS8_Q@mail.gmail.com>
+ <Zbjc_p_Pin7TAHw4@ninjato>
+ <CAMuHMdVBXXpv9QfttBETQAeeRQjWRvfVJnrpPNiQj-N1SB9GQw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240130111250.185718-1-angelogioacchino.delregno@collabora.com> <20240130111250.185718-7-angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20240130111250.185718-7-angelogioacchino.delregno@collabora.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 30 Jan 2024 14:34:01 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdXgT0g=0uky9FYDXk=KuC1HjkGEX8sCQdKbUMoBFQKDqQ@mail.gmail.com>
-Message-ID: <CAMuHMdXgT0g=0uky9FYDXk=KuC1HjkGEX8sCQdKbUMoBFQKDqQ@mail.gmail.com>
-Subject: Re: [PATCH v1 06/18] thermal/drivers/rcar: Migrate to thermal_zone_device_register()
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Cc: daniel.lezcano@linaro.org, miquel.raynal@bootlin.com, rafael@kernel.org, 
-	rui.zhang@intel.com, lukasz.luba@arm.com, support.opensource@diasemi.com, 
-	shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de, 
-	festevam@gmail.com, linux-imx@nxp.com, andersson@kernel.org, 
-	konrad.dybcio@linaro.org, amitk@kernel.org, thara.gopinath@gmail.com, 
-	niklas.soderlund@ragnatech.se, srinivas.pandruvada@linux.intel.com, 
-	baolin.wang@linux.alibaba.com, u.kleine-koenig@pengutronix.de, 
-	hayashi.kunihiko@socionext.com, d-gole@ti.com, linus.walleij@linaro.org, 
-	DLG-Adam.Ward.opensource@dm.renesas.com, error27@gmail.com, heiko@sntech.de, 
-	hdegoede@redhat.com, jernej.skrabec@gmail.com, f.fainelli@gmail.com, 
-	bchihi@baylibre.com, linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org, kernel@collabora.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="wiSvPfKpqb9oap3e"
+Content-Disposition: inline
+In-Reply-To: <CAMuHMdVBXXpv9QfttBETQAeeRQjWRvfVJnrpPNiQj-N1SB9GQw@mail.gmail.com>
+
+
+--wiSvPfKpqb9oap3e
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jan 30, 2024 at 12:15=E2=80=AFPM AngeloGioacchino Del Regno
-<angelogioacchino.delregno@collabora.com> wrote:
-> The thermal API has a new thermal_zone_device_register() function which
-> is deprecating the older thermal_zone_device_register_with_trips() and
-> thermal_tripless_zone_device_register().
->
-> Migrate to the new thermal zone device registration function.
->
-> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@coll=
-abora.com>
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> > But they don't match, so we can't unify them?
+>=20
+> I stand corrected...
 
-Gr{oetje,eeting}s,
+So, the patch is good as-is?
 
-                        Geert
 
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
+--wiSvPfKpqb9oap3e
+Content-Type: application/pgp-signature; name="signature.asc"
 
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmW4/D8ACgkQFA3kzBSg
+KbYoXRAAjh/crtb5kD/iWDZL989vy3GBwPk69nrBJtCiZmrKjtZ8GofcV2xy30+Q
++bNR8ugcnYoDD86cwtZy71W7qSMACteNN5MsNnsYYyLjymy/Z1LG7P3M8nFlhfR3
+3tgCqHzJvbtJPz05qkuEpaZgy65SuuyPl51pCfFSTRyiaC0BSceazFLfrtwd137f
+YVii/5K3GczebEfy4ogZQ3AvAQNvkaJn7vWHHEv2IiYOF1ecDZkJt79KG8HgOkuZ
+B161qoswDEaocmm6gMSx48rdblJV85vj3LQm6pZ3u6+2wpHSuTxGBQrEfd/G0p2k
+8dcdMtqMSTfUcnt6FvttkhRtYaNkcnOf/VjDmDLmawiYgNNCSHwU/mP/bEr4QK4V
+VMDMxk8kTsjVs0s8678fXxWIPFR3mdIus68IVHWmd0Y34vpaGHV/rcT3wBeqz06K
+NZOKVERmoeJSyDjU7bvsbAyA3ykfI5TCqYkzxu+5YtL4bAYh82uk+Xp4q3s9lrnG
+24mFTiO16z1wVBekUcpJghZyGW7Swqlu7HKr0L+c1Y61XB/6u9/0ar0wrgx0iWQ6
+szE7oZ4s+VCjUTM2TXTWpzVTCQl9zhGgFSSVwAyVN7/6hVbgfWtQOXnwBrt5ldIQ
+ufaaUtheHP1V84BeYVy4OB6eXst1b+5Ea4U6ja/6VGLmbRboMDc=
+=cKu5
+-----END PGP SIGNATURE-----
+
+--wiSvPfKpqb9oap3e--
 
