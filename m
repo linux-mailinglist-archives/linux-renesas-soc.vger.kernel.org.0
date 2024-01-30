@@ -1,120 +1,174 @@
-Return-Path: <linux-renesas-soc+bounces-1969-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-1970-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD257841D18
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Jan 2024 08:58:53 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 54A16841F75
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Jan 2024 10:28:43 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 888A728706C
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Jan 2024 07:58:52 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id D87A51F25138
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Jan 2024 09:28:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 879C954667;
-	Tue, 30 Jan 2024 07:58:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CC557604C5;
+	Tue, 30 Jan 2024 09:28:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="PSRsrBw6"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com [209.85.128.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [217.70.183.195])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BE9254668
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 30 Jan 2024 07:58:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1791D5F86C;
+	Tue, 30 Jan 2024 09:28:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706601530; cv=none; b=BBlm10rHP8R+5WBUxgUxpQYMxVKevEnalDGLueamURqH4i3yIAfklv3zeTNhwVFKtYbJvX3rKpl4dJE52XAQN4u2qz7yz5YSruBgK3GfdiapiCQXvCXlRmFip/T5P8580uleO7ksDsnLXuFt/vE2RE1GSYRGAjeTh0J/XsLNJVM=
+	t=1706606898; cv=none; b=eQZFW1fqIXOFy9KYpbN60UFEOwnvgFg4brLmqCP7qigdBMXSmwW5NZwLUzKVW9yNnweREkZmS1cmlOIVddpKLMeQV7dwk0wv8WhFo9ULCIjNNHNSZ8bc1SDegJsP+6tInXRrJeo/9uvdIimZN64J3WnNmwaRPcr0TnUl8U4vrJY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706601530; c=relaxed/simple;
-	bh=dIzOwvXajejud+TaY9iHsKMq0WD9yCAmQMiTckZBQr0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=uI5uyppzjZf+HkcWgyIGISsKc80cCOqfmL94bHc/5FQiCYXgE5BlOKQIgrF08MdnlNvxggnTOlnFWoq+w0LH9Pq446cNu0zLfkEI+IZ1V14AP3cMej2mDMCpV0kXoXBrEKnSAUzjr6TfsaRMNqhYgAZJ1S4mBjqy6IsdtsPs1+M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-5ffee6e8770so43072437b3.0
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 29 Jan 2024 23:58:47 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706601527; x=1707206327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=We6oCD7oy75LkhTPwDJc6sElKRctH0wNNf7rNGfSxfs=;
-        b=loxJeU3CeWlxzBCuf0f4ccB0H5/x9fV5mHcF2dxj+Rg7ifzROE376+6D01Nwr6B8+k
-         OTpX2Y/L2X1ZvDdX39y+ToDGJu336MqiYuFz5N5LXErxwhvK7JsznwAK7tgtgqLP+s3P
-         5fwSVIyznDDKVFnWt7nKQGYxO81b+hFyjBJ5CSRSY0eziYjSvHwY0NeuxXxBfaMvP9bG
-         jw3RX8/Ed5JhkvnzK5/pEMP4ESAtDRrH+ppsJN3BidlvLTZZq9CMpsKnMdmCdYSXEWT7
-         7UzcZsyKQ4EgvL9nyyMEUGe+F9MyIZz1nOiF9J9010Qf/Q3EYN1YuFtGV0gwe0hRou2c
-         YP1g==
-X-Gm-Message-State: AOJu0Yx4p44kerh4cxCQ0Yt8NvagflOijRCw3uSY6ppH3pi+chAKar7z
-	ztfQnYge6/ROUB5hKtBR8VKJaSnpzIqOGiQKJ1nSMnKxpsUums59sAXK+1WZ2jE=
-X-Google-Smtp-Source: AGHT+IHCwPFYBn5gSeL8kboE5TTk/u3kzxL1rD+cWl0GHMqBPtsbrlgfB/sYAEW1Nu9l+hE1HZYolg==
-X-Received: by 2002:a05:690c:450f:b0:5ee:1ca0:b7ef with SMTP id gt15-20020a05690c450f00b005ee1ca0b7efmr7976602ywb.42.1706601526929;
-        Mon, 29 Jan 2024 23:58:46 -0800 (PST)
-Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com. [209.85.128.176])
-        by smtp.gmail.com with ESMTPSA id h21-20020a816c15000000b00603ee8537d3sm436851ywc.72.2024.01.29.23.58.46
-        for <linux-renesas-soc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 29 Jan 2024 23:58:46 -0800 (PST)
-Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-5ff7a098ab8so35610837b3.3
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 29 Jan 2024 23:58:46 -0800 (PST)
-X-Received: by 2002:a81:e803:0:b0:602:ab7e:7343 with SMTP id
- a3-20020a81e803000000b00602ab7e7343mr6563475ywm.13.1706601526386; Mon, 29 Jan
- 2024 23:58:46 -0800 (PST)
+	s=arc-20240116; t=1706606898; c=relaxed/simple;
+	bh=+xYQk37v+lh9LCVw5FDxL3B2uju+pAIl0j8hAbeawkY=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=OKLITxHL4Kn7KfTRHv/v/zTGncr9rhLNwW8lxU8aqmFmwYA+0rAXPB/hPcxPI9f++AxbDLFy5yzE34U8dCxctvJmcnSBp3uRNgTbdWHO+HbNWoWuvp8Llsu1+BXsaLLp3+om3UmfteR18FPyh7vCfl+HvFmBtkv54dv2Nx+xwr0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=PSRsrBw6; arc=none smtp.client-ip=217.70.183.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 02D4F60007;
+	Tue, 30 Jan 2024 09:28:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1706606894;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=DTvCoD/7ux9ZCg2ivERCoomsLOqzLvcETeTcMi+v1AE=;
+	b=PSRsrBw6IRjX4lk/BP5xAybOoffCEaEfMMvrry48Mtiq5i34EFa3tfFkPt8t3RIgsrrq8i
+	xef+s49ff5/284ntK5esm2TWAmTIM0/IAdvdLBhVl/ARN8rlXHSYN0MBoe3mcK7GRJyZyn
+	OSc0LgOy43DOj/Y+beC/yyl1vbVOxTBUXXy226zNAzsyBeK6Sn1IeX41iDtwhmK3rkELCO
+	IRoIffMRgmWEp2q3YnuOQy98sZKcgyeLeM9n5T+g1HMG5M5jtC/E80y3F0RMMvOeFjOEV+
+	W5Dnnwa6Sn1hNFp4vuJ8KAS5DHnLCsuQBZI8RjbbNatZkQ6hUGPDpBc0CO1zGg==
+From: Romain Gantois <romain.gantois@bootlin.com>
+Subject: [PATCH net-next v2 0/7] Fix missing PHY-to-MAC RX clock
+Date: Tue, 30 Jan 2024 10:28:35 +0100
+Message-Id: <20240130-rxc_bugfix-v2-0-5e6c3168e5f0@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <12ff20eb-d4b5-41f4-a494-cfb6b7abe617@de.bosch.com>
- <CAMuHMdW=igXesjxvNk=+in62neW=kipnFW2BUH3P7sfDnqXzEQ@mail.gmail.com> <8a0e405d-cdee-4888-ba92-47352766688e@de.bosch.com>
-In-Reply-To: <8a0e405d-cdee-4888-ba92-47352766688e@de.bosch.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 30 Jan 2024 08:58:34 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdX2RvXj5ZFwg2WxNpPGw59=b9quqryO-iZONx_yqgsp7w@mail.gmail.com>
-Message-ID: <CAMuHMdX2RvXj5ZFwg2WxNpPGw59=b9quqryO-iZONx_yqgsp7w@mail.gmail.com>
-Subject: Re: rcar-dmac.c: race condition regarding cookie handling?
-To: "Behme Dirk (CM/ESO2)" <dirk.behme@de.bosch.com>
-Cc: Linux-Renesas <linux-renesas-soc@vger.kernel.org>, 
-	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>, Kees Cook <keescook@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAETBuGUC/02MTQqDMBBGryKz7oiZBJWueo9SSqKjBmoiSVoE8
+ e4duuryfT/vgMzJc4ZrdUDij88+BgG6VDAsNsyMfhQGasg0ilpM+/B073nyO46mc9opqzszgRy
+ 2xBL/ZHcIXDDwXuAhzZTiimVJbP9kjVaGeupq1faaFCqUlfWhnm0o0eebi7G8hIe4wnl+AYCGj
+ Z6rAAAA
+To: Russell King <linux@armlinux.org.uk>, Andrew Lunn <andrew@lunn.ch>, 
+ Heiner Kallweit <hkallweit1@gmail.com>, 
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+ Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+ Jose Abreu <joabreu@synopsys.com>, 
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+ =?utf-8?q?Cl=C3=A9ment_L=C3=A9ger?= <clement.leger@bootlin.com>
+Cc: Maxime Chevallier <maxime.chevallier@bootlin.com>, 
+ Miquel Raynal <miquel.raynal@bootlin.com>, 
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>, netdev@vger.kernel.org, 
+ linux-stm32@st-md-mailman.stormreply.com, 
+ linux-arm-kernel@lists.infradead.org, linux-renesas-soc@vger.kernel.org, 
+ Romain Gantois <romain.gantois@bootlin.com>, 
+ Clark Wang <xiaoning.wang@nxp.com>
+X-Mailer: b4 0.12.4
+X-GND-Sasl: romain.gantois@bootlin.com
 
-Hi Dirk,
+Hello everyone,
 
-On Tue, Jan 30, 2024 at 8:08=E2=80=AFAM Behme Dirk (CM/ESO2)
-<dirk.behme@de.bosch.com> wrote:
-> On 29.01.2024 10:57, Geert Uytterhoeven wrote:
-> > On Wed, Nov 22, 2023 at 8:02=E2=80=AFAM Behme Dirk (CM/ESO2)
-> > <dirk.behme@de.bosch.com> wrote:
-> >> using a rcar-dmac.c on RCar3 being quite similar to the recent mainlin=
-e
-> >> one [1] we got a BUG_ON() being hit [2].
+This is version two of my series that addresses the issue with some MAC/PHY
+combinations. Version one was sent on net, not net-next.
 
-> > Was the system running for a very long time?
->
-> Hmm, the trace I have contains boot time stamps (dropped initially) like
->
-> [  153.394731] kernel BUG at drivers/dma/sh/../dmaengine.h:54!
->
-> I think this "153" implies 153s after boot,  i.e. ~2.5s after system
-> start. In case there is no wrap around here too.
+Notable changes in v2:
+  - Introduced a pcs op for initializing hardware required for MAC
+    initialization, instead of using phylink_validate() for this purpose.
+  - Refactored stmmac to use a generic PCS reference in mac_device_info
+    instead of a model-specific field.
 
-Yes, that is still quite early in the boot process.
-Do you have log info from just before the crash, that might give a clue
-which device was trying to use DMA?
+There is an issue with some stmmac/PHY combinations that has been reported
+some time ago in a couple of different series:
 
-Thanks!
+Clark Wang's report:
+https://lore.kernel.org/all/20230202081559.3553637-1-xiaoning.wang@nxp.com/
+Clément Léger's report:
+https://lore.kernel.org/linux-arm-kernel/20230116103926.276869-4-clement.leger@bootlin.com/
 
-Gr{oetje,eeting}s,
+Stmmac controllers require an RX clock signal from the MII bus to perform
+their hardware initialization successfully. This causes issues with some
+PHY/PCS devices. If these devices do not bring the clock signal up before
+the MAC driver initializes its hardware, then said initialization will
+fail. This can happen at probe time or when the system wakes up from a
+suspended state.
 
-                        Geert
+This series introduces new flags for phy_device and phylink_pcs. These
+flags allow MAC drivers to signal to PHY/PCS drivers that the RX clock
+signal should be enabled as soon as possible, and that it should always
+stay enabled.
 
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
+I have included specific uses of these flags that fix the RZN1 GMAC1 stmmac
+driver that I am currently working on and that is not yet upstream. I have
+also included changes to the at803x PHY driver that should fix the issue
+that Clark Wang was having.
 
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+Clark, could you please confirm that this series fixes your issue with the
+at803x PHY?
+
+Best Regards,
+
+Romain
+
+Romain Gantois (2):
+  net: phy: add rxc_always_on flag to phylink_pcs
+  net: pcs: rzn1-miic: Init RX clock early if MAC requires it
+
+Russell King (3):
+  net: phy: add PHY_F_RXC_ALWAYS_ON to PHY dev flags
+  net: stmmac: Signal to PHY/PCS drivers to keep RX clock on
+  net: phy: at803x: Avoid hibernating if MAC requires RX clock
+
+ .../net/ethernet/stmicro/stmmac/stmmac_main.c  |  5 +++++
+ drivers/net/pcs/pcs-rzn1-miic.c                | 18 +++++++++++++-----
+ drivers/net/phy/at803x.c                       |  3 ++-
+ drivers/net/phy/phylink.c                      | 13 ++++++++++++-
+ include/linux/phy.h                            |  1 +
+ include/linux/phylink.h                        |  9 +++++++++
+ 6 files changed, 42 insertions(+), 7 deletions(-)
+
+--
+2.43.0
+
+---
+Maxime Chevallier (1):
+      net: stmmac: don't rely on lynx_pcs presence to check for a PHY
+
+Romain Gantois (4):
+      net: phy: add rxc_always_on flag to phylink_pcs
+      net: stmmac: Support a generic PCS field in mac_device_info
+      net: stmmac: Signal to PHY/PCS drivers to keep RX clock on
+      net: pcs: rzn1-miic: Init RX clock early if MAC requires it
+
+Russell King (2):
+      net: phy: add PHY_F_RXC_ALWAYS_ON to PHY dev flags
+      net: phy: at803x: Avoid hibernating if MAC requires RX clock
+
+ drivers/net/ethernet/stmicro/stmmac/common.h       |  2 +-
+ .../net/ethernet/stmicro/stmmac/dwmac-socfpga.c    |  8 ++++----
+ drivers/net/ethernet/stmicro/stmmac/stmmac_main.c  | 15 ++++++++------
+ drivers/net/pcs/pcs-rzn1-miic.c                    | 16 +++++++++++++++
+ drivers/net/phy/at803x.c                           |  3 ++-
+ drivers/net/phy/phylink.c                          | 24 +++++++++++++++++++++-
+ include/linux/phy.h                                |  1 +
+ include/linux/phylink.h                            | 15 ++++++++++++++
+ 8 files changed, 71 insertions(+), 13 deletions(-)
+---
+base-commit: 795a7dfbc3d95e4c7c09569f319f026f8c7f5a9c
+change-id: 20240126-rxc_bugfix-d47b3b1a374f
+
+Best regards,
+-- 
+Romain Gantois <romain.gantois@bootlin.com>
+
 
