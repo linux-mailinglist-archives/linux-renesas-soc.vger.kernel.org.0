@@ -1,113 +1,110 @@
-Return-Path: <linux-renesas-soc+bounces-2012-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-2013-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1CA68422F4
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Jan 2024 12:27:10 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 304B1842313
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Jan 2024 12:30:44 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 52B7C280D70
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Jan 2024 11:27:09 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 69004B2CC34
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Jan 2024 11:29:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4F05660B97;
-	Tue, 30 Jan 2024 11:27:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="M8/8T5fh"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3D1206774C;
+	Tue, 30 Jan 2024 11:28:41 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f172.google.com (mail-yb1-f172.google.com [209.85.219.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DA4A66B2B
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 30 Jan 2024 11:27:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA3FD66B4C;
+	Tue, 30 Jan 2024 11:28:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706614025; cv=none; b=GU3MeQnG0FbQHEiIpCRe5WFK7seReJVNm9OHzmvdFpbTmAPeJRPppexfrWWyPNR9aal8Pl7AXaCEc62nv28WmnVjPO8E638sAQrRMBHsk+bLL1dwOGELT5hs9+cqYR9ezXepI5uofTBllYmwfppIq4DXwSQ67cf73CwC8EXCUY8=
+	t=1706614121; cv=none; b=fXYPFHk5rt7oFeKKhLfcF6ST02nVBSHBHx42k1kfoj068LWIpjbOqTivuVIVgGGCuO5ESLmxMkzfJ+hviDq1d/RztgiZkomgwH5SORWcHBYeMI2QHqKQsg3bDHR4EgboZ5XPUv5EVKcRFbD7Fo+zih50iyU5MPJjJK4mv9QKgo0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706614025; c=relaxed/simple;
-	bh=muX3YxseE2TzFY8Q79IfU61c+1oWD3bJbHYy41uJG1M=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oTs+VY2zP4F3vk7HTeeXuR0n2vWGPcpmA+9JeQpgltdLjOVbqMlSGZ8ugYgbax8Ci2lp16/Oc3M8oSwi2e3+RnZLoPUnwQ9IvI4owMCjXQZhG73/LAP0fGs2h8JlWo0FLuD7dORfUv5uLDy3rrHXZC86iI7uT2jVXNpNQMySzfc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=M8/8T5fh; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=lNRA
-	8G85hsULgv0uGmfeJsSV2FBs2FxoeGapM1VIbhA=; b=M8/8T5fhB13dpgX9CeNE
-	ghKdyOTkUglY935KQRbHgrBsRzVitW3NhuONwFJN0OhH5fsCFvGeCcQZNRoYhYD/
-	s/yx5OtcVXLDoWV7oSiRXmb8u0dzNcrNgabX98mD4d/zYIL+Sa9+zSIfwa6KS4bY
-	gAlZ/ZjgmsPuTjgQt5kjxa8N+7IJaiM2ZJMjRpGfB3mtA/u09RL1joAbhLGfY7o4
-	1ibW7WpMQnC75CpM00jC1i8yC22ABTZ7ZHw5lEXlSmxOlEusYAExVnPQwGuuKgJ6
-	XZqxcnhfVEJ9QVXqQSDPqeVcl6ATxhcL/BqYR9CJomMYABWXGp96SrXRzMYH6dBW
-	Lg==
-Received: (qmail 2816817 invoked from network); 30 Jan 2024 12:26:54 +0100
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 30 Jan 2024 12:26:54 +0100
-X-UD-Smtp-Session: l3s3148p1@g1gbCigQqL5ehhtJ
-Date: Tue, 30 Jan 2024 12:26:54 +0100
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: linux-renesas-soc@vger.kernel.org, Mark Brown <broonie@kernel.org>,
-	linux-spi@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] spi: sh-msiof: avoid integer overflow in constants
-Message-ID: <Zbjc_p_Pin7TAHw4@ninjato>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	linux-renesas-soc@vger.kernel.org, Mark Brown <broonie@kernel.org>,
-	linux-spi@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20240130094053.10672-1-wsa+renesas@sang-engineering.com>
- <CAMuHMdUMeHCCiAkNyJMHTGUSTqewt=AWPUy+beA_kR26vcS8_Q@mail.gmail.com>
+	s=arc-20240116; t=1706614121; c=relaxed/simple;
+	bh=1aI1fPeO95MbVGGpdfdHLRoDLvte8kEVgs8+Byqu/7A=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=JjaXu5CfXbxh2bMnuf9/j3ibXEQiE+UpDUb1Ibzqgvb5uUYx0K1qf3SCmu2q6Gt+oBLa0eSAfpjKxQs4BsDflG0fYLugADMNZ/TDq38SpMFxkmyie7JuXWohqtOBTFvvRwW3lsf7rPraiihK6uiJzf+IjTtmXQgeQkHUVR4p7Ko=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.219.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yb1-f172.google.com with SMTP id 3f1490d57ef6-dc22597dbfeso4716376276.3;
+        Tue, 30 Jan 2024 03:28:39 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1706614118; x=1707218918;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=W54hXGwyrXiKIUUpJUiH2UqyDwulWdbv5HbLIOlRE2U=;
+        b=vGzhvFGmVdAj7vQ+M0Udw2ehd+MQrnkYg6+SD34pitIQmmif9ukA07ky7Ub+/jmT3I
+         D0Gc/zKkQgu2Csm7+GgVgEMUV92/z2qvE2kspXlAdXQ1bUMRvLgaMky6ibaoG+Ardb4K
+         JhUxUsTrdzWi5opbwM881Bly1OiFNhMCQKJE2XEFzvljAsa1uNfDeyJXmLflDNaR6nh0
+         rsWGSTv0znFE8SLJX6UUl0o6vmYGfGfO/WjR8qo8R/NPTQLDPQ0zR4pQA26oRfsKnbLI
+         4Opj2LAxH80MWiLgSlRj3Jp2kdFjy/csU6qEqUQsYFp4boS9O+mJsbEXNeL47O6KxPrg
+         HSJA==
+X-Gm-Message-State: AOJu0YxDjXJMDy4ZKHyC5UUr5KujkcTfrWvqg85egnXyYA9y/FDVasvo
+	cybOfSkP5USQa2WHua3rVN5OJzc6Cu9CUf8vq3I7GlqgoN5n1j3pP+HXynITVcE=
+X-Google-Smtp-Source: AGHT+IECMtMhJ1NiGMXLWVON8J4JXLu/ww1XWP1ZrNRmrV57D2Zu9XtmD21gTeYvm7/cXt/jdLIlHQ==
+X-Received: by 2002:a25:9b44:0:b0:dc6:9c4f:9e7f with SMTP id u4-20020a259b44000000b00dc69c4f9e7fmr1249661ybo.18.1706614118478;
+        Tue, 30 Jan 2024 03:28:38 -0800 (PST)
+Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com. [209.85.128.178])
+        by smtp.gmail.com with ESMTPSA id o12-20020a25810c000000b00dbdaf5980cesm2846574ybk.35.2024.01.30.03.28.38
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 30 Jan 2024 03:28:38 -0800 (PST)
+Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-603e7d19725so16326487b3.0;
+        Tue, 30 Jan 2024 03:28:38 -0800 (PST)
+X-Received: by 2002:a81:be03:0:b0:5ff:a3df:9ba4 with SMTP id
+ i3-20020a81be03000000b005ffa3df9ba4mr7021538ywn.48.1706614117959; Tue, 30 Jan
+ 2024 03:28:37 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="tLJ2stAhg6obWp8F"
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdUMeHCCiAkNyJMHTGUSTqewt=AWPUy+beA_kR26vcS8_Q@mail.gmail.com>
+References: <20240129151618.90922-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20240129151618.90922-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20240129151618.90922-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 30 Jan 2024 12:28:27 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdVOWw9jQytipok-BM2yThJgtpaJte-ksjF1VuDmxHhmJg@mail.gmail.com>
+Message-ID: <CAMuHMdVOWw9jQytipok-BM2yThJgtpaJte-ksjF1VuDmxHhmJg@mail.gmail.com>
+Subject: Re: [PATCH 4/5] arm64: dts: renesas: r9a07g043: Move interrupt-parent
+ property to common DTSI
+To: Prabhakar <prabhakar.csengg@gmail.com>
+Cc: Thomas Gleixner <tglx@linutronix.de>, Rob Herring <robh+dt@kernel.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Magnus Damm <magnus.damm@gmail.com>, linux-renesas-soc@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-riscv@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Mon, Jan 29, 2024 at 4:16=E2=80=AFPM Prabhakar <prabhakar.csengg@gmail.c=
+om> wrote:
+> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+>
+> Now that we have added support for IRQC to both RZ/Five and RZ/G2UL SoCs
+> we can move the interrupt-parent for pinctrl node back to the common
+> shared r9a07g043.dtsi file.
+>
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
---tLJ2stAhg6obWp8F
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
+Gr{oetje,eeting}s,
 
-> What about unifying the individual SIFCTR_?FWM_[0-9]* definitions
-> into SIFCTR_xFWM_[0-9]* instead, and using the bitfield helpers in its
-> sole user?
+                        Geert
 
-But they don't match, so we can't unify them?
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
 
-#define SIFCTR_TFWM_1           (7UL << 29)     /*  Transfer Request when 1 empty stage */
-
-vs
-
-#define SIFCTR_RFWM_1           (0 << 13)       /*  Transfer Request when 1 valid stages */
-
-Also, the steps don't match (1, 4, 8, 12..) vs (1, 4, 8, 16...).
-
-
---tLJ2stAhg6obWp8F
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmW43PoACgkQFA3kzBSg
-KbbsJg//UOga82uDR5hhkR6m2/6zD1GsGFvrFCFo1DhS+LdxOSzmsC7oxkP4AVSN
-w8VFjl/YnskkaUPsVhyaDpckse89Zm4cX1kp/FthiTYyp0Ne7406Bm0O6yAel3CF
-0O73CrW2gKmw3q6NG7v9tnsN8RI2RlSxIN59AMSAMryxod3dDI6dCkuJc1AHEmpn
-loiVN99PQTvhU3REby8hSTF44I3uiez0lsYQ8YQefE8Hbo0V43YYFD9SfEI8CyPM
-5+QYsscqp9WQQFwo5RpeW/5tk4nssSDpTe4DkQMfXY/JYt+51oWJPlR5xvrmqEEF
-jO0occLL+9YzF4S1QBxWA72DsQhNPM0hA0uW51I99RROef6b56GTgJN7BwzCLi7H
-zXoSstpBsgn0VdE5eqz+hR8ZZugxIFWRqWNskkMCMkQumXwA6kV+pmsk5XTndfVu
-S8emAMcGqMwcIGE4PYiB/IM92kC7r/kh8N4x5COk2PzNnsTD0TEWYzL2Q8/xNUJN
-EIe00Qd0ZL/pzvTCCS0jfmU6ByqXEpEAa+KCdDYqpIawJdWwSKcs+Y7a7DjS4SMC
-N/ewwerD/pBea7/c1LVMCXxCbYiUC6yi8Buv8Yy6ORV8BRxXKDz7DcRRE0IquCmI
-jNvLVYtn5yP/X0Q7oy7w/gaSq4gWg1M0STgq1boTxDn5uidb1JU=
-=/+Ku
------END PGP SIGNATURE-----
-
---tLJ2stAhg6obWp8F--
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
