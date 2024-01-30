@@ -1,296 +1,193 @@
-Return-Path: <linux-renesas-soc+bounces-1963-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-1964-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C9D384195C
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Jan 2024 03:34:49 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id B0318841C4E
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Jan 2024 08:04:00 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 916521C20972
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Jan 2024 02:34:48 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 263B51F26BF8
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Jan 2024 07:04:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D2C4076C6A;
-	Tue, 30 Jan 2024 02:34:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 54FDE54F93;
+	Tue, 30 Jan 2024 07:03:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="akwd5U6e"
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="CEybdmyF"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2F7C14F7F
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 30 Jan 2024 02:34:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=134.134.136.65
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39CD054667
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 30 Jan 2024 07:03:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706582085; cv=none; b=DPH3TUXHZohctsvXT3x1gDrjBjXpLNtIagjH6swPbH5Ntd7JBm0KahbO20GW7AOCo7qqbG4gTiirCEzLghImPaPRjc2JIyihb8gUKB749UQ+4OBvTH2FRiy8pLm4PV1wGDQu1hSUq3VolO0rboV1Xs1MQgFwvqBgGpFg3jMvge8=
+	t=1706598229; cv=none; b=KzT9fg6DQ9mZcEt67G0mbG/k+vQmdYHMhkZyIlS6Hn73AKb3JVOWtyt0AXhADNKtj3TTWtgkqRMUiWK84qGkXvJ2ivlimYhAQQSLoO/INUbZa3ftfgc5u4LhTw9OZ34PC/8SDPYa8cCEXEIrmQAEt+4mcclzxrAA3Hh588wi528=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706582085; c=relaxed/simple;
-	bh=i4GQjmYB6fSaipjFvb6GxEacMP7FKExZOIVuAg48SCo=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=Hy3294U/ydsZvd299J15Fn2BP6GQ0jfTZ4Wq8y0K08CQzY9BzB8b1lVYRUKJ4V/yQ9b12oNt+6bBBnVJLBGYh8fZzRxwY7TT85pJPljOkTtJ8MFeGUpNqIZgEvlzFF2vvheCnr06s3LfcwlK4H0IIk4SfI3Vh/cBKMNshlBtWQ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=akwd5U6e; arc=none smtp.client-ip=134.134.136.65
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706582083; x=1738118083;
-  h=date:from:to:cc:subject:message-id;
-  bh=i4GQjmYB6fSaipjFvb6GxEacMP7FKExZOIVuAg48SCo=;
-  b=akwd5U6eIuyxeZlqNBikvwLmTLMjpGAQdbCVKywOEPXI4gRS0eM3HIcV
-   M4NO81OknbIPJPqZnUap4ssssWFjKu9VCBThv/n1o4caelgMDGBrj/1Bf
-   Ql3/DDYorWqBdrryq0TluEBgObHBhvGr8KNECp5FsHJH3DbfvOh2YBBKd
-   DDylvyUksDCyCbGHosj7WpUYKFg5SArhO0tpU/qdfBHAod3o15Zkps1+m
-   IgibpksBdKmwq15SuRhIhbJnvmDNeuWzACC98F/pnN2KBbtWiZr0SpcaK
-   BU+oBeBNKJftL4PjyiBLylqDSl95vwPQQocsd5KIBS4uFvJZhnKCcu3pg
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10968"; a="406865515"
-X-IronPort-AV: E=Sophos;i="6.05,707,1701158400"; 
-   d="scan'208";a="406865515"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jan 2024 18:34:43 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10968"; a="858323495"
-X-IronPort-AV: E=Sophos;i="6.05,707,1701158400"; 
-   d="scan'208";a="858323495"
-Received: from lkp-server01.sh.intel.com (HELO 370188f8dc87) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 29 Jan 2024 18:34:41 -0800
-Received: from kbuild by 370188f8dc87 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rUdxP-0004rc-07;
-	Tue, 30 Jan 2024 02:34:39 +0000
-Date: Tue, 30 Jan 2024 10:33:50 +0800
-From: kernel test robot <lkp@intel.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: linux-renesas-soc@vger.kernel.org
-Subject: [geert-renesas-devel:master] BUILD SUCCESS
- 2545fe70be0ef3a7a24cc6837b163906b8694576
-Message-ID: <202401301047.s1ETOWG5-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+	s=arc-20240116; t=1706598229; c=relaxed/simple;
+	bh=vZf6m7RI1eROTzwOQTlH8TlWjwZoOveQcIvorFpjbgw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=kuZLiCKyiLH0CyrQOBf11TIOeFLpxX76t/IaMneIPMKVA+I7Dxb4AU0XiMYzF31YvSKaNTnGsHOIVhu0FCpwrsv5kqILCMI2ewoNCR2mylpbVUnPlc9zRSN/AOIaw3wSsJxucD2D77K2IN9YU8myM8vocnKfchrrUpB/TGrXCX0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=CEybdmyF; arc=none smtp.client-ip=209.85.218.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
+Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-a357cba4a32so273331766b.2
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 29 Jan 2024 23:03:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=tuxon.dev; s=google; t=1706598225; x=1707203025; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=R3uX+Nzh7GD/qkGDd2hkrqkUgxPvy6pwsK/SiuinutU=;
+        b=CEybdmyFev54cg3wEbAo1PAZ2L8O3tucAkD5JSJKHqLPgiZTtH2ukGUZOE2pT9CmO/
+         Xy3qPFRVVJ7GdABkCPHL4s3nLFzOfxfwDOaOmfj8rNzHkqsoFAWPqSN+iuzgG02s7R9X
+         cA2K1Xxkywfn5LhfAFF3PKbABfJ9vpSfEdEEfzLClct7rTaouiAbaU6T0WjcOg1DVsvj
+         cJNliUqKLUernQp6etn9Nzz57EQvr5HYGGXnuc2vLZ5qon59GH12qNLsd5kidwQ0OA19
+         ptHzF6cQ2rzRc/MrI+DgzdSaUsOjlTXESTgIy/qMOBYva9D61B3mMe07dhcaKRVbqvGm
+         DYJQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1706598225; x=1707203025;
+        h=content-transfer-encoding:in-reply-to:from:references:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=R3uX+Nzh7GD/qkGDd2hkrqkUgxPvy6pwsK/SiuinutU=;
+        b=tG6iV3jYcjYx+KvC1f77gHxQDw8RVRWwbQV1EHIwQ25Zh40QlmKOC9P1Kx+GOrDmCu
+         OVMiKNHpNYtmX1I6zqKGWQGhGRuGlsPglfIxTPzVyNtFcK5yIf9hTJQiqcl24H5mhQRy
+         J4LcV0y48HxYZy2ixadR/KV+hYAUjs3OSPxqLyiq2cnkMTKDJyqGhcKmhEZoCmbaeWFk
+         S7lYOs9K8OfqzciU406OgHJNh876yWtSG2I/tVpEEBvJAaoVtFryO9GJWXXrUcg0XAE6
+         rdK+mpSrH5qvOL/7t6+lb5+DNvMXK4mg2TgrnvOegcjhvmyvANL45bIzrpfaKH6vVV6U
+         2/4w==
+X-Gm-Message-State: AOJu0YwhtvguQDt/5hQk2h7s9SKOqpOoYWXH4slpBH03e7XtXbHuPRon
+	aeyrmTXFqXyRKRkNtHK4h2iyR6Khd4i6CKqNtIbJbHNsXYD50DxEFJUsq4fa8DA=
+X-Google-Smtp-Source: AGHT+IF32AfkB/h3vblysAegHlLs+WOawjFp8f423iOnx9b8d8IDG3ZpuywWvYTwN4QZvJHwVwcuag==
+X-Received: by 2002:a17:906:1b0b:b0:a35:965d:5988 with SMTP id o11-20020a1709061b0b00b00a35965d5988mr4193192ejg.11.1706598225229;
+        Mon, 29 Jan 2024 23:03:45 -0800 (PST)
+Received: from [192.168.50.4] ([82.78.167.87])
+        by smtp.gmail.com with ESMTPSA id vb5-20020a170907d04500b00a351d62309esm4109108ejc.39.2024.01.29.23.03.44
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 29 Jan 2024 23:03:44 -0800 (PST)
+Message-ID: <345bc392-cf28-479a-9453-5bc89f635759@tuxon.dev>
+Date: Tue, 30 Jan 2024 09:03:43 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] mmc: renesas_sdhi: Fix change point of data handling
+Content-Language: en-US
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>, ulf.hansson@linaro.org,
+ takeshi.saito.xv@renesas.com, masaharu.hayakawa.ry@renesas.com,
+ yoshihiro.shimoda.uh@renesas.com, linux-mmc@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+References: <20240117110646.1317843-1-claudiu.beznea.uj@bp.renesas.com>
+ <ZbeEPg1jc5qWJa5m@ninjato>
+From: claudiu beznea <claudiu.beznea@tuxon.dev>
+In-Reply-To: <ZbeEPg1jc5qWJa5m@ninjato>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git master
-branch HEAD: 2545fe70be0ef3a7a24cc6837b163906b8694576  Merge branch 'renesas-next', tag 'v6.8-rc2' into renesas-devel
+Hi, Wolfram,
 
-elapsed time: 733m
+On 29.01.2024 12:55, Wolfram Sang wrote:
+> Hi Claudiu,
+> 
+> but one thing I can ask already:
+> 
+>> Investigating it on RZ/G3S lead to the conclusion that every time the issue
+>> is reproduced all the probed TAPs are OK. According to datasheet, when this
+>> happens the change point of data need to be considered for tuning.
+> 
+> Yes, "considered" means here it should be *avoided*.
 
-configs tested: 206
-configs skipped: 3
+My understanding was the other way around from this statement found in
+RZ/G3S hw manual:
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+"If all of the TAP [i] is OK, the sampling clock position is selected by
+identifying the change point of data.
+ Change point of the data can be found in the value of SCC_SMPCMP register.
+Usage example is Section 33.8.3, Change
+ point of the input data."
 
-tested configs:
-alpha                             allnoconfig   gcc  
-alpha                            allyesconfig   gcc  
-alpha                               defconfig   gcc  
-arc                              allmodconfig   gcc  
-arc                               allnoconfig   gcc  
-arc                              allyesconfig   gcc  
-arc                      axs103_smp_defconfig   gcc  
-arc                                 defconfig   gcc  
-arc                   randconfig-001-20240130   gcc  
-arc                   randconfig-002-20240130   gcc  
-arm                              allmodconfig   gcc  
-arm                               allnoconfig   gcc  
-arm                              allyesconfig   gcc  
-arm                     am200epdkit_defconfig   clang
-arm                                 defconfig   clang
-arm                       multi_v4t_defconfig   gcc  
-arm                          pxa3xx_defconfig   gcc  
-arm                   randconfig-001-20240130   gcc  
-arm                   randconfig-002-20240130   gcc  
-arm                   randconfig-003-20240130   gcc  
-arm                   randconfig-004-20240130   gcc  
-arm                         vf610m4_defconfig   gcc  
-arm64                            alldefconfig   gcc  
-arm64                            allmodconfig   clang
-arm64                             allnoconfig   gcc  
-arm64                               defconfig   gcc  
-arm64                 randconfig-001-20240130   gcc  
-arm64                 randconfig-002-20240130   gcc  
-arm64                 randconfig-003-20240130   gcc  
-arm64                 randconfig-004-20240130   gcc  
-csky                             allmodconfig   gcc  
-csky                              allnoconfig   gcc  
-csky                             allyesconfig   gcc  
-csky                                defconfig   gcc  
-csky                  randconfig-001-20240130   gcc  
-csky                  randconfig-002-20240130   gcc  
-hexagon                          allmodconfig   clang
-hexagon                           allnoconfig   clang
-hexagon                          allyesconfig   clang
-hexagon                             defconfig   clang
-hexagon               randconfig-001-20240130   clang
-hexagon               randconfig-002-20240130   clang
-i386                             allmodconfig   clang
-i386                              allnoconfig   clang
-i386                             allyesconfig   clang
-i386         buildonly-randconfig-001-20240130   gcc  
-i386         buildonly-randconfig-002-20240130   gcc  
-i386         buildonly-randconfig-003-20240130   gcc  
-i386         buildonly-randconfig-004-20240130   gcc  
-i386         buildonly-randconfig-005-20240130   gcc  
-i386         buildonly-randconfig-006-20240130   gcc  
-i386                                defconfig   gcc  
-i386                  randconfig-001-20240130   gcc  
-i386                  randconfig-002-20240130   gcc  
-i386                  randconfig-003-20240130   gcc  
-i386                  randconfig-004-20240130   gcc  
-i386                  randconfig-005-20240130   gcc  
-i386                  randconfig-006-20240130   gcc  
-i386                  randconfig-011-20240130   clang
-i386                  randconfig-012-20240130   clang
-i386                  randconfig-013-20240130   clang
-i386                  randconfig-014-20240130   clang
-i386                  randconfig-015-20240130   clang
-i386                  randconfig-016-20240130   clang
-loongarch                        allmodconfig   gcc  
-loongarch                         allnoconfig   gcc  
-loongarch                        allyesconfig   gcc  
-loongarch                           defconfig   gcc  
-loongarch             randconfig-001-20240130   gcc  
-loongarch             randconfig-002-20240130   gcc  
-m68k                             allmodconfig   gcc  
-m68k                              allnoconfig   gcc  
-m68k                             allyesconfig   gcc  
-m68k                         apollo_defconfig   gcc  
-m68k                          atari_defconfig   gcc  
-m68k                                defconfig   gcc  
-m68k                       m5208evb_defconfig   gcc  
-m68k                       m5475evb_defconfig   gcc  
-m68k                        mvme16x_defconfig   gcc  
-microblaze                       allmodconfig   gcc  
-microblaze                        allnoconfig   gcc  
-microblaze                       allyesconfig   gcc  
-microblaze                          defconfig   gcc  
-mips                             allmodconfig   gcc  
-mips                              allnoconfig   clang
-mips                             allyesconfig   gcc  
-mips                       bmips_be_defconfig   gcc  
-mips                  decstation_64_defconfig   gcc  
-mips                            gpr_defconfig   gcc  
-mips                           ip32_defconfig   gcc  
-mips                     loongson1c_defconfig   clang
-mips                  maltasmvp_eva_defconfig   gcc  
-mips                        vocore2_defconfig   gcc  
-nios2                            allmodconfig   gcc  
-nios2                             allnoconfig   gcc  
-nios2                            allyesconfig   gcc  
-nios2                               defconfig   gcc  
-nios2                 randconfig-001-20240130   gcc  
-nios2                 randconfig-002-20240130   gcc  
-openrisc                         allmodconfig   gcc  
-openrisc                          allnoconfig   gcc  
-openrisc                         allyesconfig   gcc  
-openrisc                            defconfig   gcc  
-parisc                           allmodconfig   gcc  
-parisc                            allnoconfig   gcc  
-parisc                           allyesconfig   gcc  
-parisc                              defconfig   gcc  
-parisc                randconfig-001-20240130   gcc  
-parisc                randconfig-002-20240130   gcc  
-parisc64                            defconfig   gcc  
-powerpc                          allmodconfig   clang
-powerpc                           allnoconfig   gcc  
-powerpc                          allyesconfig   clang
-powerpc                     mpc83xx_defconfig   gcc  
-powerpc                      pmac32_defconfig   clang
-powerpc               randconfig-001-20240130   gcc  
-powerpc               randconfig-002-20240130   gcc  
-powerpc               randconfig-003-20240130   gcc  
-powerpc                    socrates_defconfig   gcc  
-powerpc                      walnut_defconfig   clang
-powerpc                         wii_defconfig   gcc  
-powerpc64                        alldefconfig   gcc  
-powerpc64             randconfig-001-20240130   gcc  
-powerpc64             randconfig-002-20240130   gcc  
-powerpc64             randconfig-003-20240130   gcc  
-riscv                            allmodconfig   gcc  
-riscv                             allnoconfig   clang
-riscv                            allyesconfig   gcc  
-riscv                               defconfig   gcc  
-riscv                 randconfig-001-20240130   gcc  
-riscv                 randconfig-002-20240130   gcc  
-s390                             allmodconfig   gcc  
-s390                              allnoconfig   gcc  
-s390                             allyesconfig   gcc  
-s390                                defconfig   gcc  
-s390                  randconfig-001-20240130   clang
-s390                  randconfig-002-20240130   clang
-s390                       zfcpdump_defconfig   gcc  
-sh                               allmodconfig   gcc  
-sh                                allnoconfig   gcc  
-sh                               allyesconfig   gcc  
-sh                         ap325rxa_defconfig   gcc  
-sh                                  defconfig   gcc  
-sh                        edosk7760_defconfig   gcc  
-sh                          lboxre2_defconfig   gcc  
-sh                          polaris_defconfig   gcc  
-sh                    randconfig-001-20240130   gcc  
-sh                    randconfig-002-20240130   gcc  
-sh                          rsk7203_defconfig   gcc  
-sh                          rsk7264_defconfig   gcc  
-sh                           se7705_defconfig   gcc  
-sh                           se7724_defconfig   gcc  
-sh                  sh7785lcr_32bit_defconfig   gcc  
-sh                        sh7785lcr_defconfig   gcc  
-sparc                            allmodconfig   gcc  
-sparc                             allnoconfig   gcc  
-sparc                            allyesconfig   gcc  
-sparc                               defconfig   gcc  
-sparc64                          allmodconfig   gcc  
-sparc64                          allyesconfig   gcc  
-sparc64                             defconfig   gcc  
-sparc64               randconfig-001-20240130   gcc  
-sparc64               randconfig-002-20240130   gcc  
-um                               allmodconfig   clang
-um                                allnoconfig   clang
-um                               allyesconfig   clang
-um                                  defconfig   gcc  
-um                             i386_defconfig   gcc  
-um                    randconfig-001-20240130   gcc  
-um                    randconfig-002-20240130   gcc  
-um                           x86_64_defconfig   gcc  
-x86_64                            allnoconfig   gcc  
-x86_64                           allyesconfig   clang
-x86_64       buildonly-randconfig-001-20240130   gcc  
-x86_64       buildonly-randconfig-002-20240130   gcc  
-x86_64       buildonly-randconfig-003-20240130   gcc  
-x86_64       buildonly-randconfig-004-20240130   gcc  
-x86_64       buildonly-randconfig-005-20240130   gcc  
-x86_64       buildonly-randconfig-006-20240130   gcc  
-x86_64                              defconfig   gcc  
-x86_64                                  kexec   gcc  
-x86_64                randconfig-001-20240130   clang
-x86_64                randconfig-002-20240130   clang
-x86_64                randconfig-003-20240130   clang
-x86_64                randconfig-004-20240130   clang
-x86_64                randconfig-005-20240130   clang
-x86_64                randconfig-006-20240130   clang
-x86_64                randconfig-011-20240130   gcc  
-x86_64                randconfig-012-20240130   gcc  
-x86_64                randconfig-013-20240130   gcc  
-x86_64                randconfig-014-20240130   gcc  
-x86_64                randconfig-015-20240130   gcc  
-x86_64                randconfig-016-20240130   gcc  
-x86_64                randconfig-071-20240130   gcc  
-x86_64                randconfig-072-20240130   gcc  
-x86_64                randconfig-073-20240130   gcc  
-x86_64                randconfig-074-20240130   gcc  
-x86_64                randconfig-075-20240130   gcc  
-x86_64                randconfig-076-20240130   gcc  
-x86_64                          rhel-8.3-rust   clang
-x86_64                               rhel-8.3   gcc  
-xtensa                            allnoconfig   gcc  
-xtensa                           allyesconfig   gcc  
-xtensa                randconfig-001-20240130   gcc  
-xtensa                randconfig-002-20240130   gcc  
-xtensa                    smp_lx200_defconfig   gcc  
+> 
+>> Previous code considered the change point of data happens when the content
+>> of the SMPCMP register is zero. According to RZ/V2M hardware manual,
+> 
+> When SMPCMP is zero, there is *no* change point. Which is good.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+That was my understanding, too.
+
+> 
+>> chapter "Change Point of the Input Data" (as this is the most clear
+>> description that I've found about change point of the input data and all
+>> RZ hardware manual are similar on this chapter),
+> 
+> I also have a chapter named like this. If you check the diagram, change
+> point is between TAP2 and 3, so the suggested TAP to use is 6 or 7. As
+> far away as possible from the change point.
+
+My understanding was different here as of the following hw manual statement:
+
+"As the width of the input data is 1 (UI), select TAP6 or TAP7 which is
+
+*the median* of next TAP3 from TAP3"
+
+I understand from this that the median value should be considered here.
+
+> 
+>> at the time of tuning,
+>> data is captured by the previous and next TAPs and the result is stored in
+>> the SMPCMP register (previous TAP in bits 22..16, next TAP in bits 7..0).
+>> If there is a mismatch b/w the previous and the next TAPs, it indicates
+>> that there is a change point of the input data.
+> 
+> This is correct.
+> 
+>> To comply with this, the code checks if this mismatch is present and
+>> updates the priv->smpcmp mask.
+> 
+> That means you select the "change point" instead of avoiding it?
+> 
+>> This change has been checked on the devices with the following DTSes by
+>> doing 50 consecutive reboots and checking for the tuning failure message:
+> 
+> Okay, you might not have a failure message, but you might have selected
+> the worst TAP. Or?
+> 
+>> +			if (cmpngu_data != cmpngd_data)
+>> +				set_bit(i, priv->smpcmp);
+> 
+> Really looks like you select the change point instead of avoiding it.
+
+Looking again at it and digesting what you said about the tuning here, yes
+it seems I did it this way.
+
+> 
+> However, with some SD cards, I also see the EIO error you see. So, there
+> might be room to improve TAP selection when all TAPs are good. I need to
+> check if this is really is the same case for the SD cards in question.
+
+Maybe better would be to change this condition:
+
+			if (cmpngu_data != cmpngd_data)
+				set_bit(i, priv->smpcmp);
+
+like this:
+			if (cmpngu_data == cmpngd_data)
+				set_bit(i, priv->smpcmp);
+
+?
+
+I need to check it, though.
+
+Thanks for your input,
+Claudiu Beznea
+
+> 
+> Happy hacking,
+> 
+>    Wolfram
+> 
 
