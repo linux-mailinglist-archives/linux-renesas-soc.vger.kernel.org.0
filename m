@@ -1,69 +1,62 @@
-Return-Path: <linux-renesas-soc+bounces-2018-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-2019-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DD418425A5
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Jan 2024 14:00:16 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id C61028425C1
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Jan 2024 14:06:06 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DEA932914AB
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Jan 2024 13:00:14 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 726192879D6
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Jan 2024 13:06:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DB02C6A35F;
-	Tue, 30 Jan 2024 12:59:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="E8bWkoI3"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A94946A32A;
+	Tue, 30 Jan 2024 13:06:02 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vk1-f172.google.com (mail-vk1-f172.google.com [209.85.221.172])
+Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com [209.85.128.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E69E6A00C;
-	Tue, 30 Jan 2024 12:59:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAF6B629EF;
+	Tue, 30 Jan 2024 13:06:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706619592; cv=none; b=mJNK7NkS+eErPoGRMvHZmXy4DYF8CyEdWOL45/Rfu5LBoQI6KNOe/+7V8xflKS/tJWtTT5xWUXv79mLsLv/xGQMFaZnWHh+8uTszvhS5rD4o30wOWuvK6xtrNJApoJKyNNnAXrpJHE/fBJNFRtzVr/qTO3H0pUHssTIFnCuSFX4=
+	t=1706619962; cv=none; b=hpavb38NQm1fnmneaDVwFLAuiTRoKaTY0baO5lWLFi124Pg7pWToty1yh57m8moaHlKrALj+JC2xZ5aXD2r/xIJ3WIbUF8tpStjUXazHWttX7i/1qMXKXKomDAV4xVw7L1r1Kga0pV7AA16AI/Cp0xivNXMb1cYNaYB+ml8/wig=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706619592; c=relaxed/simple;
-	bh=Mu1NhudjxUkFXPufimvTKubuhwMDSSA6gg5w3F+WcgI=;
+	s=arc-20240116; t=1706619962; c=relaxed/simple;
+	bh=PbCHZcIyhii7jUjytA/R2ikPEP1nf0FwBryJQ3Kd/+E=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=TwfYYzz2vqI9utZJMLf3cuSPydi4EPNrx5eYm5bMf3GLm2EEIik7c6he6v679ZYNc9ZjadpRJs++X7uSAmgpbsq/xX0HJ3+9afuiwTRcwrAvyplkma3LhrKMRrlHuV5wuQsirunHb95yFpi9hqbPNV03qSV56AluSCLCn4J4Qas=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=E8bWkoI3; arc=none smtp.client-ip=209.85.221.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+	 To:Cc:Content-Type; b=vCx9oQomXMyDhb87mnq+KfO+VXDywpwPpaj8pu9wEBJrGjJW9bAYBVUjerwhjCKGGg4er1SzokFB2lyiBPQM3geYDF9PeFhA6uTwoqPUGwoEEJSqw+zT6CBG32as47po3Dc+F+D4Ec6e1IMLY5Scbph/9zuQLnPt+ES/vaXMniI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f172.google.com with SMTP id 71dfb90a1353d-4bdd2160a71so2034471e0c.1;
-        Tue, 30 Jan 2024 04:59:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1706619590; x=1707224390; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=VimagF6ubxCrk5XysR9xh2L9RrsLERkc1cac+8PgDII=;
-        b=E8bWkoI3hv/OJYwohHxyZrWefJsCiEcT/K8jdaKSbdmkaAxpsvojf7uF2kvH/dGofZ
-         EjeO+iUvTvup5tWuebDLPsOoNYhFCbGpKV6cslGeBKdGpwQ94C361qSK8dX4PF18iZ6O
-         igQIpGvdsO67jZyCHkUmTOC6RmERyepesSokdh7sWe9vvbWahx63B1UdBWqCY4BGhpJD
-         9bUWezVzmkB8VXj0he7xROrl7qFYTtbUt3hmBV4Dp//s04BIwvQdZITqT40CXO1CPSCS
-         hvNpxg1qvTI9fKXKAeKgrMYY7cipScAH13r3sBMLT/NOcpseP7s5DbeUl2rEV31fu+y0
-         AmeA==
+Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-6029b5946f5so34726577b3.1;
+        Tue, 30 Jan 2024 05:06:00 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706619590; x=1707224390;
+        d=1e100.net; s=20230601; t=1706619959; x=1707224759;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=VimagF6ubxCrk5XysR9xh2L9RrsLERkc1cac+8PgDII=;
-        b=b/gMpIF/GFUHTu8RU30IeOsAia/VIIOledYIAeESB/yfA2Gv2oHrJqxUpCM+tTKbq+
-         9bqxNxicAB+RNe8HCp1Tc5EpDhSis19nUWOeVlloeNEQrB25ZMXHEZZm+8TpSTmnS7Y0
-         Pzl5+JpWhWBCTfYai8OvagtLLtea9zsbXC+p7+8FmMsiCqeI2Ib8bkuuiRXGUzAxDQQF
-         7CSMMiRjS3uHum2noPKff+UYSVUi8KTDkLca9OJ/tC/qhYd/OwaDkMV+0VOPql9o6h3J
-         +fZHIKO8lGGHmWr+ciQF4Mww0fJKe6c9o16qsd1ERk2c+SFr7onTVG2+7jlNBbWwHIUa
-         E7Eg==
-X-Gm-Message-State: AOJu0YzW0fVUc8PHjxP6dit2tuqEEJa+zB6bawgPeU6NCWdUvJFiYDpF
-	nCF7hqlEBIcBzglx33Y7TtHS3Oq68UkAp92Sy605E2pQJVy4sYzK4sO95/GgkM6uPzIanEe6yot
-	to9ZlaPz8/Fsj0JRK4CCwNWHSK8g=
-X-Google-Smtp-Source: AGHT+IFU2DqyVMQfyAetN1nNeVoTPMKMLlD1AhfHroTRYVH1iRaB38yi97B/YSecvnNVxS/1gAAjx6OH0SqsPzTYXwk=
-X-Received: by 2002:a1f:f2c6:0:b0:4bd:5713:f01d with SMTP id
- q189-20020a1ff2c6000000b004bd5713f01dmr420012vkh.15.1706619589951; Tue, 30
- Jan 2024 04:59:49 -0800 (PST)
+        bh=xQ8MCplEFGaJPsYTH50sxtg3Pn4u8Wq5BnVFPQWC7E8=;
+        b=gtelW1D4Q9qVyDdacdrJuNvlpq/5kqqL0QA9t8aSxxErqf229/4o9ekXa0uXj2wyWd
+         CYUecQit7VAXKX2jFZq2bxZT+ApSnm1k/sBHovHb0V/o2r+7PIT23RHDOgpTsHRgWMdz
+         3OxL+7sJi+z1xTrCaswTMZZi2oViLgB6X1ja9uUEroMUiEe6VfsYmt03LUapQP7cfv7z
+         JfzpVgJ/+SbYY5CgP4lSgP1/vWjAo6qjOd0bI1AMbrR7aT1xAVRZ9pOp4hhPdgadfyON
+         D46/MdnaT9uM/DiUhKg3z4GEHWNitUiwHP34NtD3+4NWGerSCXIzOIdz2aip0+7vu/6+
+         66Ig==
+X-Gm-Message-State: AOJu0YzE1M58DXJJ1IJfG8rtvO/NNCqqw2+IixA3GvVN9vzaI+uj9FiX
+	IKPL7cSfI+2Fj9mKy3I8221vJrcVsvvNxyVFnXwP5BbEKimHVD1d+O+x/FeUKOY=
+X-Google-Smtp-Source: AGHT+IEeAqJ7et+ueferyTqQK4rTNaqkOMk8NOrl92nn1vm+JrzXan2G/j7x2ofskOSGLurvXMvZWg==
+X-Received: by 2002:a81:b141:0:b0:601:eaa6:9d1e with SMTP id p62-20020a81b141000000b00601eaa69d1emr657189ywh.11.1706619959585;
+        Tue, 30 Jan 2024 05:05:59 -0800 (PST)
+Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com. [209.85.128.173])
+        by smtp.gmail.com with ESMTPSA id bp1-20020a05690c068100b005ffaa097a67sm3125293ywb.47.2024.01.30.05.05.59
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 30 Jan 2024 05:05:59 -0800 (PST)
+Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-5ffcb478512so28400847b3.0;
+        Tue, 30 Jan 2024 05:05:59 -0800 (PST)
+X-Received: by 2002:a81:b3c7:0:b0:602:a429:72d2 with SMTP id
+ r190-20020a81b3c7000000b00602a42972d2mr740057ywh.22.1706619959106; Tue, 30
+ Jan 2024 05:05:59 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -73,13 +66,15 @@ MIME-Version: 1.0
 References: <20240129151618.90922-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
  <20240129151618.90922-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
  <20240129-magical-unclaimed-e725e2491ccb@spud> <CAMuHMdVhXh_Cd8m00xfVRB9JA8Mfb9+qccu94iVpUMS2z5kmUQ@mail.gmail.com>
-In-Reply-To: <CAMuHMdVhXh_Cd8m00xfVRB9JA8Mfb9+qccu94iVpUMS2z5kmUQ@mail.gmail.com>
-From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Tue, 30 Jan 2024 12:59:19 +0000
-Message-ID: <CA+V-a8v0tdr-xh__5rcK=xL-yYG1qLtSrAUjPcS_-ZVYy8p9pQ@mail.gmail.com>
+ <CA+V-a8v0tdr-xh__5rcK=xL-yYG1qLtSrAUjPcS_-ZVYy8p9pQ@mail.gmail.com>
+In-Reply-To: <CA+V-a8v0tdr-xh__5rcK=xL-yYG1qLtSrAUjPcS_-ZVYy8p9pQ@mail.gmail.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 30 Jan 2024 14:05:47 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdVu+VNW56VYkJs2w-S=1372_ZL6K2LQGKoR9vugpR+Z-w@mail.gmail.com>
+Message-ID: <CAMuHMdVu+VNW56VYkJs2w-S=1372_ZL6K2LQGKoR9vugpR+Z-w@mail.gmail.com>
 Subject: Re: [PATCH 1/5] dt-bindings: interrupt-controller:
  renesas,rzg2l-irqc: Document RZ/Five SoC
-To: Geert Uytterhoeven <geert@linux-m68k.org>
+To: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
 Cc: Conor Dooley <conor@kernel.org>, Thomas Gleixner <tglx@linutronix.de>, 
 	Rob Herring <robh+dt@kernel.org>, 
 	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
@@ -91,142 +86,115 @@ Cc: Conor Dooley <conor@kernel.org>, Thomas Gleixner <tglx@linutronix.de>,
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Geert,
+Hi Prabhakar,
 
-Thank you for the review.
-
-On Tue, Jan 30, 2024 at 11:13=E2=80=AFAM Geert Uytterhoeven
-<geert@linux-m68k.org> wrote:
->
-> Hi Prabhakar,
->
-> On Mon, Jan 29, 2024 at 6:30=E2=80=AFPM Conor Dooley <conor@kernel.org> w=
-rote:
-> > On Mon, Jan 29, 2024 at 03:16:14PM +0000, Prabhakar wrote:
-> > > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > >
-> > > Document RZ/Five (R9A07G043F) IRQC bindings. The IRQC block on RZ/Fiv=
-e SoC
-> > > is almost identical to one found on the RZ/G2L SoC with below differe=
-nces,
-> > > * Additional BUS error interrupt
-> > > * Additional ECCRAM error interrupt
-> > > * Has additional mask control registers for NMI/IRQ/TINT
-> > >
-> > > Hence new compatible string "renesas,r9a07g043f-irqc" is added for RZ=
-/Five
-> > > SoC.
-> > >
-> > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com=
->
->
-> Thanks for your patch!
->
-> > > --- a/Documentation/devicetree/bindings/interrupt-controller/renesas,=
-rzg2l-irqc.yaml
-> > > +++ b/Documentation/devicetree/bindings/interrupt-controller/renesas,=
-rzg2l-irqc.yaml
-> > > @@ -23,6 +23,7 @@ properties:
-> > >    compatible:
-> > >      items:
-> > >        - enum:
-> > > +          - renesas,r9a07g043f-irqc   # RZ/Five
-> > >            - renesas,r9a07g043u-irqc   # RZ/G2UL
-> > >            - renesas,r9a07g044-irqc    # RZ/G2{L,LC}
-> > >            - renesas,r9a07g054-irqc    # RZ/V2L
-> > > @@ -88,6 +89,12 @@ properties:
-> > >        - description: GPIO interrupt, TINT30
-> > >        - description: GPIO interrupt, TINT31
-> > >        - description: Bus error interrupt
-> > > +      - description: ECCRAM0 TIE1 interrupt
->
-> ECCRAM0 1bit error interrupt?
->
-OK.
-
-> > > +      - description: ECCRAM0 TIE2 interrupt
->
-> ECCRAM0 2bit error interrupt?
->
-OK.
-> > > +      - description: ECCRAM0 overflow interrupt
->
-> ECCRAM0 error overflow interrupt?
->
-> > > +      - description: ECCRAM1 TIE1 interrupt
-> > > +      - description: ECCRAM1 TIE2 interrupt
-> > > +      - description: ECCRAM1 overflow interrupt
->
-> Likewise.
->
-OK.
-
-> > >    interrupt-names:
-> > >      minItems: 41
-> > > @@ -134,6 +141,12 @@ properties:
-> > >        - const: tint30
-> > >        - const: tint31
-> > >        - const: bus-err
-> > > +      - const: eccram0-tie1
-> > > +      - const: eccram0-tie2
-> > > +      - const: eccram0-ovf
-> > > +      - const: eccram1-tie1
-> > > +      - const: eccram1-tie2
-> > > +      - const: eccram1-ovf
->
-> Why not use the naming from the docs (all 6 include "ti")?
-> EC7TIE1_0, EC7TIE2_0, EC7TIOVF_0, EC7TIE1_1, EC7TIE2_1, EC7TIOVF_1
-> =3D> ec7tie1-0, ec7tie2-0, ec7tiovf-0, ...?
->
-Agreed.
-
-> > I think the restrictions already in the file become incorrect with this
-> > patch:
-> >   - if:
-> >       properties:
-> >         compatible:
-> >           contains:
-> >             enum:
-> >               - renesas,r9a07g043u-irqc
-> >               - renesas,r9a08g045-irqc
-> >     then:
-> >       properties:
-> >         interrupts:
-> >           minItems: 42
-> >         interrupt-names:
-> >           minItems: 42
-> >       required:
-> >         - interrupt-names
+On Tue, Jan 30, 2024 at 1:59=E2=80=AFPM Lad, Prabhakar
+<prabhakar.csengg@gmail.com> wrote:
+> On Tue, Jan 30, 2024 at 11:13=E2=80=AFAM Geert Uytterhoeven
+> <geert@linux-m68k.org> wrote:
+> > On Mon, Jan 29, 2024 at 6:30=E2=80=AFPM Conor Dooley <conor@kernel.org>=
+ wrote:
+> > > On Mon, Jan 29, 2024 at 03:16:14PM +0000, Prabhakar wrote:
+> > > > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > > >
+> > > > Document RZ/Five (R9A07G043F) IRQC bindings. The IRQC block on RZ/F=
+ive SoC
+> > > > is almost identical to one found on the RZ/G2L SoC with below diffe=
+rences,
+> > > > * Additional BUS error interrupt
+> > > > * Additional ECCRAM error interrupt
+> > > > * Has additional mask control registers for NMI/IRQ/TINT
+> > > >
+> > > > Hence new compatible string "renesas,r9a07g043f-irqc" is added for =
+RZ/Five
+> > > > SoC.
+> > > >
+> > > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.c=
+om>
 > >
-> > This used to require all 42 interrupts for the two compatibles here
-> > and at least the first 41 otherwise. Now you've increased the number of
-> > interrupts to 48 thereby removing the upper limits on the existing
-> > devices.
+> > > > --- a/Documentation/devicetree/bindings/interrupt-controller/renesa=
+s,rzg2l-irqc.yaml
+> > > > +++ b/Documentation/devicetree/bindings/interrupt-controller/renesa=
+s,rzg2l-irqc.yaml
+> > > > @@ -134,6 +141,12 @@ properties:
+> > > >        - const: tint30
+> > > >        - const: tint31
+> > > >        - const: bus-err
+> > > > +      - const: eccram0-tie1
+> > > > +      - const: eccram0-tie2
+> > > > +      - const: eccram0-ovf
+> > > > +      - const: eccram1-tie1
+> > > > +      - const: eccram1-tie2
+> > > > +      - const: eccram1-ovf
+> >
+> > Why not use the naming from the docs (all 6 include "ti")?
+> > EC7TIE1_0, EC7TIE2_0, EC7TIOVF_0, EC7TIE1_1, EC7TIE2_1, EC7TIOVF_1
+> > =3D> ec7tie1-0, ec7tie2-0, ec7tiovf-0, ...?
+> >
+> Agreed.
 >
-> I'm gonna repeat (and extend) my question from [1]: How come we thought
-> RZ/G2L and RZ/V2L do not have the bus error and ECCRAM interrupts?
+> > > I think the restrictions already in the file become incorrect with th=
+is
+> > > patch:
+> > >   - if:
+> > >       properties:
+> > >         compatible:
+> > >           contains:
+> > >             enum:
+> > >               - renesas,r9a07g043u-irqc
+> > >               - renesas,r9a08g045-irqc
+> > >     then:
+> > >       properties:
+> > >         interrupts:
+> > >           minItems: 42
+> > >         interrupt-names:
+> > >           minItems: 42
+> > >       required:
+> > >         - interrupt-names
+> > >
+> > > This used to require all 42 interrupts for the two compatibles here
+> > > and at least the first 41 otherwise. Now you've increased the number =
+of
+> > > interrupts to 48 thereby removing the upper limits on the existing
+> > > devices.
+> >
+> > I'm gonna repeat (and extend) my question from [1]: How come we thought
+> > RZ/G2L and RZ/V2L do not have the bus error and ECCRAM interrupts?
+> >
+> Hmm not sure how this was missed earlier.
 >
-Hmm not sure how this was missed earlier.
+> > Looks like most of the conditional handling can be removed (see below).
+> >
+> > > Given the commit message, I figure that providing 48 interrupts for
+> > > (at least some of) those devices would be incorrect?
+> >
+> > Looks like all of RZ/G2L{,C}, RZ/V2L, RZ/G2UL, and RZ/Five support
+> > all 48 interrupts.  RZ/G3S lacks the final three for ECCRAM1.
+> >
+> Agreed for RZ/G2L{,C}, RZ/V2L, RZ/G2UL, and RZ/Five, but for RZ/G3S it
+> becomes tricky the interrupts for ECCRAM0/1 are combined hence they
+> have just 3 interrupts. How do you propose the above interrupt naming?
 
-> Looks like most of the conditional handling can be removed (see below).
->
-> > Given the commit message, I figure that providing 48 interrupts for
-> > (at least some of) those devices would be incorrect?
->
-> Looks like all of RZ/G2L{,C}, RZ/V2L, RZ/G2UL, and RZ/Five support
-> all 48 interrupts.  RZ/G3S lacks the final three for ECCRAM1.
->
-Agreed for RZ/G2L{,C}, RZ/V2L, RZ/G2UL, and RZ/Five, but for RZ/G3S it
-becomes tricky the interrupts for ECCRAM0/1 are combined hence they
-have just 3 interrupts. How do you propose the above interrupt naming?
+I guess it doesn't hurt to have an index 0 on a part that has only a
+single set?
 
-> [1] "Re: [PATCH v3 8/9] dt-bindings: interrupt-controller:
-> renesas,rzg2l-irqc: Document RZ/G3S"
-> https://lore.kernel.org/r/CAMuHMdX88KRnvJchUwrWcgmPooAESOT2492Nr1Z_5UMng3=
-q__Q@mail.gmail.com
->
-Sorry I missed this thread.
+Alternatives would be to
+  1. Drop the index completely on RZ/G3S, complicating bindings and
+     driver,
+  1. Drop the index for the first set, and use index 2 for the second set,
+     causing the names to differ even more on parts with 2 sets.
 
-Cheers,
-Prabhakar
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
