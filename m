@@ -1,203 +1,155 @@
-Return-Path: <linux-renesas-soc+bounces-2089-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-2090-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65D1C8436CB
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 31 Jan 2024 07:30:41 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 006068436D8
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 31 Jan 2024 07:31:55 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id E52611F293BF
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 31 Jan 2024 06:30:40 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 251981C220C9
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 31 Jan 2024 06:31:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4C19F46421;
-	Wed, 31 Jan 2024 06:30:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DE3763F8F5;
+	Wed, 31 Jan 2024 06:31:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="vZsFBO1t"
+	dkim=pass (2048-bit key) header.d=de.bosch.com header.i=@de.bosch.com header.b="jkepWCtU"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com [209.85.128.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from EUR05-AM6-obe.outbound.protection.outlook.com (mail-am6eur05on2084.outbound.protection.outlook.com [40.107.22.84])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 990A64176E
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 31 Jan 2024 06:30:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.178
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706682626; cv=none; b=HmKuYD3gPvUhnpw0cmphka9GLhdDsN5BrKNS6VlDi6+Tescc5lUd/++OOI9iQAex3YdAzB3ZOcfD1w1jW8TXD+gCjcoowwTuEfsZwO0LgRbk0y+iaZnpvNaSG3wF1ouevFEh254FkESivDohLSXpjCcxrdMLTRBJmAybcX8Nt1w=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706682626; c=relaxed/simple;
-	bh=nxlnhpTP2ZY02f0uY5iRFtCEWLbVgQJy/f7OhUQYcng=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=mi+w36MeSFtIeT3tQ7TjbQPgRWb/KOzeKqZsmyYswjkRvWuM57+SGODy/ehF2aE5uz2rYjIIEc+Gn7hhgt3vefLJ1DYzJ/TancnQl6IUJpHdbyQBQ9KgsEmJdw/rQhm0jYl86YBmj14p8hwRuf9yZv2Qa8NxZ1P+lLSmcUJh6MM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=vZsFBO1t; arc=none smtp.client-ip=209.85.128.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-603fd31f5c2so5040177b3.0
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 30 Jan 2024 22:30:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1706682621; x=1707287421; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=XuBpfFrt6LIRFxGJEZUBYvlJzyC2OSdPPTTcyZFlpqs=;
-        b=vZsFBO1tbcX0p4bsdYubfMJfW2LmU0Q4FUJRAJXNIm9NjKsUowy2lKBJZttjRf2E7s
-         n7y4pdDx/G+wKZRElpjGreamrPgUmd4L7CAZ+sC+1Sh7ZADQsVL+nV8yW1kPrpcpU4p2
-         Kqp+NYw0HPqTkjluQSYWeHok+pWSp5CT1aEelzSJkpzdgcl2+a2UNtnfYV2MCAMWsBmn
-         6ZvVU6JYHoc1DyOQFQPDv00OYggDNIXWN8dO78rhTOjrz3ftgC0zkRz3BpaOk0s0eoT7
-         NsKjd8gufHe1y0DZk7acaYmEl104/B1PsjYP4r77Plhs4hGW8eQHzfHNynyy2zMMKAJ6
-         73Ng==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706682621; x=1707287421;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=XuBpfFrt6LIRFxGJEZUBYvlJzyC2OSdPPTTcyZFlpqs=;
-        b=wxXjyImjPL59NGCqkxSkHX7wHRQsCMlcFuLcaHxAJZRLU/hHBdkUYGjtwvt2+Y1XRa
-         n0nWCbmiyC0dX2B+/54Rr2fUtqtSrXt7wcSpjelLtKxYLzO/4ADzpO3tCeg3QhOMChPg
-         51pYOMEQw4gytBaRiD0xNbGCnwKEvy/apjMXZOqzDC0vaXoW1xDkqsVCM+48IBM32InL
-         3ATHA2avEvXHXT5hyOsNlGN28rOfpvBThfJ1JYcQyE9/2Z2uEC2GPeNDG+50Eu7RYywr
-         gocVUh0aMtcAAw6EzMQn2gaplmcQzEArt/iLXqk6eDAPKq9E+UQeDfUHV7PI5l8HUFPj
-         Nxjw==
-X-Gm-Message-State: AOJu0YwDqxyrrfawAP6R9+Epw3W6PWVeSSEecHt7JBhGvUkqUwmK1vQA
-	vUgLM9sKMWjuIKhXsbtkWDgtmmPJ/nuTxMUZdm4uiZbO/BsGI5bPTTqC5W5l8WGoYqQebx50uSv
-	H7hQo2xsh5qAoDS4pqNQl2YfhHNoe5hpfleBBBA==
-X-Google-Smtp-Source: AGHT+IFCSuHGBgOcgNRm+Jyx9Rk92WC70s7Qe1r45Ekea56q3x+YWZYnfOl+X2xsR2ea9MpX12ltkU9QLuvg4lUUs5g=
-X-Received: by 2002:a81:6d16:0:b0:5ff:8152:64b with SMTP id
- i22-20020a816d16000000b005ff8152064bmr311187ywc.15.1706682621572; Tue, 30 Jan
- 2024 22:30:21 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F4D04F8B9
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 31 Jan 2024 06:31:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.22.84
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1706682685; cv=fail; b=BA7CGeUx9A/zbCd+p3M/htZqyWrXySp/RIzaKxZJ1rrp2GvbcKvu3zh6XOZLCrau9QwBOiaELSwsaQcGJOqs52mKvOiQK9u7PFGJ94yDl3BWpRae/rypx7iIA66ahF1TDXl77FCRTDjtluOm99A0Dmj8OdXUKpE+pcsdB7ZwwGM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1706682685; c=relaxed/simple;
+	bh=k5XWu6Skpa7gV4qH8X9o5qVnkJNgGGilde3QQPYK19o=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=oCtB1M9aiFsBgosxMGmKUMW91/swhsQj1piKUBbewJnF6InIy1jmFbaY1HsifdhRePAvtDWt0DZBdXqkuIIxr0L7++yvcyyHd9edCYBdEnmhT2L3BYdStLSY4Fs146fuPxEsy+HEDV2bOB2ubLMJ0bD47NPRldxPetDZ2dXrBUE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=de.bosch.com; spf=pass smtp.mailfrom=de.bosch.com; dkim=pass (2048-bit key) header.d=de.bosch.com header.i=@de.bosch.com header.b=jkepWCtU; arc=fail smtp.client-ip=40.107.22.84
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=de.bosch.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=de.bosch.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=EJSMmHtvZBaHM0/P8tDS2M6BY2Ooty7CqXkNxnFvG8jY1ufRtRUuiYVFvJA5G63h7ZZcKdsHYmyIjnTmWN4nblk4k+iq1RHptn04At8SCeMKKfMwP7MilJ8Hjp/73wE2jATtoSZZtl94n0bg/yYPVSC0FXSZhLdtbWmOOI342sNmrALbgzmucE9XdMEqa588WPazIwzBUfU84MVWr17+S24VcJMCFbU9PeN1OwcqgMpzCzLYLNozP70QdyCdQLvKpZ0UtEdIUmGmF/rWTn0X0PaRyrzrKW1smi25C5i96ZNH7pTSvHV4QRUP51GLGQCiU5nGmCsd6YblpvcsTCWscg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=RVoaocUl9L6gJZ+5I4JGAOF3vxF4zgDy1gp8H6E4P4k=;
+ b=b3ADDz//3BKrRJJG1033cBwMnUzBMBg2nShe+d0uRygycBhrUmGndGLRtAPXdAq2QpWRm+gKQG7VuRSI4c4zDwvaghk1q1nyL4+PRX1/49Mh9rg93wGWWuEfnKjjPgIqVF8r3O8mqOzcg0hnzlpdkBWqZIES+BMVNDvZc3k6jQopTp9+Yc8oceUkYchmq8ndobK8qa0H0rsuGY/nwEe4qRmdiLGTZLXimyX01O4kssEEQeMfHA3a1pEsnJtU3GjWomoIQG+z1xIsGsTaIRzgRwo2r0p+t9lPLxR4IV0pmA8ihJR3ugW1Zi6tzpEFzxIKRUYqLd/CsJgVmWpQ00+A7A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 139.15.153.203) smtp.rcpttodomain=linux-m68k.org smtp.mailfrom=de.bosch.com;
+ dmarc=pass (p=reject sp=none pct=100) action=none header.from=de.bosch.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=de.bosch.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=RVoaocUl9L6gJZ+5I4JGAOF3vxF4zgDy1gp8H6E4P4k=;
+ b=jkepWCtUrplooLW72cj1ItIRILkDQm32h5B+OvUANjljklyU9ouWv+aEj0mhniN93VU9S4XE+eZ/koSS0TVCLKHyse57r2+jzFVYpr3vtyBRXPX+Xo3C3Q8wwmRuvqi2r9NX1iWf2FpWXgz14QOkW++Hsp64eUObYr74u5NyiGRpeG61jbSDx6y8s2xgmBeoX85T982oaLNT/M5ZmhAOnLleTTJ0bOQn6fGEGdYUR4wFUZ4gXQXhdycVVQT1WkZRGKGnYpKuAj071yJPLxEw0WEpWuek2Ws6Y014F1J8vUErS+Bv9CvLBjLDXgKMzJAR6i9XhQmxqfIuuXDUnp8Jhw==
+Received: from AS4P189CA0051.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:659::16)
+ by AS2PR10MB7275.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:605::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7228.34; Wed, 31 Jan
+ 2024 06:31:19 +0000
+Received: from AM4PEPF00027A5D.eurprd04.prod.outlook.com
+ (2603:10a6:20b:659:cafe::7e) by AS4P189CA0051.outlook.office365.com
+ (2603:10a6:20b:659::16) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7249.22 via Frontend
+ Transport; Wed, 31 Jan 2024 06:31:19 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 139.15.153.203)
+ smtp.mailfrom=de.bosch.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=de.bosch.com;
+Received-SPF: Pass (protection.outlook.com: domain of de.bosch.com designates
+ 139.15.153.203 as permitted sender) receiver=protection.outlook.com;
+ client-ip=139.15.153.203; helo=eop.bosch-org.com; pr=C
+Received: from eop.bosch-org.com (139.15.153.203) by
+ AM4PEPF00027A5D.mail.protection.outlook.com (10.167.16.69) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.7249.19 via Frontend Transport; Wed, 31 Jan 2024 06:31:18 +0000
+Received: from SI-EXCAS2000.de.bosch.com (10.139.217.201) by eop.bosch-org.com
+ (139.15.153.203) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.35; Wed, 31 Jan
+ 2024 07:31:17 +0100
+Received: from [10.34.222.178] (10.139.217.196) by SI-EXCAS2000.de.bosch.com
+ (10.139.217.201) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.35; Wed, 31 Jan
+ 2024 07:31:17 +0100
+Message-ID: <cd82ba01-4b2d-42f5-a1ea-0c599dbb51bd@de.bosch.com>
+Date: Wed, 31 Jan 2024 07:31:11 +0100
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <87o7d26qla.wl-kuninori.morimoto.gx@renesas.com> <87le866qke.wl-kuninori.morimoto.gx@renesas.com>
-In-Reply-To: <87le866qke.wl-kuninori.morimoto.gx@renesas.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Wed, 31 Jan 2024 08:30:10 +0200
-Message-ID: <CAA8EJpoRhS_yvJJUuC3YkWRAKT7e03k+-K=6QKfL_6TkB1XoxA@mail.gmail.com>
-Subject: Re: [PATCH v3 02/24] of: property: use unsigned int return on of_graph_get_endpoint_count()
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: "Bryan O'Donoghue" <bryan.odonoghue@linaro.org>, 
-	"Lad, Prabhakar" <prabhakar.csengg@gmail.com>, 
-	=?UTF-8?Q?Niklas_S=C3=83=C2=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>, 
-	=?UTF-8?B?VXdlIEtsZWluZS1Lw4PCtm5pZw==?= <u.kleine-koenig@pengutronix.de>, 
-	Abhinav Kumar <quic_abhinavk@quicinc.com>, 
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>, 
-	Alexander Stein <alexander.stein@ew.tq-group.com>, 
-	Alexandre Belloni <alexandre.belloni@bootlin.com>, 
-	Alexandre Torgue <alexandre.torgue@foss.st.com>, Alexey Brodkin <abrodkin@synopsys.com>, 
-	Andrzej Hajda <andrzej.hajda@intel.com>, Andy Gross <agross@kernel.org>, 
-	Biju Das <biju.das.jz@bp.renesas.com>, Bjorn Andersson <andersson@kernel.org>, 
-	Claudiu Beznea <claudiu.beznea@tuxon.dev>, Daniel Vetter <daniel@ffwll.ch>, 
-	Dave Stevenson <dave.stevenson@raspberrypi.com>, David Airlie <airlied@gmail.com>, 
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>, Emma Anholt <emma@anholt.net>, 
-	Eugen Hristev <eugen.hristev@collabora.com>, 
-	Florian Fainelli <florian.fainelli@broadcom.com>, Frank Rowand <frowand.list@gmail.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Hans Verkuil <hverkuil-cisco@xs4all.nl>, 
-	Helge Deller <deller@gmx.de>, Hugues Fruchet <hugues.fruchet@foss.st.com>, 
-	Jacopo Mondi <jacopo+renesas@jmondi.org>, Jacopo Mondi <jacopo@jmondi.org>, 
-	James Clark <james.clark@arm.com>, Jaroslav Kysela <perex@perex.cz>, 
-	Jonathan Hunter <jonathanh@nvidia.com>, Kevin Hilman <khilman@baylibre.com>, 
-	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
-	Kieran Bingham <kieran.bingham@ideasonboard.com>, Konrad Dybcio <konrad.dybcio@linaro.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
-	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Liam Girdwood <lgirdwood@gmail.com>, 
-	Liu Ying <victor.liu@nxp.com>, Luca Ceresoli <luca.ceresoli@bootlin.com>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Marek Vasut <marex@denx.de>, 
-	Mark Brown <broonie@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Maxime Ripard <mripard@kernel.org>, 
-	Michael Tretter <m.tretter@pengutronix.de>, Michal Simek <michal.simek@amd.com>, 
-	Miguel Ojeda <ojeda@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
-	Neil Armstrong <neil.armstrong@linaro.org>, Nick Desaulniers <ndesaulniers@google.com>, 
-	Nicolas Ferre <nicolas.ferre@microchip.com>, Philipp Zabel <p.zabel@pengutronix.de>, 
-	Philippe Cornu <philippe.cornu@foss.st.com>, 
-	Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>, Rob Clark <robdclark@gmail.com>, 
-	Rob Herring <robh+dt@kernel.org>, Robert Foss <rfoss@kernel.org>, 
-	Russell King <linux@armlinux.org.uk>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Saravana Kannan <saravanak@google.com>, Sascha Hauer <s.hauer@pengutronix.de>, 
-	Shawn Guo <shawnguo@kernel.org>, Sowjanya Komatineni <skomatineni@nvidia.com>, 
-	Stefan Agner <stefan@agner.ch>, Suzuki K Poulose <suzuki.poulose@arm.com>, 
-	Sylwester Nawrocki <s.nawrocki@samsung.com>, Takashi Iwai <tiwai@suse.com>, 
-	Thierry Reding <thierry.reding@gmail.com>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	Tim Harvey <tharvey@gateworks.com>, Todor Tomov <todor.too@gmail.com>, 
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
-	Yannick Fertre <yannick.fertre@foss.st.com>, Alim Akhtar <alim.akhtar@samsung.com>, 
-	Fabio Estevam <festevam@gmail.com>, Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Jerome Brunet <jbrunet@baylibre.com>, 
-	Jessica Zhang <quic_jesszhan@quicinc.com>, Jonas Karlman <jonas@kwiboo.se>, 
-	Leo Yan <leo.yan@linaro.org>, Marijn Suijten <marijn.suijten@somainline.org>, 
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>, Mike Leach <mike.leach@linaro.org>, 
-	Sam Ravnborg <sam@ravnborg.org>, Sean Paul <sean@poorly.run>, Tom Rix <trix@redhat.com>, 
-	coresight@lists.linaro.org, devicetree@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
-	linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
-	linux-arm-msm@vger.kernel.org, linux-fbdev@vger.kernel.org, 
-	linux-media@vger.kernel.org, linux-omap@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org, linux-rpi-kernel@lists.infradead.org, 
-	linux-samsung-soc@vger.kernel.org, linux-sound@vger.kernel.org, 
-	linux-staging@lists.linux.dev, linux-stm32@st-md-mailman.stormreply.com, 
-	linux-tegra@vger.kernel.org, llvm@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: rcar-dmac.c: race condition regarding cookie handling?
+To: Geert Uytterhoeven <geert@linux-m68k.org>, Linux-Renesas
+	<linux-renesas-soc@vger.kernel.org>
+References: <CAMuHMdX2RvXj5ZFwg2WxNpPGw59=b9quqryO-iZONx_yqgsp7w () mail !
+ gmail ! com>
+Content-Language: en-US
+From: "Behme Dirk (CM/ESO2)" <dirk.behme@de.bosch.com>
+In-Reply-To: <CAMuHMdX2RvXj5ZFwg2WxNpPGw59=b9quqryO-iZONx_yqgsp7w () mail !
+ gmail ! com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AM4PEPF00027A5D:EE_|AS2PR10MB7275:EE_
+X-MS-Office365-Filtering-Correlation-Id: 0b26e834-d4f6-4119-7193-08dc22263bfb
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	h+Q/2ccYrGyy+Q8OZFdVdsPsq67vO4PjvIE/gyQ2Cj9nQ8Fm234rkb9WX+EwlMNiKid+QI2i3ZrZzTJ8FPtHXhmdGlq8CoKKXlkmLVUcpHKunHAvxOf3juUaAlQuv74WBPB/JI524qt8ERLx1KN5m6/AVxUkc/w2eDno5K4E+9LHDY3g3rEHh60RBfObirTHE6VdW2VinQHK2yjZc14HdS953mXRlsfY6DwfnMexuVFwoYibN3B2uKGJxKZFr/ypP7gguL6d0WG6xnMBztB7jbbQ+Xh2BZXd4iuctahPwbqgRqZNPCkIdbHOOZEWv1B/ijFWv+7wYCcN4dwb4KgelEkjv5Yy4YP9SmQbnkNkNP0G7bZKSqCGZ4Z0wreWcWmV161LjFPM3jhMjjJ7blXb6uppQlTYprRZ9FsbStFrx/N1zzgqjJUEFoHKS+s+bthNFAYMgSK0k3vXpkG/5cZxIRDY4MjLgSA0PLkh3PZ6R8Z1rOiGvKyBV3+EZ++8q4l3LbjgnUeIccrMtrcVRsWSVToyzLOO0KqP7tkAYjWzUW3KQoT4uF6Di87/yWdSLRIU8nFwVHgxQU43nJDlyZpRTSFZ1PpblC/mHxjc9nKgkPY3PL17uLf7wjeBtC8NooddQ8vrBRZ6ZCNg2XPWxvP0fI0WZ0ci92Vd+69WcP4IcpKPrRsXHBaAAeAKx9QxmJ8JMJZy21Y4n9bmK2g/rnH24chTXb320+7l17x7IEsRm/DychveAfsLNv/5x3NntR2yeKUjLHN4ET876IPSBjZtwUNWsXtAjxXFm2EBj7QawnjXrXFFCanqgvG76VNdaJrZ
+X-Forefront-Antispam-Report:
+	CIP:139.15.153.203;CTRY:DE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:eop.bosch-org.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230031)(4636009)(346002)(396003)(136003)(39860400002)(376002)(230922051799003)(1800799012)(82310400011)(186009)(451199024)(64100799003)(40470700004)(36840700001)(46966006)(8676002)(8936002)(5660300002)(86362001)(70586007)(31696002)(2906002)(110136005)(70206006)(47076005)(316002)(36860700001)(16576012)(81166007)(82740400003)(82960400001)(356005)(83380400001)(53546011)(478600001)(6666004)(16526019)(2616005)(26005)(426003)(41300700001)(31686004)(336012)(40460700003)(40480700001)(36900700001)(43740500002);DIR:OUT;SFP:1101;
+X-OriginatorOrg: de.bosch.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Jan 2024 06:31:18.9422
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0b26e834-d4f6-4119-7193-08dc22263bfb
+X-MS-Exchange-CrossTenant-Id: 0ae51e19-07c8-4e4b-bb6d-648ee58410f4
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=0ae51e19-07c8-4e4b-bb6d-648ee58410f4;Ip=[139.15.153.203];Helo=[eop.bosch-org.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	AM4PEPF00027A5D.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS2PR10MB7275
 
-On Wed, 31 Jan 2024 at 07:05, Kuninori Morimoto
-<kuninori.morimoto.gx@renesas.com> wrote:
->
-> The return type and the variable of of_graph_get_endpoint_count()
-> should be unsigned. Tidyup it.
+Hi Geert,
 
-'the variable'?
+On 30.01.2024 08:58, Geert Uytterhoeven wrote:
+> Hi Dirk,
+> 
+> On Tue, Jan 30, 2024 at 8:08=E2=80=AFAM Behme Dirk (CM/ESO2)
+> <dirk.behme@de.bosch.com> wrote:
+>> On 29.01.2024 10:57, Geert Uytterhoeven wrote:
+>>> On Wed, Nov 22, 2023 at 8:02=E2=80=AFAM Behme Dirk (CM/ESO2)
+>>> <dirk.behme@de.bosch.com> wrote:
+>>>> using a rcar-dmac.c on RCar3 being quite similar to the recent mainlin=
+> e
+>>>> one [1] we got a BUG_ON() being hit [2].
+> 
+>>> Was the system running for a very long time?
+>>
+>> Hmm, the trace I have contains boot time stamps (dropped initially) like
+>>
+>> [  153.394731] kernel BUG at drivers/dma/sh/../dmaengine.h:54!
+>>
+>> I think this "153" implies 153s after boot,  i.e. ~2.5s after system
+>> start. In case there is no wrap around here too.
+> 
+> Yes, that is still quite early in the boot process.
+> Do you have log info from just before the crash, that might give a clue
+> which device was trying to use DMA?
 
-I'd have added a few words telling that return type can be unsigned
-because there is no error reporting for this function.
+No, unfortunately not :(
 
->
-> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-> ---
->  drivers/of/property.c    | 2 +-
->  include/linux/of_graph.h | 4 ++--
->  2 files changed, 3 insertions(+), 3 deletions(-)
->
-> diff --git a/drivers/of/property.c b/drivers/of/property.c
-> index 4e879faa1710..25d73409aeee 100644
-> --- a/drivers/of/property.c
-> +++ b/drivers/of/property.c
-> @@ -817,7 +817,7 @@ EXPORT_SYMBOL(of_graph_get_remote_port);
->   *
->   * Return: count of endpoint of this device node
->   */
-> -int of_graph_get_endpoint_count(const struct device_node *np)
-> +unsigned int of_graph_get_endpoint_count(const struct device_node *np)
->  {
->         struct device_node *endpoint;
->         int num = 0;
-> diff --git a/include/linux/of_graph.h b/include/linux/of_graph.h
-> index 4d7756087b6b..a4bea62bfa29 100644
-> --- a/include/linux/of_graph.h
-> +++ b/include/linux/of_graph.h
-> @@ -41,7 +41,7 @@ struct of_endpoint {
->  bool of_graph_is_present(const struct device_node *node);
->  int of_graph_parse_endpoint(const struct device_node *node,
->                                 struct of_endpoint *endpoint);
-> -int of_graph_get_endpoint_count(const struct device_node *np);
-> +unsigned int of_graph_get_endpoint_count(const struct device_node *np);
->  struct device_node *of_graph_get_port_by_id(struct device_node *node, u32 id);
->  struct device_node *of_graph_get_next_endpoint(const struct device_node *parent,
->                                         struct device_node *previous);
-> @@ -68,7 +68,7 @@ static inline int of_graph_parse_endpoint(const struct device_node *node,
->         return -ENOSYS;
->  }
->
-> -static inline int of_graph_get_endpoint_count(const struct device_node *np)
-> +static inline unsigned int of_graph_get_endpoint_count(const struct device_node *np)
->  {
->         return 0;
->  }
-> --
-> 2.25.1
->
+We just have pure error logging, no complete console logging.
 
+Best regards
 
---
-With best wishes
-Dmitry
+Dirk
 
