@@ -1,114 +1,128 @@
-Return-Path: <linux-renesas-soc+bounces-2168-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-2169-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7AF578446BA
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 31 Jan 2024 19:05:29 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id EEB21844703
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 31 Jan 2024 19:22:43 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3857D289A67
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 31 Jan 2024 18:05:28 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8DCDB1F234A9
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 31 Jan 2024 18:22:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 656A812DDBB;
-	Wed, 31 Jan 2024 18:05:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6401F12FF8F;
+	Wed, 31 Jan 2024 18:22:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="qsiL3ApJ"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="gRQp8upK"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB72E12FF72
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 31 Jan 2024 18:05:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 961A512BEB7
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 31 Jan 2024 18:22:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706724326; cv=none; b=AraoUYDFCpsHCtTro7vaAgZ3heBarc5LguCkts+BO6qqxHpRZzcWKz+yNR+y07qfxi+9FDNG82SzkGUgf1C98aFJdZwLmabHdbn6/wt0sl75M9QOMi3qc18BBgL534Y0GEHDl7IEzMW5wEyGRHZ+LCieoBLQMa2LCy+rfiEMnPc=
+	t=1706725360; cv=none; b=CQGybc2CenPbpqPcEAXOLKBcFgUPIy5GdUq9vsGBH0stetXBtkXXNdWBDx5VXCcyGtX1gDzHNIj4UGsyWUQt7Znar5U8lGDhrfWiZfu5wtCaY8HqhyZt2payRnQ0quk1q1vQ74vv6o2RKiDpjhTDmkIeDe5buH5BQy1bvpNAWyE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706724326; c=relaxed/simple;
-	bh=bKC7D9rJMglYHu/aMBYV+9UC2Ak6rO3zVSyYhTaYUH8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=iQmCuQdaIzrNMu3MmNEgzxiaQ1oiCCZf37zIMHiQMOXLDBwCrbA08Qc6aHKXIkE0Y89dXfxQ5dXn2aJxgB6ynqufKfOMCJevacmtGusrU6GipOAROSI19I/9sDyenGGPb1oOPc/9N6kcwW67N8omDUMsHeshvplWRt59wHXqu28=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=qsiL3ApJ; arc=none smtp.client-ip=209.85.128.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-40ef6bbb61fso911815e9.1
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 31 Jan 2024 10:05:24 -0800 (PST)
+	s=arc-20240116; t=1706725360; c=relaxed/simple;
+	bh=z16ACY49/1e7bOj0OReF7J/eAVkgaJxbfAVjTzxIMlg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=fjf3yXDIVGj4XpibtBEQNAU5yXEY3y+8QxCHh1Wu9DSWtKS8Ja9DAf1T56tExkm5c8ZaItTuW2qgZcqp4njTqrv3rrF9GviDnE/KPtcUMmpHpERCtxJ+HWsyEnDHS0DWBSlYhgPfGEtzvXgXL2r8f7d3LKx0VNH26f/LUYHWnhM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=gRQp8upK; arc=none smtp.client-ip=209.85.128.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-40fb63c40c0so1044475e9.2
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 31 Jan 2024 10:22:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech.se; s=google; t=1706724323; x=1707329123; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=mBGvNSHQReTkUxvWI3aTzUroZ0WS/4BABuj1FjQWt0s=;
-        b=qsiL3ApJVU8hxWmoI6JRaAcd5Q5u2Vd9zNOTlx/nNohXNZc/Ko34uoZqGEbNcP/WSm
-         r8V+YvfyGhwBCcLMb554QjQskuJEGr9weU1woVIG7AT/h4TP3nQMKAcxQdeJjYSRXIiS
-         YZhRysVeKpg5FKm/tAgFzLgtEFiEA1y90/2ueBHvja+Qi+9XaSNRbSuvJfCXqEs/a1CA
-         l+ox2ohIkv8126e38kbjqphyWF/KX5SbyBzJxMtcPEX3yzl7/7SkROf43T0rTUlBW/1E
-         WEx2qnd7II9qmXx4fOdomrs3Yb1IJeeyfsnSmXTMyol8INCTzAnuq0iwlimDisT+UKZ/
-         BLNQ==
+        d=linaro.org; s=google; t=1706725357; x=1707330157; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=gHKzDZd1mqTqqV0mGTc0u8ONZh6m7/ntJ7FejoiVhh0=;
+        b=gRQp8upKrzdbHPzFknA2xC4HI9oTtNLKbM/lKq4jht0nc5h7S0hGRzZkQzkg9YYDzJ
+         mifkC1vfwvAraF3+07bXaLreNqablDAvQb0eR9VDBUpH+9eOebcD69dW9Qm2J9l09tZk
+         q1It7ij8l8w67bxmzP8UL85Sk+V+pmMX59x0e0qxb7VWlfRN5CnkqKHmn8lCeFS9UCB5
+         GY3W4ZKzKdhVthVNowO1M8ezKQWuDLgda+dI5CeLrQI/23bWUq5ow6M4b7vANiVWeQWC
+         Jo1mXXCz1krUvdThzNREB0/QrjYQOrQ2qSbX74UZ8erSgtjVuiPpa/eDpv77y6VgZYF6
+         HIdg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706724323; x=1707329123;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=mBGvNSHQReTkUxvWI3aTzUroZ0WS/4BABuj1FjQWt0s=;
-        b=S8MG500p4MYOhQeEdIFzi+4HacuJ7RFkiy2xpXTd2/Ev8lLAw4S+3GCU7XWfXD4Dz7
-         7oHwLLPKUREtCM+Xjt132aXOp/H1sTop8MPTrDBLqABaT89MwifNy+zXgNl8yxj8v+yW
-         ihmT8OBogqnuBUih3tYW3VzkTTpCFCHQ+UJ0jZgdtl2PiAjh0hGGk7+gGsruJvW9JFot
-         eAWZR8xj06GFqW7nE4wE5GjnVi8pgw37B0S38MtFKpZUNRnzhAKflhgnDG2Int4VUCZ0
-         ZcszlWIXvir5dKCgTPM7GbOVWIJG3girwsDo5VGDl+Pz8IbavQEvXhk1TxDZn58uFQ8E
-         suMA==
-X-Gm-Message-State: AOJu0YywJGorIAow+E42FNplM+mkL0ytbqEIYWQ81xgc3RoOPZpgWdfM
-	+O+pf1hK6HoApXRzGmANHHTle5KgiWrQS/0soIFDKQnaHxYWurEn5E1LF7sYZQA=
-X-Google-Smtp-Source: AGHT+IFhQZWjOIoalrxTG4X6yo35IoN86zP51MQu4ZI2btj6MU/e0QIKl4TJat8cXTnt+L/sybyxXA==
-X-Received: by 2002:a05:600c:470e:b0:40e:fc20:b574 with SMTP id v14-20020a05600c470e00b0040efc20b574mr2071486wmo.10.1706724322668;
-        Wed, 31 Jan 2024 10:05:22 -0800 (PST)
-Received: from sleipner.berto.se (p4fcc8c6a.dip0.t-ipconnect.de. [79.204.140.106])
-        by smtp.googlemail.com with ESMTPSA id p7-20020a05600c418700b0040efcf63492sm2166856wmh.18.2024.01.31.10.05.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 31 Jan 2024 10:05:22 -0800 (PST)
-From: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-To: Hans Verkuil <hverkuil@xs4all.nl>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org
-Cc: linux-renesas-soc@vger.kernel.org,
-	=?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Subject: [PATCH] media: rcar-isp: Disallow unbind of devices
-Date: Wed, 31 Jan 2024 19:04:52 +0100
-Message-ID: <20240131180452.844863-1-niklas.soderlund+renesas@ragnatech.se>
-X-Mailer: git-send-email 2.43.0
+        d=1e100.net; s=20230601; t=1706725357; x=1707330157;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=gHKzDZd1mqTqqV0mGTc0u8ONZh6m7/ntJ7FejoiVhh0=;
+        b=DskaEm/BcS2sDoazOE8nlCJYdXzCThQo2DfWrBgrwnjFaKP6gjh/Afn+2yydQU6zrv
+         vumKoWcJ8gRN8B3BhL6CChYp9uTcc6hsw9HQeVJswtgUUfndqmCrho/0WgAFshmnEMIK
+         I/zJq5pQgg9fX+hDCccaWwY/CuFlDcW26j7UFhBetzYLwcbEMP2g1ZEn62TBDLFAtuWW
+         jGO1LPtSlz+E2PMkNJVobD8x8SG1SsbrO6mGB6fy/6HSJgmPUKRooCZeQQoCcgeQTYdX
+         TWWE6f3PLIb1an7SBQSDvvlXcipcPNeb3j3+PcOAhNy7q98E+t+Of/+AqfVdCTINeJzF
+         ZNNg==
+X-Gm-Message-State: AOJu0YyONvfBA1VUqFzR5x3gipu89TqGGLHGDaFA/2N4J1Vd6vFgoxCn
+	aVjZUSfj1cLifjch8NoyLyfdjT8brwaBipf96JNPBz5YmnN2Azgm7M68obHX0aE=
+X-Google-Smtp-Source: AGHT+IHlqZn5apC0OcSNN2Acf7t6Aaryh00SY4kbBmWqx0XsIPRgDEaqwCciuHNYKlmHRmoA8cxoSQ==
+X-Received: by 2002:a05:600c:138e:b0:40e:fbdd:238a with SMTP id u14-20020a05600c138e00b0040efbdd238amr2123576wmf.37.1706725356765;
+        Wed, 31 Jan 2024 10:22:36 -0800 (PST)
+Received: from [192.168.10.46] (146725694.box.freepro.com. [130.180.211.218])
+        by smtp.googlemail.com with ESMTPSA id n36-20020a05600c3ba400b0040ed1d6ce7csm2265786wms.46.2024.01.31.10.22.35
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 31 Jan 2024 10:22:36 -0800 (PST)
+Message-ID: <4e8c1025-fcea-45fc-bec4-5b377b7064ac@linaro.org>
+Date: Wed, 31 Jan 2024 19:22:35 +0100
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] dt-bindings: timer: renesas,tmu: Document input
+ capture interrupt
+Content-Language: en-US
+To: =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+ Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: Thomas Gleixner <tglx@linutronix.de>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ Wolfram Sang <wsa+renesas@sang-engineering.com>,
+ Yoshinori Sato <ysato@users.sourceforge.jp>, devicetree@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org, linux-sh@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <8cb38b5236213a467c6c0073f97ccc4bfd5a39ff.1706717378.git.geert+renesas@glider.be>
+ <20240131180013.GE2544372@ragnatech.se>
+From: Daniel Lezcano <daniel.lezcano@linaro.org>
+In-Reply-To: <20240131180013.GE2544372@ragnatech.se>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-It is not safe to unbind and then rebind a subdevice in the rcar-vin
-pipeline. Depending on what subdevice and in what order a device is
-rebound the rcar-vin driver can misbehave.
+On 31/01/2024 19:00, Niklas Söderlund wrote:
+> Hi Geert,
+> 
+> Thanks for your work.
+> 
+> On 2024-01-31 17:11:45 +0100, Geert Uytterhoeven wrote:
+>> Some Timer Unit (TMU) instances with 3 channels support a fourth
+>> interrupt: an input capture interrupt for the third channel.
+>>
+>> While at it, document the meaning of the four interrupts, and add
+>> "interrupt-names" for clarity.
+>>
+>> Update the example to match reality.
+>>
+>> Inspired by a patch by Yoshinori Sato for SH.
+>>
+>> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> 
+> Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> 
 
-Until this can be solved suppress the files in sysfs which allows for
-this. This is in line with what is done for other subdevices exclusively
-use with the rcar-vin pipeline, e.g. rcar-csi2.
+Applied, thanks
 
-Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
----
- drivers/media/platform/renesas/rcar-isp.c | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/drivers/media/platform/renesas/rcar-isp.c b/drivers/media/platform/renesas/rcar-isp.c
-index 530d65fc546b..4512ac338ca5 100644
---- a/drivers/media/platform/renesas/rcar-isp.c
-+++ b/drivers/media/platform/renesas/rcar-isp.c
-@@ -518,6 +518,7 @@ static void risp_remove(struct platform_device *pdev)
- static struct platform_driver rcar_isp_driver = {
- 	.driver = {
- 		.name = "rcar-isp",
-+		.suppress_bind_attrs = true,
- 		.of_match_table = risp_of_id_table,
- 	},
- 	.probe = risp_probe,
 -- 
-2.43.0
+<http://www.linaro.org/> Linaro.org │ Open source software for ARM SoCs
+
+Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
+<http://twitter.com/#!/linaroorg> Twitter |
+<http://www.linaro.org/linaro-blog/> Blog
 
 
