@@ -1,128 +1,278 @@
-Return-Path: <linux-renesas-soc+bounces-2175-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-2176-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E83B684480A
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 31 Jan 2024 20:35:11 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 92BFA84484B
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 31 Jan 2024 20:51:53 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8FFC4289DAC
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 31 Jan 2024 19:35:10 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id BD62F1F272B8
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 31 Jan 2024 19:51:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9E62339FF0;
-	Wed, 31 Jan 2024 19:35:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="LSeKICjp"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 996733EA96;
+	Wed, 31 Jan 2024 19:51:44 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mx01.omp.ru (mx01.omp.ru [90.154.21.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDF3F37714
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 31 Jan 2024 19:35:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D8903EA7B;
+	Wed, 31 Jan 2024 19:51:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.154.21.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706729708; cv=none; b=Ll3QrLRm/yRxW9uB3WzR6hbwNTLin1IAARhQIo0DFFKfMrPp6F2+2gz7zffCWf5zKDwVvoUyg6EcJMckInupUN6r0RRu/238TwFjepO7yzbt6pLThGG40520RAzLyXUGPIGLtrwkbulhPtRdrYyGf+WiLqAKk3iJ9z3sYjO/BNs=
+	t=1706730704; cv=none; b=dYJ1fJDWwy33sAb/PB8YWZHYm+X7tBpZ+GCSyybHObh6/URdyzIp3+z1E0qkTZuuiHxBqDcZrrxf1eQW7MeJO8y6mxdFxaL9exQXYl8pktZsjmrjCMuKC+UU13lYuchM7jObZ66qWUQLzuCQWOjUieZPM41tne71JXDV1s0+KJw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706729708; c=relaxed/simple;
-	bh=BRwssqc2jzt/f3mBb8BSDVJgrvePchYdkfdcqXofltc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TqDyu6xCsh2Y5TnVMHd6Wfxnqi5dyYNShz+ud9OQyJk5Yn51KK1wINEHysubI4QuMqfpznRoiI0M16ysyf+RHCvr5SZdf91XPm04UaoNlJGTirWDUUa3AniyrUaZR+EpHpR1ScaprnNUhy7sFt6VNaaOYkW37myMvrjNXF3EIiI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=LSeKICjp; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=BRws
-	sqc2jzt/f3mBb8BSDVJgrvePchYdkfdcqXofltc=; b=LSeKICjpPR1VkkwfK149
-	rrg2cOzfsszyIgM2cA0fL+fiTrOREl7Q6xPBikF+Q0plpEov+VAms4+ZazY4H2wG
-	01C1ZS4pcAKSEUz0ymEldvPBj3QcrUsfDeBhd/tCHKu3jcVZJz1c86a/ebTpZuPa
-	gavI4FHZNwki3OLrIssnrB8984AemTyEy3VTN4Zu5uQ9VZzbXyaoRbgVsIkEjq/o
-	ccXW+8s73Tr8VI90bUgGWCz8YSW/9sy3OiDX0SBEwt8Ch1WDB9iv3NcyaNE8J8eZ
-	qgBP3a83rprQi/iAgsBzRFr6UI6di2w+hCRIr5I3lFwi8WwOhn+3kWKViKnL5u0G
-	Nw==
-Received: (qmail 3307818 invoked from network); 31 Jan 2024 20:34:55 +0100
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 31 Jan 2024 20:34:55 +0100
-X-UD-Smtp-Session: l3s3148p1@hNU5+UIQQpRehhtJ
-Date: Wed, 31 Jan 2024 20:34:55 +0100
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: Daniel Lezcano <daniel.lezcano@linaro.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-	Yoshinori Sato <ysato@users.sourceforge.jp>,
-	devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-	linux-sh@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] dt-bindings: timer: renesas,tmu: Document input
- capture interrupt
-Message-ID: <Zbqg362_6i3M6rcZ@shikoro>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Daniel Lezcano <daniel.lezcano@linaro.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-	Yoshinori Sato <ysato@users.sourceforge.jp>,
-	devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-	linux-sh@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <8cb38b5236213a467c6c0073f97ccc4bfd5a39ff.1706717378.git.geert+renesas@glider.be>
+	s=arc-20240116; t=1706730704; c=relaxed/simple;
+	bh=M6wSqmB0Z4qDqXRKTry7u9uVyCw99+NA5tEi+4ltQBU=;
+	h=Subject:To:CC:References:From:Message-ID:Date:MIME-Version:
+	 In-Reply-To:Content-Type; b=QRGU4hM5vn2UuOf06Q0xpWAf7BLZsGuMy7KObnWcY15bueDiz7IExhFcFKNDUOHOWGlcU1EM+BZwhTklm9RT+a4C6Cj8iMU+abOqNJa+z/fs5uvm/YaX9KeY1Wj6nsf1mFTfNkIOAoRfxvtvS3CQLGyX48FudRFt1ZP/ekOSZoE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=omp.ru; spf=pass smtp.mailfrom=omp.ru; arc=none smtp.client-ip=90.154.21.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=omp.ru
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=omp.ru
+Received: from [192.168.1.105] (31.173.81.146) by msexch01.omp.ru
+ (10.188.4.12) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.1258.12; Wed, 31 Jan
+ 2024 22:51:29 +0300
+Subject: Re: [PATCH net-next v5 08/15] net: ravb: Move the IRQs
+ getting/requesting in the probe() method
+To: Claudiu <claudiu.beznea@tuxon.dev>, <davem@davemloft.net>,
+	<edumazet@google.com>, <kuba@kernel.org>, <pabeni@redhat.com>,
+	<richardcochran@gmail.com>, <p.zabel@pengutronix.de>,
+	<geert+renesas@glider.be>
+CC: <netdev@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, Claudiu Beznea
+	<claudiu.beznea.uj@bp.renesas.com>
+References: <20240131084133.1671440-1-claudiu.beznea.uj@bp.renesas.com>
+ <20240131084133.1671440-9-claudiu.beznea.uj@bp.renesas.com>
+From: Sergey Shtylyov <s.shtylyov@omp.ru>
+Organization: Open Mobile Platform
+Message-ID: <5536e607-e03b-f38e-2909-a6f6a126ff0d@omp.ru>
+Date: Wed, 31 Jan 2024 22:51:28 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="1upon9EKclLYqctJ"
-Content-Disposition: inline
-In-Reply-To: <8cb38b5236213a467c6c0073f97ccc4bfd5a39ff.1706717378.git.geert+renesas@glider.be>
+In-Reply-To: <20240131084133.1671440-9-claudiu.beznea.uj@bp.renesas.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: msexch01.omp.ru (10.188.4.12) To msexch01.omp.ru
+ (10.188.4.12)
+X-KSE-ServerInfo: msexch01.omp.ru, 9
+X-KSE-AntiSpam-Interceptor-Info: scan successful
+X-KSE-AntiSpam-Version: 6.1.0, Database issued on: 01/31/2024 19:37:01
+X-KSE-AntiSpam-Status: KAS_STATUS_NOT_DETECTED
+X-KSE-AntiSpam-Method: none
+X-KSE-AntiSpam-Rate: 59
+X-KSE-AntiSpam-Info: Lua profiles 183090 [Jan 31 2024]
+X-KSE-AntiSpam-Info: Version: 6.1.0.3
+X-KSE-AntiSpam-Info: Envelope from: s.shtylyov@omp.ru
+X-KSE-AntiSpam-Info: LuaCore: 7 0.3.7 6d6bf5bd8eea7373134f756a2fd73e9456bb7d1a
+X-KSE-AntiSpam-Info: {rep_avail}
+X-KSE-AntiSpam-Info: {Tracking_from_domain_doesnt_match_to}
+X-KSE-AntiSpam-Info: {relay has no DNS name}
+X-KSE-AntiSpam-Info: {SMTP from is not routable}
+X-KSE-AntiSpam-Info: {Found in DNSBL: 31.173.81.146 in (user)
+ b.barracudacentral.org}
+X-KSE-AntiSpam-Info:
+	d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;127.0.0.199:7.1.2;omp.ru:7.1.1
+X-KSE-AntiSpam-Info: ApMailHostAddress: 31.173.81.146
+X-KSE-AntiSpam-Info: {DNS response errors}
+X-KSE-AntiSpam-Info: Rate: 59
+X-KSE-AntiSpam-Info: Status: not_detected
+X-KSE-AntiSpam-Info: Method: none
+X-KSE-AntiSpam-Info: Auth:dmarc=temperror header.from=omp.ru;spf=temperror
+ smtp.mailfrom=omp.ru;dkim=none
+X-KSE-Antiphishing-Info: Clean
+X-KSE-Antiphishing-ScanningType: Heuristic
+X-KSE-Antiphishing-Method: None
+X-KSE-Antiphishing-Bases: 01/31/2024 19:42:00
+X-KSE-Antivirus-Interceptor-Info: scan successful
+X-KSE-Antivirus-Info: Clean, bases: 1/31/2024 10:54:00 AM
+X-KSE-Attachment-Filter-Triggered-Rules: Clean
+X-KSE-Attachment-Filter-Triggered-Filters: Clean
+X-KSE-BulkMessagesFiltering-Scan-Result: InTheLimit
 
+   I said the subject needs to be changed to "net: ravb: Move getting/requesting IRQs in
+the probe() method", not "net: ravb: Move IRQs getting/requesting in the probe() method".
+That's not very proper English, AFAIK! =)
 
---1upon9EKclLYqctJ
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 1/31/24 11:41 AM, Claudiu wrote:
 
-On Wed, Jan 31, 2024 at 05:11:45PM +0100, Geert Uytterhoeven wrote:
-> Some Timer Unit (TMU) instances with 3 channels support a fourth
-> interrupt: an input capture interrupt for the third channel.
->=20
-> While at it, document the meaning of the four interrupts, and add
-> "interrupt-names" for clarity.
->=20
-> Update the example to match reality.
->=20
-> Inspired by a patch by Yoshinori Sato for SH.
->=20
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+> 
+> The runtime PM implementation will disable clocks at the end of
+> ravb_probe(). As some IP variants switch to reset mode as a result of
+> setting module standby through clock disable APIs, to implement runtime PM
+> the resource parsing and requesting are moved in the probe function and IP
+> settings are moved in the open function. This is done because at the end of
+> the probe some IP variants will switch anyway to reset mode and the
+> registers content is lost. Also keeping only register settings operations
+> in the ravb_open()/ravb_close() functions will make them faster.
+> 
+> Commit moves IRQ requests to ravb_probe() to have all the IRQs ready when
+> the interface is open. As now IRQs getting/requesting are in a single place
 
-Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+   Again, "getting/requesting IRQs is done"...
 
+> there is no need to keep intermediary data (like ravb_rx_irqs[] and
+> ravb_tx_irqs[] arrays or IRQs in struct ravb_private).
+> 
+> In order to avoid accessing the IP registers while the IP is runtime
+> suspended (e.g. in the timeframe b/w the probe requests shared IRQs and
+> IP clocks are enabled) in the interrupt handlers were introduced
 
---1upon9EKclLYqctJ
-Content-Type: application/pgp-signature; name="signature.asc"
+   But can't we just request our IRQs after we call pm_runtime_resume_and_get()?
+We proaobly can... but then again, we call pm_runtime_put_sync() in the remove()
+method before the IRQs are freed...  So, it still seems OK that we're adding
+pm_runtime_active() calls to the IRQ handlers in this very patch, not when we'll
+start calling the RPM APIs in the ndo_{open|close}() methods, correct? :-)
 
------BEGIN PGP SIGNATURE-----
+> pm_runtime_active() checks. The device runtime PM usage counter has been
+> incremented to avoid disabling the device's clocks while the check is in
+> progress (if any).
+> 
+> This is a preparatory change to add runtime PM support for all IP variants.
+> 
+> Reviewed-by: Sergey Shtylyov <s.shtylyov@omp.ru>
+> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+[...]
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmW6oNsACgkQFA3kzBSg
-KbYqTQ//cDp6QndTpffOEpF2t/j5OyAXkYle7hJ6hJCeEqYgEoJ8ADdjJoNgooiK
-x2ioBaD+xgUZ+Oeb5GURNhx8VPMnsxCjcNicuBBJuYrA731gaXNqsueT8EAZ02vo
-yoTGkIRSnzIbamvqs1mRV4yZ9CAQBbSpJNcTqOaTauJhCd6cZ1eAnzBWNb9B5HRz
-pt12hFPW2o1anGb5HfCkjedPBc8z8ibmIEYGyBV4LLHFrWvGs2z23LOCvb0//ijZ
-xQEOzpPcbflY6VYhXyXZluwT6K0izygVLvtiR/lYYAvMQEE4zajFX8H0MNBZ2f/h
-Mq0dHEg1oNy/Nr6g7pMl0ErK2O2+s64kzbcTOIutCTCLaKTId4doHnn5LINQWeUa
-NouYK8BCTKKujR5U4kd7wCY3vxvRYTtNeVA0WBDLsmvBl4qzS9MxEosEYJ069r0M
-elm6zf8JCOH3EUbD7y68hEqbCY3eDCs7a4XQoy2oKaci1GhBnuIrWOHGkOv1QNly
-oDaC6ZpvJufR4PodGmYbdIX2Vc+VtzvLFNzBa9ad34fi09alC5KLWwgJUlDd2DHB
-NyqbYNSNG1FMONVqOFDsyD4EXL/B0o9MZVrWrzaz+nK9VjoRAtZwKoXE6dxYaG8t
-JynvRKq13lEUefnpX89gHom1H78BR/g4jCBPIDoDX0C0U9wtLSQ=
-=DFDJ
------END PGP SIGNATURE-----
+> diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
+> index e70c930840ce..f9297224e527 100644
+> --- a/drivers/net/ethernet/renesas/ravb_main.c
+> +++ b/drivers/net/ethernet/renesas/ravb_main.c
+[...]
+> @@ -1092,11 +1082,23 @@ static irqreturn_t ravb_emac_interrupt(int irq, void *dev_id)
+>  {
+>  	struct net_device *ndev = dev_id;
+>  	struct ravb_private *priv = netdev_priv(ndev);
+> +	struct device *dev = &priv->pdev->dev;
+> +	irqreturn_t result = IRQ_HANDLED;
+> +
+> +	pm_runtime_get_noresume(dev);
+> +
 
---1upon9EKclLYqctJ--
+   Not sure we need en empty line here...
+
+> +	if (unlikely(!pm_runtime_active(dev))) {
+> +		result = IRQ_NONE;
+> +		goto out_rpm_put;
+> +	}
+>  
+>  	spin_lock(&priv->lock);
+>  	ravb_emac_interrupt_unlocked(ndev);
+>  	spin_unlock(&priv->lock);
+> -	return IRQ_HANDLED;
+> +
+> +out_rpm_put:
+> +	pm_runtime_put_noidle(dev);
+> +	return result;
+>  }
+>  
+>  /* Error interrupt handler */
+> @@ -1176,9 +1178,15 @@ static irqreturn_t ravb_interrupt(int irq, void *dev_id)
+>  	struct net_device *ndev = dev_id;
+>  	struct ravb_private *priv = netdev_priv(ndev);
+>  	const struct ravb_hw_info *info = priv->info;
+> +	struct device *dev = &priv->pdev->dev;
+>  	irqreturn_t result = IRQ_NONE;
+>  	u32 iss;
+>  
+> +	pm_runtime_get_noresume(dev);
+> +
+
+   And here...
+
+> +	if (unlikely(!pm_runtime_active(dev)))
+> +		goto out_rpm_put;
+> +
+>  	spin_lock(&priv->lock);
+>  	/* Get interrupt status */
+>  	iss = ravb_read(ndev, ISS);
+[...]
+> @@ -1230,9 +1241,15 @@ static irqreturn_t ravb_multi_interrupt(int irq, void *dev_id)
+>  {
+>  	struct net_device *ndev = dev_id;
+>  	struct ravb_private *priv = netdev_priv(ndev);
+> +	struct device *dev = &priv->pdev->dev;
+>  	irqreturn_t result = IRQ_NONE;
+>  	u32 iss;
+>  
+> +	pm_runtime_get_noresume(dev);
+> +
+
+   Here too...
+
+> +	if (unlikely(!pm_runtime_active(dev)))
+> +		goto out_rpm_put;
+> +
+>  	spin_lock(&priv->lock);
+>  	/* Get interrupt status */
+>  	iss = ravb_read(ndev, ISS);
+[...]
+> @@ -1261,8 +1281,14 @@ static irqreturn_t ravb_dma_interrupt(int irq, void *dev_id, int q)
+>  {
+>  	struct net_device *ndev = dev_id;
+>  	struct ravb_private *priv = netdev_priv(ndev);
+> +	struct device *dev = &priv->pdev->dev;
+>  	irqreturn_t result = IRQ_NONE;
+>  
+> +	pm_runtime_get_noresume(dev);
+> +
+
+   Here as well...
+
+> +	if (unlikely(!pm_runtime_active(dev)))
+> +		goto out_rpm_put;
+> +
+>  	spin_lock(&priv->lock);
+>  
+>  	/* Network control/Best effort queue RX/TX */
+[...]
+> @@ -2616,6 +2548,90 @@ static void ravb_parse_delay_mode(struct device_node *np, struct net_device *nde
+>  	}
+>  }
+>  
+> +static int ravb_setup_irq(struct ravb_private *priv, const char *irq_name,
+> +			  const char *ch, int *irq, irq_handler_t handler)
+> +{
+> +	struct platform_device *pdev = priv->pdev;
+> +	struct net_device *ndev = priv->ndev;
+> +	struct device *dev = &pdev->dev;
+> +	const char *dev_name;
+> +	unsigned long flags;
+> +	int error;
+> +
+> +	if (irq_name) {
+> +		dev_name = devm_kasprintf(dev, GFP_KERNEL, "%s:%s", ndev->name, ch);
+> +		if (!dev_name)
+> +			return -ENOMEM;
+> +
+> +		*irq = platform_get_irq_byname(pdev, irq_name);
+> +		flags = 0;
+> +	} else {
+> +		dev_name = ndev->name;
+> +		*irq = platform_get_irq(pdev, 0);
+> +		flags = IRQF_SHARED;
+
+   Perhaps it's worth passing flags as a parameter here instead?
+
+> +	}
+> +	if (*irq < 0)
+> +		return *irq;
+> +
+> +	error = devm_request_irq(dev, *irq, handler, flags, dev_name, ndev);
+> +	if (error)
+> +		netdev_err(ndev, "cannot request IRQ %s\n", dev_name);
+> +
+> +	return error;
+> +}
+[...]
+
+MBR, Sergey
 
