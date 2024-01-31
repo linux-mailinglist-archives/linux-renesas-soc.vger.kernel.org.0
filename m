@@ -1,109 +1,396 @@
-Return-Path: <linux-renesas-soc+bounces-2155-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-2156-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31EE784449F
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 31 Jan 2024 17:35:22 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A56AF8444C0
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 31 Jan 2024 17:47:20 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E2EDF281AEA
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 31 Jan 2024 16:35:20 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 04D04B2570F
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 31 Jan 2024 16:47:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1CD9812C536;
-	Wed, 31 Jan 2024 16:34:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oxZE466q"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 67CBC12BE99;
+	Wed, 31 Jan 2024 16:47:02 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from xavier.telenet-ops.be (xavier.telenet-ops.be [195.130.132.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E507512C525;
-	Wed, 31 Jan 2024 16:34:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4C1D12AAF2
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 31 Jan 2024 16:46:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.132.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706718884; cv=none; b=rlrO6Jvd2brEVde9ReIx3nWrVkW7GmZ7FJqXMIHn6hdo5ELYQKufWHyqRhKZQyk4SqSeIY9T+RWDjUQc+y/iXNfdeW6avBHpL0pE0Th6APS8Vt8pgTJqELwUUTF0e3wvVdYLj0l8JZaAuy9l6p8wrbKF4djRuWX7K6Dv7alHOeA=
+	t=1706719622; cv=none; b=pOO+Gqp6vGCaWr/6S4ssVYdNiABDBypVhMes3m48vu58fYOQ5goSylewlV/MhA4O53mHvkn3ZPa5K94rlU+l+uHDfadITG+DQCKG/cSixhk2yRKVwoICMKTEGHdP/Ew9qL6A669GfmX5x/ONzeRgx3aW+RTsyPOQy/UqHqLZ4zA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706718884; c=relaxed/simple;
-	bh=HD1Yjnr4nWZ6pAzdwyIqRsLbA3A5jkLrkg58FHoyDsI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PxK1SGL0nVmOO6+koz0a5Lqw0bxkpWnfpMu25c3XBmmrCRwQLmyBTYWqVVhxzGTwf5kHimj+EG2Uz9/LEZ1Q3xsEg75qs9tR+owxYCqhrGptnB7QEoL+jSX0vWAuC0mOMRAJvIAPvn8Vuh72o5TibjBu6qFcPnyFyGjctSGvWQ0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oxZE466q; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 44490C433F1;
-	Wed, 31 Jan 2024 16:34:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1706718883;
-	bh=HD1Yjnr4nWZ6pAzdwyIqRsLbA3A5jkLrkg58FHoyDsI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=oxZE466q5sEtx3BuwSSlJASSdSLAQz0Cqmle2AW5CkG+OCktFmvaEe7nyUo+XaP1z
-	 diqfRXI+f4R4VtIkzkmAfGCqKn3gZgN05C2Ci+5aqpIkVtmEIszDBa7GkqmJC/a96y
-	 HmyBxLm8VB2LpeYmpksdAoWutTg7Pd6QADAWqrPmbaGlNBcpHPVtauYTqap7ZhgNnV
-	 uLFibVKz+vHJtsMo1KYaF6mGNcTDqX9G6xEtUXrWVIQYsDsggrR3T5Va255jnHZ5uh
-	 pOR+KasHVsUJIexWoR3yKELOtbMIRk3xQvEIQJYpr1TfmuEx3OWzsltawfEWYoGfgD
-	 IzeE1NXtkE3tg==
-Date: Wed, 31 Jan 2024 17:34:40 +0100
-From: Wolfram Sang <wsa@kernel.org>
-To: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: Helge Deller <deller@gmx.de>, Arnd Bergmann <arnd@arndb.de>,
-	linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linux-renesas-soc@vger.kernel.org, linux-sh@vger.kernel.org
-Subject: Re: [PATCH] fbdev: Restrict FB_SH_MOBILE_LCDC to SuperH
-Message-ID: <Zbp2oJKXUbxP6upF@shikoro>
-Mail-Followup-To: Wolfram Sang <wsa@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Helge Deller <deller@gmx.de>, Arnd Bergmann <arnd@arndb.de>,
-	linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linux-renesas-soc@vger.kernel.org, linux-sh@vger.kernel.org
-References: <c4a090bd3f4737774351b136db72b15297cd0239.1706717146.git.geert+renesas@glider.be>
+	s=arc-20240116; t=1706719622; c=relaxed/simple;
+	bh=/ZoewK1v9MuRgKEhRZAMYf3wtplIR+Tuwlz07nKIhdc=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=KCPZYjesPExvJP2Ma2G8euAKxavHUOMzEFGHvraIcsCI11c+pfqgxZ3M9rflUjq90n5wXMclxVvEj3EtZnOTBD8igBV4VudrCAe3hvF1ToomOK2ILgaRiYn2LMslBXMSfnUJ1s2hVZ/PmvtE7GlBuINEna7Yb5zQ/q2Elboi8dc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.132.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed40:88f0:c83b:bafa:cdc3])
+	by xavier.telenet-ops.be with bizsmtp
+	id hUmq2B00L4efzLr01UmqnH; Wed, 31 Jan 2024 17:46:51 +0100
+Received: from rox.of.borg ([192.168.97.57])
+	by ramsan.of.borg with esmtp (Exim 4.95)
+	(envelope-from <geert@linux-m68k.org>)
+	id 1rVDio-00Grc8-FU;
+	Wed, 31 Jan 2024 17:46:50 +0100
+Received: from geert by rox.of.borg with local (Exim 4.95)
+	(envelope-from <geert@linux-m68k.org>)
+	id 1rVDje-008lkg-Mh;
+	Wed, 31 Jan 2024 17:46:50 +0100
+From: Geert Uytterhoeven <geert+renesas@glider.be>
+To: Willy Tarreau <w@1wt.eu>
+Cc: linux-renesas-soc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH/RFC] lib: add CPU MHz benchmark test
+Date: Wed, 31 Jan 2024 17:46:48 +0100
+Message-Id: <a2396ae072d6f9e009b5de558efe166b844a1397.1706718625.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="y83znHstnARIpLfl"
-Content-Disposition: inline
-In-Reply-To: <c4a090bd3f4737774351b136db72b15297cd0239.1706717146.git.geert+renesas@glider.be>
+Content-Transfer-Encoding: 8bit
 
+When working on SoC bring-up, (a full) userspace may not be available,
+making it hard to benchmark the CPU performance of the system under
+development.  Still, one may want to have a rough idea of the (relative)
+performance of one or more CPU cores, especially when working on e.g.
+the clock driver that controls the CPU core clock(s).
 
---y83znHstnARIpLfl
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Hence add the CPU MHz benchmark test[1], which estimates the clock
+frequency of the CPU core it is running on, and make it available as a
+Linux kernel test module.
 
-On Wed, Jan 31, 2024 at 05:08:23PM +0100, Geert Uytterhoeven wrote:
-> Since commit f402f7a02af6956d ("staging: board: Remove Armadillo-800-EVA
-> board staging code"), there are no more users of the legacy SuperH
-> Mobile LCDC framebuffer driver on Renesas ARM platforms.  All former
-> users on these platforms have been converted to the SH-Mobile DRM
-> driver, using DT.
->=20
-> Suggested-by: Arnd Bergmann <arnd@arndb.de>
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+When built-in, this benchmark can be run without any userspace present.
 
-Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Parallel runs (run on multiple CPU cores) are supported, just kick the
+"run" file multiple times.
 
+This has been tested on the folowing CPU cores:
+  - ARM: Cortex A7, A9, and A15,
+  - ARM64: Cortex A53, A55, A57, and A76,
+  - m68k: MC68040,
+  - MIPS: TX4927,
+  - RISC-V: AndesTech AX45, Kendryte K210, SiFive U54 and U74, VexRiscV.
+  - SuperH: SH7751R.
+The reported figures are usually within 1-2% of the actual CPU clock
+rate.
 
---y83znHstnARIpLfl
-Content-Type: application/pgp-signature; name="signature.asc"
+[1] https://github.com/wtarreau/mhz.git
 
------BEGIN PGP SIGNATURE-----
+Suggested-by: Willy Tarreau <w@1wt.eu>
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+As suggested by Willy in "Re: Dhrystone -- userland version"
+(https://lore.kernel.org/all/20230109143059.GB25476@1wt.eu)
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmW6dpwACgkQFA3kzBSg
-KbaoEg//Uclnx3k7U799e0P1jc2PvtUd+vb4R9z+m/EfciyNRgRnOvnzoPDiAwSV
-p5BIiJYrkLH05uJu5fEJP59hysOVOXA7GGkdAdY+fCkkJzIROjh0vD5Zc70TQwg3
-ZK7h2jDR3AXXoIsDvdGBIf8iETCpPKq38SUKsiDPTh8N/uxWhwrGUVCsZCaH7oOX
-6RMsI102TA11KfvA/uOUEIGZHs0K8RJnO84NFZ+FoqAa88Nmg76SMAkCMmBqXO7U
-xGA14+GX3EyKtehcje9ysqQZJ/50ubLxlfstqi/FkUutwB1HBp0VNzjAmGqqFc3+
-6bKeGk9NEGZJmlPqEl2Bf6kNit56tmt/c0h4zxjcLhuG1eGDwtiRDjnG6TJ9xlCf
-1TDdfL8HPwzZbpLYKf2CMsRLM8MwCO3Z9vMB3LpHQTH4ICfXX1ESa93KSPcOuTWY
-nlXPRjBf+4/qornF2c0pQBTWYhIOCIc627wglwxJ9OxFoJzZsfMAMVi3LUejkqFA
-gpJLAlI+GnP1pT7gkSDPhRBoO8hLXx34lBmU4/JL45+QsvIQNAAUQox5NatCI+Nz
-utoEftEApEZ7ptEBkKKkTgb0/9hP5J4OoneAGVT0g8LwY7zfGiMMlkz9aMgJhi1z
-xYCoKNIiNl7VmAvFcoJA77z3/JEfs6d+nc3VbzzYVOclFjVQgXM=
-=YJDi
------END PGP SIGNATURE-----
+Known issues:
+  - The reported value is off on the following systems:
+      - RBTX4927: 120 MHz (should be 200 MHz, userspace mhz is OK)
+	  user: count=76500 us50=19990 us250=96885 diff=76895 cpu_MHz=198.973
+	  kernel:     43663      19943       93024                    119
+	  msleep(1000) does sleep 1s, and ktime_get() advances accordingly
+      - RZ/Five: 1971 MHz (should be 1000 MHz, userspace mhz not tested)
+	  kernel:    679625      20001       88962                   1971
+	  msleep(1000) does sleep 1s, and ktime_get() advances accordingly
+      - VexRiscV: 12 MHz (should be 64 MHz, userspace mhz not tested)
+    I assume this is due to different optimization flags.
+    I haven't compared the generated code yet.
 
---y83znHstnARIpLfl--
+  - On fast systems with a large clock granularity (e.g. ARAnyM running
+    Linux/m68k), the measured durations for the short and long loops may
+    be identical, causing division-by-zero exceptions.
+    The same happens with the userspace version, cfr.
+    https://github.com/wtarreau/mhz/issues/5.
+
+ lib/Kconfig.debug |  32 +++++++
+ lib/Makefile      |   1 +
+ lib/test_mhz.c    | 214 ++++++++++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 247 insertions(+)
+ create mode 100644 lib/test_mhz.c
+
+diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
+index 019e5026b619bc2b..8c05f977f278a8ad 100644
+--- a/lib/Kconfig.debug
++++ b/lib/Kconfig.debug
+@@ -2131,6 +2131,38 @@ menuconfig RUNTIME_TESTING_MENU
+ 
+ if RUNTIME_TESTING_MENU
+ 
++config TEST_MHZ
++	tristate "CPU MHz test"
++	help
++	  Enable this to include the CPU MHz benchmark.  This benchmark test
++	  estimates the clock frequency of the CPU core it is running on.
++
++	  To run the benchmark, it needs to be enabled explicitly, either from
++	  the kernel command line (when built-in), or from userspace (when
++	  built-in or modular).
++
++	  Run once during kernel boot:
++
++	      test_mhz.run
++
++	  Set number of iterations from kernel command line:
++
++	      test_mhz.iterations=<n>
++
++	  Set number of iterations from userspace:
++
++	      echo <n> > /sys/module/test_mhz/parameters/iterations
++
++	  Trigger manual run from userspace:
++
++	      echo y > /sys/module/test_mhz/parameters/run
++
++	  If the number of iterations is <= 0, the test will devise a suitable
++	  number of iterations (test runs for at least 2s) automatically.
++	  This process takes ca. 4s.
++
++	  If unsure, say N.
++
+ config TEST_DHRY
+ 	tristate "Dhrystone benchmark test"
+ 	help
+diff --git a/lib/Makefile b/lib/Makefile
+index 6b09731d8e619560..209c25d053858482 100644
+--- a/lib/Makefile
++++ b/lib/Makefile
+@@ -57,6 +57,7 @@ obj-$(CONFIG_TEST_HEXDUMP) += test_hexdump.o
+ obj-y += kstrtox.o
+ obj-$(CONFIG_FIND_BIT_BENCHMARK) += find_bit_benchmark.o
+ obj-$(CONFIG_TEST_BPF) += test_bpf.o
++obj-$(CONFIG_TEST_MHZ) += test_mhz.o
+ test_dhry-objs := dhry_1.o dhry_2.o dhry_run.o
+ obj-$(CONFIG_TEST_DHRY) += test_dhry.o
+ obj-$(CONFIG_TEST_FIRMWARE) += test_firmware.o
+diff --git a/lib/test_mhz.c b/lib/test_mhz.c
+new file mode 100644
+index 0000000000000000..cb0f85193088ec9a
+--- /dev/null
++++ b/lib/test_mhz.c
+@@ -0,0 +1,214 @@
++// SPDX-License-Identifier: MIT
++/*
++ * CPU core MHz benchmark
++ *
++ * Copyright (C) 2023 Glider bv
++ *
++ * Based on https://github.com/wtarreau/mhz.git, which is
++ * Copyright (C) 2016-2023 Willy Tarreau <w@1wt.eu>
++ */
++
++#include <linux/kernel.h>
++#include <linux/ktime.h>
++#include <linux/math64.h>
++#include <linux/module.h>
++#include <linux/moduleparam.h>
++#include <linux/smp.h>
++
++static int mhz_run_set(const char *val, const struct kernel_param *kp);
++static const struct kernel_param_ops run_ops = {
++	.flags = KERNEL_PARAM_OPS_FL_NOARG,
++	.set = mhz_run_set,
++};
++static bool mhz_run;
++module_param_cb(run, &run_ops, &mhz_run, 0200);
++MODULE_PARM_DESC(run, "Run the test (default: false)");
++
++static int iterations = -1;
++module_param(iterations, int, 0644);
++MODULE_PARM_DESC(iterations,
++		"Number of iterations through the benchmark (default: auto)");
++
++/*
++ * Performs read-after-write operations that the CPU is not supposed to be able
++ * to parallelize.  The "asm" statements are here to prevent the compiler from
++ * reordering this code.
++ */
++#define dont_move(var)	do { asm volatile("" : "=r"(var) : "0" (var)); } while (0)
++
++#define run1cycle_ae()	do { a ^= e; dont_move(a); } while (0)
++#define run1cycle_ba()	do { b ^= a; dont_move(b); } while (0)
++#define run1cycle_cb()	do { c ^= b; dont_move(c); } while (0)
++#define run1cycle_dc()	do { d ^= c; dont_move(d); } while (0)
++#define run1cycle_ed()	do { e ^= d; dont_move(e); } while (0)
++#define run1cycle_eb()	do { e ^= b; dont_move(e); } while (0)
++
++#define run5cycles()			\
++	do {				\
++		run1cycle_ae();		\
++		run1cycle_ba();		\
++		run1cycle_cb();		\
++		run1cycle_dc();		\
++		run1cycle_ed();		\
++	} while (0)
++
++#define run10cycles()			\
++	do {				\
++		run5cycles();		\
++		run5cycles();		\
++	} while (0)
++
++#define run100cycles()			\
++	do {				\
++		run10cycles();		\
++		run10cycles();		\
++		run10cycles();		\
++		run10cycles();		\
++		run10cycles();		\
++		run10cycles();		\
++		run10cycles();		\
++		run10cycles();		\
++		run10cycles();		\
++		run10cycles();		\
++	} while (0)
++
++
++/*
++ * Performs 50 operations in a loop, all dependant on each other, so that the
++ * CPU cannot parallelize them, hoping to take 50 cycles per loop, plus the
++ * loop counter overhead.
++ */
++static noinline __aligned(64) void loop50(unsigned int n)
++{
++	unsigned int a = 0, b = 0, c = 0, d = 0, e = 0;
++
++	do {
++		run10cycles();
++		run10cycles();
++		run10cycles();
++		run10cycles();
++		run10cycles();
++	} while (__builtin_expect(--n, 1));
++}
++
++/*
++ * Performs 250 operations in a loop, all dependant on each other, so that the
++ * CPU cannot parallelize them, hoping to take 250 cycles per loop, plus the
++ * loop counter overhead.  Do not increase this loop so that it fits in a small
++ * 1 kB L1 cache on 32-bit instruction sets.
++ */
++static noinline __aligned(64) void loop250(unsigned int n)
++{
++	unsigned int a = 0, b = 0, c = 0, d = 0, e = 0;
++
++	do {
++		run10cycles();
++		run10cycles();
++		run10cycles();
++		run10cycles();
++		run10cycles();
++		run100cycles();
++		run100cycles();
++	} while (__builtin_expect(--n, 1));
++}
++
++static unsigned int run_once(unsigned int count)
++{
++	s64 dur50, dur250, dur;
++	unsigned int i;
++	ktime_t begin;
++
++	/*
++	 * Now run the 50 cycles loop.
++	 * We'll pick the lowest value among 5 runs of the short loop.
++	 */
++	dur50 = LLONG_MAX;
++	for (i = 0; i < 5; i++) {
++		begin = ktime_get();
++		loop50(count);
++		dur = ktime_us_delta(ktime_get(), begin);
++		if (dur < dur50)
++			dur50 = dur;
++	}
++
++	/*
++	 * Now run the 250 cycles loop.
++	 * We'll pick the lowest value among 5 runs of the long loop.
++	 */
++	dur250 = LLONG_MAX;
++	for (i = 0; i < 5; i++) {
++		begin = ktime_get();
++		loop250(count);
++		dur = ktime_us_delta(ktime_get(), begin);
++		if (dur < dur250)
++			dur250 = dur;
++	}
++
++	return DIV_U64_ROUND_CLOSEST(count * 200ULL, dur250 - dur50);
++}
++
++/*
++ * Determines how long loop50() must be run to reach more than 20 milliseconds.
++ * This will ensure that an integral number of clock ticks will have happened
++ * on 100, 250, 1000 Hz systems.
++ */
++static unsigned int calibrate(void)
++{
++	unsigned int duration = 0;
++	unsigned int count = 1000;
++	ktime_t start;
++
++	while (duration < 10000) {
++		count = count * 5 / 4;
++		start = ktime_get();
++		loop50(count);
++		duration = ktime_us_delta(ktime_get(), start);
++	}
++
++	return DIV_U64_ROUND_CLOSEST(count * 20000ULL, duration);
++}
++
++static void mhz_benchmark(void)
++{
++	unsigned int cpu = get_cpu();
++	unsigned int mhz;
++
++	if (iterations < 0)
++		iterations = calibrate();
++
++	mhz = run_once(iterations);
++
++	put_cpu();
++
++	pr_info("CPU%u: %u MHz\n", cpu, mhz);
++}
++
++static int mhz_run_set(const char *val, const struct kernel_param *kp)
++{
++	int ret;
++
++	if (val) {
++		ret = param_set_bool(val, kp);
++		if (ret)
++			return ret;
++	} else {
++		mhz_run = true;
++	}
++
++	if (mhz_run && system_state == SYSTEM_RUNNING)
++		mhz_benchmark();
++
++	return 0;
++}
++
++static int __init mhz_init(void)
++{
++	if (mhz_run)
++		mhz_benchmark();
++
++	return 0;
++}
++module_init(mhz_init);
++
++MODULE_AUTHOR("Geert Uytterhoeven <geert+renesas@glider.be>");
++MODULE_LICENSE("Dual MIT/GPL");
+-- 
+2.34.1
+
 
