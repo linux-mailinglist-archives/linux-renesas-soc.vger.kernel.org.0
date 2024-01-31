@@ -1,107 +1,140 @@
-Return-Path: <linux-renesas-soc+bounces-2165-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-2166-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD1328445F8
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 31 Jan 2024 18:22:06 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D3C3484464F
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 31 Jan 2024 18:39:15 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 6D6C3B326A2
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 31 Jan 2024 17:09:25 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 974342848CF
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 31 Jan 2024 17:39:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E0F1112CDB3;
-	Wed, 31 Jan 2024 17:06:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E41E8129A97;
+	Wed, 31 Jan 2024 17:39:12 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 099C013BE92;
-	Wed, 31 Jan 2024 17:06:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.172
+Received: from 1wt.eu (ded1.1wt.eu [163.172.96.212])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 90FD67EF1B;
+	Wed, 31 Jan 2024 17:39:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=163.172.96.212
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706720781; cv=none; b=iTzETLdQ/DH/g/VF4PAZkUJfaS1HtnZdkIAN1r1bSSHfIVuxRBBXuBuYwSdKyt9RFXARqHauDwuOp8KYMniILK68XC2GSxnslkdedflZxP4C+4rKI7aDHfN/xuLK5zq3kyno2clctrE82iJf15XTif4sRtPyb4pdh3QFk3BagSk=
+	t=1706722752; cv=none; b=oYWkR3GWW5eHW8XBBlkw3d78MJkA+E9xkNLFfKqurwyk0i+6Hh007O8lTBkLjk5sdlUjBo0nBwgkpnHBFIhqDPO+1Q1qT/DApKR2bbLWgfQnHmA6IqTIoF+SNwKcNTwgHJSPJOmaNSvZ73cHVrPR7x6u74l/kumLJu8di315PqA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706720781; c=relaxed/simple;
-	bh=jF6SdlyJoM2o9TxNb9B6clYF182hsq5bd4yumWvNwvw=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=LbhEm78opwQpGpZj49Jv96yUOOyGMCfmrSYEers7/x9dMWXXOPo6PFV2TapYoUXmH7dcJ1YGytU786kirGlu7FEbW3Vm+US0jdB7U8CgEd7WQqQy7P1T33P+DSNUxaDmfZaJrsgJd7fHYv2HgqUo1OPbiOcAdvvlMep3xO+lPHk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
-X-IronPort-AV: E=Sophos;i="6.05,231,1701097200"; 
-   d="scan'208";a="196315555"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie6.idc.renesas.com with ESMTP; 01 Feb 2024 02:06:19 +0900
-Received: from GBR-5CG2373LKG.adwin.renesas.com (unknown [10.226.92.158])
-	by relmlir6.idc.renesas.com (Postfix) with ESMTP id 34ED640344FE;
-	Thu,  1 Feb 2024 02:06:15 +0900 (JST)
-From: Paul Barker <paul.barker.ct@bp.renesas.com>
-To: Sergey Shtylyov <s.shtylyov@omp.ru>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>
-Cc: Paul Barker <paul.barker.ct@bp.renesas.com>,
-	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-	Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	netdev@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH net-next 8/8] net: ravb: Use NAPI threaded mode on 1-core CPUs with GbEth IP
-Date: Wed, 31 Jan 2024 17:05:22 +0000
-Message-Id: <20240131170523.30048-9-paul.barker.ct@bp.renesas.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20240131170523.30048-1-paul.barker.ct@bp.renesas.com>
-References: <20240131170523.30048-1-paul.barker.ct@bp.renesas.com>
+	s=arc-20240116; t=1706722752; c=relaxed/simple;
+	bh=OFT2TTaNZFqkCFZHSRumoIucbTcCxvOYc+uwdG7w6iw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=rXCqwqy03XygWOsAMOkpedm6L2ORAUo/+6SnjvD+o8NuOFgNxNY+X7vNepyaT6nN2Fe2MCfZL9lzCCrTHC4ZcGx4TdrQMpWJRVRAzYos5ZwOywLFD+x340wlX1wB/wPr2m1GZIKPCTNeDACqLFoUEneTnqrbMWvcfZ7AP8Y7UQg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=1wt.eu; spf=pass smtp.mailfrom=1wt.eu; arc=none smtp.client-ip=163.172.96.212
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=1wt.eu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=1wt.eu
+Received: (from willy@localhost)
+	by mail.home.local (8.17.1/8.17.1/Submit) id 40VHcwJh013476;
+	Wed, 31 Jan 2024 18:38:58 +0100
+Date: Wed, 31 Jan 2024 18:38:58 +0100
+From: Willy Tarreau <w@1wt.eu>
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH/RFC] lib: add CPU MHz benchmark test
+Message-ID: <ZbqFsroYDjSoYEps@1wt.eu>
+References: <a2396ae072d6f9e009b5de558efe166b844a1397.1706718625.git.geert+renesas@glider.be>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <a2396ae072d6f9e009b5de558efe166b844a1397.1706718625.git.geert+renesas@glider.be>
 
-NAPI Threaded mode (along with the previously enabled SW IRQ Coalescing)
-is required to improve network stack performance for single core SoCs
-using the GbEth IP (currently the RZ/G2L SoC family and the RZ/G3S SoC).
+Hi Geert,
 
-For the RZ/G2UL, network throughput is increased by this change for all
-test cases except UDP TX (results obtained with iperf3):
-  * TCP TX: 30% more throughput
-  * TCP RX: 9.8% more throughput
-  * UDP TX: 9.7% less throughput
-  * UDP RX: 89% more throughput
+On Wed, Jan 31, 2024 at 05:46:48PM +0100, Geert Uytterhoeven wrote:
+> When working on SoC bring-up, (a full) userspace may not be available,
+> making it hard to benchmark the CPU performance of the system under
+> development.  Still, one may want to have a rough idea of the (relative)
+> performance of one or more CPU cores, especially when working on e.g.
+> the clock driver that controls the CPU core clock(s).
+> 
+> Hence add the CPU MHz benchmark test[1], which estimates the clock
+> frequency of the CPU core it is running on, and make it available as a
+> Linux kernel test module.
+> 
+> When built-in, this benchmark can be run without any userspace present.
 
-For the RZ/G3S we see improvements in network throughput similar to the
-RZ/G2UL.
+That's a great idea, I never thought about turning it into a module!
 
-The improvement of UDP RX bandwidth for the single core SoCs (RZ/G2UL &
-RZ/G3S) is particularly critical. NAPI Threaded mode can be disabled at
-runtime via sysfs for applications where UDP TX performance is a
-priority.
+> Parallel runs (run on multiple CPU cores) are supported, just kick the
+> "run" file multiple times.
 
-Signed-off-by: Paul Barker <paul.barker.ct@bp.renesas.com>
----
- drivers/net/ethernet/renesas/ravb_main.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+Hmmm does it mean it will run on the CPU that writes this "run" ?
+Because this could allow one to start tests using e.g.:
 
-diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
-index 483993ec25ba..202a3229d436 100644
---- a/drivers/net/ethernet/renesas/ravb_main.c
-+++ b/drivers/net/ethernet/renesas/ravb_main.c
-@@ -3029,8 +3029,11 @@ static int ravb_probe(struct platform_device *pdev)
- 	if (info->nc_queues)
- 		netif_napi_add(ndev, &priv->napi[RAVB_NC], info->poll);
- 
--	if (info->needs_irq_coalesce)
-+	if (info->needs_irq_coalesce) {
- 		netdev_sw_irq_coalesce_default_on(ndev);
-+		if (num_present_cpus() == 1)
-+			dev_set_threaded(ndev, true);
-+	}
- 
- 	/* Network device register */
- 	error = register_netdev(ndev);
--- 
-2.39.2
+    taskset -c $CPU tee /sys/.../run <<< y
 
+But we could also wonder if it wouldn't be easier to either send "y"
+to /sys/.../cpu0/run or may just send the CPU number to "run" instead
+of "y". In my experience with this tool, you most always want to easily
+control the CPU number because SoCs these days are not symmetrical at
+all.
+
+> This has been tested on the folowing CPU cores:
+>   - ARM: Cortex A7, A9, and A15,
+>   - ARM64: Cortex A53, A55, A57, and A76,
+>   - m68k: MC68040,
+>   - MIPS: TX4927,
+>   - RISC-V: AndesTech AX45, Kendryte K210, SiFive U54 and U74, VexRiscV.
+>   - SuperH: SH7751R.
+> The reported figures are usually within 1-2% of the actual CPU clock
+> rate.
+
+Nice!
+
+> Known issues:
+>   - The reported value is off on the following systems:
+>       - RBTX4927: 120 MHz (should be 200 MHz, userspace mhz is OK)
+> 	  user: count=76500 us50=19990 us250=96885 diff=76895 cpu_MHz=198.973
+> 	  kernel:     43663      19943       93024                    119
+> 	  msleep(1000) does sleep 1s, and ktime_get() advances accordingly
+>       - RZ/Five: 1971 MHz (should be 1000 MHz, userspace mhz not tested)
+> 	  kernel:    679625      20001       88962                   1971
+> 	  msleep(1000) does sleep 1s, and ktime_get() advances accordingly
+>       - VexRiscV: 12 MHz (should be 64 MHz, userspace mhz not tested)
+>     I assume this is due to different optimization flags.
+>     I haven't compared the generated code yet.
+
+That's strange. I only ever managed to get off results at -O0, but at
+-O1/-Og/-Os/-O2/-O3/-Ofast I've always got consistent results on all
+the machines I've tested. Especially seeing results higher than the
+real value is troubling. One possibility would be that one some archs
+there's not enough registers and the compiler needs to use a variable
+in the stack, but that could only explain the lower perf, not the higher
+one. But indeed, it could be interesting to have a look at the code to
+understand why it's doing that. If we figure that there's an inherent
+limitation on some rare archs, in the worst case we could place a
+warning there.
+
+>   - On fast systems with a large clock granularity (e.g. ARAnyM running
+>     Linux/m68k), the measured durations for the short and long loops may
+>     be identical, causing division-by-zero exceptions.
+>     The same happens with the userspace version, cfr.
+>     https://github.com/wtarreau/mhz/issues/5.
+
+I've responded there and we definitely need to address this, thanks!
+
+Another point is that it would be nice if there was a way to present
+the result in a form that a script can retrieve from the directory,
+maybe the last measurement or something like this. I know that scripts
+are commonly used to check for a machine's correct behavior, and I try
+to encourage users to verify that it's working well, so anything we can
+do that makes it easier to use would be welcome.
+
+But overall, I like it! You've got my ack.
+
+Hmmm I don't know if this is intended, the SPDX tag says MIT but the
+MODULE_LICENSE at the top says MIT/GPL. I can't say I care that much but
+I preferred to report it in case it's an accident ;-)
+
+Thanks!
+Willy
 
