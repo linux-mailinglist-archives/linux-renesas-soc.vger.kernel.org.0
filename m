@@ -1,188 +1,116 @@
-Return-Path: <linux-renesas-soc+bounces-2180-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-2182-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36CC28449E5
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 31 Jan 2024 22:24:38 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 52587844CD6
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  1 Feb 2024 00:32:52 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E0943284BD9
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 31 Jan 2024 21:24:36 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 84D631C210E0
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 31 Jan 2024 23:32:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 08AF13B2BF;
-	Wed, 31 Jan 2024 21:21:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 81E323F8D9;
+	Wed, 31 Jan 2024 23:19:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernelci-org.20230601.gappssmtp.com header.i=@kernelci-org.20230601.gappssmtp.com header.b="Vb3cgzzi"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="B3KCQxdR"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA80438FB5
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 31 Jan 2024 21:21:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E99D53E478;
+	Wed, 31 Jan 2024 23:19:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706736066; cv=none; b=J5696IrHwimpyf3T4ERuqsYiRVlqCxglk8ePQhp3plzuOMqfIzw0oxBo2i7pw+vBsm8JkVkkKSrFcVopuMM7/33AvxQ9Y6wZUq7bIem/Tdc+9KI1bg8NiLtWQsknVXocMt9mh7OB6o/wReL7u9bNBBGUPZ3NnIPwgsIkBnHeWMU=
+	t=1706743183; cv=none; b=Nty+j81DSs2tjzJCSugxAi1ifOgjOCaPCRlgQSkACcukWqZqg5h+fCMaMrRsqoAt2wNEdWOD0C9fP0BHIq2TDvOGPdIMvqFUCH3dUeMB+Wlu6UbXaDt6KXtPyY0Qe3LS5nhzPk+s0akj/ld/+kfREViExBLBoQ+STFA6o0Cb/IA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706736066; c=relaxed/simple;
-	bh=lC/1okSTBrRGrQNh+NeFiE7XG6yzLKA6ZCoxb9aRb04=;
-	h=Message-ID:Date:Content-Type:MIME-Version:Subject:To:From; b=M4NMVAJdHjvydykUoxA/3/lIXEUvJwHB4we1mCYhwWbj5XemJg3All5EdzGT0nhQGW6nL/sZcd5Cph2EFriqF1oBEu3Sm/MuUtJX9+V+Ry23fhJT+ILGmJuVsPidHkudAi8USot5DX/tAMQx3CVFTw5fzE4uZCcOf/q6uYNoDEg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernelci.org; spf=none smtp.mailfrom=kernelci.org; dkim=pass (2048-bit key) header.d=kernelci-org.20230601.gappssmtp.com header.i=@kernelci-org.20230601.gappssmtp.com header.b=Vb3cgzzi; arc=none smtp.client-ip=209.85.214.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernelci.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=kernelci.org
-Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-1d932f6ccfaso1889365ad.1
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 31 Jan 2024 13:21:04 -0800 (PST)
+	s=arc-20240116; t=1706743183; c=relaxed/simple;
+	bh=/ccncMG9tMlB00BXpT+dUB5cCFOEy9w6xAauEs3pywU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VG0vlnKuCHxBvgRexXUbX6CBHdiS51xTkhkt2DfWDcpWaeXXqTfmYdIc2sBBJzeRnGMe+JgF9rPdiPuP5/7OBsBpwgF08DWEcTCQ/IYisCFXG+R2128F4PmvlPqsZThDFQrnueNX7yyMDB+kIrDBW9T5wD0LA+W0O7y6ZWRRJ3E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=B3KCQxdR; arc=none smtp.client-ip=209.85.210.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-6ddc0c02593so225491b3a.3;
+        Wed, 31 Jan 2024 15:19:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernelci-org.20230601.gappssmtp.com; s=20230601; t=1706736063; x=1707340863; darn=vger.kernel.org;
-        h=from:to:subject:content-transfer-encoding:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=Po7ZCZbbKN0YG1GqQFdSLg8aai+kU+WvytTmgAWjwk4=;
-        b=Vb3cgzziz78bonH4oBNDRpASbyaT1vYpnHOAoUXwGWJsXTWp/rkJztCbItRP9cSkQ8
-         hVr65pBWGqM8yQJXSTXh6D5hxSYqCSmXj1Ap8aDvGylJHJ5WrjZNbvlpqcF/P+5KxzKW
-         zwHMPbI80BT4dnW2wP74w/kZva1Rtmgm8s1ky7w76IKMe26emQu+Xqs+iobUClb9H6pe
-         6LTd1BNZP8yXW2/dD8bfD7sWV7JAoyCLdRKBh4cVEWmJwTHtQIkkpe3b6CkTvcv9A4yg
-         pc9ynV81LBTdz19ahWyoPJ34NrzBbrnwavqKV52ACLLnS2PDAFch3/66i7yoldoGdTKQ
-         lVcA==
+        d=gmail.com; s=20230601; t=1706743181; x=1707347981; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=JZgkDLgyrPsCaWklPOuNtS9DRohp8LWP5R1zj3C6cBo=;
+        b=B3KCQxdRCOc8eo1hfvzupRYlhwulaLl/8i/BSSq8KfjJv4+jiT6E8fApmfpeX8K3WW
+         oT8CzWkoyTFmhNmDo65bpJIgAjgXWrB13pR+SWf919Mzs40boBBmSO2udn3uRNrwYc3L
+         2dFP7MfElhijNeM07BEvLhHK3oJ370V3Yuk2l51uyy9CIwmb01Jn913xThq149RNqm/c
+         Tv//+yUR1waAvtwZEvJjGLUHnKDisehK6fbeVhMi3HZ9NRBl5B42pEpJqnt15zOm/xbu
+         v83Og0/lJNUsg2+dz2aOg3MyekglMiaM+Rn8H5V5TRmEDCmcSJvLkdzqpeMe+sD5T91B
+         kk2Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706736063; x=1707340863;
-        h=from:to:subject:content-transfer-encoding:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Po7ZCZbbKN0YG1GqQFdSLg8aai+kU+WvytTmgAWjwk4=;
-        b=vxQQ7CykqGv+ank5QhY1GEVtSYpMAvJJG52aQ85NuWYJli3ophRmEQ+MydH5pdOM19
-         0j+zjHrwACIF7FIZVPLbIfOLS2i7GcuL3Qj9jHfMe+nzDoFulO63RvXG/ZYpIesH2Bgc
-         1plikNHFx48G2Yb1GiR3q0RJwT8KxC0mjUOuL1QWxDe+f3MGQTS7RbutGmcBOdcupEH8
-         HmyeEHcfFte1Y4k/ahBt7z6vtgG2h4M8IXxgs5/JHDA0u4+WXKZmd1qG9QnJ+Otj0MaO
-         8CCGQr3bQIJmy8gMCC3u4d21XUDWfgRXVsIiR9u1RlpvbcOVEKr+7F2TuZC6uQ+9FCeR
-         jQgw==
-X-Gm-Message-State: AOJu0YxNxtrmcM5HPNuz518682zGp+9iBRDIgvtKXjDJrO6LTXwooZ3L
-	OvyyjfGID53jMw79lyfFMGt0He+alEnthcBFhuUV0FzBh/O52pijiuq4HIh1M0lPCXWaSo809CC
-	p
-X-Google-Smtp-Source: AGHT+IHm9NoHJTwVazPWWWIFk+dr/PCRo57EU2x+PfypCIXwoka9O20kO46Ru0Qjzuxd0oSPhonRwA==
-X-Received: by 2002:a17:902:ec8f:b0:1d4:14a0:bf66 with SMTP id x15-20020a170902ec8f00b001d414a0bf66mr3519720plg.23.1706736063543;
-        Wed, 31 Jan 2024 13:21:03 -0800 (PST)
-X-Forwarded-Encrypted: i=0; AJvYcCUPum0m+zP3gFPFBytW6OzdQvqFgjl7ObWwfW9G9gDfCRb130rNTd+gyWQNfyNmFuvTvVttPyCkQtgzHx7n/vuWnhYcxO90A7PZxA==
-Received: from kernelci-production.internal.cloudapp.net ([20.171.243.82])
-        by smtp.gmail.com with ESMTPSA id kr12-20020a170903080c00b001d8f82c61cdsm4879453plb.231.2024.01.31.13.21.02
+        d=1e100.net; s=20230601; t=1706743181; x=1707347981;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=JZgkDLgyrPsCaWklPOuNtS9DRohp8LWP5R1zj3C6cBo=;
+        b=S3kggiDICX6Ws7cD3VSp9oYq/vWAHv1dAtVooEqF5vbup7hIZaXGG87Vlot7FjOb4Q
+         +gjaxJHPNfOAZCp6wp4BL5x9QvgD6yAb5TZFbURptsJH2+z16X7VtKlMloWCdgZRqMRS
+         psg4hznmpsN7tR33cuvKGxDjIBvhB7VF/G9c1R7fAMTJnWENSx4Bx/LjKRdP8/aYDwnY
+         dUUZMADy42wD5IAALobs9jkxR0VD7dmg1+VFx2UBGhEq3hXw3jajVbQqT1sC6KjcLR9R
+         uA49RAkB3KJXV4kRCSmC2rQvci3fDQGblBKXKQepE2HtUoCkeSylNcMmkDCBuQChPnE9
+         kYOQ==
+X-Gm-Message-State: AOJu0YxP3Aose/Hsic/ExAdAQh41MU304c7FDxqsVDo6kHg6xUGep4zS
+	won5iq5J/YG65A2eMxd+JU0pbyYjvsOeZp20YHoNPJzH/Q+BYvqS
+X-Google-Smtp-Source: AGHT+IFss5FF+Tid5rIuRhTMTGgZo0Pi9AWVAnIwIipN4YKIEpXs4HCz14vFpzHZ/FWr5HuYRxTr1Q==
+X-Received: by 2002:a05:6a20:3c89:b0:19c:999e:b7a5 with SMTP id b9-20020a056a203c8900b0019c999eb7a5mr545696pzj.53.1706743180819;
+        Wed, 31 Jan 2024 15:19:40 -0800 (PST)
+X-Forwarded-Encrypted: i=0; AJvYcCW9KF9FPaRWisv508jd0N4eeYnMYq6lQXO/eF1sZvDsjnuiMzcroB7H2c8koDIcM5fQiueZfGUAuJu9KmnizV2oHK7m1C4nNi2NWsJWrsqzEHrHmimKI3VNrv+kWRqXK9mgM/mS1PRPni8Y7hdatNEL52mCmK4r7SDXR6fozE2tbU40/lpwyxQ8sDB6VedIp983yFcGqhzwUQWrwmWjL/qwDYdjIQCwsKmO24cnSP2IpUcr5KW1yl8RRtuHW/nl1x23kheQnf2AiGYzcJbOu2XGuHB2P5LmPfLeeuG1MTNhD1z1nfwbCYGFySVNCpLsCprUm9OiqNhXneDb5SZ2nw6rxoCJCTWyOSH6A8IY8r4UnCpK/HwiH/UA+u0aiv1d3q0+fjJFQ/2bew3unOGgcGfafCunbM5IivCrM6ReBM1EBSzpFJKMm3I8UbUVicNQAE/zbRdCPgy7u6AX84kEmJZ+iu8nd+F+WQqyZKkNYv64dEeYYafF2pC60caWNm3Nexm53GfR4ruKHHhb+qnFNiY2HNJbU5zUy2zcUk1v4gx/cOKV
+Received: from google.com ([2620:15c:9d:2:dd5d:ba2a:a6f9:365f])
+        by smtp.gmail.com with ESMTPSA id o4-20020a170902d4c400b001d8a5c08277sm9303166plg.260.2024.01.31.15.19.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 31 Jan 2024 13:21:03 -0800 (PST)
-Message-ID: <65bab9bf.170a0220.161c6.1937@mx.google.com>
-Date: Wed, 31 Jan 2024 13:21:03 -0800 (PST)
-Content-Type: text/plain; charset="utf-8"
+        Wed, 31 Jan 2024 15:19:40 -0800 (PST)
+Date: Wed, 31 Jan 2024 15:19:37 -0800
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: Biju Das <biju.das.jz@bp.renesas.com>
+Cc: Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Support Opensource <support.opensource@diasemi.com>,
+	linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	Biju Das <biju.das.au@gmail.com>, linux-renesas-soc@vger.kernel.org,
+	Conor Dooley <conor.dooley@microchip.com>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	Lee Jones <lee@kernel.org>
+Subject: Re: [PATCH v6 RESEND 3/6] dt-bindings: input: Convert da906{1,2,3}
+ onkey to json-schema
+Message-ID: <ZbrVifc-HW8QDy4W@google.com>
+References: <20240131102656.3379-1-biju.das.jz@bp.renesas.com>
+ <20240131102656.3379-4-biju.das.jz@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Kernelci-Tree: renesas
-X-Kernelci-Branch: master
-X-Kernelci-Kernel: renesas-devel-2024-01-31-v6.8-rc2
-X-Kernelci-Report-Type: test
-Subject: renesas/master baseline-nfs: 22 runs,
- 2 regressions (renesas-devel-2024-01-31-v6.8-rc2)
-To: linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
-From: "kernelci.org bot" <bot@kernelci.org>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240131102656.3379-4-biju.das.jz@bp.renesas.com>
 
-renesas/master baseline-nfs: 22 runs, 2 regressions (renesas-devel-2024-01-=
-31-v6.8-rc2)
+On Wed, Jan 31, 2024 at 10:26:53AM +0000, Biju Das wrote:
+> Convert the da906{1,2,3} onkey device tree binding documentation to
+> json-schema.
+> 
+> Update MAINTAINERS entries, description and onkey property by
+> referring to dlg,da9062-onkey binding file.
+> 
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
+> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> Acked-by: Lee Jones <lee@kernel.org>
 
-Regressions Summary
--------------------
+Acked-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 
-platform              | arch  | lab             | compiler | defconfig     =
-     | regressions
-----------------------+-------+-----------------+----------+---------------=
------+------------
-dove-cubox            | arm   | lab-pengutronix | gcc-10   | multi_v7_defco=
-nfig | 1          =
+Thanks.
 
-kontron-kbox-a-230-ls | arm64 | lab-kontron     | gcc-10   | defconfig     =
-     | 1          =
-
-
-  Details:  https://kernelci.org/test/job/renesas/branch/master/kernel/rene=
-sas-devel-2024-01-31-v6.8-rc2/plan/baseline-nfs/
-
-  Test:     baseline-nfs
-  Tree:     renesas
-  Branch:   master
-  Describe: renesas-devel-2024-01-31-v6.8-rc2
-  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-d=
-evel.git
-  SHA:      7d7dc8c44825e8fc58f8d9e23b06b9b82183fd67 =
-
-
-
-Test Regressions
----------------- =
-
-
-
-platform              | arch  | lab             | compiler | defconfig     =
-     | regressions
-----------------------+-------+-----------------+----------+---------------=
------+------------
-dove-cubox            | arm   | lab-pengutronix | gcc-10   | multi_v7_defco=
-nfig | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/65ba894a73768ef4d300a03b
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: multi_v7_defconfig
-  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
-10110)
-  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
-024-01-31-v6.8-rc2/arm/multi_v7_defconfig/gcc-10/lab-pengutronix/baseline-n=
-fs-dove-cubox.txt
-  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
-024-01-31-v6.8-rc2/arm/multi_v7_defconfig/gcc-10/lab-pengutronix/baseline-n=
-fs-dove-cubox.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
-230623.0/armhf/initrd.cpio.gz =
-
-
-
-  * baseline-nfs.login: https://kernelci.org/test/case/id/65ba894a73768ef4d=
-300a03c
-        failing since 78 days (last pass: renesas-devel-2023-06-26-v6.4, fi=
-rst fail: renesas-devel-2023-11-13-v6.7-rc1) =
-
- =
-
-
-
-platform              | arch  | lab             | compiler | defconfig     =
-     | regressions
-----------------------+-------+-----------------+----------+---------------=
------+------------
-kontron-kbox-a-230-ls | arm64 | lab-kontron     | gcc-10   | defconfig     =
-     | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/65ba89f415e7cc638000a042
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: defconfig
-  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
-110)
-  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
-024-01-31-v6.8-rc2/arm64/defconfig/gcc-10/lab-kontron/baseline-nfs-kontron-=
-kbox-a-230-ls.txt
-  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
-024-01-31-v6.8-rc2/arm64/defconfig/gcc-10/lab-kontron/baseline-nfs-kontron-=
-kbox-a-230-ls.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
-230623.0/arm64/initrd.cpio.gz =
-
-
-
-  * baseline-nfs.login: https://kernelci.org/test/case/id/65ba89f415e7cc638=
-000a043
-        failing since 9 days (last pass: renesas-devel-2024-01-08-v6.7, fir=
-st fail: renesas-devel-2024-01-22-v6.8-rc1) =
-
- =20
+-- 
+Dmitry
 
