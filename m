@@ -1,72 +1,72 @@
-Return-Path: <linux-renesas-soc+bounces-2106-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-2107-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7CF70843993
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 31 Jan 2024 09:47:54 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 69F6F843996
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 31 Jan 2024 09:48:25 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id E64151F29D0E
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 31 Jan 2024 08:47:53 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A4B93B27BBF
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 31 Jan 2024 08:48:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B58DD7BAFD;
-	Wed, 31 Jan 2024 08:42:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5C9A97D414;
+	Wed, 31 Jan 2024 08:42:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="bm4NH0oE"
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="IpHUfG7v"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com [209.85.208.182])
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43EE179DB6
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 31 Jan 2024 08:42:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E30597B3E3
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 31 Jan 2024 08:42:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706690528; cv=none; b=HFDi5oWywcDHhpL4VHPjmfn3ALBCe1Fu742WEgLKBbmeJ7D1vCQpBiHOsad/+eXrUs3cXiqCH0yK8sHYwJ8LdiuSFcKdMD60mXU55z+1waUXhz79ELIyXKi/vJelZezR4BF/Fy5bbde2fJA+nPURSNS8nxn7UUEq1qYA+PiLKH0=
+	t=1706690530; cv=none; b=HHycTnreTkkFI+myss0WFtxq1HkG9mqXoG2+t/VNhD7Np4MFGaM57JUduoWId2hX8sfuQ0A7jtt9J4igLCNpWsE/yvL8Y5t5r+3AwuROiBKtm8NSTdgsWljlZfmKPgTlYRob4SN2ZIwtBajZkHvqwMCfB1pe7AclnTo1qif/Opg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706690528; c=relaxed/simple;
-	bh=SMFD2wooseUV4EjGWpE317D8OQSKSM0pSKR/g7N9T7Y=;
+	s=arc-20240116; t=1706690530; c=relaxed/simple;
+	bh=M4XElsAbkAPToo3ZEnKBpvLmehS5jEZzhlJpMuxS2lc=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=baSXfH8GVbvzQ9shYQVnx/2gpcqJ5EdiMMyr7pzoeF5wy8hCixvT9psd+zUyewxokz0CQ1Icqq3pxFy6+QCxVQb/lKkhPUVsb03/Jp3pldSvVfTS361VwLZOW+zt7BceSECr58YY6H9ttiZMiE9xToXg8ACYaOpNAt5cpYearV4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=bm4NH0oE; arc=none smtp.client-ip=209.85.208.182
+	 MIME-Version; b=MxJa2kEjmc9SZhkvsoluAxuAeIpZ9gv1GchK4SqSh2aSK/SOU1P0/9o+CbAsJmYcIMv0fbCHPHCOUUPKfxcMMGMEA4Or7yp+HW/kswoj4FM+afTso+MjPZ4Qi+FWRWK6gOPaHRDLQuSew52ToKtjpwACCcvD0fSKfIm+ByKwC/g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=IpHUfG7v; arc=none smtp.client-ip=209.85.208.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
-Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-2cf4a22e10dso57909481fa.3
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 31 Jan 2024 00:42:06 -0800 (PST)
+Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-55c2cf644f3so5036705a12.1
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 31 Jan 2024 00:42:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1706690524; x=1707295324; darn=vger.kernel.org;
+        d=tuxon.dev; s=google; t=1706690526; x=1707295326; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=j4P3NNUndOj/U3jAxOrkBuhZxASPQ1uf/KZV1iCgPUY=;
-        b=bm4NH0oE3y+H9/a12wqU+uye9zHea82rWi2hXLGjmXTE90aKKQGz5iBzMb7Bml1pl7
-         8TCnUoR0OZFKI7kOH1sVXf2016yzi9OZQVYG2ZduWATZDLKuGvYgobtzttSDxnGEeUhX
-         DWqL1IQLgqyjbZLY4HDr/kZw82rDBJ0GxPCWPCtBaKAGHqwhRRTzCx1j6eZuNFEDyUmG
-         6n3XwhNjWUaNHF12LwQucO+ne/gcpTtbOXBpFLehSvbTNNEVYn5nu8QQVZXhENYVjUEL
-         ACmNMVKQrVOGcyMX00ZXCTHkNgKqEwvasQK8+BZ6ZNTq9kkBxMQXiV0FiDyoRNeHxs21
-         6gIg==
+        bh=E1XrNomjmra/GM8RS/lknacwokF475kMeMhwWZ3EcPk=;
+        b=IpHUfG7vGrYoMGri/XmbloOWvDcKQ9AFzDYOQ92wu4KCpW1cbM2Px27HrdVYIJd+Eq
+         zHLXboJ+ZgY/cRoPLGoKEHiymO2GtyH9RJkdHWzVo050pyjLp434PA7uQp3kf6RNLLbX
+         uaL14BScifZSILXbfD2M0fKUvvodRjAB5Qsv+S3Vab4tKL7tgqMJWwOO/AJsQ5kxvIrA
+         gYE8nOo/BCrlmVU15EKn/iEBtGpRJidIa+h3spZQNZFZ4CJQ6lv8LSkzSZqkep8FgXwf
+         lgJJZuuYBONWGxdrPHdtVy6U4xY53qFUJTDnk0fYHTWY078LMZFVoTBUoOOUA5mdSs+o
+         rs9Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706690524; x=1707295324;
+        d=1e100.net; s=20230601; t=1706690526; x=1707295326;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=j4P3NNUndOj/U3jAxOrkBuhZxASPQ1uf/KZV1iCgPUY=;
-        b=Koqff0XhUOheDUwbaFePIOmW7CjBU5N7/gO3ycEv5CynyrSxoRyDIYJqgIh4fLrEB2
-         RZrm0mG1Zdg48CH/S1ng2utRQjRUCAArzWGO8hDtqucivK03QzinR1HULCpIXfl1TYal
-         KN51fXgLjiDKxwZgm1sKooXadAZD+U3CMafeGwaa9VhZVcNUZaGgYz5J/MyYQ0sELVoH
-         lec7e/btnNCsHe5OFhc35JUxH9TJ0VKBhgnVo9cl4nCMtBhoqWe9VjJMGI77q/cp89Z7
-         g9ZW475XnZwdIdA1Rs0APwh7eLupaibbXqKElkCARCLDq4VTk1XyGLR/oQU6cCPGmFKV
-         dDWg==
-X-Gm-Message-State: AOJu0YxgF+rS915BMun4bFtYjhr/zOxwEfupMOtftAfuUCwsgHkCxpOm
-	fU/o2QSGJ2CtqY2HZ+ga8npfS5UJH5WSScCOwNZbJzf8Eoy+3FtL3lVek/0QgVA=
-X-Google-Smtp-Source: AGHT+IEiL482XuRa8KwAmlwH28GEu/fJYWXxZ+wtgFd+vKtDuH84PyPSa2bjesp31jrgpOFmZFaEcQ==
-X-Received: by 2002:a05:651c:221c:b0:2d0:604d:fda6 with SMTP id y28-20020a05651c221c00b002d0604dfda6mr814787ljq.44.1706690523545;
-        Wed, 31 Jan 2024 00:42:03 -0800 (PST)
-X-Forwarded-Encrypted: i=0; AJvYcCXrqLJw9JLWNup24eFLJBtSBvdaq8f/dNVorTAyKDfd5NoIXrdnwnkl6AVlqcBGvNUakV7rbez6nz+Prdy4WZr+QWhdnok1VXiZcPDWFsT1c0QE06g++9XfhA7XqGDqPiGw7SfgxTS6NIP5tjnraa8j3W8I0xeeU2w9K/uYk687RzKWp2OYlhHjBJqCzQ7fE92V4BJJDbTgUYv3YfsvtyXCn3TTElv00VCSgEsDNJDn1fVg2aYLxSDaNWaaeKH8j5Dht2RXCZxYCApPb9LJPU6Utqg9QNwozTFSEJB1kQBdztPmccL4l4x602pGASxZYku8GMg8K6Xuw07THbDX0GK4wb6yqY3/RcxaqxlbsUH+Py4PNDWL5eA18CXk4xZPmylN5quXnNu6tHbrIckKvI7c4tFkvbgGDVVJkEe0XVA80yW4DIw=
+        bh=E1XrNomjmra/GM8RS/lknacwokF475kMeMhwWZ3EcPk=;
+        b=H9OV1d30r2F42L30NGELq7SaBl1Ouq3E0AZ9+OaMD5dCZxzVBsdThCi9wE7UALooMs
+         9tnXknOMgqIuYcwiVGoNBs1FUbBrrQHGtlR8yR8DNNo/k1TBP/pFk0W+46tXc4receiU
+         WF58eRx6hC78/gNKXYiIarLocNY60Yd4zgn4u5moXuXmY50x/E20kgup2yKOJDh21j5m
+         j+GXN6lGtNU1NiGqRr0OT6Q0qqekQwhgdpMV17O2XinrIwa+uhBfWjrkM9wckHWddF6J
+         5m29/h21SXYmMp7wSqf+J4yfloOb7zwlryg3DpcAvvql1sBw4zp+ZhsAQYwdsepQowTN
+         hLEw==
+X-Gm-Message-State: AOJu0YyHXtCJQhon7V9IVOVE8wITRidUybbTeNScdQsYhdTx5C1tgiBn
+	Iv8/b6rvmYs9x4nkdhzCPJdSyLETaoR/Q6cmbOZxlDpV9LZEa+JzkkK2mKM4hhI=
+X-Google-Smtp-Source: AGHT+IEYcNtSIIzLCU/TMm9w1bEGYlnXRZN3KzRwiFoYa83jrAWMHaIWWxOlkyinI5M2+MzKlTNT+g==
+X-Received: by 2002:a05:6402:1cad:b0:55f:82b:2da3 with SMTP id cz13-20020a0564021cad00b0055f082b2da3mr561401edb.22.1706690525968;
+        Wed, 31 Jan 2024 00:42:05 -0800 (PST)
+X-Forwarded-Encrypted: i=0; AJvYcCXIkeN+/q/7fkLe7PzMiRTrGGYp00Bgy3bQ1jPEuKPEBJVX0h37D/hMWLvhlSkSi/f13QSgf+r+BRMOgXxH2a6200kHM1DYhsUJAYuPrh+rbrACpP24O0qT5nlfxcDfkhTSEYigBHk9WPIqNVGzy9itC6VRSD6ZM1TfbPIlUSq3J48kjLfI4HMJy0NaWMPPtGVnHq8NwXx8klz1JZY0Q3wBlpSgklAgzL1FuUmw9Dk+JQnTPWmfWMRX4x6r5HlVt1p4uNCk2AwybR+1C1+9FID1AXV+1CbZiZQhaYKIfgfSUJXhmrQHcocU6CSpuKjHJENER11RspvZ3awkm5ws8gSx+02Joy+fx4+IfcaVqF2QmJ8kX2UsBRZQXPGQYRlqCKdibrNBG1lMKzAyZkHH6xN444BHhbTPURQnrRaOj4AcTId80Hw=
 Received: from claudiu-X670E-Pro-RS.. ([82.78.167.87])
-        by smtp.gmail.com with ESMTPSA id cq16-20020a056402221000b0055f02661ae2sm2863630edb.78.2024.01.31.00.42.02
+        by smtp.gmail.com with ESMTPSA id cq16-20020a056402221000b0055f02661ae2sm2863630edb.78.2024.01.31.00.42.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 31 Jan 2024 00:42:03 -0800 (PST)
+        Wed, 31 Jan 2024 00:42:05 -0800 (PST)
 From: Claudiu <claudiu.beznea@tuxon.dev>
 X-Google-Original-From: Claudiu <claudiu.beznea.uj@bp.renesas.com>
 To: s.shtylyov@omp.ru,
@@ -82,9 +82,9 @@ Cc: netdev@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	claudiu.beznea@tuxon.dev,
 	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-Subject: [PATCH net-next v5 13/15] net: ravb: Set config mode in ndo_open and reset mode in ndo_close
-Date: Wed, 31 Jan 2024 10:41:31 +0200
-Message-Id: <20240131084133.1671440-14-claudiu.beznea.uj@bp.renesas.com>
+Subject: [PATCH net-next v5 14/15] net: ravb: Simplify ravb_suspend()
+Date: Wed, 31 Jan 2024 10:41:32 +0200
+Message-Id: <20240131084133.1671440-15-claudiu.beznea.uj@bp.renesas.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20240131084133.1671440-1-claudiu.beznea.uj@bp.renesas.com>
 References: <20240131084133.1671440-1-claudiu.beznea.uj@bp.renesas.com>
@@ -98,197 +98,63 @@ Content-Transfer-Encoding: 8bit
 
 From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 
-As some IP variants switch to reset mode (and thus the register contents is
-lost) when setting clocks (due to module standby functionality) to be able
-to implement runtime PM and save more power, set the IP's operating mode to
-reset at the end of the probe. Along with it, in the ndo_open API the IP
-will be switched to configuration, then operation mode. In the ndo_close
-API, the IP will be switched back to reset mode. This allows implementing
-runtime PM and, along with it, save more power when the IP is not used.
+As ravb_close() contains now the call to ravb_ptp_stop() for both ccc_gac
+and gPTP aware platforms, there is no need to keep the separate call in
+ravb_suspend(). Instead, move it to ravb_wol_setup(). In this way the
+resulting code is cleaner.
 
 Reviewed-by: Sergey Shtylyov <s.shtylyov@omp.ru>
 Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 ---
 
 Changes in v5:
-- fixed typos in patch description
-- collected tags
+- none
 
 Changes in v4:
-- set config mode before reading mac address
+- none
 
 Changes in v3:
 - fixed typos in patch description
-- in ravb_probe() switch the hardware to reset mode just after phy
-  initialization
+- collected tags
 
 Changes in v2:
 - none; this patch is new
 
- drivers/net/ethernet/renesas/ravb_main.c | 78 ++++++++++++++----------
- 1 file changed, 46 insertions(+), 32 deletions(-)
+ drivers/net/ethernet/renesas/ravb_main.c | 13 ++++++-------
+ 1 file changed, 6 insertions(+), 7 deletions(-)
 
 diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
-index 54099fef946e..0dab98ea615a 100644
+index 0dab98ea615a..661236affa5b 100644
 --- a/drivers/net/ethernet/renesas/ravb_main.c
 +++ b/drivers/net/ethernet/renesas/ravb_main.c
-@@ -1756,6 +1756,27 @@ static const struct ethtool_ops ravb_ethtool_ops = {
- 	.set_wol		= ravb_set_wol,
- };
+@@ -2929,6 +2929,9 @@ static int ravb_wol_setup(struct net_device *ndev)
+ 	/* Enable MagicPacket */
+ 	ravb_modify(ndev, ECMR, ECMR_MPDE, ECMR_MPDE);
  
-+static int ravb_set_config_mode(struct net_device *ndev)
-+{
-+	struct ravb_private *priv = netdev_priv(ndev);
-+	const struct ravb_hw_info *info = priv->info;
-+	int error;
++	if (priv->info->ccc_gac)
++		ravb_ptp_stop(ndev);
 +
-+	if (info->gptp) {
-+		error = ravb_set_opmode(ndev, CCC_OPC_CONFIG);
-+		if (error)
-+			return error;
-+		/* Set CSEL value */
-+		ravb_modify(ndev, CCC, CCC_CSEL, CCC_CSEL_HPB);
-+	} else if (info->ccc_gac) {
-+		error = ravb_set_opmode(ndev, CCC_OPC_CONFIG | CCC_GAC | CCC_CSEL_HPB);
-+	} else {
-+		error = ravb_set_opmode(ndev, CCC_OPC_CONFIG);
-+	}
-+
-+	return error;
-+}
-+
- static void ravb_set_gti(struct net_device *ndev)
- {
- 	struct ravb_private *priv = netdev_priv(ndev);
-@@ -1864,13 +1885,19 @@ static int ravb_open(struct net_device *ndev)
- 	if (info->nc_queues)
- 		napi_enable(&priv->napi[RAVB_NC]);
- 
-+	/* Set AVB config mode */
-+	error = ravb_set_config_mode(ndev);
-+	if (error)
-+		goto out_napi_off;
-+
- 	ravb_set_delay_mode(ndev);
- 	ravb_write(ndev, priv->desc_bat_dma, DBAT);
- 
- 	/* Device init */
- 	error = ravb_dmac_init(ndev);
- 	if (error)
--		goto out_napi_off;
-+		goto out_set_reset;
-+
- 	ravb_emac_init(ndev);
- 
- 	ravb_set_gti(ndev);
-@@ -1893,6 +1920,8 @@ static int ravb_open(struct net_device *ndev)
- 	if (info->gptp || info->ccc_gac)
- 		ravb_ptp_stop(ndev);
- 	ravb_stop_dma(ndev);
-+out_set_reset:
-+	ravb_set_opmode(ndev, CCC_OPC_RESET);
- out_napi_off:
- 	if (info->nc_queues)
- 		napi_disable(&priv->napi[RAVB_NC]);
-@@ -2236,7 +2265,8 @@ static int ravb_close(struct net_device *ndev)
- 	if (info->nc_queues)
- 		ravb_ring_free(ndev, RAVB_NC);
- 
--	return 0;
-+	/* Set reset mode. */
-+	return ravb_set_opmode(ndev, CCC_OPC_RESET);
+ 	return enable_irq_wake(priv->emac_irq);
  }
  
- static int ravb_hwtstamp_get(struct net_device *ndev, struct ifreq *req)
-@@ -2566,27 +2596,6 @@ static const struct of_device_id ravb_match_table[] = {
- };
- MODULE_DEVICE_TABLE(of, ravb_match_table);
+@@ -2961,14 +2964,10 @@ static int ravb_suspend(struct device *dev)
+ 	netif_device_detach(ndev);
  
--static int ravb_set_config_mode(struct net_device *ndev)
--{
--	struct ravb_private *priv = netdev_priv(ndev);
--	const struct ravb_hw_info *info = priv->info;
--	int error;
+ 	if (priv->wol_enabled)
+-		ret = ravb_wol_setup(ndev);
+-	else
+-		ret = ravb_close(ndev);
++		return ravb_wol_setup(ndev);
+ 
+-	if (priv->info->ccc_gac)
+-		ravb_ptp_stop(ndev);
 -
--	if (info->gptp) {
--		error = ravb_set_opmode(ndev, CCC_OPC_CONFIG);
--		if (error)
--			return error;
--		/* Set CSEL value */
--		ravb_modify(ndev, CCC, CCC_CSEL, CCC_CSEL_HPB);
--	} else if (info->ccc_gac) {
--		error = ravb_set_opmode(ndev, CCC_OPC_CONFIG | CCC_GAC | CCC_CSEL_HPB);
--	} else {
--		error = ravb_set_opmode(ndev, CCC_OPC_CONFIG);
--	}
--
--	return error;
--}
--
- static int ravb_setup_irq(struct ravb_private *priv, const char *irq_name,
- 			  const char *ch, int *irq, irq_handler_t handler)
- {
-@@ -2785,11 +2794,6 @@ static int ravb_probe(struct platform_device *pdev)
- 	ndev->netdev_ops = &ravb_netdev_ops;
- 	ndev->ethtool_ops = &ravb_ethtool_ops;
+-	if (priv->wol_enabled)
++	ret = ravb_close(ndev);
++	if (ret)
+ 		return ret;
  
--	/* Set AVB config mode */
--	error = ravb_set_config_mode(ndev);
--	if (error)
--		goto out_rpm_put;
--
- 	error = ravb_compute_gti(ndev);
- 	if (error)
- 		goto out_rpm_put;
-@@ -2816,6 +2820,11 @@ static int ravb_probe(struct platform_device *pdev)
- 	/* Debug message level */
- 	priv->msg_enable = RAVB_DEF_MSG_ENABLE;
- 
-+	/* Set config mode as this is needed for PHY initialization. */
-+	error = ravb_set_opmode(ndev, CCC_OPC_CONFIG);
-+	if (error)
-+		goto out_rpm_put;
-+
- 	/* Read and set MAC address */
- 	ravb_read_mac_address(np, ndev);
- 	if (!is_valid_ether_addr(ndev->dev_addr)) {
-@@ -2828,9 +2837,14 @@ static int ravb_probe(struct platform_device *pdev)
- 	error = ravb_mdio_init(priv);
- 	if (error) {
- 		dev_err(&pdev->dev, "failed to initialize MDIO\n");
--		goto out_dma_free;
-+		goto out_reset_mode;
- 	}
- 
-+	/* Undo previous switch to config opmode. */
-+	error = ravb_set_opmode(ndev, CCC_OPC_RESET);
-+	if (error)
-+		goto out_mdio_release;
-+
- 	netif_napi_add(ndev, &priv->napi[RAVB_BE], ravb_poll);
- 	if (info->nc_queues)
- 		netif_napi_add(ndev, &priv->napi[RAVB_NC], ravb_poll);
-@@ -2853,8 +2867,10 @@ static int ravb_probe(struct platform_device *pdev)
- 		netif_napi_del(&priv->napi[RAVB_NC]);
- 
- 	netif_napi_del(&priv->napi[RAVB_BE]);
-+out_mdio_release:
- 	ravb_mdio_release(priv);
--out_dma_free:
-+out_reset_mode:
-+	ravb_set_opmode(ndev, CCC_OPC_RESET);
- 	dma_free_coherent(ndev->dev.parent, priv->desc_bat_size, priv->desc_bat,
- 			  priv->desc_bat_dma);
- out_rpm_put:
-@@ -2885,8 +2901,6 @@ static void ravb_remove(struct platform_device *pdev)
- 	dma_free_coherent(ndev->dev.parent, priv->desc_bat_size, priv->desc_bat,
- 			  priv->desc_bat_dma);
- 
--	ravb_set_opmode(ndev, CCC_OPC_RESET);
--
- 	pm_runtime_put_sync(&pdev->dev);
- 	pm_runtime_disable(&pdev->dev);
- 	clk_unprepare(priv->refclk);
+ reset_assert:
 -- 
 2.39.2
 
