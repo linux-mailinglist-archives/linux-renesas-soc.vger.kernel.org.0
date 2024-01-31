@@ -1,278 +1,188 @@
-Return-Path: <linux-renesas-soc+bounces-2176-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-2177-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92BFA84484B
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 31 Jan 2024 20:51:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 536548448A5
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 31 Jan 2024 21:19:03 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id BD62F1F272B8
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 31 Jan 2024 19:51:52 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id BB41C1F23B70
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 31 Jan 2024 20:19:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 996733EA96;
-	Wed, 31 Jan 2024 19:51:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9125F3EA9B;
+	Wed, 31 Jan 2024 20:18:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernelci-org.20230601.gappssmtp.com header.i=@kernelci-org.20230601.gappssmtp.com header.b="Q5dsLmhH"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mx01.omp.ru (mx01.omp.ru [90.154.21.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D8903EA7B;
-	Wed, 31 Jan 2024 19:51:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.154.21.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3F083FB1B
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 31 Jan 2024 20:18:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706730704; cv=none; b=dYJ1fJDWwy33sAb/PB8YWZHYm+X7tBpZ+GCSyybHObh6/URdyzIp3+z1E0qkTZuuiHxBqDcZrrxf1eQW7MeJO8y6mxdFxaL9exQXYl8pktZsjmrjCMuKC+UU13lYuchM7jObZ66qWUQLzuCQWOjUieZPM41tne71JXDV1s0+KJw=
+	t=1706732339; cv=none; b=I6I6pWh01bdkUMbqw2em7N8VP3sbkPBg1LFg+xD7pcW/VAB+0HKPbsl7H0T6FzvdHwKxmg/AIZf1suS6AP1HDE+N7cl3RQl4g2thCM9xRwubIWUPMrAfy+zxE+7NSc0XTosLuI7R93xTF+Gi1ZlssgjGB/c0hXdIgH623gqb2Vo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706730704; c=relaxed/simple;
-	bh=M6wSqmB0Z4qDqXRKTry7u9uVyCw99+NA5tEi+4ltQBU=;
-	h=Subject:To:CC:References:From:Message-ID:Date:MIME-Version:
-	 In-Reply-To:Content-Type; b=QRGU4hM5vn2UuOf06Q0xpWAf7BLZsGuMy7KObnWcY15bueDiz7IExhFcFKNDUOHOWGlcU1EM+BZwhTklm9RT+a4C6Cj8iMU+abOqNJa+z/fs5uvm/YaX9KeY1Wj6nsf1mFTfNkIOAoRfxvtvS3CQLGyX48FudRFt1ZP/ekOSZoE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=omp.ru; spf=pass smtp.mailfrom=omp.ru; arc=none smtp.client-ip=90.154.21.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=omp.ru
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=omp.ru
-Received: from [192.168.1.105] (31.173.81.146) by msexch01.omp.ru
- (10.188.4.12) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.1258.12; Wed, 31 Jan
- 2024 22:51:29 +0300
-Subject: Re: [PATCH net-next v5 08/15] net: ravb: Move the IRQs
- getting/requesting in the probe() method
-To: Claudiu <claudiu.beznea@tuxon.dev>, <davem@davemloft.net>,
-	<edumazet@google.com>, <kuba@kernel.org>, <pabeni@redhat.com>,
-	<richardcochran@gmail.com>, <p.zabel@pengutronix.de>,
-	<geert+renesas@glider.be>
-CC: <netdev@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, Claudiu Beznea
-	<claudiu.beznea.uj@bp.renesas.com>
-References: <20240131084133.1671440-1-claudiu.beznea.uj@bp.renesas.com>
- <20240131084133.1671440-9-claudiu.beznea.uj@bp.renesas.com>
-From: Sergey Shtylyov <s.shtylyov@omp.ru>
-Organization: Open Mobile Platform
-Message-ID: <5536e607-e03b-f38e-2909-a6f6a126ff0d@omp.ru>
-Date: Wed, 31 Jan 2024 22:51:28 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+	s=arc-20240116; t=1706732339; c=relaxed/simple;
+	bh=w4VQ4rxIBHJhrvlHmE5AmfUjaGZ0pQSML2lYveNe+S0=;
+	h=Message-ID:Date:Content-Type:MIME-Version:Subject:To:From; b=e4V0rBxsk+8BxbgrhHRamprHI1iWnUWsBlfHKwczFpEfbPYWDUTcHJYu/tPRpzfEptMQNAxnQfrkFrvtZGzs4FilXoWmmbDdXKJhtViqN+WOc88JAOfNAHEaBd46nJVrY6XEM7oh/4tD+lM05TbV99a/azOQAphCRMBsx3/bmTs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernelci.org; spf=none smtp.mailfrom=kernelci.org; dkim=pass (2048-bit key) header.d=kernelci-org.20230601.gappssmtp.com header.i=@kernelci-org.20230601.gappssmtp.com header.b=Q5dsLmhH; arc=none smtp.client-ip=209.85.210.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernelci.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=kernelci.org
+Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-6ddc0c02665so112480b3a.0
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 31 Jan 2024 12:18:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernelci-org.20230601.gappssmtp.com; s=20230601; t=1706732336; x=1707337136; darn=vger.kernel.org;
+        h=from:to:subject:content-transfer-encoding:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=xnw8Gxjerg9ozB+W6wWx1Snru9LGqBwYoEaXXHPXbxM=;
+        b=Q5dsLmhHGlQ+PIS7FUw+jpQKOsSVM+A2pWssRo+ZGW58E0oLM2trwvSlYH19XUF5E9
+         3y+081wF1twSfFyoNF8DFHC47Zv8nBLLAsD8Qng6JWGd+plGwexbFoF0GdG4COEa6ZiG
+         4XtcMfhCsA90KzyxaNja3NmzTPtDviHD3+/sdp7B+etwjivvoQHi68QJXYRX9CbnfThn
+         EjtQhrtjzijuKMDPIg3u8g1ini3PbnK9lnQcMRPfjNYKPSxN8Dj75kY1FRxDXvV6X4dL
+         gzTfwLjpjrq4sZBRX25AXkpfvxZEdrhtLWakfqRNBI2Wuek1oiMyYxn0CsNLuWhAOUpH
+         82Sg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1706732336; x=1707337136;
+        h=from:to:subject:content-transfer-encoding:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=xnw8Gxjerg9ozB+W6wWx1Snru9LGqBwYoEaXXHPXbxM=;
+        b=C30XEo1L7bQf36dtUx5XWDFXT2M7PToa0itAOflOIYDtLKmc1KWj63sOreCJvFawzz
+         73+vYdzxdq+E/Ro9jeeF3NcX9QGErnT0uHzmuicQAJckElJuZfR5tOQp3kT6GsofVyRq
+         RDP0bFLPDdA9BND7/+14pHKbZj6KBAVJhZgz8yro/iWgSaIxiMQfmrzrPB2A7BRWt8/o
+         euqSIy71wPQO+9U5GdHd0hJc1Fi2+bkcxKV43XY5zv2woJZhc9PYeYo72YgjSPr6z+EX
+         g/kV+ad88a4H/YsYQe7J/IcDNGXQMoQ43edcy78G/ervvlJr6Gwe02QWGvPEtAxMxKt+
+         YNmw==
+X-Gm-Message-State: AOJu0YxFfFBc/neOY8K11X08dCl8IlkXWo0wJvi+ATcakRe9Tw3Ge54Q
+	91xNWrL8XrTs2wxPeb7d6gikynCOxcYw0d1SVuYdiu/M4HM3FfxqSKQ6I0+fIre1sB5+KJ25Cuj
+	c
+X-Google-Smtp-Source: AGHT+IG4BV7Ukw8xjNiiKVY3sRPOCAZcDppDRI82z6cUF0uAwpaVqV26aocpoCYIARrT4pQheTW9gQ==
+X-Received: by 2002:a05:6a21:998b:b0:19c:8d73:7213 with SMTP id ve11-20020a056a21998b00b0019c8d737213mr3180776pzb.11.1706732336605;
+        Wed, 31 Jan 2024 12:18:56 -0800 (PST)
+X-Forwarded-Encrypted: i=0; AJvYcCWdHxc+vOzOl1hsrF1R7UbQ4KIsaBsZXdNydH5WXlNwf1wCYpUooOnopsB3TWNfDSjZUhlUdK6iAjIMCEVqoJiHBLlhCgqEMoyLDA==
+Received: from kernelci-production.internal.cloudapp.net ([20.171.243.82])
+        by smtp.gmail.com with ESMTPSA id mf12-20020a170902fc8c00b001d8fc6fe1f6sm1511220plb.63.2024.01.31.12.18.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 31 Jan 2024 12:18:56 -0800 (PST)
+Message-ID: <65baab30.170a0220.52291.5860@mx.google.com>
+Date: Wed, 31 Jan 2024 12:18:56 -0800 (PST)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <20240131084133.1671440-9-claudiu.beznea.uj@bp.renesas.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: msexch01.omp.ru (10.188.4.12) To msexch01.omp.ru
- (10.188.4.12)
-X-KSE-ServerInfo: msexch01.omp.ru, 9
-X-KSE-AntiSpam-Interceptor-Info: scan successful
-X-KSE-AntiSpam-Version: 6.1.0, Database issued on: 01/31/2024 19:37:01
-X-KSE-AntiSpam-Status: KAS_STATUS_NOT_DETECTED
-X-KSE-AntiSpam-Method: none
-X-KSE-AntiSpam-Rate: 59
-X-KSE-AntiSpam-Info: Lua profiles 183090 [Jan 31 2024]
-X-KSE-AntiSpam-Info: Version: 6.1.0.3
-X-KSE-AntiSpam-Info: Envelope from: s.shtylyov@omp.ru
-X-KSE-AntiSpam-Info: LuaCore: 7 0.3.7 6d6bf5bd8eea7373134f756a2fd73e9456bb7d1a
-X-KSE-AntiSpam-Info: {rep_avail}
-X-KSE-AntiSpam-Info: {Tracking_from_domain_doesnt_match_to}
-X-KSE-AntiSpam-Info: {relay has no DNS name}
-X-KSE-AntiSpam-Info: {SMTP from is not routable}
-X-KSE-AntiSpam-Info: {Found in DNSBL: 31.173.81.146 in (user)
- b.barracudacentral.org}
-X-KSE-AntiSpam-Info:
-	d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;127.0.0.199:7.1.2;omp.ru:7.1.1
-X-KSE-AntiSpam-Info: ApMailHostAddress: 31.173.81.146
-X-KSE-AntiSpam-Info: {DNS response errors}
-X-KSE-AntiSpam-Info: Rate: 59
-X-KSE-AntiSpam-Info: Status: not_detected
-X-KSE-AntiSpam-Info: Method: none
-X-KSE-AntiSpam-Info: Auth:dmarc=temperror header.from=omp.ru;spf=temperror
- smtp.mailfrom=omp.ru;dkim=none
-X-KSE-Antiphishing-Info: Clean
-X-KSE-Antiphishing-ScanningType: Heuristic
-X-KSE-Antiphishing-Method: None
-X-KSE-Antiphishing-Bases: 01/31/2024 19:42:00
-X-KSE-Antivirus-Interceptor-Info: scan successful
-X-KSE-Antivirus-Info: Clean, bases: 1/31/2024 10:54:00 AM
-X-KSE-Attachment-Filter-Triggered-Rules: Clean
-X-KSE-Attachment-Filter-Triggered-Filters: Clean
-X-KSE-BulkMessagesFiltering-Scan-Result: InTheLimit
+Content-Transfer-Encoding: quoted-printable
+X-Kernelci-Tree: renesas
+X-Kernelci-Branch: next
+X-Kernelci-Kernel: renesas-next-2024-01-31-v6.8-rc1
+X-Kernelci-Report-Type: test
+Subject: renesas/next baseline-nfs: 21 runs,
+ 2 regressions (renesas-next-2024-01-31-v6.8-rc1)
+To: linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
+From: "kernelci.org bot" <bot@kernelci.org>
 
-   I said the subject needs to be changed to "net: ravb: Move getting/requesting IRQs in
-the probe() method", not "net: ravb: Move IRQs getting/requesting in the probe() method".
-That's not very proper English, AFAIK! =)
+renesas/next baseline-nfs: 21 runs, 2 regressions (renesas-next-2024-01-31-=
+v6.8-rc1)
 
-On 1/31/24 11:41 AM, Claudiu wrote:
+Regressions Summary
+-------------------
 
-> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-> 
-> The runtime PM implementation will disable clocks at the end of
-> ravb_probe(). As some IP variants switch to reset mode as a result of
-> setting module standby through clock disable APIs, to implement runtime PM
-> the resource parsing and requesting are moved in the probe function and IP
-> settings are moved in the open function. This is done because at the end of
-> the probe some IP variants will switch anyway to reset mode and the
-> registers content is lost. Also keeping only register settings operations
-> in the ravb_open()/ravb_close() functions will make them faster.
-> 
-> Commit moves IRQ requests to ravb_probe() to have all the IRQs ready when
-> the interface is open. As now IRQs getting/requesting are in a single place
+platform              | arch  | lab             | compiler | defconfig     =
+     | regressions
+----------------------+-------+-----------------+----------+---------------=
+-----+------------
+dove-cubox            | arm   | lab-pengutronix | gcc-10   | multi_v7_defco=
+nfig | 1          =
 
-   Again, "getting/requesting IRQs is done"...
+kontron-kbox-a-230-ls | arm64 | lab-kontron     | gcc-10   | defconfig     =
+     | 1          =
 
-> there is no need to keep intermediary data (like ravb_rx_irqs[] and
-> ravb_tx_irqs[] arrays or IRQs in struct ravb_private).
-> 
-> In order to avoid accessing the IP registers while the IP is runtime
-> suspended (e.g. in the timeframe b/w the probe requests shared IRQs and
-> IP clocks are enabled) in the interrupt handlers were introduced
 
-   But can't we just request our IRQs after we call pm_runtime_resume_and_get()?
-We proaobly can... but then again, we call pm_runtime_put_sync() in the remove()
-method before the IRQs are freed...  So, it still seems OK that we're adding
-pm_runtime_active() calls to the IRQ handlers in this very patch, not when we'll
-start calling the RPM APIs in the ndo_{open|close}() methods, correct? :-)
+  Details:  https://kernelci.org/test/job/renesas/branch/next/kernel/renesa=
+s-next-2024-01-31-v6.8-rc1/plan/baseline-nfs/
 
-> pm_runtime_active() checks. The device runtime PM usage counter has been
-> incremented to avoid disabling the device's clocks while the check is in
-> progress (if any).
-> 
-> This is a preparatory change to add runtime PM support for all IP variants.
-> 
-> Reviewed-by: Sergey Shtylyov <s.shtylyov@omp.ru>
-> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-[...]
+  Test:     baseline-nfs
+  Tree:     renesas
+  Branch:   next
+  Describe: renesas-next-2024-01-31-v6.8-rc1
+  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-d=
+evel.git
+  SHA:      6fc5bb9da080f9f12f2dc13647a695846cb2f8f5 =
 
-> diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
-> index e70c930840ce..f9297224e527 100644
-> --- a/drivers/net/ethernet/renesas/ravb_main.c
-> +++ b/drivers/net/ethernet/renesas/ravb_main.c
-[...]
-> @@ -1092,11 +1082,23 @@ static irqreturn_t ravb_emac_interrupt(int irq, void *dev_id)
->  {
->  	struct net_device *ndev = dev_id;
->  	struct ravb_private *priv = netdev_priv(ndev);
-> +	struct device *dev = &priv->pdev->dev;
-> +	irqreturn_t result = IRQ_HANDLED;
-> +
-> +	pm_runtime_get_noresume(dev);
-> +
 
-   Not sure we need en empty line here...
 
-> +	if (unlikely(!pm_runtime_active(dev))) {
-> +		result = IRQ_NONE;
-> +		goto out_rpm_put;
-> +	}
->  
->  	spin_lock(&priv->lock);
->  	ravb_emac_interrupt_unlocked(ndev);
->  	spin_unlock(&priv->lock);
-> -	return IRQ_HANDLED;
-> +
-> +out_rpm_put:
-> +	pm_runtime_put_noidle(dev);
-> +	return result;
->  }
->  
->  /* Error interrupt handler */
-> @@ -1176,9 +1178,15 @@ static irqreturn_t ravb_interrupt(int irq, void *dev_id)
->  	struct net_device *ndev = dev_id;
->  	struct ravb_private *priv = netdev_priv(ndev);
->  	const struct ravb_hw_info *info = priv->info;
-> +	struct device *dev = &priv->pdev->dev;
->  	irqreturn_t result = IRQ_NONE;
->  	u32 iss;
->  
-> +	pm_runtime_get_noresume(dev);
-> +
+Test Regressions
+---------------- =
 
-   And here...
 
-> +	if (unlikely(!pm_runtime_active(dev)))
-> +		goto out_rpm_put;
-> +
->  	spin_lock(&priv->lock);
->  	/* Get interrupt status */
->  	iss = ravb_read(ndev, ISS);
-[...]
-> @@ -1230,9 +1241,15 @@ static irqreturn_t ravb_multi_interrupt(int irq, void *dev_id)
->  {
->  	struct net_device *ndev = dev_id;
->  	struct ravb_private *priv = netdev_priv(ndev);
-> +	struct device *dev = &priv->pdev->dev;
->  	irqreturn_t result = IRQ_NONE;
->  	u32 iss;
->  
-> +	pm_runtime_get_noresume(dev);
-> +
 
-   Here too...
+platform              | arch  | lab             | compiler | defconfig     =
+     | regressions
+----------------------+-------+-----------------+----------+---------------=
+-----+------------
+dove-cubox            | arm   | lab-pengutronix | gcc-10   | multi_v7_defco=
+nfig | 1          =
 
-> +	if (unlikely(!pm_runtime_active(dev)))
-> +		goto out_rpm_put;
-> +
->  	spin_lock(&priv->lock);
->  	/* Get interrupt status */
->  	iss = ravb_read(ndev, ISS);
-[...]
-> @@ -1261,8 +1281,14 @@ static irqreturn_t ravb_dma_interrupt(int irq, void *dev_id, int q)
->  {
->  	struct net_device *ndev = dev_id;
->  	struct ravb_private *priv = netdev_priv(ndev);
-> +	struct device *dev = &priv->pdev->dev;
->  	irqreturn_t result = IRQ_NONE;
->  
-> +	pm_runtime_get_noresume(dev);
-> +
 
-   Here as well...
+  Details:     https://kernelci.org/test/plan/id/65ba79315914cea1b200a04e
 
-> +	if (unlikely(!pm_runtime_active(dev)))
-> +		goto out_rpm_put;
-> +
->  	spin_lock(&priv->lock);
->  
->  	/* Network control/Best effort queue RX/TX */
-[...]
-> @@ -2616,6 +2548,90 @@ static void ravb_parse_delay_mode(struct device_node *np, struct net_device *nde
->  	}
->  }
->  
-> +static int ravb_setup_irq(struct ravb_private *priv, const char *irq_name,
-> +			  const char *ch, int *irq, irq_handler_t handler)
-> +{
-> +	struct platform_device *pdev = priv->pdev;
-> +	struct net_device *ndev = priv->ndev;
-> +	struct device *dev = &pdev->dev;
-> +	const char *dev_name;
-> +	unsigned long flags;
-> +	int error;
-> +
-> +	if (irq_name) {
-> +		dev_name = devm_kasprintf(dev, GFP_KERNEL, "%s:%s", ndev->name, ch);
-> +		if (!dev_name)
-> +			return -ENOMEM;
-> +
-> +		*irq = platform_get_irq_byname(pdev, irq_name);
-> +		flags = 0;
-> +	} else {
-> +		dev_name = ndev->name;
-> +		*irq = platform_get_irq(pdev, 0);
-> +		flags = IRQF_SHARED;
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: multi_v7_defconfig
+  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
+10110)
+  Plain log:   https://storage.kernelci.org//renesas/next/renesas-next-2024=
+-01-31-v6.8-rc1/arm/multi_v7_defconfig/gcc-10/lab-pengutronix/baseline-nfs-=
+dove-cubox.txt
+  HTML log:    https://storage.kernelci.org//renesas/next/renesas-next-2024=
+-01-31-v6.8-rc1/arm/multi_v7_defconfig/gcc-10/lab-pengutronix/baseline-nfs-=
+dove-cubox.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
+230623.0/armhf/initrd.cpio.gz =
 
-   Perhaps it's worth passing flags as a parameter here instead?
 
-> +	}
-> +	if (*irq < 0)
-> +		return *irq;
-> +
-> +	error = devm_request_irq(dev, *irq, handler, flags, dev_name, ndev);
-> +	if (error)
-> +		netdev_err(ndev, "cannot request IRQ %s\n", dev_name);
-> +
-> +	return error;
-> +}
-[...]
 
-MBR, Sergey
+  * baseline-nfs.login: https://kernelci.org/test/case/id/65ba79315914cea1b=
+200a04f
+        failing since 64 days (last pass: renesas-next-2023-06-06-v6.4-rc1,=
+ first fail: renesas-next-2023-11-27-v6.7-rc1) =
+
+ =
+
+
+
+platform              | arch  | lab             | compiler | defconfig     =
+     | regressions
+----------------------+-------+-----------------+----------+---------------=
+-----+------------
+kontron-kbox-a-230-ls | arm64 | lab-kontron     | gcc-10   | defconfig     =
+     | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/65ba7b2e7cee7fa3a400a056
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: defconfig
+  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
+110)
+  Plain log:   https://storage.kernelci.org//renesas/next/renesas-next-2024=
+-01-31-v6.8-rc1/arm64/defconfig/gcc-10/lab-kontron/baseline-nfs-kontron-kbo=
+x-a-230-ls.txt
+  HTML log:    https://storage.kernelci.org//renesas/next/renesas-next-2024=
+-01-31-v6.8-rc1/arm64/defconfig/gcc-10/lab-kontron/baseline-nfs-kontron-kbo=
+x-a-230-ls.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
+230623.0/arm64/initrd.cpio.gz =
+
+
+
+  * baseline-nfs.login: https://kernelci.org/test/case/id/65ba7b2e7cee7fa3a=
+400a057
+        failing since 9 days (last pass: renesas-next-2023-11-28-v6.7-rc1, =
+first fail: renesas-next-2024-01-22-v6.8-rc1) =
+
+ =20
 
