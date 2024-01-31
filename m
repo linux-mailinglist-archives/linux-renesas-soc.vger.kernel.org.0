@@ -1,53 +1,56 @@
-Return-Path: <linux-renesas-soc+bounces-2151-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-2152-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id B698D8443BF
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 31 Jan 2024 17:10:12 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id D3ECA8443C6
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 31 Jan 2024 17:10:25 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CC62F29021C
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 31 Jan 2024 16:10:06 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 2D841B28362
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 31 Jan 2024 16:10:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9FF8E12AADE;
-	Wed, 31 Jan 2024 16:10:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7DC6B12A169;
+	Wed, 31 Jan 2024 16:10:10 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B04287BAF6;
-	Wed, 31 Jan 2024 16:10:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.172
+Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 98BAA12A148;
+	Wed, 31 Jan 2024 16:10:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706717405; cv=none; b=gP+r2CneeZmnz9x84+wMPBSUxic2FP8mo/q9sBhXXTtgaWn9WfKoxZPXpp9bGBZEQ3m4VdD0jk3DycMZLYYXEC77//4aNDCg7aEidJjQY1tzWT28yV1d7RZlLxmpZvB8A+ksg5LUan3PjW9Nh6iX8iw/N4IeGIB4D7iAKpq3yUI=
+	t=1706717410; cv=none; b=rzARPV+z0JDZU/hRiMuqNm0r7T3FLmFnbc90+tUYubOlA4Xd3YMjhbv/J5dITqa48aaE10NS6+ZDsysBdRZYEsqda/gKWp/FiKJmxTrvT9k54ZunsRV90kxczOqfrQlgjebslNN0Z6xF2zg30nbykOHkc8ydMZC1yKnER35f0fQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706717405; c=relaxed/simple;
-	bh=wfZbABjM6ffoj/xE+W20JzOuK2YWdPNXUfTx4omHDuI=;
+	s=arc-20240116; t=1706717410; c=relaxed/simple;
+	bh=12cYme6x/taHknHj3lS2U5xAwlTbyFCg7tD1Xg65RHw=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=CW39J4gEmP48mdyFkxFLW6ATqfKXZKfn3TfBAuwAt9rvnQ7c8iIMQSkMpGf1MjJDW/NWCpY1fnM2YQBd1zhbN51sfyIKJFGWrvHuYaYk34D0w0l7yDvAuYIaQABBYx+aO/4VhmOQ3JUcOuoybPpAPxXRYpkOg/67e2tDf2gy/Jg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.172
+	 MIME-Version; b=psURhYxthAARU4yO82AOPnllhZt9ydJJ6rmghdtRLH6gFd2Pn40iDoH7c+cenlUVFtOFlCRvHsmzEImj/Zq2LMNwntVaWPIUbQ3Is3MrAv2YhzPftZP4LM399uS5vBGZdBH63b8jmqXw3Jd34OHsgYephkTVFlVXbE2lbQYHUr8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
 X-IronPort-AV: E=Sophos;i="6.05,231,1701097200"; 
-   d="scan'208";a="196312860"
+   d="scan'208";a="192402259"
 Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie6.idc.renesas.com with ESMTP; 01 Feb 2024 01:10:02 +0900
+  by relmlie5.idc.renesas.com with ESMTP; 01 Feb 2024 01:10:07 +0900
 Received: from localhost.localdomain (unknown [10.226.92.227])
-	by relmlir6.idc.renesas.com (Postfix) with ESMTP id A52FD40180CD;
-	Thu,  1 Feb 2024 01:09:59 +0900 (JST)
+	by relmlir6.idc.renesas.com (Postfix) with ESMTP id 5D7774018855;
+	Thu,  1 Feb 2024 01:10:03 +0900 (JST)
 From: Biju Das <biju.das.jz@bp.renesas.com>
-To: Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>
 Cc: Biju Das <biju.das.jz@bp.renesas.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
 	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Stephen Boyd <sboyd@kernel.org>,
 	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	linux-renesas-soc@vger.kernel.org,
-	linux-clk@vger.kernel.org,
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Biju Das <biju.das.au@gmail.com>
-Subject: [PATCH RFC 2/3] clk: renesas: rzg2l: Add disable_sync() callback
-Date: Wed, 31 Jan 2024 16:09:46 +0000
-Message-Id: <20240131160947.96171-3-biju.das.jz@bp.renesas.com>
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	Rob Herring <robh@kernel.org>,
+	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+	linux-media@vger.kernel.org,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Biju Das <biju.das.au@gmail.com>,
+	linux-renesas-soc@vger.kernel.org
+Subject: [PATCH RFC 3/3] media: platform: rzg2l-cru: rzg2l-video: Use clk_disable_unprepare_sync()
+Date: Wed, 31 Jan 2024 16:09:47 +0000
+Message-Id: <20240131160947.96171-4-biju.das.jz@bp.renesas.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20240131160947.96171-1-biju.das.jz@bp.renesas.com>
 References: <20240131160947.96171-1-biju.das.jz@bp.renesas.com>
@@ -59,54 +62,27 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add disable_sync() callback to synchronize clk gating operation.
+Use the clk_disable_unprepare_sync() for synchronizing clk gating in
+rzg2l_csi2_mipi_link_enable()
 
 Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 ---
- drivers/clk/renesas/rzg2l-cpg.c | 23 +++++++++++++++++++++++
- 1 file changed, 23 insertions(+)
+ drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/clk/renesas/rzg2l-cpg.c b/drivers/clk/renesas/rzg2l-cpg.c
-index 3d2daa4ba2a4..7baf0d7217e2 100644
---- a/drivers/clk/renesas/rzg2l-cpg.c
-+++ b/drivers/clk/renesas/rzg2l-cpg.c
-@@ -1277,6 +1277,28 @@ static void rzg2l_mod_clock_disable(struct clk_hw *hw)
- 	rzg2l_mod_clock_endisable(hw, false);
- }
+diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c
+index e68fcdaea207..8d8f1632168f 100644
+--- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c
++++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c
+@@ -387,7 +387,7 @@ static int rzg2l_csi2_mipi_link_enable(struct rzg2l_csi2 *csi2)
+ 	rzg2l_csi2_write(csi2, CSI2nDTEL, 0xf778ff0f);
+ 	rzg2l_csi2_write(csi2, CSI2nDTEH, 0x00ffff1f);
  
-+static void rzg2l_mod_clock_disable_sync(struct clk_hw *hw)
-+{
-+	struct mstp_clock *clock = to_mod_clock(hw);
-+	struct rzg2l_cpg_priv *priv = clock->priv;
-+	struct device *dev = priv->dev;
-+	unsigned int reg = clock->off;
-+	u32 bitmask = BIT(clock->bit);
-+	u32 value;
-+	int error;
-+
-+	rzg2l_mod_clock_disable(hw);
-+
-+	if (!priv->info->has_clk_mon_regs)
-+		return;
-+
-+	error = readl_poll_timeout_atomic(priv->base + CLK_MON_R(reg), value,
-+					  !(value & bitmask), 0, 10);
-+	if (error)
-+		dev_err(dev, "Failed to disable CLK %p\n",
-+			priv->base + CLK_ON_R(reg));
-+}
-+
- static int rzg2l_mod_clock_is_enabled(struct clk_hw *hw)
- {
- 	struct mstp_clock *clock = to_mod_clock(hw);
-@@ -1303,6 +1325,7 @@ static int rzg2l_mod_clock_is_enabled(struct clk_hw *hw)
- static const struct clk_ops rzg2l_mod_clock_ops = {
- 	.enable = rzg2l_mod_clock_enable,
- 	.disable = rzg2l_mod_clock_disable,
-+	.disable_sync = rzg2l_mod_clock_disable_sync,
- 	.is_enabled = rzg2l_mod_clock_is_enabled,
- };
+-	clk_disable_unprepare(csi2->vclk);
++	clk_disable_unprepare_sync(csi2->vclk);
  
+ 	/* Enable LINK reception */
+ 	rzg2l_csi2_write(csi2, CSI2nMCT3, CSI2nMCT3_RXEN);
 -- 
 2.25.1
 
