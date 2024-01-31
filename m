@@ -1,167 +1,128 @@
-Return-Path: <linux-renesas-soc+bounces-2174-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-2175-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CC8C844800
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 31 Jan 2024 20:32:34 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E83B684480A
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 31 Jan 2024 20:35:11 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id CC483B21238
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 31 Jan 2024 19:32:31 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8FFC4289DAC
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 31 Jan 2024 19:35:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5B73E3A1C8;
-	Wed, 31 Jan 2024 19:32:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9E62339FF0;
+	Wed, 31 Jan 2024 19:35:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.de header.i=deller@gmx.de header.b="KEA/73cb"
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="LSeKICjp"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
+Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CA4F3AC16;
-	Wed, 31 Jan 2024 19:32:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDF3F37714
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 31 Jan 2024 19:35:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706729545; cv=none; b=JVFwrb1xmR8NLmdXU0c/VziAJb2NcgYksHKfLp2w27S61l38iowuCAF2CoB5ZbBXEoZPQ2pj/x4pz8RWWK0fEUaKOO4bfkI5dwl1rhmLgUyP31ZeisRk+q7MM0KMRufa62q1NkucKpE8JW/wlMI15He3eee2f++EMLZLkfkpjqk=
+	t=1706729708; cv=none; b=Ll3QrLRm/yRxW9uB3WzR6hbwNTLin1IAARhQIo0DFFKfMrPp6F2+2gz7zffCWf5zKDwVvoUyg6EcJMckInupUN6r0RRu/238TwFjepO7yzbt6pLThGG40520RAzLyXUGPIGLtrwkbulhPtRdrYyGf+WiLqAKk3iJ9z3sYjO/BNs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706729545; c=relaxed/simple;
-	bh=54GTfPx7NhIT/7kF1QnzMlYP44hFYBBnqJSy6GIZ0bc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=GlSGlBpVcivXxbwQ53ZMwatuwj0NVku1y8i8yVFKF4G3PrAHAlW0FvrqQa7Bw2q9U4WX8mmpGgGrMGzI6UrXEEYU5qmsIr4lfAindDg+oEUPSZAUWtXcj0FeRD+AyyZimV4NV9k7pTu0TbEcguK+QX2Id5Md7Rp+AvuBgX7FPck=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de; spf=pass smtp.mailfrom=gmx.de; dkim=pass (2048-bit key) header.d=gmx.de header.i=deller@gmx.de header.b=KEA/73cb; arc=none smtp.client-ip=212.227.15.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de; s=s31663417;
-	t=1706729524; x=1707334324; i=deller@gmx.de;
-	bh=54GTfPx7NhIT/7kF1QnzMlYP44hFYBBnqJSy6GIZ0bc=;
-	h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:
-	 In-Reply-To;
-	b=KEA/73cbKnCEnt9TpbmS+LMB2PqtE82eaRpHA8PO28/imjYoLymrWour97Kdy48g
-	 1FwRIw50zwtZ2fqjaNp6uD1QXU5QV/wACm8ODhgnQuX2gK5MMU8QStrRBdQoySmBt
-	 ftdp+IMfLWz6k+BUc/gCb42UrwaUUWHpMxqNL8CAaJY3VTPVjORFXqBSqc7WzQuUu
-	 QgiFY3FsohYZsjmtJ5mhHitDdMujnuHo50nN0WzABg1YshHUezQ9KlLOavaQjSxIV
-	 pBwSvLnOYpbyp2e0TAULjq6LamcytJjVSbOD/yWlfPRxoN5/SUA/6s4QicgLZVSRY
-	 VAZVfMBSB5BiclVZFw==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.20.55] ([94.134.150.68]) by mail.gmx.net (mrgmx005
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1M5wLZ-1rOPt92DrX-007Qzv; Wed, 31
- Jan 2024 20:32:04 +0100
-Message-ID: <7a563927-49be-4fd0-9da1-e527c65f63c0@gmx.de>
-Date: Wed, 31 Jan 2024 20:32:03 +0100
+	s=arc-20240116; t=1706729708; c=relaxed/simple;
+	bh=BRwssqc2jzt/f3mBb8BSDVJgrvePchYdkfdcqXofltc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=TqDyu6xCsh2Y5TnVMHd6Wfxnqi5dyYNShz+ud9OQyJk5Yn51KK1wINEHysubI4QuMqfpznRoiI0M16ysyf+RHCvr5SZdf91XPm04UaoNlJGTirWDUUa3AniyrUaZR+EpHpR1ScaprnNUhy7sFt6VNaaOYkW37myMvrjNXF3EIiI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=LSeKICjp; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=date:from:to:cc:subject:message-id
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=BRws
+	sqc2jzt/f3mBb8BSDVJgrvePchYdkfdcqXofltc=; b=LSeKICjpPR1VkkwfK149
+	rrg2cOzfsszyIgM2cA0fL+fiTrOREl7Q6xPBikF+Q0plpEov+VAms4+ZazY4H2wG
+	01C1ZS4pcAKSEUz0ymEldvPBj3QcrUsfDeBhd/tCHKu3jcVZJz1c86a/ebTpZuPa
+	gavI4FHZNwki3OLrIssnrB8984AemTyEy3VTN4Zu5uQ9VZzbXyaoRbgVsIkEjq/o
+	ccXW+8s73Tr8VI90bUgGWCz8YSW/9sy3OiDX0SBEwt8Ch1WDB9iv3NcyaNE8J8eZ
+	qgBP3a83rprQi/iAgsBzRFr6UI6di2w+hCRIr5I3lFwi8WwOhn+3kWKViKnL5u0G
+	Nw==
+Received: (qmail 3307818 invoked from network); 31 Jan 2024 20:34:55 +0100
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 31 Jan 2024 20:34:55 +0100
+X-UD-Smtp-Session: l3s3148p1@hNU5+UIQQpRehhtJ
+Date: Wed, 31 Jan 2024 20:34:55 +0100
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: Daniel Lezcano <daniel.lezcano@linaro.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+	Yoshinori Sato <ysato@users.sourceforge.jp>,
+	devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+	linux-sh@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] dt-bindings: timer: renesas,tmu: Document input
+ capture interrupt
+Message-ID: <Zbqg362_6i3M6rcZ@shikoro>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Daniel Lezcano <daniel.lezcano@linaro.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+	Yoshinori Sato <ysato@users.sourceforge.jp>,
+	devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+	linux-sh@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <8cb38b5236213a467c6c0073f97ccc4bfd5a39ff.1706717378.git.geert+renesas@glider.be>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] fbdev: Restrict FB_SH_MOBILE_LCDC to SuperH
-Content-Language: en-US
-To: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: Arnd Bergmann <arnd@arndb.de>, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
- linux-sh@vger.kernel.org
-References: <c4a090bd3f4737774351b136db72b15297cd0239.1706717146.git.geert+renesas@glider.be>
-From: Helge Deller <deller@gmx.de>
-Autocrypt: addr=deller@gmx.de; keydata=
- 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
-In-Reply-To: <c4a090bd3f4737774351b136db72b15297cd0239.1706717146.git.geert+renesas@glider.be>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="1upon9EKclLYqctJ"
+Content-Disposition: inline
+In-Reply-To: <8cb38b5236213a467c6c0073f97ccc4bfd5a39ff.1706717378.git.geert+renesas@glider.be>
+
+
+--1upon9EKclLYqctJ
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:XoyrZPgmz+bdHXOIOvyAYUoNulErbwqGvsg9Zd47a7RX9YERcFb
- dQUS8wnSECW4xQz1o228aqgY6EcU6GvGyIw1pgg80ywbkzGb/yCKTNJON5kZa06icRnUaLd
- 1ElOTUHYr+SIMKVEjMwHBMcxkIQrzrfYWZmarAvD9NLhk6k/dbp+ZLPexMYw8CbtzQ+JzT3
- XWwqVVM9ePiFWsE5lPwWA==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:w1bpGMjIkSo=;weW/hTFWvRlRsp4ab7w4grHQoGK
- EKrar8scrHlWhUwDhJDcpf4w+lERwKQdwylQd7YpIV4nR1yJxEp8WpulzSwKAaCOIju22pCc6
- V0wPlF0fCvFEB6XrUk5v5fqLs1Ukh9emSImQV8oNlcqERhRWRGnidNcvHfZ5GUbY/8MB2t2tT
- sG5zcn2unbf2KT14SJ4GqUEDiuP4Z5kr/MAOJa8wEcU1CavE2aqDhc1NJ3rnG2nc/i5v1EvVk
- MQZqCTZeA7VSVBXWidXYxE0093BvAuZTVRfLXD5bNWxOtJZec5zVNFOfdZPbHdL1dtu4B87YE
- kYJvuiQl+87xpANMLdCv+E70u8h5FBk3a7lYmHsB3+MpAYwLje7D11PZVA0mQ9ll9TkCfs+lu
- qxCZGDMoI3pv/wYsBQ0YWT3BlxejwX75sTuxPqLAeMmfUtay3qoWiclnMgbJD9Lzz4d+Z7Yp8
- D0vE1FWjFN9PV2DMQnC4Q1ZNM2K/1pokl5acLK00dMUliJXK7DoDAhP+OBuAo93MKz28sssED
- cWLtqp5LZElqBGs3GAYNfgOQawAJOSphDTXkyqPRSpPw8MIqwKQMQr9rDYjGJXtr0VeOJdNfZ
- cTUd4qgCx0x/E5SpKiWdQWqishBCgdQ9obJrqQnVr7JtCSTI+vd2X+M71VDeXhDE2+aaGWIiD
- rLYPBiDGVdNicGnpa1ml1ZBd7QiTdWw4kxrxpJVBYJVTgf/bRHMisNFsB9R6gyLZ72JAJd+8E
- mPNXDEBN/ypOzcEovuK4x2x1TxuKEsU4rpAlL0crqxAzx/hYKq4OYJEPDnIUnHmewxSOAI2wA
- LjHpXMpOjcZ6q9aJG6gFtxpl0BV0I29B3WSNnOpK0YrOM=
 
-On 1/31/24 17:08, Geert Uytterhoeven wrote:
-> Since commit f402f7a02af6956d ("staging: board: Remove Armadillo-800-EVA
-> board staging code"), there are no more users of the legacy SuperH
-> Mobile LCDC framebuffer driver on Renesas ARM platforms.  All former
-> users on these platforms have been converted to the SH-Mobile DRM
-> driver, using DT.
->
-> Suggested-by: Arnd Bergmann <arnd@arndb.de>
+On Wed, Jan 31, 2024 at 05:11:45PM +0100, Geert Uytterhoeven wrote:
+> Some Timer Unit (TMU) instances with 3 channels support a fourth
+> interrupt: an input capture interrupt for the third channel.
+>=20
+> While at it, document the meaning of the four interrupts, and add
+> "interrupt-names" for clarity.
+>=20
+> Update the example to match reality.
+>=20
+> Inspired by a patch by Yoshinori Sato for SH.
+>=20
 > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> ---
-> Commit f402f7a02af6956d is in staging-next (next-20240129 and later).
 
-applied to fbdev git tree.
-
-Thanks!
-Helge
+Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
 
-> ---
->   drivers/video/fbdev/Kconfig | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/video/fbdev/Kconfig b/drivers/video/fbdev/Kconfig
-> index 2d0bcc1d786e50bb..b688900bb67eed55 100644
-> --- a/drivers/video/fbdev/Kconfig
-> +++ b/drivers/video/fbdev/Kconfig
-> @@ -1554,7 +1554,7 @@ config FB_FSL_DIU
->   config FB_SH_MOBILE_LCDC
->   	tristate "SuperH Mobile LCDC framebuffer support"
->   	depends on FB && HAVE_CLK && HAS_IOMEM
-> -	depends on SUPERH || ARCH_RENESAS || COMPILE_TEST
-> +	depends on SUPERH || COMPILE_TEST
->   	depends on FB_DEVICE
->   	select FB_BACKLIGHT
->   	select FB_DEFERRED_IO
+--1upon9EKclLYqctJ
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmW6oNsACgkQFA3kzBSg
+KbYqTQ//cDp6QndTpffOEpF2t/j5OyAXkYle7hJ6hJCeEqYgEoJ8ADdjJoNgooiK
+x2ioBaD+xgUZ+Oeb5GURNhx8VPMnsxCjcNicuBBJuYrA731gaXNqsueT8EAZ02vo
+yoTGkIRSnzIbamvqs1mRV4yZ9CAQBbSpJNcTqOaTauJhCd6cZ1eAnzBWNb9B5HRz
+pt12hFPW2o1anGb5HfCkjedPBc8z8ibmIEYGyBV4LLHFrWvGs2z23LOCvb0//ijZ
+xQEOzpPcbflY6VYhXyXZluwT6K0izygVLvtiR/lYYAvMQEE4zajFX8H0MNBZ2f/h
+Mq0dHEg1oNy/Nr6g7pMl0ErK2O2+s64kzbcTOIutCTCLaKTId4doHnn5LINQWeUa
+NouYK8BCTKKujR5U4kd7wCY3vxvRYTtNeVA0WBDLsmvBl4qzS9MxEosEYJ069r0M
+elm6zf8JCOH3EUbD7y68hEqbCY3eDCs7a4XQoy2oKaci1GhBnuIrWOHGkOv1QNly
+oDaC6ZpvJufR4PodGmYbdIX2Vc+VtzvLFNzBa9ad34fi09alC5KLWwgJUlDd2DHB
+NyqbYNSNG1FMONVqOFDsyD4EXL/B0o9MZVrWrzaz+nK9VjoRAtZwKoXE6dxYaG8t
+JynvRKq13lEUefnpX89gHom1H78BR/g4jCBPIDoDX0C0U9wtLSQ=
+=DFDJ
+-----END PGP SIGNATURE-----
+
+--1upon9EKclLYqctJ--
 
