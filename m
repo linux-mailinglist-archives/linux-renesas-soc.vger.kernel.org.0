@@ -1,54 +1,54 @@
-Return-Path: <linux-renesas-soc+bounces-2156-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-2157-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A56AF8444C0
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 31 Jan 2024 17:47:20 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 510BB84458A
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 31 Jan 2024 18:06:00 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 04D04B2570F
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 31 Jan 2024 16:47:18 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0CB7D297ED7
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 31 Jan 2024 17:05:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 67CBC12BE99;
-	Wed, 31 Jan 2024 16:47:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 91C7612C52D;
+	Wed, 31 Jan 2024 17:05:55 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from xavier.telenet-ops.be (xavier.telenet-ops.be [195.130.132.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4C1D12AAF2
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 31 Jan 2024 16:46:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.132.52
+Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E2B9A84A3C;
+	Wed, 31 Jan 2024 17:05:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706719622; cv=none; b=pOO+Gqp6vGCaWr/6S4ssVYdNiABDBypVhMes3m48vu58fYOQ5goSylewlV/MhA4O53mHvkn3ZPa5K94rlU+l+uHDfadITG+DQCKG/cSixhk2yRKVwoICMKTEGHdP/Ew9qL6A669GfmX5x/ONzeRgx3aW+RTsyPOQy/UqHqLZ4zA=
+	t=1706720755; cv=none; b=rG0FQWF+04idBdJMuR9QKLmraUO+JZ20HI+pXPqhZ0r7VTr7Ag/4XxRWVvXnUxKFF2QmQCXMbp/XrJJIr4EFGoxI9JenxTd+5I45Iix7RZrYAGvgYN/0+7mhMh1P6iWg6Ay8uIprI6TcsqdYHbAcbQmZlEbtxfxmhHykox9RJXU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706719622; c=relaxed/simple;
-	bh=/ZoewK1v9MuRgKEhRZAMYf3wtplIR+Tuwlz07nKIhdc=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=KCPZYjesPExvJP2Ma2G8euAKxavHUOMzEFGHvraIcsCI11c+pfqgxZ3M9rflUjq90n5wXMclxVvEj3EtZnOTBD8igBV4VudrCAe3hvF1ToomOK2ILgaRiYn2LMslBXMSfnUJ1s2hVZ/PmvtE7GlBuINEna7Yb5zQ/q2Elboi8dc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.132.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
-Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed40:88f0:c83b:bafa:cdc3])
-	by xavier.telenet-ops.be with bizsmtp
-	id hUmq2B00L4efzLr01UmqnH; Wed, 31 Jan 2024 17:46:51 +0100
-Received: from rox.of.borg ([192.168.97.57])
-	by ramsan.of.borg with esmtp (Exim 4.95)
-	(envelope-from <geert@linux-m68k.org>)
-	id 1rVDio-00Grc8-FU;
-	Wed, 31 Jan 2024 17:46:50 +0100
-Received: from geert by rox.of.borg with local (Exim 4.95)
-	(envelope-from <geert@linux-m68k.org>)
-	id 1rVDje-008lkg-Mh;
-	Wed, 31 Jan 2024 17:46:50 +0100
-From: Geert Uytterhoeven <geert+renesas@glider.be>
-To: Willy Tarreau <w@1wt.eu>
-Cc: linux-renesas-soc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH/RFC] lib: add CPU MHz benchmark test
-Date: Wed, 31 Jan 2024 17:46:48 +0100
-Message-Id: <a2396ae072d6f9e009b5de558efe166b844a1397.1706718625.git.geert+renesas@glider.be>
-X-Mailer: git-send-email 2.34.1
+	s=arc-20240116; t=1706720755; c=relaxed/simple;
+	bh=uJl5pmP7pzP0qSuDUSpGf4Bz6mdCugoDwzVWMXmOkvQ=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=UaIPMkjVpWRV/RdqmNJvwPAfXVLOEKfeyebFacTGFIlTVK1TO1qiLcW3B2eSnnblpR6Kemdkv/N5NWwvQ6zfgF/Ul0QC7TObEVq2Aj1qxmJDr3fjDcP9VCXICfdzh83L+8BBkJi5z4EMqgpm9Cm8PWk58tfFKK4900dbZcRjX4k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
+X-IronPort-AV: E=Sophos;i="6.05,231,1701097200"; 
+   d="scan'208";a="196315512"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie6.idc.renesas.com with ESMTP; 01 Feb 2024 02:05:46 +0900
+Received: from GBR-5CG2373LKG.adwin.renesas.com (unknown [10.226.92.158])
+	by relmlir6.idc.renesas.com (Postfix) with ESMTP id BE78A40344F5;
+	Thu,  1 Feb 2024 02:05:42 +0900 (JST)
+From: Paul Barker <paul.barker.ct@bp.renesas.com>
+To: Sergey Shtylyov <s.shtylyov@omp.ru>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>
+Cc: Paul Barker <paul.barker.ct@bp.renesas.com>,
+	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+	Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	netdev@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH net-next 0/8] Improve GbEth performance on Renesas RZ/G2L and related SoCs
+Date: Wed, 31 Jan 2024 17:05:14 +0000
+Message-Id: <20240131170523.30048-1-paul.barker.ct@bp.renesas.com>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -57,340 +57,70 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-When working on SoC bring-up, (a full) userspace may not be available,
-making it hard to benchmark the CPU performance of the system under
-development.  Still, one may want to have a rough idea of the (relative)
-performance of one or more CPU cores, especially when working on e.g.
-the clock driver that controls the CPU core clock(s).
+This series aims to improve peformance of the GbEth IP in the Renesas
+RZ/G2L SoC family and the RZ/G3S SoC, which use the ravb driver. Along
+the way, we do some refactoring and ensure that napi_complete_done() is
+used in accordance with the NAPI documentation.
 
-Hence add the CPU MHz benchmark test[1], which estimates the clock
-frequency of the CPU core it is running on, and make it available as a
-Linux kernel test module.
+Performance improvment mainly comes from enabling SW IRQ Coalescing for
+all SoCs using the GbEth IP, and NAPI Threaded mode for single core SoCs
+using the GbEth IP. These can be enabled/disabled at runtime via sysfs,
+but our goal is to set sensible defaults which get good performance on
+the affected SoCs.
 
-When built-in, this benchmark can be run without any userspace present.
+Changes are made specific to the GbEth IP, avoiding potential impact on
+the other Renesas R-Car based SoCs which also use the ravb driver. This
+follows the principle of only submitting patches that we can fully test.
 
-Parallel runs (run on multiple CPU cores) are supported, just kick the
-"run" file multiple times.
+The performance impact of this series on iperf3 testing is as follows:
+  * RZ/G2L Ethernet throughput is unchanged, but CPU usage drops:
+      * Bidirectional and TCP RX: 6.5% less CPU usage
+      * UDP RX: 10% less CPU usage
 
-This has been tested on the folowing CPU cores:
-  - ARM: Cortex A7, A9, and A15,
-  - ARM64: Cortex A53, A55, A57, and A76,
-  - m68k: MC68040,
-  - MIPS: TX4927,
-  - RISC-V: AndesTech AX45, Kendryte K210, SiFive U54 and U74, VexRiscV.
-  - SuperH: SH7751R.
-The reported figures are usually within 1-2% of the actual CPU clock
-rate.
+  * RZ/G2UL and RZ/G3S Ethernet throughput is increased for all test
+    cases except UDP TX, which suffers a slight loss:
+      * TCP TX: 32% more throughput
+      * TCP RX: 11% more throughput
+      * UDP TX: 10% less throughput
+      * UDP RX: 10183% more throughput - the previous throughput of
+        1.06Mbps is what prompted this work.
 
-[1] https://github.com/wtarreau/mhz.git
+  * RZ/G2N CPU usage and Ethernet throughput is unchanged (tested as a
+    representative of the SoCs which use the R-Car based RAVB IP).
 
-Suggested-by: Willy Tarreau <w@1wt.eu>
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
-As suggested by Willy in "Re: Dhrystone -- userland version"
-(https://lore.kernel.org/all/20230109143059.GB25476@1wt.eu)
+This series depends on:
+  * "net: ravb: Let IP-specific receive function to interrogate descriptors" v5
+    https://lore.kernel.org/all/20240131084133.1671440-2-claudiu.beznea.uj@bp.renesas.com/
 
-Known issues:
-  - The reported value is off on the following systems:
-      - RBTX4927: 120 MHz (should be 200 MHz, userspace mhz is OK)
-	  user: count=76500 us50=19990 us250=96885 diff=76895 cpu_MHz=198.973
-	  kernel:     43663      19943       93024                    119
-	  msleep(1000) does sleep 1s, and ktime_get() advances accordingly
-      - RZ/Five: 1971 MHz (should be 1000 MHz, userspace mhz not tested)
-	  kernel:    679625      20001       88962                   1971
-	  msleep(1000) does sleep 1s, and ktime_get() advances accordingly
-      - VexRiscV: 12 MHz (should be 64 MHz, userspace mhz not tested)
-    I assume this is due to different optimization flags.
-    I haven't compared the generated code yet.
+To get the results shown above, you'll also need:
+  * "topology: Set capacity_freq_ref in all cases"
+    https://lore.kernel.org/all/20240117190545.596057-1-vincent.guittot@linaro.org/
 
-  - On fast systems with a large clock granularity (e.g. ARAnyM running
-    Linux/m68k), the measured durations for the short and long loops may
-    be identical, causing division-by-zero exceptions.
-    The same happens with the userspace version, cfr.
-    https://github.com/wtarreau/mhz/issues/5.
+  * "ravb: Add Rx checksum offload support" v2
+    https://lore.kernel.org/all/20240124102115.132154-2-biju.das.jz@bp.renesas.com/
 
- lib/Kconfig.debug |  32 +++++++
- lib/Makefile      |   1 +
- lib/test_mhz.c    | 214 ++++++++++++++++++++++++++++++++++++++++++++++
- 3 files changed, 247 insertions(+)
- create mode 100644 lib/test_mhz.c
+  * "ravb: Add Tx checksum offload support" v2
+    https://lore.kernel.org/all/20240124102115.132154-3-biju.das.jz@bp.renesas.com/
 
-diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
-index 019e5026b619bc2b..8c05f977f278a8ad 100644
---- a/lib/Kconfig.debug
-+++ b/lib/Kconfig.debug
-@@ -2131,6 +2131,38 @@ menuconfig RUNTIME_TESTING_MENU
- 
- if RUNTIME_TESTING_MENU
- 
-+config TEST_MHZ
-+	tristate "CPU MHz test"
-+	help
-+	  Enable this to include the CPU MHz benchmark.  This benchmark test
-+	  estimates the clock frequency of the CPU core it is running on.
-+
-+	  To run the benchmark, it needs to be enabled explicitly, either from
-+	  the kernel command line (when built-in), or from userspace (when
-+	  built-in or modular).
-+
-+	  Run once during kernel boot:
-+
-+	      test_mhz.run
-+
-+	  Set number of iterations from kernel command line:
-+
-+	      test_mhz.iterations=<n>
-+
-+	  Set number of iterations from userspace:
-+
-+	      echo <n> > /sys/module/test_mhz/parameters/iterations
-+
-+	  Trigger manual run from userspace:
-+
-+	      echo y > /sys/module/test_mhz/parameters/run
-+
-+	  If the number of iterations is <= 0, the test will devise a suitable
-+	  number of iterations (test runs for at least 2s) automatically.
-+	  This process takes ca. 4s.
-+
-+	  If unsure, say N.
-+
- config TEST_DHRY
- 	tristate "Dhrystone benchmark test"
- 	help
-diff --git a/lib/Makefile b/lib/Makefile
-index 6b09731d8e619560..209c25d053858482 100644
---- a/lib/Makefile
-+++ b/lib/Makefile
-@@ -57,6 +57,7 @@ obj-$(CONFIG_TEST_HEXDUMP) += test_hexdump.o
- obj-y += kstrtox.o
- obj-$(CONFIG_FIND_BIT_BENCHMARK) += find_bit_benchmark.o
- obj-$(CONFIG_TEST_BPF) += test_bpf.o
-+obj-$(CONFIG_TEST_MHZ) += test_mhz.o
- test_dhry-objs := dhry_1.o dhry_2.o dhry_run.o
- obj-$(CONFIG_TEST_DHRY) += test_dhry.o
- obj-$(CONFIG_TEST_FIRMWARE) += test_firmware.o
-diff --git a/lib/test_mhz.c b/lib/test_mhz.c
-new file mode 100644
-index 0000000000000000..cb0f85193088ec9a
---- /dev/null
-+++ b/lib/test_mhz.c
-@@ -0,0 +1,214 @@
-+// SPDX-License-Identifier: MIT
-+/*
-+ * CPU core MHz benchmark
-+ *
-+ * Copyright (C) 2023 Glider bv
-+ *
-+ * Based on https://github.com/wtarreau/mhz.git, which is
-+ * Copyright (C) 2016-2023 Willy Tarreau <w@1wt.eu>
-+ */
-+
-+#include <linux/kernel.h>
-+#include <linux/ktime.h>
-+#include <linux/math64.h>
-+#include <linux/module.h>
-+#include <linux/moduleparam.h>
-+#include <linux/smp.h>
-+
-+static int mhz_run_set(const char *val, const struct kernel_param *kp);
-+static const struct kernel_param_ops run_ops = {
-+	.flags = KERNEL_PARAM_OPS_FL_NOARG,
-+	.set = mhz_run_set,
-+};
-+static bool mhz_run;
-+module_param_cb(run, &run_ops, &mhz_run, 0200);
-+MODULE_PARM_DESC(run, "Run the test (default: false)");
-+
-+static int iterations = -1;
-+module_param(iterations, int, 0644);
-+MODULE_PARM_DESC(iterations,
-+		"Number of iterations through the benchmark (default: auto)");
-+
-+/*
-+ * Performs read-after-write operations that the CPU is not supposed to be able
-+ * to parallelize.  The "asm" statements are here to prevent the compiler from
-+ * reordering this code.
-+ */
-+#define dont_move(var)	do { asm volatile("" : "=r"(var) : "0" (var)); } while (0)
-+
-+#define run1cycle_ae()	do { a ^= e; dont_move(a); } while (0)
-+#define run1cycle_ba()	do { b ^= a; dont_move(b); } while (0)
-+#define run1cycle_cb()	do { c ^= b; dont_move(c); } while (0)
-+#define run1cycle_dc()	do { d ^= c; dont_move(d); } while (0)
-+#define run1cycle_ed()	do { e ^= d; dont_move(e); } while (0)
-+#define run1cycle_eb()	do { e ^= b; dont_move(e); } while (0)
-+
-+#define run5cycles()			\
-+	do {				\
-+		run1cycle_ae();		\
-+		run1cycle_ba();		\
-+		run1cycle_cb();		\
-+		run1cycle_dc();		\
-+		run1cycle_ed();		\
-+	} while (0)
-+
-+#define run10cycles()			\
-+	do {				\
-+		run5cycles();		\
-+		run5cycles();		\
-+	} while (0)
-+
-+#define run100cycles()			\
-+	do {				\
-+		run10cycles();		\
-+		run10cycles();		\
-+		run10cycles();		\
-+		run10cycles();		\
-+		run10cycles();		\
-+		run10cycles();		\
-+		run10cycles();		\
-+		run10cycles();		\
-+		run10cycles();		\
-+		run10cycles();		\
-+	} while (0)
-+
-+
-+/*
-+ * Performs 50 operations in a loop, all dependant on each other, so that the
-+ * CPU cannot parallelize them, hoping to take 50 cycles per loop, plus the
-+ * loop counter overhead.
-+ */
-+static noinline __aligned(64) void loop50(unsigned int n)
-+{
-+	unsigned int a = 0, b = 0, c = 0, d = 0, e = 0;
-+
-+	do {
-+		run10cycles();
-+		run10cycles();
-+		run10cycles();
-+		run10cycles();
-+		run10cycles();
-+	} while (__builtin_expect(--n, 1));
-+}
-+
-+/*
-+ * Performs 250 operations in a loop, all dependant on each other, so that the
-+ * CPU cannot parallelize them, hoping to take 250 cycles per loop, plus the
-+ * loop counter overhead.  Do not increase this loop so that it fits in a small
-+ * 1 kB L1 cache on 32-bit instruction sets.
-+ */
-+static noinline __aligned(64) void loop250(unsigned int n)
-+{
-+	unsigned int a = 0, b = 0, c = 0, d = 0, e = 0;
-+
-+	do {
-+		run10cycles();
-+		run10cycles();
-+		run10cycles();
-+		run10cycles();
-+		run10cycles();
-+		run100cycles();
-+		run100cycles();
-+	} while (__builtin_expect(--n, 1));
-+}
-+
-+static unsigned int run_once(unsigned int count)
-+{
-+	s64 dur50, dur250, dur;
-+	unsigned int i;
-+	ktime_t begin;
-+
-+	/*
-+	 * Now run the 50 cycles loop.
-+	 * We'll pick the lowest value among 5 runs of the short loop.
-+	 */
-+	dur50 = LLONG_MAX;
-+	for (i = 0; i < 5; i++) {
-+		begin = ktime_get();
-+		loop50(count);
-+		dur = ktime_us_delta(ktime_get(), begin);
-+		if (dur < dur50)
-+			dur50 = dur;
-+	}
-+
-+	/*
-+	 * Now run the 250 cycles loop.
-+	 * We'll pick the lowest value among 5 runs of the long loop.
-+	 */
-+	dur250 = LLONG_MAX;
-+	for (i = 0; i < 5; i++) {
-+		begin = ktime_get();
-+		loop250(count);
-+		dur = ktime_us_delta(ktime_get(), begin);
-+		if (dur < dur250)
-+			dur250 = dur;
-+	}
-+
-+	return DIV_U64_ROUND_CLOSEST(count * 200ULL, dur250 - dur50);
-+}
-+
-+/*
-+ * Determines how long loop50() must be run to reach more than 20 milliseconds.
-+ * This will ensure that an integral number of clock ticks will have happened
-+ * on 100, 250, 1000 Hz systems.
-+ */
-+static unsigned int calibrate(void)
-+{
-+	unsigned int duration = 0;
-+	unsigned int count = 1000;
-+	ktime_t start;
-+
-+	while (duration < 10000) {
-+		count = count * 5 / 4;
-+		start = ktime_get();
-+		loop50(count);
-+		duration = ktime_us_delta(ktime_get(), start);
-+	}
-+
-+	return DIV_U64_ROUND_CLOSEST(count * 20000ULL, duration);
-+}
-+
-+static void mhz_benchmark(void)
-+{
-+	unsigned int cpu = get_cpu();
-+	unsigned int mhz;
-+
-+	if (iterations < 0)
-+		iterations = calibrate();
-+
-+	mhz = run_once(iterations);
-+
-+	put_cpu();
-+
-+	pr_info("CPU%u: %u MHz\n", cpu, mhz);
-+}
-+
-+static int mhz_run_set(const char *val, const struct kernel_param *kp)
-+{
-+	int ret;
-+
-+	if (val) {
-+		ret = param_set_bool(val, kp);
-+		if (ret)
-+			return ret;
-+	} else {
-+		mhz_run = true;
-+	}
-+
-+	if (mhz_run && system_state == SYSTEM_RUNNING)
-+		mhz_benchmark();
-+
-+	return 0;
-+}
-+
-+static int __init mhz_init(void)
-+{
-+	if (mhz_run)
-+		mhz_benchmark();
-+
-+	return 0;
-+}
-+module_init(mhz_init);
-+
-+MODULE_AUTHOR("Geert Uytterhoeven <geert+renesas@glider.be>");
-+MODULE_LICENSE("Dual MIT/GPL");
+Work in this area will continue, in particular we expect to improve
+TCP/UDP RX performance further with future changes to RX buffer
+handling.
+
+Paul Barker (8):
+  net: ravb: Split R-Car & GbEth poll functions
+  net: ravb: Simplify GbEth poll & receive functions
+  net: ravb: Count packets in GbEth RX (not descriptors)
+  net: ravb: Always process TX descriptor ring in GbEth poll
+  net: ravb: Always update error counters
+  net: ravb: Align GbEth poll function with NAPI docs
+  net: ravb: Enable SW IRQ Coalescing for GbEth
+  net: ravb: Use NAPI threaded mode on 1-core CPUs with GbEth IP
+
+ drivers/net/ethernet/renesas/ravb.h      |   3 +-
+ drivers/net/ethernet/renesas/ravb_main.c | 103 ++++++++++++++++-------
+ 2 files changed, 74 insertions(+), 32 deletions(-)
+
 -- 
-2.34.1
+2.39.2
 
 
