@@ -1,167 +1,156 @@
-Return-Path: <linux-renesas-soc+bounces-2110-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-2111-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C955843A5F
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 31 Jan 2024 10:10:14 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4AF5C843C16
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 31 Jan 2024 11:20:37 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id BA5011F2D150
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 31 Jan 2024 09:10:13 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6906C1C27A10
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 31 Jan 2024 10:20:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D937E69D28;
-	Wed, 31 Jan 2024 09:07:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2F11F6996C;
+	Wed, 31 Jan 2024 10:20:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="IpopKANJ"
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="OIsnyWfX"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C0116997E;
-	Wed, 31 Jan 2024 09:07:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.197
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDAF069D02
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 31 Jan 2024 10:20:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706692043; cv=none; b=Bfd3e4ROgbXAeGpGMkCUTlVSnoLzyMYq6/oNEdHVynhm/aQ22mR8jj7TQ/nJKaDrYt4a3mUFhY1LDi2PdT83qCZXsTPVQn4AD5103HC0z6ZyNoB3Qwqjwa7DL7cIzkUPZTCwdTk91X1CrutWq5GsYyCXLD662rnjmwMqr4e6TTk=
+	t=1706696430; cv=none; b=UPKVwXBjT9xfotFMQ0LAE52wELbD53ocEVWoWncTI/uhPEfG1UFmz1Zi+ubJY/9rB40AJPa755PhF3ZDVLeNrMJ8j+M44mhbyDUR39U14MRxl1JW8/XkzIaA8+Idk753XC0PyjtZygcGF0ZsP3w4N2okSMEDuJ3AENlW53A/mmg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706692043; c=relaxed/simple;
-	bh=0RuTS+kPwr4+e0G8exQO+9NVYj16oJYi6dt0lNc9JzM=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Lt2/W2fGTFX4rWxp5SEcFLDNBFyoSyNCPObPJELlg4lpTvFLgSVm0JGnEzjWxKcXvXSFQj1RTwzVAg+kReuxk1gTiGSklwHol3P6bUiaQRAeITqDWYP4GHF2hD838FPiyAHh+6m7n6z9yHxWaNQsx7BfZ0ywFNiHtQknr7BzUOA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=IpopKANJ; arc=none smtp.client-ip=217.70.183.197
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 94A901C0003;
-	Wed, 31 Jan 2024 09:07:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1706692038;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=txVeyDCwCa0PTblW/GH4Mt4FMs2okstRsQIFGpgZpIA=;
-	b=IpopKANJvPwzP+cqcm/nV8tIJeOl95Z+pm5ZBFxwXGnXRcK3j8Pw+g5PpTHYdFLZ+S68Mp
-	Zsj2PczR2iFjVt4JmxgdVtBXXEmZpd6iYEY+KPRCxNu2fQPiuG18FsmsoFfZfWkaW1KPbB
-	G1MSsTLhcCIWapF7QsFR2x2AIjii8HyIxhHt1myJcrQtSSLsH8641MOW1xBoMgS5kgngcd
-	HpasEnyJS3TgeESvACXjoa9KiuEvYQs3iCmPPe7m0RCMy1Q343Sq2P0VW3xur3FbmOGHKH
-	v498LDl6jvgqLJTyZWKLJSC9wenFYUOzH2yWAnMS8h04WN1KqPaw/M4Qidd9Fw==
-Date: Wed, 31 Jan 2024 10:07:01 +0100
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: "Bryan O'Donoghue" <bryan.odonoghue@linaro.org>, "Lad,  Prabhakar"
- <prabhakar.csengg@gmail.com>, "Niklas =?UTF-8?Q?S=C3=83=C2=B6derlund?="
- <niklas.soderlund+renesas@ragnatech.se>, "Uwe =?UTF-8?Q?Kleine-K=C3=83?=
- =?UTF-8?Q?=C2=B6nig?=" <u.kleine-koenig@pengutronix.de>, Abhinav Kumar
- <quic_abhinavk@quicinc.com>, Alexander Shishkin
- <alexander.shishkin@linux.intel.com>, Alexander Stein
- <alexander.stein@ew.tq-group.com>, Alexandre Belloni
- <alexandre.belloni@bootlin.com>, Alexandre Torgue
- <alexandre.torgue@foss.st.com>, Alexey Brodkin <abrodkin@synopsys.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Andy Gross <agross@kernel.org>,
- Biju Das <biju.das.jz@bp.renesas.com>, Bjorn Andersson
- <andersson@kernel.org>, Claudiu Beznea <claudiu.beznea@tuxon.dev>, Daniel
- Vetter <daniel@ffwll.ch>, Dave Stevenson <dave.stevenson@raspberrypi.com>,
- David Airlie <airlied@gmail.com>, Dmitry Baryshkov
- <dmitry.baryshkov@linaro.org>, Dmitry Torokhov <dmitry.torokhov@gmail.com>,
- Emma Anholt <emma@anholt.net>, Eugen Hristev <eugen.hristev@collabora.com>,
- Florian Fainelli <florian.fainelli@broadcom.com>, Frank Rowand
- <frowand.list@gmail.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Hans Verkuil <hverkuil-cisco@xs4all.nl>, Helge Deller <deller@gmx.de>,
- Hugues Fruchet <hugues.fruchet@foss.st.com>, Jacopo Mondi
- <jacopo+renesas@jmondi.org>, Jacopo Mondi <jacopo@jmondi.org>, James Clark
- <james.clark@arm.com>, Jaroslav Kysela <perex@perex.cz>, Jonathan Hunter
- <jonathanh@nvidia.com>, Kevin Hilman <khilman@baylibre.com>, Kieran Bingham
- <kieran.bingham+renesas@ideasonboard.com>, Kieran Bingham
- <kieran.bingham@ideasonboard.com>, Konrad Dybcio
- <konrad.dybcio@linaro.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski@linaro.org>, Laurent Pinchart
- <laurent.pinchart+renesas@ideasonboard.com>, Laurent Pinchart
- <laurent.pinchart@ideasonboard.com>, Liam Girdwood <lgirdwood@gmail.com>,
- Liu Ying <victor.liu@nxp.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Marek Vasut <marex@denx.de>, Mark
- Brown <broonie@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>, Maxime Ripard
- <mripard@kernel.org>, Michael Tretter <m.tretter@pengutronix.de>, Michal
- Simek <michal.simek@amd.com>, Miguel Ojeda <ojeda@kernel.org>, Nathan
- Chancellor <nathan@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>,
- Nick Desaulniers <ndesaulniers@google.com>, Nicolas Ferre
- <nicolas.ferre@microchip.com>, Philipp Zabel <p.zabel@pengutronix.de>,
- Philippe Cornu <philippe.cornu@foss.st.com>, Raphael Gallais-Pou
- <raphael.gallais-pou@foss.st.com>, Rob Clark <robdclark@gmail.com>, Rob
- Herring <robh+dt@kernel.org>, Robert Foss <rfoss@kernel.org>, Russell King
- <linux@armlinux.org.uk>, Sakari Ailus <sakari.ailus@linux.intel.com>,
- Saravana Kannan <saravanak@google.com>, Sascha Hauer
- <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>, Sowjanya
- Komatineni <skomatineni@nvidia.com>, Stefan Agner <stefan@agner.ch>, Suzuki
- K Poulose <suzuki.poulose@arm.com>, Sylwester Nawrocki
- <s.nawrocki@samsung.com>, Takashi Iwai <tiwai@suse.com>, Thierry Reding
- <thierry.reding@gmail.com>, Thomas Zimmermann <tzimmermann@suse.de>, Tim
- Harvey <tharvey@gateworks.com>, Todor Tomov <todor.too@gmail.com>, Tomi
- Valkeinen <tomi.valkeinen@ideasonboard.com>, Yannick Fertre
- <yannick.fertre@foss.st.com>, Alim Akhtar <alim.akhtar@samsung.com>, Fabio
- Estevam <festevam@gmail.com>, Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Jerome Brunet
- <jbrunet@baylibre.com>, Jessica Zhang <quic_jesszhan@quicinc.com>, Jonas
- Karlman <jonas@kwiboo.se>, Leo Yan <leo.yan@linaro.org>, Marijn Suijten
- <marijn.suijten@somainline.org>, Martin Blumenstingl
- <martin.blumenstingl@googlemail.com>, Mike Leach <mike.leach@linaro.org>,
- Sam Ravnborg <sam@ravnborg.org>, Sean Paul <sean@poorly.run>, Tom Rix
- <trix@redhat.com>, coresight@lists.linaro.org, devicetree@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- linux-arm-msm@vger.kernel.org, linux-fbdev@vger.kernel.org,
- linux-media@vger.kernel.org, linux-omap@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org, linux-rpi-kernel@lists.infradead.org,
- linux-samsung-soc@vger.kernel.org, linux-sound@vger.kernel.org,
- linux-staging@lists.linux.dev, linux-stm32@st-md-mailman.stormreply.com,
- linux-tegra@vger.kernel.org, llvm@lists.linux.dev
-Subject: Re: [PATCH v3 14/24] of: property: add of_graph_get_next_endpoint()
-Message-ID: <20240131100701.754a95ee@booty>
-In-Reply-To: <874jeu6qhv.wl-kuninori.morimoto.gx@renesas.com>
-References: <87o7d26qla.wl-kuninori.morimoto.gx@renesas.com>
-	<874jeu6qhv.wl-kuninori.morimoto.gx@renesas.com>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
+	s=arc-20240116; t=1706696430; c=relaxed/simple;
+	bh=UiORm6wg+ND2g1timUzZOpcyVuU+9hkkKah588hb8I0=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=TSG4xKWFP4XvbZto3S+EbArAz6sq+ztLZS/Aoq1hiC/PP7D6pbJ39FEhd0mUC1/4x01EFYu2We3nleT5R6oxydNym6Sbil+7T4/T7yDEWiNrojfetxHHi2kzXhPqkeC9VuefVY0u5amriDsLdyoAf6mYZ4fhmxQE3H/g66tAbFo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=OIsnyWfX; arc=none smtp.client-ip=209.85.218.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
+Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-a26ed1e05c7so624575466b.2
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 31 Jan 2024 02:20:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=tuxon.dev; s=google; t=1706696427; x=1707301227; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=T5kJFKr5iTOo1U31zyzdDHRoKpUWs/L5KPoOuxNE44c=;
+        b=OIsnyWfX2TvfrJaoCw5HUFgjtWkv93KI62j96xZDFbDwr3BRHuWErO7SLxTwd3/f1Z
+         WCsax3b9rfowTCbC7GtqFbHdIMLBq4J9gMzJCOguMsLVezW9/ipuV5uaMXEG3CxAmwSc
+         +nsR/a+hx2W4igRpMPRVkwAPg7P3vFS8G9EMl4/Orywc1ISmT03ScgAMvs/QST8J8Vbb
+         mV5/fnzjLV2SXNgZ5XFsi1QHJYw6Uzz5WG1xxV+2Pa3911SPKHgbKU0xuhWtp0Tl5Ugh
+         3N6gMpcfEVNfSE2QzknYEV2N7IBuQZeKfyt3pYKwjr4Jjh6S1qsvaaHTQsOTCtRYU4Jv
+         xNCQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1706696427; x=1707301227;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=T5kJFKr5iTOo1U31zyzdDHRoKpUWs/L5KPoOuxNE44c=;
+        b=krZ0HCczN0u23m/IdOIQyzI5litC7jd0OucIQlb+IWNuHjvTBPRTrPqWItVfDxyywY
+         CM5G0jzjW5IgFlycefCL6pnfGVOnyO3OyG4yWGdO9bq35J1Aa/BdEYA9mwbdU+LUhyTx
+         3cTBhIQMl0lQxU5EZa68K29+R7OkPjptR4aCEztLQO41NW6NowAxfT1n21yTTmES1nPO
+         BRKtsmj1NhzIXNCTFkj1ajE9QG3qt5qoYdLvp9twYsXms27b9Sz3qyUwK8Nh2VSM3l1l
+         RVDw7rr+g5J5veIIPt1V7OCJ8q5LLCwB0z0iM4Izcu0A5D263dIOvFzWtGeMLyfnDwI4
+         DUIw==
+X-Gm-Message-State: AOJu0Yy6gYfMIIZBdQnpJ/CuCSKlraYS3gdQhnPLIwQOXAjbQKKZ6k55
+	0UxyUXydDdWNZK6phjtes3VnsqHvb4WtxsilbIHX+zDrhyuzhOQuH9p3EBgxjh4=
+X-Google-Smtp-Source: AGHT+IGsS1EVCz9f1k8KuUptnP8yNx0ak7r9DfqvZR6JCmobFGB5IciSh4lafL4wf8HZCeB9WD+/NA==
+X-Received: by 2002:a17:906:4f10:b0:a31:81e9:dbbb with SMTP id t16-20020a1709064f1000b00a3181e9dbbbmr744774eju.52.1706696426805;
+        Wed, 31 Jan 2024 02:20:26 -0800 (PST)
+X-Forwarded-Encrypted: i=0; AJvYcCWqb/5dxkuvkTtbLVQaq3G8f1oqCG6PQKLkgRSnq4U7gFpJvcncDYg0Qe7BZGgD6TVGQ1r1WeZIkouY0CmEC6vX9wDZFXFx9xvkchCCpGkggbnXguZftsvVMixwWixVS3rnDH+MjN5WbaUtSjvVGhNDJ8xv9LpM5iTzQ/BdIjbfmJdnIO8n5tLe52NG8Ci3LIBNdOli73YkQGsqhUE0pEemxPOcoFULibOJuqhRffOBy7jcww4hzC1dd0YqkrpU7+otl4/l9JgruqvTe6AXaxyPA8Dw6oJY+5FyrEJNjZ1vAgJLAOYoHEIPSi6PN/ofn+6BQgfSL+1c2yRCpXHEEhUG8KpwUwvcoUZlLxBrqyNquEynepYij6zUAw8f1ArUi7oCHT5Te14N7sJSfTVQAclxBPXs5LajiqQQ16WQdNuy9v3R2RUytKdDqMgAmQ2dIAHKHeEm6VnCIrrIMULqLjkTaPV7NK49B1R0sdsAvlBXMCzBlXCXa5VCO8s6D4juUWilW4bwkwjx4bbWxJyCxcbIZStAvSalZo1uD+HRNykWJvN2DwtSq8D1Xg/fIw4ca4BiPQELfFmQRv6ymBh0uwAmgYsxa+u4pCUe2RJfZ2J2B6E=
+Received: from claudiu-X670E-Pro-RS.. ([82.78.167.87])
+        by smtp.gmail.com with ESMTPSA id vk6-20020a170907cbc600b00a3524be5a86sm5212966ejc.103.2024.01.31.02.20.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 31 Jan 2024 02:20:26 -0800 (PST)
+From: Claudiu <claudiu.beznea@tuxon.dev>
+X-Google-Original-From: Claudiu <claudiu.beznea.uj@bp.renesas.com>
+To: wim@linux-watchdog.org,
+	linux@roeck-us.net,
+	robh+dt@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org,
+	conor+dt@kernel.org,
+	geert+renesas@glider.be,
+	magnus.damm@gmail.com,
+	mturquette@baylibre.com,
+	sboyd@kernel.org,
+	p.zabel@pengutronix.de,
+	biju.das.jz@bp.renesas.com
+Cc: linux-watchdog@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	linux-clk@vger.kernel.org,
+	claudiu.beznea@tuxon.dev,
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+Subject: [PATCH v2 00/11] watchdog: rzg2l_wdt: Add support for RZ/G3S
+Date: Wed, 31 Jan 2024 12:20:06 +0200
+Message-Id: <20240131102017.1841495-1-claudiu.beznea.uj@bp.renesas.com>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-GND-Sasl: luca.ceresoli@bootlin.com
+Content-Transfer-Encoding: 8bit
 
-Hello Kuninori Morimoto,
+From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 
-On Wed, 31 Jan 2024 05:06:36 +0000
-Kuninori Morimoto <kuninori.morimoto.gx@renesas.com> wrote:
 
-> To handle endpoint more intuitive, create of_graph_get_next_endpoint()
-> 
-> 	of_graph_get_next_endpoint(port1, NULL); // A1
-> 	of_graph_get_next_endpoint(port1, A1);   // A2
-> 	of_graph_get_next_endpoint(port1, A2);   // NULL
+Hi,
 
-The idea looks good. My only concern is about reusing the
-of_graph_get_next_endpoint() name after having removed the old, different
-function having the same name. This can be confusing in the first
-place to who is used to the old function, and also to anybody rebasing
-their patches on top of a new kernel to find their code behaving
-differently.
+Series adds watchdog support for Renesas RZ/G3S (R9A08G045) SoC.
 
-Also, as now we'd have two similar variants of this function, it would
-be good if each of them were having a name that clearly identifies in
-which way they differ from the other.
+Patches do the following:
+- patch 1/11 selects CONFIG_PM for the watchdog driver
+- patch 2/11 adds clock and reset support for watchdog
+- patches 3-7/11 adds fixes and cleanup for the watchdog driver
+- patch 8/11 adds suspend to RAM to the watchdog driver (to be used by
+  RZ/G3S)
+- patch 9/11 documents the RZ/G3S support
+- patches 10-11/11 add device tree support
 
-So a better name for this function would probably be
-of_graph_get_next_port_endpoint() I guess, to clearly differentiate from
-of_graph_get_next_device_endpoint().
+It is expected that the clock and device tree support will go through
+Geert's tree while the rest of the patches through the watchdog tree.
 
-Luca
+Thank you,
+Claudiu Beznea
+
+Changes in v2:
+- added patch "watchdog: rzg2l_wdt: Select PM"
+- propagate the return status of rzg2l_wdt_start() to it's callers
+  in patch "watchdog: rzg2l_wdt: Use pm_runtime_resume_and_get()" 
+- propagate the return status of rzg2l_wdt_stop() to it's callers
+  in patch "watchdog: rzg2l_wdt: Check return status of pm_runtime_put()" 
+- removed pm_ptr() from patch "watchdog: rzg2l_wdt: Add suspend/resume support"
+- s/G2UL/G2L in patch "dt-bindings: watchdog: renesas,wdt: Document RZ/G3S support"
+- collected tags
+
+Claudiu Beznea (11):
+  clk: renesas: r9a08g045: Add clock and reset support for watchdog
+  watchdog: rzg2l_wdt: Select PM
+  watchdog: rzg2l_wdt: Use pm_runtime_resume_and_get()
+  watchdog: rzg2l_wdt: Check return status of pm_runtime_put()
+  watchdog: rzg2l_wdt: Remove reset de-assert on probe/stop
+  watchdog: rzg2l_wdt: Remove comparison with zero
+  watchdog: rzg2l_wdt: Rely on the reset driver for doing proper reset
+  watchdog: rzg2l_wdt: Add suspend/resume support
+  dt-bindings: watchdog: renesas,wdt: Document RZ/G3S support
+  arm64: dts: renesas: r9a08g045: Add watchdog node
+  arm64: dts: renesas: rzg3s-smarc-som: Enable the watchdog interface
+
+ .../bindings/watchdog/renesas,wdt.yaml        |   1 +
+ arch/arm64/boot/dts/renesas/r9a08g045.dtsi    |  14 +++
+ .../boot/dts/renesas/rzg3s-smarc-som.dtsi     |   5 +
+ drivers/clk/renesas/r9a08g045-cpg.c           |   3 +
+ drivers/watchdog/Kconfig                      |   1 +
+ drivers/watchdog/rzg2l_wdt.c                  | 111 ++++++++++--------
+ 6 files changed, 85 insertions(+), 50 deletions(-)
 
 -- 
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+2.39.2
+
 
