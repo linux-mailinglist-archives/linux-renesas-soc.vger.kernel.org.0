@@ -1,73 +1,72 @@
-Return-Path: <linux-renesas-soc+bounces-2131-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-2132-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE2C2843CBC
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 31 Jan 2024 11:31:26 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D9161843CB2
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 31 Jan 2024 11:30:10 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 098DDB29A80
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 31 Jan 2024 10:30:02 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 09AE01C22240
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 31 Jan 2024 10:30:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4C1CA6A026;
-	Wed, 31 Jan 2024 10:29:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9AD016D1BA;
+	Wed, 31 Jan 2024 10:29:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="kimXdde+"
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="FttZaTYi"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E84269DE1
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 31 Jan 2024 10:29:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90E3069E09
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 31 Jan 2024 10:29:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706696983; cv=none; b=TGJ3WOi1H1frQ1dLeKpXld6YslbdwadtqKN4yfMNyb7U2PkJ3H2l/glKyh6rnyWlUfpVHydUfZGkSZouC01dCoh5IIwwwPd4rTwxj3emEjSRFi0620PAbL+r9N2QFeI77Vg6Ie+qsFb5l/aySAQ6Zfm0GrhgCbXhjB7OTViLmEI=
+	t=1706696984; cv=none; b=r5lf7iBZBQ3a9ypxJMRchBAxXSfJI6iPCTdXmgaJRX3xnBy9lzzNmZmhevAZZkdxjZBpnUm74Qi292n+U8HJMKLoxSj04ke3nmKK2E8Yu3xDUKAP+M+3IOdCF8UblByVUYqC9Aybokgiv7elmF5aRq4kKdIzZpInwnyu5l4k0oQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706696983; c=relaxed/simple;
-	bh=wfSnhN8zYk6e9fyuDQX5EjhWfIYA05oiRWPy+vbfM+I=;
+	s=arc-20240116; t=1706696984; c=relaxed/simple;
+	bh=p0l+lgLWjmzKz7GXbaFwccVzaKR/+3YxWU3+fBEg3To=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=Hel0MArP9mtbNBQ0sh/Ft38LUz9cz7FMtqlywhF5oLjr+FysrXeCCxABUqCCD1UoRE1knYBofiKBzrwgzGF1LuRxKZv8Wtb3a7XtgD1tYXpHmwI+WdAKkXFOnevKsNTYHK/tv845kgRb4c3/npjHGJYb8hlX6tiwilN6UFlPmCM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=kimXdde+; arc=none smtp.client-ip=209.85.208.177
+	 MIME-Version; b=Gf1GFmuqlYQTyW6vATSrkXecC+WQsgar2Q0iK4OfHdN0zqUqkOdrFIS90w1WgokNoSs4paoLaulkZbfaydwRlLE6uDbPamWBJOv6edw3EXnLwT9SgyTmo+VHdfaVnyrbih31LMsyMgtwz4TZXLyuy5EKAWtaU8ITn2BoWIf/NIc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=FttZaTYi; arc=none smtp.client-ip=209.85.208.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
-Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-2d05da19a9eso16907171fa.2
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 31 Jan 2024 02:29:41 -0800 (PST)
+Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-55ee686b5d5so4532732a12.0
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 31 Jan 2024 02:29:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1706696979; x=1707301779; darn=vger.kernel.org;
+        d=tuxon.dev; s=google; t=1706696981; x=1707301781; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=HkR7rBl2sOafZKXFZdEWG75554ewnQ9UQfMjdvinuXY=;
-        b=kimXdde+k6ZW+rN8JpGGAbvybyuXmOtPvU1lrWHp0lMk5p6zJMRKuSuwtmMk5LhP+e
-         mMsaDjEtdrZIlkvKnkA6NEniiGXey/kbDmOg31Lg63b9HoED/hnOWvS61H3dA1SMt6bA
-         6qzIRihQrdh6IQJxcQlQ21PlXlq0zszUsUUS5Ybn8mSXQOOx5mr2lx7k+obaiFF7Dl0b
-         20GPn7VAY4xnLtf5TP15oHeI2tf6jSvyD5oRqZBz/dPUAQQ+dtiNH5yzRLj/OVt+Ekbl
-         JGqSpyQzLlciBgE97dN1+avIlDpqYf+oTjoSinEGhco9ZeMn6yQ43FNL0zWX2/oxxzkh
-         Oymw==
+        bh=GgKvFA/cFIibrDf0plTzRbx0APcUTA89+vLJXcU5S/c=;
+        b=FttZaTYiN9H8bp9vK2cyoSoZVMnxLRqs7HVSjeUso/AklhGHyWyECrJeR+KFBK+So3
+         ujKxhTThumq6808fR5Uyj85F4uZShX7YKOPDIafPQJJclZWRcYSbQ2o9LILoR8nUXKf1
+         hWbE4o4NyvgerbFZkX2uFOsUbSkXFgdqyR/W3BpX3Jb5LFQ0x0+6aIumu2+Hf4zKwUSl
+         x3XZZt/Q27jOgIBMbYdYxxFOnsVHexkXpssSwRaNvnPUGXKwxi5LdsWKNYKNJZa9WtiV
+         pD5LYznGWytszacxqvlYx5ePTDED3A4tKeI9iHezC80GoyWsyBGt0+atklKL3C1m5Qmn
+         c4vg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706696979; x=1707301779;
+        d=1e100.net; s=20230601; t=1706696981; x=1707301781;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=HkR7rBl2sOafZKXFZdEWG75554ewnQ9UQfMjdvinuXY=;
-        b=J1AOlCKVgGOG+G/Oc+zSVrIbIjeipV61AejsMPzfCxyIU8d8tVERmQstF0fXHdouBb
-         j94Y5jGs0/XoNqDzxzim39F+nQIZN6bLzlmKal3NWnJrlssHKOEhToWtyU8HflUiaFbZ
-         JDg7t2+ahUqhHZXpxJSpfjuYWYYH2GZ4y+j9NA7aW3JmR6uujaQY5SJQcUYo0sAq5KFZ
-         pBkI6K+uB6utRFyLg0ytA3TLN45geLQhUmbp9nnUVHGxPiCqHIr0IBTNwOgt9ww6Vg+7
-         XFeDTxtL3+y5v7SMW78DSfyHCypjFmnlRv0qk9uZUk0h19Q3GT1pyLgWdn7g2mjs25gN
-         e/hg==
-X-Gm-Message-State: AOJu0Yz61+PJnz7AL5AZEkLrVyYKP7G1JQQs9Evza7xcQMjnvRQkkhX/
-	6vNztyd4+2frCic1ESgjnLYqEoSQMeBJgJcY54/LVtBwuaIheAFdJegYUw07xSHE8NH7+roz3GR
-	+
-X-Google-Smtp-Source: AGHT+IECzxjWmJuCXcBxnru2N2Yed5Msw47QZhzqY7xEOuixcReDrQOs+0C06A3Ee5JEJUh3Ph2RAA==
-X-Received: by 2002:a2e:ab0d:0:b0:2ce:5524:1d96 with SMTP id ce13-20020a2eab0d000000b002ce55241d96mr830730ljb.51.1706696979692;
-        Wed, 31 Jan 2024 02:29:39 -0800 (PST)
-X-Forwarded-Encrypted: i=0; AJvYcCXlwqgqP8/OAq4HWyVx8FiFCUs0NUqVKAOuyPMBmzGN/G9vCE7xfEC7zdcAPomxJ+TXGfMkmDoIl8Bbe24VEaMkkVONUyt1LBQgMHx6t8epOVxnJyWXT8+ayaMXGp0twh6ybHkaXd1k3R91qKfslmQvji4FTXfOtGP0Vbk4x5B5ZzJTQknlX+5LEugPsbC4j5Es8dW3lI8YLIztbtbEmF/UsbchmmytV6qo+009RmIJpjVPefQn/jSNKOqnd8rVevAFzVZ5SDjeCW9KoAIKN9xxyP5RlKBGfdeWmUXPcF4qtfmM2d+AHB52mA==
+        bh=GgKvFA/cFIibrDf0plTzRbx0APcUTA89+vLJXcU5S/c=;
+        b=mkjVANVSliutFAW82KPs0aG3SDO7ulDmCsLK1JRH/NLEbSW9IFWElEJX9M8rDmZ8mb
+         QmXoQJSMmfgyBFhystayLXXfIulmYsqkVBalapVhPSrKyUHe8Jz+kITirFM69sxJVXKE
+         a/pGZYI0mM3QnaBc0sYe+WdM62ZG6ktDcELMB5Z/TwTPPGk35a12n2CBbZLB3MQ3U5/t
+         +B/C1RdAp0K0u/BOjjBw/gRfZdX+Je8FYnh/klD7wfimdXK+jqLDIIqMMIUKnC9eF+Zs
+         ZN96N3stv5ry/WYVRRird/rveSFuyHv6mC5YrhPOAbMSnoUOe+GBaEPYci2mhJaP6bql
+         tB4Q==
+X-Gm-Message-State: AOJu0YyZ6eAU3aChnpuay71Hl7fbjn7P5559QKbPhuh0ad5mNU5tL1+c
+	jtR/O4ZsVdNimsF7XUoE4+FWpYODB37fU/SKqd5PaljNkzntm9Chwucj4H/8MPU=
+X-Google-Smtp-Source: AGHT+IGZH/v/Bu5W2LKkI0EIu6OdXLnlN73qtxwIFIFlKMROs2Wq4UCb34rjO37iQLeNTqTv0mCbCg==
+X-Received: by 2002:a05:6402:358b:b0:55e:d846:ab4b with SMTP id y11-20020a056402358b00b0055ed846ab4bmr945599edc.20.1706696980847;
+        Wed, 31 Jan 2024 02:29:40 -0800 (PST)
+X-Forwarded-Encrypted: i=0; AJvYcCWBmyi2eVTs4LrFvU5FzkykRNJbiE1M9TVGENQGFFbEvqR6chaoqj8TvClonEQWX7cE5KHLDZ5Ji14p/eNonSmbXlrz6PxQOZQMvmKHWM89lDX4XtBhlRgTM79vGVJPrFFwKyWQPg9U2SLaKGYfRCA0Pv9MIZThvOKt/KGYdvAg8jNiK+o/dHcDgWDJrfjEgyswrKSU8zx1L5wVpHcTMqNHCQpUabtLKcU49uwqQc6A3M8z3aa3GFy6Z3cQsNeCfJIsM9s++QNggENAPydECw==
 Received: from claudiu-X670E-Pro-RS.. ([82.78.167.87])
-        by smtp.gmail.com with ESMTPSA id p16-20020aa7d310000000b0055f3b11d0adsm1618989edq.55.2024.01.31.02.29.38
+        by smtp.gmail.com with ESMTPSA id p16-20020aa7d310000000b0055f3b11d0adsm1618989edq.55.2024.01.31.02.29.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 31 Jan 2024 02:29:39 -0800 (PST)
+        Wed, 31 Jan 2024 02:29:40 -0800 (PST)
 From: Claudiu <claudiu.beznea@tuxon.dev>
 X-Google-Original-From: Claudiu <claudiu.beznea.uj@bp.renesas.com>
 To: geert+renesas@glider.be,
@@ -77,11 +76,10 @@ Cc: linux-renesas-soc@vger.kernel.org,
 	linux-clk@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	claudiu.beznea@tuxon.dev,
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
-	Hien Huynh <hien.huynh.px@renesas.com>
-Subject: [PATCH 1/2] clk: renesas: r9a08g04{3,4}: Use SEL_SDHI1_STS status configuration for SD1 mux
-Date: Wed, 31 Jan 2024 12:29:29 +0200
-Message-Id: <20240131102930.1841901-2-claudiu.beznea.uj@bp.renesas.com>
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+Subject: [PATCH 2/2] clk: renesas: r9a07g04{3,4}: Fix typo for sel_shdi variable
+Date: Wed, 31 Jan 2024 12:29:30 +0200
+Message-Id: <20240131102930.1841901-3-claudiu.beznea.uj@bp.renesas.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20240131102930.1841901-1-claudiu.beznea.uj@bp.renesas.com>
 References: <20240131102930.1841901-1-claudiu.beznea.uj@bp.renesas.com>
@@ -95,39 +93,61 @@ Content-Transfer-Encoding: 8bit
 
 From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 
-The status configuration for SD1 mux clock is SEL_SDHI1_STS. Fix it.
+Fix typo for sel_shdi variable.
 
-Fixes: 16b86e5c03c5 ("clk: renesas: rzg2l: Refactor SD mux driver")
-Reported-by: Hien Huynh <hien.huynh.px@renesas.com>
 Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 ---
- drivers/clk/renesas/r9a07g043-cpg.c | 2 +-
- drivers/clk/renesas/r9a07g044-cpg.c | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ drivers/clk/renesas/r9a07g043-cpg.c | 6 +++---
+ drivers/clk/renesas/r9a07g044-cpg.c | 6 +++---
+ 2 files changed, 6 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/clk/renesas/r9a07g043-cpg.c b/drivers/clk/renesas/r9a07g043-cpg.c
-index b70bb378ab46..075ade0925d4 100644
+index 075ade0925d4..60f6dfeb328c 100644
 --- a/drivers/clk/renesas/r9a07g043-cpg.c
 +++ b/drivers/clk/renesas/r9a07g043-cpg.c
-@@ -138,7 +138,7 @@ static const struct cpg_core_clk r9a07g043_core_clks[] __initconst = {
+@@ -87,7 +87,7 @@ static const struct clk_div_table dtable_1_32[] = {
+ /* Mux clock tables */
+ static const char * const sel_pll3_3[] = { ".pll3_533", ".pll3_400" };
+ static const char * const sel_pll6_2[]	= { ".pll6_250", ".pll5_250" };
+-static const char * const sel_shdi[] = { ".clk_533", ".clk_400", ".clk_266" };
++static const char * const sel_sdhi[] = { ".clk_533", ".clk_400", ".clk_266" };
+ 
+ static const u32 mtable_sdhi[] = { 1, 2, 3 };
+ 
+@@ -136,9 +136,9 @@ static const struct cpg_core_clk r9a07g043_core_clks[] __initconst = {
+ 	DEF_MUX("HP", R9A07G043_CLK_HP, SEL_PLL6_2, sel_pll6_2),
+ 	DEF_FIXED("SPI0", R9A07G043_CLK_SPI0, CLK_DIV_PLL3_C, 1, 2),
  	DEF_FIXED("SPI1", R9A07G043_CLK_SPI1, CLK_DIV_PLL3_C, 1, 4),
- 	DEF_SD_MUX("SD0", R9A07G043_CLK_SD0, SEL_SDHI0, SEL_SDHI0_STS, sel_shdi,
+-	DEF_SD_MUX("SD0", R9A07G043_CLK_SD0, SEL_SDHI0, SEL_SDHI0_STS, sel_shdi,
++	DEF_SD_MUX("SD0", R9A07G043_CLK_SD0, SEL_SDHI0, SEL_SDHI0_STS, sel_sdhi,
  		   mtable_sdhi, 0, rzg2l_cpg_sd_clk_mux_notifier),
--	DEF_SD_MUX("SD1", R9A07G043_CLK_SD1, SEL_SDHI1, SEL_SDHI0_STS, sel_shdi,
-+	DEF_SD_MUX("SD1", R9A07G043_CLK_SD1, SEL_SDHI1, SEL_SDHI1_STS, sel_shdi,
+-	DEF_SD_MUX("SD1", R9A07G043_CLK_SD1, SEL_SDHI1, SEL_SDHI1_STS, sel_shdi,
++	DEF_SD_MUX("SD1", R9A07G043_CLK_SD1, SEL_SDHI1, SEL_SDHI1_STS, sel_sdhi,
  		   mtable_sdhi, 0, rzg2l_cpg_sd_clk_mux_notifier),
  	DEF_FIXED("SD0_DIV4", CLK_SD0_DIV4, R9A07G043_CLK_SD0, 1, 4),
  	DEF_FIXED("SD1_DIV4", CLK_SD1_DIV4, R9A07G043_CLK_SD1, 1, 4),
 diff --git a/drivers/clk/renesas/r9a07g044-cpg.c b/drivers/clk/renesas/r9a07g044-cpg.c
-index 1047278c9079..bc822b9fd7ce 100644
+index bc822b9fd7ce..48404cafea3f 100644
 --- a/drivers/clk/renesas/r9a07g044-cpg.c
 +++ b/drivers/clk/renesas/r9a07g044-cpg.c
-@@ -178,7 +178,7 @@ static const struct {
+@@ -106,7 +106,7 @@ static const struct clk_div_table dtable_16_128[] = {
+ static const char * const sel_pll3_3[] = { ".pll3_533", ".pll3_400" };
+ static const char * const sel_pll5_4[] = { ".pll5_foutpostdiv", ".pll5_fout1ph0" };
+ static const char * const sel_pll6_2[]	= { ".pll6_250", ".pll5_250" };
+-static const char * const sel_shdi[] = { ".clk_533", ".clk_400", ".clk_266" };
++static const char * const sel_sdhi[] = { ".clk_533", ".clk_400", ".clk_266" };
+ static const char * const sel_gpu2[] = { ".pll6", ".pll3_div2_2" };
+ 
+ static const u32 mtable_sdhi[] = { 1, 2, 3 };
+@@ -176,9 +176,9 @@ static const struct {
+ 		DEF_MUX("HP", R9A07G044_CLK_HP, SEL_PLL6_2, sel_pll6_2),
+ 		DEF_FIXED("SPI0", R9A07G044_CLK_SPI0, CLK_DIV_PLL3_C, 1, 2),
  		DEF_FIXED("SPI1", R9A07G044_CLK_SPI1, CLK_DIV_PLL3_C, 1, 4),
- 		DEF_SD_MUX("SD0", R9A07G044_CLK_SD0, SEL_SDHI0, SEL_SDHI0_STS, sel_shdi,
+-		DEF_SD_MUX("SD0", R9A07G044_CLK_SD0, SEL_SDHI0, SEL_SDHI0_STS, sel_shdi,
++		DEF_SD_MUX("SD0", R9A07G044_CLK_SD0, SEL_SDHI0, SEL_SDHI0_STS, sel_sdhi,
  			   mtable_sdhi, 0, rzg2l_cpg_sd_clk_mux_notifier),
--		DEF_SD_MUX("SD1", R9A07G044_CLK_SD1, SEL_SDHI1, SEL_SDHI0_STS, sel_shdi,
-+		DEF_SD_MUX("SD1", R9A07G044_CLK_SD1, SEL_SDHI1, SEL_SDHI1_STS, sel_shdi,
+-		DEF_SD_MUX("SD1", R9A07G044_CLK_SD1, SEL_SDHI1, SEL_SDHI1_STS, sel_shdi,
++		DEF_SD_MUX("SD1", R9A07G044_CLK_SD1, SEL_SDHI1, SEL_SDHI1_STS, sel_sdhi,
  			   mtable_sdhi, 0, rzg2l_cpg_sd_clk_mux_notifier),
  		DEF_FIXED("SD0_DIV4", CLK_SD0_DIV4, R9A07G044_CLK_SD0, 1, 4),
  		DEF_FIXED("SD1_DIV4", CLK_SD1_DIV4, R9A07G044_CLK_SD1, 1, 4),
