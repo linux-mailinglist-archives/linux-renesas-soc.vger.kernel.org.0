@@ -1,56 +1,57 @@
-Return-Path: <linux-renesas-soc+bounces-2148-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-2149-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id B84A08443B7
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 31 Jan 2024 17:09:45 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B96A8443BC
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 31 Jan 2024 17:10:02 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4B91B1F279ED
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 31 Jan 2024 16:09:45 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DAA4328FFDA
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 31 Jan 2024 16:10:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9FDA212AAC4;
-	Wed, 31 Jan 2024 16:09:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0D10D12A169;
+	Wed, 31 Jan 2024 16:09:59 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from albert.telenet-ops.be (albert.telenet-ops.be [195.130.137.90])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A30237BAF6
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 31 Jan 2024 16:09:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.137.90
+Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 484E469D05;
+	Wed, 31 Jan 2024 16:09:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706717381; cv=none; b=N9dx10ZcBSbQI3CHsYCG+ElCzlSGzrt8/gwSqr8q8quv47U4WNcLNlUeGYZa8Lxgsbg89zevLBxMOB870tIk250vc5a4smuNz7MUsZgQjTjsOkN5CbPbjK2XwaeWyDKvwHgjpLGGnQreKqrPPxbm7PZGw8RAEcwJnrKSwrsR5fo=
+	t=1706717398; cv=none; b=Yh8Qw9S7PbTFd8ohvFwAj1ZlUJbS/vJbRLwvnHkBr2Aj+3DyahPTaWKHa+0H7hj8g8Rj6f4Nx912JnTX78pzURhFgNtVYLMKlkXFtEa3BKoOJFwnPjOF4Jc0mkYfpLOyXHSb0nRSfc5ENdM24/sA6nRACz85zkIePC84Ai2Vne4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706717381; c=relaxed/simple;
-	bh=4RL/w/D+JHU+k8ENIavvpxCr8XQWjO8Rks06Xew+uDo=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=pmHFWiAK0xT6vhsn9YH++Qk2xDBgcYMuHyqbfG6jtIwoemymY5dJSQdk3EJrwvA9R67upqsxsjtzYwusldD2KLEgDqkEwOicshamAqL3WEIhr9Q1ES3C0Ov8IY8PMwGne6D3nORLrmIdN5xIif9ptOO+20wpESLAmpkCzRR2ZL4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.137.90
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
-Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed40:88f0:c83b:bafa:cdc3])
-	by albert.telenet-ops.be with bizsmtp
-	id hU9X2B00N4efzLr06U9XBs; Wed, 31 Jan 2024 17:09:32 +0100
-Received: from rox.of.borg ([192.168.97.57])
-	by ramsan.of.borg with esmtp (Exim 4.95)
-	(envelope-from <geert@linux-m68k.org>)
-	id 1rVD8h-00GrUz-9d;
-	Wed, 31 Jan 2024 17:09:31 +0100
-Received: from geert by rox.of.borg with local (Exim 4.95)
-	(envelope-from <geert@linux-m68k.org>)
-	id 1rVD9X-008lVm-HS;
-	Wed, 31 Jan 2024 17:09:31 +0100
-From: Geert Uytterhoeven <geert+renesas@glider.be>
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Andi Shyti <andi.shyti@kernel.org>
-Cc: linux-renesas-soc@vger.kernel.org,
-	linux-i2c@vger.kernel.org,
-	linux-sh@vger.kernel.org,
-	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH v2] i2c: sh_mobile: Switch R-Mobile A1/APE6 and SH-Mobile AG5 to new frequency calculation
-Date: Wed, 31 Jan 2024 17:09:30 +0100
-Message-Id: <93f3b97c20164510ed80928500a8d443d7e23adb.1706717315.git.geert+renesas@glider.be>
-X-Mailer: git-send-email 2.34.1
+	s=arc-20240116; t=1706717398; c=relaxed/simple;
+	bh=MwIxIYeYpTcB9h848/ZPazREWf6wyNf1jMcp3F1E58s=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=YJmdn++CZqdWbdi5+4GhwRTcVRzl1bjY8mAeWgFNZy/t8JagfkVhedOXimrWcHgWv15pXt2NdoP4FzfE/OTkaYs4ZgxuJeDCMGFPWWk0uaw3A31Q9Tckx/2SRYq47wcwDmNXvoUp5YHYa/axU2HVF/V7V0zh2D3P0ZuO0bFoxSg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
+X-IronPort-AV: E=Sophos;i="6.05,231,1701097200"; 
+   d="scan'208";a="192402235"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie5.idc.renesas.com with ESMTP; 01 Feb 2024 01:09:54 +0900
+Received: from localhost.localdomain (unknown [10.226.92.227])
+	by relmlir6.idc.renesas.com (Postfix) with ESMTP id 926864007129;
+	Thu,  1 Feb 2024 01:09:50 +0900 (JST)
+From: Biju Das <biju.das.jz@bp.renesas.com>
+To: Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Russell King <linux@armlinux.org.uk>
+Cc: Biju Das <biju.das.jz@bp.renesas.com>,
+	linux-clk@vger.kernel.org,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	Biju Das <biju.das.au@gmail.com>,
+	linux-media@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org
+Subject: [PATCH RFC 0/3] Add clk_disable_unprepare_sync()
+Date: Wed, 31 Jan 2024 16:09:44 +0000
+Message-Id: <20240131160947.96171-1-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -59,87 +60,36 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Switch the R-Mobile A1, R-Mobile APE6, and SH-Mobile AG5 SoCs to the new
-frequency calculation formula, to (a) avoid running the I2C bus too fast,
-and (b) bring the low/high ratio closer to the recommended ratio 5/4.
+Currently clk_disable() is not synchronous. Consumers just
+gate the clock, but it doesn't check actually the clock is
+gated.
 
-As this makes fast_clock_dt_config and v2_freq_calc_dt_config identical,
-merge them into a single fast_clock_dt_config.
+On RZ/G2L SMARC EVK before starting link reception we need to
+make sure the video clock is off, then start reception and
+turn video clock back to on.
 
-Legacy SH users (sh7343, sh7366, and sh772[234]) are left alone, and
-still use the old formula.
+Introduce clk_disable_unprepare_sync() to synchronize
+the clock gate operation.
 
-Measurement results on R-Mobile APE6 and SH-Mobile AG5 (fck=104 MHz,
-clks_per_count=2):
-  100 kHz: 106 kHz LH=1.12 before, 99.6 kHz L/H=1.22 after
-  400 kHz: 384 kHz LH=1.67 before, 392 kHz L/H=1.27 after
+Note:
+ patch#3 depend upon [1]
 
-Measurement results on R-Mobile A1 (fck=49.5 MHz, clks_per_count=1):
-  100 kHz: 106 kHz L/H=1.09 before, 99.6 kHz L/H=1.20 after
+[1] https://patchwork.kernel.org/project/linux-renesas-soc/patch/20240130164115.116613-5-biju.das.jz@bp.renesas.com/
 
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
-v2:
-  - Merge fast_clock_dt_config and v2_freq_calc_dt_config,
-  - Document that legacy SH users are untouched.
----
- drivers/i2c/busses/i2c-sh_mobile.c | 27 +++++++++++----------------
- 1 file changed, 11 insertions(+), 16 deletions(-)
+Biju Das (3):
+  clk: Add clk_disable_unprepare_sync()
+  clk: renesas: rzg2l: Add disable_sync() callback
+  media: platform: rzg2l-cru: rzg2l-video: Use
+    clk_disable_unprepare_sync()
 
-diff --git a/drivers/i2c/busses/i2c-sh_mobile.c b/drivers/i2c/busses/i2c-sh_mobile.c
-index 5adbe62cf6212865..c65ac3d7eadc5b58 100644
---- a/drivers/i2c/busses/i2c-sh_mobile.c
-+++ b/drivers/i2c/busses/i2c-sh_mobile.c
-@@ -773,7 +773,7 @@ static int sh_mobile_i2c_r8a7740_workaround(struct sh_mobile_i2c_data *pd)
- 	iic_wr(pd, ICCR, ICCR_TRS);
- 	udelay(10);
- 
--	return sh_mobile_i2c_init(pd);
-+	return sh_mobile_i2c_v2_init(pd);
- }
- 
- static const struct sh_mobile_dt_config default_dt_config = {
-@@ -782,11 +782,6 @@ static const struct sh_mobile_dt_config default_dt_config = {
- };
- 
- static const struct sh_mobile_dt_config fast_clock_dt_config = {
--	.clks_per_count = 2,
--	.setup = sh_mobile_i2c_init,
--};
--
--static const struct sh_mobile_dt_config v2_freq_calc_dt_config = {
- 	.clks_per_count = 2,
- 	.setup = sh_mobile_i2c_v2_init,
- };
-@@ -799,17 +794,17 @@ static const struct sh_mobile_dt_config r8a7740_dt_config = {
- static const struct of_device_id sh_mobile_i2c_dt_ids[] = {
- 	{ .compatible = "renesas,iic-r8a73a4", .data = &fast_clock_dt_config },
- 	{ .compatible = "renesas,iic-r8a7740", .data = &r8a7740_dt_config },
--	{ .compatible = "renesas,iic-r8a774c0", .data = &v2_freq_calc_dt_config },
--	{ .compatible = "renesas,iic-r8a7790", .data = &v2_freq_calc_dt_config },
--	{ .compatible = "renesas,iic-r8a7791", .data = &v2_freq_calc_dt_config },
--	{ .compatible = "renesas,iic-r8a7792", .data = &v2_freq_calc_dt_config },
--	{ .compatible = "renesas,iic-r8a7793", .data = &v2_freq_calc_dt_config },
--	{ .compatible = "renesas,iic-r8a7794", .data = &v2_freq_calc_dt_config },
--	{ .compatible = "renesas,iic-r8a7795", .data = &v2_freq_calc_dt_config },
--	{ .compatible = "renesas,iic-r8a77990", .data = &v2_freq_calc_dt_config },
-+	{ .compatible = "renesas,iic-r8a774c0", .data = &fast_clock_dt_config },
-+	{ .compatible = "renesas,iic-r8a7790", .data = &fast_clock_dt_config },
-+	{ .compatible = "renesas,iic-r8a7791", .data = &fast_clock_dt_config },
-+	{ .compatible = "renesas,iic-r8a7792", .data = &fast_clock_dt_config },
-+	{ .compatible = "renesas,iic-r8a7793", .data = &fast_clock_dt_config },
-+	{ .compatible = "renesas,iic-r8a7794", .data = &fast_clock_dt_config },
-+	{ .compatible = "renesas,iic-r8a7795", .data = &fast_clock_dt_config },
-+	{ .compatible = "renesas,iic-r8a77990", .data = &fast_clock_dt_config },
- 	{ .compatible = "renesas,iic-sh73a0", .data = &fast_clock_dt_config },
--	{ .compatible = "renesas,rcar-gen2-iic", .data = &v2_freq_calc_dt_config },
--	{ .compatible = "renesas,rcar-gen3-iic", .data = &v2_freq_calc_dt_config },
-+	{ .compatible = "renesas,rcar-gen2-iic", .data = &fast_clock_dt_config },
-+	{ .compatible = "renesas,rcar-gen3-iic", .data = &fast_clock_dt_config },
- 	{ .compatible = "renesas,rmobile-iic", .data = &default_dt_config },
- 	{},
- };
+ drivers/clk/clk.c                             | 36 ++++++++++++++-----
+ drivers/clk/renesas/rzg2l-cpg.c               | 23 ++++++++++++
+ .../platform/renesas/rzg2l-cru/rzg2l-csi2.c   |  2 +-
+ include/linux/clk-provider.h                  |  4 +++
+ include/linux/clk.h                           | 25 +++++++++++++
+ 5 files changed, 80 insertions(+), 10 deletions(-)
+
 -- 
-2.34.1
+2.25.1
 
 
