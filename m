@@ -1,206 +1,133 @@
-Return-Path: <linux-renesas-soc+bounces-2171-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-2172-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E8C084473B
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 31 Jan 2024 19:37:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87BB4844751
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 31 Jan 2024 19:39:13 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5858028FAF7
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 31 Jan 2024 18:37:01 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 16758290F77
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 31 Jan 2024 18:39:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4690717BD3;
-	Wed, 31 Jan 2024 18:36:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="I0rUv+Y6"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AC63F17BD7;
+	Wed, 31 Jan 2024 18:39:09 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vk1-f179.google.com (mail-vk1-f179.google.com [209.85.221.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx01.omp.ru (mx01.omp.ru [90.154.21.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9534118AFB;
-	Wed, 31 Jan 2024 18:36:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F047120DE8;
+	Wed, 31 Jan 2024 18:39:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.154.21.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706726217; cv=none; b=gKzsmFaC2kq/UgYHFbfclPzj0lj0sWzXxayygtEU2umulyUclJvy1f0e61DoxfMty5/Az3WGZJDBvlmls1GSIC38UX0yPbxyXWvGsdebz6iktxkvg97hO1B7P33lfKbJXPC9hLTWiWMCwMkl/7eZ1mm2IM5W8/BgrQp0udt5kc8=
+	t=1706726349; cv=none; b=cW9yobSF0Rs+V9NhmZ7uBlthuuuUWhjHkrihLcYQUNZlnPM5uJLPQuNIYtn4AqHkL5VUcD7iKvdsESVL3lm+2hYHwViRiSPmtnS1by1T5C7PEMjJy018OkJWeTGDMzQbplCT/HuQs//GPmr2grZm5jx12zaQ61W02+RNhJ32RVU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706726217; c=relaxed/simple;
-	bh=eb+VOK77YTif17liq1RxZojiKrVECAtAYhvihr2dNWw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=rHWiA5lkZUhsNHLncv6B5mhZ10GXQZ6e3hyJbJZ0qNoJ+ipc3wYi2wYIvf4dEYKQdke0OOleTWVVui3y3WjBjEUQ5o1JIwVxCgA7F9fUfiQi0SZo0z3cHdPLIiqRWgEliGI3F2B+qqWpFKAnPKsMQIh0N0AEpIuSPHSfJ4pC14Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=I0rUv+Y6; arc=none smtp.client-ip=209.85.221.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f179.google.com with SMTP id 71dfb90a1353d-4bda1df7e35so39418e0c.3;
-        Wed, 31 Jan 2024 10:36:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1706726214; x=1707331014; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=md+5piiWXmKjN01VJwfPkduOvpzQsk5Gbc1LCAGZCHM=;
-        b=I0rUv+Y6qhcg4NkiHwOHf6LusZf4W5WmRtjdOBzlXjKRl5EVZLsbb4xIL37LEdwcPR
-         Bi4/uG/dBhpvidTIw2nPV9k1ciss0EYqvfmu/wSJiOxKo52dhpfxSNzy5VhRpYdXm7BY
-         mp+RY5lfSwPEuy9KUe8cwsTiIjITYe2chYVm17kP38XDtT80ZfHkaDeK622xXqCsR0VP
-         pjLiAVXx0a40y/lANIFpRS14Zgupt05i41IuysWz3L7HFNw06WCCWiP2Y5jrCfQKN/T4
-         JHNj3+jGkxz36dyyO2AqmzBL0zlX6oECzkhbqfY188Sfk5seiHDI+XrTbNKizz6eKfum
-         3vLA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706726214; x=1707331014;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=md+5piiWXmKjN01VJwfPkduOvpzQsk5Gbc1LCAGZCHM=;
-        b=ZkepSvjK/wflNPWTfUUMdWphNNxr/U+TtSBPOA+k/pVTsNcgQoW3Q9h8sfeAiahh46
-         rcxK6C27fPJEuh50J61zfiPTl/aOsVHI5h1VQFKTLzyWHSXGsLNMBhZ+5NjkLE5DzBMT
-         lN0l7QePySigUTRxUiPT7IofYwVWSdK9FVLDFdvLoXbqwFH3H6Edkj3RAcg0ntbC4DP7
-         AuV9iK4D6QwtrB+Nsyo6Qyt2hMckTWoWSFwv4JHwKLRuT7l1oF92X4oMN90YlfEniQrR
-         CUcLfpzyWZbD4uTAXnFDf/ingNZhb0N/q0GXo84RTzn8VM+SA8UN7yHN9KSrq38cNV9H
-         SUBQ==
-X-Gm-Message-State: AOJu0YyG0Oyu1YKJ9rp1YTcZEL5t6iuoqoM2u5+WnSkxseuC/3gt7Rrt
-	tIZjGfrPhhkVkwUIwrb1LTUIFP2YZwCidb3UHoCsMaTR/fDiRF0sVvj+2jVkZ8LK5PP8voQEadR
-	W6JXeH6llxWUgzb2D5GDWxnw0sAo=
-X-Google-Smtp-Source: AGHT+IEnW38T9BQmWMOcc/tVl3EFzSGPQf9woPnBE3HaaWWQoeX0PopBSjevHvFAvfx+3jXs6OflFORZ8k7PxaXoMY4=
-X-Received: by 2002:a05:6122:1818:b0:4bd:b44c:24c1 with SMTP id
- ay24-20020a056122181800b004bdb44c24c1mr2595166vkb.11.1706726214233; Wed, 31
- Jan 2024 10:36:54 -0800 (PST)
+	s=arc-20240116; t=1706726349; c=relaxed/simple;
+	bh=rXcfpzQ9QFkg2aC41Y07F7sa4N5JX3LOM+ObY03VVYY=;
+	h=Subject:To:CC:References:From:Message-ID:Date:MIME-Version:
+	 In-Reply-To:Content-Type; b=t5AQ7QXiyHOi+JPiCnP7c5u+8/LcE77eThpVK1wY52voybOrjeLtniY5+p8fKWhngf4hZMYrKq2udwcYeaxNF9RewieCSyMX6lIsybTuHj1L5qIKIEr8TCP7x53R7Rq9Reg/Rf8VFfNk7RqyvXS/74I23ROULvfS0FTamla0zic=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=omp.ru; spf=pass smtp.mailfrom=omp.ru; arc=none smtp.client-ip=90.154.21.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=omp.ru
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=omp.ru
+Received: from [192.168.1.105] (31.173.81.146) by msexch01.omp.ru
+ (10.188.4.12) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.1258.12; Wed, 31 Jan
+ 2024 21:38:51 +0300
+Subject: Re: [PATCH net-next v5 07/15] net: ravb: Move reference clock
+ enable/disable on runtime PM APIs
+To: Claudiu <claudiu.beznea@tuxon.dev>, <davem@davemloft.net>,
+	<edumazet@google.com>, <kuba@kernel.org>, <pabeni@redhat.com>,
+	<richardcochran@gmail.com>, <p.zabel@pengutronix.de>,
+	<geert+renesas@glider.be>
+CC: <netdev@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, Claudiu Beznea
+	<claudiu.beznea.uj@bp.renesas.com>
+References: <20240131084133.1671440-1-claudiu.beznea.uj@bp.renesas.com>
+ <20240131084133.1671440-8-claudiu.beznea.uj@bp.renesas.com>
+From: Sergey Shtylyov <s.shtylyov@omp.ru>
+Organization: Open Mobile Platform
+Message-ID: <518b6105-b09a-bd07-e6b1-026f73366a35@omp.ru>
+Date: Wed, 31 Jan 2024 21:38:50 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240129151618.90922-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20240129151618.90922-3-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAMuHMdV7Q4kMv1pFVNBf5oYF=_W_snp=5GKLpr9+OxeqxywhBw@mail.gmail.com>
-In-Reply-To: <CAMuHMdV7Q4kMv1pFVNBf5oYF=_W_snp=5GKLpr9+OxeqxywhBw@mail.gmail.com>
-From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Wed, 31 Jan 2024 18:36:20 +0000
-Message-ID: <CA+V-a8spFYvOo2=9CwM-1EyMA3Xrc_rggUgxDZwZan2ou4SG1A@mail.gmail.com>
-Subject: Re: [PATCH 2/5] irqchip/renesas-rzg2l: Add support for RZ/Five SoC
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Thomas Gleixner <tglx@linutronix.de>, Rob Herring <robh+dt@kernel.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Magnus Damm <magnus.damm@gmail.com>, linux-renesas-soc@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-riscv@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20240131084133.1671440-8-claudiu.beznea.uj@bp.renesas.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: msexch01.omp.ru (10.188.4.12) To msexch01.omp.ru
+ (10.188.4.12)
+X-KSE-ServerInfo: msexch01.omp.ru, 9
+X-KSE-AntiSpam-Interceptor-Info: scan successful
+X-KSE-AntiSpam-Version: 6.1.0, Database issued on: 01/31/2024 18:18:05
+X-KSE-AntiSpam-Status: KAS_STATUS_NOT_DETECTED
+X-KSE-AntiSpam-Method: none
+X-KSE-AntiSpam-Rate: 59
+X-KSE-AntiSpam-Info: Lua profiles 183089 [Jan 31 2024]
+X-KSE-AntiSpam-Info: Version: 6.1.0.3
+X-KSE-AntiSpam-Info: Envelope from: s.shtylyov@omp.ru
+X-KSE-AntiSpam-Info: LuaCore: 7 0.3.7 6d6bf5bd8eea7373134f756a2fd73e9456bb7d1a
+X-KSE-AntiSpam-Info: {rep_avail}
+X-KSE-AntiSpam-Info: {Tracking_from_domain_doesnt_match_to}
+X-KSE-AntiSpam-Info: {relay has no DNS name}
+X-KSE-AntiSpam-Info: {SMTP from is not routable}
+X-KSE-AntiSpam-Info: {Found in DNSBL: 31.173.81.146 in (user)
+ b.barracudacentral.org}
+X-KSE-AntiSpam-Info:
+	omp.ru:7.1.1;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;127.0.0.199:7.1.2
+X-KSE-AntiSpam-Info: ApMailHostAddress: 31.173.81.146
+X-KSE-AntiSpam-Info: {DNS response errors}
+X-KSE-AntiSpam-Info: Rate: 59
+X-KSE-AntiSpam-Info: Status: not_detected
+X-KSE-AntiSpam-Info: Method: none
+X-KSE-AntiSpam-Info: Auth:dmarc=temperror header.from=omp.ru;spf=temperror
+ smtp.mailfrom=omp.ru;dkim=none
+X-KSE-Antiphishing-Info: Clean
+X-KSE-Antiphishing-ScanningType: Heuristic
+X-KSE-Antiphishing-Method: None
+X-KSE-Antiphishing-Bases: 01/31/2024 18:23:00
+X-KSE-Antivirus-Interceptor-Info: scan successful
+X-KSE-Antivirus-Info: Clean, bases: 1/31/2024 10:54:00 AM
+X-KSE-Attachment-Filter-Triggered-Rules: Clean
+X-KSE-Attachment-Filter-Triggered-Filters: Clean
+X-KSE-BulkMessagesFiltering-Scan-Result: InTheLimit
 
-Hi Geert,
+On 1/31/24 11:41 AM, Claudiu wrote:
 
-Thank you for the review.
+> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+> 
+> Reference clock could be or not be part of the power domain. If it is part
+> of the power domain, the power domain takes care of properly setting it. In
+> case it is not part of the power domain and full runtime PM support is
+> available in driver the clock will not be propertly disabled/enabled at
+> runtime. For this, keep the prepare/unprepare operations in the driver's
+> probe()/remove() functions and move the enable/disable in runtime PM
+> functions.
+> 
+> By doing this, the previous ravb_runtime_nop() function was renamed
+> ravb_runtime_suspend() and the comment was removed. A proper runtime PM
+> resume function was added (ravb_runtime_resume()). The current driver
+> still don't need to make any register settings on runtime suspend/resume
+> (as expressed in the removed comment) because, currently,
+> pm_runtime_put_sync() is called on the driver remove function. This will be
+> changed in the next commits (that extends the runtime PM support) such
+> that proper register settings (along with runtime resume/suspend) will be
+> done on ravb_open()/ravb_close().
+> 
+> Along with it, the other clock request operations were moved close to
+> reference clock request and prepare to have all the clock requests
+> specific code grouped together.
+> 
+> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 
-On Tue, Jan 30, 2024 at 11:38=E2=80=AFAM Geert Uytterhoeven
-<geert@linux-m68k.org> wrote:
->
-> Hi Prabhakar,
->
-> On Mon, Jan 29, 2024 at 4:16=E2=80=AFPM Prabhakar <prabhakar.csengg@gmail=
-.com> wrote:
-> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> >
-> > The IX45 block has additional mask registers (NMSK/IMSK/TMSK) as compar=
-ed
-> > to the RZ/G2L (family) SoC.
-> >
-> > Introduce masking/unmasking support for IRQ and TINT interrupts in IRQC
-> > controller driver. Two new registers, IMSK and TMSK, are defined to
-> > handle masking on RZ/Five SoC. The implementation utilizes a new data
-> > structure, `struct rzg2l_irqc_data`, to determine mask support for a
-> > specific controller instance.
-> >
-> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
->
-> Thanks for your patch!
->
-> > --- a/drivers/irqchip/irq-renesas-rzg2l.c
-> > +++ b/drivers/irqchip/irq-renesas-rzg2l.c
-> > @@ -66,15 +68,25 @@ struct rzg2l_irqc_reg_cache {
-> >         u32     titsr[2];
-> >  };
-> >
-> > +/**
-> > + * struct rzg2l_irqc_data - OF data structure
-> > + * @mask_supported: Indicates if mask registers are available
-> > + */
-> > +struct rzg2l_irqc_data {
->
-> This structure has the same name as the single static struct
-> rzg2l_irqc_priv instance, which is confusing.
->
-Agreed, I will rename it to rzg2l_irqc_of_data
+Reviewed-by: Sergey Shtylyov <s.shtylyov@omp.ru>
 
-> > +       bool    mask_supported;
-> > +};
-> > +
-> >  /**
-> >   * struct rzg2l_irqc_priv - IRQ controller private data structure
-> >   * @base:      Controller's base address
-> > + * @data:      OF data pointer
-> >   * @fwspec:    IRQ firmware specific data
-> >   * @lock:      Lock to serialize access to hardware registers
-> >   * @cache:     Registers cache for suspend/resume
-> >   */
-> >  static struct rzg2l_irqc_priv {
-> >         void __iomem                    *base;
-> > +       const struct rzg2l_irqc_data    *data;
->
-> Replacing this by a bool would avoid a pointer dereference in each user,
-> and allows you to make rzg2l_irqc_data etc. __initconst.
->
-Do you mean just add "bool mask_supported" here and get rid of struct
-rzg2l_irqc_data ? Can you please elaborate here..
+[...]
 
-> >         struct irq_fwspec               fwspec[IRQC_NUM_IRQ];
-> >         raw_spinlock_t                  lock;
-> >         struct rzg2l_irqc_reg_cache     cache;
->
-> > @@ -371,9 +475,23 @@ static int rzg2l_irqc_parse_interrupts(struct rzg2=
-l_irqc_priv *priv,
-> >         return 0;
-> >  }
-> >
-> > +static const struct rzg2l_irqc_data rzfive_irqc_data =3D {
-> > +       .mask_supported =3D true,
-> > +};
-> > +
-> > +static const struct rzg2l_irqc_data rzg2l_irqc_default_data =3D {
-> > +       .mask_supported =3D false,
-> > +};
-> > +
-> > +static const struct of_device_id rzg2l_irqc_matches[] =3D {
-> > +       { .compatible =3D "renesas,r9a07g043f-irqc", .data =3D &rzfive_=
-irqc_data },
-> > +       { }
-> > +};
-> > +
-> >  static int rzg2l_irqc_init(struct device_node *node, struct device_nod=
-e *parent)
-> >  {
-> >         struct irq_domain *irq_domain, *parent_domain;
-> > +       const struct of_device_id *match;
-> >         struct platform_device *pdev;
-> >         struct reset_control *resetn;
-> >         int ret;
-> > @@ -392,6 +510,12 @@ static int rzg2l_irqc_init(struct device_node *nod=
-e, struct device_node *parent)
-> >         if (!rzg2l_irqc_data)
-> >                 return -ENOMEM;
-> >
-> > +       match =3D of_match_node(rzg2l_irqc_matches, node);
-> > +       if (match)
-> > +               rzg2l_irqc_data->data =3D match->data;
-> > +       else
-> > +               rzg2l_irqc_data->data =3D &rzg2l_irqc_default_data;
->
-> Instead of matching a second time, I'd rather add a second
-> IRQCHIP_MATCH() entry with a different init function, passing the
-> actual rzg2l_irqc_data pointer.
->
-OK, or rather just pass true/false instead of rzg2l_irqc_of_data pointer.?
-
-Cheers,
-Prabhakar
+MBR, Sergey
 
