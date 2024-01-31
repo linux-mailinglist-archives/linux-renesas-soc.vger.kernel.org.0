@@ -1,58 +1,60 @@
-Return-Path: <linux-renesas-soc+bounces-2126-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-2127-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 669E3843C94
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 31 Jan 2024 11:28:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00EB3843C95
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 31 Jan 2024 11:28:26 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1CE50291B2F
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 31 Jan 2024 10:28:23 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id ACB5D28EC55
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 31 Jan 2024 10:28:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5363E73174;
-	Wed, 31 Jan 2024 10:27:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DDCCB7317D;
+	Wed, 31 Jan 2024 10:27:29 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5B25569946;
-	Wed, 31 Jan 2024 10:27:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.172
+Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B06DF745C4;
+	Wed, 31 Jan 2024 10:27:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706696846; cv=none; b=MkuTujVWXCEdSo+J6MzdwI9m+lhTRrPx5uNCQOM+LNocYL7LRJTnsdEDZCZyRvX/Bda8lE1UO0lzaUFwllR5gTwOOPIqL0ExR5IIpghjTHqWcZM+gcedhOksNmWlDpogrLZUk6pz/EbnYROVCUXYcdyWfwslFpZQFULcf6+Fqpo=
+	t=1706696849; cv=none; b=t3mXTTRGM67rlKU/KvdCd65Q6SILrvbRxQl+gCn2+ZuJYiBkX2wsjKVqp5l+8oeATzD14tQKwBtpcQJZ8udlvIzUAPOhdPMPl6RP3Oe2T23iGXdrflvzre9HP/2OX1QN7ZnQ8EZEIsAyjOK9JNu6NDhfeWn/UVjvfRCUmmK/Uwk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706696846; c=relaxed/simple;
-	bh=zhfoulCMgDFiptKNGz12veM+H41fJTHzTtiB+OHREdw=;
+	s=arc-20240116; t=1706696849; c=relaxed/simple;
+	bh=bVgYc8HSfIg1a7HHIesSbRMezt85oNMkAg9Y5+pn0aY=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=dsji8q7NPamdNv1mv5mCybs0hEPMBthgeKi7AaBgj1n9aw7Q4JY4hiTfIxz7s+PZh2S6sMZnzm8jNy1tUpvzxuggpjoOia/1ZQxKYzIM9F3KLwvAryUlNTvaK4/w0Q0FF02mwCI+5GG8Up6PGm97gKPXGfIDAZLetQA/5s49AWI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.172
+	 MIME-Version; b=EDwCWYeXUak3eXtUVkHgGAqZhAedFYSVu8JtRygFY47FcKKd1PuuEXqZA+59X5gfex587w0NcXBfAa3kYhHtyjyLyFPSit0gPQ0WhUeOLTs3w9qeDV03E8gdkYpXBNfv7fqgF4Xw0g5B5AG+W3tE+Lresvdykvd0Br/pt/kFrXg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
 X-IronPort-AV: E=Sophos;i="6.05,231,1701097200"; 
-   d="scan'208";a="196288301"
+   d="scan'208";a="192377795"
 Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie6.idc.renesas.com with ESMTP; 31 Jan 2024 19:27:20 +0900
+  by relmlie5.idc.renesas.com with ESMTP; 31 Jan 2024 19:27:26 +0900
 Received: from localhost.localdomain (unknown [10.226.92.227])
-	by relmlir6.idc.renesas.com (Postfix) with ESMTP id 1E6DB41DF0AB;
-	Wed, 31 Jan 2024 19:27:15 +0900 (JST)
+	by relmlir6.idc.renesas.com (Postfix) with ESMTP id 6E46D41DF0AB;
+	Wed, 31 Jan 2024 19:27:21 +0900 (JST)
 From: Biju Das <biju.das.jz@bp.renesas.com>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+To: Lee Jones <lee@kernel.org>,
 	Rob Herring <robh+dt@kernel.org>,
 	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
 	Conor Dooley <conor+dt@kernel.org>
 Cc: Biju Das <biju.das.jz@bp.renesas.com>,
 	Support Opensource <support.opensource@diasemi.com>,
-	linux-input@vger.kernel.org,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Daniel Lezcano <daniel.lezcano@linaro.org>,
+	Zhang Rui <rui.zhang@intel.com>,
+	Lukasz Luba <lukasz.luba@arm.com>,
 	devicetree@vger.kernel.org,
+	linux-pm@vger.kernel.org,
 	Geert Uytterhoeven <geert+renesas@glider.be>,
 	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
 	Biju Das <biju.das.au@gmail.com>,
 	linux-renesas-soc@vger.kernel.org,
-	Conor Dooley <conor.dooley@microchip.com>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	Lee Jones <lee@kernel.org>
-Subject: [PATCH v6 RESEND 3/6] dt-bindings: input: Convert da906{1,2,3} onkey to json-schema
-Date: Wed, 31 Jan 2024 10:26:53 +0000
-Message-Id: <20240131102656.3379-4-biju.das.jz@bp.renesas.com>
+	Rob Herring <robh@kernel.org>
+Subject: [PATCH v6 RESEND 4/6] dt-bindings: thermal: Convert da906{1,2} thermal to json-schema
+Date: Wed, 31 Jan 2024 10:26:54 +0000
+Message-Id: <20240131102656.3379-5-biju.das.jz@bp.renesas.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20240131102656.3379-1-biju.das.jz@bp.renesas.com>
 References: <20240131102656.3379-1-biju.das.jz@bp.renesas.com>
@@ -64,15 +66,14 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Convert the da906{1,2,3} onkey device tree binding documentation to
+Convert the da906{1,2} thermal device tree binding documentation to
 json-schema.
 
-Update MAINTAINERS entries, description and onkey property by
-referring to dlg,da9062-onkey binding file.
+Update MAINTAINERS entries and description by referring to
+dlg,da9062-thermal.yaml binding file.
 
 Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Reviewed-by: Rob Herring <robh@kernel.org>
 Acked-by: Lee Jones <lee@kernel.org>
 ---
 v6->v6 resend:
@@ -80,178 +81,135 @@ v6->v6 resend:
 v5->v6:
  * No change.
 v4->v5:
- * Added Rb tag from Krzysztof and Conor
- * Dropped Items, Just enum as it is easier to read compatibles.
- * Retained tags as the changes are trivial.
+ * No change.
 v3->v4:
- * Squashed with patch#6 and patch#9 from v2.
- * Replaced enum->const for dlg,da9061-onkey and its fallback.
+ * Restored the patch from v2.
  * Dropped example
+ * Replaced enum->const for compatible property.
+ * Added Rb tag from Rob and retained Rb tag as changes are trivial.
 v2->v3:
- * Updated MAINTAINERS entries.
+ * Fixed bot errors related to MAINTAINERS entry, invalid doc
+   references and thermal examples by merging patch#4.
 v2:
  * New patch
 ---
- .../bindings/input/da9062-onkey.txt           | 47 -------------------
- .../bindings/input/dlg,da9062-onkey.yaml      | 39 +++++++++++++++
  .../devicetree/bindings/mfd/da9062.txt        |  2 +-
- .../devicetree/bindings/mfd/dlg,da9063.yaml   | 15 +-----
+ .../bindings/thermal/da9062-thermal.txt       | 36 -------------------
+ .../bindings/thermal/dlg,da9062-thermal.yaml  | 35 ++++++++++++++++++
  MAINTAINERS                                   |  2 +-
- 5 files changed, 42 insertions(+), 63 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/input/da9062-onkey.txt
- create mode 100644 Documentation/devicetree/bindings/input/dlg,da9062-onkey.yaml
+ 4 files changed, 37 insertions(+), 38 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/thermal/da9062-thermal.txt
+ create mode 100644 Documentation/devicetree/bindings/thermal/dlg,da9062-thermal.yaml
 
-diff --git a/Documentation/devicetree/bindings/input/da9062-onkey.txt b/Documentation/devicetree/bindings/input/da9062-onkey.txt
+diff --git a/Documentation/devicetree/bindings/mfd/da9062.txt b/Documentation/devicetree/bindings/mfd/da9062.txt
+index 154c31fa4443..c8a7f119ac84 100644
+--- a/Documentation/devicetree/bindings/mfd/da9062.txt
++++ b/Documentation/devicetree/bindings/mfd/da9062.txt
+@@ -88,7 +88,7 @@ Sub-nodes:
+ 
+ - watchdog: See ../watchdog/dlg,da9062-watchdog.yaml
+ 
+-- thermal : See ../thermal/da9062-thermal.txt
++- thermal : See ../thermal/dlg,da9062-thermal.yaml
+ 
+ Example:
+ 
+diff --git a/Documentation/devicetree/bindings/thermal/da9062-thermal.txt b/Documentation/devicetree/bindings/thermal/da9062-thermal.txt
 deleted file mode 100644
-index e5eef59a93dc..000000000000
---- a/Documentation/devicetree/bindings/input/da9062-onkey.txt
+index e241bb5a5584..000000000000
+--- a/Documentation/devicetree/bindings/thermal/da9062-thermal.txt
 +++ /dev/null
-@@ -1,47 +0,0 @@
--* Dialog DA9061/62/63 OnKey Module
+@@ -1,36 +0,0 @@
+-* Dialog DA9062/61 TJUNC Thermal Module
 -
--This module is part of the DA9061/DA9062/DA9063. For more details about entire
+-This module is part of the DA9061/DA9062. For more details about entire
 -DA9062 and DA9061 chips see Documentation/devicetree/bindings/mfd/da9062.txt
--For DA9063 see Documentation/devicetree/bindings/mfd/dlg,da9063.yaml
 -
--This module provides the KEY_POWER event.
+-Junction temperature thermal module uses an interrupt signal to identify
+-high THERMAL_TRIP_HOT temperatures for the PMIC device.
 -
 -Required properties:
 -
 -- compatible: should be one of the following valid compatible string lines:
--	"dlg,da9061-onkey", "dlg,da9062-onkey"
--	"dlg,da9062-onkey"
--	"dlg,da9063-onkey"
+-        "dlg,da9061-thermal", "dlg,da9062-thermal"
+-        "dlg,da9062-thermal"
 -
 -Optional properties:
 -
--- dlg,disable-key-power : Disable power-down using a long key-press. If this
--    entry exists the OnKey driver will remove support for the KEY_POWER key
--    press when triggered using a long press of the OnKey.
--
--Example: DA9063
--
--	pmic0: da9063@58 {
--		onkey {
--			compatible = "dlg,da9063-onkey";
--			dlg,disable-key-power;
--		};
--	};
+-- polling-delay-passive : Specify the polling period, measured in
+-    milliseconds, between thermal zone device update checks.
 -
 -Example: DA9062
 -
 -	pmic0: da9062@58 {
--		onkey {
--			compatible = "dlg,da9062-onkey";
--			dlg,disable-key-power;
+-		thermal {
+-			compatible = "dlg,da9062-thermal";
+-			polling-delay-passive = <3000>;
 -		};
 -	};
 -
 -Example: DA9061 using a fall-back compatible for the DA9062 onkey driver
 -
 -	pmic0: da9061@58 {
--		onkey {
--			compatible = "dlg,da9061-onkey", "dlg,da9062-onkey";
--			dlg,disable-key-power;
+-		thermal {
+-			compatible = "dlg,da9061-thermal", "dlg,da9062-thermal";
+-			polling-delay-passive = <3000>;
 -		};
 -	};
-diff --git a/Documentation/devicetree/bindings/input/dlg,da9062-onkey.yaml b/Documentation/devicetree/bindings/input/dlg,da9062-onkey.yaml
+diff --git a/Documentation/devicetree/bindings/thermal/dlg,da9062-thermal.yaml b/Documentation/devicetree/bindings/thermal/dlg,da9062-thermal.yaml
 new file mode 100644
-index 000000000000..757a522c102c
+index 000000000000..206635f74850
 --- /dev/null
-+++ b/Documentation/devicetree/bindings/input/dlg,da9062-onkey.yaml
-@@ -0,0 +1,39 @@
-+# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
++++ b/Documentation/devicetree/bindings/thermal/dlg,da9062-thermal.yaml
+@@ -0,0 +1,35 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
 +%YAML 1.2
 +---
-+$id: http://devicetree.org/schemas/input/dlg,da9062-onkey.yaml#
++$id: http://devicetree.org/schemas/thermal/dlg,da9062-thermal.yaml#
 +$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
-+title: Dialog DA9061/62/63 OnKey Module
++title: Dialog DA9062/61 TJUNC Thermal Module
 +
 +maintainers:
 +  - Biju Das <biju.das.jz@bp.renesas.com>
 +
 +description: |
-+  This module is part of the DA9061/DA9062/DA9063. For more details about entire
++  This module is part of the DA9061/DA9062. For more details about entire
 +  DA9062 and DA9061 chips see Documentation/devicetree/bindings/mfd/da9062.txt
-+  For DA9063 see Documentation/devicetree/bindings/mfd/dlg,da9063.yaml
 +
-+  This module provides the KEY_POWER event.
++  Junction temperature thermal module uses an interrupt signal to identify
++  high THERMAL_TRIP_HOT temperatures for the PMIC device.
 +
 +properties:
 +  compatible:
 +    oneOf:
-+      - enum:
-+          - dlg,da9062-onkey
-+          - dlg,da9063-onkey
++      - const: dlg,da9062-thermal
 +      - items:
-+          - const: dlg,da9061-onkey
-+          - const: dlg,da9062-onkey
++          - const: dlg,da9061-thermal
++          - const: dlg,da9062-thermal
 +
-+  dlg,disable-key-power:
-+    type: boolean
++  polling-delay-passive:
 +    description:
-+      Disable power-down using a long key-press. If this entry exists
-+      the OnKey driver will remove support for the KEY_POWER key press
-+      when triggered using a long press of the OnKey.
++      Specify the polling period, measured in milliseconds, between
++      thermal zone device update checks.
 +
 +required:
 +  - compatible
 +
 +additionalProperties: false
-diff --git a/Documentation/devicetree/bindings/mfd/da9062.txt b/Documentation/devicetree/bindings/mfd/da9062.txt
-index 18463b7fbb42..154c31fa4443 100644
---- a/Documentation/devicetree/bindings/mfd/da9062.txt
-+++ b/Documentation/devicetree/bindings/mfd/da9062.txt
-@@ -84,7 +84,7 @@ Sub-nodes:
-   with the DA9062. There are currently no entries in this binding, however
-   compatible = "dlg,da9062-rtc" should be added if a node is created.
- 
--- onkey : See ../input/da9062-onkey.txt
-+- onkey : See ../input/dlg,da9062-onkey.yaml
- 
- - watchdog: See ../watchdog/dlg,da9062-watchdog.yaml
- 
-diff --git a/Documentation/devicetree/bindings/mfd/dlg,da9063.yaml b/Documentation/devicetree/bindings/mfd/dlg,da9063.yaml
-index ce81e0b029cc..1e5a847a6be2 100644
---- a/Documentation/devicetree/bindings/mfd/dlg,da9063.yaml
-+++ b/Documentation/devicetree/bindings/mfd/dlg,da9063.yaml
-@@ -44,20 +44,7 @@ properties:
-         const: dlg,da9063-rtc
- 
-   onkey:
--    type: object
--    $ref: /schemas/input/input.yaml#
--    unevaluatedProperties: false
--    properties:
--      compatible:
--        const: dlg,da9063-onkey
--
--      dlg,disable-key-power:
--        type: boolean
--        description: |
--          Disable power-down using a long key-press.
--          If this entry does not exist then by default the key-press triggered
--          power down is enabled and the OnKey will support both KEY_POWER and
--          KEY_SLEEP.
-+    $ref: /schemas/input/dlg,da9062-onkey.yaml
- 
-   regulators:
-     type: object
 diff --git a/MAINTAINERS b/MAINTAINERS
-index e0091af90973..2aab4f5d634a 100644
+index 2aab4f5d634a..f4a7bd8a1a04 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -6163,8 +6163,8 @@ DIALOG SEMICONDUCTOR DRIVERS
- M:	Support Opensource <support.opensource@diasemi.com>
- S:	Supported
- W:	http://www.dialog-semiconductor.com/products
--F:	Documentation/devicetree/bindings/input/da90??-onkey.txt
- F:	Documentation/devicetree/bindings/input/dlg,da72??.txt
-+F:	Documentation/devicetree/bindings/input/dlg,da9062-onkey.yaml
- F:	Documentation/devicetree/bindings/mfd/da90*.txt
- F:	Documentation/devicetree/bindings/mfd/dlg,da90*.yaml
- F:	Documentation/devicetree/bindings/regulator/da92*.txt
+@@ -6171,7 +6171,7 @@ F:	Documentation/devicetree/bindings/regulator/da92*.txt
+ F:	Documentation/devicetree/bindings/regulator/dlg,da9*.yaml
+ F:	Documentation/devicetree/bindings/regulator/dlg,slg51000.yaml
+ F:	Documentation/devicetree/bindings/sound/da[79]*.txt
+-F:	Documentation/devicetree/bindings/thermal/da90??-thermal.txt
++F:	Documentation/devicetree/bindings/thermal/dlg,da9062-thermal.yaml
+ F:	Documentation/devicetree/bindings/watchdog/dlg,da9062-watchdog.yaml
+ F:	Documentation/hwmon/da90??.rst
+ F:	drivers/gpio/gpio-da90??.c
 -- 
 2.39.2
 
