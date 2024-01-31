@@ -1,155 +1,169 @@
-Return-Path: <linux-renesas-soc+bounces-2090-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-2091-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 006068436D8
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 31 Jan 2024 07:31:55 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 97B6B8436DF
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 31 Jan 2024 07:33:19 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 251981C220C9
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 31 Jan 2024 06:31:55 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id BC6591C20AD2
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 31 Jan 2024 06:33:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DE3763F8F5;
-	Wed, 31 Jan 2024 06:31:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3304F376F8;
+	Wed, 31 Jan 2024 06:33:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=de.bosch.com header.i=@de.bosch.com header.b="jkepWCtU"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="xcFEOH+2"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from EUR05-AM6-obe.outbound.protection.outlook.com (mail-am6eur05on2084.outbound.protection.outlook.com [40.107.22.84])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f182.google.com (mail-yb1-f182.google.com [209.85.219.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F4D04F8B9
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 31 Jan 2024 06:31:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.22.84
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706682685; cv=fail; b=BA7CGeUx9A/zbCd+p3M/htZqyWrXySp/RIzaKxZJ1rrp2GvbcKvu3zh6XOZLCrau9QwBOiaELSwsaQcGJOqs52mKvOiQK9u7PFGJ94yDl3BWpRae/rypx7iIA66ahF1TDXl77FCRTDjtluOm99A0Dmj8OdXUKpE+pcsdB7ZwwGM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706682685; c=relaxed/simple;
-	bh=k5XWu6Skpa7gV4qH8X9o5qVnkJNgGGilde3QQPYK19o=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=oCtB1M9aiFsBgosxMGmKUMW91/swhsQj1piKUBbewJnF6InIy1jmFbaY1HsifdhRePAvtDWt0DZBdXqkuIIxr0L7++yvcyyHd9edCYBdEnmhT2L3BYdStLSY4Fs146fuPxEsy+HEDV2bOB2ubLMJ0bD47NPRldxPetDZ2dXrBUE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=de.bosch.com; spf=pass smtp.mailfrom=de.bosch.com; dkim=pass (2048-bit key) header.d=de.bosch.com header.i=@de.bosch.com header.b=jkepWCtU; arc=fail smtp.client-ip=40.107.22.84
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=de.bosch.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=de.bosch.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=EJSMmHtvZBaHM0/P8tDS2M6BY2Ooty7CqXkNxnFvG8jY1ufRtRUuiYVFvJA5G63h7ZZcKdsHYmyIjnTmWN4nblk4k+iq1RHptn04At8SCeMKKfMwP7MilJ8Hjp/73wE2jATtoSZZtl94n0bg/yYPVSC0FXSZhLdtbWmOOI342sNmrALbgzmucE9XdMEqa588WPazIwzBUfU84MVWr17+S24VcJMCFbU9PeN1OwcqgMpzCzLYLNozP70QdyCdQLvKpZ0UtEdIUmGmF/rWTn0X0PaRyrzrKW1smi25C5i96ZNH7pTSvHV4QRUP51GLGQCiU5nGmCsd6YblpvcsTCWscg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=RVoaocUl9L6gJZ+5I4JGAOF3vxF4zgDy1gp8H6E4P4k=;
- b=b3ADDz//3BKrRJJG1033cBwMnUzBMBg2nShe+d0uRygycBhrUmGndGLRtAPXdAq2QpWRm+gKQG7VuRSI4c4zDwvaghk1q1nyL4+PRX1/49Mh9rg93wGWWuEfnKjjPgIqVF8r3O8mqOzcg0hnzlpdkBWqZIES+BMVNDvZc3k6jQopTp9+Yc8oceUkYchmq8ndobK8qa0H0rsuGY/nwEe4qRmdiLGTZLXimyX01O4kssEEQeMfHA3a1pEsnJtU3GjWomoIQG+z1xIsGsTaIRzgRwo2r0p+t9lPLxR4IV0pmA8ihJR3ugW1Zi6tzpEFzxIKRUYqLd/CsJgVmWpQ00+A7A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 139.15.153.203) smtp.rcpttodomain=linux-m68k.org smtp.mailfrom=de.bosch.com;
- dmarc=pass (p=reject sp=none pct=100) action=none header.from=de.bosch.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=de.bosch.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=RVoaocUl9L6gJZ+5I4JGAOF3vxF4zgDy1gp8H6E4P4k=;
- b=jkepWCtUrplooLW72cj1ItIRILkDQm32h5B+OvUANjljklyU9ouWv+aEj0mhniN93VU9S4XE+eZ/koSS0TVCLKHyse57r2+jzFVYpr3vtyBRXPX+Xo3C3Q8wwmRuvqi2r9NX1iWf2FpWXgz14QOkW++Hsp64eUObYr74u5NyiGRpeG61jbSDx6y8s2xgmBeoX85T982oaLNT/M5ZmhAOnLleTTJ0bOQn6fGEGdYUR4wFUZ4gXQXhdycVVQT1WkZRGKGnYpKuAj071yJPLxEw0WEpWuek2Ws6Y014F1J8vUErS+Bv9CvLBjLDXgKMzJAR6i9XhQmxqfIuuXDUnp8Jhw==
-Received: from AS4P189CA0051.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:659::16)
- by AS2PR10MB7275.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:605::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7228.34; Wed, 31 Jan
- 2024 06:31:19 +0000
-Received: from AM4PEPF00027A5D.eurprd04.prod.outlook.com
- (2603:10a6:20b:659:cafe::7e) by AS4P189CA0051.outlook.office365.com
- (2603:10a6:20b:659::16) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7249.22 via Frontend
- Transport; Wed, 31 Jan 2024 06:31:19 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 139.15.153.203)
- smtp.mailfrom=de.bosch.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=de.bosch.com;
-Received-SPF: Pass (protection.outlook.com: domain of de.bosch.com designates
- 139.15.153.203 as permitted sender) receiver=protection.outlook.com;
- client-ip=139.15.153.203; helo=eop.bosch-org.com; pr=C
-Received: from eop.bosch-org.com (139.15.153.203) by
- AM4PEPF00027A5D.mail.protection.outlook.com (10.167.16.69) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.7249.19 via Frontend Transport; Wed, 31 Jan 2024 06:31:18 +0000
-Received: from SI-EXCAS2000.de.bosch.com (10.139.217.201) by eop.bosch-org.com
- (139.15.153.203) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.35; Wed, 31 Jan
- 2024 07:31:17 +0100
-Received: from [10.34.222.178] (10.139.217.196) by SI-EXCAS2000.de.bosch.com
- (10.139.217.201) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.35; Wed, 31 Jan
- 2024 07:31:17 +0100
-Message-ID: <cd82ba01-4b2d-42f5-a1ea-0c599dbb51bd@de.bosch.com>
-Date: Wed, 31 Jan 2024 07:31:11 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD631EAD4
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 31 Jan 2024 06:33:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.182
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1706682790; cv=none; b=WAXNt8Fn7fATqDWG1w/vgYw0362xXJPFKInC4Pn0sr6QKlnQvaFypXQpKSiQWeonhLzoauGjkrtGtbSR2pKhpclNFDUeVFyRtYIb44IvqDDERy/wmem8QRFYj3Is/HqVggkF9QN10watTK267E1FbttD4z4MbbEdQ2bAoYDwCME=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1706682790; c=relaxed/simple;
+	bh=jbKkH1WtEeXYWeMRfLbDO0YH0JxpQQDvSBpAn5Ed0P4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=I0cSzNS70k9NNnzNgFu3TX8zJBhM4OwDezzPBLOR1criVxjqMH7UdKb92PYRDqNIP/wgJr5CjETBJBK8rPpnpr/URHslqerR2qXePG8w9hR8kFSBr1vpKYu2Q+pFv7Qkr8AtsSy1P9POQ3qTeVM+HdRUDdmJ7whM+I6AuURutrw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=xcFEOH+2; arc=none smtp.client-ip=209.85.219.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-yb1-f182.google.com with SMTP id 3f1490d57ef6-dc223f3dd5eso4764772276.2
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 30 Jan 2024 22:33:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1706682787; x=1707287587; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=W+0UrfFLZxByUhAQTRyALxC5TYXU+3QlMDreZkniP6Y=;
+        b=xcFEOH+27EuWTw9lgviT3E1FTdl74iz2Qz58ZlYcyVSqbY4WuaQJvwMyMsqxQ1vGHa
+         2/4klMwat3B/CJdS+uOoRyXddolZo352OvTv33W1o2r25nH+nIbXlzPuQvbuTL3+O8aR
+         WMkvKbCVVO+Ceg0iwtgbIxlNmvjpb/3EyMXCHGyCOp7grIza4a3uh1w0MgVfTS0qqtR8
+         5e1LXyAEwVskINPZT4rN4xFOp/Tzdyx1/tv6/cnblHqd/lg9gCGL5GFwl4qg1birVfLK
+         waKNKhAHwE8OvgR0apc0+uP9tGM1jxrNmjjFsA/eBaTpVg7QaorlQGSY+YahEgC5A6Hm
+         QMvA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1706682787; x=1707287587;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=W+0UrfFLZxByUhAQTRyALxC5TYXU+3QlMDreZkniP6Y=;
+        b=f2em7QRC6pKtwSuf16CQVawkwbdlXbg1D83bddUQ2cdNY3aMK0HDs9a3x5VmgRQVZ9
+         uhdz18+COIJolOU5HBQaESp5RFfJN6VYBqtEmtaGWlHBDafaWxyG/ksxwAjv7mlePpNq
+         VBJPFv8wT7ytFMve5IeXlkVlDfvapmZZUEPWxY34URz0Zt3fiIPiENbwal/FgEFVZ/L1
+         xIUYFDQUWzbnrxpFe7eVzCptzSjJ+8nF/BTve0ja7VTdRuqtHlKfZT6/2UVjvfxmx8QY
+         /2vOFBIiIjMtIoTq4/V8s2djqc2AF++UCtWau7b+PKxRK2k5O7fXhGpmFtETMUKZKdSP
+         fVVQ==
+X-Gm-Message-State: AOJu0YxXcgc5sTOiYoKCwGG4FBl8ITQb1jJ9O9WQSKFjNYsTZpaXQnfN
+	0ANYW8IsBxfcuo46x5I/sb8SqGCG3s83r6XvaHduAvNXmKl/uMwS0SnTH6mmw8t3w5Uy77vzjku
+	M3IFLhXVdsLgI/6+UIV8P0G+PY6q6j5aiSSa9Aw==
+X-Google-Smtp-Source: AGHT+IFxRXwNP5PRj+1YvzHjYbCYITU/P5nsMmG4/Z+5FnhpEGiUV21GZeIbWwZE5W49t+z2Do1jj0wx+tXggTPULI4=
+X-Received: by 2002:a5b:582:0:b0:dc2:1c77:ca7 with SMTP id l2-20020a5b0582000000b00dc21c770ca7mr757962ybp.36.1706682786826;
+ Tue, 30 Jan 2024 22:33:06 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: rcar-dmac.c: race condition regarding cookie handling?
-To: Geert Uytterhoeven <geert@linux-m68k.org>, Linux-Renesas
-	<linux-renesas-soc@vger.kernel.org>
-References: <CAMuHMdX2RvXj5ZFwg2WxNpPGw59=b9quqryO-iZONx_yqgsp7w () mail !
- gmail ! com>
-Content-Language: en-US
-From: "Behme Dirk (CM/ESO2)" <dirk.behme@de.bosch.com>
-In-Reply-To: <CAMuHMdX2RvXj5ZFwg2WxNpPGw59=b9quqryO-iZONx_yqgsp7w () mail !
- gmail ! com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM4PEPF00027A5D:EE_|AS2PR10MB7275:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0b26e834-d4f6-4119-7193-08dc22263bfb
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	h+Q/2ccYrGyy+Q8OZFdVdsPsq67vO4PjvIE/gyQ2Cj9nQ8Fm234rkb9WX+EwlMNiKid+QI2i3ZrZzTJ8FPtHXhmdGlq8CoKKXlkmLVUcpHKunHAvxOf3juUaAlQuv74WBPB/JI524qt8ERLx1KN5m6/AVxUkc/w2eDno5K4E+9LHDY3g3rEHh60RBfObirTHE6VdW2VinQHK2yjZc14HdS953mXRlsfY6DwfnMexuVFwoYibN3B2uKGJxKZFr/ypP7gguL6d0WG6xnMBztB7jbbQ+Xh2BZXd4iuctahPwbqgRqZNPCkIdbHOOZEWv1B/ijFWv+7wYCcN4dwb4KgelEkjv5Yy4YP9SmQbnkNkNP0G7bZKSqCGZ4Z0wreWcWmV161LjFPM3jhMjjJ7blXb6uppQlTYprRZ9FsbStFrx/N1zzgqjJUEFoHKS+s+bthNFAYMgSK0k3vXpkG/5cZxIRDY4MjLgSA0PLkh3PZ6R8Z1rOiGvKyBV3+EZ++8q4l3LbjgnUeIccrMtrcVRsWSVToyzLOO0KqP7tkAYjWzUW3KQoT4uF6Di87/yWdSLRIU8nFwVHgxQU43nJDlyZpRTSFZ1PpblC/mHxjc9nKgkPY3PL17uLf7wjeBtC8NooddQ8vrBRZ6ZCNg2XPWxvP0fI0WZ0ci92Vd+69WcP4IcpKPrRsXHBaAAeAKx9QxmJ8JMJZy21Y4n9bmK2g/rnH24chTXb320+7l17x7IEsRm/DychveAfsLNv/5x3NntR2yeKUjLHN4ET876IPSBjZtwUNWsXtAjxXFm2EBj7QawnjXrXFFCanqgvG76VNdaJrZ
-X-Forefront-Antispam-Report:
-	CIP:139.15.153.203;CTRY:DE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:eop.bosch-org.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230031)(4636009)(346002)(396003)(136003)(39860400002)(376002)(230922051799003)(1800799012)(82310400011)(186009)(451199024)(64100799003)(40470700004)(36840700001)(46966006)(8676002)(8936002)(5660300002)(86362001)(70586007)(31696002)(2906002)(110136005)(70206006)(47076005)(316002)(36860700001)(16576012)(81166007)(82740400003)(82960400001)(356005)(83380400001)(53546011)(478600001)(6666004)(16526019)(2616005)(26005)(426003)(41300700001)(31686004)(336012)(40460700003)(40480700001)(36900700001)(43740500002);DIR:OUT;SFP:1101;
-X-OriginatorOrg: de.bosch.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Jan 2024 06:31:18.9422
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0b26e834-d4f6-4119-7193-08dc22263bfb
-X-MS-Exchange-CrossTenant-Id: 0ae51e19-07c8-4e4b-bb6d-648ee58410f4
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=0ae51e19-07c8-4e4b-bb6d-648ee58410f4;Ip=[139.15.153.203];Helo=[eop.bosch-org.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	AM4PEPF00027A5D.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS2PR10MB7275
+References: <87o7d26qla.wl-kuninori.morimoto.gx@renesas.com> <87eddy6qjf.wl-kuninori.morimoto.gx@renesas.com>
+In-Reply-To: <87eddy6qjf.wl-kuninori.morimoto.gx@renesas.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Wed, 31 Jan 2024 08:32:56 +0200
+Message-ID: <CAA8EJpq79tOCH3vK+Hh_XD4mtj1GVgVvwehQF4BfxTjwPi_fHQ@mail.gmail.com>
+Subject: Re: [PATCH v3 07/24] gpu: drm: switch to use of_graph_get_next_device_endpoint()
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: "Bryan O'Donoghue" <bryan.odonoghue@linaro.org>, 
+	"Lad, Prabhakar" <prabhakar.csengg@gmail.com>, 
+	=?UTF-8?Q?Niklas_S=C3=83=C2=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>, 
+	=?UTF-8?B?VXdlIEtsZWluZS1Lw4PCtm5pZw==?= <u.kleine-koenig@pengutronix.de>, 
+	Abhinav Kumar <quic_abhinavk@quicinc.com>, 
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>, 
+	Alexander Stein <alexander.stein@ew.tq-group.com>, 
+	Alexandre Belloni <alexandre.belloni@bootlin.com>, 
+	Alexandre Torgue <alexandre.torgue@foss.st.com>, Alexey Brodkin <abrodkin@synopsys.com>, 
+	Andrzej Hajda <andrzej.hajda@intel.com>, Andy Gross <agross@kernel.org>, 
+	Biju Das <biju.das.jz@bp.renesas.com>, Bjorn Andersson <andersson@kernel.org>, 
+	Claudiu Beznea <claudiu.beznea@tuxon.dev>, Daniel Vetter <daniel@ffwll.ch>, 
+	Dave Stevenson <dave.stevenson@raspberrypi.com>, David Airlie <airlied@gmail.com>, 
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>, Emma Anholt <emma@anholt.net>, 
+	Eugen Hristev <eugen.hristev@collabora.com>, 
+	Florian Fainelli <florian.fainelli@broadcom.com>, Frank Rowand <frowand.list@gmail.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Hans Verkuil <hverkuil-cisco@xs4all.nl>, 
+	Helge Deller <deller@gmx.de>, Hugues Fruchet <hugues.fruchet@foss.st.com>, 
+	Jacopo Mondi <jacopo+renesas@jmondi.org>, Jacopo Mondi <jacopo@jmondi.org>, 
+	James Clark <james.clark@arm.com>, Jaroslav Kysela <perex@perex.cz>, 
+	Jonathan Hunter <jonathanh@nvidia.com>, Kevin Hilman <khilman@baylibre.com>, 
+	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
+	Kieran Bingham <kieran.bingham@ideasonboard.com>, Konrad Dybcio <konrad.dybcio@linaro.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
+	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Liam Girdwood <lgirdwood@gmail.com>, 
+	Liu Ying <victor.liu@nxp.com>, Luca Ceresoli <luca.ceresoli@bootlin.com>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Marek Vasut <marex@denx.de>, 
+	Mark Brown <broonie@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Maxime Ripard <mripard@kernel.org>, 
+	Michael Tretter <m.tretter@pengutronix.de>, Michal Simek <michal.simek@amd.com>, 
+	Miguel Ojeda <ojeda@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
+	Neil Armstrong <neil.armstrong@linaro.org>, Nick Desaulniers <ndesaulniers@google.com>, 
+	Nicolas Ferre <nicolas.ferre@microchip.com>, Philipp Zabel <p.zabel@pengutronix.de>, 
+	Philippe Cornu <philippe.cornu@foss.st.com>, 
+	Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>, Rob Clark <robdclark@gmail.com>, 
+	Rob Herring <robh+dt@kernel.org>, Robert Foss <rfoss@kernel.org>, 
+	Russell King <linux@armlinux.org.uk>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Saravana Kannan <saravanak@google.com>, Sascha Hauer <s.hauer@pengutronix.de>, 
+	Shawn Guo <shawnguo@kernel.org>, Sowjanya Komatineni <skomatineni@nvidia.com>, 
+	Stefan Agner <stefan@agner.ch>, Suzuki K Poulose <suzuki.poulose@arm.com>, 
+	Sylwester Nawrocki <s.nawrocki@samsung.com>, Takashi Iwai <tiwai@suse.com>, 
+	Thierry Reding <thierry.reding@gmail.com>, Thomas Zimmermann <tzimmermann@suse.de>, 
+	Tim Harvey <tharvey@gateworks.com>, Todor Tomov <todor.too@gmail.com>, 
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
+	Yannick Fertre <yannick.fertre@foss.st.com>, Alim Akhtar <alim.akhtar@samsung.com>, 
+	Fabio Estevam <festevam@gmail.com>, Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Jerome Brunet <jbrunet@baylibre.com>, 
+	Jessica Zhang <quic_jesszhan@quicinc.com>, Jonas Karlman <jonas@kwiboo.se>, 
+	Leo Yan <leo.yan@linaro.org>, Marijn Suijten <marijn.suijten@somainline.org>, 
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>, Mike Leach <mike.leach@linaro.org>, 
+	Sam Ravnborg <sam@ravnborg.org>, Sean Paul <sean@poorly.run>, Tom Rix <trix@redhat.com>, 
+	coresight@lists.linaro.org, devicetree@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
+	linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
+	linux-arm-msm@vger.kernel.org, linux-fbdev@vger.kernel.org, 
+	linux-media@vger.kernel.org, linux-omap@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org, linux-rpi-kernel@lists.infradead.org, 
+	linux-samsung-soc@vger.kernel.org, linux-sound@vger.kernel.org, 
+	linux-staging@lists.linux.dev, linux-stm32@st-md-mailman.stormreply.com, 
+	linux-tegra@vger.kernel.org, llvm@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Geert,
+On Wed, 31 Jan 2024 at 07:05, Kuninori Morimoto
+<kuninori.morimoto.gx@renesas.com> wrote:
+>
+> of_graph_get_next_endpoint() is now renamed to
+> of_graph_get_next_device_endpoint(). Switch to it.
+>
+> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+> ---
+>  drivers/gpu/drm/armada/armada_drv.c                   | 2 +-
+>  drivers/gpu/drm/bridge/tc358767.c                     | 2 +-
+>  drivers/gpu/drm/drm_of.c                              | 6 +++---
+>  drivers/gpu/drm/meson/meson_drv.c                     | 4 ++--
+>  drivers/gpu/drm/msm/msm_drv.c                         | 2 +-
+>  drivers/gpu/drm/mxsfb/lcdif_drv.c                     | 2 +-
+>  drivers/gpu/drm/omapdrm/dss/base.c                    | 2 +-
+>  drivers/gpu/drm/panel/panel-raspberrypi-touchscreen.c | 2 +-
+>  drivers/gpu/drm/pl111/pl111_drv.c                     | 2 +-
+>  drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c         | 2 +-
+>  drivers/gpu/drm/stm/ltdc.c                            | 4 ++--
+>  drivers/gpu/drm/tiny/arcpgu.c                         | 2 +-
+>  12 files changed, 16 insertions(+), 16 deletions(-)
+>
 
-On 30.01.2024 08:58, Geert Uytterhoeven wrote:
-> Hi Dirk,
-> 
-> On Tue, Jan 30, 2024 at 8:08=E2=80=AFAM Behme Dirk (CM/ESO2)
-> <dirk.behme@de.bosch.com> wrote:
->> On 29.01.2024 10:57, Geert Uytterhoeven wrote:
->>> On Wed, Nov 22, 2023 at 8:02=E2=80=AFAM Behme Dirk (CM/ESO2)
->>> <dirk.behme@de.bosch.com> wrote:
->>>> using a rcar-dmac.c on RCar3 being quite similar to the recent mainlin=
-> e
->>>> one [1] we got a BUG_ON() being hit [2].
-> 
->>> Was the system running for a very long time?
->>
->> Hmm, the trace I have contains boot time stamps (dropped initially) like
->>
->> [  153.394731] kernel BUG at drivers/dma/sh/../dmaengine.h:54!
->>
->> I think this "153" implies 153s after boot,  i.e. ~2.5s after system
->> start. In case there is no wrap around here too.
-> 
-> Yes, that is still quite early in the boot process.
-> Do you have log info from just before the crash, that might give a clue
-> which device was trying to use DMA?
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-No, unfortunately not :(
-
-We just have pure error logging, no complete console logging.
-
-Best regards
-
-Dirk
+-- 
+With best wishes
+Dmitry
 
