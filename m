@@ -1,132 +1,119 @@
-Return-Path: <linux-renesas-soc+bounces-2153-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-2154-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5F398443D6
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 31 Jan 2024 17:12:14 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id B213C8443ED
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 31 Jan 2024 17:17:21 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A0CDC2914CC
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 31 Jan 2024 16:12:13 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E4155B2AC76
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 31 Jan 2024 16:16:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 430CC12BE8B;
-	Wed, 31 Jan 2024 16:12:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6BFD412BF2A;
+	Wed, 31 Jan 2024 16:16:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="F+Fb9TRk"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from andre.telenet-ops.be (andre.telenet-ops.be [195.130.132.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FFE312A166
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 31 Jan 2024 16:11:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.132.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1EB912BF0A
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 31 Jan 2024 16:16:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706717520; cv=none; b=LMZlvf/shxqhH1b61fRY+WIBSx2NSeeSk/L2ad8wOh7ynE/U5QQ++1km/d3OCyW2RoAbaWow+4tUQVqfDzK8LX4BTRHLN2euXiQR2iurKHfN/9tIXkvnyUHKmQFdqx/exNoDWQlJwavhydb/Gjz5l81bQr74+uaGGWmMli41oEk=
+	t=1706717778; cv=none; b=aELYU9c79aJSzciVknYcYJBF2pVpYLKCyg5vyeTjImygzYF+oTpl2T/W5OPPZu+s/Jxe42Wa9f6s/KdMyhQ9GruW0r1hE3sQvEPs6R2gYKo9S6DjBEwtEkDuClmz7FQQClHpOpKVdsKU0/B8Yd1DudMgJJxeCOBS8kQdqFWDNKw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706717520; c=relaxed/simple;
-	bh=etiQOCiZU9tDAlchggQr10q8COercMMXKaVDFoX+q74=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=DSHQDJ6XzFrSrYf2GP297Iefz+mGpCC0VNF8OTeo/tIuwNPHXHUDscBlH42avtRPRYQHdx6L9snQRaP6xU1bhVwmE1tvrNhm4+zoj+oBUnrjdHBQLjpgXUUlmCbWf2RvX9kdkEdfGzP0dAtQSH//chCeBE5pZK/XI1MEpxlpED0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.132.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
-Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed40:88f0:c83b:bafa:cdc3])
-	by andre.telenet-ops.be with bizsmtp
-	id hUBq2B00N4efzLr01UBqR2; Wed, 31 Jan 2024 17:11:55 +0100
-Received: from rox.of.borg ([192.168.97.57])
-	by ramsan.of.borg with esmtp (Exim 4.95)
-	(envelope-from <geert@linux-m68k.org>)
-	id 1rVDAw-00GrV5-9U;
-	Wed, 31 Jan 2024 17:11:50 +0100
-Received: from geert by rox.of.borg with local (Exim 4.95)
-	(envelope-from <geert@linux-m68k.org>)
-	id 1rVDBm-008lXe-Ht;
-	Wed, 31 Jan 2024 17:11:50 +0100
-From: Geert Uytterhoeven <geert+renesas@glider.be>
-To: Daniel Lezcano <daniel.lezcano@linaro.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-	Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Yoshinori Sato <ysato@users.sourceforge.jp>
-Cc: devicetree@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	linux-sh@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH v2] dt-bindings: timer: renesas,tmu: Document input capture interrupt
-Date: Wed, 31 Jan 2024 17:11:45 +0100
-Message-Id: <8cb38b5236213a467c6c0073f97ccc4bfd5a39ff.1706717378.git.geert+renesas@glider.be>
-X-Mailer: git-send-email 2.34.1
+	s=arc-20240116; t=1706717778; c=relaxed/simple;
+	bh=ibwsPIor3wbGYQD/hLtasMF6cDDIw9FflDn5f05clPI=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=DehBm+u/sx94UqxsFIOpl680ajA994PCX+O+ctFVsC3vhXopunaCRXN9Mf1VFn6kIBON9hihkWzWNaAmvXaI+QND0UIfk6aPbBKLoLMLfUsMqR8N8Hhd5eBax/MPvX3G0QdCDp3rtjdUSiRoG0FVUZDi+Hlb4wx+mrPVclY34F8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=F+Fb9TRk; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1706717775;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=iHcKoZZt6H46W2k8i6AGs04g2L7Mx1lw7y6w6nwM2h8=;
+	b=F+Fb9TRkeM2I+5MBMcVNHyETGxWliGsq2vCHAsRZUqy5qiz2lyTFJDIMGWAAS3y8digScw
+	qkHwOTZXz/BafFed5nmhRA/74kq+vFgqPVtjxOUe1abC+NaOm+IoYEHctLzvwUrYtD246l
+	ZCxd23g3IDZdaRLajAUN+9pR9WMRqGM=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-413-HXu2Adr3MyyGH5IRy1yJbw-1; Wed, 31 Jan 2024 11:16:12 -0500
+X-MC-Unique: HXu2Adr3MyyGH5IRy1yJbw-1
+Received: by mail-wm1-f71.google.com with SMTP id 5b1f17b1804b1-40fb03d8a39so7342315e9.3
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 31 Jan 2024 08:16:12 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1706717771; x=1707322571;
+        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=iHcKoZZt6H46W2k8i6AGs04g2L7Mx1lw7y6w6nwM2h8=;
+        b=XiBx00trAdTC5+EMvnfr/QVedsD7bUeDvIuTEuPqIAknV4guoK74Krl0Ho/IbuGqhC
+         eOWygWShArgcQUYmPVRikEkQJl1ssaeQg4yYU9MR4ZeryUoQ+j52WJTMw2mxsJAlb/2e
+         jPiIxyd0+A+nZJnsRiXJpTvv0F7yqNpBPcsV0QGlnmJ/ZcoIkaZu0conG5LnyGdP/Z3T
+         R7YfDN4x5v1RnzgOFX6fcBuvEXE5aV+jc3Rd9neOZIvQSAFRWfme5GA9nhGdGKoAv8zQ
+         zqJ3nfUbCuneDdADfo7+3LhtUpeLCAlNPQD70p591h3k6AYDWNkdgsG8+XiZyP+Q2PSV
+         ZrTQ==
+X-Gm-Message-State: AOJu0YyPNHmbWWQ7/IxP6Kav3c57J9G5SO6/H1umKwLxbJxS3KjmrcoC
+	z+LQIWnljKHKc+o5TCTPALvG3uNuYY77n2gO46Ki4RGhY8T1B6c60ntIDsNebxOMf2kDYp5fcr4
+	hgciTRgtcr9VYVqE8qkB5gNeUYmUq7Ufd+d3gM+ASPtRzgKY1IMZoqaELDdNFDY6rKVBl
+X-Received: by 2002:a05:600c:470d:b0:40e:f656:39f with SMTP id v13-20020a05600c470d00b0040ef656039fmr1666488wmo.6.1706717771196;
+        Wed, 31 Jan 2024 08:16:11 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IEPXw3WDi2GZ1H+C0qsa/dAVaPD3o3y3lXbF7MCxjdMESWq9m8J99FGcFCWR0modxgMLsxfUA==
+X-Received: by 2002:a05:600c:470d:b0:40e:f656:39f with SMTP id v13-20020a05600c470d00b0040ef656039fmr1666465wmo.6.1706717770812;
+        Wed, 31 Jan 2024 08:16:10 -0800 (PST)
+X-Forwarded-Encrypted: i=0; AJvYcCUoDac0RvNodMCJs3PaWqqtOE+9dEzyxDlMMZNkLN+9Z6E/nFbEkkxrIHwfc+hSWJaNnVK7xR3Ed0cbCzcSkOg4wsj64PDZBzGJ55TAIfdOQUqkLN7RXdt8LS5U2xv19hTM73ntChGiMk6enpZZ1799Gz8DaC8PIbxx5EGjzmWMMj3MWkjDnr4A5WCVoTdePcahln+DYWmWWFW6nyhu9pxhcWV/Frc73YIhpQ==
+Received: from localhost (205.pool92-176-231.dynamic.orange.es. [92.176.231.205])
+        by smtp.gmail.com with ESMTPSA id s6-20020a05600c044600b0040faf410320sm1939660wmb.20.2024.01.31.08.16.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 31 Jan 2024 08:16:10 -0800 (PST)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Geert Uytterhoeven <geert+renesas@glider.be>, Helge Deller <deller@gmx.de>
+Cc: linux-fbdev@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>, Geert
+ Uytterhoeven <geert+renesas@glider.be>, linux-sh@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH] fbdev: Restrict FB_SH_MOBILE_LCDC to SuperH
+In-Reply-To: <c4a090bd3f4737774351b136db72b15297cd0239.1706717146.git.geert+renesas@glider.be>
+References: <c4a090bd3f4737774351b136db72b15297cd0239.1706717146.git.geert+renesas@glider.be>
+Date: Wed, 31 Jan 2024 17:16:09 +0100
+Message-ID: <87r0hxtr5i.fsf@minerva.mail-host-address-is-not-set>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-Some Timer Unit (TMU) instances with 3 channels support a fourth
-interrupt: an input capture interrupt for the third channel.
+Geert Uytterhoeven <geert+renesas@glider.be> writes:
 
-While at it, document the meaning of the four interrupts, and add
-"interrupt-names" for clarity.
+Hello Geert,
 
-Update the example to match reality.
+> Since commit f402f7a02af6956d ("staging: board: Remove Armadillo-800-EVA
+> board staging code"), there are no more users of the legacy SuperH
+> Mobile LCDC framebuffer driver on Renesas ARM platforms.  All former
+> users on these platforms have been converted to the SH-Mobile DRM
+> driver, using DT.
+>
+> Suggested-by: Arnd Bergmann <arnd@arndb.de>
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
+> Commit f402f7a02af6956d is in staging-next (next-20240129 and later).
+> ---
 
-Inspired by a patch by Yoshinori Sato for SH.
+Makes senes to me.
 
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
-v2:
-  - Reword interrupt descriptions.
+Acked-by: Javier Martinez Canillas <javierm@redhat.com>
 
-The corresponding DTS updates can be found in series "[PATCH 0/2]
-ARM/arm64: dts: renesas: Improve TMU interrupt descriptions".
-https://lore.kernel.org/r/cover.1705325654.git.geert+renesas@glider.be
-Once the DTS updates are upstream, "interrupt-names" can be made
-required.
----
- .../devicetree/bindings/timer/renesas,tmu.yaml | 18 ++++++++++++++++--
- 1 file changed, 16 insertions(+), 2 deletions(-)
-
-diff --git a/Documentation/devicetree/bindings/timer/renesas,tmu.yaml b/Documentation/devicetree/bindings/timer/renesas,tmu.yaml
-index a67e427a9e7e22aa..84bbe15028a1de94 100644
---- a/Documentation/devicetree/bindings/timer/renesas,tmu.yaml
-+++ b/Documentation/devicetree/bindings/timer/renesas,tmu.yaml
-@@ -46,7 +46,19 @@ properties:
- 
-   interrupts:
-     minItems: 2
--    maxItems: 3
-+    items:
-+      - description: Underflow interrupt, channel 0
-+      - description: Underflow interrupt, channel 1
-+      - description: Underflow interrupt, channel 2
-+      - description: Input capture interrupt, channel 2
-+
-+  interrupt-names:
-+    minItems: 2
-+    items:
-+      - const: tuni0
-+      - const: tuni1
-+      - const: tuni2
-+      - const: ticpi2
- 
-   clocks:
-     maxItems: 1
-@@ -100,7 +112,9 @@ examples:
-             reg = <0xffd80000 0x30>;
-             interrupts = <GIC_SPI 32 IRQ_TYPE_LEVEL_HIGH>,
-                          <GIC_SPI 33 IRQ_TYPE_LEVEL_HIGH>,
--                         <GIC_SPI 34 IRQ_TYPE_LEVEL_HIGH>;
-+                         <GIC_SPI 34 IRQ_TYPE_LEVEL_HIGH>,
-+                         <GIC_SPI 35 IRQ_TYPE_LEVEL_HIGH>;
-+            interrupt-names = "tuni0", "tuni1", "tuni2", "ticpi2";
-             clocks = <&mstp0_clks R8A7779_CLK_TMU0>;
-             clock-names = "fck";
-             power-domains = <&sysc R8A7779_PD_ALWAYS_ON>;
 -- 
-2.34.1
+Best regards,
+
+Javier Martinez Canillas
+Core Platforms
+Red Hat
 
 
