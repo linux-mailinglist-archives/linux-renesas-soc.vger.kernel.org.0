@@ -1,146 +1,167 @@
-Return-Path: <linux-renesas-soc+bounces-2109-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-2110-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90B838439D8
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 31 Jan 2024 09:55:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C955843A5F
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 31 Jan 2024 10:10:14 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 325C31F294D9
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 31 Jan 2024 08:55:38 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id BA5011F2D150
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 31 Jan 2024 09:10:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C8CDC605BC;
-	Wed, 31 Jan 2024 08:49:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D937E69D28;
+	Wed, 31 Jan 2024 09:07:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="e78gPVkS"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="IpopKANJ"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9425A69DF0;
-	Wed, 31 Jan 2024 08:49:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C0116997E;
+	Wed, 31 Jan 2024 09:07:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.197
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706690971; cv=none; b=ryhUjxMZR7IBNSBvzish2VZ53PW3r0WdViaDvCy234ioZxhs8ZOecpYbb7pDKO6760ZZjx26QLwROEQDRKRZUt4UBiRfcrSh6F8pgS7ckYHmxsywPaY4WxzaT/WwiaI7TQWjJ6Z7oqBEnM67x/a4LsrUgh6u8Ao4WSj+eKOlIcs=
+	t=1706692043; cv=none; b=Bfd3e4ROgbXAeGpGMkCUTlVSnoLzyMYq6/oNEdHVynhm/aQ22mR8jj7TQ/nJKaDrYt4a3mUFhY1LDi2PdT83qCZXsTPVQn4AD5103HC0z6ZyNoB3Qwqjwa7DL7cIzkUPZTCwdTk91X1CrutWq5GsYyCXLD662rnjmwMqr4e6TTk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706690971; c=relaxed/simple;
-	bh=DfZcsWA9ZiJQJnhw+Dlmf+rz4QBaLMOI1TuUkGh7YpY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HcYeZbMw0P3j4Io0ST+Ky7cRUzcVrqoZdrQgwAR9Y+sgs+9PQL1610B6jH6jT/LaqbhQWgyG6q7iNCTblCNw5tfUMd8AbbocPsInLNYt5X/dibSR2zuqVMvViXiqHBIbb6NDI0a6RTzZX+Nu3vcclGSCx1qVy4nbIkLQnAClLz4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=e78gPVkS; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 242BFC433F1;
-	Wed, 31 Jan 2024 08:49:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1706690971;
-	bh=DfZcsWA9ZiJQJnhw+Dlmf+rz4QBaLMOI1TuUkGh7YpY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=e78gPVkSswXNVxrTpgc3uqnClcHNOzUx0e+TnHsysfypkrDC7guPj7rnKflIizUtN
-	 NUiJaN1GtNrkmmJLGqaaT0TUv+U5ep074UDrDzt+gZe1LtLowojHTMOeYz001u9gk2
-	 3OUf70GW/bZCCPY+xd4+lf7eExvmEiMYsQltxViaAwgoiOzsvHBQ+RE9Q4pwqwLA6M
-	 CG5xYe5/LHMrt6bP9qs8t1VNW891rQdiDtrsw+NrdI8BT/RAoELujxl2CCMLDWQYKt
-	 Wpb5JnjbQaNrrzW/Xgm+Z2QNPhqQQ7xzgGXms59nifzufP/bOgsIa9W78U0el6J7oH
-	 werrdYsUuNm6w==
-Date: Wed, 31 Jan 2024 08:49:24 +0000
-From: Lee Jones <lee@kernel.org>
-To: Biju Das <biju.das.jz@bp.renesas.com>
-Cc: Wim Van Sebroeck <wim@linux-watchdog.org>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Support Opensource <support.opensource@diasemi.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Daniel Lezcano <daniel.lezcano@linaro.org>,
-	Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>,
-	Steve Twiss <stwiss.opensource@diasemi.com>,
-	"linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-	"linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>,
-	"linux-watchdog@vger.kernel.org" <linux-watchdog@vger.kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	"biju.das.au" <biju.das.au@gmail.com>,
-	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>
-Subject: Re: [PATCH v6 0/8] Convert DA906{1,2} bindings to json-schema
-Message-ID: <20240131084924.GD8551@google.com>
-References: <20231214080911.23359-1-biju.das.jz@bp.renesas.com>
- <170316812973.586675.6248412029985031979.b4-ty@kernel.org>
- <20231221143318.GH10102@google.com>
- <TYCPR01MB1126921A54B9260CC33505FCA867E2@TYCPR01MB11269.jpnprd01.prod.outlook.com>
+	s=arc-20240116; t=1706692043; c=relaxed/simple;
+	bh=0RuTS+kPwr4+e0G8exQO+9NVYj16oJYi6dt0lNc9JzM=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Lt2/W2fGTFX4rWxp5SEcFLDNBFyoSyNCPObPJELlg4lpTvFLgSVm0JGnEzjWxKcXvXSFQj1RTwzVAg+kReuxk1gTiGSklwHol3P6bUiaQRAeITqDWYP4GHF2hD838FPiyAHh+6m7n6z9yHxWaNQsx7BfZ0ywFNiHtQknr7BzUOA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=IpopKANJ; arc=none smtp.client-ip=217.70.183.197
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 94A901C0003;
+	Wed, 31 Jan 2024 09:07:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1706692038;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=txVeyDCwCa0PTblW/GH4Mt4FMs2okstRsQIFGpgZpIA=;
+	b=IpopKANJvPwzP+cqcm/nV8tIJeOl95Z+pm5ZBFxwXGnXRcK3j8Pw+g5PpTHYdFLZ+S68Mp
+	Zsj2PczR2iFjVt4JmxgdVtBXXEmZpd6iYEY+KPRCxNu2fQPiuG18FsmsoFfZfWkaW1KPbB
+	G1MSsTLhcCIWapF7QsFR2x2AIjii8HyIxhHt1myJcrQtSSLsH8641MOW1xBoMgS5kgngcd
+	HpasEnyJS3TgeESvACXjoa9KiuEvYQs3iCmPPe7m0RCMy1Q343Sq2P0VW3xur3FbmOGHKH
+	v498LDl6jvgqLJTyZWKLJSC9wenFYUOzH2yWAnMS8h04WN1KqPaw/M4Qidd9Fw==
+Date: Wed, 31 Jan 2024 10:07:01 +0100
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: "Bryan O'Donoghue" <bryan.odonoghue@linaro.org>, "Lad,  Prabhakar"
+ <prabhakar.csengg@gmail.com>, "Niklas =?UTF-8?Q?S=C3=83=C2=B6derlund?="
+ <niklas.soderlund+renesas@ragnatech.se>, "Uwe =?UTF-8?Q?Kleine-K=C3=83?=
+ =?UTF-8?Q?=C2=B6nig?=" <u.kleine-koenig@pengutronix.de>, Abhinav Kumar
+ <quic_abhinavk@quicinc.com>, Alexander Shishkin
+ <alexander.shishkin@linux.intel.com>, Alexander Stein
+ <alexander.stein@ew.tq-group.com>, Alexandre Belloni
+ <alexandre.belloni@bootlin.com>, Alexandre Torgue
+ <alexandre.torgue@foss.st.com>, Alexey Brodkin <abrodkin@synopsys.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Andy Gross <agross@kernel.org>,
+ Biju Das <biju.das.jz@bp.renesas.com>, Bjorn Andersson
+ <andersson@kernel.org>, Claudiu Beznea <claudiu.beznea@tuxon.dev>, Daniel
+ Vetter <daniel@ffwll.ch>, Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ David Airlie <airlied@gmail.com>, Dmitry Baryshkov
+ <dmitry.baryshkov@linaro.org>, Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+ Emma Anholt <emma@anholt.net>, Eugen Hristev <eugen.hristev@collabora.com>,
+ Florian Fainelli <florian.fainelli@broadcom.com>, Frank Rowand
+ <frowand.list@gmail.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>, Helge Deller <deller@gmx.de>,
+ Hugues Fruchet <hugues.fruchet@foss.st.com>, Jacopo Mondi
+ <jacopo+renesas@jmondi.org>, Jacopo Mondi <jacopo@jmondi.org>, James Clark
+ <james.clark@arm.com>, Jaroslav Kysela <perex@perex.cz>, Jonathan Hunter
+ <jonathanh@nvidia.com>, Kevin Hilman <khilman@baylibre.com>, Kieran Bingham
+ <kieran.bingham+renesas@ideasonboard.com>, Kieran Bingham
+ <kieran.bingham@ideasonboard.com>, Konrad Dybcio
+ <konrad.dybcio@linaro.org>, Krzysztof Kozlowski
+ <krzysztof.kozlowski@linaro.org>, Laurent Pinchart
+ <laurent.pinchart+renesas@ideasonboard.com>, Laurent Pinchart
+ <laurent.pinchart@ideasonboard.com>, Liam Girdwood <lgirdwood@gmail.com>,
+ Liu Ying <victor.liu@nxp.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Marek Vasut <marex@denx.de>, Mark
+ Brown <broonie@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>, Maxime Ripard
+ <mripard@kernel.org>, Michael Tretter <m.tretter@pengutronix.de>, Michal
+ Simek <michal.simek@amd.com>, Miguel Ojeda <ojeda@kernel.org>, Nathan
+ Chancellor <nathan@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>,
+ Nick Desaulniers <ndesaulniers@google.com>, Nicolas Ferre
+ <nicolas.ferre@microchip.com>, Philipp Zabel <p.zabel@pengutronix.de>,
+ Philippe Cornu <philippe.cornu@foss.st.com>, Raphael Gallais-Pou
+ <raphael.gallais-pou@foss.st.com>, Rob Clark <robdclark@gmail.com>, Rob
+ Herring <robh+dt@kernel.org>, Robert Foss <rfoss@kernel.org>, Russell King
+ <linux@armlinux.org.uk>, Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Saravana Kannan <saravanak@google.com>, Sascha Hauer
+ <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>, Sowjanya
+ Komatineni <skomatineni@nvidia.com>, Stefan Agner <stefan@agner.ch>, Suzuki
+ K Poulose <suzuki.poulose@arm.com>, Sylwester Nawrocki
+ <s.nawrocki@samsung.com>, Takashi Iwai <tiwai@suse.com>, Thierry Reding
+ <thierry.reding@gmail.com>, Thomas Zimmermann <tzimmermann@suse.de>, Tim
+ Harvey <tharvey@gateworks.com>, Todor Tomov <todor.too@gmail.com>, Tomi
+ Valkeinen <tomi.valkeinen@ideasonboard.com>, Yannick Fertre
+ <yannick.fertre@foss.st.com>, Alim Akhtar <alim.akhtar@samsung.com>, Fabio
+ Estevam <festevam@gmail.com>, Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Jerome Brunet
+ <jbrunet@baylibre.com>, Jessica Zhang <quic_jesszhan@quicinc.com>, Jonas
+ Karlman <jonas@kwiboo.se>, Leo Yan <leo.yan@linaro.org>, Marijn Suijten
+ <marijn.suijten@somainline.org>, Martin Blumenstingl
+ <martin.blumenstingl@googlemail.com>, Mike Leach <mike.leach@linaro.org>,
+ Sam Ravnborg <sam@ravnborg.org>, Sean Paul <sean@poorly.run>, Tom Rix
+ <trix@redhat.com>, coresight@lists.linaro.org, devicetree@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ linux-arm-msm@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ linux-media@vger.kernel.org, linux-omap@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org, linux-rpi-kernel@lists.infradead.org,
+ linux-samsung-soc@vger.kernel.org, linux-sound@vger.kernel.org,
+ linux-staging@lists.linux.dev, linux-stm32@st-md-mailman.stormreply.com,
+ linux-tegra@vger.kernel.org, llvm@lists.linux.dev
+Subject: Re: [PATCH v3 14/24] of: property: add of_graph_get_next_endpoint()
+Message-ID: <20240131100701.754a95ee@booty>
+In-Reply-To: <874jeu6qhv.wl-kuninori.morimoto.gx@renesas.com>
+References: <87o7d26qla.wl-kuninori.morimoto.gx@renesas.com>
+	<874jeu6qhv.wl-kuninori.morimoto.gx@renesas.com>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <TYCPR01MB1126921A54B9260CC33505FCA867E2@TYCPR01MB11269.jpnprd01.prod.outlook.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-GND-Sasl: luca.ceresoli@bootlin.com
 
-On Mon, 29 Jan 2024, Biju Das wrote:
+Hello Kuninori Morimoto,
 
-> Hi Lee Jones,
+On Wed, 31 Jan 2024 05:06:36 +0000
+Kuninori Morimoto <kuninori.morimoto.gx@renesas.com> wrote:
+
+> To handle endpoint more intuitive, create of_graph_get_next_endpoint()
 > 
-> > -----Original Message-----
-> > From: Lee Jones <lee@kernel.org>
-> > Sent: Thursday, December 21, 2023 2:33 PM
-> > Subject: Re: [PATCH v6 0/8] Convert DA906{1,2} bindings to json-schema
-> > 
-> > On Thu, 21 Dec 2023, Lee Jones wrote:
-> > 
-> > > On Thu, 14 Dec 2023 08:09:03 +0000, Biju Das wrote:
-> > > > Convert the below bindings to json-schema
-> > > > 1) DA906{1,2} mfd bindings
-> > > > 2) DA906{1,2,3} onkey bindings
-> > > > 3) DA906{1,2,3} thermal bindings
-> > > >
-> > > > Also add fallback for DA9061 watchdog device and document
-> > > > DA9063 watchdog device.
-> > > >
-> > > > [...]
-> > >
-> > > Applied, thanks!
-> > >
-> > > [1/8] dt-bindings: mfd: da9062: Update watchdog description
-> > >       commit: 9e7b13b805bcbe5335c2936d4c7ea0323ac69a81
-> > > [2/8] dt-bindings: watchdog: dlg,da9062-watchdog: Add fallback for
-> > DA9061 watchdog
-> > >       commit: 28d34db7772f18490b52328f04a3bf69ed5390d2
-> > > [3/8] dt-bindings: watchdog: dlg,da9062-watchdog: Document DA9063
-> > watchdog
-> > >       commit: d2a7dbb808870c17cffa2749ea877f61f298d098
-> > > [4/8] dt-bindings: mfd: dlg,da9063: Update watchdog child node
-> > >       commit: d4018547a15a94c7e865b2cef82bff1cd43a32b3
-> > > [5/8] dt-bindings: input: Convert da906{1,2,3} onkey to json-schema
-> > >       commit: db459d3da7bb9c37cb86897c7b321a49f8e40968
-> > > [6/8] dt-bindings: thermal: Convert da906{1,2} thermal to json-schema
-> > >       commit: 998f499c843e360bcd9ee1fe9addc3b5d32f1234
-> > > [7/8] dt-bindings: mfd: dlg,da9063: Sort child devices
-> > >       commit: 2bbf9d2a8e3bc933703dfda87cac953bed458496
-> > > [8/8] dt-bindings: mfd: dlg,da9063: Convert da9062 to json-schema
-> > >       commit: 522225161830f6a93f2aaabda99226c1ffddc8c4
-> > 
-> > Submitted for testing.  Pull-request to follow.
-> 
-> The commit dc805ea058c0e ("MAINTAINERS: rectify entry for DIALOG SEMICONDUCTOR DRIVERS")
-> in mainline will give a conflict for patch#1.
-> 
-> Patch#2 and patch#3 are already in mainline.
-> 
-> 
-> Please let me know if you want me to rebase and resend the patch series
+> 	of_graph_get_next_endpoint(port1, NULL); // A1
+> 	of_graph_get_next_endpoint(port1, A1);   // A2
+> 	of_graph_get_next_endpoint(port1, A2);   // NULL
 
-That would be helpful, thanks.
+The idea looks good. My only concern is about reusing the
+of_graph_get_next_endpoint() name after having removed the old, different
+function having the same name. This can be confusing in the first
+place to who is used to the old function, and also to anybody rebasing
+their patches on top of a new kernel to find their code behaving
+differently.
 
-Please ensure all of the patches have my:
+Also, as now we'd have two similar variants of this function, it would
+be good if each of them were having a name that clearly identifies in
+which way they differ from the other.
 
-Acked-by: Lee Jones <lee@kernel.org>
+So a better name for this function would probably be
+of_graph_get_next_port_endpoint() I guess, to clearly differentiate from
+of_graph_get_next_device_endpoint().
 
-... applied, then I'll know to just apply them again.
+Luca
 
 -- 
-Lee Jones [李琼斯]
+Luca Ceresoli, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
