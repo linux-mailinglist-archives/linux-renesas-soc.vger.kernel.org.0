@@ -1,69 +1,69 @@
-Return-Path: <linux-renesas-soc+bounces-2208-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-2209-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDC3C845867
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  1 Feb 2024 14:05:56 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 001D084588B
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  1 Feb 2024 14:11:34 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 735382860FB
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  1 Feb 2024 13:05:55 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A758B283980
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  1 Feb 2024 13:11:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A7A8F5337E;
-	Thu,  1 Feb 2024 13:05:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1440D3A1AA;
+	Thu,  1 Feb 2024 13:10:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HAYl/XeZ"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="O716Seli"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ua1-f48.google.com (mail-ua1-f48.google.com [209.85.222.48])
+Received: from mail-ua1-f45.google.com (mail-ua1-f45.google.com [209.85.222.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDAF953368;
-	Thu,  1 Feb 2024 13:05:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EAA853366;
+	Thu,  1 Feb 2024 13:10:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706792742; cv=none; b=P8geGcUx51S3kYwRelNftax2W5yHCqe1PeiSvgQZels1Cehf4yIiPynULIWuIEXfE5Z9sZDIr1XK65O4Nz69+rg8sxoFNrSn8pstJcZVAZnaSy8b7U7Ohdj6D5KVurA9e3bqxyzV9UPkBHgU9/Diwwez9DEXDub1aCa5tuMPKRE=
+	t=1706793036; cv=none; b=A0fSEbKF/185VaxGR50odD4Xrt2zDgqCDuuXRh5Oe1aCHNnsgvAt3eSX/FOOMwkIbF/I7ybXTfCSOjHvqQRylwtyKdspW62kuLip0KI+HiqLjn7LFnQ+rZoLH02NwLFaq2xutt9ftk6Z4nHp1WocGm6sRymPkoFV+/nRf1ZDvNg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706792742; c=relaxed/simple;
-	bh=KJO/0kGqXXfwHQPG1WWgO9x4FSPuJhXDewinnrE/U4U=;
+	s=arc-20240116; t=1706793036; c=relaxed/simple;
+	bh=ZJhq/a0ru1u/PCGz29gdCFIS3GlsWoUhfYVg1I8Q/fw=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Hes43j0sQIptKRg2nhS9mUvhWafC5zCYLRvSjmzz2GzDUyiM5ymEMFhK840MaPKcdn83Bn2hlUKbk3QM0AEmUVys7YDqr6OxyJijUS15yHkwDQWBtXkVO8eHmtHE8e2/FLBpj4n4Az0WA0a1UBfOqTQjuLMzXbtYqVPifRgC/uE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HAYl/XeZ; arc=none smtp.client-ip=209.85.222.48
+	 To:Cc:Content-Type; b=KO31aksEIljf/SKSeFs3InZpaqpgY6SEj48pOzcJ2xgrlaLqBGY/8ZhjDmQR9q6mT3cWWZbHeAqWLbLbd+of2NGvmOZRIrnXJYSKUIA/XXJmEq/jjZ2c1TSnyr7Xy1vefS0SdwxzSRwdjUxvbg0F3/70m0NNqvdxTaJGscHUi34=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=O716Seli; arc=none smtp.client-ip=209.85.222.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ua1-f48.google.com with SMTP id a1e0cc1a2514c-7d5c514944fso1109055241.1;
-        Thu, 01 Feb 2024 05:05:40 -0800 (PST)
+Received: by mail-ua1-f45.google.com with SMTP id a1e0cc1a2514c-7d625a3ace6so316955241.0;
+        Thu, 01 Feb 2024 05:10:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1706792739; x=1707397539; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1706793033; x=1707397833; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=9fdnwK8iaaWfuANgz2bEov8b83FWFpe1U9HGTL70t+I=;
-        b=HAYl/XeZhCSl7GP1m7NUkqfw3BRmvJGPuww6lsXlpsjMSiVElAwObc2OcbdUCCoY4J
-         2rtlPYmNixQO5qtN+g8jFz4vhNuZpBfv5Vp9oaqlZ5RdaKMk873+EOKvLo3c+YAS0Wfu
-         CsQtjgnda3ePV+ZGH9t2Sw5m0NZnqfWNenVKSB89v1TEsXBHl4LBDLjyZ9sy/fJny0tQ
-         ArmHZPz0U5nCPY+r4koqER9EKUZksZoLD+5hTWRAHP+cV6mXw1B/LqAfaCUNGqqnG+i6
-         W5pO1ERAzTtLlP/DTQep5uYFaLEYvskua1Ax39y3vJI1IaQmSbRG+NXRl/lMrN/YjiTD
-         iPcw==
+        bh=CwqkQIF71vpcy9N9j4GerjRpbbfKrzc/uUzrxwJJGYo=;
+        b=O716Selih6X3rxS1os1aR88sizk+dZOd1kb3dWFnGusbk4gXW65m1MFB7nd0UVhUBq
+         9Phlz5GEgD54uxyqfdRBij2uj9dAa3dwpK/mNGfZOoEUDJYNNN7hOC4xc0gphMfdCjbQ
+         ZrwB7Pzfbaj3oHm7NsnIiG3qVbl7XofPTvaiJ3NCAZ2YDrZ+FpU4i/UptYUWe9OXxwYH
+         czzTjtbTf40pGTajS/6rfHCnXCnSO3FcEyjG4J3fT8l/LYiuKGTSVR4IJhE8pXa8rPXd
+         K3jaAEdVy7l4NdVkPakBjs1k3hDrZHblOT8yb+Qa8925R/En3PFz+ga3B5oMPXW7MJvt
+         Bq4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706792739; x=1707397539;
+        d=1e100.net; s=20230601; t=1706793033; x=1707397833;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=9fdnwK8iaaWfuANgz2bEov8b83FWFpe1U9HGTL70t+I=;
-        b=sNJPqjSzRqYCdmNVOG4ifb9gIG3yWflH8qGtZXRR1tnhRL4h2uHEcLXdeMWkoFEwfX
-         g5gv2dSu9P+HCcqaX1QFKE0J95VaQEPEQB9/SZocmSmx6FYQQ77exXntq8QOsT4vAGfU
-         IbddDF71i1M5Mta1vX6gK8QMNC/XJpld7udmJtjTYGxDEQnmMnjakAfn98dy8R1AVB8t
-         qPG8DTh8/NqHk0g/lDJOiIyHV5ZZZvZ4DK51U8r2+JHy7qy1E03LHf9aUa+Iz5BW9jtA
-         ftx72yUms3e+GaxlsCNZ3EN+B12uNIhOl+EDUQ7HQ7EXmXMnCuYUVRoEpewVz6akEGvy
-         Vhng==
-X-Gm-Message-State: AOJu0YwAhjDmRRWmnmtOgli7CcW8n8bMK38Zxnktvf1klS/L+0l5Y86t
-	NOP2e1hX53TsWr2U0lLegQBolwsSHevXBdOov0TDMMkpJEQWE6wne/lHS9Ke8xzC5+ihvEeqY75
-	f/ffOSaAOPR3FKFNj6HC1I4Gmh4k=
-X-Google-Smtp-Source: AGHT+IFigfduTRWsVmPlC+0JRfAbL46rAzX8asmlX4/T+JbyargMaUcC1tcGZu/+10b2CLWwTtcY1LRuKIsCJEiZcSk=
-X-Received: by 2002:a05:6122:e6b:b0:4b7:3c54:357e with SMTP id
- bj43-20020a0561220e6b00b004b73c54357emr3297980vkb.1.1706792739290; Thu, 01
- Feb 2024 05:05:39 -0800 (PST)
+        bh=CwqkQIF71vpcy9N9j4GerjRpbbfKrzc/uUzrxwJJGYo=;
+        b=vGDLpJTGagHst76adUXFULEmgFeR8lv4kRi0pzOMhSQ26DqQP4QuGPwmmQGHiLHwHG
+         BDFTPklv6UXlsXvUS+1NdLHJFjXvCMvCSgFdZICTBr5q2WGqgJtySsID2MPCpBoiLRW6
+         JwXBHjxEBuRYZ2LxF/DdEcXGVUDJ0wfKdEg5XWi9+Q+Ao2y96lBZWn4SfULUNOSrt+qm
+         QmL4V0LKJBX1YYuyC6mrs7PaIMdJ5BCjMKd1zjq3h4Zi5Pzel6wagacGPNQg9RqyvFNO
+         f4641KIwX4Wi9x+8ErHyqeO9phwI/0zZIjhfafwGM5GAupgiiyH6tBcyzgoSJgPvcSPq
+         M3tg==
+X-Gm-Message-State: AOJu0YymiH/ZbAqJiK5RSU4HhOKyrvG14NUft0q7+lbQVpIceX3BZYM2
+	O2dWqpu5XhRnG4bjQx+Y+/OClvfz0el+YANqVem0A/Tz/LpiEKn1ldsf23MrliqoYpjYsy8gXwp
+	RtMzgKrXQt5jB0xnB6mGMOR0MrSg=
+X-Google-Smtp-Source: AGHT+IGsf+rRSEKnjNQAqd67Fb46xfvPvSc/YPD5cESPQuN63qNLUZEqMRkqhla21Oa+2++defXTos7E//YR0ZZoJDQ=
+X-Received: by 2002:a05:6122:cb:b0:4b6:e3b6:41ea with SMTP id
+ h11-20020a05612200cb00b004b6e3b641eamr2291081vkc.4.1706793033217; Thu, 01 Feb
+ 2024 05:10:33 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -71,14 +71,13 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 References: <20240129151618.90922-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20240129151618.90922-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <CAMuHMdV7Q4kMv1pFVNBf5oYF=_W_snp=5GKLpr9+OxeqxywhBw@mail.gmail.com>
- <CA+V-a8spFYvOo2=9CwM-1EyMA3Xrc_rggUgxDZwZan2ou4SG1A@mail.gmail.com> <CAMuHMdUFZ6pRtZv4QLGhTz_gG575-8-LvaFprNuP2-1HGS8r+A@mail.gmail.com>
-In-Reply-To: <CAMuHMdUFZ6pRtZv4QLGhTz_gG575-8-LvaFprNuP2-1HGS8r+A@mail.gmail.com>
+ <20240129151618.90922-4-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAMuHMdV=E5VDZn0QjiGQL73j135LiA1QNrYH-hCve1Yk0PqJ=A@mail.gmail.com>
+In-Reply-To: <CAMuHMdV=E5VDZn0QjiGQL73j135LiA1QNrYH-hCve1Yk0PqJ=A@mail.gmail.com>
 From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Thu, 1 Feb 2024 13:05:05 +0000
-Message-ID: <CA+V-a8tQRr96q6SJfCgPa7Zte4UhRHE+83hXNzN8-=rRX5EH0Q@mail.gmail.com>
-Subject: Re: [PATCH 2/5] irqchip/renesas-rzg2l: Add support for RZ/Five SoC
+Date: Thu, 1 Feb 2024 13:09:58 +0000
+Message-ID: <CA+V-a8tJfJTEOkSP-F1B3Q7EO6Cu9ij88ceGJcXCQjTFneWxUA@mail.gmail.com>
+Subject: Re: [PATCH 3/5] riscv: dts: renesas: r9a07g043f: Add IRQC node to
+ RZ/Five SoC DTSI
 To: Geert Uytterhoeven <geert@linux-m68k.org>
 Cc: Thomas Gleixner <tglx@linutronix.de>, Rob Herring <robh+dt@kernel.org>, 
 	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
@@ -92,140 +91,58 @@ Content-Transfer-Encoding: quoted-printable
 
 Hi Geert,
 
-On Thu, Feb 1, 2024 at 8:34=E2=80=AFAM Geert Uytterhoeven <geert@linux-m68k=
-.org> wrote:
+Thank you for the review.
+
+On Tue, Jan 30, 2024 at 11:25=E2=80=AFAM Geert Uytterhoeven
+<geert@linux-m68k.org> wrote:
 >
 > Hi Prabhakar,
 >
-> On Wed, Jan 31, 2024 at 7:36=E2=80=AFPM Lad, Prabhakar
-> <prabhakar.csengg@gmail.com> wrote:
-> > On Tue, Jan 30, 2024 at 11:38=E2=80=AFAM Geert Uytterhoeven
-> > <geert@linux-m68k.org> wrote:
-> > > On Mon, Jan 29, 2024 at 4:16=E2=80=AFPM Prabhakar <prabhakar.csengg@g=
-mail.com> wrote:
-> > > > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > > >
-> > > > The IX45 block has additional mask registers (NMSK/IMSK/TMSK) as co=
-mpared
-> > > > to the RZ/G2L (family) SoC.
-> > > >
-> > > > Introduce masking/unmasking support for IRQ and TINT interrupts in =
-IRQC
-> > > > controller driver. Two new registers, IMSK and TMSK, are defined to
-> > > > handle masking on RZ/Five SoC. The implementation utilizes a new da=
-ta
-> > > > structure, `struct rzg2l_irqc_data`, to determine mask support for =
-a
-> > > > specific controller instance.
-> > > >
-> > > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.c=
-om>
-> > >
-> > > > --- a/drivers/irqchip/irq-renesas-rzg2l.c
-> > > > +++ b/drivers/irqchip/irq-renesas-rzg2l.c
-> > > > @@ -66,15 +68,25 @@ struct rzg2l_irqc_reg_cache {
-> > > >         u32     titsr[2];
-> > > >  };
-> > > >
-> > > > +/**
-> > > > + * struct rzg2l_irqc_data - OF data structure
-> > > > + * @mask_supported: Indicates if mask registers are available
-> > > > + */
-> > > > +struct rzg2l_irqc_data {
-> > >
-> > > This structure has the same name as the single static struct
-> > > rzg2l_irqc_priv instance, which is confusing.
-> > >
-> > Agreed, I will rename it to rzg2l_irqc_of_data
+> On Mon, Jan 29, 2024 at 4:16=E2=80=AFPM Prabhakar <prabhakar.csengg@gmail=
+.com> wrote:
+> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 > >
-> > > > +       bool    mask_supported;
-> > > > +};
-> > > > +
-> > > >  /**
-> > > >   * struct rzg2l_irqc_priv - IRQ controller private data structure
-> > > >   * @base:      Controller's base address
-> > > > + * @data:      OF data pointer
-> > > >   * @fwspec:    IRQ firmware specific data
-> > > >   * @lock:      Lock to serialize access to hardware registers
-> > > >   * @cache:     Registers cache for suspend/resume
-> > > >   */
-> > > >  static struct rzg2l_irqc_priv {
-> > > >         void __iomem                    *base;
-> > > > +       const struct rzg2l_irqc_data    *data;
-> > >
-> > > Replacing this by a bool would avoid a pointer dereference in each us=
-er,
-> > > and allows you to make rzg2l_irqc_data etc. __initconst.
-> > >
-> > Do you mean just add "bool mask_supported" here and get rid of struct
-> > rzg2l_irqc_data ? Can you please elaborate here..
+> > Add the IRQC node to RZ/Five (R9A07G043F) SoC DTSI.
 >
-> Either add "bool mask_supported" here, or add a copy of the full
-> struct rzg2l_irqc_data (see below).
+> Thanks for your patch!
 >
-OK, i'll keep a copy of struct rzg2l_irqc_data here...
+> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+>
+> > --- a/arch/riscv/boot/dts/renesas/r9a07g043f.dtsi
+> > +++ b/arch/riscv/boot/dts/renesas/r9a07g043f.dtsi
+> > @@ -50,6 +50,82 @@ &soc {
+> >         dma-noncoherent;
+> >         interrupt-parent =3D <&plic>;
 > >
-> > > >         struct irq_fwspec               fwspec[IRQC_NUM_IRQ];
-> > > >         raw_spinlock_t                  lock;
-> > > >         struct rzg2l_irqc_reg_cache     cache;
-> > >
-> > > > @@ -371,9 +475,23 @@ static int rzg2l_irqc_parse_interrupts(struct =
-rzg2l_irqc_priv *priv,
-> > > >         return 0;
-> > > >  }
-> > > >
-> > > > +static const struct rzg2l_irqc_data rzfive_irqc_data =3D {
-> > > > +       .mask_supported =3D true,
-> > > > +};
-> > > > +
-> > > > +static const struct rzg2l_irqc_data rzg2l_irqc_default_data =3D {
-> > > > +       .mask_supported =3D false,
-> > > > +};
-> > > > +
-> > > > +static const struct of_device_id rzg2l_irqc_matches[] =3D {
-> > > > +       { .compatible =3D "renesas,r9a07g043f-irqc", .data =3D &rzf=
-ive_irqc_data },
-> > > > +       { }
-> > > > +};
-> > > > +
-> > > >  static int rzg2l_irqc_init(struct device_node *node, struct device=
-_node *parent)
-> > > >  {
-> > > >         struct irq_domain *irq_domain, *parent_domain;
-> > > > +       const struct of_device_id *match;
-> > > >         struct platform_device *pdev;
-> > > >         struct reset_control *resetn;
-> > > >         int ret;
-> > > > @@ -392,6 +510,12 @@ static int rzg2l_irqc_init(struct device_node =
-*node, struct device_node *parent)
-> > > >         if (!rzg2l_irqc_data)
-> > > >                 return -ENOMEM;
-> > > >
-> > > > +       match =3D of_match_node(rzg2l_irqc_matches, node);
-> > > > +       if (match)
-> > > > +               rzg2l_irqc_data->data =3D match->data;
-> > > > +       else
-> > > > +               rzg2l_irqc_data->data =3D &rzg2l_irqc_default_data;
-> > >
-> > > Instead of matching a second time, I'd rather add a second
-> > > IRQCHIP_MATCH() entry with a different init function, passing the
-> > > actual rzg2l_irqc_data pointer.
-> > >
-> > OK, or rather just pass true/false instead of rzg2l_irqc_of_data pointe=
-r.?
+> > +       irqc: interrupt-controller@110a0000 {
+> > +               compatible =3D "renesas,r9a07g043f-irqc",
+> > +                            "renesas,rzg2l-irqc";
+> > +               reg =3D <0 0x110a0000 0 0x20000>;
+> > +               #interrupt-cells =3D <2>;
+> > +               #address-cells =3D <0>;
+> > +               interrupt-controller;
+> > +               interrupts =3D <SOC_PERIPHERAL_IRQ(0) IRQ_TYPE_LEVEL_HI=
+GH>,
 >
-> Yes, that would be fine for me, too.
-> It all depends on whether you plan to add, or see a need for adding,
-> more flags or other fields in the future (and even for flags, you could
-> combine them in an unsigned long).
+> As this is the RZ/Five-specific .dtsi file, and not the common base
+> .dtsi, you could avoid using SOC_PERIPHERAL_IRQ() here.
+> I am not sure what is most readable...
 >
-I'll keep the bool flag for now and update it  as  and when it grows.
-I see future SoCs with a lot of other interrupts being supported by
-this block.
+Ok, ill switch to the usual way here..
+
+>+                            <SOC_PERIPHERAL_IRQ(25) IRQ_TYPE_EDGE_RISING>=
+,
+In RZ/Five HW manual this is documented as LEVEL_HIGH and RZ/G2UL this
+is documented as EDGE. I ve internally asked for clarification with
+the HW team. If it's the same for both the SoCs I'll move this node to
+common SoC dtsi and just update the compat string in rz/five specific
+dtsi.
 
 Cheers,
 Prabhakar
 
+> The rest LGTM (pending interrupt names review comments).
+>
 > Gr{oetje,eeting}s,
 >
 >                         Geert
