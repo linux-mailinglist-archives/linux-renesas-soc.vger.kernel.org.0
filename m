@@ -1,129 +1,126 @@
-Return-Path: <linux-renesas-soc+bounces-2200-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-2201-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id A23278453C6
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  1 Feb 2024 10:23:20 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 948AE845416
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  1 Feb 2024 10:36:04 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 1DA9DB270CF
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  1 Feb 2024 09:23:18 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 322821F28E06
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  1 Feb 2024 09:36:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BDBD415B961;
-	Thu,  1 Feb 2024 09:22:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8C64415B986;
+	Thu,  1 Feb 2024 09:32:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="hRRznMot"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com [209.85.128.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C93915CD59;
-	Thu,  1 Feb 2024 09:22:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C92DF15959D
+	for <linux-renesas-soc@vger.kernel.org>; Thu,  1 Feb 2024 09:32:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706779335; cv=none; b=Bvq6Hd5w18fi1pnwUOekrmdlrm2J5WyAP53o5FG9g3caJ8mpiIKyO6XCVz6XqMqsVgYYlswBsqDvxXy9hO1xb/WsNjBeMn+UeXQMgkV4uRUJClcQLSCchMHA6QpFIDNvm+XeFqVcR+fUG6xM1NPAsGiNYfsNUOwdY/9nEteYmJ4=
+	t=1706779950; cv=none; b=RI7UTQ8CPfq+uqQFSHXVPEnNm/hSex2ZcZkBoI++Xaess0mJGQMsE2YyOTV24Sv93Uj9nqLAEvwKiVhjWftc+LcBeEgj798RB2RCeViu3zqebYcKVLkB3DGxDM4s6MHtgNKIlws8Jls4m1QBqL17KWfzqT1F1bjBYDwDbWXjRpA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706779335; c=relaxed/simple;
-	bh=al1OXT3b4ZNm+oAqseaUr5rbOswfuhlYywbfkVT/QTs=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=SkcUVLRffCgagG15QZ1UNUU6dC4pxYpqJJz67F6h/w31xHBjCWgK3wbbxwJ3nc75Ohe02SqY/lrxc9ckj0ez42gt2maEGdgFX+TF8CuQELh9zYeRjxmQsyglJUBxlRvRWc7Mf9Fcou02siICH08UfF6kxYV34KoQ52etvz6NH8U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-5ffdf06e009so6959237b3.3;
-        Thu, 01 Feb 2024 01:22:13 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706779331; x=1707384131;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=IeOVkvGjHG8vKffIVzdxVjnEBY9Jb+dC/AhaTOMUW0U=;
-        b=YIA5GFYJ9Bp5Lo54rMijHTM4cGQWRni4UTCAeRnz17rF7DMBQy0jxbbQ08UZxa2g5C
-         fcSUbgeFYtUtfVigbS9Ye4pNyyGTv4t1cJKrlo4wuf5YHEAPvPMw3U0qHAwcgFSJjpUV
-         /3q+ML0JV7NwoBUrq77HHuzyJYQ6zzRzQ7tJ14M6vumHx7g4LslGg3gZ8TOYSfySowA+
-         k0mAqJ38057GEcXLlcLgzm1r9u/FbFUH6X8vD10LDzi7vOfo1hYj8vYVvEJXWksSdUnd
-         /qsEUIG1XFUE4nOmlepacqjRYaystdnBWlnjWGJdQXP8zbG98kJeJR1oHpIGHYMd7rHi
-         d4yQ==
-X-Gm-Message-State: AOJu0Yzd3yXS7BAbl2gGl91KexcHZyzzcMEgKTgGCQr1d/x5wdnUVtm4
-	H3ztp3vPelVggH7J68LRqtDHjXgNLRaFiFgnc6xTwgntMqjd/BalmtHVuoLAIYw=
-X-Google-Smtp-Source: AGHT+IHA+fzM83bO8SBIWNrSWhdUuIe7MjEEIAB4WiKM5Tdbu3sMZ6IvCy/XiYWKSg4EYvjf/oud6g==
-X-Received: by 2002:a0d:e2d7:0:b0:5ff:fdd5:d368 with SMTP id l206-20020a0de2d7000000b005fffdd5d368mr1923515ywe.44.1706779331611;
-        Thu, 01 Feb 2024 01:22:11 -0800 (PST)
-Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com. [209.85.128.171])
-        by smtp.gmail.com with ESMTPSA id gt16-20020a05690c451000b005ff8bcbe01dsm4248271ywb.16.2024.02.01.01.22.11
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 01 Feb 2024 01:22:11 -0800 (PST)
-Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-6041c6333cdso4651007b3.2;
-        Thu, 01 Feb 2024 01:22:11 -0800 (PST)
-X-Received: by 2002:a81:b65b:0:b0:5ee:65b3:f289 with SMTP id
- h27-20020a81b65b000000b005ee65b3f289mr1815979ywk.3.1706779330966; Thu, 01 Feb
- 2024 01:22:10 -0800 (PST)
+	s=arc-20240116; t=1706779950; c=relaxed/simple;
+	bh=mGbEKbRg3HRX1JJEx5Fmweb6LPOvKH+q8e4+jYDWBnw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=SLOUNScjs20xeSUBwfhKa86ZEMpHjgoR/Yl1vzYYWT6rTpbkmWwegfg+Cs9eQ4oNaeBCTJa6dhlUW9NRVCMJgzD6pegXXFkdjQwQnLIDenD2Jap0nJMnpRqgCcCybNOyQicE/y8yg63QWmibI9KSVAfbKgXn/MfH0oSQP/L9JqA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=hRRznMot; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=date:from:to:cc:subject:message-id
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=Cb3/
+	O3cYgfvjgEQfrw9YH6eePZxbN6AMDZbUnR3SgPM=; b=hRRznMotmrGIfiAq9V2b
+	rhASVA4bmrXckRh4j5NJDBNMAxkYTV+fx4gcKRBO1O5RbUnqU9z29MXuUzmyH5jH
+	HTx3P+3ES0eET4cQErzYSysju8djxaFSMZ2k+VN0KEXdnZF0zMy4kiu01cLIuQai
+	SAa/TR2bTyzG6LwrcPzb56faGl2cmRnq2TctvhfT/Gu59f5IXTvQZLGVFMY84HW3
+	PHkhP5DAAIrNewtdRlwWr93hNGmjHAEa1YFGxWl5O/AVQZ0XXYvl3qVCZJlIgLVb
+	MqhJA+5/zSB7ZkbRWAPxdVwcoDmBy06FcmXqnVaHu+9ST4Zv7FW/Jw3+IxpKYrAe
+	kw==
+Received: (qmail 3478403 invoked from network); 1 Feb 2024 10:32:24 +0100
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 1 Feb 2024 10:32:24 +0100
+X-UD-Smtp-Session: l3s3148p1@+plErE4QJtVehhtJ
+Date: Thu, 1 Feb 2024 10:32:23 +0100
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: linux-renesas-soc@vger.kernel.org, Magnus Damm <magnus.damm@gmail.com>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] arm64: dts: renesas: ulcb-kf: document a problemw with
+ old firmware
+Message-ID: <ZbtlJ-7UCPxgUXeS@ninjato>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Geert Uytterhoeven <geert@linux-m68k.org>,
+	linux-renesas-soc@vger.kernel.org,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+References: <20240130095222.11177-1-wsa+renesas@sang-engineering.com>
+ <CAMuHMdUB_9TNzo+GFbDZO-gjBUGfk7O7aEyJYG5pCw-Z1nK-pw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240130095222.11177-1-wsa+renesas@sang-engineering.com>
-In-Reply-To: <20240130095222.11177-1-wsa+renesas@sang-engineering.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 1 Feb 2024 10:21:58 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdUB_9TNzo+GFbDZO-gjBUGfk7O7aEyJYG5pCw-Z1nK-pw@mail.gmail.com>
-Message-ID: <CAMuHMdUB_9TNzo+GFbDZO-gjBUGfk7O7aEyJYG5pCw-Z1nK-pw@mail.gmail.com>
-Subject: Re: [PATCH] arm64: dts: renesas: ulcb-kf: document a problemw with
- old firmware
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc: linux-renesas-soc@vger.kernel.org, Magnus Damm <magnus.damm@gmail.com>, 
-	Rob Herring <robh+dt@kernel.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="m5ayo9h/R03Rj0Ow"
+Content-Disposition: inline
+In-Reply-To: <CAMuHMdUB_9TNzo+GFbDZO-gjBUGfk7O7aEyJYG5pCw-Z1nK-pw@mail.gmail.com>
 
-Hi Wolfram,
 
-On Tue, Jan 30, 2024 at 10:52=E2=80=AFAM Wolfram Sang
-<wsa+renesas@sang-engineering.com> wrote:
-> Old firmware set the GPIO to output, so no interrupts could be read.
-> Newer firmware does this correctly. The exact version could not be
-> determined, sadly.
->
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+--m5ayo9h/R03Rj0Ow
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Thanks for your patch!
+Hi Geert,
 
-> --- a/arch/arm64/boot/dts/renesas/ulcb-kf.dtsi
-> +++ b/arch/arm64/boot/dts/renesas/ulcb-kf.dtsi
-> @@ -324,6 +324,7 @@ gpio_exp_77: gpio@77 {
->                 reg =3D <0x77>;
->                 gpio-controller;
->                 #gpio-cells =3D <2>;
-> +               /* If these interrupts don't work, please update your fir=
-mware */
->                 interrupt-controller;
->                 interrupt-parent =3D <&gpio5>;
->                 interrupts =3D <9 IRQ_TYPE_EDGE_FALLING>;
+> I'd rather not add such comments (especially +6y after the fact), as
+> this is the standard operating procedure in case something doesn't work.
 
-I'd rather not add such comments (especially +6y after the fact), as
-this is the standard operating procedure in case something doesn't work.
+Okay, can be argued.
 
-Do you think we should sprinkle the following, too??
+> /* If secondary CPUs don't work, please update your firmware */
+> /* If cpuidle crashes, please update your firmware */
+> /* If watchdog restart doesn't work, please update your firmware */
+> /* If PSCI reboot doesn't work, please update your firmware */
 
-/* If secondary CPUs don't work, please update your firmware */
-/* If cpuidle crashes, please update your firmware */
-/* If watchdog restart doesn't work, please update your firmware */
-/* If PSCI reboot doesn't work, please update your firmware */
+Actually, I wouldn't mind. It documents that we *know* updating firmware
+helps in this particular case. But as said, I can see your point as
+well. Let's drop this patch.
 
-Gr{oetje,eeting}s,
+Happy hacking,
 
-                        Geert
+   Wolfram
 
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
 
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+--m5ayo9h/R03Rj0Ow
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmW7ZSQACgkQFA3kzBSg
+KbawvxAAkU+UH6er8246WWvbhlx5F2otGXdN41eOjvKL8rr7GCEZE5zaIubaW8gK
+QRweI+MMksGvVeI0dHmo/wx8g6nRrMLGn9qY8aUSLspD++3nZqUwn5Y3tx930/uW
+XsmJrn1qO02Jda9mCIyZudeabQlOlt+qyVdjKAdVEIEbBdgkIcVg0hOGvVMesYrH
+qRi/3ZWnm7ywc3J1E03a0kgylnYMmm3WpljPKGKnRNHHlkxKUBY8G21gCkvy4VnZ
+aXAfyZrLCj9YVtODgjx6JWZz34pbut+p0LclgjTy6hj9tC+xdooKzpeTEhKwUFtQ
+//fLFan8w4uz/LM70VElp5k62nYYbXHV0w3jfCivPAYucrTk16c+vzcW/hW9DGKV
+9yXGZN8yWKqV3PwymFpm1iE9SrQJQZQe7joAgnsZ63tSo0eUTdxGgmx/BdbLI41y
+UwnXIi7tDlk1YAjsYF1wU644tWdlaxQENLTPh++twauNM7SjuaB+dRySa5et8C2i
+1ifogpTEpyCnmP5azFXUdpxEhPtTgDiEAFNn04gOZ9uB/ANQNamX41mdzywj5J6c
+kg5tPiP+nx4lAZMgz1QxlLHM/ZCmJ49Zcd/9v4Oc7omec+GGVzEsHc8Ympdh8j5J
+3U+WdlatFEfCyG8WasVizOYFC49ZczjEMtlX+0a7gym8ruBKbxA=
+=Ccfm
+-----END PGP SIGNATURE-----
+
+--m5ayo9h/R03Rj0Ow--
 
