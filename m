@@ -1,53 +1,60 @@
-Return-Path: <linux-renesas-soc+bounces-2214-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-2216-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A8D68459BA
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  1 Feb 2024 15:14:45 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 90CB18459BC
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  1 Feb 2024 15:14:59 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DBBD128241F
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  1 Feb 2024 14:14:43 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C228A1C214F6
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  1 Feb 2024 14:14:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EEF2D5D465;
-	Thu,  1 Feb 2024 14:14:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 434725D475;
+	Thu,  1 Feb 2024 14:14:56 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from michel.telenet-ops.be (michel.telenet-ops.be [195.130.137.88])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from weierstrass.telenet-ops.be (weierstrass.telenet-ops.be [195.130.137.81])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9EA05336D
-	for <linux-renesas-soc@vger.kernel.org>; Thu,  1 Feb 2024 14:14:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.137.88
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E6D75D465
+	for <linux-renesas-soc@vger.kernel.org>; Thu,  1 Feb 2024 14:14:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.137.81
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706796881; cv=none; b=ES8tQRjupcEHwYKBachNlake+ng7VDnKwv7Ewqn1qOauuz65ul6KTwtSDGiILn/bSNcrndcpaeUpW0LwrbQ310BNzUVFP52o1XgK2tAelVbjkWWlLi73fGf0Aq6MoUB9/WmC3OYXAqTbwpm0UbPZW5wy2eZph/n528H9r/Uuvdw=
+	t=1706796896; cv=none; b=P+J/4pM5CzBLBE9xsXl5iVZGPEcRv7J5Z6JytvF8cOo/uk8NXxwqrVs0xaDke7GwTL9zpDssP7bcz+ZGd0fpj2E+C294JhAYRhvDMpHrOMcABvAyHKgA5yrd8qrQnKczxZ7P+Q2yaEPP4/X2prj2/thXSmSeAF/Ki/2FHfh0byc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706796881; c=relaxed/simple;
-	bh=M3+rHy2AvNp1du11yORHQQdphOQ9nwMsArmaun+yQI4=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=hOz9/gX9/s+npj3jVfqw+hgR5Soer/LASwa04Ye5W6iI28U1Dlt7JNhdWEsFzJlzw3IGT37nRiXCRzCcDZDrfVHa2tURYAD+YwRUZG4NxUBj4ZAHWrv8NF6rRhmEBzA8en7xeKHfNAcnNcjGoLJKuJpR0ddYHzVnUvffd35AutI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.137.88
+	s=arc-20240116; t=1706796896; c=relaxed/simple;
+	bh=3ycJl2V6ChLuEDG69ckziIRWe+ze4+NrREHj7oZq7mU=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=jO+qg+9fUff6kHvgIBAAKiU1xAZzgP1QmcOx+0zKVHNMtym0j6uO1/Dv8TsOWlezGAHWLpKyQbjNs3D35127+/+I9zrTR0lZZ0ADjpFYFc45yTN2Sugl96IgQwoNPuJUj6KPNPi+ZCD43CGQYKA6nKG3F38cdh0zMJRo/MLwe4E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.137.81
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
+Received: from baptiste.telenet-ops.be (baptiste.telenet-ops.be [IPv6:2a02:1800:120:4::f00:13])
+	by weierstrass.telenet-ops.be (Postfix) with ESMTPS id 4TQgs23mTwz4x0Zv
+	for <linux-renesas-soc@vger.kernel.org>; Thu,  1 Feb 2024 15:14:46 +0100 (CET)
 Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed40:88f0:c83b:bafa:cdc3])
-	by michel.telenet-ops.be with bizsmtp
-	id hqEd2B00J4efzLr06qEdch; Thu, 01 Feb 2024 15:14:37 +0100
+	by baptiste.telenet-ops.be with bizsmtp
+	id hqEd2B0064efzLr01qEdSS; Thu, 01 Feb 2024 15:14:39 +0100
 Received: from rox.of.borg ([192.168.97.57])
 	by ramsan.of.borg with esmtp (Exim 4.95)
 	(envelope-from <geert@linux-m68k.org>)
-	id 1rVXp2-00Gv44-AP;
+	id 1rVXp2-00Gv45-AR;
 	Thu, 01 Feb 2024 15:14:37 +0100
 Received: from geert by rox.of.borg with local (Exim 4.95)
 	(envelope-from <geert@linux-m68k.org>)
-	id 1rVXpt-00AXZJ-9X;
+	id 1rVXpt-00AXZM-AB;
 	Thu, 01 Feb 2024 15:14:37 +0100
 From: Geert Uytterhoeven <geert+renesas@glider.be>
 To: linux-renesas-soc@vger.kernel.org
 Cc: linux-arm-kernel@lists.infradead.org,
+	Hai Pham <hai.pham.ud@renesas.com>,
 	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH 0/2] arm64: dts: renesas: r8a779h0/gray-hawk-single: Add I2C and EEPROM support
-Date: Thu,  1 Feb 2024 15:14:32 +0100
-Message-Id: <cover.1706796660.git.geert+renesas@glider.be>
+Subject: [PATCH 1/2] arm64: dts: renesas: r8a779h0: Add I2C nodes
+Date: Thu,  1 Feb 2024 15:14:33 +0100
+Message-Id: <7dbbe13428273c5786ddff6ea7af6724fcdd4de8.1706796660.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <cover.1706796660.git.geert+renesas@glider.be>
+References: <cover.1706796660.git.geert+renesas@glider.be>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -56,37 +63,88 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-	Hi all,
+From: Hai Pham <hai.pham.ud@renesas.com>
 
-This patch series adds I2C support for the Renesas R-Car V4M (R8A779H0)
-Soc, and I2C0 and board ID EEPROM support for the Gray Hawk Single
-development board.
+Add device nodes for the I2C Bus Interfaces on the Renesas R-Car V4M
+(R8A779H0) SoC.
 
-I intend to queue this in renesas-devel for v6.9.
+Signed-off-by: Hai Pham <hai.pham.ud@renesas.com>
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+Changes compared to the BSP:
+  - Incorporate i2c2 fix from "arm64: dts: renesas: r8a779h0: Sort IPMMU driver nodes".
+---
+ arch/arm64/boot/dts/renesas/r8a779h0.dtsi | 56 +++++++++++++++++++++++
+ 1 file changed, 56 insertions(+)
 
-Thanks for your comments!
-
-Geert Uytterhoeven (1):
-  arm64: dts: renesas: gray-hawk-single: Add I2C0 and EEPROMs
-
-Hai Pham (1):
-  arm64: dts: renesas: r8a779h0: Add I2C nodes
-
- .../dts/renesas/r8a779h0-gray-hawk-single.dts | 41 ++++++++++++++
- arch/arm64/boot/dts/renesas/r8a779h0.dtsi     | 56 +++++++++++++++++++
- 2 files changed, 97 insertions(+)
-
+diff --git a/arch/arm64/boot/dts/renesas/r8a779h0.dtsi b/arch/arm64/boot/dts/renesas/r8a779h0.dtsi
+index f5a688e300d29a73..8121aadaf6999429 100644
+--- a/arch/arm64/boot/dts/renesas/r8a779h0.dtsi
++++ b/arch/arm64/boot/dts/renesas/r8a779h0.dtsi
+@@ -99,6 +99,62 @@ sysc: system-controller@e6180000 {
+ 			#power-domain-cells = <1>;
+ 		};
+ 
++		i2c0: i2c@e6500000 {
++			compatible = "renesas,i2c-r8a779h0",
++				     "renesas,rcar-gen4-i2c";
++			reg = <0 0xe6500000 0 0x40>;
++			interrupts = <GIC_SPI 610 IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&cpg CPG_MOD 518>;
++			power-domains = <&sysc R8A779H0_PD_ALWAYS_ON>;
++			resets = <&cpg 518>;
++			i2c-scl-internal-delay-ns = <110>;
++			#address-cells = <1>;
++			#size-cells = <0>;
++			status = "disabled";
++		};
++
++		i2c1: i2c@e6508000 {
++			compatible = "renesas,i2c-r8a779h0",
++				     "renesas,rcar-gen4-i2c";
++			reg = <0 0xe6508000 0 0x40>;
++			interrupts = <GIC_SPI 611 IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&cpg CPG_MOD 519>;
++			power-domains = <&sysc R8A779H0_PD_ALWAYS_ON>;
++			resets = <&cpg 519>;
++			i2c-scl-internal-delay-ns = <110>;
++			#address-cells = <1>;
++			#size-cells = <0>;
++			status = "disabled";
++		};
++
++		i2c2: i2c@e6510000 {
++			compatible = "renesas,i2c-r8a779h0",
++				     "renesas,rcar-gen4-i2c";
++			reg = <0 0xe6510000 0 0x40>;
++			interrupts = <GIC_SPI 612 IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&cpg CPG_MOD 520>;
++			power-domains = <&sysc R8A779H0_PD_ALWAYS_ON>;
++			resets = <&cpg 520>;
++			i2c-scl-internal-delay-ns = <110>;
++			#address-cells = <1>;
++			#size-cells = <0>;
++			status = "disabled";
++		};
++
++		i2c3: i2c@e66d0000 {
++			compatible = "renesas,i2c-r8a779h0",
++				     "renesas,rcar-gen4-i2c";
++			reg = <0 0xe66d0000 0 0x40>;
++			interrupts = <GIC_SPI 613 IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&cpg CPG_MOD 521>;
++			power-domains = <&sysc R8A779H0_PD_ALWAYS_ON>;
++			resets = <&cpg 521>;
++			i2c-scl-internal-delay-ns = <110>;
++			#address-cells = <1>;
++			#size-cells = <0>;
++			status = "disabled";
++		};
++
+ 		hscif0: serial@e6540000 {
+ 			compatible = "renesas,hscif-r8a779h0",
+ 				     "renesas,rcar-gen4-hscif", "renesas,hscif";
 -- 
 2.34.1
 
-Gr{oetje,eeting}s,
-
-						Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-							    -- Linus Torvalds
 
