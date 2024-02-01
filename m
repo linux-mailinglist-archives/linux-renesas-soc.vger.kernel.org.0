@@ -1,259 +1,220 @@
-Return-Path: <linux-renesas-soc+bounces-2195-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-2196-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A40EF8451D1
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  1 Feb 2024 08:13:57 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 527058452D0
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  1 Feb 2024 09:35:04 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6006D293B74
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  1 Feb 2024 07:13:56 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id B373C1F279AC
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  1 Feb 2024 08:35:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 100981586CC;
-	Thu,  1 Feb 2024 07:13:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EppP9FJU"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D191215A4BA;
+	Thu,  1 Feb 2024 08:34:41 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com [209.85.128.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33EBF1586C8
-	for <linux-renesas-soc@vger.kernel.org>; Thu,  1 Feb 2024 07:13:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F59F15A4B1;
+	Thu,  1 Feb 2024 08:34:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706771635; cv=none; b=bJhx7Q6oVFQNVkFfDWyxnjrtgbYFyx4VvA/sfV6spniYeo2RqGuHDlj2YXYnS6kS5iH/XNATw7CFgvbhjYnknSpBWNsmzF/JFA6j4HjbHiCQipfWYtOddJLBkxfmY8PO1x7l9W5wvupecTvqu8A8sGk51aNK8HpUz/t3XGPk5Mo=
+	t=1706776481; cv=none; b=phwnTu+R7ityfV1Wc0srNtV5wlXj+IYKvKwzpNHVEZZ3bsppMPOQIs8WkYSCavYrHaNFFSiueh4lgG/cLJFGVFKTzOXVkLYkc9cpCNApg/TpZTGhRVBiRAwQedBi7H2kxWzN4loRPllYeArToIuTOPpC83OkCbnw0k1saLdydW8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706771635; c=relaxed/simple;
-	bh=cVvhgwWzsR8RaGIZY9UHp4QizaSPbCmHPWOdwzaspko=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=sGCmEJ46lp+hX56nqXQ66ODRprgr2p6/dscW8hYg1eXDHeyzKzCZ+hxPYp1iYJcHsgtwOr7zDjJtC23jWzaTd8wOl9B6fp7h+yrWeXdOlxJV74/AASEAfjPnXPDlKg8lQG9YAzNXGvA+ZQRe0QbFKcUjBb7WLgvqOCdSjkzwvr8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EppP9FJU; arc=none smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706771633; x=1738307633;
-  h=date:from:to:cc:subject:message-id;
-  bh=cVvhgwWzsR8RaGIZY9UHp4QizaSPbCmHPWOdwzaspko=;
-  b=EppP9FJUjKTI95jQ/emTn0ZSQHz3RZJdW5MuHbyCUNOIDJBCHgnXf+FZ
-   008YpT1CzGN28EW10sjIzqCG9LGuTwv+lon8tpjLmv6qMn8/nUZnos5RK
-   YHWOS8xYcN/RPliLgUnnUIkXZSatEEJsw8JYb7QD1FqfphzzQXPc3gJkH
-   4VRwXjnPD5traiXqSYSEY+ZmXXCho5aA8oRAoFKwYfpZahuBRsSbZhqQg
-   wNV5cY789mOIwXQG4DncQGt++wFcrBijexqGo2cUiyktwtJE7wEroDYtz
-   fc4Ix8zv+qM5SiqwI998vIXQeLwODtdS9bpFRCZfnDls39v3P28yrA6JU
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10969"; a="11204760"
-X-IronPort-AV: E=Sophos;i="6.05,234,1701158400"; 
-   d="scan'208";a="11204760"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jan 2024 23:13:52 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10969"; a="822849636"
-X-IronPort-AV: E=Sophos;i="6.05,234,1701158400"; 
-   d="scan'208";a="822849636"
-Received: from lkp-server02.sh.intel.com (HELO 59f4f4cd5935) ([10.239.97.151])
-  by orsmga001.jf.intel.com with ESMTP; 31 Jan 2024 23:13:50 -0800
-Received: from kbuild by 59f4f4cd5935 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rVRGe-0002V9-0j;
-	Thu, 01 Feb 2024 07:13:48 +0000
-Date: Thu, 01 Feb 2024 15:13:30 +0800
-From: kernel test robot <lkp@intel.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: linux-renesas-soc@vger.kernel.org
-Subject: [geert-renesas-devel:renesas-dts-for-v6.9] BUILD SUCCESS
- 971c17f879352adc719ff215e0769f8e0a49d7c4
-Message-ID: <202402011528.L8xIIaWy-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+	s=arc-20240116; t=1706776481; c=relaxed/simple;
+	bh=sDRZVbaV2bc5xAXJPaIp6yTdUcALc0sGqcGUq+EIioI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=fgSypmhkIShjBqh8Tap+a40SqwyDTXysPOudCIAESFwxUTrXoPwgz/9sbJhvcEy67uiq5KG2p1vpin6EzPUjAKCOwFyG5TNwnB546QR2YxEwMO9uHvpd1eMMrziGxpzOBAOjEFEMDWiu+pnPjdNU7471BTsaoTWYcQ1d8OYbLzQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-604059403e9so6634737b3.3;
+        Thu, 01 Feb 2024 00:34:39 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1706776477; x=1707381277;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=2HK1C91x+7wARyC9FcS8BRNfiXMoVY/LaEt3n42/zAE=;
+        b=lSkI3ezM/rlL7xMqWJLmzViFtiW2ZbpcW/O05DD5lUJ9sZh4HY57rR9MsSphZB3PEE
+         nGynipms3SIgsWsWkegH1igejgX96CRhZpU2NsgQBpB1qugpfPcNgyhwngYJkenc/vAu
+         XhMG3KmvqOe5a88NQSDtCb4JCNBITCeA2HKlFFVMvW+xaGLol46kkG254E9E5tryOHt9
+         Cl0VBLCikjm2kHyRNcRbl/etm97RT6GeSRdgAJHzcp5UULV5KGYcejXaAx6FLE8kS6w3
+         BPI+83sHQ9capwfY6EcTqzgvOhqC2XkAxuB/VsufC0aecqjDt4CpTfq53JPGKXOPTS46
+         g6og==
+X-Gm-Message-State: AOJu0YxNVOtko++fOMcJNZ1FKNHtDMdzMB5irsMWz5+ZOIyVLeqEE2Bc
+	v6eZC0kMdhZG22afqa6ywf2P8SdeFlO87l56uAUvHiuDDmVYHh/VCSGHxCn8X5Y=
+X-Google-Smtp-Source: AGHT+IFjwVn4UY2Kxo/XufzLNB2vGbsLImFRXcrEXkKYpRr064g+bPgK+2JO0wCQnTYdEYiRtfS2SQ==
+X-Received: by 2002:a81:4813:0:b0:602:b697:d9ff with SMTP id v19-20020a814813000000b00602b697d9ffmr1701529ywa.22.1706776476936;
+        Thu, 01 Feb 2024 00:34:36 -0800 (PST)
+Received: from mail-yb1-f179.google.com (mail-yb1-f179.google.com. [209.85.219.179])
+        by smtp.gmail.com with ESMTPSA id ez10-20020a05690c308a00b005ff9154001fsm3637062ywb.140.2024.02.01.00.34.34
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 01 Feb 2024 00:34:35 -0800 (PST)
+Received: by mail-yb1-f179.google.com with SMTP id 3f1490d57ef6-dc236729a2bso617516276.0;
+        Thu, 01 Feb 2024 00:34:34 -0800 (PST)
+X-Received: by 2002:a25:824a:0:b0:dc6:ad43:8cf4 with SMTP id
+ d10-20020a25824a000000b00dc6ad438cf4mr1840360ybn.20.1706776474698; Thu, 01
+ Feb 2024 00:34:34 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+References: <20240129151618.90922-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20240129151618.90922-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <CAMuHMdV7Q4kMv1pFVNBf5oYF=_W_snp=5GKLpr9+OxeqxywhBw@mail.gmail.com> <CA+V-a8spFYvOo2=9CwM-1EyMA3Xrc_rggUgxDZwZan2ou4SG1A@mail.gmail.com>
+In-Reply-To: <CA+V-a8spFYvOo2=9CwM-1EyMA3Xrc_rggUgxDZwZan2ou4SG1A@mail.gmail.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Thu, 1 Feb 2024 09:34:21 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdUFZ6pRtZv4QLGhTz_gG575-8-LvaFprNuP2-1HGS8r+A@mail.gmail.com>
+Message-ID: <CAMuHMdUFZ6pRtZv4QLGhTz_gG575-8-LvaFprNuP2-1HGS8r+A@mail.gmail.com>
+Subject: Re: [PATCH 2/5] irqchip/renesas-rzg2l: Add support for RZ/Five SoC
+To: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Cc: Thomas Gleixner <tglx@linutronix.de>, Rob Herring <robh+dt@kernel.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Magnus Damm <magnus.damm@gmail.com>, linux-renesas-soc@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-riscv@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git renesas-dts-for-v6.9
-branch HEAD: 971c17f879352adc719ff215e0769f8e0a49d7c4  arm64: dts: renesas: r9a07g043u: Add CSI and CRU nodes
+Hi Prabhakar,
 
-elapsed time: 939m
+On Wed, Jan 31, 2024 at 7:36=E2=80=AFPM Lad, Prabhakar
+<prabhakar.csengg@gmail.com> wrote:
+> On Tue, Jan 30, 2024 at 11:38=E2=80=AFAM Geert Uytterhoeven
+> <geert@linux-m68k.org> wrote:
+> > On Mon, Jan 29, 2024 at 4:16=E2=80=AFPM Prabhakar <prabhakar.csengg@gma=
+il.com> wrote:
+> > > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > >
+> > > The IX45 block has additional mask registers (NMSK/IMSK/TMSK) as comp=
+ared
+> > > to the RZ/G2L (family) SoC.
+> > >
+> > > Introduce masking/unmasking support for IRQ and TINT interrupts in IR=
+QC
+> > > controller driver. Two new registers, IMSK and TMSK, are defined to
+> > > handle masking on RZ/Five SoC. The implementation utilizes a new data
+> > > structure, `struct rzg2l_irqc_data`, to determine mask support for a
+> > > specific controller instance.
+> > >
+> > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com=
+>
+> >
+> > > --- a/drivers/irqchip/irq-renesas-rzg2l.c
+> > > +++ b/drivers/irqchip/irq-renesas-rzg2l.c
+> > > @@ -66,15 +68,25 @@ struct rzg2l_irqc_reg_cache {
+> > >         u32     titsr[2];
+> > >  };
+> > >
+> > > +/**
+> > > + * struct rzg2l_irqc_data - OF data structure
+> > > + * @mask_supported: Indicates if mask registers are available
+> > > + */
+> > > +struct rzg2l_irqc_data {
+> >
+> > This structure has the same name as the single static struct
+> > rzg2l_irqc_priv instance, which is confusing.
+> >
+> Agreed, I will rename it to rzg2l_irqc_of_data
+>
+> > > +       bool    mask_supported;
+> > > +};
+> > > +
+> > >  /**
+> > >   * struct rzg2l_irqc_priv - IRQ controller private data structure
+> > >   * @base:      Controller's base address
+> > > + * @data:      OF data pointer
+> > >   * @fwspec:    IRQ firmware specific data
+> > >   * @lock:      Lock to serialize access to hardware registers
+> > >   * @cache:     Registers cache for suspend/resume
+> > >   */
+> > >  static struct rzg2l_irqc_priv {
+> > >         void __iomem                    *base;
+> > > +       const struct rzg2l_irqc_data    *data;
+> >
+> > Replacing this by a bool would avoid a pointer dereference in each user=
+,
+> > and allows you to make rzg2l_irqc_data etc. __initconst.
+> >
+> Do you mean just add "bool mask_supported" here and get rid of struct
+> rzg2l_irqc_data ? Can you please elaborate here..
 
-configs tested: 169
-configs skipped: 5
+Either add "bool mask_supported" here, or add a copy of the full
+struct rzg2l_irqc_data (see below).
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+>
+> > >         struct irq_fwspec               fwspec[IRQC_NUM_IRQ];
+> > >         raw_spinlock_t                  lock;
+> > >         struct rzg2l_irqc_reg_cache     cache;
+> >
+> > > @@ -371,9 +475,23 @@ static int rzg2l_irqc_parse_interrupts(struct rz=
+g2l_irqc_priv *priv,
+> > >         return 0;
+> > >  }
+> > >
+> > > +static const struct rzg2l_irqc_data rzfive_irqc_data =3D {
+> > > +       .mask_supported =3D true,
+> > > +};
+> > > +
+> > > +static const struct rzg2l_irqc_data rzg2l_irqc_default_data =3D {
+> > > +       .mask_supported =3D false,
+> > > +};
+> > > +
+> > > +static const struct of_device_id rzg2l_irqc_matches[] =3D {
+> > > +       { .compatible =3D "renesas,r9a07g043f-irqc", .data =3D &rzfiv=
+e_irqc_data },
+> > > +       { }
+> > > +};
+> > > +
+> > >  static int rzg2l_irqc_init(struct device_node *node, struct device_n=
+ode *parent)
+> > >  {
+> > >         struct irq_domain *irq_domain, *parent_domain;
+> > > +       const struct of_device_id *match;
+> > >         struct platform_device *pdev;
+> > >         struct reset_control *resetn;
+> > >         int ret;
+> > > @@ -392,6 +510,12 @@ static int rzg2l_irqc_init(struct device_node *n=
+ode, struct device_node *parent)
+> > >         if (!rzg2l_irqc_data)
+> > >                 return -ENOMEM;
+> > >
+> > > +       match =3D of_match_node(rzg2l_irqc_matches, node);
+> > > +       if (match)
+> > > +               rzg2l_irqc_data->data =3D match->data;
+> > > +       else
+> > > +               rzg2l_irqc_data->data =3D &rzg2l_irqc_default_data;
+> >
+> > Instead of matching a second time, I'd rather add a second
+> > IRQCHIP_MATCH() entry with a different init function, passing the
+> > actual rzg2l_irqc_data pointer.
+> >
+> OK, or rather just pass true/false instead of rzg2l_irqc_of_data pointer.=
+?
 
-tested configs:
-alpha                             allnoconfig   gcc  
-alpha                            allyesconfig   gcc  
-alpha                               defconfig   gcc  
-arc                              allmodconfig   gcc  
-arc                               allnoconfig   gcc  
-arc                              allyesconfig   gcc  
-arc                                 defconfig   gcc  
-arc                   randconfig-001-20240201   gcc  
-arc                   randconfig-002-20240201   gcc  
-arm                              allmodconfig   gcc  
-arm                               allnoconfig   gcc  
-arm                              allyesconfig   gcc  
-arm                                 defconfig   clang
-arm                   randconfig-001-20240201   gcc  
-arm                   randconfig-002-20240201   gcc  
-arm                   randconfig-003-20240201   gcc  
-arm                   randconfig-004-20240201   gcc  
-arm                           sama5_defconfig   gcc  
-arm64                            allmodconfig   clang
-arm64                             allnoconfig   gcc  
-arm64                               defconfig   gcc  
-arm64                 randconfig-001-20240201   gcc  
-arm64                 randconfig-002-20240201   gcc  
-arm64                 randconfig-003-20240201   gcc  
-arm64                 randconfig-004-20240201   gcc  
-csky                             allmodconfig   gcc  
-csky                              allnoconfig   gcc  
-csky                             allyesconfig   gcc  
-csky                                defconfig   gcc  
-csky                  randconfig-001-20240201   gcc  
-csky                  randconfig-002-20240201   gcc  
-hexagon                          allmodconfig   clang
-hexagon                           allnoconfig   clang
-hexagon                          allyesconfig   clang
-hexagon                             defconfig   clang
-i386                             allmodconfig   clang
-i386                              allnoconfig   clang
-i386                             allyesconfig   clang
-i386         buildonly-randconfig-001-20240201   gcc  
-i386         buildonly-randconfig-002-20240201   gcc  
-i386         buildonly-randconfig-003-20240201   gcc  
-i386         buildonly-randconfig-004-20240201   gcc  
-i386         buildonly-randconfig-005-20240201   gcc  
-i386         buildonly-randconfig-006-20240201   gcc  
-i386                                defconfig   gcc  
-i386                  randconfig-001-20240201   gcc  
-i386                  randconfig-002-20240201   gcc  
-i386                  randconfig-003-20240201   gcc  
-i386                  randconfig-004-20240201   gcc  
-i386                  randconfig-005-20240201   gcc  
-i386                  randconfig-006-20240201   gcc  
-i386                  randconfig-011-20240201   clang
-i386                  randconfig-012-20240201   clang
-i386                  randconfig-013-20240201   clang
-i386                  randconfig-014-20240201   clang
-i386                  randconfig-015-20240201   clang
-i386                  randconfig-016-20240201   clang
-loongarch                        allmodconfig   gcc  
-loongarch                         allnoconfig   gcc  
-loongarch                        allyesconfig   gcc  
-loongarch                           defconfig   gcc  
-loongarch             randconfig-001-20240201   gcc  
-loongarch             randconfig-002-20240201   gcc  
-m68k                             allmodconfig   gcc  
-m68k                              allnoconfig   gcc  
-m68k                             allyesconfig   gcc  
-m68k                                defconfig   gcc  
-m68k                            mac_defconfig   gcc  
-m68k                            q40_defconfig   gcc  
-microblaze                       allmodconfig   gcc  
-microblaze                        allnoconfig   gcc  
-microblaze                       allyesconfig   gcc  
-microblaze                          defconfig   gcc  
-mips                             allmodconfig   gcc  
-mips                              allnoconfig   clang
-mips                             allyesconfig   gcc  
-mips                           gcw0_defconfig   gcc  
-mips                            gpr_defconfig   gcc  
-mips                      loongson3_defconfig   gcc  
-nios2                            allmodconfig   gcc  
-nios2                             allnoconfig   gcc  
-nios2                            allyesconfig   gcc  
-nios2                               defconfig   gcc  
-nios2                 randconfig-001-20240201   gcc  
-nios2                 randconfig-002-20240201   gcc  
-openrisc                         allmodconfig   gcc  
-openrisc                          allnoconfig   gcc  
-openrisc                         allyesconfig   gcc  
-openrisc                            defconfig   gcc  
-parisc                           allmodconfig   gcc  
-parisc                            allnoconfig   gcc  
-parisc                           allyesconfig   gcc  
-parisc                              defconfig   gcc  
-parisc                generic-64bit_defconfig   gcc  
-parisc                randconfig-001-20240201   gcc  
-parisc                randconfig-002-20240201   gcc  
-parisc64                            defconfig   gcc  
-powerpc                          allmodconfig   clang
-powerpc                           allnoconfig   gcc  
-powerpc                          allyesconfig   clang
-powerpc                     ep8248e_defconfig   gcc  
-powerpc               randconfig-001-20240201   gcc  
-powerpc               randconfig-002-20240201   gcc  
-powerpc               randconfig-003-20240201   gcc  
-powerpc64             randconfig-001-20240201   gcc  
-powerpc64             randconfig-002-20240201   gcc  
-powerpc64             randconfig-003-20240201   gcc  
-riscv                            allmodconfig   gcc  
-riscv                             allnoconfig   clang
-riscv                            allyesconfig   gcc  
-riscv                               defconfig   gcc  
-riscv                 randconfig-001-20240201   gcc  
-riscv                 randconfig-002-20240201   gcc  
-s390                             allmodconfig   gcc  
-s390                              allnoconfig   gcc  
-s390                             allyesconfig   gcc  
-s390                                defconfig   gcc  
-sh                               allmodconfig   gcc  
-sh                                allnoconfig   gcc  
-sh                               allyesconfig   gcc  
-sh                                  defconfig   gcc  
-sh                          lboxre2_defconfig   gcc  
-sh                    randconfig-001-20240201   gcc  
-sh                    randconfig-002-20240201   gcc  
-sparc                            allmodconfig   gcc  
-sparc                             allnoconfig   gcc  
-sparc                            allyesconfig   gcc  
-sparc                               defconfig   gcc  
-sparc64                          allmodconfig   gcc  
-sparc64                          allyesconfig   gcc  
-sparc64                             defconfig   gcc  
-sparc64               randconfig-001-20240201   gcc  
-sparc64               randconfig-002-20240201   gcc  
-um                               allmodconfig   clang
-um                                allnoconfig   clang
-um                               allyesconfig   clang
-um                                  defconfig   gcc  
-um                             i386_defconfig   gcc  
-um                    randconfig-001-20240201   gcc  
-um                    randconfig-002-20240201   gcc  
-um                           x86_64_defconfig   gcc  
-x86_64                            allnoconfig   gcc  
-x86_64                           allyesconfig   clang
-x86_64       buildonly-randconfig-001-20240201   gcc  
-x86_64       buildonly-randconfig-002-20240201   gcc  
-x86_64       buildonly-randconfig-003-20240201   gcc  
-x86_64       buildonly-randconfig-004-20240201   gcc  
-x86_64       buildonly-randconfig-005-20240201   gcc  
-x86_64       buildonly-randconfig-006-20240201   gcc  
-x86_64                              defconfig   gcc  
-x86_64                                  kexec   gcc  
-x86_64                randconfig-011-20240201   gcc  
-x86_64                randconfig-012-20240201   gcc  
-x86_64                randconfig-013-20240201   gcc  
-x86_64                randconfig-014-20240201   gcc  
-x86_64                randconfig-015-20240201   gcc  
-x86_64                randconfig-016-20240201   gcc  
-x86_64                randconfig-071-20240201   gcc  
-x86_64                randconfig-072-20240201   gcc  
-x86_64                randconfig-073-20240201   gcc  
-x86_64                randconfig-074-20240201   gcc  
-x86_64                randconfig-075-20240201   gcc  
-x86_64                randconfig-076-20240201   gcc  
-x86_64                          rhel-8.3-rust   clang
-x86_64                               rhel-8.3   gcc  
-xtensa                            allnoconfig   gcc  
-xtensa                           allyesconfig   gcc  
-xtensa                randconfig-001-20240201   gcc  
-xtensa                randconfig-002-20240201   gcc  
+Yes, that would be fine for me, too.
+It all depends on whether you plan to add, or see a need for adding,
+more flags or other fields in the future (and even for flags, you could
+combine them in an unsigned long).
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
