@@ -1,145 +1,231 @@
-Return-Path: <linux-renesas-soc+bounces-2239-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-2240-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C3D3846171
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  1 Feb 2024 20:52:16 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D051184622E
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  1 Feb 2024 21:56:25 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 7B655B21B0C
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  1 Feb 2024 19:52:13 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 603C328CBDC
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  1 Feb 2024 20:56:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8E8E98528E;
-	Thu,  1 Feb 2024 19:52:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9E6D83CF5D;
+	Thu,  1 Feb 2024 20:56:11 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-oo1-f50.google.com (mail-oo1-f50.google.com [209.85.161.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx01.omp.ru (mx01.omp.ru [90.154.21.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EC0843AC7;
-	Thu,  1 Feb 2024 19:52:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7120029403;
+	Thu,  1 Feb 2024 20:56:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.154.21.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706817129; cv=none; b=iNXZbCq815JhDAzz4Wvj1CDZFmhjy370wFoz47rk8lMBQuXXKYbmkmHqJGuQTYIElqRxfnsO8WEEjy3BBUvhGDacQJtaDizTNSFDZTbQy3zDXmTs9rWyYlpJxYk0k1fG93v6j+Isfr8oLc72Y69AeafykfUJZysbNaLXM0OA1qs=
+	t=1706820971; cv=none; b=AYwcY1gICv9w00NLlb/Hxw74BwCHsVVsLFc1hoMdpA/g36JvwBScSx/Uzdw2B6DDCrC5XdjoUwb840mZy0HhBFO5D5ph8xqwyf8WRYp1daN4qSqlsUKrxsKgZmyk65r2TVfknTMd0trw2wGNSzAgFmN8MiXPOQicz0O8eQkgiIk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706817129; c=relaxed/simple;
-	bh=Xew4gfla9jXfDUHncBpGBh9XjFEK7ZSm6CBMFGhAqEA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=m37LC7QVhCxkQzfCNuMPT1lkNcXeHkq4I+Nnz6k4+VnQ/nfAsCBJ5Wfij6HkSAQNUiURX/qkWStFroctgYjT9RvrisKzXPV8T1B4+oMiozrL+WPj0++scjo5iMHeok0eHtkTnw1RCL57h0hOeu702uxYxj2TXhXMB168G9zCBkM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.161.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-oo1-f50.google.com with SMTP id 006d021491bc7-5958b9cda7aso277826eaf.0;
-        Thu, 01 Feb 2024 11:52:07 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706817127; x=1707421927;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=wBl5ou+TD9Mfvm1lNPShNlGf1pFR7KSH1sVazZHfCoo=;
-        b=TNNH+viGuZzgzeZCrGkeHKnAVu2odmk3BtRhzeh3LmS06uvU2seKKDZLz3sQc3tbsF
-         bcttPTPeYiaeeJTqLVN+vvrUcrAO6iDBH8fRzff6fMS1SmgnemkgqViG7GtjWtBizUgN
-         8chO3mWbXgHlsxtcGnS1WGVfjxTimpj5X5it6dJ3iyjUaMKfNXgwS3kBt07vR10J0AqH
-         Qooz/pTzSF5XwsN5sAaallTLkD38ENyxtHMvb4AqvTVYT6K5b15nZdZOAzrqIB+UomZq
-         kESozfZWjfV2GDN8FxPwYMR3sgSFFxJGCvBzq57ONbwmad++Xss3d3Y21FbQDn+xWPgK
-         5d4w==
-X-Gm-Message-State: AOJu0YzfCVH1BzQ348nm/xSrSzysAv969o1xlbLbju7Y0aQ1SnlZmLNN
-	siQ6lpJUCQsP3wA5q1NjvlKVgOArFOF5mPso00GhOARWCirOGq/Bsn+pfncJkK71YMM8VJJZ1jy
-	hzmgXjSnmsGOSLTvHpuRR1GOf+eY=
-X-Google-Smtp-Source: AGHT+IGIX57rgCOZHcRSzGZQRMQVAH2ftzlN0hg9CMRZtySZdlSrx6EQamzGXxueyqs1l1rdkWQ36d9/JVVygPbihns=
-X-Received: by 2002:a05:6820:2c8a:b0:59a:bfb:f556 with SMTP id
- dx10-20020a0568202c8a00b0059a0bfbf556mr3738842oob.0.1706817127183; Thu, 01
- Feb 2024 11:52:07 -0800 (PST)
+	s=arc-20240116; t=1706820971; c=relaxed/simple;
+	bh=Bv9jOktnPbtdFkXhdqLZdhGAbc1vG2EGLSIiPMVmd0g=;
+	h=Subject:To:CC:References:From:Message-ID:Date:MIME-Version:
+	 In-Reply-To:Content-Type; b=F3PaZWPVHtallRNQ9bI2x11qvHI1ksiMRrpUxwEn9RlKwFjL6bWc8L/LG5Bh5SHtvN2zcEvq2o741qxsH88UA+VSfiso6+I4ruu4K6DYSAtZoMm0XjwAlAY5tIXbpXKuUjmS791f2SGJ+9ZsK2MubMaOWcEHFSZZpCQFSyBMuNs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=omp.ru; spf=pass smtp.mailfrom=omp.ru; arc=none smtp.client-ip=90.154.21.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=omp.ru
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=omp.ru
+Received: from [192.168.1.105] (31.173.82.6) by msexch01.omp.ru (10.188.4.12)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.1258.12; Thu, 1 Feb
+ 2024 23:55:58 +0300
+Subject: Re: [PATCH v3 net-next 2/2] ravb: Add Tx checksum offload support for
+ GbEth
+To: Biju Das <biju.das.jz@bp.renesas.com>, "David S. Miller"
+	<davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub Kicinski
+	<kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>
+CC: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>, Yoshihiro Shimoda
+	<yoshihiro.shimoda.uh@renesas.com>, Wolfram Sang
+	<wsa+renesas@sang-engineering.com>, Nikita Yushchenko
+	<nikita.yoush@cogentembedded.com>, <netdev@vger.kernel.org>,
+	<linux-renesas-soc@vger.kernel.org>, Geert Uytterhoeven
+	<geert+renesas@glider.be>, Prabhakar Mahadev Lad
+	<prabhakar.mahadev-lad.rj@bp.renesas.com>, Biju Das <biju.das.au@gmail.com>
+References: <20240201194521.139472-1-biju.das.jz@bp.renesas.com>
+ <20240201194521.139472-3-biju.das.jz@bp.renesas.com>
+From: Sergey Shtylyov <s.shtylyov@omp.ru>
+Organization: Open Mobile Platform
+Message-ID: <d3a6657d-0a67-a826-24b1-17ec8f43ee81@omp.ru>
+Date: Thu, 1 Feb 2024 23:55:57 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240130111250.185718-1-angelogioacchino.delregno@collabora.com> <20240130111250.185718-9-angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20240130111250.185718-9-angelogioacchino.delregno@collabora.com>
-From: "Rafael J. Wysocki" <rafael@kernel.org>
-Date: Thu, 1 Feb 2024 20:51:56 +0100
-Message-ID: <CAJZ5v0ifn7eg9WrpNF2_PB62gE_BzV2Vx5_k7ebOoZWdQNVWaQ@mail.gmail.com>
-Subject: Re: [PATCH v1 08/18] thermal: intel: pch_thermal: Migrate to thermal_zone_device_register()
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Cc: daniel.lezcano@linaro.org, miquel.raynal@bootlin.com, rafael@kernel.org, 
-	rui.zhang@intel.com, lukasz.luba@arm.com, support.opensource@diasemi.com, 
-	shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de, 
-	festevam@gmail.com, linux-imx@nxp.com, andersson@kernel.org, 
-	konrad.dybcio@linaro.org, amitk@kernel.org, thara.gopinath@gmail.com, 
-	niklas.soderlund@ragnatech.se, srinivas.pandruvada@linux.intel.com, 
-	baolin.wang@linux.alibaba.com, u.kleine-koenig@pengutronix.de, 
-	hayashi.kunihiko@socionext.com, d-gole@ti.com, linus.walleij@linaro.org, 
-	DLG-Adam.Ward.opensource@dm.renesas.com, error27@gmail.com, heiko@sntech.de, 
-	hdegoede@redhat.com, jernej.skrabec@gmail.com, f.fainelli@gmail.com, 
-	linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org, kernel@collabora.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20240201194521.139472-3-biju.das.jz@bp.renesas.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: msexch01.omp.ru (10.188.4.12) To msexch01.omp.ru
+ (10.188.4.12)
+X-KSE-ServerInfo: msexch01.omp.ru, 9
+X-KSE-AntiSpam-Interceptor-Info: scan successful
+X-KSE-AntiSpam-Version: 6.1.0, Database issued on: 02/01/2024 20:39:37
+X-KSE-AntiSpam-Status: KAS_STATUS_NOT_DETECTED
+X-KSE-AntiSpam-Method: none
+X-KSE-AntiSpam-Rate: 59
+X-KSE-AntiSpam-Info: Lua profiles 183136 [Feb 01 2024]
+X-KSE-AntiSpam-Info: Version: 6.1.0.3
+X-KSE-AntiSpam-Info: Envelope from: s.shtylyov@omp.ru
+X-KSE-AntiSpam-Info: LuaCore: 7 0.3.7 6d6bf5bd8eea7373134f756a2fd73e9456bb7d1a
+X-KSE-AntiSpam-Info: {rep_avail}
+X-KSE-AntiSpam-Info: {Tracking_from_domain_doesnt_match_to}
+X-KSE-AntiSpam-Info: {relay has no DNS name}
+X-KSE-AntiSpam-Info: {SMTP from is not routable}
+X-KSE-AntiSpam-Info: {Found in DNSBL: 31.173.82.6 in (user)
+ b.barracudacentral.org}
+X-KSE-AntiSpam-Info: {Found in DNSBL: 31.173.82.6 in (user) dbl.spamhaus.org}
+X-KSE-AntiSpam-Info:
+	omp.ru:7.1.1;127.0.0.199:7.1.2;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1
+X-KSE-AntiSpam-Info: ApMailHostAddress: 31.173.82.6
+X-KSE-AntiSpam-Info: {DNS response errors}
+X-KSE-AntiSpam-Info: Rate: 59
+X-KSE-AntiSpam-Info: Status: not_detected
+X-KSE-AntiSpam-Info: Method: none
+X-KSE-AntiSpam-Info: Auth:dmarc=temperror header.from=omp.ru;spf=temperror
+ smtp.mailfrom=omp.ru;dkim=none
+X-KSE-Antiphishing-Info: Clean
+X-KSE-Antiphishing-ScanningType: Heuristic
+X-KSE-Antiphishing-Method: None
+X-KSE-Antiphishing-Bases: 02/01/2024 20:44:00
+X-KSE-Antivirus-Interceptor-Info: scan successful
+X-KSE-Antivirus-Info: Clean, bases: 2/1/2024 7:00:00 PM
+X-KSE-Attachment-Filter-Triggered-Rules: Clean
+X-KSE-Attachment-Filter-Triggered-Filters: Clean
+X-KSE-BulkMessagesFiltering-Scan-Result: InTheLimit
 
-On Tue, Jan 30, 2024 at 12:13=E2=80=AFPM AngeloGioacchino Del Regno
-<angelogioacchino.delregno@collabora.com> wrote:
->
-> The thermal API has a new thermal_zone_device_register() function which
-> is deprecating the older thermal_zone_device_register_with_trips() and
-> thermal_tripless_zone_device_register().
->
-> Migrate to the new thermal zone device registration function.
->
-> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@coll=
-abora.com>
+On 2/1/24 10:45 PM, Biju Das wrote:
+
+> TOE has hardware support for calculating IP header and TCP/UDP/ICMP
+> checksum for both IPv4 and IPv6.
+> 
+> Add Tx checksum offload supported by TOE for IPv4 and TCP/UDP.
+> 
+> For Tx, the result of checksum calculation is set to the checksum field of
+> each IPv4 Header/TCP/UDP/ICMP of ethernet frames. For the unsupported
+> frames, those fields are not changed. If a transmission frame is an UDPv4
+> frame and its checksum value in the UDP header field is 0x0000, TOE does
+> not calculate checksum for UDP part of this frame as it is optional
+> function as per standards.
+> 
+> We can test this functionality by the below commands
+> 
+> ethtool -K eth0 tx on --> to turn on Tx checksum offload
+> ethtool -K eth0 tx off --> to turn off Tx checksum offload
+> 
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 > ---
->  drivers/thermal/intel/intel_pch_thermal.c | 12 ++++++++----
->  1 file changed, 8 insertions(+), 4 deletions(-)
->
-> diff --git a/drivers/thermal/intel/intel_pch_thermal.c b/drivers/thermal/=
-intel/intel_pch_thermal.c
-> index b3905e34c507..73d7c2ac7dbc 100644
-> --- a/drivers/thermal/intel/intel_pch_thermal.c
-> +++ b/drivers/thermal/intel/intel_pch_thermal.c
-> @@ -160,6 +160,7 @@ static int intel_pch_thermal_probe(struct pci_dev *pd=
-ev,
->                                    const struct pci_device_id *id)
+> v2->v3:
+>  * Updated commit header and description as suggested by Sergey.
+>  * Replaced NETIF_F_IP_CSUM->NETIF_F_HW_CSUM as we are supporting only IPv4.
+
+   You do vice versa, NETIF_F_HW_CSUM->NETIF_F_IP_CSUM. :-)
+   However, I'm now seeing this comment under CHECKSM_PATIAL:
+
+ *   %NETIF_F_IP_CSUM and %NETIF_F_IPV6_CSUM are being deprecated in favor of
+ *   %NETIF_F_HW_CSUM. New devices should use %NETIF_F_HW_CSUM to indicate
+ *   checksum offload capability.
+
+   So probably we should've kept NETIF_F_HW_CSUM? :-/
+ 
+>  * Updated the comment related to UDP header field.
+>  * Renamed ravb_is_tx_checksum_offload_gbeth_possible()->ravb_is_tx_csum_gbeth().
+> v1->v2:
+>  * No change.
+[...]
+
+> diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
+> index c4dc6ec54287..042dc565d1a5 100644
+> --- a/drivers/net/ethernet/renesas/ravb_main.c
+> +++ b/drivers/net/ethernet/renesas/ravb_main.c
+[...]
+> @@ -524,15 +525,27 @@ static int ravb_ring_init(struct net_device *ndev, int q)
+>  
+>  static void ravb_csum_init_gbeth(struct net_device *ndev)
 >  {
->         enum pch_board_ids board_id =3D id->driver_data;
-> +       struct thermal_zone_device_params tzdp;
->         struct pch_thermal_device *ptd;
->         int nr_trips =3D 0;
->         u16 trip_temp;
-> @@ -233,10 +234,13 @@ static int intel_pch_thermal_probe(struct pci_dev *=
-pdev,
->
->         nr_trips +=3D pch_wpt_add_acpi_psv_trip(ptd, nr_trips);
->
-> -       ptd->tzd =3D thermal_zone_device_register_with_trips(board_names[=
-board_id],
-> -                                                          ptd->trips, nr=
-_trips,
-> -                                                          0, ptd, &tzd_o=
-ps,
-> -                                                          NULL, 0, 0);
-> +       tzdp.tzp.type =3D board_names[board_id];
-> +       tzdp.tzp.devdata =3D ptd;
-> +       tzdp.tzp.trips =3D ptd->trips;
-> +       tzdp.tzp.num_trips =3D nr_trips;
-> +       tzdp.tzp.ops =3D &tzd_ops;
+> -	if (!(ndev->features & NETIF_F_RXCSUM))
+> +	bool tx_enable = ndev->features & NETIF_F_IP_CSUM;
+> +	bool rx_enable = ndev->features & NETIF_F_RXCSUM;
 > +
-> +       ptd->tzd =3D thermal_zone_device_register(&tzdp);
+> +	if (!(tx_enable || rx_enable))
+>  		goto done;
+>  
+>  	ravb_write(ndev, 0, CSR0);
+> -	if (ravb_wait(ndev, CSR0, CSR0_RPE, 0)) {
+> +	if (ravb_wait(ndev, CSR0, CSR0_TPE | CSR0_RPE, 0)) {
+>  		netdev_err(ndev, "Timeout enabling hardware checksum\n");
+> -		ndev->features &= ~NETIF_F_RXCSUM;
+> +
+> +		if (tx_enable)
+> +			ndev->features &= ~NETIF_F_IP_CSUM;
+> +
+> +		if (rx_enable)
+> +			ndev->features &= ~NETIF_F_RXCSUM;
+>  	} else {
+> -		ravb_write(ndev, CSR2_ALL, CSR2);
+> +		if (tx_enable)
+> +			ravb_write(ndev, CSR1_ALL, CSR1);
+> +
+> +		if (rx_enable)
+> +			ravb_write(ndev, CSR2_ALL, CSR2);
+>  	}
+>  
+>  done:
+> @@ -1986,6 +1999,35 @@ static void ravb_tx_timeout_work(struct work_struct *work)
+>  	rtnl_unlock();
+>  }
+>  
+> +static bool ravb_is_tx_csum_gbeth(struct sk_buff *skb)
 
-IMV, this should be
+   Hm, this new name doesn't parse well for me... :-(
+   Maybe ravb_can_tx_csum_gbeth() or ravb_tx_csum_possible_gbeth()?
 
-ptd->tzd =3D thermal_zone_device_register(board_names[board_id],
-ptd->trips, nr_trips, &tzd_ops, ptd, NULL);
+> +{
+> +	struct iphdr *ip = ip_hdr(skb);
+> +
+> +	/* TODO: Need to add support for VLAN tag 802.1Q */
+> +	if (skb_vlan_tag_present(skb))
+> +		return false;
+> +
+> +	switch (ip->protocol) {
+> +	case IPPROTO_TCP:
+> +		break;
+> +	case IPPROTO_UDP:
+> +		/* If the checksum value in the UDP header field is 0, TOE does
+> +		 * not calculate checksum for UDP part of this frame as it is
+> +		 * optional function as per standards.
+> +		 */
+> +		if (udp_hdr(skb)->check == 0)
+> +			return false;
+> +		break;
+> +	/* TODO: Need to add HW checksum for ICMP */
 
-and the tzdp variable is not necessary even.
+   s/HW/hardware/?
 
-Analogously in the rest of the series (ie. patches [4-18/18]).
+> +	case IPPROTO_ICMP:
+> +		fallthrough;
 
->         if (IS_ERR(ptd->tzd)) {
->                 dev_err(&pdev->dev, "Failed to register thermal zone %s\n=
-",
->                         board_names[board_id]);
-> --
+   You don't even need fallthrough, actually...
+   But why do you return false for ICMP? Isn't it supported by TOE?
+
+> +	default:
+> +		return false;
+> +	}
+> +
+> +	return true;
+> +}
+> +
+>  /* Packet transmit function for Ethernet AVB */
+>  static netdev_tx_t ravb_start_xmit(struct sk_buff *skb, struct net_device *ndev)
+>  {
+[...]
+
+MBR, Sergey
 
