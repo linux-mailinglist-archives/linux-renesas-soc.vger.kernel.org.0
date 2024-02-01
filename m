@@ -1,126 +1,154 @@
-Return-Path: <linux-renesas-soc+bounces-2230-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-2231-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F618845FB8
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  1 Feb 2024 19:20:44 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 00DC1846007
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  1 Feb 2024 19:35:25 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 68A17B24ACE
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  1 Feb 2024 18:20:41 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id AC90F292E86
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  1 Feb 2024 18:35:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 28A0612FB12;
-	Thu,  1 Feb 2024 18:20:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="M8z9fzex"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 81F095A4E3;
+	Thu,  1 Feb 2024 18:35:21 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
+Received: from mail-oi1-f175.google.com (mail-oi1-f175.google.com [209.85.167.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8657C12FB26;
-	Thu,  1 Feb 2024 18:20:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D712612FB1E;
+	Thu,  1 Feb 2024 18:35:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706811636; cv=none; b=Xa0j6edDqlanD20rQmtGGNwKbbJcZ+cmD+jgLeVv8+nJI7y0+lLJ1DO9mxRKLU4q9m7o+23hLTcxc5BuoFTk3hJoimCMvS7RjdtL8Gmz9qzGuXHExOfEPtddvHMldxX8Es+/kPy+nVtYnYUiqGmp5Spq4V+YIpWFmb0GV+RMUto=
+	t=1706812521; cv=none; b=MNFezmk4IY2l2DCl335SnZXJyEVG+aIGZk3ucxuLM0tRzjZBf1oJ6CA1KDRCXMVarWo2oASqlE8B84tuMSQkrj/a15wf8aQbNjpEfy4ZZ48vdQhcPpzOwZqjw/fz/sb92OHMekoRr3kaiXB9SBwQpenMrgAQRs9O/PSv/BcJA1U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706811636; c=relaxed/simple;
-	bh=MFPFOZLyboBCaHhs4wjedSEJqvbkEz6ROtspNErx09g=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nV9YWVHJu3ANeIPS2TQlPzbILsgiaEVM4ixo59ISIroR5aayEVqMOXqxSEP1cKGKSyr6+1eAT3oXOTcRFohCx9PpXemx8xQkUDysuqI9RErInUQwslUmX2udSjejSoC6l5Psx4O73FnfpW/g2eVb5dlJ+ymX2dSyr/SHQ92K+po=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=M8z9fzex; arc=none smtp.client-ip=209.85.210.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+	s=arc-20240116; t=1706812521; c=relaxed/simple;
+	bh=wVEE4o4YbZnycETZF+nnePTwghfVH/i+QCzGYI/C7Yg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=IPuCgYgrfuCm1AKaDX/uz66iBDcDsozszEzcNg+a5fUFrMV/VclNkjmnMgeA9R4CHxMg+F5+ITGk4QpP5kpW40uzc9TsVtLLvDaZVlFVNrkcFinzoKBpH2eE8Uonseu56KuogKwb60H7XSWznqQBLxhHpkWDxbFzGe1MoAbXEaU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.167.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-6ddd19552e6so707534b3a.1;
-        Thu, 01 Feb 2024 10:20:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1706811634; x=1707416434; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=pSqc813oeby3hFaC6+s6cu+puxYhYxgWliWm1NeLVzk=;
-        b=M8z9fzexzu+zgM70j2mXHIs8kCd/gTOIcacJHDkKIufFWTg48rwbqyP0RIYXbnvAVR
-         Q9MAjue0GsoMJifNfoJOX/5YYOBduSKJvuPBz3B9aiTts2sPl3ZXcBmPfgfT0QduelSf
-         9vXvKSXtJj7S+LHbWctoFyb1Uj/QYzYRDtyNdJIhR3WBa2YeRcRD2X1eDy2Qf7UOBXyF
-         uiTqSZ4xmBMHM7zBreYyfQqANo5c2vdcSO/9JVUKUh07NdHUDuLbVJly17XCR37szkn/
-         Y2CDpT2xM6hE9KeqBfIUcJDm9aEpxJBO8+7J74QM1KkRvHCWPPKxwhRR8YpeF0xGviZ0
-         lTeQ==
+Received: by mail-oi1-f175.google.com with SMTP id 5614622812f47-3bc21303a35so355476b6e.0;
+        Thu, 01 Feb 2024 10:35:19 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706811634; x=1707416434;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1706812519; x=1707417319;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=pSqc813oeby3hFaC6+s6cu+puxYhYxgWliWm1NeLVzk=;
-        b=AOLJuNoQQhH8hNmlxelIe+cmV845C25hpYZMoDmvFIXUeUwug/7brh5mQ3iUp5BSDo
-         7xZ08R7aF0+6UUwK71CChjtnLsQneJD81aycgfqgbSN030N2dJnhbfsRVuyr/hxOK0Ga
-         qpxsDa2p/oBYSFG8JVeR+Z6l2z6BU68zq+QrYSaoehXy6w2zIIrmQMFJI6dCQLm1XkAE
-         4h3NjfI/fkjAzeljuDCuRxq/fQnc1VsUNGfBiGby50yFGJNSr5KbIgbliqD7wRRxj2vn
-         o80tIOHDm+L0RSHewxUlPP71KUzQPD03cRDiBVcn3x/EmQLU+blNcBMwYPP8bd0lVGP0
-         U11g==
-X-Gm-Message-State: AOJu0YztDWpQfjlXxBMhWu9pPBX9vb0zd5jEf33JBGMV21pDi1JhN4wx
-	IItPLIW1iwS01Kc5dzzYSalVH9lypbnRBOuAOh8zl+JgdNg6SX5BMuO7lDmM
-X-Google-Smtp-Source: AGHT+IHCeZYS3lbaSh91yRdS5d22A3TgzwDtDGOq51XBR88IKV3YwVqUdl06eRl5QQGCrLcZEr6Gjg==
-X-Received: by 2002:a62:ae13:0:b0:6db:d040:4d05 with SMTP id q19-20020a62ae13000000b006dbd0404d05mr5088801pff.22.1706811633704;
-        Thu, 01 Feb 2024 10:20:33 -0800 (PST)
-X-Forwarded-Encrypted: i=0; AJvYcCUqURbAGrAJnB7VfhYcEDX5PIcJlGlZ7xzUeb83Syb/1XyO4EAur3Q1zufBvI6N7YTFjrWrKq0ZZ1qGZzd1SoONn0reicwLzwo0wvf0ArM5/RIp4AhFyLtQ/cqvJbPiORyJi0BOJKyqDbbOX948LTp/A7FvGxrbRfl+U36n9jW5YAkfQorrd+tavYp92L+KW4n7PHmRDmp+Edanc5PXID9+3L8MZ7S5cb8oz8P3WeU2B99cN/vRcR26HPUdS0kVKwc2cNUhfQthRFhrkw5sDyMCv9mk1VBXXDcWNxJxzyVs9K7KHpbBYdBMdMKYtxrKuEGqWkSEYE8A92q51BsWhVDlfBnJed37+P/rBcADdB6+U02eMg==
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id r26-20020aa7845a000000b006ddc71607a7sm36789pfn.191.2024.02.01.10.20.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 01 Feb 2024 10:20:33 -0800 (PST)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date: Thu, 1 Feb 2024 10:20:31 -0800
-From: Guenter Roeck <linux@roeck-us.net>
-To: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: Wim Van Sebroeck <wim@linux-watchdog.org>,
-	Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>, linux-watchdog@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-	Minh Le <minh.le.aj@renesas.com>
-Subject: Re: [PATCH] dt-bindings: watchdog: renesas-wdt: Add support for
- R-Car V4M
-Message-ID: <1347cb35-5336-469d-affc-25018425c13b@roeck-us.net>
-References: <8c2eaad577513a519c518698a45083afb65b16f0.1706789940.git.geert+renesas@glider.be>
+        bh=eZ2QxOAM6wQKlIfCJl9Vqv3s9SEP5nb9j+tik6gXq34=;
+        b=k8FBOBkhReTYkq725gZ8UHcXf4YPkoF2oQsMuorjc5+Ta0OVC33pSTumxkm1LrZOTQ
+         FgKzCLSUga6j9XF3MUpLsi0LqjOYyUS7GsbGRQIxWH6CHbFnFQ4jPJSus5sPhwsY4DEl
+         AlPlaqmxFpB7LF/fCR52QaADkwPlU9mdv30rZlWWD0HbJf3r/vc7HZrKfzBEVkeh9wmn
+         NzHHTn9BcsDT3oyj1IsRdBV0MMtDuhpyDkn9hmIl4WfcG3BH17qeCFbkgg+VMYVTnJ2W
+         brD7KEjwjgWZXl1COdGjPL9RKVLiwfZnCjzgZc7oBaZgkbIgPW8o7CaWCBAtfw5xQZIR
+         gD2Q==
+X-Forwarded-Encrypted: i=0; AJvYcCUZug+fTKeu7vYOl5pIygXBSAYzmV/6N0igik4D+Atkw/weimeKBD3dV22XtwpBONhMvRqKAelll6V+oC6GMc2SscgqpamShrM17vdsJWtjgJKzgqbuqzSzc8w3nV9XlFlipnbNA+WrlcWcqiu0QpivRG+hzG+iHXKCpSBA3e2F4O5d593DSRbUwOVB6lR9B/V8hdtey4E/ROBWx/Tcw/6MPTyoeEY8gPE=
+X-Gm-Message-State: AOJu0YyI9/uHJxi5NLsy0D6ngYGn5s/mGIe6nS3oB8p/+PNuAA1Q0fQC
+	HewcJVH6J09OLf6olvhN8IXhrmujZvomGDIgqYqc8u2ihO1W6LsltFgLSbVhtPEjYoxweni6IpD
+	n0GoN8KD6o1+zji6jtyJ4MHqM0oY=
+X-Google-Smtp-Source: AGHT+IHl7ZfSyZbTn+BWGDtWxJDfxiYL/7G27PGTV4hoHIkYyvlUdRPgeAmUY/ilFubDbzYjf+gZYDcJUx+rdd1MQuI=
+X-Received: by 2002:a05:6870:b6a4:b0:218:d1b7:e8cd with SMTP id
+ cy36-20020a056870b6a400b00218d1b7e8cdmr4165119oab.3.1706812518874; Thu, 01
+ Feb 2024 10:35:18 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <8c2eaad577513a519c518698a45083afb65b16f0.1706789940.git.geert+renesas@glider.be>
+References: <20240130111250.185718-1-angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20240130111250.185718-1-angelogioacchino.delregno@collabora.com>
+From: "Rafael J. Wysocki" <rafael@kernel.org>
+Date: Thu, 1 Feb 2024 19:35:07 +0100
+Message-ID: <CAJZ5v0haFEGOjaMC4a8CZbQe+cxFfaB1hD60NkN297NY2TZB5A@mail.gmail.com>
+Subject: Re: [PATCH v1 00/18] Thermal: Part 1 - Introduce new structs and registration
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: daniel.lezcano@linaro.org, miquel.raynal@bootlin.com, rafael@kernel.org, 
+	rui.zhang@intel.com, lukasz.luba@arm.com, support.opensource@diasemi.com, 
+	shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de, 
+	festevam@gmail.com, linux-imx@nxp.com, andersson@kernel.org, 
+	konrad.dybcio@linaro.org, amitk@kernel.org, thara.gopinath@gmail.com, 
+	niklas.soderlund@ragnatech.se, srinivas.pandruvada@linux.intel.com, 
+	baolin.wang@linux.alibaba.com, u.kleine-koenig@pengutronix.de, 
+	hayashi.kunihiko@socionext.com, d-gole@ti.com, linus.walleij@linaro.org, 
+	DLG-Adam.Ward.opensource@dm.renesas.com, error27@gmail.com, heiko@sntech.de, 
+	hdegoede@redhat.com, jernej.skrabec@gmail.com, f.fainelli@gmail.com, 
+	bchihi@baylibre.com, linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org, kernel@collabora.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Feb 01, 2024 at 01:19:59PM +0100, Geert Uytterhoeven wrote:
-> From: Minh Le <minh.le.aj@renesas.com>
-> 
-> Add documentation for r8a779h0 compatible string to
-> Renesas watchdog device tree bindings documentation.
-> 
-> Signed-off-by: Minh Le <minh.le.aj@renesas.com>
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+On Tue, Jan 30, 2024 at 12:13=E2=80=AFPM AngeloGioacchino Del Regno
+<angelogioacchino.delregno@collabora.com> wrote:
+>
+> This series is a preparation for a bigger cleanup that will be split in
+> three parts in order to avoid immutable branches on multiple subsystems,
+> as in other parts of this series there will be changes in:
+> - drivers/acpi
+> - drivers/platform/x86
+> - drivers/power/supply
+> - drivers/net/wireless
+> - drivers/net/ethernet
+>
+> This is the first part which adds new structures and starts reorganizing
+> struct members around, plus, this migrates all of the thermal drivers
+> found in drivers/thermal/ to the new thermal_zone_device_register()
+> function, and advertises that the old registration functions are
+> deprecated and will be removed.
+>
+> The reorganization is supposed to be complete (or mostly) but...
+>  - struct thermal_zone_platform_params has a temporary name:
+>    this is done in order to avoid compile time failures for
+>    the drivers outside of drivers/thermal before migrating
+>    them to thermal_zone_device_params/thermal_zone_device_register();
+>  - struct thermal_zone_params temporarily has two duplicated members,
+>    governor_name and no_hwmon;
+>
+> Part 2 of this topic will migrate all drivers that are external to
+> drivers/thermal to thermal_zone_device_register(); I will send that
+> part only after part 1 is confirmed to be acceptable, as otherwise
+> I'd be spamming people for no reason :-)
+>
+> After all drivers will be migrated to thermal_zone_device_register(),
+> we won't have to care about changing anything outside of drivers/thermal
+> to finish this set of cleanups/changes (and no immutable branches needed)
+> and this means that...
+> Part 3 of this topic will contain the following changes:
+>  - thermal_zone_device_register_with_trips() will be removed
+>  - thermal_tripless_zone_device_register() will be removed
+>  - thermal_zone_params will be renamed to thermal_governor_ipa_params
+>    - governor_name, no_hwmon members will be removed
+>  - thermal_zone_platform_params will be renamed to thermal_zone_params
+>  - Removal of the THERMAL_NAME_LENGTH limitation for `type`
+>
+> More scheduled changes, which should end up in part 3 (at least that's
+> my intention), or eventually entirely after this cleanup topic, include:
+>  - Introduction of Thermal Zone names
+>  - Disambiguation of TZ name and type
+>  - Addition of `thermal-zones`, `thermal-zone-names` parsing for
+>    devicetrees
 
+You really should start with this, because that's your goal.
 
-Reviewed-by: Guenter Roeck <linux@roeck-us.net>
+It is quite arguable that it can be achieved without making all of the
+changes mentioned above.
 
-> ---
->  Documentation/devicetree/bindings/watchdog/renesas,wdt.yaml | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/watchdog/renesas,wdt.yaml b/Documentation/devicetree/bindings/watchdog/renesas,wdt.yaml
-> index 951a7d54135a6849..ffb17add491af98b 100644
-> --- a/Documentation/devicetree/bindings/watchdog/renesas,wdt.yaml
-> +++ b/Documentation/devicetree/bindings/watchdog/renesas,wdt.yaml
-> @@ -71,6 +71,7 @@ properties:
->                - renesas,r8a779a0-wdt     # R-Car V3U
->                - renesas,r8a779f0-wdt     # R-Car S4-8
->                - renesas,r8a779g0-wdt     # R-Car V4H
-> +              - renesas,r8a779h0-wdt     # R-Car V4M
->            - const: renesas,rcar-gen4-wdt # R-Car Gen4
->  
->    reg:
-> -- 
-> 2.34.1
-> 
+>
+> ... Summarizing ...
+>
+> Part 1:
+>  - Reorganize structures (some temporary names/leftovers)
+>  - New registration function, deprecation of old ones
+>  - Migration of drivers/thermal drivers to new registration
+
+I kind of see where this is going, but I don't agree with some of the
+changes made.
+
+Let me comment on individual patches (which is not necessarily going
+to happen today or even tomorrow, so let me go through the entire
+series before deciding what to do next).
+
+Thanks!
 
