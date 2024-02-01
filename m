@@ -1,218 +1,244 @@
-Return-Path: <linux-renesas-soc+bounces-2241-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-2242-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id A98EA846249
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  1 Feb 2024 22:05:32 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F92784627D
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  1 Feb 2024 22:14:16 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2AE961F26A70
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  1 Feb 2024 21:05:32 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 444311C20F0A
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  1 Feb 2024 21:14:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7E4883CF4E;
-	Thu,  1 Feb 2024 21:05:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5937039AE1;
+	Thu,  1 Feb 2024 21:14:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="N/8CTtw9"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Zs9qgkCR"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4932A33CD2;
-	Thu,  1 Feb 2024 21:05:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CEEC7472;
+	Thu,  1 Feb 2024 21:14:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706821525; cv=none; b=kNpXBOWEXeyxx9K/cSyIkkTSfszaRjmtk1zaMo7Nsg8icyMGGadNpLNpyy0zWFgAYZBTEQJkyRNptdGd1iVQy5ks0mFxssx7wW1+IzfgkUrvHWT6fsMU7PSnMjMJqA6xdIeMQ2DijsWeMF8giyauz0Z9FKWIzHO3aT2j9B2GpiI=
+	t=1706822049; cv=none; b=YvmMCZzqZmsBuevtFoquPNGRAQuP3gblS09hyz/YqfmeqBRwu+wVhJp/0UXtW9UH45b22ipnll+IXA+bYjKYulAJyhO03emwQze4Qw4c75bEOqlXdolHsqp5ejoqfKF05mIa9f67zd7yeTS8xQ6DZFN5a/PxlHCu4C7wZfSD15o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706821525; c=relaxed/simple;
-	bh=JrM9MmagdwnLeiIua1l4obRDHVnkZ/6XWzUT3gcqtQA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OuwSag7pR/CrAHUyiIhmPUYQlR7fVvZNpMkGWJYYBoDSHt7HMxWhLIl/AwzEBvylF70PcfvEN6hTTbuen9TJS6AiZgMp8r83PtmWukv2hgCTDFAKmpllQAuo1bftcNJa6MK/szM7ibUPgXModBzGG4JwuUbaEWWHPpFrsCLr6WY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=N/8CTtw9; arc=none smtp.client-ip=192.198.163.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1706821524; x=1738357524;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=JrM9MmagdwnLeiIua1l4obRDHVnkZ/6XWzUT3gcqtQA=;
-  b=N/8CTtw9KR54R5RcGJGvth6zxCuf/0J6BDZFh/nWEK6VYRUlsNOWyaO7
-   AHk8/WoGLW8V3wxU+f7WvnEPpgWazE7N/I2WPFTtCQiCqvHbyg1fMh0dC
-   YIkeYrVbaFmXLmbn37bNUVBgNqeXnO90pB+RznXckLc0bIUlJ0VssPZYR
-   Dd3BR+/p/GENNgirDDvAG7MVINm89eUmKZ/tjeZmQEOtX8/kD7fnRMP9x
-   vArmkyxqfoEDQae88A+HLyNsFnp2GWyeYQdJX1IGeGJpQPBH8v3oWsKpl
-   Q8JYes38C1tH2U4kGtuM81+ZhVQCukJWNGTXFf3x21E/Qfb3bSYRfeXC/
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10971"; a="228017"
-X-IronPort-AV: E=Sophos;i="6.05,236,1701158400"; 
-   d="scan'208";a="228017"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Feb 2024 13:05:22 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.05,236,1701158400"; 
-   d="scan'208";a="215002"
-Received: from lkp-server02.sh.intel.com (HELO 59f4f4cd5935) ([10.239.97.151])
-  by orviesa007.jf.intel.com with ESMTP; 01 Feb 2024 13:05:16 -0800
-Received: from kbuild by 59f4f4cd5935 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rVeFG-0003Cr-0o;
-	Thu, 01 Feb 2024 21:05:14 +0000
-Date: Fri, 2 Feb 2024 05:05:00 +0800
-From: kernel test robot <lkp@intel.com>
-To: Claudiu <claudiu.beznea@tuxon.dev>, wim@linux-watchdog.org,
-	linux@roeck-us.net, robh+dt@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-	geert+renesas@glider.be, magnus.damm@gmail.com,
-	mturquette@baylibre.com, sboyd@kernel.org, p.zabel@pengutronix.de,
-	biju.das.jz@bp.renesas.com
-Cc: Paul Gazzillo <paul@pgazz.com>,
-	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
-	oe-kbuild-all@lists.linux.dev, linux-watchdog@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
-	claudiu.beznea@tuxon.dev,
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-Subject: Re: [PATCH v2 02/11] watchdog: rzg2l_wdt: Select PM
-Message-ID: <202402020445.TOBlFPcS-lkp@intel.com>
-References: <20240131102017.1841495-3-claudiu.beznea.uj@bp.renesas.com>
+	s=arc-20240116; t=1706822049; c=relaxed/simple;
+	bh=YFgnfBLucu85ptKP2p7HpNLLQpCoH2a8SI4kbIvbpRk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=qS5EUPdbT02LF5UnheIWubMtGhg5uUQ/ldpBq/Xtf8d2c+VVfr7PJqqE0kgv2HP30e4pDkWTXMLJAOLPqsY2OC8vDem9GeyT+CN4EpB9VZ9QXE7reXWPs2XyO92MnP6LWpQ+xawbp6ztHbUEFgH+VDk+GEyjOflKwKvQS0FGu0A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Zs9qgkCR; arc=none smtp.client-ip=209.85.208.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-55fc9a581f8so1107061a12.2;
+        Thu, 01 Feb 2024 13:14:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1706822045; x=1707426845; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ftVgWUeYL2XoK4+UC76bqY+RetEWYpldhnbErfDuhfw=;
+        b=Zs9qgkCRcZv3ZSNY7yrIM3Fnsolfy/HgeiZKH+QWPsJo03hIRFJz+qM9Sobyi4K951
+         2bz4XZ9pOy6ZkCHMXU1u+rVmbJulSB5tMjRXVhKN7mV6M/Airs2mvaZRGoJkmBBf9kbE
+         KYLbZDHCXo+itWUeitznos9/VPzV7UR7KAkVQdL6U2ODULlIaE2SmB4+vfa02/J1qXTE
+         pnsbaIONnEiqLFipEJqrvjgKmJwniuhRjgC8IEdbGBwzSVw8wtHy7AcQ2SipcB3Xrdjf
+         9BZc3xT7rJ5NZul2rD8/k8Gn1tUBg0GiiuRw27AnkOxPLHG5xDs9OwzWMFu/k/REp9hI
+         MUvg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1706822045; x=1707426845;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ftVgWUeYL2XoK4+UC76bqY+RetEWYpldhnbErfDuhfw=;
+        b=pBDqHvKAnQ6IfZWMas33ySOoZ9+u3NKM8Nn5VTHtORtGgqNWbAZ4PCuex1ypDNca1W
+         A1+Sct2tqZHauoTrOEDAh6EZl4VGuPHGEtcrLLf7MOeN7H4gf9DOJfvtN1ySNftxTRg4
+         LVKVoxWREepiaARDZhlJo2BuMLHAt/PLvH8UTREeHn3qp+BSKiORYLGKZIBTVbSIyUYl
+         BPZUqs7AN1PW/i+xkMRmDtCIEkkGIDRZIuPerkeEszthvav5jMP13x7gGmjqpbDyUkb8
+         SkGkaQDle2XHEoVRUbMMuW8g/USw1H+jnNpR7jq8o86A1VMBnjgrZO2qANIxFEhxb3Oy
+         8igg==
+X-Gm-Message-State: AOJu0YxRHJ8ufoffaktgXl/JCEDLKVEzg4PPlNxNA+qFqmgfUImZ0z9g
+	qjGn9Myly9/QFBNsB+tKuhw3WXjMiLVgw1o/ZmK8E1WR0v27qElQIkzWBo1M213Hrrdv5Q18SAr
+	3+piCHSznbOuY0DY5Qom8nSFvHek=
+X-Google-Smtp-Source: AGHT+IFUb9VpSM3tlJelkffQ1mXaVP5k5IDoF1WvoVK3mShxW7a5CP04A811/hfKTaMGDbgzbSWJrJJaWp8Ftah8PI8=
+X-Received: by 2002:aa7:d615:0:b0:55f:cab9:5f9c with SMTP id
+ c21-20020aa7d615000000b0055fcab95f9cmr18020edr.0.1706822045281; Thu, 01 Feb
+ 2024 13:14:05 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240131102017.1841495-3-claudiu.beznea.uj@bp.renesas.com>
+References: <20240201194521.139472-1-biju.das.jz@bp.renesas.com>
+ <20240201194521.139472-3-biju.das.jz@bp.renesas.com> <d3a6657d-0a67-a826-24b1-17ec8f43ee81@omp.ru>
+In-Reply-To: <d3a6657d-0a67-a826-24b1-17ec8f43ee81@omp.ru>
+From: Biju Das <biju.das.au@gmail.com>
+Date: Thu, 1 Feb 2024 21:13:54 +0000
+Message-ID: <CADT+UeAeT0dC2AV1RP8H10V7LY2WLeET=6C-U_cXEDW95eYgYg@mail.gmail.com>
+Subject: Re: [PATCH v3 net-next 2/2] ravb: Add Tx checksum offload support for GbEth
+To: Sergey Shtylyov <s.shtylyov@omp.ru>
+Cc: Biju Das <biju.das.jz@bp.renesas.com>, "David S. Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>, 
+	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>, 
+	Wolfram Sang <wsa+renesas@sang-engineering.com>, 
+	Nikita Yushchenko <nikita.yoush@cogentembedded.com>, netdev@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, 
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Claudiu,
+Hi Sergey,
 
-kernel test robot noticed the following build warnings:
+On Thu, Feb 1, 2024 at 8:56=E2=80=AFPM Sergey Shtylyov <s.shtylyov@omp.ru> =
+wrote:
+>
+> On 2/1/24 10:45 PM, Biju Das wrote:
+>
+> > TOE has hardware support for calculating IP header and TCP/UDP/ICMP
+> > checksum for both IPv4 and IPv6.
+> >
+> > Add Tx checksum offload supported by TOE for IPv4 and TCP/UDP.
+> >
+> > For Tx, the result of checksum calculation is set to the checksum field=
+ of
+> > each IPv4 Header/TCP/UDP/ICMP of ethernet frames. For the unsupported
+> > frames, those fields are not changed. If a transmission frame is an UDP=
+v4
+> > frame and its checksum value in the UDP header field is 0x0000, TOE doe=
+s
+> > not calculate checksum for UDP part of this frame as it is optional
+> > function as per standards.
+> >
+> > We can test this functionality by the below commands
+> >
+> > ethtool -K eth0 tx on --> to turn on Tx checksum offload
+> > ethtool -K eth0 tx off --> to turn off Tx checksum offload
+> >
+> > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> > ---
+> > v2->v3:
+> >  * Updated commit header and description as suggested by Sergey.
+> >  * Replaced NETIF_F_IP_CSUM->NETIF_F_HW_CSUM as we are supporting only =
+IPv4.
+>
+>    You do vice versa, NETIF_F_HW_CSUM->NETIF_F_IP_CSUM. :-)
+>    However, I'm now seeing this comment under CHECKSM_PATIAL:
+>
+>  *   %NETIF_F_IP_CSUM and %NETIF_F_IPV6_CSUM are being deprecated in favo=
+r of
+>  *   %NETIF_F_HW_CSUM. New devices should use %NETIF_F_HW_CSUM to indicat=
+e
+>  *   checksum offload capability.
+>
+>    So probably we should've kept NETIF_F_HW_CSUM? :-/
 
-[auto build test WARNING on geert-renesas-devel/next]
-[also build test WARNING on robh/for-next groeck-staging/hwmon-next linus/master v6.8-rc2]
-[cannot apply to geert-renesas-drivers/renesas-clk next-20240201]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Ok, Will do in the next version.
+>
+> >  * Updated the comment related to UDP header field.
+> >  * Renamed ravb_is_tx_checksum_offload_gbeth_possible()->ravb_is_tx_csu=
+m_gbeth().
+> > v1->v2:
+> >  * No change.
+> [...]
+>
+> > diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/eth=
+ernet/renesas/ravb_main.c
+> > index c4dc6ec54287..042dc565d1a5 100644
+> > --- a/drivers/net/ethernet/renesas/ravb_main.c
+> > +++ b/drivers/net/ethernet/renesas/ravb_main.c
+> [...]
+> > @@ -524,15 +525,27 @@ static int ravb_ring_init(struct net_device *ndev=
+, int q)
+> >
+> >  static void ravb_csum_init_gbeth(struct net_device *ndev)
+> >  {
+> > -     if (!(ndev->features & NETIF_F_RXCSUM))
+> > +     bool tx_enable =3D ndev->features & NETIF_F_IP_CSUM;
+> > +     bool rx_enable =3D ndev->features & NETIF_F_RXCSUM;
+> > +
+> > +     if (!(tx_enable || rx_enable))
+> >               goto done;
+> >
+> >       ravb_write(ndev, 0, CSR0);
+> > -     if (ravb_wait(ndev, CSR0, CSR0_RPE, 0)) {
+> > +     if (ravb_wait(ndev, CSR0, CSR0_TPE | CSR0_RPE, 0)) {
+> >               netdev_err(ndev, "Timeout enabling hardware checksum\n");
+> > -             ndev->features &=3D ~NETIF_F_RXCSUM;
+> > +
+> > +             if (tx_enable)
+> > +                     ndev->features &=3D ~NETIF_F_IP_CSUM;
+> > +
+> > +             if (rx_enable)
+> > +                     ndev->features &=3D ~NETIF_F_RXCSUM;
+> >       } else {
+> > -             ravb_write(ndev, CSR2_ALL, CSR2);
+> > +             if (tx_enable)
+> > +                     ravb_write(ndev, CSR1_ALL, CSR1);
+> > +
+> > +             if (rx_enable)
+> > +                     ravb_write(ndev, CSR2_ALL, CSR2);
+> >       }
+> >
+> >  done:
+> > @@ -1986,6 +1999,35 @@ static void ravb_tx_timeout_work(struct work_str=
+uct *work)
+> >       rtnl_unlock();
+> >  }
+> >
+> > +static bool ravb_is_tx_csum_gbeth(struct sk_buff *skb)
+>
+>    Hm, this new name doesn't parse well for me... :-(
+>    Maybe ravb_can_tx_csum_gbeth() or ravb_tx_csum_possible_gbeth()?
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Claudiu/clk-renesas-r9a08g045-Add-clock-and-reset-support-for-watchdog/20240131-182642
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git next
-patch link:    https://lore.kernel.org/r/20240131102017.1841495-3-claudiu.beznea.uj%40bp.renesas.com
-patch subject: [PATCH v2 02/11] watchdog: rzg2l_wdt: Select PM
-config: m68k-kismet-CONFIG_PM-CONFIG_RENESAS_RZG2LWDT-0-0 (https://download.01.org/0day-ci/archive/20240202/202402020445.TOBlFPcS-lkp@intel.com/config)
-reproduce: (https://download.01.org/0day-ci/archive/20240202/202402020445.TOBlFPcS-lkp@intel.com/reproduce)
+OK, ravb_can_tx_csum_gbeth() as it is shorter.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402020445.TOBlFPcS-lkp@intel.com/
+>
+> > +{
+> > +     struct iphdr *ip =3D ip_hdr(skb);
+> > +
+> > +     /* TODO: Need to add support for VLAN tag 802.1Q */
+> > +     if (skb_vlan_tag_present(skb))
+> > +             return false;
+> > +
+> > +     switch (ip->protocol) {
+> > +     case IPPROTO_TCP:
+> > +             break;
+> > +     case IPPROTO_UDP:
+> > +             /* If the checksum value in the UDP header field is 0, TO=
+E does
+> > +              * not calculate checksum for UDP part of this frame as i=
+t is
+> > +              * optional function as per standards.
+> > +              */
+> > +             if (udp_hdr(skb)->check =3D=3D 0)
+> > +                     return false;
+> > +             break;
+> > +     /* TODO: Need to add HW checksum for ICMP */
+>
+>    s/HW/hardware/?
 
-kismet warnings: (new ones prefixed by >>)
->> kismet: WARNING: unmet direct dependencies detected for PM when selected by RENESAS_RZG2LWDT
-   .config:35:warning: symbol value 'n' invalid for RAPIDIO_DISC_TIMEOUT
-   .config:63:warning: symbol value 'n' invalid for FAT_DEFAULT_CODEPAGE
-   .config:193:warning: symbol value 'n' invalid for KERNELBASE
-   .config:231:warning: symbol value 'n' invalid for SATA_MOBILE_LPM_POLICY
-   .config:333:warning: symbol value 'n' invalid for PSTORE_BLK_MAX_REASON
-   .config:428:warning: symbol value 'n' invalid for KFENCE_SAMPLE_INTERVAL
-   .config:462:warning: symbol value 'n' invalid for AIC79XX_DEBUG_MASK
-   .config:605:warning: symbol value 'n' invalid for CRYPTO_DEV_QCE_SW_MAX_LEN
-   .config:607:warning: symbol value 'n' invalid for DRM_XE_JOB_TIMEOUT_MIN
-   .config:708:warning: symbol value 'n' invalid for PANEL_LCD_CHARSET
-   .config:763:warning: symbol value 'n' invalid for INPUT_MOUSEDEV_SCREEN_Y
-   .config:785:warning: symbol value 'n' invalid for SND_AC97_POWER_SAVE_DEFAULT
-   .config:823:warning: symbol value 'n' invalid for DRM_I915_MAX_REQUEST_BUSYWAIT
-   .config:824:warning: symbol value 'n' invalid for AIC79XX_CMDS_PER_DEVICE
-   .config:870:warning: symbol value 'n' invalid for PANEL_LCD_PIN_SDA
-   .config:884:warning: symbol value 'n' invalid for DRM_XE_PREEMPT_TIMEOUT_MIN
-   .config:895:warning: symbol value 'n' invalid for NET_EMATCH_STACK
-   .config:897:warning: symbol value 'n' invalid for VMCP_CMA_SIZE
-   .config:1053:warning: symbol value 'n' invalid for USB_GADGET_STORAGE_NUM_BUFFERS
-   .config:1118:warning: symbol value 'n' invalid for RCU_CPU_STALL_TIMEOUT
-   .config:1143:warning: symbol value 'n' invalid for MTDRAM_ERASE_SIZE
-   .config:1218:warning: symbol value 'n' invalid for SERIAL_UARTLITE_NR_UARTS
-   .config:1378:warning: symbol value 'n' invalid for LEGACY_PTY_COUNT
-   .config:1461:warning: symbol value 'n' invalid for PANEL_LCD_PIN_E
-   .config:1505:warning: symbol value 'n' invalid for AIC7XXX_RESET_DELAY_MS
-   .config:1706:warning: symbol value 'n' invalid for IBM_EMAC_POLL_WEIGHT
-   .config:1783:warning: symbol value 'n' invalid for DRM_I915_STOP_TIMEOUT
-   .config:1882:warning: symbol value 'n' invalid for PANEL_PROFILE
-   .config:1953:warning: symbol value 'n' invalid for ROMVEC
-   .config:2001:warning: symbol value 'n' invalid for KCOV_IRQ_AREA_SIZE
-   .config:2016:warning: symbol value 'n' invalid for SCSI_MESH_RESET_DELAY_MS
-   .config:2112:warning: symbol value 'n' invalid for RCU_FANOUT_LEAF
-   .config:2204:warning: symbol value 'n' invalid for DRM_XE_TIMESLICE_MAX
-   .config:2254:warning: symbol value 'n' invalid for PANEL_LCD_BWIDTH
-   .config:2487:warning: symbol value 'n' invalid for PANEL_PARPORT
-   .config:2536:warning: symbol value 'n' invalid for SND_SOC_SOF_DEBUG_IPC_FLOOD_TEST_NUM
-   .config:2573:warning: symbol value 'n' invalid for NOUVEAU_DEBUG_DEFAULT
-   .config:2591:warning: symbol value 'n' invalid for AIC79XX_RESET_DELAY_MS
-   .config:2759:warning: symbol value 'n' invalid for KCSAN_REPORT_ONCE_IN_MS
-   .config:2854:warning: symbol value 'n' invalid for KCSAN_UDELAY_INTERRUPT
-   .config:2878:warning: symbol value 'n' invalid for PANEL_LCD_PIN_BL
-   .config:2896:warning: symbol value 'n' invalid for DEBUG_OBJECTS_ENABLE_DEFAULT
-   .config:2902:warning: symbol value 'n' invalid for INITRAMFS_ROOT_GID
-   .config:2933:warning: symbol value 'n' invalid for PSTORE_BLK_CONSOLE_SIZE
-   .config:3007:warning: symbol value 'n' invalid for ATM_FORE200E_TX_RETRY
-   .config:3013:warning: symbol value 'n' invalid for SERIAL_ALTERA_UART_BAUDRATE
-   .config:3049:warning: symbol value 'n' invalid for FB_OMAP2_DSS_MIN_FCK_PER_PCK
-   .config:3098:warning: symbol value 'n' invalid for BOOKE_WDT_DEFAULT_TIMEOUT
-   .config:3142:warning: symbol value 'n' invalid for DUMMY_CONSOLE_ROWS
-   .config:3167:warning: symbol value 'n' invalid for MTD_REDBOOT_DIRECTORY_BLOCK
-   .config:3236:warning: symbol value 'n' invalid for KCSAN_UDELAY_TASK
-   .config:3371:warning: symbol value 'n' invalid for MMC_BLOCK_MINORS
-   .config:3374:warning: symbol value 'n' invalid for INET_TABLE_PERTURB_ORDER
-   .config:3415:warning: symbol value 'n' invalid for SCSI_NCR53C8XX_SYNC
-   .config:3532:warning: symbol value 'n' invalid for UCLAMP_BUCKETS_COUNT
-   .config:3558:warning: symbol value 'n' invalid for SERIAL_MCF_BAUDRATE
-   .config:3634:warning: symbol value 'n' invalid for DE2104X_DSL
-   .config:3647:warning: symbol value 'n' invalid for BLK_DEV_RAM_COUNT
-   .config:3685:warning: symbol value 'n' invalid for STACK_MAX_DEFAULT_SIZE_MB
-   .config:3797:warning: symbol value 'n' invalid for RAMSIZE
-   .config:3874:warning: symbol value 'n' invalid for IP_VS_SH_TAB_BITS
-   .config:3993:warning: symbol value 'n' invalid for USBIP_VHCI_HC_PORTS
-   .config:4101:warning: symbol value 'n' invalid for INPUT_MOUSEDEV_SCREEN_X
-   .config:4174:warning: symbol value 'n' invalid for FTRACE_RECORD_RECURSION_SIZE
-   .config:4216:warning: symbol value 'n' invalid for RIONET_RX_SIZE
-   .config:4313:warning: symbol value 'n' invalid for RADIO_TYPHOON_PORT
-   .config:4428:warning: symbol value 'n' invalid for SERIAL_TXX9_NR_UARTS
-   .config:4512:warning: symbol value 'n' invalid for IBM_EMAC_TXB
-   .config:4886:warning: symbol value 'n' invalid for ARCH_MMAP_RND_BITS
-   .config:4922:warning: symbol value 'n' invalid for IP_VS_MH_TAB_INDEX
-   .config:4964:warning: symbol value 'n' invalid for DRM_I915_FENCE_TIMEOUT
-   .config:4986:warning: symbol value 'n' invalid for TTY_PRINTK_LEVEL
-   .config:5135:warning: symbol value 'n' invalid for MIPS_EJTAG_FDC_KGDB_CHAN
-   .config:5226:warning: symbol value 'n' invalid for KDB_DEFAULT_ENABLE
-   .config:5245:warning: symbol value 'n' invalid for SERIAL_ALTERA_UART_MAXPORTS
-   .config:5282:warning: symbol value 'n' invalid for PPC_EARLY_DEBUG_EHV_BC_HANDLE
-   .config:5388:warning: symbol value 'n' invalid for PANEL_LCD_PIN_RW
-   .config:5435:warning: symbol value 'n' invalid for CRYPTO_DEV_FSL_CAAM_INTC_TIME_THLD
-   .config:5501:warning: symbol value 'n' invalid for PANEL_LCD_HWIDTH
-   .config:5515:warning: symbol value 'n' invalid for MBAR
-   .config:5538:warning: symbol value 'n' invalid for LOCKDEP_CHAINS_BITS
-   .config:5621:warning: symbol value 'n' invalid for DRM_I915_HEARTBEAT_INTERVAL
-   .config:5627:warning: symbol value 'n' invalid for KCSAN_SKIP_WATCH
-   .config:5649:warning: symbol value 'n' invalid for PSTORE_BLK_KMSG_SIZE
-   .config:5846:warning: symbol value 'n' invalid for SERIAL_8250_RUNTIME_UARTS
-   .config:5870:warning: symbol value 'n' invalid for VECTORBASE
-   .config:5922:warning: symbol value 'n' invalid for IPSBAR
-   .config:5939:warning: symbol value 'n' invalid for ARCH_MMAP_RND_COMPAT_BITS
-   .config:6041:warning: symbol value 'n' invalid for RCU_BOOST_DELAY
-   .config:6061:warning: symbol value 'n' invalid for SERIAL_SH_SCI_NR_UARTS
-   .config:6097:warning: symbol value 'n' invalid for RADIO_TRUST_PORT
-   .config:6448:warning: symbol value 'n' invalid for CMA_SIZE_PERCENTAGE
-   .config:6486:warning: symbol value 'n' invalid for DRM_XE_PREEMPT_TIMEOUT_MAX
-   .config:6593:warning: symbol value 'n' invalid for DRM_XE_TIMESLICE_MIN
-   .config:6631:warning: symbol value 'n' invalid for SCSI_NCR53C8XX_MAX_TAGS
-   .config:6633:warning: symbol value 'n' invalid for DVB_MAX_ADAPTERS
-   .config:6647:warning: symbol value 'n' invalid for SCSI_SYM53C8XX_DMA_ADDRESSING_MODE
-   .config:6945:warning: symbol value 'n' invalid for SCSI_SYM53C8XX_MAX_TAGS
-   .config:6995:warning: symbol value 'n' invalid for IBM_EMAC_RXB
-   .config:7029:warning: symbol value 'n' invalid for MTD_UBI_WL_THRESHOLD
+OK.
+>
+> > +     case IPPROTO_ICMP:
+> > +             fallthrough;
+>
+>    You don't even need fallthrough, actually...
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Clang Compiler will complain.
+
+[1] https://patchwork.kernel.org/project/xfs/patch/20210420230652.GA70650@e=
+mbeddedor/#24129659
+
+https://patches.linaro.org/project/netdev/patch/20210305094850.GA141221@emb=
+eddedor/#617482
+
+>    But why do you return false for ICMP? Isn't it supported by TOE?
+
+It is supported by the hardware, but not the network subsystem.
+
+Cheers,
+Biju
 
