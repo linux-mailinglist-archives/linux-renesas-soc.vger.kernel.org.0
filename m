@@ -1,59 +1,54 @@
-Return-Path: <linux-renesas-soc+bounces-2215-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-2217-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA0298459BB
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  1 Feb 2024 15:14:58 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2AF878459CE
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  1 Feb 2024 15:16:23 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id EC62B1C2115F
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  1 Feb 2024 14:14:57 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DB125283123
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  1 Feb 2024 14:16:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 02A2C5337E;
-	Thu,  1 Feb 2024 14:14:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A0F135F474;
+	Thu,  1 Feb 2024 14:16:02 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from weierstrass.telenet-ops.be (weierstrass.telenet-ops.be [195.130.137.81])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from andre.telenet-ops.be (andre.telenet-ops.be [195.130.132.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE0F55D479
-	for <linux-renesas-soc@vger.kernel.org>; Thu,  1 Feb 2024 14:14:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.137.81
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D4EF5D497
+	for <linux-renesas-soc@vger.kernel.org>; Thu,  1 Feb 2024 14:15:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.132.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706796895; cv=none; b=USgZ1fmdxTBsG+fHvqyEpyCc2cYfg6leTi7KsLMO5z3kOIkoheNu5B0nMEYublpZSYLti1UnyiQ7bjEE94TS5T6b+3tHxcy4EkWNErPhTCVSGZV17Ilq7akXm52rxUgecsa1gdzcA+I9xClu1mbRE5gf+CQC7RzHmjV9qOo7NzY=
+	t=1706796962; cv=none; b=Y3aWYbTvdyDF4EdZgElGr72J3wJO9Uxcy3Uxev8MGqoM7DVWBj7V0UZKbsGuZahtxo1704A4hAbvepsc57CcyBYSmzaDaRiHsUDyGC5d505gamn1IKEXUfd4Jary39XJnQ+D6IccP7jm7lR6bTUH0h96Shz3HAenKkIiaLIrwXI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706796895; c=relaxed/simple;
-	bh=BvNNcCgpM4Jiz9mYBVe4AsGxR4ONLvy06FnBHPtpQQQ=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=Bl1OPRlmVHLkEI1DKQS/kD4QxWIvMhOYbYxlEG8mVXzl1ZVjdYs1eww1aNq1wEpiUkjg5xFFkW8CVMDuw1+XZdVGqMouSFoGzWEiculnK6jL3DAqg75xYWOHvfQwJFlunw8KpPfBE3WvbvXlcBuRW4C8HmHNlsya1simo7xWruM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.137.81
+	s=arc-20240116; t=1706796962; c=relaxed/simple;
+	bh=wmKP0b1OdLHqfOIuiaamyz4hO73xgp9scT/+8xNRG6g=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=JATVV/GLsny28xW7yVtVAgHujkomcPrQ4yNMpyNtKTSMWbVD4sVcmf95118NovGpTJY0272KMsJgu+1A4SfpMAKor+PquLdRK1m8RZSMnOYmXEE0UPG8Dw9UKVKhjsgfA8KQG5bqsufgRRnNUFSCrmbl0Yulkvn0ewxPPovaTYs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.132.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
-Received: from baptiste.telenet-ops.be (baptiste.telenet-ops.be [IPv6:2a02:1800:120:4::f00:13])
-	by weierstrass.telenet-ops.be (Postfix) with ESMTPS id 4TQgs23kQWz4wyHT
-	for <linux-renesas-soc@vger.kernel.org>; Thu,  1 Feb 2024 15:14:46 +0100 (CET)
 Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed40:88f0:c83b:bafa:cdc3])
-	by baptiste.telenet-ops.be with bizsmtp
-	id hqEd2B0054efzLr01qEdSR; Thu, 01 Feb 2024 15:14:39 +0100
+	by andre.telenet-ops.be with bizsmtp
+	id hqFy2B0034efzLr01qFy7M; Thu, 01 Feb 2024 15:15:58 +0100
 Received: from rox.of.borg ([192.168.97.57])
 	by ramsan.of.borg with esmtp (Exim 4.95)
 	(envelope-from <geert@linux-m68k.org>)
-	id 1rVXp2-00Gv46-Ap;
-	Thu, 01 Feb 2024 15:14:37 +0100
+	id 1rVXqL-00Gv4K-1a;
+	Thu, 01 Feb 2024 15:15:58 +0100
 Received: from geert by rox.of.borg with local (Exim 4.95)
 	(envelope-from <geert@linux-m68k.org>)
-	id 1rVXpt-00AXZP-Aw;
-	Thu, 01 Feb 2024 15:14:37 +0100
+	id 1rVXrC-00AXas-1C;
+	Thu, 01 Feb 2024 15:15:58 +0100
 From: Geert Uytterhoeven <geert+renesas@glider.be>
 To: linux-renesas-soc@vger.kernel.org
 Cc: linux-arm-kernel@lists.infradead.org,
+	Cong Dang <cong.dang.xn@renesas.com>,
 	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH 2/2] arm64: dts: renesas: gray-hawk-single: Add I2C0 and EEPROMs
-Date: Thu,  1 Feb 2024 15:14:34 +0100
-Message-Id: <960595394a274b675f1ec9ec1c324e4cc1ac1f77.1706796660.git.geert+renesas@glider.be>
+Subject: [PATCH] arm64: dts: renesas: r8a779h0: Add GPIO nodes
+Date: Thu,  1 Feb 2024 15:15:56 +0100
+Message-Id: <d4c1c40404ab84c7e7c07612077ca1a319ae7283.1706796918.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <cover.1706796660.git.geert+renesas@glider.be>
-References: <cover.1706796660.git.geert+renesas@glider.be>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -62,80 +57,154 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Enable the I2C0 bus on the Gray Hawk Single board, and describe the I2C
-EEPROMs present.
+From: Cong Dang <cong.dang.xn@renesas.com>
 
-Based on patches for Gray Hawk in the BSP by Hai Pham.
+Add device nodes for the General Purpose Input/Output (GPIO) blocks on
+the Renesas R-Car V4M (R8A779H0) SoC.
 
+Signed-off-by: Cong Dang <cong.dang.xn@renesas.com>
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
-The Gray Hawk Single documentation does not mention the purpose of the
-I2C EEPROMs, but the schematics label the last two as "Board ID".
-The labels match the corresponding EEPROMs on the White Hawk CPU and
-BreakOut board stack, from which the Gray Hawk Single board is derived.
+Changes compared to the BSP:
+  - Correct module clock and reset for gpio[2-7] (verified by checking
+    impacted registers on reset).
 ---
- .../dts/renesas/r8a779h0-gray-hawk-single.dts | 41 +++++++++++++++++++
- 1 file changed, 41 insertions(+)
+To be queued in renesas-devel for v6.9.
 
-diff --git a/arch/arm64/boot/dts/renesas/r8a779h0-gray-hawk-single.dts b/arch/arm64/boot/dts/renesas/r8a779h0-gray-hawk-single.dts
-index 1c84fe7171d3fd85..1bee27b2284d2eee 100644
---- a/arch/arm64/boot/dts/renesas/r8a779h0-gray-hawk-single.dts
-+++ b/arch/arm64/boot/dts/renesas/r8a779h0-gray-hawk-single.dts
-@@ -50,6 +50,42 @@ &hscif0 {
- 	status = "okay";
- };
+ arch/arm64/boot/dts/renesas/r8a779h0.dtsi | 120 ++++++++++++++++++++++
+ 1 file changed, 120 insertions(+)
+
+diff --git a/arch/arm64/boot/dts/renesas/r8a779h0.dtsi b/arch/arm64/boot/dts/renesas/r8a779h0.dtsi
+index 8121aadaf6999429..eb555cbf51a41001 100644
+--- a/arch/arm64/boot/dts/renesas/r8a779h0.dtsi
++++ b/arch/arm64/boot/dts/renesas/r8a779h0.dtsi
+@@ -78,6 +78,126 @@ pfc: pinctrl@e6050000 {
+ 			      <0 0xe6061000 0 0x16c>, <0 0xe6061800 0 0x16c>;
+ 		};
  
-+&i2c0 {
-+	pinctrl-0 = <&i2c0_pins>;
-+	pinctrl-names = "default";
++		gpio0: gpio@e6050180 {
++			compatible = "renesas,gpio-r8a779h0",
++				     "renesas,rcar-gen4-gpio";
++			reg = <0 0xe6050180 0 0x54>;
++			interrupts = <GIC_SPI 619 IRQ_TYPE_LEVEL_HIGH>;
++			#gpio-cells = <2>;
++			gpio-controller;
++			gpio-ranges = <&pfc 0 0 19>;
++			#interrupt-cells = <2>;
++			interrupt-controller;
++			clocks = <&cpg CPG_MOD 915>;
++			power-domains = <&sysc R8A779H0_PD_ALWAYS_ON>;
++			resets = <&cpg 915>;
++		};
 +
-+	status = "okay";
-+	clock-frequency = <400000>;
++		gpio1: gpio@e6050980 {
++			compatible = "renesas,gpio-r8a779h0",
++				     "renesas,rcar-gen4-gpio";
++			reg = <0 0xe6050980 0 0x54>;
++			interrupts = <GIC_SPI 623 IRQ_TYPE_LEVEL_HIGH>;
++			#gpio-cells = <2>;
++			gpio-controller;
++			gpio-ranges = <&pfc 0 32 30>;
++			#interrupt-cells = <2>;
++			interrupt-controller;
++			clocks = <&cpg CPG_MOD 915>;
++			power-domains = <&sysc R8A779H0_PD_ALWAYS_ON>;
++			resets = <&cpg 915>;
++		};
 +
-+	eeprom@50 {
-+		compatible = "rohm,br24g01", "atmel,24c01";
-+		label = "cpu-board";
-+		reg = <0x50>;
-+		pagesize = <8>;
-+	};
++		gpio2: gpio@e6058180 {
++			compatible = "renesas,gpio-r8a779h0",
++				     "renesas,rcar-gen4-gpio";
++			reg = <0 0xe6058180 0 0x54>;
++			interrupts = <GIC_SPI 627 IRQ_TYPE_LEVEL_HIGH>;
++			#gpio-cells = <2>;
++			gpio-controller;
++			gpio-ranges = <&pfc 0 64 20>;
++			#interrupt-cells = <2>;
++			interrupt-controller;
++			clocks = <&cpg CPG_MOD 916>;
++			power-domains = <&sysc R8A779H0_PD_ALWAYS_ON>;
++			resets = <&cpg 916>;
++		};
 +
-+	eeprom@51 {
-+		compatible = "rohm,br24g01", "atmel,24c01";
-+		label = "breakout-board";
-+		reg = <0x51>;
-+		pagesize = <8>;
-+	};
++		gpio3: gpio@e6058980 {
++			compatible = "renesas,gpio-r8a779h0",
++				     "renesas,rcar-gen4-gpio";
++			reg = <0 0xe6058980 0 0x54>;
++			interrupts = <GIC_SPI 631 IRQ_TYPE_LEVEL_HIGH>;
++			#gpio-cells = <2>;
++			gpio-controller;
++			gpio-ranges = <&pfc 0 96 32>;
++			#interrupt-cells = <2>;
++			interrupt-controller;
++			clocks = <&cpg CPG_MOD 916>;
++			power-domains = <&sysc R8A779H0_PD_ALWAYS_ON>;
++			resets = <&cpg 916>;
++		};
 +
-+	eeprom@52 {
-+		compatible = "rohm,br24g01", "atmel,24c01";
-+		label = "csi-dsi-sub-board-id";
-+		reg = <0x52>;
-+		pagesize = <8>;
-+	};
++		gpio4: gpio@e6060180 {
++			compatible = "renesas,gpio-r8a779h0",
++				     "renesas,rcar-gen4-gpio";
++			reg = <0 0xe6060180 0 0x54>;
++			interrupts = <GIC_SPI 635 IRQ_TYPE_LEVEL_HIGH>;
++			#gpio-cells = <2>;
++			gpio-controller;
++			gpio-ranges = <&pfc 0 128 25>;
++			#interrupt-cells = <2>;
++			interrupt-controller;
++			clocks = <&cpg CPG_MOD 917>;
++			power-domains = <&sysc R8A779H0_PD_ALWAYS_ON>;
++			resets = <&cpg 917>;
++		};
 +
-+	eeprom@53 {
-+		compatible = "rohm,br24g01", "atmel,24c01";
-+		label = "ethernet-sub-board-id";
-+		reg = <0x53>;
-+		pagesize = <8>;
-+	};
-+};
++		gpio5: gpio@e6060980 {
++			compatible = "renesas,gpio-r8a779h0",
++				     "renesas,rcar-gen4-gpio";
++			reg = <0 0xe6060980 0 0x54>;
++			interrupts = <GIC_SPI 639 IRQ_TYPE_LEVEL_HIGH>;
++			#gpio-cells = <2>;
++			gpio-controller;
++			gpio-ranges = <&pfc 0 160 21>;
++			#interrupt-cells = <2>;
++			interrupt-controller;
++			clocks = <&cpg CPG_MOD 917>;
++			power-domains = <&sysc R8A779H0_PD_ALWAYS_ON>;
++			resets = <&cpg 917>;
++		};
 +
- &pfc {
- 	pinctrl-0 = <&scif_clk_pins>;
- 	pinctrl-names = "default";
-@@ -59,6 +95,11 @@ hscif0_pins: hscif0 {
- 		function = "hscif0";
- 	};
- 
-+	i2c0_pins: i2c0 {
-+		groups = "i2c0";
-+		function = "i2c0";
-+	};
++		gpio6: gpio@e6061180 {
++			compatible = "renesas,gpio-r8a779h0",
++				     "renesas,rcar-gen4-gpio";
++			reg = <0 0xe6061180 0 0x54>;
++			interrupts = <GIC_SPI 643 IRQ_TYPE_LEVEL_HIGH>;
++			#gpio-cells = <2>;
++			gpio-controller;
++			gpio-ranges = <&pfc 0 192 21>;
++			#interrupt-cells = <2>;
++			interrupt-controller;
++			clocks = <&cpg CPG_MOD 917>;
++			power-domains = <&sysc R8A779H0_PD_ALWAYS_ON>;
++			resets = <&cpg 917>;
++		};
 +
- 	scif_clk_pins: scif_clk {
- 		groups = "scif_clk";
- 		function = "scif_clk";
++		gpio7: gpio@e6061980 {
++			compatible = "renesas,gpio-r8a779h0",
++				     "renesas,rcar-gen4-gpio";
++			reg = <0 0xe6061980 0 0x54>;
++			interrupts = <GIC_SPI 647 IRQ_TYPE_LEVEL_HIGH>;
++			#gpio-cells = <2>;
++			gpio-controller;
++			gpio-ranges = <&pfc 0 224 21>;
++			#interrupt-cells = <2>;
++			interrupt-controller;
++			clocks = <&cpg CPG_MOD 917>;
++			power-domains = <&sysc R8A779H0_PD_ALWAYS_ON>;
++			resets = <&cpg 917>;
++		};
++
+ 		cpg: clock-controller@e6150000 {
+ 			compatible = "renesas,r8a779h0-cpg-mssr";
+ 			reg = <0 0xe6150000 0 0x4000>;
 -- 
 2.34.1
 
