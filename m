@@ -1,208 +1,150 @@
-Return-Path: <linux-renesas-soc+bounces-2196-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-2197-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 527058452D0
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  1 Feb 2024 09:35:04 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FBA684531B
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  1 Feb 2024 09:50:08 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id B373C1F279AC
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  1 Feb 2024 08:35:03 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id D2B3F1F25154
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  1 Feb 2024 08:50:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D191215A4BA;
-	Thu,  1 Feb 2024 08:34:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2559915B0E7;
+	Thu,  1 Feb 2024 08:49:49 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com [209.85.128.175])
+Received: from mail-yb1-f173.google.com (mail-yb1-f173.google.com [209.85.219.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F59F15A4B1;
-	Thu,  1 Feb 2024 08:34:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50FFA15AACA;
+	Thu,  1 Feb 2024 08:49:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706776481; cv=none; b=phwnTu+R7ityfV1Wc0srNtV5wlXj+IYKvKwzpNHVEZZ3bsppMPOQIs8WkYSCavYrHaNFFSiueh4lgG/cLJFGVFKTzOXVkLYkc9cpCNApg/TpZTGhRVBiRAwQedBi7H2kxWzN4loRPllYeArToIuTOPpC83OkCbnw0k1saLdydW8=
+	t=1706777389; cv=none; b=MSeySq1Dk1gyhLdMbbp5W8rfv0andqpFAHPGX99FH+QTBBZQ0Hz6y8MJi5FgKyDloEdJ9p9d7C3B3rSZwyYDt60aOMcs2sI0rT4Yf8BVc1P+/cAFmQHcYfMfE+uZ3PO8rDR3RTOf9jMCLgTxeMQeCKFGyeJlGZjo3Haaw4LXFdo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706776481; c=relaxed/simple;
-	bh=sDRZVbaV2bc5xAXJPaIp6yTdUcALc0sGqcGUq+EIioI=;
+	s=arc-20240116; t=1706777389; c=relaxed/simple;
+	bh=Ulnq2zn7bBBl2so00pXdu5lo8VqAKDsNxF4Hn9YyZng=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=fgSypmhkIShjBqh8Tap+a40SqwyDTXysPOudCIAESFwxUTrXoPwgz/9sbJhvcEy67uiq5KG2p1vpin6EzPUjAKCOwFyG5TNwnB546QR2YxEwMO9uHvpd1eMMrziGxpzOBAOjEFEMDWiu+pnPjdNU7471BTsaoTWYcQ1d8OYbLzQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.175
+	 To:Cc:Content-Type; b=GtQud7MQNt57x6qcYctKIdoAEIrXc/a3XXmZq1AbtFAAc2TePdiHt2ERe5crGThox5SbEX1GUqCyRfjKqtIQR/frflf6dRzeDDmKxzLLWY4vZ4qf5pECI4WZEKHAxsrS0PjynZ/V6iPZMJVyRpC1EkS18vpr/ee14lrK74a0kdA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.219.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-604059403e9so6634737b3.3;
-        Thu, 01 Feb 2024 00:34:39 -0800 (PST)
+Received: by mail-yb1-f173.google.com with SMTP id 3f1490d57ef6-dc6d8bd612dso419065276.1;
+        Thu, 01 Feb 2024 00:49:47 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706776477; x=1707381277;
+        d=1e100.net; s=20230601; t=1706777386; x=1707382186;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=2HK1C91x+7wARyC9FcS8BRNfiXMoVY/LaEt3n42/zAE=;
-        b=lSkI3ezM/rlL7xMqWJLmzViFtiW2ZbpcW/O05DD5lUJ9sZh4HY57rR9MsSphZB3PEE
-         nGynipms3SIgsWsWkegH1igejgX96CRhZpU2NsgQBpB1qugpfPcNgyhwngYJkenc/vAu
-         XhMG3KmvqOe5a88NQSDtCb4JCNBITCeA2HKlFFVMvW+xaGLol46kkG254E9E5tryOHt9
-         Cl0VBLCikjm2kHyRNcRbl/etm97RT6GeSRdgAJHzcp5UULV5KGYcejXaAx6FLE8kS6w3
-         BPI+83sHQ9capwfY6EcTqzgvOhqC2XkAxuB/VsufC0aecqjDt4CpTfq53JPGKXOPTS46
-         g6og==
-X-Gm-Message-State: AOJu0YxNVOtko++fOMcJNZ1FKNHtDMdzMB5irsMWz5+ZOIyVLeqEE2Bc
-	v6eZC0kMdhZG22afqa6ywf2P8SdeFlO87l56uAUvHiuDDmVYHh/VCSGHxCn8X5Y=
-X-Google-Smtp-Source: AGHT+IFjwVn4UY2Kxo/XufzLNB2vGbsLImFRXcrEXkKYpRr064g+bPgK+2JO0wCQnTYdEYiRtfS2SQ==
-X-Received: by 2002:a81:4813:0:b0:602:b697:d9ff with SMTP id v19-20020a814813000000b00602b697d9ffmr1701529ywa.22.1706776476936;
-        Thu, 01 Feb 2024 00:34:36 -0800 (PST)
-Received: from mail-yb1-f179.google.com (mail-yb1-f179.google.com. [209.85.219.179])
-        by smtp.gmail.com with ESMTPSA id ez10-20020a05690c308a00b005ff9154001fsm3637062ywb.140.2024.02.01.00.34.34
+        bh=pM08Vaje05uNT4MpqrPqJ/UBHu1iKyKE3BU4yiYaf+c=;
+        b=wYeUN0n84/vV6dxYlKWvxdl7qb1mdI9sM8pfpcCyI+gTkY48jhhGLLtXzYIMA+xGuM
+         52cMP1wMrjmvczI2Ej2heNB3xqbrM+Ag4PRwACNMiGx55wycNhi1JlYpIAhZkpHz6twC
+         gnuH7wTOlqROBPGM3tYOqLvsfoJ06Nu6IDNpj6hl9uOEw7OXQQq5vrpkSk+qHSMC8l4R
+         nWndAy93eQVqoDPDswsEytMGU3TM/oFL70qRX0O1k/O8IYBIyspiNRdb3LT3XA3fdGmg
+         TtpHbczVZK0Vx3C0TAiuNeuQ/d4Lf8VXt/sgv8Ho92g70MMtgLjzKNqy88Koifxm7Js6
+         fsMg==
+X-Gm-Message-State: AOJu0Yz6JjQgWq10+FOSO0n7Oym44Paxd+A3arhQfjQBvWhaXauCKr6T
+	xMG71EYzHq1zAKf+ZmTKiyYiyDTBlU6h5cbwKxaLwq4zzC3adKsQbVZGX+K6SOQ=
+X-Google-Smtp-Source: AGHT+IHcNq1Zh+RabdfjL3GJtJHf3wVDJDhlxODaScChPfaA42qab3yo/v3cgSMCHn1DX9nhxS5H+g==
+X-Received: by 2002:a25:d617:0:b0:dc2:50ca:7d03 with SMTP id n23-20020a25d617000000b00dc250ca7d03mr4203495ybg.1.1706777385854;
+        Thu, 01 Feb 2024 00:49:45 -0800 (PST)
+Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com. [209.85.128.181])
+        by smtp.gmail.com with ESMTPSA id m127-20020a257185000000b00dc2310abe8bsm4088533ybc.38.2024.02.01.00.49.45
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 01 Feb 2024 00:34:35 -0800 (PST)
-Received: by mail-yb1-f179.google.com with SMTP id 3f1490d57ef6-dc236729a2bso617516276.0;
-        Thu, 01 Feb 2024 00:34:34 -0800 (PST)
-X-Received: by 2002:a25:824a:0:b0:dc6:ad43:8cf4 with SMTP id
- d10-20020a25824a000000b00dc6ad438cf4mr1840360ybn.20.1706776474698; Thu, 01
- Feb 2024 00:34:34 -0800 (PST)
+        Thu, 01 Feb 2024 00:49:45 -0800 (PST)
+Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-6040d9e52b9so7064677b3.0;
+        Thu, 01 Feb 2024 00:49:45 -0800 (PST)
+X-Received: by 2002:a0d:d60b:0:b0:5ff:83f7:57e7 with SMTP id
+ y11-20020a0dd60b000000b005ff83f757e7mr4170513ywd.31.1706777385132; Thu, 01
+ Feb 2024 00:49:45 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240129151618.90922-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20240129151618.90922-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <CAMuHMdV7Q4kMv1pFVNBf5oYF=_W_snp=5GKLpr9+OxeqxywhBw@mail.gmail.com> <CA+V-a8spFYvOo2=9CwM-1EyMA3Xrc_rggUgxDZwZan2ou4SG1A@mail.gmail.com>
-In-Reply-To: <CA+V-a8spFYvOo2=9CwM-1EyMA3Xrc_rggUgxDZwZan2ou4SG1A@mail.gmail.com>
+References: <a2396ae072d6f9e009b5de558efe166b844a1397.1706718625.git.geert+renesas@glider.be>
+ <ZbqFsroYDjSoYEps@1wt.eu>
+In-Reply-To: <ZbqFsroYDjSoYEps@1wt.eu>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 1 Feb 2024 09:34:21 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdUFZ6pRtZv4QLGhTz_gG575-8-LvaFprNuP2-1HGS8r+A@mail.gmail.com>
-Message-ID: <CAMuHMdUFZ6pRtZv4QLGhTz_gG575-8-LvaFprNuP2-1HGS8r+A@mail.gmail.com>
-Subject: Re: [PATCH 2/5] irqchip/renesas-rzg2l: Add support for RZ/Five SoC
-To: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Cc: Thomas Gleixner <tglx@linutronix.de>, Rob Herring <robh+dt@kernel.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Magnus Damm <magnus.damm@gmail.com>, linux-renesas-soc@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-riscv@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Date: Thu, 1 Feb 2024 09:49:33 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdWrjag3icVi2mJbtEftwz_jH51Ov4-FAV67Mdz7UvxQXw@mail.gmail.com>
+Message-ID: <CAMuHMdWrjag3icVi2mJbtEftwz_jH51Ov4-FAV67Mdz7UvxQXw@mail.gmail.com>
+Subject: Re: [PATCH/RFC] lib: add CPU MHz benchmark test
+To: Willy Tarreau <w@1wt.eu>
+Cc: linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Prabhakar,
+Hi Willy,
 
-On Wed, Jan 31, 2024 at 7:36=E2=80=AFPM Lad, Prabhakar
-<prabhakar.csengg@gmail.com> wrote:
-> On Tue, Jan 30, 2024 at 11:38=E2=80=AFAM Geert Uytterhoeven
-> <geert@linux-m68k.org> wrote:
-> > On Mon, Jan 29, 2024 at 4:16=E2=80=AFPM Prabhakar <prabhakar.csengg@gma=
-il.com> wrote:
-> > > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > >
-> > > The IX45 block has additional mask registers (NMSK/IMSK/TMSK) as comp=
-ared
-> > > to the RZ/G2L (family) SoC.
-> > >
-> > > Introduce masking/unmasking support for IRQ and TINT interrupts in IR=
-QC
-> > > controller driver. Two new registers, IMSK and TMSK, are defined to
-> > > handle masking on RZ/Five SoC. The implementation utilizes a new data
-> > > structure, `struct rzg2l_irqc_data`, to determine mask support for a
-> > > specific controller instance.
-> > >
-> > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com=
+On Wed, Jan 31, 2024 at 6:39=E2=80=AFPM Willy Tarreau <w@1wt.eu> wrote:
+> On Wed, Jan 31, 2024 at 05:46:48PM +0100, Geert Uytterhoeven wrote:
+> > When working on SoC bring-up, (a full) userspace may not be available,
+> > making it hard to benchmark the CPU performance of the system under
+> > development.  Still, one may want to have a rough idea of the (relative=
+)
+> > performance of one or more CPU cores, especially when working on e.g.
+> > the clock driver that controls the CPU core clock(s).
+> >
+> > Hence add the CPU MHz benchmark test[1], which estimates the clock
+> > frequency of the CPU core it is running on, and make it available as a
+> > Linux kernel test module.
+> >
+> > When built-in, this benchmark can be run without any userspace present.
 >
-> >
-> > > --- a/drivers/irqchip/irq-renesas-rzg2l.c
-> > > +++ b/drivers/irqchip/irq-renesas-rzg2l.c
-> > > @@ -66,15 +68,25 @@ struct rzg2l_irqc_reg_cache {
-> > >         u32     titsr[2];
-> > >  };
-> > >
-> > > +/**
-> > > + * struct rzg2l_irqc_data - OF data structure
-> > > + * @mask_supported: Indicates if mask registers are available
-> > > + */
-> > > +struct rzg2l_irqc_data {
-> >
-> > This structure has the same name as the single static struct
-> > rzg2l_irqc_priv instance, which is confusing.
-> >
-> Agreed, I will rename it to rzg2l_irqc_of_data
+> That's a great idea, I never thought about turning it into a module!
 >
-> > > +       bool    mask_supported;
-> > > +};
-> > > +
-> > >  /**
-> > >   * struct rzg2l_irqc_priv - IRQ controller private data structure
-> > >   * @base:      Controller's base address
-> > > + * @data:      OF data pointer
-> > >   * @fwspec:    IRQ firmware specific data
-> > >   * @lock:      Lock to serialize access to hardware registers
-> > >   * @cache:     Registers cache for suspend/resume
-> > >   */
-> > >  static struct rzg2l_irqc_priv {
-> > >         void __iomem                    *base;
-> > > +       const struct rzg2l_irqc_data    *data;
-> >
-> > Replacing this by a bool would avoid a pointer dereference in each user=
-,
-> > and allows you to make rzg2l_irqc_data etc. __initconst.
-> >
-> Do you mean just add "bool mask_supported" here and get rid of struct
-> rzg2l_irqc_data ? Can you please elaborate here..
-
-Either add "bool mask_supported" here, or add a copy of the full
-struct rzg2l_irqc_data (see below).
-
+> > Parallel runs (run on multiple CPU cores) are supported, just kick the
+> > "run" file multiple times.
 >
-> > >         struct irq_fwspec               fwspec[IRQC_NUM_IRQ];
-> > >         raw_spinlock_t                  lock;
-> > >         struct rzg2l_irqc_reg_cache     cache;
-> >
-> > > @@ -371,9 +475,23 @@ static int rzg2l_irqc_parse_interrupts(struct rz=
-g2l_irqc_priv *priv,
-> > >         return 0;
-> > >  }
-> > >
-> > > +static const struct rzg2l_irqc_data rzfive_irqc_data =3D {
-> > > +       .mask_supported =3D true,
-> > > +};
-> > > +
-> > > +static const struct rzg2l_irqc_data rzg2l_irqc_default_data =3D {
-> > > +       .mask_supported =3D false,
-> > > +};
-> > > +
-> > > +static const struct of_device_id rzg2l_irqc_matches[] =3D {
-> > > +       { .compatible =3D "renesas,r9a07g043f-irqc", .data =3D &rzfiv=
-e_irqc_data },
-> > > +       { }
-> > > +};
-> > > +
-> > >  static int rzg2l_irqc_init(struct device_node *node, struct device_n=
-ode *parent)
-> > >  {
-> > >         struct irq_domain *irq_domain, *parent_domain;
-> > > +       const struct of_device_id *match;
-> > >         struct platform_device *pdev;
-> > >         struct reset_control *resetn;
-> > >         int ret;
-> > > @@ -392,6 +510,12 @@ static int rzg2l_irqc_init(struct device_node *n=
-ode, struct device_node *parent)
-> > >         if (!rzg2l_irqc_data)
-> > >                 return -ENOMEM;
-> > >
-> > > +       match =3D of_match_node(rzg2l_irqc_matches, node);
-> > > +       if (match)
-> > > +               rzg2l_irqc_data->data =3D match->data;
-> > > +       else
-> > > +               rzg2l_irqc_data->data =3D &rzg2l_irqc_default_data;
-> >
-> > Instead of matching a second time, I'd rather add a second
-> > IRQCHIP_MATCH() entry with a different init function, passing the
-> > actual rzg2l_irqc_data pointer.
-> >
-> OK, or rather just pass true/false instead of rzg2l_irqc_of_data pointer.=
-?
+> Hmmm does it mean it will run on the CPU that writes this "run" ?
+> Because this could allow one to start tests using e.g.:
+>
+>     taskset -c $CPU tee /sys/.../run <<< y
 
-Yes, that would be fine for me, too.
-It all depends on whether you plan to add, or see a need for adding,
-more flags or other fields in the future (and even for flags, you could
-combine them in an unsigned long).
+That does indeed work.
+
+> But we could also wonder if it wouldn't be easier to either send "y"
+> to /sys/.../cpu0/run or may just send the CPU number to "run" instead
+> of "y".
+
+That would complicate the code a lot.
+
+> In my experience with this tool, you most always want to easily
+> control the CPU number because SoCs these days are not symmetrical at
+> all.
+
+That's why it prints the CPU number ;-)
+
+On multi-core systems, you can also do e.g.
+
+    for i in $(seq $(nproc)); do echo yes >
+/sys/module/test_mhz/parameters/run & done
+
+and collect the results for all CPU cores.
+
+BTW, this is the same for test_dhry.
+
+> Another point is that it would be nice if there was a way to present
+> the result in a form that a script can retrieve from the directory,
+> maybe the last measurement or something like this. I know that scripts
+> are commonly used to check for a machine's correct behavior, and I try
+> to encourage users to verify that it's working well, so anything we can
+> do that makes it easier to use would be welcome.
+
+I'll give that a try...
+
+> But overall, I like it! You've got my ack.
+
+Thanks!
+
+> Hmmm I don't know if this is intended, the SPDX tag says MIT but the
+> MODULE_LICENSE at the top says MIT/GPL. I can't say I care that much but
+> I preferred to report it in case it's an accident ;-)
+
+That must be an oversight.  I'll change the SPDX-License-Identifier to
+"GPL-2.0 OR MIT".
 
 Gr{oetje,eeting}s,
 
