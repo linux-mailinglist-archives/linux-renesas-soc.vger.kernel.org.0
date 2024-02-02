@@ -1,147 +1,190 @@
-Return-Path: <linux-renesas-soc+bounces-2274-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-2275-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42A03846B25
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  2 Feb 2024 09:48:49 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4658D846C39
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  2 Feb 2024 10:37:54 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id ABEA31F2C18D
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  2 Feb 2024 08:48:48 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id D2B49B2EBE2
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  2 Feb 2024 09:25:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B8D5E5FEE1;
-	Fri,  2 Feb 2024 08:47:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DE35D77657;
+	Fri,  2 Feb 2024 09:22:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="xZ4Uhek5"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GSTBiw+I"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
+Received: from mail-vk1-f180.google.com (mail-vk1-f180.google.com [209.85.221.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 004635FDA7
-	for <linux-renesas-soc@vger.kernel.org>; Fri,  2 Feb 2024 08:47:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3674C62A1E;
+	Fri,  2 Feb 2024 09:22:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706863658; cv=none; b=CBf9ANJK/Dlb1tFuhhyrWgq/7RkxfJZznZy1d9t3+tISB7FpeOoVoTjUCpQFD82GvcC5JPFPs+qT/Fx+dM4SQ0zbtDdFRJbiKvUD5FT+/X4lGY9Ug/qObWNRo5Xbtp/QhRr1j/shEVaDxBw+Gw2upJCQnYY97zUcrp5Z+gvFbx8=
+	t=1706865765; cv=none; b=Va283zABr7fEJOkYk29UNuvK/B6QQP5EIEyVsbgmqhZfDq2WcVEWuvsiUb7uGxh/MCpAVDf8l4g81x0cPzNaMbPTXhZtB+shM3rSf6UqJVxPYjOZW39C1d5a9fvRNvj0PXIfs9a05zKq5vvJs7N7fPIa7rTVGiikiU8EtlIvEZU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706863658; c=relaxed/simple;
-	bh=1mTopl9VLOGdS2RiO2GLhg5Njwg3uxDYSi6ORPCdnl8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FcS49AONR++0am+RkricH4/Jw4MKtHMN++PDzwUFqZlW2zxMGPPC2zh2iIU2f+mIwQss/DXd4e/b3Fxfwh/pz/NiKv3Vpz6g76RprdbGr/AauLJfNTKRVcnYvxIL4v8JVR/vFNH3pBOwoUCmAYNVVA1DER+VIk7dy3ZEUGlHC/E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=xZ4Uhek5; arc=none smtp.client-ip=209.85.208.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-55c2cf644f3so2342269a12.1
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 02 Feb 2024 00:47:36 -0800 (PST)
+	s=arc-20240116; t=1706865765; c=relaxed/simple;
+	bh=S2a9qNEwS7sTsIZ0RAYlZnP0NXuNasUwurvY1xgsoI8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=NmP025qSbIHLG04hjlFUd++F0Qd2VhrO46n/G5WkIGBfHwuRVHLkdvSpuI02SAXN3fMAq8ylarvC0Auc6VQ3/60cZYbdgBMsdbzbnX7aSh3Tvkzl9lMaDHMLPj6v4qEsTEhyj5cnKiQjFQ2zdhsitHFeNQ5vrvFd82DhnKb57BI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GSTBiw+I; arc=none smtp.client-ip=209.85.221.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vk1-f180.google.com with SMTP id 71dfb90a1353d-4c0100e2d58so99342e0c.1;
+        Fri, 02 Feb 2024 01:22:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1706863655; x=1707468455; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=UU7vpIEOWdL0eNMIVr22ERtNoYOBOT1NOSw2MYNThw4=;
-        b=xZ4Uhek58k5pY8l5zMELIeVhunGnOLnGBMHnT44nn8e27rPCYDrXwohpRFsYxYqLon
-         RppL0hE15kFu4ljI9P91FeOF/3puRgtHJPAf5k3JaPY3q+9PPDdOwc1nEsddOsmUBppw
-         +prDQTOAoGU5e4cTLCLyzcQKPt1hmc0BMoyZUZtQx/Ar35P8sUS2W586lfW+HgXTPrH+
-         RVb7imdfud+irBeQKLj2m7QS40Jtf1mm0AtRN9bYO6K15KxtcXWpcUopHAWcG4CgYwWb
-         pn2QzAgowIHE69qofZbjTZBc/hDlUxePuo67gllbWpU7TGXYHq5Cx6jsfYpfVSBeRAVB
-         03IQ==
+        d=gmail.com; s=20230601; t=1706865763; x=1707470563; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=HTowy/uYen+bsPWi2mCFz7Xlk53z/GMzvNwuHivQ8rg=;
+        b=GSTBiw+IIQ0ZOB5UWQaqCmjn52hGr1vcJjNn+vqdeJfF8aZALvyCldJD8Vyl3FYxqQ
+         LPOvNk63fiiyCkwKdRMQR1escE7gbUj7RxMIvTbCYhUZvc4Q8RgemSCWlgo8qEQ5YitJ
+         m3K1mf57dwYyohHwtNJYG45TucHgsdfSMjdjOm4mlKvWPqr5EKi7VEPm9yQ1iH4ezFaU
+         BIxBokODYvBuiOjm8kZ/dDyAIiFk/oDq440lOjLAbHY0hNbkoTlcE13I7KLiRZblxXNa
+         S2/1R9dlLoGstSJvpjGOK7f4s5T98cQcOK8Syzb7hp3dAy1fwvVWDnCQuRp24ABkYbjL
+         WRvw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706863655; x=1707468455;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=UU7vpIEOWdL0eNMIVr22ERtNoYOBOT1NOSw2MYNThw4=;
-        b=JNORvP2HBGmMEcZXJlMrBU/MiOaqRiZdIMqhOZC6h+Ih/FsXA5C5/RoAYYoWFCHNpC
-         OCWgm8bwlqFoniVs08Bck0k2Twtw6WIOKwLe6aEe/mozfQ26aN7E3C/s52jAHxSF59sS
-         KdY4BtU+ZR5X2FAzz9DoaaElu7wXAdtBVDmlE9znl1yNItrAIlCjCvnn6GydwZvToFdQ
-         2ypG17qA0zr5QZ7tfF41kIUzXVLXvPphTOLYWduQ4HPMD5oEo/n2wmQv0y82i4EJmuLu
-         lf2Mec6wRnHWnSET/6Le16FbAvOm4VZR6AVZMRgt+0PupOTZRvs2gzBYcXb/muP0Xbfa
-         gozQ==
-X-Gm-Message-State: AOJu0Yw9TcKgG28tN6c7/m+0jrYVidUatwkA8CV6F5wIB/Azde24e3E2
-	QZHs7ApZs9O8YyrK1B6EjAmAy+7Za9rjLOSgTclFrbWmW0vpNMu0fI5yTOQH3RM=
-X-Google-Smtp-Source: AGHT+IGVHVbNZmhYQYVfyePv44qYjb5PPl8mmxSRJulBwcvo1VFvBGlYYT9E3lEzAdxIKl5CLgylgQ==
-X-Received: by 2002:a05:6402:353:b0:55f:84a9:9000 with SMTP id r19-20020a056402035300b0055f84a99000mr4779574edw.3.1706863655200;
-        Fri, 02 Feb 2024 00:47:35 -0800 (PST)
-X-Forwarded-Encrypted: i=0; AJvYcCV3ZID9R5HJqZMO3+DpWFeR8Cs3JOVwVQMtQGzJeHwx/XILkDBRfT9e8ocmg+df6JmNMfWY0XJmeoYazqDNNcfZRNhnSAMdS+vJ8BJVeNlq2xdHf/XjihNgR4qz5aTcO5JrVxa4N0NcdBqtgQMkt1+/3mUq8yhEvu+Eg7Zn5nLp9ki11iuux4xx0mgc/vdLPefmGSw264NxmD/4qTvxsnE8JLrmTgGCEZRowYpboQfXfQE5HyOSBFZLHcmO6ZkPgOgJTk4ddiTu2NYy7s3HHzxgjixFMmFnEmPwjYq42BwsLIryKiWWY4fN5zYNmACwFV/jMLwKmkSZIhZQS/Wiyvd0HhK+sk8FyUTDCaSnqm313T5S3FMipqbOtARb1X8NxcpV/rqYwj12OlEEKTtu5BvoUXqLvPMwhe0yHPUQjqGZl8IIFjo2zM5Wlu4TkSQnGeXEy2eQoGVaR3ep6jA1PEvFYn+g7xJRXJj5yisSuzJr+VkZETe75l/UDXFlUx1ATxwo4OYCgw+cPcMa1mhO3ShJ5s2JkDqnoKXyClmKAdFvtgbz9aomdQ2PnpFiGPxi9bJ4EVfaQrwQcme3x/qnF28pHtmS5i1mZrUpWEcMwjfm4HqDXbLxffMpY9wTX3XwCQLUX1VPXV1iJcNBUZ4BZZhM8nBNhIUoE6iZbpp9LbpteJ9ftfD6yjg7Ke11jkWMBYimUrvpTYjOGED7VsfsMw5/vDiCDCHzcomytbb87u1unnwqPZ2mS0GI7a5dQjNUSWrT0mkCTktTBA9alkPfeClAQMzJkntduc9ETpnNecdNzoJlNfclm8K7JCQnVaOKBMjzLWHaplwJjYFUz4Us839dlBZ4Gy7kHRJTwBQLuu46fqN2piUGkIkeLtDS8yvbUnS9p7wVZ1mAaq6O+qbHiwUaLy6weSAg5MxrJwLcIVlaG/82XYtsnEr8mNsa9D2wByM/Xn
- XBE0mN8ItoGTxZOt642QrMnqj57B4yBqR46p4bpN3BGxmR6b4mvK0raP/rnLOeuhw8rbd/DP+TV1plHwvguxPPKxfzjE2vbibOkJT67WpWmZy242jHsAhsexEllqmy3gAmQmfI+l/H+FZM606dNfyKeb37eTx5l1rz4a9ciueY2w9ohPXLWWr5J762fPLxWvYYXnbF6ewcWWKP8SK+c8gEJwXoX9oeVFCgTch287/uDO8GtogzppODfJ8oxs7d/f6zuq4xrebdlyJxoqh/ni6J
-Received: from localhost ([102.222.70.76])
-        by smtp.gmail.com with ESMTPSA id ek23-20020a056402371700b0055ff9299f71sm246348edb.46.2024.02.02.00.47.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 02 Feb 2024 00:47:34 -0800 (PST)
-Date: Fri, 2 Feb 2024 11:47:30 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: "Rafael J. Wysocki" <rafael@kernel.org>
-Cc: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	daniel.lezcano@linaro.org, miquel.raynal@bootlin.com,
-	rui.zhang@intel.com, lukasz.luba@arm.com,
-	support.opensource@diasemi.com, shawnguo@kernel.org,
-	s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com,
-	linux-imx@nxp.com, andersson@kernel.org, konrad.dybcio@linaro.org,
-	amitk@kernel.org, thara.gopinath@gmail.com,
-	niklas.soderlund@ragnatech.se, srinivas.pandruvada@linux.intel.com,
-	baolin.wang@linux.alibaba.com, u.kleine-koenig@pengutronix.de,
-	hayashi.kunihiko@socionext.com, d-gole@ti.com,
-	linus.walleij@linaro.org, DLG-Adam.Ward.opensource@dm.renesas.com,
-	error27@gmail.com, heiko@sntech.de, hdegoede@redhat.com,
-	jernej.skrabec@gmail.com, f.fainelli@gmail.com,
-	linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org, kernel@collabora.com
-Subject: Re: [PATCH v1 02/18] thermal: Add new structures and
- thermal_zone_device_register()
-Message-ID: <e4359d2c-e686-4a97-9d21-d10908e9df61@moroto.mountain>
-References: <20240130111250.185718-1-angelogioacchino.delregno@collabora.com>
- <20240130111250.185718-3-angelogioacchino.delregno@collabora.com>
- <CAJZ5v0jzaGpK8LnsFDtjuPoURrwrUgM1Z2QfZhK_FUzDeK3wcw@mail.gmail.com>
+        d=1e100.net; s=20230601; t=1706865763; x=1707470563;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=HTowy/uYen+bsPWi2mCFz7Xlk53z/GMzvNwuHivQ8rg=;
+        b=txDIMsPCLoV3sExNKlACPe1f4+OIgbJ4PEoD1KrX5Y9XeyIk9KDusWugvi1PpjkNGr
+         dl+GfLeKbzyFRWPyJ+4Q2J203M2QlmA3k7/XgjPHJqO+IKnmAK8WP+4PTX5n2ZhaOcrp
+         77aMYaAZ1iUB6pbRDtLf0vUm+inAuBhyaIP2QFyYm2mH5CjUOJbMXxHovzjsuI6R0aZZ
+         i+MSiKRrOUFxxUeNpJnQNozbdqyG7Jn5OQ03nR30Tp3QtNCNkyHqRZwgYSgyI4wNpx4f
+         dHXW2/0zJhwPuOA+p+uv/899wjBOgL2sok6FEf7CkVXDq79HXkj9o/c6G6MU9YnhuPGw
+         OemA==
+X-Gm-Message-State: AOJu0Yw/aeMLcPCw7Qj5Lh8Uk7EpyzgcgCMH6lATtRd5sG5hPi1yltSk
+	AbdyKjyGWCQRzu2ZCPEO9+P3BWeh0xA3iEbWMQywEYBF02H0pQTfFiV+9eYZXM1ND4U9lmWbaPK
+	J18nPN8KiEowq6npCyBfpcwFX7nlBfbRkyhU=
+X-Google-Smtp-Source: AGHT+IGJy4900r9IV66NBG3FMIrVGWh/BXiOJfbjfVz+Rjqi+YFKJ7X+ayy4EkCTsjxxktkPNaYZZiUrMvEslj1kFmw=
+X-Received: by 2002:a05:6122:720:b0:4c0:d8c:66d7 with SMTP id
+ 32-20020a056122072000b004c00d8c66d7mr1064101vki.4.1706865762938; Fri, 02 Feb
+ 2024 01:22:42 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAJZ5v0jzaGpK8LnsFDtjuPoURrwrUgM1Z2QfZhK_FUzDeK3wcw@mail.gmail.com>
+References: <20240129151618.90922-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20240129151618.90922-2-prabhakar.mahadev-lad.rj@bp.renesas.com> <20240129-magical-unclaimed-e725e2491ccb@spud>
+In-Reply-To: <20240129-magical-unclaimed-e725e2491ccb@spud>
+From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date: Fri, 2 Feb 2024 09:22:06 +0000
+Message-ID: <CA+V-a8vQdT+Rav9SNUTE7iFP2xWh+dJ=ZnQRhBpXaQDHOfVEdQ@mail.gmail.com>
+Subject: Re: [PATCH 1/5] dt-bindings: interrupt-controller:
+ renesas,rzg2l-irqc: Document RZ/Five SoC
+To: Conor Dooley <conor@kernel.org>
+Cc: Thomas Gleixner <tglx@linutronix.de>, Geert Uytterhoeven <geert+renesas@glider.be>, 
+	Rob Herring <robh+dt@kernel.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Magnus Damm <magnus.damm@gmail.com>, linux-renesas-soc@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-riscv@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Feb 01, 2024 at 08:24:15PM +0100, Rafael J. Wysocki wrote:
-> On Tue, Jan 30, 2024 at 12:13 PM AngeloGioacchino Del Regno
-> > diff --git a/include/linux/thermal.h b/include/linux/thermal.h
-> > index 65d8f92a9a0d..7a540b746703 100644
-> > --- a/include/linux/thermal.h
-> > +++ b/include/linux/thermal.h
-> > @@ -149,7 +149,8 @@ struct thermal_cooling_device {
-> >                         passive trip point.
-> >   * @need_update:       if equals 1, thermal_zone_device_update needs to be invoked.
-> >   * @ops:       operations this &thermal_zone_device supports
-> > - * @tzp:       thermal zone parameters
-> > + * @tzp:               Thermal zone parameters
-> > + * @tgp:               Thermal zone governor parameters
-> >   * @governor:  pointer to the governor for this thermal zone
-> >   * @governor_data:     private pointer for governor data
-> >   * @thermal_instances: list of &struct thermal_instance of this thermal zone
-> > @@ -184,7 +185,8 @@ struct thermal_zone_device {
-> >         int prev_high_trip;
-> >         atomic_t need_update;
-> >         struct thermal_zone_device_ops *ops;
-> > -       struct thermal_zone_params *tzp;
-> > +       struct thermal_zone_platform_params *tzp;
-> > +       struct thermal_governor_params *tgp;
-> 
-> I agree with doing a split here, but I'm not sure about moving items
-> from the arg list to struct thermal_zone_platform_params (as mentioned
-> above).
-> 
-> Also the naming is quite inconsistent.  IMO it would be better to call
-> the first pointer "tzpp", rename struct thermal_governor_params to
-> struct thermal_zone_governor_params and call the second pointer
-> "tzgp".
-> 
+Hi Conor,
 
-The names "tzgp" and "tzpp" look almost identical at first glance.
-Could we increase the hamming distance somehow?
+Thank you for the review.
 
-regards,
-dan carpenter
+On Mon, Jan 29, 2024 at 5:30=E2=80=AFPM Conor Dooley <conor@kernel.org> wro=
+te:
+>
+> On Mon, Jan 29, 2024 at 03:16:14PM +0000, Prabhakar wrote:
+> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> >
+> > Document RZ/Five (R9A07G043F) IRQC bindings. The IRQC block on RZ/Five =
+SoC
+> > is almost identical to one found on the RZ/G2L SoC with below differenc=
+es,
+> > * Additional BUS error interrupt
+> > * Additional ECCRAM error interrupt
+> > * Has additional mask control registers for NMI/IRQ/TINT
+> >
+> > Hence new compatible string "renesas,r9a07g043f-irqc" is added for RZ/F=
+ive
+> > SoC.
+> >
+> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > ---
+> >  .../renesas,rzg2l-irqc.yaml                   | 27 +++++++++++++++++++
+> >  1 file changed, 27 insertions(+)
+> >
+> > diff --git a/Documentation/devicetree/bindings/interrupt-controller/ren=
+esas,rzg2l-irqc.yaml b/Documentation/devicetree/bindings/interrupt-controll=
+er/renesas,rzg2l-irqc.yaml
+> > index d3b5aec0a3f7..3abc01e48934 100644
+> > --- a/Documentation/devicetree/bindings/interrupt-controller/renesas,rz=
+g2l-irqc.yaml
+> > +++ b/Documentation/devicetree/bindings/interrupt-controller/renesas,rz=
+g2l-irqc.yaml
+> > @@ -23,6 +23,7 @@ properties:
+> >    compatible:
+> >      items:
+> >        - enum:
+> > +          - renesas,r9a07g043f-irqc   # RZ/Five
+> >            - renesas,r9a07g043u-irqc   # RZ/G2UL
+> >            - renesas,r9a07g044-irqc    # RZ/G2{L,LC}
+> >            - renesas,r9a07g054-irqc    # RZ/V2L
+> > @@ -88,6 +89,12 @@ properties:
+> >        - description: GPIO interrupt, TINT30
+> >        - description: GPIO interrupt, TINT31
+> >        - description: Bus error interrupt
+> > +      - description: ECCRAM0 TIE1 interrupt
+> > +      - description: ECCRAM0 TIE2 interrupt
+> > +      - description: ECCRAM0 overflow interrupt
+> > +      - description: ECCRAM1 TIE1 interrupt
+> > +      - description: ECCRAM1 TIE2 interrupt
+> > +      - description: ECCRAM1 overflow interrupt
+> >
+> >    interrupt-names:
+> >      minItems: 41
+> > @@ -134,6 +141,12 @@ properties:
+> >        - const: tint30
+> >        - const: tint31
+> >        - const: bus-err
+> > +      - const: eccram0-tie1
+> > +      - const: eccram0-tie2
+> > +      - const: eccram0-ovf
+> > +      - const: eccram1-tie1
+> > +      - const: eccram1-tie2
+> > +      - const: eccram1-ovf
+>
+> I think the restrictions already in the file become incorrect with this
+> patch:
+>   - if:
+>       properties:
+>         compatible:
+>           contains:
+>             enum:
+>               - renesas,r9a07g043u-irqc
+>               - renesas,r9a08g045-irqc
+>     then:
+>       properties:
+>         interrupts:
+>           minItems: 42
+>         interrupt-names:
+>           minItems: 42
+>       required:
+>         - interrupt-names
+>
+> This used to require all 42 interrupts for the two compatibles here
+> and at least the first 41 otherwise. Now you've increased the number of
+> interrupts to 48 thereby removing the upper limits on the existing
+> devices.
+>
+> Given the commit message, I figure that providing 48 interrupts for
+> (at least some of) those devices would be incorrect?
+>
+Agreed, I will fix this in the next version.
 
+Cheers,
+Prabhakar
 
