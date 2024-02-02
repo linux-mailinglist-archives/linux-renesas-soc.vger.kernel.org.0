@@ -1,151 +1,118 @@
-Return-Path: <linux-renesas-soc+bounces-2284-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-2285-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A14E846D67
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  2 Feb 2024 11:11:10 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AEFF847123
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  2 Feb 2024 14:28:34 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 2AEFDB2330C
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  2 Feb 2024 10:11:01 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id CE6421F239DF
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  2 Feb 2024 13:28:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 35CD67869A;
-	Fri,  2 Feb 2024 10:10:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5D7D646448;
+	Fri,  2 Feb 2024 13:28:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="SFr2seHN"
+	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="lF97AFde"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vs1-f43.google.com (mail-vs1-f43.google.com [209.85.217.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84FF57C084;
-	Fri,  2 Feb 2024 10:10:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1D1B46452
+	for <linux-renesas-soc@vger.kernel.org>; Fri,  2 Feb 2024 13:28:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706868658; cv=none; b=gnfgq7ernueKl2IgZ87BMcFCVkrgCSpdY9SPWTGWEX/QxVJwwskLd9gqFNIXdWgfXyWfjf5sy6wqYFW07vMmZ0051cHWlvF/ceJmlnononcQ64tGD8pQhCS8zJXX6msh24dXp9EYRdaChsVdCU/5zi4qJ8VwE9H2Z4K9qXn65nI=
+	t=1706880508; cv=none; b=XhbLylCSfQtqm9dQA9CXMSnKvruJherYRCQ+Ima//gSFy6hAiJB89hEaJQfHTf6WrgnGkil6ztQhWvZcV2SPk19pUo67peqHzXrB9pX275fLMA3bPPfSDODxo94cATGJ+a309AU0qN6W7znLXJd1l06GPyN1wbJ3LWI1CYaCiak=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706868658; c=relaxed/simple;
-	bh=7/NtgM7POVlL/qsd67IvVANnHVtgkkq13BDU1rG2sow=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=rvVKbfRWzAg4Q588TiQQSFstbavhada7AbdegvSwoj+nIY7TTPbbc7fUOiojhzQlJ+xZXG2uFLFLB3FUrxIO/iAb57a8Tb7BpRTdnPnyMR9oViNI1uhL2icHabgTqe/sLFS+QnRdP698icIfS0ebf65fx/LUZxZxXKDvfdeq5c4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=SFr2seHN; arc=none smtp.client-ip=46.235.227.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1706868654;
-	bh=7/NtgM7POVlL/qsd67IvVANnHVtgkkq13BDU1rG2sow=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=SFr2seHNJQQHo9BBuC+NGMGdD/kv3Fz3jTKZu6zsnNCUOGGmA/hubOtnHRcgb8iwr
-	 p4f3XnXa4zlR0UKwQ5q3BGtajbPyfoHSzoN2GMmQ0/kBH4/BkOZXa9oCRFrdkOA/7E
-	 K8farMZWArbqNBLEhGRGcwLcc8mOTAfXykQjpf/hWF9QyRKCF2gCrcE5ijaUkfAf9W
-	 ppn/+P3c7iVuuveYNkLMDGvXe6/j5lkMrqCUcbs65PPCdq8pm2nsROBy3QqPpptgEF
-	 ZfYVajzxHIicOJqFOSBiOgcS2zkLcHpsmZgZHbfH4rjUcFqlqGu9qxfImGGdmnl0Dl
-	 wNJ35d2virISg==
-Received: from [100.113.186.2] (cola.collaboradmins.com [195.201.22.229])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: kholk11)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 5875A378047F;
-	Fri,  2 Feb 2024 10:10:52 +0000 (UTC)
-Message-ID: <eec1d1f7-6d8f-46e9-8ce5-4d7319da7d9e@collabora.com>
-Date: Fri, 2 Feb 2024 11:10:51 +0100
+	s=arc-20240116; t=1706880508; c=relaxed/simple;
+	bh=BX/nrSJ26UNgPaQvMAOQquAxe5vot0Brx/Y75YalW60=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=pOIDQkHHB1HeUFJDrQDV1/ialqLR8gUukfcOgh4sSwVrMq0p+9q1YifKW5nhUMbKcEBExjO5K9XaV6Hg+c2iYWRsmRq4L2JERZqMAsiwuyk0PdfkgbWV3uRm2+jpdwDqVory0WXoGCSsweFw6MhcAb7nwD17Sm4luNPY6pEB4wA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=lF97AFde; arc=none smtp.client-ip=209.85.217.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
+Received: by mail-vs1-f43.google.com with SMTP id ada2fe7eead31-46cf02b9f7eso652868137.3
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 02 Feb 2024 05:28:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1706880505; x=1707485305; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=qO/FJ5v1rhdzPQg4RCUr0Y1NCuRnzELZwPJgRqCWeRk=;
+        b=lF97AFdebi5VgT6s2ICn1XDMBu+qSPt2ZvS2uAQJbAcX7un+FAG0qAFwmS3Zg9Bq+h
+         xNYu88vMkNr+AdYQ0xH3FieFiTOjmguP1MeIKfs6supInLUpGknnKj+SZGn0gw+0Xsk8
+         X46coAPOy7q5m5E2KirL5G1w87UcoaFJhHQfAzbaeVWLBqyXwr7NHtjIjEkKh42JO4J4
+         ZqVOLEmf5Jo5Yb8JtvdPfvlwSBvJvrQdeB62nDSruBQTvlcUAlOEoPFaYl1Y6YpvQug8
+         oOtKP3UbL0nQPS0MymVNvdxDw3zCVzcoCdicMmCa7oYuZ9NGuu/xEteecMLsD2ndirhS
+         MTcA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1706880505; x=1707485305;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=qO/FJ5v1rhdzPQg4RCUr0Y1NCuRnzELZwPJgRqCWeRk=;
+        b=W29FANgnSJ9g5Hb+Ujy9oXPT7BlGM3paEFKmtdHCGfAe5G4HEvIfJLxvSxWrdgGEYj
+         h3nGjmtGykTeMlzEAEwvVJDMqMOZslmg+31GQZbFy1rfptpV571N0vIDQTSnGpMe2iIV
+         gBkWSLvVinKHbFAW8seGGyHsq9IYoTHET9caOjgXEK/1zozjMpwRKo8lnnVy947O7C+J
+         0fQOQ8bg9dytEJILc/EYfq+lKFzKvj24O7AW+PUestwreBkKYvTITy+Isi/B6A2/k7Ax
+         CfoEj/inWTaGFsdQeEcuUOAKkihZmhngGgFT0Q3BkbfH9A5LzKcbzaac5d4d1KjgOqE5
+         +XZA==
+X-Gm-Message-State: AOJu0YwDgvwdIGQeYahsUV5u/3ljFsQAps1qdVMnoKEHuuF1M9ovx1fa
+	FdOPHg7/McCSVx2girb1MK2ErG0CLkLAdJTbJXgzbMr1Es7Wv6NAkxBtfn3Y9AkauAzsrN7bnP4
+	rX4GfJiI/7Kbp1u6OW97PhmOFvDLUm3G7iDsU0A==
+X-Google-Smtp-Source: AGHT+IHZ2OgpK/144aZ4nYRNPd7uvKRQuVZ+GoPHmVFPyxjOQJaAcA1NuPFWo3/20ruLewLjIGuHaxd3yQReokZhECc=
+X-Received: by 2002:a67:e94c:0:b0:46d:5aa:2470 with SMTP id
+ p12-20020a67e94c000000b0046d05aa2470mr1022687vso.30.1706880505594; Fri, 02
+ Feb 2024 05:28:25 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 08/18] thermal: intel: pch_thermal: Migrate to
- thermal_zone_device_register()
-Content-Language: en-US
-To: "Rafael J. Wysocki" <rafael@kernel.org>
-Cc: daniel.lezcano@linaro.org, miquel.raynal@bootlin.com,
- rui.zhang@intel.com, lukasz.luba@arm.com, support.opensource@diasemi.com,
- shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
- festevam@gmail.com, linux-imx@nxp.com, andersson@kernel.org,
- konrad.dybcio@linaro.org, amitk@kernel.org, thara.gopinath@gmail.com,
- niklas.soderlund@ragnatech.se, srinivas.pandruvada@linux.intel.com,
- baolin.wang@linux.alibaba.com, u.kleine-koenig@pengutronix.de,
- hayashi.kunihiko@socionext.com, d-gole@ti.com, linus.walleij@linaro.org,
- DLG-Adam.Ward.opensource@dm.renesas.com, error27@gmail.com, heiko@sntech.de,
- hdegoede@redhat.com, jernej.skrabec@gmail.com, f.fainelli@gmail.com,
- linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org, kernel@collabora.com
-References: <20240130111250.185718-1-angelogioacchino.delregno@collabora.com>
- <20240130111250.185718-9-angelogioacchino.delregno@collabora.com>
- <CAJZ5v0ifn7eg9WrpNF2_PB62gE_BzV2Vx5_k7ebOoZWdQNVWaQ@mail.gmail.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <CAJZ5v0ifn7eg9WrpNF2_PB62gE_BzV2Vx5_k7ebOoZWdQNVWaQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <c5681eb5d28641d9b51ac2066b56b52d23defd85.1706789728.git.geert+renesas@glider.be>
+In-Reply-To: <c5681eb5d28641d9b51ac2066b56b52d23defd85.1706789728.git.geert+renesas@glider.be>
+From: Bartosz Golaszewski <brgl@bgdev.pl>
+Date: Fri, 2 Feb 2024 14:28:14 +0100
+Message-ID: <CAMRc=Md=LLtxV-P4VWTvs9gem9FLvAnz+BUjLrZdaS2GOh+Dcg@mail.gmail.com>
+Subject: Re: [PATCH] dt-bindings: gpio: renesas,rcar-gpio: Add r8a779h0 support
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: Linus Walleij <linus.walleij@linaro.org>, Rob Herring <robh+dt@kernel.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
+	linux-gpio@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Il 01/02/24 20:51, Rafael J. Wysocki ha scritto:
-> On Tue, Jan 30, 2024 at 12:13 PM AngeloGioacchino Del Regno
-> <angelogioacchino.delregno@collabora.com> wrote:
->>
->> The thermal API has a new thermal_zone_device_register() function which
->> is deprecating the older thermal_zone_device_register_with_trips() and
->> thermal_tripless_zone_device_register().
->>
->> Migrate to the new thermal zone device registration function.
->>
->> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
->> ---
->>   drivers/thermal/intel/intel_pch_thermal.c | 12 ++++++++----
->>   1 file changed, 8 insertions(+), 4 deletions(-)
->>
->> diff --git a/drivers/thermal/intel/intel_pch_thermal.c b/drivers/thermal/intel/intel_pch_thermal.c
->> index b3905e34c507..73d7c2ac7dbc 100644
->> --- a/drivers/thermal/intel/intel_pch_thermal.c
->> +++ b/drivers/thermal/intel/intel_pch_thermal.c
->> @@ -160,6 +160,7 @@ static int intel_pch_thermal_probe(struct pci_dev *pdev,
->>                                     const struct pci_device_id *id)
->>   {
->>          enum pch_board_ids board_id = id->driver_data;
->> +       struct thermal_zone_device_params tzdp;
->>          struct pch_thermal_device *ptd;
->>          int nr_trips = 0;
->>          u16 trip_temp;
->> @@ -233,10 +234,13 @@ static int intel_pch_thermal_probe(struct pci_dev *pdev,
->>
->>          nr_trips += pch_wpt_add_acpi_psv_trip(ptd, nr_trips);
->>
->> -       ptd->tzd = thermal_zone_device_register_with_trips(board_names[board_id],
->> -                                                          ptd->trips, nr_trips,
->> -                                                          0, ptd, &tzd_ops,
->> -                                                          NULL, 0, 0);
->> +       tzdp.tzp.type = board_names[board_id];
->> +       tzdp.tzp.devdata = ptd;
->> +       tzdp.tzp.trips = ptd->trips;
->> +       tzdp.tzp.num_trips = nr_trips;
->> +       tzdp.tzp.ops = &tzd_ops;
->> +
->> +       ptd->tzd = thermal_zone_device_register(&tzdp);
-> 
-> IMV, this should be
-> 
-> ptd->tzd = thermal_zone_device_register(board_names[board_id],
-> ptd->trips, nr_trips, &tzd_ops, ptd, NULL);
-> 
-> and the tzdp variable is not necessary even.
-> 
+On Thu, Feb 1, 2024 at 1:16=E2=80=AFPM Geert Uytterhoeven
+<geert+renesas@glider.be> wrote:
+>
+> Document support for GPIO controller blocks in the Renesas R-Car V4M
+> (R8A779H0) SoC.
+>
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
+>  Documentation/devicetree/bindings/gpio/renesas,rcar-gpio.yaml | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/Documentation/devicetree/bindings/gpio/renesas,rcar-gpio.yam=
+l b/Documentation/devicetree/bindings/gpio/renesas,rcar-gpio.yaml
+> index aa424e2b95f87a51..cc7a950a6030999e 100644
+> --- a/Documentation/devicetree/bindings/gpio/renesas,rcar-gpio.yaml
+> +++ b/Documentation/devicetree/bindings/gpio/renesas,rcar-gpio.yaml
+> @@ -53,6 +53,7 @@ properties:
+>                - renesas,gpio-r8a779a0     # R-Car V3U
+>                - renesas,gpio-r8a779f0     # R-Car S4-8
+>                - renesas,gpio-r8a779g0     # R-Car V4H
+> +              - renesas,gpio-r8a779h0     # R-Car V4M
+>            - const: renesas,rcar-gen4-gpio # R-Car Gen4
+>
+>    reg:
+> --
+> 2.34.1
+>
 
-The whole point of thermal_zone_device_register() taking just one parameter was
-that those older functions were taking a bit too many params, and with the
-introduction of Thermal Zone name we'd be adding even more.
+Applied, thanks!
 
-For intel_pch_thermal, things are more or less the same, assignments are done there
-line by line... but for most of the others, IMO it's easier and schematized as a
-single stack-initialized structure that could even be constified in the future.
-
-> Analogously in the rest of the series (ie. patches [4-18/18]).
-> 
->>          if (IS_ERR(ptd->tzd)) {
->>                  dev_err(&pdev->dev, "Failed to register thermal zone %s\n",
->>                          board_names[board_id]);
->> --
-
+Bart
 
