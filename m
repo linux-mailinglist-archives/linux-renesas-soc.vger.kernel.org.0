@@ -1,171 +1,115 @@
-Return-Path: <linux-renesas-soc+bounces-2294-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-2295-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66EB98476E6
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  2 Feb 2024 19:01:34 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 713D984772E
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  2 Feb 2024 19:15:01 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 865071C26864
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  2 Feb 2024 18:01:33 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id B1DC3B2244E
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  2 Feb 2024 18:14:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3194614C591;
-	Fri,  2 Feb 2024 18:01:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E0B2F14C5AD;
+	Fri,  2 Feb 2024 18:14:36 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D3F3314AD34;
-	Fri,  2 Feb 2024 18:01:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mail-oo1-f49.google.com (mail-oo1-f49.google.com [209.85.161.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59AC714C598;
+	Fri,  2 Feb 2024 18:14:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706896890; cv=none; b=logxrat8pwAF1SZli5sHKNK9C7Lm4mBRVUjkxgg3MuI26ISwueUBJngfaaXIkYtw1X3QIHI3DZSxddkmRq6SwAwmEZec0n0rbE7kFynbHFtlcg43b/tKQ8IPxfd4Ju2/iFRf5y04UYKr8u+4RnEQydc+z/gwCVFbvup3RzRqnNo=
+	t=1706897676; cv=none; b=Hop9BYt9OYfff5jhN1a6KFRUVqIUA1iqaLJEDgCoYCR6ZNPcjlZpIY1EJg2Xuumw+VP2q2H3fcgH+6ftsOX5dHhiMND7iCFAd6gSYgf5rEQTUvHdoDiBl9avrDtytNKUGNnOo33CKntCxM394I1+i5MI1X4T4Qp+vwq1ERGaIU0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706896890; c=relaxed/simple;
-	bh=nG1c1Dr5WvvpIPOp3w+4a7YAysmZsyzWk5n7RoQZn3w=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=X1hA/hS3+2RzRZLpQY6fShoYf0qF5fCLvisNaPlKT/1En+fsNBGJtFgj4TGWUMEOf5uq1RQGzZcvakkb71gW1IrwnNjw2zljPGaIX1ZpPGgewGyVF9ydaZ8mXPrPwQGO5kPsbPdpKrdwfLk5c412eHGlufrU6EajFE2g++r986g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id BDE2D19F0;
-	Fri,  2 Feb 2024 10:02:08 -0800 (PST)
-Received: from [10.57.9.194] (unknown [10.57.9.194])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 8CBEC3F762;
-	Fri,  2 Feb 2024 10:01:11 -0800 (PST)
-Message-ID: <128e2760-6346-4c56-982b-42357a391ee4@arm.com>
-Date: Fri, 2 Feb 2024 18:01:02 +0000
+	s=arc-20240116; t=1706897676; c=relaxed/simple;
+	bh=Qlumv/9uD/Ad60fEVW68xuF62Y9Da9rgfUBp5OwRCCw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=DV7pGpvsOD//eJMNpSVSdMmWRV4PDrq+eJfMQ844VtDlyF2dNWNYVpO4nsBcl6s90cuQokbZ2fuQ5X16zbIJ1naFOMMSGkiBGpHoUiX+J5Hx/D2PwfU9tGscHM3xPwTetAdEpKupPDXKHzl5Cp7SfxscJk+6HKW0Y/hUi1DJCss=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.161.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-oo1-f49.google.com with SMTP id 006d021491bc7-5958d3f2d8aso876477eaf.1;
+        Fri, 02 Feb 2024 10:14:35 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1706897674; x=1707502474;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Qlumv/9uD/Ad60fEVW68xuF62Y9Da9rgfUBp5OwRCCw=;
+        b=O6dJZ/KGtRkSTsfLgt861J+PojzBVICg0zBK/Dg9mMwjpmP8CKEua7OMIe8Qt2LgCd
+         TMCbJaEdr1OtX2txID5oc7DQnpCpjB9EpkNyDiI+OvModm8B/BPMT35k/urEXwIvLCKK
+         XEWGHVApZEIxxHXAT3bB2oDA+NpTChDHjd3hfRSf6W16ueeKn1WR8Z2WZ7BS86MoXroZ
+         yCHfpcMzOVnjXnXxwLIo7bQvSZLd13fUtVNLIoDnTtbJVhSzOPsBXrd4VYk+AzxG7X3b
+         8vvX7r6wEY+FmgZWq14aBMMg9vBJfqcSU457cSk4F4FpwPbX1WC/G0uKtxFDrJKM/1Pl
+         b5EA==
+X-Gm-Message-State: AOJu0YzNoV1S8K/GlG7LA9fDDaLEQP8nBuYNmeJTZJz19ZpnswJkVbrr
+	bp9xP9zqzKB730sEkRlIiUhdk1giBiN+RBTjvAWVPARrG726LpjzvW+4prof//SscUX1hLf1A/l
+	YGhIFR2CDxqM0SaGAQwFhjN5CsI8=
+X-Google-Smtp-Source: AGHT+IHkzDffLcCIGTcPZaT/tdccQ9v137kmLpYKisYhgO4aPBXrk6f08Eb0XAxWYhTSMChaUCRRRAxv8+tjnudWx9Y=
+X-Received: by 2002:a05:6870:c087:b0:219:2a72:1c66 with SMTP id
+ c7-20020a056870c08700b002192a721c66mr1744914oad.4.1706897674303; Fri, 02 Feb
+ 2024 10:14:34 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 08/24] hwtracing: switch to use
- of_graph_get_next_device_endpoint()
-Content-Language: en-GB
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
- "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
- =?UTF-8?Q?Niklas_S=C3=83=C2=B6derlund?=
- <niklas.soderlund+renesas@ragnatech.se>,
- =?UTF-8?Q?Uwe_Kleine-K=C3=83=C2=B6nig?= <u.kleine-koenig@pengutronix.de>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Alexander Shishkin <alexander.shishkin@linux.intel.com>,
- Alexander Stein <alexander.stein@ew.tq-group.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Alexey Brodkin <abrodkin@synopsys.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Andy Gross <agross@kernel.org>,
- Biju Das <biju.das.jz@bp.renesas.com>, Bjorn Andersson
- <andersson@kernel.org>, Claudiu Beznea <claudiu.beznea@tuxon.dev>,
- Daniel Vetter <daniel@ffwll.ch>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- David Airlie <airlied@gmail.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, Emma Anholt <emma@anholt.net>,
- Eugen Hristev <eugen.hristev@collabora.com>,
- Florian Fainelli <florian.fainelli@broadcom.com>,
- Frank Rowand <frowand.list@gmail.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Hans Verkuil <hverkuil-cisco@xs4all.nl>, Helge Deller <deller@gmx.de>,
- Hugues Fruchet <hugues.fruchet@foss.st.com>,
- Jacopo Mondi <jacopo+renesas@jmondi.org>, Jacopo Mondi <jacopo@jmondi.org>,
- James Clark <james.clark@arm.com>, Jaroslav Kysela <perex@perex.cz>,
- Jonathan Hunter <jonathanh@nvidia.com>, Kevin Hilman <khilman@baylibre.com>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Kieran Bingham <kieran.bingham@ideasonboard.com>,
- Konrad Dybcio <konrad.dybcio@linaro.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Liam Girdwood <lgirdwood@gmail.com>, Liu Ying <victor.liu@nxp.com>,
- Luca Ceresoli <luca.ceresoli@bootlin.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Marek Vasut <marex@denx.de>, Mark Brown <broonie@kernel.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Maxime Ripard <mripard@kernel.org>,
- Michael Tretter <m.tretter@pengutronix.de>,
- Michal Simek <michal.simek@amd.com>, Miguel Ojeda <ojeda@kernel.org>,
- Nathan Chancellor <nathan@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Nick Desaulniers <ndesaulniers@google.com>,
- Nicolas Ferre <nicolas.ferre@microchip.com>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- Philippe Cornu <philippe.cornu@foss.st.com>,
- Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>,
- Rob Clark <robdclark@gmail.com>, Rob Herring <robh+dt@kernel.org>,
- Robert Foss <rfoss@kernel.org>, Russell King <linux@armlinux.org.uk>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Saravana Kannan <saravanak@google.com>, Sascha Hauer
- <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>,
- Sowjanya Komatineni <skomatineni@nvidia.com>, Stefan Agner
- <stefan@agner.ch>, Sylwester Nawrocki <s.nawrocki@samsung.com>,
- Takashi Iwai <tiwai@suse.com>, Thierry Reding <thierry.reding@gmail.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Tim Harvey <tharvey@gateworks.com>,
- Todor Tomov <todor.too@gmail.com>,
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- Yannick Fertre <yannick.fertre@foss.st.com>
-Cc: Alim Akhtar <alim.akhtar@samsung.com>, Fabio Estevam
- <festevam@gmail.com>, Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Jerome Brunet <jbrunet@baylibre.com>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, Jonas Karlman <jonas@kwiboo.se>,
- Leo Yan <leo.yan@linaro.org>, Marijn Suijten
- <marijn.suijten@somainline.org>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Mike Leach <mike.leach@linaro.org>, Sam Ravnborg <sam@ravnborg.org>,
- Sean Paul <sean@poorly.run>, Tom Rix <trix@redhat.com>,
- coresight@lists.linaro.org, devicetree@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- linux-arm-msm@vger.kernel.org, linux-fbdev@vger.kernel.org,
- linux-media@vger.kernel.org, linux-omap@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org, linux-rpi-kernel@lists.infradead.org,
- linux-samsung-soc@vger.kernel.org, linux-sound@vger.kernel.org,
- linux-staging@lists.linux.dev, linux-stm32@st-md-mailman.stormreply.com,
- linux-tegra@vger.kernel.org, llvm@lists.linux.dev
-References: <87o7d26qla.wl-kuninori.morimoto.gx@renesas.com>
- <87cyti6qj8.wl-kuninori.morimoto.gx@renesas.com>
-From: Suzuki K Poulose <suzuki.poulose@arm.com>
-In-Reply-To: <87cyti6qj8.wl-kuninori.morimoto.gx@renesas.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20240130111250.185718-1-angelogioacchino.delregno@collabora.com>
+ <20240130111250.185718-2-angelogioacchino.delregno@collabora.com>
+ <CAJZ5v0hOcS0Fm2-mKWtc1-0ym33XuH=B39GGL9b6MfGSqeERkQ@mail.gmail.com> <6f8021d5-50af-40c5-983e-cd203b1b3683@collabora.com>
+In-Reply-To: <6f8021d5-50af-40c5-983e-cd203b1b3683@collabora.com>
+From: "Rafael J. Wysocki" <rafael@kernel.org>
+Date: Fri, 2 Feb 2024 19:14:23 +0100
+Message-ID: <CAJZ5v0icS+JC9oZLYwYu=TUuNFDc+MMDYjijZe9LhT+2VHpXNQ@mail.gmail.com>
+Subject: Re: [PATCH v1 01/18] thermal: core: Change governor name to const
+ char pointer
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>, daniel.lezcano@linaro.org, miquel.raynal@bootlin.com, 
+	rui.zhang@intel.com, lukasz.luba@arm.com, support.opensource@diasemi.com, 
+	shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de, 
+	festevam@gmail.com, linux-imx@nxp.com, andersson@kernel.org, 
+	konrad.dybcio@linaro.org, amitk@kernel.org, thara.gopinath@gmail.com, 
+	niklas.soderlund@ragnatech.se, srinivas.pandruvada@linux.intel.com, 
+	baolin.wang@linux.alibaba.com, u.kleine-koenig@pengutronix.de, 
+	hayashi.kunihiko@socionext.com, d-gole@ti.com, linus.walleij@linaro.org, 
+	DLG-Adam.Ward.opensource@dm.renesas.com, error27@gmail.com, heiko@sntech.de, 
+	hdegoede@redhat.com, jernej.skrabec@gmail.com, f.fainelli@gmail.com, 
+	bchihi@baylibre.com, linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org, kernel@collabora.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 31/01/2024 05:05, Kuninori Morimoto wrote:
-> of_graph_get_next_endpoint() is now renamed to
-> of_graph_get_next_device_endpoint(). Switch to it.
-> 
-> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-> ---
->   drivers/hwtracing/coresight/coresight-platform.c | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/hwtracing/coresight/coresight-platform.c b/drivers/hwtracing/coresight/coresight-platform.c
-> index 9d550f5697fa..944b2e66c04e 100644
-> --- a/drivers/hwtracing/coresight/coresight-platform.c
-> +++ b/drivers/hwtracing/coresight/coresight-platform.c
-> @@ -275,7 +275,7 @@ static int of_get_coresight_platform_data(struct device *dev,
->   	 */
->   	if (!parent) {
->   		/*
-> -		 * Avoid warnings in of_graph_get_next_endpoint()
-> +		 * Avoid warnings in of_graph_get_next_device_endpoint()
->   		 * if the device doesn't have any graph connections
->   		 */
->   		if (!of_graph_is_present(node))
-> @@ -286,7 +286,7 @@ static int of_get_coresight_platform_data(struct device *dev,
->   	}
->   
->   	/* Iterate through each output port to discover topology */
-> -	while ((ep = of_graph_get_next_endpoint(parent, ep))) {
-> +	while ((ep = of_graph_get_next_device_endpoint(parent, ep))) {
->   		/*
->   		 * Legacy binding mixes input/output ports under the
->   		 * same parent. So, skip the input ports if we are dealing
+On Fri, Feb 2, 2024 at 11:01=E2=80=AFAM AngeloGioacchino Del Regno
+<angelogioacchino.delregno@collabora.com> wrote:
+>
+> Il 01/02/24 19:37, Rafael J. Wysocki ha scritto:
+> > On Tue, Jan 30, 2024 at 12:13=E2=80=AFPM AngeloGioacchino Del Regno
+> > <angelogioacchino.delregno@collabora.com> wrote:
+> >>
+> >> All users are already assigning a const char * to the `governor_name`
+> >> member of struct thermal_zone_params and to the `name` member of
+> >> struct thermal_governor.
+> >> Even if users are technically wrong, it just makes more sense to chang=
+e
+> >> this member to be a const char pointer instead of doing the other way
+> >> around.
+> >>
+> >> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@c=
+ollabora.com>
+> >
+> > Acked-by: Rafael J. Wysocki <rafael@kernel.org>
+> >
+> > or I can pick it up right away if you want me to do that.
+> >
+>
+> I appreciate having less patches to carry over with new series versions.
+>
+> Whatever you can take, please feel free to pick directly :-)
 
-Reviewed-by: Suzuki K Poulose <suzuki.poulose@arm.com>
+OK, applied (as 6.9 material).
 
-
+Thanks!
 
