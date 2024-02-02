@@ -1,41 +1,55 @@
-Return-Path: <linux-renesas-soc+bounces-2280-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-2281-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id D22C0846C52
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  2 Feb 2024 10:40:24 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D677846D2F
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  2 Feb 2024 11:01:13 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 48DDD1F259E7
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  2 Feb 2024 09:40:24 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 2233CB2E494
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  2 Feb 2024 09:59:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4D4D47764D;
-	Fri,  2 Feb 2024 09:39:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 608CD7868B;
+	Fri,  2 Feb 2024 09:58:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="y4448Zhj"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 15A047763B;
-	Fri,  2 Feb 2024 09:39:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.171
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88F4F77F2F;
+	Fri,  2 Feb 2024 09:58:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706866792; cv=none; b=sDgKbjONmbR6o2Fp5mDEejCF1L9EGKab17XJ2eNC7Pyg9xnFXos/CbEF5Sx8gtF6LSRk4hPjLSkmiKcWH52gLFbnANUqn1WzajDNhwkz80jeUGNyr26Iebuxjqbxis8if1sh2PwXB+eaoSo9OYX8usCprAxNn7wHZOavRCl4zxc=
+	t=1706867908; cv=none; b=DmsKYblcby2220tLGxLT//xbM+8N7mYuALdeUHJmNnhCOeOajPF+y9GtpVKMugWZG6SuQfaPul3/it8F+G3Jb3/hJPlUEoOEW0g1MBtDfex9fpH3VdkIhxGMphWfq74t2BZxYUJ6a5tu36vMYx2SUqRMNMOb3sYIsKeKCdG0XhY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706866792; c=relaxed/simple;
-	bh=lnIHBdMia5tN4/1TbP2PV4MU47hwKleiZFdUv9oMcKA=;
+	s=arc-20240116; t=1706867908; c=relaxed/simple;
+	bh=3yoKAEkp7fZQnp9uYTICy3qIfHawRJiuCLjeE8sbj0c=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=S0iKOzh3xfQJ4aieBy7ZLi8MhiraPEgRGYgN+i8OzCsJpGO1v1IcBfVwUOmx32yMCqziuUYTWNoFwXq1AudmiQRPdPus4nNLp2z1o2Z/P2TwQm+M7QbxHkW9fq8Y94YJQrnTrSEkk/thvnGc2Q5ZLU744wuTq5MfaiYPi3TsCgM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
-X-IronPort-AV: E=Sophos;i="6.05,237,1701097200"; 
-   d="asc'?scan'208";a="192647453"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie5.idc.renesas.com with ESMTP; 02 Feb 2024 18:39:47 +0900
-Received: from [10.226.93.160] (unknown [10.226.93.160])
-	by relmlir6.idc.renesas.com (Postfix) with ESMTP id 1405E415D740;
-	Fri,  2 Feb 2024 18:39:43 +0900 (JST)
-Message-ID: <1daa9e95-df98-4a08-bc55-21838e555519@bp.renesas.com>
-Date: Fri, 2 Feb 2024 09:39:42 +0000
+	 In-Reply-To:Content-Type; b=YZcx4EOPmUGfBoh+bTkZEQTI1gcmr0oJQgwxl2S9R3aNBt2snuThaZjkQ+CT84OLrW5PKYwRZ/I79Uwovh63Xw/Cp3NYCAKQ1bY5HENA5MwRRWqAjVV/NtHaacWLjwnCCUbtoElhXlbqhVPz3tq6fKeiAOISkxhBCh1CMeT9z74=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=y4448Zhj; arc=none smtp.client-ip=46.235.227.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1706867898;
+	bh=3yoKAEkp7fZQnp9uYTICy3qIfHawRJiuCLjeE8sbj0c=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=y4448ZhjZZloNj+kMKSQSwoQtCJJUIK9QZLHw0xdMR7nL5vjxTJeatrWdCvunuMap
+	 f2CNLpwG1HV/NJf+mEvNtqf9ikfuYvjEuwOOcavGk1XZSWZDPxQBgoD2YKe414xSMZ
+	 hzSMLKUo89SZVsbxubMAsXQdgULWBzpHRU0vw83mONBd+n2YAkxWwns6Azq9ORN9Gp
+	 u4Oy0NpNOGWihvBslBgNVd440TzQUWfHpxT5+NShhm+kHhGXLbhEsrXa00qFVJ9NeX
+	 6Vg9Y/Zilhu49Zc1SyDjWMHAW0TvvfZneaMAThVws24jH0VXKtLpVWt3pL9OSIesbk
+	 t4TEg7l1hqrXA==
+Received: from [100.113.186.2] (cola.collaboradmins.com [195.201.22.229])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: kholk11)
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 5582A3782053;
+	Fri,  2 Feb 2024 09:58:16 +0000 (UTC)
+Message-ID: <923499c2-1a60-42dc-b0e2-3f7d78de9d8a@collabora.com>
+Date: Fri, 2 Feb 2024 10:58:15 +0100
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -43,159 +57,114 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next 0/8] Improve GbEth performance on Renesas RZ/G2L
- and related SoCs
-To: Andrew Lunn <andrew@lunn.ch>
-Cc: Sergey Shtylyov <s.shtylyov@omp.ru>, "David S. Miller"
- <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
- Wolfram Sang <wsa+renesas@sang-engineering.com>, netdev@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20240131170523.30048-1-paul.barker.ct@bp.renesas.com>
- <953f6b82-c4b1-43f7-af68-e504d663f070@lunn.ch>
-Content-Language: en-GB
-From: Paul Barker <paul.barker.ct@bp.renesas.com>
-In-Reply-To: <953f6b82-c4b1-43f7-af68-e504d663f070@lunn.ch>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------QB20HD5kYCbSTDXouQPj0VLF"
+Subject: Re: [PATCH v1 00/18] Thermal: Part 1 - Introduce new structs and
+ registration
+Content-Language: en-US
+To: "Rafael J. Wysocki" <rafael@kernel.org>
+Cc: daniel.lezcano@linaro.org, miquel.raynal@bootlin.com,
+ rui.zhang@intel.com, lukasz.luba@arm.com, support.opensource@diasemi.com,
+ shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
+ festevam@gmail.com, linux-imx@nxp.com, andersson@kernel.org,
+ konrad.dybcio@linaro.org, amitk@kernel.org, thara.gopinath@gmail.com,
+ niklas.soderlund@ragnatech.se, srinivas.pandruvada@linux.intel.com,
+ baolin.wang@linux.alibaba.com, u.kleine-koenig@pengutronix.de,
+ hayashi.kunihiko@socionext.com, d-gole@ti.com, linus.walleij@linaro.org,
+ DLG-Adam.Ward.opensource@dm.renesas.com, error27@gmail.com, heiko@sntech.de,
+ hdegoede@redhat.com, jernej.skrabec@gmail.com, f.fainelli@gmail.com,
+ bchihi@baylibre.com, linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org, kernel@collabora.com
+References: <20240130111250.185718-1-angelogioacchino.delregno@collabora.com>
+ <CAJZ5v0haFEGOjaMC4a8CZbQe+cxFfaB1hD60NkN297NY2TZB5A@mail.gmail.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+In-Reply-To: <CAJZ5v0haFEGOjaMC4a8CZbQe+cxFfaB1hD60NkN297NY2TZB5A@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------QB20HD5kYCbSTDXouQPj0VLF
-Content-Type: multipart/mixed; boundary="------------ay7n0UUjMVN6HJIaAN7oC01h";
- protected-headers="v1"
-From: Paul Barker <paul.barker.ct@bp.renesas.com>
-To: Andrew Lunn <andrew@lunn.ch>
-Cc: Sergey Shtylyov <s.shtylyov@omp.ru>, "David S. Miller"
- <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
- Wolfram Sang <wsa+renesas@sang-engineering.com>, netdev@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
-Message-ID: <1daa9e95-df98-4a08-bc55-21838e555519@bp.renesas.com>
-Subject: Re: [PATCH net-next 0/8] Improve GbEth performance on Renesas RZ/G2L
- and related SoCs
-References: <20240131170523.30048-1-paul.barker.ct@bp.renesas.com>
- <953f6b82-c4b1-43f7-af68-e504d663f070@lunn.ch>
-In-Reply-To: <953f6b82-c4b1-43f7-af68-e504d663f070@lunn.ch>
+Il 01/02/24 19:35, Rafael J. Wysocki ha scritto:
+> On Tue, Jan 30, 2024 at 12:13 PM AngeloGioacchino Del Regno
+> <angelogioacchino.delregno@collabora.com> wrote:
+>>
+>> This series is a preparation for a bigger cleanup that will be split in
+>> three parts in order to avoid immutable branches on multiple subsystems,
+>> as in other parts of this series there will be changes in:
+>> - drivers/acpi
+>> - drivers/platform/x86
+>> - drivers/power/supply
+>> - drivers/net/wireless
+>> - drivers/net/ethernet
+>>
+>> This is the first part which adds new structures and starts reorganizing
+>> struct members around, plus, this migrates all of the thermal drivers
+>> found in drivers/thermal/ to the new thermal_zone_device_register()
+>> function, and advertises that the old registration functions are
+>> deprecated and will be removed.
+>>
+>> The reorganization is supposed to be complete (or mostly) but...
+>>   - struct thermal_zone_platform_params has a temporary name:
+>>     this is done in order to avoid compile time failures for
+>>     the drivers outside of drivers/thermal before migrating
+>>     them to thermal_zone_device_params/thermal_zone_device_register();
+>>   - struct thermal_zone_params temporarily has two duplicated members,
+>>     governor_name and no_hwmon;
+>>
+>> Part 2 of this topic will migrate all drivers that are external to
+>> drivers/thermal to thermal_zone_device_register(); I will send that
+>> part only after part 1 is confirmed to be acceptable, as otherwise
+>> I'd be spamming people for no reason :-)
+>>
+>> After all drivers will be migrated to thermal_zone_device_register(),
+>> we won't have to care about changing anything outside of drivers/thermal
+>> to finish this set of cleanups/changes (and no immutable branches needed)
+>> and this means that...
+>> Part 3 of this topic will contain the following changes:
+>>   - thermal_zone_device_register_with_trips() will be removed
+>>   - thermal_tripless_zone_device_register() will be removed
+>>   - thermal_zone_params will be renamed to thermal_governor_ipa_params
+>>     - governor_name, no_hwmon members will be removed
+>>   - thermal_zone_platform_params will be renamed to thermal_zone_params
+>>   - Removal of the THERMAL_NAME_LENGTH limitation for `type`
+>>
+>> More scheduled changes, which should end up in part 3 (at least that's
+>> my intention), or eventually entirely after this cleanup topic, include:
+>>   - Introduction of Thermal Zone names
+>>   - Disambiguation of TZ name and type
+>>   - Addition of `thermal-zones`, `thermal-zone-names` parsing for
+>>     devicetrees
+> 
+> You really should start with this, because that's your goal.
+> 
+> It is quite arguable that it can be achieved without making all of the
+> changes mentioned above.
+> 
 
---------------ay7n0UUjMVN6HJIaAN7oC01h
-Content-Type: multipart/mixed; boundary="------------p0QQhGHSw12icxPpOeI77mBu"
+Actually, my initial idea was exactly that... but then there were some
+discussions around it, please check [1] for the thermal-zone-names, and
+[2] for the rest of the discussion.
 
---------------p0QQhGHSw12icxPpOeI77mBu
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+[1]: https://lore.kernel.org/all/8d42e0f5-b2d2-471b-ada9-79f76c637abe@collabora.com/
 
-On 31/01/2024 18:26, Andrew Lunn wrote:
->> Changes are made specific to the GbEth IP, avoiding potential impact o=
-n
->> the other Renesas R-Car based SoCs which also use the ravb driver. Thi=
-s
->> follows the principle of only submitting patches that we can fully tes=
-t.
-> =20
-> Are you saying that Renesas does not have access to all Renesas RDKs?
->=20
-> I don't particularly like the way your first patch makes a copy of
-> shared functions. Is it not likely that R-Car would also benefit from
-> this?
+[2]: https://lore.kernel.org/all/4dd4ac79-e8bc-4d88-92d6-6061dae42092@collabora.com/
 
-We have the required RDKs. For the R-Car based SoCs, we need to confirm
-that gPTP still works if we change the poll/receive code paths - this
-will require an AVB-capable network switch and additional time to test.
-So our plan was to handle the GbEth code paths first without affecting
-R-Car, then follow up with another patch set for the R-Car code paths
-when we've done the required tests.
+>>
+>> ... Summarizing ...
+>>
+>> Part 1:
+>>   - Reorganize structures (some temporary names/leftovers)
+>>   - New registration function, deprecation of old ones
+>>   - Migration of drivers/thermal drivers to new registration
+> 
+> I kind of see where this is going, but I don't agree with some of the
+> changes made.
+> 
+> Let me comment on individual patches (which is not necessarily going
+> to happen today or even tomorrow, so let me go through the entire
+> series before deciding what to do next).
+> 
 
-I discussed this with our team, and we're happy to do this in one go for
-both R-Car and GbEth code paths if that's preferred. I'll send the
-patches as an RFC (as Sergey has commented it should be an RFC anyway as
-it depends on an unmerged patch) and we'll do the gPTP test with a
-couple of R-Car boards.
+Sure, thanks for your feedback!
 
-Thanks,
-Paul
---------------p0QQhGHSw12icxPpOeI77mBu
-Content-Type: application/pgp-keys; name="OpenPGP_0x27F4B3459F002257.asc"
-Content-Disposition: attachment; filename="OpenPGP_0x27F4B3459F002257.asc"
-Content-Description: OpenPGP public key
-Content-Transfer-Encoding: quoted-printable
+Cheers,
+Angelo
 
------BEGIN PGP PUBLIC KEY BLOCK-----
-
-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3D
-=3DsIIN
------END PGP PUBLIC KEY BLOCK-----
-
---------------p0QQhGHSw12icxPpOeI77mBu--
-
---------------ay7n0UUjMVN6HJIaAN7oC01h--
-
---------------QB20HD5kYCbSTDXouQPj0VLF
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-wnsEABYIACMWIQSiu8gv1Xr0fIw/aoLbaV4Vf/JGvQUCZby4XgUDAAAAAAAKCRDbaV4Vf/JGvUmh
-AP9pVWixMbLEzgte2bBlnTHR0R5mCBdvh0oIXeHXWTk0hAD+IdB8ab26d5pqV42RHhXNlI9cs3w3
-uPMaFHFLVy12RQU=
-=ahYP
------END PGP SIGNATURE-----
-
---------------QB20HD5kYCbSTDXouQPj0VLF--
 
