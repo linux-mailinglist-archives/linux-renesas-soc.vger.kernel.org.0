@@ -1,118 +1,103 @@
-Return-Path: <linux-renesas-soc+bounces-2285-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-2286-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3AEFF847123
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  2 Feb 2024 14:28:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90F0C847130
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  2 Feb 2024 14:31:20 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id CE6421F239DF
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  2 Feb 2024 13:28:33 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2F6B51F22788
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  2 Feb 2024 13:31:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5D7D646448;
-	Fri,  2 Feb 2024 13:28:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 972704652D;
+	Fri,  2 Feb 2024 13:31:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="lF97AFde"
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="13CS27RR"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vs1-f43.google.com (mail-vs1-f43.google.com [209.85.217.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1D1B46452
-	for <linux-renesas-soc@vger.kernel.org>; Fri,  2 Feb 2024 13:28:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25A1E4643A;
+	Fri,  2 Feb 2024 13:31:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706880508; cv=none; b=XhbLylCSfQtqm9dQA9CXMSnKvruJherYRCQ+Ima//gSFy6hAiJB89hEaJQfHTf6WrgnGkil6ztQhWvZcV2SPk19pUo67peqHzXrB9pX275fLMA3bPPfSDODxo94cATGJ+a309AU0qN6W7znLXJd1l06GPyN1wbJ3LWI1CYaCiak=
+	t=1706880673; cv=none; b=GvhTWdmh1KEDAP+SlNWUgyj8sxZ3BvKMhJmhN4XCVdyMoFwFLG9pRHsRI9J0/KSOcJ3K0Pj0ubY6K1ygGMJLUqIoL1jRjQpceRn4p/DhEXsEr1+aTfChq2RF3V9I4yFbqnic7GnH98DicNjns+gQvqIlQMPqVjHAKBT68iwVTcE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706880508; c=relaxed/simple;
-	bh=BX/nrSJ26UNgPaQvMAOQquAxe5vot0Brx/Y75YalW60=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=pOIDQkHHB1HeUFJDrQDV1/ialqLR8gUukfcOgh4sSwVrMq0p+9q1YifKW5nhUMbKcEBExjO5K9XaV6Hg+c2iYWRsmRq4L2JERZqMAsiwuyk0PdfkgbWV3uRm2+jpdwDqVory0WXoGCSsweFw6MhcAb7nwD17Sm4luNPY6pEB4wA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=lF97AFde; arc=none smtp.client-ip=209.85.217.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
-Received: by mail-vs1-f43.google.com with SMTP id ada2fe7eead31-46cf02b9f7eso652868137.3
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 02 Feb 2024 05:28:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1706880505; x=1707485305; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=qO/FJ5v1rhdzPQg4RCUr0Y1NCuRnzELZwPJgRqCWeRk=;
-        b=lF97AFdebi5VgT6s2ICn1XDMBu+qSPt2ZvS2uAQJbAcX7un+FAG0qAFwmS3Zg9Bq+h
-         xNYu88vMkNr+AdYQ0xH3FieFiTOjmguP1MeIKfs6supInLUpGknnKj+SZGn0gw+0Xsk8
-         X46coAPOy7q5m5E2KirL5G1w87UcoaFJhHQfAzbaeVWLBqyXwr7NHtjIjEkKh42JO4J4
-         ZqVOLEmf5Jo5Yb8JtvdPfvlwSBvJvrQdeB62nDSruBQTvlcUAlOEoPFaYl1Y6YpvQug8
-         oOtKP3UbL0nQPS0MymVNvdxDw3zCVzcoCdicMmCa7oYuZ9NGuu/xEteecMLsD2ndirhS
-         MTcA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706880505; x=1707485305;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=qO/FJ5v1rhdzPQg4RCUr0Y1NCuRnzELZwPJgRqCWeRk=;
-        b=W29FANgnSJ9g5Hb+Ujy9oXPT7BlGM3paEFKmtdHCGfAe5G4HEvIfJLxvSxWrdgGEYj
-         h3nGjmtGykTeMlzEAEwvVJDMqMOZslmg+31GQZbFy1rfptpV571N0vIDQTSnGpMe2iIV
-         gBkWSLvVinKHbFAW8seGGyHsq9IYoTHET9caOjgXEK/1zozjMpwRKo8lnnVy947O7C+J
-         0fQOQ8bg9dytEJILc/EYfq+lKFzKvj24O7AW+PUestwreBkKYvTITy+Isi/B6A2/k7Ax
-         CfoEj/inWTaGFsdQeEcuUOAKkihZmhngGgFT0Q3BkbfH9A5LzKcbzaac5d4d1KjgOqE5
-         +XZA==
-X-Gm-Message-State: AOJu0YwDgvwdIGQeYahsUV5u/3ljFsQAps1qdVMnoKEHuuF1M9ovx1fa
-	FdOPHg7/McCSVx2girb1MK2ErG0CLkLAdJTbJXgzbMr1Es7Wv6NAkxBtfn3Y9AkauAzsrN7bnP4
-	rX4GfJiI/7Kbp1u6OW97PhmOFvDLUm3G7iDsU0A==
-X-Google-Smtp-Source: AGHT+IHZ2OgpK/144aZ4nYRNPd7uvKRQuVZ+GoPHmVFPyxjOQJaAcA1NuPFWo3/20ruLewLjIGuHaxd3yQReokZhECc=
-X-Received: by 2002:a67:e94c:0:b0:46d:5aa:2470 with SMTP id
- p12-20020a67e94c000000b0046d05aa2470mr1022687vso.30.1706880505594; Fri, 02
- Feb 2024 05:28:25 -0800 (PST)
+	s=arc-20240116; t=1706880673; c=relaxed/simple;
+	bh=wjIesRNRmTFPIurZUIwcdu/x+OKKFfccb8BJIDCLZoU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=pM3xsPP0f24FrCwTluoeRu3RR9B2Td2sXIGOd9+wDmPTzPLpSUbWsVwTqcSjt8im0Bd1gxMYjrUFWnac0LdS1xd+uQ3x8UbtDT8RuaKO82C1pW7gWqfesu+OIF3q1G3aGwEc5i8ULhAr16qTzdSJYtLFfViAy5u3WQyFuadPnPs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=13CS27RR; arc=none smtp.client-ip=156.67.10.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=UJtePW7G3zS/E7YKl1YdieFpwO+voJfGNG2qCQLfOqc=; b=13CS27RReCaCMvL2TvBp5duvQV
+	zUaK75JRSZaaYaDQaOfl44auKpA/eceP68ecjbfnIqZkmMBOsLttVXaMHN8d4ZhWwK+Yo9m+GcZUT
+	qUvmMJReymInZ03LuC8CWZJ4XwJ/xsTSafWWMq8dVke25ap8ivDunV7lZjoQxZkbyh4k=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1rVtdD-006mqR-Hm; Fri, 02 Feb 2024 14:30:59 +0100
+Date: Fri, 2 Feb 2024 14:30:59 +0100
+From: Andrew Lunn <andrew@lunn.ch>
+To: Paul Barker <paul.barker.ct@bp.renesas.com>
+Cc: Sergey Shtylyov <s.shtylyov@omp.ru>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+	Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH net-next 0/8] Improve GbEth performance on Renesas RZ/G2L
+ and related SoCs
+Message-ID: <d76453e6-6b47-4f40-84dc-36c874e02da0@lunn.ch>
+References: <20240131170523.30048-1-paul.barker.ct@bp.renesas.com>
+ <953f6b82-c4b1-43f7-af68-e504d663f070@lunn.ch>
+ <1daa9e95-df98-4a08-bc55-21838e555519@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <c5681eb5d28641d9b51ac2066b56b52d23defd85.1706789728.git.geert+renesas@glider.be>
-In-Reply-To: <c5681eb5d28641d9b51ac2066b56b52d23defd85.1706789728.git.geert+renesas@glider.be>
-From: Bartosz Golaszewski <brgl@bgdev.pl>
-Date: Fri, 2 Feb 2024 14:28:14 +0100
-Message-ID: <CAMRc=Md=LLtxV-P4VWTvs9gem9FLvAnz+BUjLrZdaS2GOh+Dcg@mail.gmail.com>
-Subject: Re: [PATCH] dt-bindings: gpio: renesas,rcar-gpio: Add r8a779h0 support
-To: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: Linus Walleij <linus.walleij@linaro.org>, Rob Herring <robh+dt@kernel.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
-	linux-gpio@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1daa9e95-df98-4a08-bc55-21838e555519@bp.renesas.com>
 
-On Thu, Feb 1, 2024 at 1:16=E2=80=AFPM Geert Uytterhoeven
-<geert+renesas@glider.be> wrote:
->
-> Document support for GPIO controller blocks in the Renesas R-Car V4M
-> (R8A779H0) SoC.
->
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> ---
->  Documentation/devicetree/bindings/gpio/renesas,rcar-gpio.yaml | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/Documentation/devicetree/bindings/gpio/renesas,rcar-gpio.yam=
-l b/Documentation/devicetree/bindings/gpio/renesas,rcar-gpio.yaml
-> index aa424e2b95f87a51..cc7a950a6030999e 100644
-> --- a/Documentation/devicetree/bindings/gpio/renesas,rcar-gpio.yaml
-> +++ b/Documentation/devicetree/bindings/gpio/renesas,rcar-gpio.yaml
-> @@ -53,6 +53,7 @@ properties:
->                - renesas,gpio-r8a779a0     # R-Car V3U
->                - renesas,gpio-r8a779f0     # R-Car S4-8
->                - renesas,gpio-r8a779g0     # R-Car V4H
-> +              - renesas,gpio-r8a779h0     # R-Car V4M
->            - const: renesas,rcar-gen4-gpio # R-Car Gen4
->
->    reg:
-> --
-> 2.34.1
->
+On Fri, Feb 02, 2024 at 09:39:42AM +0000, Paul Barker wrote:
+> On 31/01/2024 18:26, Andrew Lunn wrote:
+> >> Changes are made specific to the GbEth IP, avoiding potential impact on
+> >> the other Renesas R-Car based SoCs which also use the ravb driver. This
+> >> follows the principle of only submitting patches that we can fully test.
+> >  
+> > Are you saying that Renesas does not have access to all Renesas RDKs?
+> > 
+> > I don't particularly like the way your first patch makes a copy of
+> > shared functions. Is it not likely that R-Car would also benefit from
+> > this?
+> 
+> We have the required RDKs. For the R-Car based SoCs, we need to confirm
+> that gPTP still works if we change the poll/receive code paths - this
+> will require an AVB-capable network switch and additional time to test.
+> So our plan was to handle the GbEth code paths first without affecting
+> R-Car, then follow up with another patch set for the R-Car code paths
+> when we've done the required tests.
+> 
+> I discussed this with our team, and we're happy to do this in one go for
+> both R-Car and GbEth code paths if that's preferred.
 
-Applied, thanks!
+Hi Paul
 
-Bart
+I think it would be simpler, since you would then need to recombine
+the code paths you have just split. Its better to not split them in
+the first place if possible.
+
+    Andrew
+
+
 
