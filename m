@@ -1,72 +1,60 @@
-Return-Path: <linux-renesas-soc+bounces-2307-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-2308-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id E67CE8487F0
-	for <lists+linux-renesas-soc@lfdr.de>; Sat,  3 Feb 2024 18:31:48 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 275D48487F4
+	for <lists+linux-renesas-soc@lfdr.de>; Sat,  3 Feb 2024 18:37:08 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9B5A5285DA0
-	for <lists+linux-renesas-soc@lfdr.de>; Sat,  3 Feb 2024 17:31:47 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id BA6691F239C2
+	for <lists+linux-renesas-soc@lfdr.de>; Sat,  3 Feb 2024 17:37:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 38C3D5FB93;
-	Sat,  3 Feb 2024 17:31:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6F4CC5F855;
+	Sat,  3 Feb 2024 17:37:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="FUdQ0M4m"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="boQXCJ2M"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2888F5FDB3
-	for <linux-renesas-soc@vger.kernel.org>; Sat,  3 Feb 2024 17:31:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 448145D8FB;
+	Sat,  3 Feb 2024 17:37:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706981491; cv=none; b=LmLZXY6kgcIj20rtGyorqUJMY9r/E3etAa4ngb0FiFK+xg1m0R6RcChJK3dUbbNfcaB97D0RxABAohT0ugpwrScV13uj9UAIushn8HVH3Z1L5+nhcX/z786MfqCiUGmOM2mXFLhxDsDZseUlM4MDYMOviue50K0ZaRdbcgg76cQ=
+	t=1706981823; cv=none; b=dR0QUbCT90maJIgy4Hse2CFvNDcJnIQzz++Ma0Q2TvQKboOCKtNrxQf4eeiE1r3o28dK91nlZ1w91dNgOX7Z99iuuyiPTG+bOugG5j1GQ+NgKwxA567up9QErIW1WzSHkg6c7Ap9TttL0yb04TxzjLZPMcFGmkaWlYcvMYRmVrc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706981491; c=relaxed/simple;
-	bh=k/p2uQufmEhRaA3qcf0rfphsXq1MuAlqwFA0IkXxxqE=;
+	s=arc-20240116; t=1706981823; c=relaxed/simple;
+	bh=6CIwMC1CajdMlU8LRM9E5jjOF9jo53Xs7p8jN9KVEYM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ailrdcJ7gxkfwc/4nNiGrYV5G+t6w9rUtnEXAdTf5vPFXZYcmfbydpufyjxi5ghhkSE2xRQ4EfNOO15XUCUY81TDlRPIKxJEQkJQy3mcGJC2XAZYMwtosWP0/VB/3rxqsxmGeu+WV3kn0N4YGkdbN89BIYw0s2p7kBsARVQ5AvI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=FUdQ0M4m; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=k/p2
-	uQufmEhRaA3qcf0rfphsXq1MuAlqwFA0IkXxxqE=; b=FUdQ0M4mITH2A+dUydrS
-	aeOCXa8K+pS1zpTvFRo4YDlyMfFYrGVdnu/hdScsSzglSsIsjNvcmdzje4ol/uBf
-	va6PnU3YqUwOPGYsfy8K849NYvySRJV4urU9RtrVIzIbM/DABzNH1W0MF9dmBkYd
-	cuKY+yO61MRS/TNmRx1qo/4viQBV7QRGgv5100j+LOUQP8k0COcIAaTF5foJ6i0c
-	lVQ9bqsBnxCCIAHTTFl09/GX51MrS4HASRUmMfypfKpMEyWx3zME8x+V3rfrj+eG
-	pvQeUqB2+5Q6qiKdcK9a+mhd4VilxdVNuvxLRPe7MrnZ90uGMPmGPuDQ6WTvFxjQ
-	/A==
-Received: (qmail 282808 invoked from network); 3 Feb 2024 18:31:26 +0100
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 3 Feb 2024 18:31:26 +0100
-X-UD-Smtp-Session: l3s3148p1@FJIamX0QEscgAQnoAGo3AKaQ4acoehG5
-Date: Sat, 3 Feb 2024 18:31:25 +0100
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=rU15sgBhBM6bK8o3CdAZAuM6NuWlH4LFyjbI1bCVCwvxWOfHQ15TCmA6ireI+yWj2dvSUU4NzWe1/OVNXUvywrxKz7X3zpaolcL5qEINn3HvPRwn/WWSv7bVpMzbrCuCq6sTk+ENyMVygjnhwnr2U0Ax0K/lf/jQfEzEF/z4NPg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=boQXCJ2M; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 45F51C433F1;
+	Sat,  3 Feb 2024 17:37:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1706981822;
+	bh=6CIwMC1CajdMlU8LRM9E5jjOF9jo53Xs7p8jN9KVEYM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=boQXCJ2MHwtEZO0dvWiRSBhza1U2pxy33Dq6MJxqspVPB6D99GhVODK2GbMd7v3sv
+	 sL8EKqkdEs0CLsqqjSCdgjPGY3gTkFcm29U5AI7qXBUBQw5SZsWN6Z7OWigLxSqboY
+	 5299vB3fUOiN52inEwh68XUGug2JNdFxAxBvqPtJslEEgBF9IN6iwXlBC5NmNXdGkh
+	 mFon/MbwhhbUH5UqCBKjhQocCr46ftKpeQG7nfESkSnwxk4oodDrzTTuHjhcoSRWJO
+	 gAlc88mFRJP5drhT7Ld0XGiimITUsE8DFRCkEoGdn0UMtTimYFrtpUphB/cWfHBqUq
+	 kSb7xA2ClQoXw==
+Date: Sat, 3 Feb 2024 18:36:59 +0100
+From: Wolfram Sang <wsa@kernel.org>
 To: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: Wim Van Sebroeck <wim@linux-watchdog.org>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>, linux-watchdog@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-	Minh Le <minh.le.aj@renesas.com>
-Subject: Re: [PATCH] dt-bindings: watchdog: renesas-wdt: Add support for
- R-Car V4M
-Message-ID: <Zb54bQT5TajPPkLW@shikoro>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+Cc: Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>, linux-renesas-soc@vger.kernel.org,
+	linux-clk@vger.kernel.org, Cong Dang <cong.dang.xn@renesas.com>
+Subject: Re: [PATCH] clk: renesas: r8a779h0: Add watchdog clock
+Message-ID: <Zb55u82Bbf1QfpzO@shikoro>
+Mail-Followup-To: Wolfram Sang <wsa@kernel.org>,
 	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Wim Van Sebroeck <wim@linux-watchdog.org>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>, linux-watchdog@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-	Minh Le <minh.le.aj@renesas.com>
-References: <8c2eaad577513a519c518698a45083afb65b16f0.1706789940.git.geert+renesas@glider.be>
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>, linux-renesas-soc@vger.kernel.org,
+	linux-clk@vger.kernel.org, Cong Dang <cong.dang.xn@renesas.com>
+References: <f1dbf0f3f484015f2e629d78b746cf377d6f6746.1706790015.git.geert+renesas@glider.be>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -74,47 +62,47 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="JpikPtYOKXtFEaT/"
+	protocol="application/pgp-signature"; boundary="SYoilqVqBl0N0AAM"
 Content-Disposition: inline
-In-Reply-To: <8c2eaad577513a519c518698a45083afb65b16f0.1706789940.git.geert+renesas@glider.be>
+In-Reply-To: <f1dbf0f3f484015f2e629d78b746cf377d6f6746.1706790015.git.geert+renesas@glider.be>
 
 
---JpikPtYOKXtFEaT/
+--SYoilqVqBl0N0AAM
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Feb 01, 2024 at 01:19:59PM +0100, Geert Uytterhoeven wrote:
-> From: Minh Le <minh.le.aj@renesas.com>
+On Thu, Feb 01, 2024 at 01:21:55PM +0100, Geert Uytterhoeven wrote:
+> From: Cong Dang <cong.dang.xn@renesas.com>
 >=20
-> Add documentation for r8a779h0 compatible string to
-> Renesas watchdog device tree bindings documentation.
+> Add the module clock used by the RCLK Watchdog Timer on the Renesas
+> R-Car V4M (R8A779H0) SoC.
 >=20
-> Signed-off-by: Minh Le <minh.le.aj@renesas.com>
+> Signed-off-by: Cong Dang <cong.dang.xn@renesas.com>
 > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
 Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
 
---JpikPtYOKXtFEaT/
+--SYoilqVqBl0N0AAM
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmW+eG0ACgkQFA3kzBSg
-KbZ0yhAAgP6+TiUjIBimB/P/48V25Xdjje9ql8+hVpvAL+gswyqPIhfwl1EbBCsH
-JlWoD6eKEpPEzUUqST+q445FzivGYsC0rjZfvKgkFGZVWq5I8gM7VYOnibd1GRxD
-pgxffPo7VFjtteeylyscXOmiQaH24S1aZBZiw9oXsn1KqLyIuPmVyuMZZ6JYUWKq
-y5UqzpGl50x8aojCnEuVgF8ZS86nhElMhYThzHSG4rjZBeKYs7hvFQQFkfbZawds
-g7J/P7wBkMKtU02WxLaRzMFPuJotdxBg1TJ25y6Im9f0iGN15wGBxCxfaOGPARpu
-3M3xnoYNHFWdzDlXJF1ljJ5KKyATA4ppkotiISN+Fw2NmHqiWhApWI2Da3ktU7Oh
-KPzHFLot8bttDPw1wn/EvbgpK7a7PDc3pfO5uCeQmUzqXO2+opPa3eRsiHSIxL9l
-ruPQXzhas65NbFUmXkAlt27PFiFryzgVkGSrYBG4wC8hNNNoBIcwAodcLTkjOSAj
-PmbzpZhWtFjfCxz2nN1LhyapnjHJ/BGzJRt8fcKSrIloRdK42BpiG/8HiFYQnPvm
-4TOWZGIfrN1ESWPem7UmbV6GHM9WvIsc5SzR/bplkQHwoiIT7Ic0Wl0YaptZYLYL
-Gfmp1Yjdso10TmG2e5NPVrzvEmF09wzXVZ0bgx1vWJ1aD92isxY=
-=c97c
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmW+ebsACgkQFA3kzBSg
+KbZEpQ//RqWsWpqg3D1cbrlbTyOOBo+b3DHwiJq/MQRgXjOcdosiP/pCLgnYeWn1
+CWXUYq69B+11g64SGU7RQSotprS3l5gqxKgNchWdiY0aSFmBPx/A5hgKc6TGw9aH
+HzttemgUUlmoUQ9TEpzIoawapJQpbqszQgPOd+EKNuVpal17jJ2IFSwV9jyYwAib
+MiAJ3ow+H5wyxPBhMz1iNPw6ltwlyyOGKBKBOIC8GR918GTNIjETtsL41i8EMwQe
+2vmGsDV4xpMOF5FzaO6STUDrXRRQ3I6SSV8H8DQB/mWUh+isOx9p1CRomfatV/Gf
+goODhTzqdaZ8eQnZDSorzNc5sOdlYUieXic+U3A3hnUncigJaH7mAtj6HXN3wPBY
+Y2bJEtmrG0hxiGSewciCIBBEiZi0XnI/L0dJRcUFSMXL7ZJ1X8jQO4x3zdBIz4Dy
+58Pnp0dfKVhq/xsEcfPaqXewhGg/v6fEBFAuxT8NSMc4xy5Mg984j8Jy9LTNSz2y
+t21ccI+2Fx9ZlPrAfJD+JFMRUKYyWYW9t/Ti78v1SrLYzYEJrIUonBZWhVDsyVvO
+Y8e4BOOWKpHDFRXGHQnlZwZn9KPJt4hYX2fjCbeqxPo6IpWykyYgfycozc5R04P4
+HbprEB4swUIt3Cxr/hYq7PTzLANmHXYYZa9TNjz4RtBQAn+ddBc=
+=lYhH
 -----END PGP SIGNATURE-----
 
---JpikPtYOKXtFEaT/--
+--SYoilqVqBl0N0AAM--
 
