@@ -1,143 +1,112 @@
-Return-Path: <linux-renesas-soc+bounces-2304-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-2305-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 542A684871A
-	for <lists+linux-renesas-soc@lfdr.de>; Sat,  3 Feb 2024 16:28:37 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id BCA008487E6
+	for <lists+linux-renesas-soc@lfdr.de>; Sat,  3 Feb 2024 18:30:50 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7BBA91C21487
-	for <lists+linux-renesas-soc@lfdr.de>; Sat,  3 Feb 2024 15:28:36 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6F6D2285CA2
+	for <lists+linux-renesas-soc@lfdr.de>; Sat,  3 Feb 2024 17:30:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A8A005F47C;
-	Sat,  3 Feb 2024 15:28:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5A4165F86F;
+	Sat,  3 Feb 2024 17:30:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Gpf+gTlZ"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="T31wnoaO"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-oo1-f44.google.com (mail-oo1-f44.google.com [209.85.161.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26A3E58206;
-	Sat,  3 Feb 2024 15:28:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 294D65FB8F;
+	Sat,  3 Feb 2024 17:30:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706974112; cv=none; b=jleVlb0C+ggGiyKLgKjE2HXn8I6agN0N/Im0MbkDLPPAFg+FX16vtUzrXH1F68PEfMly/mz3s97tqtb40kVzMnGaXq6Mbw3lAOotw2QEIB90hf2AGRylCCIPMHmLFr5PufJY6Dt/W3Kpax0/lQpPFw1GKxUIEpARasK4fwdbIjk=
+	t=1706981447; cv=none; b=G5GpH1x05RwVk0pDn0iIRF5cmIrue3jsNPiQofk7dRB2IzNOzTUBo9UnyltReRZELjPx+epDyeEbvWDPrFKS2M7u0xjShpEjP+JiaAmc9nSzTqSXGLcI1PqTDa+Ti0a2I71JlAkBb1u9GTHaEu2zm9jlTk+fd4Wr6yKz+7yLB0k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706974112; c=relaxed/simple;
-	bh=Z1eBrxNxqM/kyYRT6w23i+affJIwdsPZx5ypg5FDsec=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=nlne+D0dJYCwOi4FKUZHhFyWivLv9Z1t3Wdu0wPKdPxwFRQnTPpuxM4adUy+zx27b5sVBsC2fUgASQ6VLb9TeIZPwgbHvLCUL0bfqVV2/6bgNXO+lrSfXqA+cC9yFl6KnaS1nLyy5hvrRn8vKqtKcWGCGV+BBWcICvMCZbWXigo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Gpf+gTlZ; arc=none smtp.client-ip=209.85.161.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-oo1-f44.google.com with SMTP id 006d021491bc7-59a910a1265so1674666eaf.1;
-        Sat, 03 Feb 2024 07:28:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1706974110; x=1707578910; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=W4MXHNjW+3TW74SFPNk16h7YsfWAXkb7kmdm8q7xjLc=;
-        b=Gpf+gTlZq+lHFN2kD8I1N1CM1jAasNjhBWBFHDHFSMn7pt7K/UmrTQ7ynH864ETLaw
-         cICoT+Yf1udM6eR9eNSGdBR/mX+3GSjDXrCi0LAPMkLHQI1mv+0agfyS3IIknOYOpjjA
-         ZHJsuFom2EGDcGCyqUsNQrcWQa4VJ8w+bVfkITiXdnHzxgp2HxOa5HmlfKQ760OajEpx
-         DvvZrcYN/Zm53BKeHQsBSQhmy1DbObT9tcRvtRfFBPC4q5qqTpgUT0Tuda9XdZjt3uxw
-         jlCy8cGoxi+EOYey3z/E3HYds4d+Eq7XAnWRkQy5kghYapXgOLN5VWU1pDKjy2K4qgRd
-         ACzw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706974110; x=1707578910;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=W4MXHNjW+3TW74SFPNk16h7YsfWAXkb7kmdm8q7xjLc=;
-        b=vzHQdlT3zQwcSt/pmuIXExcP5rG1EkCUBcfmpv4Vh3Lzb7GXVdgz2V19ArQsqz60S1
-         /yjr3wgPHH6KinQfeJbqFUI7G/2xAdvlxPeZ4lxlwS1pG52aYpi4wdgbUofbLeL1mO9m
-         zEN2/encOYOM9wsjQ4h32/IGvVb6Q+5+CImqmjU1qgA0JOqJxgEFfNCquigAGBfS0NWA
-         qXXwvBQys+6JknuHeZdR4s8FDDgyyoCF9r3E3glNrk5Q8d296I3/G41+ZGf6g7N+bV0u
-         UX1EcRm8m4NujPyfba/fPjpJ/zfgkr+Bl2XNSKB3kmyqGJiax63nXkMmwMoSsfsJMpJ+
-         sR6w==
-X-Gm-Message-State: AOJu0YzoFuXI/GyjqYY3yokgbXieWisFOu6Z1GGJnS4S+V9K1E78xDWY
-	wjzoTyPW+td7S5Rg6QyPFUswWGocDLC5wCnd1uQND7b51H0OrWzrDiEmBUKjk13UzgbhZqpqABO
-	5SSIgnZ82Qf7oTcjnMhP9cy37zd0=
-X-Google-Smtp-Source: AGHT+IGejb+39506xYRD04If91RNf9v3LcAXOuCrzLQson7SehNnWvNWTnkJYS0utZcAT5pi3N6ieKNhEj937IpriAY=
-X-Received: by 2002:a05:6358:340f:b0:176:40fb:cf3a with SMTP id
- h15-20020a056358340f00b0017640fbcf3amr10746219rwd.14.1706974109996; Sat, 03
- Feb 2024 07:28:29 -0800 (PST)
+	s=arc-20240116; t=1706981447; c=relaxed/simple;
+	bh=ou+kBgutYSrLBVD6sr6Vyu+60zB00EZ0LjojpJgcob8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=JK+P57Z3WMxO5frRJ7Ol8SrlwjiaP5BPywnD3og7zS+kfd0yrRdgstxApYh/lUR3aPbX0Qj/qYGHm8gn2lofvft6GtV9by/zyb42LzWHP0sbnvnXKuYBT2YJELXVDhY75g+BUkPSaX/6JkXKYVeMClt+zCw/ZLBvJqbkdK4fIjw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=T31wnoaO; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 257B7C433F1;
+	Sat,  3 Feb 2024 17:30:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1706981446;
+	bh=ou+kBgutYSrLBVD6sr6Vyu+60zB00EZ0LjojpJgcob8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=T31wnoaOSC7cvZW+8uQ6gh4BkLTfvgnH7x1nSIqKl4IMD5hfUJA2zZUAI7X5CO3+3
+	 +RGObfb0ihuPflxiPAZZuSqDVDUAXGYcRkML6JhYY8OHe5HMG2PilgvMnkdFjZl1BA
+	 HO4Ca8kKKCAR+/ZMYNw5rTiUOo0xEBYVavQbm/EC0peDqvWW01jEDLmhmIQqZAKhAb
+	 Peh45szNjkpDw6p43Z74OkZt8B3+qrtVkZGhOWBSTCFmwYljg8ZoJnpuxACuZL+irO
+	 PRu1ZG6rdHyKFHA0mWaG+PVc2FA5NslmvQClIBFY7S+PmL9R604KKRm9t5DauW1XG/
+	 4C3QpTMdFtRdg==
+Date: Sat, 3 Feb 2024 18:30:42 +0100
+From: Wolfram Sang <wsa@kernel.org>
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: Linus Walleij <linus.walleij@linaro.org>,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>, linux-gpio@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH] dt-bindings: gpio: renesas,rcar-gpio: Add r8a779h0
+ support
+Message-ID: <Zb54QisWCB56LNRD@shikoro>
+Mail-Followup-To: Wolfram Sang <wsa@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>, linux-gpio@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+References: <c5681eb5d28641d9b51ac2066b56b52d23defd85.1706789728.git.geert+renesas@glider.be>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240202093907.9465-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20240202093907.9465-2-prabhakar.mahadev-lad.rj@bp.renesas.com> <20240202-explain-harsh-b5d81cb5f59a@spud>
-In-Reply-To: <20240202-explain-harsh-b5d81cb5f59a@spud>
-From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Sat, 3 Feb 2024 15:27:52 +0000
-Message-ID: <CA+V-a8u--97k82xUdCnCRqo7cj+JAkmzAgcZqnD2neSGvtgznQ@mail.gmail.com>
-Subject: Re: [PATCH 1/3] dt-bindings: interrupt-controller:
- renesas,rzg2l-irqc: Update interrupts
-To: Conor Dooley <conor@kernel.org>
-Cc: Thomas Gleixner <tglx@linutronix.de>, Rob Herring <robh+dt@kernel.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
-	devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="xbsE6o4m/P51t7De"
+Content-Disposition: inline
+In-Reply-To: <c5681eb5d28641d9b51ac2066b56b52d23defd85.1706789728.git.geert+renesas@glider.be>
+
+
+--xbsE6o4m/P51t7De
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Hi Conor,
+On Thu, Feb 01, 2024 at 01:16:33PM +0100, Geert Uytterhoeven wrote:
+> Document support for GPIO controller blocks in the Renesas R-Car V4M
+> (R8A779H0) SoC.
+>=20
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-Thank you for the review.
+Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
-On Fri, Feb 2, 2024 at 5:07=E2=80=AFPM Conor Dooley <conor@kernel.org> wrot=
-e:
->
-> On Fri, Feb 02, 2024 at 09:39:05AM +0000, Prabhakar wrote:
-> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> >
-> > RZ/{G2L, G2LC}, RZ/G2UL, RZ/V2L and RZ/G3S SoCs have ECCRAM0/1 interrup=
-ts,
-> > reflect the same in the DT binding doc.
->
-> Renesas' naming scheme really does not help here, but using the
-> shorthands in the commit message when the diff uses the long form names
-> is not the easiest thing to follow. (:
->
-Sure I'll elabore the SoCs according to the binding doc so that it's more c=
-lear.
-> >
-> > RZ/G3S SoC has ECCRAM0/1 interrupts combined into single interrupts so
-> > we just use the below to represent them:
-> > - ec7tie1-0
-> > - ec7tie2-0
-> > - ec7tiovf-0
->
-> I think this information would be good in the itemised description,
-> since that claims these interrupt are only for ECCRAM0.
->
-Sure 'll update as below:
 
-+      - const: ec7tie1-0   # For RZ/G3S SoC ECCRAM0/1 interrupts combined
-+      - const: ec7tie2-0   # For RZ/G3S SoC ECCRAM0/1 interrupts combined
-+      - const: ec7tiovf-0  # For RZ/G3S SoC ECCRAM0/1 interrupts combined
+--xbsE6o4m/P51t7De
+Content-Type: application/pgp-signature; name="signature.asc"
 
->
-> > Additionally mark 'interrupt-names' property as required for all the So=
-Cs
-> > and update the example node in the binding doc.
->
-> Why? You've not given a reason for doing this, so it just seems
-> gratuitous.
->
-Previous assumption was just the RZ/G2UL and RZ/G3S had the bus-err
-and eccram error interrupts, but where as in actual all the above SoCs
-have this interrupt so making interrupt-names as required so we can
-parse them based on names.
+-----BEGIN PGP SIGNATURE-----
 
-Cheers,
-Prabhakar
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmW+eD8ACgkQFA3kzBSg
+KbabfA//aBYKIHPDMV3lQmOQ7L4Ng2QZH9dnIHvFMtDfLQF9+1d7XVatWFDDr1SB
+0Zw/4Aw3bcx8MyiQNAo3QQ2vhrue5BhgF/J0O0ifAfobWvew+9kSIR6bnW9BDVzJ
+0cnognLilExPiNt7Q3/fKDFxgBsqSgODaxlXggqKCf3UwYqea2bPMEtqL6q0jr+J
+9ag4x4lmCqEfhV14nS1tXB7owxa4EWbiCJauT9+5DM9iN0xGS+5YhIxO8B1fbLa1
+QUuSXW6Jdb3W1fxW8FFV1Ph1ULYMYPfirmzAtdu9wZ8Xoz+nHzrefmNiQkYDjg6L
+5kJ7P5VjfH3q/BhZkBc6SeCje1oFMARKVMxlbZvEhAN1MTdrsSlW/fyyxJnDXh8W
+7GgijpCjKw1m7P+PllOZXY/jJiIqlgp6jgpoYIDzbtWV6XvoWpq+Wg/Ytkhk3OTY
+evCO08orUFUU2sRaMFH9MIok1dxRl6/zp0PnMM4SAcrtfOXe3BZRlSzmfkzdl7Eo
+j0E8yfLAvcktS+Jbgv2hMD+MZjGK3eSrE5dZ40QiYMuerxy1YuSFw7toSkw/THzD
+fSx2mCF/6zwWh96+7Cdepe3tPeIsDDuo9Vv7PlMs2r++cEvMxVHxeou7qGYwOlym
+UV6ieEF0a/2+w3NiuOPsdPSAjHuEh1SqWyY9cM6oUAmt0jp01Bg=
+=eC81
+-----END PGP SIGNATURE-----
+
+--xbsE6o4m/P51t7De--
 
