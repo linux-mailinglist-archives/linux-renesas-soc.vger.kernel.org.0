@@ -1,108 +1,125 @@
-Return-Path: <linux-renesas-soc+bounces-2314-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-2315-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65D1A8488C3
-	for <lists+linux-renesas-soc@lfdr.de>; Sat,  3 Feb 2024 21:45:38 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AEA08488F5
+	for <lists+linux-renesas-soc@lfdr.de>; Sat,  3 Feb 2024 22:27:06 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id F39F41F236D7
-	for <lists+linux-renesas-soc@lfdr.de>; Sat,  3 Feb 2024 20:45:37 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 591042852E3
+	for <lists+linux-renesas-soc@lfdr.de>; Sat,  3 Feb 2024 21:27:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E01B6FBFC;
-	Sat,  3 Feb 2024 20:45:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CF9E112E4F;
+	Sat,  3 Feb 2024 21:27:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="WMJq28W6"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SsUj8UgY"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAFC613AF3
-	for <linux-renesas-soc@vger.kernel.org>; Sat,  3 Feb 2024 20:45:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1334912E46;
+	Sat,  3 Feb 2024 21:27:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706993130; cv=none; b=LlBXiB4ENQHAuwbgn0Y4fn2BIn/IJpn1fKKlHoIfEG+HEVoRGhH076ONF723JljKR/DFQ93j0d6qmFQAa4TH47THPP3+6gvV4iKQTo9O/8xP5qdyzqJnGzZOLBo9f0BInin7woJW0YtWfxCp4aVU6fnVl/tNIiy8bmAkCv7TkE4=
+	t=1706995622; cv=none; b=rt4depdLe0Cmnw87IrgsvN/mw+65kZhkup/9tQupQiPpFdBZqt3qASZ5Ibw9w1J3sU/dusTiLadx5Ww31r8Y8OmMNbRrv3sJIWZK/jWf0nnt+7R9t1It2izKTILvLCNTJfh03HhA8NSiTXgwnok4318N3k4PUTaAe2J9OUY2r/s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706993130; c=relaxed/simple;
-	bh=eQqAeYsRQkEwd2mqks3TTEvg18c6MGX7SIaOmWY9X3o=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Dvh1UdUX/3JtRE7HbtNAdpOU/sDD5TchrMOBaUg0ZD6NSOpUp+AU4I+WBeE9NwKsOOx/d+wmdGo4GkVrSGhPYB/U7eNY3CPzcTLPyhorug8a5W+3A54fYJdfYe/7OQ/iWc/jrBzqhosIle1ASGzcNMrIkDP7BXN9ijFYX3L3bpI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=WMJq28W6; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=V3Tc
-	O0m3MJGbolHZ6yonazC2e8zsiMfbBe4010swlIo=; b=WMJq28W6paJwCT61HcvX
-	GmDzoAJOs7f59n1uLPZWQmsr+FCTtAJrDI2HPHw6r32BKf5yrRafCAj9NBrgyR60
-	Br1zkhg+Eoa4njKhbzSErv+PBe1gTO+LdFmAxZ2JhmNS8zPu12Q8AtX9j3OxVmj0
-	1bHuxqvzwZuRRKkc0mWySX1z/kPQx4CmOTTs8LlqPtsoE6w5NLEZKGy8pXzfPI/K
-	lw0/W4wr6egvWmgLoPjEp4dtt9yj2hj1ha9jwyZE15lryBjRHN5YQ+Ka9nKiNF0m
-	iqU94WSuz/P/RwGHsTvovdytk7uxudijLHs0cEiyW1IJkvxoC52lQQ/gG/u5PYg3
-	rg==
-Received: (qmail 317273 invoked from network); 3 Feb 2024 21:45:21 +0100
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 3 Feb 2024 21:45:21 +0100
-X-UD-Smtp-Session: l3s3148p1@FjmkToAQbOYgAQnoAGo3AKaQ4acoehG5
-Date: Sat, 3 Feb 2024 21:45:20 +0100
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: Andi Shyti <andi.shyti@kernel.org>, linux-i2c@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH] i2c: rcar: Prepare for the advent of ARCH_RCAR_GEN4
-Message-ID: <Zb6l4PbN3l4SPvRN@shikoro>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Andi Shyti <andi.shyti@kernel.org>, linux-i2c@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org
-References: <bf7b105f7d9728ae5cd9fa99d1cdd278d71e7df2.1704723713.git.geert+renesas@glider.be>
+	s=arc-20240116; t=1706995622; c=relaxed/simple;
+	bh=gWyRnU6/gqA0dpJAHLB4wOOqtz99R/Ha+Ue5rmGtoaM=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=lAByS4nFEUd5igodlx/nVCffwuKJ43/EYsWeek7UkAO3VOZVDPPgqGmYJeJDMrUiqGAk/VhYwj5Ljqf+lBapwGGNNuc3PD9MH0zG6u6Vm/VQoJVwJOq68HOvr+w+/vB46WfDQkSzIsMSlbbR0ynS+jrvueV2s6BzJIgTp5APCQg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SsUj8UgY; arc=none smtp.client-ip=209.85.128.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-40efcb37373so29222755e9.2;
+        Sat, 03 Feb 2024 13:27:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1706995619; x=1707600419; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=R6Y7+XPYPmbCAkQx9j5duSD/dFWM/YcSFb0QEVK+BJ8=;
+        b=SsUj8UgYPdwlRGxOWUlNxjVCQ2BDJn67YyCPvJ757NI1EhqKWOTGU1daU4dlX6QOWi
+         m1/r5guBGUpF3dE6qYiQJPNuBDGFbpfy7X3Fuj/w5dsuH7qHCmxLZE9DLDGMB6ejCgXM
+         pDEV69GisOWjXOyRxtfS++DwVRhMZ5eGQhI+UY8vevagg0bva5tKYzexq56o96tuvkRa
+         QUVCTYRgVOZpCipe8DLBav7xzz0t6nXRVNZyTQUA0whuoTHBqVQoFGZJqT9YfMxI9f0d
+         +9UohMPFv2drygpQZswNFSedNCZ9dpfnwB+IXxEp/YVpIakBuL/kqIu4KehTC23PBRDA
+         Ldag==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1706995619; x=1707600419;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=R6Y7+XPYPmbCAkQx9j5duSD/dFWM/YcSFb0QEVK+BJ8=;
+        b=pfLT1ozQCzjjKiWDdXjl0jMv3gQOD4WDLJeOb4xB40VDnhjVd3rD8t1ZYVRizYINLw
+         j6Z0SQhORltxwMIxlgUOByhzZI8kTHeIPoSi4KGVgaY4kP9iAASYL0hA5JVhReeJ30Kt
+         PNgE0/Fd6fc6kfXh1uv532Y89sjZMf/hH8uBtj5bqpnXFwGwBrZnX9tqgIjEOAQG5d11
+         jJgA869T+Db9IKWCcP5Qcu2Z8+fWoMEE3lpBS41/5ux2dSjcamzRM+1eZCzLN8+Hzl2U
+         G8HUBh85u5gCze9kNLcr2sZ46N3dCu1NKupXbdpiOX7X5P9dgZSGrjHKyHF/Ou4Ib+p7
+         zEnw==
+X-Gm-Message-State: AOJu0YwxdzTfxB7XNp0bJf/Ihfue0FhkKWlCFZ7q3NKJOcfqfWWKI1b8
+	FuqEx7l5bn0DxgfQgczIUMQAxH4V4rXmMS2hfJA3u/B5g10weRMU
+X-Google-Smtp-Source: AGHT+IHl332lB7I4w6kkAF8JX6knTYB1InBgu2tYeGKQrUDpG3gvhhkmTyHvV7sFy4+f04GKn6CSAg==
+X-Received: by 2002:a05:600c:34c6:b0:40f:b79d:8f26 with SMTP id d6-20020a05600c34c600b0040fb79d8f26mr1670841wmq.4.1706995618887;
+        Sat, 03 Feb 2024 13:26:58 -0800 (PST)
+X-Forwarded-Encrypted: i=0; AJvYcCXqnLwWYq/Hyd0WZBD8DHXU3p2pIPyRURF9CjiMZvwY6hAjDoAszNdnZzBP7ygHFMcsr91EyzYX4D7nYJuPwRycfmf+XBfxuTdcC7hXyGXyfq03Z0u3FiwrK5SR5oRL+do93G56/KFUadfArHZXafNJGUICrDMspG2qoP651B4P37l8QLlUo7BoIbIajX8tYT4EPGSJ58r0Uso2XorfITHgDUdRAp1MJXthr1orup21IMhfLwaY7nAvZXgn89u4jn0ynh2J3XIlvWAtUAtHygFVRdTZwOGvsqM/G6ypBIk/pqB0xkiVX/qAuJXcHbfFIQHy
+Received: from prasmi.home ([2a00:23c8:2500:a01:c74c:5b2a:8ca7:1220])
+        by smtp.gmail.com with ESMTPSA id g9-20020a5d46c9000000b0033af4848124sm4715366wrs.109.2024.02.03.13.26.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 03 Feb 2024 13:26:58 -0800 (PST)
+From: Prabhakar <prabhakar.csengg@gmail.com>
+X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+To: Geert Uytterhoeven <geert+renesas@glider.be>,
+	Conor Dooley <conor@kernel.org>
+Cc: linux-riscv@lists.infradead.org,
+	linux-renesas-soc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Prabhakar <prabhakar.csengg@gmail.com>,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	Pavel Machek <pavel@denx.de>
+Subject: [PATCH] cache: ax45mp_cache: Align end size to cache boundary in ax45mp_dma_cache_wback()
+Date: Sat,  3 Feb 2024 21:26:40 +0000
+Message-Id: <20240203212640.129797-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="yYQfSxAMBRmPkTiI"
-Content-Disposition: inline
-In-Reply-To: <bf7b105f7d9728ae5cd9fa99d1cdd278d71e7df2.1704723713.git.geert+renesas@glider.be>
+Content-Transfer-Encoding: 8bit
 
+From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
---yYQfSxAMBRmPkTiI
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Align the end size to cache boundary size in ax45mp_dma_cache_wback()
+callback likewise done in ax45mp_dma_cache_inv() callback.
 
-On Mon, Jan 08, 2024 at 03:24:20PM +0100, Geert Uytterhoeven wrote:
-> Currently, all Kconfig symbols for R-Car Gen4 SoCs select
-> ARCH_RCAR_GEN3, which might confuse the casual reader.  Prepare for the
-> advent of ARCH_RCAR_GEN4 by extending the dependency for auto-selecting
-> reset controller support.
->=20
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Additionally return early in case of start == end.
 
-Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Fixes: d34599bcd2e4 ("cache: Add L2 cache management for Andes AX45MP RISC-V core")
+Reported-by: Pavel Machek <pavel@denx.de>
+Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+---
+ drivers/cache/ax45mp_cache.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
+diff --git a/drivers/cache/ax45mp_cache.c b/drivers/cache/ax45mp_cache.c
+index 57186c58dc84..1d7dd3d2c101 100644
+--- a/drivers/cache/ax45mp_cache.c
++++ b/drivers/cache/ax45mp_cache.c
+@@ -129,8 +129,12 @@ static void ax45mp_dma_cache_wback(phys_addr_t paddr, size_t size)
+ 	unsigned long line_size;
+ 	unsigned long flags;
+ 
++	if (unlikely(start == end))
++		return;
++
+ 	line_size = ax45mp_priv.ax45mp_cache_line_size;
+ 	start = start & (~(line_size - 1));
++	end = ((end + line_size - 1) & (~(line_size - 1)));
+ 	local_irq_save(flags);
+ 	ax45mp_cpu_dcache_wb_range(start, end);
+ 	local_irq_restore(flags);
+-- 
+2.34.1
 
---yYQfSxAMBRmPkTiI
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIyBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmW+peAACgkQFA3kzBSg
-KbaIDw/4zF03lZqaS7yWml+cqkjAvwhlsiPZLFtVBxwUDQTbXuneziaWBQbPt5gR
-MWnKxvKAa8yjfVQVV22xMeE+qc+zceMMiYneg/IsgXH507z3oIuuLYcf50aocwRd
-XUZW6y9Ey6vq9atx/mnFUaziGEhyh2olO59ya/H83+xEA1O27jrK+3NEzWvoZY73
-nvbXLfIdD0PydzbMFAIqwKG63HzKXVVkqbJLz0ucxJsb8g0OwytIcrCQh2VSibJB
-oRlBI+VtIusYyUtaAnhXOsU/AtvCLN7gNkT3GisU7spGkIHgtlXYqKmJs+QzlMCO
-mlfuSseTPJkauyOAFlo3NwRK4tJIS2RDjQn3bvIgJtz0k8KllJsr+5xi0NyRfj5v
-Vod7vaF1FxlHPXogDRxvtXowxMYe7nmGb2JNEfxOwhhh3GG7PBXZg+Ce/kDTfre0
-QofX/Nca9oel8yaI930ws56vYRCodliK4FI5gl2GBzQTDLtlXOOyHCN8WPYkXVyf
-v0qwpmJaG6qd0mNeU9IoeFwGcXKo0lx1BIPloheDK65ZUXcS4rxs/jZIiSSY1fZj
-JuM/uz03yU3F4u7+YZo6r4oOPZhsITi3FqBlPZuMEtOukTmGhsj7htl3IMJZxKFO
-qDLeLAinJnKFWFFIA/TGocmtVO0h55/rcrvScnw3hftgr4g/gA==
-=D2c8
------END PGP SIGNATURE-----
-
---yYQfSxAMBRmPkTiI--
 
