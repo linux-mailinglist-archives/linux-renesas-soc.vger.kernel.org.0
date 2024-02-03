@@ -1,60 +1,62 @@
-Return-Path: <linux-renesas-soc+bounces-2309-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-2310-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 860FE8487F8
-	for <lists+linux-renesas-soc@lfdr.de>; Sat,  3 Feb 2024 18:40:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C75E8487FC
+	for <lists+linux-renesas-soc@lfdr.de>; Sat,  3 Feb 2024 18:42:27 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id AEFFC1C23344
-	for <lists+linux-renesas-soc@lfdr.de>; Sat,  3 Feb 2024 17:40:13 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7F7A21C20B7C
+	for <lists+linux-renesas-soc@lfdr.de>; Sat,  3 Feb 2024 17:42:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 038C05F86A;
-	Sat,  3 Feb 2024 17:40:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 80E415D732;
+	Sat,  3 Feb 2024 17:42:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="M2e1DLCg"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qOHs/ZUg"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFA6C5F54D;
-	Sat,  3 Feb 2024 17:40:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B9225F86A
+	for <linux-renesas-soc@vger.kernel.org>; Sat,  3 Feb 2024 17:42:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706982007; cv=none; b=VlgWoSV2s/hv5dI7YtHDjS96c4OvyJBbIMjDWUeyYTL/u7l7IX7fsKd0XnIPF1hT1nNWOwJwczJCVwb5KThJ9Osfng44kNnCKFsnwBy2Gfg5QdJfLwzmzDzAu0C08Jy0PQoQQnuD4JajGKVoHYlllhXV4Mg/rcTpwaObEDZi3Rk=
+	t=1706982144; cv=none; b=Go4LUm2qas1A2Q5vHSJs/wIqMvUKhvH7bwEX/m7CNoou8jfqlMybWQT0ZsMFk7GGfI6Lk1d1b5cR2w3PFxhzV3dIjkgKfaN3PfoAMo+hL9zXfzxISnP4uXMSk6pDfTGw/PQA1M4qSy3mJJcHVMBhuXTwpN1UAt3751h520FXwas=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706982007; c=relaxed/simple;
-	bh=sJ5dR86lqOLETZ/oJMT7ifSiCYggbtLFez7bSt5sqcc=;
+	s=arc-20240116; t=1706982144; c=relaxed/simple;
+	bh=X87H50YTk+VOQg/vSoEcYEVzdtSEXuUxi9PNsX8rOSU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CpR3qiUrwV2vVoTqmD4R9ijoAMCB+5sLGn9mRxR6Nhw8kbgvAFyy1y3mw7/pH45ScfUIGHsFskgArrKsBks1tCgsfDHzTieqZh3YlGuv4DmPYq51skSLFnnhZr1Aj4SjB0xP0VBKRPMdWo4qd40ugQGu04BTvAWq9t4KJ0pb1Wk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=M2e1DLCg; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 33BBCC433F1;
-	Sat,  3 Feb 2024 17:40:06 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=oVLu7Z6ZsARIWYGW94Ue1Y+y/TXuLKJAWVTTE+SExXaIR8+WQs0idUEQ45q+4KXrmfOS4iM1Mi0YgXENDqTC1kNlcOYo8y6fOiUSw4y5+VonK/wzwRVp1BaP+HyF7kaihXXthuJDkyRGk/vMh92i0P4ZAjCOfnDvHxz2rgmSRZI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qOHs/ZUg; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A7702C433C7;
+	Sat,  3 Feb 2024 17:42:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1706982007;
-	bh=sJ5dR86lqOLETZ/oJMT7ifSiCYggbtLFez7bSt5sqcc=;
+	s=k20201202; t=1706982143;
+	bh=X87H50YTk+VOQg/vSoEcYEVzdtSEXuUxi9PNsX8rOSU=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=M2e1DLCg5KpL7DlFboUD9dF7xJChMqfnRD1mjB+Byp7ePdrNT6Is8JN194cYCoKpv
-	 GpiliENoCOyHe+cewfzcT8XsPewQYT5uHWdr5pV8oA/0JMze40L+1s+BHJvjX7kE/L
-	 9TF92CnoUUcPI1whueht41Rb4V9KXmPrLwcENtZOe20tPtCIhKULda3CwKKWGGSbuz
-	 zWqXFIig/hCMMNo/y1q3zTf/WWS1AQncNUysQkBxovuTY0DL4BEdby4v0/3DHpbBsf
-	 iqK7QO2xeIud4yb3QsgxaoMmwAzlG/uY6wscI1GIj5nVMe4bspJPCodsyWhMtUYDRX
-	 jGb2++r391oLA==
-Date: Sat, 3 Feb 2024 18:40:04 +0100
+	b=qOHs/ZUgh8h/16LWFYaruqdYkwVhunu2iROEL8txAElvQW4jASUHcFjNAnyZ+b3nm
+	 CMb4r4o70P1Ai26YsEFWmpDNA5uREYScAOQHcQAAVRVTqDEZ1Ct/bThmrrBTzWvMxs
+	 Bzjl4iN5jem29G9IN/tL9Plm5vUq2Swx98dtjKIQXQcnce0JdomZR42jwiexkqAgpp
+	 rBLqO3de5tuCJgC1+OZikYlgbdXylQ4ngVbGrouO+04aGstWKGWbCXzgWf/csViBHR
+	 zR5bYwmYb1UE2U54vqhe5Jx3V0Ny2R+mqXsm+o1xvQs/S07wIz29rjY+zNkGGEmdzI
+	 LGr4cstVedLUg==
+Date: Sat, 3 Feb 2024 18:42:19 +0100
 From: Wolfram Sang <wsa@kernel.org>
 To: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>, linux-renesas-soc@vger.kernel.org,
-	linux-clk@vger.kernel.org, Cong Dang <cong.dang.xn@renesas.com>
-Subject: Re: [PATCH] clk: renesas: r8a779h0: Add I2C clocks
-Message-ID: <Zb56dNAUFLMD27cI@shikoro>
+Cc: Magnus Damm <magnus.damm@gmail.com>, linux-renesas-soc@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	Minh Le <minh.le.aj@renesas.com>
+Subject: Re: [PATCH 1/2] arm64: dts: renesas: r8a779h0: Add RWDT node
+Message-ID: <Zb56-wfc6emQuXfU@shikoro>
 Mail-Followup-To: Wolfram Sang <wsa@kernel.org>,
 	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>, linux-renesas-soc@vger.kernel.org,
-	linux-clk@vger.kernel.org, Cong Dang <cong.dang.xn@renesas.com>
-References: <7a76dadbce24c81dd2bee68765a0b41beca2d565.1706790236.git.geert+renesas@glider.be>
+	Magnus Damm <magnus.damm@gmail.com>,
+	linux-renesas-soc@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	Minh Le <minh.le.aj@renesas.com>
+References: <cover.1706790320.git.geert+renesas@glider.be>
+ <43bb03f3baa87b4be8ce953b1955df6b89387e4c.1706790320.git.geert+renesas@glider.be>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -62,47 +64,47 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="EK9mvlLcUB0sIgUO"
+	protocol="application/pgp-signature"; boundary="P/b0kZelRhq1EDY2"
 Content-Disposition: inline
-In-Reply-To: <7a76dadbce24c81dd2bee68765a0b41beca2d565.1706790236.git.geert+renesas@glider.be>
+In-Reply-To: <43bb03f3baa87b4be8ce953b1955df6b89387e4c.1706790320.git.geert+renesas@glider.be>
 
 
---EK9mvlLcUB0sIgUO
+--P/b0kZelRhq1EDY2
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Feb 01, 2024 at 01:24:56PM +0100, Geert Uytterhoeven wrote:
-> From: Cong Dang <cong.dang.xn@renesas.com>
+On Thu, Feb 01, 2024 at 03:09:16PM +0100, Geert Uytterhoeven wrote:
+> From: Minh Le <minh.le.aj@renesas.com>
 >=20
-> Add the module clocks used by the I2C Bus Interfaces on the Renesas
+> Add a device node for the RCLK Watchdog Timer (RWDT) on the Renesas
 > R-Car V4M (R8A779H0) SoC.
 >=20
-> Signed-off-by: Cong Dang <cong.dang.xn@renesas.com>
+> Signed-off-by: Minh Le <minh.le.aj@renesas.com>
 > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
 Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
 
---EK9mvlLcUB0sIgUO
+--P/b0kZelRhq1EDY2
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmW+enQACgkQFA3kzBSg
-KbZPXw//UYHJsBZ1ba8zUgq6FU4shhsWblCId1C7EEVCsejX+puxAj+WHTUyx/7x
-Qw5sq1fL8izghWDRpdKlI6bnZbp3nS6TuGmAeeIpV626HBw5N17mUU+7JFAddWln
-oRwJuytZZAsvtgiVPevWKp/kdcvAZ7FIHatzBjgGeIBCK2dDybfH1ITQfFVi/wt3
-4ZybodB4SJO73Zs2gE2HHr+TK5VzdHAreC7mmmYm6iyhkZCpAko5zQ5plFVBvTTF
-cUfuQnkq4WkErGtNLZpEKqXRnwy8XKnAP7Gw/geYK9l9l8GesLbJgQC/Vfno7+lF
-KSjp6NeegfNhK+foOLrO1vwHQ996i2Kj3nfU42X01VdFiFRSqY4+ARVIPQk7DndT
-8g34G2n7qwqx63pl5J6KcL6pT36ybSyBqwq8eV8otgiqG6dMmQPzC4yXrCYbZU4y
-nRh3mQPUEl56wdvkDanvhxWfPx6xpC/c9txqeipHvqv/ZS/WNLJiM2iP7Jaurq7p
-Ac3cKIWdz4rZ16RbKi8ItraIYoOqqGLrdMbhjKmoE7Ll7h0uJuMnTUDJskPFEvpO
-pbMUpq7E38B64/U0T48fIXfptWskoR7Z5nE3WKDjw5FugXI7oT1ClH4ck0YGVVeI
-6j0+fiJGwW+nCWxg3mPwDa2L558ML19WHR0iOoPl5a1nw7iTDvw=
-=cJoa
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmW+evsACgkQFA3kzBSg
+KbbXzw//ZPKk340jixuh8F5A5Vwbd+5S2ZTAhLy6UUrn5qTr9+tb7QXTcERpFwAj
+TJkcW0/smAIGvZCFiWlmE9S4ElG8+qyvmLRonzv15hj0/48K8Pgvlf53EI+cenTS
+hyudlcVo0i3KW4+RUJrG5PqrqDcdu+OwLj65lhVHgBB/l3EWS3xPNhz+wUKq5t7+
+7wRvAmrhze52mbd9HCVT9NUt/kPa+EZGMscncwZEJC5KqH4/tCHYIkDl9YaXns7x
+wpz634B0F2hpP+v3f9CzhJVqLmCGOFlefArO4c6b+vo3G8btUPxMpsClQuev/lie
+46ypR0ZImVG6BVNU0q43RkCVWu1ITgGfsp0WNMg+HvGms+Wg+m+9y5rbl+W2pR6e
+S46MHNg25wrbxrJTvikRondvtEWb4hYeyBeYuiHGbbd0VbS3F3XnQzJh6Z3J9hEK
++wqAOVXJAdyK86Rsy5VMEyI9tV6XTSvQa/uB38DhTtdXq/BcnuBvny13fj8pKtjF
+8yA/wBapDg+fe+qqLCcvxwHjFtagbP3Tqzmqqcis4kGcPdXw7sgnrrtHk6WlXOY8
+vhNN0CeQl/P4KqLXVHLxe/EimtxF9nngIA+G+EpkV5TsUzB6VqbQ7a5boUCARr1+
+GT87OwMLA7x0H6lpu/kqrpBbjjiZuxLoEXh4RZMiFL/PTgncNfg=
+=r54V
 -----END PGP SIGNATURE-----
 
---EK9mvlLcUB0sIgUO--
+--P/b0kZelRhq1EDY2--
 
