@@ -1,191 +1,244 @@
-Return-Path: <linux-renesas-soc+bounces-2335-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-2336-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8287884A003
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  5 Feb 2024 17:55:38 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A63B84A2FD
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  5 Feb 2024 20:02:40 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3A828281A96
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  5 Feb 2024 16:55:37 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id BC6D31C24853
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  5 Feb 2024 19:02:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2E03840BE3;
-	Mon,  5 Feb 2024 16:55:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="V4NzN+xx"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D21BA4BAAA;
+	Mon,  5 Feb 2024 19:01:41 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mx01.omp.ru (mx01.omp.ru [90.154.21.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C865D3FE54;
-	Mon,  5 Feb 2024 16:55:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21E0048CC6;
+	Mon,  5 Feb 2024 19:01:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.154.21.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707152122; cv=none; b=nIMEgsST0yfmnalMi2G0NQCrAdkqN1UyigsmawSr9F331/XItNXtgIvzNIfeK6CxPW4seSVRnb9EWKL0bvDw/+SxiT5vQrEMbN+B2oAl/V1kbXLlNPQ1K3hoLpaGxaD2WTf8tyYVRdCiLnaoPF3v/5Yv0WS+D3yjAf+NB00CaCg=
+	t=1707159701; cv=none; b=XR5bSuiY+rJWa8Ojo0v7xpZX/DAdwziiIIxKl6hmhAa5tabmkUULL/yejmBWgcjqxdQJP4v8QJJlpTwpKWBpMi/olG9+DWzGHQQ/ignWOX5OeUQBAQGPmKhiyXRlJ5w64pX+VU4hZaZ/s6Vg9W3jrsShEScMoEolKCvpRJpTrCA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707152122; c=relaxed/simple;
-	bh=sVWDGae8We/GTqGu3KZXsI4ao8GOXiioemxExEsLxqU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AhhDLcpWtO+goVeU9SsbuIwSaKsrpYvvA8BswlZSaf5Nqb/gGJh7O4ky9lutcZYsaeJsLhY7NtaiyDVnrY4jKFBs4YSNnTk+mN1h1z3G+StxvG43zgHmFb8ViC3yxSE9XhyxA0LMIX6u/p3Mrj6n2PpMi7sLsUCTjp170VDg9i0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=V4NzN+xx; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1FFCAC433B1;
-	Mon,  5 Feb 2024 16:55:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1707152121;
-	bh=sVWDGae8We/GTqGu3KZXsI4ao8GOXiioemxExEsLxqU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=V4NzN+xxV2kwpgpmvzwCZPjJxe0p8svapOJGajeWjpEEriWr006tLpAtpBBcG14NI
-	 l7fHkZZTCCS2aZun+9xT18fkoZ/FMtKy9LlDCrv1uFwhHjeK2n19B4nBN7o649VSjD
-	 kYGKpO0o3BwY+Ahh0TeOWYCXz8+otRo3yXnErLJRN29uNdXJLWcsE4UEYU9xBrYL0Y
-	 5EBIyjafRZpDVbbOWCUrKL9UVViaDMskAXZEUX2zUclSY3mEzo3VIqcDhKNa3FKHrK
-	 rehOGq4a9IDtDYOiom3YhLrNbFEjmM7KUgyXugv+FwASEWfoMD6zmOeVRIwz7AMYR2
-	 3iJTbqU63Gc+A==
-Date: Mon, 5 Feb 2024 16:55:17 +0000
-From: Rob Herring <robh@kernel.org>
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-	"Lad,  Prabhakar" <prabhakar.csengg@gmail.com>,
-	=?iso-8859-1?Q?=22Niklas_S=C3=B6derlund=22?= <niklas.soderlund+renesas@ragnatech.se>,
-	=?iso-8859-1?Q?=22Uwe_Kleine-K=C3=B6nig=22?= <u.kleine-koenig@pengutronix.de>,
-	Abhinav Kumar <quic_abhinavk@quicinc.com>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	Alexander Stein <alexander.stein@ew.tq-group.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Alexey Brodkin <abrodkin@synopsys.com>,
-	Andrzej Hajda <andrzej.hajda@intel.com>,
-	Andy Gross <agross@kernel.org>,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
-	Daniel Vetter <daniel@ffwll.ch>,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	David Airlie <airlied@gmail.com>,
-	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Emma Anholt <emma@anholt.net>,
-	Eugen Hristev <eugen.hristev@collabora.com>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Frank Rowand <frowand.list@gmail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Helge Deller <deller@gmx.de>,
-	Hugues Fruchet <hugues.fruchet@foss.st.com>,
-	Jacopo Mondi <jacopo+renesas@jmondi.org>,
-	Jacopo Mondi <jacopo@jmondi.org>, James Clark <james.clark@arm.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Kevin Hilman <khilman@baylibre.com>,
-	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>,
-	Konrad Dybcio <konrad.dybcio@linaro.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Liam Girdwood <lgirdwood@gmail.com>, Liu Ying <victor.liu@nxp.com>,
-	Luca Ceresoli <luca.ceresoli@bootlin.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Marek Vasut <marex@denx.de>, Mark Brown <broonie@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Michael Tretter <m.tretter@pengutronix.de>,
-	Michal Simek <michal.simek@amd.com>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Nick Desaulniers <ndesaulniers@google.com>,
-	Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Philippe Cornu <philippe.cornu@foss.st.com>,
-	Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>,
-	Rob Clark <robdclark@gmail.com>, Robert Foss <rfoss@kernel.org>,
-	Russell King <linux@armlinux.org.uk>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Saravana Kannan <saravanak@google.com>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sowjanya Komatineni <skomatineni@nvidia.com>,
-	Stefan Agner <stefan@agner.ch>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Sylwester Nawrocki <s.nawrocki@samsung.com>,
-	Takashi Iwai <tiwai@suse.com>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Tim Harvey <tharvey@gateworks.com>,
-	Todor Tomov <todor.too@gmail.com>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	Yannick Fertre <yannick.fertre@foss.st.com>,
-	Alim Akhtar <alim.akhtar@samsung.com>,
-	Fabio Estevam <festevam@gmail.com>,
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Jerome Brunet <jbrunet@baylibre.com>,
-	Jessica Zhang <quic_jesszhan@quicinc.com>,
-	Jonas Karlman <jonas@kwiboo.se>, Leo Yan <leo.yan@linaro.org>,
-	Marijn Suijten <marijn.suijten@somainline.org>,
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-	Mike Leach <mike.leach@linaro.org>, Sam Ravnborg <sam@ravnborg.org>,
-	Sean Paul <sean@poorly.run>, Tom Rix <trix@redhat.com>,
-	coresight@lists.linaro.org, devicetree@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
-	linux-amlogic@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-	linux-fbdev@vger.kernel.org, linux-media@vger.kernel.org,
-	linux-omap@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-	linux-rpi-kernel@lists.infradead.org,
-	linux-samsung-soc@vger.kernel.org, linux-sound@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-tegra@vger.kernel.org, llvm@lists.linux.dev
-Subject: Re: [PATCH v3 05/24] media: i2c: switch to use
- of_graph_get_next_device_endpoint()
-Message-ID: <20240205165517.GA3486840-robh@kernel.org>
-References: <87o7d26qla.wl-kuninori.morimoto.gx@renesas.com>
- <87h6iu6qjs.wl-kuninori.morimoto.gx@renesas.com>
- <20240202174941.GA310089-robh@kernel.org>
- <875xz3n6ag.wl-kuninori.morimoto.gx@renesas.com>
+	s=arc-20240116; t=1707159701; c=relaxed/simple;
+	bh=YI+Cz/rxozFyg8d5Ypa8dOeLaDC4ZN+36rCKd3WdcmE=;
+	h=Subject:To:CC:References:From:Message-ID:Date:MIME-Version:
+	 In-Reply-To:Content-Type; b=NRzJcbrVSpeCaF3E9ETCr+LZLzCY5oOwF3qyn8vjIID95e8izLj0kD/0hZXZ4Xj7xw8YvqhlRZ8xBEdQ4KTzHY49DpBSdQpbeeZOeow+nNxWhRdWMZEKtJp10iWhNDL7ermvCDJ4/ga6Q598owpIWvMmg2rQ5OhskV0sBOjcxZA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=omp.ru; spf=pass smtp.mailfrom=omp.ru; arc=none smtp.client-ip=90.154.21.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=omp.ru
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=omp.ru
+Received: from [192.168.1.105] (178.176.75.11) by msexch01.omp.ru
+ (10.188.4.12) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.1258.12; Mon, 5 Feb
+ 2024 22:01:22 +0300
+Subject: Re: [PATCH v4 net-next 1/2] ravb: Add Rx checksum offload support for
+ GbEth
+To: Biju Das <biju.das.jz@bp.renesas.com>, "David S. Miller"
+	<davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub Kicinski
+	<kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>
+CC: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>, Yoshihiro Shimoda
+	<yoshihiro.shimoda.uh@renesas.com>, Wolfram Sang
+	<wsa+renesas@sang-engineering.com>, Nikita Yushchenko
+	<nikita.yoush@cogentembedded.com>, <netdev@vger.kernel.org>,
+	<linux-renesas-soc@vger.kernel.org>, Geert Uytterhoeven
+	<geert+renesas@glider.be>, Prabhakar Mahadev Lad
+	<prabhakar.mahadev-lad.rj@bp.renesas.com>, Biju Das <biju.das.au@gmail.com>
+References: <20240203142559.130466-1-biju.das.jz@bp.renesas.com>
+ <20240203142559.130466-2-biju.das.jz@bp.renesas.com>
+From: Sergey Shtylyov <s.shtylyov@omp.ru>
+Organization: Open Mobile Platform
+Message-ID: <dd3ffb2d-23f4-49a6-e427-2b6afb96ddfd@omp.ru>
+Date: Mon, 5 Feb 2024 22:01:21 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <875xz3n6ag.wl-kuninori.morimoto.gx@renesas.com>
+In-Reply-To: <20240203142559.130466-2-biju.das.jz@bp.renesas.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: msexch01.omp.ru (10.188.4.12) To msexch01.omp.ru
+ (10.188.4.12)
+X-KSE-ServerInfo: msexch01.omp.ru, 9
+X-KSE-AntiSpam-Interceptor-Info: scan successful
+X-KSE-AntiSpam-Version: 6.1.0, Database issued on: 02/05/2024 18:41:57
+X-KSE-AntiSpam-Status: KAS_STATUS_NOT_DETECTED
+X-KSE-AntiSpam-Method: none
+X-KSE-AntiSpam-Rate: 59
+X-KSE-AntiSpam-Info: Lua profiles 183206 [Feb 05 2024]
+X-KSE-AntiSpam-Info: Version: 6.1.0.3
+X-KSE-AntiSpam-Info: Envelope from: s.shtylyov@omp.ru
+X-KSE-AntiSpam-Info: LuaCore: 7 0.3.7 6d6bf5bd8eea7373134f756a2fd73e9456bb7d1a
+X-KSE-AntiSpam-Info: {rep_avail}
+X-KSE-AntiSpam-Info: {Tracking_from_domain_doesnt_match_to}
+X-KSE-AntiSpam-Info: {relay has no DNS name}
+X-KSE-AntiSpam-Info: {SMTP from is not routable}
+X-KSE-AntiSpam-Info: {Found in DNSBL: 178.176.75.11 in (user)
+ b.barracudacentral.org}
+X-KSE-AntiSpam-Info: {Found in DNSBL: 178.176.75.11 in (user)
+ dbl.spamhaus.org}
+X-KSE-AntiSpam-Info:
+	d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;omp.ru:7.1.1;127.0.0.199:7.1.2
+X-KSE-AntiSpam-Info: ApMailHostAddress: 178.176.75.11
+X-KSE-AntiSpam-Info: {DNS response errors}
+X-KSE-AntiSpam-Info: Rate: 59
+X-KSE-AntiSpam-Info: Status: not_detected
+X-KSE-AntiSpam-Info: Method: none
+X-KSE-AntiSpam-Info: Auth:dmarc=temperror header.from=omp.ru;spf=temperror
+ smtp.mailfrom=omp.ru;dkim=none
+X-KSE-Antiphishing-Info: Clean
+X-KSE-Antiphishing-ScanningType: Heuristic
+X-KSE-Antiphishing-Method: None
+X-KSE-Antiphishing-Bases: 02/05/2024 18:48:00
+X-KSE-Antivirus-Interceptor-Info: scan successful
+X-KSE-Antivirus-Info: Clean, bases: 2/5/2024 3:37:00 PM
+X-KSE-Attachment-Filter-Triggered-Rules: Clean
+X-KSE-Attachment-Filter-Triggered-Filters: Clean
+X-KSE-BulkMessagesFiltering-Scan-Result: InTheLimit
 
-On Sun, Feb 04, 2024 at 11:44:39PM +0000, Kuninori Morimoto wrote:
-> 
-> Hi Rob
-> 
-> > This is assuming there's just 1 port and 1 endpoint, but let's be 
-> > specific as the bindings are (first endpoint on port 0):
-> > 
-> > of_graph_get_endpoint_by_regs(client->dev.of_node, 0, -1);
-> > 
-> > Note we could ask for endpoint 0 here, but the bindings generally allow 
-> > for more than 1.
-> > 
-> > I imagine most of the other cases here are the same.
-> 
-> I will do it on new patch-set
-> 
-> > > -	for_each_endpoint_of_node(state->dev->of_node, ep_np) {
-> > > +	for_each_device_endpoint_of_node(state->dev->of_node, ep_np) {
-> > 
-> > I would skip the rename.
-> 
-> It is needed to avoid confuse, because new function will add
-> another endpoint loop.
-> 
-> see
-> https://lore.kernel.org/r/20240131100701.754a95ee@booty
+On 2/3/24 5:25 PM, Biju Das wrote:
 
-I've read the threads already and think you should skip the rename. Just 
-put 'port' in the name of the new one. That and taking a port number 
-param should be enough distinction.
+> TOE has hardware support for calculating IP header and TCP/UDP/ICMP
+> checksum for both IPv4 and IPv6.
+> 
+> Add Rx checksum offload supported by TOE for IPv4 and TCP/UDP protocols.
+> 
+> For Rx, the 4-byte result of checksum calculation is attached to the
+> Ethernet frames.First 2-bytes is result of IPv4 header checksum and next
+> 2-bytes is TCP/UDP/ICMP checksum.
+> 
+> If a frame does not have checksum error, 0x0000 is attached as checksum
+> calculation result. For unsupported frames 0xFFFF is attached as checksum
+> calculation result. In case of an IPv6 packet, IPv4 checksum is always set
+> to 0xFFFF.
+> 
+> We can test this functionality by the below commands
+> 
+> ethtool -K eth0 rx on --> to turn on Rx checksum offload
+> ethtool -K eth0 rx off --> to turn off Rx checksum offload
+> 
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+[...]
 
-Rob
+> diff --git a/drivers/net/ethernet/renesas/ravb.h b/drivers/net/ethernet/renesas/ravb.h
+> index e0f8276cffed..64bf29d01ad0 100644
+> --- a/drivers/net/ethernet/renesas/ravb.h
+> +++ b/drivers/net/ethernet/renesas/ravb.h
+> @@ -205,7 +205,10 @@ enum ravb_reg {
+>  	TLFRCR	= 0x0758,
+>  	RFCR	= 0x0760,
+>  	MAFCR	= 0x0778,
+> -	CSR0    = 0x0800,	/* RZ/G2L only */
+> +
+> +	/* RZ/G2L TOE registers */
+
+   Thanks. Though I think I'd prefer /* TOE registers (RZ/G2L only) */...
+
+[...]
+> @@ -978,6 +981,21 @@ enum CSR0_BIT {
+>  	CSR0_RPE	= 0x00000020,
+>  };
+>  
+> +enum CSR2_BIT {
+> +	CSR2_RIP4	= 0x00000001,
+> +	CSR2_RTCP4	= 0x00000010,
+> +	CSR2_RUDP4	= 0x00000020,
+> +	CSR2_RICMP4	= 0x00000040,
+> +	CSR2_RTCP6	= 0x00100000,
+> +	CSR2_RUDP6	= 0x00200000,
+> +	CSR2_RICMP6	= 0x00400000,
+> +	CSR2_RHOP	= 0x01000000,
+> +	CSR2_RROUT	= 0x02000000,
+> +	CSR2_RAHD	= 0x04000000,
+> +	CSR2_RDHD	= 0x08000000,
+> +	CSR2_ALL	= 0x0F700071,
+
+  I doubt we really need CSR2_ALL...
+
+[...]
+> diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
+> index 0e3731f50fc2..4f310bcee7c0 100644
+> --- a/drivers/net/ethernet/renesas/ravb_main.c
+> +++ b/drivers/net/ethernet/renesas/ravb_main.c
+> @@ -522,6 +522,24 @@ static int ravb_ring_init(struct net_device *ndev, int q)
+>  	return -ENOMEM;
+>  }
+>  
+> +static void ravb_csum_init_gbeth(struct net_device *ndev)
+> +{
+> +	if (!(ndev->features & NETIF_F_RXCSUM))
+> +		goto done;
+> +
+> +	ravb_write(ndev, 0, CSR0);
+> +	if (ravb_wait(ndev, CSR0, CSR0_RPE, 0)) {
+> +		netdev_err(ndev, "Timeout enabling hardware checksum\n");
+> +		ndev->features &= ~NETIF_F_RXCSUM;
+> +	} else {
+> +		ravb_write(ndev, CSR2_ALL & ~(CSR2_RTCP6 | CSR2_RUDP6 |
+> +					      CSR2_RICMP6), CSR2);
+
+   With these 3 bits being 0, the bits 24...27 are ignored anyway,
+the manual says. So I think I'd prefer:
+
+		ravb_write(ndev, CSR2_RIP4 | CSR2_RTCP4 | CSR2_RUDP4 | CSR2_RICMP4,
+			   CSR2);
+
+> +	}
+> +
+> +done:
+> +	ravb_write(ndev, CSR0_TPE | CSR0_RPE, CSR0);
+
+   I think we shouldn't set CSR0.TPE yet at this point, as we n't setup
+CSR1 yet...
+
+[...]
+> @@ -2334,11 +2381,48 @@ static void ravb_set_rx_csum(struct net_device *ndev, bool enable)
+[...]
+>  static int ravb_set_features_gbeth(struct net_device *ndev,
+>  				   netdev_features_t features)
+>  {
+> -	/* Place holder */
+> -	return 0;
+> +	netdev_features_t changed = ndev->features ^ features;
+> +	struct ravb_private *priv = netdev_priv(ndev);
+> +	unsigned long flags;
+> +	int ret = 0;
+> +	u32 val;
+> +
+> +	spin_lock_irqsave(&priv->lock, flags);
+> +	if (changed & NETIF_F_RXCSUM) {
+> +		if (features & NETIF_F_RXCSUM)
+> +			val = CSR2_ALL & ~(CSR2_RTCP6 | CSR2_RUDP6 | CSR2_RICMP6);
+
+   Likewise, I'd prefer:
+
+			val = CSR2_RIP4 | CSR2_RTCP4 | CSR2_RUDP4 | CSR2_RICMP4;
+
+> +		else
+> +			val = 0;
+> +
+> +		ret = ravb_endisable_csum_gbeth(ndev, CSR2, val, CSR0_RPE);
+> +		if (ret)
+> +			goto done;
+> +	}
+> +
+> +	ndev->features = features;
+> +done:
+> +	spin_unlock_irqrestore(&priv->lock, flags);
+> +
+> +	return ret;
+>  }
+>  
+>  static int ravb_set_features_rcar(struct net_device *ndev,
+[...]
+
+   Otherwise LGTM. We're close! :-)
+
+MBR, Sergey
 
