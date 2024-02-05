@@ -1,152 +1,210 @@
-Return-Path: <linux-renesas-soc+bounces-2321-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-2322-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2215684984D
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  5 Feb 2024 12:03:24 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A3D258498CB
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  5 Feb 2024 12:27:17 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 11FBEB2454D
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  5 Feb 2024 11:03:21 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5B869284D89
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  5 Feb 2024 11:27:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C881C1862E;
-	Mon,  5 Feb 2024 11:03:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2FA001AACC;
+	Mon,  5 Feb 2024 11:27:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernelci-org.20230601.gappssmtp.com header.i=@kernelci-org.20230601.gappssmtp.com header.b="3Sl6yZkE"
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="aOdlnuM8"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4D2018635
-	for <linux-renesas-soc@vger.kernel.org>; Mon,  5 Feb 2024 11:03:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 943421AACF
+	for <linux-renesas-soc@vger.kernel.org>; Mon,  5 Feb 2024 11:27:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707130996; cv=none; b=QJs+ITxzrx8neln898JvqZiO2lyMyISDP2HWciSSFPv/i2i5AnMXUrYYspn5NBLHDYbN4rhJsUTCzRPMpUX22F1OQZu6usW/sLdskLUMNHZstFZUE7KN2K5VCVBwVzjojyhJkd1dJa+VjvlbpFarqYHgyWdZq+sYU9rQxLWj5DA=
+	t=1707132435; cv=none; b=mds6x/59GNCUc4I3aInmIo8z2QtIwf8Znz6h6yUI49ldeKr88RLpVN9HEztXihWJix2mkX0y/FrU6boWaBWtHweqURHjtY8yodLpaItbNS1DsAdg6WxENpn6FqbMcue2pecoHrIIJmALVnjBvShhcySSWwLDgUAereDo+YEOPxY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707130996; c=relaxed/simple;
-	bh=TSsQ8YgYPdfSgaQ1KG667Brp2mtDq2+JkEl13zvrIzI=;
-	h=Message-ID:Date:Content-Type:MIME-Version:Subject:To:From; b=NELXEUEUTqe2xnxNUl9FR7bSmMHg1ZCm9stVhTGZNkPzpDz4CZeIRXgNrPEjCdbQ3dBsucSpiudBvW2wOnPG7byY8iPL83iL9NERmeTt6VnTViObjuutGzoHn1st8OTpLgT8bAqz3v7guXT9dIuamEXvCHJN2znbON0fwBsZHsk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernelci.org; spf=none smtp.mailfrom=kernelci.org; dkim=pass (2048-bit key) header.d=kernelci-org.20230601.gappssmtp.com header.i=@kernelci-org.20230601.gappssmtp.com header.b=3Sl6yZkE; arc=none smtp.client-ip=209.85.210.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernelci.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=kernelci.org
-Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-6e04d24bd39so289048b3a.0
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 05 Feb 2024 03:03:14 -0800 (PST)
+	s=arc-20240116; t=1707132435; c=relaxed/simple;
+	bh=oIwZe9RU0D3Qpo3jI9l25eoxcPCLpwHLDJ53dfgtEp0=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=iCg9TW0Wjbywz63Sekhs4NxDY4L7zhRRKFc1WwXxaowqt3Hp3hY0mNWw1jaIAxFwD4W9zDHsNKfahqjFGwcLo/xP0gU1Arxw/394SdMy9qxtB3Y3888vsn62eBueYqN3v/etWM8rX16xiwHRfm0FwVlb6lom9TfuiMR2L4L9rdU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=aOdlnuM8; arc=none smtp.client-ip=209.85.128.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-40efcb37373so39261075e9.2
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 05 Feb 2024 03:27:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernelci-org.20230601.gappssmtp.com; s=20230601; t=1707130993; x=1707735793; darn=vger.kernel.org;
-        h=from:to:subject:content-transfer-encoding:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=CdKmbfxC1eo1Q4btwvkYwIVpdQznlgL6xWwaDVIh8Ns=;
-        b=3Sl6yZkEORUljkHZhDLbmN7g7BCL5WR5QrwWydUOy3tGV+KS4I7kUtzrgH699UHGty
-         lJeSNXz62GjmR/4iei8oHMeKPQC509AN19LBKmGMjdIYt1sy58JbOjXSBDDQ4XWYZNOg
-         Xq1gbMF2JMzmdb7SmZ7ZNp2UWccwvwT9wzGcfXQB1040oxEr5y5ffKiBG4vVbBgCxHEw
-         B0yOv7MZjlTJZyLWs2MO6yLUo70W//gdrSXd0EfDc7qSo4iudk3fTIWc+rsNr/xOZmOa
-         Gxa8xB5Ix4pRkHgsy4kgy7xbLq3czjzVL5UQ//dSrUjVpwc1fziPzfb2nQjJqk6xUg3s
-         9bHg==
+        d=tuxon.dev; s=google; t=1707132431; x=1707737231; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=AgLkeYSewJO91gFxycBIzZeXPSjAt47c7sE98GYG9gQ=;
+        b=aOdlnuM8zyCHDbHvnwJVIRjJcRJnmiZPGj34SVduj84K5ZqEnTUtNa8+uXL6iKy74X
+         1iJiBYmMu6qBAtIGDwRtveS0S6/bwo6WNAqQY427S18rgw6ePkcGwbFOw9uBOiwNQ/lS
+         42Hui8cVCHa7iREkzV3EJxP3f4pmt99gp9DelCRlN6UHd2ISwuL5/XSAEXk66M69WRqs
+         kxpcUlXOgYEiC5RM9Rx+jZ4H7PzGkxJEgKhDOcGZpSCfjfwrN6K23EwAz90zfYXUcokT
+         UJ5BxrFM0sNWRP04I2Y3p+NcmKHcFO9Hvs6Uwip3v2SGNu64eoc5FaDxzpUSmYgsRh8s
+         Ad1w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707130993; x=1707735793;
-        h=from:to:subject:content-transfer-encoding:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1707132431; x=1707737231;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=CdKmbfxC1eo1Q4btwvkYwIVpdQznlgL6xWwaDVIh8Ns=;
-        b=NmWg3+32lpidlUi4m8aiFBlCduSt+Iu42+dN6O6CgZcYUt2CY8Qhb/gzTPJn5a3GKT
-         Gn4pBp7lDGeFZvgMqT7j9oxo1F9jnnyxDWwwhHc9xeVEduWx89m9JgCW/sok7aAIM4iS
-         yZE90fnjLeV6Z41JKzSfKVG4RvzuGKtuNJX8orRW9xJtErZraqBAKk6OoCpOSE9pgD+K
-         UhyGrdwyAtMZ3Z9KUzgDovoiJiSeElyzpL/udx7r8GkhEBZvAzZp/MTss91K6Emxc2vS
-         vAmVdaozOmXeY9EvRScNSn45bzC6pWJ+HYU2/jTA77J5c7p18o324nv9y68DqZnYcgXR
-         JVSA==
-X-Gm-Message-State: AOJu0YxKEV9yNqzee4xdKD6gP7qDa4uOGgKK0ZPUXoz5CGq/LWRS1QU4
-	e/EFD1MVPZVDM9MatkrxAB5ZQF/JpV3DXTjuRQohmlRhTASdYM3OrJgrQm3DMI7Ch+9qkWSWrKo
-	k
-X-Google-Smtp-Source: AGHT+IFmu38bUi8tnWi1S/K/pjfd9ojsmgsj6y64HZESdttM8ykSEb61WVLC0DNdfw6Eh/luNL2ySg==
-X-Received: by 2002:a05:6a00:d54:b0:6e0:5170:4d62 with SMTP id n20-20020a056a000d5400b006e051704d62mr177508pfv.6.1707130993593;
-        Mon, 05 Feb 2024 03:03:13 -0800 (PST)
-X-Forwarded-Encrypted: i=0; AJvYcCXXyycX2ny6AMgihw5oM57u7RQ7WXprx4JiPgnGXTfgOPeAXQGNC8zvuzcbvVi7sQvdJv01aec0Dq8CsJVNjhstPGajYDRoej8tGQ==
-Received: from kernelci-production.internal.cloudapp.net ([20.171.243.82])
-        by smtp.gmail.com with ESMTPSA id le10-20020a056a004fca00b006e02f222c2esm3745474pfb.30.2024.02.05.03.03.12
+        bh=AgLkeYSewJO91gFxycBIzZeXPSjAt47c7sE98GYG9gQ=;
+        b=HYCtQIeKEC5fW1RjGOBZdyc88MEzWtEhLKj8dlCoa9vYYUEsNq+4N7Yc/ynwwOyx4E
+         h4cE2XHVGQuAhIhntpinIzOzIISCoIiFEkkEAai3EzMjBKhkxUpeD9Kmt3ScNuteZhjw
+         UBpJW8snBFGNM8JKUNfTuy7GvYpHoZuHUYcM7z7+vepuUDzr5FUsG78IlM/gWzJ65f8K
+         TgQkJGdOCFFLKdLQn/zWEc4kjNLmmrPJhSYyFRt3+WfvpWAvc/p3w2R1dilJMhALrGH3
+         LMPUK4IYYPh+w4rMFXGSHV6jfjc1qYlZE9+G7mAE8TrXk6691OmpVW+uqQFbr8NvKjwC
+         17vA==
+X-Gm-Message-State: AOJu0YwC/W/I/OFHbkTnOzK0Sa6NiWAf+Fc1Bn0RU4PoK+GLD1nq/k/Z
+	IHULlY4LVcAilWHA49ObwvoJDvGAGVQMoNyFcUZOxczFDUcBxeAsn+YiaK8mxOM=
+X-Google-Smtp-Source: AGHT+IEaCy3xpOfjqYuRM0Ero89Ry6d64pSEQYJhbx0beqvovllfdu9Gk+ZJATBBThLPPsUR92E54g==
+X-Received: by 2002:a05:6000:1ac7:b0:33b:3d6f:6839 with SMTP id i7-20020a0560001ac700b0033b3d6f6839mr1496481wry.35.1707132430509;
+        Mon, 05 Feb 2024 03:27:10 -0800 (PST)
+X-Forwarded-Encrypted: i=0; AJvYcCUp0DSTbsMFgriJH4ZSWO+wwq6TtWgltTIeRPsXln0Bctn1hMfYfB1tMABUhU2tehUwqpaqjbt1lbVs8kaxAvrEKU29HnxvnPdlDRFvFOFRnMxZeRPuDGMbYDqTb2T4M/wpRRQFsiF3+B3pntw5I8k92cOfbxF9Z4dIT3GtPzb0AgmXHO3FUor/V6nCkBmsdrU//CddTRSUXy/1DpkSWxietwhcy5DARIOcdI6MJY7VEEpR9eZGV+kvpD967gVQ4s9y4/xIi80H2BW99U6isRlZwP5w0zallqxjQ6iO3kPTnxS3scTEl7TBeayz/P1Hp6SBbn+s9c4avdHW8Id8QwH16a71SMkEBmvp/aEKq69trPZQH9iNk/Yr9H0o/PqpDvi/B0XOoA==
+Received: from claudiu-X670E-Pro-RS.. ([82.78.167.154])
+        by smtp.gmail.com with ESMTPSA id l30-20020a05600c1d1e00b0040e541ddcb1sm8307234wms.33.2024.02.05.03.27.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 05 Feb 2024 03:03:13 -0800 (PST)
-Message-ID: <65c0c071.050a0220.75894.8bee@mx.google.com>
-Date: Mon, 05 Feb 2024 03:03:13 -0800 (PST)
-Content-Type: text/plain; charset="utf-8"
+        Mon, 05 Feb 2024 03:27:10 -0800 (PST)
+From: Claudiu <claudiu.beznea@tuxon.dev>
+X-Google-Original-From: Claudiu <claudiu.beznea.uj@bp.renesas.com>
+To: wsa+renesas@sang-engineering.com,
+	ulf.hansson@linaro.org,
+	yoshihiro.shimoda.uh@renesas.com,
+	masaharu.hayakawa.ry@renesas.com,
+	takeshi.saito.xv@renesas.com
+Cc: linux-mmc@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	claudiu.beznea@tuxon.dev,
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+Subject: [PATCH v3] mmc: renesas_sdhi: Fix change point of data handling
+Date: Mon,  5 Feb 2024 13:27:02 +0200
+Message-Id: <20240205112702.213050-1-claudiu.beznea.uj@bp.renesas.com>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Kernelci-Tree: renesas
-X-Kernelci-Branch: master
-X-Kernelci-Kernel: renesas-devel-2024-02-05-v6.8-rc3
-X-Kernelci-Report-Type: test
-Subject: renesas/master igt-gpu-panfrost: 2 runs,
- 1 regressions (renesas-devel-2024-02-05-v6.8-rc3)
-To: linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
-From: "kernelci.org bot" <bot@kernelci.org>
+Content-Transfer-Encoding: 8bit
 
-renesas/master igt-gpu-panfrost: 2 runs, 1 regressions (renesas-devel-2024-=
-02-05-v6.8-rc3)
+From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 
-Regressions Summary
--------------------
+On latest kernel revisions it has been noticed (on a RZ/G3S system) that
+when booting Linux and root file system is on eMMC, at some point in
+the booting process, when the systemd applications are started, the
+"mmc0: tuning execution failed: -5" message is displayed on console.
+On kernel v6.7-rc5 this is reproducible in 90% of the boots. This was
+missing on the same system with kernel v6.5.0-rc1. It was also noticed on
+kernel revisions v6.6-rcX on a RZ/G2UL based system but not on the kernel
+this fix is based on (v6.7-rc5).
 
-platform      | arch  | lab         | compiler | defconfig | regressions
---------------+-------+-------------+----------+-----------+------------
-rk3399-roc-pc | arm64 | lab-broonie | gcc-10   | defconfig | 1          =
+Investigating it on RZ/G3S lead to the conclusion that every time the issue
+is reproduced all the probed TAPs are OK. According to datasheet, when this
+happens the change point of data need to be considered for tuning.
 
+Previous code considered the change point of data happens when the content
+of the SMPCMP register is zero. According to RZ/V2M hardware manual,
+chapter "Change Point of the Input Data" (as this is the most clear
+description that I've found about change point of the input data and all
+RZ hardware manual are similar on this chapter), at the time of tuning,
+data is captured by the previous and next TAPs and the result is stored in
+the SMPCMP register (previous TAP in bits 22..16, next TAP in bits 7..0).
+If there is a mismatch b/w the previous and the next TAPs, it indicates
+that there is a change point of the input data.
 
-  Details:  https://kernelci.org/test/job/renesas/branch/master/kernel/rene=
-sas-devel-2024-02-05-v6.8-rc3/plan/igt-gpu-panfrost/
+To comply with this, the patch checks if this mismatch is present and
+updates the priv->smpcmp mask only if it is not. Previous code checked if
+the value of SMPCMP register was zero. However, on RZ/G3S, this leads to
+failues as it may happen, e.g., the following:
+CMPNGU=0x0e, CMPNGD=0x0e, SMPCMP=0x000e000e.
 
-  Test:     igt-gpu-panfrost
-  Tree:     renesas
-  Branch:   master
-  Describe: renesas-devel-2024-02-05-v6.8-rc3
-  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-d=
-evel.git
-  SHA:      5ee5c13dd1cd222d2add58f1546f05b849c402ff
+Along with it, as mmc_send_tuning() may return with error even before the
+MMC command reach the controller (and because at that point cmd_error = 0),
+the update of priv->smpcmp mask has been done only if the return value of
+mmc_send_tuning(mmc, opcode, &cmd_error) is 0 (success).
 
-  Test suite revisions:
-    drm
-      URL:  git://anongit.freedesktop.org/mesa/drm
-      SHA:  98e1db501173303e58ef6a1def94ab7a2d84afc1
-    igt-gpu-tools
-      URL:  https://gitlab.freedesktop.org/drm/igt-gpu-tools.git
-      SHA:  621c2d3115d40a1ba0b53668413ea21edf03a5ff =
+This change has been checked on the devices with the following DTSes by
+doing 100 consecutive boots and checking for the tuning failure message:
+- r9a08g045s33-smarc.dts
+- r8a7742-iwg21d-q7.dts
+- r8a7743-iwg20d-q7.dts
+- r8a7744-iwg20d-q7.dts
+- r8a7745-iwg22d-sodimm.dts
+- r8a77470-iwg23s-sbc.dts
+- r8a774a1-hihope-rzg2m-ex.dts
+- r8a774b1-hihope-rzg2n-ex.dts
+- r8a774c0-ek874.dts
+- r8a774e1-hihope-rzg2h-ex.dts
+- r9a07g043u11-smarc-rzg2ul.dts
+- r9a07g044c2-smarc-rzg2lc.dts
+- r9a07g044l2-smarc-rzg2l.dts
+- r9a07g054l2-smarc-rzv2l.dts
 
+Fixes: 5fb6bf51f6d1 ("mmc: renesas_sdhi: improve TAP selection if all TAPs are good")
+Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+---
 
+Changes in v3:
+- set priv->smpcmp if cmpngu_data == cmpngd_data and return code of
+  mmc_send_tuning() is zero
+- removed workaround introduced previously in
+  renesas_sdhi_select_tuning() as it is not needed with the code from v3
+- update patch description
 
-Test Regressions
----------------- =
+Changes in v2:
+- read the SH_MOBILE_SDHI_SCC_SMPCMP register only on success path of
+  mmc_send_tuning()
 
+ drivers/mmc/host/renesas_sdhi_core.c | 18 ++++++++++++++----
+ 1 file changed, 14 insertions(+), 4 deletions(-)
 
+diff --git a/drivers/mmc/host/renesas_sdhi_core.c b/drivers/mmc/host/renesas_sdhi_core.c
+index c675dec587ef..8871521e1274 100644
+--- a/drivers/mmc/host/renesas_sdhi_core.c
++++ b/drivers/mmc/host/renesas_sdhi_core.c
+@@ -18,6 +18,7 @@
+  *
+  */
+ 
++#include <linux/bitfield.h>
+ #include <linux/clk.h>
+ #include <linux/delay.h>
+ #include <linux/iopoll.h>
+@@ -312,6 +313,8 @@ static int renesas_sdhi_start_signal_voltage_switch(struct mmc_host *mmc,
+ #define SH_MOBILE_SDHI_SCC_SMPCMP_CMD_REQDOWN	BIT(8)
+ #define SH_MOBILE_SDHI_SCC_SMPCMP_CMD_REQUP	BIT(24)
+ #define SH_MOBILE_SDHI_SCC_SMPCMP_CMD_ERR	(BIT(8) | BIT(24))
++#define SH_MOBILE_SDHI_SCC_SMPCMP_CMPNGU_DATA	GENMASK(23, 16)
++#define SH_MOBILE_SDHI_SCC_SMPCMP_CMPNGD_DATA	GENMASK(7, 0)
+ 
+ #define SH_MOBILE_SDHI_SCC_TMPPORT2_HS400OSEL	BIT(4)
+ #define SH_MOBILE_SDHI_SCC_TMPPORT2_HS400EN	BIT(31)
+@@ -703,11 +706,18 @@ static int renesas_sdhi_execute_tuning(struct mmc_host *mmc, u32 opcode)
+ 		/* Set sampling clock position */
+ 		sd_scc_write32(host, priv, SH_MOBILE_SDHI_SCC_TAPSET, i % priv->tap_num);
+ 
+-		if (mmc_send_tuning(mmc, opcode, &cmd_error) == 0)
+-			set_bit(i, priv->taps);
++		if (mmc_send_tuning(mmc, opcode, &cmd_error) == 0) {
++			u32 val, cmpngu_data, cmpngd_data;
++
++			val = sd_scc_read32(host, priv, SH_MOBILE_SDHI_SCC_SMPCMP);
++			cmpngu_data = FIELD_GET(SH_MOBILE_SDHI_SCC_SMPCMP_CMPNGU_DATA, val);
++			cmpngd_data = FIELD_GET(SH_MOBILE_SDHI_SCC_SMPCMP_CMPNGD_DATA, val);
++
++			if (cmpngu_data == cmpngd_data)
++				set_bit(i, priv->smpcmp);
+ 
+-		if (sd_scc_read32(host, priv, SH_MOBILE_SDHI_SCC_SMPCMP) == 0)
+-			set_bit(i, priv->smpcmp);
++			set_bit(i, priv->taps);
++		}
+ 
+ 		if (cmd_error)
+ 			mmc_send_abort_tuning(mmc, opcode);
+-- 
+2.39.2
 
-platform      | arch  | lab         | compiler | defconfig | regressions
---------------+-------+-------------+----------+-----------+------------
-rk3399-roc-pc | arm64 | lab-broonie | gcc-10   | defconfig | 1          =
-
-
-  Details:     https://kernelci.org/test/plan/id/65c0b501c51d009a6200a08e
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: defconfig
-  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
-110)
-  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
-024-02-05-v6.8-rc3/arm64/defconfig/gcc-10/lab-broonie/igt-gpu-panfrost-rk33=
-99-roc-pc.txt
-  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
-024-02-05-v6.8-rc3/arm64/defconfig/gcc-10/lab-broonie/igt-gpu-panfrost-rk33=
-99-roc-pc.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye-ig=
-t/20230623.0/arm64/rootfs.cpio.gz =
-
-
-
-  * igt-gpu-panfrost.login: https://kernelci.org/test/case/id/65c0b501c51d0=
-09a6200a08f
-        new failure (last pass: renesas-devel-2024-01-31-v6.8-rc2) =
-
- =20
 
