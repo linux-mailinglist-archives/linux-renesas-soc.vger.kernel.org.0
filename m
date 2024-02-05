@@ -1,131 +1,121 @@
-Return-Path: <linux-renesas-soc+bounces-2332-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-2333-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9D38849F95
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  5 Feb 2024 17:36:30 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id D335D849FB0
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  5 Feb 2024 17:44:32 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5A3031F24235
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  5 Feb 2024 16:36:30 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8EA23285339
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  5 Feb 2024 16:44:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 830723D392;
-	Mon,  5 Feb 2024 16:35:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RKo1+Ozy"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AA32C4121B;
+	Mon,  5 Feb 2024 16:43:39 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D6A03CF4B;
-	Mon,  5 Feb 2024 16:35:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5CB364123F
+	for <linux-renesas-soc@vger.kernel.org>; Mon,  5 Feb 2024 16:43:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707150933; cv=none; b=oE8TiLvFngdhC2BFGaM7QoZeCINH5y5pYIWvRvovgBGLtPfSb3BTdlQ18NQBTxSgn0N1K/KgPfpQDOI5AxnN89cSD+Kdx3zO2lLgopbWKgJB2oawMzA0na748j4z/fX4hWx+YZIwPcOPiwasW+lSTzNKdgRFGJDC5B6oe8vVdnE=
+	t=1707151419; cv=none; b=PrA3zYNEleudQFCTZzIomOCbH3YO30CEfENJx8vfLGwhXUV9GD76LAjOD78qhyMZomuk9Qq3MCnTYXQtknzrRgfI51R+7aht6uMxBQarHNGlvXv+6qfpnIZbxTjdaKHFfaPUIKVmBMjLOBpIzTo0dySwIj7gwfG6lrEPYpyUHaY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707150933; c=relaxed/simple;
-	bh=ZsSX8r4xjSkosOZIBP8AGU9AupuG60/9FbaivTIPBXo=;
-	h=Date:Content-Type:MIME-Version:From:To:Cc:In-Reply-To:References:
-	 Message-Id:Subject; b=jIlPqedXSUKKlobkhgU6AFMtkZLjd+ElRWHx5/ioQgw79VlKzg6QPOMVpS2i9C7CDU72OmfSxgLDXHrs5kWOL4onG6SgYJUkq46VkoU7JAKpyISbOYWo7iFD/XT4OLrNdFL0hBODR8PJAnV00YkqWPRpTZ/eOrjawv1KXLtf9mw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RKo1+Ozy; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3D549C433C7;
-	Mon,  5 Feb 2024 16:35:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1707150932;
-	bh=ZsSX8r4xjSkosOZIBP8AGU9AupuG60/9FbaivTIPBXo=;
-	h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
-	b=RKo1+OzyeF3eCfkPynFsfSVttvAUhg2HMIxe2WRlgPStmaJhL+Uco8hegTrgXvdKN
-	 icXOgFBqcne+QuYRX/rZocVvqQJaLvLRC3uFyQKjlQrAPwxGAu8OJGJz2/OkNy/AXL
-	 99FBGwS7YkeiO9crkUcoziAwjR4AEwu6VX/ao04gxsimTTfrNoVHc24tr4gFuTQOrm
-	 /DFJge0Db4rtUFOIfY7UzbBnWhRz25CMxqwXJPmBjgQhk19PfnDX/6gcs5VwQEJPDS
-	 vEav11qXHVLXj1i+zN/ztURuvLpXUfWsngsUL0jpa9MhgvaKbbtir8BhjxcFzZzJwp
-	 XsKlllFfG7Mvw==
-Date: Mon, 05 Feb 2024 16:35:30 +0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	s=arc-20240116; t=1707151419; c=relaxed/simple;
+	bh=LeDCKQro0T212yTX9dukrdEsUpHluX2JRx22LJrv1N8=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=dQ/N0fZqtrAltm9NiUEOVJ2/yB6fdn47JXqlhjSK7BIKqGHGpN9TkOLJ11Frei1fDqoGO9GX1wgce6nOBvVqWSVKsWQmsU+usD1VGJ8xsS/MEMsmTJeZqgplkZbK8W9ZBL3KAG7/znkf7w2LneIx1kEirmWrFnrLhcOrCX5NBjQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 07F401FB;
+	Mon,  5 Feb 2024 08:44:19 -0800 (PST)
+Received: from e121345-lin.cambridge.arm.com (e121345-lin.cambridge.arm.com [10.1.196.40])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 621473F5A1;
+	Mon,  5 Feb 2024 08:43:35 -0800 (PST)
+From: Robin Murphy <robin.murphy@arm.com>
+To: joro@8bytes.org
+Cc: will@kernel.org,
+	iommu@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	geert+renesas@glider.be,
+	yoshihiro.shimoda.uh@renesas.com,
+	linux-renesas-soc@vger.kernel.org
+Subject: [PATCH] iommu/ipmmu-vmsa: Minor cleanups
+Date: Mon,  5 Feb 2024 16:43:27 +0000
+Message-Id: <791877b0d310dc2ab7dc616d2786ab24252b9b8e.1707151207.git.robin.murphy@arm.com>
+X-Mailer: git-send-email 2.39.2.101.g768bb238c484.dirty
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: Rob Herring <robh@kernel.org>
-To: Prabhakar <prabhakar.csengg@gmail.com>
-Cc: linux-kernel@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
- Geert Uytterhoeven <geert+renesas@glider.be>, 
- Thomas Gleixner <tglx@linutronix.de>, 
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
- Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
- Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>, 
- Rob Herring <robh+dt@kernel.org>, linux-renesas-soc@vger.kernel.org, 
- devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>, 
- Magnus Damm <magnus.damm@gmail.com>
-In-Reply-To: <20240205144421.51195-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20240205144421.51195-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20240205144421.51195-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
-Message-Id: <170715092938.3472105.11395569623578277024.robh@kernel.org>
-Subject: Re: [PATCH v2 1/3] dt-bindings: interrupt-controller:
- renesas,rzg2l-irqc: Update interrupts
+Content-Transfer-Encoding: 8bit
 
+Remove the of_match_ptr() which was supposed to have gone long ago, but
+managed to got lost in a fix-squashing mishap. On a similar theme, we
+may as well also modernise the PM ops to get rid of the clunky #ifdefs,
+and modernise the resource mapping to keep the checkpatch brigade happy.
 
-On Mon, 05 Feb 2024 14:44:19 +0000, Prabhakar wrote:
-> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> 
-> All the RZ/G2L and alike SoC's (listed below) have ECCRAM0/1 interrupts
-> supported by the IRQC block, reflect the same in DT binding doc.
-> 
-> - R9A07G043U              - RZ/G2UL
-> - R9A07G044L/R9A07G044LC  - RZ/{G2L,G2LC}
-> - R9A07G054               - RZ/V2L
-> - R9A08G045               - RZ/G3S
-> 
-> For the RZ/G3S SoC ("R9A08G045") ECCRAM0/1 interrupts combined into single
-> interrupt so we just use the below to represent them:
-> - ec7tie1-0
-> - ec7tie2-0
-> - ec7tiovf-0
-> 
-> Previously, it was assumed that BUS-error and ECCRAM0/1 error interrupts
-> were only supported by RZ/G2UL ("R9A07G043U") and RZ/G3S ("R9A08G045")
-> SoCs. However, in reality, all RZ/G2L and similar SoCs (listed above)
-> support these interrupts. Therefore, mark the 'interrupt-names' property
-> as required for all the SoCs and update the example node in the binding
-> document.
-> 
-> Fixes: 96fed779d3d4 ("dt-bindings: interrupt-controller: Add Renesas RZ/G2L Interrupt Controller")
-> Fixes: 1cf0697a24ef ("dt-bindings: interrupt-controller: renesas,rzg2l-irqc: Document RZ/G3S")
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> ---
->  .../renesas,rzg2l-irqc.yaml                   | 44 +++++++++++++++----
->  1 file changed, 35 insertions(+), 9 deletions(-)
-> 
+Link: https://lore.kernel.org/linux-iommu/Yxni3d6CdI3FZ5D+@8bytes.org/
+Signed-off-by: Robin Murphy <robin.murphy@arm.com>
+---
+ drivers/iommu/ipmmu-vmsa.c | 15 ++++-----------
+ 1 file changed, 4 insertions(+), 11 deletions(-)
 
-My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-on your patch (DT_CHECKER_FLAGS is new in v5.13):
-
-yamllint warnings/errors:
-./Documentation/devicetree/bindings/interrupt-controller/renesas,rzg2l-irqc.yaml:143:111: [warning] line too long (114 > 110 characters) (line-length)
-./Documentation/devicetree/bindings/interrupt-controller/renesas,rzg2l-irqc.yaml:144:111: [warning] line too long (114 > 110 characters) (line-length)
-./Documentation/devicetree/bindings/interrupt-controller/renesas,rzg2l-irqc.yaml:145:111: [warning] line too long (114 > 110 characters) (line-length)
-
-dtschema/dtc warnings/errors:
-
-doc reference errors (make refcheckdocs):
-
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20240205144421.51195-2-prabhakar.mahadev-lad.rj@bp.renesas.com
-
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
+diff --git a/drivers/iommu/ipmmu-vmsa.c b/drivers/iommu/ipmmu-vmsa.c
+index ace1fc4bd34b..90d3f03242db 100644
+--- a/drivers/iommu/ipmmu-vmsa.c
++++ b/drivers/iommu/ipmmu-vmsa.c
+@@ -1005,7 +1005,6 @@ static const struct of_device_id ipmmu_of_ids[] = {
+ static int ipmmu_probe(struct platform_device *pdev)
+ {
+ 	struct ipmmu_vmsa_device *mmu;
+-	struct resource *res;
+ 	int irq;
+ 	int ret;
+ 
+@@ -1025,8 +1024,7 @@ static int ipmmu_probe(struct platform_device *pdev)
+ 		return ret;
+ 
+ 	/* Map I/O memory and request IRQ. */
+-	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+-	mmu->base = devm_ioremap_resource(&pdev->dev, res);
++	mmu->base = devm_platform_ioremap_resource(pdev, 0);
+ 	if (IS_ERR(mmu->base))
+ 		return PTR_ERR(mmu->base);
+ 
+@@ -1123,7 +1121,6 @@ static void ipmmu_remove(struct platform_device *pdev)
+ 	ipmmu_device_reset(mmu);
+ }
+ 
+-#ifdef CONFIG_PM_SLEEP
+ static int ipmmu_resume_noirq(struct device *dev)
+ {
+ 	struct ipmmu_vmsa_device *mmu = dev_get_drvdata(dev);
+@@ -1153,18 +1150,14 @@ static int ipmmu_resume_noirq(struct device *dev)
+ }
+ 
+ static const struct dev_pm_ops ipmmu_pm  = {
+-	SET_NOIRQ_SYSTEM_SLEEP_PM_OPS(NULL, ipmmu_resume_noirq)
++	NOIRQ_SYSTEM_SLEEP_PM_OPS(NULL, ipmmu_resume_noirq)
+ };
+-#define DEV_PM_OPS	&ipmmu_pm
+-#else
+-#define DEV_PM_OPS	NULL
+-#endif /* CONFIG_PM_SLEEP */
+ 
+ static struct platform_driver ipmmu_driver = {
+ 	.driver = {
+ 		.name = "ipmmu-vmsa",
+-		.of_match_table = of_match_ptr(ipmmu_of_ids),
+-		.pm = DEV_PM_OPS,
++		.of_match_table = ipmmu_of_ids,
++		.pm = pm_sleep_ptr(&ipmmu_pm),
+ 	},
+ 	.probe = ipmmu_probe,
+ 	.remove_new = ipmmu_remove,
+-- 
+2.39.2.101.g768bb238c484.dirty
 
 
