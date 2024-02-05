@@ -1,143 +1,131 @@
-Return-Path: <linux-renesas-soc+bounces-2331-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-2332-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7433849D63
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  5 Feb 2024 15:51:38 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id B9D38849F95
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  5 Feb 2024 17:36:30 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E3F371C2167A
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  5 Feb 2024 14:51:37 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5A3031F24235
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  5 Feb 2024 16:36:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 99D652C19D;
-	Mon,  5 Feb 2024 14:51:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 830723D392;
+	Mon,  5 Feb 2024 16:35:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="ZItH0I+L"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RKo1+Ozy"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4AF22C19F
-	for <linux-renesas-soc@vger.kernel.org>; Mon,  5 Feb 2024 14:51:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D6A03CF4B;
+	Mon,  5 Feb 2024 16:35:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707144694; cv=none; b=JKQjGMLulrDJOY0NUWad/JELG8JbfK9sTdC5y60ZN7EO7gptEgPt0T7NYMdXcxufzNJMSowEYFfz/7lrh9sj8nQHtQ9zQ0lWd+8bfTEd/dCSkeax9CuVnIH24httv2w6gRtMAsawLf1clPT2ZBZyn9q4MMHVV1tH2I6LwBZQRpM=
+	t=1707150933; cv=none; b=oE8TiLvFngdhC2BFGaM7QoZeCINH5y5pYIWvRvovgBGLtPfSb3BTdlQ18NQBTxSgn0N1K/KgPfpQDOI5AxnN89cSD+Kdx3zO2lLgopbWKgJB2oawMzA0na748j4z/fX4hWx+YZIwPcOPiwasW+lSTzNKdgRFGJDC5B6oe8vVdnE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707144694; c=relaxed/simple;
-	bh=/evvuSLtY+5ZoydW8IlFA6frLXp7QJTRcPWzdwiRF8A=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ltVUEiwtg3RJzUd1zmDwCcFPoaq813m72q6mF5ovGua6SBRfbr7zsZBvKxiVGPY62xbVneVhJcFRSFfmslGEnH0e1rsMlYe32/Mg5YSu0MlL49h7WTx95iXf5HGudkEG9mROcbMkuXil7FjKGK08ZO9TV+BuTd+sq/9YdGfr2pk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=ZItH0I+L; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=/evv
-	uSLtY+5ZoydW8IlFA6frLXp7QJTRcPWzdwiRF8A=; b=ZItH0I+LEt56ufdr80j4
-	by/IqZPXbenTlzRFQ8Iem04x/XIQnFibX/QdvokHp1MZngLjcgUOkrWAUsxlk9yK
-	eHfeInVf121342z10nRmwqZu1DsnaVqSLPH2LDklpJYCKAKuW/A1v56odz3chvdz
-	x90npaS6OMhVfDB45jr+I+VLnAsfuGfwIzWIeVJZsL671EVRKl/LSli4G5y9XYlb
-	GcPw9I/IJsBp3i8Og7DNGDMcMFPXASqnkZIl3nsBX+Ek6Og7Lup54uLx+aDfTq5i
-	78O4+r9sJaXjrxspv38RFEAQdkYTiVFnTTViAU9tA+e9ilGxKttmF/sXUgXJ2+gT
-	fw==
-Received: (qmail 855922 invoked from network); 5 Feb 2024 15:51:27 +0100
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 5 Feb 2024 15:51:27 +0100
-X-UD-Smtp-Session: l3s3148p1@81qjmKMQyrcujnsZ
-Date: Mon, 5 Feb 2024 15:51:26 +0100
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: claudiu beznea <claudiu.beznea@tuxon.dev>
-Cc: ulf.hansson@linaro.org, yoshihiro.shimoda.uh@renesas.com,
-	masaharu.hayakawa.ry@renesas.com, takeshi.saito.xv@renesas.com,
-	linux-mmc@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-Subject: Re: [PATCH v3] mmc: renesas_sdhi: Fix change point of data handling
-Message-ID: <ZcD17mTRnfIaueAW@shikoro>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	claudiu beznea <claudiu.beznea@tuxon.dev>, ulf.hansson@linaro.org,
-	yoshihiro.shimoda.uh@renesas.com, masaharu.hayakawa.ry@renesas.com,
-	takeshi.saito.xv@renesas.com, linux-mmc@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-References: <20240205112702.213050-1-claudiu.beznea.uj@bp.renesas.com>
- <ZcDdn2AVz8FIXzak@shikoro>
- <237bd5c8-184d-4e46-ba66-253e3ef0c895@tuxon.dev>
+	s=arc-20240116; t=1707150933; c=relaxed/simple;
+	bh=ZsSX8r4xjSkosOZIBP8AGU9AupuG60/9FbaivTIPBXo=;
+	h=Date:Content-Type:MIME-Version:From:To:Cc:In-Reply-To:References:
+	 Message-Id:Subject; b=jIlPqedXSUKKlobkhgU6AFMtkZLjd+ElRWHx5/ioQgw79VlKzg6QPOMVpS2i9C7CDU72OmfSxgLDXHrs5kWOL4onG6SgYJUkq46VkoU7JAKpyISbOYWo7iFD/XT4OLrNdFL0hBODR8PJAnV00YkqWPRpTZ/eOrjawv1KXLtf9mw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RKo1+Ozy; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3D549C433C7;
+	Mon,  5 Feb 2024 16:35:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1707150932;
+	bh=ZsSX8r4xjSkosOZIBP8AGU9AupuG60/9FbaivTIPBXo=;
+	h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
+	b=RKo1+OzyeF3eCfkPynFsfSVttvAUhg2HMIxe2WRlgPStmaJhL+Uco8hegTrgXvdKN
+	 icXOgFBqcne+QuYRX/rZocVvqQJaLvLRC3uFyQKjlQrAPwxGAu8OJGJz2/OkNy/AXL
+	 99FBGwS7YkeiO9crkUcoziAwjR4AEwu6VX/ao04gxsimTTfrNoVHc24tr4gFuTQOrm
+	 /DFJge0Db4rtUFOIfY7UzbBnWhRz25CMxqwXJPmBjgQhk19PfnDX/6gcs5VwQEJPDS
+	 vEav11qXHVLXj1i+zN/ztURuvLpXUfWsngsUL0jpa9MhgvaKbbtir8BhjxcFzZzJwp
+	 XsKlllFfG7Mvw==
+Date: Mon, 05 Feb 2024 16:35:30 +0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="qEqW1x4AbDvxYxZ7"
-Content-Disposition: inline
-In-Reply-To: <237bd5c8-184d-4e46-ba66-253e3ef0c895@tuxon.dev>
+From: Rob Herring <robh@kernel.org>
+To: Prabhakar <prabhakar.csengg@gmail.com>
+Cc: linux-kernel@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
+ Geert Uytterhoeven <geert+renesas@glider.be>, 
+ Thomas Gleixner <tglx@linutronix.de>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+ Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
+ Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>, 
+ Rob Herring <robh+dt@kernel.org>, linux-renesas-soc@vger.kernel.org, 
+ devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>, 
+ Magnus Damm <magnus.damm@gmail.com>
+In-Reply-To: <20240205144421.51195-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20240205144421.51195-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20240205144421.51195-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Message-Id: <170715092938.3472105.11395569623578277024.robh@kernel.org>
+Subject: Re: [PATCH v2 1/3] dt-bindings: interrupt-controller:
+ renesas,rzg2l-irqc: Update interrupts
 
 
---qEqW1x4AbDvxYxZ7
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Mon, 05 Feb 2024 14:44:19 +0000, Prabhakar wrote:
+> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> 
+> All the RZ/G2L and alike SoC's (listed below) have ECCRAM0/1 interrupts
+> supported by the IRQC block, reflect the same in DT binding doc.
+> 
+> - R9A07G043U              - RZ/G2UL
+> - R9A07G044L/R9A07G044LC  - RZ/{G2L,G2LC}
+> - R9A07G054               - RZ/V2L
+> - R9A08G045               - RZ/G3S
+> 
+> For the RZ/G3S SoC ("R9A08G045") ECCRAM0/1 interrupts combined into single
+> interrupt so we just use the below to represent them:
+> - ec7tie1-0
+> - ec7tie2-0
+> - ec7tiovf-0
+> 
+> Previously, it was assumed that BUS-error and ECCRAM0/1 error interrupts
+> were only supported by RZ/G2UL ("R9A07G043U") and RZ/G3S ("R9A08G045")
+> SoCs. However, in reality, all RZ/G2L and similar SoCs (listed above)
+> support these interrupts. Therefore, mark the 'interrupt-names' property
+> as required for all the SoCs and update the example node in the binding
+> document.
+> 
+> Fixes: 96fed779d3d4 ("dt-bindings: interrupt-controller: Add Renesas RZ/G2L Interrupt Controller")
+> Fixes: 1cf0697a24ef ("dt-bindings: interrupt-controller: renesas,rzg2l-irqc: Document RZ/G3S")
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> ---
+>  .../renesas,rzg2l-irqc.yaml                   | 44 +++++++++++++++----
+>  1 file changed, 35 insertions(+), 9 deletions(-)
+> 
 
+My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+on your patch (DT_CHECKER_FLAGS is new in v5.13):
 
-> > According to my understanding, we should only mark this TAP good if it
-> > is in the range 5-7. I need to double check with Renesas, though.
->=20
-> OK, my understanding is that it should be in the middle (beginning being
-> the tap that triggered change point of the input data, end being the next
-> tap with the same ID). This is what I understand from this: "As the width
-> of the input data is 1 (UI), select TAP6 or TAP7 which is
->=20
-> *the median* of next TAP3 from TAP3."
+yamllint warnings/errors:
+./Documentation/devicetree/bindings/interrupt-controller/renesas,rzg2l-irqc.yaml:143:111: [warning] line too long (114 > 110 characters) (line-length)
+./Documentation/devicetree/bindings/interrupt-controller/renesas,rzg2l-irqc.yaml:144:111: [warning] line too long (114 > 110 characters) (line-length)
+./Documentation/devicetree/bindings/interrupt-controller/renesas,rzg2l-irqc.yaml:145:111: [warning] line too long (114 > 110 characters) (line-length)
 
-Yes, I agree. With 0x0e, that means TAP1+2+3 are changing points and we
-should be far away from them, like 5-7.
+dtschema/dtc warnings/errors:
 
-But: I am still waiting for Renesas to answer my questions regarding
-SMPCMP. I'd like to get that first, so we have clear facts then.
+doc reference errors (make refcheckdocs):
 
-> > Boot failure is one test. Read/write tests should be another, I think.
->=20
-> OK, I'll try also read/write. Do you have in mind something particular?
+See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20240205144421.51195-2-prabhakar.mahadev-lad.rj@bp.renesas.com
 
-Nope. Just consistency checks.
+The base for the series is generally the latest rc1. A different dependency
+should be noted in *this* patch.
 
-> > Because if we select a bad TAP, bad things might happen later. To reduce
-> > the amount of testing, read/write testing could only be triggered if the
-> > new code path was excecuted?
->=20
-> I'm not sure how to trigger that (or maybe I haven't understood your
-> statement...)
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
 
-I thought something in the lines of:
+pip3 install dtschema --upgrade
 
-- print out when you needed SMPCMP to select a TAP
-- check the log for that printout
-- if (printout) do read_write_tests
+Please check and re-submit after running the above command yourself. Note
+that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+your schema. However, it must be unset to test all examples with your schema.
 
-Dunno if that makes sense with your test setup.
-
-
---qEqW1x4AbDvxYxZ7
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmXA9eoACgkQFA3kzBSg
-KbZncQ//f/ax+lI9WQAUTFM3v2A9bA6nLjRcWJr9G/EpZeEtrNs4C0OakdRE8Gwi
-CLENdlS9pUSVUrHyfjv1LXo/SD+xcj3tHL42yDJ3m1zStuh2Vu3mvvvhcnFX+qcq
-5EUjvtHpGfSg5QokJ0AV0U22DXeJOHWOXJK/PS+OnR9He66Xm+PC9PxFea5rzVQw
-0xBqz/uUKC1jSqIWMHniAKsHh4sWMi+hgKdfdG9n1AbW89ofU8A3wN7PyggZIQz+
-vYJvQgVuhfcr7hgLVo3wrayWfZfPpolF2Sbe6ThIWTEm1ZmDUAmM8buJ6vWKZwbl
-e8k0JknLSRfrI+e09x57IbHDqx8O4e6kgIwQ5H/jlel3q236bWaLszRetw86IW+K
-t/2kiny7aPRM2msFGoaefXtwDNSTBzLS9HIjoWlZUAkEzNozv+PTsKAczXheI0bu
-ouZOPam/L9V49PaSrijs2d4+SKHiuRrP/QDA993SCIRmQ8eFTkGfpVpRnTyM6+Gd
-xqzBzWI/U89x5U0isr0lZDlfiFs3IyVIdnSa+thcdaaUzJOYnN6axGvR5vYhNujR
-zv7ptO3ZpetT7IodiYyIxXDo+zuesne9yj4X3HWnFiyuivBqauedUqtKHtgQeRqL
-kcav4NdwvzUdqRN/HxDgLu81KXlwibniQEK0edE/M26kCl4jMCs=
-=5JaQ
------END PGP SIGNATURE-----
-
---qEqW1x4AbDvxYxZ7--
 
