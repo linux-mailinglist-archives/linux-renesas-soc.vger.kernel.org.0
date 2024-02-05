@@ -1,121 +1,98 @@
-Return-Path: <linux-renesas-soc+bounces-2333-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-2334-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id D335D849FB0
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  5 Feb 2024 17:44:32 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id E58CE849FBF
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  5 Feb 2024 17:46:17 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8EA23285339
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  5 Feb 2024 16:44:31 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 873A9B22DC0
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  5 Feb 2024 16:46:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AA32C4121B;
-	Mon,  5 Feb 2024 16:43:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 87C2633CF6;
+	Mon,  5 Feb 2024 16:45:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fOkmhRrM"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5CB364123F
-	for <linux-renesas-soc@vger.kernel.org>; Mon,  5 Feb 2024 16:43:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E6193FE44;
+	Mon,  5 Feb 2024 16:45:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707151419; cv=none; b=PrA3zYNEleudQFCTZzIomOCbH3YO30CEfENJx8vfLGwhXUV9GD76LAjOD78qhyMZomuk9Qq3MCnTYXQtknzrRgfI51R+7aht6uMxBQarHNGlvXv+6qfpnIZbxTjdaKHFfaPUIKVmBMjLOBpIzTo0dySwIj7gwfG6lrEPYpyUHaY=
+	t=1707151557; cv=none; b=Pj/HvFZW2KFroYeFwgCqOrM/EU1GSUX9dkq3fLSxTLgyjhjI8kzq8esh2iycRwG3Jwx1KPsjeFl3vNDruRCPwNzXHyumz1Q8xqZTqzjtdhnG0fhREzbIoCicAw92+8dD6upWbOzdElL7wkrmrnEAXO2PxW6HNq3zPb8ycXws3wE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707151419; c=relaxed/simple;
-	bh=LeDCKQro0T212yTX9dukrdEsUpHluX2JRx22LJrv1N8=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=dQ/N0fZqtrAltm9NiUEOVJ2/yB6fdn47JXqlhjSK7BIKqGHGpN9TkOLJ11Frei1fDqoGO9GX1wgce6nOBvVqWSVKsWQmsU+usD1VGJ8xsS/MEMsmTJeZqgplkZbK8W9ZBL3KAG7/znkf7w2LneIx1kEirmWrFnrLhcOrCX5NBjQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 07F401FB;
-	Mon,  5 Feb 2024 08:44:19 -0800 (PST)
-Received: from e121345-lin.cambridge.arm.com (e121345-lin.cambridge.arm.com [10.1.196.40])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 621473F5A1;
-	Mon,  5 Feb 2024 08:43:35 -0800 (PST)
-From: Robin Murphy <robin.murphy@arm.com>
-To: joro@8bytes.org
-Cc: will@kernel.org,
-	iommu@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	geert+renesas@glider.be,
-	yoshihiro.shimoda.uh@renesas.com,
-	linux-renesas-soc@vger.kernel.org
-Subject: [PATCH] iommu/ipmmu-vmsa: Minor cleanups
-Date: Mon,  5 Feb 2024 16:43:27 +0000
-Message-Id: <791877b0d310dc2ab7dc616d2786ab24252b9b8e.1707151207.git.robin.murphy@arm.com>
-X-Mailer: git-send-email 2.39.2.101.g768bb238c484.dirty
+	s=arc-20240116; t=1707151557; c=relaxed/simple;
+	bh=MKEh3DqLjTGpbNuXngSnug0+6IpX1IkeGiJnwv8YNt4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=UQ5u/udnVl4iWvxtc6EmYdh/5S2XcUjAB95SX38TEnVqKEBRSsROOh2sxIHGK7mUN9imfVgvoFk7Np5hcqq2/a1coLAEOL+ZKZb0sc7Rbw9yW8q00u0Xe1m6tw8mxWlk6m3jMfVvIk2SjJXdalRofC+2PX7dCoKtQgrfdrXPRjA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fOkmhRrM; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 81DAEC43394;
+	Mon,  5 Feb 2024 16:45:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1707151556;
+	bh=MKEh3DqLjTGpbNuXngSnug0+6IpX1IkeGiJnwv8YNt4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=fOkmhRrM6zubuygwMP3g3x7pY8yCZEZWT2IGSmTV8O60ygu+sK5RCgCat76wkUYBy
+	 b1NcfgobwNx+pvsANhMSzIWFNZIfKYf7c13KdbNhLvQcFad3cV4MkgXxGctVY1e0R4
+	 T7YTDyNvVcwSwKY16aApvUCVgzbFAijb3oYgfbrGHavU3fR2tr/UYCtqp4jMGwIKt0
+	 nTl9ZCME7IpCL6cnP3g1VDYSePdUVKJanKts1ie3bQUi3l5oJYNaQNC3kANAyFRgYT
+	 h9MeYjdlPMxixc+QicqwdpDtmbFW+tsyQrfXrWiXWxvfpMXl+vbrK6VBG+MhocWVgS
+	 huTI41rSL2/tQ==
+Date: Mon, 5 Feb 2024 16:45:53 +0000
+From: Rob Herring <robh@kernel.org>
+To: Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: Re: [PATCH v2] dt-bindings: renesas: Document preferred compatible
+ naming
+Message-ID: <170715155261.3486259.14351069741076274739.robh@kernel.org>
+References: <20240127121937.2372098-1-niklas.soderlund+renesas@ragnatech.se>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240127121937.2372098-1-niklas.soderlund+renesas@ragnatech.se>
 
-Remove the of_match_ptr() which was supposed to have gone long ago, but
-managed to got lost in a fix-squashing mishap. On a similar theme, we
-may as well also modernise the PM ops to get rid of the clunky #ifdefs,
-and modernise the resource mapping to keep the checkpatch brigade happy.
 
-Link: https://lore.kernel.org/linux-iommu/Yxni3d6CdI3FZ5D+@8bytes.org/
-Signed-off-by: Robin Murphy <robin.murphy@arm.com>
----
- drivers/iommu/ipmmu-vmsa.c | 15 ++++-----------
- 1 file changed, 4 insertions(+), 11 deletions(-)
+On Sat, 27 Jan 2024 13:19:37 +0100, Niklas Söderlund wrote:
+> Compatibles can come in two formats. Either "vendor,ip-soc" or
+> "vendor,soc-ip". Add a DT schema file documenting Renesas preferred
+> policy and enforcing it for all new compatibles, except few existing
+> patterns.
+> 
+> Suggested-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> ---
+> * Changes since v1
+> - Split the "SoC agnostic compatibles" section into two to make it's
+>   intent clearer.
+> - Improved the documentation for each group of compatibles.
+> - Reduced the number of regexp to create a larger target area. As
+>   suggested by Krzysztof the goal is not to validate each SoC name but
+>   check for the correct order of SoC-IP.
+> 
+> * Changes since RFC
+> - Moved to Documentation/devicetree/bindings/soc/renesas.
+> - Changed the pattern in the initial select to match on .*-.*.
+> - Added a lot of missing compatible values.
+> ---
+>  .../bindings/soc/renesas/renesas-soc.yaml     | 135 ++++++++++++++++++
+>  1 file changed, 135 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/soc/renesas/renesas-soc.yaml
+> 
 
-diff --git a/drivers/iommu/ipmmu-vmsa.c b/drivers/iommu/ipmmu-vmsa.c
-index ace1fc4bd34b..90d3f03242db 100644
---- a/drivers/iommu/ipmmu-vmsa.c
-+++ b/drivers/iommu/ipmmu-vmsa.c
-@@ -1005,7 +1005,6 @@ static const struct of_device_id ipmmu_of_ids[] = {
- static int ipmmu_probe(struct platform_device *pdev)
- {
- 	struct ipmmu_vmsa_device *mmu;
--	struct resource *res;
- 	int irq;
- 	int ret;
- 
-@@ -1025,8 +1024,7 @@ static int ipmmu_probe(struct platform_device *pdev)
- 		return ret;
- 
- 	/* Map I/O memory and request IRQ. */
--	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
--	mmu->base = devm_ioremap_resource(&pdev->dev, res);
-+	mmu->base = devm_platform_ioremap_resource(pdev, 0);
- 	if (IS_ERR(mmu->base))
- 		return PTR_ERR(mmu->base);
- 
-@@ -1123,7 +1121,6 @@ static void ipmmu_remove(struct platform_device *pdev)
- 	ipmmu_device_reset(mmu);
- }
- 
--#ifdef CONFIG_PM_SLEEP
- static int ipmmu_resume_noirq(struct device *dev)
- {
- 	struct ipmmu_vmsa_device *mmu = dev_get_drvdata(dev);
-@@ -1153,18 +1150,14 @@ static int ipmmu_resume_noirq(struct device *dev)
- }
- 
- static const struct dev_pm_ops ipmmu_pm  = {
--	SET_NOIRQ_SYSTEM_SLEEP_PM_OPS(NULL, ipmmu_resume_noirq)
-+	NOIRQ_SYSTEM_SLEEP_PM_OPS(NULL, ipmmu_resume_noirq)
- };
--#define DEV_PM_OPS	&ipmmu_pm
--#else
--#define DEV_PM_OPS	NULL
--#endif /* CONFIG_PM_SLEEP */
- 
- static struct platform_driver ipmmu_driver = {
- 	.driver = {
- 		.name = "ipmmu-vmsa",
--		.of_match_table = of_match_ptr(ipmmu_of_ids),
--		.pm = DEV_PM_OPS,
-+		.of_match_table = ipmmu_of_ids,
-+		.pm = pm_sleep_ptr(&ipmmu_pm),
- 	},
- 	.probe = ipmmu_probe,
- 	.remove_new = ipmmu_remove,
--- 
-2.39.2.101.g768bb238c484.dirty
+Acked-by: Rob Herring <robh@kernel.org>
 
 
