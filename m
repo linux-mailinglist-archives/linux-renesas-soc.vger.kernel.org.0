@@ -1,117 +1,268 @@
-Return-Path: <linux-renesas-soc+bounces-2319-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-2320-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCEAB849536
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  5 Feb 2024 09:17:53 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7816F84964F
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  5 Feb 2024 10:21:15 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 044301C23E36
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  5 Feb 2024 08:17:53 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E3918B2572C
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  5 Feb 2024 09:21:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1DEA5111AE;
-	Mon,  5 Feb 2024 08:17:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 040FF12E63;
+	Mon,  5 Feb 2024 09:20:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Xi3VjbOL"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yb1-f170.google.com (mail-yb1-f170.google.com [209.85.219.170])
+Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 324A811185
-	for <linux-renesas-soc@vger.kernel.org>; Mon,  5 Feb 2024 08:17:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 284C4134AE;
+	Mon,  5 Feb 2024 09:20:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707121069; cv=none; b=bvl6rdaA/0m3bPkshBaY0BoUjxe3sE6W+2t/T86s/UYG+v6p1fGVWSeZJN677Owgtxs1E5U3ubwaJRcRiYlG8Pmk2pXpz0h2Q7lMNyWU4zfmH28XlLypmZxm8Hgn77S+y5kfkPJKhwIhB1/Pk2QAWcoQTmrAXQZDbwJN/z71PJA=
+	t=1707124835; cv=none; b=Z8A7ImNT8DD8PM9CiY17wPav9VjnnR54gjeeSysMSPq/7I/QYVBN3PsKVY7gOHsYQznQMpeuzZKohzrVmyuy2RuNY7kTJVfCIubAxuyOF5tlUXqPNXAqKowcI7wOKvjTu6nYeE9FP4HwDzM4fKAX8p6WhgWtPKUBdEJnMKMN2uM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707121069; c=relaxed/simple;
-	bh=W76qmMZSXgJEdBIIiyjQPmCvv9oNQcSMnqyAGnNX6K8=;
+	s=arc-20240116; t=1707124835; c=relaxed/simple;
+	bh=jqinj0ut/CqI57smR63XG2qy6eom91utqBZVLxA/thk=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=EVJhRjPnI3dzUyv3cEfiERnqZdA2VFSIveWm1resFEd0k86O1jSVVL8fDN4uzSpNDuiNs/ZMcOxTLyHBCtHi2CCgM4hSAYlj4trkGtCzqZCB75gmJ7ithOp4ATYI1rCsusIowZzx0XWvwr6Sd/ZXFK3whRYzVCauQR+sBOJnr1o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.219.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+	 To:Cc:Content-Type; b=hTM+B/0tjO1MhhoaDUEWxItr9ciYCP1JfzKyMf7Pw/BVcDReNWprovuLgOEtn6s8FEIX7JrbfvL03w2hgXerdaj32iUB5Nij6WQCBFWiEQrZRGCtXmNl4wiPODSDPcQ3eDqykCMCxC6U2zNN2oym8phv1Y1yiIhZbeT0AmSua+M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Xi3VjbOL; arc=none smtp.client-ip=209.85.208.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yb1-f170.google.com with SMTP id 3f1490d57ef6-dc6d5206e96so3697984276.0
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 05 Feb 2024 00:17:46 -0800 (PST)
+Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-2d0a4e8444dso10999761fa.2;
+        Mon, 05 Feb 2024 01:20:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1707124832; x=1707729632; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=T4bQlWx9leMvsqboETb8wKN8mW2NDq+Tu6eiQDRS+co=;
+        b=Xi3VjbOLiO3D+rLNUJM8Nrq/T5OMMn4xQdEMpcdq7ZXhWKsEZgAcy8sjUgguNtZfKk
+         mtHQeL6WEMBMDXlkSErTAB9mNo0cv53LwLtH6XTOCLs40ZOYQse4NZxKCmIuUQtueWhp
+         3mfymTcU2CN194hEh3sCVZQW8KdFO6ASoH/0TFnqxp6I0iBj3HDV2znq0tBqPNgqJTIX
+         EjxCR0GfEHrwspm+djKz+mEBp3if/6xr29AP4ORSWg3URRFwG1wqlhjVTMydR76qnbUr
+         d0g8MQFli4wjjBDManpQ8fh7foCD0MD94NVmLs4HpTYV0J+Bu0aanolwkKT1KX8ymrsJ
+         gOsg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707121065; x=1707725865;
+        d=1e100.net; s=20230601; t=1707124832; x=1707729632;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=XcNtUT3B2diGwQ5L9gVH68XeL/qWdYSYQwfgDjxmo4s=;
-        b=CY+Sbq5NTGjkfUlj/aIt436V1lC9I9euIWUeIa2wteYbc6UzseawELKjA8R6JVE2na
-         qP4q+qvWEc1aHZfiTD7Q1yTX3mEstpnl8pmPWuh8QIygraIFn07FbP7dsHUqFmVFszY7
-         1Y3yfO7+zkzhvySW20mV7dMc+Pl3fZOOyjXNe9nFzXbxvBP58WoDnj8R6USy+Yk8Hylw
-         lc8twN5mhRMjL/jWgnBm7f/H1ZFB4rtfWXOzVARkFkjHEi2KLoBvnmIlhORMclLK/iaQ
-         +qR1qDtgiG9eGYJq3cT0dS+HWgH5U2SuCz/Oy80rsyj8gmj1KaDe7P4Gd59PvW4ZEVSK
-         Hs5Q==
-X-Gm-Message-State: AOJu0YxiliK7Gf5Jw/DN6BKbB6OK83YK0F0f0+1ib5miggC+uBVG1B0H
-	/BYdDLPhFEVcA8C9JjC1EnxVEDS/uaWZyAnRU2Ruh54L7wMr6Jp96cjNCgdfPP0=
-X-Google-Smtp-Source: AGHT+IFoQoS0vGRA+zAzY786mrQKzxTW3bB03MYFF2fO6rvkjNlV46j/VMKawFOxF/gjxSldoZBY0w==
-X-Received: by 2002:a25:ac62:0:b0:dc2:3253:279a with SMTP id r34-20020a25ac62000000b00dc23253279amr7680077ybd.61.1707121065324;
-        Mon, 05 Feb 2024 00:17:45 -0800 (PST)
-Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com. [209.85.128.181])
-        by smtp.gmail.com with ESMTPSA id b6-20020a252e46000000b00dc25528fe9fsm1763925ybn.9.2024.02.05.00.17.45
-        for <linux-renesas-soc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 05 Feb 2024 00:17:45 -0800 (PST)
-Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-60412866c36so40263957b3.2
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 05 Feb 2024 00:17:45 -0800 (PST)
-X-Received: by 2002:a81:f205:0:b0:604:3ee2:f258 with SMTP id
- i5-20020a81f205000000b006043ee2f258mr5033605ywm.45.1707121064915; Mon, 05 Feb
- 2024 00:17:44 -0800 (PST)
+        bh=T4bQlWx9leMvsqboETb8wKN8mW2NDq+Tu6eiQDRS+co=;
+        b=bfcwyBOQj9iECuUHiy++hTS9hLK3T9OEz3+75a3QpakeFN5PHGQsqNEJYqAv5lDU4I
+         E7U0kToYgIK0ZXzrKUk45xjFgIGRbruPxpXKCJZDHSbJfeniQsunemQCJGfaScmLAOXv
+         zKHYgIkOxx3runUhHU0jOFzjbCtcV5BMyvOSmO0H16AYxxbgcnkxxaZ8icj1JbZyoUMS
+         vQbPZ5c6QbwDve7A9qy1I/uGWnvitzFQw4Q438YiwIzHF4IpC/sWFuw0Y8i4mJ7+MtcM
+         uLolG4b5V/hl+spUfviYycqFHfR2OalTEfROT+c1ApnHyTsF56XM67Es5EutD+8yxvNS
+         DG6Q==
+X-Gm-Message-State: AOJu0Yyx1hWF0WRr5cXsjLXvPz/f/mP64EDMpU0t+IXIaKw3F/4Kys6J
+	adPYYvYsxilpMF0hkPYRrUD4WFBj5k+c7BZd1NhACz3La4niKzzyFzkr0o0IgIQxsgkWOSeJrLY
+	8kBugWTPOodhCsFgiZv1wb1nJUN5yTM0QUMZbjQ==
+X-Google-Smtp-Source: AGHT+IEJBT8ynxGibd17Lu89o7u2txt2p6bmk1fews8w5O1Em49BfLoxyO5zalLY1E0WHxr3uMNWq5eTFX7VrrjFbos=
+X-Received: by 2002:a05:651c:1582:b0:2d0:4c65:f09f with SMTP id
+ h2-20020a05651c158200b002d04c65f09fmr10039835ljq.7.1707124831853; Mon, 05 Feb
+ 2024 01:20:31 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cover.1706796660.git.geert+renesas@glider.be> <7dbbe13428273c5786ddff6ea7af6724fcdd4de8.1706796660.git.geert+renesas@glider.be>
- <Zb59ceHI7FrUqjhg@shikoro>
-In-Reply-To: <Zb59ceHI7FrUqjhg@shikoro>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 5 Feb 2024 09:17:31 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdVq7T21R=stUSKMiC+XTaM1MSPngrDppzaaU3MXFLo-tw@mail.gmail.com>
-Message-ID: <CAMuHMdVq7T21R=stUSKMiC+XTaM1MSPngrDppzaaU3MXFLo-tw@mail.gmail.com>
-Subject: Re: [PATCH 1/2] arm64: dts: renesas: r8a779h0: Add I2C nodes
-To: Wolfram Sang <wsa@kernel.org>
-Cc: linux-renesas-soc@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	Hai Pham <hai.pham.ud@renesas.com>
+References: <20240131102656.3379-1-biju.das.jz@bp.renesas.com> <20240131102656.3379-5-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20240131102656.3379-5-biju.das.jz@bp.renesas.com>
+From: Biju Das <biju.das.au@gmail.com>
+Date: Mon, 5 Feb 2024 09:20:20 +0000
+Message-ID: <CADT+UeAatuHFe+-Fo9xQaqApF7rOGPuMZSRjVN9GbgHhaxZAGA@mail.gmail.com>
+Subject: Re: [PATCH v6 RESEND 4/6] dt-bindings: thermal: Convert da906{1,2}
+ thermal to json-schema
+To: Biju Das <biju.das.jz@bp.renesas.com>
+Cc: Lee Jones <lee@kernel.org>, Rob Herring <robh+dt@kernel.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Support Opensource <support.opensource@diasemi.com>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Daniel Lezcano <daniel.lezcano@linaro.org>, Zhang Rui <rui.zhang@intel.com>, 
+	Lukasz Luba <lukasz.luba@arm.com>, devicetree@vger.kernel.org, linux-pm@vger.kernel.org, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, 
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>, linux-renesas-soc@vger.kernel.org, 
+	Rob Herring <robh@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Wolfram,
+Hi Lee Jones and Daniel,
 
-On Sat, Feb 3, 2024 at 6:52=E2=80=AFPM Wolfram Sang <wsa@kernel.org> wrote:
-> On Thu, Feb 01, 2024 at 03:14:33PM +0100, Geert Uytterhoeven wrote:
-> > From: Hai Pham <hai.pham.ud@renesas.com>
-> >
-> > Add device nodes for the I2C Bus Interfaces on the Renesas R-Car V4M
-> > (R8A779H0) SoC.
-> >
-> > Signed-off-by: Hai Pham <hai.pham.ud@renesas.com>
-> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+On Wed, Jan 31, 2024 at 10:27=E2=80=AFAM Biju Das <biju.das.jz@bp.renesas.c=
+om> wrote:
 >
-> So far so good...
+> Convert the da906{1,2} thermal device tree binding documentation to
+> json-schema.
 >
-> Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> Update MAINTAINERS entries and description by referring to
+> dlg,da9062-thermal.yaml binding file.
+>
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> Reviewed-by: Rob Herring <robh@kernel.org>
 
-Thanks!
+I missed adding Ack from  Daniel[1] for v6 version. So adding here.
 
-> I assume DMA nodes are not there yet because you use these nodes for
-> testing DMA when you enable the DMACs?
+Acked-by: Daniel Lezcano <daniel.lezcano@linaro.org>
 
-Indeed, DMAC support is not yet included.
+[1]  [v5,6/8] dt-bindings: thermal: Convert da906{1,2} thermal to
+json-schema - Patchwork (kernel.org)
 
-Gr{oetje,eeting}s,
+Cheers,
+Biju
 
-                        Geert
-
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+> Acked-by: Lee Jones <lee@kernel.org>
+> ---
+> v6->v6 resend:
+>  * Added Ack from Lee Jones.
+> v5->v6:
+>  * No change.
+> v4->v5:
+>  * No change.
+> v3->v4:
+>  * Restored the patch from v2.
+>  * Dropped example
+>  * Replaced enum->const for compatible property.
+>  * Added Rb tag from Rob and retained Rb tag as changes are trivial.
+> v2->v3:
+>  * Fixed bot errors related to MAINTAINERS entry, invalid doc
+>    references and thermal examples by merging patch#4.
+> v2:
+>  * New patch
+> ---
+>  .../devicetree/bindings/mfd/da9062.txt        |  2 +-
+>  .../bindings/thermal/da9062-thermal.txt       | 36 -------------------
+>  .../bindings/thermal/dlg,da9062-thermal.yaml  | 35 ++++++++++++++++++
+>  MAINTAINERS                                   |  2 +-
+>  4 files changed, 37 insertions(+), 38 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/thermal/da9062-ther=
+mal.txt
+>  create mode 100644 Documentation/devicetree/bindings/thermal/dlg,da9062-=
+thermal.yaml
+>
+> diff --git a/Documentation/devicetree/bindings/mfd/da9062.txt b/Documenta=
+tion/devicetree/bindings/mfd/da9062.txt
+> index 154c31fa4443..c8a7f119ac84 100644
+> --- a/Documentation/devicetree/bindings/mfd/da9062.txt
+> +++ b/Documentation/devicetree/bindings/mfd/da9062.txt
+> @@ -88,7 +88,7 @@ Sub-nodes:
+>
+>  - watchdog: See ../watchdog/dlg,da9062-watchdog.yaml
+>
+> -- thermal : See ../thermal/da9062-thermal.txt
+> +- thermal : See ../thermal/dlg,da9062-thermal.yaml
+>
+>  Example:
+>
+> diff --git a/Documentation/devicetree/bindings/thermal/da9062-thermal.txt=
+ b/Documentation/devicetree/bindings/thermal/da9062-thermal.txt
+> deleted file mode 100644
+> index e241bb5a5584..000000000000
+> --- a/Documentation/devicetree/bindings/thermal/da9062-thermal.txt
+> +++ /dev/null
+> @@ -1,36 +0,0 @@
+> -* Dialog DA9062/61 TJUNC Thermal Module
+> -
+> -This module is part of the DA9061/DA9062. For more details about entire
+> -DA9062 and DA9061 chips see Documentation/devicetree/bindings/mfd/da9062=
+.txt
+> -
+> -Junction temperature thermal module uses an interrupt signal to identify
+> -high THERMAL_TRIP_HOT temperatures for the PMIC device.
+> -
+> -Required properties:
+> -
+> -- compatible: should be one of the following valid compatible string lin=
+es:
+> -        "dlg,da9061-thermal", "dlg,da9062-thermal"
+> -        "dlg,da9062-thermal"
+> -
+> -Optional properties:
+> -
+> -- polling-delay-passive : Specify the polling period, measured in
+> -    milliseconds, between thermal zone device update checks.
+> -
+> -Example: DA9062
+> -
+> -       pmic0: da9062@58 {
+> -               thermal {
+> -                       compatible =3D "dlg,da9062-thermal";
+> -                       polling-delay-passive =3D <3000>;
+> -               };
+> -       };
+> -
+> -Example: DA9061 using a fall-back compatible for the DA9062 onkey driver
+> -
+> -       pmic0: da9061@58 {
+> -               thermal {
+> -                       compatible =3D "dlg,da9061-thermal", "dlg,da9062-=
+thermal";
+> -                       polling-delay-passive =3D <3000>;
+> -               };
+> -       };
+> diff --git a/Documentation/devicetree/bindings/thermal/dlg,da9062-thermal=
+.yaml b/Documentation/devicetree/bindings/thermal/dlg,da9062-thermal.yaml
+> new file mode 100644
+> index 000000000000..206635f74850
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/thermal/dlg,da9062-thermal.yaml
+> @@ -0,0 +1,35 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/thermal/dlg,da9062-thermal.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Dialog DA9062/61 TJUNC Thermal Module
+> +
+> +maintainers:
+> +  - Biju Das <biju.das.jz@bp.renesas.com>
+> +
+> +description: |
+> +  This module is part of the DA9061/DA9062. For more details about entir=
+e
+> +  DA9062 and DA9061 chips see Documentation/devicetree/bindings/mfd/da90=
+62.txt
+> +
+> +  Junction temperature thermal module uses an interrupt signal to identi=
+fy
+> +  high THERMAL_TRIP_HOT temperatures for the PMIC device.
+> +
+> +properties:
+> +  compatible:
+> +    oneOf:
+> +      - const: dlg,da9062-thermal
+> +      - items:
+> +          - const: dlg,da9061-thermal
+> +          - const: dlg,da9062-thermal
+> +
+> +  polling-delay-passive:
+> +    description:
+> +      Specify the polling period, measured in milliseconds, between
+> +      thermal zone device update checks.
+> +
+> +required:
+> +  - compatible
+> +
+> +additionalProperties: false
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 2aab4f5d634a..f4a7bd8a1a04 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -6171,7 +6171,7 @@ F:        Documentation/devicetree/bindings/regulat=
+or/da92*.txt
+>  F:     Documentation/devicetree/bindings/regulator/dlg,da9*.yaml
+>  F:     Documentation/devicetree/bindings/regulator/dlg,slg51000.yaml
+>  F:     Documentation/devicetree/bindings/sound/da[79]*.txt
+> -F:     Documentation/devicetree/bindings/thermal/da90??-thermal.txt
+> +F:     Documentation/devicetree/bindings/thermal/dlg,da9062-thermal.yaml
+>  F:     Documentation/devicetree/bindings/watchdog/dlg,da9062-watchdog.ya=
+ml
+>  F:     Documentation/hwmon/da90??.rst
+>  F:     drivers/gpio/gpio-da90??.c
+> --
+> 2.39.2
+>
 
