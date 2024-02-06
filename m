@@ -1,142 +1,138 @@
-Return-Path: <linux-renesas-soc+bounces-2370-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-2371-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DE4484AFBB
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  6 Feb 2024 09:15:41 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F72184AFFD
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  6 Feb 2024 09:34:28 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 62FF11C2269E
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  6 Feb 2024 08:15:40 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C2D1E28575B
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  6 Feb 2024 08:34:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0308412B16C;
-	Tue,  6 Feb 2024 08:15:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="jkQRdDKY"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E9E2C31A60;
+	Tue,  6 Feb 2024 08:34:22 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
+Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com [209.85.128.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D9FB12B14E
-	for <linux-renesas-soc@vger.kernel.org>; Tue,  6 Feb 2024 08:15:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94BC112AADB;
+	Tue,  6 Feb 2024 08:34:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707207317; cv=none; b=LjkLKDWQ1/Kttc3DkAk6hUd0tf2bJXyvLUoGWG+XUAgz3hxEGP3MZDHQsHhqoLsldK48TDS+h6WxAC4TrBtB7+vej2c9TZsCSIsHC+kLa3AsTxLK4h4L0ClW6HvcvraNsV8e7H8g8AkOY7/JcqqOjFaEpdngnt5ceC1nNbRq3Ow=
+	t=1707208462; cv=none; b=uW7XebqNHQrfraGtFiwybglN7IjUYP5GnwgnEkO3sK1DOtk1Mk0YupEFIrW6hQ1qIDzAZ/uSWFAYZ43irWuGSx+lX72jfJPxnruka/4bYtMLQTqun3NEYfRHdc/brgdDdvvd8Oo/X+2aOuiOHr80eVQmJ1WED/D8pR8ofRWvBNA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707207317; c=relaxed/simple;
-	bh=YGLjoL7xChpMneTzTMtDqWunWKFG0vgpgJezm+/b2C4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=PivP6xIu1J2bnEjc1s/KCRZcVXdTdpN9jmY9ngvq3nzz2rTCdPnTH7kVYKE4cxSrbIoMnUPQFRFmHFPDnENjhL2DQAOzLgMjK1hLt9sOv0eOWuMjqoAW7oqGKiyh4wpkczi3e2MrAGB72eW+w9FczMFVEIh4ryo8+/W/mdgWHFA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=jkQRdDKY; arc=none smtp.client-ip=209.85.167.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
-Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-511206d1c89so7535149e87.1
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 06 Feb 2024 00:15:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1707207313; x=1707812113; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=DFH4UTR5EQtsU77bTwpZfCbLoj9097wAjcuQb4s57DM=;
-        b=jkQRdDKYVATLpbxxxXU4MUlkMM5Vgu+ItgucBs53q3FSakOchcw+3RlHBJ6vWfCwma
-         Vqp3V5llgystAmaURAQmFo0vppL6Mm/o1kO28eI4RXAG0dWnSepixTBsLWIG192d+0p0
-         aWpKKe5nsuBMlfzGBjIX9MYb85lCLlXUubEDWVDo5m+l24VDJlcyey15sExlJj2BQpzj
-         OkwQCDaGwuETLUVCjUcjUE06ct1c8pJiaw+x6rSdIogVlVuUIJyDzpC8oknOGyxG9edH
-         X6ja+DxTHs8KZa1kzPhKjb7/r9HGkdUp6dQ7T1HiHSwHalc2zf5hXqsH084RuSodzDow
-         4RNg==
+	s=arc-20240116; t=1707208462; c=relaxed/simple;
+	bh=RgplDxrOi270SZjJkk1u3JMj/RZ5eLF/Ts5e7aG3o90=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=hWosJyMhBg33am6hCBmEsTwhUWjSX3udQziIhNMHzSzJde7NpR20DEiFqCEGvMoPvzEQjaO7h+FksIAehzIo5eFWiLxZWJnW+BsdTxYIzrgixqrpb/QDwYY87WUAxKKd03u57FWJ1P+C84evzF1hrFNs6vOPEGkM5tGhpyTLhbQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-6041c6333cdso43462387b3.2;
+        Tue, 06 Feb 2024 00:34:20 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707207313; x=1707812113;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=DFH4UTR5EQtsU77bTwpZfCbLoj9097wAjcuQb4s57DM=;
-        b=O9vwFk/CVHCey/zVvrKFfmsWYjuYP3xfpl8mCSc3Ov4PGcoMQjQCE3irw8jkTmF4DR
-         1PU5fIssKaZs+72tw7utUnY+akWm3ioZ4SQ248fHwNXosBkDAFo0YUFik+q9u0SFDmYQ
-         PdSchUhPoE6YeXaNZ8DHavh6PQsIX2v2IH8Ofn+PlL9LDuHFIRuMW8sEQ3UJW6vrvuvP
-         pMOqndX1yDbG8O1qmDH+djiKq3j9onYPLpi5sR2Zq+fiqYjoaxMzPoJrdkAPc25MfJdB
-         E9AARc++WhPt4XAe0P5BcV3vkO/ofcgZUIxnn6zmluBKUNB5M3Yr4Z8LwnuY/MhyNN92
-         haTw==
-X-Gm-Message-State: AOJu0Yx8Wph7mIBQchHmf0vJrBZDAPSHBigJZbxrd4jvSyorDDT3NK7z
-	rufa0uIdDj7Y7DA313lIU40AIRJOwn4wIE7UrfSPkbynBCUUodE+r3UrS6R77CM=
-X-Google-Smtp-Source: AGHT+IGV8sEmr7N77J+aRgQQzpGjPTzlrlo7HjcwR/Bgb4FUsJSxxWo/HdzuSaPLXR9eLTIaAGDRBw==
-X-Received: by 2002:ac2:560f:0:b0:511:51b8:8550 with SMTP id v15-20020ac2560f000000b0051151b88550mr1204378lfd.64.1707207313313;
-        Tue, 06 Feb 2024 00:15:13 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCUi7toIeKaV3uLgJTuxPw3z7U8eNW6DzDumx131cwrPzbhdzsJZibYkeod0Qc3WanfpzHoO0L1aZphrmX4m+K907x/AcdO+RlNkgMYdlsvEICpEU9D+2R/mye933qK12DQ+2VRw0e9OSFxb34deX4ecjo2Ugvj21macCRbXpxA9IKX4Q5ZNltEwIpH3ALR3MOCRc/L9rCKrhUU0dRxYlNsS87QJu9ouB3J+bXY4Br+5auH5WmHCJMxkGXYKyebTeloS4LOraVeINeXIoRq414eThNrtidTfAGqKGX1SZ50ehLVfcRzVSpCd2wbFuV/PvPvJkyKmhLAXxTEzpNbinjxayCyzBfc6XfeaRH/lXgqYmvvVt+EC3VJveLVhEhJL5pmLZxRFDXaScEGng++sKQsbJKoI10v0hQJBMnW5G0GzY3BtnuZh/NwUSajQ8XMQGv9FuE7EEN5sWl4jD9nS2pHWEXIVOVILGBgHB6SuNUY8LUWQ6qW8xVioLDQPnsmrqzA=
-Received: from [192.168.50.4] ([82.78.167.154])
-        by smtp.gmail.com with ESMTPSA id p7-20020a05600c358700b0040fe308ff25sm1072787wmq.24.2024.02.06.00.15.11
+        d=1e100.net; s=20230601; t=1707208458; x=1707813258;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Lrgv2jhxyZmi4EmcR51AnI5pPGn50lZCESvCg5LBKWU=;
+        b=skhtINY0Izsj4vnY18F+0QstepToVzKXnFoSqU93I04cAE0qZ3X6t7OFLOlrvW3ne0
+         T1T4b6lXgxfgM/AUFAQMbjyeVk3dXHtU5F1lDlprrlx2ay7UNLmsnY/i+OhSUwJsQseZ
+         SO8A+HJqA2hH2WSCpBZBzhvE7HH3kqfO1XDTEtrphRdQ2IcdKlDIqlC5IKybwSvomFZX
+         GEOkomtTWHNJm/AAOj4FzaTC1ZpqGyMIgb/WVLw7phGu7MRfMflZQl8ADL0Xo9lCflUx
+         0P6YldK5fXHspgGeJunkeIDvBONkvuJdE20B+fznV2afqodmADhIZQt7Kr9zrLzQlmGW
+         jPlA==
+X-Gm-Message-State: AOJu0YzWio49S2bA4FaGBCWHMuTrtOe3vrQP533GAFZb+kybAzzdXT5M
+	FeqBwNa/B0Cupal+3E4cXcAtgQ8x8elyiUHvsKBV5M4HDb/e6A0+TncAqYVJ1BM=
+X-Google-Smtp-Source: AGHT+IEcV68xRjShjrrfdq5TkVziODNZCs7qnMG85evQKsC1H0xUY+3l8nfqaCSsX2XYmal6lovT5Q==
+X-Received: by 2002:a81:5d8a:0:b0:5ff:5867:e675 with SMTP id r132-20020a815d8a000000b005ff5867e675mr829172ywb.28.1707208458299;
+        Tue, 06 Feb 2024 00:34:18 -0800 (PST)
+X-Forwarded-Encrypted: i=0; AJvYcCXozpEenJ+xMJaDnpOiGdoFVfMm19q4aQsdpIer5qmcFWi49xM/awc2MuvDomb5/b3OwkudjryE5aMfwUVgGVgMYRMpXspc0hA9Tca7pxwJmSCrNKTBlnE5EbvMdSQO0jTs3I0WkhHyf5otu6A+uVXDyUH9c0WJpl/BKA10HaxxiGd5VgnbH9UF1yUm3fli5xykMrcpv4r+PZP+BG9dmL7ZZ9BvRW+eAICTPl0=
+Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com. [209.85.128.178])
+        by smtp.gmail.com with ESMTPSA id fp3-20020a05690c34c300b005ff9d3ca38fsm384810ywb.1.2024.02.06.00.34.17
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 06 Feb 2024 00:15:12 -0800 (PST)
-Message-ID: <d2b44719-8f68-409e-811f-0cedc34d7f36@tuxon.dev>
-Date: Tue, 6 Feb 2024 10:15:10 +0200
+        Tue, 06 Feb 2024 00:34:17 -0800 (PST)
+Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-60406f4e1d0so46803097b3.1;
+        Tue, 06 Feb 2024 00:34:17 -0800 (PST)
+X-Received: by 2002:a81:4507:0:b0:5ff:4b67:9291 with SMTP id
+ s7-20020a814507000000b005ff4b679291mr973716ywa.14.1707208457048; Tue, 06 Feb
+ 2024 00:34:17 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 3/3] arm64: dts: renesas: r9a08g045: Add missing
- interrupts of IRQC node
-Content-Language: en-US
-To: Prabhakar <prabhakar.csengg@gmail.com>,
- Thomas Gleixner <tglx@linutronix.de>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Magnus Damm <magnus.damm@gmail.com>
-Cc: devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
- linux-kernel@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>,
- Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
- Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20240205144421.51195-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20240205144421.51195-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
-From: claudiu beznea <claudiu.beznea@tuxon.dev>
-In-Reply-To: <20240205144421.51195-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20240206075149.864996-1-claudiu.beznea.uj@bp.renesas.com> <20240206075149.864996-3-claudiu.beznea.uj@bp.renesas.com>
+In-Reply-To: <20240206075149.864996-3-claudiu.beznea.uj@bp.renesas.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 6 Feb 2024 09:34:04 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdXtNgoTEBjC92BB2NSLL_8MM78sVm3A3WbhY=b-6J=vqA@mail.gmail.com>
+Message-ID: <CAMuHMdXtNgoTEBjC92BB2NSLL_8MM78sVm3A3WbhY=b-6J=vqA@mail.gmail.com>
+Subject: Re: [PATCH v4 2/9] watchdog: rzg2l_wdt: Make the driver depend on PM
+To: Claudiu <claudiu.beznea@tuxon.dev>
+Cc: wim@linux-watchdog.org, linux@roeck-us.net, robh@kernel.org, 
+	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, 
+	p.zabel@pengutronix.de, geert+renesas@glider.be, magnus.damm@gmail.com, 
+	biju.das.jz@bp.renesas.com, linux-watchdog@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org, 
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+Hi Claudiu,
 
+Thanks for your patch!
 
-On 05.02.2024 16:44, Prabhakar wrote:
-> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> 
-> The IRQC block on RZ/G3S ("R9A08G045") SoC supports ECCRAM error
-> interrupts too, add those missing interrupts in the IRQC node.
-> 
-> Fixes: 837918aa3fdd ("arm64: dts: renesas: r9a08g045: Add IA55 interrupt controller node")
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+On Tue, Feb 6, 2024 at 8:52=E2=80=AFAM Claudiu <claudiu.beznea@tuxon.dev> w=
+rote:
+> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+>
+> The rzg2l_wdt watchdog driver cannot work w/o CONFIG_PM=3Dy (e.g. the
+> clocks are enabled though pm_runtime_* specific APIs). To avoid building
+> a driver that don't work select CONFIG_PM.
 
-Reviewed-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+depend on?
 
-> ---
->  arch/arm64/boot/dts/renesas/r9a08g045.dtsi | 8 ++++++--
->  1 file changed, 6 insertions(+), 2 deletions(-)
-> 
-> diff --git a/arch/arm64/boot/dts/renesas/r9a08g045.dtsi b/arch/arm64/boot/dts/renesas/r9a08g045.dtsi
-> index dfee878c0f49..4aaffd1753c8 100644
-> --- a/arch/arm64/boot/dts/renesas/r9a08g045.dtsi
-> +++ b/arch/arm64/boot/dts/renesas/r9a08g045.dtsi
-> @@ -152,7 +152,10 @@ irqc: interrupt-controller@11050000 {
->  				     <GIC_SPI 458 IRQ_TYPE_LEVEL_HIGH>,
->  				     <GIC_SPI 459 IRQ_TYPE_LEVEL_HIGH>,
->  				     <GIC_SPI 460 IRQ_TYPE_LEVEL_HIGH>,
-> -				     <GIC_SPI 29 IRQ_TYPE_LEVEL_HIGH>;
-> +				     <GIC_SPI 29 IRQ_TYPE_LEVEL_HIGH>,
-> +				     <GIC_SPI 31 IRQ_TYPE_LEVEL_HIGH>,
-> +				     <GIC_SPI 32 IRQ_TYPE_LEVEL_HIGH>,
-> +				     <GIC_SPI 33 IRQ_TYPE_LEVEL_HIGH>;
->  			interrupt-names = "nmi",
->  					  "irq0", "irq1", "irq2", "irq3",
->  					  "irq4", "irq5", "irq6", "irq7",
-> @@ -164,7 +167,8 @@ irqc: interrupt-controller@11050000 {
->  					  "tint20", "tint21", "tint22", "tint23",
->  					  "tint24", "tint25", "tint26", "tint27",
->  					  "tint28", "tint29", "tint30", "tint31",
-> -					  "bus-err";
-> +					  "bus-err", "ec7tie1-0", "ec7tie2-0",
-> +					  "ec7tiovf-0";
->  			clocks = <&cpg CPG_MOD R9A08G045_IA55_CLK>,
->  				 <&cpg CPG_MOD R9A08G045_IA55_PCLK>;
->  			clock-names = "clk", "pclk";
+> Suggested-by: Guenter Roeck <linux@roeck-us.net>
+> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+
+> --- a/drivers/watchdog/Kconfig
+> +++ b/drivers/watchdog/Kconfig
+> @@ -910,7 +910,7 @@ config RENESAS_RZN1WDT
+>
+>  config RENESAS_RZG2LWDT
+>         tristate "Renesas RZ/G2L WDT Watchdog"
+> -       depends on ARCH_RZG2L || ARCH_R9A09G011 || COMPILE_TEST
+> +       depends on ((ARCH_RZG2L || ARCH_R9A09G011) && PM) || COMPILE_TEST
+
+IMHO this is still a bit futile, as both ARCH_RZG2L and ARCH_R9A09G011
+select PM, so this is always met.  In addition, the "&& PM" clutters
+the logic, and makes the expression harder to read.
+
+If G=C3=BCnter insists on having the dependency, what about adding a
+separate line instead?
+
+    depends on PM || COMPILE_TEST
+
+>         select WATCHDOG_CORE
+>         help
+>           This driver adds watchdog support for the integrated watchdogs =
+in the
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
