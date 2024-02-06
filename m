@@ -1,107 +1,140 @@
-Return-Path: <linux-renesas-soc+bounces-2381-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-2382-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16F7F84B0F2
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  6 Feb 2024 10:21:45 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 43EA784B154
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  6 Feb 2024 10:33:43 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 79643B241E3
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  6 Feb 2024 09:21:42 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7653B1C208DB
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  6 Feb 2024 09:33:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8ADB612EBFA;
-	Tue,  6 Feb 2024 09:19:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6CD2412D144;
+	Tue,  6 Feb 2024 09:33:40 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9B98712F386;
-	Tue,  6 Feb 2024 09:19:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.172
+Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com [209.85.128.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C31F614265;
+	Tue,  6 Feb 2024 09:33:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707211190; cv=none; b=aPVtSolvTgHCUQCFBsoPWzBHkz7EV1SacPjyuv4SInB8HVm9nN3kP43j+T9k6yXe9LMvM7tR7EOiSZaO4wFvdZfQS9/l7F/a+Zw69+B4uchcYQw6ICnY6v9fAadu6KO3ed0/iyyxOUcYX2ioftbVTSsU6GBRwmnh7o46y/I+HRg=
+	t=1707212020; cv=none; b=nbdKNvlocdgTbwpTPMMvwtW9vtVXVNZHzH6exdx89gMdXbzXkLDOiEz5b7whW8E8MY/X16pM2aPJtzQRjzg3i8gTAe7ZAwbEeU/zyc/U5WfwS1O1vgvtJnAzIJhMKkq8ZohNUk/Hu75OK408D42avkAaKwhK0PgfV+4Bf2PlG/8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707211190; c=relaxed/simple;
-	bh=v30FjsWUe3ZhLh+6uEKl3Kbs4m0Yb16dWTX3b3fdzp8=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=GbynWw0Ew48m1AaJbTPC2Tyf7uRoVT4SAxPnDEQJvJRVIC5fOAKPbMwNP0xlVHTbKPeLKN+EYuT7TquEpfkPG6WDx6iLVLQQSNZ91H6IDBhYArvkGIpkoPMPgI9TnLOode2F6vdNoWBYTux81nMsDEX7jwK1fumhr915XpOl+mE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
-X-IronPort-AV: E=Sophos;i="6.05,246,1701097200"; 
-   d="scan'208";a="196934676"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie6.idc.renesas.com with ESMTP; 06 Feb 2024 18:19:47 +0900
-Received: from GBR-5CG2373LKG.adwin.renesas.com (unknown [10.226.93.63])
-	by relmlir6.idc.renesas.com (Postfix) with ESMTP id 0C8F041B8EF7;
-	Tue,  6 Feb 2024 18:19:43 +0900 (JST)
-From: Paul Barker <paul.barker.ct@bp.renesas.com>
-To: Sergey Shtylyov <s.shtylyov@omp.ru>,
-	"David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>
-Cc: Paul Barker <paul.barker.ct@bp.renesas.com>,
-	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-	Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	netdev@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [RFC PATCH net-next v2 7/7] net: ravb: Use NAPI threaded mode on 1-core CPUs with GbEth IP
-Date: Tue,  6 Feb 2024 09:19:09 +0000
-Message-Id: <20240206091909.3191-8-paul.barker.ct@bp.renesas.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20240206091909.3191-1-paul.barker.ct@bp.renesas.com>
-References: <20240206091909.3191-1-paul.barker.ct@bp.renesas.com>
+	s=arc-20240116; t=1707212020; c=relaxed/simple;
+	bh=y4U2aG9cl6K5uex4m8VJTV+7Gi4knibICynFOHtZOew=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=R6QeGNp5G7DDL9nshIpka7pI8mAIAzNqRJ2TGn3Ieyt4xf1+RtItWvHOj1zeGzXnqCAm3GJF+Q8+EjDdjbAQiUNr1eBSem/2FqJR3qQULRE0Vh0kyM+Rt+egufgQSLp8ok8WbNCXIekL3BgTfAj6AglXdoafBbTBV1jD+xoJnlA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-604819d544cso1741857b3.1;
+        Tue, 06 Feb 2024 01:33:38 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1707212015; x=1707816815;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=wv8aVTQt1PkjH10jXoXAhUeu0btco/HHsLNCr4o/nTU=;
+        b=KeHuUnuhowZEJT9PFUxPaq7vkT9ANwSBo4uebLA916NiRMIyTymND5Eo6qx/vIYRZy
+         raam7A7EQOnpw8QecuqYiOM27KnMzFgUf4FmkhW6n6GcKehjxCdmqB0ONQVR/tuAEi9H
+         iyqrd2adGer2MygINkNbSTv9d6AhNzMmfPeM93qgjPz55ftRd2u64kRB6c8nO85l/i7B
+         cR948utZh3OFhKOJ2ZS7dcEAcOjUf2kuU/ta9DXj9BbUoVQZ5uQmbVgBWMK5X/eSRWh4
+         l5WoHz8dHbtNCCkraIRJSw4oXYkq+2oxZa+6dYmmAX3Q5DNrxrIWo+iV1aKWpsj27JRt
+         qVBQ==
+X-Gm-Message-State: AOJu0YzwRFFPHdmn1MdX1562NYU6ALmU6t3CRrzPgnYgyJ2EcH16Bhz/
+	BLvxuSRAc0w+MuuMY2Osikpahf9GDoXl03en/xCodRqSsQplQrEcwrem5YHUZcs=
+X-Google-Smtp-Source: AGHT+IF54/JlBZSP73R4yrcPGhUfqqmzJ8NvUn+TkH8IeyGtsCu8JXleA7CQTRjuyY2PQi6FP9r+hg==
+X-Received: by 2002:a81:a903:0:b0:5ff:4a64:a8ec with SMTP id g3-20020a81a903000000b005ff4a64a8ecmr1183223ywh.38.1707212015338;
+        Tue, 06 Feb 2024 01:33:35 -0800 (PST)
+X-Forwarded-Encrypted: i=0; AJvYcCUyf608w2uEOkg+wZvFVbYThN72lZEL4XyRb7ClIpr0bEieM2fU1gQEaJX6n4hdQxktzdJyAGuHXyOoOT42arQJEs/ByQcAIznkOq2OcFyeHzuPltXAlLf8PeuOY1F+iICOa/R6XdHoJMFjHy/AzfE=
+Received: from mail-yb1-f172.google.com (mail-yb1-f172.google.com. [209.85.219.172])
+        by smtp.gmail.com with ESMTPSA id l145-20020a0de297000000b006040f433098sm405216ywe.94.2024.02.06.01.33.34
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 06 Feb 2024 01:33:35 -0800 (PST)
+Received: by mail-yb1-f172.google.com with SMTP id 3f1490d57ef6-dc6d9a8815fso5126533276.3;
+        Tue, 06 Feb 2024 01:33:34 -0800 (PST)
+X-Received: by 2002:a5b:711:0:b0:dc6:4c9e:9e4d with SMTP id
+ g17-20020a5b0711000000b00dc64c9e9e4dmr1100023ybq.20.1707212014034; Tue, 06
+ Feb 2024 01:33:34 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20240206071314.8721-1-liubo03@inspur.com>
+In-Reply-To: <20240206071314.8721-1-liubo03@inspur.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 6 Feb 2024 10:33:22 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdU7fYCsNT9ditqJ-saUsRm9J2zLh=-q-zmExhBRJeE8NQ@mail.gmail.com>
+Message-ID: <CAMuHMdU7fYCsNT9ditqJ-saUsRm9J2zLh=-q-zmExhBRJeE8NQ@mail.gmail.com>
+Subject: Re: [PATCH 00/18] mfd: convert to use maple tree register cache
+To: Bo Liu <liubo03@inspur.com>
+Cc: lee@kernel.org, wens@csie.org, marek.vasut+renesas@gmail.com, 
+	support.opensource@diasemi.com, neil.armstrong@linaro.org, 
+	ckeepax@opensource.cirrus.com, rf@opensource.cirrus.com, 
+	mazziesaccount@gmail.com, mcoquelin.stm32@gmail.com, 
+	alexandre.torgue@foss.st.com, linux-kernel@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org, linux-amlogic@lists.infradead.org, 
+	patches@opensource.cirrus.com, linux-stm32@st-md-mailman.stormreply.com, 
+	linux-arm-kernel@lists.infradead.org, Mark Brown <broonie@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-NAPI Threaded mode (along with the previously enabled SW IRQ Coalescing)
-is required to improve network stack performance for single core SoCs
-using the GbEth IP (currently the RZ/G2L SoC family and the RZ/G3S SoC).
+Hi Bo,
 
-For the RZ/G2UL, network throughput is greatly increased by this change
-(results obtained with iperf3) for all test cases except UDP TX:
-  * TCP TX: 30% more throughput
-  * TCP RX: 9.8% more throughput
-  * UDP TX: 9.7% less throughput
-  * UDP RX: 89% more throughput
+CC broonie
 
-For the RZ/G3S we see improvements in network throughput similar to the
-RZ/G2UL.
+Thanks for your series!
 
-The improvement of UDP RX bandwidth for the single core SoCs (RZ/G2UL &
-RZ/G3S) is particularly critical. NAPI Threaded mode can be disabled at
-runtime via sysfs for applications where UDP TX performance is a
-priority.
+On Tue, Feb 6, 2024 at 8:16=E2=80=AFAM Bo Liu <liubo03@inspur.com> wrote:
+> The maple tree register cache is based on a much more modern data structu=
+re
+> than the rbtree cache and makes optimisation choices which are probably
 
-Signed-off-by: Paul Barker <paul.barker.ct@bp.renesas.com>
----
- drivers/net/ethernet/renesas/ravb_main.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+probably?
 
-diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
-index 7bb80608f260..522df82524ff 100644
---- a/drivers/net/ethernet/renesas/ravb_main.c
-+++ b/drivers/net/ethernet/renesas/ravb_main.c
-@@ -2984,8 +2984,11 @@ static int ravb_probe(struct platform_device *pdev)
- 	if (info->nc_queues)
- 		netif_napi_add(ndev, &priv->napi[RAVB_NC], ravb_poll);
- 
--	if (info->needs_irq_coalesce)
-+	if (info->needs_irq_coalesce) {
- 		netdev_sw_irq_coalesce_default_on(ndev);
-+		if (num_present_cpus() == 1)
-+			dev_set_threaded(ndev, true);
-+	}
- 
- 	/* Network device register */
- 	error = register_netdev(ndev);
--- 
-2.39.2
+> more appropriate for modern systems than those made by the rbtree cache.
+>
+> Bo Liu (18):
+>   mfd: ac100: convert to use maple tree register cache
+>   mfd: as3711: convert to use maple tree register cache
+>   mfd: as3722: convert to use maple tree register cache
+>   mfd: axp20x: convert to use maple tree register cache
+>   mfd: bcm590xx: convert to use maple tree register cache
+>   mfd: bd9571mwv: convert to use maple tree register cache
+>   mfd: dialog: convert to use maple tree register cache
+>   mfd: khadas-mcu: convert to use maple tree register cache
+>   mfd: lochnagar-i2c: convert to use maple tree register cache
+>   mfd: wolfson: convert to use maple tree register cache
+>   mfd: rohm: convert to use maple tree register cache
+>   mfd: rk8xx: convert to use maple tree register cache
+>   mfd: rn5t618: convert to use maple tree register cache
+>   mfd: rsmu_i2c: convert to use maple tree register cache
+>   mfd: si476x: convert to use maple tree register cache
+>   mfd: stmfx: convert to use maple tree register cache
+>   mfd: stpmic1: convert to use maple tree register cache
+>   mfd: rc5t583: convert to use maple tree register cache
 
+If all of this is true, is there any reason to keep REGCACHE_RBTREE
+around?  If not, perhaps REGCACHE_RBTREE should be treated as
+REGCACHE_MAPLE in the regmap core code first, followed by a single
+tree-wide patch to replace REGCACHE_RBTREE?
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
