@@ -1,140 +1,102 @@
-Return-Path: <linux-renesas-soc+bounces-2382-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-2383-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43EA784B154
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  6 Feb 2024 10:33:43 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 96C3284B1C2
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  6 Feb 2024 10:59:44 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7653B1C208DB
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  6 Feb 2024 09:33:42 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4C11B1F24BD5
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  6 Feb 2024 09:59:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6CD2412D144;
-	Tue,  6 Feb 2024 09:33:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9B9CD12E1D3;
+	Tue,  6 Feb 2024 09:59:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="CN8aUZeq"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com [209.85.128.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C31F614265;
-	Tue,  6 Feb 2024 09:33:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C576312DD8B;
+	Tue,  6 Feb 2024 09:59:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.149.25
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707212020; cv=none; b=nbdKNvlocdgTbwpTPMMvwtW9vtVXVNZHzH6exdx89gMdXbzXkLDOiEz5b7whW8E8MY/X16pM2aPJtzQRjzg3i8gTAe7ZAwbEeU/zyc/U5WfwS1O1vgvtJnAzIJhMKkq8ZohNUk/Hu75OK408D42avkAaKwhK0PgfV+4Bf2PlG/8=
+	t=1707213560; cv=none; b=nlvgnr96YilrNzphjW/Tt9VUn4Hf9Odv7SHr83/xRvGXQMZVt9HIpuzp1JSI2zepHht7Mj5i+sI3kYgDldokEhmgrilgA0YEHigir44fZ9kLlq6Jm3XN3kAkxwR76noP9gODyS5Pv8l3lVtmwjl4PhRU8VqCbpYoJPp6cIwEggc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707212020; c=relaxed/simple;
-	bh=y4U2aG9cl6K5uex4m8VJTV+7Gi4knibICynFOHtZOew=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=R6QeGNp5G7DDL9nshIpka7pI8mAIAzNqRJ2TGn3Ieyt4xf1+RtItWvHOj1zeGzXnqCAm3GJF+Q8+EjDdjbAQiUNr1eBSem/2FqJR3qQULRE0Vh0kyM+Rt+egufgQSLp8ok8WbNCXIekL3BgTfAj6AglXdoafBbTBV1jD+xoJnlA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-604819d544cso1741857b3.1;
-        Tue, 06 Feb 2024 01:33:38 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707212015; x=1707816815;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=wv8aVTQt1PkjH10jXoXAhUeu0btco/HHsLNCr4o/nTU=;
-        b=KeHuUnuhowZEJT9PFUxPaq7vkT9ANwSBo4uebLA916NiRMIyTymND5Eo6qx/vIYRZy
-         raam7A7EQOnpw8QecuqYiOM27KnMzFgUf4FmkhW6n6GcKehjxCdmqB0ONQVR/tuAEi9H
-         iyqrd2adGer2MygINkNbSTv9d6AhNzMmfPeM93qgjPz55ftRd2u64kRB6c8nO85l/i7B
-         cR948utZh3OFhKOJ2ZS7dcEAcOjUf2kuU/ta9DXj9BbUoVQZ5uQmbVgBWMK5X/eSRWh4
-         l5WoHz8dHbtNCCkraIRJSw4oXYkq+2oxZa+6dYmmAX3Q5DNrxrIWo+iV1aKWpsj27JRt
-         qVBQ==
-X-Gm-Message-State: AOJu0YzwRFFPHdmn1MdX1562NYU6ALmU6t3CRrzPgnYgyJ2EcH16Bhz/
-	BLvxuSRAc0w+MuuMY2Osikpahf9GDoXl03en/xCodRqSsQplQrEcwrem5YHUZcs=
-X-Google-Smtp-Source: AGHT+IF54/JlBZSP73R4yrcPGhUfqqmzJ8NvUn+TkH8IeyGtsCu8JXleA7CQTRjuyY2PQi6FP9r+hg==
-X-Received: by 2002:a81:a903:0:b0:5ff:4a64:a8ec with SMTP id g3-20020a81a903000000b005ff4a64a8ecmr1183223ywh.38.1707212015338;
-        Tue, 06 Feb 2024 01:33:35 -0800 (PST)
-X-Forwarded-Encrypted: i=0; AJvYcCUyf608w2uEOkg+wZvFVbYThN72lZEL4XyRb7ClIpr0bEieM2fU1gQEaJX6n4hdQxktzdJyAGuHXyOoOT42arQJEs/ByQcAIznkOq2OcFyeHzuPltXAlLf8PeuOY1F+iICOa/R6XdHoJMFjHy/AzfE=
-Received: from mail-yb1-f172.google.com (mail-yb1-f172.google.com. [209.85.219.172])
-        by smtp.gmail.com with ESMTPSA id l145-20020a0de297000000b006040f433098sm405216ywe.94.2024.02.06.01.33.34
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 06 Feb 2024 01:33:35 -0800 (PST)
-Received: by mail-yb1-f172.google.com with SMTP id 3f1490d57ef6-dc6d9a8815fso5126533276.3;
-        Tue, 06 Feb 2024 01:33:34 -0800 (PST)
-X-Received: by 2002:a5b:711:0:b0:dc6:4c9e:9e4d with SMTP id
- g17-20020a5b0711000000b00dc64c9e9e4dmr1100023ybq.20.1707212014034; Tue, 06
- Feb 2024 01:33:34 -0800 (PST)
+	s=arc-20240116; t=1707213560; c=relaxed/simple;
+	bh=LATC3GHoWk4vcKrr195GbFLPo1L9HxJmDR8iymTwdaM=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ApS87gg10NV+9CRBxhN2T0V2ZFY45kB+aboLYOT8I8gG0rxWjHuDZzxPU2ivwvmdpDjq/eKPqv2xig1OahIPMpr8k+ffwNyZ0FJVfES+AcrhaXl/R7OMSTqfauVL487d84zJ/o3KRleuY7pygIjhXh5tu/y/p+bQbqUDTlvOyLA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=CN8aUZeq; arc=none smtp.client-ip=67.231.149.25
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
+	by mx0a-001ae601.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 4166xSAC022910;
+	Tue, 6 Feb 2024 03:58:53 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=
+	date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:in-reply-to; s=PODMain02222019; bh=v5p55IOITpqmhF7
+	sZSnOxfOy/BsQIdVVFm5xhqj7f9s=; b=CN8aUZeqvFd31h49unpgQ89je93VaRH
+	rrRbjFcRdvJI7Wgt+s6nVW5BCmZk3kbVOwu/CNVLRLufi+5MpG0xYDqxTb+6FGR1
+	o9Z5Tgj1grqrrtHgHitQltAZFv+FlcF78BNTWogNQGy0jcjoRvRBTMp+qYGKcyKV
+	XNDICT/OwcoiEoN5lqMTQvkzBMfp+afdgbGJ3JbvaGKz8NqjjJWipW4mj1Jxnuzl
+	zV/KdBSpOsXYlEhP/chL66QeINs8nWkqGzvCzBvxVMGhAB+swBUB0wHEydjeg+4f
+	DUmUgJYKr9SezvgEgFSr8PTmX+JsuzS5ZkVX/kvEhcim+tQrksQp1zg==
+Received: from ediex02.ad.cirrus.com ([84.19.233.68])
+	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 3w1ks2b7fk-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 06 Feb 2024 03:58:53 -0600 (CST)
+Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex02.ad.cirrus.com
+ (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Tue, 6 Feb
+ 2024 09:58:51 +0000
+Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
+ anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
+ 15.2.1118.40 via Frontend Transport; Tue, 6 Feb 2024 09:58:51 +0000
+Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPS id E135E820241;
+	Tue,  6 Feb 2024 09:58:50 +0000 (UTC)
+Date: Tue, 6 Feb 2024 09:58:49 +0000
+From: Charles Keepax <ckeepax@opensource.cirrus.com>
+To: Bo Liu <liubo03@inspur.com>
+CC: <lee@kernel.org>, <wens@csie.org>, <marek.vasut+renesas@gmail.com>,
+        <support.opensource@diasemi.com>, <neil.armstrong@linaro.org>,
+        <rf@opensource.cirrus.com>, <mazziesaccount@gmail.com>,
+        <mcoquelin.stm32@gmail.com>, <alexandre.torgue@foss.st.com>,
+        <linux-kernel@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>,
+        <linux-amlogic@lists.infradead.org>, <patches@opensource.cirrus.com>,
+        <linux-stm32@st-md-mailman.stormreply.com>,
+        <linux-arm-kernel@lists.infradead.org>
+Subject: Re: [PATCH 09/18] mfd: lochnagar-i2c: convert to use maple tree
+ register cache
+Message-ID: <ZcIC2V/hM8nnekJr@ediswmail9.ad.cirrus.com>
+References: <20240206071314.8721-1-liubo03@inspur.com>
+ <20240206071314.8721-10-liubo03@inspur.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240206071314.8721-1-liubo03@inspur.com>
-In-Reply-To: <20240206071314.8721-1-liubo03@inspur.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 6 Feb 2024 10:33:22 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdU7fYCsNT9ditqJ-saUsRm9J2zLh=-q-zmExhBRJeE8NQ@mail.gmail.com>
-Message-ID: <CAMuHMdU7fYCsNT9ditqJ-saUsRm9J2zLh=-q-zmExhBRJeE8NQ@mail.gmail.com>
-Subject: Re: [PATCH 00/18] mfd: convert to use maple tree register cache
-To: Bo Liu <liubo03@inspur.com>
-Cc: lee@kernel.org, wens@csie.org, marek.vasut+renesas@gmail.com, 
-	support.opensource@diasemi.com, neil.armstrong@linaro.org, 
-	ckeepax@opensource.cirrus.com, rf@opensource.cirrus.com, 
-	mazziesaccount@gmail.com, mcoquelin.stm32@gmail.com, 
-	alexandre.torgue@foss.st.com, linux-kernel@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org, linux-amlogic@lists.infradead.org, 
-	patches@opensource.cirrus.com, linux-stm32@st-md-mailman.stormreply.com, 
-	linux-arm-kernel@lists.infradead.org, Mark Brown <broonie@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20240206071314.8721-10-liubo03@inspur.com>
+X-Proofpoint-GUID: VCnUsQ6Tbcxl1dxM9nGNsPvgd74iHvZt
+X-Proofpoint-ORIG-GUID: VCnUsQ6Tbcxl1dxM9nGNsPvgd74iHvZt
+X-Proofpoint-Spam-Reason: safe
 
-Hi Bo,
-
-CC broonie
-
-Thanks for your series!
-
-On Tue, Feb 6, 2024 at 8:16=E2=80=AFAM Bo Liu <liubo03@inspur.com> wrote:
-> The maple tree register cache is based on a much more modern data structu=
-re
+On Tue, Feb 06, 2024 at 02:13:05AM -0500, Bo Liu wrote:
+> The maple tree register cache is based on a much more modern data structure
 > than the rbtree cache and makes optimisation choices which are probably
-
-probably?
-
 > more appropriate for modern systems than those made by the rbtree cache.
->
-> Bo Liu (18):
->   mfd: ac100: convert to use maple tree register cache
->   mfd: as3711: convert to use maple tree register cache
->   mfd: as3722: convert to use maple tree register cache
->   mfd: axp20x: convert to use maple tree register cache
->   mfd: bcm590xx: convert to use maple tree register cache
->   mfd: bd9571mwv: convert to use maple tree register cache
->   mfd: dialog: convert to use maple tree register cache
->   mfd: khadas-mcu: convert to use maple tree register cache
->   mfd: lochnagar-i2c: convert to use maple tree register cache
->   mfd: wolfson: convert to use maple tree register cache
->   mfd: rohm: convert to use maple tree register cache
->   mfd: rk8xx: convert to use maple tree register cache
->   mfd: rn5t618: convert to use maple tree register cache
->   mfd: rsmu_i2c: convert to use maple tree register cache
->   mfd: si476x: convert to use maple tree register cache
->   mfd: stmfx: convert to use maple tree register cache
->   mfd: stpmic1: convert to use maple tree register cache
->   mfd: rc5t583: convert to use maple tree register cache
+> 
+> Signed-off-by: Bo Liu <liubo03@inspur.com>
+> ---
 
-If all of this is true, is there any reason to keep REGCACHE_RBTREE
-around?  If not, perhaps REGCACHE_RBTREE should be treated as
-REGCACHE_MAPLE in the regmap core code first, followed by a single
-tree-wide patch to replace REGCACHE_RBTREE?
+Tested-by: Charles Keepax <ckeepax@opensource.cirrus.com>
+Reviewed-by: Charles Keepax <ckeepax@opensource.cirrus.com>
 
-Gr{oetje,eeting}s,
-
-                        Geert
-
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+Thanks,
+Charles
 
