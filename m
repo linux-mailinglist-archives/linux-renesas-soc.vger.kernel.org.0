@@ -1,76 +1,74 @@
-Return-Path: <linux-renesas-soc+bounces-2372-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-2373-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A458384B049
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  6 Feb 2024 09:48:09 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 92F7984B069
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  6 Feb 2024 09:54:22 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C8B9C1C216CC
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  6 Feb 2024 08:48:08 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 30B01B22896
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  6 Feb 2024 08:54:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 91E0912B175;
-	Tue,  6 Feb 2024 08:47:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9F33112C538;
+	Tue,  6 Feb 2024 08:53:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="tGkw3ZSw"
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="AASB5pa1"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A440612A163
-	for <linux-renesas-soc@vger.kernel.org>; Tue,  6 Feb 2024 08:47:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B4F212C7E9
+	for <linux-renesas-soc@vger.kernel.org>; Tue,  6 Feb 2024 08:53:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707209275; cv=none; b=OEjOvgHY816I09Kyee5Bar9X9nc6GKDMb4Zq/x5uYzLDkU+Nlh1oJh9XA5/wGs+VCCBBVUIrW/5DMQaWPiaP55dPfpFD+gBfnOGTePIEtoVSo97GzvJql28Vov7cJjIRf2PxVWbF0mx3SshWvVhsNAuFoFvU2PsQD4e1UzraOmo=
+	t=1707209589; cv=none; b=sBEnTbBVa7vEOgYsfIiglsRuheZT15gQtAI+3FlHqsxjHrjUT1QPUxOrbCD5Og3YJMtnl4RKXT/CB0YCTgGMCDOlO3YruhJP3Itqm0zEIGUbPFq/VN7Vh4vb02FyZKQ/0JW2lm0YUdQxtl4Wi95HnXq0/5lENYSSAzMLQbYgkCk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707209275; c=relaxed/simple;
-	bh=EsUbLCPxJMLTFoNAM1YzIwDW0MB37aZp3I+uJnzPFJw=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=B0OYgLIKyr+m7Knlv7mrZLvYL8ub7/fTpeHxCFY8zCZUb7+RzDfrJJ00R9/1l2xajenMxTMI/cEQ82sURP3c5zFME9X7MYrA6fVx17YZBkz52tYvZ1yFzwfyeJiKvLwgwp5MbXqZ7nOepRW7kkBYSMzV/Qhr/Yr/ab1Vavjw6M4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=tGkw3ZSw; arc=none smtp.client-ip=209.85.128.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-40fe282ba92so3106345e9.0
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 06 Feb 2024 00:47:53 -0800 (PST)
+	s=arc-20240116; t=1707209589; c=relaxed/simple;
+	bh=IkPuQ84N43CJPITRNgIwZvKuIcHHnEU4bjoIXAe0YqA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Ee2TIEmgbY1nWszrOBA5tav58nnUQ7FWUfJi9QT5Dn6Wa5VjB4BS0SaZJ0+soJjb3G+y1ws0y1rQPigwtgfvSKmDKHzYGWaCW6Jj51n1RBRz8mUIoQovjWhUyViEXtbKjyNPxFdLJK/XVNygg2pi4RPVx35QOYII15IGjpoZOQA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=AASB5pa1; arc=none smtp.client-ip=209.85.221.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-33b2ee2d1d6so1806615f8f.1
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 06 Feb 2024 00:53:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1707209272; x=1707814072; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :references:cc:to:content-language:subject:reply-to:from:user-agent
-         :mime-version:date:message-id:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Cgswh97JThtSZc+MWkKLL/sOqrjScM78TS+JiOIKCEY=;
-        b=tGkw3ZSw3dUjfD8rX10QZYPVcfZ54vxW3M6UC4z+ILSSAySg/6GrE7ivEzZzewHoGL
-         a5ES3AqMbWLwFWnsOn6PWgUzqJ++3ukJh+9hwUjoB2ENTnS2EUiz2QqRECmyUBMPGJv5
-         W3S26iowVwHRBbkZkT4Ln8MWrQJYMFVqGVhZcO5eAO8NOzsgTYILSiKRek/tkFv9/wov
-         nRr7x0W0/2NeNmXnxuWm0o6C4Ot6dKpK4XdxOU+tLypV7WF2ncVLeHAiW1B6NcgMEP3b
-         8hi+D/m6wpuRTCyIp3E7JiNNTmAfNJcJ0IxmFlAENGnoSQZ9+NH8iYUZoOo/tZLO5UHS
-         LBsQ==
+        d=tuxon.dev; s=google; t=1707209585; x=1707814385; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=HOB+7yx/h2D9LzRqpjI3KvwptvPg8iNwQL8CUYIoCCY=;
+        b=AASB5pa1R6nmfzihMkxJcrPNCv8tX6dPQhqOSScJJQYKZq9J93Xj76a0hmIqbprN7Y
+         fXrwqR9npCjjwKfeR9WfyQTHKZpb+uMXg6EHfD1Hg7r6dbNGhuE293r1070B0Zg3vT9X
+         YoF/giLbftatC9Z6TP+aZM82tf4YSfi2HOJb2hB0f1lr5ByYR649zDuR2BjuABnJcAkd
+         UnPr++ZGiD4XFtGPxZUOdhbR1dU8IFKSF8Mzup7nTdOWdloY84S6ipnN+ZY+sVlfGZOi
+         hjWHJHUFAN1swTiWuMFFbWwDMOXLFeVB70yMIYiA9G3Y5o3BvF60aMWDvr/S9afFC3N7
+         Niqw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707209272; x=1707814072;
-        h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :references:cc:to:content-language:subject:reply-to:from:user-agent
-         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=Cgswh97JThtSZc+MWkKLL/sOqrjScM78TS+JiOIKCEY=;
-        b=P/BoH3pURRabEQk1HeJjNlq4yCp548Brj7B9eus+ZU3y1dDB8Hv8j0I5ZshMhqgfaZ
-         N9nLt/0VALAaaPLlIC4O/Z4ujGlfwquoijbc6C5ug1G6TpSf3OiJk8weIUWSjmEPR8Q/
-         +G3KCVmt6DzokO+Dgw/0C3m59lrtmqZVD2ecOknwslUlbIghyXxn/YN8iwRJlixHflWz
-         XbBaV4/c3LtMSAaBCt/ssFXfaMyDg2LA/kWUw/4/Us+3fEjdnH7tdFN6Rxp80zOYNCXg
-         D7sdxoz3QvXl3LL2HNKvuPDbFc+mjoMjCvMN0zM8GXKG59ajYcuoeruKjA11B19c5CCU
-         HDxQ==
-X-Gm-Message-State: AOJu0Yx1qYRrHXMHhYSaN5xiA0ZvMZt4rk7CxvgzGZc/+pRlvjta1qNr
-	QRleueyH1QG9JPW8+T5cveTiGBRWlKXPpp0nT+NEDtvwxyJp3qnZH7zWwudWFXU=
-X-Google-Smtp-Source: AGHT+IGhYB7S/j7lcNzeBzGO6RKkAL5j0F4BGe7lMnfxVZSyyt0yaNgwR3CzP3SL1KkRGHmCS6IleQ==
-X-Received: by 2002:a05:600c:5204:b0:40f:bdf3:3426 with SMTP id fb4-20020a05600c520400b0040fbdf33426mr2050471wmb.31.1707209271941;
-        Tue, 06 Feb 2024 00:47:51 -0800 (PST)
-X-Forwarded-Encrypted: i=0; AJvYcCX161gOqgvdRv10X26uunEqBIdx6lmer6jebnO8ie7WB84hoaVNdkmlbFSJ5LjujcMzuSzR/xphCn25giI+Q9UXCOpzU0SYElVmWIQHgdF1py1U6L8WklwZZ3QCMEX5nHAOzbJ9xizUKNmRG7qouRrbJUW2H0ChFld4lhcQ1KE9rJ+70wxfDZBjS2Kc0VxqLZOAGYnfch42/wyj5QYcH8ntahvUVFDmk41fpL5rXhGVE0BbfZWgTNwPSj9wZMcSWF77C2AruITJSKqyiP1Go4J5m1tT1or2ugXqOOxrXzTQ7YDRBGl1iKaBRVIiXD6ZaV+DyjcjKv5cvRVdxCt+od9xKcOV6F3/VQr3bdL2enneL+g0fOryGLlMbyAjDVZkC9jBg3EDHyoUXjj03kT0z561HwcXCTD6FBYlDJfH5VxhCQ7lVPLqsGVNUuEXexKOKhaEBxfYQHceEq7+1Ca4rKDHI5JfApLifcobxpRZNIZRb47N+wmvsTtdfZg4sc9kWkJD3GZshjCLZt+YeEjY/a3k8X4emne7fSNi6nAfvkxYgs12WG8iNGcsJjCA3i0mkA7UCH+6Wp8IcF80TAwq9ZrMZVn8Lmo9ggVYYDUb6g==
-Received: from ?IPV6:2a01:e0a:982:cbb0:ba23:8574:fa8:28dd? ([2a01:e0a:982:cbb0:ba23:8574:fa8:28dd])
-        by smtp.gmail.com with ESMTPSA id l16-20020a5d5610000000b0033b3ca3a255sm1511899wrv.19.2024.02.06.00.47.50
+        d=1e100.net; s=20230601; t=1707209585; x=1707814385;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=HOB+7yx/h2D9LzRqpjI3KvwptvPg8iNwQL8CUYIoCCY=;
+        b=Bv2FE039PgXnkkkxbCZeg9Jk41rNGE7X4nLcTdQ2SpRYg2WBz5LklTy7YL2ZT55LS6
+         VOi4GqbfhaQSta/7oXcoQum1O3xVB+Ol+4MSTTiVGa6W71UD1Hq9/+yhIzmHL8NkGv7x
+         WcgsreuxF5w4mUHrDmn6y8s4/iw9WEtJoPCSOV0llNMpOMZrGTkrHvDPkYAPXACjNEwz
+         KFoKrK1QdaQYnyzw4JWJu73s8ws0EjpeE0l1HDw8f0c+EfH3bCuSXu5i9xQceZt+wTNm
+         yzuL3W7AxndkxJI9D7rMsDMfixCWfYnAFOEQ/3Kf22nBxaLngzQsLQ0YDte1tLYj+m+g
+         3XGw==
+X-Gm-Message-State: AOJu0Yz8xRembZ2Ek5Agh8aD2pC0XUe2yDDPA4j3SBZfTKEFQ+4L9/wi
+	FTIwec1ADHKtiJlfv9eDG6f1wcyDKIJDzeHXLV3E0c+AcZHYp9FOdLArf1e5o6Q=
+X-Google-Smtp-Source: AGHT+IGS8MfQ65GOqo3MYqcajLE4932ZgjiunnST14lr6aRb8+7Jw4H1H3uGhAdEe8GMGs4XPr/6Lg==
+X-Received: by 2002:a5d:64ab:0:b0:33a:e4b9:d810 with SMTP id m11-20020a5d64ab000000b0033ae4b9d810mr987579wrp.40.1707209585154;
+        Tue, 06 Feb 2024 00:53:05 -0800 (PST)
+X-Forwarded-Encrypted: i=0; AJvYcCUX77xMI4C4mm1puygvAWHHx0R8IaKaob0ea0+Ds+26gxMCDz9n4rcygqOHZxAFkxmPk7DAcebrs8jUrSorldHTAETyZVeOhQBFUSoOm73vzeuaz0jtXziyxT+spNYjPcXoJd3vzALLPS0j99iaBk1olyvhC+KOn+NDeXYwtdTEawt6DVzS72Xr5JSQBuKp5i6xg6cfXLiLbNNiVqNgh7QZfdBfhznE8LQRvOCUjdQ1crM/ejvYxvNXFUST/sG37H/RMBG1ijUd7fxkUWrRAczODnI5MDY7iPKLra2aEDvMQKACuvWADc7ABHhTKOZdbXai230STx2OKNvFZCLtxaa4ZdhGCpP9rqiVE79Y6zwWR2dpQiIQcE7hMofUfE+NxY2vbGcaYZYn6B4uWius9KLvNOUGpccIpdsFuS1/jHP/20T9Ok8vcwG1YEHFv13Lk4iwrWZtcPHXqVJKCGuS8yVS6vHactlHvjWa78xGawhPsob1DQKAYjOzMMJeWXdZyJszihDAL+0G5nw5OGiacqoTEReO/7lceVvA5kQqkYCWolH7GssL6lcP
+Received: from [192.168.50.4] ([82.78.167.154])
+        by smtp.gmail.com with ESMTPSA id p4-20020a056000018400b0033b1cb8135asm1518359wrx.88.2024.02.06.00.53.03
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 06 Feb 2024 00:47:51 -0800 (PST)
-Message-ID: <0e47aa27-b28d-4672-a2eb-f906e0e6a5ac@linaro.org>
-Date: Tue, 6 Feb 2024 09:47:49 +0100
+        Tue, 06 Feb 2024 00:53:04 -0800 (PST)
+Message-ID: <4578780f-cb79-42c1-abc1-56faea4794e2@tuxon.dev>
+Date: Tue, 6 Feb 2024 10:53:02 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -78,74 +76,76 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-From: neil.armstrong@linaro.org
-Reply-To: neil.armstrong@linaro.org
-Subject: Re: [PATCH 08/18] mfd: khadas-mcu: convert to use maple tree register
- cache
-Content-Language: en-US, fr
-To: Bo Liu <liubo03@inspur.com>, lee@kernel.org, wens@csie.org,
- marek.vasut+renesas@gmail.com, support.opensource@diasemi.com,
- ckeepax@opensource.cirrus.com, rf@opensource.cirrus.com,
- mazziesaccount@gmail.com, mcoquelin.stm32@gmail.com,
- alexandre.torgue@foss.st.com
-Cc: linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
- linux-amlogic@lists.infradead.org, patches@opensource.cirrus.com,
- linux-stm32@st-md-mailman.stormreply.com,
- linux-arm-kernel@lists.infradead.org
-References: <20240206071314.8721-1-liubo03@inspur.com>
- <20240206071314.8721-9-liubo03@inspur.com>
-Autocrypt: addr=neil.armstrong@linaro.org; keydata=
- xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
- GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
- BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
- qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
- 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
- AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
- OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
- Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
- YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
- GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
- UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
- GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
- yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
- QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
- SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
- 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
- Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
- oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
- M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
- 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
- KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
- 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
- QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
-Organization: Linaro Developer Services
-In-Reply-To: <20240206071314.8721-9-liubo03@inspur.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH v4 2/9] watchdog: rzg2l_wdt: Make the driver depend on PM
+Content-Language: en-US
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: wim@linux-watchdog.org, linux@roeck-us.net, robh@kernel.org,
+ krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+ p.zabel@pengutronix.de, geert+renesas@glider.be, magnus.damm@gmail.com,
+ biju.das.jz@bp.renesas.com, linux-watchdog@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org,
+ Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+References: <20240206075149.864996-1-claudiu.beznea.uj@bp.renesas.com>
+ <20240206075149.864996-3-claudiu.beznea.uj@bp.renesas.com>
+ <CAMuHMdXtNgoTEBjC92BB2NSLL_8MM78sVm3A3WbhY=b-6J=vqA@mail.gmail.com>
+From: claudiu beznea <claudiu.beznea@tuxon.dev>
+In-Reply-To: <CAMuHMdXtNgoTEBjC92BB2NSLL_8MM78sVm3A3WbhY=b-6J=vqA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On 06/02/2024 08:13, Bo Liu wrote:
-> The maple tree register cache is based on a much more modern data structure
-> than the rbtree cache and makes optimisation choices which are probably
-> more appropriate for modern systems than those made by the rbtree cache.
-> 
-> Signed-off-by: Bo Liu <liubo03@inspur.com>
-> ---
->   drivers/mfd/khadas-mcu.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/mfd/khadas-mcu.c b/drivers/mfd/khadas-mcu.c
-> index 61396d824f16..ba981a788692 100644
-> --- a/drivers/mfd/khadas-mcu.c
-> +++ b/drivers/mfd/khadas-mcu.c
-> @@ -72,7 +72,7 @@ static const struct regmap_config khadas_mcu_regmap_config = {
->   	.max_register	= KHADAS_MCU_CMD_FAN_STATUS_CTRL_REG,
->   	.volatile_reg	= khadas_mcu_reg_volatile,
->   	.writeable_reg	= khadas_mcu_reg_writeable,
-> -	.cache_type	= REGCACHE_RBTREE,
-> +	.cache_type	= REGCACHE_MAPLE,
->   };
->   
->   static struct mfd_cell khadas_mcu_fan_cells[] = {
+Hi, Geert,
 
-Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
+On 06.02.2024 10:34, Geert Uytterhoeven wrote:
+> Hi Claudiu,
+> 
+> Thanks for your patch!
+> 
+> On Tue, Feb 6, 2024 at 8:52 AM Claudiu <claudiu.beznea@tuxon.dev> wrote:
+>> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+>>
+>> The rzg2l_wdt watchdog driver cannot work w/o CONFIG_PM=y (e.g. the
+>> clocks are enabled though pm_runtime_* specific APIs). To avoid building
+>> a driver that don't work select CONFIG_PM.
+> 
+> depend on?
+
+I knew I missed something...
+
+> 
+>> Suggested-by: Guenter Roeck <linux@roeck-us.net>
+>> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+> 
+>> --- a/drivers/watchdog/Kconfig
+>> +++ b/drivers/watchdog/Kconfig
+>> @@ -910,7 +910,7 @@ config RENESAS_RZN1WDT
+>>
+>>  config RENESAS_RZG2LWDT
+>>         tristate "Renesas RZ/G2L WDT Watchdog"
+>> -       depends on ARCH_RZG2L || ARCH_R9A09G011 || COMPILE_TEST
+>> +       depends on ((ARCH_RZG2L || ARCH_R9A09G011) && PM) || COMPILE_TEST
+> 
+> IMHO this is still a bit futile, as both ARCH_RZG2L and ARCH_R9A09G011
+> select PM, so this is always met.  In addition, the "&& PM" clutters
+> the logic, and makes the expression harder to read.
+
+I agree with all these.
+
+> 
+> If Günter insists on having the dependency, what about adding a
+> separate line instead?
+> 
+>     depends on PM || COMPILE_TEST
+
+OK for me.
+
+> 
+>>         select WATCHDOG_CORE
+>>         help
+>>           This driver adds watchdog support for the integrated watchdogs in the
+> 
+> Gr{oetje,eeting}s,
+> 
+>                         Geert
+> 
 
