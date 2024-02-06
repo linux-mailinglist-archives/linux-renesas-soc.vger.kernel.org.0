@@ -1,112 +1,104 @@
-Return-Path: <linux-renesas-soc+bounces-2384-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-2385-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4154984B1E6
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  6 Feb 2024 11:05:02 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 509DF84B209
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  6 Feb 2024 11:09:04 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id F21AD28622B
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  6 Feb 2024 10:05:00 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 02F271F24EC4
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  6 Feb 2024 10:09:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B7AC912D761;
-	Tue,  6 Feb 2024 10:04:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4698612D77F;
+	Tue,  6 Feb 2024 10:09:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="PAMHxqr4"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="B6GlnIVk"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F8C412C7E1;
-	Tue,  6 Feb 2024 10:04:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.149.25
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EC6712D749;
+	Tue,  6 Feb 2024 10:09:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707213885; cv=none; b=sklkRAHcZjFe8kmLJNnF9a05pshrByiOZVYFo5bl8M9FnBC3CjbsEfv0ZC5parMEBtxZhpDVkNdDM14uzWdHNNasoyMSPo8lVg9g/D0tHSs7y1nr75KziFe9wAg+QHMxVgtTWDriXaPE+7xswTIvpi6ysscrORwi/INrwGiPimE=
+	t=1707214142; cv=none; b=WORB/FFLAzJ3rcfiBjKrCR/UckQn5MXtxHVxOuxG02OM/qkPv7iDehbdhmTGI9vRFSNxnPuJEwONtMVisDzoXSqb51JTPnyCTxN5CNLs+eQYqM//CHQQ2fT7BbQhECy4j4qZKX7KapHOQ3+8+N4SUZo6TOE4teUVTHjJslCudu8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707213885; c=relaxed/simple;
-	bh=aavDWnk6//c/Ub+nrQ0I1UAI5F+LCVH+chmlRSbpFx4=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=a4c7aCr2y4+ni9426sYaFhLnL1RJ1AlGH1dpaeM9RKjgyWlFStgwm+c9M3DuM6+wRnizYSsNtmtabYKqxFH9IL8hbeXtztAEfNN859/5hgBjVSOZxXtPngxC8a326s65Z9MGoVxRK/gf0dnshxaRalvx7+7MbHfYc5H/IX1t2xI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=PAMHxqr4; arc=none smtp.client-ip=67.231.149.25
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
-Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
-	by mx0a-001ae601.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 4164p8Bf011574;
-	Tue, 6 Feb 2024 04:04:11 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=
-	date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:in-reply-to; s=PODMain02222019; bh=uPUFH7eDTg7/caX
-	3/YYHyrwvuZijGhOyQY2h4OtQApg=; b=PAMHxqr48BmEQnxAFkzb87smOGK99mJ
-	Kj4UKHiW81B6PtnP+G8OtT5jp7g8jBfdSuA6983a0MRdn4PRyxz+A2XhmPCR1pb3
-	M8OgeVUCqKEllRphB274vk9ZNxXOIoLOLDWVwlIH3SvdqHtsYRliw4DlyUdzTZqo
-	DXjEmbUGw9/ihSxp83mCfJEUKMkfChgkVnWPPGKUvUhzz7puvmyRbbSwDdhzN7zo
-	Y8/IVP2YA0EsdRYutWzW9I5Zm+YKYGJTGLupwZwnYCzeKH3NjoY5K5ZEDSZV+6Aq
-	MVOI0eShWi4M2QEHB//snLM7ErBPHj04SZxU0vtQYu0JAJHXxVUjoWQ==
-Received: from ediex02.ad.cirrus.com ([84.19.233.68])
-	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 3w1ks2b7uk-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 06 Feb 2024 04:04:10 -0600 (CST)
-Received: from ediex01.ad.cirrus.com (198.61.84.80) by ediex02.ad.cirrus.com
- (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Tue, 6 Feb
- 2024 10:04:08 +0000
-Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
- ediex01.ad.cirrus.com (198.61.84.80) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.40 via Frontend Transport; Tue, 6 Feb 2024 10:04:08 +0000
-Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPS id 97273820241;
-	Tue,  6 Feb 2024 10:04:08 +0000 (UTC)
-Date: Tue, 6 Feb 2024 10:04:07 +0000
-From: Charles Keepax <ckeepax@opensource.cirrus.com>
-To: Bo Liu <liubo03@inspur.com>
-CC: <lee@kernel.org>, <wens@csie.org>, <marek.vasut+renesas@gmail.com>,
-        <support.opensource@diasemi.com>, <neil.armstrong@linaro.org>,
-        <rf@opensource.cirrus.com>, <mazziesaccount@gmail.com>,
-        <mcoquelin.stm32@gmail.com>, <alexandre.torgue@foss.st.com>,
-        <linux-kernel@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>,
-        <linux-amlogic@lists.infradead.org>, <patches@opensource.cirrus.com>,
-        <linux-stm32@st-md-mailman.stormreply.com>,
-        <linux-arm-kernel@lists.infradead.org>
-Subject: Re: [PATCH 10/18] mfd: wolfson: convert to use maple tree register
- cache
-Message-ID: <ZcIEFxh76TTXBTiT@ediswmail9.ad.cirrus.com>
+	s=arc-20240116; t=1707214142; c=relaxed/simple;
+	bh=6eh7rugcdTI/j4n4bbvxX9jPn6+zlru65TEB6aU9mAU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=UiqSOcYYB+7AvT0BHMPVIqeTFWQ5mK1lTfD8XRpgT2E9hBSfTr/lJijRbB23kLRkuBg7USQb5LrhECt8MG+qMjCV/e80FTaydwxGDuks/kuaaydMkfT3omYHR+kCEOrkGH0KVd9ZRZ+DWkJFgnMlL+BSvZqSkc2pwgAfvyEa9U0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=B6GlnIVk; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 491BEC433F1;
+	Tue,  6 Feb 2024 10:08:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1707214141;
+	bh=6eh7rugcdTI/j4n4bbvxX9jPn6+zlru65TEB6aU9mAU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=B6GlnIVkN55eTnQsnXVV1Si9JIdYeZaBygDWpnXhaezs6c7BhJwZwHqcjdzHvuocJ
+	 X1FnvRTTBZX6c6ttOzlVw4itRhxFNPOCpQUmN0QNaiLeH4vQQvGX5nG5AU/LyBSend
+	 TViEnaFWX/KpNu7lERTnW/qbWoacNCoLcrNd8RD7g31DXTpAHbJ3VLGlWodRdbnJAS
+	 z3eAv9N4JX5MkvD1SHm0z/+1tLxXXHyc/a54hzirjx3iPiq7uP29rhC6F62uwbU9QL
+	 s7dksCpA1frqw8e+hDrOd1nquIxZ+D91Cpe3oSfkvHoloeEKy/Pq2KyVitDrezj+bt
+	 yjPw0QYmMG5cQ==
+Date: Tue, 6 Feb 2024 10:07:57 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Bo Liu <liubo03@inspur.com>, lee@kernel.org, wens@csie.org,
+	marek.vasut+renesas@gmail.com, support.opensource@diasemi.com,
+	neil.armstrong@linaro.org, ckeepax@opensource.cirrus.com,
+	rf@opensource.cirrus.com, mazziesaccount@gmail.com,
+	mcoquelin.stm32@gmail.com, alexandre.torgue@foss.st.com,
+	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+	linux-amlogic@lists.infradead.org, patches@opensource.cirrus.com,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH 00/18] mfd: convert to use maple tree register cache
+Message-ID: <ZcIE/RMTq34TgpQt@finisterre.sirena.org.uk>
 References: <20240206071314.8721-1-liubo03@inspur.com>
- <20240206071314.8721-11-liubo03@inspur.com>
+ <CAMuHMdU7fYCsNT9ditqJ-saUsRm9J2zLh=-q-zmExhBRJeE8NQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="3tKV0MZVgabPsZSl"
 Content-Disposition: inline
-In-Reply-To: <20240206071314.8721-11-liubo03@inspur.com>
-X-Proofpoint-GUID: ovCDYOzOk03aaOgaUtGd9-ILGLhAAQBp
-X-Proofpoint-ORIG-GUID: ovCDYOzOk03aaOgaUtGd9-ILGLhAAQBp
-X-Proofpoint-Spam-Reason: safe
+In-Reply-To: <CAMuHMdU7fYCsNT9ditqJ-saUsRm9J2zLh=-q-zmExhBRJeE8NQ@mail.gmail.com>
+X-Cookie: You might have mail.
 
-On Tue, Feb 06, 2024 at 02:13:06AM -0500, Bo Liu wrote:
-> The maple tree register cache is based on a much more modern data structure
-> than the rbtree cache and makes optimisation choices which are probably
-> more appropriate for modern systems than those made by the rbtree cache.
-> 
-> Signed-off-by: Bo Liu <liubo03@inspur.com>
-> ---
->  drivers/mfd/wm5102-tables.c | 2 +-
->  drivers/mfd/wm5110-tables.c | 2 +-
->  drivers/mfd/wm8350-regmap.c | 2 +-
->  drivers/mfd/wm8400-core.c   | 2 +-
->  drivers/mfd/wm97xx-core.c   | 6 +++---
->  5 files changed, 7 insertions(+), 7 deletions(-)
 
-The change looks good, but whilst it won't cause any problems, it
-seems a bit weird not to convert wm8997, wm8998 and cs47l24.
-These are part of the same driver as wm5102 and wm5110.
+--3tKV0MZVgabPsZSl
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Reviewed-by: Charles Keepax <ckeepax@opensource.cirrus.com>
+On Tue, Feb 06, 2024 at 10:33:22AM +0100, Geert Uytterhoeven wrote:
 
-Thanks,
-Charles
+> If all of this is true, is there any reason to keep REGCACHE_RBTREE
+> around?  If not, perhaps REGCACHE_RBTREE should be treated as
+> REGCACHE_MAPLE in the regmap core code first, followed by a single
+> tree-wide patch to replace REGCACHE_RBTREE?
+
+There is a very small niche for devices where cache syncs are a
+particularly important part of the workload where rbtree's choices might
+give better performance, especially on systems with low end CPUs.
+
+--3tKV0MZVgabPsZSl
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmXCBPwACgkQJNaLcl1U
+h9AzsQf/fvluGCbAx/aIe1RLZpmbVAXZdaP3edZ9jN+FzV+ub/6qY0iiPxN0esI5
+jpGS40Z27yNHgk1JIpJR/ZoCUrjeuLDekUhJmu87yhqnK3p+DsT/zfnbqbeSdKXz
+FuOUu8Kh+hH4bdbyjTMNvTAzzuPUwgE7DRFGAlu3tPkZXEFtMzpSCImrqxIrsKao
+Z7quNE+m6pc4MyiQ09p0cOAK8fjnSHuFNn2wjZX2GgAGnLEYkKrpQwYgkrDRlHqc
+C7Cb1gOefwAx/I8mYuP+2TJNV/XVUKWJ0Od8KZ+MVbxaEslqAJaCvMSXzgkj/dqU
+ssEshBmXp9EzMJKlUQ967sIEsiM4OQ==
+=DPIT
+-----END PGP SIGNATURE-----
+
+--3tKV0MZVgabPsZSl--
 
