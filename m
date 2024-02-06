@@ -1,123 +1,106 @@
-Return-Path: <linux-renesas-soc+bounces-2387-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-2388-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40AA584B262
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  6 Feb 2024 11:20:41 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CD3F84B28A
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  6 Feb 2024 11:33:37 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id B5D3EB22108
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  6 Feb 2024 10:20:38 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 994F21C23BA4
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  6 Feb 2024 10:33:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1616812E1D5;
-	Tue,  6 Feb 2024 10:20:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3B78A18EB2;
+	Tue,  6 Feb 2024 10:32:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XiNLNKR0"
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="Gq4i2HaZ"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF53D12D777;
-	Tue,  6 Feb 2024 10:20:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E6051EA76;
+	Tue,  6 Feb 2024 10:32:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.152.168
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707214833; cv=none; b=qkVpURDQ41UhkO1KJA3jQUn2erl+r4eVT3XI9qluaQ1JTpQzM+HtI+YNWMdLVFNDC7vf0R6d0EZ7wj4GP6/37dI2TrCmTMWSozS8j1cwKyyQ80dCWVJOg26kLe5ZLdQmLT4tPUybG2hSYeW9BFvsaFTTxhZENPifPMMoKHALtjQ=
+	t=1707215556; cv=none; b=I/UUERpJ3wy+Ww8Q9Ch7GrKcSZawUwNiT0MkSt5mEZ6ab1mTZda6MdacBo9M7iCtFiwevUway/FoByYo/D3b5zCZBYgTnfMzZbVLIfXP56lKfSaYZYD2ha1/vos9/YTM4GG964qgjGjssdvWwAzFrCvubahX/2UOzYeElWwuW2U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707214833; c=relaxed/simple;
-	bh=Fjg4am9IQzHVyiyUiJW4bVseISNNzm8i3XEiwSZ6iQ8=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=u1TqfQKIHU+LSQ0nSCAv3C1cYqvucLi6VyE6xPVajWASi0Q7HBO0k/08wSs0vjQ2D7IDOVo8I1q4unfccUO/3q80f1WWvzq0j4jvv81UBGpf6uZw5Ra/auvwh66b8c+sdwCP5mCGR5KkaESFCjB3TmUGvj/fYn5nyd9cdEUpPlk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XiNLNKR0; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 48063C43390;
-	Tue,  6 Feb 2024 10:20:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1707214832;
-	bh=Fjg4am9IQzHVyiyUiJW4bVseISNNzm8i3XEiwSZ6iQ8=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=XiNLNKR0qAHMEkw+WJtv0zjrpwpoYKL7jqrvtD/MNamOLYj1D+ZumOrg+y5sHRzKr
-	 l4ORzwUaS/VdAiYQyMdGjZP5Y8sb+tujPcMnvs1dDzAzsIvXl71C8YO8A+3Je7XzFU
-	 NJCogyd6Ms+7FfJy4fzWl+cCGLJ/3YRn/5aZFKJQpt0wLpRGcm64RD/YqOl9jpKmpM
-	 allltjkGKFJDaamYULRC6DB/x01GzCjG8IXPYs1vasfqhXg7n6DmAqWoVM/crpM1yR
-	 lpCCJbiVgbWbiJ1WLb0Boukegk58txiu6+1VX8mAkTnR57NGf/pNRg+SqZPSxQqv0o
-	 zd1gIgJTkfZpQ==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 2A830D8C97E;
-	Tue,  6 Feb 2024 10:20:32 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	s=arc-20240116; t=1707215556; c=relaxed/simple;
+	bh=+WeGa3Eq4sDl93t4zuFq8b2hQy60542lYtYLgCSbIrQ=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=lJtBxX8WfVPHurMipH7RaEuXnC4d8SXtqWLQrr71Pekk0iwrKpXlxF0lwc3DscyI6w1nPIOe+BTLPM4fj5Wwe8pfG/F4wfs7dt9sJPXenP90Pg8jVVDjY8Tik2JW6iTLqFfEsE373sD5Spcc3qdRzJeI4xVXGF2D4gfkWdHP+YI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=Gq4i2HaZ; arc=none smtp.client-ip=67.231.152.168
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
+	by mx0b-001ae601.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 4169iw9L025133;
+	Tue, 6 Feb 2024 04:23:30 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=
+	date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:in-reply-to; s=PODMain02222019; bh=v8WU0lB9flpGY7v
+	YDfUpKZOIGwF1bC5Mlqhymq+hVuI=; b=Gq4i2HaZBxfaa9D+cEHHCkIim11Aq+L
+	PsNfQCWEW/RohMHzj0MnwF9nyXJoQyaQubAxDrlPApglgBXw0Tvtf/px2vdmfLYv
+	GSjZyVUaRg/A4TXB1Af6DwIP7K9jOLni5AgK8O8el8CUiAcoiNI36wfWIX7Yx9q2
+	+RH3aKAEpHFGg8h+W7RkXMCEL92bLlBaIANFvIFkv6MSF3OqKzKVI/GtcmBt1Aeh
+	D0TDVyCkgJ/ydhQx45QDBWNy8Sn9N1sMqxP6Ly0ZgAumPhVzd4GcBPh4MHToFQP3
+	wnUaon/CBqLht8YtsL+jDbw4Z9onUqFhuTc/zsVljd2CV0kWe2AGiSA==
+Received: from ediex01.ad.cirrus.com ([84.19.233.68])
+	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 3w1jsnk6h5-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 06 Feb 2024 04:23:30 -0600 (CST)
+Received: from ediex01.ad.cirrus.com (198.61.84.80) by ediex01.ad.cirrus.com
+ (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Tue, 6 Feb
+ 2024 10:23:28 +0000
+Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
+ ediex01.ad.cirrus.com (198.61.84.80) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.40 via Frontend Transport; Tue, 6 Feb 2024 10:23:28 +0000
+Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPS id 9CD37820241;
+	Tue,  6 Feb 2024 10:23:28 +0000 (UTC)
+Date: Tue, 6 Feb 2024 10:23:27 +0000
+From: Charles Keepax <ckeepax@opensource.cirrus.com>
+To: Bo Liu <liubo03@inspur.com>
+CC: <lee@kernel.org>, <wens@csie.org>, <marek.vasut+renesas@gmail.com>,
+        <support.opensource@diasemi.com>, <neil.armstrong@linaro.org>,
+        <rf@opensource.cirrus.com>, <mazziesaccount@gmail.com>,
+        <mcoquelin.stm32@gmail.com>, <alexandre.torgue@foss.st.com>,
+        <linux-kernel@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>,
+        <linux-amlogic@lists.infradead.org>, <patches@opensource.cirrus.com>,
+        <linux-stm32@st-md-mailman.stormreply.com>,
+        <linux-arm-kernel@lists.infradead.org>
+Subject: Re: [PATCH 10/18] mfd: wolfson: convert to use maple tree register
+ cache
+Message-ID: <ZcIIn6b+BFR/FRIS@ediswmail9.ad.cirrus.com>
+References: <20240206071314.8721-1-liubo03@inspur.com>
+ <20240206071314.8721-11-liubo03@inspur.com>
+ <ZcIEFxh76TTXBTiT@ediswmail9.ad.cirrus.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH net-next v6 00/15] net: ravb: Prepare for suspend to RAM and
- runtime PM support (part 1)
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <170721483217.7972.7667176225745984934.git-patchwork-notify@kernel.org>
-Date: Tue, 06 Feb 2024 10:20:32 +0000
-References: <20240202084136.3426492-1-claudiu.beznea.uj@bp.renesas.com>
-In-Reply-To: <20240202084136.3426492-1-claudiu.beznea.uj@bp.renesas.com>
-To: claudiu beznea <claudiu.beznea@tuxon.dev>
-Cc: s.shtylyov@omp.ru, davem@davemloft.net, edumazet@google.com,
- kuba@kernel.org, pabeni@redhat.com, richardcochran@gmail.com,
- p.zabel@pengutronix.de, netdev@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
- claudiu.beznea.uj@bp.renesas.com
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <ZcIEFxh76TTXBTiT@ediswmail9.ad.cirrus.com>
+X-Proofpoint-GUID: VZagnLkW2TlCS_BzEYBGYEssTNO5DPkf
+X-Proofpoint-ORIG-GUID: VZagnLkW2TlCS_BzEYBGYEssTNO5DPkf
+X-Proofpoint-Spam-Reason: safe
 
-Hello:
+On Tue, Feb 06, 2024 at 10:04:07AM +0000, Charles Keepax wrote:
+> On Tue, Feb 06, 2024 at 02:13:06AM -0500, Bo Liu wrote:
+> >  drivers/mfd/wm5102-tables.c | 2 +-
+> >  drivers/mfd/wm5110-tables.c | 2 +-
+> >  drivers/mfd/wm8350-regmap.c | 2 +-
+> >  drivers/mfd/wm8400-core.c   | 2 +-
+> >  drivers/mfd/wm97xx-core.c   | 6 +++---
+>
+> seems a bit weird not to convert wm8997, wm8998 and cs47l24.
+> These are part of the same driver as wm5102 and wm5110.
 
-This series was applied to netdev/net-next.git (main)
-by Paolo Abeni <pabeni@redhat.com>:
+Nevermind, it seems those parts were already converted.
 
-On Fri,  2 Feb 2024 10:41:21 +0200 you wrote:
-> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-> 
-> Hi,
-> 
-> This series prepares ravb driver for runtime PM support and adjust the
-> already existing suspend to RAM code to work for RZ/G3S (R9A08G045) SoC.
-> 
-> [...]
-
-Here is the summary with links:
-  - [net-next,v6,01/15] net: ravb: Let IP-specific receive function to interrogate descriptors
-    https://git.kernel.org/netdev/net-next/c/2b993bfdb47b
-  - [net-next,v6,02/15] net: ravb: Rely on PM domain to enable gptp_clk
-    https://git.kernel.org/netdev/net-next/c/e1da043f2b2d
-  - [net-next,v6,03/15] net: ravb: Make reset controller support mandatory
-    https://git.kernel.org/netdev/net-next/c/b1768e3dc477
-  - [net-next,v6,04/15] net: ravb: Switch to SYSTEM_SLEEP_PM_OPS()/RUNTIME_PM_OPS() and pm_ptr()
-    https://git.kernel.org/netdev/net-next/c/6ccc22a5afcb
-  - [net-next,v6,05/15] net: ravb: Use tabs instead of spaces
-    https://git.kernel.org/netdev/net-next/c/7493bb4c400c
-  - [net-next,v6,06/15] net: ravb: Assert/de-assert reset on suspend/resume
-    https://git.kernel.org/netdev/net-next/c/c5c0714e2950
-  - [net-next,v6,07/15] net: ravb: Move reference clock enable/disable on runtime PM APIs
-    https://git.kernel.org/netdev/net-next/c/a654f6e875b7
-  - [net-next,v6,08/15] net: ravb: Move getting/requesting IRQs in the probe() method
-    https://git.kernel.org/netdev/net-next/c/32f012b8c01c
-  - [net-next,v6,09/15] net: ravb: Split GTI computation and set operations
-    https://git.kernel.org/netdev/net-next/c/f384ab481cab
-  - [net-next,v6,10/15] net: ravb: Move delay mode set in the driver's ndo_open API
-    https://git.kernel.org/netdev/net-next/c/23698a9abb62
-  - [net-next,v6,11/15] net: ravb: Move DBAT configuration to the driver's ndo_open API
-    https://git.kernel.org/netdev/net-next/c/cd1fb46e02de
-  - [net-next,v6,12/15] net: ravb: Move PTP initialization in the driver's ndo_open API for ccc_gac platorms
-    https://git.kernel.org/netdev/net-next/c/a6a85ba36fd0
-  - [net-next,v6,13/15] net: ravb: Set config mode in ndo_open and reset mode in ndo_close
-    https://git.kernel.org/netdev/net-next/c/76fd52c10077
-  - [net-next,v6,14/15] net: ravb: Simplify ravb_suspend()
-    https://git.kernel.org/netdev/net-next/c/b07bc55cbb1c
-  - [net-next,v6,15/15] net: ravb: Simplify ravb_resume()
-    https://git.kernel.org/netdev/net-next/c/e95273fe4d02
-
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
-
+Thanks,
+Charles
 
