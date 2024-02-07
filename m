@@ -1,72 +1,72 @@
-Return-Path: <linux-renesas-soc+bounces-2425-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-2426-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9940784CA7B
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  7 Feb 2024 13:10:57 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1316584CA7D
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  7 Feb 2024 13:11:08 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 22A0C291544
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  7 Feb 2024 12:10:56 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2AAA81C232FB
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  7 Feb 2024 12:11:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A12C15B692;
-	Wed,  7 Feb 2024 12:07:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 901D95C5E4;
+	Wed,  7 Feb 2024 12:07:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="DALnMaps"
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="MPgOiRSk"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5AAA5BAC0
-	for <linux-renesas-soc@vger.kernel.org>; Wed,  7 Feb 2024 12:07:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EA475BAC7
+	for <linux-renesas-soc@vger.kernel.org>; Wed,  7 Feb 2024 12:07:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707307676; cv=none; b=NAbSanIWAbtGzCDVj5ULSUWZ6ShdPkHsfj974y7YaQVON3Jlwb3VioxP53p8dKfM0fDnJaOSRfesAZsDoE0UR7Q3lX8cHiC+kummyXs+c3YH3JeuDeRJXQ4QIQXfXZFeIrDWKtHTOqYeiMndAlqxIpsOURSeKoWmYxMhSwW2pgE=
+	t=1707307677; cv=none; b=SaO4AtGO2/oS4utfZl0z8pVlYrGNPaVXVq+7c3EapHB/DgdsEkB9ykWejaY+HjK5YcUvrbxmFBP8qc01FhQ7kd3MLzkPDGVQmQWyfFB3Y6ECY7D9L8vK6GSL8NaaNMcbvxHq8ka3MpuH7SRAj9iTh5am2AemAw9eJDzGgiFZYSo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707307676; c=relaxed/simple;
-	bh=HzMlCY/Qn/3NM/tReDw8aLGBXBUfCm+QYcZzIw0FINM=;
+	s=arc-20240116; t=1707307677; c=relaxed/simple;
+	bh=NYw9l+bXoPskg73dqQ5BlVMt8LzWUzBTvky6tqXSly0=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=Cwdo8PIiNpjsx+LQt/dP/Oo+hobCNbK71Vjz+LcMLJWVKeFbc0FhNPPW0r9c/9bGbqc+f77m3gBoLw+BYJEeXANhf7Lnu+j55ftFrQBiIKv0zPtSAAfR7jGHOUstxh6gnymseNuL3hrJ4miwthqzVRELXICkWTIhqitdgpHt6yk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=DALnMaps; arc=none smtp.client-ip=209.85.221.44
+	 MIME-Version; b=BiFtDhI5mOoK7Z46h4CeHRG6K71g46BQMHqDmDru5KbCTr/yyrmnPOrW0tKyTzCo72Skh7r1OR5SSmt/F23hl/4fWYShRykmDh8puErKh+rvCbd8HZzZ8SScVxe3d1MTKBGyHIifE9dg39z1uqNKmgX3ZsKdD8alP6D7/1b4VBw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=MPgOiRSk; arc=none smtp.client-ip=209.85.221.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-33b0e5d1e89so486337f8f.0
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-33b2ee2d1d6so318060f8f.1
         for <linux-renesas-soc@vger.kernel.org>; Wed, 07 Feb 2024 04:07:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=tuxon.dev; s=google; t=1707307673; x=1707912473; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=6kaiMDGRSMM1zSx7d5RwSXQOkmnjMZGD3UM1O1/WIzw=;
-        b=DALnMapsKTD0udKd3+Q+4Xk+oWruDSSiDUwAYuObz7NcmpJ+kLXh9pQ1pkoYzfCdPK
-         pJYwkSm6BSJNWHYPUNSjCg6+/DrLxR8UJDTP82UpXpTxG8KAlPnH4MpTq2Ri1tiGOIjG
-         nSjuckaRyxx+58pszxV+/Ms6a1SE6k5JPFWVzLiZdVg7dBet7nnWef5ONIyuTW44vJso
-         cgfjeoXNV4FBV4YvnOJEptusfIUuP5JzP8O9gYy8vTQAVFe9ByDw9t9iwj4aixdkZ4g8
-         OjJ80gJJ1eQ4m5kK3Qqk7hD7rC7OvXU8OWKLARQxa7GjFPZ/K2apRaVNWolOuCEoixO/
-         ZQ/g==
+        bh=i8pXU065R8j0WF5WsKAZv+XgZqzc/5yTJ5Xq8oCQ9So=;
+        b=MPgOiRSkTxmMLIeoko5HPtqgXpR5EcuKIVNP4+5uTIioZRbFY06ZxbTL2FDv+XuKK/
+         50HY8Gy7PIHLPAbJA277y1yOgczGQiM/bkVVu9sXkwUqHHATu/FYuXfxE3A2OlDxxDcJ
+         +HuQemuEgfoKapU0eP7KXuIGrzUb6az75MOfkk1Fm8fVTPc/y+iUMTremd04WLE5gBO/
+         w3/y+wkKx1n8HNw91esOFVPGaVmMb/hLQU9Hy/W8JrQ+4995Y0+CYwwA0Dt8cFVE1uNi
+         Sh9Ct5JPv6L+kQ2MrR0l7vxJFQsHC9bjuh4sXjv2URkviN1jQfps5u/zBoBeuShwoO95
+         t8bg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20230601; t=1707307673; x=1707912473;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=6kaiMDGRSMM1zSx7d5RwSXQOkmnjMZGD3UM1O1/WIzw=;
-        b=JGZ2+cDR3tldeYtCtddWysyoyGXkIt1a+06LNduwTC6A82+QyQ8zmDdhHd0j7c6RA3
-         oZWiTL2na6peFzg29/MLVwPmZEahM6fmxLJeOcrlLuWHOYZ6M1vwctoHdMEBp4Bsa5vg
-         WQtOJI/KgjZuPSkZgzA6agY050BMLsNqYdKuT3FQ032OJokBjlPJ9YLkHOrRGEWtJ5Vw
-         1Ujzt2s0T44GpRao2fVbEQcqQEOD2gYtcrHQ+JRQzDVAKJGmxMfbsF8yDKYc2Z4VHkct
-         v2FN9R4/+X8CNAW298/+/8Hm4XQw/Ji3tmIi/8OGpcobIycRqJK1SacpvdRolFvEbHkf
-         MjKw==
-X-Gm-Message-State: AOJu0Yzk/4ntimZTPcEaw1Lx9dJHXWO7jJpnjZMku0jC03cai312TmrT
-	wmf+INaYOQysfmYbUaOnKiTXzZlK4RxucVqY9VlCt4b1J0FMe9+o1KbWCe+kGyg=
-X-Google-Smtp-Source: AGHT+IFLRqFpSYGEH05+H5nozQ5GlEoOkoTg3cB6FW88PVgbemVDuudp3Wnd9c2gDgAmMYG3688qKg==
-X-Received: by 2002:a5d:5f83:0:b0:33b:4b0f:b989 with SMTP id dr3-20020a5d5f83000000b0033b4b0fb989mr2495919wrb.0.1707307672200;
-        Wed, 07 Feb 2024 04:07:52 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCWtAmcMTuR90O6jEqWVyYaTB5twZsArS+hW6V0aatu+fU3AQDC4ELo2FdCW2ZsBYkVDizPBElBHV85Xoo0o/BWimP1pXMWsd+fsG5Vh4eMt2yu7Wch0uckFs7kfSdMwxykrWwdKO9KmON0w3lxYXNMe2aRsRc+6TGJvY5yWfHbOYvtvt1F3LBKSMCHiQHW2VOytpSBgVtCtMZVh8I9DgQN+FuN5rmsL9QRzCWysI0ZDfjc+RGHF22eVLDkG7KnFfu6gTRgQxiZxQl8eH+jIS/POVoMVaeMB9u5gN7l8dWx+ECxcH6INv32HkIyUYkXrnR8WiJfhEvSumn0=
+        bh=i8pXU065R8j0WF5WsKAZv+XgZqzc/5yTJ5Xq8oCQ9So=;
+        b=JHQEbKmxzEUra2uslVQnlypTfy6y34n9i2LeggxTwznHwCfuM58rJhlVMrmnsZ3+/Q
+         QfVw3a7uZd4Ep5+aoqqUpElngyohj4ENNsa6avWGYXJ/Ju60e91qmDHDdcDZUffvAaln
+         MWK9Uvqwc07n6LdjrtnMa0SIuqWVxFCdb1jWo7SmUriNtzhHjMRN7weCHfdmP2iQPiqq
+         OiIuerG2xiSNv5BRP8T4OqIvPY3nB38dnWmBZIl+7SjhsUdEYi7lBUn0K/Ep7SLyj2Gp
+         48viUeF+qjPOxrW9QKPJZ80vd5F7FBzo6Qywf4SciU2y8Bd4SDQhaldimVaoqALUR5wR
+         2u3A==
+X-Gm-Message-State: AOJu0YwcGbUbDx5DELoloU68deAOqGj1BE+zSZVXBFZsWh5TCYG66yNY
+	D3FrcuadcV5rBMR/ufJcWTBdShiskyCCXwVyM5SiPgCLG/BBwgbC4QIftvgicjo=
+X-Google-Smtp-Source: AGHT+IHxhsBj13/V9713emnkJKi2bOGNaaDEBPlWNWQmdBgqtYS9PzrOzm9JfR48AlCgTsbNpdXxiw==
+X-Received: by 2002:adf:dd8b:0:b0:33b:305c:9de7 with SMTP id x11-20020adfdd8b000000b0033b305c9de7mr3456728wrl.50.1707307673633;
+        Wed, 07 Feb 2024 04:07:53 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCWTTQoQujoKD98K5RDcZ0QGCdCrcWsry8yyFZx96BpOOKCmgr5/QWLzRYTIE723RDA3tCxQaXoLt9BPkzheSBP7xK6rU5eUntOlOnuw+zm5cOsuL5pDJJqal4IooyFN/COmqcwuVOEwtk8a9vbqBuIIiUSa/KdURaKXvDGg8xLB7ABVyNXtADifd0qLXzrP00HdYyEwfIOFL6OX+Rw3JHzcLci1oOoDnxC1GzGO5Qc0TeuLH0aijoNFP3P5LoBdtMnBUhreNJqaafIuOUmR1acQmeD2uYNqZPLXD6y/7pfuiIKifjZtiIkuYBI+d72OYInUGNa95xb6V7U=
 Received: from claudiu-X670E-Pro-RS.. ([82.78.167.114])
-        by smtp.gmail.com with ESMTPSA id f2-20020a5d50c2000000b0033b4db744e5sm1363957wrt.12.2024.02.07.04.07.50
+        by smtp.gmail.com with ESMTPSA id f2-20020a5d50c2000000b0033b4db744e5sm1363957wrt.12.2024.02.07.04.07.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 07 Feb 2024 04:07:51 -0800 (PST)
+        Wed, 07 Feb 2024 04:07:53 -0800 (PST)
 From: Claudiu <claudiu.beznea@tuxon.dev>
 X-Google-Original-From: Claudiu <claudiu.beznea.uj@bp.renesas.com>
 To: s.shtylyov@omp.ru,
@@ -79,9 +79,9 @@ Cc: netdev@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	claudiu.beznea@tuxon.dev,
 	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-Subject: [PATCH net-next 1/5] net: ravb: Get rid of the temporary variable irq
-Date: Wed,  7 Feb 2024 14:07:29 +0200
-Message-Id: <20240207120733.1746920-2-claudiu.beznea.uj@bp.renesas.com>
+Subject: [PATCH net-next 2/5] net: ravb: Keep the reverse order of operations in ravb_close()
+Date: Wed,  7 Feb 2024 14:07:30 +0200
+Message-Id: <20240207120733.1746920-3-claudiu.beznea.uj@bp.renesas.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20240207120733.1746920-1-claudiu.beznea.uj@bp.renesas.com>
 References: <20240207120733.1746920-1-claudiu.beznea.uj@bp.renesas.com>
@@ -95,100 +95,63 @@ Content-Transfer-Encoding: 8bit
 
 From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 
-The 4th argument of ravb_setup_irq() is used to save the IRQ number that
-will be further used by the driver code. Not all ravb_setup_irqs() calls
-need to save the IRQ number. The previous code used to pass a dummy
-variable as the 4th argument in case the IRQ is not needed for further
-usage. That is not necessary as the code from ravb_setup_irq() can detect
-by itself if the IRQ needs to be saved. Thus, get rid of the code that is
-not needed.
+Keep the reverse order of operations in ravb_close() when compared with
+ravb_open(). This is the recommended configuration sequence.
 
-Reported-by: Sergey Shtylyov <s.shtylyov@omp.ru>
 Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+Reviewed-by: Sergey Shtylyov <s.shtylyov@omp.ru>
 ---
 
 Changes since [2]:
-- this patch in new
+- none
+
+Changes in v3 of [2]:
+- fixed typos in patch description
+- collected tags
+
+Changes in v2 of [2]:
+- none; this patch is new
 
 [2] https://lore.kernel.org/all/20240105082339.1468817-1-claudiu.beznea.uj@bp.renesas.com/
 
- drivers/net/ethernet/renesas/ravb_main.c | 27 +++++++++++++-----------
- 1 file changed, 15 insertions(+), 12 deletions(-)
+
+ drivers/net/ethernet/renesas/ravb_main.c | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
 
 diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
-index 9521cd054274..e235342e0827 100644
+index e235342e0827..0f38e127ad45 100644
 --- a/drivers/net/ethernet/renesas/ravb_main.c
 +++ b/drivers/net/ethernet/renesas/ravb_main.c
-@@ -2611,17 +2611,20 @@ static int ravb_setup_irq(struct ravb_private *priv, const char *irq_name,
- 		if (!dev_name)
- 			return -ENOMEM;
+@@ -2228,6 +2228,14 @@ static int ravb_close(struct net_device *ndev)
+ 	ravb_write(ndev, 0, RIC2);
+ 	ravb_write(ndev, 0, TIC);
  
--		*irq = platform_get_irq_byname(pdev, irq_name);
-+		error = platform_get_irq_byname(pdev, irq_name);
- 		flags = 0;
- 	} else {
- 		dev_name = ndev->name;
--		*irq = platform_get_irq(pdev, 0);
-+		error = platform_get_irq(pdev, 0);
- 		flags = IRQF_SHARED;
- 	}
--	if (*irq < 0)
--		return *irq;
-+	if (error < 0)
-+		return error;
- 
--	error = devm_request_irq(dev, *irq, handler, flags, dev_name, ndev);
-+	if (irq)
-+		*irq = error;
++	/* PHY disconnect */
++	if (ndev->phydev) {
++		phy_stop(ndev->phydev);
++		phy_disconnect(ndev->phydev);
++		if (of_phy_is_fixed_link(np))
++			of_phy_deregister_fixed_link(np);
++	}
 +
-+	error = devm_request_irq(dev, error, handler, flags, dev_name, ndev);
- 	if (error)
- 		netdev_err(ndev, "cannot request IRQ %s\n", dev_name);
- 
-@@ -2633,7 +2636,7 @@ static int ravb_setup_irqs(struct ravb_private *priv)
- 	const struct ravb_hw_info *info = priv->info;
- 	struct net_device *ndev = priv->ndev;
- 	const char *irq_name, *emac_irq_name;
--	int error, irq;
-+	int error;
- 
- 	if (!info->multi_irqs)
- 		return ravb_setup_irq(priv, NULL, NULL, &ndev->irq, ravb_interrupt);
-@@ -2656,28 +2659,28 @@ static int ravb_setup_irqs(struct ravb_private *priv)
- 		return error;
- 
- 	if (info->err_mgmt_irqs) {
--		error = ravb_setup_irq(priv, "err_a", "err_a", &irq, ravb_multi_interrupt);
-+		error = ravb_setup_irq(priv, "err_a", "err_a", NULL, ravb_multi_interrupt);
- 		if (error)
- 			return error;
- 
--		error = ravb_setup_irq(priv, "mgmt_a", "mgmt_a", &irq, ravb_multi_interrupt);
-+		error = ravb_setup_irq(priv, "mgmt_a", "mgmt_a", NULL, ravb_multi_interrupt);
- 		if (error)
- 			return error;
+ 	/* Stop PTP Clock driver */
+ 	if (info->gptp || info->ccc_gac)
+ 		ravb_ptp_stop(ndev);
+@@ -2246,14 +2254,6 @@ static int ravb_close(struct net_device *ndev)
+ 		}
  	}
  
--	error = ravb_setup_irq(priv, "ch0", "ch0:rx_be", &irq, ravb_be_interrupt);
-+	error = ravb_setup_irq(priv, "ch0", "ch0:rx_be", NULL, ravb_be_interrupt);
- 	if (error)
- 		return error;
+-	/* PHY disconnect */
+-	if (ndev->phydev) {
+-		phy_stop(ndev->phydev);
+-		phy_disconnect(ndev->phydev);
+-		if (of_phy_is_fixed_link(np))
+-			of_phy_deregister_fixed_link(np);
+-	}
+-
+ 	cancel_work_sync(&priv->work);
  
--	error = ravb_setup_irq(priv, "ch1", "ch1:rx_nc", &irq, ravb_nc_interrupt);
-+	error = ravb_setup_irq(priv, "ch1", "ch1:rx_nc", NULL, ravb_nc_interrupt);
- 	if (error)
- 		return error;
- 
--	error = ravb_setup_irq(priv, "ch18", "ch18:tx_be", &irq, ravb_be_interrupt);
-+	error = ravb_setup_irq(priv, "ch18", "ch18:tx_be", NULL, ravb_be_interrupt);
- 	if (error)
- 		return error;
- 
--	return ravb_setup_irq(priv, "ch19", "ch19:tx_nc", &irq, ravb_nc_interrupt);
-+	return ravb_setup_irq(priv, "ch19", "ch19:tx_nc", NULL, ravb_nc_interrupt);
- }
- 
- static int ravb_probe(struct platform_device *pdev)
+ 	if (info->nc_queues)
 -- 
 2.39.2
 
