@@ -1,119 +1,154 @@
-Return-Path: <linux-renesas-soc+bounces-2502-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-2503-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0370D84E9A4
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  8 Feb 2024 21:24:37 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 038C384E9CB
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  8 Feb 2024 21:44:20 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 0CA2DB2E231
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  8 Feb 2024 20:21:59 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5FDDC289D64
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  8 Feb 2024 20:44:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3A66C383BA;
-	Thu,  8 Feb 2024 20:21:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="BVeZdwrr"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D022444C7A;
+	Thu,  8 Feb 2024 20:44:16 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx01.omp.ru (mx01.omp.ru [90.154.21.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C4DC38DEC
-	for <linux-renesas-soc@vger.kernel.org>; Thu,  8 Feb 2024 20:21:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1726148794;
+	Thu,  8 Feb 2024 20:44:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.154.21.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707423704; cv=none; b=dcVw6tDUjUywIb7YG9c+TO22NDHg1mP15sAIk5Ss2j0b9BoWaDhr2o4uBA/kVOXY7SKeO5b43BcHD4JakV/TkwLyrsE2yXMSBhjXU+z5c3YMSP9U1CbLWUXgIOk5xM95KDMA611KRlYdcRq9BT5xAkFd2nrezVt3+hd4JhxK5PI=
+	t=1707425056; cv=none; b=o2Xrsw2rSsT/e+rRMuz7idR7I4xDVKHp/CoTuVhfWY+i7oeetpJFZ7ahZzK1It5MBFyA3TB6EWrtqNI/WSp/NrXWe8YY6mUeMTtoDmoKOaseofHKF7PARSJX1G6OTF8e/GcE+ci0bkUoVcnO153jYZ5iUTXvbh2VX/ZPMcvtaa0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707423704; c=relaxed/simple;
-	bh=tsee4NBKtAR96KWrN8Sd6UvcENo+6pEmAXhvCXNQMq0=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=ZQGm3gHQ/WM/hOGU9s5+P4EPdpgJXzsXxPi959riWidjkgfNdOunkeZ5HNBY/wiwQmMzvPF9e6B8P7eZzJknpvayXWcFuazNzvoOU01t2QSd+O4aGvZEFHCmHssJytYdytQ2EKPNDdt6m3sn3ELxBYTGXOI7Ezj7HCQ6Br44f7I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=BVeZdwrr; arc=none smtp.client-ip=209.85.221.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-33b58ca0b95so48443f8f.0
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 08 Feb 2024 12:21:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1707423701; x=1708028501; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=z3acf27u1UG3FXBRbQIS8gUvuFH8u3NdpIthkRuoAGs=;
-        b=BVeZdwrrCLaIVIFuK2LY9K5gYOpCsreks9oeZtLWj/NF4VNHELY4kYE9IXsjqUctJ/
-         9g1k8bHjHo7wWDf1aAsZSfFaAL9cwvNrk3w5Tu/NJ9fVVfw4LnR2M4qzxk0e88Ao831Y
-         niXLyt5q/O7/U4AW+hLVn+UF0xgHrzCNFCg3CytLOnB2U6GwjpzOx1dOG1MBk1drt+Ch
-         9deIiQKgrNaYNGnXP25Vf4S/4FLBJmzpNwwUXm7Lisf8qKvH0B/uVu0KcuWDWCJMdSeL
-         U4okl5jGkY5wZ40pfD67ppnstvZ/BmNvSxHIKL3PHhQVWBZBU5aUb1HY+wP+w55xKa4p
-         PRzA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707423701; x=1708028501;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=z3acf27u1UG3FXBRbQIS8gUvuFH8u3NdpIthkRuoAGs=;
-        b=A+m0WSJsup1goYzqES0DdFxEaQ5gy7qosoxIGbBJtIuqmqDhjWnmHgCySa6+llQw7X
-         AbLlrLHhy4lEwHfTuJtT/Ut6v0DkH975XUGjIJsUHTXZRYPXEyhg5VzNA1PIL2dRVCLk
-         h43piSbdHDnf2h1JUzSaXlcM3VWgLjZD0xqsMk2h2JLQ26phNgeIFG2qD+sfLAb3OUq9
-         xc8MFB12Th8am5LFfD+nJg8jvBHufRf3QCMdWud4sSOtiHAjN0UeTK5q3apnZjkRz5KG
-         XqNxuCAzQ2Gvn3/OQLmhlr2JJqpEmarOIPwKFCxe8PbWQVrnUChbrC10Vm2Gbq1yARQy
-         44vw==
-X-Gm-Message-State: AOJu0YxrKLq9OA1whE0ky44N3RVXaUZ+fNRDpGOgmuss9IvcNyRmrdvQ
-	qb9UWcT7RpZESDvgbr6G8wKBizwGHuhCTIORfN3jnCAS54taY6MWtYn39Y/w48g=
-X-Google-Smtp-Source: AGHT+IFUWsEumF3+dMYhr2VTrnxGuMPs8G4EV8UXVWSxI4vbqAdO8nTLkOk8hnwSe6Tv81llsq5ixQ==
-X-Received: by 2002:adf:f891:0:b0:33b:28c0:7c98 with SMTP id u17-20020adff891000000b0033b28c07c98mr349299wrp.61.1707423700730;
-        Thu, 08 Feb 2024 12:21:40 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCVWntY+LUqqaL/5/EQFIUEI5qSZCAvHwoNIb4PBn6lcNZRcol6KYHwLo3eRIa2UjHTXrWcyeyGLdv21pn4gWcBuGFBjLGWBk9gxpgtXfKt6l6kspZ9qvKBkF02ORU4wjY3i3IAPLeWkejOyjgiXpJ0LEUrnZUkgRkQeTlyDU0uE4W24d9iPWuT+yBSx3vy7XyYDo7u1Yibwa3WNRd5kx8QijQw=
-Received: from krzk-bin.. ([178.197.222.62])
-        by smtp.gmail.com with ESMTPSA id e5-20020a5d5305000000b0033af5086c2dsm102548wrv.58.2024.02.08.12.21.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 08 Feb 2024 12:21:40 -0800 (PST)
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Ulf Hansson <ulf.hansson@linaro.org>,
-	linux-mmc@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH] mmc: renesas_sdhi: use typedef for dma_filter_fn
-Date: Thu,  8 Feb 2024 21:21:37 +0100
-Message-Id: <20240208202137.630281-1-krzysztof.kozlowski@linaro.org>
-X-Mailer: git-send-email 2.34.1
+	s=arc-20240116; t=1707425056; c=relaxed/simple;
+	bh=0xnupxFj9c0DgQKxN89wXQQQe9ADhY3zOQTEun0xfX4=;
+	h=Subject:To:CC:References:From:Message-ID:Date:MIME-Version:
+	 In-Reply-To:Content-Type; b=c+QAmHSrFIBYVupHGY+lHTncNH3JQxHEQ9pn6ZZ8HCWrwa2sU+A+PQ4eW/HsI/13CgrT+IflJUlJ46oE/HsBCKDoq7xfC6Mbd4dB/MX1eF6dOBa8dATwKDvoagLRKiHAQ+5Lp64UoN7gkEcW39dlN7GR+XamgyIpknPyy0f0Aqg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=omp.ru; spf=pass smtp.mailfrom=omp.ru; arc=none smtp.client-ip=90.154.21.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=omp.ru
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=omp.ru
+Received: from [192.168.1.105] (178.176.74.49) by msexch01.omp.ru
+ (10.188.4.12) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.1258.12; Thu, 8 Feb
+ 2024 23:43:58 +0300
+Subject: Re: [PATCH net-next 1/5] net: ravb: Get rid of the temporary variable
+ irq
+To: Claudiu <claudiu.beznea@tuxon.dev>, <davem@davemloft.net>,
+	<edumazet@google.com>, <kuba@kernel.org>, <pabeni@redhat.com>
+CC: <netdev@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, Claudiu Beznea
+	<claudiu.beznea.uj@bp.renesas.com>
+References: <20240207120733.1746920-1-claudiu.beznea.uj@bp.renesas.com>
+ <20240207120733.1746920-2-claudiu.beznea.uj@bp.renesas.com>
+From: Sergey Shtylyov <s.shtylyov@omp.ru>
+Organization: Open Mobile Platform
+Message-ID: <c284aab3-faf0-969c-7256-5bc72afe7e3e@omp.ru>
+Date: Thu, 8 Feb 2024 23:43:57 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240207120733.1746920-2-claudiu.beznea.uj@bp.renesas.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: msexch01.omp.ru (10.188.4.12) To msexch01.omp.ru
+ (10.188.4.12)
+X-KSE-ServerInfo: msexch01.omp.ru, 9
+X-KSE-AntiSpam-Interceptor-Info: scan successful
+X-KSE-AntiSpam-Version: 6.1.0, Database issued on: 02/08/2024 20:24:37
+X-KSE-AntiSpam-Status: KAS_STATUS_NOT_DETECTED
+X-KSE-AntiSpam-Method: none
+X-KSE-AntiSpam-Rate: 59
+X-KSE-AntiSpam-Info: Lua profiles 183308 [Feb 08 2024]
+X-KSE-AntiSpam-Info: Version: 6.1.0.3
+X-KSE-AntiSpam-Info: Envelope from: s.shtylyov@omp.ru
+X-KSE-AntiSpam-Info: LuaCore: 7 0.3.7 6d6bf5bd8eea7373134f756a2fd73e9456bb7d1a
+X-KSE-AntiSpam-Info: {rep_avail}
+X-KSE-AntiSpam-Info: {Tracking_from_domain_doesnt_match_to}
+X-KSE-AntiSpam-Info: {relay has no DNS name}
+X-KSE-AntiSpam-Info: {SMTP from is not routable}
+X-KSE-AntiSpam-Info: {Found in DNSBL: 178.176.74.49 in (user)
+ b.barracudacentral.org}
+X-KSE-AntiSpam-Info: {Found in DNSBL: 178.176.74.49 in (user)
+ dbl.spamhaus.org}
+X-KSE-AntiSpam-Info:
+	omp.ru:7.1.1;127.0.0.199:7.1.2;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1
+X-KSE-AntiSpam-Info: ApMailHostAddress: 178.176.74.49
+X-KSE-AntiSpam-Info: {DNS response errors}
+X-KSE-AntiSpam-Info: Rate: 59
+X-KSE-AntiSpam-Info: Status: not_detected
+X-KSE-AntiSpam-Info: Method: none
+X-KSE-AntiSpam-Info: Auth:dmarc=temperror header.from=omp.ru;spf=temperror
+ smtp.mailfrom=omp.ru;dkim=none
+X-KSE-Antiphishing-Info: Clean
+X-KSE-Antiphishing-ScanningType: Heuristic
+X-KSE-Antiphishing-Method: None
+X-KSE-Antiphishing-Bases: 02/08/2024 20:30:00
+X-KSE-Antivirus-Interceptor-Info: scan successful
+X-KSE-Antivirus-Info: Clean, bases: 2/8/2024 4:38:00 PM
+X-KSE-Attachment-Filter-Triggered-Rules: Clean
+X-KSE-Attachment-Filter-Triggered-Filters: Clean
+X-KSE-BulkMessagesFiltering-Scan-Result: InTheLimit
 
-Use existing typedef for dma_filter_fn to avoid duplicating type
-definition.
+On 2/7/24 3:07 PM, Claudiu wrote:
 
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
----
- drivers/mmc/host/renesas_sdhi.h | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+> 
+> The 4th argument of ravb_setup_irq() is used to save the IRQ number that
+> will be further used by the driver code. Not all ravb_setup_irqs() calls
+> need to save the IRQ number. The previous code used to pass a dummy
+> variable as the 4th argument in case the IRQ is not needed for further
+> usage. That is not necessary as the code from ravb_setup_irq() can detect
+> by itself if the IRQ needs to be saved. Thus, get rid of the code that is
+> not needed.
+> 
+> Reported-by: Sergey Shtylyov <s.shtylyov@omp.ru>
+> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+[...]
 
-diff --git a/drivers/mmc/host/renesas_sdhi.h b/drivers/mmc/host/renesas_sdhi.h
-index c1fb9740eab0..586f94d4dbfd 100644
---- a/drivers/mmc/host/renesas_sdhi.h
-+++ b/drivers/mmc/host/renesas_sdhi.h
-@@ -9,6 +9,7 @@
- #ifndef RENESAS_SDHI_H
- #define RENESAS_SDHI_H
- 
-+#include <linux/dmaengine.h>
- #include <linux/platform_device.h>
- #include "tmio_mmc.h"
- 
-@@ -63,7 +64,7 @@ struct renesas_sdhi_of_data_with_quirks {
- struct renesas_sdhi_dma {
- 	unsigned long end_flags;
- 	enum dma_slave_buswidth dma_buswidth;
--	bool (*filter)(struct dma_chan *chan, void *arg);
-+	dma_filter_fn filter;
- 	void (*enable)(struct tmio_mmc_host *host, bool enable);
- 	struct completion dma_dataend;
- 	struct tasklet_struct dma_complete;
--- 
-2.34.1
+> diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
+> index 9521cd054274..e235342e0827 100644
+> --- a/drivers/net/ethernet/renesas/ravb_main.c
+> +++ b/drivers/net/ethernet/renesas/ravb_main.c
+> @@ -2611,17 +2611,20 @@ static int ravb_setup_irq(struct ravb_private *priv, const char *irq_name,
+>  		if (!dev_name)
+>  			return -ENOMEM;
+>  
+> -		*irq = platform_get_irq_byname(pdev, irq_name);
+> +		error = platform_get_irq_byname(pdev, irq_name);
+>  		flags = 0;
+>  	} else {
+>  		dev_name = ndev->name;
+> -		*irq = platform_get_irq(pdev, 0);
+> +		error = platform_get_irq(pdev, 0);
+>  		flags = IRQF_SHARED;
+>  	}
+> -	if (*irq < 0)
+> -		return *irq;
+> +	if (error < 0)
+> +		return error;
+>  
+> -	error = devm_request_irq(dev, *irq, handler, flags, dev_name, ndev);
+> +	if (irq)
+> +		*irq = error;
+> +
+> +	error = devm_request_irq(dev, error, handler, flags, dev_name, ndev);
+>  	if (error)
+>  		netdev_err(ndev, "cannot request IRQ %s\n", dev_name);
+>  
 
+   Thanks for addressing my IRC comment! Tho the naming seems awful. :-)
+   I'd suggest to add a local variable (named e.g, irq_num) and use it to
+store the result of platform_get_irq[_byname]().
+
+[...]
+
+MBR, Sergey
 
