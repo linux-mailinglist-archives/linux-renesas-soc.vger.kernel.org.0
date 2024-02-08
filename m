@@ -1,233 +1,1279 @@
-Return-Path: <linux-renesas-soc+bounces-2495-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-2496-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0B7784E501
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  8 Feb 2024 17:28:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F5B384E512
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  8 Feb 2024 17:37:32 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E5E0D1C21805
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  8 Feb 2024 16:28:25 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4CF531C21805
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  8 Feb 2024 16:37:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 24A5E7E770;
-	Thu,  8 Feb 2024 16:28:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 39C657D3F3;
+	Thu,  8 Feb 2024 16:37:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="BjWdpW5X"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="yY2zm1C2"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01on2056.outbound.protection.outlook.com [40.107.113.56])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-io1-f41.google.com (mail-io1-f41.google.com [209.85.166.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 344BC7D3F3;
-	Thu,  8 Feb 2024 16:28:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.113.56
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707409703; cv=fail; b=QFDUI2y1/7gjwC21zHpyCVAbpGkQ5WdPg3aMvwGkQ32IWME+9pyCyzWrIvQrU2WPjcqJRbuH6ZGJxA1blHq5DKELn/YEwoFQUof8UqyRPmh+pqRHtbw4WGwJzBQvVI7Wo1rzT/HJQKqtR73anDvo9a+332lCMRPhBFEgrPn/SxE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707409703; c=relaxed/simple;
-	bh=mvEA0VsxZAsKoVWV/S5wqklRu4q8G7rlWgnAp4dtUy0=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=ZlF6K0bnuDhW9JIlZypWKUi6N4V9NwxBSEtTB32OEbrIw+6NbwTBk7WT7Wb6aYd5/sZ8upIdzxcVxWGEoWnu2aa9plsgjYlfHPkaN4zosZ/eQ6KZOhURR7/WBF0Sl9C6gSaihRbXq2r7AOSNHZoSqjmauao1lS7i4s4MZIPcIbU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=BjWdpW5X; arc=fail smtp.client-ip=40.107.113.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=FOXpIWk2kjovGzHJ/2iny+RrvhMlvmftpp0SJ5BKliLyPGESZyyykm6wso4lkRiRmbo/+03IIbvMa+SJKNvKe6ScuXBEmhNYZzwK2HPRvW8wbCmcbj9cnLZvN8yPcbwqwmErmQOOrWQLLHJCFbRWXH2peZeFG6QQVXKv7tkzyzj8RNvR5tIr3wgolYysnxh2mLbcci2pSG/M0BzcPWkECYHVkwAKJfqFZAg7XtVUdw70Fch7ncbDZps96fV8oaED8AY+gQ8KCvTa6mhWNZGeup4ZkYwL3uK1t0tepZZdR9m7hl3JYQxZHzyML/HC2Gc6LVpQMzh2oAbmmbtLs5cChg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=mvEA0VsxZAsKoVWV/S5wqklRu4q8G7rlWgnAp4dtUy0=;
- b=GcFEnnpJvfnVIrqpipesYq9S65ZSLXkKJnhY8Ter81G9TAyFR6aC6uAv04DQjSOy42XWhEEgK4wJHjrwAFwJHk5NioR/jh+UfGpKb7hamk2bhMDVOTOUZx8xOX5TA0pxK9siTzC5GD+pfabHhGtxS4n3j+NORMHnsNE8I+zIUYYyFu93pnX8+8+5521q48MMFgPyiM35Qodd1mXUDQv9XQcGQxAf/DZM6oiPYTnypiFOCpZ9CYkbtVCDfJMy+Yb3JInUvtgLYZNUzEJEUY0OdEHNJqHjaB7Prpnn/SlmMEol4r+MPn6bGdnQ4TsvBuQdalOSEKH/AqnNiUliEXRvWg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=mvEA0VsxZAsKoVWV/S5wqklRu4q8G7rlWgnAp4dtUy0=;
- b=BjWdpW5Xb8q0jsf9GMEDpcpPSDyY+0EG5md2+L0gEZlsirypRvR6VDvPtQwBnz0m/B78o2SSIfqrHDpJ1VeBMC9ocaBfNrMO7pejW/MuCLscX8WnhrvoG0pX+WCVeTor1PArCDauknPddA7kR6RrXJviotQxlJPXp+k+YYPHa2U=
-Received: from TYCPR01MB11269.jpnprd01.prod.outlook.com
- (2603:1096:400:3c0::10) by TYAPR01MB6220.jpnprd01.prod.outlook.com
- (2603:1096:400:84::13) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7249.39; Thu, 8 Feb
- 2024 16:28:15 +0000
-Received: from TYCPR01MB11269.jpnprd01.prod.outlook.com
- ([fe80::6719:535a:7217:9f0]) by TYCPR01MB11269.jpnprd01.prod.outlook.com
- ([fe80::6719:535a:7217:9f0%3]) with mapi id 15.20.7249.039; Thu, 8 Feb 2024
- 16:28:15 +0000
-From: Biju Das <biju.das.jz@bp.renesas.com>
-To: Claudiu.Beznea <claudiu.beznea@tuxon.dev>, "geert+renesas@glider.be"
-	<geert+renesas@glider.be>, "mturquette@baylibre.com"
-	<mturquette@baylibre.com>, "sboyd@kernel.org" <sboyd@kernel.org>,
-	"robh@kernel.org" <robh@kernel.org>, "krzysztof.kozlowski+dt@linaro.org"
-	<krzysztof.kozlowski+dt@linaro.org>, "conor+dt@kernel.org"
-	<conor+dt@kernel.org>, "magnus.damm@gmail.com" <magnus.damm@gmail.com>,
-	"paul.walmsley@sifive.com" <paul.walmsley@sifive.com>, "palmer@dabbelt.com"
-	<palmer@dabbelt.com>, "aou@eecs.berkeley.edu" <aou@eecs.berkeley.edu>
-CC: "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
-	"linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>,
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>, Claudiu
- Beznea <claudiu.beznea.uj@bp.renesas.com>
-Subject: RE: [PATCH 01/17] dt-bindings: clock: r9a07g043-cpg: Add power domain
- IDs
-Thread-Topic: [PATCH 01/17] dt-bindings: clock: r9a07g043-cpg: Add power
- domain IDs
-Thread-Index: AQHaWox93XkHXchpTkaSnTQ6Ok/3vrEAgGfQgAAWUICAAAlS4A==
-Date: Thu, 8 Feb 2024 16:28:15 +0000
-Message-ID:
- <TYCPR01MB112698AB206332D13105C064186442@TYCPR01MB11269.jpnprd01.prod.outlook.com>
-References: <20240208124300.2740313-1-claudiu.beznea.uj@bp.renesas.com>
- <20240208124300.2740313-2-claudiu.beznea.uj@bp.renesas.com>
- <TYCPR01MB11269DEA9261CA594EECC949686442@TYCPR01MB11269.jpnprd01.prod.outlook.com>
- <67ad8052-1406-4dcb-9e35-5c42ada28797@tuxon.dev>
-In-Reply-To: <67ad8052-1406-4dcb-9e35-5c42ada28797@tuxon.dev>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TYCPR01MB11269:EE_|TYAPR01MB6220:EE_
-x-ms-office365-filtering-correlation-id: b3adf273-e04c-4725-7cbc-08dc28c2f387
-x-ld-processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info:
- 0KpWX2Gp32TCG2F8h5gqKRPBDvhlSlsQxF8im+6rwCXpSZrez/Y3w0zN54aEzqWGeVcR2jnKrEOuoptMnTOhLl81FTwTsAXrcYGRM8bTzGw/xs+nNuURTyUIUW4Bc8NbUyIZjFklJjU1cvVdoUt1x8us0U6s/Z0JwuA/UypR3CXwaCgsVhZmdofy4KRKRt3qg+81FDH81PTOPtIkLtHEUsw0GIWhGpyL5pCkGrQcl272lYTohD6SYRogPWYLUbDfJOgahsBg4sJ6wbhlBhiKeGiZSf2D3TifhA/scYpqokuHw3lMGCb11HwYhm+wINSZa1dYZVBjD+ccYmbiVq3TV4YPH03/ahGDoKyyBVZsIQMMdSXCGH2BrH2PgEnV0TcjENHHLRtB10Urpc4zdC1UI+C3f/nBz12DeTHj/2LrnexbuBf/MuU+pr/CBI4tL7yfGAwC+g80pUnOKpLcqJULBfBe7Dv6f+4h9JXi1exmtctW7Rtn0zMQ9aOfbz3qr4M1YTV8d9XqNYRkBXwjdVQFh1orc8zaotRDtseGeWEAqDuXs2IQigVuxj7zFMokwCs44p1VPWO6Zo3LB8XZuqwcMmt5TLLkM30Jk3weuzDXn6gBzjfN4Z++xEaDBQOQfAxBIrY2n9pdUlYdaQtpKz0mug==
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB11269.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(396003)(346002)(136003)(376002)(366004)(39860400002)(230922051799003)(64100799003)(451199024)(186009)(1800799012)(41300700001)(38100700002)(66556008)(66476007)(66446008)(64756008)(54906003)(7696005)(110136005)(76116006)(55236004)(53546011)(6506007)(9686003)(66946007)(478600001)(71200400001)(38070700009)(8936002)(8676002)(316002)(33656002)(122000001)(83380400001)(107886003)(26005)(86362001)(921011)(4326008)(2906002)(52536014)(7416002)(5660300002)(55016003);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?utf-8?B?RThPcDgxbXdmTUY3UlR4R3RIdDV1c2txMURyY0Y2TTV5cjdyYWdhcWcwckxN?=
- =?utf-8?B?dnZKcWhiKytWY1d6TkV6T1FZQ1NYMnluWmpVMnAvM3oxZGx1S1hjeEJ2bjZM?=
- =?utf-8?B?TkJaOE5XZnZVRWtPZ2F4eXo4WDVpWXVYUForZW9ZVm5DN3lrWEdlclVIQmNH?=
- =?utf-8?B?N2JKYkVzK0hncURNLzZTbDB2VzJSZk1zbXd0UC9ibFRKeTAwRjl2M1JCQTRq?=
- =?utf-8?B?emNKaWdlclRDamxWOHozT1FxS0ZZL0xhL01Sb3ZMS2dvQWJpOUdDL1NmeCtq?=
- =?utf-8?B?YTdQK25KbmowRVNuSVJCY2dPbUNjMjlVSXJnT2k1VzNCeHFVWnpuSE1lVm5z?=
- =?utf-8?B?RklLa3B0aTJQenE2UE13VUwwNFQ4ZWxBTEtEL29wR2FIVjFiSkVBTi91VEJU?=
- =?utf-8?B?L2s3TXR5RzN6TVJ3dWUzZVp4dTNSejZlbDlPaEtXei9BL1NoTk0vYlpHTDh1?=
- =?utf-8?B?eHRaSHE0UEUxZWhTNG9Vb2wvQm04dGE4aC9DSG9YR250YUNvcWpFZUsxcERF?=
- =?utf-8?B?NnU0R2hLRFN1OHMvREt2SmdNZGxEVXBWK0NhWVQ3QUdLZjErMm1xR2NBaFZ3?=
- =?utf-8?B?cWFUNjlqdkpjOW9RLy9iSXV4MTVDM2hFRzVjdE54WWlzSUtrQUtxVXZFNXJn?=
- =?utf-8?B?elp5NVdMeXEzdW40UmJNTGs2RDVmMkFpbSt3TGwwQU5yQjVwS3orazc0Zk9z?=
- =?utf-8?B?U2N2U3NRR2VoZWRFOWQ1QUYyVkRWRkdydSt5eW9IZy9GUjdyeE1yTUxLdFY0?=
- =?utf-8?B?MmQzMjV0SXhQRXk4MExiSStmVmtTSFJQazhIR3UyMWRUV0Z5eEtDQmZWQWNo?=
- =?utf-8?B?T2dMVnlVOGR1ZlpqOERTNmFhakJ4d2hyVjM2bEsxWkJGbFJDNzhkVGtrOWJH?=
- =?utf-8?B?cjRZZzRmcVFuVHJ0N0ZVZ0VUL2p6NEMzREVUK20rV2RQZnMxVkJabTVia29s?=
- =?utf-8?B?VWRscFo0cWNJcEFyVi8zaU9uQVZrMUFnSHg1L2s4WjlyMFZqSExiZWJUMFRI?=
- =?utf-8?B?ZHVFS0pGdERBZVAvc1lpT00rcUdWV0FKS2RTaml2cXBZemwvakhOSk8xNkE1?=
- =?utf-8?B?c1JSd2VZZTV2Nkh2N2xCZHgwYzdURXB2MHdvZTZkVXZQNHNCNklXMlMrdjJ3?=
- =?utf-8?B?S3BCT0RoOWs5TTMvZ3BXWDgxZmE2ZG5uVG5QdEIrbEpUdU0wejhJdUNZeVg5?=
- =?utf-8?B?em91MnNPT05UNitZTjAwdjZTNHNnNU9naXE0MGREQ3c0NXo2Vk1NOE15eHUy?=
- =?utf-8?B?a2hRdjN3aURYREdCVmhtK09LR1hCNlFQWXg0Q0tUOWNGaWtHYTRMbHBBR1Vo?=
- =?utf-8?B?alk4THk3VnhTSTVtYU9Db0NqQVVBazhIRnI4RkhJM1FvdXY3Ky9aV0FPTEtX?=
- =?utf-8?B?dWJ2czZlQjI5WEtVY0FHMm04MXJjZmJEZERTMTZ0cmtFTDJISHpvNW93cFg1?=
- =?utf-8?B?ekpqSFk4WkN3N2FxT1VNcGV0elIxUGNHMW5aU1d2WWt0eW5uYkl5UmRhOHBm?=
- =?utf-8?B?TXl6aVdwdU1mUlV6QkxCeEtIbzRBZEw2eWNHdjZlV1ptb2NRbS9ub0kreUxr?=
- =?utf-8?B?cjE1dDdoUzUwSUllVVBUeis0VUJNTHRUYU9hS1JwdlRrQWZRSEtzTG0wcWhy?=
- =?utf-8?B?bUFCSDlrRDM5NlZvYTlsSndOb2orcTBUUXk0SkpKOHYzWDhFSFh3SXZIaHB2?=
- =?utf-8?B?NkFxQXp2OEd6SXAveURMaUpZTXQxazY0ZHNEUDdLSUZDeFpQQ3lldkI2cEFa?=
- =?utf-8?B?ZkhoZUFkOTFubDVPZi85WldoT25SWFQ3ZEhqZVlibk5qUWROTmYrRlhBVXdK?=
- =?utf-8?B?N1cxRjFldTFySVBYa0Jocy9BZ25YbGRRSUdqaEM2TVBEZWhNK2hDMXdjdEtX?=
- =?utf-8?B?dHZYZWI3b2NTeWE0SnY3K3NHby9FQUlDZktSRm05MzZXMC9vN2pacmJvZjQy?=
- =?utf-8?B?d1FVckJKNEx0WWJoamJWK2lJR0N0TG9kTS9PT2J3cko2NTZrdTNMQVlpQ2x5?=
- =?utf-8?B?ZkJBTzNDaWdwYTg5ZlpxK3IyaFNhanRONHhicWsrdGkvRDljWG1Nek5reC9q?=
- =?utf-8?B?QzhhSEp1UzRXRXdISUhKNk80R290d1p0OE1KU1BNRElrczZiY2ZCZ2dDVjFp?=
- =?utf-8?B?RG9UcWtIZWRvQVFBaXM3Q09QK2xvRDF6M3RwTkpzNW95UnBQOVdHVWdYaXpO?=
- =?utf-8?B?MlE9PQ==?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A36207EEF8
+	for <linux-renesas-soc@vger.kernel.org>; Thu,  8 Feb 2024 16:37:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.41
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1707410246; cv=none; b=fG4MmhIMwDS4/ZYDCqd4c6oXoz4TbTFORAGQ8TmTOTMNwgRZhvjYfUc6KoEYs9jrq9iIS6HbvBqW7aB2sIZ2DdznXXjIHAj7i2GAwH0mLAh6gPPo/4kYD50HrAKTiMsNEKX74wZ0jgVePJCdyfqG0qgMc+43ioakKQAGmseDvZU=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1707410246; c=relaxed/simple;
+	bh=4V3FamJpmiINURo1Cn6g6NjlG5NU5kyiLTxXmwgKQ5M=;
+	h=From:To:Subject:Date:Message-Id:MIME-Version; b=fOujuCTZA4keD7YQcTVBBumTN2Bj+nfjqXAR0sR60CfpUPnZ5n1kRyKP5fK42y+3AvNKlliOAfZ6bOa7PoVIQ0ula21iGdl1RQoU46dCXjNrI4wfyUazAmQDGZSaNGnmkiiNDvLwOcQeKQZuSWENA72UBK+Q49GCFUEsRFitXc0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=yY2zm1C2; arc=none smtp.client-ip=209.85.166.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-io1-f41.google.com with SMTP id ca18e2360f4ac-7c4205020c4so20709639f.1
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 08 Feb 2024 08:37:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1707410242; x=1708015042; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=DVDRzJBRqPrJdj20pQGGAH3Le30HZ+DEDlSpmFcwYqA=;
+        b=yY2zm1C2m0IsXTcVCLUkji8OKGlrdiTDd7AW6b387RrdKKn8l1rPhR2221/0dFqVQp
+         3gCAu8MKOjNzivvzeQ+8SGMR+gPpBmoB/IjTWiR/v7Xu4z9yDK9aGzKnumWZ0Qy+qdrj
+         qR2LoywnDisS9FocW4iOUXkX59ERvZnElzLGNUMjwDpy+sivynyeCOPHbts6VuyVpIeN
+         xI8aqHFHioWjTq1rLH2NHGUloW11VG1sJ7MCiQ6O39Bo3P/kW+zh2LOdeV/+N3jHzhAT
+         fq75ajfkahWUm+hsWzBuk+P2cU+DL1geC3sq/Ax6uQoGl8jtEQ6JM6szClX9HGpC6kE+
+         Hp8Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1707410242; x=1708015042;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=DVDRzJBRqPrJdj20pQGGAH3Le30HZ+DEDlSpmFcwYqA=;
+        b=I1hGTznL7Ofw8zM6HqiY9bW8Jcygf+v9wfYB5xU/RcRn2yVKCr4oX+K6bVpt6rpX+o
+         PdT5uJ8XfP6PTuDFssYVV+27FP/vliHHaqkkdwdNe8JOZEVACRILIxSKVsrTuqNNtPc3
+         b5B1l3Mze86tE5+ipi+hSEsUsyz2VsdamQ0y6MQUceJP8dUwKojuAuw06ERrZExamhJb
+         UytlLolp4D9zri4PhPyCSdSE6l7JbcKDVrvmJm2WGzgBiWUpbqbD9YQa0/kxSFEtMyQM
+         EKS6mOC+qXwJ262yqkWoe5w36SrovzbDs77See8ib4z/SFvWTUx0wiKss+5UfQoD0MEc
+         a5DQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVQEF+IxT3rAhkUZECwDN1GROF6GP6p2mfLoE3tBj8bgz8nUuCpWp2sQkTJ0yNH6EVQHEaxDwcjikp992ZC23LiMN6XqMfU6PSxreOICsyUSYQ=
+X-Gm-Message-State: AOJu0YzaMiZYVP8fGmt4h/T10Y5BwjKe5yhi2GVLBnnlaOCUt5r/Mhap
+	9hC+ks/68eKU5ZQxwKfDOjuJYFKAI12ZqstwIUj5aAobdlBH4cBXqdqgmMsC7Mk=
+X-Google-Smtp-Source: AGHT+IF6e6JWj/GESqPFkvCFEymbzdOJ/40mqg1b+1ZgqG/IAjRkBb/PQ9gM0RAC/wO4u5+tmEc1FQ==
+X-Received: by 2002:a6b:6118:0:b0:7c0:3b4e:8ffa with SMTP id v24-20020a6b6118000000b007c03b4e8ffamr80713iob.5.1707410241184;
+        Thu, 08 Feb 2024 08:37:21 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCXRICWdCd3BpNfnHWIOZlzDqRmjtu+ALQf6fbJFRnImfjw/j8e6BcGAwKiSyz3goSHmQMLfpLXA166GKGylIYFPP22tqASNX34CwBXy8CNGCoqLq07Q6ElC20wBd5G1mpiDjspj+8EquasJlIs/KCuQ6c1Eg0HKs/RWwPQLMEPU/ccXdlx7O7zUF0OhqSJDON7FyiTc+cXVMpSlmFzLyBLICOTwGe5TTLrd7aKtcwnedPRs/LicX4o3c19IOYpqwidp9fUe/eCzDtzGR7SotkoNtD2aXKFiZ7UNSbaJUaxcZb1bL3GBqVMm2fXKRBpJCZkZiEPzYyM8UrXxET8d2rrdtdm14vPBzEqweZ3VgSodf+fbHR15K5HTGiTgEadAcrjozO/hbsr0oC5G7OQAzoUGq+cUq8qOvHWbs0LdzxFCGsq+JB6xPeY0k2NQ2zG64tm89z/qO693yBZomZZKSJQ5vEKEEVq93rEsN4EAO1wbzsE+/TC/CSeBBXivwgAte2WG4/tdXUZYOmseklTKKg52+sSCnnJVkfzOG+VClAsuwOiMSK/1oJvM+3m+ryY8ZPuALOrBIN5nj7etvk2dK0rhPBumJ5/kqUOHv5zrBgIk+eUA5S03IvbAWSY9+fcgO7c0cvVU9082qUc3/f2Qywy0XxArbIcJHIKyz97pdVVpPHCzHebqVoPr9JCF1XjGy9SRRzvz5yMwenTK6e23c7D26KG1DDfSfOZmsO45NDg3nwYS5RonPvYjeHCJqtvBBwhH4skXj2KMZWo+KlF23GXSshRn2GqeED3MILt1jus0Wn1xj4iVKu+XwfBYddpqqHLr0DutVyxLN90GbMl7QNLz/xZNC5HcRRaZIfAT5mK0hfPvhaKJP6yaiqxktMjS8lQKuoNn64KeO2oKZMbK3yYtHwDxKzwQNTIdOfGcgmbzKCaDQQXMGEuPGNv1uqgGtyEmMf
+ dP9nOuOd51jQVMbOa8R85TnBqE5GP5d01y7wbbDLJxBCHEyr0j9XFJ2aD6bQ+NeOj6Fc/tPDMaPLLSh8o9Le4CgBAQ5dkvQPCQqh6vKd8LyLyDdulLL/bOhPxNSXxjwkxd5o9Q2eEwP5JQzueYncu7NcVQr1ILDsRjMZZh8G05xtHxDJj0uhYHVNQ9Lbm5EbrV9mQaMzCNZx1Lwyizop60p4LARTN145pnym8HGHeRursj5+GLHcjuqKrX8IkJMd8SArxFJ2OcV+YWfQvErpDDp/ozIXdOZPVc1o23c9hsiojjtlEPKqNDkIDJ
+Received: from krzk-bin.. ([178.197.222.62])
+        by smtp.gmail.com with ESMTPSA id f19-20020a02a813000000b004712b76c70csm944868jaj.179.2024.02.08.08.37.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 08 Feb 2024 08:37:20 -0800 (PST)
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+To: Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	Sudeep Holla <sudeep.holla@arm.com>,
+	Peng Fan <peng.fan@nxp.com>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Nishanth Menon <nm@ti.com>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konrad.dybcio@linaro.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Vinod Koul <vkoul@kernel.org>,
+	Russell King <linux@armlinux.org.uk>,
+	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	linux-clk@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	patches@opensource.cirrus.com,
+	linux-stm32@st-md-mailman.stormreply.com,
+	NXP Linux Team <linux-imx@nxp.com>,
+	linux-amlogic@lists.infradead.org,
+	linux-arm-msm@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	linux-tegra@vger.kernel.org,
+	linux-omap@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	linux-phy@lists.infradead.org,
+	alsa-devel@alsa-project.org,
+	linux-sound@vger.kernel.org
+Subject: [PATCH] clk: constify the of_phandle_args argument of of_clk_provider
+Date: Thu,  8 Feb 2024 17:37:10 +0100
+Message-Id: <20240208163710.512733-1-krzysztof.kozlowski@linaro.org>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB11269.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b3adf273-e04c-4725-7cbc-08dc28c2f387
-X-MS-Exchange-CrossTenant-originalarrivaltime: 08 Feb 2024 16:28:15.3654
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: y4EW43IZL6DjSnd4B7DGzGjIMSsFXbl9j/4EDTjCapj+x8K/8lZAbMmMqmKhiBb/NqPKvsTsaihOhozDrCz7KTQtaWfAMk0Sdd+4xUhSIdU=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYAPR01MB6220
+Content-Transfer-Encoding: 8bit
 
-DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogY2xhdWRpdSBiZXpuZWEg
-PGNsYXVkaXUuYmV6bmVhQHR1eG9uLmRldj4NCj4gU2VudDogVGh1cnNkYXksIEZlYnJ1YXJ5IDgs
-IDIwMjQgMzo0NiBQTQ0KPiBTdWJqZWN0OiBSZTogW1BBVENIIDAxLzE3XSBkdC1iaW5kaW5nczog
-Y2xvY2s6IHI5YTA3ZzA0My1jcGc6IEFkZCBwb3dlcg0KPiBkb21haW4gSURzDQo+IA0KPiBIaSwg
-QmlqdSwNCj4gDQo+IE9uIDA4LjAyLjIwMjQgMTY6MzAsIEJpanUgRGFzIHdyb3RlOg0KPiA+IEhp
-IENsYXVkaXUsDQo+ID4NCj4gPiBUaGFua3MgZm9yIHRoZSBwYXRjaC4NCj4gPg0KPiA+PiAtLS0t
-LU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiA+PiBGcm9tOiBDbGF1ZGl1IDxjbGF1ZGl1LmJlem5l
-YUB0dXhvbi5kZXY+DQo+ID4+IFNlbnQ6IFRodXJzZGF5LCBGZWJydWFyeSA4LCAyMDI0IDEyOjQz
-IFBNDQo+ID4+IFN1YmplY3Q6IFtQQVRDSCAwMS8xN10gZHQtYmluZGluZ3M6IGNsb2NrOiByOWEw
-N2cwNDMtY3BnOiBBZGQgcG93ZXINCj4gPj4gZG9tYWluIElEcw0KPiA+Pg0KPiA+PiBGcm9tOiBD
-bGF1ZGl1IEJlem5lYSA8Y2xhdWRpdS5iZXpuZWEudWpAYnAucmVuZXNhcy5jb20+DQo+ID4+DQo+
-ID4+IEFkZCBwb3dlciBkb21haW4gSURzIGZvciBSWi9HMlVMIChSOUEwN0cwNDMpIFNvQy4NCj4g
-Pj4NCj4gPj4gU2lnbmVkLW9mZi1ieTogQ2xhdWRpdSBCZXpuZWEgPGNsYXVkaXUuYmV6bmVhLnVq
-QGJwLnJlbmVzYXMuY29tPg0KPiA+PiAtLS0NCj4gPj4gIGluY2x1ZGUvZHQtYmluZGluZ3MvY2xv
-Y2svcjlhMDdnMDQzLWNwZy5oIHwgNDgNCj4gPj4gKysrKysrKysrKysrKysrKysrKysrKysNCj4g
-Pj4gIDEgZmlsZSBjaGFuZ2VkLCA0OCBpbnNlcnRpb25zKCspDQo+ID4+DQo+ID4+IGRpZmYgLS1n
-aXQgYS9pbmNsdWRlL2R0LWJpbmRpbmdzL2Nsb2NrL3I5YTA3ZzA0My1jcGcuaCBiL2luY2x1ZGUv
-ZHQtDQo+ID4+IGJpbmRpbmdzL2Nsb2NrL3I5YTA3ZzA0My1jcGcuaCBpbmRleCA3N2NkZThlZmZk
-YzcuLmVhYmZlZWM3YWMzNw0KPiA+PiAxMDA2NDQNCj4gPj4gLS0tIGEvaW5jbHVkZS9kdC1iaW5k
-aW5ncy9jbG9jay9yOWEwN2cwNDMtY3BnLmgNCj4gPj4gKysrIGIvaW5jbHVkZS9kdC1iaW5kaW5n
-cy9jbG9jay9yOWEwN2cwNDMtY3BnLmgNCj4gPj4gQEAgLTIwMCw1ICsyMDAsNTMgQEANCj4gPj4g
-ICNkZWZpbmUgUjlBMDdHMDQzX0FYNDVNUF9DT1JFMF9SRVNFVE4JNzgJLyogUlovRml2ZSBPbmx5
-ICovDQo+ID4+ICAjZGVmaW5lIFI5QTA3RzA0M19JQVg0NV9SRVNFVE4JCTc5CS8qIFJaL0ZpdmUg
-T25seSAqLw0KPiA+Pg0KPiA+PiArLyogUG93ZXIgZG9tYWluIElEcy4gKi8NCj4gPj4gKyNkZWZp
-bmUgUjlBMDdHMDQzX1BEX0FMV0FZU19PTgkJMA0KPiA+PiArI2RlZmluZSBSOUEwN0cwNDNfUERf
-R0lDCQkxDQo+ID4+ICsjZGVmaW5lIFI5QTA3RzA0M19QRF9JQTU1CQkyDQo+ID4+ICsjZGVmaW5l
-IFI5QTA3RzA0M19QRF9NSFUJCTMNCj4gPj4gKyNkZWZpbmUgUjlBMDdHMDQzX1BEX0NPUkVTSUdI
-VAkJNA0KPiA+PiArI2RlZmluZSBSOUEwN0cwNDNfUERfU1lDCQk1DQo+ID4+ICsjZGVmaW5lIFI5
-QTA3RzA0M19QRF9ETUFDCQk2DQo+ID4+ICsjZGVmaW5lIFI5QTA3RzA0M19QRF9HVE0wCQk3DQo+
-ID4+ICsjZGVmaW5lIFI5QTA3RzA0M19QRF9HVE0xCQk4DQo+ID4+ICsjZGVmaW5lIFI5QTA3RzA0
-M19QRF9HVE0yCQk5DQo+ID4+ICsjZGVmaW5lIFI5QTA3RzA0M19QRF9NVFUJCTEwDQo+ID4+ICsj
-ZGVmaW5lIFI5QTA3RzA0M19QRF9QT0UzCQkxMQ0KPiA+PiArI2RlZmluZSBSOUEwN0cwNDNfUERf
-V0RUMAkJMTINCj4gPj4gKyNkZWZpbmUgUjlBMDdHMDQzX1BEX1NQSQkJMTMNCj4gPj4gKyNkZWZp
-bmUgUjlBMDdHMDQzX1BEX1NESEkwCQkxNA0KPiA+PiArI2RlZmluZSBSOUEwN0cwNDNfUERfU0RI
-STEJCTE1DQo+ID4+ICsjZGVmaW5lIFI5QTA3RzA0M19QRF9JU1UJCTE2DQo+ID4+ICsjZGVmaW5l
-IFI5QTA3RzA0M19QRF9DUlUJCTE3DQo+ID4+ICsjZGVmaW5lIFI5QTA3RzA0M19QRF9MQ0RDCQkx
-OA0KPiA+PiArI2RlZmluZSBSOUEwN0cwNDNfUERfU1NJMAkJMTkNCj4gPj4gKyNkZWZpbmUgUjlB
-MDdHMDQzX1BEX1NTSTEJCTIwDQo+ID4+ICsjZGVmaW5lIFI5QTA3RzA0M19QRF9TU0kyCQkyMQ0K
-PiA+PiArI2RlZmluZSBSOUEwN0cwNDNfUERfU1NJMwkJMjINCj4gPj4gKyNkZWZpbmUgUjlBMDdH
-MDQzX1BEX1NSQwkJMjMNCj4gPj4gKyNkZWZpbmUgUjlBMDdHMDQzX1BEX1VTQjAJCTI0DQo+ID4+
-ICsjZGVmaW5lIFI5QTA3RzA0M19QRF9VU0IxCQkyNQ0KPiA+PiArI2RlZmluZSBSOUEwN0cwNDNf
-UERfVVNCX1BIWQkJMjYNCj4gPj4gKyNkZWZpbmUgUjlBMDdHMDQzX1BEX0VUSEVSMAkJMjcNCj4g
-Pj4gKyNkZWZpbmUgUjlBMDdHMDQzX1BEX0VUSEVSMQkJMjgNCj4gPj4gKyNkZWZpbmUgUjlBMDdH
-MDQzX1BEX0kyQzAJCTI5DQo+ID4+ICsjZGVmaW5lIFI5QTA3RzA0M19QRF9JMkMxCQkzMA0KPiA+
-PiArI2RlZmluZSBSOUEwN0cwNDNfUERfSTJDMgkJMzENCj4gPj4gKyNkZWZpbmUgUjlBMDdHMDQz
-X1BEX0kyQzMJCTMyDQo+ID4+ICsjZGVmaW5lIFI5QTA3RzA0M19QRF9TQ0lGMAkJMzMNCj4gPj4g
-KyNkZWZpbmUgUjlBMDdHMDQzX1BEX1NDSUYxCQkzNA0KPiA+PiArI2RlZmluZSBSOUEwN0cwNDNf
-UERfU0NJRjIJCTM1DQo+ID4+ICsjZGVmaW5lIFI5QTA3RzA0M19QRF9TQ0lGMwkJMzYNCj4gPj4g
-KyNkZWZpbmUgUjlBMDdHMDQzX1BEX1NDSUY0CQkzNw0KPiA+PiArI2RlZmluZSBSOUEwN0cwNDNf
-UERfU0NJMAkJMzgNCj4gPj4gKyNkZWZpbmUgUjlBMDdHMDQzX1BEX1NDSTEJCTM5DQo+ID4+ICsj
-ZGVmaW5lIFI5QTA3RzA0M19QRF9JUkRBCQk0MA0KPiA+PiArI2RlZmluZSBSOUEwN0cwNDNfUERf
-UlNQSTAJCTQxDQo+ID4+ICsjZGVmaW5lIFI5QTA3RzA0M19QRF9SU1BJMQkJNDINCj4gPj4gKyNk
-ZWZpbmUgUjlBMDdHMDQzX1BEX1JTUEkyCQk0Mw0KPiA+PiArI2RlZmluZSBSOUEwN0cwNDNfUERf
-Q0FORkQJCTQ0DQo+ID4+ICsjZGVmaW5lIFI5QTA3RzA0M19QRF9BREMJCTQ1DQo+ID4+ICsjZGVm
-aW5lIFI5QTA3RzA0M19QRF9UU1UJCTQ2DQo+ID4NCj4gPiBOb3Qgc3VyZSBmcm9tICJUYWJsZSA0
-Mi4zIFJlZ2lzdGVycyBmb3IgTW9kdWxlIFN0YW5kYnkgTW9kZSINCj4gPg0KPiA+IFBvd2VyIGRv
-bWFpbiBJRCBoYXMgdG8gYmUgYmFzZWQgb24gQ1BHX0JVU18qKipfTVNUT1Agb3IgQ1BHX0NMS09O
-XyoqKg0KPiA+IEFzIGZvcm1lciByZWR1Y2VzIG51bWJlciBvZiBJRHM/Pw0KPiANCj4gSWYgSSB1
-bmRlcnN0YW5kIGNvcnJlY3RseSB5b3VyIHBvaW50IGhlcmUsIHlvdSB3YW50IG1lIHRvIGRlc2Ny
-aWJlIFBNDQo+IGRvbWFpbiBpbiBEVCB3aXRoIHNvbWV0aGluZyBsaWtlOg0KPiANCj4gcG93ZXIt
-ZG9tYWlucyA9IDwmY3BnIENQR19CVVNfWF9NU1RPUD47DQoNCk1TVE9QIGJpdHMgYXJlIGRpc3Rp
-bmN0IGZvciBlYWNoIElQLg0KDQo8JmNwZyBDUEdfQlVTX01DUFUxX01TVE9QIHg+OyB4ID0xLi45
-DQoNCjI9TVRVIElQDQoNCjQ9IEdQVA0KDQpldGMuLi4NCg0KSXMgaXQgc29tZXRoaW5nIHdvcms/
-Pw0KDQo+IA0KPiB3aGVyZSBYPXtBQ1BVLCBQRVJJX0NQVSwgUEVSSV9DUFUyLCBSRUcwLCBSRUcx
-fSA/DQo+IA0KPiBXaXRoIHRoaXMsIEkgc3RpbGwgc2VlIHRoZSBuZWNlc3NpdHkgb2YgYSAzcmQg
-aWRlbnRpZmllciB0aGF0IHdpbGwgYmUgSVANCj4gc3BlY2lmaWMgdG8gYmUgYWJsZSB0byB1bmlx
-dWVseSBtYXRjaCBiL3cgRFQgZGVzY3JpcHRpb24gYW5kIHJlZ2lzdGVyZWQNCj4gcG93ZXIgZG9t
-YWluLiBGTVBPViwgdGhpcyB3aWxsIGxlYWQgdG8gYSBtb3JlIGNvbXBsaWNhdGVkIGltcGxlbWVu
-dGF0aW9uLg0KPiANCj4gV2UgbmVlZCBhIHVuaXF1ZSBJRCB0aGF0IHRoZSBwbSBkb21haW4geGxh
-dGUgd2lsbCB1c2UgdG8geGxhdGUgdGhlIERUDQo+IGJpbmRpbmcgdG8gZHJpdmVyIGRhdGEgc3Ry
-dWN0dXJlcy4NCg0KT2suDQoNCkNoZWVycywNCkJpanUNCg0K
+None of the implementations of the get() and get_hw() callbacks of
+"struct of_clk_provider" modify the contents of received of_phandle_args
+pointer.  They treat it as read-only variable used to find the clock to
+return.  Make obvious that implementations are not supposed to modify
+the of_phandle_args, by making it a pointer to const.
+
+Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+---
+ drivers/clk/at91/pmc.c                        |  3 +-
+ drivers/clk/at91/pmc.h                        |  3 +-
+ drivers/clk/baikal-t1/clk-ccu-div.c           |  2 +-
+ drivers/clk/baikal-t1/clk-ccu-pll.c           |  2 +-
+ drivers/clk/bcm/clk-kona-setup.c              |  2 +-
+ drivers/clk/clk-axm5516.c                     |  2 +-
+ drivers/clk/clk-cdce706.c                     |  2 +-
+ drivers/clk/clk-cdce925.c                     |  2 +-
+ drivers/clk/clk-k210.c                        |  2 +-
+ drivers/clk/clk-lochnagar.c                   |  2 +-
+ drivers/clk/clk-max77686.c                    |  2 +-
+ drivers/clk/clk-max9485.c                     |  2 +-
+ drivers/clk/clk-qoriq.c                       |  3 +-
+ drivers/clk/clk-renesas-pcie.c                |  2 +-
+ drivers/clk/clk-rk808.c                       |  2 +-
+ drivers/clk/clk-scpi.c                        |  2 +-
+ drivers/clk/clk-si521xx.c                     |  2 +-
+ drivers/clk/clk-si5341.c                      |  2 +-
+ drivers/clk/clk-si5351.c                      |  4 +--
+ drivers/clk/clk-sparx5.c                      |  3 +-
+ drivers/clk/clk-stm32f4.c                     |  2 +-
+ drivers/clk/clk-versaclock3.c                 |  2 +-
+ drivers/clk/clk-versaclock5.c                 |  2 +-
+ drivers/clk/clk-versaclock7.c                 |  2 +-
+ drivers/clk/clk.c                             | 30 ++++++++++---------
+ drivers/clk/hisilicon/clk-hi3660-stub.c       |  2 +-
+ drivers/clk/imx/clk-imx8qxp-lpcg.c            |  2 +-
+ drivers/clk/imx/clk-scu.c                     |  2 +-
+ drivers/clk/imx/clk-scu.h                     |  2 +-
+ drivers/clk/keystone/sci-clk.c                |  3 +-
+ drivers/clk/meson/meson-clkc-utils.c          |  3 +-
+ drivers/clk/meson/meson-clkc-utils.h          |  3 +-
+ drivers/clk/mvebu/common.c                    |  2 +-
+ drivers/clk/mvebu/cp110-system-controller.c   |  2 +-
+ drivers/clk/mvebu/kirkwood.c                  |  2 +-
+ drivers/clk/nxp/clk-lpc18xx-ccu.c             |  2 +-
+ drivers/clk/qcom/clk-rpm.c                    |  2 +-
+ drivers/clk/qcom/clk-rpmh.c                   |  2 +-
+ drivers/clk/qcom/clk-smd-rpm.c                |  2 +-
+ drivers/clk/qcom/clk-spmi-pmic-div.c          |  2 +-
+ drivers/clk/qcom/common.c                     |  2 +-
+ drivers/clk/qcom/krait-cc.c                   |  2 +-
+ drivers/clk/renesas/r9a06g032-clocks.c        |  2 +-
+ drivers/clk/renesas/renesas-cpg-mssr.c        |  2 +-
+ drivers/clk/renesas/rzg2l-cpg.c               |  2 +-
+ .../clk/starfive/clk-starfive-jh7100-audio.c  |  3 +-
+ drivers/clk/starfive/clk-starfive-jh7100.c    |  3 +-
+ .../clk/starfive/clk-starfive-jh7110-aon.c    |  3 +-
+ .../clk/starfive/clk-starfive-jh7110-isp.c    |  3 +-
+ .../clk/starfive/clk-starfive-jh7110-pll.c    |  3 +-
+ .../clk/starfive/clk-starfive-jh7110-stg.c    |  3 +-
+ .../clk/starfive/clk-starfive-jh7110-sys.c    |  3 +-
+ .../clk/starfive/clk-starfive-jh7110-vout.c   |  3 +-
+ drivers/clk/tegra/clk-bpmp.c                  |  2 +-
+ drivers/clk/tegra/clk-tegra124.c              |  2 +-
+ drivers/clk/tegra/clk-tegra20.c               |  2 +-
+ drivers/clk/tegra/clk-tegra30.c               |  2 +-
+ drivers/clk/ti/clkctrl.c                      |  2 +-
+ drivers/clk/ux500/u8500_of_clk.c              |  4 +--
+ drivers/clk/versatile/clk-sp810.c             |  2 +-
+ drivers/media/platform/ti/omap3isp/isp.c      |  3 +-
+ drivers/phy/qualcomm/phy-qcom-qmp-combo.c     |  6 ++--
+ include/linux/clk-provider.h                  | 28 ++++++++---------
+ include/linux/clk.h                           |  4 +--
+ sound/soc/qcom/qdsp6/q6dsp-lpass-clocks.c     |  2 +-
+ 65 files changed, 115 insertions(+), 95 deletions(-)
+
+diff --git a/drivers/clk/at91/pmc.c b/drivers/clk/at91/pmc.c
+index 5aa9c1f1c886..64ec624ffc15 100644
+--- a/drivers/clk/at91/pmc.c
++++ b/drivers/clk/at91/pmc.c
+@@ -44,7 +44,8 @@ int of_at91_get_clk_range(struct device_node *np, const char *propname,
+ }
+ EXPORT_SYMBOL_GPL(of_at91_get_clk_range);
+ 
+-struct clk_hw *of_clk_hw_pmc_get(struct of_phandle_args *clkspec, void *data)
++struct clk_hw *of_clk_hw_pmc_get(const struct of_phandle_args *clkspec,
++				 void *data)
+ {
+ 	unsigned int type = clkspec->args[0];
+ 	unsigned int idx = clkspec->args[1];
+diff --git a/drivers/clk/at91/pmc.h b/drivers/clk/at91/pmc.h
+index 0f52e80bcd49..09ae26d0cece 100644
+--- a/drivers/clk/at91/pmc.h
++++ b/drivers/clk/at91/pmc.h
+@@ -126,7 +126,8 @@ struct pmc_data *pmc_data_allocate(unsigned int ncore, unsigned int nsystem,
+ int of_at91_get_clk_range(struct device_node *np, const char *propname,
+ 			  struct clk_range *range);
+ 
+-struct clk_hw *of_clk_hw_pmc_get(struct of_phandle_args *clkspec, void *data);
++struct clk_hw *of_clk_hw_pmc_get(const struct of_phandle_args *clkspec,
++				 void *data);
+ 
+ struct clk_hw * __init
+ at91_clk_register_audio_pll_frac(struct regmap *regmap, const char *name,
+diff --git a/drivers/clk/baikal-t1/clk-ccu-div.c b/drivers/clk/baikal-t1/clk-ccu-div.c
+index 84555a00f950..97ea3d747a78 100644
+--- a/drivers/clk/baikal-t1/clk-ccu-div.c
++++ b/drivers/clk/baikal-t1/clk-ccu-div.c
+@@ -322,7 +322,7 @@ static int ccu_div_find_sys_regs(struct ccu_div_data *data)
+ 	return 0;
+ }
+ 
+-static struct clk_hw *ccu_div_of_clk_hw_get(struct of_phandle_args *clkspec,
++static struct clk_hw *ccu_div_of_clk_hw_get(const struct of_phandle_args *clkspec,
+ 					    void *priv)
+ {
+ 	struct ccu_div_data *data = priv;
+diff --git a/drivers/clk/baikal-t1/clk-ccu-pll.c b/drivers/clk/baikal-t1/clk-ccu-pll.c
+index fce02ce77347..0e71d5967794 100644
+--- a/drivers/clk/baikal-t1/clk-ccu-pll.c
++++ b/drivers/clk/baikal-t1/clk-ccu-pll.c
+@@ -126,7 +126,7 @@ static int ccu_pll_find_sys_regs(struct ccu_pll_data *data)
+ 	return 0;
+ }
+ 
+-static struct clk_hw *ccu_pll_of_clk_hw_get(struct of_phandle_args *clkspec,
++static struct clk_hw *ccu_pll_of_clk_hw_get(const struct of_phandle_args *clkspec,
+ 					    void *priv)
+ {
+ 	struct ccu_pll_data *data = priv;
+diff --git a/drivers/clk/bcm/clk-kona-setup.c b/drivers/clk/bcm/clk-kona-setup.c
+index 338558f6fbae..1149bcd7617f 100644
+--- a/drivers/clk/bcm/clk-kona-setup.c
++++ b/drivers/clk/bcm/clk-kona-setup.c
+@@ -773,7 +773,7 @@ static bool ccu_data_valid(struct ccu_data *ccu)
+ }
+ 
+ static struct clk_hw *
+-of_clk_kona_onecell_get(struct of_phandle_args *clkspec, void *data)
++of_clk_kona_onecell_get(const struct of_phandle_args *clkspec, void *data)
+ {
+ 	struct ccu_data *ccu = data;
+ 	unsigned int idx = clkspec->args[0];
+diff --git a/drivers/clk/clk-axm5516.c b/drivers/clk/clk-axm5516.c
+index 4a3462ee8f3e..458f44f4c08e 100644
+--- a/drivers/clk/clk-axm5516.c
++++ b/drivers/clk/clk-axm5516.c
+@@ -512,7 +512,7 @@ static struct axxia_clk *axmclk_clocks[] = {
+ };
+ 
+ static struct clk_hw *
+-of_clk_axmclk_get(struct of_phandle_args *clkspec, void *unused)
++of_clk_axmclk_get(const struct of_phandle_args *clkspec, void *unused)
+ {
+ 	unsigned int idx = clkspec->args[0];
+ 
+diff --git a/drivers/clk/clk-cdce706.c b/drivers/clk/clk-cdce706.c
+index dd3d42d9ad86..1db9fc5d2af7 100644
+--- a/drivers/clk/clk-cdce706.c
++++ b/drivers/clk/clk-cdce706.c
+@@ -618,7 +618,7 @@ static int cdce706_register_clkouts(struct cdce706_dev_data *cdce)
+ }
+ 
+ static struct clk_hw *
+-of_clk_cdce_get(struct of_phandle_args *clkspec, void *data)
++of_clk_cdce_get(const struct of_phandle_args *clkspec, void *data)
+ {
+ 	struct cdce706_dev_data *cdce = data;
+ 	unsigned int idx = clkspec->args[0];
+diff --git a/drivers/clk/clk-cdce925.c b/drivers/clk/clk-cdce925.c
+index b0122093c6ff..48135ee578c5 100644
+--- a/drivers/clk/clk-cdce925.c
++++ b/drivers/clk/clk-cdce925.c
+@@ -576,7 +576,7 @@ static int cdce925_regmap_i2c_read(void *context,
+ }
+ 
+ static struct clk_hw *
+-of_clk_cdce925_get(struct of_phandle_args *clkspec, void *_data)
++of_clk_cdce925_get(const struct of_phandle_args *clkspec, void *_data)
+ {
+ 	struct clk_cdce925_chip *data = _data;
+ 	unsigned int idx = clkspec->args[0];
+diff --git a/drivers/clk/clk-k210.c b/drivers/clk/clk-k210.c
+index 7b7329a907ab..2333ed3ed7a2 100644
+--- a/drivers/clk/clk-k210.c
++++ b/drivers/clk/clk-k210.c
+@@ -875,7 +875,7 @@ static inline void __init k210_register_clk_child(struct device_node *np,
+ 	k210_register_clk(np, ksc, id, &parent_data, 1, 0);
+ }
+ 
+-static struct clk_hw *k210_clk_hw_onecell_get(struct of_phandle_args *clkspec,
++static struct clk_hw *k210_clk_hw_onecell_get(const struct of_phandle_args *clkspec,
+ 					      void *data)
+ {
+ 	struct k210_sysclk *ksc = data;
+diff --git a/drivers/clk/clk-lochnagar.c b/drivers/clk/clk-lochnagar.c
+index 5561a2c66b69..5b773787a225 100644
+--- a/drivers/clk/clk-lochnagar.c
++++ b/drivers/clk/clk-lochnagar.c
+@@ -215,7 +215,7 @@ static const struct clk_ops lochnagar_clk_ops = {
+ };
+ 
+ static struct clk_hw *
+-lochnagar_of_clk_hw_get(struct of_phandle_args *clkspec, void *data)
++lochnagar_of_clk_hw_get(const struct of_phandle_args *clkspec, void *data)
+ {
+ 	struct lochnagar_clk_priv *priv = data;
+ 	unsigned int idx = clkspec->args[0];
+diff --git a/drivers/clk/clk-max77686.c b/drivers/clk/clk-max77686.c
+index 3727d5472450..3ce2453c116c 100644
+--- a/drivers/clk/clk-max77686.c
++++ b/drivers/clk/clk-max77686.c
+@@ -145,7 +145,7 @@ static const struct clk_ops max77686_clk_ops = {
+ };
+ 
+ static struct clk_hw *
+-of_clk_max77686_get(struct of_phandle_args *clkspec, void *data)
++of_clk_max77686_get(const struct of_phandle_args *clkspec, void *data)
+ {
+ 	struct max77686_clk_driver_data *drv_data = data;
+ 	unsigned int idx = clkspec->args[0];
+diff --git a/drivers/clk/clk-max9485.c b/drivers/clk/clk-max9485.c
+index be9020b6c789..050246008514 100644
+--- a/drivers/clk/clk-max9485.c
++++ b/drivers/clk/clk-max9485.c
+@@ -246,7 +246,7 @@ static const struct max9485_clk max9485_clks[MAX9485_NUM_CLKS] = {
+ };
+ 
+ static struct clk_hw *
+-max9485_of_clk_get(struct of_phandle_args *clkspec, void *data)
++max9485_of_clk_get(const struct of_phandle_args *clkspec, void *data)
+ {
+ 	struct max9485_driver_data *drvdata = data;
+ 	unsigned int idx = clkspec->args[0];
+diff --git a/drivers/clk/clk-qoriq.c b/drivers/clk/clk-qoriq.c
+index 4dcde305944c..95baeca8c031 100644
+--- a/drivers/clk/clk-qoriq.c
++++ b/drivers/clk/clk-qoriq.c
+@@ -1384,7 +1384,8 @@ static void __init core_pll_init(struct device_node *np)
+ 	}
+ }
+ 
+-static struct clk *clockgen_clk_get(struct of_phandle_args *clkspec, void *data)
++static struct clk *clockgen_clk_get(const struct of_phandle_args *clkspec,
++				    void *data)
+ {
+ 	struct clockgen *cg = data;
+ 	struct clk *clk;
+diff --git a/drivers/clk/clk-renesas-pcie.c b/drivers/clk/clk-renesas-pcie.c
+index 53e21ac302e6..0fad48ff0f95 100644
+--- a/drivers/clk/clk-renesas-pcie.c
++++ b/drivers/clk/clk-renesas-pcie.c
+@@ -270,7 +270,7 @@ static void rs9_update_config(struct rs9_driver_data *rs9)
+ }
+ 
+ static struct clk_hw *
+-rs9_of_clk_get(struct of_phandle_args *clkspec, void *data)
++rs9_of_clk_get(const struct of_phandle_args *clkspec, void *data)
+ {
+ 	struct rs9_driver_data *rs9 = data;
+ 	unsigned int idx = clkspec->args[0];
+diff --git a/drivers/clk/clk-rk808.c b/drivers/clk/clk-rk808.c
+index f7412b137e5e..05e5047e7ce8 100644
+--- a/drivers/clk/clk-rk808.c
++++ b/drivers/clk/clk-rk808.c
+@@ -72,7 +72,7 @@ static const struct clk_ops rk808_clkout2_ops = {
+ };
+ 
+ static struct clk_hw *
+-of_clk_rk808_get(struct of_phandle_args *clkspec, void *data)
++of_clk_rk808_get(const struct of_phandle_args *clkspec, void *data)
+ {
+ 	struct rk808_clkout *rk808_clkout = data;
+ 	unsigned int idx = clkspec->args[0];
+diff --git a/drivers/clk/clk-scpi.c b/drivers/clk/clk-scpi.c
+index 108b697bd317..8125e6ac7916 100644
+--- a/drivers/clk/clk-scpi.c
++++ b/drivers/clk/clk-scpi.c
+@@ -172,7 +172,7 @@ struct scpi_clk_data {
+ };
+ 
+ static struct clk_hw *
+-scpi_of_clk_src_get(struct of_phandle_args *clkspec, void *data)
++scpi_of_clk_src_get(const struct of_phandle_args *clkspec, void *data)
+ {
+ 	struct scpi_clk *sclk;
+ 	struct scpi_clk_data *clk_data = data;
+diff --git a/drivers/clk/clk-si521xx.c b/drivers/clk/clk-si521xx.c
+index 4f7b74f889f1..5912bc5ad375 100644
+--- a/drivers/clk/clk-si521xx.c
++++ b/drivers/clk/clk-si521xx.c
+@@ -269,7 +269,7 @@ static void si521xx_diff_idx_to_reg_bit(const u16 chip_info, const int idx,
+ }
+ 
+ static struct clk_hw *
+-si521xx_of_clk_get(struct of_phandle_args *clkspec, void *data)
++si521xx_of_clk_get(const struct of_phandle_args *clkspec, void *data)
+ {
+ 	struct si521xx *si = data;
+ 	unsigned int idx = clkspec->args[0];
+diff --git a/drivers/clk/clk-si5341.c b/drivers/clk/clk-si5341.c
+index 6e8dd7387cfd..4acf1daabcdf 100644
+--- a/drivers/clk/clk-si5341.c
++++ b/drivers/clk/clk-si5341.c
+@@ -957,7 +957,7 @@ static int si5341_is_programmed_already(struct clk_si5341 *data)
+ }
+ 
+ static struct clk_hw *
+-of_clk_si5341_get(struct of_phandle_args *clkspec, void *_data)
++of_clk_si5341_get(const struct of_phandle_args *clkspec, void *_data)
+ {
+ 	struct clk_si5341 *data = _data;
+ 	unsigned int idx = clkspec->args[1];
+diff --git a/drivers/clk/clk-si5351.c b/drivers/clk/clk-si5351.c
+index 4ce83c5265b8..3b325167c072 100644
+--- a/drivers/clk/clk-si5351.c
++++ b/drivers/clk/clk-si5351.c
+@@ -1390,7 +1390,7 @@ static int si5351_dt_parse(struct i2c_client *client,
+ }
+ 
+ static struct clk_hw *
+-si53351_of_clk_get(struct of_phandle_args *clkspec, void *data)
++si53351_of_clk_get(const struct of_phandle_args *clkspec, void *data)
+ {
+ 	struct si5351_driver_data *drvdata = data;
+ 	unsigned int idx = clkspec->args[0];
+@@ -1409,7 +1409,7 @@ static int si5351_dt_parse(struct i2c_client *client, enum si5351_variant varian
+ }
+ 
+ static struct clk_hw *
+-si53351_of_clk_get(struct of_phandle_args *clkspec, void *data)
++si53351_of_clk_get(const struct of_phandle_args *clkspec, void *data)
+ {
+ 	return NULL;
+ }
+diff --git a/drivers/clk/clk-sparx5.c b/drivers/clk/clk-sparx5.c
+index 0fad0c1a0186..b352cdc289b6 100644
+--- a/drivers/clk/clk-sparx5.c
++++ b/drivers/clk/clk-sparx5.c
+@@ -229,7 +229,8 @@ static const struct clk_ops s5_pll_ops = {
+ 	.recalc_rate	= s5_pll_recalc_rate,
+ };
+ 
+-static struct clk_hw *s5_clk_hw_get(struct of_phandle_args *clkspec, void *data)
++static struct clk_hw *s5_clk_hw_get(const struct of_phandle_args *clkspec,
++				    void *data)
+ {
+ 	struct s5_clk_data *s5_clk = data;
+ 	unsigned int idx = clkspec->args[0];
+diff --git a/drivers/clk/clk-stm32f4.c b/drivers/clk/clk-stm32f4.c
+index 07c13ebe327d..daa21cc8851b 100644
+--- a/drivers/clk/clk-stm32f4.c
++++ b/drivers/clk/clk-stm32f4.c
+@@ -872,7 +872,7 @@ static int stm32f4_rcc_lookup_clk_idx(u8 primary, u8 secondary)
+ }
+ 
+ static struct clk_hw *
+-stm32f4_rcc_lookup_clk(struct of_phandle_args *clkspec, void *data)
++stm32f4_rcc_lookup_clk(const struct of_phandle_args *clkspec, void *data)
+ {
+ 	int i = stm32f4_rcc_lookup_clk_idx(clkspec->args[0], clkspec->args[1]);
+ 
+diff --git a/drivers/clk/clk-versaclock3.c b/drivers/clk/clk-versaclock3.c
+index 76d7ea1964c3..257160509310 100644
+--- a/drivers/clk/clk-versaclock3.c
++++ b/drivers/clk/clk-versaclock3.c
+@@ -964,7 +964,7 @@ static struct vc3_hw_data clk_mux[] = {
+ 	}
+ };
+ 
+-static struct clk_hw *vc3_of_clk_get(struct of_phandle_args *clkspec,
++static struct clk_hw *vc3_of_clk_get(const struct of_phandle_args *clkspec,
+ 				     void *data)
+ {
+ 	unsigned int idx = clkspec->args[0];
+diff --git a/drivers/clk/clk-versaclock5.c b/drivers/clk/clk-versaclock5.c
+index 6d31cd54d7cf..9a25e96955bd 100644
+--- a/drivers/clk/clk-versaclock5.c
++++ b/drivers/clk/clk-versaclock5.c
+@@ -731,7 +731,7 @@ static const struct clk_ops vc5_clk_out_ops = {
+ 	.get_parent	= vc5_clk_out_get_parent,
+ };
+ 
+-static struct clk_hw *vc5_of_clk_get(struct of_phandle_args *clkspec,
++static struct clk_hw *vc5_of_clk_get(const struct of_phandle_args *clkspec,
+ 				     void *data)
+ {
+ 	struct vc5_driver_data *vc5 = data;
+diff --git a/drivers/clk/clk-versaclock7.c b/drivers/clk/clk-versaclock7.c
+index f323263e32c3..8345a946c1ec 100644
+--- a/drivers/clk/clk-versaclock7.c
++++ b/drivers/clk/clk-versaclock7.c
+@@ -174,7 +174,7 @@ struct vc7_bank_src_map {
+ 	} src;
+ };
+ 
+-static struct clk_hw *vc7_of_clk_get(struct of_phandle_args *clkspec,
++static struct clk_hw *vc7_of_clk_get(const struct of_phandle_args *clkspec,
+ 				     void *data)
+ {
+ 	struct vc7_driver_data *vc7 = data;
+diff --git a/drivers/clk/clk.c b/drivers/clk/clk.c
+index 2253c154a824..cfb1dfeeb329 100644
+--- a/drivers/clk/clk.c
++++ b/drivers/clk/clk.c
+@@ -342,7 +342,7 @@ static struct clk_core *clk_core_lookup(const char *name)
+ static int of_parse_clkspec(const struct device_node *np, int index,
+ 			    const char *name, struct of_phandle_args *out_args);
+ static struct clk_hw *
+-of_clk_get_hw_from_clkspec(struct of_phandle_args *clkspec);
++of_clk_get_hw_from_clkspec(const struct of_phandle_args *clkspec);
+ #else
+ static inline int of_parse_clkspec(const struct device_node *np, int index,
+ 				   const char *name,
+@@ -351,7 +351,7 @@ static inline int of_parse_clkspec(const struct device_node *np, int index,
+ 	return -ENOENT;
+ }
+ static inline struct clk_hw *
+-of_clk_get_hw_from_clkspec(struct of_phandle_args *clkspec)
++of_clk_get_hw_from_clkspec(const struct of_phandle_args *clkspec)
+ {
+ 	return ERR_PTR(-ENOENT);
+ }
+@@ -4818,8 +4818,8 @@ struct of_clk_provider {
+ 	struct list_head link;
+ 
+ 	struct device_node *node;
+-	struct clk *(*get)(struct of_phandle_args *clkspec, void *data);
+-	struct clk_hw *(*get_hw)(struct of_phandle_args *clkspec, void *data);
++	struct clk *(*get)(const struct of_phandle_args *clkspec, void *data);
++	struct clk_hw *(*get_hw)(const struct of_phandle_args *clkspec, void *data);
+ 	void *data;
+ };
+ 
+@@ -4830,20 +4830,22 @@ static const struct of_device_id __clk_of_table_sentinel
+ static LIST_HEAD(of_clk_providers);
+ static DEFINE_MUTEX(of_clk_mutex);
+ 
+-struct clk *of_clk_src_simple_get(struct of_phandle_args *clkspec,
++struct clk *of_clk_src_simple_get(const struct of_phandle_args *clkspec,
+ 				     void *data)
+ {
+ 	return data;
+ }
+ EXPORT_SYMBOL_GPL(of_clk_src_simple_get);
+ 
+-struct clk_hw *of_clk_hw_simple_get(struct of_phandle_args *clkspec, void *data)
++struct clk_hw *of_clk_hw_simple_get(const struct of_phandle_args *clkspec,
++				    void *data)
+ {
+ 	return data;
+ }
+ EXPORT_SYMBOL_GPL(of_clk_hw_simple_get);
+ 
+-struct clk *of_clk_src_onecell_get(struct of_phandle_args *clkspec, void *data)
++struct clk *of_clk_src_onecell_get(const struct of_phandle_args *clkspec,
++				   void *data)
+ {
+ 	struct clk_onecell_data *clk_data = data;
+ 	unsigned int idx = clkspec->args[0];
+@@ -4858,7 +4860,7 @@ struct clk *of_clk_src_onecell_get(struct of_phandle_args *clkspec, void *data)
+ EXPORT_SYMBOL_GPL(of_clk_src_onecell_get);
+ 
+ struct clk_hw *
+-of_clk_hw_onecell_get(struct of_phandle_args *clkspec, void *data)
++of_clk_hw_onecell_get(const struct of_phandle_args *clkspec, void *data)
+ {
+ 	struct clk_hw_onecell_data *hw_data = data;
+ 	unsigned int idx = clkspec->args[0];
+@@ -4881,7 +4883,7 @@ EXPORT_SYMBOL_GPL(of_clk_hw_onecell_get);
+  * This function is *deprecated*. Use of_clk_add_hw_provider() instead.
+  */
+ int of_clk_add_provider(struct device_node *np,
+-			struct clk *(*clk_src_get)(struct of_phandle_args *clkspec,
++			struct clk *(*clk_src_get)(const struct of_phandle_args *clkspec,
+ 						   void *data),
+ 			void *data)
+ {
+@@ -4923,7 +4925,7 @@ EXPORT_SYMBOL_GPL(of_clk_add_provider);
+  * @data: context pointer for @get callback.
+  */
+ int of_clk_add_hw_provider(struct device_node *np,
+-			   struct clk_hw *(*get)(struct of_phandle_args *clkspec,
++			   struct clk_hw *(*get)(const struct of_phandle_args *clkspec,
+ 						 void *data),
+ 			   void *data)
+ {
+@@ -4997,7 +4999,7 @@ static struct device_node *get_clk_provider_node(struct device *dev)
+  * Return: 0 on success or an errno on failure.
+  */
+ int devm_of_clk_add_hw_provider(struct device *dev,
+-			struct clk_hw *(*get)(struct of_phandle_args *clkspec,
++			struct clk_hw *(*get)(const struct of_phandle_args *clkspec,
+ 					      void *data),
+ 			void *data)
+ {
+@@ -5123,7 +5125,7 @@ static int of_parse_clkspec(const struct device_node *np, int index,
+ 
+ static struct clk_hw *
+ __of_clk_get_hw_from_provider(struct of_clk_provider *provider,
+-			      struct of_phandle_args *clkspec)
++			      const struct of_phandle_args *clkspec)
+ {
+ 	struct clk *clk;
+ 
+@@ -5137,7 +5139,7 @@ __of_clk_get_hw_from_provider(struct of_clk_provider *provider,
+ }
+ 
+ static struct clk_hw *
+-of_clk_get_hw_from_clkspec(struct of_phandle_args *clkspec)
++of_clk_get_hw_from_clkspec(const struct of_phandle_args *clkspec)
+ {
+ 	struct of_clk_provider *provider;
+ 	struct clk_hw *hw = ERR_PTR(-EPROBE_DEFER);
+@@ -5166,7 +5168,7 @@ of_clk_get_hw_from_clkspec(struct of_phandle_args *clkspec)
+  * providers, an input is a clock specifier data structure as returned
+  * from the of_parse_phandle_with_args() function call.
+  */
+-struct clk *of_clk_get_from_provider(struct of_phandle_args *clkspec)
++struct clk *of_clk_get_from_provider(const struct of_phandle_args *clkspec)
+ {
+ 	struct clk_hw *hw = of_clk_get_hw_from_clkspec(clkspec);
+ 
+diff --git a/drivers/clk/hisilicon/clk-hi3660-stub.c b/drivers/clk/hisilicon/clk-hi3660-stub.c
+index 3a653d54bee0..1dd7fb7cfa5b 100644
+--- a/drivers/clk/hisilicon/clk-hi3660-stub.c
++++ b/drivers/clk/hisilicon/clk-hi3660-stub.c
+@@ -108,7 +108,7 @@ static struct hi3660_stub_clk hi3660_stub_clks[HI3660_CLK_STUB_NUM] = {
+ 	DEFINE_CLK_STUB(HI3660_CLK_STUB_DDR, 0x00040309, "clk-ddrc")
+ };
+ 
+-static struct clk_hw *hi3660_stub_clk_hw_get(struct of_phandle_args *clkspec,
++static struct clk_hw *hi3660_stub_clk_hw_get(const struct of_phandle_args *clkspec,
+ 					     void *data)
+ {
+ 	unsigned int idx = clkspec->args[0];
+diff --git a/drivers/clk/imx/clk-imx8qxp-lpcg.c b/drivers/clk/imx/clk-imx8qxp-lpcg.c
+index d0ccaa040225..feb2e4a61b6c 100644
+--- a/drivers/clk/imx/clk-imx8qxp-lpcg.c
++++ b/drivers/clk/imx/clk-imx8qxp-lpcg.c
+@@ -159,7 +159,7 @@ static const struct imx8qxp_ss_lpcg imx8qxp_ss_lsio = {
+ 
+ #define IMX_LPCG_MAX_CLKS	8
+ 
+-static struct clk_hw *imx_lpcg_of_clk_src_get(struct of_phandle_args *clkspec,
++static struct clk_hw *imx_lpcg_of_clk_src_get(const struct of_phandle_args *clkspec,
+ 					      void *data)
+ {
+ 	struct clk_hw_onecell_data *hw_data = data;
+diff --git a/drivers/clk/imx/clk-scu.c b/drivers/clk/imx/clk-scu.c
+index e48a904c0013..d357dc337741 100644
+--- a/drivers/clk/imx/clk-scu.c
++++ b/drivers/clk/imx/clk-scu.c
+@@ -517,7 +517,7 @@ struct clk_hw *__imx_clk_scu(struct device *dev, const char *name,
+ 	return hw;
+ }
+ 
+-struct clk_hw *imx_scu_of_clk_src_get(struct of_phandle_args *clkspec,
++struct clk_hw *imx_scu_of_clk_src_get(const struct of_phandle_args *clkspec,
+ 				      void *data)
+ {
+ 	unsigned int rsrc = clkspec->args[0];
+diff --git a/drivers/clk/imx/clk-scu.h b/drivers/clk/imx/clk-scu.h
+index af7b697f51ca..38db6a1905d0 100644
+--- a/drivers/clk/imx/clk-scu.h
++++ b/drivers/clk/imx/clk-scu.h
+@@ -27,7 +27,7 @@ extern const struct imx_clk_scu_rsrc_table imx_clk_scu_rsrc_imx8qm;
+ 
+ int imx_clk_scu_init(struct device_node *np,
+ 		     const struct imx_clk_scu_rsrc_table *data);
+-struct clk_hw *imx_scu_of_clk_src_get(struct of_phandle_args *clkspec,
++struct clk_hw *imx_scu_of_clk_src_get(const struct of_phandle_args *clkspec,
+ 				      void *data);
+ struct clk_hw *imx_clk_scu_alloc_dev(const char *name,
+ 				     const char * const *parents,
+diff --git a/drivers/clk/keystone/sci-clk.c b/drivers/clk/keystone/sci-clk.c
+index 35fe197dd303..ba27fb22f973 100644
+--- a/drivers/clk/keystone/sci-clk.c
++++ b/drivers/clk/keystone/sci-clk.c
+@@ -375,7 +375,8 @@ static int _cmp_sci_clk(const void *a, const void *b)
+  * when a corresponding of_clk_get call is executed. Returns a pointer
+  * to the TI SCI hw clock struct, or ERR_PTR value in failure.
+  */
+-static struct clk_hw *sci_clk_get(struct of_phandle_args *clkspec, void *data)
++static struct clk_hw *sci_clk_get(const struct of_phandle_args *clkspec,
++				  void *data)
+ {
+ 	struct sci_clk_provider *provider = data;
+ 	struct sci_clk **clk;
+diff --git a/drivers/clk/meson/meson-clkc-utils.c b/drivers/clk/meson/meson-clkc-utils.c
+index 7370644e8092..904b482bf47b 100644
+--- a/drivers/clk/meson/meson-clkc-utils.c
++++ b/drivers/clk/meson/meson-clkc-utils.c
+@@ -8,7 +8,8 @@
+ #include <linux/module.h>
+ #include "meson-clkc-utils.h"
+ 
+-struct clk_hw *meson_clk_hw_get(struct of_phandle_args *clkspec, void *clk_hw_data)
++struct clk_hw *meson_clk_hw_get(const struct of_phandle_args *clkspec,
++				void *clk_hw_data)
+ {
+ 	const struct meson_clk_hw_data *data = clk_hw_data;
+ 	unsigned int idx = clkspec->args[0];
+diff --git a/drivers/clk/meson/meson-clkc-utils.h b/drivers/clk/meson/meson-clkc-utils.h
+index fe6f40728949..3889ead76a07 100644
+--- a/drivers/clk/meson/meson-clkc-utils.h
++++ b/drivers/clk/meson/meson-clkc-utils.h
+@@ -14,6 +14,7 @@ struct meson_clk_hw_data {
+ 	unsigned int	num;
+ };
+ 
+-struct clk_hw *meson_clk_hw_get(struct of_phandle_args *clkspec, void *clk_hw_data);
++struct clk_hw *meson_clk_hw_get(const struct of_phandle_args *clkspec,
++				void *clk_hw_data);
+ 
+ #endif
+diff --git a/drivers/clk/mvebu/common.c b/drivers/clk/mvebu/common.c
+index 785dbede4835..19cd62152175 100644
+--- a/drivers/clk/mvebu/common.c
++++ b/drivers/clk/mvebu/common.c
+@@ -199,7 +199,7 @@ struct clk_gating_ctrl {
+ static struct clk_gating_ctrl *ctrl;
+ 
+ static struct clk *clk_gating_get_src(
+-	struct of_phandle_args *clkspec, void *data)
++	const struct of_phandle_args *clkspec, void *data)
+ {
+ 	int n;
+ 
+diff --git a/drivers/clk/mvebu/cp110-system-controller.c b/drivers/clk/mvebu/cp110-system-controller.c
+index 03c59bf22106..8f6e2dd3e044 100644
+--- a/drivers/clk/mvebu/cp110-system-controller.c
++++ b/drivers/clk/mvebu/cp110-system-controller.c
+@@ -192,7 +192,7 @@ static void cp110_unregister_gate(struct clk_hw *hw)
+ 	kfree(to_cp110_gate_clk(hw));
+ }
+ 
+-static struct clk_hw *cp110_of_clk_get(struct of_phandle_args *clkspec,
++static struct clk_hw *cp110_of_clk_get(const struct of_phandle_args *clkspec,
+ 				       void *data)
+ {
+ 	struct clk_hw_onecell_data *clk_data = data;
+diff --git a/drivers/clk/mvebu/kirkwood.c b/drivers/clk/mvebu/kirkwood.c
+index 8bc893df4736..b2b9a7a7a8fb 100644
+--- a/drivers/clk/mvebu/kirkwood.c
++++ b/drivers/clk/mvebu/kirkwood.c
+@@ -269,7 +269,7 @@ static const struct clk_muxing_soc_desc kirkwood_mux_desc[] __initconst = {
+ };
+ 
+ static struct clk *clk_muxing_get_src(
+-	struct of_phandle_args *clkspec, void *data)
++	const struct of_phandle_args *clkspec, void *data)
+ {
+ 	struct clk_muxing_ctrl *ctrl = (struct clk_muxing_ctrl *)data;
+ 	int n;
+diff --git a/drivers/clk/nxp/clk-lpc18xx-ccu.c b/drivers/clk/nxp/clk-lpc18xx-ccu.c
+index ddb28b38f549..3d8299b7e790 100644
+--- a/drivers/clk/nxp/clk-lpc18xx-ccu.c
++++ b/drivers/clk/nxp/clk-lpc18xx-ccu.c
+@@ -109,7 +109,7 @@ static struct lpc18xx_clk_branch clk_branches[] = {
+ 	{"base_sdio_clk",  "sdio",		CLK_SDIO,		0},
+ };
+ 
+-static struct clk *lpc18xx_ccu_branch_clk_get(struct of_phandle_args *clkspec,
++static struct clk *lpc18xx_ccu_branch_clk_get(const struct of_phandle_args *clkspec,
+ 					      void *data)
+ {
+ 	struct lpc18xx_branch_clk_data *clk_data = data;
+diff --git a/drivers/clk/qcom/clk-rpm.c b/drivers/clk/qcom/clk-rpm.c
+index 745026ef4d9c..b7e048237bc0 100644
+--- a/drivers/clk/qcom/clk-rpm.c
++++ b/drivers/clk/qcom/clk-rpm.c
+@@ -514,7 +514,7 @@ static const struct of_device_id rpm_clk_match_table[] = {
+ };
+ MODULE_DEVICE_TABLE(of, rpm_clk_match_table);
+ 
+-static struct clk_hw *qcom_rpm_clk_hw_get(struct of_phandle_args *clkspec,
++static struct clk_hw *qcom_rpm_clk_hw_get(const struct of_phandle_args *clkspec,
+ 					  void *data)
+ {
+ 	struct rpm_cc *rcc = data;
+diff --git a/drivers/clk/qcom/clk-rpmh.c b/drivers/clk/qcom/clk-rpmh.c
+index bb82abeed88f..8c2c6aa3a793 100644
+--- a/drivers/clk/qcom/clk-rpmh.c
++++ b/drivers/clk/qcom/clk-rpmh.c
+@@ -793,7 +793,7 @@ static const struct clk_rpmh_desc clk_rpmh_x1e80100 = {
+ 	.num_clks = ARRAY_SIZE(x1e80100_rpmh_clocks),
+ };
+ 
+-static struct clk_hw *of_clk_rpmh_hw_get(struct of_phandle_args *clkspec,
++static struct clk_hw *of_clk_rpmh_hw_get(const struct of_phandle_args *clkspec,
+ 					 void *data)
+ {
+ 	struct clk_rpmh_desc *rpmh = data;
+diff --git a/drivers/clk/qcom/clk-smd-rpm.c b/drivers/clk/qcom/clk-smd-rpm.c
+index 8602c02047d0..5d7e0cd2d450 100644
+--- a/drivers/clk/qcom/clk-smd-rpm.c
++++ b/drivers/clk/qcom/clk-smd-rpm.c
+@@ -1232,7 +1232,7 @@ static const struct of_device_id rpm_smd_clk_match_table[] = {
+ };
+ MODULE_DEVICE_TABLE(of, rpm_smd_clk_match_table);
+ 
+-static struct clk_hw *qcom_smdrpm_clk_hw_get(struct of_phandle_args *clkspec,
++static struct clk_hw *qcom_smdrpm_clk_hw_get(const struct of_phandle_args *clkspec,
+ 					     void *data)
+ {
+ 	const struct rpm_smd_clk_desc *desc = data;
+diff --git a/drivers/clk/qcom/clk-spmi-pmic-div.c b/drivers/clk/qcom/clk-spmi-pmic-div.c
+index f394031eb0e5..3f65aead519d 100644
+--- a/drivers/clk/qcom/clk-spmi-pmic-div.c
++++ b/drivers/clk/qcom/clk-spmi-pmic-div.c
+@@ -181,7 +181,7 @@ struct spmi_pmic_div_clk_cc {
+ };
+ 
+ static struct clk_hw *
+-spmi_pmic_div_clk_hw_get(struct of_phandle_args *clkspec, void *data)
++spmi_pmic_div_clk_hw_get(const struct of_phandle_args *clkspec, void *data)
+ {
+ 	struct spmi_pmic_div_clk_cc *cc = data;
+ 	int idx = clkspec->args[0] - 1; /* Start at 1 instead of 0 */
+diff --git a/drivers/clk/qcom/common.c b/drivers/clk/qcom/common.c
+index 75f09e6e057e..0ae6f8ea607a 100644
+--- a/drivers/clk/qcom/common.c
++++ b/drivers/clk/qcom/common.c
+@@ -220,7 +220,7 @@ static void qcom_cc_drop_protected(struct device *dev, struct qcom_cc *cc)
+ 	}
+ }
+ 
+-static struct clk_hw *qcom_cc_clk_hw_get(struct of_phandle_args *clkspec,
++static struct clk_hw *qcom_cc_clk_hw_get(const struct of_phandle_args *clkspec,
+ 					 void *data)
+ {
+ 	struct qcom_cc *cc = data;
+diff --git a/drivers/clk/qcom/krait-cc.c b/drivers/clk/qcom/krait-cc.c
+index ae325f4e1047..181f4096a506 100644
+--- a/drivers/clk/qcom/krait-cc.c
++++ b/drivers/clk/qcom/krait-cc.c
+@@ -324,7 +324,7 @@ static struct clk_hw *krait_add_clks(struct device *dev, int id, bool unique_aux
+ 	return pri_mux;
+ }
+ 
+-static struct clk *krait_of_get(struct of_phandle_args *clkspec, void *data)
++static struct clk *krait_of_get(const struct of_phandle_args *clkspec, void *data)
+ {
+ 	unsigned int idx = clkspec->args[0];
+ 	struct clk **clks = data;
+diff --git a/drivers/clk/renesas/r9a06g032-clocks.c b/drivers/clk/renesas/r9a06g032-clocks.c
+index c1348e2d450c..f8ea88663fca 100644
+--- a/drivers/clk/renesas/r9a06g032-clocks.c
++++ b/drivers/clk/renesas/r9a06g032-clocks.c
+@@ -733,7 +733,7 @@ struct r9a06g032_clk_gate {
+ 
+ #define to_r9a06g032_gate(_hw) container_of(_hw, struct r9a06g032_clk_gate, hw)
+ 
+-static int create_add_module_clock(struct of_phandle_args *clkspec,
++static int create_add_module_clock(const struct of_phandle_args *clkspec,
+ 				   struct device *dev)
+ {
+ 	struct clk *clk;
+diff --git a/drivers/clk/renesas/renesas-cpg-mssr.c b/drivers/clk/renesas/renesas-cpg-mssr.c
+index 1b421b809796..c172444ee766 100644
+--- a/drivers/clk/renesas/renesas-cpg-mssr.c
++++ b/drivers/clk/renesas/renesas-cpg-mssr.c
+@@ -273,7 +273,7 @@ static const struct clk_ops cpg_mstp_clock_ops = {
+ };
+ 
+ static
+-struct clk *cpg_mssr_clk_src_twocell_get(struct of_phandle_args *clkspec,
++struct clk *cpg_mssr_clk_src_twocell_get(const struct of_phandle_args *clkspec,
+ 					 void *data)
+ {
+ 	unsigned int clkidx = clkspec->args[1];
+diff --git a/drivers/clk/renesas/rzg2l-cpg.c b/drivers/clk/renesas/rzg2l-cpg.c
+index 3d2daa4ba2a4..7464a298b2e5 100644
+--- a/drivers/clk/renesas/rzg2l-cpg.c
++++ b/drivers/clk/renesas/rzg2l-cpg.c
+@@ -1052,7 +1052,7 @@ rzg2l_cpg_pll_clk_register(const struct cpg_core_clk *core,
+ }
+ 
+ static struct clk
+-*rzg2l_cpg_clk_src_twocell_get(struct of_phandle_args *clkspec,
++*rzg2l_cpg_clk_src_twocell_get(const struct of_phandle_args *clkspec,
+ 			       void *data)
+ {
+ 	unsigned int clkidx = clkspec->args[1];
+diff --git a/drivers/clk/starfive/clk-starfive-jh7100-audio.c b/drivers/clk/starfive/clk-starfive-jh7100-audio.c
+index 1fcf4e62f347..79feba75ea43 100644
+--- a/drivers/clk/starfive/clk-starfive-jh7100-audio.c
++++ b/drivers/clk/starfive/clk-starfive-jh7100-audio.c
+@@ -84,7 +84,8 @@ static const struct jh71x0_clk_data jh7100_audclk_data[] = {
+ 		    JH7100_AUDCLK_AUDIO_12288),
+ };
+ 
+-static struct clk_hw *jh7100_audclk_get(struct of_phandle_args *clkspec, void *data)
++static struct clk_hw *jh7100_audclk_get(const struct of_phandle_args *clkspec,
++					void *data)
+ {
+ 	struct jh71x0_clk_priv *priv = data;
+ 	unsigned int idx = clkspec->args[0];
+diff --git a/drivers/clk/starfive/clk-starfive-jh7100.c b/drivers/clk/starfive/clk-starfive-jh7100.c
+index 03f6f26a15d8..b7e43f4847d2 100644
+--- a/drivers/clk/starfive/clk-starfive-jh7100.c
++++ b/drivers/clk/starfive/clk-starfive-jh7100.c
+@@ -267,7 +267,8 @@ static const struct jh71x0_clk_data jh7100_clk_data[] __initconst = {
+ 	JH71X0_GATE(JH7100_CLK_SYSERR_APB, "syserr_apb", 0, JH7100_CLK_APB2_BUS),
+ };
+ 
+-static struct clk_hw *jh7100_clk_get(struct of_phandle_args *clkspec, void *data)
++static struct clk_hw *jh7100_clk_get(const struct of_phandle_args *clkspec,
++				     void *data)
+ {
+ 	struct jh71x0_clk_priv *priv = data;
+ 	unsigned int idx = clkspec->args[0];
+diff --git a/drivers/clk/starfive/clk-starfive-jh7110-aon.c b/drivers/clk/starfive/clk-starfive-jh7110-aon.c
+index 418efdad719b..d05da683a544 100644
+--- a/drivers/clk/starfive/clk-starfive-jh7110-aon.c
++++ b/drivers/clk/starfive/clk-starfive-jh7110-aon.c
+@@ -54,7 +54,8 @@ static const struct jh71x0_clk_data jh7110_aonclk_data[] = {
+ 	JH71X0_GATE(JH7110_AONCLK_RTC_CAL, "rtc_cal", 0, JH7110_AONCLK_OSC),
+ };
+ 
+-static struct clk_hw *jh7110_aonclk_get(struct of_phandle_args *clkspec, void *data)
++static struct clk_hw *jh7110_aonclk_get(const struct of_phandle_args *clkspec,
++					void *data)
+ {
+ 	struct jh71x0_clk_priv *priv = data;
+ 	unsigned int idx = clkspec->args[0];
+diff --git a/drivers/clk/starfive/clk-starfive-jh7110-isp.c b/drivers/clk/starfive/clk-starfive-jh7110-isp.c
+index 929b8788279e..518c4a8d4200 100644
+--- a/drivers/clk/starfive/clk-starfive-jh7110-isp.c
++++ b/drivers/clk/starfive/clk-starfive-jh7110-isp.c
+@@ -75,7 +75,8 @@ static inline int jh7110_isp_top_rst_init(struct jh71x0_clk_priv *priv)
+ 	return reset_control_deassert(top_rsts);
+ }
+ 
+-static struct clk_hw *jh7110_ispclk_get(struct of_phandle_args *clkspec, void *data)
++static struct clk_hw *jh7110_ispclk_get(const struct of_phandle_args *clkspec,
++					void *data)
+ {
+ 	struct jh71x0_clk_priv *priv = data;
+ 	unsigned int idx = clkspec->args[0];
+diff --git a/drivers/clk/starfive/clk-starfive-jh7110-pll.c b/drivers/clk/starfive/clk-starfive-jh7110-pll.c
+index 3598390e8fd0..3c53459c554b 100644
+--- a/drivers/clk/starfive/clk-starfive-jh7110-pll.c
++++ b/drivers/clk/starfive/clk-starfive-jh7110-pll.c
+@@ -442,7 +442,8 @@ static const struct clk_ops jh7110_pll_ops = {
+ 	.debug_init = jh7110_pll_debug_init,
+ };
+ 
+-static struct clk_hw *jh7110_pll_get(struct of_phandle_args *clkspec, void *data)
++static struct clk_hw *jh7110_pll_get(const struct of_phandle_args *clkspec,
++				     void *data)
+ {
+ 	struct jh7110_pll_priv *priv = data;
+ 	unsigned int idx = clkspec->args[0];
+diff --git a/drivers/clk/starfive/clk-starfive-jh7110-stg.c b/drivers/clk/starfive/clk-starfive-jh7110-stg.c
+index dafcb7190592..0fba5de830e9 100644
+--- a/drivers/clk/starfive/clk-starfive-jh7110-stg.c
++++ b/drivers/clk/starfive/clk-starfive-jh7110-stg.c
+@@ -75,7 +75,8 @@ static const struct jh71x0_clk_data jh7110_stgclk_data[] = {
+ 	JH71X0_GATE(JH7110_STGCLK_DMA1P_AHB, "dma1p_ahb", 0, JH7110_STGCLK_STG_AXIAHB),
+ };
+ 
+-static struct clk_hw *jh7110_stgclk_get(struct of_phandle_args *clkspec, void *data)
++static struct clk_hw *jh7110_stgclk_get(const struct of_phandle_args *clkspec,
++					void *data)
+ {
+ 	struct jh71x0_clk_priv *priv = data;
+ 	unsigned int idx = clkspec->args[0];
+diff --git a/drivers/clk/starfive/clk-starfive-jh7110-sys.c b/drivers/clk/starfive/clk-starfive-jh7110-sys.c
+index 8f5e5abfa178..6ea25b959091 100644
+--- a/drivers/clk/starfive/clk-starfive-jh7110-sys.c
++++ b/drivers/clk/starfive/clk-starfive-jh7110-sys.c
+@@ -323,7 +323,8 @@ static const struct jh71x0_clk_data jh7110_sysclk_data[] __initconst = {
+ 		    JH7110_SYSCLK_OSC),
+ };
+ 
+-static struct clk_hw *jh7110_sysclk_get(struct of_phandle_args *clkspec, void *data)
++static struct clk_hw *jh7110_sysclk_get(const struct of_phandle_args *clkspec,
++					void *data)
+ {
+ 	struct jh71x0_clk_priv *priv = data;
+ 	unsigned int idx = clkspec->args[0];
+diff --git a/drivers/clk/starfive/clk-starfive-jh7110-vout.c b/drivers/clk/starfive/clk-starfive-jh7110-vout.c
+index 10cc1ec43925..7f69a4d75126 100644
+--- a/drivers/clk/starfive/clk-starfive-jh7110-vout.c
++++ b/drivers/clk/starfive/clk-starfive-jh7110-vout.c
+@@ -80,7 +80,8 @@ static int jh7110_vout_top_rst_init(struct jh71x0_clk_priv *priv)
+ 	return reset_control_deassert(top_rst);
+ }
+ 
+-static struct clk_hw *jh7110_voutclk_get(struct of_phandle_args *clkspec, void *data)
++static struct clk_hw *jh7110_voutclk_get(const struct of_phandle_args *clkspec,
++					 void *data)
+ {
+ 	struct jh71x0_clk_priv *priv = data;
+ 	unsigned int idx = clkspec->args[0];
+diff --git a/drivers/clk/tegra/clk-bpmp.c b/drivers/clk/tegra/clk-bpmp.c
+index 7bfba0afd778..9c53ab9b8a00 100644
+--- a/drivers/clk/tegra/clk-bpmp.c
++++ b/drivers/clk/tegra/clk-bpmp.c
+@@ -654,7 +654,7 @@ static void tegra_bpmp_unregister_clocks(struct tegra_bpmp *bpmp)
+ 		clk_hw_unregister(&bpmp->clocks[i]->hw);
+ }
+ 
+-static struct clk_hw *tegra_bpmp_clk_of_xlate(struct of_phandle_args *clkspec,
++static struct clk_hw *tegra_bpmp_clk_of_xlate(const struct of_phandle_args *clkspec,
+ 					      void *data)
+ {
+ 	unsigned int id = clkspec->args[0], i;
+diff --git a/drivers/clk/tegra/clk-tegra124.c b/drivers/clk/tegra/clk-tegra124.c
+index 6c46592d794e..87f1e5bc5c0e 100644
+--- a/drivers/clk/tegra/clk-tegra124.c
++++ b/drivers/clk/tegra/clk-tegra124.c
+@@ -1502,7 +1502,7 @@ static void __init tegra124_132_clock_init_pre(struct device_node *np)
+ 	writel(plld_base, clk_base + PLLD_BASE);
+ }
+ 
+-static struct clk *tegra124_clk_src_onecell_get(struct of_phandle_args *clkspec,
++static struct clk *tegra124_clk_src_onecell_get(const struct of_phandle_args *clkspec,
+ 						void *data)
+ {
+ 	struct clk_hw *hw;
+diff --git a/drivers/clk/tegra/clk-tegra20.c b/drivers/clk/tegra/clk-tegra20.c
+index 2c58ce25af75..8a7e17d3379a 100644
+--- a/drivers/clk/tegra/clk-tegra20.c
++++ b/drivers/clk/tegra/clk-tegra20.c
+@@ -1069,7 +1069,7 @@ static const struct of_device_id pmc_match[] __initconst = {
+ 
+ static bool tegra20_car_initialized;
+ 
+-static struct clk *tegra20_clk_src_onecell_get(struct of_phandle_args *clkspec,
++static struct clk *tegra20_clk_src_onecell_get(const struct of_phandle_args *clkspec,
+ 					       void *data)
+ {
+ 	struct clk_hw *parent_hw;
+diff --git a/drivers/clk/tegra/clk-tegra30.c b/drivers/clk/tegra/clk-tegra30.c
+index 82a8cb9545eb..4317c68cdeb4 100644
+--- a/drivers/clk/tegra/clk-tegra30.c
++++ b/drivers/clk/tegra/clk-tegra30.c
+@@ -1273,7 +1273,7 @@ static struct tegra_audio_clk_info tegra30_audio_plls[] = {
+ 
+ static bool tegra30_car_initialized;
+ 
+-static struct clk *tegra30_clk_src_onecell_get(struct of_phandle_args *clkspec,
++static struct clk *tegra30_clk_src_onecell_get(const struct of_phandle_args *clkspec,
+ 					       void *data)
+ {
+ 	struct clk_hw *hw;
+diff --git a/drivers/clk/ti/clkctrl.c b/drivers/clk/ti/clkctrl.c
+index 607e34d8e289..31df051c116c 100644
+--- a/drivers/clk/ti/clkctrl.c
++++ b/drivers/clk/ti/clkctrl.c
+@@ -221,7 +221,7 @@ static const struct clk_ops omap4_clkctrl_clk_ops = {
+ 	.init		= omap2_init_clk_clkdm,
+ };
+ 
+-static struct clk_hw *_ti_omap4_clkctrl_xlate(struct of_phandle_args *clkspec,
++static struct clk_hw *_ti_omap4_clkctrl_xlate(const struct of_phandle_args *clkspec,
+ 					      void *data)
+ {
+ 	struct omap_clkctrl_provider *provider = data;
+diff --git a/drivers/clk/ux500/u8500_of_clk.c b/drivers/clk/ux500/u8500_of_clk.c
+index 8e2f6c65db2a..aba91ca5ca07 100644
+--- a/drivers/clk/ux500/u8500_of_clk.c
++++ b/drivers/clk/ux500/u8500_of_clk.c
+@@ -26,7 +26,7 @@ static struct clk_hw *clkout_clk[2];
+ #define PRCC_KCLK_STORE(clk, base, bit)        \
+ 	prcc_kclk[(base * PRCC_PERIPHS_PER_CLUSTER) + bit] = clk
+ 
+-static struct clk *ux500_twocell_get(struct of_phandle_args *clkspec,
++static struct clk *ux500_twocell_get(const struct of_phandle_args *clkspec,
+ 				     void *data)
+ {
+ 	struct clk **clk_data = data;
+@@ -71,7 +71,7 @@ static const char * const u8500_clkout_parents[] = {
+ 	"clk009",
+ };
+ 
+-static struct clk_hw *ux500_clkout_get(struct of_phandle_args *clkspec,
++static struct clk_hw *ux500_clkout_get(const struct of_phandle_args *clkspec,
+ 				       void *data)
+ {
+ 	u32 id, source, divider;
+diff --git a/drivers/clk/versatile/clk-sp810.c b/drivers/clk/versatile/clk-sp810.c
+index 45adac1b4630..5fd21c13f546 100644
+--- a/drivers/clk/versatile/clk-sp810.c
++++ b/drivers/clk/versatile/clk-sp810.c
+@@ -68,7 +68,7 @@ static const struct clk_ops clk_sp810_timerclken_ops = {
+ 	.set_parent = clk_sp810_timerclken_set_parent,
+ };
+ 
+-static struct clk *clk_sp810_timerclken_of_get(struct of_phandle_args *clkspec,
++static struct clk *clk_sp810_timerclken_of_get(const struct of_phandle_args *clkspec,
+ 		void *data)
+ {
+ 	struct clk_sp810 *sp810 = data;
+diff --git a/drivers/media/platform/ti/omap3isp/isp.c b/drivers/media/platform/ti/omap3isp/isp.c
+index 1cda23244c7b..e2c78f9ab797 100644
+--- a/drivers/media/platform/ti/omap3isp/isp.c
++++ b/drivers/media/platform/ti/omap3isp/isp.c
+@@ -281,7 +281,8 @@ static const struct clk_ops isp_xclk_ops = {
+ 
+ static const char *isp_xclk_parent_name = "cam_mclk";
+ 
+-static struct clk *isp_xclk_src_get(struct of_phandle_args *clkspec, void *data)
++static struct clk *isp_xclk_src_get(const struct of_phandle_args *clkspec,
++				    void *data)
+ {
+ 	unsigned int idx = clkspec->args[0];
+ 	struct isp_device *isp = data;
+diff --git a/drivers/phy/qualcomm/phy-qcom-qmp-combo.c b/drivers/phy/qualcomm/phy-qcom-qmp-combo.c
+index b6908a03da58..46a77df32dff 100644
+--- a/drivers/phy/qualcomm/phy-qcom-qmp-combo.c
++++ b/drivers/phy/qualcomm/phy-qcom-qmp-combo.c
+@@ -3136,7 +3136,8 @@ static const struct clk_ops qmp_dp_link_clk_ops = {
+ 	.recalc_rate	= qmp_dp_link_clk_recalc_rate,
+ };
+ 
+-static struct clk_hw *qmp_dp_clks_hw_get(struct of_phandle_args *clkspec, void *data)
++static struct clk_hw *qmp_dp_clks_hw_get(const struct of_phandle_args *clkspec,
++					 void *data)
+ {
+ 	struct qmp_combo *qmp = data;
+ 	unsigned int idx = clkspec->args[0];
+@@ -3177,7 +3178,8 @@ static int phy_dp_clks_register(struct qmp_combo *qmp, struct device_node *np)
+ 	return 0;
+ }
+ 
+-static struct clk_hw *qmp_combo_clk_hw_get(struct of_phandle_args *clkspec, void *data)
++static struct clk_hw *qmp_combo_clk_hw_get(const struct of_phandle_args *clkspec,
++					   void *data)
+ {
+ 	struct qmp_combo *qmp = data;
+ 
+diff --git a/include/linux/clk-provider.h b/include/linux/clk-provider.h
+index 1293c38ddb7f..d58313368924 100644
+--- a/include/linux/clk-provider.h
++++ b/include/linux/clk-provider.h
+@@ -1532,25 +1532,25 @@ struct clk_hw_onecell_data {
+ 
+ #ifdef CONFIG_OF
+ int of_clk_add_provider(struct device_node *np,
+-			struct clk *(*clk_src_get)(struct of_phandle_args *args,
++			struct clk *(*clk_src_get)(const struct of_phandle_args *args,
+ 						   void *data),
+ 			void *data);
+ int of_clk_add_hw_provider(struct device_node *np,
+-			   struct clk_hw *(*get)(struct of_phandle_args *clkspec,
++			   struct clk_hw *(*get)(const struct of_phandle_args *clkspec,
+ 						 void *data),
+ 			   void *data);
+ int devm_of_clk_add_hw_provider(struct device *dev,
+-			   struct clk_hw *(*get)(struct of_phandle_args *clkspec,
++			   struct clk_hw *(*get)(const struct of_phandle_args *clkspec,
+ 						 void *data),
+ 			   void *data);
+ void of_clk_del_provider(struct device_node *np);
+ 
+-struct clk *of_clk_src_simple_get(struct of_phandle_args *clkspec,
++struct clk *of_clk_src_simple_get(const struct of_phandle_args *clkspec,
+ 				  void *data);
+-struct clk_hw *of_clk_hw_simple_get(struct of_phandle_args *clkspec,
++struct clk_hw *of_clk_hw_simple_get(const struct of_phandle_args *clkspec,
+ 				    void *data);
+-struct clk *of_clk_src_onecell_get(struct of_phandle_args *clkspec, void *data);
+-struct clk_hw *of_clk_hw_onecell_get(struct of_phandle_args *clkspec,
++struct clk *of_clk_src_onecell_get(const struct of_phandle_args *clkspec, void *data);
++struct clk_hw *of_clk_hw_onecell_get(const struct of_phandle_args *clkspec,
+ 				     void *data);
+ int of_clk_parent_fill(struct device_node *np, const char **parents,
+ 		       unsigned int size);
+@@ -1560,21 +1560,21 @@ int of_clk_detect_critical(struct device_node *np, int index,
+ #else /* !CONFIG_OF */
+ 
+ static inline int of_clk_add_provider(struct device_node *np,
+-			struct clk *(*clk_src_get)(struct of_phandle_args *args,
++			struct clk *(*clk_src_get)(const struct of_phandle_args *args,
+ 						   void *data),
+ 			void *data)
+ {
+ 	return 0;
+ }
+ static inline int of_clk_add_hw_provider(struct device_node *np,
+-			struct clk_hw *(*get)(struct of_phandle_args *clkspec,
++			struct clk_hw *(*get)(const struct of_phandle_args *clkspec,
+ 					      void *data),
+ 			void *data)
+ {
+ 	return 0;
+ }
+ static inline int devm_of_clk_add_hw_provider(struct device *dev,
+-			   struct clk_hw *(*get)(struct of_phandle_args *clkspec,
++			   struct clk_hw *(*get)(const struct of_phandle_args *clkspec,
+ 						 void *data),
+ 			   void *data)
+ {
+@@ -1583,22 +1583,22 @@ static inline int devm_of_clk_add_hw_provider(struct device *dev,
+ static inline void of_clk_del_provider(struct device_node *np) {}
+ 
+ static inline struct clk *of_clk_src_simple_get(
+-	struct of_phandle_args *clkspec, void *data)
++	const struct of_phandle_args *clkspec, void *data)
+ {
+ 	return ERR_PTR(-ENOENT);
+ }
+ static inline struct clk_hw *
+-of_clk_hw_simple_get(struct of_phandle_args *clkspec, void *data)
++of_clk_hw_simple_get(const struct of_phandle_args *clkspec, void *data)
+ {
+ 	return ERR_PTR(-ENOENT);
+ }
+ static inline struct clk *of_clk_src_onecell_get(
+-	struct of_phandle_args *clkspec, void *data)
++	const struct of_phandle_args *clkspec, void *data)
+ {
+ 	return ERR_PTR(-ENOENT);
+ }
+ static inline struct clk_hw *
+-of_clk_hw_onecell_get(struct of_phandle_args *clkspec, void *data)
++of_clk_hw_onecell_get(const struct of_phandle_args *clkspec, void *data)
+ {
+ 	return ERR_PTR(-ENOENT);
+ }
+diff --git a/include/linux/clk.h b/include/linux/clk.h
+index 06f1b292f8a0..8e3c44ff89da 100644
+--- a/include/linux/clk.h
++++ b/include/linux/clk.h
+@@ -1141,7 +1141,7 @@ static inline struct clk *clk_get_optional(struct device *dev, const char *id)
+ #if defined(CONFIG_OF) && defined(CONFIG_COMMON_CLK)
+ struct clk *of_clk_get(struct device_node *np, int index);
+ struct clk *of_clk_get_by_name(struct device_node *np, const char *name);
+-struct clk *of_clk_get_from_provider(struct of_phandle_args *clkspec);
++struct clk *of_clk_get_from_provider(const struct of_phandle_args *clkspec);
+ #else
+ static inline struct clk *of_clk_get(struct device_node *np, int index)
+ {
+@@ -1152,7 +1152,7 @@ static inline struct clk *of_clk_get_by_name(struct device_node *np,
+ {
+ 	return ERR_PTR(-ENOENT);
+ }
+-static inline struct clk *of_clk_get_from_provider(struct of_phandle_args *clkspec)
++static inline struct clk *of_clk_get_from_provider(const struct of_phandle_args *clkspec)
+ {
+ 	return ERR_PTR(-ENOENT);
+ }
+diff --git a/sound/soc/qcom/qdsp6/q6dsp-lpass-clocks.c b/sound/soc/qcom/qdsp6/q6dsp-lpass-clocks.c
+index e758411603be..b846707baa89 100644
+--- a/sound/soc/qcom/qdsp6/q6dsp-lpass-clocks.c
++++ b/sound/soc/qcom/qdsp6/q6dsp-lpass-clocks.c
+@@ -106,7 +106,7 @@ static const struct clk_ops clk_vote_q6dsp_ops = {
+ };
+ 
+ 
+-static struct clk_hw *q6dsp_of_clk_hw_get(struct of_phandle_args *clkspec,
++static struct clk_hw *q6dsp_of_clk_hw_get(const struct of_phandle_args *clkspec,
+ 					  void *data)
+ {
+ 	struct q6dsp_cc *cc = data;
+-- 
+2.34.1
+
 
