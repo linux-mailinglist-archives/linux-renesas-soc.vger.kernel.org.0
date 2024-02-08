@@ -1,38 +1,38 @@
-Return-Path: <linux-renesas-soc+bounces-2503-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-2504-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 038C384E9CB
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  8 Feb 2024 21:44:20 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 73ECB84E9D3
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  8 Feb 2024 21:45:14 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5FDDC289D64
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  8 Feb 2024 20:44:18 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 2BA65B269A5
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  8 Feb 2024 20:44:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D022444C7A;
-	Thu,  8 Feb 2024 20:44:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BCCE34EB4B;
+	Thu,  8 Feb 2024 20:44:19 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from mx01.omp.ru (mx01.omp.ru [90.154.21.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1726148794;
-	Thu,  8 Feb 2024 20:44:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C353487B8;
+	Thu,  8 Feb 2024 20:44:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.154.21.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707425056; cv=none; b=o2Xrsw2rSsT/e+rRMuz7idR7I4xDVKHp/CoTuVhfWY+i7oeetpJFZ7ahZzK1It5MBFyA3TB6EWrtqNI/WSp/NrXWe8YY6mUeMTtoDmoKOaseofHKF7PARSJX1G6OTF8e/GcE+ci0bkUoVcnO153jYZ5iUTXvbh2VX/ZPMcvtaa0=
+	t=1707425059; cv=none; b=ailrq4Qe60yPaq1T/qOT+gidEFBuslC2oWXzl6YRUz679FFklCAb8PmTma9MnU5bTFeVqW661mD1WTJ1rmr+xQCgOGRvcixAxYWi42pq0M1oTKiwXZCAih5djM+x6/fz9qGokFhIMh852FAnSThWotZGfY3pk0DqGapGA5kyVZw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707425056; c=relaxed/simple;
-	bh=0xnupxFj9c0DgQKxN89wXQQQe9ADhY3zOQTEun0xfX4=;
+	s=arc-20240116; t=1707425059; c=relaxed/simple;
+	bh=Y1YO1yeJfR//2U1rH7TemWwVUP+2PWnGC2CmS8SSITk=;
 	h=Subject:To:CC:References:From:Message-ID:Date:MIME-Version:
-	 In-Reply-To:Content-Type; b=c+QAmHSrFIBYVupHGY+lHTncNH3JQxHEQ9pn6ZZ8HCWrwa2sU+A+PQ4eW/HsI/13CgrT+IflJUlJ46oE/HsBCKDoq7xfC6Mbd4dB/MX1eF6dOBa8dATwKDvoagLRKiHAQ+5Lp64UoN7gkEcW39dlN7GR+XamgyIpknPyy0f0Aqg=
+	 In-Reply-To:Content-Type; b=p0w1fCQJoQAka+KrumKg71pvUx8rx5XYiD/7IPXPBg8RWSJxj2rY9n33SE5azG2ON7ef4k/RezjARE6ScPsSOxeah2mskMym6oom3JY40MxnTjNsx1hKS0koVDiae+mgcFoKEz+yDmbyoiJLkjS5GnxT3Hx5/EQUfU1y/rk072U=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=omp.ru; spf=pass smtp.mailfrom=omp.ru; arc=none smtp.client-ip=90.154.21.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=omp.ru
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=omp.ru
 Received: from [192.168.1.105] (178.176.74.49) by msexch01.omp.ru
  (10.188.4.12) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.1258.12; Thu, 8 Feb
- 2024 23:43:58 +0300
+ 2024 23:44:10 +0300
 Subject: Re: [PATCH net-next 1/5] net: ravb: Get rid of the temporary variable
  irq
 To: Claudiu <claudiu.beznea@tuxon.dev>, <davem@davemloft.net>,
@@ -44,8 +44,8 @@ References: <20240207120733.1746920-1-claudiu.beznea.uj@bp.renesas.com>
  <20240207120733.1746920-2-claudiu.beznea.uj@bp.renesas.com>
 From: Sergey Shtylyov <s.shtylyov@omp.ru>
 Organization: Open Mobile Platform
-Message-ID: <c284aab3-faf0-969c-7256-5bc72afe7e3e@omp.ru>
-Date: Thu, 8 Feb 2024 23:43:57 +0300
+Message-ID: <d348420d-59a0-f869-061d-5a1d736e12d5@omp.ru>
+Date: Thu, 8 Feb 2024 23:44:09 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.10.1
 Precedence: bulk
@@ -145,7 +145,7 @@ On 2/7/24 3:07 PM, Claudiu wrote:
 >  
 
    Thanks for addressing my IRC comment! Tho the naming seems awful. :-)
-   I'd suggest to add a local variable (named e.g, irq_num) and use it to
+   I'd suggest to add a local variable (named e.g. irq_num) and use it to
 store the result of platform_get_irq[_byname]().
 
 [...]
