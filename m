@@ -1,126 +1,138 @@
-Return-Path: <linux-renesas-soc+bounces-2487-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-2488-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C11FD84E2A4
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  8 Feb 2024 14:57:32 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C98784E318
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  8 Feb 2024 15:25:45 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7E3692922CE
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  8 Feb 2024 13:57:31 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 2C530B26C34
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  8 Feb 2024 14:25:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 04EF97B3C1;
-	Thu,  8 Feb 2024 13:56:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 69EA479956;
+	Thu,  8 Feb 2024 14:25:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="OlGpaNXd"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HKN5UCsy"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D456C78B57
-	for <linux-renesas-soc@vger.kernel.org>; Thu,  8 Feb 2024 13:56:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44B677993E;
+	Thu,  8 Feb 2024 14:25:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707400609; cv=none; b=ExVnXfmRZFjuf/vMgzsEIR6n5PKS0L88cgkuNusyJbgOGNI2KuZGEn0z9fbMexO6wcmKcbQyOYfAzT3J6zb4tkXW4Go5X7duP4So6dcqrGH3JMRR8CZLPGvWw2EJhoqqmlsi13idpgGywHhBImcwrzxCp8m/bIE8dFBtHurMt7U=
+	t=1707402301; cv=none; b=TZrlvElmFD7JwuGNv0+vOko3UypM6QOEmeoQXW9G28bfOV4fWu3s8pESCfPTRBe9Ywpokc/8dTAgAZbDB+DtvQhH2U5eSKFou5r+s25EkkC4A/6rTMu3ahnvbeqApUb3yFjNXE6KTaKaOE6HPHVnrnUxsSy2056QTTN1V5vPqlQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707400609; c=relaxed/simple;
-	bh=skYPuQdWO1AkU9+D3o2QVU63HV6l2bXIQp429kPeKd4=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=Djadnwu68IlTd5WunfqJ3T1C1HoaJu3tLNTzaAjxfjxH7s1ODEa/zz+YNdBQsjpVjsGrm76TMfYphbasQHrHQO3boNJV3L+jBfMDCvmjuMFdsfSZo2UdBrNLQnkngMsTQ7EhXMNfeAmpvpXAQLHG/yY3cY7nJGSEuwQwfWNS4+o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=OlGpaNXd; arc=none smtp.client-ip=209.85.128.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-4100826df08so15969645e9.2
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 08 Feb 2024 05:56:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1707400606; x=1708005406; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=rf3iXA7Keo5roFQt9T7Mh68I9zCAVJX3CMHwvuW41nQ=;
-        b=OlGpaNXdVnXcShr3ygBO8XdtaedFddpHg2wdL5N9a6ViwCwNoZaBL7Ci0XFMQ4cLfw
-         iCwDSU3sqOT3aquBU6jA/ZoWLL1BJyqCG1ai1f7XuO+Tjpm2JyZOJlQAhYKdc2VhIK1M
-         7EXdT3wdEQLC9ubPowquuIu80DgdnenQ2881a/UcAne0OncPqwDIe8sPBGfJHdnnBkty
-         bKhAgmxsUBE4tuycsEJgS78C/RvOMqY21B52+VFlX7joJIsr1sPcCdAgC9utSVX8VuCm
-         oKU86XNdAhdxxkk031J3lxQDJVEiLycKiNMT9D4c4TRN91ZupcOzvboFlfn06PUT74dF
-         zMqw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707400606; x=1708005406;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=rf3iXA7Keo5roFQt9T7Mh68I9zCAVJX3CMHwvuW41nQ=;
-        b=Fc6ABk/jFxAoOyFSsl2kCBQsv8fjFUXSIR+O45QKgkf7yoxUDRC3dQiL3ka4+Sdf4j
-         96RhV11OhZ97iKGdoWQKbQdacO3cHvFnNHHmgvWbBhTrTyYcyvRNJtP+Hm3neU4+tQvt
-         yFc6IJPdqe+GLroFVjzK60rwIEiw5S0fgQDU5UPoVLmlwf2XBccyMDUOgtAkdTYTVHnh
-         2bk+WjmOGmO/ztFc3H9LWSyzbTQQXWeupFCP30U6YCMorsh+cRXx3iTzrWO08Jhd+FOP
-         kqy3/QT5/2ysTlLOZ0r1g0TOTSqmaJHJpk+97UViY40O21b1UZSs6T1t3wppjKFtp2ne
-         yKHw==
-X-Gm-Message-State: AOJu0YwejSw0kcmDEybRNBq2v6jNkahI5AmK3/TkLbaSWG1C33Aq+R3v
-	3ijcGYXSyhz7jeMkwBu2DJb7L6PJoIf17+r9JoXXprbN4NobP4UDxjfFYPHn+nY=
-X-Google-Smtp-Source: AGHT+IEcOnvELKJtX5OGb3t3vy/9XXEJM6nu2Rc21S/gEbrD5i68oGlfkWJQvZO3eeO3gcnw3ew4gw==
-X-Received: by 2002:a05:600c:1c07:b0:410:273:c648 with SMTP id j7-20020a05600c1c0700b004100273c648mr4686357wms.0.1707400606091;
-        Thu, 08 Feb 2024 05:56:46 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCVP0VByxBmRXSwDRSjyNM/KONaFZfUmmVOz7EZHhT6QUZkySORR45gVDt/4Xh8qnxTS81pdQsKeVPWNx/+bTAopRQJCNOyk8B/T/Eq6DVR3Z1vdJ1VRqkqMkRuU2hzNRqy16PrszPwQzYQ6MF0+pqBfWluY9vMoTxDKkw+dFnyMBitXm/Wx5VpQKsS+97+b4r9rpxXozKVNBTR8We6fklJkdSRjAap1VbukmhcLLgiwOhGdKJLJWZCxC6C/O8anIf8OD2OlzaLN13Ew2c9WGkKYBs6omzEdJ1Hart/dTPS8hTvmV/8fimZ9pq+ZIYVShHpxVFspEP0dDYreLgJX8p2oVMv5RPEDlzjDpn4FhuSedi0S9+asPn4mDqAlHdf0tsXMrPqOLiDcSpgLPp933DHymXXn2FuWQ89fDw==
-Received: from claudiu-X670E-Pro-RS.. ([82.78.167.45])
-        by smtp.gmail.com with ESMTPSA id iv6-20020a05600c548600b0040ef3ae26cdsm1703058wmb.37.2024.02.08.05.56.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 08 Feb 2024 05:56:45 -0800 (PST)
-From: Claudiu <claudiu.beznea@tuxon.dev>
-X-Google-Original-From: Claudiu <claudiu.beznea.uj@bp.renesas.com>
-To: geert+renesas@glider.be,
-	magnus.damm@gmail.com,
-	robh@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org,
-	conor+dt@kernel.org,
-	linus.walleij@linaro.org
-Cc: linux-renesas-soc@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-gpio@vger.kernel.org,
-	claudiu.beznea@tuxon.dev,
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-Subject: [PATCH 2/2] arm64: dts: renesas: r9a08g045: add PSCI support
-Date: Thu,  8 Feb 2024 15:56:29 +0200
-Message-Id: <20240208135629.2840932-3-claudiu.beznea.uj@bp.renesas.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20240208135629.2840932-1-claudiu.beznea.uj@bp.renesas.com>
-References: <20240208135629.2840932-1-claudiu.beznea.uj@bp.renesas.com>
+	s=arc-20240116; t=1707402301; c=relaxed/simple;
+	bh=k9PWzREXb25IgI5xrvjYbQ9AfDmYYoThZ4v7NnxSkE4=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=h9pWWoS26vLys6CrlFhbLah6+yBukm70wOl0CpizVNYv3AxO+CgRtfMGLZ5UcjMQs0X2S+FwHK1/DjB9KEAZbjPtPCegnvRuiuKo3XR/Ed2QdiRqGxM/RVWgr07dY+PDergC1ar7XnwRMIzkzo5O28tRBiJwRHyZW8B2WRmai84=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HKN5UCsy; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A9097C433F1;
+	Thu,  8 Feb 2024 14:24:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1707402300;
+	bh=k9PWzREXb25IgI5xrvjYbQ9AfDmYYoThZ4v7NnxSkE4=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=HKN5UCsyzQDmfnSVUA0PWCr4yMUZNi+1lTyc0JbjjTsQb2UcMIusw04kON04kkTgZ
+	 948z61i3hmXjbIWe8qSO9l5wG+h4glMKC6+BdVXxonSILXp24tafqTww0GCcZls3My
+	 OZq1GfqXgkhPAyRS/lapHkeu6oBhtg6G3IzH3mCW+9fxtCcEuzyNEg+vEYRa5/UZGw
+	 RH/0aEs1OHbGsGpaP/c0pLiCYssn7lBmC5gh5HZ5o3QiIAfiUOLNgpWG0nG7JTdJcU
+	 xs4rgdJmjlkdIITupdx5kNo9x1RpgvYkBn0F5KTUejtILWmz01+JbrkwC/0rdq6+bZ
+	 PQYII4pWOpX/Q==
+From: Lee Jones <lee@kernel.org>
+To: lee@kernel.org, wens@csie.org, marek.vasut+renesas@gmail.com, 
+ support.opensource@diasemi.com, neil.armstrong@linaro.org, 
+ ckeepax@opensource.cirrus.com, rf@opensource.cirrus.com, 
+ mazziesaccount@gmail.com, mcoquelin.stm32@gmail.com, 
+ alexandre.torgue@foss.st.com, Bo Liu <liubo03@inspur.com>
+Cc: linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+ linux-amlogic@lists.infradead.org, patches@opensource.cirrus.com, 
+ linux-stm32@st-md-mailman.stormreply.com, 
+ linux-arm-kernel@lists.infradead.org
+In-Reply-To: <20240206071314.8721-1-liubo03@inspur.com>
+References: <20240206071314.8721-1-liubo03@inspur.com>
+Subject: Re: [PATCH 00/18] mfd: convert to use maple tree register cache
+Message-Id: <170740229742.1068783.15434523911244194304.b4-ty@kernel.org>
+Date: Thu, 08 Feb 2024 14:24:57 +0000
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
+X-Mailer: b4 0.12.3
 
-From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+On Tue, 06 Feb 2024 02:12:56 -0500, Bo Liu wrote:
+> The maple tree register cache is based on a much more modern data structure
+> than the rbtree cache and makes optimisation choices which are probably
+> more appropriate for modern systems than those made by the rbtree cache.
+> 
+> Bo Liu (18):
+>   mfd: ac100: convert to use maple tree register cache
+>   mfd: as3711: convert to use maple tree register cache
+>   mfd: as3722: convert to use maple tree register cache
+>   mfd: axp20x: convert to use maple tree register cache
+>   mfd: bcm590xx: convert to use maple tree register cache
+>   mfd: bd9571mwv: convert to use maple tree register cache
+>   mfd: dialog: convert to use maple tree register cache
+>   mfd: khadas-mcu: convert to use maple tree register cache
+>   mfd: lochnagar-i2c: convert to use maple tree register cache
+>   mfd: wolfson: convert to use maple tree register cache
+>   mfd: rohm: convert to use maple tree register cache
+>   mfd: rk8xx: convert to use maple tree register cache
+>   mfd: rn5t618: convert to use maple tree register cache
+>   mfd: rsmu_i2c: convert to use maple tree register cache
+>   mfd: si476x: convert to use maple tree register cache
+>   mfd: stmfx: convert to use maple tree register cache
+>   mfd: stpmic1: convert to use maple tree register cache
+>   mfd: rc5t583: convert to use maple tree register cache
+> 
+> [...]
 
-Add PSCI support to enable the suspend/resume with the help of TF-A.
+Applied, thanks!
 
-Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
----
- arch/arm64/boot/dts/renesas/r9a08g045.dtsi | 5 +++++
- 1 file changed, 5 insertions(+)
+[01/18] mfd: ac100: convert to use maple tree register cache
+        commit: 8745a81ac22f42c7233fbddc6aa5922b231aac2a
+[02/18] mfd: as3711: convert to use maple tree register cache
+        commit: 780b1aa441a3d64e400cb2ea96bc3e162322eb31
+[03/18] mfd: as3722: convert to use maple tree register cache
+        commit: aea5c3cbc51eee3ac25ff8f936252901c4549011
+[04/18] mfd: axp20x: convert to use maple tree register cache
+        commit: 009073d504f67146d936cc45f21cc27c1bc15490
+[05/18] mfd: bcm590xx: convert to use maple tree register cache
+        commit: 684c1f0b79417cf08810dfd57c5a549a9741ad7a
+[06/18] mfd: bd9571mwv: convert to use maple tree register cache
+        commit: 35b1b8622ca3172b3c6b2a377e5913bac0367634
+[07/18] mfd: dialog: convert to use maple tree register cache
+        commit: 1cb7a3bca56c124ca9e5c13fcac7de884c195c5c
+[08/18] mfd: khadas-mcu: convert to use maple tree register cache
+        commit: 5f734f5f374f68960afd2130a5ce982912c14c15
+[09/18] mfd: lochnagar-i2c: convert to use maple tree register cache
+        commit: 8881896e05b6a91251dde0ce21ce79c2c201888d
+[10/18] mfd: wolfson: convert to use maple tree register cache
+        commit: f353b2c639e4f4ac9831d94c8237026cebaa8e73
+[11/18] mfd: rohm: convert to use maple tree register cache
+        commit: aabd38f3779b8108b65cc7ae8b5c20a6c352b0a2
+[12/18] mfd: rk8xx: convert to use maple tree register cache
+        commit: 08aa1e797a5cc97d2106476263f938342e72015e
+[13/18] mfd: rn5t618: convert to use maple tree register cache
+        commit: a011cacb63c3ff6562bd86afae8cdd49d0f075c9
+[14/18] mfd: rsmu_i2c: convert to use maple tree register cache
+        commit: b85821cecdf933420a6ba93658e1e4710644f5c1
+[15/18] mfd: si476x: convert to use maple tree register cache
+        commit: 030473871c3f4f126bd43018517abfcb070f6b95
+[16/18] mfd: stmfx: convert to use maple tree register cache
+        commit: 87a48e35ce2ef992287b828b1268bedc7415d2de
+[17/18] mfd: stpmic1: convert to use maple tree register cache
+        commit: ab993d2d68951db3ebfeaa44567a790ec566526d
+[18/18] mfd: rc5t583: convert to use maple tree register cache
+        commit: d5132d176d6f21742ac67fd311ccc61fe830e999
 
-diff --git a/arch/arm64/boot/dts/renesas/r9a08g045.dtsi b/arch/arm64/boot/dts/renesas/r9a08g045.dtsi
-index dfee878c0f49..19bbcae01d80 100644
---- a/arch/arm64/boot/dts/renesas/r9a08g045.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r9a08g045.dtsi
-@@ -42,6 +42,11 @@ extal_clk: extal-clk {
- 		clock-frequency = <0>;
- 	};
- 
-+	psci {
-+		compatible = "arm,psci-1.0", "arm,psci-0.2";
-+		method = "smc";
-+	};
-+
- 	soc: soc {
- 		compatible = "simple-bus";
- 		interrupt-parent = <&gic>;
--- 
-2.39.2
+--
+Lee Jones [李琼斯]
 
 
