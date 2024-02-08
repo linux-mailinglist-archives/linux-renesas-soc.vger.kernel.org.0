@@ -1,75 +1,74 @@
-Return-Path: <linux-renesas-soc+bounces-2497-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-2498-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3CDA84E51E
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  8 Feb 2024 17:38:37 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id D3D6184E57E
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  8 Feb 2024 17:53:17 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 021FA2817E9
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  8 Feb 2024 16:38:36 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 894A52837BA
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  8 Feb 2024 16:53:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6D7BD7E769;
-	Thu,  8 Feb 2024 16:38:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7F45B7F7DB;
+	Thu,  8 Feb 2024 16:53:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="Zm041nd/"
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="X8AVj6qI"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6107373164
-	for <linux-renesas-soc@vger.kernel.org>; Thu,  8 Feb 2024 16:38:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65DF87EF19
+	for <linux-renesas-soc@vger.kernel.org>; Thu,  8 Feb 2024 16:53:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707410315; cv=none; b=JHCbv+n5zTfiEKWVE4u1qjWCgiucihmkrFXQSTZgAzSGVVZ9zWEG9ijRPz9cDCmW1YAKT5ePJrMgw0i3ld+pJtpXXzXrMYx20E8LMpL9Gw0O+aB2cHl3fisvacyg5aDv7RYOhs7mWxnGxUldS7aUvWm4oee/JO+Sz0ZovcNikw0=
+	t=1707411193; cv=none; b=rJ7Oc7VFdk8ekRy2ZsyVXgrpg/fhL/bdPNlAV0YySoc5wZSzPBZrF7ML8AD6WdytyPsjf4g/imfrUUvVOT5ttKx0WdybyM8k+Uca9dxjWoI5krASHAF9Ha/nvhUvi3MY+H+ZLjkxVzWp/CkOnv8qtGSPzNYFglgGKwQuIfbIDzc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707410315; c=relaxed/simple;
-	bh=9QGLWUnXjOEE0l9GehnJutnkj1I2sx1Pl8YobqZyvs4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=b37uIYwcUQttzuCXHGNvGNLfKmNPG6X9+38LjYL8IAy0GUxkWU0DetQMbgRzBja5JvJhwsNSvF1qJT4OrpGS4NzwkipncqbzbO6MN/kPddSta18G7SO6+Ol7qrj9NHiUQ4p5yGQM0pj5vEfcufDEe67xt0PquDgf8fyKYLBWsX4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=Zm041nd/; arc=none smtp.client-ip=209.85.128.52
+	s=arc-20240116; t=1707411193; c=relaxed/simple;
+	bh=yc6Zt2hehyFqKBwoD6aZdoobJ4fIeVmjIGmLwx90QIs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=MrFVTu/D5HhVSUohYafQIeuJxnnBc7VigkeV9BcSst3r9Y5i2xKI6NLS7ANSn2rUhZ2/YSKPjDmg3OZrSH4ikHCTfDTWGp5haAVa4kU1cplmFk//sfJRNc9maK1EzXPcdv1EDvhCoy7XSskLg7lzipxJgAQoBLYoRt58QssGSaw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=X8AVj6qI; arc=none smtp.client-ip=209.85.128.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-40fdc63f4feso343635e9.3
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 08 Feb 2024 08:38:33 -0800 (PST)
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-410504b5cf3so477585e9.2
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 08 Feb 2024 08:53:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1707410311; x=1708015111; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:to
+        d=tuxon.dev; s=google; t=1707411189; x=1708015989; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=d4jeruN/E/glf3Gv5XyYQqRCOQY8bjJkIw1GYmYaFgo=;
-        b=Zm041nd/eXG42xD4I/4j8Ss6FQ4+DxhitSUvJLSg+bVxqWVhvfxYi/6iHjIyMZorRn
-         D5PXmU7x7126T36sdR/DdL1K+/cVgYQrlroWGyePWOwn9Q353hlp6w97jsJDohCG2Boy
-         GiHERUmFz6qEfXp5riKWdOB4vdnRRhfWyiihZM1BTtPXWhHkysgUNfu9tEwAklJlutV7
-         RsMqXDwH8XAbntEMQMyLUbih1emjlXGXcj71qtZkluyIjUmWyYAW5TXPw31Rl8sCR5Ip
-         DJ4F37P96ePlaPixeVAeVsf54YTaaCkzsHYrFYNGaK/jXmchwohg2DfLFvKsIyYhXNCX
-         7vzw==
+        bh=ZT1UxOiVrDHIynryw4Nlj/MmW/BLc7DWyJF67SG4DDA=;
+        b=X8AVj6qIxtUh5A39tiEOM1S3akLDAyhFWKNx3eZIQ/5NKt0Sp6fo60VFIfyzzx5RJL
+         RZEJCHPpJKcC3Z6YEimgYv/U9wFNXwxNmHgK7KzUcpk6e+kW1EShKHG3slSH0LzOoZFI
+         vPdQt53myF+VQ6O1T2az2hPY0qQmNO3ZX8xF10cGWZPrPPx30VU/6G7+Czfk4q/zt1B2
+         tT7483pyDY7bnsbaegQXVO5g/MiLkP5s3VZbCjGbr/n4UgAa84WcZv+f/uZvNW7PL9IE
+         3NCv9x2U3sle3itNSaE+82szPf3Q8FB9VuWeojx8a4ytebax+KqsjgZa315LWlZiQNUe
+         Bj9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707410311; x=1708015111;
-        h=content-transfer-encoding:in-reply-to:from:references:to
+        d=1e100.net; s=20230601; t=1707411189; x=1708015989;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=d4jeruN/E/glf3Gv5XyYQqRCOQY8bjJkIw1GYmYaFgo=;
-        b=rwZ5vKQg7+5USkQJ4hoA4V7Sv4f5X2lCDFKizHZrm5/Z/IIVS420QKggqtG6/XVW0o
-         A24R8qjZvBgxXXOusbY+X8kJCYiAGR2WhzNvWXkC04ZSIx59ArWEiExb+CnU6JWv2o8/
-         1rjhuT3LIKty2AmPmtCxg0acWYrzCChLEq1XJbum93FMH9rfmaHynNl34+YyFJhsc0o1
-         q5PQk8RC3LDUs4m0CkdRtRy2KjF5iy8Bgx0/HNW1ffgC7M1RXszv5dgO1qnpadGq0cO8
-         i1nB47JOyQx7VAMSrGXnrot7WKGAAho4visVBgSAtICe4IZ+sP17omu5QunZ20T2arZ4
-         YFoQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUkaA2T6rv41JFWq33OK4qzSXB2I8cVhUyv+QaoHcKZAqAYOTyusfdqHbAjjq7n9moOnJ/0n9hKZkphZWisGsQD99iCPBCSvOIxMdAnhwqClkA=
-X-Gm-Message-State: AOJu0YxM7mkI+7b0ImihLTta1PTr3jeZ8iDwcF0pkSZMhYkhA96qbjFZ
-	/zU89dpSIyRxQt5FsxhDZ+SzdQ8oKQMRn6fsu7XODPi4MSby4MjzH6lZVayGOfY=
-X-Google-Smtp-Source: AGHT+IGeczzJ6ulNuOfDeAkZzD4h/YxsrbGq/4YU7wzrrzqbNExodvuxGuysdztEqknj6gCR0G9FoQ==
-X-Received: by 2002:a05:600c:a384:b0:40f:e207:2e4f with SMTP id hn4-20020a05600ca38400b0040fe2072e4fmr5456881wmb.40.1707410311378;
-        Thu, 08 Feb 2024 08:38:31 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCWPBRrzRZpG0QEm9u8butDqffuNPwzOAmIqysEx6IuG03LHiQbIbH/2HA3gxGXcduMd3NAB5mmYX8nfw324QhgXL+1BbocnqzTv8AwSH9m7Rvdmrts0acZtOW48ZJVqMj1hZ0Pkh1yWIe3HIruqy/jclQt6HcBUh1vBPEPgM4fufkV5qx+mWOqsV8vhWvg1aYi9ZTBBa3tIhk7RSr1QJke/j1XXaDUGM5eGj+YkVFAr8jyuB+Xwos0+fqIYnqRa15Tmfir5gLKg/MaJ5ZANQgZd4Ib7uvTR34TMVNXcqm7zilA8siPkeztgQRu20elP+k0SEBjN54PYNLr1iyg5F+wdThnUvPTHqd1vFihBDQ6MWwuZaXNAvQqCu5RyQSEFOxC/pf3zlX7tNoGG1jXUt+ksYyL19VXp0XtH6Ee7d3LAMw==
+        bh=ZT1UxOiVrDHIynryw4Nlj/MmW/BLc7DWyJF67SG4DDA=;
+        b=PBLq1YbgHmzdjKytLFcJdVCveFiRd5IAhGYmmGiZtj/QMcOepdL59soWzg5MptXnz9
+         4PMLidrg5shYHHq0X33MJexoD8Od081kFDVZPjWZDm9y9PfFJzlYA1sbfIwDNOcZr6Tg
+         7ijatB5RDOV6EUabnEj3mZXCycclfrIXNwqUq3l0v8PJq7PeG2rMXGC0XrgUplfcHEjj
+         tLCMVKequ6ZVv8qqa06S1KgIjwjUkJLHTQVzE3oNLoa4L2dmRvCSJS1cVT/Et3negYkv
+         h/YS0ScXskpqhp5+yEIp13J+KVMPIbQhQsBy0c0YNrRaegnLd+ju01Dih+PgWR0cpIeO
+         WDcQ==
+X-Gm-Message-State: AOJu0Yyma40aB0o2t72eVXMPTkrOFaQABGnJ11+nYhklB8I6kE3i208k
+	dOmP2wHxM5jLJqUvSn+Xx6PgRVejyyDX8bvT0Zhw4RHG0O4HSEJlIPDN0UEA0Tg=
+X-Google-Smtp-Source: AGHT+IGBr22Z6ACQ9/w6ayyS+L6lXv2vUq3SiUpYMPUXFdY2V/aOAsEGvexJMJND+A7XxxQshZubFQ==
+X-Received: by 2002:a05:600c:1c21:b0:40d:3fee:97f6 with SMTP id j33-20020a05600c1c2100b0040d3fee97f6mr7052850wms.34.1707411189516;
+        Thu, 08 Feb 2024 08:53:09 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCUCgbPZZ7zko4xImgI2de22H1Di8bnfniBlBZIeaYI1LCjutMSi4sL6loFFjSpUFYZdxHJ0oybDuTKnjTzavVMSE6mMXMkjuQgSRsipSN7J6QywmpRRcH21+l184D+5wMDh9ub7KkiYhlpI5Uk6pr4l09W2TDTD1vDAptzP4tRj1AkHRkZ+5nydwjKXE8zWV5LjbRGLwaBLKhWGWjTs77OfO5DJdFiPA3pUvbDbI9xohrxZbmNdn/yAqsRAxv5VGL6agf6Xre+F0FrNhbM6dL4yzJjqrAH6dVjBQZFfEEwv2ARhDqBKmizytiyBHsDxrxSZJCHmAKNnLE2x29ylkXN6T02i1p4R1Mdu/xk1+b4weFjFHsrq3es0LrUKYWfvApdFc/Fobab4yml/rVEVmCBD0xGtXcbAG8li8mIVXywL0Kn1040Q3v69VJrHwxeZ2XhDwzotc6EljttdTaPsHG2qfeipA8D6AySJ4GVA/h/D2yBK/8Dg1k+oo6cDljTReVA6KRcp9cU9+XVXo5nuf3x+ebXVTYqOr3+uD/PDI515LRJ7Z2ys/ROQLA+9hg9dpLEt87qLjQ+4Epf8OmL6+6VZOhzlIbevgGa6
 Received: from [192.168.50.4] ([82.78.167.45])
-        by smtp.gmail.com with ESMTPSA id o30-20020a05600c511e00b0040ec8330c8asm2121522wms.39.2024.02.08.08.38.29
+        by smtp.gmail.com with ESMTPSA id u7-20020a05600c19c700b004101e93d276sm2162175wmq.14.2024.02.08.08.53.07
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 08 Feb 2024 08:38:30 -0800 (PST)
-Message-ID: <42b48f52-0d14-4f24-9eeb-38e68558eb8f@tuxon.dev>
-Date: Thu, 8 Feb 2024 18:38:29 +0200
+        Thu, 08 Feb 2024 08:53:08 -0800 (PST)
+Message-ID: <e170f5f8-f95c-4553-b088-1072345fae53@tuxon.dev>
+Date: Thu, 8 Feb 2024 18:53:06 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -77,147 +76,178 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3] mmc: renesas_sdhi: Fix change point of data handling
+Subject: Re: [PATCH 01/17] dt-bindings: clock: r9a07g043-cpg: Add power domain
+ IDs
 Content-Language: en-US
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>, ulf.hansson@linaro.org,
- yoshihiro.shimoda.uh@renesas.com, masaharu.hayakawa.ry@renesas.com,
- takeshi.saito.xv@renesas.com, linux-mmc@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+To: Biju Das <biju.das.jz@bp.renesas.com>,
+ "geert+renesas@glider.be" <geert+renesas@glider.be>,
+ "mturquette@baylibre.com" <mturquette@baylibre.com>,
+ "sboyd@kernel.org" <sboyd@kernel.org>, "robh@kernel.org" <robh@kernel.org>,
+ "krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>,
+ "conor+dt@kernel.org" <conor+dt@kernel.org>,
+ "magnus.damm@gmail.com" <magnus.damm@gmail.com>,
+ "paul.walmsley@sifive.com" <paul.walmsley@sifive.com>,
+ "palmer@dabbelt.com" <palmer@dabbelt.com>,
+ "aou@eecs.berkeley.edu" <aou@eecs.berkeley.edu>
+Cc: "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
+ "linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>,
  Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-References: <20240205112702.213050-1-claudiu.beznea.uj@bp.renesas.com>
- <ZcDdn2AVz8FIXzak@shikoro> <237bd5c8-184d-4e46-ba66-253e3ef0c895@tuxon.dev>
- <ZcD17mTRnfIaueAW@shikoro> <63e1eabd-a484-48ee-b8db-1e460bce70ab@tuxon.dev>
- <ZcQmoEkv_1PVURrT@shikoro>
+References: <20240208124300.2740313-1-claudiu.beznea.uj@bp.renesas.com>
+ <20240208124300.2740313-2-claudiu.beznea.uj@bp.renesas.com>
+ <TYCPR01MB11269DEA9261CA594EECC949686442@TYCPR01MB11269.jpnprd01.prod.outlook.com>
+ <67ad8052-1406-4dcb-9e35-5c42ada28797@tuxon.dev>
+ <TYCPR01MB112698AB206332D13105C064186442@TYCPR01MB11269.jpnprd01.prod.outlook.com>
 From: claudiu beznea <claudiu.beznea@tuxon.dev>
-In-Reply-To: <ZcQmoEkv_1PVURrT@shikoro>
+In-Reply-To: <TYCPR01MB112698AB206332D13105C064186442@TYCPR01MB11269.jpnprd01.prod.outlook.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-Hi, Wolfram,
 
-On 08.02.2024 02:56, Wolfram Sang wrote:
-> Hi Claudiu,
-> 
-> I got more information about SMPCMP now. I had a misunderstanding there.
-> According to your patch description, you might have the same
-> misunderstanding? Let me quote again:
-> 
-> ===
-> RZ hardware manual are similar on this chapter), at the time of tuning,
-> data is captured by the previous and next TAPs and the result is stored in
-> the SMPCMP register (previous TAP in bits 22..16, next TAP in bits 7..0).
-> ===
-> 
-> It is not the previous and next TAP but the previous and next clock
-> cycle using the *same* TAP. And the bits in the register describe if
-> there was a mismatch in the data bits across these clock cycles.
 
-That's something new for me, it's not described in HW manual (or at least I
-haven't found it).
-
+On 08.02.2024 18:28, Biju Das wrote:
 > 
-> So, we really want SMPCMP to be 0 because the data should be stable
-> across all three clock cycles of the same TAP.
-
-So, it means issues should be somewhere else on my setup.
-
 > 
->> As of my understanding the TAP where cmpngu = 0x0e and cmpngd=0x0e is not
->> considered change point of the input data. For that to happen it would mean
->> that cmpngu != cmpngd.
-> 
-> I am not sure you can assume that cmpngu != cmpngd is always true for a
-> change point. I'd think it is likely often the case. But always? I am
-> not convinced. 
-
-That's was my understanding from HW manual and since it fixed my issue I
-considered it valid at the point I wrote this statement. Maybe we need to
-understand this?
-
-> But I am convinced that if SMPCMP is 0, this is a good
-> TAP because it was stable over these clock cycles.
-> 
->> From this snapshot, datasheet and our discussions:
+>> -----Original Message-----
+>> From: claudiu beznea <claudiu.beznea@tuxon.dev>
+>> Sent: Thursday, February 8, 2024 3:46 PM
+>> Subject: Re: [PATCH 01/17] dt-bindings: clock: r9a07g043-cpg: Add power
+>> domain IDs
 >>
->> i=0, cmpngu=00000000, cmpngd=00000000, smpcmp=00000000
->> i=1, cmpngu=00000000, cmpngd=00000000, smpcmp=00000000
->> i=2, cmpngu=0000000e, cmpngd=0000000e, smpcmp=000e000e
->> i=3, cmpngu=00000000, cmpngd=00000000, smpcmp=00000000
->> *i=4, cmpngu=00000000, cmpngd=00000002, smpcmp=00000002*
->> *i=5, cmpngu=00000000, cmpngd=000000ff, smpcmp=000001ff*
->> *i=6, cmpngu=000000ff, cmpngd=00000000, smpcmp=01ff0000*
->> i=7, cmpngu=00000000, cmpngd=00000000, smpcmp=00000000
->> i=8, cmpngu=00000000, cmpngd=00000000, smpcmp=00000000
->> i=9, cmpngu=00000000, cmpngd=00000000, smpcmp=00000000
->> i=10, cmpngu=00000000, cmpngd=00000000, smpcmp=00000000
->> i=11, cmpngu=00000000, cmpngd=00000000, smpcmp=00000000
->> *i=12, cmpngu=00000000, cmpngd=00000002, smpcmp=00000002*
->> *i=13, cmpngu=00000000, cmpngd=000000ff, smpcmp=000001ff*
->> *i=14, cmpngu=000000ff, cmpngd=00000000, smpcmp=01ff0000*
->> i=15, cmpngu=00000000, cmpngd=00000000, smpcmp=00000000
+>> Hi, Biju,
 >>
->> I understand that TAP4,5,6 are change point of the input data and
->> TAP8,0,1,2,3 are candidates for being selected, TAP 1,2 being the best
->> (please correct me if I'm wrong).
-> 
-> I agree that TAP4-6 are the change point. TAP2 could be a candidate. I
-> dunno why SMPCMP is non-zero at i == 2, maybe some glitch due to noise
-> on the board?
-
-Hm... it worth considering it...
-
-> 
-> I do really wonder why probing failed, though? TAP1 sounds like a good
-> choice as well. I mean we consider SMPCMP only if all TAPs are good. So,
-> if probing fails, that means that SMPCMP was non-zero all the time?
-
-Yes, that was my finding as well on my setup which leads to this patch.
-
-If we're taking as example the snapshot I dropped here in a previous email,
-and do not consider this patch, code at [1] should clear bit for TAP2 in
-smpcmp mask because in the 1st round SMPCMP was not zero (but 0x000e000e)
-and in the 2nd round it was zero.
-
-[1]
-https://elixir.bootlin.com/linux/latest/source/drivers/mmc/host/renesas_sdhi_core.c#L629
-
-> 
-> That being said, our code to select the best TAP from SMPCMP is really
-> not considering the change point :( It just picks the first one where
-> SMPCMP is 0.
-
-Hm... I thought code at [2] selects the TAP in the middle (in the snapshot
-I pointed, TAP1).
-
-[1]
-https://elixir.bootlin.com/linux/latest/source/drivers/mmc/host/renesas_sdhi_core.c#L656
-
-
-> We are not checking where the change point is and try to be
-> as far away as possible.
-> 
->> root@smarc-rzg3s:~# md5sum out test
->> b053723af63801e665959d48cb7bd8e6  out
->> b053723af63801e665959d48cb7bd8e6  test
+>> On 08.02.2024 16:30, Biju Das wrote:
+>>> Hi Claudiu,
+>>>
+>>> Thanks for the patch.
+>>>
+>>>> -----Original Message-----
+>>>> From: Claudiu <claudiu.beznea@tuxon.dev>
+>>>> Sent: Thursday, February 8, 2024 12:43 PM
+>>>> Subject: [PATCH 01/17] dt-bindings: clock: r9a07g043-cpg: Add power
+>>>> domain IDs
+>>>>
+>>>> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+>>>>
+>>>> Add power domain IDs for RZ/G2UL (R9A07G043) SoC.
+>>>>
+>>>> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+>>>> ---
+>>>>  include/dt-bindings/clock/r9a07g043-cpg.h | 48
+>>>> +++++++++++++++++++++++
+>>>>  1 file changed, 48 insertions(+)
+>>>>
+>>>> diff --git a/include/dt-bindings/clock/r9a07g043-cpg.h b/include/dt-
+>>>> bindings/clock/r9a07g043-cpg.h index 77cde8effdc7..eabfeec7ac37
+>>>> 100644
+>>>> --- a/include/dt-bindings/clock/r9a07g043-cpg.h
+>>>> +++ b/include/dt-bindings/clock/r9a07g043-cpg.h
+>>>> @@ -200,5 +200,53 @@
+>>>>  #define R9A07G043_AX45MP_CORE0_RESETN	78	/* RZ/Five Only */
+>>>>  #define R9A07G043_IAX45_RESETN		79	/* RZ/Five Only */
+>>>>
+>>>> +/* Power domain IDs. */
+>>>> +#define R9A07G043_PD_ALWAYS_ON		0
+>>>> +#define R9A07G043_PD_GIC		1
+>>>> +#define R9A07G043_PD_IA55		2
+>>>> +#define R9A07G043_PD_MHU		3
+>>>> +#define R9A07G043_PD_CORESIGHT		4
+>>>> +#define R9A07G043_PD_SYC		5
+>>>> +#define R9A07G043_PD_DMAC		6
+>>>> +#define R9A07G043_PD_GTM0		7
+>>>> +#define R9A07G043_PD_GTM1		8
+>>>> +#define R9A07G043_PD_GTM2		9
+>>>> +#define R9A07G043_PD_MTU		10
+>>>> +#define R9A07G043_PD_POE3		11
+>>>> +#define R9A07G043_PD_WDT0		12
+>>>> +#define R9A07G043_PD_SPI		13
+>>>> +#define R9A07G043_PD_SDHI0		14
+>>>> +#define R9A07G043_PD_SDHI1		15
+>>>> +#define R9A07G043_PD_ISU		16
+>>>> +#define R9A07G043_PD_CRU		17
+>>>> +#define R9A07G043_PD_LCDC		18
+>>>> +#define R9A07G043_PD_SSI0		19
+>>>> +#define R9A07G043_PD_SSI1		20
+>>>> +#define R9A07G043_PD_SSI2		21
+>>>> +#define R9A07G043_PD_SSI3		22
+>>>> +#define R9A07G043_PD_SRC		23
+>>>> +#define R9A07G043_PD_USB0		24
+>>>> +#define R9A07G043_PD_USB1		25
+>>>> +#define R9A07G043_PD_USB_PHY		26
+>>>> +#define R9A07G043_PD_ETHER0		27
+>>>> +#define R9A07G043_PD_ETHER1		28
+>>>> +#define R9A07G043_PD_I2C0		29
+>>>> +#define R9A07G043_PD_I2C1		30
+>>>> +#define R9A07G043_PD_I2C2		31
+>>>> +#define R9A07G043_PD_I2C3		32
+>>>> +#define R9A07G043_PD_SCIF0		33
+>>>> +#define R9A07G043_PD_SCIF1		34
+>>>> +#define R9A07G043_PD_SCIF2		35
+>>>> +#define R9A07G043_PD_SCIF3		36
+>>>> +#define R9A07G043_PD_SCIF4		37
+>>>> +#define R9A07G043_PD_SCI0		38
+>>>> +#define R9A07G043_PD_SCI1		39
+>>>> +#define R9A07G043_PD_IRDA		40
+>>>> +#define R9A07G043_PD_RSPI0		41
+>>>> +#define R9A07G043_PD_RSPI1		42
+>>>> +#define R9A07G043_PD_RSPI2		43
+>>>> +#define R9A07G043_PD_CANFD		44
+>>>> +#define R9A07G043_PD_ADC		45
+>>>> +#define R9A07G043_PD_TSU		46
+>>>
+>>> Not sure from "Table 42.3 Registers for Module Standby Mode"
+>>>
+>>> Power domain ID has to be based on CPG_BUS_***_MSTOP or CPG_CLKON_***
+>>> As former reduces number of IDs??
 >>
->> Do yo consider this enough?
+>> If I understand correctly your point here, you want me to describe PM
+>> domain in DT with something like:
+>>
+>> power-domains = <&cpg CPG_BUS_X_MSTOP>;
 > 
-> Yes, if done 100 times ;)
+> MSTOP bits are distinct for each IP.
+> 
+> <&cpg CPG_BUS_MCPU1_MSTOP x>; x =1..9
+> 
+> 2=MTU IP
+> 
+> 4= GPT
+> 
+> etc...
+> 
+> Is it something work??
 
-This may take a while...
+It might work. But:
+
+- you have to consider that some IPs have more than one MSTOP bit, thus, do
+  we want to uniquely identify these with all MSTOP bits (thus the 2nd cell
+  being a bitmask) or only one is enough?
+- some HW blocks (e.g. OTFDE_DDR) have no MSTOP bits associated (as of my
+  current research), so, only PWRDN
+- some HW blocks have both MSTOP and PWRDN
+- if future hardware implementation will spread the MSTOP bits for one IP
+  to more than one register then this proposal will not work
+
+Having a unique identified decoupled from MSTOP registers or PWRDN offers
+support to use the same code base for future usage. This is what I can tell
+at the moment.
 
 > 
-> I hope this mail was helpful?
-
-The tuning procedure it's better understand now. But I'm not sure in which
-direction should I dig further... :)
-
-Thank you for details and patience,
-Claudiu Beznea
-
+>>
+>> where X={ACPU, PERI_CPU, PERI_CPU2, REG0, REG1} ?
+>>
+>> With this, I still see the necessity of a 3rd identifier that will be IP
+>> specific to be able to uniquely match b/w DT description and registered
+>> power domain. FMPOV, this will lead to a more complicated implementation.
+>>
+>> We need a unique ID that the pm domain xlate will use to xlate the DT
+>> binding to driver data structures.
 > 
-> Thanks and happy hacking,
+> Ok.
 > 
->    Wolfram
+> Cheers,
+> Biju
 > 
 
