@@ -1,247 +1,135 @@
-Return-Path: <linux-renesas-soc+bounces-2480-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-2481-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C780884E125
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  8 Feb 2024 13:48:19 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0EDA484E135
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  8 Feb 2024 13:53:57 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E70751C29165
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  8 Feb 2024 12:48:18 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2C0C11C21BC0
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  8 Feb 2024 12:53:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 631EF7F7FC;
-	Thu,  8 Feb 2024 12:44:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="KKJuxj0d"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 92856762E9;
+	Thu,  8 Feb 2024 12:53:55 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com [209.85.128.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D5FB7EF09
-	for <linux-renesas-soc@vger.kernel.org>; Thu,  8 Feb 2024 12:44:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE8DD7602C;
+	Thu,  8 Feb 2024 12:53:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707396265; cv=none; b=YU9ZIvjIlBzmJddCcdbigB8KxRdXkyifqWwacHQ3l7WcD2zHR0TzuRUqPyCEdS98nTwyckkosAAefBgrhRLYk+xQdmcBzJ5CCTQ56uAQDNZbYt6OAU9etJTTilckfbyn9bhUlrg4v8ZkVAptcLl+/TXc84I1esF7D88sDBTF9IY=
+	t=1707396835; cv=none; b=fcoa0z04Fp/B+RB+ObRpW9017XxGopLc4iP1Z5mmuMViy1L9KzjtNXKDflQV2Am3jFzPsU3OjDzBeAVSiC7zmCeSUilqvaRTWoGcwNgdbWr1MVkPQm0xYOJzVSZ4AmCuFLcuEOgR7H4gqraTXuuEsTTzk9mRKvX29tlQP8yxh4s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707396265; c=relaxed/simple;
-	bh=gRX2x88FqVLUStqN8zuHyneH2upnBTYGjfOVYMyFZ0E=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=ikqFNv2jh4168jh+xY0cZ3jPffQO59etB4//BGJPVujJgfTHPOBgVqQr+cpsfVlGwkxyB9YGOQs07lbLOSL/eDp39AwQcSemMMBrmVSJw8jxGqdP8dIXTxGAW0vOFoHcTNsm8whhGS4++Wya6aIsqikQSIa2jWsFELTTQ9TOdWY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=KKJuxj0d; arc=none smtp.client-ip=209.85.128.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-41008ab427fso16158825e9.0
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 08 Feb 2024 04:44:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1707396261; x=1708001061; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=6yTEa4/lsVRh49barZX5/hHwmF5ODn+0XbIAzs9ib3A=;
-        b=KKJuxj0d3E7VI/zgAkCYq9iS28icvQc3wktVef55AGsDGZgWHKVJe+dQX4GUCCoDGM
-         zONbRMFr4bDbPYkT7u2D+nh2HerfwtkxgrJIirDXYFrAGCa8YX8w73vTeGZZhlmYbwcQ
-         /By6OAPXb3e5wnhInvQc3UEz6coIW8UAo6y/ep0lAf8e8X69GUDiKUEpUe0shoXKD8Rq
-         6OwZkiopObf0sFrH/LbF51tgjI9l8I/JD2TH5aRx2EG5sELqZ2P/76aaX4euJecJ2949
-         QI1i16pl3rEbmCGSI0WYdVlmlULbo3r+auNKFvwtu7gWbUYNIUL26CVnrkIct8HG8fJS
-         yVAA==
+	s=arc-20240116; t=1707396835; c=relaxed/simple;
+	bh=Cli3dfHjTQg2JF+CpPCW6kjPq9xjuZ84+noWzYcT2Ec=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=S5V+AmnEcndu6P+o0auq8/z8ESHjkhTZ22n0nO3ZnS5jz2xJVE2j2bbEi47syixui6X+yGWJThcT6qC4QMoniqRPWXORVrF+M0c9QVWZmeALRGBZK35LwcBFCDyzjVIfrysTZkbQmp7gW2K2LpmY0avRI/5k6Uwj4TBeSSr+O18=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-604b27e3bd2so674387b3.1;
+        Thu, 08 Feb 2024 04:53:52 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707396261; x=1708001061;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1707396831; x=1708001631;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=6yTEa4/lsVRh49barZX5/hHwmF5ODn+0XbIAzs9ib3A=;
-        b=n8z9W1IeZ7iQ6D0H49XHCDjOwIPOH6bzRNuSyr0d8A35j+TkXLmRxJYUZUM3m/y1RG
-         QWiK0FIs5cGvcZHSGVrxw1kfCwXVKvJmrB04V8YpmLDVupB6lpBRKFHXhfA8TtkkCE9e
-         kfa0h/nh7FuSBzubvqX7uiu8sQwrc2IXySkcMKhaWxJ/DChlOPHH4yzc2Hse6MIoyyRw
-         k1p9j7mBCplRrDTo0XvomHI76qJusnYJlY1BkHxh/Sek5yYxPSlj29IzFEmjG3xg5NCI
-         u3hVwW3Jiopre+uk9RIHP9kR3x33AEu0kAy6XhLbS4yL6nEpE8w9YjHLxAe+zDM6wkro
-         atdQ==
-X-Gm-Message-State: AOJu0YxCXAkxJ2mDu/8pW3nNlo162cPaayJ0cy7vNpF+ZvkcNbNe9KE/
-	iaJIi17m2gb4nbUa3uvDNDF/HUsbe6BN3SzfdtaBtQISi4q3TWVvtobZe/srSNw=
-X-Google-Smtp-Source: AGHT+IGANbj1iqOytgIwqTg4Mq/0gpcdPMAp60+0punCG5pjW18WFbjKTwZGb5kh4i/RgdGw5GaHyw==
-X-Received: by 2002:a05:600c:1c9e:b0:40f:c1b7:2556 with SMTP id k30-20020a05600c1c9e00b0040fc1b72556mr7366673wms.11.1707396261396;
-        Thu, 08 Feb 2024 04:44:21 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCW9Sr/LYarYn0Ydw9Z5UndLl0lPc2rf5eImobbDtGEveI/5qBkV4OQYupRBQfDCMJRJ35YozSSMZas9QWzlnjzZVptnk7zkEZazrYTVw86UYlPS3AI0amTEsE6I1FZTTCY+hKtcasM7WBV0CBCiw8LWCK5V8+EBrXoy+b097mnpz/r7tCy6nox9rqP8L6C/nTjqQwSbamMiJThJ8fRRSO1vtaaCazKwu8e2vMsvJBixIu9GxEvggwQmByZNF0Ftcn2PZ+sei2Tg2ED43jC+Pkt/GSwfzj4BqqDpmdcS/ligPgbTVv4N94S7AmYojqC3XPwLYcTPlsGwptui7xpDuKnOfdMoU91UuSuawHavUuKJrBzwPp3Gk8VKSIXbo2O13LQPhV7Rrq5vTtcWY2ksYI7gP3GUlsypZNX08ORpOoYrg0q6+EI8xVUSuGbFdrQeqxp/s1UyKIEqYLsn9o0yOymBeDmq7b0rAXaZJ+wGnPwDdhKPP0W9GZMM1Ow3IYm8P5oq0ulAfZVqpmXZbInU1pEw6JiKqDGpNY1BXjMkk/DzWiFO5eVGwKSTxx5g6mbiqdQ=
-Received: from claudiu-X670E-Pro-RS.. ([82.78.167.45])
-        by smtp.gmail.com with ESMTPSA id o13-20020a05600c4fcd00b0041047382b76sm790244wmq.37.2024.02.08.04.44.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 08 Feb 2024 04:44:20 -0800 (PST)
-From: Claudiu <claudiu.beznea@tuxon.dev>
-X-Google-Original-From: Claudiu <claudiu.beznea.uj@bp.renesas.com>
-To: geert+renesas@glider.be,
-	mturquette@baylibre.com,
-	sboyd@kernel.org,
-	robh@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org,
-	conor+dt@kernel.org,
-	magnus.damm@gmail.com,
-	paul.walmsley@sifive.com,
-	palmer@dabbelt.com,
-	aou@eecs.berkeley.edu
-Cc: linux-renesas-soc@vger.kernel.org,
-	linux-clk@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-riscv@lists.infradead.org,
-	claudiu.beznea@tuxon.dev,
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-Subject: [PATCH 17/17] arm64: dts: renesas: r9a09g011: Update #power-domain-cells = <1>
-Date: Thu,  8 Feb 2024 14:43:00 +0200
-Message-Id: <20240208124300.2740313-18-claudiu.beznea.uj@bp.renesas.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20240208124300.2740313-1-claudiu.beznea.uj@bp.renesas.com>
-References: <20240208124300.2740313-1-claudiu.beznea.uj@bp.renesas.com>
+        bh=NztMPrBdvMmS8LR3qgfsF/yKHS6WGHXK/n/wOhAxkkQ=;
+        b=D3yWNgnQmfuDtHQEgN/MgDi06Stl2jeD4EdT4R+8PxEgEiSyrL13/e3N4Y3XQGvNVQ
+         ZvtMGPuSirvmxxsFlMqKF0EwoXh3lXjZiS49Q6tvXAAwT9L/7WkzL/i1xsHQszIC7F9E
+         VRWqEchzKLEE36f7Oul7DdAGWwXyUXUeOc43PypWHz712hs8DgqM3Pv0e34KMHAxSVYF
+         SXgvstNK3o3PqkmvZcZuNHVUxzLbYQiUfWrXdRNmkt5m6hLSfHeVCtIjvmrnR2xf+qP6
+         jK4AgKADFcC2dItzjHaz7rIjtmYzmOOHrC14/gD1jfFzunxcrpJaoonsJ8NpZ5qZt60e
+         pxnA==
+X-Forwarded-Encrypted: i=1; AJvYcCWrwFgBM0CtTXpA+p1/SM2Bixjfhq6kJ9mBHoqYtOpsF1BbYN4WVPRrwVaUT7uScFULkw33qrsfqDqLQRYYrCvubc5vv7FVLRGgKXBmLWHTy76uwAvmpGgEOBgMf2ZrG/yS32jWri3ll5q37bUQzbS/KFUlVggBM3jv62jcfBnpjdnBnCmqSip/9LLp5TvXt/kgsdAsamX7IJuGELcQbRP0qeNXZg7EAsRjEUk=
+X-Gm-Message-State: AOJu0YxiL/FuLyGq9iMSAXfyv2FhWxbBvEQZ40aDm5qMVyqQvWOuLoAU
+	/iqgUVuvh7pWSE3YC+XQObpx45uykcGS2ZTdzfRpaOU8Atj9ZQKx9gLi6ZD0GdQ=
+X-Google-Smtp-Source: AGHT+IHGcKcNdmGCYkQJ34MFr8SzjnS5WA9rW1UtvmPqYfjSg2zruMJ2g7uONRrQbTwDTSFNvFDpsQ==
+X-Received: by 2002:a81:431f:0:b0:604:a51c:cbd3 with SMTP id q31-20020a81431f000000b00604a51ccbd3mr1074665ywa.15.1707396830821;
+        Thu, 08 Feb 2024 04:53:50 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCXy893PHtyeRMfsFwW2vC40iS5aQyzlbsAW3sjpQAdedFG3yBTorjO01r38/7szW7YlNU7tN8SymExs4cR7rR0NziV+bhzP6Dz6/577hIzUOB/+36a6lkKEYvTyjWp6lY9MJnt6wHC50F4poWWUKR2qO6c/x2VDSuSwQC2eyNKm/qf6RU4IGBl2RVGujpPxmAJQwY1Rr/3QxJUa+ecmjk7WWOsLq2cWx7eIJb8=
+Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com. [209.85.219.171])
+        by smtp.gmail.com with ESMTPSA id t142-20020a0dea94000000b006049b905176sm505471ywe.39.2024.02.08.04.53.50
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 08 Feb 2024 04:53:50 -0800 (PST)
+Received: by mail-yb1-f171.google.com with SMTP id 3f1490d57ef6-dbed179f0faso625571276.1;
+        Thu, 08 Feb 2024 04:53:50 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCX0Xe+N6h3zn5QRxl/l/uW3XtSjIArmOS8EVDT6BXiYVnbXk+G61R2mvYfdTPcDjxjbF4x2eYmg5bGDvLR7hg2Efae7c9BDX+8BI/Hsiu5em4r1B6IB/TghA6v41e4PrtBtdzEbDPNGWcH6NtRoWvqNlcAAJSSdEIyw9veRkhn/j8jWOhWckDRWI4auPnm5eOHKjaVoKdZdTIzYEYjM//MMhdTQbH21qLcmvOQ=
+X-Received: by 2002:a25:c8c3:0:b0:dc6:e7f6:254a with SMTP id
+ y186-20020a25c8c3000000b00dc6e7f6254amr1664738ybf.8.1707396829937; Thu, 08
+ Feb 2024 04:53:49 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20240208105817.2619703-1-claudiu.beznea.uj@bp.renesas.com> <20240208105817.2619703-3-claudiu.beznea.uj@bp.renesas.com>
+In-Reply-To: <20240208105817.2619703-3-claudiu.beznea.uj@bp.renesas.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Thu, 8 Feb 2024 13:53:37 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdV+CryvbFkcFGthk2VM0j7m13rQJ_0GtumPg2f-hpuMvA@mail.gmail.com>
+Message-ID: <CAMuHMdV+CryvbFkcFGthk2VM0j7m13rQJ_0GtumPg2f-hpuMvA@mail.gmail.com>
+Subject: Re: [PATCH v6 2/9] watchdog: rzg2l_wdt: Make the driver depend on PM
+To: Claudiu <claudiu.beznea@tuxon.dev>
+Cc: wim@linux-watchdog.org, linux@roeck-us.net, robh@kernel.org, 
+	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, 
+	p.zabel@pengutronix.de, geert+renesas@glider.be, magnus.damm@gmail.com, 
+	biju.das.jz@bp.renesas.com, linux-watchdog@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org, 
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+Hi Claudiu,
 
-Update CPG #power-domain-cells = <1> and move all the IPs to be part of the
-always on power domain as the driver has been modified to support multiple
-power domains.
+On Thu, Feb 8, 2024 at 1:26=E2=80=AFPM Claudiu <claudiu.beznea@tuxon.dev> w=
+rote:
+> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+>
+> The rzg2l_wdt watchdog driver cannot work w/o CONFIG_PM=3Dy (e.g. the
+> clocks are enabled though pm_runtime_* specific APIs). To avoid building
+> a driver that doesn't work make explicit the dependency on CONFIG_PM.
+>
+> Suggested-by: Guenter Roeck <linux@roeck-us.net>
+> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+> ---
+>
+> Changes in v6:
+> - update patch description
+> - fixed the dependency on COMPILE_TEST previously introduced
 
-Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
----
- arch/arm64/boot/dts/renesas/r9a09g011.dtsi | 28 +++++++++++-----------
- 1 file changed, 14 insertions(+), 14 deletions(-)
+Thanks for the update!
 
-diff --git a/arch/arm64/boot/dts/renesas/r9a09g011.dtsi b/arch/arm64/boot/dts/renesas/r9a09g011.dtsi
-index 50ed66d42a24..74af0f730b89 100644
---- a/arch/arm64/boot/dts/renesas/r9a09g011.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r9a09g011.dtsi
-@@ -81,7 +81,7 @@ sdhi0: mmc@85000000 {
- 				 <&cpg CPG_MOD R9A09G011_SDI0_ACLK>;
- 			clock-names = "core", "clkh", "cd", "aclk";
- 			resets = <&cpg R9A09G011_SDI0_IXRST>;
--			power-domains = <&cpg>;
-+			power-domains = <&cpg R9A09G011_PD_ALWAYS_ON>;
- 			status = "disabled";
- 		};
- 
-@@ -97,7 +97,7 @@ sdhi1: mmc@85010000  {
- 				 <&cpg CPG_MOD R9A09G011_SDI1_ACLK>;
- 			clock-names = "core", "clkh", "cd", "aclk";
- 			resets = <&cpg R9A09G011_SDI1_IXRST>;
--			power-domains = <&cpg>;
-+			power-domains = <&cpg R9A09G011_PD_ALWAYS_ON>;
- 			status = "disabled";
- 		};
- 
-@@ -113,7 +113,7 @@ emmc: mmc@85020000  {
- 				 <&cpg CPG_MOD R9A09G011_EMM_ACLK>;
- 			clock-names = "core", "clkh", "cd", "aclk";
- 			resets = <&cpg R9A09G011_EMM_IXRST>;
--			power-domains = <&cpg>;
-+			power-domains = <&cpg R9A09G011_PD_ALWAYS_ON>;
- 			status = "disabled";
- 		};
- 
-@@ -129,7 +129,7 @@ usb3drd: usb3drd@85070400 {
- 				 <&cpg CPG_MOD R9A09G011_USB_PCLK>;
- 			clock-names = "axi", "reg";
- 			resets = <&cpg R9A09G011_USB_DRD_RESET>;
--			power-domains = <&cpg>;
-+			power-domains = <&cpg R9A09G011_PD_ALWAYS_ON>;
- 			ranges;
- 			#address-cells = <2>;
- 			#size-cells = <2>;
-@@ -144,7 +144,7 @@ usb3host: usb@85060000 {
- 					 <&cpg CPG_MOD R9A09G011_USB_PCLK>;
- 				clock-names = "axi", "reg";
- 				resets = <&cpg R9A09G011_USB_ARESETN_H>;
--				power-domains = <&cpg>;
-+				power-domains = <&cpg R9A09G011_PD_ALWAYS_ON>;
- 				status = "disabled";
- 			};
- 
-@@ -157,7 +157,7 @@ usb3peri: usb3peri@85070000 {
- 					 <&cpg CPG_MOD R9A09G011_USB_PCLK>;
- 				clock-names = "axi", "reg";
- 				resets = <&cpg R9A09G011_USB_ARESETN_P>;
--				power-domains = <&cpg>;
-+				power-domains = <&cpg R9A09G011_PD_ALWAYS_ON>;
- 				status = "disabled";
- 			};
- 		};
-@@ -207,7 +207,7 @@ avb: ethernet@a3300000 {
- 				 <&cpg CPG_MOD R9A09G011_ETH0_GPTP_EXT>;
- 			clock-names = "axi", "chi", "gptp";
- 			resets = <&cpg R9A09G011_ETH0_RST_HW_N>;
--			power-domains = <&cpg>;
-+			power-domains = <&cpg R9A09G011_PD_ALWAYS_ON>;
- 			#address-cells = <1>;
- 			#size-cells = <0>;
- 			status = "disabled";
-@@ -220,7 +220,7 @@ cpg: clock-controller@a3500000 {
- 			clock-names = "extal";
- 			#clock-cells = <2>;
- 			#reset-cells = <1>;
--			#power-domain-cells = <0>;
-+			#power-domain-cells = <1>;
- 		};
- 
- 		pwc: pwc@a3700000 {
-@@ -244,7 +244,7 @@ csi0: spi@a4020000 {
- 				 <&cpg CPG_MOD R9A09G011_CPERI_GRPG_PCLK>;
- 			clock-names = "csiclk", "pclk";
- 			resets = <&cpg R9A09G011_CSI_GPG_PRESETN>;
--			power-domains = <&cpg>;
-+			power-domains = <&cpg R9A09G011_PD_ALWAYS_ON>;
- 			#address-cells = <1>;
- 			#size-cells = <0>;
- 			status = "disabled";
-@@ -258,7 +258,7 @@ csi4: spi@a4020200 {
- 				 <&cpg CPG_MOD R9A09G011_CPERI_GRPH_PCLK>;
- 			clock-names = "csiclk", "pclk";
- 			resets = <&cpg R9A09G011_CSI_GPH_PRESETN>;
--			power-domains = <&cpg>;
-+			power-domains = <&cpg R9A09G011_PD_ALWAYS_ON>;
- 			#address-cells = <1>;
- 			#size-cells = <0>;
- 			status = "disabled";
-@@ -274,7 +274,7 @@ i2c0: i2c@a4030000 {
- 			interrupt-names = "tia", "tis";
- 			clocks = <&cpg CPG_MOD R9A09G011_IIC_PCLK0>;
- 			resets = <&cpg R9A09G011_IIC_GPA_PRESETN>;
--			power-domains = <&cpg>;
-+			power-domains = <&cpg R9A09G011_PD_ALWAYS_ON>;
- 			status = "disabled";
- 		};
- 
-@@ -288,7 +288,7 @@ i2c2: i2c@a4030100 {
- 			interrupt-names = "tia", "tis";
- 			clocks = <&cpg CPG_MOD R9A09G011_IIC_PCLK1>;
- 			resets = <&cpg R9A09G011_IIC_GPB_PRESETN>;
--			power-domains = <&cpg>;
-+			power-domains = <&cpg R9A09G011_PD_ALWAYS_ON>;
- 			status = "disabled";
- 		};
- 
-@@ -311,7 +311,7 @@ wdt0: watchdog@a4050000 {
- 			clock-names = "pclk", "oscclk";
- 			interrupts = <GIC_SPI 43 IRQ_TYPE_LEVEL_HIGH>;
- 			resets = <&cpg R9A09G011_WDT0_PRESETN>;
--			power-domains = <&cpg>;
-+			power-domains = <&cpg R9A09G011_PD_ALWAYS_ON>;
- 			status = "disabled";
- 		};
- 
-@@ -361,7 +361,7 @@ pinctrl: pinctrl@b6250000 {
- 				     <GIC_SPI 105 IRQ_TYPE_LEVEL_HIGH>,
- 				     <GIC_SPI 106 IRQ_TYPE_LEVEL_HIGH>;
- 			clocks = <&cpg CPG_MOD R9A09G011_PFC_PCLK>;
--			power-domains = <&cpg>;
-+			power-domains = <&cpg R9A09G011_PD_ALWAYS_ON>;
- 			resets = <&cpg R9A09G011_PFC_PRESETN>;
- 		};
- 	};
--- 
-2.39.2
+> --- a/drivers/watchdog/Kconfig
+> +++ b/drivers/watchdog/Kconfig
+> @@ -911,6 +911,7 @@ config RENESAS_RZN1WDT
+>  config RENESAS_RZG2LWDT
+>         tristate "Renesas RZ/G2L WDT Watchdog"
+>         depends on ARCH_RZG2L || ARCH_R9A09G011 || COMPILE_TEST
+> +       depends on PM
 
+depends on PM || COMPILE_TEST
+
+>         select WATCHDOG_CORE
+>         help
+>           This driver adds watchdog support for the integrated watchdogs =
+in the
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
