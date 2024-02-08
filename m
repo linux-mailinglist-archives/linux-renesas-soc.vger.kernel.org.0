@@ -1,154 +1,163 @@
-Return-Path: <linux-renesas-soc+bounces-2504-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-2505-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73ECB84E9D3
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  8 Feb 2024 21:45:14 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id C889384EDD6
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  9 Feb 2024 00:39:18 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 2BA65B269A5
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  8 Feb 2024 20:44:49 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7DF791F236E6
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  8 Feb 2024 23:39:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BCCE34EB4B;
-	Thu,  8 Feb 2024 20:44:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DC84B51031;
+	Thu,  8 Feb 2024 23:24:47 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mx01.omp.ru (mx01.omp.ru [90.154.21.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C353487B8;
-	Thu,  8 Feb 2024 20:44:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.154.21.10
+Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 167CB54F9D;
+	Thu,  8 Feb 2024 23:24:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707425059; cv=none; b=ailrq4Qe60yPaq1T/qOT+gidEFBuslC2oWXzl6YRUz679FFklCAb8PmTma9MnU5bTFeVqW661mD1WTJ1rmr+xQCgOGRvcixAxYWi42pq0M1oTKiwXZCAih5djM+x6/fz9qGokFhIMh852FAnSThWotZGfY3pk0DqGapGA5kyVZw=
+	t=1707434687; cv=none; b=IfYIsIMnghvR95MttK4wE1261hP1WDBmfGC3ew2/1BfkUFVhahb3OXKkz3SrC7OoR7wt5quLQD3sQE3qJpmO7z1hw2h1iitrzRV/M7bSiVlF5FBiX0BdY7UH9jl5oTKWCuEvOMfswcumct/RLcyXmcFCw8/Nh8aglHJCPFy8aSQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707425059; c=relaxed/simple;
-	bh=Y1YO1yeJfR//2U1rH7TemWwVUP+2PWnGC2CmS8SSITk=;
-	h=Subject:To:CC:References:From:Message-ID:Date:MIME-Version:
-	 In-Reply-To:Content-Type; b=p0w1fCQJoQAka+KrumKg71pvUx8rx5XYiD/7IPXPBg8RWSJxj2rY9n33SE5azG2ON7ef4k/RezjARE6ScPsSOxeah2mskMym6oom3JY40MxnTjNsx1hKS0koVDiae+mgcFoKEz+yDmbyoiJLkjS5GnxT3Hx5/EQUfU1y/rk072U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=omp.ru; spf=pass smtp.mailfrom=omp.ru; arc=none smtp.client-ip=90.154.21.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=omp.ru
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=omp.ru
-Received: from [192.168.1.105] (178.176.74.49) by msexch01.omp.ru
- (10.188.4.12) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.1258.12; Thu, 8 Feb
- 2024 23:44:10 +0300
-Subject: Re: [PATCH net-next 1/5] net: ravb: Get rid of the temporary variable
- irq
-To: Claudiu <claudiu.beznea@tuxon.dev>, <davem@davemloft.net>,
-	<edumazet@google.com>, <kuba@kernel.org>, <pabeni@redhat.com>
-CC: <netdev@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, Claudiu Beznea
-	<claudiu.beznea.uj@bp.renesas.com>
-References: <20240207120733.1746920-1-claudiu.beznea.uj@bp.renesas.com>
- <20240207120733.1746920-2-claudiu.beznea.uj@bp.renesas.com>
-From: Sergey Shtylyov <s.shtylyov@omp.ru>
-Organization: Open Mobile Platform
-Message-ID: <d348420d-59a0-f869-061d-5a1d736e12d5@omp.ru>
-Date: Thu, 8 Feb 2024 23:44:09 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+	s=arc-20240116; t=1707434687; c=relaxed/simple;
+	bh=iJ4h27b2stDbHUbzrUkIwBdpRJ0K3N623MbRZI78gZ4=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=izg74EBX3FHxCCyFfxNLQF3XVeldryjUFYrECFZsJ1sgOCOI4SA6j9u06zC4pA28d9s3yt0RsXqw9MeE/vYQOR/zWqpi2imz2nKPCgkvoiN/SVgKBHDnsuW0rYUqW1djsIAGaMX9m40Gk2SpXvM9gbp+bOqWpbEzPks/tPofZ+M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; arc=none smtp.client-ip=210.160.252.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
+X-IronPort-AV: E=Sophos;i="6.05,255,1701097200"; 
+   d="scan'208";a="197291914"
+Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
+  by relmlie6.idc.renesas.com with ESMTP; 09 Feb 2024 08:24:38 +0900
+Received: from mulinux.home (unknown [10.226.92.227])
+	by relmlir5.idc.renesas.com (Postfix) with ESMTP id 66D7C4009BDC;
+	Fri,  9 Feb 2024 08:24:34 +0900 (JST)
+From: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+To: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	linux-pwm@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org
+Subject: [PATCH v6 0/4] Add RZ/V2{M, MA} PWM driver support
+Date: Thu,  8 Feb 2024 23:24:07 +0000
+Message-Id: <20240208232411.316936-1-fabrizio.castro.jz@renesas.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <20240207120733.1746920-2-claudiu.beznea.uj@bp.renesas.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: msexch01.omp.ru (10.188.4.12) To msexch01.omp.ru
- (10.188.4.12)
-X-KSE-ServerInfo: msexch01.omp.ru, 9
-X-KSE-AntiSpam-Interceptor-Info: scan successful
-X-KSE-AntiSpam-Version: 6.1.0, Database issued on: 02/08/2024 20:24:37
-X-KSE-AntiSpam-Status: KAS_STATUS_NOT_DETECTED
-X-KSE-AntiSpam-Method: none
-X-KSE-AntiSpam-Rate: 59
-X-KSE-AntiSpam-Info: Lua profiles 183308 [Feb 08 2024]
-X-KSE-AntiSpam-Info: Version: 6.1.0.3
-X-KSE-AntiSpam-Info: Envelope from: s.shtylyov@omp.ru
-X-KSE-AntiSpam-Info: LuaCore: 7 0.3.7 6d6bf5bd8eea7373134f756a2fd73e9456bb7d1a
-X-KSE-AntiSpam-Info: {rep_avail}
-X-KSE-AntiSpam-Info: {Tracking_from_domain_doesnt_match_to}
-X-KSE-AntiSpam-Info: {relay has no DNS name}
-X-KSE-AntiSpam-Info: {SMTP from is not routable}
-X-KSE-AntiSpam-Info: {Found in DNSBL: 178.176.74.49 in (user)
- b.barracudacentral.org}
-X-KSE-AntiSpam-Info: {Found in DNSBL: 178.176.74.49 in (user)
- dbl.spamhaus.org}
-X-KSE-AntiSpam-Info:
-	omp.ru:7.1.1;127.0.0.199:7.1.2;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1
-X-KSE-AntiSpam-Info: ApMailHostAddress: 178.176.74.49
-X-KSE-AntiSpam-Info: {DNS response errors}
-X-KSE-AntiSpam-Info: Rate: 59
-X-KSE-AntiSpam-Info: Status: not_detected
-X-KSE-AntiSpam-Info: Method: none
-X-KSE-AntiSpam-Info: Auth:dmarc=temperror header.from=omp.ru;spf=temperror
- smtp.mailfrom=omp.ru;dkim=none
-X-KSE-Antiphishing-Info: Clean
-X-KSE-Antiphishing-ScanningType: Heuristic
-X-KSE-Antiphishing-Method: None
-X-KSE-Antiphishing-Bases: 02/08/2024 20:30:00
-X-KSE-Antivirus-Interceptor-Info: scan successful
-X-KSE-Antivirus-Info: Clean, bases: 2/8/2024 4:38:00 PM
-X-KSE-Attachment-Filter-Triggered-Rules: Clean
-X-KSE-Attachment-Filter-Triggered-Filters: Clean
-X-KSE-BulkMessagesFiltering-Scan-Result: InTheLimit
+Content-Transfer-Encoding: 8bit
 
-On 2/7/24 3:07 PM, Claudiu wrote:
+The RZ/V2{M, MA} PWM Timer (PWM) is composed of 16 channels.
+Linux is only allowed access to channels 8 to 14 on RZ/V2M,
+while there is no restriction for RZ/V2MA.
 
-> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-> 
-> The 4th argument of ravb_setup_irq() is used to save the IRQ number that
-> will be further used by the driver code. Not all ravb_setup_irqs() calls
-> need to save the IRQ number. The previous code used to pass a dummy
-> variable as the 4th argument in case the IRQ is not needed for further
-> usage. That is not necessary as the code from ravb_setup_irq() can detect
-> by itself if the IRQ needs to be saved. Thus, get rid of the code that is
-> not needed.
-> 
-> Reported-by: Sergey Shtylyov <s.shtylyov@omp.ru>
-> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-[...]
+The RZ/V2{M, MA} PWM Timer (PWM) supports the following functions:
+ * The PWM has 24-bit counters which operate at PWM_CLK (48 MHz).
+ * The frequency division ratio for internal counter operation is
+   selectable as PWM_CLK divided by 1, 16, 256, or 2048.
+ * The period as well as the duty cycle is adjustable.
+ * The low-level and high-level order of the PWM signals can be
+   inverted.
+ * The duty cycle of the PWM signal is selectable in the range from
+   0 to 100%.
+ * The minimum resolution is 20.83 ns.
+ * Three interrupt sources: Rising and falling edges of the PWM signal
+   and clearing of the counter.
+ * Counter operation and the bus interface are asynchronous and both can
+   operate independently of the magnitude relationship of the respective
+   clock periods.
 
-> diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
-> index 9521cd054274..e235342e0827 100644
-> --- a/drivers/net/ethernet/renesas/ravb_main.c
-> +++ b/drivers/net/ethernet/renesas/ravb_main.c
-> @@ -2611,17 +2611,20 @@ static int ravb_setup_irq(struct ravb_private *priv, const char *irq_name,
->  		if (!dev_name)
->  			return -ENOMEM;
->  
-> -		*irq = platform_get_irq_byname(pdev, irq_name);
-> +		error = platform_get_irq_byname(pdev, irq_name);
->  		flags = 0;
->  	} else {
->  		dev_name = ndev->name;
-> -		*irq = platform_get_irq(pdev, 0);
-> +		error = platform_get_irq(pdev, 0);
->  		flags = IRQF_SHARED;
->  	}
-> -	if (*irq < 0)
-> -		return *irq;
-> +	if (error < 0)
-> +		return error;
->  
-> -	error = devm_request_irq(dev, *irq, handler, flags, dev_name, ndev);
-> +	if (irq)
-> +		*irq = error;
-> +
-> +	error = devm_request_irq(dev, error, handler, flags, dev_name, ndev);
->  	if (error)
->  		netdev_err(ndev, "cannot request IRQ %s\n", dev_name);
->  
+v5->v6:
+ * Updated copyright in driver (2023->2024).
+ * Several improvements to the driver, as suggested by Uwe.
+v4->v5:
+ * rebased to pwm for-next.
+ * Sorted KConfig file
+ * Sorted Make file
+ * Updated copyright header 2022->2023.
+ * Updated limitation section.
+ * Replaced the variable chip->rzv2m_pwm in rzv2m_pwm_wait_delay()
+ * Replaced polarity logic as per HW manual dutycycle = Ton/Ton+Toff, so
+   eventhough native polarity is inverted from period point of view it
+   is correct.
+ * Updated logic for supporting 0% , 100% and remaining duty cycles.
+ * On config() replaced
+ * pm_runtime_resume_and_get()->pm_runtime_get_sync()
+ * Counter is stopped while updating period/polarity to avoid glitches.
+ * Added error check for clk_prepare_enable()
+ * Introduced is_ch_enabled variable to cache channel enable status.
+ * clk_get_rate is called after enabling the clock and
+ * clk_rate_exclusive_get()
+ * Added comment for delay
+ * Replaced 1000000000UL->NSEC_PER_SEC.
+ * Improved error handling in probe().
+v3->v4:
+ * Documented the hardware properties in "Limitations" section
+ * Dropped the macros F2CYCLE_NSEC, U24_MASK and U24_MAX.
+ * Added RZV2M_PWMCYC_PERIOD macro for U24_MAX
+ * Dropped rzv2m_pwm_freq_div variable and started using 1 << (4 * i)
+   for calculating divider as it is power of 16.
+ * Reordered the functions to have rzv2m_pwm_config() directly before
+   rzv2m_pwm_apply().
+ * Improved the logic for calculating period and duty cycle in config()
+ * Merged multiple RZV2M_PWMCTR register writes to a single write in
+ * config()
+ * replaced pwm_is_enabled()->pwm->state.enabled
+ * Avoided assigning bit value as enum pwm_polarity instead used enum
+ * constant.
+ * Fixed various issues in probe error path.
+ * Updated the logic for PWM cycle setting register
+ * A 100% duty cycle is only possible with PWMLOW > PWMCYC. So
+   restricting PWMCYC values < 0xffffff
+ * The native polarity of the hardware is inverted (i.e. it starts with
+ * the
+ * low part). So switched the inversion bit handling.
+v2->v3:
+ * Removed clock patch#1 as it is queued for 6.3 renesas-clk
+ * Added Rb tag from Geert for bindings and dt patches
+ * Added return code for rzv2m_pwm_get_state()
+ * Added comment in rzv2m_pwm_reset_assert_pm_disable()
+v1->v2:
+ * Updated commit description
+ * Replaced pwm8_15_pclk->cperi_grpf
+ * Added reset entry R9A09G011_PWM_GPF_PRESETN
+ * Added Rb tag from Krzysztof for bindings and the keep the Rb tag as
+   the below changes are trivial
+ * Updated the description for APB clock
+ * Added resets required property
+ * Updated the example with resets property
+ * Replaced
+   devm_reset_control_get_optional_shared->devm_reset_control_get_shared
+ * Added resets property in pwm nodes.
 
-   Thanks for addressing my IRC comment! Tho the naming seems awful. :-)
-   I'd suggest to add a local variable (named e.g. irq_num) and use it to
-store the result of platform_get_irq[_byname]().
+Biju Das (4):
+  dt-bindings: pwm: Add RZ/V2M PWM binding
+  pwm: Add support for RZ/V2M PWM driver
+  arm64: dts: renesas: r9a09g011: Add pwm nodes
+  arm64: dts: renesas: rzv2m evk: Enable pwm
 
-[...]
+ .../bindings/pwm/renesas,rzv2m-pwm.yaml       |  90 ++++
+ .../boot/dts/renesas/r9a09g011-v2mevk2.dts    |  70 +++
+ arch/arm64/boot/dts/renesas/r9a09g011.dtsi    |  98 ++++
+ drivers/pwm/Kconfig                           |  11 +
+ drivers/pwm/Makefile                          |   1 +
+ drivers/pwm/pwm-rzv2m.c                       | 469 ++++++++++++++++++
+ 6 files changed, 739 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/pwm/renesas,rzv2m-pwm.yaml
+ create mode 100644 drivers/pwm/pwm-rzv2m.c
 
-MBR, Sergey
+-- 
+2.34.1
+
 
