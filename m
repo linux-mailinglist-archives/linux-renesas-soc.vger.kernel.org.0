@@ -1,114 +1,167 @@
-Return-Path: <linux-renesas-soc+bounces-2556-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-2557-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2765C84FB09
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  9 Feb 2024 18:30:26 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 057AB84FD12
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  9 Feb 2024 20:43:29 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id BB6E2B24952
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  9 Feb 2024 17:30:22 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id B8D8D1F23275
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  9 Feb 2024 19:43:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 79ED27E59F;
-	Fri,  9 Feb 2024 17:30:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="WdVJRaxl"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 527BE84A32;
+	Fri,  9 Feb 2024 19:43:27 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mx01.omp.ru (mx01.omp.ru [90.154.21.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42B2E7BB18
-	for <linux-renesas-soc@vger.kernel.org>; Fri,  9 Feb 2024 17:30:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 051694174A;
+	Fri,  9 Feb 2024 19:43:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.154.21.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707499814; cv=none; b=aGUxkw4WihdViZnRZkAE4oyEXoNU1wr+I2FmF01RNHFXolli0Jt6JumvpDp2K01wCKAdE3yec0RMnu6ONe+nbdQkSSyD2NRx1w+IphFKveRDGo2WEJmMuyvWwDDLI2Js3LnDZ+D3trpW3UBzz6MLtzT5yH/CwXVtZLCZH/xAdd0=
+	t=1707507807; cv=none; b=I45tdj98Zbv2U44A8dMGGKM+71OkH9J1FIbSzrMb+aAH5vSEpDnXz6Y5KfKC3BIzaVnvYAM83HYPOIvfHxPI2oHoffWANjGy1B3xBIX2xM80yXFEfL9plfR5Po1v4LPfK8mvttx71TYs5Vh8K8+tSa6sHN/cgSfZedLo3JrU4W4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707499814; c=relaxed/simple;
-	bh=vFwOGmGfP+oLKLyesAjgqn7JKbXU3kmJU7zTY1MjMjA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ja/cYqsEn0NONcY1St7AklnwLHVRqgAPZZqv2CXkMeKYB3GpXfrCeQ6nCPo6Y8/F42utN/93xHlX1taBH5HcAnP1gVxfG3FjpU5tx2SG9zXTMu9HaYogSQlQZg/42dE2tWK8ZlXWkBsYbRCOy3yQzISxrbW6LwHs5vsi1gsO8Bw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=WdVJRaxl; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=vFwO
-	GmGfP+oLKLyesAjgqn7JKbXU3kmJU7zTY1MjMjA=; b=WdVJRaxlztYjZ5d2tlr2
-	4cIjNvwn8luhERoOdeDHrqYBwiO96LKYDBqTt2+xLo0+rU27QVghxDt2saMd2ppm
-	dlFxmgPl2XbSY5iMjC+uAfMEG0htzt8Zi+Swah5kJELOb9/yT9YYClvJXdKFm16+
-	ijCUKWH8bUEaRbalruBfOE9p3MSh9qIxu8uDemfltzevjZ1eHB6buo5aYr2HDJnW
-	dqAXsbl9kca0Vc6B4vlBU1BD5lq3C3K1j7NETTr0RxzBmP9AoTBGzXbPvyQKjHMe
-	a+ZZDxu02C3YxHFYI9rz77L2pQ4J5/QAgKfi4JLltLmx0gctet8XnNiFhNg8Ta0d
-	LQ==
-Received: (qmail 3183088 invoked from network); 9 Feb 2024 18:30:06 +0100
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 9 Feb 2024 18:30:06 +0100
-X-UD-Smtp-Session: l3s3148p1@jAdkR/YQVMoujnsZ
-Date: Fri, 9 Feb 2024 18:30:05 +0100
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: linux-renesas-soc@vger.kernel.org
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] arm64: dts: renesas: ulcb-kf: add regulators for PCIe ch1
-Message-ID: <ZcZhHWn3QrouRigo@shikoro>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	linux-renesas-soc@vger.kernel.org,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-References: <20240129135840.28988-1-wsa+renesas@sang-engineering.com>
+	s=arc-20240116; t=1707507807; c=relaxed/simple;
+	bh=IqNbKB16b5Fmo2Rw2QQSGSIYN2RBEGdrNWQ+l0bGlfQ=;
+	h=Subject:To:CC:References:From:Message-ID:Date:MIME-Version:
+	 In-Reply-To:Content-Type; b=GRXdacqvLWyhnoztqPkhbG7ADZtrZzc3PN86ddovqtQ0oihKIu/TfwbmgIgzP4T9LMiT5uticGs4AfKTiEKKqJUI5IV/jjMD4UFdiU4AMD9aijgihZyvmbqvmhQk4L4gTN7xHUyWRFJ8OCuegDJt6iS/fA4QU/lE5mj5zTOxU/I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=omp.ru; spf=pass smtp.mailfrom=omp.ru; arc=none smtp.client-ip=90.154.21.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=omp.ru
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=omp.ru
+Received: from [192.168.1.105] (178.176.73.169) by msexch01.omp.ru
+ (10.188.4.12) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.1258.12; Fri, 9 Feb
+ 2024 22:43:16 +0300
+Subject: Re: [PATCH net-next 1/5] net: ravb: Get rid of the temporary variable
+ irq
+To: claudiu beznea <claudiu.beznea@tuxon.dev>, <davem@davemloft.net>,
+	<edumazet@google.com>, <kuba@kernel.org>, <pabeni@redhat.com>
+CC: <netdev@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, Claudiu Beznea
+	<claudiu.beznea.uj@bp.renesas.com>
+References: <20240207120733.1746920-1-claudiu.beznea.uj@bp.renesas.com>
+ <20240207120733.1746920-2-claudiu.beznea.uj@bp.renesas.com>
+ <c284aab3-faf0-969c-7256-5bc72afe7e3e@omp.ru>
+ <13956279-3ab1-4eb8-b361-a0c79135cb56@tuxon.dev>
+From: Sergey Shtylyov <s.shtylyov@omp.ru>
+Organization: Open Mobile Platform
+Message-ID: <38ed2c42-4077-7ee2-5cd0-9d38e217c944@omp.ru>
+Date: Fri, 9 Feb 2024 22:43:15 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="CTWzMMyP9QGxJqqF"
-Content-Disposition: inline
-In-Reply-To: <20240129135840.28988-1-wsa+renesas@sang-engineering.com>
+In-Reply-To: <13956279-3ab1-4eb8-b361-a0c79135cb56@tuxon.dev>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: msexch01.omp.ru (10.188.4.12) To msexch01.omp.ru
+ (10.188.4.12)
+X-KSE-ServerInfo: msexch01.omp.ru, 9
+X-KSE-AntiSpam-Interceptor-Info: scan successful
+X-KSE-AntiSpam-Version: 6.1.0, Database issued on: 02/09/2024 19:07:16
+X-KSE-AntiSpam-Status: KAS_STATUS_NOT_DETECTED
+X-KSE-AntiSpam-Method: none
+X-KSE-AntiSpam-Rate: 0
+X-KSE-AntiSpam-Info: Lua profiles 183341 [Feb 09 2024]
+X-KSE-AntiSpam-Info: Version: 6.1.0.3
+X-KSE-AntiSpam-Info: Envelope from: s.shtylyov@omp.ru
+X-KSE-AntiSpam-Info: LuaCore: 7 0.3.7 6d6bf5bd8eea7373134f756a2fd73e9456bb7d1a
+X-KSE-AntiSpam-Info: {rep_avail}
+X-KSE-AntiSpam-Info: {Tracking_from_domain_doesnt_match_to}
+X-KSE-AntiSpam-Info:
+	127.0.0.199:7.1.2;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;omp.ru:7.1.1
+X-KSE-AntiSpam-Info: ApMailHostAddress: 178.176.73.169
+X-KSE-AntiSpam-Info: Rate: 0
+X-KSE-AntiSpam-Info: Status: not_detected
+X-KSE-AntiSpam-Info: Method: none
+X-KSE-AntiSpam-Info: Auth:dmarc=temperror header.from=omp.ru;spf=temperror
+ smtp.mailfrom=omp.ru;dkim=none
+X-KSE-Antiphishing-Info: Clean
+X-KSE-Antiphishing-ScanningType: Heuristic
+X-KSE-Antiphishing-Method: None
+X-KSE-Antiphishing-Bases: 02/09/2024 19:19:00
+X-KSE-Antivirus-Interceptor-Info: scan successful
+X-KSE-Antivirus-Info: Clean, bases: 2/9/2024 5:01:00 PM
+X-KSE-Attachment-Filter-Triggered-Rules: Clean
+X-KSE-Attachment-Filter-Triggered-Filters: Clean
+X-KSE-BulkMessagesFiltering-Scan-Result: InTheLimit
 
+On 2/9/24 8:48 AM, claudiu beznea wrote:
 
---CTWzMMyP9QGxJqqF
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+[...]
 
-On Mon, Jan 29, 2024 at 02:58:40PM +0100, Wolfram Sang wrote:
-> Without them, no power, so cards do not get recognized.
->=20
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+>>> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+>>>
+>>> The 4th argument of ravb_setup_irq() is used to save the IRQ number that
+>>> will be further used by the driver code. Not all ravb_setup_irqs() calls
+>>> need to save the IRQ number. The previous code used to pass a dummy
+>>> variable as the 4th argument in case the IRQ is not needed for further
+>>> usage. That is not necessary as the code from ravb_setup_irq() can detect
+>>> by itself if the IRQ needs to be saved. Thus, get rid of the code that is
+>>> not needed.
+>>>
+>>> Reported-by: Sergey Shtylyov <s.shtylyov@omp.ru>
+>>> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+>> [...]
+>>
+>>> diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
+>>> index 9521cd054274..e235342e0827 100644
+>>> --- a/drivers/net/ethernet/renesas/ravb_main.c
+>>> +++ b/drivers/net/ethernet/renesas/ravb_main.c
+>>> @@ -2611,17 +2611,20 @@ static int ravb_setup_irq(struct ravb_private *priv, const char *irq_name,
+>>>  		if (!dev_name)
+>>>  			return -ENOMEM;
+>>>  
+>>> -		*irq = platform_get_irq_byname(pdev, irq_name);
+>>> +		error = platform_get_irq_byname(pdev, irq_name);
+>>>  		flags = 0;
+>>>  	} else {
+>>>  		dev_name = ndev->name;
+>>> -		*irq = platform_get_irq(pdev, 0);
+>>> +		error = platform_get_irq(pdev, 0);
+>>>  		flags = IRQF_SHARED;
+>>>  	}
+>>> -	if (*irq < 0)
+>>> -		return *irq;
+>>> +	if (error < 0)
+>>> +		return error;
+>>>  
+>>> -	error = devm_request_irq(dev, *irq, handler, flags, dev_name, ndev);
+>>> +	if (irq)
+>>> +		*irq = error;
+>>> +
+>>> +	error = devm_request_irq(dev, error, handler, flags, dev_name, ndev);
+>>>  	if (error)
+>>>  		netdev_err(ndev, "cannot request IRQ %s\n", dev_name);
+>>>  
+>>
+>>    Thanks for addressing my IRC comment! Tho the naming seems awful. :-)
 
-Can we have this one in 6.9, please?
+	if (error < 0)
+		return error;
+ 
+	if (irq)
+		*irq = error;
 
+	error = devm_request_irq(dev, error, handler, flags, dev_name, ndev);
 
---CTWzMMyP9QGxJqqF
-Content-Type: application/pgp-signature; name="signature.asc"
+   These just don't look right...
 
------BEGIN PGP SIGNATURE-----
+>>    I'd suggest to add a local variable (named e.g, irq_num) and use it to
+> 
+> I tried to avoid that...
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmXGYRkACgkQFA3kzBSg
-KbbGgg//RaN8OTsoqRl+WzXV2jiQ7IvmaKQtwKiaYjn8HzuBle6xFxcebBmke3F3
-BUE2gAfF50gn78kg2WblShQYVB5h/0T0bv/+Kpkq3UsWsbMNOgQnvsOnhq3VodQ0
-hzmr4AbyRN4EmpXThC7/Mn8SL8nPof06wSUFz3gZkVIpn1Soa4fkpdUNyJxDKPZh
-Fz5GTanEomeOEo4PodgjVOa+3kQXK3OCqLKoWvT0s4sIkP1HEc0gOF25bFVe5Eag
-aww1/5CCl4Kw1ncpW5sT0FV14YBvo4kQYI1y+DS4onOqFekFTh2UO5bxOcjrBOhu
-n/R57Bs4tBI2LW4jVhabIrhJDP6l6S5PbnsLe+qo+6BAGX9kwhWTmKS5GhDIva9/
-huv8fHxgcOMSSdV+MMbBByfB+51QScw59/CK1earFIolDDspasCX7R7Y5KFwjDwg
-GexSpR362Snu1DnpXtc4xOBsWzVXqtL9W90agBfy570DvLR4AkXLMS0XXf5u2xkn
-EmuoreBJWGMlUduoZWI6wWLdI3h9sjc6qrDaaH/IYyF6bAtf37cjVuF7lZwugCEp
-k3vCEJAC3/SV6c+6z/4+FpmykDM96ndtH08mHrRLjRm4kV5KjT87RhH9QB+QcY/M
-CV5E0qeaLJEkPwhTEDnG0bOVpioS1EA1pYJnjyWdBiiiHDB5mTU=
-=kCrc
------END PGP SIGNATURE-----
+   Why? :-)
 
---CTWzMMyP9QGxJqqF--
+>> store the result of platform_get_irq[_byname]().
+>>
+>> [...]
+
+MBR, Sergey
 
