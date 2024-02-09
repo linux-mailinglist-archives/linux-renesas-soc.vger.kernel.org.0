@@ -1,169 +1,133 @@
-Return-Path: <linux-renesas-soc+bounces-2561-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-2562-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id DDD0784FE14
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  9 Feb 2024 22:01:17 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 15C4B84FEAB
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  9 Feb 2024 22:22:54 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1A9381C230E2
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  9 Feb 2024 21:01:17 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id BECA81F214BB
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  9 Feb 2024 21:22:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2084F14AAA;
-	Fri,  9 Feb 2024 21:01:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CA5FA25748;
+	Fri,  9 Feb 2024 21:16:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="b8WtF4f5"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mx01.omp.ru (mx01.omp.ru [90.154.21.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12F33538A;
-	Fri,  9 Feb 2024 21:01:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.154.21.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83A0525625
+	for <linux-renesas-soc@vger.kernel.org>; Fri,  9 Feb 2024 21:16:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707512474; cv=none; b=FUZyAtIkxgFg0M5mtzEdHbRFTuZKcwtAT200WX25Z/fdcHVoMtMGaTTE7xNWmE3TAtN9Ubbk/WGBoQxZKnp3qckfcK4MgzORXxLbjbWpVpzv6juogYLAEnkczRKqqCmkI/DVYPd9VvPRjMFRxmD7Rnlj1bsqY1jiHX/6TUdaHLE=
+	t=1707513395; cv=none; b=K7/2yn9zSUYhD5sRqxQiIoUnqod22kcqCGQ768rHP1JNQDQU1Qqih1CxIKUBp40gEn98GCKia+M8WRb7vkI5NpJ9WvGJm/ZYoiq0ht3jxq44S+xM54W6ywgnNWqAu04QN8q5ZVHHjbG4ZiXRvW3XUMKfR2/ZLEwaouqeAaN75So=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707512474; c=relaxed/simple;
-	bh=ZlCWjyEbCdYaq94XTypns1HHxFSL+MANCGm2IE1pLOk=;
-	h=Subject:To:CC:References:From:Message-ID:Date:MIME-Version:
-	 In-Reply-To:Content-Type; b=dam8aA1nWJBt6fzC1ro0dORN6Q+uO/qtiAhqJHYgMg072h039Bwy9TbSWkzx5h/gz/NwxDsGkKx0KaCLZVld8cjxEuvXBeTHVknneod9JBO/XJZXiAFlkiCmAXu7SZ76gIoDy4TqvHiu2GelPIkDFgiCq1xImh9MoWp7/F5fZoU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=omp.ru; spf=pass smtp.mailfrom=omp.ru; arc=none smtp.client-ip=90.154.21.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=omp.ru
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=omp.ru
-Received: from [192.168.1.105] (178.176.73.169) by msexch01.omp.ru
- (10.188.4.12) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.1258.12; Sat, 10 Feb
- 2024 00:00:54 +0300
-Subject: Re: [PATCH net-next v2 5/5] net: ravb: Add runtime PM support
-To: Claudiu <claudiu.beznea@tuxon.dev>, <davem@davemloft.net>,
-	<edumazet@google.com>, <kuba@kernel.org>, <pabeni@redhat.com>
-CC: <netdev@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, Claudiu Beznea
-	<claudiu.beznea.uj@bp.renesas.com>
-References: <20240209170459.4143861-1-claudiu.beznea.uj@bp.renesas.com>
- <20240209170459.4143861-6-claudiu.beznea.uj@bp.renesas.com>
-From: Sergey Shtylyov <s.shtylyov@omp.ru>
-Organization: Open Mobile Platform
-Message-ID: <3808dee0-b623-b870-7d96-94cc5fc12350@omp.ru>
-Date: Sat, 10 Feb 2024 00:00:54 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+	s=arc-20240116; t=1707513395; c=relaxed/simple;
+	bh=9Rqn7dG8jUY45g42br74qgbQcA5VF0xJkzGTWv/b+70=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Cok1eJJKsEWNZc25pONXstOCfqsaC02MchvoSa02P0v94K5eP1aZxcreQehLE6CGKtACSDMvSN4i7AXi24cqW0z6ulUqUrDTv6XE8HBhCBgnc0RWorfnMG/xEBeaj+rLqFXAe2DCMAtS5OVBkq/BdKg7umfHYnOhmFzGcvFI2Zs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=b8WtF4f5; arc=none smtp.client-ip=209.85.208.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
+Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-5605c7b1f32so1877460a12.0
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 09 Feb 2024 13:16:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ragnatech.se; s=google; t=1707513389; x=1708118189; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=8wmYeTCl6g4Puyeq+hHOJXDfECuUyxrrSnQt72/tYE0=;
+        b=b8WtF4f5QNq9Z5bb/tPnz9wmHBGM/DzASv2q7z2M0dIZg+qRQMXhYKqiGy939ttKiI
+         QD3/gaEJ82G3vM+D524w19QkMJ8RZ0cyyk4rCZScs65dd+jtE3flSZYQjOhpOjovv4tq
+         VU9+H2qAy0hk4USeYRQZuzbfPSMpjvcvGjB2iQIJIb5OlgV23h/er9Z4Ic0kwCv5ZZ+7
+         fJuRNtBv+hGrSpaaUlm+U+oEo3+ETS2gJSWqDcDvxQoEXnDr8tflkK0GkH8K57Wu6BRr
+         JdHrefRhQ0UP5ZN/7qxYjBH4oBAtKSHDqKqOesyplVp+d5wafah1osyIuyDlwfkBfDZm
+         f8xQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1707513389; x=1708118189;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=8wmYeTCl6g4Puyeq+hHOJXDfECuUyxrrSnQt72/tYE0=;
+        b=ACv1cKBECVzQKqXWP61izhR1ZRs8RdFWn9cYVl/nutzR43RfUPu7NTY7mczkdNgBJ+
+         NUUm7Kd4WJz3HlOb7r0eX+jLXeOlqqmy0W6RSSnzE2zvmkRscu9E+2uDFNsWW4b4XILi
+         bUN8MCuRzyF23QaAfLb+neCZ502PsWz6g4lpIJ4Qdr30CL4RWwI2EjEFWTiVLsrcXOIw
+         Yf7ECSkj7PnNy4djR7bzB6uvmAMFHeIbuoUD/eLMoEWnqVugP9v7/5KsrWTa+QOoCeRm
+         Eana/Eh8NWFV3iyq2CDzNmWtRJ1GonjBVY94+NHHXqRDIWg1IIrr2e/ebUptb4cjp0no
+         2AUA==
+X-Gm-Message-State: AOJu0YxqNN6vkNW5cHVuK/qK+wlHDagLGaTGTt9hR4G/d4PRJ4m80kfE
+	cuBp2ZHachNIDcHK3ZF247Ym6IMga37uiznXGhKvPNRc2idNW0/Od1GW7XGUFzs=
+X-Google-Smtp-Source: AGHT+IHUWcxtsHrW3Eeqb5w5ol2U9vAxa0u7f2aOE7ikg30kSaIdN/HxnhU3z40HI5iT6jcK/oZqHQ==
+X-Received: by 2002:aa7:cf14:0:b0:561:aa3:fafb with SMTP id a20-20020aa7cf14000000b005610aa3fafbmr85595edy.6.1707513389128;
+        Fri, 09 Feb 2024 13:16:29 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCWfVcY9Lnfb9ZeVVYIVs/4ouIFo69Fbbgu2cCZ+eNeDPpuxy474PeZs8VYOtGFRL7tHV8c4mlgWuI70nE6veueLPYz8LKGmNIWHPXbNrBJbODmXwnNajWRAp8UWOHjTnjOC7yEoQrD8PIznUHMQGfMJmvh16vRWKunRRN1r+J28YY0peAyt+EE/qt9I+k0WxJkogqz4wFTxfwEJBTv3zRU/oKrvKsuw764Xs7x6RisJcE+URzaAv/GNpOcUg2BK+wOL1xhQZESQwNhuey1ax4128+aSwgfiDRFurPo=
+Received: from sleipner.berto.se (p4fcc8c6a.dip0.t-ipconnect.de. [79.204.140.106])
+        by smtp.googlemail.com with ESMTPSA id et13-20020a056402378d00b0055d19c9daf2sm105202edb.15.2024.02.09.13.16.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 09 Feb 2024 13:16:28 -0800 (PST)
+From: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+To: Nobuhiro Iwamatsu <iwamatsu@nigauri.org>,
+	Marek Vasut <marek.vasut+renesas@mailbox.org>,
+	Lukasz Majewski <lukma@denx.de>,
+	Sean Anderson <seanga2@gmail.com>,
+	Tom Rini <trini@konsulko.com>,
+	Hai Pham <hai.pham.ud@renesas.com>,
+	u-boot@lists.denx.de
+Cc: linux-renesas-soc@vger.kernel.org,
+	=?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+Subject: [PATCH] clk: renesas: Fix broken clocks on all Gen2 boards
+Date: Fri,  9 Feb 2024 22:15:35 +0100
+Message-ID: <20240209211535.3313392-1-niklas.soderlund+renesas@ragnatech.se>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <20240209170459.4143861-6-claudiu.beznea.uj@bp.renesas.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: msexch01.omp.ru (10.188.4.12) To msexch01.omp.ru
- (10.188.4.12)
-X-KSE-ServerInfo: msexch01.omp.ru, 9
-X-KSE-AntiSpam-Interceptor-Info: scan successful
-X-KSE-AntiSpam-Version: 6.1.0, Database issued on: 02/09/2024 20:49:20
-X-KSE-AntiSpam-Status: KAS_STATUS_NOT_DETECTED
-X-KSE-AntiSpam-Method: none
-X-KSE-AntiSpam-Rate: 59
-X-KSE-AntiSpam-Info: Lua profiles 183341 [Feb 09 2024]
-X-KSE-AntiSpam-Info: Version: 6.1.0.3
-X-KSE-AntiSpam-Info: Envelope from: s.shtylyov@omp.ru
-X-KSE-AntiSpam-Info: LuaCore: 7 0.3.7 6d6bf5bd8eea7373134f756a2fd73e9456bb7d1a
-X-KSE-AntiSpam-Info: {rep_avail}
-X-KSE-AntiSpam-Info: {Tracking_from_domain_doesnt_match_to}
-X-KSE-AntiSpam-Info: {relay has no DNS name}
-X-KSE-AntiSpam-Info: {SMTP from is not routable}
-X-KSE-AntiSpam-Info: {Found in DNSBL: 178.176.73.169 in (user)
- b.barracudacentral.org}
-X-KSE-AntiSpam-Info: {Found in DNSBL: 178.176.73.169 in (user)
- dbl.spamhaus.org}
-X-KSE-AntiSpam-Info:
-	d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;127.0.0.199:7.1.2;omp.ru:7.1.1
-X-KSE-AntiSpam-Info: ApMailHostAddress: 178.176.73.169
-X-KSE-AntiSpam-Info: {DNS response errors}
-X-KSE-AntiSpam-Info: Rate: 59
-X-KSE-AntiSpam-Info: Status: not_detected
-X-KSE-AntiSpam-Info: Method: none
-X-KSE-AntiSpam-Info: Auth:dmarc=temperror header.from=omp.ru;spf=temperror
- smtp.mailfrom=omp.ru;dkim=none
-X-KSE-Antiphishing-Info: Clean
-X-KSE-Antiphishing-ScanningType: Heuristic
-X-KSE-Antiphishing-Method: None
-X-KSE-Antiphishing-Bases: 02/09/2024 20:54:00
-X-KSE-Antivirus-Interceptor-Info: scan successful
-X-KSE-Antivirus-Info: Clean, bases: 2/9/2024 5:38:00 PM
-X-KSE-Attachment-Filter-Triggered-Rules: Clean
-X-KSE-Attachment-Filter-Triggered-Filters: Clean
-X-KSE-BulkMessagesFiltering-Scan-Result: InTheLimit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On 2/9/24 8:04 PM, Claudiu wrote:
+To prepare support for multiple register layouts pointers to register
+tables where added to struct cpg_mssr_info. These pointers are suppose
+to be filled in at probe time and no intended change in behavior was
+intended.
 
-> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-> 
-> Add runtime PM support for the ravb driver. As the driver is used by
-> different IP variants, with different behaviors, to be able to have the
-> runtime PM support available for all devices, the preparatory commits
-> moved all the resources parsing and allocations in the driver's probe
-> function and kept the settings for ravb_open(). This is due to the fact
-> that on some IP variants-platforms tuples disabling/enabling the clocks
-> will switch the IP to the reset operation mode where registers' content is
+However the new pointers where only filled in by some paths of the
+driver implemented in clk-rcar-gen3.c. The path implemented in
+clk-rcar-gen2.c was not updated leaving the pointers uninitialized
+leading to a crash when trying to probe the clocks.
 
-   This pesky "registers' content" somehow evaded me -- should be "register
-contents" as well...
+Fix this by filling in the pointers in the Gen2 code path with the
+values used before they where moved to struct cpg_mssr_info.
 
-> lost and reconfiguration needs to be done. For this the rabv_open()
-> function enables the clocks, switches the IP to configuration mode, applies
-> all the registers settings and switches the IP to the operational mode. At
-> the end of ravb_open() IP is ready to send/receive data.
-> 
-> In ravb_close() necessary reverts are done (compared with ravb_open()), the
-> IP is switched to reset mode and clocks are disabled.
-> 
-> The ethtool APIs or IOCTLs that might execute while the interface is down
-> are either cached (and applied in ravb_open()) or rejected (as at that time
-> the IP is in reset mode). Keeping the IP in the reset mode also increases
-> the power saved (according to the hardware manual).
-> 
-> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-> Reviewed-by: Sergey Shtylyov <s.shtylyov@omp.ru>
-[...]
+Fixes: d413214fb748 ("clk: renesas: Add register pointers into struct cpg_mssr_info")
+Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+---
+ drivers/clk/renesas/clk-rcar-gen2.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-> diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
-> index f4be08f0198d..5bbfdfeef8a9 100644
-> --- a/drivers/net/ethernet/renesas/ravb_main.c
-> +++ b/drivers/net/ethernet/renesas/ravb_main.c
-> @@ -1939,16 +1939,21 @@ static int ravb_open(struct net_device *ndev)
->  {
->  	struct ravb_private *priv = netdev_priv(ndev);
->  	const struct ravb_hw_info *info = priv->info;
-> +	struct device *dev = &priv->pdev->dev;
->  	int error;
->  
->  	napi_enable(&priv->napi[RAVB_BE]);
->  	if (info->nc_queues)
->  		napi_enable(&priv->napi[RAVB_NC]);
->  
-> +	error = pm_runtime_resume_and_get(dev);
-> +	if (error < 0)
-> +		goto out_napi_off;
+diff --git a/drivers/clk/renesas/clk-rcar-gen2.c b/drivers/clk/renesas/clk-rcar-gen2.c
+index 66ffef96b695..89f2d9667469 100644
+--- a/drivers/clk/renesas/clk-rcar-gen2.c
++++ b/drivers/clk/renesas/clk-rcar-gen2.c
+@@ -298,6 +298,15 @@ int gen2_clk_probe(struct udevice *dev)
+ 	if (!priv->cpg_pll_config->extal_div)
+ 		return -EINVAL;
+ 
++	if (info->reg_layout == CLK_REG_LAYOUT_RCAR_GEN2_AND_GEN3) {
++		priv->info->status_regs = mstpsr;
++		priv->info->control_regs = smstpcr;
++		priv->info->reset_regs = srcr;
++		priv->info->reset_clear_regs = srstclr;
++	} else {
++		return -EINVAL;
++	}
++
+ 	ret = clk_get_by_name(dev, "extal", &priv->clk_extal);
+ 	if (ret < 0)
+ 		return ret;
+-- 
+2.43.0
 
-   Well, s/error/ret/ -- it would fit better here...
-
-[...]
-> @@ -3066,6 +3089,12 @@ static void ravb_remove(struct platform_device *pdev)
->  	struct net_device *ndev = platform_get_drvdata(pdev);
->  	struct ravb_private *priv = netdev_priv(ndev);
->  	const struct ravb_hw_info *info = priv->info;
-> +	struct device *dev = &priv->pdev->dev;
-> +	int error;
-> +
-> +	error = pm_runtime_resume_and_get(dev);
-> +	if (error < 0)
-> +		return;
-
-   Again, s/erorr/ret/ in this case.
-
-[...]
-
-MBR, Sergey
 
