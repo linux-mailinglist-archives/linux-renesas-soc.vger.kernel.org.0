@@ -1,57 +1,88 @@
-Return-Path: <linux-renesas-soc+bounces-2544-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-2548-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4E0884FA5B
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  9 Feb 2024 17:59:16 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0EDC984FA87
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  9 Feb 2024 18:05:28 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 75F6EB2B672
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  9 Feb 2024 16:59:14 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id A1CA21F22D97
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  9 Feb 2024 17:05:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E520F84A26;
-	Fri,  9 Feb 2024 16:55:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AB7937C092;
+	Fri,  9 Feb 2024 17:05:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="HxXB6Jlf"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from cantor.telenet-ops.be (cantor.telenet-ops.be [195.130.132.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6DA58175C
-	for <linux-renesas-soc@vger.kernel.org>; Fri,  9 Feb 2024 16:55:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.132.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C4C07BAFF
+	for <linux-renesas-soc@vger.kernel.org>; Fri,  9 Feb 2024 17:05:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707497734; cv=none; b=fXeQi2AZSqbiCcMCiO5Ky9fRX3qyELy7/7Vdhz1e0LeIqUuB2KMrIIOS5p0tv66mQabLbUbQvTHYrnrqN83W8UMaEHXeyy/Q+QEj7YQRd7RZUIRAZDb+y+e+g1gBCBa6HmJrEVR6NGyJEqPnengh63UCHy1IKYb3udbiznjOXyQ=
+	t=1707498310; cv=none; b=XUJPTgEAPAxRsCwdrz9WvQ3cEEzya0hGsUZ/IPoh96BKQM6QqIZO9DjjT0AjyKsNNJMcaT+gUo18xWbavHs78Qyop71Ebk+41gEksYR9KUEpGnFewNXP/6irLGDys2NBFNCCbU/FLp9I0J9U00dSDR/qcPBxvEguIo3uYY10Aak=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707497734; c=relaxed/simple;
-	bh=x1le34vOMVl/IlIT2r3MCIDdNdMV7yRThEmSiBmvv3k=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=dda/SB3BajGZw9WUJzcVDXPPUTdJlroaNzaePE1KXge3W85KVMdMfqjfUw5hSo5ztP4gf0Yr5OkbEHh4GXEav5/UmTJY5g7muXp+BuRroySyBJlx9sTdmHBz4ZKjzaDCoOd8/OBBnV7lEZf7Tx9R0uE2XTTzGF1u5rq2L1yNcgw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.132.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
-Received: from michel.telenet-ops.be (michel.telenet-ops.be [IPv6:2a02:1800:110:4::f00:18])
-	by cantor.telenet-ops.be (Postfix) with ESMTPS id 4TWg2n4GRlz4wyN1
-	for <linux-renesas-soc@vger.kernel.org>; Fri,  9 Feb 2024 17:55:29 +0100 (CET)
-Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed40:55fd:ff17:c1c8:954d])
-	by michel.telenet-ops.be with bizsmtp
-	id l4vN2B00D4RKXn6064vNE1; Fri, 09 Feb 2024 17:55:22 +0100
-Received: from rox.of.borg ([192.168.97.57])
-	by ramsan.of.borg with esmtp (Exim 4.95)
-	(envelope-from <geert@linux-m68k.org>)
-	id 1rYU9m-0008H1-46;
-	Fri, 09 Feb 2024 17:55:22 +0100
-Received: from geert by rox.of.borg with local (Exim 4.95)
-	(envelope-from <geert@linux-m68k.org>)
-	id 1rYU9q-0061HK-AI;
-	Fri, 09 Feb 2024 17:55:22 +0100
-From: Geert Uytterhoeven <geert+renesas@glider.be>
-To: Linus Walleij <linus.walleij@linaro.org>
-Cc: linux-gpio@vger.kernel.org,
+	s=arc-20240116; t=1707498310; c=relaxed/simple;
+	bh=FzJWFoU7zdZZZkzvlOH3kBhfsl0b/pYObCN5y6EvCbA=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=QrSnlWhVOAEJia3xf/uB/EEcNc82sX5UfCCMN/7Pz+/bd6DAcJJDCuXrtYJcI4DCQNxVJn1yUgbdlgUJzYQbVdTWoZBS4Iy8jygshPYtlElMDYHPJVja0IN48DqoZDJQrrQCpmhG96qtScljOoyoIuWyqtEG/sBmbM65VQxouC4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=HxXB6Jlf; arc=none smtp.client-ip=209.85.128.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-4106cf2e9e2so6933755e9.3
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 09 Feb 2024 09:05:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=tuxon.dev; s=google; t=1707498307; x=1708103107; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=vr7W7Vbk1JHnh/Amjbi1K2t4Yc2oCSHciSTOdbwzBpk=;
+        b=HxXB6JlfDFSU+QoLmW6TEbgOl2IZHGgR7jkuein0gZCS8fIc634JtXSL6W1FUMHfOf
+         oX2aMTZTTwVJgwu9TrBdIkJYBQeJL2bfeTtt7BQ6Z9FTPe8hQ4cdbaXKolcZpfCmNchi
+         W/khXOOcPammAPAJbgZeWeCwEsithBTOHP6zwTAfcQYMi0KgY1QXLWecUw7Iozn1SsVz
+         Ql1ITwAT9fUWKeKwWi3Gq4wKV9U4QjMUHAQmiFOp3gTujj1tuXcJEWTOLglJTk4XV3BD
+         ka6vo3sgvBcugfyTAFjMTyPJgUcuWlQWeoIwFbctDDZgpj2NVpAGxnJV2M4dcbQErg5Y
+         x4Vg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1707498307; x=1708103107;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=vr7W7Vbk1JHnh/Amjbi1K2t4Yc2oCSHciSTOdbwzBpk=;
+        b=f/GySPWFL1dvAVixSc7rwyIpzs3LdrLKhs5Fv7ckGdHJ+v3ZCpA2l/3OHz9YoniY68
+         AfDHbuYrRDTTlntOvb+z3SCD6rN1EmCoPykGh54Up7/sAslrwIK21WPxDOounVaclVsH
+         j7krBVaCW4OwXTUUOmJ6L2UDQ4b9fFckxNbRQcWRXd+j7rZbgVfsOkxDO4YIXT2+n1Ue
+         +8kvB78pCCHS8JYMd/1HJBIyK02Z1/ObrhDhPMVNYf/ckoiOBJ+8VraBcPwEFZDS5UHG
+         vNzGUI7nxUSeYDBXH1BnxoN0fGcePUz82HG4fU37SG80y3cn22IPBi/RS0U7Uu3e6Qjs
+         +jGQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUWqszsVmg7JH65H23c9UYS3mMOtHJWWJrMzgOky/CAhxNmQsFFH3r9RhygIRtrizJxw8BMJFL9ruapOVFVtwIqclt6WtWAmOLT2qZ+cXhXyDs=
+X-Gm-Message-State: AOJu0YxTkRElLiaLI8NYwFOHC9hmzLvtGR/ozSyF4mvYkWjk+4fKD6TO
+	3veQn/v9MrlOfbmqh14al1Sz/c0YB1dzjqCu/NEPOXlyRRGDoiUXFgdtPtzVpqSKQ+ElMj6tbo4
+	h
+X-Google-Smtp-Source: AGHT+IFs7ynCqsfokHQAYan78I5+JGfROe4sGXWOaKqkcfTgS1zKMZXR1Q+gaeGAhVV+J9NdW64tWQ==
+X-Received: by 2002:adf:f3c8:0:b0:33b:2633:b527 with SMTP id g8-20020adff3c8000000b0033b2633b527mr1760721wrp.20.1707498306679;
+        Fri, 09 Feb 2024 09:05:06 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCVd2/rt5Ozv2csLhdMVfneFPmbti00GZZaBnvyagESkdrWMK03Vz/7l9U1RQqMmdPo/2YlxezeIU/+UgqkA/Gi0shkDrDq3FDdK1oJeF3vuhUQa7u188/yufwfftrBb2MnbhCTO8NceCYDWVOuM/ZrqGS5GjiV/CypH7O/egTU2FWnEAL99PgyGMRdvwrhdI7iGu01dHu5mwERSz5W37LvkRYprLRrOvAZl2IBSX/hW/AQcXJSk+fciL5vxEdy92TbhVi/tEgUWwxrsEFIlLd4OOj8cFuqdKjyXnb9zA2WF6Knoc4+9pilc4N1FuDTTkwVeYUmX6Z/GXY4=
+Received: from claudiu-X670E-Pro-RS.. ([82.78.167.20])
+        by smtp.gmail.com with ESMTPSA id j18-20020a056000125200b0033afe816977sm2254998wrx.66.2024.02.09.09.05.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 09 Feb 2024 09:05:06 -0800 (PST)
+From: Claudiu <claudiu.beznea@tuxon.dev>
+X-Google-Original-From: Claudiu <claudiu.beznea.uj@bp.renesas.com>
+To: s.shtylyov@omp.ru,
+	davem@davemloft.net,
+	edumazet@google.com,
+	kuba@kernel.org,
+	pabeni@redhat.com
+Cc: netdev@vger.kernel.org,
 	linux-renesas-soc@vger.kernel.org,
-	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [GIT PULL] pinctrl: renesas: Updates for v6.9
-Date: Fri,  9 Feb 2024 17:55:21 +0100
-Message-Id: <cover.1707497084.git.geert+renesas@glider.be>
-X-Mailer: git-send-email 2.34.1
+	linux-kernel@vger.kernel.org,
+	claudiu.beznea@tuxon.dev,
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+Subject: [PATCH net-next v2 0/5] net: ravb: Add runtime PM support (part 2)
+Date: Fri,  9 Feb 2024 19:04:54 +0200
+Message-Id: <20240209170459.4143861-1-claudiu.beznea.uj@bp.renesas.com>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -60,56 +91,44 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-	Hi Linus,
+From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 
-The following changes since commit 6613476e225e090cc9aad49be7fa504e290dd33d:
+Hi,
 
-  Linux 6.8-rc1 (2024-01-21 14:11:32 -0800)
+Series adds runtime PM support for the ravb driver. This is a continuation
+of [1].
 
-are available in the Git repository at:
+There are 4 more preparation patches (patches 1-4) and patch 5
+adds runtime PM support.
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git tags/renesas-pinctrl-for-v6.9-tag1
+Patches in this series were part of [2].
 
-for you to fetch changes up to fea58424e2523376ece6f734479e63061e17ad7f:
+Change in v2:
+- address review comments
+- in patch 4/5 take into account the latest changes introduced
+  in ravb_set_features_gbeth()
 
-  pinctrl: renesas: pinctrl-rzg2l: Add the missing port pins P19 to P28 (2024-01-31 14:50:44 +0100)
+Changes since [2]:
+- patch 1/5 is new
+- use pm_runtime_get_noresume() and pm_runtime_active() in patches
+  3/5, 4/5
+- fixed higlighted typos in patch 4/5
 
-----------------------------------------------------------------
-pinctrl: renesas: Updates for v6.9
+[1] https://lore.kernel.org/all/20240202084136.3426492-1-claudiu.beznea.uj@bp.renesas.com/
+[2] https://lore.kernel.org/all/20240105082339.1468817-1-claudiu.beznea.uj@bp.renesas.com/
 
-  - Add pin groups for SCIF_CLK2 on R-Car V4H,
-  - Add support for port pins P19 to P28 on RZ/Five,
-  - Miscellaneous fixes and improvements.
+Claudiu Beznea (5):
+  net: ravb: Get rid of the temporary variable irq
+  net: ravb: Keep the reverse order of operations in ravb_close()
+  net: ravb: Return cached statistics if the interface is down
+  net: ravb: Do not apply RX checksum settings to hardware if the
+    interface is down
+  net: ravb: Add runtime PM support
 
-Thanks for pulling!
+ drivers/net/ethernet/renesas/ravb_main.c | 131 ++++++++++++++++++-----
+ 1 file changed, 105 insertions(+), 26 deletions(-)
 
-----------------------------------------------------------------
-Claudiu Beznea (1):
-      pinctrl: renesas: rzg2l: Fix locking in rzg2l_dt_subnode_to_map()
+-- 
+2.39.2
 
-Geert Uytterhoeven (2):
-      pinctrl: renesas: r8a779g0: Add missing SCIF_CLK2 pin group/function
-      pinctrl: renesas: checker: Limit cfg reg enum checks to provided IDs
-
-Lad Prabhakar (3):
-      pinctrl: renesas: rzg2l: Improve code for readability
-      pinctrl: renesas: rzg2l: Include pinmap in RZG2L_GPIO_PORT_PACK() macro
-      pinctrl: renesas: pinctrl-rzg2l: Add the missing port pins P19 to P28
-
- arch/riscv/boot/dts/renesas/r9a07g043f.dtsi |   4 +
- drivers/pinctrl/renesas/core.c              |   4 +-
- drivers/pinctrl/renesas/pfc-r8a779g0.c      |  14 ++
- drivers/pinctrl/renesas/pinctrl-rzg2l.c     | 307 +++++++++++++++++++++++-----
- 4 files changed, 276 insertions(+), 53 deletions(-)
-
-Gr{oetje,eeting}s,
-
-						Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-							    -- Linus Torvalds
 
