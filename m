@@ -1,48 +1,45 @@
-Return-Path: <linux-renesas-soc+bounces-2546-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-2542-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2AC5984FA7E
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  9 Feb 2024 18:04:06 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id D9E7B84FA52
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  9 Feb 2024 17:58:27 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E31C4283836
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  9 Feb 2024 17:04:04 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 757BD1F244D4
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  9 Feb 2024 16:58:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 43D9C69971;
-	Fri,  9 Feb 2024 17:04:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D4FEE7BB1A;
+	Fri,  9 Feb 2024 16:55:11 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from riemann.telenet-ops.be (riemann.telenet-ops.be [195.130.137.80])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from andre.telenet-ops.be (andre.telenet-ops.be [195.130.132.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1FEA7B3D2
-	for <linux-renesas-soc@vger.kernel.org>; Fri,  9 Feb 2024 17:04:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.137.80
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3E047BB16
+	for <linux-renesas-soc@vger.kernel.org>; Fri,  9 Feb 2024 16:55:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.132.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707498243; cv=none; b=H/kSKs5w7VPvi29HmEHww50WAaDAW+wFwR2hjeSXz6Q1tFeNPGGUhb6yl7Vf/N3QVdGcr2eNsfSDmZD9yHmCHESyGiTLAbrei/kO25KuQW6QVY3imVjJv66bY+dOZgwnVG6VCX34p1sX9RZlk+modKDnydHT+2IIevQ6MaMt7zo=
+	t=1707497711; cv=none; b=DszUDUgpfBjwyzAF79PVGCY+JBYkGMd1Hfutg7WYT2aa5gbAcv8SSdnEomsznzUt+pkO2DEMbbYIpgiaANT5T8MP6NEbH9b9db8WrJmFDPBjOPpgKvaV9E0s2NCSxKW3/K1mOPh1O72N6DmzrMy9sk5IyMlCOcrlCNjJo7Pfwzk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707498243; c=relaxed/simple;
-	bh=M2CEMVXIDMXDGaaHKPKMxtYy9MzDYyn+zh8GcMJO0WU=;
+	s=arc-20240116; t=1707497711; c=relaxed/simple;
+	bh=y3fUgnazbm+yxFs7N4sxiwTlLq/6Dujk5hkVmHJcXLE=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=WHJjndu/UeA9oc/Z9/1omoJRva1dS5nxC3pwk8S8DrmOE074NoJcl5dQUep45SpmgMpqbWz58uSf8YSpX8hooq20Y5wz3i8x2lvVDKqKLF2+DLadE77d1dAUq1+RtkhA3g1E5U1DJDMc4G75A4WXreZna+k0cXmqNlTO3ronV+Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.137.80
+	 MIME-Version; b=gOchz7eDw193PpuqPrOm7xQR14Wj4VdT8QjghWWtMdQ7GkTjcUJKBOFZfDooK4bbsgnjp7mgw3mAabcrjIICjmUZHjAfTdUfdHwnRo1GnXgrRtVb8jMSiIFbVmltDuG17OzUOf/SuMHA363Qg0ApSvUVSZ1PA94AusuYPBVDm/w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.132.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
-Received: from albert.telenet-ops.be (albert.telenet-ops.be [IPv6:2a02:1800:110:4::f00:1a])
-	by riemann.telenet-ops.be (Postfix) with ESMTPS id 4TWg2M2lhGz4wwdC
-	for <linux-renesas-soc@vger.kernel.org>; Fri,  9 Feb 2024 17:55:07 +0100 (CET)
 Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed40:55fd:ff17:c1c8:954d])
-	by albert.telenet-ops.be with bizsmtp
-	id l4uy2B0064RKXn6064uy1E; Fri, 09 Feb 2024 17:55:00 +0100
+	by andre.telenet-ops.be with bizsmtp
+	id l4uy2B00J4RKXn6014uyDc; Fri, 09 Feb 2024 17:55:00 +0100
 Received: from rox.of.borg ([192.168.97.57])
 	by ramsan.of.borg with esmtp (Exim 4.95)
 	(envelope-from <geert@linux-m68k.org>)
-	id 1rYU9O-0008GX-7b;
+	id 1rYU9O-0008GZ-81;
 	Fri, 09 Feb 2024 17:54:58 +0100
 Received: from geert by rox.of.borg with local (Exim 4.95)
 	(envelope-from <geert@linux-m68k.org>)
-	id 1rYU9S-0061GJ-En;
+	id 1rYU9S-0061GM-FP;
 	Fri, 09 Feb 2024 17:54:58 +0100
 From: Geert Uytterhoeven <geert+renesas@glider.be>
 To: arm-soc <arm@kernel.org>,
@@ -51,9 +48,9 @@ Cc: Magnus Damm <magnus.damm@gmail.com>,
 	linux-arm-kernel@lists.infradead.org,
 	linux-renesas-soc@vger.kernel.org,
 	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [GIT PULL 1/4] Renesas ARM defconfig updates for v6.9
-Date: Fri,  9 Feb 2024 17:54:50 +0100
-Message-Id: <cover.1707487828.git.geert+renesas@glider.be>
+Subject: [GIT PULL 2/4] Renesas driver updates for v6.9
+Date: Fri,  9 Feb 2024 17:54:51 +0100
+Message-Id: <cover.1707487830.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1707487826.git.geert+renesas@glider.be>
 References: <cover.1707487826.git.geert+renesas@glider.be>
@@ -71,30 +68,27 @@ The following changes since commit 6613476e225e090cc9aad49be7fa504e290dd33d:
 
 are available in the Git repository at:
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git tags/renesas-arm-defconfig-for-v6.9-tag1
+  git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git tags/renesas-drivers-for-v6.9-tag1
 
-for you to fetch changes up to 93189f33fcb4e678c9494cddeff96b123ef5674f:
+for you to fetch changes up to 14656ed72fa5d0a2f98be0ffd56274db30171f49:
 
-  arm64: defconfig: Enable R8A779H0 SoC (2024-01-31 15:01:24 +0100)
-
-----------------------------------------------------------------
-Renesas ARM defconfig updates for v6.9
-
-  - Disable obsolete board staging support in the Renesas ARM and ARM V7
-    multi-platform defconfigs,
-  - Enable support for the Renesas R-Car V4M (R8A779H0) SoC in the ARM64
-    defconfig.
+  soc: renesas: rcar-rst: Add support for R-Car V4M (2024-01-31 15:08:41 +0100)
 
 ----------------------------------------------------------------
-Geert Uytterhoeven (2):
-      ARM: shmobile: defconfig: Disable staging
-      ARM: multi_v7_defconfig: Disable board staging
+Renesas driver updates for v6.9
 
-Linh Phung (1):
-      arm64: defconfig: Enable R8A779H0 SoC
+  - Initial support for the Renesas R-Car V4M (R8A779H0) SoC.
 
- arch/arm/configs/multi_v7_defconfig | 1 -
- arch/arm/configs/shmobile_defconfig | 2 --
- arch/arm64/configs/defconfig        | 1 +
- 3 files changed, 1 insertion(+), 3 deletions(-)
+----------------------------------------------------------------
+Duy Nguyen (2):
+      soc: renesas: Identify R-Car V4M
+      soc: renesas: rcar-rst: Add support for R-Car V4M
+
+Geert Uytterhoeven (1):
+      soc: renesas: Introduce ARCH_RCAR_GEN4
+
+ drivers/soc/renesas/Kconfig       | 17 ++++++++++++++---
+ drivers/soc/renesas/rcar-rst.c    |  1 +
+ drivers/soc/renesas/renesas-soc.c |  8 ++++++++
+ 3 files changed, 23 insertions(+), 3 deletions(-)
 
