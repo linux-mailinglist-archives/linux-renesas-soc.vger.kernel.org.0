@@ -1,514 +1,348 @@
-Return-Path: <linux-renesas-soc+bounces-2564-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-2565-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id E29B28501BE
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 10 Feb 2024 02:27:15 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F66B850479
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 10 Feb 2024 14:04:44 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 528B61F2A1B7
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 10 Feb 2024 01:27:15 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id EA0E42847AD
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 10 Feb 2024 13:04:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 51730210D;
-	Sat, 10 Feb 2024 01:27:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 91E25481A4;
+	Sat, 10 Feb 2024 13:04:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bZQfA8Mw"
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="ybFERKQR"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E94820F1;
-	Sat, 10 Feb 2024 01:27:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2A0B47F72
+	for <linux-renesas-soc@vger.kernel.org>; Sat, 10 Feb 2024 13:04:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707528429; cv=none; b=fBXUde75lupn+jwCPi/57XYQOJtek5e/bINBfiKCqlBL+C3HUU/PuNpyzkAnr4SVYHS2RDRisjnNSck84qxbc9KoF7mBC908gKkmzK6pDZLQIhgFInD82zuYIYkWzWkx2fFsn+pOYePHPSsisByzqfn9UbgNmSryTtVIUnG/Qyg=
+	t=1707570280; cv=none; b=dnuud+KCjNbdudwHT03cMurp1S0idoKLSjcztRN7pxEZgbrmSRC5mK8qk6pKOI2/MYz1GbLoZXMyOsBbrhgAGPXtWfpMfNm4Q5H8VEsQ6zb1p4R5W1vbnupFG+EMu/e8FzOVCnptMKYB+A1Ad8P9Poi9a5thEKf322KY0t0vAAw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707528429; c=relaxed/simple;
-	bh=VTM6eclRc7ZgTOkzvIL/VKlkjU5B1sl7PeINzi+tXiM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=S5xWRQdiuYl/rQKFu4rs0nDZ70OYKmbAj5CB1hWF0H1SdRo1JeBZ1fKSPTrY1Vd4hinvmoAaCB5fMUqtipi/9GtwwIVF10nDxZWkgV95KfyTKA+pFWDxuP9B67B/hV9lKwTQogPHWSFUi4DlbIv4u0GIYd04g4GS5TQOg9vt25Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bZQfA8Mw; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D986AC433F1;
-	Sat, 10 Feb 2024 01:27:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1707528428;
-	bh=VTM6eclRc7ZgTOkzvIL/VKlkjU5B1sl7PeINzi+tXiM=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=bZQfA8MwTOrq7YvNFK/mtxBvlmycVXhy8abocJ1VYVarBkg2kszPszSyHz3lSqz+D
-	 2d/F6McKZAGOaFXGiWPRzxr3+uLFU6zI3vvZSYu5joQaIlaOnBwFar/1E/yp/CVuIA
-	 aJ/SwhSTDC351lwiI13OhyKhDdkCnao6bZGpXYlt2pApiaTm1p/88vAFeUM+8Y2iFq
-	 PDQDrVkL/TLVukoj2SCHkUEf8codK90YiWj0rE9mlr2XDeAmBGVdHhmXUTJAWgPtg4
-	 LqXjyZrK5CEXG+9gKrzdpVqgDlNPmngkO6ykALNmaSVdrOHHtvJS0Y7Izq2SYCu2NS
-	 M7RrWRzd7iR4Q==
-From: Niklas Cassel <cassel@kernel.org>
-To: Richard Zhu <hongxing.zhu@nxp.com>,
-	Lucas Stach <l.stach@pengutronix.de>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	=?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kw@linux.com>,
-	Rob Herring <robh@kernel.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	NXP Linux Team <linux-imx@nxp.com>,
-	Minghuan Lian <minghuan.Lian@nxp.com>,
-	Mingkai Hu <mingkai.hu@nxp.com>,
-	Roy Zang <roy.zang@nxp.com>,
-	Srikanth Thokala <srikanth.thokala@intel.com>,
-	Marek Vasut <marek.vasut+renesas@gmail.com>,
-	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Jon Mason <jdmason@kudzu.us>,
-	Dave Jiang <dave.jiang@intel.com>,
-	Allen Hubbe <allenbh@gmail.com>,
-	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-	Kishon Vijay Abraham I <kishon@kernel.org>
-Cc: Damien Le Moal <dlemoal@kernel.org>,
-	Frank Li <Frank.Li@nxp.com>,
-	Niklas Cassel <cassel@kernel.org>,
-	linux-pci@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linuxppc-dev@lists.ozlabs.org,
-	linux-renesas-soc@vger.kernel.org,
-	linux-tegra@vger.kernel.org,
-	ntb@lists.linux.dev
-Subject: [PATCH 1/2] PCI: endpoint: Clean up hardware description for BARs
-Date: Sat, 10 Feb 2024 02:26:25 +0100
-Message-ID: <20240210012634.600301-2-cassel@kernel.org>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240210012634.600301-1-cassel@kernel.org>
-References: <20240210012634.600301-1-cassel@kernel.org>
+	s=arc-20240116; t=1707570280; c=relaxed/simple;
+	bh=w4i4fIJiPogpYi5h8NbjPxKLDg6R9DM8+doBkL13a7w=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=q0uteN9srtg7P7Gqa9WnbXAwk6T6OGNcMkc81WwKO9dvIGplrJxkeW7+iQneXRWZiLmmVBULZbHQ74WIaHgnm32jo8k6TObD9u5DpzAt0oOdMKdkdckXaU/HWwzxKNzLHYDBnxDQNq2eejQG/8eH8vmTVRhpTPb2jJd6so1rwRs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=ybFERKQR; arc=none smtp.client-ip=209.85.167.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
+Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-511490772f6so2249019e87.2
+        for <linux-renesas-soc@vger.kernel.org>; Sat, 10 Feb 2024 05:04:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ragnatech.se; s=google; t=1707570274; x=1708175074; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=hOkDnjZj6UisfqwAiwqQ0AC9LS0mc/y5TNT2hjX6doc=;
+        b=ybFERKQRllz5L+1/iaUZC31ODjfeB+09g5BZigEQWsV6lFgV3h9KTpjNDBbEsfnNWX
+         O5vpx/JT44VQfM7FRlOCAYBZLdx2uUAl5aO9Dg+24aP4QMOwiHyFXw5JosKTiQxm2aJE
+         Njg5E248+HWIVFQHpVPBSqeuul7MWOKE17w81X6NTEMJqG+sOFDJ6VduJXeJFExD8DSU
+         oiE06MZe9Y0kcaS3bUtf401nk5MazE/fTahX6jwxrPZQHG1iY/kwFIm0yeaZl6aQi+MG
+         ljv7IuLoeJ0jvtJg1GRZTUmnbuAbeMv42U4B5lS89Lf1+X9uChzRUPmVS7CWZQe4NPXx
+         iVIg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1707570274; x=1708175074;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=hOkDnjZj6UisfqwAiwqQ0AC9LS0mc/y5TNT2hjX6doc=;
+        b=HM735SxaRb1GtesUgwfjzFPBlBDa+z0nZPwp3ftqq7Eck79bMq6/n1r6GKjYNpuFc6
+         BRiVwlUzVyqWkyX98a2oV5iVssSsdeFkGQiqKkXbChXsHjSFbLKLQ4Q9MBkFXk8sPI9f
+         /gfIG5mKxei3BFjuuSYDsyw6WJi8cHEDkufkgOzzrOVwF43f/yEBqYl+C4qk5O0DXU1h
+         ZZv2tq8OtIhle0xJcyKL3wMNd5XySyUxOu0ziGp3vHefeGodA9yXlXRiFDnERNSAHuab
+         5drO2SFnoMkpe6IYzXlG0MoQHOaO+RvLmWg59D8V597nTeBKo0hdjlw9Gy7NVaWYnvqI
+         JXVA==
+X-Gm-Message-State: AOJu0Ywf+M3wRj3oWWnsbNwVDSVKIZmZ8FBOeCvrl3ehuLjagNHGLGvH
+	zzRcZKRnLsICbjNr253s1ZhslfE8wkHfU7rv22QPkL6cTJXwjwiSGfRpMYpHAioqu/TYDS/0cwc
+	W3kc=
+X-Google-Smtp-Source: AGHT+IGGvxGMlIooDqLBbD7Vg0f8NrhOtGm48wt2qhHgC7AeN5RS49eo/QoC4XGyRyOy0nngnMsVlQ==
+X-Received: by 2002:ac2:47e3:0:b0:511:42b5:5616 with SMTP id b3-20020ac247e3000000b0051142b55616mr1131123lfp.17.1707570274400;
+        Sat, 10 Feb 2024 05:04:34 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCXom/5JquhXV3GR8HEvqoPlWNX3jVOzhhaLbfPKln1pZHm7SxC/ht4NuoSgyc9/pKi2vWrPQWaGt26TDRS4sh2baguGD/MuXK91QQ==
+Received: from localhost (h-46-59-36-113.A463.priv.bahnhof.se. [46.59.36.113])
+        by smtp.gmail.com with ESMTPSA id m11-20020a05651202eb00b005113cdc5f64sm231048lfq.201.2024.02.10.05.04.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 10 Feb 2024 05:04:33 -0800 (PST)
+Date: Sat, 10 Feb 2024 14:04:32 +0100
+From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org
+Subject: Re: [PATCH] arm64: dts: renesas: eagle: Add capture overlay for
+ expansion board
+Message-ID: <20240210130432.GD1177919@ragnatech.se>
+References: <20240123145354.1571800-1-niklas.soderlund+renesas@ragnatech.se>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240123145354.1571800-1-niklas.soderlund+renesas@ragnatech.se>
 
-The hardware description for BARs is scattered in many different variables
-in pci_epc_features. Some of these things are mutually exclusive, so it
-can create confusion over which variable that has precedence over another.
+Hi Geert,
 
-Improve the situation by creating a struct pci_epc_bar_desc, and a new
-enum pci_epc_bar_type, and convert the endpoint controller drivers to use
-this more well defined format.
+A gentle ping on this patch.
 
-Signed-off-by: Niklas Cassel <cassel@kernel.org>
----
- drivers/pci/controller/dwc/pci-imx6.c         |  3 +-
- drivers/pci/controller/dwc/pci-keystone.c     | 12 +++----
- .../pci/controller/dwc/pci-layerscape-ep.c    |  5 ++-
- drivers/pci/controller/dwc/pcie-keembay.c     |  8 +++--
- drivers/pci/controller/dwc/pcie-rcar-gen4.c   |  4 ++-
- drivers/pci/controller/dwc/pcie-tegra194.c    | 10 ++++--
- drivers/pci/controller/dwc/pcie-uniphier-ep.c | 15 ++++++--
- drivers/pci/controller/pcie-rcar-ep.c         | 14 +++++---
- drivers/pci/endpoint/functions/pci-epf-ntb.c  |  4 +--
- drivers/pci/endpoint/functions/pci-epf-test.c |  8 ++---
- drivers/pci/endpoint/functions/pci-epf-vntb.c |  2 +-
- drivers/pci/endpoint/pci-epc-core.c           | 32 +++++++++--------
- drivers/pci/endpoint/pci-epf-core.c           | 15 ++++----
- include/linux/pci-epc.h                       | 34 +++++++++++++++----
- 14 files changed, 108 insertions(+), 58 deletions(-)
+On 2024-01-23 15:53:54 +0100, Niklas Söderlund wrote:
+> The Eagle board supports an optional expansion board. The expansion
+> board adds support for HDMI OUT, HDMI capture from two different sources
+> and eMMC.
+> 
+> This change only adds support for the two HDMI capture sources.
+> 
+> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> ---
+>  arch/arm64/boot/dts/renesas/Makefile          |   2 +
+>  .../dts/renesas/r8a77970-eagle-expansion.dtso | 214 ++++++++++++++++++
+>  2 files changed, 216 insertions(+)
+>  create mode 100644 arch/arm64/boot/dts/renesas/r8a77970-eagle-expansion.dtso
+> 
+> diff --git a/arch/arm64/boot/dts/renesas/Makefile b/arch/arm64/boot/dts/renesas/Makefile
+> index 8ea68d582710..38fadc161709 100644
+> --- a/arch/arm64/boot/dts/renesas/Makefile
+> +++ b/arch/arm64/boot/dts/renesas/Makefile
+> @@ -62,6 +62,8 @@ dtb-$(CONFIG_ARCH_R8A77965) += r8a77965-ulcb.dtb
+>  dtb-$(CONFIG_ARCH_R8A77965) += r8a77965-ulcb-kf.dtb
+>  
+>  dtb-$(CONFIG_ARCH_R8A77970) += r8a77970-eagle.dtb
+> +r8a77970-eagle-expansion-dtbs := r8a77970-eagle.dtb r8a77970-eagle-expansion.dtbo
+> +dtb-$(CONFIG_ARCH_R8A77970) += r8a77970-eagle-expansion.dtb
+>  dtb-$(CONFIG_ARCH_R8A77970) += r8a77970-v3msk.dtb
+>  
+>  dtb-$(CONFIG_ARCH_R8A77980) += r8a77980-condor.dtb
+> diff --git a/arch/arm64/boot/dts/renesas/r8a77970-eagle-expansion.dtso b/arch/arm64/boot/dts/renesas/r8a77970-eagle-expansion.dtso
+> new file mode 100644
+> index 000000000000..bd32f263e740
+> --- /dev/null
+> +++ b/arch/arm64/boot/dts/renesas/r8a77970-eagle-expansion.dtso
+> @@ -0,0 +1,214 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Device Tree Source for the Eagle V3M expansion board.
+> + *
+> + * Copyright (C) 2024 Niklas Söderlund <niklas.soderlund@ragnatech.se>
+> + */
+> +
+> +#include <dt-bindings/gpio/gpio.h>
+> +#include <dt-bindings/interrupt-controller/irq.h>
+> +
+> +/dts-v1/;
+> +/plugin/;
+> +
+> +/ {
+> +	/* CN4 */
+> +	/* Eagle: SW18 set to OFF */
+> +	cvbs-in-cn4 {
+> +		compatible = "composite-video-connector";
+> +		label = "CVBS IN CN4";
+> +
+> +		port {
+> +			cvbs_con: endpoint {
+> +				remote-endpoint = <&adv7482_ain7>;
+> +			};
+> +		};
+> +	};
+> +
+> +	/* CN3 */
+> +	/* Eagle: SW18 set to OFF */
+> +	hdmi-in-cn3 {
+> +		compatible = "hdmi-connector";
+> +		label = "HDMI IN CN3";
+> +		type = "a";
+> +
+> +		port {
+> +			hdmi_in_con: endpoint {
+> +				remote-endpoint = <&adv7482_hdmi>;
+> +			};
+> +		};
+> +	};
+> +
+> +	/* CN2 */
+> +	/* Eagle: SW35 set 5, 6 and 8 to OFF */
+> +	hdmi-in-cn2 {
+> +		compatible = "hdmi-connector";
+> +		label = "HDMI IN CN2";
+> +		type = "a";
+> +
+> +		port {
+> +			hdmi_in_con2: endpoint {
+> +				remote-endpoint = <&adv7612_in>;
+> +			};
+> +		};
+> +	};
+> +};
+> +
+> +/* Disconnect MAX9286 GMSL i2c. */
+> +&i2c3 {
+> +	status = "disabled";
+> +};
+> +
+> +/* Connect expansion board i2c. */
+> +&i2c0 {
+> +	#address-cells = <1>;
+> +	#size-cells = <0>;
+> +
+> +	io_expander_27: gpio@27 {
+> +		compatible = "onnn,pca9654";
+> +		reg = <0x27>;
+> +		gpio-controller;
+> +		#gpio-cells = <2>;
+> +
+> +		vin0_adv7612_en {
+> +                       gpio-hog;
+> +                       gpios = <0x3 0x0>;
+> +                       output-low;
+> +                       line-name = "VIN0_ADV7612_ENn";
+> +               };
+> +	};
+> +
+> +	dmi-decoder@4c {
+> +		compatible = "adi,adv7612";
+> +		reg = <0x4c>, <0x50>, <0x52>, <0x54>, <0x56>, <0x58>;
+> +		reg-names = "main", "afe", "rep", "edid", "hdmi", "cp";
+> +		interrupt-parent = <&gpio3>;
+> +		interrupts = <2 IRQ_TYPE_LEVEL_LOW>;
+> +		default-input = <0>;
+> +
+> +		ports {
+> +			#address-cells = <1>;
+> +			#size-cells = <0>;
+> +
+> +			port@0 {
+> +				reg = <0>;
+> +
+> +				adv7612_in: endpoint {
+> +					remote-endpoint = <&hdmi_in_con2>;
+> +				};
+> +			};
+> +
+> +			port@2 {
+> +				reg = <2>;
+> +
+> +				adv7612_out: endpoint {
+> +					remote-endpoint = <&vin0_in>;
+> +				};
+> +			};
+> +		};
+> +	};
+> +
+> +	adv7482_70: video-receiver@70 {
+> +		compatible = "adi,adv7482";
+> +		reg = <0x70 0x71 0x72 0x73 0x74 0x75
+> +		       0x60 0x61 0x62 0x63 0x64 0x65>;
+> +		reg-names = "main", "dpll", "cp", "hdmi", "edid", "repeater",
+> +			    "infoframe", "cbus", "cec", "sdp", "txa", "txb" ;
+> +		interrupt-parent = <&gpio3>;
+> +		interrupts = <03 IRQ_TYPE_LEVEL_LOW>, <04 IRQ_TYPE_LEVEL_LOW>;
+> +		interrupt-names = "intrq1", "intrq2";
+> +
+> +		ports {
+> +			#address-cells = <1>;
+> +			#size-cells = <0>;
+> +
+> +			port@7 {
+> +				reg = <7>;
+> +
+> +				adv7482_ain7: endpoint {
+> +					remote-endpoint = <&cvbs_con>;
+> +				};
+> +			};
+> +
+> +			port@8 {
+> +				reg = <8>;
+> +
+> +				adv7482_hdmi: endpoint {
+> +					remote-endpoint = <&hdmi_in_con>;
+> +				};
+> +			};
+> +
+> +			port@a {
+> +				reg = <10>;
+> +
+> +				adv7482_txa: endpoint {
+> +					clock-lanes = <0>;
+> +					data-lanes = <1 2 3 4>;
+> +					remote-endpoint = <&csi40_in>;
+> +				};
+> +			};
+> +		};
+> +	};
+> +
+> +};
+> +
+> +&csi40 {
+> +	status = "okay";
+> +
+> +	ports {
+> +		#address-cells = <1>;
+> +		#size-cells = <0>;
+> +
+> +		port@0 {
+> +			reg = <0>;
+> +
+> +			csi40_in: endpoint {
+> +				clock-lanes = <0>;
+> +				data-lanes = <1 2 3 4>;
+> +				remote-endpoint = <&adv7482_txa>;
+> +			};
+> +		};
+> +	};
+> +};
+> +
+> +&pfc {
+> +	vin0_pins_parallel: vin0 {
+> +		groups = "vin0_data12", "vin0_sync", "vin0_clk", "vin0_clkenb";
+> +		function = "vin0";
+> +	};
+> +};
+> +
+> +&vin0 {
+> +	status = "okay";
+> +
+> +	pinctrl-0 = <&vin0_pins_parallel>;
+> +	pinctrl-names = "default";
+> +
+> +	ports {
+> +		#address-cells = <1>;
+> +		#size-cells = <0>;
+> +
+> +		port@0 {
+> +			reg = <0>;
+> +
+> +			vin0_in: endpoint {
+> +				pclk-sample = <0>;
+> +				hsync-active = <0>;
+> +				vsync-active = <0>;
+> +				remote-endpoint = <&adv7612_out>;
+> +			};
+> +		};
+> +	};
+> +};
+> +
+> +&vin1 {
+> +	status = "okay";
+> +};
+> +
+> +&vin2 {
+> +	status = "okay";
+> +};
+> +
+> +&vin3 {
+> +	status = "okay";
+> +};
+> -- 
+> 2.43.0
+> 
 
-diff --git a/drivers/pci/controller/dwc/pci-imx6.c b/drivers/pci/controller/dwc/pci-imx6.c
-index dc2c036ab28c..47a9a96484ed 100644
---- a/drivers/pci/controller/dwc/pci-imx6.c
-+++ b/drivers/pci/controller/dwc/pci-imx6.c
-@@ -1081,7 +1081,8 @@ static const struct pci_epc_features imx8m_pcie_epc_features = {
- 	.linkup_notifier = false,
- 	.msi_capable = true,
- 	.msix_capable = false,
--	.reserved_bar = 1 << BAR_1 | 1 << BAR_3,
-+	.bar[BAR_1] = { .type = BAR_RESERVED, },
-+	.bar[BAR_3] = { .type = BAR_RESERVED, },
- 	.align = SZ_64K,
- };
- 
-diff --git a/drivers/pci/controller/dwc/pci-keystone.c b/drivers/pci/controller/dwc/pci-keystone.c
-index c0c62533a3f1..b2b93b4fa82d 100644
---- a/drivers/pci/controller/dwc/pci-keystone.c
-+++ b/drivers/pci/controller/dwc/pci-keystone.c
-@@ -924,12 +924,12 @@ static const struct pci_epc_features ks_pcie_am654_epc_features = {
- 	.linkup_notifier = false,
- 	.msi_capable = true,
- 	.msix_capable = true,
--	.reserved_bar = 1 << BAR_0 | 1 << BAR_1,
--	.bar_fixed_64bit = 1 << BAR_0,
--	.bar_fixed_size[2] = SZ_1M,
--	.bar_fixed_size[3] = SZ_64K,
--	.bar_fixed_size[4] = 256,
--	.bar_fixed_size[5] = SZ_1M,
-+	.bar[BAR_0] = { .type = BAR_RESERVED, .only_64bit = true, },
-+	.bar[BAR_1] = { .type = BAR_RESERVED, },
-+	.bar[BAR_2] = { .type = BAR_FIXED, .fixed_size = SZ_1M, },
-+	.bar[BAR_3] = { .type = BAR_FIXED, .fixed_size = SZ_64K, },
-+	.bar[BAR_4] = { .type = BAR_FIXED, .fixed_size = 256, },
-+	.bar[BAR_5] = { .type = BAR_FIXED, .fixed_size = SZ_1M, },
- 	.align = SZ_1M,
- };
- 
-diff --git a/drivers/pci/controller/dwc/pci-layerscape-ep.c b/drivers/pci/controller/dwc/pci-layerscape-ep.c
-index 2e398494e7c0..1f6ee1460ec2 100644
---- a/drivers/pci/controller/dwc/pci-layerscape-ep.c
-+++ b/drivers/pci/controller/dwc/pci-layerscape-ep.c
-@@ -250,7 +250,10 @@ static int __init ls_pcie_ep_probe(struct platform_device *pdev)
- 	pci->dev = dev;
- 	pci->ops = pcie->drvdata->dw_pcie_ops;
- 
--	ls_epc->bar_fixed_64bit = (1 << BAR_2) | (1 << BAR_4);
-+	ls_epc->bar[BAR_2].only_64bit = true;
-+	ls_epc->bar[BAR_3].type = BAR_RESERVED;
-+	ls_epc->bar[BAR_4].only_64bit = true;
-+	ls_epc->bar[BAR_5].type = BAR_RESERVED;
- 	ls_epc->linkup_notifier = true;
- 
- 	pcie->pci = pci;
-diff --git a/drivers/pci/controller/dwc/pcie-keembay.c b/drivers/pci/controller/dwc/pcie-keembay.c
-index 208d3b0ba196..5e8e54f597dd 100644
---- a/drivers/pci/controller/dwc/pcie-keembay.c
-+++ b/drivers/pci/controller/dwc/pcie-keembay.c
-@@ -312,8 +312,12 @@ static const struct pci_epc_features keembay_pcie_epc_features = {
- 	.linkup_notifier	= false,
- 	.msi_capable		= true,
- 	.msix_capable		= true,
--	.reserved_bar		= BIT(BAR_1) | BIT(BAR_3) | BIT(BAR_5),
--	.bar_fixed_64bit	= BIT(BAR_0) | BIT(BAR_2) | BIT(BAR_4),
-+	.bar[BAR_0]		= { .only_64bit = true, },
-+	.bar[BAR_1]		= { .type = BAR_RESERVED, },
-+	.bar[BAR_2]		= { .only_64bit = true, },
-+	.bar[BAR_3]		= { .type = BAR_RESERVED, },
-+	.bar[BAR_4]		= { .only_64bit = true, },
-+	.bar[BAR_5]		= { .type = BAR_RESERVED, },
- 	.align			= SZ_16K,
- };
- 
-diff --git a/drivers/pci/controller/dwc/pcie-rcar-gen4.c b/drivers/pci/controller/dwc/pcie-rcar-gen4.c
-index e9166619b1f9..0be760ed420b 100644
---- a/drivers/pci/controller/dwc/pcie-rcar-gen4.c
-+++ b/drivers/pci/controller/dwc/pcie-rcar-gen4.c
-@@ -383,7 +383,9 @@ static const struct pci_epc_features rcar_gen4_pcie_epc_features = {
- 	.linkup_notifier = false,
- 	.msi_capable = true,
- 	.msix_capable = false,
--	.reserved_bar = 1 << BAR_1 | 1 << BAR_3 | 1 << BAR_5,
-+	.bar[BAR_1] = { .type = BAR_RESERVED, },
-+	.bar[BAR_3] = { .type = BAR_RESERVED, },
-+	.bar[BAR_5] = { .type = BAR_RESERVED, },
- 	.align = SZ_1M,
- };
- 
-diff --git a/drivers/pci/controller/dwc/pcie-tegra194.c b/drivers/pci/controller/dwc/pcie-tegra194.c
-index 7afa9e9aabe2..1f7b662cb8e1 100644
---- a/drivers/pci/controller/dwc/pcie-tegra194.c
-+++ b/drivers/pci/controller/dwc/pcie-tegra194.c
-@@ -2007,9 +2007,13 @@ static const struct pci_epc_features tegra_pcie_epc_features = {
- 	.core_init_notifier = true,
- 	.msi_capable = false,
- 	.msix_capable = false,
--	.reserved_bar = 1 << BAR_2 | 1 << BAR_3 | 1 << BAR_4 | 1 << BAR_5,
--	.bar_fixed_64bit = 1 << BAR_0,
--	.bar_fixed_size[0] = SZ_1M,
-+	.bar[BAR_0] = { .type = BAR_FIXED, .fixed_size = SZ_1M,
-+			.only_64bit = true, },
-+	.bar[BAR_1] = { .type = BAR_RESERVED, },
-+	.bar[BAR_2] = { .type = BAR_RESERVED, },
-+	.bar[BAR_3] = { .type = BAR_RESERVED, },
-+	.bar[BAR_4] = { .type = BAR_RESERVED, },
-+	.bar[BAR_5] = { .type = BAR_RESERVED, },
- };
- 
- static const struct pci_epc_features*
-diff --git a/drivers/pci/controller/dwc/pcie-uniphier-ep.c b/drivers/pci/controller/dwc/pcie-uniphier-ep.c
-index 3fced0d3e851..265f65fc673f 100644
---- a/drivers/pci/controller/dwc/pcie-uniphier-ep.c
-+++ b/drivers/pci/controller/dwc/pcie-uniphier-ep.c
-@@ -411,8 +411,12 @@ static const struct uniphier_pcie_ep_soc_data uniphier_pro5_data = {
- 		.msi_capable = true,
- 		.msix_capable = false,
- 		.align = 1 << 16,
--		.bar_fixed_64bit = BIT(BAR_0) | BIT(BAR_2) | BIT(BAR_4),
--		.reserved_bar =  BIT(BAR_4),
-+		.bar[BAR_0] = { .only_64bit = true, },
-+		.bar[BAR_1] = { .type = BAR_RESERVED, },
-+		.bar[BAR_2] = { .only_64bit = true, },
-+		.bar[BAR_3] = { .type = BAR_RESERVED, },
-+		.bar[BAR_4] = { .type = BAR_RESERVED, .only_64bit = true, },
-+		.bar[BAR_5] = { .type = BAR_RESERVED, },
- 	},
- };
- 
-@@ -425,7 +429,12 @@ static const struct uniphier_pcie_ep_soc_data uniphier_nx1_data = {
- 		.msi_capable = true,
- 		.msix_capable = false,
- 		.align = 1 << 12,
--		.bar_fixed_64bit = BIT(BAR_0) | BIT(BAR_2) | BIT(BAR_4),
-+		.bar[BAR_0] = { .only_64bit = true, },
-+		.bar[BAR_1] = { .type = BAR_RESERVED, },
-+		.bar[BAR_2] = { .only_64bit = true, },
-+		.bar[BAR_3] = { .type = BAR_RESERVED, },
-+		.bar[BAR_4] = { .only_64bit = true, },
-+		.bar[BAR_5] = { .type = BAR_RESERVED, },
- 	},
- };
- 
-diff --git a/drivers/pci/controller/pcie-rcar-ep.c b/drivers/pci/controller/pcie-rcar-ep.c
-index e6909271def7..05967c6c0b42 100644
---- a/drivers/pci/controller/pcie-rcar-ep.c
-+++ b/drivers/pci/controller/pcie-rcar-ep.c
-@@ -440,11 +440,15 @@ static const struct pci_epc_features rcar_pcie_epc_features = {
- 	.msi_capable = true,
- 	.msix_capable = false,
- 	/* use 64-bit BARs so mark BAR[1,3,5] as reserved */
--	.reserved_bar = 1 << BAR_1 | 1 << BAR_3 | 1 << BAR_5,
--	.bar_fixed_64bit = 1 << BAR_0 | 1 << BAR_2 | 1 << BAR_4,
--	.bar_fixed_size[0] = 128,
--	.bar_fixed_size[2] = 256,
--	.bar_fixed_size[4] = 256,
-+	.bar[BAR_0] = { .type = BAR_FIXED, .fixed_size = 128,
-+			.only_64bit = true, },
-+	.bar[BAR_1] = { .type = BAR_RESERVED, },
-+	.bar[BAR_2] = { .type = BAR_FIXED, .fixed_size = 256,
-+			.only_64bit = true, },
-+	.bar[BAR_3] = { .type = BAR_RESERVED, },
-+	.bar[BAR_4] = { .type = BAR_FIXED, .fixed_size = 256,
-+			.only_64bit = true, },
-+	.bar[BAR_5] = { .type = BAR_RESERVED, },
- };
- 
- static const struct pci_epc_features*
-diff --git a/drivers/pci/endpoint/functions/pci-epf-ntb.c b/drivers/pci/endpoint/functions/pci-epf-ntb.c
-index 43cd309ce22f..e01a98e74d21 100644
---- a/drivers/pci/endpoint/functions/pci-epf-ntb.c
-+++ b/drivers/pci/endpoint/functions/pci-epf-ntb.c
-@@ -1012,13 +1012,13 @@ static int epf_ntb_config_spad_bar_alloc(struct epf_ntb *ntb,
- 
- 	epc_features = ntb_epc->epc_features;
- 	barno = ntb_epc->epf_ntb_bar[BAR_CONFIG];
--	size = epc_features->bar_fixed_size[barno];
-+	size = epc_features->bar[barno].fixed_size;
- 	align = epc_features->align;
- 
- 	peer_ntb_epc = ntb->epc[!type];
- 	peer_epc_features = peer_ntb_epc->epc_features;
- 	peer_barno = ntb_epc->epf_ntb_bar[BAR_PEER_SPAD];
--	peer_size = peer_epc_features->bar_fixed_size[peer_barno];
-+	peer_size = peer_epc_features->bar[peer_barno].fixed_size;
- 
- 	/* Check if epc_features is populated incorrectly */
- 	if ((!IS_ALIGNED(size, align)))
-diff --git a/drivers/pci/endpoint/functions/pci-epf-test.c b/drivers/pci/endpoint/functions/pci-epf-test.c
-index 981894e40681..cd4ffb39dcdc 100644
---- a/drivers/pci/endpoint/functions/pci-epf-test.c
-+++ b/drivers/pci/endpoint/functions/pci-epf-test.c
-@@ -729,7 +729,7 @@ static int pci_epf_test_set_bar(struct pci_epf *epf)
- 		 */
- 		add = (epf_bar->flags & PCI_BASE_ADDRESS_MEM_TYPE_64) ? 2 : 1;
- 
--		if (!!(epc_features->reserved_bar & (1 << bar)))
-+		if (epc_features->bar[bar].type == BAR_RESERVED)
- 			continue;
- 
- 		ret = pci_epc_set_bar(epc, epf->func_no, epf->vfunc_no,
-@@ -856,7 +856,7 @@ static int pci_epf_test_alloc_space(struct pci_epf *epf)
- 		if (bar == test_reg_bar)
- 			continue;
- 
--		if (!!(epc_features->reserved_bar & (1 << bar)))
-+		if (epc_features->bar[bar].type == BAR_RESERVED)
- 			continue;
- 
- 		base = pci_epf_alloc_space(epf, bar_size[bar], bar,
-@@ -874,13 +874,11 @@ static void pci_epf_configure_bar(struct pci_epf *epf,
- 				  const struct pci_epc_features *epc_features)
- {
- 	struct pci_epf_bar *epf_bar;
--	bool bar_fixed_64bit;
- 	int i;
- 
- 	for (i = 0; i < PCI_STD_NUM_BARS; i++) {
- 		epf_bar = &epf->bar[i];
--		bar_fixed_64bit = !!(epc_features->bar_fixed_64bit & (1 << i));
--		if (bar_fixed_64bit)
-+		if (epc_features->bar[i].only_64bit)
- 			epf_bar->flags |= PCI_BASE_ADDRESS_MEM_TYPE_64;
- 	}
- }
-diff --git a/drivers/pci/endpoint/functions/pci-epf-vntb.c b/drivers/pci/endpoint/functions/pci-epf-vntb.c
-index eda4b906868b..1de293411434 100644
---- a/drivers/pci/endpoint/functions/pci-epf-vntb.c
-+++ b/drivers/pci/endpoint/functions/pci-epf-vntb.c
-@@ -422,7 +422,7 @@ static int epf_ntb_config_spad_bar_alloc(struct epf_ntb *ntb)
- 								epf->func_no,
- 								epf->vfunc_no);
- 	barno = ntb->epf_ntb_bar[BAR_CONFIG];
--	size = epc_features->bar_fixed_size[barno];
-+	size = epc_features->bar[barno].fixed_size;
- 	align = epc_features->align;
- 
- 	if ((!IS_ALIGNED(size, align)))
-diff --git a/drivers/pci/endpoint/pci-epc-core.c b/drivers/pci/endpoint/pci-epc-core.c
-index dcd4e66430c1..7fe8f4336765 100644
---- a/drivers/pci/endpoint/pci-epc-core.c
-+++ b/drivers/pci/endpoint/pci-epc-core.c
-@@ -87,7 +87,7 @@ EXPORT_SYMBOL_GPL(pci_epc_get);
-  * @epc_features: pci_epc_features structure that holds the reserved bar bitmap
-  *
-  * Invoke to get the first unreserved BAR that can be used by the endpoint
-- * function. For any incorrect value in reserved_bar return '0'.
-+ * function.
-  */
- enum pci_barno
- pci_epc_get_first_free_bar(const struct pci_epc_features *epc_features)
-@@ -102,32 +102,34 @@ EXPORT_SYMBOL_GPL(pci_epc_get_first_free_bar);
-  * @bar: the starting BAR number from where unreserved BAR should be searched
-  *
-  * Invoke to get the next unreserved BAR starting from @bar that can be used
-- * for endpoint function. For any incorrect value in reserved_bar return '0'.
-+ * for endpoint function.
-  */
- enum pci_barno pci_epc_get_next_free_bar(const struct pci_epc_features
- 					 *epc_features, enum pci_barno bar)
- {
--	unsigned long free_bar;
-+	int i;
- 
- 	if (!epc_features)
- 		return BAR_0;
- 
- 	/* If 'bar - 1' is a 64-bit BAR, move to the next BAR */
--	if ((epc_features->bar_fixed_64bit << 1) & 1 << bar)
-+	if (bar > 0 && epc_features->bar[bar - 1].only_64bit)
- 		bar++;
- 
--	/* Find if the reserved BAR is also a 64-bit BAR */
--	free_bar = epc_features->reserved_bar & epc_features->bar_fixed_64bit;
--
--	/* Set the adjacent bit if the reserved BAR is also a 64-bit BAR */
--	free_bar <<= 1;
--	free_bar |= epc_features->reserved_bar;
--
--	free_bar = find_next_zero_bit(&free_bar, 6, bar);
--	if (free_bar > 5)
--		return NO_BAR;
-+	for (i = bar; i < PCI_STD_NUM_BARS; i++) {
-+		/* If the BAR is not reserved, return it. */
-+		if (epc_features->bar[i].type != BAR_RESERVED)
-+			return i;
-+
-+		/*
-+		 * If the BAR is reserved, and marked as 64-bit only, then the
-+		 * succeeding BAR is also reserved.
-+		 */
-+		if (epc_features->bar[i].only_64bit)
-+			i++;
-+	}
- 
--	return free_bar;
-+	return NO_BAR;
- }
- EXPORT_SYMBOL_GPL(pci_epc_get_next_free_bar);
- 
-diff --git a/drivers/pci/endpoint/pci-epf-core.c b/drivers/pci/endpoint/pci-epf-core.c
-index f2b4d34454c4..0a28a0b0911b 100644
---- a/drivers/pci/endpoint/pci-epf-core.c
-+++ b/drivers/pci/endpoint/pci-epf-core.c
-@@ -260,7 +260,7 @@ void *pci_epf_alloc_space(struct pci_epf *epf, size_t size, enum pci_barno bar,
- 			  const struct pci_epc_features *epc_features,
- 			  enum pci_epc_interface_type type)
- {
--	u64 bar_fixed_size = epc_features->bar_fixed_size[bar];
-+	u64 bar_fixed_size = epc_features->bar[bar].fixed_size;
- 	size_t align = epc_features->align;
- 	struct pci_epf_bar *epf_bar;
- 	dma_addr_t phys_addr;
-@@ -271,13 +271,14 @@ void *pci_epf_alloc_space(struct pci_epf *epf, size_t size, enum pci_barno bar,
- 	if (size < 128)
- 		size = 128;
- 
--	if (bar_fixed_size && size > bar_fixed_size) {
--		dev_err(&epf->dev, "requested BAR size is larger than fixed size\n");
--		return NULL;
--	}
--
--	if (bar_fixed_size)
-+	if (epc_features->bar[bar].type == BAR_FIXED && bar_fixed_size) {
-+		if (size > bar_fixed_size) {
-+			dev_err(&epf->dev,
-+				"requested BAR size is larger than fixed size\n");
-+			return NULL;
-+		}
- 		size = bar_fixed_size;
-+	}
- 
- 	if (align)
- 		size = ALIGN(size, align);
-diff --git a/include/linux/pci-epc.h b/include/linux/pci-epc.h
-index 40ea18f5aa02..4ccb4f4f3883 100644
---- a/include/linux/pci-epc.h
-+++ b/include/linux/pci-epc.h
-@@ -145,6 +145,32 @@ struct pci_epc {
- 	unsigned long			function_num_map;
- };
- 
-+/**
-+ * @BAR_PROGRAMMABLE: The BAR mask can be configured by the EPC.
-+ * @BAR_FIXED: The BAR mask is fixed by the hardware.
-+ * @BAR_RESERVED: The BAR should not be touched by an EPF driver.
-+ */
-+enum pci_epc_bar_type {
-+	BAR_PROGRAMMABLE = 0,
-+	BAR_FIXED,
-+	BAR_RESERVED,
-+};
-+
-+/**
-+ * struct pci_epc_bar_desc - hardware description for a BAR
-+ * @type: the type of the BAR
-+ * @fixed_size: the fixed size, only applicable if type is BAR_FIXED_MASK.
-+ * @only_64bit: if true, an EPF driver is not allowed to choose if this BAR
-+ *		should be configured as 32-bit or 64-bit, the EPF driver must
-+ *		configure this BAR as 64-bit. Additionally, the BAR succeeding
-+ *		this BAR must be set to type BAR_RESERVED.
-+ */
-+struct pci_epc_bar_desc {
-+	enum pci_epc_bar_type type;
-+	u64 fixed_size;
-+	bool only_64bit;
-+};
-+
- /**
-  * struct pci_epc_features - features supported by a EPC device per function
-  * @linkup_notifier: indicate if the EPC device can notify EPF driver on link up
-@@ -152,9 +178,7 @@ struct pci_epc {
-  *			for initialization
-  * @msi_capable: indicate if the endpoint function has MSI capability
-  * @msix_capable: indicate if the endpoint function has MSI-X capability
-- * @reserved_bar: bitmap to indicate reserved BAR unavailable to function driver
-- * @bar_fixed_64bit: bitmap to indicate fixed 64bit BARs
-- * @bar_fixed_size: Array specifying the size supported by each BAR
-+ * @bar: array specifying the hardware description for each BAR
-  * @align: alignment size required for BAR buffer allocation
-  */
- struct pci_epc_features {
-@@ -162,9 +186,7 @@ struct pci_epc_features {
- 	unsigned int	core_init_notifier : 1;
- 	unsigned int	msi_capable : 1;
- 	unsigned int	msix_capable : 1;
--	u8	reserved_bar;
--	u8	bar_fixed_64bit;
--	u64	bar_fixed_size[PCI_STD_NUM_BARS];
-+	struct	pci_epc_bar_desc bar[PCI_STD_NUM_BARS];
- 	size_t	align;
- };
- 
 -- 
-2.43.0
-
+Kind Regards,
+Niklas Söderlund
 
