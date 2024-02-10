@@ -1,83 +1,84 @@
-Return-Path: <linux-renesas-soc+bounces-2562-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-2563-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15C4B84FEAB
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  9 Feb 2024 22:22:54 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CE3B8501B7
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 10 Feb 2024 02:27:02 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id BECA81F214BB
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  9 Feb 2024 21:22:53 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B13A91C27813
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 10 Feb 2024 01:27:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CA5FA25748;
-	Fri,  9 Feb 2024 21:16:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CBEE01FD1;
+	Sat, 10 Feb 2024 01:26:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="b8WtF4f5"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uP/nY3bJ"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83A0525625
-	for <linux-renesas-soc@vger.kernel.org>; Fri,  9 Feb 2024 21:16:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 992A94414;
+	Sat, 10 Feb 2024 01:26:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707513395; cv=none; b=K7/2yn9zSUYhD5sRqxQiIoUnqod22kcqCGQ768rHP1JNQDQU1Qqih1CxIKUBp40gEn98GCKia+M8WRb7vkI5NpJ9WvGJm/ZYoiq0ht3jxq44S+xM54W6ywgnNWqAu04QN8q5ZVHHjbG4ZiXRvW3XUMKfR2/ZLEwaouqeAaN75So=
+	t=1707528418; cv=none; b=nUuOmwtlP+w395itsfv62kr5MFbkE6A1SAQK1yMO7J7GX4AlprLapSmCQe/7LcHNFK8SJj4457MGiG48Zy3pO1AOj+WjjtNfIAXn5bWwP6XZpHlJ8VRqtqF6yehKTW6wpNYJvRyHtWBjU1srKxrRa6+6j5q8ddlQ9AOxERc7y0k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707513395; c=relaxed/simple;
-	bh=9Rqn7dG8jUY45g42br74qgbQcA5VF0xJkzGTWv/b+70=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Cok1eJJKsEWNZc25pONXstOCfqsaC02MchvoSa02P0v94K5eP1aZxcreQehLE6CGKtACSDMvSN4i7AXi24cqW0z6ulUqUrDTv6XE8HBhCBgnc0RWorfnMG/xEBeaj+rLqFXAe2DCMAtS5OVBkq/BdKg7umfHYnOhmFzGcvFI2Zs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=b8WtF4f5; arc=none smtp.client-ip=209.85.208.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
-Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-5605c7b1f32so1877460a12.0
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 09 Feb 2024 13:16:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech.se; s=google; t=1707513389; x=1708118189; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=8wmYeTCl6g4Puyeq+hHOJXDfECuUyxrrSnQt72/tYE0=;
-        b=b8WtF4f5QNq9Z5bb/tPnz9wmHBGM/DzASv2q7z2M0dIZg+qRQMXhYKqiGy939ttKiI
-         QD3/gaEJ82G3vM+D524w19QkMJ8RZ0cyyk4rCZScs65dd+jtE3flSZYQjOhpOjovv4tq
-         VU9+H2qAy0hk4USeYRQZuzbfPSMpjvcvGjB2iQIJIb5OlgV23h/er9Z4Ic0kwCv5ZZ+7
-         fJuRNtBv+hGrSpaaUlm+U+oEo3+ETS2gJSWqDcDvxQoEXnDr8tflkK0GkH8K57Wu6BRr
-         JdHrefRhQ0UP5ZN/7qxYjBH4oBAtKSHDqKqOesyplVp+d5wafah1osyIuyDlwfkBfDZm
-         f8xQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707513389; x=1708118189;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=8wmYeTCl6g4Puyeq+hHOJXDfECuUyxrrSnQt72/tYE0=;
-        b=ACv1cKBECVzQKqXWP61izhR1ZRs8RdFWn9cYVl/nutzR43RfUPu7NTY7mczkdNgBJ+
-         NUUm7Kd4WJz3HlOb7r0eX+jLXeOlqqmy0W6RSSnzE2zvmkRscu9E+2uDFNsWW4b4XILi
-         bUN8MCuRzyF23QaAfLb+neCZ502PsWz6g4lpIJ4Qdr30CL4RWwI2EjEFWTiVLsrcXOIw
-         Yf7ECSkj7PnNy4djR7bzB6uvmAMFHeIbuoUD/eLMoEWnqVugP9v7/5KsrWTa+QOoCeRm
-         Eana/Eh8NWFV3iyq2CDzNmWtRJ1GonjBVY94+NHHXqRDIWg1IIrr2e/ebUptb4cjp0no
-         2AUA==
-X-Gm-Message-State: AOJu0YxqNN6vkNW5cHVuK/qK+wlHDagLGaTGTt9hR4G/d4PRJ4m80kfE
-	cuBp2ZHachNIDcHK3ZF247Ym6IMga37uiznXGhKvPNRc2idNW0/Od1GW7XGUFzs=
-X-Google-Smtp-Source: AGHT+IHUWcxtsHrW3Eeqb5w5ol2U9vAxa0u7f2aOE7ikg30kSaIdN/HxnhU3z40HI5iT6jcK/oZqHQ==
-X-Received: by 2002:aa7:cf14:0:b0:561:aa3:fafb with SMTP id a20-20020aa7cf14000000b005610aa3fafbmr85595edy.6.1707513389128;
-        Fri, 09 Feb 2024 13:16:29 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCWfVcY9Lnfb9ZeVVYIVs/4ouIFo69Fbbgu2cCZ+eNeDPpuxy474PeZs8VYOtGFRL7tHV8c4mlgWuI70nE6veueLPYz8LKGmNIWHPXbNrBJbODmXwnNajWRAp8UWOHjTnjOC7yEoQrD8PIznUHMQGfMJmvh16vRWKunRRN1r+J28YY0peAyt+EE/qt9I+k0WxJkogqz4wFTxfwEJBTv3zRU/oKrvKsuw764Xs7x6RisJcE+URzaAv/GNpOcUg2BK+wOL1xhQZESQwNhuey1ax4128+aSwgfiDRFurPo=
-Received: from sleipner.berto.se (p4fcc8c6a.dip0.t-ipconnect.de. [79.204.140.106])
-        by smtp.googlemail.com with ESMTPSA id et13-20020a056402378d00b0055d19c9daf2sm105202edb.15.2024.02.09.13.16.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 Feb 2024 13:16:28 -0800 (PST)
-From: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-To: Nobuhiro Iwamatsu <iwamatsu@nigauri.org>,
-	Marek Vasut <marek.vasut+renesas@mailbox.org>,
-	Lukasz Majewski <lukma@denx.de>,
-	Sean Anderson <seanga2@gmail.com>,
-	Tom Rini <trini@konsulko.com>,
-	Hai Pham <hai.pham.ud@renesas.com>,
-	u-boot@lists.denx.de
-Cc: linux-renesas-soc@vger.kernel.org,
-	=?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Subject: [PATCH] clk: renesas: Fix broken clocks on all Gen2 boards
-Date: Fri,  9 Feb 2024 22:15:35 +0100
-Message-ID: <20240209211535.3313392-1-niklas.soderlund+renesas@ragnatech.se>
+	s=arc-20240116; t=1707528418; c=relaxed/simple;
+	bh=ZbSoZXx/9HDBf8DsNqbS8trxVTS30KxSnV3BsPNQp3k=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ZFMaxO+f8Y6iO1uFcdXNHFxBI8Ud8vWzgUiC1Vo3n2BIAFVtKZwh7818Q5kp7BP1eo1xS8XtAeZpFO+ma3kEqotubkimdV/VwK9rDjSw1e+b3cOfmXmknbmfzxhrB8i3pJltUEgtPIoKS7DVjmk1EBKi47pYn5kamFYbw3k5HvE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uP/nY3bJ; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3B8D5C433C7;
+	Sat, 10 Feb 2024 01:26:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1707528418;
+	bh=ZbSoZXx/9HDBf8DsNqbS8trxVTS30KxSnV3BsPNQp3k=;
+	h=From:To:Cc:Subject:Date:From;
+	b=uP/nY3bJB+/VTamjus0HHPCwu+bMefQIk78SOUwKphz3+gWiLnNZ4DakrWJNSDx2O
+	 VTaU1OxpBh4Fd/KtZ/2pjL1q+TKDtJUf8zOpHrKnjwejf9chfYQoZVkUAXZhKzAIfu
+	 SDsy166t5sAGJfNCF1XfXPzm5tVktGrse6iCTgqRp5bo3wt8aQePan4sr1nAzLc/uc
+	 edCfP+fu0w8DPgThvXuOXR80kthoHTXbhU40CJP3tCwQNP/qI51uex6hw93abDldML
+	 HebBcWwW1alYdWU39xT8wSx8JXVAASlK1C5I7HzfBtF8ISK3R54aY/5uWJ0lpqRKAd
+	 onWTuotlmiQIQ==
+From: Niklas Cassel <cassel@kernel.org>
+To: Richard Zhu <hongxing.zhu@nxp.com>,
+	Lucas Stach <l.stach@pengutronix.de>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	=?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kw@linux.com>,
+	Rob Herring <robh@kernel.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	NXP Linux Team <linux-imx@nxp.com>,
+	Minghuan Lian <minghuan.Lian@nxp.com>,
+	Mingkai Hu <mingkai.hu@nxp.com>,
+	Roy Zang <roy.zang@nxp.com>,
+	Srikanth Thokala <srikanth.thokala@intel.com>,
+	Marek Vasut <marek.vasut+renesas@gmail.com>,
+	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Jon Mason <jdmason@kudzu.us>,
+	Dave Jiang <dave.jiang@intel.com>,
+	Allen Hubbe <allenbh@gmail.com>,
+	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+	Kishon Vijay Abraham I <kishon@kernel.org>
+Cc: Damien Le Moal <dlemoal@kernel.org>,
+	Frank Li <Frank.Li@nxp.com>,
+	Niklas Cassel <cassel@kernel.org>,
+	linux-pci@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linuxppc-dev@lists.ozlabs.org,
+	linux-renesas-soc@vger.kernel.org,
+	linux-tegra@vger.kernel.org,
+	ntb@lists.linux.dev
+Subject: [PATCH 0/2] PCI endpoint BAR hardware description cleanup
+Date: Sat, 10 Feb 2024 02:26:24 +0100
+Message-ID: <20240210012634.600301-1-cassel@kernel.org>
 X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
@@ -85,48 +86,57 @@ List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-To prepare support for multiple register layouts pointers to register
-tables where added to struct cpg_mssr_info. These pointers are suppose
-to be filled in at probe time and no intended change in behavior was
-intended.
+The series is based on top of:
+https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git/log/?h=endpoint
 
-However the new pointers where only filled in by some paths of the
-driver implemented in clk-rcar-gen3.c. The path implemented in
-clk-rcar-gen2.c was not updated leaving the pointers uninitialized
-leading to a crash when trying to probe the clocks.
 
-Fix this by filling in the pointers in the Gen2 code path with the
-values used before they where moved to struct cpg_mssr_info.
+Hello all,
 
-Fixes: d413214fb748 ("clk: renesas: Add register pointers into struct cpg_mssr_info")
-Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
----
- drivers/clk/renesas/clk-rcar-gen2.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+This series cleans up the hardware description for PCI endpoint BARs.
 
-diff --git a/drivers/clk/renesas/clk-rcar-gen2.c b/drivers/clk/renesas/clk-rcar-gen2.c
-index 66ffef96b695..89f2d9667469 100644
---- a/drivers/clk/renesas/clk-rcar-gen2.c
-+++ b/drivers/clk/renesas/clk-rcar-gen2.c
-@@ -298,6 +298,15 @@ int gen2_clk_probe(struct udevice *dev)
- 	if (!priv->cpg_pll_config->extal_div)
- 		return -EINVAL;
- 
-+	if (info->reg_layout == CLK_REG_LAYOUT_RCAR_GEN2_AND_GEN3) {
-+		priv->info->status_regs = mstpsr;
-+		priv->info->control_regs = smstpcr;
-+		priv->info->reset_regs = srcr;
-+		priv->info->reset_clear_regs = srstclr;
-+	} else {
-+		return -EINVAL;
-+	}
-+
- 	ret = clk_get_by_name(dev, "extal", &priv->clk_extal);
- 	if (ret < 0)
- 		return ret;
+The problems with the existing hardware description:
+-The documentation is lackluster.
+-Some of the names are confusingly similar, e.g. fixed_64bit and
+ fixed_size, even though these are for completely unrelated things.
+-The way that the BARs are defined in the endpoint controller drivers
+ is messy, because the left hand side is not a BAR, so you can mark a
+ BAR as e.g. both fixed size and reserved.
+
+This series tries to address all the problems above.
+
+Personally, I think that the code is more readable, both the endpoint
+controller drivers, but also pci-epc-core.c.
+
+(Oh, and as you can probably guess, I will be sending out a patch series
+that adds BAR_RESIZABLE to enum pci_epc_bar_type in the coming week(s).)
+
+
+Kind regards,
+Niklas
+
+
+Niklas Cassel (2):
+  PCI: endpoint: Clean up hardware description for BARs
+  PCI: endpoint: Drop only_64bit on reserved BARs
+
+ drivers/pci/controller/dwc/pci-imx6.c         |  3 +-
+ drivers/pci/controller/dwc/pci-keystone.c     | 12 +++---
+ .../pci/controller/dwc/pci-layerscape-ep.c    |  5 ++-
+ drivers/pci/controller/dwc/pcie-keembay.c     |  8 +++-
+ drivers/pci/controller/dwc/pcie-rcar-gen4.c   |  4 +-
+ drivers/pci/controller/dwc/pcie-tegra194.c    | 10 +++--
+ drivers/pci/controller/dwc/pcie-uniphier-ep.c | 15 ++++++--
+ drivers/pci/controller/pcie-rcar-ep.c         | 14 ++++---
+ drivers/pci/endpoint/functions/pci-epf-ntb.c  |  4 +-
+ drivers/pci/endpoint/functions/pci-epf-test.c |  8 ++--
+ drivers/pci/endpoint/functions/pci-epf-vntb.c |  2 +-
+ drivers/pci/endpoint/pci-epc-core.c           | 25 +++++-------
+ drivers/pci/endpoint/pci-epf-core.c           | 15 ++++----
+ include/linux/pci-epc.h                       | 38 ++++++++++++++++---
+ 14 files changed, 105 insertions(+), 58 deletions(-)
+
 -- 
 2.43.0
 
