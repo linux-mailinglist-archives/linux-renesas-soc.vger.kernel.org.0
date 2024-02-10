@@ -1,81 +1,84 @@
-Return-Path: <linux-renesas-soc+bounces-2565-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-2566-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F66B850479
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 10 Feb 2024 14:04:44 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 58AF385047B
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 10 Feb 2024 14:06:29 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id EA0E42847AD
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 10 Feb 2024 13:04:42 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 522D91F226BF
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 10 Feb 2024 13:06:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 91E25481A4;
-	Sat, 10 Feb 2024 13:04:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 75CB147F6A;
+	Sat, 10 Feb 2024 13:06:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="ybFERKQR"
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="KHLJcBkn"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
+Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com [209.85.208.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2A0B47F72
-	for <linux-renesas-soc@vger.kernel.org>; Sat, 10 Feb 2024 13:04:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1496731A8F
+	for <linux-renesas-soc@vger.kernel.org>; Sat, 10 Feb 2024 13:06:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707570280; cv=none; b=dnuud+KCjNbdudwHT03cMurp1S0idoKLSjcztRN7pxEZgbrmSRC5mK8qk6pKOI2/MYz1GbLoZXMyOsBbrhgAGPXtWfpMfNm4Q5H8VEsQ6zb1p4R5W1vbnupFG+EMu/e8FzOVCnptMKYB+A1Ad8P9Poi9a5thEKf322KY0t0vAAw=
+	t=1707570385; cv=none; b=Hsro7qyXjLogmMPLkoVDSLpMd51GvrWGrtFBkfx+22pWUSFB2jDQpCNl2AI+7vbIiIHW8hOBTGc+57vpG0eru0z9vpbCEwjLYr6FC1hwd/9cMyhcbARFgEe5qdBTrRnNb6zkg+Z9gbtmt8qxx8e7TKnOZ+tQJOF9mKtv5En6OQ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707570280; c=relaxed/simple;
-	bh=w4i4fIJiPogpYi5h8NbjPxKLDg6R9DM8+doBkL13a7w=;
+	s=arc-20240116; t=1707570385; c=relaxed/simple;
+	bh=m1wtskg6J8X1KfuTCxbTVD5fkmzc9Qf2L2ersIWun90=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=q0uteN9srtg7P7Gqa9WnbXAwk6T6OGNcMkc81WwKO9dvIGplrJxkeW7+iQneXRWZiLmmVBULZbHQ74WIaHgnm32jo8k6TObD9u5DpzAt0oOdMKdkdckXaU/HWwzxKNzLHYDBnxDQNq2eejQG/8eH8vmTVRhpTPb2jJd6so1rwRs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=ybFERKQR; arc=none smtp.client-ip=209.85.167.41
+	 Content-Type:Content-Disposition:In-Reply-To; b=YEm74fJey1EOxz2W74d9p2O2ihp9tfPgNag2vWqL1rEcsjnd3t561T85M3r4kasdU/RT6n03Vm3hoEsFfEGgfeNog7LcDFdoCRuVffPEc6M6WEGZdE2k9l2ViB2W8rwzmnBSOelVv7vSRVAR3pN1id206gv6mMxaGtkX5Fd0mFk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=KHLJcBkn; arc=none smtp.client-ip=209.85.208.179
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
-Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-511490772f6so2249019e87.2
-        for <linux-renesas-soc@vger.kernel.org>; Sat, 10 Feb 2024 05:04:36 -0800 (PST)
+Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-2d0e521de4eso5975531fa.2
+        for <linux-renesas-soc@vger.kernel.org>; Sat, 10 Feb 2024 05:06:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech.se; s=google; t=1707570274; x=1708175074; darn=vger.kernel.org;
+        d=ragnatech.se; s=google; t=1707570381; x=1708175181; darn=vger.kernel.org;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=hOkDnjZj6UisfqwAiwqQ0AC9LS0mc/y5TNT2hjX6doc=;
-        b=ybFERKQRllz5L+1/iaUZC31ODjfeB+09g5BZigEQWsV6lFgV3h9KTpjNDBbEsfnNWX
-         O5vpx/JT44VQfM7FRlOCAYBZLdx2uUAl5aO9Dg+24aP4QMOwiHyFXw5JosKTiQxm2aJE
-         Njg5E248+HWIVFQHpVPBSqeuul7MWOKE17w81X6NTEMJqG+sOFDJ6VduJXeJFExD8DSU
-         oiE06MZe9Y0kcaS3bUtf401nk5MazE/fTahX6jwxrPZQHG1iY/kwFIm0yeaZl6aQi+MG
-         ljv7IuLoeJ0jvtJg1GRZTUmnbuAbeMv42U4B5lS89Lf1+X9uChzRUPmVS7CWZQe4NPXx
-         iVIg==
+        bh=vD8vyTajkLSeekCEtzddFVL3re/Xwa+J5JcL0VXtqug=;
+        b=KHLJcBkn7x42Q+wtYpOXMaHrtTrx9Yh15onDkaDOYuGIvBzDTVexLXs4Zu8yGp4iyA
+         QxetqiYv/FU6YNw9h57ZJtp28j49ImrEBJUzbJqeUST/j8adahL8FO3M94c5opiOBM2N
+         l3UmqGnjdaCOuj0HxeykolfGv1YUgejHPfsxT0KwrwGayRgHOUWIWZcEcNbvgVr7SM/F
+         TxdeQ9aIQlZFFbCTQL7IjzSMndoI7xopvblEop7a+JGmlf1X5FwSIXH9fUua5qk8poag
+         6CzIyj79zL9WE92MwunhURNfPFYc29oQ5fA6jKTJsjn4yAqgJ+ihmP/IfwLFc0JOWYVZ
+         cAQQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707570274; x=1708175074;
+        d=1e100.net; s=20230601; t=1707570381; x=1708175181;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=hOkDnjZj6UisfqwAiwqQ0AC9LS0mc/y5TNT2hjX6doc=;
-        b=HM735SxaRb1GtesUgwfjzFPBlBDa+z0nZPwp3ftqq7Eck79bMq6/n1r6GKjYNpuFc6
-         BRiVwlUzVyqWkyX98a2oV5iVssSsdeFkGQiqKkXbChXsHjSFbLKLQ4Q9MBkFXk8sPI9f
-         /gfIG5mKxei3BFjuuSYDsyw6WJi8cHEDkufkgOzzrOVwF43f/yEBqYl+C4qk5O0DXU1h
-         ZZv2tq8OtIhle0xJcyKL3wMNd5XySyUxOu0ziGp3vHefeGodA9yXlXRiFDnERNSAHuab
-         5drO2SFnoMkpe6IYzXlG0MoQHOaO+RvLmWg59D8V597nTeBKo0hdjlw9Gy7NVaWYnvqI
-         JXVA==
-X-Gm-Message-State: AOJu0Ywf+M3wRj3oWWnsbNwVDSVKIZmZ8FBOeCvrl3ehuLjagNHGLGvH
-	zzRcZKRnLsICbjNr253s1ZhslfE8wkHfU7rv22QPkL6cTJXwjwiSGfRpMYpHAioqu/TYDS/0cwc
-	W3kc=
-X-Google-Smtp-Source: AGHT+IGGvxGMlIooDqLBbD7Vg0f8NrhOtGm48wt2qhHgC7AeN5RS49eo/QoC4XGyRyOy0nngnMsVlQ==
-X-Received: by 2002:ac2:47e3:0:b0:511:42b5:5616 with SMTP id b3-20020ac247e3000000b0051142b55616mr1131123lfp.17.1707570274400;
-        Sat, 10 Feb 2024 05:04:34 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCXom/5JquhXV3GR8HEvqoPlWNX3jVOzhhaLbfPKln1pZHm7SxC/ht4NuoSgyc9/pKi2vWrPQWaGt26TDRS4sh2baguGD/MuXK91QQ==
+        bh=vD8vyTajkLSeekCEtzddFVL3re/Xwa+J5JcL0VXtqug=;
+        b=taHfDf4sCfB4SnkbKwOINR81rSrf9HH6x1zkQTcSR1iqmkczK3Yso4EndDpPy6BuVL
+         a5Axu4ssD39lws6y4h7QfzmSN9pua0oukNuFW0uq78ZM18NOf44QEbNSz1SPOLHbdQDt
+         sZAg6rEe8v5DcDP51NAJLEVaTcF/HLQx35rVfJ8tcAwiVTs73rWd44LTcBmj3Y/ZU3dw
+         DNb031DwlOs46ued/blUv16ojV5/K4CYPR+54M6Y+MWlxD/dyZaBKXuYoD/0S1QDcrw0
+         n4uwtUN4SmYyJttHuB/hMV/DzClUbiQ4PfCmpFNCx9NVlttETDLbov4g9BXrq8n4m8Sp
+         byvQ==
+X-Gm-Message-State: AOJu0Yyo5n7L68YNnd0woRSVgeDF3PcZw+CBBbp+efyNLXROVfNQpKrA
+	KIRTXvbVGQlxp6CwGM/XRMqGZyXRjem+ije83jIYk4dSdiLAUtIfHt2Cvd0TIH4=
+X-Google-Smtp-Source: AGHT+IECacRzBK2KLBRy4BB56jsxJlXwFAaY+fxrGjNtS/te/VKYtlzvqzQkb0jeU20o+NyLxC+x1A==
+X-Received: by 2002:a2e:94d6:0:b0:2d0:e298:5777 with SMTP id r22-20020a2e94d6000000b002d0e2985777mr1348834ljh.29.1707570381107;
+        Sat, 10 Feb 2024 05:06:21 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCVPsh78RFyAu+CyKvIYOBZz3Xp1SyrjsxGtM0S2nOSWSYxYDC4a/beLkPIYjqWCIfXHvlns6+xySSl2WZsH7Tf8vI6I3+HN67a7AU88tT39OQwsS1Zhv1X6ecNsbUd5oi8j1DB3I2N/DNiLq14Ng9+kB0MDrmrHcGi09ug3Aff2gEtpKIin5W+KwfDlyEDBPkt5vB5zCIJYXqHEkNbf852FgzNqWVvq6dW/N0t0iUb1jrTVLivo6Fzu/JrPMPE=
 Received: from localhost (h-46-59-36-113.A463.priv.bahnhof.se. [46.59.36.113])
-        by smtp.gmail.com with ESMTPSA id m11-20020a05651202eb00b005113cdc5f64sm231048lfq.201.2024.02.10.05.04.33
+        by smtp.gmail.com with ESMTPSA id m10-20020a2eb6ca000000b002d0bfd10153sm581922ljo.5.2024.02.10.05.06.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 10 Feb 2024 05:04:33 -0800 (PST)
-Date: Sat, 10 Feb 2024 14:04:32 +0100
+        Sat, 10 Feb 2024 05:06:20 -0800 (PST)
+Date: Sat, 10 Feb 2024 14:06:19 +0100
 From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-To: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org
-Subject: Re: [PATCH] arm64: dts: renesas: eagle: Add capture overlay for
- expansion board
-Message-ID: <20240210130432.GD1177919@ragnatech.se>
-References: <20240123145354.1571800-1-niklas.soderlund+renesas@ragnatech.se>
+To: Geert Uytterhoeven <geert+renesas@glider.be>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>
+Cc: devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: Re: [PATCH v2] dt-bindings: renesas: Document preferred compatible
+ naming
+Message-ID: <20240210130619.GE1177919@ragnatech.se>
+References: <20240127121937.2372098-1-niklas.soderlund+renesas@ragnatech.se>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -85,259 +88,180 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240123145354.1571800-1-niklas.soderlund+renesas@ragnatech.se>
+In-Reply-To: <20240127121937.2372098-1-niklas.soderlund+renesas@ragnatech.se>
 
-Hi Geert,
+Hi,
 
-A gentle ping on this patch.
+I'm unsure who to ping for this patch. It have been acked by Rob so is 
+the intention this can go thru Geert's Renesas tree?
 
-On 2024-01-23 15:53:54 +0100, Niklas Söderlund wrote:
-> The Eagle board supports an optional expansion board. The expansion
-> board adds support for HDMI OUT, HDMI capture from two different sources
-> and eMMC.
+On 2024-01-27 13:19:37 +0100, Niklas Söderlund wrote:
+> Compatibles can come in two formats. Either "vendor,ip-soc" or
+> "vendor,soc-ip". Add a DT schema file documenting Renesas preferred
+> policy and enforcing it for all new compatibles, except few existing
+> patterns.
 > 
-> This change only adds support for the two HDMI capture sources.
-> 
+> Suggested-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 > Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 > ---
->  arch/arm64/boot/dts/renesas/Makefile          |   2 +
->  .../dts/renesas/r8a77970-eagle-expansion.dtso | 214 ++++++++++++++++++
->  2 files changed, 216 insertions(+)
->  create mode 100644 arch/arm64/boot/dts/renesas/r8a77970-eagle-expansion.dtso
+> * Changes since v1
+> - Split the "SoC agnostic compatibles" section into two to make it's
+>   intent clearer.
+> - Improved the documentation for each group of compatibles.
+> - Reduced the number of regexp to create a larger target area. As
+>   suggested by Krzysztof the goal is not to validate each SoC name but
+>   check for the correct order of SoC-IP.
 > 
-> diff --git a/arch/arm64/boot/dts/renesas/Makefile b/arch/arm64/boot/dts/renesas/Makefile
-> index 8ea68d582710..38fadc161709 100644
-> --- a/arch/arm64/boot/dts/renesas/Makefile
-> +++ b/arch/arm64/boot/dts/renesas/Makefile
-> @@ -62,6 +62,8 @@ dtb-$(CONFIG_ARCH_R8A77965) += r8a77965-ulcb.dtb
->  dtb-$(CONFIG_ARCH_R8A77965) += r8a77965-ulcb-kf.dtb
->  
->  dtb-$(CONFIG_ARCH_R8A77970) += r8a77970-eagle.dtb
-> +r8a77970-eagle-expansion-dtbs := r8a77970-eagle.dtb r8a77970-eagle-expansion.dtbo
-> +dtb-$(CONFIG_ARCH_R8A77970) += r8a77970-eagle-expansion.dtb
->  dtb-$(CONFIG_ARCH_R8A77970) += r8a77970-v3msk.dtb
->  
->  dtb-$(CONFIG_ARCH_R8A77980) += r8a77980-condor.dtb
-> diff --git a/arch/arm64/boot/dts/renesas/r8a77970-eagle-expansion.dtso b/arch/arm64/boot/dts/renesas/r8a77970-eagle-expansion.dtso
+> * Changes since RFC
+> - Moved to Documentation/devicetree/bindings/soc/renesas.
+> - Changed the pattern in the initial select to match on .*-.*.
+> - Added a lot of missing compatible values.
+> ---
+>  .../bindings/soc/renesas/renesas-soc.yaml     | 135 ++++++++++++++++++
+>  1 file changed, 135 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/soc/renesas/renesas-soc.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/soc/renesas/renesas-soc.yaml b/Documentation/devicetree/bindings/soc/renesas/renesas-soc.yaml
 > new file mode 100644
-> index 000000000000..bd32f263e740
+> index 000000000000..91310d23cf0b
 > --- /dev/null
-> +++ b/arch/arm64/boot/dts/renesas/r8a77970-eagle-expansion.dtso
-> @@ -0,0 +1,214 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * Device Tree Source for the Eagle V3M expansion board.
-> + *
-> + * Copyright (C) 2024 Niklas Söderlund <niklas.soderlund@ragnatech.se>
-> + */
+> +++ b/Documentation/devicetree/bindings/soc/renesas/renesas-soc.yaml
+> @@ -0,0 +1,135 @@
+> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/soc/renesas/renesas-soc.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
 > +
-> +#include <dt-bindings/gpio/gpio.h>
-> +#include <dt-bindings/interrupt-controller/irq.h>
+> +title: Renesas SoC compatibles naming convention
 > +
-> +/dts-v1/;
-> +/plugin/;
+> +maintainers:
+> +  - Geert Uytterhoeven <geert+renesas@glider.be>
+> +  - Niklas Söderlund <niklas.soderlund@ragnatech.se>
 > +
-> +/ {
-> +	/* CN4 */
-> +	/* Eagle: SW18 set to OFF */
-> +	cvbs-in-cn4 {
-> +		compatible = "composite-video-connector";
-> +		label = "CVBS IN CN4";
+> +description: |
+> +  Guidelines for new compatibles for SoC blocks/components.
+> +  When adding new compatibles in new bindings, use the format::
+> +    renesas,SoC-IP
 > +
-> +		port {
-> +			cvbs_con: endpoint {
-> +				remote-endpoint = <&adv7482_ain7>;
-> +			};
-> +		};
-> +	};
+> +  For example::
+> +   renesas,r8a77965-csi2
 > +
-> +	/* CN3 */
-> +	/* Eagle: SW18 set to OFF */
-> +	hdmi-in-cn3 {
-> +		compatible = "hdmi-connector";
-> +		label = "HDMI IN CN3";
-> +		type = "a";
+> +  When adding new compatibles to existing bindings, use the format in the
+> +  existing binding, even if it contradicts the above.
 > +
-> +		port {
-> +			hdmi_in_con: endpoint {
-> +				remote-endpoint = <&adv7482_hdmi>;
-> +			};
-> +		};
-> +	};
+> +select:
+> +  properties:
+> +    compatible:
+> +      pattern: "^renesas,.*-.*$"
+> +  required:
+> +    - compatible
 > +
-> +	/* CN2 */
-> +	/* Eagle: SW35 set 5, 6 and 8 to OFF */
-> +	hdmi-in-cn2 {
-> +		compatible = "hdmi-connector";
-> +		label = "HDMI IN CN2";
-> +		type = "a";
+> +properties:
+> +  compatible:
+> +    oneOf:
+> +      # Preferred naming style for compatibles of SoC components
+> +      - pattern: "^renesas,emev2-[a-z0-9-]+$"
+> +      - pattern: "^renesas,r(7s|8a|9a)[a-z0-9]+-[a-z0-9-]+$"
+> +      - pattern: "^renesas,rcar-[a-z0-9-]+$"
+> +      - pattern: "^renesas,rz[a-z0-9]*-[a-z0-9-]+$"
+> +      - pattern: "^renesas,sh-[a-z0-9-]+$"
+> +      - pattern: "^renesas,sh7[a-z0-9]+-[a-z0-9-]+$"
 > +
-> +		port {
-> +			hdmi_in_con2: endpoint {
-> +				remote-endpoint = <&adv7612_in>;
-> +			};
-> +		};
-> +	};
-> +};
+> +      # Fallback compatibles
+> +      #
+> +      # Some SoC components in addition to a specific SoC compatible have a
+> +      # generic fallback compatible. For example the Interrupt Controller,
+> +      #
+> +      #   compatible = "renesas,intc-irqpin-r8a7740", "renesas,intc-irqpin";
+> +      #
+> +      # This is OK and new fallback compatibles are allowed.
+> +      - enum:
+> +          - renesas,cpg-div6-clock
+> +          - renesas,cpg-mstp-clocks
+> +          - renesas,intc-irqpin
 > +
-> +/* Disconnect MAX9286 GMSL i2c. */
-> +&i2c3 {
-> +	status = "disabled";
-> +};
+> +      # Legacy compatibles
+> +      #
+> +      # New compatibles are not allowed but new variations of existing
+> +      # patterns/compatibles are.
+> +      - pattern: "^renesas,can-[a-z0-9]+$"
+> +      - pattern: "^renesas,dmac-[a-z0-9]+$"
+> +      - pattern: "^renesas,du-[a-z0-9]+$"
+> +      - pattern: "^renesas,ether-[a-z0-9]+$"
+> +      - pattern: "^renesas,etheravb-[a-z0-9]+$"
+> +      - pattern: "^renesas,etheravb-rcar-gen[0-9]$"
+> +      - pattern: "^renesas,gether-[a-z0-9]+$"
+> +      - pattern: "^renesas,gpio-[a-z0-9]+$"
+> +      - pattern: "^renesas,hscif-[a-z0-9]+$"
+> +      - pattern: "^renesas,i2c-[a-z0-9]+$"
+> +      - pattern: "^renesas,iic-[a-z0-9]+$"
+> +      - pattern: "^renesas,intc-ex-[a-z0-9]+$"
+> +      - pattern: "^renesas,intc-irqpin-[a-z0-9]+$"
+> +      - pattern: "^renesas,ipmmu-[a-z0-9]+$"
+> +      - pattern: "^renesas,irqc-[a-z0-9]+$"
+> +      - pattern: "^renesas,jpu-[a-z0-9]+$"
+> +      - pattern: "^renesas,mmcif-[a-z0-9]+$"
+> +      - pattern: "^renesas,msiof-[a-z0-9]+$"
+> +      - pattern: "^renesas,pci-[a-z0-9]+$"
+> +      - pattern: "^renesas,pci-rcar-gen[0-9]$"
+> +      - pattern: "^renesas,pcie-[a-z0-9]+$"
+> +      - pattern: "^renesas,pcie-rcar-gen[0-9]$"
+> +      - pattern: "^renesas,pfc-[a-z0-9]+$"
+> +      - pattern: "^renesas,pwm-[a-z0-9]+$"
+> +      - pattern: "^renesas,qspi-[a-z0-9]+$"
+> +      - pattern: "^renesas,rcar_sound-[a-z0-9]+$"
+> +      - pattern: "^renesas,riic-[a-z0-9]+$"
+> +      - pattern: "^renesas,rspi-[a-z0-9]+$"
+> +      - pattern: "^renesas,sata-[a-z0-9]+(-es1)?$"
+> +      - pattern: "^renesas,scif-[a-z0-9]+$"
+> +      - pattern: "^renesas,scifa-[a-z0-9]+$"
+> +      - pattern: "^renesas,scifb-[a-z0-9]+$"
+> +      - pattern: "^renesas,sdhi-[a-z0-9]+$"
+> +      - pattern: "^renesas,thermal-[a-z0-9]+$"
+> +      - pattern: "^renesas,tmu-[a-z0-9]+$"
+> +      - pattern: "^renesas,tpu-[a-z0-9]+$"
+> +      - pattern: "^renesas,usb-phy-[a-z0-9]+$"
+> +      - pattern: "^renesas,usb2-phy-[a-z0-9]+$"
+> +      - pattern: "^renesas,usbhs-[a-z0-9]+$"
+> +      - pattern: "^renesas,vin-[a-z0-9]+$"
+> +      - pattern: "^renesas,xhci-[a-z0-9]+$"
 > +
-> +/* Connect expansion board i2c. */
-> +&i2c0 {
-> +	#address-cells = <1>;
-> +	#size-cells = <0>;
+> +      # Fixed legacy compatibles
+> +      #
+> +      # List cannot grow with new bindings.
+> +      - enum:
+> +          - renesas,bsc-r8a73a4
+> +          - renesas,bsc-sh73a0
+> +          - renesas,dbsc-r8a73a4
+> +          - renesas,dbsc3-r8a7740
+> +          - renesas,em-gio
+> +          - renesas,em-sti
+> +          - renesas,em-uart
+> +          - renesas,fsi2-r8a7740
+> +          - renesas,fsi2-sh73a0
+> +          - renesas,hspi-r8a7778
+> +          - renesas,hspi-r8a7779
+> +          - renesas,imr-lx4
+> +          - renesas,mtu2-r7s72100
+> +          - renesas,rmobile-iic
+> +          - renesas,sbsc-sh73a0
+> +          - renesas,sdhi-mmc-r8a77470
+> +          - renesas,shmobile-flctl-sh7372
+> +          - renesas,sysc-r8a73a4
+> +          - renesas,sysc-r8a7740
+> +          - renesas,sysc-rmobile
+> +          - renesas,sysc-sh73a0
+> +          - renesas,usb-dmac
 > +
-> +	io_expander_27: gpio@27 {
-> +		compatible = "onnn,pca9654";
-> +		reg = <0x27>;
-> +		gpio-controller;
-> +		#gpio-cells = <2>;
+> +      # None SoC component compatibles
+> +      #
+> +      # Compatibles with the Renesas vendor prefix that do not relate to any SoC
+> +      # component are OK. New compatibles are allowed.
+> +      - enum:
+> +          - renesas,smp-sram
 > +
-> +		vin0_adv7612_en {
-> +                       gpio-hog;
-> +                       gpios = <0x3 0x0>;
-> +                       output-low;
-> +                       line-name = "VIN0_ADV7612_ENn";
-> +               };
-> +	};
-> +
-> +	dmi-decoder@4c {
-> +		compatible = "adi,adv7612";
-> +		reg = <0x4c>, <0x50>, <0x52>, <0x54>, <0x56>, <0x58>;
-> +		reg-names = "main", "afe", "rep", "edid", "hdmi", "cp";
-> +		interrupt-parent = <&gpio3>;
-> +		interrupts = <2 IRQ_TYPE_LEVEL_LOW>;
-> +		default-input = <0>;
-> +
-> +		ports {
-> +			#address-cells = <1>;
-> +			#size-cells = <0>;
-> +
-> +			port@0 {
-> +				reg = <0>;
-> +
-> +				adv7612_in: endpoint {
-> +					remote-endpoint = <&hdmi_in_con2>;
-> +				};
-> +			};
-> +
-> +			port@2 {
-> +				reg = <2>;
-> +
-> +				adv7612_out: endpoint {
-> +					remote-endpoint = <&vin0_in>;
-> +				};
-> +			};
-> +		};
-> +	};
-> +
-> +	adv7482_70: video-receiver@70 {
-> +		compatible = "adi,adv7482";
-> +		reg = <0x70 0x71 0x72 0x73 0x74 0x75
-> +		       0x60 0x61 0x62 0x63 0x64 0x65>;
-> +		reg-names = "main", "dpll", "cp", "hdmi", "edid", "repeater",
-> +			    "infoframe", "cbus", "cec", "sdp", "txa", "txb" ;
-> +		interrupt-parent = <&gpio3>;
-> +		interrupts = <03 IRQ_TYPE_LEVEL_LOW>, <04 IRQ_TYPE_LEVEL_LOW>;
-> +		interrupt-names = "intrq1", "intrq2";
-> +
-> +		ports {
-> +			#address-cells = <1>;
-> +			#size-cells = <0>;
-> +
-> +			port@7 {
-> +				reg = <7>;
-> +
-> +				adv7482_ain7: endpoint {
-> +					remote-endpoint = <&cvbs_con>;
-> +				};
-> +			};
-> +
-> +			port@8 {
-> +				reg = <8>;
-> +
-> +				adv7482_hdmi: endpoint {
-> +					remote-endpoint = <&hdmi_in_con>;
-> +				};
-> +			};
-> +
-> +			port@a {
-> +				reg = <10>;
-> +
-> +				adv7482_txa: endpoint {
-> +					clock-lanes = <0>;
-> +					data-lanes = <1 2 3 4>;
-> +					remote-endpoint = <&csi40_in>;
-> +				};
-> +			};
-> +		};
-> +	};
-> +
-> +};
-> +
-> +&csi40 {
-> +	status = "okay";
-> +
-> +	ports {
-> +		#address-cells = <1>;
-> +		#size-cells = <0>;
-> +
-> +		port@0 {
-> +			reg = <0>;
-> +
-> +			csi40_in: endpoint {
-> +				clock-lanes = <0>;
-> +				data-lanes = <1 2 3 4>;
-> +				remote-endpoint = <&adv7482_txa>;
-> +			};
-> +		};
-> +	};
-> +};
-> +
-> +&pfc {
-> +	vin0_pins_parallel: vin0 {
-> +		groups = "vin0_data12", "vin0_sync", "vin0_clk", "vin0_clkenb";
-> +		function = "vin0";
-> +	};
-> +};
-> +
-> +&vin0 {
-> +	status = "okay";
-> +
-> +	pinctrl-0 = <&vin0_pins_parallel>;
-> +	pinctrl-names = "default";
-> +
-> +	ports {
-> +		#address-cells = <1>;
-> +		#size-cells = <0>;
-> +
-> +		port@0 {
-> +			reg = <0>;
-> +
-> +			vin0_in: endpoint {
-> +				pclk-sample = <0>;
-> +				hsync-active = <0>;
-> +				vsync-active = <0>;
-> +				remote-endpoint = <&adv7612_out>;
-> +			};
-> +		};
-> +	};
-> +};
-> +
-> +&vin1 {
-> +	status = "okay";
-> +};
-> +
-> +&vin2 {
-> +	status = "okay";
-> +};
-> +
-> +&vin3 {
-> +	status = "okay";
-> +};
+> +additionalProperties: true
 > -- 
 > 2.43.0
 > 
