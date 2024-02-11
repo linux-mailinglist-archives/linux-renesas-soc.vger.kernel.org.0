@@ -1,130 +1,117 @@
-Return-Path: <linux-renesas-soc+bounces-2582-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-2583-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93A9685088C
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 11 Feb 2024 10:59:42 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 23CF78508C6
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 11 Feb 2024 12:17:50 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 1C274B218BF
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 11 Feb 2024 09:59:40 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4E74B1C210A1
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 11 Feb 2024 11:17:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 30A765917C;
-	Sun, 11 Feb 2024 09:59:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 254295A4CF;
+	Sun, 11 Feb 2024 11:17:47 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-oa1-f46.google.com (mail-oa1-f46.google.com [209.85.160.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37B805914F
-	for <linux-renesas-soc@vger.kernel.org>; Sun, 11 Feb 2024 09:59:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.46
+Received: from 1wt.eu (ded1.1wt.eu [163.172.96.212])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0EB0F2AF08;
+	Sun, 11 Feb 2024 11:17:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=163.172.96.212
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707645577; cv=none; b=sKekM1T7hrGpAsDiHRIPHLJ2XUv+Nk69fu2DSBf93UIlMPg+Gfck6fDQqHkof30dQVqtPUTgC74E0qhVM6FL+S0PWDP60BiYIhhcWtKCFH9pVm9EtLOVm2Kj8tLpTroGNRLCh+/2mZhkxyLt9sVtPVhsmg2jjgq2MLrKxNbLWSk=
+	t=1707650267; cv=none; b=nuhVO9AlNjCvu8CLoZjLpWdxENNYHvRtKmti2lFbH9RTvWC6vfYn59VtIxaZ9gwUSa+jns5YTAhafaQdmwvwPerju6102MLk/ZbIyAW4L9766i1Zz8AdU+BDF5kLwQBhRqyeTNjZ8m7BvUx2Xjiktepn26yjvLbJNfd1vrMPJko=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707645577; c=relaxed/simple;
-	bh=pyrjNCbZX6B1h6MK1RsKNIOshV/XhQCieqgwW9sUpfM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=iqJTQsLGEK91q+fMDp7YLUJ6MsBT/7yeov8TBFz7VMpsr1Q1CDYxp9VwwqCtluw6XRpBLXgjxiQZQt5l9srBzqnbm5ru5CfqC4IrJcX4Wq1AwKVTA+v1dvT/c5qljICkDysyoGGaiqzgkAy0bchRuc3SwmccNpuSMOE/eY5fJik=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.160.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-oa1-f46.google.com with SMTP id 586e51a60fabf-219452bdf81so1317152fac.2
-        for <linux-renesas-soc@vger.kernel.org>; Sun, 11 Feb 2024 01:59:34 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707645572; x=1708250372;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=h3KkAxWSRsRVqnLK8aK70Cb5sASB4LcVupWqUX2gQf4=;
-        b=rDvZ7O+ff/AgK6Svt3FthiLtomRgGhSUwMK9rEtX4COzINS2+OL8QEqGe1Fmcj5Wgl
-         fgl2n/ClcO+71qPiv/17aGr9bmA41zwLRrrzjsnqoUAos4iQgsqjCn/+wK7S1rwnaGcp
-         NJQrONc7hgj2sNStdZ2kkxXl3uz+2HEq4t/gv0RZdf9CpWug3joeuS0LhMCco8QwIHIm
-         F5oCPxRFnkXMfLmuUhdpEiCdZ3eEErBPqtzU/gXijXy02RCK2idSF6aTBkYhbpTBzCx6
-         YnHXVLAwg9M5lKcHfIJszZjhHcDP8fcqjkdirPvTPtgkTnpgCVmagF6pDYCR09/vypVD
-         naZQ==
-X-Gm-Message-State: AOJu0YzcGygtdi0LxpMlQtL8lgIzsqnKd0bxKHNyB7PEriVd5wdVqT8q
-	/INZGvrBR5A4e7cq703hJVaZinxqLDVbq6EoU3XzAsYQN6s9FtWmrP/YxurQS4Q=
-X-Google-Smtp-Source: AGHT+IGfPHrmpiTdfYkEBp52Yj5l4qN4mG1+wHvgD1YRk0HUdn6hNovzFpIIzAfjjFiT29kPGIGJGA==
-X-Received: by 2002:a05:6871:5228:b0:219:ef9d:2a38 with SMTP id ht40-20020a056871522800b00219ef9d2a38mr4081761oac.50.1707645572644;
-        Sun, 11 Feb 2024 01:59:32 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCW8RS5yHzu7kuQ6/vHV+zOwDWpjb65XhnZSLFD3mcyzS9JRNq6Utdqxw7r6MskkBC+oDe4gVoCE7mdPoWQUJPct6Az+5gZOCoMYILzHsEVZj6o=
-Received: from mail-oi1-f170.google.com (mail-oi1-f170.google.com. [209.85.167.170])
-        by smtp.gmail.com with ESMTPSA id gl15-20020a0568703c8f00b0021a600f3ff5sm2981oab.21.2024.02.11.01.59.31
-        for <linux-renesas-soc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 11 Feb 2024 01:59:31 -0800 (PST)
-Received: by mail-oi1-f170.google.com with SMTP id 5614622812f47-3bb9b28acb4so1998056b6e.2
-        for <linux-renesas-soc@vger.kernel.org>; Sun, 11 Feb 2024 01:59:31 -0800 (PST)
-X-Received: by 2002:a05:6808:23c3:b0:3bf:d798:7689 with SMTP id
- bq3-20020a05680823c300b003bfd7987689mr4477262oib.2.1707645571682; Sun, 11 Feb
- 2024 01:59:31 -0800 (PST)
+	s=arc-20240116; t=1707650267; c=relaxed/simple;
+	bh=Xz4zRgjnX5q9xaB3mTWEuD8RUIvC0uEA2UD64kmLUwU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Xo/7mZ95HDoCPzckObj6HrSURtYk9qbc/sPjkJOXjNenEwuUQFSc5Zq5HuzW92XbBgo6TBdvlgyqkqDrIajzL1jEVrC4sSGYkZ5zRcDKf6zWp6TjyF6bspAhlJpBTYcEz4VT8Bi18L/wZg6kUoAFLnOpYC77GoeI5Nl4xYIhXAo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=1wt.eu; spf=pass smtp.mailfrom=1wt.eu; arc=none smtp.client-ip=163.172.96.212
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=1wt.eu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=1wt.eu
+Received: (from willy@localhost)
+	by pcw.home.local (8.15.2/8.15.2/Submit) id 41BBHeOX022583;
+	Sun, 11 Feb 2024 12:17:40 +0100
+Date: Sun, 11 Feb 2024 12:17:40 +0100
+From: Willy Tarreau <w@1wt.eu>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH/RFC] lib: add CPU MHz benchmark test
+Message-ID: <20240211111740.GA22575@1wt.eu>
+References: <a2396ae072d6f9e009b5de558efe166b844a1397.1706718625.git.geert+renesas@glider.be>
+ <ZbqFsroYDjSoYEps@1wt.eu>
+ <CAMuHMdWrjag3icVi2mJbtEftwz_jH51Ov4-FAV67Mdz7UvxQXw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240209211535.3313392-1-niklas.soderlund+renesas@ragnatech.se>
-In-Reply-To: <20240209211535.3313392-1-niklas.soderlund+renesas@ragnatech.se>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Sun, 11 Feb 2024 10:59:20 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdVTUQOogPTGNAa04koock6i=AMa5inO3Q43gJi_O2OBig@mail.gmail.com>
-Message-ID: <CAMuHMdVTUQOogPTGNAa04koock6i=AMa5inO3Q43gJi_O2OBig@mail.gmail.com>
-Subject: Re: [PATCH] clk: renesas: Fix broken clocks on all Gen2 boards
-To: =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Cc: Nobuhiro Iwamatsu <iwamatsu@nigauri.org>, Marek Vasut <marek.vasut+renesas@mailbox.org>, 
-	Lukasz Majewski <lukma@denx.de>, Sean Anderson <seanga2@gmail.com>, Tom Rini <trini@konsulko.com>, 
-	Hai Pham <hai.pham.ud@renesas.com>, u-boot@lists.denx.de, 
-	linux-renesas-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAMuHMdWrjag3icVi2mJbtEftwz_jH51Ov4-FAV67Mdz7UvxQXw@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 
-Hi Niklas,
+Hi Geert!
 
-Thanks for your patch!
+On Thu, Feb 01, 2024 at 09:49:33AM +0100, Geert Uytterhoeven wrote:
+> > > Parallel runs (run on multiple CPU cores) are supported, just kick the
+> > > "run" file multiple times.
+> >
+> > Hmmm does it mean it will run on the CPU that writes this "run" ?
+> > Because this could allow one to start tests using e.g.:
+> >
+> >     taskset -c $CPU tee /sys/.../run <<< y
+> 
+> That does indeed work.
 
-On Fri, Feb 9, 2024 at 10:22=E2=80=AFPM Niklas S=C3=B6derlund
-<niklas.soderlund+renesas@ragnatech.se> wrote:
-> To prepare support for multiple register layouts pointers to register
-> tables where added to struct cpg_mssr_info. These pointers are suppose
+OK!
 
-supposed
+> > But we could also wonder if it wouldn't be easier to either send "y"
+> > to /sys/.../cpu0/run or may just send the CPU number to "run" instead
+> > of "y".
+> 
+> That would complicate the code a lot.
 
-> to be filled in at probe time and no intended change in behavior was
-> intended.
->
-> However the new pointers where only filled in by some paths of the
+OK I trust you, I was merely asking just in case.
 
-were
+> > In my experience with this tool, you most always want to easily
+> > control the CPU number because SoCs these days are not symmetrical at
+> > all.
+> 
+> That's why it prints the CPU number ;-)
+> 
+> On multi-core systems, you can also do e.g.
+> 
+>     for i in $(seq $(nproc)); do echo yes >
+> /sys/module/test_mhz/parameters/run & done
+> 
+> and collect the results for all CPU cores.
 
-> driver implemented in clk-rcar-gen3.c. The path implemented in
-> clk-rcar-gen2.c was not updated leaving the pointers uninitialized
-> leading to a crash when trying to probe the clocks.
->
-> Fix this by filling in the pointers in the Gen2 code path with the
-> values used before they where moved to struct cpg_mssr_info.
+OK!
 
-were
+> BTW, this is the same for test_dhry.
 
-> Fixes: d413214fb748 ("clk: renesas: Add register pointers into struct cpg=
-_mssr_info")
-> Signed-off-by: Niklas S=C3=B6derlund <niklas.soderlund+renesas@ragnatech.=
-se>
+I didn't know, that's an even better reason for not changing any of this!
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> > Another point is that it would be nice if there was a way to present
+> > the result in a form that a script can retrieve from the directory,
+> > maybe the last measurement or something like this. I know that scripts
+> > are commonly used to check for a machine's correct behavior, and I try
+> > to encourage users to verify that it's working well, so anything we can
+> > do that makes it easier to use would be welcome.
+> 
+> I'll give that a try...
 
-Gr{oetje,eeting}s,
+Thanks.
 
-                        Geert
+> > Hmmm I don't know if this is intended, the SPDX tag says MIT but the
+> > MODULE_LICENSE at the top says MIT/GPL. I can't say I care that much but
+> > I preferred to report it in case it's an accident ;-)
+> 
+> That must be an oversight.  I'll change the SPDX-License-Identifier to
+> "GPL-2.0 OR MIT".
 
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
+OK no problem!
 
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+Thanks,
+Willy
 
