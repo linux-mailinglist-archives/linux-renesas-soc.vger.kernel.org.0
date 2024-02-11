@@ -1,117 +1,174 @@
-Return-Path: <linux-renesas-soc+bounces-2583-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-2584-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23CF78508C6
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 11 Feb 2024 12:17:50 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id E67D68508E8
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 11 Feb 2024 13:13:39 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4E74B1C210A1
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 11 Feb 2024 11:17:49 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id B9EDFB211C3
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 11 Feb 2024 12:13:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 254295A4CF;
-	Sun, 11 Feb 2024 11:17:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 385FF5A799;
+	Sun, 11 Feb 2024 12:13:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AEczxG6T"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from 1wt.eu (ded1.1wt.eu [163.172.96.212])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0EB0F2AF08;
-	Sun, 11 Feb 2024 11:17:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=163.172.96.212
+Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF41A5A119;
+	Sun, 11 Feb 2024 12:13:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707650267; cv=none; b=nuhVO9AlNjCvu8CLoZjLpWdxENNYHvRtKmti2lFbH9RTvWC6vfYn59VtIxaZ9gwUSa+jns5YTAhafaQdmwvwPerju6102MLk/ZbIyAW4L9766i1Zz8AdU+BDF5kLwQBhRqyeTNjZ8m7BvUx2Xjiktepn26yjvLbJNfd1vrMPJko=
+	t=1707653614; cv=none; b=JVwE39wo82HBmTg24ozEFUfOeuHkKWvlVodbyhEJg5J24AX6MCEjENVa9rsXkfLosbt4h1smAcd3885i1WAXRZRPHdH4vUCd5Wt+tvSgtBHqAAOGnF4EH3MRi4UWTJCHv808SOVgA41L1rVTqqzeIE8W8I2Mif+fvedLMv54FxE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707650267; c=relaxed/simple;
-	bh=Xz4zRgjnX5q9xaB3mTWEuD8RUIvC0uEA2UD64kmLUwU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Xo/7mZ95HDoCPzckObj6HrSURtYk9qbc/sPjkJOXjNenEwuUQFSc5Zq5HuzW92XbBgo6TBdvlgyqkqDrIajzL1jEVrC4sSGYkZ5zRcDKf6zWp6TjyF6bspAhlJpBTYcEz4VT8Bi18L/wZg6kUoAFLnOpYC77GoeI5Nl4xYIhXAo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=1wt.eu; spf=pass smtp.mailfrom=1wt.eu; arc=none smtp.client-ip=163.172.96.212
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=1wt.eu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=1wt.eu
-Received: (from willy@localhost)
-	by pcw.home.local (8.15.2/8.15.2/Submit) id 41BBHeOX022583;
-	Sun, 11 Feb 2024 12:17:40 +0100
-Date: Sun, 11 Feb 2024 12:17:40 +0100
-From: Willy Tarreau <w@1wt.eu>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH/RFC] lib: add CPU MHz benchmark test
-Message-ID: <20240211111740.GA22575@1wt.eu>
-References: <a2396ae072d6f9e009b5de558efe166b844a1397.1706718625.git.geert+renesas@glider.be>
- <ZbqFsroYDjSoYEps@1wt.eu>
- <CAMuHMdWrjag3icVi2mJbtEftwz_jH51Ov4-FAV67Mdz7UvxQXw@mail.gmail.com>
+	s=arc-20240116; t=1707653614; c=relaxed/simple;
+	bh=2Q4h2e6REYa6u2p6nmSd8judJZa1t1SDfeAWRb9SNEQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=qlYhFWfps/7voGmMJb9YEN5tj/WW0Y+cZNWMjIqdTypsY1fvM+cgVuyH/yZpQ7qQgI+vUealeNnBGAR527s5T2RuMY12XZIBHuAEh4xQC4VXRJF05gH/t0VdAwAbrzNwSI1Q8/+dblqqCesN2etniiQwLToSakBhB3bYCRLrLxA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AEczxG6T; arc=none smtp.client-ip=209.85.208.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-2cf1fd1cc5bso27879611fa.3;
+        Sun, 11 Feb 2024 04:13:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1707653610; x=1708258410; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=A52z+b5xLVfFrcr9zzGunwskn67khLGyF+jqlb6jF9g=;
+        b=AEczxG6TieYMlDCr+yoy+jIrSeIUt+zeBHDapln8iR7Fp788YPUDS2qHIYNB8A/cPJ
+         3SVjAQS5TWt8bm6B1JtV4GuJjUGDtC0u5i/Qi98p5KPZ0U0/Oagugqg+ggvvkllC4uIJ
+         vNw9XvzK7BeGvlmS0GeyPVO5Gk+h5eCQNPXoj7dxf59iHduOlM46FkPWfeEyNRWo2k0P
+         +9dDrkZwRzQ0EXgIYNNBciBtXY/bsqGmzUR1/El/0Waot7bFECbr/oiM03hIOPoWxwDa
+         8G2gqxJVJYdr4zUEdmS/U3OPga2yjlMBSV4tV7WR1u+L2IrUZUfwhkQFRTaDgQTLYE1E
+         T0ag==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1707653610; x=1708258410;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=A52z+b5xLVfFrcr9zzGunwskn67khLGyF+jqlb6jF9g=;
+        b=BLXuH8p6ptGap79BMukPXzo8lHc4saIAwVpszLNkhAzM6MIXmRhrGWFuq9FjU/n0zW
+         mqixRRZLL56yuthNzvXpcoGTQGefIAELU5jRlydwiPUx8eTEfshoOKYOy5GU6VeWvRFJ
+         NBKioW4BTg64FaywEbOCwSD7n+BgJCiNUNRJY3BjzJToMfCHcHjwh6ZNW+q6ky39oWbp
+         XfpV2wSKAxDoF8oqJc8APqpIQ6Gsadrzu+CkvpbHmrLoSd1mqt630PtJ+6FIQqKUqF61
+         xfpsTAWzgXmQ+65CT8Zyk3bnckcPNhGf5HUxAkqaCbxKAi7ucArPGEX1QDvzKjpDZgvo
+         mq7w==
+X-Gm-Message-State: AOJu0Yy+Te/adRn2UpL6LM+XEcZySyKm/ZZzNsORvnQNaRHqwm8td/NH
+	vcRVWVbaPnZI1kLgtJQgvqT10FaBst5iPryfX8pJJI70LZD2r3FVG0kY/iqXgbZGE8CqQFKGKac
+	6j9CX6DngFdt9+c8gN78IPtWQKz4=
+X-Google-Smtp-Source: AGHT+IGiwnKe5q7KLP+AlWFxNVgxl2iOvO+p25ePLokWJbPS9AJUKjMi8nZf3HSnqSP7DLBNG9ZHT6EA4ZHsrR9YWdo=
+X-Received: by 2002:a05:651c:1a0f:b0:2d0:ec9c:d7d0 with SMTP id
+ by15-20020a05651c1a0f00b002d0ec9cd7d0mr2137111ljb.46.1707653609611; Sun, 11
+ Feb 2024 04:13:29 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdWrjag3icVi2mJbtEftwz_jH51Ov4-FAV67Mdz7UvxQXw@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <CADT+UeAfCTd8c+dHn3mgT=g6Boip=oRPdkODMN_j2KaROcT0AQ@mail.gmail.com>
+ <5600b643-0d07-5583-4858-a521676476a5@gmail.com>
+In-Reply-To: <5600b643-0d07-5583-4858-a521676476a5@gmail.com>
+From: Biju Das <biju.das.au@gmail.com>
+Date: Sun, 11 Feb 2024 12:13:18 +0000
+Message-ID: <CADT+UeBXkHTGdqpMqXPbXj3Dguci1tEJTUYr5xRkT0+G-6hzgg@mail.gmail.com>
+Subject: Re: [PATCH net-next v2 4/5] net: ravb: Do not apply RX checksum
+ settings to hardware if the interface is down
+To: Sergei Shtylyov <sergei.shtylyov@gmail.com>
+Cc: Sergey Shtylyov <s.shtylyov@omp.ru>, Biju Das <biju.das.jz@bp.renesas.com>, 
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>, claudiu.beznea@tuxon.dev, 
+	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Jakub Kicinski <kuba@kernel.org>, linux-kernel@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org, netdev@vger.kernel.org, 
+	Paolo Abeni <pabeni@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Geert!
+Hi Sergey,
 
-On Thu, Feb 01, 2024 at 09:49:33AM +0100, Geert Uytterhoeven wrote:
-> > > Parallel runs (run on multiple CPU cores) are supported, just kick the
-> > > "run" file multiple times.
+On Sun, Feb 11, 2024 at 9:40=E2=80=AFAM Sergei Shtylyov
+<sergei.shtylyov@gmail.com> wrote:
+>
+> On 2/11/24 11:56 AM, Biju Das wrote:
+>
+> >>>> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+> >>>>
+> >>>> Do not apply the RX checksum settings to hardware if the interface i=
+s
+> >>>> down.
+> >>>> In case runtime PM is enabled, and while the interface is down, the =
+IP
+> >>>> will be in reset mode (as for some platforms disabling the clocks wi=
+ll
+> >>>> switch the IP to reset mode, which will lead to losing register
+> >>>> contents) and applying settings in reset mode is not an option.
+> >>>> Instead, cache the RX checksum settings and apply them in ravb_open(=
+)
+> >>>> through ravb_emac_init().
+> >>>> This has been solved by introducing pm_runtime_active() check. The
+> >>>> device runtime PM usage counter has been incremented to avoid
+> >>>> disabling the device clocks while the check is in progress (if any).
+> >>>>
+> >>>> Commit prepares for the addition of runtime PM.
+> >>>>
+> >>>> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+> >>>
+> >>> Reviewed-by: Sergey Shtylyov <s.shtylyov@omp.ru>
+> >>
+> >> This will do the same job, without code duplication right?
+> >>
+> >>> static int ravb_set_features(struct net_device *ndev,
+> >>>     netdev_features_t features)
+> >>> {
+> >>> struct ravb_private *priv =3D netdev_priv(ndev);
+> >>> struct device *dev =3D &priv->pdev->dev;
+> >>> const struct ravb_hw_info *info =3D priv->info;
+> >>>
+> >>> pm_runtime_get_noresume(dev);
+> >>> if (!pm_runtime_active(dev)) {
+> >>> pm_runtime_put_noidle(dev);
+> >>> ndev->features =3D features;
+> >>> return 0;
+> >>> }
+> >>>
+> >>> return info->set_feature(ndev, features);
 > >
-> > Hmmm does it mean it will run on the CPU that writes this "run" ?
-> > Because this could allow one to start tests using e.g.:
+> >> We now leak the device reference by not calling pm_runtime_put_noidle(=
+)
+> >> after this statement...
 > >
-> >     taskset -c $CPU tee /sys/.../run <<< y
-> 
-> That does indeed work.
+> > Oops. So this leak  can be fixed like [1]
+> >
+> >>  The approach seems sane though -- Claudiu, please consider following =
+it.
+> >
+> > [1]
+> > static int ravb_set_features(struct net_device *ndev,
+> >     netdev_features_t features)
+> > {
+> > struct ravb_private *priv =3D netdev_priv(ndev);
+> > const struct ravb_hw_info *info =3D priv->info;
+> > struct device *dev =3D &priv->pdev->dev;
+> > bool pm_active;
+> >
+> > pm_runtime_get_noresume(dev);
+> > pm_active =3D pm_runtime_active(dev);
+> > pm_runtime_put_noidle(dev);
+>
+>    There is no point dropping the RPM reference before we access
+> the regs...
 
-OK!
+I don't think there is an issue in accessing register by the usage of
+below API's
 
-> > But we could also wonder if it wouldn't be easier to either send "y"
-> > to /sys/.../cpu0/run or may just send the CPU number to "run" instead
-> > of "y".
-> 
-> That would complicate the code a lot.
+pm_runtime_get_noresume:--- Bump up runtime PM usage counter of a device.
+pm_runtime_active:--- Check whether or not a device is runtime-active.
+pm_runtime_put_noidle:--Drop runtime PM usage counter of a device.
 
-OK I trust you, I was merely asking just in case.
-
-> > In my experience with this tool, you most always want to easily
-> > control the CPU number because SoCs these days are not symmetrical at
-> > all.
-> 
-> That's why it prints the CPU number ;-)
-> 
-> On multi-core systems, you can also do e.g.
-> 
->     for i in $(seq $(nproc)); do echo yes >
-> /sys/module/test_mhz/parameters/run & done
-> 
-> and collect the results for all CPU cores.
-
-OK!
-
-> BTW, this is the same for test_dhry.
-
-I didn't know, that's an even better reason for not changing any of this!
-
-> > Another point is that it would be nice if there was a way to present
-> > the result in a form that a script can retrieve from the directory,
-> > maybe the last measurement or something like this. I know that scripts
-> > are commonly used to check for a machine's correct behavior, and I try
-> > to encourage users to verify that it's working well, so anything we can
-> > do that makes it easier to use would be welcome.
-> 
-> I'll give that a try...
-
-Thanks.
-
-> > Hmmm I don't know if this is intended, the SPDX tag says MIT but the
-> > MODULE_LICENSE at the top says MIT/GPL. I can't say I care that much but
-> > I preferred to report it in case it's an accident ;-)
-> 
-> That must be an oversight.  I'll change the SPDX-License-Identifier to
-> "GPL-2.0 OR MIT".
-
-OK no problem!
-
-Thanks,
-Willy
+Cheers,
+Biju
 
