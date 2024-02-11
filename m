@@ -1,170 +1,130 @@
-Return-Path: <linux-renesas-soc+bounces-2581-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-2582-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1299F850857
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 11 Feb 2024 10:40:16 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 93A9685088C
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 11 Feb 2024 10:59:42 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 7DBFAB218F0
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 11 Feb 2024 09:40:13 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 1C274B218BF
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 11 Feb 2024 09:59:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 84A2B59165;
-	Sun, 11 Feb 2024 09:40:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CSJr//90"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 30A765917C;
+	Sun, 11 Feb 2024 09:59:37 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
+Received: from mail-oa1-f46.google.com (mail-oa1-f46.google.com [209.85.160.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23D992E3E1;
-	Sun, 11 Feb 2024 09:40:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37B805914F
+	for <linux-renesas-soc@vger.kernel.org>; Sun, 11 Feb 2024 09:59:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707644408; cv=none; b=UTTMoc7n4N7ro4lhJH53iyhtgGFnu71recwO7AwP26xRXd372ciAbIQ50vTEIBdpvBTatFBiwIBZCzBO1GV1LWpVCzRmkhe59hTHlJIe7wNNYaLBclgqD5xgAPjpYuywgvKsD1jg+q4K62BbFks3wgmUQrGsEHHb1ZCKFKTkYR8=
+	t=1707645577; cv=none; b=sKekM1T7hrGpAsDiHRIPHLJ2XUv+Nk69fu2DSBf93UIlMPg+Gfck6fDQqHkof30dQVqtPUTgC74E0qhVM6FL+S0PWDP60BiYIhhcWtKCFH9pVm9EtLOVm2Kj8tLpTroGNRLCh+/2mZhkxyLt9sVtPVhsmg2jjgq2MLrKxNbLWSk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707644408; c=relaxed/simple;
-	bh=m+MynlBCqiTW/nW56xpevjEGzyTh2lJGO9XlKJBXUj8=;
-	h=Subject:To:Cc:References:From:Message-ID:Date:MIME-Version:
-	 In-Reply-To:Content-Type; b=VO0hAeIrTgyQD6mCeXvhBMQx7r8N/3PRMablfi2JytRQxqp5YrYHdDdp4apOpwruJ/9EmtpuvnUIGme0IvUbH8Uac9Y9LyIgfgRNs0lxvXFUTE49XHAsZnzv4UUo1P66wSZhQG03yYRR4SSyPmTxHqt67VSUrBNxN7ECBNu0qu4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CSJr//90; arc=none smtp.client-ip=209.85.208.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+	s=arc-20240116; t=1707645577; c=relaxed/simple;
+	bh=pyrjNCbZX6B1h6MK1RsKNIOshV/XhQCieqgwW9sUpfM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=iqJTQsLGEK91q+fMDp7YLUJ6MsBT/7yeov8TBFz7VMpsr1Q1CDYxp9VwwqCtluw6XRpBLXgjxiQZQt5l9srBzqnbm5ru5CfqC4IrJcX4Wq1AwKVTA+v1dvT/c5qljICkDysyoGGaiqzgkAy0bchRuc3SwmccNpuSMOE/eY5fJik=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.160.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-2d0dc3fdd1bso21666131fa.0;
-        Sun, 11 Feb 2024 01:40:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1707644404; x=1708249204; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-language:in-reply-to:mime-version
-         :user-agent:date:message-id:from:references:cc:to:subject:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=hxAeYgheoBLj+Edm6NVrMBtYDbJT2BZs/m5VJ4rUUQw=;
-        b=CSJr//90IQqI+pyyOsk+4UvVYgEnN3sWKPNEIIVsGvxZqRF7tCA9i6RDYw0muwg28F
-         b+GVm7259D2Qlu4UnX7PUxiZ17BEQBQ8kkF6GdtVgGytkgjTi8XolXNkCTznL8pOqahJ
-         vh41i0zP5Bd/pqmc0pLSFKt5p51LcIb1UhBAC9IGd+9z0sGb7sr9/7Fs8EehaSvyHwQJ
-         sWeJ9RggKcHIb4kd9DdbGrzKr1WBqJ7yEhJxAoMxj4rFDg1e0xHvXBeHCp6py4BfV0gX
-         FGa8XtGRLGYn6/Km2o2cTIPx7DZXLCyl6TGZHcvb4FwHbqAH38/R45/GL4535lxR4utz
-         lMvw==
+Received: by mail-oa1-f46.google.com with SMTP id 586e51a60fabf-219452bdf81so1317152fac.2
+        for <linux-renesas-soc@vger.kernel.org>; Sun, 11 Feb 2024 01:59:34 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707644404; x=1708249204;
-        h=content-transfer-encoding:content-language:in-reply-to:mime-version
-         :user-agent:date:message-id:from:references:cc:to:subject
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=hxAeYgheoBLj+Edm6NVrMBtYDbJT2BZs/m5VJ4rUUQw=;
-        b=RDAVhX40NLjxD/iNJZvnvaSCAPUkYZ+EeieoW8YH1NyhVsf7ikISI3INTzHgGfDqXn
-         QQxKWBcKHORVq5R+VQqfvXzXqJb4xo/MrDpaITC0y1hYce28E3lYo2AYOROb/tW5vSJb
-         VVsMZJppQiklfsLvb5INp9ht3bTFvpUY8Oojs+pO86uLjvBqlHatluozj4uK/3M9fUaG
-         TcGM5rixnbhfraj4tOuCF9e/E9jiwcLocBVtrRX3UWSX3xtmclIV+bC8mHGc/dJti4Bt
-         SM+FFOFqF/MQYXh9KYZHZnc1aIugCm6uf7GNTIUfmD9yA3wMHxIyN+mRXkZNP2CEHXh7
-         6isA==
-X-Forwarded-Encrypted: i=1; AJvYcCUmylMKYlwDuywS1hHIv/DgkLRRCTwTF+4rjjoRC00d8TAE+yEoYdM/Jo2okQPGBUMH/29JF/5Vh9e4VsSOzTpUQy4ZgVZ3FxMV0QBQAJsFriOKxWcznjPb12kQEpe1rA34lEkvcvDaFS/fJ6Iht9RgBBLx+TrAEYwVEsvgjMLA/TbdlVfmJ4w=
-X-Gm-Message-State: AOJu0YyqtxTTTH4L2KYmZgFdLsSt4zV9XiCqqyx+dnEtWEjQXFDMRpBS
-	rJuTSU17IP3AuUeYvygyKFn7Jvp0VyFVu2rZRqZmDtH76S/luwdl
-X-Google-Smtp-Source: AGHT+IHgHMXcm6Lu4lcuYGzuQWfKtCRvTjkEiAIsX+ofRSGKGLh+iM4VFDBnvXF5ZTHsCWCz56qhiQ==
-X-Received: by 2002:a05:651c:507:b0:2d0:d336:d144 with SMTP id o7-20020a05651c050700b002d0d336d144mr2983808ljp.14.1707644403904;
-        Sun, 11 Feb 2024 01:40:03 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCVNbVc6nIIj7NjqkDPBg5terxOSgaQfNkajtoQQrtFWhNxIYj+vrBES6GSJSHLukRUcMFtLGqC32+pNKwLB890KrA3SeSzHT2rAkj81S9b/JD9DvoRP3rE9T6xzmjwo0C+U1rD725MIp/16mXXpN80RCcCPWxCkUb0WpPYUd7CqRt3rBXl5PagSo2dis+uD3Y6NqBUV+vIsHhvsdU3qCRavSa4bGS4LStIGj94HY48GzKj/7h2iU5x3WNCaAPGqKjJ4rJHP/dmLWlApNa83+bgX5JU/3KWHitUaWrD0ndFbUUdEHK8OFuMONYH58+mRvoKiuz+4cQYtK6nOt3SID4122Y9C53QjhRkKg7F8sEc934z8knvVOkjNu+y2Shtq3EqIDxIx
-Received: from [192.168.1.105] ([31.173.83.113])
-        by smtp.gmail.com with ESMTPSA id n15-20020a05651c000f00b002d06c31cf6esm887333lja.124.2024.02.11.01.40.02
+        d=1e100.net; s=20230601; t=1707645572; x=1708250372;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=h3KkAxWSRsRVqnLK8aK70Cb5sASB4LcVupWqUX2gQf4=;
+        b=rDvZ7O+ff/AgK6Svt3FthiLtomRgGhSUwMK9rEtX4COzINS2+OL8QEqGe1Fmcj5Wgl
+         fgl2n/ClcO+71qPiv/17aGr9bmA41zwLRrrzjsnqoUAos4iQgsqjCn/+wK7S1rwnaGcp
+         NJQrONc7hgj2sNStdZ2kkxXl3uz+2HEq4t/gv0RZdf9CpWug3joeuS0LhMCco8QwIHIm
+         F5oCPxRFnkXMfLmuUhdpEiCdZ3eEErBPqtzU/gXijXy02RCK2idSF6aTBkYhbpTBzCx6
+         YnHXVLAwg9M5lKcHfIJszZjhHcDP8fcqjkdirPvTPtgkTnpgCVmagF6pDYCR09/vypVD
+         naZQ==
+X-Gm-Message-State: AOJu0YzcGygtdi0LxpMlQtL8lgIzsqnKd0bxKHNyB7PEriVd5wdVqT8q
+	/INZGvrBR5A4e7cq703hJVaZinxqLDVbq6EoU3XzAsYQN6s9FtWmrP/YxurQS4Q=
+X-Google-Smtp-Source: AGHT+IGfPHrmpiTdfYkEBp52Yj5l4qN4mG1+wHvgD1YRk0HUdn6hNovzFpIIzAfjjFiT29kPGIGJGA==
+X-Received: by 2002:a05:6871:5228:b0:219:ef9d:2a38 with SMTP id ht40-20020a056871522800b00219ef9d2a38mr4081761oac.50.1707645572644;
+        Sun, 11 Feb 2024 01:59:32 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCW8RS5yHzu7kuQ6/vHV+zOwDWpjb65XhnZSLFD3mcyzS9JRNq6Utdqxw7r6MskkBC+oDe4gVoCE7mdPoWQUJPct6Az+5gZOCoMYILzHsEVZj6o=
+Received: from mail-oi1-f170.google.com (mail-oi1-f170.google.com. [209.85.167.170])
+        by smtp.gmail.com with ESMTPSA id gl15-20020a0568703c8f00b0021a600f3ff5sm2981oab.21.2024.02.11.01.59.31
+        for <linux-renesas-soc@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 11 Feb 2024 01:40:03 -0800 (PST)
-Subject: Re: [PATCH net-next v2 4/5] net: ravb: Do not apply RX checksum
- settings to hardware if the interface is down
-To: Biju Das <biju.das.au@gmail.com>, Sergey Shtylyov <s.shtylyov@omp.ru>
-Cc: Biju Das <biju.das.jz@bp.renesas.com>,
- Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>, claudiu.beznea@tuxon.dev,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, linux-kernel@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org, netdev@vger.kernel.org,
- Paolo Abeni <pabeni@redhat.com>
-References: <CADT+UeAfCTd8c+dHn3mgT=g6Boip=oRPdkODMN_j2KaROcT0AQ@mail.gmail.com>
-From: Sergei Shtylyov <sergei.shtylyov@gmail.com>
-Message-ID: <5600b643-0d07-5583-4858-a521676476a5@gmail.com>
-Date: Sun, 11 Feb 2024 12:40:01 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+        Sun, 11 Feb 2024 01:59:31 -0800 (PST)
+Received: by mail-oi1-f170.google.com with SMTP id 5614622812f47-3bb9b28acb4so1998056b6e.2
+        for <linux-renesas-soc@vger.kernel.org>; Sun, 11 Feb 2024 01:59:31 -0800 (PST)
+X-Received: by 2002:a05:6808:23c3:b0:3bf:d798:7689 with SMTP id
+ bq3-20020a05680823c300b003bfd7987689mr4477262oib.2.1707645571682; Sun, 11 Feb
+ 2024 01:59:31 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <CADT+UeAfCTd8c+dHn3mgT=g6Boip=oRPdkODMN_j2KaROcT0AQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20240209211535.3313392-1-niklas.soderlund+renesas@ragnatech.se>
+In-Reply-To: <20240209211535.3313392-1-niklas.soderlund+renesas@ragnatech.se>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Sun, 11 Feb 2024 10:59:20 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdVTUQOogPTGNAa04koock6i=AMa5inO3Q43gJi_O2OBig@mail.gmail.com>
+Message-ID: <CAMuHMdVTUQOogPTGNAa04koock6i=AMa5inO3Q43gJi_O2OBig@mail.gmail.com>
+Subject: Re: [PATCH] clk: renesas: Fix broken clocks on all Gen2 boards
+To: =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+Cc: Nobuhiro Iwamatsu <iwamatsu@nigauri.org>, Marek Vasut <marek.vasut+renesas@mailbox.org>, 
+	Lukasz Majewski <lukma@denx.de>, Sean Anderson <seanga2@gmail.com>, Tom Rini <trini@konsulko.com>, 
+	Hai Pham <hai.pham.ud@renesas.com>, u-boot@lists.denx.de, 
+	linux-renesas-soc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 2/11/24 11:56 AM, Biju Das wrote:
+Hi Niklas,
 
->>>> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
->>>>
->>>> Do not apply the RX checksum settings to hardware if the interface is
->>>> down.
->>>> In case runtime PM is enabled, and while the interface is down, the IP
->>>> will be in reset mode (as for some platforms disabling the clocks will
->>>> switch the IP to reset mode, which will lead to losing register
->>>> contents) and applying settings in reset mode is not an option.
->>>> Instead, cache the RX checksum settings and apply them in ravb_open()
->>>> through ravb_emac_init().
->>>> This has been solved by introducing pm_runtime_active() check. The
->>>> device runtime PM usage counter has been incremented to avoid
->>>> disabling the device clocks while the check is in progress (if any).
->>>>
->>>> Commit prepares for the addition of runtime PM.
->>>>
->>>> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
->>>
->>> Reviewed-by: Sergey Shtylyov <s.shtylyov@omp.ru>
->>
->> This will do the same job, without code duplication right?
->>
->>> static int ravb_set_features(struct net_device *ndev,
->>>     netdev_features_t features)
->>> {
->>> struct ravb_private *priv = netdev_priv(ndev);
->>> struct device *dev = &priv->pdev->dev;
->>> const struct ravb_hw_info *info = priv->info;
->>>
->>> pm_runtime_get_noresume(dev);
->>> if (!pm_runtime_active(dev)) {
->>> pm_runtime_put_noidle(dev);
->>> ndev->features = features;
->>> return 0;
->>> }
->>>
->>> return info->set_feature(ndev, features);
-> 
->> We now leak the device reference by not calling pm_runtime_put_noidle()
->> after this statement...
-> 
-> Oops. So this leak  can be fixed like [1]
-> 
->>  The approach seems sane though -- Claudiu, please consider following it.
-> 
-> [1]
-> static int ravb_set_features(struct net_device *ndev,
->     netdev_features_t features)
-> {
-> struct ravb_private *priv = netdev_priv(ndev);
-> const struct ravb_hw_info *info = priv->info;
-> struct device *dev = &priv->pdev->dev;
-> bool pm_active;
-> 
-> pm_runtime_get_noresume(dev);
-> pm_active = pm_runtime_active(dev);
-> pm_runtime_put_noidle(dev);
+Thanks for your patch!
 
-   There is no point dropping the RPM reference before we access
-the regs...
+On Fri, Feb 9, 2024 at 10:22=E2=80=AFPM Niklas S=C3=B6derlund
+<niklas.soderlund+renesas@ragnatech.se> wrote:
+> To prepare support for multiple register layouts pointers to register
+> tables where added to struct cpg_mssr_info. These pointers are suppose
 
-> if (pm_active )
->      return info->set_feature(ndev, features);
+supposed
 
-   As I said, we should call pm_runtime_put_noidle() here...
- 
-> ndev->features = features;
-> return 0;
-> }
+> to be filled in at probe time and no intended change in behavior was
+> intended.
+>
+> However the new pointers where only filled in by some paths of the
 
-MBR, Sergey
+were
+
+> driver implemented in clk-rcar-gen3.c. The path implemented in
+> clk-rcar-gen2.c was not updated leaving the pointers uninitialized
+> leading to a crash when trying to probe the clocks.
+>
+> Fix this by filling in the pointers in the Gen2 code path with the
+> values used before they where moved to struct cpg_mssr_info.
+
+were
+
+> Fixes: d413214fb748 ("clk: renesas: Add register pointers into struct cpg=
+_mssr_info")
+> Signed-off-by: Niklas S=C3=B6derlund <niklas.soderlund+renesas@ragnatech.=
+se>
+
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
