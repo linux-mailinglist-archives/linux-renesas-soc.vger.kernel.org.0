@@ -1,110 +1,147 @@
-Return-Path: <linux-renesas-soc+bounces-2579-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-2580-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD16D8507D2
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 11 Feb 2024 06:06:25 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 059C385083F
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 11 Feb 2024 09:56:45 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 73C811F218F5
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 11 Feb 2024 05:06:25 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 64231B222F1
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 11 Feb 2024 08:56:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E8BAF1095B;
-	Sun, 11 Feb 2024 05:06:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D4F665914D;
+	Sun, 11 Feb 2024 08:56:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="rBsgxJQp";
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="W/yWwe3R"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GV9MdKRd"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6C9FCA7A
-	for <linux-renesas-soc@vger.kernel.org>; Sun, 11 Feb 2024 05:06:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 076A259150;
+	Sun, 11 Feb 2024 08:56:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707627981; cv=none; b=MjD090eZFHEk8YW6AqZdQ2Aj+KJFw5eGTW0OGdgpKpaL9OXZq8xtwbs9vX7YnxNbaPftXjZ8wiunE9bMavaBLAHzkGFIlnPVTnT59PgTtMaa3WlrAYPHBVvz+nQEXHhibVw4ldTD5AmUDXP8LShMbcZcJ/WDvX0jvL16wdsxxHI=
+	t=1707641795; cv=none; b=WYulM+oIny2nsM7VbT2j8x5xn8g6XaB974lpS5+FVNev2VpvNPLUoItyhNi1e4YWC9cTYZ3v9hcdfLXhYRguGrYjy6rko6HigjzAB4XBRF94PyxE+fFQ7SzqPPz+i3MOsGK8Qf7USxDrAGmmxh2V2zIR7P4RBxpzu8bRwTPX0mE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707627981; c=relaxed/simple;
-	bh=K9bLiAhCnS8aVOpnROZtRcRPbKJ0MX9cfLerwFNowO8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Q6bIuX89LfR18h65Z5IiKq5UywWmSaVEXIErDDqJ134qYRWFdODDg1H1owne5P7ibYjJVjFfM4CxW4eM7lSotB5Iwj9t3zg13vfmz6oVeeGfzd9DKuammi1hOOctMsY3IsmBftRutDbPOLmG+gLZd158dI60kLB/tEXf5MUNs4M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=rBsgxJQp; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=W/yWwe3R; arc=none smtp.client-ip=80.241.56.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
-Received: from smtp1.mailbox.org (smtp1.mailbox.org [10.196.197.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4TXbCQ5FLyz9sS2;
-	Sun, 11 Feb 2024 06:06:10 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1707627970;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Dl2u1HdLiSjWfyjpBBb4Vf7C1Ef70pqZW5ew5kiCZlE=;
-	b=rBsgxJQpCTVTwSVvydRoi7EBmh1i3VejpZ4ijOo6f/lWPchiSRui1jkZT9AcYt0Jqpj8mS
-	xo/eHhUCs40Zle8AcGaEYYu++fRELQNcR+DdSfClkAqPUmyubK+RSC/3/UZOTj+98NhTpu
-	gf9KOW0EUdDolW8WK13J3otkS4sJFXQIB9QRdGv2t9u6QM/cMIP86YfgCRkydxs4aDeHAP
-	p3wFB2xSZAgzcTVpiKIJX8HoaYsoD5J7xLx2S35l++hHS73oiWxXmytHML891ctrz73jwr
-	7MTC6eH0obG6TboiqMBe9mAZJgiTNidv+BSurRou/nu8K9YTxtdooa0ky5HfMQ==
-Message-ID: <89b2acf3-e61f-4deb-8e5e-3e764507b6fa@mailbox.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1707627968;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Dl2u1HdLiSjWfyjpBBb4Vf7C1Ef70pqZW5ew5kiCZlE=;
-	b=W/yWwe3RJnbiR+1yyt4mTd5ueyp0DupuUflupPbtJlmsUjV6XbzMfMNtliV0/YKUeF/GSr
-	1zb5pt2hvrYo9HcJZPnZyE/NrbmLNi8lXdrh3pU4Mme5TyH0SXKi2U56SiNtEkqWYrjMEG
-	iJThTrvOTaokvGu5th2EETC5Jl6f1KJnc1YERgvl6XwqVzimdhIDbWsn3L6u1Yo7EQoQ/f
-	rXjfP6Bl+hfmv18GatBeYN9hFjj2/6bDkrMirMvmEDAnUt+Uh6CwjUFgbGSBUiyekzVyXf
-	4c968BTYEXF6GCQJ1a5M6/hODw2zMadyn4ZDSfFh6FgnL5MF2MhdhvL6YAcG/Q==
-Date: Sun, 11 Feb 2024 06:06:05 +0100
+	s=arc-20240116; t=1707641795; c=relaxed/simple;
+	bh=C5cwjj5OUPe+LMG1Ksz0so7LB9nLFK+4LEY2R17TIwM=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=Ucjc5Kt8Xowbxtm2wIQSfbqjppJJ6xohiku2Xes4l1zeDEmWYAVIqlj2ba2hNBalHFYFfXY4aXhGqVTw0TTVXjsMK0LdNUKShtr8sxPAfFKW1LroNN0ELG0OnV3Vx06wc8l7Be3MQHPVQ9hLIGhMfeqFAk8enr42+OToUfjbyIw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GV9MdKRd; arc=none smtp.client-ip=209.85.208.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-561519f8698so1972877a12.0;
+        Sun, 11 Feb 2024 00:56:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1707641792; x=1708246592; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=4rrqZM2NRH92oN2Wcrr2Xkr2NlpWpuW2V/bIVMwXzFQ=;
+        b=GV9MdKRdPNBlz6zFtJSCVlHIFQKi9vaVKyHrhf5hgJ/kJL8AJ8DOzv3gmQ9cliHT+L
+         YpOm1+hKXMgBvf/qZduOrVQneQIfoSoY46F4+tF80gW9I053CV8rq6ynmVo3wnFLglF+
+         xsYhZ3ijwYEsGYdiKBMhZiN1N2iGosyDeyaMqiM4WUBiqsNLDXJasc2jme8khHrEjkj1
+         tk3YodljhpQRjqfTGL9ajxtV+QKWFEAQO7jwXjmeQ+gj9Hbv/PwKzF7p3McT+fab2quP
+         YogFMLx4PNaKwe9CqEMrRMu7PAhtmmJMvRGR4q/SX09v57T/ZZ+a8qrCW09bCNOY2DNT
+         wwDg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1707641792; x=1708246592;
+        h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=4rrqZM2NRH92oN2Wcrr2Xkr2NlpWpuW2V/bIVMwXzFQ=;
+        b=ejiVKa4i8W6tQWCfawC3ZweQd02Ls0Mv+ABAxAxMIF/3PlHs9A6iBoNcZGZljIVqzh
+         kdPSvjpeCvyh05cHNSTZTiN+s7yzPOm+RE+eKbObJ92hrh4i/jVhoFxdCqWgu7hATdtA
+         5DHu/pw+sW6dco7g+IKixeVXSQ+2XEcsMJI/q5hgYg5JFyhcKDVfx/0gHRgM946I03wX
+         gRmfqy/WRaERK0rs+mRMg48qO78cLDuZpCjAsozh/n04EIRDM1dMyYZgL6iclTxIVDr5
+         9cSzXVe+2wT7neW2OQ6vuHAOcqi7qUAHco2pVii6/X4spUjUUZ6B2aC4RwxFWJ1om9bQ
+         bYUw==
+X-Gm-Message-State: AOJu0YwfIFckD+aw5trvexSTka1UFxm2uYtu9hS2X694xRtqWwQFkLc3
+	pWYCqm5RZyYJhw720Q+GjWRqS+0Thx8K8LKJ9dWvEVHt4v1dCVl5QldYVBtj99ja5lAv2W1vmY2
+	IcFCMM+gRvoshdHw8w3o9gBYHtcc=
+X-Google-Smtp-Source: AGHT+IHFLXwCdh+7ms8i3jH5bZF+recXJ3JXnbhk+7rGnwfbaDFqQwc/HKBtNfPimX3VKzfzYI/CruasgSUdUJ0VP58=
+X-Received: by 2002:a05:6402:7c7:b0:561:a902:6bd7 with SMTP id
+ u7-20020a05640207c700b00561a9026bd7mr128011edy.20.1707641791979; Sun, 11 Feb
+ 2024 00:56:31 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH] clk: renesas: Fix broken clocks on all Gen2 boards
-To: =?UTF-8?Q?Niklas_S=C3=B6derlund?=
- <niklas.soderlund+renesas@ragnatech.se>,
- Nobuhiro Iwamatsu <iwamatsu@nigauri.org>,
- Marek Vasut <marek.vasut+renesas@mailbox.org>,
- Lukasz Majewski <lukma@denx.de>, Sean Anderson <seanga2@gmail.com>,
- Tom Rini <trini@konsulko.com>, Hai Pham <hai.pham.ud@renesas.com>,
- u-boot@lists.denx.de
-Cc: linux-renesas-soc@vger.kernel.org
-References: <20240209211535.3313392-1-niklas.soderlund+renesas@ragnatech.se>
-Content-Language: en-US
-From: Marek Vasut <marek.vasut@mailbox.org>
-In-Reply-To: <20240209211535.3313392-1-niklas.soderlund+renesas@ragnatech.se>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-MBO-RS-ID: 3f92979d57a8b04016a
-X-MBO-RS-META: s6binwiqp5gcosbbd8tgsbystmq7xei3
+From: Biju Das <biju.das.au@gmail.com>
+Date: Sun, 11 Feb 2024 08:56:20 +0000
+Message-ID: <CADT+UeAfCTd8c+dHn3mgT=g6Boip=oRPdkODMN_j2KaROcT0AQ@mail.gmail.com>
+Subject: Re: [PATCH net-next v2 4/5] net: ravb: Do not apply RX checksum
+ settings to hardware if the interface is down
+To: Sergey Shtylyov <s.shtylyov@omp.ru>
+Cc: Biju Das <biju.das.jz@bp.renesas.com>, 
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>, claudiu.beznea@tuxon.dev, 
+	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Jakub Kicinski <kuba@kernel.org>, linux-kernel@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org, netdev@vger.kernel.org, 
+	Paolo Abeni <pabeni@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
 
-On 2/9/24 22:15, Niklas Söderlund wrote:
-> To prepare support for multiple register layouts pointers to register
-> tables where added to struct cpg_mssr_info. These pointers are suppose
-> to be filled in at probe time and no intended change in behavior was
-> intended.
-> 
-> However the new pointers where only filled in by some paths of the
-> driver implemented in clk-rcar-gen3.c. The path implemented in
-> clk-rcar-gen2.c was not updated leaving the pointers uninitialized
-> leading to a crash when trying to probe the clocks.
-> 
-> Fix this by filling in the pointers in the Gen2 code path with the
-> values used before they where moved to struct cpg_mssr_info.
-> 
-> Fixes: d413214fb748 ("clk: renesas: Add register pointers into struct cpg_mssr_info")
-> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+>>> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+>>>
+>>> Do not apply the RX checksum settings to hardware if the interface is
+>>> down.
+>>> In case runtime PM is enabled, and while the interface is down, the IP
+>>> will be in reset mode (as for some platforms disabling the clocks will
+>>> switch the IP to reset mode, which will lead to losing register
+>>> contents) and applying settings in reset mode is not an option.
+>>> Instead, cache the RX checksum settings and apply them in ravb_open()
+>>> through ravb_emac_init().
+>>> This has been solved by introducing pm_runtime_active() check. The
+>>> device runtime PM usage counter has been incremented to avoid
+>>> disabling the device clocks while the check is in progress (if any).
+>>>
+>>> Commit prepares for the addition of runtime PM.
+>>>
+>>> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+>>
+>> Reviewed-by: Sergey Shtylyov <s.shtylyov@omp.ru>
+>
+> This will do the same job, without code duplication right?
+>
+>> static int ravb_set_features(struct net_device *ndev,
+>>     netdev_features_t features)
+>> {
+>> struct ravb_private *priv = netdev_priv(ndev);
+>> struct device *dev = &priv->pdev->dev;
+>> const struct ravb_hw_info *info = priv->info;
+>>
+>> pm_runtime_get_noresume(dev);
+>> if (!pm_runtime_active(dev)) {
+>> pm_runtime_put_noidle(dev);
+>> ndev->features = features;
+>> return 0;
+>> }
+>>
+>> return info->set_feature(ndev, features);
 
-Acked-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
-Tested-by: Marek Vasut <marek.vasut+renesas@mailbox.org> # R8A7791 Porter
+> We now leak the device reference by not calling pm_runtime_put_noidle()
+>after this statement...
+
+Oops. So this leak  can be fixed like [1]
+
+>  The approach seems sane though -- Claudiu, please consider following it.
+
+[1]
+static int ravb_set_features(struct net_device *ndev,
+    netdev_features_t features)
+{
+struct ravb_private *priv = netdev_priv(ndev);
+const struct ravb_hw_info *info = priv->info;
+struct device *dev = &priv->pdev->dev;
+bool pm_active;
+
+pm_runtime_get_noresume(dev);
+pm_active = pm_runtime_active(dev);
+pm_runtime_put_noidle(dev);
+if (pm_active )
+     return info->set_feature(ndev, features);
+
+ndev->features = features;
+return 0;
+}
 
