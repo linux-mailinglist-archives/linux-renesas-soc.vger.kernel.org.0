@@ -1,93 +1,110 @@
-Return-Path: <linux-renesas-soc+bounces-2578-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-2579-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0AA03850646
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 10 Feb 2024 21:45:15 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id CD16D8507D2
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 11 Feb 2024 06:06:25 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0DC011C20A75
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 10 Feb 2024 20:45:14 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 73C811F218F5
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 11 Feb 2024 05:06:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 04B545F849;
-	Sat, 10 Feb 2024 20:45:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E8BAF1095B;
+	Sun, 11 Feb 2024 05:06:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gkDndEBI"
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="rBsgxJQp";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="W/yWwe3R"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE5E73612E;
-	Sat, 10 Feb 2024 20:45:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6C9FCA7A
+	for <linux-renesas-soc@vger.kernel.org>; Sun, 11 Feb 2024 05:06:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707597910; cv=none; b=RQatGzvyI8ALWWK5W2YO4Gphe2M+FN7/aAROp/w8rKqnBa9MpP/N+p+MKik2fyCcCci7c3c6p2LsncntAYMoWKVLLtib6lrQerFLxA3slw42jJIIER4dSoDZ0tgjaaxDJxQaWIfG1bOljnHpXVOsbquVP7p/uD8uaLu4+UhVhMU=
+	t=1707627981; cv=none; b=MjD090eZFHEk8YW6AqZdQ2Aj+KJFw5eGTW0OGdgpKpaL9OXZq8xtwbs9vX7YnxNbaPftXjZ8wiunE9bMavaBLAHzkGFIlnPVTnT59PgTtMaa3WlrAYPHBVvz+nQEXHhibVw4ldTD5AmUDXP8LShMbcZcJ/WDvX0jvL16wdsxxHI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707597910; c=relaxed/simple;
-	bh=s4/GAVNGtJKHPvbP5T5lksRrhX3AwahMM1n17Lq7znE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mXIgg/ONv7p22dPQASG2ZbiT2OWPNst7eca3hOpUvwu5wJ5odScg7RoukocKU9oUKS35bXXM3/pew0H27p46i6O9QUfh+5prXm9o0wMv0SmL4YfrHf4UzVwMsf2DmMTAVicN6EU+16T1XVZdlQPezHztv58srIlXjcUqb7G9rzM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gkDndEBI; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 860B6C433F1;
-	Sat, 10 Feb 2024 20:45:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1707597910;
-	bh=s4/GAVNGtJKHPvbP5T5lksRrhX3AwahMM1n17Lq7znE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=gkDndEBIepg68mtmfu7hDTGwCd1fFZsS339EH3wAkQ4yDgtB9h29+ENI1njeEf2gx
-	 xTdWzMlEGj63DnqC4mP1S9US2SRcVdXaBim7+UbWyJzCWdfM48piM4X1TLgVNzREiA
-	 cgG1sG5eazQ7r8g3mCN2YoGxp7Tifa+lU+TeBsiBEJB8LaJ7nUlxUAMa/0M1UdnEx1
-	 Libzy5Gyl1Vjh2SsgmtIWCgIdvGAcBZQgu7VzTpGgXkv9C+/PrqnqzfWa01wqAUwZ7
-	 9DCwnkD23lu52SdsKufhqq7SqFJkBluCR+oRjnmMFMTPHeOHYsDKOEmuWOP4FW0OBK
-	 b+z7eyYemyIHg==
-Date: Sat, 10 Feb 2024 20:45:06 +0000
-From: Conor Dooley <conor@kernel.org>
-To: Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: Re: [PATCH v2] dt-bindings: renesas: Document preferred compatible
- naming
-Message-ID: <20240210-zips-chatty-b50df32ee8ff@spud>
-References: <20240127121937.2372098-1-niklas.soderlund+renesas@ragnatech.se>
- <20240210130619.GE1177919@ragnatech.se>
+	s=arc-20240116; t=1707627981; c=relaxed/simple;
+	bh=K9bLiAhCnS8aVOpnROZtRcRPbKJ0MX9cfLerwFNowO8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Q6bIuX89LfR18h65Z5IiKq5UywWmSaVEXIErDDqJ134qYRWFdODDg1H1owne5P7ibYjJVjFfM4CxW4eM7lSotB5Iwj9t3zg13vfmz6oVeeGfzd9DKuammi1hOOctMsY3IsmBftRutDbPOLmG+gLZd158dI60kLB/tEXf5MUNs4M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=rBsgxJQp; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=W/yWwe3R; arc=none smtp.client-ip=80.241.56.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+Received: from smtp1.mailbox.org (smtp1.mailbox.org [10.196.197.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4TXbCQ5FLyz9sS2;
+	Sun, 11 Feb 2024 06:06:10 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1707627970;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Dl2u1HdLiSjWfyjpBBb4Vf7C1Ef70pqZW5ew5kiCZlE=;
+	b=rBsgxJQpCTVTwSVvydRoi7EBmh1i3VejpZ4ijOo6f/lWPchiSRui1jkZT9AcYt0Jqpj8mS
+	xo/eHhUCs40Zle8AcGaEYYu++fRELQNcR+DdSfClkAqPUmyubK+RSC/3/UZOTj+98NhTpu
+	gf9KOW0EUdDolW8WK13J3otkS4sJFXQIB9QRdGv2t9u6QM/cMIP86YfgCRkydxs4aDeHAP
+	p3wFB2xSZAgzcTVpiKIJX8HoaYsoD5J7xLx2S35l++hHS73oiWxXmytHML891ctrz73jwr
+	7MTC6eH0obG6TboiqMBe9mAZJgiTNidv+BSurRou/nu8K9YTxtdooa0ky5HfMQ==
+Message-ID: <89b2acf3-e61f-4deb-8e5e-3e764507b6fa@mailbox.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1707627968;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Dl2u1HdLiSjWfyjpBBb4Vf7C1Ef70pqZW5ew5kiCZlE=;
+	b=W/yWwe3RJnbiR+1yyt4mTd5ueyp0DupuUflupPbtJlmsUjV6XbzMfMNtliV0/YKUeF/GSr
+	1zb5pt2hvrYo9HcJZPnZyE/NrbmLNi8lXdrh3pU4Mme5TyH0SXKi2U56SiNtEkqWYrjMEG
+	iJThTrvOTaokvGu5th2EETC5Jl6f1KJnc1YERgvl6XwqVzimdhIDbWsn3L6u1Yo7EQoQ/f
+	rXjfP6Bl+hfmv18GatBeYN9hFjj2/6bDkrMirMvmEDAnUt+Uh6CwjUFgbGSBUiyekzVyXf
+	4c968BTYEXF6GCQJ1a5M6/hODw2zMadyn4ZDSfFh6FgnL5MF2MhdhvL6YAcG/Q==
+Date: Sun, 11 Feb 2024 06:06:05 +0100
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="jUNmI1v8HWLO6t4J"
-Content-Disposition: inline
-In-Reply-To: <20240210130619.GE1177919@ragnatech.se>
+Subject: Re: [PATCH] clk: renesas: Fix broken clocks on all Gen2 boards
+To: =?UTF-8?Q?Niklas_S=C3=B6derlund?=
+ <niklas.soderlund+renesas@ragnatech.se>,
+ Nobuhiro Iwamatsu <iwamatsu@nigauri.org>,
+ Marek Vasut <marek.vasut+renesas@mailbox.org>,
+ Lukasz Majewski <lukma@denx.de>, Sean Anderson <seanga2@gmail.com>,
+ Tom Rini <trini@konsulko.com>, Hai Pham <hai.pham.ud@renesas.com>,
+ u-boot@lists.denx.de
+Cc: linux-renesas-soc@vger.kernel.org
+References: <20240209211535.3313392-1-niklas.soderlund+renesas@ragnatech.se>
+Content-Language: en-US
+From: Marek Vasut <marek.vasut@mailbox.org>
+In-Reply-To: <20240209211535.3313392-1-niklas.soderlund+renesas@ragnatech.se>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-MBO-RS-ID: 3f92979d57a8b04016a
+X-MBO-RS-META: s6binwiqp5gcosbbd8tgsbystmq7xei3
 
+On 2/9/24 22:15, Niklas Söderlund wrote:
+> To prepare support for multiple register layouts pointers to register
+> tables where added to struct cpg_mssr_info. These pointers are suppose
+> to be filled in at probe time and no intended change in behavior was
+> intended.
+> 
+> However the new pointers where only filled in by some paths of the
+> driver implemented in clk-rcar-gen3.c. The path implemented in
+> clk-rcar-gen2.c was not updated leaving the pointers uninitialized
+> leading to a crash when trying to probe the clocks.
+> 
+> Fix this by filling in the pointers in the Gen2 code path with the
+> values used before they where moved to struct cpg_mssr_info.
+> 
+> Fixes: d413214fb748 ("clk: renesas: Add register pointers into struct cpg_mssr_info")
+> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 
---jUNmI1v8HWLO6t4J
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Sat, Feb 10, 2024 at 02:06:19PM +0100, Niklas S=F6derlund wrote:
-> I'm unsure who to ping for this patch. It have been acked by Rob so is=20
-> the intention this can go thru Geert's Renesas tree?
-
-That would be the expectation, yes.
-
---jUNmI1v8HWLO6t4J
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZcfgUgAKCRB4tDGHoIJi
-0ghlAQDrjrZ8AB9uwiV9Yjpoh+/9CywNNNuCEYfmY/HlceMqCAD9GaMrsmHS3ida
-b4Pn0qqFADR8TEtqRMgI9L+UkTwnAwA=
-=A7+E
------END PGP SIGNATURE-----
-
---jUNmI1v8HWLO6t4J--
+Acked-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
+Tested-by: Marek Vasut <marek.vasut+renesas@mailbox.org> # R8A7791 Porter
 
