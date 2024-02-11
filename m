@@ -1,69 +1,70 @@
-Return-Path: <linux-renesas-soc+bounces-2584-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-2585-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id E67D68508E8
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 11 Feb 2024 13:13:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DFC8B8508F5
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 11 Feb 2024 13:29:28 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id B9EDFB211C3
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 11 Feb 2024 12:13:36 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 56582B21E80
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 11 Feb 2024 12:29:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 385FF5A799;
-	Sun, 11 Feb 2024 12:13:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 59C7A5A7B4;
+	Sun, 11 Feb 2024 12:29:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AEczxG6T"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="McCtZJxC"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF41A5A119;
-	Sun, 11 Feb 2024 12:13:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8258E5A7A3;
+	Sun, 11 Feb 2024 12:29:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707653614; cv=none; b=JVwE39wo82HBmTg24ozEFUfOeuHkKWvlVodbyhEJg5J24AX6MCEjENVa9rsXkfLosbt4h1smAcd3885i1WAXRZRPHdH4vUCd5Wt+tvSgtBHqAAOGnF4EH3MRi4UWTJCHv808SOVgA41L1rVTqqzeIE8W8I2Mif+fvedLMv54FxE=
+	t=1707654562; cv=none; b=lH85nyCXaTxLle26u0QET1qQU+FgcGnjUeoiTkt7eDGkr1Gu+RoY0POj0+oWIdo7aX9OZXJz6sglcOvPKPLRYUiz4dE0vLxCa08DCpA4lsUiWroRSr7iLuso8pc2K3qnLQawfS+EQo+S+fT+t1i/ZBUtyYDOR4YVbOFT+Dn6OPY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707653614; c=relaxed/simple;
-	bh=2Q4h2e6REYa6u2p6nmSd8judJZa1t1SDfeAWRb9SNEQ=;
+	s=arc-20240116; t=1707654562; c=relaxed/simple;
+	bh=VwX8jTkGRHN45CR6kBtjZLzI/2h6wx1SMmLlG2uBUJs=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=qlYhFWfps/7voGmMJb9YEN5tj/WW0Y+cZNWMjIqdTypsY1fvM+cgVuyH/yZpQ7qQgI+vUealeNnBGAR527s5T2RuMY12XZIBHuAEh4xQC4VXRJF05gH/t0VdAwAbrzNwSI1Q8/+dblqqCesN2etniiQwLToSakBhB3bYCRLrLxA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AEczxG6T; arc=none smtp.client-ip=209.85.208.176
+	 To:Cc:Content-Type; b=tVXziJxhLMd2N6fGpkPxSgwGVUhPogolVaHiJ9bT474QpVObXK6vAhBGCCr402yLk5DVSXcqpC27PWv8cmsPqAZGGoLPFSiMFhN4yArl7nN2L6XNkugtovXgBz3gHzZyI6UaevJKFeBD52oRkMtQH6htlm1dukZ7rbkxp6zh9K8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=McCtZJxC; arc=none smtp.client-ip=209.85.208.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-2cf1fd1cc5bso27879611fa.3;
-        Sun, 11 Feb 2024 04:13:31 -0800 (PST)
+Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-55fe4534e9bso3018737a12.0;
+        Sun, 11 Feb 2024 04:29:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1707653610; x=1708258410; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1707654558; x=1708259358; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=A52z+b5xLVfFrcr9zzGunwskn67khLGyF+jqlb6jF9g=;
-        b=AEczxG6TieYMlDCr+yoy+jIrSeIUt+zeBHDapln8iR7Fp788YPUDS2qHIYNB8A/cPJ
-         3SVjAQS5TWt8bm6B1JtV4GuJjUGDtC0u5i/Qi98p5KPZ0U0/Oagugqg+ggvvkllC4uIJ
-         vNw9XvzK7BeGvlmS0GeyPVO5Gk+h5eCQNPXoj7dxf59iHduOlM46FkPWfeEyNRWo2k0P
-         +9dDrkZwRzQ0EXgIYNNBciBtXY/bsqGmzUR1/El/0Waot7bFECbr/oiM03hIOPoWxwDa
-         8G2gqxJVJYdr4zUEdmS/U3OPga2yjlMBSV4tV7WR1u+L2IrUZUfwhkQFRTaDgQTLYE1E
-         T0ag==
+        bh=X35ILRBkG0W3UFNYMJqcSJcOeU1woxE6II9pSxpa6zo=;
+        b=McCtZJxCH9TD7hrU3vP+hkdq/lj4lILvxcj1DsLalshv++Yor3YTJFdAoK4+1PK4r+
+         UCCKZL60xD3XcPQLN8QuClTvSTgMsMOP/KmbSco8OSCv7JxtijxizULGTIM8Ck9yagQ+
+         57lAW0GzNqs4OlRL8o7VE+DUnqrRsJbe4p1iHDF8Rw0Lf9pVgZ2P02Kw+jY24bqjhUku
+         CmoThea1yoRvU1AQ8i6cjXecA6ewbeZdtymgld3cFnWRoh7t+Sr9bWF85sJHcLeYZsy2
+         7qm2AsnViMxRKeCMnpWEJOnVXL2rBeofu6DMb7H8wr0Gnk2wTMQeuAZbj9OWjJWr5wOc
+         fvXA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707653610; x=1708258410;
+        d=1e100.net; s=20230601; t=1707654558; x=1708259358;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=A52z+b5xLVfFrcr9zzGunwskn67khLGyF+jqlb6jF9g=;
-        b=BLXuH8p6ptGap79BMukPXzo8lHc4saIAwVpszLNkhAzM6MIXmRhrGWFuq9FjU/n0zW
-         mqixRRZLL56yuthNzvXpcoGTQGefIAELU5jRlydwiPUx8eTEfshoOKYOy5GU6VeWvRFJ
-         NBKioW4BTg64FaywEbOCwSD7n+BgJCiNUNRJY3BjzJToMfCHcHjwh6ZNW+q6ky39oWbp
-         XfpV2wSKAxDoF8oqJc8APqpIQ6Gsadrzu+CkvpbHmrLoSd1mqt630PtJ+6FIQqKUqF61
-         xfpsTAWzgXmQ+65CT8Zyk3bnckcPNhGf5HUxAkqaCbxKAi7ucArPGEX1QDvzKjpDZgvo
-         mq7w==
-X-Gm-Message-State: AOJu0Yy+Te/adRn2UpL6LM+XEcZySyKm/ZZzNsORvnQNaRHqwm8td/NH
-	vcRVWVbaPnZI1kLgtJQgvqT10FaBst5iPryfX8pJJI70LZD2r3FVG0kY/iqXgbZGE8CqQFKGKac
-	6j9CX6DngFdt9+c8gN78IPtWQKz4=
-X-Google-Smtp-Source: AGHT+IGiwnKe5q7KLP+AlWFxNVgxl2iOvO+p25ePLokWJbPS9AJUKjMi8nZf3HSnqSP7DLBNG9ZHT6EA4ZHsrR9YWdo=
-X-Received: by 2002:a05:651c:1a0f:b0:2d0:ec9c:d7d0 with SMTP id
- by15-20020a05651c1a0f00b002d0ec9cd7d0mr2137111ljb.46.1707653609611; Sun, 11
- Feb 2024 04:13:29 -0800 (PST)
+        bh=X35ILRBkG0W3UFNYMJqcSJcOeU1woxE6II9pSxpa6zo=;
+        b=bbIn1/AQ3l2t44z+ECwnvArowBAhuJFN2wDo5n8NZ7fznB1QTLyxD3qzboKX7hpndu
+         fnD6yFz8bpp3tlrruqRGlQrtZrQHDi8v2BI/mhWdo1dh0c/UP5TvTyL/+2HxzuXeTKJb
+         qbIVdBHwJRAdkKJwNYoPf8LyvZCgekGowsi4j93cijk3Jxz6WiaibLbMuddERBbEGVYq
+         RLbGk0Y/yO5eUtNXVLziRirQUANsytDNR2Shpwmt7iaNCwsvCvWUBAnjVWDn7kqNnO9p
+         to0UL0kVhZr0I/GSF0eGnvqxmE+N18bDuzYJlvfh/CTiVjVZF1FRhcnEucxZbOAWdsCl
+         CmTg==
+X-Forwarded-Encrypted: i=1; AJvYcCUQCDCbPLagw34ETEn0fukNWQAdMD3uRgM5sUg93KSIZ6kvj0RsQxe+SFlv9VZJFzCz8yl4sn+WNPZady+drm3ll0n+L0tbAT9gy/rTztptoDH33VNVCFVi6HiGAV6rA8xkI+x9p20DIXrI3H02ZC0gEf+9OjMofAp/P8UYPKfm2kUyLw2jD+0=
+X-Gm-Message-State: AOJu0Yyfm/FFyfU8v9jBUDXMED6oycWQDqyMHeXu/o+1eLl2iyayI+WU
+	CGdRA8hGnZqFl30HT4d2Ep2BA93L7a0UjSqwlaXOSKyGAFxGQNZnIBTMYRY2o6nWqC0AQH+o7kI
+	eXCqgFp8hk2taw3yFePnxibzQ98ZFI+T2YQiuLQ==
+X-Google-Smtp-Source: AGHT+IHijx2emtorcDgngiDo0i/V17ZPuizjCZcYAzuuxRkHCFvkuCCJlYtGIve/UVxtNwgrIItMRsx6ltLZT81U1PM=
+X-Received: by 2002:a05:6402:1293:b0:55f:f94d:cf76 with SMTP id
+ w19-20020a056402129300b0055ff94dcf76mr2604857edv.27.1707654558468; Sun, 11
+ Feb 2024 04:29:18 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -71,11 +72,11 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 References: <CADT+UeAfCTd8c+dHn3mgT=g6Boip=oRPdkODMN_j2KaROcT0AQ@mail.gmail.com>
- <5600b643-0d07-5583-4858-a521676476a5@gmail.com>
-In-Reply-To: <5600b643-0d07-5583-4858-a521676476a5@gmail.com>
+ <5600b643-0d07-5583-4858-a521676476a5@gmail.com> <CADT+UeBXkHTGdqpMqXPbXj3Dguci1tEJTUYr5xRkT0+G-6hzgg@mail.gmail.com>
+In-Reply-To: <CADT+UeBXkHTGdqpMqXPbXj3Dguci1tEJTUYr5xRkT0+G-6hzgg@mail.gmail.com>
 From: Biju Das <biju.das.au@gmail.com>
-Date: Sun, 11 Feb 2024 12:13:18 +0000
-Message-ID: <CADT+UeBXkHTGdqpMqXPbXj3Dguci1tEJTUYr5xRkT0+G-6hzgg@mail.gmail.com>
+Date: Sun, 11 Feb 2024 12:29:07 +0000
+Message-ID: <CADT+UeBAprPpYaxwZB=HFXTOQgmskFX7Y7QMwkftQnKVBFcChQ@mail.gmail.com>
 Subject: Re: [PATCH net-next v2 4/5] net: ravb: Do not apply RX checksum
  settings to hardware if the interface is down
 To: Sergei Shtylyov <sergei.shtylyov@gmail.com>
@@ -88,87 +89,103 @@ Cc: Sergey Shtylyov <s.shtylyov@omp.ru>, Biju Das <biju.das.jz@bp.renesas.com>,
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Sergey,
+Hi Claudiu,
 
-On Sun, Feb 11, 2024 at 9:40=E2=80=AFAM Sergei Shtylyov
-<sergei.shtylyov@gmail.com> wrote:
+On Sun, Feb 11, 2024 at 12:13=E2=80=AFPM Biju Das <biju.das.au@gmail.com> w=
+rote:
 >
-> On 2/11/24 11:56 AM, Biju Das wrote:
+> Hi Sergey,
 >
-> >>>> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-> >>>>
-> >>>> Do not apply the RX checksum settings to hardware if the interface i=
-s
-> >>>> down.
-> >>>> In case runtime PM is enabled, and while the interface is down, the =
-IP
-> >>>> will be in reset mode (as for some platforms disabling the clocks wi=
-ll
-> >>>> switch the IP to reset mode, which will lead to losing register
-> >>>> contents) and applying settings in reset mode is not an option.
-> >>>> Instead, cache the RX checksum settings and apply them in ravb_open(=
-)
-> >>>> through ravb_emac_init().
-> >>>> This has been solved by introducing pm_runtime_active() check. The
-> >>>> device runtime PM usage counter has been incremented to avoid
-> >>>> disabling the device clocks while the check is in progress (if any).
-> >>>>
-> >>>> Commit prepares for the addition of runtime PM.
-> >>>>
-> >>>> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-> >>>
-> >>> Reviewed-by: Sergey Shtylyov <s.shtylyov@omp.ru>
-> >>
-> >> This will do the same job, without code duplication right?
-> >>
-> >>> static int ravb_set_features(struct net_device *ndev,
-> >>>     netdev_features_t features)
-> >>> {
-> >>> struct ravb_private *priv =3D netdev_priv(ndev);
-> >>> struct device *dev =3D &priv->pdev->dev;
-> >>> const struct ravb_hw_info *info =3D priv->info;
-> >>>
-> >>> pm_runtime_get_noresume(dev);
-> >>> if (!pm_runtime_active(dev)) {
-> >>> pm_runtime_put_noidle(dev);
-> >>> ndev->features =3D features;
-> >>> return 0;
-> >>> }
-> >>>
-> >>> return info->set_feature(ndev, features);
+> On Sun, Feb 11, 2024 at 9:40=E2=80=AFAM Sergei Shtylyov
+> <sergei.shtylyov@gmail.com> wrote:
 > >
-> >> We now leak the device reference by not calling pm_runtime_put_noidle(=
-)
-> >> after this statement...
+> > On 2/11/24 11:56 AM, Biju Das wrote:
 > >
-> > Oops. So this leak  can be fixed like [1]
-> >
-> >>  The approach seems sane though -- Claudiu, please consider following =
-it.
-> >
-> > [1]
-> > static int ravb_set_features(struct net_device *ndev,
-> >     netdev_features_t features)
-> > {
-> > struct ravb_private *priv =3D netdev_priv(ndev);
-> > const struct ravb_hw_info *info =3D priv->info;
-> > struct device *dev =3D &priv->pdev->dev;
-> > bool pm_active;
-> >
-> > pm_runtime_get_noresume(dev);
-> > pm_active =3D pm_runtime_active(dev);
-> > pm_runtime_put_noidle(dev);
->
->    There is no point dropping the RPM reference before we access
-> the regs...
+> > >>>> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+> > >>>>
+> > >>>> Do not apply the RX checksum settings to hardware if the interface=
+ is
+> > >>>> down.
 
-I don't think there is an issue in accessing register by the usage of
-below API's
+Gb eth supports both Rx/Tx Checksum
 
-pm_runtime_get_noresume:--- Bump up runtime PM usage counter of a device.
-pm_runtime_active:--- Check whether or not a device is runtime-active.
-pm_runtime_put_noidle:--Drop runtime PM usage counter of a device.
+The intention is not to apply any hardware feature while the interface is d=
+one.
+So please add a generic commit header and description.
 
 Cheers,
 Biju
+
+> > >>>> In case runtime PM is enabled, and while the interface is down, th=
+e IP
+> > >>>> will be in reset mode (as for some platforms disabling the clocks =
+will
+> > >>>> switch the IP to reset mode, which will lead to losing register
+> > >>>> contents) and applying settings in reset mode is not an option.
+> > >>>> Instead, cache the RX checksum settings and apply them in ravb_ope=
+n()
+> > >>>> through ravb_emac_init().
+> > >>>> This has been solved by introducing pm_runtime_active() check. The
+> > >>>> device runtime PM usage counter has been incremented to avoid
+> > >>>> disabling the device clocks while the check is in progress (if any=
+).
+> > >>>>
+> > >>>> Commit prepares for the addition of runtime PM.
+> > >>>>
+> > >>>> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+> > >>>
+> > >>> Reviewed-by: Sergey Shtylyov <s.shtylyov@omp.ru>
+> > >>
+> > >> This will do the same job, without code duplication right?
+> > >>
+> > >>> static int ravb_set_features(struct net_device *ndev,
+> > >>>     netdev_features_t features)
+> > >>> {
+> > >>> struct ravb_private *priv =3D netdev_priv(ndev);
+> > >>> struct device *dev =3D &priv->pdev->dev;
+> > >>> const struct ravb_hw_info *info =3D priv->info;
+> > >>>
+> > >>> pm_runtime_get_noresume(dev);
+> > >>> if (!pm_runtime_active(dev)) {
+> > >>> pm_runtime_put_noidle(dev);
+> > >>> ndev->features =3D features;
+> > >>> return 0;
+> > >>> }
+> > >>>
+> > >>> return info->set_feature(ndev, features);
+> > >
+> > >> We now leak the device reference by not calling pm_runtime_put_noidl=
+e()
+> > >> after this statement...
+> > >
+> > > Oops. So this leak  can be fixed like [1]
+> > >
+> > >>  The approach seems sane though -- Claudiu, please consider followin=
+g it.
+> > >
+> > > [1]
+> > > static int ravb_set_features(struct net_device *ndev,
+> > >     netdev_features_t features)
+> > > {
+> > > struct ravb_private *priv =3D netdev_priv(ndev);
+> > > const struct ravb_hw_info *info =3D priv->info;
+> > > struct device *dev =3D &priv->pdev->dev;
+> > > bool pm_active;
+> > >
+> > > pm_runtime_get_noresume(dev);
+> > > pm_active =3D pm_runtime_active(dev);
+> > > pm_runtime_put_noidle(dev);
+> >
+> >    There is no point dropping the RPM reference before we access
+> > the regs...
+>
+> I don't think there is an issue in accessing register by the usage of
+> below API's
+>
+> pm_runtime_get_noresume:--- Bump up runtime PM usage counter of a device.
+> pm_runtime_active:--- Check whether or not a device is runtime-active.
+> pm_runtime_put_noidle:--Drop runtime PM usage counter of a device.
+>
+> Cheers,
+> Biju
 
