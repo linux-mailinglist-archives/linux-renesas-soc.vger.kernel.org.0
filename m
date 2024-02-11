@@ -1,191 +1,207 @@
-Return-Path: <linux-renesas-soc+bounces-2585-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-2586-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFC8B8508F5
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 11 Feb 2024 13:29:28 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D5344850976
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 11 Feb 2024 14:50:11 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 56582B21E80
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 11 Feb 2024 12:29:26 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 3D392B21EBD
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 11 Feb 2024 13:50:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 59C7A5A7B4;
-	Sun, 11 Feb 2024 12:29:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B31AB5B1F9;
+	Sun, 11 Feb 2024 13:50:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="McCtZJxC"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="nUOVKLfe"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8258E5A7A3;
-	Sun, 11 Feb 2024 12:29:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D04D5A795
+	for <linux-renesas-soc@vger.kernel.org>; Sun, 11 Feb 2024 13:49:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707654562; cv=none; b=lH85nyCXaTxLle26u0QET1qQU+FgcGnjUeoiTkt7eDGkr1Gu+RoY0POj0+oWIdo7aX9OZXJz6sglcOvPKPLRYUiz4dE0vLxCa08DCpA4lsUiWroRSr7iLuso8pc2K3qnLQawfS+EQo+S+fT+t1i/ZBUtyYDOR4YVbOFT+Dn6OPY=
+	t=1707659400; cv=none; b=spU07X5GMzIIrcLv5dipnDtmIFcE2XCcGRPKAYaZQcN0m9YScYVI3qU4rIvAhi6/JrTD7Gzyu8oxJDzB94kqJi4Ejp5iYLQAa9WFOLAFF53JsMQrRzlFY9xeYmgMurTpqTjfaIlh6HQzS4OdKPx8TvZipFcN1i0CNS9RpFzqcfI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707654562; c=relaxed/simple;
-	bh=VwX8jTkGRHN45CR6kBtjZLzI/2h6wx1SMmLlG2uBUJs=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=tVXziJxhLMd2N6fGpkPxSgwGVUhPogolVaHiJ9bT474QpVObXK6vAhBGCCr402yLk5DVSXcqpC27PWv8cmsPqAZGGoLPFSiMFhN4yArl7nN2L6XNkugtovXgBz3gHzZyI6UaevJKFeBD52oRkMtQH6htlm1dukZ7rbkxp6zh9K8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=McCtZJxC; arc=none smtp.client-ip=209.85.208.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-55fe4534e9bso3018737a12.0;
-        Sun, 11 Feb 2024 04:29:20 -0800 (PST)
+	s=arc-20240116; t=1707659400; c=relaxed/simple;
+	bh=XglN44Cj2ooZyrdTI5DyBdaZNjc7OZcxKklN1/CsZMA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=jcFyDbqx6DyhvCiVnpbMpThInKusoba22ldQepzGlLkvFDdTYrNzZJlUTCfiE7QimF3tBVgZD3JiH193xzIBtEEyIzG9KO6sAZqOdEthw9Gh5LED3w2kTLxfzaZ6HtGM+47OdSE0iStrOI4ptGygHZ5AsXp235zzqe1UrBx/Mzw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=nUOVKLfe; arc=none smtp.client-ip=209.85.128.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-410c1ebf5e4so2186795e9.2
+        for <linux-renesas-soc@vger.kernel.org>; Sun, 11 Feb 2024 05:49:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1707654558; x=1708259358; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=X35ILRBkG0W3UFNYMJqcSJcOeU1woxE6II9pSxpa6zo=;
-        b=McCtZJxCH9TD7hrU3vP+hkdq/lj4lILvxcj1DsLalshv++Yor3YTJFdAoK4+1PK4r+
-         UCCKZL60xD3XcPQLN8QuClTvSTgMsMOP/KmbSco8OSCv7JxtijxizULGTIM8Ck9yagQ+
-         57lAW0GzNqs4OlRL8o7VE+DUnqrRsJbe4p1iHDF8Rw0Lf9pVgZ2P02Kw+jY24bqjhUku
-         CmoThea1yoRvU1AQ8i6cjXecA6ewbeZdtymgld3cFnWRoh7t+Sr9bWF85sJHcLeYZsy2
-         7qm2AsnViMxRKeCMnpWEJOnVXL2rBeofu6DMb7H8wr0Gnk2wTMQeuAZbj9OWjJWr5wOc
-         fvXA==
+        d=linaro.org; s=google; t=1707659396; x=1708264196; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=0imYPIS38kKZEnWaPAclZV8nXR/Nfa1Ot0nhLSCtPdA=;
+        b=nUOVKLfeiFM/TaXCepvedZkeheJv/tdwkXqZKPADc/coFDlpVQhIrXeXUKlZuzmev7
+         T1QHlBqjZQXKUpp3yKvM5JxoBJk8M1YVGf9wIDVBiJ4tB10FLPi0/Zb9XUFM1t2RugFW
+         XbudAuq5Oyd2bZAzmyoksHTTNeEk7enxI/iQ5X60MyNy3P+ynbqkVwauKAzx6vOQw5Rc
+         406RBod64H6ierPKf3/RroAhjZhdHGajd4kgAO5hf5FPaqSJgTb8jl5UaxKii/fJR0gR
+         BdwK9CTKXeYI+Pp9az+5sT6FLObM5EPbCbmziRa3MTeTzTS3txt2JKV7K8lrjQrOvF09
+         X/KQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707654558; x=1708259358;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=X35ILRBkG0W3UFNYMJqcSJcOeU1woxE6II9pSxpa6zo=;
-        b=bbIn1/AQ3l2t44z+ECwnvArowBAhuJFN2wDo5n8NZ7fznB1QTLyxD3qzboKX7hpndu
-         fnD6yFz8bpp3tlrruqRGlQrtZrQHDi8v2BI/mhWdo1dh0c/UP5TvTyL/+2HxzuXeTKJb
-         qbIVdBHwJRAdkKJwNYoPf8LyvZCgekGowsi4j93cijk3Jxz6WiaibLbMuddERBbEGVYq
-         RLbGk0Y/yO5eUtNXVLziRirQUANsytDNR2Shpwmt7iaNCwsvCvWUBAnjVWDn7kqNnO9p
-         to0UL0kVhZr0I/GSF0eGnvqxmE+N18bDuzYJlvfh/CTiVjVZF1FRhcnEucxZbOAWdsCl
-         CmTg==
-X-Forwarded-Encrypted: i=1; AJvYcCUQCDCbPLagw34ETEn0fukNWQAdMD3uRgM5sUg93KSIZ6kvj0RsQxe+SFlv9VZJFzCz8yl4sn+WNPZady+drm3ll0n+L0tbAT9gy/rTztptoDH33VNVCFVi6HiGAV6rA8xkI+x9p20DIXrI3H02ZC0gEf+9OjMofAp/P8UYPKfm2kUyLw2jD+0=
-X-Gm-Message-State: AOJu0Yyfm/FFyfU8v9jBUDXMED6oycWQDqyMHeXu/o+1eLl2iyayI+WU
-	CGdRA8hGnZqFl30HT4d2Ep2BA93L7a0UjSqwlaXOSKyGAFxGQNZnIBTMYRY2o6nWqC0AQH+o7kI
-	eXCqgFp8hk2taw3yFePnxibzQ98ZFI+T2YQiuLQ==
-X-Google-Smtp-Source: AGHT+IHijx2emtorcDgngiDo0i/V17ZPuizjCZcYAzuuxRkHCFvkuCCJlYtGIve/UVxtNwgrIItMRsx6ltLZT81U1PM=
-X-Received: by 2002:a05:6402:1293:b0:55f:f94d:cf76 with SMTP id
- w19-20020a056402129300b0055ff94dcf76mr2604857edv.27.1707654558468; Sun, 11
- Feb 2024 04:29:18 -0800 (PST)
+        d=1e100.net; s=20230601; t=1707659396; x=1708264196;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=0imYPIS38kKZEnWaPAclZV8nXR/Nfa1Ot0nhLSCtPdA=;
+        b=i9MZK73jQN7hQLC5Z5G60iq0J/XwYBZM1JSqGFO8tJ8E9PNslQLWf5KRpMweYrvRr5
+         PIt4EtLmILhDre5oFZWVhFtaLntzcnbpMoo4zKgoXeczPev1NLzU2KUC32RttIJ1bash
+         GUrgejfSooeyEdlDOvw0C3EJFEhgW83DY4lrVxWXyP4hCC8pv6k+mscaHEiBVWWSxz6m
+         dcvE7mnvNdU5yWPeoKW4VXDt+vQO6lG1He2V9PuamW5ZG5E3BMX6NTY9Ibqwx9M9neZS
+         U5ZU+HZ3Z1aGWDTobz1yL+KFbhP6waJ6zfLW4HcEGtcMDKhjAeB5P5wXd4xRmf0JMVjK
+         pRCg==
+X-Forwarded-Encrypted: i=1; AJvYcCW+gI65ad2KEd+iGWEIjWI0p9UdOcJKf3BI9ea5DdttVmACulxEDcU5NXTQdtEO4wfc4t2JkKMs+EBLZ0VKnRKaqGSp8m5Sh/Nx6IGm/8TrxQs=
+X-Gm-Message-State: AOJu0YyrMMQBJfHEloYdtwcYlZmemPRX7oXqbNz2Go4wrtnveByMxoQO
+	1Uq+fbfXZ04t3I+ko/ejZb8B+Ot6v+eRfBUfmkPDyCTE9ADbTzNZ6/UnrVXeTVo=
+X-Google-Smtp-Source: AGHT+IGgNjixJ7a6Dq+Uti7cy/aISaLp/DXGksERORSKXN5It7AmTARvmRuHh4IFg3mXA+PV5C6eBw==
+X-Received: by 2002:a05:600c:3591:b0:40f:de25:f9b4 with SMTP id p17-20020a05600c359100b0040fde25f9b4mr3645319wmq.26.1707659396538;
+        Sun, 11 Feb 2024 05:49:56 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCV1bIxMUI3Offr6cvI9+Zhw+m6iDDHdggy9CUAeFU/6yR3uXAm1kmUvscZQj8nqx2gxUJRN2/oljKm04feaTGJb+mk1k+MrIykVodeJLGuyI8jMG71pIFq7uJ1fnrZygNAAxuu6fJAcw1fW93TiO87MRIBQFBLsTmJkr8xk5WflVHZGpiWww96lwZuUrJb8Zav2q7BVtXNWOllcTmN+JEJP20InDMbf4TAfq/m046d1e3pk1TC+WaFbaowI1to2Rn9VuG+1j4xqnOlvBZAhoVw5Eonfrmju8QLeYcH6XijtPu4s1QXdP+dc8ejJpMmW1CA5p+yyvEC+ZBQeytR7CZHXMo0R3YaBOVAAR49idiZfqonHhjRF95kawV5SJ/8geY8KsJaDyJD8nOk45Xvx82ghInsDAphvHudcXtv+tb2HzVhKH3JCv8XUBNewrcrFkQ42Ndt8aubEUv7mOjE+grF306lZ75fOMJY1nCc+npslc/hFQWT2KS7Qgt1qpeiknmzAaKN3hzIah0hFVnPia6+WFRSYoBNevaJWMBPHDm/T3Ult7TC9nsb2c1wo3TzT/ACUH2SiB549apwC9EbP/OYT2GRueqIWtquQuJZWcNnO3SJuIBEzti5rkLKxHMF++sUZgRPAcdbQ6jR5Cr8i70cExFy9k0xztE0A0RaK2Nih/5RGJr7VzxS5XFcD05HfDmdGDQ==
+Received: from [192.168.1.20] ([178.197.223.6])
+        by smtp.gmail.com with ESMTPSA id q18-20020a7bce92000000b00410c04e5455sm1315753wmj.20.2024.02.11.05.49.54
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 11 Feb 2024 05:49:55 -0800 (PST)
+Message-ID: <be84e32e-e11d-47fe-ad56-da8b0dec5007@linaro.org>
+Date: Sun, 11 Feb 2024 14:49:53 +0100
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CADT+UeAfCTd8c+dHn3mgT=g6Boip=oRPdkODMN_j2KaROcT0AQ@mail.gmail.com>
- <5600b643-0d07-5583-4858-a521676476a5@gmail.com> <CADT+UeBXkHTGdqpMqXPbXj3Dguci1tEJTUYr5xRkT0+G-6hzgg@mail.gmail.com>
-In-Reply-To: <CADT+UeBXkHTGdqpMqXPbXj3Dguci1tEJTUYr5xRkT0+G-6hzgg@mail.gmail.com>
-From: Biju Das <biju.das.au@gmail.com>
-Date: Sun, 11 Feb 2024 12:29:07 +0000
-Message-ID: <CADT+UeBAprPpYaxwZB=HFXTOQgmskFX7Y7QMwkftQnKVBFcChQ@mail.gmail.com>
-Subject: Re: [PATCH net-next v2 4/5] net: ravb: Do not apply RX checksum
- settings to hardware if the interface is down
-To: Sergei Shtylyov <sergei.shtylyov@gmail.com>
-Cc: Sergey Shtylyov <s.shtylyov@omp.ru>, Biju Das <biju.das.jz@bp.renesas.com>, 
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>, claudiu.beznea@tuxon.dev, 
-	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Jakub Kicinski <kuba@kernel.org>, linux-kernel@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org, netdev@vger.kernel.org, 
-	Paolo Abeni <pabeni@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 01/12] spi: dt-bindings: introduce the ``fifo-depth``
+ property
+Content-Language: en-US
+To: Geert Uytterhoeven <geert@linux-m68k.org>,
+ Tudor Ambarus <tudor.ambarus@linaro.org>
+Cc: broonie@kernel.org, robh@kernel.org, andi.shyti@kernel.org,
+ semen.protsenko@linaro.org, alim.akhtar@samsung.com,
+ linux-spi@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ andre.draszik@linaro.org, peter.griffin@linaro.org, kernel-team@android.com,
+ willmcvicker@google.com, conor+dt@kernel.org, devicetree@vger.kernel.org,
+ arnd@arndb.de, Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+ Wolfram Sang <wsa+renesas@sang-engineering.com>
+References: <20240208135045.3728927-1-tudor.ambarus@linaro.org>
+ <20240208135045.3728927-2-tudor.ambarus@linaro.org>
+ <CAMuHMdU_Hx9PLmHf2Xm1KKTy_OF-TeCv7SzmA5CZWz+PLkbAGA@mail.gmail.com>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
+ 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
+ D2GYIS41Kv4Isx2dEFh+/Q==
+In-Reply-To: <CAMuHMdU_Hx9PLmHf2Xm1KKTy_OF-TeCv7SzmA5CZWz+PLkbAGA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Hi Claudiu,
+On 09/02/2024 18:13, Geert Uytterhoeven wrote:
+> Hi Tudor,
+> 
+> On Thu, Feb 8, 2024 at 2:51 PM Tudor Ambarus <tudor.ambarus@linaro.org> wrote:
+>> There are instances of the same IP that are configured by the integrator
+>> with different FIFO depths. Introduce the fifo-depth property to allow
+>> such nodes to specify their FIFO depth.
+>>
+>> We haven't seen SPI IPs with different FIFO depths for RX and TX, thus
+>> introduce a single property.
+> 
+> Ha...
+> 
+> Current documentation for the Clock-Synchronized Serial Interface with
+> FIFO (MSIOF) on e.g. R-Car Gen2 and later states:
+> 
+>     FIFO capacity: 32 bits × 64 stages for transmission and 32 bits ×
+> 256 stages for reception
+> 
+> Initially (many years ago), there was some doubt about the validity
+> of these values (older variants on SH supported 64/64), hence
+> drivers/spi/spi-sh-msiof.c still has
+> 
+>     .tx_fifo_size = 64,
+>     .rx_fifo_size = 64,
+> 
+> Probably we should test and revisit this...
+> 
+>> --- a/Documentation/devicetree/bindings/spi/spi-controller.yaml
+>> +++ b/Documentation/devicetree/bindings/spi/spi-controller.yaml
+>> @@ -69,6 +69,11 @@ properties:
+>>           Should be generally avoided and be replaced by
+>>           spi-cs-high + ACTIVE_HIGH.
+>>
+>> +  fifo-depth:
+>> +    $ref: /schemas/types.yaml#/definitions/uint32
+>> +    description:
+>> +      Size of the data FIFO in bytes.
+> 
+> I think it is prudent to consider the asymmetric case, too.
+> Whether that should be just two properties ("rx-fifo-depth" and
+> "tx-fifo-depth"), or also a third "fifo-depth", I defer to the DT
+> maintainers...
 
-On Sun, Feb 11, 2024 at 12:13=E2=80=AFPM Biju Das <biju.das.au@gmail.com> w=
-rote:
->
-> Hi Sergey,
->
-> On Sun, Feb 11, 2024 at 9:40=E2=80=AFAM Sergei Shtylyov
-> <sergei.shtylyov@gmail.com> wrote:
-> >
-> > On 2/11/24 11:56 AM, Biju Das wrote:
-> >
-> > >>>> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-> > >>>>
-> > >>>> Do not apply the RX checksum settings to hardware if the interface=
- is
-> > >>>> down.
+Since most of the cases FIFO depth tx=rx, we could go with three
+properties and:
 
-Gb eth supports both Rx/Tx Checksum
+allOf:
+ - not:
+     required:
+       - fifo-depth
+       - tx-fifo-depth
+ - not:
+     required:
+       - fifo-depth
+       - rx-fifo-depth
 
-The intention is not to apply any hardware feature while the interface is d=
-one.
-So please add a generic commit header and description.
+and probably dependencies between rx and tx (see example-schema).
 
-Cheers,
-Biju
+Best regards,
+Krzysztof
 
-> > >>>> In case runtime PM is enabled, and while the interface is down, th=
-e IP
-> > >>>> will be in reset mode (as for some platforms disabling the clocks =
-will
-> > >>>> switch the IP to reset mode, which will lead to losing register
-> > >>>> contents) and applying settings in reset mode is not an option.
-> > >>>> Instead, cache the RX checksum settings and apply them in ravb_ope=
-n()
-> > >>>> through ravb_emac_init().
-> > >>>> This has been solved by introducing pm_runtime_active() check. The
-> > >>>> device runtime PM usage counter has been incremented to avoid
-> > >>>> disabling the device clocks while the check is in progress (if any=
-).
-> > >>>>
-> > >>>> Commit prepares for the addition of runtime PM.
-> > >>>>
-> > >>>> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-> > >>>
-> > >>> Reviewed-by: Sergey Shtylyov <s.shtylyov@omp.ru>
-> > >>
-> > >> This will do the same job, without code duplication right?
-> > >>
-> > >>> static int ravb_set_features(struct net_device *ndev,
-> > >>>     netdev_features_t features)
-> > >>> {
-> > >>> struct ravb_private *priv =3D netdev_priv(ndev);
-> > >>> struct device *dev =3D &priv->pdev->dev;
-> > >>> const struct ravb_hw_info *info =3D priv->info;
-> > >>>
-> > >>> pm_runtime_get_noresume(dev);
-> > >>> if (!pm_runtime_active(dev)) {
-> > >>> pm_runtime_put_noidle(dev);
-> > >>> ndev->features =3D features;
-> > >>> return 0;
-> > >>> }
-> > >>>
-> > >>> return info->set_feature(ndev, features);
-> > >
-> > >> We now leak the device reference by not calling pm_runtime_put_noidl=
-e()
-> > >> after this statement...
-> > >
-> > > Oops. So this leak  can be fixed like [1]
-> > >
-> > >>  The approach seems sane though -- Claudiu, please consider followin=
-g it.
-> > >
-> > > [1]
-> > > static int ravb_set_features(struct net_device *ndev,
-> > >     netdev_features_t features)
-> > > {
-> > > struct ravb_private *priv =3D netdev_priv(ndev);
-> > > const struct ravb_hw_info *info =3D priv->info;
-> > > struct device *dev =3D &priv->pdev->dev;
-> > > bool pm_active;
-> > >
-> > > pm_runtime_get_noresume(dev);
-> > > pm_active =3D pm_runtime_active(dev);
-> > > pm_runtime_put_noidle(dev);
-> >
-> >    There is no point dropping the RPM reference before we access
-> > the regs...
->
-> I don't think there is an issue in accessing register by the usage of
-> below API's
->
-> pm_runtime_get_noresume:--- Bump up runtime PM usage counter of a device.
-> pm_runtime_active:--- Check whether or not a device is runtime-active.
-> pm_runtime_put_noidle:--Drop runtime PM usage counter of a device.
->
-> Cheers,
-> Biju
 
