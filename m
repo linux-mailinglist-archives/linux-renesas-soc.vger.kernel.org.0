@@ -1,143 +1,119 @@
-Return-Path: <linux-renesas-soc+bounces-2591-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-2594-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA4DD8509A0
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 11 Feb 2024 15:31:07 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CDCD8509FE
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 11 Feb 2024 16:29:06 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 80A901F21BB6
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 11 Feb 2024 14:31:07 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3006E282519
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 11 Feb 2024 15:29:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EB80A1E519;
-	Sun, 11 Feb 2024 14:31:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 527B55B66C;
+	Sun, 11 Feb 2024 15:29:02 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from michel.telenet-ops.be (michel.telenet-ops.be [195.130.137.88])
+Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com [209.85.128.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B9722570
-	for <linux-renesas-soc@vger.kernel.org>; Sun, 11 Feb 2024 14:31:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.137.88
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CA0344C9E;
+	Sun, 11 Feb 2024 15:28:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707661863; cv=none; b=C7Lmtv/yrWkj/TKuvTsNHDbYD2ujgm7LkPtoP4RPF0GhsVaWVWJVrsFOKeHW6vhXnojvnOmZMZBFtgnBLyLO1Bd4zUhyWSxtkXlA4yDCTK6quWkE3B1DAXOBJERPFq9VEKHysCw/aT96HHozXh4u03zNnqQhqrfnc7qIbY0sjms=
+	t=1707665342; cv=none; b=pYk2snk0U/+qIx0JnWr2BPlx8XX5Wbqj5ZbsPsaWOU/attpAwFfS3+F+k9GYgbYDjSSuVD5k3X6/Hn0Jr42bD8JbRe9m00K8JIBGXAMU2dWOQgnDXmU/JtdZEPmQAiv8LQCIw7GC+df7rnE2oCFkfniV7ZhmDdZCP37vXnXCFHM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707661863; c=relaxed/simple;
-	bh=XEEoRYisx7ifXpPEg8mrSb/ndQgT3QQwlgrN2E7Djjk=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=Gff1Ta/pNM+Uy60NFuc0zcDm9YXe+c8v3huLvwY4wE84h8OYQhTcdCYN7dvYAWy0rhRFwwpB5EgU5E0z2weWXpyNKNe+mhRgX32PVuDMnssyCyUlg7+V5yuU5oetnsEN9ot4yAMlewf22gjXqMUNSTN+uFnNTe18M+j8OuzSdwA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.137.88
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
-Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed40:5c16:aeff:e73f:ad67])
-	by michel.telenet-ops.be with bizsmtp
-	id lqWz2B00A493aJM06qWzUW; Sun, 11 Feb 2024 15:31:00 +0100
-Received: from rox.of.borg ([192.168.97.57])
-	by ramsan.of.borg with esmtp (Exim 4.95)
-	(envelope-from <geert@linux-m68k.org>)
-	id 1rZAr8-000Qhi-Hs;
-	Sun, 11 Feb 2024 15:30:59 +0100
-Received: from geert by rox.of.borg with local (Exim 4.95)
-	(envelope-from <geert@linux-m68k.org>)
-	id 1rZArD-006Wul-H9;
-	Sun, 11 Feb 2024 15:30:59 +0100
-From: Geert Uytterhoeven <geert+renesas@glider.be>
-To: linux-renesas-soc@vger.kernel.org
-Cc: linux-arm-kernel@lists.infradead.org,
-	Thanh Quan <thanh.quan.xn@renesas.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH 2/2] arm64: dts: renesas: gray-hawk-single: Add Ethernet support
-Date: Sun, 11 Feb 2024 15:30:46 +0100
-Message-Id: <b83b21b6477a0e31f99eaedbd36c03014b72ec8a.1707661382.git.geert+renesas@glider.be>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <cover.1707661382.git.geert+renesas@glider.be>
-References: <cover.1707661382.git.geert+renesas@glider.be>
+	s=arc-20240116; t=1707665342; c=relaxed/simple;
+	bh=gXpFBV38qG07wfbk3n6B1tYa2ufvXDPPeQA6qkuj3Mg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ppthJ0J+gI2o+14GpCCfCw3pxqVzB+yR1D4PY7sxnFaUuegsaC/YivJk/xpNMLad2BnPPLmPmgwEohnZUDpddl2wmRA1Fhb46bugrYVTk68AqG2r1y07VIwVwxNcTv3RmlNFuWiJsGXUz5AI0jrRGc85lHDjuQM9xLjzNMBed8M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-604fa400f85so3884417b3.2;
+        Sun, 11 Feb 2024 07:28:59 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1707665338; x=1708270138;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Ps+vZnhpj0WdVvYU1PNOqTnxsRPXds+JKXHNtl9pqWQ=;
+        b=gszFIscPtrgyq/MFw+13ljsSP+dU/PYr2PYoG6IdNXZMWJEBsfY65ERcKaRUmu+vx4
+         rFmJrfMCdssIGpNls35+AOdAMSB0TzHpAH8PF4jZFs0z7TLxOk5ek1079Cj44yBHR5/B
+         5SX8z0w6NeYhvpuSaeUF4oFrvBCf27hzCHzCVSMtPDm/DJB1+AZ7gtBunlTvBULA3wWY
+         T7mlY0lysAn4RmbtAJEqlsUmj1+68pVzkFjoHEoFRuwNZUom+L+UdG7A8yaTK/MdYmeS
+         nNkA6AnNvddmsozfeVignCVifkAqV2pzSvWT0wSpYhfHGdpMf/tT2gdDRYKvzw4zQ+j4
+         bzCw==
+X-Gm-Message-State: AOJu0YzcDM+Vt0vlaPeLA52dFXp2VJrK4KKC5RnzRQ+zaV0kg4QP4N1u
+	1PbM8+ZYAAzBzYXfMO0SI9IqF3r793C8hcWbA+WfYwNzqS6OfLSagiSqOoLLCC4=
+X-Google-Smtp-Source: AGHT+IGWo6t5GkLNPsUpJ+4HlqfyYQv/i0d9uSOi6UK8HvxpAC9QUERp5ftPE7sdYSlrGtxK2ARJSg==
+X-Received: by 2002:a0d:dac6:0:b0:5ff:6b9e:cdd9 with SMTP id c189-20020a0ddac6000000b005ff6b9ecdd9mr2922365ywe.46.1707665338251;
+        Sun, 11 Feb 2024 07:28:58 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCWnWpzYqqAM64E/u76O5Mi39ElnY2FcsWwD5wgOYsFVigDVCVupNxjOJh1R7FqjAtwzOq7odV/hRML4HLmI7udbz5FVHkBTLWmsocEFezla9LTh/eeqCWuntE13ZS5pL9DIqlBmQ0LHVhUC9w==
+Received: from mail-yb1-f177.google.com (mail-yb1-f177.google.com. [209.85.219.177])
+        by smtp.gmail.com with ESMTPSA id v126-20020a0dd384000000b00604aef6896dsm797096ywd.37.2024.02.11.07.28.58
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 11 Feb 2024 07:28:58 -0800 (PST)
+Received: by mail-yb1-f177.google.com with SMTP id 3f1490d57ef6-dc755afdecfso1946765276.2;
+        Sun, 11 Feb 2024 07:28:58 -0800 (PST)
+X-Received: by 2002:a25:dfca:0:b0:dc7:44bf:71b1 with SMTP id
+ w193-20020a25dfca000000b00dc744bf71b1mr3492120ybg.35.1707665337940; Sun, 11
+ Feb 2024 07:28:57 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <87sf22a4sp.wl-kuninori.morimoto.gx@renesas.com>
+In-Reply-To: <87sf22a4sp.wl-kuninori.morimoto.gx@renesas.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Sun, 11 Feb 2024 16:28:45 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdX=B0q0gQixehg=8xNeCuU3wYd8ak5TXwYdiiNY5TmLGQ@mail.gmail.com>
+Message-ID: <CAMuHMdX=B0q0gQixehg=8xNeCuU3wYd8ak5TXwYdiiNY5TmLGQ@mail.gmail.com>
+Subject: Re: [PATCH v2] pmdomain: renesas: Adjust the waiting time to cover
+ the worst case
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: Ulf Hansson <ulf.hansson@linaro.org>, linux-pm@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org, Dien Pham <dien.pham.ry@renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Thanh Quan <thanh.quan.xn@renesas.com>
+On Fri, Feb 9, 2024 at 12:56=E2=80=AFAM Kuninori Morimoto
+<kuninori.morimoto.gx@renesas.com> wrote:
+> From: Dien Pham <dien.pham.ry@renesas.com>
+>
+> Description in HWM rev0.51E, 9.4 Usage notes, page 455 tells
+>
+>         "It takes several hundreds of microseconds to shutting off and
+>          resuming power domain. Because actual time required for
+>          shutting off and resuming depends on the status of on-board
+>          power line, shutoff/resume time is not guaranteed by
+>          electrical specification"
+>
+> Let's assume the safe value of waiting is about 1000us.
+>
+> Signed-off-by: Dien Pham <dien.pham.ry@renesas.com>
+> Signed-off-by: Takeshi Kihara <takeshi.kihara.df@renesas.com>
+> Signed-off-by: Tho Vu <tho.vu.wh@renesas.com>
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-Describe the wiring of the first Ethernet AVB instance to the Micrel
-KSZ9031RNXVB PHY.
+I think you can drop that line ;-)
 
-Signed-off-by: Thanh Quan <thanh.quan.xn@renesas.com>
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
-Changes compared to the BSP:
-  - Split in separate commits for SoC and board support,
-  - Apply to r8a779h0-gray-hawk-single.dts.
----
- .../dts/renesas/r8a779h0-gray-hawk-single.dts | 37 +++++++++++++++++++
- 1 file changed, 37 insertions(+)
+> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 
-diff --git a/arch/arm64/boot/dts/renesas/r8a779h0-gray-hawk-single.dts b/arch/arm64/boot/dts/renesas/r8a779h0-gray-hawk-single.dts
-index 1bee27b2284d2eee..625e7448bc9fc1ce 100644
---- a/arch/arm64/boot/dts/renesas/r8a779h0-gray-hawk-single.dts
-+++ b/arch/arm64/boot/dts/renesas/r8a779h0-gray-hawk-single.dts
-@@ -15,6 +15,7 @@ / {
- 
- 	aliases {
- 		serial0 = &hscif0;
-+		ethernet0 = &avb0;
- 	};
- 
- 	chosen {
-@@ -34,6 +35,24 @@ memory@480000000 {
- 	};
- };
- 
-+&avb0 {
-+	pinctrl-0 = <&avb0_pins>;
-+	pinctrl-names = "default";
-+	phy-handle = <&phy0>;
-+	tx-internal-delay-ps = <2000>;
-+	status = "okay";
-+
-+	phy0: ethernet-phy@0 {
-+		compatible = "ethernet-phy-id0022.1622",
-+			     "ethernet-phy-ieee802.3-c22";
-+		rxc-skew-ps = <1500>;
-+		reg = <0>;
-+		interrupt-parent = <&gpio7>;
-+		interrupts = <5 IRQ_TYPE_LEVEL_LOW>;
-+		reset-gpios = <&gpio7 10 GPIO_ACTIVE_LOW>;
-+	};
-+};
-+
- &extal_clk {
- 	clock-frequency = <16666666>;
- };
-@@ -90,6 +109,24 @@ &pfc {
- 	pinctrl-0 = <&scif_clk_pins>;
- 	pinctrl-names = "default";
- 
-+	avb0_pins: avb0 {
-+		mux {
-+			groups = "avb0_link", "avb0_mdio", "avb0_rgmii",
-+				 "avb0_txcrefclk";
-+			function = "avb0";
-+		};
-+
-+		pins_mdio {
-+			groups = "avb0_mdio";
-+			drive-strength = <21>;
-+		};
-+
-+		pins_mii {
-+			groups = "avb0_rgmii";
-+			drive-strength = <21>;
-+		};
-+	};
-+
- 	hscif0_pins: hscif0 {
- 		groups = "hscif0_data", "hscif0_ctrl";
- 		function = "hscif0";
--- 
-2.34.1
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
