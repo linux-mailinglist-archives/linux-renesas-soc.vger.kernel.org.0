@@ -1,54 +1,54 @@
-Return-Path: <linux-renesas-soc+bounces-2592-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-2591-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65E7C8509A1
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 11 Feb 2024 15:31:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA4DD8509A0
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 11 Feb 2024 15:31:07 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id E0A4C1F21BEB
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 11 Feb 2024 14:31:08 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 80A901F21BB6
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 11 Feb 2024 14:31:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7F7332570;
-	Sun, 11 Feb 2024 14:31:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EB80A1E519;
+	Sun, 11 Feb 2024 14:31:03 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from xavier.telenet-ops.be (xavier.telenet-ops.be [195.130.132.52])
+Received: from michel.telenet-ops.be (michel.telenet-ops.be [195.130.137.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31874620
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B9722570
 	for <linux-renesas-soc@vger.kernel.org>; Sun, 11 Feb 2024 14:31:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.132.52
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.137.88
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707661864; cv=none; b=ECmWySeMuzQeCmqYN6VVdkaj67cBIEliEEF+J0/I/4/T/iWqtIknz3pw7ziY0VhsQkTFnsdDItdHI6GB+mytyr6MGNkykI1BJ1UitzONwwVVfu34aTpAZ9RskIiMmrC07rt2sO6xgRvPjlpXdSvtNeNNltO4JSPrZy3qUnJWvQ0=
+	t=1707661863; cv=none; b=C7Lmtv/yrWkj/TKuvTsNHDbYD2ujgm7LkPtoP4RPF0GhsVaWVWJVrsFOKeHW6vhXnojvnOmZMZBFtgnBLyLO1Bd4zUhyWSxtkXlA4yDCTK6quWkE3B1DAXOBJERPFq9VEKHysCw/aT96HHozXh4u03zNnqQhqrfnc7qIbY0sjms=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707661864; c=relaxed/simple;
-	bh=//KcS2BacnHMxBuaUboGVGlLmxMfqTCzEJ0ysUaPQjI=;
+	s=arc-20240116; t=1707661863; c=relaxed/simple;
+	bh=XEEoRYisx7ifXpPEg8mrSb/ndQgT3QQwlgrN2E7Djjk=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=FEcWBo61RL/fphKMIH17iQCqduiJSY0SVyLIBcLxjw3zb+pitXqizKe7L2WuTElD0tbG9dN8oTTUbfMnOnizD1flpvcMVZGa7eC0whTw7WSSK0ra7KF19mJu8CtB+3VK+y9/trLClFcr4vUD5aGh2EJNm2tZj0lzYaF3/XgdPik=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.132.52
+	 MIME-Version; b=Gff1Ta/pNM+Uy60NFuc0zcDm9YXe+c8v3huLvwY4wE84h8OYQhTcdCYN7dvYAWy0rhRFwwpB5EgU5E0z2weWXpyNKNe+mhRgX32PVuDMnssyCyUlg7+V5yuU5oetnsEN9ot4yAMlewf22gjXqMUNSTN+uFnNTe18M+j8OuzSdwA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.137.88
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
 Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed40:5c16:aeff:e73f:ad67])
-	by xavier.telenet-ops.be with bizsmtp
-	id lqWz2B00X493aJM01qWzty; Sun, 11 Feb 2024 15:31:00 +0100
+	by michel.telenet-ops.be with bizsmtp
+	id lqWz2B00A493aJM06qWzUW; Sun, 11 Feb 2024 15:31:00 +0100
 Received: from rox.of.borg ([192.168.97.57])
 	by ramsan.of.borg with esmtp (Exim 4.95)
 	(envelope-from <geert@linux-m68k.org>)
-	id 1rZAr8-000Qhf-H7;
+	id 1rZAr8-000Qhi-Hs;
 	Sun, 11 Feb 2024 15:30:59 +0100
 Received: from geert by rox.of.borg with local (Exim 4.95)
 	(envelope-from <geert@linux-m68k.org>)
-	id 1rZArD-006Wuh-FF;
+	id 1rZArD-006Wul-H9;
 	Sun, 11 Feb 2024 15:30:59 +0100
 From: Geert Uytterhoeven <geert+renesas@glider.be>
 To: linux-renesas-soc@vger.kernel.org
 Cc: linux-arm-kernel@lists.infradead.org,
 	Thanh Quan <thanh.quan.xn@renesas.com>,
 	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH 1/2] arm64: dts: renesas: r8a779h0: Add Ethernet-AVB support
-Date: Sun, 11 Feb 2024 15:30:45 +0100
-Message-Id: <ae7488c0065b455b45f23253c997a94f4850064f.1707661382.git.geert+renesas@glider.be>
+Subject: [PATCH 2/2] arm64: dts: renesas: gray-hawk-single: Add Ethernet support
+Date: Sun, 11 Feb 2024 15:30:46 +0100
+Message-Id: <b83b21b6477a0e31f99eaedbd36c03014b72ec8a.1707661382.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1707661382.git.geert+renesas@glider.be>
 References: <cover.1707661382.git.geert+renesas@glider.be>
@@ -62,179 +62,81 @@ Content-Transfer-Encoding: 8bit
 
 From: Thanh Quan <thanh.quan.xn@renesas.com>
 
-Add device nodes for the Renesas Ethernet AVB (EtherAVB-IF) blocks on
-the Renesas R-Car V4M (R8A779H0) SoC.
+Describe the wiring of the first Ethernet AVB instance to the Micrel
+KSZ9031RNXVB PHY.
 
 Signed-off-by: Thanh Quan <thanh.quan.xn@renesas.com>
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
 Changes compared to the BSP:
-  - Split in separate patches for SoC and board support,
-  - Correct reg size for avb[01] from 0x800 to 0x1000, to cover the
-    register related to UDP/IP support, cfr. "[PATCH 0/2] arm64: dts: renesas:
-    rcar-gen4: Correct avb[01] reg sizes"
-    https://lore.kernel.org/r/cover.1707660323.git.geert+renesas@glider.be
-  - Add clock-names properties,
-  - Fix indentation of closing curly brace.
+  - Split in separate commits for SoC and board support,
+  - Apply to r8a779h0-gray-hawk-single.dts.
 ---
- arch/arm64/boot/dts/renesas/r8a779h0.dtsi | 144 ++++++++++++++++++++++
- 1 file changed, 144 insertions(+)
+ .../dts/renesas/r8a779h0-gray-hawk-single.dts | 37 +++++++++++++++++++
+ 1 file changed, 37 insertions(+)
 
-diff --git a/arch/arm64/boot/dts/renesas/r8a779h0.dtsi b/arch/arm64/boot/dts/renesas/r8a779h0.dtsi
-index 4e9e487ec51661fd..66a93c88f8742431 100644
---- a/arch/arm64/boot/dts/renesas/r8a779h0.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r8a779h0.dtsi
-@@ -388,6 +388,150 @@ hscif0: serial@e6540000 {
- 			status = "disabled";
- 		};
+diff --git a/arch/arm64/boot/dts/renesas/r8a779h0-gray-hawk-single.dts b/arch/arm64/boot/dts/renesas/r8a779h0-gray-hawk-single.dts
+index 1bee27b2284d2eee..625e7448bc9fc1ce 100644
+--- a/arch/arm64/boot/dts/renesas/r8a779h0-gray-hawk-single.dts
++++ b/arch/arm64/boot/dts/renesas/r8a779h0-gray-hawk-single.dts
+@@ -15,6 +15,7 @@ / {
  
-+		avb0: ethernet@e6800000 {
-+			compatible = "renesas,etheravb-r8a779h0",
-+				     "renesas,etheravb-rcar-gen4";
-+			reg = <0 0xe6800000 0 0x1000>;
-+			interrupts = <GIC_SPI 335 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 336 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 337 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 338 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 339 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 340 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 341 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 342 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 343 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 344 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 345 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 346 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 347 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 348 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 349 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 350 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 351 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 352 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 353 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 354 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 355 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 356 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 357 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 358 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 359 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "ch0", "ch1", "ch2", "ch3",
-+					  "ch4", "ch5", "ch6", "ch7",
-+					  "ch8", "ch9", "ch10", "ch11",
-+					  "ch12", "ch13", "ch14", "ch15",
-+					  "ch16", "ch17", "ch18", "ch19",
-+					  "ch20", "ch21", "ch22", "ch23",
-+					  "ch24";
-+			clocks = <&cpg CPG_MOD 211>;
-+			clock-names = "fck";
-+			power-domains = <&sysc R8A779H0_PD_C4>;
-+			resets = <&cpg 211>;
-+			phy-mode = "rgmii";
-+			rx-internal-delay-ps = <0>;
-+			tx-internal-delay-ps = <0>;
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+			status = "disabled";
+ 	aliases {
+ 		serial0 = &hscif0;
++		ethernet0 = &avb0;
+ 	};
+ 
+ 	chosen {
+@@ -34,6 +35,24 @@ memory@480000000 {
+ 	};
+ };
+ 
++&avb0 {
++	pinctrl-0 = <&avb0_pins>;
++	pinctrl-names = "default";
++	phy-handle = <&phy0>;
++	tx-internal-delay-ps = <2000>;
++	status = "okay";
++
++	phy0: ethernet-phy@0 {
++		compatible = "ethernet-phy-id0022.1622",
++			     "ethernet-phy-ieee802.3-c22";
++		rxc-skew-ps = <1500>;
++		reg = <0>;
++		interrupt-parent = <&gpio7>;
++		interrupts = <5 IRQ_TYPE_LEVEL_LOW>;
++		reset-gpios = <&gpio7 10 GPIO_ACTIVE_LOW>;
++	};
++};
++
+ &extal_clk {
+ 	clock-frequency = <16666666>;
+ };
+@@ -90,6 +109,24 @@ &pfc {
+ 	pinctrl-0 = <&scif_clk_pins>;
+ 	pinctrl-names = "default";
+ 
++	avb0_pins: avb0 {
++		mux {
++			groups = "avb0_link", "avb0_mdio", "avb0_rgmii",
++				 "avb0_txcrefclk";
++			function = "avb0";
 +		};
 +
-+		avb1: ethernet@e6810000 {
-+			compatible = "renesas,etheravb-r8a779h0",
-+				     "renesas,etheravb-rcar-gen4";
-+			reg = <0 0xe6810000 0 0x1000>;
-+			interrupts = <GIC_SPI 360 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 361 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 362 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 363 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 364 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 365 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 366 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 367 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 368 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 369 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 370 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 371 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 372 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 373 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 374 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 375 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 376 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 377 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 378 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 379 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 380 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 381 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 382 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 383 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 384 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "ch0", "ch1", "ch2", "ch3",
-+					  "ch4", "ch5", "ch6", "ch7",
-+					  "ch8", "ch9", "ch10", "ch11",
-+					  "ch12", "ch13", "ch14", "ch15",
-+					  "ch16", "ch17", "ch18", "ch19",
-+					  "ch20", "ch21", "ch22", "ch23",
-+					  "ch24";
-+			clocks = <&cpg CPG_MOD 212>;
-+			clock-names = "fck";
-+			power-domains = <&sysc R8A779H0_PD_C4>;
-+			resets = <&cpg 212>;
-+			phy-mode = "rgmii";
-+			rx-internal-delay-ps = <0>;
-+			tx-internal-delay-ps = <0>;
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+			status = "disabled";
++		pins_mdio {
++			groups = "avb0_mdio";
++			drive-strength = <21>;
 +		};
 +
-+		avb2: ethernet@e6820000 {
-+			compatible = "renesas,etheravb-r8a779h0",
-+				     "renesas,etheravb-rcar-gen4";
-+			reg = <0 0xe6820000 0 0x1000>;
-+			interrupts = <GIC_SPI 385 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 386 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 387 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 388 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 389 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 390 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 391 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 392 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 393 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 394 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 395 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 396 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 397 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 398 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 399 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 400 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 401 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 402 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 403 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 404 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 405 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 406 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 407 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 408 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 409 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "ch0", "ch1", "ch2", "ch3",
-+					  "ch4", "ch5", "ch6", "ch7",
-+					  "ch8", "ch9", "ch10", "ch11",
-+					  "ch12", "ch13", "ch14", "ch15",
-+					  "ch16", "ch17", "ch18", "ch19",
-+					  "ch20", "ch21", "ch22", "ch23",
-+					  "ch24";
-+			clocks = <&cpg CPG_MOD 213>;
-+			clock-names = "fck";
-+			power-domains = <&sysc R8A779H0_PD_C4>;
-+			resets = <&cpg 213>;
-+			phy-mode = "rgmii";
-+			rx-internal-delay-ps = <0>;
-+			tx-internal-delay-ps = <0>;
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+			status = "disabled";
++		pins_mii {
++			groups = "avb0_rgmii";
++			drive-strength = <21>;
 +		};
++	};
 +
- 		gic: interrupt-controller@f1000000 {
- 			compatible = "arm,gic-v3";
- 			#interrupt-cells = <3>;
+ 	hscif0_pins: hscif0 {
+ 		groups = "hscif0_data", "hscif0_ctrl";
+ 		function = "hscif0";
 -- 
 2.34.1
 
