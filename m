@@ -1,41 +1,41 @@
-Return-Path: <linux-renesas-soc+bounces-2616-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-2617-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 098F5851284
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 12 Feb 2024 12:45:27 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id CE3208512AA
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 12 Feb 2024 12:52:42 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B5950283320
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 12 Feb 2024 11:45:25 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3E4C31F21072
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 12 Feb 2024 11:52:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0926F39ACB;
-	Mon, 12 Feb 2024 11:45:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2507D39861;
+	Mon, 12 Feb 2024 11:52:18 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9D3A939AC4;
-	Mon, 12 Feb 2024 11:45:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.171
+Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6536739FC6;
+	Mon, 12 Feb 2024 11:52:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707738317; cv=none; b=oNK4P93hpfExxiQ3lzpVLaDepz+EUFCMu5UivAjnAZZUxkf0evBADaR3N2PYqpddbYEoAqy8QROOCxWjEy0CRWdW5ZHt330dT3UHLCgyoEPdXuUXeS6erm18O4tTxQunnzgxkbLUECZBWh2LDZi1l9SZx+h3GhiB/ixtygF4830=
+	t=1707738738; cv=none; b=ulCZ/owdDwj/zHoox5rIhPxMhLkNkPNj8T7l4VLbayMKoDBdkJmb592QsVQNYvQq2LI7SP/7K1K8vyYyy6wBCqnfHCnk//N2YecAHODrbpg27uAVXlz5PAIoa3xhkHPzmr0RSp0BLkgwvUWieh2tCt++CXs0K9j7BblH7HHcoEk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707738317; c=relaxed/simple;
-	bh=LqqNITE5EPPXbNNAK/0KL+sSz54KmqmrBG2NKdI2OQ0=;
+	s=arc-20240116; t=1707738738; c=relaxed/simple;
+	bh=GpL07XAa/jm5FeLdjxYaphlLhPjYkUMyORseq7qEQyQ=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Wg0e/0sj2cSxBu6NwS9tgr/DsBToOtEslEYpXyAOb3ohB56Fo7BMlNs78d6Otniy0yRRJ+BW8+W5igN+iKLVBgzsPjy36bh1iEIoxGP1Q/ri5Ra3g/7XP4L8K9N25YHQtQA5SpRKwQBHwSw4HtFYzHU7wjiBD5N9vWuxjmLk3TI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.171
+	 In-Reply-To:Content-Type; b=uF7higG8jcCK3sOx3DrCmbUswEnaw7LqInh1rdOW7XgxmAV8DY8RjAdhObEB+6Iwz24QyjDKmUzOgcAVvjAPxsPLRX/XrN1zx1amIShwa4ygjZPe0P8PU0eqRiTCfE5vRH3sWHIFedDRhg+b6vImslHb0cJuxwRXfn/JmCoQSAU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
-X-IronPort-AV: E=Sophos;i="6.05,263,1701097200"; 
-   d="asc'?scan'208";a="193657013"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie5.idc.renesas.com with ESMTP; 12 Feb 2024 20:45:14 +0900
+X-IronPort-AV: E=Sophos;i="6.06,263,1705330800"; 
+   d="asc'?scan'208";a="197569102"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie6.idc.renesas.com with ESMTP; 12 Feb 2024 20:52:14 +0900
 Received: from [10.226.92.81] (unknown [10.226.92.81])
-	by relmlir5.idc.renesas.com (Postfix) with ESMTP id 3E1DF40037D3;
-	Mon, 12 Feb 2024 20:45:10 +0900 (JST)
-Message-ID: <895bdec7-05d6-4435-8be1-fe8ca716cbcb@bp.renesas.com>
-Date: Mon, 12 Feb 2024 11:45:09 +0000
+	by relmlir6.idc.renesas.com (Postfix) with ESMTP id E7BAC41AFAC9;
+	Mon, 12 Feb 2024 20:52:10 +0900 (JST)
+Message-ID: <99a883c8-ccf2-4e52-9c34-ead59cd84117@bp.renesas.com>
+Date: Mon, 12 Feb 2024 11:52:09 +0000
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -43,8 +43,8 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH net-next v2 6/7] net: ravb: Enable SW IRQ Coalescing
- for GbEth
+Subject: Re: [RFC PATCH net-next v2 0/7] Improve GbEth performance on Renesas
+ RZ/G2L and related SoCs
 Content-Language: en-GB
 To: Sergey Shtylyov <s.shtylyov@omp.ru>,
  "David S . Miller" <davem@davemloft.net>, Eric Dumazet
@@ -54,17 +54,16 @@ Cc: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
  Wolfram Sang <wsa+renesas@sang-engineering.com>, netdev@vger.kernel.org,
  linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
 References: <20240206091909.3191-1-paul.barker.ct@bp.renesas.com>
- <20240206091909.3191-7-paul.barker.ct@bp.renesas.com>
- <2251fe66-11b7-2f30-c905-7bc1b9a57dab@omp.ru>
+ <29d9d3cb-4ac2-32e2-51b8-475d34216b07@omp.ru>
 From: Paul Barker <paul.barker.ct@bp.renesas.com>
-In-Reply-To: <2251fe66-11b7-2f30-c905-7bc1b9a57dab@omp.ru>
+In-Reply-To: <29d9d3cb-4ac2-32e2-51b8-475d34216b07@omp.ru>
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="------------mdlHzq3TTMfz0ESSc4Lt3upH"
+ boundary="------------gdYqQiIth7xEUoa2x4MlHboa"
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------mdlHzq3TTMfz0ESSc4Lt3upH
-Content-Type: multipart/mixed; boundary="------------y3vAJTI8m0dSIBuf1OBHlbL0";
+--------------gdYqQiIth7xEUoa2x4MlHboa
+Content-Type: multipart/mixed; boundary="------------YxdYTyxwde8Raj8xLdsTFczc";
  protected-headers="v1"
 From: Paul Barker <paul.barker.ct@bp.renesas.com>
 To: Sergey Shtylyov <s.shtylyov@omp.ru>,
@@ -74,58 +73,140 @@ To: Sergey Shtylyov <s.shtylyov@omp.ru>,
 Cc: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
  Wolfram Sang <wsa+renesas@sang-engineering.com>, netdev@vger.kernel.org,
  linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
-Message-ID: <895bdec7-05d6-4435-8be1-fe8ca716cbcb@bp.renesas.com>
-Subject: Re: [RFC PATCH net-next v2 6/7] net: ravb: Enable SW IRQ Coalescing
- for GbEth
+Message-ID: <99a883c8-ccf2-4e52-9c34-ead59cd84117@bp.renesas.com>
+Subject: Re: [RFC PATCH net-next v2 0/7] Improve GbEth performance on Renesas
+ RZ/G2L and related SoCs
 References: <20240206091909.3191-1-paul.barker.ct@bp.renesas.com>
- <20240206091909.3191-7-paul.barker.ct@bp.renesas.com>
- <2251fe66-11b7-2f30-c905-7bc1b9a57dab@omp.ru>
-In-Reply-To: <2251fe66-11b7-2f30-c905-7bc1b9a57dab@omp.ru>
+ <29d9d3cb-4ac2-32e2-51b8-475d34216b07@omp.ru>
+In-Reply-To: <29d9d3cb-4ac2-32e2-51b8-475d34216b07@omp.ru>
 
---------------y3vAJTI8m0dSIBuf1OBHlbL0
-Content-Type: multipart/mixed; boundary="------------WY70bkpuoDTPtd0XKgDVv1Y0"
+--------------YxdYTyxwde8Raj8xLdsTFczc
+Content-Type: multipart/mixed; boundary="------------kG6KqVt2nm7zk2pZF5LvPf2B"
 
---------------WY70bkpuoDTPtd0XKgDVv1Y0
+--------------kG6KqVt2nm7zk2pZF5LvPf2B
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On 10/02/2024 18:42, Sergey Shtylyov wrote:
+On 10/02/2024 19:36, Sergey Shtylyov wrote:
 > On 2/6/24 12:19 PM, Paul Barker wrote:
->> diff --git a/drivers/net/ethernet/renesas/ravb.h b/drivers/net/etherne=
-t/renesas/ravb.h
->> index 55a7a08aabef..ca7a66759e35 100644
->> --- a/drivers/net/ethernet/renesas/ravb.h
->> +++ b/drivers/net/ethernet/renesas/ravb.h
->> @@ -1078,6 +1078,7 @@ struct ravb_hw_info {
->>  	unsigned nc_queues:1;		/* AVB-DMAC has RX and TX NC queues */
->>  	unsigned magic_pkt:1;		/* E-MAC supports magic packet detection */
->>  	unsigned half_duplex:1;		/* E-MAC supports half duplex mode */
->> +	unsigned needs_irq_coalesce:1;	/* Requires SW IRQ Coalescing to achi=
-eve best performance */
 >=20
->    Is this really a hardware feature?
+>> This series aims to improve peformance of the GbEth IP in the Renesas
+>=20
+>    You didn't fix the typo in "peformance"... :-/
+>=20
+>> RZ/G2L SoC family and the RZ/G3S SoC, which use the ravb driver. Along=
 
-It's more like a requirement to get the best out of this hardware and the=
- Linux networking stack.
+>> the way, we do some refactoring and ensure that napi_complete_done() i=
+s
+>> used in accordance with the NAPI documentation for both GbEth and R-Ca=
+r
+>> code paths.
+>>
+>> Performance improvment mainly comes from enabling SW IRQ Coalescing fo=
+r
+>=20
+>    And in "improvment" too... :-/
 
-I considered checking the compatible string in the probe function but I d=
-ecided that storing a configuration bit in the HW info struct was cleaner=
-=2E
+I'll fix this and the above type in v3.
 
->    Also, s/Requires SW/Needs software/ and s/to achieve best performanc=
-e//,
-> please...
+>=20
+>> all SoCs using the GbEth IP, and NAPI Threaded mode for single core So=
+Cs
+>> using the GbEth IP. These can be enabled/disabled at runtime via sysfs=
+,
+>> but our goal is to set sensible defaults which get good performance on=
 
-Will do.
+>> the affected SoCs.
+>>
+>> The performance impact of this series on iperf3 testing is as follows:=
+
+>>   * RZ/G2L Ethernet throughput is unchanged, but CPU usage drops:
+>>       * Bidirectional and TCP RX: 6.5% less CPU usage
+>>       * UDP RX: 10% less CPU usage
+>>
+>>   * RZ/G2UL and RZ/G3S Ethernet throughput is increased for all test
+>>     cases except UDP TX, which suffers a slight loss:
+>>       * TCP TX: 32% more throughput
+>>       * TCP RX: 11% more throughput
+>>       * UDP TX: 10% less throughput
+>>       * UDP RX: 10183% more throughput - the previous throughput of
+>=20
+>    So this is a real figure? I thought you forgot to erase 10... :-)
+
+Yes, throughput went from 1.06Mbps to 109Mbps for the RZ/G2UL with these
+changes.
+
+Initial testing shows that goes up again to 485Mbps with the next patch
+series I'm working on to reduce RX buffer sizes.
+
+Biju's work on checksum offload also helps a lot with these numbers, I
+can't take all the credit.
+
+>=20
+>>         1.06Mbps is what prompted this work.
+>>
+>>   * RZ/G2N CPU usage and Ethernet throughput is unchanged (tested as a=
+
+>>     representative of the SoCs which use the R-Car based RAVB IP).
+>>
+>> This series depends on:
+>>   * "net: ravb: Let IP-specific receive function to interrogate descri=
+ptors" v6
+>>     https://lore.kernel.org/all/20240202084136.3426492-2-claudiu.bezne=
+a.uj@bp.renesas.com/
+>=20
+>    This one has been merged now, so you can drop RFC...
+>=20
+>> To get the results shown above, you'll also need:
+>>   * "topology: Set capacity_freq_ref in all cases"
+>>     https://lore.kernel.org/all/20240117190545.596057-1-vincent.guitto=
+t@linaro.org/
+>>
+>>   * "ravb: Add Rx checksum offload support" v4
+>>     https://lore.kernel.org/all/20240203142559.130466-2-biju.das.jz@bp=
+=2Erenesas.com/
+>>
+>>   * "ravb: Add Tx checksum offload support" v4
+>>     https://lore.kernel.org/all/20240203142559.130466-3-biju.das.jz@bp=
+=2Erenesas.com/
+>=20
+>    These two have been merged too...
+>=20
+>> Work in this area will continue, in particular we expect to improve
+>> TCP/UDP RX performance further with future changes to RX buffer
+>> handling.
+>>
+>> Changes v1->v2:
+>>   * Marked as RFC as the series depends on unmerged patches.
+>>   * Refactored R-Car code paths as well as GbEth code paths.
+>>   * Updated references to the patches this series depends on.
+>>
+>> Paul Barker (7):
+>>   net: ravb: Simplify poll & receive functions
+>=20
+>    The below 3 commits fix issues in the GbEth code, so should
+> be redone against net.git and posted separately from this series...
+>=20
+>>   net: ravb: Count packets instead of descriptors in RX path
+>>   net: ravb: Always process TX descriptor ring
+>>   net: ravb: Always update error counters
+
+I'll split out and re-submit these as bug fixes. "net: ravb: Count
+packets instead of descriptors in RX path" will require a bit of rework
+so it doesn't depend on the first patch of the series ("net: ravb:
+Simplify poll & receive functions") so you'll probably want to re-review
+when I send it.
+
+Then I'll re-send the rest as a non-RFC series.
 
 >=20
 > [...]
 >=20
 > MBR, Sergey
 
-Thanks for the review,
+Thanks for the review!
 Paul
---------------WY70bkpuoDTPtd0XKgDVv1Y0
+--------------kG6KqVt2nm7zk2pZF5LvPf2B
 Content-Type: application/pgp-keys; name="OpenPGP_0x27F4B3459F002257.asc"
 Content-Disposition: attachment; filename="OpenPGP_0x27F4B3459F002257.asc"
 Content-Description: OpenPGP public key
@@ -189,22 +270,22 @@ ZyZGVsEsOuGCLkekUMF/5dwOhEDXrY42VR/ZxdDTY99dznQkwTt4o7FOmkY=3D
 =3DsIIN
 -----END PGP PUBLIC KEY BLOCK-----
 
---------------WY70bkpuoDTPtd0XKgDVv1Y0--
+--------------kG6KqVt2nm7zk2pZF5LvPf2B--
 
---------------y3vAJTI8m0dSIBuf1OBHlbL0--
+--------------YxdYTyxwde8Raj8xLdsTFczc--
 
---------------mdlHzq3TTMfz0ESSc4Lt3upH
+--------------gdYqQiIth7xEUoa2x4MlHboa
 Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="OpenPGP_signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-wnsEABYIACMWIQSiu8gv1Xr0fIw/aoLbaV4Vf/JGvQUCZcoExQUDAAAAAAAKCRDbaV4Vf/JGvbTv
-AP4vozO31U0wHPDdaHn0UFcrTl/hsfJMV+hQbaT8W2jo1wEA0I7ja4ji92o7olsPV6jXsY6OHFKs
-u51TggFZbngBjgs=
-=gDqV
+wnsEABYIACMWIQSiu8gv1Xr0fIw/aoLbaV4Vf/JGvQUCZcoGaQUDAAAAAAAKCRDbaV4Vf/JGvWQv
+AP99nq3e3tTCVG5AT5Ash4tBIc6HvHQJQ7jxGS0HWBZvswEA31lc75J5gyr6idRiOvRNRZKLqDKl
+R4f7AbNdK0fYVg0=
+=ha/M
 -----END PGP SIGNATURE-----
 
---------------mdlHzq3TTMfz0ESSc4Lt3upH--
+--------------gdYqQiIth7xEUoa2x4MlHboa--
 
