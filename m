@@ -1,80 +1,132 @@
-Return-Path: <linux-renesas-soc+bounces-2603-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-2604-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69165850FDC
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 12 Feb 2024 10:40:54 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 98A1D851043
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 12 Feb 2024 11:03:37 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C977EB20DFD
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 12 Feb 2024 09:40:51 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CBD1D1C21CEC
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 12 Feb 2024 10:03:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D92B5179B7;
-	Mon, 12 Feb 2024 09:40:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 697B917C62;
+	Mon, 12 Feb 2024 10:03:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PCLddKSd"
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="LWzQNVJn"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABB8B179B5
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 12 Feb 2024 09:40:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B446D17BBE;
+	Mon, 12 Feb 2024 10:03:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.149.25
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707730848; cv=none; b=e3gqHi980oZGIdkYQaGIgR9BTRit+aAGMrvEpQfq8BC7wWn+BPEiCz7fDmMPXcqPRr3ryApZzRtfJ61ZvOuKLb2pbNOEuourTfbqu7ZzhJFUExZLCOpPeDuAzrRUx1Rb6ZIveD0oqKTYk0bqWkUlrF+j3dDkH6lZUEDwxw0f5S4=
+	t=1707732211; cv=none; b=oyhC3faMFGsPqY/skv5NjH5cJMhPWaNw53BO0C3DOqNr6SWrnu0YfNZ9ecKspZzIFILiSVQ+i6i1W0tZzjFGiuaahaUYW8b/B2TdZXgldlDYPQLbHw8TAKocE5MPCX9bUb4aJkR+/fHZ+9e9ekX/E5yxcl2IiUFmTuOMdv+dXZU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707730848; c=relaxed/simple;
-	bh=kYwQCU8IK1/HhmiiTKalDMZ5ghP/MrLRXBCpPKSdWak=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:To; b=Usoh46mOkcasYIqHgBVjdIlSw1XsRE9CHnL8ACyH/rMoPlVa2Pw9elX0Bw1QPd5iGYRwy2oRqbPPX5MuHb93u4dNkTcQioDbBULRpMvUO0vX6UX/ycs38Aajzhy6AvdjDm8PS2IosWuaIBSQZqiar9lae+q0XQY7ylVlYWQJdEE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PCLddKSd; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 34BB3C433C7
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 12 Feb 2024 09:40:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1707730848;
-	bh=kYwQCU8IK1/HhmiiTKalDMZ5ghP/MrLRXBCpPKSdWak=;
-	h=Subject:From:Date:To:From;
-	b=PCLddKSdULVrtQvYQbAasZzVHw/Zg2XhgPJ2pIiiKiaL4jaS/1ibK+oDGASKMO5pq
-	 9i2obEFAXciri/RUF9qN/+5I73h+Le9Wct3ZhtCJewqTGdc8YTws+y9MB722o/Gu0Z
-	 bPFrXSAtHkP77o45X8WMua+ftDtwbOQxNulYwimSyr7iIIRltmipaRWkfHLW46Dcck
-	 4/xQ6prPrwMK6cFcDmRy7C5YP1oqubeuSzBu6ql7fmFZbm9Fjgsp57Ooc788urhVr8
-	 +Z+C2R9r0ws7KV9pU6k6z7SBBWdlRONU6Slk98Ymw5KHLLR5tA9XxbLy9S9PnaH42j
-	 mDQvSLHDyFwMg==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 19794D84BC3
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 12 Feb 2024 09:40:48 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	s=arc-20240116; t=1707732211; c=relaxed/simple;
+	bh=EUaMkEUqz4qgROvxBCIDolmNlZRkFxJ7hUO/k+Lveu0=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ut4W3DEFOcsvv8fjCktwAQ3YrjXi5ruUdp3GBIY2+k5G3XEjATiSvnSOnCKCVnGOH2KjchQv7CRtFtMcNULBsQvHQXee3qAA6LCGeorQSGRFuUGiUw1b20blwzkZWNj8596oK6lGyS6wmucyLpAN2y5SCgeBBn1FeXuxOGG3t/w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=LWzQNVJn; arc=none smtp.client-ip=67.231.149.25
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
+	by mx0a-001ae601.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 41C7sVo4016307;
+	Mon, 12 Feb 2024 04:02:21 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=
+	date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:in-reply-to; s=PODMain02222019; bh=WLF2X+j3Bn92Q1D
+	DaV05/unswsO5ahBS+1WWPqaApW4=; b=LWzQNVJn8q7dcq0Bd+TtMxT1lIBoGiw
+	yD0TsejCsoABuy8AggRDJW06Q1z2xJlky/ztkU9ADIkffObtOL0UuCQv3Beh4nhA
+	Put6Ypu2vVivviEJ6Oil+cEfW1Q27QM+O9ltZ623dvQO4anhr/dZNovMzxP3lw+a
+	LhOj5jub+y3fjAvlvXTHjliMbTrYlMFuhJHFxHorIs5Vl5GjaGvKHU61HqyF2Ni8
+	oMyxoPUphkMgU1KFNxi+kfuEZzYoo4jyVm3Qy64lf8Glce+CGjlLDllqFwliGFC9
+	RTpYBk2a8X7avMhCql6FZ7NmoU/tVg544Z1TluPmt36M8g8y3w06Uow==
+Received: from ediex02.ad.cirrus.com ([84.19.233.68])
+	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 3w67e21nee-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 12 Feb 2024 04:02:21 -0600 (CST)
+Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex02.ad.cirrus.com
+ (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Mon, 12 Feb
+ 2024 10:02:18 +0000
+Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
+ anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
+ 15.2.1118.40 via Frontend Transport; Mon, 12 Feb 2024 10:02:18 +0000
+Received: from ediswmail9.ad.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPS id 70E1F820242;
+	Mon, 12 Feb 2024 10:02:18 +0000 (UTC)
+Date: Mon, 12 Feb 2024 10:02:17 +0000
+From: Charles Keepax <ckeepax@opensource.cirrus.com>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+CC: Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd
+	<sboyd@kernel.org>, Sudeep Holla <sudeep.holla@arm.com>,
+        Peng Fan
+	<peng.fan@nxp.com>, Shawn Guo <shawnguo@kernel.org>,
+        Nishanth Menon
+	<nm@ti.com>, Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio
+	<konrad.dybcio@linaro.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter
+	<jonathanh@nvidia.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        "Laurent
+ Pinchart" <laurent.pinchart@ideasonboard.com>,
+        Mauro Carvalho Chehab
+	<mchehab@kernel.org>,
+        Vinod Koul <vkoul@kernel.org>, Russell King
+	<linux@armlinux.org.uk>,
+        Srinivas Kandagatla
+	<srinivas.kandagatla@linaro.org>,
+        Mark Brown <broonie@kernel.org>, "Jaroslav
+ Kysela" <perex@perex.cz>,
+        Takashi Iwai <tiwai@suse.com>, <linux-clk@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
+        <patches@opensource.cirrus.com>,
+        <linux-stm32@st-md-mailman.stormreply.com>,
+        NXP Linux Team
+	<linux-imx@nxp.com>,
+        <linux-amlogic@lists.infradead.org>, <linux-arm-msm@vger.kernel.org>,
+        <linux-renesas-soc@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
+        <linux-omap@vger.kernel.org>, <linux-media@vger.kernel.org>,
+        <linux-phy@lists.infradead.org>, <alsa-devel@alsa-project.org>,
+        <linux-sound@vger.kernel.org>
+Subject: Re: [PATCH] clk: constify the of_phandle_args argument of
+ of_clk_provider
+Message-ID: <ZcnsqaIftZXcNaUA@ediswmail9.ad.cirrus.com>
+References: <20240208163710.512733-1-krzysztof.kozlowski@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Patchwork summary for: linux-renesas-soc
-From: patchwork-bot+linux-renesas-soc@kernel.org
-Message-Id: 
- <170773084804.19628.5855801763697152752.git-patchwork-summary@kernel.org>
-Date: Mon, 12 Feb 2024 09:40:48 +0000
-To: linux-renesas-soc@vger.kernel.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20240208163710.512733-1-krzysztof.kozlowski@linaro.org>
+X-Proofpoint-ORIG-GUID: NzDJLMtFiatrdGDskmwX3IMPmG4MYizJ
+X-Proofpoint-GUID: NzDJLMtFiatrdGDskmwX3IMPmG4MYizJ
+X-Proofpoint-Spam-Reason: safe
 
-Hello:
+On Thu, Feb 08, 2024 at 05:37:10PM +0100, Krzysztof Kozlowski wrote:
+> None of the implementations of the get() and get_hw() callbacks of
+> "struct of_clk_provider" modify the contents of received of_phandle_args
+> pointer.  They treat it as read-only variable used to find the clock to
+> return.  Make obvious that implementations are not supposed to modify
+> the of_phandle_args, by making it a pointer to const.
+> 
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> ---
+>  drivers/clk/clk-lochnagar.c                   |  2 +-
 
-The following patches were marked "mainlined", because they were applied to
-geert/renesas-devel.git (master):
+For the Lochnagar bits:
 
-Patch: pmdomain: renesas: r8a77980-sysc: CR7 must be always on
-  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
-  Committer: Ulf Hansson <ulf.hansson@linaro.org>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=816555
-  Lore link: https://lore.kernel.org/r/fdad9a86132d53ecddf72b734dac406915c4edc0.1705076735.git.geert+renesas@glider.be
+Reviewed-by: Charles Keepax <ckeepax@opensource.cirrus.com>
 
-
-Total patches: 1
-
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
-
+Thanks,
+Charles
 
