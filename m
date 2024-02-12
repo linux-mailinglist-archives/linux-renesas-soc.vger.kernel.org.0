@@ -1,113 +1,155 @@
-Return-Path: <linux-renesas-soc+bounces-2619-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-2620-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CF4785134A
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 12 Feb 2024 13:15:07 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 61F06851578
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 12 Feb 2024 14:40:23 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3F1DF1F23552
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 12 Feb 2024 12:15:07 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 2905FB278C3
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 12 Feb 2024 13:39:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 481D939FDC;
-	Mon, 12 Feb 2024 12:13:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="J4AgM9ro"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AF1933A8D7;
+	Mon, 12 Feb 2024 13:30:02 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f176.google.com (mail-yb1-f176.google.com [209.85.219.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F28C3A29B
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 12 Feb 2024 12:12:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DE033BB35;
+	Mon, 12 Feb 2024 13:30:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707739980; cv=none; b=H/bK27LTsXKA23JebKnU2l01EDUNmGUb8S+DSqzr1WQtZCgcx0oRDJnWuvtiqpVvvINvqoUhA4PhdgyDUmHMaKY4Jil3Iisw8YzZcYlTKxLNvlIfSwAj+8yxNVqqlY3uHFkpXtDWZFfaiAhK30sfOF3VVkswxP976JK03a2XB+0=
+	t=1707744602; cv=none; b=cJFx+ibPByipPIld77JSjhiQT/DFiB9Sqb9Pl+KI7CNzKTPnwDdvjiof3UE3W3l5u/DzS40lo3M3/9p/HGp9FaJ4C3WvgocNV7TAOkkrc1RGN+r+ftM37a3pzj708fAqdjy6fTUv/tFQuryiVyeCDD5dkyxysoojl7JVU4AjIH0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707739980; c=relaxed/simple;
-	bh=JJID6F7jqLHRWeoC4iyAEKo0jO08alUsrFdpbpIKcnw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dPor8Mb5fjgSoRz508FiwpSb87LeXCkG3v1lDzDQlca+Le2tVgk++e0eI+Ew/mPVmLDkCUht4ZDB0fmmkYxqmwl2pD2PUQ9bBe3tFrFEP4PDsUV/U6bKpwWvZhX0eCriztk6ngmhUbfmJH3Z4Mg32joeRAR6TB9kneJ+7cfggVo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=J4AgM9ro; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=Av+Z
-	w72XMMFy5JIv8FNYIcdnZNiuXEaLFUQ4ZS3b3ps=; b=J4AgM9roICuQi7Jkud1m
-	0Vg1pK1jOtVGjtPgGxRRNr9ay9CUFHEFBshRvBtvKhrZ3M8926JgceBjAco0H5HH
-	rASATTrjjljdBXLUQf8j39d7LJk3Q1KyUYBiZdk91Ai+2VyILrPQ8IdXTr0QRQOL
-	W14hW8Vwa7hIZgPe7Jgwx0Ub8dgMsB5Gg7mRVt8rmgBNgZXWWOVyLphvBYM/+QRr
-	W/yHcE0P/J88T8mYybhmcjYm2I4N4clOhcNvh8/r8/GboostT2YLHlfzqP1OIULO
-	b7TxjKanC3ossl2DUPRGS96Hk+C+CoHQjp3aypAbmJSRBruQ8Ehq2sDRX+oAORJi
-	OA==
-Received: (qmail 472363 invoked from network); 12 Feb 2024 13:12:48 +0100
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 12 Feb 2024 13:12:48 +0100
-X-UD-Smtp-Session: l3s3148p1@BZkmMi4REL0ujnsZ
-Date: Mon, 12 Feb 2024 13:12:46 +0100
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: Ulf Hansson <ulf.hansson@linaro.org>
-Cc: Lee Jones <lee@kernel.org>, linux-renesas-soc@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-mmc@vger.kernel.org, linux-sh@vger.kernel.org
-Subject: Re: [PATCH 0/6] mfd: tmio: simplify header and move to platform_data
-Message-ID: <ZcoLPnA8TEAgBk8O@shikoro>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Ulf Hansson <ulf.hansson@linaro.org>, Lee Jones <lee@kernel.org>,
-	linux-renesas-soc@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-mmc@vger.kernel.org, linux-sh@vger.kernel.org
-References: <20240209015817.14627-8-wsa+renesas@sang-engineering.com>
- <CAPDyKFpmfgwJ5dJFmORhg1tBewzhB_jrWikpX=b23r-joN91SA@mail.gmail.com>
- <20240209132837.GJ689448@google.com>
- <CAPDyKFpho16DU7OorMgXDqiyfFfgM_tWu+DZZOHd0gbjtBw_Cg@mail.gmail.com>
+	s=arc-20240116; t=1707744602; c=relaxed/simple;
+	bh=1oVIpdA3PWu0N2hwgGsr+QE7zE+6Gl0uk0jmM/Llz0c=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=MzbR9Yo+gZ7Bl3Xg2I4rpQe/zUKzsG/Fo/wzAQ1Wk/dJc4MV65rbmy3NSiHizYaIl9RtidGNI2HEjJM3DuQuNr3MURv6Pu98V+PG8jdDUklGEwXQNHYP/NJhZKOW1MWyjbEDW+T2Q5qo6Ce0rpP/6iILL621eq3o6KtAJ0DuXRU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.219.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yb1-f176.google.com with SMTP id 3f1490d57ef6-dcbbc41d3d5so200220276.3;
+        Mon, 12 Feb 2024 05:30:00 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1707744599; x=1708349399;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=mDv+FBRkyzx2DZnQ26S++v9SBrU+T+SPPA5jSEnI6wE=;
+        b=rcV5s+iJQnm7yV+xZY7oRB3oc7Hbrg5CHOLhLLeDAMr/N9Fowf5PpwK7z7J19EYIAj
+         Ts8wkdPkcazV00yDoAg6zHGH2B8KYYfPJ6jUCF7Qf/qGlOxBuRJm4oaT8BpQpOVTI513
+         V0+N13Pui9GXo/iGQOOzberGZjyFgfkXHLVgsxFUymGmts+uqNgZPPlRvuv+fN3yL4UA
+         ji17ZLQMaveH61S8/vs7X+X6FS7/xmGCG59faK7ww3OIlWFd2CJsLvKIe9vd/PEE+5KX
+         FwkJ9b5r7LbJ0133gmn7sFdnQKewXqX8EVhi5zFOXRZ4UrKL3sCDQuAisaLFrgtUi3AX
+         jn8A==
+X-Forwarded-Encrypted: i=1; AJvYcCW6S6MNusqwMwe7bjB71P7Jb/1+E9d5mv+8CC7AP4WUwJfyf8uF1zUgeIfn+eiixeWKcKuR6uTzE+kgqcb5e014fFXIVyo7OQIuintDztZNKv7UttMhb07PjOW4lMWA1/w6+TE572rAUQ==
+X-Gm-Message-State: AOJu0Yyz9NRm0eXOf3qQSOkfQ+4zcw8BKc8qLSoDjlKk8fuDvLddW+zs
+	kvx2qyN1xp7ymFA8yr6UiT9K9omgDW64fCCbUICaplErGXwnvB+mFFsruXlDHlo=
+X-Google-Smtp-Source: AGHT+IF5/4SkXJ3leLn/t7HooEWb0fsuipMG/ViFIU2YIDaDvH15x55LrAsj5HrWtc2hFEP+acd3lg==
+X-Received: by 2002:a25:fc21:0:b0:dc2:7018:806d with SMTP id v33-20020a25fc21000000b00dc27018806dmr5160771ybd.16.1707744598894;
+        Mon, 12 Feb 2024 05:29:58 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCWtUqTyLe8R2G4Ia0vpM7mESNloChTfMkWzHWqBc4VEhiwjvoZ0uKzIFVbGyu1pvpuSv/wblyboXnmHsDXyVJEjB2k1EZWlCF/gw7RiDCG5CIzSf64bQ6ab/b1qWLJ3i9FMW26/RHSfNQ==
+Received: from mail-yb1-f172.google.com (mail-yb1-f172.google.com. [209.85.219.172])
+        by smtp.gmail.com with ESMTPSA id z19-20020a25ad93000000b00dc73705ec59sm1243948ybi.0.2024.02.12.05.29.58
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 12 Feb 2024 05:29:58 -0800 (PST)
+Received: by mail-yb1-f172.google.com with SMTP id 3f1490d57ef6-dcbbc41d3d5so200204276.3;
+        Mon, 12 Feb 2024 05:29:58 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCUt1L+mYbhYWpc4oe7g/VSGre25Y3M22VTjIEySrfDxa9+FU3IUxzDWfskVKmnSYX5MrOfyNhPkkgpvZrykBtW2A12gvNHvxnbJ7cmGjYTT1NPFfU77VtgYeD9SrKhu6X0n7Jo4ZHtELA==
+X-Received: by 2002:a25:d88d:0:b0:dc6:c3e0:82d1 with SMTP id
+ p135-20020a25d88d000000b00dc6c3e082d1mr4746653ybg.60.1707744598434; Mon, 12
+ Feb 2024 05:29:58 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="WPOTux91JoqdkWnh"
-Content-Disposition: inline
-In-Reply-To: <CAPDyKFpho16DU7OorMgXDqiyfFfgM_tWu+DZZOHd0gbjtBw_Cg@mail.gmail.com>
+References: <20240129212350.33370-1-wsa+renesas@sang-engineering.com> <20240129212350.33370-2-wsa+renesas@sang-engineering.com>
+In-Reply-To: <20240129212350.33370-2-wsa+renesas@sang-engineering.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Mon, 12 Feb 2024 14:29:46 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdXuWHCLa8HFXBZK4M4fqivudxjHcqqUyZ2=a3=OfFLPYQ@mail.gmail.com>
+Message-ID: <CAMuHMdXuWHCLa8HFXBZK4M4fqivudxjHcqqUyZ2=a3=OfFLPYQ@mail.gmail.com>
+Subject: Re: [RFC PATCH 1/2] arm64: dts: renesas: ulcb-kf: adapt 1.8V HDMI
+ regulator to schematics
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc: linux-renesas-soc@vger.kernel.org, Magnus Damm <magnus.damm@gmail.com>, 
+	Rob Herring <robh+dt@kernel.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+Hi Wolfram,
+
+Thanks for your patch!
+
+On Mon, Jan 29, 2024 at 10:23=E2=80=AFPM Wolfram Sang
+<wsa+renesas@sang-engineering.com> wrote:
+> It is named T1.8V in the schematics. Also add properties dcoumenting it
+
+documenting
+
+> is always on, also during boot.
+>
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+
+> --- a/arch/arm64/boot/dts/renesas/ulcb-kf.dtsi
+> +++ b/arch/arm64/boot/dts/renesas/ulcb-kf.dtsi
+> @@ -32,11 +32,13 @@ hdmi1_con: endpoint {
+>                 };
+>         };
+>
+> -       hdmi_1v8: regulator-hdmi-1v8 {
+> +       t1v8: regulator-t1v8 {
+
+"t1p8v"?
+Or "reg_t1p8v", as the former is a rather short name, causing conflicts?
+
+>                 compatible =3D "regulator-fixed";
+> -               regulator-name =3D "hdmi-1v8";
+> +               regulator-name =3D "t1v8";
+>                 regulator-min-microvolt =3D <1800000>;
+>                 regulator-max-microvolt =3D <1800000>;
+> +               regulator-boot-on;
+> +               regulator-always-on;
+>         };
+>
+>         pcie_1v5: regulator-pcie-1v5 {
+> @@ -154,11 +156,11 @@ hdmi@3d {
+>
+>                                 pd-gpios =3D <&gpio_exp_75 5 GPIO_ACTIVE_=
+LOW>;
+>
+> -                               avdd-supply =3D <&hdmi_1v8>;
+> -                               dvdd-supply =3D <&hdmi_1v8>;
+> -                               pvdd-supply =3D <&hdmi_1v8>;
+> +                               avdd-supply =3D <&t1v8>;
+> +                               dvdd-supply =3D <&t1v8>;
+> +                               pvdd-supply =3D <&t1v8>;
+>                                 dvdd-3v-supply =3D <&reg_3p3v>;
+> -                               bgvdd-supply =3D <&hdmi_1v8>;
+> +                               bgvdd-supply =3D <&t1v8>;
+>
+>                                 adi,input-depth =3D <8>;
+>                                 adi,input-colorspace =3D "rgb";
+
+The rest LGTM.
+
+Gr{oetje,eeting}s,
+
+                        Geert
 
 
---WPOTux91JoqdkWnh
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
 
-Hi Lee, Ulf,
-
-> Please add my ack for the mmc related changes.
-
-I prepared v2 of the series: rebased to rc4, acks added, capitalized
-first letter... waiting for buildbot now before resending.
-
-Thanks,
-
-   Wolfram
-
-
---WPOTux91JoqdkWnh
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmXKCzoACgkQFA3kzBSg
-KbbXFA/5Adwpk7uBvG4XZys/soyfhY5STCt46XOyDGvVtx3OOA7yyElFgTX5vLdG
-3gSN1ibYROPMSIxKzKIWzWld7qllopX2PXgSbMlZT4sefYSYy7/LrAHSu1yT8wwg
-RGMTqxTWG0JuihBlXjSWqaSmf80SROg/Z7FvQmjtTqC+9r4tnMSgU7YiBkrLh4+X
-1gkmvyfiejTG9vMCBy9JIUB+Ytgstga9bl34YZVtJcw8ibzXuFoZkipBJeNdSW9i
-xh5bD9jXLAI0fflgi40hTvACfPasmPGjaEQL8AmfK0O7J2BWQNBOkfrW8DcdnofC
-sqGZU5iZf/JwjtwjNInst1NqmEk+lbg/gkO9gnOsISTTbdX2B5M4A+2OETNHcQTn
-5BtssULqamCN/L4Br3+ezOY+WEBAiqKzKe6hAY+omjGmdgNS+ZjAnRHVnJYrl8M5
-X1BMDGzmam5d3L9ShLtW2wx4UbXBJtSlKJIIa9Se5G0rE7awSonTVyCwwdYYqKPA
-55abvqJw7jyWQWxoXgZLp/Ncax/9sy2UUek3j2QQ7VKLpBjf4KNBL8BjIfoD8/Ib
-HKQHNuNkRqw6ThByS0dRD+gSbYePx/H50TKMLnGJcA668vUeUF3EPDrzvC0AnVVw
-Ay4novGRFFNxzh+yjzRN499TGr+qipzt1fW6naQ/QbKfsTgXpvs=
-=aoMa
------END PGP SIGNATURE-----
-
---WPOTux91JoqdkWnh--
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
