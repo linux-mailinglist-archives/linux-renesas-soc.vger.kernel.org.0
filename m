@@ -1,214 +1,216 @@
-Return-Path: <linux-renesas-soc+bounces-2652-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-2653-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13B86851DFC
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 12 Feb 2024 20:36:35 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 22D66851E73
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 12 Feb 2024 21:09:18 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 780561F21B5C
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 12 Feb 2024 19:36:34 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 59BAFB26649
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 12 Feb 2024 20:09:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 21C6146B83;
-	Mon, 12 Feb 2024 19:36:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 16B9B4879B;
+	Mon, 12 Feb 2024 20:09:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="Yf6lvyVy"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com [209.85.128.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from JPN01-TYC-obe.outbound.protection.outlook.com (mail-tycjpn01on2052.outbound.protection.outlook.com [40.107.114.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 108864596E;
-	Mon, 12 Feb 2024 19:36:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.170
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707766590; cv=none; b=tpemCI4aLOEzL0OGJj9ajD1ECcvGzv9nGXNpispKAz0lpyUzsxa9cAbIpiX1O4n+/DK45BLW78hyNqCUr5bd8gr8hgQLjYunYgoi4EGQ1fgIpO49+0eFGqg7zTZbOKLxrsIlFrw7rAdDJ1atDuhv1SYUe6I8XdpBqssrtUCXxjs=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707766590; c=relaxed/simple;
-	bh=MOOgzf4Y7qv2sC/nhPq7u4XY7HwhYErQ2/TDYSFQXlk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=TOfhbnYLWzuzNwpiLdt7vd6jfrGce754pt2MHnMRvXEd+XX3UjvwNCbXL1FlBN+9KIp2kfnmwbLH0/VWLtarG96EN1Wjl8Tv2CVNC/8ZtEeLtAUFHd4G5UJGYmiOPQgt/wkBE/TiBFHBU7B/u1K4zmeK3B50s1miu5Q0gF1GMbM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-6077a1d441eso4236237b3.1;
-        Mon, 12 Feb 2024 11:36:27 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707766587; x=1708371387;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=jnYnsGGg4lon5Zm4HMkwsmj4AeAbvyhWhQ7hOsWi91Y=;
-        b=WLyWymLHxYPZiRMXOjQeNO8R/qSh9/MpWeikUFM/v+2AcY1ifcuOBCe3gj5erX9xwE
-         ErXy9xPAEufwu9C5FLPY0EckQNQExx0zdsfv65RLQVpYSaan3M6oIAQjzDkjPX4OO6dv
-         zXteL9tiyxquMpIn56RY+0m6ZJcvIKGftoscLuFAEQy+dNdnG4jVs7G19WfWKhtBtBRp
-         6ZDtV6C2GsbJxWRVEM13lCmPa87Xhl/EHki2vl/HXcPalBoIMhHwhchxR7xkMgNuRI/h
-         HaXdElKnJiJdP+XhyzLgrWSYjxvMmgRTlBp8X4uZrg/MO9KOIYcGO/dSC5UBgsFmL2n2
-         abrQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVyBkZJcQuqaGlSXpMhfeEvoQajnDcBVpC0Cq8iwv9bLnOlxMHUv2QTcT51i0P1H+AVfoflfOcZlfmEblVAsOwrGmfhjIb2jPeGfueHvg1+o95lm7qi9lB9z05SuamvqTyIirC7NC8oXjzBEZYV
-X-Gm-Message-State: AOJu0Yyvh44RjODZnIaA9IhYUBM5mz0Bax3fe4Bzv5vDzNAdcrTHUjXK
-	uX1FURM+Q8I59lRQ5qFy4lQXGkUNMPk9o4XRjIhFyjfcXNB4Jq0OAJl9QROs4lY=
-X-Google-Smtp-Source: AGHT+IHuTg6sg9jmuVBdw23D4mbioYW5UJdXfu5Yoz6pmioCK4oiaEOojsxWPF54efbm/LDxt6GxMA==
-X-Received: by 2002:a81:6c41:0:b0:604:a081:c198 with SMTP id h62-20020a816c41000000b00604a081c198mr4627755ywc.42.1707766585203;
-        Mon, 12 Feb 2024 11:36:25 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCUBfYRGGWsjUKrSQ1UUD4+5G9aL4K8lxvI3sDRkGXptHM0M2AHyZO1NVg1sGTmKG/5ubLWManhw6BjhQD+usKGjZI9u+fv9DF8kNtdWW5CxEEFTpN7ec89B5l7BY8qQcU1nKYX67o6eXRuaOp9S
-Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com. [209.85.128.175])
-        by smtp.gmail.com with ESMTPSA id t4-20020a0dd104000000b00604863dc35csm1309663ywd.111.2024.02.12.11.36.24
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 12 Feb 2024 11:36:24 -0800 (PST)
-Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-60779014458so5212717b3.0;
-        Mon, 12 Feb 2024 11:36:24 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCV+sMBTK9dZb6c6yEh2KeXXrjWd2KS7+D2W+bOYv45H6LaEjTx5Q4/0PyzdUkJUmd6WPlitDpk+lTgAjrW4TtuMiQC/jHScPSCOXoT/ijqxJCOgzk23sMiB1KkCvev3LHUywH6NpwytVV86epx8
-X-Received: by 2002:a05:6902:1b93:b0:dc6:bcd5:9503 with SMTP id
- ei19-20020a0569021b9300b00dc6bcd59503mr5175877ybb.48.1707766584469; Mon, 12
- Feb 2024 11:36:24 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23F7648781;
+	Mon, 12 Feb 2024 20:09:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.114.52
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1707768549; cv=fail; b=XQV2IGrOj1KpZLUjPrsyk08FdIDHSiwGBbQyriWESEQgWxyRqakJcOzi8x41PqQI3in4l2Bd2po/btQlpjxJ1iV+A+Vmk1/nytbAlWyemBhD1o1Jxd8XKiCcR2un+IN6Az3eWl8Eb2/Ts5zeFUunYmR7Qv9zF6aFooqlvV/ImD8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1707768549; c=relaxed/simple;
+	bh=+kBsPFZGPIzBzk6351SgiFIwIbzcbQpMKnZDwBSnp/8=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=VB14Q//Ozkb/7J9Czf5GEMipQvbJSqqEFLnOcDomlTwPXFOh+1Jj/Bw/RPwAUVvG6oXegDAdEK1yWXCsujnhOx+ZjRSinYRfdHsXhit1UlJTVrj6qUc/mWAvJ/w29L+VAeuNATN/x+tFkg/rXFzjUxg6VxLNHMc/jtFTKM+oyd4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=Yf6lvyVy; arc=fail smtp.client-ip=40.107.114.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=M1yLWAI+IwF45Dtp/zub8iBwEBkZwRAv64UnQNZV2AWhE0gjTrJ9Wd0wX/oXH9WISWZOKd+Cdeb0I/nYDjBMaZAotX9AjOxIHPCk4B5dWTtd5FK0Kw4KTECKUMZEMADzGDLKwQZa62ajicZAQrX1wCyNf8HnUOpjuLdxp4337ZA6F6MsSMyWyJJNS44AEnSKDo7bDVp/rM1ReY4NQqx/+8vpNjZypHBTbRUjwk0PjbZGr/GMJdUyigt73ZnlF2FjS3gPzcuuFJ7BLYPMG+Gn9F+FVLyH/PSzlabLQ80XXlH3yKpg66dDwF/CPTX5e2vD5qSpgJeCR4JucL9UcnSD4w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=w5n9Jldo+t6z7HIeJbRpnreWGyxxGDEhffmNMfR9w6s=;
+ b=c+7F1+gA2FRZx4G83RCwPfyv06HZaz9Dn9TR9gduzMLpVKsI/A5uiTVoU2+eMFGu3JKZlL0IRSvEsItsUXrzq5vvzgLtv+Zdr7lcUa599v5fmIUB+SnZNGJLRp7Flubu0TWhznGn5FAPn9Qy1/K08aPnPqjukNTvTfS0MomGO1+OfjsEnIwH+bWhAeJq2d2KHQ5w7/ZwBU4D86o08RkEEz4rzP8+F23CuKaaRsiTztqchx2Mqu3TYDZiBSKkBBy6NoViYFG3vWZusypwhGcLAaJqRzP6g3xh0UGFWrCzJFgHOFR0XA0otyJJgO/0g3FtFaCRLPETkZkQQJwLD8sbmg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=w5n9Jldo+t6z7HIeJbRpnreWGyxxGDEhffmNMfR9w6s=;
+ b=Yf6lvyVyaD942Va2AZdhq9IiOIQEoTOydSorDBGmSk+oAQTqpDFrpGcL5z9Lw9mKIQNMcbuPKgqDHYH5gif46g0HHoQ35gZYUvdPGyLgtu5Ujq/3g/dENsA8pG2y85P2syQRKZGI7jbcfwgKShNRqS7QrBdnAUSSusZ5lVAkqcM=
+Received: from TYCPR01MB12093.jpnprd01.prod.outlook.com (2603:1096:400:448::7)
+ by OS7PR01MB11452.jpnprd01.prod.outlook.com (2603:1096:604:243::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7270.39; Mon, 12 Feb
+ 2024 20:09:02 +0000
+Received: from TYCPR01MB12093.jpnprd01.prod.outlook.com
+ ([fe80::fb0a:e289:43e:1c17]) by TYCPR01MB12093.jpnprd01.prod.outlook.com
+ ([fe80::fb0a:e289:43e:1c17%6]) with mapi id 15.20.7270.036; Mon, 12 Feb 2024
+ 20:09:02 +0000
+From: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+To: =?iso-8859-1?Q?Uwe_Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>
+CC: Philipp Zabel <p.zabel@pengutronix.de>, Geert Uytterhoeven
+	<geert+renesas@glider.be>, Biju Das <biju.das.jz@bp.renesas.com>, Magnus Damm
+	<magnus.damm@gmail.com>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, "linux-pwm@vger.kernel.org"
+	<linux-pwm@vger.kernel.org>, "linux-renesas-soc@vger.kernel.org"
+	<linux-renesas-soc@vger.kernel.org>
+Subject: RE: [PATCH v6 2/4] pwm: Add support for RZ/V2M PWM driver
+Thread-Topic: [PATCH v6 2/4] pwm: Add support for RZ/V2M PWM driver
+Thread-Index: AQHaWuYI/v4KlwHV40Gk2x8URHJzn7ED1uOAgAMC8wA=
+Date: Mon, 12 Feb 2024 20:09:02 +0000
+Message-ID:
+ <TYCPR01MB120934E8A094DD3185573B9C9C2482@TYCPR01MB12093.jpnprd01.prod.outlook.com>
+References: <20240208232411.316936-1-fabrizio.castro.jz@renesas.com>
+ <20240208232411.316936-3-fabrizio.castro.jz@renesas.com>
+ <vovrjoymovpjzz2myx73ns4zvbqyfw6twzvjhuyruogmcqvj4y@g2at4kznmqxh>
+In-Reply-To: <vovrjoymovpjzz2myx73ns4zvbqyfw6twzvjhuyruogmcqvj4y@g2at4kznmqxh>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=renesas.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: TYCPR01MB12093:EE_|OS7PR01MB11452:EE_
+x-ms-office365-filtering-correlation-id: 60a040a3-bcc8-408d-8871-08dc2c0674f3
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info:
+ kEtlk8bOpVzXpmn05NpcIunc+FO0xJxedI8BXitVhMpK6WaJWuIxYCrW67y0M2R3dl6/IJAVwzDt2dehpywfwMmUNiCsVledC/LxHcaAF5UdpE2EJZgxe+/3VbXt4yrV6nrfNEx5c8wtPkh6PJq/tdVH4Rha7Lsjm+hBwmlyC7sTOWPZc8EEhWjSCbXsKq8AYRSfCUVXrjazxsRFTk0iCSFRE8VmudGHEWZXVTrb+A0rP8bK5bVGkwrAzCFEIGNa9FVjV5oLI9S10ys1A6pYdMx8JYx4ZbwWQdaIuTiq+Vj25QIn4sQ3C1NMpCYQ3fYMfJbOG6xajzck3SdjTvyfhM9Im6MGDT2JQ1f+JGY2l9VX93t04nqQVKurZHfk2NsrJLRDOdE/8LSSReckz8KfEXzWeUvwAOlSaVc3MDSJorrgE8M/NG0aKz1eyY7jGmF/iwnhf1kPtDNbTOWI7Klx4wk1rTbBp2wAxfPCTO4sSmS2QmpPYxdvHjU4BVh+p//JnDTC8S1qwDNB8KhV08O8fxKrdo16+gQVjCs2UR0CZK/pUlfGNUyYl3ZA927uAm/XwDlVRx4duzO+xv4YkI//k8IeQk/9zoQt9Kd3lZdU8bM=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB12093.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(136003)(396003)(366004)(39860400002)(376002)(346002)(230922051799003)(186009)(451199024)(64100799003)(1800799012)(86362001)(33656002)(122000001)(38100700002)(6506007)(966005)(9686003)(7696005)(53546011)(316002)(478600001)(54906003)(71200400001)(66574015)(26005)(83380400001)(41300700001)(38070700009)(4326008)(55016003)(2906002)(8936002)(6916009)(8676002)(66946007)(52536014)(64756008)(66446008)(66476007)(66556008)(5660300002)(76116006);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?iso-8859-1?Q?Q6MQfjyEDPrAnkquwU7GJJCBvz+MEWvlnRacNu5KKcQhNIOrMfAu3VQ2Qf?=
+ =?iso-8859-1?Q?AjVxoPO0zdmIrejl5y4Ww3zTUBK00s4P9ACDXN97X0Mtv8406Aa1czJnlC?=
+ =?iso-8859-1?Q?ajzBfS3hFmr7sfMyhB89+lpm3rXiL7te9TU/JNEqrH4XIc6eJkTJMOfck8?=
+ =?iso-8859-1?Q?iEikDkZR1vV+NibIQMtwFeH/fmuvAj/7bNDXSQ3IzIIKN8Dg+UccNcYFqC?=
+ =?iso-8859-1?Q?x2phKAYLKYKu5ww8C0PyoXQx+PNvFVG30ehWKZ8bDgcMBciX/Vpg5ImnKo?=
+ =?iso-8859-1?Q?fV6HJysYI8WXLZRWv9qaIaZ1Ijrutv6y823/IjpiwAPxclY8yHdpis6+47?=
+ =?iso-8859-1?Q?YJ11AW3Vn5w4/762P81/VgghIP1FRnE5f0xIwFLM3MCiZX77Oiguf1wL8E?=
+ =?iso-8859-1?Q?EcRpGvAOxn7Qco4q0ioXGAnCFx9lh2TfhMANMUPGxXg58SIXPdHAy75e0i?=
+ =?iso-8859-1?Q?FKLRn9C7Qf18XTsnU4yOwyXoFBZMl7GcxrZyZQg0tWtEthjwX6I5bFCUia?=
+ =?iso-8859-1?Q?dmdyWKV4sZdH7L4pcLqG8NinDI10uBTEVX7LTezo0DWavT1wgcp3nuMzl0?=
+ =?iso-8859-1?Q?vAjaZtR4ieVunu2R5+pwTE11xmMiTlFIOLx0T37riHfwWVtR3DiCRqOBIp?=
+ =?iso-8859-1?Q?D5VLgbBZpTFyCe2x4ov6tiiGdSl2o7NsgSkJO/jREYktXey3j9m0h54EDU?=
+ =?iso-8859-1?Q?W9gLdm25tu7y+2/xRvL4kenTOcLjoFuEuMMYnfZ4itQ4S0FjIWlLf4qm1R?=
+ =?iso-8859-1?Q?IQ+0qXkztel26qKTMqPYumFi5YzG389H0WKtq4U/yR9Vd47ICE9Tm2+TrM?=
+ =?iso-8859-1?Q?wjEVHtY/R+C4Ioc+CqZfFKWWHhHlcBdzcMYT6CpiGHRnSbNNw4MUPW9P7t?=
+ =?iso-8859-1?Q?zEKeR6d3FFaJ/4ndZ5m1VTCfHQn42a0ds5pLKbbEISLoGucpDkPgEbBo7w?=
+ =?iso-8859-1?Q?ok6u6XFT6hP0a3Cz3BO2p+LKZIzPr6Antc0trxi4u1AVQsF8jo0PnIlkj/?=
+ =?iso-8859-1?Q?4hlgzCYJUrIp9Ygtm8NCUZkMTh2UbdeaqH1MIK3g/Nkg1XgvZMy8n/pPAn?=
+ =?iso-8859-1?Q?qC3VJ/jGcnXXw8uVqT4URlSMWuA1IATFSKh3U62uvDuOa70ZABE75CBbeH?=
+ =?iso-8859-1?Q?KOyNMG787JrGeSTQmXK0QwOo56oeBsxrSqvO7JCmEVAS2ApHZZ0vqKNDP0?=
+ =?iso-8859-1?Q?7plH2xhhSA3w/dVOOfK2prX9ReNZmcw/Ivvi7Y/5VvbpovWo54F/U3hvcJ?=
+ =?iso-8859-1?Q?wLw+LbSnV/b/lH7+mXdSf5X1mNLrwCnpZ1xiTYd+oSc4dI41xA3ndSpPqT?=
+ =?iso-8859-1?Q?RT/pDPGve/LoNbYqq1Y8U0W51ck3HDEkSYOknq1i2hZcL2I7lWvw3Xs6KO?=
+ =?iso-8859-1?Q?buB5pygU+a3dnJXmVi3/Ri+RNvS6Qx++beaU2nfEUwUGe6lx//5AEpvosQ?=
+ =?iso-8859-1?Q?wSymn5ksCjd6QU94dZMoW0VuORja84r1k2hxo/UoDexYvd+9fgF/1XFYSJ?=
+ =?iso-8859-1?Q?h9alwrGx7I1uLBOGceWKhQwBoajawZBnq4BrLC8y9UhqqJ5DNHV5QMmBaa?=
+ =?iso-8859-1?Q?L2fhjLZqHTTrP399pujZa6E0ZmExxj2dSqTSpwRfaCa7e3wmndO8DqqCSf?=
+ =?iso-8859-1?Q?NRyJScNPt7vguElGeIfiuidJe0rK0bPKmgJSDcqqiBa8VZL7vpUAYSRA?=
+ =?iso-8859-1?Q?=3D=3D?=
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240127121937.2372098-1-niklas.soderlund+renesas@ragnatech.se>
-In-Reply-To: <20240127121937.2372098-1-niklas.soderlund+renesas@ragnatech.se>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 12 Feb 2024 20:36:12 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdUJ0U9qnxtdJmVUJQqRhbmu0rmOxpyDZ8Lp=+hv=Oe4Og@mail.gmail.com>
-Message-ID: <CAMuHMdUJ0U9qnxtdJmVUJQqRhbmu0rmOxpyDZ8Lp=+hv=Oe4Og@mail.gmail.com>
-Subject: Re: [PATCH v2] dt-bindings: renesas: Document preferred compatible naming
-To: =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Cc: Rob Herring <robh+dt@kernel.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
-	devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB12093.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 60a040a3-bcc8-408d-8871-08dc2c0674f3
+X-MS-Exchange-CrossTenant-originalarrivaltime: 12 Feb 2024 20:09:02.3296
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: gK+w4dXBTejgI66J1AhZZbEJE/QxYSl0Xca7kk2/GumWJrdnfy/8D3QqOy8lBdj3FgXIdaC9woIr3beIaNCu00o3xHrqOIKXhPVvVeo9s74=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS7PR01MB11452
 
-Hi Niklas,
+Hello Uwe,
 
-On Sat, Jan 27, 2024 at 1:20=E2=80=AFPM Niklas S=C3=B6derlund
-<niklas.soderlund+renesas@ragnatech.se> wrote:
-> Compatibles can come in two formats. Either "vendor,ip-soc" or
-> "vendor,soc-ip". Add a DT schema file documenting Renesas preferred
-> policy and enforcing it for all new compatibles, except few existing
-> patterns.
->
-> Suggested-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> Signed-off-by: Niklas S=C3=B6derlund <niklas.soderlund+renesas@ragnatech.=
-se>
-> ---
-> * Changes since v1
-> - Split the "SoC agnostic compatibles" section into two to make it's
->   intent clearer.
-> - Improved the documentation for each group of compatibles.
-> - Reduced the number of regexp to create a larger target area. As
->   suggested by Krzysztof the goal is not to validate each SoC name but
->   check for the correct order of SoC-IP.
+Thanks for your reply!
 
-Thanks for the update!
+> From: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
+> Sent: Saturday, February 10, 2024 5:27 PM
+> To: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+> Subject: Re: [PATCH v6 2/4] pwm: Add support for RZ/V2M PWM driver
+>=20
+> Hello Fabrizio,
+>=20
+> On Thu, Feb 08, 2024 at 11:24:09PM +0000, Fabrizio Castro wrote:
+> > +static inline u64 rzv2m_pwm_mul_u64_u64_div_u64_roundup(u64 a, u64 b,
+> u64 c)
+> > +{
+> > +	u64 ab =3D a * b;
+>=20
+> This might overflow.
 
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/soc/renesas/renesas-soc.yaml
-> @@ -0,0 +1,135 @@
-> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/soc/renesas/renesas-soc.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Renesas SoC compatibles naming convention
-> +
-> +maintainers:
-> +  - Geert Uytterhoeven <geert+renesas@glider.be>
-> +  - Niklas S=C3=B6derlund <niklas.soderlund@ragnatech.se>
-> +
-> +description: |
-> +  Guidelines for new compatibles for SoC blocks/components.
-> +  When adding new compatibles in new bindings, use the format::
-> +    renesas,SoC-IP
+In the context of this driver, this cannot overflow.
+The 2 formulas the above is needed for are:
+1) period =3D (cyc + 1)*(NSEC_PER_SEC * frequency_divisor)/rate
+2) duty_cycle =3D (cyc + 1 - low)*(NSEC_PER_SEC * frequency_divisor)/rate
 
-or renesas,Family-IP?
+With respect to 1), the dividend overflows when period * rate also
+overflows (its product is calculated in rzv2m_pwm_config).
+However, limiting the period to a maximum value of U64_MAX / rate
+prevents the calculations from overflowing (in both directions, from period=
+ to cyc, and from cyc to period). v6 uses max_period for this.
+The situation for 2) is very similar to 1), with duty_cycle<=3Dperiod,
+therefore limiting period to a max value (and clamping the duty cycle
+accordingly) will ensure that the calculation for duty_cycle won't
+overflow, either.
 
-> +
-> +  For example::
-> +   renesas,r8a77965-csi2
-> +
-> +  When adding new compatibles to existing bindings, use the format in th=
-e
-> +  existing binding, even if it contradicts the above.
-> +
-> +select:
-> +  properties:
-> +    compatible:
-> +      pattern: "^renesas,.*-.*$"
-> +  required:
-> +    - compatible
-> +
-> +properties:
-> +  compatible:
-> +    oneOf:
-> +      # Preferred naming style for compatibles of SoC components
-> +      - pattern: "^renesas,emev2-[a-z0-9-]+$"
-> +      - pattern: "^renesas,r(7s|8a|9a)[a-z0-9]+-[a-z0-9-]+$"
-> +      - pattern: "^renesas,rcar-[a-z0-9-]+$"
-> +      - pattern: "^renesas,rz[a-z0-9]*-[a-z0-9-]+$"
-> +      - pattern: "^renesas,sh-[a-z0-9-]+$"
-> +      - pattern: "^renesas,sh7[a-z0-9]+-[a-z0-9-]+$"
+>=20
+> > +	return ab / c + (ab % c ? 1 : 0);
+>=20
+> This division triggered the kernel build bot error. If you want to
+> divide a u64, you must not use /.
 
-I guess it's not worth adding rmobile and shmobile prefixes?
+Right!
+I have replicated the problem locally, and confirmed that also other divisi=
+ons from the same patch are problematic.
+Clearly, % can't work either.
 
-> +      # Fixed legacy compatibles
-> +      #
-> +      # List cannot grow with new bindings.
-> +      - enum:
-> +          - renesas,bsc-r8a73a4
-> +          - renesas,bsc-sh73a0
-> +          - renesas,dbsc-r8a73a4
-> +          - renesas,dbsc3-r8a7740
-> +          - renesas,em-gio
-> +          - renesas,em-sti
-> +          - renesas,em-uart
+I am going to replace / with div64_u64.
+For rounding up, I think I'll go with something like:
 
-Perhaps combine these three: "renesas,em-(gpio|sti|usrt)"?
+u64 ab =3D a * b;
+u64 d =3D div64_u64(ab, c);
+u64 e =3D d * c;
+return d + ((ab - e) ? 1 : 0);
 
-> +          - renesas,fsi2-r8a7740
-> +          - renesas,fsi2-sh73a0
+I am aware that I could use DIV64_U64_ROUND_UP instead of the above,
+however, the above allows for larger dividends than when using DIV64_U64_RO=
+UND_UP.
+If I were to use DIV64_U64_ROUND_UP instead, I would have to limit
+max_period further to (U64_MAX + 1 - rate)/rate, which I rather avoid.
 
-Likewise
+I'll send v7 to address this build issue for 32 bit platforms.
 
-> +          - renesas,hspi-r8a7778
-> +          - renesas,hspi-r8a7779
+Cheers,
+Fab
 
-Etc. ;-)
-
-Now, how do I trigger violations?
-
-I added the following to a binding file:
-
-          - enum:
-              - renesas,bogus-r8a7778
-              - renesas,bogus-r8a7779
-          - const: renesas,bogus
-
-but nothing happened with "make dt_binding_check".
-
-I added the following to a DTS file:
-
-        compatible =3D "renesas,bogus-r8a7778", "renesas,bogus";
-
-again, nothing happened with "make dtbs_check".
-
-What am I missing?
-Thanks!
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+>=20
+> Best regards
+> Uwe
+>=20
+> --
+> Pengutronix e.K.                           | Uwe Kleine-K=F6nig          =
+  |
+> Industrial Linux Solutions                 | https://www.pengutronix.de/ =
+|
 
