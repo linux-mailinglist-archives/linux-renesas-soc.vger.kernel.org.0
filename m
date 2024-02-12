@@ -1,97 +1,94 @@
-Return-Path: <linux-renesas-soc+bounces-2624-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-2625-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD52C851677
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 12 Feb 2024 15:07:19 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9699485167D
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 12 Feb 2024 15:08:13 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 71259286C8E
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 12 Feb 2024 14:07:18 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 05A1D1F2409C
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 12 Feb 2024 14:08:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D40C13B29A;
-	Mon, 12 Feb 2024 14:01:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0228F3C680;
+	Mon, 12 Feb 2024 14:02:09 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com [209.85.128.178])
+Received: from mail-oi1-f181.google.com (mail-oi1-f181.google.com [209.85.167.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD4E13B19E;
-	Mon, 12 Feb 2024 14:01:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B8003CF4C;
+	Mon, 12 Feb 2024 14:02:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707746480; cv=none; b=DkqTg2AtK8ZmEOpH799tmcJwS9/Ayubcrk7Mf2IQNB2xe3bwDWI6SDZmIOxe0Xo2dYInVphOFgMl1M4MOneY3YHoPNtGhJCDB+DXNrdQGx4SI9DFUSoQz5LJzRPhM+Q3WQBuh/myqe23OkgeFFqWhnSgf4xtMzSCfbksxD1hgWo=
+	t=1707746528; cv=none; b=pFVB0fLy18HEFJrCln/Ep4EO45bkt3HPFG1MKtG1rqQDlPdADaTXQVAseJYXdu2s7YCk09FcF6A4oQmZPTCqgwcoZRTEaLCVc8asX5yC4P+YiudplkvT3KFk/wSrFBV07Tw46SDde0u+11kHB7c5JKS8HCskBSZuLdp2ZDUFNrU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707746480; c=relaxed/simple;
-	bh=Nf2LAAJyH/O+1XUTqugKWF/n+9ur/iLtudshdIEbVds=;
+	s=arc-20240116; t=1707746528; c=relaxed/simple;
+	bh=4wwcwPsZL4cVShXU9Ke5CIWHvgtWIF1QgZ+nN+4LgXI=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=V5hvJ2H1CB1eKcLYA0aKc13kiGJeqoWSUjBn0kvA7xajM7dHMnjfij2rN4aC4U0ghSzs517mIxDTK07cBo6VY0LrXmnYzJjoVwFuWM/nJq+3l6Pfu58VRFi43m634KieJyUWoAjljrjXUURAnIfEReHzcfSrIgohLBw6xbGsdT8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.178
+	 To:Cc:Content-Type; b=Zg4ZExCqos7ggTeKdohvLbrxYuz4UwRZkJwDdXwa2Z3FhJE+rr6NPrhzu/XmuNkiaEoyTip8yLQ7TOHJqZQV3TBe3S8zRltMVO+x9J4Q0mXEra72ZPk4TWz2cCSJkzr1K6pDtGaBYMDvMLHmce2L3SJzi5PqicFqt9eLgdQYp4g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.167.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-60498c31743so28678527b3.3;
-        Mon, 12 Feb 2024 06:01:18 -0800 (PST)
+Received: by mail-oi1-f181.google.com with SMTP id 5614622812f47-3bfdb84c0ebso1377639b6e.1;
+        Mon, 12 Feb 2024 06:02:07 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707746477; x=1708351277;
+        d=1e100.net; s=20230601; t=1707746526; x=1708351326;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=kxRGG2OetTgyV1iIms7NfSY29g5rngponZF3XBLDVZ8=;
-        b=W2gXpn3c9MFKOfCZFhb900Kd7MdlguIti/Qzf1dsBsDS5lB6CCdWRFGKaYI47Pprjq
-         068eYuqCM6SY0+VZVgk7oPmPnCoO+x+L+7NGbAvk0unjFvGCmr7NYJPhmLLq/5XzVNRS
-         5hpUbOXjyd1D/BWbwS0nLk5mKYMFL0/YzgVKtNuER2sEBofR3N7mYLn6iJPsqnx6ciEd
-         dq8bFx+OhcjeEW5GQ31IQ2LpUAuODZp/fmYaAOeG0+f1wFtGWs0qL33XtCfPn5k8c2Fu
-         ok3znt/6FRDTkOOzaFekHNCvM5noYWOZAwDfs8ntPuIbr9DnUPqUVBitOP5Ne+hOL/2f
-         xb4A==
-X-Gm-Message-State: AOJu0Yxp8UtLzD3orvCKMh1JaFUL6UC+m/Z0lbiRAwvTthYUrwrXwE8V
-	OCdqAt+0THaXReXyMOvOMoJrf+EOMpB6NctAatbzmke5JETlpXQYNEDEQusjsX0=
-X-Google-Smtp-Source: AGHT+IEHI5n5lPTv3LgpXFpeAifn7zROZ5V9+roTkH3x8zdsYLWVhpXchyYrpiWLeD/Ycpka/9w6VA==
-X-Received: by 2002:a0d:d7cb:0:b0:604:a1c1:dd5d with SMTP id z194-20020a0dd7cb000000b00604a1c1dd5dmr5520848ywd.17.1707746477464;
-        Mon, 12 Feb 2024 06:01:17 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCX2TQv7HHsNuax8Y7OJ2xL0cNksmFWB81+up9rdQgcettJ4j6KoMZUIIjK+EzYWrpU27bb+vAvr+jGEzLx3/fxWYxuRIbbjELgedDrBA2j4ByMhkmFPJ/zVoB3Fnb7zd7/mJNAZ4gZwJJvKWZY+jBsLI6kcml5fqKx5hDTQnaGkAqsHhe5+WLdxr6s=
-Received: from mail-yb1-f176.google.com (mail-yb1-f176.google.com. [209.85.219.176])
-        by smtp.gmail.com with ESMTPSA id o128-20020a817386000000b00604a248f32bsm1193518ywc.52.2024.02.12.06.01.17
+        bh=pgf4Vh4Rx/WVdwOKJ7KNozN4/wCYNo9fwwAZLST2hO8=;
+        b=GeQPOA12cN/MrWIzCzDjGoacPH6hcUBotF89Y8WQr+M9gPYZZXg5MrzZrbfS2BVu8q
+         Evk08UD9p2qemcQSEs3JpSitfZjf8g6lrMr35h8Ddas+4Q2f297uIDpYnMZ2rPhSW+VT
+         lotDR33w3YYxjCukhF/fJR3x7iVcc/W1W2THeBGQluyumrwkGYGnLC4AhAEH8nSvbORO
+         G9ZVIBdFaZTwjJDZr+VTQ6udWG+MKcTJKgtD/wxoyr2j7xONfqyEtFa/a0vXWy8QNsvZ
+         dVp3BHey7LOG00HEqIJsxJb0gk+jSh7LPJw54uGfcGR3AAdUzuHlhd9Op4tFxieQ4Rnt
+         Q4Dg==
+X-Gm-Message-State: AOJu0YzGFNmHjh/KFsB0SaWbt+hoagoN6SRTbfoH2BcEWQ78VIwv6yE1
+	26uM6WzWUX2VAk//g3P07TLMq9HjrGhNvC3N0iWyiVFIi2eOpKKE4WAtFOQRB+g=
+X-Google-Smtp-Source: AGHT+IHoBGbHKiZdMTM0x9ZkHnMhtvvLAuJg/W6J5RE+sSli+OJZMIZOg+6bnlXP3xZSC515i0XB5w==
+X-Received: by 2002:a05:6808:10cc:b0:3c0:35a1:742c with SMTP id s12-20020a05680810cc00b003c035a1742cmr4245083ois.41.1707746525796;
+        Mon, 12 Feb 2024 06:02:05 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCWOsI9edp1fEPeiX2EgOYU6bG99gO/Io6YtJresgWXr4ZsarUCRKH0F1bg8kcHvS3Ot0/B4RRE8iy3x5B8JgXX6bujQNaF8A4L8FtifQRlm3nOp9qqrBVajAYoCg+Kg9GBjG2y4HQ1YLYPbOdwU4zt/m8kSaU/9oiPnUhQPpmtddX31BS+b1I6Keho=
+Received: from mail-oi1-f175.google.com (mail-oi1-f175.google.com. [209.85.167.175])
+        by smtp.gmail.com with ESMTPSA id i21-20020a056808031500b003c039285926sm60294oie.12.2024.02.12.06.02.04
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 12 Feb 2024 06:01:17 -0800 (PST)
-Received: by mail-yb1-f176.google.com with SMTP id 3f1490d57ef6-dcbc00f6c04so204815276.3;
-        Mon, 12 Feb 2024 06:01:17 -0800 (PST)
-X-Received: by 2002:a25:d387:0:b0:dc7:46b7:b7f6 with SMTP id
- e129-20020a25d387000000b00dc746b7b7f6mr5618254ybf.28.1707746477078; Mon, 12
- Feb 2024 06:01:17 -0800 (PST)
+        Mon, 12 Feb 2024 06:02:05 -0800 (PST)
+Received: by mail-oi1-f175.google.com with SMTP id 5614622812f47-3bfdb84c0ebso1377615b6e.1;
+        Mon, 12 Feb 2024 06:02:04 -0800 (PST)
+X-Received: by 2002:a05:6808:3094:b0:3c0:4128:3b85 with SMTP id
+ bl20-20020a056808309400b003c041283b85mr69286oib.22.1707746524722; Mon, 12 Feb
+ 2024 06:02:04 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240131102930.1841901-1-claudiu.beznea.uj@bp.renesas.com> <20240131102930.1841901-2-claudiu.beznea.uj@bp.renesas.com>
-In-Reply-To: <20240131102930.1841901-2-claudiu.beznea.uj@bp.renesas.com>
+References: <20240131102930.1841901-1-claudiu.beznea.uj@bp.renesas.com> <20240131102930.1841901-3-claudiu.beznea.uj@bp.renesas.com>
+In-Reply-To: <20240131102930.1841901-3-claudiu.beznea.uj@bp.renesas.com>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 12 Feb 2024 15:01:05 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdVmS5cPuWuFaRsA+6TEmJc6B8iZZLFkJpRABQvYgC5p6A@mail.gmail.com>
-Message-ID: <CAMuHMdVmS5cPuWuFaRsA+6TEmJc6B8iZZLFkJpRABQvYgC5p6A@mail.gmail.com>
-Subject: Re: [PATCH 1/2] clk: renesas: r9a08g04{3,4}: Use SEL_SDHI1_STS status
- configuration for SD1 mux
+Date: Mon, 12 Feb 2024 15:01:53 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdUFnUyAQj7YQQMcqkCg2xhSqzb7xc+sTzAdf3cu1YT3Rg@mail.gmail.com>
+Message-ID: <CAMuHMdUFnUyAQj7YQQMcqkCg2xhSqzb7xc+sTzAdf3cu1YT3Rg@mail.gmail.com>
+Subject: Re: [PATCH 2/2] clk: renesas: r9a07g04{3,4}: Fix typo for sel_shdi variable
 To: Claudiu <claudiu.beznea@tuxon.dev>
 Cc: mturquette@baylibre.com, sboyd@kernel.org, 
 	linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org, 
 	linux-kernel@vger.kernel.org, 
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>, Hien Huynh <hien.huynh.px@renesas.com>
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Feb 1, 2024 at 9:46=E2=80=AFAM Claudiu <claudiu.beznea@tuxon.dev> w=
-rote:
+On Wed, Jan 31, 2024 at 7:02=E2=80=AFPM Claudiu <claudiu.beznea@tuxon.dev> =
+wrote:
 > From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 >
-> The status configuration for SD1 mux clock is SEL_SDHI1_STS. Fix it.
+> Fix typo for sel_shdi variable.
 >
-> Fixes: 16b86e5c03c5 ("clk: renesas: rzg2l: Refactor SD mux driver")
-> Reported-by: Hien Huynh <hien.huynh.px@renesas.com>
 > Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-clk for v6.9, with s/r9a08/r9a07/.
+i.e. will queue in renesas-clk for v6.9.
 
 Gr{oetje,eeting}s,
 
