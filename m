@@ -1,147 +1,113 @@
-Return-Path: <linux-renesas-soc+bounces-2618-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-2619-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68FAF8512E7
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 12 Feb 2024 13:04:45 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CF4785134A
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 12 Feb 2024 13:15:07 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9ACBE1C220ED
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 12 Feb 2024 12:04:44 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3F1DF1F23552
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 12 Feb 2024 12:15:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 20BF839AD1;
-	Mon, 12 Feb 2024 11:57:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 481D939FDC;
+	Mon, 12 Feb 2024 12:13:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="J4AgM9ro"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-oi1-f179.google.com (mail-oi1-f179.google.com [209.85.167.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F48A45BE3;
-	Mon, 12 Feb 2024 11:57:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F28C3A29B
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 12 Feb 2024 12:12:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707739036; cv=none; b=Y77IPYXTZOK8p6tyj1JlypcGbWCPAfKPmGLBEGE6EXB+TyaR1x8mTeJqK5Hg3H5FFnXBDmN2O6LN4A37gynk7QAwdXkQRRsYPexPN95rwyypc8ojPgA3YsfOSiYtdhyilJ+kclfUCOcqNQuQ/Ju4F7db2fRKdQcbL5OlYI9FsGE=
+	t=1707739980; cv=none; b=H/bK27LTsXKA23JebKnU2l01EDUNmGUb8S+DSqzr1WQtZCgcx0oRDJnWuvtiqpVvvINvqoUhA4PhdgyDUmHMaKY4Jil3Iisw8YzZcYlTKxLNvlIfSwAj+8yxNVqqlY3uHFkpXtDWZFfaiAhK30sfOF3VVkswxP976JK03a2XB+0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707739036; c=relaxed/simple;
-	bh=rRXck6YBJ4PFlcL4NbrLP0mA9C1zNeBnLnc19pgDRhc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=jWmaKF1nmTlb6k+A+5hUudqStwheuNCD+7esibwhcxcecSkwRnUOB7VDiNgUh3H3L7UxmjBOIKIn1NL2T6/ztrOZQwijpTXZjJIgoSd5EUHLmKK45qQWvYLCYWCFwds0L9Kq5mgXgGxTUqeTmLRIcUF+88+ROMar0Wza9GYTgmA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.167.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-oi1-f179.google.com with SMTP id 5614622812f47-3be110bbff9so946096b6e.1;
-        Mon, 12 Feb 2024 03:57:14 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707739033; x=1708343833;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=7wMAO06BchNCC530Xu9UhtfefntbOOr1o7C6F7RYDi4=;
-        b=WbyaAQEXjQINEeaC83l261NCvAOjtwH9gSlPZy8J7Q6Zc0ZmOXPukgXwgHydUA8dIW
-         mjhst8CRIYleaY9e18z1aaG6G+uzeR/gPqE1alLGDJX74Uy7XFZr7NP1mWJltpcBCTp9
-         NFqah75/tIKAMAmhXm7MSUabl0sA/VTSS9tr0x6pWnkV3uVUWB0kGboFprYU25PSFxiR
-         jaWG1iP2CTZ9CYa+SnqKC5Jc2xMTK7h7xAkQdz8KDQxIWtgacIEuKZy6WqzwtL3G5J8Z
-         nGAxoX36iOfi0lHOr2eZte/T3+u/Z/St2pn6Km39Bbl2GE5bzFGsmOrCgz9ZK+nY8tmG
-         AbOQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUB0JQw1dr3lz0YRg/OvVtMST8oQzivAx2Xz6EwX8bzIRp0odHIumNyHEAJWV44S8Lhs6rm2+DfmvrD/txcz3jafN2jP3MM9vCCx12V6Ucl9M7N2N8MlZ+r4o4Ua4jgZUDdtsLg2z+tWb/zK3BdVpbNmFiuB4F4l4g4XyPJEOUjAdbO8d3S3WeCs04JfL7HJixEcd+vzvuQPgsAOxmY+R8XLR49lh2VnRA=
-X-Gm-Message-State: AOJu0Yw2HrTzoWK47j4RpZMSXXmQ+3G+o8PSRqFkdSav7Mqfn8/HaIP0
-	xywtfyfxwxBjwnxIetIeg9fdHHZdVMZe7DIZi+cN+y/hy7aXcE4ZejzP90YLWP3Sz6YSbYEeVl3
-	sXHw6EPUXc2P/vT5/zkRIe1ab/Rc=
-X-Google-Smtp-Source: AGHT+IG/3+DaOXUU6rXyszdqbRwQ6IvLimbpuWMEp0FU5HpM8CNYZ/mRaLlL7JC6LNkmQiYfi71otNEgsym8lr177kU=
-X-Received: by 2002:a4a:ee91:0:b0:59c:7c63:928f with SMTP id
- dk17-20020a4aee91000000b0059c7c63928fmr4695865oob.0.1707739033372; Mon, 12
- Feb 2024 03:57:13 -0800 (PST)
+	s=arc-20240116; t=1707739980; c=relaxed/simple;
+	bh=JJID6F7jqLHRWeoC4iyAEKo0jO08alUsrFdpbpIKcnw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dPor8Mb5fjgSoRz508FiwpSb87LeXCkG3v1lDzDQlca+Le2tVgk++e0eI+Ew/mPVmLDkCUht4ZDB0fmmkYxqmwl2pD2PUQ9bBe3tFrFEP4PDsUV/U6bKpwWvZhX0eCriztk6ngmhUbfmJH3Z4Mg32joeRAR6TB9kneJ+7cfggVo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=J4AgM9ro; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=date:from:to:cc:subject:message-id
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=Av+Z
+	w72XMMFy5JIv8FNYIcdnZNiuXEaLFUQ4ZS3b3ps=; b=J4AgM9roICuQi7Jkud1m
+	0Vg1pK1jOtVGjtPgGxRRNr9ay9CUFHEFBshRvBtvKhrZ3M8926JgceBjAco0H5HH
+	rASATTrjjljdBXLUQf8j39d7LJk3Q1KyUYBiZdk91Ai+2VyILrPQ8IdXTr0QRQOL
+	W14hW8Vwa7hIZgPe7Jgwx0Ub8dgMsB5Gg7mRVt8rmgBNgZXWWOVyLphvBYM/+QRr
+	W/yHcE0P/J88T8mYybhmcjYm2I4N4clOhcNvh8/r8/GboostT2YLHlfzqP1OIULO
+	b7TxjKanC3ossl2DUPRGS96Hk+C+CoHQjp3aypAbmJSRBruQ8Ehq2sDRX+oAORJi
+	OA==
+Received: (qmail 472363 invoked from network); 12 Feb 2024 13:12:48 +0100
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 12 Feb 2024 13:12:48 +0100
+X-UD-Smtp-Session: l3s3148p1@BZkmMi4REL0ujnsZ
+Date: Mon, 12 Feb 2024 13:12:46 +0100
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: Ulf Hansson <ulf.hansson@linaro.org>
+Cc: Lee Jones <lee@kernel.org>, linux-renesas-soc@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	linux-mmc@vger.kernel.org, linux-sh@vger.kernel.org
+Subject: Re: [PATCH 0/6] mfd: tmio: simplify header and move to platform_data
+Message-ID: <ZcoLPnA8TEAgBk8O@shikoro>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Ulf Hansson <ulf.hansson@linaro.org>, Lee Jones <lee@kernel.org>,
+	linux-renesas-soc@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	linux-mmc@vger.kernel.org, linux-sh@vger.kernel.org
+References: <20240209015817.14627-8-wsa+renesas@sang-engineering.com>
+ <CAPDyKFpmfgwJ5dJFmORhg1tBewzhB_jrWikpX=b23r-joN91SA@mail.gmail.com>
+ <20240209132837.GJ689448@google.com>
+ <CAPDyKFpho16DU7OorMgXDqiyfFfgM_tWu+DZZOHd0gbjtBw_Cg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240130111250.185718-1-angelogioacchino.delregno@collabora.com>
- <20240130111250.185718-3-angelogioacchino.delregno@collabora.com>
- <CAJZ5v0jzaGpK8LnsFDtjuPoURrwrUgM1Z2QfZhK_FUzDeK3wcw@mail.gmail.com>
- <e4359d2c-e686-4a97-9d21-d10908e9df61@moroto.mountain> <CAJZ5v0iYNPB2v7ZCynEOvWy+gz4DQUhuoJ8e7F1MXz13m_d7rw@mail.gmail.com>
- <45422a32-de34-4de1-bcd3-5580386f27f8@collabora.com>
-In-Reply-To: <45422a32-de34-4de1-bcd3-5580386f27f8@collabora.com>
-From: "Rafael J. Wysocki" <rafael@kernel.org>
-Date: Mon, 12 Feb 2024 12:57:00 +0100
-Message-ID: <CAJZ5v0jyeGMKxks9bYneUbm-zWpW8u9ARXCmqY5c=TMswgFuQA@mail.gmail.com>
-Subject: Re: [PATCH v1 02/18] thermal: Add new structures and thermal_zone_device_register()
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>, Dan Carpenter <dan.carpenter@linaro.org>, 
-	daniel.lezcano@linaro.org, miquel.raynal@bootlin.com, rui.zhang@intel.com, 
-	lukasz.luba@arm.com, support.opensource@diasemi.com, shawnguo@kernel.org, 
-	s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com, 
-	linux-imx@nxp.com, andersson@kernel.org, konrad.dybcio@linaro.org, 
-	amitk@kernel.org, thara.gopinath@gmail.com, niklas.soderlund@ragnatech.se, 
-	srinivas.pandruvada@linux.intel.com, baolin.wang@linux.alibaba.com, 
-	u.kleine-koenig@pengutronix.de, hayashi.kunihiko@socionext.com, d-gole@ti.com, 
-	linus.walleij@linaro.org, DLG-Adam.Ward.opensource@dm.renesas.com, 
-	error27@gmail.com, heiko@sntech.de, hdegoede@redhat.com, 
-	jernej.skrabec@gmail.com, f.fainelli@gmail.com, linux-pm@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-arm-msm@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	kernel@collabora.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="WPOTux91JoqdkWnh"
+Content-Disposition: inline
+In-Reply-To: <CAPDyKFpho16DU7OorMgXDqiyfFfgM_tWu+DZZOHd0gbjtBw_Cg@mail.gmail.com>
 
-On Mon, Feb 12, 2024 at 11:41=E2=80=AFAM AngeloGioacchino Del Regno
-<angelogioacchino.delregno@collabora.com> wrote:
->
-> Il 02/02/24 18:13, Rafael J. Wysocki ha scritto:
-> > On Fri, Feb 2, 2024 at 9:47=E2=80=AFAM Dan Carpenter <dan.carpenter@lin=
-aro.org> wrote:
-> >>
-> >> On Thu, Feb 01, 2024 at 08:24:15PM +0100, Rafael J. Wysocki wrote:
-> >>> On Tue, Jan 30, 2024 at 12:13=E2=80=AFPM AngeloGioacchino Del Regno
-> >>>> diff --git a/include/linux/thermal.h b/include/linux/thermal.h
-> >>>> index 65d8f92a9a0d..7a540b746703 100644
-> >>>> --- a/include/linux/thermal.h
-> >>>> +++ b/include/linux/thermal.h
-> >>>> @@ -149,7 +149,8 @@ struct thermal_cooling_device {
-> >>>>                          passive trip point.
-> >>>>    * @need_update:       if equals 1, thermal_zone_device_update nee=
-ds to be invoked.
-> >>>>    * @ops:       operations this &thermal_zone_device supports
-> >>>> - * @tzp:       thermal zone parameters
-> >>>> + * @tzp:               Thermal zone parameters
-> >>>> + * @tgp:               Thermal zone governor parameters
-> >>>>    * @governor:  pointer to the governor for this thermal zone
-> >>>>    * @governor_data:     private pointer for governor data
-> >>>>    * @thermal_instances: list of &struct thermal_instance of this th=
-ermal zone
-> >>>> @@ -184,7 +185,8 @@ struct thermal_zone_device {
-> >>>>          int prev_high_trip;
-> >>>>          atomic_t need_update;
-> >>>>          struct thermal_zone_device_ops *ops;
-> >>>> -       struct thermal_zone_params *tzp;
-> >>>> +       struct thermal_zone_platform_params *tzp;
-> >>>> +       struct thermal_governor_params *tgp;
-> >>>
-> >>> I agree with doing a split here, but I'm not sure about moving items
-> >>> from the arg list to struct thermal_zone_platform_params (as mentione=
-d
-> >>> above).
-> >>>
-> >>> Also the naming is quite inconsistent.  IMO it would be better to cal=
-l
-> >>> the first pointer "tzpp", rename struct thermal_governor_params to
-> >>> struct thermal_zone_governor_params and call the second pointer
-> >>> "tzgp".
-> >>>
-> >>
-> >> The names "tzgp" and "tzpp" look almost identical at first glance.
-> >> Could we increase the hamming distance somehow?
-> >
-> > Good point.
-> >
-> > They may as well be gov_params and platform_params AFAIAC.
->
-> I'm more for gov_params and zone_params, as the thermal_zone_platform_par=
-ams is
-> supposed to get renamed to struct thermal_zone_params in part 2.
->
-> Anything against that?
 
-Nope, sounds good!
+--WPOTux91JoqdkWnh
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+Hi Lee, Ulf,
+
+> Please add my ack for the mmc related changes.
+
+I prepared v2 of the series: rebased to rc4, acks added, capitalized
+first letter... waiting for buildbot now before resending.
+
+Thanks,
+
+   Wolfram
+
+
+--WPOTux91JoqdkWnh
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmXKCzoACgkQFA3kzBSg
+KbbXFA/5Adwpk7uBvG4XZys/soyfhY5STCt46XOyDGvVtx3OOA7yyElFgTX5vLdG
+3gSN1ibYROPMSIxKzKIWzWld7qllopX2PXgSbMlZT4sefYSYy7/LrAHSu1yT8wwg
+RGMTqxTWG0JuihBlXjSWqaSmf80SROg/Z7FvQmjtTqC+9r4tnMSgU7YiBkrLh4+X
+1gkmvyfiejTG9vMCBy9JIUB+Ytgstga9bl34YZVtJcw8ibzXuFoZkipBJeNdSW9i
+xh5bD9jXLAI0fflgi40hTvACfPasmPGjaEQL8AmfK0O7J2BWQNBOkfrW8DcdnofC
+sqGZU5iZf/JwjtwjNInst1NqmEk+lbg/gkO9gnOsISTTbdX2B5M4A+2OETNHcQTn
+5BtssULqamCN/L4Br3+ezOY+WEBAiqKzKe6hAY+omjGmdgNS+ZjAnRHVnJYrl8M5
+X1BMDGzmam5d3L9ShLtW2wx4UbXBJtSlKJIIa9Se5G0rE7awSonTVyCwwdYYqKPA
+55abvqJw7jyWQWxoXgZLp/Ncax/9sy2UUek3j2QQ7VKLpBjf4KNBL8BjIfoD8/Ib
+HKQHNuNkRqw6ThByS0dRD+gSbYePx/H50TKMLnGJcA668vUeUF3EPDrzvC0AnVVw
+Ay4novGRFFNxzh+yjzRN499TGr+qipzt1fW6naQ/QbKfsTgXpvs=
+=aoMa
+-----END PGP SIGNATURE-----
+
+--WPOTux91JoqdkWnh--
 
