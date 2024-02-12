@@ -1,79 +1,77 @@
-Return-Path: <linux-renesas-soc+bounces-2635-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-2636-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id E44618518E0
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 12 Feb 2024 17:25:05 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6517285191A
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 12 Feb 2024 17:28:29 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9C4CF283385
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 12 Feb 2024 16:25:04 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 00EDF1F21D53
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 12 Feb 2024 16:28:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 615F23D0D4;
-	Mon, 12 Feb 2024 16:25:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9E6C23D38D;
+	Mon, 12 Feb 2024 16:28:19 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yb1-f181.google.com (mail-yb1-f181.google.com [209.85.219.181])
+Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com [209.85.128.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CBD03D0D1;
-	Mon, 12 Feb 2024 16:24:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D85363D556;
+	Mon, 12 Feb 2024 16:28:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707755101; cv=none; b=k1F4w6d68wPEDXrlHYvpNBioszIczHy9SNW9JIEbxSyDa+YQ3tkVfWAm7KsCu97ZArJTAwvlNYtsnUZjYkDaA82Z/u4YnfaTFNcV2q7oW59FXDqkP1GkwWtJMxAVP3P5Dr2RjksSGXnrX4aDUpHgq8HnLRJ25Lu5qV8vAvIyRzw=
+	t=1707755299; cv=none; b=u2Qxj4ON2kNX8zUiCsv08OBArzcDc+Nllkv99lPy5X8N+QGAEIiyz4xao8JgIjOsMlnMqlORj97+j5GgYcQQ/0u+rbGQrJj82RX4J5+Pd54WPvyB+loI+e9eji2nPSk/AtTLKZuLF5nbol5Ie3cUTCwJ5WBWzZjHvj6byk5OIi4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707755101; c=relaxed/simple;
-	bh=rmkbXCdg84yoQwpkq7NH1fqrGGiLhnDvubFSBGJe+yk=;
+	s=arc-20240116; t=1707755299; c=relaxed/simple;
+	bh=FwSmj40KHI9q4fP0jEOfUy7Iegfc7L/g/89ztN2HV0I=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=LHzMHkGpGnNIAWhhJEIS8PG/lkzwUvO5TTYuE9PpV0WtTBovJcYipOZ2ViaLozdTkm6wZX5FmmkCTjMTBTEoeiPWa1spROeShSsMFZou8y0FLBBfQCP/xmIJM4G2DPAVseJAF+gyZ67PIOfP6etL6cap6Ri/QjvtHZuKjtnhJqs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.219.181
+	 To:Cc:Content-Type; b=T/DtBX20avp/Q3bKYe4OcKkGyxi3f+Zb0cWTa2aIphSxr4/N1t/sfaLDjPIIuqBn6rgmrlX/K0n6r7H5rDJIlImt7tloxyHJuf6/2BPIOMdcAWcwhUHaepTSC7LGHetCmeV5xo52SoYWEeilf/imgzRsWXVDbn2eA6dmUEGeVws=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yb1-f181.google.com with SMTP id 3f1490d57ef6-dc75c5e3151so2088598276.1;
-        Mon, 12 Feb 2024 08:24:59 -0800 (PST)
+Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-60491cb9571so31337867b3.0;
+        Mon, 12 Feb 2024 08:28:17 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707755097; x=1708359897;
+        d=1e100.net; s=20230601; t=1707755295; x=1708360095;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=hb3maADtaAKKNSwdn2QybG1Ogk1CA+GA1APXldxFH+U=;
-        b=mF20jCC4ZiLO2U98+apDlVN+AZAEpQIoFraQutsq0NXYaJiwAVNvUzuSzNkEQEgd8u
-         ZvH+8iEetOw/3c0KT8X9HwQLFsIFtcBOkr1VD/T/NEsNAJ5PRB5yfYCrm29Tg8U0PYtW
-         kacXiqV4sqxSKQvkth56FRJ6ynrJLtIY2C1BZbI8oyOG9RtxeBfuwWjMxPWEZ6WVIVrZ
-         bxfvnx9zdi9nKK+EshD82kLpYr6swiUz5ED8+sEJvRM5DVqIm1GYS6oMblapFyg8XUd1
-         AEC4W44qRKRf0fkQOfu8cVgIK36FCsco7pHH6oISCcLk54U8IQ9VArprPWlOud2A5G0K
-         Thsw==
-X-Forwarded-Encrypted: i=1; AJvYcCVY+9B52u89K1gqqvODb2qXDNgZgQmymaFZdxU/uCpdvAfwXz232F3GevlMWkORz+GlciCgd3IjUhyiluMT0jo6RV2z9qqJ82YhJ0XpTTdMWS2GYyXuJT2PpFn2l/pyH5XS0O6K3HASrKWaEysn+M322rHtDPOcsslYN3sZps19DCA5+6W5mZQj6e7T
-X-Gm-Message-State: AOJu0Yy5xwE3FAThNA3rO0GWdimt+AkEwjYBWyUf7w8dK54RAwhYhNdr
-	j910RZy5KzhwC6tTiLS6Rl7JXk8UqqkZF+iA+rut0RlJCyrR4xQNTt/wlMX9QTs=
-X-Google-Smtp-Source: AGHT+IGpDKCUm49Jrpq+v9zw3n8Ses4IzwmHcEiXGGrrGrSeqEg5V+hCRB8febkQaOTLxNy9I3Mufw==
-X-Received: by 2002:a25:4194:0:b0:dcb:ca7e:7e73 with SMTP id o142-20020a254194000000b00dcbca7e7e73mr781765yba.11.1707755097672;
-        Mon, 12 Feb 2024 08:24:57 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCW1j6E5u4H0tycjyhjF5ZCA2dOuOkHsSqfQu1bHrwCGFryKpRz468S1q5vKReoq8D8gOVhdUbEgsn0kIbVQ/0vQITaIsI0/JCAw5p4ChEjmmYFIpq5hO5D89G6E/LC7F/vEDAph58rnUmamhxCsQirxZJ8gW7iWhxcd83aVLvSW9kCoVlqMYunOL3Zr
-Received: from mail-yb1-f175.google.com (mail-yb1-f175.google.com. [209.85.219.175])
-        by smtp.gmail.com with ESMTPSA id l37-20020a25ad65000000b00dc230f91674sm1298716ybe.26.2024.02.12.08.24.57
+        bh=NA6Gogw1d1PUCHDqcxvzd0ivtdZaDl7Z3Y82qi5GOdE=;
+        b=eKmvbTUwFUPYYgVBDVTtf1jsdmnMkquzSvVYjfU/F3p8FoAhDHeLx00EqWRLhViR7J
+         RHRabZ/MorObhZF2VUwCkiYOvf02Lh5Sp2vqYoKbyVWVPwsy9DM9S1bnsfx0JHuBmQkl
+         IThWsJ/OGdGpxTwcOf4gMYLWaKDVOr/T1aCHoikZmhmLj8WvYFU6SS4K77P7j3dw+Tae
+         6fURIqjsEWkViM3OHlOCfxxIZC7Mt4GcpqgFGtoFDUVnEL0SjfrSIYuUoJLYpZ2c5H0H
+         gsiwQEFx1ez4qUyhKn5HQFYW0D9fOZJk9gzH2Te7xxffhw2cUjG7FVkIVqztxRHy1Y2l
+         OfNA==
+X-Gm-Message-State: AOJu0Yx9C6siF6d0SoJNPIJrnvD8+ftVmbKTLzOyeot2AfaAnYhyr5CK
+	dxZPdv+9oQg0txdG143x5LNw/1/pETpC7P9qPflsUSPApwgI+Hez0Himy3UFyag=
+X-Google-Smtp-Source: AGHT+IGUXPfRYHHM5FcgUqy0FUNP/D2oM+JodZmXzWKB7D3GDSGU+i63EyPgufqZ/EPi4GtNvwC7XA==
+X-Received: by 2002:a81:7704:0:b0:604:3e1c:3d7d with SMTP id s4-20020a817704000000b006043e1c3d7dmr5608719ywc.31.1707755295468;
+        Mon, 12 Feb 2024 08:28:15 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCWsB0Iu2NCw04S0/nQy8S6qkgX94SeXgOehlZQSV0TmVWQWq+XgUPJJ5Q5cDtdqpLS/SGoPjpHc1Os+pc1mve3fkGf2qkUqO1cY/jlGM6QZFvGhtejl2CdLJ5in0Lkr0rXQefsYWpF7ksFh3Mr2nkN+SxOmrIUvnGc40XwWwXGXOsY7BHIQ+d1tDYzD
+Received: from mail-yb1-f176.google.com (mail-yb1-f176.google.com. [209.85.219.176])
+        by smtp.gmail.com with ESMTPSA id t5-20020a81c245000000b005ff9bb7fa40sm1211840ywg.34.2024.02.12.08.28.14
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 12 Feb 2024 08:24:57 -0800 (PST)
-Received: by mail-yb1-f175.google.com with SMTP id 3f1490d57ef6-dcbbc41d3d5so419705276.3;
-        Mon, 12 Feb 2024 08:24:57 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCVTPj5fGxYzBzb5YQUnTZVF2f4vM3MHoXLXRXXDdMLzrJsoGc+Dkbo8pyOeFCJLMSQ/Lgl0SpEyI666KVOorETX6gCzObFtWviuc8JoXouJCWbKr3u8aAJjtTwbZsS+JHH9dXga8paw812tPDmjUgmBQpvGe8dSYRj/gGScTBPfkt+P+gsKSd1UQdbx
-X-Received: by 2002:a25:aa6d:0:b0:dc6:d7de:5b29 with SMTP id
- s100-20020a25aa6d000000b00dc6d7de5b29mr5622636ybi.10.1707755097054; Mon, 12
- Feb 2024 08:24:57 -0800 (PST)
+        Mon, 12 Feb 2024 08:28:15 -0800 (PST)
+Received: by mail-yb1-f176.google.com with SMTP id 3f1490d57ef6-dc75c2c3574so2220969276.0;
+        Mon, 12 Feb 2024 08:28:14 -0800 (PST)
+X-Received: by 2002:a25:2943:0:b0:dc2:399b:6451 with SMTP id
+ p64-20020a252943000000b00dc2399b6451mr4668660ybp.62.1707755294574; Mon, 12
+ Feb 2024 08:28:14 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240205144421.51195-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20240205144421.51195-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20240205144421.51195-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20240205144421.51195-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20240205144421.51195-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20240205144421.51195-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 12 Feb 2024 17:24:45 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdW0xWgA+9rtDcRUgoS1HYvd+mukvK25MHbzHpo=1uGq0g@mail.gmail.com>
-Message-ID: <CAMuHMdW0xWgA+9rtDcRUgoS1HYvd+mukvK25MHbzHpo=1uGq0g@mail.gmail.com>
-Subject: Re: [PATCH v2 1/3] dt-bindings: interrupt-controller:
- renesas,rzg2l-irqc: Update interrupts
+Date: Mon, 12 Feb 2024 17:28:03 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdXhNC7oq2ywbg7zMYGdYqE66ik9NsMCoT3c1XFX=i=nSQ@mail.gmail.com>
+Message-ID: <CAMuHMdXhNC7oq2ywbg7zMYGdYqE66ik9NsMCoT3c1XFX=i=nSQ@mail.gmail.com>
+Subject: Re: [PATCH v2 2/3] arm64: dts: renesas: rz-g2l-family: Add missing
+ interrupts from IRQC IP block
 To: Prabhakar <prabhakar.csengg@gmail.com>
 Cc: Thomas Gleixner <tglx@linutronix.de>, Rob Herring <robh+dt@kernel.org>, 
 	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
@@ -85,86 +83,26 @@ Cc: Thomas Gleixner <tglx@linutronix.de>, Rob Herring <robh+dt@kernel.org>,
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Prabhakar,
-
 On Mon, Feb 5, 2024 at 3:44=E2=80=AFPM Prabhakar <prabhakar.csengg@gmail.co=
 m> wrote:
 > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 >
-> All the RZ/G2L and alike SoC's (listed below) have ECCRAM0/1 interrupts
-> supported by the IRQC block, reflect the same in DT binding doc.
+> The IRQC IP block supports Bus error and ECCRAM interrupts for RZ/G2L and
+> alike SoC's (listed below). Update the IRQC node with the missing
+> interrupts, and additionally, include the 'interrupt-names' property in
+> the IRQC node so that driver can parse the interrupts based on the name.
 >
 > - R9A07G043U              - RZ/G2UL
 > - R9A07G044L/R9A07G044LC  - RZ/{G2L,G2LC}
 > - R9A07G054               - RZ/V2L
-> - R9A08G045               - RZ/G3S
 >
-> For the RZ/G3S SoC ("R9A08G045") ECCRAM0/1 interrupts combined into singl=
-e
-> interrupt so we just use the below to represent them:
-> - ec7tie1-0
-> - ec7tie2-0
-> - ec7tiovf-0
->
-> Previously, it was assumed that BUS-error and ECCRAM0/1 error interrupts
-> were only supported by RZ/G2UL ("R9A07G043U") and RZ/G3S ("R9A08G045")
-> SoCs. However, in reality, all RZ/G2L and similar SoCs (listed above)
-> support these interrupts. Therefore, mark the 'interrupt-names' property
-> as required for all the SoCs and update the example node in the binding
-> document.
->
-> Fixes: 96fed779d3d4 ("dt-bindings: interrupt-controller: Add Renesas RZ/G=
-2L Interrupt Controller")
-> Fixes: 1cf0697a24ef ("dt-bindings: interrupt-controller: renesas,rzg2l-ir=
-qc: Document RZ/G3S")
+> Fixes: 5edc51af5b30 ("arm64: dts: renesas: r9a07g044: Add IRQC node")
+> Fixes: 48ab6eddd8bb ("arm64: dts: renesas: r9a07g043u: Add IRQC node")
+> Fixes: 379478ab09e0 ("arm64: dts: renesas: r9a07g054: Add IRQC node")
 > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-Thanks for your patch!
-
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-
-> --- a/Documentation/devicetree/bindings/interrupt-controller/renesas,rzg2=
-l-irqc.yaml
-> +++ b/Documentation/devicetree/bindings/interrupt-controller/renesas,rzg2=
-l-irqc.yaml
-> @@ -88,9 +88,15 @@ properties:
->        - description: GPIO interrupt, TINT30
->        - description: GPIO interrupt, TINT31
->        - description: Bus error interrupt
-> +      - description: ECCRAM0 1bit error interrupt
-> +      - description: ECCRAM0 2bit error interrupt
-> +      - description: ECCRAM0 error overflow interrupt
-> +      - description: ECCRAM1 1bit error interrupt
-> +      - description: ECCRAM1 2bit error interrupt
-> +      - description: ECCRAM1 error overflow interrupt
->
->    interrupt-names:
-> -    minItems: 41
-> +    minItems: 45
->      items:
->        - const: nmi
->        - const: irq0
-> @@ -134,6 +140,12 @@ properties:
->        - const: tint30
->        - const: tint31
->        - const: bus-err
-> +      - const: ec7tie1-0   # For RZ/G3S SoC ("R9A08G045") ECCRAM0/1 inte=
-rrupts are combined into single interrupt.
-> +      - const: ec7tie2-0   # For RZ/G3S SoC ("R9A08G045") ECCRAM0/1 inte=
-rrupts are combined into single interrupt.
-> +      - const: ec7tiovf-0  # For RZ/G3S SoC ("R9A08G045") ECCRAM0/1 inte=
-rrupts are combined into single interrupt.
-
-These lines are indeed a bit long, and might become longer when newer
-SoCs are introduced.
-
-What about changing the descriptions instead, like
-
-    -      - description: ECCRAM0 1bit error interrupt
-    +      - description: ECCRAM0 or combined ECCRAM0/1 1bit error interrup=
-t
-
-?
+i.e. will queue in renesas-devel for v6.9.
 
 Gr{oetje,eeting}s,
 
