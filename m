@@ -1,54 +1,54 @@
-Return-Path: <linux-renesas-soc+bounces-2644-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-2645-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D7B98519DF
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 12 Feb 2024 17:45:16 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id AD2C38519E1
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 12 Feb 2024 17:45:22 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 80DA81C21C92
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 12 Feb 2024 16:45:15 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 227A51F233B4
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 12 Feb 2024 16:45:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 52C6145010;
-	Mon, 12 Feb 2024 16:41:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2A9CE45954;
+	Mon, 12 Feb 2024 16:41:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="SRVKwD5T"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="IlpWmGC2"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [217.70.183.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2345440BF0;
-	Mon, 12 Feb 2024 16:41:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E20E41233;
+	Mon, 12 Feb 2024 16:41:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707756113; cv=none; b=PeMBtibepJl3/qm3e09khZQpXjN7WnvdkJuYfkH3fyI+6I9NYXOGrz9kXdMwNUSUQX4Q9Rpi6izttImuoRlacZD1gVDxmqO0du/qndTY2vjDBciCrK6i9GBb7e7Af8ymvr1FPliZ1jxb5vgAIBUR9l+W/VJasuGSUBnEjvkypg0=
+	t=1707756114; cv=none; b=fOpAKa3BCgGLiyNTKJB9Op0r4VgXEc4clsiAt1ybAYSwvBEZLxZq1zV3J3Y3HGw2C/JiNE4Vb9aKvEk49BbnibJI/SJPhvKXvjy6xVpULFTR5ZToVV/WE5+h4IRfPUMlLfpgABoYsFuWt57E2YKxbl8iaN+yB2CnQMISPAzJIPI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707756113; c=relaxed/simple;
-	bh=v9bDpvvX0RKMMrCA98TweMMDMhM4ZPyJFANVu501FdY=;
+	s=arc-20240116; t=1707756114; c=relaxed/simple;
+	bh=5VzaDDVtiqqrz1Mwcj/UC006nFz4sJadQdlOvLwqDmU=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=m0HgeDekQT8U6hFdbC53foIR1LK5pR7Ga3DQmmIBQ1RVEzDCIZSHX1BDq09Ai+f7BcyWWwLsUcGUOI8fn7Ro9ALHVOx8DdcPjkx5KbsWfAhDGzAULKeHUO5p1x9gvc4nirvuXkRri5cau0slNOZBeA+hB+b7n9XVcYmf4Q2NhBg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=SRVKwD5T; arc=none smtp.client-ip=217.70.183.194
+	 In-Reply-To:To:Cc; b=TCKmnroLpxNyJIaw+5KUPd7cxn8pZp2NVp2VolGB7ZhGOhYWjQGVPYDTTyd23vCMoykHMk24kcjpxlkJ8cXeF1TBdKQM/1yuq8tO0NQBVk/4vJv0m7A5qLTrB2ER2VjHO8yohxEqTEltj8ZBiQse1hxPoy7Aq47TcMTQRbKaBfA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=IlpWmGC2; arc=none smtp.client-ip=217.70.183.194
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 68ABF4000C;
-	Mon, 12 Feb 2024 16:41:48 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 69CC140016;
+	Mon, 12 Feb 2024 16:41:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1707756109;
+	t=1707756110;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=yRIMbE0unjYrvpCkfTYc04XJCl1PK7tAYUxBqamkw58=;
-	b=SRVKwD5TC6/Q/eaZF0TKEEqglU/W26MWXFS0LesVfLHa/r8b4Bqs2Pr/fVFXoa4rUp0gqA
-	cJC/8k6hbAEkuAG9Nw+UxdOqzXzvv54Hfw506EknpjJSlydEasazH1gM3biMrHyUUlXaNF
-	qtrwepyhLN30iZoM+OJMUTmPhX49xDk3JqSJlAvmX5T+OSj+U8Wh82ezTLmFOHBOEmWW5k
-	ZPwnTns+FH6Wsn4C7QLbkl4aAIEBVElezT59+mUT9iDNQae4DQM7gWexF+Yu/JcBI88Efz
-	kCVgkXkRTkJ6bdO5imQ3DBJaNVLNN1gR85zREm0vlKuNsf9uebNloGTwkZAp5A==
+	bh=nTYOICYJuQ5UIisiBLtAqZAhBd/IR4LXyUg6LvrTYmk=;
+	b=IlpWmGC2hI41LV4Unr19gHLM+WaahQRaEz0tXoGkgwzwtht1RzKEEuq/FUTCBJIxXY5Nrs
+	qtAzwWaPF+znQ6J/LRg487suGWmow1AcChOEc5CXTYIdKXsmEdnnAozg3g3koLrx/D5lag
+	isWriRns8QHc19t+ipm1mzDPs39y3JOlM42bya6maxse3/RMRMnQ5funKrpwGLgEofWso8
+	/xUarWkGrmW6y0vLj40vTNxDyuF/gVB4wDNCOmhmuo9sIM3pyGaf93aSMvFZxEoMFTXnT2
+	UoEj9haG6frWihiREdDMfgksIB86F8mpq39jhh0lkIhOr34RofVQjlMKplUIpg==
 From: Romain Gantois <romain.gantois@bootlin.com>
-Date: Mon, 12 Feb 2024 17:42:12 +0100
-Subject: [PATCH net-next v3 5/7] net: stmmac: Signal to PHY/PCS drivers to
- keep RX clock on
+Date: Mon, 12 Feb 2024 17:42:13 +0100
+Subject: [PATCH net-next v3 6/7] net: phy: qcom: at803x: Avoid hibernating
+ if MAC requires RX clock
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -56,8 +56,8 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20240212-rxc_bugfix-v3-5-e9f2eb6b3b05@bootlin.com>
+Content-Transfer-Encoding: 7bit
+Message-Id: <20240212-rxc_bugfix-v3-6-e9f2eb6b3b05@bootlin.com>
 References: <20240212-rxc_bugfix-v3-0-e9f2eb6b3b05@bootlin.com>
 In-Reply-To: <20240212-rxc_bugfix-v3-0-e9f2eb6b3b05@bootlin.com>
 To: Russell King <linux@armlinux.org.uk>, Andrew Lunn <andrew@lunn.ch>, 
@@ -78,52 +78,40 @@ Cc: Maxime Chevallier <maxime.chevallier@bootlin.com>,
 X-Mailer: b4 0.12.4
 X-GND-Sasl: romain.gantois@bootlin.com
 
-There is a reocurring issue with stmmac controllers where the MAC fails to
-initialize its hardware if an RX clock signal isn't provided on the MAC/PHY
-link.
+From: Russell King <linux@armlinux.org.uk>
 
-This causes issues when PHY or PCS devices either go into suspend while
-cutting the RX clock or do not bring the clock signal up early enough for
-the MAC to initialize successfully.
+Stmmac controllers connected to an at803x PHY cannot resume properly after
+suspend when WoL is enabled. This happens because the MAC requires an RX
+clock generated by the PHY to initialize its hardware properly. But the RX
+clock is cut when the PHY suspends and isn't brought up until the MAC
+driver resumes the phylink.
 
-Set the mac_requires_rxc flag in the stmmac phylink config so that PHY/PCS
-drivers know to keep the RX clock up at all times.
+Prevent the at803x PHY driver from going into suspend if the attached MAC
+driver always requires an RX clock signal.
 
 Reported-by: Clark Wang <xiaoning.wang@nxp.com>
 Link: https://lore.kernel.org/all/20230202081559.3553637-1-xiaoning.wang@nxp.com/
-Reported-by: Clément Léger <clement.leger@bootlin.com>
-Link: https://lore.kernel.org/linux-arm-kernel/20230116103926.276869-4-clement.leger@bootlin.com/
-Suggested-by: Russell King <linux@armlinux.org.uk>
+Signed-off-by: Russell King <linux@armlinux.org.uk>
+[rgantois: commit log]
 Signed-off-by: Romain Gantois <romain.gantois@bootlin.com>
 ---
- drivers/net/ethernet/stmicro/stmmac/stmmac_main.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+ drivers/net/phy/qcom/at803x.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c b/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
-index ec4f6377b5ee..caf71a502ff2 100644
---- a/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
-+++ b/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
-@@ -1218,6 +1218,9 @@ static int stmmac_phy_setup(struct stmmac_priv *priv)
- 	priv->phylink_config.type = PHYLINK_NETDEV;
- 	priv->phylink_config.mac_managed_pm = true;
+diff --git a/drivers/net/phy/qcom/at803x.c b/drivers/net/phy/qcom/at803x.c
+index 4717c59d51d0..2a221b81cf37 100644
+--- a/drivers/net/phy/qcom/at803x.c
++++ b/drivers/net/phy/qcom/at803x.c
+@@ -426,7 +426,8 @@ static int at803x_hibernation_mode_config(struct phy_device *phydev)
+ 	/* The default after hardware reset is hibernation mode enabled. After
+ 	 * software reset, the value is retained.
+ 	 */
+-	if (!(priv->flags & AT803X_DISABLE_HIBERNATION_MODE))
++	if (!(priv->flags & AT803X_DISABLE_HIBERNATION_MODE) &&
++	    !(phydev->dev_flags & PHY_F_RXC_ALWAYS_ON))
+ 		return 0;
  
-+	/* Stmmac always requires an RX clock for hardware initialization */
-+	priv->phylink_config.mac_requires_rxc = true;
-+
- 	mdio_bus_data = priv->plat->mdio_bus_data;
- 	if (mdio_bus_data)
- 		priv->phylink_config.ovr_an_inband =
-@@ -3407,6 +3410,10 @@ static int stmmac_hw_setup(struct net_device *dev, bool ptp_register)
- 	u32 chan;
- 	int ret;
- 
-+	/* Make sure RX clock is enabled */
-+	if (priv->hw->phylink_pcs)
-+		phylink_pcs_pre_init(priv->phylink, priv->hw->phylink_pcs);
-+
- 	/* DMA initialization and SW reset */
- 	ret = stmmac_init_dma_engine(priv);
- 	if (ret < 0) {
+ 	return at803x_debug_reg_mask(phydev, AT803X_DEBUG_REG_HIB_CTRL,
 
 -- 
 2.43.0
