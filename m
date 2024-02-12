@@ -1,52 +1,54 @@
-Return-Path: <linux-renesas-soc+bounces-2654-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-2655-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA8C5851E8D
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 12 Feb 2024 21:20:05 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id F0BBA851EC8
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 12 Feb 2024 21:40:22 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 92F4B282C93
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 12 Feb 2024 20:20:04 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 174C6B21A5D
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 12 Feb 2024 20:40:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1B134481B8;
-	Mon, 12 Feb 2024 20:20:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 82B463D993;
+	Mon, 12 Feb 2024 20:40:16 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from mx01.omp.ru (mx01.omp.ru [90.154.21.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6245747F6C;
-	Mon, 12 Feb 2024 20:19:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E735E1EB3D;
+	Mon, 12 Feb 2024 20:40:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.154.21.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707769202; cv=none; b=R3oMEvgGAVCpwXM6uQHx55LHTpCv6ag3IvV0Fau+4KM7XAUd0SMUFKlNpzMLr/VVL2F1+88qKFtEOJPb6gDXRtAf90VQ3IfmJtSppVXvgtmE+ZTC5bi0bHCUhOEusAU1z086MpIMZKre/AOLgW2YipjMd6CdLAIjrAmX8zODud0=
+	t=1707770416; cv=none; b=iJGZdyJF8UIL8i9sFQ83dEHeYzY9jHq1j/MngqUIcMbUZ1oVuLeq8YDp2NAIojVdt1WTutdhdIQC15q3LgLbgXCizbpcbZKlq0IpMb8Q0RvPluFk9kZqbDLUGcwCBLa0lYBJRLkdTLvdOxwHw4dnHbJSC3YIhVbu2uyWy7fztC4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707769202; c=relaxed/simple;
-	bh=MjOR003u++teowK9Kt6ozRl7Pvro5xP5DskSAipOtcI=;
+	s=arc-20240116; t=1707770416; c=relaxed/simple;
+	bh=ts416wrAK6dKQgFPcsXRwARoY2LTcVFjNPySoHIIVHY=;
 	h=Subject:To:CC:References:From:Message-ID:Date:MIME-Version:
-	 In-Reply-To:Content-Type; b=FXr91ufyuOpEbFTSC1LLoxOkNXoqE1It0hIZyCV3NK87jUSsrLZQZu1tpI9u3HPginhmbeTh7JiJyjIsMu/hvcYS5CjSvVYRx7f6Ib/BnTZzoN/KICsnzt+clWaMwPcStXqeVxIDTaUHkWoHcTL602vnvACG4EkWZilLWVK1FgE=
+	 In-Reply-To:Content-Type; b=NHI1mU5SoGVV9y4U9q0F4XQ0iY7UvnAo0w8UnqzZUraVWvIAG5kdajRNkaQhuPNb0ck+PEeVNNaCDGObXOzMxt9JA+HA3ywdQHGVhcqlUMCzpYhwnJFJhFsMbhMgHC5DcSbpnqEHC1/y0A2T7xWjQNIdZFNgkXp6xBiPpnk4Qp0=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=omp.ru; spf=pass smtp.mailfrom=omp.ru; arc=none smtp.client-ip=90.154.21.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=omp.ru
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=omp.ru
 Received: from [192.168.1.105] (178.176.73.92) by msexch01.omp.ru
  (10.188.4.12) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.1258.12; Mon, 12 Feb
- 2024 23:19:43 +0300
-Subject: Re: [PATCH net-next v2 5/5] net: ravb: Add runtime PM support
-To: claudiu beznea <claudiu.beznea@tuxon.dev>, <davem@davemloft.net>,
-	<edumazet@google.com>, <kuba@kernel.org>, <pabeni@redhat.com>
-CC: <netdev@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, Claudiu Beznea
-	<claudiu.beznea.uj@bp.renesas.com>
-References: <20240209170459.4143861-1-claudiu.beznea.uj@bp.renesas.com>
- <20240209170459.4143861-6-claudiu.beznea.uj@bp.renesas.com>
- <3808dee0-b623-b870-7d96-94cc5fc12350@omp.ru>
- <7d0ae75d-2fdb-47cb-b57b-20ee477d6081@tuxon.dev>
+ 2024 23:40:04 +0300
+Subject: Re: [RFC PATCH net-next v2 6/7] net: ravb: Enable SW IRQ Coalescing
+ for GbEth
+To: Paul Barker <paul.barker.ct@bp.renesas.com>, "David S . Miller"
+	<davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub Kicinski
+	<kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>
+CC: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>, Wolfram Sang
+	<wsa+renesas@sang-engineering.com>, <netdev@vger.kernel.org>,
+	<linux-renesas-soc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+References: <20240206091909.3191-1-paul.barker.ct@bp.renesas.com>
+ <20240206091909.3191-7-paul.barker.ct@bp.renesas.com>
+ <2251fe66-11b7-2f30-c905-7bc1b9a57dab@omp.ru>
+ <895bdec7-05d6-4435-8be1-fe8ca716cbcb@bp.renesas.com>
 From: Sergey Shtylyov <s.shtylyov@omp.ru>
 Organization: Open Mobile Platform
-Message-ID: <1990e269-44fe-b45f-09b5-0c84f21778fc@omp.ru>
-Date: Mon, 12 Feb 2024 23:19:43 +0300
+Message-ID: <7c28bbea-0b3f-ee62-05c8-e6f1bc738b0b@omp.ru>
+Date: Mon, 12 Feb 2024 23:40:04 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.10.1
 Precedence: bulk
@@ -55,7 +57,7 @@ List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <7d0ae75d-2fdb-47cb-b57b-20ee477d6081@tuxon.dev>
+In-Reply-To: <895bdec7-05d6-4435-8be1-fe8ca716cbcb@bp.renesas.com>
 Content-Type: text/plain; charset="utf-8"
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -63,7 +65,7 @@ X-ClientProxiedBy: msexch01.omp.ru (10.188.4.12) To msexch01.omp.ru
  (10.188.4.12)
 X-KSE-ServerInfo: msexch01.omp.ru, 9
 X-KSE-AntiSpam-Interceptor-Info: scan successful
-X-KSE-AntiSpam-Version: 6.1.0, Database issued on: 02/12/2024 20:04:08
+X-KSE-AntiSpam-Version: 6.1.0, Database issued on: 02/12/2024 20:22:58
 X-KSE-AntiSpam-Status: KAS_STATUS_NOT_DETECTED
 X-KSE-AntiSpam-Method: none
 X-KSE-AntiSpam-Rate: 59
@@ -78,7 +80,7 @@ X-KSE-AntiSpam-Info: {SMTP from is not routable}
 X-KSE-AntiSpam-Info: {Found in DNSBL: 178.176.73.92 in (user)
  b.barracudacentral.org}
 X-KSE-AntiSpam-Info:
-	127.0.0.199:7.1.2;omp.ru:7.1.1;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;178.176.73.92:7.4.1,7.7.3
+	127.0.0.199:7.1.2;178.176.73.92:7.4.1,7.7.3;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;omp.ru:7.1.1
 X-KSE-AntiSpam-Info: {cloud_iprep_silent}
 X-KSE-AntiSpam-Info: ApMailHostAddress: 178.176.73.92
 X-KSE-AntiSpam-Info: {DNS response errors}
@@ -90,106 +92,44 @@ X-KSE-AntiSpam-Info: Auth:dmarc=temperror header.from=omp.ru;spf=temperror
 X-KSE-Antiphishing-Info: Clean
 X-KSE-Antiphishing-ScanningType: Heuristic
 X-KSE-Antiphishing-Method: None
-X-KSE-Antiphishing-Bases: 02/12/2024 20:10:00
+X-KSE-Antiphishing-Bases: 02/12/2024 20:28:00
 X-KSE-Antivirus-Interceptor-Info: scan successful
 X-KSE-Antivirus-Info: Clean, bases: 2/12/2024 6:23:00 PM
 X-KSE-Attachment-Filter-Triggered-Rules: Clean
 X-KSE-Attachment-Filter-Triggered-Filters: Clean
 X-KSE-BulkMessagesFiltering-Scan-Result: InTheLimit
 
-On 2/12/24 10:56 AM, claudiu beznea wrote:
+On 2/12/24 2:45 PM, Paul Barker wrote:
+[...]
+>>> diff --git a/drivers/net/ethernet/renesas/ravb.h b/drivers/net/ethernet/renesas/ravb.h
+>>> index 55a7a08aabef..ca7a66759e35 100644
+>>> --- a/drivers/net/ethernet/renesas/ravb.h
+>>> +++ b/drivers/net/ethernet/renesas/ravb.h
+>>> @@ -1078,6 +1078,7 @@ struct ravb_hw_info {
+>>>  	unsigned nc_queues:1;		/* AVB-DMAC has RX and TX NC queues */
+>>>  	unsigned magic_pkt:1;		/* E-MAC supports magic packet detection */
+>>>  	unsigned half_duplex:1;		/* E-MAC supports half duplex mode */
+>>> +	unsigned needs_irq_coalesce:1;	/* Requires SW IRQ Coalescing to achieve best performance */
+>>
+>>    Is this really a hardware feature?
+> 
+> It's more like a requirement to get the best out of this hardware and the Linux networking stack.
+> 
+> I considered checking the compatible string in the probe function but I decided that storing a configuration bit in the HW info struct was cleaner.
+
+   Yes, but you added the new bit under the "hardware features" commet. :-)
+
+>>    Also, s/Requires SW/Needs software/ and s/to achieve best performance//,
+>> please...
+> 
+> Will do.
+
+   The comment is too long, I think. :-)
 
 [...]
 
->>> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
->>>
->>> Add runtime PM support for the ravb driver. As the driver is used by
->>> different IP variants, with different behaviors, to be able to have the
->>> runtime PM support available for all devices, the preparatory commits
->>> moved all the resources parsing and allocations in the driver's probe
->>> function and kept the settings for ravb_open(). This is due to the fact
->>> that on some IP variants-platforms tuples disabling/enabling the clocks
->>> will switch the IP to the reset operation mode where registers' content is
->>
->>    This pesky "registers' content" somehow evaded me -- should be "register
->> contents" as well...
->>
->>> lost and reconfiguration needs to be done. For this the rabv_open()
->>> function enables the clocks, switches the IP to configuration mode, applies
->>> all the registers settings and switches the IP to the operational mode. At
->>> the end of ravb_open() IP is ready to send/receive data.
->>>
->>> In ravb_close() necessary reverts are done (compared with ravb_open()), the
->>> IP is switched to reset mode and clocks are disabled.
->>>
->>> The ethtool APIs or IOCTLs that might execute while the interface is down
->>> are either cached (and applied in ravb_open()) or rejected (as at that time
->>> the IP is in reset mode). Keeping the IP in the reset mode also increases
->>> the power saved (according to the hardware manual).
->>>
->>> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
->>> Reviewed-by: Sergey Shtylyov <s.shtylyov@omp.ru>
->> [...]
->>
->>> diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
->>> index f4be08f0198d..5bbfdfeef8a9 100644
->>> --- a/drivers/net/ethernet/renesas/ravb_main.c
->>> +++ b/drivers/net/ethernet/renesas/ravb_main.c
->>> @@ -1939,16 +1939,21 @@ static int ravb_open(struct net_device *ndev)
->>>  {
->>>  	struct ravb_private *priv = netdev_priv(ndev);
->>>  	const struct ravb_hw_info *info = priv->info;
->>> +	struct device *dev = &priv->pdev->dev;
->>>  	int error;
->>>  
->>>  	napi_enable(&priv->napi[RAVB_BE]);
->>>  	if (info->nc_queues)
->>>  		napi_enable(&priv->napi[RAVB_NC]);
->>>  
->>> +	error = pm_runtime_resume_and_get(dev);
->>> +	if (error < 0)
->>> +		goto out_napi_off;
->>
->>    Well, s/error/ret/ -- it would fit better here...
-> 
-> Using error is the "trademark" of this driver, it is used all around the
-> driver. I haven't introduced it here, I don't like it. The variable error
-
-   Heh, because it's my usual style. Too bad you don't like it... :-)
-
-> in this particular function is here from the beginning of the driver.
-
-   I think it's well suited for the functions returning either 0 or a
-(negative) error code. It's *if* (error < 0) that confuses me (as this
-API can return positive numbers in case of success...
-
-> So, I don't consider changing error to ret is the scope of this series.
-
-   OK, you're probably right... are you going to respin the series because
-of Biju's comments?
-
-[...]
->>> @@ -3066,6 +3089,12 @@ static void ravb_remove(struct platform_device *pdev)
->>>  	struct net_device *ndev = platform_get_drvdata(pdev);
->>>  	struct ravb_private *priv = netdev_priv(ndev);
->>>  	const struct ravb_hw_info *info = priv->info;
->>> +	struct device *dev = &priv->pdev->dev;
->>> +	int error;
->>> +
->>> +	error = pm_runtime_resume_and_get(dev);
->>> +	if (error < 0)
->>> +		return;
->>
->>    Again, s/erorr/ret/ in this case.
-> 
-> error was used here to comply with the rest of the driver. So, if you still
-> want me to change it here and in ravb_remove() please confirm.
-
-   No, we are good enough without that; I'll consider doing a cleanup
-when/if I have time. :-)
-
-> Thank you,
-> Claudiu Beznea
+> Thanks for the review,
+> Paul
 
 MBR, Sergey
 
