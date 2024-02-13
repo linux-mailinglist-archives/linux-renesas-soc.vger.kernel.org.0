@@ -1,49 +1,55 @@
-Return-Path: <linux-renesas-soc+bounces-2698-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-2699-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0D338536B7
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 13 Feb 2024 18:00:33 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 02DF58539AE
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 13 Feb 2024 19:14:47 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9BE17284B08
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 13 Feb 2024 17:00:32 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C0FB4B215F5
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 13 Feb 2024 18:12:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0DC4F58124;
-	Tue, 13 Feb 2024 17:00:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XLVrkRSH"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AA85D605A3;
+	Tue, 13 Feb 2024 18:12:43 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAFC85788C
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 13 Feb 2024 17:00:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E069D604D8;
+	Tue, 13 Feb 2024 18:12:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707843630; cv=none; b=bjwVrkwMIn4OzfZuES+k0i5RZzK3BsQnsgP5gsEiW0vllnM0qw55yHcwYTAb6BXLIw4DWx9Kuj38lgMW7nK6/Xx22g77ilR1CRwJTOJXFAewGpb/naZEjzJD2oC/nXWINnCm3YjaR/d2N0FtQZ8S/RPjM/0YK2ZQTiThRtP8Z1E=
+	t=1707847963; cv=none; b=Tzx2IGoCaFeaRiwgwJYyH/6w2WnykqGgK+pkRGUBZB/K4OTKlQ7y6JxnhaTNakWfmUvpzYIPpFP4oYNUqGal0V8J1kG28hIyb2Z/jcRvJpKF8dZXoaCUWAAbhyncxJyhRCGLcPCBx0AnNeTtfS6vfqP+lkaIVJHd49vuO4YFupY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707843630; c=relaxed/simple;
-	bh=E9lUWd+Wh6yrBIhaW0CRacr9BWP1i1bSP9JkwvYf1yk=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:To; b=rjccC+bD3CMcYMNctyPdg+UJw59vgrqNS7n/vhH2u493jIDt7Rs/nFoimbQYfS5TD+xrhl5Qyt/tFWPe5e+2n8PhFBtxsCzXuvgkK2hHe/OWgBE5xoh8pcei7/UiSwH/+1yMCoSSi96QNPYuBUxeSKBOzd5hTQD49tDS7E02btI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XLVrkRSH; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 6067EC433F1
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 13 Feb 2024 17:00:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1707843630;
-	bh=E9lUWd+Wh6yrBIhaW0CRacr9BWP1i1bSP9JkwvYf1yk=;
-	h=Subject:From:Date:To:From;
-	b=XLVrkRSHbRWO8CIKm1bERL7BWHpcFyieKnbrlhYmVb3QbpZ+WL5T9sIc/p1I3NkYe
-	 fQoRgaVZASrW01EbT6Gpdjkq1a/WHIxOJTTf/w6CdwPRu5A17k8qzuR8QISaTkKY/e
-	 HIsW6LoEurUVv/syzLw7KOLIDaj550ywSKJsthR8xLLDhyvMYZfnFDRYxOeG0d3X7F
-	 0re96Nj3xUh7r1zAKvCcvKXXHmCgGE3oaRhu/sg2BJPrhESMmrv22+SrpuV2kTT5nR
-	 qyoB7/xDdVbab4XsxbJRq5P4SRDE0vy6JlK9I0qOE0dH2ZJNTJ20jE46aqU133cd9o
-	 mO50rq6M29FRQ==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 3BCADD84BCF
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 13 Feb 2024 17:00:30 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	s=arc-20240116; t=1707847963; c=relaxed/simple;
+	bh=XFtLXNFMRLVAPAUHfGDJGYsa0BKabFaP7n/oc0+oJl4=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=jeFdXHM36OddDWkL3CEXEB0mKfKKh/FGykktJHwuL+29sGoL5KqIs78xN9YjbJlWLTpy4pWeLLV3xK7gH79aqB3o7XnGgnDOIph/4ruffrv/cNK/KyhtdZRUv/t4EqrvMHZQMjrX6aKu4Lo+hIfZHycJttLZdanVIAJlBS8Gygg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
+X-IronPort-AV: E=Sophos;i="6.06,157,1705330800"; 
+   d="scan'208";a="197718665"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie6.idc.renesas.com with ESMTP; 14 Feb 2024 03:12:39 +0900
+Received: from localhost.localdomain (unknown [10.226.93.58])
+	by relmlir6.idc.renesas.com (Postfix) with ESMTP id A75D140617B1;
+	Wed, 14 Feb 2024 03:12:35 +0900 (JST)
+From: Biju Das <biju.das.jz@bp.renesas.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Biju Das <biju.das.jz@bp.renesas.com>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+	Rob Herring <robh@kernel.org>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	linux-media@vger.kernel.org,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Biju Das <biju.das.au@gmail.com>,
+	linux-renesas-soc@vger.kernel.org
+Subject: [PATCH v3 0/5] RZ/G2L CSI/CRU improvements
+Date: Tue, 13 Feb 2024 18:12:28 +0000
+Message-Id: <20240213181233.242316-1-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -51,62 +57,41 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Subject: Patchwork summary for: linux-renesas-soc
-From: patchwork-bot+linux-renesas-soc@kernel.org
-Message-Id: 
- <170784363016.12409.11615684173282184420.git-patchwork-summary@kernel.org>
-Date: Tue, 13 Feb 2024 17:00:30 +0000
-To: linux-renesas-soc@vger.kernel.org
 
-Hello:
+This patch series aims to sync the CSI/CRU driver code with the latest
+hardware manual (R01UH0914EJ0145 Rev.1.45).
 
-The following patches were marked "mainlined", because they were applied to
-geert/renesas-devel.git (master):
+v2->v3:
+ * Added Rb tag from Laurent for patch#1.
+ * Updated commit header and description for patch#4
+ * Patch#4 split the patch into 2. Restructuring of vclk for link
+   reception is handled in patch#4 and fixing start reception procedure
+   is handled in patch#5.
+v1->v2:
+ * Updated commit description for patch#1 removing deprecated for
+   SET_RUNTIME_PM_OPS() macro.
+ * Aligned RUNTIME_PM_OPS() macro.
+ * Added Rb tag from Laurent for patch#2 and #3.
+ * Replaced usleep_range()->fsleep().
+ * Added blank space after manual in commit description for patch#{2,3}.
+ * Dropped clk-provider.h and __clk_is_enabled() as consumer clk should
+   not use it. Plan to send RFC for clk_disable_unprepare_sync() in ccf.
 
-Series: pinctrl: renesas: rzg2l: Add suspend to RAM support
-  Submitter: claudiu beznea <claudiu.beznea@tuxon.dev>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=824331
-  Lore link: https://lore.kernel.org/r/20240208135629.2840932-1-claudiu.beznea.uj@bp.renesas.com
-    Patches: [1/2] pinctrl: renesas: rzg2l: Add suspend/resume support
-             [2/2] arm64: dts: renesas: r9a08g045: add PSCI support
+Biju Das (5):
+  media: platform: rzg2l-cru: rzg2l-csi2: Switch to RUNTIME_PM_OPS()
+  media: platform: rzg2l-cru: rzg2l-ip: Add delay after D-PHY reset
+  media: platform: rzg2l-cru: rzg2l-video: Fix image processing
+    initialization
+  media: platform: rzg2l-cru: rzg2l-csi2: Restructure vclk handling
+  media: platform: rzg2l-cru: rzg2l-video: Fix start reception procedure
 
-Series: arm64: dts: renesas: r8a779h0: Add full CA76 CPU core support
-  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
-  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=822145
-  Lore link: https://lore.kernel.org/r/cover.1706796979.git.geert+renesas@glider.be
-    Patches: [1/5] arm64: dts: renesas: r8a779h0: Add L3 cache controller
-             [2/5] arm64: dts: renesas: r8a779h0: Add secondary CA76 CPU cores
-             [3/5] arm64: dts: renesas: r8a779h0: Add CPUIdle support
-             [4/5] arm64: dts: renesas: r8a779h0: Add CPU core clocks
-             [5/5] arm64: dts: renesas: r8a779h0: Add CA76 operating points
-
-Patch: arm64: dts: renesas: ulcb-kf: add regulators for PCIe ch1
-  Submitter: Wolfram Sang <wsa+renesas@sang-engineering.com>
-  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=820909
-  Lore link: https://lore.kernel.org/r/20240129135840.28988-1-wsa+renesas@sang-engineering.com
-
-Series: arm64: dts: renesas: ulcb-kf: adapt regulators to schematics
-  Submitter: Wolfram Sang <wsa+renesas@sang-engineering.com>
-  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=821074
-  Lore link: https://lore.kernel.org/r/20240129212350.33370-1-wsa+renesas@sang-engineering.com
-    Patches: [RFC,1/2] arm64: dts: renesas: ulcb-kf: adapt 1.8V HDMI regulator to schematics
-             [RFC,2/2] arm64: dts: renesas: ulcb-kf: adapt sound 5v regulator to schematics
-
-Patch: dt-bindings: soc: renesas: Preserve the order of SoCs based on their part numbers
-  Submitter: Lad, Prabhakar <prabhakar.csengg@gmail.com>
-  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=824297
-  Lore link: https://lore.kernel.org/r/20240208120455.48009-1-prabhakar.mahadev-lad.rj@bp.renesas.com
-
-
-Total patches: 11
+ .../platform/renesas/rzg2l-cru/rzg2l-cru.h    |  3 -
+ .../platform/renesas/rzg2l-cru/rzg2l-csi2.c   | 37 +++++----
+ .../platform/renesas/rzg2l-cru/rzg2l-ip.c     | 18 ++--
+ .../platform/renesas/rzg2l-cru/rzg2l-video.c  | 83 ++++++++-----------
+ 4 files changed, 62 insertions(+), 79 deletions(-)
 
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
+2.25.1
 
 
