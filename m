@@ -1,126 +1,112 @@
-Return-Path: <linux-renesas-soc+bounces-2697-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-2698-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9713853676
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 13 Feb 2024 17:47:08 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E0D338536B7
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 13 Feb 2024 18:00:33 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 082911C20EC7
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 13 Feb 2024 16:47:08 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9BE17284B08
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 13 Feb 2024 17:00:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3808260240;
-	Tue, 13 Feb 2024 16:46:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0DC4F58124;
+	Tue, 13 Feb 2024 17:00:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="O5gDcq2Z"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XLVrkRSH"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yb1-f173.google.com (mail-yb1-f173.google.com [209.85.219.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 941AE5FF0E
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 13 Feb 2024 16:46:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAFC85788C
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 13 Feb 2024 17:00:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707842787; cv=none; b=YIFKDuSeJiK/fbTMw3RY51rdKawXhoQgEveDm2mIUFVLFCvYgTPJzToEz0tluhNAfQicCtAg0HgujAKI/VJUqM/U7SbUtBcwUgpufHEWOYAtr8/TSHB+/vWGctMlINzjwQIV8O7kHXzRmATLbYeH75R9/cCloenee1R2S78QtUk=
+	t=1707843630; cv=none; b=bjwVrkwMIn4OzfZuES+k0i5RZzK3BsQnsgP5gsEiW0vllnM0qw55yHcwYTAb6BXLIw4DWx9Kuj38lgMW7nK6/Xx22g77ilR1CRwJTOJXFAewGpb/naZEjzJD2oC/nXWINnCm3YjaR/d2N0FtQZ8S/RPjM/0YK2ZQTiThRtP8Z1E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707842787; c=relaxed/simple;
-	bh=1ovtsfaMg8Lcn7chYH1W7UjE4PB2d2NiSPtnhsNJewU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=uV6eSfQQGhviuLDmYDkh0GLqIfp/FvmIXi+b7V+uGfu+lcm3YAIP/83eGaLgTTsXAuwQYs1ae9rvHIsd0dHEXvY0x4YJk5QVoN1RCPvxwD1fJlezVg1MeMt9XG2UJyN/XtvkS+cGRZOlFHQ8ntrdwOzV30KnO2YzpWgC5UxPOFU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=O5gDcq2Z; arc=none smtp.client-ip=209.85.219.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-yb1-f173.google.com with SMTP id 3f1490d57ef6-db4364ecd6aso3971659276.2
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 13 Feb 2024 08:46:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1707842784; x=1708447584; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=lExK6BFCXT7K47g38M6fcV4HVfSvaGgAkfoyjDKEgwg=;
-        b=O5gDcq2ZL3rytJ0daSoAd6Qr7gfxYl3ggPXUWr+C8q2xGwIGkAs37SdJ5SGoTD5XYy
-         Cyddt/fLY6QDatCF5o8hR2NkvwIF9Fc5Qnu1uVJ5nYkWVHNLpaM4FqyFdo+9GBfHR/X5
-         2GuGjcPUlBNeiTFlRAbUmrokhhe6laQ+1aMI2Rgim0ibfFqOCa7tOEztzncni/5dWp5s
-         NW7hmizpsV3cPKuYGLEpWxZantux/04u38R9wWhtK1BO+RQqXqW+v2wp90/RZCiFdV3D
-         sA4cQ/rdfjSDmQiMCpqdbXpAEIpxMZKbuKIHrGQP43c3MP0tZGZMAgFaQ67EXEtMHgKO
-         3brw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707842784; x=1708447584;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=lExK6BFCXT7K47g38M6fcV4HVfSvaGgAkfoyjDKEgwg=;
-        b=O1ZWKgmccGI89nSjngwAqrtp781zQ3+5R7pzI9tP3vaaTW3SHL7uqYNp5DMzISTKK1
-         hK+48LDcijJYYluDq0tc9icRrWuOnlEOPqUbBmbrxGsM6YBDh6FDsDrfD+IIQeSuHbLI
-         AprnmYY9rN/z/V7YUETVgFuzICaekTCVooAnWseWEZjCfv3Uc8slhfd3zevcWlfC5PUy
-         67czryOICB+pzBDkqXwVR/1TNR0a6s30Hfc0IND1JpL2sMjND77rkEkpMpcKVGJlgjkn
-         4JX14DGC9AMweFASVCc4oKcxWitOpoTv/WPpl88/e4Vqrzmjy3pATxy3Xcz1I2HQT9lD
-         Pa4g==
-X-Forwarded-Encrypted: i=1; AJvYcCX8sGvFq2KyKtUqafN32VtJpEDOccGwPh04cmPb+oxbtsODNdEOZwQvsREKCFWQXdwb8NDjv1cESEtSRmQ7mo+W1ifHD000fHWj90FV0me8xoM=
-X-Gm-Message-State: AOJu0YxuR2JDMTfshxdbQkzMgsqTvUD8UsO+8QYZ36TfjHcTQfKpkSir
-	B7diQqke/hW3CrvmlS9WB3Lv81dHXzwjYMzIxDQU4UsnnfmwDUNWTrkqSSTOqVwrNPjzuCNgkDj
-	qezuG9vBkGC7WjW5V6l9tijmCgJ9sWe8056GsEQ==
-X-Google-Smtp-Source: AGHT+IHRRooe3gtkPr1s5cWmjVbznagamZWAqd7ZtWG+qKZWax9GEcI3/kCDob2wpJ1buhzfIBS4wIQwi8pfHnYQwK8=
-X-Received: by 2002:a5b:701:0:b0:dc6:18d0:95b0 with SMTP id
- g1-20020a5b0701000000b00dc618d095b0mr7312298ybq.8.1707842784564; Tue, 13 Feb
- 2024 08:46:24 -0800 (PST)
+	s=arc-20240116; t=1707843630; c=relaxed/simple;
+	bh=E9lUWd+Wh6yrBIhaW0CRacr9BWP1i1bSP9JkwvYf1yk=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:To; b=rjccC+bD3CMcYMNctyPdg+UJw59vgrqNS7n/vhH2u493jIDt7Rs/nFoimbQYfS5TD+xrhl5Qyt/tFWPe5e+2n8PhFBtxsCzXuvgkK2hHe/OWgBE5xoh8pcei7/UiSwH/+1yMCoSSi96QNPYuBUxeSKBOzd5hTQD49tDS7E02btI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XLVrkRSH; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 6067EC433F1
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 13 Feb 2024 17:00:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1707843630;
+	bh=E9lUWd+Wh6yrBIhaW0CRacr9BWP1i1bSP9JkwvYf1yk=;
+	h=Subject:From:Date:To:From;
+	b=XLVrkRSHbRWO8CIKm1bERL7BWHpcFyieKnbrlhYmVb3QbpZ+WL5T9sIc/p1I3NkYe
+	 fQoRgaVZASrW01EbT6Gpdjkq1a/WHIxOJTTf/w6CdwPRu5A17k8qzuR8QISaTkKY/e
+	 HIsW6LoEurUVv/syzLw7KOLIDaj550ywSKJsthR8xLLDhyvMYZfnFDRYxOeG0d3X7F
+	 0re96Nj3xUh7r1zAKvCcvKXXHmCgGE3oaRhu/sg2BJPrhESMmrv22+SrpuV2kTT5nR
+	 qyoB7/xDdVbab4XsxbJRq5P4SRDE0vy6JlK9I0qOE0dH2ZJNTJ20jE46aqU133cd9o
+	 mO50rq6M29FRQ==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 3BCADD84BCF
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 13 Feb 2024 17:00:30 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240208202137.630281-1-krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20240208202137.630281-1-krzysztof.kozlowski@linaro.org>
-From: Ulf Hansson <ulf.hansson@linaro.org>
-Date: Tue, 13 Feb 2024 17:45:48 +0100
-Message-ID: <CAPDyKFqa8_j2-bxYa5VTzYTCqn9+Rm6X0KdS+F=NEwkqFu-5mw@mail.gmail.com>
-Subject: Re: [PATCH] mmc: renesas_sdhi: use typedef for dma_filter_fn
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>, linux-mmc@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+Subject: Patchwork summary for: linux-renesas-soc
+From: patchwork-bot+linux-renesas-soc@kernel.org
+Message-Id: 
+ <170784363016.12409.11615684173282184420.git-patchwork-summary@kernel.org>
+Date: Tue, 13 Feb 2024 17:00:30 +0000
+To: linux-renesas-soc@vger.kernel.org
 
-On Thu, 8 Feb 2024 at 21:21, Krzysztof Kozlowski
-<krzysztof.kozlowski@linaro.org> wrote:
->
-> Use existing typedef for dma_filter_fn to avoid duplicating type
-> definition.
->
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Hello:
 
-Applied for next, thanks!
+The following patches were marked "mainlined", because they were applied to
+geert/renesas-devel.git (master):
 
-Kind regards
-Uffe
+Series: pinctrl: renesas: rzg2l: Add suspend to RAM support
+  Submitter: claudiu beznea <claudiu.beznea@tuxon.dev>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=824331
+  Lore link: https://lore.kernel.org/r/20240208135629.2840932-1-claudiu.beznea.uj@bp.renesas.com
+    Patches: [1/2] pinctrl: renesas: rzg2l: Add suspend/resume support
+             [2/2] arm64: dts: renesas: r9a08g045: add PSCI support
+
+Series: arm64: dts: renesas: r8a779h0: Add full CA76 CPU core support
+  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
+  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=822145
+  Lore link: https://lore.kernel.org/r/cover.1706796979.git.geert+renesas@glider.be
+    Patches: [1/5] arm64: dts: renesas: r8a779h0: Add L3 cache controller
+             [2/5] arm64: dts: renesas: r8a779h0: Add secondary CA76 CPU cores
+             [3/5] arm64: dts: renesas: r8a779h0: Add CPUIdle support
+             [4/5] arm64: dts: renesas: r8a779h0: Add CPU core clocks
+             [5/5] arm64: dts: renesas: r8a779h0: Add CA76 operating points
+
+Patch: arm64: dts: renesas: ulcb-kf: add regulators for PCIe ch1
+  Submitter: Wolfram Sang <wsa+renesas@sang-engineering.com>
+  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=820909
+  Lore link: https://lore.kernel.org/r/20240129135840.28988-1-wsa+renesas@sang-engineering.com
+
+Series: arm64: dts: renesas: ulcb-kf: adapt regulators to schematics
+  Submitter: Wolfram Sang <wsa+renesas@sang-engineering.com>
+  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=821074
+  Lore link: https://lore.kernel.org/r/20240129212350.33370-1-wsa+renesas@sang-engineering.com
+    Patches: [RFC,1/2] arm64: dts: renesas: ulcb-kf: adapt 1.8V HDMI regulator to schematics
+             [RFC,2/2] arm64: dts: renesas: ulcb-kf: adapt sound 5v regulator to schematics
+
+Patch: dt-bindings: soc: renesas: Preserve the order of SoCs based on their part numbers
+  Submitter: Lad, Prabhakar <prabhakar.csengg@gmail.com>
+  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=824297
+  Lore link: https://lore.kernel.org/r/20240208120455.48009-1-prabhakar.mahadev-lad.rj@bp.renesas.com
 
 
-> ---
->  drivers/mmc/host/renesas_sdhi.h | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/mmc/host/renesas_sdhi.h b/drivers/mmc/host/renesas_sdhi.h
-> index c1fb9740eab0..586f94d4dbfd 100644
-> --- a/drivers/mmc/host/renesas_sdhi.h
-> +++ b/drivers/mmc/host/renesas_sdhi.h
-> @@ -9,6 +9,7 @@
->  #ifndef RENESAS_SDHI_H
->  #define RENESAS_SDHI_H
->
-> +#include <linux/dmaengine.h>
->  #include <linux/platform_device.h>
->  #include "tmio_mmc.h"
->
-> @@ -63,7 +64,7 @@ struct renesas_sdhi_of_data_with_quirks {
->  struct renesas_sdhi_dma {
->         unsigned long end_flags;
->         enum dma_slave_buswidth dma_buswidth;
-> -       bool (*filter)(struct dma_chan *chan, void *arg);
-> +       dma_filter_fn filter;
->         void (*enable)(struct tmio_mmc_host *host, bool enable);
->         struct completion dma_dataend;
->         struct tasklet_struct dma_complete;
-> --
-> 2.34.1
->
+Total patches: 11
+
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
+
 
