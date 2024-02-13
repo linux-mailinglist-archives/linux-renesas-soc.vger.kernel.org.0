@@ -1,161 +1,187 @@
-Return-Path: <linux-renesas-soc+bounces-2732-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-2733-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D7DD853EBE
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 13 Feb 2024 23:32:47 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9113F853ED9
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 13 Feb 2024 23:37:47 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7F7241C20A57
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 13 Feb 2024 22:32:46 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 49AE2284948
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 13 Feb 2024 22:37:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3F35960B9D;
-	Tue, 13 Feb 2024 22:32:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E3F676215D;
+	Tue, 13 Feb 2024 22:37:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RHhdAusz"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oD1E3yuL"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16FD958138;
-	Tue, 13 Feb 2024 22:32:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B600E12E59;
+	Tue, 13 Feb 2024 22:37:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707863564; cv=none; b=F/szNUs6a/t9AfGTkg+1sVY8Cx0zUfUuc8STxMrKtJ73+axAQFo53YzcU/q0XGSkPSVVOQiqM0IBOLl0fd6KH3IQe6nvJBg4K50DRaR+FQOFLKLv8OIwo6Y807iA5cpXXvtRFv+nThiQtIVTU+E6+7tAzym6YxHUwsSIvlZ3V2s=
+	t=1707863861; cv=none; b=Ndj+mjLmeELMy5iQtNm7JyMndDr7aRH/ukBVzz+ZasXY5PiL1mWg6WyUQX3lXnVJYguKfGtSVA76kv76MFmpJDXmH9/7LfJ36X0oQqZrbli7aC/fu9IHWAM3Qk2Jz3mwzPhGewdiwNfKGraELqJdtKP2wARoGBORaEXe/POMMmw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707863564; c=relaxed/simple;
-	bh=f44nsEhJCDnu3Cc9NTmCp54suvfdxHMTdGmgrDZ1tbs=;
+	s=arc-20240116; t=1707863861; c=relaxed/simple;
+	bh=yNrPFrOQuZ++lycKgUdj2Y51wk4eR9u/KT8Qrxg7YqY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tVt2i9Xl1Hm3J9kNlv8VJo8Mti2+P748O0DhI2FSOIOIVAMlaobm7AuyuyS3pciTKKvLPGGLQCk796ch0u40TlnNXI0HlmeaD0OgmP3kSsCJu4l+6io5Ja2TqGitd9qk4M58AEAnWA5n7WxqkcjgSBtiwzFOKxA193pIZXVP7lc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RHhdAusz; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0BBAEC433C7;
-	Tue, 13 Feb 2024 22:32:42 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=gyynKuP/N5KZe8YVnDIYfIscIU8mmuceR3N4lqs7//mQu9fXl5aG77abY5gubuhQmI0oAXc8SDr5mKmhcRXnP4TJ+jb0O+p8estmFbZjUDv7e5C6NRs9MvXzkQumtPJwL+dJr6UuuZe+FsBHNIHAJmX6pkw6cGgZsIYYMACQ1wg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oD1E3yuL; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 11B37C433C7;
+	Tue, 13 Feb 2024 22:37:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1707863563;
-	bh=f44nsEhJCDnu3Cc9NTmCp54suvfdxHMTdGmgrDZ1tbs=;
+	s=k20201202; t=1707863861;
+	bh=yNrPFrOQuZ++lycKgUdj2Y51wk4eR9u/KT8Qrxg7YqY=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=RHhdAusz6mzJXaXDBeRiOuRJFPHZx5UgvjFi6wbjllvvGSYUrVQFMg0sfDG0oSq/W
-	 K/WTAKpIdweYz76J6+ddl0HaNnxiAVWaijWF2NSS98X61lZPdt4wawLCuFYCVm2QTS
-	 v2EdmaQ+BNYVRe4eEI+CENSl3hj2kJ05PfVPGkuSdMDuICBuCIGiSHxpxetHClaif0
-	 BU0UWQxdT0DmnGCaoKBMKFcWodffvgpERaawo1A43DVuH0F/ZLjUz1B+5M4AuLPIa7
-	 Tp3PFPf+5XCK3mZOkvk7NrkvVOJQT4mXD5YEXF/3oVsqARPQjVjod543Bq/5LDOTxX
-	 f8IbnGpw5W4uA==
-Date: Tue, 13 Feb 2024 23:32:40 +0100
-From: Wolfram Sang <wsa@kernel.org>
-To: Biju Das <biju.das.jz@bp.renesas.com>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Biju Das <biju.das.au@gmail.com>, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH 2/2] media: i2c: ov5645: Add a small delay after writes
- in ov5645_set_register_array()
-Message-ID: <ZcvuCItn1vO6e2CZ@shikoro>
-Mail-Followup-To: Wolfram Sang <wsa@kernel.org>,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Biju Das <biju.das.au@gmail.com>, linux-renesas-soc@vger.kernel.org
-References: <20240213140240.159057-1-biju.das.jz@bp.renesas.com>
- <20240213140240.159057-3-biju.das.jz@bp.renesas.com>
+	b=oD1E3yuLtKTkeF6IeP6efNrRzU0H2Nm4tscRy3huHE2RDEBD2xVhYD8wAgZVSabx4
+	 4mE22l8RCRMUyK8nnYaRR3NfnphIDNexSvgNJIXz8QgvvhQb6VZeQSwaMjFelGBQ4t
+	 VXXT9TcXKNbPGCz137HN0I+qLUjffa/9N9rqqU5CxgeMBlpveXl6Ev+GNzKTQ8Lf8X
+	 I4mgfQLcw6mtIlk4sx0yVJzDCnVbB7kxobyWI5Dv2xNCd34S27Qzga9deZW1WYeakR
+	 8cJguZwBbtpJe6yyZsNYuxPnqmFxodbvHfJ66nIwqFUvYbwJ+cuvUCttkO7qFxFWSo
+	 kTZN5p5DynPhQ==
+Date: Tue, 13 Feb 2024 16:37:38 -0600
+From: Rob Herring <robh@kernel.org>
+To: Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: Re: [PATCH v3] dt-bindings: renesas: Document preferred compatible
+ naming
+Message-ID: <20240213223738.GA2506718-robh@kernel.org>
+References: <20240213192340.2786430-1-niklas.soderlund+renesas@ragnatech.se>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="1ax8QMUNX5dvUDdf"
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20240213140240.159057-3-biju.das.jz@bp.renesas.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240213192340.2786430-1-niklas.soderlund+renesas@ragnatech.se>
 
-
---1ax8QMUNX5dvUDdf
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-Hi Biju,
-
-On Tue, Feb 13, 2024 at 02:02:40PM +0000, Biju Das wrote:
-> Since OV5645 is showing issues @400kHz, it makes sense to add a small
-> delay after register writes for settling the register values. So introduce
-> a small delay by adding a read() after write() and also add a debug code
-> for data mismatch.
-
-That looks not right to me. A write reg should succeed. If it doesn't,
-then either the bus speed needs to be reduced on that board, or the
-frequency should be measured (maybe the clock on the bus is too fast and
-bigger than 400kHz?), or maybe the chip has issues so we need delays
-here and there. Just printing debug output if there is a mismatch is
-nothing for upstream as well, I'd say. It helps to find out after which
-register writes we need delays, but this is only for development, no?
-
-All the best,
-
-   Wolfram
-
->=20
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+On Tue, Feb 13, 2024 at 08:23:40PM +0100, Niklas Söderlund wrote:
+> Compatibles can come in two formats. Either "vendor,ip-soc" or
+> "vendor,soc-ip". Add a DT schema file documenting Renesas preferred
+> policy and enforcing it for all new compatibles, except few existing
+> patterns.
+> 
+> Suggested-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 > ---
->  drivers/media/i2c/ov5645.c | 9 +++++++++
->  1 file changed, 9 insertions(+)
->=20
-> diff --git a/drivers/media/i2c/ov5645.c b/drivers/media/i2c/ov5645.c
-> index a5cc959d535e..ea9b7c610f2d 100644
-> --- a/drivers/media/i2c/ov5645.c
-> +++ b/drivers/media/i2c/ov5645.c
-> @@ -624,11 +624,20 @@ static int ov5645_set_register_array(struct ov5645 =
-*ov5645,
->  {
->  	unsigned int i;
->  	int ret;
-> +	u8 val;
-> =20
->  	for (i =3D 0; i < num_settings; ++i, ++settings) {
->  		ret =3D ov5645_write_reg(ov5645, settings->reg, settings->val);
->  		if (ret < 0)
->  			return ret;
+> * Changes since v2
+> - Improve the select so it matches on any compatible containing a
+>   component specific Renesas value.
+> - Make the regexps more compact.
+> - Define MaxItems to allow the increased selection to work.
+> - Add rmobile and shmobile prefixes.
+> - I did not take Rob's ack from v2 as the schema changed a lot after
+>   Geerts review.
+> 
+> * Changes since v1
+> - Split the "SoC agnostic compatibles" section into two to make it's
+>   intent clearer.
+> - Improved the documentation for each group of compatibles.
+> - Reduced the number of regexp to create a larger target area. As
+>   suggested by Krzysztof the goal is not to validate each SoC name but
+>   check for the correct order of SoC-IP.
+> 
+> * Changes since RFC
+> - Moved to Documentation/devicetree/bindings/soc/renesas.
+> - Changed the pattern in the initial select to match on .*-.*.
+> - Added a lot of missing compatible values.
+> ---
+>  .../bindings/soc/renesas/renesas-soc.yaml     | 72 +++++++++++++++++++
+>  1 file changed, 72 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/soc/renesas/renesas-soc.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/soc/renesas/renesas-soc.yaml b/Documentation/devicetree/bindings/soc/renesas/renesas-soc.yaml
+> new file mode 100644
+> index 000000000000..57c11022d793
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/soc/renesas/renesas-soc.yaml
+> @@ -0,0 +1,72 @@
+> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/soc/renesas/renesas-soc.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
 > +
-> +		ret =3D ov5645_read_reg(ov5645, settings->reg, &val);
-> +		if (ret < 0)
-> +			return ret;
+> +title: Renesas SoC compatibles naming convention
 > +
-> +		if (val !=3D settings->val)
-> +			dev_dbg(ov5645->dev, "Data mismatch reg=3D%x val=3D%x/%x\n",
-> +				settings->reg, settings->val, val);
->  	}
-> =20
->  	return 0;
-> --=20
-> 2.25.1
->=20
->=20
+> +maintainers:
+> +  - Geert Uytterhoeven <geert+renesas@glider.be>
+> +  - Niklas Söderlund <niklas.soderlund@ragnatech.se>
+> +
+> +description: |
+> +  Guidelines for new compatibles for SoC blocks/components.
+> +  When adding new compatibles in new bindings, use the format::
+> +    renesas,SoC-IP
+> +
+> +  For example::
+> +   renesas,r8a77965-csi2
+> +
+> +  When adding new compatibles to existing bindings, use the format in the
+> +  existing binding, even if it contradicts the above.
+> +
+> +select:
+> +  properties:
+> +    compatible:
+> +      contains:
+> +        pattern: "^renesas,.+-.+$"
+> +  required:
+> +    - compatible
+> +
+> +properties:
+> +  compatible:
+> +    maxItems: 4
 
---1ax8QMUNX5dvUDdf
-Content-Type: application/pgp-signature; name="signature.asc"
+'minItems: 1' should fix the error reported.
 
------BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmXL7gcACgkQFA3kzBSg
-KbY49A//QAGS+/g8wUKqLaGWPgyVMCma3OfVDm6emFMDBIWFb1bolYY4PcF9AVB1
-rZsqlIJwE5623rcTpeSE/XoMwQPDoUeVAgATpLCKFvS2eyBcgBJsPNOmqTCobWYj
-opG3fd9Pbp5qjJbgvJLYrLAtyOZg6+A/CvL8mpW5PhQZioz2Dnzx/XF1l4I/HChG
-jWdOHBrWpHFSrTLZdw7V8iHaWFUUYMCdVs+r2T8D76jwNHO93s7VJtmHJJHLRO2y
-QUzSlGj1pEGZKDrwNlUcdNhTjZP9NToohWqpq4E4R0BnfzwqWpHw9TnuL7/zeqee
-zLvCc9Y7pTXveiou/nBvvJZSQlBDx49xfaFDMhJq+sW5TAfVKrfGkbLdjlv1gI0S
-sramuYuMv5Vyv7OzcYRjIipVlV4dGTXs+PB6LwwZhP64nN8/gN1WNp7bc2Z8pnW6
-z1t03MSJBq+zeJPeciEFICNH8yhEQzT93uCZ4FaIXGBmkrWieAr58PYgBnPigo7J
-fQo37f8Edv58xwAnaDIS1XapTBSsgdmG1xCwTPG5X7iof/1gpOAvVjVxgeIK9VnC
-Njsmy/aLmlk6CavvrQuIcwJxCUFhLocFFDY+IRaWUoslKvsSGi68wZCRZRqbPv/o
-CYFBw5TFbvZprphlwUDfN6uMfpow4uHdch+g858FTy6cHBiZujU=
-=lw4c
------END PGP SIGNATURE-----
-
---1ax8QMUNX5dvUDdf--
+> +    items:
+> +      anyOf:
+> +        # Preferred naming style for compatibles of SoC components
+> +        - pattern: "^renesas,(emev2|r(7s|8a|9a)[a-z0-9]+|rcar|rmobile|rz[a-z0-9]*|sh(7[a-z0-9]+)?|mobile)-[a-z0-9-]+$"
+> +        - pattern: "^renesas,(condor|falcon|gr-peach|salvator|sk-rz|smar(c(2)?)?|spider|white-hawk)(.*)?$"
+> +
+> +        # Legacy compatibles
+> +        #
+> +        # New compatibles are not allowed.
+> +        - pattern: "^renesas,(can|cpg|dmac|du|(g)?ether(avb)?|gpio|hscif|(r)?i[i2]c|imr|intc|ipmmu|irqc|jpu|mmcif|msiof|mtu2|pci(e)?|pfc|pwm|[rq]spi|rcar_sound|sata|scif[ab]*|sdhi|thermal|tmu|tpu|usb(2|hs)?|vin|xhci)-[a-z0-9-]+$"
+> +        - pattern: "^renesas,(d|s)?bsc(3)?-(r8a73a4|r8a7740|sh73a0)$"
+> +        - pattern: "^renesas,em-(gio|sti|uart)$"
+> +        - pattern: "^renesas,fsi2-(r8a7740|sh73a0)$"
+> +        - pattern: "^renesas,hspi-r8a777[89]$"
+> +        - pattern: "^renesas,sysc-(r8a73a4|r8a7740|rmobile|sh73a0)$"
+> +        - enum:
+> +            - renesas,imr-lx4
+> +            - renesas,mtu2-r7s72100
+> +
+> +        # None SoC component compatibles
+> +        #
+> +        # Compatibles with the Renesas vendor prefix that do not relate to any SoC
+> +        # component are OK. New compatibles are allowed.
+> +        - enum:
+> +            - renesas,smp-sram
+> +
+> +        # Do not fail compatibles not matching the select pattern
+> +        #
+> +        # Some SoC components in addition to a Renesas compatible list
+> +        # compatibles not related to Renesas. The select pattern for this
+> +        # schema hits all compatibles that have at lest one Renesas compatible
+> +        # and try to validate all values in that compatible array, allow all
+> +        # that don't match the schema select pattern. For example,
+> +        #
+> +        #   compatible = "renesas,r9a07g044-mali", "arm,mali-bifrost";
+> +        - pattern: "^(?!renesas,.+-.+).+$"
+> +
+> +additionalProperties: true
+> -- 
+> 2.43.0
+> 
 
