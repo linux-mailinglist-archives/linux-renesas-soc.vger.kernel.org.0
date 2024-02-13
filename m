@@ -1,201 +1,210 @@
-Return-Path: <linux-renesas-soc+bounces-2664-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-2665-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8A0985297E
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 13 Feb 2024 07:59:21 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id EEC2D852B32
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 13 Feb 2024 09:30:13 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 0AC15B2355B
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 13 Feb 2024 06:59:19 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 63FE11F213CB
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 13 Feb 2024 08:30:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A0F9114F7A;
-	Tue, 13 Feb 2024 06:59:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="UdBo+yNJ"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A4B32134CB;
+	Tue, 13 Feb 2024 08:30:11 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
+Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com [209.85.128.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5072F14A94
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 13 Feb 2024 06:59:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6729E18AEA;
+	Tue, 13 Feb 2024 08:30:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707807552; cv=none; b=Nwq+geoej5CVaMYlxpCNRhr3WyzCR5fv5pOUPp0c9qAjY8hnBawDt0mo8+4tiED+oTw24JzyaM+bJqmmulvIjCLUulcrxukaNkOKpLzJAI2ObsUyaUjnW59P6vlizZjs6efhLJnEpHDlQW+0fGHG0RaEp6/idsnIOhHuIj1/FyQ=
+	t=1707813011; cv=none; b=rLyNVc2pM9ErMql8fyYf+pNrZEI7Z1Xs1A03cl9T/N2fY84kwWGQMF5CvzqIeVUweg+r9QEznWgKGHwPZHhoEUgEJ8z9PQaXzQeW9bWrow+CKViOGKoyqvOUe67qAKyP7V4zkeDSoHX559+zMZUFuP8sQ/2ccWX+l0Ng/o8w08Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707807552; c=relaxed/simple;
-	bh=2PCqVnulVRtxfKX+jOse4rhJ+xP6/Ap/a+/UZoa0fQs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=p8ioJPJDIsuwKOaqzYzkWVu+Hv89WFmO0+JtCtEtK8QIazDTGIIO38cCQ8aSi5s0DlFs7Akp2qWRzGk0vqka1QZGytX6jKZt3wWSFXdVmvj6tRRogfXnQmVWTTYtm0XmQd+/fT9ajnw7QMK2NUp0H1dleaH5253et1GVdm4zvsU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=UdBo+yNJ; arc=none smtp.client-ip=209.85.167.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
-Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-5116b540163so5819208e87.1
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 12 Feb 2024 22:59:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1707807548; x=1708412348; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=iCpik2vbbKYs8wNuTcz5Utg4u+f8GdmePgUExwK1BdQ=;
-        b=UdBo+yNJ9QLaKC/+6VdknpwLvLi6xWcWgQHhSDrCDAQm2lKjm79jQ5gqtRu6K/cQCq
-         IJ2SThK3ClzIvQsNpu0KHN8qj+G1OO5YxtBHhSjg/N8kb65vVFbfrRqU9pl39mRYG36d
-         u4RgDBUQifw9F6kPCt+eqpOv4YJRTZUlQtdYpqboetuqQqfjJ9nmWUVHEDkSMPJQerFT
-         3qEOvHZrh65430mgn0hoZt7yVFDEeqwY0wnCO/pFsq/aPd7K0i/Z8g7/TlJaUs+uYRj8
-         alkYc2kCTIcynuhWuQcT8qGHNoSxa2pt5lGndE0FfiRa+nFjvC0EKye3t/Bl5Sq4hSXj
-         3XPA==
+	s=arc-20240116; t=1707813011; c=relaxed/simple;
+	bh=swkjVsrtZC/GxJpxFGctjL9h4eESDQoNBbGe/NRYMJc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=YUpHbU6GYBywRriDGJbIpGiqsaCaRFLANhbMqWmVTxTGa0wnZtb3CubS5qQOlgiqjm5xoRYGw8atube4+AonbcQr/W6IkxWRKLHVIlEaACAIFbezJaXsbpFWcbwvzkGySyldxx8LxedjsUTgVBXxFEzqKQWLZbP8+FuIQsJvaGE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-6002317a427so36574077b3.2;
+        Tue, 13 Feb 2024 00:30:09 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707807548; x=1708412348;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=iCpik2vbbKYs8wNuTcz5Utg4u+f8GdmePgUExwK1BdQ=;
-        b=jgCTJBxatv6rLOj15qRXk/OfQa02VmQLqtSWvasjLOSEH+eDxpGHdGXm0xfFl0Cxvm
-         RR37tcaun8TrN3Kr0rVqFJ44hlB/hDDRPGXyOvS8c5mR4J3kpMJIgNRfLzGLr8uy+aFM
-         gwhjQSAupbJXekmt6J4Jj2kkSB/kC6aRhMv/vxmUba+GeHgiq6GyD1yhg46ujWPyK9j8
-         NJqTGp1hsIiB9e9CYcnR3WmaJnkLW4uOoWcIbb9bhXKXqFrRU9IwLi2D1580bSdtPDIU
-         8p2qD/eK+gQhEcDSQf9hlOhTNwO3hu1hNn3gSMpUP/pvLxX1Nltdx2e600jXZyHH44lO
-         NPYg==
-X-Forwarded-Encrypted: i=1; AJvYcCUk0/7rOuOaQpDHKvcLZgX4TX4zDFz8cApilEdcuAnPCwCarvf/F8QVX8rooX8obrj4tOyLGSnhzSAtJK5SgGFw/s+Y7dFeHwPovgFlpGDzRho=
-X-Gm-Message-State: AOJu0YzPFz3zqde8gZLpdcFD0EtGIT0M5Chx8CQceYpTcG1/LOtH5kO5
-	DS6lilHaL8apBbGeGzjaci0lMY4LCaQ6RQVFd3hkbNAfF+L4mb6aQz1H+U25Lqo=
-X-Google-Smtp-Source: AGHT+IGjoR6hnuW3OcU7aaaNQQGAb1sYfgR0pKAvTNOwt2TZKbeYNaZcfd7E/xxMPgIQxROm5H3D5g==
-X-Received: by 2002:ac2:4ac9:0:b0:511:7b35:9563 with SMTP id m9-20020ac24ac9000000b005117b359563mr5107781lfp.19.1707807548051;
-        Mon, 12 Feb 2024 22:59:08 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCUKCgnNjA3S3HjaBNCWy4Q7NMoxP44y3hLRWT+ar5k56QUm1zE49O7IEG5sLc+/NOhJ4fpoY92In49wVsupq47PjBfjKOC1EC3TWATyuRXUBqfk0PLnLtrZZkzQ+XXO/B0SJzetreNhVaRLYcelZp/CFRvvcs0gEveAmnsFX1wyPjQah3lnSGQ1icwmCaZSeRliPh4EkMWpElkETJT+PWZw7iLF4gjH76HC2NquanHezRgt8jIV4IarqOBuFjrARt+VERH6J9Nilmw5kZhgQrk4q+/Z0O8FazdWUz+etl8bDvT8bVetEjxxMfEViDo3gfomPzsh+PG8c6A=
-Received: from [192.168.50.4] ([82.78.167.20])
-        by smtp.gmail.com with ESMTPSA id r17-20020a05600c35d100b004106c2278eesm10839306wmq.0.2024.02.12.22.59.07
+        d=1e100.net; s=20230601; t=1707813008; x=1708417808;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=u4+eAeHwRegoemVAl1qDh1VQxi5K9KI30MgGUZ7mnVY=;
+        b=E/rUI9BSZAhaLYElPr2a1yvmzsijGWFXaK+u/KGCA3bupehtuibukkamkwM+cK05BL
+         uaFNpYHAsnML1Cl+hHtLNCH09MkPjzWGWca8EuzpITY5M0APVeYzhbCM+XKMVlR0OXFG
+         Z3mJicc3akfulmxfjV9k7siLw2ljsAW0szerU8aTPUngsgbStkRHTqA1ydn6uVHtTMsO
+         68zw3Xu+/b8TBEvqXd5R0RAmFsuZ8xnrF3TFG8RTWrcMsu2BftzbG4Ut0CRXKEysZkCr
+         84+KFIZ4U01buMLnF5Bfiq1pDRL0xz7hXs7TUklZy6sIQpfxgeqGEQBn5jp+UO9XN8qU
+         WLoQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUnmKLAIZQI9xNirV6tBh+GdvIyJzWxMSn9xV4ZStdlktarpeuCgCD23XFVkwuhXYum93Hg4+vhNm25KEtkPVMrEspErEBy4dNRXsjjeURbqwDFVpjxksTK/QVy+ZTgtIgR/JzENbbbNZzuC0LQ
+X-Gm-Message-State: AOJu0Ywu7WJeqwbOxGkxS2Zt+42jnb1WNg4YTNgdSqdkSAyFE/2R0ON8
+	wSWi00EidOSlbKrfrFHHPYVlsrybAhAnIMU/Xopd4Ya3VHl3o+40zokvFs2GWwI=
+X-Google-Smtp-Source: AGHT+IE+YMrT5RcjIrNbbMfoyp/nzdSJpVPkJwphGVkBzGb6rjYVkTemAkluEOyHADdecwa8IKbTvg==
+X-Received: by 2002:a81:69d4:0:b0:607:92a7:a99b with SMTP id e203-20020a8169d4000000b0060792a7a99bmr135524ywc.8.1707813008007;
+        Tue, 13 Feb 2024 00:30:08 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCUPZjAKHg2vNIJ0gGtILLnQ8K5ogC/AodXeoDxCw/K0rBXvo1H5pG/IxOt7JfsYDdybRLXbCZyZs1gIGIWwFkM76EZWPW0UJvaPddJkNTn43i0xd1VIJSkVLinGiRZnbcEYzu595T778KEP3IW1
+Received: from mail-yb1-f174.google.com (mail-yb1-f174.google.com. [209.85.219.174])
+        by smtp.gmail.com with ESMTPSA id a67-20020a0df146000000b006042345d3e2sm1621167ywf.141.2024.02.13.00.30.07
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 12 Feb 2024 22:59:07 -0800 (PST)
-Message-ID: <6a024193-e8bd-4458-9fb4-2aa44e1f4513@tuxon.dev>
-Date: Tue, 13 Feb 2024 08:59:05 +0200
+        Tue, 13 Feb 2024 00:30:07 -0800 (PST)
+Received: by mail-yb1-f174.google.com with SMTP id 3f1490d57ef6-dcc4de7d901so494553276.0;
+        Tue, 13 Feb 2024 00:30:07 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCUNWsp4RRtmTr5kMfncCxP/BMCRe1t7wRxMmGDYrkAUjICJ4CS8ViKEo/nLermvOYEpvfrwL3Bpdy61onymCCTyemyR2edjBk/ih3asx0Wc9Biju4haXjnqOTzgxNOmdJe/iiJKLxEwSU9dMKfs
+X-Received: by 2002:a25:db4b:0:b0:dc6:ff66:87a8 with SMTP id
+ g72-20020a25db4b000000b00dc6ff6687a8mr7314237ybf.51.1707813007096; Tue, 13
+ Feb 2024 00:30:07 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v2 5/5] net: ravb: Add runtime PM support
-Content-Language: en-US
-To: Sergey Shtylyov <s.shtylyov@omp.ru>, davem@davemloft.net,
- edumazet@google.com, kuba@kernel.org, pabeni@redhat.com
-Cc: netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
- linux-kernel@vger.kernel.org,
- Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-References: <20240209170459.4143861-1-claudiu.beznea.uj@bp.renesas.com>
- <20240209170459.4143861-6-claudiu.beznea.uj@bp.renesas.com>
- <3808dee0-b623-b870-7d96-94cc5fc12350@omp.ru>
- <7d0ae75d-2fdb-47cb-b57b-20ee477d6081@tuxon.dev>
- <1990e269-44fe-b45f-09b5-0c84f21778fc@omp.ru>
-From: claudiu beznea <claudiu.beznea@tuxon.dev>
-In-Reply-To: <1990e269-44fe-b45f-09b5-0c84f21778fc@omp.ru>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20240127121937.2372098-1-niklas.soderlund+renesas@ragnatech.se>
+ <CAMuHMdUJ0U9qnxtdJmVUJQqRhbmu0rmOxpyDZ8Lp=+hv=Oe4Og@mail.gmail.com> <20240212233836.GE1870743@ragnatech.se>
+In-Reply-To: <20240212233836.GE1870743@ragnatech.se>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 13 Feb 2024 09:29:55 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdXBYfi==T_EzbagJFVYkvYU=usEsru1T7Z=rBHFHt-CMg@mail.gmail.com>
+Message-ID: <CAMuHMdXBYfi==T_EzbagJFVYkvYU=usEsru1T7Z=rBHFHt-CMg@mail.gmail.com>
+Subject: Re: [PATCH v2] dt-bindings: renesas: Document preferred compatible naming
+To: =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+Cc: Rob Herring <robh+dt@kernel.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
+	devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+Hi Niklas,
 
+On Tue, Feb 13, 2024 at 12:38=E2=80=AFAM Niklas S=C3=B6derlund
+<niklas.soderlund+renesas@ragnatech.se> wrote:
+> On 2024-02-12 20:36:12 +0100, Geert Uytterhoeven wrote:
+> > On Sat, Jan 27, 2024 at 1:20=E2=80=AFPM Niklas S=C3=B6derlund
+> > <niklas.soderlund+renesas@ragnatech.se> wrote:
+> > > Compatibles can come in two formats. Either "vendor,ip-soc" or
+> > > "vendor,soc-ip". Add a DT schema file documenting Renesas preferred
+> > > policy and enforcing it for all new compatibles, except few existing
+> > > patterns.
+> > >
+> > > Suggested-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> > > Signed-off-by: Niklas S=C3=B6derlund <niklas.soderlund+renesas@ragnat=
+ech.se>
+> > > ---
+> > > * Changes since v1
+> > > - Split the "SoC agnostic compatibles" section into two to make it's
+> > >   intent clearer.
+> > > - Improved the documentation for each group of compatibles.
+> > > - Reduced the number of regexp to create a larger target area. As
+> > >   suggested by Krzysztof the goal is not to validate each SoC name bu=
+t
+> > >   check for the correct order of SoC-IP.
+> >
+> > Thanks for the update!
+> >
+> > > --- /dev/null
+> > > +++ b/Documentation/devicetree/bindings/soc/renesas/renesas-soc.yaml
 
-On 12.02.2024 22:19, Sergey Shtylyov wrote:
-> On 2/12/24 10:56 AM, claudiu beznea wrote:
-> 
-> [...]
-> 
->>>> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
->>>>
->>>> Add runtime PM support for the ravb driver. As the driver is used by
->>>> different IP variants, with different behaviors, to be able to have the
->>>> runtime PM support available for all devices, the preparatory commits
->>>> moved all the resources parsing and allocations in the driver's probe
->>>> function and kept the settings for ravb_open(). This is due to the fact
->>>> that on some IP variants-platforms tuples disabling/enabling the clocks
->>>> will switch the IP to the reset operation mode where registers' content is
->>>
->>>    This pesky "registers' content" somehow evaded me -- should be "register
->>> contents" as well...
->>>
->>>> lost and reconfiguration needs to be done. For this the rabv_open()
->>>> function enables the clocks, switches the IP to configuration mode, applies
->>>> all the registers settings and switches the IP to the operational mode. At
->>>> the end of ravb_open() IP is ready to send/receive data.
->>>>
->>>> In ravb_close() necessary reverts are done (compared with ravb_open()), the
->>>> IP is switched to reset mode and clocks are disabled.
->>>>
->>>> The ethtool APIs or IOCTLs that might execute while the interface is down
->>>> are either cached (and applied in ravb_open()) or rejected (as at that time
->>>> the IP is in reset mode). Keeping the IP in the reset mode also increases
->>>> the power saved (according to the hardware manual).
->>>>
->>>> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
->>>> Reviewed-by: Sergey Shtylyov <s.shtylyov@omp.ru>
->>> [...]
->>>
->>>> diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
->>>> index f4be08f0198d..5bbfdfeef8a9 100644
->>>> --- a/drivers/net/ethernet/renesas/ravb_main.c
->>>> +++ b/drivers/net/ethernet/renesas/ravb_main.c
->>>> @@ -1939,16 +1939,21 @@ static int ravb_open(struct net_device *ndev)
->>>>  {
->>>>  	struct ravb_private *priv = netdev_priv(ndev);
->>>>  	const struct ravb_hw_info *info = priv->info;
->>>> +	struct device *dev = &priv->pdev->dev;
->>>>  	int error;
->>>>  
->>>>  	napi_enable(&priv->napi[RAVB_BE]);
->>>>  	if (info->nc_queues)
->>>>  		napi_enable(&priv->napi[RAVB_NC]);
->>>>  
->>>> +	error = pm_runtime_resume_and_get(dev);
->>>> +	if (error < 0)
->>>> +		goto out_napi_off;
->>>
->>>    Well, s/error/ret/ -- it would fit better here...
->>
->> Using error is the "trademark" of this driver, it is used all around the
->> driver. I haven't introduced it here, I don't like it. The variable error
-> 
->    Heh, because it's my usual style. Too bad you don't like it... :-)
-> 
->> in this particular function is here from the beginning of the driver.
-> 
->    I think it's well suited for the functions returning either 0 or a
-> (negative) error code. It's *if* (error < 0) that confuses me (as this
-> API can return positive numbers in case of success...
-> 
->> So, I don't consider changing error to ret is the scope of this series.
-> 
->    OK, you're probably right... are you going to respin the series because
-> of Biju's comments?
+> > > +properties:
+> > > +  compatible:
+> > > +    oneOf:
+> > > +      # Preferred naming style for compatibles of SoC components
+> > > +      - pattern: "^renesas,emev2-[a-z0-9-]+$"
+> > > +      - pattern: "^renesas,r(7s|8a|9a)[a-z0-9]+-[a-z0-9-]+$"
+> > > +      - pattern: "^renesas,rcar-[a-z0-9-]+$"
+> > > +      - pattern: "^renesas,rz[a-z0-9]*-[a-z0-9-]+$"
+> > > +      - pattern: "^renesas,sh-[a-z0-9-]+$"
+> > > +      - pattern: "^renesas,sh7[a-z0-9]+-[a-z0-9-]+$"
+> >
+> > I guess it's not worth adding rmobile and shmobile prefixes?
+>
+> Maybe we start with this and see how it goes?
 
-Yes!
+Sure.
 
-Thank you,
-Claudiu Beznea
+>
+> >
+> > > +      # Fixed legacy compatibles
+> > > +      #
+> > > +      # List cannot grow with new bindings.
+> > > +      - enum:
+> > > +          - renesas,bsc-r8a73a4
+> > > +          - renesas,bsc-sh73a0
+> > > +          - renesas,dbsc-r8a73a4
+> > > +          - renesas,dbsc3-r8a7740
+> > > +          - renesas,em-gio
+> > > +          - renesas,em-sti
+> > > +          - renesas,em-uart
+> >
+> > Perhaps combine these three: "renesas,em-(gpio|sti|usrt)"?
+>
+> Will do.
 
-> 
-> [...]
->>>> @@ -3066,6 +3089,12 @@ static void ravb_remove(struct platform_device *pdev)
->>>>  	struct net_device *ndev = platform_get_drvdata(pdev);
->>>>  	struct ravb_private *priv = netdev_priv(ndev);
->>>>  	const struct ravb_hw_info *info = priv->info;
->>>> +	struct device *dev = &priv->pdev->dev;
->>>> +	int error;
->>>> +
->>>> +	error = pm_runtime_resume_and_get(dev);
->>>> +	if (error < 0)
->>>> +		return;
->>>
->>>    Again, s/erorr/ret/ in this case.
->>
->> error was used here to comply with the rest of the driver. So, if you still
->> want me to change it here and in ravb_remove() please confirm.
-> 
->    No, we are good enough without that; I'll consider doing a cleanup
-> when/if I have time. :-)
-> 
->> Thank you,
->> Claudiu Beznea
-> 
-> MBR, Sergey
+That does mean these lines need to use
+
+  - pattern: "^renesas,em-(gpio|sti|uart)$"
+
+right?
+
+> > Now, how do I trigger violations?
+> >
+> > I added the following to a binding file:
+> >
+> >           - enum:
+> >               - renesas,bogus-r8a7778
+> >               - renesas,bogus-r8a7779
+> >           - const: renesas,bogus
+> >
+> > but nothing happened with "make dt_binding_check".
+> >
+> > I added the following to a DTS file:
+> >
+> >         compatible =3D "renesas,bogus-r8a7778", "renesas,bogus";
+> >
+> > again, nothing happened with "make dtbs_check".
+> >
+> > What am I missing?
+>
+> Hum, this is odd. I have confirmed your finding that
+>
+>     compatible =3D "renesas,bogus-r8a7778", "renesas,bogus";
+>
+> or
+>
+>     compatible =3D "renesas,bogus-r8a7778", "renesas,bogus-bar";
+>
+> Do not trigger an issue, but a single compatible,
+>
+>     compatible =3D "renesas,bogus-r8a7778";
+>
+> Do trigger.
+>
+> I tested this before I reduced the regexp and IIRC it worked as expected
+> for the RFC. Not sure if I have updated dt-schema since, but I know I
+> rebased the branch for v2. I will try to figure out what have gone
+> wrong, if anyone know if something changed in this area pleas let me
+> know.
+
+Thanks for confirming, and for looking into this!
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
