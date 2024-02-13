@@ -1,140 +1,150 @@
-Return-Path: <linux-renesas-soc+bounces-2668-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-2669-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id DDCB8852BE4
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 13 Feb 2024 10:05:56 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id B79F1852CB4
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 13 Feb 2024 10:44:17 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 98D0B283284
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 13 Feb 2024 09:05:55 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 579691F27D1B
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 13 Feb 2024 09:44:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 957361B7F5;
-	Tue, 13 Feb 2024 09:05:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B3E78224DF;
+	Tue, 13 Feb 2024 09:38:55 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yb1-f174.google.com (mail-yb1-f174.google.com [209.85.219.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx01.omp.ru (mx01.omp.ru [90.154.21.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FB411C68E;
-	Tue, 13 Feb 2024 09:05:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A638524B2;
+	Tue, 13 Feb 2024 09:38:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.154.21.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707815151; cv=none; b=LJVwzXIS2+khxWPqZHXgfEb0tZ0v7F2FU3LI3ElmAOa+7LLcDVBUxpmSDxHNLtT2sQlPZtVbXWJ2JJWGWAAaAGBZDZKap44Ou9usQMk2EBPqbhAdxACuiM8xEGFNuNNiadYvtw5ONkmyODjwo3dEzB/6XPsNytcTY03Txr3XApA=
+	t=1707817135; cv=none; b=D56PL0LraviCH3oPBfa3lFBpwb3C1ufDOVggxTR1s7d9debovnYspwz+nXBohMObMAwR3j5TtNT+lQ8y2h8PXG4GKBGQ2MsZAh0UtrLd4N1zIorDkLuehBNscm+/8K+ewE4HnsVeSErmOfcGa6ieGta3hJG510vH6gxk9OpvryU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707815151; c=relaxed/simple;
-	bh=FfFqrAXQmAjTt+8Bu5s9ZKzqV1A1ADlvxCsN+bbef9Y=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=sPaye+IBbyXgZ08VhGs5KRtGgiqHq010A0bRJ4RRmcSu9DQNK6sBWgeFCsmye5gkTyzGzt784FrA3oiLTYVOuPVTOq9a5K4MGHeLdQuiYK7YEEjwWRNb9nCWK4sEKnVoqcNAMytnymZ5iaSwIM0xiUOXHZIpt7Jty+8YkeSQIOw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.219.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yb1-f174.google.com with SMTP id 3f1490d57ef6-dc74435c428so3905411276.2;
-        Tue, 13 Feb 2024 01:05:49 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707815148; x=1708419948;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=MuURYQOwee17LWBBo2vHscRz5g8g3MQtGwSiu1BG0Hg=;
-        b=aV36jC7lcWenoGEhiWNOz25grc69Ln+di+s1utZ2KB7WdcfCut3OHLKOVUdT8tuPVG
-         lCWsolTIUivcEI/6lfushb9T5N31R4npI8JF0HhwPqzOK9vAPArgszeWMbYIInEqDC4D
-         s1h4ZtgSl25XfvdqtRWEiJOg4PFiw+C67WnCw1enJndf5q6QnnVT8B6rmsf+UBqvn41u
-         vWGdBdE3J0JyIKtYe4+mG2qhA7h7W2NNYszEX2P1ZAvc6EDmkxIXxnPh8HwPH4jSG1H/
-         kCU9IhQNmctzWwWK0DxaY6vCmJvDl/BxonLnAA6JU7XITFp7fwJKYbHKc250z6Rm4jmZ
-         w6sg==
-X-Forwarded-Encrypted: i=1; AJvYcCVYS5ytMfjUAROFifhnldBqDKW/oJUK0hmv5lkKFQbtktY3UQZFgIs+0o1iiHLm7EY4o5DLFWDySfxcoQxCTAsBN3kNehREESJqdtKJHRu9z4xGGMsk1HkN62ugvmefEDS5yPZp/F1y3Foqpwn57Te2YmdvESV1SEOeGdui5fufp4jGUm0v1xh7nRAx
-X-Gm-Message-State: AOJu0YzPW34QeVR3/NYsMjdbFefaWnRY7QxAkbv1AHevulVa4ohS9glj
-	k0/K+DUd7KA/sVLefvV8K3i53AOIhSfIWXZIH3qlkySgfCY1RYmKNqxR42Tsi74=
-X-Google-Smtp-Source: AGHT+IF9b6Zs8sgAJySimeeAwc/byYS632OGj672ixlQyji9wDWG2j8TBdEhFg2PVEeJrDoSeLUXyA==
-X-Received: by 2002:a25:8745:0:b0:dc7:4776:e31 with SMTP id e5-20020a258745000000b00dc747760e31mr7443428ybn.24.1707815147629;
-        Tue, 13 Feb 2024 01:05:47 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCV0pB35EpM+VNkepI8lixDxd0Ub+OZMp6Fspr+AUyV/lR7JwhlRNLgUeivTlFc6DERe+YprL9sSC89+YkIM3imAe+df/zyMcro2qZxTdIQK8oTpKVAGEK+W4e1G4GKZF6kl3TWPwwRNCV2NO4ePolhIdoL+xrYN4pmMTSpM8f9gAwmH1MjXcWeOu/sP
-Received: from mail-yb1-f176.google.com (mail-yb1-f176.google.com. [209.85.219.176])
-        by smtp.gmail.com with ESMTPSA id a8-20020a256608000000b00dc6f1cdd45csm1557949ybc.22.2024.02.13.01.05.47
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 13 Feb 2024 01:05:47 -0800 (PST)
-Received: by mail-yb1-f176.google.com with SMTP id 3f1490d57ef6-dcbd1d4904dso1172226276.3;
-        Tue, 13 Feb 2024 01:05:47 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCWlu7YEPScc5bUPIszVbUd0DICWdLwAW6Fu8qqhYrKycyerrJrM1lb3zgIKbl/ERtyTkfGuSkn0jRESIGxzG8pRCFAYF+juzyB8Efpifl9gx7YKOdHMMghzD8V4h+p5GGibiJyPbLoJJQiOQlvX9U7OYr9P4taN9rSJVcxurTC1Ou6M1bKD1OA+bCVy
-X-Received: by 2002:a25:bfcd:0:b0:dc6:c617:7ca with SMTP id
- q13-20020a25bfcd000000b00dc6c61707camr7330323ybm.29.1707815147208; Tue, 13
- Feb 2024 01:05:47 -0800 (PST)
+	s=arc-20240116; t=1707817135; c=relaxed/simple;
+	bh=5iT7l3x7XVyWOZkv6U7BTCdIVoGJfyP7vWO5/lmPTY8=;
+	h=Subject:From:To:CC:References:Message-ID:Date:MIME-Version:
+	 In-Reply-To:Content-Type; b=nTnAfrOPmLrmxxX7cG7KlUrmf+8Y85cXqjAt+S2cCibmxeBI/1LwK3ZL/z3ibnKBO51Stz7uzi9Tkv3SxmoG1fptf72bS9jpaPpwfEXUQhw6/6yozl4JIhrS9tr16e4wbcWzaQaPfW3FSsUHaWMZUCDyQDbYuOffwEAPK2VJsRo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=omp.ru; spf=pass smtp.mailfrom=omp.ru; arc=none smtp.client-ip=90.154.21.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=omp.ru
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=omp.ru
+Received: from [192.168.1.105] (178.176.73.162) by msexch01.omp.ru
+ (10.188.4.12) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.1258.12; Tue, 13 Feb
+ 2024 12:38:41 +0300
+Subject: Re: [RFC PATCH net-next v2 0/7] Improve GbEth performance on Renesas
+ RZ/G2L and related SoCs
+From: Sergey Shtylyov <s.shtylyov@omp.ru>
+To: Paul Barker <paul.barker.ct@bp.renesas.com>, "David S . Miller"
+	<davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub Kicinski
+	<kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>
+CC: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>, Wolfram Sang
+	<wsa+renesas@sang-engineering.com>, <netdev@vger.kernel.org>,
+	<linux-renesas-soc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+References: <20240206091909.3191-1-paul.barker.ct@bp.renesas.com>
+ <29d9d3cb-4ac2-32e2-51b8-475d34216b07@omp.ru>
+ <99a883c8-ccf2-4e52-9c34-ead59cd84117@bp.renesas.com>
+ <4bf96e67-d35b-813c-ac9b-f2094903ac55@omp.ru>
+Organization: Open Mobile Platform
+Message-ID: <7923894a-c42c-b4ae-1828-775d1fb68a10@omp.ru>
+Date: Tue, 13 Feb 2024 12:38:41 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240213085912.56600-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20240213085912.56600-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 13 Feb 2024 10:05:35 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdVbG4bVNOYkycOOYV1oszzj9WPTbU936PokOE9jmp7iDQ@mail.gmail.com>
-Message-ID: <CAMuHMdVbG4bVNOYkycOOYV1oszzj9WPTbU936PokOE9jmp7iDQ@mail.gmail.com>
-Subject: Re: [PATCH v3] dt-bindings: interrupt-controller: renesas,rzg2l-irqc:
- Update interrupts
-To: Prabhakar <prabhakar.csengg@gmail.com>
-Cc: Thomas Gleixner <tglx@linutronix.de>, Rob Herring <robh+dt@kernel.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <4bf96e67-d35b-813c-ac9b-f2094903ac55@omp.ru>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: msexch01.omp.ru (10.188.4.12) To msexch01.omp.ru
+ (10.188.4.12)
+X-KSE-ServerInfo: msexch01.omp.ru, 9
+X-KSE-AntiSpam-Interceptor-Info: scan successful
+X-KSE-AntiSpam-Version: 6.1.0, Database issued on: 02/13/2024 09:23:13
+X-KSE-AntiSpam-Status: KAS_STATUS_NOT_DETECTED
+X-KSE-AntiSpam-Method: none
+X-KSE-AntiSpam-Rate: 59
+X-KSE-AntiSpam-Info: Lua profiles 183389 [Feb 13 2024]
+X-KSE-AntiSpam-Info: Version: 6.1.0.3
+X-KSE-AntiSpam-Info: Envelope from: s.shtylyov@omp.ru
+X-KSE-AntiSpam-Info: LuaCore: 7 0.3.7 6d6bf5bd8eea7373134f756a2fd73e9456bb7d1a
+X-KSE-AntiSpam-Info: {rep_avail}
+X-KSE-AntiSpam-Info: {Tracking_from_domain_doesnt_match_to}
+X-KSE-AntiSpam-Info: {relay has no DNS name}
+X-KSE-AntiSpam-Info: {SMTP from is not routable}
+X-KSE-AntiSpam-Info: {Found in DNSBL: 178.176.73.162 in (user)
+ b.barracudacentral.org}
+X-KSE-AntiSpam-Info:
+	omp.ru:7.1.1;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;178.176.73.162:7.1.2;127.0.0.199:7.1.2
+X-KSE-AntiSpam-Info: ApMailHostAddress: 178.176.73.162
+X-KSE-AntiSpam-Info: {DNS response errors}
+X-KSE-AntiSpam-Info: Rate: 59
+X-KSE-AntiSpam-Info: Status: not_detected
+X-KSE-AntiSpam-Info: Method: none
+X-KSE-AntiSpam-Info: Auth:dmarc=temperror header.from=omp.ru;spf=temperror
+ smtp.mailfrom=omp.ru;dkim=none
+X-KSE-Antiphishing-Info: Clean
+X-KSE-Antiphishing-ScanningType: Heuristic
+X-KSE-Antiphishing-Method: None
+X-KSE-Antiphishing-Bases: 02/13/2024 09:27:00
+X-KSE-Antivirus-Interceptor-Info: scan successful
+X-KSE-Antivirus-Info: Clean, bases: 2/13/2024 7:14:00 AM
+X-KSE-Attachment-Filter-Triggered-Rules: Clean
+X-KSE-Attachment-Filter-Triggered-Filters: Clean
+X-KSE-BulkMessagesFiltering-Scan-Result: InTheLimit
 
-On Tue, Feb 13, 2024 at 9:59=E2=80=AFAM Prabhakar <prabhakar.csengg@gmail.c=
-om> wrote:
-> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
->
-> All the RZ/G2L and alike SoC's (listed below) have ECCRAM0/1 interrupts
-> supported by the IRQC block, reflect the same in DT binding doc.
->
-> - R9A07G043U              - RZ/G2UL
-> - R9A07G044L/R9A07G044LC  - RZ/{G2L,G2LC}
-> - R9A07G054               - RZ/V2L
-> - R9A08G045               - RZ/G3S
->
-> For the RZ/G3S SoC ("R9A08G045") ECCRAM0/1 interrupts combined into singl=
-e
-> interrupt so we just use the below to represent them:
-> - ec7tie1-0
-> - ec7tie2-0
-> - ec7tiovf-0
->
-> Previously, it was assumed that BUS-error and ECCRAM0/1 error interrupts
-> were only supported by RZ/G2UL ("R9A07G043U") and RZ/G3S ("R9A08G045")
-> SoCs. However, in reality, all RZ/G2L and similar SoCs (listed above)
-> support these interrupts. Therefore, mark the 'interrupt-names' property
-> as required for all the SoCs and update the example node in the binding
-> document.
->
-> Fixes: 96fed779d3d4 ("dt-bindings: interrupt-controller: Add Renesas RZ/G=
-2L Interrupt Controller")
-> Fixes: 1cf0697a24ef ("dt-bindings: interrupt-controller: renesas,rzg2l-ir=
-qc: Document RZ/G3S")
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> ---
-> v2 -> v3:
-> - Fixed IRQ description as pointed by Geert
-> - Sending this individual patch as DTSI patches have been Reviewed by Gee=
-rt
+On 2/12/24 11:53 PM, Sergey Shtylyov wrote:
+[...]
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+>>>> This series aims to improve peformance of the GbEth IP in the Renesas
+>>>
+>>>    You didn't fix the typo in "peformance"... :-/
+>>>
+>>>> RZ/G2L SoC family and the RZ/G3S SoC, which use the ravb driver. Along
+>>>> the way, we do some refactoring and ensure that napi_complete_done() is
+>>>> used in accordance with the NAPI documentation for both GbEth and R-Car
+>>>> code paths.
+>>>>
+>>>> Performance improvment mainly comes from enabling SW IRQ Coalescing for
+>>>
+>>>    And in "improvment" too... :-/
+>>
+>> I'll fix this and the above type in v3.
+> 
+>    TIA! Chances are this will end up in the merge commit...
+> 
+>>>> all SoCs using the GbEth IP, and NAPI Threaded mode for single core SoCs
+>>>> using the GbEth IP. These can be enabled/disabled at runtime via sysfs,
+>>>> but our goal is to set sensible defaults which get good performance on
+>>>> the affected SoCs.
+>>>>
+>>>> The performance impact of this series on iperf3 testing is as follows:
+>>>>   * RZ/G2L Ethernet throughput is unchanged, but CPU usage drops:
+>>>>       * Bidirectional and TCP RX: 6.5% less CPU usage
+>>>>       * UDP RX: 10% less CPU usage
+>>>>
+>>>>   * RZ/G2UL and RZ/G3S Ethernet throughput is increased for all test
+>>>>     cases except UDP TX, which suffers a slight loss:
+>>>>       * TCP TX: 32% more throughput
+>>>>       * TCP RX: 11% more throughput
+>>>>       * UDP TX: 10% less throughput
+>>>>       * UDP RX: 10183% more throughput - the previous throughput of
+>>>
+>>>    So this is a real figure? I thought you forgot to erase 10... :-)
+>>
+>> Yes, throughput went from 1.06Mbps to 109Mbps for the RZ/G2UL with these
+>> changes.
+> 
+>    Hm, that gives me even 10283%! :-)
 
-Gr{oetje,eeting}s,
+   Stupid me, forgot to subtract 100%... :-)
 
-                        Geert
+[...]
 
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+MBR, Sergey
 
