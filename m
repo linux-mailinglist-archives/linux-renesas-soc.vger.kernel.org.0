@@ -1,126 +1,118 @@
-Return-Path: <linux-renesas-soc+bounces-2723-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-2727-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3A48853D8E
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 13 Feb 2024 22:48:36 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 84C14853E07
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 13 Feb 2024 23:05:10 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id A56361F22B18
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 13 Feb 2024 21:48:36 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 411C72937B9
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 13 Feb 2024 22:05:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CA9F161691;
-	Tue, 13 Feb 2024 21:47:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 90A2662800;
+	Tue, 13 Feb 2024 22:03:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="s3eyQZx5"
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="ZeB9Z/VI"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yb1-f169.google.com (mail-yb1-f169.google.com [209.85.219.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C440161677
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 13 Feb 2024 21:47:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B4FD626C0
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 13 Feb 2024 22:02:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707860872; cv=none; b=chj+w950+w9Fy9RLLUidUFDSUIuNAezHNjeli2kMdxx0t+dlcg4hV2dbR+rxWaIl6lyqlDeFl1XtJrkETwfF9fpMKTfJvqUw4I5BG/yVpw2D8IMbe9yKgOiCJdLKKO8xFcBO67mxe5AkDSHQZderB8sYFY1s/2zwI0JQggiSjgU=
+	t=1707861784; cv=none; b=TtfKQDX0T1TnHdrJpo8WbZi/zpzZ45EQAf9TwS6XehG50J6Fi5VkBhJHVeJu0Rt9OX4pGftFzfs7YMplbdb5caat8QeiJo+3ES0JYKI/Kkrlx9Yp4XHwHetNHkm48HzNVZHD7WuVgirY9ctJ2AKTkugvbETZJY8iMABXbyMK8AA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707860872; c=relaxed/simple;
-	bh=4Xj7EazHfkvqhAcFDgWE71D7H9yEicOk1M857cHV2u0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=PPQYR+03CgIrCcIraFJyc0MqMR2g1CWMPQJZZ2cFppHZlsm/W/O+DRrSvl/HOdl/vj0gvA7Egxo2mYX35hQW5NCxEbs0S7Y4WEcTYF59qk2wx4mqhZe0g5kJVrqIG2E6m69zhhU9mwCnxYDL9dxrlxHBqXmBelx1BWL05I6jVTI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=s3eyQZx5; arc=none smtp.client-ip=209.85.219.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-yb1-f169.google.com with SMTP id 3f1490d57ef6-dc6d9a8815fso5038571276.3
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 13 Feb 2024 13:47:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1707860870; x=1708465670; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=4Xj7EazHfkvqhAcFDgWE71D7H9yEicOk1M857cHV2u0=;
-        b=s3eyQZx5jV7ThhYFnv4fc4t0MH2AG7GTPJ12W3fm4/0jqq75Acl8m3eyz94117VKwR
-         u8Mn+eQjRgF+8m2pz6vkDhTs/waZxPZXRdnfYZalO/6e4ZVWqVekPqDJX8FDg7TWYrln
-         6Gudg4YUHAwilqcfFdnkVOQA5oYITMJf1FzN0tN1Kb1yoHBgoKFpl+dfSjUsB4pf2AnC
-         r4BtMo7TDw9Aj7Oqz6HPj4ZuWhecAhb6lrUsI4XwlYRt1N5cwLQCaLkCh/IRfFDoaFOE
-         u8kPcUZcArTUVM3ooDwtoVDfTVqDVfX1dEvYr5UUcM85CZiXBjf14xt/ZRIli+hrhG2W
-         +LZg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707860870; x=1708465670;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=4Xj7EazHfkvqhAcFDgWE71D7H9yEicOk1M857cHV2u0=;
-        b=fDaz043uFnVBX2HLwI0URxx4AAB7zC+s7xn4vHUQgZN2F0rQfbJgxXLcdV5zPY9Gzh
-         oW8DKhS5haoa/YyEkmDWHunQywksQjmkh/F9xlQ6fdvezmATgMH+QVCa0uP2yCfkbLrg
-         26J95mB1PMUVicAlYKfROuDj4GUoU5dmQdr5bGm602gvBQn/pYhgY88cHGeexl5MwiIG
-         pvrIN4CYvKPBVYfOKkRM3u7NCLkfIK7VS/lhWcIRpKxKA6KY/2SmIChkO6ZadZQIHqa+
-         bzRkymn2AORLFXBcFFSPkKhMVaPnYRs9Qnyk8JCaGGyBf3v50kMiQu8KrA877C9uza2J
-         9AHw==
-X-Forwarded-Encrypted: i=1; AJvYcCVbRwBFLfduL/EZnYt1aqvuQ4CRAq2ou9I7tUedkBOES1dTSchDzCB3hBoccMDZxHbhVADEn5h/BoylBz8Z8leY52ctf7NoHJ2MgMvqxGkZitA=
-X-Gm-Message-State: AOJu0YyZuMZO/eFqUlHv299tVhQwlIRPKbCf2zPCOaFBMT8Qcrsl1qga
-	Si51RTOBn3JVw6oCKoiyRMN3cuCTY0ZaEujdN6X2fatDmWGFn+VjeACfIJpmAqoD4WWW/XfIRxV
-	yS2+FzFwECROtVKsHjOiOzoy61VGYH/iqEht/kQ==
-X-Google-Smtp-Source: AGHT+IFa7Zt8v9y973vv6MpdAwv7+Tn3+by0Zhu9bHJxIuhmjm9zf8ed0hjSWCanmVOGM7vq2XjFxfCkSYAs+ofuT1Q=
-X-Received: by 2002:a25:ae47:0:b0:dcd:49d0:eece with SMTP id
- g7-20020a25ae47000000b00dcd49d0eecemr434149ybe.60.1707860869809; Tue, 13 Feb
- 2024 13:47:49 -0800 (PST)
+	s=arc-20240116; t=1707861784; c=relaxed/simple;
+	bh=dTcGTtqdbZA4erTLuvTwLwtSQUi1k4iRTLZhhl/FYAg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=GnYD6sOFt4+E/kBsEpNjQYPVRzOKnMdHqoUWa7SQR4osZvGz+b1IBu/LeBC/BMt/QQDln4pfGAj4tgdBqyqvnAwbBKvdrxboJe1k6C/Yc3RA5huXoVFvTOGDRL7UUWwE1G7z9Ary8j+ahqnMYpfpKARVz7wr//ZC44IgCMvJqT0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=ZeB9Z/VI; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=from:to:cc:subject:date:message-id
+	:mime-version:content-transfer-encoding; s=k1; bh=/NUhHNjae2O0Nh
+	Aftu2aHYvtnNBPmBB2IpHF4VE84/M=; b=ZeB9Z/VIPSSUJj/7hZXT/YXiGy1Yhb
+	z+mQGWo2ooLrKzjvwOM6mR9nUcrNlT6VzV28ZNqmjYVpsAQajuWne9rgHuYiQDpw
+	Elwi2jVfUdpDMOkKBIVy3+vp55pHmia0HYp4E26GTTPKzM3j+N2eAoDNOWzi9D6Y
+	u5sPoQv+gH8j4ylLeT1IrKmyyg8miimf+VW5kMv2ciQGy+ZMG9P2OM3s9/1iMQtZ
+	OMTR+JjRFQETiHyO/XsxGzB9+P0CoEpnW+kwoqEQNaf+jmxts45xENuE9STzdUzF
+	JLaPjT4D2xceu2HWfnWbkugeUkMnDJTY0dpq0S4t/bSckk3vWYwqhrLw==
+Received: (qmail 1211711 invoked from network); 13 Feb 2024 23:02:50 +0100
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 13 Feb 2024 23:02:50 +0100
+X-UD-Smtp-Session: l3s3148p1@b3gljkoRvN8ujnsZ
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: linux-renesas-soc@vger.kernel.org
+Cc: Lee Jones <lee@kernel.org>,
+	Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	linux-mmc@vger.kernel.org,
+	linux-sh@vger.kernel.org
+Subject: [PATCH v2 0/6] mfd: tmio: simplify header and move to platform_data
+Date: Tue, 13 Feb 2024 23:02:19 +0100
+Message-ID: <20240213220221.2380-8-wsa+renesas@sang-engineering.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240213-arm-dt-cleanups-v1-0-f2dee1292525@kernel.org> <20240213-arm-dt-cleanups-v1-4-f2dee1292525@kernel.org>
-In-Reply-To: <20240213-arm-dt-cleanups-v1-4-f2dee1292525@kernel.org>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Tue, 13 Feb 2024 22:47:39 +0100
-Message-ID: <CACRpkdbPANM0-h_g+6Zazgw9U5W8ZDc=EG4ZiTv64JVmZAPivg@mail.gmail.com>
-Subject: Re: [PATCH 4/6] arm: dts: Fix dtc interrupt_map warnings
-To: Rob Herring <robh@kernel.org>
-Cc: soc@kernel.org, Shawn Guo <shawnguo@kernel.org>, 
-	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
-	Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>, Rob Herring <robh+dt@kernel.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Tsahee Zidenberg <tsahee@annapurnalabs.com>, Antoine Tenart <atenart@kernel.org>, 
-	Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@codeconstruct.com.au>, 
-	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>, 
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Andrew Lunn <andrew@lunn.ch>, 
-	Gregory Clement <gregory.clement@bootlin.com>, 
-	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>, 
-	=?UTF-8?Q?Jonathan_Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>, 
-	Thierry Reding <thierry.reding@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>, 
-	Stefan Agner <stefan@agner.ch>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
-	Alexandre Torgue <alexandre.torgue@foss.st.com>, =?UTF-8?Q?Beno=C3=AEt_Cousson?= <bcousson@baylibre.com>, 
-	Tony Lindgren <tony@atomide.com>, Chanho Min <chanho.min@lge.com>, 
-	Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
-	Linus Walleij <linusw@kernel.org>, Imre Kaloz <kaloz@openwrt.org>, 
-	Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konrad.dybcio@linaro.org>, 
-	Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
-	Nicolas Schier <nicolas@fjasle.eu>, linux-arm-kernel@lists.infradead.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org, 
-	linux-tegra@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
-	linux-omap@vger.kernel.org, linux-mediatek@lists.infradead.org, 
-	linux-renesas-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
-	linux-kbuild@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Tue, Feb 13, 2024 at 8:35=E2=80=AFPM Rob Herring <robh@kernel.org> wrote=
-:
+Changes since v1:
 
-> The dtc interrupt_map warning is off because its dependency,
-> interrupt_provider, is off by default. Fix all the warnings so it can be
-> enabled.
->
-> Signed-off-by: Rob Herring <robh@kernel.org>
+* rebased to rc4
+* collected all needed acks (Thanks!)
+* capitalized first letter in commit subject
 
-Thanks for doing this Rob! The schemas finds so many mistakes...
-Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+The MFD parts of the TMIO have been removed by Arnd, so that only the
+SD/MMC related functionality is left. Remove the outdated remains in the
+public header file and then move it to platform_data as the data is now
+specific for the SD/MMC part.
 
-Yours,
-Linus Walleij
+Based on 6.8-rc4, build bot is happy. Branch is here:
+
+git://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git renesas/sdhi/tmio-simplification
+
+(just missing Adrian's ack for SH which came just now)
+
+We agreed already that this should go in via MFD. Thanks!
+
+All the best!
+
+   Wolfram
+
+
+Wolfram Sang (6):
+  mfd: tmio: Remove obsolete platform_data
+  mfd: tmio: Remove obsolete io accessors
+  mmc: tmio/sdhi: Fix includes
+  mfd: tmio: Update include files
+  mfd: tmio: Sanitize comments
+  mfd: tmio: Move header to platform_data
+
+ MAINTAINERS                                   |   2 +-
+ arch/sh/boards/board-sh7757lcr.c              |   2 +-
+ arch/sh/boards/mach-ap325rxa/setup.c          |   2 +-
+ arch/sh/boards/mach-ecovec24/setup.c          |   2 +-
+ arch/sh/boards/mach-kfr2r09/setup.c           |   2 +-
+ arch/sh/boards/mach-migor/setup.c             |   2 +-
+ arch/sh/boards/mach-se/7724/setup.c           |   2 +-
+ drivers/mmc/host/renesas_sdhi_core.c          |   2 +-
+ drivers/mmc/host/renesas_sdhi_internal_dmac.c |   5 +-
+ drivers/mmc/host/renesas_sdhi_sys_dmac.c      |   5 +-
+ drivers/mmc/host/tmio_mmc_core.c              |   3 +-
+ drivers/mmc/host/uniphier-sd.c                |   2 +-
+ include/linux/mfd/tmio.h                      | 133 ------------------
+ include/linux/platform_data/tmio.h            |  64 +++++++++
+ 14 files changed, 81 insertions(+), 147 deletions(-)
+ delete mode 100644 include/linux/mfd/tmio.h
+ create mode 100644 include/linux/platform_data/tmio.h
+
+-- 
+2.43.0
+
 
