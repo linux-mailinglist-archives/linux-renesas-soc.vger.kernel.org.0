@@ -1,133 +1,130 @@
-Return-Path: <linux-renesas-soc+bounces-2718-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-2719-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18FAB853BB7
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 13 Feb 2024 20:59:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFBE8853C20
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 13 Feb 2024 21:21:11 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id C10751F24A60
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 13 Feb 2024 19:59:06 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 681101F26689
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 13 Feb 2024 20:21:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0DA8D6089D;
-	Tue, 13 Feb 2024 19:59:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 25BF760B91;
+	Tue, 13 Feb 2024 20:21:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WE2gFmlg"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mx01.omp.ru (mx01.omp.ru [90.154.21.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE44760890;
-	Tue, 13 Feb 2024 19:59:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.154.21.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F029D1CD10;
+	Tue, 13 Feb 2024 20:21:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707854343; cv=none; b=UYRotvz/yI0Fmgm0mPjklud/xJKVQdn+DvmUQ6RTQr267EzjSmqQ2YcZZtsoHUGa+jhE64r87GjsXQgAEZu/S7bHIQuYEj6W4lS66E2iYVCMnOIdVDbYXI87xHOPH+7lIjoG+k55O167Vq8xtJKQYvW0wg9RFi/xg9V4ZxyFqrk=
+	t=1707855666; cv=none; b=WnG5VXEAKdVl2rWtenqsxnEfDDwBMzm6zTq0tnfCbd28nPK9sSodGV651WMTq5m7RYjilYI65uE/PveEYvRA2Q3Ny3+R6OZ64ZC2MtTsGIy3DfxPCep6CPL0NK01iZhXXBnnrnt0gsYOPz+aqYlsAC+/txF70Bu/0VnT5DPMFwQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707854343; c=relaxed/simple;
-	bh=DXB5ws2bRTjgd+sTIuDEdb5sEpVZEtZ1ZKLhzHacgKg=;
-	h=Subject:From:To:CC:References:Message-ID:Date:MIME-Version:
-	 In-Reply-To:Content-Type; b=IKmvguIH4wvz2gdy3u+xyVxO/I8jOQpMJmOZS+jpULuGMVdjpJUPWqAz51J+1DnoZURd44smxBgB2Pt7prk1QlR2/IdOcphN2kSpPMOvgBnIiND7mmFqkuF8uhexYPRXzJilvcAO0LA4KUtndVr8UC8K6mzJGyCSvGqRvudadSQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=omp.ru; spf=pass smtp.mailfrom=omp.ru; arc=none smtp.client-ip=90.154.21.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=omp.ru
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=omp.ru
-Received: from [192.168.1.105] (178.176.75.253) by msexch01.omp.ru
- (10.188.4.12) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.1258.12; Tue, 13 Feb
- 2024 22:58:52 +0300
-Subject: Re: [PATCH net-next v3 4/6] net: ravb: Move the update of
- ndev->features to ravb_set_features()
-From: Sergey Shtylyov <s.shtylyov@omp.ru>
-To: Claudiu <claudiu.beznea@tuxon.dev>, <davem@davemloft.net>,
-	<edumazet@google.com>, <kuba@kernel.org>, <pabeni@redhat.com>,
-	<biju.das.jz@bp.renesas.com>
-CC: <netdev@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, Claudiu Beznea
-	<claudiu.beznea.uj@bp.renesas.com>
-References: <20240213094110.853155-1-claudiu.beznea.uj@bp.renesas.com>
- <20240213094110.853155-5-claudiu.beznea.uj@bp.renesas.com>
- <9fd3591a-99ba-7f40-551a-94648392c325@omp.ru>
-Organization: Open Mobile Platform
-Message-ID: <5a972c48-f156-1f7d-3a46-08c464104d19@omp.ru>
-Date: Tue, 13 Feb 2024 22:58:52 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+	s=arc-20240116; t=1707855666; c=relaxed/simple;
+	bh=NC4XhaOdHJS9ruYUKoeAr7zc6tZbtNyyxJjF6AwNkAc=;
+	h=Date:Content-Type:MIME-Version:From:To:Cc:In-Reply-To:References:
+	 Message-Id:Subject; b=s3WRvsvdSSZZnnwqHtOULhxmyr9KV/dNM88oWZbdPhu/mYFT3ajrsrJww8/H7W0K+0SF+R5x+4mrPRvgT2bg85/hpgXONxZ0jsH46Lrt1+HecPegi/NI27pTZCTXrcxNqfloNoM0e+NrM/ch8j50/BrYJMn/GKpqcsFk8E0w3Qo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WE2gFmlg; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 30DF8C433C7;
+	Tue, 13 Feb 2024 20:21:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1707855665;
+	bh=NC4XhaOdHJS9ruYUKoeAr7zc6tZbtNyyxJjF6AwNkAc=;
+	h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
+	b=WE2gFmlgS/RiE9JZomlqwwufF7ZLenOhKzRJF6fa+Oq95Wqu5Lh1uG493NOR1UbSf
+	 HaVdEi+JsqaVRJfIByrx5WPS1IpYtF0SoLewK1SlSSM2VWnKv4/Ss3HS3RUR/Fhcbh
+	 TpI2cMweRAmbqrGA/GfRRspeTYzrO5SU3vIM/f/a8MtB+0hW4+Z0AtLB87xYhjNXUF
+	 5e7R8kobLs3lhyWo8r9Pa4ezKLcoKyagKbjZnB/FuETiDKhC8YpdM3ti2s+1eS3EKB
+	 OH/iIMThLpjG3md8HQX2+yMOdL9rnPrG2nYsdktmiND1fBYDQKytPqtW9mXRpWmVFs
+	 BlpxlVRFDWLjg==
+Date: Tue, 13 Feb 2024 14:21:04 -0600
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <9fd3591a-99ba-7f40-551a-94648392c325@omp.ru>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: msexch01.omp.ru (10.188.4.12) To msexch01.omp.ru
- (10.188.4.12)
-X-KSE-ServerInfo: msexch01.omp.ru, 9
-X-KSE-AntiSpam-Interceptor-Info: scan successful
-X-KSE-AntiSpam-Version: 6.1.0, Database issued on: 02/13/2024 19:45:49
-X-KSE-AntiSpam-Status: KAS_STATUS_NOT_DETECTED
-X-KSE-AntiSpam-Method: none
-X-KSE-AntiSpam-Rate: 59
-X-KSE-AntiSpam-Info: Lua profiles 183416 [Feb 13 2024]
-X-KSE-AntiSpam-Info: Version: 6.1.0.3
-X-KSE-AntiSpam-Info: Envelope from: s.shtylyov@omp.ru
-X-KSE-AntiSpam-Info: LuaCore: 7 0.3.7 6d6bf5bd8eea7373134f756a2fd73e9456bb7d1a
-X-KSE-AntiSpam-Info: {rep_avail}
-X-KSE-AntiSpam-Info: {Tracking_from_domain_doesnt_match_to}
-X-KSE-AntiSpam-Info: {relay has no DNS name}
-X-KSE-AntiSpam-Info: {SMTP from is not routable}
-X-KSE-AntiSpam-Info: {Found in DNSBL: 178.176.75.253 in (user)
- dbl.spamhaus.org}
-X-KSE-AntiSpam-Info:
-	d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;127.0.0.199:7.1.2;omp.ru:7.1.1;178.176.75.253:7.1.2
-X-KSE-AntiSpam-Info: ApMailHostAddress: 178.176.75.253
-X-KSE-AntiSpam-Info: {DNS response errors}
-X-KSE-AntiSpam-Info: Rate: 59
-X-KSE-AntiSpam-Info: Status: not_detected
-X-KSE-AntiSpam-Info: Method: none
-X-KSE-AntiSpam-Info: Auth:dmarc=temperror header.from=omp.ru;spf=temperror
- smtp.mailfrom=omp.ru;dkim=none
-X-KSE-Antiphishing-Info: Clean
-X-KSE-Antiphishing-ScanningType: Heuristic
-X-KSE-Antiphishing-Method: None
-X-KSE-Antiphishing-Bases: 02/13/2024 19:51:00
-X-KSE-Antivirus-Interceptor-Info: scan successful
-X-KSE-Antivirus-Info: Clean, bases: 2/13/2024 4:21:00 PM
-X-KSE-Attachment-Filter-Triggered-Rules: Clean
-X-KSE-Attachment-Filter-Triggered-Filters: Clean
-X-KSE-BulkMessagesFiltering-Scan-Result: InTheLimit
+From: Rob Herring <robh@kernel.org>
+To: =?utf-8?q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+Cc: Conor Dooley <conor+dt@kernel.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+ Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
+ linux-renesas-soc@vger.kernel.org, 
+ Geert Uytterhoeven <geert+renesas@glider.be>
+In-Reply-To: <20240213192340.2786430-1-niklas.soderlund+renesas@ragnatech.se>
+References: <20240213192340.2786430-1-niklas.soderlund+renesas@ragnatech.se>
+Message-Id: <170785566315.2270051.17137975742792836119.robh@kernel.org>
+Subject: Re: [PATCH v3] dt-bindings: renesas: Document preferred compatible
+ naming
 
-On 2/13/24 10:36 PM, Sergey Shtylyov wrote:
-[...]
 
->> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
->>
->> Commit c2da9408579d ("ravb: Add Rx checksum offload support for GbEth")
->> introduced support for setting GbEth features. With this the IP-specific
->> features update functions update the ndev->features individually.
->>
->> Next commits add runtime PM support for the ravb driver. The runtime PM
->> implementation will enable/disable the IP clocks on
->> the ravb_open()/ravb_close() functions. Accessing the IP registers with
->> clocks disabled blocks the system.
->>
->> The ravb_set_features() function could be executed when the Ethernet
->> interface is closed so we need to ensure we don't access IP registers while
->> the interface is down when runtime PM support will be in place.
->>
->> For these, move the update of ndev->features to ravb_set_features() and
->> make the IP-specific features set function return int. In this way we
->> update the ndev->features only when the IP-specific features set function
->> returns success and we can avoid code duplication when introducing
->> runtime PM registers protection.
->>
->> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+On Tue, 13 Feb 2024 20:23:40 +0100, Niklas Söderlund wrote:
+> Compatibles can come in two formats. Either "vendor,ip-soc" or
+> "vendor,soc-ip". Add a DT schema file documenting Renesas preferred
+> policy and enforcing it for all new compatibles, except few existing
+> patterns.
 > 
-> Reviewed-by: Sergey Shtylyov <s.shtylyov@omp.ru>
+> Suggested-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> ---
+> * Changes since v2
+> - Improve the select so it matches on any compatible containing a
+>   component specific Renesas value.
+> - Make the regexps more compact.
+> - Define MaxItems to allow the increased selection to work.
+> - Add rmobile and shmobile prefixes.
+> - I did not take Rob's ack from v2 as the schema changed a lot after
+>   Geerts review.
+> 
+> * Changes since v1
+> - Split the "SoC agnostic compatibles" section into two to make it's
+>   intent clearer.
+> - Improved the documentation for each group of compatibles.
+> - Reduced the number of regexp to create a larger target area. As
+>   suggested by Krzysztof the goal is not to validate each SoC name but
+>   check for the correct order of SoC-IP.
+> 
+> * Changes since RFC
+> - Moved to Documentation/devicetree/bindings/soc/renesas.
+> - Changed the pattern in the initial select to match on .*-.*.
+> - Added a lot of missing compatible values.
+> ---
+>  .../bindings/soc/renesas/renesas-soc.yaml     | 72 +++++++++++++++++++
+>  1 file changed, 72 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/soc/renesas/renesas-soc.yaml
+> 
 
-   Have to withdraw this... :-/
+My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+on your patch (DT_CHECKER_FLAGS is new in v5.13):
 
-[...]
+yamllint warnings/errors:
 
-MBR, Sergey
+dtschema/dtc warnings/errors:
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/soc/renesas/renesas-soc.yaml: properties:compatible:items: {'anyOf': [{'pattern': '^renesas,(emev2|r(7s|8a|9a)[a-z0-9]+|rcar|rmobile|rz[a-z0-9]*|sh(7[a-z0-9]+)?|mobile)-[a-z0-9-]+$'}, {'pattern': '^renesas,(condor|falcon|gr-peach|salvator|sk-rz|smar(c(2)?)?|spider|white-hawk)(.*)?$'}, {'pattern': '^renesas,(can|cpg|dmac|du|(g)?ether(avb)?|gpio|hscif|(r)?i[i2]c|imr|intc|ipmmu|irqc|jpu|mmcif|msiof|mtu2|pci(e)?|pfc|pwm|[rq]spi|rcar_sound|sata|scif[ab]*|sdhi|thermal|tmu|tpu|usb(2|hs)?|vin|xhci)-[a-z0-9-]+$'}, {'pattern': '^renesas,(d|s)?bsc(3)?-(r8a73a4|r8a7740|sh73a0)$'}, {'pattern': '^renesas,em-(gio|sti|uart)$'}, {'pattern': '^renesas,fsi2-(r8a7740|sh73a0)$'}, {'pattern': '^renesas,hspi-r8a777[89]$'}, {'pattern': '^renesas,sysc-(r8a73a4|r8a7740|rmobile|sh73a0)$'}, {'enum': ['renesas,imr-lx4', 'renesas,mtu2-r7s72100']}, {'enum': ['renesas,smp-sram']}, {'pattern': '^(?!renesas,.+-.+).+$'}]} is not of type 'array'
+	from schema $id: http://devicetree.org/meta-schemas/string-array.yaml#
+
+doc reference errors (make refcheckdocs):
+
+See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20240213192340.2786430-1-niklas.soderlund+renesas@ragnatech.se
+
+The base for the series is generally the latest rc1. A different dependency
+should be noted in *this* patch.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit after running the above command yourself. Note
+that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+your schema. However, it must be unset to test all examples with your schema.
+
 
