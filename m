@@ -1,136 +1,206 @@
-Return-Path: <linux-renesas-soc+bounces-2706-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-2707-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5448853A50
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 13 Feb 2024 19:55:37 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 99D3F853ADD
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 13 Feb 2024 20:24:27 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 53C2D28A463
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 13 Feb 2024 18:55:36 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 148641F22D85
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 13 Feb 2024 19:24:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 36CEB10A3F;
-	Tue, 13 Feb 2024 18:55:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0D0CF608ED;
+	Tue, 13 Feb 2024 19:24:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="P+V0Ex2r"
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="iCN6vaTi"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D0671F60A
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 13 Feb 2024 18:55:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B19D86086E
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 13 Feb 2024 19:23:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707850531; cv=none; b=tdxCB72pb5FIdy+mOexET4rRrAe/Y8fr+CC690igHK0a2Hs0+AntegboJDxW7xwY2aGGPwqSTj3lzX26VlzDFvuSXvn9RfXtNJaYedhTqWXM45kA9IxxYFTNDSN2PVt1wr62WEY/wVwi65eVfY7Tvt5u4OUN0Gn6gCWmRSSaK24=
+	t=1707852240; cv=none; b=NhTF4DEERB4MHHoZPXggEm/UTOgPILazI/YM98JC9SPoy2i2s5Ytprb/vixK8jfMB8s8RxlGHgndQwRYwP475N5Z7oYdVjIGjHC5B5xUbIlKv3VEuLw4jGEDIF3obLl72R9qU4FAPafHBHEfjYli9iqnHBe9fuR3hOJ4ys0GlNM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707850531; c=relaxed/simple;
-	bh=81ioBMQoFUAXfD3calqbogWeHqxzR5ypL2hOiBSpVRI=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=YcV3weRyeKeYhe7YtkH5ekWlunuDpmrmpVXMaeuJ+Qr51yFyeOoSSzuv2eM+G/cABHNqvwdJDUAShgJxDa8BspTDM7PIblmNdLIJ5CfdkTrToGowoVT9IfO/LuVsJNj17n3RWTNZieXIqPXcB4n5O2LVNyDEXiYxlhB+UNXnROA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=P+V0Ex2r; arc=none smtp.client-ip=209.85.128.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-40efcb37373so37487115e9.2
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 13 Feb 2024 10:55:28 -0800 (PST)
+	s=arc-20240116; t=1707852240; c=relaxed/simple;
+	bh=XV+OtUBZjtriQOOO0xB5U/nkCH5OAeoPwHKPq6JTspE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=u4aFRQ2FWUDbTz4kx70aDS0YfbiA0wk1Gc34rPLwQqVJOlZp97qRSs0LJu8S0YexueN+8Bw40Fs3um4nE5r0DWkgLC4qkAbpukGSTHoIHyEXv9y5wTGIcINjoxWaE+NFe9tnCF2RzDSTNGy4kpcALmd5r5F+Yadm4XQ1//k8z+o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=iCN6vaTi; arc=none smtp.client-ip=209.85.208.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
+Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-5621f7c86c9so148309a12.0
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 13 Feb 2024 11:23:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1707850527; x=1708455327; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:references:cc:to:from
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=pMhzu1S70tXsjq/n2IaXdigXH/qhRAWmzHR2uq8cwRE=;
-        b=P+V0Ex2r63IyKVy83Q1cz5G+SPepQWJ1IBN3Iyk5aKvkm9vKkCo/YkzGewVKOu8AB5
-         7Y2v0GOiFTRAWDOHbp0fzgiVTYPhAE37KkuO3pnQDsj+gcp7Km05nkbEAZ1WPk4Dwiyk
-         eXQ1yTHfuD3Y5GnwRayJTmCU9HxmbZWf/R672gScGpIdFgIyyrfccEVVG59vp/e5W1df
-         ky3qzpc7pze57l/lmuatJAOpTyw0CWkPEd+RyOIHfJfT0rifftLlh0btSJ50LCW+d4JA
-         Ade5FUh9AL/Og2N8zzI7/7CmKSCreHE9TwDA4PnUBQu5B0DzPkZMpANphUBnfylU+8tp
-         YAsQ==
+        d=ragnatech.se; s=google; t=1707852236; x=1708457036; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=X83gpdHuaLrcfBf2an0RmK494zTVrvs1ZHu/AXNLWgY=;
+        b=iCN6vaTiIVXXWWlJKmUTeSRUk4Vgz5nvqFWuf7Rjtj7wR/9dSzQ0LT/zQQKM3RQiBD
+         RviWL7bLKzMlumirZgrGl6AEQOGyqad22bJzyrcu6ADzn/aiQKHk1pISSIz6EltBm3EJ
+         9UBPtpJHKQP5Inhh5bTX8bJ0F6kYj21+fzkY8pJscCiLHlWZ8GGw2icZ4rgn+ojupbBY
+         t27pg8iaXQGmmsiMfHh5emp7uvRvrh4qMmr/NqMMJ1nTkOZ4h/CC/lCvstlY/ahSxQzY
+         ho+EzaP6Tb3rzMGi8bAd5Nalh4qww1Bu6JdozfihV94AaWd+iH4C9esFz5mfBnOqNEO7
+         H/Yg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707850527; x=1708455327;
-        h=content-transfer-encoding:in-reply-to:references:cc:to:from
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=pMhzu1S70tXsjq/n2IaXdigXH/qhRAWmzHR2uq8cwRE=;
-        b=vJMi5v/JlmSufad2yN0I2gQORnRfi6k/Fas0+HEdNhXdPvCxfEPCAmQSEec85UErwD
-         mpk/QfqqBiXO9VcBCNC/TanemyEEMZzpfuuUfA5ihOiArVwwcnVpkAB+1kTriD4E3dG2
-         Wl/MPZ4Q/+Ak4i11E5LHkNyvJNApjvqFmtkxUxB2f2krXqtKbtOfAiwPx1plLXBNzTM+
-         FVkXS6gl2DSMLwgJ4MTwzD0AURYmFBfWIExn0/AztRBRVLiE5OrwSXw5W1fBqS2qJ30a
-         51UHmdSq32g1jRZ+ySPYe+YrZKXG6f/OI6kkZioHCoUTzLBZ632kttHdwNXgHI+5PmAE
-         TvMw==
-X-Forwarded-Encrypted: i=1; AJvYcCXZxpAurphGPwBUjfutAfdtRQzj16MEG3AF3x0bQhVlhiykm3d0ulgNnvuOiyJtazLa2YLPmmntclETpcvA7HWry41nrAoo3EPQeGhTUdF8r0A=
-X-Gm-Message-State: AOJu0Yw0gFtQ0iHXT5IiRAXyd75Ecix2Gv3BfSlX+Hiz//HoRIB2Qt0V
-	x622JizYkZYYE1mqQ/Y/UIcPLeU39dhUP06JagI1IkVhLcdgd7F7LuMlyYjM81A=
-X-Google-Smtp-Source: AGHT+IHFG/RqIE1RwioshOK/wI0T4+BUE1u2eq0hHtaw4GiuFnXb6C8GBu6DM2PWTQssET9fWT4VrQ==
-X-Received: by 2002:a5d:4eca:0:b0:33c:e30e:cdbf with SMTP id s10-20020a5d4eca000000b0033ce30ecdbfmr156391wrv.32.1707850526649;
-        Tue, 13 Feb 2024 10:55:26 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCVbZFjo6U0l4qHSR2B3l08IWRcDmD7J0fP1JWVlRiF7e4jEIcgogqfuF8OLdiYCme/QnUASSv/ScThqp8Bwxe4eY8uWu1931lUCgvMXPTAqHESBRBS3kLnWsV6B/fmdzPBmH0TdsgnLs3e/WvENTd8U06dUB1xdI2CYDyCTO3GjDUmdJ+8RkRehQCORmuPZ0LHX0E6xq7rwkyVk1qaO19z5P7RQfnqQkF7UFp7aKT7JCDXGQCrkp8A7ayRy4ceSxhjsygicQ7iH4euN7cLleXpi6wOluKgG1CUoLhNR5gc+bgLdJnDwZm4DIn6Pdc6cDsXWwI800FYFSHHl4MZTaUK9ejBq2k601Enu0fP+
-Received: from [192.168.50.4] ([82.78.167.20])
-        by smtp.gmail.com with ESMTPSA id p31-20020a05600c1d9f00b00411a595d56bsm4292075wms.14.2024.02.13.10.55.25
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 13 Feb 2024 10:55:26 -0800 (PST)
-Message-ID: <81ca7397-3f00-431d-aea4-c30c363a90e6@tuxon.dev>
-Date: Tue, 13 Feb 2024 20:55:24 +0200
+        d=1e100.net; s=20230601; t=1707852236; x=1708457036;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=X83gpdHuaLrcfBf2an0RmK494zTVrvs1ZHu/AXNLWgY=;
+        b=sSnI8CdhZbJZjPrVFgAaIGPK53xktUXPxos2iV3kI122SaR9+80p+iVGT7XbsOirId
+         f6I9Gq+Sb4rvczZHSUQW+rZ88HygkUjHHQVnThl80SnFispLsWsixABDSwJwOTxMoL1d
+         xInp5yKgOLQ6/d350kopBvsT6SjJGL5rkFMNPGpWUAVq/E5Exy3eoKUQlwbVXFJUu7v6
+         C6IkjXMHKcKH2lQCYd4D8xf1Ck9U5vROXl1gcpOU6m7nI5A4XPioB7yBpLh0NP5rA9TC
+         f9f1WZMjZgUcQOd73sUzEPO8TzR0j0VF4jn4ScSYdhXhS7h39fYdKoTid4Yl9nfJtL84
+         hbPg==
+X-Forwarded-Encrypted: i=1; AJvYcCVTArMLLj1Wjw9Gymm3oCecDBP1JeX5d6de81SBEO9hvPjDyylWm9b8Mdl+0EpX8UI2LFRX7fGJDADv0pa0NZU8mhR920w4ApyBEYQkj529J90=
+X-Gm-Message-State: AOJu0YxDsxwMw97dLdhz1V6kxO+KBhn7FSmYTGYQR0rEBPNc5PK05gwZ
+	h6nIgKxBybSALHhinxTp4EhpuL1WeOJ9qPyg1VqIaqm6Bn2+McY5kFk9DBchnS4=
+X-Google-Smtp-Source: AGHT+IE+v6xLxPpU9X715rz2MaGHKpbnSpTuP2qnpi6iovd+8i5qpbEbZIjG1aLI0YI0vr8E2gCcgA==
+X-Received: by 2002:a05:6402:1f49:b0:561:3b53:d0af with SMTP id 9-20020a0564021f4900b005613b53d0afmr3145260edz.12.1707852235483;
+        Tue, 13 Feb 2024 11:23:55 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCU+fFgnoTZqLspCu6NHukjFILS/CKN2mFpuRaXqmt21sSR2uA7QYZIsGvX/Ob4EP9dGjKSMgocKSnvQzRvRkyc7WpvDTniBGS0xAOLzOxrPp39NaD5pIC70lsqqwJGMLFp+5ua7nr6d+WtOlR1FC40SedZLvPIH/1tw02XUaZ2IQZLhaihoBW3GKjBiUcyYU2Mvfp7LKPyTtr4W4ROkf7uZEqV0JkbfYJFFp5FdUKM4LzpQh7idhGa4uU/bsDaOKDEPfnZe1hxAYJ1a+ECCYIgEQkrZousGm/FcImmTcx6lHhQd7zE=
+Received: from sleipner.berto.se (p4fcc8c6a.dip0.t-ipconnect.de. [79.204.140.106])
+        by smtp.googlemail.com with ESMTPSA id g22-20020a056402091600b00561623dff71sm3961117edz.59.2024.02.13.11.23.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 13 Feb 2024 11:23:54 -0800 (PST)
+From: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+To: Geert Uytterhoeven <geert+renesas@glider.be>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>
+Cc: devicetree@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	=?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: [PATCH v3] dt-bindings: renesas: Document preferred compatible naming
+Date: Tue, 13 Feb 2024 20:23:40 +0100
+Message-ID: <20240213192340.2786430-1-niklas.soderlund+renesas@ragnatech.se>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v3 5/6] net: ravb: Do not apply features to
- hardware if the interface is down
-Content-Language: en-US
-From: claudiu beznea <claudiu.beznea@tuxon.dev>
-To: Biju Das <biju.das.jz@bp.renesas.com>,
- "s.shtylyov@omp.ru" <s.shtylyov@omp.ru>,
- "davem@davemloft.net" <davem@davemloft.net>,
- "edumazet@google.com" <edumazet@google.com>,
- "kuba@kernel.org" <kuba@kernel.org>, "pabeni@redhat.com" <pabeni@redhat.com>
-Cc: "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
- "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-References: <20240213094110.853155-1-claudiu.beznea.uj@bp.renesas.com>
- <20240213094110.853155-6-claudiu.beznea.uj@bp.renesas.com>
- <TYCPR01MB112698DE07AAA9C535776805D864F2@TYCPR01MB11269.jpnprd01.prod.outlook.com>
- <368ca0a8-a005-4371-a959-297fd4f58cb1@tuxon.dev>
-In-Reply-To: <368ca0a8-a005-4371-a959-297fd4f58cb1@tuxon.dev>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
+Compatibles can come in two formats. Either "vendor,ip-soc" or
+"vendor,soc-ip". Add a DT schema file documenting Renesas preferred
+policy and enforcing it for all new compatibles, except few existing
+patterns.
 
+Suggested-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+---
+* Changes since v2
+- Improve the select so it matches on any compatible containing a
+  component specific Renesas value.
+- Make the regexps more compact.
+- Define MaxItems to allow the increased selection to work.
+- Add rmobile and shmobile prefixes.
+- I did not take Rob's ack from v2 as the schema changed a lot after
+  Geerts review.
 
-On 13.02.2024 13:07, claudiu beznea wrote:
->>> @@ -2566,15 +2566,23 @@ static int ravb_set_features(struct net_device
->>> *ndev,  {
->>>  	struct ravb_private *priv = netdev_priv(ndev);
->>>  	const struct ravb_hw_info *info = priv->info;
->>> -	int ret;
->>> +	struct device *dev = &priv->pdev->dev;
->>> +	int ret = 0;
->>> +
->>> +	pm_runtime_get_noresume(dev);
->>> +
->>> +	if (!pm_runtime_active(dev))
->>> +		goto out_set_features;
->> This can be simplified, which avoids 1 goto statement and
->> Unnecessary ret initialization. I am leaving to you and Sergey.
->>
->> 	if (!pm_runtime_active(dev))
->> 		ret = 0;
->> 	else
->> 		ret = info->set_feature(ndev, features);
->>
->> 	pm_runtime_put_noidle(dev);
->> 	if (ret)
->> 		goto err;
->>
->> 	ndev->features = features;
->>
->> err:
->> 	return ret;
->>
-> I find it a bit difficult to follow this way.
+* Changes since v1
+- Split the "SoC agnostic compatibles" section into two to make it's
+  intent clearer.
+- Improved the documentation for each group of compatibles.
+- Reduced the number of regexp to create a larger target area. As
+  suggested by Krzysztof the goal is not to validate each SoC name but
+  check for the correct order of SoC-IP.
 
-Looking again at it, your version seems better.
+* Changes since RFC
+- Moved to Documentation/devicetree/bindings/soc/renesas.
+- Changed the pattern in the initial select to match on .*-.*.
+- Added a lot of missing compatible values.
+---
+ .../bindings/soc/renesas/renesas-soc.yaml     | 72 +++++++++++++++++++
+ 1 file changed, 72 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/soc/renesas/renesas-soc.yaml
+
+diff --git a/Documentation/devicetree/bindings/soc/renesas/renesas-soc.yaml b/Documentation/devicetree/bindings/soc/renesas/renesas-soc.yaml
+new file mode 100644
+index 000000000000..57c11022d793
+--- /dev/null
++++ b/Documentation/devicetree/bindings/soc/renesas/renesas-soc.yaml
+@@ -0,0 +1,72 @@
++# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/soc/renesas/renesas-soc.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Renesas SoC compatibles naming convention
++
++maintainers:
++  - Geert Uytterhoeven <geert+renesas@glider.be>
++  - Niklas Söderlund <niklas.soderlund@ragnatech.se>
++
++description: |
++  Guidelines for new compatibles for SoC blocks/components.
++  When adding new compatibles in new bindings, use the format::
++    renesas,SoC-IP
++
++  For example::
++   renesas,r8a77965-csi2
++
++  When adding new compatibles to existing bindings, use the format in the
++  existing binding, even if it contradicts the above.
++
++select:
++  properties:
++    compatible:
++      contains:
++        pattern: "^renesas,.+-.+$"
++  required:
++    - compatible
++
++properties:
++  compatible:
++    maxItems: 4
++    items:
++      anyOf:
++        # Preferred naming style for compatibles of SoC components
++        - pattern: "^renesas,(emev2|r(7s|8a|9a)[a-z0-9]+|rcar|rmobile|rz[a-z0-9]*|sh(7[a-z0-9]+)?|mobile)-[a-z0-9-]+$"
++        - pattern: "^renesas,(condor|falcon|gr-peach|salvator|sk-rz|smar(c(2)?)?|spider|white-hawk)(.*)?$"
++
++        # Legacy compatibles
++        #
++        # New compatibles are not allowed.
++        - pattern: "^renesas,(can|cpg|dmac|du|(g)?ether(avb)?|gpio|hscif|(r)?i[i2]c|imr|intc|ipmmu|irqc|jpu|mmcif|msiof|mtu2|pci(e)?|pfc|pwm|[rq]spi|rcar_sound|sata|scif[ab]*|sdhi|thermal|tmu|tpu|usb(2|hs)?|vin|xhci)-[a-z0-9-]+$"
++        - pattern: "^renesas,(d|s)?bsc(3)?-(r8a73a4|r8a7740|sh73a0)$"
++        - pattern: "^renesas,em-(gio|sti|uart)$"
++        - pattern: "^renesas,fsi2-(r8a7740|sh73a0)$"
++        - pattern: "^renesas,hspi-r8a777[89]$"
++        - pattern: "^renesas,sysc-(r8a73a4|r8a7740|rmobile|sh73a0)$"
++        - enum:
++            - renesas,imr-lx4
++            - renesas,mtu2-r7s72100
++
++        # None SoC component compatibles
++        #
++        # Compatibles with the Renesas vendor prefix that do not relate to any SoC
++        # component are OK. New compatibles are allowed.
++        - enum:
++            - renesas,smp-sram
++
++        # Do not fail compatibles not matching the select pattern
++        #
++        # Some SoC components in addition to a Renesas compatible list
++        # compatibles not related to Renesas. The select pattern for this
++        # schema hits all compatibles that have at lest one Renesas compatible
++        # and try to validate all values in that compatible array, allow all
++        # that don't match the schema select pattern. For example,
++        #
++        #   compatible = "renesas,r9a07g044-mali", "arm,mali-bifrost";
++        - pattern: "^(?!renesas,.+-.+).+$"
++
++additionalProperties: true
+-- 
+2.43.0
+
 
