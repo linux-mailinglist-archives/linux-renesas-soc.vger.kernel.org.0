@@ -1,171 +1,201 @@
-Return-Path: <linux-renesas-soc+bounces-2663-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-2664-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BB9E852554
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 13 Feb 2024 02:12:24 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id C8A0985297E
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 13 Feb 2024 07:59:21 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8F8A11C240B0
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 13 Feb 2024 01:12:23 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 0AC15B2355B
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 13 Feb 2024 06:59:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3AC7D29A9;
-	Tue, 13 Feb 2024 00:26:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A0F9114F7A;
+	Tue, 13 Feb 2024 06:59:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="ceK9oBiX"
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="UdBo+yNJ"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01on2079.outbound.protection.outlook.com [40.107.113.79])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F40423A0;
-	Tue, 13 Feb 2024 00:26:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.113.79
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707783979; cv=fail; b=q1e9I+fongJYFXV++478ybNZGqnPK3ky7bZTcb9UfOZjnWeop/T4LKAa96lZuMU/nBnbvNtANIWcZ1s1OKVv5wYHAbOounSuxEX5BX6dE0kLZWe+f6EXvj9H4rGj2wJiDlFIGOAa318wNblbyljakrYLBWhjRjQgoQZS3yACzd8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707783979; c=relaxed/simple;
-	bh=Ll1krBw3uiYXpuyYKqQpVT4dphvqDdiLbWjG9mTBlBI=;
-	h=Message-ID:To:From:Subject:Content-Type:Date:MIME-Version; b=cjuaAUpgkxfNA9YTDFNCyaTYiXiQTOc8x1UpRmKmMlTBBohTTqVp72Om/e4dDkMPTyR++jwuJvGSXnm4BkQL0T1g92lwZJiLi+EsDk1BfVNbQkwzr/wlkfxIo0tzNuE7zCrnG3ZrFmjGwR4AZ45gDk6nLbawcKDtnpAaYWaR/LE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=ceK9oBiX; arc=fail smtp.client-ip=40.107.113.79
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=NbzXsYorEFHVCrQWQtuThh6ShsIv8M0HcfqFT35WO3hmg030kBUxDCk4SRuEOHcxpYym4V+E75OZa1KofT+KKJD0fpuKHib/ufvGMKZnXFTAXuVtTtCSh7MJDggeyAsehq9o8LgZvo3Bk5Liyb/LCLFZvd9Sm0LmO+iE9ZZI8kuvl4ZeIZD1JmO4zgpnwTMwvofi5CFgIS5Jff8rXSHzwn5q12ESl4zetdUnK2asZZ4sQLAEq++A/tULIYLMwoDF9TbDbSgj+yENnxftT1xExrrzTjfVPWgHyYOPXuXz6seT+QgFzYg2ASSjWbWRBhPwmqM0at2mZ9nyXz3KWYeVZg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=BLOlGLUdkdwduQC7iFenRF/7YuOyLM0zHl29myyWImI=;
- b=nh002xIuOjwS58SYbmga731Nphtx885yUZoyut8TzlLzbWpCVxqrpOTk6ShqUe4SwXEciaqs5egejZw+nCyCvMywnaHfSA8TpQO7VKDT3sLPKyQC3rlVUcoOU13wgOmmKYuQ2htSbnMTKw8gKivqoUFCHCgH3vstDqbBndv5JRLM78P9hk/PZCoPekfsweDfDKNNPhCxJEIsJI6f/2jq29pCRvNzYKOBmicOOqgl1YcylVe16rl+gJPe+5ZXJB447QTIrRCyNytMIixoSkPjEKmSOmrDRGvY1Dj2wZks1+JwRhHMn0UCOmYiBgHwj67zy1w+k4BXF7s49b0lcDrnIg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=BLOlGLUdkdwduQC7iFenRF/7YuOyLM0zHl29myyWImI=;
- b=ceK9oBiX1Uo+XUWRmb0HIfNL430S6tZUqdkRnTOpd1IU7OLSy4YVyuH9kdzCX/znN6M+qitsaU4g9IHBfT5H7W8chaZsw189gdGS5dQyg9PULJQ7THir5WL5JgY8XmQYOJnxH91J+hF8W8AnZUVtbDa9bfH9NcE8xIrl1HKd2QI=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=renesas.com;
-Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
- (2603:1096:400:3a9::11) by TYCPR01MB8437.jpnprd01.prod.outlook.com
- (2603:1096:400:156::5) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7270.39; Tue, 13 Feb
- 2024 00:26:12 +0000
-Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
- ([fe80::4d0b:6738:dc2b:51c8]) by TYCPR01MB10914.jpnprd01.prod.outlook.com
- ([fe80::4d0b:6738:dc2b:51c8%6]) with mapi id 15.20.7270.036; Tue, 13 Feb 2024
- 00:26:11 +0000
-Message-ID: <8734tx8b18.wl-kuninori.morimoto.gx@renesas.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>, Ulf Hansson <ulf.hansson@linaro.org>, linux-pm@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Subject: [PATCH v3] pmdomain: renesas: Adjust the waiting time to cover the worst case
-Content-Type: text/plain; charset=US-ASCII
-Date: Tue, 13 Feb 2024 00:26:11 +0000
-X-ClientProxiedBy: TYAPR01CA0233.jpnprd01.prod.outlook.com
- (2603:1096:404:11e::29) To TYCPR01MB10914.jpnprd01.prod.outlook.com
- (2603:1096:400:3a9::11)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5072F14A94
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 13 Feb 2024 06:59:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.42
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1707807552; cv=none; b=Nwq+geoej5CVaMYlxpCNRhr3WyzCR5fv5pOUPp0c9qAjY8hnBawDt0mo8+4tiED+oTw24JzyaM+bJqmmulvIjCLUulcrxukaNkOKpLzJAI2ObsUyaUjnW59P6vlizZjs6efhLJnEpHDlQW+0fGHG0RaEp6/idsnIOhHuIj1/FyQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1707807552; c=relaxed/simple;
+	bh=2PCqVnulVRtxfKX+jOse4rhJ+xP6/Ap/a+/UZoa0fQs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=p8ioJPJDIsuwKOaqzYzkWVu+Hv89WFmO0+JtCtEtK8QIazDTGIIO38cCQ8aSi5s0DlFs7Akp2qWRzGk0vqka1QZGytX6jKZt3wWSFXdVmvj6tRRogfXnQmVWTTYtm0XmQd+/fT9ajnw7QMK2NUp0H1dleaH5253et1GVdm4zvsU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=UdBo+yNJ; arc=none smtp.client-ip=209.85.167.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
+Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-5116b540163so5819208e87.1
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 12 Feb 2024 22:59:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=tuxon.dev; s=google; t=1707807548; x=1708412348; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=iCpik2vbbKYs8wNuTcz5Utg4u+f8GdmePgUExwK1BdQ=;
+        b=UdBo+yNJ9QLaKC/+6VdknpwLvLi6xWcWgQHhSDrCDAQm2lKjm79jQ5gqtRu6K/cQCq
+         IJ2SThK3ClzIvQsNpu0KHN8qj+G1OO5YxtBHhSjg/N8kb65vVFbfrRqU9pl39mRYG36d
+         u4RgDBUQifw9F6kPCt+eqpOv4YJRTZUlQtdYpqboetuqQqfjJ9nmWUVHEDkSMPJQerFT
+         3qEOvHZrh65430mgn0hoZt7yVFDEeqwY0wnCO/pFsq/aPd7K0i/Z8g7/TlJaUs+uYRj8
+         alkYc2kCTIcynuhWuQcT8qGHNoSxa2pt5lGndE0FfiRa+nFjvC0EKye3t/Bl5Sq4hSXj
+         3XPA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1707807548; x=1708412348;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=iCpik2vbbKYs8wNuTcz5Utg4u+f8GdmePgUExwK1BdQ=;
+        b=jgCTJBxatv6rLOj15qRXk/OfQa02VmQLqtSWvasjLOSEH+eDxpGHdGXm0xfFl0Cxvm
+         RR37tcaun8TrN3Kr0rVqFJ44hlB/hDDRPGXyOvS8c5mR4J3kpMJIgNRfLzGLr8uy+aFM
+         gwhjQSAupbJXekmt6J4Jj2kkSB/kC6aRhMv/vxmUba+GeHgiq6GyD1yhg46ujWPyK9j8
+         NJqTGp1hsIiB9e9CYcnR3WmaJnkLW4uOoWcIbb9bhXKXqFrRU9IwLi2D1580bSdtPDIU
+         8p2qD/eK+gQhEcDSQf9hlOhTNwO3hu1hNn3gSMpUP/pvLxX1Nltdx2e600jXZyHH44lO
+         NPYg==
+X-Forwarded-Encrypted: i=1; AJvYcCUk0/7rOuOaQpDHKvcLZgX4TX4zDFz8cApilEdcuAnPCwCarvf/F8QVX8rooX8obrj4tOyLGSnhzSAtJK5SgGFw/s+Y7dFeHwPovgFlpGDzRho=
+X-Gm-Message-State: AOJu0YzPFz3zqde8gZLpdcFD0EtGIT0M5Chx8CQceYpTcG1/LOtH5kO5
+	DS6lilHaL8apBbGeGzjaci0lMY4LCaQ6RQVFd3hkbNAfF+L4mb6aQz1H+U25Lqo=
+X-Google-Smtp-Source: AGHT+IGjoR6hnuW3OcU7aaaNQQGAb1sYfgR0pKAvTNOwt2TZKbeYNaZcfd7E/xxMPgIQxROm5H3D5g==
+X-Received: by 2002:ac2:4ac9:0:b0:511:7b35:9563 with SMTP id m9-20020ac24ac9000000b005117b359563mr5107781lfp.19.1707807548051;
+        Mon, 12 Feb 2024 22:59:08 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCUKCgnNjA3S3HjaBNCWy4Q7NMoxP44y3hLRWT+ar5k56QUm1zE49O7IEG5sLc+/NOhJ4fpoY92In49wVsupq47PjBfjKOC1EC3TWATyuRXUBqfk0PLnLtrZZkzQ+XXO/B0SJzetreNhVaRLYcelZp/CFRvvcs0gEveAmnsFX1wyPjQah3lnSGQ1icwmCaZSeRliPh4EkMWpElkETJT+PWZw7iLF4gjH76HC2NquanHezRgt8jIV4IarqOBuFjrARt+VERH6J9Nilmw5kZhgQrk4q+/Z0O8FazdWUz+etl8bDvT8bVetEjxxMfEViDo3gfomPzsh+PG8c6A=
+Received: from [192.168.50.4] ([82.78.167.20])
+        by smtp.gmail.com with ESMTPSA id r17-20020a05600c35d100b004106c2278eesm10839306wmq.0.2024.02.12.22.59.07
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 12 Feb 2024 22:59:07 -0800 (PST)
+Message-ID: <6a024193-e8bd-4458-9fb4-2aa44e1f4513@tuxon.dev>
+Date: Tue, 13 Feb 2024 08:59:05 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TYCPR01MB10914:EE_|TYCPR01MB8437:EE_
-X-MS-Office365-Filtering-Correlation-Id: 56b242e4-2769-4024-91d7-08dc2c2a6193
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	SHU9WwG4oorans8Cb/jqyaw7ooDhAQk65Uf4q7q/hcOAw9RktV1PVRPLHM3hCd45mgo0D2rvQaF8ZHaQSuDmckInMovtp05TDdbhJtX/CNViYCml1xxtJFk5KvrijEvhEtKNk31o5spbEBVmiAQqTY1Wz8i6TEMYGKHzVeHJZaEYYDD8AEye6vIbRi6JXE3+eoMbz3JCzm1AG6wncHajJMi7oMU3yFgRy75GPC3fsb2QXDZ7uDkuO45C8nOo47NBHEhFBAsxiiGFNKBSj/NeSdZe4dJNJ+J8noQ/rb7gtt/nm2H3YcnGrcJQ0icz87e03BBx7HhjCJ3NoWZ+U7N8ISYOpE3TVyS6IC3Q0BKNgK/G7A3shcsnV79VCfhVmfkR4gOOj3brcxYgpqSxob/ZMBxPMSp+8aoI6VTY62JNsDI+oGMaQc+UrPhZ5Jp5M2d40isNnu1qcUn7mkIwgadM57lrxnq5sT4hPQ4C6Wpq1zX6z8iAEQK/Gto4ZPV6hnttNS7YmxBDdgn29o6sTkEfWzs2/E5j6CZosevy59Q7NvbFYeXviZtefJTGEOEzJdi0jKPXqjxOzAOfFk/IiAlCIq9e9Ir6yVbP7MoShVFa9OCTwosgbqco2nbLflyfdAiU
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB10914.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(346002)(366004)(376002)(39860400002)(136003)(396003)(230922051799003)(64100799003)(451199024)(1800799012)(186009)(2906002)(5660300002)(38350700005)(478600001)(6486002)(52116002)(6506007)(6512007)(2616005)(41300700001)(110136005)(26005)(66556008)(66476007)(66946007)(8676002)(8936002)(316002)(83380400001)(86362001)(38100700002)(36756003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?0uWd5x5bg460eITCqUQLvGQ8qdKiMb3/Jt/XK8cRrfK0oRznbuCU8Y6FUtc2?=
- =?us-ascii?Q?FJRVhMUsDiWZS4eqPYkYTnkzTNcD/TiwtRSBuEnDwpv4i1Bb+lVOORk1/L6M?=
- =?us-ascii?Q?P56ejaEAEvXcY1OK3iOuFZd3AB3G7a/x2+XdirdZk8hPOGyqaESzdme/li5Z?=
- =?us-ascii?Q?zlWJtx0PQIzkAEXcFYGjrUDWq8uMdlZRoaqVE5Cdh6kEETOZnjPVIVZW2zV1?=
- =?us-ascii?Q?RciLzfSQIGiHOxjFftLPs2YRVq9gBjXtUSY+qxziAnUtDUgbf+BQ1R4qiRW1?=
- =?us-ascii?Q?gPNpXjbtttDF9E0tpwFA5Ba/hb9XcW8gjWGHQQYLFfRFk8jjUmGom77Xux01?=
- =?us-ascii?Q?SFgfc2DF5Gq5uQJMX6b5JJovcDGasdkVrfgk8FCnlFPbqWIyWMJC+kn0S2mz?=
- =?us-ascii?Q?aQd2OBJHsdI7bf6dbhFQMzN6XjpvitaoyNue2C+lSmBvjlyL6eR91T4aMH43?=
- =?us-ascii?Q?c7ip9II3r5YDoH6rd3H3yl0b2h94e8N2hrCJJWvd2EZfyj5zTOA51zwMQZf4?=
- =?us-ascii?Q?Ss3uP4zQ034njoo/xAb4Ot3VHW9uqv1PfuM58eVkJ1p12mhcGe/d6P+r1gwp?=
- =?us-ascii?Q?5WMqtHec254yKoCIXrqrGCJh+s4QOjUJb88OhKs1/9MhcpdJF9jMQoXQhOca?=
- =?us-ascii?Q?Vox/73L+vuXGKfcg0O4KsVL24nPXRuK+ZJqBj3L8icPbf/UesiRZoLXYOQzw?=
- =?us-ascii?Q?9swupjEA2PjHc5MBcWopWBAWqZwZ/1OL3RooBrkmfUj/6fnxarLpMs9VhnXc?=
- =?us-ascii?Q?g3xke+XJkaGyWYpllVtprVrvTCVeN60NE/orOzLSx2Ipq6N5aV4cBXEkqRIm?=
- =?us-ascii?Q?7uANZZwHTp7QoYymXqpeUGRbFDn6HezOFOaNZ33WxSXwfVvaiOAtQcmnf3/6?=
- =?us-ascii?Q?P6+8a70hXRFn6fK05mJTXLcT/M6Sp1xWWxyGwSH4neWF1pvIb1KPZzIfC/PF?=
- =?us-ascii?Q?2PJxo1ISpZIyZmFdRWRQ18xl/dJdZrOAq5w2KIC0YhuYT0HqZjUP/TUpMV4Q?=
- =?us-ascii?Q?nrtm9MtSStoSgXxHbhvQz2k6l6UdEkJzRq7vreGK1GBqisQzub6DvICemaJ4?=
- =?us-ascii?Q?dlT4RICI5or4lqR73kvjg4UgFxeJ5wB1aLx2h0GxmIUd4eu+wUX01vRohkcL?=
- =?us-ascii?Q?KwLQ9sXIw74/cEJAMGEJ/1g/+l1mZbyqtRFG9CgTYMMg3+QA+PDjeLbws0Wg?=
- =?us-ascii?Q?wkm3J/UYM8WhWZ2wi6eP7LTB5uRblASbj+jyOEBs4fOQPojEeNKR4LR3ZekN?=
- =?us-ascii?Q?yJkLYdcN2RWI3mSXW2bw40xeZQY4jdA5NuIMcZqikUy2GnD2WkDqI7eYnY3S?=
- =?us-ascii?Q?msvjjdhtTq/RAPHSIpj9qO2NHf+9SrRIYZLtRos/ELXS1JpzOSsBcnU3ZES2?=
- =?us-ascii?Q?Q8TAfo/N1mGymkwCjP6Q0T+3QYU7SL+GcTwhhPCJPONZsShcg4S8V7zYDSmn?=
- =?us-ascii?Q?OBSGLL/Kd49vKsX4s2sRpIuEvsftdk8dYd/GpVhDs28YimDMJcPXahPA6gEw?=
- =?us-ascii?Q?qquNEx2IrKnStZppKduO/dUvNCYIkn0gZVaGQBqLPnZhSrjRa7fdIkqNrKkj?=
- =?us-ascii?Q?R6i3/BtN0dOVrEEDW463WTh5S3kwDbwGGtk2vlm26xxDN0VFiDC1SMKkqpTa?=
- =?us-ascii?Q?w+/q8ZDTV+9dVZyztXpjYOk=3D?=
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 56b242e4-2769-4024-91d7-08dc2c2a6193
-X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB10914.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Feb 2024 00:26:11.8226
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: RpUG0Vr+fGzMqEVajjxN0Lk0nPqjvsf3O+ngV/V9pSLXzTwwYpuCwDVfQ+dTXLKNOXfBeVGqajigm7DU3iR1BqdQyi+d6ZVYO7/pGPG74WBGfJG0jVDoFp5ujBEXshJj
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYCPR01MB8437
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next v2 5/5] net: ravb: Add runtime PM support
+Content-Language: en-US
+To: Sergey Shtylyov <s.shtylyov@omp.ru>, davem@davemloft.net,
+ edumazet@google.com, kuba@kernel.org, pabeni@redhat.com
+Cc: netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+ linux-kernel@vger.kernel.org,
+ Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+References: <20240209170459.4143861-1-claudiu.beznea.uj@bp.renesas.com>
+ <20240209170459.4143861-6-claudiu.beznea.uj@bp.renesas.com>
+ <3808dee0-b623-b870-7d96-94cc5fc12350@omp.ru>
+ <7d0ae75d-2fdb-47cb-b57b-20ee477d6081@tuxon.dev>
+ <1990e269-44fe-b45f-09b5-0c84f21778fc@omp.ru>
+From: claudiu beznea <claudiu.beznea@tuxon.dev>
+In-Reply-To: <1990e269-44fe-b45f-09b5-0c84f21778fc@omp.ru>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-From: Dien Pham <dien.pham.ry@renesas.com>
 
-Description in HWM rev0.51E, 9.4 Usage notes, page 455 tells
 
-	"It takes several hundreds of microseconds to shutting off and
-	 resuming power domain. Because actual time required for
-	 shutting off and resuming depends on the status of on-board
-	 power line, shutoff/resume time is not guaranteed by
-	 electrical specification"
+On 12.02.2024 22:19, Sergey Shtylyov wrote:
+> On 2/12/24 10:56 AM, claudiu beznea wrote:
+> 
+> [...]
+> 
+>>>> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+>>>>
+>>>> Add runtime PM support for the ravb driver. As the driver is used by
+>>>> different IP variants, with different behaviors, to be able to have the
+>>>> runtime PM support available for all devices, the preparatory commits
+>>>> moved all the resources parsing and allocations in the driver's probe
+>>>> function and kept the settings for ravb_open(). This is due to the fact
+>>>> that on some IP variants-platforms tuples disabling/enabling the clocks
+>>>> will switch the IP to the reset operation mode where registers' content is
+>>>
+>>>    This pesky "registers' content" somehow evaded me -- should be "register
+>>> contents" as well...
+>>>
+>>>> lost and reconfiguration needs to be done. For this the rabv_open()
+>>>> function enables the clocks, switches the IP to configuration mode, applies
+>>>> all the registers settings and switches the IP to the operational mode. At
+>>>> the end of ravb_open() IP is ready to send/receive data.
+>>>>
+>>>> In ravb_close() necessary reverts are done (compared with ravb_open()), the
+>>>> IP is switched to reset mode and clocks are disabled.
+>>>>
+>>>> The ethtool APIs or IOCTLs that might execute while the interface is down
+>>>> are either cached (and applied in ravb_open()) or rejected (as at that time
+>>>> the IP is in reset mode). Keeping the IP in the reset mode also increases
+>>>> the power saved (according to the hardware manual).
+>>>>
+>>>> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+>>>> Reviewed-by: Sergey Shtylyov <s.shtylyov@omp.ru>
+>>> [...]
+>>>
+>>>> diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
+>>>> index f4be08f0198d..5bbfdfeef8a9 100644
+>>>> --- a/drivers/net/ethernet/renesas/ravb_main.c
+>>>> +++ b/drivers/net/ethernet/renesas/ravb_main.c
+>>>> @@ -1939,16 +1939,21 @@ static int ravb_open(struct net_device *ndev)
+>>>>  {
+>>>>  	struct ravb_private *priv = netdev_priv(ndev);
+>>>>  	const struct ravb_hw_info *info = priv->info;
+>>>> +	struct device *dev = &priv->pdev->dev;
+>>>>  	int error;
+>>>>  
+>>>>  	napi_enable(&priv->napi[RAVB_BE]);
+>>>>  	if (info->nc_queues)
+>>>>  		napi_enable(&priv->napi[RAVB_NC]);
+>>>>  
+>>>> +	error = pm_runtime_resume_and_get(dev);
+>>>> +	if (error < 0)
+>>>> +		goto out_napi_off;
+>>>
+>>>    Well, s/error/ret/ -- it would fit better here...
+>>
+>> Using error is the "trademark" of this driver, it is used all around the
+>> driver. I haven't introduced it here, I don't like it. The variable error
+> 
+>    Heh, because it's my usual style. Too bad you don't like it... :-)
+> 
+>> in this particular function is here from the beginning of the driver.
+> 
+>    I think it's well suited for the functions returning either 0 or a
+> (negative) error code. It's *if* (error < 0) that confuses me (as this
+> API can return positive numbers in case of success...
+> 
+>> So, I don't consider changing error to ret is the scope of this series.
+> 
+>    OK, you're probably right... are you going to respin the series because
+> of Biju's comments?
 
-Let's assume the safe value of waiting is about 1000us.
+Yes!
 
-Signed-off-by: Dien Pham <dien.pham.ry@renesas.com>
-Signed-off-by: Takeshi Kihara <takeshi.kihara.df@renesas.com>
-Signed-off-by: Tho Vu <tho.vu.wh@renesas.com>
-Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
-v2 -> v3
-	- remove Signed-off-by Geert
-	- add    Reviewed-by   Geert
+Thank you,
+Claudiu Beznea
 
- drivers/pmdomain/renesas/rcar-sysc.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/pmdomain/renesas/rcar-sysc.c b/drivers/pmdomain/renesas/rcar-sysc.c
-index eed47696e825..35d9aa0dfab8 100644
---- a/drivers/pmdomain/renesas/rcar-sysc.c
-+++ b/drivers/pmdomain/renesas/rcar-sysc.c
-@@ -45,10 +45,10 @@
- #define PWRER_OFFS		0x14	/* Power Shutoff/Resume Error */
- 
- 
--#define SYSCSR_TIMEOUT		100
-+#define SYSCSR_TIMEOUT		1000
- #define SYSCSR_DELAY_US		1
- 
--#define PWRER_RETRIES		100
-+#define PWRER_RETRIES		1000
- #define PWRER_DELAY_US		1
- 
- #define SYSCISR_TIMEOUT		1000
--- 
-2.25.1
-
+> 
+> [...]
+>>>> @@ -3066,6 +3089,12 @@ static void ravb_remove(struct platform_device *pdev)
+>>>>  	struct net_device *ndev = platform_get_drvdata(pdev);
+>>>>  	struct ravb_private *priv = netdev_priv(ndev);
+>>>>  	const struct ravb_hw_info *info = priv->info;
+>>>> +	struct device *dev = &priv->pdev->dev;
+>>>> +	int error;
+>>>> +
+>>>> +	error = pm_runtime_resume_and_get(dev);
+>>>> +	if (error < 0)
+>>>> +		return;
+>>>
+>>>    Again, s/erorr/ret/ in this case.
+>>
+>> error was used here to comply with the rest of the driver. So, if you still
+>> want me to change it here and in ravb_remove() please confirm.
+> 
+>    No, we are good enough without that; I'll consider doing a cleanup
+> when/if I have time. :-)
+> 
+>> Thank you,
+>> Claudiu Beznea
+> 
+> MBR, Sergey
 
