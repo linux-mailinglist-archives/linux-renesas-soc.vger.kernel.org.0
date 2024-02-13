@@ -1,130 +1,149 @@
-Return-Path: <linux-renesas-soc+bounces-2719-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-2720-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFBE8853C20
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 13 Feb 2024 21:21:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A95E6853C34
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 13 Feb 2024 21:27:07 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 681101F26689
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 13 Feb 2024 20:21:11 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5DD8F1F24B6B
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 13 Feb 2024 20:27:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 25BF760B91;
-	Tue, 13 Feb 2024 20:21:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B932D60B94;
+	Tue, 13 Feb 2024 20:27:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WE2gFmlg"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lPFkxYPR"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F029D1CD10;
-	Tue, 13 Feb 2024 20:21:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AC8E1097D;
+	Tue, 13 Feb 2024 20:27:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707855666; cv=none; b=WnG5VXEAKdVl2rWtenqsxnEfDDwBMzm6zTq0tnfCbd28nPK9sSodGV651WMTq5m7RYjilYI65uE/PveEYvRA2Q3Ny3+R6OZ64ZC2MtTsGIy3DfxPCep6CPL0NK01iZhXXBnnrnt0gsYOPz+aqYlsAC+/txF70Bu/0VnT5DPMFwQ=
+	t=1707856023; cv=none; b=W44FPD8nVvRomyLSYWa/sAXRLj9b3M38FXp7DeTOwmNN+up397WCkB5zsuxrGrOL+3IloghQiDwSs4IuZ45o0v61VBXQVFA2cd7Jgo+aovy9475BDCocGk3wi5SWCLxMRbJiTbAghqF2sRFaPBEQR9OT+ik4Zyw5Gd05Q+6ip9E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707855666; c=relaxed/simple;
-	bh=NC4XhaOdHJS9ruYUKoeAr7zc6tZbtNyyxJjF6AwNkAc=;
-	h=Date:Content-Type:MIME-Version:From:To:Cc:In-Reply-To:References:
-	 Message-Id:Subject; b=s3WRvsvdSSZZnnwqHtOULhxmyr9KV/dNM88oWZbdPhu/mYFT3ajrsrJww8/H7W0K+0SF+R5x+4mrPRvgT2bg85/hpgXONxZ0jsH46Lrt1+HecPegi/NI27pTZCTXrcxNqfloNoM0e+NrM/ch8j50/BrYJMn/GKpqcsFk8E0w3Qo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WE2gFmlg; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 30DF8C433C7;
-	Tue, 13 Feb 2024 20:21:05 +0000 (UTC)
+	s=arc-20240116; t=1707856023; c=relaxed/simple;
+	bh=wr2SPv5Ld/DSkoS5vcAzZJ9Df9CxqcjpNgsKUEXsmMg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hlJplD7J9TgmdqwIxGJcBQAJy0AOrIxN5j2YL98JZ9YGQJMVH8qNdxPhXgGUQy0gRvceaicH3Y8UIrQRAj2oXmo54V0yRS7maLxq2djwO29QmcHqjeTlPqyGs2lN9pK6AmF2fgT5O3wo7NANmMSHS1LXjNoTMgQMVpviUKC0SWY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lPFkxYPR; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ACEE0C433F1;
+	Tue, 13 Feb 2024 20:26:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1707855665;
-	bh=NC4XhaOdHJS9ruYUKoeAr7zc6tZbtNyyxJjF6AwNkAc=;
-	h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
-	b=WE2gFmlgS/RiE9JZomlqwwufF7ZLenOhKzRJF6fa+Oq95Wqu5Lh1uG493NOR1UbSf
-	 HaVdEi+JsqaVRJfIByrx5WPS1IpYtF0SoLewK1SlSSM2VWnKv4/Ss3HS3RUR/Fhcbh
-	 TpI2cMweRAmbqrGA/GfRRspeTYzrO5SU3vIM/f/a8MtB+0hW4+Z0AtLB87xYhjNXUF
-	 5e7R8kobLs3lhyWo8r9Pa4ezKLcoKyagKbjZnB/FuETiDKhC8YpdM3ti2s+1eS3EKB
-	 OH/iIMThLpjG3md8HQX2+yMOdL9rnPrG2nYsdktmiND1fBYDQKytPqtW9mXRpWmVFs
-	 BlpxlVRFDWLjg==
-Date: Tue, 13 Feb 2024 14:21:04 -0600
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	s=k20201202; t=1707856023;
+	bh=wr2SPv5Ld/DSkoS5vcAzZJ9Df9CxqcjpNgsKUEXsmMg=;
+	h=Date:From:To:List-Id:Cc:Subject:References:In-Reply-To:From;
+	b=lPFkxYPR0J3NXG1zdBfo423wECnKhWMgXPxCg52F3jS4QKKMEyqjBhXaUGKE3tgG6
+	 37ZF1eFh/KlF2KXEvZh8+5akK0hqsrS1FZnabOENmkW6SqKVRepSFJf7g6xxh7ojEV
+	 jnkdi6FQUiy1uKshzEZhLb5yve1bg3+EMiWyulcWid6e7LMamsxlhTvq2275lGDRVd
+	 PYq1svZG2Lc2X9dtgFRoH1KjCqQDhIoYjVbGHKXP+VJjE7rPkT9HdKzpsCs5RzEGYP
+	 ef1gd/J3wmRP/+qW2yBa+bsr9UVpRx1oatwybDxzT9Hk3Wx4NArI6+dQLf7ihqU6h7
+	 NgaQAYTbgz0rQ==
+Date: Tue, 13 Feb 2024 20:26:51 +0000
+From: Conor Dooley <conor@kernel.org>
+To: Rob Herring <robh@kernel.org>
+Cc: soc@kernel.org, Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	NXP Linux Team <linux-imx@nxp.com>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Tsahee Zidenberg <tsahee@annapurnalabs.com>,
+	Antoine Tenart <atenart@kernel.org>, Joel Stanley <joel@jms.id.au>,
+	Andrew Jeffery <andrew@codeconstruct.com.au>,
+	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Andrew Lunn <andrew@lunn.ch>,
+	Gregory Clement <gregory.clement@bootlin.com>,
+	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
+	Jonathan =?iso-8859-1?Q?Neusch=E4fer?= <j.neuschaefer@gmx.net>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Stefan Agner <stefan@agner.ch>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	=?iso-8859-1?Q?Beno=EEt?= Cousson <bcousson@baylibre.com>,
+	Tony Lindgren <tony@atomide.com>, Chanho Min <chanho.min@lge.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Linus Walleij <linusw@kernel.org>, Imre Kaloz <kaloz@openwrt.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konrad.dybcio@linaro.org>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nicolas@fjasle.eu>,
+	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
+	openbmc@lists.ozlabs.org, linux-tegra@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-omap@vger.kernel.org, linux-mediatek@lists.infradead.org,
+	linux-renesas-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+	linux-kbuild@vger.kernel.org
+Subject: Re: [PATCH 0/6] dts: Fix dtc interrupt warnings
+Message-ID: <20240213-wafer-garnish-88287bc5d4a5@spud>
+References: <20240213-arm-dt-cleanups-v1-0-f2dee1292525@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: Rob Herring <robh@kernel.org>
-To: =?utf-8?q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Cc: Conor Dooley <conor+dt@kernel.org>, 
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
- Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org, 
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
- linux-renesas-soc@vger.kernel.org, 
- Geert Uytterhoeven <geert+renesas@glider.be>
-In-Reply-To: <20240213192340.2786430-1-niklas.soderlund+renesas@ragnatech.se>
-References: <20240213192340.2786430-1-niklas.soderlund+renesas@ragnatech.se>
-Message-Id: <170785566315.2270051.17137975742792836119.robh@kernel.org>
-Subject: Re: [PATCH v3] dt-bindings: renesas: Document preferred compatible
- naming
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="4XczAmSSxV0XIpGO"
+Content-Disposition: inline
+In-Reply-To: <20240213-arm-dt-cleanups-v1-0-f2dee1292525@kernel.org>
 
 
-On Tue, 13 Feb 2024 20:23:40 +0100, Niklas Söderlund wrote:
-> Compatibles can come in two formats. Either "vendor,ip-soc" or
-> "vendor,soc-ip". Add a DT schema file documenting Renesas preferred
-> policy and enforcing it for all new compatibles, except few existing
-> patterns.
-> 
-> Suggested-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+--4XczAmSSxV0XIpGO
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Tue, Feb 13, 2024 at 01:34:24PM -0600, Rob Herring wrote:
+> I had a branch with most of these changes sitting in my tree for some=20
+> time. Geert's asking about some errors not getting found prompted me to=
+=20
+> clean it up and send it out. This series fixes all* interrupt related=20
+> warnings and enables the check by default.=20
+>=20
+> SoC maintainers, Can you please take this series directly.=20
+>=20
+> Rob
+>=20
+> *There's a few Renesas warnings still Geert said he would fix.
+>=20
+> Signed-off-by: Rob Herring <robh@kernel.org>
 > ---
-> * Changes since v2
-> - Improve the select so it matches on any compatible containing a
->   component specific Renesas value.
-> - Make the regexps more compact.
-> - Define MaxItems to allow the increased selection to work.
-> - Add rmobile and shmobile prefixes.
-> - I did not take Rob's ack from v2 as the schema changed a lot after
->   Geerts review.
-> 
-> * Changes since v1
-> - Split the "SoC agnostic compatibles" section into two to make it's
->   intent clearer.
-> - Improved the documentation for each group of compatibles.
-> - Reduced the number of regexp to create a larger target area. As
->   suggested by Krzysztof the goal is not to validate each SoC name but
->   check for the correct order of SoC-IP.
-> 
-> * Changes since RFC
-> - Moved to Documentation/devicetree/bindings/soc/renesas.
-> - Changed the pattern in the initial select to match on .*-.*.
-> - Added a lot of missing compatible values.
-> ---
->  .../bindings/soc/renesas/renesas-soc.yaml     | 72 +++++++++++++++++++
->  1 file changed, 72 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/soc/renesas/renesas-soc.yaml
-> 
+> Rob Herring (6):
+>       arm64: dts: freescale: Disable interrupt_map check
+>       arm: dts: Fix dtc interrupt_provider warnings
+>       arm64: dts: Fix dtc interrupt_provider warnings
+>       arm: dts: Fix dtc interrupt_map warnings
+>       arm64: dts: qcom: Fix interrupt-map cell sizes
+>       dtc: Enable dtc interrupt_provider check
 
-My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-on your patch (DT_CHECKER_FLAGS is new in v5.13):
+Only fixing it for arm, Sadge.
 
-yamllint warnings/errors:
+Co-incidentally I noticed there was one for riscv while looking at
+Krzysztof's underscore in node name patch earlier, so I'd already
+written a patch to fix it :)
 
-dtschema/dtc warnings/errors:
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/soc/renesas/renesas-soc.yaml: properties:compatible:items: {'anyOf': [{'pattern': '^renesas,(emev2|r(7s|8a|9a)[a-z0-9]+|rcar|rmobile|rz[a-z0-9]*|sh(7[a-z0-9]+)?|mobile)-[a-z0-9-]+$'}, {'pattern': '^renesas,(condor|falcon|gr-peach|salvator|sk-rz|smar(c(2)?)?|spider|white-hawk)(.*)?$'}, {'pattern': '^renesas,(can|cpg|dmac|du|(g)?ether(avb)?|gpio|hscif|(r)?i[i2]c|imr|intc|ipmmu|irqc|jpu|mmcif|msiof|mtu2|pci(e)?|pfc|pwm|[rq]spi|rcar_sound|sata|scif[ab]*|sdhi|thermal|tmu|tpu|usb(2|hs)?|vin|xhci)-[a-z0-9-]+$'}, {'pattern': '^renesas,(d|s)?bsc(3)?-(r8a73a4|r8a7740|sh73a0)$'}, {'pattern': '^renesas,em-(gio|sti|uart)$'}, {'pattern': '^renesas,fsi2-(r8a7740|sh73a0)$'}, {'pattern': '^renesas,hspi-r8a777[89]$'}, {'pattern': '^renesas,sysc-(r8a73a4|r8a7740|rmobile|sh73a0)$'}, {'enum': ['renesas,imr-lx4', 'renesas,mtu2-r7s72100']}, {'enum': ['renesas,smp-sram']}, {'pattern': '^(?!renesas,.+-.+).+$'}]} is not of type 'array'
-	from schema $id: http://devicetree.org/meta-schemas/string-array.yaml#
+--4XczAmSSxV0XIpGO
+Content-Type: application/pgp-signature; name="signature.asc"
 
-doc reference errors (make refcheckdocs):
+-----BEGIN PGP SIGNATURE-----
 
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20240213192340.2786430-1-niklas.soderlund+renesas@ragnatech.se
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZcvQiwAKCRB4tDGHoIJi
+0iKoAP9EkRpfMdcQD2Rxy6EyQrFHOf9aK1XBqWvwsM+uYWZVZAD9El92XfSbd1tC
+IcCJORhtpqwWl2bRDhMSRtSpWpqRygA=
+=9Yjc
+-----END PGP SIGNATURE-----
 
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
-
+--4XczAmSSxV0XIpGO--
 
