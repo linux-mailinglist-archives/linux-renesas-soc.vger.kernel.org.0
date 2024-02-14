@@ -1,218 +1,314 @@
-Return-Path: <linux-renesas-soc+bounces-2740-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-2741-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id C508F854201
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Feb 2024 05:18:20 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id B5CE5854248
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Feb 2024 06:21:02 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 743D1284D9F
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Feb 2024 04:18:19 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2EFC31F21EBE
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Feb 2024 05:21:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 78D54BA39;
-	Wed, 14 Feb 2024 04:18:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="RNty4yVv"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 734A4C14F;
+	Wed, 14 Feb 2024 05:20:58 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com (mail-co1nam11on2083.outbound.protection.outlook.com [40.107.220.83])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9720023BE;
-	Wed, 14 Feb 2024 04:18:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.220.83
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707884295; cv=fail; b=u7wGIeTKrkAeC1KeNDsifxatTKa+SncmmnCbrqETle7/MS1zie54K6YystnYnSO2kv30vnfag3wdNLryPOMSgpIsHx+fdNs8RobWRw9Ykxadf/pZyW4qoFnjfBaJDO3/U8LOJ/TcicYJSM/Tgv+fxa8i5hHs2xrG34+ipmwQ3eA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707884295; c=relaxed/simple;
-	bh=ggtoPt7O9ZtBP/Q0D8whsz8F7uxLArJ7Eocp+OIyCZs=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=YhOR6S/WROUcSyKlr6rBwbcax6I4e/Jy1OvBYeOi5WXZGqf13fx3jFKlcARGLD/b9VYOsdOIJvW3dyY+ovadjslbPtHznnmHpnYa0d8PZZJCzZZUG+ioxYwDUFWG+WqtQOqvp3z83eZCtw/spFMp1wgEY3XS4TWxACw4NyEhKHM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=RNty4yVv; arc=fail smtp.client-ip=40.107.220.83
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=mAq3YX+7DTY279auwMnj27kVSt2pzDBC8/iswqv+br/ZMdxmNHwl2+KQQKbiATKMAAEuUAAkeqrGB0tmsAo85rvftxB6LRhMjsqJ64ZLXqQGxWdMkcl4HDVEoCFJex2AznXi/hn0vxWDcS8lwfBb5BjRnLsw9Lmsp+GpfvoJFc1df/m4KPNMYpjzz6uTKBJYFrGkcbZ0K9QIED4KFQVzHt4WppQNKmBVgFp9IFOuslKt9EP0XMQ/05i8FHhawjEaywEr9BFC0NyJim2hH9kh+9Bfb/HlccrEeaFJODDdtzo1VAXlE24ddC/1JlIL0twp6ABzPmrFh691zYqMHinlNg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=rU2uQsJE00ho6XA6t1IulkKkiovT1fk000EV0BbvKbs=;
- b=Mkk+BTBzSitbPRVpwAub09X9aRruVzUsBNiZHj12X2gV7zDFRjrMPP+yOzEWVc7BibegPO2me5XvbuBBnvLmvuHCBbuF601W9OFeMLljgQ2rnLKe5Ce+k+vuQBtNSoHnDvUOJ+uv1xpWWc0c3IaITH5TGFUheXAReP14h5NgM/FyU5wmoTK/Rom4KFGjdrCs+fw0+Z6XXBQzgvFsEWTugjCzc8cnzsH7qRJk/b0yt1Ac4lV+3nXpkMQHBpyFp1Lb2slRFzHgla6XLXvL2cgocx+SefgFFvspESKG6aG9OiKIwj0wtyMKoRNm/n5Sko07BmlDKDYZfwmzAAFxy1yifQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=rU2uQsJE00ho6XA6t1IulkKkiovT1fk000EV0BbvKbs=;
- b=RNty4yVvKxHeoyinQ258+wDNWeQ2RQHy3aKgpYmYxMWyPIrVfJh1l86sVY0lySC78P15wig1hdaEkP8WkAP9drs3+hyg0fNJzZ3r2AYBRiuoXGbKUhembYYHGQi1E0YIBPSvx2lRfujGBFBjsZdRcmLk+hH830dziEHy+32WDCo=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BL1PR12MB5827.namprd12.prod.outlook.com (2603:10b6:208:396::19)
- by MW3PR12MB4412.namprd12.prod.outlook.com (2603:10b6:303:58::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7292.25; Wed, 14 Feb
- 2024 04:18:10 +0000
-Received: from BL1PR12MB5827.namprd12.prod.outlook.com
- ([fe80::6bd9:3cc9:6012:5517]) by BL1PR12MB5827.namprd12.prod.outlook.com
- ([fe80::6bd9:3cc9:6012:5517%5]) with mapi id 15.20.7292.010; Wed, 14 Feb 2024
- 04:18:10 +0000
-Message-ID: <7a243a1e-6b47-bc2f-c538-b57db1c9c580@amd.com>
-Date: Wed, 14 Feb 2024 09:47:54 +0530
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/2] PCI endpoint BAR hardware description cleanup
-To: Niklas Cassel <cassel@kernel.org>, Richard Zhu <hongxing.zhu@nxp.com>,
- Lucas Stach <l.stach@pengutronix.de>,
- Lorenzo Pieralisi <lpieralisi@kernel.org>,
- =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>,
- Rob Herring <robh@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
- Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>,
- Minghuan Lian <minghuan.Lian@nxp.com>, Mingkai Hu <mingkai.hu@nxp.com>,
- Roy Zang <roy.zang@nxp.com>, Srikanth Thokala <srikanth.thokala@intel.com>,
- Marek Vasut <marek.vasut+renesas@gmail.com>,
- Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>,
- Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
- Masami Hiramatsu <mhiramat@kernel.org>, Jon Mason <jdmason@kudzu.us>,
- Dave Jiang <dave.jiang@intel.com>, Allen Hubbe <allenbh@gmail.com>,
- Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
- Kishon Vijay Abraham I <kishon@kernel.org>
-Cc: Damien Le Moal <dlemoal@kernel.org>, Frank Li <Frank.Li@nxp.com>,
- linux-pci@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linuxppc-dev@lists.ozlabs.org, linux-renesas-soc@vger.kernel.org,
- linux-tegra@vger.kernel.org, ntb@lists.linux.dev
-References: <20240210012634.600301-1-cassel@kernel.org>
-Content-Language: en-US
-From: Kishon Vijay Abraham I <kvijayab@amd.com>
-In-Reply-To: <20240210012634.600301-1-cassel@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: PN2P287CA0011.INDP287.PROD.OUTLOOK.COM
- (2603:1096:c01:21b::18) To BL1PR12MB5827.namprd12.prod.outlook.com
- (2603:10b6:208:396::19)
+Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 90CDCC147
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 14 Feb 2024 05:20:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.171
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1707888058; cv=none; b=fvpVkZuRP56vnBPBBxl+t7XWY/hGkQKgZ1obu5HBoM6EHev7RTTgc3KizB/RXc35BF3pvDEZlc6V3hGtrbJtF3Ta3UZ4dSWSXH+8S0S98s4ThpbSpe8vvOKeOMxEqX0YbGt4rmyDbLCtzrzvOEFKkykXsLjfTiVGphT0n1I/CUI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1707888058; c=relaxed/simple;
+	bh=CP+t6cpCwZ5EAWaev+NCD60ud8qqlBOPGGNDRykIjWM=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=jPJCXPCrHWH/eGy7srJchr+BQnSqErqou/uXIOWEbw0+AqrQb+ULJlNvVJxcDpmABOXpky7YYAFWpRZW6i3PhoQ3Ny4nAflA5t8/EN3zyFn+rcXkHOYfpQ1G+Y8W7BmW6XNIqAKbKppwbNkuXg1Lj6R/FmKrBClAuQRvY/fPG80=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; arc=none smtp.client-ip=210.160.252.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
+X-IronPort-AV: E=Sophos;i="6.06,159,1705330800"; 
+   d="scan'208";a="193876759"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie5.idc.renesas.com with ESMTP; 14 Feb 2024 14:20:54 +0900
+Received: from localhost.localdomain (unknown [10.166.13.99])
+	by relmlir6.idc.renesas.com (Postfix) with ESMTP id 0C5D04190465;
+	Wed, 14 Feb 2024 14:20:54 +0900 (JST)
+From: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+To: catalin.marinas@arm.com,
+	will@kernel.org,
+	maz@kernel.org,
+	tglx@linutronix.de
+Cc: linux-arm-kernel@lists.infradead.org,
+	linux-renesas-soc@vger.kernel.org,
+	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Subject: [PATCH] irqchip/gic-v3-its: Workaround Renesas R-Car GICv3 ITS
+Date: Wed, 14 Feb 2024 14:20:50 +0900
+Message-Id: <20240214052050.1966439-1-yoshihiro.shimoda.uh@renesas.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL1PR12MB5827:EE_|MW3PR12MB4412:EE_
-X-MS-Office365-Filtering-Correlation-Id: e9a49421-e5b3-4755-5cfd-08dc2d13f3d6
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	cdaub462hYD/s3XhuV1zRhqm5LbaYSJyedNpVPKjkL/X7Df3DpxWLrwdSeOb1WGB6SOQ1f4wnd9lSRC8EkjIe43V5hZatibk21PBJ7VHGtj77lhxisryMus0YA3HL/O5yjedLHJaDPKWNp+LH4tmlTOX9nrWkvTfyEq4gLA++F8kLNROBpG56pOfYOYdsab9Xdc4J031iHv1c+EJHq2fB4cmlNfn2s7Els4qVGgAu8lLaVgcWJiJSPQpvvcbJk8RDgsDN/w7GGAFmtk83EXoqHjQMMrExo2FT+et0s/smPMR2CC6UUvFXkFwSHdKz1ydUCTIm71jzC7soJ7Bk03WClzyQuMkEK1E3xJ+RB1OY8j7QkC76HmzxC3HD70xDhS5F/LxsOEymjHr/lepqB6gsXx1P/4DIQJc94q+U2qrCBoN1DtiUVN7BMBdf/c3Rjx9TBIJKaCZl9hcUrM9EQqAI5vergApVHq0gXyvAwyM5J5LQ32NWlSB4WchfuLIEF6+pcFaM/igtbI3+4E6a3gqztCkZ+Czwutr1qWLBPoY4ujr+WyZHeAE7bF+/QNlGVivTTKXItkl+btSZbHQlM/N8Q==
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL1PR12MB5827.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(346002)(39860400002)(366004)(136003)(396003)(376002)(230922051799003)(451199024)(186009)(64100799003)(1800799012)(2906002)(7416002)(7406005)(6666004)(6486002)(36756003)(26005)(6512007)(6506007)(53546011)(966005)(478600001)(8936002)(38100700002)(2616005)(31696002)(66946007)(66476007)(4326008)(8676002)(66556008)(83380400001)(5660300002)(921011)(54906003)(110136005)(316002)(31686004)(41300700001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?MmsvdU1LOU01WU5JTDVuK1hoYUpiRkkyTzQycTBnMExCdGltd2VUVTZVekFM?=
- =?utf-8?B?eU8xQzhQTzZjUERvamUrTi9qZDJQRy91U1VrTER0ZFpzbDg2b3g1YlJIVERx?=
- =?utf-8?B?Mkx6WGlWbVdFUmt3ZC8rMTQvZ3haeGp4R2ppSjFZdE5xZWg3U2lTK1c5RFVq?=
- =?utf-8?B?eFRsbExIdllvTzNUK2ZHR1dNQ3FvWFlEVkFzUzI1WHNNME1POUFjR2xZSU1T?=
- =?utf-8?B?RnRaZ1N1alVGWHFuYVdkeFJ1akF4NzdwNWptcFRJZEhGWWpZYWs1aForZDB1?=
- =?utf-8?B?VHJDdGdMeEhhWTFNeWJKenJJNU9GYy85UGdwNVNmU0dFSGNnVnMxcWY5YThv?=
- =?utf-8?B?Z3hNcjFzbXhMeFlweFI3YmkyeVo3V2hVaU4xVmZORnA2dDl4UFI3QUZSVlpr?=
- =?utf-8?B?NzZhQzFuRi9lbTZqd05JRVpPdXVJbDZvVGRYSUNLM2xqdEczZEpWSTRJbDFT?=
- =?utf-8?B?RS9aTHpKbDNyWm4yMzU5T0FzbjNtb2hjMUc2aDdNcFoxckNOamZ1YjlldUtJ?=
- =?utf-8?B?ZVJiZjhscDJTbGkrSkpjWnVDZVdFNW1hZnIxQjNlc3A5Rm82b0EyblJVNCtY?=
- =?utf-8?B?b2xGWWkyMnZkU3dHenRveWhsWm9YRWRKSUpVdlYrQSt5K2V2V1JrSE5DcUl1?=
- =?utf-8?B?dFA3d2FuY2tKeVErbFBNZ2JKOG1ETjlCSVN3RE5aVUpiSmlBSXkyc3czUnVE?=
- =?utf-8?B?d1F0SENxY2RDcTlVZmVTZFo2eFhDRTdycUxuSjNlOUJmT05nL1d1bTAyTFB2?=
- =?utf-8?B?WkdsWDQ3UHR0ZW1XU2Nua3BSZ1JIclA4OVkyQThsS2pZc3lLblg5VmFCRHRk?=
- =?utf-8?B?QXIrTzFKNXlmbFFoUG50emRoMC9jVzFuMHBPYzJMVUlGNEowdFU1azZlK3Ja?=
- =?utf-8?B?UGw3cjg2ZHFkaXFLVUxVTnVSdGRuSWVXaUwyOWR1eVBnQmtrUkorVURMbHlw?=
- =?utf-8?B?dXZjMytHN0V2V0dweHNrckRxSVdxNERkZ0xDNGpGdS9mc0dQOTZSMmRrbjVG?=
- =?utf-8?B?MDJCWm9iQUFxanZqMmEwbGRETGZsOWdTeUdsdWV2YlgrN0tXeGtSUHRMa1hj?=
- =?utf-8?B?NWxCYkFPdm55cDhJRDZGZGpVYkE5NzM5WjVHWko2UTJyYlcxSnR1cEtDMk5U?=
- =?utf-8?B?ZXA3bXo1T0UvVnMzTW5aVlVmeHFvM2dYckY2YWFMbXZLcDdycWVtS1BKR2lj?=
- =?utf-8?B?WW5TUDMyTVhDY1JXUTU1a1JoQ2VDVXRxOG9JbDliamxvOWhpQkNGVU5hU2F1?=
- =?utf-8?B?c1VvdDJiRFBVcVJQY2FNSzVBclI3dEVyUkxtWFE5czAzV1JVOUtLbUFTSkc2?=
- =?utf-8?B?amZuSzBVbmhwdDZpdllUZmxSYWlJTis3eWNBSm1KRE11OFR0MHd3cHBwemFF?=
- =?utf-8?B?aFI4TXNYR3RTdktsQmFpaElVclc1R1JZVVl4WEhYQ3JyRnpVUzBKTlF3STZp?=
- =?utf-8?B?MTlQMjFoRXQyT0xydW1ndEovYVBXZUJ1MzBlb2dab0JuSU95dGZOR2t6MmxY?=
- =?utf-8?B?WGtNdHVJeTVXb3RHNGR2VVlHUFpoNXROdWFKWGgzZ1p2T2FDUzBibmQ3WFI4?=
- =?utf-8?B?dVY1ZDNraElrSWFWTW1mTFM3NkVyNlVJSklEblZFckdxVnl6RFRKVGk4Z2Zs?=
- =?utf-8?B?ODVyMjNpSFJrNEZrUG1Id3V0cFhlOWhuZVFoNldEMS9kMTVNMzNCWWZoYXUx?=
- =?utf-8?B?dUtOVWJxamk4Z1hUbEs4TFBkZXFLNHk2WFZhOGFzUnpmbWlwRG01anNPU0M3?=
- =?utf-8?B?bGsrTzg4cmE3Qk9hQmJkR1NiSUdYTk82ais0OXhzOTlPdDJZSkVMc1FIWSth?=
- =?utf-8?B?OGZvRjYzRzRXc0hKWmREeXdyRmhpTGRjYjFIZFd5d2U0WXhoQmJiZTdveW44?=
- =?utf-8?B?TXEyMWhrbHQzR3oxNXJWYUhIVTBCZUxFeFhhcG0yY0RicVRUejFNcVBMeFk5?=
- =?utf-8?B?anIyZ2RwTlQxL21GVFhKRUc0T3IrMTZxMW9CeEFlZXR0UDN2eFFLUzNFdzdp?=
- =?utf-8?B?UDVKc2VOZERSNnNmVy9sZHBaZWcwREN0MUJ6cEswMkNEbXZxL2V5dzNkbUpz?=
- =?utf-8?B?OEQxNzhCOVpNNzJndVFzZWUvMXE3QmRQNitrb3Uwd0dzbXlSR1FZaDliY1Bn?=
- =?utf-8?Q?4WoiQdno9LmL13786n56rUw14?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e9a49421-e5b3-4755-5cfd-08dc2d13f3d6
-X-MS-Exchange-CrossTenant-AuthSource: BL1PR12MB5827.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Feb 2024 04:18:10.1135
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: bl0UgFGDon3aNRDMqfzIhy9ciAWw6SL7J0vQleU7dlchoOOBCSAG+s0HP5W6V42fytiHisWJX06th5ujNiW8fw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW3PR12MB4412
+Content-Transfer-Encoding: 8bit
 
-Hi Niklas,
+The GICv3 ITS on Renesas R-Car has limitations:
+ - It can access lower 32-bits memory area only.
+ - It cannot use Sharable/cache attributes.
 
-On 2/10/2024 6:56 AM, Niklas Cassel wrote:
-> The series is based on top of:
-> https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git/log/?h=endpoint
-> 
-> 
-> Hello all,
-> 
-> This series cleans up the hardware description for PCI endpoint BARs.
-> 
-> The problems with the existing hardware description:
-> -The documentation is lackluster.
-> -Some of the names are confusingly similar, e.g. fixed_64bit and
->   fixed_size, even though these are for completely unrelated things.
-> -The way that the BARs are defined in the endpoint controller drivers
->   is messy, because the left hand side is not a BAR, so you can mark a
->   BAR as e.g. both fixed size and reserved.
-> 
-> This series tries to address all the problems above.
-> 
-> Personally, I think that the code is more readable, both the endpoint
-> controller drivers, but also pci-epc-core.c.
+So, set ITS_FLAGS_FORCE_NON_SHAREABLE flag, and set GFP_DMA to all
+memory allocation APIs for getting lower 32-bits memory area on
+the R-Car. Note that GFP_DMA32 cannot work correctly because
+the environment doens't have DMA32 zone like below:
 
-Thank you for cleaning this up!
+[    0.000000] Zone ranges:
+[    0.000000]   DMA      [mem 0x0000000048000000-0x00000000ffffffff]
+[    0.000000]   DMA32    empty
+[    0.000000]   Normal   [mem 0x0000000100000000-0x00000004ffffffff]
 
-FWIW:
-Reviewed-by: Kishon Vijay Abraham I <kishon@kernel.org>
-> 
-> (Oh, and as you can probably guess, I will be sending out a patch series
-> that adds BAR_RESIZABLE to enum pci_epc_bar_type in the coming week(s).)
-> 
-> 
-> Kind regards,
-> Niklas
-> 
-> 
-> Niklas Cassel (2):
->    PCI: endpoint: Clean up hardware description for BARs
->    PCI: endpoint: Drop only_64bit on reserved BARs
-> 
->   drivers/pci/controller/dwc/pci-imx6.c         |  3 +-
->   drivers/pci/controller/dwc/pci-keystone.c     | 12 +++---
->   .../pci/controller/dwc/pci-layerscape-ep.c    |  5 ++-
->   drivers/pci/controller/dwc/pcie-keembay.c     |  8 +++-
->   drivers/pci/controller/dwc/pcie-rcar-gen4.c   |  4 +-
->   drivers/pci/controller/dwc/pcie-tegra194.c    | 10 +++--
->   drivers/pci/controller/dwc/pcie-uniphier-ep.c | 15 ++++++--
->   drivers/pci/controller/pcie-rcar-ep.c         | 14 ++++---
->   drivers/pci/endpoint/functions/pci-epf-ntb.c  |  4 +-
->   drivers/pci/endpoint/functions/pci-epf-test.c |  8 ++--
->   drivers/pci/endpoint/functions/pci-epf-vntb.c |  2 +-
->   drivers/pci/endpoint/pci-epc-core.c           | 25 +++++-------
->   drivers/pci/endpoint/pci-epf-core.c           | 15 ++++----
->   include/linux/pci-epc.h                       | 38 ++++++++++++++++---
->   14 files changed, 105 insertions(+), 58 deletions(-)
-> 
+Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+---
+ arch/arm64/Kconfig               |  9 +++++
+ drivers/irqchip/irq-gic-v3-its.c | 59 +++++++++++++++++++++-----------
+ 2 files changed, 48 insertions(+), 20 deletions(-)
+
+diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
+index c1a16a9dae72..49fe3006e142 100644
+--- a/arch/arm64/Kconfig
++++ b/arch/arm64/Kconfig
+@@ -1250,6 +1250,15 @@ config SOCIONEXT_SYNQUACER_PREITS
+ 
+ 	  If unsure, say Y.
+ 
++config RENESAS_RCAR_GIC_ITS
++	bool "Renesas R-Car: Workaround for GICv3 ITS"
++	default n
++	help
++	  Renesas R-Car Gen4 SoCs has a limitation about GICv3 ITS which can
++	  access lower 32-bits memory address range only.
++
++	  If unsure, say Y.
++
+ endmenu # "ARM errata workarounds via the alternatives framework"
+ 
+ choice
+diff --git a/drivers/irqchip/irq-gic-v3-its.c b/drivers/irqchip/irq-gic-v3-its.c
+index d097001c1e3e..e0e672b561b9 100644
+--- a/drivers/irqchip/irq-gic-v3-its.c
++++ b/drivers/irqchip/irq-gic-v3-its.c
+@@ -186,6 +186,7 @@ static LIST_HEAD(its_nodes);
+ static DEFINE_RAW_SPINLOCK(its_lock);
+ static struct rdists *gic_rdists;
+ static struct irq_domain *its_parent;
++static gfp_t its_gfp_quirk;
+ 
+ static unsigned long its_list_map;
+ static u16 vmovp_seq_num;
+@@ -1846,7 +1847,7 @@ static int its_vlpi_map(struct irq_data *d, struct its_cmd_info *info)
+ 		struct its_vlpi_map *maps;
+ 
+ 		maps = kcalloc(its_dev->event_map.nr_lpis, sizeof(*maps),
+-			       GFP_ATOMIC);
++			       GFP_ATOMIC | its_gfp_quirk);
+ 		if (!maps) {
+ 			ret = -ENOMEM;
+ 			goto out;
+@@ -2044,7 +2045,7 @@ static struct lpi_range *mk_lpi_range(u32 base, u32 span)
+ {
+ 	struct lpi_range *range;
+ 
+-	range = kmalloc(sizeof(*range), GFP_KERNEL);
++	range = kmalloc(sizeof(*range), GFP_KERNEL | its_gfp_quirk);
+ 	if (range) {
+ 		range->base_id = base;
+ 		range->span = span;
+@@ -2169,7 +2170,7 @@ static unsigned long *its_lpi_alloc(int nr_irqs, u32 *base, int *nr_ids)
+ 	if (err)
+ 		goto out;
+ 
+-	bitmap = bitmap_zalloc(nr_irqs, GFP_ATOMIC);
++	bitmap = bitmap_zalloc(nr_irqs, GFP_ATOMIC | its_gfp_quirk);
+ 	if (!bitmap)
+ 		goto out;
+ 
+@@ -2201,7 +2202,7 @@ static struct page *its_allocate_prop_table(gfp_t gfp_flags)
+ {
+ 	struct page *prop_page;
+ 
+-	prop_page = alloc_pages(gfp_flags, get_order(LPI_PROPBASE_SZ));
++	prop_page = alloc_pages(gfp_flags | its_gfp_quirk, get_order(LPI_PROPBASE_SZ));
+ 	if (!prop_page)
+ 		return NULL;
+ 
+@@ -2335,7 +2336,7 @@ static int its_setup_baser(struct its_node *its, struct its_baser *baser,
+ 		order = get_order(GITS_BASER_PAGES_MAX * psz);
+ 	}
+ 
+-	page = alloc_pages_node(its->numa_node, GFP_KERNEL | __GFP_ZERO, order);
++	page = alloc_pages_node(its->numa_node, GFP_KERNEL | __GFP_ZERO | its_gfp_quirk, order);
+ 	if (!page)
+ 		return -ENOMEM;
+ 
+@@ -2808,7 +2809,7 @@ static bool allocate_vpe_l2_table(int cpu, u32 id)
+ 
+ 	/* Allocate memory for 2nd level table */
+ 	if (!table[idx]) {
+-		page = alloc_pages(GFP_KERNEL | __GFP_ZERO, get_order(psz));
++		page = alloc_pages(GFP_KERNEL | __GFP_ZERO | its_gfp_quirk, get_order(psz));
+ 		if (!page)
+ 			return false;
+ 
+@@ -2860,7 +2861,7 @@ static int allocate_vpe_l1_table(void)
+ 	if (val & GICR_VPROPBASER_4_1_VALID)
+ 		goto out;
+ 
+-	gic_data_rdist()->vpe_table_mask = kzalloc(sizeof(cpumask_t), GFP_ATOMIC);
++	gic_data_rdist()->vpe_table_mask = kzalloc(sizeof(cpumask_t), GFP_ATOMIC | its_gfp_quirk);
+ 	if (!gic_data_rdist()->vpe_table_mask)
+ 		return -ENOMEM;
+ 
+@@ -2927,7 +2928,7 @@ static int allocate_vpe_l1_table(void)
+ 
+ 	pr_debug("np = %d, npg = %lld, psz = %d, epp = %d, esz = %d\n",
+ 		 np, npg, psz, epp, esz);
+-	page = alloc_pages(GFP_ATOMIC | __GFP_ZERO, get_order(np * PAGE_SIZE));
++	page = alloc_pages(GFP_ATOMIC | __GFP_ZERO | its_gfp_quirk, get_order(np * PAGE_SIZE));
+ 	if (!page)
+ 		return -ENOMEM;
+ 
+@@ -2957,7 +2958,7 @@ static int its_alloc_collections(struct its_node *its)
+ 	int i;
+ 
+ 	its->collections = kcalloc(nr_cpu_ids, sizeof(*its->collections),
+-				   GFP_KERNEL);
++				   GFP_KERNEL | its_gfp_quirk);
+ 	if (!its->collections)
+ 		return -ENOMEM;
+ 
+@@ -2971,7 +2972,7 @@ static struct page *its_allocate_pending_table(gfp_t gfp_flags)
+ {
+ 	struct page *pend_page;
+ 
+-	pend_page = alloc_pages(gfp_flags | __GFP_ZERO,
++	pend_page = alloc_pages(gfp_flags | __GFP_ZERO | its_gfp_quirk,
+ 				get_order(LPI_PENDBASE_SZ));
+ 	if (!pend_page)
+ 		return NULL;
+@@ -3319,7 +3320,7 @@ static bool its_alloc_table_entry(struct its_node *its,
+ 
+ 	/* Allocate memory for 2nd level table */
+ 	if (!table[idx]) {
+-		page = alloc_pages_node(its->numa_node, GFP_KERNEL | __GFP_ZERO,
++		page = alloc_pages_node(its->numa_node, GFP_KERNEL | __GFP_ZERO | its_gfp_quirk,
+ 					get_order(baser->psz));
+ 		if (!page)
+ 			return false;
+@@ -3415,7 +3416,7 @@ static struct its_device *its_create_device(struct its_node *its, u32 dev_id,
+ 	if (WARN_ON(!is_power_of_2(nvecs)))
+ 		nvecs = roundup_pow_of_two(nvecs);
+ 
+-	dev = kzalloc(sizeof(*dev), GFP_KERNEL);
++	dev = kzalloc(sizeof(*dev), GFP_KERNEL | its_gfp_quirk);
+ 	/*
+ 	 * Even if the device wants a single LPI, the ITT must be
+ 	 * sized as a power of two (and you need at least one bit...).
+@@ -3423,14 +3424,14 @@ static struct its_device *its_create_device(struct its_node *its, u32 dev_id,
+ 	nr_ites = max(2, nvecs);
+ 	sz = nr_ites * (FIELD_GET(GITS_TYPER_ITT_ENTRY_SIZE, its->typer) + 1);
+ 	sz = max(sz, ITS_ITT_ALIGN) + ITS_ITT_ALIGN - 1;
+-	itt = kzalloc_node(sz, GFP_KERNEL, its->numa_node);
++	itt = kzalloc_node(sz, GFP_KERNEL | its_gfp_quirk, its->numa_node);
+ 	if (alloc_lpis) {
+ 		lpi_map = its_lpi_alloc(nvecs, &lpi_base, &nr_lpis);
+ 		if (lpi_map)
+ 			col_map = kcalloc(nr_lpis, sizeof(*col_map),
+-					  GFP_KERNEL);
++					  GFP_KERNEL | its_gfp_quirk);
+ 	} else {
+-		col_map = kcalloc(nr_ites, sizeof(*col_map), GFP_KERNEL);
++		col_map = kcalloc(nr_ites, sizeof(*col_map), GFP_KERNEL | its_gfp_quirk);
+ 		nr_lpis = 0;
+ 		lpi_base = 0;
+ 	}
+@@ -4754,6 +4755,16 @@ static bool __maybe_unused its_enable_rk3588001(void *data)
+ 	return true;
+ }
+ 
++static bool __maybe_unused its_enable_renesas_rcar_gic_its(void *data)
++{
++	struct its_node *its = data;
++
++	its->flags |= ITS_FLAGS_FORCE_NON_SHAREABLE;
++	its_gfp_quirk = GFP_DMA;
++
++	return true;
++}
++
+ static bool its_set_non_coherent(void *data)
+ {
+ 	struct its_node *its = data;
+@@ -4815,6 +4826,14 @@ static const struct gic_quirk its_quirks[] = {
+ 		.mask   = 0xffffffff,
+ 		.init   = its_enable_rk3588001,
+ 	},
++#endif
++#ifdef CONFIG_RENESAS_RCAR_GIC_ITS
++	{
++		.desc   = "ITS: Renesas R-Car Gen4 GICv3 ITS",
++		.iidr   = 0x0201743b,
++		.mask   = 0xffffffff,
++		.init   = its_enable_renesas_rcar_gic_its,
++	},
+ #endif
+ 	{
+ 		.desc   = "ITS: non-coherent attribute",
+@@ -4974,7 +4993,7 @@ static int its_init_domain(struct its_node *its)
+ 	struct irq_domain *inner_domain;
+ 	struct msi_domain_info *info;
+ 
+-	info = kzalloc(sizeof(*info), GFP_KERNEL);
++	info = kzalloc(sizeof(*info), GFP_KERNEL | its_gfp_quirk);
+ 	if (!info)
+ 		return -ENOMEM;
+ 
+@@ -5011,7 +5030,7 @@ static int its_init_vpe_domain(void)
+ 
+ 	entries = roundup_pow_of_two(nr_cpu_ids);
+ 	vpe_proxy.vpes = kcalloc(entries, sizeof(*vpe_proxy.vpes),
+-				 GFP_KERNEL);
++				 GFP_KERNEL | its_gfp_quirk);
+ 	if (!vpe_proxy.vpes)
+ 		return -ENOMEM;
+ 
+@@ -5108,7 +5127,7 @@ static int __init its_probe_one(struct its_node *its)
+ 		}
+ 	}
+ 
+-	page = alloc_pages_node(its->numa_node, GFP_KERNEL | __GFP_ZERO,
++	page = alloc_pages_node(its->numa_node, GFP_KERNEL | __GFP_ZERO | its_gfp_quirk,
+ 				get_order(ITS_CMD_QUEUE_SZ));
+ 	if (!page) {
+ 		err = -ENOMEM;
+@@ -5352,7 +5371,7 @@ static struct its_node __init *its_node_init(struct resource *res,
+ 
+ 	pr_info("ITS %pR\n", res);
+ 
+-	its = kzalloc(sizeof(*its), GFP_KERNEL);
++	its = kzalloc(sizeof(*its), GFP_KERNEL | its_gfp_quirk);
+ 	if (!its)
+ 		goto out_unmap;
+ 
+@@ -5520,7 +5539,7 @@ static void __init acpi_table_parse_srat_its(void)
+ 		return;
+ 
+ 	its_srat_maps = kmalloc_array(count, sizeof(struct its_srat_map),
+-				      GFP_KERNEL);
++				      GFP_KERNEL | its_gfp_quirk);
+ 	if (!its_srat_maps)
+ 		return;
+ 
+-- 
+2.25.1
+
 
