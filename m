@@ -1,148 +1,256 @@
-Return-Path: <linux-renesas-soc+bounces-2803-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-2804-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5824C8550A6
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Feb 2024 18:45:24 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id DB0318551B9
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Feb 2024 19:12:08 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8B23E1C29317
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Feb 2024 17:45:23 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id F268C1C20C3D
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Feb 2024 18:11:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EFC5086AC5;
-	Wed, 14 Feb 2024 17:45:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9E43484A3E;
+	Wed, 14 Feb 2024 18:06:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Bb1EDdKY"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XEcfJTbQ"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C75368662D;
-	Wed, 14 Feb 2024 17:45:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8E3A129A63
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 14 Feb 2024 18:06:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707932712; cv=none; b=E8mhtW0qzFrbbOEmgCeKapPM7XMTPr3T8mUUQAFxWL2VqSKfKjwYV6SGGKP9stuUkNo7aHJ15e+sZ6IuBGnOjw5M4PNWXZYC9HvIRMrpbLnTIkB2cJ6j7CkBid9OjizbkqJuYjzY4yt9YS45A2sMtGKJLJxO5u59v3QjYbCz3O0=
+	t=1707933995; cv=none; b=swgX54e+Hy1ofHYQiPCZ2qWXfWtKMP9c3gMDMAsfjqutzUZZlelk+Xo44H4lhQv7zcz2qG6kErhr5+lKHxS2FDn2zlMB9OkyIIuO0pGnOxZnbtu/uIa4trJRbRCiqSgmakM4MtwGRRbBqi23YuBiIMh9I9hEdgCwEb5gxkkc83c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707932712; c=relaxed/simple;
-	bh=GI7e3PZ2Daqbe7I8Nx27KGVbWG9+U3qVqFXfkb45idk=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=OSlE5yXoMqkSQQlXB+4TQmFA7QRZB+wg97sGlOqUQR6xCjvb6BgVoxqVFBvF6Mbl5YQ36b2klMDbWyXOvmaDN71XunYHq/129xQlLU2b+xaOjyQSYr6t3UzvfYfSOliLQOG7C0RBKWN8Gew1RHfsJf79lYdlWb4uUHNNiRCaBM0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Bb1EDdKY; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C3BB0C433F1;
-	Wed, 14 Feb 2024 17:45:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1707932712;
-	bh=GI7e3PZ2Daqbe7I8Nx27KGVbWG9+U3qVqFXfkb45idk=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:From;
-	b=Bb1EDdKYsmmNC5zcJojHDaQRsKoZMSqSQ6Qy4CB4/3H3MsY+8WNhYHCp8NzMKK5kv
-	 jhT2BshH+V/HrHkwmMBx3NULfhreDicvIPHo4FNMfghlouqh9GwxIulx1ssD75X57s
-	 UMVE3kY5C4i/CbGLTkiVw+JLRzazVQCdxnvMXntPh/0J83wP/vpTovUgpEYiPILDt+
-	 bctWfsEGiQICRdI8MvA5zzpLQNv8Y7svAhleK1lXAUJ/i0LODcY6OJ8zDGacrh3634
-	 YFzKmh1EhrOHStVTG5ZfDqKlkT74Ga2f+TWB+piGo8riKAfjMMZNQivNpktEmdkXyc
-	 1dEUnGwQQ9Qzg==
-Date: Wed, 14 Feb 2024 11:45:09 -0600
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Cc: lpieralisi@kernel.org, kw@linux.com, robh@kernel.org,
-	bhelgaas@google.com, linux-pci@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH] PCI: rcar-gen4: Add vendor-specific registers' setting
- for MSI-X
-Message-ID: <20240214174509.GA1259458@bhelgaas>
+	s=arc-20240116; t=1707933995; c=relaxed/simple;
+	bh=7kaa27AFPhs/pVzUPwhxup/+Vn0TJCXg0VfWEdnfSBE=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=ENw70QygNesaL3kYHMJPzGynFtVIMu7d8uszL0xCqTymj34oA+3NTJIHXA7fBq/ALB82QvYAHSs1p9kpb15LouRvdseacNFj9KjmAW6bUyrQkou5NCNtAEKnvR5LKZhkkkeDnMDsexoL2iijEu2ptPH0DEer7jcXP1A2+bMn2NA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XEcfJTbQ; arc=none smtp.client-ip=192.198.163.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1707933994; x=1739469994;
+  h=date:from:to:cc:subject:message-id;
+  bh=7kaa27AFPhs/pVzUPwhxup/+Vn0TJCXg0VfWEdnfSBE=;
+  b=XEcfJTbQWV6NuaHda83gZIwJb13iGg829r2DlLF9VtK4/K6ugl2nKfwc
+   2TzpkoCuoB0m7i0L8CzRmhy6lWs5pP6LN8k6UwjE485wDRTF2ziME/9C2
+   JZxi9Tv2w+xmDqk+9P7pnQ5GAzuoIaE0TsQ/MvSmxoNwYHyqDxnwl7Pki
+   r5XtMmHBP1/QGiirG6NYc3bHlydql13waOBmWzypyJiwWpRwnrE7dq6o+
+   yhdz0+dVOJMLhtoNiKO2XTrmgqnKKMyru86o5in1Znjih1nkgkvMlQKOX
+   DwHfhqNf3QxeNphsDmivCjJIsri9Nvz0btnsShihJ011E3cqrz1r3OVVa
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10984"; a="2137596"
+X-IronPort-AV: E=Sophos;i="6.06,160,1705392000"; 
+   d="scan'208";a="2137596"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Feb 2024 10:06:33 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.06,160,1705392000"; 
+   d="scan'208";a="7885457"
+Received: from lkp-server01.sh.intel.com (HELO 323e10984596) ([10.239.97.150])
+  by fmviesa004.fm.intel.com with ESMTP; 14 Feb 2024 10:06:31 -0800
+Received: from kbuild by 323e10984596 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1raJeP-00007T-2F;
+	Wed, 14 Feb 2024 18:06:29 +0000
+Date: Thu, 15 Feb 2024 02:05:30 +0800
+From: kernel test robot <lkp@intel.com>
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: linux-renesas-soc@vger.kernel.org
+Subject: [geert-renesas-drivers:renesas-clk-for-v6.9] BUILD SUCCESS
+ 46fb5dd9ca289953fa791b2bb060dac7f8002ae0
+Message-ID: <202402150228.FpDsHKsU-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240214052122.1966506-1-yoshihiro.shimoda.uh@renesas.com>
 
-On Wed, Feb 14, 2024 at 02:21:22PM +0900, Yoshihiro Shimoda wrote:
-> This controller with GICv3 ITS can handle MSI-X, but it needs
-> to set vendor-specific registers by using the MSI address value.
-> To get the address, add .post_init() for it.
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git renesas-clk-for-v6.9
+branch HEAD: 46fb5dd9ca289953fa791b2bb060dac7f8002ae0  clk: renesas: r9a07g04[34]: Fix typo for sel_shdi variable
 
-You mention both MSI-X and MSI.  Do you mean MSI-X in both cases?
+elapsed time: 1448m
 
-Wrap to fill 75 columns.
+configs tested: 167
+configs skipped: 3
 
-> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-> ---
->  drivers/pci/controller/dwc/pcie-rcar-gen4.c | 27 +++++++++++++++++++++
->  1 file changed, 27 insertions(+)
-> 
-> diff --git a/drivers/pci/controller/dwc/pcie-rcar-gen4.c b/drivers/pci/controller/dwc/pcie-rcar-gen4.c
-> index e9166619b1f9..2ed62ffbde38 100644
-> --- a/drivers/pci/controller/dwc/pcie-rcar-gen4.c
-> +++ b/drivers/pci/controller/dwc/pcie-rcar-gen4.c
-> @@ -42,6 +42,13 @@
->  #define APP_HOLD_PHY_RST	BIT(16)
->  #define APP_LTSSM_ENABLE	BIT(0)
->  
-> +/* INTC address */
-> +#define AXIINTCADDR		0x0a00
-> +
-> +/* INTC control & mask */
-> +#define AXIINTCCONT		0x0a04
-> +#define AXIINTCCONT_VAL		(BIT(31) | GENMASK(11, 2))
-> +
->  #define RCAR_NUM_SPEED_CHANGE_RETRIES	10
->  #define RCAR_MAX_LINK_SPEED		4
->  
-> @@ -297,6 +304,25 @@ static int rcar_gen4_pcie_host_init(struct dw_pcie_rp *pp)
->  	return 0;
->  }
->  
-> +static void rcar_gen4_pcie_host_post_init(struct dw_pcie_rp *pp)
-> +{
-> +	struct dw_pcie *dw = to_dw_pcie_from_pp(pp);
-> +	struct rcar_gen4_pcie *rcar = to_rcar_gen4_pcie(dw);
-> +	struct irq_data *data;
-> +	struct pci_dev *dev;
-> +	struct msi_msg msg;
-> +
-> +	if (pp->has_msi_ctrl)
-> +		return;
-> +
-> +	list_for_each_entry(dev, &pp->bridge->bus->devices, bus_list) {
-> +		data = irq_get_irq_data(dev->irq);
-> +		__pci_read_msi_msg(irq_data_get_msi_desc(data), &msg);
-> +		writel(msg.address_lo, rcar->base + AXIINTCADDR);
-> +		writel(AXIINTCCONT_VAL, rcar->base + AXIINTCCONT);
-> +	}
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-I first thought this looked suspect because hot-add might add devices
-to the bus->devices list, but I guess this register programming is
-only required for devices on the root bus, and I suppose hot-add is
-not possible on the root bus.  Right?
+tested configs:
+alpha                             allnoconfig   gcc  
+alpha                            allyesconfig   gcc  
+alpha                               defconfig   gcc  
+arc                              allmodconfig   gcc  
+arc                               allnoconfig   gcc  
+arc                              allyesconfig   gcc  
+arc                                 defconfig   gcc  
+arc                     nsimosci_hs_defconfig   gcc  
+arc                   randconfig-001-20240214   gcc  
+arc                   randconfig-002-20240214   gcc  
+arm                              allmodconfig   gcc  
+arm                               allnoconfig   clang
+arm                              allyesconfig   gcc  
+arm                                 defconfig   clang
+arm                        keystone_defconfig   gcc  
+arm                   randconfig-001-20240214   clang
+arm                   randconfig-002-20240214   gcc  
+arm                   randconfig-003-20240214   clang
+arm                   randconfig-004-20240214   clang
+arm64                            allmodconfig   clang
+arm64                             allnoconfig   gcc  
+arm64                               defconfig   gcc  
+arm64                 randconfig-001-20240214   clang
+arm64                 randconfig-002-20240214   clang
+arm64                 randconfig-003-20240214   gcc  
+arm64                 randconfig-004-20240214   clang
+csky                             allmodconfig   gcc  
+csky                              allnoconfig   gcc  
+csky                             allyesconfig   gcc  
+csky                                defconfig   gcc  
+csky                  randconfig-001-20240214   gcc  
+csky                  randconfig-002-20240214   gcc  
+hexagon                          allmodconfig   clang
+hexagon                           allnoconfig   clang
+hexagon                          allyesconfig   clang
+hexagon                             defconfig   clang
+hexagon               randconfig-001-20240214   clang
+hexagon               randconfig-002-20240214   clang
+i386                             allmodconfig   gcc  
+i386                              allnoconfig   gcc  
+i386                             allyesconfig   gcc  
+i386         buildonly-randconfig-001-20240214   clang
+i386         buildonly-randconfig-002-20240214   clang
+i386         buildonly-randconfig-003-20240214   clang
+i386         buildonly-randconfig-004-20240214   gcc  
+i386         buildonly-randconfig-005-20240214   gcc  
+i386         buildonly-randconfig-006-20240214   clang
+i386                                defconfig   clang
+i386                  randconfig-001-20240214   clang
+i386                  randconfig-002-20240214   clang
+i386                  randconfig-003-20240214   clang
+i386                  randconfig-004-20240214   gcc  
+i386                  randconfig-005-20240214   clang
+i386                  randconfig-006-20240214   gcc  
+i386                  randconfig-011-20240214   clang
+i386                  randconfig-012-20240214   gcc  
+i386                  randconfig-013-20240214   gcc  
+i386                  randconfig-014-20240214   gcc  
+i386                  randconfig-015-20240214   clang
+i386                  randconfig-016-20240214   clang
+loongarch                        allmodconfig   gcc  
+loongarch                         allnoconfig   gcc  
+loongarch                        allyesconfig   gcc  
+loongarch                           defconfig   gcc  
+loongarch             randconfig-001-20240214   gcc  
+loongarch             randconfig-002-20240214   gcc  
+m68k                             allmodconfig   gcc  
+m68k                              allnoconfig   gcc  
+m68k                             allyesconfig   gcc  
+m68k                                defconfig   gcc  
+microblaze                       allmodconfig   gcc  
+microblaze                        allnoconfig   gcc  
+microblaze                       allyesconfig   gcc  
+microblaze                          defconfig   gcc  
+mips                             allmodconfig   gcc  
+mips                              allnoconfig   gcc  
+mips                             allyesconfig   gcc  
+mips                  decstation_64_defconfig   gcc  
+nios2                            allmodconfig   gcc  
+nios2                             allnoconfig   gcc  
+nios2                            allyesconfig   gcc  
+nios2                               defconfig   gcc  
+nios2                 randconfig-001-20240214   gcc  
+nios2                 randconfig-002-20240214   gcc  
+openrisc                         allmodconfig   gcc  
+openrisc                          allnoconfig   gcc  
+openrisc                         allyesconfig   gcc  
+openrisc                            defconfig   gcc  
+parisc                           allmodconfig   gcc  
+parisc                            allnoconfig   gcc  
+parisc                           allyesconfig   gcc  
+parisc                              defconfig   gcc  
+parisc                randconfig-001-20240214   gcc  
+parisc                randconfig-002-20240214   gcc  
+parisc64                            defconfig   gcc  
+powerpc                          allmodconfig   gcc  
+powerpc                           allnoconfig   gcc  
+powerpc                          allyesconfig   clang
+powerpc                        icon_defconfig   gcc  
+powerpc               randconfig-001-20240214   clang
+powerpc               randconfig-002-20240214   clang
+powerpc               randconfig-003-20240214   clang
+powerpc                      walnut_defconfig   gcc  
+powerpc64             randconfig-001-20240214   clang
+powerpc64             randconfig-002-20240214   clang
+powerpc64             randconfig-003-20240214   clang
+riscv                            allmodconfig   clang
+riscv                             allnoconfig   gcc  
+riscv                            allyesconfig   clang
+riscv                               defconfig   clang
+riscv                 randconfig-001-20240214   clang
+riscv                 randconfig-002-20240214   clang
+s390                             allmodconfig   clang
+s390                              allnoconfig   clang
+s390                             allyesconfig   gcc  
+s390                                defconfig   clang
+s390                  randconfig-001-20240214   clang
+s390                  randconfig-002-20240214   gcc  
+sh                               allmodconfig   gcc  
+sh                                allnoconfig   gcc  
+sh                               allyesconfig   gcc  
+sh                                  defconfig   gcc  
+sh                        dreamcast_defconfig   gcc  
+sh                ecovec24-romimage_defconfig   gcc  
+sh                    randconfig-001-20240214   gcc  
+sh                    randconfig-002-20240214   gcc  
+sh                          rsk7203_defconfig   gcc  
+sh                           se7724_defconfig   gcc  
+sh                            shmin_defconfig   gcc  
+sparc                            allmodconfig   gcc  
+sparc                             allnoconfig   gcc  
+sparc                            allyesconfig   gcc  
+sparc                               defconfig   gcc  
+sparc64                          allmodconfig   gcc  
+sparc64                          allyesconfig   gcc  
+sparc64                             defconfig   gcc  
+sparc64               randconfig-001-20240214   gcc  
+sparc64               randconfig-002-20240214   gcc  
+um                               allmodconfig   clang
+um                                allnoconfig   clang
+um                               allyesconfig   gcc  
+um                                  defconfig   clang
+um                    randconfig-001-20240214   clang
+um                    randconfig-002-20240214   gcc  
+um                           x86_64_defconfig   clang
+x86_64                            allnoconfig   clang
+x86_64                           allyesconfig   clang
+x86_64       buildonly-randconfig-001-20240214   gcc  
+x86_64       buildonly-randconfig-003-20240214   gcc  
+x86_64       buildonly-randconfig-004-20240214   gcc  
+x86_64       buildonly-randconfig-005-20240214   gcc  
+x86_64                              defconfig   gcc  
+x86_64                randconfig-002-20240214   gcc  
+x86_64                randconfig-004-20240214   gcc  
+x86_64                randconfig-013-20240214   gcc  
+x86_64                randconfig-014-20240214   gcc  
+x86_64                randconfig-071-20240214   gcc  
+x86_64                randconfig-073-20240214   gcc  
+x86_64                randconfig-076-20240214   gcc  
+x86_64                           rhel-8.3-bpf   gcc  
+x86_64                          rhel-8.3-func   gcc  
+x86_64                          rhel-8.3-rust   clang
+x86_64                               rhel-8.3   gcc  
+xtensa                            allnoconfig   gcc  
+xtensa                           allyesconfig   gcc  
+xtensa                randconfig-001-20240214   gcc  
+xtensa                randconfig-002-20240214   gcc  
 
-But I'm still a little confused about what this is doing.  dev->irq is
-initially set by pci_read_irq() and pci_assign_irq() based on
-PCI_INTERRUPT_PIN, which is for INTx signaling.
-
-But dev->irq can be updated later by msi_capability_init() when a
-driver enables MSI, and this code runs before drivers claim these
-devices.
-
-I'm just generally confused.
-
-> +}
-> +
->  static void rcar_gen4_pcie_host_deinit(struct dw_pcie_rp *pp)
->  {
->  	struct dw_pcie *dw = to_dw_pcie_from_pp(pp);
-> @@ -308,6 +334,7 @@ static void rcar_gen4_pcie_host_deinit(struct dw_pcie_rp *pp)
->  
->  static const struct dw_pcie_host_ops rcar_gen4_pcie_host_ops = {
->  	.init = rcar_gen4_pcie_host_init,
-> +	.post_init = rcar_gen4_pcie_host_post_init,
->  	.deinit = rcar_gen4_pcie_host_deinit,
->  };
->  
-> -- 
-> 2.25.1
-> 
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
