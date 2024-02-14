@@ -1,118 +1,148 @@
-Return-Path: <linux-renesas-soc+bounces-2802-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-2803-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC7E685507B
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Feb 2024 18:39:23 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5824C8550A6
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Feb 2024 18:45:24 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 7B263B2E40B
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Feb 2024 17:38:54 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8B23E1C29317
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Feb 2024 17:45:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 813B984038;
-	Wed, 14 Feb 2024 17:38:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EFC5086AC5;
+	Wed, 14 Feb 2024 17:45:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mFwZpJXi"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Bb1EDdKY"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 558075579B;
-	Wed, 14 Feb 2024 17:38:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C75368662D;
+	Wed, 14 Feb 2024 17:45:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707932309; cv=none; b=PvoaCjvzfS4JKNoDi47hWhNrO3G12idAnM/7xHU8uAkYbuGES7EZrKIgQYEbtmwrWu+wBu7bSGHoX08PyqHXhc5k9uNCT2HgWOzqU9miaCiR+l3BE3cBGsgdBM6UodPAkEhQRrJuMEX1K5Ttmhxj8L6DWZmzzyquBMFaM0Q7Uks=
+	t=1707932712; cv=none; b=E8mhtW0qzFrbbOEmgCeKapPM7XMTPr3T8mUUQAFxWL2VqSKfKjwYV6SGGKP9stuUkNo7aHJ15e+sZ6IuBGnOjw5M4PNWXZYC9HvIRMrpbLnTIkB2cJ6j7CkBid9OjizbkqJuYjzY4yt9YS45A2sMtGKJLJxO5u59v3QjYbCz3O0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707932309; c=relaxed/simple;
-	bh=IiYQF26rHcauIqxRIge+XQRewyHjGv95iv3BpsCXVAQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JTMPrPI0qwMP4bcHG2JaiwMBxe752GGuxlgeq9XWaLuFyilU8/nUuDogadCdNGJF2BiaBU0wLpS8Y3WB/edi/W80wl/IOgaI6LJ9mmmsdZMx1ReSHUKwQhRwgVp1d/q2BMmgBGZhrjFQkXDjU4T25vVsjb1UAPYxmkg3SCJVLZQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mFwZpJXi; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4D4DEC433F1;
-	Wed, 14 Feb 2024 17:38:27 +0000 (UTC)
+	s=arc-20240116; t=1707932712; c=relaxed/simple;
+	bh=GI7e3PZ2Daqbe7I8Nx27KGVbWG9+U3qVqFXfkb45idk=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=OSlE5yXoMqkSQQlXB+4TQmFA7QRZB+wg97sGlOqUQR6xCjvb6BgVoxqVFBvF6Mbl5YQ36b2klMDbWyXOvmaDN71XunYHq/129xQlLU2b+xaOjyQSYr6t3UzvfYfSOliLQOG7C0RBKWN8Gew1RHfsJf79lYdlWb4uUHNNiRCaBM0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Bb1EDdKY; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C3BB0C433F1;
+	Wed, 14 Feb 2024 17:45:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1707932309;
-	bh=IiYQF26rHcauIqxRIge+XQRewyHjGv95iv3BpsCXVAQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=mFwZpJXi61nfL1VF6nrR0pHfwmQmxJkBFgoa/USL/bgdaNTu7e3U3yHEDV6sE8jyQ
-	 C0pvmw9FvxbTIpn6LE4YsrsZs4xArGnEd9ZyZY3dh0KRBaO8E6GLa3PDE336s7jIrQ
-	 94r9NVmddZzdZ6SLBfnZd5fUyE0HBq+Tg2ahU29fOPTltSZ4K7jxgQ8258EPTowO64
-	 XC+zaVGdggzAu/UJ3P0QrXylmEQyvVDqsXwk39/BoKDhlzNl633RMeIQ3O+m2Ap1D4
-	 V9+Fcmo/IvAAcT9d7nkCqfRx6YGCxUYrXa0svAOOuHaQJQzgGzlAo0ZaDpEUu5dtxV
-	 REna/R0EIqFOQ==
-Date: Wed, 14 Feb 2024 17:38:25 +0000
-From: Conor Dooley <conor@kernel.org>
-To: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: Ulf Hansson <ulf.hansson@linaro.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	linux-mmc@vger.kernel.org, devicetree@vger.kernel.org,
+	s=k20201202; t=1707932712;
+	bh=GI7e3PZ2Daqbe7I8Nx27KGVbWG9+U3qVqFXfkb45idk=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:From;
+	b=Bb1EDdKYsmmNC5zcJojHDaQRsKoZMSqSQ6Qy4CB4/3H3MsY+8WNhYHCp8NzMKK5kv
+	 jhT2BshH+V/HrHkwmMBx3NULfhreDicvIPHo4FNMfghlouqh9GwxIulx1ssD75X57s
+	 UMVE3kY5C4i/CbGLTkiVw+JLRzazVQCdxnvMXntPh/0J83wP/vpTovUgpEYiPILDt+
+	 bctWfsEGiQICRdI8MvA5zzpLQNv8Y7svAhleK1lXAUJ/i0LODcY6OJ8zDGacrh3634
+	 YFzKmh1EhrOHStVTG5ZfDqKlkT74Ga2f+TWB+piGo8riKAfjMMZNQivNpktEmdkXyc
+	 1dEUnGwQQ9Qzg==
+Date: Wed, 14 Feb 2024 11:45:09 -0600
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc: lpieralisi@kernel.org, kw@linux.com, robh@kernel.org,
+	bhelgaas@google.com, linux-pci@vger.kernel.org,
 	linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH] dt-bindings: mmc: renesas,sdhi: Document R-Car V4M
- support
-Message-ID: <20240214-gladly-helmet-21122fee1741@spud>
-References: <fffc5a0a73c4cc8e8d7c5d93679531cc24e006ca.1707915511.git.geert+renesas@glider.be>
+Subject: Re: [PATCH] PCI: rcar-gen4: Add vendor-specific registers' setting
+ for MSI-X
+Message-ID: <20240214174509.GA1259458@bhelgaas>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="SKK1z5N5EjiUJpWj"
-Content-Disposition: inline
-In-Reply-To: <fffc5a0a73c4cc8e8d7c5d93679531cc24e006ca.1707915511.git.geert+renesas@glider.be>
-
-
---SKK1z5N5EjiUJpWj
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20240214052122.1966506-1-yoshihiro.shimoda.uh@renesas.com>
 
-On Wed, Feb 14, 2024 at 01:59:57PM +0100, Geert Uytterhoeven wrote:
-> Document support for the SD Card/MMC Interface in the Renesas R-Car V4M
-> (R8A779H0) SoC.
->=20
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+On Wed, Feb 14, 2024 at 02:21:22PM +0900, Yoshihiro Shimoda wrote:
+> This controller with GICv3 ITS can handle MSI-X, but it needs
+> to set vendor-specific registers by using the MSI address value.
+> To get the address, add .post_init() for it.
 
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
+You mention both MSI-X and MSI.  Do you mean MSI-X in both cases?
 
-Cheers,
-Conor.
+Wrap to fill 75 columns.
 
+> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 > ---
->  Documentation/devicetree/bindings/mmc/renesas,sdhi.yaml | 1 +
->  1 file changed, 1 insertion(+)
->=20
-> diff --git a/Documentation/devicetree/bindings/mmc/renesas,sdhi.yaml b/Do=
-cumentation/devicetree/bindings/mmc/renesas,sdhi.yaml
-> index f7a4c6bc70f6cade..29f2400247ebc674 100644
-> --- a/Documentation/devicetree/bindings/mmc/renesas,sdhi.yaml
-> +++ b/Documentation/devicetree/bindings/mmc/renesas,sdhi.yaml
-> @@ -67,6 +67,7 @@ properties:
->                - renesas,sdhi-r8a779a0  # R-Car V3U
->                - renesas,sdhi-r8a779f0  # R-Car S4-8
->                - renesas,sdhi-r8a779g0  # R-Car V4H
-> +              - renesas,sdhi-r8a779h0  # R-Car V4M
->            - const: renesas,rcar-gen4-sdhi # R-Car Gen4
-> =20
->    reg:
-> --=20
-> 2.34.1
->=20
+>  drivers/pci/controller/dwc/pcie-rcar-gen4.c | 27 +++++++++++++++++++++
+>  1 file changed, 27 insertions(+)
+> 
+> diff --git a/drivers/pci/controller/dwc/pcie-rcar-gen4.c b/drivers/pci/controller/dwc/pcie-rcar-gen4.c
+> index e9166619b1f9..2ed62ffbde38 100644
+> --- a/drivers/pci/controller/dwc/pcie-rcar-gen4.c
+> +++ b/drivers/pci/controller/dwc/pcie-rcar-gen4.c
+> @@ -42,6 +42,13 @@
+>  #define APP_HOLD_PHY_RST	BIT(16)
+>  #define APP_LTSSM_ENABLE	BIT(0)
+>  
+> +/* INTC address */
+> +#define AXIINTCADDR		0x0a00
+> +
+> +/* INTC control & mask */
+> +#define AXIINTCCONT		0x0a04
+> +#define AXIINTCCONT_VAL		(BIT(31) | GENMASK(11, 2))
+> +
+>  #define RCAR_NUM_SPEED_CHANGE_RETRIES	10
+>  #define RCAR_MAX_LINK_SPEED		4
+>  
+> @@ -297,6 +304,25 @@ static int rcar_gen4_pcie_host_init(struct dw_pcie_rp *pp)
+>  	return 0;
+>  }
+>  
+> +static void rcar_gen4_pcie_host_post_init(struct dw_pcie_rp *pp)
+> +{
+> +	struct dw_pcie *dw = to_dw_pcie_from_pp(pp);
+> +	struct rcar_gen4_pcie *rcar = to_rcar_gen4_pcie(dw);
+> +	struct irq_data *data;
+> +	struct pci_dev *dev;
+> +	struct msi_msg msg;
+> +
+> +	if (pp->has_msi_ctrl)
+> +		return;
+> +
+> +	list_for_each_entry(dev, &pp->bridge->bus->devices, bus_list) {
+> +		data = irq_get_irq_data(dev->irq);
+> +		__pci_read_msi_msg(irq_data_get_msi_desc(data), &msg);
+> +		writel(msg.address_lo, rcar->base + AXIINTCADDR);
+> +		writel(AXIINTCCONT_VAL, rcar->base + AXIINTCCONT);
+> +	}
 
---SKK1z5N5EjiUJpWj
-Content-Type: application/pgp-signature; name="signature.asc"
+I first thought this looked suspect because hot-add might add devices
+to the bus->devices list, but I guess this register programming is
+only required for devices on the root bus, and I suppose hot-add is
+not possible on the root bus.  Right?
 
------BEGIN PGP SIGNATURE-----
+But I'm still a little confused about what this is doing.  dev->irq is
+initially set by pci_read_irq() and pci_assign_irq() based on
+PCI_INTERRUPT_PIN, which is for INTx signaling.
 
-iHQEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZcz6kAAKCRB4tDGHoIJi
-0uk1APjfI0a7R/x+zOt7rp1IxVplKz6YnTF3m84CPS3gpQpuAP4ydTy9zBnVUbkE
-zgZdFaPUNRkqxbppLMJu44UenWYRAQ==
-=FNQE
------END PGP SIGNATURE-----
+But dev->irq can be updated later by msi_capability_init() when a
+driver enables MSI, and this code runs before drivers claim these
+devices.
 
---SKK1z5N5EjiUJpWj--
+I'm just generally confused.
+
+> +}
+> +
+>  static void rcar_gen4_pcie_host_deinit(struct dw_pcie_rp *pp)
+>  {
+>  	struct dw_pcie *dw = to_dw_pcie_from_pp(pp);
+> @@ -308,6 +334,7 @@ static void rcar_gen4_pcie_host_deinit(struct dw_pcie_rp *pp)
+>  
+>  static const struct dw_pcie_host_ops rcar_gen4_pcie_host_ops = {
+>  	.init = rcar_gen4_pcie_host_init,
+> +	.post_init = rcar_gen4_pcie_host_post_init,
+>  	.deinit = rcar_gen4_pcie_host_deinit,
+>  };
+>  
+> -- 
+> 2.25.1
+> 
 
