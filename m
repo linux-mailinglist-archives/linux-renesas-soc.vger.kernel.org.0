@@ -1,181 +1,143 @@
-Return-Path: <linux-renesas-soc+bounces-2782-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-2783-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D245F854BF5
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Feb 2024 15:57:54 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E02B3854C10
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Feb 2024 16:01:39 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 565B4B2374C
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Feb 2024 14:57:52 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1112A1C26EF9
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Feb 2024 15:01:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 87B9A5A7A1;
-	Wed, 14 Feb 2024 14:57:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BD7685C5FA;
+	Wed, 14 Feb 2024 15:01:25 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from baptiste.telenet-ops.be (baptiste.telenet-ops.be [195.130.132.51])
+Received: from mail-qk1-f180.google.com (mail-qk1-f180.google.com [209.85.222.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C54595A7A9
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 14 Feb 2024 14:57:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.132.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF7B15B21C;
+	Wed, 14 Feb 2024 15:01:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707922668; cv=none; b=qEUJ1biRO0ZIGAhtH9Lh2cC6C+ER9JCZ/0EmltB3kM0qtZ56f/EYE33IqHgrML4TOE7pWj3vE6fvHL3Lnp5aS6yyDuqPJx/ydtyCdcch+WPTyYRbKrilDODQ0PO2gW49Qt2sAKZFvbUFR12t7+x4ytAPkhemeg9cE53NMnRK9MQ=
+	t=1707922885; cv=none; b=lCAFSoH0DlpPuQ+ZevTKFWx7hm6t2xjFXExIWw01dxGjbCE28ktMrGfbWXg94/Tt84aHSwo9EsLpISRDssR0GQdDYUjS3m2S1c306/IWfvc8t35XsCEOFe+Im33cZkanrsBcoDmJ1VIuw++ihXbb9x0CfonlSC0HfXXmD9aezdY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707922668; c=relaxed/simple;
-	bh=JNu3wJCqQpkq9skzdOvOu2yizzZ/3KMxo50qPCiBqSU=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=jSlaSexFVzOhl0pJiHRaV0noodbachhjqzaH6blTaoZIz2BWwapfFOtMlHdPavpqxXv3T8dEZ/DEE9KR0MwNv5PFeejHyoNd57uH6tBhNYNbtAceS9ajHiB0mwGqcaKWsrONzEmKmqtpxgNNuGiKQLiluijxCutXa4Gu/JI2ITI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.132.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
-Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed40:ac52:3a54:2a84:d65a])
-	by baptiste.telenet-ops.be with bizsmtp
-	id n2xj2B00A0LVNSS012xjoh; Wed, 14 Feb 2024 15:57:43 +0100
-Received: from rox.of.borg ([192.168.97.57])
-	by ramsan.of.borg with esmtp (Exim 4.95)
-	(envelope-from <geert@linux-m68k.org>)
-	id 1raGhc-000dCc-Ue;
-	Wed, 14 Feb 2024 15:57:43 +0100
-Received: from geert by rox.of.borg with local (Exim 4.95)
-	(envelope-from <geert@linux-m68k.org>)
-	id 1raGhj-00H27l-I2;
-	Wed, 14 Feb 2024 15:57:43 +0100
-From: Geert Uytterhoeven <geert+renesas@glider.be>
-To: Rob Herring <robh@kernel.org>
-Cc: linux-renesas-soc@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH] ARM: dts: renesas: rcar-gen2: Add missing #interrupt-cells to DA9063 nodes
-Date: Wed, 14 Feb 2024 15:57:42 +0100
-Message-Id: <a351e503ea97fb1af68395843f513925ff1bdf26.1707922460.git.geert+renesas@glider.be>
-X-Mailer: git-send-email 2.34.1
+	s=arc-20240116; t=1707922885; c=relaxed/simple;
+	bh=wRhBbftaNujCFlZk6BVtFbm/sKIU58sYu+5kiELSP7E=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=W7IhcU5tDQBv+K1g2l2p9EHqY0lNgIbKRGhjD8vp5a5tlWc/RkBSwp2klwjxn7Oxb9Q8mpJtZtPp4NPtpuDs44uem1+sQzK6d+58hma2ltKKgCHrbYdASDhjJhpvgAPLSTjrtGMIEDdRHHztqbz2QgP0yPoKCqyXHt4KvFx80yA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-qk1-f180.google.com with SMTP id af79cd13be357-7853a9eb5daso188543485a.2;
+        Wed, 14 Feb 2024 07:01:23 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1707922881; x=1708527681;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=h6upARWbXs1k8V4Vnc/YI44n6rxziwjW/OPtXVVY76s=;
+        b=juBjOjG6RNr9evWHSZ/09nizJEVK9dodFGbt3nbqZ+snJ773VLz59DEOWPkZlXnwbw
+         yuHzl7P8+TRd8AgxoyVf6ojP2QaO3xQCfkYUUorymqXYF7QjCF3VJ7LSkvCbHALufMjk
+         NiSHIl7608gCwXlIsnqkjlu/7hqxN/iqaZemKtaTgbEnJj6ukeKJzjRl0NaqoSbgQM/D
+         z456IvvGr5tCDQkXQqouVkcKE7jaYO32plUQyAWYVupe8eldzkIkJQjKYbG6AeJz0un0
+         VjS8D21vOdzlkf2G1qnRFc25k1R3DPcR/OiqXhlIAp0cbtv1LD1knY+KMS8e9WAg8djl
+         eORg==
+X-Forwarded-Encrypted: i=1; AJvYcCXD/D9CkimvEmtbtC85uzY4/T7w1dx+VzNbz9VwXZWMTjdQkD/cY1oVZZ6ygsj8EM04OuMAaX1MDfzbmRwMg52z4tZGWl72sGL1KbzNDLQxckD1A/OaTslRWF5AjqPsAMK4pgikvEPjLMzV5YdplJIp3+9B9IUAKA97xjoLL6YzYTYNHvNqup5ZQPnfmFt0vLWiuN1kPDE09012/lPqHNL2gzG7MuS8hfTQFYimJMMwC3WWbJc/XL8TPwza2kmakj5PHkdmPbTsPdakD9oD7eW11V25okqv/E/L01G4bqsn3kiBICVXf1sKoulY9uVV1VscV/UbkK1I1TfF+LVW7Qxfig==
+X-Gm-Message-State: AOJu0Yz3FfBHSphQEdAQfflo8c1EqfzX3Zk8R1G00qmBsXFU0jjWDNcG
+	1oUXcV+RpDreqVczgHu2wmod/j38huHWeur5DsfDlLREYcb47IMb4kZHO8J794c=
+X-Google-Smtp-Source: AGHT+IHFn6eY5rp1w7jUMyO4UeaIh9i34RYopBCHwdFZAa5Auq13KfwzuOv5oquw8sHm7FbvjKfJzQ==
+X-Received: by 2002:a05:620a:438b:b0:785:d6a9:734f with SMTP id a11-20020a05620a438b00b00785d6a9734fmr3530707qkp.46.1707922878529;
+        Wed, 14 Feb 2024 07:01:18 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCUOpVWYB2+ehgyPQ2AelOzgxuW1SKU3bWkZZghJaolLB+H/bhnUH8p99cnRxJ/HuF1q37yQpv9bmDmijuI4cEf9NvjJtRTHMPowe6JfC45pAka1LI/BfpOz0dgohCFqjKCUSNns+oicXrIQTePS+bjFTHskwKh3BB4STphbREOBFbNcJzijpOIcCyrQJ32bFUrQAA0QnmeAXosAD9lhK6yq/FNMNnkvIckGQ/OAE1zbehJfAkeinVpBV7Y2FABfpfR3m4XnhzPwFFOLDNW3aoJT/THy5huzTXsSnMfa/I7TKJa7lkqgHsyD/VC2YM+WohFITnWaQ6S3XuwpGc9YiESIiw==
+Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com. [209.85.160.178])
+        by smtp.gmail.com with ESMTPSA id r11-20020a05620a03cb00b00785d7f634bcsm2481639qkm.8.2024.02.14.07.01.17
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 14 Feb 2024 07:01:18 -0800 (PST)
+Received: by mail-qt1-f178.google.com with SMTP id d75a77b69052e-42a8a3973c5so28297761cf.2;
+        Wed, 14 Feb 2024 07:01:17 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCVkiCmkrcPoyS+NdSQfqmW3UfmIjV75JLSBFBZbycI6ZQxzWlm2P8tQCYMLXleNE71aKauBXoVvSo+LozJwSRo8/hmgMCEn22dqLyl1Z8OqftAI5j51MnTPNJt+PmpoBVBBFQkdT4b8tLFAWfsb/aymtYHx1BZxOsUvzQ0ntqFSgSG0E2Z1D7iFFlYs/rCvi6uyg/qw8hZQPbiFqwD2r01i2I0JrQXRovTG3hn87qvlcftLpQbbNX6o5xajhBxy/aic1FqGWwZn8+eBm7au5zqRm8q05rtoh/5Q6YMuIyb6HdqkJcLep/RZLGhJ1LN4I1hyHzzy7Lqzteel5zldnWXkBw==
+X-Received: by 2002:a25:84c9:0:b0:dc2:3fbd:82fe with SMTP id
+ x9-20020a2584c9000000b00dc23fbd82femr2322270ybm.46.1707922857034; Wed, 14 Feb
+ 2024 07:00:57 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20240213-arm-dt-cleanups-v1-0-f2dee1292525@kernel.org>
+In-Reply-To: <20240213-arm-dt-cleanups-v1-0-f2dee1292525@kernel.org>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Wed, 14 Feb 2024 16:00:45 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdWgvD9szXksK+jzyvwLQ8ufWWf1TPQ7s-5z4JWgrvXmkg@mail.gmail.com>
+Message-ID: <CAMuHMdWgvD9szXksK+jzyvwLQ8ufWWf1TPQ7s-5z4JWgrvXmkg@mail.gmail.com>
+Subject: Re: [PATCH 0/6] dts: Fix dtc interrupt warnings
+To: Rob Herring <robh@kernel.org>
+Cc: soc@kernel.org, Shawn Guo <shawnguo@kernel.org>, 
+	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
+	Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>, Rob Herring <robh+dt@kernel.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Tsahee Zidenberg <tsahee@annapurnalabs.com>, Antoine Tenart <atenart@kernel.org>, 
+	Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@codeconstruct.com.au>, 
+	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>, 
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Andrew Lunn <andrew@lunn.ch>, 
+	Gregory Clement <gregory.clement@bootlin.com>, 
+	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>, 
+	=?UTF-8?Q?Jonathan_Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>, 
+	Thierry Reding <thierry.reding@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>, 
+	Stefan Agner <stefan@agner.ch>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+	Alexandre Torgue <alexandre.torgue@foss.st.com>, =?UTF-8?Q?Beno=C3=AEt_Cousson?= <bcousson@baylibre.com>, 
+	Tony Lindgren <tony@atomide.com>, Chanho Min <chanho.min@lge.com>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+	Magnus Damm <magnus.damm@gmail.com>, Linus Walleij <linusw@kernel.org>, 
+	Imre Kaloz <kaloz@openwrt.org>, Bjorn Andersson <andersson@kernel.org>, 
+	Konrad Dybcio <konrad.dybcio@linaro.org>, Masahiro Yamada <masahiroy@kernel.org>, 
+	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, 
+	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-aspeed@lists.ozlabs.org, 
+	openbmc@lists.ozlabs.org, linux-tegra@vger.kernel.org, 
+	linux-stm32@st-md-mailman.stormreply.com, linux-omap@vger.kernel.org, 
+	linux-mediatek@lists.infradead.org, linux-renesas-soc@vger.kernel.org, 
+	linux-arm-msm@vger.kernel.org, linux-kbuild@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-make dtbs_check W=2:
+Hi Rob,
 
-    arch/arm/boot/dts/renesas/r8a7790-lager.dts:444.11-458.5: Warning (interrupt_provider): /i2c-mux4/pmic@58: Missing '#interrupt-cells' in interrupt provider
-    ...
+On Tue, Feb 13, 2024 at 8:35=E2=80=AFPM Rob Herring <robh@kernel.org> wrote=
+:
+> I had a branch with most of these changes sitting in my tree for some
+> time. Geert's asking about some errors not getting found prompted me to
+> clean it up and send it out. This series fixes all* interrupt related
+> warnings and enables the check by default.
 
-Fix this by adding the missing #interrupt-cells properties.
+> *There's a few Renesas warnings still Geert said he would fix.
 
-Reported-by: Rob Herring <robh@kernel.org>
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
-To be queued in renesas-devel for v6.9.
+Thanks, fix sent
+https://lore.kernel.org/r/a351e503ea97fb1af68395843f513925ff1bdf26.17079224=
+60.git.geert+renesas@glider.be
 
- arch/arm/boot/dts/renesas/r8a7790-lager.dts   | 1 +
- arch/arm/boot/dts/renesas/r8a7790-stout.dts   | 1 +
- arch/arm/boot/dts/renesas/r8a7791-koelsch.dts | 1 +
- arch/arm/boot/dts/renesas/r8a7791-porter.dts  | 1 +
- arch/arm/boot/dts/renesas/r8a7792-blanche.dts | 1 +
- arch/arm/boot/dts/renesas/r8a7793-gose.dts    | 1 +
- arch/arm/boot/dts/renesas/r8a7794-alt.dts     | 1 +
- arch/arm/boot/dts/renesas/r8a7794-silk.dts    | 1 +
- 8 files changed, 8 insertions(+)
+>       dtc: Enable dtc interrupt_provider check
 
-diff --git a/arch/arm/boot/dts/renesas/r8a7790-lager.dts b/arch/arm/boot/dts/renesas/r8a7790-lager.dts
-index 2fba4d084001b964..8590981245a62057 100644
---- a/arch/arm/boot/dts/renesas/r8a7790-lager.dts
-+++ b/arch/arm/boot/dts/renesas/r8a7790-lager.dts
-@@ -447,6 +447,7 @@ pmic@58 {
- 			interrupt-parent = <&irqc0>;
- 			interrupts = <2 IRQ_TYPE_LEVEL_LOW>;
- 			interrupt-controller;
-+			#interrupt-cells = <2>;
- 
- 			rtc {
- 				compatible = "dlg,da9063-rtc";
-diff --git a/arch/arm/boot/dts/renesas/r8a7790-stout.dts b/arch/arm/boot/dts/renesas/r8a7790-stout.dts
-index f9bc5b4f019d0213..683f7395fab0b696 100644
---- a/arch/arm/boot/dts/renesas/r8a7790-stout.dts
-+++ b/arch/arm/boot/dts/renesas/r8a7790-stout.dts
-@@ -347,6 +347,7 @@ pmic@58 {
- 		interrupt-parent = <&irqc0>;
- 		interrupts = <2 IRQ_TYPE_LEVEL_LOW>;
- 		interrupt-controller;
-+		#interrupt-cells = <2>;
- 
- 		onkey {
- 			compatible = "dlg,da9063-onkey";
-diff --git a/arch/arm/boot/dts/renesas/r8a7791-koelsch.dts b/arch/arm/boot/dts/renesas/r8a7791-koelsch.dts
-index e9c13bb03772af44..0efd9f98c75aced0 100644
---- a/arch/arm/boot/dts/renesas/r8a7791-koelsch.dts
-+++ b/arch/arm/boot/dts/renesas/r8a7791-koelsch.dts
-@@ -819,6 +819,7 @@ pmic@58 {
- 		interrupt-parent = <&irqc0>;
- 		interrupts = <2 IRQ_TYPE_LEVEL_LOW>;
- 		interrupt-controller;
-+		#interrupt-cells = <2>;
- 
- 		rtc {
- 			compatible = "dlg,da9063-rtc";
-diff --git a/arch/arm/boot/dts/renesas/r8a7791-porter.dts b/arch/arm/boot/dts/renesas/r8a7791-porter.dts
-index 7e8bc06715f6564b..93c86e9216455577 100644
---- a/arch/arm/boot/dts/renesas/r8a7791-porter.dts
-+++ b/arch/arm/boot/dts/renesas/r8a7791-porter.dts
-@@ -413,6 +413,7 @@ pmic@5a {
- 		interrupt-parent = <&irqc0>;
- 		interrupts = <2 IRQ_TYPE_LEVEL_LOW>;
- 		interrupt-controller;
-+		#interrupt-cells = <2>;
- 
- 		watchdog {
- 			compatible = "dlg,da9063-watchdog";
-diff --git a/arch/arm/boot/dts/renesas/r8a7792-blanche.dts b/arch/arm/boot/dts/renesas/r8a7792-blanche.dts
-index 4f9838cf97ee4fb6..540a9ad28f28ac1a 100644
---- a/arch/arm/boot/dts/renesas/r8a7792-blanche.dts
-+++ b/arch/arm/boot/dts/renesas/r8a7792-blanche.dts
-@@ -381,6 +381,7 @@ pmic@58 {
- 		interrupt-parent = <&irqc>;
- 		interrupts = <2 IRQ_TYPE_LEVEL_LOW>;
- 		interrupt-controller;
-+		#interrupt-cells = <2>;
- 
- 		rtc {
- 			compatible = "dlg,da9063-rtc";
-diff --git a/arch/arm/boot/dts/renesas/r8a7793-gose.dts b/arch/arm/boot/dts/renesas/r8a7793-gose.dts
-index 1744fdbf9e0ce08d..1ea6c757893bc0bf 100644
---- a/arch/arm/boot/dts/renesas/r8a7793-gose.dts
-+++ b/arch/arm/boot/dts/renesas/r8a7793-gose.dts
-@@ -759,6 +759,7 @@ pmic@58 {
- 		interrupt-parent = <&irqc0>;
- 		interrupts = <2 IRQ_TYPE_LEVEL_LOW>;
- 		interrupt-controller;
-+		#interrupt-cells = <2>;
- 
- 		rtc {
- 			compatible = "dlg,da9063-rtc";
-diff --git a/arch/arm/boot/dts/renesas/r8a7794-alt.dts b/arch/arm/boot/dts/renesas/r8a7794-alt.dts
-index c0d067df22a03d4e..b5ecafbb2e4de582 100644
---- a/arch/arm/boot/dts/renesas/r8a7794-alt.dts
-+++ b/arch/arm/boot/dts/renesas/r8a7794-alt.dts
-@@ -453,6 +453,7 @@ pmic@58 {
- 		interrupt-parent = <&gpio3>;
- 		interrupts = <31 IRQ_TYPE_LEVEL_LOW>;
- 		interrupt-controller;
-+		#interrupt-cells = <2>;
- 
- 		rtc {
- 			compatible = "dlg,da9063-rtc";
-diff --git a/arch/arm/boot/dts/renesas/r8a7794-silk.dts b/arch/arm/boot/dts/renesas/r8a7794-silk.dts
-index 43d480a7f3eacc21..595e074085eb4cd3 100644
---- a/arch/arm/boot/dts/renesas/r8a7794-silk.dts
-+++ b/arch/arm/boot/dts/renesas/r8a7794-silk.dts
-@@ -439,6 +439,7 @@ pmic@58 {
- 		interrupt-parent = <&gpio3>;
- 		interrupts = <31 IRQ_TYPE_LEVEL_LOW>;
- 		interrupt-controller;
-+		#interrupt-cells = <2>;
- 
- 		onkey {
- 			compatible = "dlg,da9063-onkey";
--- 
-2.34.1
+>  scripts/Makefile.lib                                  |  3 +--
 
+Just wondering, can the remaining disabler be removed, too?
+
+Documentation/devicetree/bindings/Makefile:     -Wno-interrupt_provider \
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
