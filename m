@@ -1,139 +1,128 @@
-Return-Path: <linux-renesas-soc+bounces-2778-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-2779-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05C87854B61
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Feb 2024 15:29:04 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id A75E9854B90
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Feb 2024 15:37:20 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 688D728555F
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Feb 2024 14:29:02 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id BF1B81C21C28
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Feb 2024 14:37:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3514555E41;
-	Wed, 14 Feb 2024 14:29:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3E1425C8F1;
+	Wed, 14 Feb 2024 14:36:39 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com [209.85.128.178])
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60A0A1A58B
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 14 Feb 2024 14:28:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 567B55C5F6;
+	Wed, 14 Feb 2024 14:36:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707920941; cv=none; b=bWFFp+cxMwQ+dCWzqyM5IxUQAdhlFwRQK3xfpWZgeu2XR0LNhWXEX7d/4BrxnQit14x1OmHEtdBZMde+kD+1z0SNHo/vMK0P3zRqqfjRXlTedX0A+AJsrhjuGw8oy5Mp30TIY+HmHmsob9GyWSZmDwW5Xu+d5esXNAlSvgABv9Q=
+	t=1707921399; cv=none; b=Ag2TdIJHmZ4uc+RQks39rJjzDXyeoK72pSD5sYI1dGGG3LheOiwWB8kfSFfiEhBsh1Lq4rd84g6d3Q/kQmDr++7O7aw5H6g92Amt0qvXogzZIGMoEZ3+DRntmY1HzFu1Cr+icstBXF6TSy4O604FHCD0e2XPfd42yq3CJD/SrKE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707920941; c=relaxed/simple;
-	bh=IsMhGKHg074QQEUyGl72EoxTPJEIiv2oQVchb7oHauw=;
+	s=arc-20240116; t=1707921399; c=relaxed/simple;
+	bh=9s+3bWSnic4DE8OGfUz8obCTSG7tBE8fyRjkpHHqq/o=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=H/BAqN/OJF5zAOMvjVR4A3+QdU3opZ6rJnWfhnxu8NhO3Ih2B3JJ2UlXbRNb+OA1SzlsLzwVXiFwBSKlmYMt8nxRtFSVwrSVAUiMGM1uhimmoMY8+KFqqVtKOmn7jNK2RJXyxKTt4F/c3E2gPDrEmirqTR48lDGtdllqNeZ5VTw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.178
+	 To:Cc:Content-Type; b=gF6T1MBVrpw26dByp2xKFUNFCcbaJLJZ9vtz7zVACB93llAASyWKYhG0Lewi0+iaBLeUO8PoHqBctR1oUWAhQm69QFPQMCvk1ZtH1c8W94iYF34k0wyTTqtRg2MdvTVO5w6PzBfrRLhA+hXgR7B1IoBtmY9wxPkNcDeSGFColdc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.210.179
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-607b2f54543so4561077b3.0
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 14 Feb 2024 06:28:59 -0800 (PST)
+Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-6e1126f57f1so253272b3a.2;
+        Wed, 14 Feb 2024 06:36:37 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707920938; x=1708525738;
+        d=1e100.net; s=20230601; t=1707921396; x=1708526196;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=uxx6BhEfyAb2qf15rhyTrfvjtPrVn2pO83E8tKf5Kc8=;
-        b=QHKJViGluqSBorQOLQNCGZU6sVNwkS70Rpf1T3yaUvaAZVcPD0lzfHSQioVMVMSScD
-         J2evYQgqwhQk8iNDFKrSISD1F4XfQX3WBWD6JoUnLOLn8l56i/AY+xGU8r9xNiCOKZjL
-         mlGvg6R7GvorauLm9YaO9ZFqP/jCyu6hKj7NyrRHWFgMdl09XvsCRZykvhy6cU3YORJ+
-         Wq49V6lZ1Y3dThMHD/DgTdQFM3NroiqEw8DD/nXct6nxroSC350myda2OQA9FUkw37EK
-         hYCKaEEXDMiSa0LFHyYM3NpWNne2PGmmIHq98/KDP60/UWvLl/0PfXNS1++OxZbvH7qg
-         CV+w==
-X-Forwarded-Encrypted: i=1; AJvYcCWIzhklqlnUD321T2omv+ptr0Dynt0Vc8Il/eNtm0z5ajK8JYC2LXNg+uxizvlRXTVY0Hs0yDCPiPbjcG18D4LgoHQLn/VLPMQHs0BU83ln2LQ=
-X-Gm-Message-State: AOJu0YyHkeam9v4gWbg76Hwd4NVj5jZ8aYwxiaAX/iFlsF+VJNSYCioy
-	/53hxE3ZJ5cn6LDzUa2UJ82qqbAE1Ha351ebpznV3VPmItSi9bcc/bco+EwNEdc=
-X-Google-Smtp-Source: AGHT+IG4w2d+d/mJ759XM0KiXR4RmA19ohOjXUnDCY1XkA/1dBQ8TVz0UOlpK1xNy78lhWZCGvvxmw==
-X-Received: by 2002:a81:8401:0:b0:604:3d5c:e1f5 with SMTP id u1-20020a818401000000b006043d5ce1f5mr3093758ywf.1.1707920937917;
-        Wed, 14 Feb 2024 06:28:57 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCX1h7o5xMbtIdBzpJ4yHLCYqZ71IQJGOUm4Ump6xzj8lrIeOmwGGKyNFYbighjEykedfwlNayIrNbUl0HT02MDmzYX2EcLK+fYwi9yeEBYJeks=
-Received: from mail-yb1-f175.google.com (mail-yb1-f175.google.com. [209.85.219.175])
-        by smtp.gmail.com with ESMTPSA id a67-20020a0dd846000000b0060795309574sm570344ywe.79.2024.02.14.06.28.57
-        for <linux-renesas-soc@vger.kernel.org>
+        bh=ieRFgVX+l5qNLg5VWXa9Hrv9zNfV92pS7+FucPfjsp8=;
+        b=TIn6iGB8ztOQMIJCtg7bls9/hfdwhL5nKJ4mTSgnahoN4DPkAYtB9Ny44lN1c30Lnz
+         MhRdswMstMSVBIPpS8IXy1b52kAVTvYkBymq5VBk26OUoG+BB+NzPOERQryO3cN5+6i6
+         tYrZnFS4fkb3awHJvp6EVK9CnOkgkWoZq+egJrsJIaOqEWEI4U90aQpg+SPuPEgur59w
+         fM1s5etn763y0c6vq8Q683xC0cnFLCjKwWjIQNqSclnu///tHgsPNliPkey0pA34KzU3
+         DqdoZ5QfxHxAai1Lw91z6cH0STnWuRllBJa5xAIOjkR1F4WtMukwYcfx3HXWKtRsutAx
+         y7AQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXU5wQ7h4awE2K4u3EdoXwVfN0iTriYIsOL4yqfwdvzD1/o5Y0ITyGvMaBo61uy9pr+EW3GtS/1GaRe+RivheVbai5uW2t3kqN/2x65ubIsLMc+xBDTZt4XtQOxrio1ShPXc8nGNUZvZ2vy51nN1hdYXpluySBMETdKPNkNyfg4QuBBqH+GUcqkiXhoOITnvcJjrW+3A+p09unzwk1QWIfKy0lMUymGmMn582CvXzEB+HM4+ROXr6YbyiEMUfLJN4hkUTpQ21cqBfvzhgLXgJB6eaVPS3WHyP2l0R8EL+K5EfCHIa0D6KqP09ojpUmdIBZRAGP3Ps6WbVABkU4s4cfTbQ==
+X-Gm-Message-State: AOJu0YznFu3p6BnZPrBY6N+HSQPzlRAt9wG11h1KZ47bpK168Y/ydT9P
+	vKe9Xr5U4nSTbu4T6weYMPoA+QZjCdOu4r5uILFHMFU6aURBwx3WPEQT0BcwnEE=
+X-Google-Smtp-Source: AGHT+IFFthSxEtonVcXe87bmhUo29Pvsbr76NaU5tedM998ASq+hhSiMEVbXD23MUhFikYczz43kMg==
+X-Received: by 2002:a62:cfc1:0:b0:6e0:9e95:b3f8 with SMTP id b184-20020a62cfc1000000b006e09e95b3f8mr2324722pfg.9.1707921395714;
+        Wed, 14 Feb 2024 06:36:35 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCXiXj8laBX/0QpFfAU4AHfZrChi3AZvxbSiqzlknIyB0GjNrpDnP9OJpYeVZqli80RsNWDywVErwazZ9oH9+sK90qpRtHOpXS89vzIIsoBnAHvA90ftvO8uFHPfYiFPO5Ss0Om+6wBItmwQC/rGykolO4ytM0OqiFb4sXYTFkfc1N1YkmnkVSkpH7V2Q+F/0soF0Hjg+udc4goR9kb6nK3ZdkF2Jka71ipF4Ju6CiVFtSKqbXW8btVafOxRbiMzS71/z4Ev5/H3Q3xyP7mjD2H63r43A6hwdfFzN0YPh50fRitSP9wfFlZzWpMNcDWRMJMHZgcGXxjm3oYo5L7cdlgl8A==
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com. [209.85.214.169])
+        by smtp.gmail.com with ESMTPSA id a16-20020aa780d0000000b006e0825acbc3sm9321977pfn.77.2024.02.14.06.36.35
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 14 Feb 2024 06:28:57 -0800 (PST)
-Received: by mail-yb1-f175.google.com with SMTP id 3f1490d57ef6-dc23bf7e5aaso5212740276.0
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 14 Feb 2024 06:28:57 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCVNG2nLNfH7ANiIHpwkrr5Co7fjcnFSzx6Lb1zrl+JELlP64ospoWHeljUq4EKbUrtGAKae2ENSIJSXsdbv51Tw+Zl4fVaacKW5g5YUTsH0fXk=
-X-Received: by 2002:a25:9706:0:b0:dcd:23ad:4ef1 with SMTP id
- d6-20020a259706000000b00dcd23ad4ef1mr2569547ybo.31.1707920937211; Wed, 14 Feb
- 2024 06:28:57 -0800 (PST)
+        Wed, 14 Feb 2024 06:36:35 -0800 (PST)
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-1db51e55023so6923745ad.1;
+        Wed, 14 Feb 2024 06:36:35 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCWtmGx2z2ck1NE7BFwLs8WgYpa13xWvvwC1Yuyo9C6gcWyrXqUUk4tGlw5D675zE6oGRA9mIcz/HhoNGNsSS2QOYeKmvCorzzpsD7mkQ5mJikfjkk/dx5cy+7o5W39ecsRG8Md9UXejzkS4ikb4pJPphIuBVUddh5zvQZ/y/ScYi8A3+TjzEZbavf/9k4d2XBnyaDR+TJCy2eW2fXu2nXOgibu+C2xLs6APZ1h/ORaMxOUiw4VYIAscAtVjJJIlPC/2X8P8P+vqlHY5DefKyX2FfN05o4GPddY62Hj6+q4G11cbfyUyFucz/lG+R1RTZ28ACxG/JcrSmNd8dzgqOXmE8A==
+X-Received: by 2002:a25:8686:0:b0:dc7:4546:d107 with SMTP id
+ z6-20020a258686000000b00dc74546d107mr2758581ybk.23.1707921374648; Wed, 14 Feb
+ 2024 06:36:14 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240214052144.1966569-1-yoshihiro.shimoda.uh@renesas.com>
-In-Reply-To: <20240214052144.1966569-1-yoshihiro.shimoda.uh@renesas.com>
+References: <20240213-arm-dt-cleanups-v1-0-f2dee1292525@kernel.org> <20240213-arm-dt-cleanups-v1-3-f2dee1292525@kernel.org>
+In-Reply-To: <20240213-arm-dt-cleanups-v1-3-f2dee1292525@kernel.org>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 14 Feb 2024 15:28:45 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdXYKE+UjiJgdN3zQs-dKXrfBbkR1cMp1KYMuU=OPKL3Zw@mail.gmail.com>
-Message-ID: <CAMuHMdXYKE+UjiJgdN3zQs-dKXrfBbkR1cMp1KYMuU=OPKL3Zw@mail.gmail.com>
-Subject: Re: [PATCH] arm64: dts: renesas: r8a779f0: Add GICv3 ITS
-To: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Cc: magnus.damm@gmail.com, linux-renesas-soc@vger.kernel.org
+Date: Wed, 14 Feb 2024 15:36:03 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdXjJcsFiusnBQmJg1p-oy-NPmr+qyt0znOk0n+wL8TrnA@mail.gmail.com>
+Message-ID: <CAMuHMdXjJcsFiusnBQmJg1p-oy-NPmr+qyt0znOk0n+wL8TrnA@mail.gmail.com>
+Subject: Re: [PATCH 3/6] arm64: dts: Fix dtc interrupt_provider warnings
+To: Rob Herring <robh@kernel.org>
+Cc: soc@kernel.org, Shawn Guo <shawnguo@kernel.org>, 
+	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
+	Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>, Rob Herring <robh+dt@kernel.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Tsahee Zidenberg <tsahee@annapurnalabs.com>, Antoine Tenart <atenart@kernel.org>, 
+	Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@codeconstruct.com.au>, 
+	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>, 
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Andrew Lunn <andrew@lunn.ch>, 
+	Gregory Clement <gregory.clement@bootlin.com>, 
+	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>, 
+	=?UTF-8?Q?Jonathan_Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>, 
+	Thierry Reding <thierry.reding@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>, 
+	Stefan Agner <stefan@agner.ch>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+	Alexandre Torgue <alexandre.torgue@foss.st.com>, =?UTF-8?Q?Beno=C3=AEt_Cousson?= <bcousson@baylibre.com>, 
+	Tony Lindgren <tony@atomide.com>, Chanho Min <chanho.min@lge.com>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
+	Linus Walleij <linusw@kernel.org>, Imre Kaloz <kaloz@openwrt.org>, 
+	Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konrad.dybcio@linaro.org>, 
+	Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
+	Nicolas Schier <nicolas@fjasle.eu>, linux-arm-kernel@lists.infradead.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org, 
+	linux-tegra@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
+	linux-omap@vger.kernel.org, linux-mediatek@lists.infradead.org, 
+	linux-renesas-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+	linux-kbuild@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Shimoda-san,
-
-Thanks for your patch!
-
-On Wed, Feb 14, 2024 at 6:21=E2=80=AFAM Yoshihiro Shimoda
-<yoshihiro.shimoda.uh@renesas.com> wrote:
-> This SoC has GICv3 ITS and PCIe host mode on this SoC can use it.
-> So, add GIC ITS node into GIC node and update interrupt-map in PCIe node.
+On Tue, Feb 13, 2024 at 8:35=E2=80=AFPM Rob Herring <robh@kernel.org> wrote=
+:
+> The dtc interrupt_provider warning is off by default. Fix all the warning=
+s
+> so it can be enabled.
 >
-> Note that PCIe nodes need msi-parent property to use the ITS for MSI.
-> However, it requires PCIe driver's update. Especially, vendor-specific
-> registers' setting is needed. So, this patch doesn't add msi-parent
-> properties into PCIe nodes.
->
-> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+> Signed-off-by: Rob Herring <robh@kernel.org>
 
-Is there any value in adding the GICv3 ITS node now, without msi-parent
-properties pointing to it?
-I.e. does applying this patch enable extra functionality yet?
+>  arch/arm64/boot/dts/renesas/ulcb-kf.dtsi            | 4 ++++
 
-> --- a/arch/arm64/boot/dts/renesas/r8a779f0.dtsi
-> +++ b/arch/arm64/boot/dts/renesas/r8a779f0.dtsi
-> @@ -1262,11 +1262,19 @@ ipmmu_mm: iommu@eefc0000 {
->                 gic: interrupt-controller@f1000000 {
->                         compatible =3D "arm,gic-v3";
->                         #interrupt-cells =3D <3>;
-> -                       #address-cells =3D <0>;
-> +                       #address-cells =3D <2>;
-> +                       #size-cells =3D <2>;
-> +                       ranges;
->                         interrupt-controller;
->                         reg =3D <0x0 0xf1000000 0 0x20000>,
->                               <0x0 0xf1060000 0 0x110000>;
->                         interrupts =3D <GIC_PPI 9 IRQ_TYPE_LEVEL_HIGH>;
-> +
-> +                       gic_its: msi-controller@f1040000 {
-> +                               compatible =3D "arm,gic-v3-its";
-> +                               reg =3D <0x0 0xf1040000 0 0x20000>;
-> +                               msi-controller;
-
-Missing "#msi-cells =3D <1>", which is a required property.
-
-> +                       };
->                 };
->
->                 prr: chipid@fff00044 {
-
-The rest LGTM.
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Acked-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
 Gr{oetje,eeting}s,
 
                         Geert
 
-
---
+--=20
 Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
 .org
 
