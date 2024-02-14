@@ -1,145 +1,292 @@
-Return-Path: <linux-renesas-soc+bounces-2747-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-2748-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7CB7854418
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Feb 2024 09:36:00 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 147B48544D8
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Feb 2024 10:17:33 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 559701F225EE
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Feb 2024 08:36:00 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C01B6281782
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Feb 2024 09:17:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AC4C317FE;
-	Wed, 14 Feb 2024 08:35:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 841D8101C1;
+	Wed, 14 Feb 2024 09:17:29 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com [209.85.128.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48F6F1FB4;
-	Wed, 14 Feb 2024 08:35:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.178
+Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 71C5A12B66;
+	Wed, 14 Feb 2024 09:17:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707899757; cv=none; b=UbFnK8Vi0f5jWtlJEbkEr9DfffSkwpZn4u3oiGmjmb6CA+0j8SHwx6aEvKdiof+f2f2xv2ioGzljcrxu+mhdmrnLOhLr3wZoGBSdC2jmCqyz83CWROp+EAp7T0p0Dm0gvodY5t6TRwUll9Dov9l2z/XZvir96ykV4MzRnjSc8Ac=
+	t=1707902249; cv=none; b=iprdf0dz2a+OzvWoRiTyjpi8FoifFTZkGvpHADtwZCss/FM20Ax8TWEoH9Tr3b1P463l3ALHLbjF7kEURn9lJWhqzsqHQWwugShPOMxvkQLBMqx46USR1cMbRGlv31aJh28vx38BizgZ88jrsmPG8zbkr8vldI0lB7VeL8sA3mY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707899757; c=relaxed/simple;
-	bh=G80kAQT7MwVwK+q1TP/+PTGwSsJM0oWNxYt1TUSDTHI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=oF/tTNCVkuinR2elC5/4Ia3A9XIOWXf9w2sIDsePWYG00FGIq4+PZnJQSL3tcmqNUq0ZPBo6arl2LShG74t+ChvI+mWRShkHoGfaP/NjdrE7TIKgB7xemV2HcTCw8qCZULnGriN8LKJWtzu38Y71Y+mfBEFzFQZ2IjAR36IIHP4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-6002317a427so47028387b3.2;
-        Wed, 14 Feb 2024 00:35:54 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707899752; x=1708504552;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=qhJlZCcRgqTba1suffIYy/S2Gadkij2N+hd17VddZnM=;
-        b=jJsXIHH49ymdhbGiJixJ1GSrgia1NrYlyFYPK9YnoFrhsKCJugbGNHQ3Ql3iXmld+S
-         ngRbnr4tsfF6C4uUVrdIZFu3Ca5r7i3RmK6sYYXpBbsggDp/0QiUIYF2V5sIyOBBizzo
-         otgOsDuR/ZDJjl5C7H2QA3heL0i5k0YjkkkphbmAsUi3kTRXS6r1ntGWbKV5Pn3vCUWL
-         zqM8GCuyN1X4olwQogNCxH3HTckv++deQqSppuXOotvo2eHzgsdLd1qmWwlK8QhbckcD
-         xp19ANDgL7vycqVnnBT2vPfBkQprOzzk6CB092rpIU0qDKUUVoWZS5kfgOB5L5QZvJvn
-         bqew==
-X-Forwarded-Encrypted: i=1; AJvYcCUzyaCqxu5lUt17dZpJCUa9VkbcB/gdvOQncj89xLJwmha6S8pS5v4Lx8XCtGnBebzAUqIpWSHUu7gRnDVPgzT9luxjKNIDJIXSy9avPwbBEv8QgGaygvL+aW2GNc4gULufQ9CWoeSzHsFzolxKB1N5gZ1yaikBsDqwnvVLdW80aobXcL0tfIzHeU/PCWGdWpt5vPTwrkHDxErSELj+AI4ym74=
-X-Gm-Message-State: AOJu0Yyg34SrO+qm85Ro3xhFkxJgcd27pLXqne+y0o0IquabArU+4v/s
-	IyR5gYhQIB4yBqbQBhhcMWhzIlibZw9/tOvoaM3LwfDm1Z+4V8wKo/zO07RtPIo=
-X-Google-Smtp-Source: AGHT+IH7w6QLIfgNrszxlKE78XNWCSjjYGNraAZ+ea8wcrBoeplhrbDLb1PeWFSNcChTQ9MtT6UNyQ==
-X-Received: by 2002:a81:84c9:0:b0:604:b08c:348d with SMTP id u192-20020a8184c9000000b00604b08c348dmr1615046ywf.1.1707899752108;
-        Wed, 14 Feb 2024 00:35:52 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCU3kB/B5WZaBOwFU458Gbikm7YLFToDCMZIMHGgWLNsYimJ2f7WNBDN7+QBURGuTfpBmRxmZn2Zimovo5ZG/7tI4vByX0m3jJ8oP7M2OBERHad12czrvX2DOBLkCRrHqaX1eyTYDSDCp9je9LhimRIAfQ3ONgzN1Cpml6Aeaoy7WWg+4iglDTG2OGKT/SMctbwacGPoAgVAwnXyoD6Ss3sfb3g=
-Received: from mail-yb1-f177.google.com (mail-yb1-f177.google.com. [209.85.219.177])
-        by smtp.gmail.com with ESMTPSA id b81-20020a0dd954000000b006078ad0243csm689386ywe.59.2024.02.14.00.35.51
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 14 Feb 2024 00:35:51 -0800 (PST)
-Received: by mail-yb1-f177.google.com with SMTP id 3f1490d57ef6-dcc4de7d901so1484144276.0;
-        Wed, 14 Feb 2024 00:35:51 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCUqaqHeHdPWCke88qqVKNUCTowy6wOKw/w0Pk0Bsd4JbzaUNGvC5rtcqvpCVJImgluMjXM6TS+bEEgjgAf9hty/YhFGjly7qP19Fw0ajUq3zfsErADyyyvaSCOZUHM7+XCBm+iZ/flNlTQa/VMLhFHKxwvgKAPiHa3fka3XhMv2rIY96bax4SPzciAFnE+lhmMU1Cz4NY4KlKP3GbFTdNWl/mo=
-X-Received: by 2002:a25:c7c9:0:b0:dc6:ff12:1a21 with SMTP id
- w192-20020a25c7c9000000b00dc6ff121a21mr1674869ybe.31.1707899751143; Wed, 14
- Feb 2024 00:35:51 -0800 (PST)
+	s=arc-20240116; t=1707902249; c=relaxed/simple;
+	bh=h5MT1T78Otnx2JnlA80Aj9JTvc6oirJwHBV1yEoNJ/Y=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=o5d4Hx4snfYzgnU1NVgkbm6eAa4CuaBbNzS5H5vrkxlNSVF2FVWg4JpI5bA0a4lQPJ6mRI/8qgIq7axAD7VAgvkZkaV62dKV4dBJqX/ifjXmmQDLeeZCXzOSn45CzYKc6aWnDBF22CJcIEnnQCfg5q3NI7ivwomthltlOpFwIko=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
+X-IronPort-AV: E=Sophos;i="6.06,159,1705330800"; 
+   d="asc'?scan'208";a="193904112"
+Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
+  by relmlie5.idc.renesas.com with ESMTP; 14 Feb 2024 18:17:24 +0900
+Received: from [10.226.93.95] (unknown [10.226.93.95])
+	by relmlir5.idc.renesas.com (Postfix) with ESMTP id D02E54004186;
+	Wed, 14 Feb 2024 18:17:20 +0900 (JST)
+Message-ID: <07f5d7e7-ca09-4779-836d-c6d1146ea5b8@bp.renesas.com>
+Date: Wed, 14 Feb 2024 09:17:15 +0000
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cover.1706194617.git.geert+renesas@glider.be> <CAPDyKFpxaEUHvKKb+spxV6HG2P2gLx5qM1mLPxJie+PdkmTL4w@mail.gmail.com>
- <CAMuHMdUswhJ3BQLnOQZC7X7qc7SFCqsr9Uy65LfBT_BNWfyhFQ@mail.gmail.com>
-In-Reply-To: <CAMuHMdUswhJ3BQLnOQZC7X7qc7SFCqsr9Uy65LfBT_BNWfyhFQ@mail.gmail.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 14 Feb 2024 09:35:38 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdX1tjgPJ8t+XoASuMvzvSognu7q2=aGfBO8r77JsbR82w@mail.gmail.com>
-Message-ID: <CAMuHMdX1tjgPJ8t+XoASuMvzvSognu7q2=aGfBO8r77JsbR82w@mail.gmail.com>
-Subject: Re: [PATCH v2 00/15] arm64: renesas: Add R-Car V4M and Gray Hawk
- Single support
-To: Ulf Hansson <ulf.hansson@linaro.org>
-Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
-	Rob Herring <robh+dt@kernel.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Philipp Zabel <p.zabel@pengutronix.de>, Magnus Damm <magnus.damm@gmail.com>, 
-	Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
-	Cong Dang <cong.dang.xn@renesas.com>, Duy Nguyen <duy.nguyen.rh@renesas.com>, 
-	Hai Pham <hai.pham.ud@renesas.com>, Linh Phung <linh.phung.jy@renesas.com>, 
-	linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-pm@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH net-next v2 0/7] Improve GbEth performance on Renesas
+ RZ/G2L and related SoCs
+Content-Language: en-GB
+To: Sergey Shtylyov <s.shtylyov@omp.ru>,
+ "David S . Miller" <davem@davemloft.net>, Eric Dumazet
+ <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>
+Cc: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+ Wolfram Sang <wsa+renesas@sang-engineering.com>, netdev@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20240206091909.3191-1-paul.barker.ct@bp.renesas.com>
+ <29d9d3cb-4ac2-32e2-51b8-475d34216b07@omp.ru>
+ <99a883c8-ccf2-4e52-9c34-ead59cd84117@bp.renesas.com>
+ <4bf96e67-d35b-813c-ac9b-f2094903ac55@omp.ru>
+From: Paul Barker <paul.barker.ct@bp.renesas.com>
+Organization: Renesas Electronics Corporation
+In-Reply-To: <4bf96e67-d35b-813c-ac9b-f2094903ac55@omp.ru>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------n3L43mLyNqMndilp0MDSgaYI"
+
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------n3L43mLyNqMndilp0MDSgaYI
+Content-Type: multipart/mixed; boundary="------------Zyhfm3p7uJssOfP2CQb7Vvxi";
+ protected-headers="v1"
+From: Paul Barker <paul.barker.ct@bp.renesas.com>
+To: Sergey Shtylyov <s.shtylyov@omp.ru>,
+ "David S . Miller" <davem@davemloft.net>, Eric Dumazet
+ <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>
+Cc: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+ Wolfram Sang <wsa+renesas@sang-engineering.com>, netdev@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
+Message-ID: <07f5d7e7-ca09-4779-836d-c6d1146ea5b8@bp.renesas.com>
+Subject: Re: [RFC PATCH net-next v2 0/7] Improve GbEth performance on Renesas
+ RZ/G2L and related SoCs
+References: <20240206091909.3191-1-paul.barker.ct@bp.renesas.com>
+ <29d9d3cb-4ac2-32e2-51b8-475d34216b07@omp.ru>
+ <99a883c8-ccf2-4e52-9c34-ead59cd84117@bp.renesas.com>
+ <4bf96e67-d35b-813c-ac9b-f2094903ac55@omp.ru>
+In-Reply-To: <4bf96e67-d35b-813c-ac9b-f2094903ac55@omp.ru>
+
+--------------Zyhfm3p7uJssOfP2CQb7Vvxi
+Content-Type: multipart/mixed; boundary="------------f6SjzoA1tBP0Vu0wdlu1Se4P"
+
+--------------f6SjzoA1tBP0Vu0wdlu1Se4P
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-Hi Ulf,
+On 12/02/2024 20:53, Sergey Shtylyov wrote:
+> On 2/12/24 2:52 PM, Paul Barker wrote:
+> [...]
+>=20
+>>>> This series aims to improve peformance of the GbEth IP in the Renesa=
+s
+>>>
+>>>    You didn't fix the typo in "peformance"... :-/
+>>>
+>>>> RZ/G2L SoC family and the RZ/G3S SoC, which use the ravb driver. Alo=
+ng
+>>>> the way, we do some refactoring and ensure that napi_complete_done()=
+ is
+>>>> used in accordance with the NAPI documentation for both GbEth and R-=
+Car
+>>>> code paths.
+>>>>
+>>>> Performance improvment mainly comes from enabling SW IRQ Coalescing =
+for
+>>>
+>>>    And in "improvment" too... :-/
+>>
+>> I'll fix this and the above type in v3.
+>=20
+>    TIA! Chances are this will end up in the merge commit...
+>=20
+>>>> all SoCs using the GbEth IP, and NAPI Threaded mode for single core =
+SoCs
+>>>> using the GbEth IP. These can be enabled/disabled at runtime via sys=
+fs,
+>>>> but our goal is to set sensible defaults which get good performance =
+on
+>>>> the affected SoCs.
+>>>>
+>>>> The performance impact of this series on iperf3 testing is as follow=
+s:
+>>>>   * RZ/G2L Ethernet throughput is unchanged, but CPU usage drops:
+>>>>       * Bidirectional and TCP RX: 6.5% less CPU usage
+>>>>       * UDP RX: 10% less CPU usage
+>>>>
+>>>>   * RZ/G2UL and RZ/G3S Ethernet throughput is increased for all test=
 
-On Wed, Jan 31, 2024 at 3:56=E2=80=AFPM Geert Uytterhoeven <geert@linux-m68=
-k.org> wrote:
-> On Tue, Jan 30, 2024 at 2:11=E2=80=AFPM Ulf Hansson <ulf.hansson@linaro.o=
-rg> wrote:
-> > On Thu, 25 Jan 2024 at 16:34, Geert Uytterhoeven
-> > <geert+renesas@glider.be> wrote:
-> > > This patch series adds initial support for the Renesas R-Car V4M
-> > > (R8A779G0) SoC and the Renesas Gray Hawk Single development board.
-> > >
-> > > As both driver code and DTS have hard dependencies on DT binding
-> > > definitions, most patches in this series are supposed to go in throug=
+>>>>     cases except UDP TX, which suffers a slight loss:
+>>>>       * TCP TX: 32% more throughput
+>>>>       * TCP RX: 11% more throughput
+>>>>       * UDP TX: 10% less throughput
+>>>>       * UDP RX: 10183% more throughput - the previous throughput of
+>>>
+>>>    So this is a real figure? I thought you forgot to erase 10... :-)
+>>
+>> Yes, throughput went from 1.06Mbps to 109Mbps for the RZ/G2UL with the=
+se
+>> changes.
+>=20
+>    Hm, that gives me even 10283%! :-)
+>=20
+>> Initial testing shows that goes up again to 485Mbps with the next patc=
 h
-> > > the renesas-devel and/or renesas-clk trees, using a shared branch for=
- DT
-> > > binding definitions, as usual.  For the PM domain patches (03, 04, 09=
-),
-> > > Ulf already offered to apply these to his pmdomain tree, and provide =
-an
-> > > immutable "dt" branch, to be pulled in my renesas-devel tree.
-> >
-> > Patch 3,4 and 9 (I dropped the copyright line in patch9, as pointed
-> > out by Niklas) applied for next, thanks!
-> >
-> > Patch 3,4 are also available at the immutable dt branch for you to pull=
- in.
->
-> Thank you!
->
-> I have pulled the immutable branch, added the remaining DT binding
-> definitions, and queued all remaining patches.
+>> series I'm working on to reduce RX buffer sizes.
+>=20
+>    Oh, wow! :-)
+>=20
+>> Biju's work on checksum offload also helps a lot with these numbers, I=
 
-It looks like you have applied copies of all commits on the "dt"
-branch to the "next"
-branch, so now there are two copies?
+>> can't take all the credit.
+>=20
+>    Took 5 versions to merge, unfortunately... :-/
+>=20
+> [...]
+>=20
+>>>> Work in this area will continue, in particular we expect to improve
+>>>> TCP/UDP RX performance further with future changes to RX buffer
+>>>> handling.
+>>>>
+>>>> Changes v1->v2:
+>>>>   * Marked as RFC as the series depends on unmerged patches.
+>>>>   * Refactored R-Car code paths as well as GbEth code paths.
+>>>>   * Updated references to the patches this series depends on.
+>>>>
+>>>> Paul Barker (7):
+>>>>   net: ravb: Simplify poll & receive functions
+>>>
+>>>    The below 3 commits fix issues in the GbEth code, so should
+>>> be redone against net.git and posted separately from this series...
+>>>
+>>>>   net: ravb: Count packets instead of descriptors in RX path
+>>>>   net: ravb: Always process TX descriptor ring
+>>>>   net: ravb: Always update error counters
+>>
+>> I'll split out and re-submit these as bug fixes. "net: ravb: Count
+>> packets instead of descriptors in RX path" will require a bit of rewor=
+k
+>> so it doesn't depend on the first patch of the series ("net: ravb:
+>> Simplify poll & receive functions") so you'll probably want to re-revi=
+ew
+>> when I send it.
+>=20
+>    Yes, I figured that at least the 1st patch would need to be reworked=
+=2E..
+>=20
+>> Then I'll re-send the rest as a non-RFC series.
+>=20
+>    Won't they need to be rebased against 3 fixes?
 
-See the output of "git range-diff v6.8-rc1..pmdomain/dt
-v6.8-rc4..pmdomain/next".
+Yes, the rest will need rebasing.
 
-Gr{oetje,eeting}s,
+We need to test gPTP on an RZ/G2N board with these changes first. We're
+working on it and I'll let you know the status soon. I should be able to
+send at least one bugfix in a way that doesn't affect RZ/G2N & R-Car
+boards though...
 
-                        Geert
+Thanks,
 
 --=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
+Paul Barker
+--------------f6SjzoA1tBP0Vu0wdlu1Se4P
+Content-Type: application/pgp-keys; name="OpenPGP_0x27F4B3459F002257.asc"
+Content-Disposition: attachment; filename="OpenPGP_0x27F4B3459F002257.asc"
+Content-Description: OpenPGP public key
+Content-Transfer-Encoding: quoted-printable
 
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+-----BEGIN PGP PUBLIC KEY BLOCK-----
+
+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3D
+=3DsIIN
+-----END PGP PUBLIC KEY BLOCK-----
+
+--------------f6SjzoA1tBP0Vu0wdlu1Se4P--
+
+--------------Zyhfm3p7uJssOfP2CQb7Vvxi--
+
+--------------n3L43mLyNqMndilp0MDSgaYI
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+wnsEABYIACMWIQSiu8gv1Xr0fIw/aoLbaV4Vf/JGvQUCZcyFGwUDAAAAAAAKCRDbaV4Vf/JGvdFt
+AQCbE8pRdIeSIXsrWN94oVKFQMnCY+sH9l2fuQD6zVGKdgD+NfYB1PtVCdjcR3Z4DR4QkHaZbTfb
+E8pTJ465/QCQ3ws=
+=jbyW
+-----END PGP SIGNATURE-----
+
+--------------n3L43mLyNqMndilp0MDSgaYI--
 
