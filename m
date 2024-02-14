@@ -1,341 +1,241 @@
-Return-Path: <linux-renesas-soc+bounces-2822-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-2823-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CDA78556EB
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 15 Feb 2024 00:13:38 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A36E855750
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 15 Feb 2024 00:34:27 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 171E51F2154F
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Feb 2024 23:13:38 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 29F16B20E97
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Feb 2024 23:34:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DF07713F003;
-	Wed, 14 Feb 2024 23:13:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 37DEB1419AC;
+	Wed, 14 Feb 2024 23:34:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hCw1MKmv"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="I7arg7NI"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2B7E24B33;
-	Wed, 14 Feb 2024 23:13:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAD661419A6;
+	Wed, 14 Feb 2024 23:34:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707952411; cv=none; b=NYfJabZ3RdJbAVLSXKC0IPmOUiRauT1ygXXx5uwbtm5ktFrPP4qwflgJifPRQT2faVx03FfhPOY37/lqu1/UMN4jv73ibIt1KVz1QsUO9Cm1P4xZs5BkyEe+4P4mJrdmjj0PLQilwMs8JG7iM4ocIruRXzSBJ3TUvXnapxIkLd4=
+	t=1707953660; cv=none; b=cOzGyzbOiT6PfDrYGmA2Od+2ugiO6EdNwXbA3x7h2ynV2uNoKhfHuOBlsr/T0xD8O2b6ucEmNfNvZFt5ltYUVcp1eWfANF46ZjoOkkBctXsjyFV1xcn94DOKHdPyFYqr1XLkPOEeF1D1UH4S035a61dC3szSGPiG3/5rF6u9izM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707952411; c=relaxed/simple;
-	bh=Z1/yl5RJ77QqCCp71GxnprkzPjJyVEnw3bnTqBlUQMY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IhjrkkQSvwiV5VJT8pnI/F3PDXpoPGUjkLBULkeWVuIdsjIBQZXnBBmyjrVQU+fNOwn3GBwbnaf57WdpkSi38TO3hSCmpxuupymtwVm4uWWI8K5OzFi4SLuEc4170eptWuEgYfsnkUz9UCXSWi+FNpF8ofophs1/imkTTlUFwAs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hCw1MKmv; arc=none smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1707952410; x=1739488410;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=Z1/yl5RJ77QqCCp71GxnprkzPjJyVEnw3bnTqBlUQMY=;
-  b=hCw1MKmvNqiDO7/1L/9VPDy6alVhEDrY7mK+AXV5JxG95XwyGYLqL7OH
-   l+z2TcQ8uPpgkrVAfwJhJCRt4zsYf6GdUm4qIncp7dGbl8gY6+99hz6mH
-   SvoSkIYlr3LXkPQgWdt9lHaRKq0TEEGnKrGnZ1Ju65oIDtQmclNgCq8Ug
-   iCYzktPoSYuEkLKXIdpTEqDgcT48Bn5nLHdZHAQXszir1t9XakAUkJK12
-   voQQ6jjM2iIOtBU7tNlMkfv4yMmyxdC/i6Zgu84ZcqegOPbbqOuUNjBMR
-   eL4bBtrpJfTHCnlfc/0xFG6WubCVSnuy0oZNaCZC/iRrE15q1oEd8mYfw
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10984"; a="13422004"
-X-IronPort-AV: E=Sophos;i="6.06,160,1705392000"; 
-   d="scan'208";a="13422004"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Feb 2024 15:13:29 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10984"; a="826369893"
-X-IronPort-AV: E=Sophos;i="6.06,160,1705392000"; 
-   d="scan'208";a="826369893"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
-  by orsmga001.jf.intel.com with SMTP; 14 Feb 2024 15:13:23 -0800
-Received: by stinkbox (sSMTP sendmail emulation); Thu, 15 Feb 2024 01:13:22 +0200
-Date: Thu, 15 Feb 2024 01:13:22 +0200
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Mario Limonciello <mario.limonciello@amd.com>
-Cc: Daniel Vetter <daniel@ffwll.ch>,
-	Jani Nikula <jani.nikula@linux.intel.com>,
-	Alex Deucher <alexander.deucher@amd.com>,
-	Hans de Goede <hdegoede@redhat.com>,
-	"open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
-	amd-gfx@lists.freedesktop.org,
-	"open list:USB SUBSYSTEM" <linux-usb@vger.kernel.org>,
-	linux-fbdev@vger.kernel.org, nouveau@lists.freedesktop.org,
-	intel-gfx@lists.freedesktop.org,
-	platform-driver-x86@vger.kernel.org, intel-xe@lists.freedesktop.org,
-	linux-renesas-soc@vger.kernel.org,
-	"open list:ACPI" <linux-acpi@vger.kernel.org>,
-	open list <linux-kernel@vger.kernel.org>,
-	Melissa Wen <mwen@igalia.com>,
-	Mark Pearson <mpearson-lenovo@squebb.ca>
-Subject: Re: [PATCH v6 3/5] drm: Add support to get EDID from ACPI
-Message-ID: <Zc1JEg5mC0ww_BeU@intel.com>
-References: <20240214215756.6530-1-mario.limonciello@amd.com>
- <20240214215756.6530-4-mario.limonciello@amd.com>
+	s=arc-20240116; t=1707953660; c=relaxed/simple;
+	bh=EhoG56pQh3Z7IB5fQjHs5pWDeKTByk/4gaFqXtrewrA=;
+	h=Content-Type:MIME-Version:In-Reply-To:References:Subject:From:Cc:
+	 To:Date:Message-ID; b=NSbZd5cHayMkcTjq8GsGjiRn2nvlaf/fuZ40lP8wCS7gO7f0A6XCrogTmyeErO0i1EFgmfHtj3EBTCfMxbNHJQBqoeuxoTEVPntwoyPA6FjXywFZkpJt0j3EbaajPgHYcLrpEgKPqaTwdL7vDs33yOyz2PGiGR0DGHTvJPoUt4U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=I7arg7NI; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (aztw-30-b2-v4wan-166917-cust845.vm26.cable.virginm.net [82.37.23.78])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0C035231;
+	Thu, 15 Feb 2024 00:34:12 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1707953652;
+	bh=EhoG56pQh3Z7IB5fQjHs5pWDeKTByk/4gaFqXtrewrA=;
+	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+	b=I7arg7NIMPTKawvJDW0PUoTusLyDXoFQk4aUrEN7SVIWqPC4k3gj72lgOcqKhUz/q
+	 nbdzTu6ivuWvFpblcNnmfKazXQqz6xD9NqOBXANrTjK9uD5EwUsSzDtdy9oRggUd+z
+	 keN3X3DTXq5LbTpOPL/INYGEEqPqot9Cv9qYmqNg=
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240214215756.6530-4-mario.limonciello@amd.com>
-X-Patchwork-Hint: comment
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <TYCPR01MB11269D1C9578F27DE69E732B6864E2@TYCPR01MB11269.jpnprd01.prod.outlook.com>
+References: <20240213140240.159057-1-biju.das.jz@bp.renesas.com> <20240213140240.159057-2-biju.das.jz@bp.renesas.com> <ZcvsyRfVwC0aJ5fb@shikoro> <CADT+UeDNFBTvRMHd4_J85Yz0RYED4ioG9wjUe4C0X4x6LzVD9w@mail.gmail.com> <Zcx6Ty2tu_ZGdURj@ninjato> <TYCPR01MB11269CC8B2EAB564154C829A2864E2@TYCPR01MB11269.jpnprd01.prod.outlook.com> <Zc0nWfwFFGhqxHQq@kekkonen.localdomain> <TYCPR01MB11269F35E38BE52CDD6628006864E2@TYCPR01MB11269.jpnprd01.prod.outlook.com> <TYCPR01MB11269D1C9578F27DE69E732B6864E2@TYCPR01MB11269.jpnprd01.prod.outlook.com>
+Subject: RE: [PATCH 1/2] media: i2c: ov5645: Move the register 0x3008 from ov5645_global_init_setting
+From: Kieran Bingham <kieran.bingham@ideasonboard.com>
+Cc: Wolfram Sang <wsa@kernel.org>, biju.das.au <biju.das.au@gmail.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org <linux-media@vger.kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>, Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>, linux-renesas-soc@vger.kernel.org <linux-renesas-soc@vger.kernel.org>
+To: Biju Das <biju.das.jz@bp.renesas.com>, Sakari Ailus <sakari.ailus@linux.intel.com>
+Date: Wed, 14 Feb 2024 23:34:12 +0000
+Message-ID: <170795365234.2765369.4101452918614439944@ping.linuxembedded.co.uk>
+User-Agent: alot/0.10
 
-On Wed, Feb 14, 2024 at 03:57:54PM -0600, Mario Limonciello wrote:
-> Some manufacturers have intentionally put an EDID that differs from
-> the EDID on the internal panel on laptops.  Drivers that prefer to
-> fetch this EDID can set a bit on the drm_connector to indicate that
-> the DRM EDID helpers should try to fetch it and it is preferred if
-> it's present.
-> 
-> Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
-> ---
->  drivers/gpu/drm/Kconfig     |   1 +
->  drivers/gpu/drm/drm_edid.c  | 109 +++++++++++++++++++++++++++++++++---
->  include/drm/drm_connector.h |   6 ++
->  include/drm/drm_edid.h      |   1 +
->  4 files changed, 109 insertions(+), 8 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-> index 872edb47bb53..3db89e6af01d 100644
-> --- a/drivers/gpu/drm/Kconfig
-> +++ b/drivers/gpu/drm/Kconfig
-> @@ -8,6 +8,7 @@
->  menuconfig DRM
->  	tristate "Direct Rendering Manager (XFree86 4.1.0 and higher DRI support)"
->  	depends on (AGP || AGP=n) && !EMULATED_CMPXCHG && HAS_DMA
-> +	depends on (ACPI_VIDEO || ACPI_VIDEO=n)
->  	select DRM_PANEL_ORIENTATION_QUIRKS
->  	select DRM_KMS_HELPER if DRM_FBDEV_EMULATION
->  	select FB_CORE if DRM_FBDEV_EMULATION
-> diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-> index 923c4423151c..cdc30c6d05d5 100644
-> --- a/drivers/gpu/drm/drm_edid.c
-> +++ b/drivers/gpu/drm/drm_edid.c
-> @@ -28,6 +28,7 @@
->   * DEALINGS IN THE SOFTWARE.
->   */
->  
-> +#include <acpi/video.h>
->  #include <linux/bitfield.h>
->  #include <linux/cec.h>
->  #include <linux/hdmi.h>
-> @@ -2188,6 +2189,58 @@ drm_do_probe_ddc_edid(void *data, u8 *buf, unsigned int block, size_t len)
->  	return ret == xfers ? 0 : -1;
->  }
->  
-> +/**
-> + * drm_do_probe_acpi_edid() - get EDID information via ACPI _DDC
-> + * @data: struct drm_connector
-> + * @buf: EDID data buffer to be filled
-> + * @block: 128 byte EDID block to start fetching from
-> + * @len: EDID data buffer length to fetch
-> + *
-> + * Try to fetch EDID information by calling acpi_video_get_edid() function.
-> + *
-> + * Return: 0 on success or error code on failure.
-> + */
-> +static int
-> +drm_do_probe_acpi_edid(void *data, u8 *buf, unsigned int block, size_t len)
-> +{
-> +	struct drm_connector *connector = data;
-> +	struct drm_device *ddev = connector->dev;
-> +	struct acpi_device *acpidev = ACPI_COMPANION(ddev->dev);
-> +	unsigned char start = block * EDID_LENGTH;
-> +	void *edid;
-> +	int r;
-> +
-> +	if (!acpidev)
-> +		return -ENODEV;
-> +
-> +	switch (connector->connector_type) {
-> +	case DRM_MODE_CONNECTOR_LVDS:
-> +	case DRM_MODE_CONNECTOR_eDP:
-> +		break;
-> +	default:
-> +		return -EINVAL;
-> +	}
+Quoting Biju Das (2024-02-14 20:57:36)
+> Hi Sakari,
+>=20
+> > -----Original Message-----
+> > From: Biju Das
+> > Sent: Wednesday, February 14, 2024 8:55 PM
+> > Subject: RE: [PATCH 1/2] media: i2c: ov5645: Move the register 0x3008 f=
+rom
+> > ov5645_global_init_setting
+> >=20
+> > Hi Sakari,
+> >=20
+> > Thanks for the feedback.
+> >=20
+> > > -----Original Message-----
+> > > From: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > > Sent: Wednesday, February 14, 2024 8:49 PM
+> > > To: Biju Das <biju.das.jz@bp.renesas.com>
+> > > Subject: Re: [PATCH 1/2] media: i2c: ov5645: Move the register 0x3008
+> > > from ov5645_global_init_setting
+> > >
+> > > Hi Biju,
+> > >
+> > > On Wed, Feb 14, 2024 at 08:25:16PM +0000, Biju Das wrote:
+> > > > Hi Wolfram,
+> > > >
+> > > > Thanks for the feedback.
+> > > >
+> > > > > -----Original Message-----
+> > > > > From: Wolfram Sang <wsa@kernel.org>
+> > > > > Sent: Wednesday, February 14, 2024 8:31 AM
+> > > > > Subject: Re: [PATCH 1/2] media: i2c: ov5645: Move the register
+> > > > > 0x3008 from ov5645_global_init_setting
+> > > > >
+> > > > > Hi Biju,
+> > > > >
+> > > > > > I think it is different here. That 1 msec is delay associated
+> > > > > > with applying hardware power see [1]
+> > > > >
+> > > > > Okay, ack.
+> > > > >
+> > > > > > I will restore it.
+> > > > >
+> > > > > Thanks!
+> > > > >
+> > > > > I had meanwhile another thought. What if we kind of merge the two
+> > > > > patches, so the outcome is basically this:
+> > > > >
+> > > > > In ov5645_set_register_array:
+> > > > >
+> > > > >         If (settings->reg =3D=3D 0x3008 && settings->val =3D=3D 0=
+x82)
+> > > > >                 usleep_range(1000, 2000)
+> > > > >
+> > > > > ?
+> > > > >
+> > > > > Then, we don't need to split the array and we are also future
+> > > > > proof if we ever need to set the reset bit again somewhere else.
+> > > > >
+> > > > > Bonus points for replacing 0x82 with a define :)
 
-We could have other types of connectors that want this too.
-I don't see any real benefit in having this check tbh. Drivers
-should simply notset the flag on connectors where it won't work,
-and only the driver can really know that.
+Pulling up the datasheet OV5645-A66A v1.1 from the web:
 
-> +	/* fetch the entire edid from BIOS */
-> +	r = acpi_video_get_edid(acpidev, ACPI_VIDEO_DISPLAY_LCD, -1, &edid);
-> +	if (r < 0) {
-> +		DRM_DEBUG_KMS("Failed to get EDID from ACPI: %d\n", r);
-> +		return r;
-> +	}
-> +	if (len > r || start > r || start + len > r) {
-> +		r = -EINVAL;
-> +		goto cleanup;
-> +	}
-> +
-> +	memcpy(buf, edid + start, len);
-> +	r = 0;
-> +
-> +cleanup:
-> +	kfree(edid);
-> +
-> +	return r;
-> +}
-> +
->  static void connector_bad_edid(struct drm_connector *connector,
->  			       const struct edid *edid, int num_blocks)
->  {
-> @@ -2621,7 +2674,8 @@ EXPORT_SYMBOL(drm_probe_ddc);
->   * @connector: connector we're probing
->   * @adapter: I2C adapter to use for DDC
->   *
-> - * Poke the given I2C channel to grab EDID data if possible.  If found,
-> + * If the connector allows it, try to fetch EDID data using ACPI. If not found
-> + * poke the given I2C channel to grab EDID data if possible.  If found,
->   * attach it to the connector.
->   *
->   * Return: Pointer to valid EDID or NULL if we couldn't find any.
-> @@ -2629,20 +2683,50 @@ EXPORT_SYMBOL(drm_probe_ddc);
->  struct edid *drm_get_edid(struct drm_connector *connector,
->  			  struct i2c_adapter *adapter)
->  {
-> -	struct edid *edid;
-> +	struct edid *edid = NULL;
->  
->  	if (connector->force == DRM_FORCE_OFF)
->  		return NULL;
->  
-> -	if (connector->force == DRM_FORCE_UNSPECIFIED && !drm_probe_ddc(adapter))
-> -		return NULL;
-> +	if (connector->acpi_edid_allowed)
-> +		edid = _drm_do_get_edid(connector, drm_do_probe_acpi_edid, connector, NULL);
-> +
-> +	if (!edid) {
-> +		if (connector->force == DRM_FORCE_UNSPECIFIED && !drm_probe_ddc(adapter))
-> +			return NULL;
-> +		edid = _drm_do_get_edid(connector, drm_do_probe_ddc_edid, adapter, NULL);
-> +	}
->  
-> -	edid = _drm_do_get_edid(connector, drm_do_probe_ddc_edid, adapter, NULL);
->  	drm_connector_update_edid_property(connector, edid);
->  	return edid;
->  }
->  EXPORT_SYMBOL(drm_get_edid);
->  
-> +/**
-> + * drm_edid_read_acpi - get EDID data, if available
-> + * @connector: connector we're probing
-> + *
-> + * Use the BIOS to attempt to grab EDID data if possible.
-> + *
-> + * The returned pointer must be freed using drm_edid_free().
-> + *
-> + * Return: Pointer to valid EDID or NULL if we couldn't find any.
-> + */
-> +const struct drm_edid *drm_edid_read_acpi(struct drm_connector *connector)
-> +{
-> +	const struct drm_edid *drm_edid;
-> +
-> +	if (connector->force == DRM_FORCE_OFF)
-> +		return NULL;
-> +
-> +	drm_edid = drm_edid_read_custom(connector, drm_do_probe_acpi_edid, connector);
-> +
-> +	/* Note: Do *not* call connector updates here. */
-> +
-> +	return drm_edid;
-> +}
-> +EXPORT_SYMBOL(drm_edid_read_acpi);
-> +
->  /**
->   * drm_edid_read_custom - Read EDID data using given EDID block read function
->   * @connector: Connector to use
-> @@ -2727,10 +2811,11 @@ const struct drm_edid *drm_edid_read_ddc(struct drm_connector *connector,
->  EXPORT_SYMBOL(drm_edid_read_ddc);
->  
->  /**
-> - * drm_edid_read - Read EDID data using connector's I2C adapter
-> + * drm_edid_read - Read EDID data using BIOS or connector's I2C adapter
->   * @connector: Connector to use
->   *
-> - * Read EDID using the connector's I2C adapter.
-> + * Read EDID from BIOS if allowed by connector or by using the connector's
-> + * I2C adapter.
->   *
->   * The EDID may be overridden using debugfs override_edid or firmware EDID
->   * (drm_edid_load_firmware() and drm.edid_firmware parameter), in this priority
-> @@ -2742,10 +2827,18 @@ EXPORT_SYMBOL(drm_edid_read_ddc);
->   */
->  const struct drm_edid *drm_edid_read(struct drm_connector *connector)
->  {
-> +	const struct drm_edid *drm_edid = NULL;
-> +
->  	if (drm_WARN_ON(connector->dev, !connector->ddc))
->  		return NULL;
->  
-> -	return drm_edid_read_ddc(connector, connector->ddc);
-> +	if (connector->acpi_edid_allowed)
+(a little google-fu++ got there, let me know if you need hints if you
+want to do a full clean up)
 
-That should probably be called 'prefer_acpi_edid' or something
-since it's the first choice when the flag is set.
+2.8 reset
 
-But I'm not so sure there's any real benefit in having this
-flag at all. You anyway have to modify the driver to use this,
-so why not just have the driver do the call directly instead of
-adding this extra detour via the flag?
+The OV5645 sensor includes a RESETB pin that forces a complete hardware
+reset when it is pulled low (GND). The OV5645 clears all registers and
+resets them to their default values when a hardware reset occurs. A
+reset can also be initiated through the SCCB interface by setting
+register 0x3008[7] to high.  Manually applying a hard reset upon power
+up is required even though on-chip reset is included. The hard reset is
+active low with an asynchronized design. The reset pulse width should be
+greater than or equal to 1 ms.
 
-> +		drm_edid = drm_edid_read_acpi(connector);
-> +
-> +	if (!drm_edid)
-> +		drm_edid = drm_edid_read_ddc(connector, connector->ddc);
-> +
-> +	return drm_edid;
->  }
->  EXPORT_SYMBOL(drm_edid_read);
->  
-> diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
-> index fe88d7fc6b8f..74ed47f37a69 100644
-> --- a/include/drm/drm_connector.h
-> +++ b/include/drm/drm_connector.h
-> @@ -1886,6 +1886,12 @@ struct drm_connector {
->  
->  	/** @hdr_sink_metadata: HDR Metadata Information read from sink */
->  	struct hdr_sink_metadata hdr_sink_metadata;
-> +
-> +	/**
-> +	 * @acpi_edid_allowed: Get the EDID from the BIOS, if available.
-> +	 * This is only applicable to eDP and LVDS displays.
-> +	 */
-> +	bool acpi_edid_allowed;
+2.9 hardware and software standby
+Two suspend modes are available for the OV5645:
 
-Aren't there other bools/small stuff in there for tighter packing?
+=E2=80=A2 hardware standby
+=E2=80=A2 SCCB software standby
 
->  };
->  
->  #define obj_to_connector(x) container_of(x, struct drm_connector, base)
-> diff --git a/include/drm/drm_edid.h b/include/drm/drm_edid.h
-> index 7923bc00dc7a..1c1ee927de9c 100644
-> --- a/include/drm/drm_edid.h
-> +++ b/include/drm/drm_edid.h
-> @@ -459,5 +459,6 @@ bool drm_edid_is_digital(const struct drm_edid *drm_edid);
->  
->  const u8 *drm_find_edid_extension(const struct drm_edid *drm_edid,
->  				  int ext_id, int *ext_index);
-> +const struct drm_edid *drm_edid_read_acpi(struct drm_connector *connector);
->  
->  #endif /* __DRM_EDID_H__ */
-> -- 
-> 2.34.1
+To initiate hardware standby mode, the PWDNB pin must be tied to low
+(while in MIPI mode, set register 0x300E[4:3] to 2=E2=80=99b11 before the P=
+WDNB
+pin is set to low). When this occurs, the OV5645 internal device clock
+is halted and all internal counters are reset and registers are
+maintained.  Executing a software standby through the SCCB interface
+suspends internal circuit activity but does not halt the device clock.
+All register content is maintained in standby mode.
 
--- 
-Ville Syrjälä
-Intel
+
+ Address: 0x3008=20
+ RegName: SYSTEM_CTROL0
+ Default: 0x02
+ R/W:	RW
+Description: System Control
+  Bit[7]: Software reset
+  Bit[6]: Software power down
+
+Then later in the datasheet it also describes:
+System Control
+Bit[7]: Software reset
+Bit[6]: Software power down
+Bit[5]: Debug mode
+Bit[4]: SRB clock sync enable
+Bit[3]: Isolation suspend select
+Bit[2]: MIPI reset mask
+Bit[1]: MIPI suspend mask
+Bit[0]: MIPI reset select
+
+
+> > > > >
+> > > > > What do you think?
+> > > >
+> > > >
+> > > > OK, this will do check for all other registers.
+> > > >
+> > > > But from your power down clue and checking ov5640.c Looks like there
+> > > > are 2 registers changes values after writing.
+> > > >
+> > > > [1] 0x3008, 0x82-->0x80
+> > > > [2] 0x0601, 0x02-->0x00
+> > > >
+> > > > I think [1] is soft reset based on ov5640. Since there is a gpio
+> > > > based hardware reset available, we can safely remove soft reset[1]
+> > > > and like ov5640.c, if there is no gpio for reset, then do the soft
+> > reset[1].
+> > >
+> > > I guess that would work. My understanding is that hard reset control
+> > > is mandatory for the device, so there really should be no need for
+> > > soft reset in the driver.
+> >=20
+> > OK.
+> >=20
+> > >
+> > > >
+> > > >
+> > > > Then add 1msec delay for power down/up(0x3008: 0x42,0x02) and 0x0601
+> > > > registers.
+> > > >
+> > > > With this looks like the Camera works ok @400kHz.
+> > > >
+> > > > The plans is to add a u8 variable for delay and enable delays for
+> > > > the above registers and add a check like below
+> > > >
+> > > > static int ov5645_set_register_array(struct ov5645 *ov5645,
+> > > >                                const struct reg_value *settings,
+> > > >                                unsigned int num_settings)
+> > > > {
+> > > >   unsigned int i;
+> > > >   int ret;
+> > > >
+> > > >   for (i =3D 0; i < num_settings; ++i, ++settings) {
+> > > >           ret =3D ov5645_write_reg(ov5645, settings->reg, settings-=
+>val);
+> > > >           if (ret < 0)
+> > > >                   return ret;
+> > > >
+> > > >           if (settings->delay_ms)
+> > > >                   usleep_range(1000 * settings->delay_ms, 2 * 1000 *
+> > > > settings->delay_ms);
+> > >
+> > > I'd prefer checking the register address in the write function instead
+> > > of this if you really need it. But it seems you don't.
+> >=20
+> > With delays in powerup/down registers (0x3008 : 0x42,0x02) it is not
+> > stable.
+>=20
+> Typo: without delays in powerup/down registers (0x3008 : 0x42,0x02) it is=
+ not
+> stable.
+>=20
+> You can see 0x42 followed by 0x02 which is an indication of power down/up=
+ procedure.
+>=20
+> Cheers,
+> Biju
 
