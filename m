@@ -1,127 +1,125 @@
-Return-Path: <linux-renesas-soc+bounces-2800-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-2801-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECBAB854F6C
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Feb 2024 18:07:34 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 15058855086
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Feb 2024 18:40:15 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2B6731C28DC4
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Feb 2024 17:07:34 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 58E04B2C2FC
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Feb 2024 17:38:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D082A6087B;
-	Wed, 14 Feb 2024 17:07:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A40F283A0F;
+	Wed, 14 Feb 2024 17:38:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JyQtJgzx"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mx01.omp.ru (mx01.omp.ru [90.154.21.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA77A54FB8;
-	Wed, 14 Feb 2024 17:07:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.154.21.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 762085F865;
+	Wed, 14 Feb 2024 17:38:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707930452; cv=none; b=qD2tZ+ucnEIN4DFuQXiKNJpIWPIooQdssZN8fW3xkOUifmYDmtNzKO/p8toH/ulAByKJBHchknF3ggO+eXOIy4NAyFJpMAka++SwjF/XUZpbUJ6jDnwXKvJbQc8o5SaEflVKMCeRdI/a85I7dNh9MCRisXyRHso6im/fqb9nREo=
+	t=1707932292; cv=none; b=J7sTJhGj8+fTEnJCQgPR4E3YGF/YGJZBp9SmRpbEforc/mJns8S78bdq2FYt040lb+1GjuLFWvvykD6+d+kCXPaoL1KG8ljNcs8j5if7yw/2vNHGhyNbjdPbMsa9TtSuy6sxOETRpYd7EA1z3gxaFrjW371buVjUehPjPg3KW90=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707930452; c=relaxed/simple;
-	bh=WVc+KVsJWg/hJEZDvHdju5OFgugSoNT7Gs02IKHsAtE=;
-	h=Subject:To:CC:References:From:Message-ID:Date:MIME-Version:
-	 In-Reply-To:Content-Type; b=O1LZ0a8RsdK0sACrMA0BP7Fk4rT2iD2XAtyb2B3KFf7oybaWZqnFwaFrsVC5zlqb8pe2PvlPKGfp7wU2JGfPIdZRoVqbaHjYRHXGU2Lw1DELqLtTiuSFb4qeoxf56Us9M0gVDd1lTtGQa0OcnYqEFC1UBAiDVz7MpN69sejNLhI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=omp.ru; spf=pass smtp.mailfrom=omp.ru; arc=none smtp.client-ip=90.154.21.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=omp.ru
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=omp.ru
-Received: from [192.168.1.105] (178.176.73.178) by msexch01.omp.ru
- (10.188.4.12) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.1258.12; Wed, 14 Feb
- 2024 20:07:20 +0300
-Subject: Re: [PATCH net-next v4 5/6] net: ravb: Do not apply features to
- hardware if the interface is down
-To: Claudiu <claudiu.beznea@tuxon.dev>, <davem@davemloft.net>,
-	<edumazet@google.com>, <kuba@kernel.org>, <pabeni@redhat.com>,
-	<biju.das.jz@bp.renesas.com>
-CC: <netdev@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, Claudiu Beznea
-	<claudiu.beznea.uj@bp.renesas.com>
-References: <20240214135800.2674435-1-claudiu.beznea.uj@bp.renesas.com>
- <20240214135800.2674435-6-claudiu.beznea.uj@bp.renesas.com>
-From: Sergey Shtylyov <s.shtylyov@omp.ru>
-Organization: Open Mobile Platform
-Message-ID: <02f45526-0d56-469c-db3d-de1ef8785685@omp.ru>
-Date: Wed, 14 Feb 2024 20:07:20 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+	s=arc-20240116; t=1707932292; c=relaxed/simple;
+	bh=2g987+QeV6BjX5FxbpSo5Cc94BjBZogXoOU1Hub/pv0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=o8LmyUbfk3o3lGLE4hX4KPTQ2P1q/gJHSEoRymq9DWeJkalmQy17UAH5tYeiIFSV6g6vnpd/x3gGvD2jT+S9LyiXSroKK3eX2Dk67WkIR3/yq/V/V2b6TWpwC4TpEKYT0oL61DvGzJCEdXQbpF6dSkelmb9/1/30hU2xXslkYx0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JyQtJgzx; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 34011C433F1;
+	Wed, 14 Feb 2024 17:38:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1707932291;
+	bh=2g987+QeV6BjX5FxbpSo5Cc94BjBZogXoOU1Hub/pv0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=JyQtJgzxGQKxyhAIUGZ4QgKlJYoHWG7/qEKlfWUOboMhI+lNjkDG+0Ut9L8rzv8SD
+	 azNWzf87FRLt8nrgyFCOsyNHDE2KLUubyJ5ErH0eWEB0J3KtcyGiTlKEHrS1px+0eY
+	 Ou/+M2isJKO1hCaDTlKqYNCsjGymwoSZJwQD/g8Of8dmeZGHkOJtdNsUezFDqu5WCG
+	 +/0IfnVyi/m7oYuLvUqAv5t1oYUeILgdsWc6W9AHA1pCjFsI6d60sDfOI4RrHj/TCv
+	 32WwdseXCCq+x9+Ij5wpgPMwkc+x+Jd8Okddim0nr353ViPXvKit0CIJp1QgOe/PGY
+	 glRw5FrOHIxXw==
+Date: Wed, 14 Feb 2024 17:38:06 +0000
+From: Conor Dooley <conor@kernel.org>
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: Vinod Koul <vkoul@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+	dmaengine@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH] dt-bindings: renesas,rcar-dmac: Add r8a779h0 support
+Message-ID: <20240214-kiln-grandly-50c0ad24c422@spud>
+References: <96aad3b532ee401f19693e18038494f43ddb90e9.1707915609.git.geert+renesas@glider.be>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <20240214135800.2674435-6-claudiu.beznea.uj@bp.renesas.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: msexch01.omp.ru (10.188.4.12) To msexch01.omp.ru
- (10.188.4.12)
-X-KSE-ServerInfo: msexch01.omp.ru, 9
-X-KSE-AntiSpam-Interceptor-Info: scan successful
-X-KSE-AntiSpam-Version: 6.1.0, Database issued on: 02/14/2024 16:49:17
-X-KSE-AntiSpam-Status: KAS_STATUS_NOT_DETECTED
-X-KSE-AntiSpam-Method: none
-X-KSE-AntiSpam-Rate: 59
-X-KSE-AntiSpam-Info: Lua profiles 183446 [Feb 14 2024]
-X-KSE-AntiSpam-Info: Version: 6.1.0.3
-X-KSE-AntiSpam-Info: Envelope from: s.shtylyov@omp.ru
-X-KSE-AntiSpam-Info: LuaCore: 7 0.3.7 6d6bf5bd8eea7373134f756a2fd73e9456bb7d1a
-X-KSE-AntiSpam-Info: {rep_avail}
-X-KSE-AntiSpam-Info: {Tracking_from_domain_doesnt_match_to}
-X-KSE-AntiSpam-Info: {relay has no DNS name}
-X-KSE-AntiSpam-Info: {SMTP from is not routable}
-X-KSE-AntiSpam-Info: {Found in DNSBL: 178.176.73.178 in (user)
- b.barracudacentral.org}
-X-KSE-AntiSpam-Info: {Found in DNSBL: 178.176.73.178 in (user)
- dbl.spamhaus.org}
-X-KSE-AntiSpam-Info:
-	d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;178.176.73.178:7.4.1,7.7.3;omp.ru:7.1.1;127.0.0.199:7.1.2
-X-KSE-AntiSpam-Info: {cloud_iprep_silent}
-X-KSE-AntiSpam-Info: ApMailHostAddress: 178.176.73.178
-X-KSE-AntiSpam-Info: {DNS response errors}
-X-KSE-AntiSpam-Info: Rate: 59
-X-KSE-AntiSpam-Info: Status: not_detected
-X-KSE-AntiSpam-Info: Method: none
-X-KSE-AntiSpam-Info: Auth:dmarc=temperror header.from=omp.ru;spf=temperror
- smtp.mailfrom=omp.ru;dkim=none
-X-KSE-Antiphishing-Info: Clean
-X-KSE-Antiphishing-ScanningType: Heuristic
-X-KSE-Antiphishing-Method: None
-X-KSE-Antiphishing-Bases: 02/14/2024 16:56:00
-X-KSE-Antivirus-Interceptor-Info: scan successful
-X-KSE-Antivirus-Info: Clean, bases: 2/14/2024 2:42:00 PM
-X-KSE-Attachment-Filter-Triggered-Rules: Clean
-X-KSE-Attachment-Filter-Triggered-Filters: Clean
-X-KSE-BulkMessagesFiltering-Scan-Result: InTheLimit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="16jjqY3nvciCb0bV"
+Content-Disposition: inline
+In-Reply-To: <96aad3b532ee401f19693e18038494f43ddb90e9.1707915609.git.geert+renesas@glider.be>
 
-On 2/14/24 4:57 PM, Claudiu wrote:
 
-> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-> 
-> Do not apply features to hardware if the interface is down. In case runtime
-> PM is enabled, and while the interface is down, the IP will be in reset
-> mode (as for some platforms disabling the clocks will switch the IP to
-> reset mode, which will lead to losing register contents) and applying
-> settings in reset mode is not an option. Instead, cache the features and
-> apply them in ravb_open() through ravb_emac_init().
-> 
-> To avoid accessing the hardware while the interface is down
-> pm_runtime_active() check was introduced. Along with it the device runtime
-> PM usage counter has been incremented to avoid disabling the device clocks
-> while the check is in progress (if any).
-> 
-> Commit prepares for the addition of runtime PM.
-> 
-> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+--16jjqY3nvciCb0bV
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Reviewed-by: Sergey Shtylyov <s.shtylyov@omp.ru>
+On Wed, Feb 14, 2024 at 02:00:34PM +0100, Geert Uytterhoeven wrote:
+> Document support for the Direct Memory Access Controllers (DMAC) in the
+> Renesas R-Car V4M (R8A779H0) SoC.
+>=20
+> Based on a patch in the BSP by Thanh Le.
+>=20
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-[...]
+Acked-by: Conor Dooley <conor.dooley@microchip.com>
 
-MBR, Sergey
+Cheers,
+Conor.
+
+> ---
+> Changes compared to the BSP:
+>   - Replace items/const by enum,
+>   - Drop changes to non-upstream rate-{read,write} properties,
+>   - Drop unneeded Channel register block change.
+> ---
+>  Documentation/devicetree/bindings/dma/renesas,rcar-dmac.yaml | 1 +
+>  1 file changed, 1 insertion(+)
+>=20
+> diff --git a/Documentation/devicetree/bindings/dma/renesas,rcar-dmac.yaml=
+ b/Documentation/devicetree/bindings/dma/renesas,rcar-dmac.yaml
+> index 03aa067b1229f676..04fc4a99a7cb539a 100644
+> --- a/Documentation/devicetree/bindings/dma/renesas,rcar-dmac.yaml
+> +++ b/Documentation/devicetree/bindings/dma/renesas,rcar-dmac.yaml
+> @@ -46,6 +46,7 @@ properties:
+>                - renesas,dmac-r8a779a0     # R-Car V3U
+>                - renesas,dmac-r8a779f0     # R-Car S4-8
+>                - renesas,dmac-r8a779g0     # R-Car V4H
+> +              - renesas,dmac-r8a779h0     # R-Car V4M
+>            - const: renesas,rcar-gen4-dmac # R-Car Gen4
+> =20
+>    reg: true
+> --=20
+> 2.34.1
+>=20
+>=20
+
+--16jjqY3nvciCb0bV
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZcz6fgAKCRB4tDGHoIJi
+0nynAQDGD09zV84EEd6FpyYh5mNiMR/+E0kAo+naUzQ5fyReMQD8Cgueoq2YEpdi
+tA1xeZJ7XyPN3CTqJQaf4IRR3bvNXgU=
+=bPN2
+-----END PGP SIGNATURE-----
+
+--16jjqY3nvciCb0bV--
 
