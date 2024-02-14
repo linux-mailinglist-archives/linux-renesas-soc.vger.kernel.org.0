@@ -1,208 +1,136 @@
-Return-Path: <linux-renesas-soc+bounces-2766-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-2767-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4913854A49
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Feb 2024 14:19:41 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id EED0F854A73
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Feb 2024 14:25:07 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 019EB1C203B8
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Feb 2024 13:19:36 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 80CE128B16D
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Feb 2024 13:25:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 561EB52F61;
-	Wed, 14 Feb 2024 13:19:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DB31C7499;
+	Wed, 14 Feb 2024 13:24:45 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from xavier.telenet-ops.be (xavier.telenet-ops.be [195.130.132.52])
+Received: from mail-yb1-f181.google.com (mail-yb1-f181.google.com [209.85.219.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50A33535D6
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 14 Feb 2024 13:19:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.132.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACC6352F81
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 14 Feb 2024 13:24:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707916773; cv=none; b=En+LOa5n3woUeU+voC7AVK8RTPWmw38JvH1cyHFpymNDDvmSvPQPOiLEaoIt9u85ANOe8EcKver0o3En1MplsiHLoaL+5oVs3SpCJIFjeIodk3gB6MLM4zhjv9uxxLAuGQ7+OG3S6utOVLAeCvaiXqssyRiPwgiLI3BAhlSof2w=
+	t=1707917085; cv=none; b=KTeWiYQHQ0gwG/mZX63ABAIfdIkQPauQjo+prdylAnt0amnykft+z1oGxi6COmdauL5nTYIB2x+NW4zkjUixO4Lj/BFUYxewTGco/K8xTLB2GaCIyr5GLPu+LVgQbE43RkWe1syymqWQabVcF+GiHh2i/TmTl8r2dX01g5bBNnk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707916773; c=relaxed/simple;
-	bh=fdZpcKsWbgMdXgiNUwOd5pOOT6MihfaaPGHVFtMibhY=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=CQyBLUiru42cHKMbG2HVdsYseo3jpCd0ZJW8gftlQ9QPsNBG/MWrT5USgYQ/ZYv7PKgRh8MTolIJYRm6cOVwGBJyAiizaxUTSzOT905silkR8ZUnTduTE3cO2qJQ+YIZZJ9kTjqP4xmQedxh0TZNBAPCsMtb/7An9sJrzJFrLb4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.132.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
-Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed40:ac52:3a54:2a84:d65a])
-	by xavier.telenet-ops.be with bizsmtp
-	id n1KV2B0040LVNSS011KVt0; Wed, 14 Feb 2024 14:19:29 +0100
-Received: from rox.of.borg ([192.168.97.57])
-	by ramsan.of.borg with esmtp (Exim 4.95)
-	(envelope-from <geert@linux-m68k.org>)
-	id 1raFAY-000d5t-DL;
-	Wed, 14 Feb 2024 14:19:29 +0100
-Received: from geert by rox.of.borg with local (Exim 4.95)
-	(envelope-from <geert@linux-m68k.org>)
-	id 1raFAf-00GvZ2-1o;
-	Wed, 14 Feb 2024 14:19:29 +0100
-From: Geert Uytterhoeven <geert+renesas@glider.be>
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc: linux-renesas-soc@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH] arm64: dts: renesas: r8a779h0: Add DMA support
-Date: Wed, 14 Feb 2024 14:19:27 +0100
-Message-Id: <44de886cd83f41659d2f6962c0e277f548fb0adb.1707916707.git.geert+renesas@glider.be>
-X-Mailer: git-send-email 2.34.1
+	s=arc-20240116; t=1707917085; c=relaxed/simple;
+	bh=58g7UR+DLMIKRMIAo12q2cZnDdR4APRgBAo6whD9cAw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Vj/0606eCfTbjL6ji+9TXqz2+wCnCX5aKN04JA6UWJwHKCNrPiODffxzfpbi5Ea+/BpcThvuqvV6dDrLOQ+kp33rR13cVaEOlTny3aHXpmaseG+doBu4s98lcUGbNMHw/LWbOp9rp2wjDtlGN8fd9sAYWkLb5NaGugyhX8POV6g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.219.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yb1-f181.google.com with SMTP id 3f1490d57ef6-d9b9adaf291so4020515276.1
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 14 Feb 2024 05:24:43 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1707917082; x=1708521882;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=3K7eR2BWTSlLbhhDD5NOXHC2b+dxfTrIWJmvEASMDKE=;
+        b=oIyKY/rBX5xGey7sMyjKHe/Hhth9yFpgG1x1zLCYNUsFs9C6406cQFR3yE1YK5uTCX
+         l+sbMq9lMjg0wFXOAtdq6n5HRNbzeQ8wbE7IkRnUsLemcXmXNxDjWpLhnnvV7UStyTSv
+         5ZxWz8SEnXTMbYPU9dPwfCQ9kVZ5nTg/5vVeC3rQnmRoauTVdQB32u+M/HhRvqsWMeE/
+         S17+3T11T8mflL808oAcNpmxfIxn/p3R33OmHWnPRo2bLVd9lAb/buDKlbUmiA1M9WYn
+         DCttkolduPHHDToEPijxlxwhfbq1YRdKZVpZ4gsiYfXyRcFdeo57/PeqiPhXGfOSrU+Q
+         erbg==
+X-Gm-Message-State: AOJu0Yyc1fEpMFjUXHobvMnklsIeLCsOUWvj4sLW4olUWwbfGjnS26D5
+	i3Pfkl4A0yEhzPaIi6Qi/xaC6pyEb3C/+9tq/imBeh97gxHzDJ1aUD7shvFW5Vo=
+X-Google-Smtp-Source: AGHT+IFP5AO2xGSxe9zAqyeYIeKdHIRn053h2FWGm8EEegL4T6y6en8bdpYYZxah6ViuA0z1IXwraQ==
+X-Received: by 2002:a05:6902:2082:b0:dcd:30f9:eb6d with SMTP id di2-20020a056902208200b00dcd30f9eb6dmr2451846ybb.57.1707917082087;
+        Wed, 14 Feb 2024 05:24:42 -0800 (PST)
+Received: from mail-yb1-f173.google.com (mail-yb1-f173.google.com. [209.85.219.173])
+        by smtp.gmail.com with ESMTPSA id w8-20020a056902100800b00dbf52d2844bsm2050378ybt.11.2024.02.14.05.24.40
+        for <linux-renesas-soc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 14 Feb 2024 05:24:41 -0800 (PST)
+Received: by mail-yb1-f173.google.com with SMTP id 3f1490d57ef6-dc742543119so4770346276.0
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 14 Feb 2024 05:24:40 -0800 (PST)
+X-Received: by 2002:a25:2b46:0:b0:dcc:7ae6:12d9 with SMTP id
+ r67-20020a252b46000000b00dcc7ae612d9mr2091579ybr.13.1707917080579; Wed, 14
+ Feb 2024 05:24:40 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <cover.1707661382.git.geert+renesas@glider.be> <b83b21b6477a0e31f99eaedbd36c03014b72ec8a.1707661382.git.geert+renesas@glider.be>
+In-Reply-To: <b83b21b6477a0e31f99eaedbd36c03014b72ec8a.1707661382.git.geert+renesas@glider.be>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Wed, 14 Feb 2024 14:24:29 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdV=cr9JHuoHR8iO-ZJ6DL+KMAL2bMDZJ-8qN1+6=QD=cg@mail.gmail.com>
+Message-ID: <CAMuHMdV=cr9JHuoHR8iO-ZJ6DL+KMAL2bMDZJ-8qN1+6=QD=cg@mail.gmail.com>
+Subject: Re: [PATCH 2/2] arm64: dts: renesas: gray-hawk-single: Add Ethernet support
+To: linux-renesas-soc@vger.kernel.org
+Cc: linux-arm-kernel@lists.infradead.org, 
+	Thanh Quan <thanh.quan.xn@renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Add device nodes for the Direct Memory Access Controllers for System
-(SYS-DMAC) on the Renesas R-Car V4M (R8A779H0) SoC.
+On Sun, Feb 11, 2024 at 3:31=E2=80=AFPM Geert Uytterhoeven
+<geert+renesas@glider.be> wrote:
+> From: Thanh Quan <thanh.quan.xn@renesas.com>
+>
+> Describe the wiring of the first Ethernet AVB instance to the Micrel
+> KSZ9031RNXVB PHY.
+>
+> Signed-off-by: Thanh Quan <thanh.quan.xn@renesas.com>
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
+> Changes compared to the BSP:
+>   - Split in separate commits for SoC and board support,
+>   - Apply to r8a779h0-gray-hawk-single.dts.
 
-Link all DMA consumers to the corresponding DMA controller channels.
+> --- a/arch/arm64/boot/dts/renesas/r8a779h0-gray-hawk-single.dts
+> +++ b/arch/arm64/boot/dts/renesas/r8a779h0-gray-hawk-single.dts
 
-Based on patches in the BSP by Thanh Le and Minh Le.
+This lacks the addition of #include <dt-bindings/gpio/gpio.h>,
+which is needed for the use of GPIO_* flags below.
 
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
-To be queued in renesas-devel for v6.9.
+> @@ -34,6 +35,24 @@ memory@480000000 {
+>         };
+>  };
+>
+> +&avb0 {
+> +       pinctrl-0 =3D <&avb0_pins>;
+> +       pinctrl-names =3D "default";
+> +       phy-handle =3D <&phy0>;
+> +       tx-internal-delay-ps =3D <2000>;
+> +       status =3D "okay";
+> +
+> +       phy0: ethernet-phy@0 {
+> +               compatible =3D "ethernet-phy-id0022.1622",
+> +                            "ethernet-phy-ieee802.3-c22";
+> +               rxc-skew-ps =3D <1500>;
+> +               reg =3D <0>;
+> +               interrupt-parent =3D <&gpio7>;
+> +               interrupts =3D <5 IRQ_TYPE_LEVEL_LOW>;
+> +               reset-gpios =3D <&gpio7 10 GPIO_ACTIVE_LOW>;
+> +       };
+> +};
+> +
 
-HSCIF0 DMA tested by removing the uart_console() check from
-sci_request_dma().
-I2C0 DMA tested by removing the I2C_M_DMA_SAFE check from rcar_i2c_dma()
-(the AT24 EEPROM driver uses regmap, thus can't set I2C_M_DMA_SAFE).
+Gr{oetje,eeting}s,
 
-Changes compared to the BSP:
-  - Mix and match multiple patches,
-  - Add missing "renesas,rcar-gen4-dmac" compatible fallbacks,
-  - Add HSCIF0 DMA.
----
- arch/arm64/boot/dts/renesas/r8a779h0.dtsi | 75 +++++++++++++++++++++++
- 1 file changed, 75 insertions(+)
+                        Geert
 
-diff --git a/arch/arm64/boot/dts/renesas/r8a779h0.dtsi b/arch/arm64/boot/dts/renesas/r8a779h0.dtsi
-index d50ed1989ef52da7..46c586f4e326959f 100644
---- a/arch/arm64/boot/dts/renesas/r8a779h0.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r8a779h0.dtsi
-@@ -326,6 +326,9 @@ i2c0: i2c@e6500000 {
- 			clocks = <&cpg CPG_MOD 518>;
- 			power-domains = <&sysc R8A779H0_PD_ALWAYS_ON>;
- 			resets = <&cpg 518>;
-+			dmas = <&dmac1 0x91>, <&dmac1 0x90>,
-+			       <&dmac2 0x91>, <&dmac2 0x90>;
-+			dma-names = "tx", "rx", "tx", "rx";
- 			i2c-scl-internal-delay-ns = <110>;
- 			#address-cells = <1>;
- 			#size-cells = <0>;
-@@ -340,6 +343,9 @@ i2c1: i2c@e6508000 {
- 			clocks = <&cpg CPG_MOD 519>;
- 			power-domains = <&sysc R8A779H0_PD_ALWAYS_ON>;
- 			resets = <&cpg 519>;
-+			dmas = <&dmac1 0x93>, <&dmac1 0x92>,
-+			       <&dmac2 0x93>, <&dmac2 0x92>;
-+			dma-names = "tx", "rx", "tx", "rx";
- 			i2c-scl-internal-delay-ns = <110>;
- 			#address-cells = <1>;
- 			#size-cells = <0>;
-@@ -354,6 +360,9 @@ i2c2: i2c@e6510000 {
- 			clocks = <&cpg CPG_MOD 520>;
- 			power-domains = <&sysc R8A779H0_PD_ALWAYS_ON>;
- 			resets = <&cpg 520>;
-+			dmas = <&dmac1 0x95>, <&dmac1 0x94>,
-+			       <&dmac2 0x95>, <&dmac2 0x94>;
-+			dma-names = "tx", "rx", "tx", "rx";
- 			i2c-scl-internal-delay-ns = <110>;
- 			#address-cells = <1>;
- 			#size-cells = <0>;
-@@ -368,6 +377,9 @@ i2c3: i2c@e66d0000 {
- 			clocks = <&cpg CPG_MOD 521>;
- 			power-domains = <&sysc R8A779H0_PD_ALWAYS_ON>;
- 			resets = <&cpg 521>;
-+			dmas = <&dmac1 0x97>, <&dmac1 0x96>,
-+			       <&dmac2 0x97>, <&dmac2 0x96>;
-+			dma-names = "tx", "rx", "tx", "rx";
- 			i2c-scl-internal-delay-ns = <110>;
- 			#address-cells = <1>;
- 			#size-cells = <0>;
-@@ -385,6 +397,9 @@ hscif0: serial@e6540000 {
- 			clock-names = "fck", "brg_int", "scif_clk";
- 			power-domains = <&sysc R8A779H0_PD_ALWAYS_ON>;
- 			resets = <&cpg 514>;
-+			dmas = <&dmac1 0x31>, <&dmac1 0x30>,
-+			       <&dmac2 0x31>, <&dmac2 0x30>;
-+			dma-names = "tx", "rx", "tx", "rx";
- 			status = "disabled";
- 		};
- 
-@@ -532,6 +547,66 @@ avb2: ethernet@e6820000 {
- 			status = "disabled";
- 		};
- 
-+		dmac1: dma-controller@e7350000 {
-+			compatible = "renesas,dmac-r8a779h0",
-+				     "renesas,rcar-gen4-dmac";
-+			reg = <0 0xe7350000 0 0x1000>,
-+			      <0 0xe7300000 0 0x10000>;
-+			interrupts = <GIC_SPI 80 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 82 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 83 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 84 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 85 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 86 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 87 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 88 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 89 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 90 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 91 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 92 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 93 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 94 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 95 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 96 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 97 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "error",
-+					  "ch0", "ch1", "ch2", "ch3", "ch4",
-+					  "ch5", "ch6", "ch7", "ch8", "ch9",
-+					  "ch10", "ch11", "ch12", "ch13",
-+					  "ch14", "ch15";
-+			clocks = <&cpg CPG_MOD 709>;
-+			clock-names = "fck";
-+			power-domains = <&sysc R8A779H0_PD_ALWAYS_ON>;
-+			resets = <&cpg 709>;
-+			#dma-cells = <1>;
-+			dma-channels = <16>;
-+		};
-+
-+		dmac2: dma-controller@e7351000 {
-+			compatible = "renesas,dmac-r8a779h0",
-+				     "renesas,rcar-gen4-dmac";
-+			reg = <0 0xe7351000 0 0x1000>,
-+			      <0 0xe7310000 0 0x10000>;
-+			interrupts = <GIC_SPI 98 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 100 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 101 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 102 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 103 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 104 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 105 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 106 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 107 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "error",
-+					  "ch0", "ch1", "ch2", "ch3", "ch4",
-+					  "ch5", "ch6", "ch7";
-+			clocks = <&cpg CPG_MOD 710>;
-+			clock-names = "fck";
-+			power-domains = <&sysc R8A779H0_PD_ALWAYS_ON>;
-+			resets = <&cpg 710>;
-+			#dma-cells = <1>;
-+			dma-channels = <8>;
-+		};
-+
- 		mmc0: mmc@ee140000 {
- 			compatible = "renesas,sdhi-r8a779h0",
- 				     "renesas,rcar-gen4-sdhi";
--- 
-2.34.1
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
 
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
