@@ -1,144 +1,113 @@
-Return-Path: <linux-renesas-soc+bounces-2750-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-2751-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0289E854547
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Feb 2024 10:31:45 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id DED76854650
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Feb 2024 10:43:26 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 321161C272C5
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Feb 2024 09:31:45 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 6362DB269CC
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Feb 2024 09:43:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 92BE112E5C;
-	Wed, 14 Feb 2024 09:30:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 477E414A93;
+	Wed, 14 Feb 2024 09:43:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="VyPm8dBT"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="yfTWt3rT"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com [209.85.128.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E26E812B96
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 14 Feb 2024 09:30:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DE9A13AD8;
+	Wed, 14 Feb 2024 09:43:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707903052; cv=none; b=eWFLElNnB3HtxOwOUXhJ1gOf6kPSgt/235xIvtBbQK5a5OwKOb/GZGI1sX+j/k/plrvaRpv+wFAaIAkVbRKQaY8YCeLolXPMoLYV7cRQHeRnVurryVPvnLWfezfSbSnJRAe5Fg5YnrUYBVzYvDHC1A6ZqufFyt0w90s13GgpKjo=
+	t=1707903792; cv=none; b=aCf/+rjO8d+iIzR2qAIFZ5PSBIInjBGBP1LZtAb5QTiM4WUpKCYrO2384UAV70JGMIQeO17vpYVMR6jq3tXfOrcCX6qrGnDw3mRZMl9LPpBEwa39wtHM4Fd1WBC2ITRQTXiP3rXglyJ1PX2NpLKiUGZ33dkB5y9IX6kXaw9U4UA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707903052; c=relaxed/simple;
-	bh=bEsQlPE5RIAyD7pBQ/6WMKh5pZq8CVxEwmmLdDNEVLE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=SyXX1QWJoaszZm7hBBEOYP9a6natq8i+G+40TwmhhXLY9hDqZCAww6pjwsIBMtj5UIArRTPJfiI5ZylnxKYUtT1zFrjh/i9+QaB1t3Puy9SIew/s+6/7QiIK5PuY/2fktIXF++lahSRLfemrx4zc0zdw6skr3/oBJMu5oN4JWRI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=VyPm8dBT; arc=none smtp.client-ip=209.85.128.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-6078c4cadd7so13714147b3.2
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 14 Feb 2024 01:30:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1707903050; x=1708507850; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=zr9eNuCtqZel8i0NQyKBthfU107AzSAzEz24uVU7ovk=;
-        b=VyPm8dBTwtJOJcnEV19T16Jitucke3DHFcGcggItadQ397qvHlRFG2TSgSNqgBjaGM
-         EQiczKzBRvtZOd4D+6ztGSuuMIywxXmJG3i/CoWhLAqwzhXoI7qjm8tI/nOUgDiZK36l
-         N1Maod7/LxE8sbHsxbs0WQ+KDG8D53LBM3CKYc9QDDWh0egXTOipQHrHhtVaByL7i8e3
-         hmo3RQDwSNdxuyxBb4ZpmYALCIWwmHVBIsxK4NcXkjAW9p3rNwqHhD72YnDZxc5SrH+4
-         SJq8+cLWScWUxrMbKafkVWEor99WQe6fG6J06S8dFcqvTsd9APNHUXouJRwaSOSMdCkH
-         1RPQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707903050; x=1708507850;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=zr9eNuCtqZel8i0NQyKBthfU107AzSAzEz24uVU7ovk=;
-        b=EfcXb44Qwnpt+gQBlkgoHJHhEIE13UKdJpzpXCIt9ZA8rTFBkmMJbB3Vx/rulz6WHx
-         Lfs6y42Es24braVdW9q+8uakH5klupywqaZZ0NNS5zGpIErVq+HSdT4j9lFAZCKo8986
-         KQoC9kIYtk7+uP+XStu+TAEsmrJFUlPEu1zbWMuM1VKZSbIHwxMsSMWvZv+hM2PRvUPA
-         y9UVrL39U2jHjvFTzsdUDlTfUKEZMJR4lR1V7ZiRlvMZ4Dk7OZD1Ll/1cGgMYadCkcJS
-         b73PYFWLbQnP2Swty/bvhresw/2woKgQsx8wt5qGLnFuErG1JlX2LoADk2cK0TMHArjF
-         6FDA==
-X-Forwarded-Encrypted: i=1; AJvYcCUPsPH4aqPkozu5/UYhaZ2w6VD7wHNUelnC6Nr11C1FqqAeiR2sC1DJ8LqK1CMUn2FB5vCqMtxaQsQ46cEd2yv1tIwHGEYEGhHhuo04dQ9BED8=
-X-Gm-Message-State: AOJu0YzuEkOBeYh07pp2iFFfyEM/BMabgcvJa/ZA01msZXsf491tkFvb
-	h0fuylFHIQ41dUxGUfJODZMyoSYQwm2i45YWEg2k4iQx5ducH9FugWFNoy+fHZIlhEcClcpb/cB
-	OWhtu3bMl6B1aqMgJ/WPbGGu0BvVC0kLSM06bEw==
-X-Google-Smtp-Source: AGHT+IGvoZw4u7rELrvqF5+2wOW0HhuqkxVUe4rIjn5LzGwT489C+Zi0funewTKGDJ9HADdmYQDCZZXsijEcutUDh8A=
-X-Received: by 2002:a81:91c3:0:b0:607:78b8:2a57 with SMTP id
- i186-20020a8191c3000000b0060778b82a57mr1986509ywg.24.1707903049918; Wed, 14
- Feb 2024 01:30:49 -0800 (PST)
+	s=arc-20240116; t=1707903792; c=relaxed/simple;
+	bh=/5hVSHktuXKBdFSneU+sqS55ktsDEcZtWY02THLUTWE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=p9ZodUoNGWc5S0Ef9fmPvCqDDMDZfVYNNAF1VWfH+65vi35K2tbIu2v9FAVU0WPfipxmgbGVbycE8/E0fU9fORbIPvjAX2cvzE+Q6lycqUSjtHvnp45webS09atIDfsHjhR98k71md91CMkc2HyXHvoqCfSDhDzoCbSoJUmHh4A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=yfTWt3rT; arc=none smtp.client-ip=46.235.227.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1707903788;
+	bh=/5hVSHktuXKBdFSneU+sqS55ktsDEcZtWY02THLUTWE=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=yfTWt3rThwEwUs2ZhQXKOg/ftYHcebsEIvFiVe9kcFlJsq3PvOoV5aTO1Ut0cTEb+
+	 4LpagApuIW8w6OMGDwh/OFgCdSgzZ+Pl6Rvh9l+9Svfv5yZBcmUThzaqS12BLBP986
+	 5Kn3zsAPkhY/4Asr5Azpq/DFjitOUdoLq88z5P00ESykYqhZXXvvCD1D/dCizNpyqr
+	 CGwG6rXsUKk4C4NvWCi5V7GXqB19sVHXfFTK8P+hlqeIWYS2YU6u7a4G/04Kro5fbX
+	 ta9AZTeZatefM84NA0SvCaSfIhCejpWRssvwGIGJRcslQ2YRVm2jbD3uUSjeCVhrf4
+	 tXmJ9S86cqstA==
+Received: from [100.113.186.2] (cola.collaboradmins.com [195.201.22.229])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: kholk11)
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 81E293781FEF;
+	Wed, 14 Feb 2024 09:43:05 +0000 (UTC)
+Message-ID: <50342623-9955-4471-869c-1343abe4a2c0@collabora.com>
+Date: Wed, 14 Feb 2024 10:43:03 +0100
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cover.1706194617.git.geert+renesas@glider.be> <CAPDyKFpxaEUHvKKb+spxV6HG2P2gLx5qM1mLPxJie+PdkmTL4w@mail.gmail.com>
- <CAMuHMdUswhJ3BQLnOQZC7X7qc7SFCqsr9Uy65LfBT_BNWfyhFQ@mail.gmail.com> <CAMuHMdX1tjgPJ8t+XoASuMvzvSognu7q2=aGfBO8r77JsbR82w@mail.gmail.com>
-In-Reply-To: <CAMuHMdX1tjgPJ8t+XoASuMvzvSognu7q2=aGfBO8r77JsbR82w@mail.gmail.com>
-From: Ulf Hansson <ulf.hansson@linaro.org>
-Date: Wed, 14 Feb 2024 10:30:13 +0100
-Message-ID: <CAPDyKFrTZPv+9sVtCgB2i+U-kS4R+qC_r3q_hQ-dVbHM4yDyKQ@mail.gmail.com>
-Subject: Re: [PATCH v2 00/15] arm64: renesas: Add R-Car V4M and Gray Hawk
- Single support
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
-	Rob Herring <robh+dt@kernel.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Philipp Zabel <p.zabel@pengutronix.de>, Magnus Damm <magnus.damm@gmail.com>, 
-	Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
-	Cong Dang <cong.dang.xn@renesas.com>, Duy Nguyen <duy.nguyen.rh@renesas.com>, 
-	Hai Pham <hai.pham.ud@renesas.com>, Linh Phung <linh.phung.jy@renesas.com>, 
-	linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-pm@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 3/6] arm64: dts: Fix dtc interrupt_provider warnings
+Content-Language: en-US
+To: Rob Herring <robh@kernel.org>, soc@kernel.org,
+ Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Tsahee Zidenberg <tsahee@annapurnalabs.com>,
+ Antoine Tenart <atenart@kernel.org>, Joel Stanley <joel@jms.id.au>,
+ Andrew Jeffery <andrew@codeconstruct.com.au>, Ray Jui <rjui@broadcom.com>,
+ Scott Branden <sbranden@broadcom.com>,
+ Broadcom internal kernel review list
+ <bcm-kernel-feedback-list@broadcom.com>, Andrew Lunn <andrew@lunn.ch>,
+ Gregory Clement <gregory.clement@bootlin.com>,
+ Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
+ =?UTF-8?Q?Jonathan_Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>, Stefan Agner <stefan@agner.ch>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ =?UTF-8?Q?Beno=C3=AEt_Cousson?= <bcousson@baylibre.com>,
+ Tony Lindgren <tony@atomide.com>, Chanho Min <chanho.min@lge.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Magnus Damm <magnus.damm@gmail.com>, Linus Walleij <linusw@kernel.org>,
+ Imre Kaloz <kaloz@openwrt.org>, Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor
+ <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>
+Cc: linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
+ openbmc@lists.ozlabs.org, linux-tegra@vger.kernel.org,
+ linux-stm32@st-md-mailman.stormreply.com, linux-omap@vger.kernel.org,
+ linux-mediatek@lists.infradead.org, linux-renesas-soc@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, linux-kbuild@vger.kernel.org
+References: <20240213-arm-dt-cleanups-v1-0-f2dee1292525@kernel.org>
+ <20240213-arm-dt-cleanups-v1-3-f2dee1292525@kernel.org>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20240213-arm-dt-cleanups-v1-3-f2dee1292525@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Wed, 14 Feb 2024 at 09:35, Geert Uytterhoeven <geert@linux-m68k.org> wro=
-te:
->
-> Hi Ulf,
->
-> On Wed, Jan 31, 2024 at 3:56=E2=80=AFPM Geert Uytterhoeven <geert@linux-m=
-68k.org> wrote:
-> > On Tue, Jan 30, 2024 at 2:11=E2=80=AFPM Ulf Hansson <ulf.hansson@linaro=
-.org> wrote:
-> > > On Thu, 25 Jan 2024 at 16:34, Geert Uytterhoeven
-> > > <geert+renesas@glider.be> wrote:
-> > > > This patch series adds initial support for the Renesas R-Car V4M
-> > > > (R8A779G0) SoC and the Renesas Gray Hawk Single development board.
-> > > >
-> > > > As both driver code and DTS have hard dependencies on DT binding
-> > > > definitions, most patches in this series are supposed to go in thro=
-ugh
-> > > > the renesas-devel and/or renesas-clk trees, using a shared branch f=
-or DT
-> > > > binding definitions, as usual.  For the PM domain patches (03, 04, =
-09),
-> > > > Ulf already offered to apply these to his pmdomain tree, and provid=
-e an
-> > > > immutable "dt" branch, to be pulled in my renesas-devel tree.
-> > >
-> > > Patch 3,4 and 9 (I dropped the copyright line in patch9, as pointed
-> > > out by Niklas) applied for next, thanks!
-> > >
-> > > Patch 3,4 are also available at the immutable dt branch for you to pu=
-ll in.
-> >
-> > Thank you!
-> >
-> > I have pulled the immutable branch, added the remaining DT binding
-> > definitions, and queued all remaining patches.
->
-> It looks like you have applied copies of all commits on the "dt"
-> branch to the "next"
-> branch, so now there are two copies?
->
-> See the output of "git range-diff v6.8-rc1..pmdomain/dt
-> v6.8-rc4..pmdomain/next".
+Il 13/02/24 20:34, Rob Herring ha scritto:
+> The dtc interrupt_provider warning is off by default. Fix all the warnings
+> so it can be enabled.
+> 
+> Signed-off-by: Rob Herring <robh@kernel.org>
 
-I screwed up - and thanks for pointing this out! Problem is taken care of n=
-ow.
+Reviewed-By: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com> # 
+MediaTek
 
-Kind regards
-Uffe
 
