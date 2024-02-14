@@ -1,161 +1,148 @@
-Return-Path: <linux-renesas-soc+bounces-2744-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-2745-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5AD5A854281
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Feb 2024 06:46:07 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 67DC4854395
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Feb 2024 08:45:07 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 11EA828AB7F
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Feb 2024 05:46:06 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9A7801C20FFA
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Feb 2024 07:45:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BF4C51118F;
-	Wed, 14 Feb 2024 05:46:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1521C11706;
+	Wed, 14 Feb 2024 07:45:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="MvK2RfOR"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Z2UX6Z6j"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F09711185
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 14 Feb 2024 05:45:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E6F2125A1;
+	Wed, 14 Feb 2024 07:45:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707889560; cv=none; b=cFuDSGB/0M+WhxPVHpK4yMCoHsctMf5SSIoz8iQ70I+N/Q6k6hBX+wapPVeOsViv91OnoaZ5+Gmr7Yh//7GQrPmDW6iZo2RKnqoPmB4XA1vGs/9P2OfdykOVPjpU89GSESBR+eoersZMhY7gbDlqjU0bnq8Hn7n1V6z0FszV5Zg=
+	t=1707896704; cv=none; b=MxqUBENW9MoZu4ZxukLTjFS2+udUnkmww/0UdCrqD741zlZSeUH9ek+4hpvKesVLDHjPyKb5BmKTdoSeIUmeTC7Bm4gd1lwmfgpyi90qsXdsO6Mi1/gkwvtj8YNyd+LaFsQMG3Rwphsn/xqjIQvmQGl6OGucvFI4HCzUaxi3V3k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707889560; c=relaxed/simple;
-	bh=JmjxFOUh3LKPSsN8pCRC8VOF/s6zvo9bNDnyMFYthA8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=sEDrOdr/xRP1pqOVRaw6GmmHTTNV9s4mqKG9i2UrKQRv41IfmhwyaSBFFofQ1PeeVAGljvR9uqKI5Ag1oBgeZ7ObvEaPX1VEj31sdCCo2wotZrBEE4fmD/zt6bRc9n+U+iBRlaI14J9vioW7rcnieOpYTnCUgfqEjf/m/+FZY9Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=MvK2RfOR; arc=none smtp.client-ip=209.85.221.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-33cdedb40c4so730478f8f.2
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 13 Feb 2024 21:45:58 -0800 (PST)
+	s=arc-20240116; t=1707896704; c=relaxed/simple;
+	bh=fOwff+6CQdTSZygLgxTLEpg7fy4rHn2jnXH3jt43fcA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Content-Type; b=MsHgbfAzCkcvnvacJwZmI4SfMz8Cx/5vu3JZiW6IrjGEj09ajf/gejlXRR/y+Y4ZSkWRfYQaiCbKEETbbVbsK1scGdBhKHqc/QerTBtLaAscUq/ssXI1gaS+P64ZtH4Gn391Vg+fH4cIrFI/tPjeNW0O6lxnf1qtjxxfWvgtVVU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Z2UX6Z6j; arc=none smtp.client-ip=209.85.208.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-55a8fd60af0so6890638a12.1;
+        Tue, 13 Feb 2024 23:45:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1707889556; x=1708494356; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=/AAhQjlryQad1Zs2AYpvY1IsmIDvrveMyNvF06IB4YQ=;
-        b=MvK2RfORjhKN3vOgEeS8Ne6fil/SZ3NbMaxCodY2+09nEPj7c67OAyrZ83aAmBzID5
-         5ZruIkx/uNHcXWub5wVaoh1N5QQ1KCJxUc6WiFgdSRh0Il9G+PKiteE87ifFG4fO4Ti2
-         P69PUoLAiz6PhS2t0BvwLU55FhJr1n5LIATODjAzNy/2BsTxg3to1iD6Py0YZuW0HG1a
-         Q8MvwzfiYRNdO0Ksd4kGQxX8Ex+mMsG3OB8bs20Kb5JR2OMBQWFJi01XknQKRl0w1lHd
-         kxKjQsLUcdRPpGZTkpqfoJyN5LIe0rxzMppojYrsHy+01368BEzcpM5QKIxOUE9e1x1+
-         oI+A==
+        d=gmail.com; s=20230601; t=1707896700; x=1708501500; darn=vger.kernel.org;
+        h=content-transfer-encoding:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=fOwff+6CQdTSZygLgxTLEpg7fy4rHn2jnXH3jt43fcA=;
+        b=Z2UX6Z6jVjkJWNlAGitJ0kAbKuMBl7xC95PEun33bKSIvWVsL1OGcfT1cZzuNBznss
+         x4WV8s6MU0tIxEDJ/4V7m8PpsWvtRY2QL9pXPwZz0gVY47pjwYlEzH2zGNUieQSnvaNy
+         xqe/o8rSL3mKypYwUvu7hSlFE4XSrS2nNj6DNQkQvJX1mIZjgMh+z6udckO/KDoP6zts
+         F0at4iZ9YOmOY4YWicbnyM5hWgAVJXnI9zcMVob/HQDyoTZrMct64EiO38g+1bmoDUqR
+         4Vv7vtclAM7g2rP5a7iCNv/qfpxh87bRIKH20hC5ZAtKOtX8E7EkHyXNFrRmnWueE+O8
+         RzLw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707889556; x=1708494356;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=/AAhQjlryQad1Zs2AYpvY1IsmIDvrveMyNvF06IB4YQ=;
-        b=QesscPYn6o1SSrLR5ygxTkW5EDNLhhPjdR/xbY0z67ILnosrs+sjuCcYmM8nA10wV7
-         5u50hlbQjaMVWj5q4lwlGMxYJqAkeHfSB+DLWrg11Kjq5mUuNnJ1mitxOaTMNCYVuU+O
-         lgvnSHjztGZmTtTPULZnMZklzduUVffEaIe0Ds2QhmIlTW2FzlxHhk98sB2dKEAWz+6V
-         DmoKE0byuAyZiP5dm2AhSKsJObDzxHX14NV7q01ud5KWgHppue6fDlh1sqatE6zczKBI
-         p2aEqutLrGhCttCuOwwAmHqtahqMRrXHc5TZL1qM23dGSVQfbhnLIVtQb3g5Il056Bxq
-         K+FQ==
-X-Forwarded-Encrypted: i=1; AJvYcCU+NDIHHMfIyMba9uxjziXzeN6xanrPh9HnJOyvckmeEttOPOA8T+b/3oQ79DCDORV7MORqTmL50m/r8RJRGydn1PDUvTvQO2uHKNEzQ6j0fUs=
-X-Gm-Message-State: AOJu0YwUYVBSg1drzXb00uGXFqxLl7CZ6Cgc5Lk9fobQJoLQAq8u3/HQ
-	QJLDgZz3Z3wZ+719QrFtfWhtTxK0vFVBy3cP5EwT2bFnLBYUk1fVbVqaQBtlEo0=
-X-Google-Smtp-Source: AGHT+IHWDtZFUv6VmzlW+aWnM9Z58t2KoCaFJW2zVad9uJzsaZq4Q5o9aGgaIajWJS0rO/ufHqUwGQ==
-X-Received: by 2002:adf:eec5:0:b0:33b:fef:c094 with SMTP id a5-20020adfeec5000000b0033b0fefc094mr894627wrp.22.1707889556410;
-        Tue, 13 Feb 2024 21:45:56 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCXYZBf36twkWsapTUvPo4T5Syd6owZfabMh3dJCCV9obon6MgGwx2rXNdnzmw3RE/MXeL60agKXPMdT9H2Xzy4Xp+pbSwB4HGpFl3UyVTITqWoI9w5KF70vScuulmFxI0OBeWvCR00nTV1JISK3xp4lbRUkeu0Ij1qVgVJoqExPjT6OZqimk7cVaj7J8yslwrRAB2IrRlaPVVl8ihdgBPchTN0RPZDuEUPuDXlsPLt3Vqg/M6yD2MTJaC8OeAd+ePINtIyLoJ4+LMJyuU4TjpAsnLaJSC4LE8MVOAPs6KxUh8tWiUEfnHWRnKGx5ibfihba8JIJFqgNjjDIHYhTuCZSshojOyVupjf3Z7DYhadTD+QWL7d3
-Received: from [192.168.50.4] ([82.78.167.20])
-        by smtp.gmail.com with ESMTPSA id cl7-20020a5d5f07000000b0033b8881f31dsm5234037wrb.68.2024.02.13.21.45.55
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 13 Feb 2024 21:45:55 -0800 (PST)
-Message-ID: <f6d71cc1-0208-44a3-a977-e90a0978fbe8@tuxon.dev>
-Date: Wed, 14 Feb 2024 07:45:54 +0200
+        d=1e100.net; s=20230601; t=1707896700; x=1708501500;
+        h=content-transfer-encoding:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=fOwff+6CQdTSZygLgxTLEpg7fy4rHn2jnXH3jt43fcA=;
+        b=Zm2a/Hx5Rb5+u3yaVGl325j0baqNhzShr8a6XCUknQnt+Q5h4Y+p2vYqivJ1sOHT/u
+         jfQqvDWpdcSfMP0b3mgQPQoaO3iYIE+0WiMatBiGX0SyaAFCGGhg92mbsB6HuvxxEn5J
+         /Nu9/MfMIp71crgRZGRsXKwA7Xfmc411rzKNgOJBE1iJN/4mGYZtLncxkK1nxv3JTnau
+         bYfktIW//z/OE7GTfRsBlp+wo9HFGccO5JDF2meQ5FUA+yK6wC7CbnmSTvX7Vzv9Y6L+
+         HNtMuZ87i8iq/e/O/HSTb1UZR5MfONYT9B/mCyIKNMmtbTqTR4OqlS0be7Aep3nc3JLw
+         1CFw==
+X-Forwarded-Encrypted: i=1; AJvYcCXSPQ8Y6winn2ggsRASaKqZObbZa7QLnUj/r2vIau4zDGW/e9FmbdsBCb3GNeXjd4kIz/DUPO6TYBpBgen7F61AtrM9QTU3vqX5H1R5PfFGlCoIqC1lgawks/4J+cNKYlsAvaeRjhyqmTmGcfsyeA==
+X-Gm-Message-State: AOJu0YzSXVfb818zj9XpgCR6pRj4PMLP7hz91OV2MLzlc2g771PPj1Mv
+	oY05hXjbCMEO0T/IJBbx6X5yhCUaJTQ6DjLVKiPHNfzDUdzR3UQzmlLQOMN/WQAezM2+eNZ3dr6
+	IsHXHc+lRUyyE0J3gbz6bSL992JY=
+X-Google-Smtp-Source: AGHT+IHEuDexQwyJdWezdLjlCwizN1xemvnR257NZKKFUwGPofali+GCSUD9yLmulApulBb7F1iDeosBZe0zYyl2V4g=
+X-Received: by 2002:aa7:d4cd:0:b0:561:fec0:cd44 with SMTP id
+ t13-20020aa7d4cd000000b00561fec0cd44mr1554605edr.27.1707896700271; Tue, 13
+ Feb 2024 23:45:00 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v3 4/6] net: ravb: Move the update of
- ndev->features to ravb_set_features()
-To: Sergey Shtylyov <s.shtylyov@omp.ru>, davem@davemloft.net,
- edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
- biju.das.jz@bp.renesas.com
-Cc: netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
- linux-kernel@vger.kernel.org,
- Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-References: <20240213094110.853155-1-claudiu.beznea.uj@bp.renesas.com>
- <20240213094110.853155-5-claudiu.beznea.uj@bp.renesas.com>
- <3747ad9a-217a-2f43-835a-7c23f6a710d2@omp.ru>
-From: claudiu beznea <claudiu.beznea@tuxon.dev>
-Content-Language: en-US
-In-Reply-To: <3747ad9a-217a-2f43-835a-7c23f6a710d2@omp.ru>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20240213140240.159057-1-biju.das.jz@bp.renesas.com>
+ <20240213140240.159057-2-biju.das.jz@bp.renesas.com> <ZcvsyRfVwC0aJ5fb@shikoro>
+In-Reply-To: <ZcvsyRfVwC0aJ5fb@shikoro>
+From: Biju Das <biju.das.au@gmail.com>
+Date: Wed, 14 Feb 2024 07:44:48 +0000
+Message-ID: <CADT+UeDNFBTvRMHd4_J85Yz0RYED4ioG9wjUe4C0X4x6LzVD9w@mail.gmail.com>
+Subject: Re: [PATCH 1/2] media: i2c: ov5645: Move the register 0x3008 from ov5645_global_init_setting
+To: Wolfram Sang <wsa@kernel.org>, Biju Das <biju.das.jz@bp.renesas.com>, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	linux-media@vger.kernel.org, Geert Uytterhoeven <geert+renesas@glider.be>, 
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>, Biju Das <biju.das.au@gmail.com>, 
+	linux-renesas-soc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+Hi Wolfram,
+
+Thanks for the feedback.
+
+On Tue, Feb 13, 2024 at 10:27=E2=80=AFPM Wolfram Sang <wsa@kernel.org> wrot=
+e:
+>
+> Hi Biju,
+>
+> I couldn't find a datasheet for the OV5645 but the one for OV5642 looked
+> pretty similar when it comes to the issues mentioned here.
+
+I don't have the data sheet. I am just debugging with a picoscope.
+
+>
+> > Testing OV5645 with i2c bus frequency @400kHz on RZ/G2L SMARC EVL platf=
+orm
+> > shows issues like the captured image is either greenish or it is not
+> > capturing the image at all. However, It is working ok when the i2c
+> > frequency is 100kHz. From this, it is clear that we have a timing issue
+> > at high speed. The testing also shows that if we add a delay >=3D 1 mse=
+c
+>
+> That could match the "VDD stable to sensor stable" delay in the
+> datasheet.
+
+I think it is different here. That 1 msec is delay associated with
+applying hardware power see [1]
+
+[1]
+https://elixir.bootlin.com/linux/latest/source/drivers/media/i2c/ov5645.c#L=
+667
 
 
+>
+> > after register write {0x3008, 0x82}, then the captured image is always
+> > good. So, move the register 0x3008 and 0x3103 from ov5645_*_init_settin=
+g
+> > to a new table ov5645_global_init_setting.
+> >
+> > Drop the unnecessary entry { 0x3008, 0x42 } from ov5645_*init_setting
+> > table at the start.
+>
+> It seems this is not needed to fix your issue? Then, this would be a
+> seperate change with a dedicated reason, I'd think. There is another
+> pair of activating power-down mode and immediately disabling it again.
+> Either we simplify it, too, or we leave both in place. Or at least make
+> sure there wasn't a reason for them. I'd just leave them.
 
-On 13.02.2024 21:52, Sergey Shtylyov wrote:
-> On 2/13/24 12:41 PM, Claudiu wrote:
-> 
->> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
->>
->> Commit c2da9408579d ("ravb: Add Rx checksum offload support for GbEth")
->> introduced support for setting GbEth features. With this the IP-specific
->> features update functions update the ndev->features individually.
->>
->> Next commits add runtime PM support for the ravb driver. The runtime PM
->> implementation will enable/disable the IP clocks on
->> the ravb_open()/ravb_close() functions. Accessing the IP registers with
->> clocks disabled blocks the system.
->>
->> The ravb_set_features() function could be executed when the Ethernet
->> interface is closed so we need to ensure we don't access IP registers while
->> the interface is down when runtime PM support will be in place.
->>
->> For these, move the update of ndev->features to ravb_set_features() and
->> make the IP-specific features set function return int. In this way we
->> update the ndev->features only when the IP-specific features set function
->> returns success and we can avoid code duplication when introducing
->> runtime PM registers protection.
->>
->> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-> [...]
-> 
->> diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
->> index 7a7f743a1fef..b3b91783bb7a 100644
->> --- a/drivers/net/ethernet/renesas/ravb_main.c
->> +++ b/drivers/net/ethernet/renesas/ravb_main.c
->> @@ -2475,7 +2475,7 @@ static int ravb_change_mtu(struct net_device *ndev, int new_mtu)
->>  	return 0;
->>  }
->>  
->> -static void ravb_set_rx_csum(struct net_device *ndev, bool enable)
->> +static int ravb_set_rx_csum(struct net_device *ndev, bool enable)
->>  {
->>  	struct ravb_private *priv = netdev_priv(ndev);
->>  	unsigned long flags;
->> @@ -2492,6 +2492,8 @@ static void ravb_set_rx_csum(struct net_device *ndev, bool enable)
->>  	ravb_rcv_snd_enable(ndev);
->>  
->>  	spin_unlock_irqrestore(&priv->lock, flags);
->> +
->> +	return 0;
->>  }
->>  
->>  static int ravb_endisable_csum_gbeth(struct net_device *ndev, enum ravb_reg reg,
-> 
->    Wait! You're not updating the call site of ravb_set_rx_csum(), are you?
-> It looks like the above 2 hunks aren't needed...
+My bad. I thought as per [2], there are 2 writes for 0x3008, so I
+should take out the redundant one.
+I will restore it.
 
-A, you're right. I'll update it in the next version.
+[2]
+https://patchwork.kernel.org/project/linux-renesas-soc/patch/20240126133116=
+.121981-6-biju.das.jz@bp.renesas.com/#25706558
 
-Thank you,
-Claudiu Beznea
-
-> 
-> [...]
-> 
-> MBR, Sergey
+Cheers,
+Biju
 
