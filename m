@@ -1,274 +1,152 @@
-Return-Path: <linux-renesas-soc+bounces-2738-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-2739-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA3C88541A6
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Feb 2024 03:56:23 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CE5C8541B4
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Feb 2024 04:12:26 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0A3E71C2191B
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Feb 2024 02:56:23 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2AD4F28D824
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Feb 2024 03:12:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 81446612E;
-	Wed, 14 Feb 2024 02:56:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 63A778BFA;
+	Wed, 14 Feb 2024 03:12:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernelci-org.20230601.gappssmtp.com header.i=@kernelci-org.20230601.gappssmtp.com header.b="FsrW8fEL"
+	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="BxE9dRf2"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-oo1-f50.google.com (mail-oo1-f50.google.com [209.85.161.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from JPN01-TYC-obe.outbound.protection.outlook.com (mail-tycjpn01on2049.outbound.protection.outlook.com [40.107.114.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0F7153BE
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 14 Feb 2024 02:56:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.50
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707879380; cv=none; b=EbVVOOlIZ6zd5UMpYOmloJvr99qYQ436mY4KbJd5Kj6sbmL6z/9eMULjB3liNHLzi3Nry9thIS95k+bz93ov/ajn4YafPQmGcb6DhA9BQcZ09drUzlwIVgvKDRs4wbgV/846T9+vE1f9hlAoUB7KtGapXrAItODiw2LkzbraDqM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707879380; c=relaxed/simple;
-	bh=rmDXuHeOM0owLMh+yL8CRMu9BEyDWYPOSjzxnDyxBYY=;
-	h=Message-ID:Date:Content-Type:MIME-Version:Subject:To:From; b=snLG1pJIj2etbN50hTCSflVTiNXrZWt/v0NmplDVj/HcM4W68Dmx7L4ew+hnwoo5FH4U7RBBiDT7W4vfVfvHHdiO/Pfj2yxk92vYJtpklc4+HAjfBHZNMpOZkQXMse3ThvNBzYFs6zCeBNysB8Ir0XQFjlKV6ypWOjiv/12Sczo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernelci.org; spf=none smtp.mailfrom=kernelci.org; dkim=pass (2048-bit key) header.d=kernelci-org.20230601.gappssmtp.com header.i=@kernelci-org.20230601.gappssmtp.com header.b=FsrW8fEL; arc=none smtp.client-ip=209.85.161.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernelci.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=kernelci.org
-Received: by mail-oo1-f50.google.com with SMTP id 006d021491bc7-598699c0f1eso3142680eaf.2
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 13 Feb 2024 18:56:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernelci-org.20230601.gappssmtp.com; s=20230601; t=1707879377; x=1708484177; darn=vger.kernel.org;
-        h=from:to:subject:content-transfer-encoding:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=+DP7kffz6R7/hCCwUlSDTgqNRr55HxKlfq7nlmQ1CjQ=;
-        b=FsrW8fELmmVo9sQx8U4hWVwerMk/mhq2b2fMICmwCoWn0MEPbfpE8cbhx6kZNlNKs2
-         gMADSMEgi1BAmcgg4iIkNNWxjZugYDogI+VSMVPp++j7MtF7IMJdtZJvYyoUx43gsPHc
-         ZvjWDxfSkkrbAoRPWwci8iWflOtZPQFmfoJUVuSRPh0UB/j2hATFZKdBhaTLjsI4t27E
-         nowMe8dNKwrdw68rA5WEuclQ0VabGtJjCRYyANO5Pl4ncTzUrjc04Hli1hkcQVzMuDRp
-         CxaNeodcjMp/U3nCiG7ojcC3lGlSbqIrcm1hl9OjGKIHdo90Viiiv3WSUMccko9+7jPM
-         IlCQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707879377; x=1708484177;
-        h=from:to:subject:content-transfer-encoding:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=+DP7kffz6R7/hCCwUlSDTgqNRr55HxKlfq7nlmQ1CjQ=;
-        b=Gv3Akws2igWWMmpB3kmsZUL7tWRdGCop0Ixadjw21MrLDV2pl44vRScN90PNRydyeu
-         ub+7OGFwIoocOOqWrLRxklGc7N+ExN1FuCcZe0sPdCItCadDtMGAzuhWaBFxg8jwyP4K
-         9szMojObV/H9kvopGgJu+eblINKKefZipXl8Dygy4sDkwFXLhG6HQCuu5XTUuMHtdVPg
-         IqYkFjvent2ZfCT0ivzmM5yad773PaUANlp2N9lkBQ/MpRRPxbu+mvROT73S6t/bcag8
-         ZASjonN/87WLdUS0jSpsgFAQcuyGwIPnh33PwR2DX/4Qeotw+oAR5R2LS0htoYPCm/0W
-         o46g==
-X-Gm-Message-State: AOJu0YxS2pD2XSj+qWUaBvq8GRn8H/HO1UsdA+x35YVoBo/MyiYY+TLs
-	KEFeVaYxURYJbAvstCXJ5mQKnwOcGGeUL0BtorBrRy2lwX1Xv+7pkAUIu0MQBZA6bz0i9ItWQun
-	p7TU=
-X-Google-Smtp-Source: AGHT+IEhWxs6RdMvoGumDeGH4o54xY2d2mv1pvsmWnkUsmxd53CxP6LZ1g/8qpAqZ4DHDCeVrgI5cA==
-X-Received: by 2002:a05:6358:7522:b0:176:92d1:568f with SMTP id k34-20020a056358752200b0017692d1568fmr1403488rwg.18.1707879377106;
-        Tue, 13 Feb 2024 18:56:17 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCWo0147JcIOmnDwV779ZnkygSQIJl1d+CqP0qfYFrxB+VQLYupGoYYgGf3+86gHU3N2gJQ2qmbW4RA+a72kF+hX0MFbQwTAloINCQ==
-Received: from kernelci-production.internal.cloudapp.net ([20.171.243.82])
-        by smtp.gmail.com with ESMTPSA id u6-20020a056a00098600b006e0350189f0sm8345179pfg.91.2024.02.13.18.56.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Feb 2024 18:56:16 -0800 (PST)
-Message-ID: <65cc2bd0.050a0220.1b072.8592@mx.google.com>
-Date: Tue, 13 Feb 2024 18:56:16 -0800 (PST)
-Content-Type: text/plain; charset="utf-8"
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1B0C2F2E;
+	Wed, 14 Feb 2024 03:12:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.114.49
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1707880341; cv=fail; b=JWAFEDuBEo0w7Uw9aNIr23STdQpi/Pqz5T5sf56HBOzckWWPeVOjGIuUp1fukZ3Z1bYoWOeW+pO9F+DyL1RH14AJI425zp12+FWccW4no4GjYX5SIXnMjMVQ1/ICi2AMVZbnSrqkDDpqs9zW/kyK8YGDpYNPt0PgpEAN4KJjXAg=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1707880341; c=relaxed/simple;
+	bh=z0qwMXbV/4seEnzgjORBG5XFh0z1s6Y56NakHwpKUqw=;
+	h=Message-ID:To:From:Subject:Content-Type:Date:MIME-Version; b=LdGm/foEtaiQ6ZMyL3BNO4ShxxWOzoNNhXmkj8zyyogi0g5PTBHk8nG7vwsvp7omgCJw5ooMF8aO63ccPjBVmA0CzQfs0ZXRfSYlY/1JPaDlFuEH5MbCoLaR/Q7UcrWDj4/Z5XAvl8jHqqzHBzAc+MgEUiACZBT3XSap14auk+8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=BxE9dRf2; arc=fail smtp.client-ip=40.107.114.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=D2L23T4oZ7FFL6zU7vbDtBIhPTBCMugTZITmOpBZpTxGQKNK9ubAW+ekNpGMbqD9NwK9MuXZ4S9dlFxVLXqMO+rcbDIQL9QiwEXTJYhTybHBln/wfGwbukckJXcY5fH90ljP0Mq97Xdvx/kQr8PCcWpd+Xe9AQrrv3AQeK4YdKLyp+q+PlCHLJjoBpG8RLuZmVbXloWJwHHYIwEtjk/G+gQl89sW+KwIxtfPrL/WRE8XrAN+kFmYOYBd5MsgHdWOqW80ecBi1L+yP1rykFDg1lVd0nJUJFCZcQsysDXnM0C5E8E+nDC9ocouvjWcnNCDTCznz2QWqd9TkmlBUYTcKg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=zWz1g6VYNOLt1WZbbqQmjJ9ou6TmJxOG4ifpV+ZXWkw=;
+ b=W2mIZKqqyOD8XTQ8lCAsaL3s43HxJabnUXo45ZLX+Rj/gE15OUdpJDEwt/nLTQUM9ysHwghL9clJ5wNStubn7OzogteqvKcVPD2FSqUlqxNmdWK4X2QWvmFPVPjqiL8gEfS3K14kzI8O/ngojHPVpXNx0Pj70mE/dSEdHno8KJtbUezr363lNKBOr6dCaMTrptSsR3W+fShELC9DCzzKNrsX1x2179oXcPf64NBpGPGXbXyV7U5NoYKwQuY01/13lbxn61bX9gaVVcrNkwUe1dinCxm4LyHA8zz7yZeKcVa+syS1cW0Lw3kUJH07394zQg4SR99byHehHnmd7cGqxw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=zWz1g6VYNOLt1WZbbqQmjJ9ou6TmJxOG4ifpV+ZXWkw=;
+ b=BxE9dRf25wZ2CKwTEYEaVpS4ImTQr5bZ8d1vDJU8rJw6fun2tiK8X6+JahATOxYlM9FECAbpQ2E/ELby+CFkuOa1I02cXCNVitZ3PbaUZxMma2deinZJrPfsI36lu97duq1h2gTRHljWtBCggQUjg8WMjrrhlhlgOq58REcnh8o=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=renesas.com;
+Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
+ (2603:1096:400:3a9::11) by TY1PR01MB10835.jpnprd01.prod.outlook.com
+ (2603:1096:400:327::10) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7292.26; Wed, 14 Feb
+ 2024 03:12:15 +0000
+Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
+ ([fe80::4d0b:6738:dc2b:51c8]) by TYCPR01MB10914.jpnprd01.prod.outlook.com
+ ([fe80::4d0b:6738:dc2b:51c8%6]) with mapi id 15.20.7270.036; Wed, 14 Feb 2024
+ 03:12:15 +0000
+Message-ID: <87cyszpwmp.wl-kuninori.morimoto.gx@renesas.com>
+To: Conor Dooley <conor+dt@kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Subject: [PATCH] ARM: renesas: r8a7778: add missing reg-name for sound
+Content-Type: text/plain; charset=US-ASCII
+Date: Wed, 14 Feb 2024 03:12:14 +0000
+X-ClientProxiedBy: TYCP301CA0020.JPNP301.PROD.OUTLOOK.COM
+ (2603:1096:400:381::13) To TYCPR01MB10914.jpnprd01.prod.outlook.com
+ (2603:1096:400:3a9::11)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Kernelci-Tree: renesas
-X-Kernelci-Branch: master
-X-Kernelci-Kernel: renesas-devel-2024-02-13-v6.8-rc4
-X-Kernelci-Report-Type: test
-Subject: renesas/master baseline: 50 runs,
- 7 regressions (renesas-devel-2024-02-13-v6.8-rc4)
-To: linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
-From: "kernelci.org bot" <bot@kernelci.org>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: TYCPR01MB10914:EE_|TY1PR01MB10835:EE_
+X-MS-Office365-Filtering-Correlation-Id: ae368b12-1354-40fb-40f7-08dc2d0abe89
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	YDc+fIWP2tjUD4xHRPbMpHPRTyOg/qHW/dfOoJ9hXwCTe0NtZUlpsQ4bc7XQVdfqENr2FB0EgT6Gu9bDdg1xxVZWSpjlMGIqSo2opfh2KoFQmt8/DYXB2VDG6IC4dzPPcGWRY7KNFoR5WMXfBMIObzcs7VKExRdSsvgyFqjEoXNwZx11ggFbJdUFr22kT3Z5E8EdU7QD0fSTHwpYIP7hk8aCv6EJC/9O74CxLdnM3DY9fXc+1q6j/lxrRc6WpHkFm+1bf3O0jt85Um43lz1pE47k2VRufYQkLqfa4T70Qdn4hUtnPtpZOYEqmpj7m03iEn/8JC4hiRtFPXIDu0H9wj9xzl5ju2wJx46CIjgg/1EXejUrNch/hCs7pEHIvTMPO+R9Lqy4qYpARWQ+duobghUzF0MFwV9jLh5sFCvnypYqi7yNpc0HAtO3/AEBku91bq2ylQXqb+Tk8abX4DLmVG+Asq6h6ZaeFkLqxqhZRASQN08GBj0ezDTiR2XCN23PXUru9UJhF1yikTFtcIS6Ff+vaOPsI352JqXVtEseyayV/+lMTaZwGBGbpbMpFcxVGm7P897cLH8MwRvQNVC+46zU3mmrHyaJU5IweF7vpFTpAA50sPlGVoNxM+ZSgAU8
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB10914.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366004)(136003)(376002)(396003)(346002)(39860400002)(230922051799003)(64100799003)(451199024)(186009)(1800799012)(5660300002)(4744005)(66946007)(66476007)(66556008)(8676002)(8936002)(2906002)(83380400001)(26005)(36756003)(38100700002)(86362001)(38350700005)(110136005)(316002)(2616005)(478600001)(6506007)(6486002)(6512007)(52116002)(41300700001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?RtpmH5Luo7w5tZlHbPipOHBx3HHx07RBpeTn6ILs//m+q3ngnsxU2n/wopl2?=
+ =?us-ascii?Q?oNuknJVslJWxlnaim3fMeKnr3yuwOKWfVWsHVbzhkYKaCwOjBRs95s4STuRH?=
+ =?us-ascii?Q?mqSoSIv5RlPoXRaQ/j/quLAl5fPan4QZICXMjrCFqfR5r7e7YiM63w95PE/f?=
+ =?us-ascii?Q?pL6KQxZEd2a8CLaGHaCy8JOp9hQ7GcdWFHPtrGZL5fSFvlpHv3jDOUJ1eU34?=
+ =?us-ascii?Q?8d1hZNj/BpwQ8/ZSdrJWCZFsimpCOQkQxMWUozfAmR2jN8LF1EQIuXyY2Xlj?=
+ =?us-ascii?Q?fzu4qbE+qQiOOT2KU6YnAHCGPm0x/JmYt+m64z7FPyZVa+U3fAa65yoRAyAr?=
+ =?us-ascii?Q?TJEwDkfvAy3+ckKe+4mzbQxOM12I5C/r+R3+egb+idFJxOp5ra3NoYt/XCuN?=
+ =?us-ascii?Q?+pdpv/D52gIo658BTFIGx702dUuwqamrPhOgF82pr0g1w5vcJ0fX21X5S5kZ?=
+ =?us-ascii?Q?k83PEXBX5wW26n2DP6A0AOoCdD1pYbdLSSnHaGsZCkOwGJ79ODHITZ5sQrpS?=
+ =?us-ascii?Q?HCaizALSz0GG8nPIpnWA/bMjt3kUJX9wqVS7w1q0BHe8RXB9znh8nt2mXWOi?=
+ =?us-ascii?Q?HRrsIR+r4vCt9JuPz2XLo9A1y3RAA4OwuXZc0eID69a5zC/ojjQQ7JzePfLS?=
+ =?us-ascii?Q?aigkMGzxvQ8bbBUqWhqDZRT+ILKmPyhhUlVsMMSQsYgG2gajWSCQ/9fgpemo?=
+ =?us-ascii?Q?hjrY0RvHFq+xg3s1QoiwldFastRLayhMcbU0XfWaDeoV/Kma93d2+l4lwKZd?=
+ =?us-ascii?Q?sKFsGY87KPDPjqh8yPJ5Pa6UAowlfc3n/K7XMA4pVF9NjrJrXZHYf7m4MFs2?=
+ =?us-ascii?Q?ZxZMUdzBFHsy0A7F+7PJxJdjkIhles1MLFu9DSL1vslQR6Qnp47wPkh/0Z95?=
+ =?us-ascii?Q?dLtH83Agk36Ho2YOV6GfYm7dnd6Pk5pkyKf7mVymNd8tKltQHPnOv9wFajRs?=
+ =?us-ascii?Q?QW9kH9jHt+iEeMGfa2PM0O4glsdWj+5qoIKqOXipVVTimJ0UAyGKmkO+0n7b?=
+ =?us-ascii?Q?RpFHlYo8p/mAAPjrQ/nNrCXW7lA0j5O7rgPbvqJJZHfV0eAKRF+kaWxoFEY+?=
+ =?us-ascii?Q?ARIm/rJnG27AWV0TfKrRyjKWdbsbfELwjK4OH2Q+BEHIoyRjkmjKdGxs0Etu?=
+ =?us-ascii?Q?KIrrn9/H6b++qGKxVQvmwKGi6qnruyM8JkhlhWu2FO4INw4dtAk3CG8qqsrk?=
+ =?us-ascii?Q?reKzJKkgEReBADGSjFnjXXFrrNvLjqvT672T2Ft/mfL2NSCyXE14VKLSaTne?=
+ =?us-ascii?Q?To0yiv7gVNae70uC+lqQjdQb3d9g5Oowk7HaMWDw7kODyo2MnlvuE4DiZSLM?=
+ =?us-ascii?Q?NOe3Y5RJqBLGERVxRzu5OdQKwmqOgcMehyz7WPjn+HdLboXLznXPlTmCQdgf?=
+ =?us-ascii?Q?aJ4q2m+EFC484cVOLJMpggf2Ct251rexQdySFkSZnjkjAkxjooJxMGKv3I31?=
+ =?us-ascii?Q?shlC6a9XD+eY4Oo0x7XVdZypKORV/hgrWhkG3ro4J8pEV+iLOomYvRLxZrdR?=
+ =?us-ascii?Q?lJEz4JCN/YUep+UtE5t8PLoeH5u+ylcnVPxFQV1wbrl1YN5sUpEcweRBMojM?=
+ =?us-ascii?Q?KNPqanrb5kVhpkTu8ZHwEjuC4TCPozZJESOtxDuEccJvp4duSE8M7MbN5xRj?=
+ =?us-ascii?Q?LrwbO/IfdsRGgdLDaMPOHqw=3D?=
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ae368b12-1354-40fb-40f7-08dc2d0abe89
+X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB10914.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Feb 2024 03:12:15.0369
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: VIHgpugh22qCTMR59fZ8m60dbo5vQjjifTT0DAP06s97+SIWPEC04qbIA3hUFQtOdi8tuGipp7SRarTFnblo6NSGn74k9SpEs41EEAx8F2A4sL6ZnyBFj+8qCws8ONO6
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY1PR01MB10835
 
-renesas/master baseline: 50 runs, 7 regressions (renesas-devel-2024-02-13-v=
-6.8-rc4)
+Sound Driver requires "reg-name" to get register info. Current driver
+try to get register info via "reg" instead of "reg-name" as backup plan,
+but this support will be removed soon.
+Use "reg-names" for r8a7778 sound.
 
-Regressions Summary
--------------------
+Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+---
+ arch/arm/boot/dts/renesas/r8a7778.dtsi | 2 ++
+ 1 file changed, 2 insertions(+)
 
-platform               | arch  | lab         | compiler | defconfig | regre=
-ssions
------------------------+-------+-------------+----------+-----------+------=
-------
-kontron-kbox-a-230-ls  | arm64 | lab-kontron | gcc-10   | defconfig | 5    =
-      =
+diff --git a/arch/arm/boot/dts/renesas/r8a7778.dtsi b/arch/arm/boot/dts/renesas/r8a7778.dtsi
+index 8d4530ed2fc6..027a1c9ecc4e 100644
+--- a/arch/arm/boot/dts/renesas/r8a7778.dtsi
++++ b/arch/arm/boot/dts/renesas/r8a7778.dtsi
+@@ -250,6 +250,8 @@ rcar_sound: sound@ffd90000 {
+ 		reg =	<0xffd90000 0x1000>,	/* SRU */
+ 			<0xffd91000 0x240>,	/* SSI */
+ 			<0xfffe0000 0x24>;	/* ADG */
++		reg-names = "sru", "ssi", "adg";
++
+ 		clocks = <&mstp3_clks R8A7778_CLK_SSI8>,
+ 			<&mstp3_clks R8A7778_CLK_SSI7>,
+ 			<&mstp3_clks R8A7778_CLK_SSI6>,
+-- 
+2.25.1
 
-kontron-sl28-var3-ads2 | arm64 | lab-kontron | gcc-10   | defconfig | 2    =
-      =
-
-
-  Details:  https://kernelci.org/test/job/renesas/branch/master/kernel/rene=
-sas-devel-2024-02-13-v6.8-rc4/plan/baseline/
-
-  Test:     baseline
-  Tree:     renesas
-  Branch:   master
-  Describe: renesas-devel-2024-02-13-v6.8-rc4
-  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-d=
-evel.git
-  SHA:      f06417c37fba23ac48fa23f2d7383c6336788333 =
-
-
-
-Test Regressions
----------------- =
-
-
-
-platform               | arch  | lab         | compiler | defconfig | regre=
-ssions
------------------------+-------+-------------+----------+-----------+------=
-------
-kontron-kbox-a-230-ls  | arm64 | lab-kontron | gcc-10   | defconfig | 5    =
-      =
-
-
-  Details:     https://kernelci.org/test/plan/id/65cbfae7f3fcb3ad71637026
-
-  Results:     90 PASS, 5 FAIL, 1 SKIP
-  Full config: defconfig
-  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
-110)
-  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
-024-02-13-v6.8-rc4/arm64/defconfig/gcc-10/lab-kontron/baseline-kontron-kbox=
--a-230-ls.txt
-  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
-024-02-13-v6.8-rc4/arm64/defconfig/gcc-10/lab-kontron/baseline-kontron-kbox=
--a-230-ls.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
-t-baseline/20230623.0/arm64/rootfs.cpio.gz =
-
-
-
-  * baseline.bootrr.deferred-probe-empty: https://kernelci.org/test/case/id=
-/65cbfae7f3fcb3ad7163702d
-        failing since 22 days (last pass: renesas-devel-2024-01-08-v6.7, fi=
-rst fail: renesas-devel-2024-01-22-v6.8-rc1)
-
-    2024-02-13T23:27:03.414838  / # #
-    2024-02-13T23:27:03.515402  export SHELL=3D/bin/sh
-    2024-02-13T23:27:03.515609  #
-    2024-02-13T23:27:03.616090  / # export SHELL=3D/bin/sh. /lava-429169/en=
-vironment
-    2024-02-13T23:27:03.616405  =
-
-    2024-02-13T23:27:03.717380  / # . /lava-429169/environment/lava-429169/=
-bin/lava-test-runner /lava-429169/1
-    2024-02-13T23:27:03.718513  =
-
-    2024-02-13T23:27:03.729554  / # /lava-429169/bin/lava-test-runner /lava=
--429169/1
-    2024-02-13T23:27:03.823050  + export 'TESTRUN_ID=3D1_bootrr'
-    2024-02-13T23:27:03.823477  + cd /lava-429169/1/tests/1_bootrr =
-
-    ... (14 line(s) more)  =
-
-
-  * baseline.bootrr.fsl_enetc-enetc2-probed: https://kernelci.org/test/case=
-/id/65cbfae7f3fcb3ad71637031
-        failing since 22 days (last pass: renesas-devel-2024-01-08-v6.7, fi=
-rst fail: renesas-devel-2024-01-22-v6.8-rc1)
-
-    2024-02-13T23:27:06.038264  /lava-429169/1/../bin/lava-test-case
-    2024-02-13T23:27:06.065342  <8>[   26.220118] <LAVA_SIGNAL_TESTCASE TES=
-T_CASE_ID=3Dfsl_enetc-enetc2-probed RESULT=3Dfail>   =
-
-
-  * baseline.bootrr.mscc_felix-probed: https://kernelci.org/test/case/id/65=
-cbfae7f3fcb3ad71637033
-        failing since 22 days (last pass: renesas-devel-2024-01-08-v6.7, fi=
-rst fail: renesas-devel-2024-01-22-v6.8-rc1)
-
-    2024-02-13T23:27:07.126630  /lava-429169/1/../bin/lava-test-case
-    2024-02-13T23:27:07.153288  <8>[   27.308514] <LAVA_SIGNAL_TESTCASE TES=
-T_CASE_ID=3Dmscc_felix-probed RESULT=3Dfail>   =
-
-
-  * baseline.bootrr.fsl_enetc-enetc0-probed: https://kernelci.org/test/case=
-/id/65cbfae7f3fcb3ad71637038
-        failing since 22 days (last pass: renesas-devel-2024-01-08-v6.7, fi=
-rst fail: renesas-devel-2024-01-22-v6.8-rc1)
-
-    2024-02-13T23:27:08.385118  /lava-429169/1/../bin/lava-test-case
-    2024-02-13T23:27:08.412383  <8>[   28.567279] <LAVA_SIGNAL_TESTCASE TES=
-T_CASE_ID=3Dfsl_enetc-enetc0-probed RESULT=3Dfail>   =
-
-
-  * baseline.bootrr.fsl_enetc-enetc1-probed: https://kernelci.org/test/case=
-/id/65cbfae7f3fcb3ad71637039
-        failing since 22 days (last pass: renesas-devel-2024-01-08-v6.7, fi=
-rst fail: renesas-devel-2024-01-22-v6.8-rc1)
-
-    2024-02-13T23:27:09.435774  /lava-429169/1/../bin/lava-test-case
-    2024-02-13T23:27:09.462694  <8>[   29.617774] <LAVA_SIGNAL_TESTCASE TES=
-T_CASE_ID=3Dfsl_enetc-enetc1-probed RESULT=3Dfail>   =
-
- =
-
-
-
-platform               | arch  | lab         | compiler | defconfig | regre=
-ssions
------------------------+-------+-------------+----------+-----------+------=
-------
-kontron-sl28-var3-ads2 | arm64 | lab-kontron | gcc-10   | defconfig | 2    =
-      =
-
-
-  Details:     https://kernelci.org/test/plan/id/65cbfad373547f88e5637020
-
-  Results:     101 PASS, 2 FAIL, 1 SKIP
-  Full config: defconfig
-  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
-110)
-  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
-024-02-13-v6.8-rc4/arm64/defconfig/gcc-10/lab-kontron/baseline-kontron-sl28=
--var3-ads2.txt
-  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
-024-02-13-v6.8-rc4/arm64/defconfig/gcc-10/lab-kontron/baseline-kontron-sl28=
--var3-ads2.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
-t-baseline/20230623.0/arm64/rootfs.cpio.gz =
-
-
-
-  * baseline.bootrr.deferred-probe-empty: https://kernelci.org/test/case/id=
-/65cbfad373547f88e5637027
-        failing since 22 days (last pass: renesas-devel-2024-01-08-v6.7, fi=
-rst fail: renesas-devel-2024-01-22-v6.8-rc1)
-
-    2024-02-13T23:26:56.257748  / # #
-    2024-02-13T23:26:56.359821  export SHELL=3D/bin/sh
-    2024-02-13T23:26:56.360616  #
-    2024-02-13T23:26:56.462122  / # export SHELL=3D/bin/sh. /lava-429173/en=
-vironment
-    2024-02-13T23:26:56.462887  =
-
-    2024-02-13T23:26:56.564205  / # . /lava-429173/environment/lava-429173/=
-bin/lava-test-runner /lava-429173/1
-    2024-02-13T23:26:56.565412  =
-
-    2024-02-13T23:26:56.570040  / # /lava-429173/bin/lava-test-runner /lava=
--429173/1
-    2024-02-13T23:26:56.633939  + export 'TESTRUN_ID=3D1_bootrr'
-    2024-02-13T23:26:56.673771  + cd /lava-429173/1/tests/1_bootrr =
-
-    ... (10 line(s) more)  =
-
-
-  * baseline.bootrr.fsl_enetc-enetc0-probed: https://kernelci.org/test/case=
-/id/65cbfad473547f88e563703a
-        failing since 22 days (last pass: renesas-devel-2024-01-08-v6.7, fi=
-rst fail: renesas-devel-2024-01-22-v6.8-rc1)
-
-    2024-02-13T23:26:59.603961  /lava-429173/1/../bin/lava-test-case
-    2024-02-13T23:26:59.630888  <8>[   27.038298] <LAVA_SIGNAL_TESTCASE TES=
-T_CASE_ID=3Dfsl_enetc-enetc0-probed RESULT=3Dfail>   =
-
- =20
 
