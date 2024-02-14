@@ -1,133 +1,138 @@
-Return-Path: <linux-renesas-soc+bounces-2785-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-2786-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7527854C93
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Feb 2024 16:24:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 55187854CAA
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Feb 2024 16:27:14 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 73BB01F21159
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Feb 2024 15:24:19 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id E898D1F267F8
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Feb 2024 15:27:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9F5D65C602;
-	Wed, 14 Feb 2024 15:24:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 06C215C8F8;
+	Wed, 14 Feb 2024 15:27:09 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yb1-f182.google.com (mail-yb1-f182.google.com [209.85.219.182])
+Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com [209.85.128.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8F265380F;
-	Wed, 14 Feb 2024 15:24:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D12E5C8F5;
+	Wed, 14 Feb 2024 15:27:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707924256; cv=none; b=RQFBMAuiKR4bxkuMkbpCUegbPR/cwQwSQQaRP8DLg/acpdDGFzKIEMSv1Vu4CB5bWnMOG1EQve4P9mo4u8waDiXQSW1fiFsK42UrGwwxNonlQxcKvlz+CTwXULi0Wu1/nrJ6jA6M7U2mnJd8/epYmMX6797pT7XBOnig2XSxjqw=
+	t=1707924428; cv=none; b=Gyqg784I7P2n1NXmuEtYxsHSGiTMSHfi6rgKgJatEu/5lqcKk+bwf2fu0VQhyn97RrPuj5E78vOrx/o4jpJHkTF4CWzFBkfUtWnv6jJ15nE50BjO2oqc4P5AAGIt4LuBLVv2TRWdRxiBQiHnUwXB7dGUSyiA7WRPeM0JRrrMgdI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707924256; c=relaxed/simple;
-	bh=z22C5eDDUTTe9szBWz3omteky29rE85KJIvfgtvFM8Y=;
+	s=arc-20240116; t=1707924428; c=relaxed/simple;
+	bh=Y1By5kaxlBOqyM0fj5WuN+yTKrFl/qbAdgT0wfnOtNc=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=OaXLynvqviClMhmGOhIYcN7CIcvBvHrDv4H/FhA2Etm/ajv8de0e+OCDR28F88MGxGpRdiRQF5A1f1A73mCLwLm+2Nn8RLkqZeLtmELEZiqPTv7J4n3HsqNlGRqaXMVp0ph5iUM6FF/RedKpj48HGTp2cRf3RV+iKTf0uMlvzhQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.219.182
+	 To:Cc:Content-Type; b=d58p/XuJZamxKlcrjkpgW0mrEJRQ0PiQSxWHr3y1ZbgXytghKSsRqTFUTtH3QOdNGQgswQ70fsB3PaQZP9ej2kHv6kgH3dFOFYK3as3TNd+PfszlHJ690laWJj5E3Mm/paLtafpG8WwRGRHn1xzwbhFIzgOgtrhiohYWoqMoMO4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.180
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yb1-f182.google.com with SMTP id 3f1490d57ef6-dc238cb1b17so5369935276.0;
-        Wed, 14 Feb 2024 07:24:14 -0800 (PST)
+Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-607aafb2cb4so6051837b3.0;
+        Wed, 14 Feb 2024 07:27:05 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707924253; x=1708529053;
+        d=1e100.net; s=20230601; t=1707924425; x=1708529225;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=b4LBEo7R0hSPIqQp/A3corERzBFJ1CJEW7Ujl6/XLAg=;
-        b=X1WcoWWLOyRkZz3Zw85mC4n7BNl9PHbku+MzBCAlzXFLe43mPvn/ylvHaXS/1Umfc6
-         T+wdAhWZ3SiqcRj0VZt4oiddKjFHf6JDGR23tc9TziSXe1zzmCQiZ2IMhKhN2hsQM17i
-         7OtTfRQLCa0WxfkZN7SlMHfxukm0L3OdrCQIJkwJ9gJsM2lA3D7QNknudEkBnKylJSNJ
-         a1g6x00O4vVmqx6sK7Q9FEBmKIgixPyv7q3c9sgam31xAJfpRcmCeRMftxAJABXBrcJb
-         YteOKX+LLDu/8f04MdQbmXTH5l5HOJ/FcKS2qPrkn3UbmlyKiFGZAflO40GDeoo7GRXB
-         C4TA==
-X-Forwarded-Encrypted: i=1; AJvYcCX0zpgyW9rDJiw8IU4u2NEMYMEbmVa7wf6esWzAml3EdTsPab52mycZNo5c7ULPEPxvvMfQ/mNWOdu1ij455/kp96x7LK+K2kw9WAQX7JBv79nAgJnES3AP4F2JqDou5cgUPCyFWxoEjJePvLM=
-X-Gm-Message-State: AOJu0YwANJWRF8AI/1r0DINgvWOhOAcn3k7orDCfxCwR8g2qb2Qf0iNx
-	1zucasT2ed7nl9F7OhspVWdSHqhUuLeWf4L0gpqSrmqSrkjUdfFJ01ms0f/OZwI=
-X-Google-Smtp-Source: AGHT+IEoadSLdEc/PIGiaHIS7TbjN3O5MPLjcEDFc6TScPymW1rofaB0zaCuAzdBwTc63Wh0hoYF4g==
-X-Received: by 2002:a0d:db83:0:b0:604:93a9:386a with SMTP id d125-20020a0ddb83000000b0060493a9386amr2598751ywe.39.1707924253145;
-        Wed, 14 Feb 2024 07:24:13 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCVWMPhaT/ihWaDMu5B/NIwPtdwFaxUhwTvK26FU758NQNzG041dON8sDQ3KIZf9uKvDHnul5Dxn6+Sl4IuC9NAuaskWVtsGjskLzLAnzntgSjAEO9E7hMTCG8Cxl981SQMJMRGwZ0SjszLlYv4=
-Received: from mail-yb1-f169.google.com (mail-yb1-f169.google.com. [209.85.219.169])
-        by smtp.gmail.com with ESMTPSA id h84-20020a815357000000b00607b5cb115bsm133185ywb.51.2024.02.14.07.24.12
+        bh=LGSQkrT6rlJ6JwZQYVWtpuSKpi5dZxL5B9G4nRDynJk=;
+        b=YsMrguLHzG0z5gGquYdAMZWjx9tyvcfJ4bD0kl9IgxY7+3lF3wwqEZoUdwqYu50U/c
+         2AuwuBemd7yQCxvXqk1T/2vRcBy14H2BY43NsKHW6G9vTekYKfycaU8BvfUkz6yq4VNK
+         WEjw979Weyv5pCns48sWiKQJT3sThO5oHyW0pCE8vlOI2o6Il766nhP8DTMBw9EjUN8d
+         otizo1fni+ivN0nIf72yf0fS6LjBC+p4t1TaQ4oHPRwoeN32BsPmiyLfLgzB2wWVPSA3
+         U/XPq+kdVsmPc2v9R/e3o10P6WIHZ8VwV9t8e4nWQ3jyG+W2PlBXNp1Rya1fLcxbxQqF
+         aQLg==
+X-Forwarded-Encrypted: i=1; AJvYcCXt70U/VanNt5iAEfEOYrcTZ/1KU6tvhAhTLh4Sq/nMdSOtkEgUaNJBeDMb8w1dcA9RWqBNN1xKByTgD03A/QE94WMtQIX+n7QalQBniVeldbJNJqlEscg9t+5rhhvxyYlyTwENl4s1a9jczYhP2kolJ2YXAqpSX2YTM0o2ItTkNErMHWzhQyNBaSBbD4cXBqrcJzi1r5ZrplxisRc6yyclPEka7Kft77qzEvI=
+X-Gm-Message-State: AOJu0YzpLO8TGizzRytax1AMSeZp2jGV8a2FyOWNbEiJqM8xMPdKMMWc
+	QEmJTaUDBxNmCCz+QPmX8sC/UdaIfCnJTEq4K7qIeGYtWfyEFA9sX80L8tVBSJE=
+X-Google-Smtp-Source: AGHT+IGPrRgk8wKM8zsUxqqF7k9vsjL1Z7+9O20BdKdCByyA8F0mUO1cMv/F0ejfFJ0mYdMhp3fxKQ==
+X-Received: by 2002:a05:690c:350f:b0:607:b0d3:ebc0 with SMTP id fq15-20020a05690c350f00b00607b0d3ebc0mr1760652ywb.21.1707924424687;
+        Wed, 14 Feb 2024 07:27:04 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCUm7rFgwJt00HwIP/38k+jjV/FLhJVVY1DoR5A+LtKoqrWbRnro7rMB6xJvcrIr5zRu8Z3Lg4d36JuR91b9zwt9W4neiUQ8y/HsH3UVJ8MHNqpcsS9RdiVMU4IYc3nlKHuhNToIpeIbNa4k03MUFF8w8+q1yr8sV0fQQdmUi1lqKiXUETE/3UFYtjVj6syQPbZAhhWwx5QWE22L3pBailV9aAuC2z9tv/pNaQk=
+Received: from mail-yb1-f173.google.com (mail-yb1-f173.google.com. [209.85.219.173])
+        by smtp.gmail.com with ESMTPSA id x187-20020a0dd5c4000000b006049f599ca8sm85874ywd.119.2024.02.14.07.27.04
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 14 Feb 2024 07:24:13 -0800 (PST)
-Received: by mail-yb1-f169.google.com with SMTP id 3f1490d57ef6-dc238cb1b17so5369906276.0;
-        Wed, 14 Feb 2024 07:24:12 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCUTnFEBeFKrylLBIMWGyEvLa87YgYh/LhI6Rg8zxziHHl2x0r95H580jTkbo9MP6g5VdN+cACgeSIZ5qThNwYnXqYrQfIXUS97+o1bK1RH8asPWL7H2wzLtErk2mPSX4JBCdw4ga8vv89/lYKM=
-X-Received: by 2002:a25:2183:0:b0:dc7:32ae:f0a with SMTP id
- h125-20020a252183000000b00dc732ae0f0amr2428175ybh.65.1707924252702; Wed, 14
- Feb 2024 07:24:12 -0800 (PST)
+        Wed, 14 Feb 2024 07:27:04 -0800 (PST)
+Received: by mail-yb1-f173.google.com with SMTP id 3f1490d57ef6-dcbc00f6c04so2656194276.3;
+        Wed, 14 Feb 2024 07:27:04 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCWrsK2Lvf18z57Svdhf06kVYhaNxxkYOaCk+Emie1LEm8kb8/Q+LblNpC0tymSdgNR3WTwkSuAWiClM67WbGvvRpIgo5t4oixwNHFCP7/6Gz0bdJsnKQFVYvqcWWNM28vPgEFR+LCxdOKSBxSEhPwm5MFIPSmVsYGNdBaS/gE6FdYxlhU6t3KgO5HGn5FPGPDQ2uRNx3oxrKXGqw8skpUMeIhN2+PScclT2oeM=
+X-Received: by 2002:a25:df07:0:b0:dcb:e0dc:67ee with SMTP id
+ w7-20020a25df07000000b00dcbe0dc67eemr2902678ybg.45.1707924424392; Wed, 14 Feb
+ 2024 07:27:04 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240214052122.1966506-1-yoshihiro.shimoda.uh@renesas.com>
-In-Reply-To: <20240214052122.1966506-1-yoshihiro.shimoda.uh@renesas.com>
+References: <20240208105817.2619703-1-claudiu.beznea.uj@bp.renesas.com>
+ <20240208105817.2619703-3-claudiu.beznea.uj@bp.renesas.com>
+ <CAMuHMdV+CryvbFkcFGthk2VM0j7m13rQJ_0GtumPg2f-hpuMvA@mail.gmail.com> <fea4f538-b3c2-4299-9af1-5e2b61d06ce4@tuxon.dev>
+In-Reply-To: <fea4f538-b3c2-4299-9af1-5e2b61d06ce4@tuxon.dev>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 14 Feb 2024 16:24:01 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdVBCEV_MhqU8CHBSdMecYAgktwOaxwn_KmZjsf0y8rhHw@mail.gmail.com>
-Message-ID: <CAMuHMdVBCEV_MhqU8CHBSdMecYAgktwOaxwn_KmZjsf0y8rhHw@mail.gmail.com>
-Subject: Re: [PATCH] PCI: rcar-gen4: Add vendor-specific registers' setting
- for MSI-X
-To: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Cc: lpieralisi@kernel.org, kw@linux.com, robh@kernel.org, bhelgaas@google.com, 
-	linux-pci@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Date: Wed, 14 Feb 2024 16:26:52 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdU8iJhXWFTrVqr8W-ov2D=oSUbsyDP1kfs6mC3rBcLxzQ@mail.gmail.com>
+Message-ID: <CAMuHMdU8iJhXWFTrVqr8W-ov2D=oSUbsyDP1kfs6mC3rBcLxzQ@mail.gmail.com>
+Subject: Re: [PATCH v6 2/9] watchdog: rzg2l_wdt: Make the driver depend on PM
+To: claudiu beznea <claudiu.beznea@tuxon.dev>
+Cc: wim@linux-watchdog.org, linux@roeck-us.net, robh@kernel.org, 
+	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, 
+	p.zabel@pengutronix.de, geert+renesas@glider.be, magnus.damm@gmail.com, 
+	biju.das.jz@bp.renesas.com, linux-watchdog@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org, 
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Shimoda-san,
+Hi Claudiu,
 
-On Wed, Feb 14, 2024 at 6:22=E2=80=AFAM Yoshihiro Shimoda
-<yoshihiro.shimoda.uh@renesas.com> wrote:
-> This controller with GICv3 ITS can handle MSI-X, but it needs
-> to set vendor-specific registers by using the MSI address value.
-> To get the address, add .post_init() for it.
+On Fri, Feb 9, 2024 at 1:25=E2=80=AFPM claudiu beznea <claudiu.beznea@tuxon=
+.dev> wrote:
+> On 08.02.2024 14:53, Geert Uytterhoeven wrote:
+> > On Thu, Feb 8, 2024 at 1:26=E2=80=AFPM Claudiu <claudiu.beznea@tuxon.de=
+v> wrote:
+> >> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+> >>
+> >> The rzg2l_wdt watchdog driver cannot work w/o CONFIG_PM=3Dy (e.g. the
+> >> clocks are enabled though pm_runtime_* specific APIs). To avoid buildi=
+ng
+> >> a driver that doesn't work make explicit the dependency on CONFIG_PM.
+> >>
+> >> Suggested-by: Guenter Roeck <linux@roeck-us.net>
+> >> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+> >> ---
+> >>
+> >> Changes in v6:
+> >> - update patch description
+> >> - fixed the dependency on COMPILE_TEST previously introduced
+> >
+> > Thanks for the update!
+> >
+> >> --- a/drivers/watchdog/Kconfig
+> >> +++ b/drivers/watchdog/Kconfig
+> >> @@ -911,6 +911,7 @@ config RENESAS_RZN1WDT
+> >>  config RENESAS_RZG2LWDT
+> >>         tristate "Renesas RZ/G2L WDT Watchdog"
+> >>         depends on ARCH_RZG2L || ARCH_R9A09G011 || COMPILE_TEST
+> >> +       depends on PM
+> >
+> > depends on PM || COMPILE_TEST
 >
-> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-
-Thanks for your patch!
-
-> --- a/drivers/pci/controller/dwc/pcie-rcar-gen4.c
-> +++ b/drivers/pci/controller/dwc/pcie-rcar-gen4.c
-
-> @@ -297,6 +304,25 @@ static int rcar_gen4_pcie_host_init(struct dw_pcie_r=
-p *pp)
->         return 0;
->  }
+> Isn't "depends on PM" enough? As of [1] ("If multiple dependencies are
+> defined, they are connected with '&&'") the above:
 >
-> +static void rcar_gen4_pcie_host_post_init(struct dw_pcie_rp *pp)
-> +{
-> +       struct dw_pcie *dw =3D to_dw_pcie_from_pp(pp);
-> +       struct rcar_gen4_pcie *rcar =3D to_rcar_gen4_pcie(dw);
-> +       struct irq_data *data;
-> +       struct pci_dev *dev;
-> +       struct msi_msg msg;
-> +
-> +       if (pp->has_msi_ctrl)
-> +               return;
-> +
-> +       list_for_each_entry(dev, &pp->bridge->bus->devices, bus_list) {
-> +               data =3D irq_get_irq_data(dev->irq);
+> depends on ARCH_RZG2L || ARCH_R9A09G011 || COMPILE_TEST
+> depends on PM
+>
+> are translated into:
+> depends on (ARCH_RZG2L || ARCH_R9A09G011 || COMPILE_TEST) && PM
+>
+> Please let me know if I'm wrong.
 
-If CONFIG_PCIEPORTBUS is disabled, data is NULL, causing a crash below.
-
-I haven't found where exactly the irq data is filled in, and don't know
-where/how the dependency on CONFIG_PCIEPORTBUS should be expressed.
-
-> +               __pci_read_msi_msg(irq_data_get_msi_desc(data), &msg);
-> +               writel(msg.address_lo, rcar->base + AXIINTCADDR);
-> +               writel(AXIINTCCONT_VAL, rcar->base + AXIINTCCONT);
-> +       }
-> +}
-> +
->  static void rcar_gen4_pcie_host_deinit(struct dw_pcie_rp *pp)
->  {
->         struct dw_pcie *dw =3D to_dw_pcie_from_pp(pp);
+That is correct.  But you still can compile-test this driver when
+compiling for a different platform, and CONFIG_PM is disabled.
 
 Gr{oetje,eeting}s,
 
