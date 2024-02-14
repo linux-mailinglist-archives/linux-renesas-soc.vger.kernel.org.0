@@ -1,150 +1,132 @@
-Return-Path: <linux-renesas-soc+bounces-2786-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-2787-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55187854CAA
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Feb 2024 16:27:14 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F9E3854CD7
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Feb 2024 16:33:10 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id E898D1F267F8
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Feb 2024 15:27:13 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D21271C2788D
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Feb 2024 15:33:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 06C215C8F8;
-	Wed, 14 Feb 2024 15:27:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8B8FA5D73C;
+	Wed, 14 Feb 2024 15:31:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="REdAzMQN"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com [209.85.128.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D12E5C8F5;
-	Wed, 14 Feb 2024 15:27:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AC0C5A785;
+	Wed, 14 Feb 2024 15:31:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707924428; cv=none; b=Gyqg784I7P2n1NXmuEtYxsHSGiTMSHfi6rgKgJatEu/5lqcKk+bwf2fu0VQhyn97RrPuj5E78vOrx/o4jpJHkTF4CWzFBkfUtWnv6jJ15nE50BjO2oqc4P5AAGIt4LuBLVv2TRWdRxiBQiHnUwXB7dGUSyiA7WRPeM0JRrrMgdI=
+	t=1707924694; cv=none; b=MFvqbo6pSMg8S0863aF/3Vbvje97KBgLQ2waBoVOsUY792ezqBtTcPjmU0nRK4UfOMVxeqMSmrWrzmlUuWkm7fFk5VmUjTI/k5K7Yk/0LoGrngiIh1SMPZNL/s/c0fjMh1A6WkqryNSRE9jcVqyFHRt2Kiib7jxWTMpEbRHplxU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707924428; c=relaxed/simple;
-	bh=Y1By5kaxlBOqyM0fj5WuN+yTKrFl/qbAdgT0wfnOtNc=;
+	s=arc-20240116; t=1707924694; c=relaxed/simple;
+	bh=4JlFA01oQWdtvRaP+CnWQqdwr1cP142uEyw13TLrbN8=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=d58p/XuJZamxKlcrjkpgW0mrEJRQ0PiQSxWHr3y1ZbgXytghKSsRqTFUTtH3QOdNGQgswQ70fsB3PaQZP9ej2kHv6kgH3dFOFYK3as3TNd+PfszlHJ690laWJj5E3Mm/paLtafpG8WwRGRHn1xzwbhFIzgOgtrhiohYWoqMoMO4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-607aafb2cb4so6051837b3.0;
-        Wed, 14 Feb 2024 07:27:05 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707924425; x=1708529225;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=LGSQkrT6rlJ6JwZQYVWtpuSKpi5dZxL5B9G4nRDynJk=;
-        b=YsMrguLHzG0z5gGquYdAMZWjx9tyvcfJ4bD0kl9IgxY7+3lF3wwqEZoUdwqYu50U/c
-         2AuwuBemd7yQCxvXqk1T/2vRcBy14H2BY43NsKHW6G9vTekYKfycaU8BvfUkz6yq4VNK
-         WEjw979Weyv5pCns48sWiKQJT3sThO5oHyW0pCE8vlOI2o6Il766nhP8DTMBw9EjUN8d
-         otizo1fni+ivN0nIf72yf0fS6LjBC+p4t1TaQ4oHPRwoeN32BsPmiyLfLgzB2wWVPSA3
-         U/XPq+kdVsmPc2v9R/e3o10P6WIHZ8VwV9t8e4nWQ3jyG+W2PlBXNp1Rya1fLcxbxQqF
-         aQLg==
-X-Forwarded-Encrypted: i=1; AJvYcCXt70U/VanNt5iAEfEOYrcTZ/1KU6tvhAhTLh4Sq/nMdSOtkEgUaNJBeDMb8w1dcA9RWqBNN1xKByTgD03A/QE94WMtQIX+n7QalQBniVeldbJNJqlEscg9t+5rhhvxyYlyTwENl4s1a9jczYhP2kolJ2YXAqpSX2YTM0o2ItTkNErMHWzhQyNBaSBbD4cXBqrcJzi1r5ZrplxisRc6yyclPEka7Kft77qzEvI=
-X-Gm-Message-State: AOJu0YzpLO8TGizzRytax1AMSeZp2jGV8a2FyOWNbEiJqM8xMPdKMMWc
-	QEmJTaUDBxNmCCz+QPmX8sC/UdaIfCnJTEq4K7qIeGYtWfyEFA9sX80L8tVBSJE=
-X-Google-Smtp-Source: AGHT+IGPrRgk8wKM8zsUxqqF7k9vsjL1Z7+9O20BdKdCByyA8F0mUO1cMv/F0ejfFJ0mYdMhp3fxKQ==
-X-Received: by 2002:a05:690c:350f:b0:607:b0d3:ebc0 with SMTP id fq15-20020a05690c350f00b00607b0d3ebc0mr1760652ywb.21.1707924424687;
-        Wed, 14 Feb 2024 07:27:04 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCUm7rFgwJt00HwIP/38k+jjV/FLhJVVY1DoR5A+LtKoqrWbRnro7rMB6xJvcrIr5zRu8Z3Lg4d36JuR91b9zwt9W4neiUQ8y/HsH3UVJ8MHNqpcsS9RdiVMU4IYc3nlKHuhNToIpeIbNa4k03MUFF8w8+q1yr8sV0fQQdmUi1lqKiXUETE/3UFYtjVj6syQPbZAhhWwx5QWE22L3pBailV9aAuC2z9tv/pNaQk=
-Received: from mail-yb1-f173.google.com (mail-yb1-f173.google.com. [209.85.219.173])
-        by smtp.gmail.com with ESMTPSA id x187-20020a0dd5c4000000b006049f599ca8sm85874ywd.119.2024.02.14.07.27.04
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 14 Feb 2024 07:27:04 -0800 (PST)
-Received: by mail-yb1-f173.google.com with SMTP id 3f1490d57ef6-dcbc00f6c04so2656194276.3;
-        Wed, 14 Feb 2024 07:27:04 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCWrsK2Lvf18z57Svdhf06kVYhaNxxkYOaCk+Emie1LEm8kb8/Q+LblNpC0tymSdgNR3WTwkSuAWiClM67WbGvvRpIgo5t4oixwNHFCP7/6Gz0bdJsnKQFVYvqcWWNM28vPgEFR+LCxdOKSBxSEhPwm5MFIPSmVsYGNdBaS/gE6FdYxlhU6t3KgO5HGn5FPGPDQ2uRNx3oxrKXGqw8skpUMeIhN2+PScclT2oeM=
-X-Received: by 2002:a25:df07:0:b0:dcb:e0dc:67ee with SMTP id
- w7-20020a25df07000000b00dcbe0dc67eemr2902678ybg.45.1707924424392; Wed, 14 Feb
- 2024 07:27:04 -0800 (PST)
+	 To:Cc:Content-Type; b=iooSc41YuovBKrAWcpe5NxXMN+UGZZt8xbzAZqWoVjtT1YVpzUXbGLjObYUNxdfUUY433Fxnxqhpulyo3xscGdKn7UB6/pWnWfIvrxNr6YGyHCKYYGXoNcWlzKHeRtSyqf1khXs0bnrvNyPjOvdx6Til1Go9gwByB+xL7+nfVU0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=REdAzMQN; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0FD5EC433F1;
+	Wed, 14 Feb 2024 15:31:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1707924694;
+	bh=4JlFA01oQWdtvRaP+CnWQqdwr1cP142uEyw13TLrbN8=;
+	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
+	b=REdAzMQNUKQthunqIYd1xXRZvyRazfzeeHO6U9IdkqpQocmGPZO0MqL1dce3y5y1b
+	 PFeEIPsWTolML15+QzASJcdeWR5n3IAnWbJf7gcLrasH+H8HI8o4G8CRjOmNuEAXXZ
+	 JPJN0CaZp3PLCjJjy61EfrhMHYHUHlJL+wd+mTzJYfZGvX6odSfmQZTFtUVb0aybMe
+	 ViowSODx6riqYuR9wKjBYsEm3o3VxzwN8Mp3sn9zRKC3cerkcEYU/VGXs0MoG5uQuI
+	 g6xuLSibBrZHt98G3dsRPMywRLrzlLMAc3Dp44/uxlOpcqrH3cKuiu41UkhGcoS0W2
+	 /cPQAX+TUIULg==
+Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-a3cfacf0eadso225218566b.2;
+        Wed, 14 Feb 2024 07:31:33 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCUGZNJGMmjKejeaWtBosHD6k7Pgafh0XZkZ+/U5iT1VkDgyC/B7rIXKZVDybI3pEzqNX4qgThnsOMAkFxMhfuzZo/UtfiiQrEyorHlnwLSAwuSMuRxR4AZarrF09dqIPysEI+dYB6sxCTcJyFQ6Lf8MiYIxGbSviuhriTBmzoBFjmRFk6r/xYfMEoLXS1JcDXLqRHFRXr3ZNxCvI5Hl4d4DUkV87l/TLcecTy7lChLB1mRIqoJ6AMKe5t/2DzMWW6iV7isLJLIIZ7SwljsmLqVcJDnmEePBuqanmaO2zBUS2mZDljAnV4UoBpWm1LvovmoMCZI3l027MbXp/CNfG49BcQ==
+X-Gm-Message-State: AOJu0YxjGyedI+X5FA64Q7slzCo4wsTnjRstdIYdhMdtcYScwc847O56
+	DR3UjafFsvfE5ZThTJFfBrDlKOs9nVUjCTcE9TA8vPROFN55gVaaaXsJTkvifZPB03nYTIQHzFq
+	7HZ5Plg9IMnDNHgRlRaAUycx2Gw==
+X-Google-Smtp-Source: AGHT+IH8/isML9jhNTe8vUWU49jrNm4p0HUKpD8NeE7Izp0zgWowWPvoVR9vvZmOadC5fdJrnpVWN3J0XGbdjt6xmGE=
+X-Received: by 2002:a2e:b888:0:b0:2d0:dfad:2863 with SMTP id
+ r8-20020a2eb888000000b002d0dfad2863mr2522106ljp.46.1707924672118; Wed, 14 Feb
+ 2024 07:31:12 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240208105817.2619703-1-claudiu.beznea.uj@bp.renesas.com>
- <20240208105817.2619703-3-claudiu.beznea.uj@bp.renesas.com>
- <CAMuHMdV+CryvbFkcFGthk2VM0j7m13rQJ_0GtumPg2f-hpuMvA@mail.gmail.com> <fea4f538-b3c2-4299-9af1-5e2b61d06ce4@tuxon.dev>
-In-Reply-To: <fea4f538-b3c2-4299-9af1-5e2b61d06ce4@tuxon.dev>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 14 Feb 2024 16:26:52 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdU8iJhXWFTrVqr8W-ov2D=oSUbsyDP1kfs6mC3rBcLxzQ@mail.gmail.com>
-Message-ID: <CAMuHMdU8iJhXWFTrVqr8W-ov2D=oSUbsyDP1kfs6mC3rBcLxzQ@mail.gmail.com>
-Subject: Re: [PATCH v6 2/9] watchdog: rzg2l_wdt: Make the driver depend on PM
-To: claudiu beznea <claudiu.beznea@tuxon.dev>
-Cc: wim@linux-watchdog.org, linux@roeck-us.net, robh@kernel.org, 
-	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, 
-	p.zabel@pengutronix.de, geert+renesas@glider.be, magnus.damm@gmail.com, 
-	biju.das.jz@bp.renesas.com, linux-watchdog@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org, 
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+References: <20240213-arm-dt-cleanups-v1-0-f2dee1292525@kernel.org> <CAMuHMdWgvD9szXksK+jzyvwLQ8ufWWf1TPQ7s-5z4JWgrvXmkg@mail.gmail.com>
+In-Reply-To: <CAMuHMdWgvD9szXksK+jzyvwLQ8ufWWf1TPQ7s-5z4JWgrvXmkg@mail.gmail.com>
+From: Rob Herring <robh@kernel.org>
+Date: Wed, 14 Feb 2024 15:30:57 +0000
+X-Gmail-Original-Message-ID: <CAL_JsqKbDdUzkuSBrBTYm0PF8KehK0DnUwTBHqJ6tZfaE=B2_w@mail.gmail.com>
+Message-ID: <CAL_JsqKbDdUzkuSBrBTYm0PF8KehK0DnUwTBHqJ6tZfaE=B2_w@mail.gmail.com>
+Subject: Re: [PATCH 0/6] dts: Fix dtc interrupt warnings
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: soc@kernel.org, Shawn Guo <shawnguo@kernel.org>, 
+	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
+	Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Tsahee Zidenberg <tsahee@annapurnalabs.com>, Antoine Tenart <atenart@kernel.org>, 
+	Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@codeconstruct.com.au>, 
+	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>, 
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Andrew Lunn <andrew@lunn.ch>, 
+	Gregory Clement <gregory.clement@bootlin.com>, 
+	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>, 
+	=?UTF-8?Q?Jonathan_Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>, 
+	Thierry Reding <thierry.reding@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>, 
+	Stefan Agner <stefan@agner.ch>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+	Alexandre Torgue <alexandre.torgue@foss.st.com>, =?UTF-8?Q?Beno=C3=AEt_Cousson?= <bcousson@baylibre.com>, 
+	Tony Lindgren <tony@atomide.com>, Chanho Min <chanho.min@lge.com>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+	Magnus Damm <magnus.damm@gmail.com>, Linus Walleij <linusw@kernel.org>, 
+	Imre Kaloz <kaloz@openwrt.org>, Bjorn Andersson <andersson@kernel.org>, 
+	Konrad Dybcio <konrad.dybcio@linaro.org>, Masahiro Yamada <masahiroy@kernel.org>, 
+	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, 
+	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-aspeed@lists.ozlabs.org, 
+	openbmc@lists.ozlabs.org, linux-tegra@vger.kernel.org, 
+	linux-stm32@st-md-mailman.stormreply.com, linux-omap@vger.kernel.org, 
+	linux-mediatek@lists.infradead.org, linux-renesas-soc@vger.kernel.org, 
+	linux-arm-msm@vger.kernel.org, linux-kbuild@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Claudiu,
-
-On Fri, Feb 9, 2024 at 1:25=E2=80=AFPM claudiu beznea <claudiu.beznea@tuxon=
-.dev> wrote:
-> On 08.02.2024 14:53, Geert Uytterhoeven wrote:
-> > On Thu, Feb 8, 2024 at 1:26=E2=80=AFPM Claudiu <claudiu.beznea@tuxon.de=
-v> wrote:
-> >> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-> >>
-> >> The rzg2l_wdt watchdog driver cannot work w/o CONFIG_PM=3Dy (e.g. the
-> >> clocks are enabled though pm_runtime_* specific APIs). To avoid buildi=
-ng
-> >> a driver that doesn't work make explicit the dependency on CONFIG_PM.
-> >>
-> >> Suggested-by: Guenter Roeck <linux@roeck-us.net>
-> >> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-> >> ---
-> >>
-> >> Changes in v6:
-> >> - update patch description
-> >> - fixed the dependency on COMPILE_TEST previously introduced
-> >
-> > Thanks for the update!
-> >
-> >> --- a/drivers/watchdog/Kconfig
-> >> +++ b/drivers/watchdog/Kconfig
-> >> @@ -911,6 +911,7 @@ config RENESAS_RZN1WDT
-> >>  config RENESAS_RZG2LWDT
-> >>         tristate "Renesas RZ/G2L WDT Watchdog"
-> >>         depends on ARCH_RZG2L || ARCH_R9A09G011 || COMPILE_TEST
-> >> +       depends on PM
-> >
-> > depends on PM || COMPILE_TEST
+On Wed, Feb 14, 2024 at 9:01=E2=80=AFAM Geert Uytterhoeven <geert@linux-m68=
+k.org> wrote:
 >
-> Isn't "depends on PM" enough? As of [1] ("If multiple dependencies are
-> defined, they are connected with '&&'") the above:
+> Hi Rob,
 >
-> depends on ARCH_RZG2L || ARCH_R9A09G011 || COMPILE_TEST
-> depends on PM
+> On Tue, Feb 13, 2024 at 8:35=E2=80=AFPM Rob Herring <robh@kernel.org> wro=
+te:
+> > I had a branch with most of these changes sitting in my tree for some
+> > time. Geert's asking about some errors not getting found prompted me to
+> > clean it up and send it out. This series fixes all* interrupt related
+> > warnings and enables the check by default.
 >
-> are translated into:
-> depends on (ARCH_RZG2L || ARCH_R9A09G011 || COMPILE_TEST) && PM
+> > *There's a few Renesas warnings still Geert said he would fix.
 >
-> Please let me know if I'm wrong.
+> Thanks, fix sent
+> https://lore.kernel.org/r/a351e503ea97fb1af68395843f513925ff1bdf26.170792=
+2460.git.geert+renesas@glider.be
+>
+> >       dtc: Enable dtc interrupt_provider check
+>
+> >  scripts/Makefile.lib                                  |  3 +--
+>
+> Just wondering, can the remaining disabler be removed, too?
+>
+> Documentation/devicetree/bindings/Makefile:     -Wno-interrupt_provider \
 
-That is correct.  But you still can compile-test this driver when
-compiling for a different platform, and CONFIG_PM is disabled.
+I was too. Shockingly, that too will require some fixes. Though I
+remember when configuring the warnings for bindings, trying to make
+them stricter. So there must have been some case where
+no-interrupt_provider was needed. It may have been related to how we
+parse interrupts in examples, but that changed back when switching to
+validate dtbs directly.
 
-Gr{oetje,eeting}s,
-
-                        Geert
-
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+Rob
 
