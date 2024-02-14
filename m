@@ -1,124 +1,435 @@
-Return-Path: <linux-renesas-soc+bounces-2752-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-2753-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86F99854747
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Feb 2024 11:39:02 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BED685479C
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Feb 2024 11:58:22 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 25D671F225F9
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Feb 2024 10:39:02 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id E1ED01F23E6E
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Feb 2024 10:58:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D5A8110A3C;
-	Wed, 14 Feb 2024 10:38:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4547A18AF4;
+	Wed, 14 Feb 2024 10:58:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NM4tcHce"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BjuHUwYk"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A42B418635;
-	Wed, 14 Feb 2024 10:38:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E70C1865C
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 14 Feb 2024 10:58:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707907139; cv=none; b=np+6X3qzsbj/GFiYJ8ycgOGoZ9FQ0REFDu2gfJOH9Z+TBTiIYIEM86wWCLm+xQBE274Wtywn3gJ+rRXVl2juvV6YYmSN1D65OaQF3+IWc+ZEl1akG0H3v0WGnU+3YDzLOnvZOnrbQnlennqxM9r5EC/Di37BzRmcTwoHbVgqku0=
+	t=1707908299; cv=none; b=pY3iOYy9g+Yllau4oNLydDf9CPgCBf2DDsCLjeYhZYbkfIXoceMAOKRJkbBcu7vfFl0h3GAqOjIzU0NCncabymcoa+jeim5pLIpU/b5v7ZMqeRgyHD2VtrNXD6mLxSEKvItLRJ34iMEXiBLVGq3/EM1oWAzaJMX0ofbfi95m2hI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707907139; c=relaxed/simple;
-	bh=eslzQormGDUUKR6M3wUfA/wR65g2VVIMI2OcUV5+luQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sGmiOxKTP5aigfW6Ejr05LluhYH4NDA2DiKCYH28SCxe0MXmw2dgsJhnok0jQrBeEVH4gPXeIG4bXq9xaXtLJp4Yo682pjSyAuSsA2OmEHBk/nb+MwpH09uub0KqAfYQppGKuQB+EXm4yoeNBxq9gor95lclggMSUhL3CC5oru4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NM4tcHce; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 55909C433C7;
-	Wed, 14 Feb 2024 10:38:50 +0000 (UTC)
+	s=arc-20240116; t=1707908299; c=relaxed/simple;
+	bh=ktmgxb6uQUZ+2S3L3GzDG52N+QEPAUDTaI9I8IF28fE=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=MLoxdJVHfLh8iGT7XYbs9c1gIn0xfHhOT7Pm1olUYIfFSK1oE5AtNI5sgl7kyDQQFqwB66dl2JAdFqV9glU1ZC6CcXhqsHea90OyvyLO9eUUbTOFuH8wAiW3S/qsEp0xWCj3666m2BAhLtnTLHrqOmHIrz4owagC/jbyjSJLXBM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BjuHUwYk; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C2CD2C433C7;
+	Wed, 14 Feb 2024 10:58:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1707907139;
-	bh=eslzQormGDUUKR6M3wUfA/wR65g2VVIMI2OcUV5+luQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=NM4tcHcenWq1MQ46lCcjZguB2y0u9a08wBEfpVvvyTs7aHG6ltzW76Dp3veftpT3j
-	 i1Z8OUTTxKwVUAmyDMA+HXFG+VHMfUSpBXFYQKnXtfp4zAw9tSsPC4LsKRiXuq2zAg
-	 HvqopQ1KrOMmaeAddUivvw1SPeSBFS4rs/JYB6OWbu8LyMbywWfLlGHwIwSoPCUba+
-	 CR/KZxC/S7C6BvcQ6xEq1ZAT/XwXhgiHFAmVMnZNvfQpiBQ54hkBW5XE+iCSel8XF/
-	 fPXVUiky2QMlDUFAJiVqHbMLhldLNckU/yM4uw7ip+kHMlzdMUBZ1fj64JKT3Rpf6g
-	 dEPOCUfNAx76A==
-Date: Wed, 14 Feb 2024 11:38:47 +0100
-From: Niklas Cassel <cassel@kernel.org>
-To: Kishon Vijay Abraham I <kvijayab@amd.com>
-Cc: Richard Zhu <hongxing.zhu@nxp.com>,
-	Lucas Stach <l.stach@pengutronix.de>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
-	Rob Herring <robh@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	NXP Linux Team <linux-imx@nxp.com>,
-	Minghuan Lian <minghuan.Lian@nxp.com>,
-	Mingkai Hu <mingkai.hu@nxp.com>, Roy Zang <roy.zang@nxp.com>,
-	Srikanth Thokala <srikanth.thokala@intel.com>,
-	Marek Vasut <marek.vasut+renesas@gmail.com>,
-	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Jon Mason <jdmason@kudzu.us>, Dave Jiang <dave.jiang@intel.com>,
-	Allen Hubbe <allenbh@gmail.com>,
-	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-	Kishon Vijay Abraham I <kishon@kernel.org>,
-	Damien Le Moal <dlemoal@kernel.org>, Frank Li <Frank.Li@nxp.com>,
-	linux-pci@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linuxppc-dev@lists.ozlabs.org, linux-renesas-soc@vger.kernel.org,
-	linux-tegra@vger.kernel.org, ntb@lists.linux.dev
-Subject: Re: [PATCH 0/2] PCI endpoint BAR hardware description cleanup
-Message-ID: <ZcyYNzYo9HiQi4DY@x1-carbon>
-References: <20240210012634.600301-1-cassel@kernel.org>
- <7a243a1e-6b47-bc2f-c538-b57db1c9c580@amd.com>
+	s=k20201202; t=1707908298;
+	bh=ktmgxb6uQUZ+2S3L3GzDG52N+QEPAUDTaI9I8IF28fE=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=BjuHUwYkxU2w0tO0/mJGj1Nu6Tisi4FOc3Rci3btsMoGDsF64IF7r4RcJMDId4v3Y
+	 OJes+tG+6zLJPrwaFWtiX82jl53d3O3yURs0XZvIadd+u+2lrTtvqseCBY51G7OPpB
+	 OCmCH/ys447qGwBYdLajPN0RR4EOrkYT9Y/aRJEWphqe2noJ6YbRbAMVpdg/42QD6t
+	 l42viAbwD4E1JdL5gvEysqPKP7VLH2Nz8MMKlENjn/KiQIkV4Ipc8eoMtATrSdlLrF
+	 DjcVv8tv/wDDs5JR1T+IpkWnby495b38QzcpSrBEVYQVK+2fnPd5F3690ebnuJHHwI
+	 Qu+axW7Tsl4UQ==
+Received: from sofa.misterjones.org ([185.219.108.64] helo=goblin-girl.misterjones.org)
+	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.95)
+	(envelope-from <maz@kernel.org>)
+	id 1raCy0-0036SD-CD;
+	Wed, 14 Feb 2024 10:58:16 +0000
+Date: Wed, 14 Feb 2024 10:58:15 +0000
+Message-ID: <865xyr5n3s.wl-maz@kernel.org>
+From: Marc Zyngier <maz@kernel.org>
+To: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc: catalin.marinas@arm.com,
+	will@kernel.org,
+	tglx@linutronix.de,
+	linux-arm-kernel@lists.infradead.org,
+	linux-renesas-soc@vger.kernel.org,
+	Geert Uytterhoeven <geert@linux-m68k.org>
+Subject: Re: [PATCH] irqchip/gic-v3-its: Workaround Renesas R-Car GICv3 ITS
+In-Reply-To: <20240214052050.1966439-1-yoshihiro.shimoda.uh@renesas.com>
+References: <20240214052050.1966439-1-yoshihiro.shimoda.uh@renesas.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/29.1
+ (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <7a243a1e-6b47-bc2f-c538-b57db1c9c580@amd.com>
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-SA-Exim-Connect-IP: 185.219.108.64
+X-SA-Exim-Rcpt-To: yoshihiro.shimoda.uh@renesas.com, catalin.marinas@arm.com, will@kernel.org, tglx@linutronix.de, linux-arm-kernel@lists.infradead.org, linux-renesas-soc@vger.kernel.org, geert@linux-m68k.org
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
 
-On Wed, Feb 14, 2024 at 09:47:54AM +0530, Kishon Vijay Abraham I wrote:
-> Hi Niklas,
+[+ Geert, who deals with Renesas SoCs on a daily basis]
+
+Hi Yoshihiro,
+
+On Wed, 14 Feb 2024 05:20:50 +0000,
+Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com> wrote:
 > 
-> On 2/10/2024 6:56 AM, Niklas Cassel wrote:
-> > The series is based on top of:
-> > https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git/log/?h=endpoint
-> > 
-> > 
-> > Hello all,
-> > 
-> > This series cleans up the hardware description for PCI endpoint BARs.
-> > 
-> > The problems with the existing hardware description:
-> > -The documentation is lackluster.
-> > -Some of the names are confusingly similar, e.g. fixed_64bit and
-> >   fixed_size, even though these are for completely unrelated things.
-> > -The way that the BARs are defined in the endpoint controller drivers
-> >   is messy, because the left hand side is not a BAR, so you can mark a
-> >   BAR as e.g. both fixed size and reserved.
-> > 
-> > This series tries to address all the problems above.
-> > 
-> > Personally, I think that the code is more readable, both the endpoint
-> > controller drivers, but also pci-epc-core.c.
+> The GICv3 ITS on Renesas R-Car has limitations:
+>  - It can access lower 32-bits memory area only.
+>  - It cannot use Sharable/cache attributes.
 > 
-> Thank you for cleaning this up!
+> So, set ITS_FLAGS_FORCE_NON_SHAREABLE flag, and set GFP_DMA to all
+> memory allocation APIs for getting lower 32-bits memory area on
+> the R-Car. Note that GFP_DMA32 cannot work correctly because
+> the environment doens't have DMA32 zone like below:
+
+nit: doesn't
+
 > 
-> FWIW:
-> Reviewed-by: Kishon Vijay Abraham I <kishon@kernel.org>
+> [    0.000000] Zone ranges:
+> [    0.000000]   DMA      [mem 0x0000000048000000-0x00000000ffffffff]
+> [    0.000000]   DMA32    empty
+> [    0.000000]   Normal   [mem 0x0000000100000000-0x00000004ffffffff]
 
-IMHO, a FWIW is quite the undersell here, as there is no R-b I would value
-higher than the R-b from the original author or the pci endpoint subsystem :)
+Unfortunately, none of that is a universal truth. The way DMA and
+DMA32 are expressed is pretty variable. See this for example:
 
+https://lore.kernel.org/all/cover.1703683642.git.baruch@tkos.co.il/
 
-Kind regards,
-Niklas
+So I can't see how you can reliably rely on this layout. It may work
+today on your platform, but I wouldn't take this as a guarantee.
+
+>
+> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+> ---
+>  arch/arm64/Kconfig               |  9 +++++
+>  drivers/irqchip/irq-gic-v3-its.c | 59 +++++++++++++++++++++-----------
+>  2 files changed, 48 insertions(+), 20 deletions(-)
+> 
+> diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
+> index c1a16a9dae72..49fe3006e142 100644
+> --- a/arch/arm64/Kconfig
+> +++ b/arch/arm64/Kconfig
+> @@ -1250,6 +1250,15 @@ config SOCIONEXT_SYNQUACER_PREITS
+>  
+>  	  If unsure, say Y.
+>  
+> +config RENESAS_RCAR_GIC_ITS
+> +	bool "Renesas R-Car: Workaround for GICv3 ITS"
+> +	default n
+> +	help
+> +	  Renesas R-Car Gen4 SoCs has a limitation about GICv3 ITS which can
+> +	  access lower 32-bits memory address range only.
+> +
+> +	  If unsure, say Y.
+
+Either this should be 'default y', or you should drop this last line.
+Being 'default n' and saying 'if you don't know, say y' is
+counterproductive.
+
+Also:
+
+- This must carry an official erratum number
+
+- You must document it in Documentation/arch/arm64/silicon-errata.rst
+
+> +
+>  endmenu # "ARM errata workarounds via the alternatives framework"
+>  
+>  choice
+> diff --git a/drivers/irqchip/irq-gic-v3-its.c b/drivers/irqchip/irq-gic-v3-its.c
+> index d097001c1e3e..e0e672b561b9 100644
+> --- a/drivers/irqchip/irq-gic-v3-its.c
+> +++ b/drivers/irqchip/irq-gic-v3-its.c
+> @@ -186,6 +186,7 @@ static LIST_HEAD(its_nodes);
+>  static DEFINE_RAW_SPINLOCK(its_lock);
+>  static struct rdists *gic_rdists;
+>  static struct irq_domain *its_parent;
+> +static gfp_t its_gfp_quirk;
+
+Why is that global? Why isn't this computed on a per-ITS basis? Since
+you are introducing a generic mechanism here, you shouldn't assume
+that all ITSs are subjected to the same issue.
+
+>  
+>  static unsigned long its_list_map;
+>  static u16 vmovp_seq_num;
+> @@ -1846,7 +1847,7 @@ static int its_vlpi_map(struct irq_data *d, struct its_cmd_info *info)
+>  		struct its_vlpi_map *maps;
+>  
+>  		maps = kcalloc(its_dev->event_map.nr_lpis, sizeof(*maps),
+> -			       GFP_ATOMIC);
+> +			       GFP_ATOMIC | its_gfp_quirk);
+
+This data structure is never exposed to the GIC. Why do we need to
+constraint this allocation?
+
+>  		if (!maps) {
+>  			ret = -ENOMEM;
+>  			goto out;
+> @@ -2044,7 +2045,7 @@ static struct lpi_range *mk_lpi_range(u32 base, u32 span)
+>  {
+>  	struct lpi_range *range;
+>  
+> -	range = kmalloc(sizeof(*range), GFP_KERNEL);
+> +	range = kmalloc(sizeof(*range), GFP_KERNEL | its_gfp_quirk);
+
+Same thing.
+
+>  	if (range) {
+>  		range->base_id = base;
+>  		range->span = span;
+> @@ -2169,7 +2170,7 @@ static unsigned long *its_lpi_alloc(int nr_irqs, u32 *base, int *nr_ids)
+>  	if (err)
+>  		goto out;
+>  
+> -	bitmap = bitmap_zalloc(nr_irqs, GFP_ATOMIC);
+> +	bitmap = bitmap_zalloc(nr_irqs, GFP_ATOMIC | its_gfp_quirk);
+
+Same thing.
+
+>  	if (!bitmap)
+>  		goto out;
+>  
+> @@ -2201,7 +2202,7 @@ static struct page *its_allocate_prop_table(gfp_t gfp_flags)
+>  {
+>  	struct page *prop_page;
+>  
+> -	prop_page = alloc_pages(gfp_flags, get_order(LPI_PROPBASE_SZ));
+> +	prop_page = alloc_pages(gfp_flags | its_gfp_quirk, get_order(LPI_PROPBASE_SZ));
+
+This only affects the redistributors. Why should we constraint it?
+
+>  	if (!prop_page)
+>  		return NULL;
+>  
+> @@ -2335,7 +2336,7 @@ static int its_setup_baser(struct its_node *its, struct its_baser *baser,
+>  		order = get_order(GITS_BASER_PAGES_MAX * psz);
+>  	}
+>  
+> -	page = alloc_pages_node(its->numa_node, GFP_KERNEL | __GFP_ZERO, order);
+> +	page = alloc_pages_node(its->numa_node, GFP_KERNEL | __GFP_ZERO | its_gfp_quirk, order);
+>  	if (!page)
+>  		return -ENOMEM;
+>  
+> @@ -2808,7 +2809,7 @@ static bool allocate_vpe_l2_table(int cpu, u32 id)
+>  
+>  	/* Allocate memory for 2nd level table */
+>  	if (!table[idx]) {
+> -		page = alloc_pages(GFP_KERNEL | __GFP_ZERO, get_order(psz));
+> +		page = alloc_pages(GFP_KERNEL | __GFP_ZERO | its_gfp_quirk, get_order(psz));
+>  		if (!page)
+>  			return false;
+>  
+> @@ -2860,7 +2861,7 @@ static int allocate_vpe_l1_table(void)
+>  	if (val & GICR_VPROPBASER_4_1_VALID)
+>  		goto out;
+>  
+> -	gic_data_rdist()->vpe_table_mask = kzalloc(sizeof(cpumask_t), GFP_ATOMIC);
+> +	gic_data_rdist()->vpe_table_mask = kzalloc(sizeof(cpumask_t), GFP_ATOMIC | its_gfp_quirk);
+
+This is a cpumask allocation, not exposed to the GIC. What is the
+reason for constraining it?
+
+>  	if (!gic_data_rdist()->vpe_table_mask)
+>  		return -ENOMEM;
+>  
+> @@ -2927,7 +2928,7 @@ static int allocate_vpe_l1_table(void)
+>  
+>  	pr_debug("np = %d, npg = %lld, psz = %d, epp = %d, esz = %d\n",
+>  		 np, npg, psz, epp, esz);
+> -	page = alloc_pages(GFP_ATOMIC | __GFP_ZERO, get_order(np * PAGE_SIZE));
+> +	page = alloc_pages(GFP_ATOMIC | __GFP_ZERO | its_gfp_quirk, get_order(np * PAGE_SIZE));
+>  	if (!page)
+>  		return -ENOMEM;
+>  
+> @@ -2957,7 +2958,7 @@ static int its_alloc_collections(struct its_node *its)
+>  	int i;
+>  
+>  	its->collections = kcalloc(nr_cpu_ids, sizeof(*its->collections),
+> -				   GFP_KERNEL);
+> +				   GFP_KERNEL | its_gfp_quirk);
+
+Same thing.
+
+>  	if (!its->collections)
+>  		return -ENOMEM;
+>  
+> @@ -2971,7 +2972,7 @@ static struct page *its_allocate_pending_table(gfp_t gfp_flags)
+>  {
+>  	struct page *pend_page;
+>  
+> -	pend_page = alloc_pages(gfp_flags | __GFP_ZERO,
+> +	pend_page = alloc_pages(gfp_flags | __GFP_ZERO | its_gfp_quirk,
+>  				get_order(LPI_PENDBASE_SZ));
+
+This is a redistributor-private allocation. If it is the ITSs that are
+affected by this bug, why are the pending tables constrained?
+
+>  	if (!pend_page)
+>  		return NULL;
+> @@ -3319,7 +3320,7 @@ static bool its_alloc_table_entry(struct its_node *its,
+>  
+>  	/* Allocate memory for 2nd level table */
+>  	if (!table[idx]) {
+> -		page = alloc_pages_node(its->numa_node, GFP_KERNEL | __GFP_ZERO,
+> +		page = alloc_pages_node(its->numa_node, GFP_KERNEL | __GFP_ZERO | its_gfp_quirk,
+>  					get_order(baser->psz));
+>  		if (!page)
+>  			return false;
+> @@ -3415,7 +3416,7 @@ static struct its_device *its_create_device(struct its_node *its, u32 dev_id,
+>  	if (WARN_ON(!is_power_of_2(nvecs)))
+>  		nvecs = roundup_pow_of_two(nvecs);
+>  
+> -	dev = kzalloc(sizeof(*dev), GFP_KERNEL);
+> +	dev = kzalloc(sizeof(*dev), GFP_KERNEL | its_gfp_quirk);
+>  	/*
+>  	 * Even if the device wants a single LPI, the ITT must be
+>  	 * sized as a power of two (and you need at least one bit...).
+> @@ -3423,14 +3424,14 @@ static struct its_device *its_create_device(struct its_node *its, u32 dev_id,
+>  	nr_ites = max(2, nvecs);
+>  	sz = nr_ites * (FIELD_GET(GITS_TYPER_ITT_ENTRY_SIZE, its->typer) + 1);
+>  	sz = max(sz, ITS_ITT_ALIGN) + ITS_ITT_ALIGN - 1;
+> -	itt = kzalloc_node(sz, GFP_KERNEL, its->numa_node);
+> +	itt = kzalloc_node(sz, GFP_KERNEL | its_gfp_quirk, its->numa_node);
+>  	if (alloc_lpis) {
+>  		lpi_map = its_lpi_alloc(nvecs, &lpi_base, &nr_lpis);
+>  		if (lpi_map)
+>  			col_map = kcalloc(nr_lpis, sizeof(*col_map),
+> -					  GFP_KERNEL);
+> +					  GFP_KERNEL | its_gfp_quirk);
+
+This is kernel-private memory, not visible by the GIC.
+
+>  	} else {
+> -		col_map = kcalloc(nr_ites, sizeof(*col_map), GFP_KERNEL);
+> +		col_map = kcalloc(nr_ites, sizeof(*col_map), GFP_KERNEL | its_gfp_quirk);
+
+Same thing.
+
+>  		nr_lpis = 0;
+>  		lpi_base = 0;
+>  	}
+> @@ -4754,6 +4755,16 @@ static bool __maybe_unused its_enable_rk3588001(void *data)
+>  	return true;
+>  }
+>  
+> +static bool __maybe_unused its_enable_renesas_rcar_gic_its(void *data)
+> +{
+> +	struct its_node *its = data;
+> +
+> +	its->flags |= ITS_FLAGS_FORCE_NON_SHAREABLE;
+> +	its_gfp_quirk = GFP_DMA;
+> +
+> +	return true;
+> +}
+> +
+>  static bool its_set_non_coherent(void *data)
+>  {
+>  	struct its_node *its = data;
+> @@ -4815,6 +4826,14 @@ static const struct gic_quirk its_quirks[] = {
+>  		.mask   = 0xffffffff,
+>  		.init   = its_enable_rk3588001,
+>  	},
+> +#endif
+> +#ifdef CONFIG_RENESAS_RCAR_GIC_ITS
+> +	{
+> +		.desc   = "ITS: Renesas R-Car Gen4 GICv3 ITS",
+> +		.iidr   = 0x0201743b,
+> +		.mask   = 0xffffffff,
+> +		.init   = its_enable_renesas_rcar_gic_its,
+> +	},
+
+Huh. This describes a GIC600 implemented by ARM. Which means your are
+actively forcing your quirk on *every* implementations, including
+those that are not affected by this hardware issue. Definitely not
+acceptable.
+
+>  #endif
+>  	{
+>  		.desc   = "ITS: non-coherent attribute",
+> @@ -4974,7 +4993,7 @@ static int its_init_domain(struct its_node *its)
+>  	struct irq_domain *inner_domain;
+>  	struct msi_domain_info *info;
+>  
+> -	info = kzalloc(sizeof(*info), GFP_KERNEL);
+> +	info = kzalloc(sizeof(*info), GFP_KERNEL | its_gfp_quirk);
+
+Kernel memory only.
+
+>  	if (!info)
+>  		return -ENOMEM;
+>  
+> @@ -5011,7 +5030,7 @@ static int its_init_vpe_domain(void)
+>  
+>  	entries = roundup_pow_of_two(nr_cpu_ids);
+>  	vpe_proxy.vpes = kcalloc(entries, sizeof(*vpe_proxy.vpes),
+> -				 GFP_KERNEL);
+> +				 GFP_KERNEL | its_gfp_quirk);
+>  	if (!vpe_proxy.vpes)
+>  		return -ENOMEM;
+>  
+> @@ -5108,7 +5127,7 @@ static int __init its_probe_one(struct its_node *its)
+>  		}
+>  	}
+>  
+> -	page = alloc_pages_node(its->numa_node, GFP_KERNEL | __GFP_ZERO,
+> +	page = alloc_pages_node(its->numa_node, GFP_KERNEL | __GFP_ZERO | its_gfp_quirk,
+>  				get_order(ITS_CMD_QUEUE_SZ));
+>  	if (!page) {
+>  		err = -ENOMEM;
+> @@ -5352,7 +5371,7 @@ static struct its_node __init *its_node_init(struct resource *res,
+>  
+>  	pr_info("ITS %pR\n", res);
+>  
+> -	its = kzalloc(sizeof(*its), GFP_KERNEL);
+> +	its = kzalloc(sizeof(*its), GFP_KERNEL | its_gfp_quirk);
+
+Kernel memory only.
+
+>  	if (!its)
+>  		goto out_unmap;
+>  
+> @@ -5520,7 +5539,7 @@ static void __init acpi_table_parse_srat_its(void)
+>  		return;
+>  
+>  	its_srat_maps = kmalloc_array(count, sizeof(struct its_srat_map),
+> -				      GFP_KERNEL);
+> +				      GFP_KERNEL | its_gfp_quirk);
+
+Kernel memory only.
+
+>  	if (!its_srat_maps)
+>  		return;
+>  
+
+I suggest that you start reading the architecture spec and understand
+what is the memory that is accessible by the GIC, because at least
+half of this patch is completely unnecessary.
+
+You also need to be clear about what is affected by this bug: ITS
+only? or also the RDs?  If both are affected, they need to be handled
+separately.
+
+In any case, you must not assume that all ITSs in a system are
+subjected to this bug, which means that you must have per-ITS tracking
+of the GFP flags.
+
+Finally, the DMA story itself needs to be sorted out, because you are
+relying on something that is incredibly fragile.
+
+HTH,
+
+	M.
+
+-- 
+Without deviation from the norm, progress is not possible.
 
