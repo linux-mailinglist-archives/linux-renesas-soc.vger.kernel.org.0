@@ -1,73 +1,73 @@
-Return-Path: <linux-renesas-soc+bounces-2773-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-2774-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE80D854AE8
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Feb 2024 15:00:04 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 48316854AEC
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Feb 2024 15:00:15 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5C2681F23B5E
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Feb 2024 13:59:49 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DBB7D28B743
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Feb 2024 14:00:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A26E65821C;
-	Wed, 14 Feb 2024 13:58:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1252859146;
+	Wed, 14 Feb 2024 13:58:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="ktj9XpNg"
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="MqYS4Ijb"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DB3F56762
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 14 Feb 2024 13:58:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 260E158205
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 14 Feb 2024 13:58:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707919132; cv=none; b=lCGr6cGIZKh8j+ZLu2mbooGvJXW2+P7uMwBSJFmLE3QPyPGg4I7nRLarlfLgC1eD1GqPXxiwlT1ymYqjbi0tjd8MQzVIgZl9XijU/GOdmo2pDtsPd0FiygOUhILJo5l4OxcsPEKPPinJaJonH7wcYQXdyxyZm/6yletI68KFpwg=
+	t=1707919134; cv=none; b=tI4iWfj0phaLaRe5Q8WtW9PPL4v2MxtnnWaC2PnuM4VSxKLwfN9C1RScbk8AbRDXup2Q9Oj/27f1Uq/5Mr9il/wK4ib9jc8Dx24a4X43+c5RlLMDm/fFVNoTxw8oSwBx0nd7Ul4EuFr2gkyP09zVjRww57xS2UxQCFWcCbD6nJM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707919132; c=relaxed/simple;
-	bh=wnlg4QGrQEl2lf/wneDFeuxaosgd0VZwoBy1W/C0T20=;
+	s=arc-20240116; t=1707919134; c=relaxed/simple;
+	bh=rcPnG5KBmIB3G2fdjvqQyKleIdh/hUEQXg7DZEDQHKA=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=iz4GxYr0YS7KtBOD2h097lViR9x6OEUSspNlsaKA9Ncmn1fhaqv5PaPTzbPGseeBgLcwqFCqBxjLSVajh2e33dEOX1YrXr9Urj+BYw0pyR150tnoxzbOk4Urdo0BKU84PQtekKHwnv2h7GqlcAOPqphurquDLl8C+r1hx1o/Zck=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=ktj9XpNg; arc=none smtp.client-ip=209.85.221.51
+	 MIME-Version; b=KDc8C0y79PfbbawHlO2MHcVEK1FNIG+5a7SxiS2RKFP3A1QiM+UOjqUmjkW/+A5fIOFo5ffQQu2nZkU6R0AgkdIEv0Lt5d1FtQBWXPR/NveyHsSUL12ryAZqlZs0qDz5CR1lVHNc70Vd/zjQT6mgUi6F3UAIQ384IcaelCm1H4Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=MqYS4Ijb; arc=none smtp.client-ip=209.85.221.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-33adec41b55so1247372f8f.0
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 14 Feb 2024 05:58:50 -0800 (PST)
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-33b66a7f859so2165986f8f.3
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 14 Feb 2024 05:58:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1707919129; x=1708523929; darn=vger.kernel.org;
+        d=tuxon.dev; s=google; t=1707919130; x=1708523930; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=/+KL3xYD2KV9ccdF0IlWQQ5cKlAvwz63tr09eDb/NXs=;
-        b=ktj9XpNgG+zKVFPa8riZq10PEJvNdN1lEQrPYoU9t7274+Jz1UUKoPb5+wsby+qdOD
-         uFD5HB+znGeDjKFbC1HCaxoB+TdFyvUC8e9ugDnuGs4UbShxRtoxE5lpmeyGB0qSc+Us
-         CeGBKLMOApFyMpaWipp9nDzKeYiN5WNjJgkc0sL9/mZEdUxK5bYMSJdkzgksUnkyDCrR
-         weJYEFbCAjvOUp/1CpRsPyy3xlnEOpRi1FQ83a3gD6htSnlrRDdp0PWduA2PNfhyTW0c
-         pZnal7acnVbVO1HoMR9UZyEW7mnSBrUf5rq8b6TFro0EO0XHlu12/iTiVkERHANVgR73
-         jSJA==
+        bh=yUpbsmqd6qgdpA6pLSTrT7SxbTG5IveZrPaHGowSSOA=;
+        b=MqYS4IjbfWEb8jRHuHI3wSkWZbM/ok8qD0atTWnExWJnZv7x/R2C+QQIUEtf43hXD7
+         iOb3G/shRdiQQpj/kJEihSrYv3pN0UhMOJEgSdlAF06XvlwOM/PEkNAqa1X5eK/AF29Z
+         gnKDkmtxssOB3b8VPmU/+nGXyW6vvaqTLTeqFFqKE1xf8K3MnbT7gVaV/U6LJhNOt0SY
+         8+eHeZncN+HtUs1ZPpMvzLtNG8oMLZX0L20QJKYPHl1GNslxBu2kieg9nofr+4EKCccg
+         tWZAy89pfGxKU81vuDbYp2cMlIknIwTVtMJ+fXGFIwtFzaU4tI6exYGag+kBsksdAp+U
+         FVeA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707919129; x=1708523929;
+        d=1e100.net; s=20230601; t=1707919130; x=1708523930;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=/+KL3xYD2KV9ccdF0IlWQQ5cKlAvwz63tr09eDb/NXs=;
-        b=leXV28i/SRQE0gBLR1ci88HD6v0dT6xk3VMQWUYHwP5lx/K/TTH/Ql8xfb65NxlZDA
-         rDypxT5lSmZlJwKEZdyS0vHG45lRAEKTgs8qijHa1hsVujtoH/6S8Zr7Fa8TUBc8iq6t
-         JHd0UZ1VPWpCcruE6KRENnUQA8vDWboWp5HhjStdoUB/qoRgjXrOcg04g7EmQrT73WWC
-         +3dithyCePrXaO2nCHMgYNv2vea+5Yu4XZiD7y2+VkRdccgCOpWQiSB2oySMg5yNLeS0
-         W8X68Upuo7yFvydR7njo5s3nL2F1a+m7czSmNhUwtw7EKQSseSPlImY6h9o936oTq+6e
-         iDRw==
-X-Forwarded-Encrypted: i=1; AJvYcCVOwraiqWrkSKeStNtnmdINNY/3kOwvtqLBHQxLwOP69qn7RrX/vitYupbwYe2f0ZaBqhDrHIe1IImVXXvNwe3HJK/SRfUCr21FEa2ekntpmvs=
-X-Gm-Message-State: AOJu0Yxsgs4+XtQZUOCKl6q5fU7g2yMscX0j2gLKXH9v65/6HboUj6iw
-	WMj241+LmmDhdw82kIyAFJw4amm5PkKDr3DbsC2xJdE5v1BYAEFBdQZ0+c7Cxwo=
-X-Google-Smtp-Source: AGHT+IHELOpjxVGsf+kNIAsbMq609PyNVWHE454M79HMOU3+X2yiHoSCv/2AvMySS6E5mv1CU7UwTw==
-X-Received: by 2002:a5d:610e:0:b0:33c:da61:471b with SMTP id v14-20020a5d610e000000b0033cda61471bmr1890825wrt.31.1707919128948;
-        Wed, 14 Feb 2024 05:58:48 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCX727mqEx6He4qTbpcq0xxT1vuZAEHgkwTppk6XPYjW7HRb1gDNX5gfhjdDk6TqkFNRVnU1AyNW1PmaWFnYYRED0m0VVdiOfHnZ2eiYW6oIFomHh4Rbq0zWuR6bw1+RXgpyPNwy54tuc3aKmMgOBu+b+kEiL+bSMYjkLqG78jXtd7xV7rLYBkOOZtDGzkKIG6QxJmZihhCne4fCN+2Ad3Vqm4PlGDjV2hidri5mXzj9FPhJ5rwKy9ch+KeNAtFPbKj9H3FVgiRytJX778Bxi3d9d3uuyVCKhDWNdGGVTRDFuj1vSBii/lPMfgAlM3+hS+vdpUMof0bpbGM00Vc5NntwSIJ8KRsiY/zZmFK8DnzLwUD4XaSy
+        bh=yUpbsmqd6qgdpA6pLSTrT7SxbTG5IveZrPaHGowSSOA=;
+        b=qgwnYDzh4dVpuQ/H/EMMmLk/M2fGdDriECadXEp9ME4A8y6Ak/ftIyoKcu4arXAvxJ
+         skKwgrWuDps+fqAlprdKRtK+o37UMBb5h5qNyuJiArAvjNL3WzmhR2MvPbbjb+BmA/Xu
+         tU/AUghKJ2GL1w4eZzDnx1gWlAoEdytXwn+sH+xlyLqGjwKebV6Djvuj9ZiAntG3hVUm
+         n1yioTT7ApejFwfFQAa1Kkn4c0kQ4o3nmG04cgIOeFFbMHpyrTNmRKbiwSQ8tv73DuTH
+         tVVXit6z4InWtWkLflnd9tT6x3sCTKbIQT3JHYQsoOmqU3q8SyQKPiom/wRJ1Gr8oC0k
+         ZfgQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUvW9Xy23xtRRQNXo6niavVloGRnMnjhLB1Own7j0aVytuC32hPsUqDqMWCk8AIf8BpKlyvKlxLVlS3MjdFFUkPUmMoScTVyNA1M2iUVABzkUY=
+X-Gm-Message-State: AOJu0YwL2EFjNF9RGKw1CiaVqgKDNfXeOR8iH6XuFDP7b3DqDSnZEEAd
+	++A6U2U6zMh3AhuUEVCGR961CGABngo5ttPceE0pcWnNG8OhPoVfmvs6bGmqATE=
+X-Google-Smtp-Source: AGHT+IE/6fQ4te5HlXdAOPn/bIV62FpzVqhYUoxEsHgbh6FfbDRDVInPNvw9FWgWNlyU5DYewxn1Jg==
+X-Received: by 2002:adf:d1e6:0:b0:33c:ee7c:c433 with SMTP id g6-20020adfd1e6000000b0033cee7cc433mr1602489wrd.22.1707919130208;
+        Wed, 14 Feb 2024 05:58:50 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCV2GDfa5HsntXhjNa5oc85h5mHyVdzd1lkbvs0rAtM9EkIBcdVPip7bn6ioIOM4tjncSIsfAFbFUrbWizDwBOpXrJ9jSCfsXC3Qq+hRXYE5dsOqMX/G6EAS2wltMCSeP17FpT4YSl5zAG3gc+ugE2HDnxifnAozbNf1SrTWJhizPrhKwjW5NnTkKkmDdnn99mw+hhQ79bUp+VHuqcjwKXg7GaWOaq8/JrreCqIx9394bRT53hw0EfzP/P879OIthzUuctr0EllTu6/FLESsv9l1ijZw5osk2wAQw7EfG0Vwbj3Cm+prWSEBh/mNW7Pbvz2S5JJV2AOhWijd4Xm2hrRuVCUh39FMvKfcBzkt6jLIrwBvNX3x
 Received: from claudiu-X670E-Pro-RS.. ([82.78.167.20])
-        by smtp.gmail.com with ESMTPSA id f15-20020adff58f000000b0033cdbebfda7sm4282140wro.14.2024.02.14.05.58.47
+        by smtp.gmail.com with ESMTPSA id f15-20020adff58f000000b0033cdbebfda7sm4282140wro.14.2024.02.14.05.58.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 14 Feb 2024 05:58:48 -0800 (PST)
+        Wed, 14 Feb 2024 05:58:49 -0800 (PST)
 From: Claudiu <claudiu.beznea@tuxon.dev>
 X-Google-Original-From: Claudiu <claudiu.beznea.uj@bp.renesas.com>
 To: s.shtylyov@omp.ru,
@@ -81,9 +81,9 @@ Cc: netdev@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	claudiu.beznea@tuxon.dev,
 	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-Subject: [PATCH net-next v4 4/6] net: ravb: Move the update of ndev->features to ravb_set_features()
-Date: Wed, 14 Feb 2024 15:57:58 +0200
-Message-Id: <20240214135800.2674435-5-claudiu.beznea.uj@bp.renesas.com>
+Subject: [PATCH net-next v4 5/6] net: ravb: Do not apply features to hardware if the interface is down
+Date: Wed, 14 Feb 2024 15:57:59 +0200
+Message-Id: <20240214135800.2674435-6-claudiu.beznea.uj@bp.renesas.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20240214135800.2674435-1-claudiu.beznea.uj@bp.renesas.com>
 References: <20240214135800.2674435-1-claudiu.beznea.uj@bp.renesas.com>
@@ -97,75 +97,78 @@ Content-Transfer-Encoding: 8bit
 
 From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 
-Commit c2da9408579d ("ravb: Add Rx checksum offload support for GbEth")
-introduced support for setting GbEth features. With this the IP-specific
-features update functions update the ndev->features individually.
+Do not apply features to hardware if the interface is down. In case runtime
+PM is enabled, and while the interface is down, the IP will be in reset
+mode (as for some platforms disabling the clocks will switch the IP to
+reset mode, which will lead to losing register contents) and applying
+settings in reset mode is not an option. Instead, cache the features and
+apply them in ravb_open() through ravb_emac_init().
 
-Next commits add runtime PM support for the ravb driver. The runtime PM
-implementation will enable/disable the IP clocks on
-the ravb_open()/ravb_close() functions. Accessing the IP registers with
-clocks disabled blocks the system.
+To avoid accessing the hardware while the interface is down
+pm_runtime_active() check was introduced. Along with it the device runtime
+PM usage counter has been incremented to avoid disabling the device clocks
+while the check is in progress (if any).
 
-The ravb_set_features() function could be executed when the Ethernet
-interface is closed so we need to ensure we don't access IP registers while
-the interface is down when runtime PM support will be in place.
-
-For these, move the update of ndev->features to ravb_set_features(). In
-this way we update the ndev->features only when the IP-specific features
-set function returns success and we can avoid code duplication when
-introducing runtime PM registers protection.
+Commit prepares for the addition of runtime PM.
 
 Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 ---
 
 Changes in v4:
-- remove unnecessary code
-- updated the patch description
+- simplified the code
+- didn't collect the Sergey's tag as the code was changed
 
 Changes in v3:
+- updated patch title and description
+- updated patch content due to patch 4/6
+
+Changes in v2:
+- fixed typo in patch description
+- adjusted ravb_set_features_gbeth(); didn't collect the Sergey's Rb
+  tag due to this 
+
+Changes since [2]:
+- use pm_runtime_get_noresume() and pm_runtime_active() and updated the
+  commit message to describe that
+- fixed typos
+- s/CSUM/checksum in patch title and description
+
+Changes in v3 of [2]:
+- this was patch 20/21 in v2
+- fixed typos in patch description
+- removed code from ravb_open()
+- use ndev->flags & IFF_UP checks instead of netif_running()
+
+Changes in v2 of [2]:
 - none; this patch is new
 
- drivers/net/ethernet/renesas/ravb_main.c | 12 ++++++++----
- 1 file changed, 8 insertions(+), 4 deletions(-)
+ drivers/net/ethernet/renesas/ravb_main.c | 11 ++++++++++-
+ 1 file changed, 10 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
-index 7a7f743a1fef..ac23779d1cc5 100644
+index ac23779d1cc5..6f0677d1adee 100644
 --- a/drivers/net/ethernet/renesas/ravb_main.c
 +++ b/drivers/net/ethernet/renesas/ravb_main.c
-@@ -2542,7 +2542,6 @@ static int ravb_set_features_gbeth(struct net_device *ndev,
- 			goto done;
- 	}
- 
--	ndev->features = features;
- done:
- 	spin_unlock_irqrestore(&priv->lock, flags);
- 
-@@ -2557,8 +2556,6 @@ static int ravb_set_features_rcar(struct net_device *ndev,
- 	if (changed & NETIF_F_RXCSUM)
- 		ravb_set_rx_csum(ndev, features & NETIF_F_RXCSUM);
- 
--	ndev->features = features;
--
- 	return 0;
- }
- 
-@@ -2567,8 +2564,15 @@ static int ravb_set_features(struct net_device *ndev,
+@@ -2564,9 +2564,18 @@ static int ravb_set_features(struct net_device *ndev,
  {
  	struct ravb_private *priv = netdev_priv(ndev);
  	const struct ravb_hw_info *info = priv->info;
-+	int ret;
-+
-+	ret = info->set_feature(ndev, features);
-+	if (ret)
-+		return ret;
++	struct device *dev = &priv->pdev->dev;
+ 	int ret;
  
--	return info->set_feature(ndev, features);
-+	ndev->features = features;
+-	ret = info->set_feature(ndev, features);
++	pm_runtime_get_noresume(dev);
 +
-+	return 0;
- }
++	if (pm_runtime_active(dev))
++		ret = info->set_feature(ndev, features);
++	else
++		ret = 0;
++
++	pm_runtime_put_noidle(dev);
++
+ 	if (ret)
+ 		return ret;
  
- static const struct net_device_ops ravb_netdev_ops = {
 -- 
 2.39.2
 
