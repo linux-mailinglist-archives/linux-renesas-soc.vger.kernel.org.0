@@ -1,152 +1,145 @@
-Return-Path: <linux-renesas-soc+bounces-2784-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-2785-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FD5D854C4E
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Feb 2024 16:13:50 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id D7527854C93
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Feb 2024 16:24:19 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 38B521F29C41
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Feb 2024 15:13:50 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 73BB01F21159
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Feb 2024 15:24:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 078A55D47F;
-	Wed, 14 Feb 2024 15:12:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9F5D65C602;
+	Wed, 14 Feb 2024 15:24:16 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E30675D461;
-	Wed, 14 Feb 2024 15:12:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.171
+Received: from mail-yb1-f182.google.com (mail-yb1-f182.google.com [209.85.219.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8F265380F;
+	Wed, 14 Feb 2024 15:24:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707923576; cv=none; b=WMv0exIe3+qH2dx3vKXKnM4Qmwx0w7FhMef0zPSEo/AUO6IjS4Oy/87KazvTkBlrFBRU1kJe9nsfKg4FxOwH/XgdQFabdsjQDR0PbgFCEz/W8/U7+W8wRnPNt6EljeMMpBDy7jkhtYlmFpBgrfCnheBwMiZ7hD7GEF+g0fggHfY=
+	t=1707924256; cv=none; b=RQFBMAuiKR4bxkuMkbpCUegbPR/cwQwSQQaRP8DLg/acpdDGFzKIEMSv1Vu4CB5bWnMOG1EQve4P9mo4u8waDiXQSW1fiFsK42UrGwwxNonlQxcKvlz+CTwXULi0Wu1/nrJ6jA6M7U2mnJd8/epYmMX6797pT7XBOnig2XSxjqw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707923576; c=relaxed/simple;
-	bh=Fm4f8S9D3dClviZZAq026dnWtTRMEFW8SuKQ8DQrHI4=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=G9G7Zb590v3xxPYQq5rsa8eHP0GPnBp1mDEEIpoPKZnU5jwFG17yRhARuMqJ9WHq6VE7yf7WkRNL5czMV9udZTq7e+HrvTXTygAlUc92Zq2GfxNhGBZwk0q3BYas7zGPzExdkXQb/DY4WvSBFql4kZkEnuoaC8J+h6zhztMCat4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
-X-IronPort-AV: E=Sophos;i="6.06,159,1705330800"; 
-   d="scan'208";a="193932772"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie5.idc.renesas.com with ESMTP; 15 Feb 2024 00:12:46 +0900
-Received: from renesas-deb12.cephei.uk (unknown [10.226.93.104])
-	by relmlir5.idc.renesas.com (Postfix) with ESMTP id 4785B4005460;
-	Thu, 15 Feb 2024 00:12:41 +0900 (JST)
-From: Paul Barker <paul.barker.ct@bp.renesas.com>
-To: Sergey Shtylyov <s.shtylyov@omp.ru>,
-	"David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>
-Cc: Paul Barker <paul.barker.ct@bp.renesas.com>,
-	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-	Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Nikita Yushchenko <nikita.yoush@cogentembedded.com>,
-	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	netdev@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH net v3] net: ravb: Count packets instead of descriptors in GbEth RX path
-Date: Wed, 14 Feb 2024 15:12:04 +0000
-Message-Id: <20240214151204.2976-1-paul.barker.ct@bp.renesas.com>
-X-Mailer: git-send-email 2.39.2
+	s=arc-20240116; t=1707924256; c=relaxed/simple;
+	bh=z22C5eDDUTTe9szBWz3omteky29rE85KJIvfgtvFM8Y=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=OaXLynvqviClMhmGOhIYcN7CIcvBvHrDv4H/FhA2Etm/ajv8de0e+OCDR28F88MGxGpRdiRQF5A1f1A73mCLwLm+2Nn8RLkqZeLtmELEZiqPTv7J4n3HsqNlGRqaXMVp0ph5iUM6FF/RedKpj48HGTp2cRf3RV+iKTf0uMlvzhQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.219.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yb1-f182.google.com with SMTP id 3f1490d57ef6-dc238cb1b17so5369935276.0;
+        Wed, 14 Feb 2024 07:24:14 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1707924253; x=1708529053;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=b4LBEo7R0hSPIqQp/A3corERzBFJ1CJEW7Ujl6/XLAg=;
+        b=X1WcoWWLOyRkZz3Zw85mC4n7BNl9PHbku+MzBCAlzXFLe43mPvn/ylvHaXS/1Umfc6
+         T+wdAhWZ3SiqcRj0VZt4oiddKjFHf6JDGR23tc9TziSXe1zzmCQiZ2IMhKhN2hsQM17i
+         7OtTfRQLCa0WxfkZN7SlMHfxukm0L3OdrCQIJkwJ9gJsM2lA3D7QNknudEkBnKylJSNJ
+         a1g6x00O4vVmqx6sK7Q9FEBmKIgixPyv7q3c9sgam31xAJfpRcmCeRMftxAJABXBrcJb
+         YteOKX+LLDu/8f04MdQbmXTH5l5HOJ/FcKS2qPrkn3UbmlyKiFGZAflO40GDeoo7GRXB
+         C4TA==
+X-Forwarded-Encrypted: i=1; AJvYcCX0zpgyW9rDJiw8IU4u2NEMYMEbmVa7wf6esWzAml3EdTsPab52mycZNo5c7ULPEPxvvMfQ/mNWOdu1ij455/kp96x7LK+K2kw9WAQX7JBv79nAgJnES3AP4F2JqDou5cgUPCyFWxoEjJePvLM=
+X-Gm-Message-State: AOJu0YwANJWRF8AI/1r0DINgvWOhOAcn3k7orDCfxCwR8g2qb2Qf0iNx
+	1zucasT2ed7nl9F7OhspVWdSHqhUuLeWf4L0gpqSrmqSrkjUdfFJ01ms0f/OZwI=
+X-Google-Smtp-Source: AGHT+IEoadSLdEc/PIGiaHIS7TbjN3O5MPLjcEDFc6TScPymW1rofaB0zaCuAzdBwTc63Wh0hoYF4g==
+X-Received: by 2002:a0d:db83:0:b0:604:93a9:386a with SMTP id d125-20020a0ddb83000000b0060493a9386amr2598751ywe.39.1707924253145;
+        Wed, 14 Feb 2024 07:24:13 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCVWMPhaT/ihWaDMu5B/NIwPtdwFaxUhwTvK26FU758NQNzG041dON8sDQ3KIZf9uKvDHnul5Dxn6+Sl4IuC9NAuaskWVtsGjskLzLAnzntgSjAEO9E7hMTCG8Cxl981SQMJMRGwZ0SjszLlYv4=
+Received: from mail-yb1-f169.google.com (mail-yb1-f169.google.com. [209.85.219.169])
+        by smtp.gmail.com with ESMTPSA id h84-20020a815357000000b00607b5cb115bsm133185ywb.51.2024.02.14.07.24.12
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 14 Feb 2024 07:24:13 -0800 (PST)
+Received: by mail-yb1-f169.google.com with SMTP id 3f1490d57ef6-dc238cb1b17so5369906276.0;
+        Wed, 14 Feb 2024 07:24:12 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCUTnFEBeFKrylLBIMWGyEvLa87YgYh/LhI6Rg8zxziHHl2x0r95H580jTkbo9MP6g5VdN+cACgeSIZ5qThNwYnXqYrQfIXUS97+o1bK1RH8asPWL7H2wzLtErk2mPSX4JBCdw4ga8vv89/lYKM=
+X-Received: by 2002:a25:2183:0:b0:dc7:32ae:f0a with SMTP id
+ h125-20020a252183000000b00dc732ae0f0amr2428175ybh.65.1707924252702; Wed, 14
+ Feb 2024 07:24:12 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20240214052122.1966506-1-yoshihiro.shimoda.uh@renesas.com>
+In-Reply-To: <20240214052122.1966506-1-yoshihiro.shimoda.uh@renesas.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Wed, 14 Feb 2024 16:24:01 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdVBCEV_MhqU8CHBSdMecYAgktwOaxwn_KmZjsf0y8rhHw@mail.gmail.com>
+Message-ID: <CAMuHMdVBCEV_MhqU8CHBSdMecYAgktwOaxwn_KmZjsf0y8rhHw@mail.gmail.com>
+Subject: Re: [PATCH] PCI: rcar-gen4: Add vendor-specific registers' setting
+ for MSI-X
+To: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc: lpieralisi@kernel.org, kw@linux.com, robh@kernel.org, bhelgaas@google.com, 
+	linux-pci@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The units of "work done" in the RX path should be packets instead of
-descriptors, as large packets can be spread over multiple descriptors.
+Hi Shimoda-san,
 
-Fixes: 1c59eb678cbd ("ravb: Fillup ravb_rx_gbeth() stub")
-Signed-off-by: Paul Barker <paul.barker.ct@bp.renesas.com>
----
-This patch has been broken out from my previous series "Improve GbEth
-performance on Renesas RZ/G2L and related SoCs" and submitted as a
-bugfix as requested by Sergey. I've labeled it as 'v3' so the ordering
-is clear. Remaining patches from the series will follow once we've done
-gPTP testing.
+On Wed, Feb 14, 2024 at 6:22=E2=80=AFAM Yoshihiro Shimoda
+<yoshihiro.shimoda.uh@renesas.com> wrote:
+> This controller with GICv3 ITS can handle MSI-X, but it needs
+> to set vendor-specific registers by using the MSI address value.
+> To get the address, add .post_init() for it.
+>
+> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 
- drivers/net/ethernet/renesas/ravb_main.c | 22 +++++++++-------------
- 1 file changed, 9 insertions(+), 13 deletions(-)
+Thanks for your patch!
 
-diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
-index 0e3731f50fc2..f7566cfa45ca 100644
---- a/drivers/net/ethernet/renesas/ravb_main.c
-+++ b/drivers/net/ethernet/renesas/ravb_main.c
-@@ -772,29 +772,25 @@ static bool ravb_rx_gbeth(struct net_device *ndev, int *quota, int q)
- 	struct ravb_rx_desc *desc;
- 	struct sk_buff *skb;
- 	dma_addr_t dma_addr;
-+	int rx_packets = 0;
- 	u8  desc_status;
--	int boguscnt;
- 	u16 pkt_len;
- 	u8  die_dt;
- 	int entry;
- 	int limit;
-+	int i;
- 
- 	entry = priv->cur_rx[q] % priv->num_rx_ring[q];
--	boguscnt = priv->dirty_rx[q] + priv->num_rx_ring[q] - priv->cur_rx[q];
-+	limit = priv->dirty_rx[q] + priv->num_rx_ring[q] - priv->cur_rx[q];
- 	stats = &priv->stats[q];
- 
--	boguscnt = min(boguscnt, *quota);
--	limit = boguscnt;
- 	desc = &priv->gbeth_rx_ring[entry];
--	while (desc->die_dt != DT_FEMPTY) {
-+	for (i = 0; i < limit && rx_packets < *quota && desc->die_dt != DT_FEMPTY; i++) {
- 		/* Descriptor type must be checked before all other reads */
- 		dma_rmb();
- 		desc_status = desc->msc;
- 		pkt_len = le16_to_cpu(desc->ds_cc) & RX_DS;
- 
--		if (--boguscnt < 0)
--			break;
--
- 		/* We use 0-byte descriptors to mark the DMA mapping errors */
- 		if (!pkt_len)
- 			continue;
-@@ -820,7 +816,7 @@ static bool ravb_rx_gbeth(struct net_device *ndev, int *quota, int q)
- 				skb_put(skb, pkt_len);
- 				skb->protocol = eth_type_trans(skb, ndev);
- 				napi_gro_receive(&priv->napi[q], skb);
--				stats->rx_packets++;
-+				rx_packets++;
- 				stats->rx_bytes += pkt_len;
- 				break;
- 			case DT_FSTART:
-@@ -848,7 +844,7 @@ static bool ravb_rx_gbeth(struct net_device *ndev, int *quota, int q)
- 					eth_type_trans(priv->rx_1st_skb, ndev);
- 				napi_gro_receive(&priv->napi[q],
- 						 priv->rx_1st_skb);
--				stats->rx_packets++;
-+				rx_packets++;
- 				stats->rx_bytes += pkt_len;
- 				break;
- 			}
-@@ -887,9 +883,9 @@ static bool ravb_rx_gbeth(struct net_device *ndev, int *quota, int q)
- 		desc->die_dt = DT_FEMPTY;
- 	}
- 
--	*quota -= limit - (++boguscnt);
--
--	return boguscnt <= 0;
-+	stats->rx_packets += rx_packets;
-+	*quota -= rx_packets;
-+	return *quota == 0;
- }
- 
- /* Packet receive function for Ethernet AVB */
--- 
-2.43.1
+> --- a/drivers/pci/controller/dwc/pcie-rcar-gen4.c
+> +++ b/drivers/pci/controller/dwc/pcie-rcar-gen4.c
 
+> @@ -297,6 +304,25 @@ static int rcar_gen4_pcie_host_init(struct dw_pcie_r=
+p *pp)
+>         return 0;
+>  }
+>
+> +static void rcar_gen4_pcie_host_post_init(struct dw_pcie_rp *pp)
+> +{
+> +       struct dw_pcie *dw =3D to_dw_pcie_from_pp(pp);
+> +       struct rcar_gen4_pcie *rcar =3D to_rcar_gen4_pcie(dw);
+> +       struct irq_data *data;
+> +       struct pci_dev *dev;
+> +       struct msi_msg msg;
+> +
+> +       if (pp->has_msi_ctrl)
+> +               return;
+> +
+> +       list_for_each_entry(dev, &pp->bridge->bus->devices, bus_list) {
+> +               data =3D irq_get_irq_data(dev->irq);
+
+If CONFIG_PCIEPORTBUS is disabled, data is NULL, causing a crash below.
+
+I haven't found where exactly the irq data is filled in, and don't know
+where/how the dependency on CONFIG_PCIEPORTBUS should be expressed.
+
+> +               __pci_read_msi_msg(irq_data_get_msi_desc(data), &msg);
+> +               writel(msg.address_lo, rcar->base + AXIINTCADDR);
+> +               writel(AXIINTCCONT_VAL, rcar->base + AXIINTCCONT);
+> +       }
+> +}
+> +
+>  static void rcar_gen4_pcie_host_deinit(struct dw_pcie_rp *pp)
+>  {
+>         struct dw_pcie *dw =3D to_dw_pcie_from_pp(pp);
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
