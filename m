@@ -1,113 +1,124 @@
-Return-Path: <linux-renesas-soc+bounces-2751-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-2752-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id DED76854650
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Feb 2024 10:43:26 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 86F99854747
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Feb 2024 11:39:02 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 6362DB269CC
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Feb 2024 09:43:24 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 25D671F225F9
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Feb 2024 10:39:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 477E414A93;
-	Wed, 14 Feb 2024 09:43:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D5A8110A3C;
+	Wed, 14 Feb 2024 10:38:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="yfTWt3rT"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NM4tcHce"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DE9A13AD8;
-	Wed, 14 Feb 2024 09:43:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A42B418635;
+	Wed, 14 Feb 2024 10:38:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707903792; cv=none; b=aCf/+rjO8d+iIzR2qAIFZ5PSBIInjBGBP1LZtAb5QTiM4WUpKCYrO2384UAV70JGMIQeO17vpYVMR6jq3tXfOrcCX6qrGnDw3mRZMl9LPpBEwa39wtHM4Fd1WBC2ITRQTXiP3rXglyJ1PX2NpLKiUGZ33dkB5y9IX6kXaw9U4UA=
+	t=1707907139; cv=none; b=np+6X3qzsbj/GFiYJ8ycgOGoZ9FQ0REFDu2gfJOH9Z+TBTiIYIEM86wWCLm+xQBE274Wtywn3gJ+rRXVl2juvV6YYmSN1D65OaQF3+IWc+ZEl1akG0H3v0WGnU+3YDzLOnvZOnrbQnlennqxM9r5EC/Di37BzRmcTwoHbVgqku0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707903792; c=relaxed/simple;
-	bh=/5hVSHktuXKBdFSneU+sqS55ktsDEcZtWY02THLUTWE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=p9ZodUoNGWc5S0Ef9fmPvCqDDMDZfVYNNAF1VWfH+65vi35K2tbIu2v9FAVU0WPfipxmgbGVbycE8/E0fU9fORbIPvjAX2cvzE+Q6lycqUSjtHvnp45webS09atIDfsHjhR98k71md91CMkc2HyXHvoqCfSDhDzoCbSoJUmHh4A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=yfTWt3rT; arc=none smtp.client-ip=46.235.227.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1707903788;
-	bh=/5hVSHktuXKBdFSneU+sqS55ktsDEcZtWY02THLUTWE=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=yfTWt3rThwEwUs2ZhQXKOg/ftYHcebsEIvFiVe9kcFlJsq3PvOoV5aTO1Ut0cTEb+
-	 4LpagApuIW8w6OMGDwh/OFgCdSgzZ+Pl6Rvh9l+9Svfv5yZBcmUThzaqS12BLBP986
-	 5Kn3zsAPkhY/4Asr5Azpq/DFjitOUdoLq88z5P00ESykYqhZXXvvCD1D/dCizNpyqr
-	 CGwG6rXsUKk4C4NvWCi5V7GXqB19sVHXfFTK8P+hlqeIWYS2YU6u7a4G/04Kro5fbX
-	 ta9AZTeZatefM84NA0SvCaSfIhCejpWRssvwGIGJRcslQ2YRVm2jbD3uUSjeCVhrf4
-	 tXmJ9S86cqstA==
-Received: from [100.113.186.2] (cola.collaboradmins.com [195.201.22.229])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: kholk11)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 81E293781FEF;
-	Wed, 14 Feb 2024 09:43:05 +0000 (UTC)
-Message-ID: <50342623-9955-4471-869c-1343abe4a2c0@collabora.com>
-Date: Wed, 14 Feb 2024 10:43:03 +0100
+	s=arc-20240116; t=1707907139; c=relaxed/simple;
+	bh=eslzQormGDUUKR6M3wUfA/wR65g2VVIMI2OcUV5+luQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=sGmiOxKTP5aigfW6Ejr05LluhYH4NDA2DiKCYH28SCxe0MXmw2dgsJhnok0jQrBeEVH4gPXeIG4bXq9xaXtLJp4Yo682pjSyAuSsA2OmEHBk/nb+MwpH09uub0KqAfYQppGKuQB+EXm4yoeNBxq9gor95lclggMSUhL3CC5oru4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NM4tcHce; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 55909C433C7;
+	Wed, 14 Feb 2024 10:38:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1707907139;
+	bh=eslzQormGDUUKR6M3wUfA/wR65g2VVIMI2OcUV5+luQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=NM4tcHcenWq1MQ46lCcjZguB2y0u9a08wBEfpVvvyTs7aHG6ltzW76Dp3veftpT3j
+	 i1Z8OUTTxKwVUAmyDMA+HXFG+VHMfUSpBXFYQKnXtfp4zAw9tSsPC4LsKRiXuq2zAg
+	 HvqopQ1KrOMmaeAddUivvw1SPeSBFS4rs/JYB6OWbu8LyMbywWfLlGHwIwSoPCUba+
+	 CR/KZxC/S7C6BvcQ6xEq1ZAT/XwXhgiHFAmVMnZNvfQpiBQ54hkBW5XE+iCSel8XF/
+	 fPXVUiky2QMlDUFAJiVqHbMLhldLNckU/yM4uw7ip+kHMlzdMUBZ1fj64JKT3Rpf6g
+	 dEPOCUfNAx76A==
+Date: Wed, 14 Feb 2024 11:38:47 +0100
+From: Niklas Cassel <cassel@kernel.org>
+To: Kishon Vijay Abraham I <kvijayab@amd.com>
+Cc: Richard Zhu <hongxing.zhu@nxp.com>,
+	Lucas Stach <l.stach@pengutronix.de>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
+	Rob Herring <robh@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	NXP Linux Team <linux-imx@nxp.com>,
+	Minghuan Lian <minghuan.Lian@nxp.com>,
+	Mingkai Hu <mingkai.hu@nxp.com>, Roy Zang <roy.zang@nxp.com>,
+	Srikanth Thokala <srikanth.thokala@intel.com>,
+	Marek Vasut <marek.vasut+renesas@gmail.com>,
+	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Jon Mason <jdmason@kudzu.us>, Dave Jiang <dave.jiang@intel.com>,
+	Allen Hubbe <allenbh@gmail.com>,
+	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+	Kishon Vijay Abraham I <kishon@kernel.org>,
+	Damien Le Moal <dlemoal@kernel.org>, Frank Li <Frank.Li@nxp.com>,
+	linux-pci@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linuxppc-dev@lists.ozlabs.org, linux-renesas-soc@vger.kernel.org,
+	linux-tegra@vger.kernel.org, ntb@lists.linux.dev
+Subject: Re: [PATCH 0/2] PCI endpoint BAR hardware description cleanup
+Message-ID: <ZcyYNzYo9HiQi4DY@x1-carbon>
+References: <20240210012634.600301-1-cassel@kernel.org>
+ <7a243a1e-6b47-bc2f-c538-b57db1c9c580@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/6] arm64: dts: Fix dtc interrupt_provider warnings
-Content-Language: en-US
-To: Rob Herring <robh@kernel.org>, soc@kernel.org,
- Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Tsahee Zidenberg <tsahee@annapurnalabs.com>,
- Antoine Tenart <atenart@kernel.org>, Joel Stanley <joel@jms.id.au>,
- Andrew Jeffery <andrew@codeconstruct.com.au>, Ray Jui <rjui@broadcom.com>,
- Scott Branden <sbranden@broadcom.com>,
- Broadcom internal kernel review list
- <bcm-kernel-feedback-list@broadcom.com>, Andrew Lunn <andrew@lunn.ch>,
- Gregory Clement <gregory.clement@bootlin.com>,
- Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
- =?UTF-8?Q?Jonathan_Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
- Thierry Reding <thierry.reding@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>, Stefan Agner <stefan@agner.ch>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- =?UTF-8?Q?Beno=C3=AEt_Cousson?= <bcousson@baylibre.com>,
- Tony Lindgren <tony@atomide.com>, Chanho Min <chanho.min@lge.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Magnus Damm <magnus.damm@gmail.com>, Linus Walleij <linusw@kernel.org>,
- Imre Kaloz <kaloz@openwrt.org>, Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>,
- Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor
- <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>
-Cc: linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
- openbmc@lists.ozlabs.org, linux-tegra@vger.kernel.org,
- linux-stm32@st-md-mailman.stormreply.com, linux-omap@vger.kernel.org,
- linux-mediatek@lists.infradead.org, linux-renesas-soc@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, linux-kbuild@vger.kernel.org
-References: <20240213-arm-dt-cleanups-v1-0-f2dee1292525@kernel.org>
- <20240213-arm-dt-cleanups-v1-3-f2dee1292525@kernel.org>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20240213-arm-dt-cleanups-v1-3-f2dee1292525@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <7a243a1e-6b47-bc2f-c538-b57db1c9c580@amd.com>
 
-Il 13/02/24 20:34, Rob Herring ha scritto:
-> The dtc interrupt_provider warning is off by default. Fix all the warnings
-> so it can be enabled.
+On Wed, Feb 14, 2024 at 09:47:54AM +0530, Kishon Vijay Abraham I wrote:
+> Hi Niklas,
 > 
-> Signed-off-by: Rob Herring <robh@kernel.org>
+> On 2/10/2024 6:56 AM, Niklas Cassel wrote:
+> > The series is based on top of:
+> > https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git/log/?h=endpoint
+> > 
+> > 
+> > Hello all,
+> > 
+> > This series cleans up the hardware description for PCI endpoint BARs.
+> > 
+> > The problems with the existing hardware description:
+> > -The documentation is lackluster.
+> > -Some of the names are confusingly similar, e.g. fixed_64bit and
+> >   fixed_size, even though these are for completely unrelated things.
+> > -The way that the BARs are defined in the endpoint controller drivers
+> >   is messy, because the left hand side is not a BAR, so you can mark a
+> >   BAR as e.g. both fixed size and reserved.
+> > 
+> > This series tries to address all the problems above.
+> > 
+> > Personally, I think that the code is more readable, both the endpoint
+> > controller drivers, but also pci-epc-core.c.
+> 
+> Thank you for cleaning this up!
+> 
+> FWIW:
+> Reviewed-by: Kishon Vijay Abraham I <kishon@kernel.org>
 
-Reviewed-By: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com> # 
-MediaTek
+IMHO, a FWIW is quite the undersell here, as there is no R-b I would value
+higher than the R-b from the original author or the pci endpoint subsystem :)
 
+
+Kind regards,
+Niklas
 
