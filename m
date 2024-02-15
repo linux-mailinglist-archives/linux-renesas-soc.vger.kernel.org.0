@@ -1,121 +1,146 @@
-Return-Path: <linux-renesas-soc+bounces-2855-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-2856-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C48408569A3
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 15 Feb 2024 17:33:25 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 943BA8569AD
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 15 Feb 2024 17:38:12 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id F26CE1C247C8
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 15 Feb 2024 16:33:24 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5137928AFF2
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 15 Feb 2024 16:38:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7DAA713474C;
-	Thu, 15 Feb 2024 16:33:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="GKdNLmcD"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3DDFA134CE3;
+	Thu, 15 Feb 2024 16:38:09 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f172.google.com (mail-yb1-f172.google.com [209.85.219.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7F1E134743;
-	Thu, 15 Feb 2024 16:33:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 384FB1754B
+	for <linux-renesas-soc@vger.kernel.org>; Thu, 15 Feb 2024 16:38:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708014801; cv=none; b=CEpmrL/w82uj60tNI2uv/72C1Li7pIgilVHKqWV4QFeovf1ClsPXNik4SD2K6KxHxgrTN1qirzG8+YD3U6XpiSwAv/TP8V6ykiKy6VxrCNtvPKZ49Mn8xGlGZOyDxWa26JLrwPqdScNWNwOJqzGnUm0UqXcV3AHfonZWts+FJ3U=
+	t=1708015089; cv=none; b=AI0XQirSueQu+yNh++aEY0qEi4TsaaQiRcx1wEFDYSPdO+cL5feJqCti9VfFzZUOB6neCEDg6sMpzrdZoZuwGxE0FfPoq9MCb3uhyem04EElw6azZ9BsTS9DVgWiuSzsy9t1dJFP4UHqAe5+QqdPUz4lCIPTpbvb5WbI2fV1smE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708014801; c=relaxed/simple;
-	bh=5+brZxpsplnpWF04LI1HfaObqf65WFWZyRNob6WvwS4=;
-	h=Content-Type:MIME-Version:In-Reply-To:References:Subject:From:Cc:
-	 To:Date:Message-ID; b=TUkv6PypNhozk2lFpf7yIMrsVrRuMdgpP78I/DxQ86tSB3H9tjP3nAwIwBK7CVpkcFwrt5KmNZgTLqyYnxOKGYCrYoLJkfBB+fXS2fGPM3mg1Qsh3dTrZsg8jqpX7E/yxkgBPTvUdQP6sfPiHYzE6cxCOAOBVjygufqSaxzX8yY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=GKdNLmcD; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (aztw-30-b2-v4wan-166917-cust845.vm26.cable.virginm.net [82.37.23.78])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 93F0AB3;
-	Thu, 15 Feb 2024 17:33:07 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1708014787;
-	bh=5+brZxpsplnpWF04LI1HfaObqf65WFWZyRNob6WvwS4=;
-	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-	b=GKdNLmcDBAbpidL+tDqtsZ1wt0KxuQMg867KIa9LxHenym/1pn/ETAnltm+wjx7z/
-	 jz0PTraTeneYGd2bPqCaVmJoLIgHlc5Ykg68pKNC/UjpeTIvWbYl27BHY0fLDmAAiV
-	 VMWNd3ZnnAQVY+3gdLlaTprRk7QVK4FVTzjwqcr0=
-Content-Type: text/plain; charset="utf-8"
+	s=arc-20240116; t=1708015089; c=relaxed/simple;
+	bh=zAoSJ0t4j25xONdzoe8AhZuaNul+8fTb9VLQ1Yn1fFs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=o14cam0U0NBuXbcAYYsvzqHmKUxp2dWxALw1F4Zt8LOXNyO/UDnYzTZteuQXTVrs2H9HKlJpG5GT1Rcv22ZASeog9QjeydJFsuCYvLdLySAjfFYLRQOIHQzLNcZNJB5zEIdxLZjKoHw4eeshH7ySmWYGVHwyIICiswV3ZEXnE+Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.219.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yb1-f172.google.com with SMTP id 3f1490d57ef6-dbed179f0faso1585157276.1
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 15 Feb 2024 08:38:06 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1708015085; x=1708619885;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=oDVcVwMkilKxYAAQpyRmgM2CIBGfQ49FWqKAOeSfaos=;
+        b=OVWV70vAl8n7IHqfMeGu82ZoeSL+5SdXIFla/Teg92bGHHO8FdM5DWD6bGkJi/FDq3
+         wLyusJVvvGhJCaqDvhNn5Grxe9zVhZqI0QYnSBzAQHT6yVibgm5jKINYEvnuhKKXKbNR
+         6S8I5qgHhEZXu7OUqtSnsuaC8MiWsOFZzHvUwLjNvwK91rndh0wh1VU4zqvBAKBLbNaf
+         +Az9ctMXVNjNQkzflhSVFI+bRkgbsfUbigBSgSefB3gL6jLfNU7kzc1nzmr/ETJe+IYc
+         0OUrUSRf/wZpwri2uFC8RnzbazLVynoDLobgRTOUgDM/snC25ATn8SU+YYSSC2Pnvkrq
+         reYA==
+X-Gm-Message-State: AOJu0YwTmVWbsfzoYbvGCm/Ke0mBr/KjyHtA7qARd9g7dKfLsoLwEucj
+	9dDCvQwOXPkU6zJt7ARcQ37O35eYEZr5Ykm7Kc1AUSccaOoedrOWO1+/9ThZwNoeoA==
+X-Google-Smtp-Source: AGHT+IFlCmxCv1IL/4YomzeMXhYQLfG1p4TRorBQ06u9aFw5MWPeABYI0rKfc0H7c7RgD8uiqOwpMQ==
+X-Received: by 2002:a0d:d7c3:0:b0:604:a478:a621 with SMTP id z186-20020a0dd7c3000000b00604a478a621mr1565491ywd.23.1708015085515;
+        Thu, 15 Feb 2024 08:38:05 -0800 (PST)
+Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com. [209.85.128.182])
+        by smtp.gmail.com with ESMTPSA id o15-20020a0dcc0f000000b005ff846d1f1dsm304330ywd.134.2024.02.15.08.38.05
+        for <linux-renesas-soc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 15 Feb 2024 08:38:05 -0800 (PST)
+Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-603fd31f5c2so18463097b3.0
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 15 Feb 2024 08:38:05 -0800 (PST)
+X-Received: by 2002:a0d:cac7:0:b0:607:c65b:755f with SMTP id
+ m190-20020a0dcac7000000b00607c65b755fmr2370226ywd.9.1708015085104; Thu, 15
+ Feb 2024 08:38:05 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+References: <20240122160441.759620-1-niklas.soderlund+renesas@ragnatech.se> <20240122160441.759620-3-niklas.soderlund+renesas@ragnatech.se>
+In-Reply-To: <20240122160441.759620-3-niklas.soderlund+renesas@ragnatech.se>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Thu, 15 Feb 2024 17:37:52 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdW42DSTbW-N941wbUCWvaj-GGKAUj-5=hBB0j6vZgK=TA@mail.gmail.com>
+Message-ID: <CAMuHMdW42DSTbW-N941wbUCWvaj-GGKAUj-5=hBB0j6vZgK=TA@mail.gmail.com>
+Subject: Re: [PATCH 2/2] arm64: dts: renesas: white-hawk: Add Ethernet TSN overlay
+To: =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+Cc: linux-renesas-soc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20240215144333.82036-1-biju.das.jz@bp.renesas.com>
-References: <20240215144333.82036-1-biju.das.jz@bp.renesas.com>
-Subject: Re: [PATCH v2] media: i2c: ov5645: Remove software reset entry from ov5645_global_init_setting
-From: Kieran Bingham <kieran.bingham@ideasonboard.com>
-Cc: Biju Das <biju.das.jz@bp.renesas.com>, linux-media@vger.kernel.org, Geert Uytterhoeven <geert+renesas@glider.be>, Wolfram Sang <wsa@kernel.org>, Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>, Biju Das <biju.das.au@gmail.com>, linux-renesas-soc@vger.kernel.org
-To: Biju Das <biju.das.jz@bp.renesas.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>
-Date: Thu, 15 Feb 2024 16:33:08 +0000
-Message-ID: <170801478828.2629073.1256300005311782106@ping.linuxembedded.co.uk>
-User-Agent: alot/0.10
 
-Quoting Biju Das (2024-02-15 14:43:33)
-> The SYSTEM_CTRL0 register in ov5645 is almost similar to ov5640. But the
-> hard reset control is mandatory for the ov5645 device, so there is no
-> need for soft reset in the driver.
->=20
-> Add a 1msec delay for the software power up (OV5645_SYSTEM_CTRL0_START)
-> register in ov5645_global_init_setting. Without this delay sometimes the
-> image is not captured at all when the i2c frequency is 400kHz.
->=20
-> The changes are fixing both the greenish issue and image capture at 400kHz
-> i2c frequency on Renesas RZ/G2L SMARC EVK platforms.
->=20
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> ---
-> v1->v2:
->  * Dropped patch#2
->  * Updated commit header and description.
->  * Dropped unneeded software reset from ov5645_global_init_setting
->  * Added 1 msec delay for software power up from ov5645_*_init_setting.
+Hi Niklas,
 
-As with all drivers, I'd love to see more cleanup to move the reset/init
-sequences away from opaque tables. But for now this seems like a
-reasonable improvement.
+On Mon, Jan 22, 2024 at 5:06=E2=80=AFPM Niklas S=C3=B6derlund
+<niklas.soderlund+renesas@ragnatech.se> wrote:
+> On the white-hawk development board the Ethernet TSN IP can be connected
+> to one of two different external PHYs. One PHY is located on the
+> breakout board, and the other on the Ethernet sub-board. Which PHY is
+> connected depends on what resistors are mounted on the board.
 
-Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Actually there are three options:
+  1. Breakout board,
+  2. Ethernet sub-board,
+  3. Ether module board.
 
-> ---
->  drivers/media/i2c/ov5645.c | 5 ++++-
->  1 file changed, 4 insertions(+), 1 deletion(-)
->=20
-> diff --git a/drivers/media/i2c/ov5645.c b/drivers/media/i2c/ov5645.c
-> index a26ac11c989d..df86b951b9f3 100644
-> --- a/drivers/media/i2c/ov5645.c
-> +++ b/drivers/media/i2c/ov5645.c
-> @@ -118,7 +118,6 @@ static inline struct ov5645 *to_ov5645(struct v4l2_su=
-bdev *sd)
-> =20
->  static const struct reg_value ov5645_global_init_setting[] =3D {
->         { 0x3103, 0x11 },
-> -       { 0x3008, 0x82 },
->         { 0x3008, 0x42 },
->         { 0x3103, 0x03 },
->         { 0x3503, 0x07 },
-> @@ -627,6 +626,10 @@ static int ov5645_set_register_array(struct ov5645 *=
-ov5645,
->                 ret =3D ov5645_write_reg(ov5645, settings->reg, settings-=
->val);
->                 if (ret < 0)
->                         return ret;
-> +
-> +               if (settings->reg =3D=3D OV5645_SYSTEM_CTRL0 &&
-> +                   settings->val =3D=3D OV5645_SYSTEM_CTRL0_START)
-> +                       usleep_range(1000, 2000);
->         }
-> =20
->         return 0;
-> --=20
-> 2.25.1
+> The default white-hawk configuration connect the TSN with the PHY on the
+> breakout board. Unfortunately the standard breakout board do not
+> populate the external PHY.
+
+According to the schematics, this seems to depend on board revision:
+  - rev. 0.909: TSN is wired to 3,
+  - rev. 1.00: TSN is wired to 2.
+
+> Add an overlay that can be applied to enable Ethernet TSN support for
+> those boards that do populate the breakout board, or mount the
+> appropriate resistors to connect TSN with the Ethernet sub-board.
 >
+> Signed-off-by: Niklas S=C3=B6derlund <niklas.soderlund+renesas@ragnatech.=
+se>
+
+Thanks for your patch!
+
+> --- a/arch/arm64/boot/dts/renesas/Makefile
+> +++ b/arch/arm64/boot/dts/renesas/Makefile
+> @@ -84,7 +84,9 @@ dtb-$(CONFIG_ARCH_R8A779F0) +=3D r8a779f4-s4sk.dtb
+>  dtb-$(CONFIG_ARCH_R8A779G0) +=3D r8a779g0-white-hawk.dtb
+>  dtb-$(CONFIG_ARCH_R8A779G0) +=3D r8a779g0-white-hawk-ard-audio-da7212.dt=
+bo
+>  r8a779g0-white-hawk-ard-audio-da7212-dtbs :=3D r8a779g0-white-hawk.dtb r=
+8a779g0-white-hawk-ard-audio-da7212.dtbo
+
+Please add
+
+    dtb-$(CONFIG_ARCH_R8A779G0) +=3D r8a779g0-white-hawk-tsn.dtbo
+
+so that the .dtbo is considered for installation, too.
+
+> +r8a779g0-white-hawk-tsn-dtbs :=3D r8a779g0-white-hawk.dtb r8a779g0-white=
+-hawk-tsn.dtbo
+>  dtb-$(CONFIG_ARCH_R8A779G0) +=3D r8a779g0-white-hawk-ard-audio-da7212.dt=
+b
+> +dtb-$(CONFIG_ARCH_R8A779G0) +=3D r8a779g0-white-hawk-tsn.dtb
+
+The rest LGTM.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
