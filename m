@@ -1,131 +1,119 @@
-Return-Path: <linux-renesas-soc+bounces-2857-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-2858-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1F83856A42
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 15 Feb 2024 17:57:26 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 11005856A48
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 15 Feb 2024 17:58:05 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4EA671F2169A
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 15 Feb 2024 16:57:26 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id B26C91F2214C
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 15 Feb 2024 16:58:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 487D113665F;
-	Thu, 15 Feb 2024 16:54:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CA2FD1386B5;
+	Thu, 15 Feb 2024 16:55:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="MXWLoHsU"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yb1-f181.google.com (mail-yb1-f181.google.com [209.85.219.181])
+Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com [209.85.128.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59ECA1353FE;
-	Thu, 15 Feb 2024 16:54:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20E631386A2
+	for <linux-renesas-soc@vger.kernel.org>; Thu, 15 Feb 2024 16:55:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708016048; cv=none; b=ak8QLRxdYwcPsPNpCx4pwVwBmAHf0cSML0+qYcrRZtM9nsJxTZ7xueoqWe2P3HlztC8AFrBDWsGsqm/RsCPwd8e3R+loxCsRtgG8xwlATV/WEPh09rLYUrSrSzSKaUw9vJ/6k2kv2UM19ouqpcwCZ6mRbF9YMP8blrEd6zKD0PU=
+	t=1708016138; cv=none; b=jiyNSv7TSLN0JFR/B6dT/kSPD3NxXc+yyFffVTh2diQbCUygtqiphIZ06TYBo2l18Aibs7H1PqolS98XhMbUToPLd+Gd7H8IV4e/Fa4f/dDIqtLOqmCKwIU7wzflpaYnq858Q/6g0aSvp6Tt1JdFoDdPFZwhbSBoef/S7sKiQos=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708016048; c=relaxed/simple;
-	bh=UNBMhdZkJ8i2ygg/m+VxNNBbaZjxJhARj35RepppVjE=;
+	s=arc-20240116; t=1708016138; c=relaxed/simple;
+	bh=T2n/4szixuLGXvgOOUzbiM5pm5IPW+9TOhwcsXEbR5I=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=k0SsS/XWEOzo2YxzJLTXbgK+hH3mqu4SO/BOw6BHxKuAUVQNBYGgMjXFUg+ha+cqbfg+/8JOjNaoqvfQZWcrJcHS8gnmMmT3809JAxYOQXizPo3w25qxxkDLBLe+SZePPArljKALj5ytjzPkl4ISB2FHNdElbmOAZfAfKZBGT6w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.219.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yb1-f181.google.com with SMTP id 3f1490d57ef6-dcd7c526cc0so1117491276.1;
-        Thu, 15 Feb 2024 08:54:06 -0800 (PST)
+	 To:Cc:Content-Type; b=LM/cQOyUGNiWSPj9AeW+r6yKzo4n0cwyoqPKb3UZxw/HhLk/l6IhOxcvkqDPFWTK6iI5tCxQJo+8qKCmj5rQFdz1HenfgGYOFdaNQSVPLzFsSmdu42QOeFW0ib+xS+1z3XJtErHqHD+imw05tm78jKccFIGNbZQzsuTtAyhQtM0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=MXWLoHsU; arc=none smtp.client-ip=209.85.128.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-607a84acf6aso10421277b3.2
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 15 Feb 2024 08:55:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1708016136; x=1708620936; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=poZheT8LMONbwbXG36LCp2KJuCiXKMOv0XD+rp8kofA=;
+        b=MXWLoHsUzbZOipRQqvHODtlCF2KUMWTOjeTYURysSEaWzYRYRDbzyyOx0XpTK7Y3b1
+         Eoq0/p3KIzN18HWNHmmei1JxOSN6HZys3TifDBabMcRFzHjP8aVjSSbAwjtvrDB8qoxB
+         RlQDxOC3AXySlH+bLX3Q+TCd6UzndUGgHLfJ1x+TMU04idm+Wc4S0kEj0Xm93CLDv7mz
+         kXMmZUbXBzGGro7KtGgMcuQIhV+C04j2OzGdNQagzjLA5Xe5k4rQMPlQtf7EC2NXVm3J
+         y+Okcsj5kYQZVR8QkpVn2QIsldDajLWpnzoUuCdg4dG4zWMPUAwrHi+2LSSnLly4ubIP
+         Ztiw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708016045; x=1708620845;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=QpZ3DC22tFbBqcAPh32HZHLlqMy5ASZz7S0FXazTgLQ=;
-        b=o0R/9bOjDot+YeFsf+jV3tjYmdGfvPLKrCY6w576+Hmu6UMyt6DKBuUtQ+fFCqcMIT
-         3drMIh1i8eUm81JPmbp/mrnHvOettExvfKWvnbpZlUNvTOc0HyCxygAtxsZNK+LcT3YP
-         9Y7JZn+LLVjp/+HsO+HP33jO/+6RpRxj5zW4UR9t3Wq4xEK2scuUASqelmXJ6DdUSKtk
-         GY38IQwFA9ApO/8YkXIMiCJXU2Y7xBWsyijJtmX33AZ6Si0MSRezzx7vzKSBdXmde6g8
-         sFbKTJbXwtFGvtcnV0RbAxTCMvZySWMmjvWHDFeYrai6Xse+UOv9+rYuaccK+oABpvoV
-         cdKQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUnPnQgnleFTbv5UGiWBm81UkC1uTgFAUbSEsWQlixrTjHibu1FzWsx75T8pxMqBLDcn8D8l/3BoWlk7x8kI40voTKzGrmIuZI+w+XR1nxNWwREFA8FYh0cTrEoCseux8xN68WY6kdYJsDlXRCDOpQ=
-X-Gm-Message-State: AOJu0YwZsQWQh8xGymeK6R5lPa2g9NjI4cnB44jiyWYPMZFB7PoRlkJN
-	4JcYniec+GxcnrMaGMVKtscgSqFxJkEyQoDpqWgHED9YZ87qOXz4aRDb/8hS7Iv4iw==
-X-Google-Smtp-Source: AGHT+IHo47sXEcO+vqJLfG+1w1TbKhf9Or+bZxpuVNdwtstFO91a3d11C4tzJ3XUdWYFjFRy4hPelA==
-X-Received: by 2002:a81:4417:0:b0:607:82e9:17a8 with SMTP id r23-20020a814417000000b0060782e917a8mr2480467ywa.7.1708016044970;
-        Thu, 15 Feb 2024 08:54:04 -0800 (PST)
-Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com. [209.85.219.171])
-        by smtp.gmail.com with ESMTPSA id t197-20020a8183ce000000b005ff821bfdd3sm315175ywf.27.2024.02.15.08.54.04
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 15 Feb 2024 08:54:04 -0800 (PST)
-Received: by mail-yb1-f171.google.com with SMTP id 3f1490d57ef6-dcbd1d4904dso1124005276.3;
-        Thu, 15 Feb 2024 08:54:04 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCV7Eba0KUR4nWjsg33rEOCwNRZZSnz+qJAUgoToGMKUGbnt+1X0VEjr8B3ZIFtXxgLdUgNDmdhCsFirdZVrTZf+wGZzCC9rj/kFgFpQH9AeAjJHsa1ZNRK6EH6+nlvQ6O95PdrlC/ht/Md3uEdkRTs=
-X-Received: by 2002:a0d:e8c9:0:b0:604:4498:34a0 with SMTP id
- r192-20020a0de8c9000000b00604449834a0mr2240802ywe.22.1708016044638; Thu, 15
- Feb 2024 08:54:04 -0800 (PST)
+        d=1e100.net; s=20230601; t=1708016136; x=1708620936;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=poZheT8LMONbwbXG36LCp2KJuCiXKMOv0XD+rp8kofA=;
+        b=tanC+qwXWNToXOOo56LQz6KK2YCKpeQoraAISW1Xh7yG5ewo9BHhEB4lc6HCwXbUWr
+         ky85xUNYxdN0I8b5wiIFnZIECX9CFIMUJEobpGLmhQrtV4JbYyRU9YySYTKXp5amX3o0
+         6KzwukZBEtPqx/y87crTf75VpHkyG2pU1z1+X8aNPqcYgdBeOvD5JZC/rU3zZddYEoEd
+         mRGEFaTY+IHOqtiDtyii7DRthn8xLUFeTYANbrKBzkUZdUIi04aiOSPm81FfY4uHoBCT
+         HuQwgY8DGfMXfxxa7WKeQdbNpyBkb9I8NS6wFSy7GALb1zwXVcOf3Nl8x5wF1XWef39h
+         CClA==
+X-Forwarded-Encrypted: i=1; AJvYcCUU31L+Kz6laT5FlxJsjhis3ybo/h0TM9xYaJ+LQpR9m1bqWo5M47FJdoF5BS07RjYsg+SQLKnvc2c6yiRcuXPhZK0hRFpCmlp/E4ShmQJNAHU=
+X-Gm-Message-State: AOJu0YzZCqiBzZKwKYyC3X771xyFM9MF0Z52cGBQnayAAAtK8VZb3M+2
+	ytiY/fqZKixLu15MpcowtJth+l5lXpXf45+5x0WG2c5dQwkDYPz+coC722lHPAPLQw2Al5GzCun
+	PMcFQaFEo+bM3uuBkws2aqkNEhJPPv78zB8R9Tg==
+X-Google-Smtp-Source: AGHT+IEpJGNu8IMFSpuSTsiV8rNUurQsbhlaADMNqmbysfbAkAFNijtgAVbyd6vcEq1kI+aXaqyzELrondiqZuik5WE=
+X-Received: by 2002:a81:7c55:0:b0:604:9322:9d56 with SMTP id
+ x82-20020a817c55000000b0060493229d56mr2291098ywc.38.1708016136169; Thu, 15
+ Feb 2024 08:55:36 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <6be2558b8462fc08095c24c9257563ab5f3ae013.1708001398.git.geert+renesas@glider.be>
- <kycepdxukfsww3tnxoo5hoiuo3vcgpqqmynokzhtl4vodgm6zc@ih4uhw7gz4jh>
-In-Reply-To: <kycepdxukfsww3tnxoo5hoiuo3vcgpqqmynokzhtl4vodgm6zc@ih4uhw7gz4jh>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 15 Feb 2024 17:53:53 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdVf7ophCwKt-n_N-LBHV4+t14Gjb4d1O0T8FDk_9xMFtA@mail.gmail.com>
-Message-ID: <CAMuHMdVf7ophCwKt-n_N-LBHV4+t14Gjb4d1O0T8FDk_9xMFtA@mail.gmail.com>
-Subject: Re: [PATCH v2] drm/imagination: DRM_POWERVR should depend on ARCH_K3
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Frank Binns <frank.binns@imgtec.com>, Matt Coster <matt.coster@imgtec.com>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
-	Sarah Walker <sarah.walker@imgtec.com>, Donald Robson <donald.robson@imgtec.com>, 
-	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
-	Javier Martinez Canillas <javierm@redhat.com>, Nishanth Menon <nm@ti.com>, Adam Ford <aford173@gmail.com>, 
-	Marek Vasut <marek.vasut@mailbox.org>, Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+References: <fffc5a0a73c4cc8e8d7c5d93679531cc24e006ca.1707915511.git.geert+renesas@glider.be>
+In-Reply-To: <fffc5a0a73c4cc8e8d7c5d93679531cc24e006ca.1707915511.git.geert+renesas@glider.be>
+From: Ulf Hansson <ulf.hansson@linaro.org>
+Date: Thu, 15 Feb 2024 17:55:00 +0100
+Message-ID: <CAPDyKFotPHiAWux8mhjFPMG7kwqaq6u-YZ957-6_=gKnVkDh6Q@mail.gmail.com>
+Subject: Re: [PATCH] dt-bindings: mmc: renesas,sdhi: Document R-Car V4M support
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Wolfram Sang <wsa+renesas@sang-engineering.com>, linux-mmc@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-Hi Maxime,
-
-On Thu, Feb 15, 2024 at 5:18=E2=80=AFPM Maxime Ripard <mripard@kernel.org> =
-wrote:
-> On Thu, Feb 15, 2024 at 01:50:09PM +0100, Geert Uytterhoeven wrote:
-> > Using the Imagination Technologies PowerVR Series 6 GPU requires a
-> > proprietary firmware image, which is currently only available for Texas
-> > Instruments K3 AM62x SoCs.  Hence add a dependency on ARCH_K3, to
-> > prevent asking the user about this driver when configuring a kernel
-> > without Texas Instruments K3 Multicore SoC support.
+On Wed, 14 Feb 2024 at 14:00, Geert Uytterhoeven
+<geert+renesas@glider.be> wrote:
 >
-> This wasn't making sense the first time you sent it, and now that commit
-> log is just plain wrong. We have firmwares for the G6110, GX6250,
-> GX6650, BXE-4-32, and BXS-4-64 models, which can be found on (at least)
-> Renesas, Mediatek, Rockchip, TI and StarFive, so across three
+> Document support for the SD Card/MMC Interface in the Renesas R-Car V4M
+> (R8A779H0) SoC.
+>
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-I am so happy to be proven wrong!
-Yeah, GX6650 is found on e.g. R-Car H3, and GX6250 on e.g. R-Car M3-W.
+Applied for next, thanks!
 
-> architectures and 5 platforms. In two months.
+Kind regards
+Uffe
 
-That sounds like great progress, thanks a lot!
 
-Where can I find these firmwares? Linux-firmware[1] seems to lack all
-but the original K3 AM62x one.
-
-Thanks again!
-
-[1] https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware=
-.git/
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+> ---
+>  Documentation/devicetree/bindings/mmc/renesas,sdhi.yaml | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/Documentation/devicetree/bindings/mmc/renesas,sdhi.yaml b/Documentation/devicetree/bindings/mmc/renesas,sdhi.yaml
+> index f7a4c6bc70f6cade..29f2400247ebc674 100644
+> --- a/Documentation/devicetree/bindings/mmc/renesas,sdhi.yaml
+> +++ b/Documentation/devicetree/bindings/mmc/renesas,sdhi.yaml
+> @@ -67,6 +67,7 @@ properties:
+>                - renesas,sdhi-r8a779a0  # R-Car V3U
+>                - renesas,sdhi-r8a779f0  # R-Car S4-8
+>                - renesas,sdhi-r8a779g0  # R-Car V4H
+> +              - renesas,sdhi-r8a779h0  # R-Car V4M
+>            - const: renesas,rcar-gen4-sdhi # R-Car Gen4
+>
+>    reg:
+> --
+> 2.34.1
+>
 
