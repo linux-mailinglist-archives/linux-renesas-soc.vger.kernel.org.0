@@ -1,103 +1,151 @@
-Return-Path: <linux-renesas-soc+bounces-2829-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-2828-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC2AA855DF4
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 15 Feb 2024 10:26:22 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 25626855DE3
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 15 Feb 2024 10:24:12 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 02AC61C223FE
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 15 Feb 2024 09:26:22 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id AB71EB2BFE9
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 15 Feb 2024 09:15:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F23B71B286;
-	Thu, 15 Feb 2024 09:25:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A3BA513FF5;
+	Thu, 15 Feb 2024 09:15:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="BFwvTy/u"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from lgeamrelo11.lge.com (lgeamrelo13.lge.com [156.147.23.53])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 96F4F182D4
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 15 Feb 2024 09:25:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.147.23.53
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18D9917580
+	for <linux-renesas-soc@vger.kernel.org>; Thu, 15 Feb 2024 09:15:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707989149; cv=none; b=DAKyw/qiu2oSazBmy0HySoZVkC4dxc1L1O1mbA4C0ZKiWlKqTkcukCPXWyQoQRavFBRBUenUvB5aWVaqyifn87CpdsXJuW8tWbmJW+3YQuuTxWRqTTmzlOpvkj1tSL4JyjLxdoqVKaRKVQ6uihsSVKfteXdGigc9VsU9i3+c9nU=
+	t=1707988503; cv=none; b=Kgg1adBaSUse9NmZNwnI6PeWbCnN7zefYBI9bnPsxpO2BEtDKHMU4veTcaoS153a5gribPeOTm4ae7FF/oGhF0AwCHlpTWKl8bnAcj5QWx4Ma1GHHrVRaLdtdjZA7UcWtQVfHdVNdRwC0R29jlDIqjEJ12RcosC4QALci4+PjOI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707989149; c=relaxed/simple;
-	bh=WW+WFmDnH2V+1GQsgAFG07eSRILRm8Qu3HVR57TR4a4=;
-	h=Subject:To:Cc:References:From:Message-ID:Date:MIME-Version:
-	 In-Reply-To:Content-Type; b=ZoWdVuw62aMdgDw0HjloOmyDaB74Bu9GEsf6evFw+ETgK8n2r3rbVXJ0MK77eZXgoFBC/Epq3yWwzKndvRzzJ47CujQb676xwjwZLcvcT9AyosoWtcWszZBptmWROz4BpA0wcMdludL8fEr5Qu00V0gW8OG1dIOjzNvOCIl1wi4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=lge.com; spf=pass smtp.mailfrom=lge.com; arc=none smtp.client-ip=156.147.23.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=lge.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lge.com
-Received: from unknown (HELO lgemrelse6q.lge.com) (156.147.1.121)
-	by 156.147.23.53 with ESMTP; 15 Feb 2024 17:55:46 +0900
-X-Original-SENDERIP: 156.147.1.121
-X-Original-MAILFROM: chanho.min@lge.com
-Received: from unknown (HELO ?10.178.36.63?) (10.178.36.63)
-	by 156.147.1.121 with ESMTP; 15 Feb 2024 17:55:46 +0900
-X-Original-SENDERIP: 10.178.36.63
-X-Original-MAILFROM: chanho.min@lge.com
-Subject: Re: [PATCH 3/6] arm64: dts: Fix dtc interrupt_provider warnings
-To: Rob Herring <robh@kernel.org>, soc@kernel.org,
- Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Tsahee Zidenberg <tsahee@annapurnalabs.com>,
- Antoine Tenart <atenart@kernel.org>, Joel Stanley <joel@jms.id.au>,
- Andrew Jeffery <andrew@codeconstruct.com.au>, Ray Jui <rjui@broadcom.com>,
- Scott Branden <sbranden@broadcom.com>,
- Broadcom internal kernel review list
- <bcm-kernel-feedback-list@broadcom.com>, Andrew Lunn <andrew@lunn.ch>,
- Gregory Clement <gregory.clement@bootlin.com>,
- Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
- =?UTF-8?Q?Jonathan_Neusch=c3=a4fer?= <j.neuschaefer@gmx.net>,
- Thierry Reding <thierry.reding@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>, Stefan Agner <stefan@agner.ch>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- =?UTF-8?Q?Beno=c3=aet_Cousson?= <bcousson@baylibre.com>,
- Tony Lindgren <tony@atomide.com>, Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Magnus Damm <magnus.damm@gmail.com>, Linus Walleij <linusw@kernel.org>,
- Imre Kaloz <kaloz@openwrt.org>, Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>,
- Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor
- <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>
-Cc: linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
- openbmc@lists.ozlabs.org, linux-tegra@vger.kernel.org,
- linux-stm32@st-md-mailman.stormreply.com, linux-omap@vger.kernel.org,
- linux-mediatek@lists.infradead.org, linux-renesas-soc@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, linux-kbuild@vger.kernel.org,
- Lee Gunho <gunho.lee@lge.com>
-References: <20240213-arm-dt-cleanups-v1-0-f2dee1292525@kernel.org>
- <20240213-arm-dt-cleanups-v1-3-f2dee1292525@kernel.org>
-From: Chanho Min <chanho.min@lge.com>
-Message-ID: <f5aeffed-9365-b1db-4c32-4ed6da208ea0@lge.com>
-Date: Thu, 15 Feb 2024 17:55:46 +0900
-User-Agent: Mozilla/5.0 (X11; Linux i686; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+	s=arc-20240116; t=1707988503; c=relaxed/simple;
+	bh=p9x6ErywQr54S9YVSEnXCBh+8h1Ol5/3Fzwg7UmMHNc=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=Cifnwq+6hUeuwTFo+kcmIOktUp3qhbsp+n/uwoc19IIJR/ceX0kiPsCP7mCpr1lEEzRQ0KbK+GdlhEcXvGVAS/PPeUHhn3qkVLxxRkATe51+QQrJVt+qltpR+xvndPVT0+WBldljttdi1+iWz8yUc0fkj5uvZQfcRQLw/hEROoY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=BFwvTy/u; arc=none smtp.client-ip=209.85.128.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-41102f140b4so5538925e9.2
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 15 Feb 2024 01:15:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=tuxon.dev; s=google; t=1707988499; x=1708593299; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:references:cc:to:from
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=fVDQUeuEEPqm+MPqe84OMfwLiQomvJezewz9iRHqCtI=;
+        b=BFwvTy/uWNrJS6s6eNJ0AASjSIJJrxh+je8reMm1wwN2xqg8t+ABG6K36nw3WzAZmE
+         EhGhQAd1MJMZbNkaUPsKNWJDpQ7CQtNUy7yZONxD6j3ZEAXh6T2+hO04FWKutA0X9ash
+         uT2WQg9W6yYi3PAFHJwuWOTfMU7LMeHyBhkrKGa4l9l6DOwOIBEgXcHmekhuDyxPrq7K
+         mtGTdN5OEe+leRAa7BjtBp04TVP8skMZfKDKll+UbyTUWeAX3xpJGw/w4RMgjV/T+7eb
+         CxjZsPThOQ78bb5k/9ktFV72zPOP3iZs+c5uUeg0Nl4/XYzgQvmnTeXFtSbgN5ue4Mq4
+         CTfw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1707988499; x=1708593299;
+        h=content-transfer-encoding:in-reply-to:references:cc:to:from
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=fVDQUeuEEPqm+MPqe84OMfwLiQomvJezewz9iRHqCtI=;
+        b=Hi76nojULla0FXq50Ew22zs7mC9C0btcQi2/8QIbK1+qsIq9Dcwb3qPSWGWwsZFN3N
+         TmMNducBhpUE4500VS3vjjVu7PuAdVGKwnoNCuDn0QXwbidJZFzfIsvq348dnlqPvCHQ
+         GKbncMRAmPqMpHoWm55BKpG0xxux1xXkfLaqUX9ERPvOMTq7Z3etGaFFqAtbBOGS+Rc6
+         DEy8No0G+1ynFAFPVPQFwpDtbXr2AwrNRRwxR3zGT3SmfNqYeypBhw6MhT43sEDNcNEN
+         cWSNIrmtWmYrJibjzf+Hd0boqalbs66OJ2odgYBKZJQqMeJ0zk+ngqaJAeiKNs8YERkC
+         /45Q==
+X-Forwarded-Encrypted: i=1; AJvYcCUqln3bIAmJMo1IttDI1a3RKUdOGO0TMP+QOqZIZTU6JF7VCSjCKgRxfC6AJPWuNiVBljoOTJO/O0/5n5w+hd3D2hU2N+3yA7k+2d/FFcN2mZM=
+X-Gm-Message-State: AOJu0Yzms6gf5LnJTMtjTJsi2OO6u2l7VtX9eb4WMTToj7WFQPLwcW3i
+	VKEfxf7Hac6XWF7NVYKAaOT7hEZPo5hhEDfytTxMOQVmVqZT581RUDnl97T0SEk=
+X-Google-Smtp-Source: AGHT+IH5kDGi+JeLLvcx0xO+qadHYuqKkPGUajPd72T/1qP3hgDhWZYq9EoKQFHEfXFZ9r31a2kcFw==
+X-Received: by 2002:a05:600c:1f89:b0:410:656c:d6d with SMTP id je9-20020a05600c1f8900b00410656c0d6dmr799456wmb.18.1707988499149;
+        Thu, 15 Feb 2024 01:14:59 -0800 (PST)
+Received: from [192.168.50.4] ([82.78.167.20])
+        by smtp.gmail.com with ESMTPSA id h17-20020a05600c261100b0040fe4b733f4sm4371249wma.26.2024.02.15.01.14.57
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 15 Feb 2024 01:14:58 -0800 (PST)
+Message-ID: <cdaffd20-1df4-4f73-ba96-9625e0749269@tuxon.dev>
+Date: Thu, 15 Feb 2024 11:14:57 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <20240213-arm-dt-cleanups-v1-3-f2dee1292525@kernel.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] pinctrl: renesas: rzg2l: Add suspend/resume support
 Content-Language: en-US
+From: claudiu beznea <claudiu.beznea@tuxon.dev>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: magnus.damm@gmail.com, robh@kernel.org,
+ krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+ linus.walleij@linaro.org, linux-renesas-soc@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-gpio@vger.kernel.org, Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+References: <20240208135629.2840932-1-claudiu.beznea.uj@bp.renesas.com>
+ <20240208135629.2840932-2-claudiu.beznea.uj@bp.renesas.com>
+ <CAMuHMdUG595o8u1kgqW6DxfvBuzKuOPv7XkJhg_GQmnbRui8Tw@mail.gmail.com>
+ <2dab40a5-1e9b-4396-ad97-b2a810ff703d@tuxon.dev>
+In-Reply-To: <2dab40a5-1e9b-4396-ad97-b2a810ff703d@tuxon.dev>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 24. 2. 14. 4:34 Rob Herring wrote:
-> The dtc interrupt_provider warning is off by default. Fix all the warnings
-> so it can be enabled.
-> 
-> Signed-off-by: Rob Herring <robh@kernel.org>
+Hi, Geert,
 
->   arch/arm64/boot/dts/lg/lg1312.dtsi                  | 1 -
->   arch/arm64/boot/dts/lg/lg1313.dtsi                  | 1 -
-Acked-by: Chanho Min <chanho.min@lge.com>
+On 12.02.2024 17:35, claudiu beznea wrote:
+>>>  static const u16 available_ps[] = { 1800, 2500, 3300 };
+>>> @@ -1880,6 +1938,19 @@ static void rzg2l_gpio_irq_print_chip(struct irq_data *data, struct seq_file *p)
+>>>         seq_printf(p, dev_name(gc->parent));
+>>>  }
+>>>
+>>> +static int rzg2l_gpio_irq_set_wake(struct irq_data *data, unsigned int on)
+>>> +{
+>>> +       struct gpio_chip *gc = irq_data_get_irq_chip_data(data);
+>>> +       struct rzg2l_pinctrl *pctrl = container_of(gc, struct rzg2l_pinctrl, gpio_chip);
+>>> +
+>> I think you also have to call irq_set_irq_wake(pctrl->hwirq[...]) here.
+>> Cfr. drivers/gpio/gpio-rcar.c (which is simpler, as it has a single interrupt
+>> parent, instead of a parent irq_domain with multiple interrupts).
+> I had it in my initial implementation (done long time ago) but I don't
+> remember why I removed it. I'll re-add it anyway.
 
+I did some investigation on this. It seems adding irq_set_irq_wake() is not
+necessary as the pinctrl has no virq requested on behalf of itself.
+
+With this irqchip hierarchy (pinctrl-rzg2l -> irq-renesas-rzg2l -> gic) if
+an IRQ consumer, e.g., the gpio-keys, request an interrupt then it may call
+irq_set_irq_wake(virq) (gpio-keys does that).
+
+irq_set_irq_wake(virq) is forwarded to pinctrl as follows:
+
+irq_set_irq_wake(virq, on) ->
+    set_irq_wake_real(virq, ono) ->
+        rzg2l_gpio_irq_set_wake(irq, on)
+
+As the irq_set_irq_wake() gets a virq as argument and as we have no virq
+requested by pinctrl driver there is no need to call irq_set_irq_wake(), as
+of my investigation. Calling it with hwirq will return with -22 and calling
+it with virq received as argument leads to deadlock (as it's the same virq
+that consumer already is configuring with irq_set_irq_wake()) due the
+following line from irq_set_irq_wake():
+
+struct irq_desc *desc = irq_get_desc_buslock(irq, &flags,
+IRQ_GET_DESC_CHECK_GLOBAL);
+
+What we can do is to forward irq_set_wake() to the parent IRQ chip
+(irq-renesas-rzg2l) with irq_chip_set_wake_parent() to let him set its
+wakeup_path, if any. But, at the moment the irq-renesas-rzg2l has
+IRQCHIP_SKIP_SET_WAKE thus the irq_chip_set_wake_parent() does nothing (but
+it can be updated for that). Now I remember that irq_chip_set_wake_parent()
+is what I've called in my initial implementation and removed it due to
+IRQCHIP_SKIP_SET_WAKE.
+
+Please let me know if you are OK to add irq_chip_set_wake_parent() and
+update the irq-renesas-rzg2l driver.
+
+Thank you,
+Claudiu Beznea
 
