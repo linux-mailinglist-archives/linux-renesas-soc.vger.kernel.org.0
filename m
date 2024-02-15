@@ -1,175 +1,117 @@
-Return-Path: <linux-renesas-soc+bounces-2830-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-2831-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4AA39855E0C
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 15 Feb 2024 10:28:32 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 90A4385636F
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 15 Feb 2024 13:41:34 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id C52421F210E2
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 15 Feb 2024 09:28:31 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C33131C2295E
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 15 Feb 2024 12:41:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8BCDD1BC2D;
-	Thu, 15 Feb 2024 09:27:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9936D12CDBE;
+	Thu, 15 Feb 2024 12:41:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="Z6Il3Pvm"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com [209.85.219.171])
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E2961BC35;
-	Thu, 15 Feb 2024 09:27:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75A4112BF04
+	for <linux-renesas-soc@vger.kernel.org>; Thu, 15 Feb 2024 12:41:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707989241; cv=none; b=vCwl1uRuA35ZKk7sdbtvwIHo+7ZiFcDyu0YqSofnJgIHU1Nyh3NrUUymdBJDGWVVMQKjIAiy+iji3v4i4u1KRYmvNYffdcomn7fkD58vJdSk51ea2zMd8GMOVqIapdBPAhwAtOMAXIBy4s1PzSc9ddIyKn/C5jdVTY6xmzLLFZo=
+	t=1708000891; cv=none; b=EgRpHBnMqzBlbkrFI8rWx7QZPB2vKiD4YLqmlXKvWx3KuENR6GdkxSxR5au+DfltoeaZDxv3j/JoCMa2gcA/Kvg5s/XoQnwALhGKrQWDLNPp54c9YRpww0LHpVmbSLGxIEp4TG4cEIRYRTO8jQeOPHGvmGfYdB2324PS3rvViAw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707989241; c=relaxed/simple;
-	bh=ZUcLHYNpUiDKrpNj9+y0zczkb5SP8NlP42MPxxVUZ6Q=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=dQeJ4kULab/ziaZqxaJ9AwXzFoEgk7ti6LxA8Os/uY2ItFH8zWP3u3QLuPne33RC/VHxcSrG3nfpSkGRMivLL51TvlLAtJ64DfjxxxMr/30BOS6hf7nYXLSFb1k4ubToiWce8hLLRiKo8V3uCFGOWN36iQ5XZ/JdWF97AtPDSlw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.219.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yb1-f171.google.com with SMTP id 3f1490d57ef6-dcc86086c9fso554084276.3;
-        Thu, 15 Feb 2024 01:27:19 -0800 (PST)
+	s=arc-20240116; t=1708000891; c=relaxed/simple;
+	bh=SFCpTXqbRdAXHUBBAzzxnjc1Az5f8TRxLKC/k3F4vy0=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=RYgtDdfQEVm5SbX4/ID6oGTYwF4fj4s+ndI+GR87nciONTea7SH68LGhX9r47TV5PDa37AOZ9kUki/PF+IJGWTo43efL3xyuzx/8M+E53MJVoQWETm3AaadXGrtMDL4CFMb1iO3uniRTlbjb8DRfgeKDcGo1RtGBJhJz6+LIsOA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=Z6Il3Pvm; arc=none smtp.client-ip=209.85.221.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-33b29b5ea96so399859f8f.0
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 15 Feb 2024 04:41:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=tuxon.dev; s=google; t=1708000887; x=1708605687; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=MYnY7O04/x9zyqYEQqnNz4jRAg4FTDodHzcngEZrlFo=;
+        b=Z6Il3PvmGKjrj3wv2OGK0Btonvz44YqMK1xp0TWb1xoWkhQa65XoKbxfGc4xOYO934
+         m/LVFeHzpbYBPYTIuFYf/8H8oppIxnMTCOCUqF3/VNU10RvBjuhGKZmn9d3xD/kJ/T3k
+         I/gVZwS8+kxruNjiZoCV8tvZ7DesMssZk3jW8JGuJ/IMIKDgfMTKIfHvosBNnVmBNS2D
+         pPq+3LkSVikRTX1WRBGG2YFsPdSaiIKpYJTwRo02sgky/Jiqh5noDQLoEbtH+tOSVmuB
+         fjM1KETp6+a/8+zIm3EnfvVvMY6n/749k/Tb0QivGn7pV/UritF3nK7xZ6zRHyfZekwV
+         wLaw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707989238; x=1708594038;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=SthXbFy+KxgPDEkeyocrq0QfsfwLFwxMJP4nhWF6Ybs=;
-        b=gTFgMKHorHXXvHlZauuzv4MJaU0Tcps4hzb0WVgSSSti37WmsUCyu8L5yTn/AKpR+Y
-         Ii3cQgbR2QUC/aJvbx6c+cAFKDXdE7C5+CfEeD6MtH8BY6D248jOg8YZUawXQ98EfI7Y
-         hqBJmyt/PbFGX/kCNXGl+szAPy4FWWgLWiTZfErhFuXC5hkspIaeqn/sJGBB/D0i+8IA
-         kQuh621aXwS42ZhSGDuXpw//RnGJxY/YFiY9vcGjxLvpwoPFDuv4DFXgkGJIRK4T9C7P
-         MeqprydWFHtcoHdkN2xlnY+qoHct7C8F9ScYtkMjng5WmFuHDipKhQR8RYBGUCu3zrx5
-         vAHA==
-X-Forwarded-Encrypted: i=1; AJvYcCWyeOtLr6A6IoL2QzIerI134SQ1sevNIyfzG+AaZqPzsDZ7l5f8X9hwlXxpfWlUhakH5d5S3fnlqExTUNI6XNpcXsLhFE+XEDIH1/MWtv5WlhZkVi4Q0tRzRIii0pdLr1Bil5wE6G2w9CpXOQJHj4bsmg/Xk0RbISenakAdTJT7xgl+m3gXeqxr7fpiE6B03cYtdtsHzUIjNsdwWRPhNMDaX3H7+f/fsQ==
-X-Gm-Message-State: AOJu0YzvhWQVgipR2rC4AClIptOccU0vvlb2HJQxLQYzECMMq73j8l2U
-	+XCE9IHyqF1LH6BP1RU4ajAxC7d2RGLTcioHfbATxVDpp4FFqeO8qvFVMV5XPUM=
-X-Google-Smtp-Source: AGHT+IGfiytTwkISGkkedJ/iRyUN7d27qYpA/KIW1Xb7v8o+d0hFaS/jDh+nGe4xXaQHm2r20Kx9Kw==
-X-Received: by 2002:a05:6902:4f1:b0:dc2:398b:fa08 with SMTP id w17-20020a05690204f100b00dc2398bfa08mr1252436ybs.31.1707989237810;
-        Thu, 15 Feb 2024 01:27:17 -0800 (PST)
-Received: from mail-yb1-f175.google.com (mail-yb1-f175.google.com. [209.85.219.175])
-        by smtp.gmail.com with ESMTPSA id d11-20020a5b060b000000b00dc74efa1bb4sm122407ybq.13.2024.02.15.01.27.17
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 15 Feb 2024 01:27:17 -0800 (PST)
-Received: by mail-yb1-f175.google.com with SMTP id 3f1490d57ef6-dcc86086c9fso554058276.3;
-        Thu, 15 Feb 2024 01:27:17 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCXtNd+lyDqpUYgsnlJ4oHAiRM85H0PAy39PPHLV5TcVfg8Rxtc0NM5Z2YOzaMPmDEdMQJk8pSa3K4HBIWtNR9WxFCBuabsljjXpkFs7VOwwO3vAleUbzGqIkEYjDnKc9REfRLkbWvJikBwg9XBVGsP8ryuyH5ac05qiHfxpc+u/gEzl+4Wh+hLnrVn2HQpOkH3w4nA216KX9HQxrRBBtwPhnPR4FUR55g==
-X-Received: by 2002:a25:949:0:b0:dcc:54d0:85e2 with SMTP id
- u9-20020a250949000000b00dcc54d085e2mr1069659ybm.24.1707989236875; Thu, 15 Feb
- 2024 01:27:16 -0800 (PST)
+        d=1e100.net; s=20230601; t=1708000887; x=1708605687;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=MYnY7O04/x9zyqYEQqnNz4jRAg4FTDodHzcngEZrlFo=;
+        b=IzBlRRIOWswMSl7IY7wwdPfhKTFRSJ2zlfrjIA56il/Xs7mzgXc+o27zoDJxhQuJzV
+         g0/ncE/OP6+zP+wdZKk0zexRMC5NUbKQmTVxHiYr8l5ZM2qoVfR/EqPLuSLdUyWM9JdT
+         +kXqlOb1DNzCv0dQgHsY9freP01Z60HVl3rdNf4lMjmY+DThzcjXdUKvrnPETTk3JdJA
+         Ni8b1ANLfTgWIoHzScZGzV//EMiKGpMBeoy/m3ibvP89SFYL19UGaxjhn0Q1ta/AV4V8
+         Bos+zfmN6orUhBtATl2nCibp9e3OTKLKFQ3jsIIbxndFfxmMyIUyeidEWSZhpz/1Iu/M
+         ro7A==
+X-Gm-Message-State: AOJu0YzAO858qN0MiNq/hNvk2wIhEOeFluuMH0I4nlRElq14nEkP5etL
+	zDaN1fIRyaxcWVQ044/vgXyfPy0yMgfBil5DU8XmBOtLFtuy7H88Lvv3NnYohZ4=
+X-Google-Smtp-Source: AGHT+IGIGdB7TdXBD9OIkOScp9kvODa/Rio5A+z65NM6bDSmto8L+H13OukSXkPCKyay8Fdy8bJ5IA==
+X-Received: by 2002:a5d:5591:0:b0:33c:f627:3bef with SMTP id i17-20020a5d5591000000b0033cf6273befmr1304211wrv.25.1708000887580;
+        Thu, 15 Feb 2024 04:41:27 -0800 (PST)
+Received: from claudiu-X670E-Pro-RS.. ([82.78.167.20])
+        by smtp.gmail.com with ESMTPSA id n16-20020a5d51d0000000b0033cefb84b16sm1674931wrv.52.2024.02.15.04.41.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 15 Feb 2024 04:41:26 -0800 (PST)
+From: Claudiu <claudiu.beznea@tuxon.dev>
+X-Google-Original-From: Claudiu <claudiu.beznea.uj@bp.renesas.com>
+To: geert+renesas@glider.be,
+	linus.walleij@linaro.org
+Cc: linux-renesas-soc@vger.kernel.org,
+	linux-gpio@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	claudiu.beznea@tuxon.dev,
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+Subject: [PATCH v2 0/2] pinctrl: renesas: rzg2l: Add suspend to RAM support
+Date: Thu, 15 Feb 2024 14:41:10 +0200
+Message-Id: <20240215124112.2259103-1-claudiu.beznea.uj@bp.renesas.com>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240208135629.2840932-1-claudiu.beznea.uj@bp.renesas.com>
- <20240208135629.2840932-2-claudiu.beznea.uj@bp.renesas.com>
- <CAMuHMdUG595o8u1kgqW6DxfvBuzKuOPv7XkJhg_GQmnbRui8Tw@mail.gmail.com>
- <2dab40a5-1e9b-4396-ad97-b2a810ff703d@tuxon.dev> <cdaffd20-1df4-4f73-ba96-9625e0749269@tuxon.dev>
-In-Reply-To: <cdaffd20-1df4-4f73-ba96-9625e0749269@tuxon.dev>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 15 Feb 2024 10:27:04 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdXc1_P_9o4aMqZU2e2Rsa5B6TfPLv1oXp_sOzSNQPHn2w@mail.gmail.com>
-Message-ID: <CAMuHMdXc1_P_9o4aMqZU2e2Rsa5B6TfPLv1oXp_sOzSNQPHn2w@mail.gmail.com>
-Subject: Re: [PATCH 1/2] pinctrl: renesas: rzg2l: Add suspend/resume support
-To: claudiu beznea <claudiu.beznea@tuxon.dev>
-Cc: magnus.damm@gmail.com, robh@kernel.org, krzysztof.kozlowski+dt@linaro.org, 
-	conor+dt@kernel.org, linus.walleij@linaro.org, 
-	linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org, 
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Hi Claudiu,
+From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 
-On Thu, Feb 15, 2024 at 10:15=E2=80=AFAM claudiu beznea
-<claudiu.beznea@tuxon.dev> wrote:
-> On 12.02.2024 17:35, claudiu beznea wrote:
-> >>>  static const u16 available_ps[] =3D { 1800, 2500, 3300 };
-> >>> @@ -1880,6 +1938,19 @@ static void rzg2l_gpio_irq_print_chip(struct i=
-rq_data *data, struct seq_file *p)
-> >>>         seq_printf(p, dev_name(gc->parent));
-> >>>  }
-> >>>
-> >>> +static int rzg2l_gpio_irq_set_wake(struct irq_data *data, unsigned i=
-nt on)
-> >>> +{
-> >>> +       struct gpio_chip *gc =3D irq_data_get_irq_chip_data(data);
-> >>> +       struct rzg2l_pinctrl *pctrl =3D container_of(gc, struct rzg2l=
-_pinctrl, gpio_chip);
-> >>> +
-> >> I think you also have to call irq_set_irq_wake(pctrl->hwirq[...]) here=
-.
-> >> Cfr. drivers/gpio/gpio-rcar.c (which is simpler, as it has a single in=
-terrupt
-> >> parent, instead of a parent irq_domain with multiple interrupts).
-> > I had it in my initial implementation (done long time ago) but I don't
-> > remember why I removed it. I'll re-add it anyway.
->
-> I did some investigation on this. It seems adding irq_set_irq_wake() is n=
-ot
-> necessary as the pinctrl has no virq requested on behalf of itself.
->
-> With this irqchip hierarchy (pinctrl-rzg2l -> irq-renesas-rzg2l -> gic) i=
-f
-> an IRQ consumer, e.g., the gpio-keys, request an interrupt then it may ca=
-ll
-> irq_set_irq_wake(virq) (gpio-keys does that).
->
-> irq_set_irq_wake(virq) is forwarded to pinctrl as follows:
->
-> irq_set_irq_wake(virq, on) ->
->     set_irq_wake_real(virq, ono) ->
->         rzg2l_gpio_irq_set_wake(irq, on)
->
-> As the irq_set_irq_wake() gets a virq as argument and as we have no virq
-> requested by pinctrl driver there is no need to call irq_set_irq_wake(), =
-as
-> of my investigation. Calling it with hwirq will return with -22 and calli=
-ng
-> it with virq received as argument leads to deadlock (as it's the same vir=
-q
-> that consumer already is configuring with irq_set_irq_wake()) due the
-> following line from irq_set_irq_wake():
->
-> struct irq_desc *desc =3D irq_get_desc_buslock(irq, &flags,
-> IRQ_GET_DESC_CHECK_GLOBAL);
->
-> What we can do is to forward irq_set_wake() to the parent IRQ chip
-> (irq-renesas-rzg2l) with irq_chip_set_wake_parent() to let him set its
-> wakeup_path, if any. But, at the moment the irq-renesas-rzg2l has
-> IRQCHIP_SKIP_SET_WAKE thus the irq_chip_set_wake_parent() does nothing (b=
-ut
-> it can be updated for that). Now I remember that irq_chip_set_wake_parent=
-()
-> is what I've called in my initial implementation and removed it due to
-> IRQCHIP_SKIP_SET_WAKE.
->
-> Please let me know if you are OK to add irq_chip_set_wake_parent() and
-> update the irq-renesas-rzg2l driver.
+Hi,
 
-I think calling irq_chip_set_wake_parent() regardless is a good thing
-to do.  Whether the irq-renesas-rzg2l needs an update for wake-up
-handling, I don't know (and that is orthogonal to the above).
+Series adds suspend to RAM support for rzg2l pinctrl driver.
 
-If you haven't already done so, you may want to browse the wake-related
-git history of e.g. drivers/gpio/gpio-rcar.c.
+It is expected that patches will go through Geert's tree.
 
-Gr{oetje,eeting}s,
+Thank you,
+Claudiu Beznea
 
-                        Geert
+Changes in v2:
+- dropped patch "arm64: dts: renesas: r9a08g045: add PSCI support"
+  as it was integrated
+- added "pinctrl: renesas: Select CONFIG_IRQ_DOMAIN_HIERARCHY for
+  pinctrl-rzg2l"
+- addressed review comments
 
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
+Claudiu Beznea (2):
+  pinctrl: renesas: Select CONFIG_IRQ_DOMAIN_HIERARCHY for pinctrl-rzg2l
+  pinctrl: renesas: rzg2l: Add suspend/resume support
 
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+ drivers/pinctrl/renesas/Kconfig         |   1 +
+ drivers/pinctrl/renesas/pinctrl-rzg2l.c | 408 +++++++++++++++++++++++-
+ 2 files changed, 405 insertions(+), 4 deletions(-)
+
+-- 
+2.39.2
+
 
