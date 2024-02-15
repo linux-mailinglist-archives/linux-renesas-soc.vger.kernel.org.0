@@ -1,277 +1,389 @@
-Return-Path: <linux-renesas-soc+bounces-2862-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-2863-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A1AD856CC3
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 15 Feb 2024 19:35:27 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id BA917856D0F
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 15 Feb 2024 19:47:42 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id AEE5C1C2329A
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 15 Feb 2024 18:35:26 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6E90C2872D5
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 15 Feb 2024 18:47:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 83B3C1386DE;
-	Thu, 15 Feb 2024 18:32:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9A9141386B3;
+	Thu, 15 Feb 2024 18:47:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="M2G2D+2g"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com [209.85.128.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 262F22595;
-	Thu, 15 Feb 2024 18:32:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C29D212DD9A;
+	Thu, 15 Feb 2024 18:47:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708021969; cv=none; b=lm9H+Sjwc29MgV2/DtiAplZstGQPbMXAvE8nZnX++vF6SuYwKo9znMQMLBzeLRSD7cnAky6hRQFvCgR8n7kvKgKnGt/Z5Q/NckQQQMyhYPyY5LA6xxzky3z8FZYR7xmXM0vPmaA2cSikg3ualJNapGW4Hgf8jaXcaIXYcwghkfE=
+	t=1708022857; cv=none; b=hGNrP3dcLhjdYiN7ICwkWjfVxWeQvEfimDYTRaEJtruSt/vq18Rzm+NObB59FA1iZlKr2FYcqa6yyEuqjea//I2VEL6bAxyegkg+eF55ApwF0SbqxguWkLvObxhYin4+xKUUeyLtcbfrAwBIOlbGQpaZsgjPiJUt5M5NKXI294M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708021969; c=relaxed/simple;
-	bh=8bX8sUa/QMdFGXFIR5EKiBenOtE9zCdY6CLRnbf/DFE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=pubi04d6RcCe6n/e3PgblYdlTp+TmskAJQQvSVhvqI+oIePLbblg91IURsTPrTuzfYGUuULhG51oYPsx7VytyqQTIaEwJn5rDXEVBPtieTNFVohPSaVIfMQUpfdsKuzIJtKDHHMe3BQ+Xkc+sgTpJD1IIpiL9LSqmPxLd8BAaL0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-607d633381fso7867317b3.1;
-        Thu, 15 Feb 2024 10:32:46 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708021965; x=1708626765;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=jUzKro4h+poZtCq/E+eskrxeGxu0ZNl3fsZ0awzJ8rc=;
-        b=d/t3v2mB8lwuDx/mPZeb7z64BJ+/8IGfOaXT9lIhHI6FYWxsa3+g2uaw0JbBjURDkp
-         VTwvzOIgZ+MoTtvUI+WyWyT2RmbQtpYG9PkIy8k7F8uxtyDM73Z1ym/TCK/xUE+f6pDa
-         QntUEzmg1Ug7TZL6XDrtv9a0sbdaVrefwrFxy6Nm1/uplzJQYdNuYwp3Yw3PFHmXJc3Z
-         MrCewPVAyF13bVtfZw6OLzKPFYXLdpWxVSKLMhRY7qXWY4UMFkEaigt6paKMH+3x6aRr
-         61u3rMdntGyr0HQsM4KgGqsnq+m/MdL0MHazdlC/ebAjmxuUbLInh4aMBJuxpUHheOEI
-         Nang==
-X-Forwarded-Encrypted: i=1; AJvYcCWgwGx70ur6iIxxBXrQ4Z/JYTTI3DqI/jrukggih8wVSuqmtfMxfzcPm1bis55zNrQAZGugTg46LYTum510jc2K5Ykmqz3Ca81mLw==
-X-Gm-Message-State: AOJu0YxHIlelRrG8xjHh8sk8decqfEql0rOXRv3JoR4blV33y00RS3kA
-	b2zqoBlxuU6BdJCUnDhrc6nqhvYQ5eacN0HiqVb5wBgLVP/2ezyyuzDX5E4KwBEHaA==
-X-Google-Smtp-Source: AGHT+IER2xJCrtidN5PHSUSflSrddR1Erylm4W9CU+U8aKYBVvxz5Ra7AMQQjaGpMZlcVeYo+AuUhw==
-X-Received: by 2002:a81:4902:0:b0:607:a98c:81a6 with SMTP id w2-20020a814902000000b00607a98c81a6mr2502103ywa.44.1708021965313;
-        Thu, 15 Feb 2024 10:32:45 -0800 (PST)
-Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com. [209.85.128.171])
-        by smtp.gmail.com with ESMTPSA id y79-20020a81a152000000b006079deec8easm357668ywg.58.2024.02.15.10.32.44
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 15 Feb 2024 10:32:44 -0800 (PST)
-Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-607aafb2cb4so13328687b3.0;
-        Thu, 15 Feb 2024 10:32:44 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCUj7zLpW7J1gACtcS2PUuBYW3D5PRXsAyHIeSLcTSz/3HtomrtMuCf5AtOm3vJ7qLvWkm80mnZ8qRqAi+bkl1tBwBx9SkHN/X6FAA==
-X-Received: by 2002:a81:72c6:0:b0:5ff:a3df:9ba4 with SMTP id
- n189-20020a8172c6000000b005ffa3df9ba4mr2451754ywc.48.1708021964711; Thu, 15
- Feb 2024 10:32:44 -0800 (PST)
+	s=arc-20240116; t=1708022857; c=relaxed/simple;
+	bh=0xDOg2u0V8uxNM+kqNyuZBvObXbz+y7zI30XTxDevLI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=YIuuCnK+PJnPc8Nh1sg47YGk4uUiF38mibqJUlwSwGVv+fqvDsLDr/O/tmX/P0nU5Eqz4YkeuYOynPdcv+hcmbobPAgZHFWhPIMNOvZ67aHGopveZzHIBgdSgMtx3SRPJGBHDHGy8Tyn+f1qq5UqtZ3ofmkIPZliB9djHJgm3CE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=M2G2D+2g; arc=none smtp.client-ip=192.198.163.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1708022855; x=1739558855;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=0xDOg2u0V8uxNM+kqNyuZBvObXbz+y7zI30XTxDevLI=;
+  b=M2G2D+2gfEqsj8S58uuG0Q9EIZJceqfqYaeYNLBK92DydgFRqDbHjC3+
+   H/DwG6k66lPi49qgUHU8/p3ThEsIDDaKZkvPsZHgDoiCS7xdsc8sfSpXt
+   5rVdqFNBmek0sbVbNE70DZ2ezGysZksU0lRYEcVFhGbaitKKGm7GQsTWs
+   LvK1eis84GGdbx35qpfY8ZJjGBIcaYnHAYCqrwDkenTak8CMoCUiEk30i
+   iOC3J7TiZVYKcOaHmuvnsmrDdLbTJM/6rfkCMj1/KNgeOi4fFCOdCe9wG
+   gmieS6Un3DVc2YuXfuGaBYIPVA922Zs89/FcbNRQpRyNGXp9Ap12DB7jI
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10985"; a="19649948"
+X-IronPort-AV: E=Sophos;i="6.06,162,1705392000"; 
+   d="scan'208";a="19649948"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Feb 2024 10:47:34 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10985"; a="826449228"
+X-IronPort-AV: E=Sophos;i="6.06,162,1705392000"; 
+   d="scan'208";a="826449228"
+Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
+  by orsmga001.jf.intel.com with SMTP; 15 Feb 2024 10:47:27 -0800
+Received: by stinkbox (sSMTP sendmail emulation); Thu, 15 Feb 2024 20:47:26 +0200
+Date: Thu, 15 Feb 2024 20:47:26 +0200
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Mario Limonciello <mario.limonciello@amd.com>
+Cc: Daniel Vetter <daniel@ffwll.ch>,
+	Jani Nikula <jani.nikula@linux.intel.com>,
+	Alex Deucher <alexander.deucher@amd.com>,
+	Hans de Goede <hdegoede@redhat.com>,
+	"open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
+	amd-gfx@lists.freedesktop.org,
+	"open list:USB SUBSYSTEM" <linux-usb@vger.kernel.org>,
+	linux-fbdev@vger.kernel.org, nouveau@lists.freedesktop.org,
+	intel-gfx@lists.freedesktop.org,
+	platform-driver-x86@vger.kernel.org, intel-xe@lists.freedesktop.org,
+	linux-renesas-soc@vger.kernel.org,
+	"open list:ACPI" <linux-acpi@vger.kernel.org>,
+	open list <linux-kernel@vger.kernel.org>,
+	Melissa Wen <mwen@igalia.com>,
+	Mark Pearson <mpearson-lenovo@squebb.ca>
+Subject: Re: [PATCH v6 3/5] drm: Add support to get EDID from ACPI
+Message-ID: <Zc5cPjpNZydqKeS8@intel.com>
+References: <20240214215756.6530-1-mario.limonciello@amd.com>
+ <20240214215756.6530-4-mario.limonciello@amd.com>
+ <Zc1JEg5mC0ww_BeU@intel.com>
+ <9831e9bc-d55f-4a72-950a-684a757af59c@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240123145354.1571800-1-niklas.soderlund+renesas@ragnatech.se>
-In-Reply-To: <20240123145354.1571800-1-niklas.soderlund+renesas@ragnatech.se>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 15 Feb 2024 19:32:32 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdXxA1K7G5a84WkTCqa2WGPp4ZvjOZR_9SBgEkXOUm8f9A@mail.gmail.com>
-Message-ID: <CAMuHMdXxA1K7G5a84WkTCqa2WGPp4ZvjOZR_9SBgEkXOUm8f9A@mail.gmail.com>
-Subject: Re: [PATCH] arm64: dts: renesas: eagle: Add capture overlay for
- expansion board
-To: =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Cc: linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <9831e9bc-d55f-4a72-950a-684a757af59c@amd.com>
+X-Patchwork-Hint: comment
 
-Hi Niklas,
+On Thu, Feb 15, 2024 at 12:20:56PM -0600, Mario Limonciello wrote:
+> On 2/14/2024 17:13, Ville Syrjälä wrote:
+> > On Wed, Feb 14, 2024 at 03:57:54PM -0600, Mario Limonciello wrote:
+> >> Some manufacturers have intentionally put an EDID that differs from
+> >> the EDID on the internal panel on laptops.  Drivers that prefer to
+> >> fetch this EDID can set a bit on the drm_connector to indicate that
+> >> the DRM EDID helpers should try to fetch it and it is preferred if
+> >> it's present.
+> >>
+> >> Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
+> >> ---
+> >>   drivers/gpu/drm/Kconfig     |   1 +
+> >>   drivers/gpu/drm/drm_edid.c  | 109 +++++++++++++++++++++++++++++++++---
+> >>   include/drm/drm_connector.h |   6 ++
+> >>   include/drm/drm_edid.h      |   1 +
+> >>   4 files changed, 109 insertions(+), 8 deletions(-)
+> >>
+> >> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
+> >> index 872edb47bb53..3db89e6af01d 100644
+> >> --- a/drivers/gpu/drm/Kconfig
+> >> +++ b/drivers/gpu/drm/Kconfig
+> >> @@ -8,6 +8,7 @@
+> >>   menuconfig DRM
+> >>   	tristate "Direct Rendering Manager (XFree86 4.1.0 and higher DRI support)"
+> >>   	depends on (AGP || AGP=n) && !EMULATED_CMPXCHG && HAS_DMA
+> >> +	depends on (ACPI_VIDEO || ACPI_VIDEO=n)
+> >>   	select DRM_PANEL_ORIENTATION_QUIRKS
+> >>   	select DRM_KMS_HELPER if DRM_FBDEV_EMULATION
+> >>   	select FB_CORE if DRM_FBDEV_EMULATION
+> >> diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
+> >> index 923c4423151c..cdc30c6d05d5 100644
+> >> --- a/drivers/gpu/drm/drm_edid.c
+> >> +++ b/drivers/gpu/drm/drm_edid.c
+> >> @@ -28,6 +28,7 @@
+> >>    * DEALINGS IN THE SOFTWARE.
+> >>    */
+> >>   
+> >> +#include <acpi/video.h>
+> >>   #include <linux/bitfield.h>
+> >>   #include <linux/cec.h>
+> >>   #include <linux/hdmi.h>
+> >> @@ -2188,6 +2189,58 @@ drm_do_probe_ddc_edid(void *data, u8 *buf, unsigned int block, size_t len)
+> >>   	return ret == xfers ? 0 : -1;
+> >>   }
+> >>   
+> >> +/**
+> >> + * drm_do_probe_acpi_edid() - get EDID information via ACPI _DDC
+> >> + * @data: struct drm_connector
+> >> + * @buf: EDID data buffer to be filled
+> >> + * @block: 128 byte EDID block to start fetching from
+> >> + * @len: EDID data buffer length to fetch
+> >> + *
+> >> + * Try to fetch EDID information by calling acpi_video_get_edid() function.
+> >> + *
+> >> + * Return: 0 on success or error code on failure.
+> >> + */
+> >> +static int
+> >> +drm_do_probe_acpi_edid(void *data, u8 *buf, unsigned int block, size_t len)
+> >> +{
+> >> +	struct drm_connector *connector = data;
+> >> +	struct drm_device *ddev = connector->dev;
+> >> +	struct acpi_device *acpidev = ACPI_COMPANION(ddev->dev);
+> >> +	unsigned char start = block * EDID_LENGTH;
+> >> +	void *edid;
+> >> +	int r;
+> >> +
+> >> +	if (!acpidev)
+> >> +		return -ENODEV;
+> >> +
+> >> +	switch (connector->connector_type) {
+> >> +	case DRM_MODE_CONNECTOR_LVDS:
+> >> +	case DRM_MODE_CONNECTOR_eDP:
+> >> +		break;
+> >> +	default:
+> >> +		return -EINVAL;
+> >> +	}
+> > 
+> > We could have other types of connectors that want this too.
+> > I don't see any real benefit in having this check tbh. Drivers
+> > should simply notset the flag on connectors where it won't work,
+> > and only the driver can really know that.
+> 
+> Ack.
+> 
+> > 
+> >> +	/* fetch the entire edid from BIOS */
+> >> +	r = acpi_video_get_edid(acpidev, ACPI_VIDEO_DISPLAY_LCD, -1, &edid);
+> >> +	if (r < 0) {
+> >> +		DRM_DEBUG_KMS("Failed to get EDID from ACPI: %d\n", r);
+> >> +		return r;
+> >> +	}
+> >> +	if (len > r || start > r || start + len > r) {
+> >> +		r = -EINVAL;
+> >> +		goto cleanup;
+> >> +	}
+> >> +
+> >> +	memcpy(buf, edid + start, len);
+> >> +	r = 0;
+> >> +
+> >> +cleanup:
+> >> +	kfree(edid);
+> >> +
+> >> +	return r;
+> >> +}
+> >> +
+> >>   static void connector_bad_edid(struct drm_connector *connector,
+> >>   			       const struct edid *edid, int num_blocks)
+> >>   {
+> >> @@ -2621,7 +2674,8 @@ EXPORT_SYMBOL(drm_probe_ddc);
+> >>    * @connector: connector we're probing
+> >>    * @adapter: I2C adapter to use for DDC
+> >>    *
+> >> - * Poke the given I2C channel to grab EDID data if possible.  If found,
+> >> + * If the connector allows it, try to fetch EDID data using ACPI. If not found
+> >> + * poke the given I2C channel to grab EDID data if possible.  If found,
+> >>    * attach it to the connector.
+> >>    *
+> >>    * Return: Pointer to valid EDID or NULL if we couldn't find any.
+> >> @@ -2629,20 +2683,50 @@ EXPORT_SYMBOL(drm_probe_ddc);
+> >>   struct edid *drm_get_edid(struct drm_connector *connector,
+> >>   			  struct i2c_adapter *adapter)
+> >>   {
+> >> -	struct edid *edid;
+> >> +	struct edid *edid = NULL;
+> >>   
+> >>   	if (connector->force == DRM_FORCE_OFF)
+> >>   		return NULL;
+> >>   
+> >> -	if (connector->force == DRM_FORCE_UNSPECIFIED && !drm_probe_ddc(adapter))
+> >> -		return NULL;
+> >> +	if (connector->acpi_edid_allowed)
+> >> +		edid = _drm_do_get_edid(connector, drm_do_probe_acpi_edid, connector, NULL);
+> >> +
+> >> +	if (!edid) {
+> >> +		if (connector->force == DRM_FORCE_UNSPECIFIED && !drm_probe_ddc(adapter))
+> >> +			return NULL;
+> >> +		edid = _drm_do_get_edid(connector, drm_do_probe_ddc_edid, adapter, NULL);
+> >> +	}
+> >>   
+> >> -	edid = _drm_do_get_edid(connector, drm_do_probe_ddc_edid, adapter, NULL);
+> >>   	drm_connector_update_edid_property(connector, edid);
+> >>   	return edid;
+> >>   }
+> >>   EXPORT_SYMBOL(drm_get_edid);
+> >>   
+> >> +/**
+> >> + * drm_edid_read_acpi - get EDID data, if available
+> >> + * @connector: connector we're probing
+> >> + *
+> >> + * Use the BIOS to attempt to grab EDID data if possible.
+> >> + *
+> >> + * The returned pointer must be freed using drm_edid_free().
+> >> + *
+> >> + * Return: Pointer to valid EDID or NULL if we couldn't find any.
+> >> + */
+> >> +const struct drm_edid *drm_edid_read_acpi(struct drm_connector *connector)
+> >> +{
+> >> +	const struct drm_edid *drm_edid;
+> >> +
+> >> +	if (connector->force == DRM_FORCE_OFF)
+> >> +		return NULL;
+> >> +
+> >> +	drm_edid = drm_edid_read_custom(connector, drm_do_probe_acpi_edid, connector);
+> >> +
+> >> +	/* Note: Do *not* call connector updates here. */
+> >> +
+> >> +	return drm_edid;
+> >> +}
+> >> +EXPORT_SYMBOL(drm_edid_read_acpi);
+> >> +
+> >>   /**
+> >>    * drm_edid_read_custom - Read EDID data using given EDID block read function
+> >>    * @connector: Connector to use
+> >> @@ -2727,10 +2811,11 @@ const struct drm_edid *drm_edid_read_ddc(struct drm_connector *connector,
+> >>   EXPORT_SYMBOL(drm_edid_read_ddc);
+> >>   
+> >>   /**
+> >> - * drm_edid_read - Read EDID data using connector's I2C adapter
+> >> + * drm_edid_read - Read EDID data using BIOS or connector's I2C adapter
+> >>    * @connector: Connector to use
+> >>    *
+> >> - * Read EDID using the connector's I2C adapter.
+> >> + * Read EDID from BIOS if allowed by connector or by using the connector's
+> >> + * I2C adapter.
+> >>    *
+> >>    * The EDID may be overridden using debugfs override_edid or firmware EDID
+> >>    * (drm_edid_load_firmware() and drm.edid_firmware parameter), in this priority
+> >> @@ -2742,10 +2827,18 @@ EXPORT_SYMBOL(drm_edid_read_ddc);
+> >>    */
+> >>   const struct drm_edid *drm_edid_read(struct drm_connector *connector)
+> >>   {
+> >> +	const struct drm_edid *drm_edid = NULL;
+> >> +
+> >>   	if (drm_WARN_ON(connector->dev, !connector->ddc))
+> >>   		return NULL;
+> >>   
+> >> -	return drm_edid_read_ddc(connector, connector->ddc);
+> >> +	if (connector->acpi_edid_allowed)
+> > 
+> > That should probably be called 'prefer_acpi_edid' or something
+> > since it's the first choice when the flag is set.
+> 
+> OK.
+> 
+> > 
+> > But I'm not so sure there's any real benefit in having this
+> > flag at all. You anyway have to modify the driver to use this,
+> > so why not just have the driver do the call directly instead of
+> > adding this extra detour via the flag?
+> 
+> This was proposed by Maxime Ripard during v4.
+> 
+> https://lore.kernel.org/dri-devel/ysm2e3vczov7z7vezmexe35fjnkhsakud3elsgggedhk2lknlz@cx7j44y354db/
 
-On Tue, Jan 23, 2024 at 3:54=E2=80=AFPM Niklas S=C3=B6derlund
-<niklas.soderlund+renesas@ragnatech.se> wrote:
-> The Eagle board supports an optional expansion board. The expansion
+Which somewhat ignores Jani's concerns about potentially
+bogus EDIDs coming from ACPI, as well as not allowing
+the driver to dictate the priority between ACPI vs. DDC
+vs. whatever else methods are available. Eg. i915 has
+at least one other place where it could get the EDID.
+So I don't think i915 could use this version.
 
-The title page of the schematics document calls this the "Function
-expansion board".
+But as long we still have the individual methods available
+as separate exported functions I suppose drivers can still
+choose to stitch their own thing together.
 
-> board adds support for HDMI OUT, HDMI capture from two different sources
-> and eMMC.
->
-> This change only adds support for the two HDMI capture sources.
->
-> Signed-off-by: Niklas S=C3=B6derlund <niklas.soderlund+renesas@ragnatech.=
-se>
+I just don't see much point in having that midlayer.
+I don't think drivers can just plug that thing straight
+into an existing vfunc or can they? If not, then they still
+have to implement the actual function where it gets called.
+And once you're doing that, calling two functions instead of
+one seems about the same amount of work as setting that flag.
 
-Thanks for your patch!
+But if people think it's actually useful for them
+I won't stand in the way.
 
-> --- a/arch/arm64/boot/dts/renesas/Makefile
-> +++ b/arch/arm64/boot/dts/renesas/Makefile
-> @@ -62,6 +62,8 @@ dtb-$(CONFIG_ARCH_R8A77965) +=3D r8a77965-ulcb.dtb
->  dtb-$(CONFIG_ARCH_R8A77965) +=3D r8a77965-ulcb-kf.dtb
->
->  dtb-$(CONFIG_ARCH_R8A77970) +=3D r8a77970-eagle.dtb
+> 
+> > 
+> >> +		drm_edid = drm_edid_read_acpi(connector);
+> >> +
+> >> +	if (!drm_edid)
+> >> +		drm_edid = drm_edid_read_ddc(connector, connector->ddc);
+> >> +
+> >> +	return drm_edid;
+> >>   }
+> >>   EXPORT_SYMBOL(drm_edid_read);
+> >>   
+> >> diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
+> >> index fe88d7fc6b8f..74ed47f37a69 100644
+> >> --- a/include/drm/drm_connector.h
+> >> +++ b/include/drm/drm_connector.h
+> >> @@ -1886,6 +1886,12 @@ struct drm_connector {
+> >>   
+> >>   	/** @hdr_sink_metadata: HDR Metadata Information read from sink */
+> >>   	struct hdr_sink_metadata hdr_sink_metadata;
+> >> +
+> >> +	/**
+> >> +	 * @acpi_edid_allowed: Get the EDID from the BIOS, if available.
+> >> +	 * This is only applicable to eDP and LVDS displays.
+> >> +	 */
+> >> +	bool acpi_edid_allowed;
+> > 
+> > Aren't there other bools/small stuff in there for tighter packing?
+> 
+> Does the compiler automatically do the packing if you put bools nearby 
+> in a struct?  If so; TIL.
 
-Please add
+Yes. Well, depends on the types and their alignment requirements
+of course, and/or whether you specified __packed or not.
 
-    dtb-$(CONFIG_ARCH_R8A77970) +=3D r8a77970-eagle-expansion.dtbo
+You can use 'pahole' to find the holes in structures.
 
-so that the .dtbo is considered for installation, too.
+> 
+> > 
+> >>   };
+> >>   
+> >>   #define obj_to_connector(x) container_of(x, struct drm_connector, base)
+> >> diff --git a/include/drm/drm_edid.h b/include/drm/drm_edid.h
+> >> index 7923bc00dc7a..1c1ee927de9c 100644
+> >> --- a/include/drm/drm_edid.h
+> >> +++ b/include/drm/drm_edid.h
+> >> @@ -459,5 +459,6 @@ bool drm_edid_is_digital(const struct drm_edid *drm_edid);
+> >>   
+> >>   const u8 *drm_find_edid_extension(const struct drm_edid *drm_edid,
+> >>   				  int ext_id, int *ext_index);
+> >> +const struct drm_edid *drm_edid_read_acpi(struct drm_connector *connector);
+> >>   
+> >>   #endif /* __DRM_EDID_H__ */
+> >> -- 
+> >> 2.34.1
+> > 
 
-> +r8a77970-eagle-expansion-dtbs :=3D r8a77970-eagle.dtb r8a77970-eagle-exp=
-ansion.dtbo
-> +dtb-$(CONFIG_ARCH_R8A77970) +=3D r8a77970-eagle-expansion.dtb
->  dtb-$(CONFIG_ARCH_R8A77970) +=3D r8a77970-v3msk.dtb
->
->  dtb-$(CONFIG_ARCH_R8A77980) +=3D r8a77980-condor.dtb
-
-> --- /dev/null
-> +++ b/arch/arm64/boot/dts/renesas/r8a77970-eagle-expansion.dtso
-
-This is a rather generic name.
-What about r8a77970-eagle-function-expansion.dtso?
-
-> @@ -0,0 +1,214 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * Device Tree Source for the Eagle V3M expansion board.
-
-... Function expansion board?
-
-> + *
-> + * Copyright (C) 2024 Niklas S=C3=B6derlund <niklas.soderlund@ragnatech.=
-se>
-> + */
-> +
-> +#include <dt-bindings/gpio/gpio.h>
-> +#include <dt-bindings/interrupt-controller/irq.h>
-
-Please move the includes below the /.../; markers.
-
-> +
-> +/dts-v1/;
-> +/plugin/;
-> +
-> +/ {
-> +       /* CN4 */
-> +       /* Eagle: SW18 set to OFF */
-> +       cvbs-in-cn4 {
-> +               compatible =3D "composite-video-connector";
-> +               label =3D "CVBS IN CN4";
-> +
-> +               port {
-> +                       cvbs_con: endpoint {
-> +                               remote-endpoint =3D <&adv7482_ain7>;
-> +                       };
-> +               };
-> +       };
-> +
-> +       /* CN3 */
-> +       /* Eagle: SW18 set to OFF */
-> +       hdmi-in-cn3 {
-
-Please use alphabetical sort order for nodes without unit addresses.
-
-> +               compatible =3D "hdmi-connector";
-> +               label =3D "HDMI IN CN3";
-> +               type =3D "a";
-> +
-> +               port {
-> +                       hdmi_in_con: endpoint {
-> +                               remote-endpoint =3D <&adv7482_hdmi>;
-> +                       };
-> +               };
-> +       };
-> +
-> +       /* CN2 */
-> +       /* Eagle: SW35 set 5, 6 and 8 to OFF */
-> +       hdmi-in-cn2 {
-> +               compatible =3D "hdmi-connector";
-> +               label =3D "HDMI IN CN2";
-> +               type =3D "a";
-> +
-> +               port {
-> +                       hdmi_in_con2: endpoint {
-> +                               remote-endpoint =3D <&adv7612_in>;
-> +                       };
-> +               };
-> +       };
-> +};
-> +
-> +/* Disconnect MAX9286 GMSL i2c. */
-
-I2C
-
-> +&i2c3 {
-> +       status =3D "disabled";
-> +};
-> +
-> +/* Connect expansion board i2c. */
-
-I2C
-
-> +&i2c0 {
-> +       #address-cells =3D <1>;
-> +       #size-cells =3D <0>;
-> +
-> +       io_expander_27: gpio@27 {
-> +               compatible =3D "onnn,pca9654";
-> +               reg =3D <0x27>;
-> +               gpio-controller;
-> +               #gpio-cells =3D <2>;
-> +
-> +               vin0_adv7612_en {
-> +                       gpio-hog;
-> +                       gpios =3D <0x3 0x0>;
-
-Please use symbolic values for GPIO flags, i.e. GPIO_ACTIVE_HIGH.
-
-> +                       output-low;
-> +                       line-name =3D "VIN0_ADV7612_ENn";
-
-Given this signal is active-low, you probably want:
-
-    gpios =3D <3 GPIO_ACTIVE_LOW>;
-    output-high;
-
-> +               };
-> +       };
-> +
-> +       dmi-decoder@4c {
-
-hdmi-decoder
-
-According to the schematics, the primary address is 0x4d?
-
-> +               compatible =3D "adi,adv7612";
-> +               reg =3D <0x4c>, <0x50>, <0x52>, <0x54>, <0x56>, <0x58>;
-> +               reg-names =3D "main", "afe", "rep", "edid", "hdmi", "cp";
-> +               interrupt-parent =3D <&gpio3>;
-> +               interrupts =3D <2 IRQ_TYPE_LEVEL_LOW>;
-> +               default-input =3D <0>;
-
-> +       };
-> +
-> +       adv7482_70: video-receiver@70 {
-
-Do you see a future user for this label?
-Just wondering, as some nodes have labels, others haven't.
-
-> +               compatible =3D "adi,adv7482";
-> +               reg =3D <0x70 0x71 0x72 0x73 0x74 0x75
-> +                      0x60 0x61 0x62 0x63 0x64 0x65>;
-> +               reg-names =3D "main", "dpll", "cp", "hdmi", "edid", "repe=
-ater",
-> +                           "infoframe", "cbus", "cec", "sdp", "txa", "tx=
-b" ;
-> +               interrupt-parent =3D <&gpio3>;
-> +               interrupts =3D <03 IRQ_TYPE_LEVEL_LOW>, <04 IRQ_TYPE_LEVE=
-L_LOW>;
-> +               interrupt-names =3D "intrq1", "intrq2";
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+-- 
+Ville Syrjälä
+Intel
 
