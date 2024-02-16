@@ -1,143 +1,177 @@
-Return-Path: <linux-renesas-soc+bounces-2884-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-2885-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27430857B84
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 16 Feb 2024 12:23:47 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BD81857B8E
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 16 Feb 2024 12:25:49 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id B4FB11F25BE4
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 16 Feb 2024 11:23:46 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id E7A191F25CF5
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 16 Feb 2024 11:25:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 23E6B7690B;
-	Fri, 16 Feb 2024 11:23:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 99FA769DF4;
+	Fri, 16 Feb 2024 11:25:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="F+TkqYOU"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="f9Hr8kSp"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5140C1BF50;
-	Fri, 16 Feb 2024 11:23:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 657F51BF50;
+	Fri, 16 Feb 2024 11:25:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708082622; cv=none; b=I45czSrF9fovdNW+NuQHcALHGIkJe67bx1veY4ucRjlpRrlea+W+8Llknyn6ep+dq4xFY7zWKu8mFBD74VBs3MUTnsNr2+3GN+kBE9iAPxbOt/SMkOtozcrNFgQDeD/0pMEyaJae42/oTjgf0kgRCf7psc0PcQsGh8S8+odz3ZQ=
+	t=1708082744; cv=none; b=L35oJjaMbTx5Qa3KAQlvdI3WUoUTg9Zc1dkJ7GIUGeYnGxiBRCag5OJIwsArRvyLZSCWG4X8QM8jrUyRbLpQkOEKAW1mUO4j/RD+4Nz1YUhH/C72F+vZaY0zukny5yb0q7D6DRj56487gGn0000MvMqX0+frZVPabQlb9O5PZ2A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708082622; c=relaxed/simple;
-	bh=JJcfIBGCp3ZKPHLIPV/hxkDPf5TaHhr8o0zt0AcWnRY=;
-	h=Content-Type:Mime-Version:Date:Message-Id:Subject:From:To:
-	 References:In-Reply-To; b=VeNuZsLJBfZaNt4ZlchG+fK6/m3Wk+yeVHVZ1fLqOksInBCK5gkqZYpoYlpeA0Fij7yY+zXZAl28xVrALcK9Gb6l7336ispDXtEzr4NrUCG5ABvUcKdow/cNlJso1cqdbkCnwJKsDBGaVwsgEVRc5UAXSyNfQiTU5G8TFxXPR0E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=F+TkqYOU; arc=none smtp.client-ip=209.85.167.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-511acd26c2bso2750065e87.2;
-        Fri, 16 Feb 2024 03:23:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1708082618; x=1708687418; darn=vger.kernel.org;
-        h=in-reply-to:references:to:from:subject:message-id:date:mime-version
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=qCkIBF2HUHDgPA/fkE23qtD6c+3DYAPMy1MuIjYZckA=;
-        b=F+TkqYOU1LIIbCw/kiIShDUIoUVlvbGoyMy5/G8pVcq6M6Ta/1cYcz5KdWju4hGJt/
-         WM3N2BShCm2pmcvre4zpjrSWyJcBwLU8WOuqI+eU7f6URnUzbOYlIZxWnGNtjNTIVn5I
-         nEJUP3btos9Epr5iVcb5e1eqHPgXZZS0+N635f6xAc3IWLjA71h+tCR5Hfj+DzmSBW6l
-         Hskfj3CbhjY9t9VpxB+5RZZsbMIM4NXzD7SaTBbpsz63hTKE6ehmtq5D0a+WLqcC0DBQ
-         lKD5RfaWhT+oqP0QNISyFb6BPUdHAb9ik20rO7Zelfp9aUpsttP4p+YHzHNymX4U+8HY
-         0HVA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708082618; x=1708687418;
-        h=in-reply-to:references:to:from:subject:message-id:date:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=qCkIBF2HUHDgPA/fkE23qtD6c+3DYAPMy1MuIjYZckA=;
-        b=JgBONV4aQhJR1VElPZq6ykdPkVhUtx/xdJ9jeAq6LQacN0FCxhB9Jt24mcXt5BzQZX
-         9yfHdF8gQW2IX1c44TLuFX389YPmt+YrwQPeBddJ8H8X16ZA7Eq5g5JGxRwqKeFL2Pzk
-         wz3ff8CTdqgn0rLpfoI0BXZX4gxjWOXqlmbOCp5v3x1Nk38n+S0QYoC6qy7g1bMY4GAA
-         6HXVr5Q3v+IRSbInP1ZBtv+LHicyuUFnAXona22oeSGt7hILK6mW4xctFrQQ/Z3LQq6g
-         eSgB/fy+1MmtfmYHLcMVMM4dkLyIgK5T84E/T/EuoPiAyyfRuwfG+zXGKcC4O238Fd3g
-         ASPg==
-X-Forwarded-Encrypted: i=1; AJvYcCU6xPvsAzMNcbW4wl21CCLyXej6jLImAWb9o6/qLuPlqBOS+g1DVxsTBilnk/5Bk3lQD2cF7nK/es+aLa5aS4ZmUjxqhORPV6q1dA6Yydp/m0DSSwD9NFpsY9+OCb6rBFuwP7/SGBIY7c+DGXfyofw8dwvClJG99SZ8d4ymjMGeWAeZva1DxTkLQ8FJMyoLEe6f41Wk9ucYUxvIfBVRlriInAnr6PShpYwrIPiKSANm7/VUqfidu+Kms7+GO2BGXjMDfYPytWXZdZH9ZcjdQJvDvDy86DlVUxRUVmQ3aGbs2Rt6F80cVzd6rMRu259tstLGRk5Sf10JfVAHHMhldj5WGOxIGH4/fRahoQUrAE1pVGQqnJddDSGX9G13WQ==
-X-Gm-Message-State: AOJu0YyKyOU+02rDKxEufmO4WKCB9TLkRKlz9WG/bXV622DUcM38thN9
-	YviF23Wh7agyKrc4/ddkBiBn4kThkpFqV3chJcEeWvOYx3TO4isx
-X-Google-Smtp-Source: AGHT+IFk4ZkCa0R/m44omA2Xi3MhoAzI8tKPY8V0cTU/2axm4inHWuZNW2UcVx0PzaNks2ZutoR+ew==
-X-Received: by 2002:a05:6512:716:b0:511:8b40:ab6b with SMTP id b22-20020a056512071600b005118b40ab6bmr2834631lfs.50.1708082618024;
-        Fri, 16 Feb 2024 03:23:38 -0800 (PST)
-Received: from localhost (p200300e41f147f00f22f74fffe1f3a53.dip0.t-ipconnect.de. [2003:e4:1f14:7f00:f22f:74ff:fe1f:3a53])
-        by smtp.gmail.com with ESMTPSA id f23-20020a170906561700b00a3d828c54f1sm1459386ejq.135.2024.02.16.03.23.36
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 16 Feb 2024 03:23:37 -0800 (PST)
-Content-Type: multipart/signed;
- boundary=87caa6e717479adfa0f5d015ffee82cc14ceb938e5f7a71c46d45b7997b5;
- micalg=pgp-sha256; protocol="application/pgp-signature"
+	s=arc-20240116; t=1708082744; c=relaxed/simple;
+	bh=irTs/3hjqvC4IGIEj4U/Sb544ZHhGyYlJaKX6Qhdn+M=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ryurle55UEUQHhTK3sN8Dx9yjPv/36AiSgHLC/V/BexmX5nsLWYVKfrDvnznTTJiWWGs39kcjEQhYwnbPnN29fmNoRYYTMBG4k1hF2DXiWq+KXiJ/wOCLrEExNMRTnRMdkCvmYeevtlYtpU7kgO3upbX7GFjX1V18e5lopTmKY0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=f9Hr8kSp; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EAD0AC433C7;
+	Fri, 16 Feb 2024 11:25:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1708082743;
+	bh=irTs/3hjqvC4IGIEj4U/Sb544ZHhGyYlJaKX6Qhdn+M=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=f9Hr8kSpQ3k1fF39QRvvME6Mk2/doRfaMNhgqWXiMfU9/dYZViGnmhMlYTTEi/S3D
+	 p/NhBnh86rSKu5V11Ip5AEbIESUFOIj0NyTXjbHojGGCt940e8sC7jAMfJGWA0aQBy
+	 LlRoSTch0Bh6lCeBocKAqycKpcnVX+NTVr7JstIwF1Fc5t7KhAQpkcMVry3Ieax+u6
+	 HNYcf8/PV5dHGuGii7+hF0UNNwSA78XFZuQ81z/wY1JMJlkqeF8lDyMEv2ATmvAbd9
+	 fq5CEnqBhPLLlXOrdMUhTZMe9d3dRuNpPsMi0iIJQgn+fWItYZxeUWIz236g2QEj08
+	 S9BMhiNUAT4bg==
+Date: Fri, 16 Feb 2024 16:55:31 +0530
+From: Manivannan Sadhasivam <mani@kernel.org>
+To: Niklas Cassel <cassel@kernel.org>
+Cc: Richard Zhu <hongxing.zhu@nxp.com>,
+	Lucas Stach <l.stach@pengutronix.de>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
+	Rob Herring <robh@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	NXP Linux Team <linux-imx@nxp.com>,
+	Minghuan Lian <minghuan.Lian@nxp.com>,
+	Mingkai Hu <mingkai.hu@nxp.com>, Roy Zang <roy.zang@nxp.com>,
+	Srikanth Thokala <srikanth.thokala@intel.com>,
+	Marek Vasut <marek.vasut+renesas@gmail.com>,
+	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Jon Mason <jdmason@kudzu.us>, Dave Jiang <dave.jiang@intel.com>,
+	Allen Hubbe <allenbh@gmail.com>,
+	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+	Kishon Vijay Abraham I <kishon@kernel.org>,
+	Damien Le Moal <dlemoal@kernel.org>, Frank Li <Frank.Li@nxp.com>,
+	linux-pci@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linuxppc-dev@lists.ozlabs.org, linux-renesas-soc@vger.kernel.org,
+	linux-tegra@vger.kernel.org, ntb@lists.linux.dev
+Subject: Re: [PATCH 1/2] PCI: endpoint: Clean up hardware description for BARs
+Message-ID: <20240216112531.GD2559@thinkpad>
+References: <20240210012634.600301-1-cassel@kernel.org>
+ <20240210012634.600301-2-cassel@kernel.org>
+ <20240216111908.GC2559@thinkpad>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Date: Fri, 16 Feb 2024 12:23:36 +0100
-Message-Id: <CZ6GR5BWC80N.36XRBM33WF8MW@gmail.com>
-Subject: Re: [PATCH] clk: constify the of_phandle_args argument of
- of_clk_provider
-From: "Thierry Reding" <thierry.reding@gmail.com>
-To: "Krzysztof Kozlowski" <krzysztof.kozlowski@linaro.org>, "Michael
- Turquette" <mturquette@baylibre.com>, "Stephen Boyd" <sboyd@kernel.org>,
- "Sudeep Holla" <sudeep.holla@arm.com>, "Peng Fan" <peng.fan@nxp.com>,
- "Shawn Guo" <shawnguo@kernel.org>, "Nishanth Menon" <nm@ti.com>, "Bjorn
- Andersson" <andersson@kernel.org>, "Konrad Dybcio"
- <konrad.dybcio@linaro.org>, "Geert Uytterhoeven" <geert+renesas@glider.be>,
- "Jonathan Hunter" <jonathanh@nvidia.com>, "Linus Walleij"
- <linus.walleij@linaro.org>, "Laurent Pinchart"
- <laurent.pinchart@ideasonboard.com>, "Mauro Carvalho Chehab"
- <mchehab@kernel.org>, "Vinod Koul" <vkoul@kernel.org>, "Russell King"
- <linux@armlinux.org.uk>, "Srinivas Kandagatla"
- <srinivas.kandagatla@linaro.org>, "Mark Brown" <broonie@kernel.org>,
- "Jaroslav Kysela" <perex@perex.cz>, "Takashi Iwai" <tiwai@suse.com>,
- <linux-clk@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
- <linux-kernel@vger.kernel.org>, <patches@opensource.cirrus.com>,
- <linux-stm32@st-md-mailman.stormreply.com>, "NXP Linux Team"
- <linux-imx@nxp.com>, <linux-amlogic@lists.infradead.org>,
- <linux-arm-msm@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>,
- <linux-tegra@vger.kernel.org>, <linux-omap@vger.kernel.org>,
- <linux-media@vger.kernel.org>, <linux-phy@lists.infradead.org>,
- <alsa-devel@alsa-project.org>, <linux-sound@vger.kernel.org>
-X-Mailer: aerc 0.16.0-1-0-g560d6168f0ed-dirty
-References: <20240208163710.512733-1-krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20240208163710.512733-1-krzysztof.kozlowski@linaro.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240216111908.GC2559@thinkpad>
 
---87caa6e717479adfa0f5d015ffee82cc14ceb938e5f7a71c46d45b7997b5
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
+On Fri, Feb 16, 2024 at 04:49:08PM +0530, Manivannan Sadhasivam wrote:
+> On Sat, Feb 10, 2024 at 02:26:25AM +0100, Niklas Cassel wrote:
+> > The hardware description for BARs is scattered in many different variables
+> > in pci_epc_features. Some of these things are mutually exclusive, so it
+> > can create confusion over which variable that has precedence over another.
+> > 
+> > Improve the situation by creating a struct pci_epc_bar_desc, and a new
+> > enum pci_epc_bar_type, and convert the endpoint controller drivers to use
+> > this more well defined format.
+> > 
+> > Signed-off-by: Niklas Cassel <cassel@kernel.org>
+> > ---
+> >  drivers/pci/controller/dwc/pci-imx6.c         |  3 +-
+> >  drivers/pci/controller/dwc/pci-keystone.c     | 12 +++----
+> >  .../pci/controller/dwc/pci-layerscape-ep.c    |  5 ++-
+> >  drivers/pci/controller/dwc/pcie-keembay.c     |  8 +++--
+> >  drivers/pci/controller/dwc/pcie-rcar-gen4.c   |  4 ++-
+> >  drivers/pci/controller/dwc/pcie-tegra194.c    | 10 ++++--
+> >  drivers/pci/controller/dwc/pcie-uniphier-ep.c | 15 ++++++--
+> >  drivers/pci/controller/pcie-rcar-ep.c         | 14 +++++---
+> >  drivers/pci/endpoint/functions/pci-epf-ntb.c  |  4 +--
+> >  drivers/pci/endpoint/functions/pci-epf-test.c |  8 ++---
+> >  drivers/pci/endpoint/functions/pci-epf-vntb.c |  2 +-
+> >  drivers/pci/endpoint/pci-epc-core.c           | 32 +++++++++--------
+> >  drivers/pci/endpoint/pci-epf-core.c           | 15 ++++----
+> >  include/linux/pci-epc.h                       | 34 +++++++++++++++----
+> >  14 files changed, 108 insertions(+), 58 deletions(-)
+> > 
+> > diff --git a/drivers/pci/controller/dwc/pci-imx6.c b/drivers/pci/controller/dwc/pci-imx6.c
+> > index dc2c036ab28c..47a9a96484ed 100644
+> > --- a/drivers/pci/controller/dwc/pci-imx6.c
+> > +++ b/drivers/pci/controller/dwc/pci-imx6.c
+> > @@ -1081,7 +1081,8 @@ static const struct pci_epc_features imx8m_pcie_epc_features = {
+> >  	.linkup_notifier = false,
+> >  	.msi_capable = true,
+> >  	.msix_capable = false,
+> > -	.reserved_bar = 1 << BAR_1 | 1 << BAR_3,
+> > +	.bar[BAR_1] = { .type = BAR_RESERVED, },
+> > +	.bar[BAR_3] = { .type = BAR_RESERVED, },
+> >  	.align = SZ_64K,
+> >  };
+> >  
+> > diff --git a/drivers/pci/controller/dwc/pci-keystone.c b/drivers/pci/controller/dwc/pci-keystone.c
+> > index c0c62533a3f1..b2b93b4fa82d 100644
+> > --- a/drivers/pci/controller/dwc/pci-keystone.c
+> > +++ b/drivers/pci/controller/dwc/pci-keystone.c
+> > @@ -924,12 +924,12 @@ static const struct pci_epc_features ks_pcie_am654_epc_features = {
+> >  	.linkup_notifier = false,
+> >  	.msi_capable = true,
+> >  	.msix_capable = true,
+> > -	.reserved_bar = 1 << BAR_0 | 1 << BAR_1,
+> > -	.bar_fixed_64bit = 1 << BAR_0,
+> > -	.bar_fixed_size[2] = SZ_1M,
+> > -	.bar_fixed_size[3] = SZ_64K,
+> > -	.bar_fixed_size[4] = 256,
+> > -	.bar_fixed_size[5] = SZ_1M,
+> > +	.bar[BAR_0] = { .type = BAR_RESERVED, .only_64bit = true, },
+> > +	.bar[BAR_1] = { .type = BAR_RESERVED, },
+> > +	.bar[BAR_2] = { .type = BAR_FIXED, .fixed_size = SZ_1M, },
+> > +	.bar[BAR_3] = { .type = BAR_FIXED, .fixed_size = SZ_64K, },
+> > +	.bar[BAR_4] = { .type = BAR_FIXED, .fixed_size = 256, },
+> > +	.bar[BAR_5] = { .type = BAR_FIXED, .fixed_size = SZ_1M, },
+> >  	.align = SZ_1M,
+> >  };
+> >  
+> > diff --git a/drivers/pci/controller/dwc/pci-layerscape-ep.c b/drivers/pci/controller/dwc/pci-layerscape-ep.c
+> > index 2e398494e7c0..1f6ee1460ec2 100644
+> > --- a/drivers/pci/controller/dwc/pci-layerscape-ep.c
+> > +++ b/drivers/pci/controller/dwc/pci-layerscape-ep.c
+> > @@ -250,7 +250,10 @@ static int __init ls_pcie_ep_probe(struct platform_device *pdev)
+> >  	pci->dev = dev;
+> >  	pci->ops = pcie->drvdata->dw_pcie_ops;
+> >  
+> > -	ls_epc->bar_fixed_64bit = (1 << BAR_2) | (1 << BAR_4);
+> > +	ls_epc->bar[BAR_2].only_64bit = true;
+> > +	ls_epc->bar[BAR_3].type = BAR_RESERVED;
+> 
+> BAR_3 and BAR_4 were not reserved previously.
+> 
 
-On Thu Feb 8, 2024 at 5:37 PM CET, Krzysztof Kozlowski wrote:
-[...]
->  drivers/clk/tegra/clk-bpmp.c                  |  2 +-
->  drivers/clk/tegra/clk-tegra124.c              |  2 +-
->  drivers/clk/tegra/clk-tegra20.c               |  2 +-
->  drivers/clk/tegra/clk-tegra30.c               |  2 +-
-[...]
+Okay, looking at patch 2 makes it clear why you have marked it as such. But it
+should've been mentioned in the commit message.
 
-Acked-by: Thierry Reding <treding@nvidia.com>
+- Mani
 
---87caa6e717479adfa0f5d015ffee82cc14ceb938e5f7a71c46d45b7997b5
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmXPRbkACgkQ3SOs138+
-s6FzcQ/9F5fJyakwkqSmFCFsFTUwQ0Vv6AmJP7kf0C2oOGiJISmgaFwRE7ikl73f
-tfJ/jetoF3grVZE950B1ZtY1sAK6WLfAlRnkD52YE25Y+NcehSPfcE2403gBL/JZ
-6Rtlw4U/jJhHC7k1NNSCV6W3YM9tFJZzPdOwWL1efc33DWZQkTgvIPKSfqGIHd0i
-iclZTsusANQThdL9ASOlvq81RrglhXgo2PIt/oeGjEBtf+IoDVhHSWqJ65e/lmYV
-cBw1uhHa5zHLiWoT4xTqJY8dPkSLfBSRM3uflLUkA5BRNllvVsHAPvIgR6aBpqi5
-KeLdZEDFeIuIi8nqtYxhhnGa8nKz9t03MNj9GbFf9HYocIVDIV4SvKuKongDjcYZ
-zr5jC3lMZnmuQIM5XOIFu8hQWG0zQ6H+Kuf6ifolHj13E5gplCo4BoZWNnE84OZ8
-fMjNHraK6RNUUqJXW43OBEjejW+FvvZIpMvyyt8TcE/I7hieXCjib0Spu2n5SwvK
-mQgKxPJpsOpCxIOID89cK2VwOX3uOZslT3M5sU9ZkoUcwRpQ/Ntfr7ZWW8Jy/L4Y
-DWnk7IvOvI4fFlmRQONIeWpr8euHFmCL8L8dJ29AI9oB2lvs7ZovvWw9QTE8E6iU
-EjVBwtdG6KqWJxP803h8DAvvD0Vsu0KzQFr+Pwre3NP2FHYDCR0=
-=E0uq
------END PGP SIGNATURE-----
-
---87caa6e717479adfa0f5d015ffee82cc14ceb938e5f7a71c46d45b7997b5--
+-- 
+மணிவண்ணன் சதாசிவம்
 
