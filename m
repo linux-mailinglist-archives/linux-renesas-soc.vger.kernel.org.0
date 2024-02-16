@@ -1,85 +1,84 @@
-Return-Path: <linux-renesas-soc+bounces-2899-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-2900-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD1F0857ECC
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 16 Feb 2024 15:10:01 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id B6D6F857ED5
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 16 Feb 2024 15:10:50 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4047F282882
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 16 Feb 2024 14:10:00 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C819A1C219C5
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 16 Feb 2024 14:10:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CB2C612C7F7;
-	Fri, 16 Feb 2024 14:09:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DCCB712CDBD;
+	Fri, 16 Feb 2024 14:10:22 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-oo1-f50.google.com (mail-oo1-f50.google.com [209.85.161.50])
+Received: from mail-ot1-f43.google.com (mail-ot1-f43.google.com [209.85.210.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 529AE12C532;
-	Fri, 16 Feb 2024 14:09:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AEB612CDB9;
+	Fri, 16 Feb 2024 14:10:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708092597; cv=none; b=EvWwJFTxlBGtk6RaVkNXM4omQVqwdFsWtZbXegLXVc4QyDzyAHUOUK70iU8xCvuET04PMEsE9cUraMrPVTSNISNC/txOjdGUKeKLRyei95OYKpBc6QreidilCyrTTdF8D+KMBK+CegD+GH5ciIDLGNg/1XQhxJojglm8N/ZB1hM=
+	t=1708092622; cv=none; b=A5rjyp7m0imIgejiybyyocoxLsGSFJkPHxygkFa/x+Je8wtxuo7jB0rv+YsoM6JPmR3KoI7+2RcdZ7WI1zovAGaNH4al6Mf5XLRoVenixrH9yys3kKj2TwHu73qhMNaPARUECWaUVJ/7WH9SL0Hxb8rDVZmBVuSK5hby/7FkKEI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708092597; c=relaxed/simple;
-	bh=0fRSLn96eDY2/mnsvWdpsJ3KnGOSs7zmmOzDl42SWSE=;
+	s=arc-20240116; t=1708092622; c=relaxed/simple;
+	bh=K2z/qROCMRTrnmXFCa6xgAOJzGryLZm5B9XqgpmSsPg=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Blvi+UVIjhw1gBJV0IpShWPBFxlrSxZYGcX3rifVfBUWCo78653shOpL7wPDpsDjItOE49uzHemGrETv4V+54ZEb6JJGamL4y7r8j9qyYp2dDaVAJxzwon1kWsILR3JflcpIZY36KAX7jH9Z9W7rdigs1eGoAVvlK8mhCvkw/gM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.161.50
+	 To:Cc:Content-Type; b=mKqmoAF7vJU3Go2RadgtgOh6piMp0b6fVazqJt/AMkhxRwCyRkrJEV18hEQ/wef3CU1SDE2A3O169XS2tQq9XgdvhbndyEV6zdBA9Okc9Z8GiPGDDP97+Ol3HSwrOD58uqvNl20vZM7lYrwKJiTu6N2HAiQ+Qyy1mBhSeChjrak=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.210.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-oo1-f50.google.com with SMTP id 006d021491bc7-59612e4a21eso1093980eaf.3;
-        Fri, 16 Feb 2024 06:09:56 -0800 (PST)
+Received: by mail-ot1-f43.google.com with SMTP id 46e09a7af769-6e2db19761fso916664a34.1;
+        Fri, 16 Feb 2024 06:10:21 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708092594; x=1708697394;
+        d=1e100.net; s=20230601; t=1708092618; x=1708697418;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=/NDNaKP8xamgaizNNdZPhlOVzBU3MaVOfz2oJHdMsAk=;
-        b=w1xgSdnRZcFi6wkZdtiCFl0B5Ex7QjwUuCwVdM+yDf3xiJj0lAE/Mg79WlmN9TNsWu
-         iAC3VhRmSV5l0Ywv0VOX/5lUUwNO90G+ZfGvsq4u5VvPp1pXEsU8OABNvtBzyRlfGUDD
-         ATWPVq1HrFNoSGn7cZQwE66QsuPKDsHwpJZ4ricvZqp5Tz7AgAl2JqZdqROVq+24Aaw6
-         bX8RjPsOGwKMMGCndA880HEzULIGShZpaZN6ZmgQbA3CaD0oTbxtSWhOch+CztQlQNvk
-         C/7EcQHmkeURsxUo25E+l1PPZZ8rAu6u9xsZe8Wriyt+TT9PVHOaWkVgyTVTUYbqF5iF
-         M+5g==
-X-Forwarded-Encrypted: i=1; AJvYcCUCW/e0dW+xYdOFoW1LyOksufhC9B30fkcfWnQByG9K/CH+/mvjUxkVs4NulC4sPc98Qv6LsM/b+Pn3xeDYVQx3qD6jzjO/edEm3a8a7UdAcO2h6Q1RxP1PzZKluznO11qtYNM+gHP2ZkgM7tCzJd0oB+4qwTAU/lm/snTZ02K+41dPDUpkz3tVWKVyFWjWsJIXthHSwH+mAK6Vu+KTc0H5grbgGpS/
-X-Gm-Message-State: AOJu0YwsFEA52+plOzNepp7hmlEVo7Vm1l+YJ7puBAMBZ6j43Ya/WEr5
-	3KK5rdwD75cWrgd0LDy/ybQDerlVbo4C4mxmxnkJT8M9ofGdJ2zrSniP5V3dVM4=
-X-Google-Smtp-Source: AGHT+IFOn2bGzykLWX8J5Bo99gQ0vA9TXjTreCD05J3mY6zvtSR31lrW/83dvlmpgLEq3nveyQ65gQ==
-X-Received: by 2002:a4a:3143:0:b0:59d:6f4e:2baf with SMTP id v3-20020a4a3143000000b0059d6f4e2bafmr5285933oog.3.1708092593940;
-        Fri, 16 Feb 2024 06:09:53 -0800 (PST)
-Received: from mail-oo1-f44.google.com (mail-oo1-f44.google.com. [209.85.161.44])
-        by smtp.gmail.com with ESMTPSA id b30-20020a4a341e000000b0059a1af7a9absm646068ooa.27.2024.02.16.06.09.53
+        bh=hW9Q5Vje3u6JbOgMeYVD/UJCDJh5KQkLlQ9cs+fUFoQ=;
+        b=t1L1BESoDnQeXfjHtklY0AwJWc7LVywv8M3yzuxIKz0W3zMgv9LiLyBVes9cF8+tEF
+         hh++xLBsRt8hkSrFH0y0SUC5/hFUSuZLQ5sV3TTVO2dLVGX4avZchaSeJtP0YzSmcRrU
+         xUhCJZEJeLczUHisvYIoGxzUvtZrqwRwmxeaLrRfgQ03d5xqPd8bu0Sv/+Bc8KxLxjdy
+         II3zWVlFYf67Wxhsz7nmD0QzXSLKOTIBrXQo0A8IrqTWjmqej5eQZ6Bw51ehqT/QtyC6
+         iRWBzRfPqoSvIzh/5Erbl/BDQPSZ3trPf2xCkwqyIHjeQP2x7Ij4YjunqJm+S6rjoLjc
+         GILg==
+X-Forwarded-Encrypted: i=1; AJvYcCWNUa7ueowEphthyclctun5GsgoCs3kED1Ixh/EZWYfx79esAOwzZ05xTzZzbwVvAGABCFgr8kuH4aCKgv26oDoHt82ZDbXY0q54s28PAq4OKazPvLiMoQ2Ra13DC50X+4XDBzRcsx/BfepGK4HCY1Dg+yGFVn0kfOYeerLzdaoy25s3nxQdLh5w30XLGhD+YsVRp0Gq5kyEbSSJ6X99BiGV1I1s15f
+X-Gm-Message-State: AOJu0Yxjhi7BIw5nevi+OI/smWSTWpMjjQZvUhFMnmaQVLXx1IG+tlg7
+	eYcXLBDodneRgBJgm1zGOHlchKknPMrxyGfMoTT4imaxbORvWkCYlLiGptw6ZNk=
+X-Google-Smtp-Source: AGHT+IHI2M5iUik3q6EFRqD68IaXTy28KmsKtc4KB30U0XVkjsls29l/7YLb/C1suNXmPOLpChDqEg==
+X-Received: by 2002:a05:6359:4581:b0:176:d552:c681 with SMTP id no1-20020a056359458100b00176d552c681mr5526674rwb.21.1708092617820;
+        Fri, 16 Feb 2024 06:10:17 -0800 (PST)
+Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com. [209.85.219.180])
+        by smtp.gmail.com with ESMTPSA id l123-20020a819481000000b00604ae9cb29bsm351329ywg.127.2024.02.16.06.10.17
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 16 Feb 2024 06:09:53 -0800 (PST)
-Received: by mail-oo1-f44.google.com with SMTP id 006d021491bc7-59883168a83so1074029eaf.2;
-        Fri, 16 Feb 2024 06:09:53 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCUBOJBNmWV1Kp04/ayj3ewsopJKlGrBE+2JN1r8s0tcefPXmZ9dJp5FXU/L+ZmikOC6osNULiGrHs+kY4Pl4IanLUdDC6N3LsWSti9QlW4ZdJSdi9PVj77whCsVd8xVad/QvxaycfqgKBZ79eePP6d8VrJ4yM4/MWL/H7lBxl5xw/sxfvrAbYaX3OOR2+9oIP6EmnLOClIecjWhekEgWomAf5wJ/3RL
-X-Received: by 2002:a05:6358:5927:b0:17a:a774:93a3 with SMTP id
- g39-20020a056358592700b0017aa77493a3mr3591024rwf.15.1708092593037; Fri, 16
- Feb 2024 06:09:53 -0800 (PST)
+        Fri, 16 Feb 2024 06:10:17 -0800 (PST)
+Received: by mail-yb1-f180.google.com with SMTP id 3f1490d57ef6-dcc73148611so2282959276.3;
+        Fri, 16 Feb 2024 06:10:17 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCX2Krh2TDFNxXm2AKbPRBfKPG0F7UI/FDfZyGmLcyarMX0beSLmYP5VIsxQFJCRIJMbzBW+H0LrtQUPZBHyIbyIXH6lIoKkb3EnvFs8rS1RDVlLlP52hIjWD7OtAsv0qU8bxmH+CcwpNHURlwuIF+ZEoC2pjzQTSQuXjCIQxRzF/a/3XMqz+JWoK5q+eVXh4PKA751PiVT5jn407R7vv+zsCRsx/4wB
+X-Received: by 2002:a5b:ed0:0:b0:dbd:120e:f337 with SMTP id
+ a16-20020a5b0ed0000000b00dbd120ef337mr4834256ybs.30.1708092616773; Fri, 16
+ Feb 2024 06:10:16 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240208124300.2740313-1-claudiu.beznea.uj@bp.renesas.com> <20240208124300.2740313-10-claudiu.beznea.uj@bp.renesas.com>
-In-Reply-To: <20240208124300.2740313-10-claudiu.beznea.uj@bp.renesas.com>
+References: <20240208124300.2740313-1-claudiu.beznea.uj@bp.renesas.com> <20240208124300.2740313-11-claudiu.beznea.uj@bp.renesas.com>
+In-Reply-To: <20240208124300.2740313-11-claudiu.beznea.uj@bp.renesas.com>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 16 Feb 2024 15:09:40 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdXCyax=mfuTAnvh6LOXJSSdiy8N-wH8f+zTb+y_Fnxe_A@mail.gmail.com>
-Message-ID: <CAMuHMdXCyax=mfuTAnvh6LOXJSSdiy8N-wH8f+zTb+y_Fnxe_A@mail.gmail.com>
-Subject: Re: [PATCH 09/17] clk: renesas: r9a07g044: Add initial support for
- power domains
+Date: Fri, 16 Feb 2024 15:10:04 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdUn6j8aZ+7iahrovWC8oWLiijqH=+cUDjYwdL3tWiuhDg@mail.gmail.com>
+Message-ID: <CAMuHMdUn6j8aZ+7iahrovWC8oWLiijqH=+cUDjYwdL3tWiuhDg@mail.gmail.com>
+Subject: Re: [PATCH 10/17] clk: renesas: r9a08g045: Add support for power domains
 To: Claudiu <claudiu.beznea@tuxon.dev>
-Cc: geert+renesas@glider.be, mturquette@baylibre.com, sboyd@kernel.org, 
-	robh@kernel.org, krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, 
-	magnus.damm@gmail.com, paul.walmsley@sifive.com, palmer@dabbelt.com, 
-	aou@eecs.berkeley.edu, linux-renesas-soc@vger.kernel.org, 
-	linux-clk@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org, 
+Cc: mturquette@baylibre.com, sboyd@kernel.org, robh@kernel.org, 
+	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, magnus.damm@gmail.com, 
+	paul.walmsley@sifive.com, palmer@dabbelt.com, aou@eecs.berkeley.edu, 
+	linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-riscv@lists.infradead.org, 
 	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -90,13 +89,66 @@ On Thu, Feb 8, 2024 at 1:44=E2=80=AFPM Claudiu <claudiu.beznea@tuxon.dev> w=
 rote:
 > From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 >
-> Instantiate always-on power domain for R9A07G044 SoC. At the moment, all
-> the IPs are part of this domain.
+> Instantiate power domains for the currently enabled IPs of R9A08G045 SoC.
 >
 > Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 
-As not all IPs are part of the always-on domain, I'd rather defer this
-until all domains are handled in the driver.
+Thanks for your patch!
+
+> --- a/drivers/clk/renesas/r9a08g045-cpg.c
+> +++ b/drivers/clk/renesas/r9a08g045-cpg.c
+> @@ -240,6 +240,28 @@ static const unsigned int r9a08g045_crit_mod_clks[] =
+__initconst =3D {
+>         MOD_CLK_BASE + R9A08G045_DMAC_ACLK,
+>  };
+>
+> +static const struct rzg2l_cpg_pm_domain_init_data r9a08g045_pm_domains[]=
+ =3D {
+> +       DEF_PD("always-on",     R9A08G045_PD_ALWAYS_ON, 0, 0,
+> +                               RZG2L_PD_F_PARENT | RZG2L_PD_F_ALWAYS_ON)=
+,
+> +       DEF_PD("gic",           R9A08G045_PD_GIC, MSTOP(ACPU, BIT(3)), PW=
+RDN(IP1, 2),
+
+My docs document only bit 0 of the CPG_BUS_ACPU_MSTOP register.
+
+> +                               RZG2L_PD_F_ALWAYS_ON),
+> +       DEF_PD("ia55",          R9A08G045_PD_IA55, MSTOP(PERI_CPU, BIT(13=
+)), PWRDN(IP1, 3),
+> +                               RZG2L_PD_F_ALWAYS_ON),
+> +       DEF_PD("dmac",          R9A08G045_PD_DMAC, MSTOP(REG1, GENMASK(3,=
+ 0)), 0,
+> +                               RZG2L_PD_F_ALWAYS_ON),
+> +       DEF_PD("ddr",           R9A08G045_PD_DDR, MSTOP(PERI_DDR, BIT(1))=
+, PWRDN(IP2, 0),
+
+Only BIT(1)? My docs suggest GENMASK(1, 0).
+
+> +                               RZG2L_PD_F_ALWAYS_ON),
+> +       DEF_PD("tzcddr",        R9A08G045_PD_TZCDDR, MSTOP(TZCDDR, GENMAS=
+K(2, 0)),
+> +                               PWRDN(IP2, 1), RZG2L_PD_F_ALWAYS_ON),
+> +       DEF_PD("otfde_ddr",     R9A08G045_PD_OTFDE_DDR, 0, PWRDN(IP2, 2),=
+ RZG2L_PD_F_ALWAYS_ON),
+
+MSTOP(PERI_CPU2, BIT(2))?
+
+> +       DEF_PD("sdhi0",         R9A08G045_PD_SDHI0, MSTOP(PERI_COM, BIT(0=
+)), PWRDN(IP1, 13), 0),
+> +       DEF_PD("sdhi1",         R9A08G045_PD_SDHI1, MSTOP(PERI_COM, BIT(1=
+)), PWRDN(IP1, 14), 0),
+> +       DEF_PD("sdhi2",         R9A08G045_PD_SDHI2, MSTOP(PERI_COM, BIT(1=
+1)), PWRDN(IP1, 15), 0),
+> +       DEF_PD("eth0",          R9A08G045_PD_ETHER0, MSTOP(PERI_COM, BIT(=
+2)), PWRDN(IP1, 11), 0),
+> +       DEF_PD("eth1",          R9A08G045_PD_ETHER1, MSTOP(PERI_COM, BIT(=
+3)), PWRDN(IP1, 12), 0),
+> +       DEF_PD("scif0",         R9A08G045_PD_SCIF0, MSTOP(MCPU2, BIT(1)),=
+ 0, 0),
+> +};
+> +
+
+The rest LGTM.
 
 Gr{oetje,eeting}s,
 
