@@ -1,223 +1,177 @@
-Return-Path: <linux-renesas-soc+bounces-2913-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-2914-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id F28F08583D3
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 16 Feb 2024 18:15:33 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DFFF858422
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 16 Feb 2024 18:35:04 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 231CC1C23379
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 16 Feb 2024 17:15:33 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C4838282DB7
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 16 Feb 2024 17:35:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8FC8A136995;
-	Fri, 16 Feb 2024 17:12:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4DDD9132460;
+	Fri, 16 Feb 2024 17:35:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ceYp5PZ6"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="xtZsMfv7"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83EAB134CDC;
-	Fri, 16 Feb 2024 17:12:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90D74130AD9
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 16 Feb 2024 17:34:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708103556; cv=none; b=oW9Brj6nqSbpNSosDr3kopTbcWaqOdimPVGqF6rDC0T0ZG0lNljbV8pCAgjlL4lyps8AwTT1StIwW4eDinsUn/vy0KfDzgPrELKdiPdtPWPlxnhUQKmssYC/8GI9Hv0PvZP4fKTdWFMosCxlzxBCcsb83KIm3QTLIdYeewzKmrU=
+	t=1708104901; cv=none; b=GW4wJ7SiMbdP2dNkjS4TCmM5RiigreycaIiAH4eDS92E3dz91jL02h5Wx0B/19unzd+2Ef/xHtGg+y8wkMfbegnU/EV4K6NE06GOSXRqlPjDxmdprTgMu3Ouf9ItPVu7TyQ2NZbORp/7heat0FyGH19bdAivQ1qaQheteelXUgQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708103556; c=relaxed/simple;
-	bh=K6UtEVBR6uRkR+4SVn/AX4Wfv7U6gUrkLF6U4slDXBs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DVF46r45o5tz26l1W1edyqbvT4sGh8uxsSMuZ/hUM5tevXbd5tvQwRGWn2G/aE0xuXfRBvJ7218D3CqQGC7dzp65qZVThtc8AU7St+Pkq5uYakAfrSh38l25Xaky65HuvjeRYLTJuPI4SH4BHM/z+6wGqkCxldFmlFTUkWm+qvs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ceYp5PZ6; arc=none smtp.client-ip=198.175.65.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1708103555; x=1739639555;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=K6UtEVBR6uRkR+4SVn/AX4Wfv7U6gUrkLF6U4slDXBs=;
-  b=ceYp5PZ6isEufS0m9uMRRoq7B+AMFlaAdQvrBmJk5EoP5jWsfu0BjK0Z
-   Rml4X9Z6Njc9GrVS1RhUuSskovju0uNGUMOEflP85j4rSCXDxgSYT+I3l
-   38HDysT/7wSynC5EhRvnJMEUoabvLFNTO5ZUBAVet9NEAco2ZrSR8OXZ+
-   bIUqxd8G/h2qB+O4shAPNnAgV+A0WsxsLF9VcbGfITYFf1UNiObTWLNJh
-   t+LMtBrXZb715a+UA5WwTgCprZ75sjHKcFIx2hYDgwotRMVyeZTep902w
-   CERDGITUsawfD/3Q3C7ij4mIDN/RzhqotfWB+4zEDs+8OwqO/6VLPh3Pr
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10986"; a="12782911"
-X-IronPort-AV: E=Sophos;i="6.06,165,1705392000"; 
-   d="scan'208";a="12782911"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Feb 2024 09:12:05 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,165,1705392000"; 
-   d="scan'208";a="8486686"
-Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
-  by fmviesa005.fm.intel.com with ESMTP; 16 Feb 2024 09:11:59 -0800
-Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rb1kV-0001UC-29;
-	Fri, 16 Feb 2024 17:11:48 +0000
-Date: Sat, 17 Feb 2024 01:11:05 +0800
-From: kernel test robot <lkp@intel.com>
-To: Mario Limonciello <mario.limonciello@amd.com>,
-	Daniel Vetter <daniel@ffwll.ch>,
-	Jani Nikula <jani.nikula@linux.intel.com>,
-	Alex Deucher <alexander.deucher@amd.com>,
-	Hans de Goede <hdegoede@redhat.com>,
-	"open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>
-Cc: Paul Gazzillo <paul@pgazz.com>,
-	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
-	oe-kbuild-all@lists.linux.dev, amd-gfx@lists.freedesktop.org,
-	"open list:USB SUBSYSTEM" <linux-usb@vger.kernel.org>,
-	linux-fbdev@vger.kernel.org, nouveau@lists.freedesktop.org,
-	intel-gfx@lists.freedesktop.org,
-	platform-driver-x86@vger.kernel.org, intel-xe@lists.freedesktop.org,
-	linux-renesas-soc@vger.kernel.org,
-	"open list:ACPI" <linux-acpi@vger.kernel.org>,
-	open list <linux-kernel@vger.kernel.org>,
-	Melissa Wen <mwen@igalia.com>,
-	Mark Pearson <mpearson-lenovo@squebb.ca>,
-	Mario Limonciello <mario.limonciello@amd.com>
-Subject: Re: [PATCH v6 1/5] drm: Stop using `select ACPI_VIDEO` in all drivers
-Message-ID: <202402170047.miJMtqIc-lkp@intel.com>
-References: <20240214215756.6530-2-mario.limonciello@amd.com>
+	s=arc-20240116; t=1708104901; c=relaxed/simple;
+	bh=99VEk3JCJiDH24Jv72sqb98zC6yFP+9ws46GoTojhW0=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=syCNaaLkPTWxrQZeLnKfzuPLPME5WTdGtiNpgdChcFzltk+SX9ZjVXq73RVZCNf7F9uNfvlBcvkA8uN1WxIzRu5aBd2smVLQUY8nbJDv+EPa8ARG/cBmGob3YD8dkFgOoGoGWFfb11r+u21UIuVowvL9YK7NUj+/Mvu/MCtValg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=xtZsMfv7; arc=none smtp.client-ip=209.85.214.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-1d8ef977f1eso20056235ad.0
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 16 Feb 2024 09:34:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1708104899; x=1708709699; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=mo7D8foZvWwiKzcVMAsIOcGfmFdA1mJSQiHgs+esco4=;
+        b=xtZsMfv7WZS3qA/yXNlCJQwVFeqSz2lb6fjLx+k+qdxNQg1dsBW1hVUMMgG2RuzlbC
+         lpm52ARGmc+gnqDW1LGLchuwUHCukbFpwCv1yr/ZcU/nhBQz3LaSlsBBUGNA8CwHH2Cy
+         IHcE+0/olWamaT4dlLrYX1NMvvFJ06rK7OKP7Bqv8vLhJDxfOmrqdkzURLEHIygVcl0A
+         PMvXxlPuyXT+82u+JhEpfOu6ftVk8FZiumcVdgeGUI3XzRd1VsEX5+yz4rxq/s/Bm1/y
+         FO7RNabvjTTWDGSYOFTarRtNMXEIlE5gts4Np84aJRq/5HwqiWaz3ZC6fpyMrg+MZ5nL
+         5/qw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1708104899; x=1708709699;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=mo7D8foZvWwiKzcVMAsIOcGfmFdA1mJSQiHgs+esco4=;
+        b=l3iFih0PprEcPMUd2lth7oDHXNTDBkoqZJ9w/rYW9jGEJRR0lOujvD4rDx/UDlRa6d
+         2eXqg2TH1KCpebBTK1eoxFACNaudqJzQoX/7HM+S+ZDTKxlBvP4BU34Niv67xexWz9aJ
+         i5Y5hV+dL9gwDnuy5iSpptapdMCuJhGLwuXzr+gCSUi1d1sGuTkJC9VrTqMgpoVhDoq+
+         zq9rzudtMFcLmMof5ykgYijvLXgWLTaU1hQhZA/4Tz6b6OFNATVMhGOrWzXsE9jfniS8
+         1Cd0xB1ddRYWM3JubfQlz1U6bRvD5v/VdlHn+txa/Ams2LLBrqVy6silBcbpc/QEY/VA
+         sXeg==
+X-Forwarded-Encrypted: i=1; AJvYcCWp0ETlSoWvA9WYVAtPjwYW/U6FeyNDOu7ILghF0mTR93lBKqh97AUdirWnXZ/oy6Vb3oEI+UjcGZziMd/1qSb5xGAyMbxzQ2nAOmOMHPsIZXg=
+X-Gm-Message-State: AOJu0YwL1KPW0DhGkZCuC66jzw8zLevUGzqZ0S4s88bSh0ZZ7Crk+aab
+	4thgtNiQ25F4DwlS+s9EUvYai24fV4+cUK9Z2nkx+Gs8Ss9/D6UiLxhAH85dEQ==
+X-Google-Smtp-Source: AGHT+IFk4N7zOmO4de9XyDDsNksT6JFJf7NdhjEhj4LMWruSTWIvTgCKpk0OTkcC+I/9vwrWBZd6hA==
+X-Received: by 2002:a17:902:d384:b0:1db:9a8c:7e6f with SMTP id e4-20020a170902d38400b001db9a8c7e6fmr3961946pld.29.1708104898948;
+        Fri, 16 Feb 2024 09:34:58 -0800 (PST)
+Received: from [127.0.1.1] ([120.138.12.48])
+        by smtp.gmail.com with ESMTPSA id v9-20020a170902b7c900b001db5241100fsm118592plz.183.2024.02.16.09.34.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 16 Feb 2024 09:34:58 -0800 (PST)
+From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+Subject: [PATCH v2 0/5] PCI: dwc: Add support for integrating HDMA with DWC
+ EP driver
+Date: Fri, 16 Feb 2024 23:04:39 +0530
+Message-Id: <20240216-dw-hdma-v2-0-b42329003f43@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240214215756.6530-2-mario.limonciello@amd.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAK+cz2UC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyjHQUlJIzE
+ vPSU3UzU4B8JSMDIxMDI0Mz3ZRy3YyU3ERdM5OUlGQDy7QkY4MkJaDqgqLUtMwKsEnRsbW1AMI
+ 0aL5ZAAAA
+To: Jingoo Han <jingoohan1@gmail.com>, 
+ Gustavo Pimentel <gustavo.pimentel@synopsys.com>, 
+ Lorenzo Pieralisi <lpieralisi@kernel.org>, 
+ =?utf-8?q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>, 
+ Rob Herring <robh@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, 
+ Marek Vasut <marek.vasut+renesas@gmail.com>, 
+ Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>, 
+ Kishon Vijay Abraham I <kishon@kernel.org>
+Cc: Serge Semin <fancer.lancer@gmail.com>, linux-pci@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+ linux-arm-msm@vger.kernel.org, mhi@lists.linux.dev, 
+ Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>, 
+ Mrinmay Sarkar <quic_msarkar@quicinc.com>
+X-Mailer: b4 0.12.4
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2441;
+ i=manivannan.sadhasivam@linaro.org; h=from:subject:message-id;
+ bh=99VEk3JCJiDH24Jv72sqb98zC6yFP+9ws46GoTojhW0=;
+ b=owEBbQGS/pANAwAKAVWfEeb+kc71AcsmYgBlz5y8/nDWN+q7bOqSTwmMApHd0RdZi4kG0v2Us
+ R/zkzK7KXyJATMEAAEKAB0WIQRnpUMqgUjL2KRYJ5dVnxHm/pHO9QUCZc+cvAAKCRBVnxHm/pHO
+ 9f2MB/wKutNeeQWuBJWdggFALHVJZ/xi34jw93TUq4RTBXX2RsNOIFMplUKyw9Z4v/FfFlq4vZF
+ 5a7A1WU1IKubiwSRWWtWPsxqLW8VgdIMQlwQzO+HVM4UsyCvQD7BEYlVU6usyZTB3AFV7ShBN1I
+ uoCZmc3kii12NlYwGWOBXk8+FmX2WfhCUZEPB7mOIiLwuU0jHvUZYGcArZTsj14DRdbPOWdbht7
+ 8e54cmerwAeAMb9cKV39Ewhp3gEK4LpD6Mol7yeyTlk+LK3aUmWHqSZgvU8TbIfG59cWsE6dRvm
+ aJTxCV11jqoAB2jOuuNGsnpVkASMoUg1RVAGjhlEr8DLcG50
+X-Developer-Key: i=manivannan.sadhasivam@linaro.org; a=openpgp;
+ fpr=C668AEC3C3188E4C611465E7488550E901166008
 
-Hi Mario,
+Hello,
 
-kernel test robot noticed the following build warnings:
+This series adds support for integrating HDMA with the DWC EP driver.
 
-[auto build test WARNING on drm-misc/drm-misc-next]
-[also build test WARNING on drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.8-rc4 next-20240216]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Hyper DMA (HDMA) is already supported by the dw-edma dmaengine driver.
+Unlike it's predecessor Embedded DMA (eDMA), HDMA supports only unroll
+mapping format and doesn't support auto detecting the read/write channels.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Mario-Limonciello/drm-Stop-using-select-ACPI_VIDEO-in-all-drivers/20240215-055936
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20240214215756.6530-2-mario.limonciello%40amd.com
-patch subject: [PATCH v6 1/5] drm: Stop using `select ACPI_VIDEO` in all drivers
-config: alpha-kismet-CONFIG_FB_BACKLIGHT-CONFIG_FB_RIVA-0-0 (https://download.01.org/0day-ci/archive/20240217/202402170047.miJMtqIc-lkp@intel.com/config)
-reproduce: (https://download.01.org/0day-ci/archive/20240217/202402170047.miJMtqIc-lkp@intel.com/reproduce)
+Hence, this series modifies the existing eDMA code to work with HDMA by
+honoring the platform supplied mapping format and read/write channels
+count.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402170047.miJMtqIc-lkp@intel.com/
+The platform drivers making use of HDMA should pass the EDMA_MF_HDMA_NATIVE
+flag and provide channels count. In this series, HDMA support is added for
+the Qcom SA8775P SoC and the DMA support in enabled in MHI EPF driver as
+well.
 
-kismet warnings: (new ones prefixed by >>)
->> kismet: WARNING: unmet direct dependencies detected for FB_BACKLIGHT when selected by FB_RIVA
-   .config:69:warning: symbol value 'n' invalid for FAT_DEFAULT_CODEPAGE
-   .config:240:warning: symbol value 'n' invalid for SATA_MOBILE_LPM_POLICY
-   .config:307:warning: symbol value 'n' invalid for XEN_MEMORY_HOTPLUG_LIMIT
-   .config:328:warning: symbol value 'n' invalid for PSTORE_BLK_MAX_REASON
-   .config:359:warning: symbol value 'n' invalid for AIC79XX_DEBUG_MASK
-   .config:429:warning: symbol value 'n' invalid for KFENCE_SAMPLE_INTERVAL
-   .config:612:warning: symbol value 'n' invalid for CRYPTO_DEV_QCE_SW_MAX_LEN
-   .config:613:warning: symbol value 'n' invalid for DRM_XE_JOB_TIMEOUT_MIN
-   .config:702:warning: symbol value 'n' invalid for VGA_ARB_MAX_GPUS
-   .config:715:warning: symbol value 'n' invalid for PANEL_LCD_CHARSET
-   .config:789:warning: symbol value 'n' invalid for SND_AC97_POWER_SAVE_DEFAULT
-   .config:793:warning: symbol value 'n' invalid for INPUT_MOUSEDEV_SCREEN_Y
-   .config:811:warning: symbol value 'n' invalid for AIC79XX_CMDS_PER_DEVICE
-   .config:830:warning: symbol value 'n' invalid for DRM_I915_MAX_REQUEST_BUSYWAIT
-   .config:855:warning: symbol value 'n' invalid for SND_AT73C213_TARGET_BITRATE
-   .config:877:warning: symbol value 'n' invalid for PANEL_LCD_PIN_SDA
-   .config:893:warning: symbol value 'n' invalid for DRM_XE_PREEMPT_TIMEOUT_MIN
-   .config:901:warning: symbol value 'n' invalid for NET_EMATCH_STACK
-   .config:903:warning: symbol value 'n' invalid for VMCP_CMA_SIZE
-   .config:1095:warning: symbol value 'n' invalid for USB_GADGET_STORAGE_NUM_BUFFERS
-   .config:1130:warning: symbol value 'n' invalid for RCU_CPU_STALL_TIMEOUT
-   .config:1159:warning: symbol value 'n' invalid for MTDRAM_ERASE_SIZE
-   .config:1238:warning: symbol value 'n' invalid for SERIAL_UARTLITE_NR_UARTS
-   .config:1397:warning: symbol value 'n' invalid for LEGACY_PTY_COUNT
-   .config:1524:warning: symbol value 'n' invalid for PANEL_LCD_PIN_E
-   .config:1528:warning: symbol value 'n' invalid for AIC7XXX_RESET_DELAY_MS
-   .config:1726:warning: symbol value 'n' invalid for IBM_EMAC_POLL_WEIGHT
-   .config:1763:warning: symbol value 'n' invalid for SCSI_MESH_RESET_DELAY_MS
-   .config:1817:warning: symbol value 'n' invalid for DRM_I915_STOP_TIMEOUT
-   .config:2048:warning: symbol value 'n' invalid for KCOV_IRQ_AREA_SIZE
-   .config:2143:warning: symbol value 'n' invalid for RCU_FANOUT_LEAF
-   .config:2237:warning: symbol value 'n' invalid for DRM_XE_TIMESLICE_MAX
-   .config:2290:warning: symbol value 'n' invalid for PANEL_LCD_BWIDTH
-   .config:2523:warning: symbol value 'n' invalid for PANEL_PARPORT
-   .config:2568:warning: symbol value 'n' invalid for SND_SOC_SOF_DEBUG_IPC_FLOOD_TEST_NUM
-   .config:2606:warning: symbol value 'n' invalid for NOUVEAU_DEBUG_DEFAULT
-   .config:2707:warning: symbol value 'n' invalid for AIC79XX_RESET_DELAY_MS
-   .config:2779:warning: symbol value 'n' invalid for SERIAL_ALTERA_UART_BAUDRATE
-   .config:2791:warning: symbol value 'n' invalid for KCSAN_REPORT_ONCE_IN_MS
-   .config:2888:warning: symbol value 'n' invalid for KCSAN_UDELAY_INTERRUPT
-   .config:2910:warning: symbol value 'n' invalid for PANEL_LCD_PIN_BL
-   .config:2934:warning: symbol value 'n' invalid for INITRAMFS_ROOT_GID
-   .config:2968:warning: symbol value 'n' invalid for DUMMY_CONSOLE_ROWS
-   .config:3008:warning: symbol value 'n' invalid for PSTORE_BLK_CONSOLE_SIZE
-   .config:3038:warning: symbol value 'n' invalid for ATM_FORE200E_TX_RETRY
-   .config:3078:warning: symbol value 'n' invalid for FB_OMAP2_DSS_MIN_FCK_PER_PCK
-   .config:3203:warning: symbol value 'n' invalid for BOOKE_WDT_DEFAULT_TIMEOUT
-   .config:3248:warning: symbol value 'n' invalid for MTD_REDBOOT_DIRECTORY_BLOCK
-   .config:3294:warning: symbol value 'n' invalid for KCSAN_UDELAY_TASK
-   .config:3407:warning: symbol value 'n' invalid for MMC_BLOCK_MINORS
-   .config:3455:warning: symbol value 'n' invalid for SCSI_NCR53C8XX_SYNC
-   .config:3570:warning: symbol value 'n' invalid for UCLAMP_BUCKETS_COUNT
-   .config:3636:warning: symbol value 'n' invalid for SERIAL_MCF_BAUDRATE
-   .config:3708:warning: symbol value 'n' invalid for DE2104X_DSL
-   .config:3721:warning: symbol value 'n' invalid for BLK_DEV_RAM_COUNT
-   .config:3787:warning: symbol value 'n' invalid for STACK_MAX_DEFAULT_SIZE_MB
-   .config:3964:warning: symbol value 'n' invalid for IP_VS_SH_TAB_BITS
-   .config:4094:warning: symbol value 'n' invalid for CMA_AREAS
-   .config:4105:warning: symbol value 'n' invalid for USBIP_VHCI_HC_PORTS
-   .config:4149:warning: symbol value 'n' invalid for INPUT_MOUSEDEV_SCREEN_X
-   .config:4235:warning: symbol value 'n' invalid for FTRACE_RECORD_RECURSION_SIZE
-   .config:4264:warning: symbol value 'n' invalid for RIONET_RX_SIZE
-   .config:4416:warning: symbol value 'n' invalid for RADIO_TYPHOON_PORT
-   .config:4524:warning: symbol value 'n' invalid for SERIAL_TXX9_NR_UARTS
-   .config:4565:warning: symbol value 'n' invalid for IBM_EMAC_TXB
-   .config:4948:warning: symbol value 'n' invalid for ARCH_MMAP_RND_BITS
-   .config:4975:warning: symbol value 'n' invalid for IP_VS_MH_TAB_INDEX
-   .config:5029:warning: symbol value 'n' invalid for DRM_I915_FENCE_TIMEOUT
-   .config:5051:warning: symbol value 'n' invalid for TTY_PRINTK_LEVEL
-   .config:5209:warning: symbol value 'n' invalid for MIPS_EJTAG_FDC_KGDB_CHAN
-   .config:5298:warning: symbol value 'n' invalid for KDB_DEFAULT_ENABLE
-   .config:5316:warning: symbol value 'n' invalid for SERIAL_ALTERA_UART_MAXPORTS
-   .config:5323:warning: symbol value 'n' invalid for PANEL_PROFILE
-   .config:5384:warning: symbol value 'n' invalid for PPC_EARLY_DEBUG_EHV_BC_HANDLE
-   .config:5424:warning: symbol value 'n' invalid for PANEL_LCD_PIN_RW
-   .config:5570:warning: symbol value 'n' invalid for CRYPTO_DEV_FSL_CAAM_INTC_TIME_THLD
-   .config:5574:warning: symbol value 'n' invalid for PANEL_LCD_HWIDTH
-   .config:5605:warning: symbol value 'n' invalid for LOCKDEP_CHAINS_BITS
-   .config:5694:warning: symbol value 'n' invalid for DRM_I915_HEARTBEAT_INTERVAL
-   .config:5702:warning: symbol value 'n' invalid for KCSAN_SKIP_WATCH
-   .config:5724:warning: symbol value 'n' invalid for PSTORE_BLK_KMSG_SIZE
-   .config:5929:warning: symbol value 'n' invalid for SERIAL_8250_RUNTIME_UARTS
-   .config:6021:warning: symbol value 'n' invalid for ARCH_MMAP_RND_COMPAT_BITS
-   .config:6127:warning: symbol value 'n' invalid for RCU_BOOST_DELAY
-   .config:6186:warning: symbol value 'n' invalid for RADIO_TRUST_PORT
-   .config:6198:warning: symbol value 'n' invalid for SERIAL_SH_SCI_NR_UARTS
-   .config:6321:warning: symbol value 'n' invalid for VERBOSE_MCHECK_ON
-   .config:6560:warning: symbol value 'n' invalid for CMA_SIZE_PERCENTAGE
-   .config:6580:warning: symbol value 'n' invalid for DRM_XE_PREEMPT_TIMEOUT_MAX
-   .config:6708:warning: symbol value 'n' invalid for DRM_XE_TIMESLICE_MIN
-   .config:6757:warning: symbol value 'n' invalid for DVB_MAX_ADAPTERS
-   .config:6760:warning: symbol value 'n' invalid for SCSI_NCR53C8XX_MAX_TAGS
-   .config:6777:warning: symbol value 'n' invalid for SCSI_SYM53C8XX_DMA_ADDRESSING_MODE
-   .config:7048:warning: symbol value 'n' invalid for SCSI_SYM53C8XX_MAX_TAGS
-   .config:7062:warning: symbol value 'n' invalid for ZSMALLOC_CHAIN_SIZE
-   .config:7140:warning: symbol value 'n' invalid for IBM_EMAC_RXB
-   .config:7148:warning: symbol value 'n' invalid for MTD_UBI_WL_THRESHOLD
-   .config:7167:warning: symbol value 'n' invalid for RIONET_TX_SIZE
-   .config:7172:warning: symbol value 'n' invalid for SERIAL_ARC_NR_PORTS
-   .config:7266:warning: symbol value 'n' invalid for LOCKDEP_BITS
+Testing
+-------
 
+Tested on Qualcomm SA8775P Ride board.
+
+Dependency
+----------
+
+Depends on:
+https://lore.kernel.org/dmaengine/20240129-b4-feature_hdma_mainline-v7-0-8e8c1acb7a46@bootlin.com/
+https://lore.kernel.org/all/1701432377-16899-1-git-send-email-quic_msarkar@quicinc.com/
+
+NOTE: I've taken over this series from Mrinmay who posted v1:
+https://lore.kernel.org/linux-pci/1705669223-5655-1-git-send-email-quic_msarkar@quicinc.com/
+
+- Mani
+
+Changes in v2:
+
+- Dropped dmaengine patches (Sergey)
+- Reworked dw_pcie_edma_find_chip() to support both eDMA and HDMA (Sergey)
+- Skipped MF and channel detection if glue drivers have provided them (Sergey)
+- Addressed review comments in pcie-qcom-ep and pci-epf-mhi drivers (Mani)
+
+Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+---
+Manivannan Sadhasivam (3):
+      PCI: dwc: Refactor dw_pcie_edma_find_chip() API
+      PCI: dwc: Skip finding eDMA channels count if glue drivers have passed them
+      PCI: dwc: Pass the eDMA mapping format flag directly from glue drivers
+
+Mrinmay Sarkar (2):
+      PCI: qcom-ep: Add HDMA support for SA8775P SoC
+      PCI: epf-mhi: Enable HDMA for SA8775P SoC
+
+ drivers/pci/controller/dwc/pcie-designware.c | 62 +++++++++++++++++++++-------
+ drivers/pci/controller/dwc/pcie-designware.h |  5 +--
+ drivers/pci/controller/dwc/pcie-qcom-ep.c    | 23 ++++++++++-
+ drivers/pci/controller/dwc/pcie-rcar-gen4.c  |  2 +-
+ drivers/pci/endpoint/functions/pci-epf-mhi.c |  1 +
+ 5 files changed, 72 insertions(+), 21 deletions(-)
+---
+base-commit: fdd10aee7740a53c370a867b8743a8c8945d1db1
+change-id: 20240216-dw-hdma-64ddc09fb30b
+
+Best regards,
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+
 
