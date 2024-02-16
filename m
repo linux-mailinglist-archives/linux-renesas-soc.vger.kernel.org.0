@@ -1,585 +1,221 @@
-Return-Path: <linux-renesas-soc+bounces-2874-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-2875-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0317A8577FA
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 16 Feb 2024 09:51:31 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id CC5E48577FE
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 16 Feb 2024 09:51:51 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id E98A81F21FD6
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 16 Feb 2024 08:51:29 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id C7BBA1F21FFB
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 16 Feb 2024 08:51:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 39C1E1C695;
-	Fri, 16 Feb 2024 08:47:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D6DE51B81C;
+	Fri, 16 Feb 2024 08:47:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="ASzWjDtn"
+	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="e2KNJemg"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01on2061.outbound.protection.outlook.com [40.107.113.61])
+Received: from JPN01-TYC-obe.outbound.protection.outlook.com (mail-tycjpn01on2074.outbound.protection.outlook.com [40.107.114.74])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 512391C68F
-	for <linux-renesas-soc@vger.kernel.org>; Fri, 16 Feb 2024 08:47:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.113.61
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 528CF1A5BA;
+	Fri, 16 Feb 2024 08:47:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.114.74
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708073231; cv=fail; b=fRvZoOkRK3LPW0c/ochK6Dsqw7FPiVK+rQbkXUvV18dAz0UycH7tnCOMpncsXChgzKJcIE4OATNn1q2EMJuCq/ZWNDPJGCa0XQFOuu2k2ayk2VN3j9xulBmzykYNAlRKQPJjtxCQuvfS7F5v+POuIxbKhqpNyMI2Wz1NjmJ+PXo=
+	t=1708073272; cv=fail; b=fv9uUvdlE7YqCtR8qGI/b1rIcl//wtu68UFwHQ2vqRBTNtvYmgu0WguDdI1/SuTRTbJbYyoRKTA/FvA37O4+N2zLWT1JP745EeroKfbkmtyrePtt2hP9Y9tsNq62MM6Zd0UjulomVfvlxdsUdlUgrV5wpccH3Dh2qGUdxVdeQ/w=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708073231; c=relaxed/simple;
-	bh=206IxfQbSqiHBYJtOMxgtZHrETdS5vW0IBji2F8lrDo=;
+	s=arc-20240116; t=1708073272; c=relaxed/simple;
+	bh=R49nGneq1o4WUp25dB3C6fNi/oynDh4lP0TTyDHLP0k=;
 	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=L2cQzqe/9is+OhTqfCqwSB9QP2LoeifktkvzUUDEjsbKOfg9Bnhi1yLUb4kGjsnF4q5BbCzwu5Vc+2BbkaUyPSAsUKp7EkuDAxE48kVqHZNkkEj2m8Ymnk23BL7U7u6oImkD8tepjvmpvY1ie5eOOiA6PV8bVeIU4m1OBtPvbyI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=ASzWjDtn; arc=fail smtp.client-ip=40.107.113.61
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
+	 Content-Type:MIME-Version; b=m8eMvwdxcvFDDYgL+1oODrT05GcSHyfoKUC5XSc5asIuLBvdBvalm8ahQT5JphO41bjvm9qpqoBkG9dKjIFys2gGN0Ugm6fxpwgyjRbKvVyuPRpepIfx+iTHrJqItXE5kJ025/YXIaOaYaNXGW21jOOIxyrrYAlNSlZCnDCTvy0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=e2KNJemg; arc=fail smtp.client-ip=40.107.114.74
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Wv6d9TcgZ5O7Q56phV+U4iq7qA9u3hKviTay+MHRMjjerx8MHZo9dLEYNUJpYMQxL7qCTihIjRMgS8ytNud8fD0+I7NQwt8b4v0Z5BrIvQVC9BQhEO9Xc3IqmToogBQLDCRsFyew1mCd4lexo2L0MTgEy32kwT+oZx6v6tqLvIPnlox+2V8882rX6Vs3FJPS7s+cotTHjVfvlQl0HizBLVuK5Zm5Pu1WnNPuN1xrlZxzUd6l/xYmvu5KSaBOrL0FeeY/KoGXlVRPQHwQ0r3PQXmzn/2SsndE7ronFSEWvN8VANHL0qC+shDOlwHN8vdnki5816q74gm5Vx7hlEfzkg==
+ b=B7Ogl5kBYzckY1AhYbhpVIlyUeBcpGBksD6lg3jSbBsP2SSfIl0O3LlfQCneRo69KHe+rYB1DUHqAe9RMo3gJ2kQuPwwkocYAbE+BP76DZopPqHM6DE1mGZSYnIpg99nY6xAh0oEcUxfN8xf6YW4aM3Q4GZCIQ2fhk5fnhmgQbXF7erK1YKhm5fEzDLym83gY8SnkYyT+fZ61ULTeo6dnHWPxc1iXbHfWtU6a0MQhDThkHXBNMdrD1ixBnwCZ9DeXtW6um2I97pduzBJp1C72oXvuOkHqMoLusf+YMBYyIJTnt4B+zVl1Hl766Y9NbkxTv/lgDPDXDoAnVhmux48GA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=8fjqCU1zBt0kaw2k73p8RiEk4i45HhQUPpIDIzPMctc=;
- b=Ne+aC41ltbdjW4K8EsKStmsvRp5b2jm3BO5X3UsViDk2aU2YrQg3yDBCvgq6pIKt8cknv0qdwu8dPEvE4aF1dvY1of07/1zfwZE58cXqy7fPA21GZQkcNk8TdapXpHazKop9mvZ68hbVggeF8QzS8Z6VaEfxuQC5G57LEM1toq6fuV9XQ+kFpFsfaK8xMQOV1fJE2/SmK39CWy2aL0VxvPrYy9Wig712skpeYxXBRISP5iq9EFGWfMzhLe3gixQW1DgXZSNJmMrZC5C88KtqRQuF+DDLdqxuGGozBMq8eushsJEeLbNl2SGL2c3h1QVsn7pnkZe8aCIsGUnNtP4x4w==
+ bh=R49nGneq1o4WUp25dB3C6fNi/oynDh4lP0TTyDHLP0k=;
+ b=IhiATZgdyMG1BR8FNlWoNWR8poQDpHaOWtt1k4Zm6kPIc9Qt08Yd7x+KAmtHmCjYvkLaVbzZKK12m3wnRuAaymkxwIozcrD2dDx12IxUX53+sMov/efBT5kL6SnfUNYkVZLuiAVbiWWqUesb3HlelWb8nyzeQb35PrwaJOQjfRPIKzQcCjvqjILLBdanJHu3tquRMg4OQJ030a/nCI+N52qn4wsTvXWMWywxrnCc04+OHcnR0sHp6jB4tpKOaxqzn+se/Kg8FBBbvxmN4UpTgrpnLtD+aNpa2AmkMT/Bjh6iTJrjP+MzFxu9QQvLZgJIdW22WM1OgkM3KItbFTmyQw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=8fjqCU1zBt0kaw2k73p8RiEk4i45HhQUPpIDIzPMctc=;
- b=ASzWjDtnSBQSLWZlE78WYuIX0tA0c1ZeGHWP4sTg0XKLak6FUEEL47JskRvw/UrMbMpRLqP4auCiv81swViylN6ILNgBCwDlQRy5HZyHj+QdLQ2qkhD2Au/TmxJBxuqe8S6aPkphoJjY+wfe7aTuCKHxUyq5skxczM6ZCoq6NL0=
-Received: from OSZPR01MB8611.jpnprd01.prod.outlook.com (2603:1096:604:18e::7)
- by TY3PR01MB11888.jpnprd01.prod.outlook.com (2603:1096:400:407::13) with
- Microsoft SMTP Server (version=TLS1_2,
+ bh=R49nGneq1o4WUp25dB3C6fNi/oynDh4lP0TTyDHLP0k=;
+ b=e2KNJemg2JBXNRga4qeJxp+2A/d6DBMS91Qh78wIGyz0AL8fUhb3ZMt5svC48wRyKnV/f2XQ1zeRk20oa8VzeXlKNbMNegz0DNy6VeCQeVb+oxNUXrWCsQ6+k4B9WIPHDe0/PcMh85jZuXIYcw+wtpOcQMLzWVLAJY1EGAFXMTk=
+Received: from TYCPR01MB11269.jpnprd01.prod.outlook.com
+ (2603:1096:400:3c0::10) by TYCPR01MB10664.jpnprd01.prod.outlook.com
+ (2603:1096:400:291::14) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7292.31; Fri, 16 Feb
- 2024 08:47:04 +0000
-Received: from OSZPR01MB8611.jpnprd01.prod.outlook.com
- ([fe80::fc15:b39e:64d6:a1ea]) by OSZPR01MB8611.jpnprd01.prod.outlook.com
- ([fe80::fc15:b39e:64d6:a1ea%3]) with mapi id 15.20.7292.029; Fri, 16 Feb 2024
- 08:47:04 +0000
-From: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-To: Marc Zyngier <maz@kernel.org>
-CC: "catalin.marinas@arm.com" <catalin.marinas@arm.com>, "will@kernel.org"
-	<will@kernel.org>, "tglx@linutronix.de" <tglx@linutronix.de>,
-	"linux-arm-kernel@lists.infradead.org"
-	<linux-arm-kernel@lists.infradead.org>, "linux-renesas-soc@vger.kernel.org"
-	<linux-renesas-soc@vger.kernel.org>, Geert Uytterhoeven
-	<geert@linux-m68k.org>
-Subject: RE: [PATCH] irqchip/gic-v3-its: Workaround Renesas R-Car GICv3 ITS
-Thread-Topic: [PATCH] irqchip/gic-v3-its: Workaround Renesas R-Car GICv3 ITS
-Thread-Index: AQHaXwWWBgwHldb+hEuciEuHRZB8L7EJq1+AgALxyoA=
-Date: Fri, 16 Feb 2024 08:47:04 +0000
+ 2024 08:47:46 +0000
+Received: from TYCPR01MB11269.jpnprd01.prod.outlook.com
+ ([fe80::6719:535a:7217:9f0]) by TYCPR01MB11269.jpnprd01.prod.outlook.com
+ ([fe80::6719:535a:7217:9f0%3]) with mapi id 15.20.7292.026; Fri, 16 Feb 2024
+ 08:47:46 +0000
+From: Biju Das <biju.das.jz@bp.renesas.com>
+To: Adam Ford <aford173@gmail.com>, Geert Uytterhoeven <geert@linux-m68k.org>
+CC: Maxime Ripard <mripard@kernel.org>, Frank Binns <frank.binns@imgtec.com>,
+	Matt Coster <matt.coster@imgtec.com>, Maarten Lankhorst
+	<maarten.lankhorst@linux.intel.com>, Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Sarah
+ Walker <sarah.walker@imgtec.com>, "dri-devel@lists.freedesktop.org"
+	<dri-devel@lists.freedesktop.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, Javier Martinez Canillas
+	<javierm@redhat.com>, Nishanth Menon <nm@ti.com>, Marek Vasut
+	<marek.vasut@mailbox.org>, Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Subject: RE: [PATCH v2] drm/imagination: DRM_POWERVR should depend on ARCH_K3
+Thread-Topic: [PATCH v2] drm/imagination: DRM_POWERVR should depend on ARCH_K3
+Thread-Index: AQHaYDAOR2pL22/lvECLyWXYf8dUVbELo4AAgAADRQCAAGhqgIAAl7DA
+Date: Fri, 16 Feb 2024 08:47:46 +0000
 Message-ID:
- <OSZPR01MB86117352CF6EAB68ACBFF791D84C2@OSZPR01MB8611.jpnprd01.prod.outlook.com>
-References: <20240214052050.1966439-1-yoshihiro.shimoda.uh@renesas.com>
- <865xyr5n3s.wl-maz@kernel.org>
-In-Reply-To: <865xyr5n3s.wl-maz@kernel.org>
-Accept-Language: ja-JP, en-US
-Content-Language: ja-JP
+ <TYCPR01MB11269CBE8429A31DE5002A5A5864C2@TYCPR01MB11269.jpnprd01.prod.outlook.com>
+References:
+ <6be2558b8462fc08095c24c9257563ab5f3ae013.1708001398.git.geert+renesas@glider.be>
+ <kycepdxukfsww3tnxoo5hoiuo3vcgpqqmynokzhtl4vodgm6zc@ih4uhw7gz4jh>
+ <CAMuHMdVf7ophCwKt-n_N-LBHV4+t14Gjb4d1O0T8FDk_9xMFtA@mail.gmail.com>
+ <CAHCN7xJ65RP8TO7cS0p5DwE6zru5NEF0_JA+8siT_OpSeLD7pA@mail.gmail.com>
+ <CAHCN7x+EnSU8qk5dBFco=0vkeknGq18qEN7vFmZs0_q83T_3+w@mail.gmail.com>
+ <CAHCN7xKffJ29zyjoJVAcy3b_d=-zkFzbL=URj4yWJWzYvRdB_Q@mail.gmail.com>
+In-Reply-To:
+ <CAHCN7xKffJ29zyjoJVAcy3b_d=-zkFzbL=URj4yWJWzYvRdB_Q@mail.gmail.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
 X-MS-Has-Attach:
 X-MS-TNEF-Correlator:
 authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=renesas.com;
+ header.d=none;dmarc=none action=none header.from=bp.renesas.com;
 x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: OSZPR01MB8611:EE_|TY3PR01MB11888:EE_
-x-ms-office365-filtering-correlation-id: 72d72d63-8ed3-44a2-6dec-08dc2ecbd977
+x-ms-traffictypediagnostic: TYCPR01MB11269:EE_|TYCPR01MB10664:EE_
+x-ms-office365-filtering-correlation-id: c6754959-1108-4c8a-8dd4-08dc2ecbf276
 x-ms-exchange-senderadcheck: 1
 x-ms-exchange-antispam-relay: 0
 x-microsoft-antispam: BCL:0;
 x-microsoft-antispam-message-info:
- qfNW19sfDLyMoLjiUVDWH7u72H89yonS8JB2Sio5FsXoS4xpEyUs/cifACy9gDCsx97xvX/R4bupZTuvVSInB2FynarggK+xRE9LipYAdcZpsdyL2N6rL8ACsJkIC+G8x+dr6tsVyPJF1auSg8vGdIlkgoJNPCXDdEiTZDKlvi1M7T5Xy1C3Cn5ls2Q0JJf23IDPnlPacekNDkOieAMKp7CoXM1pfGece6wzN7QQ+WdVJXnnFizv+/wwAOQyulwIBzd49aWJx7Uq4wgD3+bEoZrAASE7sNsi1w3ABck7EvFmx/EwL30XIJYxAW/hXlpzR4GRD5WG7lOzfK1+pb5il8yDu3CPj2bn9gjN3C+/74lKjbp4whLWkaE095awD0eAto3WvZtPmBZpo2NDcVGBEJ+rbkekna5qGmJDQGvXGfvftjHhVMap/PZbUve0JArbIwJX6vs82JmQ9CnhYw8yUF3AnVTvBZiWrkGTd/1xDpl05NXBt0FLhTtyUbHddaGG2piRFla/MiE5oJm7dRsgpd3AlVny/Sj0cx2epzpqbyewbCyxeDToYnUqpA5vBFa8H8bZt8VO2KeUldB/1sJv/G/iKrDPOiIG+AFQwrTlBus=
+ dZRIwvsWfQymHSU0LMjrcOk+qWDvEyxKRi9YpZ6e4XxEneBLncQqHWjOUXpMfD7tNgSVpeVm+ZnKuv9H+njC+BiCYQaK/kfsfDXGWqRDBmQISzCRhnIMrmeUhq2wEJ+dC7vKAcQ+/PJdWV23q76ABOqgITvfW6vsQYnFti5KSBsoyFccN81OVyaY7AUja7GyNaOFWI3ibJU5tW5LCl7l649EnNMNSmoLPZ/3zgP4EEEDM2PLUHLEblRRcjXA4akPrHsv1IBtCGkXg2gMoJEvFRl4WU0/VvlhCfu+RWTDddBGTpjydg/KsbFypxQNbaM+UONlhnqYqluM00MCxS92dBJJJm6pwD4l64xztuvXZbQGn+nEkPHSZ7UcYJyP4EUI7yby4biKRWsiaiS/0WI34VKsaVkrp4ZJgB17oRkKGrIkuwvaJNxt3DLQyrWb84Y+wFGfaH4MveTqmvXQkzUVs82nZVPU+LF8skpDvOnRxDJioGzaYJ5WMejaxlR6AIagcs2/TFbx8GEIzjIh5536+jB0BiYMghjWPumFp4an85Lsqd47XfyYesXOSyTjytUCX5zBb6DLmlKWuVTRUmxwLehduwa0s/0JSIJEELM9qko=
 x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OSZPR01MB8611.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(39860400002)(396003)(376002)(136003)(346002)(366004)(230922051799003)(1800799012)(64100799003)(186009)(451199024)(55016003)(38070700009)(2906002)(66899024)(30864003)(52536014)(33656002)(4326008)(76116006)(6916009)(8676002)(64756008)(66446008)(66476007)(66556008)(66946007)(8936002)(41300700001)(5660300002)(316002)(6506007)(7696005)(478600001)(9686003)(966005)(38100700002)(54906003)(86362001)(71200400001)(83380400001)(122000001);DIR:OUT;SFP:1101;
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB11269.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366004)(376002)(136003)(396003)(39860400002)(346002)(230922051799003)(451199024)(1800799012)(186009)(64100799003)(38070700009)(41300700001)(83380400001)(9686003)(55236004)(4326008)(8936002)(8676002)(52536014)(66556008)(53546011)(7696005)(66946007)(66446008)(66476007)(76116006)(64756008)(316002)(966005)(110136005)(478600001)(54906003)(6506007)(33656002)(122000001)(38100700002)(86362001)(71200400001)(26005)(55016003)(7416002)(5660300002)(2906002);DIR:OUT;SFP:1101;
 x-ms-exchange-antispam-messagedata-chunkcount: 1
 x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?W8sIPUp1FPX5MU7+RXWMXHHLf9BL7Q9FUOBzRUzZyre4Q/UhzUwtp41wYXMQ?=
- =?us-ascii?Q?/txvXJKXhHaqqUef01q2CpI91j25M4LR3T4oqJXIq5gRqf71xn6Xsvo0OAkl?=
- =?us-ascii?Q?kyWJGnBxu05eflAR6Z7oli6SMTuORVeNp6D8fpYZCp63UMmSMYkwc77Us+w9?=
- =?us-ascii?Q?I6bQvFIWhFwyaBsrwpFDqJgdgZpiqkyLg64g3E+pZ617SZ30TxYHrE0sGtcP?=
- =?us-ascii?Q?wsG7MZ/tgCPiMRKbK5Dh23P29O6+i6teLAI+2f8swqNP5xPglYzgLS/ion0T?=
- =?us-ascii?Q?Ok6OHCJdrfHf2QSvDOjoqBpc3P74JXXGCNymx1IAgkCYp2lJcuqNwxPpFZBI?=
- =?us-ascii?Q?qmXAjQvBgrio2XsqmyKR8lvoiMSQYWhkOBdudRjTkdTQAlPhVe/9nDJQasPr?=
- =?us-ascii?Q?pPGGcauFtvk5Yt6eiVkMReLT77RXiMxBQ+om5TRD2ph3rxLgwwZFKK1Yh6yd?=
- =?us-ascii?Q?Lz9yc1DZE8N0t2B4eMmAsOEynRMWZpHqaM5+fhwTdFZzjih2wym9IQLtFQnz?=
- =?us-ascii?Q?7q660AFrvlFdAnLBEYOvK6vs5xs9qeftlM5diEKhWcU+eHdZL5zBBhZRQyuz?=
- =?us-ascii?Q?Zq4EBZHK/9r7HqMIafdO5RiETA+h6OxnpyF9rlls9HsL6zERxnIH6gEYElFu?=
- =?us-ascii?Q?pIxNEhQ1G5vqKtJjvFiq0137gGK0z/89AzkM7vzei2EQdvoPN771rIsqFlLK?=
- =?us-ascii?Q?sFgWPFor5WHcmpge0zjlUWWrVhteVwvG8ona6i3l+m53uZJHCzGkZIIaggjD?=
- =?us-ascii?Q?rHmZxbb/OPDdTO+LQJnGajeoun9z86dGfubCt5Ga0Am0YeFPIVUX/R8loIUC?=
- =?us-ascii?Q?SLb+sV+s2RBYOx+etiB/FbYdfBKI3+KstgyCGWgGvV8qXjkSvAg2qENO9UL9?=
- =?us-ascii?Q?XTnuytwgZU1jvVQFKAvPh2JvOtGRldhCq/afNzf9lqWyz4g8bD8dEeRNXIdz?=
- =?us-ascii?Q?F0mfPFP4RJ+K7Sej/LUMLUpPqdKBzTWm2TlKp/UjUQxIMaFxptCBwGpo3fdu?=
- =?us-ascii?Q?ove9rL93+W6witqnoveVVQGHhaEi2gDfKXgUsjqFWMWI63XilMCeZbNVacLz?=
- =?us-ascii?Q?DoN5JKmKZ2ii7nMvjBZ9dufWXQLbgRKdSSDjvjLd4l9ga4VSFlA02TVwsYrd?=
- =?us-ascii?Q?8xjWTYu0c0pAhVHWx05UODeNIQNN5wVXGRbIUK0ZoxCnhK027fLuY06L/9W4?=
- =?us-ascii?Q?brcqLtzGKqk+T6FYNSqCWpUgojxedg9I2xvcKWVlySVknymOr97kGmCPNUW0?=
- =?us-ascii?Q?DAGS31i5laeSJ44Dx3zS+JFGZOFwGSZ7IV2NNBCC2cY3e4J3JHCrSek3UuW7?=
- =?us-ascii?Q?GCbxxiSFQznG/6H6V9GJLd0ubaRUNx5L+87kuiG8XR91cpJlVKqsqkT3EZ0U?=
- =?us-ascii?Q?mp8kNo9ZFe8s8BxnWdWbh49RB0L9A4i4TdKvKb2YApiLXSWoM2nLoOee1q5p?=
- =?us-ascii?Q?scoEag9hcdsvw2/bfvSkth42GC/mjGu9FuLGJc0NR22zHZoI2zGSE143u/HK?=
- =?us-ascii?Q?cLA83ywYQl8P0bU41Gyt75rqKw/CpySxFO1udw/CylY25aeNwKPdRybbUg0o?=
- =?us-ascii?Q?Fx0xqbEAqpd3I+gA+w/tGG6tRUorwaKIQ9sMV0GVz2tppZhQufHYI6cFt5pE?=
- =?us-ascii?Q?LOW6RIapKG9MWzaWnSw00f/Bfd0VXm0RC91GjzOpfnIF8VHuiGTgiGdGxU0a?=
- =?us-ascii?Q?FLFQLQ=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ =?utf-8?B?VURxaUJoT21Pd3FRVDFISFhMa1B3MGQzSktPdkxTSkpiTVhVVXo2T1E2bWYz?=
+ =?utf-8?B?MmZBODZZTnEvSDJPTkZkN0hjS1NCU0hKcDd0Q3h0cjNGdnFMaGJFbWxHUVov?=
+ =?utf-8?B?TG10RjM0bFR3aWVpd0ZoakE0c3ZlSnRjbk00VDFsYWlIY2FrZG9TcEtMWjdH?=
+ =?utf-8?B?MjRoWUliSDJGUXorSitjOU5WL0FndUlRckZ2NzU5Rk5GUGkyWEJRcVY5dm9Z?=
+ =?utf-8?B?YjZuMThQVEdVWjRYQ3pMSHdpTXVheE9DakxyV1FRRm5GY1J1emRZaW4xOE9S?=
+ =?utf-8?B?aGVHeFpLN0xVYU8zTHFwNGFZWTZzdjBzcTA4dk5OdzhrRjN5MjBhbnNjUlBD?=
+ =?utf-8?B?QnJrL2hhdmhkMWM0cWNYS25PK0xkNlpZQjF1dHZyeUwxcmN2WUJXenVSMmYx?=
+ =?utf-8?B?KzIvWDJwdDVOUURCYkVVSUxNdXNpcUhTdkZTaUxuTkNuQ0dPYlpKbUQ1Ynhr?=
+ =?utf-8?B?Z0dpSmZ3Y0V0Ty9ZbXU3MEd6RndUZ3VyKzBiMWdiZHVmWG5xeXpvYm1RTFB5?=
+ =?utf-8?B?cENVaFQ2aUlMSGdXMjZLM1hrb254Y090UjFCZWdzNTN3TlltNWZtUTZKMExz?=
+ =?utf-8?B?RVI4WnlWNCtLMkREOWZGL3lwdHMyRWdscWNOZER6Qi9IVTNCbHFjajVnOTlh?=
+ =?utf-8?B?U3EvaFUreG4xajRSd080TTJYZHVLaE1uM1B1c2NuQmdzaFlES0d1a0pUMjd1?=
+ =?utf-8?B?VW9JSG8zUXBJM2g3SGJ4WjZyUWZZRUdEb0ZzYlpSL0NWN1l1TGIwb1gzNXQr?=
+ =?utf-8?B?TFdBU3Ezb3k3aUY4VFJZNkoxQWl5RXd5ZnhScWlnSytmTVJ1eHc4cllTWGt5?=
+ =?utf-8?B?aGJwRTBNMXRwOU5EeFVNYmo3bFRBZjh1aE13YldDZzNhcHFVTkROaHFiMytk?=
+ =?utf-8?B?WlZDNlpwUFZpQXoyRWhYOTR6KzhCcEdEV3IzLzBEN2ZvTXA5Y3c5ZFpacUpQ?=
+ =?utf-8?B?QmxwMkNNdU0yb2tpQzBDSXVYeHRMc0Z6L2RBUjV0WE1va0ZoM3ZXOFFZYkJQ?=
+ =?utf-8?B?enJDQVVSeEtZdzQ3TWpBc0RpSU0wME41TnE1Y2tvck1LNjQ0cFZkb3k2N1F2?=
+ =?utf-8?B?cE5EQy90dmdlSFFzRVRNdmpwdVJ3RWsxdXdmRE0zb3B1UTdtVnFBa0pOdG9F?=
+ =?utf-8?B?RWVwTGkyOTErd0ZaLy85NEE5NldhNzUzYWpMNU44YWQ3MFl5amliZkZZdWRw?=
+ =?utf-8?B?Y09iN1R6eVhRaVE5QWV3MnY3Tmlnblo1anU2SWtuWHQ4enkrSGk0UnFSUCs0?=
+ =?utf-8?B?bWx2V05HQmRYcjM2NjJPZVFlWnV1K1VHZGl3L1dRdndCZ3dZODJnUGhncUhk?=
+ =?utf-8?B?WjJDZmdaS2k2L0dCYlVabXdTNndOMGlBVTExdEE4NHpqaUphbEJHaWhlR00x?=
+ =?utf-8?B?SVFweHhNNjZVakV4WkZZcFJlK0xVRXJJQ0hQeFZsc1NhTTdkRTdVZWFMN090?=
+ =?utf-8?B?V1RMQmpxcXhod0IwMExxK1krV21IMm5wUzNZdDNCNnRDMkdFMjhNSTJRaDhs?=
+ =?utf-8?B?V25zZmxCa0FSMWdnZndMaEhYcVhha0IyNnBPRmRTN2pBTWdweHd2ZjdDUzBS?=
+ =?utf-8?B?SmQxRWJOOVRrbVd1ek1mQ05QYzZLMlBhM1Bwb0E0emhDVXI5R3pYSnhRMFJF?=
+ =?utf-8?B?UFdVM25vaUhBRzU0TnprN2FsMmp4TjJBNWFydy9UR3BQaFdMOGtTNVp4UnVo?=
+ =?utf-8?B?dFIyaHlvS3BNNHdhbnMwWWZ4SjFLRXdOQWc4bHJMNE5WYXlVQ1NBY29ueXZk?=
+ =?utf-8?B?dG01UUJWYkxzdnAzMElGaVRqbVF2bS9xWkRFZW5ISmYzcTlZeE4zQngwSWZ3?=
+ =?utf-8?B?bkx4WlFjelpRMTVUbFlVbmxtMkMwazJ0OGNHa3Y4ajdEd25hQytKTElUTzVx?=
+ =?utf-8?B?MTlYems1bGxmeUVDb05YbDdqMk5FVzFiWFRXYVN3Wk1lUGlNR2UxU2FKWWNH?=
+ =?utf-8?B?Y3dqRDVxalNJYnp2ZkEyNW1ZQkVxK0pLTllseVFPL21ycDdSRWF5cm9mSDJZ?=
+ =?utf-8?B?cUhzMlVodUVMSDFtUHZLYk5mZWg5ZTd5NzQ1UkJuM1BjUzNndWF5dUpTTW1t?=
+ =?utf-8?B?ZnprUHFqd2VwMWRHUU14QUs2dG9EdS9QNkU5bGNETTg5WUJyb252eEtyaDEx?=
+ =?utf-8?B?cWo1UDlNVE03bTNEV1oyMjJGb1FoOUtTbEN6MVo4SmdNTnIxOFJwZXMybnVH?=
+ =?utf-8?B?b2c9PQ==?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: renesas.com
+X-OriginatorOrg: bp.renesas.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: OSZPR01MB8611.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 72d72d63-8ed3-44a2-6dec-08dc2ecbd977
-X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Feb 2024 08:47:04.0893
+X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB11269.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c6754959-1108-4c8a-8dd4-08dc2ecbf276
+X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Feb 2024 08:47:46.0648
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: JkGwlYnK80NXdpAiaAWJg0+lWFkqQwkgVJNZw7yQATTFu0X941bWB4tZfER7+qRxmosUQWwjBlXQLuo63ad5sZweoJu0jkc669ZBLCYQLNun1/zvbFg2hzw1vTJm3hse
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY3PR01MB11888
+X-MS-Exchange-CrossTenant-userprincipalname: 2R375KvrM3Y6pa5TCXQV/90aLTUDzBCioq/aGm02GOqqOOWN7qr2eWnTY9rxSAvWBe/wnUHlabHBmQGxDFdDERgraefm56O1ODA6wzbNcL0=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYCPR01MB10664
 
-Hi Marc,
-
-Thank you for your review!
-
-> From: Marc Zyngier, Sent: Wednesday, February 14, 2024 7:58 PM
->=20
-> [+ Geert, who deals with Renesas SoCs on a daily basis]
->=20
-> Hi Yoshihiro,
->=20
-> On Wed, 14 Feb 2024 05:20:50 +0000,
-> Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com> wrote:
-> >
-> > The GICv3 ITS on Renesas R-Car has limitations:
-> >  - It can access lower 32-bits memory area only.
-> >  - It cannot use Sharable/cache attributes.
-> >
-> > So, set ITS_FLAGS_FORCE_NON_SHAREABLE flag, and set GFP_DMA to all
-> > memory allocation APIs for getting lower 32-bits memory area on
-> > the R-Car. Note that GFP_DMA32 cannot work correctly because
-> > the environment doens't have DMA32 zone like below:
->=20
-> nit: doesn't
-
-Oops. I'll fix it.
-
-> >
-> > [    0.000000] Zone ranges:
-> > [    0.000000]   DMA      [mem 0x0000000048000000-0x00000000ffffffff]
-> > [    0.000000]   DMA32    empty
-> > [    0.000000]   Normal   [mem 0x0000000100000000-0x00000004ffffffff]
->=20
-> Unfortunately, none of that is a universal truth. The way DMA and
-> DMA32 are expressed is pretty variable. See this for example:
->=20
-> https://lore.kernel.org/all/cover.1703683642.git.baruch@tkos.co.il/
->=20
-> So I can't see how you can reliably rely on this layout. It may work
-> today on your platform, but I wouldn't take this as a guarantee.
-
-So, IIUC, I should use DMA API for it instead.
-
-> >
-> > Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-> > ---
-> >  arch/arm64/Kconfig               |  9 +++++
-> >  drivers/irqchip/irq-gic-v3-its.c | 59 +++++++++++++++++++++-----------
-> >  2 files changed, 48 insertions(+), 20 deletions(-)
-> >
-> > diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
-> > index c1a16a9dae72..49fe3006e142 100644
-> > --- a/arch/arm64/Kconfig
-> > +++ b/arch/arm64/Kconfig
-> > @@ -1250,6 +1250,15 @@ config SOCIONEXT_SYNQUACER_PREITS
-> >
-> >  	  If unsure, say Y.
-> >
-> > +config RENESAS_RCAR_GIC_ITS
-> > +	bool "Renesas R-Car: Workaround for GICv3 ITS"
-> > +	default n
-> > +	help
-> > +	  Renesas R-Car Gen4 SoCs has a limitation about GICv3 ITS which can
-> > +	  access lower 32-bits memory address range only.
-> > +
-> > +	  If unsure, say Y.
->=20
-> Either this should be 'default y', or you should drop this last line.
-> Being 'default n' and saying 'if you don't know, say y' is
-> counterproductive.
-
-I got it. I'll fix it.
-
-> Also:
->=20
-> - This must carry an official erratum number
->=20
-> - You must document it in Documentation/arch/arm64/silicon-errata.rst
-
-I got it.
-
-> > +
-> >  endmenu # "ARM errata workarounds via the alternatives framework"
-> >
-> >  choice
-> > diff --git a/drivers/irqchip/irq-gic-v3-its.c b/drivers/irqchip/irq-gic=
--v3-its.c
-> > index d097001c1e3e..e0e672b561b9 100644
-> > --- a/drivers/irqchip/irq-gic-v3-its.c
-> > +++ b/drivers/irqchip/irq-gic-v3-its.c
-> > @@ -186,6 +186,7 @@ static LIST_HEAD(its_nodes);
-> >  static DEFINE_RAW_SPINLOCK(its_lock);
-> >  static struct rdists *gic_rdists;
-> >  static struct irq_domain *its_parent;
-> > +static gfp_t its_gfp_quirk;
->=20
-> Why is that global? Why isn't this computed on a per-ITS basis? Since
-> you are introducing a generic mechanism here, you shouldn't assume
-> that all ITSs are subjected to the same issue.
-
-Since some functions doesn't have struct its_node, I think adding the argum=
-ent
-makes complex the code.  I'll avoid to use a global value somehow.
-
-> >
-> >  static unsigned long its_list_map;
-> >  static u16 vmovp_seq_num;
-> > @@ -1846,7 +1847,7 @@ static int its_vlpi_map(struct irq_data *d, struc=
-t its_cmd_info *info)
-> >  		struct its_vlpi_map *maps;
-> >
-> >  		maps =3D kcalloc(its_dev->event_map.nr_lpis, sizeof(*maps),
-> > -			       GFP_ATOMIC);
-> > +			       GFP_ATOMIC | its_gfp_quirk);
->=20
-> This data structure is never exposed to the GIC. Why do we need to
-> constraint this allocation?
-
-I'm sorry, I didn't understand that. I'll drop this.
-
-> >  		if (!maps) {
-> >  			ret =3D -ENOMEM;
-> >  			goto out;
-> > @@ -2044,7 +2045,7 @@ static struct lpi_range *mk_lpi_range(u32 base, u=
-32 span)
-> >  {
-> >  	struct lpi_range *range;
-> >
-> > -	range =3D kmalloc(sizeof(*range), GFP_KERNEL);
-> > +	range =3D kmalloc(sizeof(*range), GFP_KERNEL | its_gfp_quirk);
->=20
-> Same thing.
-
-I'll drop this.
-
-> >  	if (range) {
-> >  		range->base_id =3D base;
-> >  		range->span =3D span;
-> > @@ -2169,7 +2170,7 @@ static unsigned long *its_lpi_alloc(int nr_irqs, =
-u32 *base, int *nr_ids)
-> >  	if (err)
-> >  		goto out;
-> >
-> > -	bitmap =3D bitmap_zalloc(nr_irqs, GFP_ATOMIC);
-> > +	bitmap =3D bitmap_zalloc(nr_irqs, GFP_ATOMIC | its_gfp_quirk);
->=20
-> Same thing.
-
-I'll drop this.
-
-> >  	if (!bitmap)
-> >  		goto out;
-> >
-> > @@ -2201,7 +2202,7 @@ static struct page *its_allocate_prop_table(gfp_t=
- gfp_flags)
-> >  {
-> >  	struct page *prop_page;
-> >
-> > -	prop_page =3D alloc_pages(gfp_flags, get_order(LPI_PROPBASE_SZ));
-> > +	prop_page =3D alloc_pages(gfp_flags | its_gfp_quirk, get_order(LPI_PR=
-OPBASE_SZ));
->=20
-> This only affects the redistributors. Why should we constraint it?
-
-To be honest, I don't know why, but this is required on my environment.
-Otherwise, the MSI interrupt never happens.
-Anyway, I should have learned the hardware bug in detail...
-
-> >  	if (!prop_page)
-> >  		return NULL;
-> >
-> > @@ -2335,7 +2336,7 @@ static int its_setup_baser(struct its_node *its, =
-struct its_baser *baser,
-> >  		order =3D get_order(GITS_BASER_PAGES_MAX * psz);
-> >  	}
-> >
-> > -	page =3D alloc_pages_node(its->numa_node, GFP_KERNEL | __GFP_ZERO, or=
-der);
-> > +	page =3D alloc_pages_node(its->numa_node, GFP_KERNEL | __GFP_ZERO | i=
-ts_gfp_quirk, order);
-> >  	if (!page)
-> >  		return -ENOMEM;
-> >
-> > @@ -2808,7 +2809,7 @@ static bool allocate_vpe_l2_table(int cpu, u32 id=
-)
-> >
-> >  	/* Allocate memory for 2nd level table */
-> >  	if (!table[idx]) {
-> > -		page =3D alloc_pages(GFP_KERNEL | __GFP_ZERO, get_order(psz));
-> > +		page =3D alloc_pages(GFP_KERNEL | __GFP_ZERO | its_gfp_quirk, get_or=
-der(psz));
-> >  		if (!page)
-> >  			return false;
-> >
-> > @@ -2860,7 +2861,7 @@ static int allocate_vpe_l1_table(void)
-> >  	if (val & GICR_VPROPBASER_4_1_VALID)
-> >  		goto out;
-> >
-> > -	gic_data_rdist()->vpe_table_mask =3D kzalloc(sizeof(cpumask_t), GFP_A=
-TOMIC);
-> > +	gic_data_rdist()->vpe_table_mask =3D kzalloc(sizeof(cpumask_t), GFP_A=
-TOMIC | its_gfp_quirk);
->=20
-> This is a cpumask allocation, not exposed to the GIC. What is the
-> reason for constraining it?
-
-I'm sorry, I didn't understand the specification.
-I'll drop this.
-
-> >  	if (!gic_data_rdist()->vpe_table_mask)
-> >  		return -ENOMEM;
-> >
-> > @@ -2927,7 +2928,7 @@ static int allocate_vpe_l1_table(void)
-> >
-> >  	pr_debug("np =3D %d, npg =3D %lld, psz =3D %d, epp =3D %d, esz =3D %d=
-\n",
-> >  		 np, npg, psz, epp, esz);
-> > -	page =3D alloc_pages(GFP_ATOMIC | __GFP_ZERO, get_order(np * PAGE_SIZ=
-E));
-> > +	page =3D alloc_pages(GFP_ATOMIC | __GFP_ZERO | its_gfp_quirk, get_ord=
-er(np * PAGE_SIZE));
-> >  	if (!page)
-> >  		return -ENOMEM;
-> >
-> > @@ -2957,7 +2958,7 @@ static int its_alloc_collections(struct its_node =
-*its)
-> >  	int i;
-> >
-> >  	its->collections =3D kcalloc(nr_cpu_ids, sizeof(*its->collections),
-> > -				   GFP_KERNEL);
-> > +				   GFP_KERNEL | its_gfp_quirk);
->=20
-> Same thing.
-
-I'll drop this.
-
-> >  	if (!its->collections)
-> >  		return -ENOMEM;
-> >
-> > @@ -2971,7 +2972,7 @@ static struct page *its_allocate_pending_table(gf=
-p_t gfp_flags)
-> >  {
-> >  	struct page *pend_page;
-> >
-> > -	pend_page =3D alloc_pages(gfp_flags | __GFP_ZERO,
-> > +	pend_page =3D alloc_pages(gfp_flags | __GFP_ZERO | its_gfp_quirk,
-> >  				get_order(LPI_PENDBASE_SZ));
->=20
-> This is a redistributor-private allocation. If it is the ITSs that are
-> affected by this bug, why are the pending tables constrained?
-
-Thank you for the comment. This is not needed on my environment.
-So, I'll drop it.
-
-> >  	if (!pend_page)
-> >  		return NULL;
-> > @@ -3319,7 +3320,7 @@ static bool its_alloc_table_entry(struct its_node=
- *its,
-> >
-> >  	/* Allocate memory for 2nd level table */
-> >  	if (!table[idx]) {
-> > -		page =3D alloc_pages_node(its->numa_node, GFP_KERNEL | __GFP_ZERO,
-> > +		page =3D alloc_pages_node(its->numa_node, GFP_KERNEL | __GFP_ZERO | =
-its_gfp_quirk,
-> >  					get_order(baser->psz));
-> >  		if (!page)
-> >  			return false;
-> > @@ -3415,7 +3416,7 @@ static struct its_device *its_create_device(struc=
-t its_node *its, u32 dev_id,
-> >  	if (WARN_ON(!is_power_of_2(nvecs)))
-> >  		nvecs =3D roundup_pow_of_two(nvecs);
-> >
-> > -	dev =3D kzalloc(sizeof(*dev), GFP_KERNEL);
-> > +	dev =3D kzalloc(sizeof(*dev), GFP_KERNEL | its_gfp_quirk);
-> >  	/*
-> >  	 * Even if the device wants a single LPI, the ITT must be
-> >  	 * sized as a power of two (and you need at least one bit...).
-> > @@ -3423,14 +3424,14 @@ static struct its_device *its_create_device(str=
-uct its_node *its, u32 dev_id,
-> >  	nr_ites =3D max(2, nvecs);
-> >  	sz =3D nr_ites * (FIELD_GET(GITS_TYPER_ITT_ENTRY_SIZE, its->typer) + =
-1);
-> >  	sz =3D max(sz, ITS_ITT_ALIGN) + ITS_ITT_ALIGN - 1;
-> > -	itt =3D kzalloc_node(sz, GFP_KERNEL, its->numa_node);
-> > +	itt =3D kzalloc_node(sz, GFP_KERNEL | its_gfp_quirk, its->numa_node);
-> >  	if (alloc_lpis) {
-> >  		lpi_map =3D its_lpi_alloc(nvecs, &lpi_base, &nr_lpis);
-> >  		if (lpi_map)
-> >  			col_map =3D kcalloc(nr_lpis, sizeof(*col_map),
-> > -					  GFP_KERNEL);
-> > +					  GFP_KERNEL | its_gfp_quirk);
->=20
-> This is kernel-private memory, not visible by the GIC.
-
-I'll drop this.
-
-> >  	} else {
-> > -		col_map =3D kcalloc(nr_ites, sizeof(*col_map), GFP_KERNEL);
-> > +		col_map =3D kcalloc(nr_ites, sizeof(*col_map), GFP_KERNEL | its_gfp_=
-quirk);
->=20
-> Same thing.
-
-I'll drop this.
-
-> >  		nr_lpis =3D 0;
-> >  		lpi_base =3D 0;
-> >  	}
-> > @@ -4754,6 +4755,16 @@ static bool __maybe_unused its_enable_rk3588001(=
-void *data)
-> >  	return true;
-> >  }
-> >
-> > +static bool __maybe_unused its_enable_renesas_rcar_gic_its(void *data)
-> > +{
-> > +	struct its_node *its =3D data;
-> > +
-> > +	its->flags |=3D ITS_FLAGS_FORCE_NON_SHAREABLE;
-> > +	its_gfp_quirk =3D GFP_DMA;
-> > +
-> > +	return true;
-> > +}
-> > +
-> >  static bool its_set_non_coherent(void *data)
-> >  {
-> >  	struct its_node *its =3D data;
-> > @@ -4815,6 +4826,14 @@ static const struct gic_quirk its_quirks[] =3D {
-> >  		.mask   =3D 0xffffffff,
-> >  		.init   =3D its_enable_rk3588001,
-> >  	},
-> > +#endif
-> > +#ifdef CONFIG_RENESAS_RCAR_GIC_ITS
-> > +	{
-> > +		.desc   =3D "ITS: Renesas R-Car Gen4 GICv3 ITS",
-> > +		.iidr   =3D 0x0201743b,
-> > +		.mask   =3D 0xffffffff,
-> > +		.init   =3D its_enable_renesas_rcar_gic_its,
-> > +	},
->=20
-> Huh. This describes a GIC600 implemented by ARM. Which means your are
-> actively forcing your quirk on *every* implementations, including
-> those that are not affected by this hardware issue. Definitely not
-> acceptable.
-
-I understood it. I'll add a condition like its_enable_rk3588001() to
-affect this quirk for my environment only. I believe that such adding
-condition is acceptable because the CONFIG_ROCKCHIP_ERRATUM_3588001
-is the same iidr value of my environment.
-
-> >  #endif
-> >  	{
-> >  		.desc   =3D "ITS: non-coherent attribute",
-> > @@ -4974,7 +4993,7 @@ static int its_init_domain(struct its_node *its)
-> >  	struct irq_domain *inner_domain;
-> >  	struct msi_domain_info *info;
-> >
-> > -	info =3D kzalloc(sizeof(*info), GFP_KERNEL);
-> > +	info =3D kzalloc(sizeof(*info), GFP_KERNEL | its_gfp_quirk);
->=20
-> Kernel memory only.
-
-I'll drop it.
-
-> >  	if (!info)
-> >  		return -ENOMEM;
-> >
-> > @@ -5011,7 +5030,7 @@ static int its_init_vpe_domain(void)
-> >
-> >  	entries =3D roundup_pow_of_two(nr_cpu_ids);
-> >  	vpe_proxy.vpes =3D kcalloc(entries, sizeof(*vpe_proxy.vpes),
-> > -				 GFP_KERNEL);
-> > +				 GFP_KERNEL | its_gfp_quirk);
-> >  	if (!vpe_proxy.vpes)
-> >  		return -ENOMEM;
-> >
-> > @@ -5108,7 +5127,7 @@ static int __init its_probe_one(struct its_node *=
-its)
-> >  		}
-> >  	}
-> >
-> > -	page =3D alloc_pages_node(its->numa_node, GFP_KERNEL | __GFP_ZERO,
-> > +	page =3D alloc_pages_node(its->numa_node, GFP_KERNEL | __GFP_ZERO | i=
-ts_gfp_quirk,
-> >  				get_order(ITS_CMD_QUEUE_SZ));
-> >  	if (!page) {
-> >  		err =3D -ENOMEM;
-> > @@ -5352,7 +5371,7 @@ static struct its_node __init *its_node_init(stru=
-ct resource *res,
-> >
-> >  	pr_info("ITS %pR\n", res);
-> >
-> > -	its =3D kzalloc(sizeof(*its), GFP_KERNEL);
-> > +	its =3D kzalloc(sizeof(*its), GFP_KERNEL | its_gfp_quirk);
->=20
-> Kernel memory only.
-
-I'll drop it.
-
-> >  	if (!its)
-> >  		goto out_unmap;
-> >
-> > @@ -5520,7 +5539,7 @@ static void __init acpi_table_parse_srat_its(void=
-)
-> >  		return;
-> >
-> >  	its_srat_maps =3D kmalloc_array(count, sizeof(struct its_srat_map),
-> > -				      GFP_KERNEL);
-> > +				      GFP_KERNEL | its_gfp_quirk);
->=20
-> Kernel memory only.
-
-I'll drop it.
-
-> >  	if (!its_srat_maps)
-> >  		return;
-> >
->=20
-> I suggest that you start reading the architecture spec and understand
-> what is the memory that is accessible by the GIC, because at least
-> half of this patch is completely unnecessary.
->=20
-> You also need to be clear about what is affected by this bug: ITS
-> only? or also the RDs?  If both are affected, they need to be handled
-> separately.
->=20
-> In any case, you must not assume that all ITSs in a system are
-> subjected to this bug, which means that you must have per-ITS tracking
-> of the GFP flags.
->=20
-> Finally, the DMA story itself needs to be sorted out, because you are
-> relying on something that is incredibly fragile.
-
-Thank you very much for your suggestion. I'll learn the architecture spec
-and reconsider the implementation, especially DMA related.
-
-Best regards,
-Yoshihiro Shimoda
-
-> HTH,
->=20
-> 	M.
->=20
-> --
-> Without deviation from the norm, progress is not possible.
+SGkgQWRhbSBGb3JkLA0KDQo+IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+IEZyb206IEFk
+YW0gRm9yZCA8YWZvcmQxNzNAZ21haWwuY29tPg0KPiBTZW50OiBUaHVyc2RheSwgRmVicnVhcnkg
+MTUsIDIwMjQgMTE6MzYgUE0NCj4gU3ViamVjdDogUmU6IFtQQVRDSCB2Ml0gZHJtL2ltYWdpbmF0
+aW9uOiBEUk1fUE9XRVJWUiBzaG91bGQgZGVwZW5kIG9uDQo+IEFSQ0hfSzMNCj4gDQo+IE9uIFRo
+dSwgRmViIDE1LCAyMDI0IGF0IDExOjIy4oCvQU0gQWRhbSBGb3JkIDxhZm9yZDE3M0BnbWFpbC5j
+b20+IHdyb3RlOg0KPiA+DQo+ID4gT24gVGh1LCBGZWIgMTUsIDIwMjQgYXQgMTE6MTDigK9BTSBB
+ZGFtIEZvcmQgPGFmb3JkMTczQGdtYWlsLmNvbT4gd3JvdGU6DQo+ID4gPg0KPiA+ID4gT24gVGh1
+LCBGZWIgMTUsIDIwMjQgYXQgMTA6NTTigK9BTSBHZWVydCBVeXR0ZXJob2V2ZW4NCj4gPiA+IDxn
+ZWVydEBsaW51eC1tNjhrLm9yZz4gd3JvdGU6DQo+ID4gPiA+DQo+ID4gPiA+IEhpIE1heGltZSwN
+Cj4gPiA+ID4NCj4gPiA+ID4gT24gVGh1LCBGZWIgMTUsIDIwMjQgYXQgNToxOOKAr1BNIE1heGlt
+ZSBSaXBhcmQgPG1yaXBhcmRAa2VybmVsLm9yZz4NCj4gd3JvdGU6DQo+ID4gPiA+ID4gT24gVGh1
+LCBGZWIgMTUsIDIwMjQgYXQgMDE6NTA6MDlQTSArMDEwMCwgR2VlcnQgVXl0dGVyaG9ldmVuDQo+
+IHdyb3RlOg0KPiA+ID4gPiA+ID4gVXNpbmcgdGhlIEltYWdpbmF0aW9uIFRlY2hub2xvZ2llcyBQ
+b3dlclZSIFNlcmllcyA2IEdQVQ0KPiA+ID4gPiA+ID4gcmVxdWlyZXMgYSBwcm9wcmlldGFyeSBm
+aXJtd2FyZSBpbWFnZSwgd2hpY2ggaXMgY3VycmVudGx5IG9ubHkNCj4gPiA+ID4gPiA+IGF2YWls
+YWJsZSBmb3IgVGV4YXMgSW5zdHJ1bWVudHMgSzMgQU02MnggU29Dcy4gIEhlbmNlIGFkZCBhDQo+
+ID4gPiA+ID4gPiBkZXBlbmRlbmN5IG9uIEFSQ0hfSzMsIHRvIHByZXZlbnQgYXNraW5nIHRoZSB1
+c2VyIGFib3V0IHRoaXMNCj4gPiA+ID4gPiA+IGRyaXZlciB3aGVuIGNvbmZpZ3VyaW5nIGEga2Vy
+bmVsIHdpdGhvdXQgVGV4YXMgSW5zdHJ1bWVudHMgSzMNCj4gTXVsdGljb3JlIFNvQyBzdXBwb3J0
+Lg0KPiA+ID4gPiA+DQo+ID4gPiA+ID4gVGhpcyB3YXNuJ3QgbWFraW5nIHNlbnNlIHRoZSBmaXJz
+dCB0aW1lIHlvdSBzZW50IGl0LCBhbmQgbm93DQo+ID4gPiA+ID4gdGhhdCBjb21taXQgbG9nIGlz
+IGp1c3QgcGxhaW4gd3JvbmcuIFdlIGhhdmUgZmlybXdhcmVzIGZvciB0aGUNCj4gPiA+ID4gPiBH
+NjExMCwgR1g2MjUwLCBHWDY2NTAsIEJYRS00LTMyLCBhbmQgQlhTLTQtNjQgbW9kZWxzLCB3aGlj
+aCBjYW4NCj4gPiA+ID4gPiBiZSBmb3VuZCBvbiAoYXQgbGVhc3QpIFJlbmVzYXMsIE1lZGlhdGVr
+LCBSb2NrY2hpcCwgVEkgYW5kDQo+ID4gPiA+ID4gU3RhckZpdmUsIHNvIGFjcm9zcyB0aHJlZQ0K
+PiA+ID4gPg0KPiA+ID4gPiBJIGFtIHNvIGhhcHB5IHRvIGJlIHByb3ZlbiB3cm9uZyENCj4gPiA+
+ID4gWWVhaCwgR1g2NjUwIGlzIGZvdW5kIG9uIGUuZy4gUi1DYXIgSDMsIGFuZCBHWDYyNTAgb24g
+ZS5nLiBSLUNhciBNMy0NCj4gVy4NCj4gPiA+ID4NCj4gPiA+ID4gPiBhcmNoaXRlY3R1cmVzIGFu
+ZCA1IHBsYXRmb3Jtcy4gSW4gdHdvIG1vbnRocy4NCj4gPiA+ID4NCj4gPiA+ID4gVGhhdCBzb3Vu
+ZHMgbGlrZSBncmVhdCBwcm9ncmVzcywgdGhhbmtzIGEgbG90IQ0KPiA+ID4gPg0KPiA+ID4gR2Vl
+cnQsDQo+ID4gPg0KPiA+ID4gPiBXaGVyZSBjYW4gSSBmaW5kIHRoZXNlIGZpcm13YXJlcz8gTGlu
+dXgtZmlybXdhcmVbMV0gc2VlbXMgdG8gbGFjaw0KPiA+ID4gPiBhbGwgYnV0IHRoZSBvcmlnaW5h
+bCBLMyBBTTYyeCBvbmUuDQo+ID4gPg0KPiA+ID4gSSB0aGluayBQb3dlclZSIGhhcyBhIHJlcG8g
+WzFdLCBidXQgdGhlIGxhc3QgdGltZSBJIGNoZWNrZWQgaXQsIHRoZQ0KPiA+ID4gQlZOQyBmb3Ig
+dGhlIGZpcm13YXJlIGRpZG4ndCBtYXRjaCB3aGF0IHdhcyBuZWNlc3NhcnkgZm9yIHRoZSBHWDYy
+NTANCj4gPiA+IG9uIHRoZSBSWi9HMk0uICBJIGNhbid0IHJlbWVtYmVyIHdoYXQgdGhlIGNvcnJl
+c3BvbmRpbmcgUi1DYXIzIG1vZGVsDQo+ID4gPiBpcy4gIEkgaGF2ZW4ndCB0cmllZCByZWNlbnRs
+eSBiZWNhdXNlIEkgd2FzIHRvbGQgbW9yZSBkb2N1bWVudGF0aW9uDQo+ID4gPiBmb3IgZmlybXdh
+cmUgcG9ydGluZyB3b3VsZCBiZSBkZWxheWVkIHVudGlsIGV2ZXJ5dGhpbmcgd2FzIHB1c2hlZA0K
+PiA+ID4gaW50byB0aGUga2VybmVsIGFuZCBNZXNhLiAgTWF5YmUgdGhlcmUgaXMgYSBiZXR0ZXIg
+cmVwbyBhbmQvb3IgbmV3ZXINCj4gPiA+IGZpcm13YXJlIHNvbWV3aGVyZSBlbHNlLg0KPiA+ID4N
+Cj4gPiBJIHNob3VsZCBoYXZlIGRvdWJsZWQgY2hlY2tlZCB0aGUgcmVwbyBjb250ZW50cyBiZWZv
+cmUgSSBzZW50IG15IGxhc3QNCj4gPiBlLW1haWwgLCBidXQgaXQgYXBwZWFycyB0aGUgZmlybXdh
+cmUgIFsyXSBmb3IgdGhlIFJaL0cyTSwgbWlnaHQgYmUNCj4gPiBwcmVzZW50IG5vdy4gSSBkb24n
+dCBrbm93IGlmIHRoZXJlIGFyZSBkcml2ZXIgdXBkYXRlcyBuZWNlc3NhcnkuIEkNCj4gPiBjaGVj
+a2VkIG15IGUtbWFpbHMsIGJ1dCBJIGRpZG4ndCBzZWUgYW55IG5vdGlmaWNhdGlvbiwgb3IgSSB3
+b3VsZCBoYXZlDQo+ID4gdHJpZWQgaXQgZWFybGllci4gIEVpdGhlciB3YXksIHRoYW5rIHlvdSBG
+cmFuayBmb3IgYWRkaW5nIGl0LiAgSSdsbA0KPiA+IHRyeSB0byB0ZXN0IHdoZW4gSSBoYXZlIHNv
+bWUgdGltZS4NCj4gPg0KPiANCj4gSSBkb24ndCBoYXZlIHRoZSBwcm9wZXIgdmVyc2lvbiBvZiBN
+ZXNhIHNldHVwIHlldCwgYnV0IGZvciB3aGF0IGl0J3MNCj4gd29ydGgsIHRoZSBmaXJtd2FyZSBs
+b2FkcyB3aXRob3V0IGVycm9yLCBhbmQgaXQgZG9lc24ndCBoYW5nLg0KDQpCYXNlZCBvbiBbMV0g
+YW5kIFsyXSwNCg0Ka21zY3ViZSBzaG91bGQgd29yayBvbiBSLUNhciBhcyBpdCB3b3JrcyBvbiBS
+Wi9HMkwgd2l0aCBwYW5mcm9zdCBhcyBlYXJsaWVyIHZlcnNpb24gb2YgUlovRzJMDQp3aGljaCB1
+c2VzIGRybSBiYXNlZCBvbiBSQ2FyLUR1LCBsYXRlciBjaGFuZ2VkIHRvIHJ6ZzJsLWR1Lg0KDQpb
+MV0NCmh0dHBzOi8vZWxpeGlyLmJvb3RsaW4uY29tL21lc2EvbWVzYS0yNC4wLjEvc291cmNlL3Ny
+Yy9nYWxsaXVtL3RhcmdldHMvZHJpL21lc29uLmJ1aWxkI0w5NQ0KDQphbmQgDQoNClsyXQ0KaHR0
+cHM6Ly9lbGl4aXIuYm9vdGxpbi5jb20vbWVzYS9tZXNhLTI0LjAuMS9zb3VyY2Uvc3JjL2dhbGxp
+dW0vdGFyZ2V0cy9kcmkvdGFyZ2V0LmMjTDEyMw0KDQpDaGVlcnMsDQpCaWp1DQoNCj4gDQo+IFsg
+ICAgOS43ODc4MzZdIHBvd2VydnIgZmQwMDAwMDAuZ3B1OiBbZHJtXSBsb2FkZWQgZmlybXdhcmUN
+Cj4gcG93ZXJ2ci9yb2d1ZV80LjQ1LjIuNThfdjEuZncNCj4gWyAgICA5Ljc4Nzg2MV0gcG93ZXJ2
+ciBmZDAwMDAwMC5ncHU6IFtkcm1dIEZXIHZlcnNpb24gdjEuMCAoYnVpbGQgNjUxMzMzNg0KPiBP
+UykNCj4gDQo+IA0K
 
