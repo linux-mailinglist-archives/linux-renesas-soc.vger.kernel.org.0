@@ -1,154 +1,266 @@
-Return-Path: <linux-renesas-soc+bounces-2882-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-2883-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D03C857AD5
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 16 Feb 2024 12:00:30 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BAF3857B69
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 16 Feb 2024 12:19:41 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A81A01C23103
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 16 Feb 2024 11:00:29 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id EF9DA1F22284
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 16 Feb 2024 11:19:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0608755E5A;
-	Fri, 16 Feb 2024 11:00:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CD8425D495;
+	Fri, 16 Feb 2024 11:19:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="arv94Nrl"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="G2M+M8ZU"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FFF615491;
-	Fri, 16 Feb 2024 11:00:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CCF75C90F;
+	Fri, 16 Feb 2024 11:19:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708081223; cv=none; b=LyffUVQ5L3TFms3hj11sZobXDyrpXG6oRw1in6bfM2NOCkJ9+bhTz9fGkNsWPIhmhbrJY8Lr25/AUjVBzeYxQ8cqSOAC6XbNtd1/PP3HxPhFob1gG6DxgaL/zcquMg5TFc491UDG/F//HKfdPl4x3SQqfHp2dCmO8RpNDYaCVtA=
+	t=1708082360; cv=none; b=aLFvnHvQIQ+jemM71UaLu8OvPTK26Fe1RijFuONZlRRAIoLmQOdcFA1aFux6TcoRBIqAWj/PxgRCAYj6sRgUFlTH4orjkaOh6FI783JUpcIx2xOPA7lF8WZ1xA2/BFjg7mtYXRJR5TQcT8PHFnS38odsXPViv/onRYhRwhyKVR0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708081223; c=relaxed/simple;
-	bh=CHIv7iKSTpiAvZmuBmb9/qlK73+FpJXa8Lg4JrGZpxg=;
-	h=Content-Type:Mime-Version:Date:Message-Id:Cc:Subject:From:To:
-	 References:In-Reply-To; b=rF5UdxRv72oJX8xzbaiuV5fRIo9XfpqRXNwoz+tqNuHF8RdPZaN0TiNrYV3Q9zYCeEGf845falSwEfUSKkro+HiI8WxeaFrNPhW9Zwziyxil0ajXFoA368QqrRipmpRqP0gOVsGwOqvzp6XfkeM3Y8zl8Te4a0gooAHdTU+NaPg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=arv94Nrl; arc=none smtp.client-ip=209.85.208.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-562178003a1so723437a12.1;
-        Fri, 16 Feb 2024 03:00:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1708081220; x=1708686020; darn=vger.kernel.org;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=PLhCxXeXfTy0oKV1PZq76pGTpwbsrb7RXVp5Ag35IfA=;
-        b=arv94NrlS/AWzQgV93s9+FKi68/sen4hBq65EDqOqyYkPrGwoP/obI4GmqVhP3fLHu
-         KJJzOjvQmSwDwfiGDx0cn6dH7JU/vfVMOknIT+nitBHsf/H/O/PeX1LNvs3PkUTz7nGB
-         t+7gWkqtQeztblDvFyJ/Y+0Bzb7giwZLaSPjHq6U1qC56QKy1jY60utyZEJqIqv/M9cQ
-         cCTCywlLsTkr2ondSeZ31Wf9cHjuFzSA9oNGFir0j/QRFKAEVISGqlHrg4lM9NhSArXN
-         jpwX3kQUxADZoNOB4W/lRZeJABaq96JA7oZ1GJ+ThN6T2rQs9IbaAmMnuQvQT2L9fgZT
-         E2bQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708081220; x=1708686020;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=PLhCxXeXfTy0oKV1PZq76pGTpwbsrb7RXVp5Ag35IfA=;
-        b=GHR/sdTCbRD0k1yp/aRICgEOcJjnDfZgG07F6okhBypUTjhos2AW1/waYORvk5Ng4+
-         JXjLki+1rJeDlZZwn18TJfK5J5EV741GLPx5XVj9U7kqo7EJ0r7aLIdE2SA7VMNbgHag
-         RY66w8KUwnij7cBuZ+yw0fop7h8GH0WgMGbU198Dbq7LlX9N0UKTxsonhk5OJf5+Qz4E
-         eF3k53uxwJeLAUHZmlUBjnixIX3CgILQD7KPfyte7cEkpzqIhElbMuAEcozOfkEA9Wt8
-         kBEneCrRC14aMt7FOQHHKOIs1iPhSkBXvH/D2h7ivsJFb/KG5fpi4Ash3xR9rBhotkce
-         DO7Q==
-X-Forwarded-Encrypted: i=1; AJvYcCV8IzmXBTJOpsTSxqEI48feCvGJUFzb4pc+g0HjBg1PH0CI4ooZfb18gyMDzMwTFxS2pj6oiY1BIDCfEGY2X6SO7rpitlt5n3U/7875rI8q/S+IgukIW93s2jsclqLI3kqY9bNuDkskjVfsBf8wjtz7bizc+ArDIv8UNNRtG1+etOb1nWVs3eLx1sXqg1oC2g0lnJ922l0yWO+th1JyddbVR5oCteXGjrpnf1diCxXHnG2rwCquxK4QR3mwgHMjZIE+c7aNKPL5o/Oil1wLfZX4JFxok/fZUM25POIYyYudznnOa0//nWAIbppY4mMbsvu15h/XGpSAUcf+5VS7eOvNWA==
-X-Gm-Message-State: AOJu0YzahorHPBWQ0Nd+HBilNx4JKtcbU1AJs89cjgIniWu7wuKfWdC2
-	0g4xMMm92BEqNI35QI0TsEFuhhuEJRFbi4kvDHvcHyzex7xCFDdI
-X-Google-Smtp-Source: AGHT+IGJg1U3l1s0cZ7SNrJJLULfB++IrJsj8RGS0gGWbyw09mvwxmMXattq7dTy3fEu4mQVbz3vaQ==
-X-Received: by 2002:a17:906:46da:b0:a3c:f6dc:ea46 with SMTP id k26-20020a17090646da00b00a3cf6dcea46mr3038631ejs.49.1708081220098;
-        Fri, 16 Feb 2024 03:00:20 -0800 (PST)
-Received: from localhost (p200300e41f147f00f22f74fffe1f3a53.dip0.t-ipconnect.de. [2003:e4:1f14:7f00:f22f:74ff:fe1f:3a53])
-        by smtp.gmail.com with ESMTPSA id ts4-20020a170907c5c400b00a3df003b6a9sm219235ejc.119.2024.02.16.03.00.18
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 16 Feb 2024 03:00:19 -0800 (PST)
-Content-Type: multipart/signed;
- boundary=3f4d0b1f359aea3b19397b20b790a1177690846d9dafd4c758ed6e868b5b;
- micalg=pgp-sha256; protocol="application/pgp-signature"
+	s=arc-20240116; t=1708082360; c=relaxed/simple;
+	bh=KbiyK3bvGuFNTKYJJHAnEbGXH9z7NGmmzn+I+PaPUz0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=PDF5wa7eSz+zwvrfnO6ehDBV9MX4fawW1mcWuLUV30t8O9VAt4IlLh5cSwh6/D1xBE7noKxzL3OT2w+6WOMqPgVoK9DhcYajVnsZbyeSUaVb/BnJPPlKwABRoZau5HPBQSSvzRU6t0urW/5o8K4qcHgk/0iOUDgEqAgdC5++7lU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=G2M+M8ZU; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A4FB9C433C7;
+	Fri, 16 Feb 2024 11:19:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1708082360;
+	bh=KbiyK3bvGuFNTKYJJHAnEbGXH9z7NGmmzn+I+PaPUz0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=G2M+M8ZUQhDqvRup5p9TlZYwfHP6CXltKW0DLJJzXwugtd4/H1nl86/IGFPjVQBr7
+	 GCRemr582U0WH8hsjXa8e1U3s9b0Vl5yvGiqgI+fNcKVHuFDGHm7bPL4RGnQl3hFV0
+	 cFWFdueXaG7/OjmB2SXtaC58pFYqaz053ojcdCGeZyjeXXjQcwbX7bhmTOGSqfCKAb
+	 7mWtrvsPRDLrl5xI4ab5+bkNpl53Csknw7fcEchqTgt680PFUJO/jQRKvrP+jZvQrk
+	 6AdJ1aVr+xyff4pRh2vw8Qc4coAE6C3qwV+TksfzuED4Cku5IveQ6lBc2Q+DFJkrMR
+	 9pfzSd3QakT3A==
+Date: Fri, 16 Feb 2024 16:49:08 +0530
+From: Manivannan Sadhasivam <mani@kernel.org>
+To: Niklas Cassel <cassel@kernel.org>
+Cc: Richard Zhu <hongxing.zhu@nxp.com>,
+	Lucas Stach <l.stach@pengutronix.de>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
+	Rob Herring <robh@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	NXP Linux Team <linux-imx@nxp.com>,
+	Minghuan Lian <minghuan.Lian@nxp.com>,
+	Mingkai Hu <mingkai.hu@nxp.com>, Roy Zang <roy.zang@nxp.com>,
+	Srikanth Thokala <srikanth.thokala@intel.com>,
+	Marek Vasut <marek.vasut+renesas@gmail.com>,
+	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Jon Mason <jdmason@kudzu.us>, Dave Jiang <dave.jiang@intel.com>,
+	Allen Hubbe <allenbh@gmail.com>,
+	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+	Kishon Vijay Abraham I <kishon@kernel.org>,
+	Damien Le Moal <dlemoal@kernel.org>, Frank Li <Frank.Li@nxp.com>,
+	linux-pci@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linuxppc-dev@lists.ozlabs.org, linux-renesas-soc@vger.kernel.org,
+	linux-tegra@vger.kernel.org, ntb@lists.linux.dev
+Subject: Re: [PATCH 1/2] PCI: endpoint: Clean up hardware description for BARs
+Message-ID: <20240216111908.GC2559@thinkpad>
+References: <20240210012634.600301-1-cassel@kernel.org>
+ <20240210012634.600301-2-cassel@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Date: Fri, 16 Feb 2024 12:00:18 +0100
-Message-Id: <CZ6G9AYXMMHZ.3ABQKCJUHPSLU@gmail.com>
-Cc: <linux-arm-kernel@lists.infradead.org>, <devicetree@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <linux-aspeed@lists.ozlabs.org>,
- <openbmc@lists.ozlabs.org>, <linux-tegra@vger.kernel.org>,
- <linux-stm32@st-md-mailman.stormreply.com>, <linux-omap@vger.kernel.org>,
- <linux-mediatek@lists.infradead.org>, <linux-renesas-soc@vger.kernel.org>,
- <linux-arm-msm@vger.kernel.org>, <linux-kbuild@vger.kernel.org>
-Subject: Re: [PATCH 2/6] arm: dts: Fix dtc interrupt_provider warnings
-From: "Thierry Reding" <thierry.reding@gmail.com>
-To: "Rob Herring" <robh@kernel.org>, <soc@kernel.org>, "Shawn Guo"
- <shawnguo@kernel.org>, "Sascha Hauer" <s.hauer@pengutronix.de>,
- "Pengutronix Kernel Team" <kernel@pengutronix.de>, "Fabio Estevam"
- <festevam@gmail.com>, "NXP Linux Team" <linux-imx@nxp.com>, "Rob Herring"
- <robh+dt@kernel.org>, "Krzysztof Kozlowski"
- <krzysztof.kozlowski+dt@linaro.org>, "Conor Dooley" <conor+dt@kernel.org>,
- "Tsahee Zidenberg" <tsahee@annapurnalabs.com>, "Antoine Tenart"
- <atenart@kernel.org>, "Joel Stanley" <joel@jms.id.au>, "Andrew Jeffery"
- <andrew@codeconstruct.com.au>, "Ray Jui" <rjui@broadcom.com>, "Scott
- Branden" <sbranden@broadcom.com>, "Broadcom internal kernel review list"
- <bcm-kernel-feedback-list@broadcom.com>, "Andrew Lunn" <andrew@lunn.ch>,
- "Gregory Clement" <gregory.clement@bootlin.com>, "Sebastian Hesselbarth"
- <sebastian.hesselbarth@gmail.com>, =?utf-8?q?Jonathan_Neusch=C3=A4fer?=
- <j.neuschaefer@gmx.net>, "Jonathan Hunter" <jonathanh@nvidia.com>, "Stefan
- Agner" <stefan@agner.ch>, "Maxime Coquelin" <mcoquelin.stm32@gmail.com>,
- "Alexandre Torgue" <alexandre.torgue@foss.st.com>,
- =?utf-8?q?Beno=C3=AEt_Cousson?= <bcousson@baylibre.com>, "Tony Lindgren"
- <tony@atomide.com>, "Chanho Min" <chanho.min@lge.com>, "Matthias Brugger"
- <matthias.bgg@gmail.com>, "AngeloGioacchino Del Regno"
- <angelogioacchino.delregno@collabora.com>, "Geert Uytterhoeven"
- <geert+renesas@glider.be>, "Magnus Damm" <magnus.damm@gmail.com>, "Linus
- Walleij" <linusw@kernel.org>, "Imre Kaloz" <kaloz@openwrt.org>, "Bjorn
- Andersson" <andersson@kernel.org>, "Konrad Dybcio"
- <konrad.dybcio@linaro.org>, "Masahiro Yamada" <masahiroy@kernel.org>,
- "Nathan Chancellor" <nathan@kernel.org>, "Nicolas Schier"
- <nicolas@fjasle.eu>
-X-Mailer: aerc 0.16.0-1-0-g560d6168f0ed-dirty
-References: <20240213-arm-dt-cleanups-v1-0-f2dee1292525@kernel.org>
- <20240213-arm-dt-cleanups-v1-2-f2dee1292525@kernel.org>
-In-Reply-To: <20240213-arm-dt-cleanups-v1-2-f2dee1292525@kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240210012634.600301-2-cassel@kernel.org>
 
---3f4d0b1f359aea3b19397b20b790a1177690846d9dafd4c758ed6e868b5b
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
+On Sat, Feb 10, 2024 at 02:26:25AM +0100, Niklas Cassel wrote:
+> The hardware description for BARs is scattered in many different variables
+> in pci_epc_features. Some of these things are mutually exclusive, so it
+> can create confusion over which variable that has precedence over another.
+> 
+> Improve the situation by creating a struct pci_epc_bar_desc, and a new
+> enum pci_epc_bar_type, and convert the endpoint controller drivers to use
+> this more well defined format.
+> 
+> Signed-off-by: Niklas Cassel <cassel@kernel.org>
+> ---
+>  drivers/pci/controller/dwc/pci-imx6.c         |  3 +-
+>  drivers/pci/controller/dwc/pci-keystone.c     | 12 +++----
+>  .../pci/controller/dwc/pci-layerscape-ep.c    |  5 ++-
+>  drivers/pci/controller/dwc/pcie-keembay.c     |  8 +++--
+>  drivers/pci/controller/dwc/pcie-rcar-gen4.c   |  4 ++-
+>  drivers/pci/controller/dwc/pcie-tegra194.c    | 10 ++++--
+>  drivers/pci/controller/dwc/pcie-uniphier-ep.c | 15 ++++++--
+>  drivers/pci/controller/pcie-rcar-ep.c         | 14 +++++---
+>  drivers/pci/endpoint/functions/pci-epf-ntb.c  |  4 +--
+>  drivers/pci/endpoint/functions/pci-epf-test.c |  8 ++---
+>  drivers/pci/endpoint/functions/pci-epf-vntb.c |  2 +-
+>  drivers/pci/endpoint/pci-epc-core.c           | 32 +++++++++--------
+>  drivers/pci/endpoint/pci-epf-core.c           | 15 ++++----
+>  include/linux/pci-epc.h                       | 34 +++++++++++++++----
+>  14 files changed, 108 insertions(+), 58 deletions(-)
+> 
+> diff --git a/drivers/pci/controller/dwc/pci-imx6.c b/drivers/pci/controller/dwc/pci-imx6.c
+> index dc2c036ab28c..47a9a96484ed 100644
+> --- a/drivers/pci/controller/dwc/pci-imx6.c
+> +++ b/drivers/pci/controller/dwc/pci-imx6.c
+> @@ -1081,7 +1081,8 @@ static const struct pci_epc_features imx8m_pcie_epc_features = {
+>  	.linkup_notifier = false,
+>  	.msi_capable = true,
+>  	.msix_capable = false,
+> -	.reserved_bar = 1 << BAR_1 | 1 << BAR_3,
+> +	.bar[BAR_1] = { .type = BAR_RESERVED, },
+> +	.bar[BAR_3] = { .type = BAR_RESERVED, },
+>  	.align = SZ_64K,
+>  };
+>  
+> diff --git a/drivers/pci/controller/dwc/pci-keystone.c b/drivers/pci/controller/dwc/pci-keystone.c
+> index c0c62533a3f1..b2b93b4fa82d 100644
+> --- a/drivers/pci/controller/dwc/pci-keystone.c
+> +++ b/drivers/pci/controller/dwc/pci-keystone.c
+> @@ -924,12 +924,12 @@ static const struct pci_epc_features ks_pcie_am654_epc_features = {
+>  	.linkup_notifier = false,
+>  	.msi_capable = true,
+>  	.msix_capable = true,
+> -	.reserved_bar = 1 << BAR_0 | 1 << BAR_1,
+> -	.bar_fixed_64bit = 1 << BAR_0,
+> -	.bar_fixed_size[2] = SZ_1M,
+> -	.bar_fixed_size[3] = SZ_64K,
+> -	.bar_fixed_size[4] = 256,
+> -	.bar_fixed_size[5] = SZ_1M,
+> +	.bar[BAR_0] = { .type = BAR_RESERVED, .only_64bit = true, },
+> +	.bar[BAR_1] = { .type = BAR_RESERVED, },
+> +	.bar[BAR_2] = { .type = BAR_FIXED, .fixed_size = SZ_1M, },
+> +	.bar[BAR_3] = { .type = BAR_FIXED, .fixed_size = SZ_64K, },
+> +	.bar[BAR_4] = { .type = BAR_FIXED, .fixed_size = 256, },
+> +	.bar[BAR_5] = { .type = BAR_FIXED, .fixed_size = SZ_1M, },
+>  	.align = SZ_1M,
+>  };
+>  
+> diff --git a/drivers/pci/controller/dwc/pci-layerscape-ep.c b/drivers/pci/controller/dwc/pci-layerscape-ep.c
+> index 2e398494e7c0..1f6ee1460ec2 100644
+> --- a/drivers/pci/controller/dwc/pci-layerscape-ep.c
+> +++ b/drivers/pci/controller/dwc/pci-layerscape-ep.c
+> @@ -250,7 +250,10 @@ static int __init ls_pcie_ep_probe(struct platform_device *pdev)
+>  	pci->dev = dev;
+>  	pci->ops = pcie->drvdata->dw_pcie_ops;
+>  
+> -	ls_epc->bar_fixed_64bit = (1 << BAR_2) | (1 << BAR_4);
+> +	ls_epc->bar[BAR_2].only_64bit = true;
+> +	ls_epc->bar[BAR_3].type = BAR_RESERVED;
 
-On Tue Feb 13, 2024 at 8:34 PM CET, Rob Herring wrote:
-[...]
->  arch/arm/boot/dts/nvidia/tegra30-apalis-v1.1.dtsi      |  1 -
->  arch/arm/boot/dts/nvidia/tegra30-apalis.dtsi           |  1 -
->  arch/arm/boot/dts/nvidia/tegra30-colibri.dtsi          |  1 -
-[...]
+BAR_3 and BAR_4 were not reserved previously.
 
-Acked-by: Thierry Reding <treding@nvidia.com>
+> +	ls_epc->bar[BAR_4].only_64bit = true;
+> +	ls_epc->bar[BAR_5].type = BAR_RESERVED;
+>  	ls_epc->linkup_notifier = true;
+>  
+>  	pcie->pci = pci;
+> diff --git a/drivers/pci/controller/dwc/pcie-keembay.c b/drivers/pci/controller/dwc/pcie-keembay.c
+> index 208d3b0ba196..5e8e54f597dd 100644
+> --- a/drivers/pci/controller/dwc/pcie-keembay.c
+> +++ b/drivers/pci/controller/dwc/pcie-keembay.c
+> @@ -312,8 +312,12 @@ static const struct pci_epc_features keembay_pcie_epc_features = {
+>  	.linkup_notifier	= false,
+>  	.msi_capable		= true,
+>  	.msix_capable		= true,
+> -	.reserved_bar		= BIT(BAR_1) | BIT(BAR_3) | BIT(BAR_5),
+> -	.bar_fixed_64bit	= BIT(BAR_0) | BIT(BAR_2) | BIT(BAR_4),
+> +	.bar[BAR_0]		= { .only_64bit = true, },
+> +	.bar[BAR_1]		= { .type = BAR_RESERVED, },
+> +	.bar[BAR_2]		= { .only_64bit = true, },
+> +	.bar[BAR_3]		= { .type = BAR_RESERVED, },
+> +	.bar[BAR_4]		= { .only_64bit = true, },
+> +	.bar[BAR_5]		= { .type = BAR_RESERVED, },
+>  	.align			= SZ_16K,
+>  };
+>  
+> diff --git a/drivers/pci/controller/dwc/pcie-rcar-gen4.c b/drivers/pci/controller/dwc/pcie-rcar-gen4.c
+> index e9166619b1f9..0be760ed420b 100644
+> --- a/drivers/pci/controller/dwc/pcie-rcar-gen4.c
+> +++ b/drivers/pci/controller/dwc/pcie-rcar-gen4.c
+> @@ -383,7 +383,9 @@ static const struct pci_epc_features rcar_gen4_pcie_epc_features = {
+>  	.linkup_notifier = false,
+>  	.msi_capable = true,
+>  	.msix_capable = false,
+> -	.reserved_bar = 1 << BAR_1 | 1 << BAR_3 | 1 << BAR_5,
+> +	.bar[BAR_1] = { .type = BAR_RESERVED, },
+> +	.bar[BAR_3] = { .type = BAR_RESERVED, },
+> +	.bar[BAR_5] = { .type = BAR_RESERVED, },
+>  	.align = SZ_1M,
+>  };
+>  
+> diff --git a/drivers/pci/controller/dwc/pcie-tegra194.c b/drivers/pci/controller/dwc/pcie-tegra194.c
+> index 7afa9e9aabe2..1f7b662cb8e1 100644
+> --- a/drivers/pci/controller/dwc/pcie-tegra194.c
+> +++ b/drivers/pci/controller/dwc/pcie-tegra194.c
+> @@ -2007,9 +2007,13 @@ static const struct pci_epc_features tegra_pcie_epc_features = {
+>  	.core_init_notifier = true,
+>  	.msi_capable = false,
+>  	.msix_capable = false,
+> -	.reserved_bar = 1 << BAR_2 | 1 << BAR_3 | 1 << BAR_4 | 1 << BAR_5,
+> -	.bar_fixed_64bit = 1 << BAR_0,
+> -	.bar_fixed_size[0] = SZ_1M,
+> +	.bar[BAR_0] = { .type = BAR_FIXED, .fixed_size = SZ_1M,
+> +			.only_64bit = true, },
+> +	.bar[BAR_1] = { .type = BAR_RESERVED, },
 
---3f4d0b1f359aea3b19397b20b790a1177690846d9dafd4c758ed6e868b5b
-Content-Type: application/pgp-signature; name="signature.asc"
+Same, BAR_1 was not reserved.
 
------BEGIN PGP SIGNATURE-----
+> +	.bar[BAR_2] = { .type = BAR_RESERVED, },
+> +	.bar[BAR_3] = { .type = BAR_RESERVED, },
+> +	.bar[BAR_4] = { .type = BAR_RESERVED, },
+> +	.bar[BAR_5] = { .type = BAR_RESERVED, },
+>  };
+>  
+>  static const struct pci_epc_features*
+> diff --git a/drivers/pci/controller/dwc/pcie-uniphier-ep.c b/drivers/pci/controller/dwc/pcie-uniphier-ep.c
+> index 3fced0d3e851..265f65fc673f 100644
+> --- a/drivers/pci/controller/dwc/pcie-uniphier-ep.c
+> +++ b/drivers/pci/controller/dwc/pcie-uniphier-ep.c
+> @@ -411,8 +411,12 @@ static const struct uniphier_pcie_ep_soc_data uniphier_pro5_data = {
+>  		.msi_capable = true,
+>  		.msix_capable = false,
+>  		.align = 1 << 16,
+> -		.bar_fixed_64bit = BIT(BAR_0) | BIT(BAR_2) | BIT(BAR_4),
+> -		.reserved_bar =  BIT(BAR_4),
+> +		.bar[BAR_0] = { .only_64bit = true, },
+> +		.bar[BAR_1] = { .type = BAR_RESERVED, },
 
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmXPQEMACgkQ3SOs138+
-s6F44g/+KPT4RF0vNadKSFIV9/iihK84gvvjHc/8S/+Ks+sJw7//4Zws8JtsGdab
-UvvmQ8R5uIrvLpONlnmdl8cjWpnA3OV1VMJRgXeYIR/kKZxuoiZF03R8COiGQvfJ
-Cf4mq2od1sc4OOIFxTV0KJfp6XbmI09stW6zm5wk1F5CjbnMD0TTgxQhEAsOLfum
-aDJefFKp6T8QOlCQhCeYYnXwUIBdoYs7z+SRXBuJWJvgwdPMnyc4M7/5PtW57UXZ
-Vn2Hri2+u9imbcIzSUkrPLev1Kg5sWTF7CSICzmA+jTvHQUAZFQQMyjrGFkFTeI/
-g/J4ljpwRqBlhXRx5ioNbGqYmptZvuljjH6bT8hDzTRNPdfvZfKJSX2+wWb5+kM7
-/CdKfwORAUgMMqqABa4mSxHys/mmyeLJ2idQj/buql4pC7EpgD7SZRadqnaAkD/S
-3zxA6VBVq4Jt+6X3kjgGySa0tUyBMSWydLjH/TTkcZtwu8iEEggp7MxiYA2wJhne
-Pf5VjnhX5nLnPJuJn/Av5GHF1jvsrt9lENJTmpLFZIzxhxWrPntynrvfbpAV50e3
-eWqEDRu7eWFatZNZTrnRhmOHcGO197HIErp20X4PVISOY0uolzuiHFpjQBCUGQdV
-1xaTRZPbjaTB4pcqWNxi+mI4M6jIyDJc6COrC2G9t5GYMcbE6W4=
-=HY7z
------END PGP SIGNATURE-----
+Same as above.
 
---3f4d0b1f359aea3b19397b20b790a1177690846d9dafd4c758ed6e868b5b--
+> +		.bar[BAR_2] = { .only_64bit = true, },
+> +		.bar[BAR_3] = { .type = BAR_RESERVED, },
+> +		.bar[BAR_4] = { .type = BAR_RESERVED, .only_64bit = true, },
+> +		.bar[BAR_5] = { .type = BAR_RESERVED, },
+>  	},
+>  };
+>  
+> @@ -425,7 +429,12 @@ static const struct uniphier_pcie_ep_soc_data uniphier_nx1_data = {
+>  		.msi_capable = true,
+>  		.msix_capable = false,
+>  		.align = 1 << 12,
+> -		.bar_fixed_64bit = BIT(BAR_0) | BIT(BAR_2) | BIT(BAR_4),
+> +		.bar[BAR_0] = { .only_64bit = true, },
+> +		.bar[BAR_1] = { .type = BAR_RESERVED, },
+
+Same as above.
+
+- Mani
+
+-- 
+மணிவண்ணன் சதாசிவம்
 
