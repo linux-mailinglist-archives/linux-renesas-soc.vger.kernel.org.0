@@ -1,177 +1,126 @@
-Return-Path: <linux-renesas-soc+bounces-2885-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-2886-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BD81857B8E
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 16 Feb 2024 12:25:49 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 62D44857C02
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 16 Feb 2024 12:47:12 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id E7A191F25CF5
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 16 Feb 2024 11:25:48 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C6C562825A7
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 16 Feb 2024 11:47:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 99FA769DF4;
-	Fri, 16 Feb 2024 11:25:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="f9Hr8kSp"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A861977F2B;
+	Fri, 16 Feb 2024 11:47:08 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com [209.85.128.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 657F51BF50;
-	Fri, 16 Feb 2024 11:25:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 873F9768FE;
+	Fri, 16 Feb 2024 11:47:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708082744; cv=none; b=L35oJjaMbTx5Qa3KAQlvdI3WUoUTg9Zc1dkJ7GIUGeYnGxiBRCag5OJIwsArRvyLZSCWG4X8QM8jrUyRbLpQkOEKAW1mUO4j/RD+4Nz1YUhH/C72F+vZaY0zukny5yb0q7D6DRj56487gGn0000MvMqX0+frZVPabQlb9O5PZ2A=
+	t=1708084028; cv=none; b=Q7mvDmWHiPIdiNkQOQVS2/iZGuC2+phZwmRQY8ku0D9iFcsXng4HXyjkLAmsf5eqcTgx5gXOjILEJzS2Rry2dr70omvZmX66J66cCh+V3axb9ZG8j5pjZGOkE6EG+AiFOVzfIJ2wcw4/dnpFhJLMsfit0i3XXPw+82aFdpCD3vc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708082744; c=relaxed/simple;
-	bh=irTs/3hjqvC4IGIEj4U/Sb544ZHhGyYlJaKX6Qhdn+M=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ryurle55UEUQHhTK3sN8Dx9yjPv/36AiSgHLC/V/BexmX5nsLWYVKfrDvnznTTJiWWGs39kcjEQhYwnbPnN29fmNoRYYTMBG4k1hF2DXiWq+KXiJ/wOCLrEExNMRTnRMdkCvmYeevtlYtpU7kgO3upbX7GFjX1V18e5lopTmKY0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=f9Hr8kSp; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EAD0AC433C7;
-	Fri, 16 Feb 2024 11:25:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1708082743;
-	bh=irTs/3hjqvC4IGIEj4U/Sb544ZHhGyYlJaKX6Qhdn+M=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=f9Hr8kSpQ3k1fF39QRvvME6Mk2/doRfaMNhgqWXiMfU9/dYZViGnmhMlYTTEi/S3D
-	 p/NhBnh86rSKu5V11Ip5AEbIESUFOIj0NyTXjbHojGGCt940e8sC7jAMfJGWA0aQBy
-	 LlRoSTch0Bh6lCeBocKAqycKpcnVX+NTVr7JstIwF1Fc5t7KhAQpkcMVry3Ieax+u6
-	 HNYcf8/PV5dHGuGii7+hF0UNNwSA78XFZuQ81z/wY1JMJlkqeF8lDyMEv2ATmvAbd9
-	 fq5CEnqBhPLLlXOrdMUhTZMe9d3dRuNpPsMi0iIJQgn+fWItYZxeUWIz236g2QEj08
-	 S9BMhiNUAT4bg==
-Date: Fri, 16 Feb 2024 16:55:31 +0530
-From: Manivannan Sadhasivam <mani@kernel.org>
-To: Niklas Cassel <cassel@kernel.org>
-Cc: Richard Zhu <hongxing.zhu@nxp.com>,
-	Lucas Stach <l.stach@pengutronix.de>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
-	Rob Herring <robh@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	NXP Linux Team <linux-imx@nxp.com>,
-	Minghuan Lian <minghuan.Lian@nxp.com>,
-	Mingkai Hu <mingkai.hu@nxp.com>, Roy Zang <roy.zang@nxp.com>,
-	Srikanth Thokala <srikanth.thokala@intel.com>,
-	Marek Vasut <marek.vasut+renesas@gmail.com>,
-	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Jon Mason <jdmason@kudzu.us>, Dave Jiang <dave.jiang@intel.com>,
-	Allen Hubbe <allenbh@gmail.com>,
-	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-	Kishon Vijay Abraham I <kishon@kernel.org>,
-	Damien Le Moal <dlemoal@kernel.org>, Frank Li <Frank.Li@nxp.com>,
-	linux-pci@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linuxppc-dev@lists.ozlabs.org, linux-renesas-soc@vger.kernel.org,
-	linux-tegra@vger.kernel.org, ntb@lists.linux.dev
-Subject: Re: [PATCH 1/2] PCI: endpoint: Clean up hardware description for BARs
-Message-ID: <20240216112531.GD2559@thinkpad>
-References: <20240210012634.600301-1-cassel@kernel.org>
- <20240210012634.600301-2-cassel@kernel.org>
- <20240216111908.GC2559@thinkpad>
+	s=arc-20240116; t=1708084028; c=relaxed/simple;
+	bh=brDqgu+veoHirwdkbKDf0308k8BngHj6rCKvWtbcL88=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=cxQAmC7f554DimfYKOs39as31NRbkTtH/zdd4CkoGkng1pyBpj5sq171Vw5QnFEZF/aj9jFZvQvZj8M+ZT1/VM2ZQVpU7Z4kj9syYaLaKrLT4xmQXLgHs9559/lsDyKoEQSkd/IkpC3BPfA+rAjEbqxIf0AVqfC41u6HU0yC8xQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-60782336a3aso4026707b3.2;
+        Fri, 16 Feb 2024 03:47:06 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1708084023; x=1708688823;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=lQ7tnAKFUkQOj4UEtgJN4h/6u4fraBJnTp0nHjLT6cQ=;
+        b=NuY6vEBgIG9KmAvbppjbFS0iSNqaQQuVcW03ilk952q3G+5H6TS4CO8yqNT+u2VI3E
+         h5kFZnwj4sGOtsD9dNyv6WnwGuIZ07vhSEItHlkLX/CJ5I7nNM5nr7aqOE7AIrPuAqOC
+         1XKFJGCT9qFDXTARisTu6nFk66N8wRk4wkySY+ND1QJ+zysyGX3J38J/IVVYv6j8tDfi
+         20wx1KqsCZMH8efFLpHr0WMGjRPEmFHaPIP49HMqDmw0yfzSwYltd8oc2VmrF/wI1e2F
+         oGUAg/tdv0NPahRl0wLeEigZJKPOf03+kjnEqL8vFXOmQHKuG40xd8+bpGSJZFNvTZGM
+         LlYQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUFzZ3g4WANKqtZZ9VlC7Jw/knLzFtY2VvPmEZNYbXXKPIK29Y8K2BD7BUsP+QXhKjLrNpKOR3XekjYlWQTBtSTMDqAEHdImF5IBY7jb0EIwuk276tqtUSsiYUK4dENO0BYX7/Z5tkyge9b9DM9jVgKGtN/6DMzcTjH6akhagdPVeRougKNRrc8ZhDepS2FEzk5dbEwTBKOqvh6petdRxzoDOnsASXDFRbb3wgTKDD3Acb5XhavvM4+B2NtdscptyH7AGGnweHO5QhSJ5zKhrKdEgMhqRLokglysst9E5w+RpAtXTBBCpXvz1I+rRprqc8bGJJBv+NbvFNzC6gQgVZm8tqBAbztCMNas0zOz0UkwdDDzdkdSrssNvIodA==
+X-Gm-Message-State: AOJu0Yy1PyopLybDwhsRhRNyhHoX7zLqkA7Fxhoch1PliJvUdKRss3Jo
+	5/dGVbJYGclu5g8Cgj+j7RgnUcW/JtnAUin0pzp9oJDY8PoNag4WzIlf3cFysgk=
+X-Google-Smtp-Source: AGHT+IGOZo23mSGj2qVG09ybbc13KqERNgE2Z8Lel0v6H8fWWUPfJQWUuJf9NEMeSLF+la3qPj88JQ==
+X-Received: by 2002:a81:4c8c:0:b0:607:8196:9d69 with SMTP id z134-20020a814c8c000000b0060781969d69mr4522995ywa.30.1708084023056;
+        Fri, 16 Feb 2024 03:47:03 -0800 (PST)
+Received: from mail-yb1-f178.google.com (mail-yb1-f178.google.com. [209.85.219.178])
+        by smtp.gmail.com with ESMTPSA id a125-20020a818a83000000b006040f198d3esm301001ywg.142.2024.02.16.03.47.01
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 16 Feb 2024 03:47:01 -0800 (PST)
+Received: by mail-yb1-f178.google.com with SMTP id 3f1490d57ef6-dcc71031680so609771276.2;
+        Fri, 16 Feb 2024 03:47:01 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCX/33bHJ5WVDjuKg1h+K20HSFSmfoX0dje+Pdcke0G/yQOK9V0feprsSCKA1DfHeklL/Md53BZThhNi7KlefgL6OgBrBR3FWnNtPQ7QIZqprCc8UUjHH8if981HtunXUuEJu9HW12LvxQAxlh9H1gsyW8N6P906LUOaOkbuYSoI15GHqAhh/ny2zVu5VbToppT3ptxf5vmGpiPPnOXps/H9FUkUjH/pO7nThOnAMurKIZ+rTdWWgOxyXjr3swevrnkFK1Tne6+bGd4fNJCye27zGkM12CRl9rBM6E+cLly2ijj83hChsBpJ7DvDvy762C5JyHgc9UOieLPUd5+eKl7GtgZGvnAxKRaMCBCV6ksn7c38M2sdlkpOOvDXVA==
+X-Received: by 2002:a5b:708:0:b0:dc6:cc35:35e9 with SMTP id
+ g8-20020a5b0708000000b00dc6cc3535e9mr4412013ybq.35.1708084021189; Fri, 16 Feb
+ 2024 03:47:01 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240216111908.GC2559@thinkpad>
+References: <20240208163710.512733-1-krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20240208163710.512733-1-krzysztof.kozlowski@linaro.org>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Fri, 16 Feb 2024 12:46:48 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdXzObEqExtJZpUpXLfCWB5fW9ZhekbbotcxcMrN+uj0Ag@mail.gmail.com>
+Message-ID: <CAMuHMdXzObEqExtJZpUpXLfCWB5fW9ZhekbbotcxcMrN+uj0Ag@mail.gmail.com>
+Subject: Re: [PATCH] clk: constify the of_phandle_args argument of of_clk_provider
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
+	Sudeep Holla <sudeep.holla@arm.com>, Peng Fan <peng.fan@nxp.com>, Shawn Guo <shawnguo@kernel.org>, 
+	Nishanth Menon <nm@ti.com>, Bjorn Andersson <andersson@kernel.org>, 
+	Konrad Dybcio <konrad.dybcio@linaro.org>, Thierry Reding <thierry.reding@gmail.com>, 
+	Jonathan Hunter <jonathanh@nvidia.com>, Linus Walleij <linus.walleij@linaro.org>, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Vinod Koul <vkoul@kernel.org>, 
+	Russell King <linux@armlinux.org.uk>, 
+	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, Mark Brown <broonie@kernel.org>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, linux-clk@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	patches@opensource.cirrus.com, linux-stm32@st-md-mailman.stormreply.com, 
+	NXP Linux Team <linux-imx@nxp.com>, linux-amlogic@lists.infradead.org, 
+	linux-arm-msm@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	linux-tegra@vger.kernel.org, linux-omap@vger.kernel.org, 
+	linux-media@vger.kernel.org, linux-phy@lists.infradead.org, 
+	alsa-devel@alsa-project.org, linux-sound@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Feb 16, 2024 at 04:49:08PM +0530, Manivannan Sadhasivam wrote:
-> On Sat, Feb 10, 2024 at 02:26:25AM +0100, Niklas Cassel wrote:
-> > The hardware description for BARs is scattered in many different variables
-> > in pci_epc_features. Some of these things are mutually exclusive, so it
-> > can create confusion over which variable that has precedence over another.
-> > 
-> > Improve the situation by creating a struct pci_epc_bar_desc, and a new
-> > enum pci_epc_bar_type, and convert the endpoint controller drivers to use
-> > this more well defined format.
-> > 
-> > Signed-off-by: Niklas Cassel <cassel@kernel.org>
-> > ---
-> >  drivers/pci/controller/dwc/pci-imx6.c         |  3 +-
-> >  drivers/pci/controller/dwc/pci-keystone.c     | 12 +++----
-> >  .../pci/controller/dwc/pci-layerscape-ep.c    |  5 ++-
-> >  drivers/pci/controller/dwc/pcie-keembay.c     |  8 +++--
-> >  drivers/pci/controller/dwc/pcie-rcar-gen4.c   |  4 ++-
-> >  drivers/pci/controller/dwc/pcie-tegra194.c    | 10 ++++--
-> >  drivers/pci/controller/dwc/pcie-uniphier-ep.c | 15 ++++++--
-> >  drivers/pci/controller/pcie-rcar-ep.c         | 14 +++++---
-> >  drivers/pci/endpoint/functions/pci-epf-ntb.c  |  4 +--
-> >  drivers/pci/endpoint/functions/pci-epf-test.c |  8 ++---
-> >  drivers/pci/endpoint/functions/pci-epf-vntb.c |  2 +-
-> >  drivers/pci/endpoint/pci-epc-core.c           | 32 +++++++++--------
-> >  drivers/pci/endpoint/pci-epf-core.c           | 15 ++++----
-> >  include/linux/pci-epc.h                       | 34 +++++++++++++++----
-> >  14 files changed, 108 insertions(+), 58 deletions(-)
-> > 
-> > diff --git a/drivers/pci/controller/dwc/pci-imx6.c b/drivers/pci/controller/dwc/pci-imx6.c
-> > index dc2c036ab28c..47a9a96484ed 100644
-> > --- a/drivers/pci/controller/dwc/pci-imx6.c
-> > +++ b/drivers/pci/controller/dwc/pci-imx6.c
-> > @@ -1081,7 +1081,8 @@ static const struct pci_epc_features imx8m_pcie_epc_features = {
-> >  	.linkup_notifier = false,
-> >  	.msi_capable = true,
-> >  	.msix_capable = false,
-> > -	.reserved_bar = 1 << BAR_1 | 1 << BAR_3,
-> > +	.bar[BAR_1] = { .type = BAR_RESERVED, },
-> > +	.bar[BAR_3] = { .type = BAR_RESERVED, },
-> >  	.align = SZ_64K,
-> >  };
-> >  
-> > diff --git a/drivers/pci/controller/dwc/pci-keystone.c b/drivers/pci/controller/dwc/pci-keystone.c
-> > index c0c62533a3f1..b2b93b4fa82d 100644
-> > --- a/drivers/pci/controller/dwc/pci-keystone.c
-> > +++ b/drivers/pci/controller/dwc/pci-keystone.c
-> > @@ -924,12 +924,12 @@ static const struct pci_epc_features ks_pcie_am654_epc_features = {
-> >  	.linkup_notifier = false,
-> >  	.msi_capable = true,
-> >  	.msix_capable = true,
-> > -	.reserved_bar = 1 << BAR_0 | 1 << BAR_1,
-> > -	.bar_fixed_64bit = 1 << BAR_0,
-> > -	.bar_fixed_size[2] = SZ_1M,
-> > -	.bar_fixed_size[3] = SZ_64K,
-> > -	.bar_fixed_size[4] = 256,
-> > -	.bar_fixed_size[5] = SZ_1M,
-> > +	.bar[BAR_0] = { .type = BAR_RESERVED, .only_64bit = true, },
-> > +	.bar[BAR_1] = { .type = BAR_RESERVED, },
-> > +	.bar[BAR_2] = { .type = BAR_FIXED, .fixed_size = SZ_1M, },
-> > +	.bar[BAR_3] = { .type = BAR_FIXED, .fixed_size = SZ_64K, },
-> > +	.bar[BAR_4] = { .type = BAR_FIXED, .fixed_size = 256, },
-> > +	.bar[BAR_5] = { .type = BAR_FIXED, .fixed_size = SZ_1M, },
-> >  	.align = SZ_1M,
-> >  };
-> >  
-> > diff --git a/drivers/pci/controller/dwc/pci-layerscape-ep.c b/drivers/pci/controller/dwc/pci-layerscape-ep.c
-> > index 2e398494e7c0..1f6ee1460ec2 100644
-> > --- a/drivers/pci/controller/dwc/pci-layerscape-ep.c
-> > +++ b/drivers/pci/controller/dwc/pci-layerscape-ep.c
-> > @@ -250,7 +250,10 @@ static int __init ls_pcie_ep_probe(struct platform_device *pdev)
-> >  	pci->dev = dev;
-> >  	pci->ops = pcie->drvdata->dw_pcie_ops;
-> >  
-> > -	ls_epc->bar_fixed_64bit = (1 << BAR_2) | (1 << BAR_4);
-> > +	ls_epc->bar[BAR_2].only_64bit = true;
-> > +	ls_epc->bar[BAR_3].type = BAR_RESERVED;
-> 
-> BAR_3 and BAR_4 were not reserved previously.
-> 
+On Thu, Feb 8, 2024 at 5:37=E2=80=AFPM Krzysztof Kozlowski
+<krzysztof.kozlowski@linaro.org> wrote:
+> None of the implementations of the get() and get_hw() callbacks of
+> "struct of_clk_provider" modify the contents of received of_phandle_args
+> pointer.  They treat it as read-only variable used to find the clock to
+> return.  Make obvious that implementations are not supposed to modify
+> the of_phandle_args, by making it a pointer to const.
+>
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-Okay, looking at patch 2 makes it clear why you have marked it as such. But it
-should've been mentioned in the commit message.
+>  drivers/clk/renesas/r9a06g032-clocks.c        |  2 +-
+>  drivers/clk/renesas/renesas-cpg-mssr.c        |  2 +-
+>  drivers/clk/renesas/rzg2l-cpg.c               |  2 +-
 
-- Mani
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Acked-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
--- 
-மணிவண்ணன் சதாசிவம்
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
