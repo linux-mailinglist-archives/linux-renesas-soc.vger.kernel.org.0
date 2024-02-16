@@ -1,126 +1,86 @@
-Return-Path: <linux-renesas-soc+bounces-2886-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-2887-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62D44857C02
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 16 Feb 2024 12:47:12 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id C5A43857CBD
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 16 Feb 2024 13:36:37 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C6C562825A7
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 16 Feb 2024 11:47:10 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 50747B227BC
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 16 Feb 2024 12:36:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A861977F2B;
-	Fri, 16 Feb 2024 11:47:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D216212AAD9;
+	Fri, 16 Feb 2024 12:35:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FXNVFE5W"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com [209.85.128.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 873F9768FE;
-	Fri, 16 Feb 2024 11:47:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A545112AACD;
+	Fri, 16 Feb 2024 12:35:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708084028; cv=none; b=Q7mvDmWHiPIdiNkQOQVS2/iZGuC2+phZwmRQY8ku0D9iFcsXng4HXyjkLAmsf5eqcTgx5gXOjILEJzS2Rry2dr70omvZmX66J66cCh+V3axb9ZG8j5pjZGOkE6EG+AiFOVzfIJ2wcw4/dnpFhJLMsfit0i3XXPw+82aFdpCD3vc=
+	t=1708086912; cv=none; b=K66tfj7/B75FUezMj6ktJtNJsRZ3xGaH2qaoCS1I0B9MFKrcvlzPZhSJ2WWgYz1bBTGzPlx+P7M56uKQdhYQ6cXzO3Eekn0aNU22ZQXvpH7FE7rsUNhx5ipVOlxMwN0SbMjKwBnJxC2EYOQdxUH4TaHBZ4tDw6uBLF4csqsKq1Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708084028; c=relaxed/simple;
-	bh=brDqgu+veoHirwdkbKDf0308k8BngHj6rCKvWtbcL88=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=cxQAmC7f554DimfYKOs39as31NRbkTtH/zdd4CkoGkng1pyBpj5sq171Vw5QnFEZF/aj9jFZvQvZj8M+ZT1/VM2ZQVpU7Z4kj9syYaLaKrLT4xmQXLgHs9559/lsDyKoEQSkd/IkpC3BPfA+rAjEbqxIf0AVqfC41u6HU0yC8xQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-60782336a3aso4026707b3.2;
-        Fri, 16 Feb 2024 03:47:06 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708084023; x=1708688823;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=lQ7tnAKFUkQOj4UEtgJN4h/6u4fraBJnTp0nHjLT6cQ=;
-        b=NuY6vEBgIG9KmAvbppjbFS0iSNqaQQuVcW03ilk952q3G+5H6TS4CO8yqNT+u2VI3E
-         h5kFZnwj4sGOtsD9dNyv6WnwGuIZ07vhSEItHlkLX/CJ5I7nNM5nr7aqOE7AIrPuAqOC
-         1XKFJGCT9qFDXTARisTu6nFk66N8wRk4wkySY+ND1QJ+zysyGX3J38J/IVVYv6j8tDfi
-         20wx1KqsCZMH8efFLpHr0WMGjRPEmFHaPIP49HMqDmw0yfzSwYltd8oc2VmrF/wI1e2F
-         oGUAg/tdv0NPahRl0wLeEigZJKPOf03+kjnEqL8vFXOmQHKuG40xd8+bpGSJZFNvTZGM
-         LlYQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUFzZ3g4WANKqtZZ9VlC7Jw/knLzFtY2VvPmEZNYbXXKPIK29Y8K2BD7BUsP+QXhKjLrNpKOR3XekjYlWQTBtSTMDqAEHdImF5IBY7jb0EIwuk276tqtUSsiYUK4dENO0BYX7/Z5tkyge9b9DM9jVgKGtN/6DMzcTjH6akhagdPVeRougKNRrc8ZhDepS2FEzk5dbEwTBKOqvh6petdRxzoDOnsASXDFRbb3wgTKDD3Acb5XhavvM4+B2NtdscptyH7AGGnweHO5QhSJ5zKhrKdEgMhqRLokglysst9E5w+RpAtXTBBCpXvz1I+rRprqc8bGJJBv+NbvFNzC6gQgVZm8tqBAbztCMNas0zOz0UkwdDDzdkdSrssNvIodA==
-X-Gm-Message-State: AOJu0Yy1PyopLybDwhsRhRNyhHoX7zLqkA7Fxhoch1PliJvUdKRss3Jo
-	5/dGVbJYGclu5g8Cgj+j7RgnUcW/JtnAUin0pzp9oJDY8PoNag4WzIlf3cFysgk=
-X-Google-Smtp-Source: AGHT+IGOZo23mSGj2qVG09ybbc13KqERNgE2Z8Lel0v6H8fWWUPfJQWUuJf9NEMeSLF+la3qPj88JQ==
-X-Received: by 2002:a81:4c8c:0:b0:607:8196:9d69 with SMTP id z134-20020a814c8c000000b0060781969d69mr4522995ywa.30.1708084023056;
-        Fri, 16 Feb 2024 03:47:03 -0800 (PST)
-Received: from mail-yb1-f178.google.com (mail-yb1-f178.google.com. [209.85.219.178])
-        by smtp.gmail.com with ESMTPSA id a125-20020a818a83000000b006040f198d3esm301001ywg.142.2024.02.16.03.47.01
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 16 Feb 2024 03:47:01 -0800 (PST)
-Received: by mail-yb1-f178.google.com with SMTP id 3f1490d57ef6-dcc71031680so609771276.2;
-        Fri, 16 Feb 2024 03:47:01 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCX/33bHJ5WVDjuKg1h+K20HSFSmfoX0dje+Pdcke0G/yQOK9V0feprsSCKA1DfHeklL/Md53BZThhNi7KlefgL6OgBrBR3FWnNtPQ7QIZqprCc8UUjHH8if981HtunXUuEJu9HW12LvxQAxlh9H1gsyW8N6P906LUOaOkbuYSoI15GHqAhh/ny2zVu5VbToppT3ptxf5vmGpiPPnOXps/H9FUkUjH/pO7nThOnAMurKIZ+rTdWWgOxyXjr3swevrnkFK1Tne6+bGd4fNJCye27zGkM12CRl9rBM6E+cLly2ijj83hChsBpJ7DvDvy762C5JyHgc9UOieLPUd5+eKl7GtgZGvnAxKRaMCBCV6ksn7c38M2sdlkpOOvDXVA==
-X-Received: by 2002:a5b:708:0:b0:dc6:cc35:35e9 with SMTP id
- g8-20020a5b0708000000b00dc6cc3535e9mr4412013ybq.35.1708084021189; Fri, 16 Feb
- 2024 03:47:01 -0800 (PST)
+	s=arc-20240116; t=1708086912; c=relaxed/simple;
+	bh=UCRiDyTqdTBsdu54tzQMV73u+uOJTw/lzTO7cUztjsY=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=WRmgL2J02zBsy88FMpvEIz/OC7NCP4JF4CeaTFuzEXlx1npKmEzdfb2XR7nzdHd84STNVzUjU91/AKuuItrKWEFXUAid5YeZZGIZzLBm2eJt5F1VeTGh/8127qARfOVYvsISM2mHSI52Zsvu/eFEJcMPnTggbTtyiyG8eNRN0Xs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FXNVFE5W; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A519DC43390;
+	Fri, 16 Feb 2024 12:35:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1708086912;
+	bh=UCRiDyTqdTBsdu54tzQMV73u+uOJTw/lzTO7cUztjsY=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=FXNVFE5WwTEsk8Bfhtzq5qn5xeME8qrv+hVulFLS3GE5ukWRdA7tF2IT855hoHMJT
+	 vL5CrYah9+d+uEWoTLI71TayZ+ZKRF4QKW03k2krROUYQ+sUYFUZRHqf7bwX0rTNeJ
+	 rwU+Rv756b4oXkW2qHQZVbb/jZkd7oEme++pRE3X9W9+QaTBJ8PRxsjIaCgb/ZJsB/
+	 UZ10e2hy2lDTP4MLxMPjnVhaJuu77QM27XCdPiSstoj5DDOyeiTd2ANl2hTNYbCx8B
+	 919xeiBPkw7tFpq1Swn4IbCE8vuompsTaw9+ZWQY1dFjg+X2uyeg0Wma9mWweYK2Nq
+	 64rluxBo9M0vg==
+From: Vinod Koul <vkoul@kernel.org>
+To: Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>, 
+ Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: dmaengine@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-renesas-soc@vger.kernel.org
+In-Reply-To: <96aad3b532ee401f19693e18038494f43ddb90e9.1707915609.git.geert+renesas@glider.be>
+References: <96aad3b532ee401f19693e18038494f43ddb90e9.1707915609.git.geert+renesas@glider.be>
+Subject: Re: [PATCH] dt-bindings: renesas,rcar-dmac: Add r8a779h0 support
+Message-Id: <170808690922.369652.2274140141441534554.b4-ty@kernel.org>
+Date: Fri, 16 Feb 2024 18:05:09 +0530
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240208163710.512733-1-krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20240208163710.512733-1-krzysztof.kozlowski@linaro.org>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 16 Feb 2024 12:46:48 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdXzObEqExtJZpUpXLfCWB5fW9ZhekbbotcxcMrN+uj0Ag@mail.gmail.com>
-Message-ID: <CAMuHMdXzObEqExtJZpUpXLfCWB5fW9ZhekbbotcxcMrN+uj0Ag@mail.gmail.com>
-Subject: Re: [PATCH] clk: constify the of_phandle_args argument of of_clk_provider
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
-	Sudeep Holla <sudeep.holla@arm.com>, Peng Fan <peng.fan@nxp.com>, Shawn Guo <shawnguo@kernel.org>, 
-	Nishanth Menon <nm@ti.com>, Bjorn Andersson <andersson@kernel.org>, 
-	Konrad Dybcio <konrad.dybcio@linaro.org>, Thierry Reding <thierry.reding@gmail.com>, 
-	Jonathan Hunter <jonathanh@nvidia.com>, Linus Walleij <linus.walleij@linaro.org>, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Vinod Koul <vkoul@kernel.org>, 
-	Russell King <linux@armlinux.org.uk>, 
-	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, Mark Brown <broonie@kernel.org>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, linux-clk@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	patches@opensource.cirrus.com, linux-stm32@st-md-mailman.stormreply.com, 
-	NXP Linux Team <linux-imx@nxp.com>, linux-amlogic@lists.infradead.org, 
-	linux-arm-msm@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	linux-tegra@vger.kernel.org, linux-omap@vger.kernel.org, 
-	linux-media@vger.kernel.org, linux-phy@lists.infradead.org, 
-	alsa-devel@alsa-project.org, linux-sound@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.12.3
 
-On Thu, Feb 8, 2024 at 5:37=E2=80=AFPM Krzysztof Kozlowski
-<krzysztof.kozlowski@linaro.org> wrote:
-> None of the implementations of the get() and get_hw() callbacks of
-> "struct of_clk_provider" modify the contents of received of_phandle_args
-> pointer.  They treat it as read-only variable used to find the clock to
-> return.  Make obvious that implementations are not supposed to modify
-> the of_phandle_args, by making it a pointer to const.
->
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
->  drivers/clk/renesas/r9a06g032-clocks.c        |  2 +-
->  drivers/clk/renesas/renesas-cpg-mssr.c        |  2 +-
->  drivers/clk/renesas/rzg2l-cpg.c               |  2 +-
+On Wed, 14 Feb 2024 14:00:34 +0100, Geert Uytterhoeven wrote:
+> Document support for the Direct Memory Access Controllers (DMAC) in the
+> Renesas R-Car V4M (R8A779H0) SoC.
+> 
+> Based on a patch in the BSP by Thanh Le.
+> 
+> 
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Acked-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Applied, thanks!
 
-Gr{oetje,eeting}s,
+[1/1] dt-bindings: renesas,rcar-dmac: Add r8a779h0 support
+      commit: 35b78e2eef2d75c8722bf39d6bd1d89a8e21479e
 
-                        Geert
+Best regards,
+-- 
+~Vinod
 
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
 
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
 
