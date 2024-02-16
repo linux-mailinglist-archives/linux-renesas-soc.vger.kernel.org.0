@@ -1,198 +1,128 @@
-Return-Path: <linux-renesas-soc+bounces-2907-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-2908-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id D35E6857F0C
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 16 Feb 2024 15:14:21 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E25B4857F1B
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 16 Feb 2024 15:17:33 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6246F1F270E0
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 16 Feb 2024 14:14:21 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9783128B647
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 16 Feb 2024 14:17:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E128777F3B;
-	Fri, 16 Feb 2024 14:14:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lV068Mks"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5EDBB12C809;
+	Fri, 16 Feb 2024 14:17:23 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f182.google.com (mail-yb1-f182.google.com [209.85.219.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD56F12C7E3;
-	Fri, 16 Feb 2024 14:14:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4EF812AAD9;
+	Fri, 16 Feb 2024 14:17:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708092851; cv=none; b=qRAiryb84hMbm2IFQyaHnaIKR3t9feucs05aej5dW+S6xH7VLX4F3MGuvh8BCNWd4/WOmkch7BIPJIj7gJRQP+OUPI/+EfbStfda5T8YM9DqTkLlEB1Snvorswy7jtXR46T456w1y2h+YSkPx43ykRhgCu7+ZdWy45y9yOlxiUQ=
+	t=1708093043; cv=none; b=Bte5FLNe0WjHV0sKXnP5AKZmsZffr1oeLNjREMRX1F4NGZZkPIRTfU2abhnuH5eTg0isLlJOw8ii5rniG/pkZOKKgY+CC2kXMB2227ERHQWCaFn8/uFu9/qC1G5UI6pCAqcZJg6/h/b24eNrT3tjSNoWdjGsD0gG/H0yTksAVDM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708092851; c=relaxed/simple;
-	bh=ulooY3k/9kjdy6juICpuC9BZLtxZZtvHi1HuciUwdIY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iu5OikseD1y4KYgwCfOUNRNF99gf+sfs1xte0ViNNYtuFOrZyi/GN5SveKIKT6z2wqddGeRp7wGYU+Wa5G3flDiXHdmpMIB98MX3hVP0yb+ZZoWc0woAk7hi+DbduHJ+GSXZEjca0Uvzp1PYFDKhWX6vbTYW8bn1xildOKNMsO0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lV068Mks; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 23D03C433F1;
-	Fri, 16 Feb 2024 14:14:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1708092851;
-	bh=ulooY3k/9kjdy6juICpuC9BZLtxZZtvHi1HuciUwdIY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=lV068Mks1mgMbPWPWpAQSOU/t+Fo4s5NnRVE0PHpNb0MgnVnEcCeIeXqvMhtXbuKC
-	 U2FRuVwoW7w3iZAUjrUBs1rFjdjFz94YHnv7/G8ipeLf/EVqpUrlG0ieVwkd1TF9JJ
-	 z4nr9nsNtZ5vUdkUqZrKds39GmlN4ki6xhtku07BVI8GaF/MwlSA+jJKTPItxtsV2p
-	 LkyREhW5+ml4TlKQxIkFej2ZKg68T4lCNuXVRC+vHbOE7u4hdUo8J2YMtT6dSVhgDL
-	 uVOX/DzBJI1rsxXAm6dYVXzGXpg6DhcK7ZRl6WLRvXyM7QEOIhsZ+JlTr2s3OPjjWQ
-	 kgoviwRy/KQLw==
-Date: Fri, 16 Feb 2024 15:14:08 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Biju Das <biju.das.jz@bp.renesas.com>
-Cc: Adam Ford <aford173@gmail.com>, 
-	Geert Uytterhoeven <geert@linux-m68k.org>, Frank Binns <frank.binns@imgtec.com>, 
-	Matt Coster <matt.coster@imgtec.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
-	Daniel Vetter <daniel@ffwll.ch>, Sarah Walker <sarah.walker@imgtec.com>, 
-	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
-	Javier Martinez Canillas <javierm@redhat.com>, Nishanth Menon <nm@ti.com>, 
-	Marek Vasut <marek.vasut@mailbox.org>, Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Subject: Re: RE: RE: [PATCH v2] drm/imagination: DRM_POWERVR should depend on
- ARCH_K3
-Message-ID: <wxwad77x2mxhhwdsbgiytzn6x54t4sywodjhzefwldo277njiz@ru7z54wxgelu>
-References: <6be2558b8462fc08095c24c9257563ab5f3ae013.1708001398.git.geert+renesas@glider.be>
- <kycepdxukfsww3tnxoo5hoiuo3vcgpqqmynokzhtl4vodgm6zc@ih4uhw7gz4jh>
- <CAMuHMdVf7ophCwKt-n_N-LBHV4+t14Gjb4d1O0T8FDk_9xMFtA@mail.gmail.com>
- <CAHCN7xJ65RP8TO7cS0p5DwE6zru5NEF0_JA+8siT_OpSeLD7pA@mail.gmail.com>
- <CAHCN7x+EnSU8qk5dBFco=0vkeknGq18qEN7vFmZs0_q83T_3+w@mail.gmail.com>
- <CAHCN7xKffJ29zyjoJVAcy3b_d=-zkFzbL=URj4yWJWzYvRdB_Q@mail.gmail.com>
- <TYCPR01MB11269CBE8429A31DE5002A5A5864C2@TYCPR01MB11269.jpnprd01.prod.outlook.com>
- <nzrkujogauvn262ucxippwidyub6ikcohcjpbpn4hzj7rymctm@4owntgrmcquf>
- <TYCPR01MB11269CBAA20275E11D9AD6500864C2@TYCPR01MB11269.jpnprd01.prod.outlook.com>
+	s=arc-20240116; t=1708093043; c=relaxed/simple;
+	bh=vnnX13x217W0dtrq5eN5tm48xaIUCso8yaskfIG6//g=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=W79VJdn/iB8pakyAtprWru0PHG478E+tbQyFgpqwPprOnUt9BNtTwX3EdQLiNt1D25q/k1YNckhphlwfiMxrBKAdQv9HYdvgfzgmPnmJYeFv83sZE+H6bEKYSfuB8/0kP+LV1gf80jr6CW0J+7dobVaFfIc807GWLIdm+3HEXsY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.219.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yb1-f182.google.com with SMTP id 3f1490d57ef6-dcc4de7d901so1750265276.0;
+        Fri, 16 Feb 2024 06:17:21 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1708093040; x=1708697840;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=uKVA6eT9vMZObsICtCU8wuFH8FzY1FdTCqpK118q1IE=;
+        b=jeiZubz0wHT7KtCwHje/dmKYMH4ygfyWQ2hf4Y5ugqJkknctK9roCmReGGcybJHxKf
+         nxotCHVm0sUXogIzn4LMQ1TcIDohvGSzIdzavLe5StFUJTAsVD8DDjjW9rG5w//3b5NX
+         VsvXPtLFQBop/nk4X1xU1VqPlhvj7MdJFGs71Ygsn2QvuydiHdZqSt5VixuKobEFbyWw
+         PHxdS3rGYnFAGvtbVP+cCgaQMxkFLq2kPB0K59JyGVo0RftrIero+68w2ytV0AjtD88n
+         Echo95Gqx/UHAmoANz6YSFqOyGYs7jtP0u7VokijH3Rt3cFwTyb49vgEnG+eISC6p84S
+         kV4g==
+X-Forwarded-Encrypted: i=1; AJvYcCVggaW4V9dOKZs7Ytf/+SOuZzD8TKnLNZZYTPJ3bYCWmEiVNkyqUy6shGYXYKkpsTawIMM6Vmsyw38yFkEroAC+Rw7bTEyqffLiW9DLAds6fEv+VmNSClnNXHkxDd5mO6q0GP+5sm9akSZNqii1Of3UO81qct0OeeEnCpgDh/5JFcUjduL1CzQ1BoR+nXpCx5cfOyc8lMG5e86yQB44tgAWHK+zASVs
+X-Gm-Message-State: AOJu0YwUUHFRu7DxLoCUAgJF+AcpXrJjCa9Y6+AYX8SaJoGXFrzX0RvV
+	Gc+VF5H22NGnYfYr6HFM0pPsCy0DoaBNOudmiv5E7LtePRdyxWWrwM459RbMo5k=
+X-Google-Smtp-Source: AGHT+IG/Oru5dUhXk6y8B8iKzzYWbDCIUS8FnmkleBuV6MuMOU6dv7iExXsIBfeg9P1hSsSVNMwHHQ==
+X-Received: by 2002:a25:b048:0:b0:dc7:4859:6f1 with SMTP id e8-20020a25b048000000b00dc7485906f1mr4901047ybj.33.1708093040325;
+        Fri, 16 Feb 2024 06:17:20 -0800 (PST)
+Received: from mail-yb1-f173.google.com (mail-yb1-f173.google.com. [209.85.219.173])
+        by smtp.gmail.com with ESMTPSA id 4-20020a250104000000b00dc7496891f1sm330044ybb.54.2024.02.16.06.17.20
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 16 Feb 2024 06:17:20 -0800 (PST)
+Received: by mail-yb1-f173.google.com with SMTP id 3f1490d57ef6-dcd7c526cc0so2237243276.1;
+        Fri, 16 Feb 2024 06:17:20 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCUAZMpm5+ECPyUxMHqTOGgVvRP0Y/+Gj7KVNwTNrSke0AancPmMddxySziL+Km1qNsCVzX/l4loxRRt8mEakFhaBBLvEI/FjpGRwcymEU1rcQrjIROrppsn73VbCdt3dpBfAfNKb/e5QPx3/Sa/9QaobjrSvyIuHJasp3xf/Io69zMXMIPpDP1KtsgJeZ4ZQthQeiYxZaZbF5E0Uqdd5Td+Xq0c7E1F
+X-Received: by 2002:a25:b904:0:b0:dc7:8c3a:4e42 with SMTP id
+ x4-20020a25b904000000b00dc78c3a4e42mr4580893ybj.30.1708093039976; Fri, 16 Feb
+ 2024 06:17:19 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="v6zk4jxmpuh5uajd"
-Content-Disposition: inline
-In-Reply-To: <TYCPR01MB11269CBAA20275E11D9AD6500864C2@TYCPR01MB11269.jpnprd01.prod.outlook.com>
-
-
---v6zk4jxmpuh5uajd
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+References: <20240208124300.2740313-1-claudiu.beznea.uj@bp.renesas.com> <20240208124300.2740313-13-claudiu.beznea.uj@bp.renesas.com>
+In-Reply-To: <20240208124300.2740313-13-claudiu.beznea.uj@bp.renesas.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Fri, 16 Feb 2024 15:17:08 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdX3=KJ6=qOW__KxWisj7Fguwr=SdP7XGvFD+BKgZbRo9A@mail.gmail.com>
+Message-ID: <CAMuHMdX3=KJ6=qOW__KxWisj7Fguwr=SdP7XGvFD+BKgZbRo9A@mail.gmail.com>
+Subject: Re: [PATCH 12/17] arm64: dts: renesas: rzg3s-smarc-som: Guard the
+ ethernet IRQ GPIOs with proper flags
+To: Claudiu <claudiu.beznea@tuxon.dev>
+Cc: mturquette@baylibre.com, sboyd@kernel.org, robh@kernel.org, 
+	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, magnus.damm@gmail.com, 
+	paul.walmsley@sifive.com, palmer@dabbelt.com, aou@eecs.berkeley.edu, 
+	linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-riscv@lists.infradead.org, 
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Feb 16, 2024 at 09:13:14AM +0000, Biju Das wrote:
-> Hi Maxime Ripard,
->=20
-> > -----Original Message-----
-> > From: Maxime Ripard <mripard@kernel.org>
-> > Sent: Friday, February 16, 2024 9:05 AM
-> > Subject: Re: RE: [PATCH v2] drm/imagination: DRM_POWERVR should depend =
-on
-> > ARCH_K3
-> >=20
-> > On Fri, Feb 16, 2024 at 08:47:46AM +0000, Biju Das wrote:
-> > > Hi Adam Ford,
-> > >
-> > > > -----Original Message-----
-> > > > From: Adam Ford <aford173@gmail.com>
-> > > > Sent: Thursday, February 15, 2024 11:36 PM
-> > > > Subject: Re: [PATCH v2] drm/imagination: DRM_POWERVR should depend
-> > > > on
-> > > > ARCH_K3
-> > > >
-> > > > On Thu, Feb 15, 2024 at 11:22=E2=80=AFAM Adam Ford <aford173@gmail.=
-com> wrote:
-> > > > >
-> > > > > On Thu, Feb 15, 2024 at 11:10=E2=80=AFAM Adam Ford <aford173@gmai=
-l.com>
-> > wrote:
-> > > > > >
-> > > > > > On Thu, Feb 15, 2024 at 10:54=E2=80=AFAM Geert Uytterhoeven
-> > > > > > <geert@linux-m68k.org> wrote:
-> > > > > > >
-> > > > > > > Hi Maxime,
-> > > > > > >
-> > > > > > > On Thu, Feb 15, 2024 at 5:18=E2=80=AFPM Maxime Ripard
-> > > > > > > <mripard@kernel.org>
-> > > > wrote:
-> > > > > > > > On Thu, Feb 15, 2024 at 01:50:09PM +0100, Geert Uytterhoeven
-> > > > wrote:
-> > > > > > > > > Using the Imagination Technologies PowerVR Series 6 GPU
-> > > > > > > > > requires a proprietary firmware image, which is currently
-> > > > > > > > > only available for Texas Instruments K3 AM62x SoCs.  Hence
-> > > > > > > > > add a dependency on ARCH_K3, to prevent asking the user
-> > > > > > > > > about this driver when configuring a kernel without Texas
-> > > > > > > > > Instruments K3
-> > > > Multicore SoC support.
-> > > > > > > >
-> > > > > > > > This wasn't making sense the first time you sent it, and now
-> > > > > > > > that commit log is just plain wrong. We have firmwares for
-> > > > > > > > the G6110, GX6250, GX6650, BXE-4-32, and BXS-4-64 models,
-> > > > > > > > which can be found on (at least) Renesas, Mediatek,
-> > > > > > > > Rockchip, TI and StarFive, so across three
-> > > > > > >
-> > > > > > > I am so happy to be proven wrong!
-> > > > > > > Yeah, GX6650 is found on e.g. R-Car H3, and GX6250 on e.g.
-> > > > > > > R-Car M3-
-> > > > W.
-> > > > > > >
-> > > > > > > > architectures and 5 platforms. In two months.
-> > > > > > >
-> > > > > > > That sounds like great progress, thanks a lot!
-> > > > > > >
-> > > > > > Geert,
-> > > > > >
-> > > > > > > Where can I find these firmwares? Linux-firmware[1] seems to
-> > > > > > > lack all but the original K3 AM62x one.
-> > > > > >
-> > > > > > I think PowerVR has a repo [1], but the last time I checked it,
-> > > > > > the BVNC for the firmware didn't match what was necessary for
-> > > > > > the GX6250 on the RZ/G2M.  I can't remember what the
-> > > > > > corresponding R-Car3 model is.  I haven't tried recently because
-> > > > > > I was told more documentation for firmware porting would be
-> > > > > > delayed until everything was pushed into the kernel and Mesa.
-> > > > > > Maybe there is a better repo and/or newer firmware somewhere el=
-se.
-> > > > > >
-> > > > > I should have doubled checked the repo contents before I sent my
-> > > > > last e-mail , but it appears the firmware  [2] for the RZ/G2M,
-> > > > > might be present now. I don't know if there are driver updates
-> > > > > necessary. I checked my e-mails, but I didn't see any
-> > > > > notification, or I would have tried it earlier.  Either way, thank
-> > > > > you Frank for adding it.  I'll try to test when I have some time.
-> > > > >
-> > > >
-> > > > I don't have the proper version of Mesa setup yet, but for what it's
-> > > > worth, the firmware loads without error, and it doesn't hang.
-> > >
-> > > Based on [1] and [2],
-> > >
-> > > kmscube should work on R-Car as it works on RZ/G2L with panfrost as
-> > > earlier version of RZ/G2L which uses drm based on RCar-Du, later chan=
-ged
-> > to rzg2l-du.
-> >=20
-> > IIRC, the mesa support isn't there yet for kmscube to start.
->=20
-> What about glmark2? I tested glmark2 as well.
+Hi Claudiu,
 
-It's not really a matter of kmscube itself, but the interaction with the
-compositor entirely. You can run a headless vulkan rendering, but an
-application that renders to a window won't work.
+On Thu, Feb 8, 2024 at 1:44=E2=80=AFPM Claudiu <claudiu.beznea@tuxon.dev> w=
+rote:
+> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+>
+> Ethernet IRQ GPIOs are marked as gpio-hog. Thus, these GPIOs are requeste=
+d
+> at probe w/o considering if there are other peripherals that needs them.
+> The Ethernet IRQ GPIOs are shared w/ SDHI2. Selection b/w Ethernet and
+> SDHI2 is done through a hardware switch. To avoid scenarios where one wan=
+ts
+> to boot with SDHI2 support and some SDHI pins are not propertly configure=
+d
+> because of gpio-hog guard Ethernet IRQ GPIO with proper build flag.
+>
+> Fixes: 932ff0c802c6 ("arm64: dts: renesas: rzg3s-smarc-som: Enable the Et=
+hernet interfaces")
+> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 
-Maxime
+Thanks for your patch! (which was well-hidden between non-fixes ;-)
 
---v6zk4jxmpuh5uajd
-Content-Type: application/pgp-signature; name="signature.asc"
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+i.e. will queue in renesas-devel for v6.9.
 
------BEGIN PGP SIGNATURE-----
+As Ethernet is enabled by default, I think there is no need to fast-track
+this for v6.8.
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZc9tsAAKCRDj7w1vZxhR
-xcnGAQD5CBylgkDZNdCl/pKDpsaGrLRJbCmkrP4nBuIIyATfgQD7BuOie/iGRBWI
-hBlixgDo5tqqY/4QNJmZ88R6yPkUyg8=
-=cjDh
------END PGP SIGNATURE-----
+Gr{oetje,eeting}s,
 
---v6zk4jxmpuh5uajd--
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
