@@ -1,224 +1,208 @@
-Return-Path: <linux-renesas-soc+bounces-2924-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-2925-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8B92858E74
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 17 Feb 2024 10:52:15 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 73B10859202
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 17 Feb 2024 20:19:30 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 79180282C7E
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 17 Feb 2024 09:52:14 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 170EE2814A6
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 17 Feb 2024 19:19:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 213D61D554;
-	Sat, 17 Feb 2024 09:52:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4F22C7CF1A;
+	Sat, 17 Feb 2024 19:19:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MPqEP7JZ"
+	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="qz4VdOTD"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from JPN01-TYC-obe.outbound.protection.outlook.com (mail-tycjpn01on2065.outbound.protection.outlook.com [40.107.114.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68DDB1D526;
-	Sat, 17 Feb 2024 09:52:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708163530; cv=none; b=V1XWA28hOUiaacMwT+grgwfv1oo+EffcFPcPYKEvFdrL2j6Rbd74Gh12XwKMAHdZODmi7VlcDr+p5fSU/7DAOlZoUcgjpJ9b0pOEyUvwtXWAKfB92RMWxKm/xpiajq3qqXYnZNagQuUgMKF5tKdB7k4LHQawpdc46JhZoepCnUM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708163530; c=relaxed/simple;
-	bh=1YL0IucvWTkie2pHwoVyF1SG1FtwSaiJi2Wu2eQoHms=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=C4aPFcjs53HuuhjL3kQLkJvt3GV24JC8dF46BzcBr2CZzKNqzFPpAbM+vpQ/+v0C07JsQvPWnAtzijgETSy3VV23TubzU6jq4JlHCfYVReDySKst3dtqdNRJ7pMmm8RKpEpYgnP1M31dIwOuq9xGZ8byXnZUHm7GjSIWxVtpXz8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MPqEP7JZ; arc=none smtp.client-ip=198.175.65.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1708163525; x=1739699525;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=1YL0IucvWTkie2pHwoVyF1SG1FtwSaiJi2Wu2eQoHms=;
-  b=MPqEP7JZKqLBPfEpQEFRu+zTS0YkM+FttaQhOpkeeAeCRlIGFIb8okIV
-   1WpRyQjYZIB0O1DILTidK2BF5f5biyoTsTh4sxVX8/F3/QO8lHXjw23g3
-   3l8VRFZN8/tMLJZOodBzsb6KT5CKpCU4MFdpWYSiRyIVe4ytcBggqcIaw
-   mvRy37Ce1W7vXYeBrSkPXu833ghuZnbkj3FHHU53v4vPeP4uNhrikO9Hy
-   Skbor7LSlWXgLdSiL6XoZrY5aU8uLXa362UQ3BVWfIEztXmG1Na1tNtdM
-   ntmfzvhP+ljmb9sux8j9yVAFmh0w7HwjGgly2TgyhmjecWrT0N0RE9Tk1
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10986"; a="12844065"
-X-IronPort-AV: E=Sophos;i="6.06,166,1705392000"; 
-   d="scan'208";a="12844065"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Feb 2024 01:52:04 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10986"; a="935978120"
-X-IronPort-AV: E=Sophos;i="6.06,166,1705392000"; 
-   d="scan'208";a="935978120"
-Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
-  by fmsmga001.fm.intel.com with ESMTP; 17 Feb 2024 01:51:58 -0800
-Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rbHMS-00021M-0B;
-	Sat, 17 Feb 2024 09:51:56 +0000
-Date: Sat, 17 Feb 2024 17:51:21 +0800
-From: kernel test robot <lkp@intel.com>
-To: Mario Limonciello <mario.limonciello@amd.com>,
-	Daniel Vetter <daniel@ffwll.ch>,
-	Jani Nikula <jani.nikula@linux.intel.com>,
-	Alex Deucher <alexander.deucher@amd.com>,
-	Hans de Goede <hdegoede@redhat.com>,
-	"open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>
-Cc: Paul Gazzillo <paul@pgazz.com>,
-	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
-	oe-kbuild-all@lists.linux.dev, amd-gfx@lists.freedesktop.org,
-	"open list:USB SUBSYSTEM" <linux-usb@vger.kernel.org>,
-	linux-fbdev@vger.kernel.org, nouveau@lists.freedesktop.org,
-	intel-gfx@lists.freedesktop.org,
-	platform-driver-x86@vger.kernel.org, intel-xe@lists.freedesktop.org,
-	linux-renesas-soc@vger.kernel.org,
-	"open list:ACPI" <linux-acpi@vger.kernel.org>,
-	open list <linux-kernel@vger.kernel.org>,
-	Melissa Wen <mwen@igalia.com>,
-	Mark Pearson <mpearson-lenovo@squebb.ca>,
-	Mario Limonciello <mario.limonciello@amd.com>
-Subject: Re: [PATCH v6 1/5] drm: Stop using `select ACPI_VIDEO` in all drivers
-Message-ID: <202402171727.maolcPXi-lkp@intel.com>
-References: <20240214215756.6530-2-mario.limonciello@amd.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26C231E863
+	for <linux-renesas-soc@vger.kernel.org>; Sat, 17 Feb 2024 19:19:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.114.65
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1708197567; cv=fail; b=kM1KBrJJkF4dxLlJUrTZJP75Fe/bMspOl4sqQsyqdWH5fjg+q9aXdf4BWSEznHd2xThB33coZhgQ3xd4Lj4IQPbv/NxI93EuKFcdYqLzpqN6cDbVpL7aG1f+l2DL+H+f4tOrM9aed2EbSmxSG8uS8eRakvK3maXYyXLtRJ3ejNQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1708197567; c=relaxed/simple;
+	bh=/0VcSqI/EU21HYyHYcvBZ3smfthMwrDz+zlZkth8WNg=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=n+8yaizGt9J10pdV34VCx3IFnrKWT+Cb8dqituUUdOvXUAzYklwOJpsYtyJKDYsXtUqLdJuIizMtSgoiDqdUpVCZIvaeGsYJjwevx9DC6qsdpNXS9Uc+Iw6TF7+HFOQv16k2CH1wn5+kVh3pSHNc0ZsdxN31JtVD22oUOsGLcCY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=qz4VdOTD; arc=fail smtp.client-ip=40.107.114.65
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=UHoonU2+Io/2stpTsDWa3V9SBJyZLnf9iT6Wcl7qt5x3Q49Ft8PEcwQDj/Q2KDwpCrnH0dlbAq0HdYyCKBv+Rztn86xnJUn3PnNrgkynkZfjxH6WfRSHtPhCbSWU0YVvlRDvDxTiGgMpdKfWEmND6UZp42fGoiU7ndeuPDjJpbpHv4G0EBZz1AJrUyM4k8s7tpRQc1YJbbgKQ67d6eEWfcn/F8VC3z3qkF7zmnH7TWWcUSC+8GDrWoM23kRaFfR30N0enNh8DgHsHCp80n8ClFB/fXyyVvZgRZiBs2FXgcblJ1uhu9PCh2GYpnMM8qdjeb1C5+yY1sox/ohPE4oxGw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=JL4EBajyycmipeMgTe2iCcTbOo/erv7ky1/kINRMgyA=;
+ b=KcQLBpj4tk5pF89JpSj6kNbfzBHNJVEDFWEMvav81zzpppc8FX1PRXP/5RxQtV3D8iF/zkOO6TjdYW/QukBKi0Ph1V3UxQQqFzKlKQ34ttKXcSQrbcnImAO2TuVg+lZhTYh6JnoL5j9ogLnHnGW6ikmBiYEuGcNzYARy+NKVuy0qPJn0tFP+84tlG73PMo5JUGaeAA3rSn48DPn//AAAoVeSM/89eb7RB3Ysi63Ylg+nClk0TBsor3Cjgiom+W6kX2DL9n+2sl56Zdd+BVvU073CEO3lHLG0TcO4lW0lYUd2JEWDZmOb48YnSC8N+GKgY7B8N8cjzJQ4BWWHzPdlcQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=JL4EBajyycmipeMgTe2iCcTbOo/erv7ky1/kINRMgyA=;
+ b=qz4VdOTDTN4+pPmwYp1FTuBWjtZWgk9aoOsR2cgnhpcFKN4pb/fgUjVLBwAueQl5an/mj1BW6t47CSH9PDDHZ7vNfuWU7zUPJ4Gj1XRHqZk9q0UI6iKYyk6UjDUIim7ysOwtXHc4kh0jSg9K2IoY2XbZ6TMnVVgl2o8VWcrOTrY=
+Received: from TYCPR01MB11269.jpnprd01.prod.outlook.com
+ (2603:1096:400:3c0::10) by OSYPR01MB5302.jpnprd01.prod.outlook.com
+ (2603:1096:604:88::14) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7292.34; Sat, 17 Feb
+ 2024 19:19:19 +0000
+Received: from TYCPR01MB11269.jpnprd01.prod.outlook.com
+ ([fe80::6719:535a:7217:9f0]) by TYCPR01MB11269.jpnprd01.prod.outlook.com
+ ([fe80::6719:535a:7217:9f0%3]) with mapi id 15.20.7292.026; Sat, 17 Feb 2024
+ 19:19:19 +0000
+From: Biju Das <biju.das.jz@bp.renesas.com>
+To: Maxime Ripard <mripard@kernel.org>
+CC: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
+	<tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Daniel Vetter
+	<daniel@ffwll.ch>, Philipp Zabel <p.zabel@pengutronix.de>, Geert Uytterhoeven
+	<geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, Laurent
+ Pinchart <laurent.pinchart+renesas@ideasonboard.com>, Kieran Bingham
+	<kieran.bingham+renesas@ideasonboard.com>, Jacopo Mondi
+	<jacopo.mondi@ideasonboard.com>, "dri-devel@lists.freedesktop.org"
+	<dri-devel@lists.freedesktop.org>, "linux-renesas-soc@vger.kernel.org"
+	<linux-renesas-soc@vger.kernel.org>, Fabrizio Castro
+	<fabrizio.castro.jz@renesas.com>, Prabhakar Mahadev Lad
+	<prabhakar.mahadev-lad.rj@bp.renesas.com>, biju.das.au
+	<biju.das.au@gmail.com>
+Subject: RE: [PATCH v16 3/5] drm: renesas: Add RZ/G2L DU Support
+Thread-Topic: [PATCH v16 3/5] drm: renesas: Add RZ/G2L DU Support
+Thread-Index: AQHaTVIgJURFg8KuAEuP5V47ga7MJ7ECOK8AgAzYqaA=
+Date: Sat, 17 Feb 2024 19:19:19 +0000
+Message-ID:
+ <TYCPR01MB11269DD08084D820CFDFD6C7286532@TYCPR01MB11269.jpnprd01.prod.outlook.com>
+References: <20240122164257.56326-1-biju.das.jz@bp.renesas.com>
+ <20240122164257.56326-4-biju.das.jz@bp.renesas.com>
+ <ksm44nhkamq3gdbykn3o3d7xobvhepm44gnwjhtw3xaygvgsn4@5tq7hatvbrd4>
+In-Reply-To: <ksm44nhkamq3gdbykn3o3d7xobvhepm44gnwjhtw3xaygvgsn4@5tq7hatvbrd4>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=bp.renesas.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: TYCPR01MB11269:EE_|OSYPR01MB5302:EE_
+x-ms-office365-filtering-correlation-id: 871bbc4d-58f2-490b-0213-08dc2fed5729
+x-ld-processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info:
+ 80f3t+PbwjRrmEuRgn/3op0/1TQleZbeZESlpcHuhroaQG1/6Ba4GEb7SwPqA1UDZZneyyfOiQPOpFFjSzAEbR3uY8bzt83BqNU3QkF1IoSlyk245NkFJAOpYrRQe6AQRNQObStOoUOQK3JDb6rFc+wfY8NWXxiZ9cxBTBtjV6vr83BAMBMegrnNmXJBgiqWZELR3ft8HdT9QfX5DA8Ue4ixzFhb0DAAEgv+IG80pylGvHKAlmxpX9MAOOY2ykWMMuGaPbiBLo/AYQgNP2OhBBk5njf/7YUDOm6Ui3PEmcIEycWNJFyKcW0p4w/ezCbs5IHSYcISZYI0wLTIoFpIEBcvV8pJRqZNpruwnQcUa2usXxKdrTSNhX9D1apEbmrsf3e4Wlv4R3GRypur4ir/aIMhmJP0nmUWHzEYEgGYgGBKJDWD0WQfuxG3/mhvj+MqyODWih4SHfl8aEgfurk+CdOVkVkbHwVGouFVd2Ph3myHzNVDfma8cfG+1fgr9O8Zsk5U+Z7j6uf+/wB4xYoGAxFb3Xe1hapHQvyso4T2RPI91p4KjQtZAQzPLOi8KGVmPIn2EM2OrvRP2hoXsDGwZv984L2uVp2zxsZA8s5zciGz83RK3bC33LoSWBYsPkHc
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB11269.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(39860400002)(396003)(346002)(136003)(366004)(376002)(230922051799003)(1800799012)(451199024)(186009)(64100799003)(38070700009)(26005)(41300700001)(83380400001)(66946007)(8936002)(52536014)(8676002)(4326008)(6916009)(64756008)(66446008)(66476007)(66556008)(76116006)(316002)(478600001)(53546011)(55236004)(9686003)(71200400001)(54906003)(6506007)(7696005)(33656002)(122000001)(38100700002)(86362001)(2906002)(7416002)(5660300002)(55016003);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?us-ascii?Q?Efg1QGXpxyzFLbrFuN05X3KrGZPmGD957zcldi903KRW9D2b+Fvv3OnyHSih?=
+ =?us-ascii?Q?ztop0Y/hivvM0n9hbtxElRHVNzAyXKY+z7RAPsoL/lXwNqvU64NKeUfO7lVX?=
+ =?us-ascii?Q?Lh0u1jqphy8GyK9kW/GtrkC6gOvggxZPUsCzS1BsO6/atkHh2iPoldQK66l6?=
+ =?us-ascii?Q?6RRkAj38cWJQ9qsOj4pCjNmBP9U6PxvTU14Rt7UDYWODnYJYYt/wxJARr9EA?=
+ =?us-ascii?Q?eFAqXrqfLlRP+GTIBsSWHNvZAUs/8xyVsVgSmU4gj4LG7XUpVEJB67vYhbdZ?=
+ =?us-ascii?Q?Ctk9oqEOzr0j9xOPw/QSbcCFS1EVL/ugrS2Tjnw0fMqxlihaRf44pliFKAq1?=
+ =?us-ascii?Q?YL4tLER//OlT9IjbCFmpkuSi1FQFPX5VU766UcwlMLMvvgvD4CKCqdz0HRpe?=
+ =?us-ascii?Q?+TP0zjVLlF6F/cdX8bN/uqRWpqA5JwALoVfU42z1yONLww/bZmdq5sGfxXcg?=
+ =?us-ascii?Q?q4inMGyjfbUA6mZ7WtFqu3LYs8Zu5pfG81crxmjAvYCRS3b1gpRwo4+7N8EI?=
+ =?us-ascii?Q?BtpWoixImP7H/TkNL09d2KirSt4mTyaqbPzd5Kd0YaVt8qtnIB9R7R4qjQdb?=
+ =?us-ascii?Q?tBcAAG7iBoGmol64HsoWR/iGeObMpm4E2nRrYtg3//irNwzQZlg7K/bUY+Xh?=
+ =?us-ascii?Q?T0X86oVuY7P2TBKA7Dx7HMLbJM3Ats/2dPlzexYkbmzAnhr/R2KW6NRtSNqp?=
+ =?us-ascii?Q?OeKGOFIHWP7jbhU+6GjecBdW1I8GrxnmHIC9glTnihrq0AJ/zSsCXA0WFi1s?=
+ =?us-ascii?Q?fZ7RLHIGiWtErT23hp4An4X9+YL3J1LprQPPnIsNZs0UxVITswNTZIiMlp0r?=
+ =?us-ascii?Q?q5f3fJFzLKxSYxeMxV2OQeIXi6k2rf29h+OKhZ/+JcREhUReptnyA9SjZeby?=
+ =?us-ascii?Q?Bjqxy00D/WwLBbTYs3D+ouG0HLGKdsCO2z+l2bNU/ctSs9zf1HxD1Wk0n8QJ?=
+ =?us-ascii?Q?xCno85uxoyYyRP0vbb2R2UoB7pqZzSlxzxX2kBPe1RKAE5GK3r9a6ijjAF1N?=
+ =?us-ascii?Q?bVPBq8iqvRXfIddkfwTzH1ev6x1iiimue3KTMOLpH1ZlEj/GsKDE7ulKdH0B?=
+ =?us-ascii?Q?OFyLqAk2vXEBl1GdqvTbXvKvRIriJ8jOlCoX8xF7QUADkssNuLXKmmg6u24T?=
+ =?us-ascii?Q?jQhnwi2c8QVAIxU/pHqmi8eeooO7rxLRYjFNDSeETCxNdvxlYpJgnSVikB85?=
+ =?us-ascii?Q?xWnI2msoc7gqnFITAFuKPcgLlwOyqSHS68hIXG9+BTMgBjbrrJRp8VdtxoRh?=
+ =?us-ascii?Q?YnvuDauwK7c4JF+Z785FuX++oiIlvk6/wQXwZN9OrmEPTNuJWtM8lrkHufI2?=
+ =?us-ascii?Q?l0iHiZ/WE3jwlBEfeG7yNUjJFNdVYhqrJAiKJyhNuXxn9NZzoSr0kC3vDoTb?=
+ =?us-ascii?Q?XO/CQVte1KKdT3AmaXkxmu+myj0CARMD+wUTL6rgTC5zvj+jsn9f+BJ4Sm3m?=
+ =?us-ascii?Q?PbQhoKznZ3VMMJ8s/NydZsJTgzZloxeH8xXXB50s3r/Qmssppwv1+EoAwfs9?=
+ =?us-ascii?Q?84ai4Zx8TfbOGnCVHuhUDVj5ucTISMfmUbKDNIGG7K/wSo7qXpbWsrAf84r2?=
+ =?us-ascii?Q?m4EPmpt1CU0TO2XYGXjH04Nt+SVMWklcrYJxZNlGiLC+FCqqfQ6kNVZfoVDT?=
+ =?us-ascii?Q?Tg=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240214215756.6530-2-mario.limonciello@amd.com>
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB11269.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 871bbc4d-58f2-490b-0213-08dc2fed5729
+X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Feb 2024 19:19:19.5720
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: qEwkJA0pZm40z1fC1PI2crp6pqYE6BTaHGbJdpTcbBxr0zNGgGSJC2afWQuYfP9dnCi2Khycj9VDHKgxEYuliVE/IILv0ej8h9seYUJrgJs=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSYPR01MB5302
 
-Hi Mario,
+Hi Maxime Ripard,
 
-kernel test robot noticed the following build warnings:
+Thanks for the feedback.
 
-[auto build test WARNING on drm-misc/drm-misc-next]
-[also build test WARNING on drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.8-rc4 next-20240216]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> -----Original Message-----
+> From: Maxime Ripard <mripard@kernel.org>
+> Sent: Friday, February 9, 2024 3:07 PM
+> Subject: Re: [PATCH v16 3/5] drm: renesas: Add RZ/G2L DU Support
+>=20
+> On Mon, Jan 22, 2024 at 04:42:55PM +0000, Biju Das wrote:
+> > +static const struct drm_gem_object_funcs rzg2l_du_gem_funcs =3D {
+> > +	.free =3D drm_gem_dma_object_free,
+> > +	.print_info =3D drm_gem_dma_object_print_info,
+> > +	.get_sg_table =3D drm_gem_dma_object_get_sg_table,
+> > +	.vmap =3D drm_gem_dma_object_vmap,
+> > +	.mmap =3D drm_gem_dma_object_mmap,
+> > +	.vm_ops =3D &drm_gem_dma_vm_ops,
+> > +};
+> > +
+> > +struct drm_gem_object *
+> > +rzg2l_du_gem_prime_import_sg_table(struct drm_device *dev,
+> > +				   struct dma_buf_attachment *attach,
+> > +				   struct sg_table *sgt)
+> > +{
+> > +	struct drm_gem_dma_object *dma_obj;
+> > +	struct drm_gem_object *gem_obj;
+> > +	int ret;
+> > +
+> > +	/* Create a DMA GEM buffer. */
+> > +	dma_obj =3D kzalloc(sizeof(*dma_obj), GFP_KERNEL);
+> > +	if (!dma_obj)
+> > +		return ERR_PTR(-ENOMEM);
+> > +
+> > +	gem_obj =3D &dma_obj->base;
+> > +	gem_obj->funcs =3D &rzg2l_du_gem_funcs;
+> > +
+> > +	drm_gem_private_object_init(dev, gem_obj, attach->dmabuf->size);
+> > +	dma_obj->map_noncoherent =3D false;
+> > +
+> > +	ret =3D drm_gem_create_mmap_offset(gem_obj);
+> > +	if (ret) {
+> > +		drm_gem_object_release(gem_obj);
+> > +		kfree(dma_obj);
+> > +		return ERR_PTR(ret);
+> > +	}
+> > +
+> > +	dma_obj->dma_addr =3D 0;
+> > +	dma_obj->sgt =3D sgt;
+> > +
+> > +	return gem_obj;
+> > +}
+>=20
+> It looks like you're just reusing the helpers there, why do you need to
+> declare a new import_sg_table implementation?
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Mario-Limonciello/drm-Stop-using-select-ACPI_VIDEO-in-all-drivers/20240215-055936
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20240214215756.6530-2-mario.limonciello%40amd.com
-patch subject: [PATCH v6 1/5] drm: Stop using `select ACPI_VIDEO` in all drivers
-config: alpha-kismet-CONFIG_FB_BACKLIGHT-CONFIG_HT16K33-0-0 (https://download.01.org/0day-ci/archive/20240217/202402171727.maolcPXi-lkp@intel.com/config)
-reproduce: (https://download.01.org/0day-ci/archive/20240217/202402171727.maolcPXi-lkp@intel.com/reproduce)
+It is not needed. I will remove it in the next version.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402171727.maolcPXi-lkp@intel.com/
-
-kismet warnings: (new ones prefixed by >>)
->> kismet: WARNING: unmet direct dependencies detected for FB_BACKLIGHT when selected by HT16K33
-   .config:210:warning: symbol value 'n' invalid for INPUT_MOUSEDEV_SCREEN_Y
-   .config:243:warning: symbol value 'n' invalid for SATA_MOBILE_LPM_POLICY
-   .config:338:warning: symbol value 'n' invalid for PSTORE_BLK_MAX_REASON
-   .config:435:warning: symbol value 'n' invalid for KFENCE_SAMPLE_INTERVAL
-   .config:437:warning: symbol value 'n' invalid for AIC79XX_DEBUG_MASK
-   .config:521:warning: symbol value 'n' invalid for USB_GADGET_STORAGE_NUM_BUFFERS
-   .config:618:warning: symbol value 'n' invalid for DRM_XE_JOB_TIMEOUT_MIN
-   .config:632:warning: symbol value 'n' invalid for CRYPTO_DEV_QCE_SW_MAX_LEN
-   .config:739:warning: symbol value 'n' invalid for PANEL_LCD_CHARSET
-   .config:759:warning: symbol value 'n' invalid for SERIAL_ALTERA_UART_BAUDRATE
-   .config:771:warning: symbol value 'n' invalid for SCSI_MESH_RESET_DELAY_MS
-   .config:796:warning: symbol value 'n' invalid for SND_AC97_POWER_SAVE_DEFAULT
-   .config:834:warning: symbol value 'n' invalid for MAGIC_SYSRQ_DEFAULT_ENABLE
-   .config:851:warning: symbol value 'n' invalid for DRM_I915_MAX_REQUEST_BUSYWAIT
-   .config:890:warning: symbol value 'n' invalid for SND_AT73C213_TARGET_BITRATE
-   .config:892:warning: symbol value 'n' invalid for AIC79XX_CMDS_PER_DEVICE
-   .config:907:warning: symbol value 'n' invalid for DRM_XE_PREEMPT_TIMEOUT_MIN
-   .config:913:warning: symbol value 'n' invalid for NET_EMATCH_STACK
-   .config:915:warning: symbol value 'n' invalid for VMCP_CMA_SIZE
-   .config:973:warning: symbol value 'n' invalid for PANEL_LCD_PIN_SDA
-   .config:1006:warning: symbol value 'n' invalid for PANEL_LCD_PIN_E
-   .config:1142:warning: symbol value 'n' invalid for RCU_CPU_STALL_TIMEOUT
-   .config:1170:warning: symbol value 'n' invalid for MTDRAM_ERASE_SIZE
-   .config:1431:warning: symbol value 'n' invalid for LEGACY_PTY_COUNT
-   .config:1581:warning: symbol value 'n' invalid for WATCHDOG_OPEN_TIMEOUT
-   .config:1588:warning: symbol value 'n' invalid for AIC7XXX_RESET_DELAY_MS
-   .config:1752:warning: symbol value 'n' invalid for IBM_EMAC_POLL_WEIGHT
-   .config:1867:warning: symbol value 'n' invalid for DRM_I915_STOP_TIMEOUT
-   .config:2098:warning: symbol value 'n' invalid for AIC79XX_RESET_DELAY_MS
-   .config:2129:warning: symbol value 'n' invalid for SND_HDA_PREALLOC_SIZE
-   .config:2176:warning: symbol value 'n' invalid for RCU_FANOUT_LEAF
-   .config:2186:warning: symbol value 'n' invalid for KCOV_IRQ_AREA_SIZE
-   .config:2307:warning: symbol value 'n' invalid for DRM_XE_TIMESLICE_MAX
-   .config:2321:warning: symbol value 'n' invalid for PANEL_LCD_BWIDTH
-   .config:2386:warning: symbol value 'n' invalid for XEN_MEMORY_HOTPLUG_LIMIT
-   .config:2439:warning: symbol value 'n' invalid for VERBOSE_MCHECK_ON
-   .config:2559:warning: symbol value 'n' invalid for PANEL_PARPORT
-   .config:2645:warning: symbol value 'n' invalid for NOUVEAU_DEBUG_DEFAULT
-   .config:2744:warning: symbol value 'n' invalid for MTD_REDBOOT_DIRECTORY_BLOCK
-   .config:2803:warning: symbol value 'n' invalid for SND_SOC_SOF_DEBUG_IPC_FLOOD_TEST_NUM
-   .config:2831:warning: symbol value 'n' invalid for KCSAN_REPORT_ONCE_IN_MS
-   .config:2928:warning: symbol value 'n' invalid for KCSAN_UDELAY_INTERRUPT
-   .config:2952:warning: symbol value 'n' invalid for PANEL_LCD_PIN_BL
-   .config:2969:warning: symbol value 'n' invalid for DEBUG_OBJECTS_ENABLE_DEFAULT
-   .config:2977:warning: symbol value 'n' invalid for INITRAMFS_ROOT_GID
-   .config:3081:warning: symbol value 'n' invalid for ATM_FORE200E_TX_RETRY
-   .config:3120:warning: symbol value 'n' invalid for FB_OMAP2_DSS_MIN_FCK_PER_PCK
-   .config:3186:warning: symbol value 'n' invalid for PSTORE_BLK_CONSOLE_SIZE
-   .config:3335:warning: symbol value 'n' invalid for BOOKE_WDT_DEFAULT_TIMEOUT
-   .config:3389:warning: symbol value 'n' invalid for KCSAN_UDELAY_TASK
-   .config:3453:warning: symbol value 'n' invalid for MMC_BLOCK_MINORS
-   .config:3499:warning: symbol value 'n' invalid for SCSI_NCR53C8XX_SYNC
-   .config:3620:warning: symbol value 'n' invalid for UCLAMP_BUCKETS_COUNT
-   .config:3726:warning: symbol value 'n' invalid for SERIAL_MCF_BAUDRATE
-   .config:3794:warning: symbol value 'n' invalid for DE2104X_DSL
-   .config:3806:warning: symbol value 'n' invalid for BLK_DEV_RAM_COUNT
-   .config:3811:warning: symbol value 'n' invalid for FTRACE_RECORD_RECURSION_SIZE
-   .config:3980:warning: symbol value 'n' invalid for STACK_MAX_DEFAULT_SIZE_MB
-   .config:4203:warning: symbol value 'n' invalid for USBIP_VHCI_HC_PORTS
-   .config:4204:warning: symbol value 'n' invalid for INPUT_MOUSEDEV_SCREEN_X
-   .config:4317:warning: symbol value 'n' invalid for RIONET_RX_SIZE
-   .config:4529:warning: symbol value 'n' invalid for RADIO_TYPHOON_PORT
-   .config:4624:warning: symbol value 'n' invalid for IBM_EMAC_TXB
-   .config:4651:warning: symbol value 'n' invalid for SERIAL_TXX9_NR_UARTS
-   .config:5012:warning: symbol value 'n' invalid for ARCH_MMAP_RND_BITS
-   .config:5033:warning: symbol value 'n' invalid for PANEL_LCD_PIN_RW
-   .config:5093:warning: symbol value 'n' invalid for DRM_I915_FENCE_TIMEOUT
-   .config:5115:warning: symbol value 'n' invalid for TTY_PRINTK_LEVEL
-   .config:5272:warning: symbol value 'n' invalid for MIPS_EJTAG_FDC_KGDB_CHAN
-   .config:5367:warning: symbol value 'n' invalid for KDB_DEFAULT_ENABLE
-   .config:5384:warning: symbol value 'n' invalid for SERIAL_ALTERA_UART_MAXPORTS
-   .config:5517:warning: symbol value 'n' invalid for PPC_EARLY_DEBUG_EHV_BC_HANDLE
-   .config:5619:warning: symbol value 'n' invalid for SND_MAX_CARDS
-   .config:5648:warning: symbol value 'n' invalid for PANEL_LCD_HWIDTH
-   .config:5678:warning: symbol value 'n' invalid for LOCKDEP_CHAINS_BITS
-   .config:5766:warning: symbol value 'n' invalid for DRM_I915_HEARTBEAT_INTERVAL
-   .config:5772:warning: symbol value 'n' invalid for KCSAN_SKIP_WATCH
-   .config:5780:warning: symbol value 'n' invalid for RCU_BOOST_DELAY
-   .config:5796:warning: symbol value 'n' invalid for PSTORE_BLK_KMSG_SIZE
-   .config:5897:warning: symbol value 'n' invalid for CRYPTO_DEV_FSL_CAAM_INTC_TIME_THLD
-   .config:6089:warning: symbol value 'n' invalid for ARCH_MMAP_RND_COMPAT_BITS
-   .config:6238:warning: symbol value 'n' invalid for DRM_XE_PREEMPT_TIMEOUT_MAX
-   .config:6254:warning: symbol value 'n' invalid for RADIO_TRUST_PORT
-   .config:6321:warning: symbol value 'n' invalid for SERIAL_SH_SCI_NR_UARTS
-   .config:6627:warning: symbol value 'n' invalid for CMA_SIZE_PERCENTAGE
-   .config:6743:warning: symbol value 'n' invalid for SCSI_SYM53C8XX_MAX_TAGS
-   .config:6771:warning: symbol value 'n' invalid for DRM_XE_TIMESLICE_MIN
-   .config:6873:warning: symbol value 'n' invalid for SCSI_NCR53C8XX_MAX_TAGS
-   .config:6875:warning: symbol value 'n' invalid for DVB_MAX_ADAPTERS
-   .config:6886:warning: symbol value 'n' invalid for RIONET_TX_SIZE
-   .config:6892:warning: symbol value 'n' invalid for SCSI_SYM53C8XX_DMA_ADDRESSING_MODE
-   .config:7206:warning: symbol value 'n' invalid for OMAP2_DSS_MIN_FCK_PER_PCK
-   .config:7237:warning: symbol value 'n' invalid for ZSMALLOC_CHAIN_SIZE
-   .config:7239:warning: symbol value 'n' invalid for SERIAL_ARC_NR_PORTS
-   .config:7258:warning: symbol value 'n' invalid for IBM_EMAC_RXB
-   .config:7412:warning: symbol value 'n' invalid for SCSI_MPT3SAS_MAX_SGE
-   .config:7466:warning: symbol value 'n' invalid for LOCKDEP_BITS
-   .config:7543:warning: symbol value 'n' invalid for PSTORE_DEFAULT_KMSG_BYTES
-   .config:7588:warning: symbol value 'n' invalid for RCU_FANOUT
-   .config:7637:warning: symbol value 'n' invalid for PANEL_LCD
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Cheers,
+Biju
 
