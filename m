@@ -1,46 +1,46 @@
-Return-Path: <linux-renesas-soc+bounces-2928-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-2927-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 764C48597D4
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 18 Feb 2024 17:49:11 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B1B88597D3
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 18 Feb 2024 17:49:10 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id D6776B20F04
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 18 Feb 2024 16:49:08 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 82D3EB20EBA
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 18 Feb 2024 16:49:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 032E06EB4E;
-	Sun, 18 Feb 2024 16:49:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BA7B96EB47;
+	Sun, 18 Feb 2024 16:49:05 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BB5136EB42;
-	Sun, 18 Feb 2024 16:49:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.171
+Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8D61BFBEA;
+	Sun, 18 Feb 2024 16:49:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708274946; cv=none; b=O77KGYnhqEOV+DIa8V6C8S61kmNZhnY3U43O2OdMqVTby+yV3AzLywT/7I4443iGpERDMLdaV5kOHJ48WjrroP4BxgqVClD2K4iiBmM8tAVfQe6teLrIdSf7XdgCutDNZ5zytzwvjbLtpz8qv/Mnk/QLI86TJuFVCmZFbdATimM=
+	t=1708274945; cv=none; b=pOG1SrWmW+SqENHEJdbfUpm7iI3wk+an03G8gPZj2R5WZC7HzevoRgEgVlIYH/dN6ikMLIJY6+w1rqQR6q6WGfYRLlnyPG1KbXznyCCNSHIvMZBwPSUVW7NciGxrfAoC/C5I/1DVposSshY4Xev5aYLuQtQ2bzqi8/FMnvmPYWI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708274946; c=relaxed/simple;
-	bh=KQ0xu7tt8bUtJsCa0eXiLgFAsfmJyqiV93jB2TKQZD8=;
+	s=arc-20240116; t=1708274945; c=relaxed/simple;
+	bh=AWnMkOvUxY27f6JfiY3UJsthb2nxmPpUzd5mhI1hJsk=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=GZaiW+WRoXcuWcFcnLU4GGqgBPlQ0zs5tstQzm/hoYcHG5jM5TJP1CVG5YLmhtZ1D7qM+15w9tWagZQrRsP2L0taq2fgxClK1n6sxG1h1xMXgSIsejChyLoeX4tnBS37u0fUJs/A1lI4gmdu40+rFreMk9uLYNg6yQfJv7vrw9o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.171
+	 MIME-Version; b=XADZQCaFyUeyXJYWvZQ8BVtcldjfSd5Mwf9AQejh79Ddg8o8uRycxH4nFgg4gLvLzrWWofDfZLhaorFDpaXc4lCicompDDaNBap6rOaoqo4urDT2k328+4PWFZ6GIMtCk22rSIJ6BKKQ5UcRe3PChl4NbOvTKM5/5WiV12/3KiQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
 X-IronPort-AV: E=Sophos;i="6.06,168,1705330800"; 
-   d="scan'208";a="194312197"
+   d="scan'208";a="198244681"
 Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie5.idc.renesas.com with ESMTP; 19 Feb 2024 01:48:57 +0900
+  by relmlie6.idc.renesas.com with ESMTP; 19 Feb 2024 01:49:03 +0900
 Received: from localhost.localdomain (unknown [10.226.92.34])
-	by relmlir5.idc.renesas.com (Postfix) with ESMTP id 5CAFC4004D08;
-	Mon, 19 Feb 2024 01:48:51 +0900 (JST)
+	by relmlir5.idc.renesas.com (Postfix) with ESMTP id 87AEE4007F4A;
+	Mon, 19 Feb 2024 01:48:57 +0900 (JST)
 From: Biju Das <biju.das.jz@bp.renesas.com>
 To: Biju Das <biju.das.jz@bp.renesas.com>,
+	David Airlie <airlied@gmail.com>,
+	Daniel Vetter <daniel@ffwll.ch>,
 	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
 	Maxime Ripard <mripard@kernel.org>,
 	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>,
-	Daniel Vetter <daniel@ffwll.ch>,
 	Rob Herring <robh+dt@kernel.org>,
 	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
 	Conor Dooley <conor+dt@kernel.org>
@@ -55,9 +55,9 @@ Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
 	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
 	Biju Das <biju.das.au@gmail.com>,
 	Rob Herring <robh@kernel.org>
-Subject: [PATCH v17 1/5] dt-bindings: display: Document Renesas RZ/G2L DU bindings
-Date: Sun, 18 Feb 2024 16:48:36 +0000
-Message-Id: <20240218164840.57662-2-biju.das.jz@bp.renesas.com>
+Subject: [PATCH v17 2/5] dt-bindings: display: renesas,rzg2l-du: Document RZ/V2L DU bindings
+Date: Sun, 18 Feb 2024 16:48:37 +0000
+Message-Id: <20240218164840.57662-3-biju.das.jz@bp.renesas.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20240218164840.57662-1-biju.das.jz@bp.renesas.com>
 References: <20240218164840.57662-1-biju.das.jz@bp.renesas.com>
@@ -67,28 +67,15 @@ List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-The RZ/G2L LCD controller is composed of Frame Compression Processor
-(FCPVD), Video Signal Processor (VSPD), and Display Unit (DU).
-
-The DU module supports the following hardware features
-− Display Parallel Interface (DPI) and MIPI LINK Video Interface
-− Display timing master
-− Generates video timings
-− Selecting the polarity of output DCLK, HSYNC, VSYNC, and DE
-− Supports Progressive
-− Input data format (from VSPD): RGB888, RGB666
-− Output data format: same as Input data format
-− Supporting Full HD (1920 pixels x 1080 lines) for MIPI-DSI Output
-− Supporting WXGA (1280 pixels x 800 lines) for Parallel Output
-
-This patch documents the DU module found on RZ/G2L LCDC.
+Document DU found in RZ/V2L SoC. The DU block is identical to RZ/G2L
+SoC and therefore use RZ/G2L fallback to avoid any driver changes.
 
 Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 Reviewed-by: Rob Herring <robh@kernel.org>
 Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
 v16->v17:
  * No change.
@@ -101,162 +88,42 @@ v13->v14:
 v12->v13:
  * No change.
 v11->v12:
- * Dropped quotes in ref handle for renesas,vsps property.
- * Retained tags as it is trivial change.
-v10->v11:
- * No change
-v9->v10:
- * Added Rb tag from Laurent
- * Updated the commit description.
- * Updated description of the port by dropping the text "specified in
-   Documentation/devicetree/bindings/graph.txt."
- * Dropped empty endpoint from example.
-v8->v9:
- * No change
-v7->v8:
- * No change
-v6->v7:
- * No change
-v5->v6:
  * No change.
-v4->v5:
- * Added Rb tag from Rob.
-v3->v4:
- * Changed compatible name from renesas,du-r9a07g044->renesas,r9a07g044-du
- * started using same compatible for RZ/G2{L,LC}
-v3: New patch
+v10->v11:
+ * No change.
+v9->v10:
+ * No change.
+V8->v9:
+ * Added Rb tag from Laurent and Geert.
+v7->v8:
+ * Fixed the typo vsp2->du
+ * Added Rb tag from Rob as the change is trivial.
+v7:
+ * New patch.
 ---
- .../bindings/display/renesas,rzg2l-du.yaml    | 121 ++++++++++++++++++
- 1 file changed, 121 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/display/renesas,rzg2l-du.yaml
+ .../devicetree/bindings/display/renesas,rzg2l-du.yaml    | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
 
 diff --git a/Documentation/devicetree/bindings/display/renesas,rzg2l-du.yaml b/Documentation/devicetree/bindings/display/renesas,rzg2l-du.yaml
-new file mode 100644
-index 000000000000..c0ad194c538d
---- /dev/null
+index c0ad194c538d..08e5b9478051 100644
+--- a/Documentation/devicetree/bindings/display/renesas,rzg2l-du.yaml
 +++ b/Documentation/devicetree/bindings/display/renesas,rzg2l-du.yaml
-@@ -0,0 +1,121 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/display/renesas,rzg2l-du.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Renesas RZ/G2L Display Unit (DU)
-+
-+maintainers:
-+  - Biju Das <biju.das.jz@bp.renesas.com>
-+  - Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-+
-+description: |
-+  These DT bindings describe the Display Unit embedded in the Renesas RZ/G2L
-+  and RZ/V2L SoCs.
-+
-+properties:
-+  compatible:
-+    enum:
-+      - renesas,r9a07g044-du # RZ/G2{L,LC}
-+
-+  reg:
-+    maxItems: 1
-+
-+  interrupts:
-+    maxItems: 1
-+
-+  clocks:
-+    items:
-+      - description: Main clock
-+      - description: Register access clock
-+      - description: Video clock
-+
-+  clock-names:
-+    items:
-+      - const: aclk
-+      - const: pclk
-+      - const: vclk
-+
-+  resets:
-+    maxItems: 1
-+
-+  power-domains:
-+    maxItems: 1
-+
-+  ports:
-+    $ref: /schemas/graph.yaml#/properties/ports
-+    description: |
-+      The connections to the DU output video ports are modeled using the OF
-+      graph bindings. The number of ports and their assignment are
-+      model-dependent. Each port shall have a single endpoint.
-+
-+    patternProperties:
-+      "^port@[0-1]$":
-+        $ref: /schemas/graph.yaml#/properties/port
-+        unevaluatedProperties: false
-+
-+    required:
-+      - port@0
-+
-+    unevaluatedProperties: false
-+
-+  renesas,vsps:
-+    $ref: /schemas/types.yaml#/definitions/phandle-array
-+    items:
-+      items:
-+        - description: phandle to VSP instance that serves the DU channel
-+        - description: Channel index identifying the LIF instance in that VSP
-+    description:
-+      A list of phandle and channel index tuples to the VSPs that handle the
-+      memory interfaces for the DU channels.
-+
-+required:
-+  - compatible
-+  - reg
-+  - interrupts
-+  - clocks
-+  - clock-names
-+  - resets
-+  - power-domains
-+  - ports
-+  - renesas,vsps
-+
-+additionalProperties: false
-+
-+examples:
-+  # RZ/G2L DU
-+  - |
-+    #include <dt-bindings/clock/r9a07g044-cpg.h>
-+    #include <dt-bindings/interrupt-controller/arm-gic.h>
-+
-+    display@10890000 {
-+        compatible = "renesas,r9a07g044-du";
-+        reg = <0x10890000 0x10000>;
-+        interrupts = <GIC_SPI 152 IRQ_TYPE_LEVEL_HIGH>;
-+        clocks = <&cpg CPG_MOD R9A07G044_LCDC_CLK_A>,
-+                 <&cpg CPG_MOD R9A07G044_LCDC_CLK_P>,
-+                 <&cpg CPG_MOD R9A07G044_LCDC_CLK_D>;
-+        clock-names = "aclk", "pclk", "vclk";
-+        resets = <&cpg R9A07G044_LCDC_RESET_N>;
-+        power-domains = <&cpg>;
-+
-+        renesas,vsps = <&vspd0 0>;
-+
-+        ports {
-+            #address-cells = <1>;
-+            #size-cells = <0>;
-+
-+            port@0 {
-+                reg = <0>;
-+                endpoint {
-+                    remote-endpoint = <&dsi0_in>;
-+                };
-+            };
-+            port@1 {
-+                reg = <1>;
-+            };
-+        };
-+    };
-+
-+...
+@@ -16,8 +16,13 @@ description: |
+ 
+ properties:
+   compatible:
+-    enum:
+-      - renesas,r9a07g044-du # RZ/G2{L,LC}
++    oneOf:
++      - enum:
++          - renesas,r9a07g044-du # RZ/G2{L,LC}
++      - items:
++          - enum:
++              - renesas,r9a07g054-du    # RZ/V2L
++          - const: renesas,r9a07g044-du # RZ/G2L fallback
+ 
+   reg:
+     maxItems: 1
 -- 
 2.25.1
 
