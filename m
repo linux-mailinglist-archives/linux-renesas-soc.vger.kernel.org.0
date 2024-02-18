@@ -1,208 +1,389 @@
-Return-Path: <linux-renesas-soc+bounces-2925-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-2926-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73B10859202
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 17 Feb 2024 20:19:30 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 246808597CF
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 18 Feb 2024 17:49:06 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 170EE2814A6
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 17 Feb 2024 19:19:29 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 48F341C20A74
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 18 Feb 2024 16:49:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4F22C7CF1A;
-	Sat, 17 Feb 2024 19:19:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="qz4VdOTD"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 416F66EB49;
+	Sun, 18 Feb 2024 16:49:02 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from JPN01-TYC-obe.outbound.protection.outlook.com (mail-tycjpn01on2065.outbound.protection.outlook.com [40.107.114.65])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26C231E863
-	for <linux-renesas-soc@vger.kernel.org>; Sat, 17 Feb 2024 19:19:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.114.65
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708197567; cv=fail; b=kM1KBrJJkF4dxLlJUrTZJP75Fe/bMspOl4sqQsyqdWH5fjg+q9aXdf4BWSEznHd2xThB33coZhgQ3xd4Lj4IQPbv/NxI93EuKFcdYqLzpqN6cDbVpL7aG1f+l2DL+H+f4tOrM9aed2EbSmxSG8uS8eRakvK3maXYyXLtRJ3ejNQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708197567; c=relaxed/simple;
-	bh=/0VcSqI/EU21HYyHYcvBZ3smfthMwrDz+zlZkth8WNg=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=n+8yaizGt9J10pdV34VCx3IFnrKWT+Cb8dqituUUdOvXUAzYklwOJpsYtyJKDYsXtUqLdJuIizMtSgoiDqdUpVCZIvaeGsYJjwevx9DC6qsdpNXS9Uc+Iw6TF7+HFOQv16k2CH1wn5+kVh3pSHNc0ZsdxN31JtVD22oUOsGLcCY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=qz4VdOTD; arc=fail smtp.client-ip=40.107.114.65
+Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 96E57FBEA
+	for <linux-renesas-soc@vger.kernel.org>; Sun, 18 Feb 2024 16:48:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.172
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1708274942; cv=none; b=NTzBdTT8ukBv4gH60yf5lMIG7uLgb0ARg/9XOtp3v+tLQhtxTWWgmqrA8+axAGoc/XGfu3++fdtsRA8CIXTGvH60xLERhF8lBe1jmkluiS70FTepm8Qk2zxpkJPJzz8/m1QtCPdRliNbigCALnH8woIPaeFVgoOkxVYw79uIXs0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1708274942; c=relaxed/simple;
+	bh=M3KMePY2mSM0eaKVHqFgp1kSKPgDkusYEKCLlbkiiBg=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=PK0XhU23cUxVVevKkehUBnXxOMJ6zA7zL1jJ12tosYrwe6YM0D5kNzrMoMYZ1vsfyTP3AXfhEhBNflejmnTM3+rFHn4z1PCiSq6QBVJ/1BGoZmYDswy/dWquvkrqvF8hcnR6cWBLHEyYyg7FAFm+g7gUEnTA0cCuFrS+QPEAgyU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=UHoonU2+Io/2stpTsDWa3V9SBJyZLnf9iT6Wcl7qt5x3Q49Ft8PEcwQDj/Q2KDwpCrnH0dlbAq0HdYyCKBv+Rztn86xnJUn3PnNrgkynkZfjxH6WfRSHtPhCbSWU0YVvlRDvDxTiGgMpdKfWEmND6UZp42fGoiU7ndeuPDjJpbpHv4G0EBZz1AJrUyM4k8s7tpRQc1YJbbgKQ67d6eEWfcn/F8VC3z3qkF7zmnH7TWWcUSC+8GDrWoM23kRaFfR30N0enNh8DgHsHCp80n8ClFB/fXyyVvZgRZiBs2FXgcblJ1uhu9PCh2GYpnMM8qdjeb1C5+yY1sox/ohPE4oxGw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=JL4EBajyycmipeMgTe2iCcTbOo/erv7ky1/kINRMgyA=;
- b=KcQLBpj4tk5pF89JpSj6kNbfzBHNJVEDFWEMvav81zzpppc8FX1PRXP/5RxQtV3D8iF/zkOO6TjdYW/QukBKi0Ph1V3UxQQqFzKlKQ34ttKXcSQrbcnImAO2TuVg+lZhTYh6JnoL5j9ogLnHnGW6ikmBiYEuGcNzYARy+NKVuy0qPJn0tFP+84tlG73PMo5JUGaeAA3rSn48DPn//AAAoVeSM/89eb7RB3Ysi63Ylg+nClk0TBsor3Cjgiom+W6kX2DL9n+2sl56Zdd+BVvU073CEO3lHLG0TcO4lW0lYUd2JEWDZmOb48YnSC8N+GKgY7B8N8cjzJQ4BWWHzPdlcQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=JL4EBajyycmipeMgTe2iCcTbOo/erv7ky1/kINRMgyA=;
- b=qz4VdOTDTN4+pPmwYp1FTuBWjtZWgk9aoOsR2cgnhpcFKN4pb/fgUjVLBwAueQl5an/mj1BW6t47CSH9PDDHZ7vNfuWU7zUPJ4Gj1XRHqZk9q0UI6iKYyk6UjDUIim7ysOwtXHc4kh0jSg9K2IoY2XbZ6TMnVVgl2o8VWcrOTrY=
-Received: from TYCPR01MB11269.jpnprd01.prod.outlook.com
- (2603:1096:400:3c0::10) by OSYPR01MB5302.jpnprd01.prod.outlook.com
- (2603:1096:604:88::14) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7292.34; Sat, 17 Feb
- 2024 19:19:19 +0000
-Received: from TYCPR01MB11269.jpnprd01.prod.outlook.com
- ([fe80::6719:535a:7217:9f0]) by TYCPR01MB11269.jpnprd01.prod.outlook.com
- ([fe80::6719:535a:7217:9f0%3]) with mapi id 15.20.7292.026; Sat, 17 Feb 2024
- 19:19:19 +0000
+X-IronPort-AV: E=Sophos;i="6.06,168,1705330800"; 
+   d="scan'208";a="198244664"
+Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
+  by relmlie6.idc.renesas.com with ESMTP; 19 Feb 2024 01:48:50 +0900
+Received: from localhost.localdomain (unknown [10.226.92.34])
+	by relmlir5.idc.renesas.com (Postfix) with ESMTP id 0039C40062B7;
+	Mon, 19 Feb 2024 01:48:44 +0900 (JST)
 From: Biju Das <biju.das.jz@bp.renesas.com>
-To: Maxime Ripard <mripard@kernel.org>
-CC: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
-	<tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Daniel Vetter
-	<daniel@ffwll.ch>, Philipp Zabel <p.zabel@pengutronix.de>, Geert Uytterhoeven
-	<geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, Laurent
- Pinchart <laurent.pinchart+renesas@ideasonboard.com>, Kieran Bingham
-	<kieran.bingham+renesas@ideasonboard.com>, Jacopo Mondi
-	<jacopo.mondi@ideasonboard.com>, "dri-devel@lists.freedesktop.org"
-	<dri-devel@lists.freedesktop.org>, "linux-renesas-soc@vger.kernel.org"
-	<linux-renesas-soc@vger.kernel.org>, Fabrizio Castro
-	<fabrizio.castro.jz@renesas.com>, Prabhakar Mahadev Lad
-	<prabhakar.mahadev-lad.rj@bp.renesas.com>, biju.das.au
-	<biju.das.au@gmail.com>
-Subject: RE: [PATCH v16 3/5] drm: renesas: Add RZ/G2L DU Support
-Thread-Topic: [PATCH v16 3/5] drm: renesas: Add RZ/G2L DU Support
-Thread-Index: AQHaTVIgJURFg8KuAEuP5V47ga7MJ7ECOK8AgAzYqaA=
-Date: Sat, 17 Feb 2024 19:19:19 +0000
-Message-ID:
- <TYCPR01MB11269DD08084D820CFDFD6C7286532@TYCPR01MB11269.jpnprd01.prod.outlook.com>
-References: <20240122164257.56326-1-biju.das.jz@bp.renesas.com>
- <20240122164257.56326-4-biju.das.jz@bp.renesas.com>
- <ksm44nhkamq3gdbykn3o3d7xobvhepm44gnwjhtw3xaygvgsn4@5tq7hatvbrd4>
-In-Reply-To: <ksm44nhkamq3gdbykn3o3d7xobvhepm44gnwjhtw3xaygvgsn4@5tq7hatvbrd4>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TYCPR01MB11269:EE_|OSYPR01MB5302:EE_
-x-ms-office365-filtering-correlation-id: 871bbc4d-58f2-490b-0213-08dc2fed5729
-x-ld-processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info:
- 80f3t+PbwjRrmEuRgn/3op0/1TQleZbeZESlpcHuhroaQG1/6Ba4GEb7SwPqA1UDZZneyyfOiQPOpFFjSzAEbR3uY8bzt83BqNU3QkF1IoSlyk245NkFJAOpYrRQe6AQRNQObStOoUOQK3JDb6rFc+wfY8NWXxiZ9cxBTBtjV6vr83BAMBMegrnNmXJBgiqWZELR3ft8HdT9QfX5DA8Ue4ixzFhb0DAAEgv+IG80pylGvHKAlmxpX9MAOOY2ykWMMuGaPbiBLo/AYQgNP2OhBBk5njf/7YUDOm6Ui3PEmcIEycWNJFyKcW0p4w/ezCbs5IHSYcISZYI0wLTIoFpIEBcvV8pJRqZNpruwnQcUa2usXxKdrTSNhX9D1apEbmrsf3e4Wlv4R3GRypur4ir/aIMhmJP0nmUWHzEYEgGYgGBKJDWD0WQfuxG3/mhvj+MqyODWih4SHfl8aEgfurk+CdOVkVkbHwVGouFVd2Ph3myHzNVDfma8cfG+1fgr9O8Zsk5U+Z7j6uf+/wB4xYoGAxFb3Xe1hapHQvyso4T2RPI91p4KjQtZAQzPLOi8KGVmPIn2EM2OrvRP2hoXsDGwZv984L2uVp2zxsZA8s5zciGz83RK3bC33LoSWBYsPkHc
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB11269.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(39860400002)(396003)(346002)(136003)(366004)(376002)(230922051799003)(1800799012)(451199024)(186009)(64100799003)(38070700009)(26005)(41300700001)(83380400001)(66946007)(8936002)(52536014)(8676002)(4326008)(6916009)(64756008)(66446008)(66476007)(66556008)(76116006)(316002)(478600001)(53546011)(55236004)(9686003)(71200400001)(54906003)(6506007)(7696005)(33656002)(122000001)(38100700002)(86362001)(2906002)(7416002)(5660300002)(55016003);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?Efg1QGXpxyzFLbrFuN05X3KrGZPmGD957zcldi903KRW9D2b+Fvv3OnyHSih?=
- =?us-ascii?Q?ztop0Y/hivvM0n9hbtxElRHVNzAyXKY+z7RAPsoL/lXwNqvU64NKeUfO7lVX?=
- =?us-ascii?Q?Lh0u1jqphy8GyK9kW/GtrkC6gOvggxZPUsCzS1BsO6/atkHh2iPoldQK66l6?=
- =?us-ascii?Q?6RRkAj38cWJQ9qsOj4pCjNmBP9U6PxvTU14Rt7UDYWODnYJYYt/wxJARr9EA?=
- =?us-ascii?Q?eFAqXrqfLlRP+GTIBsSWHNvZAUs/8xyVsVgSmU4gj4LG7XUpVEJB67vYhbdZ?=
- =?us-ascii?Q?Ctk9oqEOzr0j9xOPw/QSbcCFS1EVL/ugrS2Tjnw0fMqxlihaRf44pliFKAq1?=
- =?us-ascii?Q?YL4tLER//OlT9IjbCFmpkuSi1FQFPX5VU766UcwlMLMvvgvD4CKCqdz0HRpe?=
- =?us-ascii?Q?+TP0zjVLlF6F/cdX8bN/uqRWpqA5JwALoVfU42z1yONLww/bZmdq5sGfxXcg?=
- =?us-ascii?Q?q4inMGyjfbUA6mZ7WtFqu3LYs8Zu5pfG81crxmjAvYCRS3b1gpRwo4+7N8EI?=
- =?us-ascii?Q?BtpWoixImP7H/TkNL09d2KirSt4mTyaqbPzd5Kd0YaVt8qtnIB9R7R4qjQdb?=
- =?us-ascii?Q?tBcAAG7iBoGmol64HsoWR/iGeObMpm4E2nRrYtg3//irNwzQZlg7K/bUY+Xh?=
- =?us-ascii?Q?T0X86oVuY7P2TBKA7Dx7HMLbJM3Ats/2dPlzexYkbmzAnhr/R2KW6NRtSNqp?=
- =?us-ascii?Q?OeKGOFIHWP7jbhU+6GjecBdW1I8GrxnmHIC9glTnihrq0AJ/zSsCXA0WFi1s?=
- =?us-ascii?Q?fZ7RLHIGiWtErT23hp4An4X9+YL3J1LprQPPnIsNZs0UxVITswNTZIiMlp0r?=
- =?us-ascii?Q?q5f3fJFzLKxSYxeMxV2OQeIXi6k2rf29h+OKhZ/+JcREhUReptnyA9SjZeby?=
- =?us-ascii?Q?Bjqxy00D/WwLBbTYs3D+ouG0HLGKdsCO2z+l2bNU/ctSs9zf1HxD1Wk0n8QJ?=
- =?us-ascii?Q?xCno85uxoyYyRP0vbb2R2UoB7pqZzSlxzxX2kBPe1RKAE5GK3r9a6ijjAF1N?=
- =?us-ascii?Q?bVPBq8iqvRXfIddkfwTzH1ev6x1iiimue3KTMOLpH1ZlEj/GsKDE7ulKdH0B?=
- =?us-ascii?Q?OFyLqAk2vXEBl1GdqvTbXvKvRIriJ8jOlCoX8xF7QUADkssNuLXKmmg6u24T?=
- =?us-ascii?Q?jQhnwi2c8QVAIxU/pHqmi8eeooO7rxLRYjFNDSeETCxNdvxlYpJgnSVikB85?=
- =?us-ascii?Q?xWnI2msoc7gqnFITAFuKPcgLlwOyqSHS68hIXG9+BTMgBjbrrJRp8VdtxoRh?=
- =?us-ascii?Q?YnvuDauwK7c4JF+Z785FuX++oiIlvk6/wQXwZN9OrmEPTNuJWtM8lrkHufI2?=
- =?us-ascii?Q?l0iHiZ/WE3jwlBEfeG7yNUjJFNdVYhqrJAiKJyhNuXxn9NZzoSr0kC3vDoTb?=
- =?us-ascii?Q?XO/CQVte1KKdT3AmaXkxmu+myj0CARMD+wUTL6rgTC5zvj+jsn9f+BJ4Sm3m?=
- =?us-ascii?Q?PbQhoKznZ3VMMJ8s/NydZsJTgzZloxeH8xXXB50s3r/Qmssppwv1+EoAwfs9?=
- =?us-ascii?Q?84ai4Zx8TfbOGnCVHuhUDVj5ucTISMfmUbKDNIGG7K/wSo7qXpbWsrAf84r2?=
- =?us-ascii?Q?m4EPmpt1CU0TO2XYGXjH04Nt+SVMWklcrYJxZNlGiLC+FCqqfQ6kNVZfoVDT?=
- =?us-ascii?Q?Tg=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>,
+	Daniel Vetter <daniel@ffwll.ch>,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	dri-devel@lists.freedesktop.org,
+	linux-renesas-soc@vger.kernel.org,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	Biju Das <biju.das.au@gmail.com>
+Subject: [PATCH v17 0/5] Add RZ/{G2L,G2LC} and RZ/V2L Display Unit support
+Date: Sun, 18 Feb 2024 16:48:35 +0000
+Message-Id: <20240218164840.57662-1-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB11269.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 871bbc4d-58f2-490b-0213-08dc2fed5729
-X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Feb 2024 19:19:19.5720
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: qEwkJA0pZm40z1fC1PI2crp6pqYE6BTaHGbJdpTcbBxr0zNGgGSJC2afWQuYfP9dnCi2Khycj9VDHKgxEYuliVE/IILv0ej8h9seYUJrgJs=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSYPR01MB5302
+Content-Transfer-Encoding: quoted-printable
 
-Hi Maxime Ripard,
+This path series aims to add support for RZ/G2L DU DRM driver.
 
-Thanks for the feedback.
+RZ/G2L LCD controller composed of Frame compression Processor(FCPVD), Video
+signal processor (VSPD) and Display unit(DU). The output of LCDC is
+connected to Display parallel interface and MIPI link video interface.
+=20
+The output from DSI is connected to ADV7535.
 
-> -----Original Message-----
-> From: Maxime Ripard <mripard@kernel.org>
-> Sent: Friday, February 9, 2024 3:07 PM
-> Subject: Re: [PATCH v16 3/5] drm: renesas: Add RZ/G2L DU Support
->=20
-> On Mon, Jan 22, 2024 at 04:42:55PM +0000, Biju Das wrote:
-> > +static const struct drm_gem_object_funcs rzg2l_du_gem_funcs =3D {
-> > +	.free =3D drm_gem_dma_object_free,
-> > +	.print_info =3D drm_gem_dma_object_print_info,
-> > +	.get_sg_table =3D drm_gem_dma_object_get_sg_table,
-> > +	.vmap =3D drm_gem_dma_object_vmap,
-> > +	.mmap =3D drm_gem_dma_object_mmap,
-> > +	.vm_ops =3D &drm_gem_dma_vm_ops,
-> > +};
-> > +
-> > +struct drm_gem_object *
-> > +rzg2l_du_gem_prime_import_sg_table(struct drm_device *dev,
-> > +				   struct dma_buf_attachment *attach,
-> > +				   struct sg_table *sgt)
-> > +{
-> > +	struct drm_gem_dma_object *dma_obj;
-> > +	struct drm_gem_object *gem_obj;
-> > +	int ret;
-> > +
-> > +	/* Create a DMA GEM buffer. */
-> > +	dma_obj =3D kzalloc(sizeof(*dma_obj), GFP_KERNEL);
-> > +	if (!dma_obj)
-> > +		return ERR_PTR(-ENOMEM);
-> > +
-> > +	gem_obj =3D &dma_obj->base;
-> > +	gem_obj->funcs =3D &rzg2l_du_gem_funcs;
-> > +
-> > +	drm_gem_private_object_init(dev, gem_obj, attach->dmabuf->size);
-> > +	dma_obj->map_noncoherent =3D false;
-> > +
-> > +	ret =3D drm_gem_create_mmap_offset(gem_obj);
-> > +	if (ret) {
-> > +		drm_gem_object_release(gem_obj);
-> > +		kfree(dma_obj);
-> > +		return ERR_PTR(ret);
-> > +	}
-> > +
-> > +	dma_obj->dma_addr =3D 0;
-> > +	dma_obj->sgt =3D sgt;
-> > +
-> > +	return gem_obj;
-> > +}
->=20
-> It looks like you're just reusing the helpers there, why do you need to
-> declare a new import_sg_table implementation?
+Ref:
+ https://lore.kernel.org/linux-renesas-soc/OS0PR01MB5922717E4CCFE07F3C25FBC=
+986989@OS0PR01MB5922.jpnprd01.prod.outlook.com/#t
 
-It is not needed. I will remove it in the next version.
+This patch series is tested with [2]
+[2] https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=3D7=
+42810
 
-Cheers,
-Biju
+Test logs kmscube: [3]
+v16->v17:
+ * Dropped import_sg_table implementation() as we are using the helpers.
+ * Dropped unused rzg2l_du_vsp_atomic_begin().
+v15->v16:
+ * Added Rb and Ack tag from Geert for patch#4.
+ * Dropped rzg2l_du_crtc_get(rcrtc) from rzg2l_du_crtc_atomic_flush() as
+   it is not needed by moving to drm_atomic_helper_commit_tail_rpm().
+ * Dropped destroy callback from struct drm_crtc_funcs
+ * Replaced drm_crtc_init_with_planes()->drmm_crtc_init_with_planes()
+ * Introduced rzg2l_du_vsp_get_drm_plane() to get primary plane
+   compared to &rcrtc->vsp->planes[rcrtc->vsp_pipe].plane.
+ * Replaced rzg2l_du_atomic_commit_tail()->drm_atomic_helper_commit_
+   tail_rpm()
+ * Dropped the comment "older DT bindings" in rzg2l_du_vsps_init()
+ * Dropped rzg2l_du_vsp_{map_fb,plane_prepare_fb,unmap_fb,
+   plane_cleanup_fb} and instead using helpers.
+ * Dropped prepare_fb and cleanup_fb callbacks from
+   struct drm_plane_helper_funcs
+ * Dropped destroy from struct drm_plane_funcs
+ * Replaced drm_universal_plane_init()->drmm_universal_plane_alloc()
+ * Dropped planes and num_planes variables from struct rzg2l_du_vsp
+ * Dropped sg_tables variable from struct rzg2l_du_vsp_plane_state.
+v14->v15:
+ * Added patch#4, The rcar-du has never been maintained in drm-misc. So
+   exclude only this driver from drm-misc. Also, add the tree entry for
+   sh_mobile.
+ * Added drm-misc tree entry.
+ * Sorted the entry(Placed before SHMOBILE)
+v13->v14:
+ * Replaced the label 'error'->'done' in rzg2l_du_vsps_init() as it
+   applies to non-error case as well.
+ * Update the error check condition for rcar_du_vsp_init() to avoid
+   breakage in future, if it returns positive value.
+ * Now SHMOBILE has maintainer entries. So dropped updating
+   DRM DRIVERS FOR RENESAS RCAR AND SHMOBILE.
+ * Updated comment header and description for maintainer entry patch.
+v12->v13:
+ * Dropped DU_MCR0_DPI_OE and unused macros.
+ * Dropped unneeded backward compatibility with old DTBs as it is new drive=
+r.
+ * Replaced "cells > 1"-> "cells !=3D 1" in rzg2l_du_vsps_init().
+ * Fixed memory leak in rzg2l_du_vsps_init().
+ * Dropped drm_plane_create_{alpha,zpos,blend_mode}_property().
+v11->v12:
+ * Dropped quotes in ref handle for renesas,vsps property.
+ * Retained tags as it is trivial change.
+ * Replaced rzg2l_du_write()->writel().
+v10->v11:
+ * Replaced CONFIG_DRM_RCAR_VSP->CONFIG_VIDEO_RENESAS_VSP1 for building
+   rzg2l_du_vsp driver.
+ * Dropped "rzg2l_du_regs.h" instead the relevant definitions defined in
+   .c file.
+ * Dropped setting ditr5 based on latest HW manual 1.3.0/1.4.0
+ * Updated the comment for auto clear.
+ * Replaced writel()->rzg2l_du_write() in rzg2l_du_start_stop().
+ * Dropped CRC related functions as it does not have DISCOM.
+ * Replaced the variable possible_crtcs->possible_outputs in
+   struct rzg2l_du_output_routing.
+ * Updated DMA_BIT_MASK from 40->32.
+ * Dropped unneeded struct drm_bridge from rzg2l_du_drv.h.
+ * Dropped colour keying support as it doesn't have planes.
+ * Added only RGB formats in rzg2l_du_format_infos.
+ * Dropped chroma planes from rzg2l_du_fb_create().
+ * Updated the comment for max_pitch in rzg2l_du_fb_create().
+ * Dropped possible_crtcs check in rzg2l_du_encoders_init().
+ * Dropped additional empty line from struct rzg2l_du_device.
+v9->v10:
+ * patch#1 is mainlined, so dropped from this series.
+ * Added Rb tag from Laurent for the binding patch.
+ * Updated the commit description.
+ * Updated description of the port by dropping the text "specified in
+   Documentation/devicetree/bindings/graph.txt."
+ * Dropped empty endpoint from example.
+ * Dropped ARM64 dependency from Kconfig.
+ * Sorted the configs alphabetically in Kconfig.
+ * Dropped DRM_RCAR_VSP config option and make DRM_RZG2L_DU depend on
+   VIDEO_RENESAS_VSP1.
+ * On rzg2l_du_crtc_set_display_timing() replaced the setting of parent
+   clk rate with dclk rate.
+ * Added rzg2l_du_write() wrapper function.
+ * Updated the comment atomic_begin->atomic_flush.
+ * Dropped .atomic_check and .atomic_begin callback
+ * Renamed __rzg2l_du_crtc_plane_atomic_check->__rzg2l_du_vsp_plane_atomic
+   _check and moved it to rzg2l_du_vsp.c
+ * Added struct clk in rzg2l_du_crtc.h
+ * Dropped the variables mmio_offset,index,vblank_lock,vblank_wait,
+   vblank_count from struct rzg2l_du_crtc.
+ * Replaced the macro to_rzg2l_crtc with static inline functions.
+ * Dropped the unneeded header files clk.h, io.h, mm.h, pm.h, slab.h,
+   wait.h and drm_managed.h from rzg2l_du_drv.c.
+ * Replaced DRM_INFO->drm_info
+ * Dropped the callbacks prime_handle_to_fd, prime_fd_to_handle and
+   gem_prime_mmap.
+ * Replaced the callback remove->remove_new.
+ * Dropped header file wait.h and added forward declarations struct clk and
+   rzg2l_du_device from rzg2l_du_drv.h.
+ * Dropped the dsi and dpad0_source variables from struct rzg2l_du_device.
+ * Replaced the macro to_rzg2l_encoder with static inline functions.
+ * Dropped header files dma-buf.h and wait.h from rzg2l_du_kms.c.
+ * Dropped struct sg_table and added the scatterlist.h header file in
+   rzg2l_du_vsp.h
+ * Added container_of.h header file, forward declarations struct device and
+   struct rzg2l_du_device in rzg2l_du_vsp.h.
+v8->v9:
+ * Added Rb tag from Laurent and Acked-by tag from Kieran for patch#1.
+ * Added Rb tag from Laurent and Geert for patch#3.
+ * Dropped reset_control_assert() from error patch for rzg2l_du_crtc_get() =
+as
+   suggested by Philipp Zabel.
+ * Added Rb tag from Laurent oatch#5.
+ * Updated MAINTAINERS entries for common parts(Makefile and Kconfig).
+v7->v8:
+ * Moved rcar-du and shmobile DRM drivers to renesas specific vendor direct=
+ory.
+ * Fixed the typo vsp2->du in RZ/V2L DU bindings patch.
+ * Added Rb tag from Rob for RZ/V2L DU bindings patch.
+ * Dropped RCar du lib and created RZ/G2L DU DRM driver by creating rz_du f=
+older.
+ * Updated MAINTAINERS entries.
+v6->v7:
+ * Split DU lib and  RZ/G2L du driver as separate patch series as
+   DU support added to more platforms based on RZ/G2L alike SoCs.
+ * Rebased to latest drm-tip.
+ * Added patch #2 for binding support for RZ/V2L DU
+ * Added patch #4 for driver support for RZ/V2L DU
+ * Added patch #5 for SoC DTSI support for RZ/G2L DU
+ * Added patch #6 for SoC DTSI support for RZ/V2L DU
+ * Added patch #7 for Enabling DU on SMARC EVK based on RZ/{G2L,V2L} SoCs.
+ * Added patch #8 for Enabling DU on SMARC EVK based on RZ/G2LC SoC.
+v5->v6:
+ * Merged DU lib and RZ/G2L du driver in same patch series
+ * Rebased to latest drm-misc.
+ * Merged patch#1 to RZ/G2L Driver patch.
+ * Updated KConfig dependency from ARCH_RENESAS->ARCH_RZG2L.
+ * Optimized rzg2l_du_output_name() by removing unsupported outputs.
+
+v4->v5:
+ * Added Rb tag from Rob for binding patch.
+ * Started using RCar DU libs(kms, vsp and encoder)
+ * Started using rcar_du_device, rcar_du_write, rcar_du_crtc,
+   rcar_du_format_info and rcar_du_encoder.
+v3->v4:
+ * Changed compatible name from renesas,du-r9a07g044->renesas,r9a07g044-du
+ * started using same compatible for RZ/G2{L,LC}
+ * Removed rzg2l_du_group.h and struct rzg2l_du_group
+ * Renamed __rzg2l_du_group_start_stop->rzg2l_du_start_stop
+ * Removed rzg2l_du_group_restart
+ * Updated rzg2l_du_crtc_set_display_timing
+ * Removed mode_valid callback.
+ * Updated rzg2l_du_crtc_create() parameters
+ * Updated compatible
+ * Removed RZG2L_DU_MAX_GROUPS
+V2->v3:
+ * Added new bindings for RZ/G2L DU
+ * Removed indirection and created new DRM driver based on R-Car DU
+v1->v2:
+ * Based on [1], all references to 'rzg2l_lcdc' replaced with 'rzg2l_du'
+ * Updated commit description for bindings
+ * Removed LCDC references from bindings
+ * Changed clock name from du.0->aclk from bindings
+ * Changed reset name from du.0->du from bindings
+ * Replaced crtc_helper_funcs->rcar_crtc_helper_funcs
+ * Updated macro DRM_RZG2L_LCDC->DRM_RZG2L_DU
+ * Replaced rzg2l-lcdc-drm->rzg2l-du-drm
+ * Added forward declaration for struct reset_control
+
+[1] https://patchwork.kernel.org/project/linux-renesas-soc/patch/2022031208=
+4205.31462-2-biju.das.jz@bp.renesas.com/
+
+[3]
+root@smarc-rzv2l:/cip-test-scripts# kmscube
+Using display 0xaaaad2a6a160 with EGL version 1.4
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+EGL information:
+  version: "1.4"
+  vendor: "Mesa Project"
+  client extensions: "EGL_EXT_client_extensions EGL_EXT_device_base EGL_EXT=
+_device_enumeration EGL_EXT_device_query EGL_EXT_platform_base EGL_KHR_clie=
+nt_get_all_proc_addresses EGL_KHR_debug EGL_EXT_platform_device EGL_EXT_pla=
+tform_wayland EGL_KHR_platform_wayland EGL_MESA_platform_gbm EGL_KHR_platfo=
+rm_gbm EGL_MESA_platform_surfaceless"
+  display extensions: "EGL_ANDROID_blob_cache EGL_EXT_buffer_age EGL_EXT_im=
+age_dma_buf_import EGL_EXT_image_dma_buf_import_modifiers EGL_KHR_cl_event2=
+ EGL_KHR_config_attribs EGL_KHR_create_context EGL_KHR_create_context_no_er=
+ror EGL_KHR_fence_sync EGL_KHR_get_all_proc_addresses EGL_KHR_gl_colorspace=
+ EGL_KHR_gl_renderbuffer_image EGL_KHR_gl_texture_2D_image EGL_KHR_gl_textu=
+re_3D_image EGL_KHR_gl_texture_cubemap_image EGL_KHR_image EGL_KHR_image_ba=
+se EGL_KHR_image_pixmap EGL_KHR_no_config_context EGL_KHR_partial_update EG=
+L_KHR_reusable_sync EGL_KHR_surfaceless_context EGL_EXT_pixel_format_float =
+EGL_KHR_wait_sync EGL_MESA_configless_context EGL_MESA_drm_image EGL_MESA_i=
+mage_dma_buf_export EGL_MESA_query_driver EGL_WL_bind_wayland_display "
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+OpenGL ES 2.x information:
+  version: "OpenGL ES 3.1 Mesa 21.3.7"
+  shading language version: "OpenGL ES GLSL ES 3.10"
+  vendor: "Panfrost"
+  renderer: "Mali-G31 (Panfrost)"
+  extensions: "GL_EXT_blend_minmax GL_EXT_multi_draw_arrays GL_EXT_texture_=
+filter_anisotropic GL_EXT_texture_compression_rgtc GL_EXT_texture_format_BG=
+RA8888 GL_OES_compressed_ETC1_RGB8_texture GL_OES_depth24 GL_OES_element_in=
+dex_uint GL_OES_fbo_render_mipmap GL_OES_mapbuffer GL_OES_rgb8_rgba8 GL_OES=
+_standard_derivatives GL_OES_stencil8 GL_OES_texture_3D GL_OES_texture_floa=
+t GL_OES_texture_float_linear GL_OES_texture_half_float GL_OES_texture_half=
+_float_linear GL_OES_texture_npot GL_OES_vertex_half_float GL_EXT_draw_inst=
+anced GL_EXT_texture_sRGB_decode GL_OES_EGL_image GL_OES_depth_texture GL_O=
+ES_packed_depth_stencil GL_EXT_texture_type_2_10_10_10_REV GL_NV_conditiona=
+l_render GL_OES_get_program_binary GL_APPLE_texture_max_level GL_EXT_discar=
+d_framebuffer GL_EXT_read_format_bgra GL_EXT_frag_depth GL_NV_fbo_color_att=
+achments GL_OES_EGL_image_external GL_OES_EGL_sync GL_OES_vertex_array_obje=
+ct GL_ANGLE_pack_reverse_row_order GL_EXT_occlusion_query_boolean GL_EXT_te=
+xture_rg GL_EXT_unpack_subimage GL_NV_draw_buffers GL_NV_read_buffer GL_NV_=
+read_depth GL_NV_read_depth_stencil GL_NV_read_stencil GL_EXT_draw_buffers =
+GL_EXT_map_buffer_range GL_KHR_debug GL_KHR_texture_compression_astc_ldr GL=
+_NV_pixel_buffer_object GL_OES_depth_texture_cube_map GL_OES_required_inter=
+nalformat GL_OES_surfaceless_context GL_EXT_color_buffer_float GL_EXT_sRGB_=
+write_control GL_EXT_separate_shader_objects GL_EXT_shader_framebuffer_fetc=
+h GL_EXT_shader_implicit_conversions GL_EXT_shader_integer_mix GL_EXT_base_=
+instance GL_EXT_compressed_ETC1_RGB8_sub_texture GL_EXT_draw_buffers_indexe=
+d GL_EXT_draw_elements_base_vertex GL_EXT_gpu_shader5 GL_EXT_primitive_boun=
+ding_box GL_EXT_shader_io_blocks GL_EXT_texture_border_clamp GL_EXT_texture=
+_buffer GL_EXT_texture_view GL_KHR_blend_equation_advanced GL_KHR_blend_equ=
+ation_advanced_coherent GL_KHR_context_flush_control GL_NV_image_formats GL=
+_OES_draw_buffers_indexed GL_OES_draw_elements_base_vertex GL_OES_gpu_shade=
+r5 GL_OES_primitive_bounding_box GL_OES_sample_shading GL_OES_sample_variab=
+les GL_OES_shader_io_blocks GL_OES_shader_multisample_interpolation GL_OES_=
+texture_border_clamp GL_OES_texture_buffer GL_OES_texture_stencil8 GL_OES_t=
+exture_storage_multisample_2d_array GL_OES_texture_view GL_EXT_blend_func_e=
+xtended GL_EXT_float_blend GL_EXT_texture_sRGB_R8 GL_EXT_texture_sRGB_RG8 G=
+L_KHR_no_error GL_KHR_texture_compression_astc_sliced_3d GL_OES_EGL_image_e=
+xternal_essl3 GL_OES_shader_image_atomic GL_EXT_multisampled_render_to_text=
+ure GL_EXT_multisampled_render_to_texture2 GL_MESA_shader_integer_functions=
+ GL_EXT_color_buffer_half_float GL_EXT_texture_mirror_clamp_to_edge GL_KHR_=
+parallel_shader_compile GL_EXT_EGL_image_storage GL_EXT_shader_framebuffer_=
+fetch_non_coherent GL_INTEL_blackhole_render GL_MESA_framebuffer_flip_y GL_=
+EXT_depth_clamp GL_MESA_bgra "
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+=20
+ cat /sys/class/devfreq/11840000.gpu/trans_stat
+ [INFO]      From  :   To
+ [INFO]            :  50000000  62500000 100000000 125000000 200000000 2500=
+00000 400000000 500000000   time(ms)
+ [INFO]    50000000:         0         0         0         0         0     =
+    0         0         2       380
+ [INFO]    62500000:         0         0         0         0         0     =
+    0         0         0         0
+ [INFO]   100000000:         0         0         0         0         0     =
+    0         0         0         0
+ [INFO]   125000000:         0         0         0         0         0     =
+    0         0         0         0
+ [INFO] * 200000000:         1         0         0         0         0     =
+    0         0        79      4576
+ [INFO]   250000000:         0         0         0         0        69     =
+    0         0         0      5292
+ [INFO]   400000000:         0         0         0         0         5     =
+    0         0         2       440
+ [INFO]   500000000:         1         0         0         0         7     =
+   69         7         0      5340
+ [INFO] Total transition : 242
+
+Biju Das (5):
+  dt-bindings: display: Document Renesas RZ/G2L DU bindings
+  dt-bindings: display: renesas,rzg2l-du: Document RZ/V2L DU bindings
+  drm: renesas: Add RZ/G2L DU Support
+  MAINTAINERS: Update entries for Renesas DRM drivers
+  MAINTAINERS: Create entry for Renesas RZ DRM drivers
+
+ .../bindings/display/renesas,rzg2l-du.yaml    | 126 ++++++
+ MAINTAINERS                                   |  12 +-
+ drivers/gpu/drm/renesas/Kconfig               |   1 +
+ drivers/gpu/drm/renesas/Makefile              |   1 +
+ drivers/gpu/drm/renesas/rz-du/Kconfig         |  12 +
+ drivers/gpu/drm/renesas/rz-du/Makefile        |   8 +
+ drivers/gpu/drm/renesas/rz-du/rzg2l_du_crtc.c | 422 ++++++++++++++++++
+ drivers/gpu/drm/renesas/rz-du/rzg2l_du_crtc.h |  89 ++++
+ drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.c  | 175 ++++++++
+ drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.h  |  78 ++++
+ .../gpu/drm/renesas/rz-du/rzg2l_du_encoder.c  |  72 +++
+ .../gpu/drm/renesas/rz-du/rzg2l_du_encoder.h  |  32 ++
+ drivers/gpu/drm/renesas/rz-du/rzg2l_du_kms.c  | 371 +++++++++++++++
+ drivers/gpu/drm/renesas/rz-du/rzg2l_du_kms.h  |  43 ++
+ drivers/gpu/drm/renesas/rz-du/rzg2l_du_vsp.c  | 349 +++++++++++++++
+ drivers/gpu/drm/renesas/rz-du/rzg2l_du_vsp.h  |  82 ++++
+ 16 files changed, 1872 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/devicetree/bindings/display/renesas,rzg2l=
+-du.yaml
+ create mode 100644 drivers/gpu/drm/renesas/rz-du/Kconfig
+ create mode 100644 drivers/gpu/drm/renesas/rz-du/Makefile
+ create mode 100644 drivers/gpu/drm/renesas/rz-du/rzg2l_du_crtc.c
+ create mode 100644 drivers/gpu/drm/renesas/rz-du/rzg2l_du_crtc.h
+ create mode 100644 drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.c
+ create mode 100644 drivers/gpu/drm/renesas/rz-du/rzg2l_du_drv.h
+ create mode 100644 drivers/gpu/drm/renesas/rz-du/rzg2l_du_encoder.c
+ create mode 100644 drivers/gpu/drm/renesas/rz-du/rzg2l_du_encoder.h
+ create mode 100644 drivers/gpu/drm/renesas/rz-du/rzg2l_du_kms.c
+ create mode 100644 drivers/gpu/drm/renesas/rz-du/rzg2l_du_kms.h
+ create mode 100644 drivers/gpu/drm/renesas/rz-du/rzg2l_du_vsp.c
+ create mode 100644 drivers/gpu/drm/renesas/rz-du/rzg2l_du_vsp.h
+
+
+base-commit: 239cce651ea617002ff26f068f2568b2baf6421a
+--=20
+2.25.1
+
 
