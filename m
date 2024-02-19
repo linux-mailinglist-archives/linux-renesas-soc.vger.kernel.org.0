@@ -1,59 +1,55 @@
-Return-Path: <linux-renesas-soc+bounces-2958-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-2959-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44BB785A6B5
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 19 Feb 2024 16:00:58 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id ACAD285A7D7
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 19 Feb 2024 16:50:50 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id D7FB11F217E3
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 19 Feb 2024 15:00:57 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DEF5A1C20308
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 19 Feb 2024 15:50:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 837BD37702;
-	Mon, 19 Feb 2024 15:00:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BFC623A267;
+	Mon, 19 Feb 2024 15:50:45 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from michel.telenet-ops.be (michel.telenet-ops.be [195.130.137.88])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 952231DDD5
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 19 Feb 2024 15:00:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.137.88
+Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C819638DEA;
+	Mon, 19 Feb 2024 15:50:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708354856; cv=none; b=YE132lSBq9SHSH8FB8EtNenAdB4wo+97ltmPT/Ynyfs75OwpFlD1K/unzC1qcq7G4HbtAfQWgGo8oNeDtArc7raEm4ZL6S9/4+N0mz7RIAEgj2c3p/02HlWefm4L7FuPpR9WkDDoqHndGtiuNFQ9tUNOYQHAUB2Rhz6r7xQpg5U=
+	t=1708357845; cv=none; b=oi2qbWzYRSMbga4vj7Vb0EQFocUz2sd9/25GZNLSA7+VVCr5N2oPFl+szH55CsziXlwM8DuMygr4oX0YXQzuiv38M1ZLZhkTXuKtlEWkY4wXubsYPEyUG9WBMXvM5jdK8pjOBRCjJaI/uXbflllU1/MqgqNiQShUwQAOI3MGkMQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708354856; c=relaxed/simple;
-	bh=vH3pqcDHpyeRnoiv7dO/hBCTHpD96GUhVQhY2Zhqhqk=;
+	s=arc-20240116; t=1708357845; c=relaxed/simple;
+	bh=3gljEuQh4fhhlvTwEdHbLdMg7pIM+AmlQfvPws8ZqqY=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=hJvluG89EPeH32PXvX4f+fkXLsgTwxCZsMRU5a+nim6p+OtEkfTIP0XKkrlf/BbGVS+UGNqHUpnrCBJBD8PBQ1vD3PJ7Us17qn9NGVfYltQB+jD+FHamYRHAfKf2e3MhcERV0+kiyY0cr6dfO2ZP8mUKzJJ6o/djZhD7D6pq+Ck=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.137.88
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
-Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed40:a66f:1f5b:42c8:e3c5])
-	by michel.telenet-ops.be with bizsmtp
-	id p30l2B00E1N8lK50630lM1; Mon, 19 Feb 2024 16:00:45 +0100
-Received: from rox.of.borg ([192.168.97.57])
-	by ramsan.of.borg with esmtp (Exim 4.95)
-	(envelope-from <geert@linux-m68k.org>)
-	id 1rc58H-0016gT-9o;
-	Mon, 19 Feb 2024 16:00:45 +0100
-Received: from geert by rox.of.borg with local (Exim 4.95)
-	(envelope-from <geert@linux-m68k.org>)
-	id 1rc58P-007Th7-4I;
-	Mon, 19 Feb 2024 16:00:45 +0100
-From: Geert Uytterhoeven <geert+renesas@glider.be>
-To: Magnus Damm <magnus.damm@gmail.com>,
-	Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc: linux-renesas-soc@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	Cong Dang <cong.dang.xn@renesas.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH 2/2] arm64: dts: renesas: gray-hawk-single: Add QSPI FLASH support
-Date: Mon, 19 Feb 2024 16:00:41 +0100
-Message-Id: <96d6567024cef9fcd6b04f92a697301c1c8d1d8e.1708354463.git.geert+renesas@glider.be>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <cover.1708354463.git.geert+renesas@glider.be>
-References: <cover.1708354463.git.geert+renesas@glider.be>
+	 MIME-Version; b=Dc+aqwZnq0OnyJejVnUar3oX+sn52g0NdZ+F8l7jKtVWO0Mnc4YuP4WVatzUjOP9pZNuMmFIx2VoKwE408f4iJiQPcjmy6WxdbPV6dTyKlWcwgSehOYe32j7qNm9Vi0PyvVm56o5W+C+xwp8yMo+fineqqC5kCiFkSvAIlCY2CU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
+X-IronPort-AV: E=Sophos;i="6.06,170,1705330800"; 
+   d="scan'208";a="194447432"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie5.idc.renesas.com with ESMTP; 20 Feb 2024 00:50:41 +0900
+Received: from localhost.localdomain (unknown [10.226.92.217])
+	by relmlir6.idc.renesas.com (Postfix) with ESMTP id 56E95400FFE9;
+	Tue, 20 Feb 2024 00:50:38 +0900 (JST)
+From: Biju Das <biju.das.jz@bp.renesas.com>
+To: tip-bot2@linutronix.de
+Cc: apatel@ventanamicro.com,
+	linux-kernel@vger.kernel.org,
+	linux-tip-commits@vger.kernel.org,
+	tglx@linutronix.de,
+	geert@linux-m68k.org,
+	maz@kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	x86@kernel.org
+Subject: [tip: irq/msi] genirq/irqdomain: Remove the param count restriction from select()
+Date: Mon, 19 Feb 2024 15:50:36 +0000
+Message-Id: <170802702416.398.14922976721740218856.tip-bot2@tip-bot2> (raw)
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20240127161753.114685-3-apatel@ventanamicro.com>
+References: <170802702416.398.14922976721740218856.tip-bot2@tip-bot2>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -62,71 +58,34 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Cong Dang <cong.dang.xn@renesas.com>
+> Now that the GIC-v3 callback can handle invocation with a fwspec parameter
+> count of 0 lift the restriction in the core code and invoke select()
+> unconditionally when the domain provides it.
 
-Describe the QSPI FLASH on the Gray Hawk Single board.
+This patch breaks on RZ/G2L SMARC EVK as of_phandle_args_to_fwspec count()
+is called after irq_find_matching_fwspec() is causing fwspec->param_count=0
+and this results in boot failure as the patch removes the check.
 
-Signed-off-by: Cong Dang <cong.dang.xn@renesas.com>
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Maybe we need to revert this patch or fix the fundamental issue.
+
+Cheers,
+Biju
 ---
-Changes compared to the BSP:
-  - Apply to r8a779h0-gray-hawk-single.dts,
-  - Add missing status = "okay".
----
- .../dts/renesas/r8a779h0-gray-hawk-single.dts | 33 +++++++++++++++++++
- 1 file changed, 33 insertions(+)
+ kernel/irq/irqdomain.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/arch/arm64/boot/dts/renesas/r8a779h0-gray-hawk-single.dts b/arch/arm64/boot/dts/renesas/r8a779h0-gray-hawk-single.dts
-index 1163ac5e292755db..bc8616a56c039b20 100644
---- a/arch/arm64/boot/dts/renesas/r8a779h0-gray-hawk-single.dts
-+++ b/arch/arm64/boot/dts/renesas/r8a779h0-gray-hawk-single.dts
-@@ -181,12 +181,45 @@ mmc_pins: mmc {
- 		power-source = <1800>;
- 	};
- 
-+	qspi0_pins: qspi0 {
-+		groups = "qspi0_ctrl", "qspi0_data4";
-+		function = "qspi0";
-+	};
-+
- 	scif_clk_pins: scif-clk {
- 		groups = "scif_clk";
- 		function = "scif_clk";
- 	};
- };
- 
-+&rpc {
-+	pinctrl-0 = <&qspi0_pins>;
-+	pinctrl-names = "default";
-+
-+	status = "okay";
-+
-+	flash@0 {
-+		compatible = "spansion,s25fs512s", "jedec,spi-nor";
-+		reg = <0>;
-+		spi-max-frequency = <40000000>;
-+		spi-rx-bus-width = <4>;
-+
-+		partitions {
-+			compatible = "fixed-partitions";
-+			#address-cells = <1>;
-+			#size-cells = <1>;
-+
-+			boot@0 {
-+				reg = <0x0 0x1200000>;
-+				read-only;
-+			};
-+			user@1200000 {
-+				reg = <0x1200000 0x2e00000>;
-+			};
-+		};
-+	};
-+};
-+
- &rwdt {
- 	timeout-sec = <60>;
- 	status = "okay";
--- 
-2.34.1
+diff --git a/kernel/irq/irqdomain.c b/kernel/irq/irqdomain.c
+index 0bdef4f..8fee379 100644
+--- a/kernel/irq/irqdomain.c
++++ b/kernel/irq/irqdomain.c
+@@ -448,7 +448,7 @@ struct irq_domain *irq_find_matching_fwspec(struct irq_fwspec *fwspec,
+ 	 */
+ 	mutex_lock(&irq_domain_mutex);
+ 	list_for_each_entry(h, &irq_domain_list, link) {
+-		if (h->ops->select && fwspec->param_count)
++		if (h->ops->select)
+ 			rc = h->ops->select(h, fwspec, bus_token);
+ 		else if (h->ops->match)
+ 			rc = h->ops->match(h, to_of_node(fwnode), bus_token);
 
 
