@@ -1,74 +1,75 @@
-Return-Path: <linux-renesas-soc+bounces-2939-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-2940-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58038859CF4
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 19 Feb 2024 08:34:09 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 57C7E859D15
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 19 Feb 2024 08:37:07 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7CD161C21500
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 19 Feb 2024 07:34:08 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0EF092811B1
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 19 Feb 2024 07:37:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9ADCA20B28;
-	Mon, 19 Feb 2024 07:34:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 64F1120B28;
+	Mon, 19 Feb 2024 07:37:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="agmGWt0G"
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="OviAPIbL"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFF5E2231F
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 19 Feb 2024 07:33:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92AE820B11
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 19 Feb 2024 07:37:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708328041; cv=none; b=GarjngLP0d3hdBrwYdm++UqwxJsHHlmdwtW+iLV6hPHJ55NkcyT6GDoV2i3P6/AWVeh2b4FO5VT1FZzLoid7hdIeMp3gZVzIOyBrJ17KtNkzEE4nABWK16odBS2PN0iebCu5BgoXOKn3gicRnvzuIGYRvdwRTqgsR3s5uBtqRPg=
+	t=1708328222; cv=none; b=YLECd8u3YjB+4OtPxlwBQqbk86B1f3HiJ/e80zSV6qBcUz4WHmIDUuorWPIfbyenT4ySF6GjazhK7+3xZM7j6rA6ejB99qiebrFbhi/av2t8GqlYq6MRTEKRQQv2NGE33q8MZUZJ3y7uCnPxJsd/rmPdwg4ssU+2Hhz3Jjl/A4o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708328041; c=relaxed/simple;
-	bh=pSGqYWEkgA5r9fvAZaRNq9VpI+rNE64hzozwKd0Iv60=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=IDI5XYrSvuNXcG1oDF2ORSfqx4kvnXWwCdDTY/lLQN/tySDTrLjDEu/Et8osOvrIV3K+OT9HHXhG7hv/6XyryxmAQMBOIuCrmQo3nBzmBXU5BVxAP9oL8KOB53/Lw1VjYco0NFy2TB9FQInN3+CHgvsxZzHJFdaNIuPa6ejo1mg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=agmGWt0G; arc=none smtp.client-ip=209.85.167.49
+	s=arc-20240116; t=1708328222; c=relaxed/simple;
+	bh=30e0PiSWhXN+1/mrmwX+jgY2/XnTypbZ+oimDofzoCY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=HIpJJu7GBxCy+xo6JAmijZDojL/LIdeaY9FonyHAcLMPlGBXTd73C8Fl3f9Q9l+/TKjo1UU6rNnlvhbVZRLUiroRiG7OvEvgJh6EX4unpO72O01KyDQxNGbONdhisSfjJSyZL/QDcMzIOVUCeLF9zeBZh+nw5vuorFN+EbZyVTw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=OviAPIbL; arc=none smtp.client-ip=209.85.167.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
-Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-512b25893c9so664013e87.3
-        for <linux-renesas-soc@vger.kernel.org>; Sun, 18 Feb 2024 23:33:58 -0800 (PST)
+Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-512b3b04995so369282e87.3
+        for <linux-renesas-soc@vger.kernel.org>; Sun, 18 Feb 2024 23:37:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1708328037; x=1708932837; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:to
+        d=tuxon.dev; s=google; t=1708328219; x=1708933019; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=+ng3gW4V3o0lgSkXW6LbE2EKjcIRK6fb4LZxE38g6CE=;
-        b=agmGWt0GYXvSMZ5nFELoKzr7zFdgt7JzmtUYPeiiRxQlJxcBoGgOylwgHzarSE/PTY
-         tMd1EuXOdLZH4pZ8dLddHn4tpz7r87EivJpJpv7W8qXRIGa+l+1YC4QUnpmh/0NFxJ93
-         Z509cUXTYLax9/aNTu/CbDLPUv3IJWLNWt4qGTK0MrcK4Vhge74X77GVWFKZtZ8IiB7R
-         N3lR7s/ZNj27Ps77ra8wHKaAswIaatdghJZ3rdc7diLlfN+MT16abFK4lnB4flsJ+bbe
-         JZuGw2fYSioAVUQtJihYeokp3zbnUK3y5CHrMKBVALcXAWqrNyuQIKui8Jn1Vr1jOkKR
-         hCqA==
+        bh=KZKyFQ6cSp7LJWXpDL9YbFwutlq73FoMYcAlibyNYzc=;
+        b=OviAPIbLmXSlM9YjuT+VzRzlP4mwg0TfmipdZj/nXQF7NBtC6SMyBA5na7KScCUN1I
+         FTKCe9fGdh9x4zhskWXZ/CxbzTv3A4a7JyIYs6VeUJuoOTx2B5iWHZgWPuYBSKR+qvfO
+         ixoIw985pggih160UhJwQa0TTCJQw5FUpXs//XOn2JfYkEl07e56zLAjmOwnxIwElRKO
+         KURvitS32qjV6TrfrxtB73XNEL+qmRXfOw9hgs3aKxt3zom7KNzRw9ie2uFv0PTKXCnD
+         sQhoo0EKnfvQ2UnUrx3lZXTRShHGRp4pElDDLPHGs9CDKVLbe+McOVxh9bVD9ccT/XxE
+         veQw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708328037; x=1708932837;
-        h=content-transfer-encoding:in-reply-to:from:references:to
+        d=1e100.net; s=20230601; t=1708328219; x=1708933019;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=+ng3gW4V3o0lgSkXW6LbE2EKjcIRK6fb4LZxE38g6CE=;
-        b=J1vqyJKSUFyWXtODSPLyOWLnGPfDoFneqzbknnjDbpp2t4/2mdDV921N/6sob1rJOE
-         bVi4tE6KOyMUQjogLKoHYE9KtwiXZtJAiZtIX8G7PedDtJtjGqgoSLQ8lQ3jqsUuhm8V
-         oa2+nA5xPfoAWv3ldColsQTsrgkJ/Ujp/DGU0du8Abagb8xlSfPbG8bG8lQ2He8AwTZS
-         pDDxiQM9NuYit2r08nP24rIKCRPUp6mWlPYZIfy3AC9TtDeZfx/SIREbOhZhOaFmt+k3
-         E2/yXsKq5FItlJdYce+dfXM51lQwV3Zw11vkMivSbMAV++VA44C+br9m36nrmKPBNH3M
-         FMsg==
-X-Forwarded-Encrypted: i=1; AJvYcCVFlUl9RHChgO6ulAlISXhcSOQwSqsLhKqYGeLnIPzf9vhBXPfwtTRw++1RpZhY+Z0I4AFAVl3iHIkfCTiLMrCxT9bol7xFArcqzMRoXIjFlb4=
-X-Gm-Message-State: AOJu0YyM17lh6iDe3FvfDt0Mj+IAjvzUssRBYHxY1yqd+3XAzbLuvqDa
-	hiqn7EwTtHrSj9ahq5Q0Z2hTmVXenBz+UYVU+hNSOVGeMxxNWYZQ5YqIX7bAh3o=
-X-Google-Smtp-Source: AGHT+IH7t2S3UJLlE+g5RosWguA6ACJo1jYaUo0HRFcgzCtXQeK6rSIGLys7KhAWV1PTPsrhu0txhw==
-X-Received: by 2002:a05:6512:3144:b0:511:84fe:8dcd with SMTP id s4-20020a056512314400b0051184fe8dcdmr7786108lfi.1.1708328036943;
-        Sun, 18 Feb 2024 23:33:56 -0800 (PST)
+        bh=KZKyFQ6cSp7LJWXpDL9YbFwutlq73FoMYcAlibyNYzc=;
+        b=RASBq6d43XiuqjoRgTy23JNhDw909riHE53ONq2L1UQCPZ3ckiHS5D3oS9Ks40+1dH
+         dFNE5YRFl+M7/4U65S6n5wXw8oD4DLld74c429+sG2+QW0IkZSCMzD74OCtuM/Hngy0h
+         rjhOUuRi/sq/xrE8a5XGSjoxTnwxDBft4RVkJnAnwuHhns2QBlzWwvNMSxeZBWzZhOGa
+         hpVo8zpsvgKLURNyEMUrJvgaSJB/7AUfEnML9FLgyPZizcCbzmnZdwWn0R5MZbOKGr72
+         VcDfouB5nljhF1zgJ+BO2fDuQk4wJbP60E3HC/q4qd5+34X9O7fB+pt17Z8R4vrUakkI
+         jDwQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVKr+J6oL7MS4jqDb1ceyGdMpJ6IaYysKbQgPySKcwSZ5AmjEHQZXo9o8X8hFm9CVZHLE/BUY1k5Rt5CZLDghFEJyC3ACYMc/f9CGeriwd/i3M=
+X-Gm-Message-State: AOJu0YyXn4wFzBdT02d4QR45jd4vFpfQ2sTOTV58viQONBbKhMGliy4x
+	IjXdr9ywNEGUTLEzaD2QE0ZiS0scYnvE/tb46xEfrOy+o8pHnS0Lv14Tpr6/pUO1hK1r6rM0daa
+	x
+X-Google-Smtp-Source: AGHT+IGLlnSbXEfT/nz2ZRTz3Bukdz93vaxjL6h+T1orH0nNTKmUP+vrTRlindEMbWk6USyL3b+mLQ==
+X-Received: by 2002:a05:6512:6d4:b0:511:e296:e563 with SMTP id u20-20020a05651206d400b00511e296e563mr8756725lff.2.1708328218821;
+        Sun, 18 Feb 2024 23:36:58 -0800 (PST)
 Received: from [192.168.50.4] ([82.78.167.20])
-        by smtp.gmail.com with ESMTPSA id l20-20020a05600c1d1400b0041256ab5becsm7611582wms.26.2024.02.18.23.33.54
+        by smtp.gmail.com with ESMTPSA id l20-20020a05600c1d1400b0041256ab5becsm7617445wms.26.2024.02.18.23.36.57
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 18 Feb 2024 23:33:56 -0800 (PST)
-Message-ID: <e6c6e825-42dd-4f2d-8329-f7b3e09bb8a9@tuxon.dev>
-Date: Mon, 19 Feb 2024 09:33:53 +0200
+        Sun, 18 Feb 2024 23:36:58 -0800 (PST)
+Message-ID: <e7a6a1c9-ba29-4103-a2f7-310c1cee1f17@tuxon.dev>
+Date: Mon, 19 Feb 2024 09:36:56 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -76,70 +77,123 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] clk: constify the of_phandle_args argument of
- of_clk_provider
+Subject: Re: [PATCH 01/17] dt-bindings: clock: r9a07g043-cpg: Add power domain
+ IDs
 Content-Language: en-US
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
- <sboyd@kernel.org>, Sudeep Holla <sudeep.holla@arm.com>,
- Peng Fan <peng.fan@nxp.com>, Shawn Guo <shawnguo@kernel.org>,
- Nishanth Menon <nm@ti.com>, Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Thierry Reding <thierry.reding@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>,
- Linus Walleij <linus.walleij@linaro.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Vinod Koul <vkoul@kernel.org>,
- Russell King <linux@armlinux.org.uk>,
- Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
- Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>, linux-clk@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- patches@opensource.cirrus.com, linux-stm32@st-md-mailman.stormreply.com,
- NXP Linux Team <linux-imx@nxp.com>, linux-amlogic@lists.infradead.org,
- linux-arm-msm@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
- linux-tegra@vger.kernel.org, linux-omap@vger.kernel.org,
- linux-media@vger.kernel.org, linux-phy@lists.infradead.org,
- alsa-devel@alsa-project.org, linux-sound@vger.kernel.org
-References: <20240208163710.512733-1-krzysztof.kozlowski@linaro.org>
- <e43727bd-d83d-4271-9871-ff995c8e7d03@tuxon.dev>
- <88de75cd-4069-4be6-9c4e-f32befa46d58@linaro.org>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: mturquette@baylibre.com, sboyd@kernel.org, robh@kernel.org,
+ krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+ magnus.damm@gmail.com, paul.walmsley@sifive.com, palmer@dabbelt.com,
+ aou@eecs.berkeley.edu, linux-renesas-soc@vger.kernel.org,
+ linux-clk@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
+ Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+References: <20240208124300.2740313-1-claudiu.beznea.uj@bp.renesas.com>
+ <20240208124300.2740313-2-claudiu.beznea.uj@bp.renesas.com>
+ <CAMuHMdUCB3GQxGPxG35rebN2yrKYBnZDzORaEEOuZb3aMgrf6g@mail.gmail.com>
 From: claudiu beznea <claudiu.beznea@tuxon.dev>
-In-Reply-To: <88de75cd-4069-4be6-9c4e-f32befa46d58@linaro.org>
+In-Reply-To: <CAMuHMdUCB3GQxGPxG35rebN2yrKYBnZDzORaEEOuZb3aMgrf6g@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
+Hi, Geert,
 
-
-On 19.02.2024 08:59, Krzysztof Kozlowski wrote:
-> On 19/02/2024 07:25, claudiu beznea wrote:
+On 16.02.2024 16:01, Geert Uytterhoeven wrote:
+> Hi Claudiu,
+> 
+> On Thu, Feb 8, 2024 at 1:43 PM Claudiu <claudiu.beznea@tuxon.dev> wrote:
+>> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 >>
+>> Add power domain IDs for RZ/G2UL (R9A07G043) SoC.
 >>
->> On 08.02.2024 18:37, Krzysztof Kozlowski wrote:
->>> None of the implementations of the get() and get_hw() callbacks of
->>> "struct of_clk_provider" modify the contents of received of_phandle_args
->>> pointer.  They treat it as read-only variable used to find the clock to
->>> return.  Make obvious that implementations are not supposed to modify
->>> the of_phandle_args, by making it a pointer to const.
->>>
->>> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
->>> ---
->>>  drivers/clk/at91/pmc.c                        |  3 +-
->>>  drivers/clk/at91/pmc.h                        |  3 +-
+>> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+> 
+> Thanks for your patch!
+> 
+>> --- a/include/dt-bindings/clock/r9a07g043-cpg.h
+>> +++ b/include/dt-bindings/clock/r9a07g043-cpg.h
+>> @@ -200,5 +200,53 @@
+>>  #define R9A07G043_AX45MP_CORE0_RESETN  78      /* RZ/Five Only */
+>>  #define R9A07G043_IAX45_RESETN         79      /* RZ/Five Only */
 >>
->> Reviewed-by: Claudiu Beznea <claudiu.beznea@tuxon.dev>
+>> +/* Power domain IDs. */
+>> +#define R9A07G043_PD_ALWAYS_ON         0
+>> +#define R9A07G043_PD_GIC               1
 > 
-> You understand there is no review for "part of patch"? You probably
-> meant Acked-by.
+> As this file is shared between RZ/G2UL and RZ/Five, R9A07G043_PD_GIC
+> needs an "/* RZ/G2UL Only */" comment
 
-Sure... Here it is:
-Acked-by: Claudiu Beznea <claudiu.beznea@tuxon.dev>
+Ok. I'll re-checked it and update. Likewise for the rest of your below points.
 
 > 
-> https://elixir.bootlin.com/linux/v6.8-rc5/source/Documentation/process/submitting-patches.rst#L544
+>> +#define R9A07G043_PD_IA55              2
+>> +#define R9A07G043_PD_MHU               3
+>> +#define R9A07G043_PD_CORESIGHT         4
+>> +#define R9A07G043_PD_SYC               5
 > 
-> Best regards,
-> Krzysztof
+> Likewise for the four above.
 > 
+>> +#define R9A07G043_PD_DMAC              6
+>> +#define R9A07G043_PD_GTM0              7
+>> +#define R9A07G043_PD_GTM1              8
+>> +#define R9A07G043_PD_GTM2              9
+>> +#define R9A07G043_PD_MTU               10
+>> +#define R9A07G043_PD_POE3              11
+>> +#define R9A07G043_PD_WDT0              12
+>> +#define R9A07G043_PD_SPI               13
+>> +#define R9A07G043_PD_SDHI0             14
+>> +#define R9A07G043_PD_SDHI1             15
+>> +#define R9A07G043_PD_ISU               16
+>> +#define R9A07G043_PD_CRU               17
+>> +#define R9A07G043_PD_LCDC              18
+> 
+> Likewise for the three above.
+> 
+>> +#define R9A07G043_PD_SSI0              19
+>> +#define R9A07G043_PD_SSI1              20
+>> +#define R9A07G043_PD_SSI2              21
+>> +#define R9A07G043_PD_SSI3              22
+>> +#define R9A07G043_PD_SRC               23
+>> +#define R9A07G043_PD_USB0              24
+>> +#define R9A07G043_PD_USB1              25
+>> +#define R9A07G043_PD_USB_PHY           26
+>> +#define R9A07G043_PD_ETHER0            27
+>> +#define R9A07G043_PD_ETHER1            28
+>> +#define R9A07G043_PD_I2C0              29
+>> +#define R9A07G043_PD_I2C1              30
+>> +#define R9A07G043_PD_I2C2              31
+>> +#define R9A07G043_PD_I2C3              32
+>> +#define R9A07G043_PD_SCIF0             33
+>> +#define R9A07G043_PD_SCIF1             34
+>> +#define R9A07G043_PD_SCIF2             35
+>> +#define R9A07G043_PD_SCIF3             36
+>> +#define R9A07G043_PD_SCIF4             37
+>> +#define R9A07G043_PD_SCI0              38
+>> +#define R9A07G043_PD_SCI1              39
+>> +#define R9A07G043_PD_IRDA              40
+>> +#define R9A07G043_PD_RSPI0             41
+>> +#define R9A07G043_PD_RSPI1             42
+>> +#define R9A07G043_PD_RSPI2             43
+>> +#define R9A07G043_PD_CANFD             44
+>> +#define R9A07G043_PD_ADC               45
+>> +#define R9A07G043_PD_TSU               46
+>>
+>>  #endif /* __DT_BINDINGS_CLOCK_R9A07G043_CPG_H__ */
+> 
+> In addition, you need definitions for the modules that are only
+> present on RZ/Five, e.g.
+> 
+>     #define R9A07G043_PD_PLIC               47    /* RZ/Five Only */
+> 
+> Gr{oetje,eeting}s,
+> 
+>                         Geert
+> 
+> 
+> --
+> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+> 
+> In personal conversations with technical people, I call myself a hacker. But
+> when I'm talking to journalists I just say "programmer" or something like that.
+>                                 -- Linus Torvalds
 
