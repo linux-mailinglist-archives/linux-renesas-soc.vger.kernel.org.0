@@ -1,184 +1,294 @@
-Return-Path: <linux-renesas-soc+bounces-2961-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-2962-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7760785A7FC
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 19 Feb 2024 16:58:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8701785A842
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 19 Feb 2024 17:09:59 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9C60A1C2206E
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 19 Feb 2024 15:58:42 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id AB4A11C217F3
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 19 Feb 2024 16:09:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 633793C062;
-	Mon, 19 Feb 2024 15:58:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 006C23B1A8;
+	Mon, 19 Feb 2024 16:09:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bRZiDo9P"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="E4KOFC7P"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 970D53C09F;
-	Mon, 19 Feb 2024 15:58:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1222A3A1DE;
+	Mon, 19 Feb 2024 16:09:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708358310; cv=none; b=s/zWtNYzFXhLJm8+4jTsIfJzfJKgAU+jiARm7aQn+07+ZdHJabP/E99+gARGgjwk27dAhKUxcwKjiT91G3vgJr8gBFdkfHyNTHk/0Qc29K5vg324bYwnUvHJR5crYIbwOihZ9NP01weYuJcmEaK6gFNUBROG26NFHSkC2qXg0rk=
+	t=1708358994; cv=none; b=hEBI1sO6am3uw3/ernRzr+iIwY0Fgtm5tV1VSX/UQmPvhcSNATb+uJ8utmNNRh58m87R2ZqjXjEMuuhJuleItzqVasNu9DDD0yfoSdE0GCsP5xiKolHEYRQTNAJRBhy2c2UuAe0GN4GQOW8TUOkTUmZi2UX/6ALf7MYCYGSg9Eo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708358310; c=relaxed/simple;
-	bh=icU/jxR0DFDHz5XD9AAV7lcBtUbJa4K2a1BPr/lVQOg=;
-	h=Content-Type:Mime-Version:Date:Message-Id:Subject:From:To:
-	 References:In-Reply-To; b=rVuECbyUJPwIztrlHLTCB0q5GC56rVmqe2zx8r6Hjv2Q/LA5k/610EitvQYb2fyXo2t0QNiW0hUCyvTQHPDws5DQn4p1apiAgsoNerFd8NEcIUsBxBJanwRPPs0jH5XMM0oQTVcojqzOjDKb+bq32pRHJJDVrIHIZQP88OnzHgE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bRZiDo9P; arc=none smtp.client-ip=209.85.218.51
+	s=arc-20240116; t=1708358994; c=relaxed/simple;
+	bh=DQcC30B5Y3OhlxpA+cpMhtTaBr5bQ3T2ftyXDYOaL/o=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=swchBt0JdelSr/eEY3qgCg6I9vFYq5cE4hmWRJbhOV+O6XMo6Yzt3X0BjpdKBiS/tR4rGm7y/Uw9dvEq1/A3DiZnvHzUO44nv1mhLhI7bb/Ix3uZtLtajaG4+WvlKtUOqDI1KAh+x7VdhXQt/L6eTB3zOVX3pRTfKvynx4OaB9o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=E4KOFC7P; arc=none smtp.client-ip=209.85.128.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-a3eafbcb1c5so103413366b.0;
-        Mon, 19 Feb 2024 07:58:28 -0800 (PST)
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-4126104e28eso12473365e9.0;
+        Mon, 19 Feb 2024 08:09:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1708358307; x=1708963107; darn=vger.kernel.org;
-        h=in-reply-to:references:to:from:subject:message-id:date:mime-version
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=tiqLc5KdCmtjYQt/eIFsjHHh0iB3V/zgzPhPHivKtAs=;
-        b=bRZiDo9PXa9+VKDjKADljVQkf4cPFN6ym9XX5wiIKCHgX6kg/EpiHWUYiwTYKijb54
-         LItev2WCuyWWY18OKeyqcjybUqNjU+yp4W4ABb/hfC37Y84i8q4OeLb5lZLi5sU9MSH4
-         7cg+ZWqH2dN9ThbqN2+/VD05cUjnzHrHPu3o82Dg/HhVsjG0gsdFrlJJvFr2ctq6/RuL
-         lPlDBrypYSRIURvSXHpTjt1er6X0q1HUM+HuC0hljfphEkYOHkn3QU4aPd9SGJgEHKBd
-         +XXE3tWBMpTHN9zC2NQKpCzwn8kQRBeUD5SwEJhs0kCPjd7Jj+G3H76L56dK580YF30c
-         9bKg==
+        d=gmail.com; s=20230601; t=1708358991; x=1708963791; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=hgTcCazmfvPYcFZvlwd5OlJY+oP9ObwQ8H/LVKVTwIM=;
+        b=E4KOFC7P7yD1RaL9XThpyFAQPQ8T1WGpHxUpLv56VRNcE4N5xrfAQg4A3S/Sn4tQhk
+         YQZ5YgF7cF7h6KibYDpIn1HP7ljmsd22sK8KUV0Xtu/L6NujfsorBQtX/F2mBQNEsc81
+         wuk75sHrtKB/HusYzUdMBLHfRFhgQRKAlguNYUYfI5w4pxB1utMeevELuZScwyxunXuh
+         qvLcHYtvrVZOn1XhF7yebIA6a03iGEs4/mMDx6vhr6Y+2zLtH2ArisF0vYEX/brWMin4
+         oA0aI9qPZK5521mEAD+D9EBsrw8uRNdDWXTauhifFWazDR6b3C0D+PWtnqUiBNj9tZJ8
+         acDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708358307; x=1708963107;
-        h=in-reply-to:references:to:from:subject:message-id:date:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=tiqLc5KdCmtjYQt/eIFsjHHh0iB3V/zgzPhPHivKtAs=;
-        b=Z4EIHk1j/DhSfCAsOqRm95EX1S0ZkZSfWKSsdSHj+fPMFdqvNyjy+W2tkv7tr18iGK
-         1mr2DIFPasJAQJ4SUxR8vGUW33R+5oYhHLV0zoHULZqlypGr1NZ3/n26yTRJtaRnm+ce
-         u5d5uJKTiRBDS6rPUbZ84YYGxv0a85dt7d2K8BNGGX4evNVgArNRUoVsCJjb0LFglKx/
-         T11WgcTEgD1dva9YTXoT5HttctKcG3hL0+MvpnLtiEoOj9l0V5DXUE6vTB3VtpFzC/oA
-         hPM7lW+7XtEJDacgVG7JPN11tpqMNcYJY2Qlb2xmR4jqbI+6bFOLv0vXE1HU484DzjJK
-         X77g==
-X-Forwarded-Encrypted: i=1; AJvYcCX38WLLdJbhz3FOzPkjqIAFVVLKXvIY0TMpNDu1f8Ias4ldEMla6J5WOYXAko8WoaLeBiFD523ZEpEaJMNTNThrJGNC3QWA6xr+OzTRbOF42UFt2WlIQRFez3DpJENx3AzLJQgAU8T2zdinTIYGqgk9pp/JQX8VmCjVTL20Zhv24IjhEC8bc+PnXQ+g8dIGCY/2Xz+GImJpbMcqUwJWlNW5ERQFITaQV5V+ChjcF+hp+nA8suA+q58rLhifmhysVn5ifiIYCuieZ69CexbGWMMGUdtsaY41XXIPDhdCODXZJjBnenrN3MkXyWY6b1RAC4F/L7GlOlexPJEUUGyiNAoMNlc=
-X-Gm-Message-State: AOJu0Yz3zkXOK1pYz0UfPEWI69hknu4v9ioIbxNtTaqSR/rxlW6U5E0c
-	EYRYtTZPkCnvYap9jB7BB4ZZIYL5IKNGxZ+rH2mSY2aQyHeJO6N3
-X-Google-Smtp-Source: AGHT+IFtwqfaW9gJsxLy3j5F49CYy1xFjRlT0RRadI4Z0IOCUNhh1itGGGOPl5tKEJMCv67TBumOMw==
-X-Received: by 2002:a17:906:851:b0:a3d:80d7:d1e3 with SMTP id f17-20020a170906085100b00a3d80d7d1e3mr7428154ejd.77.1708358306585;
-        Mon, 19 Feb 2024 07:58:26 -0800 (PST)
-Received: from localhost (p200300e41f2d4600f22f74fffe1f3a53.dip0.t-ipconnect.de. [2003:e4:1f2d:4600:f22f:74ff:fe1f:3a53])
-        by smtp.gmail.com with ESMTPSA id rf23-20020a1709076a1700b00a3da5bf6aa5sm3076542ejc.211.2024.02.19.07.58.25
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 19 Feb 2024 07:58:26 -0800 (PST)
-Content-Type: multipart/signed;
- boundary=f0caf17c841197981a0b66a2ac604de0b745306e0ba899959bfe0165d31f;
- micalg=pgp-sha256; protocol="application/pgp-signature"
+        d=1e100.net; s=20230601; t=1708358991; x=1708963791;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=hgTcCazmfvPYcFZvlwd5OlJY+oP9ObwQ8H/LVKVTwIM=;
+        b=q1AirK4cM+f/20k8DvPr4n3uaDEyQZPqnocXXDuU3fKOZRFa2OZbmVrkVsjEzSY/50
+         LO4r+XqMn8OX7Z1swg1qSq21vZpx4Sueha8/BmOLjUOZxLpRYbVWnOt/+XG+/HQy4w+m
+         3BuADu2N0iVApKSMqkW9IEJiZf1HRal04ObL4KyBDvFBIkqBDXLgBUd/pD0qNTmw0Gza
+         TI9FtMApwkcZqmXQFAnldFzjc195mT9kAFtn6fONQK51B4SiFl5YxJd3xXg0F4Ly+m/m
+         nXC0tvCduyken/2ZNulxmrC89yQN7jBB3jIJ7FJBJS7nk8nDLHDIXaEH5QxLzUUE3da2
+         raeQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXdQqjmVGwEvy4SRs072tYJCuEIN8m7ck8e7aoNQSe69qY9x3ZlkjfP4QeflfSmfTb3qHjJRC14pn0M/5vXqtStO/cA0ldPtHnvhj9h2Ed5a//3YM2f0ou1ib5Yl62+2nNVM0Q/FtvXVSnVhM+otdftFJ3w96fU8gCWdeGVJlMraTt/V+JvQXuJEnOo
+X-Gm-Message-State: AOJu0Yzaj16UNcqY4VaA1bAywhSZ4HUWMrJy3tMMWLgSmlwBl/I61y9s
+	UzsyNIFVIAQP8VIczQ5ME2Bv3mH7TTbQK2DfCIeu5tE6IVh4PUAD
+X-Google-Smtp-Source: AGHT+IFBDfEdMu8J9eQUOFwU4sdASLpvZHfk9n3GsvYGdIRpXTTHFZ2H2BbQENp4fR1rTrdP0scF6A==
+X-Received: by 2002:a05:600c:19cd:b0:411:d273:90e2 with SMTP id u13-20020a05600c19cd00b00411d27390e2mr11271472wmq.3.1708358991112;
+        Mon, 19 Feb 2024 08:09:51 -0800 (PST)
+Received: from prasmi.home ([2a00:23c8:2500:a01:3c2e:cd45:f50f:f083])
+        by smtp.gmail.com with ESMTPSA id l14-20020a7bc44e000000b00411d1ce4f9dsm11592670wmi.34.2024.02.19.08.09.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 19 Feb 2024 08:09:50 -0800 (PST)
+From: Prabhakar <prabhakar.csengg@gmail.com>
+X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+To: Magnus Damm <magnus.damm@gmail.com>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>
+Cc: linux-arm-kernel@lists.infradead.org,
+	linux-renesas-soc@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Prabhakar <prabhakar.csengg@gmail.com>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH 0/4] Add new Renesas RZ/V2H SoC
+Date: Mon, 19 Feb 2024 16:09:08 +0000
+Message-Id: <20240219160912.1206647-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Date: Mon, 19 Feb 2024 16:58:25 +0100
-Message-Id: <CZ96H72GI4Z0.SZJBZXA1VXJZ@gmail.com>
-Subject: Re: [PATCH] phy: constify of_phandle_args in xlate
-From: "Thierry Reding" <thierry.reding@gmail.com>
-To: "Krzysztof Kozlowski" <krzysztof.kozlowski@linaro.org>, "Vinod Koul"
- <vkoul@kernel.org>, "Kishon Vijay Abraham I" <kishon@kernel.org>,
- "Chun-Kuang Hu" <chunkuang.hu@kernel.org>, "Philipp Zabel"
- <p.zabel@pengutronix.de>, "Jonathan Hunter" <jonathanh@nvidia.com>,
- "Laurent Pinchart" <laurent.pinchart@ideasonboard.com>, "Linus Walleij"
- <linus.walleij@linaro.org>, <linux-phy@lists.infradead.org>,
- <linux-arm-kernel@lists.infradead.org>, <linux-sunxi@lists.linux.dev>,
- <linux-kernel@vger.kernel.org>, <linux-amlogic@lists.infradead.org>,
- <netdev@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <linux-mediatek@lists.infradead.org>, <linux-arm-msm@vger.kernel.org>,
- <linux-renesas-soc@vger.kernel.org>, <linux-rockchip@lists.infradead.org>,
- <linux-samsung-soc@vger.kernel.org>,
- <linux-stm32@st-md-mailman.stormreply.com>, <linux-tegra@vger.kernel.org>,
- <linux-gpio@vger.kernel.org>
-X-Mailer: aerc 0.16.0-1-0-g560d6168f0ed-dirty
-References: <20240217093937.58234-1-krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20240217093937.58234-1-krzysztof.kozlowski@linaro.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
---f0caf17c841197981a0b66a2ac604de0b745306e0ba899959bfe0165d31f
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
+From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-On Sat Feb 17, 2024 at 10:39 AM CET, Krzysztof Kozlowski wrote:
-> The xlate callbacks are supposed to translate of_phandle_args to proper
-> provider without modifying the of_phandle_args.  Make the argument
-> pointer to const for code safety and readability.
->
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> ---
->  drivers/phy/allwinner/phy-sun4i-usb.c              |  2 +-
->  drivers/phy/amlogic/phy-meson-g12a-usb3-pcie.c     |  2 +-
->  drivers/phy/broadcom/phy-bcm-sr-pcie.c             |  2 +-
->  drivers/phy/broadcom/phy-bcm-sr-usb.c              |  2 +-
->  drivers/phy/broadcom/phy-bcm63xx-usbh.c            |  2 +-
->  drivers/phy/broadcom/phy-brcm-usb.c                |  2 +-
->  drivers/phy/freescale/phy-fsl-imx8qm-lvds-phy.c    |  2 +-
->  drivers/phy/freescale/phy-fsl-lynx-28g.c           |  2 +-
->  drivers/phy/hisilicon/phy-histb-combphy.c          |  2 +-
->  drivers/phy/intel/phy-intel-lgm-combo.c            |  2 +-
->  drivers/phy/lantiq/phy-lantiq-vrx200-pcie.c        |  2 +-
->  drivers/phy/marvell/phy-armada375-usb2.c           |  2 +-
->  drivers/phy/marvell/phy-armada38x-comphy.c         |  2 +-
->  drivers/phy/marvell/phy-berlin-sata.c              |  2 +-
->  drivers/phy/marvell/phy-mvebu-a3700-comphy.c       |  2 +-
->  drivers/phy/marvell/phy-mvebu-cp110-comphy.c       |  2 +-
->  drivers/phy/mediatek/phy-mtk-mipi-csi-0-5.c        |  2 +-
->  drivers/phy/mediatek/phy-mtk-tphy.c                |  2 +-
->  drivers/phy/mediatek/phy-mtk-xsphy.c               |  2 +-
->  drivers/phy/microchip/lan966x_serdes.c             |  2 +-
->  drivers/phy/microchip/sparx5_serdes.c              |  2 +-
->  drivers/phy/mscc/phy-ocelot-serdes.c               |  2 +-
->  drivers/phy/phy-core.c                             |  8 ++++----
->  drivers/phy/phy-xgene.c                            |  2 +-
->  drivers/phy/qualcomm/phy-qcom-qmp-combo.c          |  2 +-
->  drivers/phy/ralink/phy-mt7621-pci.c                |  2 +-
->  drivers/phy/renesas/phy-rcar-gen2.c                |  2 +-
->  drivers/phy/renesas/phy-rcar-gen3-usb2.c           |  2 +-
->  drivers/phy/renesas/r8a779f0-ether-serdes.c        |  2 +-
->  drivers/phy/rockchip/phy-rockchip-naneng-combphy.c |  2 +-
->  drivers/phy/rockchip/phy-rockchip-pcie.c           |  2 +-
->  drivers/phy/samsung/phy-exynos-mipi-video.c        |  2 +-
->  drivers/phy/samsung/phy-exynos5-usbdrd.c           |  2 +-
->  drivers/phy/samsung/phy-samsung-usb2.c             |  2 +-
->  drivers/phy/socionext/phy-uniphier-usb2.c          |  2 +-
->  drivers/phy/st/phy-miphy28lp.c                     |  2 +-
->  drivers/phy/st/phy-spear1310-miphy.c               |  2 +-
->  drivers/phy/st/phy-spear1340-miphy.c               |  2 +-
->  drivers/phy/st/phy-stm32-usbphyc.c                 |  2 +-
->  drivers/phy/tegra/xusb.c                           |  2 +-
->  drivers/phy/ti/phy-am654-serdes.c                  |  2 +-
->  drivers/phy/ti/phy-da8xx-usb.c                     |  2 +-
->  drivers/phy/ti/phy-gmii-sel.c                      |  2 +-
->  drivers/phy/xilinx/phy-zynqmp.c                    |  2 +-
->  drivers/pinctrl/tegra/pinctrl-tegra-xusb.c         |  2 +-
->  include/linux/phy/phy.h                            | 14 +++++++-------
->  46 files changed, 55 insertions(+), 55 deletions(-)
+Hi,
 
-Makes sense:
+This patch series adds initial support for RZ/V2H{P} (R9A09G057) SoC
+identification.
 
-Acked-by: Thierry Reding <treding@nvidia.com>
+The RZ/V2H{P} SoC is equipped with a Quad 64-bit Arm Cortex-A55 core
+(up to 1.8 GHz), dual 32-bit Arm Cortex R8 core (up to 800 MHz) and a
+32-bit Arm Cortex M33 core (up to 200 MHz). It supports the below
+IP blocks/Features:
+- Boot
+  * Selectable boot CPU from Cortex-M33 or Cortex-A55
+- Accelerated engines
+  * AI accelerator (dynamically reconfigurable processor for AI (DRP-AI))
+  * Dynamic re-configurable processor (DRP)
+  * 3D graphics engine (GE3D MALI-G31) (optional)
+  * Image signal processing (ISP MALI-C55) (optional)
+  * Image scaling unit (ISU)
+  * Video codec unit (VCU)
+- On-chip SRAM and external memory interfaces
+  * On-chip share SRAM (6-Mbyte with ECC)
+  * 2-channel memory controller for LPDDR4-3200 or LPDDR4X-3200 with a
+    32-bit bus width
+  * xSPI interface
+  * SDHI (eMMC/SD - 3ch)
+- Timers
+  * 32-bit general purpose timers (16 ch)
+  * 32-bit CMTW (8 ch)
+  * 32-bit GTM (8 ch)
+  * RTC
+  * WDT (4 ch)
+- Communication/storage /network interface
+  * Ethernet (2 ch: 10/100/1000 BASE)
+  * USB2.0 (1 ch: Host/Function, 1 ch: Host only)
+  * USB3.2 Gen2 (2 ch: Host only)
+  * PCIe Gen3 (1/2/4 lanes)
+  * MIPI CSI2 (4 ch: 1/2/4 lanes)
+  * MIPI DSI (1ch: 1/2/4 lanes)
+  * CAN/CANFD (6 ch)
+  * SCI (10 ch: UART/SPI/I2C)
+  * SCIF (1 ch)
+  * SPI (3 ch)
+  * I2C (9 ch)
+  * I3C (1 ch)
+- Audio
+  * Asynchronous sampling rate converter unit (SCU) (up to 192 kHz)
+  * DMAC for Audio (ADMAC) is available to transfer audio formats
+    of I2S with SCU.
+  * Flexible audio clock generator (ADG) for audio functions.
+  * I2S (TDM) input/output interfaces (half-duplex 10 ch.; full-duplex
+    5 ch.)
+  * SPDIF input/output interfaces (3 ch.)
+  * Pulse density modulation (PDM) input interfaces (6 ch.)
+- Analogue/Digital converter and sensors
+  * 2.5 Msps 12-bit ADC (8 ch)
+  * Internal temperature sensors (2 ch)
+- Security 
+  * Hardware cryptographic engine (optional)
 
---f0caf17c841197981a0b66a2ac604de0b745306e0ba899959bfe0165d31f
-Content-Type: application/pgp-signature; name="signature.asc"
+Logs:
 
------BEGIN PGP SIGNATURE-----
+~ # uname -ra
+Linux rz/v2h 6.8.0-rc5+ #167 SMP PREEMPT Mon Feb 19 10:42:01 GMT 2024 aarch64 GNU/Linux
+~ #
+~ # for i in machine family soc_id revision; do echo -n "$i: ";cat /sys/devices/
+soc0/$i; done
+machine: Renesas EVK based on r9a09g057h44
+family: RZ/V2H
+soc_id: r9a09g057
+revision: 0
+~ # cat /proc/cpuinfo
+processor       : 0
+BogoMIPS        : 48.00
+Features        : fp asimd evtstrm crc32 atomics fphp asimdhp cpuid asimdrdm lrcpc dcpop asimddp
+CPU implementer : 0x41
+CPU architecture: 8
+CPU variant     : 0x2
+CPU part        : 0xd05
+CPU revision    : 0
 
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmXTeqIACgkQ3SOs138+
-s6GdEBAAsZtqIRL7k6ZV5nu5N0juG6RO7Sm34o9+isHlbNUAhmDQeIXxdlWIF3qc
-ap2W/H4jLtQnrDaCtdFWa5oPx8Ud41AKoeOQRlZq6goHZemt2JbUyB5IzsMIL0KN
-FUGwvVEZdDnJbhe2+8YX0fN8WG4qpAYo7vrb1XsgP4RzGwgkwH64LbCOtoAoYtYl
-rOc7hn6eNJrIYlW1LaU37BApWV0KgdMiI1YSILAT5YJK24fYst7j//8UxyEQP4aO
-S+3uPr8/1K1JifAihpgqu7w5kyDcMW1ncoAamilKe2xDzz7wJ8wxtYcdypnwBSpd
-/+rhMybnEj2kgbDrSbY+LVlczSU6Wf/SEtZzB+DOCE4+CZrtFyMVsSgAeVXFT1n0
-L5vTh0182skHEAm97GXHwoQOmLND8wJJVZR+Sw1OApxEYI1Y8hTx33NrbA+5hiVq
-15m0Jq8NXvpd237p5obNfFNuDmK/BlMhlq3x+3/aWGqT+pRlavF1i0HP/wEV9YoC
-6zleWWkx9BAonksD76uhrk/LBnYnc3wb9O5B4KS6dp+tYE3ekIWauHxzhg4tpOcg
-FqcY6ObCs+Jjtplo4vtrTBR6A4jdvunJQcp4WqSO/5RkZd/ySVdSbpvCdK1yy/JM
-j7SSnUWV03IbkbGoBduin/a8YT84GAn3seVzxO0ik5dpZHGbAPM=
-=Z186
------END PGP SIGNATURE-----
+processor       : 1
+BogoMIPS        : 48.00
+Features        : fp asimd evtstrm crc32 atomics fphp asimdhp cpuid asimdrdm lrcpc dcpop asimddp
+CPU implementer : 0x41
+CPU architecture: 8
+CPU variant     : 0x2
+CPU part        : 0xd05
+CPU revision    : 0
 
---f0caf17c841197981a0b66a2ac604de0b745306e0ba899959bfe0165d31f--
+processor       : 2
+BogoMIPS        : 48.00
+Features        : fp asimd evtstrm crc32 atomics fphp asimdhp cpuid asimdrdm lrcpc dcpop asimddp
+CPU implementer : 0x41
+CPU architecture: 8
+CPU variant     : 0x2
+CPU part        : 0xd05
+CPU revision    : 0
+
+processor       : 3
+BogoMIPS        : 48.00
+Features        : fp asimd evtstrm crc32 atomics fphp asimdhp cpuid asimdrdm lrcpc dcpop asimddp
+CPU implementer : 0x41
+CPU architecture: 8
+CPU variant     : 0x2
+CPU part        : 0xd05
+CPU revision    : 0
+
+~ # cat /proc/meminfo
+MemTotal:       16240544 kB
+MemFree:        16201748 kB
+MemAvailable:   16073696 kB
+Buffers:               0 kB
+Cached:             2040 kB
+SwapCached:            0 kB
+Active:                0 kB
+Inactive:             68 kB
+Active(anon):          0 kB
+Inactive(anon):       68 kB
+Active(file):          0 kB
+Inactive(file):        0 kB
+Unevictable:        2040 kB
+Mlocked:               0 kB
+SwapTotal:             0 kB
+SwapFree:              0 kB
+Dirty:                 0 kB
+Writeback:             0 kB
+AnonPages:            84 kB
+Mapped:             1456 kB
+Shmem:                 0 kB
+KReclaimable:       2924 kB
+Slab:               8720 kB
+SReclaimable:       2924 kB
+SUnreclaim:         5796 kB
+KernelStack:        1056 kB
+PageTables:           40 kB
+SecPageTables:         0 kB
+NFS_Unstable:          0 kB
+Bounce:                0 kB
+WritebackTmp:          0 kB
+CommitLimit:     8120272 kB
+Committed_AS:        648 kB
+VmallocTotal:   133141626880 kB
+VmallocUsed:        1264 kB
+VmallocChunk:          0 kB
+Percpu:              352 kB
+HardwareCorrupted:     0 kB
+AnonHugePages:         0 kB
+ShmemHugePages:        0 kB
+ShmemPmdMapped:        0 kB
+FileHugePages:         0 kB
+FilePmdMapped:         0 kB
+CmaTotal:          32768 kB
+CmaFree:           26624 kB
+HugePages_Total:       0
+HugePages_Free:        0
+HugePages_Rsvd:        0
+HugePages_Surp:        0
+Hugepagesize:       2048 kB
+Hugetlb:               0 kB
+~ # cat /proc/interrupts
+           CPU0       CPU1       CPU2       CPU3
+ 11:       3426         66        291        243     GICv3  27 Level     arch_timer
+ 13:          0          0          0          0     GICv3 561 Level     11c01400.serial:rx err
+ 14:         15          0          0          0     GICv3 564 Level     11c01400.serial:rx full
+ 15:       1259          0          0          0     GICv3 565 Level     11c01400.serial:tx empty
+ 16:          0          0          0          0     GICv3 562 Level     11c01400.serial:break
+ 17:         82          0          0          0     GICv3 566 Level     11c01400.serial:rx ready
+ 18:          0          0          0          0     GICv3 563 Level     11c01400.serial:tx end
+IPI0:         5         20          8         23       Rescheduling interrupts
+IPI1:       530        204         91        155       Function call interrupts
+IPI2:         0          0          0          0       CPU stop interrupts
+IPI3:         0          0          0          0       CPU stop (for crash dump) interrupts
+IPI4:         0          0          0          0       Timer broadcast interrupts
+IPI5:         0          0          0          0       IRQ work interrupts
+Err:          0
+~ #
+
+Cheers,
+Prabhakar
+
+Lad Prabhakar (4):
+  dt-bindings: soc: renesas: Document Renesas RZ/V2H{P} SoC variants
+  dt-bindings: arm: renesas: Document Renesas RZ/V2H{P} System
+    Controller
+  soc: renesas: Add identification support for RZ/V2H SoC
+  arm64: defconfig: Enable R9A09G057 SoC
+
+ .../soc/renesas/renesas,r9a09g057-sys.yaml    | 59 +++++++++++++++++++
+ .../bindings/soc/renesas/renesas.yaml         |  8 +++
+ arch/arm64/configs/defconfig                  |  1 +
+ drivers/soc/renesas/Kconfig                   |  5 ++
+ drivers/soc/renesas/renesas-soc.c             | 20 ++++++-
+ 5 files changed, 92 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/devicetree/bindings/soc/renesas/renesas,r9a09g057-sys.yaml
+
+-- 
+2.34.1
+
 
