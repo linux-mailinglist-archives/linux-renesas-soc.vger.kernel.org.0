@@ -1,360 +1,201 @@
-Return-Path: <linux-renesas-soc+bounces-2967-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-2968-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9476185A90E
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 19 Feb 2024 17:38:28 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0EFAA85A914
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 19 Feb 2024 17:39:36 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4B258280EAD
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 19 Feb 2024 16:38:27 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 79EDFB207E9
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 19 Feb 2024 16:39:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 01AB1BA4D;
-	Mon, 19 Feb 2024 16:38:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 59FE33FE46;
+	Mon, 19 Feb 2024 16:39:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KFRSz/Gp"
+	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="LF32fE3b"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01on2063.outbound.protection.outlook.com [40.107.113.63])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27D263CF6B;
-	Mon, 19 Feb 2024 16:38:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.47
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708360706; cv=none; b=fCDj6nsuEha1WYhuFlyTVvXXwyRWKqBcq1oYWeqD7WJd2RR0J4TBk7VCyIAAmj8vI2wiNlVFE91es7KIQ0mFyIGZlzL/FCAJNgadLbyY5ZHJ2L85MoY05hbiiEdSqV/88JeVz14PBHYHQHhql4tDIBllTFTPQGwOOHTj6241o+0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708360706; c=relaxed/simple;
-	bh=B0McRFiVQ4zvQ0zQtJQLBXN492Rof6/KLgH56S0njgY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=u9Y/PCmM1TtLA0mcx5voDmTmSz9ptbrv/6Ml3lCrGWlGDSNbt11Q4jX8k+hj0DQsuzjuFwsvIwwl+eKjO/VD0+Na9HA2ECSb9moOmJis5h1dv6Rsab1I33juaKNI8CZMJYxo7SIWpFb9ZhHnAdTSc8AYBPOuNyhAohVZN4xPyCY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KFRSz/Gp; arc=none smtp.client-ip=209.85.216.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-2909a632e40so3203395a91.0;
-        Mon, 19 Feb 2024 08:38:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1708360704; x=1708965504; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=MphQCNHjjTUpCfQntf3thPefGsApaLmo+Ze0xknBPn4=;
-        b=KFRSz/Gp1Hc0n2sFM0l9ritqkfFCv1dmaDbQAwoizDpfReAlTqn2FfEkXIjuAf3uuD
-         TfJmlEDqn+K9DeZR003brFfZlZmvsIVv/NYnD+zomeLD4ywqGh03Sy9wY5YtBdxf4MnK
-         N6sK0dSN+nbcbJlI9QW5iWLcoaFnBqtflLJXawyaao5QzSmlVhUtewwiwx6qRMUUy1d+
-         ev1rd64Ax95cdhtvNsQvegUZ1VAJ3FOoHMgGopIufeYeKqXdRIgccQL5ayPqFMOeHGex
-         Df0aKqq1plIyo/qGF0qnLp174RwYeKq6WJx7stN8iRuL+rt2r2jSTlcfqWdzR0awpw47
-         fqUg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708360704; x=1708965504;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=MphQCNHjjTUpCfQntf3thPefGsApaLmo+Ze0xknBPn4=;
-        b=WvT0yi+G9/mFRdibBEoFDaAZd2xh3NAhbKyl9rquNRlmqW/CsiNb353KqPOKDg8hzb
-         3Wf3+9Z+OyaHwxPfEzaQ1kSz62i8Svrf3efGjTVXEcSVD+X/AdLcAAY6EAqj7mIX8nuM
-         V9hBxwvvuTK0Oi4mIt732fTNSFBRpuYY7BngTZn/4HwGyIpq9WL5rO5/GMDbJEAtayPh
-         N34WzrDISlYAbsVSDBACIOHz2+fhQMnyM5ek+RobKouA3fzAr6gO2hihYUgP8A1LlxrO
-         OgBNQ/NI9uowNj83jISYSW2oevQtZL+Pw/jY/E/o/wAIlsk1DfkerwQyj1ST2BLlEuXa
-         4OrA==
-X-Forwarded-Encrypted: i=1; AJvYcCV1T6UFk67IeHkPCpvGvOgfcNcMcjz/DfbaZPrI78QC+z1wn3SKjXaYwOefI5xMa6Cos4uRSbTCxKP5fOcgOtBfOd6/65zH4TCsksIz61YoVoiN/wDGz6MvnVxyb4Kotw6Eh8axWS4ypsUsI0+M3mw=
-X-Gm-Message-State: AOJu0YwUwb8qAMqcnQL0SDp7bMriNm7SMXWanrjUh/FHuoYixrsUcLk+
-	IJGNbbII9C7hxSElGVDjNcnkeCNXbhNeYXHvIB8TEnNEYGDkoVBDAEMKAjK+Ev9M4j6XQP1coL0
-	E8n5gY++DQgwredlrtWQiwCFaO6E=
-X-Google-Smtp-Source: AGHT+IGMquqVsiVFAvHYpiEy08vrbbMr27M6m+kodmL69uOLYyCtGxaqSJ1hgtPjTZJuNLz01YPEot/Q+Zp2MH8jooE=
-X-Received: by 2002:a17:90b:78e:b0:299:3e54:83fe with SMTP id
- l14-20020a17090b078e00b002993e5483femr6100831pjz.36.1708360704235; Mon, 19
- Feb 2024 08:38:24 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69047BA4D;
+	Mon, 19 Feb 2024 16:39:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.113.63
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1708360764; cv=fail; b=na85DeOFQhuu111HES3AEgC86EEE3TdglR/oXxLgx2AOcaJ9vXsIKA1CM7ruENheoEMK9nQW2Fxe9mN7Xn8ZWOlJP+DCnPHTzMIyUvcP6olK6LS9Szk/Hd674HbqNeCujtyHiO0+YU7/pZFjvwRZwJtY1LRrIEPmbJMcT4uf7xQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1708360764; c=relaxed/simple;
+	bh=PsxM3i5YkLIiyMUQTdfH4SV57N9AMTO/VuZZOai8HY4=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=Y0b5PcxZqeedK5/0lwYMeM/LtaMiMByZulrJlwJIllm5n4kY516uK3R95cRTTTDpRWNOhEEwezfcUfNRU4b/3/UTxE5GkYHdXkB7J1Tc8uJlhDKRWLNuyFSlrM2udRJ8MRrGv5CVQjiaqzKsVmEHmNAfTFSAkup/QiM7Y3Azmzo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=LF32fE3b; arc=fail smtp.client-ip=40.107.113.63
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=k/mj53K+O6cyitRJJDrAgXeAc9x9ENm12pd8RCgZZByFXIaGtVXLwGm0fx6JLdFuErGCSU5AH33ksH7H8lIB7W5/L7Ti3bpP9esnqFqfLod9XTLNmDXGiOoq/gEv74OBqIfoFBC5k3oE1a8KxNGKYx81+PvzhHZ2eX11534qI6jRdJqA5T0BgsrEbSvDd3vsDeyHCTYSUQvXpHaqDU4hZSPqPnaNT5tjBwAM8rGGov4LOa3J8eAhPNNddDrEGu4rW5iNB3+9n/LsyIPOcQR8HdNiL0lX8NjKPE0DYdNbJrW54rpymzFaULjjWUM2yFkeL/hKBrkHhi+AVsA4cIDefQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Qwd9pzNbURRLcpR2SdIP6TnvdArF7ZwUdW722siwo0o=;
+ b=U5GRHuq95591ufVnniA/uUCLKOWEDzgBQYX6WaBjKShY2V3ZyALygJMZM/swA9kQtZSNonqNMFcO2FBn+BD7K8cKe7cqpU79dIxnTuIN2uNmGyaZbFoBCoN2nGPuO5qD2gv3hS+afI1p6fwgb5on4u4PQPu0tqLZ59E+w8bLcK549ktcQ6o3+0H/IPHpToSyKFcUfOyiLkimOUvHuHvcEgQfz1xQ0Uesk3N8J3ImzdjrkA05x1F4rLxEn/0e2MrsWWfmiY01M0y5JUMGybPr3DLS8pvAdnd5bxg06Q66p/5phV6j1d1iHfle1Lq2Hk0pTKkR4jjnf8cKeTJRirvzbQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Qwd9pzNbURRLcpR2SdIP6TnvdArF7ZwUdW722siwo0o=;
+ b=LF32fE3bNCTbPxY76CGYnx5fNLkwqkqcbrRjYS2GsyDfD8p8xPMgmMNrciz12Fvb5ovcCBcGfnUSPpn/hM160tajsMNuJWPdjXusD9iGo0tiJB0Dpw0bClTkygIoNW8LlOt53mgbr/MGKJpd41GPY8yhXXjhuK9qh0E0d7PANT4=
+Received: from TYCPR01MB11269.jpnprd01.prod.outlook.com
+ (2603:1096:400:3c0::10) by TY3PR01MB10906.jpnprd01.prod.outlook.com
+ (2603:1096:400:3af::14) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7292.39; Mon, 19 Feb
+ 2024 16:39:16 +0000
+Received: from TYCPR01MB11269.jpnprd01.prod.outlook.com
+ ([fe80::6719:535a:7217:9f0]) by TYCPR01MB11269.jpnprd01.prod.outlook.com
+ ([fe80::6719:535a:7217:9f0%3]) with mapi id 15.20.7292.036; Mon, 19 Feb 2024
+ 16:39:12 +0000
+From: Biju Das <biju.das.jz@bp.renesas.com>
+To: Marc Zyngier <maz@kernel.org>
+CC: "tip-bot2@linutronix.de" <tip-bot2@linutronix.de>,
+	"apatel@ventanamicro.com" <apatel@ventanamicro.com>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-tip-commits@vger.kernel.org" <linux-tip-commits@vger.kernel.org>,
+	"tglx@linutronix.de" <tglx@linutronix.de>, "geert@linux-m68k.org"
+	<geert@linux-m68k.org>, "linux-renesas-soc@vger.kernel.org"
+	<linux-renesas-soc@vger.kernel.org>, "x86@kernel.org" <x86@kernel.org>
+Subject: RE: [tip: irq/msi] genirq/irqdomain: Remove the param count
+ restriction from select()
+Thread-Topic: [tip: irq/msi] genirq/irqdomain: Remove the param count
+ restriction from select()
+Thread-Index: AQHaY0xEHQLbVUfX4UK7vyFU3LSMSrER3V2Q
+Date: Mon, 19 Feb 2024 16:39:12 +0000
+Message-ID:
+ <TYCPR01MB1126923108E3966F53FF479F286512@TYCPR01MB11269.jpnprd01.prod.outlook.com>
+References: <170802702416.398.14922976721740218856.tip-bot2@tip-bot2>
+	<20240127161753.114685-3-apatel@ventanamicro.com>
+ <867cj04fcl.wl-maz@kernel.org>
+In-Reply-To: <867cj04fcl.wl-maz@kernel.org>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=bp.renesas.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: TYCPR01MB11269:EE_|TY3PR01MB10906:EE_
+x-ms-office365-filtering-correlation-id: 78a47f1d-f770-48a3-07bf-08dc31694dc1
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info:
+ DBILgGjTWK7wGAXj2qmuIZ53XgVZZYJWh/319qPP/+hMkL4s9R0b3oU1JLQ/TCLAZNXzow9jNdwgxzHWDztM0Bex7qNF6hpixrdn1+tzc8k/69+2mvhfoRavQCNOIzKWr003MU6fJPwLrJcFUAvcECeKIw47I9FFoWVndqME8dZ31cC0o5O1mZgRLq2xsiOgrwaHWF0mWDkY/+K0OEXI+F0fX48hbSrFuBpIHr0HhVR5WF9xOUGgsciaEXaiiA688Lt+Kbycrz4tt7cRCYgEPLQ3wTJC9mRFM+YHyoVR+Hvzb3IKii42W7BhdfI72DPafrPGthTr+BuBwzT06SSgU/dCATS9DCl/XQsD+FYIZNTAj2+hPfL3tZzfnzAzwqcBsLplvZ37wP0+1ZfRtp1/Kq8r2ZoTaCsyu18ZnYc2hcGIjMXfr/zJf0b2JAVScIPEp7tIUszcKjRpQfn209Gr4NmJtGQCFLZ6cqXw4qWCNZjwJhFAgFrH7mJuAEAdOBnpXzAFm4NA8CmBq9q1giq1fwOn7RX6aeJInpXfVztNlbfpjYGuL+X4UDCOG5uaF+SWAtPPxS+wCZyQLksW3vtpvSUt7qmJV5C2bzGlMVjIoX1m1ryaVLrO16pZxcrahQbL
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB11269.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(38070700009);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?us-ascii?Q?MoKbUD0i/Rwup+VwL2VcTB8/2YoYqbxZOqkMxAMkmU2MYjt2xLxIvTnwaiZJ?=
+ =?us-ascii?Q?yQEUHLnQEIB4VKLIH2y6RE3Afu1+AwlPwENM5fMj/liGZJJTC9kyW6z1TGVZ?=
+ =?us-ascii?Q?k4hYkWOVnR2cmIZd+VG+rqCBg5Dj12TGcIiKXuV0L3TVeAxeYuadBATfFBbZ?=
+ =?us-ascii?Q?7Mr3F8W7MFL4/nARluUHEAK1CWApJOaPfBqEXcExHKGhvcxcUHXzM69PfNf7?=
+ =?us-ascii?Q?n5YQvdhQx+u6fv3E8YAlW1G4mwWrSsVGClv5ji/MIGhVRyr8XqNbnl5oZkZr?=
+ =?us-ascii?Q?+qruLYva6M9rxV9sLZclIhX8qQQ4Ionki3qkmTTfr/APnFe29IWVcphcNrvK?=
+ =?us-ascii?Q?XcxmvnbveWYQE9N9v4F9MIq0Le6ORx48q6PK9I+3/XyVSV7gZ7c/5qxmbv2w?=
+ =?us-ascii?Q?0CFs9jQkdTsypCHbgX9xfvTAUfhwsQdWOFu0kVOQdFPMw4gZau5mfB7QFmnJ?=
+ =?us-ascii?Q?tHB40tzcvjW/ohTMmh74nuLCYvL+JQBnmzeyDbdu3WZfviaiuofLcy66brEj?=
+ =?us-ascii?Q?VA07C5fRa5ac7MsZbN9/KaVNTkGLER2YaB8FlCA5fvdkSaj9Uj+1rYWayX0i?=
+ =?us-ascii?Q?GLyihBQWR4ayHnhLcX7M1kavik64RNiBE20cM9XVunOsYHjNdWrOwz1fx1tK?=
+ =?us-ascii?Q?4clQUbJIlrKrsNVW9f63EHZozlYdeQozJzOI54T4ANknS/XdAPOcRBXvqhOE?=
+ =?us-ascii?Q?vq2HnLVS47/qwRyOatfHC1izCHgs67ERVGboCSZ5voyICwqGSpztMmSTRy1M?=
+ =?us-ascii?Q?W+Ce+IAJNuBG9jKmRtH0DGGTKDW62bgb/8WpvKviUFAbsqTHHGEK+ndr5cZJ?=
+ =?us-ascii?Q?7umfj1VC9UJpE79d/VptQTUYTuZ774FSHNCzKUocOip3sGmI1LkD26T4P0Id?=
+ =?us-ascii?Q?Af79nJ5nLPxIkvJL8YIpOkjyVH/lL0UYQYrT6GHp8COKxh2JUTRpDf3V1fer?=
+ =?us-ascii?Q?PHw63KU+fOueW7XioTJfVgIecxYgo7ftBhnQ11c+GqgTZEGgaHwvfVrwfczi?=
+ =?us-ascii?Q?1ktnmlH5cKVvk9z+a0861dbo7A9REWRUoVS6Mj7wpwmwR/+4rkr5tb8DGPDe?=
+ =?us-ascii?Q?7DntsjSbP+o6Y6PUtOrPvROCsqi57WuqUgvsGoe4yL/luXFZm1jCU5Hg0HzL?=
+ =?us-ascii?Q?J2F0QQLK08hJ/xNdXdoPnS/3mPAERGS9nmeK3h9MreDJqYzqcp2Msrc+1emi?=
+ =?us-ascii?Q?ugTdwKl7Yq/g2fm7paOaxrw9EqLVtRZ1m2nZYDkWq1EiVva6KvaBvzjjrbX9?=
+ =?us-ascii?Q?TfqN0QdkAy9vl0CwDgha3CHpN5EmTwZnGTqeMKHsSi2uW0b/lAF6ROLJ9e14?=
+ =?us-ascii?Q?WZ/qJmt2puCqe6q0YPRpsQ2Gl6DovNbBBeV8aKHXPOjzIHVLZoSvQ7te+f+i?=
+ =?us-ascii?Q?vgVkg18Q9loJXNdc5YOe1UQW7P8LlnLRNY4hvNZ35qdf0vGyE75H5+pmWODA?=
+ =?us-ascii?Q?OsZAQ1P06p1D6I1zCslramlAcl85hEp5FHufnpp6c7eefYKSNn9+twvSaV1K?=
+ =?us-ascii?Q?od+vE6YoZBmk7LAlEp1ZyOIKLbwRAIW7pfRVy1uB3EnlMU8PPUihIm139OVB?=
+ =?us-ascii?Q?Be+zwho7s7qyzHOIXrLrY5Duy27oL72PTB0WWTA0BIvlI0GC3iZxc9gcn5jM?=
+ =?us-ascii?Q?Jw=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <6be2558b8462fc08095c24c9257563ab5f3ae013.1708001398.git.geert+renesas@glider.be>
- <kycepdxukfsww3tnxoo5hoiuo3vcgpqqmynokzhtl4vodgm6zc@ih4uhw7gz4jh>
- <CAMuHMdVf7ophCwKt-n_N-LBHV4+t14Gjb4d1O0T8FDk_9xMFtA@mail.gmail.com>
- <CAHCN7xJ65RP8TO7cS0p5DwE6zru5NEF0_JA+8siT_OpSeLD7pA@mail.gmail.com>
- <CAHCN7x+EnSU8qk5dBFco=0vkeknGq18qEN7vFmZs0_q83T_3+w@mail.gmail.com>
- <CAHCN7xKffJ29zyjoJVAcy3b_d=-zkFzbL=URj4yWJWzYvRdB_Q@mail.gmail.com>
- <TYCPR01MB11269CBE8429A31DE5002A5A5864C2@TYCPR01MB11269.jpnprd01.prod.outlook.com>
- <nzrkujogauvn262ucxippwidyub6ikcohcjpbpn4hzj7rymctm@4owntgrmcquf>
- <TYCPR01MB11269CBAA20275E11D9AD6500864C2@TYCPR01MB11269.jpnprd01.prod.outlook.com>
- <wxwad77x2mxhhwdsbgiytzn6x54t4sywodjhzefwldo277njiz@ru7z54wxgelu>
- <CAHCN7xJi-6W6x+OJmkNwOX45SM4WHD5zkN42ZOp8ZxFnp3YL5w@mail.gmail.com> <TYCPR01MB11269B2104687F091CFA3405F86512@TYCPR01MB11269.jpnprd01.prod.outlook.com>
-In-Reply-To: <TYCPR01MB11269B2104687F091CFA3405F86512@TYCPR01MB11269.jpnprd01.prod.outlook.com>
-From: Adam Ford <aford173@gmail.com>
-Date: Mon, 19 Feb 2024 10:38:12 -0600
-Message-ID: <CAHCN7x+BVYoeDC+Rt4PV-dxyMZ-0GyYfiRcXwmVWwursz5NAfg@mail.gmail.com>
-Subject: Re: RE: RE: [PATCH v2] drm/imagination: DRM_POWERVR should depend on ARCH_K3
-To: Biju Das <biju.das.jz@bp.renesas.com>
-Cc: Maxime Ripard <mripard@kernel.org>, Geert Uytterhoeven <geert@linux-m68k.org>, 
-	Frank Binns <frank.binns@imgtec.com>, Matt Coster <matt.coster@imgtec.com>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
-	Sarah Walker <sarah.walker@imgtec.com>, 
-	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
-	Javier Martinez Canillas <javierm@redhat.com>, Nishanth Menon <nm@ti.com>, Marek Vasut <marek.vasut@mailbox.org>, 
-	Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB11269.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 78a47f1d-f770-48a3-07bf-08dc31694dc1
+X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Feb 2024 16:39:12.5483
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: DUys9nRVtyXNMoPgopRBF5fX6sqcC5Vayw0e2B0MQ9MdF0BcRpEMOLPOwOQ9zE2Ua9eTRIzJhgM3mepONQHkCgqSS3mQx1NAGZ5gou8mbEs=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY3PR01MB10906
 
-On Mon, Feb 19, 2024 at 1:45=E2=80=AFAM Biju Das <biju.das.jz@bp.renesas.co=
-m> wrote:
->
-> Hi Adam,
->
-> > -----Original Message-----
-> > From: Adam Ford <aford173@gmail.com>
-> > Sent: Sunday, February 18, 2024 11:26 PM
-> > Subject: Re: RE: RE: [PATCH v2] drm/imagination: DRM_POWERVR should dep=
-end
-> > on ARCH_K3
-> >
-> > On Fri, Feb 16, 2024 at 8:14=E2=80=AFAM Maxime Ripard <mripard@kernel.o=
-rg> wrote:
-> > >
-> > > On Fri, Feb 16, 2024 at 09:13:14AM +0000, Biju Das wrote:
-> > > > Hi Maxime Ripard,
-> > > >
-> > > > > -----Original Message-----
-> > > > > From: Maxime Ripard <mripard@kernel.org>
-> > > > > Sent: Friday, February 16, 2024 9:05 AM
-> > > > > Subject: Re: RE: [PATCH v2] drm/imagination: DRM_POWERVR should
-> > > > > depend on
-> > > > > ARCH_K3
-> > > > >
-> > > > > On Fri, Feb 16, 2024 at 08:47:46AM +0000, Biju Das wrote:
-> > > > > > Hi Adam Ford,
-> > > > > >
-> > > > > > > -----Original Message-----
-> > > > > > > From: Adam Ford <aford173@gmail.com>
-> > > > > > > Sent: Thursday, February 15, 2024 11:36 PM
-> > > > > > > Subject: Re: [PATCH v2] drm/imagination: DRM_POWERVR should
-> > > > > > > depend on
-> > > > > > > ARCH_K3
-> > > > > > >
-> > > > > > > On Thu, Feb 15, 2024 at 11:22=E2=80=AFAM Adam Ford <aford173@=
-gmail.com>
-> > wrote:
-> > > > > > > >
-> > > > > > > > On Thu, Feb 15, 2024 at 11:10=E2=80=AFAM Adam Ford
-> > > > > > > > <aford173@gmail.com>
-> > > > > wrote:
-> > > > > > > > >
-> > > > > > > > > On Thu, Feb 15, 2024 at 10:54=E2=80=AFAM Geert Uytterhoev=
-en
-> > > > > > > > > <geert@linux-m68k.org> wrote:
-> > > > > > > > > >
-> > > > > > > > > > Hi Maxime,
-> > > > > > > > > >
-> > > > > > > > > > On Thu, Feb 15, 2024 at 5:18=E2=80=AFPM Maxime Ripard
-> > > > > > > > > > <mripard@kernel.org>
-> > > > > > > wrote:
-> > > > > > > > > > > On Thu, Feb 15, 2024 at 01:50:09PM +0100, Geert
-> > > > > > > > > > > Uytterhoeven
-> > > > > > > wrote:
-> > > > > > > > > > > > Using the Imagination Technologies PowerVR Series 6
-> > > > > > > > > > > > GPU requires a proprietary firmware image, which is
-> > > > > > > > > > > > currently only available for Texas Instruments K3
-> > > > > > > > > > > > AM62x SoCs.  Hence add a dependency on ARCH_K3, to
-> > > > > > > > > > > > prevent asking the user about this driver when
-> > > > > > > > > > > > configuring a kernel without Texas Instruments K3
-> > > > > > > Multicore SoC support.
-> > > > > > > > > > >
-> > > > > > > > > > > This wasn't making sense the first time you sent it,
-> > > > > > > > > > > and now that commit log is just plain wrong. We have
-> > > > > > > > > > > firmwares for the G6110, GX6250, GX6650, BXE-4-32, an=
-d
-> > > > > > > > > > > BXS-4-64 models, which can be found on (at least)
-> > > > > > > > > > > Renesas, Mediatek, Rockchip, TI and StarFive, so
-> > > > > > > > > > > across three
-> > > > > > > > > >
-> > > > > > > > > > I am so happy to be proven wrong!
-> > > > > > > > > > Yeah, GX6650 is found on e.g. R-Car H3, and GX6250 on e=
-.g.
-> > > > > > > > > > R-Car M3-
-> > > > > > > W.
-> > > > > > > > > >
-> > > > > > > > > > > architectures and 5 platforms. In two months.
-> > > > > > > > > >
-> > > > > > > > > > That sounds like great progress, thanks a lot!
-> > > > > > > > > >
-> > > > > > > > > Geert,
-> > > > > > > > >
-> > > > > > > > > > Where can I find these firmwares? Linux-firmware[1]
-> > > > > > > > > > seems to lack all but the original K3 AM62x one.
-> > > > > > > > >
-> > > > > > > > > I think PowerVR has a repo [1], but the last time I
-> > > > > > > > > checked it, the BVNC for the firmware didn't match what
-> > > > > > > > > was necessary for the GX6250 on the RZ/G2M.  I can't
-> > > > > > > > > remember what the corresponding R-Car3 model is.  I
-> > > > > > > > > haven't tried recently because I was told more
-> > > > > > > > > documentation for firmware porting would be delayed until
-> > everything was pushed into the kernel and Mesa.
-> > > > > > > > > Maybe there is a better repo and/or newer firmware somewh=
-ere
-> > else.
-> > > > > > > > >
-> > > > > > > > I should have doubled checked the repo contents before I
-> > > > > > > > sent my last e-mail , but it appears the firmware  [2] for
-> > > > > > > > the RZ/G2M, might be present now. I don't know if there are
-> > > > > > > > driver updates necessary. I checked my e-mails, but I didn'=
-t
-> > > > > > > > see any notification, or I would have tried it earlier.
-> > > > > > > > Either way, thank you Frank for adding it.  I'll try to tes=
-t
-> > when I have some time.
-> > > > > > > >
-> > > > > > >
-> > > > > > > I don't have the proper version of Mesa setup yet, but for
-> > > > > > > what it's worth, the firmware loads without error, and it
-> > doesn't hang.
-> > > > > >
-> > > > > > Based on [1] and [2],
-> > > > > >
-> > > > > > kmscube should work on R-Car as it works on RZ/G2L with panfros=
-t
-> > > > > > as earlier version of RZ/G2L which uses drm based on RCar-Du,
-> > > > > > later changed
-> > > > > to rzg2l-du.
-> > > > >
-> > > > > IIRC, the mesa support isn't there yet for kmscube to start.
-> > > >
-> > > > What about glmark2? I tested glmark2 as well.
-> > >
-> > > It's not really a matter of kmscube itself, but the interaction with
-> > > the compositor entirely. You can run a headless vulkan rendering, but
-> > > an application that renders to a window won't work.
-> >
-> > I have made a little progress.  I have Ubuntu running on an RZ/G2M (Rog=
-ue
-> > GX6250) with a device tree configuring the GPU and the GPU loads with
-> > firmware.
-> >
-> >   powervr fd000000.gpu: [drm] loaded firmware
-> > powervr/rogue_4.45.2.58_v1.fw
-> >   powervr fd000000.gpu: [drm] FW version v1.0 (build 6513336 OS)
-> >   [drm] Initialized powervr 1.0.0 20230904 for fd000000.gpu on minor 0
-> >
-> > drmdevice lists card0 and renderD128
-> > --- Checking the number of DRM device available ---
-> > --- Devices reported 2 ---
-> > --- Retrieving devices information (PCI device revision is ignored) ---
-> > device[0]
-> > +-> available_nodes 0x05
-> > +-> nodes
-> > |   +-> nodes[0] /dev/dri/card0
-> > |   +-> nodes[2] /dev/dri/renderD128
-> > +-> bustype 0002
-> > |   +-> platform
-> > |       +-> fullname /soc/gpu@fd000000
-> > +-> deviceinfo
-> >     +-> platform
-> >         +-> compatible
-> >                     renesas,r8a774a1-gpu
-> >                     img,img-axe
-> >
-> > There is more to this dump, but it seems to repeat. I wanted to show th=
-at
-> > it seems like it's trying to work.
-> >
-> > I think I need to modify the powervr code in mesa to recognize the
-> > renesas,r8a774a1-gpu and associate it with the rcar-du, but I am not su=
-re,
-> > and I am hoping someone might be able to provide some guidance, since I
-> > think I am missing something somewhere. I modified pvr_device.c in the
-> > mesa driver to attempt do this:
-> >
-> > /* This is the list of supported DRM render/display driver configs. */
-> > static const struct pvr_drm_device_config pvr_drm_configs[] =3D {
-> >    DEF_CONFIG("mediatek,mt8173-gpu", "mediatek-drm"),
-> >    DEF_CONFIG("ti,am62-gpu", "ti,am625-dss"),
-> >    DEF_CONFIG("renesas,r8a774a1-gpu", "rcar-du"), };
-> >
-> > When I run modetest -M rcar-du, I can see the encoders and connectors a=
-nd
-> > I can display test patterns, so the rcar-du is working.
-> >
-> > I built Mesa 24.0.1 with the following options:
-> >
-> > meson setup builddir -Dvulkan-drivers=3Dimagination-experimental
-> > -Dimagination-srv=3Dtrue -Dtools=3Dall -Dgallium-drivers=3Dzink,kmsro,s=
-wrast
-> >
-> > I have tried to set PVR_I_WANT_A_BROKEN_VULKAN_DRIVER=3D1 the Mesa
-> > documentation for the powerVR, and I have exported the variable for
-> > VK_ICD_FILENAMES to point to the powervr json file.
-> >
-> > when I try to run glmark2-drm, I was expecting the GL reddered to be th=
-e
-> > powervr, but it keeps using the
-> > GL_RENDERER:    llvmpipe (LLVM 15.0.7, 128 bits)
-> >
-> > I realize this driver is still in its infancy, but I was hoping someone
-> > could give me some guidance to let me know if the work to do is on the
-> > Mesa side or the rcar-du driver side, or something else.
-> >
-> > I rebuilt both libdrm and mesa.  While I don't get any errors, I also
-> > don't get the hardware acceleration I was hoping for.
-> >
-> > I even tried  PVR_I_WANT_A_BROKEN_VULKAN_DRIVER=3D1
-> > MESA_LOADER_DRIVER_OVERRIDE=3Dzink MESA_DEBUG=3Dcontect glmark2-drm
-> >
-> > ...but it only renders with llvmpipe
-> >
-> >     glmark2 2023.01
-> > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D
-> >     OpenGL Information
-> >     GL_VENDOR:      Mesa
-> >     GL_RENDERER:    llvmpipe (LLVM 15.0.7, 128 bits)
-> >     GL_VERSION:     4.5 (Compatibility Profile) Mesa 24.0.1
-> >     Surface Config: buf=3D32 r=3D8 g=3D8 b=3D8 a=3D8 depth=3D32 stencil=
-=3D0 samples=3D0
-> >     Surface Size:   3840x2160 fullscreen
-> >
-> >
-> > I am not as familiar with the Mesa side, but if I can get this working =
-to
-> > a point where something is rendered, even if it's not 100% compliant, I=
-'d
-> > like to push patches to the kernel and/or Mesa if necessary.
->
-> FYI, the glmark2 I tested on RZ/G2L with panfrost is with wayland window =
-system [1].
->
-> Maybe there should be an panfrost equivalent package for powevr is availa=
-ble in mesa??
-> That is the only difference w.r.to panfrost.
->
-> PACKAGECONFIG_append_pn-mesa =3D " egl kmsro panfrost"
->
+Hi Marc Zyngier,
 
-I am not using Yocto, because I am using Ubuntu, but I have build Mesa
-per the instructions they provided, but the glue that connects the
-powervr to the rcar-du isn't as clear.  I looked at the panfrost
-implementation, but I didn't see anything obvious.   It looks like the
-panfrost integrates with the kms driver, which I was rather expecting
-powervr would do.  I can tell the mesa library is build built and
-loaded but it's not attempting to use it for some reason
+Thanks for the feedback.
 
-The GX6250 that is supported looks like it needs some additional
-look-up-tables added to src/imagination/common/pvr_device_info.c
-inside Mesa because the LUT they have is for a different BVNC despite
-the firmware for the BVNC being posted.  I'll have to see if I can
-find documentation for the the features that are enabled or not within
-this variant of the the GX6250.
+> -----Original Message-----
+> From: Marc Zyngier <maz@kernel.org>
+> Sent: Monday, February 19, 2024 3:57 PM
+> Subject: Re: [tip: irq/msi] genirq/irqdomain: Remove the param count
+> restriction from select()
+>=20
+> On Mon, 19 Feb 2024 15:50:36 +0000,
+> Biju Das <biju.das.jz@bp.renesas.com> wrote:
+> >
+> > > Now that the GIC-v3 callback can handle invocation with a fwspec
+> > > parameter count of 0 lift the restriction in the core code and
+> > > invoke select() unconditionally when the domain provides it.
+> >
+> > This patch breaks on RZ/G2L SMARC EVK as of_phandle_args_to_fwspec
+> > count() is called after irq_find_matching_fwspec() is causing
+> > fwspec->param_count=3D0 and this results in boot failure as the patch
+> removes the check.
+> >
+> > Maybe we need to revert this patch or fix the fundamental issue.
+> >
+> > Cheers,
+> > Biju
+> > ---
+> >  kernel/irq/irqdomain.c | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/kernel/irq/irqdomain.c b/kernel/irq/irqdomain.c index
+> > 0bdef4f..8fee379 100644
+> > --- a/kernel/irq/irqdomain.c
+> > +++ b/kernel/irq/irqdomain.c
+> > @@ -448,7 +448,7 @@ struct irq_domain *irq_find_matching_fwspec(struct
+> irq_fwspec *fwspec,
+> >  	 */
+> >  	mutex_lock(&irq_domain_mutex);
+> >  	list_for_each_entry(h, &irq_domain_list, link) {
+> > -		if (h->ops->select && fwspec->param_count)
+> > +		if (h->ops->select)
+> >  			rc =3D h->ops->select(h, fwspec, bus_token);
+> >  		else if (h->ops->match)
+> >  			rc =3D h->ops->match(h, to_of_node(fwnode), bus_token);
+> >
+> >
+>=20
+> Dmitry posted his take on this at [1], and I have suggested another
+> possible fix in my reply.
+>=20
+> Could you please give both patches a go?
 
-adam
+I tested and confirm both the patches looks good.
 
->
-> [1] https://renesas.info/wiki/RZ-G/Panfrost_for_RZG2L
->
->
-> Cheers,
-> Biju
->
+Cheers,
+Biju
 
