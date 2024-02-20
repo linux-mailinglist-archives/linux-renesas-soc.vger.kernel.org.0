@@ -1,175 +1,172 @@
-Return-Path: <linux-renesas-soc+bounces-2998-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-2999-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE1B385BB59
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 Feb 2024 13:04:44 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 15C8D85BB86
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 Feb 2024 13:12:05 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4CC931F21BA7
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 Feb 2024 12:04:44 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4808B1C21316
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 Feb 2024 12:12:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9AEE167C4F;
-	Tue, 20 Feb 2024 12:04:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 50926664D8;
+	Tue, 20 Feb 2024 12:12:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fgQBv/nX"
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="Tgk4Nf+y"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com [209.85.215.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2208D67C49;
-	Tue, 20 Feb 2024 12:04:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 678EB67C6A;
+	Tue, 20 Feb 2024 12:12:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.19.142
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708430681; cv=none; b=hA6VJNt/9xx0QHLIHDkwXNDlBE1Ygg4QPKNmi+r0tkRBRvyPaz9dyffPt3XbQc9H8IX19kv2QzRcgDtTm1oW5dfk4BKPG6WHXl16tyUd5esDDKyy+c4JiTirU+Gp+MZgtIHbg8TgJj1rdlCm0MYEGsPA5ArT8SyeljODOgghHoA=
+	t=1708431122; cv=none; b=kJfv2WiZcZ0pm1ENuluuMD8krDZlNOT5lmLjvubcVqVf0IbE/wjFUP27slH3cVO8zxLkIu5+tDrW69yUEwrAG29NI2iTzZrUxlNEed+aAnI8WKCcrPKx9VId0M9d+j9AuLTNRDriSeUlP8B0HSQs/6XPDJuTcWMhEhXjSew7R1I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708430681; c=relaxed/simple;
-	bh=NMxXY8qLWUFDFPDwVo2AoNEULzAuOWuCJ+7a6zWgKP4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=WVIgBw3pm3O9bHlRiMTqZ2iFaP+OY7rJ6s6I0oxqEZvJyUp+sqIwEMW/KGmV8mC658LupZh7/ypOZW4DHOEvEp9vbzlXYF4MnmeMZDcUsSM6IHwmv7DEqj/JfP1y3ZY1DbkP5uofXH78pEqlFzV2hlWeUtKmqiL5lZoESgWlGx0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fgQBv/nX; arc=none smtp.client-ip=209.85.215.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pg1-f170.google.com with SMTP id 41be03b00d2f7-5d42e7ab8a9so3768241a12.3;
-        Tue, 20 Feb 2024 04:04:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1708430679; x=1709035479; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=zDBRaKbHpejHAGpTHH0nWNbFRLIF5jgQi6ysnBvVmt0=;
-        b=fgQBv/nX1orVhX9DcNsIROKrM4zk3urJHmTp36jCg2NIgMfM32iV/rTXya4UoFAI86
-         isGtDRetRXJklJyzWXUZ3YjWWmqOqUSTanGRvxPoOuZOdLiRJAAcok8cqn/msrjsd2S6
-         o0gcvGO02CLdE0yEe0UiskT7fq05JPw/dIvd7eoKUNzyVGx10hyTH5W9k93L7RJlTk4R
-         3uKqApT2u6Eh+yY+0GfxyflQFImYn9Y+BlRKg2VR7HT2npHWo2JXlklrfwdOenNwMkZw
-         gqAAwGOj+wGq3YAIgLdGzqGVK7hqT3H2tXSR5XV7WKiUyzRmHpMuKlKkg2M+C+Og8V1f
-         ijgw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708430679; x=1709035479;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=zDBRaKbHpejHAGpTHH0nWNbFRLIF5jgQi6ysnBvVmt0=;
-        b=PtJpnQvoxbnUl4+bKwlGsNQya6MWwaFItErpJ6rMio8sGmZcLigTXUUt1Rsz1n3Y63
-         gg7Hn0LwC3c021hONCnWVaBm33UM1ujaCyQy/Em9wRsTNJRQWy2AdcDCIYiPabyQxLyh
-         zhIZKN7s6nQiD5MJ+oulvBgB/s8ct6pucPICi8XDlZqa61gq7wClyBkaffDcs8FVTZxE
-         KJv7lp3BtUgwh7JZybWSva/yKpJHm5qXRETlhUQorYs8FKllQjpy44b2Aiob1uCuJL7W
-         uHd/Xm2XfVP5zNHGV5amxnEyCxQDYgt5vt52DUwpn2yrKBCSESY0EvLVE0qlWPLGl0dd
-         sX6A==
-X-Forwarded-Encrypted: i=1; AJvYcCXeiHx5nVA7eeX+K8Gesq6oTqwtxDTSgRlgjBfOxTeXI5HvZLjsmeOaLftrMKISLiO+rLPksZrOVykeLrrS793LCq/IPVicTyr8F0pdBNbFepopo5S9dijI275L7JJquW0olQ7Ho0jo09YyeXD+OeA=
-X-Gm-Message-State: AOJu0YwvkoXp0NLMxRXlNsZwNPD7hhTd/ZjGbmfqZRm99X3H1hTcW3DC
-	M7Anehzid3vVbPVmKIc6tkz53HIF1las842UefbUlMGI+LzDte5qrlmigN1IFRhfIEVhwFMYMqK
-	8giH4uWQh7tjhDvVXnx1iM7yfDvA=
-X-Google-Smtp-Source: AGHT+IE+xNffM8hIAHyiibi9RnqLVskBkXY85ndUTCPz4ZsN3JK4L6DHi+NGk+WmCf5wE0DfCBLkrrwZHjEe0ZaCeyY=
-X-Received: by 2002:a05:6a21:8183:b0:19e:9143:2ab5 with SMTP id
- pd3-20020a056a21818300b0019e91432ab5mr9769195pzb.25.1708430669536; Tue, 20
- Feb 2024 04:04:29 -0800 (PST)
+	s=arc-20240116; t=1708431122; c=relaxed/simple;
+	bh=VQwdwkiqF7atE4ZGt/XQ1+JYNrmZCk8qg42wHIdGyEA=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=IYws9AJl6aVz+hTeDfH268mtaPG1iyin241lnYsTGoZkjniqOpvtC9YdynF0X1wfoBCErE0rznHGIoqNg1Z8bEpvebBz1yki6aNM83Y0S3/MBQmIWU9IS57OgLAs7zXbosyB+TyY6hULXlVSKX2C0FbrIV0r/pwcWDQSR+vWTt4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=Tgk4Nf+y; arc=none smtp.client-ip=198.47.19.142
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
+Received: from fllv0034.itg.ti.com ([10.64.40.246])
+	by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 41KCBgP8088721;
+	Tue, 20 Feb 2024 06:11:42 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+	s=ti-com-17Q1; t=1708431102;
+	bh=A1Wnhtv/mj8FTbw6kpoNXtyq830Vf6qti0CsRifKZCM=;
+	h=Date:From:To:CC:Subject:References:In-Reply-To;
+	b=Tgk4Nf+ywcowy+vjLIs8yyUUYlDeNgBzmIYjyHODprN4yxMW60DRZUpYZTAVszA4x
+	 ySv6zp5dWUNYFpAYafdIHIYKOm+55czngq/QDKqmW0DQq1JPbKG0vHUhoPEMG19eLo
+	 AZJXSBuBDNleq526lvOXsStT7ThwdQn1oDZqcpRw=
+Received: from DLEE100.ent.ti.com (dlee100.ent.ti.com [157.170.170.30])
+	by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 41KCBgDI005500
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Tue, 20 Feb 2024 06:11:42 -0600
+Received: from DLEE106.ent.ti.com (157.170.170.36) by DLEE100.ent.ti.com
+ (157.170.170.30) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Tue, 20
+ Feb 2024 06:11:42 -0600
+Received: from lelvsmtp5.itg.ti.com (10.180.75.250) by DLEE106.ent.ti.com
+ (157.170.170.36) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
+ Frontend Transport; Tue, 20 Feb 2024 06:11:42 -0600
+Received: from localhost (uda0492258.dhcp.ti.com [172.24.227.9])
+	by lelvsmtp5.itg.ti.com (8.15.2/8.15.2) with ESMTP id 41KCBfOj072811;
+	Tue, 20 Feb 2024 06:11:42 -0600
+Date: Tue, 20 Feb 2024 17:41:41 +0530
+From: Siddharth Vadapalli <s-vadapalli@ti.com>
+To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+CC: Jingoo Han <jingoohan1@gmail.com>,
+        Gustavo Pimentel
+	<gustavo.pimentel@synopsys.com>,
+        Lorenzo Pieralisi <lpieralisi@kernel.org>,
+        Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
+        Rob Herring
+	<robh@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+        Marek Vasut
+	<marek.vasut+renesas@gmail.com>,
+        Yoshihiro Shimoda
+	<yoshihiro.shimoda.uh@renesas.com>,
+        Kishon Vijay Abraham I
+	<kishon@kernel.org>,
+        Serge Semin <fancer.lancer@gmail.com>, <linux-pci@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>,
+        <linux-arm-msm@vger.kernel.org>, <mhi@lists.linux.dev>,
+        <s-vadapalli@ti.com>
+Subject: Re: [PATCH v2 1/5] PCI: dwc: Refactor dw_pcie_edma_find_chip() API
+Message-ID: <70a2f29f-301d-40c6-bc37-abab35286caa@ti.com>
+References: <20240216-dw-hdma-v2-0-b42329003f43@linaro.org>
+ <20240216-dw-hdma-v2-1-b42329003f43@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <6be2558b8462fc08095c24c9257563ab5f3ae013.1708001398.git.geert+renesas@glider.be>
- <kycepdxukfsww3tnxoo5hoiuo3vcgpqqmynokzhtl4vodgm6zc@ih4uhw7gz4jh>
- <CAMuHMdVf7ophCwKt-n_N-LBHV4+t14Gjb4d1O0T8FDk_9xMFtA@mail.gmail.com>
- <CAHCN7xJ65RP8TO7cS0p5DwE6zru5NEF0_JA+8siT_OpSeLD7pA@mail.gmail.com>
- <CAHCN7x+EnSU8qk5dBFco=0vkeknGq18qEN7vFmZs0_q83T_3+w@mail.gmail.com>
- <CAHCN7xKffJ29zyjoJVAcy3b_d=-zkFzbL=URj4yWJWzYvRdB_Q@mail.gmail.com>
- <TYCPR01MB11269CBE8429A31DE5002A5A5864C2@TYCPR01MB11269.jpnprd01.prod.outlook.com>
- <nzrkujogauvn262ucxippwidyub6ikcohcjpbpn4hzj7rymctm@4owntgrmcquf>
- <TYCPR01MB11269CBAA20275E11D9AD6500864C2@TYCPR01MB11269.jpnprd01.prod.outlook.com>
- <wxwad77x2mxhhwdsbgiytzn6x54t4sywodjhzefwldo277njiz@ru7z54wxgelu>
- <CAHCN7xJi-6W6x+OJmkNwOX45SM4WHD5zkN42ZOp8ZxFnp3YL5w@mail.gmail.com>
- <1ff513b9-d4fd-4663-b46b-bb9662e3881c@imgtec.com> <CAHCN7xJ0TTS_-PA3Ox_RCpfyHJFk-s=-zs8W1Zm3dQTUAoqbpg@mail.gmail.com>
- <CAK4VdL3o+oS3hqwATb8wbv=qOVojWz270r0bUhaBJOw6+tKbxg@mail.gmail.com>
-In-Reply-To: <CAK4VdL3o+oS3hqwATb8wbv=qOVojWz270r0bUhaBJOw6+tKbxg@mail.gmail.com>
-From: Adam Ford <aford173@gmail.com>
-Date: Tue, 20 Feb 2024 06:04:17 -0600
-Message-ID: <CAHCN7xKk5N99eAN0HJHU9ppbPWJpE1cv1Xz2cg1nLtJLW8Y6UA@mail.gmail.com>
-Subject: Re: [PATCH v2] drm/imagination: DRM_POWERVR should depend on ARCH_K3
-To: Erico Nunes <nunes.erico@gmail.com>
-Cc: Matt Coster <Matt.Coster@imgtec.com>, Maxime Ripard <mripard@kernel.org>, 
-	Biju Das <biju.das.jz@bp.renesas.com>, Geert Uytterhoeven <geert@linux-m68k.org>, 
-	Frank Binns <Frank.Binns@imgtec.com>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
-	Sarah Walker <Sarah.Walker@imgtec.com>, Javier Martinez Canillas <javierm@redhat.com>, Nishanth Menon <nm@ti.com>, 
-	Marek Vasut <marek.vasut@mailbox.org>, 
-	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>, 
-	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20240216-dw-hdma-v2-1-b42329003f43@linaro.org>
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 
-On Tue, Feb 20, 2024 at 5:55=E2=80=AFAM Erico Nunes <nunes.erico@gmail.com>=
- wrote:
->
-> Hi,
->
-> On Mon, Feb 19, 2024 at 9:38=E2=80=AFPM Adam Ford <aford173@gmail.com> wr=
-ote:
-> > /usr/share/vulkan/explicit_layer.d/VkLayer_MESA_overlay.json
-> > ERROR:            loader_validate_instance_extensions: Instance
-> > extension VK_KHR_wayland_surface not supported by available ICDs or
-> > enabled layers.
-> > Failed to create Vulkan instance.
-> >
-> > I have tried running in X.org mode instead of Wayland, but I get a
-> > different set of errors:
-> >
-> > [ 11102.013] (II) Loading /usr/lib/xorg/modules/libfbdevhw.so
-> > [ 11102.014] (II) Module fbdevhw: vendor=3D"X.Org Foundation"
-> > [ 11102.014]    compiled for 1.21.1.7, module version =3D 0.0.2
-> > [ 11102.014]    ABI class: X.Org Video Driver, version 25.2
-> > [ 11102.015] (II) FBDEV(0): using default device
-> > [ 11102.016] (II) modeset(G0): using drv /dev/dri/card1
-> > [ 11102.016] (EE)
-> > Fatal server error:
-> > or all framebuffer devices
-> > [ 11102.016] (EE)
-> > [ 11102.017] (EE)
-> > Please consult the The X.Org Foundation support at http://wiki.x.org  f=
-or help.
->
->
-> The wayland and xcb extensions are not really supported at the moment
-> in Mesa for powervr, so this kind of use case does not really work
-> yet. For a first test, indeed the Sascha Willems triangle with
-> -DUSE_D2D_WSI=3DON is probably best.
->
-> One thing I can add is that most Wayland compositors use OpenGL for
-> rendering and will only expose linux dmabuf capability if accelerated
-> OpenGL support is found by the compositor. So even if you manage to
-> hack some WSI functionality to be exposed by the Vulkan driver, it
-> still won't work out of the box with regular compositors since there
-> is no zink/OpenGL support yet. There is some experimental Vulkan
-> renderer support in some compositors but last time I tried they hit
-> other limitations due to the early state of powervr Vulkan in Mesa.
+On 24/02/16 11:04PM, Manivannan Sadhasivam wrote:
+> In order to add support for Hyper DMA (HDMA), let's refactor the existing
+> dw_pcie_edma_find_chip() API by moving the common code to separate
+> functions.
+> 
+> No functional change.
+> 
+> Suggested-by: Serge Semin <fancer.lancer@gmail.com>
+> Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+> ---
+>  drivers/pci/controller/dwc/pcie-designware.c | 40 +++++++++++++++++++++++-----
+>  1 file changed, 33 insertions(+), 7 deletions(-)
+> 
+> diff --git a/drivers/pci/controller/dwc/pcie-designware.c b/drivers/pci/controller/dwc/pcie-designware.c
+> index 250cf7f40b85..3a26dfc5368f 100644
+> --- a/drivers/pci/controller/dwc/pcie-designware.c
+> +++ b/drivers/pci/controller/dwc/pcie-designware.c
+> @@ -880,7 +880,17 @@ static struct dw_edma_plat_ops dw_pcie_edma_ops = {
+>  	.irq_vector = dw_pcie_edma_irq_vector,
+>  };
+>  
+> -static int dw_pcie_edma_find_chip(struct dw_pcie *pci)
+> +static void dw_pcie_edma_init_data(struct dw_pcie *pci)
+> +{
+> +	pci->edma.dev = pci->dev;
+> +
+> +	if (!pci->edma.ops)
+> +		pci->edma.ops = &dw_pcie_edma_ops;
+> +
+> +	pci->edma.flags |= DW_EDMA_CHIP_LOCAL;
+> +}
+> +
+> +static int dw_pcie_edma_find_mf(struct dw_pcie *pci)
+>  {
+>  	u32 val;
+>  
+> @@ -902,8 +912,6 @@ static int dw_pcie_edma_find_chip(struct dw_pcie *pci)
+>  
+>  	if (val == 0xFFFFFFFF && pci->edma.reg_base) {
+>  		pci->edma.mf = EDMA_MF_EDMA_UNROLL;
+> -
+> -		val = dw_pcie_readl_dma(pci, PCIE_DMA_CTRL);
+>  	} else if (val != 0xFFFFFFFF) {
+>  		pci->edma.mf = EDMA_MF_EDMA_LEGACY;
 
-If I disable the GUI, do you think it would render via kms/drm?  I was
-having issues starting Ubuntu with X11.
+Minor suggestion:
 
->
-> I did some work related to this and managed to run a Vulkan triangle
-> with Wayland and a modified compositor so far. So at least we could
-> get the client side out of the way soon. But that depends on a Mesa
-> development branch from Imagination which is being heavily reworked,
-> so we need to wait for that rework to make its way into upstream Mesa
-> before making progress on that work being upstreamed.
+The above section prior to this patch was:
+	if (val == 0xFFFFFFFF && pci->edma.reg_base) {
+		pci->edma.mf = EDMA_MF_EDMA_UNROLL;
 
-OK.  I won't spend any more time on it.  I knew the driver was in its
-infancy, but I didn't realize how much.
+		val = dw_pcie_readl_dma(pci, PCIE_DMA_CTRL);
+	} else if (val != 0xFFFFFFFF) {
+		pci->edma.mf = EDMA_MF_EDMA_LEGACY;
 
-I'll likely push my existing device tree changes to the Geert's
-Renesas tree so the GPU node can be added which should make this
-easier in the future.  I can push my tweak via gitlab, adding
-DEF_CONFIG("renesas,r8a774a1-gpu", "renesas,du-r8a774a1"), if you
-think that would be accepted.
+		pci->edma.reg_base = pci->dbi_base + PCIE_DMA_VIEWPORT_BASE;
+	} else {
+		return -ENODEV;
+	}
 
-adam
->
->
-> Erico
+And this patch is removing the call to dw_pcie_readl_dma() in the "if"
+condition above. So the curly braces after this patch will only be
+present because of the "else if" statement. So is the following change a
+good idea?
+
+	/* Assume it is EDMA_LEGACY by default but update it later if needed */
+	pci->edma.mf = EDMA_MF_EDMA_LEGACY;
+
+	if (val == 0xFFFFFFFF && pci->edma.reg_base)
+		pci->edma.mf = EDMA_MF_EDMA_UNROLL;
+	else if (val != 0xFFFFFFFF)
+		pci->edma.reg_base = pci->dbi_base + PCIE_DMA_VIEWPORT_BASE;
+	else
+		return -ENODEV;
+
+
+Regards,
+Siddharth.
 
