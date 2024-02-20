@@ -1,68 +1,69 @@
-Return-Path: <linux-renesas-soc+bounces-2992-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-2993-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1CB885BAC0
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 Feb 2024 12:38:23 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E2D9C85BAC2
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 Feb 2024 12:38:35 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 684192828A4
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 Feb 2024 11:38:22 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 133831C20B7D
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 Feb 2024 11:38:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A6B71679E4;
-	Tue, 20 Feb 2024 11:37:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0859D67C49;
+	Tue, 20 Feb 2024 11:38:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="d6Dav7M9"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DW8poF8m"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA19869946
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 20 Feb 2024 11:37:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42D0B67C40
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 20 Feb 2024 11:38:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708429072; cv=none; b=gdKAwFZbE6F0FOrNA5fL8YEmFoDR+/YVh1f2Mt7pmqZRkReOv5D7yn1hg6LGkT/HBLOCkYtKnTJT4uCV/sv1L7LThSspVo6RWAEPlUO1WEzU/3wNZSXqNGbWkr7cKgqso98vlCkOIpUIvKYOjMk/I38YHoAEhOj65uW2kdzulMU=
+	t=1708429088; cv=none; b=qCrTqFiMFGMkAYqYax3/sEcpipIlSK6YKVEyjbIRn0ruHPIjrpx6pMHvJe+ggdJLEptATjtzB0XKaqUqyhwUBwdryPm1gIK0ZkNcdl/XuNdLE3Hg4teiKZyYlGAM1KaGdJNeZFfTBpiW1VfRxvX0wjfUOO7liBahASWM4iuxGiA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708429072; c=relaxed/simple;
-	bh=Ah5jnxIyosMtHvKl7nBEU7FJtK7L4tH2SxPUDFU2ioc=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=iUSHhyn7IxjaYqv+6Ly1PRs5D/3NzyrZFtweJJKzz8K3oJAllqVBNuI+LwRRLEUbRaTfSMk0VOKXh6EhtFZHfCD0T6umOBJYXhNeCBaxz2AGmrRDUUVqhGmaQ/gcV9q5NVKbWS4UDsQGbSrkNj/wZMuKF4pqyDXZkI8I7voIo70=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=d6Dav7M9; arc=none smtp.client-ip=192.198.163.10
+	s=arc-20240116; t=1708429088; c=relaxed/simple;
+	bh=qnXpYv5ijG2OxwvZCxL3XN5/ehRJ1aADd6W9aYGExXM=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=DEc53OdkKqdR8H/1EMQbPCz5iPNOdqBtTXm1nC/dN2a2y2xvIvpdmYLuG6OYOc1FUT+PBjJ18UAIdIeOMTQpkOW4VWM0yWRDHORzZBDiLByido8Iv3A6h0H34uRgIZPDZUQrs45Qp8+mo058qE7pqDwXlvLDdHvdF9rSIUqI6I8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DW8poF8m; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1708429071; x=1739965071;
+  t=1708429087; x=1739965087;
   h=date:from:to:cc:subject:message-id;
-  bh=Ah5jnxIyosMtHvKl7nBEU7FJtK7L4tH2SxPUDFU2ioc=;
-  b=d6Dav7M9ccYTr5FF3h6Ubi7AvYAnIINTfme39m4e6pyzTbwPZ/TZUtpx
-   zTcz9sfEEfPcJL//2VEs5z7GNZuoSB9gvw02NzVLPy0ewFCHUCbgqjT3h
-   EiJ3qO9C9hsoARQlfFb9P9FENtLHsmsBtghIM2KegFyqYXJQBhaRw455+
-   bADYbhYhlOaVWRt2ooLTOz/yg2/AMXY3+6P54KT1BwOmQswHQ2YBzUr0B
-   M02cBmJH/cXMAoaugBChc5lNmm3qbhkdYn+MXWImnUZH6m+LEkhB1hSKy
-   d4aNNro9+V3Vv/IMDb9GgHs0LkfUbctGDDGImTza+mraK6ARYdu+t4fzT
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10989"; a="13929828"
+  bh=qnXpYv5ijG2OxwvZCxL3XN5/ehRJ1aADd6W9aYGExXM=;
+  b=DW8poF8mrQXyheRpLzqoQiqhehKd826RrI32V3TfFLxfvpqhzJce0FED
+   Xe3Kp9o2Wc0PU3vqhx8qvkSknzE08RcpcAil0q5UvmRVtt2FiqNfc9CUM
+   lARcIi16pcjLMES5wWhvZhClKHx30Tm/VPb8dwMcYvDOiGCT5HOYKN52u
+   W3qFkmCRhx/Ybky3JFO/hNE1PegxMCZTnZdp+G9MHqz8mq5uIBoyNjctS
+   3NBCqV/YcRRCkld1zdI8Kjv0UTf7ZNDRrX/LUcPlcGvxeEdyVnMHPQ03w
+   wOax1QO2Mon/qcSYyidB/mEfhGdjFmnEKSJ3s8uxgQ5T2YAtivYSWT96n
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10989"; a="13234267"
 X-IronPort-AV: E=Sophos;i="6.06,172,1705392000"; 
-   d="scan'208";a="13929828"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Feb 2024 03:37:50 -0800
+   d="scan'208";a="13234267"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Feb 2024 03:38:06 -0800
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10989"; a="913061400"
 X-IronPort-AV: E=Sophos;i="6.06,172,1705392000"; 
-   d="scan'208";a="5111065"
+   d="scan'208";a="913061400"
 Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
-  by orviesa006.jf.intel.com with ESMTP; 20 Feb 2024 03:37:49 -0800
+  by fmsmga002.fm.intel.com with ESMTP; 20 Feb 2024 03:38:05 -0800
 Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rcORS-0004TG-1v;
-	Tue, 20 Feb 2024 11:37:43 +0000
-Date: Tue, 20 Feb 2024 19:36:53 +0800
+	id 1rcORc-0004TR-2t;
+	Tue, 20 Feb 2024 11:37:55 +0000
+Date: Tue, 20 Feb 2024 19:37:23 +0800
 From: kernel test robot <lkp@intel.com>
 To: Geert Uytterhoeven <geert+renesas@glider.be>
 Cc: linux-renesas-soc@vger.kernel.org
-Subject: [geert-renesas-devel:next] BUILD SUCCESS
- c2a7d665a0e836d900b85ea9375e5a5cf9486ea3
-Message-ID: <202402201950.7OMggj85-lkp@intel.com>
+Subject: [geert-renesas-devel:renesas-dt-bindings-for-v6.9] BUILD
+ SUCCESS 3a9856e830500e20e61b92f5ea6b8cc505e085be
+Message-ID: <202402201920.Mnrf5uJI-lkp@intel.com>
 User-Agent: s-nail v14.9.24
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
@@ -70,10 +71,10 @@ List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git next
-branch HEAD: c2a7d665a0e836d900b85ea9375e5a5cf9486ea3  Merge branches 'renesas-dt-bindings-for-v6.9' and 'renesas-dts-for-v6.9' into renesas-next
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git renesas-dt-bindings-for-v6.9
+branch HEAD: 3a9856e830500e20e61b92f5ea6b8cc505e085be  dt-bindings: renesas: Document preferred compatible naming
 
-elapsed time: 1453m
+elapsed time: 1454m
 
 configs tested: 182
 configs skipped: 3
