@@ -1,192 +1,133 @@
-Return-Path: <linux-renesas-soc+bounces-2979-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-2980-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09CA985B33F
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 Feb 2024 07:56:28 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id D52EA85B5D5
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 Feb 2024 09:51:07 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8ED7A1F226DE
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 Feb 2024 06:56:27 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 65454B247F4
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 Feb 2024 08:51:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 892A7376E2;
-	Tue, 20 Feb 2024 06:56:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0F7E25F465;
+	Tue, 20 Feb 2024 08:50:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="yqa6N57A"
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="OOfiOZKh";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="YA6lRw+q"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D44F228363
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 20 Feb 2024 06:56:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6657E5D8EA;
+	Tue, 20 Feb 2024 08:50:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708412172; cv=none; b=YdyJgJ5JHizytaK+nhA8xWsh4nGsqRyR0ZjWyWDHFZwdQfE+wxM7NRO1KoHHKVMm9oloCPCk0+S9/tZQzqBjXweta0/4X0h29Q0Xedg/S623USKR6kX/ziATWyFI8rPpIqkKER2kk2llneFT/zdiE4eiMh20EJZ4x1eMeJQMuVI=
+	t=1708419028; cv=none; b=f/AVkBTnflQYgKFuf/PNwnQaky2lcihjjwcC/S5u2f1MefnW6zv76RwFjYQ7xizMQJUrkJtu/sQHJ36USV7tXEytIYI7Qj12Z2R/iQsWY/InkCLOx1HjRutygZx7LxYTjj6kzDRFGGj7uAuCiLw+qz5eK9ta0ECRnYnl75v3lZI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708412172; c=relaxed/simple;
-	bh=wgHSKeYmXnu5YtZR/gEwqP/Reo7xcpiV0Yva1dABvR0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=bB3V2MIkq3P+Opci+f1/JlYbY0V3JafA2HkK3eXpe+5ApQwR4Bim6XGhgWiDbg1IQqzMAemjMQd+l8Du4DQQVn+PPna95EE3SrRO2u8HXf7Xiq5Ec7TwRfaP6N6f4oE9A7gCPBCk4kSUZIDXWYzlrLRVSjDY2/Mvf9OI96gI6eo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=yqa6N57A; arc=none smtp.client-ip=209.85.160.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-qt1-f179.google.com with SMTP id d75a77b69052e-42e0b1b11bbso296891cf.0
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 19 Feb 2024 22:56:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1708412168; x=1709016968; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Aa1eJ+wSIVg0VORBPoC8dMZAELGFCjWNXbVSxIUYLxk=;
-        b=yqa6N57AQE0jaDa+8FjNsBAH3EI2X/JiuLowjZXIJH0JzQNxd2KzTbqTcxnJk/pT71
-         kZThoecys/MRnpypJMPJoxmJPXEcR5MJ1MTJUg1qaj0c3eMLjXUP9xDNB6ghl5N93LAw
-         S7jFysnVvl7PmNJwBUw/jMa54A9h3mSHj9WZsYpWTgOTGPe0hr/h45DQwfjsvUctzd//
-         c4qQblJGOK4Gw7dMLq92hYJ1zm39+7ZSfxW1o4ZxklWa62N/PlGc/AEMbg+sKW38YxT6
-         iKBefrEN75oluylHDSTDcPZASmg77CUF5KOVwZzZG+9XqiXEuxgwGeZ7MYEOHi/A20Zg
-         JxZw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708412168; x=1709016968;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Aa1eJ+wSIVg0VORBPoC8dMZAELGFCjWNXbVSxIUYLxk=;
-        b=G0mXNOqxHt1K0/qvsAxV5McFp6Pao2zb50yOsmpzC26xAn+h87gZ9DhbKqzpR4HXxk
-         0WBvF6QduzUyy51OD8DofMoFjPRJBJIEZ0eFP3H0/lClVDmnoPE+MJ0SvrWDyhndVZSR
-         xfOAHBRMv5r88ZBlM2gJJI57Sf2NWO9wPdNXzF2trpulQElxPbXkx0osbvgVKMAHZTP1
-         dd9l89DyxQcXz/2rxKBV6Y7B/NFPjTz514RgxxCv3vYbNNt8a31wtGBrPfIvt4vBJeeF
-         UBipZOwdp24ETkIJdz7dhKrrj4WW+9FMh5TkeAkW/vzEi5tRz6ze4fxD1U3bY5Z7R3xJ
-         VRZA==
-X-Forwarded-Encrypted: i=1; AJvYcCUq/WdqquJoJ5w+ieKS6UApS/vwsf9PAjCTTqlFUSdemmKkz242WvsYuj6iDMruyRaYVwjZ4rA/CHxK5sYydcKaa7TExprqieUk1sBxRYnnHdc=
-X-Gm-Message-State: AOJu0YwGKTU/Eyp0pXxztLJfeB6cCV7z9oY0e5Wc4+rYUxjh53pI6Kr+
-	Ok+0Bbwr+dHL+3uav+CcSXlMZnAfxCREn1RdylNX8w7JqQaI/CCU+fURM+7ksvcJrIlFvzfzaD2
-	BNJlqAldGGRwHVjSPahLkI1/AUIIUiDpwCT4A
-X-Google-Smtp-Source: AGHT+IFzN9GPJqnlcdxg+4MBTcutynzSM9kc0VYGdbncVxOop1NdXQ7El5EKMQWyRCDRwWMggY1CRe/j3i4jxkYO18c=
-X-Received: by 2002:ac8:7511:0:b0:42d:f55b:a7ee with SMTP id
- u17-20020ac87511000000b0042df55ba7eemr451272qtq.21.1708412168437; Mon, 19 Feb
- 2024 22:56:08 -0800 (PST)
+	s=arc-20240116; t=1708419028; c=relaxed/simple;
+	bh=lyAH928PklVqNohvkdzHA4O3OK69l5xGYIh69vxcF8I=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=WNLhBZGClS5/8bVIF8IP4grYe0uuxJyw7O1ishEGTd9iNL2UdP9+GQH+MW26abYmiPRwJc/N2zCPH82f/8jQc8pI2ECOo7OO5j5LjuaABbUMDTzvzxAau+XdCyDm/jeEVRmrSAUPbitCTn8SX2nYou9H1rAZ7XdcVZ8sZ1tihpE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=OOfiOZKh; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=YA6lRw+q; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+From: Thomas Gleixner <tglx@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1708419020;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=zt6WFPspTPLISjJDNaV2xke6NbP8x70UX4LyyABHdak=;
+	b=OOfiOZKhXJ/Is3rVi6vnkx4XchR0rOCqc+CsLpZgA4h7Tq5t6EBqgB2d0MbCi03VPjn53Y
+	s6aAhUAs7gQl9t5j7eD4oNPYj+qgBOm98DYWkskbPTiUdZZbYhSQNLyz2k8LgW5bM/P9Z5
+	mKIL4jtJsPJ+KKe8d2/JkErCF1DJ79Bwo1YNfCK6mGt2H+3fCO+7BQ3lGsxQ7VdIfWBm6K
+	4FsnSNNUmgIENHVaYdE22mhG7n8uaWm4Ot+0U+sXiRGL0pBZNoJZ3NUajtweJE95Kb4eU4
+	4j9/KK51jH3aEtMtzfDxEWOohgDp2sgTt3LW2EzSeQqNMkHQIxXsOTB413yXZQ==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1708419020;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=zt6WFPspTPLISjJDNaV2xke6NbP8x70UX4LyyABHdak=;
+	b=YA6lRw+qPSdpDx9hcr+psBv5van3e9vSZXUswhnBc1qk+vDyoFH9Gv2DF2PfTHW9wVnuxT
+	oMyiIuw/x/SYERAA==
+To: Marc Zyngier <maz@kernel.org>, Biju Das <biju.das.jz@bp.renesas.com>
+Cc: tip-bot2@linutronix.de, apatel@ventanamicro.com,
+ linux-kernel@vger.kernel.org, linux-tip-commits@vger.kernel.org,
+ geert@linux-m68k.org, linux-renesas-soc@vger.kernel.org, x86@kernel.org
+Subject: Re: [tip: irq/msi] genirq/irqdomain: Remove the param count
+ restriction from select()
+In-Reply-To: <867cj04fcl.wl-maz@kernel.org>
+References: <170802702416.398.14922976721740218856.tip-bot2@tip-bot2>
+ <20240127161753.114685-3-apatel@ventanamicro.com>
+ <867cj04fcl.wl-maz@kernel.org>
+Date: Tue, 20 Feb 2024 09:50:19 +0100
+Message-ID: <87ttm3ikok.ffs@tglx>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240202095636.868578-1-saravanak@google.com> <20240202095636.868578-3-saravanak@google.com>
- <CAMuHMdVon3mdivZQ0O6D4+va0nGBrUQbDp23bEq661QD=4t7+g@mail.gmail.com>
-In-Reply-To: <CAMuHMdVon3mdivZQ0O6D4+va0nGBrUQbDp23bEq661QD=4t7+g@mail.gmail.com>
-From: Saravana Kannan <saravanak@google.com>
-Date: Mon, 19 Feb 2024 22:55:36 -0800
-Message-ID: <CAGETcx_N=QX8Dst_En=2EW-7coSvPhZn=q_T-V6S8E8kZfcnPQ@mail.gmail.com>
-Subject: Re: [PATCH v2 2/3] driver core: fw_devlink: Improve detection of
- overlapping cycles
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Xu Yang <xu.yang_2@nxp.com>, kernel-team@android.com, linux-kernel@vger.kernel.org, 
-	Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 
-On Mon, Feb 19, 2024 at 2:59=E2=80=AFAM Geert Uytterhoeven <geert@linux-m68=
-k.org> wrote:
+On Mon, Feb 19 2024 at 15:56, Marc Zyngier wrote:
+>> diff --git a/kernel/irq/irqdomain.c b/kernel/irq/irqdomain.c
+>> index 0bdef4f..8fee379 100644
+>> --- a/kernel/irq/irqdomain.c
+>> +++ b/kernel/irq/irqdomain.c
+>> @@ -448,7 +448,7 @@ struct irq_domain *irq_find_matching_fwspec(struct irq_fwspec *fwspec,
+>>  	 */
+>>  	mutex_lock(&irq_domain_mutex);
+>>  	list_for_each_entry(h, &irq_domain_list, link) {
+>> -		if (h->ops->select && fwspec->param_count)
+>> +		if (h->ops->select)
+>>  			rc = h->ops->select(h, fwspec, bus_token);
+>>  		else if (h->ops->match)
+>>  			rc = h->ops->match(h, to_of_node(fwnode), bus_token);
+>> 
+>> 
 >
-> Hi Saravana,
->
-> On Fri, Feb 2, 2024 at 10:57=E2=80=AFAM Saravana Kannan <saravanak@google=
-.com> wrote:
-> > fw_devlink can detect most overlapping/intersecting cycles. However it =
-was
-> > missing a few corner cases because of an incorrect optimization logic t=
-hat
-> > tries to avoid repeating cycle detection for devices that are already
-> > marked as part of a cycle.
->
-> Nice (I assume it's due to this patch ;-), with v6.8-rc5 I see much fewer
-> dependency cycle messages.
+> Dmitry posted his take on this at [1], and I have suggested another
+> possible fix in my reply.
 
-Thanks!
+Your core side DOMAIN_BUS_ANY variant makes a lot of sense. Can you
+please post a proper patch for that?
 
-It's not due to this patch. It's due to this other series:
-https://lore.kernel.org/lkml/20240207011803.2637531-1-saravanak@google.com/
+Aside of this I just noticed that we need the below too.
 
-I forget why the cycle warning doesn't show up between fea80000.csi2
-and video@e6ef7000, but I had the same improvement on my test device
-and there was a valid reason why it doesn't show up. So, an
-unintentional, but non-buggy benefit of that series.
+Thanks,
 
--Saravana
+        tglx
+---
+Subject: irqchip/imx-intmux: Handle pure domain searches correctly
+From: Thomas Gleixner <tglx@linutronix.de>
+Date: Tue, 20 Feb 2024 09:46:19 +0100
 
->
-> E.g. on Salvator-XS:
->
-> -platform fea80000.csi2: Fixed dependency cycle(s) with
-> /soc/video@e6ef7000/ports/port@1/endpoint@0
-> -platform fea80000.csi2: Fixed dependency cycle(s) with
-> /soc/video@e6ef6000/ports/port@1/endpoint@0
-> -platform fea80000.csi2: Fixed dependency cycle(s) with
-> /soc/video@e6ef5000/ports/port@1/endpoint@0
-> -platform fea80000.csi2: Fixed dependency cycle(s) with
-> /soc/video@e6ef4000/ports/port@1/endpoint@0
-> -platform fea80000.csi2: Fixed dependency cycle(s) with
-> /soc/video@e6ef3000/ports/port@1/endpoint@0
-> -platform fea80000.csi2: Fixed dependency cycle(s) with
-> /soc/video@e6ef2000/ports/port@1/endpoint@0
-> -platform fea80000.csi2: Fixed dependency cycle(s) with
-> /soc/video@e6ef1000/ports/port@1/endpoint@0
-> -platform fea80000.csi2: Fixed dependency cycle(s) with
-> /soc/video@e6ef0000/ports/port@1/endpoint@0
-> -platform feaa0000.csi2: Fixed dependency cycle(s) with
-> /soc/video@e6ef3000/ports/port@1/endpoint@2
-> -platform feaa0000.csi2: Fixed dependency cycle(s) with
-> /soc/video@e6ef2000/ports/port@1/endpoint@2
-> -platform feaa0000.csi2: Fixed dependency cycle(s) with
-> /soc/video@e6ef1000/ports/port@1/endpoint@2
-> -platform feaa0000.csi2: Fixed dependency cycle(s) with
-> /soc/video@e6ef0000/ports/port@1/endpoint@2
-> -platform fead0000.hdmi: Fixed dependency cycle(s) with
-> /soc/sound@ec500000/ports/port@1/endpoint
-> -platform feae0000.hdmi: Fixed dependency cycle(s) with
-> /soc/sound@ec500000/ports/port@2/endpoint
-> -platform feb00000.display: Fixed dependency cycle(s) with
-> /soc/hdmi@feae0000/ports/port@0/endpoint
-> -platform feb00000.display: Fixed dependency cycle(s) with
-> /soc/hdmi@fead0000/ports/port@0/endpoint
-> -platform hdmi0-out: Fixed dependency cycle(s) with
-> /soc/hdmi@fead0000/ports/port@1/endpoint
-> -platform hdmi1-out: Fixed dependency cycle(s) with
-> /soc/hdmi@feae0000/ports/port@1/endpoint
-> -platform vga-encoder: Fixed dependency cycle(s) with /vga/port/endpoint
-> -platform vga-encoder: Fixed dependency cycle(s) with
-> /soc/display@feb00000/ports/port@0/endpoint
->
-> -i2c 2-0010: Fixed dependency cycle(s) with
-> /soc/sound@ec500000/ports/port@0/endpoint
-> -i2c 2-0010: Fixed dependency cycle(s) with /soc/sound@ec500000
->
-> -i2c 4-0070: Fixed dependency cycle(s) with
-> /soc/csi2@fea80000/ports/port@0/endpoint
-> -i2c 4-0070: Fixed dependency cycle(s) with
-> /soc/csi2@feaa0000/ports/port@0/endpoint
-> -i2c 4-0070: Fixed dependency cycle(s) with /hdmi-in/port/endpoint
-> -i2c 4-0070: Fixed dependency cycle(s) with /cvbs-in/port/endpoint
->
-> FTR, the only remaining ones (on Salvator-XS) are:
->
->     platform soc: Fixed dependency cycle(s) with
-> /soc/interrupt-controller@f1010000
->     platform e6060000.pinctrl: Fixed dependency cycle(s) with
-> /soc/pinctrl@e6060000/scif_clk
->
-> Gr{oetje,eeting}s,
->
->                         Geert
->
-> --
-> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m6=
-8k.org
->
-> In personal conversations with technical people, I call myself a hacker. =
-But
-> when I'm talking to journalists I just say "programmer" or something like=
- that.
->                                 -- Linus Torvalds
+The removal of the paremeter count restriction in the core code to allow
+pure domain token based select() decisions broke the IMX intmux select
+callback as that unconditioally expects that there is a parameter.
+
+Add the missing check for zero parameter count and the token match.
+
+Fixes: de1ff306dcf4 ("genirq/irqdomain: Remove the param count restriction from select()")
+Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
+---
+ drivers/irqchip/irq-imx-intmux.c |    4 ++++
+ 1 file changed, 4 insertions(+)
+
+--- a/drivers/irqchip/irq-imx-intmux.c
++++ b/drivers/irqchip/irq-imx-intmux.c
+@@ -166,6 +166,10 @@ static int imx_intmux_irq_select(struct
+ 	if (fwspec->fwnode != d->fwnode)
+ 		return false;
+ 
++	/* Handle pure domain searches */
++	if (!fwspec->param_count)
++		return d->bus_token == bus_token;
++
+ 	return irqchip_data->chanidx == fwspec->param[1];
+ }
+ 
 
