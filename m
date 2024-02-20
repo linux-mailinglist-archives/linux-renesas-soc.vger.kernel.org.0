@@ -1,346 +1,207 @@
-Return-Path: <linux-renesas-soc+bounces-3006-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-3007-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D2FB85C0B0
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 Feb 2024 17:06:23 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id BC8F385C43D
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 Feb 2024 20:05:20 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id B7D88B23331
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 Feb 2024 16:06:20 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A669F2834E6
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 Feb 2024 19:05:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 62C6D77A04;
-	Tue, 20 Feb 2024 16:04:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 236D012838D;
+	Tue, 20 Feb 2024 19:05:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="EvBRxKwO"
+	dkim=pass (2048-bit key) header.d=kernelci-org.20230601.gappssmtp.com header.i=@kernelci-org.20230601.gappssmtp.com header.b="aj/mRncn"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from JPN01-TYC-obe.outbound.protection.outlook.com (mail-tycjpn01on2070.outbound.protection.outlook.com [40.107.114.70])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB2A176404;
-	Tue, 20 Feb 2024 16:04:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.114.70
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708445085; cv=fail; b=FrN4eiTyvXnpW9O/tEUbiaeFYvxIZsGYkmmMBwLXksTGcvdygj143uEuiAjAgXDBhuOcKtktt1I+6R1fmtHRvFxe9MiE8a27t0aazCaAvfQMGdcy6LQHoLV0lhWTt+dsM6EzO3u72OY234hruN7k5V6iygyKpNq90q6wH3zcvJY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708445085; c=relaxed/simple;
-	bh=bL7m8+1jNZroQO6utNHHucAvZy3U9hWxS91dzK8xFbY=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=TR9W5qrjOlPsv0eb0SWe2LJMsZCgfF7SkhRDzs7/+rMrgPqUTaDthSX2PuCS0HCWuXsmLeJmL9BEiyxpmsZge+sgHhnKu0+0ZMaBYU7XduoUwrMp3UpFHVwIyMjml56FRon9VwpOVa4opny7HPK52DlXHXQtzpH2W7MofMAwVpg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=EvBRxKwO; arc=fail smtp.client-ip=40.107.114.70
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=LAeo0kPADq6wQV77aZIJtabGsRW2K4RxvtvPNjnpaDYvnZrzgrpb4lQKBLSKnTjbnUMfnsFtc5LnezrGOY4f1OmwgN0Z/O5/G4A8VsoJOO8VTtvxwnRH7c6x38TXVtWu+eGwhVHuMsacu60Mo4lFoGAhlsFyTaqgTDJetsn1Q/5W1k9+sXpu9dcdagN/3nI6iVq7GBahpHYqaFmEIxq1oHWtKoPmupwlLBi0oP3IgEHhSG0pP9HiGLKEhix0575bdKU1wyz+Kn66OSmG/sFZRR++brZrZFOlT8akFSVphUx9mus9GCJWs3Q+xPEsw6D1+jyWJUtM4gUHmottCDIi0w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=cFxR7VhTZWr0WxfMVvEKGQQesYMZmpYbzROHD60xnCs=;
- b=jb319ppt3eshyrLVZdpij4pUp1Q0P9nld8KWe8iuY03xziOj9SK2z/Dq1pmCVu46j6sTsdYb5vBUUp89exRHeOGDOTv8xjPp/WU+s92+z8bzBz6a0N7tDS/+/1Gq1UCblShyGvGfGGFcAWbG4+4j+BiYEA1ePQdMvVIsnBLWJQi5wq8AWyv8BTzy6qaClhs33AqfHlO5nUIX4qyGXipUAGX1FZpczQceC05ddVNWAEbBRtgWziSkn0k2n+f7p9VUxwL00TyBeKPzObls4/ArfWvL5NeHngDCZ55Vwz+0yxknAPM8zLJPhkbW1BOkJda0rukKwnAwpo56ANM8gq17Bg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=cFxR7VhTZWr0WxfMVvEKGQQesYMZmpYbzROHD60xnCs=;
- b=EvBRxKwOOMNovtlPalQp7aJaKdQEsvTnfxNFQPDEuajgkGysrIf5afwcQEzTAqJQkhChLMW/O2DUDmwLAnIMIbNKU+IYJ8Katp9GP96oC8vULwppTXsQXQ+aWQNXwO4jqGUISXkj8t3+LCmdEA8hVgdjfklowfZRk0zdGhOSQYA=
-Received: from TYCPR01MB11269.jpnprd01.prod.outlook.com
- (2603:1096:400:3c0::10) by TY3PR01MB10174.jpnprd01.prod.outlook.com
- (2603:1096:400:1d9::13) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7292.38; Tue, 20 Feb
- 2024 16:04:36 +0000
-Received: from TYCPR01MB11269.jpnprd01.prod.outlook.com
- ([fe80::6719:535a:7217:9f0]) by TYCPR01MB11269.jpnprd01.prod.outlook.com
- ([fe80::6719:535a:7217:9f0%3]) with mapi id 15.20.7292.036; Tue, 20 Feb 2024
- 16:04:35 +0000
-From: Biju Das <biju.das.jz@bp.renesas.com>
-To: =?iso-8859-1?Q?Uwe_Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>
-CC: Thierry Reding <thierry.reding@gmail.com>, Philipp Zabel
-	<p.zabel@pengutronix.de>, Geert Uytterhoeven <geert+renesas@glider.be>,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, Magnus Damm
-	<magnus.damm@gmail.com>, "linux-pwm@vger.kernel.org"
-	<linux-pwm@vger.kernel.org>, "linux-renesas-soc@vger.kernel.org"
-	<linux-renesas-soc@vger.kernel.org>, Prabhakar Mahadev Lad
-	<prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: RE: [PATCH v17 3/4] pwm: Add support for RZ/G2L GPT
-Thread-Topic: [PATCH v17 3/4] pwm: Add support for RZ/G2L GPT
-Thread-Index:
- AQHaG6VjO3tWbpjOM0KBvyBIicGE/LCcr38AgAGHJgCAAD55gIAAsVCggABh/ACAAACWkIAHckBwgAA/rwCAWz9yAIAReWlg
-Date: Tue, 20 Feb 2024 16:04:35 +0000
-Message-ID:
- <TYCPR01MB11269807ECEDDEC9F47EA153B86502@TYCPR01MB11269.jpnprd01.prod.outlook.com>
-References: <20231120113307.80710-1-biju.das.jz@bp.renesas.com>
- <20231120113307.80710-4-biju.das.jz@bp.renesas.com>
- <20231206183824.g6dc5ib2dfb7um7n@pengutronix.de>
- <TYCPR01MB1126952E843AC08DB732C18A5868BA@TYCPR01MB11269.jpnprd01.prod.outlook.com>
- <20231207214159.i5347ikpbt2ihznr@pengutronix.de>
- <TYCPR01MB11269C233892B6E3002622C3B868AA@TYCPR01MB11269.jpnprd01.prod.outlook.com>
- <20231208140718.laekt3jlsmwvzc7x@pengutronix.de>
- <TYCPR01MB11269900EF62D8CA3E906DBAC868AA@TYCPR01MB11269.jpnprd01.prod.outlook.com>
- <TYCPR01MB1126992DD51F714AEDADF0A4F868DA@TYCPR01MB11269.jpnprd01.prod.outlook.com>
- <20231213114004.cuei66hi3jmcpocj@pengutronix.de>
- <TYVPR01MB11279298D880FA94B31219865864B2@TYVPR01MB11279.jpnprd01.prod.outlook.com>
-In-Reply-To:
- <TYVPR01MB11279298D880FA94B31219865864B2@TYVPR01MB11279.jpnprd01.prod.outlook.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TYCPR01MB11269:EE_|TY3PR01MB10174:EE_
-x-ms-office365-filtering-correlation-id: 5d35f8af-6703-42db-9790-08dc322da255
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info:
- qwUdxLBPJX5MPJC14SQSBGJ4iL3txnKH6j8vDG4EKabatA4titsHMW0AgtRLk+vdRMT0xSV72yvGRH6fnJ49aqvwp4SXnYjVU4/DXAyRKuEvqLrVOMfga/nqxGCW2hEZ+kos0CaQfeFfhuqf3jhXsNraGvk1roOiPxPbPHtYe55R9rlm2QxklQUF7c2FkcSAWM3lsGjPzPbcYzuUxKvBVMlJ7A03JVH4g4Aik8dcXxwWWbEg2WJW7IbfFMYp/V4kdQQ4WflXR/O0hE9klzqw+dUb3Tt4UJqVoq1gGJ7vuD3uy2rVK9uz+8QfJwbiTnzoFbjFpvB8bkMPMTLhIpqQKbz6nYRYlRf/Y3C0qOzl44V9UKBvkU4OfJUEJXirTQQQnCi1YXphSDEbSX72/dTbdK3a9ef8z3PBxqeJJMCV+peDf2BZcRVJQ3QT22KGLjlHdfCWmUokC7JLo04UhLFu67eMVfxb0/bTrDCVAHX3Gv8YZ7DESh3bhCyQrARKji4RVbVDdNlwSjG8fb2E5r2cHBwJ+y0KUFskUD5kEBtB0HvLZqvvASIV66c2u3rHermLfs6g7jy5z0gZP9XoS8cwHBgZ0iHgCS17d0yPOSYMqLo=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB11269.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(38070700009);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?iso-8859-1?Q?5hImbV81xza1RJKrVQcnqaUtBWBwcByOkYuBRmEL/8St1jleO1RSEPzKpL?=
- =?iso-8859-1?Q?cXv59E3lIFbmJ6EjhlmtqOQxywwW3ZgnM4P2pXTgCPoSuyp86ZlPkTZ4FC?=
- =?iso-8859-1?Q?fOhI7ggupKRJyN9FeP8AWqLjYurtCaMq8OCbrIZ7RZbm4zXxfj01Gdi+/q?=
- =?iso-8859-1?Q?8XCVKXm+7br0beXjuHdS4JOYBxFclBk77cLUhDBO2Pv3yKrmMnU+E4buOJ?=
- =?iso-8859-1?Q?b6oz3PnV26CNG6ocf0AlRiVCCxG9CFUR4RkyDph3ETI1E+8ytYpE5pCRcj?=
- =?iso-8859-1?Q?boyEhSm6BIm5bRELL8LdpCXUSoxun6guf7BrgfDZFJC1Inv+rbpeP0+mwl?=
- =?iso-8859-1?Q?uC6E4zyhTE7b5loQuRA5dM9w5M65NgPjOokM+lEx9MquB8CJ0WrjkQk6ri?=
- =?iso-8859-1?Q?Lt690ZELrs6juZqlH/Dn5gtNtZckpIIGO4uKZ9GRU3evsqqECum3LiPS3g?=
- =?iso-8859-1?Q?e5nZv1Qbwa6Pv04UcBRz8xZ/Xf/MNlK4jzTGHX64QGeEFoq6l8OtPBCNU3?=
- =?iso-8859-1?Q?vyU4RBQnzBxiMug/9p4JPGwXo2p2ki7YwUXjOwHcw3eD4bVoHLNoSgTnKj?=
- =?iso-8859-1?Q?V0LpvwdAaMb6rGSVXIB6GFU07HOMKgp4ibn5PmKjdcLnHSiixPAXdrPqQZ?=
- =?iso-8859-1?Q?bPE2G1zY4ePs0QkjfHQ5y1MZP06isKidntmH4FtVp5dnntiTl6I3YzqwKV?=
- =?iso-8859-1?Q?0DZJN7FFWNV5tCqucabzUb2TuXfvAPyyyn/ZJ2uZG5NaYyvvY3NNrnx4HB?=
- =?iso-8859-1?Q?yGi/lOMK5Yua1poYUqcoa+X6+fwj2TZwcCniw+j2kjswmYQI2CavVBFrXL?=
- =?iso-8859-1?Q?P+JND1gftuGnqzdxImHc9658J+VAMPEtr9hqcVZ5mtb6SYPTz0+GQ2e/om?=
- =?iso-8859-1?Q?RobdcTt5eCCkFY1MNFNWFrUmJfOoHWd7aclWUl2UGQbtuLgR7uvQpPbtkv?=
- =?iso-8859-1?Q?RIS64nLLR2LQzdnAUDj1bXAEkt2hpPZwjSmkidYn2/FrrbY9bH2mtc4HbY?=
- =?iso-8859-1?Q?1NnGsRrMiHrT72DFyZKNqmgtkZFHWDwGSW2BlIerFEfuudfGYlYMQRqvG8?=
- =?iso-8859-1?Q?4ZlA6M+Gezpyvq36+7Euc7lfTfISvAVAGQYbKCpKyCoMXN88pwqdMETIow?=
- =?iso-8859-1?Q?KsMZkCdnJhXVAEGIgZlOWbrWZBfvsHIoht26iqi3ZbnaIRlW9iepmY2nKX?=
- =?iso-8859-1?Q?AgvtaDMxOJRnGeUq+r+f280f0OUUmYsVY60LZc+gWtVK10eXlWqcNyuH4O?=
- =?iso-8859-1?Q?kGnRqB1U67gqSjMW+tBFG9JkW6HvvMLVzuI4A2r0in1u4FGqczzSxQ5zQh?=
- =?iso-8859-1?Q?6JZQKU1eiAqIZBkWf/qu91kswYtpP+06RSkIH+L2qD3cw2XH7bcNL9Eg/x?=
- =?iso-8859-1?Q?fNW72bxEGzJK2UdJ9xxfNWozwPcxUJRLN3w3JYeripJuR9FoZZ1Q5sEOM2?=
- =?iso-8859-1?Q?npMQcU6b6ahuG+Dni6V6Euz4Nt9irY8rGEGtRRf5bpoVw+mI7awc/UgviZ?=
- =?iso-8859-1?Q?dfqNeJ87eEdEE5Dh45y5deVXU2hUOZsWbAvH/O2druvJHZcxcIsw8Svqal?=
- =?iso-8859-1?Q?zzduRGQ0+naiH1J5TZKs3JyG2HVc5kfpJ/wKbmR5BhF1iIC/u7+mYmOXtH?=
- =?iso-8859-1?Q?+HGt/Mm5om2O5r8PTIjhqIsVEpJfw9WLZKfNQkm8hq9mkrcUBX8k75Eg?=
- =?iso-8859-1?Q?=3D=3D?=
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5920676C9C
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 20 Feb 2024 19:05:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.174
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1708455917; cv=none; b=kAw8vXKdYjA25E44HV9Ejm2OTMxs/2KbaH21HRNaCHLv1IUcTMTfSEKo/o1vtpBdpTxOrLb+EfDyW/SqmZ1pDnbwMUlzuSuHmAyIcf1nNdzgOv7h2AnBvKHQ2iglABKLj7rgU/cXD64+GDAMtnzEbFrnz2371nUPSwOzMuFgn3g=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1708455917; c=relaxed/simple;
+	bh=c/SaVgZH6oGMperXq3NwHIKQkShEXjb+xOS4OpxkuBw=;
+	h=Message-ID:Date:Content-Type:MIME-Version:Subject:To:From; b=C3aqeP7VgMAGXS6/2UgmIuRLiA5rceXhmVWNry6peSUN3Zf69Jn69dDtA92jRCTymfV3KnXsb5IOGQYwy3/hEZg5S8JtcLfIABPjtbjfHUc/NNrfgemdFoZORvoIxm3BC7/tCxQjcz3hKwsZX4BxjLMyQXl14VY+eG6IWwek5FE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernelci.org; spf=none smtp.mailfrom=kernelci.org; dkim=pass (2048-bit key) header.d=kernelci-org.20230601.gappssmtp.com header.i=@kernelci-org.20230601.gappssmtp.com header.b=aj/mRncn; arc=none smtp.client-ip=209.85.210.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernelci.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=kernelci.org
+Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-6e486abf3a5so374694b3a.0
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 20 Feb 2024 11:05:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernelci-org.20230601.gappssmtp.com; s=20230601; t=1708455914; x=1709060714; darn=vger.kernel.org;
+        h=from:to:subject:content-transfer-encoding:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=tGjpG7aL9eusN16ULcFYgZVef9WuvoJ6pLg137awunM=;
+        b=aj/mRncnVGVvf+SXTwR/simic6D9jdmk5+aPt3rwW85oobjm8CPqQrg+T+WLBW3IjV
+         FCbr+JcZkV4QQO9mQ90Tn227s1Y743VbdxUt/T2qwkc30E4627swtNvcCkOQF1SqUchG
+         H+BueHAhyOD9IR1lSDoY/kn6L5jDRDtqPjKY/5UFo74qQxPeXYxOvt0vx3dSFJ5Fc7vT
+         1NfbHv1gKOActwT9ZMA0IXMqSJCazSGQMIOaRRo3wFznB/aTjF3C2bddMcOkTuSOO0gi
+         lLkTi4XyGrcwWcPyBkArZ6tZc8Ki3f/jgyOP16r7RKVZXwZJqBVXFW/LsUk7O/p7T1dU
+         n6rA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1708455914; x=1709060714;
+        h=from:to:subject:content-transfer-encoding:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=tGjpG7aL9eusN16ULcFYgZVef9WuvoJ6pLg137awunM=;
+        b=tMj/Qn270Ew/AHwj2Q20R86ON/MiS6SRDWIQnuuSvjN2D5FtcgW10OH9UjmD0esAxF
+         QCj0VYwR30y+HEChMjVgE3WVeOOV8km2oCnLh7WHGGNncoawPKOtlDx2z2d3vsC27Ftj
+         9SSk+RfSLl1amguAzuUCka0jSNmnATQCSR7jzlto/S8LK18uyaPaOVGQjbCjscppWXOp
+         IsVjfSAALtE2QRwmbnY7YltcEbLqV5FgdwMnkY6ebMkokFGrJerHb3OnNGD7J/eLtK0e
+         vFdNIiZiWEABzpDby8Y/jZdwDY9tvfIyoC8DY2ibET4wzSkFAh7IVLhEfmPq269+cLQq
+         2ubQ==
+X-Gm-Message-State: AOJu0Yzd+jmpWLFD+OSHsViWv6vmsljnlePkrTelh2teYFgl4dYesbMb
+	/TdzmFAeJFxkyrjtU7zOmPrQ/9lnNtSl4ZQwl2tiSW9E5PZx1LJAYUa8mdojaBX9YcGgaLHh5EX
+	AM2c=
+X-Google-Smtp-Source: AGHT+IGxrBxBH1yTshjqvc6EOhF40hlfBQxF7iJs6TvB0BK8k36uQtLvkdoiUyGGkc5Gqkwx+CrBjQ==
+X-Received: by 2002:aa7:9f0b:0:b0:6e4:68fa:f1fa with SMTP id g11-20020aa79f0b000000b006e468faf1famr4568971pfr.34.1708455914097;
+        Tue, 20 Feb 2024 11:05:14 -0800 (PST)
+Received: from kernelci-production.internal.cloudapp.net ([20.171.243.82])
+        by smtp.gmail.com with ESMTPSA id t5-20020a625f05000000b006e25d43630asm7230799pfb.108.2024.02.20.11.05.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 20 Feb 2024 11:05:13 -0800 (PST)
+Message-ID: <65d4f7e9.620a0220.0fc4.5319@mx.google.com>
+Date: Tue, 20 Feb 2024 11:05:13 -0800 (PST)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB11269.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5d35f8af-6703-42db-9790-08dc322da255
-X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Feb 2024 16:04:35.7878
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: yqCxPNO9TQ3sYAYawtgORofRTqk58sPp3HjZCf5VW6pXcnL85eBCU3H55BfxTq0vkOnXxYmAJ+NmS8uHh0RpYy5Dtx2z88o3sxEfy5MiLoc=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY3PR01MB10174
+Content-Transfer-Encoding: quoted-printable
+X-Kernelci-Tree: renesas
+X-Kernelci-Branch: master
+X-Kernelci-Kernel: renesas-devel-2024-02-20-v6.8-rc5
+X-Kernelci-Report-Type: test
+Subject: renesas/master baseline-nfs: 25 runs,
+ 2 regressions (renesas-devel-2024-02-20-v6.8-rc5)
+To: linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
+From: "kernelci.org bot" <bot@kernelci.org>
 
-Hi Uwe,
+renesas/master baseline-nfs: 25 runs, 2 regressions (renesas-devel-2024-02-=
+20-v6.8-rc5)
 
-> -----Original Message-----
-> From: Biju Das
-> Sent: Friday, February 9, 2024 1:39 PM
-> To: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
-> Cc: Thierry Reding <thierry.reding@gmail.com>; Philipp Zabel
-> <p.zabel@pengutronix.de>; Geert Uytterhoeven <geert+renesas@glider.be>;
-> Fabrizio Castro <fabrizio.castro.jz@renesas.com>; Magnus Damm
-> <magnus.damm@gmail.com>; linux-pwm@vger.kernel.org; linux-renesas-
-> soc@vger.kernel.org; Prabhakar Mahadev Lad <prabhakar.mahadev-
-> lad.rj@bp.renesas.com>
-> Subject: RE: [PATCH v17 3/4] pwm: Add support for RZ/G2L GPT
->=20
-> Hi Uwe,
->=20
-> Thanks for the feedback
->=20
-> > -----Original Message-----
-> > From: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
-> > Sent: Wednesday, December 13, 2023 11:40 AM
-> > Subject: Re: [PATCH v17 3/4] pwm: Add support for RZ/G2L GPT
-> >
-> > On Wed, Dec 13, 2023 at 09:06:56AM +0000, Biju Das wrote:
-> > > Hi Uwe,
-> > >
-> > > > -----Original Message-----
-> > > > From: Biju Das
-> > > > Sent: Friday, December 8, 2023 2:12 PM
-> > > > Subject: RE: [PATCH v17 3/4] pwm: Add support for RZ/G2L GPT
-> > > >
-> > > > Hi Uwe Kleine-K=F6nig,
-> > > >
-> > > > > -----Original Message-----
-> > > > > From: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
-> > > > > Sent: Friday, December 8, 2023 2:07 PM
-> > > > > Subject: Re: [PATCH v17 3/4] pwm: Add support for RZ/G2L GPT
-> > > > >
-> > > > > Hello Biju,
-> > > > >
-> > > > > On Fri, Dec 08, 2023 at 10:34:55AM +0000, Biju Das wrote:
-> > > > > > > -----Original Message-----
-> > > > > > > From: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
-> > > > > > > Sent: Thursday, December 7, 2023 9:42 PM
-> > > > > > > Subject: Re: [PATCH v17 3/4] pwm: Add support for RZ/G2L GPT
-> > > > > > >
-> > > > > > > Hello Biju,
-> > > > > > >
-> > > > > > > On Thu, Dec 07, 2023 at 06:26:44PM +0000, Biju Das wrote:
-> > > > > > > > ######[  304.213944] pwm-rzg2l-gpt 10048000.pwm: .apply is
-> > > > > > > > not idempotent (ena=3D1 pol=3D0 5500000000000/4398035251200=
-0)
-> > > > > > > > ->
-> > > > > > > > (ena=3D1
-> > > > > > > > pol=3D0
-> > > > > > > > 5500000000000/43980239923200)
-> > > > > > > > 	 High setting##
-> > > > > > > > 	[  304.230854] pwm-rzg2l-gpt 10048000.pwm: .apply is not
-> > > > > > > > idempotent
-> > > > > > > > (ena=3D1 pol=3D0 23980465100800/43980352512000) -> (ena=3D1
-> > > > > > > > pol=3D0
-> > > > > > > > 23980465100800/43980239923200)
-> > > > > > >
-> > > > > > > Have you tried to understand that? What is the clk rate when
-> > > > > > > this
-> > > > > happens?
-> > > > > > > You're not suggesting that mul_u64_u64_div_u64 is wrong, are
-> > you?
-> > > > > >
-> > > > > > mul_u64_u64_div_u64() works for certain values. But for very
-> > > > > > high values we are losing precision and is giving unexpected
-> > values.
-> > > > >
-> > > > > Can you reduce the problem to a bogus result of
-> > mul_u64_u64_div_u64()?
-> > > > > I'd be very surprised if the problem was mul_u64_u64_div_u64()
-> > > > > and not how it's used in your pwm driver.
-> > > >
-> > > > When I looked last time, it drops precision here[1]. I will
-> > > > recheck
-> > again.
-> > > > On RZ/G2L family devices, the PWM rate is 100MHz.
-> > > >
-> > >  [1]
-> > > https://elixir.bootlin.com/linux/v6.7-rc4/source/lib/math/div64.c#L2
-> > > 14
-> > >
-> > >
-> > > Please find the bug details in mul_u64_u64_div_u64() compared to
-> > > mul_u64_u32_div()
-> > >
-> > > Theoretical calculation:
-> > >
-> > > Period =3D 43980465100800 nsec
-> > > Duty_cycle =3D 23980465100800 nsec
-> > > PWM rate =3D 100MHz
-> > >
-> > > period_cycles(tmp) =3D 43980465100800 * (100 * 10 ^ 6) / (10 ^ 9) =3D
-> > > 4398046510080 prescale =3D ((43980465100800 >> 32) >=3D 256) =3D 5
-> > > period_cycles =3D min (round_up(4398046510080,( 1 << (2 * 5 )),
-> > > U32_MAX) =3D min (4295162607, U32_MAX) =3D U32_MAX =3D 0xFFFFFFFF
-> > > duty_cycles =3D min (2398046510080, ,( 1 << (2 * 5 )), U32_MAX) =3D  =
-min
-> > > (2341842295,
-> > > U32_MAX) =3D 0x8B95AD77
-> > >
-> > >
-> > > with mul_u64_u64_div_u64 (ARM64):
-> > > [   54.551612] ##### period_cycles_norm=3D43980465100800
-> > > [   54.305923] ##### period_cycles_tmp=3D4398035251080 ---> This is t=
-he
-> > bug.
-> >
-> > It took me a while to read from your mail that
-> >
-> > 	mul_u64_u64_div_u64(43980465100800, 100000000, 1000000000)
-> >
-> > yields 4398035251080 on your machine (which isn't the exact result).
-> >
-> > I came to the same conclusion, damn, I thought mul_u64_u64_div_u64()
-> > was exact. I wonder if it's worth to improve that. One fun fact is
-> > that while mul_u64_u64_div_u64(43980465100800, 100000000, 1000000000)
-> > yields
-> > 4398035251080 (which is off by 11259000), swapping the parameters (and
-> > thus using mul_u64_u64_div_u64(100000000, 43980465100800, 1000000000))
-> > yields 4398046510080 which is the exact result.
-> >
-> > So this exact issue can be improved by:
-> >
-> > diff --git a/lib/math/div64.c b/lib/math/div64.c index
-> > 55a81782e271..9523c3cd37f7 100644
-> > --- a/lib/math/div64.c
-> > +++ b/lib/math/div64.c
-> > @@ -188,6 +188,9 @@ u64 mul_u64_u64_div_u64(u64 a, u64 b, u64 c)
-> >  	u64 res =3D 0, div, rem;
-> >  	int shift;
-> >
-> > +	if (a > b)
-> > +		return mul_u64_u64_div_u64(b, a, c);
-> > +
-> >  	/* can a * b overflow ? */
-> >  	if (ilog2(a) + ilog2(b) > 62) {
-> >  		/*
-> >
-> > but the issue stays in principle. I'll think about that for a while.
->=20
-> OK, I found a way to fix this issue
->=20
-> static inline u64 rzg2l_gpt_mul_u64_u64_div_u64_roundup(u64 a, u64 b, u64
-> c) {
-> 	u64 retval;
->=20
-> 	if (a > b)
-> 		retval =3D mul_u64_u64_div_u64(b, a, c / 2);
-> 	else
-> 		retval =3D mul_u64_u64_div_u64(a, b, c / 2);
->=20
-> 	return DIV64_U64_ROUND_UP(retval, 2);
-> }
->=20
-> In my case divisor is multiple of 2 as it is clk frequency.
->=20
-> a =3D 43980465100800, b=3D 100000000, c =3D 1000000000, expected result a=
-fter
-> rounding up =3D 4398046510080
->=20
-> with using above api,
->=20
-> 43980465100800 * 100000000 / 500000000 =3D 8796093020160. roundup
-> (8796093020160, 2) =3D 4398046510080
->=20
-> I am planning to send v18 with these changes.
->=20
-> Please let me know if you have any comments.
+Regressions Summary
+-------------------
+
+platform              | arch  | lab             | compiler | defconfig     =
+     | regressions
+----------------------+-------+-----------------+----------+---------------=
+-----+------------
+imx53-qsrb            | arm   | lab-pengutronix | gcc-10   | multi_v7_defco=
+nfig | 1          =
+
+kontron-kbox-a-230-ls | arm64 | lab-kontron     | gcc-10   | defconfig     =
+     | 1          =
 
 
-I found another way to avoid overflow and also we are not losing any precis=
-ion.
+  Details:  https://kernelci.org/test/job/renesas/branch/master/kernel/rene=
+sas-devel-2024-02-20-v6.8-rc5/plan/baseline-nfs/
 
-+	 * Rate is in MHz and is always integer for peripheral clk
-+	 * 2^32(val) * 2^10 (prescalar) * 10^9 > 2^64
-+	 * 2^32(val) * 2^10 (prescalar) * 10^6 < 2^64
-+	 * Multiply val with prescalar first, if the result is less than
-+	 * 2^34, then multiply by 10^9. Otherwise divide nr and dr by 10^3
-+	 * so that it will never overflow.
- 	 */
+  Test:     baseline-nfs
+  Tree:     renesas
+  Branch:   master
+  Describe: renesas-devel-2024-02-20-v6.8-rc5
+  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-d=
+evel.git
+  SHA:      b69e73e919f617121d1fc0703b270e999ac5f559 =
 
-Here I can useDIV64_U64_ROUND_UP() instead. I will send v18 based on this.
 
-Cheers,
-Biju
 
+Test Regressions
+---------------- =
+
+
+
+platform              | arch  | lab             | compiler | defconfig     =
+     | regressions
+----------------------+-------+-----------------+----------+---------------=
+-----+------------
+imx53-qsrb            | arm   | lab-pengutronix | gcc-10   | multi_v7_defco=
+nfig | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/65d4c7602ddcacf91c6370c0
+
+  Results:     5 PASS, 1 FAIL, 1 SKIP
+  Full config: multi_v7_defconfig
+  Compiler:    gcc-10 (arm-linux-gnueabihf-gcc (Debian 10.2.1-6) 10.2.1 202=
+10110)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+024-02-20-v6.8-rc5/arm/multi_v7_defconfig/gcc-10/lab-pengutronix/baseline-n=
+fs-imx53-qsrb.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+024-02-20-v6.8-rc5/arm/multi_v7_defconfig/gcc-10/lab-pengutronix/baseline-n=
+fs-imx53-qsrb.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
+240129.0/armhf/initrd.cpio.gz =
+
+
+
+  * baseline-nfs.bootrr.deferred-probe-empty: https://kernelci.org/test/cas=
+e/id/65d4c7602ddcacf91c6370c9
+        failing since 350 days (last pass: renesas-devel-2023-02-21-v6.2, f=
+irst fail: renesas-devel-2023-03-06-v6.3-rc1)
+
+    2024-02-20T15:37:57.265676  + set +x
+    2024-02-20T15:37:57.265849  [   29.710836] <LAVA_SIGNAL_ENDRUN 0_dmesg =
+1026107_1.6.2.3.1>
+    2024-02-20T15:37:57.375368  #
+    2024-02-20T15:37:57.476762  / # #export SHELL=3D/bin/sh
+    2024-02-20T15:37:57.477243  =
+
+    2024-02-20T15:37:57.578095  / # export SHELL=3D/bin/sh. /lava-1026107/e=
+nvironment
+    2024-02-20T15:37:57.578586  =
+
+    2024-02-20T15:37:57.679413  / # . /lava-1026107/environment/lava-102610=
+7/bin/lava-test-runner /lava-1026107/1
+    2024-02-20T15:37:57.679997  =
+
+    2024-02-20T15:37:57.683153  / # /lava-1026107/bin/lava-test-runner /lav=
+a-1026107/1 =
+
+    ... (13 line(s) more)  =
+
+ =
+
+
+
+platform              | arch  | lab             | compiler | defconfig     =
+     | regressions
+----------------------+-------+-----------------+----------+---------------=
+-----+------------
+kontron-kbox-a-230-ls | arm64 | lab-kontron     | gcc-10   | defconfig     =
+     | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/65d4c59bd8c7402ee56370b9
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: defconfig
+  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
+110)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+024-02-20-v6.8-rc5/arm64/defconfig/gcc-10/lab-kontron/baseline-nfs-kontron-=
+kbox-a-230-ls.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+024-02-20-v6.8-rc5/arm64/defconfig/gcc-10/lab-kontron/baseline-nfs-kontron-=
+kbox-a-230-ls.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
+240129.0/arm64/initrd.cpio.gz =
+
+
+
+  * baseline-nfs.login: https://kernelci.org/test/case/id/65d4c59bd8c7402ee=
+56370ba
+        failing since 29 days (last pass: renesas-devel-2024-01-08-v6.7, fi=
+rst fail: renesas-devel-2024-01-22-v6.8-rc1) =
+
+ =20
 
