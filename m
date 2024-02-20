@@ -1,88 +1,371 @@
-Return-Path: <linux-renesas-soc+bounces-3015-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-3016-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6434585C544
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 Feb 2024 20:56:24 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id E097385C6A4
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 Feb 2024 22:03:42 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 959161C21D6B
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 Feb 2024 19:56:23 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 57985B224F1
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 Feb 2024 21:03:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C6F7E14AD2B;
-	Tue, 20 Feb 2024 19:56:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 991921509BF;
+	Tue, 20 Feb 2024 21:03:34 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from xavier.telenet-ops.be (xavier.telenet-ops.be [195.130.132.52])
+Received: from andre.telenet-ops.be (andre.telenet-ops.be [195.130.132.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B955F14AD2F
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 20 Feb 2024 19:56:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.132.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C79B7151CD2
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 20 Feb 2024 21:03:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.132.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708458965; cv=none; b=tl187LHywMFoi+DyRZs8UjBBFfaLii5Z2kEOHC2oLu7yWgLpcwgH22aPeoW7CLCZaV9kev+rPXfdmEXKPC7vvsjVtry31J6A/sDtjlnN2OWY/ZeCgxzaMryuzDX1p2C9EboYjUebwGfJGX/6UlLdE3WhySF2JWZhrWma/RD1df4=
+	t=1708463014; cv=none; b=aaZLiyF2xd+sqvoE+DQpZF3I5kEEEfh4TNHoPgETZXl54di3U8dFheel1DrzPnhT2rICcn9BKmxpD4azRwco4rbf/BzpjkUzbcXuLVyWfrpysqLwMx431iT3xLJ5QINlcuChYoQYfq4Jv/J7RZbIe2/U7/AWqAzi0vxZIrHvrNc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708458965; c=relaxed/simple;
-	bh=D5vhBstpcCoK1NqmG/Ng08m1JoYZgUtCGb/jUTKIQ7s=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=CeYsUioLPZdctg6MYdB/0x/de1fpHlz95G3HjgyE2ym29JJZO1Pww5j1sZpXvNSTmRFpSR5tCI/KPwY7axQKiD4v5UpGVhFuOrBUmJlIzy/XswjeIIVBxZo9BH6yH5nbMfnhyyG7+7Z04Qa2EzBSOol0B1H3S9lvU2ee36Mz60E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.132.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be
+	s=arc-20240116; t=1708463014; c=relaxed/simple;
+	bh=vm6uSB6JaZw2WzCggYuBKNVvljB75A+JwEwpklaPAPU=;
+	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=IVYPEr4ciWSCxMcs3iH5bkrgvWGI/2mz5hLUQgNjwM46QntLPTFP/xCjpvRGIohLI/IJym6+UjPhLXFwloId5NQk8+MZsventW7HNlNanEdGxa5I+nwyfMXBF2dZCwNT0WwiFYp557o49nhRXg2OuTOQ9VBHQwYljxXzqO/dtFI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.132.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
 Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed40:a66f:1f5b:42c8:e3c5])
-	by xavier.telenet-ops.be with bizsmtp
-	id pXvu2B00J1N8lK501Xvulp; Tue, 20 Feb 2024 20:55:54 +0100
-Received: from rox.of.borg ([192.168.97.57])
-	by ramsan.of.borg with esmtp (Exim 4.95)
+	by andre.telenet-ops.be with bizsmtp
+	id pZ3D2B00A1N8lK501Z3Dp7; Tue, 20 Feb 2024 22:03:22 +0100
+Received: from geert (helo=localhost)
+	by ramsan.of.borg with local-esmtp (Exim 4.95)
 	(envelope-from <geert@linux-m68k.org>)
-	id 1rcWDS-001BcU-3N;
-	Tue, 20 Feb 2024 20:55:54 +0100
-Received: from geert by rox.of.borg with local (Exim 4.95)
-	(envelope-from <geert@linux-m68k.org>)
-	id 1rcWDa-009jV3-B3;
-	Tue, 20 Feb 2024 20:55:54 +0100
-From: Geert Uytterhoeven <geert+renesas@glider.be>
-To: Andrew Davis <afd@ti.com>,
-	Sebastian Reichel <sre@kernel.org>
-Cc: linux-pm@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH] power: reset: rmobile-reset: Map correct MMIO resource
-Date: Tue, 20 Feb 2024 20:55:53 +0100
-Message-Id: <3b267fb1b303f63248934a1a77bee319e1c44879.1708458882.git.geert+renesas@glider.be>
-X-Mailer: git-send-email 2.34.1
+	id 1rcXGj-001Bz0-Bj;
+	Tue, 20 Feb 2024 22:03:13 +0100
+Date: Tue, 20 Feb 2024 22:03:13 +0100 (CET)
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+To: Linus Walleij <linus.walleij@linaro.org>
+cc: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>, 
+    Ming Lei <ming.lei@redhat.com>, Arnd Bergmann <arnd@arndb.de>, 
+    Ulf Hansson <ulf.hansson@linaro.org>, Nicolas Pitre <nico@fluxnic.net>, 
+    Aaro Koskinen <aaro.koskinen@iki.fi>, 
+    Adrian Hunter <adrian.hunter@intel.com>, 
+    Angelo Dureghello <angelo.dureghello@timesys.com>, 
+    linux-mmc@vger.kernel.org, linux-block@vger.kernel.org, 
+    linux-omap@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v2 9/9] mmc: sh_mmcif: Use sg_miter for PIO
+In-Reply-To: <20240127-mmc-proper-kmap-v2-9-d8e732aa97d1@linaro.org>
+Message-ID: <7f40cb40-1a1-532-75fc-d3376ed27a@linux-m68k.org>
+References: <20240127-mmc-proper-kmap-v2-0-d8e732aa97d1@linaro.org> <20240127-mmc-proper-kmap-v2-9-d8e732aa97d1@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII; format=flowed
 
-The registers related to reset generation are located in the second
-register block.  However, the conversion to device life-cycle managed
-ioremap function accidentally changed the mapping to the first register
-block.
+ 	Hi Linus,
 
-Fixes: 0867276eb12230a5 ("power: reset: rmobile-reset: Use devm_platform_ioremap_resource() helper")
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
- drivers/power/reset/rmobile-reset.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Sat, 27 Jan 2024, Linus Walleij wrote:
+> Use sg_miter iterator instead of sg_virt() and custom code
+> to loop over the scatterlist. The memory iterator will do
+> bounce buffering if the page happens to be located in high memory,
+> which the driver may or may not be using.
+>
+> Suggested-by: Christoph Hellwig <hch@lst.de>
+> Link: https://lore.kernel.org/linux-mmc/20240122073423.GA25859@lst.de/
+> Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
 
-diff --git a/drivers/power/reset/rmobile-reset.c b/drivers/power/reset/rmobile-reset.c
-index 80265608c18e0a20..14682cd59e618d5f 100644
---- a/drivers/power/reset/rmobile-reset.c
-+++ b/drivers/power/reset/rmobile-reset.c
-@@ -33,7 +33,7 @@ static int rmobile_reset_probe(struct platform_device *pdev)
- {
- 	int error;
- 
--	sysc_base2 = devm_platform_ioremap_resource(pdev, 0);
-+	sysc_base2 = devm_platform_ioremap_resource(pdev, 1);
- 	if (IS_ERR(sysc_base2))
- 		return PTR_ERR(sysc_base2);
- 
--- 
-2.34.1
+Thanks for your patch, which is now commit 27b57277d9ba3a90 ("mmc:
+sh_mmcif: Use sg_miter for PIO") in mmc/next.
 
+I have bisected the following BUGs on R-Mobile APE6 (also seen on
+R-Mobile A1 and SH-Mobile AG5) to this commit:
+
+     sh_mobile_sdhi ee120000.mmc: mmc1 base at 0xee120000, max clock rate 12 MHz
+     mmc2: new high speed MMC card at address 0001
+     sh_mobile_sdhi ee100000.mmc: mmc0 base at 0xee100000, max clock rate 88 MHz
+     mmcblk2: mmc2:0001 MMC08G 7.33 GiB
+     BUG: sleeping function called from invalid context at kernel/workqueue.c:3347
+     in_atomic(): 1, irqs_disabled(): 0, non_block: 0, pid: 35, name: irq/151-ee20000
+     preempt_count: 1, expected: 0
+     no locks held by irq/151-ee20000/35.
+     CPU: 0 PID: 35 Comm: irq/151-ee20000 Not tainted 6.8.0-rc4-ape6evm-00017-g27b57277d9ba #491
+     Hardware name: Generic R8A73A4 (Flattened Device Tree)
+      unwind_backtrace from show_stack+0x10/0x14
+      show_stack from dump_stack_lvl+0x68/0x90
+      dump_stack_lvl from __might_resched+0x1ac/0x228
+      __might_resched from __flush_work+0x20c/0x2e4
+      __flush_work from __cancel_work_timer+0x118/0x198
+      __cancel_work_timer from sh_mmcif_irqt+0x38/0x8f8
+      sh_mmcif_irqt from irq_thread_fn+0x1c/0x58
+      irq_thread_fn from irq_thread+0x10c/0x218
+      irq_thread from kthread+0xf0/0x100
+      kthread from ret_from_fork+0x14/0x28
+     Exception stack(0xf0959fb0 to 0xf0959ff8)
+     9fa0:                                     00000000 00000000 00000000 00000000
+     9fc0: 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000
+     9fe0: 00000000 00000000 00000000 00000000 00000013 00000000
+     BUG: scheduling while atomic: irq/151-ee20000/35/0x00000002
+     no locks held by irq/151-ee20000/35.
+     CPU: 0 PID: 35 Comm: irq/151-ee20000 Tainted: G        W          6.8.0-rc4-ape6evm-00017-g27b57277d9ba #491
+     Hardware name: Generic R8A73A4 (Flattened Device Tree)
+      unwind_backtrace from show_stack+0x10/0x14
+      show_stack from dump_stack_lvl+0x68/0x90
+      dump_stack_lvl from __schedule_bug+0x5c/0x7c
+      __schedule_bug from __schedule+0xa0/0x9bc
+      __schedule from schedule+0x64/0x94
+      schedule from irq_thread+0x1dc/0x218
+      irq_thread from kthread+0xf0/0x100
+      kthread from ret_from_fork+0x14/0x28
+     Exception stack(0xf0959fb0 to 0xf0959ff8)
+     9fa0:                                     00000000 00000000 00000000 00000000
+     9fc0: 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000
+     9fe0: 00000000 00000000 00000000 00000000 00000013 00000000
+     sh_mmcif ee200000.mmc: Timeout waiting for 2 on CMD18
+
+Reverting this commit fixes the issue.
+
+> --- a/drivers/mmc/host/sh_mmcif.c
+> +++ b/drivers/mmc/host/sh_mmcif.c
+> @@ -227,14 +227,12 @@ struct sh_mmcif_host {
+> 	bool dying;
+> 	long timeout;
+> 	void __iomem *addr;
+> -	u32 *pio_ptr;
+> 	spinlock_t lock;		/* protect sh_mmcif_host::state */
+> 	enum sh_mmcif_state state;
+> 	enum sh_mmcif_wait_for wait_for;
+> 	struct delayed_work timeout_work;
+> 	size_t blocksize;
+> -	int sg_idx;
+> -	int sg_blkidx;
+> +	struct sg_mapping_iter sg_miter;
+> 	bool power;
+> 	bool ccs_enable;		/* Command Completion Signal support */
+> 	bool clk_ctrl2_enable;
+> @@ -600,32 +598,17 @@ static int sh_mmcif_error_manage(struct sh_mmcif_host *host)
+> 	return ret;
+> }
+>
+> -static bool sh_mmcif_next_block(struct sh_mmcif_host *host, u32 *p)
+> -{
+> -	struct mmc_data *data = host->mrq->data;
+> -
+> -	host->sg_blkidx += host->blocksize;
+> -
+> -	/* data->sg->length must be a multiple of host->blocksize? */
+> -	BUG_ON(host->sg_blkidx > data->sg->length);
+> -
+> -	if (host->sg_blkidx == data->sg->length) {
+> -		host->sg_blkidx = 0;
+> -		if (++host->sg_idx < data->sg_len)
+> -			host->pio_ptr = sg_virt(++data->sg);
+> -	} else {
+> -		host->pio_ptr = p;
+> -	}
+> -
+> -	return host->sg_idx != data->sg_len;
+> -}
+> -
+> static void sh_mmcif_single_read(struct sh_mmcif_host *host,
+> 				 struct mmc_request *mrq)
+> {
+> +	struct mmc_data *data = mrq->data;
+> +
+> 	host->blocksize = (sh_mmcif_readl(host->addr, MMCIF_CE_BLOCK_SET) &
+> 			   BLOCK_SIZE_MASK) + 3;
+>
+> +	sg_miter_start(&host->sg_miter, data->sg, data->sg_len,
+> +		       SG_MITER_ATOMIC | SG_MITER_TO_SG);
+> +
+> 	host->wait_for = MMCIF_WAIT_FOR_READ;
+>
+> 	/* buf read enable */
+> @@ -634,20 +617,32 @@ static void sh_mmcif_single_read(struct sh_mmcif_host *host,
+>
+> static bool sh_mmcif_read_block(struct sh_mmcif_host *host)
+> {
+> +	struct sg_mapping_iter *sgm = &host->sg_miter;
+> 	struct device *dev = sh_mmcif_host_to_dev(host);
+> 	struct mmc_data *data = host->mrq->data;
+> -	u32 *p = sg_virt(data->sg);
+> +	u32 *p;
+> 	int i;
+>
+> 	if (host->sd_error) {
+> +		sg_miter_stop(sgm);
+> 		data->error = sh_mmcif_error_manage(host);
+> 		dev_dbg(dev, "%s(): %d\n", __func__, data->error);
+> 		return false;
+> 	}
+>
+> +	if (!sg_miter_next(sgm)) {
+> +		/* This should not happen on single blocks */
+> +		sg_miter_stop(sgm);
+> +		return false;
+> +	}
+> +
+> +	p = sgm->addr;
+> +
+> 	for (i = 0; i < host->blocksize / 4; i++)
+> 		*p++ = sh_mmcif_readl(host->addr, MMCIF_CE_DATA);
+>
+> +	sg_miter_stop(&host->sg_miter);
+> +
+> 	/* buffer read end */
+> 	sh_mmcif_bitset(host, MMCIF_CE_INT_MASK, MASK_MBUFRE);
+> 	host->wait_for = MMCIF_WAIT_FOR_READ_END;
+> @@ -666,34 +661,40 @@ static void sh_mmcif_multi_read(struct sh_mmcif_host *host,
+> 	host->blocksize = sh_mmcif_readl(host->addr, MMCIF_CE_BLOCK_SET) &
+> 		BLOCK_SIZE_MASK;
+>
+> +	sg_miter_start(&host->sg_miter, data->sg, data->sg_len,
+> +		       SG_MITER_ATOMIC | SG_MITER_TO_SG);
+> +
+> 	host->wait_for = MMCIF_WAIT_FOR_MREAD;
+> -	host->sg_idx = 0;
+> -	host->sg_blkidx = 0;
+> -	host->pio_ptr = sg_virt(data->sg);
+>
+> 	sh_mmcif_bitset(host, MMCIF_CE_INT_MASK, MASK_MBUFREN);
+> }
+>
+> static bool sh_mmcif_mread_block(struct sh_mmcif_host *host)
+> {
+> +	struct sg_mapping_iter *sgm = &host->sg_miter;
+> 	struct device *dev = sh_mmcif_host_to_dev(host);
+> 	struct mmc_data *data = host->mrq->data;
+> -	u32 *p = host->pio_ptr;
+> +	u32 *p;
+> 	int i;
+>
+> 	if (host->sd_error) {
+> +		sg_miter_stop(sgm);
+> 		data->error = sh_mmcif_error_manage(host);
+> 		dev_dbg(dev, "%s(): %d\n", __func__, data->error);
+> 		return false;
+> 	}
+>
+> -	BUG_ON(!data->sg->length);
+> +	if (!sg_miter_next(sgm)) {
+> +		sg_miter_stop(sgm);
+> +		return false;
+> +	}
+> +
+> +	p = sgm->addr;
+>
+> 	for (i = 0; i < host->blocksize / 4; i++)
+> 		*p++ = sh_mmcif_readl(host->addr, MMCIF_CE_DATA);
+>
+> -	if (!sh_mmcif_next_block(host, p))
+> -		return false;
+> +	sgm->consumed = host->blocksize;
+>
+> 	sh_mmcif_bitset(host, MMCIF_CE_INT_MASK, MASK_MBUFREN);
+>
+> @@ -703,9 +704,14 @@ static bool sh_mmcif_mread_block(struct sh_mmcif_host *host)
+> static void sh_mmcif_single_write(struct sh_mmcif_host *host,
+> 					struct mmc_request *mrq)
+> {
+> +	struct mmc_data *data = mrq->data;
+> +
+> 	host->blocksize = (sh_mmcif_readl(host->addr, MMCIF_CE_BLOCK_SET) &
+> 			   BLOCK_SIZE_MASK) + 3;
+>
+> +	sg_miter_start(&host->sg_miter, data->sg, data->sg_len,
+> +		       SG_MITER_ATOMIC | SG_MITER_FROM_SG);
+> +
+> 	host->wait_for = MMCIF_WAIT_FOR_WRITE;
+>
+> 	/* buf write enable */
+> @@ -714,20 +720,32 @@ static void sh_mmcif_single_write(struct sh_mmcif_host *host,
+>
+> static bool sh_mmcif_write_block(struct sh_mmcif_host *host)
+> {
+> +	struct sg_mapping_iter *sgm = &host->sg_miter;
+> 	struct device *dev = sh_mmcif_host_to_dev(host);
+> 	struct mmc_data *data = host->mrq->data;
+> -	u32 *p = sg_virt(data->sg);
+> +	u32 *p;
+> 	int i;
+>
+> 	if (host->sd_error) {
+> +		sg_miter_stop(sgm);
+> 		data->error = sh_mmcif_error_manage(host);
+> 		dev_dbg(dev, "%s(): %d\n", __func__, data->error);
+> 		return false;
+> 	}
+>
+> +	if (!sg_miter_next(sgm)) {
+> +		/* This should not happen on single blocks */
+> +		sg_miter_stop(sgm);
+> +		return false;
+> +	}
+> +
+> +	p = sgm->addr;
+> +
+> 	for (i = 0; i < host->blocksize / 4; i++)
+> 		sh_mmcif_writel(host->addr, MMCIF_CE_DATA, *p++);
+>
+> +	sg_miter_stop(&host->sg_miter);
+> +
+> 	/* buffer write end */
+> 	sh_mmcif_bitset(host, MMCIF_CE_INT_MASK, MASK_MDTRANE);
+> 	host->wait_for = MMCIF_WAIT_FOR_WRITE_END;
+> @@ -746,34 +764,40 @@ static void sh_mmcif_multi_write(struct sh_mmcif_host *host,
+> 	host->blocksize = sh_mmcif_readl(host->addr, MMCIF_CE_BLOCK_SET) &
+> 		BLOCK_SIZE_MASK;
+>
+> +	sg_miter_start(&host->sg_miter, data->sg, data->sg_len,
+> +		       SG_MITER_ATOMIC | SG_MITER_FROM_SG);
+> +
+> 	host->wait_for = MMCIF_WAIT_FOR_MWRITE;
+> -	host->sg_idx = 0;
+> -	host->sg_blkidx = 0;
+> -	host->pio_ptr = sg_virt(data->sg);
+>
+> 	sh_mmcif_bitset(host, MMCIF_CE_INT_MASK, MASK_MBUFWEN);
+> }
+>
+> static bool sh_mmcif_mwrite_block(struct sh_mmcif_host *host)
+> {
+> +	struct sg_mapping_iter *sgm = &host->sg_miter;
+> 	struct device *dev = sh_mmcif_host_to_dev(host);
+> 	struct mmc_data *data = host->mrq->data;
+> -	u32 *p = host->pio_ptr;
+> +	u32 *p;
+> 	int i;
+>
+> 	if (host->sd_error) {
+> +		sg_miter_stop(sgm);
+> 		data->error = sh_mmcif_error_manage(host);
+> 		dev_dbg(dev, "%s(): %d\n", __func__, data->error);
+> 		return false;
+> 	}
+>
+> -	BUG_ON(!data->sg->length);
+> +	if (!sg_miter_next(sgm)) {
+> +		sg_miter_stop(sgm);
+> +		return false;
+> +	}
+> +
+> +	p = sgm->addr;
+>
+> 	for (i = 0; i < host->blocksize / 4; i++)
+> 		sh_mmcif_writel(host->addr, MMCIF_CE_DATA, *p++);
+>
+> -	if (!sh_mmcif_next_block(host, p))
+> -		return false;
+> +	sgm->consumed = host->blocksize;
+>
+> 	sh_mmcif_bitset(host, MMCIF_CE_INT_MASK, MASK_MBUFWEN);
+>
+
+Gr{oetje,eeting}s,
+
+ 						Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+ 							    -- Linus Torvalds
 
