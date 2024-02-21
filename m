@@ -1,147 +1,252 @@
-Return-Path: <linux-renesas-soc+bounces-3025-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-3026-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD48485D00C
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 21 Feb 2024 06:47:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 446A485D038
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 21 Feb 2024 07:02:50 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 92A271C20E33
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 21 Feb 2024 05:47:00 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 74A641C234CB
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 21 Feb 2024 06:02:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0165439FFE;
-	Wed, 21 Feb 2024 05:44:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7292B12B89;
+	Wed, 21 Feb 2024 06:02:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iZ4TzG5V"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from verein.lst.de (verein.lst.de [213.95.11.211])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C210238FB0;
-	Wed, 21 Feb 2024 05:44:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.95.11.211
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A687039AFE
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 21 Feb 2024 06:02:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708494275; cv=none; b=ZD4zBiL8xmdWw5RIC3URfqPtJmjGkD59X8uU+30ASb4d0Y7NcavWGZAGgV5yOBQTCM1L0RYDMWudBaXk47IvKOrkkLPoPirB1q9TTROwZva945R/XTkK/YXH/xKSYC13QDL9x8MjNEhup0Ceu/pihgG3NjQdApKhGyYLj5Kzs40=
+	t=1708495367; cv=none; b=hFD100zlk3aDtFlnj4m11UW6UhK37kY3SynFye/hThmEJooRcor0LaH1Pv7WXmvpAHZT/NrkdglyL73WY+w6G/MMOljV8DDx1w/uamPcNxrQeTdFWiOgT6lrGLmuywTao0OsV8fwK2y0ZqR8So1cpPNIWlIZ131fXZ7YSDLiQZQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708494275; c=relaxed/simple;
-	bh=vWdAxpAefZa8/oWIvIAjkimATzuMQ8IAnCIrFXs/XK8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fxZsGyDPHCvKl5haZqUxavrb9ShKjqzoyMXpEzTixPTxrLVUU0DV/PhdTuDQHg80imQcCBQ0VB93nEl9HX3SVB0dcIoH8mZlUBydgEOKBX6joHmN5OIPGd8hb3oSktGx9DZdUoBi86oNUqpaGn7doYiTWbnu5/HiWk1pe2viUZY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de; spf=pass smtp.mailfrom=lst.de; arc=none smtp.client-ip=213.95.11.211
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id AF02468D07; Wed, 21 Feb 2024 06:44:24 +0100 (CET)
-Date: Wed, 21 Feb 2024 06:44:24 +0100
-From: Christoph Hellwig <hch@lst.de>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>,
-	Richard Weinberger <richard@nod.at>,
-	Anton Ivanov <anton.ivanov@cambridgegreys.com>,
-	Johannes Berg <johannes@sipsolutions.net>,
-	Justin Sanders <justin@coraid.com>,
-	Denis Efremov <efremov@linux.com>,
-	Josef Bacik <josef@toxicpanda.com>,
-	Geoff Levand <geoff@infradead.org>,
-	Ilya Dryomov <idryomov@gmail.com>,
-	"Md. Haris Iqbal" <haris.iqbal@ionos.com>,
-	Jack Wang <jinpu.wang@ionos.com>, Ming Lei <ming.lei@redhat.com>,
-	Maxim Levitsky <maximlevitsky@gmail.com>,
-	Alex Dubov <oakad@yahoo.com>, Ulf Hansson <ulf.hansson@linaro.org>,
-	Miquel Raynal <miquel.raynal@bootlin.com>,
-	Vignesh Raghavendra <vigneshr@ti.com>,
-	Vineeth Vijayan <vneethv@linux.ibm.com>,
-	linux-block@vger.kernel.org, nbd@other.debian.org,
-	ceph-devel@vger.kernel.org, linux-mmc@vger.kernel.org,
-	linux-mtd@lists.infradead.org, linux-s390@vger.kernel.org,
-	Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Subject: Re: [PATCH 17/17] mmc: pass queue_limits to blk_mq_alloc_disk
-Message-ID: <20240221054424.GA12033@lst.de>
-References: <20240215070300.2200308-1-hch@lst.de> <20240215070300.2200308-18-hch@lst.de> <CAMuHMdWV4nWQHUpBKM2gHWeH9j9c0Di4bhg+F4-SAPEAmZuNSA@mail.gmail.com>
+	s=arc-20240116; t=1708495367; c=relaxed/simple;
+	bh=SJAi6PQbQs6w776qMEZ4BT9zCvQPsSxBH4P3iViNKJ0=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=tN+x6mXVVVxc4Hyf8VbFoo/GEqq2XEy5B40nwtCvyxDEhtBUx6lzggj7aVJRaXlPpa+0ISt5cSzixCbbJ3RZ4Wf34WW3f5XMmUhGQQ+JH7MUUrJCsL15f5mOZwuhnMEtXoJTeIG+vhWk3KY8XRz5rJEGXlGN9r5f+pYfZkEqnAU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iZ4TzG5V; arc=none smtp.client-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1708495366; x=1740031366;
+  h=date:from:to:cc:subject:message-id;
+  bh=SJAi6PQbQs6w776qMEZ4BT9zCvQPsSxBH4P3iViNKJ0=;
+  b=iZ4TzG5VhQBBsjlbi6c0hx/W5MdVsFaZ485ueB2edMmuwzISLM7oAaqK
+   TAis6Af842nqdqxD2OZTrOGhKjQikIfpKYRsyCZR2RaHlkv+KjCIP8xp5
+   cbGHU8qLfgH4TSK5C22+8IvCl4ZikY3c5DLwyQhZVpxKvRnh+o3vlOygw
+   ERaaQW2RXpdawQcwLeUsIU3biBqQx5fYVMy4jhK0U1cOjBH9fNUiwUS/z
+   R/xqh6Bq/MBHHxgejHGE2O3EMgdB5NjIYn2S8oaJtE6MJdK7buGlP/08V
+   2dUiqJtmVq2emJ/jPNdf4CdfzlnRQFvjudiP+5yZBNrLHcd8gUvcf02kW
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10990"; a="13259538"
+X-IronPort-AV: E=Sophos;i="6.06,174,1705392000"; 
+   d="scan'208";a="13259538"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Feb 2024 22:02:45 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.06,174,1705392000"; 
+   d="scan'208";a="5375246"
+Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
+  by orviesa006.jf.intel.com with ESMTP; 20 Feb 2024 22:02:43 -0800
+Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rcfgn-00056z-0u;
+	Wed, 21 Feb 2024 06:02:41 +0000
+Date: Wed, 21 Feb 2024 14:01:52 +0800
+From: kernel test robot <lkp@intel.com>
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: linux-renesas-soc@vger.kernel.org
+Subject: [geert-renesas-devel:master] BUILD SUCCESS
+ b69e73e919f617121d1fc0703b270e999ac5f559
+Message-ID: <202402211449.OsGqmSCJ-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAMuHMdWV4nWQHUpBKM2gHWeH9j9c0Di4bhg+F4-SAPEAmZuNSA@mail.gmail.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
 
-On Tue, Feb 20, 2024 at 11:01:05PM +0100, Geert Uytterhoeven wrote:
-> Hi Christoph,
-> 
-> On Thu, Feb 15, 2024 at 9:16 AM Christoph Hellwig <hch@lst.de> wrote:
-> > Pass the queue limit set at initialization time directly to
-> > blk_mq_alloc_disk instead of updating it right after the allocation.
-> >
-> > This requires refactoring the code a bit so that what was mmc_setup_queue
-> > before also allocates the gendisk now and actually sets all limits.
-> >
-> > Signed-off-by: Christoph Hellwig <hch@lst.de>
-> 
-> Thanks for your patch, which is now commit 616f876617927732 ("mmc: pass
-> queue_limits to blk_mq_alloc_disk") in block/for-next.
-> 
-> I have bisected the following failure on White-Hawk (also seen on
-> other R-Car Gen3/4 systems) to this commit:
-> 
->     renesas_sdhi_internal_dmac ee140000.mmc: mmc0 base at
-> 0x00000000ee140000, max clock rate 200 MHz
->     mmc0: new HS400 MMC card at address 0001
->     ------------[ cut here ]------------
->     WARNING: CPU: 1 PID: 20 at block/blk-settings.c:202
-> blk_validate_limits+0x12c/0x1e0
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git master
+branch HEAD: b69e73e919f617121d1fc0703b270e999ac5f559  Merge branch 'renesas-next' into renesas-devel
 
-This is:
+elapsed time: 1099m
 
-	if (lim->virt_boundary_mask) {
-		if (WARN_ON_ONCE(lim->max_segment_size &&
-                                 lim->max_segment_size != UINT_MAX))
-			return -EINVAL;
+configs tested: 163
+configs skipped: 3
 
-so we end up here with both a virt_boundary_mask and a
-max_segment_size set, which is rather bogus.  I think the
-problem is the order of check in the core blk_validate_limits
-that artificially causes this.  Can you try this patch?
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-diff --git a/block/blk-settings.c b/block/blk-settings.c
-index c4406aacc0efc6..2120b6f9fef8ea 100644
---- a/block/blk-settings.c
-+++ b/block/blk-settings.c
-@@ -182,16 +182,6 @@ static int blk_validate_limits(struct queue_limits *lim)
- 	if (WARN_ON_ONCE(lim->seg_boundary_mask < PAGE_SIZE - 1))
- 		return -EINVAL;
- 
--	/*
--	 * The maximum segment size has an odd historic 64k default that
--	 * drivers probably should override.  Just like the I/O size we
--	 * require drivers to at least handle a full page per segment.
--	 */
--	if (!lim->max_segment_size)
--		lim->max_segment_size = BLK_MAX_SEGMENT_SIZE;
--	if (WARN_ON_ONCE(lim->max_segment_size < PAGE_SIZE))
--		return -EINVAL;
--
- 	/*
- 	 * Devices that require a virtual boundary do not support scatter/gather
- 	 * I/O natively, but instead require a descriptor list entry for each
-@@ -203,6 +193,16 @@ static int blk_validate_limits(struct queue_limits *lim)
- 				 lim->max_segment_size != UINT_MAX))
- 			return -EINVAL;
- 		lim->max_segment_size = UINT_MAX;
-+	} else {
-+		/*
-+		 * The maximum segment size has an odd historic 64k default that
-+		 * drivers probably should override.  Just like the I/O size we
-+		 * require drivers to at least handle a full page per segment.
-+		 */
-+		if (!lim->max_segment_size)
-+			lim->max_segment_size = BLK_MAX_SEGMENT_SIZE;
-+		if (WARN_ON_ONCE(lim->max_segment_size < PAGE_SIZE))
-+			return -EINVAL;
- 	}
- 
- 	/*
+tested configs:
+alpha                             allnoconfig   gcc  
+alpha                            allyesconfig   gcc  
+alpha                               defconfig   gcc  
+arc                              allmodconfig   gcc  
+arc                               allnoconfig   gcc  
+arc                              allyesconfig   gcc  
+arc                                 defconfig   gcc  
+arc                   randconfig-001-20240221   gcc  
+arc                   randconfig-002-20240221   gcc  
+arm                              allmodconfig   gcc  
+arm                               allnoconfig   clang
+arm                              allyesconfig   gcc  
+arm                                 defconfig   clang
+arm                           h3600_defconfig   gcc  
+arm                   randconfig-003-20240221   gcc  
+arm                       spear13xx_defconfig   gcc  
+arm64                            allmodconfig   clang
+arm64                             allnoconfig   gcc  
+arm64                               defconfig   gcc  
+arm64                 randconfig-001-20240221   gcc  
+arm64                 randconfig-002-20240221   gcc  
+arm64                 randconfig-003-20240221   gcc  
+arm64                 randconfig-004-20240221   gcc  
+csky                             allmodconfig   gcc  
+csky                              allnoconfig   gcc  
+csky                             allyesconfig   gcc  
+csky                                defconfig   gcc  
+csky                  randconfig-001-20240221   gcc  
+csky                  randconfig-002-20240221   gcc  
+hexagon                          allmodconfig   clang
+hexagon                           allnoconfig   clang
+hexagon                          allyesconfig   clang
+hexagon                             defconfig   clang
+i386                             allmodconfig   gcc  
+i386                              allnoconfig   gcc  
+i386                             allyesconfig   gcc  
+i386         buildonly-randconfig-001-20240221   gcc  
+i386         buildonly-randconfig-002-20240221   clang
+i386         buildonly-randconfig-003-20240221   gcc  
+i386         buildonly-randconfig-004-20240221   gcc  
+i386         buildonly-randconfig-005-20240221   gcc  
+i386         buildonly-randconfig-006-20240221   gcc  
+i386                                defconfig   clang
+i386                  randconfig-001-20240221   gcc  
+i386                  randconfig-002-20240221   clang
+i386                  randconfig-003-20240221   clang
+i386                  randconfig-004-20240221   gcc  
+i386                  randconfig-005-20240221   gcc  
+i386                  randconfig-006-20240221   clang
+i386                  randconfig-011-20240221   gcc  
+i386                  randconfig-012-20240221   clang
+i386                  randconfig-013-20240221   gcc  
+i386                  randconfig-014-20240221   clang
+i386                  randconfig-015-20240221   gcc  
+i386                  randconfig-016-20240221   clang
+loongarch                        allmodconfig   gcc  
+loongarch                         allnoconfig   gcc  
+loongarch                        allyesconfig   gcc  
+loongarch                           defconfig   gcc  
+loongarch             randconfig-001-20240221   gcc  
+loongarch             randconfig-002-20240221   gcc  
+m68k                             allmodconfig   gcc  
+m68k                              allnoconfig   gcc  
+m68k                             allyesconfig   gcc  
+m68k                                defconfig   gcc  
+microblaze                       alldefconfig   gcc  
+microblaze                       allmodconfig   gcc  
+microblaze                        allnoconfig   gcc  
+microblaze                       allyesconfig   gcc  
+microblaze                          defconfig   gcc  
+mips                             allmodconfig   gcc  
+mips                              allnoconfig   gcc  
+mips                             allyesconfig   gcc  
+mips                 decstation_r4k_defconfig   gcc  
+nios2                            allmodconfig   gcc  
+nios2                             allnoconfig   gcc  
+nios2                            allyesconfig   gcc  
+nios2                               defconfig   gcc  
+nios2                 randconfig-001-20240221   gcc  
+nios2                 randconfig-002-20240221   gcc  
+openrisc                         allmodconfig   gcc  
+openrisc                          allnoconfig   gcc  
+openrisc                         allyesconfig   gcc  
+openrisc                            defconfig   gcc  
+openrisc                    or1ksim_defconfig   gcc  
+parisc                           allmodconfig   gcc  
+parisc                            allnoconfig   gcc  
+parisc                           allyesconfig   gcc  
+parisc                              defconfig   gcc  
+parisc                randconfig-001-20240221   gcc  
+parisc                randconfig-002-20240221   gcc  
+parisc64                            defconfig   gcc  
+powerpc                          allmodconfig   gcc  
+powerpc                           allnoconfig   gcc  
+powerpc                          allyesconfig   clang
+powerpc               randconfig-001-20240221   gcc  
+powerpc               randconfig-002-20240221   gcc  
+powerpc               randconfig-003-20240221   gcc  
+powerpc                         wii_defconfig   gcc  
+powerpc64             randconfig-001-20240221   gcc  
+powerpc64             randconfig-002-20240221   gcc  
+powerpc64             randconfig-003-20240221   gcc  
+riscv                            allmodconfig   clang
+riscv                             allnoconfig   gcc  
+riscv                            allyesconfig   clang
+riscv                               defconfig   clang
+riscv                 randconfig-002-20240221   gcc  
+s390                             allmodconfig   clang
+s390                              allnoconfig   clang
+s390                             allyesconfig   gcc  
+s390                                defconfig   clang
+sh                               allmodconfig   gcc  
+sh                                allnoconfig   gcc  
+sh                               allyesconfig   gcc  
+sh                                  defconfig   gcc  
+sh                        dreamcast_defconfig   gcc  
+sh                    randconfig-001-20240221   gcc  
+sh                    randconfig-002-20240221   gcc  
+sh                          sdk7786_defconfig   gcc  
+sh                        sh7763rdp_defconfig   gcc  
+sparc                            allmodconfig   gcc  
+sparc                             allnoconfig   gcc  
+sparc                            allyesconfig   gcc  
+sparc                               defconfig   gcc  
+sparc64                          allmodconfig   gcc  
+sparc64                          allyesconfig   gcc  
+sparc64                             defconfig   gcc  
+sparc64               randconfig-001-20240221   gcc  
+sparc64               randconfig-002-20240221   gcc  
+um                               allmodconfig   clang
+um                                allnoconfig   clang
+um                               allyesconfig   gcc  
+um                                  defconfig   clang
+um                             i386_defconfig   gcc  
+um                    randconfig-001-20240221   gcc  
+um                           x86_64_defconfig   clang
+x86_64                            allnoconfig   clang
+x86_64                           allyesconfig   clang
+x86_64       buildonly-randconfig-002-20240221   gcc  
+x86_64       buildonly-randconfig-003-20240221   gcc  
+x86_64                              defconfig   gcc  
+x86_64                randconfig-001-20240221   gcc  
+x86_64                randconfig-002-20240221   gcc  
+x86_64                randconfig-003-20240221   gcc  
+x86_64                randconfig-004-20240221   gcc  
+x86_64                randconfig-005-20240221   gcc  
+x86_64                randconfig-006-20240221   gcc  
+x86_64                randconfig-012-20240221   gcc  
+x86_64                randconfig-014-20240221   gcc  
+x86_64                randconfig-015-20240221   gcc  
+x86_64                randconfig-016-20240221   gcc  
+x86_64                randconfig-071-20240221   gcc  
+x86_64                randconfig-072-20240221   gcc  
+x86_64                randconfig-073-20240221   gcc  
+x86_64                randconfig-074-20240221   gcc  
+x86_64                randconfig-076-20240221   gcc  
+x86_64                          rhel-8.3-func   gcc  
+x86_64                          rhel-8.3-rust   clang
+x86_64                               rhel-8.3   gcc  
+xtensa                            allnoconfig   gcc  
+xtensa                           allyesconfig   gcc  
+xtensa                randconfig-001-20240221   gcc  
+xtensa                randconfig-002-20240221   gcc  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
