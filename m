@@ -1,129 +1,127 @@
-Return-Path: <linux-renesas-soc+bounces-3049-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-3050-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C08EF85DEC8
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 21 Feb 2024 15:22:03 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3361885DFFD
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 21 Feb 2024 15:41:07 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7BB492812D2
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 21 Feb 2024 14:22:02 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 657871C2439B
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 21 Feb 2024 14:41:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 40E3F6A8D6;
-	Wed, 21 Feb 2024 14:22:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E5E6769D10;
+	Wed, 21 Feb 2024 14:40:12 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com [209.85.128.175])
+Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com [209.85.128.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70E8A7BB11;
-	Wed, 21 Feb 2024 14:22:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBE077EF03;
+	Wed, 21 Feb 2024 14:40:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708525322; cv=none; b=dnJ/4zHw/02uSacXyKGRwJIIQGVsRIXGR4xV/JA/+DIM+AeJS0bm6zRgWCDtxwtqefjz/wxWQRUGbWJPnjxDwESBd5DM9y38Vc6W1vUV3YhrxZr5GA7dxwSWJeVhHcgur58wIb/+iTOpht3l8+SuR6iZRWqNjleFeoezDm2agE8=
+	t=1708526412; cv=none; b=gW7kRj3ASL/QPXulj0yK96kMA0X2Uyy4E1TEXHYR9dKVibmtP394eVfEV0os1u9+vJFArkCljR4mnvgS7U74FIU6GYEuQVroRHz6jPb5EaHe5zsLIrm84C9tDoey9YG0DPzaMrMPd1/cTxPZLCwYr/shldkErN2TNQcDX+ilf34=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708525322; c=relaxed/simple;
-	bh=tbyIxQREtNsFl1chxmmOOxgq+9kmqvxm0SE09qbdS3U=;
+	s=arc-20240116; t=1708526412; c=relaxed/simple;
+	bh=G6ZTjbqPICD31e+rOI/+nBkpVKCVey6wOmltX4d0iUY=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=CY3Oglk4B7hwI14DKRQMz8czfp+JKKIMTiaDZVmjpuuZs70aXWX9li3RmEb6GXTAwL0lJzVCwzn13ZWc4s+IksGCWdxII5qaszDprfTZ3YQnDcNJxzMl4AKRcU8lSNHAlxqEVdyXlgMXHaRCeU+Rt0fN3ukIs9aObGq01hYvBJw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.175
+	 To:Cc:Content-Type; b=tKG54FWjlkD8eJTqW3dm0940Iq/fItpcWj1p40PYMu8x9xXTlDRlJRvULgfXgb8fMQsp3MnvIcYJE9+zOQNTpf0CNtb0C/HVb9Wdq22kJF8XzRkZjKnVawurLJp69eCuR5Xz8wA0E0uHXmSDKKjnYT+YRk/FihI2tSYpdxGdbO8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-60893d33269so183937b3.1;
-        Wed, 21 Feb 2024 06:22:00 -0800 (PST)
+Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-6083befe2a7so33842647b3.0;
+        Wed, 21 Feb 2024 06:40:09 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708525318; x=1709130118;
+        d=1e100.net; s=20230601; t=1708526408; x=1709131208;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=1d06i49LL9s1ZMGyde7w44zWXOkIzOdUii8V8sAQFpI=;
-        b=NTRx488gZvLGLnd/od895OIil+ZBy1TC0mNLeM4izgnD5Hs1uas2t+ayuEIVMdzbJZ
-         Q2GEpA4ezz1XYTVLu9IIMW5vkRJnNbxRGYXLKLgJN00dOG6/MCB2ilYnfhLasEr61YhH
-         hB76nVtGtlwI6uKTM+6ilPALO+BJzS6dGIVj6B+uKxeKQEysLAsvSqce1km1KersM33f
-         3cun18oNMKnxRCEoxDMOKT2SHOSUdouV2+7pjYCKrmq72pynsefzooCaZnyeYVfIR7iP
-         gtNJ5KRRIlI/U7ZS3ACHZCYai1Qi+QalM7CkIIq1A3V6ALmI1aQEBVHbpy7t8fjTYi7S
-         W6IQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXUc5+ivMr1yhMWDfbUwexHhY+Q97SFo6mN9C3a9m/DbcEopgIUpbOcmWcE0NKUSCxIJRbjIHeqKaCRRiDrgQy/NzHM8qOUdBV6JwIruFWvZF7sW54kaIkInoa27IwfqaYEpcXcfoyINU9yUxWWQnBiBGjGUnbwuQxnDYZxbsyJBdauvgOQ5foxpal9
-X-Gm-Message-State: AOJu0YxuNqm6GRnEcLu1mwCwrM+fowxrFY3kd22SLZgVSwrthlZsKmWh
-	4wvxsMOwJOWwYEfXcUtYJ2dGEWaamsSfNmcTFdUgSfg7oMmxXDji8DM4Lar+3AU=
-X-Google-Smtp-Source: AGHT+IEOXOIwfrVvLYMLiVSmayIuAMz+72BSqjQLMFmTQMawKKL2HeLttcbTR5CJP7/8ts4S8FgGdQ==
-X-Received: by 2002:a0d:d685:0:b0:5ff:790d:62a with SMTP id y127-20020a0dd685000000b005ff790d062amr18310762ywd.5.1708525318664;
-        Wed, 21 Feb 2024 06:21:58 -0800 (PST)
-Received: from mail-yb1-f179.google.com (mail-yb1-f179.google.com. [209.85.219.179])
-        by smtp.gmail.com with ESMTPSA id c129-20020a0dc187000000b00607ecc4212csm2614164ywd.80.2024.02.21.06.21.58
+        bh=ph+aCEksg9IN0nKeG7YiLKMgU01clCW/JuozsVmAcSk=;
+        b=qmNPi2Uxv5MhiXD0UTb7hUVPt3hG443s4ck/90uxGdgvhDbwt7lK66Zkwc2xdUvrnt
+         Zq/VSNZZ2v1SjmjaC7IgbxJbTSd90n4CEdspYoDRlBhop3BSM7uJ/CYD4V5ULbvY45FX
+         rLT6NIdnE81/wC7CpdTQuNFSnyuK7RR45Bbo/mBwQm8pN7zP0eIx0oIodUtZYFlX9x95
+         9NlT7IvMa5cfuZnTbIDAyKgLhidXymZYRDm+uNAl8L799yavg5HQXFQFLL7GSD9NZ9Rt
+         jnOrUIcheL99t3+EPE+3/tvtMeY8HJBjjXpmkyZS8wUoZAa+0sLTsNjoHJw5M6IGwvy+
+         o/DQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVQdBqFB9+YDV9ROrRZr92suetTG4Ei5qzPHNZ7+Rt+CF0OOSAH4xCtQxuFzLobmab1BB82r/sbq1wHHwvS5CYADynn9VW7w02j1oa+B3MN8Hod3t2vL6/yAqbt8hbX7/98d1V1fRb2Blp5NK3+
+X-Gm-Message-State: AOJu0YyQVeFuyiUqJDSwYKmW3u6ZqzXSwjVbMU3Dow0Uz0V/JbmoMRld
+	joRJr2uOk2pvuCiHpUVs+ObR1Z4MuBdijmE/d8bBqf8M4yGQzXCNG5Azb1GUHr4=
+X-Google-Smtp-Source: AGHT+IH2/1xTtx9PwrUbhssseQqTzbmgcPUeDz3c+5Bdi5YJpUV6luGpK11jYUjwM02LH0Xr1c5ezQ==
+X-Received: by 2002:a81:8304:0:b0:602:b810:c837 with SMTP id t4-20020a818304000000b00602b810c837mr15890822ywf.47.1708526408445;
+        Wed, 21 Feb 2024 06:40:08 -0800 (PST)
+Received: from mail-yb1-f173.google.com (mail-yb1-f173.google.com. [209.85.219.173])
+        by smtp.gmail.com with ESMTPSA id o16-20020a81de50000000b006079f55766bsm2522804ywl.68.2024.02.21.06.40.08
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 21 Feb 2024 06:21:58 -0800 (PST)
-Received: by mail-yb1-f179.google.com with SMTP id 3f1490d57ef6-dcd9e34430cso6800358276.1;
-        Wed, 21 Feb 2024 06:21:58 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCWaE0v0rOSdBTWnYXAdEAxUKJDD0RgobQnLkao4qzilJU6q9/pax/SMMq2nrFvSbTOOd+O8V+uA6dfarue84E25nhASHwD1kpwFl2BwOFYL1PZmRpgAU6v+cjA9fL4N258BZZpH9DtVd/PINz2jpTGuMeRGPAf/mcWt/BZXmZevfHJ8T0odyT6qEHGP
-X-Received: by 2002:a5b:445:0:b0:dc2:48af:bf17 with SMTP id
- s5-20020a5b0445000000b00dc248afbf17mr14910452ybp.62.1708525318012; Wed, 21
- Feb 2024 06:21:58 -0800 (PST)
+        Wed, 21 Feb 2024 06:40:08 -0800 (PST)
+Received: by mail-yb1-f173.google.com with SMTP id 3f1490d57ef6-dcc71031680so5466354276.2;
+        Wed, 21 Feb 2024 06:40:08 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCXi77j5APGpjUjWmvTYbHVFAXWcxp+jhR9WivLyQrO8B1O+r3QjnNj5VNSg3Y7arGnwslbjBSYmvlk3sp5eJsxRxQ/CjeUTx8k1e/cD1ADnjBHV2nBVhnmz+ShbPAqW41S0aPNT5aHDVjyvLjUb
+X-Received: by 2002:a25:83cf:0:b0:dc6:b9d6:1542 with SMTP id
+ v15-20020a2583cf000000b00dc6b9d61542mr15221124ybm.48.1708526407842; Wed, 21
+ Feb 2024 06:40:07 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240215124112.2259103-1-claudiu.beznea.uj@bp.renesas.com>
- <20240215124112.2259103-2-claudiu.beznea.uj@bp.renesas.com> <CAMuHMdVi5vN5JSf9TAbdyrNa8_7eM=RajH8Mm=Qxhj5chWcK9A@mail.gmail.com>
-In-Reply-To: <CAMuHMdVi5vN5JSf9TAbdyrNa8_7eM=RajH8Mm=Qxhj5chWcK9A@mail.gmail.com>
+References: <20240206135115.151218-1-biju.das.jz@bp.renesas.com> <TYCPR01MB11269C52444CD5F53B56AF08B86462@TYCPR01MB11269.jpnprd01.prod.outlook.com>
+In-Reply-To: <TYCPR01MB11269C52444CD5F53B56AF08B86462@TYCPR01MB11269.jpnprd01.prod.outlook.com>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 21 Feb 2024 15:21:45 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdU7jFzkX7dozKYnhp5RUPr4-1tG0Eba1he+t3nskagZMg@mail.gmail.com>
-Message-ID: <CAMuHMdU7jFzkX7dozKYnhp5RUPr4-1tG0Eba1he+t3nskagZMg@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] pinctrl: renesas: Select CONFIG_IRQ_DOMAIN_HIERARCHY
- for pinctrl-rzg2l
-To: Claudiu <claudiu.beznea@tuxon.dev>
-Cc: linus.walleij@linaro.org, linux-renesas-soc@vger.kernel.org, 
-	linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+Date: Wed, 21 Feb 2024 15:39:56 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdXZPX4TF6U=8wWLMB9OdRdxxWPSswnyq7vhNQibvOS=Hg@mail.gmail.com>
+Message-ID: <CAMuHMdXZPX4TF6U=8wWLMB9OdRdxxWPSswnyq7vhNQibvOS=Hg@mail.gmail.com>
+Subject: Re: [PATCH v2 0/3] RZ/G2L pinctrl trivial changes
+To: Biju Das <biju.das.jz@bp.renesas.com>
+Cc: Linus Walleij <linus.walleij@linaro.org>, Geert Uytterhoeven <geert+renesas@glider.be>, 
+	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>, 
+	"linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>, 
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
+	"biju.das.au" <biju.das.au@gmail.com>, Thomas Gleixner <tglx@linutronix.de>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Feb 21, 2024 at 3:13=E2=80=AFPM Geert Uytterhoeven <geert@linux-m68=
-k.org> wrote:
-> On Thu, Feb 15, 2024 at 1:41=E2=80=AFPM Claudiu <claudiu.beznea@tuxon.dev=
+On Tue, Feb 6, 2024 at 3:10=E2=80=AFPM Biju Das <biju.das.jz@bp.renesas.com=
 > wrote:
-> > From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+> > -----Original Message-----
+> > From: Biju Das <biju.das.jz@bp.renesas.com>
+> > Sent: Tuesday, February 6, 2024 1:51 PM
+> > To: Linus Walleij <linus.walleij@linaro.org>
+> > Cc: Biju Das <biju.das.jz@bp.renesas.com>; Geert Uytterhoeven
+> > <geert+renesas@glider.be>; linux-renesas-soc@vger.kernel.org; linux-
+> > gpio@vger.kernel.org; Prabhakar Mahadev Lad <prabhakar.mahadev-
+> > lad.rj@bp.renesas.com>; biju.das.au <biju.das.au@gmail.com>
+> > Subject: [PATCH v2 0/3] RZ/G2L pinctrl trivial changes
 > >
-> > The pinctrl-rzg2l driver uses APIs that are defined only if
-> > CONFIG_IRQ_DOMAIN_HIERARCHY=3Dy (irq_chip_*_parent() APIs). On the ARCH=
-_RZG2L
-> > CONFIG_IRQ_DOMAIN_HIERARCHY is selected anyway, e.g., by the
-> > CONFIG_ARM_GIC_V3. Even so, make it explicit at the driver level for a
-> > clearer view of the dependencies.
+> > The first patch in this series for configuring GPIO interrupt as input
+> > mode. Also if the bootloader sets gpio interrupt pin as function, overr=
+ide
+> > it as gpio.
 > >
-> > Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
->
-> Thanks for your patch!
->
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
->
-> Compile-testing on m68k reveals that you also need
->
->     select GPIOLIB_IRQCHIP
+> > The second and third patch is satisfy the prerequisite for IA55 tint
+> > registers(ie, pin will be always in gpioint mode)
+> >
+> > Currently on irq_disable(), we are disabling gpio interrupt enable(ISEL=
+).
+> > That means the pin is just gpio input and not gpio input interrupt any
+> > more. So, move configuring ISEL in rzg2l_gpio_child_to_parent_hwirq()/
+> > rzg2l_gpio_irq_domain_free() so that pin will be gpioint always even
+> > during irq_disable().
+> >
+> > v1->v2:
+> >  * Added as series by adding patch#2 and #3.
+> >  * Replaced u32->u64 for pin_data
+> >  * Added rzg2l_gpio_free() for error path for bitmap_find_free_region()=
+.
+> >  * rzg2l_gpio_free() called during rzg2l_gpio_irq_domain_free().
+> >
+> > Biju Das (3):
+> >   pinctrl: renesas: rzg2l: Configure interrupt input mode
+> >   pinctrl: renesas: rzg2l: Simplify rzg2l_gpio_irq_{en,dis}able
+> >   pinctrl: renesas: rzg2l: Avoid configuring ISEL in
+> >     gpio_irq_{en,dis}able
 
-FTR:
-
-drivers/pinctrl/renesas/pinctrl-rzg2l.c: In function =E2=80=98rzg2l_gpio_fr=
-ee=E2=80=99:
-drivers/pinctrl/renesas/pinctrl-rzg2l.c:1472:30: error: =E2=80=98struct
-gpio_chip=E2=80=99 has no member named =E2=80=98irq=E2=80=99
- 1472 |  virq =3D irq_find_mapping(chip->irq.domain, offset);
-      |                              ^~
-drivers/pinctrl/renesas/pinctrl-rzg2l.c: In function
-=E2=80=98rzg2l_gpio_populate_parent_fwspec=E2=80=99:
-drivers/pinctrl/renesas/pinctrl-rzg2l.c:1953:23: error: =E2=80=98struct
-gpio_chip=E2=80=99 has no member named =E2=80=98irq=E2=80=99
- 1953 |  fwspec->fwnode =3D chip->irq.parent_domain->fwnode;
-      |                       ^~
-drivers/pinctrl/renesas/pinctrl-rzg2l.c: In function =E2=80=98rzg2l_gpio_re=
-gister=E2=80=99:
-drivers/pinctrl/renesas/pinctrl-rzg2l.c:2057:14: error: =E2=80=98struct
-gpio_chip=E2=80=99 has no member named =E2=80=98irq=E2=80=99
- 2057 |  girq =3D &chip->irq;
-      |              ^~
+Thanks, will queue in renesas-pinctrl for v6.9.
 
 Gr{oetje,eeting}s,
 
