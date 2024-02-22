@@ -1,112 +1,108 @@
-Return-Path: <linux-renesas-soc+bounces-3112-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-3113-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A09B85FF4C
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 22 Feb 2024 18:28:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 91FDF8604D9
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 22 Feb 2024 22:34:06 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A18D5286AA9
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 22 Feb 2024 17:28:50 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1CB902841B4
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 22 Feb 2024 21:34:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DBA3915530D;
-	Thu, 22 Feb 2024 17:28:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DB8AF73F35;
+	Thu, 22 Feb 2024 21:34:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="FwLFMXbw"
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="E8IKGWFo";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="fDIU63ci"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86D34154C0D
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 22 Feb 2024 17:28:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E51A371738;
+	Thu, 22 Feb 2024 21:34:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708622926; cv=none; b=W3aOkjkVjPNFuED2kv7hGmiNt5QLQQ1XUXm9esDudXl1lcwkfR/q92CCHO0wczaANhZ+PLO9vadNZbCejmOQK+8lRjdUsIAJjzuUCQ1JmnpC0QqiZQ8QfcT1jDO5xycVh45tWVoBfLcEVL/A6ZKgCQybwGy+gCsLRFB6Ai1wjuk=
+	t=1708637643; cv=none; b=JQm7MX14UL2nG0kVqJfpjIusaTj/5z0ROUKboGTeba8ED4EQYKbQjKCHxImFageE+kMwKuOTiOMKEYGGgHTMGu0F9IpTwp7NpnLL9lUROQL7xP8TlhX5rSDmpxn229fI7SH1zC4tuRuoHh3xBhS386Q071C7geuLkB4QwjTd9L8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708622926; c=relaxed/simple;
-	bh=gpoh3erL1P/JlN3g1pqaRkvrasIx4zSwJr515KnNTCU=;
-	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=K51icne/SVPIRVGKR6rjBQBxupRUVmdYZIonGBKPR8lEEq/0wNy0jK/b8wmwewn/FFVMHic5PIcyvj132o+RZs105rwD1kzeH+QKSQeVIsfrZWabt+7ZTo6A3KRv44fkTY7ioARjOXiysrb+CjoSMb5oHLvmll/+eB5lwuB0jsc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=FwLFMXbw; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=x6nZ
-	KXNiM/QeU/XAeH44iVPPCEbejCNzQrwhhgsoo5I=; b=FwLFMXbwzSdzeAYhchdU
-	04jj69wbpT1Ije0X4IZzEMXx+FkiAO1IAu2FasV8fs7dA+GqLl2ag31vDI+Q7chv
-	MfVl9TF1oF5m21ZHpxp7tCKbF9d/P33HqeGJ/KLehUZmV5fSCvkGOkaKVyNwj8k0
-	E39K0U9ZN/ZiSaFhgPADX3OSzoO8z6UGv7ySPBbtVxQwnivxMIP9o3vrvmeIziTd
-	YlGf+yiaYMrUSu01A+5YY7MZ2lZewTvvpuHxc9vYKLmzCEPY1ked4lnnJco8PcPI
-	1DHa0/TA7DaggKlpugjCsx9FipQs900oE8fS7hHJAbwzQB51U0dx2PSqsPCC7et8
-	xA==
-Received: (qmail 4051148 invoked from network); 22 Feb 2024 18:28:37 +0100
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 22 Feb 2024 18:28:37 +0100
-X-UD-Smtp-Session: l3s3148p1@kPAKxvsR8LAujnsZ
-Date: Thu, 22 Feb 2024 18:28:37 +0100
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>,
-	Andi Shyti <andi.shyti@kernel.org>, linux-i2c@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH] i2c: rcar: Prepare for the advent of ARCH_RCAR_GEN4
-Message-ID: <ZdeERStL9kkGV5zg@shikoro>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Andi Shyti <andi.shyti@kernel.org>, linux-i2c@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org
-References: <bf7b105f7d9728ae5cd9fa99d1cdd278d71e7df2.1704723713.git.geert+renesas@glider.be>
- <Zb6l4PbN3l4SPvRN@shikoro>
+	s=arc-20240116; t=1708637643; c=relaxed/simple;
+	bh=PrJ6YaFxatvY2iijd5Wqk9LxjgKfLoik+dqgECHQvCc=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=Uonv+t4+HGuEb97sm1ymxd39DdydwpQzmY9S8RdNxenn0qc6MA52nfD7K/lHKMdfUjlVXOMR/+RK34SAfyECyEjec1gs7+mcUosSg/vJ+qOtM/3yUZCWZkLyouXjJtybYyK5q4LFFV/j5a2BFcsk1lF4ARiImkxy8t9kR4Ly7Ms=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=E8IKGWFo; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=fDIU63ci; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+From: Thomas Gleixner <tglx@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1708637638;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=PrJ6YaFxatvY2iijd5Wqk9LxjgKfLoik+dqgECHQvCc=;
+	b=E8IKGWFobvMuydi/MYlCGtioOqkIyOjB766pK5NO0O5XAbWMgtCQk2EakY7kz56uIkMp3A
+	fJbScBQ7wtn6rKFXSCse7HAP0zIHNNRFq8Ui3HnKIRcHVv/O9A7dOQ6zsE4xtAO/3shZDu
+	23y7JebnE1ZqgWTCB3f+GBIYWpf2KD4JcGH/n7wROMMpEU5bjsYRQQkyvREUxOWN/82puZ
+	yudaq144aPD64IIrSwauXD1UAtqhEMgF3BHJg+rFhOCmk9oLQQttGgkoVbUWVsWI1tTVVf
+	mqGzlP45wJkqZqOGx/jyqNSr6gyeRP5Z+KfnumjcBO+2r6ws4mpxbJxuDmtoag==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1708637638;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=PrJ6YaFxatvY2iijd5Wqk9LxjgKfLoik+dqgECHQvCc=;
+	b=fDIU63ciUTcRIKaxF7jIPyC9HLb4PBqsycE7avUV7D+2/qWfEpyl+pqC54WNOiNeW+0k7b
+	moIvBy70qNb/RwAw==
+To: Yu Chien Peter Lin <peterlin@andestech.com>, acme@kernel.org,
+ adrian.hunter@intel.com, ajones@ventanamicro.com,
+ alexander.shishkin@linux.intel.com, andre.przywara@arm.com,
+ anup@brainfault.org, aou@eecs.berkeley.edu, atishp@atishpatra.org,
+ conor+dt@kernel.org, conor.dooley@microchip.com, conor@kernel.org,
+ devicetree@vger.kernel.org, evan@rivosinc.com, geert+renesas@glider.be,
+ guoren@kernel.org, heiko@sntech.de, irogers@google.com,
+ jernej.skrabec@gmail.com, jolsa@kernel.org, jszhang@kernel.org,
+ krzysztof.kozlowski+dt@linaro.org, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org, linux-riscv@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, locus84@andestech.com, magnus.damm@gmail.com,
+ mark.rutland@arm.com, mingo@redhat.com, n.shubin@yadro.com,
+ namhyung@kernel.org, palmer@dabbelt.com, paul.walmsley@sifive.com,
+ peterlin@andestech.com, peterz@infradead.org,
+ prabhakar.mahadev-lad.rj@bp.renesas.com, rdunlap@infradead.org,
+ robh+dt@kernel.org, samuel@sholland.org, sunilvl@ventanamicro.com,
+ tim609@andestech.com, uwu@icenowy.me, wens@csie.org, will@kernel.org,
+ inochiama@outlook.com, unicorn_wang@outlook.com, wefu@redhat.com
+Cc: Randolph <randolph@andestech.com>, Atish Patra <atishp@rivosinc.com>
+Subject: Re: [PATCH v9 02/10] irqchip/riscv-intc: Allow large non-standard
+ interrupt number
+In-Reply-To: <20240222083946.3977135-3-peterlin@andestech.com>
+References: <20240222083946.3977135-1-peterlin@andestech.com>
+ <20240222083946.3977135-3-peterlin@andestech.com>
+Date: Thu, 22 Feb 2024 22:33:58 +0100
+Message-ID: <87r0h4dvzt.ffs@tglx>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="ibtrWN6mtrjuBOsY"
-Content-Disposition: inline
-In-Reply-To: <Zb6l4PbN3l4SPvRN@shikoro>
+Content-Type: text/plain
 
+On Thu, Feb 22 2024 at 16:39, Yu Chien Peter Lin wrote:
+> Currently, the implementation of the RISC-V INTC driver uses the
+> interrupt cause as the hardware interrupt number, with a maximum of
+> 64 interrupts. However, the platform can expand the interrupt number
+> further for custom local interrupts.
+>
+> To fully utilize the available local interrupt sources, switch
+> to using irq_domain_create_tree() that creates the radix tree
+> map, add global variables (riscv_intc_nr_irqs, riscv_intc_custom_base
+> and riscv_intc_custom_nr_irqs) to determine the valid range of local
+> interrupt number (hwirq).
+>
+> Signed-off-by: Yu Chien Peter Lin <peterlin@andestech.com>
+> Reviewed-by: Randolph <randolph@andestech.com>
+> Reviewed-by: Anup Patel <anup@brainfault.org>
+> Reviewed-by: Atish Patra <atishp@rivosinc.com>
 
---ibtrWN6mtrjuBOsY
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Sat, Feb 03, 2024 at 09:45:20PM +0100, Wolfram Sang wrote:
-> On Mon, Jan 08, 2024 at 03:24:20PM +0100, Geert Uytterhoeven wrote:
-> > Currently, all Kconfig symbols for R-Car Gen4 SoCs select
-> > ARCH_RCAR_GEN3, which might confuse the casual reader.  Prepare for the
-> > advent of ARCH_RCAR_GEN4 by extending the dependency for auto-selecting
-> > reset controller support.
-> >=20
-> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
->=20
-> Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-
-Andi, can we have this simple patch in 6.9 pretty please?
-
-
---ibtrWN6mtrjuBOsY
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmXXhEUACgkQFA3kzBSg
-KbZhtQ/+NtahH95zKrk7GrYLJmokrtv7eOuKguxvkmzZW1ckFGr9O+QfGdzWPtMW
-Euf26ISN+zOfYTsRv1E3PAV3XVs3a+e8ofOVXcXYatfPXG/zOkl8NDLZITNM/fSm
-frLNESYgSiJdVXBdefhXeT++Gl0MDftI/zAYCMXXbSKCwRER2zeibvaKVtAr0HOk
-ZV3aIWyehasMfCvCZ1dfpPPH4SQIArDIFC1rW+Ttop+DAM6DZBMvGOs91vEnhYxd
-jCiAP32bFUCw4xsOwKa3o9iv4zntwX0eEOkhrHLN/bnXwp4+qZBpSuJ4132J9ovy
-tmk60AIiSfT6cqMNPPxejFZ4qvG0UmOwIZ/i1q9d2Gujo9pQeiqJaqNHR+VEV04H
-ObvWJiOX52Hr02QNG6CbOILqDvQ8nB66EIEhijHLdGPCItz4r/M2ac/zFhBqBrRt
-hJUkd1HNWdllzkYzWs6pLXkEdHhPIhRulBeM2yFaGSRvHAZ2nRzm70j6lY7Sob+5
-d2a7mHveInyAQRixlH0Tj5nvp4cMPKVIxM1hS7iyKl4nemFNn0IyiR+JSd3OoT/u
-Jp6MG6NBAfY/zVGnmUwpcGwrr0jQt++tLA2ORgFyaeZpqFc6dj1WKSo/LGqCqmbY
-TlxyAUEpDe9hzZa/aOABNz3WMe+kGlbgh7Rl0Z/t4TuHybQUvPM=
-=SIy3
------END PGP SIGNATURE-----
-
---ibtrWN6mtrjuBOsY--
+Reviewed-by: Thomas Gleixner <tglx@linutronix.de>
 
