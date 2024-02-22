@@ -1,109 +1,130 @@
-Return-Path: <linux-renesas-soc+bounces-3087-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-3088-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E14285F392
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 22 Feb 2024 09:56:07 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C5EA85F427
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 22 Feb 2024 10:21:26 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3FB561C20BC2
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 22 Feb 2024 08:56:06 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 07830286A0B
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 22 Feb 2024 09:21:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A77E32C695;
-	Thu, 22 Feb 2024 08:55:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="J7LYGWGz"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2230E383AE;
+	Thu, 22 Feb 2024 09:21:10 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
+Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com [209.85.128.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 751372C68A
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 22 Feb 2024 08:55:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92B1B3838C;
+	Thu, 22 Feb 2024 09:21:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708592148; cv=none; b=tXfve74p2UDPtHN1T97XiJjSsGkmXeC7PJbgDpYQFqGx0O4UWedOorr4Sj3/IG60c+7KyI8B4ZLWcHjfCeZ8f4GKMRLw9LdhkbLoDKRLiM0pAh6evoRgqi1INLhVprWvqIrapR+/V0n5N1z0bxqWQUoIHpllbihQrOPrC0whbCU=
+	t=1708593670; cv=none; b=P7E+ILjWjGzv6djuXoP10lmnGrcbbWCQo52V9FMcs4jxKzVQpkSxtvim50ft9GFyAOoatH1bHvaOb5rE2GrvYbwUihk+919p1JhRFkGPK1bUYw4mZqbXUbgSLNscZAO9jPlswjjd2DEhO7aGjtclpSeUu3o7Thg+V8nUENIYqKE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708592148; c=relaxed/simple;
-	bh=IcM7smgmshlPZKJJye5knpGquFJahdcma+FIvudzbLo=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=DzNP9Zv2/O5BXyT8i0KKsXjF4ZFfoq+c+cNpt1S58erW023J4OIskF/zo6RdIuh46SHqyg1gKU3B7mNu0B9ljeQ8X/VwiSdnsVloRNv3EI4LpUaPuaCJw2uC8ETzqR/HPgFoMbKQa2PrE81PiW7KbjGnVRHvhZ4GLekBqRirRtM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=J7LYGWGz; arc=none smtp.client-ip=209.85.208.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-563d56ee65cso8160829a12.2
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 22 Feb 2024 00:55:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1708592144; x=1709196944; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:date:message-id:subject
-         :references:in-reply-to:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=x2xIBE07uRp27zY2uDwM2n5My/GljeuLw0Gdcn3yNZg=;
-        b=J7LYGWGzChkTsEDAyRh5zEVArOjgduj7Xblqwpx2/8OI5npTNjONesTLZKOcSu63TA
-         0XfBLHTiiUT7ih+cF+yBuC9P+g1NYZ7pnx4zcVLk2yFfxjGghWgnufMqmDyW5tSdav1p
-         e9Xw55/E1tAMKQah+qHn9BOi8GPdM6Vq4SmxqlDRMEesK74I2lPp4gyrmqx7gffB/Plj
-         QhLeEt/3A0pAGujnnr4WITPczze4F8wT+TX+DRkE9kCABIc2C0m1PMuUiS6hD2KS9O9H
-         kPCFZQblD8rnTLGV9gJLB2dQO69p/VRXocingKxj4FoPSNxoRCGHJOzw+HU7zq77qf5e
-         IUgg==
+	s=arc-20240116; t=1708593670; c=relaxed/simple;
+	bh=NKtzE7BIM06brClL6md3g/GK1JCKVFr64lTcGZ/YHVU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=IcSC2ZlXqtAzSacMcRGdRxQRdhlnYnwPrpomo6XQQ8YNjJTFS8m8XAzuZ8Ve7qaYvPSjPSAzvpp841ckpfHv0iABkSSbntEp2J04wz1W0aLl1SXP/spGA4BrZRnZ7dY5qnxJ59c/IpZnthCbCTJsUn5m5tzC7pO/zXsuol3W3vs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-60884277a6dso16472737b3.1;
+        Thu, 22 Feb 2024 01:21:08 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708592144; x=1709196944;
-        h=content-transfer-encoding:mime-version:date:message-id:subject
-         :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1708593666; x=1709198466;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=x2xIBE07uRp27zY2uDwM2n5My/GljeuLw0Gdcn3yNZg=;
-        b=SRt+0DZwkwU7dJGRQql+RJQ5KNT11ucEzsuYKx5CXY+u3b75/3KYMMdhS1seifwWkz
-         SgKQ0AdbNIdPrUn20++KymskdPObwS6trvw9KMPEJrC8CnZtLhu0Fh6GGobKaue4ASk+
-         VAacfRkEZtr1LJ9afGNmCFSrGnDoqgBmXeiSmjr+MDsvYEQOjp+ster51m283d2eyirB
-         CxzROTugS8GTWLF2wREoC33v/o7uaWxjVVQ7HHgUGp8H3sUL8Aph2naXJNDGTFFNCGmu
-         L/AhjQPV4hmrJ4zhy5puQzKVSgD/w01Q/Mx7lUGzKyEQw2G5JTb7Yk7tA5dlOhbRDV9x
-         lWHw==
-X-Forwarded-Encrypted: i=1; AJvYcCW0EMhz/I0o498ih/R9KP8E0QuMv/qAF4hRkRAWFYe20MSbKtuHIlsM+D54BDvR47Pw53Uf3mq+oPrjOlgKEWm+ORS7+Nb5wZcr5GRvtXPMczM=
-X-Gm-Message-State: AOJu0Yw8eKQccWb6RurLi+4CsxHJF1Shbwc4QM+QqgnPhgxm31bq51+P
-	MHn+7YlJm9HUZ1Il77BpXBhz4gGwfxmpyfiC0gvif09xUkATqqHpoZI3/IyNJwo=
-X-Google-Smtp-Source: AGHT+IGTBQXFQxIW1xR6WblG6hAs+BpiQfKPcE7mNs9Z7PfdBbyqjaLnHEWt+TEVaqWG2aU8UWq6IQ==
-X-Received: by 2002:aa7:d60f:0:b0:565:4bce:db2 with SMTP id c15-20020aa7d60f000000b005654bce0db2mr13728edr.40.1708592143835;
-        Thu, 22 Feb 2024 00:55:43 -0800 (PST)
-Received: from [127.0.1.1] ([178.197.222.116])
-        by smtp.gmail.com with ESMTPSA id w22-20020aa7dcd6000000b00563918a48cfsm5325808edu.40.2024.02.22.00.55.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 Feb 2024 00:55:43 -0800 (PST)
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-To: Rob Herring <robh@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
- Sergei Shtylyov <sergei.shtylyov@gmail.com>, 
- Wolfram Sang <wsa+renesas@sang-engineering.com>, 
- Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
- linux-kernel@vger.kernel.org
-In-Reply-To: <263d6626fd4fa51b175b5c7a53e6a363e2c91519.1708354280.git.geert+renesas@glider.be>
-References: <263d6626fd4fa51b175b5c7a53e6a363e2c91519.1708354280.git.geert+renesas@glider.be>
-Subject: Re: [PATCH] dt-bindings: memory: renesas,rpc-if: Document R-Car
- V4M support
-Message-Id: <170859214253.12531.12753169435670805395.b4-ty@linaro.org>
-Date: Thu, 22 Feb 2024 09:55:42 +0100
+        bh=JYRdRsGICKVhHBscyhl69gwGxFN1Rh3mKKhBPHRcx2c=;
+        b=jFR1LhkuVyTvsYmdaTSUWBpH1AeXNXXgHsR0sAEINv99K1PZWY4twTpqPlXEzvoxWF
+         gm3UaLXPGS0lm8c5LjCAndKKsCXs5POLhWTamdr2pZzIx+BTdwqQQ7XGlrWj1n90liyc
+         cOmghsHIZcm4+HYxjjXFm7RuXOH9ih2O7gKyns+hFPmo4e6/PJPs7zSGkDTflPaJJmfG
+         Rm1oOLRftXZkGmL5XgNKVCdGJZIlxpVLInqG2ajzJCoCzfvT4/L23GSxQEUL6KwYIU+V
+         KLiLOEDvVsoG6hb2mbWDU4h9OhiMyFRZ8KBFzv2X1oQzbOxkKkDU3LqmkRhAEoL7azeT
+         RYOw==
+X-Forwarded-Encrypted: i=1; AJvYcCVIdsA6ez/dq6syigZ81FwOI7BSgScnIWGXtUdBBKOPhS2W/D1ddcO6mbun2mRyq+viPsi3xsmRAfM58ofG1QUZZ15qa53g7MdmkaS4FjzvlYivgnL/cXB9Vi8YF+1R3+VYcW5un/IPmeeTupy8oiW37uaiMH/I7jxYpCi3m8OyAaoXPr59tfJgRQW7k9BDHYZ5Srm9Znp5xm/xQapk3GUBG8AOQMo=
+X-Gm-Message-State: AOJu0YxGMkAzuj0lXUgrTPBzT2N33TEjD6eIwEyWzJ7thyhLZzVW7TX2
+	TffhjZbz6KRFCkg/yWLapfpWmzKKgzMrBkVibdYvqhVH8iKy5xvFnsxU5vmzONI=
+X-Google-Smtp-Source: AGHT+IFyNTz5D/3JTZfEGul+SQRNih7/F0SvBP3aTCgZL+AiwgAuRTIraMHcJ7gtOqT0GYGlzIyCGQ==
+X-Received: by 2002:a05:690c:d:b0:608:af6:afa4 with SMTP id bc13-20020a05690c000d00b006080af6afa4mr17275422ywb.39.1708593666151;
+        Thu, 22 Feb 2024 01:21:06 -0800 (PST)
+Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com. [209.85.128.182])
+        by smtp.gmail.com with ESMTPSA id z144-20020a0dd796000000b006089c027c18sm150090ywd.94.2024.02.22.01.21.05
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 22 Feb 2024 01:21:05 -0800 (PST)
+Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-607dec82853so72108057b3.3;
+        Thu, 22 Feb 2024 01:21:05 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCXxbAF977hluj+q5uSfri2JcR6eF7d0iceqKWRThUvewtD6mhpTgh2J4K6wNmreph4XPKiSGJQ1PZyyL8c6+cdtqBL+rOpAJKRLN0D9CTMFiaSEBL+Xliumzk1UIpwxPkuioxCUum4+L/Lw1DdrqGOTDSHhOZDIvvZEvqAWwxsLWL/OxmxDE2tAEPX6HUEu9tHr4otZl8ZcblVab/G49x34qYLBvuI=
+X-Received: by 2002:a81:9945:0:b0:607:d9fb:5144 with SMTP id
+ q66-20020a819945000000b00607d9fb5144mr18717240ywg.13.1708593665557; Thu, 22
+ Feb 2024 01:21:05 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.12.4
+References: <20240127-mmc-proper-kmap-v2-0-d8e732aa97d1@linaro.org>
+ <20240127-mmc-proper-kmap-v2-9-d8e732aa97d1@linaro.org> <7f40cb40-1a1-532-75fc-d3376ed27a@linux-m68k.org>
+ <CACRpkdZpyefnTyKEJXru_HZG8xcJF66Eb2pZhbk+HVvfzdh4yw@mail.gmail.com>
+ <CAMuHMdWwuH-mPm1TJTfvf3FXSd_zj+yP7OL6uB=-TrqNOT+W_Q@mail.gmail.com> <CACRpkdaks_7PWpXF=wssP2x+tZce5SFsGTCddgxjJQ9erHp-6Q@mail.gmail.com>
+In-Reply-To: <CACRpkdaks_7PWpXF=wssP2x+tZce5SFsGTCddgxjJQ9erHp-6Q@mail.gmail.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Thu, 22 Feb 2024 10:20:54 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdV=GhAuh3fNBM_0_d+cGkcsK9FTVOVYHp1=PqMJigR4gQ@mail.gmail.com>
+Message-ID: <CAMuHMdV=GhAuh3fNBM_0_d+cGkcsK9FTVOVYHp1=PqMJigR4gQ@mail.gmail.com>
+Subject: Re: [PATCH v2 9/9] mmc: sh_mmcif: Use sg_miter for PIO
+To: Linus Walleij <linus.walleij@linaro.org>
+Cc: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>, Ming Lei <ming.lei@redhat.com>, 
+	Arnd Bergmann <arnd@arndb.de>, Ulf Hansson <ulf.hansson@linaro.org>, Nicolas Pitre <nico@fluxnic.net>, 
+	Aaro Koskinen <aaro.koskinen@iki.fi>, Adrian Hunter <adrian.hunter@intel.com>, 
+	Angelo Dureghello <angelo.dureghello@timesys.com>, linux-mmc@vger.kernel.org, 
+	linux-block@vger.kernel.org, linux-omap@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+Hi Linus,
 
-On Mon, 19 Feb 2024 15:52:19 +0100, Geert Uytterhoeven wrote:
-> Document support for the SPI Multi I/O Bus Controller (RPC-IF) in the
-> Renesas R-Car V4M (R8A779H0) SoC.
-> 
-> 
+On Wed, Feb 21, 2024 at 10:25=E2=80=AFPM Linus Walleij <linus.walleij@linar=
+o.org> wrote:
+> On Wed, Feb 21, 2024 at 10:50=E2=80=AFAM Geert Uytterhoeven
+> <geert@linux-m68k.org> wrote:
+> > > I've sent a patch, can you test?
+> > > https://lore.kernel.org/linux-mmc/20240220-fix-sh-mmcif-v1-1-b9d08a78=
+7c1f@linaro.org/T/#u
+> >
+> > While that patch fixes the BUG, it does not make the eMMC work fully.
+> > It spews:
+> >
+> >     sh_mmcif ee200000.mmc: Timeout waiting for 2 on CMD18
+> >
+> > and no or limited data is read ("hd /dev/mmcblk..." blocks after no
+> > or two lines of output).
+> >
+> > I still need to revert 27b57277d9ba to restore proper operation.
+>
+> Halfway there. I looked at the code again and now I think I found the
+> problem causing CMD18 to time out.
+>
+> I've send a new 2-patch series:
+> https://lore.kernel.org/linux-mmc/20240221-fix-sh-mmcif-v2-0-5e521eb25ae4=
+@linaro.org/
 
-Applied, thanks!
+Thanks, life's good again ;-)
 
-[1/1] dt-bindings: memory: renesas,rpc-if: Document R-Car V4M support
-      https://git.kernel.org/krzk/linux-mem-ctrl/c/fdb88a1453d212ac52bbacfbaa9a950c626bfd1e
+Gr{oetje,eeting}s,
 
-Best regards,
--- 
-Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+                        Geert
 
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
