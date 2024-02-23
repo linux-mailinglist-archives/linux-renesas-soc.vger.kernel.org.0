@@ -1,122 +1,98 @@
-Return-Path: <linux-renesas-soc+bounces-3134-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-3135-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 775EE8614EF
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 23 Feb 2024 15:56:51 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B2D0861565
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 23 Feb 2024 16:20:12 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id F0C4AB2288B
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 23 Feb 2024 14:56:48 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3CFA61F2573E
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 23 Feb 2024 15:20:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F33964687;
-	Fri, 23 Feb 2024 14:56:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D089A81AD3;
+	Fri, 23 Feb 2024 15:20:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UC/9kXj8"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Vc7r6UhM"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA8B44A3D;
-	Fri, 23 Feb 2024 14:56:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A40C881AC6;
+	Fri, 23 Feb 2024 15:20:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708700197; cv=none; b=lbD6+hp7g81hSfSDVQf4y2755tNLycRwn3N6oAvGtoxMxfkbto10M7a2Wf5MFQFkCgDdF3CWrvULiUE7IG3h+DRS+rJ2Hd44+/pV/L2XUdC/ejpK2UOzPDogcdC805ZRvxSwv5VGh2cb6HFiSiPQ0gzXh9bnoKTf/q6aRql0snY=
+	t=1708701602; cv=none; b=GbIHosWtYkcVaarDhG05Jf+58RJnG8f8oVRpgjkD+yZEogo0HSRRXBL2rXfIRn0ePZJYUPs9LGnEmRYHvNwmSnhYKBypjJwR6l622zcyGvYNBwngoZ/6uGs8HTFFHvSNZ+GG3bnZ80iLjRCcdVs0L008OmBRvB5CLNq57dAAXFI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708700197; c=relaxed/simple;
-	bh=qRqiZWK+ROUXc7RKxQAD7c06nWL8iNefLn1MrEIIsio=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=avlF2wlICr349Tn5wxGzkpZhA9Oyj8Y5lZaLYWjJwcy7fDTKMNLvFHoz7OFNYpRyiwOc50abAtWPzpDbDg8TAqpf8sAyqrVlFkwq2WTyUdRsA9GKjJef3RNm9685s2G8ip/MMISNemVifsZmSp3fJcvMD3kNr2hs71q1xs+INwc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UC/9kXj8; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 34B9AC433C7;
-	Fri, 23 Feb 2024 14:56:33 +0000 (UTC)
+	s=arc-20240116; t=1708701602; c=relaxed/simple;
+	bh=LTGuP5mwgDes1iDc674SKmGbovpo1+4tFu8cnR0ZZFg=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=awSj1ZUAmDP0y10VS1wJiX7Y+URMvQkP+2A3WCGfbJSKQYtaME8JXOVfO1E8rr6AwojXjZ4xi8AiaOA7uldn8z0Cn0eI2Q7JWSHt5Qe63NkP0mtNHAo0lMmY+zGzlf2Z1QiEdh53X19wIxQ2OH6T7HXz3IfDeo261YlC8gjDwmo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Vc7r6UhM; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C901AC43390;
+	Fri, 23 Feb 2024 15:20:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1708700197;
-	bh=qRqiZWK+ROUXc7RKxQAD7c06nWL8iNefLn1MrEIIsio=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=UC/9kXj8rodo+yIh1/wpec/Gw94Ss+9rlff9WL77kqnQusyOqQrezzvoxB7d2R229
-	 KfL/w24V6ugi5mzDqnqaflgbsqwzX5spbpJ4pjlaIOi/k66yjqkrvmrAvRpIpYfd31
-	 o9g1SwzoFAxPZs2reosHn+A8GH2soGadZRZLFUI+to2i19/MK3YdeL2atOa9JY1iaI
-	 B6hU9eEy4gfLvivEqfL3ZYTRGN8UN/TSjxNDUUaHJ9NRqO4JLdcizGbSkPcJHIfuXq
-	 ywrD+/oi+ohIuL6jCmVbeB7lVLzDMAS391jS0hdzkekltsFrVVuyGcooSt/R0XXFUd
-	 952xBOq5Cls2g==
-Date: Fri, 23 Feb 2024 14:56:30 +0000
+	s=k20201202; t=1708701602;
+	bh=LTGuP5mwgDes1iDc674SKmGbovpo1+4tFu8cnR0ZZFg=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=Vc7r6UhMjw6tOffkYu/nSuOneuQKW3B34b0TZdfdc3TTLoU9rHgTbTi4ahBzCyAs+
+	 LWGx9Qm/T6lhL6dH5bpphrtEJEOu+5WpxLVdggwgfACcZuYraP48QKr9r12h5pfPaE
+	 cplw6LDQEmTB5lgWia4mJcYaThHX9xYL/ajxYOz6U7zaNQH594QFqUNlLYWCvxLm+V
+	 7vro2yg5hlcO8FBJrGIUnRoY/+D9syFqIp853hPqQnLjkV3eHdCuf7CeudLSf8xl5o
+	 t63WHI05Z6+99MAW9RjcCqBAUAwiDIgGrzKU//tfYXxPpZ46EsqzJK3W1YXLsQhSLH
+	 A3fStTR3JMGxQ==
 From: Lee Jones <lee@kernel.org>
-To: Biju Das <biju.das.jz@bp.renesas.com>
-Cc: Wim Van Sebroeck <wim@linux-watchdog.org>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Support Opensource <support.opensource@diasemi.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Daniel Lezcano <daniel.lezcano@linaro.org>,
-	Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>,
-	Steve Twiss <stwiss.opensource@diasemi.com>,
-	linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-pm@vger.kernel.org, linux-watchdog@vger.kernel.org,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Biju Das <biju.das.au@gmail.com>, linux-renesas-soc@vger.kernel.org
-Subject: [GIT PULL] Immutable branch between MFD, Input and Thermal due for
- the v6.9 merge window
-Message-ID: <20240223145630.GC1666215@google.com>
-References: <20240131102656.3379-1-biju.das.jz@bp.renesas.com>
+To: linux-renesas-soc@vger.kernel.org, 
+ Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc: Lee Jones <lee@kernel.org>, linux-arm-kernel@lists.infradead.org, 
+ linux-kernel@vger.kernel.org, linux-mmc@vger.kernel.org, 
+ linux-sh@vger.kernel.org
+In-Reply-To: <20240213220221.2380-8-wsa+renesas@sang-engineering.com>
+References: <20240213220221.2380-8-wsa+renesas@sang-engineering.com>
+Subject: Re: [PATCH v2 0/6] mfd: tmio: simplify header and move to
+ platform_data
+Message-Id: <170870160052.1698319.4712751560931025638.b4-ty@kernel.org>
+Date: Fri, 23 Feb 2024 15:20:00 +0000
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240131102656.3379-1-biju.das.jz@bp.renesas.com>
+X-Mailer: b4 0.12.4
 
-Sorry for the delay, I was on vacation.
+On Tue, 13 Feb 2024 23:02:19 +0100, Wolfram Sang wrote:
+> Changes since v1:
+> 
+> * rebased to rc4
+> * collected all needed acks (Thanks!)
+> * capitalized first letter in commit subject
+> 
+> The MFD parts of the TMIO have been removed by Arnd, so that only the
+> SD/MMC related functionality is left. Remove the outdated remains in the
+> public header file and then move it to platform_data as the data is now
+> specific for the SD/MMC part.
+> 
+> [...]
 
-Enjoy!
+Applied, thanks!
 
-The following changes since commit 6613476e225e090cc9aad49be7fa504e290dd33d:
+[1/6] mfd: tmio: Remove obsolete platform_data
+      commit: 58d6d15662e4039fab7d786f0426843befa77ad4
+[2/6] mfd: tmio: Remove obsolete io accessors
+      commit: e927d7bac109d8ca1729dda47a8dbc220efdb50e
+[3/6] mmc: tmio/sdhi: Fix includes
+      commit: bed05c68aa8f078206143700cd37e42a0084155f
+[4/6] mfd: tmio: Update include files
+      commit: 3ef94c41db82573dc1e1dd6c259aec8ef6caaaf3
+[5/6] mfd: tmio: Sanitize comments
+      commit: 2d417dda59123b9523a19ce75fea3fd1056c3b4c
+[6/6] mfd: tmio: Move header to platform_data
+      commit: 858b29729c9d319b9cd1441646cc3af246d3c3f9
 
-  Linux 6.8-rc1 (2024-01-21 14:11:32 -0800)
-
-are available in the Git repository at:
-
-  git://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git ib-mfd-input-thermal-v6.9
-
-for you to fetch changes up to f1eb64bf6d4bef5295ab7633874960fbcfadca46:
-
-  dt-bindings: mfd: dlg,da9063: Convert da9062 to json-schema (2024-02-08 13:06:03 +0000)
-
-----------------------------------------------------------------
-Immutable branch between MFD, Input and Thermal due for the v6.9 merge window
-
-----------------------------------------------------------------
-Biju Das (6):
-      dt-bindings: mfd: da9062: Update watchdog description
-      dt-bindings: mfd: dlg,da9063: Update watchdog child node
-      dt-bindings: input: Convert da906{1,2,3} onkey to json-schema
-      dt-bindings: thermal: Convert da906{1,2} thermal to json-schema
-      dt-bindings: mfd: dlg,da9063: Sort child devices
-      dt-bindings: mfd: dlg,da9063: Convert da9062 to json-schema
-
- .../devicetree/bindings/input/da9062-onkey.txt     |  47 ----
- .../bindings/input/dlg,da9062-onkey.yaml           |  38 ++++
- Documentation/devicetree/bindings/mfd/da9062.txt   | 124 -----------
- .../devicetree/bindings/mfd/dlg,da9063.yaml        | 248 ++++++++++++++++++---
- .../devicetree/bindings/thermal/da9062-thermal.txt |  36 ---
- .../bindings/thermal/dlg,da9062-thermal.yaml       |  35 +++
- MAINTAINERS                                        |   6 +-
- 7 files changed, 290 insertions(+), 244 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/input/da9062-onkey.txt
- create mode 100644 Documentation/devicetree/bindings/input/dlg,da9062-onkey.yaml
- delete mode 100644 Documentation/devicetree/bindings/mfd/da9062.txt
- delete mode 100644 Documentation/devicetree/bindings/thermal/da9062-thermal.txt
- create mode 100644 Documentation/devicetree/bindings/thermal/dlg,da9062-thermal.yaml
-
--- 
+--
 Lee Jones [李琼斯]
+
 
