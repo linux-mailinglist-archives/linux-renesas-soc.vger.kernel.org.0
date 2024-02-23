@@ -1,57 +1,57 @@
-Return-Path: <linux-renesas-soc+bounces-3118-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-3119-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE582860D4D
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 23 Feb 2024 09:54:55 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A5CE860D86
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 23 Feb 2024 10:07:04 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 84EDD1F233E8
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 23 Feb 2024 08:54:55 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id DE7E4B2283A
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 23 Feb 2024 09:07:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A5C081A731;
-	Fri, 23 Feb 2024 08:54:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6DBC81B95C;
+	Fri, 23 Feb 2024 09:06:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="UaO4+eda";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="RY0/77R8"
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="ee4b7daX";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="7ha8i2Rq"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 231271A29F;
-	Fri, 23 Feb 2024 08:54:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFC7F1B26E;
+	Fri, 23 Feb 2024 09:06:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708678492; cv=none; b=PoJ8l+C1r+S9puh0FCb3D2+iyWw990k4k/yKjMrikUe7ANZ4zmzWNcSvVshwvFQJbNu/4QtO6umpkl1T48Dn0xSxm+JNP5H60XdOCSAHiXwm5CNrxeKaUm6c9TXGdbStj5zwFD9IjfTlbcm0rZ/mL8f3E3uACs9crSPPqlvB15I=
+	t=1708679208; cv=none; b=hJDZtnpBITW6eUxs8DRTUGnzEJiZmCNbQrGJR/ioNLMnd0zmTEvr0uQ/BRtKHScCmdFf2ig2fM/H/l3kgL7/QCwCzZgDeXMU4qIWsN/z3eJzF/2lllwqAlAgbzHj9sYBBS0Qc2BAzwKIcG1J1rXxujliUrdEiaJVhrobexcAPKQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708678492; c=relaxed/simple;
-	bh=oYSYLti2IifVDTV0OzRPUbZTcLilwnzAMygead+Tsog=;
+	s=arc-20240116; t=1708679208; c=relaxed/simple;
+	bh=Dtxf5IRHfwQSaHxpcYXPqB9KEFKDcDvvm3ijqoxjNko=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=ZloINzr8L7t0eVmLQoXhT/zHdOXYgqFWPkJG38PvhulqyqIxsAhYP8/GvZ7W9pYppWvnwIZ3UDz6G6cqfyQkb6iyoVzBQAKME6PaQfw4TfhZgc5o7p7gCs88S4WusH/gdJMoyEHOw3QJm6tKIulEY+lI/V3Ji2VBRsXyOyvyvrw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=UaO4+eda; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=RY0/77R8; arc=none smtp.client-ip=193.142.43.55
+	 MIME-Version:Content-Type; b=F2DjSlAsg7ZvyvP+t5tb6s2HBSqfbWo2EXR/e3ud9Eh6G42ZWDsZEjrUMbEY39D0DGOsrISPqgdhzBnQJuURJvDfw0a1uG2iVln5QgFFTKUahRxzWJyUV0e3j4cZfU17gSMSf+6aGoXv6hwzGZegQtduMOGURmQQT8WyXvtplwE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=ee4b7daX; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=7ha8i2Rq; arc=none smtp.client-ip=193.142.43.55
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 From: Thomas Gleixner <tglx@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1708678489;
+	s=2020; t=1708679204;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=zrx67e+Ks02+zDid4MN+n+m4AfW7G8yFrILIPbdnNa4=;
-	b=UaO4+edaAlRkEF1meSANixfmhiR1danHJMIoI4bWIlEjqMxlificuKVRiZjKRI34uK+/hk
-	yov6A0AAylIj/5+xhEkh25rs/R5t1D0FnBd6XiLZHZws8ZndsF4Fx6/BRPnb9WiijW74wC
-	awhDyB/C7rcWplgSzNGGRzKEdbwcmqq3WDPnGbLr42NCF1DXy7P/ggZbu6FT5xUcsNXGKG
-	aWIUlN84e44uMKNJRSTu+RlK+p7CZzXgzQbdwe7UDpsvjKIfxUfXcFI+qIbJQboXX/1e0j
-	DYYGgINgTShkLB7bcNMk/4SsS/Av095OpICDU2bdXJIq759Vi3dSngtB86Wrsw==
+	bh=1Wf50sMB7P17099HKyOgeF0+Md1dpE2WNC2PraYzo5E=;
+	b=ee4b7daXsqpkzj6vKmrWIdzYGHDrctEvl72qqapmJw5l+m5h9+rQnszLKqgtbz67CkyKaR
+	WiMvXNIZsrslicsWhHvb0IPfX70yMh0lNgbISA9r7cigPedZh6slKTWBHi4halEN+oOBPK
+	uv6XMbitjMAdDya3tn7TMg8uPVLSwUvMhHUebFmzrdwdWJr7ba7KPWOK1fIKyV2TYSvZah
+	bEOw1gXqncVBmMR/J+bbL5+HvI7JHCvQEP37562Lo2ih3FWVAjs1BDt83/UKs1/3UZ5PLB
+	GJvuHh/dLG/ug1oz4/+RcnyxFVo7XizOq4Kd5qWMP/H2sLDgP0fXV398sL6wTg==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1708678489;
+	s=2020e; t=1708679204;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=zrx67e+Ks02+zDid4MN+n+m4AfW7G8yFrILIPbdnNa4=;
-	b=RY0/77R84x+3anj5rVqtXr7nePncBV1qdEK0MqIR9HQ97lVwGiQRJSrwrJwrBASYJ6hOj/
-	v2mgwGRxCXg66LAA==
+	bh=1Wf50sMB7P17099HKyOgeF0+Md1dpE2WNC2PraYzo5E=;
+	b=7ha8i2Rqp856wi8VCmskiECtA8C/RuvjDd5/eucA2Ii/vV3XWHmq5b2SmysDpGNCorrVUH
+	079KsBv1vbaQ/pDg==
 To: Yu Chien Peter Lin <peterlin@andestech.com>, acme@kernel.org,
  adrian.hunter@intel.com, ajones@ventanamicro.com,
  alexander.shishkin@linux.intel.com, andre.przywara@arm.com,
@@ -74,12 +74,12 @@ To: Yu Chien Peter Lin <peterlin@andestech.com>, acme@kernel.org,
 Cc: Randolph <randolph@andestech.com>
 Subject: Re: [PATCH v9 03/10] irqchip/riscv-intc: Introduce Andes hart-level
  interrupt controller
-In-Reply-To: <877civefa5.ffs@tglx>
+In-Reply-To: <874jdzef1j.ffs@tglx>
 References: <20240222083946.3977135-1-peterlin@andestech.com>
  <20240222083946.3977135-4-peterlin@andestech.com> <87o7c8dvv4.ffs@tglx>
- <877civefa5.ffs@tglx>
-Date: Fri, 23 Feb 2024 09:54:48 +0100
-Message-ID: <874jdzef1j.ffs@tglx>
+ <877civefa5.ffs@tglx> <874jdzef1j.ffs@tglx>
+Date: Fri, 23 Feb 2024 10:06:44 +0100
+Message-ID: <871q93eehn.ffs@tglx>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -88,23 +88,35 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain
 
-On Fri, Feb 23 2024 at 09:49, Thomas Gleixner wrote:
-> On Thu, Feb 22 2024 at 22:36, Thomas Gleixner wrote:
->> Palmer, feel free to take this through the riscv tree. I have no other
->> changes pending against that driver.
+On Fri, Feb 23 2024 at 09:54, Thomas Gleixner wrote:
+> On Fri, Feb 23 2024 at 09:49, Thomas Gleixner wrote:
+>> On Thu, Feb 22 2024 at 22:36, Thomas Gleixner wrote:
+>>> Palmer, feel free to take this through the riscv tree. I have no other
+>>> changes pending against that driver.
+>>
+>> Aargh. Spoken too early. This conflicts with Anups AIA series.
+>>
+>>   https://lore.kernel.org/all/20240222094006.1030709-1-apatel@ventanamicro.com
+>>
+>> So I rather take the pile through my tree and deal with the conflicts
+>> localy than inflicting it on next.
 >
-> Aargh. Spoken too early. This conflicts with Anups AIA series.
+>> Palmer?
 >
->   https://lore.kernel.org/all/20240222094006.1030709-1-apatel@ventanamicro.com
->
-> So I rather take the pile through my tree and deal with the conflicts
-> localy than inflicting it on next.
+> Nah. I just apply the two intc patches localy and give you a tag to pull
+> from so we carry both the same commits. Then I can deal with the
+> conflicts on my side trivially.
 
-> Palmer?
+Here you go:
 
-Nah. I just apply the two intc patches localy and give you a tag to pull
-from so we carry both the same commits. Then I can deal with the
-conflicts on my side trivially.
+  git://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git irq-for-riscv-02-23-24
+
+Contains:
+
+  f4cc33e78ba8 ("irqchip/riscv-intc: Introduce Andes hart-level interrupt controller")
+  96303bcb401c ("irqchip/riscv-intc: Allow large non-standard interrupt number")
+
+on top of v6.8-rc1
 
 Thanks,
 
