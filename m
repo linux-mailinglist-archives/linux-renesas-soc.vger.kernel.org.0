@@ -1,123 +1,164 @@
-Return-Path: <linux-renesas-soc+bounces-3141-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-3142-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03E6C861D0D
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 23 Feb 2024 20:57:10 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 80072861D82
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 23 Feb 2024 21:23:24 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B221D28A5B9
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 23 Feb 2024 19:57:08 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id CE3CCB232DE
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 23 Feb 2024 20:23:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id ECD2714535B;
-	Fri, 23 Feb 2024 19:56:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E1D3C146E70;
+	Fri, 23 Feb 2024 20:21:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="P/5a1fmc"
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="NCQEjgzq"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 423381448F8
-	for <linux-renesas-soc@vger.kernel.org>; Fri, 23 Feb 2024 19:56:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB3D71448E6
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 23 Feb 2024 20:21:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708718217; cv=none; b=BEqbHycQ74CMdDHBdcJKf+J5nlFzMZYnD+5O8Oz7v+B3UyT7rFaPh3rnziqf5tNGfuElFqnso9MLeB/mlKGpGpNmMGLoZIknTRNj/L1dzBEj2lAEXpGkzsG8RE/sI6GZQs5s1gp2Guhy+pXEQ0xjl9TSUCUwjcFYnjVirEtfBSY=
+	t=1708719715; cv=none; b=W4DQUNaaJile+fg+WWHdmtgRf1O8ddlPZN5NhWhOU6yD3eULgINP6yYYH9YEKCOvRNhp+WV5YU3+8hly8P0zx5mGCDa/a4RE/Ec8dfiV5Xyk3hgibWqC/6aAQN49qOBmnbx3An9fJYGXV6iijBQw0MrPHM5941Y05f2/Wh/PI6Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708718217; c=relaxed/simple;
-	bh=2Er/E/YWR4ziMDKsjtcUbOnth7XzrgxHccJF7NTGcdE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=LBiwUYmpbQdehfBI/JA1YQVsQug4RTJR7A6HSvX/C1G/Ooh7oTmUkC8B+MK/+9GgWGprpqgzbJv5MKMTQXz3kIEeCi3+IkmcoG9GuTeCfzXHnLTjoME+yTvqX5c2Rfjnd1PsrcjoF3Ouwj2vLQDHo1bYBgOb8zZWpr3aG69F2xc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=P/5a1fmc; arc=none smtp.client-ip=209.85.208.169
+	s=arc-20240116; t=1708719715; c=relaxed/simple;
+	bh=VLH2Mi4OrInm+33OQhSlzdebE3jFUI1zn/3KcepgOvU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=sunKs+WWDBHgq5Ss5kBsOLIJU2KM9Pg1xqGfUE8dfMYFOEJmlNoCkLMOUeXmTO9lJ7tdZO2bGqUZjteEe6wAv1V3FbjKSOf7b/7ZkWNS4RPsS4yNI0pzt1Iixy2PsSWmaRExIYTK/qeyYx8NM+GzVOLfWONLVlgoRodTBwmM9Iw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=NCQEjgzq; arc=none smtp.client-ip=209.85.218.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
-Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-2d1094b5568so9192661fa.1
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 23 Feb 2024 11:56:54 -0800 (PST)
+Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-a34c5ca2537so178222066b.0
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 23 Feb 2024 12:21:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech.se; s=google; t=1708718213; x=1709323013; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=pnKaa7U6yo34FD6yjr/0ko1wRd4z14aSOMgBBceVmWE=;
-        b=P/5a1fmcCxe5wyHwutsdiUG9UZcP/ZwRjF2b9ewOuy/awYBjVn1gRNaiA6gZNaHtqJ
-         Xg+fQcNPwx2rzs8xtcSHFOFjuSRnWRdzZwKSZ/MZL21h3wl+br2crCXZ++5TsvvZ3i7H
-         olu4yLHYL6/qkyS36Xps5T7aHVVMWXmGP0pEbAt1EjlpOwebF0ts2Mk4sIp1RfiqW7En
-         7i7E+6VqpSJnHVoaQ3yGzpSU8Mpuueu1oIo6pl52BCpW6sq29C9vJQXbbVuKqx8QW07w
-         o+FcD+JaA2z+6QPeOky88C/P6pYNqR7uHhPY5VsEsk+tHFh4c9E4hEFn9fbgnDco/yyE
-         kzWA==
+        d=ragnatech.se; s=google; t=1708719712; x=1709324512; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=tBho47Re0b/xThgmy+t3YEba2JQw5AvsTOKzKCpCvk8=;
+        b=NCQEjgzqGzN7Hw9GHBo3t5dOKNLtoByfdMISyziQxmEDCrhOI//7nnjdU/5iE/9gcv
+         6UXDaCfxcudqVEyuX/kuXsmfhEybfjtYu82/GyYJ9FDVei8NNLS5KggtJn+KbYwqJmCI
+         7CjJFXsXYKLK6bqHrmP0AWE++YNuhesVLbwR/zIm1XiEemuttGgFQFh/i679L8l+9jH1
+         XVseoDgbcp40ODLcPhq9vrelxATioGjZJxtSoz7kv7Eoq7bEGsAWiYeP8k6IgcqW/7rb
+         rR30ZDJo4ixjNEkGHJs/Npo9N4EVEbCku51zg46pBVTXI9SiDPvNSSuczsfVaBQzKAiJ
+         iCoQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708718213; x=1709323013;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=pnKaa7U6yo34FD6yjr/0ko1wRd4z14aSOMgBBceVmWE=;
-        b=F9A3k8PuH1ny3PeJIH0GBYb0avUn9fA+WbC+B8p2Q0HLsQB5hGzOXie6BB47uzK5yg
-         RoM2GMZMkkZn75+QWUXUAHS9QbGA3gjNCr+IMDzQ7Cz5r86fea9NhOgJVzW39Gf69ftw
-         ldAE24U5cthLnFedv6q9PPVZt6HFlVlxfoVKxjcXjIhEprWO1xJvXBQ6qmGisjXFmQCz
-         qDZNj2jbKCsARk0xnRQqvHWTfg3M4dV8u4BaXq17UP3XNjvmXLwBg0BSUI2nVeLgu7Ge
-         iZ0Wb7Ad83gghckcL0ybVK5h3Bqb8tmCSyoKRxD9sMPsmRcRiOyxE+xSeIwi49yktRqQ
-         G23A==
-X-Forwarded-Encrypted: i=1; AJvYcCVJsJtC21JinzzYTqRh4eX3yayJE3tD2eBueAm7A4rNvpHVrBir9WGWvu6Jtf/BX+z0PeBBjFLu3fPR4C9E4AA8woqk6xU1nw/5TyfG4Du77VA=
-X-Gm-Message-State: AOJu0Yy/tYVZUzh/e5M1xHN6Z0WqN/GBxDKuNZY0Oa+6LLE4Ial4MPi6
-	b2y2g81pgJ8dWXOVquCfKNtbc3iWg3Fq1n2G3ExFOLrdWRBlnzel+Y/uhgpQ4cc=
-X-Google-Smtp-Source: AGHT+IEszpjkvVii9Ofn9U98ZBWGg1toQDRx9xo+HuBlNaQdnBY246B7GBYO8EHTSbTKFXUCPiDO8w==
-X-Received: by 2002:a2e:9c8a:0:b0:2d2:31e2:ec00 with SMTP id x10-20020a2e9c8a000000b002d231e2ec00mr82847lji.30.1708718212975;
-        Fri, 23 Feb 2024 11:56:52 -0800 (PST)
-Received: from sleipner.berto.se (p4fcc8c6a.dip0.t-ipconnect.de. [79.204.140.106])
-        by smtp.googlemail.com with ESMTPSA id bf2-20020a0564021a4200b00562149c7bf4sm6658334edb.48.2024.02.23.11.56.52
+        d=1e100.net; s=20230601; t=1708719712; x=1709324512;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=tBho47Re0b/xThgmy+t3YEba2JQw5AvsTOKzKCpCvk8=;
+        b=DH6inOfIaV9mbG8Fr8n0lghLB4Vqh4yQwOJkIEVnOofVMT3ChYjBGlA4OUDzzpGLX/
+         nbBSplr6tXShe+injSAXCthLsQe2jAYPnja5fz6tjVTUApMXFEUbR5GtvvMlRQoPblDZ
+         4Czi4Ac7Wq4PO7/ddchdGkJy/4AjY3Bg7Xz+liZ6ZgmmlLJW8PB9sZR6o0+sJ/3hxVvX
+         dQHPejyfoWpzdOaVhU49lsdOhRCn2Cy6v0yUbIKQ+d84B/RZ3lFV1uhZV1hSXC6zXSE3
+         Yz1qvv0eRJ8OiJoZH6xMKHNTW12zO2SGFdY4CLVEb0Xo1s2haCp3IfxDXBheS1xKBg3D
+         loCw==
+X-Forwarded-Encrypted: i=1; AJvYcCWzQ4j73r8Kvk2NoUABt5KOWnUepq+9vMzSi3VoPUmGPgW25TmKGL0K6u0Vi8DErJ5Yu+5LCNOh1z34pFlQCaRXwBnW1GFFQCwcGbcxbOBc7YI=
+X-Gm-Message-State: AOJu0Yx83uPV0Kq3ysheKsbsf+z1o2saaCiuXBEgGzMhC6pHHrSd6wG4
+	Tw9V3BHCVuLKvC9pAoEnku076XCMPfF2ho4W6N374UNI/p5g7FNZsDrJUzExDoE=
+X-Google-Smtp-Source: AGHT+IHtWJagw673y+UMwer0QBUhU1HY4utHp5hJqo4P/vdLpAdLDdu+EQOh9utcOn95Uw0C/hTS8A==
+X-Received: by 2002:a17:906:3709:b0:a3e:8223:289a with SMTP id d9-20020a170906370900b00a3e8223289amr593062ejc.31.1708719712213;
+        Fri, 23 Feb 2024 12:21:52 -0800 (PST)
+Received: from localhost (p4fcc8c6a.dip0.t-ipconnect.de. [79.204.140.106])
+        by smtp.gmail.com with ESMTPSA id vh9-20020a170907d38900b00a3f1ea776a1sm3225743ejc.94.2024.02.23.12.21.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 23 Feb 2024 11:56:52 -0800 (PST)
-From: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-To: Rob Herring <robh+dt@kernel.org>,
+        Fri, 23 Feb 2024 12:21:51 -0800 (PST)
+Date: Fri, 23 Feb 2024 21:21:50 +0100
+From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Rob Herring <robh+dt@kernel.org>,
 	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	devicetree@vger.kernel.org
-Cc: "David S. Miller" <davem@davemloft.net>,
+	Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
+	"David S. Miller" <davem@davemloft.net>,
 	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	netdev@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	=?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Subject: [PATCH] dt-bindings: net: renesas,ethertsn: Document default for delays
-Date: Fri, 23 Feb 2024 20:55:26 +0100
-Message-ID: <20240223195526.1161232-1-niklas.soderlund+renesas@ragnatech.se>
-X-Mailer: git-send-email 2.43.2
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v2] dt-bindings: net: renesas,ethertsn: Add Ethernet TSN
+Message-ID: <20240223202150.GA1176528@ragnatech.se>
+References: <20231121183738.656192-1-niklas.soderlund+renesas@ragnatech.se>
+ <CAMuHMdU_CxNu-BF66POeqKv1_=ujBp8Z=cT=08crFxhgQ+gZ=g@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAMuHMdU_CxNu-BF66POeqKv1_=ujBp8Z=cT=08crFxhgQ+gZ=g@mail.gmail.com>
 
-The internal delay properties are not mandatory and should have a
-documented default value. The device only supports either no delay or a
-fixed delay and the device reset default is no delay, document the
-default as no delay.
+Hi Geert,
 
-Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
----
- Documentation/devicetree/bindings/net/renesas,ethertsn.yaml | 2 ++
- 1 file changed, 2 insertions(+)
+Thanks for your feedback.
 
-diff --git a/Documentation/devicetree/bindings/net/renesas,ethertsn.yaml b/Documentation/devicetree/bindings/net/renesas,ethertsn.yaml
-index 475aff7714d6..ea35d19be829 100644
---- a/Documentation/devicetree/bindings/net/renesas,ethertsn.yaml
-+++ b/Documentation/devicetree/bindings/net/renesas,ethertsn.yaml
-@@ -65,9 +65,11 @@ properties:
- 
-   rx-internal-delay-ps:
-     enum: [0, 1800]
-+    default: 0
- 
-   tx-internal-delay-ps:
-     enum: [0, 2000]
-+    default: 0
- 
-   '#address-cells':
-     const: 1
+On 2024-02-15 17:03:33 +0100, Geert Uytterhoeven wrote:
+> Hi Niklas,
+> 
+> On Tue, Nov 21, 2023 at 7:38 PM Niklas Söderlund
+> <niklas.soderlund+renesas@ragnatech.se> wrote:
+> > Add bindings for Renesas R-Car Ethernet TSN End-station IP. The RTSN
+> > device provides Ethernet network.
+> >
+> > Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> 
+> Thanks for your patch, which is now commit c5b9f4792ea6b9ab
+> ("dt-bindings: net: renesas,ethertsn: Add Ethernet TSN") in v6.8-rc1.
+> 
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/net/renesas,ethertsn.yaml
+> 
+> > +  interrupts:
+> > +    items:
+> > +      - description: TX data interrupt
+> > +      - description: RX data interrupt
+> > +
+> > +  interrupt-names:
+> > +    items:
+> > +      - const: tx
+> > +      - const: rx
+> 
+> What about the (17!) other interrupts?
+
+I did consider them but compared to say ravb each rtsn interrupt have a 
+rather lose description and no easy to define name. So I reasoned it was 
+better to only name the ones we use as we can give them sane names and 
+then as the driver grows with features we can extend the binding.
+
+As each interrupt have a name this would not cause any backward 
+compatibility issues right?
+
+> 
+> > +  rx-internal-delay-ps:
+> > +    enum: [0, 1800]
+> > +
+> > +  tx-internal-delay-ps:
+> > +    enum: [0, 2000]
+> 
+> These two should either have a default, or be required (like on
+> EtherAVB, where we couldn't have a default because the absence of
+>  these properties is used to enable a legacy fallback).
+
+This is a good point, I have sent a patch to address this by adding a 
+default value.
+
+> 
+> Gr{oetje,eeting}s,
+> 
+>                         Geert
+> 
+> -- 
+> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+> 
+> In personal conversations with technical people, I call myself a hacker. But
+> when I'm talking to journalists I just say "programmer" or something like that.
+>                                 -- Linus Torvalds
+
 -- 
-2.43.2
-
+Kind Regards,
+Niklas Söderlund
 
