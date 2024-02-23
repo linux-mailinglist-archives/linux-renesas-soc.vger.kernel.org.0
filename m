@@ -1,104 +1,106 @@
-Return-Path: <linux-renesas-soc+bounces-3116-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-3117-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05F88860B45
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 23 Feb 2024 08:21:14 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 16C5C860D2B
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 23 Feb 2024 09:49:47 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 0CBB0B24F59
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 23 Feb 2024 07:21:11 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 43C5B2866E2
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 23 Feb 2024 08:49:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BE510134AD;
-	Fri, 23 Feb 2024 07:21:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7140F19474;
+	Fri, 23 Feb 2024 08:49:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GuI+LFop"
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="WDQSYdJN";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="zmqCjShl"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBFBE134A3
-	for <linux-renesas-soc@vger.kernel.org>; Fri, 23 Feb 2024 07:21:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0041D18E11;
+	Fri, 23 Feb 2024 08:49:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708672867; cv=none; b=p6VQ04cLZ9FgJnxI3yRe6A0wyk0K2sKXq29auGoJ5fvStlRkyy8PkdMVQ930qI/hWXajiNeUqqHLQ8pw7R+2HMYmnJNDUG4syld9XfRFW5uy8GDZw+dz8+soCJ8gGX7M71mltD72Ip95sQ9GFntCGpBP5Z3sx+Ekhbxv8vDaTNM=
+	t=1708678182; cv=none; b=KT1IBpQlZqRcyW6Td83t6+/RKT36MIgCMOz0UJ68pZsLC3jmqum+EJTUsa7ZCkrS6DhGPbJGRA+WqOQTzLLdYAB7htwOMbIJREtu6bmO890NbdnelELucTsxZz/lRCbWA9boptJENzxvTji46yPTTzmycNP3KushzATtPf5Lt0U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708672867; c=relaxed/simple;
-	bh=VuPNJqIbNCFRq/AGaoiSqRalja3dkl96ih43Z3gk3pc=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=eTIf53JgEIZy8kXMvdGeGRyCyRbtYe8QSeW6EHOc63JkKWoh/kqBDUcY9tIWjqwtXZUn1oCy9UivxinXXD0AyO7nuZIKKfpZlbvUBGesxCq/dMF1bzF/Cd1Jre7mQd8+J3lBhKcAU8zc/Z6OFLgi4v+5RNMdukO6sEAN9aACsQA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GuI+LFop; arc=none smtp.client-ip=192.198.163.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1708672866; x=1740208866;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=VuPNJqIbNCFRq/AGaoiSqRalja3dkl96ih43Z3gk3pc=;
-  b=GuI+LFopjtdyXHLpWHZJCaLiORQH7/VvFBoTiMItucmEUdcm7nN4d9jg
-   6JUtCgK292n84bHrWfizFllz3wFMFN+/k/wrYBFq3eay6UB9JjzLB/yzn
-   sTMRi6SsuJ8Wn2Yvs/F0mrlq6ejyzW4T1uxenYbd5/IzLTpIygOH1UEWS
-   jOx9EqCwELmJPSMtVLMmDZoUgBF2IyI3AzQODmTrrB+nptk3NYyyQsWbH
-   ZKAZb/TVuhK0IomDfVWntU7s6R99t6eoC3kpWWBK1YM4TplBp1I+aJUaB
-   cWAMyD3lBX3bV0zrTW6+b2hZPpWjRREL+ZGQTyzdiENlfHDkjP95GmxiP
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10992"; a="28406062"
-X-IronPort-AV: E=Sophos;i="6.06,179,1705392000"; 
-   d="scan'208";a="28406062"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Feb 2024 23:21:05 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,179,1705392000"; 
-   d="scan'208";a="6227507"
-Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
-  by orviesa006.jf.intel.com with ESMTP; 22 Feb 2024 23:21:04 -0800
-Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rdPrh-0007Bc-1y;
-	Fri, 23 Feb 2024 07:21:01 +0000
-Date: Fri, 23 Feb 2024 15:20:44 +0800
-From: kernel test robot <lkp@intel.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: oe-kbuild-all@lists.linux.dev, linux-renesas-soc@vger.kernel.org
-Subject: [geert-renesas-drivers:topic/renesas-debug 10/20]
- drivers/soc/renesas/r8a77961-mstp.c:617:13: warning: no previous prototype
- for 'r8a77961_disable_mstp_clocks'
-Message-ID: <202402231525.wFLTl40d-lkp@intel.com>
+	s=arc-20240116; t=1708678182; c=relaxed/simple;
+	bh=1Mwo8knrNwcUNyLOs2vDQjrp8LUcUoI9+o8mZdYrUio=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=g59owadOwFI/HiAFgQ50Vp4gf0HMUHy9uUfANGNWS2zl+3GUGZOIvWMwy+ALj1LAWjqryVkEuA61q8M3SIccsmUUppki0VkndzUQ6R3J2w7U5iMn1FmMaqdahfbml51c+AmD6oIBZSFSohdvhxFtJrK0SBoX8sziv/6vLlfJ5tY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=WDQSYdJN; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=zmqCjShl; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+From: Thomas Gleixner <tglx@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1708678178;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=vNmFwVS5XAceDnohqFy+IAMBF11KyZ6r2KWYJrBWXE8=;
+	b=WDQSYdJNE7KB1loQwm7NXyaz42xsOdADLSbKnDPfOGT488YF42+RDZ0TL2fHu6Pn9m2Gvr
+	hzfu9+EHBUaWJdgLImrfL3BD5SE9cXhinLBRw6jPnuKTLw8+GFkREKHZGxel2hxO7uCBVg
+	4iP7sT6RLpjAqCzlzcm8i2EHL7EhbCV3Ct7yZv5GFmt4rW7bkzS24o/J8mT4mq4pWbzxsp
+	CVhBWRE8Ge9x4q0WfLrU2XDLUGS2+Dq9A2u5P+sqi8XiKBqEv7MtwnWDnU/laIWNgqIM7T
+	rwkDU4JB3fJDGCSKV+WbN9v+WngZukZ2qsfNfc3EWlu1w17E7z+UuxpcYnHxxA==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1708678178;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=vNmFwVS5XAceDnohqFy+IAMBF11KyZ6r2KWYJrBWXE8=;
+	b=zmqCjShl7l6tJAOsDJ+efEVxrr1uXCcMteB/fuXZejOarW0ha8dUCYEuv3yfXSbMPNigm8
+	1KNRL/SBEt99JbBg==
+To: Yu Chien Peter Lin <peterlin@andestech.com>, acme@kernel.org,
+ adrian.hunter@intel.com, ajones@ventanamicro.com,
+ alexander.shishkin@linux.intel.com, andre.przywara@arm.com,
+ anup@brainfault.org, aou@eecs.berkeley.edu, atishp@atishpatra.org,
+ conor+dt@kernel.org, conor.dooley@microchip.com, conor@kernel.org,
+ devicetree@vger.kernel.org, evan@rivosinc.com, geert+renesas@glider.be,
+ guoren@kernel.org, heiko@sntech.de, irogers@google.com,
+ jernej.skrabec@gmail.com, jolsa@kernel.org, jszhang@kernel.org,
+ krzysztof.kozlowski+dt@linaro.org, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org, linux-riscv@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, locus84@andestech.com, magnus.damm@gmail.com,
+ mark.rutland@arm.com, mingo@redhat.com, n.shubin@yadro.com,
+ namhyung@kernel.org, palmer@dabbelt.com, paul.walmsley@sifive.com,
+ peterlin@andestech.com, peterz@infradead.org,
+ prabhakar.mahadev-lad.rj@bp.renesas.com, rdunlap@infradead.org,
+ robh+dt@kernel.org, samuel@sholland.org, sunilvl@ventanamicro.com,
+ tim609@andestech.com, uwu@icenowy.me, wens@csie.org, will@kernel.org,
+ inochiama@outlook.com, unicorn_wang@outlook.com, wefu@redhat.com
+Cc: Randolph <randolph@andestech.com>
+Subject: Re: [PATCH v9 03/10] irqchip/riscv-intc: Introduce Andes hart-level
+ interrupt controller
+In-Reply-To: <87o7c8dvv4.ffs@tglx>
+References: <20240222083946.3977135-1-peterlin@andestech.com>
+ <20240222083946.3977135-4-peterlin@andestech.com> <87o7c8dvv4.ffs@tglx>
+Date: Fri, 23 Feb 2024 09:49:38 +0100
+Message-ID: <877civefa5.ffs@tglx>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git topic/renesas-debug
-head:   5da04202c8b2b842bcf74a93e5232f4133c222fa
-commit: ea517c322a7e736531e654cf307f8f75c21a5ec3 [10/20] [DEBUG] soc: renesas: r8a77961: MSTP debug handling
-config: arm64-defconfig (https://download.01.org/0day-ci/archive/20240223/202402231525.wFLTl40d-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240223/202402231525.wFLTl40d-lkp@intel.com/reproduce)
+On Thu, Feb 22 2024 at 22:36, Thomas Gleixner wrote:
+> Palmer, feel free to take this through the riscv tree. I have no other
+> changes pending against that driver.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202402231525.wFLTl40d-lkp@intel.com/
+Aargh. Spoken too early. This conflicts with Anups AIA series.
 
-All warnings (new ones prefixed by >>):
+  https://lore.kernel.org/all/20240222094006.1030709-1-apatel@ventanamicro.com
 
->> drivers/soc/renesas/r8a77961-mstp.c:617:13: warning: no previous prototype for 'r8a77961_disable_mstp_clocks' [-Wmissing-prototypes]
-     617 | void __init r8a77961_disable_mstp_clocks(void)
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+So I rather take the pile through my tree and deal with the conflicts
+localy than inflicting it on next.
 
+Palmer?
 
-vim +/r8a77961_disable_mstp_clocks +617 drivers/soc/renesas/r8a77961-mstp.c
+Thanks,
 
-   616	
- > 617	void __init r8a77961_disable_mstp_clocks(void)
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+        tglx
 
