@@ -1,322 +1,296 @@
-Return-Path: <linux-renesas-soc+bounces-3157-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-3158-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92B62862335
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 24 Feb 2024 07:57:31 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id DD5DA86268B
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 24 Feb 2024 19:00:49 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 248D7283A7C
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 24 Feb 2024 06:57:30 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id F15AEB22102
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 24 Feb 2024 18:00:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8348824B54;
-	Sat, 24 Feb 2024 06:56:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6F0031EB34;
+	Sat, 24 Feb 2024 18:00:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Xeq+Vggr"
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="LInfvdsK"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
+Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2019B22337
-	for <linux-renesas-soc@vger.kernel.org>; Sat, 24 Feb 2024 06:55:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11C2D1E497
+	for <linux-renesas-soc@vger.kernel.org>; Sat, 24 Feb 2024 18:00:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708757769; cv=none; b=ferfKyWv3GqGfWnLiqcryvO0AIvaLzMW9UWfuy5sRw96SQqfYPT7ZgayoRLqA7GxVeI43kBX6FDCICB/PZrImKgi665tLjz9gssBZu1ZH/eXuQ1UwzQvYFgO9sRJCs8G+oYBHVVptjU9BJ7v5tkVnRa5RklR1Q/3AwWZB/o2/ek=
+	t=1708797641; cv=none; b=AKigvVEv31NKB/yc7xTEfDMb9DdEpJYk1+ODnOfb/gYJjAUa9Q6ao0T3K/xfWjXEaRfA2B9Ft4uEMReDBd4eBDlNd7acmled+zuvISsDOGKjF+J0XcIG3WZQVWGxKEB8RsZ1/GdRyr1hlVC580vkoMMITKHWfdFyk8TnYRXmjgI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708757769; c=relaxed/simple;
-	bh=RlSifbzPxBtpu7PujRxYQXRm0HNOIzR8xSzjMWcC9aI=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=GaXoL/Yjl98K2Uc2JFY1qLfMv25RA4rcHQPnm2QVQNAkMYgN8JC9UamsKa1atakESwLQo8robQVAq8xToQCafgKOt1wWVb2zfCWOfk6yafOd8uEORNZFTE92bi6FKtze6+fFAY9/uJsis6t4w8mhT1CcNL+ts+h9r/5isMGUbkI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Xeq+Vggr; arc=none smtp.client-ip=209.85.215.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-pg1-f175.google.com with SMTP id 41be03b00d2f7-5d81b08d6f2so1472911a12.0
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 23 Feb 2024 22:55:53 -0800 (PST)
+	s=arc-20240116; t=1708797641; c=relaxed/simple;
+	bh=G6o2nhUgm+M60WrRR17Vl0CKspbI6aWxwNtinu7O+48=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VvBacEgIIcT2V8K2xBLVGwUwjUBj/Imay/RhNfYBU48MROarDhMkHzpBVZ+n/SA4KT5kiyxbSWMhenjsEnUUCdnWxtUcAmzmEZo1ZzEAhcLaifb4KI20/uwejgthJvyK6fjus/O5AxGTXBpNRK4J4TO7bnuvRvJeuY3cy3pEkhc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=LInfvdsK; arc=none smtp.client-ip=209.85.167.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
+Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-512ab55fde6so1915189e87.2
+        for <linux-renesas-soc@vger.kernel.org>; Sat, 24 Feb 2024 10:00:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1708757751; x=1709362551; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=x7a40LFXPNdbxmfoEEZhDO4KpnySFv1la0Joe27Qfts=;
-        b=Xeq+VggrPuLNeTEqB88/Z2mswIxo95t9YlexWB2/PqhuvdkMZgUFzbKiiPssx/C8ZT
-         a4olQvY7tKZdDELxa7krnfaa9uY9G1EI4xj3rScVTiAQfn+bntULZqq3GKgHRSqeVpUP
-         uj0m7m/GZJF4dOWWWNLItsVCzpHL5TKdxAj7sYCaDBOi9pv000PeEv+c6ncaas8hWKJm
-         KFrAEWd1uJQSBcyjRwLhhqtRweIGt56KpurrjinDx9yzihkmajhQFB7/MVDdplN6hntu
-         HLtMkUtpsy8OscyeOSn6pgVg0EbTgh+XS4m00CRCLFphKt6AZ/I/dpdWmVL7+jltsN1F
-         Dd4g==
+        d=ragnatech.se; s=google; t=1708797635; x=1709402435; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=f6Pt7drzHcC4qcVCDkKRpBfvRiZ/Rhfz3OGWDqj6MJo=;
+        b=LInfvdsKzgz+PIYaE4emnfUEI44ItxiDMXEcb2o4jbFPBtnIJY9xVtzuY/DOfR5UKK
+         BXqrdD6AggK59FkAd4yM2AtRWrkn6F4sMSYKsL1M4yh3vnC4Eo01gqi3aIqGUzR1pQMb
+         y2xAL8Thcyr+JCuZWpZd7MhYmnTHIJekhMQq8E8cKxpoXn7dgHp3YgmNvPSmAUJHJ5HK
+         xmzliO9ttypbs7WraV+JFO2Tb7kkED5K4gGs2QoyFsxzSDQXBW1bCcHlj0+Z2tSAVG7l
+         au2fz67rqa8Qqb5RRRQO9RWG3bUbcki0eT7G2mGq/1NRZMOic3pNphS9hq5MScfAssVN
+         sQHQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708757751; x=1709362551;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=x7a40LFXPNdbxmfoEEZhDO4KpnySFv1la0Joe27Qfts=;
-        b=NS3sragqEj6OzSWmuWkQKTYgWA7/AzOcGcY0MiVOAhsxoaNgv1OboQdmanV49d5R9/
-         1v+tAQYcUgIfGmvw9+ZWvAJ0n7Uxidu+rbYILM4A0C8TIzKihp0O2RIQihdTiJMo9izO
-         d/EHyxCP83WvRkmYZZ8U+YlEEM+GqIbJ6rd9AoAneeFvaK3W4pxuT/PUtPV1IXNKHuFl
-         r3rAyNTFwdrZdUtWQJvqnsV+gd/+B2xgzHNcy4MGMRbC2j3pb35XDshtyqejD1IXczr+
-         o8N3P5TisuWq7mYrUKWs78oAkdTxXcKSqHs9IcIOsbZ5CSnNf+dg5F4R+dhVCqxxSKa8
-         u7tQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUBOpa9QyEvWNr2hLbLwK584hSsRskHDgTPu/mYwFxVxj6ODP+fbKNT3vCaQOOoCrncBK7R6EWXBSnffaop/q3AYQZDo5yHT9zUqngCPmK2n5w=
-X-Gm-Message-State: AOJu0YwXB5yXf86Qhqy6Afx4QYIgZAICFUA8szOln0H9bFigpD4Xp/bE
-	/3S44n2LHOYAaQzqkadnWuhkjWLOPmUN5mXTwOzUiCIY6n0WSN/sedfbcjzVnA==
-X-Google-Smtp-Source: AGHT+IEnmjPufGU7gBJ9H9QW+12UD2lgzlRAOajQe9hGXsq6LLeTPTiiOQarSarYh6PhYynFshwacg==
-X-Received: by 2002:a05:6a20:9598:b0:19e:a9e6:bfa with SMTP id iu24-20020a056a20959800b0019ea9e60bfamr3027765pzb.0.1708757750928;
-        Fri, 23 Feb 2024 22:55:50 -0800 (PST)
-Received: from [127.0.1.1] ([120.138.12.46])
-        by smtp.gmail.com with ESMTPSA id r5-20020aa78b85000000b006e4cb7f4393sm502932pfd.165.2024.02.23.22.55.42
+        d=1e100.net; s=20230601; t=1708797635; x=1709402435;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=f6Pt7drzHcC4qcVCDkKRpBfvRiZ/Rhfz3OGWDqj6MJo=;
+        b=dEW+rQ9vw3yIPDXDbuqzC58VXNUFi9EXz3vNz8WUM8o8vzxSeRdqLsV5/mMb5K8gdx
+         j65ainVat0wF3/NBaGhb5zzyaZARAYvpwh4H0beBZ5CjPYdNc6L4wbZ1Dfbwpya5XBDN
+         gSZhBEeK+qvWcZ4hjhsrA4LsNxg2uDwvhTT1R6NfO2HDI3skNOGJT+vUj8kDpAFQQbjo
+         SV7vRQNxy8QSQdzSN5/aQxcSdI4Dtf36ziOVzUSYQDkFslPULRQOG8rVBD3xW5UY1CJY
+         +J5q4fGgm1MiiQNipEMTRzx32xQVgVfNCSTtWMN/wQfob5go5pJTlp7DI6FR0TQYFFOv
+         Fd0A==
+X-Gm-Message-State: AOJu0YxcQtRslcY3DRt3AZ/1CNRN61QfBsLBfLV9IJ4v9L3AEBRwvYHM
+	a0Dvdyg5jOvYzIBu+6o25IgzvlJGcT0dKFeQnF8kUVRRltnrrm4Yng3xhzTstsUVKqhouEBNdX7
+	KUAI=
+X-Google-Smtp-Source: AGHT+IFmk5ctBsuNQQySHnPGXSMC165o7rCaDWRdHFwSAQrTzP/fPJctKrDyWJC7uBoKdY985cuNeg==
+X-Received: by 2002:a05:6512:1589:b0:512:cc98:99be with SMTP id bp9-20020a056512158900b00512cc9899bemr2163914lfb.0.1708797634796;
+        Sat, 24 Feb 2024 10:00:34 -0800 (PST)
+Received: from localhost (h-46-59-36-113.A463.priv.bahnhof.se. [46.59.36.113])
+        by smtp.gmail.com with ESMTPSA id d20-20020a193854000000b00512e14849b0sm281312lfj.257.2024.02.24.10.00.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 23 Feb 2024 22:55:50 -0800 (PST)
-From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-Date: Sat, 24 Feb 2024 12:24:16 +0530
-Subject: [PATCH v8 10/10] PCI: dwc: ep: Add Kernel-doc comments for APIs
+        Sat, 24 Feb 2024 10:00:34 -0800 (PST)
+Date: Sat, 24 Feb 2024 19:00:33 +0100
+From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org
+Subject: Re: [PATCH] arm64: dts: renesas: eagle: Add capture overlay for
+ expansion board
+Message-ID: <20240224180033.GA4164129@ragnatech.se>
+References: <20240123145354.1571800-1-niklas.soderlund+renesas@ragnatech.se>
+ <CAMuHMdXxA1K7G5a84WkTCqa2WGPp4ZvjOZR_9SBgEkXOUm8f9A@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240224-pci-dbi-rework-v8-10-64c7fd0cfe64@linaro.org>
-References: <20240224-pci-dbi-rework-v8-0-64c7fd0cfe64@linaro.org>
-In-Reply-To: <20240224-pci-dbi-rework-v8-0-64c7fd0cfe64@linaro.org>
-To: Jingoo Han <jingoohan1@gmail.com>, 
- Gustavo Pimentel <gustavo.pimentel@synopsys.com>, 
- Lorenzo Pieralisi <lpieralisi@kernel.org>, 
- =?utf-8?q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>, 
- Rob Herring <robh@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, 
- Marek Vasut <marek.vasut+renesas@gmail.com>, 
- Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>, 
- Thierry Reding <thierry.reding@gmail.com>, 
- Jonathan Hunter <jonathanh@nvidia.com>, 
- Kishon Vijay Abraham I <kishon@ti.com>, Vidya Sagar <vidyas@nvidia.com>, 
- Vignesh Raghavendra <vigneshr@ti.com>, Richard Zhu <hongxing.zhu@nxp.com>, 
- Lucas Stach <l.stach@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>, 
- Sascha Hauer <s.hauer@pengutronix.de>, 
- Pengutronix Kernel Team <kernel@pengutronix.de>, 
- Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>, 
- Minghuan Lian <minghuan.Lian@nxp.com>, Mingkai Hu <mingkai.hu@nxp.com>, 
- Roy Zang <roy.zang@nxp.com>, 
- Kunihiko Hayashi <hayashi.kunihiko@socionext.com>, 
- Masami Hiramatsu <mhiramat@kernel.org>, 
- Kishon Vijay Abraham I <kishon@kernel.org>
-Cc: linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-renesas-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
- linux-tegra@vger.kernel.org, linux-omap@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linuxppc-dev@lists.ozlabs.org, 
- Niklas Cassel <cassel@kernel.org>, 
- Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-X-Mailer: b4 0.12.4
-X-Developer-Signature: v=1; a=openpgp-sha256; l=6191;
- i=manivannan.sadhasivam@linaro.org; h=from:subject:message-id;
- bh=RlSifbzPxBtpu7PujRxYQXRm0HNOIzR8xSzjMWcC9aI=;
- b=owEBbQGS/pANAwAKAVWfEeb+kc71AcsmYgBl2ZKYnORPJAWrZSvv2GaYNbEOsO2cd6ddhplS2
- ocQMoz+VY+JATMEAAEKAB0WIQRnpUMqgUjL2KRYJ5dVnxHm/pHO9QUCZdmSmAAKCRBVnxHm/pHO
- 9YJTB/4v7GuuRmbe0Zwxyo+tPfe7wHbF32OdBIEyJDAlpDhSmzu3hPTLA+GHTrWRvAi6LR1NxT2
- Geo7LAwfZyhTd9XHUj1LW6nZrP8HaeDHPpDeXdvury4TXEt/nJzaT6X46L8T4ZPVWeZjpnIAAUO
- VaRk25wB0GFN7qHOWP519/7zTqgE1Nvq8NwsPFJ0L+qF9PyDM5JQwqErlcoaeDE1ydE5VlfzHYY
- S0NyUgjfXf6OXkZduIxZ1Nre1D9jeGRMFFCPfwgmlDMMTWa2NPAg4BZtJhmQTJ3EZfldk6/srKQ
- baoBX4atAMnwFSU17XOzGeL6mEXH21rwVc7gH//Kc3x3mXaT
-X-Developer-Key: i=manivannan.sadhasivam@linaro.org; a=openpgp;
- fpr=C668AEC3C3188E4C611465E7488550E901166008
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAMuHMdXxA1K7G5a84WkTCqa2WGPp4ZvjOZR_9SBgEkXOUm8f9A@mail.gmail.com>
 
-All of the APIs are missing the Kernel-doc comments. Hence, add them.
+Hi Geert,
 
-Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
----
- drivers/pci/controller/dwc/pcie-designware-ep.c | 92 +++++++++++++++++++++++++
- 1 file changed, 92 insertions(+)
+Tanks for your feedback.
 
-diff --git a/drivers/pci/controller/dwc/pcie-designware-ep.c b/drivers/pci/controller/dwc/pcie-designware-ep.c
-index fed4c2936c78..cdcb33a279db 100644
---- a/drivers/pci/controller/dwc/pcie-designware-ep.c
-+++ b/drivers/pci/controller/dwc/pcie-designware-ep.c
-@@ -14,6 +14,11 @@
- #include <linux/pci-epc.h>
- #include <linux/pci-epf.h>
- 
-+/**
-+ * dw_pcie_ep_init_notify - Notify EPF drivers about EPC initialization
-+ *			    complete
-+ * @ep: DWC EP device
-+ */
- void dw_pcie_ep_init_notify(struct dw_pcie_ep *ep)
- {
- 	struct pci_epc *epc = ep->epc;
-@@ -22,6 +27,14 @@ void dw_pcie_ep_init_notify(struct dw_pcie_ep *ep)
- }
- EXPORT_SYMBOL_GPL(dw_pcie_ep_init_notify);
- 
-+/**
-+ * dw_pcie_ep_get_func_from_ep - Get the struct dw_pcie_ep_func corresponding to
-+ *				 the endpoint function
-+ * @ep: DWC EP device
-+ * @func_no: Function number of the endpoint device
-+ *
-+ * Return: struct dw_pcie_ep_func if success, NULL otherwise.
-+ */
- struct dw_pcie_ep_func *
- dw_pcie_ep_get_func_from_ep(struct dw_pcie_ep *ep, u8 func_no)
- {
-@@ -52,6 +65,11 @@ static void __dw_pcie_ep_reset_bar(struct dw_pcie *pci, u8 func_no,
- 	dw_pcie_dbi_ro_wr_dis(pci);
- }
- 
-+/**
-+ * dw_pcie_ep_reset_bar - Reset endpoint BAR
-+ * @pci: DWC PCI device
-+ * @bar: BAR number of the endpoint
-+ */
- void dw_pcie_ep_reset_bar(struct dw_pcie *pci, enum pci_barno bar)
- {
- 	u8 func_no, funcs;
-@@ -431,6 +449,13 @@ static const struct pci_epc_ops epc_ops = {
- 	.get_features		= dw_pcie_ep_get_features,
- };
- 
-+/**
-+ * dw_pcie_ep_raise_intx_irq - Raise INTx IRQ to the host
-+ * @ep: DWC EP device
-+ * @func_no: Function number of the endpoint
-+ *
-+ * Return: 0 if success, errono otherwise.
-+ */
- int dw_pcie_ep_raise_intx_irq(struct dw_pcie_ep *ep, u8 func_no)
- {
- 	struct dw_pcie *pci = to_dw_pcie_from_ep(ep);
-@@ -442,6 +467,14 @@ int dw_pcie_ep_raise_intx_irq(struct dw_pcie_ep *ep, u8 func_no)
- }
- EXPORT_SYMBOL_GPL(dw_pcie_ep_raise_intx_irq);
- 
-+/**
-+ * dw_pcie_ep_raise_msi_irq - Raise MSI IRQ to the host
-+ * @ep: DWC EP device
-+ * @func_no: Function number of the endpoint
-+ * @interrupt_num: Interrupt number to be raised
-+ *
-+ * Return: 0 if success, errono otherwise.
-+ */
- int dw_pcie_ep_raise_msi_irq(struct dw_pcie_ep *ep, u8 func_no,
- 			     u8 interrupt_num)
- {
-@@ -490,6 +523,15 @@ int dw_pcie_ep_raise_msi_irq(struct dw_pcie_ep *ep, u8 func_no,
- }
- EXPORT_SYMBOL_GPL(dw_pcie_ep_raise_msi_irq);
- 
-+/**
-+ * dw_pcie_ep_raise_msix_irq_doorbell - Raise MSIX to the host using Doorbell
-+ *					method
-+ * @ep: DWC EP device
-+ * @func_no: Function number of the endpoint device
-+ * @interrupt_num: Interrupt number to be raised
-+ *
-+ * Return: 0 if success, errno otherwise.
-+ */
- int dw_pcie_ep_raise_msix_irq_doorbell(struct dw_pcie_ep *ep, u8 func_no,
- 				       u16 interrupt_num)
- {
-@@ -509,6 +551,14 @@ int dw_pcie_ep_raise_msix_irq_doorbell(struct dw_pcie_ep *ep, u8 func_no,
- 	return 0;
- }
- 
-+/**
-+ * dw_pcie_ep_raise_msix_irq - Raise MSIX to the host
-+ * @ep: DWC EP device
-+ * @func_no: Function number of the endpoint device
-+ * @interrupt_num: Interrupt number to be raised
-+ *
-+ * Return: 0 if success, errno otherwise.
-+ */
- int dw_pcie_ep_raise_msix_irq(struct dw_pcie_ep *ep, u8 func_no,
- 			      u16 interrupt_num)
- {
-@@ -556,6 +606,12 @@ int dw_pcie_ep_raise_msix_irq(struct dw_pcie_ep *ep, u8 func_no,
- 	return 0;
- }
- 
-+/**
-+ * dw_pcie_ep_cleanup - Cleanup DWC EP resources
-+ * @ep: DWC EP device
-+ *
-+ * Cleans up the DWC EP specific resources like eDMA etc...
-+ */
- void dw_pcie_ep_cleanup(struct dw_pcie_ep *ep)
- {
- 	struct dw_pcie *pci = to_dw_pcie_from_ep(ep);
-@@ -564,6 +620,13 @@ void dw_pcie_ep_cleanup(struct dw_pcie_ep *ep)
- }
- EXPORT_SYMBOL_GPL(dw_pcie_ep_cleanup);
- 
-+/**
-+ * dw_pcie_ep_deinit - Deinitialize the endpoint device
-+ * @ep: DWC EP device
-+ *
-+ * Deinitialize the endpoint device. EPC device is not destroyed since that will
-+ * taken care by Devres.
-+ */
- void dw_pcie_ep_deinit(struct dw_pcie_ep *ep)
- {
- 	struct pci_epc *epc = ep->epc;
-@@ -635,6 +698,14 @@ static void dw_pcie_ep_init_non_sticky_registers(struct dw_pcie *pci)
- 	dw_pcie_dbi_ro_wr_dis(pci);
- }
- 
-+/**
-+ * dw_pcie_ep_init_registers - Initialize DWC EP specific registers
-+ * @ep: DWC EP device
-+ *
-+ * Initialize the registers (CSRs) specific to DWC EP. This API should be called
-+ * only when the endpoint receives an active refclk (either from host or
-+ * generated locally).
-+ */
- int dw_pcie_ep_init_registers(struct dw_pcie_ep *ep)
- {
- 	struct dw_pcie *pci = to_dw_pcie_from_ep(ep);
-@@ -718,6 +789,10 @@ int dw_pcie_ep_init_registers(struct dw_pcie_ep *ep)
- }
- EXPORT_SYMBOL_GPL(dw_pcie_ep_init_registers);
- 
-+/**
-+ * dw_pcie_ep_linkup - Notify EPF drivers about link up event
-+ * @ep: DWC EP device
-+ */
- void dw_pcie_ep_linkup(struct dw_pcie_ep *ep)
- {
- 	struct pci_epc *epc = ep->epc;
-@@ -726,6 +801,14 @@ void dw_pcie_ep_linkup(struct dw_pcie_ep *ep)
- }
- EXPORT_SYMBOL_GPL(dw_pcie_ep_linkup);
- 
-+/**
-+ * dw_pcie_ep_linkdown - Notify EPF drivers about link down event
-+ * @ep: DWC EP device
-+ *
-+ * Non-sticky registers are also initialized before sending the notification to
-+ * the EPF drivers. This is needed since the registers need to be initialized
-+ * before the link comes back again.
-+ */
- void dw_pcie_ep_linkdown(struct dw_pcie_ep *ep)
- {
- 	struct dw_pcie *pci = to_dw_pcie_from_ep(ep);
-@@ -743,6 +826,15 @@ void dw_pcie_ep_linkdown(struct dw_pcie_ep *ep)
- }
- EXPORT_SYMBOL_GPL(dw_pcie_ep_linkdown);
- 
-+/**
-+ * dw_pcie_ep_init - Initialize the endpoint device
-+ * @ep: DWC EP device
-+ *
-+ * Initialize the endpoint device. Allocate resources and create the EPC
-+ * device with the endpoint framework.
-+ *
-+ * Return: 0 if success, errno otherwise.
-+ */
- int dw_pcie_ep_init(struct dw_pcie_ep *ep)
- {
- 	int ret;
+I have taken all your comments for v2 except the i2c address of adv7126, 
+see reason below.
+
+On 2024-02-15 19:32:32 +0100, Geert Uytterhoeven wrote:
+> Hi Niklas,
+> 
+> On Tue, Jan 23, 2024 at 3:54 PM Niklas Söderlund
+> <niklas.soderlund+renesas@ragnatech.se> wrote:
+> > The Eagle board supports an optional expansion board. The expansion
+> 
+> The title page of the schematics document calls this the "Function
+> expansion board".
+> 
+> > board adds support for HDMI OUT, HDMI capture from two different sources
+> > and eMMC.
+> >
+> > This change only adds support for the two HDMI capture sources.
+> >
+> > Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> 
+> Thanks for your patch!
+> 
+> > --- a/arch/arm64/boot/dts/renesas/Makefile
+> > +++ b/arch/arm64/boot/dts/renesas/Makefile
+> > @@ -62,6 +62,8 @@ dtb-$(CONFIG_ARCH_R8A77965) += r8a77965-ulcb.dtb
+> >  dtb-$(CONFIG_ARCH_R8A77965) += r8a77965-ulcb-kf.dtb
+> >
+> >  dtb-$(CONFIG_ARCH_R8A77970) += r8a77970-eagle.dtb
+> 
+> Please add
+> 
+>     dtb-$(CONFIG_ARCH_R8A77970) += r8a77970-eagle-expansion.dtbo
+> 
+> so that the .dtbo is considered for installation, too.
+> 
+> > +r8a77970-eagle-expansion-dtbs := r8a77970-eagle.dtb r8a77970-eagle-expansion.dtbo
+> > +dtb-$(CONFIG_ARCH_R8A77970) += r8a77970-eagle-expansion.dtb
+> >  dtb-$(CONFIG_ARCH_R8A77970) += r8a77970-v3msk.dtb
+> >
+> >  dtb-$(CONFIG_ARCH_R8A77980) += r8a77980-condor.dtb
+> 
+> > --- /dev/null
+> > +++ b/arch/arm64/boot/dts/renesas/r8a77970-eagle-expansion.dtso
+> 
+> This is a rather generic name.
+> What about r8a77970-eagle-function-expansion.dtso?
+> 
+> > @@ -0,0 +1,214 @@
+> > +// SPDX-License-Identifier: GPL-2.0
+> > +/*
+> > + * Device Tree Source for the Eagle V3M expansion board.
+> 
+> ... Function expansion board?
+> 
+> > + *
+> > + * Copyright (C) 2024 Niklas Söderlund <niklas.soderlund@ragnatech.se>
+> > + */
+> > +
+> > +#include <dt-bindings/gpio/gpio.h>
+> > +#include <dt-bindings/interrupt-controller/irq.h>
+> 
+> Please move the includes below the /.../; markers.
+> 
+> > +
+> > +/dts-v1/;
+> > +/plugin/;
+> > +
+> > +/ {
+> > +       /* CN4 */
+> > +       /* Eagle: SW18 set to OFF */
+> > +       cvbs-in-cn4 {
+> > +               compatible = "composite-video-connector";
+> > +               label = "CVBS IN CN4";
+> > +
+> > +               port {
+> > +                       cvbs_con: endpoint {
+> > +                               remote-endpoint = <&adv7482_ain7>;
+> > +                       };
+> > +               };
+> > +       };
+> > +
+> > +       /* CN3 */
+> > +       /* Eagle: SW18 set to OFF */
+> > +       hdmi-in-cn3 {
+> 
+> Please use alphabetical sort order for nodes without unit addresses.
+> 
+> > +               compatible = "hdmi-connector";
+> > +               label = "HDMI IN CN3";
+> > +               type = "a";
+> > +
+> > +               port {
+> > +                       hdmi_in_con: endpoint {
+> > +                               remote-endpoint = <&adv7482_hdmi>;
+> > +                       };
+> > +               };
+> > +       };
+> > +
+> > +       /* CN2 */
+> > +       /* Eagle: SW35 set 5, 6 and 8 to OFF */
+> > +       hdmi-in-cn2 {
+> > +               compatible = "hdmi-connector";
+> > +               label = "HDMI IN CN2";
+> > +               type = "a";
+> > +
+> > +               port {
+> > +                       hdmi_in_con2: endpoint {
+> > +                               remote-endpoint = <&adv7612_in>;
+> > +                       };
+> > +               };
+> > +       };
+> > +};
+> > +
+> > +/* Disconnect MAX9286 GMSL i2c. */
+> 
+> I2C
+> 
+> > +&i2c3 {
+> > +       status = "disabled";
+> > +};
+> > +
+> > +/* Connect expansion board i2c. */
+> 
+> I2C
+> 
+> > +&i2c0 {
+> > +       #address-cells = <1>;
+> > +       #size-cells = <0>;
+> > +
+> > +       io_expander_27: gpio@27 {
+> > +               compatible = "onnn,pca9654";
+> > +               reg = <0x27>;
+> > +               gpio-controller;
+> > +               #gpio-cells = <2>;
+> > +
+> > +               vin0_adv7612_en {
+> > +                       gpio-hog;
+> > +                       gpios = <0x3 0x0>;
+> 
+> Please use symbolic values for GPIO flags, i.e. GPIO_ACTIVE_HIGH.
+> 
+> > +                       output-low;
+> > +                       line-name = "VIN0_ADV7612_ENn";
+> 
+> Given this signal is active-low, you probably want:
+> 
+>     gpios = <3 GPIO_ACTIVE_LOW>;
+>     output-high;
+> 
+> > +               };
+> > +       };
+> > +
+> > +       dmi-decoder@4c {
+> 
+> hdmi-decoder
+> 
+> According to the schematics, the primary address is 0x4d?
+
+Indeed it is, but it do not answer at 0x4d but at 0x4c, I do not know 
+why, maybe the datasheet is wrong? I have had some version or not of 
+this change in my tree for years so I can't remember how I figured this 
+out, but I just retested and nothing answers at 0x4d but capture works 
+find with 0x4c.
+
+> 
+> > +               compatible = "adi,adv7612";
+> > +               reg = <0x4c>, <0x50>, <0x52>, <0x54>, <0x56>, <0x58>;
+> > +               reg-names = "main", "afe", "rep", "edid", "hdmi", "cp";
+> > +               interrupt-parent = <&gpio3>;
+> > +               interrupts = <2 IRQ_TYPE_LEVEL_LOW>;
+> > +               default-input = <0>;
+> 
+> > +       };
+> > +
+> > +       adv7482_70: video-receiver@70 {
+> 
+> Do you see a future user for this label?
+> Just wondering, as some nodes have labels, others haven't.
+> 
+> > +               compatible = "adi,adv7482";
+> > +               reg = <0x70 0x71 0x72 0x73 0x74 0x75
+> > +                      0x60 0x61 0x62 0x63 0x64 0x65>;
+> > +               reg-names = "main", "dpll", "cp", "hdmi", "edid", "repeater",
+> > +                           "infoframe", "cbus", "cec", "sdp", "txa", "txb" ;
+> > +               interrupt-parent = <&gpio3>;
+> > +               interrupts = <03 IRQ_TYPE_LEVEL_LOW>, <04 IRQ_TYPE_LEVEL_LOW>;
+> > +               interrupt-names = "intrq1", "intrq2";
+> 
+> Gr{oetje,eeting}s,
+> 
+>                         Geert
+> 
+> --
+> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+> 
+> In personal conversations with technical people, I call myself a hacker. But
+> when I'm talking to journalists I just say "programmer" or something like that.
+>                                 -- Linus Torvalds
 
 -- 
-2.25.1
-
+Kind Regards,
+Niklas Söderlund
 
