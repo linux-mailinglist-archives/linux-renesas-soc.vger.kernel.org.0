@@ -1,142 +1,201 @@
-Return-Path: <linux-renesas-soc+bounces-3169-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-3170-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0944A8673E7
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 26 Feb 2024 12:52:10 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4045986743A
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 26 Feb 2024 13:03:26 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 0BBFDB287C5
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 26 Feb 2024 11:40:48 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 622861C264B5
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 26 Feb 2024 12:03:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 082D34F5FC;
-	Mon, 26 Feb 2024 11:38:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 114B45B02B;
+	Mon, 26 Feb 2024 12:03:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="o7NmKcXs"
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="kzG7Z1CL"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com [209.85.222.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 419234F1E3
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 26 Feb 2024 11:38:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E01B1CD08;
+	Mon, 26 Feb 2024 12:03:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.19.141
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708947501; cv=none; b=lH5fx09bUFIYZ/HAGLjJS6AJ2rstzqWar84bj+ITw7Y/bdvalgpxBf4oX0yOWisAycNfGDV9cG1fM/CrU+dHaz4XVLn0JVAiXOG0+yjrQ9P0mQKUop+zkkdhoh3antixafxD7wHATOYpaazn2i+YxCz9vjzAmHqXlDjED4J8/pc=
+	t=1708949001; cv=none; b=TTP+P2o2JyXccecj73Vysk2Xg3QmeXK00iByZJYH1+zV0ym4bygLLiE9RvlddcsRWPKFq6G7EqzH+NTew/g+q/A+IphGKvCzBHb1wlpRXiVDKZb5GWyYsuUfwnWGJZT4kil9TGvb8FZF4mq/8VIQqSHsr0WndrMdg/3cNup/PqA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708947501; c=relaxed/simple;
-	bh=rySUPOYrv9T+HZDbsprHAcPFbuAMziJaAQnsy9yh8Qw=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=AjoosNCI+mwEj4tW79bFF6bI60QIVCGNCpFu3NpTxmkNNx2hHmogtjdgOl8beiTFHyDNdq7oKideZOJYsbbnaXoTLDZN7+khwJy2QE6DxzWOh/2C5p5CQyYTD1RxcSBVu14A3rn9HCGe5uB21EUodllPrViLGfx3UIFoDuef+RA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=o7NmKcXs; arc=none smtp.client-ip=209.85.222.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-qk1-f179.google.com with SMTP id af79cd13be357-7810827e54eso244519285a.2
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 26 Feb 2024 03:38:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1708947498; x=1709552298; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=+w+dz2LhhxLyj9g/T/Ynx7ET7ucJXKJT/WmnsqQcygw=;
-        b=o7NmKcXszo+BqMNkU9Yb3xrTXkDX4fAEdnEZQ//UJo/OzdBqck2rYONAcgwvM+/09N
-         cJLtfzO3Mzij4Cu0GxRVeIKtVNYqISFky24J+yLyJNbHk2hRA52qPMe+3pgH3G879nxE
-         OA+mz8uQHU6IZfJWTALqVsYN6Gj1UlArV1mhdIRm35GKTF19Ljsih9QuDIWsCLD2J+o4
-         JSBblX61IwUySiMuFveSy6pFiUCXH7uhWYyMek8nizWa27xoWPbMfLYcN+tGJMQiT3p1
-         UboOwcvt73CmDcmpkiLglqwZzxmauIL2VTCLJzipwPj7HjPcJ3rnSo6JLLOkG0qOJEXj
-         N8MA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708947498; x=1709552298;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=+w+dz2LhhxLyj9g/T/Ynx7ET7ucJXKJT/WmnsqQcygw=;
-        b=S1akAFpYja3U3dw7Px45r6f1F8hN8uOPkbZijZuym7EaZOPj77NWUXMseNHwluSZd1
-         qUC4/hD31muBA00n9WvdJBntCL0RRitoezgZIUFCS/GRm+YBqhHsm94wJD/kH8o8xkCg
-         qQICR5NVbsKkEDISd7Rwr5n+p+DbBPVtovAc7whqKBajhHfaN/5B1tFK4u2vbVkgjl/B
-         oOfbFhOqKIruN9MqJZpTeEL/uV3UL3aUEtf+EjzBwPeoaaujYZBppQhnx1+0KwO+Hm0Y
-         lopj/3gnUeIPDbkVYLhx70l2oC8m6UZhSiwT2KOFalKLpfe7kw6eakpSBqMbBDhZB7+J
-         6VDw==
-X-Forwarded-Encrypted: i=1; AJvYcCVw6b2feSH0VU01cuBkNTyI00Gyv49xZRt5hoYuYZtz0f1hpScADcZwrbp4ZTEfjgusbUOQdHwtBk5brGTQhXR2azkpXDB3ngCttZrvZTGOBok=
-X-Gm-Message-State: AOJu0Yy1wLkwxcIvDoR7y6zkQLlN8ZfdyH/IdFyJ5O0P+7BhcdnB4wEK
-	qoIRFmrYdYi84rAJui8KUnffot0NhsX2ZHcE+4+5MOEh5JZ40ZTXduQ2yGEvPQ==
-X-Google-Smtp-Source: AGHT+IF7HmtMnaGrj80UYao6lQvALwBuMw8q3jvFf9UFrxEVWdxk0u5fePdkKkkBuQR3Or+GeX/gvw==
-X-Received: by 2002:a05:620a:2014:b0:787:3769:d747 with SMTP id c20-20020a05620a201400b007873769d747mr6779105qka.59.1708947498204;
-        Mon, 26 Feb 2024 03:38:18 -0800 (PST)
-Received: from [127.0.1.1] ([117.202.184.81])
-        by smtp.gmail.com with ESMTPSA id q15-20020a05620a0c8f00b007878babb96asm2341842qki.94.2024.02.26.03.38.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 26 Feb 2024 03:38:17 -0800 (PST)
-From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-Date: Mon, 26 Feb 2024 17:07:30 +0530
-Subject: [PATCH v3 5/5] PCI: epf-mhi: Enable HDMA for SA8775P SoC
+	s=arc-20240116; t=1708949001; c=relaxed/simple;
+	bh=vRIEb/+D7M4j/nHK9fDGfbH9sUW39k0q7B5ZbffZKjw=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Y3SR1IwpVW92Q6/gL3hpTzceTc0LovI+8JtYSwXv5zBMSD5hL8z5Vgy8II86+ULvJY3F5mN+Tf8sXjcnvON4t3MJV5eH8zkwA9txO5WbGgSJHwXMV8v4qIAWq0ZjAiWaawtSdGG+UPTUd4SNUQfxodWaF6dZVZaCcb898sUX9J8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=kzG7Z1CL; arc=none smtp.client-ip=198.47.19.141
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
+Received: from lelv0266.itg.ti.com ([10.180.67.225])
+	by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 41QC2mR0099398;
+	Mon, 26 Feb 2024 06:02:48 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+	s=ti-com-17Q1; t=1708948968;
+	bh=+3AsQsaBHuAdklDpGOnvvIB16uuAzF8tgDh7ffFqkhY=;
+	h=Date:From:To:CC:Subject:References:In-Reply-To;
+	b=kzG7Z1CL27dDBNkYo2tw7iZjIJPFaNvIU847qw0GQo0uVwMo1MBKX5cMH/pORS2V4
+	 H4t1PkdKa7j5T1kXRQH+nJFQc9l9KTioni/0nyQWp/DlrIYRmzNB0SPQ4CTbzy580C
+	 FV04F/xi3LJYmMN8WiwyuXf90xfPaRTq7klgspuE=
+Received: from DFLE103.ent.ti.com (dfle103.ent.ti.com [10.64.6.24])
+	by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 41QC2m0t104041
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Mon, 26 Feb 2024 06:02:48 -0600
+Received: from DFLE107.ent.ti.com (10.64.6.28) by DFLE103.ent.ti.com
+ (10.64.6.24) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Mon, 26
+ Feb 2024 06:02:48 -0600
+Received: from lelvsmtp6.itg.ti.com (10.180.75.249) by DFLE107.ent.ti.com
+ (10.64.6.28) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
+ Frontend Transport; Mon, 26 Feb 2024 06:02:48 -0600
+Received: from localhost (uda0492258.dhcp.ti.com [172.24.227.9])
+	by lelvsmtp6.itg.ti.com (8.15.2/8.15.2) with ESMTP id 41QC2lnH056462;
+	Mon, 26 Feb 2024 06:02:47 -0600
+Date: Mon, 26 Feb 2024 17:32:46 +0530
+From: Siddharth Vadapalli <s-vadapalli@ti.com>
+To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+CC: Jingoo Han <jingoohan1@gmail.com>,
+        Gustavo Pimentel
+	<gustavo.pimentel@synopsys.com>,
+        Lorenzo Pieralisi <lpieralisi@kernel.org>,
+        Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
+        Rob Herring
+	<robh@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+        Marek Vasut
+	<marek.vasut+renesas@gmail.com>,
+        Yoshihiro Shimoda
+	<yoshihiro.shimoda.uh@renesas.com>,
+        Kishon Vijay Abraham I
+	<kishon@kernel.org>,
+        Serge Semin <fancer.lancer@gmail.com>, <linux-pci@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>,
+        <linux-arm-msm@vger.kernel.org>, <mhi@lists.linux.dev>,
+        <s-vadapalli@ti.com>
+Subject: Re: [PATCH v3 1/5] PCI: dwc: Refactor dw_pcie_edma_find_chip() API
+Message-ID: <a3e4f9f9-e3c0-428c-913c-d777f3386556@ti.com>
+References: <20240226-dw-hdma-v3-0-cfcb8171fc24@linaro.org>
+ <20240226-dw-hdma-v3-1-cfcb8171fc24@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240226-dw-hdma-v3-5-cfcb8171fc24@linaro.org>
-References: <20240226-dw-hdma-v3-0-cfcb8171fc24@linaro.org>
-In-Reply-To: <20240226-dw-hdma-v3-0-cfcb8171fc24@linaro.org>
-To: Jingoo Han <jingoohan1@gmail.com>, 
- Gustavo Pimentel <gustavo.pimentel@synopsys.com>, 
- Lorenzo Pieralisi <lpieralisi@kernel.org>, 
- =?utf-8?q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>, 
- Rob Herring <robh@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, 
- Marek Vasut <marek.vasut+renesas@gmail.com>, 
- Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>, 
- Kishon Vijay Abraham I <kishon@kernel.org>
-Cc: Serge Semin <fancer.lancer@gmail.com>, linux-pci@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
- linux-arm-msm@vger.kernel.org, mhi@lists.linux.dev, 
- Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>, 
- Mrinmay Sarkar <quic_msarkar@quicinc.com>, 
- Siddharth Vadapalli <s-vadapalli@ti.com>
-X-Mailer: b4 0.12.4
-X-Developer-Signature: v=1; a=openpgp-sha256; l=974;
- i=manivannan.sadhasivam@linaro.org; h=from:subject:message-id;
- bh=isUh7Dyx4QOFqnRUN5haG5ZOvquZ4WskKD+PqeTLyJ8=;
- b=owEBbQGS/pANAwAKAVWfEeb+kc71AcsmYgBl3HgGRFaIIukjpQ+MlVp1t7r1KyH4o9t0giPf0
- ecjdOvjr4+JATMEAAEKAB0WIQRnpUMqgUjL2KRYJ5dVnxHm/pHO9QUCZdx4BgAKCRBVnxHm/pHO
- 9T0gB/wJn/wKQ4SsV6Ave0iIOFHg8ILRsYljtotpgZCkHh/5Kj1edf/8JHtagUfbFRpAG79lmH2
- O1MojHHi2V9sIKmQmUmcpuOTMRDxwbdCebgoSKNoHPArCydW0NeU4pzCKz9EE81+RlUR12fPoS/
- ZGPPGrolyRh6QD9wXY5iFzg3Yl3RNCEAC4lx3D4bFD3xbujKklIHTBHNUApv+5z8th9yggp7DRd
- sBP0G7dSjLssbgvE9DAsWGoXqVaz4aTH+jTEs9w1V1EuwHzla3+MJc2Sy0FL95Ga5Kdw3ZPRcLb
- k071qmHaETAfzo4PIDsL3SeyXE9Ic3T3xa5XDj6Fh1otg3tt
-X-Developer-Key: i=manivannan.sadhasivam@linaro.org; a=openpgp;
- fpr=C668AEC3C3188E4C611465E7488550E901166008
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20240226-dw-hdma-v3-1-cfcb8171fc24@linaro.org>
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 
-From: Mrinmay Sarkar <quic_msarkar@quicinc.com>
+On Mon, Feb 26, 2024 at 05:07:26PM +0530, Manivannan Sadhasivam wrote:
+> In order to add support for Hyper DMA (HDMA), let's refactor the existing
+> dw_pcie_edma_find_chip() API by moving the common code to separate
+> functions.
+> 
+> No functional change.
+> 
+> Suggested-by: Serge Semin <fancer.lancer@gmail.com>
+> Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
 
-SA8775P SoC supports Hyper DMA (HDMA) DMA Engine present in the DWC IP. So,
-let's enable it in the EPF driver so that the DMA Engine APIs can be used
-for data transfer.
-
-Signed-off-by: Mrinmay Sarkar <quic_msarkar@quicinc.com>
-[mani: reworded commit message]
 Reviewed-by: Siddharth Vadapalli <s-vadapalli@ti.com>
-Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
----
- drivers/pci/endpoint/functions/pci-epf-mhi.c | 1 +
- 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/pci/endpoint/functions/pci-epf-mhi.c b/drivers/pci/endpoint/functions/pci-epf-mhi.c
-index 2c54d80107cf..570c1d1fb12e 100644
---- a/drivers/pci/endpoint/functions/pci-epf-mhi.c
-+++ b/drivers/pci/endpoint/functions/pci-epf-mhi.c
-@@ -137,6 +137,7 @@ static const struct pci_epf_mhi_ep_info sa8775p_info = {
- 	.epf_flags = PCI_BASE_ADDRESS_MEM_TYPE_32,
- 	.msi_count = 32,
- 	.mru = 0x8000,
-+	.flags = MHI_EPF_USE_DMA,
- };
- 
- struct pci_epf_mhi {
+Regards,
+Siddharth.
 
--- 
-2.25.1
-
+> ---
+>  drivers/pci/controller/dwc/pcie-designware.c | 52 +++++++++++++++++++++-------
+>  1 file changed, 39 insertions(+), 13 deletions(-)
+> 
+> diff --git a/drivers/pci/controller/dwc/pcie-designware.c b/drivers/pci/controller/dwc/pcie-designware.c
+> index 250cf7f40b85..193fcd86cf93 100644
+> --- a/drivers/pci/controller/dwc/pcie-designware.c
+> +++ b/drivers/pci/controller/dwc/pcie-designware.c
+> @@ -880,7 +880,17 @@ static struct dw_edma_plat_ops dw_pcie_edma_ops = {
+>  	.irq_vector = dw_pcie_edma_irq_vector,
+>  };
+>  
+> -static int dw_pcie_edma_find_chip(struct dw_pcie *pci)
+> +static void dw_pcie_edma_init_data(struct dw_pcie *pci)
+> +{
+> +	pci->edma.dev = pci->dev;
+> +
+> +	if (!pci->edma.ops)
+> +		pci->edma.ops = &dw_pcie_edma_ops;
+> +
+> +	pci->edma.flags |= DW_EDMA_CHIP_LOCAL;
+> +}
+> +
+> +static int dw_pcie_edma_find_mf(struct dw_pcie *pci)
+>  {
+>  	u32 val;
+>  
+> @@ -900,24 +910,27 @@ static int dw_pcie_edma_find_chip(struct dw_pcie *pci)
+>  	else
+>  		val = dw_pcie_readl_dbi(pci, PCIE_DMA_VIEWPORT_BASE + PCIE_DMA_CTRL);
+>  
+> -	if (val == 0xFFFFFFFF && pci->edma.reg_base) {
+> -		pci->edma.mf = EDMA_MF_EDMA_UNROLL;
+> -
+> -		val = dw_pcie_readl_dma(pci, PCIE_DMA_CTRL);
+> -	} else if (val != 0xFFFFFFFF) {
+> -		pci->edma.mf = EDMA_MF_EDMA_LEGACY;
+> +	/* Set default mapping format here and update it below if needed */
+> +	pci->edma.mf = EDMA_MF_EDMA_LEGACY;
+>  
+> +	if (val == 0xFFFFFFFF && pci->edma.reg_base)
+> +		pci->edma.mf = EDMA_MF_EDMA_UNROLL;
+> +	else if (val != 0xFFFFFFFF)
+>  		pci->edma.reg_base = pci->dbi_base + PCIE_DMA_VIEWPORT_BASE;
+> -	} else {
+> +	else
+>  		return -ENODEV;
+> -	}
+>  
+> -	pci->edma.dev = pci->dev;
+> +	return 0;
+> +}
+>  
+> -	if (!pci->edma.ops)
+> -		pci->edma.ops = &dw_pcie_edma_ops;
+> +static int dw_pcie_edma_find_channels(struct dw_pcie *pci)
+> +{
+> +	u32 val;
+>  
+> -	pci->edma.flags |= DW_EDMA_CHIP_LOCAL;
+> +	if (pci->edma.mf == EDMA_MF_EDMA_LEGACY)
+> +		val = dw_pcie_readl_dbi(pci, PCIE_DMA_VIEWPORT_BASE + PCIE_DMA_CTRL);
+> +	else
+> +		val = dw_pcie_readl_dma(pci, PCIE_DMA_CTRL);
+>  
+>  	pci->edma.ll_wr_cnt = FIELD_GET(PCIE_DMA_NUM_WR_CHAN, val);
+>  	pci->edma.ll_rd_cnt = FIELD_GET(PCIE_DMA_NUM_RD_CHAN, val);
+> @@ -930,6 +943,19 @@ static int dw_pcie_edma_find_chip(struct dw_pcie *pci)
+>  	return 0;
+>  }
+>  
+> +static int dw_pcie_edma_find_chip(struct dw_pcie *pci)
+> +{
+> +	int ret;
+> +
+> +	dw_pcie_edma_init_data(pci);
+> +
+> +	ret = dw_pcie_edma_find_mf(pci);
+> +	if (ret)
+> +		return ret;
+> +
+> +	return dw_pcie_edma_find_channels(pci);
+> +}
+> +
+>  static int dw_pcie_edma_irq_verify(struct dw_pcie *pci)
+>  {
+>  	struct platform_device *pdev = to_platform_device(pci->dev);
+> 
+> -- 
+> 2.25.1
+> 
+> 
 
