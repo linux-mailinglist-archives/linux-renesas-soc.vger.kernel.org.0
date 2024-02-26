@@ -1,147 +1,206 @@
-Return-Path: <linux-renesas-soc+bounces-3194-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-3195-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB262867B05
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 26 Feb 2024 17:02:00 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 01B25867BA4
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 26 Feb 2024 17:21:52 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 499421F2C97C
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 26 Feb 2024 16:02:00 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2514F1C2A0C1
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 26 Feb 2024 16:21:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A077512C547;
-	Mon, 26 Feb 2024 16:01:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZiXu/agE"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6905112BEA1;
+	Mon, 26 Feb 2024 16:21:34 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vk1-f175.google.com (mail-vk1-f175.google.com [209.85.221.175])
+Received: from mail-yb1-f170.google.com (mail-yb1-f170.google.com [209.85.219.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FAFA12BF0A;
-	Mon, 26 Feb 2024 16:01:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B85812CD8F;
+	Mon, 26 Feb 2024 16:21:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708963311; cv=none; b=BRWf9ZFE5YFWDm93WpETer3lV9MKnkVZdLcQu+2SxTCZrWxMX5qJmeCag9Sf62UZdVHGxZm9o1xQZd2S2dp9eiG4G7XiPQdQKwovvGDqy4W22Up1uHeuxNnspL1QwChbPapRYzdgST3IL4P9+C3jV0ZcmmUO3DRS4nZOnzfRYhw=
+	t=1708964494; cv=none; b=GxiKgcysqFOkPLUZ1IuqCrnetpUoELtOWW0CA2OaDWNihd5GNpCPX7ykqw+HBJAEqvsp1Mu3JGsSwOdJj/pJ8/WmRqWgSgJjJHf7L54HCe9KAOZMd4aVznNAB4TwPKZwJ7DPEE8x7orlX9qNeluKcXtHbhIbPozpl06u501Zwbo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708963311; c=relaxed/simple;
-	bh=YPgDeRMRVLtnHfl04hdaDS9KGjCh+SsqQcfmaX4GLmI=;
+	s=arc-20240116; t=1708964494; c=relaxed/simple;
+	bh=K8Zp0ZPKDcwcP3G/KRjzFIjbZsJkztFYeVAPVMu3ls8=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=o0DKbtWRizz2MS1yMId66Ms/osRMHtnteaYo81/0+MZEEZtt3Ab/+uv96w5faUVupryjDKRebXwh/Vbb4lnFfU2HEf1vX/d42eMuRXwdetBI6D24ZKdkuK6kIoTC6275IWNj7x36dVs0PvQWb/CuukdkJMfU8ZAXJDwDDk6WN3M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZiXu/agE; arc=none smtp.client-ip=209.85.221.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+	 To:Cc:Content-Type; b=jaU+dAw9IG0T/+RjLslPCJ7CMFdSiuBrrhI72cj3fpSklsy21NYfI+fvGZlOvcGF68NsUMTzQpXLYKREu/FFRm2xD7HsAA8QZh6locuNSWUuiBlup6DertHPu6G7c5BnAMmRtE+uHQfYUQnA+aniDLr2OjAVlCSnxACdAS8qLNY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.219.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f175.google.com with SMTP id 71dfb90a1353d-4cb26623d8dso573928e0c.1;
-        Mon, 26 Feb 2024 08:01:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1708963309; x=1709568109; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=dr6er5yzK+VgY/KBbDAv+oUau3v0fquMnz84YiSHUuk=;
-        b=ZiXu/agEaD7a+BSStD/oMQx0NiPC1/pSsz1VMfwOYZn/7Oe/Yn34t6BU3SA14UQpn7
-         lmbLIvDZadC67rEZSPVEjV+Gy1hf5c83ovdAmZuG5FxWatM1/6104fdgs7K378gRvJaG
-         I6k7SoUpR9WAnyOA9i9PuqPX2zocTWnVT1dWuc1cJSYZQhHTxAA2Ljt+Ao+yHRx9SzWQ
-         FTzVEChAP23MnwPNkC0uIgXZz3RDH0xdlfncj7JhII1YiO/2kTLQZjc/mj0qi4gLy+xz
-         6BfHvCLeIpWN+SNXrUKG+R75XQt0FcYCh7WK6sf4DD3NDMJWlGk/cRSYbvr9dS4V4hUL
-         owkQ==
+Received: by mail-yb1-f170.google.com with SMTP id 3f1490d57ef6-dc6d9a8815fso3012295276.3;
+        Mon, 26 Feb 2024 08:21:31 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708963309; x=1709568109;
+        d=1e100.net; s=20230601; t=1708964488; x=1709569288;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=dr6er5yzK+VgY/KBbDAv+oUau3v0fquMnz84YiSHUuk=;
-        b=W9GY9iWqGd0jNl8uDAElD3HeL58AoudamjCgJh6fTBbJerAnRTPWjZ94+yYCyZDWo/
-         tua9EsMgXaDYcrUn8Dl1fg3XbdkyPIYbHepev29R55s60OoZbaQeJN0fq1M6SdCDxoQ2
-         pxmGxqAqjT6N8ApBkLk0NHJWs5zCG0L4SA7EkMhuvhF2V86SsqCKVDXhq22UlhUU4wSu
-         tdHXFDvWBb3bDxhwNKMFoqzdJf+IfXCt3oRz/ORX2Uq8bozNbggeLMmZwJZE17JLg2Aj
-         vgbHLFPP+LgaXnXlDjG+Xjxj7bBwvhhQCJ5JPm8xfOffpNUeXeDkdfL4JLY4hZOxrizj
-         /23w==
-X-Forwarded-Encrypted: i=1; AJvYcCVSMbFEaLjwe8jrZXBJXTQbQ9FEWuD2jLhAYv0Lig4oAMCCeN9pVi2pfE4p5Ubef65Mr3Ft0Bd5Vifrkr3jrT6s7RnILNs0TN3oUle1kD2dcjRXlMeGqWltGBmQPyqw4zeTOO+lqvoxIF8jrjgMXnGNK1el9XG+v+LyOfzQ/TJ73lNQBwBy7ZjbzbJf
-X-Gm-Message-State: AOJu0YzRs3o47w2pRHSvpg2H7jFd7wTAOuwD2pzdz6UheKovrXpsaYOQ
-	EuuTH1LDDUtA/xuTa721VJML1dYaiU0+5zwS3jeTMVfH0SGD2s+p1KxumqoC+OX21yRgy4S5tDR
-	cWbZQW9hYKGL9qYGAl7xVtEHOhgk=
-X-Google-Smtp-Source: AGHT+IGsv4knkXxBVsnhcjIYxDKPlgPUfu1PPn87PUSjQhpSoWYOr16Fc+xOKTUaHGroCvn3RtQLBkqKyu+fia8fDnE=
-X-Received: by 2002:a1f:c642:0:b0:4cb:2662:3651 with SMTP id
- w63-20020a1fc642000000b004cb26623651mr3650234vkf.6.1708963303632; Mon, 26 Feb
- 2024 08:01:43 -0800 (PST)
+        bh=AnNfNm5GP8AlHR3LpO3OZDALnBwQPt1VpdE5YdvyhHU=;
+        b=FVnpkMWODbp4c5fW2UFshr2DOS6ND2QSWBJ96wrSUsYfNeHmiEw68PeRPLajn1WFVJ
+         3A4auSk7dBLYT9PHhzXsQN3UvDp6ciDmKi+gpjZuVoypDpQLbPOdFxB3n8QjBl0k1ttZ
+         4ibqSJPlm4m0oqQ4vJQLJJtJyblmBFtXOIkuXsYjKmLDsZDlZ6sD0CZrqQJg/XiI9Qrr
+         XIrxk/xfYEnGoOG3yEbOQj/6XAA9Ed8zaWXYAQap8o/4yd8PLAsYJyasNfssnhMckVYb
+         2ujHhjbPlrnu2jESuNXNyiPZmDgE4mWnxLZJ/HE/ZF0H6fjb1XshkNcf3wAGPjRjBjLF
+         54Pw==
+X-Forwarded-Encrypted: i=1; AJvYcCXShRe8maavP53tYStEtKgKz8neu6AFmiEHZbDSs9yJtoXLB4o7X9SClhCyoRJ8rBHsWoIqbytyflsmm4zqC3O0ODnLbpceL4cufCRJHxcc85/B7dGm7yTnfiOYgmLadxLBw16O1S7b9eGVGPAtD+1cR2iEN7455fW2gxdoEbfmqy8cYw06Fys01Uyhp/G+SYxO2rNJ3XfZLWe6oXVn5qdl9ip4VrfHfUWSBMlx+W+SE7wObjWdP4ze1KdB9FFzu6/0YsoFQQEqJAyVq9jmiZyU8/TjnyBlqKDhSfz51+jBIEyqQM3aw11XR5w+cRlrnXqzg9vWD+A4KDSB25a5KVOMQBxQn5vN4ZqwPW/YX6qouFgWPMgMWeA=
+X-Gm-Message-State: AOJu0Yy81+JK7ge34eIBYzpFD03VtP5Vd5q6Ycx9FBePAsB5SV3AzXcP
+	JmiSQ6cvCelDrJLZTBOV3YYbvkTB8kwmYhi7qKICdWVAa00tLrnIoK5OVq5T42w=
+X-Google-Smtp-Source: AGHT+IEJFJN64SqcZMHnkcdm3I6piTKl+/O4wLy59UNIzTaX9D/pCnztcN4qJmRcfE8aCJx/sq4G5Q==
+X-Received: by 2002:a25:ae4f:0:b0:dcd:6722:c728 with SMTP id g15-20020a25ae4f000000b00dcd6722c728mr5196743ybe.14.1708964487740;
+        Mon, 26 Feb 2024 08:21:27 -0800 (PST)
+Received: from mail-yb1-f176.google.com (mail-yb1-f176.google.com. [209.85.219.176])
+        by smtp.gmail.com with ESMTPSA id t13-20020a25aa8d000000b00dcc620f4139sm1019289ybi.14.2024.02.26.08.21.26
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 26 Feb 2024 08:21:27 -0800 (PST)
+Received: by mail-yb1-f176.google.com with SMTP id 3f1490d57ef6-dc23bf7e5aaso3149877276.0;
+        Mon, 26 Feb 2024 08:21:26 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCVqq+jjHfFEPR//OoVVvagRJjk2vjYlnHtyaHvCkOTs+ZFsF6i2R9w6bPoez1blin2aatCtHOQT9jQYIElkQ9XMjM9QNds8HM8FC3tlEEH9+Yi9Xgmrd9nwPw+GjrHL2P2liAGPfbKQf/35XswvsVHxtSDT/8iWz6gCPatMAF/8swgyF+Kaf15fxCjtMXc+SyGjkj04rv8XYMbPZk1keuKBa2brkuHCjSCpJvOpJhsuRu8RsF4ZbZ/3+GUzSpybSWmZSiHFZ8PUn2uIWKWeG7SID418BORxF8mxGgfXlukUXRHQRIJjgqiJWTjI5W7tkkmEpMZICjZRFqfhifFTZag09MAiRGnJus0GfeYjxe+V5h7j3PNIttU=
+X-Received: by 2002:a25:360b:0:b0:dcc:35ca:aac4 with SMTP id
+ d11-20020a25360b000000b00dcc35caaac4mr5201494yba.51.1708964485283; Mon, 26
+ Feb 2024 08:21:25 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240219160912.1206647-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20240219160912.1206647-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <CAMuHMdV3eVTek9sYwXbqu98ta8wx197GMc-k3q1RZRb8ar=jFg@mail.gmail.com>
- <CA+V-a8uNaRL7wE0SmwmiCq3o798-2Kd-fegKJ2Tep5mZuS2O2w@mail.gmail.com> <CAMuHMdWwn2nVx=vebT+Egas+b_dt7d28eN_ykrA+ckZ2GPuXHQ@mail.gmail.com>
-In-Reply-To: <CAMuHMdWwn2nVx=vebT+Egas+b_dt7d28eN_ykrA+ckZ2GPuXHQ@mail.gmail.com>
-From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Mon, 26 Feb 2024 16:00:53 +0000
-Message-ID: <CA+V-a8stTXWue+oCLpCooL5WxXJofovjtxkEcEk_SB0_RZdz0w@mail.gmail.com>
-Subject: Re: [PATCH 2/4] dt-bindings: arm: renesas: Document Renesas RZ/V2H{P}
- System Controller
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Magnus Damm <magnus.damm@gmail.com>, Rob Herring <robh+dt@kernel.org>, 
+References: <cover.1704788539.git.ysato@users.sourceforge.jp> <e5d965a1ba1447466c4a70c95b1e3aa8c1aebe4b.1704788539.git.ysato@users.sourceforge.jp>
+In-Reply-To: <e5d965a1ba1447466c4a70c95b1e3aa8c1aebe4b.1704788539.git.ysato@users.sourceforge.jp>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Mon, 26 Feb 2024 17:21:13 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdVyz4mbExe8ZzPkVxEujYBhCBBrh88n8D6ykcZyy3=SEA@mail.gmail.com>
+Message-ID: <CAMuHMdVyz4mbExe8ZzPkVxEujYBhCBBrh88n8D6ykcZyy3=SEA@mail.gmail.com>
+Subject: Re: [DO NOT MERGE v6 02/37] sh: Kconfig unified OF supported targets.
+To: Yoshinori Sato <ysato@users.sourceforge.jp>
+Cc: linux-sh@vger.kernel.org, Damien Le Moal <dlemoal@kernel.org>, 
+	Rob Herring <robh+dt@kernel.org>, 
 	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
-	linux-arm-kernel@lists.infradead.org, linux-renesas-soc@vger.kernel.org, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, Michael Turquette <mturquette@baylibre.com>, 
+	Stephen Boyd <sboyd@kernel.org>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+	Thomas Gleixner <tglx@linutronix.de>, Lorenzo Pieralisi <lpieralisi@kernel.org>, 
+	=?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>, 
+	Bjorn Helgaas <bhelgaas@google.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Jiri Slaby <jirislaby@kernel.org>, Magnus Damm <magnus.damm@gmail.com>, 
+	Daniel Lezcano <daniel.lezcano@linaro.org>, Rich Felker <dalias@libc.org>, 
+	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>, Lee Jones <lee@kernel.org>, 
+	Helge Deller <deller@gmx.de>, Heiko Stuebner <heiko@sntech.de>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Chris Morgan <macromorgan@hotmail.com>, 
+	Yang Xiwen <forbidden405@foxmail.com>, Sebastian Reichel <sre@kernel.org>, 
+	Linus Walleij <linus.walleij@linaro.org>, Randy Dunlap <rdunlap@infradead.org>, 
+	Arnd Bergmann <arnd@arndb.de>, Vlastimil Babka <vbabka@suse.cz>, Hyeonggon Yoo <42.hyeyoo@gmail.com>, 
+	David Rientjes <rientjes@google.com>, Baoquan He <bhe@redhat.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, Guenter Roeck <linux@roeck-us.net>, 
+	Stephen Rothwell <sfr@canb.auug.org.au>, Azeem Shaikh <azeemshaikh38@gmail.com>, 
+	Javier Martinez Canillas <javierm@redhat.com>, Max Filippov <jcmvbkbc@gmail.com>, 
+	Palmer Dabbelt <palmer@rivosinc.com>, Bin Meng <bmeng@tinylab.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Jacky Huang <ychuang3@nuvoton.com>, 
+	Lukas Bulwahn <lukas.bulwahn@gmail.com>, Biju Das <biju.das.jz@bp.renesas.com>, 
+	=?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>, 
+	Sam Ravnborg <sam@ravnborg.org>, Sergey Shtylyov <s.shtylyov@omp.ru>, 
+	Michael Karcher <kernel@mkarcher.dialup.fu-berlin.de>, 
+	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, linux-ide@vger.kernel.org, 
 	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+	linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, linux-pci@vger.kernel.org, 
+	linux-serial@vger.kernel.org, linux-fbdev@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Geert,
+Hi Sato-san,
 
-On Mon, Feb 26, 2024 at 3:15=E2=80=AFPM Geert Uytterhoeven <geert@linux-m68=
-k.org> wrote:
+On Tue, Jan 9, 2024 at 9:23=E2=80=AFAM Yoshinori Sato
+<ysato@users.sourceforge.jp> wrote:
+> Targets that support OF should be treated as one board.
 >
-> Hi Prabhakar,
->
-> On Mon, Feb 26, 2024 at 3:01=E2=80=AFPM Lad, Prabhakar
-> <prabhakar.csengg@gmail.com> wrote:
-> > On Mon, Feb 26, 2024 at 1:41=E2=80=AFPM Geert Uytterhoeven <geert@linux=
--m68k.org> wrote:
-> > > On Mon, Feb 19, 2024 at 5:10=E2=80=AFPM Prabhakar <prabhakar.csengg@g=
-mail.com> wrote:
-> > > > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > > > --- /dev/null
-> > > > +++ b/Documentation/devicetree/bindings/soc/renesas/renesas,r9a09g0=
-57-sys.yaml
-> > > > +  clocks:
-> > > > +    items:
-> > > > +      - description: Clock from external oscillator
-> > >
-> > > Isn't this SYS_0_PCLK inside the CPG?
-> > >
-> > As per the block diagram (figure 4.4-3), if we follow the clock source
-> > for SYS it traces back to 24MHz Oscillator. Let me know how you want
-> > me to describe this please.
->
-> Yes, that is the diagram I was looking at.
-> MAIN OSC 24 MHz -> MAINCLK -> SYS_0_PCLK.
->
-> MAIN OSC 24 MHz is a clock input to the CPG.
-> MAINCLK is a CPG internal core clock.
-> SYS_0_PCLK is a CPG clock output, serving as the SYS module clock.
->
-Agreed.
+> Signed-off-by: Yoshinori Sato <ysato@users.sourceforge.jp>
 
-> I think the standard "maxItems: 1" would be fine, and no description
-> is needed.
->
-OK, makes sense.
+Thanks for your patch!
 
-> > > > +
-> > > > +  resets:
-> > > > +    items:
-> > > > +      - description: SYS_0_PRESETN reset signal
->
-> Same here.
->
-Ok.
+> --- a/arch/sh/Kconfig
+> +++ b/arch/sh/Kconfig
+> @@ -710,6 +710,7 @@ choice
+>         prompt "Kernel command line"
+>         optional
+>         default CMDLINE_OVERWRITE
+> +       depends on !OF || USE_BUILTIN_DTB
 
-Cheers,
-Prabhakar
+This is still useful in the generic OF case.
+
+I think it would be good to model this similar to what arm/arm64/riscv
+are using (from bootloader / extend / force).
+
+>         help
+>           Setting this option allows the kernel command line arguments
+>           to be set.
+> diff --git a/arch/sh/boards/Kconfig b/arch/sh/boards/Kconfig
+> index 109bec4dad94..e7e52779ef62 100644
+> --- a/arch/sh/boards/Kconfig
+> +++ b/arch/sh/boards/Kconfig
+> @@ -19,16 +19,9 @@ config SH_DEVICE_TREE
+>         select TIMER_OF
+>         select COMMON_CLK
+>         select GENERIC_CALIBRATE_DELAY
+> -
+> -config SH_JCORE_SOC
+> -       bool "J-Core SoC"
+> -       select SH_DEVICE_TREE
+> -       select CLKSRC_JCORE_PIT
+> -       select JCORE_AIC
+> -       depends on CPU_J2
+> -       help
+> -         Select this option to include drivers core components of the
+> -         J-Core SoC, including interrupt controllers and timers.
+> +       select GENERIC_IRQ_CHIP
+> +       select SYS_SUPPORTS_PCI
+> +       select GENERIC_PCI_IOMAP if PCI
+>
+>  config SH_SOLUTION_ENGINE
+>         bool "SolutionEngine"
+> @@ -293,6 +286,7 @@ config SH_LANDISK
+>         bool "LANDISK"
+>         depends on CPU_SUBTYPE_SH7751R
+>         select HAVE_PCI
+> +       select SYS_SUPPORTS_PCI
+>         help
+>           I-O DATA DEVICE, INC. "LANDISK Series" support.
+>
+> @@ -369,6 +363,16 @@ config SH_APSH4AD0A
+>         help
+>           Select AP-SH4AD-0A if configuring for an ALPHAPROJECT AP-SH4AD-=
+0A.
+>
+> +config SH_OF_BOARD
+> +       bool "General Open Firmware boards"
+> +       select SH_DEVICE_TREE
+> +       select CLKSRC_JCORE_PIT if CPU_J2
+> +       select JCORE_AIC if CPU_J2
+
+Please move these selects to CPU_J2 instead...
+
+> +       select HAVE_PCI if CPU_SUBTYPE_SH7751R
+
+... and this to CPU_SUBTYPE_SH7751R, else it will become
+a long unmaintainable list soon...
+
+> +       help
+> +         This board means general OF supported targets.
+> +
+> +
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
