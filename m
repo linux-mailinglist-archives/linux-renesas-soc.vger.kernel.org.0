@@ -1,106 +1,184 @@
-Return-Path: <linux-renesas-soc+bounces-3163-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-3164-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74487867291
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 26 Feb 2024 12:05:49 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E7C59867362
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 26 Feb 2024 12:39:06 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9F19F1C27885
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 26 Feb 2024 11:05:48 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9CD4C28A255
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 26 Feb 2024 11:39:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 21B1A20B38;
-	Mon, 26 Feb 2024 11:05:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 69F641DA37;
+	Mon, 26 Feb 2024 11:37:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="liVJl3i9"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from weierstrass.telenet-ops.be (weierstrass.telenet-ops.be [195.130.137.81])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com [209.85.222.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A5322032B
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 26 Feb 2024 11:05:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.137.81
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BB2E1EB40
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 26 Feb 2024 11:37:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708945537; cv=none; b=XExKu1QIqvgpH9ZC6mwskDh74NHk2bkcnJAlGKOlM5a4zjBkw9dwoIOrFBoI3kDxTDJf/7QYblpghRj1SDWdHISAAjA5cozwdQEwahMRqvaEs2FWzArHrr9Sqf8W5mD1cXIlP/qU5XD7vSVQCk531V08SWzRIW1iXrOVMKdn0XU=
+	t=1708947471; cv=none; b=HaN0oOQ4jcg3GKCKKvslz5SUzepOQBoPWneOcKH/HabkmvVrfKdFnGeGC9vfm2i/oLsj1L1IYYtnwZk1zh1Qrl02zyVqnvhlHilrO5SusZ6vlMxa2a1+qbrW2nN2eTk3UHM9SKeOHRxRvfG8f3ke+BI8Kppa0OIOxJVBkE0MQ4Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708945537; c=relaxed/simple;
-	bh=yLtQ/+RgVEkDmhivdlgaIQBj90rcXGFslKcpEwaRft4=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=qWqj0FeC3S1nvwb8qpVsYSfQTKPIBPq0jojPuFwKNis7IY8KcPxAh02fX+ftrPjOehTmOpZIHhVk2/S4is3Pmi20chpIlh9xLVoTOr+SY4Y0Uw5UKe0WL9MIv0tza4h2HUOsSEU/kBrtxT3+qhlAt9goZP4T+vIDr53zi5N/kM4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.137.81
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
-Received: from andre.telenet-ops.be (andre.telenet-ops.be [IPv6:2a02:1800:120:4::f00:15])
-	by weierstrass.telenet-ops.be (Postfix) with ESMTPS id 4TjyLg2PR9z4x1QJ
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 26 Feb 2024 11:59:55 +0100 (CET)
-Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed40:7662:e968:947d:f3d0])
-	by andre.telenet-ops.be with bizsmtp
-	id rmzn2B0075Kh3Z501mznLG; Mon, 26 Feb 2024 11:59:47 +0100
-Received: from rox.of.borg ([192.168.97.57])
-	by ramsan.of.borg with esmtp (Exim 4.95)
-	(envelope-from <geert@linux-m68k.org>)
-	id 1reYht-001lUq-KN;
-	Mon, 26 Feb 2024 11:59:47 +0100
-Received: from geert by rox.of.borg with local (Exim 4.95)
-	(envelope-from <geert@linux-m68k.org>)
-	id 1reYi3-004Euk-2r;
-	Mon, 26 Feb 2024 11:59:47 +0100
-From: Geert Uytterhoeven <geert+renesas@glider.be>
-To: Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Cc: linux-clk@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH] dt-bindings: clock: r9a07g043-cpg: Annotate RZ/G2UL-only core clocks
-Date: Mon, 26 Feb 2024 11:59:45 +0100
-Message-Id: <ffcdcd479c76b92f67481836a33ec86e97f85634.1708944903.git.geert+renesas@glider.be>
-X-Mailer: git-send-email 2.34.1
+	s=arc-20240116; t=1708947471; c=relaxed/simple;
+	bh=zN4H7AL9yEWwBMPFUse2kPeWuj9c3TyK31dCtLQBVwU=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=VyY/WhcrwCU1Z6wcKeswB1KTKxl9c+nmWfVbuHpQkeSPAV/3lWAQTJoKmMhVO1Nb029wN8H6QPjx+9IBymZrySOEZsUQx2Bcbh30FjyDv1LjCkhxt2aqKK8zYwT6ERy5G0/o7jHNPOU2GGqo+BtWdMvl7qdiTu5VJN1TJcH9F5g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=liVJl3i9; arc=none smtp.client-ip=209.85.222.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-qk1-f171.google.com with SMTP id af79cd13be357-787a8430006so200666585a.3
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 26 Feb 2024 03:37:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1708947468; x=1709552268; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=yOtDU75r2JA5nMqmgqSfs6LZtJBpRoh0ipLmkGMw850=;
+        b=liVJl3i9xCmrH9zhq8o1WhqU3jVj4q6wdYxEpJeW9obDIk2gNHciJWvVAcahATIzkh
+         lSSPipVAh/+joi7aK0go8IeuKgqaiy2rrxkLhUPiBXlWz02DBdG973xL+aDTtUQMlTM5
+         7m2pbIbvmPK2+YNYm8z/3eme2/0V1L2RhQ0yWSq38JAkQWJLsFRl3jn8x0qSfLPnhnnm
+         xV5qQnCEE+LbSm9zwwqZo8lG1Jb2Bte+Mt4Q0CX7rj9Lbk6caPZnDQbt+VTbkP+1N+8z
+         DwstsUQkMOhLrl5LYE7VN+83ZonmAwF1/weltCnW4GlfyUSBR1NlulaTNMhVCC3Uf9SB
+         tYWA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1708947468; x=1709552268;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=yOtDU75r2JA5nMqmgqSfs6LZtJBpRoh0ipLmkGMw850=;
+        b=MHtrKgDbwK0lRHmstv1eR3ue2o7z9eJRvSHwseWFkIM5EjEyicgYeJ4HJM0T3crAox
+         jACgnFtHYubuBvQmbyxADnNr2KAnDvh4bgTdNYBsz7vJe0aeXjz3a52MCrKFj7x2Yf2V
+         FPtF0a+yhXlY7GecdKunW4sF7zztwTfh0WiRDeVjCIhBMsCL+lIg0rjjMLn9wBcwPDOJ
+         5nQCm7JpXgIaDHpm83dpeIQOf6otANZ+VkNIycFLCd7T7cejgeEDJw+gsxHAAaeRpaIN
+         JbF3MMI3e6cKC765hmuOjpQXsSSGfLATdUTCMpb7bCpeSaTPkqJnS1CSFE03WdMtsEKE
+         B5Dw==
+X-Forwarded-Encrypted: i=1; AJvYcCXXSneGWnvngvRqz8FyhL4fNJYyNHiJlnDanRzkB98xRazpK39k61IFQooGklDh4CMFwD6XNE58DWhxfPjsJnYN/AAUGqzrbKXVmoMbVRlWr5o=
+X-Gm-Message-State: AOJu0Yzs1HnnqcHgxlVfnb2E/qVKJeSJPx0NS1zp4UeeL1AMjDJH0zeO
+	2BeusjmZGkDzqIIddIv0iU6CJfmqgHSonzKQ9Vn9YmUiQ78vltzh4U7GoTY/3w==
+X-Google-Smtp-Source: AGHT+IHRlLAac3t/t+Ib99/W27Guf/dv3EWDLEDqeS4bxH0DZ+XkVc/0i/w22EDz3k2nxlw6LuR/Kw==
+X-Received: by 2002:a05:620a:7f9:b0:787:1a78:fbe9 with SMTP id k25-20020a05620a07f900b007871a78fbe9mr6385524qkk.56.1708947468464;
+        Mon, 26 Feb 2024 03:37:48 -0800 (PST)
+Received: from [127.0.1.1] ([117.202.184.81])
+        by smtp.gmail.com with ESMTPSA id q15-20020a05620a0c8f00b007878babb96asm2341842qki.94.2024.02.26.03.37.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 26 Feb 2024 03:37:47 -0800 (PST)
+From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+Subject: [PATCH v3 0/5] PCI: dwc: Add support for integrating HDMA with DWC
+ EP driver
+Date: Mon, 26 Feb 2024 17:07:25 +0530
+Message-Id: <20240226-dw-hdma-v3-0-cfcb8171fc24@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAPV33GUC/2XMQQ7CIBCF4as0sxYzDqRJXXkP0wUUKJMoGDCoa
+ bi72K3L/+Xl26C4zK7Aedggu8qFU+whDwMsQcfVCba9gZAU0mkU9iWCvWsxKmsXnLyRaKC/H9l
+ 5fu/Sde4duDxT/uxwpd/6b1QSKIwiSROi9Epebhx1TseUV5hba1/oduAdnwAAAA==
+To: Jingoo Han <jingoohan1@gmail.com>, 
+ Gustavo Pimentel <gustavo.pimentel@synopsys.com>, 
+ Lorenzo Pieralisi <lpieralisi@kernel.org>, 
+ =?utf-8?q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>, 
+ Rob Herring <robh@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, 
+ Marek Vasut <marek.vasut+renesas@gmail.com>, 
+ Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>, 
+ Kishon Vijay Abraham I <kishon@kernel.org>
+Cc: Serge Semin <fancer.lancer@gmail.com>, linux-pci@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+ linux-arm-msm@vger.kernel.org, mhi@lists.linux.dev, 
+ Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>, 
+ Siddharth Vadapalli <s-vadapalli@ti.com>, 
+ Mrinmay Sarkar <quic_msarkar@quicinc.com>
+X-Mailer: b4 0.12.4
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2608;
+ i=manivannan.sadhasivam@linaro.org; h=from:subject:message-id;
+ bh=zN4H7AL9yEWwBMPFUse2kPeWuj9c3TyK31dCtLQBVwU=;
+ b=owEBbQGS/pANAwAKAVWfEeb+kc71AcsmYgBl3Hf+ugscH906dxKa1q956AiK7dO/M8tdcr6fT
+ aiph35AMmeJATMEAAEKAB0WIQRnpUMqgUjL2KRYJ5dVnxHm/pHO9QUCZdx3/gAKCRBVnxHm/pHO
+ 9VIPB/90Qib9s9ybHOJjZTFAzC+LuAX4iTj/eAvrr+mXEaxKJgMyz/Zaxr3LoPGnq9TeHvyOSh+
+ rk8EqkZ8yGo+jFjQru/9eO3BCZEAaZQgbP4dgHuLgkKBkUOl91uC1af3moCy9egzAqAnXVcZJ2k
+ lgcJf7eOuH+Db/euhh8+4bvApFvNG2KBCWI+e3lP8A4MARip6kPe7hc924+LzcG1RAg2CLJXK6w
+ qGIQeCoU/d5wx0OiCOz8HGQpUWTXeTSDOes8m4P9WVTwWHQih8n5oYyZ8DV4yoURYsgxiaE43QX
+ O+qByCZy8Q9LEQTmuuv+cv8fJuWCq5nxdUXlYbYny/O34vIw
+X-Developer-Key: i=manivannan.sadhasivam@linaro.org; a=openpgp;
+ fpr=C668AEC3C3188E4C611465E7488550E901166008
 
-The M2 (CRU main clock), M3 (LCDC Video Clock), and AT (Cortex-A55 Debug
-clock) core clocks are only present on RZ/G2UL, not on RZ/Five.
+Hello,
 
-Annotate this in the comments, like is already done for module clocks
-and resets.
+This series adds support for integrating HDMA with the DWC EP driver.
 
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Hyper DMA (HDMA) is already supported by the dw-edma dmaengine driver.
+Unlike it's predecessor Embedded DMA (eDMA), HDMA supports only unroll
+mapping format and doesn't support auto detecting the read/write channels.
+
+Hence, this series modifies the existing eDMA code to work with HDMA by
+honoring the platform supplied mapping format and read/write channels
+count.
+
+The platform drivers making use of HDMA should pass the EDMA_MF_HDMA_NATIVE
+flag and provide channels count. In this series, HDMA support is added for
+the Qcom SA8775P SoC and the DMA support in enabled in MHI EPF driver as
+well.
+
+Testing
+-------
+
+Tested on Qualcomm SA8775P Ride board.
+
+Dependency
+----------
+
+Depends on:
+https://lore.kernel.org/dmaengine/20240129-b4-feature_hdma_mainline-v7-0-8e8c1acb7a46@bootlin.com/
+https://lore.kernel.org/all/1701432377-16899-1-git-send-email-quic_msarkar@quicinc.com/
+
+NOTE: I've taken over this series from Mrinmay who posted v1:
+https://lore.kernel.org/linux-pci/1705669223-5655-1-git-send-email-quic_msarkar@quicinc.com/
+
+- Mani
+
+Changes in v3:
+
+- Collected review tags
+- Minor code refactoring (Siddharth)
+- Link to v2: https://lore.kernel.org/r/20240216-dw-hdma-v2-0-b42329003f43@linaro.org
+
+Changes in v2:
+
+- Dropped dmaengine patches (Sergey)
+- Reworked dw_pcie_edma_find_chip() to support both eDMA and HDMA (Sergey)
+- Skipped MF and channel detection if glue drivers have provided them (Sergey)
+- Addressed review comments in pcie-qcom-ep and pci-epf-mhi drivers (Mani)
+
+Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
 ---
-To be queued in renesas-clk for v6.10.
+Manivannan Sadhasivam (3):
+      PCI: dwc: Refactor dw_pcie_edma_find_chip() API
+      PCI: dwc: Skip finding eDMA channels count if glue drivers have passed them
+      PCI: dwc: Pass the eDMA mapping format flag directly from glue drivers
 
- include/dt-bindings/clock/r9a07g043-cpg.h | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+Mrinmay Sarkar (2):
+      PCI: qcom-ep: Add HDMA support for SA8775P SoC
+      PCI: epf-mhi: Enable HDMA for SA8775P SoC
 
-diff --git a/include/dt-bindings/clock/r9a07g043-cpg.h b/include/dt-bindings/clock/r9a07g043-cpg.h
-index 77cde8effdc73c6f..a64139fec81520bf 100644
---- a/include/dt-bindings/clock/r9a07g043-cpg.h
-+++ b/include/dt-bindings/clock/r9a07g043-cpg.h
-@@ -16,15 +16,15 @@
- #define R9A07G043_CLK_SD0		5
- #define R9A07G043_CLK_SD1		6
- #define R9A07G043_CLK_M0		7
--#define R9A07G043_CLK_M2		8
--#define R9A07G043_CLK_M3		9
-+#define R9A07G043_CLK_M2		8	/* RZ/G2UL Only */
-+#define R9A07G043_CLK_M3		9	/* RZ/G2UL Only */
- #define R9A07G043_CLK_HP		10
- #define R9A07G043_CLK_TSU		11
- #define R9A07G043_CLK_ZT		12
- #define R9A07G043_CLK_P0		13
- #define R9A07G043_CLK_P1		14
- #define R9A07G043_CLK_P2		15
--#define R9A07G043_CLK_AT		16
-+#define R9A07G043_CLK_AT		16	/* RZ/G2UL Only */
- #define R9A07G043_OSCCLK		17
- #define R9A07G043_CLK_P0_DIV2		18
- 
+ drivers/pci/controller/dwc/pcie-designware.c | 74 +++++++++++++++++++---------
+ drivers/pci/controller/dwc/pcie-designware.h |  5 +-
+ drivers/pci/controller/dwc/pcie-qcom-ep.c    | 23 ++++++++-
+ drivers/pci/controller/dwc/pcie-rcar-gen4.c  |  2 +-
+ drivers/pci/endpoint/functions/pci-epf-mhi.c |  1 +
+ 5 files changed, 78 insertions(+), 27 deletions(-)
+---
+base-commit: fdd10aee7740a53c370a867b8743a8c8945d1db1
+change-id: 20240216-dw-hdma-64ddc09fb30b
+
+Best regards,
 -- 
-2.34.1
+Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
 
 
