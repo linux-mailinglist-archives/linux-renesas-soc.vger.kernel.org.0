@@ -1,136 +1,255 @@
-Return-Path: <linux-renesas-soc+bounces-3236-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-3237-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CB5F8687F6
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 Feb 2024 04:47:23 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 385818689EB
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 Feb 2024 08:35:24 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id C55901F2108C
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 Feb 2024 03:47:22 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5BB441C21C45
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 Feb 2024 07:35:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 970424CDE5;
-	Tue, 27 Feb 2024 03:46:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D413955E63;
+	Tue, 27 Feb 2024 07:35:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BRVO44j3"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Ldv9eMli"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-il1-f169.google.com (mail-il1-f169.google.com [209.85.166.169])
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E3D44F21D;
-	Tue, 27 Feb 2024 03:46:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C5E954F9F
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 27 Feb 2024 07:35:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709005569; cv=none; b=I5Fo1x+ISCrXBmF5EuMybN3QjGtWhflxMujxXH/4k1e9Z+YbXhksN0fWew4neKli1XX3wx27Q24IW3it5kJyrSSwK49q+wCX1r3a8vB6TM497A+hGireqz9XMFKJZg8xaftBH4oRR6P2Z45xr1d2g8MBa3AQ4JVF8yOaNCCsO90=
+	t=1709019308; cv=none; b=M9Jz/h9pNbyHcpMe/aWD31pk0cfqBUyg9AwEm7LYW0a+NzvVG09GNVgAmLZAPnYfi3FfHqvJqRooOqLoSfJOt6rtkAAbyN9CQkiOOiX399XXFcKfCPHdLjF1b9tCRpYkJvvwG/sJaqo7gFMaWpTV9gN1Ux/UJFaFK5CTN3KGuKw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709005569; c=relaxed/simple;
-	bh=U0lXaNVTMjzgpymz11YyhWetT7KDSKee0kupvHaq/ak=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=KukfAMS+hoQiECSpyDis5u3P9InL4whmDT7+MflfbU61bJVxMRvh73WH0GNbGadjDxtt1d0P8p/gqgYDBrBDVhY1UVfL3Q6yBnYaG1VAa383YEh32GeX/EEC+EG1U7rmdfqzWjBUPuQOH/bOSMqF8pshSAZMF/2iYXUweXgxWQs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BRVO44j3; arc=none smtp.client-ip=209.85.166.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-il1-f169.google.com with SMTP id e9e14a558f8ab-3652731b2b7so13811365ab.2;
-        Mon, 26 Feb 2024 19:46:07 -0800 (PST)
+	s=arc-20240116; t=1709019308; c=relaxed/simple;
+	bh=pAafngDaYgAut7R/eqNrFUqz29Ygcobextfawbs04io=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=CsniwfA2zhXnrYwb69gFhcD8mbU1QEGV8IPDXj8mcui3u7HGo+5KznL6odnQMr8m9rCw7IYkkI1WkiTH3xhdMGQ2j6J8XH6sgn3egYe2zKM9Ssfxx3nsWJ+myfOzeiEOOfUPwimZMjUt0f95xdD5TOEyPNOQPirt7py5W5e2/aE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Ldv9eMli; arc=none smtp.client-ip=209.85.214.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-1dcb3e6ff3fso8962245ad.2
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 26 Feb 2024 23:35:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1709005567; x=1709610367; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=AJfm+NHY1Z+Lw1sZYXXZ3jyQox+hLwhKq3O8TxYABL8=;
-        b=BRVO44j3vwnh2X3MvZNJFoFSab6byM2h/uJ8j7WIdjhYLTxQ21LimqM8LHoS6JbakF
-         osgm/miu8sYAqwPzMaJgriqxCLo7K4nz3RDzn4UqXDqXbkM7sF+OMIUyYkJgW45adFE7
-         e8Wab0TR5rkwWTJeWuAL19slw2Kkq9nM+Q/XxRSQarXbVB6vk0cAd/DV/4L+m/es8Npp
-         wpNHs1CmUqZ55Q/mxEWQnXU1lCTWxswlIcLzIjN5flZ+m9zB2K1K3NjdoQ8vqRu599pL
-         d+yzvwuebNfT9QDk6Qnsygwvt0xoCv39ol4zEDK6xqgPlfoYPm91inBCZ7CrOT+rqtzi
-         wWTA==
+        d=linaro.org; s=google; t=1709019304; x=1709624104; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=jxJu0PThWsJVSfDTe50TdK1bwGEaXtV2aPTG4iN2Vf8=;
+        b=Ldv9eMliPNuJOQNTebLIHNFAhoTyc7jYzHlXL3CnljzC1st/5PvbXGk3X1carT9hWb
+         8wqfoGwl2Nww8cGeZt79utcom9UWUGyS/xxWWHz8IIB59QlOGhDAibX7kdnybZReo/Cw
+         5DRPWYgnwVxJPhf05lXVwPQG9eOU2ota1xzwIRacRkk/t0Pp6qYcHImblFsY+FNZOUgG
+         Jp52r/01RgW5MITngHxk/tV0/Y2JvxWHsTxhIeaUzuu88i/EzFbWlae+e2AEfjqhAzfH
+         7P1MWw/0B4y8pCVkXxM6VhrXyN8PNFzUprzqsnWk3r7HsG5BBpwR6rPLLovMDww99kBN
+         76qw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709005567; x=1709610367;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=AJfm+NHY1Z+Lw1sZYXXZ3jyQox+hLwhKq3O8TxYABL8=;
-        b=c9Uxm32ahSJSHsF8eNsXLDUqvRMESgfahncBrFmi0Oz4YzD/2c+G6riKStf5tEwcVB
-         hogImQwd/alivmmZhozSqaWVau53foHkMWMf6EuKsWWAbdJqoLdWKdQYXAs68DeM9Y9+
-         D9xmqY1pxWsD8xY0RU7eQSabF0VGtt5bADvHbWiyA7xMq6kdlQsJCwHGKcFzHbgUkPkU
-         jJbgB1GY1dOIo1MVz9+KVQeH2FJX1q+dJQjL3cQ9N+fc7S8wzGaNKLHoESQZZH3OdQJ7
-         OOwpNlRC5wwRIgEvPzqJQxwtoUioWwqQ1YcMMrKzDO7LIB7/S9MgPZhZe6sBOwPtdcjM
-         TTJQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUHfDAeUQsyEF9XZEySu+2hWDYAs4NOdxgx/SaW3lGvMXbecoeKqK4oNegl8dz9HOTKQoSStUebJGnWTYgSy4hlzm9FW7QeLGT8EVvGcF/JE0mCbkUXLkSjZs/3UC7HUrSWlHG2pbC7hraBvRYQDrhE3A3CvxpCWhKf0siSX+VsR00LWZc74z1HfnsZ
-X-Gm-Message-State: AOJu0Yw137cpty4vGIWaiv31Gu9NrTzJ/zR9e2qAdXGjrZ2lYZ9amHhl
-	AK76WAQo3eUSn/NpSPWgkaDJuSLSUNl/ir3tqdN+MwiSiiyOQihn
-X-Google-Smtp-Source: AGHT+IHL1bo8nIvPJXhU/N96DuypsbyD1/7pheO1VuJUDwHDG0U2xYsyb1SRuUQCwpJMqpKqxuW6vA==
-X-Received: by 2002:a05:6e02:1bce:b0:365:24d9:9477 with SMTP id x14-20020a056e021bce00b0036524d99477mr12614317ilv.15.1709005567198;
-        Mon, 26 Feb 2024 19:46:07 -0800 (PST)
-Received: from aford-System-Version.lan ([2601:447:d002:5be:1712:c48b:aaa0:cd8b])
-        by smtp.gmail.com with ESMTPSA id w4-20020a92ad04000000b00362b4d251a5sm1891566ilh.25.2024.02.26.19.46.06
+        d=1e100.net; s=20230601; t=1709019304; x=1709624104;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=jxJu0PThWsJVSfDTe50TdK1bwGEaXtV2aPTG4iN2Vf8=;
+        b=hxmSJYWwyTgh34kv1x/B7B913VQrp6jWXRg336VoV2fVj69L4Vw0j2Tpyb4SHmoQ4y
+         LedKZW+AI7PQkdwDjHj/AizfxSbSjHCW7sFiTTsVvDYt5D6RY9Gw5GRNIEP/4u9ZUX+2
+         H6GXJW8OirF8+BgENzvdl5nXx7gaRJKGqqj40nXlvieDpsG0dJDgZ74v8WODcfLmKb+1
+         2BRiCDqFJBBrd6Q1oEmLzXjfPXTjDGpta3l0J+sGBFzZKaBJbQvTfC4gpn0Ux7rmhex4
+         CTFU0+zp/Oc9c/6eXtOsEG4FU3CndGXNw64IJJShtjJNtOF9nvAz6DkZEbEZQM3jZiQ0
+         yHYg==
+X-Forwarded-Encrypted: i=1; AJvYcCX92V4QBePWMHzVqarCaysK/9AMSr+9lstUf82i2T6jdj8LmI3iZfyRj19+tEBKh+SQ1wJK33s/oswxY6kLiyLvVZYYmoJcTRbAK7YXL1A3Pv8=
+X-Gm-Message-State: AOJu0YwWL4jjF/+vd8AJiJNX7/bHYh7PzJ5yJsnn6qSkQM3aH0fXKkpX
+	8giFdd5iyH1JbG+wqpe+PYkhwcbN2lAY6D9QIpuuLmtFHPo0orgZNLJPPW7ecQ==
+X-Google-Smtp-Source: AGHT+IF5qCH87pgk8mzfEN6e/vWkj+Lkv+zoEImw8I8EPmhF8wuiKbsba1BqsKFCjz+kC+4zNB6kVg==
+X-Received: by 2002:a17:903:41cb:b0:1dc:38c7:ba1a with SMTP id u11-20020a17090341cb00b001dc38c7ba1amr11749172ple.25.1709019304388;
+        Mon, 26 Feb 2024 23:35:04 -0800 (PST)
+Received: from thinkpad ([117.213.97.177])
+        by smtp.gmail.com with ESMTPSA id g13-20020a170902c38d00b001d9eef9892asm852511plg.174.2024.02.26.23.34.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 26 Feb 2024 19:46:06 -0800 (PST)
-From: Adam Ford <aford173@gmail.com>
-To: dri-devel@lists.freedesktop.org,
-	linux-renesas-soc@vger.kernel.org
-Cc: aford@beaconembedded.com,
-	Adam Ford <aford173@gmail.com>,
-	Frank Binns <frank.binns@imgtec.com>,
-	Matt Coster <matt.coster@imgtec.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>,
-	Daniel Vetter <daniel@ffwll.ch>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 6/6] arm64: dts: renesas: r8a77961: Enable GPU
-Date: Mon, 26 Feb 2024 21:45:36 -0600
-Message-ID: <20240227034539.193573-7-aford173@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240227034539.193573-1-aford173@gmail.com>
-References: <20240227034539.193573-1-aford173@gmail.com>
+        Mon, 26 Feb 2024 23:35:04 -0800 (PST)
+Date: Tue, 27 Feb 2024 13:04:55 +0530
+From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+To: Serge Semin <fancer.lancer@gmail.com>
+Cc: Siddharth Vadapalli <s-vadapalli@ti.com>,
+	Jingoo Han <jingoohan1@gmail.com>,
+	Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
+	Rob Herring <robh@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+	Marek Vasut <marek.vasut+renesas@gmail.com>,
+	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+	Kishon Vijay Abraham I <kishon@kernel.org>,
+	linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+	mhi@lists.linux.dev
+Subject: Re: [PATCH v3 1/5] PCI: dwc: Refactor dw_pcie_edma_find_chip() API
+Message-ID: <20240227073455.GG2587@thinkpad>
+References: <20240226-dw-hdma-v3-0-cfcb8171fc24@linaro.org>
+ <20240226-dw-hdma-v3-1-cfcb8171fc24@linaro.org>
+ <fielxplkgrvz5qmqrrq5ahmah5yqx7anjylrlcqyev2z2cl2wo@3ltyl242vkba>
+ <20240226152757.GF8422@thinkpad>
+ <6r7kquumuaga5j2hosyi6fla6frdzm5e4iobt7dtftjuwm7wku@7wij7dfhneob>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <6r7kquumuaga5j2hosyi6fla6frdzm5e4iobt7dtftjuwm7wku@7wij7dfhneob>
 
-The GPU on the R-Car M3-W+ is a Rogue GX6250 which uses firmware
-rogue_4.45.2.58_v1.fw available from Imagination.
+On Tue, Feb 27, 2024 at 12:00:41AM +0300, Serge Semin wrote:
+> On Mon, Feb 26, 2024 at 08:57:57PM +0530, Manivannan Sadhasivam wrote:
+> > On Mon, Feb 26, 2024 at 03:45:16PM +0300, Serge Semin wrote:
+> > > Hi Manivannan
+> > > 
+> > > On Mon, Feb 26, 2024 at 05:07:26PM +0530, Manivannan Sadhasivam wrote:
+> > > > In order to add support for Hyper DMA (HDMA), let's refactor the existing
+> > > > dw_pcie_edma_find_chip() API by moving the common code to separate
+> > > > functions.
+> > > > 
+> > > > No functional change.
+> > > > 
+> > > > Suggested-by: Serge Semin <fancer.lancer@gmail.com>
+> > > > Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+> > > > ---
+> > > >  drivers/pci/controller/dwc/pcie-designware.c | 52 +++++++++++++++++++++-------
+> > > >  1 file changed, 39 insertions(+), 13 deletions(-)
+> > > > 
+> > > > diff --git a/drivers/pci/controller/dwc/pcie-designware.c b/drivers/pci/controller/dwc/pcie-designware.c
+> > > > index 250cf7f40b85..193fcd86cf93 100644
+> > > > --- a/drivers/pci/controller/dwc/pcie-designware.c
+> > > > +++ b/drivers/pci/controller/dwc/pcie-designware.c
+> > > > @@ -880,7 +880,17 @@ static struct dw_edma_plat_ops dw_pcie_edma_ops = {
+> > > >  	.irq_vector = dw_pcie_edma_irq_vector,
+> > > >  };
+> > > >  
+> > > > -static int dw_pcie_edma_find_chip(struct dw_pcie *pci)
+> > > > +static void dw_pcie_edma_init_data(struct dw_pcie *pci)
+> > > > +{
+> > > > +	pci->edma.dev = pci->dev;
+> > > > +
+> > > > +	if (!pci->edma.ops)
+> > > > +		pci->edma.ops = &dw_pcie_edma_ops;
+> > > > +
+> > > > +	pci->edma.flags |= DW_EDMA_CHIP_LOCAL;
+> > > > +}
+> > > > +
+> > > > +static int dw_pcie_edma_find_mf(struct dw_pcie *pci)
+> > > >  {
+> > > >  	u32 val;
+> > > >  
+> > > > @@ -900,24 +910,27 @@ static int dw_pcie_edma_find_chip(struct dw_pcie *pci)
+> > > >  	else
+> > > >  		val = dw_pcie_readl_dbi(pci, PCIE_DMA_VIEWPORT_BASE + PCIE_DMA_CTRL);
+> > > > 
+> > > 
+> > > > -	if (val == 0xFFFFFFFF && pci->edma.reg_base) {
+> > > > -		pci->edma.mf = EDMA_MF_EDMA_UNROLL;
+> > > > -
+> > > > -		val = dw_pcie_readl_dma(pci, PCIE_DMA_CTRL);
+> > > > -	} else if (val != 0xFFFFFFFF) {
+> > > > -		pci->edma.mf = EDMA_MF_EDMA_LEGACY;
+> > > > +	/* Set default mapping format here and update it below if needed */
+> > > > +	pci->edma.mf = EDMA_MF_EDMA_LEGACY;
+> > > >  
+> > > > +	if (val == 0xFFFFFFFF && pci->edma.reg_base)
+> > > > +		pci->edma.mf = EDMA_MF_EDMA_UNROLL;
+> > > > +	else if (val != 0xFFFFFFFF)
+> > > >  		pci->edma.reg_base = pci->dbi_base + PCIE_DMA_VIEWPORT_BASE;
+> > > > -	} else {
+> > > > +	else
+> > > >  		return -ENODEV;
+> > > > -	}
+> > > 
+> > > Sorry for not posting my opinion about this earlier, but IMO v2 code
+> > > was more correct than this one. This version makes the code being not
+> > > linear as it was in v2, thus harder to comprehend:
+> > > 
+> > > 1. Setting up a default value and then overriding it or not makes the
+> > > reader to keep in mind the initialized value which is harder than to
+> > > just read what is done in the respective branch.
+> > > 
+> > 
+> > No, I disagree. Whether we set the default value or not, EDMA_MF_EDMA_LEGACY is
+> > indeed the default mapping format (this is one of the reasons why the enums
+> > should start from 1 instead of 0). So initializing it to legacy is not changing
+> > anything, rather making it explicit.
+> > 
+> > > 2. Splitting up the case clause with respective inits and the mapping
+> > > format setting up also makes it harder to comprehend what's going on.
+> > > In the legacy case the reg-base address and the mapping format init are
+> > > split up while they should have been done simultaneously only if (val
+> > > != 0xFFFFFFFF).
+> > > 
+> > 
+> > Well again, this doesn't matter since the default mapping format is legacy. But
+> > somewhat agree that the two clauses are setting different fields, but even if
+> > the legacy mapping format is set inside the second clause, it still differs from
+> > the first one since we are not setting reg_base.
+> > 
+> > > 3. The most of the current devices has the unrolled mapping (available
+> > > since v4.9 IP-core), thus having the mf field pre-initialized produces
+> > > a redundant store operation for the most of the modern devices.
+> > > 
+> > 
+> > Ok, this one I agree. We could avoid the extra assignment.
+> > 
+> > > 4. Getting rid from the curly braces isn't something what should be
+> > > avoided at any cost and doesn't give any optimization really. It
+> > > doesn't cause having less C-lines of the source code and doesn't
+> > > improve the code readability.
+> > > 
+> > 
+> > Yeah, there is no benefit other than a simple view of the code. But for point
+> > (3), I agree to roll back to v2 version.
+> > 
+> > > So to speak, I'd suggest to get back the v2 implementation here.
+> > > 
+> > > >  
+> > > > -	pci->edma.dev = pci->dev;
+> > > > +	return 0;
+> > > > +}
+> > > >  
+> > > > -	if (!pci->edma.ops)
+> > > > -		pci->edma.ops = &dw_pcie_edma_ops;
+> > > > +static int dw_pcie_edma_find_channels(struct dw_pcie *pci)
+> > > > +{
+> > > > +	u32 val;
+> > > >  
+> > > > -	pci->edma.flags |= DW_EDMA_CHIP_LOCAL;
+> > > 
+> > > > +	if (pci->edma.mf == EDMA_MF_EDMA_LEGACY)
+> > > > +		val = dw_pcie_readl_dbi(pci, PCIE_DMA_VIEWPORT_BASE + PCIE_DMA_CTRL);
+> > > > +	else
+> > > > +		val = dw_pcie_readl_dma(pci, PCIE_DMA_CTRL);
+> > > 
+> > > Just dw_pcie_readl_dma(pci, PCIE_DMA_CTRL)
+> > > 
+> > 
+> > 'val' is uninitialized. Why should the assignment be skipped?
+> 
+> The entire
+> 
+> +	if (pci->edma.mf == EDMA_MF_EDMA_LEGACY)
+> +		val = dw_pcie_readl_dbi(pci, PCIE_DMA_VIEWPORT_BASE + PCIE_DMA_CTRL);
+> +	else
+> +		val = dw_pcie_readl_dma(pci, PCIE_DMA_CTRL);
+> 
+> can be replaced with a single line
+> 
+> +	val = dw_pcie_readl_dma(pci, PCIE_DMA_CTRL);
+> 
+> since in the legacy case (reg_base = PCIE_DMA_VIEWPORT_BASE) and the
+> reg_base has been initialized by now.
+> 
 
-When enumerated, it appears as:
-powervr fd000000.gpu: [drm] loaded firmware powervr/rogue_4.45.2.58_v1.fw
-powervr fd000000.gpu: [drm] FW version v1.0 (build 6513336 OS)
+Ah okay, got it!
 
-Signed-off-by: Adam Ford <aford173@gmail.com>
+- Mani
 
-diff --git a/arch/arm64/boot/dts/renesas/r8a77961.dtsi b/arch/arm64/boot/dts/renesas/r8a77961.dtsi
-index 58f9286a5ab5..cc17e624c069 100644
---- a/arch/arm64/boot/dts/renesas/r8a77961.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r8a77961.dtsi
-@@ -2438,6 +2438,16 @@ gic: interrupt-controller@f1010000 {
- 			resets = <&cpg 408>;
- 		};
- 
-+		gpu: gpu@fd000000 {
-+			compatible = "renesas,r8a77961-gpu", "img,img-axe";
-+			reg = <0 0xfd000000 0 0x20000>;
-+			clocks = <&cpg CPG_MOD 112>;
-+			clock-names = "core";
-+			interrupts = <GIC_SPI 119 IRQ_TYPE_LEVEL_HIGH>;
-+			power-domains = <&sysc R8A77961_PD_3DG_B>;
-+			resets = <&cpg 112>;
-+		};
-+
- 		pciec0: pcie@fe000000 {
- 			compatible = "renesas,pcie-r8a77961",
- 				     "renesas,pcie-rcar-gen3";
 -- 
-2.43.0
-
+மணிவண்ணன் சதாசிவம்
 
