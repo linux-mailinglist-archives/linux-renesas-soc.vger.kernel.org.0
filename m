@@ -1,198 +1,167 @@
-Return-Path: <linux-renesas-soc+bounces-3238-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-3239-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5C6A868A18
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 Feb 2024 08:45:49 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 24D41868A21
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 Feb 2024 08:48:55 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5D8741F23299
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 Feb 2024 07:45:49 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id EF7F9B2207D
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 Feb 2024 07:48:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 22BD654F95;
-	Tue, 27 Feb 2024 07:45:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="uAzeuhSk"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8F84855E57;
+	Tue, 27 Feb 2024 07:48:44 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
+Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com [209.85.128.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7556F54F8A
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 27 Feb 2024 07:45:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F6E854F94;
+	Tue, 27 Feb 2024 07:48:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709019944; cv=none; b=UQ+MZUtwT5O4M07+yrFS2eBztIu35RVGD1wZh2MklGZ3G59UEEjZG9wGv4T7RAtY894tSk+iadNSP8mPezQCPJ6jEt6SQxnQbrHXSjJlEMmzyOSi4tczpMMv2q1DfHtX+sBOdEUmVpSwiPYi4LLN1/3otr5kz9SWtKTkJezX2qM=
+	t=1709020124; cv=none; b=BVTRcCUyDuMie4mYNH8JbtLn8+kqAH9IgU6L43Y13jCaDgr7VGC4lEgbsXiWtdbjZX49xjaiK4Xsvhu/cOtfkDFuKIuNU2an088yldW5RwsASq4cT+fI318jfPALkmpoHAwcrIrfCNF9K5d6jd923NorsWIJO8GtxWUU2ow9s8o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709019944; c=relaxed/simple;
-	bh=LHY1soh3TSDneqtCq2eVyxDXi8p5oUsCqKFJ1MDn28Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qpLdd4jOr+oTIMNUNcEG7gm+3KN8CTan4crBg+lFGnwogyw08QqS/IuLEBoK06GN4joDBtTHbWZAzyIB9yRwyqbcGJMs1CPKKF8YelOy+QZ8bRMU3FGSMgam+/FNtCjHkcapYHlAk9brRJPgokLAtKcWjgk+3udikBfrMciOomc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=uAzeuhSk; arc=none smtp.client-ip=209.85.214.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-1dc09556599so34369465ad.1
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 26 Feb 2024 23:45:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1709019942; x=1709624742; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=vz+b24keEy8SKVGT/zsCqIzqYg8F8QonmdaHU6M1RMQ=;
-        b=uAzeuhSkOi5XC1Q0+LXKPKFqfcxiFqsB8qz0ePNLB5Ake664f9qZtlJr11kjCjTM3k
-         5XSJOvLPth+sySUqR76VsavJ38Ce2Wb77YyOw++TwqOkGmAs7n24lYUwfJPMOZfeTjUB
-         jbVH1AKHaV/NlTPoPUnC5inlX0LGqhmIQao1TdsAoSoFrYF1D6OHK5cT+kflJzY5VdkJ
-         /148x+GZ5g6WmLtcOPQVkpuEZRgH6EIiR1Tg1NZAnz03+ZWZ9YdUq+isPrk9d2fUVReK
-         yHYMfKVXQ1qSFTdYD0MPAK8JaWLFrK6ceXpTVMJtVYCHdqTAVCf9ImO5iIRxAkjnUJH5
-         gvxg==
+	s=arc-20240116; t=1709020124; c=relaxed/simple;
+	bh=SKoDHvVTEieR+3z9r2hL+t8bvKzHV2P8+kbsG2tzazI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=syRjMvteErLcYm4nFZGlU4/xXb8g0NlroiKO33N1UmHO/WFj79Gqe1PusLhLpeo2jmm8u7x2xQo4NkgJKtgblvWJjYvhzbZKp3W/Uslr34GCrI48biqgmltovmrA8xcW5BlBc2Nz9xvnghwlg2R5sI3tKrDP2hyEmWAjCcdHk2o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-608cf2e08f9so33687167b3.0;
+        Mon, 26 Feb 2024 23:48:42 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709019942; x=1709624742;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=vz+b24keEy8SKVGT/zsCqIzqYg8F8QonmdaHU6M1RMQ=;
-        b=Sr6BOE3N9m3xuAyF9PTodljKNKiM8RlC4v1hn74xeJbRuWKS0mR7FT2lnEBvQwooVA
-         6vYf9p2PpTk7+jU7jNSbiXJzdubu74sJTslmNa+QnoLv5SlD+Hc3RYdfuK++tR32Ts51
-         cMXI6lHVoGFxkheR8z8TcWUJTTE6sxa2fBC7zdfbWFqJfKfLhaOS43ETb1ro8WAcikMz
-         rprtHZ5/loMMinA8pBaVzggkI5845nyfkB+02hqTs64TQPIdlTowxtSr3aeLY1Vds68V
-         3AEMzQwXqO5bSTM008o7N2zVYPAkJ2dY6fvQ6ZC78oD+PLO/4A0Gw6VVZyogVH+beftp
-         Fxxw==
-X-Forwarded-Encrypted: i=1; AJvYcCVqiZ1jPYh5p7qevnmQaJLidvey/1vhOsKrJBDg2J015yPPKx1ZzdAnjYYwqRYSQCWlROWKKVjFxnk9jI2+QZaKkKmPEvfUYTRfU9e+rVfmtnI=
-X-Gm-Message-State: AOJu0YwU/endD7Ow92/AZTU+0oPk6dyHN0FE1TVBI0Dp1RDhH+0AYbGL
-	BcxRZCjXfkkevNryx2bdIp9DBm1mG8UHRY2cPLk5UyHiD3HmtDMn4Fu1u1zU8g==
-X-Google-Smtp-Source: AGHT+IGoPWkNE6JIjVJz1XqdnjAP9lGvBAm0VujbexvNFkLOg4OzNepoOaOycaMqUlL+eVesMoK8lA==
-X-Received: by 2002:a17:902:db0e:b0:1dc:b77e:1973 with SMTP id m14-20020a170902db0e00b001dcb77e1973mr1593245plx.53.1709019941652;
-        Mon, 26 Feb 2024 23:45:41 -0800 (PST)
-Received: from thinkpad ([117.213.97.177])
-        by smtp.gmail.com with ESMTPSA id l20-20020a170902e2d400b001d71729ec9csm884589plc.188.2024.02.26.23.45.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 26 Feb 2024 23:45:41 -0800 (PST)
-Date: Tue, 27 Feb 2024 13:15:33 +0530
-From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-To: Frank Li <Frank.li@nxp.com>
-Cc: Jingoo Han <jingoohan1@gmail.com>,
-	Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
-	Rob Herring <robh@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
-	Marek Vasut <marek.vasut+renesas@gmail.com>,
-	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-	Kishon Vijay Abraham I <kishon@kernel.org>,
-	Serge Semin <fancer.lancer@gmail.com>, linux-pci@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org, mhi@lists.linux.dev,
-	Siddharth Vadapalli <s-vadapalli@ti.com>
-Subject: Re: [PATCH v3 3/5] PCI: dwc: Pass the eDMA mapping format flag
- directly from glue drivers
-Message-ID: <20240227074533.GH2587@thinkpad>
-References: <20240226-dw-hdma-v3-0-cfcb8171fc24@linaro.org>
- <20240226-dw-hdma-v3-3-cfcb8171fc24@linaro.org>
- <Zdy8lVU6r+JO6OSJ@lizhi-Precision-Tower-5810>
+        d=1e100.net; s=20230601; t=1709020121; x=1709624921;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=u7zeR6KIY0a3dHEE7lZQueJuol6VZXvoVJ6gHmowZD8=;
+        b=qFfXDS2bbfhDJg2ONIbIc/lSbuSaCKNT8Rbiq6gZenOtPNNeh93RWQSBD36EII9Mxd
+         q3vk0BYoUf9s4lncgqeB5CYrMsWLSdzeHrrnoqIqO+gBpGbKLDee4CEpj1DNNHFQQKwi
+         7MVhbIrdIclCpp2Sg/uAR/OeqRrPoFw0Y9vcYQv+wn+HbRcUHn1rj+XUH5iEWG3KVM8P
+         yPaBeJ+JBQtBrOW5imVnP2p7w9lsQ1GWlrwXaR9172DIq6fBk1FnxS8NORCXtIampbV4
+         JVYXBJlCe7ZkwrEGnFDQl0HTjZGJ0fkoNvSTvbMwFGpFLBMjeARDuVQPBySK6fswnCsq
+         EIBg==
+X-Forwarded-Encrypted: i=1; AJvYcCWDm4DkMh7u/rrL6RAqvjFbi70lvsPsw7ZFpWml0gpE3u5vbLJNYLHYGVPPduFhqM+Oqu/ysPPa3sTHe930BG6dqJ6IDLRjCK5XJAnlNZV7DUIp7mHtcyXUat359lSD5alxdpsOWEaOCoHh5A0o2eOFmGpf61+x30vRwONVf2tKzMdnPsmX+3VcsGVA
+X-Gm-Message-State: AOJu0Yy5vNhaM/FosrdLNtMDdYFYAppVQoe1Ss1v+cOIqAWYLGzf1Hok
+	XlUAYmJIFwZKvt6QVGtZuJnNsRWe7zyoubHncZ937/CYMbLzjkhz3j6LfeQAbQs=
+X-Google-Smtp-Source: AGHT+IEck1hpo4UcskddjeVyhjKatVdPklc6fFLiiHgxiuy/jDJX2dnOYaYMUsWlfejj6LaoPuNJOg==
+X-Received: by 2002:a81:5751:0:b0:608:8f31:244f with SMTP id l78-20020a815751000000b006088f31244fmr1198501ywb.51.1709020120829;
+        Mon, 26 Feb 2024 23:48:40 -0800 (PST)
+Received: from mail-yb1-f169.google.com (mail-yb1-f169.google.com. [209.85.219.169])
+        by smtp.gmail.com with ESMTPSA id t11-20020a81ce0b000000b00608e03f3d68sm1438845ywi.7.2024.02.26.23.48.40
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 26 Feb 2024 23:48:40 -0800 (PST)
+Received: by mail-yb1-f169.google.com with SMTP id 3f1490d57ef6-dc6d8bd618eso4004938276.3;
+        Mon, 26 Feb 2024 23:48:40 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCX9vW6Qn61O/T/wDX6dRmyJd/9IS6LIQ6ycHQv28z8kH8M/6+hI+5+ERB4PwG0gdYj3FoIO4HxYG2cjqbLg2596BZpk2WayRVaUvsl91s7Wsgs2sHgCkk3FBg9kKexd04jJlWqhj94e8UBjpjwBZixKQyTXQ/Ggd/UJg4KpFHGMlV5V7DSfviY0gnOZ
+X-Received: by 2002:a25:8706:0:b0:dcd:a9ad:7d64 with SMTP id
+ a6-20020a258706000000b00dcda9ad7d64mr1462178ybl.48.1709020120180; Mon, 26 Feb
+ 2024 23:48:40 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <Zdy8lVU6r+JO6OSJ@lizhi-Precision-Tower-5810>
+References: <20240227034539.193573-1-aford173@gmail.com> <20240227034539.193573-2-aford173@gmail.com>
+In-Reply-To: <20240227034539.193573-2-aford173@gmail.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 27 Feb 2024 08:48:28 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdWhtu7nuBpC=TSY6rMaReJNgYok535xXotDyKJDT1_Mzw@mail.gmail.com>
+Message-ID: <CAMuHMdWhtu7nuBpC=TSY6rMaReJNgYok535xXotDyKJDT1_Mzw@mail.gmail.com>
+Subject: Re: [PATCH 1/6] dt-bindings: gpu: powervr-rogue: Add PowerVR support
+ for some Renesas GPUs
+To: Adam Ford <aford173@gmail.com>
+Cc: dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org, 
+	aford@beaconembedded.com, Frank Binns <frank.binns@imgtec.com>, 
+	Matt Coster <matt.coster@imgtec.com>, David Airlie <airlied@gmail.com>, 
+	Daniel Vetter <daniel@ffwll.ch>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Magnus Damm <magnus.damm@gmail.com>, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Feb 26, 2024 at 11:30:13AM -0500, Frank Li wrote:
-> On Mon, Feb 26, 2024 at 05:07:28PM +0530, Manivannan Sadhasivam wrote:
-> > Instead of maintaining a separate capability for glue drivers that cannot
-> > support auto detection of the eDMA mapping format, let's pass the mapping
-> > format directly from them.
-> 
-> Sorry, what's mapping? is it register address layout?
-> 
+Hi Adam,
 
-Memory map containing the register layout for iATU, DMA etc...
+On Tue, Feb 27, 2024 at 4:46=E2=80=AFAM Adam Ford <aford173@gmail.com> wrot=
+e:
+> Update the binding to add support for various Renesas SoC's with PowerVR
+> Rogue GX6250 and GX6650 GPUs.  These devices only need one clock, so upda=
+te
+> the table to indicate such like what was done for the ti,am62-gpu.
+>
+> Signed-off-by: Adam Ford <aford173@gmail.com>
 
-- Mani
+Thanks for your patch!
 
-> Frank
-> 
-> > 
-> > This will simplify the code and also allow adding HDMA support that also
-> > doesn't support auto detection of mapping format.
-> > 
-> > Suggested-by: Serge Semin <fancer.lancer@gmail.com>
-> > Reviewed-by: Siddharth Vadapalli <s-vadapalli@ti.com>
-> > Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-> > ---
-> >  drivers/pci/controller/dwc/pcie-designware.c | 16 +++++++++-------
-> >  drivers/pci/controller/dwc/pcie-designware.h |  5 ++---
-> >  drivers/pci/controller/dwc/pcie-rcar-gen4.c  |  2 +-
-> >  3 files changed, 12 insertions(+), 11 deletions(-)
-> > 
-> > diff --git a/drivers/pci/controller/dwc/pcie-designware.c b/drivers/pci/controller/dwc/pcie-designware.c
-> > index ce273c3c5421..3e90b9947a13 100644
-> > --- a/drivers/pci/controller/dwc/pcie-designware.c
-> > +++ b/drivers/pci/controller/dwc/pcie-designware.c
-> > @@ -894,18 +894,20 @@ static int dw_pcie_edma_find_mf(struct dw_pcie *pci)
-> >  {
-> >  	u32 val;
-> >  
-> > +	/*
-> > +	 * Bail out finding the mapping format if it is already set by the glue
-> > +	 * driver. Also ensure that the edma.reg_base is pointing to a valid
-> > +	 * memory region.
-> > +	 */
-> > +	if (pci->edma.mf != EDMA_MF_EDMA_LEGACY)
-> > +		return pci->edma.reg_base ? 0 : -ENODEV;
-> > +
-> >  	/*
-> >  	 * Indirect eDMA CSRs access has been completely removed since v5.40a
-> >  	 * thus no space is now reserved for the eDMA channels viewport and
-> >  	 * former DMA CTRL register is no longer fixed to FFs.
-> > -	 *
-> > -	 * Note that Renesas R-Car S4-8's PCIe controllers for unknown reason
-> > -	 * have zeros in the eDMA CTRL register even though the HW-manual
-> > -	 * explicitly states there must FFs if the unrolled mapping is enabled.
-> > -	 * For such cases the low-level drivers are supposed to manually
-> > -	 * activate the unrolled mapping to bypass the auto-detection procedure.
-> >  	 */
-> > -	if (dw_pcie_ver_is_ge(pci, 540A) || dw_pcie_cap_is(pci, EDMA_UNROLL))
-> > +	if (dw_pcie_ver_is_ge(pci, 540A))
-> >  		val = 0xFFFFFFFF;
-> >  	else
-> >  		val = dw_pcie_readl_dbi(pci, PCIE_DMA_VIEWPORT_BASE + PCIE_DMA_CTRL);
-> > diff --git a/drivers/pci/controller/dwc/pcie-designware.h b/drivers/pci/controller/dwc/pcie-designware.h
-> > index 26dae4837462..995805279021 100644
-> > --- a/drivers/pci/controller/dwc/pcie-designware.h
-> > +++ b/drivers/pci/controller/dwc/pcie-designware.h
-> > @@ -51,9 +51,8 @@
-> >  
-> >  /* DWC PCIe controller capabilities */
-> >  #define DW_PCIE_CAP_REQ_RES		0
-> > -#define DW_PCIE_CAP_EDMA_UNROLL		1
-> > -#define DW_PCIE_CAP_IATU_UNROLL		2
-> > -#define DW_PCIE_CAP_CDM_CHECK		3
-> > +#define DW_PCIE_CAP_IATU_UNROLL		1
-> > +#define DW_PCIE_CAP_CDM_CHECK		2
-> >  
-> >  #define dw_pcie_cap_is(_pci, _cap) \
-> >  	test_bit(DW_PCIE_CAP_ ## _cap, &(_pci)->caps)
-> > diff --git a/drivers/pci/controller/dwc/pcie-rcar-gen4.c b/drivers/pci/controller/dwc/pcie-rcar-gen4.c
-> > index e9166619b1f9..3c535ef5ea91 100644
-> > --- a/drivers/pci/controller/dwc/pcie-rcar-gen4.c
-> > +++ b/drivers/pci/controller/dwc/pcie-rcar-gen4.c
-> > @@ -255,7 +255,7 @@ static struct rcar_gen4_pcie *rcar_gen4_pcie_alloc(struct platform_device *pdev)
-> >  	rcar->dw.ops = &dw_pcie_ops;
-> >  	rcar->dw.dev = dev;
-> >  	rcar->pdev = pdev;
-> > -	dw_pcie_cap_set(&rcar->dw, EDMA_UNROLL);
-> > +	rcar->dw.edma.mf = EDMA_MF_EDMA_UNROLL;
-> >  	dw_pcie_cap_set(&rcar->dw, REQ_RES);
-> >  	platform_set_drvdata(pdev, rcar);
-> >  
-> > 
-> > -- 
-> > 2.25.1
-> > 
+> --- a/Documentation/devicetree/bindings/gpu/img,powervr-rogue.yaml
+> +++ b/Documentation/devicetree/bindings/gpu/img,powervr-rogue.yaml
+> @@ -14,6 +14,11 @@ properties:
+>    compatible:
+>      items:
+>        - enum:
+> +          - renesas,r8a774a1-gpu
 
--- 
-மணிவண்ணன் சதாசிவம்
+I would add a comment like this:
+
+    - renesas,r8a774a1-gpu # PowerVR Series 6XT GX6650 on RZ/G2M
+
+> +          - renesas,r8a774e1-gpu
+
+    .. # PowerVR Series 6XT GX6650 on RZ/G2H
+
+> +          - renesas,r8a77951-gpu
+
+    ... # PowerVR Series 6XT GX6650 on R-Car H3 ES2.0+
+
+> +          - renesas,r8a77960-gpu
+
+    ... # PowerVR Series 6XT GX6250 on R-Car M3-W
+
+> +          - renesas,r8a77961-gpu
+
+    ... # PowerVR Series 6XT GX6250 on R-Car M3-W+
+
+>            - ti,am62-gpu
+>        - const: img,img-axe # IMG AXE GPU model/revision is fully discove=
+rable
+>
+> @@ -51,7 +56,13 @@ allOf:
+>        properties:
+>          compatible:
+>            contains:
+> -            const: ti,am62-gpu
+> +            enum:
+> +              - ti,am62-gpu
+> +              - renesas,r8a774a1-gpu
+> +              - renesas,r8a774e1-gpu
+> +              - renesas,r8a77951-gpu
+> +              - renesas,r8a77960-gpu
+> +              - renesas,r8a77961-gpu
+
+Please preserve alphabetical sort order.
+
+>      then:
+>        properties:
+>          clocks:
+> --
+> 2.43.0
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
