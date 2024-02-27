@@ -1,64 +1,70 @@
-Return-Path: <linux-renesas-soc+bounces-3257-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-3258-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0200868E4D
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 Feb 2024 12:04:41 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 65589868F6E
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 Feb 2024 12:50:59 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 2234CB22045
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 Feb 2024 11:04:39 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1926A286893
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 Feb 2024 11:50:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 802AB1386D3;
-	Tue, 27 Feb 2024 11:04:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EA9FF13A242;
+	Tue, 27 Feb 2024 11:50:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NwQ6Ohr9"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com [209.85.128.173])
+Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62B9C130ADF;
-	Tue, 27 Feb 2024 11:04:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CDD41386D4;
+	Tue, 27 Feb 2024 11:50:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709031875; cv=none; b=FbMeGegxyAk3/HK7IewypU6w2dmiZ4WFYtcBbmluY3oY8bXWuKiqSw5kf8yANOFvLQSMI564VYsVJQxgtWNlrK+U49d3Ww740f6P2wS+DBxCIFYiNgDAI2QxSzZRAiYnyzpqcwUZsUdZeHjKSfLOZrRM59V3gsnczqASQ8rK6U8=
+	t=1709034655; cv=none; b=Ikvc4MYGtPfARhrtG8mvg48e9Bde6nKsO+XUoLms6QXl/1/xN5BtDHCcP8RPGLG7AeC7uXsnu03h66NEJN4cqRM0ZelU48M+6gNL9J9MQYxpQBnm5GeLwPUNmpJwhvNEqB3pAxW5XWyrH2QAqnhDcHSujuvPHyVNM/Exeld8zPU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709031875; c=relaxed/simple;
-	bh=kM9J1nLU0MN3h/U6de1ypqHdb9KiOVaBWFUfIh6BRAU=;
+	s=arc-20240116; t=1709034655; c=relaxed/simple;
+	bh=i0MNHvBEyvrrz/r9ERUgGvr7jDMCWr36xdWDXtvGdgQ=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=A1YsIHAWWR1F1L+MhZ77NI9TvH6Vnt8G+79U32TZ8dBkj8JGJN6MKd6qpb4C9Xl5rbaEAVj+ypdcNnxTVgWUUGi29j7RSfBU+7pgpnXOIjbl1aoFMuKykYiX1+edJrUMcdoOmQvfs735YVkbDN9qtn+089xEgKcNQy0pt0Kaj3U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+	 To:Cc:Content-Type; b=OKpEqx3JPXw1R7cyktJo6sUf6fl1UlpJtNXmkOmZltEzEqm8VEoWzPC6nZLSpfOeQ1WYZvj1X+jlRHIUkUzv7mZy/7EKCK+vUZ19Ntn5foW/V/yQnMCHBp206zj6H+uIzvLWISs72JQ+gmaSiHGYYn9IMQFfuoLHvuu6iq9QayU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NwQ6Ohr9; arc=none smtp.client-ip=209.85.215.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-608d55ab7b0so28052607b3.1;
-        Tue, 27 Feb 2024 03:04:32 -0800 (PST)
+Received: by mail-pg1-f172.google.com with SMTP id 41be03b00d2f7-5c6bd3100fcso3116352a12.3;
+        Tue, 27 Feb 2024 03:50:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1709034653; x=1709639453; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=rDoS3gLGI0Ru88ibWZYCmaUVCnms/5yXvnI03PkRJbQ=;
+        b=NwQ6Ohr9RXgRR/E8HhpgGlNW4TkTHcWoRuW58BEtV44tftqHkWilk4kDBRuA70F1fy
+         PfO17hlYFknaE4BY+jHnqvY9FoJALKVSC+Bj2FLPiRwkVZrjlRWgQYGNApY/UT9Ti8w6
+         fLAaQv2sPJXXbAEJYJ6ZVNFwr29FNh/nwblWJs0iX+OKIRSTay7Kch2QqgnVm4toS5yf
+         lYWgtKqlr6bGBvzCHQE15zOssFS7eQQ+jZYjWRvdeE1/4T7l+KC7CdkRtlPyS4MBEhlJ
+         gNcGQytMEaMHx/INMj582MYaIucT7y0GgL/fstqpB5sUXvo1DV1ztCRsvCZ9nTOmVApV
+         Z7LQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709031870; x=1709636670;
+        d=1e100.net; s=20230601; t=1709034653; x=1709639453;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=xPv5tY8IlTb3U7rQdZHsbYJc9/8vKc1NrUUSdhaGOUc=;
-        b=VKrkAjnyb828d55QjKTklmegqGMpRZ+rFoMG0mIbakmQCUkO6xGGPRtlQpxD2toC9u
-         dJmgozYZjTCKDuFlh7ChVT/x99h8VVTIPYpWeZGKl9W4tFuVcefEX4QVl+/1fE1sjc8i
-         iVIkMyqTIg6pqmDFhYDWfBXRZh5us95n6MecZqqLg2HlNBKWzcENaEgObqweJlEnFqX+
-         E+ZvlIWrxVbL25DbxMl3LVd+6HJPRxoqcuKJap+XXMh/uaTRPIk/YLqfQzzmzIl8PbJh
-         w9SNv1gW01ek37igxjPJbH/sPhzFt574a/2v+JZBYHuUOpkN6rx1d/vAnw56r0+g5x54
-         +jDw==
-X-Forwarded-Encrypted: i=1; AJvYcCWccuPISk8l5VDXR7oiwJMfuPIuOy9RkAnV4Wt+DwCYL19AELNkNF5eLjrMoVGhhqwNLOnIr0WT/jPYuvTtTfqduovs4QQHtFd3YQ/QJ178NWzHn0XsSmkt3Xubu9vAE0GAhnvN3ItD0Pwq83tM1QX8UVIS7IC1W32lZt3IeVc8JK05KfgrfYQL5ayD
-X-Gm-Message-State: AOJu0Yx+WLwhl/g6A11SDHNh0Lx0Tv1Y06XykGqJDEC1KBehhj0IrIli
-	UqUIJ9I9McGHPaNYgZxq2ShVvvoqJLeYP96g7ScaiqyT4CfsSySJFEF/YvAJ2xM=
-X-Google-Smtp-Source: AGHT+IH3nCYhdCtPIrVCOl+x/iPQwL95EBbhEfcIaTCO16G06irj1ZTLMNBrOgF2kdlsuO0tVG/K5A==
-X-Received: by 2002:a81:8d0b:0:b0:608:20df:8b15 with SMTP id d11-20020a818d0b000000b0060820df8b15mr1428538ywg.3.1709031870309;
-        Tue, 27 Feb 2024 03:04:30 -0800 (PST)
-Received: from mail-yb1-f182.google.com (mail-yb1-f182.google.com. [209.85.219.182])
-        by smtp.gmail.com with ESMTPSA id c62-20020a0dda41000000b006078c48a265sm1714178ywe.6.2024.02.27.03.04.29
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 27 Feb 2024 03:04:29 -0800 (PST)
-Received: by mail-yb1-f182.google.com with SMTP id 3f1490d57ef6-dc74435c428so3645352276.2;
-        Tue, 27 Feb 2024 03:04:29 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCVyCV38Vc5aakNCF24Jf7+Ile8DTWMLrtAPEEvygQUvhHc1SFlwLw9wPhsmhwG8yEqTgxDLgllqKSF2kKtHRG3LU5uThYccg+4JPh/3eRzr7PIwWEDbSaFNcKYwl0ZbyamH18W2/Ab5kGXkvMknoK2RHZQhs41DA5ct2SVhYUGn4GRA1Swq//HuJr9c
-X-Received: by 2002:a5b:ecc:0:b0:dc6:c32f:6126 with SMTP id
- a12-20020a5b0ecc000000b00dc6c32f6126mr1590255ybs.22.1709031869487; Tue, 27
- Feb 2024 03:04:29 -0800 (PST)
+        bh=rDoS3gLGI0Ru88ibWZYCmaUVCnms/5yXvnI03PkRJbQ=;
+        b=P5yuQQTWiawAkzlUIuL0VQ7UvoDkyvskXBJR3W5boo1515yTqcH/xVQ2KOX4TSc+lB
+         +JbEZORGi9BLFn3wMjOO+3BUIiOkvBMbueNsYUC13Am6F6D4p4131H7wf0owj6JdEjwj
+         DLIdFB8mlA8uq7kLovjITl66iA0/jaOmOwvgrFuxf1dvKTtd8KWGhtL5/fCeeFE1hGMr
+         z7nx56pvXVl4IpuS7Vj18naMUVmnn8e2yGxvcc+U0wk1FWtgr9XSPN8lfqdPk8wx9tvZ
+         yQXmovbGX4khhj9ZDCK63NqnJF4HjKlq0HbLYntKc6FZYRqmjcqOwSKxKV6F2vQgDQ1U
+         9jJw==
+X-Forwarded-Encrypted: i=1; AJvYcCW2jTE301NPcKxXRaxT5DNWLDF3rB3FG9fsJVjjnP5K0oS7GbKk4TTwt8P/wWiFe+5891TOylDsRuO2o5rvYweLLSXOZmY111TR15tVxQh82VOiusTcIDB0Im4uOwmCHNVSSGWjfXWj/TZTXGOfFzTPUei88SzV6yqb6C5IigUH3TwPzYRQ2gnHmOFl
+X-Gm-Message-State: AOJu0YybvOv95qOdEOb/WCRpy/pE2Q+Kn+lp+jphaBXOLVNW71JlA064
+	NXdxjeSfTqo9Keu5SJEWq6VFZ/ue2Q5Gxo8AT5K1fEg+hvMsSxe6iAUwqSOswJpZmVuIOgBC/2Z
+	LGjGq2HWSbpl9VaN+g/PesS1eKrk=
+X-Google-Smtp-Source: AGHT+IELcr6v/ZNF99nQU0H9fb5ytljAs2NYlh9FX6CrCFlQCTtIeotChVLyYxSxOWpUFjR/B4u1AgxDqXdtxZrOxA0=
+X-Received: by 2002:a05:6a20:d41b:b0:1a0:e5a7:60b7 with SMTP id
+ il27-20020a056a20d41b00b001a0e5a760b7mr1460652pzb.29.1709034653492; Tue, 27
+ Feb 2024 03:50:53 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -68,14 +74,12 @@ MIME-Version: 1.0
 References: <20240227034539.193573-1-aford173@gmail.com> <20240227034539.193573-3-aford173@gmail.com>
  <39aead3b-b809-4c9c-8a5d-c0be2b36ea47@imgtec.com>
 In-Reply-To: <39aead3b-b809-4c9c-8a5d-c0be2b36ea47@imgtec.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 27 Feb 2024 12:04:17 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdW5vWg=tpB9PCRXmdBmLtt0wNN9dOEN1Lp_N7R68jz0tA@mail.gmail.com>
-Message-ID: <CAMuHMdW5vWg=tpB9PCRXmdBmLtt0wNN9dOEN1Lp_N7R68jz0tA@mail.gmail.com>
+From: Adam Ford <aford173@gmail.com>
+Date: Tue, 27 Feb 2024 05:50:42 -0600
+Message-ID: <CAHCN7xJnKNdsrs+UMvPqdkN+j8v+8UaoH=zargcKRi7dw0GLNA@mail.gmail.com>
 Subject: Re: [PATCH 2/6] arm64: dts: renesas: r8a774a1: Enable GPU
 To: Matt Coster <Matt.Coster@imgtec.com>
-Cc: Adam Ford <aford173@gmail.com>, 
-	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, 
+Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, 
 	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>, Adam Ford <aford@beaconembedded.com>, 
 	Frank Binns <Frank.Binns@imgtec.com>, David Airlie <airlied@gmail.com>, 
 	Daniel Vetter <daniel@ffwll.ch>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -87,10 +91,8 @@ Cc: Adam Ford <aford173@gmail.com>,
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Matt,
-
-On Tue, Feb 27, 2024 at 10:31=E2=80=AFAM Matt Coster <Matt.Coster@imgtec.co=
-m> wrote:
+On Tue, Feb 27, 2024 at 3:31=E2=80=AFAM Matt Coster <Matt.Coster@imgtec.com=
+> wrote:
 >
 > Hi Adam,
 >
@@ -115,9 +117,7 @@ aders,
 > Since Mesa does not yet have support for this GPU, there=E2=80=99s not a =
 lot
 > that can be done to actually test these bindings.
-
-OK.
-
+>
 > When we added upstream support for the first GPU (the AXE core in TI=E2=
 =80=99s
 > AM62), we opted to wait until userspace was sufficiently progressed to
@@ -130,11 +130,13 @@ OK.
 e GPUs
 > functional.
 
-I guess that applies to "[PATCH 00/11] Device tree support for
-Imagination Series5 GPU", too, which has been in linux-next for about
-a month?
-https://lore.kernel.org/all/20240109171950.31010-1-afd@ti.com/
-
+I wrongly assumed that when the firmware was ready, there was some
+preliminary functionality, but it sounds like we need to work for
+Series6XT support to be added to the driver.  I only used the AXE
+compatible since it appeared to the be the only one and the existing
+binding document stated "model/revision is fully discoverable" which I
+interpreted to mean that the AXE compatible was sufficient.
+>
 > > Signed-off-by: Adam Ford <aford173@gmail.com>
 > >
 > > diff --git a/arch/arm64/boot/dts/renesas/r8a774a1.dtsi b/arch/arm64/boo=
@@ -154,9 +156,6 @@ xe";
 tible
 > with one. For prior art, see [1] where we added support for the MT8173
 > found in Elm Chromebooks R13 (also a Series6XT GPU).
-
-IC. And the bindings in [2].
-
 >
 > > +                     reg =3D <0 0xfd000000 0 0x20000>;
 > > +                     clocks =3D <&cpg CPG_MOD 112>;
@@ -166,57 +165,35 @@ IC. And the bindings in [2].
 > Renesas TRM to hand =E2=80=93 do you know if their docs go into detail on=
  the
 > GPU integration?
+>
+> > +                     interrupts =3D <GIC_SPI 119 IRQ_TYPE_LEVEL_HIGH>;
+> > +                     power-domains =3D <&sysc R8A774A1_PD_3DG_B>;
+> > +                     resets =3D <&cpg 112>;
+> > +             };
+> > +
+> >               pciec0: pcie@fe000000 {
+> >                       compatible =3D "renesas,pcie-r8a774a1",
+> >                                    "renesas,pcie-rcar-gen3";
+>
+> As you probably expect by this point, I have to nack this series for
+> now. I appreciate your effort here and I=E2=80=99ll be happy to help you =
+land
 
-Not really. The diagram in the Hardware User's Manual just shows the
-following clock inputs:
-  - Clock (ZG=CF=95) from CPG,
-  - Clock (S3D1=CF=95) from CPG,
-  - MSTP (ST112) from CPG.
+I get that.  I wasn't sure if I should have even pushed this, but I
+wanted to get a little traction, because I know there are people like
+myself who want to use the 3D in the Renesas boards, but don't want to
+use the closed-source blobs tied to EULA and NDA documents.
 
-ZG is the main (programmable) 3DGE clock, running at up to 600 MHz.
-S3D1 is the fixed 266 MHz AXI bus clock.
-MSTP112 is the gateable module clock (part of the SYSC/CPG clock
-domain), and its parent is ZG.
+> these once Mesa gains some form of usable support to allow testing.
 
-According to the sources:
-  - "core" is the primary clock used by the entire GPU core, so we use
-    MSTP112 for that.
-  - "sys" is the optional system bus clock, so that could be S3D1,
-  - "mem" is the optional memory clock, no idea what that would map to.
-
-But IMHO the two optional clocks do not matter at all (the driver
-doesn't care about their rates, and just enables them together with
-the core clock), and S3D1 is always-on, so I'd just limit clocks to
-a single item.
-
-Just wondering: is the availability of 1 clock specific to AXE, or to
-the AXE integration on AM62x?
-
-> +                     interrupts =3D <GIC_SPI 119 IRQ_TYPE_LEVEL_HIGH>;
-> +                     power-domains =3D <&sysc R8A774A1_PD_3DG_B>;
-> +                     resets =3D <&cpg 112>;
-> +             };
-
+Is there a way for your group to add me to the CC list when future
+updates are submitted?  I'd like to follow this and resubmit when it's
+ready.
+>
+> Cheers,
+> Matt
+>
 > [1]: https://gitlab.freedesktop.org/imagination/linux/-/blob/b3506b8bc45e=
 d6d4005eb32a994df0e33d6613f1/arch/arm64/boot/dts/mediatek/mt8173.dtsi#L993-=
 1006
-
-[2] https://gitlab.freedesktop.org/imagination/linux/-/blob/b3506b8bc45ed6d=
-4005eb32a994df0e33d6613f1/Documentation/devicetree/bindings/gpu/img,powervr=
-.yaml
-
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
 
