@@ -1,41 +1,41 @@
-Return-Path: <linux-renesas-soc+bounces-3254-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-3255-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A581868D7E
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 Feb 2024 11:25:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0310868DA3
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 Feb 2024 11:31:29 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E1FE8B27C7E
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 Feb 2024 10:25:19 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 05708B27EE0
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 Feb 2024 10:31:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 183B2138480;
-	Tue, 27 Feb 2024 10:25:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 65CC0136981;
+	Tue, 27 Feb 2024 10:31:25 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AA206137C24;
-	Tue, 27 Feb 2024 10:25:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.172
+Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4E00A53376;
+	Tue, 27 Feb 2024 10:31:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709029517; cv=none; b=TsRB8BA6EpyGWSYPr/7Ez1NLmdXHkuOSRP0lxVYPb40WaY2LptaFQP7ppmdjdEocCrPKA4wRHlzBXDz74aPGVlOockxOJ4zwRT+YrbvEKqVqYpoWtaXU7ijq13rs/dUQPuWEdyvWRqZcwKjtgTlok8O2MI2/YoMgmvA2vclorR0=
+	t=1709029885; cv=none; b=gOYpW2LW2L6pRZPuqxwUKYr8TS1g970/ylu5lkOrlyr8k6uJjgPWaBc3uD8oHO8MYwaay7Vdw2pN43Te3DYGX/JL0CV1eYfW/cildsBEs8s9fPzzumqfjsRVm7IzHozr9l350ndHtB17q3s6DHsijWghieLuiktZVZlC4HABVsc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709029517; c=relaxed/simple;
-	bh=4P8v65HNBqGkaReK8UM+S/BRgkh3f/r62hkAttx4aAI=;
+	s=arc-20240116; t=1709029885; c=relaxed/simple;
+	bh=AMXSfK6wH5Ihe4ELh5O4LCZ2xcyCfHZ1u9v9g5+RtRs=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=qt9aIcqEmsstAvrsXEV2N1yvC0YTSvn0xU6a9bBpZXgjD8WDjVWhebhnHeBe9Gxan4O02FVWVAQ8e9l2ny2Gnin9BkVO4PM252xSG3f4zuTgawkOLC6tcehmiYjhgQxKqu9+oKBc74v5ods2CzDJ39zLhg9JGXn8YCRtKATwd0k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.172
+	 In-Reply-To:Content-Type; b=dQ04sheFKD0HXP5kl4iEHJUw+/un/8i2vqRuy/1SxBY1tQqVWV9jPSNNJ5B1OFL3R8fJXlAWD8Cojy0tdPq0khwDgEzB1/wl6tx5GLsA2jYw4ZB+wY3KwdcxcxSXtMYITMA2vVJQxu3/c7pUwraeBjgZtWJGg0APT6TVRlSykzw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
 X-IronPort-AV: E=Sophos;i="6.06,187,1705330800"; 
-   d="asc'?scan'208";a="199446232"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie6.idc.renesas.com with ESMTP; 27 Feb 2024 19:25:13 +0900
+   d="asc'?scan'208";a="195508975"
+Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
+  by relmlie5.idc.renesas.com with ESMTP; 27 Feb 2024 19:31:20 +0900
 Received: from [10.226.92.206] (unknown [10.226.92.206])
-	by relmlir6.idc.renesas.com (Postfix) with ESMTP id EA4B041FCC70;
-	Tue, 27 Feb 2024 19:25:09 +0900 (JST)
-Message-ID: <98691004-d7f4-4223-af8b-aadb4f73d28f@bp.renesas.com>
-Date: Tue, 27 Feb 2024 10:25:09 +0000
+	by relmlir5.idc.renesas.com (Postfix) with ESMTP id 35FDC4004BB1;
+	Tue, 27 Feb 2024 19:31:16 +0900 (JST)
+Message-ID: <e4d7247e-ddb0-4216-aab2-a9829b5f52ab@bp.renesas.com>
+Date: Tue, 27 Feb 2024 10:31:15 +0000
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -43,8 +43,8 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [net-next 2/6] ravb: Make it clear the information relates to
- maximum frame size
+Subject: Re: [net-next 4/6] ravb: Use the max frame size from hardware info
+ for RZ/G2L
 Content-Language: en-GB
 To: =?UTF-8?Q?Niklas_S=C3=B6derlund?=
  <niklas.soderlund+renesas@ragnatech.se>, Sergey Shtylyov
@@ -55,17 +55,17 @@ To: =?UTF-8?Q?Niklas_S=C3=B6derlund?=
  Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>, netdev@vger.kernel.org
 Cc: linux-renesas-soc@vger.kernel.org
 References: <20240227014014.44855-1-niklas.soderlund+renesas@ragnatech.se>
- <20240227014014.44855-3-niklas.soderlund+renesas@ragnatech.se>
+ <20240227014014.44855-5-niklas.soderlund+renesas@ragnatech.se>
 From: Paul Barker <paul.barker.ct@bp.renesas.com>
 Organization: Renesas Electronics Corporation
-In-Reply-To: <20240227014014.44855-3-niklas.soderlund+renesas@ragnatech.se>
+In-Reply-To: <20240227014014.44855-5-niklas.soderlund+renesas@ragnatech.se>
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="------------G0vI6MWw10ngoClmRkMGsD8D"
+ boundary="------------qOzR4VBqKpEhW3ge4DmiRfqh"
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------G0vI6MWw10ngoClmRkMGsD8D
-Content-Type: multipart/mixed; boundary="------------WEEMXZvtP0GfEF0sO30yAuwS";
+--------------qOzR4VBqKpEhW3ge4DmiRfqh
+Content-Type: multipart/mixed; boundary="------------g1njA0v7fmcxwKoiBan9UxyK";
  protected-headers="v1"
 From: Paul Barker <paul.barker.ct@bp.renesas.com>
 To: =?UTF-8?Q?Niklas_S=C3=B6derlund?=
@@ -76,115 +76,89 @@ To: =?UTF-8?Q?Niklas_S=C3=B6derlund?=
  Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
  Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>, netdev@vger.kernel.org
 Cc: linux-renesas-soc@vger.kernel.org
-Message-ID: <98691004-d7f4-4223-af8b-aadb4f73d28f@bp.renesas.com>
-Subject: Re: [net-next 2/6] ravb: Make it clear the information relates to
- maximum frame size
+Message-ID: <e4d7247e-ddb0-4216-aab2-a9829b5f52ab@bp.renesas.com>
+Subject: Re: [net-next 4/6] ravb: Use the max frame size from hardware info
+ for RZ/G2L
 References: <20240227014014.44855-1-niklas.soderlund+renesas@ragnatech.se>
- <20240227014014.44855-3-niklas.soderlund+renesas@ragnatech.se>
-In-Reply-To: <20240227014014.44855-3-niklas.soderlund+renesas@ragnatech.se>
+ <20240227014014.44855-5-niklas.soderlund+renesas@ragnatech.se>
+In-Reply-To: <20240227014014.44855-5-niklas.soderlund+renesas@ragnatech.se>
 
---------------WEEMXZvtP0GfEF0sO30yAuwS
-Content-Type: multipart/mixed; boundary="------------klLzpWB07zUdPxK0u9kxLqFm"
+--------------g1njA0v7fmcxwKoiBan9UxyK
+Content-Type: multipart/mixed; boundary="------------dz4Ui0E780TTp9KbtCCn9fof"
 
---------------klLzpWB07zUdPxK0u9kxLqFm
+--------------dz4Ui0E780TTp9KbtCCn9fof
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
 On 27/02/2024 01:40, Niklas S=C3=B6derlund wrote:
-> The struct member rx_max_buf_size was added before split descriptor
-> support where added. It is unclear if the value describes the full skb
-> frame buffer or the data descriptor buffer which can be combined into a=
+> Remove the define describing the RZ/G2L maximum frame size and only use=
 
-> single skb.
+> the information in the hardware information struct. This will make it
+> easier to merge the R-Car and RZ/G2L code paths.
 >=20
-> Rename it to make it clear it referees to the maximum frame size and ca=
-n
-> cover multiple descriptors.
+> There is no functional change as both the define and the maximum frame
+> length in the hardware information is set to 8K.
 >=20
 > Signed-off-by: Niklas S=C3=B6derlund <niklas.soderlund+renesas@ragnatec=
 h.se>
 > ---
->  drivers/net/ethernet/renesas/ravb.h      |  2 +-
->  drivers/net/ethernet/renesas/ravb_main.c | 10 +++++-----
->  2 files changed, 6 insertions(+), 6 deletions(-)
+>  drivers/net/ethernet/renesas/ravb.h      | 1 -
+>  drivers/net/ethernet/renesas/ravb_main.c | 5 +++--
+>  2 files changed, 3 insertions(+), 3 deletions(-)
 >=20
 > diff --git a/drivers/net/ethernet/renesas/ravb.h b/drivers/net/ethernet=
 /renesas/ravb.h
-> index aecc98282c7e..7f9e8b2c012a 100644
+> index 751bb29cd488..7fa60fccb6ea 100644
 > --- a/drivers/net/ethernet/renesas/ravb.h
 > +++ b/drivers/net/ethernet/renesas/ravb.h
-> @@ -1059,7 +1059,7 @@ struct ravb_hw_info {
->  	int stats_len;
->  	size_t max_rx_len;
->  	u32 tccr_mask;
-> -	u32 rx_max_buf_size;
-> +	u32 rx_max_frame_size;
->  	unsigned aligned_tx: 1;
+> @@ -1017,7 +1017,6 @@ enum CSR2_BIT {
 > =20
->  	/* hardware features */
+>  #define RX_BUF_SZ	(2048 - ETH_FCS_LEN + sizeof(__sum16))
+> =20
+> -#define GBETH_RX_BUFF_MAX 8192
+>  #define GBETH_RX_DESC_DATA_SIZE 4080
+> =20
+>  struct ravb_tstamp_skb {
 > diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/eth=
 ernet/renesas/ravb_main.c
-> index c25a80f4d3b9..3c59e2c317c7 100644
+> index 6e39d498936f..b309ca23f5b6 100644
 > --- a/drivers/net/ethernet/renesas/ravb_main.c
 > +++ b/drivers/net/ethernet/renesas/ravb_main.c
-> @@ -2684,7 +2684,7 @@ static const struct ravb_hw_info ravb_gen3_hw_inf=
-o =3D {
->  	.stats_len =3D ARRAY_SIZE(ravb_gstrings_stats),
->  	.max_rx_len =3D RX_BUF_SZ + RAVB_ALIGN - 1,
->  	.tccr_mask =3D TCCR_TSRQ0 | TCCR_TSRQ1 | TCCR_TSRQ2 | TCCR_TSRQ3,
-> -	.rx_max_buf_size =3D SZ_2K,
-> +	.rx_max_frame_size =3D SZ_2K,
->  	.internal_delay =3D 1,
->  	.tx_counters =3D 1,
->  	.multi_irqs =3D 1,
-> @@ -2710,7 +2710,7 @@ static const struct ravb_hw_info ravb_gen2_hw_inf=
-o =3D {
->  	.stats_len =3D ARRAY_SIZE(ravb_gstrings_stats),
->  	.max_rx_len =3D RX_BUF_SZ + RAVB_ALIGN - 1,
->  	.tccr_mask =3D TCCR_TSRQ0 | TCCR_TSRQ1 | TCCR_TSRQ2 | TCCR_TSRQ3,
-> -	.rx_max_buf_size =3D SZ_2K,
-> +	.rx_max_frame_size =3D SZ_2K,
->  	.aligned_tx =3D 1,
->  	.gptp =3D 1,
->  	.nc_queues =3D 1,
-> @@ -2733,7 +2733,7 @@ static const struct ravb_hw_info ravb_rzv2m_hw_in=
-fo =3D {
->  	.stats_len =3D ARRAY_SIZE(ravb_gstrings_stats),
->  	.max_rx_len =3D RX_BUF_SZ + RAVB_ALIGN - 1,
->  	.tccr_mask =3D TCCR_TSRQ0 | TCCR_TSRQ1 | TCCR_TSRQ2 | TCCR_TSRQ3,
-> -	.rx_max_buf_size =3D SZ_2K,
-> +	.rx_max_frame_size =3D SZ_2K,
->  	.multi_irqs =3D 1,
->  	.err_mgmt_irqs =3D 1,
->  	.gptp =3D 1,
-> @@ -2758,7 +2758,7 @@ static const struct ravb_hw_info gbeth_hw_info =3D=
- {
->  	.stats_len =3D ARRAY_SIZE(ravb_gstrings_stats_gbeth),
->  	.max_rx_len =3D ALIGN(GBETH_RX_BUFF_MAX, RAVB_ALIGN),
->  	.tccr_mask =3D TCCR_TSRQ0,
-> -	.rx_max_buf_size =3D SZ_8K,
-> +	.rx_max_frame_size =3D SZ_8K,
->  	.aligned_tx =3D 1,
->  	.tx_counters =3D 1,
->  	.carrier_counters =3D 1,
-> @@ -2967,7 +2967,7 @@ static int ravb_probe(struct platform_device *pde=
-v)
->  	priv->avb_link_active_low =3D
->  		of_property_read_bool(np, "renesas,ether-link-active-low");
+> @@ -566,7 +566,7 @@ static void ravb_emac_init_gbeth(struct net_device =
+*ndev)
+>  	}
 > =20
-> -	ndev->max_mtu =3D info->rx_max_buf_size - (ETH_HLEN + VLAN_HLEN + ETH=
-_FCS_LEN);
-> +	ndev->max_mtu =3D info->rx_max_frame_size - (ETH_HLEN + VLAN_HLEN + E=
-TH_FCS_LEN);
->  	ndev->min_mtu =3D ETH_MIN_MTU;
+>  	/* Receive frame limit set register */
+> -	ravb_write(ndev, GBETH_RX_BUFF_MAX + ETH_FCS_LEN, RFLR);
+> +	ravb_write(ndev, priv->info->rx_max_frame_size + ETH_FCS_LEN, RFLR);
 > =20
->  	/* FIXME: R-Car Gen2 has 4byte alignment restriction for tx buffer
+>  	/* EMAC Mode: PAUSE prohibition; Duplex; TX; RX; CRC Pass Through */
+>  	ravb_write(ndev, ECMR_ZPF | ((priv->duplex > 0) ? ECMR_DM : 0) |
+> @@ -627,6 +627,7 @@ static void ravb_emac_init(struct net_device *ndev)=
+
+> =20
+>  static int ravb_dmac_init_gbeth(struct net_device *ndev)
+>  {
+> +	struct ravb_private *priv =3D netdev_priv(ndev);
+>  	int error;
+> =20
+>  	error =3D ravb_ring_init(ndev, RAVB_BE);
+> @@ -640,7 +641,7 @@ static int ravb_dmac_init_gbeth(struct net_device *=
+ndev)
+>  	ravb_write(ndev, 0x60000000, RCR);
+> =20
+>  	/* Set Max Frame Length (RTC) */
+> -	ravb_write(ndev, 0x7ffc0000 | GBETH_RX_BUFF_MAX, RTC);
+> +	ravb_write(ndev, 0x7ffc0000 | priv->info->rx_max_frame_size, RTC);
+> =20
+>  	/* Set FIFO size */
+>  	ravb_write(ndev, 0x00222200, TGC);
 
 Reviewed-by: Paul Barker <paul.barker.ct@bp.renesas.com>
 
 --=20
 Paul Barker
---------------klLzpWB07zUdPxK0u9kxLqFm
+--------------dz4Ui0E780TTp9KbtCCn9fof
 Content-Type: application/pgp-keys; name="OpenPGP_0x27F4B3459F002257.asc"
 Content-Disposition: attachment; filename="OpenPGP_0x27F4B3459F002257.asc"
 Content-Description: OpenPGP public key
@@ -248,22 +222,22 @@ ZyZGVsEsOuGCLkekUMF/5dwOhEDXrY42VR/ZxdDTY99dznQkwTt4o7FOmkY=3D
 =3DsIIN
 -----END PGP PUBLIC KEY BLOCK-----
 
---------------klLzpWB07zUdPxK0u9kxLqFm--
+--------------dz4Ui0E780TTp9KbtCCn9fof--
 
---------------WEEMXZvtP0GfEF0sO30yAuwS--
+--------------g1njA0v7fmcxwKoiBan9UxyK--
 
---------------G0vI6MWw10ngoClmRkMGsD8D
+--------------qOzR4VBqKpEhW3ge4DmiRfqh
 Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="OpenPGP_signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-wnsEABYIACMWIQSiu8gv1Xr0fIw/aoLbaV4Vf/JGvQUCZd24hQUDAAAAAAAKCRDbaV4Vf/JGvaBe
-AP0YmksyIIpa8eQHJCYpx2nvwbiCZ1gtNGRCQ3+jJxKV8QD/e13Upv1nSjPyNjwpd/yEf2MPwepX
-8wrNgObgWUy/uQw=
-=JNLd
+wnsEABYIACMWIQSiu8gv1Xr0fIw/aoLbaV4Vf/JGvQUCZd258wUDAAAAAAAKCRDbaV4Vf/JGvRjW
+AQDkApdUiwve8wfKB3PnixwXqS5a3OT/HT6Q0gR80Jp2kQD/dr613L3uaQwuWF5R8AzdFtNjLk1+
+Q3f9CNso6F7kXQc=
+=109T
 -----END PGP SIGNATURE-----
 
---------------G0vI6MWw10ngoClmRkMGsD8D--
+--------------qOzR4VBqKpEhW3ge4DmiRfqh--
 
