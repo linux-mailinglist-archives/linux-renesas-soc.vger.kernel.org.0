@@ -1,201 +1,318 @@
-Return-Path: <linux-renesas-soc+bounces-3248-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-3249-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 295B9868AF4
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 Feb 2024 09:42:28 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id F2B0A868C5A
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 Feb 2024 10:35:39 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 990E21F21393
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 Feb 2024 08:42:27 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 204701C21117
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 Feb 2024 09:35:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 97FA5130AF0;
-	Tue, 27 Feb 2024 08:42:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 744AE13667A;
+	Tue, 27 Feb 2024 09:35:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ga64HLIj"
+	dkim=pass (2048-bit key) header.d=imgtec.com header.i=@imgtec.com header.b="C5sevCx1";
+	dkim=pass (1024-bit key) header.d=IMGTecCRM.onmicrosoft.com header.i=@IMGTecCRM.onmicrosoft.com header.b="KVVJ85mQ"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-oi1-f180.google.com (mail-oi1-f180.google.com [209.85.167.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx08-00376f01.pphosted.com (mx08-00376f01.pphosted.com [91.207.212.86])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2288E537F4
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 27 Feb 2024 08:42:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.180
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709023337; cv=none; b=SEGDeHrVTW0Jnldx5C4/6F4rfd+ymStjpGvInoP1A7F0DXiWq1BtUOvbDnP+pMV6usGU/I5WezUB/wssRFSX/qB5+aK4/+WI0wBpBymykfYoOLul9+50zR+KmYnr+Ux4q8RGG308inpMlc+vCo7tRKwXCl3h9Q396Ij4odyUZ4g=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709023337; c=relaxed/simple;
-	bh=eviFAxTmvFwlj37aSBuJSsrrDTcrHP7vSfHXT8AnIMo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RP+rTyNuzgtvkIoKOhPoA01UiMEGOT+thPAKDhwef58Zw3ft8UeS+u8/oyF57PhvXnwR8kPI9eEVMzIqJBPNyg+EuUCkrUit6FmoBnE/KrfTQMqqSLFl6QyYqHUGe3hPZh6AEcz8lxjL84y6oifNB5gr7OZTwQg2ZQxdST++IOw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ga64HLIj; arc=none smtp.client-ip=209.85.167.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-oi1-f180.google.com with SMTP id 5614622812f47-3bbbc6b4ed1so3370306b6e.2
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 27 Feb 2024 00:42:14 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F1E2135A75;
+	Tue, 27 Feb 2024 09:35:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=91.207.212.86
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1709026535; cv=fail; b=L4tnhX3OCufYeZfKj8kwXF74pt9z3nCgvoXyOuT5P6Id0879jHxfgifQqcxfxNBl9ZPMB7g9raoJrqv5AwjMKJt4XmWyx8qNPifzC3kyYgOn8flDNRW619x+7YxpMOvSjY/z7RlQS7xvBCWAMVVviqrvOtBbsjcbteS+MqpqYf0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1709026535; c=relaxed/simple;
+	bh=uvlsDByLg7mZn/iH/uQFBnoxfJ0zcFp9tZIIWdtlpyI=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=NqVqjBVZVCQnGSzbJLVfcxInCsFvCIAROdD+y/uKotZuBG9g9SeA4wQMaESDj7A1/a5mjcJvQcnXOsr/2JlNEpfXuHkayheXZac9uzqIAUJaxbbNcie8WQJYUNtjR36iry8pwVGNEixUae5S8uiJAq0OCxrHV7+hJnt0b3yR3pY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=imgtec.com; spf=pass smtp.mailfrom=imgtec.com; dkim=pass (2048-bit key) header.d=imgtec.com header.i=@imgtec.com header.b=C5sevCx1; dkim=pass (1024-bit key) header.d=IMGTecCRM.onmicrosoft.com header.i=@IMGTecCRM.onmicrosoft.com header.b=KVVJ85mQ; arc=fail smtp.client-ip=91.207.212.86
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=imgtec.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=imgtec.com
+Received: from pps.filterd (m0168888.ppops.net [127.0.0.1])
+	by mx08-00376f01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 41R8u9BG015987;
+	Tue, 27 Feb 2024 09:31:25 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=imgtec.com; h=
+	from:to:cc:subject:date:message-id:references:in-reply-to
+	:content-type:mime-version; s=dk201812; bh=S65yxxeBWkGGmdVnq7hzU
+	VyJJNCJliz5dTPTf1T7UD0=; b=C5sevCx1+v7QGYWU5MHLn1AT3TMRJ6kQJfsGi
+	EP89Nvr2huv5VxAkZEiPL0LF5hgGZ/Zxrzh1QVFni13l4qy/jTE1NwYs8d4/0sde
+	CCNLhWHbRcTQZT/RpdJWD+KNIbyspfTD/qWdIsdRl84ftLqX+2YKvN5HNpdaoGlS
+	O4Djww/GG9EF5OggxAC27dRuCm1ZgtKSlM+JFdArPrWoE8C6iHcpmyFS0eeLXRm/
+	SC0r8al+7LuGw5m1x4n4lUY4Djhpf74r0CxdcWFkM0LxIpIrk+X9A4ngd4Ac07Ca
+	1f/VVkoCtN5xhNzIRKsGvajcegHybBMiZKjR/bypyrOZTkXtQ==
+Received: from hhmail05.hh.imgtec.org ([217.156.249.195])
+	by mx08-00376f01.pphosted.com (PPS) with ESMTPS id 3wf7kstcn9-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
+	Tue, 27 Feb 2024 09:31:25 +0000 (GMT)
+Received: from HHMAIL05.hh.imgtec.org (10.100.10.120) by
+ HHMAIL05.hh.imgtec.org (10.100.10.120) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Tue, 27 Feb 2024 09:31:24 +0000
+Received: from GBR01-LO4-obe.outbound.protection.outlook.com (104.47.85.105)
+ by email.imgtec.com (10.100.10.121) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35 via Frontend Transport; Tue, 27 Feb 2024 09:31:24 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=VdaNq2ZM0da7PH0EXPiKvI94kDJZg9wsa9/YpVwaVFgcN1jjuJ6Vw8XI9WQ055lLObxYNoRX2fd0gx6ECYy9Fy20yH+UeZOxv8wqqDMSFwmzn+ufHf9y4SNjKBUoKRfdgaksc6GbCVBWQdVgVGNEpn3obhmA2bRFrJwhEkCfJxzv/cb/TsbNknIy4osT9+A5MQBCxrDlO6aLT/x+gP9l/cnqKtaJjPiSON10U3rhidtkAlEDs3k2jswGZmIT/3tsvJlswoHdWU1OxxwS1jyK8QNgsubkTmnBytToE0l9zffn8900P1Jvlg1iJqvmjgLGIiVxdb6P7TKL4DD0rHCHgw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=S65yxxeBWkGGmdVnq7hzUVyJJNCJliz5dTPTf1T7UD0=;
+ b=CwTbaKPbwKf1MItiTGpIKwxAnZjh3QuO8b9zJrUVatH0g6rIHHevEQ/B3EA6XWX8sf7mIpYUZt4idJCjOR04mpb1iTFmycSCUPHD4WUAiYdF0f6kJUWNykbT8Qq8S3buBChEXeIWFX+dpe9Vs4CAYleH1RDhO9m7NkEEve3G+2PhDvnwfUE59iIyH0ztI2za8bD/eIG7gKqyLa5zf15uA0gFjugQg1EXMQuRkGLRlqm1/qKTSQNSE3aTIv4g72FUF8e6BZ6J4zorXcqn+Z+BkhS693htRqBfKcQMtOs6+W1cMcp0BNf9zIy5RRgZuQpxJZkXAz4TRF/dJl6MqdmcoQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=imgtec.com; dmarc=pass action=none header.from=imgtec.com;
+ dkim=pass header.d=imgtec.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1709023334; x=1709628134; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=/cM19NrlUQE5f0uY2kEvyT2gAXXaqjXwTAFjxjKcMvc=;
-        b=ga64HLIjacpKL8W3KvroR+Ly+2FvBDU8qK/mWIalbssknzvJfeIsyL99CnhJKeYMYP
-         uiNa6wtqk2TsW9jhYEEQ3W3NdrPlvxL/KI7sKzxmSFnnMdeOwpwVKR9KFmiTghdXRoZK
-         UZb0XLPGd+aIeUPE4yhqsc8VZRKmPxKS7JD8JHXpMm/gIlixYZrRJyDabGBxOL6Rip6A
-         z3ZzKL7Rf2Dkh63Zj/Hd/KB47Ln+GkrkOnHstYh4jGs+ahmf9w2AsEGFY0hHmzUgLuxF
-         Z7+Wa6UFPkbyjvl2D9B5OnshgQJiwF17q7qck9c7/cj8lt01Wbs0DRq+dic2M9opLHNr
-         KUmw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709023334; x=1709628134;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=/cM19NrlUQE5f0uY2kEvyT2gAXXaqjXwTAFjxjKcMvc=;
-        b=PbbMnZlweTwN9XQW2cDXza0ev1sq/dJ5R5Q+fppuHsfgBn79vC77M3rnYBu68qJcfu
-         wJmCyiuG1ZJJ0eASpKHqNr6vzF2kCVhOeKVmFYGG+AHBciupdMaZzGvHedj2qv2dlxEF
-         GHBtLalbmPTKNEL+2oM0x6CtW7zFJ9rIzOyTemeKRu7uQ5VAm6ilQ+Di1X+iNz+1CPe6
-         h1R7ZGkUJs57cYABi2RgBgXrB7/fT3oPpN8GkAP4yXCwhUhVvmNZYu+Sh9cqm32Aaxst
-         MgVWCPNvbYB6ObG61jEfkhFZ6uga3bVl43vK9bqeoInYhCK8SKYvJhnjkE5Nmz/E4rDM
-         QV6Q==
-X-Forwarded-Encrypted: i=1; AJvYcCVi1eyZ8yDppM3Y9wyHSG4CGNBQj5CYl2pCUTjXo1HFeCmF+iihtFx04I3KT4NRRawILfLJewM/uwH5e/ebvksSOWFoVfi3sZ2wD8GwI5L0yhw=
-X-Gm-Message-State: AOJu0YyWuTEc+17JFXXqdI49ktcGHrJgPc1m/b+C8mcKHcJ11OZ6hBA1
-	2yiuw23Jkw82eUrldCf8ZZEXa04RBqS6vRHYc3oX3j/JOCiMP8xsXZsyqywQFA==
-X-Google-Smtp-Source: AGHT+IHQ/416nfXXHvEHWnn79YnL2bV5h+6AxvQFvjmUWbUWtUrZWs6Wc0+h1xF3XxTWGAkfnuf60Q==
-X-Received: by 2002:a05:6870:b021:b0:21e:7c86:665e with SMTP id y33-20020a056870b02100b0021e7c86665emr11563960oae.16.1709023334040;
-        Tue, 27 Feb 2024 00:42:14 -0800 (PST)
-Received: from thinkpad ([117.213.97.177])
-        by smtp.gmail.com with ESMTPSA id g8-20020a62f948000000b006e500cbb529sm4554957pfm.50.2024.02.27.00.42.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 Feb 2024 00:42:13 -0800 (PST)
-Date: Tue, 27 Feb 2024 14:12:04 +0530
-From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-To: Serge Semin <fancer.lancer@gmail.com>
-Cc: Jingoo Han <jingoohan1@gmail.com>,
-	Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
-	Rob Herring <robh@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
-	Marek Vasut <marek.vasut+renesas@gmail.com>,
-	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-	Kishon Vijay Abraham I <kishon@kernel.org>,
-	linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-	mhi@lists.linux.dev, Siddharth Vadapalli <s-vadapalli@ti.com>
-Subject: Re: [PATCH v3 2/5] PCI: dwc: Skip finding eDMA channels count if
- glue drivers have passed them
-Message-ID: <20240227084204.GI2587@thinkpad>
-References: <20240226-dw-hdma-v3-0-cfcb8171fc24@linaro.org>
- <20240226-dw-hdma-v3-2-cfcb8171fc24@linaro.org>
- <5gzkxdpx6u3jhw5twbncjhtozgekmlzxrpj3m6is3ijadm2svb@f6ng4owyakup>
- <20240226153014.GG8422@thinkpad>
- <4p4z5eyhpdhxzi36drhrmz6z7krupszddudg6c2baypkbnnj7t@nqcmk2wdntts>
+ d=IMGTecCRM.onmicrosoft.com; s=selector2-IMGTecCRM-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=S65yxxeBWkGGmdVnq7hzUVyJJNCJliz5dTPTf1T7UD0=;
+ b=KVVJ85mQ77JCdUcJNl2qI0WMq16CVL7xFPylGXrraXBl1IYU0NyD78Ju8vc6NAC3m1mq505seuNlzkgw5c49KBgUUpPBEno0Fxk8TZUK7rMR8n1+CJFkdteNBVupnOwZcaKDFB8zFHW3t3tMiv9/Pa2H00YBEtni7e13kDwka4E=
+Received: from LO0P265MB3404.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:16c::5)
+ by CWXP265MB5491.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:159::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7316.36; Tue, 27 Feb
+ 2024 09:31:22 +0000
+Received: from LO0P265MB3404.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::4b5c:d51f:da10:2626]) by LO0P265MB3404.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::4b5c:d51f:da10:2626%5]) with mapi id 15.20.7316.035; Tue, 27 Feb 2024
+ 09:31:22 +0000
+From: Matt Coster <Matt.Coster@imgtec.com>
+To: Adam Ford <aford173@gmail.com>,
+        "dri-devel@lists.freedesktop.org"
+	<dri-devel@lists.freedesktop.org>,
+        "linux-renesas-soc@vger.kernel.org"
+	<linux-renesas-soc@vger.kernel.org>
+CC: Adam Ford <aford@beaconembedded.com>,
+        Frank Binns
+	<Frank.Binns@imgtec.com>,
+        David Airlie <airlied@gmail.com>, Daniel Vetter
+	<daniel@ffwll.ch>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski
+	<krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm
+	<magnus.damm@gmail.com>,
+        "devicetree@vger.kernel.org"
+	<devicetree@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 2/6] arm64: dts: renesas: r8a774a1: Enable GPU
+Thread-Topic: [PATCH 2/6] arm64: dts: renesas: r8a774a1: Enable GPU
+Thread-Index: AQHaaV+5Tgg+LkpwAUmauR/SMCWjxw==
+Date: Tue, 27 Feb 2024 09:31:22 +0000
+Message-ID: <39aead3b-b809-4c9c-8a5d-c0be2b36ea47@imgtec.com>
+References: <20240227034539.193573-1-aford173@gmail.com>
+ <20240227034539.193573-3-aford173@gmail.com>
+In-Reply-To: <20240227034539.193573-3-aford173@gmail.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: yes
+X-MS-TNEF-Correlator: 
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: LO0P265MB3404:EE_|CWXP265MB5491:EE_
+x-ms-office365-filtering-correlation-id: 2d28296d-70ff-487a-97aa-08dc3776dc7a
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: D7IEqc8J9lRLj499qLRSLqJfr2RUzrDvcU67wuK8ZRfQcHfPH/jYxFpbxIjlRAetWnpEu9/w8CeeQ3YnaxcWsPC3JOaNsFftSHs0BK7AQealzhLNsw3OMbO28G7IWF4wPK6OiAxhuH++usFWTFq4wOkDKS8qJu3aecDOq7seN1H+a8C4sXVHfXN8FlggMi90rwi18ALgSFGi0lbE4pJAokPCzlmRscOrDeh+LlE+4L1MESnm2EdDeHrL8Q388BIMJCWgQ3HIDWgGeTZLdMbRZb1QITTg2ebpu69UG4f6LDmLlfsmm2nrQVHkwT6PB6/Tp1OAstYSpOd0gX1tFjfTYPyG1aqYv5Vxbt+q+xsrksBSnk+WLkSoCtT9CqJSqeiewn0xikQbP/a4eUlghxMlgwZfw0gAc9p2kF4vPH9u2fVD+QMUyAXNb+K/MGOpp2AUjvQaRQk3yQAkvNcfc+kq+ruf8H18HB8kd2LBE3olLEy8mzRCyVCi7cOec2VYRrMEnePW/rzBf9xmw00h9BwLiPCBX4uSvtlI/ZZ0W/sgJ3XQGUES09kdir4A2RddUoDWO0HiYzJ7f+OFWE0Hy/ChRs0IvuH0HZv2RE3C3ZxKBcL4vrgpn+Uf95J6Uztay6koGKMVYTOUkC4a7BL1aV90lBsLcsPlalKc87G7/yc79E/FhyRZ3h6S11wIALqScbKhiKB87nHfkzcXGIMAo7Wjbw==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LO0P265MB3404.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230031)(38070700009);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?eGsxWHJaRkRpWWtsOGJ2ak40b3oxeDZTQURsN21EZUp0ZzZKRnFVZnBobjUx?=
+ =?utf-8?B?amRvTko1MExUMGRvZmxkbWV0NVA4ZHFDVGlFVFZ1dlZXRE5JUVhzVUM3eXM5?=
+ =?utf-8?B?YS9HUUdJcGdFb1ptZDZQVDA2by91OStlZEtOTnBiU1RGYkNKdlV4SnMwK3Br?=
+ =?utf-8?B?bTVRUVc1eFd4VzhydlBFVUpPSjNhamx4MGd4dFZUMjR3RHZydlVOU2dEcWNh?=
+ =?utf-8?B?bkVuRUQzd0YvUW9QTGVTdDQ4VG83MWdrZnNBcmNPMFZRdnZGTFB6cmdiUkZt?=
+ =?utf-8?B?REJlU2ZnR1lrZ2dma1pZRlBDaWdjOTAxS3JrVm1QWjNNRzI3ZU9HQkZnVWdw?=
+ =?utf-8?B?ZWdTSXF0SjhER0tzTFhoYm1mS1p2dEl0UDhNU2RORnVHcDQyMklOcWd6THlq?=
+ =?utf-8?B?U1NRZnNJQTdBU3VFbFA0eHBwYXg0NmcrUDV2NEMvTDNGaTcxNjBIWVF0VUU0?=
+ =?utf-8?B?eHYwZGM1bkxBMkhpMTR3TG51dUgrUnJ1ekd5VGhlWXhBRjI2M1ZVVVdPTVdi?=
+ =?utf-8?B?cllIQzB4Q2JJUFF4NWMxMUZIaStDcGVmcjJMeE1aTktxMmp5dFdHSG15ZXQx?=
+ =?utf-8?B?a3R1L0kwRVBqdmFQczFxY3hVWDd5TFY3eFVDMldtRVBvQ0tGK0xIZnJaUmVY?=
+ =?utf-8?B?TVFPaTF2RlFiMVdCQkNaeG1YNGFNZlppRThjRlFOZW9XbjA4Ulh4RFZVSEtT?=
+ =?utf-8?B?amVzRnpqTnhvcUluZkhHdlpaSmhPdnBCb3pvN1BkOERZc1Judlh4K2QvdnI4?=
+ =?utf-8?B?R3dwOG1CR3hPakhUamtZYkRlaTdzUHFIdVhyVmJDZkRKS3FFR1hCVE1ySGF3?=
+ =?utf-8?B?cnFtdXdJcVErWklOVkUvandMNGRSbW9zakVmcEJrcmp0QVpSdmYrTUpTT0hY?=
+ =?utf-8?B?RVBxcDRMN3hKaVVOZUd6dE56UlBpOExtcGQ4MHlwZVN1WWFhaksvY3M1TjVG?=
+ =?utf-8?B?a05NUDhkbitMUXI0b1d6a2drNmdTeGpBV1dza2krMWZObFI0UDJjeE9CTW14?=
+ =?utf-8?B?NUI1dkNzS3VjQUMrZnhGZVBCUDkrRVlxbVlLdjlsQWZTK0tUN1JXYTRYcWsv?=
+ =?utf-8?B?WjljQkRiVzBqZW9aMU1NeGxBdHNyOWx5MVM2eUEwVVU0bG0ydG5vL1pSN2t3?=
+ =?utf-8?B?Q2RrTUxLRWlraXJvMkxhMHFPWm82aDBKODhkbkxHOUd5TjBTQ3JyVVJtMkVO?=
+ =?utf-8?B?U0h1SGpKMFlIMjBVNVQyeUcySE5jckVGbkJPM0ViYTVKeXNKSC9qU2NzVUNB?=
+ =?utf-8?B?emloeG9xNGhzYXlFTS8yOWZ6SXBRUkgrN2xJazJoSHcwLzdZNDdZejA1U3Bl?=
+ =?utf-8?B?V2FkTWRtZlBvd0IzeGFTditzZForbW1xTHRnbEw1YzNKWnp4c0xvWDJkY1BJ?=
+ =?utf-8?B?ZmQ5U1IrZkdMZm9DSUwxVVlwNU5FeFk2eEUzZEJHc3gvalgwZnNHU0JVNHk1?=
+ =?utf-8?B?VG5YMGVZWWdROGZmMDdxWjNLUUdCblZWTWNaVElOKzdhb0xnQjBoR01obEZC?=
+ =?utf-8?B?Z25uQ0tXRzBGVExmVW9pQjhlK2paY0ZaR083cVZndk5xM01qZDlURDBHbndl?=
+ =?utf-8?B?empmTDZHSmYzVG95dXdXejY4VHFCRW5VTEZIcGNJVlg2K25vR1hlK003dTlY?=
+ =?utf-8?B?dzFacGp6dnNFUXlETjVpK1VPc29NKy9MallRUDluR3RJQisyZEdIZmJmVHZs?=
+ =?utf-8?B?ZThjdGVMTmdVQTJscjRSdUxGaUlORC9rT2xNRENBTjg4Q3RVd0czYitCazBw?=
+ =?utf-8?B?MFhjODZPa0xLbXA3UEJlQUpEOVFPWFJvRWQxQ3REMHd4emtoVFlwWS9NRXln?=
+ =?utf-8?B?aW9wSTNOdEJIWitESXZFemFCZlRHVDMwNzE0NkVucnpWZTJ3elNINDFnSjVx?=
+ =?utf-8?B?TUYxazNLNFZBTDJHTGR4VXUvQndQS2FnKzk2NFIzSmxvUVlNWmQxR1U4REtQ?=
+ =?utf-8?B?SEx0MEcwd2xxMk0rQSszbytJZkJ5Z1JzT2VTR2FXQzhFdW14SndWdE1HeGRI?=
+ =?utf-8?B?N01mNzlZZnZBZHpTdk9UM3Y4aHNJbUd2R3NEZmVSL0tjcE1rbk1EakFHMy9E?=
+ =?utf-8?B?VUh1ZmdyTDBPQ3VySEZ1TStqSnJlZlZ2VmdKcHlLcGN1VE9WMDZzNFIzMnp2?=
+ =?utf-8?B?NVp6blBZSGNJVFpmWWFiVWcxbnVraHF3OTBQVHJ0aDUwZ1dLQnhVY3FGbGtn?=
+ =?utf-8?B?TFE9PQ==?=
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------YyZSrtIgnQPAf68GePbjaRAS"
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <4p4z5eyhpdhxzi36drhrmz6z7krupszddudg6c2baypkbnnj7t@nqcmk2wdntts>
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: LO0P265MB3404.GBRP265.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2d28296d-70ff-487a-97aa-08dc3776dc7a
+X-MS-Exchange-CrossTenant-originalarrivaltime: 27 Feb 2024 09:31:22.4114
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 0d5fd8bb-e8c2-4e0a-8dd5-2c264f7140fe
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: VPwlsEuXLeKEqkk8icMlVH45rHaPxyCzzbvVK6k+aGpVhZ7+viwBrGuSqWZpJgYWlLy2K4mJCu3tGM5iq9//hg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CWXP265MB5491
+X-OriginatorOrg: imgtec.com
+X-EXCLAIMER-MD-CONFIG: 15a78312-3e47-46eb-9010-2e54d84a9631
+X-Proofpoint-GUID: oNxJ70SX80QJruDLGZEtQuHb55g9PSAC
+X-Proofpoint-ORIG-GUID: oNxJ70SX80QJruDLGZEtQuHb55g9PSAC
 
-On Tue, Feb 27, 2024 at 12:32:44AM +0300, Serge Semin wrote:
-> On Mon, Feb 26, 2024 at 09:00:14PM +0530, Manivannan Sadhasivam wrote:
-> > On Mon, Feb 26, 2024 at 03:53:20PM +0300, Serge Semin wrote:
-> > > On Mon, Feb 26, 2024 at 05:07:27PM +0530, Manivannan Sadhasivam wrote:
-> > > > In the case of Hyper DMA (HDMA) present in DWC controllers, there is no way
-> > > > the drivers can auto detect the number of read/write channels as like its
-> > > > predecessor embedded DMA (eDMA). So the glue drivers making use of HDMA
-> > > > have to pass the channels count during probe.
-> > > > 
-> > > > To accommodate that, let's skip finding the channels if the channels count
-> > > > were already passed by glue drivers. If the channels count passed were
-> > > > wrong in any form, then the existing sanity check will catch it.
-> > > > 
-> > > > Suggested-by: Serge Semin <fancer.lancer@gmail.com>
-> > > > Reviewed-by: Siddharth Vadapalli <s-vadapalli@ti.com>
-> > > > Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-> > > > ---
-> > > >  drivers/pci/controller/dwc/pcie-designware.c | 16 +++++++++-------
-> > > >  1 file changed, 9 insertions(+), 7 deletions(-)
-> > > > 
-> > > > diff --git a/drivers/pci/controller/dwc/pcie-designware.c b/drivers/pci/controller/dwc/pcie-designware.c
-> > > > index 193fcd86cf93..ce273c3c5421 100644
-> > > > --- a/drivers/pci/controller/dwc/pcie-designware.c
-> > > > +++ b/drivers/pci/controller/dwc/pcie-designware.c
-> > > > @@ -927,13 +927,15 @@ static int dw_pcie_edma_find_channels(struct dw_pcie *pci)
-> > > >  {
-> > > >  	u32 val;
-> > > >  
-> > > > -	if (pci->edma.mf == EDMA_MF_EDMA_LEGACY)
-> > > > -		val = dw_pcie_readl_dbi(pci, PCIE_DMA_VIEWPORT_BASE + PCIE_DMA_CTRL);
-> > > > -	else
-> > > > -		val = dw_pcie_readl_dma(pci, PCIE_DMA_CTRL);
-> > > > -
-> > > > -	pci->edma.ll_wr_cnt = FIELD_GET(PCIE_DMA_NUM_WR_CHAN, val);
-> > > > -	pci->edma.ll_rd_cnt = FIELD_GET(PCIE_DMA_NUM_RD_CHAN, val);
-> > > 
-> > > > +	if (!pci->edma.ll_wr_cnt || !pci->edma.ll_rd_cnt) {
-> > > 
-> > > Are you sure that the partly initialized case should be considered as
-> > > a request for the auto-detection? IMO &&-ing here and letting the
-> > > sanity check to fail further would be more correct since thus the
-> > > developer would know about improper initialized data.
-> > > 
-> > 
-> > We already have the check below. So the partly initialized case will fail
-> > anyway.
-> 
-> Not really. If the partly initialized case activates the
-> auto-detection procedure it will override both non-initialized and
-> _initialized_ number of channels with the values retrieved from the
-> hardware, which the glue driver has been willing not to use. This
-> prone to undefined behavior depending on the reasons of skipping the
-> auto-detection procedure. For instance, assume the DMA_CTRL register
-> reports an invalid number of read channels. A glue driver by mistake
-> or willingly overwrites the pci->edma.ll_rd_cnt field only. This won't
-> solve the problem since the auto-detection will be proceeded due to
-> the pci->edma.ll_wr_cnt field being left uninitialized.
-> 
-> So to speak it would be better to implement a strictly determined case
-> for activating the auto-detection procedure: both number of channels
-> aren't initialized; if only one field is initialized then report an
-> error.
-> 
-> Alternatively we can have the auto-detection executed on the
-> per-channel basis:
-> 
-> +	if (pci->edma.mf != EDMA_MF_HDMA_NATIVE) {
-> +		val = dw_pcie_readl_dma(pci, PCIE_DMA_CTRL);
+--------------YyZSrtIgnQPAf68GePbjaRAS
+Content-Type: multipart/mixed; boundary="------------EfAO01f9Y4wfebJn0Zgur0Tw";
+ protected-headers="v1"
+From: Matt Coster <matt.coster@imgtec.com>
+To: Adam Ford <aford173@gmail.com>, dri-devel@lists.freedesktop.org,
+ linux-renesas-soc@vger.kernel.org
+Cc: Adam Ford <aford@beaconembedded.com>, Frank Binns
+ <frank.binns@imgtec.com>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Magnus Damm <magnus.damm@gmail.com>, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Message-ID: <39aead3b-b809-4c9c-8a5d-c0be2b36ea47@imgtec.com>
+Subject: Re: [PATCH 2/6] arm64: dts: renesas: r8a774a1: Enable GPU
+References: <20240227034539.193573-1-aford173@gmail.com>
+ <20240227034539.193573-3-aford173@gmail.com>
+In-Reply-To: <20240227034539.193573-3-aford173@gmail.com>
+
+--------------EfAO01f9Y4wfebJn0Zgur0Tw
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+Hi Adam,
+
+Thanks for these patches! I'll just reply to this one patch, but my
+comments apply to them all.
+
+On 27/02/2024 03:45, Adam Ford wrote:
+> The GPU on the RZ/G2M is a Rogue GX6250 which uses firmware
+> rogue_4.45.2.58_v1.fw available from Imagination.
+>=20
+> When enumerated, it appears as:
+>   powervr fd000000.gpu: [drm] loaded firmware powervr/rogue_4.45.2.58_v=
+1.fw
+>   powervr fd000000.gpu: [drm] FW version v1.0 (build 6513336 OS)
+
+These messages are printed after verifying the firmware blob=E2=80=99s he=
+aders,
+*before* attempting to upload it to the device. Just because they appear
+in dmesg does *not* imply the device is functional beyond the handful of
+register reads in pvr_load_gpu_id().
+
+Since Mesa does not yet have support for this GPU, there=E2=80=99s not a =
+lot
+that can be done to actually test these bindings.
+
+When we added upstream support for the first GPU (the AXE core in TI=E2=80=
+=99s
+AM62), we opted to wait until userspace was sufficiently progressed to
+the point it could be used for testing. This thought process still
+applies when adding new GPUs.
+
+Our main concern is that adding bindings for GPUs implies a level of
+support that cannot be tested. That in turn may make it challenging to
+justify UAPI changes if/when they=E2=80=99re needed to actually make thes=
+e GPUs
+functional.
+
+> Signed-off-by: Adam Ford <aford173@gmail.com>
+>=20
+> diff --git a/arch/arm64/boot/dts/renesas/r8a774a1.dtsi b/arch/arm64/boo=
+t/dts/renesas/r8a774a1.dtsi
+> index a8a44fe5e83b..8923d9624b39 100644
+> --- a/arch/arm64/boot/dts/renesas/r8a774a1.dtsi
+> +++ b/arch/arm64/boot/dts/renesas/r8a774a1.dtsi
+> @@ -2352,6 +2352,16 @@ gic: interrupt-controller@f1010000 {
+>  			resets =3D <&cpg 408>;
+>  		};
+> =20
+> +		gpu: gpu@fd000000 {
+> +			compatible =3D "renesas,r8a774a1-gpu", "img,img-axe";
+
+The GX6250 is *not* an AXE core - it shouldn=E2=80=99t be listed as compa=
+tible
+with one. For prior art, see [1] where we added support for the MT8173
+found in Elm Chromebooks R13 (also a Series6XT GPU).
+
+> +			reg =3D <0 0xfd000000 0 0x20000>;
+> +			clocks =3D <&cpg CPG_MOD 112>;
+> +			clock-names =3D "core";
+
+Series6XT cores have three clocks (see [1] again). I don=E2=80=99t have a=
+
+Renesas TRM to hand =E2=80=93 do you know if their docs go into detail on=
+ the
+GPU integration?
+
+> +			interrupts =3D <GIC_SPI 119 IRQ_TYPE_LEVEL_HIGH>;
+> +			power-domains =3D <&sysc R8A774A1_PD_3DG_B>;
+> +			resets =3D <&cpg 112>;
+> +		};
 > +
-> +		if (!pci->edma.ll_wr_cnt)
-> +			pci->edma.ll_wr_cnt = FIELD_GET(PCIE_DMA_NUM_WR_CHAN, val);
-> +
-> +		if (!pci->edma.ll_rd_cnt)
-> +			pci->edma.ll_rd_cnt = FIELD_GET(PCIE_DMA_NUM_RD_CHAN, val);
-> +	}
-> 
+>  		pciec0: pcie@fe000000 {
+>  			compatible =3D "renesas,pcie-r8a774a1",
+>  				     "renesas,pcie-rcar-gen3";
 
-Hmm, in this case there is no need to check for uninitialized channels count:
+As you probably expect by this point, I have to nack this series for
+now. I appreciate your effort here and I=E2=80=99ll be happy to help you =
+land
+these once Mesa gains some form of usable support to allow testing.
 
-	/*
-	 * Autodetect the read/write channels count only for non-HDMA platforms.
-	 * HDMA platforms doesn't support autodetect, so the glue drivers should've
-	 * passed the valid count already. If not, the below sanity check will
-	 * catch it.
-	 */
-	if (pci->edma.mf != EDMA_MF_HDMA_NATIVE) {
-		val = dw_pcie_readl_dma(pci, PCIE_DMA_CTRL);
+Cheers,
+Matt
 
-		pci->edma.ll_wr_cnt = FIELD_GET(PCIE_DMA_NUM_WR_CHAN, val);
-		pci->edma.ll_rd_cnt = FIELD_GET(PCIE_DMA_NUM_RD_CHAN, val);
-	}
+[1]: https://gitlab.freedesktop.org/imagination/linux/-/blob/b3506b8bc45e=
+d6d4005eb32a994df0e33d6613f1/arch/arm64/boot/dts/mediatek/mt8173.dtsi#L99=
+3-1006
 
-	/* Sanity check */
+--------------EfAO01f9Y4wfebJn0Zgur0Tw--
 
-- Mani
+--------------YyZSrtIgnQPAf68GePbjaRAS
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature.asc"
 
--- 
-மணிவண்ணன் சதாசிவம்
+-----BEGIN PGP SIGNATURE-----
+
+wnsEABYIACMWIQS4qDmoJvwmKhjY+nN5vBnz2d5qsAUCZd2r6gUDAAAAAAAKCRB5vBnz2d5qsFgg
+AQCiNxLMpvBRmyPQFb2pfg/LcsovWXmpGMrp48m6eZryuwD/Tvm6H7MEvMq1g/rWxSTOCPEoci2t
+FYDgBFHHQserRA4=
+=Xtw1
+-----END PGP SIGNATURE-----
+
+--------------YyZSrtIgnQPAf68GePbjaRAS--
 
