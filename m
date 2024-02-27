@@ -1,228 +1,406 @@
-Return-Path: <linux-renesas-soc+bounces-3275-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-3276-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8E46869CAB
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 Feb 2024 17:47:32 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 71D3D869DA0
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 Feb 2024 18:30:24 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 411201F21A8D
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 Feb 2024 16:47:32 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 958271C2371D
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 Feb 2024 17:30:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 50A5623767;
-	Tue, 27 Feb 2024 16:47:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4F97C14D45E;
+	Tue, 27 Feb 2024 17:26:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=nxp.com header.i=@nxp.com header.b="lt1it4GC"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com [209.85.128.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from EUR04-HE1-obe.outbound.protection.outlook.com (mail-he1eur04on2071.outbound.protection.outlook.com [40.107.7.71])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F5181DFD6;
-	Tue, 27 Feb 2024 16:47:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.174
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709052444; cv=none; b=WQFGZl+cuNEBwBj4IFf+kE7DCvmnubYzZIglvKeZIInJSeODIVg4cMSsh8Z3S6RI7shA6z8a3IPIUKeFNnBcxXhOGQSk3v55sLf5KysyZCRQi94AvGiIYMy6SGcMsGUzPR19dttAEa/oJCnINQEK6jeMUGmWB5eDsWL0HWwpT4c=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709052444; c=relaxed/simple;
-	bh=w+3Y27YFvPohbGAsamVSlkBcsUGcGXiVR3IZlJQZcl8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=rWUyPNTWnRfXdGMBpdiQ7L1T0TuxwX7CPD8J5zbeeesOq/PLcf+78q8X2DoIE8oy+7cz/q4i6WFYzWvj0gpMifiU6eh5omtxZ0FfRMpDy6JGQ856qtGvHUQvtFo33fNKMDYNwK/ctwvTS/EDdbE1g55VO7qxxzL+Ad51v8z1Ock=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-6091e12b01fso17512147b3.2;
-        Tue, 27 Feb 2024 08:47:21 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709052440; x=1709657240;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=HZPoTNL+iADoSj5Qyix6GRoCmMKDXGJWybMxRcvYTvA=;
-        b=u+PC83ET0ano0JGM0XxB7c01cKkwDPee53JedTeitWLd+m5870KxUaGFr56cxWit2W
-         dknGEdZvHv5ck76TR+uTUZ6yQu2adhMe6XbHYY2A4Rb4pjAumYeqry/nASoVaUuNHlQ2
-         G1E+Hdp1P5gICXX175hn9hrGTpSZE4W9vsqa7fTrB5+lB2pCPpvS6Tm3kxZYdoJ380Iv
-         r0o+U0OkW/dL/wHBDMs9y/gwRNuoGb13HYC+NhZr6H2dpJce/ad2QQ9pjGKSeg4T/ENP
-         6IZXWoZHc4An/jLE1t+FJQEoP5P13be870+x8tGAIxrZS7pDUVaYv0GsFsHOKhF5iBmL
-         a5rQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWDKWiMafiu7gT7P6D8TZ4lmdb+OypLZ1F4zLrGD0b8Iucm/b4BKwv4ahodTw4Aw/N5JquCs/VcuyQ0bUAsj05BvP7Th5wlZKBGA2pNPg3PgIzNxVaXx0CNtg/n6vR+GWKO99D0tFztcqayGLZOKczGfIS70ToEOjM0epscuWd2q1p5IcbBhcotwFvzfJYenQTHP4oSEfJFbmsbvFG9FV0Ef2yTn2IgxdWiWuJ82S+DDlmtMfboAIuC9MJGoapf3YiBVVjJAVlw9149WINqSzynvyZMYZLlYPu7rCO7WyUgK+PGRc+yG4McYLBMOY2jJtDFCYKGxsQphMLB5MTRO1exQbAbPjlxIVFxY7vjr5rfVQV4lkifX7U=
-X-Gm-Message-State: AOJu0YxkYPBELvroJp9EWJY6Ol4X4vIIR+LI/4MuTg9UXfqs5nGkg9fu
-	w9cabhlKNQxMouDmh0z4OlcA/2nOQMAOh6ryTdgGfouFVkGNUf0fyLjw33i/QtfGFQ==
-X-Google-Smtp-Source: AGHT+IE+nv3CE4y1cjaVYeX9JpQUcMNcntVQUbk+ZU6No1lwBk51gEU/n8rpgO9TkqFgRMP4P3cAnA==
-X-Received: by 2002:a25:4656:0:b0:dcd:741f:490a with SMTP id t83-20020a254656000000b00dcd741f490amr47506yba.7.1709052440289;
-        Tue, 27 Feb 2024 08:47:20 -0800 (PST)
-Received: from mail-yb1-f170.google.com (mail-yb1-f170.google.com. [209.85.219.170])
-        by smtp.gmail.com with ESMTPSA id g13-20020a256b0d000000b00dcd25ce965esm1453441ybc.41.2024.02.27.08.47.16
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 27 Feb 2024 08:47:17 -0800 (PST)
-Received: by mail-yb1-f170.google.com with SMTP id 3f1490d57ef6-dcbc6a6808fso3801463276.2;
-        Tue, 27 Feb 2024 08:47:16 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCUnw6ABU3AatoOzEqVzSRXCrVhNUn4LIXE7EI9/Z7g56MFmlRck9Y5cKb9GUQLh7WqGWhOs3U92R5WG4r+s8VHMw6mgrMXdZD6GMh9AsouF5gk3FL7aja7eDY3Ki8gAFb9f5GAO4CoDL1xjnMb0fKSJ+KPmBJb35nv350Yr3sj6LkDQWKtD/PUWGe8ryUMQJ3nMmjViqdpK5X8edoE3HGyHY3QtFux/zXzxDLQrZiGn0aYHHxNirbWdXak9LP2K5C86O346bzxJRkULhJav15BDZRgKhlZtqp3vdfKD8TiuW391FkcyMjpU4K6ydcnKMIr5ojICr0WEIw+6tTPSJuJwl9eMzHukH7KohBnhHIKiuCTDhKJBcRA=
-X-Received: by 2002:a25:81cd:0:b0:dc7:776b:5e4a with SMTP id
- n13-20020a2581cd000000b00dc7776b5e4amr10070ybm.56.1709052436589; Tue, 27 Feb
- 2024 08:47:16 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0AB74F1E6;
+	Tue, 27 Feb 2024 17:26:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.7.71
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1709054785; cv=fail; b=FhmywHC+Ck0eyzvbLbdMtPAXMIz51KrGU9NU8SoOizIJK0fDplbHtPHrmzBbZWaYELm0efWFlw4UTwqvjk5sCQnXF94p1VdGtsdQ6Ca2ynAXh5f1+VHwpima3vI9QRlHNqIlV9z9XCKCQaWrJ1A1tWEYz7oq4iWqca0EtbCkuUw=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1709054785; c=relaxed/simple;
+	bh=vHJ9kTPSD+3/p4fkJV0Hoztd1Zfj+eK3qPcAYrxEvsM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=dAYJ0iN5joSlWeLZ4v01SNw+3ROTW/503DLAljRcqGC54BqQtESXATzp6laXyGFSKGvRCbz05E7FL+brq57CeYO0UjuL4oj7n2Vv3fzr5t1IyiKWzFKTr4YN8pgMcts6pbM3vJ/g0wwKVJikXKOZ/yLXCp5RX13ktqqlIv0a+CY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (1024-bit key) header.d=nxp.com header.i=@nxp.com header.b=lt1it4GC; arc=fail smtp.client-ip=40.107.7.71
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Ofet5vGYyzKWdKHtJST5+C+nR7OO+7EAIbNLBDV59F8GMhn2i4B36CZrqkSN7dN+M0pl5T81w8jteFXwWEdrgHIWckhdVIW8wfml/6SIbcfnFjfwgpCxQpGA77ZvEwtXCr3uMHBp90L3tvLDXLCoT7TqzbirUBwX6CNKt8fsjpFKiRsMFHppbQ9FxuYEeUnnKxjSmhPWPN+nOJ5EME1SaKw3ch/IqN42+9ziF8/TM9wSNnQfji6SvJT3uGZedwgPM/qrNWB95mlVJWePfjpg/Ax49zFX6jYOaCjCx7rOqtDuuKtS4PMGRQPMkeH2+iNOm5rqsNU+Ql3wRrd40DEwyw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=yjHT6+jCdSuqD1fjoddQSeL2D029VS+7w3OWL9ABLs0=;
+ b=nscEkar/fbJ3k9oaP2U61pyF3E8lnakXsLUMddZB0LrAib1SeDH/PJFRE86vn5NbPXugeyzNwkgcsnls9lRsSwBGx/7cbC4IBwXLk64znmiFHMsb4Rfs0evW9Wt3SUCnFHCDqBPTIJNlQw+npc48fWT0eWI+Sl2wtsm32EbR5Cmy34ewKkJbuVGD+pproLcUsv8ZNWUzjU9b6StDGlVOk3ghdQZoirH7H/CupZkyMDU27NT0U6tj4vp5OE1ycVtabEpey+Nilvyz+dVT8ICpk6LQF09DWipuK/wpAHn0hIr82K/a55ksMGY5/sNQtwV+ur5FU6klLphWJ1G6/beHdg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=yjHT6+jCdSuqD1fjoddQSeL2D029VS+7w3OWL9ABLs0=;
+ b=lt1it4GC6guKyQia3aNytNpqOqYnXppKpRNKoZhD/5ijj/22Q2NIUpTmWOIjFRcTPQqIF55IIMSVz5Lgqpc9yfnfxhk3gW7SWM7RkEXlHMAn9tI3hOwi5Z65yTdqQFtsyGBsrEPIZ0INuYPzuLob+8VYBryFgBb7qT3GnmuXXlQ=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from PAXPR04MB9642.eurprd04.prod.outlook.com (2603:10a6:102:240::14)
+ by DBAPR04MB7351.eurprd04.prod.outlook.com (2603:10a6:10:1b2::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7316.36; Tue, 27 Feb
+ 2024 17:26:19 +0000
+Received: from PAXPR04MB9642.eurprd04.prod.outlook.com
+ ([fe80::9af4:87e:d74:94aa]) by PAXPR04MB9642.eurprd04.prod.outlook.com
+ ([fe80::9af4:87e:d74:94aa%7]) with mapi id 15.20.7316.035; Tue, 27 Feb 2024
+ 17:26:19 +0000
+Date: Tue, 27 Feb 2024 12:26:05 -0500
+From: Frank Li <Frank.li@nxp.com>
+To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+Cc: Jingoo Han <jingoohan1@gmail.com>,
+	Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
+	Rob Herring <robh@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+	Marek Vasut <marek.vasut+renesas@gmail.com>,
+	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Kishon Vijay Abraham I <kishon@ti.com>,
+	Vidya Sagar <vidyas@nvidia.com>,
+	Vignesh Raghavendra <vigneshr@ti.com>,
+	Richard Zhu <hongxing.zhu@nxp.com>,
+	Lucas Stach <l.stach@pengutronix.de>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	NXP Linux Team <linux-imx@nxp.com>,
+	Minghuan Lian <minghuan.Lian@nxp.com>,
+	Mingkai Hu <mingkai.hu@nxp.com>, Roy Zang <roy.zang@nxp.com>,
+	Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Kishon Vijay Abraham I <kishon@kernel.org>,
+	linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+	linux-tegra@vger.kernel.org, linux-omap@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linuxppc-dev@lists.ozlabs.org,
+	Niklas Cassel <cassel@kernel.org>
+Subject: Re: [PATCH v8 08/10] PCI: dwc: ep: Add a generic
+ dw_pcie_ep_linkdown() API to handle LINK_DOWN event
+Message-ID: <Zd4bLZb2z4TEoR1a@lizhi-Precision-Tower-5810>
+References: <20240224-pci-dbi-rework-v8-0-64c7fd0cfe64@linaro.org>
+ <20240224-pci-dbi-rework-v8-8-64c7fd0cfe64@linaro.org>
+ <ZdzH2lOSwBsIp/Jc@lizhi-Precision-Tower-5810>
+ <20240227123024.GO2587@thinkpad>
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240227123024.GO2587@thinkpad>
+X-ClientProxiedBy: BY5PR17CA0034.namprd17.prod.outlook.com
+ (2603:10b6:a03:1b8::47) To PAXPR04MB9642.eurprd04.prod.outlook.com
+ (2603:10a6:102:240::14)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cover.1704788539.git.ysato@users.sourceforge.jp> <8dd000fd9040804ec520b76de1b026747e16fc2c.1704788539.git.ysato@users.sourceforge.jp>
-In-Reply-To: <8dd000fd9040804ec520b76de1b026747e16fc2c.1704788539.git.ysato@users.sourceforge.jp>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 27 Feb 2024 17:47:05 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdVsJ+VvfcV4UncRsq6mTUcR2njFL4XC+mJuA9hZ-GJAaw@mail.gmail.com>
-Message-ID: <CAMuHMdVsJ+VvfcV4UncRsq6mTUcR2njFL4XC+mJuA9hZ-GJAaw@mail.gmail.com>
-Subject: Re: [DO NOT MERGE v6 13/37] dt-bindings: clock: sh7750-cpg: Add
- renesas,sh7750-cpg header.
-To: Yoshinori Sato <ysato@users.sourceforge.jp>
-Cc: linux-sh@vger.kernel.org, Damien Le Moal <dlemoal@kernel.org>, 
-	Rob Herring <robh+dt@kernel.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Michael Turquette <mturquette@baylibre.com>, 
-	Stephen Boyd <sboyd@kernel.org>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
-	Thomas Gleixner <tglx@linutronix.de>, Lorenzo Pieralisi <lpieralisi@kernel.org>, 
-	=?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>, 
-	Bjorn Helgaas <bhelgaas@google.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Jiri Slaby <jirislaby@kernel.org>, Magnus Damm <magnus.damm@gmail.com>, 
-	Daniel Lezcano <daniel.lezcano@linaro.org>, Rich Felker <dalias@libc.org>, 
-	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>, Lee Jones <lee@kernel.org>, 
-	Helge Deller <deller@gmx.de>, Heiko Stuebner <heiko@sntech.de>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Chris Morgan <macromorgan@hotmail.com>, 
-	Yang Xiwen <forbidden405@foxmail.com>, Sebastian Reichel <sre@kernel.org>, 
-	Linus Walleij <linus.walleij@linaro.org>, Randy Dunlap <rdunlap@infradead.org>, 
-	Arnd Bergmann <arnd@arndb.de>, Vlastimil Babka <vbabka@suse.cz>, Hyeonggon Yoo <42.hyeyoo@gmail.com>, 
-	David Rientjes <rientjes@google.com>, Baoquan He <bhe@redhat.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, Guenter Roeck <linux@roeck-us.net>, 
-	Stephen Rothwell <sfr@canb.auug.org.au>, Azeem Shaikh <azeemshaikh38@gmail.com>, 
-	Javier Martinez Canillas <javierm@redhat.com>, Max Filippov <jcmvbkbc@gmail.com>, 
-	Palmer Dabbelt <palmer@rivosinc.com>, Bin Meng <bmeng@tinylab.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Jacky Huang <ychuang3@nuvoton.com>, 
-	Lukas Bulwahn <lukas.bulwahn@gmail.com>, Biju Das <biju.das.jz@bp.renesas.com>, 
-	=?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>, 
-	Sam Ravnborg <sam@ravnborg.org>, Sergey Shtylyov <s.shtylyov@omp.ru>, 
-	Michael Karcher <kernel@mkarcher.dialup.fu-berlin.de>, 
-	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, linux-ide@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, linux-pci@vger.kernel.org, 
-	linux-serial@vger.kernel.org, linux-fbdev@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PAXPR04MB9642:EE_|DBAPR04MB7351:EE_
+X-MS-Office365-Filtering-Correlation-Id: 0ce7e4bb-5bb4-4359-4de8-08dc37b935d2
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	X7FAJyz8Pun1JrK77CMR/w/ftJme2jqtpoPGNvGw+bUNtcpZK/AU9hi1JC9HL8di3yl1wgV7316ILfNISgvz1Xcy7zfPb+VCsIGXtvu9Ky0cIq/ZFEqkzZKKNhW1OinLfZM5UdtHcyMT4LNxEM9d4EWc7UzNoZZQK0V5KfbgMiqcBa0umoxlg98kKYCU+7Jao9LToiXV8/4dQSAR7Vh9J3Q/M+jbcip8/99IqxQFPvAECDfTZzLkpGg/2KstPecnV/i+YSgwUKkiv+DWJeHcsafoBAx0mdDOD6gnjr7ahk7EybERYwRPLGFwBeautdLNhltmM5UkjOJCclX5eC2FUqWYI5OIqs/Jug6h+j+lGuf4CQsRd9vU5eeZq5p3UFz7GmLHtZCoGOBFoKixCinzx2GEAO3zq/gYCsElHuMSBL13F+VNUtzt21vYv5eD/Ce85Gibl6E1lJm2EZAGdRPSiyvC1jxTvKsrqEkiAlhafKTgVKrHdojNe8fySdXsRko4yaZRIcAWU1Oyo7SXjJQgFhY2sDLUjeUQyddTerXRawQTKqQI652rnLzEVDvKVXl+7elXgpIfs6x7LxvLiHwdzMtLN7835qFh4MFjVQqOOl2oCIXvUPQTPc/NDSSEKpfI3YsFvXYgMoerlqrW5KWjwvTLZsUovmNXUnFs+/vEGB1uzAPkYRq6G/CMx63blTzSNWdIawoul0QM+sah7C735A==
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB9642.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(38350700005);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?NDcybVhSTi9zNEhuTzlRMWhXRDd2d3N2YXdXSkRTU3pIK0Z5dWZJblp0QjdW?=
+ =?utf-8?B?Y1B6aHdtU2N2WE5IZW9JN2xsT0dGaVN1bzRzOWtWUmJhdWJlMGdHZTR2c2Qy?=
+ =?utf-8?B?UzBtek9aYUpLaGFOVFVyTVJQS2hpSXBHZFptbHZzN2ZGU0tPQ3RjUEF2K05y?=
+ =?utf-8?B?azc1ZWVBTCtsWDJLK1ZPTWo4ajk2WGdpRnAwNm1sQzFRUURQWjV1N1dGVWtN?=
+ =?utf-8?B?SGF4VTlONm92Szluamg0Vi9rbmNXWXVEWDIxSEx5akFDV2xnc0FjV0tDRWZN?=
+ =?utf-8?B?UTFLTzJMaDZuejhrQ0t4L1VBM29tZjR1b3cvT3pLdE9DYWU4bFpCU2NTNEhj?=
+ =?utf-8?B?dXZ4YUd3UmQ2UW9UU21kaDlTTjdRZE91UUxuN0dXMXpSZ2RQcTNtZzcrbzBo?=
+ =?utf-8?B?amJ0VFZPUXR6TDJXSDhMQ0hMcWdrenByUll3NCt5V0p6dmhtSlczbU91WUhs?=
+ =?utf-8?B?OWVRWE5pZXNNTzEybXl4TTl1Uk1EV0ltNnl5TklzVjBZUSt2STNsK3lxUmRK?=
+ =?utf-8?B?eXR2Vit0MnQ0TWo4QTFkV0NRYUp0WHFUZUVPcTJxL3FCSzNkREpDYk1aU01n?=
+ =?utf-8?B?Z0licnp5amZMQ1BCTld6d1Bac2FjZm9oc0JGQXZDcUdKRDZuclE5cDQzS3M4?=
+ =?utf-8?B?OWFjZjhYeWcvNXNIUE5OcUpzcXJjSjRsdTl0NFRzVkl6djFrZDNPUHFGaTJL?=
+ =?utf-8?B?ckRkRG16UFRwWVJsbHRLMkcwazI0ekNSNUlkbkg2eWlIYU82cUdYWEFoQWQ2?=
+ =?utf-8?B?eTcxc3hVcy85TFRKUzRzY3VOK0VOdkI3YmRzSy9KZXBNb3I5UFA4a0NvcU9G?=
+ =?utf-8?B?NnZjMjRBN3ZPRGxKNktDKzBGYXdhYWxlbWJmY0YvMzhGc2xyakJLZnRQVGo5?=
+ =?utf-8?B?MEQ2YzhrYVlaSVluZHFZMVVudmxHT1ZqTytiQTZPVzFWRmtlemRJcDZCUzJC?=
+ =?utf-8?B?YVNxckVBRHpkS1VjWkpmSHo4WGFNVWJsdDVhKzhkeGF0cklYcHRvY2RaZER1?=
+ =?utf-8?B?SFZEazZtNTZTSGVPemNVQW52c1BXdGtOeVUyU1dxZnBEMDFyRW43bkdyNnlH?=
+ =?utf-8?B?NXlGT1FWUGVZR0tZbU1IUFMyMExQM2sxWGFvVmtKaUYvT0RSVkdCK1pHZ0tO?=
+ =?utf-8?B?LzF5QVFSQU5LRTRubDI3cGEvVlhJQlo3QlZXWFdwYzBoT1BpdHZPd29HajQy?=
+ =?utf-8?B?Mms4QWxUNmdueGlQT25ENHE3SEpYZzhCSWNkVWxnUWNjbWFDcytjWmJaT0p0?=
+ =?utf-8?B?aWRDUzZhTjVRZG9abkVlNDVnUnVNcWhoekFOUnY0K0hPRDVYVXFJeGt4Z2VS?=
+ =?utf-8?B?TzBjYjZEWmNKRDhXYU1Da0UybW1ySEUzZ0NzaXdyNUJWTjB0NlhMWmVtcW5s?=
+ =?utf-8?B?cUw1bzQ1dUlHeU5UeW1vUDR3TnEyS1V3RnUwZG83cUZ4U1R0b0Qwem0wVWlW?=
+ =?utf-8?B?L1pnbHdwY0FvU1dmcTFPUWdtUmx3eVJ1VEhkeVlQZnV4S09vcDhFNzRIRXQz?=
+ =?utf-8?B?UEV5dXRwem54aEhjK0lucHdYb0dEcmZlYVNlQzBrT0k1aWMzeG1na1l6MzNz?=
+ =?utf-8?B?RUh6QkJRYUFZMUJHVEhNWW5sQklOcThxanlIa0tDcVcrOSszbkl0eWY1VnRi?=
+ =?utf-8?B?ZzJDQVIrdWRKeDZRS0JJTGlpK0hkUC9uM3lJNTdTMmlodTRxOG5vd28rZTFk?=
+ =?utf-8?B?L0lNaW5ndUptRWt3NGkxUHdxQlJ2ZStodGU5dGRSb1pxNWF6L0xEeEVhdjV6?=
+ =?utf-8?B?blRXVjRjL1doY040UldVNjJLOTdNdTJzamxxa2F5Q3FTcURMakYrWC9oN1BH?=
+ =?utf-8?B?L21yZStpYjc4U0JtekhJbkRZd29XMVptT2hCQlZQeURNV1ErWU1MdUhpaThs?=
+ =?utf-8?B?UGhJNVNJWjJkUlg1UFQ5YWxHaXdySFRoUkxBZ1djMi9ObjNrS094WndsSWpN?=
+ =?utf-8?B?N0hwMjRjbGVlLzhOSzlvbGlZN2p3eHRBVlNsbGFRd2U5N1VCNEg2aUdWRGRi?=
+ =?utf-8?B?UnpXZ0VLcW9YM1lnVUE1SmRNL0poNmxYY0RQYkpzaTk4RE1BbXZYemwwTmxx?=
+ =?utf-8?B?WCtLUW51MHZXdUJOTUdxTW5sa0JNV2xPYWtzN1pYc0pFME9TU2czd0UrMUl3?=
+ =?utf-8?Q?xgzMkhxW0WTFBV3QaB/gq0Vkj?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0ce7e4bb-5bb4-4359-4de8-08dc37b935d2
+X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB9642.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Feb 2024 17:26:19.3847
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: V+UkNiXdtx72j0bymdOu2yhtoPGBp9yh+60BP441M9pyNwNchWK4wKvpXN9IuFc70oKm0fElCehzE/raqgU7yw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DBAPR04MB7351
 
-Hi Sato-san,
+On Tue, Feb 27, 2024 at 06:00:24PM +0530, Manivannan Sadhasivam wrote:
+> On Mon, Feb 26, 2024 at 12:18:18PM -0500, Frank Li wrote:
+> > On Sat, Feb 24, 2024 at 12:24:14PM +0530, Manivannan Sadhasivam wrote:
+> > > The PCIe link can go to LINK_DOWN state in one of the following scenarios:
+> > > 
+> > > 1. Fundamental (PERST#)/hot/warm reset
+> > > 2. Link transition from L2/L3 to L0
+> > 
+> > From L0 to L2/l3
+> > 
+> 
+> I don't understand what you mean here. Link down won't happen while moving from
+> L0 to L2/L3, it is the opposite.
 
-Thanks for your patch!
+Strange, why there are not linkdown from L0 to L2/l3. But have linkdown
+from L2/l3 to L0? when linkup happen? Any document show these?
 
-On Tue, Jan 9, 2024 at 9:24=E2=80=AFAM Yoshinori Sato
-<ysato@users.sourceforge.jp> wrote:
-> SH7750 CPG Clock output define.
+Frank
 
-Please improve the patch description.
-
-> Signed-off-by: Yoshinori Sato <ysato@users.sourceforge.jp>
-
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/clock/renesas,sh7750-cpg.yaml
-> @@ -0,0 +1,103 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/clock/renesas,sh7750-cpg.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Renesas SH7750/7751 Clock Pulse Generator (CPG)
-> +
-> +maintainers:
-> +  - Yoshinori Sato <ysato@users.sourceforge.jp>
-> +
-> +description:
-> +  The Clock Pulse Generator (CPG) generates core clocks for the SoC.  It
-> +  includes PLLs, and variable ratio dividers.
-> +
-> +  The CPG may also provide a Clock Domain for SoC devices, in combinatio=
-n with
-> +  the CPG Module Stop (MSTP) Clocks.
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - renesas,sh7750-cpg             # SH7750
-> +      - renesas,sh7750s-cpg            # SH775S
-> +      - renesas,sh7750r-cpg            # SH7750R
-> +      - renesas,sh7751-cpg             # SH7751
-> +      - renesas,sh7751r-cpg            # SH7751R
-> +
-> +  reg: true
-> +
-> +  reg-names: true
-> +
-> +  clocks: true
-
-  clocks:
-    maxItems: 1
-
-> +
-> +  clock-names: true
-
-  clock-names:
-      const: extal
-
-> +examples:
-> +  - |
-> +    #include <dt-bindings/clock/sh7750-cpg.h>
-> +    cpg: clock-controller@ffc00000 {
-> +        #clock-cells =3D <1>;
-> +        #power-domain-cells =3D <0>;
-> +        compatible =3D "renesas,sh7751r-cpg";
-> +        clocks =3D <&xtal>;
-> +        clock-names =3D "xtal";
-
-"extal"
-
-"xtal" is an output pin, connected to a crystal resonator.
-"extal" is the clock input put (either crystal resonator or exteral
-clock input.
-
-> +        reg =3D <0xffc00000 20>, <0xfe0a0000 16>;
-> +        reg-names =3D "FRQCR", "CLKSTP00";
-> +        renesas,mode =3D <0>;
-> +    };
-> diff --git a/include/dt-bindings/clock/sh7750-cpg.h b/include/dt-bindings=
-/clock/sh7750-cpg.h
-> new file mode 100644
-> index 000000000000..17d5a8076aac
-> --- /dev/null
-> +++ b/include/dt-bindings/clock/sh7750-cpg.h
-> @@ -0,0 +1,26 @@
-> +/* SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> + *
-> + * Copyright 2023 Yoshinori Sato
-> + */
-> +
-> +#ifndef __DT_BINDINGS_CLOCK_SH7750_H__
-> +#define __DT_BINDINGS_CLOCK_SH7750_H__
-> +
-> +#define SH7750_CPG_PLLOUT      0
-> +
-> +#define SH7750_CPG_FCK         1
-
-PCK?
-
-> +#define SH7750_CPG_BCK         2
-> +#define SH7750_CPG_ICK         3
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+> 
+> > > 
+> > > In those cases, LINK_DOWN causes some non-sticky DWC registers to loose the
+> > > state (like REBAR, PTM_CAP etc...). So the drivers need to reinitialize
+> > > them to function properly once the link comes back again.
+> > > 
+> > > This is not a problem for drivers supporting PERST# IRQ, since they can
+> > > reinitialize the registers in the PERST# IRQ callback. But for the drivers
+> > > not supporting PERST#, there is no way they can reinitialize the registers
+> > > other than relying on LINK_DOWN IRQ received when the link goes down. So
+> > > let's add a DWC generic API dw_pcie_ep_linkdown() that reinitializes the
+> > > non-sticky registers and also notifies the EPF drivers about link going
+> > > down.
+> > > 
+> > > This API can also be used by the drivers supporting PERST# to handle the
+> > > scenario (2) mentioned above.
+> > > 
+> > > Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+> > > ---
+> > >  drivers/pci/controller/dwc/pcie-designware-ep.c | 111 ++++++++++++++----------
+> > >  drivers/pci/controller/dwc/pcie-designware.h    |   5 ++
+> > >  2 files changed, 72 insertions(+), 44 deletions(-)
+> > > 
+> > > diff --git a/drivers/pci/controller/dwc/pcie-designware-ep.c b/drivers/pci/controller/dwc/pcie-designware-ep.c
+> > > index 278bdc9b2269..fed4c2936c78 100644
+> > > --- a/drivers/pci/controller/dwc/pcie-designware-ep.c
+> > > +++ b/drivers/pci/controller/dwc/pcie-designware-ep.c
+> > > @@ -14,14 +14,6 @@
+> > >  #include <linux/pci-epc.h>
+> > >  #include <linux/pci-epf.h>
+> > >  
+> > > -void dw_pcie_ep_linkup(struct dw_pcie_ep *ep)
+> > > -{
+> > > -	struct pci_epc *epc = ep->epc;
+> > > -
+> > > -	pci_epc_linkup(epc);
+> > > -}
+> > > -EXPORT_SYMBOL_GPL(dw_pcie_ep_linkup);
+> > > -
+> > 
+> > No sure why git remove this block and add these back.
+> > 
+> 
+> Because, we are adding dw_pcie_ep_linkdown() API way below and it makes sense to
+> move this API also to keep it ordered. Maybe I should've described it in commit
+> message.
+> 
+> - Mani
+> 
+> > 
+> > >  void dw_pcie_ep_init_notify(struct dw_pcie_ep *ep)
+> > >  {
+> > >  	struct pci_epc *epc = ep->epc;
+> > > @@ -603,19 +595,56 @@ static unsigned int dw_pcie_ep_find_ext_capability(struct dw_pcie *pci, int cap)
+> > >  	return 0;
+> > >  }
+> > >  
+> > > +static void dw_pcie_ep_init_non_sticky_registers(struct dw_pcie *pci)
+> > > +{
+> > > +	unsigned int offset, ptm_cap_base;
+> > > +	unsigned int nbars;
+> > > +	u32 reg, i;
+> > > +
+> > > +	offset = dw_pcie_ep_find_ext_capability(pci, PCI_EXT_CAP_ID_REBAR);
+> > > +	ptm_cap_base = dw_pcie_ep_find_ext_capability(pci, PCI_EXT_CAP_ID_PTM);
+> > > +
+> > > +	dw_pcie_dbi_ro_wr_en(pci);
+> > > +
+> > > +	if (offset) {
+> > > +		reg = dw_pcie_readl_dbi(pci, offset + PCI_REBAR_CTRL);
+> > > +		nbars = (reg & PCI_REBAR_CTRL_NBAR_MASK) >>
+> > > +			PCI_REBAR_CTRL_NBAR_SHIFT;
+> > > +
+> > > +		for (i = 0; i < nbars; i++, offset += PCI_REBAR_CTRL)
+> > > +			dw_pcie_writel_dbi(pci, offset + PCI_REBAR_CAP, 0x0);
+> > > +	}
+> > > +
+> > > +	/*
+> > > +	 * PTM responder capability can be disabled only after disabling
+> > > +	 * PTM root capability.
+> > > +	 */
+> > > +	if (ptm_cap_base) {
+> > > +		dw_pcie_dbi_ro_wr_en(pci);
+> > > +		reg = dw_pcie_readl_dbi(pci, ptm_cap_base + PCI_PTM_CAP);
+> > > +		reg &= ~PCI_PTM_CAP_ROOT;
+> > > +		dw_pcie_writel_dbi(pci, ptm_cap_base + PCI_PTM_CAP, reg);
+> > > +
+> > > +		reg = dw_pcie_readl_dbi(pci, ptm_cap_base + PCI_PTM_CAP);
+> > > +		reg &= ~(PCI_PTM_CAP_RES | PCI_PTM_GRANULARITY_MASK);
+> > > +		dw_pcie_writel_dbi(pci, ptm_cap_base + PCI_PTM_CAP, reg);
+> > > +		dw_pcie_dbi_ro_wr_dis(pci);
+> > > +	}
+> > > +
+> > > +	dw_pcie_setup(pci);
+> > > +	dw_pcie_dbi_ro_wr_dis(pci);
+> > > +}
+> > > +
+> > >  int dw_pcie_ep_init_registers(struct dw_pcie_ep *ep)
+> > >  {
+> > >  	struct dw_pcie *pci = to_dw_pcie_from_ep(ep);
+> > >  	struct dw_pcie_ep_func *ep_func;
+> > >  	struct device *dev = pci->dev;
+> > >  	struct pci_epc *epc = ep->epc;
+> > > -	unsigned int offset, ptm_cap_base;
+> > > -	unsigned int nbars;
+> > >  	u8 hdr_type;
+> > >  	u8 func_no;
+> > > -	int i, ret;
+> > >  	void *addr;
+> > > -	u32 reg;
+> > > +	int ret;
+> > >  
+> > >  	hdr_type = dw_pcie_readb_dbi(pci, PCI_HEADER_TYPE) &
+> > >  		   PCI_HEADER_TYPE_MASK;
+> > > @@ -678,38 +707,7 @@ int dw_pcie_ep_init_registers(struct dw_pcie_ep *ep)
+> > >  	if (ep->ops->init)
+> > >  		ep->ops->init(ep);
+> > >  
+> > > -	offset = dw_pcie_ep_find_ext_capability(pci, PCI_EXT_CAP_ID_REBAR);
+> > > -	ptm_cap_base = dw_pcie_ep_find_ext_capability(pci, PCI_EXT_CAP_ID_PTM);
+> > > -
+> > > -	dw_pcie_dbi_ro_wr_en(pci);
+> > > -
+> > > -	if (offset) {
+> > > -		reg = dw_pcie_readl_dbi(pci, offset + PCI_REBAR_CTRL);
+> > > -		nbars = (reg & PCI_REBAR_CTRL_NBAR_MASK) >>
+> > > -			PCI_REBAR_CTRL_NBAR_SHIFT;
+> > > -
+> > > -		for (i = 0; i < nbars; i++, offset += PCI_REBAR_CTRL)
+> > > -			dw_pcie_writel_dbi(pci, offset + PCI_REBAR_CAP, 0x0);
+> > > -	}
+> > > -
+> > > -	/*
+> > > -	 * PTM responder capability can be disabled only after disabling
+> > > -	 * PTM root capability.
+> > > -	 */
+> > > -	if (ptm_cap_base) {
+> > > -		dw_pcie_dbi_ro_wr_en(pci);
+> > > -		reg = dw_pcie_readl_dbi(pci, ptm_cap_base + PCI_PTM_CAP);
+> > > -		reg &= ~PCI_PTM_CAP_ROOT;
+> > > -		dw_pcie_writel_dbi(pci, ptm_cap_base + PCI_PTM_CAP, reg);
+> > > -
+> > > -		reg = dw_pcie_readl_dbi(pci, ptm_cap_base + PCI_PTM_CAP);
+> > > -		reg &= ~(PCI_PTM_CAP_RES | PCI_PTM_GRANULARITY_MASK);
+> > > -		dw_pcie_writel_dbi(pci, ptm_cap_base + PCI_PTM_CAP, reg);
+> > > -		dw_pcie_dbi_ro_wr_dis(pci);
+> > > -	}
+> > > -
+> > > -	dw_pcie_setup(pci);
+> > > -	dw_pcie_dbi_ro_wr_dis(pci);
+> > > +	dw_pcie_ep_init_non_sticky_registers(pci);
+> > >  
+> > >  	return 0;
+> > >  
+> > > @@ -720,6 +718,31 @@ int dw_pcie_ep_init_registers(struct dw_pcie_ep *ep)
+> > >  }
+> > >  EXPORT_SYMBOL_GPL(dw_pcie_ep_init_registers);
+> > >  
+> > > +void dw_pcie_ep_linkup(struct dw_pcie_ep *ep)
+> > > +{
+> > > +	struct pci_epc *epc = ep->epc;
+> > > +
+> > > +	pci_epc_linkup(epc);
+> > > +}
+> > > +EXPORT_SYMBOL_GPL(dw_pcie_ep_linkup);
+> > > +
+> > > +void dw_pcie_ep_linkdown(struct dw_pcie_ep *ep)
+> > > +{
+> > > +	struct dw_pcie *pci = to_dw_pcie_from_ep(ep);
+> > > +	struct pci_epc *epc = ep->epc;
+> > > +
+> > > +	/*
+> > > +	 * Initialize the non-sticky DWC registers as they would've reset post
+> > > +	 * LINK_DOWN. This is specifically needed for drivers not supporting
+> > > +	 * PERST# as they have no way to reinitialize the registers before the
+> > > +	 * link comes back again.
+> > > +	 */
+> > > +	dw_pcie_ep_init_non_sticky_registers(pci);
+> > > +
+> > > +	pci_epc_linkdown(epc);
+> > > +}
+> > > +EXPORT_SYMBOL_GPL(dw_pcie_ep_linkdown);
+> > > +
+> > >  int dw_pcie_ep_init(struct dw_pcie_ep *ep)
+> > >  {
+> > >  	int ret;
+> > > diff --git a/drivers/pci/controller/dwc/pcie-designware.h b/drivers/pci/controller/dwc/pcie-designware.h
+> > > index f8e5431a207b..152969545b0a 100644
+> > > --- a/drivers/pci/controller/dwc/pcie-designware.h
+> > > +++ b/drivers/pci/controller/dwc/pcie-designware.h
+> > > @@ -668,6 +668,7 @@ static inline void __iomem *dw_pcie_own_conf_map_bus(struct pci_bus *bus,
+> > >  
+> > >  #ifdef CONFIG_PCIE_DW_EP
+> > >  void dw_pcie_ep_linkup(struct dw_pcie_ep *ep);
+> > > +void dw_pcie_ep_linkdown(struct dw_pcie_ep *ep);
+> > >  int dw_pcie_ep_init(struct dw_pcie_ep *ep);
+> > >  int dw_pcie_ep_init_registers(struct dw_pcie_ep *ep);
+> > >  void dw_pcie_ep_init_notify(struct dw_pcie_ep *ep);
+> > > @@ -688,6 +689,10 @@ static inline void dw_pcie_ep_linkup(struct dw_pcie_ep *ep)
+> > >  {
+> > >  }
+> > >  
+> > > +static inline void dw_pcie_ep_linkdown(struct dw_pcie_ep *ep)
+> > > +{
+> > > +}
+> > > +
+> > >  static inline int dw_pcie_ep_init(struct dw_pcie_ep *ep)
+> > >  {
+> > >  	return 0;
+> > > 
+> > > -- 
+> > > 2.25.1
+> > > 
+> 
+> -- 
+> மணிவண்ணன் சதாசிவம்
 
