@@ -1,102 +1,146 @@
-Return-Path: <linux-renesas-soc+bounces-3246-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-3247-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23616868A9E
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 Feb 2024 09:13:20 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id EAE28868AC4
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 Feb 2024 09:29:51 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A5B87280E20
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 Feb 2024 08:13:18 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id A097F1F23287
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 Feb 2024 08:29:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BC26F56465;
-	Tue, 27 Feb 2024 08:13:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EDD6256442;
+	Tue, 27 Feb 2024 08:29:48 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com [209.85.128.169])
+Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com [209.85.128.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1880856449;
-	Tue, 27 Feb 2024 08:13:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69CAD1BC27
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 27 Feb 2024 08:29:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709021596; cv=none; b=VAvdFEYgMMBizwtCZm4mZM4I4Jvd4eYppM6TrCDideGJbsXB90e50oaVjiPAb+NrIMmJ/NoJJHmaO8jxT6i9VD0x0y1G33FFNZr81G6wQYN7qp/IJJtFtOG81TycElPK6hdpqtQwFbIq53kCbDeyl6wtbhnDGigiX0+SmbH5QA8=
+	t=1709022588; cv=none; b=a09RWEZiZh/kNAAtr39DbR1L7N6A3bBuGydyZu9oSFkYgLxvSgu11YWI2lfIgcg4EGHwaKdHCRtK0ATHhVmvK92wTT3s2I/wSOyTTMtco5zf4vr6wh+p55+sOP0r97EIWK6NJs6/0zTUaf4ypMqFwLEH16mDs8/hdGn0aeC9xvI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709021596; c=relaxed/simple;
-	bh=9RD7LxWeQLqLBg9sjVSIvwV6LHoARcR1L/9VpDZCB8E=;
+	s=arc-20240116; t=1709022588; c=relaxed/simple;
+	bh=Yf9i1hG9XaXY8uNygfg4Pqi3vw/ZTv6QS/nlJgIFmII=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=DFYuVYYTOO6UcXkDgVWiKtF5q6LzaAYLV8BCH4b2MlmOiyHezUjjbVgthCUm7tOdspvDFKNouP0je5fiokm3+Fo1IdIv4s9TIGIlPybB1nU6eUBoQ9gxNlCgKhs3fS3YXHHmJVdEPCdl+jKpGEpmyqDhO8ayip1OH8VmLFqPKZU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.169
+	 To:Cc:Content-Type; b=GTatic4oYMQAgO0ZUBI/wFMdOoP2oeEKRdd+UvgHsZxiIZ4chuPnpn//W4jFnR8TP7rJoYK2YF4d88XxiOu2jpl97JDl+xMpMjIwl6HwDhy3p8zT+vYExGDfiEipAfErBU+GFhP8aVy+zZw0hkaVckdl8D1lu/NIS4X2cGUH4MU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-6093247d1acso121827b3.0;
-        Tue, 27 Feb 2024 00:13:14 -0800 (PST)
+Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-607dec82853so42149007b3.3
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 27 Feb 2024 00:29:47 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709021593; x=1709626393;
+        d=1e100.net; s=20230601; t=1709022585; x=1709627385;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=XVOe12NY6Hd6XHyETGn8V8NNE5eD7ofZbpGZVlTMsYw=;
-        b=fg+u/jmtZA+vQM9caxTAVHoUE2hRgvrpfiwolwKGbYjCsfYwcJX9YTAwvJRACG7gqD
-         KDB6kmy4v0kBeLoyDSn0iQutKKLgZLeSAZU7SMUjaEbQRxseTE8K0FsDz9jec8b3pHH8
-         REWYzvn9uEC7cyRPLIkYrDCNMf6oAvL/K2D+17XbQeJxM821eGd201FWdhrmNNxyxt7x
-         BcOGNPsg7R4HsRnJWX+RCSyLML88UyRoY1n2+nrCeV81YRH+ebD8bqOyMsjXSzQsIP4Z
-         ZG8cBH5J64Qny1NWrPY3RAq+fUq4w7uCN8G4EPgmL7L29dEGPvQ3ppaBAEiSAsv0AeW6
-         Dq1A==
-X-Forwarded-Encrypted: i=1; AJvYcCWL33GX+19vG/MPlJ8t4R3ofYnnS+0mm7DnFjfwoFtYTfFjQwiLhRy0KdPjZlVAYRanPtpS0ls3naaCCqB+JIylspaOpDlVxCyyspnJMNmuas+Oat1xhz6vExFkmTO3GZSuaFGnrrRIPy68Uy4epJ7lYNzrrwU0zZc/Sz0Xlk62RxacxoyK8NW+ptHx
-X-Gm-Message-State: AOJu0YzXUlANE7wd+tZRU8ZyEDJPQNgMwFdbUyPBL/CHjEixHk2A++T4
-	YhjajokE33LEHF5nPmwUgMI9zxGvD0PIYm5qa3RinudoVxS5aun4Zc+ba1oCTsE=
-X-Google-Smtp-Source: AGHT+IFkkXieFkInDtmRulTNtba82nRl+8H0i4kdTdk2SXIz1K6bDy0tC0IVBI+AL4y18YQPt0D0QQ==
-X-Received: by 2002:a81:5217:0:b0:607:fc53:8a40 with SMTP id g23-20020a815217000000b00607fc538a40mr1548093ywb.28.1709021592937;
-        Tue, 27 Feb 2024 00:13:12 -0800 (PST)
-Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com. [209.85.128.180])
-        by smtp.gmail.com with ESMTPSA id a11-20020a81bb4b000000b006049167ccffsm1583692ywl.65.2024.02.27.00.13.12
+        bh=L0Z1li2tl/tycjK4L+UhVD/6Qc4pTyRQhk0hF0NZ+po=;
+        b=WhCcUSXieFGCnVKiQFQd9yJQgYljyLSG4Yu4FLmaODTYy1slw1FoyafqrQqqdilkdf
+         Sb+owSSynUngJfh/HsTDeaoChR8sm5tJmXDtxfBDft/Y3ZL6R+LcbdoL1jgGwoeN552H
+         F2w3SP6UaGEu2taOu3Gw64uA8VPDT53TDapay1eYTPTbgtXxdxLGvhN4joWHY/Ndn4cM
+         ynrKypczozHwPFr0yT4NCchMQSkh4qzcrhgWgOa5N0LrRmtc1/bdEW26w93EYmpkL0Rd
+         v9tpL6OSQU/WvyYohlKwBkLMDeDlD2G5TVTspE5mpzAcnVKPkFH1HqkU60ccYkUcMK04
+         H4+Q==
+X-Forwarded-Encrypted: i=1; AJvYcCVJjCqqetnCdIPe5mCDf2sAznereQ1ljcUVU4QohJqjZZvp3Sk18MV/JgMFm2VCM1Kc5/YD0VRpmaBBVNFvhaVeUpm/HZ3Nbx5lRqWcfvelZVA=
+X-Gm-Message-State: AOJu0YyqfyfvPQ+WNf2ThXSY8GCZBI9eX/R0bEjsaOYR3ptWc7ygr26R
+	frL0Z+nI/COf2NfeDUgnKJkPY6Wc/CLYvZrBYfQUq2J+PXHKyeKic3lGphCprvs=
+X-Google-Smtp-Source: AGHT+IGGKnoKugE+WYXkMHeP4uDb+eAhlfsvpb4nQh55J+SXo690lt4AZSHyCDWhNPvBhDeKtKl1Kw==
+X-Received: by 2002:a81:ae24:0:b0:608:1b7a:4984 with SMTP id m36-20020a81ae24000000b006081b7a4984mr1527219ywh.17.1709022585670;
+        Tue, 27 Feb 2024 00:29:45 -0800 (PST)
+Received: from mail-yb1-f172.google.com (mail-yb1-f172.google.com. [209.85.219.172])
+        by smtp.gmail.com with ESMTPSA id t141-20020a0dea93000000b006091d284e67sm541694ywe.54.2024.02.27.00.29.44
+        for <linux-renesas-soc@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 27 Feb 2024 00:13:12 -0800 (PST)
-Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-607cd210962so35914947b3.2;
-        Tue, 27 Feb 2024 00:13:12 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCX/m2/38wejeKdfCPE44e/3gFVzXEIyssRFRyYDEVnhbGRTradk9DaxDzVGeyBQbavo3nkbgMmEbbPdv6AAbxATp7QDZFG0Pl92C8PKfQiV8Izqu2YzojGNnrofT55Og+N/gScVkXXNlIIvF+8OE5yickq+//aLV0oiH/4vXvA6pyAbr/mAo4MQ6XaS
-X-Received: by 2002:a25:ce11:0:b0:dcf:a52d:6134 with SMTP id
- x17-20020a25ce11000000b00dcfa52d6134mr1335614ybe.26.1709021591812; Tue, 27
- Feb 2024 00:13:11 -0800 (PST)
+        Tue, 27 Feb 2024 00:29:44 -0800 (PST)
+Received: by mail-yb1-f172.google.com with SMTP id 3f1490d57ef6-dc6d8bd618eso4033993276.3
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 27 Feb 2024 00:29:44 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCVfa2MVerMgurZeuUWRj1eD+ihwnhRKcDE9i1qY7Q/vJGz0MxFnwfFxkD25JylK8DGC693cfy6vGK8w8t5myMQXiViSQS7GXFpHZq6z4omMK+8=
+X-Received: by 2002:a25:ac25:0:b0:dcb:f7b0:4788 with SMTP id
+ w37-20020a25ac25000000b00dcbf7b04788mr1407065ybi.60.1709022584399; Tue, 27
+ Feb 2024 00:29:44 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240227034539.193573-1-aford173@gmail.com> <20240227034539.193573-7-aford173@gmail.com>
-In-Reply-To: <20240227034539.193573-7-aford173@gmail.com>
+References: <20240226200157.428896-1-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20240226200157.428896-1-biju.das.jz@bp.renesas.com>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 27 Feb 2024 09:12:59 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdXtO9nnGWtqP9P5Qw98gsdf3ayHJ=nW_F3AcNk_3egGkw@mail.gmail.com>
-Message-ID: <CAMuHMdXtO9nnGWtqP9P5Qw98gsdf3ayHJ=nW_F3AcNk_3egGkw@mail.gmail.com>
-Subject: Re: [PATCH 6/6] arm64: dts: renesas: r8a77961: Enable GPU
-To: Adam Ford <aford173@gmail.com>
-Cc: dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org, 
-	aford@beaconembedded.com, Frank Binns <frank.binns@imgtec.com>, 
-	Matt Coster <matt.coster@imgtec.com>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>, 
-	Magnus Damm <magnus.damm@gmail.com>, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
+Date: Tue, 27 Feb 2024 09:29:32 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdXyJP=dor0nujf1p2gsr+b9ZRMns9YTfV5-MZwf_L5z3A@mail.gmail.com>
+Message-ID: <CAMuHMdXyJP=dor0nujf1p2gsr+b9ZRMns9YTfV5-MZwf_L5z3A@mail.gmail.com>
+Subject: Re: [PATCH v2] arm64: defconfig: Enable Renesas DA9062 PMIC
+To: Biju Das <biju.das.jz@bp.renesas.com>
+Cc: Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
+	Bjorn Andersson <quic_bjorande@quicinc.com>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, Konrad Dybcio <konrad.dybcio@linaro.org>, 
+	Arnd Bergmann <arnd@arndb.de>, Neil Armstrong <neil.armstrong@linaro.org>, 
+	Marek Szyprowski <m.szyprowski@samsung.com>, linux-arm-kernel@lists.infradead.org, 
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>, Biju Das <biju.das.au@gmail.com>, 
+	linux-renesas-soc@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Feb 27, 2024 at 4:46=E2=80=AFAM Adam Ford <aford173@gmail.com> wrot=
-e:
-> The GPU on the R-Car M3-W+ is a Rogue GX6250 which uses firmware
-> rogue_4.45.2.58_v1.fw available from Imagination.
->
-> When enumerated, it appears as:
-> powervr fd000000.gpu: [drm] loaded firmware powervr/rogue_4.45.2.58_v1.fw
-> powervr fd000000.gpu: [drm] FW version v1.0 (build 6513336 OS)
->
-> Signed-off-by: Adam Ford <aford173@gmail.com>
+Hi Biju,
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Thanks for your patch!
+
+On Mon, Feb 26, 2024 at 9:02=E2=80=AFPM Biju Das <biju.das.jz@bp.renesas.co=
+m> wrote:
+> Enable the config for the Renesas DA9062 PMIC and built-in RTC,
+> GPIO and ONKEY drivers as it is populated on RZ/{G2UL,Five}
+> SMARC EVK development boards.
+
+RZ/Five is (in reality: should be) handled by a different defconfig.
+
+>
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> ---
+> v1->v2:
+>  * Enabled CONFIG_INPUT_DA9063_ONKEY and CONFIG_PINCTRL_DA9062
+
+> --- a/arch/arm64/configs/defconfig
+> +++ b/arch/arm64/configs/defconfig
+> @@ -442,6 +442,7 @@ CONFIG_INPUT_TPS65219_PWRBUTTON=3Dm
+>  CONFIG_INPUT_PWM_BEEPER=3Dm
+>  CONFIG_INPUT_PWM_VIBRA=3Dm
+>  CONFIG_INPUT_RK805_PWRKEY=3Dm
+> +CONFIG_INPUT_DA9063_ONKEY=3Dm
+>  CONFIG_INPUT_HISI_POWERKEY=3Dy
+>  # CONFIG_SERIO_SERPORT is not set
+>  CONFIG_SERIO_AMBAKMI=3Dy
+> @@ -559,6 +560,7 @@ CONFIG_SPI_TEGRA114=3Dm
+>  CONFIG_SPI_SPIDEV=3Dm
+>  CONFIG_SPMI=3Dy
+>  CONFIG_SPMI_MTK_PMIF=3Dm
+> +CONFIG_PINCTRL_DA9062=3Dm
+>  CONFIG_PINCTRL_MAX77620=3Dy
+>  CONFIG_PINCTRL_RK805=3Dm
+>  CONFIG_PINCTRL_SINGLE=3Dy
+> @@ -724,6 +726,7 @@ CONFIG_MFD_ALTERA_SYSMGR=3Dy
+>  CONFIG_MFD_BD9571MWV=3Dy
+>  CONFIG_MFD_AXP20X_I2C=3Dy
+>  CONFIG_MFD_AXP20X_RSB=3Dy
+> +CONFIG_MFD_DA9062=3Dy
+
+Given all other DA9062-related options are modular, shouldn't this be
+modular, too?
+
+>  CONFIG_MFD_EXYNOS_LPASS=3Dm
+>  CONFIG_MFD_HI6421_PMIC=3Dy
+>  CONFIG_MFD_HI655X_PMIC=3Dy
+> @@ -1166,6 +1169,7 @@ CONFIG_RTC_DRV_RV8803=3Dm
+>  CONFIG_RTC_DRV_S5M=3Dy
+>  CONFIG_RTC_DRV_DS3232=3Dy
+>  CONFIG_RTC_DRV_PCF2127=3Dm
+> +CONFIG_RTC_DRV_DA9063=3Dm
+>  CONFIG_RTC_DRV_EFI=3Dy
+>  CONFIG_RTC_DRV_CROS_EC=3Dy
+>  CONFIG_RTC_DRV_FSL_FTM_ALARM=3Dm
 
 Gr{oetje,eeting}s,
 
