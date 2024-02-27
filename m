@@ -1,41 +1,41 @@
-Return-Path: <linux-renesas-soc+bounces-3285-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-3284-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE9BB86A14F
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 Feb 2024 22:03:13 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0EE0786A165
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 Feb 2024 22:13:25 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6A11D1F21599
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 Feb 2024 21:03:13 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 21CD2B2AD18
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 Feb 2024 20:56:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BD23414E2C6;
-	Tue, 27 Feb 2024 21:03:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3DEA014EFDF;
+	Tue, 27 Feb 2024 20:56:26 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D009E51C4C;
-	Tue, 27 Feb 2024 21:03:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 09BE514DFFA;
+	Tue, 27 Feb 2024 20:56:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709067789; cv=none; b=apSD7C8gneiD1lGDb2aloObMmbyqHywLbVCUVtQP7DPWoGWS4yMTFj/ioX59w893s08M9OW5swLqpjnGxAGa34sN8qJwQ6wWBHhOC4PY0PSPnAIanpok8TSq0WD5UJYit8dTz6Ti1O85eZRECxgYYda82H0ZAdUMydyXlL1XO4w=
+	t=1709067386; cv=none; b=kMjsK8OdaKql/z5vT1N0eQRMEOiw/X+IbLchI7I0NV+6FIpYxPmndVm5/BkbbL7CwtrQrG8O7EGd6m5Ve0xpRHetqi9VNCGd+eBvnMZJvrJE3F1UiPJVnJYU+9WgOO9i8M7sUf5qe3ptERP2U1gpkb+8rl4Sk+J4K/8dm+z42ds=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709067789; c=relaxed/simple;
-	bh=FbnVhW3ZgMc8hI+baa73s9vrguo8FPLjeF+Fg7gUR+8=;
+	s=arc-20240116; t=1709067386; c=relaxed/simple;
+	bh=lh7KmWhVuvmaSntk4bDV52gtDDOmIfYiWzcEM1XlsaY=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=UgC5f1V6cdbu9gY3JcYiI5/riwMUC7MSndfQUx9qis1JfojDkp3OliJn6TeGQdFh6spwW85fLfXIrTeKHjKXIpb2c+l2ZsvLrqnecUUdCFVZVSRXjLzCOO93XfSg+xQKSD9ItqvV0EcCJYBiTgqxhVXMC539sl1fcDb8GzZy8Jo=
+	 In-Reply-To:Content-Type; b=Pb/yplOxdYnQ7zXyNLpVO8rTv5yrmGyAhiKKwruRsD0GTKvExSCvNxLJSnAfTQuKsfcIkUsXORncInDlNOgQna5NUrY6i+q5pz3nEQ0OxxPQisd0u9s8+3w5i+JkJGU14693fnIKFRmi8jhTbwigJYyYkr08wue8yBH0num/ao8=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
 X-IronPort-AV: E=Sophos;i="6.06,188,1705330800"; 
-   d="asc'?scan'208";a="195555014"
+   d="asc'?scan'208";a="195554322"
 Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie5.idc.renesas.com with ESMTP; 28 Feb 2024 06:03:05 +0900
+  by relmlie5.idc.renesas.com with ESMTP; 28 Feb 2024 05:56:16 +0900
 Received: from [10.226.92.31] (unknown [10.226.92.31])
-	by relmlir6.idc.renesas.com (Postfix) with ESMTP id 3098C40BB071;
-	Wed, 28 Feb 2024 06:03:01 +0900 (JST)
-Message-ID: <5e5a0c79-bf66-4598-82e2-30a306e173fb@bp.renesas.com>
-Date: Tue, 27 Feb 2024 21:03:00 +0000
+	by relmlir6.idc.renesas.com (Postfix) with ESMTP id 11A4440B7797;
+	Wed, 28 Feb 2024 05:56:12 +0900 (JST)
+Message-ID: <a86e0b7c-0f02-4ede-b33f-8ebac0358445@bp.renesas.com>
+Date: Tue, 27 Feb 2024 20:56:11 +0000
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -43,8 +43,7 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [net-next 5/6] ravb: Move maximum Rx descriptor data usage to
- info struct
+Subject: Re: [net-next 3/6] ravb: Create helper to allocate skb and align it
 Content-Language: en-GB
 To: =?UTF-8?Q?Niklas_S=C3=B6derlund?=
  <niklas.soderlund+renesas@ragnatech.se>, Sergey Shtylyov
@@ -55,17 +54,17 @@ To: =?UTF-8?Q?Niklas_S=C3=B6derlund?=
  Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>, netdev@vger.kernel.org
 Cc: linux-renesas-soc@vger.kernel.org
 References: <20240227014014.44855-1-niklas.soderlund+renesas@ragnatech.se>
- <20240227014014.44855-6-niklas.soderlund+renesas@ragnatech.se>
+ <20240227014014.44855-4-niklas.soderlund+renesas@ragnatech.se>
 From: Paul Barker <paul.barker.ct@bp.renesas.com>
 Organization: Renesas Electronics Corporation
-In-Reply-To: <20240227014014.44855-6-niklas.soderlund+renesas@ragnatech.se>
+In-Reply-To: <20240227014014.44855-4-niklas.soderlund+renesas@ragnatech.se>
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="------------xYY0hsAi8Em6EFv1sIJKeSLA"
+ boundary="------------zuOrgyMyorbQ8UPk8htZFsbG"
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------xYY0hsAi8Em6EFv1sIJKeSLA
-Content-Type: multipart/mixed; boundary="------------z9opAjq4AA4Scl3rBXHwjoFA";
+--------------zuOrgyMyorbQ8UPk8htZFsbG
+Content-Type: multipart/mixed; boundary="------------35LE4uVFN6gEKzR8f2ohKmjf";
  protected-headers="v1"
 From: Paul Barker <paul.barker.ct@bp.renesas.com>
 To: =?UTF-8?Q?Niklas_S=C3=B6derlund?=
@@ -76,157 +75,289 @@ To: =?UTF-8?Q?Niklas_S=C3=B6derlund?=
  Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
  Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>, netdev@vger.kernel.org
 Cc: linux-renesas-soc@vger.kernel.org
-Message-ID: <5e5a0c79-bf66-4598-82e2-30a306e173fb@bp.renesas.com>
-Subject: Re: [net-next 5/6] ravb: Move maximum Rx descriptor data usage to
- info struct
+Message-ID: <a86e0b7c-0f02-4ede-b33f-8ebac0358445@bp.renesas.com>
+Subject: Re: [net-next 3/6] ravb: Create helper to allocate skb and align it
 References: <20240227014014.44855-1-niklas.soderlund+renesas@ragnatech.se>
- <20240227014014.44855-6-niklas.soderlund+renesas@ragnatech.se>
-In-Reply-To: <20240227014014.44855-6-niklas.soderlund+renesas@ragnatech.se>
+ <20240227014014.44855-4-niklas.soderlund+renesas@ragnatech.se>
+In-Reply-To: <20240227014014.44855-4-niklas.soderlund+renesas@ragnatech.se>
 
---------------z9opAjq4AA4Scl3rBXHwjoFA
-Content-Type: multipart/mixed; boundary="------------VLGu4sS0PCsMY3tN7U0QUrXi"
+--------------35LE4uVFN6gEKzR8f2ohKmjf
+Content-Type: multipart/mixed; boundary="------------FTo0Xxhwpn5DPqvF8Mz8NK07"
 
---------------VLGu4sS0PCsMY3tN7U0QUrXi
+--------------FTo0Xxhwpn5DPqvF8Mz8NK07
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
 On 27/02/2024 01:40, Niklas S=C3=B6derlund wrote:
-> To make it possible to merge the R-Car and RZ/G2L code paths move the
-> maximum usable size of a single Rx descriptor data slice in to the
-> hardware information instead of using two different defines in the two
-> different code paths.
+> The RAVB device requires the SKB data to be aligned to 128 bytes. The
+> alignment is done by allocating a skb 128 bytes larger than the maximum=
+
+> frame size supported by the device and adjusting the headroom to fit th=
+e
+> requirement.
+>=20
+> This code has been refactored a few times and small issues have been
+> added along the way. The issues are not harmful but prevents merging
+> parts of the Rx code which have been split in two implementations with
+> the addition of RZ/G2L support, a device that supports larger frame
+> sizes.
+>=20
+> This change removes the need for duplicated and somewhat inaccurate
+> hardware alignment constrains stored in the hardware information struct=
+
+> by creating a helper to handle the allocation of a skb and alignment of=
+
+> a skb data.
+>=20
+> For the R-Car class of devices the maximum frame size is 4K and each
+> descriptor is limited to 2K of data. The current implementation does no=
+t
+> support split descriptors, this limits the frame size to 2K. The
+> current hardware information however records the descriptor size just
+> under 2K due to bad understanding of the device when larger MTUs where
+> added.
+>=20
+> For the RZ/G2L device the maximum frame size is 8K and each descriptor
+> is limited to 4K of data. The current hardware information records this=
+
+> correctly, but it gets the alignment constrains wrong as just aligns it=
+
+> by 128, it does not extend it by 128 bytes to allow the full frame to b=
+e
+> stored. This works because the RZ/G2L device supports split descriptors=
+
+> and allocates each skb to 8K and aligns each 4K descriptor in this
+> space.
 >=20
 > Signed-off-by: Niklas S=C3=B6derlund <niklas.soderlund+renesas@ragnatec=
 h.se>
+
+After some discussion with Niklas on IRC, I'm dropping my NACK so that
+this can hopefully get in to v6.9. I'll have to re-do some of my work,
+but it was unlikely that would be ready to go in for v6.9 anyway. So,
+here's some review...
+
 > ---
->  drivers/net/ethernet/renesas/ravb.h      |  5 +----
->  drivers/net/ethernet/renesas/ravb_main.c | 12 ++++++++----
->  2 files changed, 9 insertions(+), 8 deletions(-)
+>  drivers/net/ethernet/renesas/ravb.h      |  1 -
+>  drivers/net/ethernet/renesas/ravb_main.c | 41 +++++++++++++-----------=
+
+>  2 files changed, 22 insertions(+), 20 deletions(-)
 >=20
 > diff --git a/drivers/net/ethernet/renesas/ravb.h b/drivers/net/ethernet=
 /renesas/ravb.h
-> index 7fa60fccb6ea..b12b379baf5a 100644
+> index 7f9e8b2c012a..751bb29cd488 100644
 > --- a/drivers/net/ethernet/renesas/ravb.h
 > +++ b/drivers/net/ethernet/renesas/ravb.h
-> @@ -1015,10 +1015,6 @@ enum CSR2_BIT {
->  #define NUM_RX_QUEUE	2
->  #define NUM_TX_QUEUE	2
-> =20
-> -#define RX_BUF_SZ	(2048 - ETH_FCS_LEN + sizeof(__sum16))
-> -
-> -#define GBETH_RX_DESC_DATA_SIZE 4080
-> -
->  struct ravb_tstamp_skb {
->  	struct list_head list;
->  	struct sk_buff *skb;
-> @@ -1058,6 +1054,7 @@ struct ravb_hw_info {
+> @@ -1057,7 +1057,6 @@ struct ravb_hw_info {
+>  	netdev_features_t net_hw_features;
+>  	netdev_features_t net_features;
 >  	int stats_len;
+> -	size_t max_rx_len;
 >  	u32 tccr_mask;
 >  	u32 rx_max_frame_size;
-> +	u32 rx_max_desc_use;
 >  	unsigned aligned_tx: 1;
-> =20
->  	/* hardware features */
 > diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/eth=
 ernet/renesas/ravb_main.c
-> index b309ca23f5b6..dee51a78cf36 100644
+> index 3c59e2c317c7..6e39d498936f 100644
 > --- a/drivers/net/ethernet/renesas/ravb_main.c
 > +++ b/drivers/net/ethernet/renesas/ravb_main.c
-> @@ -349,7 +349,7 @@ static void ravb_rx_ring_format_gbeth(struct net_de=
+> @@ -113,12 +113,21 @@ static void ravb_set_rate_rcar(struct net_device =
+*ndev)
+>  	}
+>  }
+> =20
+> -static void ravb_set_buffer_align(struct sk_buff *skb)
+> +static struct sk_buff *
+> +ravb_alloc_skb(struct net_device *ndev, const struct ravb_hw_info *inf=
+o)
+
+This function should take an extra `gfp_t gfp_mask` argument since it is
+called from two contexts: RX ring initialization where we want regular
+allocation, and RX ring refill where we need atomic allocation.
+
+>  {
+> -	u32 reserve =3D (unsigned long)skb->data & (RAVB_ALIGN - 1);
+> +	struct sk_buff *skb;
+> +	u32 reserve;
+> =20
+> +	skb =3D netdev_alloc_skb(ndev, info->rx_max_frame_size + RAVB_ALIGN -=
+ 1);
+
+Call __netdev_alloc_skb() instead with the gfp_mask argument.
+
+> +	if (!skb)
+> +		return NULL;
+> +
+> +	reserve =3D (unsigned long)skb->data & (RAVB_ALIGN - 1);
+>  	if (reserve)
+>  		skb_reserve(skb, RAVB_ALIGN - reserve);
+> +
+> +	return skb;
+>  }
+> =20
+>  /* Get MAC address from the MAC address registers
+> @@ -251,7 +260,7 @@ static void ravb_rx_ring_free_gbeth(struct net_devi=
+ce *ndev, int q)
+>  				       le32_to_cpu(desc->dptr)))
+>  			dma_unmap_single(ndev->dev.parent,
+>  					 le32_to_cpu(desc->dptr),
+> -					 GBETH_RX_BUFF_MAX,
+> +					 priv->info->rx_max_frame_size,
+>  					 DMA_FROM_DEVICE);
+>  	}
+>  	ring_size =3D sizeof(struct ravb_rx_desc) * (priv->num_rx_ring[q] + 1=
+);
+> @@ -276,7 +285,7 @@ static void ravb_rx_ring_free_rcar(struct net_devic=
+e *ndev, int q)
+>  				       le32_to_cpu(desc->dptr)))
+>  			dma_unmap_single(ndev->dev.parent,
+>  					 le32_to_cpu(desc->dptr),
+> -					 RX_BUF_SZ,
+> +					 priv->info->rx_max_frame_size,
+>  					 DMA_FROM_DEVICE);
+>  	}
+>  	ring_size =3D sizeof(struct ravb_ex_rx_desc) *
+> @@ -342,7 +351,7 @@ static void ravb_rx_ring_format_gbeth(struct net_de=
 vice *ndev, int q)
->  	for (i =3D 0; i < priv->num_rx_ring[q]; i++) {
->  		/* RX descriptor */
 >  		rx_desc =3D &priv->rx_ring[q].desc[i];
-> -		rx_desc->ds_cc =3D cpu_to_le16(GBETH_RX_DESC_DATA_SIZE);
-> +		rx_desc->ds_cc =3D cpu_to_le16(priv->info->rx_max_desc_use);
+>  		rx_desc->ds_cc =3D cpu_to_le16(GBETH_RX_DESC_DATA_SIZE);
 >  		dma_addr =3D dma_map_single(ndev->dev.parent, priv->rx_skb[q][i]->da=
 ta,
->  					  priv->info->rx_max_frame_size,
+> -					  GBETH_RX_BUFF_MAX,
+> +					  priv->info->rx_max_frame_size,
 >  					  DMA_FROM_DEVICE);
-> @@ -379,7 +379,7 @@ static void ravb_rx_ring_format_rcar(struct net_dev=
+>  		/* We just set the data size to 0 for a failed mapping which
+>  		 * should prevent DMA from happening...
+> @@ -372,7 +381,7 @@ static void ravb_rx_ring_format_rcar(struct net_dev=
 ice *ndev, int q)
->  	for (i =3D 0; i < priv->num_rx_ring[q]; i++) {
->  		/* RX descriptor */
 >  		rx_desc =3D &priv->rx_ring[q].ex_desc[i];
-> -		rx_desc->ds_cc =3D cpu_to_le16(RX_BUF_SZ);
-> +		rx_desc->ds_cc =3D cpu_to_le16(priv->info->rx_max_desc_use);
+>  		rx_desc->ds_cc =3D cpu_to_le16(RX_BUF_SZ);
 >  		dma_addr =3D dma_map_single(ndev->dev.parent, priv->rx_skb[q][i]->da=
 ta,
->  					  priv->info->rx_max_frame_size,
+> -					  RX_BUF_SZ,
+> +					  priv->info->rx_max_frame_size,
 >  					  DMA_FROM_DEVICE);
-> @@ -919,7 +919,7 @@ static bool ravb_rx_gbeth(struct net_device *ndev, =
+>  		/* We just set the data size to 0 for a failed mapping which
+>  		 * should prevent DMA from happening...
+> @@ -476,10 +485,9 @@ static int ravb_ring_init(struct net_device *ndev,=
+ int q)
+>  		goto error;
+> =20
+>  	for (i =3D 0; i < priv->num_rx_ring[q]; i++) {
+> -		skb =3D __netdev_alloc_skb(ndev, info->max_rx_len, GFP_KERNEL);
+> +		skb =3D ravb_alloc_skb(ndev, info);
+
+Add GFP_KERNEL as the gfp_mask argument.
+
+>  		if (!skb)
+>  			goto error;
+> -		ravb_set_buffer_align(skb);
+>  		priv->rx_skb[q][i] =3D skb;
+>  	}
+> =20
+> @@ -805,7 +813,8 @@ static struct sk_buff *ravb_get_skb_gbeth(struct ne=
+t_device *ndev, int entry,
+>  	skb =3D priv->rx_skb[RAVB_BE][entry];
+>  	priv->rx_skb[RAVB_BE][entry] =3D NULL;
+>  	dma_unmap_single(ndev->dev.parent, le32_to_cpu(desc->dptr),
+> -			 ALIGN(GBETH_RX_BUFF_MAX, 16), DMA_FROM_DEVICE);
+> +			 ALIGN(priv->info->rx_max_frame_size, 16),
+> +			 DMA_FROM_DEVICE);
+> =20
+>  	return skb;
+>  }
+> @@ -912,13 +921,12 @@ static bool ravb_rx_gbeth(struct net_device *ndev=
+, int *quota, int q)
+>  		desc->ds_cc =3D cpu_to_le16(GBETH_RX_DESC_DATA_SIZE);
+> =20
+>  		if (!priv->rx_skb[q][entry]) {
+> -			skb =3D netdev_alloc_skb(ndev, info->max_rx_len);
+> +			skb =3D ravb_alloc_skb(ndev, info);
+
+Add GFP_ATOMIC as the gfp_mask argument.
+
+>  			if (!skb)
+>  				break;
+> -			ravb_set_buffer_align(skb);
+>  			dma_addr =3D dma_map_single(ndev->dev.parent,
+>  						  skb->data,
+> -						  GBETH_RX_BUFF_MAX,
+> +						  priv->info->rx_max_frame_size,
+>  						  DMA_FROM_DEVICE);
+>  			skb_checksum_none_assert(skb);
+>  			/* We just set the data size to 0 for a failed mapping
+> @@ -992,7 +1000,7 @@ static bool ravb_rx_rcar(struct net_device *ndev, =
 int *quota, int q)
->  	for (; priv->cur_rx[q] - priv->dirty_rx[q] > 0; priv->dirty_rx[q]++) =
-{
->  		entry =3D priv->dirty_rx[q] % priv->num_rx_ring[q];
->  		desc =3D &priv->rx_ring[q].desc[entry];
-> -		desc->ds_cc =3D cpu_to_le16(GBETH_RX_DESC_DATA_SIZE);
-> +		desc->ds_cc =3D cpu_to_le16(priv->info->rx_max_desc_use);
+>  			skb =3D priv->rx_skb[q][entry];
+>  			priv->rx_skb[q][entry] =3D NULL;
+>  			dma_unmap_single(ndev->dev.parent, le32_to_cpu(desc->dptr),
+> -					 RX_BUF_SZ,
+> +					 priv->info->rx_max_frame_size,
+>  					 DMA_FROM_DEVICE);
+>  			get_ts &=3D (q =3D=3D RAVB_NC) ?
+>  					RAVB_RXTSTAMP_TYPE_V2_L2_EVENT :
+> @@ -1028,10 +1036,9 @@ static bool ravb_rx_rcar(struct net_device *ndev=
+, int *quota, int q)
+>  		desc->ds_cc =3D cpu_to_le16(RX_BUF_SZ);
 > =20
 >  		if (!priv->rx_skb[q][entry]) {
->  			skb =3D ravb_alloc_skb(ndev, info);
-> @@ -1034,7 +1034,7 @@ static bool ravb_rx_rcar(struct net_device *ndev,=
- int *quota, int q)
->  	for (; priv->cur_rx[q] - priv->dirty_rx[q] > 0; priv->dirty_rx[q]++) =
-{
->  		entry =3D priv->dirty_rx[q] % priv->num_rx_ring[q];
->  		desc =3D &priv->rx_ring[q].ex_desc[entry];
-> -		desc->ds_cc =3D cpu_to_le16(RX_BUF_SZ);
-> +		desc->ds_cc =3D cpu_to_le16(priv->info->rx_max_desc_use);
-> =20
->  		if (!priv->rx_skb[q][entry]) {
->  			skb =3D ravb_alloc_skb(ndev, info);
-> @@ -2692,6 +2692,7 @@ static const struct ravb_hw_info ravb_gen3_hw_inf=
+> -			skb =3D netdev_alloc_skb(ndev, info->max_rx_len);
+> +			skb =3D ravb_alloc_skb(ndev, info);
+
+
+Add GFP_ATOMIC as the gfp_mask argument.
+
+>  			if (!skb)
+>  				break;	/* Better luck next round. */
+> -			ravb_set_buffer_align(skb);
+>  			dma_addr =3D dma_map_single(ndev->dev.parent, skb->data,
+>  						  le16_to_cpu(desc->ds_cc),
+>  						  DMA_FROM_DEVICE);
+> @@ -2682,7 +2689,6 @@ static const struct ravb_hw_info ravb_gen3_hw_inf=
 o =3D {
+>  	.net_hw_features =3D NETIF_F_RXCSUM,
+>  	.net_features =3D NETIF_F_RXCSUM,
 >  	.stats_len =3D ARRAY_SIZE(ravb_gstrings_stats),
+> -	.max_rx_len =3D RX_BUF_SZ + RAVB_ALIGN - 1,
 >  	.tccr_mask =3D TCCR_TSRQ0 | TCCR_TSRQ1 | TCCR_TSRQ2 | TCCR_TSRQ3,
 >  	.rx_max_frame_size =3D SZ_2K,
-> +	.rx_max_desc_use =3D 2048 - ETH_FCS_LEN + sizeof(__sum16),
-
-I'd prefer that we use SZ_2K here instead of 2048 for consistency with th=
-e line above.
-
 >  	.internal_delay =3D 1,
->  	.tx_counters =3D 1,
->  	.multi_irqs =3D 1,
-> @@ -2717,6 +2718,7 @@ static const struct ravb_hw_info ravb_gen2_hw_inf=
+> @@ -2708,7 +2714,6 @@ static const struct ravb_hw_info ravb_gen2_hw_inf=
 o =3D {
+>  	.net_hw_features =3D NETIF_F_RXCSUM,
+>  	.net_features =3D NETIF_F_RXCSUM,
 >  	.stats_len =3D ARRAY_SIZE(ravb_gstrings_stats),
+> -	.max_rx_len =3D RX_BUF_SZ + RAVB_ALIGN - 1,
 >  	.tccr_mask =3D TCCR_TSRQ0 | TCCR_TSRQ1 | TCCR_TSRQ2 | TCCR_TSRQ3,
 >  	.rx_max_frame_size =3D SZ_2K,
-> +	.rx_max_desc_use =3D 2048 - ETH_FCS_LEN + sizeof(__sum16),
-
-As above.
-
 >  	.aligned_tx =3D 1,
->  	.gptp =3D 1,
->  	.nc_queues =3D 1,
-> @@ -2739,6 +2741,7 @@ static const struct ravb_hw_info ravb_rzv2m_hw_in=
+> @@ -2731,7 +2736,6 @@ static const struct ravb_hw_info ravb_rzv2m_hw_in=
 fo =3D {
+>  	.net_hw_features =3D NETIF_F_RXCSUM,
+>  	.net_features =3D NETIF_F_RXCSUM,
 >  	.stats_len =3D ARRAY_SIZE(ravb_gstrings_stats),
+> -	.max_rx_len =3D RX_BUF_SZ + RAVB_ALIGN - 1,
 >  	.tccr_mask =3D TCCR_TSRQ0 | TCCR_TSRQ1 | TCCR_TSRQ2 | TCCR_TSRQ3,
 >  	.rx_max_frame_size =3D SZ_2K,
-> +	.rx_max_desc_use =3D 2048 - ETH_FCS_LEN + sizeof(__sum16),
-
-As above.
-
 >  	.multi_irqs =3D 1,
->  	.err_mgmt_irqs =3D 1,
->  	.gptp =3D 1,
-> @@ -2763,6 +2766,7 @@ static const struct ravb_hw_info gbeth_hw_info =3D=
+> @@ -2756,7 +2760,6 @@ static const struct ravb_hw_info gbeth_hw_info =3D=
  {
+>  	.net_hw_features =3D NETIF_F_RXCSUM | NETIF_F_HW_CSUM,
+>  	.net_features =3D NETIF_F_RXCSUM | NETIF_F_HW_CSUM,
 >  	.stats_len =3D ARRAY_SIZE(ravb_gstrings_stats_gbeth),
+> -	.max_rx_len =3D ALIGN(GBETH_RX_BUFF_MAX, RAVB_ALIGN),
 >  	.tccr_mask =3D TCCR_TSRQ0,
 >  	.rx_max_frame_size =3D SZ_8K,
-> +	.rx_max_desc_use =3D 4080,
 >  	.aligned_tx =3D 1,
->  	.tx_counters =3D 1,
->  	.carrier_counters =3D 1,
+
+Looks ok other than the above comments. I'll try to do some testing
+tomorrow.
+
+Thanks,
 
 --=20
 Paul Barker
-
---------------VLGu4sS0PCsMY3tN7U0QUrXi
+--------------FTo0Xxhwpn5DPqvF8Mz8NK07
 Content-Type: application/pgp-keys; name="OpenPGP_0x27F4B3459F002257.asc"
 Content-Disposition: attachment; filename="OpenPGP_0x27F4B3459F002257.asc"
 Content-Description: OpenPGP public key
@@ -290,22 +421,22 @@ ZyZGVsEsOuGCLkekUMF/5dwOhEDXrY42VR/ZxdDTY99dznQkwTt4o7FOmkY=3D
 =3DsIIN
 -----END PGP PUBLIC KEY BLOCK-----
 
---------------VLGu4sS0PCsMY3tN7U0QUrXi--
+--------------FTo0Xxhwpn5DPqvF8Mz8NK07--
 
---------------z9opAjq4AA4Scl3rBXHwjoFA--
+--------------35LE4uVFN6gEKzR8f2ohKmjf--
 
---------------xYY0hsAi8Em6EFv1sIJKeSLA
+--------------zuOrgyMyorbQ8UPk8htZFsbG
 Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="OpenPGP_signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-wnsEABYIACMWIQSiu8gv1Xr0fIw/aoLbaV4Vf/JGvQUCZd5OBAUDAAAAAAAKCRDbaV4Vf/JGvSwp
-AQCPCLdnXx3mrsTmzSfR+Fpi8g/81TiAwZlrWAq4iwMSWgD+KmuEKIeTP09NGL7+tWBsAvmrgDba
-QdYhPIfswWV2pg4=
-=P++x
+wnsEABYIACMWIQSiu8gv1Xr0fIw/aoLbaV4Vf/JGvQUCZd5MawUDAAAAAAAKCRDbaV4Vf/JGvS53
+AQDU86ZvUznPLP5XWJ2nHwbuGT/y7j/o4ZIzq5EhmAm74QD/bt6k9weYSZZtie9HRXpt87+IsKaa
+YQZZTlRHeRoo5gw=
+=H3zi
 -----END PGP SIGNATURE-----
 
---------------xYY0hsAi8Em6EFv1sIJKeSLA--
+--------------zuOrgyMyorbQ8UPk8htZFsbG--
 
