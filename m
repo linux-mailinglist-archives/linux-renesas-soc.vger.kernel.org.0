@@ -1,105 +1,103 @@
-Return-Path: <linux-renesas-soc+bounces-3319-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-3320-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 911F286ABD3
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 28 Feb 2024 11:04:25 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4084986ACC7
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 28 Feb 2024 12:16:40 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C2BB91C22FB0
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 28 Feb 2024 10:04:24 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id F02E3284BD1
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 28 Feb 2024 11:16:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EEE9437153;
-	Wed, 28 Feb 2024 10:04:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6DECE12CD91;
+	Wed, 28 Feb 2024 11:16:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="N7XJfSGv"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="G687O2cE"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AA8D364B1
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 28 Feb 2024 10:04:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DCCA25624;
+	Wed, 28 Feb 2024 11:16:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709114648; cv=none; b=fuEk5RJf0sujxtbDCd8QGCZrobIBo0yK5fswBtTzbzSN0hdadBSdUPJ4aImIT5bjDQmS2mUxqJyB5hSvocJoHOMlxM/cscrGXgoV5Dht4GM1NNRStnjJW4sH2NSCrLSqYQ01XopvApbQX2cix1EE+8lkSl8Zv/C8zRAG01Ls2IU=
+	t=1709118995; cv=none; b=NcOE+eL/tX0sPwKuEmAirSWgJQgp2SC2phdPOPyZyeKQ3cHlDWf8yFhu1NqSzYAVSje8uPzxexTHwnWU6qM04dsaUv8dnCf7xFWr/QqUdfu2pXjy2eau+zOJI0CI1k+6lkNjfg6gp21YbIGJbCb6zFdr5Vb90isU/NmgkoKooqg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709114648; c=relaxed/simple;
-	bh=KQzzUhLT/q9KbVtq8OAn3e60tMLMhyaDIKLmaNMeNN4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=bwqVF+Vp7wHyIahQgsKKi/P8VrAYd6JHNXM9vJLvqdnkNYRKP1KwnMk3ojl/uXKfCcpC+FLgvl8SFd2pywyo/BrgBQfAzQqEQXHIViHB7ZoWipYCP3dO7x4yzg9WCCD8r3nZKTEUY5O3VHhQRVReUkQoeniZHyaZUmjLmNVNgkQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=N7XJfSGv; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=from:to:cc:subject:date:message-id
-	:mime-version:content-transfer-encoding; s=k1; bh=rDq91xwkdeBq+p
-	oVwEnDTvivychr45vA3bZxWuSbk7g=; b=N7XJfSGvkmJmWbKxaWscPZOpHc4+QO
-	6D3dbNNONjAyvRDPFam8H2yUdSC4/afPOW0KWMmYfX9wEc+E7wnIvyNRlrWzWxZb
-	wytxOaen9+3EeuLvKwkhGfgzivPanwwU0IKmZVbwkvWrBo/+tmPTuQ6671MxFn8S
-	mbC3nPZqN+HBy/vW+9EfSmn1+y2sgoDwSSnfJ8WPTQ2CotaHbbWuO14LWRGRk5cQ
-	Pdd3y5Qpqlvk5LgJYrVsl5tvApAkhjDYyJrysnDn+GowpscN+Y6Ts2VpY/jgwqKl
-	M5xdYJw747B/9HN/Vx3M8l97pUBPfslRtdgCitq/CWI8olUTGqHKQ9zQ==
-Received: (qmail 1906275 invoked from network); 28 Feb 2024 11:04:02 +0100
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 28 Feb 2024 11:04:02 +0100
-X-UD-Smtp-Session: l3s3148p1@nlEfQ24SbIMgAwDPXyvUACsbJ+4rxOVH
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: linux-renesas-soc@vger.kernel.org
-Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Dirk Behme <dirk.behme@de.bosch.com>,
-	Ulf Hansson <ulf.hansson@linaro.org>,
-	linux-mmc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH RFT] mmc: tmio: avoid concurrent runs of mmc_request_done()
-Date: Wed, 28 Feb 2024 11:03:45 +0100
-Message-ID: <20240228100354.3285-2-wsa+renesas@sang-engineering.com>
-X-Mailer: git-send-email 2.43.0
+	s=arc-20240116; t=1709118995; c=relaxed/simple;
+	bh=2BOEP3WVg6yAiJknU2Zv2AyuwWdxBqWBV3FP0Ovfe80=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ADbLRR44sx4AuHR4Tb25EZAN95LqtM/Q8cfdDGEfgyJgDWtainzCyYRL7ZOUtWF8dGh7YvQ+wpgKFgKD4JKxdW7yY6LsIDLit0LdsEY97qyNPGDVqE6E7Mu8vHxiYz2OOFVbcjZDHJzOdYAsaZb3VF8WN9hPuF4xveSr/PsKC34=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=G687O2cE; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 34BDDC433C7;
+	Wed, 28 Feb 2024 11:16:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1709118995;
+	bh=2BOEP3WVg6yAiJknU2Zv2AyuwWdxBqWBV3FP0Ovfe80=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=G687O2cEV14E2jPJ1Ta9LlkuY9wcTTeLyoxD6HVQoMhDPPX6fNPag8bOAWGOmqPLp
+	 y8jzzdCSag/ZchYeVV2R/bgDF9n9zDdfAC4+9lV4C1MdDTcrZccKkNIRPHNqIAqP0s
+	 8lelWvs6K+7TefnnfQkrJkb5GqhF6bIAy8x9nNGisJyQe8FhS/JJCrOqwfZma1K0lc
+	 1Pp2BZxUwDSSS5PrsRkaWuRTLboedkyDAA3iU+gi8zocsdvfCN7ZOJk55qBu/HlLFS
+	 tUgmGjXDB9G+mr0SGRDoptgzXn8ZelAhr592rc6xg8ujuy27ycul9OoVsEY81BwKGz
+	 fsyk3NpwsIoOg==
+Date: Wed, 28 Feb 2024 11:16:29 +0000
+From: Conor Dooley <conor@kernel.org>
+To: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>, linux-arm-kernel@lists.infradead.org,
+	devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH v2 2/4] dt-bindings: arm: renesas: Document Renesas
+ RZ/V2H(P) System Controller
+Message-ID: <20240228-suds-gradation-bbaa44b1038c@spud>
+References: <20240227232531.218159-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20240227232531.218159-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <8e4e05f9-5bd1-4f31-a2ae-fc1567405c11@linaro.org>
+ <CA+V-a8vSCif-JXGFtn9k-JRBsV3sKH4YoGJzQbum0DV1JS5hmg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="dGN/zjYuo5Wz6S60"
+Content-Disposition: inline
+In-Reply-To: <CA+V-a8vSCif-JXGFtn9k-JRBsV3sKH4YoGJzQbum0DV1JS5hmg@mail.gmail.com>
 
-With the to-be-fixed commit, the reset_work handler cleared 'host->mrq'
-outside of the spinlock protected critical section. That leaves a small
-race window during execution of 'tmio_mmc_reset()' where the done_work
-handler could grab a pointer to the now invalid 'host->mrq'. Both would
-use it to call mmc_request_done() causing problems (see Link).
 
-However, 'host->mrq' cannot simply be cleared earlier inside the
-critical section. That would allow new mrqs to come in asynchronously
-while the actual reset of the controller still needs to be done. So,
-like 'tmio_mmc_set_ios()', an ERR_PTR is used to prevent new mrqs from
-coming in but still avoiding concurrency between work handlers.
+--dGN/zjYuo5Wz6S60
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Reported-by: Dirk Behme <dirk.behme@de.bosch.com>
-Closes: https://lore.kernel.org/all/20240220061356.3001761-1-dirk.behme@de.bosch.com/
-Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-Fixes: df3ef2d3c92c ("mmc: protect the tmio_mmc driver against a theoretical race")
----
+On Wed, Feb 28, 2024 at 09:43:22AM +0000, Lad, Prabhakar wrote:
 
-Dirk: could you get this tested on your affected setups? I am somewhat
-optimistic that this is already enough. For sure, it is a needed first
-step.
+> Sure I will add "|". On that note some bindings have "|+" and some "|"
+> what is the preferred one?
 
- drivers/mmc/host/tmio_mmc_core.c | 2 ++
- 1 file changed, 2 insertions(+)
+I don't think the + should be used anywhere, it preserves all newlines
+at the end of a block of test. Maybe there's some specific instances,
+but in general I don't see a reason to use it.
 
-diff --git a/drivers/mmc/host/tmio_mmc_core.c b/drivers/mmc/host/tmio_mmc_core.c
-index be7f18fd4836..c253d176db69 100644
---- a/drivers/mmc/host/tmio_mmc_core.c
-+++ b/drivers/mmc/host/tmio_mmc_core.c
-@@ -259,6 +259,8 @@ static void tmio_mmc_reset_work(struct work_struct *work)
- 	else
- 		mrq->cmd->error = -ETIMEDOUT;
- 
-+	/* No new calls yet, but disallow concurrent tmio_mmc_done_work() */
-+	host->mrq = ERR_PTR(-EBUSY);
- 	host->cmd = NULL;
- 	host->data = NULL;
- 
--- 
-2.43.0
+--dGN/zjYuo5Wz6S60
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZd8WDQAKCRB4tDGHoIJi
+0oODAQDvqH1UidBbb/nnLMIxRaduWzMfpRH/a2BlFuvLNBp7AQEAyNhAGsc6MP7q
+Hxgg9cxjCjRPHv6DfrOZeThngMQ0dwM=
+=H17n
+-----END PGP SIGNATURE-----
+
+--dGN/zjYuo5Wz6S60--
 
