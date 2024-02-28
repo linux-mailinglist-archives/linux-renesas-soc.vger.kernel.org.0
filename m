@@ -1,115 +1,118 @@
-Return-Path: <linux-renesas-soc+bounces-3321-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-3322-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A2AD86ADBB
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 28 Feb 2024 12:41:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FBE486ADC3
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 28 Feb 2024 12:42:55 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9D1EF1F235EE
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 28 Feb 2024 11:41:39 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 30EF91F27AE0
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 28 Feb 2024 11:42:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2B8B07352E;
-	Wed, 28 Feb 2024 11:31:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="D7jhKv6r"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5032B14F998;
+	Wed, 28 Feb 2024 11:33:18 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vk1-f181.google.com (mail-vk1-f181.google.com [209.85.221.181])
+Received: from mail-yb1-f182.google.com (mail-yb1-f182.google.com [209.85.219.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A84EA7352D;
-	Wed, 28 Feb 2024 11:31:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB9BF12EBF0;
+	Wed, 28 Feb 2024 11:33:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709119918; cv=none; b=XNql5Zf9azb2FDuJc2JwGIeif1fw7lw5xxL4irlENLxthK6pq9Wl4LoU0EAPTf8PciIqIVVWAf9sS/kZOuKxb0JXt9TqKEP66IIKgcTWmnwD6Ge2zufG7AZcbusow+TQK0C5HB+svooO55Xs2a58ulwmekHFBjFSdG70bSk7+Nc=
+	t=1709119998; cv=none; b=ucp9sWzlAIC2VL8Ir7+xMxj4pnjHKE7Gxx4CEHfifswzn5USBgOb3FEG8BzKjWLY6QTQbvFkY4vo4lY/yOlnSvttGOP7cTkkiye4oHO2K6XEciZCFsmK8CDV7Ud9lAkD/P5d9fEVf56UicT5KJYYuJN2vWYY3mmjkL6XMIid56M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709119918; c=relaxed/simple;
-	bh=iz2+Jb/8dTUvgoff2FN8yxVcFXnUxXeuchrvTFUu+vY=;
+	s=arc-20240116; t=1709119998; c=relaxed/simple;
+	bh=6fD+GFn4fgyeY4yNFfboO/qEwSq92pkkTH2DLJ1P8xo=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ebOOcJuNMKgdYWkAyWjNFXW3VBvLjsbdQWqsmI5H6DoCMPyVz50TT5BEnbYRU8J34bfkT3QrkozcM4+GKBmO8CmsqYrkwbdaurSP9GH1JoKepSgln0cf8YwtVBRI4+1oFqZFWzV+PcJc2oV/bMHeTij/2zf6estIZBN4vg3e51Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=D7jhKv6r; arc=none smtp.client-ip=209.85.221.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+	 To:Cc:Content-Type; b=Ah+9jcNxqPUnRbf6bD4O3mbPrgZP01704lpCnpGwH3FTS+0/yd9eu3S66OZjQ/48JtcIuQXNjl+Cm31D0cZTgTD9wgp6GIWCPRNkkRxkd/XEcBL9V298NUSFbABnQRkMp6i11IUSkmesRHtv4LsbJct+WUzu2X2pQQkZEi9oiXE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.219.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f181.google.com with SMTP id 71dfb90a1353d-4d331ba6078so365241e0c.3;
-        Wed, 28 Feb 2024 03:31:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1709119915; x=1709724715; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=iz2+Jb/8dTUvgoff2FN8yxVcFXnUxXeuchrvTFUu+vY=;
-        b=D7jhKv6rcc519p9QYjRCXu4eCFoz8Bq9qqwGgK9LmtqK5cjdHamrd7gVERfzo9kRGZ
-         EuY7KVgUV5tHMMMTmrgy5SPFjIwuAAp5Hs0BPOn18E2mjPH6hniC9bcqEZhDh2ljaXPN
-         M5U1GAqgaTFxVe0zEVsNY5T4yFdSM8l2Azih2xI54HlO1WyJPgKXBnjxBM/hIRe5JhPG
-         Kv7n3Iqn/ioTU8eMQbAebIedB791rqQnl3vA1h5S8A8e41ceHJ+JM2am7mPL7+bsG/tC
-         LaKuUUNe93Ogw/EBwXQx7wvCbo0xz+++8Jln4OPCRGY5YFPV6iM6DZqHN1woOS4TArqZ
-         dT8g==
+Received: by mail-yb1-f182.google.com with SMTP id 3f1490d57ef6-dc238cb1b17so5743069276.0;
+        Wed, 28 Feb 2024 03:33:15 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709119915; x=1709724715;
+        d=1e100.net; s=20230601; t=1709119994; x=1709724794;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=iz2+Jb/8dTUvgoff2FN8yxVcFXnUxXeuchrvTFUu+vY=;
-        b=XpEj6QnqWKi9S0e/bBSXzjfdPifFZ3tXvCcz28p0rr7MRTvcwzm49rbAwLW9GXUQOp
-         Z9dKw9jZwh3YT86qLQKg0cgBPK26X9EncM0PjuF8WG+zHBP3gVumUTcDigjyGg6zPOV2
-         gZCpT9Ua2BSIV22guBFv6fJGDjuS2HcGFyLyfUq8wRg1QrP/dBzEFcYhcd0cJIshN3RS
-         MCvqytmwAS5mqV8q+7gYzcv6wBbIXIv8mzn1x8Otm/MVG+R3G9V/XKmFxbtqXGiqblS1
-         k7f7IqxDwhTOczfTyGNo2b3ADmeJclMCP/pbwlIOIJPlMgP1PwarwDB14pZ3O/599c11
-         pVlw==
-X-Forwarded-Encrypted: i=1; AJvYcCWiZXltlpRANVGymxOsw1+VJCJfomFSsfiGlJhLzt/zLyG4ch9RmbIev1ROvvRH53VZ/EBCUgIiXByoPzWraaoEvXr+/4jvRNujt8CGYbYonQz+wp/4VE5Zct/MY0+li5Jm2mc+u4Aa72iJVMuWiE3+pw4Ke/TPWb8irn+FVJKYCAketui8vjL6v5Hn
-X-Gm-Message-State: AOJu0YwmEheby5yl4EaFrwIbYRkEtuIAjpqxKtQa11WZj8MxB/zRl1hE
-	i6uiJ0yI5VuJm3GeJHYP/FY/oez6Y4ezjGL32P/vC3CAsoMUIvb+e0f/OdBeeeYACScxH4bAhLf
-	mLW2IaULOmb/7S+tESEqj7SiOjbk=
-X-Google-Smtp-Source: AGHT+IGDipX2IVIH80/KU2LPt226VTjmFS4ViAHeJZ5UN3Tzl7sYyODC6rfHT9W9FPIiS0/bv5H4OzfsSkwmKm4RW/c=
-X-Received: by 2002:a1f:d403:0:b0:4c8:8d45:5325 with SMTP id
- l3-20020a1fd403000000b004c88d455325mr9610229vkg.7.1709119915466; Wed, 28 Feb
- 2024 03:31:55 -0800 (PST)
+        bh=3ynby1EA+eiJlMLirUugmY5xEE0QYQASieBRETxqFNk=;
+        b=lgDrsjeippzEO5M8eLVGb/X+YAPJa3AUzUtPRSqmuoUI/87k3qot9YsfxPxAFZJh3G
+         btov/U9N5vD5ssIx7A0JaB8s7gn4YotwskX0aee0CasCpM5kGFt3HyFuuexNiFT5tOw+
+         Bdhroj02wkW3tgyx6E777Ox2Hm8Bu5wYzAUXU5x2oDyw7MmQPg0NKXRdyoqvQrB+NPqc
+         f1jA2na2gDv2pqRr0pylEMg/QT29TW1z4ybH0mRmQVjeOgFHKO9TIBvUvX4RT8e1PKHn
+         YXT0K7OKVX7JBsMZO8mTml1vx17ZbQ6KirH4+O2JoehmBk7W4AROYSskQf52jyavMU3F
+         QtZQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWMJIjIqs9FOlwokrr6h3kcc1JeeAph3dFUHYkBCnOAzFe+7ZOea+u7mKXwTvP+DRyAu9Q8G+CdXVtL1SnHRV4t5Z39D+fbybpU+a7X9j1U1CB1SInfYUTi1ISZHm95Qy3fF7PiqHJPC9+ybyPMlDqRm7LD4mhNcKtEIca1SXfuEGCcaJWDjps9GYlE
+X-Gm-Message-State: AOJu0YzrmKxkFbInRVzYkfJdxYzmVAYZLkFljmZxODuEPr3RtpjNfALx
+	whFIqHlGmifrmbPohAq2xIGa8Zr6nDjG3EUfxEziRjLW1IKtzxl9QCdJ+iAm6PeEgA==
+X-Google-Smtp-Source: AGHT+IF/PzgXMTXrsWWLleoXKWP7w9iUN/C3qo4p0B1YRXpJcXPw0jE7juJqx/P3dk7imhuIkIwdXA==
+X-Received: by 2002:a25:d30d:0:b0:dcf:ba3f:a6e9 with SMTP id e13-20020a25d30d000000b00dcfba3fa6e9mr1992909ybf.42.1709119993863;
+        Wed, 28 Feb 2024 03:33:13 -0800 (PST)
+Received: from mail-yb1-f174.google.com (mail-yb1-f174.google.com. [209.85.219.174])
+        by smtp.gmail.com with ESMTPSA id v35-20020a25fc23000000b00dc6d51c8555sm1970152ybd.17.2024.02.28.03.33.13
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 28 Feb 2024 03:33:13 -0800 (PST)
+Received: by mail-yb1-f174.google.com with SMTP id 3f1490d57ef6-dc6dcd9124bso5626013276.1;
+        Wed, 28 Feb 2024 03:33:13 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCX5wy66UPOOo27/ndR0f/SLgBoZeEhOwHnWSz3HiURjKQ9/iodnegPPS+xTAEoVpmGehTLSVWwQ41EcZVL+e5rTlIBBVphBSI3jmDaigClGhofj3AhieMHOBYFuJ4MUWtnLPAjZTMMgzx0CMukq+/MEbNkP1dZvjajvAvM7cBR8kTcL7BAE0ARkyb1I
+X-Received: by 2002:a25:9c02:0:b0:dcc:2f94:591a with SMTP id
+ c2-20020a259c02000000b00dcc2f94591amr1770095ybo.12.1709119993126; Wed, 28 Feb
+ 2024 03:33:13 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240227232531.218159-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20240227232531.218159-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <8e4e05f9-5bd1-4f31-a2ae-fc1567405c11@linaro.org> <CA+V-a8vSCif-JXGFtn9k-JRBsV3sKH4YoGJzQbum0DV1JS5hmg@mail.gmail.com>
- <20240228-suds-gradation-bbaa44b1038c@spud>
-In-Reply-To: <20240228-suds-gradation-bbaa44b1038c@spud>
-From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Wed, 28 Feb 2024 11:31:04 +0000
-Message-ID: <CA+V-a8s3+Q54H5L33vrL=yhhzbVRK9UN_tffDW3V_BJDtudBPw@mail.gmail.com>
-Subject: Re: [PATCH v2 2/4] dt-bindings: arm: renesas: Document Renesas
- RZ/V2H(P) System Controller
-To: Conor Dooley <conor@kernel.org>
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
-	Rob Herring <robh+dt@kernel.org>, 
+References: <20240227232531.218159-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20240227232531.218159-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20240227232531.218159-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Wed, 28 Feb 2024 12:33:00 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdX2X55v+BMWbLSam4G14-J_Ngr7jVJwh1kF=q+T7H0q4A@mail.gmail.com>
+Message-ID: <CAMuHMdX2X55v+BMWbLSam4G14-J_Ngr7jVJwh1kF=q+T7H0q4A@mail.gmail.com>
+Subject: Re: [PATCH v2 1/4] dt-bindings: soc: renesas: Document Renesas
+ RZ/V2H(P) SoC variants
+To: Prabhakar <prabhakar.csengg@gmail.com>
+Cc: Magnus Damm <magnus.damm@gmail.com>, Rob Herring <robh+dt@kernel.org>, 
 	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
 	Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
 	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org, 
 	linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org, 
 	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Conor,
+On Wed, Feb 28, 2024 at 12:26=E2=80=AFAM Prabhakar <prabhakar.csengg@gmail.=
+com> wrote:
+> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+>
+> Document Renesas RZ/V2H(P) (R9A09G057) SoC variants.
+>
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Reviewed-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+> Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
+> v1 -> v2
+> - Replaced RZ/V2H{P} -> RZ/V2H(P)
+> - Included Ack and RB tags
 
-On Wed, Feb 28, 2024 at 11:16=E2=80=AFAM Conor Dooley <conor@kernel.org> wr=
-ote:
->
-> On Wed, Feb 28, 2024 at 09:43:22AM +0000, Lad, Prabhakar wrote:
->
-> > Sure I will add "|". On that note some bindings have "|+" and some "|"
-> > what is the preferred one?
->
-> I don't think the + should be used anywhere, it preserves all newlines
-> at the end of a block of test. Maybe there's some specific instances,
-> but in general I don't see a reason to use it.
->
-Thanks for the clarification.
+Thanks for the update, will queue in renesas-devel for v6.10.
 
-Cheers,
-Prabhakar
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
