@@ -1,99 +1,115 @@
-Return-Path: <linux-renesas-soc+bounces-3350-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-3351-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4C6686CA8C
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 29 Feb 2024 14:44:48 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 34FCF86CEFB
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 29 Feb 2024 17:27:01 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 71D6E1F23104
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 29 Feb 2024 13:44:48 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E4646287AAE
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 29 Feb 2024 16:26:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 818C67E76A;
-	Thu, 29 Feb 2024 13:44:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="GtQCeEs3"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BF70D13440F;
+	Thu, 29 Feb 2024 16:22:09 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yb1-f182.google.com (mail-yb1-f182.google.com [209.85.219.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED8907E0E7
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 29 Feb 2024 13:44:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED95B7A15B
+	for <linux-renesas-soc@vger.kernel.org>; Thu, 29 Feb 2024 16:22:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709214284; cv=none; b=Yaz7TSJ4ed2WJafxQRo4MLYBODlDn5QO5OXvsB4MOdkcPxhjXIv9XxsZHM0dSdk/3Qs2GUCW0Y+e5ER7b6fPBL7RfejRmHn/TJxUh5Zy6SOKvb3/dgN0S7AsgXtvS6WKVHj43fh57gd8CxsOrUXiam8pQrQX+jk77O8wTBUj0U4=
+	t=1709223729; cv=none; b=AYEtNLZSWosebz88tj866Y3VBeMueytMZ8BYgUEoLOCeBwK8YkHyEbUjYjOYHhyia8O+2Bz6Nu+jIAo0wV/+/nfkHpvO2u+gIhD+t3Z78/tFFTChErAffmaa3iOxdp/+epBOYEpmdE4hg8E2NX31SFZBkDTwJR0TNPd6GztvFTw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709214284; c=relaxed/simple;
-	bh=arYLC+uZ4uuz1T0M8gbovYAhzFuJ9VVOnrgFslQqpSE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=XDbN3noMgApH/hzU28hIjrnZiWKU0++LO4UdDNgZBHbC7t2FuSGSe/5MDUr5eWHvGSTzYz8VGCrmQcl4AfcJ/Artw7Qam+H8OAo+7m/RkNiq5DQDdquAOzWONSnNYwnPeGDJRpNo1Z52FVfir347hVcq3dnEjp1zoIa5K2+JiBA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=GtQCeEs3; arc=none smtp.client-ip=209.85.219.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-yb1-f182.google.com with SMTP id 3f1490d57ef6-dcdb210cb6aso1020387276.2
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 29 Feb 2024 05:44:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1709214282; x=1709819082; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=arYLC+uZ4uuz1T0M8gbovYAhzFuJ9VVOnrgFslQqpSE=;
-        b=GtQCeEs3kiF6VYu9JuoXQd01SaOVA25zptc9Dxf3N/ldn/H8BvGz4JZAJoS+UixGS0
-         LV7ycB2jd3Pb1ZwOERbxC1SRNbm2TjBDUBMIBrir6cEEC8ta5rofFLJXAFXFt0+dEaIz
-         /TNjT0wAMRB0oTSsU/osKuY6eAGjHn/ifs4QHRbAwpvKRPBa8/+Tqoo5xSXwDocVcLTI
-         2Tk8pJ6V0iu0XfGRS7qGkKQzcX75FhGfseE1ymGG61I+1bgahaGaUVR3Sj/Yu0q8TQJ7
-         x9oZmx6WNk4oYwCDatYW6LfZe0xKAjtaSwDfaC2dF60xayFhMBGCKTg91H6YYy8OWAn+
-         EDUw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709214282; x=1709819082;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=arYLC+uZ4uuz1T0M8gbovYAhzFuJ9VVOnrgFslQqpSE=;
-        b=bLGJccwcp4Yogdf3aMArhnqFUOIfQa1LtCktz9rQlPLnphu6d8IgGIC8ox3TMzPqbo
-         ccCrbfxZDD9QaXDy1hcouJk6qQ/ErF2THCBP1P6x67y+d4Me+IyZo4u83X4kwzKNr7dn
-         FGtiIUaEydcDIwrIxXEsAHaoEDLwTxiayy5SEz41XCtyzI5aSun3cByBW6w1qQG1ZCAD
-         2Feem4vGzzlOu1xhOsXMhtl1LyKlAruxYUFmZKo6Iymh9bp+OwBQWXm/FngzpqHmjSL/
-         Exb3HaH6eTXIh93QGVF2b1AZzZa4ZHfDfiyd5e1tTw+G3jDwBKkp9kKlGdw9sSlGEEJD
-         3d2w==
-X-Forwarded-Encrypted: i=1; AJvYcCXnh6P3MyBD/wukS3GEre9J+jJeXIul7y8r1T88rYsUFn1oZXVi/mEcMKCO1XPmMAu7KYH00R8wpE56ngF+HQQxggTVAIuljrAAHJ4TqGQtrU0=
-X-Gm-Message-State: AOJu0Ywn+KS4Mm/ZbydXk+XiS+sHGCD2stqHJAM141JZvPcuvv0j7Cg6
-	jMriBCG9XS6dfQwtbrIOmfOaMSehtYZWF37JmiK0ppzODp0BWfg8jHT72Fzz9WwN14r6FQspZDp
-	LGjiYUIXeATrTzTvHbLdfMr4Q0ewEkPAUi8pevA==
-X-Google-Smtp-Source: AGHT+IHi8eN5Wfh2JnmE1aIOt4CnlHTYtAv38O2XfHtZHksusIwxcm29Hb2iH0f+TCoc79GgOaXGUIH/luIX+BZx3cU=
-X-Received: by 2002:a5b:a:0:b0:dc6:e4f8:7e22 with SMTP id a10-20020a5b000a000000b00dc6e4f87e22mr2044131ybp.62.1709214281995;
- Thu, 29 Feb 2024 05:44:41 -0800 (PST)
+	s=arc-20240116; t=1709223729; c=relaxed/simple;
+	bh=9xr/DteE9ZS8doTdMEIRTmS8ga6UIWvenhyigxLRvhc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=W/JCrG7G5MVtbtDexJuRoQHCj/r57l59hb+u32JOXIxHVnKQKZiY82KzeWrDty7H3JenKm8cRh7gzPhc0MlfpibdPOCdN9VQYOqfKemAB3OtKaiHMjaBswzGXn+oH3czmeXIECE6Qn3VYBTUxKgxU7OrahMc8xVyG9RqKr9cHiI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1rfjAN-00085N-Kw; Thu, 29 Feb 2024 17:21:51 +0100
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1rfjAM-003cf2-F7; Thu, 29 Feb 2024 17:21:50 +0100
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.96)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1rfjAM-00E2c2-1C;
+	Thu, 29 Feb 2024 17:21:50 +0100
+Date: Thu, 29 Feb 2024 17:21:50 +0100
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+Cc: Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, Biju Das <biju.das.jz@bp.renesas.com>, 
+	Magnus Damm <magnus.damm@gmail.com>, linux-pwm@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: Re: [PATCH v7 1/4] dt-bindings: pwm: Add RZ/V2M PWM binding
+Message-ID: <jubuf7nz65onuqrdrnt6bejplexvodsldqvqj527fxcotehxl7@z3kbhkhlnaxh>
+References: <20240212210652.368680-1-fabrizio.castro.jz@renesas.com>
+ <20240212210652.368680-2-fabrizio.castro.jz@renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240226191607.397386-1-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20240226191607.397386-1-biju.das.jz@bp.renesas.com>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Thu, 29 Feb 2024 14:44:31 +0100
-Message-ID: <CACRpkdaPx51z15cdGKtZ9+KEMLMver1YF5QnzkX+XDSG+LL-eQ@mail.gmail.com>
-Subject: Re: [PATCH] pinctrl: da9062: Add OF table
-To: Biju Das <biju.das.jz@bp.renesas.com>
-Cc: Support Opensource <support.opensource@diasemi.com>, linux-gpio@vger.kernel.org, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, 
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>, Biju Das <biju.das.au@gmail.com>, 
-	linux-renesas-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="rl3jxwyibjwzx6ez"
+Content-Disposition: inline
+In-Reply-To: <20240212210652.368680-2-fabrizio.castro.jz@renesas.com>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-renesas-soc@vger.kernel.org
+
+
+--rl3jxwyibjwzx6ez
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Feb 26, 2024 at 8:16=E2=80=AFPM Biju Das <biju.das.jz@bp.renesas.co=
-m> wrote:
-
-> Add OF table as per the binding so that driver get instantiated and
-> bind automatically when the driver is built as a module.
->
+On Mon, Feb 12, 2024 at 09:06:49PM +0000, Fabrizio Castro wrote:
+> From: Biju Das <biju.das.jz@bp.renesas.com>
+>=20
+> Add device tree bindings for the RZ/V2{M, MA} PWM Timer (PWM).
+>=20
 > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-Patch applied!
+If you send a patch, it needs your S-o-b. (Though you could probably
+trick me into applying v6 :-)
 
-Yours,
-Linus Walleij
+Best regards
+Uwe
+
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--rl3jxwyibjwzx6ez
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmXgrx0ACgkQj4D7WH0S
+/k5dwAf/e179OLb30R7QH30xEqFAJN+SJBFnx3NXxhZTPSVo0cLHJVX3v4cEm6pU
+HLc0LLNY4e7y1GJgcglTL+rG2oCVVIpBEjX/HSBNmRma2OiAEa9leqvdOsDR4xW3
+al+XaqG01+XACbecDYJHr+2gpswmUHfvYXqIt+l6GK78XfUmQjrok+CaWKtYwOp5
+2U/NgOIeDGhLi6uTuJpI7K4UcDiHoXFcq7IlaKeSadGCXzawKxLNX8bdcp6qasUX
+jNFSNkcRkGNzL1Ww6+IrEETvUrzmBcVDCB3dbtNJ+R7CY4IoBDQQukdEEupNgrpa
+EEYb5KB8/i3C2vLn/X5NzXMzm1K75g==
+=cAGr
+-----END PGP SIGNATURE-----
+
+--rl3jxwyibjwzx6ez--
 
