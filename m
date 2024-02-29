@@ -1,64 +1,78 @@
-Return-Path: <linux-renesas-soc+bounces-3358-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-3359-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15F3986D4F4
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 29 Feb 2024 21:51:56 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EBCB86D51E
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 29 Feb 2024 21:55:45 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 7BCCEB256EC
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 29 Feb 2024 20:51:53 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 71AB11C20E31
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 29 Feb 2024 20:55:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 46E1E74C17;
-	Thu, 29 Feb 2024 20:40:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 829781504E4;
+	Thu, 29 Feb 2024 20:41:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sm3+t92G"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="N4NIXlG0"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A7A374C11;
-	Thu, 29 Feb 2024 20:40:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58091160EC9;
+	Thu, 29 Feb 2024 20:41:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709239232; cv=none; b=eRe3/MFK6IY95k2sW3Gjbm0a91N2ZQJdMxfSQWbbJfwPBqd1BDy2iVvofTtHD99UzD59ew9S2f1nPwWzCRxXXjmHtSHwNWWasjUBXrspP7jv0M6ahE58Q0rMZ6Aw7JGbnW40CG2Luyub5ih/M0iVsSE6pQguN+hmMD7I+4rnDYY=
+	t=1709239263; cv=none; b=cPNvVuFv2fd7ZQm54whQJSSrlV2vQ1cp9pNs4cPT9Z/BttV+nPxHCB9DG/DUTY857NASyhSwNNNypujJ3VLR1tg5QjOMf3aP1o4Yd2I3OJMAVHj+n3GN8vwVOEWZ5SXQ87qIlbiwclwt4tlN7KTZu0K2RVAAth9OpcQLQPQavbU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709239232; c=relaxed/simple;
-	bh=n6A4tUBhWX7HwegfEx4yiXj5Dlp8rAGYSamdvQLeZP0=;
+	s=arc-20240116; t=1709239263; c=relaxed/simple;
+	bh=9VfXSt1NiGcVAed46Ql4jw8lhSZWuC2t0JpuV/8gLi0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=VAZB/edwHeZasHJG0nldCQBfegzG0o7+GycsRauN5Cc6gNiUrdYxmf7t9zR0So/iyPMsnQGToPui9Q0VsZt0SRT+xpWg6uyAQNBYctjKFDtkIytJNc8m69sDA4Y1USsKMl5ma8gN/byK8wdacjVJMVbHU4fWMsfFn1aCZzPkjhA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sm3+t92G; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 98E2EC433C7;
-	Thu, 29 Feb 2024 20:40:30 +0000 (UTC)
+	 MIME-Version; b=jpYOAG/DIKlMgNpPpJVgtcx2XWPG1ZZ2gkyYOMnizBtEiEoXSplW/o4k9rCqcHo6wzDiYkAinRJXeJ4bYDZvus3SlGTyFvIlTRnbC8d/EF3VeeFR1tySnR6XeZcpIHS62Znb6KKS9xlhiINAcProEoqnJbwRmJE7QvED/BlOdhw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=N4NIXlG0; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A4335C433B2;
+	Thu, 29 Feb 2024 20:40:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1709239232;
-	bh=n6A4tUBhWX7HwegfEx4yiXj5Dlp8rAGYSamdvQLeZP0=;
+	s=k20201202; t=1709239262;
+	bh=9VfXSt1NiGcVAed46Ql4jw8lhSZWuC2t0JpuV/8gLi0=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=sm3+t92GnfLErmDqUsdTGMm3eIbFaK9857pqycGgIe68pYPTK/xH2rs2e2bDWXdai
-	 KdWNw1VgTZO/Tlo5k2xxTM2NOlfUwD9wFdnUFKQGXhwoWNKrEToE8SCJc0AfhIup5v
-	 YnY5gWyd+goJhuZ3n8shed4rBFiFX3HBDWPu2R6pfkwrVwM3uL501Y/LIGVbEzdoBF
-	 2ySrYKI6HMSEo2XttKZdIDhlv/lSzFmP9wow4Bh8BB+73k73S0MZvFUO8LYfqZaZuq
-	 JbhWDOfd4sIszjVo7nZpNKapZkUD0fdKokuhzsAazpXfQbDY9LvFMI0zO+IX7woHPZ
-	 KIPxLfPcFhoYA==
+	b=N4NIXlG0u+//DwEfRDxevCUowifQ4nagwkvnzT7lYSDchWstTX0Hgt4z8uQrWUJii
+	 WHvIWkNLrDv969uBksT1X1kR6me2ROrDgzNjTyU3KNLnSEhvD6g3s8fPt7I4ohJtU3
+	 QjadssFCXBLTUpeYE9Ru6aYNua7wZF/kaaEjBpzyPxFNxjrtzPA+oEeW1zmWo/kTGk
+	 YmTqc2QEDiHJXRwn+C9uwhHiyxxkSkzKAwroURYHxzlT6ipdnSdxSdvQJ4vQC6ewle
+	 zyTloDkERCK/whdq0sX9gBU0vVcAsuzge0eOwhhfb0zaYxHns87auaBZHVETCOm+OQ
+	 A7JNNKC3TcmQg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
-	Rob Herring <robh@kernel.org>,
+Cc: Rob Herring <robh@kernel.org>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Chanho Min <chanho.min@lge.com>,
+	Arnd Bergmann <arnd@arndb.de>,
 	Sasha Levin <sashal@kernel.org>,
-	magnus.damm@gmail.com,
+	tsahee@annapurnalabs.com,
+	atenart@kernel.org,
 	robh+dt@kernel.org,
 	krzysztof.kozlowski+dt@linaro.org,
 	conor+dt@kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	devicetree@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.6 22/22] ARM: dts: renesas: rcar-gen2: Add missing #interrupt-cells to DA9063 nodes
-Date: Thu, 29 Feb 2024 15:39:15 -0500
-Message-ID: <20240229203933.2861006-22-sashal@kernel.org>
+	rjui@broadcom.com,
+	sbranden@broadcom.com,
+	andrew@lunn.ch,
+	gregory.clement@bootlin.com,
+	sebastian.hesselbarth@gmail.com,
+	matthias.bgg@gmail.com,
+	magnus.damm@gmail.com,
+	linux-arm-kernel@lists.infradead.org,
+	devicetree@vger.kernel.org,
+	linux-mediatek@lists.infradead.org,
+	linux-renesas-soc@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.1 12/12] arm64: dts: Fix dtc interrupt_provider warnings
+Date: Thu, 29 Feb 2024 15:40:34 -0500
+Message-ID: <20240229204039.2861519-12-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240229203933.2861006-1-sashal@kernel.org>
-References: <20240229203933.2861006-1-sashal@kernel.org>
+In-Reply-To: <20240229204039.2861519-1-sashal@kernel.org>
+References: <20240229204039.2861519-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -67,132 +81,169 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.6.18
+X-stable-base: Linux 6.1.79
 Content-Transfer-Encoding: 8bit
 
-From: Geert Uytterhoeven <geert+renesas@glider.be>
+From: Rob Herring <robh@kernel.org>
 
-[ Upstream commit 8c987693dc2d292d777f1be63cb35233049ae25e ]
+[ Upstream commit 91adecf911e5df78ea3e8f866e69db2c33416a5c ]
 
-make dtbs_check W=2:
+The dtc interrupt_provider warning is off by default. Fix all the warnings
+so it can be enabled.
 
-    arch/arm/boot/dts/renesas/r8a7790-lager.dts:444.11-458.5: Warning (interrupt_provider): /i2c-mux4/pmic@58: Missing '#interrupt-cells' in interrupt provider
-    ...
-
-Fix this by adding the missing #interrupt-cells properties.
-
-Reported-by: Rob Herring <robh@kernel.org>
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Reviewed-by: Rob Herring <robh@kernel.org>
-Link: https://lore.kernel.org/r/a351e503ea97fb1af68395843f513925ff1bdf26.1707922460.git.geert+renesas@glider.be
+Signed-off-by: Rob Herring <robh@kernel.org>
+Reviewed-By: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com> #
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Acked-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Acked-by: Florian Fainelli <florian.fainelli@broadcom.com> #Broadcom
+Acked-by: Chanho Min <chanho.min@lge.com>
+Link: https://lore.kernel.org/r/20240213-arm-dt-cleanups-v1-3-f2dee1292525@kernel.org
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- arch/arm/boot/dts/renesas/r8a7790-lager.dts   | 1 +
- arch/arm/boot/dts/renesas/r8a7790-stout.dts   | 1 +
- arch/arm/boot/dts/renesas/r8a7791-koelsch.dts | 1 +
- arch/arm/boot/dts/renesas/r8a7791-porter.dts  | 1 +
- arch/arm/boot/dts/renesas/r8a7792-blanche.dts | 1 +
- arch/arm/boot/dts/renesas/r8a7793-gose.dts    | 1 +
- arch/arm/boot/dts/renesas/r8a7794-alt.dts     | 1 +
- arch/arm/boot/dts/renesas/r8a7794-silk.dts    | 1 +
- 8 files changed, 8 insertions(+)
+ arch/arm64/boot/dts/amazon/alpine-v2.dtsi           | 1 -
+ arch/arm64/boot/dts/amazon/alpine-v3.dtsi           | 1 -
+ arch/arm64/boot/dts/broadcom/northstar2/ns2.dtsi    | 1 +
+ arch/arm64/boot/dts/broadcom/stingray/stingray.dtsi | 1 +
+ arch/arm64/boot/dts/lg/lg1312.dtsi                  | 1 -
+ arch/arm64/boot/dts/lg/lg1313.dtsi                  | 1 -
+ arch/arm64/boot/dts/marvell/armada-ap80x.dtsi       | 1 -
+ arch/arm64/boot/dts/mediatek/mt8195-demo.dts        | 1 +
+ arch/arm64/boot/dts/renesas/ulcb-kf.dtsi            | 4 ++++
+ 9 files changed, 7 insertions(+), 5 deletions(-)
 
-diff --git a/arch/arm/boot/dts/renesas/r8a7790-lager.dts b/arch/arm/boot/dts/renesas/r8a7790-lager.dts
-index 5ad5349a50dc9..ab7e9fa90b9fe 100644
---- a/arch/arm/boot/dts/renesas/r8a7790-lager.dts
-+++ b/arch/arm/boot/dts/renesas/r8a7790-lager.dts
-@@ -437,6 +437,7 @@ pmic@58 {
- 			interrupt-parent = <&irqc0>;
- 			interrupts = <2 IRQ_TYPE_LEVEL_LOW>;
+diff --git a/arch/arm64/boot/dts/amazon/alpine-v2.dtsi b/arch/arm64/boot/dts/amazon/alpine-v2.dtsi
+index 4eb2cd14e00b0..9b6da84deae7a 100644
+--- a/arch/arm64/boot/dts/amazon/alpine-v2.dtsi
++++ b/arch/arm64/boot/dts/amazon/alpine-v2.dtsi
+@@ -145,7 +145,6 @@ pci@fbc00000 {
+ 		msix: msix@fbe00000 {
+ 			compatible = "al,alpine-msix";
+ 			reg = <0x0 0xfbe00000 0x0 0x100000>;
+-			interrupt-controller;
+ 			msi-controller;
+ 			al,msi-base-spi = <160>;
+ 			al,msi-num-spis = <160>;
+diff --git a/arch/arm64/boot/dts/amazon/alpine-v3.dtsi b/arch/arm64/boot/dts/amazon/alpine-v3.dtsi
+index 73a352ea8fd5c..b30014d4dc29c 100644
+--- a/arch/arm64/boot/dts/amazon/alpine-v3.dtsi
++++ b/arch/arm64/boot/dts/amazon/alpine-v3.dtsi
+@@ -351,7 +351,6 @@ pcie@fbd00000 {
+ 		msix: msix@fbe00000 {
+ 			compatible = "al,alpine-msix";
+ 			reg = <0x0 0xfbe00000 0x0 0x100000>;
+-			interrupt-controller;
+ 			msi-controller;
+ 			al,msi-base-spi = <336>;
+ 			al,msi-num-spis = <959>;
+diff --git a/arch/arm64/boot/dts/broadcom/northstar2/ns2.dtsi b/arch/arm64/boot/dts/broadcom/northstar2/ns2.dtsi
+index fda97c47f4e97..d5778417455c0 100644
+--- a/arch/arm64/boot/dts/broadcom/northstar2/ns2.dtsi
++++ b/arch/arm64/boot/dts/broadcom/northstar2/ns2.dtsi
+@@ -584,6 +584,7 @@ gpio_g: gpio@660a0000 {
+ 			#gpio-cells = <2>;
+ 			gpio-controller;
  			interrupt-controller;
 +			#interrupt-cells = <2>;
+ 			interrupts = <GIC_SPI 400 IRQ_TYPE_LEVEL_HIGH>;
+ 		};
  
- 			rtc {
- 				compatible = "dlg,da9063-rtc";
-diff --git a/arch/arm/boot/dts/renesas/r8a7790-stout.dts b/arch/arm/boot/dts/renesas/r8a7790-stout.dts
-index fe14727eefe1e..25956661a8754 100644
---- a/arch/arm/boot/dts/renesas/r8a7790-stout.dts
-+++ b/arch/arm/boot/dts/renesas/r8a7790-stout.dts
-@@ -332,6 +332,7 @@ pmic@58 {
- 		interrupt-parent = <&irqc0>;
- 		interrupts = <2 IRQ_TYPE_LEVEL_LOW>;
+diff --git a/arch/arm64/boot/dts/broadcom/stingray/stingray.dtsi b/arch/arm64/boot/dts/broadcom/stingray/stingray.dtsi
+index 8f8c25e51194d..473d7d0ddf369 100644
+--- a/arch/arm64/boot/dts/broadcom/stingray/stingray.dtsi
++++ b/arch/arm64/boot/dts/broadcom/stingray/stingray.dtsi
+@@ -442,6 +442,7 @@ gpio_hsls: gpio@d0000 {
+ 			#gpio-cells = <2>;
+ 			gpio-controller;
+ 			interrupt-controller;
++			#interrupt-cells = <2>;
+ 			interrupts = <GIC_SPI 183 IRQ_TYPE_LEVEL_HIGH>;
+ 			gpio-ranges = <&pinmux 0 0 16>,
+ 					<&pinmux 16 71 2>,
+diff --git a/arch/arm64/boot/dts/lg/lg1312.dtsi b/arch/arm64/boot/dts/lg/lg1312.dtsi
+index 78ae73d0cf365..98ff17b14b2a5 100644
+--- a/arch/arm64/boot/dts/lg/lg1312.dtsi
++++ b/arch/arm64/boot/dts/lg/lg1312.dtsi
+@@ -124,7 +124,6 @@ eth0: ethernet@c1b00000 {
+ 	amba {
+ 		#address-cells = <2>;
+ 		#size-cells = <1>;
+-		#interrupt-cells = <3>;
+ 
+ 		compatible = "simple-bus";
+ 		interrupt-parent = <&gic>;
+diff --git a/arch/arm64/boot/dts/lg/lg1313.dtsi b/arch/arm64/boot/dts/lg/lg1313.dtsi
+index 2173316573bee..8e9410d8f46c0 100644
+--- a/arch/arm64/boot/dts/lg/lg1313.dtsi
++++ b/arch/arm64/boot/dts/lg/lg1313.dtsi
+@@ -124,7 +124,6 @@ eth0: ethernet@c3700000 {
+ 	amba {
+ 		#address-cells = <2>;
+ 		#size-cells = <1>;
+-		#interrupt-cells = <3>;
+ 
+ 		compatible = "simple-bus";
+ 		interrupt-parent = <&gic>;
+diff --git a/arch/arm64/boot/dts/marvell/armada-ap80x.dtsi b/arch/arm64/boot/dts/marvell/armada-ap80x.dtsi
+index a06a0a889c43f..73d8803b54d8b 100644
+--- a/arch/arm64/boot/dts/marvell/armada-ap80x.dtsi
++++ b/arch/arm64/boot/dts/marvell/armada-ap80x.dtsi
+@@ -133,7 +133,6 @@ pmu {
+ 
+ 			odmi: odmi@300000 {
+ 				compatible = "marvell,odmi-controller";
+-				interrupt-controller;
+ 				msi-controller;
+ 				marvell,odmi-frames = <4>;
+ 				reg = <0x300000 0x4000>,
+diff --git a/arch/arm64/boot/dts/mediatek/mt8195-demo.dts b/arch/arm64/boot/dts/mediatek/mt8195-demo.dts
+index 5117b2e7985af..998c2e78168a6 100644
+--- a/arch/arm64/boot/dts/mediatek/mt8195-demo.dts
++++ b/arch/arm64/boot/dts/mediatek/mt8195-demo.dts
+@@ -111,6 +111,7 @@ mt6360: pmic@34 {
+ 		compatible = "mediatek,mt6360";
+ 		reg = <0x34>;
+ 		interrupt-controller;
++		#interrupt-cells = <1>;
+ 		interrupts-extended = <&pio 101 IRQ_TYPE_EDGE_FALLING>;
+ 		interrupt-names = "IRQB";
+ 
+diff --git a/arch/arm64/boot/dts/renesas/ulcb-kf.dtsi b/arch/arm64/boot/dts/renesas/ulcb-kf.dtsi
+index 588b14b66b6fb..f37abfc13fe59 100644
+--- a/arch/arm64/boot/dts/renesas/ulcb-kf.dtsi
++++ b/arch/arm64/boot/dts/renesas/ulcb-kf.dtsi
+@@ -251,6 +251,7 @@ gpio_exp_74: gpio@74 {
+ 		gpio-controller;
+ 		#gpio-cells = <2>;
  		interrupt-controller;
 +		#interrupt-cells = <2>;
+ 		interrupt-parent = <&gpio6>;
+ 		interrupts = <8 IRQ_TYPE_EDGE_FALLING>;
  
- 		onkey {
- 			compatible = "dlg,da9063-onkey";
-diff --git a/arch/arm/boot/dts/renesas/r8a7791-koelsch.dts b/arch/arm/boot/dts/renesas/r8a7791-koelsch.dts
-index 26a40782cc899..4a76be68887b4 100644
---- a/arch/arm/boot/dts/renesas/r8a7791-koelsch.dts
-+++ b/arch/arm/boot/dts/renesas/r8a7791-koelsch.dts
-@@ -800,6 +800,7 @@ pmic@58 {
- 		interrupt-parent = <&irqc0>;
- 		interrupts = <2 IRQ_TYPE_LEVEL_LOW>;
+@@ -311,6 +312,7 @@ gpio_exp_75: gpio@75 {
+ 		gpio-controller;
+ 		#gpio-cells = <2>;
  		interrupt-controller;
 +		#interrupt-cells = <2>;
- 
- 		rtc {
- 			compatible = "dlg,da9063-rtc";
-diff --git a/arch/arm/boot/dts/renesas/r8a7791-porter.dts b/arch/arm/boot/dts/renesas/r8a7791-porter.dts
-index ec0a20d5130d6..fcc9a2313e1df 100644
---- a/arch/arm/boot/dts/renesas/r8a7791-porter.dts
-+++ b/arch/arm/boot/dts/renesas/r8a7791-porter.dts
-@@ -389,6 +389,7 @@ pmic@5a {
- 		interrupt-parent = <&irqc0>;
- 		interrupts = <2 IRQ_TYPE_LEVEL_LOW>;
+ 		interrupt-parent = <&gpio6>;
+ 		interrupts = <4 IRQ_TYPE_EDGE_FALLING>;
+ 	};
+@@ -331,6 +333,7 @@ gpio_exp_76: gpio@76 {
+ 		gpio-controller;
+ 		#gpio-cells = <2>;
  		interrupt-controller;
 +		#interrupt-cells = <2>;
- 
- 		watchdog {
- 			compatible = "dlg,da9063-watchdog";
-diff --git a/arch/arm/boot/dts/renesas/r8a7792-blanche.dts b/arch/arm/boot/dts/renesas/r8a7792-blanche.dts
-index 6a83923aa4612..20963c9bbf0ad 100644
---- a/arch/arm/boot/dts/renesas/r8a7792-blanche.dts
-+++ b/arch/arm/boot/dts/renesas/r8a7792-blanche.dts
-@@ -330,6 +330,7 @@ pmic@58 {
- 		interrupt-parent = <&irqc>;
- 		interrupts = <2 IRQ_TYPE_LEVEL_LOW>;
+ 		interrupt-parent = <&gpio7>;
+ 		interrupts = <3 IRQ_TYPE_EDGE_FALLING>;
+ 	};
+@@ -341,6 +344,7 @@ gpio_exp_77: gpio@77 {
+ 		gpio-controller;
+ 		#gpio-cells = <2>;
  		interrupt-controller;
 +		#interrupt-cells = <2>;
- 
- 		rtc {
- 			compatible = "dlg,da9063-rtc";
-diff --git a/arch/arm/boot/dts/renesas/r8a7793-gose.dts b/arch/arm/boot/dts/renesas/r8a7793-gose.dts
-index 79b537b246426..9358fc7d0e9f6 100644
---- a/arch/arm/boot/dts/renesas/r8a7793-gose.dts
-+++ b/arch/arm/boot/dts/renesas/r8a7793-gose.dts
-@@ -735,6 +735,7 @@ pmic@58 {
- 		interrupt-parent = <&irqc0>;
- 		interrupts = <2 IRQ_TYPE_LEVEL_LOW>;
- 		interrupt-controller;
-+		#interrupt-cells = <2>;
- 
- 		rtc {
- 			compatible = "dlg,da9063-rtc";
-diff --git a/arch/arm/boot/dts/renesas/r8a7794-alt.dts b/arch/arm/boot/dts/renesas/r8a7794-alt.dts
-index 4d93319674c6e..3a9db455ddec9 100644
---- a/arch/arm/boot/dts/renesas/r8a7794-alt.dts
-+++ b/arch/arm/boot/dts/renesas/r8a7794-alt.dts
-@@ -458,6 +458,7 @@ pmic@58 {
- 		interrupt-parent = <&gpio3>;
- 		interrupts = <31 IRQ_TYPE_LEVEL_LOW>;
- 		interrupt-controller;
-+		#interrupt-cells = <2>;
- 
- 		rtc {
- 			compatible = "dlg,da9063-rtc";
-diff --git a/arch/arm/boot/dts/renesas/r8a7794-silk.dts b/arch/arm/boot/dts/renesas/r8a7794-silk.dts
-index b7af1befa126b..b825f2e25dd06 100644
---- a/arch/arm/boot/dts/renesas/r8a7794-silk.dts
-+++ b/arch/arm/boot/dts/renesas/r8a7794-silk.dts
-@@ -424,6 +424,7 @@ pmic@58 {
- 		interrupt-parent = <&gpio3>;
- 		interrupts = <31 IRQ_TYPE_LEVEL_LOW>;
- 		interrupt-controller;
-+		#interrupt-cells = <2>;
- 
- 		onkey {
- 			compatible = "dlg,da9063-onkey";
+ 		interrupt-parent = <&gpio5>;
+ 		interrupts = <9 IRQ_TYPE_EDGE_FALLING>;
+ 	};
 -- 
 2.43.0
 
