@@ -1,102 +1,212 @@
-Return-Path: <linux-renesas-soc+bounces-3346-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-3347-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95A1F86C8DB
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 29 Feb 2024 13:08:03 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C96C86C959
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 29 Feb 2024 13:40:46 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 1E8DDB237BF
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 29 Feb 2024 12:08:01 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id DEA1A1F23B5B
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 29 Feb 2024 12:40:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F32137CF04;
-	Thu, 29 Feb 2024 12:07:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3243E7D060;
+	Thu, 29 Feb 2024 12:40:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="igRhD60z"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7CE7D7CF17
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 29 Feb 2024 12:07:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.171
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA6807D06E;
+	Thu, 29 Feb 2024 12:40:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709208466; cv=none; b=qGYVayS95f+F5BNEqXMZICprvDTPLU2pKA5GKvHn5gmEW6nFcn4KtQTnT/UBkUqDtHnmZcBYpCLxu2vLwmopyVZB5daZoXG1fmQuhpUGo+420JfUxq4BVxMpRgd2vameGu9xoxbbk82l7olBB2QpLOhh2CUmO3HWb3k5jpzbf/c=
+	t=1709210441; cv=none; b=IHz/uqXJqNZFu9ac2ZJmh4QZTjBxBjbTPBiOqaXXZVDqiFPdPtp4W9TaklVvf4RAyA/a8HCj2CfDKh4hVI36yc1ruIZmbdzM2dV0CEG7VtVy35zs4AR6YbCeHE3FdorCmp/HUvVy+bLqr+7wAUQETuMiKtHexRCaDVzGw9TgQ78=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709208466; c=relaxed/simple;
-	bh=X+1IVeHOvTENtf3ttukmAq90g3BeP5/AXks5aJAgx4U=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=QZHnyp/rn8KausL50rXC2sjuaIzLWxWVTWxHT+PxBpd9lpgj5Vs8uOv/lXPKB+EAV9WibGJkQVpTYpC39w7EX1vDxLXXDqlf7Zl3KT3MU8WHsJZIoZh3QXcXbp2BTBm0W5vtV1IhLNi5JdL7Lu7SlL0fG71P0Lsii9BJeRxuD6o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; arc=none smtp.client-ip=210.160.252.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
-X-IronPort-AV: E=Sophos;i="6.06,194,1705330800"; 
-   d="scan'208";a="195830426"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie5.idc.renesas.com with ESMTP; 29 Feb 2024 21:07:42 +0900
-Received: from localhost.localdomain (unknown [10.166.13.99])
-	by relmlir6.idc.renesas.com (Postfix) with ESMTP id AF059424B03D;
-	Thu, 29 Feb 2024 21:07:42 +0900 (JST)
-From: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-To: geert+renesas@glider.be,
-	magnus.damm@gmail.com
-Cc: linux-renesas-soc@vger.kernel.org,
-	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Subject: [PATCH 2/2] arm64: dts: renesas: white-hawk-cpu-common: Enable PCIe Host ch0
-Date: Thu, 29 Feb 2024 21:07:41 +0900
-Message-Id: <20240229120741.2553702-3-yoshihiro.shimoda.uh@renesas.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20240229120741.2553702-1-yoshihiro.shimoda.uh@renesas.com>
-References: <20240229120741.2553702-1-yoshihiro.shimoda.uh@renesas.com>
+	s=arc-20240116; t=1709210441; c=relaxed/simple;
+	bh=C74fudEZIJp8y6o4pvj1vAj1a7GmlDzym5p5G0Bm6Hg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=HVmhGjMymoQJC2MWFbnM/tA18dFjAaon/JVSB75Wir+cmVCWyNYRg4X08MIRboPhcc9OQkbCU7zvZo5zdXbJ1Dju8A8Cfjg/G0hiOLP2fATpis+1eHyOGDe8HWEW+vDayORoJGuDobfOpbr8qZRbXRySR6rHIhsoxW3Sp45kyP4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=igRhD60z; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8281AC433F1;
+	Thu, 29 Feb 2024 12:40:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1709210440;
+	bh=C74fudEZIJp8y6o4pvj1vAj1a7GmlDzym5p5G0Bm6Hg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=igRhD60zQhE2flMc7jhx2MrzTM3u1/VMNwCv20yuLsBTePswSGs0X1xa0IEwh6qxp
+	 nGmGx20s2y/z2Y/7/x5KxqT2Pad88xVz6DFGlL2yA4QXSg/ZMY7abQgztMXgoYV+l6
+	 NUeKaPE8KreSQ/V4CePVSvOLMtPDBTGxjtGmtRtg70dR30dtLNk9SlFHIpCOi96TLy
+	 oqxYya9Bx84enGhB/y1vWh0l5jqH8u4QcGjHP+nlkbvDdQ/xdhjUqF6ABw7RDRbbtn
+	 MSrAAgCkrsqv6kkUQSN4WgHTdjz4fPUOQaf27+8z1dJpR+VSCd/y8Caw0vQ+G025fI
+	 zmTsCRQmtCINg==
+Date: Thu, 29 Feb 2024 13:40:29 +0100
+From: Niklas Cassel <cassel@kernel.org>
+To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+Cc: Jingoo Han <jingoohan1@gmail.com>,
+	Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
+	Rob Herring <robh@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+	Marek Vasut <marek.vasut+renesas@gmail.com>,
+	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Kishon Vijay Abraham I <kishon@ti.com>,
+	Vidya Sagar <vidyas@nvidia.com>,
+	Vignesh Raghavendra <vigneshr@ti.com>,
+	Richard Zhu <hongxing.zhu@nxp.com>,
+	Lucas Stach <l.stach@pengutronix.de>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	NXP Linux Team <linux-imx@nxp.com>,
+	Minghuan Lian <minghuan.Lian@nxp.com>,
+	Mingkai Hu <mingkai.hu@nxp.com>, Roy Zang <roy.zang@nxp.com>,
+	Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Kishon Vijay Abraham I <kishon@kernel.org>,
+	linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+	linux-tegra@vger.kernel.org, linux-omap@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linuxppc-dev@lists.ozlabs.org
+Subject: Re: [PATCH v8 03/10] PCI: dwc: ep: Introduce dw_pcie_ep_cleanup()
+ API for drivers supporting PERST#
+Message-ID: <ZeB7PQtkDSoCzE1Z@fedora>
+References: <20240224-pci-dbi-rework-v8-0-64c7fd0cfe64@linaro.org>
+ <20240224-pci-dbi-rework-v8-3-64c7fd0cfe64@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240224-pci-dbi-rework-v8-3-64c7fd0cfe64@linaro.org>
 
-Enable PCIe Host controller channel 0 on R-Car V4H White Hawk boards.
+On Sat, Feb 24, 2024 at 12:24:09PM +0530, Manivannan Sadhasivam wrote:
+> For DWC glue drivers supporting PERST# (currently Qcom and Tegra194), some
+> of the DWC resources like eDMA should be cleaned up during the PERST#
+> assert time.
+> 
+> So let's introduce a dw_pcie_ep_cleanup() API that could be called by these
+> drivers to cleanup the DWC specific resources. Currently, it just removes
+> eDMA.
+> 
+> Reported-by: Niklas Cassel <cassel@kernel.org>
+> Closes: https://lore.kernel.org/linux-pci/ZWYmX8Y%2F7Q9WMxES@x1-carbon
+> Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+> ---
+>  drivers/pci/controller/dwc/pcie-designware-ep.c | 11 +++++++++--
+>  drivers/pci/controller/dwc/pcie-designware.h    |  5 +++++
+>  drivers/pci/controller/dwc/pcie-qcom-ep.c       |  1 +
+>  drivers/pci/controller/dwc/pcie-tegra194.c      |  2 ++
+>  4 files changed, 17 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/pci/controller/dwc/pcie-designware-ep.c b/drivers/pci/controller/dwc/pcie-designware-ep.c
+> index 2b11290aab4c..1205bfba8310 100644
+> --- a/drivers/pci/controller/dwc/pcie-designware-ep.c
+> +++ b/drivers/pci/controller/dwc/pcie-designware-ep.c
+> @@ -564,12 +564,19 @@ int dw_pcie_ep_raise_msix_irq(struct dw_pcie_ep *ep, u8 func_no,
+>  	return 0;
+>  }
+>  
+> -void dw_pcie_ep_deinit(struct dw_pcie_ep *ep)
+> +void dw_pcie_ep_cleanup(struct dw_pcie_ep *ep)
+>  {
+>  	struct dw_pcie *pci = to_dw_pcie_from_ep(ep);
+> -	struct pci_epc *epc = ep->epc;
+>  
+>  	dw_pcie_edma_remove(pci);
 
-Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
----
- .../dts/renesas/white-hawk-cpu-common.dtsi     | 18 ++++++++++++++++++
- 1 file changed, 18 insertions(+)
+Hello Mani,
 
-diff --git a/arch/arm64/boot/dts/renesas/white-hawk-cpu-common.dtsi b/arch/arm64/boot/dts/renesas/white-hawk-cpu-common.dtsi
-index 8ac17370ff36..3fc9a541f777 100644
---- a/arch/arm64/boot/dts/renesas/white-hawk-cpu-common.dtsi
-+++ b/arch/arm64/boot/dts/renesas/white-hawk-cpu-common.dtsi
-@@ -111,6 +111,12 @@ mini_dp_con_in: endpoint {
- 		};
- 	};
- 
-+	pcie_clk: clk-9fgv0841-pci {
-+		compatible = "fixed-clock";
-+		clock-frequency = <100000000>;
-+		#clock-cells = <0>;
-+	};
-+
- 	reg_1p2v: regulator-1p2v {
- 		compatible = "regulator-fixed";
- 		regulator-name = "fixed-1.2V";
-@@ -277,6 +283,18 @@ &mmc0 {
- 	status = "okay";
- };
- 
-+&pcie0_clkref {
-+	compatible = "gpio-gate-clock";
-+	clocks = <&pcie_clk>;
-+	enable-gpios = <&gpio4 21 GPIO_ACTIVE_LOW>;
-+	/delete-property/ clock-frequency;
-+};
-+
-+&pciec0 {
-+	reset-gpio = <&io_expander_a 0 GPIO_ACTIVE_LOW>;
-+	status = "okay";
-+};
-+
- &pfc {
- 	pinctrl-0 = <&scif_clk_pins>;
- 	pinctrl-names = "default";
--- 
-2.25.1
+In this message:
+https://lore.kernel.org/linux-pci/20240130062938.GB32821@thinkpad/
 
+You mentioned that you were going to clean up the BARs.
+(Like I wrote in that thread, I really think that we should merge a fix for
+the broken "do we have a saved value from find_first_zero_bit() in the array",
+by using a "if (!saved_value[bar])", when find_first_zero_bit() returns zero.)
+
+However, regardless of that, I do not see that this series (neither
+dw_pcie_ep_cleanup(), nor dw_pcie_ep_linkdown()), calls any function which
+will clean up the BARs.
+
+Since e.g. qcom-ep.c does a reset_control_assert() during perst
+assert/deassert, which should clear sticky registers, I think that
+you should let dw_pcie_ep_cleanup() clean up the BARs using
+dw_pcie_ep_clear_bar().
+
+
+Kind regards,
+Niklas
+
+
+> +}
+> +EXPORT_SYMBOL_GPL(dw_pcie_ep_cleanup);
+> +
+> +void dw_pcie_ep_deinit(struct dw_pcie_ep *ep)
+> +{
+> +	struct pci_epc *epc = ep->epc;
+> +
+> +	dw_pcie_ep_cleanup(ep);
+>  
+>  	pci_epc_mem_free_addr(epc, ep->msi_mem_phys, ep->msi_mem,
+>  			      epc->mem->window.page_size);
+> diff --git a/drivers/pci/controller/dwc/pcie-designware.h b/drivers/pci/controller/dwc/pcie-designware.h
+> index 61465203bb60..351d2fe3ea4d 100644
+> --- a/drivers/pci/controller/dwc/pcie-designware.h
+> +++ b/drivers/pci/controller/dwc/pcie-designware.h
+> @@ -672,6 +672,7 @@ int dw_pcie_ep_init(struct dw_pcie_ep *ep);
+>  int dw_pcie_ep_init_complete(struct dw_pcie_ep *ep);
+>  void dw_pcie_ep_init_notify(struct dw_pcie_ep *ep);
+>  void dw_pcie_ep_deinit(struct dw_pcie_ep *ep);
+> +void dw_pcie_ep_cleanup(struct dw_pcie_ep *ep);
+>  int dw_pcie_ep_raise_intx_irq(struct dw_pcie_ep *ep, u8 func_no);
+>  int dw_pcie_ep_raise_msi_irq(struct dw_pcie_ep *ep, u8 func_no,
+>  			     u8 interrupt_num);
+> @@ -705,6 +706,10 @@ static inline void dw_pcie_ep_deinit(struct dw_pcie_ep *ep)
+>  {
+>  }
+>  
+> +static inline void dw_pcie_ep_cleanup(struct dw_pcie_ep *ep)
+> +{
+> +}
+> +
+>  static inline int dw_pcie_ep_raise_intx_irq(struct dw_pcie_ep *ep, u8 func_no)
+>  {
+>  	return 0;
+> diff --git a/drivers/pci/controller/dwc/pcie-qcom-ep.c b/drivers/pci/controller/dwc/pcie-qcom-ep.c
+> index 36e5e80cd22f..59b1c0110288 100644
+> --- a/drivers/pci/controller/dwc/pcie-qcom-ep.c
+> +++ b/drivers/pci/controller/dwc/pcie-qcom-ep.c
+> @@ -507,6 +507,7 @@ static void qcom_pcie_perst_assert(struct dw_pcie *pci)
+>  		return;
+>  	}
+>  
+> +	dw_pcie_ep_cleanup(&pci->ep);
+>  	qcom_pcie_disable_resources(pcie_ep);
+>  	pcie_ep->link_status = QCOM_PCIE_EP_LINK_DISABLED;
+>  }
+> diff --git a/drivers/pci/controller/dwc/pcie-tegra194.c b/drivers/pci/controller/dwc/pcie-tegra194.c
+> index 7afa9e9aabe2..68bfeed3429b 100644
+> --- a/drivers/pci/controller/dwc/pcie-tegra194.c
+> +++ b/drivers/pci/controller/dwc/pcie-tegra194.c
+> @@ -1715,6 +1715,8 @@ static void pex_ep_event_pex_rst_assert(struct tegra_pcie_dw *pcie)
+>  	if (ret)
+>  		dev_err(pcie->dev, "Failed to go Detect state: %d\n", ret);
+>  
+> +	dw_pcie_ep_cleanup(&pcie->pci.ep);
+> +
+>  	reset_control_assert(pcie->core_rst);
+>  
+>  	tegra_pcie_disable_phy(pcie);
+> 
+> -- 
+> 2.25.1
+> 
 
