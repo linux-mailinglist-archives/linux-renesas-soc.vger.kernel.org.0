@@ -1,102 +1,136 @@
-Return-Path: <linux-renesas-soc+bounces-3335-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-3336-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5311386C793
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 29 Feb 2024 11:59:43 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id C490E86C7FF
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 29 Feb 2024 12:23:34 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8AC521C216D1
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 29 Feb 2024 10:59:42 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 691041F25017
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 29 Feb 2024 11:23:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 545317C6C1;
-	Thu, 29 Feb 2024 10:58:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0D5957B3F1;
+	Thu, 29 Feb 2024 11:23:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="l39f0LH5"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AEE4knre"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48CEB7B3CC
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 29 Feb 2024 10:58:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7087651BC;
+	Thu, 29 Feb 2024 11:23:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709204330; cv=none; b=iqKOOKryNmi8iDSBvrHhmquiTHKvlbRPO6awhGMahUPwYDB5Wn72tCZvk0frqi2Hk4E7EtJ0AYJrxk7ZfQzTAAUkuHDW3FaSICLEFIgn5L06TK1JMJNqZvLLVbje92tEHQUaSZc7GBFOg2Z7Lqt3J7AsmvV289Y9tllVB/mgQAo=
+	t=1709205807; cv=none; b=VsGWQe5nVle6g8jMqyxlzVawpZO5b0WSWK55tGt+QpfySLU0IoVsML7OydOnpBRdMy2gi/+KG0qjRYdHioAx5ARo3FnVRxdv1pPU6+jfjeWR2suTYKwABqp71rAOi4QFwZn810ZjRMjdxJQDDl8L/WR+9KPzXBUr5VAKX9lClK0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709204330; c=relaxed/simple;
-	bh=ZbKsOmGSKAyPdZNFs9gxN3ij9YHd3GYHGCrOYJ1IK9E=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=tbC/84/gw/IyB0gNUjthOrwCnWK2O/vvQjowXzLzkLewmXLqUIm+xj+S1QQTpVXOAbZjfUtIlZPnLftc5PiQVV3pvaxbnLU1jZLyim/X9jk5UoKYt/ntFmwt80i+buwuzb5dbWk+H/W+gZapFBKUhShxr0A9y4zi8PRJhC2tSPQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=l39f0LH5; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=from:to:cc:subject:date:message-id
-	:in-reply-to:references:mime-version:content-transfer-encoding;
-	 s=k1; bh=zth6cqyN6gI2D0vPZW2SkkUMiLbZva005HC3qhC1wrE=; b=l39f0L
-	H5htQ0M2kR5NZ/hcmyjWVV+a9nvQGpTeFcWkpey3Wu66p2ayE7ToyrrZWTX+mo32
-	jbnCfVjfySnDRzX/7kJvgDiQDUPT9vDqQ431jluGxncZKMsoRhPNEumYAd9Alt+q
-	M3hySeSifv7S2aD/BXkFnDayhF/dGEHauB6DEmuqu/GUXH9bs7WdIuoDKTFpvR0U
-	QmxD3sFOMeg6RHKxT0qO5MfmCmeyBug0aw0lYTC9+epbO/QXGuK6VKoFAXrYM+/A
-	4b+D+czZIGrXdx3tFZl9AMtjMj4fyW9DAo4KPs0JhVowjo9QxYC7TUh4TS+5GQ2O
-	b8xPaSE1JxjCh1Dw==
-Received: (qmail 2278110 invoked from network); 29 Feb 2024 11:58:43 +0100
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 29 Feb 2024 11:58:43 +0100
-X-UD-Smtp-Session: l3s3148p1@VO2HJIMSSD5tKPFZ
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: linux-renesas-soc@vger.kernel.org
-Cc: Chris Packham <chris.packham@alliedtelesis.co.nz>,
-	Rob Herring <robh+dt@kernel.org>,
-	Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Andi Shyti <andi.shyti@kernel.org>,
-	linux-i2c@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH RFT 3/3] i2c: mpc: remove outdated macro
-Date: Thu, 29 Feb 2024 11:58:13 +0100
-Message-ID: <20240229105810.29220-8-wsa+renesas@sang-engineering.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240229105810.29220-5-wsa+renesas@sang-engineering.com>
-References: <20240229105810.29220-5-wsa+renesas@sang-engineering.com>
+	s=arc-20240116; t=1709205807; c=relaxed/simple;
+	bh=WqUPAXlssCmtqdLpcCv+8iCzvErdAxK/S/ZBo23Kh1M=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=TtqJFMaiB086lHnEy0m2ineCuzQAG7uTSwS1lb+yVCO1shjOF+5nhUrbzGBPqRe63I+8abov72tc9XtV3w9ktNRJPtDfOwpfKl/5lGnBGpcws0pKu6XBxG9Ac7wSIt2v2RfjqQOH/wrEgmhnGiCXS39YfT34zDi1b4k3k55nw3E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AEE4knre; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BD8DEC43390;
+	Thu, 29 Feb 2024 11:23:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1709205807;
+	bh=WqUPAXlssCmtqdLpcCv+8iCzvErdAxK/S/ZBo23Kh1M=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=AEE4knre18WNc+Z4ry/juSz4W7aDGP/Ez0hsT9XjtMow88AXfe7DMzTDAEdv4e9ax
+	 m/VW/hBb8BKj8zGUvRBLGk4ycN0JQcBurj6JMEkdIoWbtZvxyDrGy0WCIEXqfpOgOC
+	 mpH8LrNg4+WGaFQcu+AvriL8JoEiud/KdVdY2oruqydWUJyoZn9zzThq7jwdhNlLbM
+	 hixtNQfLpwIhQu6r1cpguRalL6F/i1qeuTclO+Wz2ItlZeq9pVR9cXvCQ1PxrVmuzB
+	 TCMC200o6tcmHtL8/ts6p8bYyjsdSegQ6Rvb4RGIPIkFR3g4IUX4/55AQa2eSVdadO
+	 TtawRjDGmx5NQ==
+Date: Thu, 29 Feb 2024 12:23:16 +0100
+From: Niklas Cassel <cassel@kernel.org>
+To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+Cc: Jingoo Han <jingoohan1@gmail.com>,
+	Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
+	Rob Herring <robh@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+	Marek Vasut <marek.vasut+renesas@gmail.com>,
+	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Kishon Vijay Abraham I <kishon@ti.com>,
+	Vidya Sagar <vidyas@nvidia.com>,
+	Vignesh Raghavendra <vigneshr@ti.com>,
+	Richard Zhu <hongxing.zhu@nxp.com>,
+	Lucas Stach <l.stach@pengutronix.de>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	NXP Linux Team <linux-imx@nxp.com>,
+	Minghuan Lian <minghuan.Lian@nxp.com>,
+	Mingkai Hu <mingkai.hu@nxp.com>, Roy Zang <roy.zang@nxp.com>,
+	Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Kishon Vijay Abraham I <kishon@kernel.org>,
+	linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+	linux-tegra@vger.kernel.org, linux-omap@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linuxppc-dev@lists.ozlabs.org
+Subject: Re: [PATCH v8 07/10] PCI: dwc: ep: Remove "core_init_notifier" flag
+Message-ID: <ZeBpJL1K_vAdmr2M@fedora>
+References: <20240224-pci-dbi-rework-v8-0-64c7fd0cfe64@linaro.org>
+ <20240224-pci-dbi-rework-v8-7-64c7fd0cfe64@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240224-pci-dbi-rework-v8-7-64c7fd0cfe64@linaro.org>
 
-DRV_NAME was useful back in the days. But here, being used once, it is
-only cruft.
+Hello Mani,
 
-Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
----
- drivers/i2c/busses/i2c-mpc.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+On Sat, Feb 24, 2024 at 12:24:13PM +0530, Manivannan Sadhasivam wrote:
+> "core_init_notifier" flag is set by the glue drivers requiring refclk from
+> the host to complete the DWC core initialization. Also, those drivers will
+> send a notification to the EPF drivers once the initialization is fully
+> completed using the pci_epc_init_notify() API. Only then, the EPF drivers
+> will start functioning.
+> 
+> For the rest of the drivers generating refclk locally, EPF drivers will
+> start functioning post binding with them. EPF drivers rely on the
+> 'core_init_notifier' flag to differentiate between the drivers.
+> Unfortunately, this creates two different flows for the EPF drivers.
+> 
+> So to avoid that, let's get rid of the "core_init_notifier" flag and follow
+> a single initialization flow for the EPF drivers. This is done by calling
+> the dw_pcie_ep_init_notify() from all glue drivers after the completion of
+> dw_pcie_ep_init_registers() API. This will allow all the glue drivers to
+> send the notification to the EPF drivers once the initialization is fully
+> completed.
+> 
+> Only difference here is that, the drivers requiring refclk from host will
+> send the notification once refclk is received, while others will send it
+> during probe time itself.
+> 
+> Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+> ---
+>  drivers/pci/controller/dwc/pci-dra7xx.c           |  2 ++
+>  drivers/pci/controller/dwc/pci-imx6.c             |  2 ++
+>  drivers/pci/controller/dwc/pci-keystone.c         |  2 ++
+>  drivers/pci/controller/dwc/pci-layerscape-ep.c    |  2 ++
+>  drivers/pci/controller/dwc/pcie-designware-plat.c |  2 ++
+>  drivers/pci/controller/dwc/pcie-qcom-ep.c         |  1 -
+>  drivers/pci/controller/dwc/pcie-rcar-gen4.c       |  2 ++
+>  drivers/pci/controller/dwc/pcie-tegra194.c        |  1 -
+>  drivers/pci/controller/dwc/pcie-uniphier-ep.c     |  2 ++
+>  drivers/pci/endpoint/functions/pci-epf-test.c     | 18 +++++-------------
+>  include/linux/pci-epc.h                           |  3 ---
 
-diff --git a/drivers/i2c/busses/i2c-mpc.c b/drivers/i2c/busses/i2c-mpc.c
-index 0b4de9e569ba..8d73c0f405ed 100644
---- a/drivers/i2c/busses/i2c-mpc.c
-+++ b/drivers/i2c/busses/i2c-mpc.c
-@@ -30,8 +30,6 @@
- #include <asm/mpc85xx.h>
- #include <sysdev/fsl_soc.h>
- 
--#define DRV_NAME "mpc-i2c"
--
- #define MPC_I2C_CLOCK_LEGACY   0
- #define MPC_I2C_CLOCK_PRESERVE (~0U)
- 
-@@ -960,7 +958,7 @@ static struct platform_driver mpc_i2c_driver = {
- 	.probe		= fsl_i2c_probe,
- 	.remove_new	= fsl_i2c_remove,
- 	.driver = {
--		.name = DRV_NAME,
-+		.name = "mpc-i2c",
- 		.of_match_table = mpc_i2c_of_match,
- 		.pm = &mpc_i2c_pm_ops,
- 	},
--- 
-2.43.0
+pcie-artpec6.c:static const struct dw_pcie_ep_ops pcie_ep_ops = {
+pcie-keembay.c:static const struct dw_pcie_ep_ops keembay_pcie_ep_ops = {
 
+Where is the love for these drivers? ;)
+
+
+Kind regards,
+Niklas
 
