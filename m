@@ -1,103 +1,83 @@
-Return-Path: <linux-renesas-soc+bounces-3372-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-3373-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BF6B86E38F
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  1 Mar 2024 15:41:31 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8951E86E395
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  1 Mar 2024 15:42:30 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 53181B240CE
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  1 Mar 2024 14:41:28 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3F1611F23D79
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  1 Mar 2024 14:42:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3FC0C20E4;
-	Fri,  1 Mar 2024 14:41:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 034AB38FAD;
+	Fri,  1 Mar 2024 14:42:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="TdcOI8Ru";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="53PMr6/7"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dwt/JV20"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD12D23DE
-	for <linux-renesas-soc@vger.kernel.org>; Fri,  1 Mar 2024 14:41:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B461A2B9D5;
+	Fri,  1 Mar 2024 14:42:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709304084; cv=none; b=dita2HC1yttWzlScL3DnHj0H1YP8RFmpcC3XfAR6DXnSrt/HUlS/ejmDkKyJYYvngCscJPW8q6DNssU7A9WOxjWtjNzdUGfMWRUuuvdrphA+Cp9MMrCr3e5yzmsBPnrDUEohmwkpR0n5zm/vlPVo3y6bRr1rXcBlZ3ap/D95XOc=
+	t=1709304145; cv=none; b=vD/d1Qkz4OgV2Wt7lU+6Kc77CdXsAF9tYs5WqfMGm+m0Pw4KmtvjRY0dc9V7hqbzvUyjEmqtAmHojbGqPGCoe3CSbiXxhitcfV9HN1PVb6HEnUfUcIHtl0W9u5jC6JteFqwzNpmdZb7Wi4CpS+KpMRdUpR3Vy9xeubM63j3oPjw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709304084; c=relaxed/simple;
-	bh=v+9ktj9cXESCfh0rkxySWPRTmyTtDhYBUYAdGnb8ZYY=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=WyMGloStMo1erslOT/u4Wnj2IHkLu/U6ybORV2wL2rmvvz3J+mvTtl25/TPpLN0P7U2farLJ3lX1jzSB5anAqwEGDwxJ/5z6C0FWPGXuaZXNDdmu5Ac3rByiniUK0naHgEXO7yxy2e3+zk9tPjQ3c3LGFSe3Cwd4IQ4uSY8doOs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=TdcOI8Ru; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=53PMr6/7; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
-From: Thomas Gleixner <tglx@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1709304080;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=YgvrlnhYEWcishxY6ecweEK6wxvu3RMQf0pXiUCSGiM=;
-	b=TdcOI8Ru4KITNaPBHc8sN2mtOoEuwnwVPjSk91Ea3SuYtYGQUJ3ODUXH22GH7nKLtYNDqI
-	aFMp3QRWFiYjf3fR8JrpCvZT3JeM8rJWAcymhrTG9/IazewIWqDstHpItSDslP1hkJV8vb
-	tQzZSRn7zzhjq0nlLhnTjowsW3aKKqd2/rq12edAfpgc53PrBv/VkyVJjEDAAC06nVuA17
-	YTcu3se2ld1rcV5bY4ltsv9Lyru+LGJdvaSMBms2uI1LAdjLIzI0c8juAGMl0VxpxGVxgI
-	80Q0S5olvvlc2sz/hYHHA0UJB1zh/Fw8WZeOwereUA4T+V4oNawEMVzld9ffsQ==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1709304080;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=YgvrlnhYEWcishxY6ecweEK6wxvu3RMQf0pXiUCSGiM=;
-	b=53PMr6/7eXjn5le2NHAwmXacxHpJVHLAWeAO31MQxkqPWxC/K5bUJ7kjtX2ql+YsH/NlLS
-	HcndtL4Gx0ROYYBw==
-To: Geert Uytterhoeven <geert@linux-m68k.org>, Biju Das
- <biju.das.jz@bp.renesas.com>
-Cc: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, Marc Zyngier
- <maz@kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>, Biju Das
- <biju.das.au@gmail.com>, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH 2/5] irqchip/renesas-rzg2l: Rename rzg2l_tint_eoi()
-In-Reply-To: <CAMuHMdXZ0_O8-bjB9NyOKc3JKHjcE_w3wrhgQN3Ur7A8DvovKA@mail.gmail.com>
-References: <20240212113712.71878-1-biju.das.jz@bp.renesas.com>
- <20240212113712.71878-3-biju.das.jz@bp.renesas.com>
- <CAMuHMdXZ0_O8-bjB9NyOKc3JKHjcE_w3wrhgQN3Ur7A8DvovKA@mail.gmail.com>
-Date: Fri, 01 Mar 2024 15:41:20 +0100
-Message-ID: <877cimxbe7.ffs@tglx>
+	s=arc-20240116; t=1709304145; c=relaxed/simple;
+	bh=KACukKEnJXFukkXmjTQgXX49As3BIWd4peTBZp//0+g=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dawNzIQS4RU2K5We8S5sOGMvfxb1Lwk1/+Bjt1vMfbVd4Jl0lfpxTtLrwzRSCFuXpkDRmBfR0860hL1Qhrkf3pupG+/5/d395tOyZRvCKnAZf2rdP48Guw8/PBlFn7xYJx8E2Fj2AfV5860totF/3IxWlnAL7cHx0DVokefbUh8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dwt/JV20; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EE57AC43394;
+	Fri,  1 Mar 2024 14:42:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1709304145;
+	bh=KACukKEnJXFukkXmjTQgXX49As3BIWd4peTBZp//0+g=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=dwt/JV20KkXI8J8VpICUQOxmVPe6+NHLfVYlc86oQ9FPfArN6MtXomfjwSVPFszDH
+	 Ipu6JRvPLOml/w5gvOrbOBnU7WxI3EhmAiDbDNNTX4cGB0l6FO48YoByHfLCbNYD1H
+	 O0X4beCpos/ilRve896KhZub+JYKhhwq4g+m59H5b2itWyVx0yutBZnp/A9Go8zyPh
+	 fw/hdy0sSu2gpgvCyL/8A/kLmzJxT/1uVhypWoYPAAjGuiGYlrlbE1rf4ioJ03lMnZ
+	 YjNVpEDyWPn6IyMMLpxDzlm+BB4JLdKBWkALkximtSU9EgoQzLztKhJ5ydgOFIW4F3
+	 K78ScNPXaX9Gg==
+Date: Fri, 1 Mar 2024 08:42:22 -0600
+From: Rob Herring <robh@kernel.org>
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc: devicetree@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+	linux-renesas-soc@vger.kernel.org, linux-i2c@vger.kernel.org,
+	Chris Packham <chris.packham@alliedtelesis.co.nz>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Andi Shyti <andi.shyti@kernel.org>, linux-kernel@vger.kernel.org,
+	Conor Dooley <conor+dt@kernel.org>
+Subject: Re: [PATCH RFT 1/3] dt-bindings: i2c: mpc: use proper binding for
+ transfer timeouts
+Message-ID: <170930414189.2106142.4220146551084193594.robh@kernel.org>
+References: <20240229105810.29220-5-wsa+renesas@sang-engineering.com>
+ <20240229105810.29220-6-wsa+renesas@sang-engineering.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240229105810.29220-6-wsa+renesas@sang-engineering.com>
 
-On Mon, Feb 12 2024 at 17:38, Geert Uytterhoeven wrote:
->> -static void rzg2l_tint_eoi(struct irq_data *d)
->> +static void rzg2l_clear_tint_int(struct rzg2l_irqc_priv *priv,
->> +                                unsigned int hwirq)
->>  {
->> -       unsigned int hw_irq = irqd_to_hwirq(d) - IRQC_TINT_START;
->> -       struct rzg2l_irqc_priv *priv = irq_data_to_priv(d);
->> -       u32 bit = BIT(hw_irq);
->> +       u32 bit = BIT(hwirq - IRQC_TINT_START);
->>         u32 reg;
->>
->>         reg = readl_relaxed(priv->base + TSCR);
->> @@ -127,7 +126,7 @@ static void rzg2l_irqc_eoi(struct irq_data *d)
->>         if (hw_irq >= IRQC_IRQ_START && hw_irq <= IRQC_IRQ_COUNT)
->>                 rzg2l_irq_eoi(d);
->>         else if (hw_irq >= IRQC_TINT_START && hw_irq < IRQC_NUM_IRQ)
->> -               rzg2l_tint_eoi(d);
->> +               rzg2l_clear_tint_int(priv, hw_irq);
->
-> Perhaps pass the tint number (i.e. "hw_irq - IRQC_TINT_START")
-> instead?
 
-No. You have to do that on all call sites then. There is another coming
-in the next patch AFAICT.
+On Thu, 29 Feb 2024 11:58:11 +0100, Wolfram Sang wrote:
+> "i2c-scl-clk-low-timeout-us" has flaws in itself and the usage here is
+> all wrong. The driver doesn't use it as a maximum time for clock
+> stretching but the maximum time for a total transfer. We already have
+> a binding for the latter. Convert the wrong binding from examples.
+> 
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> ---
+>  Documentation/devicetree/bindings/i2c/i2c-mpc.yaml | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
 
-Thanks,
+Acked-by: Rob Herring <robh@kernel.org>
 
-        tglx
 
