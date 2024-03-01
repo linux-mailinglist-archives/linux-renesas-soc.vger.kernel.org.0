@@ -1,170 +1,134 @@
-Return-Path: <linux-renesas-soc+bounces-3374-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-3375-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1D8086E39F
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  1 Mar 2024 15:44:15 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id C46C886E42A
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  1 Mar 2024 16:20:35 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 64A0B285C37
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  1 Mar 2024 14:44:14 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 003BA1C20B39
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  1 Mar 2024 15:20:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3AF0F2B9B5;
-	Fri,  1 Mar 2024 14:43:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 491313AC0C;
+	Fri,  1 Mar 2024 15:20:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="v/Z4ub/I"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GxE08CZM"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from JPN01-TYC-obe.outbound.protection.outlook.com (mail-tycjpn01on2044.outbound.protection.outlook.com [40.107.114.44])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74B2041E4E
-	for <linux-renesas-soc@vger.kernel.org>; Fri,  1 Mar 2024 14:43:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.114.44
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709304239; cv=fail; b=MMGI3ZsMDhXJtt2RBjOSlv+n2LGV7Lrsv+2wZ+LWVBStsgv3PXPfzc0+yP8cluc90PUcAdAa572Y6IibzJRyq26QciQUTa8HbDbxYdKxZJO41m3M4wQQyWLz+q++IvgrXRr/rVR1PRkzeC2mmMWh5nmh0ah4qZbzFeQOvr8Na6c=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709304239; c=relaxed/simple;
-	bh=LDQaKSf/g6OUj/OF8eJ3YFNc/hJ1VrKBNfA4LICIeQI=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=nncbipINVt5hlwXS9Qbj/iqLr3+ckCP4AUQe2vm0T0Iu7J7SoxeqPA7opzYXV5Iu2ODiQkitGIbA1njTEmD+GtnfCr1/wr3aVxmE0hDQoF2V8IEkPMngevJEO7CXtI9b31BdULob4SZe/YKJJ7P4cjFR+gtMyGWHuI9CB9qjcxQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=v/Z4ub/I; arc=fail smtp.client-ip=40.107.114.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=oOD4Pe8fqB/wTXhCdmQYFFh/4kfMctZemIYphXJb728Q05u2+sTHTrXWwfl+k+94OAQrxoH/RQESDhRphR5f7cA0JpdCUSQDsoZhtYjqcDBUB3UYcfiTj8EYVS2JzJ42jibzVonSR1lw75SPPusUnTxnFOdQWW/UImMTeLIr0n7I6arj+bRDz6kcKcLuUibc+PdpHFTI3KV7ZNzQf1RhobNRFGV5kDBpYhN0oHoSj3DVk+rF/UK98tlfOn75Yrt5SYyxyL7lEIMbQhbQM3JbNBJSMJUVMzEUKhk7CfAobELztBM8oOQ7EhP40VcPhRYYWhw+wijLFWcd65PSK5IzsA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=LDQaKSf/g6OUj/OF8eJ3YFNc/hJ1VrKBNfA4LICIeQI=;
- b=lvRw8LvOleb0xVqbjzp+SUTcstqjrYfrWdl/6qT7GFaOe1TAfQ5MaSE0oYF3Q35hV0O4OoLCgLCSjtBBvUIAX0h1E4p3nMoLjIJtKX3BjTedpBDm8FuIYleed/IfjX1Mo3Vn/7REUwrZIxaFIkNsDqc4VxLPpphDswLBf7yb9pCvglCpWH1uQ5vtqf7arb3aefNyqKMoLCOovm8C0NFBdXkMDU1lKchbVF/2nhlnqwAq1p9SzqRYejnbD9ouZtSmywJfTeWzAB5yBtbvNN+byOWXe0YPPeKkFb079fYYgnJ1TxyLOmpjVmW208tXXEmcnR2hznwjmkkfNqufAF32kw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=LDQaKSf/g6OUj/OF8eJ3YFNc/hJ1VrKBNfA4LICIeQI=;
- b=v/Z4ub/IhcbXI+NDnN4XmgQzcqQi/0fjFahtHJUAAS9m2tGDhZbQhQg39QdkSYgT4PLj3cM023jGLNndrX4NVDA+OmFqSWVEBD545GiJMEVvZ33b/pUPJiEGvuaUmb67cJtyDrjJAdbJmleV1UgoE0u0iTgyM83FvlpNCQAJrDw=
-Received: from TYCPR01MB11269.jpnprd01.prod.outlook.com
- (2603:1096:400:3c0::10) by TYCPR01MB10428.jpnprd01.prod.outlook.com
- (2603:1096:400:244::10) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7339.32; Fri, 1 Mar
- 2024 14:43:52 +0000
-Received: from TYCPR01MB11269.jpnprd01.prod.outlook.com
- ([fe80::6719:535a:7217:9f0]) by TYCPR01MB11269.jpnprd01.prod.outlook.com
- ([fe80::6719:535a:7217:9f0%3]) with mapi id 15.20.7316.039; Fri, 1 Mar 2024
- 14:43:52 +0000
-From: Biju Das <biju.das.jz@bp.renesas.com>
-To: Thomas Gleixner <tglx@linutronix.de>
-CC: Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>, Marc
- Zyngier <maz@kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>,
-	biju.das.au <biju.das.au@gmail.com>, "linux-renesas-soc@vger.kernel.org"
-	<linux-renesas-soc@vger.kernel.org>
-Subject: RE: [PATCH 4/5] irqchip/renesas-rzg2l: Use TIEN for enable/disable
-Thread-Topic: [PATCH 4/5] irqchip/renesas-rzg2l: Use TIEN for enable/disable
-Thread-Index: AQHaXafcVtn5NGfqp0mxiEFZEhfgQrEjCpKAgAAF0DA=
-Date: Fri, 1 Mar 2024 14:43:52 +0000
-Message-ID:
- <TYCPR01MB112697B6CD54632D7CEB15359865E2@TYCPR01MB11269.jpnprd01.prod.outlook.com>
-References: <20240212113712.71878-1-biju.das.jz@bp.renesas.com>
- <20240212113712.71878-5-biju.das.jz@bp.renesas.com> <87cysexcky.ffs@tglx>
-In-Reply-To: <87cysexcky.ffs@tglx>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TYCPR01MB11269:EE_|TYCPR01MB10428:EE_
-x-ms-office365-filtering-correlation-id: 669dbe70-438a-456f-aae7-08dc39fe03c9
-x-ld-processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info:
- mT0DbSmHdW9dgBORk/gVrVFUFM2BSIhZqux0eMZiVsAiiAuLKm0KXfmA0pvzvpvjJjIbjlMW6zS8O41ocWUWnDaRlAyJBby74eO2+AormMS/Wj0xtGTEc4zO32kTlZOcOcmwSyh0YrH9XRG4a4t1Rav5Rh9sywh+I+YCiqj31SIyZOpmfJ5+K23Gf2HA27zMwIM7aKgSWwDbhwr1lLddjYA4Bg1BSIFsfRrbIevg1NoVN23sRIMICdfcGL0JTfO5Ix0yRnsIpI3RvZfApOmnsO36SIBqU+TqHWdRLaePY9Nh8w4WPE2LbSnYuuf9h/ma4WWYfDTR7/z+Moxlx3437KDt4icje9b7Rrg5jB5T+0EYy31FzL0fFlVZDZrPvEmngOHzjmqPSAbe+uKOhPNvV0fTQVjo397l/4rHrEyUm85wiZx61MCqVcEiZDVJ1rHTYhLUM2EbWr6azlsGATfl3Qnw3Zgtw53WfILvMkp9071UCW9n3TgLd+OAU5H5eqRj7QfWE/CKvDAmVPxRcMOuYttHIi9jrGAMoxZPAAlaeB/u5tvTBEIj24lcd9LoZzNutCHpps+UAZaM2PX+YRKSfaZ5BpowX+sRwmSDVCmdZyc8nxLToVFoN/trHslbZPFXYG6FvxUdrj0rgu+LfkGwL3YpAEBHHHgeRnybp8pXAr0kJ3bsNij2aBUIrZzSb8KY+qg/MyVuDy9K+HNI+TQL5w==
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB11269.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(38070700009);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?6pAWxy1jK/tk2xSsVyUHbHjwZHvZWbuqAxnIbZw62aDeoMHFJnJ9NZ9Ke09L?=
- =?us-ascii?Q?Ffr+oPbrwkK3RHk74wbIC5b/cWir1f+j8XuEOoJ80YlgmdVsWSNO+UbthZZG?=
- =?us-ascii?Q?0/1jhdjd74QcYxqwKRBGDqR83XPqkzz6dTroEHSyd0yzZWYL3Et+s9YU9au/?=
- =?us-ascii?Q?rvUTjOVFdlp3hGVrj1vOznTPqDsIhCA0vlHS8r3NM8DwQX3PVj8B9b2nEdGy?=
- =?us-ascii?Q?/YRLV56N15TGVIJpguTBKP6whjqR6XDzoZsgA1GKRR/O9IuRBGLgKQy9xfDg?=
- =?us-ascii?Q?0P8owY4/2zRDAKZ2pig5iFI21BMhOZ3n7CA7LbbK39JExAKhukELvkZvMrPA?=
- =?us-ascii?Q?OE5JTF+Y30p1HGwd2r0JZRfBghY1sROVKqhqS2UWHrbikySunSgGNq+BY694?=
- =?us-ascii?Q?aMSMOTAAr5/jWU3OsMVoJlBGbIiMIhQMvSJdKDddtH8C6uKOaTIHRIRY90PJ?=
- =?us-ascii?Q?LTioUjGy3fV8r36ePE6s1Q1nlaDqVrkL9ODrwl9zSpKGdlPSLE4SZT2vUA12?=
- =?us-ascii?Q?TKK/xW5vXxUpn81k1G8kDxxLSi2YYtjS3HYiqIfBxYxHI2KUo8+qC+3m0lCX?=
- =?us-ascii?Q?/KOU73Sv+LEbbH3whZ2aRZN2EEno2ZMs++cf8ka6eia5AQ3vMmb5IePohHvu?=
- =?us-ascii?Q?Vk2mlCOxWMjIXZZXTJ5H/Wag7BoG/xL8GyiyhZtIjngqkvLkgYf7bCKPmzlW?=
- =?us-ascii?Q?3QFTbVaBuy6yFhV8pL0SKdBHFZdL3kN4cVAT09Q1+gGrlu6vsJ+xfWsPnZNt?=
- =?us-ascii?Q?rUXjLvIYrTl3he9G1bf8Xv6SqJvgWpXKxC+CPrOsU1ZU7KJZpZHYaNJy44fA?=
- =?us-ascii?Q?XpmWoo3fyCo5E3BoJpRysS4M97RytwyJXNYBnyAhQO43sn+oR1+6fwZzYm0k?=
- =?us-ascii?Q?Hj9mO35fOIuU0/oqGc/u59xG0R4g0Kl3jeDWUtoMxif94/wbvTbrziM0eY1Q?=
- =?us-ascii?Q?RKPLmSvIs4Q+30cW3Ra3eLkxKfTP/bnRbbPHlceQGPOAHRtIriSrVdab2M75?=
- =?us-ascii?Q?bWLd6hp7CqFM3RJF5gdLYDFynO33K6cJeCPP4WHYnWgJsrISsUPxbBp6RjH9?=
- =?us-ascii?Q?/3MYpkKP3Q2DLkk8mMO3dWb6juJ+EssxyNqpuJjoM9ZtBguC1M1I9/tJrDN7?=
- =?us-ascii?Q?Vsm5n4G7C5BciP5G8sH9vIhOGqAy7ohi4RfXGEKbHVk/0xrX9AgA0EzKvAgx?=
- =?us-ascii?Q?/1KxceFgmrEcoqow9g/aRzuiaQfFvP9AVPXk3TCPWw6ehzoqaJqvyAs6PGkq?=
- =?us-ascii?Q?oU/IaHl2ju+LO5vkdykSGGqnUjExui8JC6WKbBg8lWX8aw568BVN4+Lj2nnb?=
- =?us-ascii?Q?P/qTWqOYz9ajW2jnJT+kdKvxPcOWnk+CyrRoANU3uvJRegSQcOXkJEllyabV?=
- =?us-ascii?Q?RMMBt0YRqO/WTXePTkruhot3ZYX+HNdGzUq4cLDoMOsPYtru9ifXg+DX2WwG?=
- =?us-ascii?Q?zJFgq5H44uWGeaoXQOcanSROAHlIi0uW0MvhYJD7sUFhBOK7RzDimjilLa9w?=
- =?us-ascii?Q?lCU0kMlq9U9/78i59XQsrsYSTAe3NUK4PAXEP3UaIFjuocfTqDiX1Ye0p+Da?=
- =?us-ascii?Q?FzQqMUYJ+WvgaJObU40c2Q39XdcMpw5Fr/yOg6JsOx2pI0lR3jwowD5U7XUh?=
- =?us-ascii?Q?7A=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 250403A8E3
+	for <linux-renesas-soc@vger.kernel.org>; Fri,  1 Mar 2024 15:20:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1709306432; cv=none; b=c/r8MxtNZWJywmty9Sn9O92NXz6bog6FYpO87b7KrEMft29DJOzjvI4glFokyIVY/Wnn/U0+/zvzsN/RZe8zFZep1JL50xUbHaHKq0IrTZEWQI5lx3yU/MZF78Y/60YKyiML2qpw36PLWI6gAOyAfTuMaz98KR7QfrM9SbeTA84=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1709306432; c=relaxed/simple;
+	bh=nnSSbci1YuYmLzLDQrJYNYVjm/DhKpmNSNeLHxA8hao=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:To; b=sinX65s5FEHiZ+/IzZeCg2E3M/MQjm3cSovHBmRNCqGnsN0p5RLDJCxzDlgz6P/Bjdn4d7YbtL1ImPGkFim0JxqSRXrM+xNXbw0ZYtsaZi74lB44gaZurMcfwxgcxQevJGeHMIJwPSWB4iMcGRoGqkZOcebcbfbi0JbpxyywHTE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GxE08CZM; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 9A764C433F1
+	for <linux-renesas-soc@vger.kernel.org>; Fri,  1 Mar 2024 15:20:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1709306431;
+	bh=nnSSbci1YuYmLzLDQrJYNYVjm/DhKpmNSNeLHxA8hao=;
+	h=Subject:From:Date:To:From;
+	b=GxE08CZM9zDDtQaGu7qZ1e0ZmWFpsTYX2fDkjMQcaqcSjns5LlcZ8tAHtdburHrWg
+	 xVo6oh1gRx5foSLnHslrgTjOQrpdFWfQTydTbwjRDJiaz1ZV0FjcS5/eeJDdP6uFFL
+	 P8siOYZPNH6MXWl8e/5jcry7ruIVvkBn95rcn4DGGm0HrE0ukWWw7tD7F8slQH5SSc
+	 CWB9VZDJoKmBvqgudzqpTitPXTrfakOH4a3UBkTH+n83RDiouucTTtSQ/PX94PICyS
+	 OfIO1Ja+0jMR6JcMCkTEPRWVZ2hiZAmGD6qPfewcYjrNofXqxSAqRQbLsOemcWTUMP
+	 X4SQrJ4UH2aaQ==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 8332DC595D1
+	for <linux-renesas-soc@vger.kernel.org>; Fri,  1 Mar 2024 15:20:31 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB11269.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 669dbe70-438a-456f-aae7-08dc39fe03c9
-X-MS-Exchange-CrossTenant-originalarrivaltime: 01 Mar 2024 14:43:52.7755
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: JYZ3Qkjv5w1YTVYWP2EL3Hea3bg2gW+F+hn8twlEAvL0KxqfFhlK6sv/bRpc1FL80bIxKFMCUZLDeDzin8bUtERxPzZEdvHwNvT4n5x6sI0=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYCPR01MB10428
+Content-Transfer-Encoding: 8bit
+Subject: Patchwork summary for: linux-renesas-soc
+From: patchwork-bot+linux-renesas-soc@kernel.org
+Message-Id: 
+ <170930643147.4197.16194187749574454327.git-patchwork-summary@kernel.org>
+Date: Fri, 01 Mar 2024 15:20:31 +0000
+To: linux-renesas-soc@vger.kernel.org
 
-Hi Thomas Gleixner,
+Hello:
 
-> -----Original Message-----
-> From: Thomas Gleixner <tglx@linutronix.de>
-> Sent: Friday, March 1, 2024 2:16 PM
-> To: Biju Das <biju.das.jz@bp.renesas.com>
-> Cc: Biju Das <biju.das.jz@bp.renesas.com>; Prabhakar Mahadev Lad <prabhak=
-ar.mahadev-
-> lad.rj@bp.renesas.com>; Marc Zyngier <maz@kernel.org>; Geert Uytterhoeven=
- <geert+renesas@glider.be>;
-> biju.das.au <biju.das.au@gmail.com>; linux-renesas-soc@vger.kernel.org
-> Subject: Re: [PATCH 4/5] irqchip/renesas-rzg2l: Use TIEN for enable/disab=
-le
->=20
-> On Mon, Feb 12 2024 at 11:37, Biju Das wrote:
-> > Use TIEN for enable/disable and avoid modifying TINT source selection
-> > register.
->=20
-> Why?
+The following patches were marked "mainlined", because they were applied to
+geert/renesas-devel.git (master):
 
-This will lead to conflict in TINT detection register and TINT source
-as we are modifying the source. This can also lead to spurious IRQ.
+Series: Add SoC identification for Renesas RZ/V2H SoC
+  Submitter: Lad, Prabhakar <prabhakar.csengg@gmail.com>
+  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=830464
+  Lore link: https://lore.kernel.org/r/20240227232531.218159-1-prabhakar.mahadev-lad.rj@bp.renesas.com
+    Patches: [v2,1/4] dt-bindings: soc: renesas: Document Renesas RZ/V2H(P) SoC variants
+             [v2,2/4] dt-bindings: arm: renesas: Document Renesas RZ/V2H(P) System Controller
+             [v2,3/4] soc: renesas: Add identification support for RZ/V2H SoC
+             [v2,4/4] arm64: defconfig: Enable R9A09G057 SoC
 
->=20
-> Changelogs are supposed to explain the WHY and not just decribe the WHAT.
+Patch: arm64: defconfig: Enable Renesas RZ/G2L display unit DRM driver
+  Submitter: Biju Das <biju.das.jz@bp.renesas.com>
+  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=829076
+  Lore link: https://lore.kernel.org/r/20240223123646.245655-1-biju.das.jz@bp.renesas.com
 
-OK, will do it in the next version.
+Patch: arm64: renesas_defconfig: Enable PANFROST and Renesas RZ/G2L display unit DRM driver
+  Submitter: Biju Das <biju.das.jz@bp.renesas.com>
+  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=829074
+  Lore link: https://lore.kernel.org/r/20240223123127.221610-1-biju.das.jz@bp.renesas.com
 
-Cheers,
-Biju
+Patch: [v2] arm64: dts: renesas: eagle: Add capture overlay for function expansion board
+  Submitter: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=829502
+  Lore link: https://lore.kernel.org/r/20240224191902.2065733-1-niklas.soderlund+renesas@ragnatech.se
+
+Series: Add new Renesas RZ/V2H SoC
+  Submitter: Lad, Prabhakar <prabhakar.csengg@gmail.com>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=827536
+  Lore link: https://lore.kernel.org/r/20240219160912.1206647-1-prabhakar.mahadev-lad.rj@bp.renesas.com
+    Patches: [1/4] dt-bindings: soc: renesas: Document Renesas RZ/V2H{P} SoC variants
+             [4/4] arm64: defconfig: Enable R9A09G057 SoC
+
+Patch: [v3] arm64: defconfig: Enable Renesas DA9062 PMIC
+  Submitter: Biju Das <biju.das.jz@bp.renesas.com>
+  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=830265
+  Lore link: https://lore.kernel.org/r/20240227130010.45361-1-biju.das.jz@bp.renesas.com
+
+Patch: arm64: renesas_defconfig: Enable Renesas DA9062 PMIC
+  Submitter: Biju Das <biju.das.jz@bp.renesas.com>
+  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=830014
+  Lore link: https://lore.kernel.org/r/20240226201305.429790-1-biju.das.jz@bp.renesas.com
+
+Series: Enable DA9062 PMIC and built-in RTC, GPIO and ONKEY
+  Submitter: Biju Das <biju.das.jz@bp.renesas.com>
+  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=830005
+  Lore link: https://lore.kernel.org/r/20240226194715.427597-1-biju.das.jz@bp.renesas.com
+    Patches: [v2,1/2] arm64: dts: renesas: rzg2ul-smarc: Enable PMIC and built-in RTC, GPIO and ONKEY
+
+Patch: dt-bindings: soc: renesas: renesas-soc: Add pattern for gray-hawk
+  Submitter: Lad, Prabhakar <prabhakar.csengg@gmail.com>
+  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=830446
+  Lore link: https://lore.kernel.org/r/20240227220930.213703-1-prabhakar.mahadev-lad.rj@bp.renesas.com
+
+
+Total patches: 13
+
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
+
 
