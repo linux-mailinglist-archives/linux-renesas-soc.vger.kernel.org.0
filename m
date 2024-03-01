@@ -1,49 +1,56 @@
-Return-Path: <linux-renesas-soc+bounces-3375-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-3376-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C46C886E42A
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  1 Mar 2024 16:20:35 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D49386E460
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  1 Mar 2024 16:32:59 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 003BA1C20B39
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  1 Mar 2024 15:20:35 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id E972F1F23065
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  1 Mar 2024 15:32:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 491313AC0C;
-	Fri,  1 Mar 2024 15:20:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GxE08CZM"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 86E051C33;
+	Fri,  1 Mar 2024 15:32:54 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from michel.telenet-ops.be (michel.telenet-ops.be [195.130.137.88])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 250403A8E3
-	for <linux-renesas-soc@vger.kernel.org>; Fri,  1 Mar 2024 15:20:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F52E23AD
+	for <linux-renesas-soc@vger.kernel.org>; Fri,  1 Mar 2024 15:32:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.137.88
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709306432; cv=none; b=c/r8MxtNZWJywmty9Sn9O92NXz6bog6FYpO87b7KrEMft29DJOzjvI4glFokyIVY/Wnn/U0+/zvzsN/RZe8zFZep1JL50xUbHaHKq0IrTZEWQI5lx3yU/MZF78Y/60YKyiML2qpw36PLWI6gAOyAfTuMaz98KR7QfrM9SbeTA84=
+	t=1709307174; cv=none; b=O98Y0kWCRrvYjX0t/aL+urYkRypC0bYtv4aAp6lN6490hFPOOxaYvDrEbI7BpX2uoe5BIzlEQD93ORF+IBKA96+fJYGZ0ENAiu9hmB3+fmm3z6Nj+Zokp4wGdVttNoPp5NCCEaxWA+2L3nmZrUQRC5xHFRjJyDyak8TMBvJw4oI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709306432; c=relaxed/simple;
-	bh=nnSSbci1YuYmLzLDQrJYNYVjm/DhKpmNSNeLHxA8hao=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:To; b=sinX65s5FEHiZ+/IzZeCg2E3M/MQjm3cSovHBmRNCqGnsN0p5RLDJCxzDlgz6P/Bjdn4d7YbtL1ImPGkFim0JxqSRXrM+xNXbw0ZYtsaZi74lB44gaZurMcfwxgcxQevJGeHMIJwPSWB4iMcGRoGqkZOcebcbfbi0JbpxyywHTE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GxE08CZM; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 9A764C433F1
-	for <linux-renesas-soc@vger.kernel.org>; Fri,  1 Mar 2024 15:20:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1709306431;
-	bh=nnSSbci1YuYmLzLDQrJYNYVjm/DhKpmNSNeLHxA8hao=;
-	h=Subject:From:Date:To:From;
-	b=GxE08CZM9zDDtQaGu7qZ1e0ZmWFpsTYX2fDkjMQcaqcSjns5LlcZ8tAHtdburHrWg
-	 xVo6oh1gRx5foSLnHslrgTjOQrpdFWfQTydTbwjRDJiaz1ZV0FjcS5/eeJDdP6uFFL
-	 P8siOYZPNH6MXWl8e/5jcry7ruIVvkBn95rcn4DGGm0HrE0ukWWw7tD7F8slQH5SSc
-	 CWB9VZDJoKmBvqgudzqpTitPXTrfakOH4a3UBkTH+n83RDiouucTTtSQ/PX94PICyS
-	 OfIO1Ja+0jMR6JcMCkTEPRWVZ2hiZAmGD6qPfewcYjrNofXqxSAqRQbLsOemcWTUMP
-	 X4SQrJ4UH2aaQ==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 8332DC595D1
-	for <linux-renesas-soc@vger.kernel.org>; Fri,  1 Mar 2024 15:20:31 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	s=arc-20240116; t=1709307174; c=relaxed/simple;
+	bh=q5kmoix5esv0PNO0rfMoWK5dCcDWLVN+KEQTCH+9bX4=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=hfsIH1eyN0iprDWZEclJEKFhkj0eSopyU8qHzV5ooMZ+BpZbgjtzI1Kd7W9FwaiZvwrcOajr936XZWEkAZDWsO8lRwP/qs8+lGmpB8ejDXxnyhMmjpMwnQllgr4E+rw3x/J9IUB/C1xp1Tg+vyyGRhXPoJdu4mVaan1bDuZbae4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.137.88
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed40:db22:6af9:7d18:6ee8])
+	by michel.telenet-ops.be with bizsmtp
+	id tTYj2B0021TWuYv06TYj1f; Fri, 01 Mar 2024 16:32:43 +0100
+Received: from rox.of.borg ([192.168.97.57])
+	by ramsan.of.borg with esmtp (Exim 4.95)
+	(envelope-from <geert@linux-m68k.org>)
+	id 1rg4sC-0023yC-C2;
+	Fri, 01 Mar 2024 16:32:43 +0100
+Received: from geert by rox.of.borg with local (Exim 4.95)
+	(envelope-from <geert@linux-m68k.org>)
+	id 1rg4sN-00Bfbx-39;
+	Fri, 01 Mar 2024 16:32:43 +0100
+From: Geert Uytterhoeven <geert+renesas@glider.be>
+To: arm-soc <arm@kernel.org>,
+	soc <soc@kernel.org>
+Cc: Magnus Damm <magnus.damm@gmail.com>,
+	linux-arm-kernel@lists.infradead.org,
+	linux-renesas-soc@vger.kernel.org,
+	Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [GIT PULL] Renesas DT binding updates for v6.9 (take three)
+Date: Fri,  1 Mar 2024 16:32:23 +0100
+Message-Id: <cover.1709307006.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -51,84 +58,48 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Subject: Patchwork summary for: linux-renesas-soc
-From: patchwork-bot+linux-renesas-soc@kernel.org
-Message-Id: 
- <170930643147.4197.16194187749574454327.git-patchwork-summary@kernel.org>
-Date: Fri, 01 Mar 2024 15:20:31 +0000
-To: linux-renesas-soc@vger.kernel.org
 
-Hello:
+	Hi SoC folks,
 
-The following patches were marked "mainlined", because they were applied to
-geert/renesas-devel.git (master):
+This is my third pull request for the inclusion of Renesas SoC updates
+for v6.9.
 
-Series: Add SoC identification for Renesas RZ/V2H SoC
-  Submitter: Lad, Prabhakar <prabhakar.csengg@gmail.com>
-  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=830464
-  Lore link: https://lore.kernel.org/r/20240227232531.218159-1-prabhakar.mahadev-lad.rj@bp.renesas.com
-    Patches: [v2,1/4] dt-bindings: soc: renesas: Document Renesas RZ/V2H(P) SoC variants
-             [v2,2/4] dt-bindings: arm: renesas: Document Renesas RZ/V2H(P) System Controller
-             [v2,3/4] soc: renesas: Add identification support for RZ/V2H SoC
-             [v2,4/4] arm64: defconfig: Enable R9A09G057 SoC
+The following changes since commit 3a9856e830500e20e61b92f5ea6b8cc505e085be:
 
-Patch: arm64: defconfig: Enable Renesas RZ/G2L display unit DRM driver
-  Submitter: Biju Das <biju.das.jz@bp.renesas.com>
-  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=829076
-  Lore link: https://lore.kernel.org/r/20240223123646.245655-1-biju.das.jz@bp.renesas.com
+  dt-bindings: renesas: Document preferred compatible naming (2024-02-19 11:21:04 +0100)
 
-Patch: arm64: renesas_defconfig: Enable PANFROST and Renesas RZ/G2L display unit DRM driver
-  Submitter: Biju Das <biju.das.jz@bp.renesas.com>
-  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=829074
-  Lore link: https://lore.kernel.org/r/20240223123127.221610-1-biju.das.jz@bp.renesas.com
+are available in the Git repository at:
 
-Patch: [v2] arm64: dts: renesas: eagle: Add capture overlay for function expansion board
-  Submitter: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=829502
-  Lore link: https://lore.kernel.org/r/20240224191902.2065733-1-niklas.soderlund+renesas@ragnatech.se
+  git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git tags/renesas-dt-bindings-for-v6.9-tag3
 
-Series: Add new Renesas RZ/V2H SoC
-  Submitter: Lad, Prabhakar <prabhakar.csengg@gmail.com>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=827536
-  Lore link: https://lore.kernel.org/r/20240219160912.1206647-1-prabhakar.mahadev-lad.rj@bp.renesas.com
-    Patches: [1/4] dt-bindings: soc: renesas: Document Renesas RZ/V2H{P} SoC variants
-             [4/4] arm64: defconfig: Enable R9A09G057 SoC
+for you to fetch changes up to 0d5a9b5d5d2fe6a138a8a9ff2513f446d69f2672:
 
-Patch: [v3] arm64: defconfig: Enable Renesas DA9062 PMIC
-  Submitter: Biju Das <biju.das.jz@bp.renesas.com>
-  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=830265
-  Lore link: https://lore.kernel.org/r/20240227130010.45361-1-biju.das.jz@bp.renesas.com
+  dt-bindings: soc: renesas: renesas-soc: Add pattern for gray-hawk (2024-03-01 15:41:34 +0100)
 
-Patch: arm64: renesas_defconfig: Enable Renesas DA9062 PMIC
-  Submitter: Biju Das <biju.das.jz@bp.renesas.com>
-  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=830014
-  Lore link: https://lore.kernel.org/r/20240226201305.429790-1-biju.das.jz@bp.renesas.com
+----------------------------------------------------------------
+Renesas DT binding updates for v6.9 (take three)
 
-Series: Enable DA9062 PMIC and built-in RTC, GPIO and ONKEY
-  Submitter: Biju Das <biju.das.jz@bp.renesas.com>
-  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=830005
-  Lore link: https://lore.kernel.org/r/20240226194715.427597-1-biju.das.jz@bp.renesas.com
-    Patches: [v2,1/2] arm64: dts: renesas: rzg2ul-smarc: Enable PMIC and built-in RTC, GPIO and ONKEY
+  - Add missing gray-hawk pattern to list of preferred compatible names.
 
-Patch: dt-bindings: soc: renesas: renesas-soc: Add pattern for gray-hawk
-  Submitter: Lad, Prabhakar <prabhakar.csengg@gmail.com>
-  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=830446
-  Lore link: https://lore.kernel.org/r/20240227220930.213703-1-prabhakar.mahadev-lad.rj@bp.renesas.com
+This fixes a recently introduced "make dtbs_check" issue.
 
+Thanks for pulling!
 
-Total patches: 13
+----------------------------------------------------------------
+Lad Prabhakar (1):
+      dt-bindings: soc: renesas: renesas-soc: Add pattern for gray-hawk
 
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+ Documentation/devicetree/bindings/soc/renesas/renesas-soc.yaml | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+Gr{oetje,eeting}s,
 
+						Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+							    -- Linus Torvalds
 
