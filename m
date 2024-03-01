@@ -1,126 +1,133 @@
-Return-Path: <linux-renesas-soc+bounces-3388-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-3389-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8479386E85A
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  1 Mar 2024 19:25:20 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FDE686E9FF
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  1 Mar 2024 21:00:25 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3DD4F284F4E
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  1 Mar 2024 18:25:19 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 25C501F256B5
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  1 Mar 2024 20:00:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1E6C92943F;
-	Fri,  1 Mar 2024 18:23:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8D7773B796;
+	Fri,  1 Mar 2024 20:00:21 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from andre.telenet-ops.be (andre.telenet-ops.be [195.130.132.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx01.omp.ru (mx01.omp.ru [90.154.21.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83E6425622
-	for <linux-renesas-soc@vger.kernel.org>; Fri,  1 Mar 2024 18:23:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.132.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E47D23B798;
+	Fri,  1 Mar 2024 20:00:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.154.21.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709317439; cv=none; b=F19q/henguDvQj8jaXJCZS+0o/Acx3VTElkK7USiMaX8aEzN+3kLpHsUVgfZfCdvIk1BUUj0qNji3mTHYHJHn4ROu7sAi99ZJm6JpvnYyMMvCJl8h1lGmn9gXS+GiDybXyezJw8bLCSKVgWgtA46sOX4FH+luqzPmtf8RfU5V/Q=
+	t=1709323221; cv=none; b=fEY4zL5KpWiMiJIzcveaXuULCPwbg9bkqRfEsFoBmQCy2RJ7ACREX0dXr5HsdABsmo0bD3Nso16aG64SRg9TFE6AheycNXrT8L09spv+c5DGOrL/EbGsHh6AfTM0JxduNSXNUqPm13m1xjo71IDDPS4YZamFFqiO9MgWTbGOpvs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709317439; c=relaxed/simple;
-	bh=bmwPRgDlfJslVOGxU6L3xDunk3J/J+bYcnJTBGOUmaQ=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=Vjn1aM8JCI37GdN0LJqiC6UqSp/7YoWGbo5Y5OpcN0DB1rRK7R2PAwCR48szIKeSr/S225ALgGE3PJxCpzcXOKFEaj7pG9cHk+NywoWoOLan+chYr1bNO5BnVbO/XmMiG+bLX5xGDcCa9tJTWPiipd8gRqxNpitylN/hGq/GIIQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.132.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
-Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed40:db22:6af9:7d18:6ee8])
-	by andre.telenet-ops.be with bizsmtp
-	id tWPn2B00H1TWuYv01WPoRr; Fri, 01 Mar 2024 19:23:48 +0100
-Received: from rox.of.borg ([192.168.97.57])
-	by ramsan.of.borg with esmtp (Exim 4.95)
-	(envelope-from <geert@linux-m68k.org>)
-	id 1rg7Xl-0024Pj-14;
-	Fri, 01 Mar 2024 19:23:47 +0100
-Received: from geert by rox.of.borg with local (Exim 4.95)
-	(envelope-from <geert@linux-m68k.org>)
-	id 1rg7Xv-00BnmX-Qd;
-	Fri, 01 Mar 2024 19:23:47 +0100
-From: Geert Uytterhoeven <geert+renesas@glider.be>
-To: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-	Ulf Hansson <ulf.hansson@linaro.org>
-Cc: linux-renesas-soc@vger.kernel.org,
-	linux-pm@vger.kernel.org,
-	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH] pmdomain: renesas: rcar-gen4-sysc: Reduce atomic delays
-Date: Fri,  1 Mar 2024 19:23:45 +0100
-Message-Id: <77f150522096d55c6da0ff983db61e0cf6309344.1709317289.git.geert+renesas@glider.be>
-X-Mailer: git-send-email 2.34.1
+	s=arc-20240116; t=1709323221; c=relaxed/simple;
+	bh=JuXTVbbbX4/j2eAfuTgeQaelHRvRyquVEJYUiGDWaeM=;
+	h=Subject:To:CC:References:From:Message-ID:Date:MIME-Version:
+	 In-Reply-To:Content-Type; b=n1MQnD6+sJWuKO+32tGMcfkVhmSyQDOY6bmwpbwdEn495Ke4lB6T9v7ygVDw7MbqVueNAmc3gK4oA/eUESWq4ZQyg5eN6VT29Hn/50NwikE05REPcnHlYVZKcXdT2w9tJN7qtSBTk1FPNAi5rJUU6ry2t04cZ6vG/kItLLsnOrI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=omp.ru; spf=pass smtp.mailfrom=omp.ru; arc=none smtp.client-ip=90.154.21.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=omp.ru
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=omp.ru
+Received: from [192.168.1.105] (178.176.75.247) by msexch01.omp.ru
+ (10.188.4.12) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.1258.12; Fri, 1 Mar
+ 2024 23:00:05 +0300
+Subject: Re: [net-next,v2 1/6] ravb: Group descriptor types used in Rx ring
+To: =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
+	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Biju Das
+	<biju.das.jz@bp.renesas.com>, Claudiu Beznea
+	<claudiu.beznea.uj@bp.renesas.com>, Yoshihiro Shimoda
+	<yoshihiro.shimoda.uh@renesas.com>, <netdev@vger.kernel.org>
+CC: <linux-renesas-soc@vger.kernel.org>, Paul Barker
+	<paul.barker.ct@bp.renesas.com>
+References: <20240227223305.910452-1-niklas.soderlund+renesas@ragnatech.se>
+ <20240227223305.910452-2-niklas.soderlund+renesas@ragnatech.se>
+From: Sergey Shtylyov <s.shtylyov@omp.ru>
+Organization: Open Mobile Platform
+Message-ID: <8cea9ce0-76f3-428a-6df5-90dcf6d59d18@omp.ru>
+Date: Fri, 1 Mar 2024 22:59:12 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <20240227223305.910452-2-niklas.soderlund+renesas@ragnatech.se>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: msexch01.omp.ru (10.188.4.12) To msexch01.omp.ru
+ (10.188.4.12)
+X-KSE-ServerInfo: msexch01.omp.ru, 9
+X-KSE-AntiSpam-Interceptor-Info: scan successful
+X-KSE-AntiSpam-Version: 6.1.0, Database issued on: 03/01/2024 19:38:05
+X-KSE-AntiSpam-Status: KAS_STATUS_NOT_DETECTED
+X-KSE-AntiSpam-Method: none
+X-KSE-AntiSpam-Rate: 59
+X-KSE-AntiSpam-Info: Lua profiles 183899 [Mar 01 2024]
+X-KSE-AntiSpam-Info: Version: 6.1.0.3
+X-KSE-AntiSpam-Info: Envelope from: s.shtylyov@omp.ru
+X-KSE-AntiSpam-Info: LuaCore: 7 0.3.7 6d6bf5bd8eea7373134f756a2fd73e9456bb7d1a
+X-KSE-AntiSpam-Info: {rep_avail}
+X-KSE-AntiSpam-Info: {Tracking_from_domain_doesnt_match_to}
+X-KSE-AntiSpam-Info: {relay has no DNS name}
+X-KSE-AntiSpam-Info: {SMTP from is not routable}
+X-KSE-AntiSpam-Info: {Found in DNSBL: 178.176.75.247 in (user)
+ b.barracudacentral.org}
+X-KSE-AntiSpam-Info: {Found in DNSBL: 178.176.75.247 in (user)
+ dbl.spamhaus.org}
+X-KSE-AntiSpam-Info:
+	omp.ru:7.1.1;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;178.176.75.247:7.1.2;127.0.0.199:7.1.2
+X-KSE-AntiSpam-Info: ApMailHostAddress: 178.176.75.247
+X-KSE-AntiSpam-Info: {DNS response errors}
+X-KSE-AntiSpam-Info: Rate: 59
+X-KSE-AntiSpam-Info: Status: not_detected
+X-KSE-AntiSpam-Info: Method: none
+X-KSE-AntiSpam-Info: Auth:dmarc=temperror header.from=omp.ru;spf=temperror
+ smtp.mailfrom=omp.ru;dkim=none
+X-KSE-Antiphishing-Info: Clean
+X-KSE-Antiphishing-ScanningType: Heuristic
+X-KSE-Antiphishing-Method: None
+X-KSE-Antiphishing-Bases: 03/01/2024 19:43:00
+X-KSE-Antivirus-Interceptor-Info: scan successful
+X-KSE-Antivirus-Info: Clean, bases: 3/1/2024 2:22:00 PM
+X-KSE-Attachment-Filter-Triggered-Rules: Clean
+X-KSE-Attachment-Filter-Triggered-Filters: Clean
+X-KSE-BulkMessagesFiltering-Scan-Result: InTheLimit
 
-The delays used with the various atomic polling loops are already at the
-maximum value of ~10µs, as documented for read_poll_timeout_atomic().
-Hence reduce the delays from 10 to 1 µs.  Increase PDRESR_RETRIES
-accordingly, to retain the old (generous) timeout value.
+On 2/28/24 1:33 AM, Niklas Söderlund wrote:
 
-Measurements on R-Car V3U, S4, V4H, and V4M show that the first three
-polling loops rarely (never?) loop, so the actual delay does not matter.
-The fourth loop (for SYSCISCR in rcar_gen4_sysc_power()) typically ran
-for one or two cycles with the old delay.  With the reduced delay, it
-typically runs for two to 17 cycles, and finishes earlier than before,
-which can reduce loop time up to a factor of three.
+> The Rx ring can either be made up of normal or extended descriptors, not
+> a mix of the two at the same time. Make this explicitly by grouping the
 
-While at it, rename the SYSCISR_{TIMEOUT,DELAY_US} definitions to
-SYSCISCR_{TIMEOUT,DELAY_US}, to match the register name they apply to.
+    Explicit?
 
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
- drivers/pmdomain/renesas/rcar-gen4-sysc.c | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
+> two variables in a rx_ring union.
+> 
+> The extension of the storage for more than one queue of normal
+> descriptors from a single to NUM_RX_QUEUE queues have no practical
+> effect. But aids in making the code readable as the code that uses it
+> already piggyback on other members of struct ravb_private that are
+> arrays of max length NUM_RX_QUEUE, e.g. rx_desc_dma. This will also make
+> further refactoring easier.
+> 
+> While at it rename the normal descriptor Rx ring to make it clear it's
 
-diff --git a/drivers/pmdomain/renesas/rcar-gen4-sysc.c b/drivers/pmdomain/renesas/rcar-gen4-sysc.c
-index 728248659a97e8cc..66409cff2083fcd8 100644
---- a/drivers/pmdomain/renesas/rcar-gen4-sysc.c
-+++ b/drivers/pmdomain/renesas/rcar-gen4-sysc.c
-@@ -50,13 +50,13 @@
- #define SYSCSR_BUSY		GENMASK(1, 0)	/* All bit sets is not busy */
- 
- #define SYSCSR_TIMEOUT		10000
--#define SYSCSR_DELAY_US		10
-+#define SYSCSR_DELAY_US		1
- 
--#define PDRESR_RETRIES		1000
--#define PDRESR_DELAY_US		10
-+#define PDRESR_RETRIES		10000
-+#define PDRESR_DELAY_US		1
- 
--#define SYSCISR_TIMEOUT		10000
--#define SYSCISR_DELAY_US	10
-+#define SYSCISCR_TIMEOUT	10000
-+#define SYSCISCR_DELAY_US	1
- 
- #define RCAR_GEN4_PD_ALWAYS_ON	64
- #define NUM_DOMAINS_EACH_REG	BITS_PER_TYPE(u32)
-@@ -97,7 +97,7 @@ static int clear_irq_flags(unsigned int reg_idx, unsigned int isr_mask)
- 
- 	ret = readl_poll_timeout_atomic(rcar_gen4_sysc_base + SYSCISCR(reg_idx),
- 					val, !(val & isr_mask),
--					SYSCISR_DELAY_US, SYSCISR_TIMEOUT);
-+					SYSCISCR_DELAY_US, SYSCISCR_TIMEOUT);
- 	if (ret < 0) {
- 		pr_err("\n %s : Can not clear IRQ flags in SYSCISCR", __func__);
- 		return -EIO;
-@@ -157,7 +157,7 @@ static int rcar_gen4_sysc_power(u8 pdr, bool on)
- 	/* Wait until the power shutoff or resume request has completed * */
- 	ret = readl_poll_timeout_atomic(rcar_gen4_sysc_base + SYSCISCR(reg_idx),
- 					val, (val & isr_mask),
--					SYSCISR_DELAY_US, SYSCISR_TIMEOUT);
-+					SYSCISCR_DELAY_US, SYSCISCR_TIMEOUT);
- 	if (ret < 0) {
- 		ret = -EIO;
- 		goto out;
--- 
-2.34.1
+   I think you need comma after "at it"... :-)
 
+> not strictly related to the GbEthernet E-MAC IP found in RZ/G2L, normal
+> descriptors could be used on R-Car SoCs too.
+> 
+> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> Reviewed-by: Paul Barker <paul.barker.ct@bp.renesas.com>
+
+Reviewed-by: Sergey Shtylyov <s.shtylyov@omp.ru>
+
+[...]
+
+MBR, Sergey
 
