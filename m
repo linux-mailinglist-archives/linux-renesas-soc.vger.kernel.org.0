@@ -1,128 +1,122 @@
-Return-Path: <linux-renesas-soc+bounces-3368-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-3369-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83EAA86E2DC
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  1 Mar 2024 14:57:39 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id ADFC886E300
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  1 Mar 2024 15:08:58 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A66421C21128
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  1 Mar 2024 13:57:38 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 4B8B7B224D1
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  1 Mar 2024 14:08:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 740666EB52;
-	Fri,  1 Mar 2024 13:57:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 54C82A40;
+	Fri,  1 Mar 2024 14:08:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="gNftlhNM"
+	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="VzePblJt"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from JPN01-TYC-obe.outbound.protection.outlook.com (mail-tycjpn01on2074.outbound.protection.outlook.com [40.107.114.74])
+Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01on2055.outbound.protection.outlook.com [40.107.113.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41ED56EB7D;
-	Fri,  1 Mar 2024 13:57:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.114.74
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 859BF386
+	for <linux-renesas-soc@vger.kernel.org>; Fri,  1 Mar 2024 14:08:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.113.55
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709301439; cv=fail; b=jm2jdcaviNLd++jbFF0vYtNigcG1kxhnxmQeWvJUYdACiviKWozJP+cbLO5NM5jwZLfRatvuJzL9ZP28/oVQSgVcneaS/C3uNEgTDc8KGRrmnlGammjAyC1Xr5OwKZT7JDsOftw1TwkMljvEyG+Qrm9inLhkzeGfIocD3gRDJjQ=
+	t=1709302133; cv=fail; b=L0ByIoAfIcqWM592bdFa9r+Gl5une8aIo8fEE812TH0LuwQQ0o9yb3VOJHDYiPjn6/T/bocGve9nR2CYmDZt1VjGSf2r09KhgERnJaUVRdb/hF9NPOhNmk/TzVYUCAAIz89rTBWiqdiNyUTIHt8Rqqvue9aLzw8vdfEHhI+5AmY=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709301439; c=relaxed/simple;
-	bh=JBJQdw/cTHxMrbfMQeahPfMfEcGntXCaF4pXizJbMLU=;
+	s=arc-20240116; t=1709302133; c=relaxed/simple;
+	bh=aNN5E2nVEMmOf6YKrLTF9L/9+Po+rfESGZrwNmBxAZQ=;
 	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=WjxfPmlyNLaEnoEGHCOdCZ2Sfk1QTHGSvp5MgkWOqCAd7qRZ3dU8GJ+mVQswMg26uNFdWm/UOySPEZ7GE1hDlEA6TPt+i6WIkSjXfhgbyBSV0ee7+hgigvY3RflZkOU2d6zYP74GJhcMjOPBnF4eUHSSPxxPzVGz65eJomGz/e8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=gNftlhNM; arc=fail smtp.client-ip=40.107.114.74
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
+	 Content-Type:MIME-Version; b=GixbUMpdIgSrbVXkB4i8uPqysCx574gKJVYoucElxUMMTvPoHWBxi1EY2qVegV10+mdSxZaCqEoL24sLSyajC1jkakv6uQjH+9PYasJaozDJhz8wSDHX0POFws7toZo8VVg4BnpeObasLOBAgG08yhtOCG5OuEqEj/lLVX56lB4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=VzePblJt; arc=fail smtp.client-ip=40.107.113.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=c/yi4L/WfPMPKKa1PJ+968G3JVVect89HOU7XCVxhnhVZKfLbDLZOj9zita4m8bJ7NgynNyiHlGp8qeQ9rxgtPDq5vkXGuQiNhelfmkcCXTvYwhVGOYevi7R9T4CMFHPVk0WY23OKMgGOurzd5oFlWo29Q1SdIiVSCel5VDsRw49x0jnPlYhV+HSScfbcPQyAyj/AjXsKvUolRjsMmWWLMPlNB/192DJENmGMfblK3dB+9p+hwKmmMS04q0+4fLW5ipQKWLCAvV9D0Vb2Fd5WYorfGx+1a9LyTZYwC8ZqhE0cG98y2OGC0TahP0dcQsITH0VP1MUj8PCKn7jllRDhQ==
+ b=d4wqpfJRX7/bHJBZg2Ov1fZEaeiv2gAI7mDYfj1v8LvDF6b3qlOUUj3kt2xclj03NZ2ohTloBYh8ZvsZVexMvX4OZdQkNZpnYDw+pUJrJz5BrS7I22zUulHsfVB4i1iJ3YHymkTVgtYx2jsE8gtWyVDxLLVgxwL6Su35QbIPH+SDwTu5q9frNNP8j8l79OI/nB83NDvDqKfb7EG+Uf654i+hsCyQIFd2EYBK+EownI5Oh5T2t3O5un9KZrX8OQWoDNs8VTPPiks579pzImDGASIqg3kArFEfNT7J5YSxH2js2OF/YsMG/fUjid8qbkgEaB29JfeeLJwBc0eLdOnWGg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=gWwsdqCNweM105Xy0iggZmidusPHrP0kQolbFHQQbyY=;
- b=HaEnJBiWwbFM0OK8/5E5w2vaP0ZUcqEDHestDs2czWxQ1Lkx+MeRjF3Qi2NsS2TWVAoREKgzNPjI+byyJfEYu3eYYBmTYd/tfv1jqDZysZytEn7TtmGnZBp20WvWE4n9vHTM8LoZMskSxKbXFqA3FdvkFy4mOJxp1zZRPmM+Zp/8BsKKzhxDbqEwNMtX7IqN3Z31/uerHg93uAWtEred9FhKe4NyYotxsrHfREwaS3COTGzgWR0bjccM3ihNDnHiqpqOJZp6yJKNkNvv8B7sRJf7opZIvJY27CKVtgyLiy/ZqDw4qNa6P1Wn/rVapGyqLntp9SMiK63DbGqq84Y/cA==
+ bh=7K8H9GlnHHh1iBRL5P+baL86pqi2XBlRGrzIkVyPXpk=;
+ b=cZ5fXiEi9BGyaT1wouLP827QPKqCpGTElwAp/ZkKUagZz6zJ7bkmUGvW391qwWLGZLDyF4S4ZVUWJUBnwcNBdsUSLqgnsymverj6KETD3SLKqH842UuJDrvKWAe9gvN0UMMtaMY7abY9ZcAKjjPD93dMVTQDp+Z4fXdE0lOuarLryvoXQoXYWaufPxdYm7HPlTS4azkWv+ACdNlyieiqnENoD2trpXnmSoY9lb+uLEb+jZAZyf6EiVD3o3R8Z/QPEM+yKPXKko2+arGTWGkU0hM1oeE7vZwl75+7qOh6l+GKGKyDw/vLyedA3CkL97PI2T5Dvr1h+By27RfQXy84oQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=gWwsdqCNweM105Xy0iggZmidusPHrP0kQolbFHQQbyY=;
- b=gNftlhNMC+EGFwb94bMg28zmhEFKJycxBGMbZ2Gmgi9XqpGNCeJVh4m05o/LlwzAxOZf5h/S4jjt31hjfTTLqaRrBgixGE5n3W004e8cbhJwHiVGeM0RLIjbtmeJrpgA3oaLLE8yVmEu7fnV3Dxni2vGuJKcLu5M+6G2wMmmrbM=
-Received: from TYCPR01MB12093.jpnprd01.prod.outlook.com (2603:1096:400:448::7)
- by TY3PR01MB10303.jpnprd01.prod.outlook.com (2603:1096:400:1de::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7316.41; Fri, 1 Mar
- 2024 13:57:12 +0000
-Received: from TYCPR01MB12093.jpnprd01.prod.outlook.com
- ([fe80::675c:58ac:9054:36c0]) by TYCPR01MB12093.jpnprd01.prod.outlook.com
- ([fe80::675c:58ac:9054:36c0%7]) with mapi id 15.20.7339.031; Fri, 1 Mar 2024
- 13:57:12 +0000
-From: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-To: =?iso-8859-1?Q?Uwe_Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>
-CC: Philipp Zabel <p.zabel@pengutronix.de>, Geert Uytterhoeven
-	<geert+renesas@glider.be>, Biju Das <biju.das.jz@bp.renesas.com>, Magnus Damm
-	<magnus.damm@gmail.com>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "linux-pwm@vger.kernel.org"
-	<linux-pwm@vger.kernel.org>, "linux-renesas-soc@vger.kernel.org"
+ bh=7K8H9GlnHHh1iBRL5P+baL86pqi2XBlRGrzIkVyPXpk=;
+ b=VzePblJt72a3xuzvhhrR2b540nHQCLG73tuXrD8rk+UP+sWr3Zh2kse5jqqGcNtYhL6cD+FEPuu3fK3jm6+GLAVWBQQFBmRK8jEqPIn0M/fBRVQOXIjysjOLyBA5hWPV7iEtQG4ZmW/lhQdUX1ExtwW9AMJU2WJcFS7isR13Zws=
+Received: from TYCPR01MB11269.jpnprd01.prod.outlook.com
+ (2603:1096:400:3c0::10) by OSRPR01MB11523.jpnprd01.prod.outlook.com
+ (2603:1096:604:230::14) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7339.32; Fri, 1 Mar
+ 2024 14:08:46 +0000
+Received: from TYCPR01MB11269.jpnprd01.prod.outlook.com
+ ([fe80::6719:535a:7217:9f0]) by TYCPR01MB11269.jpnprd01.prod.outlook.com
+ ([fe80::6719:535a:7217:9f0%3]) with mapi id 15.20.7316.039; Fri, 1 Mar 2024
+ 14:08:46 +0000
+From: Biju Das <biju.das.jz@bp.renesas.com>
+To: Thomas Gleixner <tglx@linutronix.de>
+CC: Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>, Marc
+ Zyngier <maz@kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>,
+	biju.das.au <biju.das.au@gmail.com>, "linux-renesas-soc@vger.kernel.org"
 	<linux-renesas-soc@vger.kernel.org>
-Subject: RE: [PATCH v7 2/4] pwm: Add support for RZ/V2M PWM driver
-Thread-Topic: [PATCH v7 2/4] pwm: Add support for RZ/V2M PWM driver
-Thread-Index: AQHaXfdzv+U6vrQ6NUaz4vTtuVxRF7EhoJIAgABVclCAAMAFgIAAGf/Q
-Date: Fri, 1 Mar 2024 13:57:12 +0000
+Subject: RE: [PATCH 0/5] Fix spurious TINT IRQ and enhancements
+Thread-Topic: [PATCH 0/5] Fix spurious TINT IRQ and enhancements
+Thread-Index: AQHaXafXgN2WwhYqHkiPYeodnMDjw7EjB/lw
+Date: Fri, 1 Mar 2024 14:08:46 +0000
 Message-ID:
- <TYCPR01MB1209349189E2F3085F35DBAE6C25E2@TYCPR01MB12093.jpnprd01.prod.outlook.com>
-References: <20240212210652.368680-1-fabrizio.castro.jz@renesas.com>
- <20240212210652.368680-3-fabrizio.castro.jz@renesas.com>
- <wwkzprliai3vge53fcveosfkixmri4hoyfjeulbzoezmaayoci@6hor5uwwdag4>
- <TYCPR01MB12093649FED62A25C3504E4D2C25F2@TYCPR01MB12093.jpnprd01.prod.outlook.com>
- <ugotgpnicccowxv4d6wxc57mgznj4vdodvjplfma5mqxojuiyg@p42i56lx2vqr>
-In-Reply-To: <ugotgpnicccowxv4d6wxc57mgznj4vdodvjplfma5mqxojuiyg@p42i56lx2vqr>
+ <TYCPR01MB11269567609B2A2094D11DA29865E2@TYCPR01MB11269.jpnprd01.prod.outlook.com>
+References: <20240212113712.71878-1-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20240212113712.71878-1-biju.das.jz@bp.renesas.com>
 Accept-Language: en-GB, en-US
 Content-Language: en-US
 X-MS-Has-Attach:
 X-MS-TNEF-Correlator:
 authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=renesas.com;
+ header.d=none;dmarc=none action=none header.from=bp.renesas.com;
 x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TYCPR01MB12093:EE_|TY3PR01MB10303:EE_
-x-ms-office365-filtering-correlation-id: aec0f93a-8928-49db-b591-08dc39f77ea6
+x-ms-traffictypediagnostic: TYCPR01MB11269:EE_|OSRPR01MB11523:EE_
+x-ms-office365-filtering-correlation-id: 484075e8-b2db-450d-acfc-08dc39f91c8d
+x-ld-processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
 x-ms-exchange-senderadcheck: 1
 x-ms-exchange-antispam-relay: 0
 x-microsoft-antispam: BCL:0;
 x-microsoft-antispam-message-info:
- 8loNS9ptc5KjtMiwS0Jv92bIbULVh5OcYSIEe4vTkcP3dNj4mV4Dlazjr5eHCJPY5NFWMA2BfFCs1Aq8Y8mmHNNHiJ9m0LORZLOvO9LpIQsKLGUAHICEgfBKQH0RKksofFPsWcsvMKeSxRoGUdoYejHAMlz8SgZ27Z2s0eVf4wXHipnHS2cf86+jZ8Ix9zRAbpVtZx37/71gBUKXC4etv/dhV1E4pLsmTAx1VDBpE0LoYwpCjF0foDqQJyyzMAvMjzYe6VhgH86Pn7n4AHB+x12OfqAEvWGadG1elpyrlYxeXd5Bt2JS8Uj8VVqX3gc9OQlBYG3OSLR51zSC7lW9DcYfMkYLp4g3HzxeGdLIgRlB5TfzE8q5WjDiTtg0u0kyEpqR8YB46CQfXJUn3mUBGV4g6EW0dvVmPpb2A1ZwGP2SF8Mozr0bd34gcyAMHLQ5yfy9rcnOwfLsBwoeuyOJIL0oMpHji74XhYS0MAPqrF2/5AwlW9vfLIVv4JI8kFNJBwXEEBoOzawqSs9GwrxmjEjPge+IgOo3Ih+2D5NvML0MZjn6hFh+xhgyAQ1GFqv2EIhNsuxEnMX41/Aw8hQNYV540XG5OsFskstdcpCAFNSd3PtFEDq382AIrarisF1v2yHdcZsqLcUSOY2fzc5IKpvA2yZFLyDx3u6dMJodKMk=
+ eYLm/ilV5iL89L3y8EmqSUiBpY90aul/rzwduIq5w2uydhtmV4IgNJgOSW3kcpZlG9TWewSJ4WzoY8uiejit3KTEKPyXTRiN8Rq4rKtzB1xWFf3hHD3rVsoTCkbDD7Hm/gOOR2SGTjTew4GfEKpQ+KP0BX62mgrmw6MrhrNZe3btGX+yAzUJzqB9rmBS4vw968jPlQcYMsdDas8ubKCMZslnB2ARhaBeisoHG4glDtHON5YXcN529vvMbAaxCS6TH5zoN8suUYLlQTYF+YXmkNS2U3QTQuxfWIj3NEOa4luCgj2IrCabGMjmDuJPjLb7yYDJcmhJZnmJjKPwIT9+65eUzO/jB4it44VAR3YQULotA2roIcFFy36bVzmAOjgdG9zSYwu7z70lVXgZ5TFKehtw+MsdP3ZXedbnQMH86d4tmMonAJa4qqHtPv/L6Aehoptzg1+YFx7nkmAX7dbdKz6Q/YCaaNXNEn5eRHj0xFUhHBBCNVjz9RY5FFmZKFGznF/MELu6crXK+m/8J8ci/GcTY7S2V4I6VuxZ0xr41dLGxPoCm1kAvufqwyeLUNUkZp1r2Aw8uck8BityWojU1Ev1eZi61u4bOq2Bqp8NIL7bsv1S1v/00qkji9Tvl36Wqo3U3ey3VFj8V269Z1YCzgjyUJ2LsY55Ql6ASqcc2QpUxxG09n3YJOQm9NNHcpRFeN490yqMpcD08qXwTerb3n+yN++1EiLYgD5Pw6j8qVo=
 x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB12093.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(38070700009);DIR:OUT;SFP:1101;
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB11269.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(38070700009);DIR:OUT;SFP:1101;
 x-ms-exchange-antispam-messagedata-chunkcount: 1
 x-ms-exchange-antispam-messagedata-0:
- =?iso-8859-1?Q?Yk5LKvvDuPiE7wBsDaQzCUoZYI2hCyLFPu0Wl4izzLWQj3QzzQAr31epCQ?=
- =?iso-8859-1?Q?g1zf+2e70mBXitsRszuTN09GDfCPxviiL8YEhdXkQstz4pLnPI3/wj7JOM?=
- =?iso-8859-1?Q?3u35M/MW2k0qqv3UqgJ4z/1dAPjywWbavBWXgy+DmhUn5EbCKk6pOFlns8?=
- =?iso-8859-1?Q?8rePrd4CUZVaWP9S9i31cxa+FYoFVAYEK/M+7sWQqAVuxvSg0oB99t5tYh?=
- =?iso-8859-1?Q?UDcLeQhoXZDf/JRXHnjizg65SyGwOeUPW3p7uqH6Yo1rJ3OaAHjra0fsXj?=
- =?iso-8859-1?Q?U7p4M8G9rkqAD3D+ntHaZUfYgxuu3u8AM0qfbjZ5QzbbuRvYpyLGCccxPw?=
- =?iso-8859-1?Q?Gwl3HRRVSNn3VqEdJ67CtpZhz+IfKN5z+zd2u+IaafMSxPWLetqRopnC90?=
- =?iso-8859-1?Q?G4/tBlsSYFKrXmSmuIPBSVQK7iSXh5RV7C0febHNVkhYyPJPOJzrBqRvst?=
- =?iso-8859-1?Q?Ky4lLtzhUptpJTfDyj9a+Vwx9TqDM6pAddiBQvc3YGfYH3VUBwopK7NCPC?=
- =?iso-8859-1?Q?KfLv/jax/VupfJe2SE4185cQVi1uZCMqpwVwl/MaB3aQGG0VolnqMu9mbs?=
- =?iso-8859-1?Q?FtXnT/3UMpb3m0+AD5byYjvfhAqlvpUgc+LgQIxpVSnVEpDdsN6ms5BxeX?=
- =?iso-8859-1?Q?AH14MKkesjtiq+Px7y/YNYYebGVR+ftbGFtYy4CP1zGUSTW1MstgXEiUOZ?=
- =?iso-8859-1?Q?uc3IIpgyLuV/9CK9pU/4o9y9xqGwaBY5I0u3VW3wWbot6zFRCXGRuuj5/N?=
- =?iso-8859-1?Q?o4Hahambpa2k4EiwQ823tdgwBLhUaz2dY+mFR9D1Y9to2DGGnJXe1X5NnZ?=
- =?iso-8859-1?Q?ZVY3E39mmf4y9p5pu6nYMU0eUBW+MykG1niAvwQFlio1AbPlLGDz6jJFyw?=
- =?iso-8859-1?Q?9NB8SseRIxIwFmvDQiPxkFeZltebMuOQjPmXki7X1Qe48xrssRWup/gHe1?=
- =?iso-8859-1?Q?aTKi8Pw55ntXG0d4XTS/Tx05Esf2WYHbZipXUO9aOILy1cD2maicvQyhm/?=
- =?iso-8859-1?Q?bLKZnixelQef+9RCA4XTXQiuegJPA8N5XT8F0H8aA38SZTWRYMpWxEKZsS?=
- =?iso-8859-1?Q?ZFdP2/ISZvgqD2q5hgpdwNKNKjoHPwYB7gPYF7R9onceCxTUMNfiA64NGG?=
- =?iso-8859-1?Q?2YJ4geyNNL6nrLpzy21fH//xSd/QJES/zcGGY9EbR9hY+2QfUp4HvAVODc?=
- =?iso-8859-1?Q?OzI06N+Xqq13aYrBU3UCoDs7ugpkAoAD1wio9bDGXSZYelpT7UPz8uV9KN?=
- =?iso-8859-1?Q?kRxGpJqYctRoriKZbRcWYE+g4NhgdXQfwnWggBpCxHzeVu7os05b2ztG64?=
- =?iso-8859-1?Q?NMw8259wQVan/4hfYkiWaCtYuS9ascUeItE8hib+qOJCDX+tMGnjur5Dmo?=
- =?iso-8859-1?Q?6AXqeo1n4Cqs2/A20tVV0p0ezVOU7XsFRWNZRkSk/Z1je/9ggkxTY4afh4?=
- =?iso-8859-1?Q?87vnFLL7+/orVpighT39bSkh8ZaQGoFioZdvro3dK+J2Qurv0jl84/8faR?=
- =?iso-8859-1?Q?wLTsox0celsjQ8gKxocFwigd76ysvDO6ZtAy8DjsAT8+qN9fTTJ4INRHIZ?=
- =?iso-8859-1?Q?AprnbejSWxuyWOs0HlREy1xcL3fzVf9GYIfT9pyO+/5/4+lTaVVVqoMuXf?=
- =?iso-8859-1?Q?orXuRuV82AGLlnQwOfiz3VN20UhwcRls7Rss1il59cG7lJa1+VTR4CNw?=
- =?iso-8859-1?Q?=3D=3D?=
-Content-Type: text/plain; charset="iso-8859-1"
+ =?us-ascii?Q?H/0Diu9YGPgdshAaChqnxhtr+w3uQBGeXz/NlccLBgYl4GnC46AOmEs6FE4e?=
+ =?us-ascii?Q?LIWtb1s+ORwm90e1xy5W85LE7ph5HQmjB4M0XpeCQtH5Uln+pvbvIEJJ5oez?=
+ =?us-ascii?Q?cAMvgOBK4iC+2aWf9n+LWCVsd41x4Wj2RSBSz2wD6dhGqS8NxLxfX6xjnQBe?=
+ =?us-ascii?Q?tEOP0cdXkOjNNFGjFxOiSV/3314yB7TOra1XX4ZWPbmg2anGn3sCM9PVzEkV?=
+ =?us-ascii?Q?pydLioiy21RnMmO0HMcbkAvjLybBkDh1NV+4ZoxTZkwIom7GvcgeGY9yw8sI?=
+ =?us-ascii?Q?6sFM6lYdZyNwqzCRtKcSKTGlT0igvW9ixQnMW1OVHWYuZywybTUedj5C4FV7?=
+ =?us-ascii?Q?6O6rSmySl0sF2ZDpGLYFYMG+QozOz3lmT6+ZtoJyppi8K7r05pio87x/Le0t?=
+ =?us-ascii?Q?+C437sqMCaBdhXgIe1Kb/B0aaF4pBLrWWCyuoTPrLYF8nqcF8CTgPiLPz389?=
+ =?us-ascii?Q?H1lOOzuCLVg7H4UeB+90qNXa3Q5tMGW5n/kPFsNf373ZOUKi3nmit2yXAxV7?=
+ =?us-ascii?Q?whamNpAlVUMVOSLQ8oopgMGj07wXfylyINYLW54g+Sn5u1NYd9oGT2+O1aDA?=
+ =?us-ascii?Q?VlVIJSlqfC6s8kfW4K2mAtLaHeGsbErVuA6hOkOxWaP+gdJBderoGMOYZoV4?=
+ =?us-ascii?Q?WtKIVU8ytW7T8livdAbNIOPITUEpYA6kyYiJmG5tEN+RiQIcK7qmDAW8dqsr?=
+ =?us-ascii?Q?saM9CIckhByfg5MJAf7uGjA0scnm655XL5+6Cm4eotWdVRCO9mqD7lJlHyEs?=
+ =?us-ascii?Q?a1PhzM2aT/QoNVjsyhHAI6qUbVDY7faxBVJP/0/AurYq2Uz8sAe5zUiBRyuE?=
+ =?us-ascii?Q?L+f1u9ZUV0Wha94z/qkvNSGE/RrsNHr2XcddASYmpucFxiH/p5X9OlZIsCes?=
+ =?us-ascii?Q?3wCnI0TRYCnykmFw7m+4Be/7GKWnerY9LI6pRS4Ras1ULN1HUxfWQ40ZtiUC?=
+ =?us-ascii?Q?ukmHemqPgIuOKvDqsEcZnbYVL4tCFMVIFKV77XqhUBCjFjCeumgm7Bw4WMRx?=
+ =?us-ascii?Q?cHzzNPa5EKyrLFf/TrdE5QShfNzf5cbZJ5PYYBmZ3OyTKYcZCeU8tsqRM9F4?=
+ =?us-ascii?Q?miN7idCRZiFBFzb0hIQt5e0BYXqNzyEb69/kHuih+zhzKmCmwyrwc2xTqazT?=
+ =?us-ascii?Q?w99+US7B4o3UfSh97QLn5NXtZ+19Aj1muyrjUqC2iKtt08oz9R9mbqWPrPTH?=
+ =?us-ascii?Q?wMMgxliNRPZl1tuX55xahJARm8G0gUyxLdmn8nD4PTau7F+vaFI66UKJcLaf?=
+ =?us-ascii?Q?InQxmlwa/gExFgYnVHFETpuaUgpD9uuyFa9UBU416/I+iiqn5/jX1/7kWnf+?=
+ =?us-ascii?Q?Wj2KPui+g4m1Gkzqo6bpKjIc3VdDLDt8WwT9hVc1BHSDMlFBM5+tjjOCfMLi?=
+ =?us-ascii?Q?eIz24HSF2NqHJmEz8TEgkgr1RlMKW4HaCD/GVqMjb4DljGwnVhxGtD53ihuf?=
+ =?us-ascii?Q?RN1woTv1c3g4JA4HQE1wzOjLITUbnU9PSpiw76KUNT+kt4yWwMSKSSWQcaFa?=
+ =?us-ascii?Q?neuQEO1795Xy0bbAzop99gNq5FGlnbUtQFFMoy0/Am03cl7bM9n+yPyplmbd?=
+ =?us-ascii?Q?4F+uH1HspyWk9846PwrWKGx8qx4PudWRXWPsk7wwMnYqcR6aTxcAgypg0Ie5?=
+ =?us-ascii?Q?Kw=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
@@ -130,207 +124,72 @@ List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: renesas.com
+X-OriginatorOrg: bp.renesas.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB12093.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: aec0f93a-8928-49db-b591-08dc39f77ea6
-X-MS-Exchange-CrossTenant-originalarrivaltime: 01 Mar 2024 13:57:12.3721
+X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB11269.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 484075e8-b2db-450d-acfc-08dc39f91c8d
+X-MS-Exchange-CrossTenant-originalarrivaltime: 01 Mar 2024 14:08:46.8288
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: DLtLCGsOS/Kr2wjBfwluk/VxSk5K8jmMvVICvWuL+haTnSRXoGW+edWoAdIMzijHnSFK35JbzYy1yg6i/XoXDfLZ53Q2MPbhy3O85O5+rOA=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY3PR01MB10303
+X-MS-Exchange-CrossTenant-userprincipalname: 1bgWyjohBkvSPPDtTqvj18dIRh+9Th+atoVL1UZeeM9V/YXG9aKaB8L53aTKM1OY10i9R1qpTmJbxJQJ9zFtjx/HV0oBS6g3fpaQOY7Suq0=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSRPR01MB11523
 
-Hello Uwe,
+Hi Thomas,
 
-Thanks for your feedback!
-
-> From: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
-> Sent: Friday, March 1, 2024 9:15 AM
-> To: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-> Subject: Re: [PATCH v7 2/4] pwm: Add support for RZ/V2M PWM driver
->=20
-> Hello Fabrizio,
->=20
-> your MUA introduces strange line breaks. You could do every reader of you=
- mails a favour and fix that.
-
-I think I understand what you mean, long lines would be wrapped onto new
-lines, which are then indented incorrectly?
-Hopefully it's been fixed now.
-Thanks for highlighting this, as it has been going on for some time,
-and was never noticed before.
-
-> I fixed it up for my reply.
-
-Thanks for that.
-
->=20
-> On Thu, Feb 29, 2024 at 10:45:01PM +0000, Fabrizio Castro wrote:
-> > > From: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
-> > > Sent: Thursday, February 29, 2024 4:42 PM
-> > > To: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-> > > Subject: Re: [PATCH v7 2/4] pwm: Add support for RZ/V2M PWM driver
-> > >
-> > > On Mon, Feb 12, 2024 at 09:06:50PM +0000, Fabrizio Castro wrote:
-> > > > +static inline u64 rzv2m_pwm_mul_u64_u64_div_u64_roundup(u64 a,
-> > > > +u64 b,
-> > > u64 c)
-> > > > +{
-> > > > +	u64 ab =3D a * b;
-> > >
-> > > a * b might overflow?!
-> >
-> > In the context of this driver, this cannot overflow.
-> > The 2 formulas the above is needed for are:
-> > 1) period =3D (cyc + 1)*(NSEC_PER_SEC * frequency_divisor)/rate
-> > 2) duty_cycle =3D (cyc + 1 - low)*(NSEC_PER_SEC *
-> > frequency_divisor)/rate
-> >
-> > With respect to 1), the dividend overflows when period * rate also
-> > overflows (its product is calculated in rzv2m_pwm_config).
-> > However, limiting the period to a maximum value of U64_MAX / rate
-> > prevents the calculations from overflowing (in both directions, from pe=
-riod to cyc, and from cyc to
-> period). v6 introduced max_period for this.
-> > The situation for 2) is very similar to 1), with duty_cycle<=3Dperiod,
-> > therefore limiting period to a max value (and clamping the duty cycle
-> > accordingly) will ensure that the calculation for duty_cycle won't
-> > overflow, either.
->=20
-> OK, so it might be right from a technical POV. From a maintainer POV this=
- is still bad. Authors for
-> other drivers might copy it, or the driver might be changed and there is =
-no indication that the the
-> function relies on only be called with certain parameters.
-
-I could add comments to clarify this, or checks to make sure the parameters
-are passed as expected, or both?
-
-Or if you have a better suggestion?
-
-I would still like to be able to use the below formula if possible, as it
-allows for the smallest restriction on the period:
-(a * b) / c + ( (a * b) - (((a * b) / c) * c) ? 1 : 0 )
-
->=20
-> > > > +	u64 d =3D div64_u64(ab, c);
-> > > > +	u64 e =3D d * c;
-> > > > +
-> > > > +	return d + ((ab - e) ? 1 : 0);
-> > > > +}
-> > > > +
-> > > > +static inline u64 rzv2m_pwm_mul_u64_u64_div_u64_rounddown(u64 a,
-> > > > +u64 b,
-> > > u64 c)
-> > > > +{
-> > > > +	return div64_u64(a * b, c);
-> > >
-> > > ditto. This is the same function as mul_u64_u64_div_u64() isn't it?
-> >
-> > Since a * b cannot overflow in the case of this driver, I believe the
-> > above to be a better option than mul_u64_u64_div_u64.
->=20
-> Same technical POV vs maintainer POV as above. Plus: Even if
-> mul_u64_u64_div_u64 is a tad slower, reusing it has some benefits neverth=
-eless.
-
-I'll use mul_u64_u64_div_u64 instead.
-
->=20
-> > > > [...]
-> > > > +	cyc =3D rzv2m_pwm_read(rzv2m_pwm, RZV2M_PWMCYC);
-> > > > +	state->period =3D rzv2m_pwm_mul_u64_u64_div_u64_roundup(cyc + 1,
-> > > > +				NSEC_PER_SEC * frequency_divisor,
-> > > > +				rzv2m_pwm->rate);
-> > > > +
-> > > > +	low =3D rzv2m_pwm_read(rzv2m_pwm, RZV2M_PWMLOW);
-> > > > +	state->duty_cycle =3D rzv2m_pwm_mul_u64_u64_div_u64_roundup(cyc +=
- 1 - low,
-> > > > +				NSEC_PER_SEC * frequency_divisor,
-> > > > +				rzv2m_pwm->rate);
-> > >
-> > > The register semantic makes me wonder if each period starts with the
-> > > low part. In that case the hardware called "normal" what is called
-> > > inverted in the pwm framework?!
-> >
-> > My understanding is that the PWM framework defines "normal" polarity a
-> > signal that starts high (and stays high) for the duration of the duty
-> > cycle, and goes low for the remainder of the period. Conversely, a
-> > signal with "inversed" polarity starts low (and stays low) for the
-> > duration of the duty cycle and goes high for the remainder of the perio=
-d.
->=20
-> Ack.
->=20
-> > This IP _does_ start low, but it _doesn't_ stay low for the duration
-> > of the duty cycle, as it then goes high for the duration of the duty
-> > cycle, therefore this IP doesn't perfectly fit either ("normal" or
-> > "inverted") definitions.
-> > I think you can say that the "normal" signal is _shifted_ in phase for
-> > this IP, rather than being "inverted".
->=20
-> Alternatively (and a better match): What you describe is an inverted wave=
- form with duty_cycle =3D period
-> - duty_cycle.
-
-That is also true. Also, it'll have the benefit of getting the first
-period out of the door without a shift in phase.
-I'll adjust accordingly.
-
->=20
-> > > > +	return pm_runtime_put(chip->dev);
-> > >
-> > > If you evaluate the return value of pm_runtime_put() maybe check
-> > > pm_runtime_get_sync() for symmetry, too?
-> >
-> > Or I could just discard it and return 0?
-> > I am fine with either, what's your preference?
->=20
-> My preference would be to always check the return value, but given that m=
-any drivers don't care for
-> that, I agree to accept never checking it.
-> So choose one option and do it consistently please.
-
-Thanks.
-
->=20
-> > > > +	if (pwm_cyc && !FIELD_FIT(RZV2M_PWMCYC_PERIOD, pwm_cyc - 1))
-> > > > +		pwm_cyc =3D RZV2M_PWMCYC_PERIOD + 1;
-> > >
-> > > I don't understand the relevance of FIELD_FIT(RZV2M_PWMCYC_PERIOD,
-> > > pwm_cyc - 1).
-> >
-> > CYC is only made of 24 bits, therefore this is to make sure we don't
-> > go beyond a 24-bit representation.
->=20
-> I would have understood:
->=20
-> 	if (FIELD_FIT(RZV2M_PWMCYC_PERIOD, pwm_cyc + 1))
-> 		pwm_cyc =3D RZV2M_PWMCYC_PERIOD + 1;
-
-By the time the above test is run, pwm_cyc is incremented by 1, therefore
-it needs to be decremented in order to be tested, and incremented when
-re-assigned. pwm_cyc was left incremented to simplify the pwm_low calculati=
-on,
-but I can see it's very confusing, therefore I'll improve this in v8.
+Gentle ping.
 
 Cheers,
-Fab
+Biju
 
+> -----Original Message-----
+> From: Biju Das <biju.das.jz@bp.renesas.com>
+> Sent: Monday, February 12, 2024 11:37 AM
+> Subject: [PATCH 0/5] Fix spurious TINT IRQ and enhancements
 >=20
-> Notice there are three changes compared to your variant:
->  - drop pwm_cyc !=3D 0 check
->  - drop ! from FIELD_FIT
->  - pwm_cyc + 1 instead of pwm_cyc - 1
+> This patch series aims to fix the spurious TINT IRQ as per the precaution=
+ mentioned in section "8.8.3
+> Precaution when Changing Interrupt Settings"
+> of the latest RZ/G2L hardware manual. As per this we need to mask the int=
+errupts while setting the
+> interrupt detection method. Apart from this we need to clear interrupt st=
+atus after setting TINT
+> interrupt detection method to the edge type.
 >=20
-> Best regards
-> Uwe
+> Patch#1 in this series fixes HW race condition due to clearing delay
+>         by the cpu.
+> patch#2 simplifies the code and reused the same code in patch#3
+> patch#3 fixes spurious tint irq
+> patch#4 drops removing/adding tint source during disable()/enable()
+> patch#5 simplifies enable()/disable()
+>=20
+> Before fix: Spurious TINT IRQ's during boot root@smarc-rzg2l:~# cat /proc=
+/interrupts | grep pinctrl
+>  67:          1          0 11030000.pinctrl 344 Edge      rtc-isl1208
+>  68:          0          0 11030000.pinctrl 378 Edge      SW3
+>  81:          1          0 11030000.pinctrl  17 Edge      1-003d
+> root@smarc-rzg2l:~#
+>=20
+> After the fix:
+> root@smarc-rzg2l:~# cat /proc/interrupts | grep pinctrl
+>  67:          0          0 11030000.pinctrl 344 Edge      rtc-isl1208
+>  68:          0          0 11030000.pinctrl 378 Edge      SW3
+>  81:          0          0 11030000.pinctrl  17 Edge      1-003d
+> root@smarc-rzg2l:~#
+>=20
+>=20
+> Biju Das (5):
+>   irqchip/renesas-rzg2l: Prevent IRQ HW race
+>   irqchip/renesas-rzg2l: Rename rzg2l_tint_eoi()
+>   irqchip/renesas-rzg2l: Fix spurious TINT IRQ
+>   irqchip/renesas-rzg2l: Use TIEN for enable/disable
+>   irqchip/renesas-rzg2l: Simplify rzg2l_irqc_irq_{en,dis}able()
+>=20
+>  drivers/irqchip/irq-renesas-rzg2l.c | 88 ++++++++++++++++++++---------
+>  1 file changed, 61 insertions(+), 27 deletions(-)
 >=20
 > --
-> Pengutronix e.K.                           | Uwe Kleine-K=F6nig          =
-  |
-> Industrial Linux Solutions                 | https://www.pengutronix.de/ =
-|
+> 2.25.1
+
 
