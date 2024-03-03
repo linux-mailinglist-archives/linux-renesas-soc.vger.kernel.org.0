@@ -1,173 +1,175 @@
-Return-Path: <linux-renesas-soc+bounces-3408-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-3409-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6EEB486F411
-	for <lists+linux-renesas-soc@lfdr.de>; Sun,  3 Mar 2024 09:36:57 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id E692F86F43A
+	for <lists+linux-renesas-soc@lfdr.de>; Sun,  3 Mar 2024 10:57:43 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 198C4B22D25
-	for <lists+linux-renesas-soc@lfdr.de>; Sun,  3 Mar 2024 08:36:55 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9A18B28293E
+	for <lists+linux-renesas-soc@lfdr.de>; Sun,  3 Mar 2024 09:57:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A3CE279E1;
-	Sun,  3 Mar 2024 08:36:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="Y/YxnJ0y"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3F709B641;
+	Sun,  3 Mar 2024 09:57:41 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mout.web.de (mout.web.de [217.72.192.78])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mx01.omp.ru (mx01.omp.ru [90.154.21.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0F21B65D;
-	Sun,  3 Mar 2024 08:36:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.72.192.78
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F01B12900;
+	Sun,  3 Mar 2024 09:57:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.154.21.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709455003; cv=none; b=m3Q7kRydxUpEHM28UiCjOpWJoB2vx45lrruRW/lgN76MturDQiONlhVQMJiZrxSLSDzvC93L4m+OcM2DUR6VgL29+MWZzM4aiD0/5IKA+PMDtMZx6sPa6NaOpzvHPFrVTvZH3CnB+Hq/pItGALwhvF6iXWk+LJLDtlXd7bY61t0=
+	t=1709459861; cv=none; b=StL3d4ybAplkCeKdfRktmebEUKgo8oYO6g+WBuDBstTf6+KXeopoi9YDa3XgZ5GyhcVxk52enmfHo2dPyoiPkBNcukByxkqiWlrBnCs/UgRyedLII/eSp1/VRRx0bwW9jRXxYRM7J6VQ3UfzO31ARzsucHH2h9UC9PnFENlKQu8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709455003; c=relaxed/simple;
-	bh=TjzaCrSVjQxb6zp0lUZIs8SzQu513pmNezGydfAD2t0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=tDapewOaPMxGyzvlHaVVzBNgOKTPicWqM9+uuA+bTnkp+3F599WxCByAbharwDe68nAGH0aYSuK7DNNYfh/o6N23/l2qRl2cF+ye4NJOHdeUDmQm1TiE/ZE1JzZlxnPfGst3zeEfjZonPqeF0J/7Zw9SiOvr+wNzRpqYGbrFFJU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=Y/YxnJ0y; arc=none smtp.client-ip=217.72.192.78
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de; s=s29768273;
-	t=1709454979; x=1710059779; i=markus.elfring@web.de;
-	bh=TjzaCrSVjQxb6zp0lUZIs8SzQu513pmNezGydfAD2t0=;
-	h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:
-	 In-Reply-To;
-	b=Y/YxnJ0y8y/6w3ppw9VoRWnIF118s/SyLTe1D5EHwo4hyjTS8jPgxDatLsXyKI20
-	 EnuDm0wGCJq9a4ETcycyUQ7rTLgbPxGaXeMGOsXtNBdICgDQ/8ZE4KVdahpgSkogx
-	 UVqwWAwAzaOBTUafB6dT3ncNSpfB5UkMAW0n4VRPM9MSDE1V9fuf1XcEd769QzLus
-	 nFqCaboZfIDaTHrnWLF+mPBOXmLoAqk8pX53IM75xLuZWVFWlyUxC08Iye86ekfnf
-	 ZBhB3Pd3Ov8fBXyoFkM5unrEiZMWENw5qv9It6x3DknpW4OPkk2WOljXWnZ+gbR0w
-	 XTXYDAO4GXpE80PPuw==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.21] ([94.31.86.95]) by smtp.web.de (mrweb106
- [213.165.67.124]) with ESMTPSA (Nemesis) id 1MYLmq-1rLGTZ0z6A-00VnT6; Sun, 03
- Mar 2024 09:36:19 +0100
-Message-ID: <af4995cf-6ea5-4214-a133-af260e2c517f@web.de>
-Date: Sun, 3 Mar 2024 09:36:09 +0100
+	s=arc-20240116; t=1709459861; c=relaxed/simple;
+	bh=Xcwy7LCxB7jJU0xRhAN9dYKv3RLwWlRgyZGsncWMs3A=;
+	h=From:Subject:To:CC:References:Message-ID:Date:MIME-Version:
+	 In-Reply-To:Content-Type; b=An+y/xTVBHqsdraBFz34/KUgtWUGD+XwggHus8VuwN/FA959eerisVHRZ3+RcB+oiZMpLeLGfZDnO/m8LydIV1deIFxvOAWPGn+nnk6ZgQqXbk95SAv1CuN/SfB7gdAvRso4R/FBPh2V0WDn1Az9xa4g7sgZ2K84PL28KhkJddQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=omp.ru; spf=pass smtp.mailfrom=omp.ru; arc=none smtp.client-ip=90.154.21.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=omp.ru
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=omp.ru
+Received: from [192.168.1.105] (178.176.74.177) by msexch01.omp.ru
+ (10.188.4.12) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.1258.12; Sun, 3 Mar
+ 2024 12:57:20 +0300
+From: Sergey Shtylyov <s.shtylyov@omp.ru>
+Subject: Re: [net-next,v2 3/6] ravb: Create helper to allocate skb and align
+ it
+To: =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
+	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Biju Das
+	<biju.das.jz@bp.renesas.com>, Claudiu Beznea
+	<claudiu.beznea.uj@bp.renesas.com>, Yoshihiro Shimoda
+	<yoshihiro.shimoda.uh@renesas.com>, <netdev@vger.kernel.org>
+CC: <linux-renesas-soc@vger.kernel.org>
+References: <20240227223305.910452-1-niklas.soderlund+renesas@ragnatech.se>
+ <20240227223305.910452-4-niklas.soderlund+renesas@ragnatech.se>
+Organization: Open Mobile Platform
+Message-ID: <5e01055d-cb63-3bb2-496b-b3222fab06fc@omp.ru>
+Date: Sun, 3 Mar 2024 12:57:20 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] media: rcar-csi2: Use common error handling code in
- rcsi2_parse_dt()
-To: Dan Carpenter <dan.carpenter@linaro.org>,
- Geert Uytterhoeven <geert@linux-m68k.org>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- linux-renesas-soc@vger.kernel.org, linux-media@vger.kernel.org,
- kernel-janitors@vger.kernel.org, Mauro Carvalho Chehab <mchehab@kernel.org>,
- =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
-Cc: LKML <linux-kernel@vger.kernel.org>
-References: <8b4203dc-bc0a-4c00-8862-e2d0ed6e346b@web.de>
- <CAMuHMdWwegdks3eEviEsBJE3AvUVKbZqHduYdhuwz=8xTMDs5g@mail.gmail.com>
- <260d82b6-e7fc-40c3-b414-50a883709fd7@moroto.mountain>
-Content-Language: en-GB
-From: Markus Elfring <Markus.Elfring@web.de>
-In-Reply-To: <260d82b6-e7fc-40c3-b414-50a883709fd7@moroto.mountain>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:FtJYFEbxNxvq/gj5STpjZsWeQd2N5C5UaMlhKG3LGGyeWAZcWuB
- LZXN9x+O3r5yv5I7Z1CAC+OGBoWsL3XDLRn5owyenNleoZsr7l/5a+CZqdFbWwXi34sofhT
- QLb9KczD9mm0dyS5jCZaKp1BMp3xIz864gmSXPtVYJiL+cBpVjxxnQRT0N2NKzK+wSMxWGl
- Ur4V139e4XcrnufdvGpFA==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:u2BtA3GksbE=;A7YNyS2ZssbGa0brxc5GH/Icea8
- rBMD/0398Bq8/Qj3vkiIdqsYltFv5RqlOsDHSOndxudHas2PQVNA7f6UhpI52LiqHJIbLo0qO
- wa163nB0gn72JT/dr+u50YAW+U+qnq+6P0A4aFpUXPeIsPp9ZmpVxSYBAddJQ/2ikrAj75vYn
- 6/Ndui8HYZHMEDuVBBh9oX3ua+5iLXEPHNtO3ULTGZGePB5soHOUAcISPP/gr/PnMai1gOd4e
- FTmvaPVgMJaSYu8w+BFgH455GJsC6mEIBL4WItTjeJT4HW2GUSGmLJGL2Sk8DnNC1+65O+HbQ
- YoEIZDgKkAtwBbgYduPcS5+55lHG26vrOmxiYCYKtPJ6IcQxZf1YrvwLWw0VCXlsJEl7Mxv4d
- wloF0Gu7zbVB4FxBV+YOSJpir7BRxFqZuqKuK5M5bal3kiWroPxdNwsGyEOBaC36mUhAvTe1I
- y2D6mzRrNpvoZt945LCI4P+vLcZZtRZJNP/XBwW+2pRxlvWHeYwZktKgsdnZQwwNByPDSEzPp
- DALlz71fPT5x9Cevy67WOq32b12CvjepwgNiR6/99FWhDFiuo8viNV7xTAyrySWjm12z1jD8j
- 9vxpxQ/XxXPWXiFMma/8bBIv2UTz8siQhCe1rgvvaAyEbRpmhhKB5lKxtOId13XrwXFdDFfm7
- uJZtdmGLoNTLSQY8i5c9+8JK80oVb90dt3bioCXg7fO48RhbH391SgLjbTQU0R+tXdtd5MTyy
- uFF4eU1JQoz9wDVQo5tlT9RARDfbPJJD+62kPnC1783U1yseHfY0WLN3gyplsa54YSj5CehA6
- EPtlOhIh8PuMrpuDJEGDIJ1/W3LjwGZojjfmb8HW1fK6w=
+In-Reply-To: <20240227223305.910452-4-niklas.soderlund+renesas@ragnatech.se>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: msexch01.omp.ru (10.188.4.12) To msexch01.omp.ru
+ (10.188.4.12)
+X-KSE-ServerInfo: msexch01.omp.ru, 9
+X-KSE-AntiSpam-Interceptor-Info: scan successful
+X-KSE-AntiSpam-Version: 6.1.0, Database issued on: 03/03/2024 09:46:06
+X-KSE-AntiSpam-Status: KAS_STATUS_NOT_DETECTED
+X-KSE-AntiSpam-Method: none
+X-KSE-AntiSpam-Rate: 59
+X-KSE-AntiSpam-Info: Lua profiles 183905 [Mar 03 2024]
+X-KSE-AntiSpam-Info: Version: 6.1.0.3
+X-KSE-AntiSpam-Info: Envelope from: s.shtylyov@omp.ru
+X-KSE-AntiSpam-Info: LuaCore: 7 0.3.7 6d6bf5bd8eea7373134f756a2fd73e9456bb7d1a
+X-KSE-AntiSpam-Info: {rep_avail}
+X-KSE-AntiSpam-Info: {Tracking_from_domain_doesnt_match_to}
+X-KSE-AntiSpam-Info: {relay has no DNS name}
+X-KSE-AntiSpam-Info: {SMTP from is not routable}
+X-KSE-AntiSpam-Info: {Found in DNSBL: 178.176.74.177 in (user)
+ b.barracudacentral.org}
+X-KSE-AntiSpam-Info:
+	d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;omp.ru:7.1.1;127.0.0.199:7.1.2;178.176.74.177:7.4.1,7.7.3
+X-KSE-AntiSpam-Info: {cloud_iprep_silent}
+X-KSE-AntiSpam-Info: ApMailHostAddress: 178.176.74.177
+X-KSE-AntiSpam-Info: {DNS response errors}
+X-KSE-AntiSpam-Info: Rate: 59
+X-KSE-AntiSpam-Info: Status: not_detected
+X-KSE-AntiSpam-Info: Method: none
+X-KSE-AntiSpam-Info: Auth:dmarc=temperror header.from=omp.ru;spf=temperror
+ smtp.mailfrom=omp.ru;dkim=none
+X-KSE-Antiphishing-Info: Clean
+X-KSE-Antiphishing-ScanningType: Heuristic
+X-KSE-Antiphishing-Method: None
+X-KSE-Antiphishing-Bases: 03/03/2024 09:51:00
+X-KSE-Antivirus-Interceptor-Info: scan successful
+X-KSE-Antivirus-Info: Clean, bases: 3/3/2024 4:38:00 AM
+X-KSE-Attachment-Filter-Triggered-Rules: Clean
+X-KSE-Attachment-Filter-Triggered-Filters: Clean
+X-KSE-BulkMessagesFiltering-Scan-Result: InTheLimit
 
-> Sakari Ailus pointed out in another thread that we could use __free() in=
-stead.
+On 2/28/24 1:33 AM, Niklas Söderlund wrote:
 
-See also:
-Contributions by Jonathan Cameron from 2024-02-17
+> The RAVB device requires the SKB data to be aligned to 128 bytes. The
 
-* device property: Move fwnode_handle_put() into property.h
-  https://lore.kernel.org/r/20240217164249.921878-2-jic23@kernel.org
+   I prefer calling it Ether[net]AVB (like the manuals do), that "ravb" is
+the driver's name... :-)
 
-* device property: Add cleanup.h based fwnode_handle_put() scope based cle=
-anup.
-  https://lore.kernel.org/r/20240217164249.921878-3-jic23@kernel.org
+> alignment is done by allocating a skb 128 bytes larger than the maximum
 
+   s/a/an/.
 
-> Something like this:
->
-> diff --git a/drivers/media/platform/renesas/rcar-csi2.c b/drivers/media/=
-platform/renesas/rcar-csi2.c
-> index 582d5e35db0e..c569df6057b7 100644
-> --- a/drivers/media/platform/renesas/rcar-csi2.c
-> +++ b/drivers/media/platform/renesas/rcar-csi2.c
-> @@ -1372,8 +1372,8 @@ static int rcsi2_parse_v4l2(struct rcar_csi2 *priv=
-,
->  static int rcsi2_parse_dt(struct rcar_csi2 *priv)
->  {
->  	struct v4l2_async_connection *asc;
-> -	struct fwnode_handle *fwnode;
-> -	struct fwnode_handle *ep;
-> +	struct fwnode_handle *fwnode __free(fwnode_handle) =3D NULL;
-> +	struct fwnode_handle *ep __free(fwnode_handle);
->  	struct v4l2_fwnode_endpoint v4l2_ep =3D {
->  		.bus_type =3D V4L2_MBUS_UNKNOWN,
->  	};
+> frame size supported by the device and adjusting the headroom to fit the
+> requirement.
+> 
+> This code has been refactored a few times and small issues have been
+> added along the way. The issues are not harmful but prevents merging
 
-I suggest to reconsider the position for the adjusted variable declaration=
-s
-a bit more.
+   Prevent.
 
+> parts of the Rx code which have been split in two implementations with
+> the addition of RZ/G2L support, a device that supports larger frame
+> sizes.
+> 
+> This change removes the need for duplicated and somewhat inaccurate
+> hardware alignment constrains stored in the hardware information struct
+> by creating a helper to handle the allocation of a skb and alignment of
 
-> @@ -1388,18 +1388,14 @@ static int rcsi2_parse_dt(struct rcar_csi2 *priv=
-)
->  	ret =3D v4l2_fwnode_endpoint_parse(ep, &v4l2_ep);
->  	if (ret) {
->  		dev_err(priv->dev, "Could not parse v4l2 endpoint\n");
-> -		fwnode_handle_put(ep);
->  		return -EINVAL;
->  	}
->
->  	ret =3D rcsi2_parse_v4l2(priv, &v4l2_ep);
-> -	if (ret) {
-> -		fwnode_handle_put(ep);
-> +	if (ret)
->  		return ret;
-> -	}
->
->  	fwnode =3D fwnode_graph_get_remote_endpoint(ep);
-> -	fwnode_handle_put(ep);
->
->  	dev_dbg(priv->dev, "Found '%pOF'\n", to_of_node(fwnode));
->
-> @@ -1408,7 +1404,6 @@ static int rcsi2_parse_dt(struct rcar_csi2 *priv)
->
->  	asc =3D v4l2_async_nf_add_fwnode(&priv->notifier, fwnode,
->  				       struct v4l2_async_connection);
-> -	fwnode_handle_put(fwnode);
->  	if (IS_ERR(asc))
->  		return PTR_ERR(asc);
->
+   s/a/an/.
 
-I find that two function calls marked the end of scopes here
-which obviously are not at the end of the discussed function implementatio=
-n.
-Thus I imagine that the known source code transformation =E2=80=9CReduce s=
-cope for variables=E2=80=9D
-will become relevant.
-https://refactoring.com/catalog/reduceScopeOfVariable.html
+> a skb data.
 
-Regards,
-Markus
+   s/a/an/.
+ 
+> For the R-Car class of devices the maximum frame size is 4K and each
+> descriptor is limited to 2K of data. The current implementation does not
+> support split descriptors, this limits the frame size to 2K. The
+> current hardware information however records the descriptor size just
+> under 2K due to bad understanding of the device when larger MTUs where
+> added.
+> 
+> For the RZ/G2L device the maximum frame size is 8K and each descriptor
+> is limited to 4K of data. The current hardware information records this
+> correctly, but it gets the alignment constrains wrong as just aligns it
+> by 128, it does not extend it by 128 bytes to allow the full frame to be
+> stored. This works because the RZ/G2L device supports split descriptors
+> and allocates each skb to 8K and aligns each 4K descriptor in this
+> space.
+> 
+> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+
+Reviewed-by: Sergey Shtylyov <s.shtylyov@omp.ru>
+
+[...]
+
+> diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
+> index 5c72b780d623..e6b025058847 100644
+> --- a/drivers/net/ethernet/renesas/ravb_main.c
+> +++ b/drivers/net/ethernet/renesas/ravb_main.c
+[...]
+> @@ -372,7 +383,7 @@ static void ravb_rx_ring_format_rcar(struct net_device *ndev, int q)
+>  		rx_desc = &priv->rx_ring[q].ex_desc[i];
+>  		rx_desc->ds_cc = cpu_to_le16(RX_BUF_SZ);
+
+   Don't we need to also update this?
+
+>  		dma_addr = dma_map_single(ndev->dev.parent, priv->rx_skb[q][i]->data,
+> -					  RX_BUF_SZ,
+> +					  priv->info->rx_max_frame_size,
+>  					  DMA_FROM_DEVICE);
+>  		/* We just set the data size to 0 for a failed mapping which
+>  		 * should prevent DMA from happening...
+[...]
+
+MBR, Sergey
 
