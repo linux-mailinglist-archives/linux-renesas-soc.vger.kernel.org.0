@@ -1,270 +1,173 @@
-Return-Path: <linux-renesas-soc+bounces-3407-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-3408-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE1F986F039
-	for <lists+linux-renesas-soc@lfdr.de>; Sat,  2 Mar 2024 12:21:50 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6EEB486F411
+	for <lists+linux-renesas-soc@lfdr.de>; Sun,  3 Mar 2024 09:36:57 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 9FFB7B20F5A
-	for <lists+linux-renesas-soc@lfdr.de>; Sat,  2 Mar 2024 11:21:47 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 198C4B22D25
+	for <lists+linux-renesas-soc@lfdr.de>; Sun,  3 Mar 2024 08:36:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 78168111AA;
-	Sat,  2 Mar 2024 11:21:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A3CE279E1;
+	Sun,  3 Mar 2024 08:36:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BYySK06k"
+	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="Y/YxnJ0y"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mout.web.de (mout.web.de [217.72.192.78])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 545231755A
-	for <linux-renesas-soc@vger.kernel.org>; Sat,  2 Mar 2024 11:21:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0F21B65D;
+	Sun,  3 Mar 2024 08:36:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.72.192.78
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709378503; cv=none; b=a7h8JQHCPNlQ4LnQj947rL3ASrYhFql6qR8+LSLv1HOnza/yZ/IxSGK+CbY6yPW6QBzyGzdNGeut1qYCseds2T4PMCksqetNIsWWO07BAmUm1fUGN4iA3FkrTumZenhNCjTzWnrWBFyqOOQgrNdIaU3bqBYnYp5zeS+la/4uRbk=
+	t=1709455003; cv=none; b=m3Q7kRydxUpEHM28UiCjOpWJoB2vx45lrruRW/lgN76MturDQiONlhVQMJiZrxSLSDzvC93L4m+OcM2DUR6VgL29+MWZzM4aiD0/5IKA+PMDtMZx6sPa6NaOpzvHPFrVTvZH3CnB+Hq/pItGALwhvF6iXWk+LJLDtlXd7bY61t0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709378503; c=relaxed/simple;
-	bh=fqb0XTpjOESnnf7aDjx3TP4Otw7ObsR5ddZc7NV2Ziw=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=UakYF1J5RaS2xeWdwIkfJ+MQ2EyMAAZaVVMjAbOKKoV+zDliGmHgNIm0AdXyQvS3zJEMPij2FPhSGZ4Fmr5hji3YNWO4DF5z9CWMt4tboScU6x2uLUo2uavgP3JPD0nAvXBJGTLl0k9RrAojJQREgnPh+uLuJIdalkhHrZGfikM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BYySK06k; arc=none smtp.client-ip=192.198.163.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1709378501; x=1740914501;
-  h=date:from:to:cc:subject:message-id;
-  bh=fqb0XTpjOESnnf7aDjx3TP4Otw7ObsR5ddZc7NV2Ziw=;
-  b=BYySK06kloQWONyjPr1taWBHPXbDWwreJcwARONvaSD1dhGU8zJKGDuR
-   02hBZJmTzhwc9zdcUjgXXo3mTz20/8rtdIxLfyjR90eb3vpuYklQ8I8HD
-   yXl9WuKyapTAY1YEtLKEIWSVEkxqBTZxkirk03rOA4pUFxD5HLCGmqwTe
-   aXry33C9iceBNAWDuuL0EWPIUsKk+ZMVopCbjXXjdOBlPijLuxrHnXFA+
-   TMqNehuUEMeH1nTmpcc3nqPKFPpMrHmxaCQhWOetRBCSa7qSiIrGge4OZ
-   mWfsw/BHKa/E4r1aX1nnoS/wNRgeF8TxeY89nOTySxWkzt1+Wji94ZAlQ
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11000"; a="6872462"
-X-IronPort-AV: E=Sophos;i="6.06,199,1705392000"; 
-   d="scan'208";a="6872462"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Mar 2024 03:21:40 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,199,1705392000"; 
-   d="scan'208";a="13166442"
-Received: from lkp-server02.sh.intel.com (HELO 3c78fa4d504c) ([10.239.97.151])
-  by orviesa005.jf.intel.com with ESMTP; 02 Mar 2024 03:21:39 -0800
-Received: from kbuild by 3c78fa4d504c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rgNQS-000EZY-1o;
-	Sat, 02 Mar 2024 11:21:11 +0000
-Date: Sat, 02 Mar 2024 19:16:08 +0800
-From: kernel test robot <lkp@intel.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: linux-renesas-soc@vger.kernel.org
-Subject: [geert-renesas-devel:master] BUILD SUCCESS
- ba210b1d3de4232504c76a99fefdd457854d83f9
-Message-ID: <202403021905.segSnSrh-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+	s=arc-20240116; t=1709455003; c=relaxed/simple;
+	bh=TjzaCrSVjQxb6zp0lUZIs8SzQu513pmNezGydfAD2t0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=tDapewOaPMxGyzvlHaVVzBNgOKTPicWqM9+uuA+bTnkp+3F599WxCByAbharwDe68nAGH0aYSuK7DNNYfh/o6N23/l2qRl2cF+ye4NJOHdeUDmQm1TiE/ZE1JzZlxnPfGst3zeEfjZonPqeF0J/7Zw9SiOvr+wNzRpqYGbrFFJU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=Y/YxnJ0y; arc=none smtp.client-ip=217.72.192.78
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de; s=s29768273;
+	t=1709454979; x=1710059779; i=markus.elfring@web.de;
+	bh=TjzaCrSVjQxb6zp0lUZIs8SzQu513pmNezGydfAD2t0=;
+	h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:
+	 In-Reply-To;
+	b=Y/YxnJ0y8y/6w3ppw9VoRWnIF118s/SyLTe1D5EHwo4hyjTS8jPgxDatLsXyKI20
+	 EnuDm0wGCJq9a4ETcycyUQ7rTLgbPxGaXeMGOsXtNBdICgDQ/8ZE4KVdahpgSkogx
+	 UVqwWAwAzaOBTUafB6dT3ncNSpfB5UkMAW0n4VRPM9MSDE1V9fuf1XcEd769QzLus
+	 nFqCaboZfIDaTHrnWLF+mPBOXmLoAqk8pX53IM75xLuZWVFWlyUxC08Iye86ekfnf
+	 ZBhB3Pd3Ov8fBXyoFkM5unrEiZMWENw5qv9It6x3DknpW4OPkk2WOljXWnZ+gbR0w
+	 XTXYDAO4GXpE80PPuw==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.21] ([94.31.86.95]) by smtp.web.de (mrweb106
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 1MYLmq-1rLGTZ0z6A-00VnT6; Sun, 03
+ Mar 2024 09:36:19 +0100
+Message-ID: <af4995cf-6ea5-4214-a133-af260e2c517f@web.de>
+Date: Sun, 3 Mar 2024 09:36:09 +0100
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] media: rcar-csi2: Use common error handling code in
+ rcsi2_parse_dt()
+To: Dan Carpenter <dan.carpenter@linaro.org>,
+ Geert Uytterhoeven <geert@linux-m68k.org>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ linux-renesas-soc@vger.kernel.org, linux-media@vger.kernel.org,
+ kernel-janitors@vger.kernel.org, Mauro Carvalho Chehab <mchehab@kernel.org>,
+ =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
+Cc: LKML <linux-kernel@vger.kernel.org>
+References: <8b4203dc-bc0a-4c00-8862-e2d0ed6e346b@web.de>
+ <CAMuHMdWwegdks3eEviEsBJE3AvUVKbZqHduYdhuwz=8xTMDs5g@mail.gmail.com>
+ <260d82b6-e7fc-40c3-b414-50a883709fd7@moroto.mountain>
+Content-Language: en-GB
+From: Markus Elfring <Markus.Elfring@web.de>
+In-Reply-To: <260d82b6-e7fc-40c3-b414-50a883709fd7@moroto.mountain>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:FtJYFEbxNxvq/gj5STpjZsWeQd2N5C5UaMlhKG3LGGyeWAZcWuB
+ LZXN9x+O3r5yv5I7Z1CAC+OGBoWsL3XDLRn5owyenNleoZsr7l/5a+CZqdFbWwXi34sofhT
+ QLb9KczD9mm0dyS5jCZaKp1BMp3xIz864gmSXPtVYJiL+cBpVjxxnQRT0N2NKzK+wSMxWGl
+ Ur4V139e4XcrnufdvGpFA==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:u2BtA3GksbE=;A7YNyS2ZssbGa0brxc5GH/Icea8
+ rBMD/0398Bq8/Qj3vkiIdqsYltFv5RqlOsDHSOndxudHas2PQVNA7f6UhpI52LiqHJIbLo0qO
+ wa163nB0gn72JT/dr+u50YAW+U+qnq+6P0A4aFpUXPeIsPp9ZmpVxSYBAddJQ/2ikrAj75vYn
+ 6/Ndui8HYZHMEDuVBBh9oX3ua+5iLXEPHNtO3ULTGZGePB5soHOUAcISPP/gr/PnMai1gOd4e
+ FTmvaPVgMJaSYu8w+BFgH455GJsC6mEIBL4WItTjeJT4HW2GUSGmLJGL2Sk8DnNC1+65O+HbQ
+ YoEIZDgKkAtwBbgYduPcS5+55lHG26vrOmxiYCYKtPJ6IcQxZf1YrvwLWw0VCXlsJEl7Mxv4d
+ wloF0Gu7zbVB4FxBV+YOSJpir7BRxFqZuqKuK5M5bal3kiWroPxdNwsGyEOBaC36mUhAvTe1I
+ y2D6mzRrNpvoZt945LCI4P+vLcZZtRZJNP/XBwW+2pRxlvWHeYwZktKgsdnZQwwNByPDSEzPp
+ DALlz71fPT5x9Cevy67WOq32b12CvjepwgNiR6/99FWhDFiuo8viNV7xTAyrySWjm12z1jD8j
+ 9vxpxQ/XxXPWXiFMma/8bBIv2UTz8siQhCe1rgvvaAyEbRpmhhKB5lKxtOId13XrwXFdDFfm7
+ uJZtdmGLoNTLSQY8i5c9+8JK80oVb90dt3bioCXg7fO48RhbH391SgLjbTQU0R+tXdtd5MTyy
+ uFF4eU1JQoz9wDVQo5tlT9RARDfbPJJD+62kPnC1783U1yseHfY0WLN3gyplsa54YSj5CehA6
+ EPtlOhIh8PuMrpuDJEGDIJ1/W3LjwGZojjfmb8HW1fK6w=
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git master
-branch HEAD: ba210b1d3de4232504c76a99fefdd457854d83f9  Merge branches 'renesas-arm-defconfig-for-v6.10', 'renesas-drivers-for-v6.10', 'renesas-dt-bindings-for-v6.10' and 'renesas-dts-for-v6.10' into renesas-devel
+> Sakari Ailus pointed out in another thread that we could use __free() in=
+stead.
 
-elapsed time: 1136m
+See also:
+Contributions by Jonathan Cameron from 2024-02-17
 
-configs tested: 181
-configs skipped: 5
+* device property: Move fwnode_handle_put() into property.h
+  https://lore.kernel.org/r/20240217164249.921878-2-jic23@kernel.org
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+* device property: Add cleanup.h based fwnode_handle_put() scope based cle=
+anup.
+  https://lore.kernel.org/r/20240217164249.921878-3-jic23@kernel.org
 
-tested configs:
-alpha                             allnoconfig   gcc  
-alpha                            allyesconfig   gcc  
-alpha                               defconfig   gcc  
-arc                              allmodconfig   gcc  
-arc                               allnoconfig   gcc  
-arc                              allyesconfig   gcc  
-arc                                 defconfig   gcc  
-arc                            hsdk_defconfig   gcc  
-arc                   randconfig-001-20240302   gcc  
-arc                   randconfig-002-20240302   gcc  
-arm                              allmodconfig   gcc  
-arm                               allnoconfig   clang
-arm                              allyesconfig   gcc  
-arm                                 defconfig   clang
-arm                            dove_defconfig   gcc  
-arm                       omap2plus_defconfig   gcc  
-arm                   randconfig-001-20240302   gcc  
-arm                   randconfig-002-20240302   gcc  
-arm                   randconfig-003-20240302   gcc  
-arm                   randconfig-004-20240302   clang
-arm64                            allmodconfig   clang
-arm64                             allnoconfig   gcc  
-arm64                            allyesconfig   clang
-arm64                               defconfig   gcc  
-arm64                 randconfig-001-20240302   gcc  
-arm64                 randconfig-002-20240302   gcc  
-arm64                 randconfig-003-20240302   clang
-arm64                 randconfig-004-20240302   gcc  
-csky                             allmodconfig   gcc  
-csky                              allnoconfig   gcc  
-csky                             allyesconfig   gcc  
-csky                                defconfig   gcc  
-csky                  randconfig-001-20240302   gcc  
-csky                  randconfig-002-20240302   gcc  
-hexagon                          allmodconfig   clang
-hexagon                           allnoconfig   clang
-hexagon                          allyesconfig   clang
-hexagon                             defconfig   clang
-hexagon               randconfig-001-20240302   clang
-hexagon               randconfig-002-20240302   clang
-i386                             allmodconfig   gcc  
-i386                              allnoconfig   gcc  
-i386                             allyesconfig   gcc  
-i386         buildonly-randconfig-001-20240302   clang
-i386         buildonly-randconfig-002-20240302   gcc  
-i386         buildonly-randconfig-003-20240302   gcc  
-i386         buildonly-randconfig-004-20240302   clang
-i386         buildonly-randconfig-005-20240302   gcc  
-i386         buildonly-randconfig-006-20240302   gcc  
-i386                                defconfig   clang
-i386                  randconfig-001-20240302   clang
-i386                  randconfig-002-20240302   gcc  
-i386                  randconfig-003-20240302   clang
-i386                  randconfig-004-20240302   gcc  
-i386                  randconfig-005-20240302   gcc  
-i386                  randconfig-011-20240302   gcc  
-i386                  randconfig-012-20240302   gcc  
-i386                  randconfig-013-20240302   gcc  
-i386                  randconfig-014-20240302   gcc  
-i386                  randconfig-016-20240302   gcc  
-loongarch                        allmodconfig   gcc  
-loongarch                         allnoconfig   gcc  
-loongarch                           defconfig   gcc  
-loongarch             randconfig-001-20240302   gcc  
-loongarch             randconfig-002-20240302   gcc  
-m68k                             allmodconfig   gcc  
-m68k                              allnoconfig   gcc  
-m68k                             allyesconfig   gcc  
-m68k                         amcore_defconfig   gcc  
-m68k                                defconfig   gcc  
-m68k                        m5272c3_defconfig   gcc  
-m68k                       m5275evb_defconfig   gcc  
-m68k                        m5307c3_defconfig   gcc  
-microblaze                       allmodconfig   gcc  
-microblaze                        allnoconfig   gcc  
-microblaze                       allyesconfig   gcc  
-microblaze                          defconfig   gcc  
-mips                              allnoconfig   gcc  
-mips                             allyesconfig   gcc  
-mips                          malta_defconfig   gcc  
-mips                  maltasmvp_eva_defconfig   gcc  
-nios2                            allmodconfig   gcc  
-nios2                             allnoconfig   gcc  
-nios2                            allyesconfig   gcc  
-nios2                               defconfig   gcc  
-nios2                 randconfig-001-20240302   gcc  
-nios2                 randconfig-002-20240302   gcc  
-openrisc                         alldefconfig   gcc  
-openrisc                          allnoconfig   gcc  
-openrisc                         allyesconfig   gcc  
-openrisc                            defconfig   gcc  
-parisc                           allmodconfig   gcc  
-parisc                            allnoconfig   gcc  
-parisc                           allyesconfig   gcc  
-parisc                              defconfig   gcc  
-parisc                randconfig-001-20240302   gcc  
-parisc                randconfig-002-20240302   gcc  
-parisc64                            defconfig   gcc  
-powerpc                          allmodconfig   gcc  
-powerpc                           allnoconfig   gcc  
-powerpc                          allyesconfig   clang
-powerpc               randconfig-001-20240302   clang
-powerpc               randconfig-002-20240302   clang
-powerpc               randconfig-003-20240302   gcc  
-powerpc                  storcenter_defconfig   gcc  
-powerpc64             randconfig-001-20240302   clang
-powerpc64             randconfig-002-20240302   gcc  
-powerpc64             randconfig-003-20240302   gcc  
-riscv                            allmodconfig   clang
-riscv                             allnoconfig   gcc  
-riscv                            allyesconfig   clang
-riscv                               defconfig   clang
-riscv                 randconfig-001-20240302   gcc  
-riscv                 randconfig-002-20240302   gcc  
-s390                             allmodconfig   clang
-s390                              allnoconfig   clang
-s390                             allyesconfig   gcc  
-s390                                defconfig   clang
-s390                  randconfig-001-20240302   gcc  
-s390                  randconfig-002-20240302   clang
-sh                               allmodconfig   gcc  
-sh                                allnoconfig   gcc  
-sh                               allyesconfig   gcc  
-sh                                  defconfig   gcc  
-sh                          r7780mp_defconfig   gcc  
-sh                    randconfig-001-20240302   gcc  
-sh                    randconfig-002-20240302   gcc  
-sh                          rsk7203_defconfig   gcc  
-sh                          rsk7264_defconfig   gcc  
-sh                   rts7751r2dplus_defconfig   gcc  
-sparc                            allmodconfig   gcc  
-sparc                             allnoconfig   gcc  
-sparc                               defconfig   gcc  
-sparc64                          allmodconfig   gcc  
-sparc64                          allyesconfig   gcc  
-sparc64                             defconfig   gcc  
-sparc64               randconfig-001-20240302   gcc  
-sparc64               randconfig-002-20240302   gcc  
-um                               allmodconfig   clang
-um                                allnoconfig   clang
-um                               allyesconfig   gcc  
-um                                  defconfig   clang
-um                             i386_defconfig   gcc  
-um                    randconfig-001-20240302   gcc  
-um                    randconfig-002-20240302   clang
-um                           x86_64_defconfig   clang
-x86_64                            allnoconfig   clang
-x86_64                           allyesconfig   clang
-x86_64       buildonly-randconfig-001-20240302   clang
-x86_64       buildonly-randconfig-002-20240302   clang
-x86_64       buildonly-randconfig-003-20240302   gcc  
-x86_64       buildonly-randconfig-004-20240302   gcc  
-x86_64       buildonly-randconfig-005-20240302   gcc  
-x86_64       buildonly-randconfig-006-20240302   gcc  
-x86_64                              defconfig   gcc  
-x86_64                randconfig-001-20240302   clang
-x86_64                randconfig-002-20240302   gcc  
-x86_64                randconfig-003-20240302   gcc  
-x86_64                randconfig-004-20240302   clang
-x86_64                randconfig-005-20240302   gcc  
-x86_64                randconfig-006-20240302   clang
-x86_64                randconfig-011-20240302   clang
-x86_64                randconfig-012-20240302   clang
-x86_64                randconfig-013-20240302   gcc  
-x86_64                randconfig-014-20240302   gcc  
-x86_64                randconfig-015-20240302   clang
-x86_64                randconfig-016-20240302   gcc  
-x86_64                randconfig-071-20240302   clang
-x86_64                randconfig-072-20240302   clang
-x86_64                randconfig-073-20240302   clang
-x86_64                randconfig-074-20240302   gcc  
-x86_64                randconfig-075-20240302   clang
-x86_64                randconfig-076-20240302   clang
-x86_64                          rhel-8.3-rust   clang
-x86_64                               rhel-8.3   gcc  
-xtensa                            allnoconfig   gcc  
-xtensa                  audio_kc705_defconfig   gcc  
-xtensa                       common_defconfig   gcc  
-xtensa                randconfig-001-20240302   gcc  
-xtensa                randconfig-002-20240302   gcc  
-xtensa                         virt_defconfig   gcc  
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> Something like this:
+>
+> diff --git a/drivers/media/platform/renesas/rcar-csi2.c b/drivers/media/=
+platform/renesas/rcar-csi2.c
+> index 582d5e35db0e..c569df6057b7 100644
+> --- a/drivers/media/platform/renesas/rcar-csi2.c
+> +++ b/drivers/media/platform/renesas/rcar-csi2.c
+> @@ -1372,8 +1372,8 @@ static int rcsi2_parse_v4l2(struct rcar_csi2 *priv=
+,
+>  static int rcsi2_parse_dt(struct rcar_csi2 *priv)
+>  {
+>  	struct v4l2_async_connection *asc;
+> -	struct fwnode_handle *fwnode;
+> -	struct fwnode_handle *ep;
+> +	struct fwnode_handle *fwnode __free(fwnode_handle) =3D NULL;
+> +	struct fwnode_handle *ep __free(fwnode_handle);
+>  	struct v4l2_fwnode_endpoint v4l2_ep =3D {
+>  		.bus_type =3D V4L2_MBUS_UNKNOWN,
+>  	};
+
+I suggest to reconsider the position for the adjusted variable declaration=
+s
+a bit more.
+
+
+> @@ -1388,18 +1388,14 @@ static int rcsi2_parse_dt(struct rcar_csi2 *priv=
+)
+>  	ret =3D v4l2_fwnode_endpoint_parse(ep, &v4l2_ep);
+>  	if (ret) {
+>  		dev_err(priv->dev, "Could not parse v4l2 endpoint\n");
+> -		fwnode_handle_put(ep);
+>  		return -EINVAL;
+>  	}
+>
+>  	ret =3D rcsi2_parse_v4l2(priv, &v4l2_ep);
+> -	if (ret) {
+> -		fwnode_handle_put(ep);
+> +	if (ret)
+>  		return ret;
+> -	}
+>
+>  	fwnode =3D fwnode_graph_get_remote_endpoint(ep);
+> -	fwnode_handle_put(ep);
+>
+>  	dev_dbg(priv->dev, "Found '%pOF'\n", to_of_node(fwnode));
+>
+> @@ -1408,7 +1404,6 @@ static int rcsi2_parse_dt(struct rcar_csi2 *priv)
+>
+>  	asc =3D v4l2_async_nf_add_fwnode(&priv->notifier, fwnode,
+>  				       struct v4l2_async_connection);
+> -	fwnode_handle_put(fwnode);
+>  	if (IS_ERR(asc))
+>  		return PTR_ERR(asc);
+>
+
+I find that two function calls marked the end of scopes here
+which obviously are not at the end of the discussed function implementatio=
+n.
+Thus I imagine that the known source code transformation =E2=80=9CReduce s=
+cope for variables=E2=80=9D
+will become relevant.
+https://refactoring.com/catalog/reduceScopeOfVariable.html
+
+Regards,
+Markus
 
