@@ -1,164 +1,107 @@
-Return-Path: <linux-renesas-soc+bounces-3411-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-3412-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 643BF86F441
-	for <lists+linux-renesas-soc@lfdr.de>; Sun,  3 Mar 2024 11:00:27 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 15E2886F707
+	for <lists+linux-renesas-soc@lfdr.de>; Sun,  3 Mar 2024 21:28:55 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BFEEC2829E7
-	for <lists+linux-renesas-soc@lfdr.de>; Sun,  3 Mar 2024 10:00:25 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id BCD4A1F21321
+	for <lists+linux-renesas-soc@lfdr.de>; Sun,  3 Mar 2024 20:28:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B3320B642;
-	Sun,  3 Mar 2024 10:00:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 866A079DD2;
+	Sun,  3 Mar 2024 20:28:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=alliedtelesis.co.nz header.i=@alliedtelesis.co.nz header.b="pm60YOsI"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mx01.omp.ru (mx01.omp.ru [90.154.21.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+Received: from gate2.alliedtelesis.co.nz (gate2.alliedtelesis.co.nz [202.36.163.20])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3284CBA46;
-	Sun,  3 Mar 2024 10:00:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.154.21.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E5B979DB7
+	for <linux-renesas-soc@vger.kernel.org>; Sun,  3 Mar 2024 20:28:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.36.163.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709460018; cv=none; b=AbOOcRGppEMxOlvVooy+rIiNpzzexBRyNrA8zqzJsAuqrb7SwxG9zG+H5Asxsl/rKy69cr+rb+ETvyGs4Cq4ZkLf8P5DDj78yRZ4+uGrhsjaOPFR0CjnnU0crr2DFUv3VBItNaRTLhg91+o0EYECDDv0fwLCxfVFVY8tKTPPZjM=
+	t=1709497726; cv=none; b=Eu0gBfscV1DUvHk0AYR64tJY6NbGGhzVFAL19QVbEOe8mJuZm0bJfPTJQ6lffLSa8h/Odpqk6mZgDGs02UaNW0lyJ9CYJK8BZLqGkLITS5HWSSpgvYWb+JTvSAMpbD/jp8nsuIprltKGfJUsW5z78j03feZCW5tkm+OSU44Vo+M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709460018; c=relaxed/simple;
-	bh=wgl5aL/m0dsPvCZP1EwQWBYv9ZzqR9ONYKmI7fIHflo=;
-	h=From:Subject:To:CC:References:Message-ID:Date:MIME-Version:
-	 In-Reply-To:Content-Type; b=bXd7+lUNcALONggVxEdNjsARE0KCkR3Eg6tW5ci2LzLCMIo0chF3uefywJFl19cy2L9y2p2H8tg9Kp1jllUSwxKPoqf71nB1ysShEt82LLlR4H5FZmwBlVl6QgYCR1v8w4HcbngYvFfofNgqnFAu0eekRWmjRYPRJKleiwfoeoA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=omp.ru; spf=pass smtp.mailfrom=omp.ru; arc=none smtp.client-ip=90.154.21.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=omp.ru
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=omp.ru
-Received: from [192.168.1.105] (178.176.74.177) by msexch01.omp.ru
- (10.188.4.12) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.1258.12; Sun, 3 Mar
- 2024 13:00:08 +0300
-From: Sergey Shtylyov <s.shtylyov@omp.ru>
-Subject: Re: [net-next,v2 6/6] ravb: Unify Rx ring maintenance code paths
-To: =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
-	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Biju Das
-	<biju.das.jz@bp.renesas.com>, Claudiu Beznea
-	<claudiu.beznea.uj@bp.renesas.com>, Yoshihiro Shimoda
-	<yoshihiro.shimoda.uh@renesas.com>, <netdev@vger.kernel.org>
-CC: <linux-renesas-soc@vger.kernel.org>
-References: <20240227223305.910452-1-niklas.soderlund+renesas@ragnatech.se>
- <20240227223305.910452-7-niklas.soderlund+renesas@ragnatech.se>
-Organization: Open Mobile Platform
-Message-ID: <7fb71160-a0b5-d4e9-7c83-271754ba98a9@omp.ru>
-Date: Sun, 3 Mar 2024 13:00:08 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+	s=arc-20240116; t=1709497726; c=relaxed/simple;
+	bh=q02xHBtzDRtbgPZMmRiuOWe7tcZKt0E8TYgDa/42fSc=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=BRUrXyTor0i+EIBJMeT+8MOYpNOSkXzqyZso+zQ5Oyyk2ROnR7NqcYhynhSfvliaKxK7EEuv1Y35I2J9zqcHh1pOCPdNWUxq8/pol2ieHad57y4DycT+1v+nfERv4XdUDPo6c0Ti/MqMz9kTvRO/m0zmmnIRz+OfQ4+DVdfShH0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=alliedtelesis.co.nz; spf=pass smtp.mailfrom=alliedtelesis.co.nz; dkim=pass (2048-bit key) header.d=alliedtelesis.co.nz header.i=@alliedtelesis.co.nz header.b=pm60YOsI; arc=none smtp.client-ip=202.36.163.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=alliedtelesis.co.nz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alliedtelesis.co.nz
+Received: from svr-chch-seg1.atlnz.lc (mmarshal3.atlnz.lc [10.32.18.43])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(Client did not present a certificate)
+	by gate2.alliedtelesis.co.nz (Postfix) with ESMTPS id 230C02C0652;
+	Mon,  4 Mar 2024 09:28:40 +1300 (NZDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alliedtelesis.co.nz;
+	s=mail181024; t=1709497720;
+	bh=q02xHBtzDRtbgPZMmRiuOWe7tcZKt0E8TYgDa/42fSc=;
+	h=From:To:CC:Subject:Date:References:In-Reply-To:From;
+	b=pm60YOsI+GPF2/XjaH9Sf1tchYsFivPFOwPCebIvaxFV0bga3KEjJkGHldXGxAHP6
+	 zaqGSVwAqgcf0w2Zk20PxcxCKe3/kSm87f8WiKwkBT+KeQB1e7hikWZCnVOeoRS7lI
+	 XAki74Ja0/D3BIxgAz7nWvFEOjnYlwfGEDUbZKA9huOpDnZOBkeBYcRFZ9nz23et5T
+	 9zZ3JxHAaoQ/YL8yh/9s8uVEbbATpeeAsDkNdYv8wX4YWad4ThbvOCy2eTGl94JmIO
+	 vomXRpUdB/eaOrM40Z3KRRqKLF2+wpsT9WKSvbkcADwLOczXBLVQwoN3JwX+hgKTON
+	 AeTIDuaQ3qOyA==
+Received: from svr-chch-ex2.atlnz.lc (Not Verified[2001:df5:b000:bc8::76]) by svr-chch-seg1.atlnz.lc with Trustwave SEG (v8,2,6,11305)
+	id <B65e4dd770001>; Mon, 04 Mar 2024 09:28:39 +1300
+Received: from svr-chch-ex2.atlnz.lc (2001:df5:b000:bc8:f753:6de:11c0:a008) by
+ svr-chch-ex2.atlnz.lc (2001:df5:b000:bc8:f753:6de:11c0:a008) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.40; Mon, 4 Mar 2024 09:28:39 +1300
+Received: from svr-chch-ex2.atlnz.lc ([fe80::a9eb:c9b7:8b52:9567]) by
+ svr-chch-ex2.atlnz.lc ([fe80::a9eb:c9b7:8b52:9567%15]) with mapi id
+ 15.02.1118.040; Mon, 4 Mar 2024 09:28:39 +1300
+From: Chris Packham <Chris.Packham@alliedtelesis.co.nz>
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>
+CC: Rob Herring <robh+dt@kernel.org>, "devicetree@vger.kernel.org"
+	<devicetree@vger.kernel.org>, "linux-i2c@vger.kernel.org"
+	<linux-i2c@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH RFT 0/3] i2c: mpc: use proper binding for transfer
+ timeouts
+Thread-Topic: [PATCH RFT 0/3] i2c: mpc: use proper binding for transfer
+ timeouts
+Thread-Index: AQHaav5GSOiVMdh1uE2cfe2fJzIwLrElotWA
+Date: Sun, 3 Mar 2024 20:28:39 +0000
+Message-ID: <b3d01672-7a81-4e93-ab9e-2ea216e40d89@alliedtelesis.co.nz>
+References: <20240229105810.29220-5-wsa+renesas@sang-engineering.com>
+In-Reply-To: <20240229105810.29220-5-wsa+renesas@sang-engineering.com>
+Accept-Language: en-NZ, en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <5F2611897A8D8747BD5FAF233A1AE1C9@atlnz.lc>
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <20240227223305.910452-7-niklas.soderlund+renesas@ragnatech.se>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: msexch01.omp.ru (10.188.4.12) To msexch01.omp.ru
- (10.188.4.12)
-X-KSE-ServerInfo: msexch01.omp.ru, 9
-X-KSE-AntiSpam-Interceptor-Info: scan successful
-X-KSE-AntiSpam-Version: 6.1.0, Database issued on: 03/03/2024 09:46:06
-X-KSE-AntiSpam-Status: KAS_STATUS_NOT_DETECTED
-X-KSE-AntiSpam-Method: none
-X-KSE-AntiSpam-Rate: 59
-X-KSE-AntiSpam-Info: Lua profiles 183905 [Mar 03 2024]
-X-KSE-AntiSpam-Info: Version: 6.1.0.3
-X-KSE-AntiSpam-Info: Envelope from: s.shtylyov@omp.ru
-X-KSE-AntiSpam-Info: LuaCore: 7 0.3.7 6d6bf5bd8eea7373134f756a2fd73e9456bb7d1a
-X-KSE-AntiSpam-Info: {rep_avail}
-X-KSE-AntiSpam-Info: {Tracking_from_domain_doesnt_match_to}
-X-KSE-AntiSpam-Info: {relay has no DNS name}
-X-KSE-AntiSpam-Info: {SMTP from is not routable}
-X-KSE-AntiSpam-Info: {Found in DNSBL: 178.176.74.177 in (user)
- b.barracudacentral.org}
-X-KSE-AntiSpam-Info:
-	d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;omp.ru:7.1.1;127.0.0.199:7.1.2;178.176.74.177:7.4.1,7.7.3
-X-KSE-AntiSpam-Info: {cloud_iprep_silent}
-X-KSE-AntiSpam-Info: ApMailHostAddress: 178.176.74.177
-X-KSE-AntiSpam-Info: {DNS response errors}
-X-KSE-AntiSpam-Info: Rate: 59
-X-KSE-AntiSpam-Info: Status: not_detected
-X-KSE-AntiSpam-Info: Method: none
-X-KSE-AntiSpam-Info: Auth:dmarc=temperror header.from=omp.ru;spf=temperror
- smtp.mailfrom=omp.ru;dkim=none
-X-KSE-Antiphishing-Info: Clean
-X-KSE-Antiphishing-ScanningType: Heuristic
-X-KSE-Antiphishing-Method: None
-X-KSE-Antiphishing-Bases: 03/03/2024 09:51:00
-X-KSE-Antivirus-Interceptor-Info: scan successful
-X-KSE-Antivirus-Info: Clean, bases: 3/3/2024 4:38:00 AM
-X-KSE-Attachment-Filter-Triggered-Rules: Clean
-X-KSE-Attachment-Filter-Triggered-Filters: Clean
-X-KSE-BulkMessagesFiltering-Scan-Result: InTheLimit
+X-SEG-SpamProfiler-Analysis: v=2.4 cv=BKkQr0QG c=1 sm=1 tr=0 ts=65e4dd77 a=Xf/6aR1Nyvzi7BryhOrcLQ==:117 a=xqWC_Br6kY4A:10 a=75chYTbOgJ0A:10 a=IkcTkHD0fZMA:10 a=K6JAEmCyrfEA:10 a=w9H3kZa7z7M5lhOVuj4A:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=ZXulRonScM0A:10
+X-SEG-SpamProfiler-Score: 0
 
-On 2/28/24 1:33 AM, Niklas Söderlund wrote:
-
-> The R-Car and RZ/G2L Rx code paths was split in two separate
-
-   s/was/were/.
-
-> implementations when support for RZ/G2L was added due to the fact that
-> R-Car uses the extended descriptor format while RZ/G2L uses normal
-> descriptors. This has lead to a duplication of Rx logic with the only
-
-   s/lead/led/.
-
-> difference being the different Rx descriptors types used. The
-> implementation however neglects to take into account that extended
-> descriptors are normal descriptors with additional metadata at the end
-> to carry hardware timestamp information.
-> 
-> The hardware timestamps information is only consumed in the R-Car Rx
-
-   Timestamp, as above...
-
-> loop and all the maintenance code around the Rx ring can be shared
-> between the two implementations if the difference in descriptor length
-> is carefully considered.
-> 
-> This change merges the two implementations for Rx ring maintenance by
-> adding a method to access both types of descriptors as normal
-> descriptors, as this part covers all the fields needed for Rx ring
-> maintenance the only difference between using normal or extended
-> descriptor is the size of the memory region to allocate/free and the
-> step size between each descriptor in the ring.
-> 
-> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-
-Reviewed-by: Sergey Shtylyov <s.shtylyov@omp.ru>
-
-[...]
-
-> diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
-> index 4ef4be9e152e..fa48ff4aba2d 100644
-> --- a/drivers/net/ethernet/renesas/ravb_main.c
-> +++ b/drivers/net/ethernet/renesas/ravb_main.c
-> @@ -202,6 +202,13 @@ static const struct mdiobb_ops bb_ops = {
->  	.get_mdio_data = ravb_get_mdio_data,
->  };
->  
-> +static struct ravb_rx_desc *
-> +ravb_rx_get_desc(struct ravb_private *priv, unsigned int q,
-
-   Please make it 'int q' for consistency. We can change the q's type
-universally later...
-
-[...]
-> @@ -202,6 +202,13 @@ static const struct mdiobb_ops bb_ops = {
->  	.get_mdio_data = ravb_get_mdio_data,
->  };
->  
-> +static struct ravb_rx_desc *
-
-   Not 'void *'?
-
-[...]
-
-MBR, Sergey
+DQpPbiAyOS8wMi8yNCAyMzo1OCwgV29sZnJhbSBTYW5nIHdyb3RlOg0KPiBUbyBjbGVhbiB1cCB0
+aGUgY29uZnVzaW5nIHNpdHVhdGlvbiByZWdhcmRpbmcgSTJDIHRpbWVvdXQgYmluZGluZ3MsIGhl
+cmUNCj4gaXMgdGhlIHNlcmllcyB0byBmaXggdXAgdGhlIE1QQyBkcml2ZXIgd2hpY2ggbWl4ZWQg
+dXAgY2xvY2sgc3RyZXRjaGluZw0KPiB0aW1lb3V0IHdpdGggdHJhbnNmZXIgdGltZW91dHMuIFBs
+dXMgYSBtaW5vciBjbGVhbnVwIHdoaWxlIGhlcmUuDQo+DQo+IE9ubHkgYnVpbGQgdGVzdGVkLCBz
+byBhY3R1YWwgdGVzdGluZyBpcyB3ZWxjb21lLg0KDQpGb3IgdGhlIHNlcmllcw0KDQpSZXZpZXdl
+ZC1ieTogQ2hyaXMgUGFja2hhbSA8Y2hyaXMucGFja2hhbUBhbGxpZWR0ZWxlc2lzLmNvLm56Pg0K
+DQphbmQgb24gYSBQMjA0MVJEQg0KDQpUZXN0ZWQtYnk6IENocmlzIFBhY2toYW0gPGNocmlzLnBh
+Y2toYW1AYWxsaWVkdGVsZXNpcy5jby5uej4NCg0KPg0KPg0KPiBXb2xmcmFtIFNhbmcgKDMpOg0K
+PiAgICBkdC1iaW5kaW5nczogaTJjOiBtcGM6IHVzZSBwcm9wZXIgYmluZGluZyBmb3IgdHJhbnNm
+ZXIgdGltZW91dHMNCj4gICAgaTJjOiBtcGM6IHVzZSBwcm9wZXIgYmluZGluZyBmb3IgdHJhbnNm
+ZXIgdGltZW91dHMNCj4gICAgaTJjOiBtcGM6IHJlbW92ZSBvdXRkYXRlZCBtYWNybw0KPg0KPiAg
+IC4uLi9kZXZpY2V0cmVlL2JpbmRpbmdzL2kyYy9pMmMtbXBjLnlhbWwgICAgICAgICB8ICAyICst
+DQo+ICAgZHJpdmVycy9pMmMvYnVzc2VzL2kyYy1tcGMuYyAgICAgICAgICAgICAgICAgICAgIHwg
+MTYgKysrKysrKy0tLS0tLS0tLQ0KPiAgIDIgZmlsZXMgY2hhbmdlZCwgOCBpbnNlcnRpb25zKCsp
+LCAxMCBkZWxldGlvbnMoLSkNCj4=
 
