@@ -1,41 +1,41 @@
-Return-Path: <linux-renesas-soc+bounces-3409-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-3410-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id E692F86F43A
-	for <lists+linux-renesas-soc@lfdr.de>; Sun,  3 Mar 2024 10:57:43 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id BD00886F43E
+	for <lists+linux-renesas-soc@lfdr.de>; Sun,  3 Mar 2024 10:59:00 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9A18B28293E
-	for <lists+linux-renesas-soc@lfdr.de>; Sun,  3 Mar 2024 09:57:42 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id EF33C1C20617
+	for <lists+linux-renesas-soc@lfdr.de>; Sun,  3 Mar 2024 09:58:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3F709B641;
-	Sun,  3 Mar 2024 09:57:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 87C659463;
+	Sun,  3 Mar 2024 09:58:57 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from mx01.omp.ru (mx01.omp.ru [90.154.21.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F01B12900;
-	Sun,  3 Mar 2024 09:57:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8D24B641;
+	Sun,  3 Mar 2024 09:58:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.154.21.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709459861; cv=none; b=StL3d4ybAplkCeKdfRktmebEUKgo8oYO6g+WBuDBstTf6+KXeopoi9YDa3XgZ5GyhcVxk52enmfHo2dPyoiPkBNcukByxkqiWlrBnCs/UgRyedLII/eSp1/VRRx0bwW9jRXxYRM7J6VQ3UfzO31ARzsucHH2h9UC9PnFENlKQu8=
+	t=1709459937; cv=none; b=pTNKR8j5eqKLpYUT2F6BoHvF6qcqipmUJd8DDi+tDyPXxKp5W0M4D3eEZjOQi5tHyEi/aVgcieqKYFwQdaN9Pf/F6H3uGd4Ql1SchNwn48/a3PZgahxCISxWGWyMblq1ZmB+gWmW4Sfgzajq0438a8QnAmsfss+sWIp1TSimxwc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709459861; c=relaxed/simple;
-	bh=Xcwy7LCxB7jJU0xRhAN9dYKv3RLwWlRgyZGsncWMs3A=;
+	s=arc-20240116; t=1709459937; c=relaxed/simple;
+	bh=E4cTg1HgZXDK51usBaymeINXzwx6fuPbVM2dA+JDcHM=;
 	h=From:Subject:To:CC:References:Message-ID:Date:MIME-Version:
-	 In-Reply-To:Content-Type; b=An+y/xTVBHqsdraBFz34/KUgtWUGD+XwggHus8VuwN/FA959eerisVHRZ3+RcB+oiZMpLeLGfZDnO/m8LydIV1deIFxvOAWPGn+nnk6ZgQqXbk95SAv1CuN/SfB7gdAvRso4R/FBPh2V0WDn1Az9xa4g7sgZ2K84PL28KhkJddQ=
+	 In-Reply-To:Content-Type; b=PwA/beoJ464Q39QXft2Mke5Kjiyyl3nMul8T+IuFpT1lCiKZXNWH5hZPZsQhJVIMnD4q17ds+kKdPo6md6X+vsV096ZB8bii5fRoxlIAuwmv3hlYvSf+ra8YR+nHjhbHp5vXCaK0evQuEdSicYYjWj7eoxYntXiC/rimzNM3LAk=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=omp.ru; spf=pass smtp.mailfrom=omp.ru; arc=none smtp.client-ip=90.154.21.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=omp.ru
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=omp.ru
 Received: from [192.168.1.105] (178.176.74.177) by msexch01.omp.ru
  (10.188.4.12) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.1258.12; Sun, 3 Mar
- 2024 12:57:20 +0300
+ 2024 12:58:45 +0300
 From: Sergey Shtylyov <s.shtylyov@omp.ru>
-Subject: Re: [net-next,v2 3/6] ravb: Create helper to allocate skb and align
- it
+Subject: Re: [net-next,v2 5/6] ravb: Move maximum Rx descriptor data usage to
+ info struct
 To: =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
 	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
 	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Biju Das
@@ -44,10 +44,10 @@ To: =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
 	<yoshihiro.shimoda.uh@renesas.com>, <netdev@vger.kernel.org>
 CC: <linux-renesas-soc@vger.kernel.org>
 References: <20240227223305.910452-1-niklas.soderlund+renesas@ragnatech.se>
- <20240227223305.910452-4-niklas.soderlund+renesas@ragnatech.se>
+ <20240227223305.910452-6-niklas.soderlund+renesas@ragnatech.se>
 Organization: Open Mobile Platform
-Message-ID: <5e01055d-cb63-3bb2-496b-b3222fab06fc@omp.ru>
-Date: Sun, 3 Mar 2024 12:57:20 +0300
+Message-ID: <c6a2f556-2166-15c8-246f-016f3319fd6f@omp.ru>
+Date: Sun, 3 Mar 2024 12:58:43 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.10.1
 Precedence: bulk
@@ -56,7 +56,7 @@ List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <20240227223305.910452-4-niklas.soderlund+renesas@ragnatech.se>
+In-Reply-To: <20240227223305.910452-6-niklas.soderlund+renesas@ragnatech.se>
 Content-Type: text/plain; charset="utf-8"
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -100,51 +100,13 @@ X-KSE-BulkMessagesFiltering-Scan-Result: InTheLimit
 
 On 2/28/24 1:33 AM, Niklas Söderlund wrote:
 
-> The RAVB device requires the SKB data to be aligned to 128 bytes. The
+> To make it possible to merge the R-Car and RZ/G2L code paths move the
+> maximum usable size of a single Rx descriptor data slice in to the
 
-   I prefer calling it Ether[net]AVB (like the manuals do), that "ravb" is
-the driver's name... :-)
+   Into?
 
-> alignment is done by allocating a skb 128 bytes larger than the maximum
-
-   s/a/an/.
-
-> frame size supported by the device and adjusting the headroom to fit the
-> requirement.
-> 
-> This code has been refactored a few times and small issues have been
-> added along the way. The issues are not harmful but prevents merging
-
-   Prevent.
-
-> parts of the Rx code which have been split in two implementations with
-> the addition of RZ/G2L support, a device that supports larger frame
-> sizes.
-> 
-> This change removes the need for duplicated and somewhat inaccurate
-> hardware alignment constrains stored in the hardware information struct
-> by creating a helper to handle the allocation of a skb and alignment of
-
-   s/a/an/.
-
-> a skb data.
-
-   s/a/an/.
- 
-> For the R-Car class of devices the maximum frame size is 4K and each
-> descriptor is limited to 2K of data. The current implementation does not
-> support split descriptors, this limits the frame size to 2K. The
-> current hardware information however records the descriptor size just
-> under 2K due to bad understanding of the device when larger MTUs where
-> added.
-> 
-> For the RZ/G2L device the maximum frame size is 8K and each descriptor
-> is limited to 4K of data. The current hardware information records this
-> correctly, but it gets the alignment constrains wrong as just aligns it
-> by 128, it does not extend it by 128 bytes to allow the full frame to be
-> stored. This works because the RZ/G2L device supports split descriptors
-> and allocates each skb to 8K and aligns each 4K descriptor in this
-> space.
+> hardware information instead of using two different defines in the two
+> different code paths.
 > 
 > Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 
@@ -152,23 +114,19 @@ Reviewed-by: Sergey Shtylyov <s.shtylyov@omp.ru>
 
 [...]
 
-> diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
-> index 5c72b780d623..e6b025058847 100644
-> --- a/drivers/net/ethernet/renesas/ravb_main.c
-> +++ b/drivers/net/ethernet/renesas/ravb_main.c
+> diff --git a/drivers/net/ethernet/renesas/ravb.h b/drivers/net/ethernet/renesas/ravb.h
+> index 7fa60fccb6ea..b12b379baf5a 100644
+> --- a/drivers/net/ethernet/renesas/ravb.h
+> +++ b/drivers/net/ethernet/renesas/ravb.h
 [...]
-> @@ -372,7 +383,7 @@ static void ravb_rx_ring_format_rcar(struct net_device *ndev, int q)
->  		rx_desc = &priv->rx_ring[q].ex_desc[i];
->  		rx_desc->ds_cc = cpu_to_le16(RX_BUF_SZ);
+> @@ -1058,6 +1054,7 @@ struct ravb_hw_info {
+>  	int stats_len;
+>  	u32 tccr_mask;
+>  	u32 rx_max_frame_size;
+> +	u32 rx_max_desc_use;
 
-   Don't we need to also update this?
+   max_desc_use?
 
->  		dma_addr = dma_map_single(ndev->dev.parent, priv->rx_skb[q][i]->data,
-> -					  RX_BUF_SZ,
-> +					  priv->info->rx_max_frame_size,
->  					  DMA_FROM_DEVICE);
->  		/* We just set the data size to 0 for a failed mapping which
->  		 * should prevent DMA from happening...
 [...]
 
 MBR, Sergey
