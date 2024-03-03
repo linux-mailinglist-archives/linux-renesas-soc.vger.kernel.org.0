@@ -1,41 +1,40 @@
-Return-Path: <linux-renesas-soc+bounces-3410-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-3411-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD00886F43E
-	for <lists+linux-renesas-soc@lfdr.de>; Sun,  3 Mar 2024 10:59:00 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 643BF86F441
+	for <lists+linux-renesas-soc@lfdr.de>; Sun,  3 Mar 2024 11:00:27 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id EF33C1C20617
-	for <lists+linux-renesas-soc@lfdr.de>; Sun,  3 Mar 2024 09:58:59 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BFEEC2829E7
+	for <lists+linux-renesas-soc@lfdr.de>; Sun,  3 Mar 2024 10:00:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 87C659463;
-	Sun,  3 Mar 2024 09:58:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B3320B642;
+	Sun,  3 Mar 2024 10:00:18 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from mx01.omp.ru (mx01.omp.ru [90.154.21.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8D24B641;
-	Sun,  3 Mar 2024 09:58:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3284CBA46;
+	Sun,  3 Mar 2024 10:00:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.154.21.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709459937; cv=none; b=pTNKR8j5eqKLpYUT2F6BoHvF6qcqipmUJd8DDi+tDyPXxKp5W0M4D3eEZjOQi5tHyEi/aVgcieqKYFwQdaN9Pf/F6H3uGd4Ql1SchNwn48/a3PZgahxCISxWGWyMblq1ZmB+gWmW4Sfgzajq0438a8QnAmsfss+sWIp1TSimxwc=
+	t=1709460018; cv=none; b=AbOOcRGppEMxOlvVooy+rIiNpzzexBRyNrA8zqzJsAuqrb7SwxG9zG+H5Asxsl/rKy69cr+rb+ETvyGs4Cq4ZkLf8P5DDj78yRZ4+uGrhsjaOPFR0CjnnU0crr2DFUv3VBItNaRTLhg91+o0EYECDDv0fwLCxfVFVY8tKTPPZjM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709459937; c=relaxed/simple;
-	bh=E4cTg1HgZXDK51usBaymeINXzwx6fuPbVM2dA+JDcHM=;
+	s=arc-20240116; t=1709460018; c=relaxed/simple;
+	bh=wgl5aL/m0dsPvCZP1EwQWBYv9ZzqR9ONYKmI7fIHflo=;
 	h=From:Subject:To:CC:References:Message-ID:Date:MIME-Version:
-	 In-Reply-To:Content-Type; b=PwA/beoJ464Q39QXft2Mke5Kjiyyl3nMul8T+IuFpT1lCiKZXNWH5hZPZsQhJVIMnD4q17ds+kKdPo6md6X+vsV096ZB8bii5fRoxlIAuwmv3hlYvSf+ra8YR+nHjhbHp5vXCaK0evQuEdSicYYjWj7eoxYntXiC/rimzNM3LAk=
+	 In-Reply-To:Content-Type; b=bXd7+lUNcALONggVxEdNjsARE0KCkR3Eg6tW5ci2LzLCMIo0chF3uefywJFl19cy2L9y2p2H8tg9Kp1jllUSwxKPoqf71nB1ysShEt82LLlR4H5FZmwBlVl6QgYCR1v8w4HcbngYvFfofNgqnFAu0eekRWmjRYPRJKleiwfoeoA=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=omp.ru; spf=pass smtp.mailfrom=omp.ru; arc=none smtp.client-ip=90.154.21.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=omp.ru
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=omp.ru
 Received: from [192.168.1.105] (178.176.74.177) by msexch01.omp.ru
  (10.188.4.12) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.1258.12; Sun, 3 Mar
- 2024 12:58:45 +0300
+ 2024 13:00:08 +0300
 From: Sergey Shtylyov <s.shtylyov@omp.ru>
-Subject: Re: [net-next,v2 5/6] ravb: Move maximum Rx descriptor data usage to
- info struct
+Subject: Re: [net-next,v2 6/6] ravb: Unify Rx ring maintenance code paths
 To: =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
 	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
 	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Biju Das
@@ -44,10 +43,10 @@ To: =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
 	<yoshihiro.shimoda.uh@renesas.com>, <netdev@vger.kernel.org>
 CC: <linux-renesas-soc@vger.kernel.org>
 References: <20240227223305.910452-1-niklas.soderlund+renesas@ragnatech.se>
- <20240227223305.910452-6-niklas.soderlund+renesas@ragnatech.se>
+ <20240227223305.910452-7-niklas.soderlund+renesas@ragnatech.se>
 Organization: Open Mobile Platform
-Message-ID: <c6a2f556-2166-15c8-246f-016f3319fd6f@omp.ru>
-Date: Sun, 3 Mar 2024 12:58:43 +0300
+Message-ID: <7fb71160-a0b5-d4e9-7c83-271754ba98a9@omp.ru>
+Date: Sun, 3 Mar 2024 13:00:08 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.10.1
 Precedence: bulk
@@ -56,7 +55,7 @@ List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <20240227223305.910452-6-niklas.soderlund+renesas@ragnatech.se>
+In-Reply-To: <20240227223305.910452-7-niklas.soderlund+renesas@ragnatech.se>
 Content-Type: text/plain; charset="utf-8"
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -100,13 +99,35 @@ X-KSE-BulkMessagesFiltering-Scan-Result: InTheLimit
 
 On 2/28/24 1:33 AM, Niklas Söderlund wrote:
 
-> To make it possible to merge the R-Car and RZ/G2L code paths move the
-> maximum usable size of a single Rx descriptor data slice in to the
+> The R-Car and RZ/G2L Rx code paths was split in two separate
 
-   Into?
+   s/was/were/.
 
-> hardware information instead of using two different defines in the two
-> different code paths.
+> implementations when support for RZ/G2L was added due to the fact that
+> R-Car uses the extended descriptor format while RZ/G2L uses normal
+> descriptors. This has lead to a duplication of Rx logic with the only
+
+   s/lead/led/.
+
+> difference being the different Rx descriptors types used. The
+> implementation however neglects to take into account that extended
+> descriptors are normal descriptors with additional metadata at the end
+> to carry hardware timestamp information.
+> 
+> The hardware timestamps information is only consumed in the R-Car Rx
+
+   Timestamp, as above...
+
+> loop and all the maintenance code around the Rx ring can be shared
+> between the two implementations if the difference in descriptor length
+> is carefully considered.
+> 
+> This change merges the two implementations for Rx ring maintenance by
+> adding a method to access both types of descriptors as normal
+> descriptors, as this part covers all the fields needed for Rx ring
+> maintenance the only difference between using normal or extended
+> descriptor is the size of the memory region to allocate/free and the
+> step size between each descriptor in the ring.
 > 
 > Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 
@@ -114,18 +135,28 @@ Reviewed-by: Sergey Shtylyov <s.shtylyov@omp.ru>
 
 [...]
 
-> diff --git a/drivers/net/ethernet/renesas/ravb.h b/drivers/net/ethernet/renesas/ravb.h
-> index 7fa60fccb6ea..b12b379baf5a 100644
-> --- a/drivers/net/ethernet/renesas/ravb.h
-> +++ b/drivers/net/ethernet/renesas/ravb.h
-[...]
-> @@ -1058,6 +1054,7 @@ struct ravb_hw_info {
->  	int stats_len;
->  	u32 tccr_mask;
->  	u32 rx_max_frame_size;
-> +	u32 rx_max_desc_use;
+> diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
+> index 4ef4be9e152e..fa48ff4aba2d 100644
+> --- a/drivers/net/ethernet/renesas/ravb_main.c
+> +++ b/drivers/net/ethernet/renesas/ravb_main.c
+> @@ -202,6 +202,13 @@ static const struct mdiobb_ops bb_ops = {
+>  	.get_mdio_data = ravb_get_mdio_data,
+>  };
+>  
+> +static struct ravb_rx_desc *
+> +ravb_rx_get_desc(struct ravb_private *priv, unsigned int q,
 
-   max_desc_use?
+   Please make it 'int q' for consistency. We can change the q's type
+universally later...
+
+[...]
+> @@ -202,6 +202,13 @@ static const struct mdiobb_ops bb_ops = {
+>  	.get_mdio_data = ravb_get_mdio_data,
+>  };
+>  
+> +static struct ravb_rx_desc *
+
+   Not 'void *'?
 
 [...]
 
