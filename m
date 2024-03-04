@@ -1,78 +1,84 @@
-Return-Path: <linux-renesas-soc+bounces-3429-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-3430-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB98386FF67
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  4 Mar 2024 11:49:08 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 34C9086FF75
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  4 Mar 2024 11:51:23 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 64DE31F239E5
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  4 Mar 2024 10:49:08 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E4420286A67
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  4 Mar 2024 10:51:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5D437381CF;
-	Mon,  4 Mar 2024 10:48:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DC81A374E6;
+	Mon,  4 Mar 2024 10:51:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CR2tb1cA"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IUdmHlqm"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0C9F374DE;
-	Mon,  4 Mar 2024 10:48:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DAF737179;
+	Mon,  4 Mar 2024 10:51:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709549335; cv=none; b=adWvqNIA7QTUIb8Z93mfKYxQhFk98+N1WgPzTiKxQP60QCUICLEbS10ebjweAHYSKyYFddlhE8pQ6WMfo9bCoJp59w51l4Kww+tRQw9rPBZUQHPsyxICPI9gdpMpPxbRPAm0Fm2DcRSR6SkRirhs/EFX7pVpvhrjVkOTn/pQfrQ=
+	t=1709549475; cv=none; b=SJeo26ych6EY9cio9pW+GJcXDJCs9FMMCAgdIeQXsC1/FLnKCyrlz7b+M89jVJ1H7uWLP35l0D3kLGRCd1itT3Okw60Brl2ux6qKTv4AoGM1HTPZhBn/R/Z0LqZ9k6tOi5hKDSjQmLXSEo2e4kSAmO553+haNqqSmQFdiPj8FRM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709549335; c=relaxed/simple;
-	bh=OE0XZMxoN+lzBJ6Pub/O4OVZnEDZz5AZoPrtdE7dITo=;
+	s=arc-20240116; t=1709549475; c=relaxed/simple;
+	bh=1zd3GVu3Rm2C+KWSEoGXpIwLN5A0GfhS1q9Aw+9W7rM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=h9vNbz9tw4CdUqsyvbr21AiHqRRu2Idphux0VWNmDP/KI8G8FIv1mwaHKjhj1KehAqWzSCG1T+6qiTKonROcSjVgAVQE3nHKRufKEUreVUf30JuwNOlOQRIFU2oxUpweJN/UT+QMzrml7cn6oKYgUGMMpg2VpXB+tkRBS8arzGY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CR2tb1cA; arc=none smtp.client-ip=198.175.65.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1709549332; x=1741085332;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=OE0XZMxoN+lzBJ6Pub/O4OVZnEDZz5AZoPrtdE7dITo=;
-  b=CR2tb1cA+TraR8LCqREED7ChrsBO29hi/r9+SDXalwINVKgbx37bx9cQ
-   YUsvokWxwy8r/eqVVVF1PfQP4IO03aF58p/yPUCpUa5kEZV4bv0B5ZHfH
-   LdklePH5kLEHh8LVkb7vSonjGcSp+LxJYH53yNZGxmW1i6ZTrNuP6QGGM
-   v5eY5bKEP38A9Sgvifg8e+qTSlK8w0xWHY/PwZmMT2RghWqHBD5vh5zJZ
-   LIP9kbFyJR9nBFJ8bL6RHH4oUcJDy8kNHBwYxPRt44av1cqn32oxz6Fk9
-   n2I9EtwXqtm3uNx6oX4tOveSt2iqvzJJH/ghugOgrKxNNPqSKI9FxC778
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,11002"; a="4197661"
-X-IronPort-AV: E=Sophos;i="6.06,203,1705392000"; 
-   d="scan'208";a="4197661"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2024 02:48:52 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,203,1705392000"; 
-   d="scan'208";a="46470235"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2024 02:48:51 -0800
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 9C6C911F8B1;
-	Mon,  4 Mar 2024 12:48:47 +0200 (EET)
-Date: Mon, 4 Mar 2024 10:48:47 +0000
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: Geert Uytterhoeven <geert@linux-m68k.org>,
-	Markus Elfring <Markus.Elfring@web.de>,
-	linux-renesas-soc@vger.kernel.org, linux-media@vger.kernel.org,
-	kernel-janitors@vger.kernel.org,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund@ragnatech.se>,
-	LKML <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] media: rcar-csi2: Use common error handling code in
- rcsi2_parse_dt()
-Message-ID: <ZeWnD9YrXLWJYmhT@kekkonen.localdomain>
-References: <8b4203dc-bc0a-4c00-8862-e2d0ed6e346b@web.de>
- <CAMuHMdWwegdks3eEviEsBJE3AvUVKbZqHduYdhuwz=8xTMDs5g@mail.gmail.com>
- <260d82b6-e7fc-40c3-b414-50a883709fd7@moroto.mountain>
+	 Content-Type:Content-Disposition:In-Reply-To; b=qsUQsjq6UZEDVIxOkSKPP0PsimzuKjbz6a8F3nMUWLxxmQIGQCN0qjuQR2a5re6T27Ur6ZcwixLICy8VFFlDHjKiBgvXquP0mkQPH4LB/uB/MG0nvEajr5CVWPE90xZ3DLGySFc0/VE6B+y+8bG93xnw18SsTuyR1m9RaFRDmn0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IUdmHlqm; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ABB22C433F1;
+	Mon,  4 Mar 2024 10:51:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1709549475;
+	bh=1zd3GVu3Rm2C+KWSEoGXpIwLN5A0GfhS1q9Aw+9W7rM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=IUdmHlqmjdF9sVcEjisGPLRse7lw64LkirsFmw8ShEDmhnEjzp+/xEafNTJlZcV0Y
+	 dZe7GxwvZCcDsFMuNpeI/TBwtkXIQfhyEmx2XSYukzbvJ2wo7p+6JOKdVe9r9toohS
+	 NlTeaFLYq74S/3aEiVdhGrcxHA+8HRd3jOHW7ID/kFX181CUuQt3Af87RQlcW0AV8Y
+	 8kdxJIksuaKE5Ts22TYEpnkd0vBxLtG3xh0tytDO0EoHd+LsQIFDr+ctBOLe3l4hdx
+	 K6a+Q6vuqbd6IvLegVq8GqYu9Apf58BPfO3BJ5lX9OF7SPNebpBmSvqGTFOLTQKZJX
+	 LXYTijmD2A6Xw==
+Date: Mon, 4 Mar 2024 11:51:04 +0100
+From: Niklas Cassel <cassel@kernel.org>
+To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+Cc: Jingoo Han <jingoohan1@gmail.com>,
+	Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
+	Rob Herring <robh@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+	Marek Vasut <marek.vasut+renesas@gmail.com>,
+	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Kishon Vijay Abraham I <kishon@ti.com>,
+	Vidya Sagar <vidyas@nvidia.com>,
+	Vignesh Raghavendra <vigneshr@ti.com>,
+	Richard Zhu <hongxing.zhu@nxp.com>,
+	Lucas Stach <l.stach@pengutronix.de>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	NXP Linux Team <linux-imx@nxp.com>,
+	Minghuan Lian <minghuan.Lian@nxp.com>,
+	Mingkai Hu <mingkai.hu@nxp.com>, Roy Zang <roy.zang@nxp.com>,
+	Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Kishon Vijay Abraham I <kishon@kernel.org>,
+	linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+	linux-tegra@vger.kernel.org, linux-omap@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linuxppc-dev@lists.ozlabs.org
+Subject: Re: [PATCH v8 03/10] PCI: dwc: ep: Introduce dw_pcie_ep_cleanup()
+ API for drivers supporting PERST#
+Message-ID: <ZeWnmLjS0O8CYQYg@fedora>
+References: <20240224-pci-dbi-rework-v8-0-64c7fd0cfe64@linaro.org>
+ <20240224-pci-dbi-rework-v8-3-64c7fd0cfe64@linaro.org>
+ <ZeB7PQtkDSoCzE1Z@fedora>
+ <20240304081713.GH2647@thinkpad>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -81,67 +87,86 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <260d82b6-e7fc-40c3-b414-50a883709fd7@moroto.mountain>
+In-Reply-To: <20240304081713.GH2647@thinkpad>
 
-Hi Dan,
-
-On Fri, Mar 01, 2024 at 04:42:01PM +0300, Dan Carpenter wrote:
-> Sakari Ailus pointed out in another thread that we could use __free()
-> instead.  Something like this:
+On Mon, Mar 04, 2024 at 01:47:13PM +0530, Manivannan Sadhasivam wrote:
+> On Thu, Feb 29, 2024 at 01:40:29PM +0100, Niklas Cassel wrote:
+> > On Sat, Feb 24, 2024 at 12:24:09PM +0530, Manivannan Sadhasivam wrote:
+> > 
+> > Since e.g. qcom-ep.c does a reset_control_assert() during perst
+> > assert/deassert, which should clear sticky registers, I think that
+> > you should let dw_pcie_ep_cleanup() clean up the BARs using
+> > dw_pcie_ep_clear_bar().
+> > 
 > 
-
-Looks good to me.
-
-We could merge this with your SoB (pending Niklas's review). :-) The driver
-has been since moved under drivers/media/platform/renesas/rcar-vin/ .
-
-> diff --git a/drivers/media/platform/renesas/rcar-csi2.c b/drivers/media/platform/renesas/rcar-csi2.c
-> index 582d5e35db0e..c569df6057b7 100644
-> --- a/drivers/media/platform/renesas/rcar-csi2.c
-> +++ b/drivers/media/platform/renesas/rcar-csi2.c
-> @@ -1372,8 +1372,8 @@ static int rcsi2_parse_v4l2(struct rcar_csi2 *priv,
->  static int rcsi2_parse_dt(struct rcar_csi2 *priv)
->  {
->  	struct v4l2_async_connection *asc;
-> -	struct fwnode_handle *fwnode;
-> -	struct fwnode_handle *ep;
-> +	struct fwnode_handle *fwnode __free(fwnode_handle) = NULL;
-> +	struct fwnode_handle *ep __free(fwnode_handle);
->  	struct v4l2_fwnode_endpoint v4l2_ep = {
->  		.bus_type = V4L2_MBUS_UNKNOWN,
->  	};
-> @@ -1388,18 +1388,14 @@ static int rcsi2_parse_dt(struct rcar_csi2 *priv)
->  	ret = v4l2_fwnode_endpoint_parse(ep, &v4l2_ep);
->  	if (ret) {
->  		dev_err(priv->dev, "Could not parse v4l2 endpoint\n");
-> -		fwnode_handle_put(ep);
->  		return -EINVAL;
->  	}
->  
->  	ret = rcsi2_parse_v4l2(priv, &v4l2_ep);
-> -	if (ret) {
-> -		fwnode_handle_put(ep);
-> +	if (ret)
->  		return ret;
-> -	}
->  
->  	fwnode = fwnode_graph_get_remote_endpoint(ep);
-> -	fwnode_handle_put(ep);
->  
->  	dev_dbg(priv->dev, "Found '%pOF'\n", to_of_node(fwnode));
->  
-> @@ -1408,7 +1404,6 @@ static int rcsi2_parse_dt(struct rcar_csi2 *priv)
->  
->  	asc = v4l2_async_nf_add_fwnode(&priv->notifier, fwnode,
->  				       struct v4l2_async_connection);
-> -	fwnode_handle_put(fwnode);
->  	if (IS_ERR(asc))
->  		return PTR_ERR(asc);
->  
+> As I mentioned earlier, it is the job of the EPF drivers to clear the BARs since
+> they allocate them. I'm trying to reduce the implicit resetting wherever we
+> could.
 > 
+> The proper fix is to add the LINK_DOWN callback to EPF drivers and do cleanup.
+> I'm planning to submit a series for that after this one.
 
--- 
-Regards,
+Currently, pci-epf-test allocates memory for the BARs in .bind().
+Likewise it frees the memory for the BARs in .unbind().
 
-Sakari Ailus
+AFAICT, most iATU registers, and most BAR registers are sticky registers,
+so they will not get reset on link down.
+(The currently selected BAR size, in case of Resizable BAR is an exception.)
+
+That means that even on link down, we do not need to free the memory,
+or change the iATU settings. (This applies to all drivers.)
+
+
+
+However, on PERST (for the drivers call dw_pcie_ep_cleanup()), they call
+reset_control_assert(), so they will clear sticky registers, which means
+that they need to at least re-write the iATU and BAR registers.
+(I guess they could free + allocate the memory for the BARs again,
+but I don't think that is strictly necessary.)
+That is why I suggested that you call dw_pcie_ep_clear_bar() from
+dw_pcie_ep_cleanup().
+
+
+
+If you free the memory for the BARs in link_down() (this callback exists
+for many drivers, even drivers without a PERST handler), where are you
+supposted to alloc the memory for the BARs again?
+
+Allocating them at link_up() is too late (because as soon as the link is
+up, the host is allowed to enumerate the EP BARs.) The proper place is to
+allocate them when receiving PERST, but not all drivers have a PERST handler.
+
+(My understanding is that 1) PERST assert 2) PERST deassert 3) link is up.)
+
+
+
+unbind() undos what was done in bind(), so shouldn't link_down() undo what was
+done in link_up()? With that logic, if you move the alloc to .core_init(),
+should we perhaps have a .core_deinit() callback for EPF drivers?
+(I guess only drivers which perform a reset during PERST would call this.)
+
+But considering that free+alloc is not strictly needed, why not just keep
+the allocation + free in .bind()/.unbind() ?
+(To avoid the need to create a .core_deinit()), and let dw_pcie_ep_cleanup()
+call dw_pcie_ep_clear_bar() ?
+
+I guess my point is that it seems a bit pointless for drivers that do not
+clear sticky registers to free+alloc memory on link down, for no good
+reason. (Memory might get fragmented over time, so it might not be possible
+to perform a big allocation after the device has been running for a really
+long time.)
+
+
+
+So I'm thinking that we either
+1) Keep the alloc/free in bind/unbind, and let dw_pcie_ep_cleanup() call
+dw_pcie_ep_clear_bar(),
+or
+2) Introduce a .deinit_core() callback which will free the BARs.
+(Because I don't see how you will (re-)allocate memory for all drivers
+if you free the memory in link_down().)
+
+
+Kind regards,
+Niklas
 
