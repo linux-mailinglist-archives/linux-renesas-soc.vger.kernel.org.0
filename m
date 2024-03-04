@@ -1,34 +1,34 @@
-Return-Path: <linux-renesas-soc+bounces-3443-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-3444-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C2998702F7
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  4 Mar 2024 14:41:03 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A070D870303
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  4 Mar 2024 14:42:28 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A6C2528BEF5
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  4 Mar 2024 13:40:56 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 248B9B27ED0
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  4 Mar 2024 13:42:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 446C73E487;
-	Mon,  4 Mar 2024 13:40:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A2AC93EA88;
+	Mon,  4 Mar 2024 13:41:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="uAZM/pFY"
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="ORLEHsLx"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DB8F3E476;
-	Mon,  4 Mar 2024 13:40:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04AC73B797;
+	Mon,  4 Mar 2024 13:41:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709559611; cv=none; b=EdFCQBeoJ1WbcfAOuSjRtOLxqMFgOPonQEYswLXuA2sE5nVpok9oZfKS83BX6imN1gFxEmUT3nifLZk/EzEd2r7Kcvmrnvl+bwkaQywfXEFw3YBnWzNNyU6x3DseoWqWD7iTddWYl7oEEHxb7pZA4VXDMHbHFPSvsLqrJ1+u9mc=
+	t=1709559679; cv=none; b=QUDHA39oi7GneyoCxtvs9/zSvvJDCnTSuI4TArrwfA2UK5iz5xjJFNHV3pemtwCVPWr5GtZqPqYe7Ibj98cs5QDDcQ220ENTNPV2gWpAhBBVQH/9k2JaMBecSAktWMfDj1vSk9enW2JL5q76wUqqpEKs0oivcMoJdCWE1ffXWhU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709559611; c=relaxed/simple;
-	bh=YcWoIA2quvZzPdf1rDtO5pmxDHe7d8t9k4p3OsK8Aqc=;
+	s=arc-20240116; t=1709559679; c=relaxed/simple;
+	bh=t3k+MyRt0+tJNjx0lQrdE99K6VlUnlEb0oNTZhrUYP8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ib3wfJ1B2Kppt2qnjMgCKuyno00JJc1QYu3s5Z+L7tB8DDBtVS76XdAPjtjj0VJVOh+230xDQdYO2kKvi7+uhfrhOJTHqTgupeSY5/PIe6vyfJJxjMMBNEpYKXNndK+NYnxQ7ym3S+DX2WQQHGGtqLn9Xs+MYmppe7h34UTjAv8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=uAZM/pFY; arc=none smtp.client-ip=156.67.10.101
+	 Content-Type:Content-Disposition:In-Reply-To; b=h2YH1AEvl7jKir74jgYzWJcwxSHwKmQKLJPsgEkeTwcin8EsKkBkC09uDB+8IchSEHjRmIxF9SXl6fkUU8/Nq80YK7kpobft+ncLingyZ8BLr6gmMtsLK7fGw5Ep5egyLQULnC0sWyGUucInk8jkWCapifb59DawuHpSgTt3u1Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=ORLEHsLx; arc=none smtp.client-ip=156.67.10.101
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
@@ -36,13 +36,13 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
 	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
 	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
 	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=NfVSZ7fD7A6nvwirdPGvD3RgMz1Yef7wa2vWaX9NVhY=; b=uAZM/pFYUi9v5Xd7KuH0DaAESl
-	PGQAEAq/9s+GMn4cEfKQEeA+LN1lLogPJBNzYw9bgj4UdtqufAmQ7tk1ZsqeGnMENNSSBfJuTMbeZ
-	6b1F1lAFQX0bGEwv7sjH5AmgiI0ZwZG596RgbA6850pvcAmCEkCbNgCLVdIXs76xKTto=;
+	bh=2RW00RRdJ6/9wrHmluqjDPjlTXkXPk/qAZGZtAc5LPI=; b=ORLEHsLxjgg68h8f3PfgQQvANt
+	d1VjRjf9sezt5tDvz/VlOumWsegsoZkBZXiXB85yh7QHLJKiQqWU1mowD0afmlsHJcSnGsArJN72M
+	qCUG1QThw5k85wPg/dsv1/edDr/SlXwYN9/bvImRxWjCyMebatRRUtg9wNq5FwYMoZ/A=;
 Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
 	(envelope-from <andrew@lunn.ch>)
-	id 1rh8YE-009KK0-VZ; Mon, 04 Mar 2024 14:40:18 +0100
-Date: Mon, 4 Mar 2024 14:40:18 +0100
+	id 1rh8ZJ-009KLR-47; Mon, 04 Mar 2024 14:41:25 +0100
+Date: Mon, 4 Mar 2024 14:41:25 +0100
 From: Andrew Lunn <andrew@lunn.ch>
 To: Romain Gantois <romain.gantois@bootlin.com>
 Cc: Russell King <linux@armlinux.org.uk>,
@@ -60,11 +60,11 @@ Cc: Russell King <linux@armlinux.org.uk>,
 	netdev@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
 	linux-arm-kernel@lists.infradead.org,
 	linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH net-next v5 2/7] net: phylink: add rxc_always_on flag to
- phylink_pcs
-Message-ID: <0bdf98ac-de32-4f81-99c9-5981950883f8@lunn.ch>
+Subject: Re: [PATCH net-next v5 3/7] net: stmmac: don't rely on lynx_pcs
+ presence to check for a PHY
+Message-ID: <b5e2a507-d3ad-449b-9da7-6767efd6d886@lunn.ch>
 References: <20240301-rxc_bugfix-v5-0-8dac30230050@bootlin.com>
- <20240301-rxc_bugfix-v5-2-8dac30230050@bootlin.com>
+ <20240301-rxc_bugfix-v5-3-8dac30230050@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -73,19 +73,22 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240301-rxc_bugfix-v5-2-8dac30230050@bootlin.com>
+In-Reply-To: <20240301-rxc_bugfix-v5-3-8dac30230050@bootlin.com>
 
-On Fri, Mar 01, 2024 at 04:34:59PM +0100, Romain Gantois wrote:
-> Some MAC drivers (e.g. stmmac) require a continuous receive clock signal to
-> be generated by a PCS that is handled by a standalone PCS driver.
+On Fri, Mar 01, 2024 at 04:35:00PM +0100, Romain Gantois wrote:
+> From: Maxime Chevallier <maxime.chevallier@bootlin.com>
 > 
-> Such a PCS driver does not have access to a PHY device, thus cannot check
-> the PHY_F_RXC_ALWAYS_ON flag. They cannot check max_requires_rxc in the
-> phylink config either, since it is a private member. Therefore, a new flag
-> is needed to signal to the PCS that it should keep the RX clock signal up
-> at all times.
+> When initializing attached PHYs, there are some cases where we don't expect
+> any PHY to be connected. The logic uses conditions based on various local
+> PCS configuration, but also calls-in phylink_expects_phy() via
+> stmmac_init_phy(), which is enough to ensure we don't try to initialize a
+> PHY when using a Lynx PCS, as long as we have the phy_interface set to a
+> 802.3z mode and are using inband negociation.
 > 
-> Suggested-by: Russell King <linux@armlinux.org.uk>
+> Drop the lynx check, making the stmmac generic code more pcs_lynx-agnostic.
+> 
+> Signed-off-by: Maxime Chevallier <maxime.chevallier@bootlin.com>
+> [rgantois: commit log]
 > Signed-off-by: Romain Gantois <romain.gantois@bootlin.com>
 
 Reviewed-by: Andrew Lunn <andrew@lunn.ch>
