@@ -1,123 +1,144 @@
-Return-Path: <linux-renesas-soc+bounces-3473-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-3474-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 304E88720C1
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  5 Mar 2024 14:48:33 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id D94D9872133
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  5 Mar 2024 15:13:13 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 627B11C21E25
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  5 Mar 2024 13:48:32 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8D8A11F229C0
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  5 Mar 2024 14:13:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DAA1685C7D;
-	Tue,  5 Mar 2024 13:48:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 07F7A8613C;
+	Tue,  5 Mar 2024 14:12:49 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com [209.85.219.180])
+Received: from albert.telenet-ops.be (albert.telenet-ops.be [195.130.137.90])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60E9485C58;
-	Tue,  5 Mar 2024 13:48:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AFAF5676A
+	for <linux-renesas-soc@vger.kernel.org>; Tue,  5 Mar 2024 14:12:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.137.90
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709646510; cv=none; b=gekcDNBEhdXdPqRrk+7jJ4f6Isla7GeAxuB7g4XpsV5qW5a5wadyoCpK0BbKDAtXA4dHzePPA87pFf0zLF7Ef0eJI4bKtFAs314R/+w0tvwgOVlY9mJJc+794GqyAw3G7pQk7SpljPOBccBMlc7/Z5RLZgNquokZJqkxfXnHgFE=
+	t=1709647968; cv=none; b=DvFdTbK82jBg8+LDb5HXnGGrvOhvxuZ7l4bzXEP3HiRmGdTD6E8o9bSJ1cbucfHkkBOjmja200UJ8rEXmBKRFwsvCajnJFY30Wbf4KScuk9+N7qDw7fC6mgl0CPqb73/sFg/7v33LO1Yv9FHnZVRZkDuos7fTFlOE+hxgFSC2o8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709646510; c=relaxed/simple;
-	bh=Kf2biJnuyrvpVTL0uTyY/d1ul1jGIFCNbllznSFarhk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ThJLqD6V+HqbPrLJs7TamG+mNHiC+A6BAlienHTyymCNTdZPvcmwbjsEId7Bf0KhJsk2F3lnsSx4TbZAtgXAd3BWZjqe0QtHjX3kr6uRodA2yLcB7qluVrnh7RvilaMiMBP5tEBbLPE0vBZNq2ysPGYrBAc1gRf1DuIQCI+Nle0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.219.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yb1-f180.google.com with SMTP id 3f1490d57ef6-dc74e33fe1bso5406124276.0;
-        Tue, 05 Mar 2024 05:48:28 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709646506; x=1710251306;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=xa6eXUUE0pChqHQpQRAEU0D+PWfnG0pG7bmLlZjpoqU=;
-        b=m1AO4TWlnLC7zItMuwRpjmwseo1UFB/1+wwu6umX+/mfuScXIc/roKmb/ZI1vNi3W5
-         2wm1wgcNVIlyhQK5PQZLhVqGVNnQcfz+vI1hQhjgdtk/pTcGxaMN0QEVBMXl+eUV8BlD
-         YDMC3FHKKqzElLAgqh5vrCupWtZ/rMnhd6D+UVlLtQTULRG88NpGdJW7UzZeN/DaZ1ZW
-         0+atKmk45O3Oh8cd+p60/LVinYeMRk+tkBQjFIR9y3FGOom4ah4WUKrXdvOQ/9F2H5MT
-         PhWgNHHJAImlSP+KqgKwo9oDGzsugdnBDc3aqeRE+AUeQ2BfgkO+TXeSQRBTvEDGPfdO
-         kf5g==
-X-Forwarded-Encrypted: i=1; AJvYcCVZKRG6YqTSNH8AA9ZHLqUZUEkf+3S0mWQQGVKziGFCQpm2p0MM4c6Chtjem6p52wmHztm624784ygNxZlc+oO0l2CC7RO0hykO2Gd3oeJKfmpGVWmqHUmRdWEe97sIOwM8Iz7FSFaxo+T8cdZByyEx8NmDBOsFmlDjZixEuWiF
-X-Gm-Message-State: AOJu0YwmDl7oZmy3YJ//kxPvbW+OSdqirLDQw/KS/ORmwe3Uakzfd+Gq
-	iMI/ZTLjiayXs4B02TMWIAcsZcgoDr7ztGaiEPfaRL7Q7OoQQ2djZBpTzdrzqyU=
-X-Google-Smtp-Source: AGHT+IEQy6GGHoGqLk6uwk8ZNW45BRZT3ywA20T6HVZbUPu/S1lIdBnk0x2oO9lDy6GmpV8iOhS5Lw==
-X-Received: by 2002:a25:d614:0:b0:dcc:3a3:9150 with SMTP id n20-20020a25d614000000b00dcc03a39150mr9622468ybg.22.1709646506286;
-        Tue, 05 Mar 2024 05:48:26 -0800 (PST)
-Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com. [209.85.128.180])
-        by smtp.gmail.com with ESMTPSA id g1-20020a259341000000b00dc6a0898efasm2583054ybo.15.2024.03.05.05.48.25
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 05 Mar 2024 05:48:26 -0800 (PST)
-Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-608ccac1899so60551187b3.1;
-        Tue, 05 Mar 2024 05:48:25 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCXXsLNAptFE3QxHu1GTuhf/xv+YKoec3ceF8yAwPjwargLz5+FzFHjscXwR8Qm8POuxKEO/rz40JY169h+L7MXPzCU8FLpAIkdNhJonQj3dyT6xl6dQkoe/vZspes63xIXv7iF+rPZDIsAPLVm8mNeY5s/6ycyMnNs+UfCq0AHW
-X-Received: by 2002:a25:6a86:0:b0:dcc:f5d4:8b43 with SMTP id
- f128-20020a256a86000000b00dccf5d48b43mr8483801ybc.9.1709646505511; Tue, 05
- Mar 2024 05:48:25 -0800 (PST)
+	s=arc-20240116; t=1709647968; c=relaxed/simple;
+	bh=tUoXC2dhvtAhV/DCAI/fskeub6dUNd6oqY51mUTOx5Y=;
+	h=From:To:Subject:Date:Message-Id:MIME-Version; b=MoXfSbJw5xHnl3VINdj7vRnkg0lTnzQ10Lv6q+y5ecidQL4HgvlxR22QIzZaZi9p6XDwAok2Y1uyAFTSZonlX7aqCbrfopz/LmmXotPmz1GsktUvmBGxjRZzWiLSadwa7ngjK+Qnl6wmOjGXAS9g0HBp0TrG/cumvdH0z2ZyFBI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.137.90
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed40:9a36:a6e0:ba51:6741])
+	by albert.telenet-ops.be with bizsmtp
+	id v2Cd2B00M1mugYU062CdzB; Tue, 05 Mar 2024 15:12:38 +0100
+Received: from rox.of.borg ([192.168.97.57])
+	by ramsan.of.borg with esmtp (Exim 4.95)
+	(envelope-from <geert@linux-m68k.org>)
+	id 1rhVWq-002Rdl-Tl
+	for linux-renesas-soc@vger.kernel.org;
+	Tue, 05 Mar 2024 15:12:37 +0100
+Received: from geert by rox.of.borg with local (Exim 4.95)
+	(envelope-from <geert@linux-m68k.org>)
+	id 1rhVX3-00DhDO-Jt
+	for linux-renesas-soc@vger.kernel.org;
+	Tue, 05 Mar 2024 15:12:37 +0100
+From: Geert Uytterhoeven <geert+renesas@glider.be>
+To: linux-renesas-soc@vger.kernel.org
+Subject: renesas-drivers-2024-03-05-v6.8-rc7
+Date: Tue,  5 Mar 2024 15:12:37 +0100
+Message-Id: <20240305141237.3264367-1-geert+renesas@glider.be>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240305104423.3177-2-wsa+renesas@sang-engineering.com>
-In-Reply-To: <20240305104423.3177-2-wsa+renesas@sang-engineering.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 5 Mar 2024 14:48:12 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdV-PTyydtuMjP0dFkAGSKT2av7Vn5s-xJE8u=SkqrNkDw@mail.gmail.com>
-Message-ID: <CAMuHMdV-PTyydtuMjP0dFkAGSKT2av7Vn5s-xJE8u=SkqrNkDw@mail.gmail.com>
-Subject: Re: [PATCH v2] mmc: tmio: avoid concurrent runs of mmc_request_done()
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc: linux-renesas-soc@vger.kernel.org, Dirk Behme <dirk.behme@de.bosch.com>, 
-	stable@vger.kernel.org, Ulf Hansson <ulf.hansson@linaro.org>, 
-	Chris Ball <cjb@laptop.org>, Guennadi Liakhovetski <g.liakhovetski@gmx.de>, linux-mmc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Tue, Mar 5, 2024 at 11:54=E2=80=AFAM Wolfram Sang
-<wsa+renesas@sang-engineering.com> wrote:
-> With the to-be-fixed commit, the reset_work handler cleared 'host->mrq'
-> outside of the spinlock protected critical section. That leaves a small
-> race window during execution of 'tmio_mmc_reset()' where the done_work
-> handler could grab a pointer to the now invalid 'host->mrq'. Both would
-> use it to call mmc_request_done() causing problems (see link below).
->
-> However, 'host->mrq' cannot simply be cleared earlier inside the
-> critical section. That would allow new mrqs to come in asynchronously
-> while the actual reset of the controller still needs to be done. So,
-> like 'tmio_mmc_set_ios()', an ERR_PTR is used to prevent new mrqs from
-> coming in but still avoiding concurrency between work handlers.
->
-> Reported-by: Dirk Behme <dirk.behme@de.bosch.com>
-> Closes: https://lore.kernel.org/all/20240220061356.3001761-1-dirk.behme@d=
-e.bosch.com/
-> Fixes: df3ef2d3c92c ("mmc: protect the tmio_mmc driver against a theoreti=
-cal race")
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-> Tested-by: Dirk Behme <dirk.behme@de.bosch.com>
-> Reviewed-by: Dirk Behme <dirk.behme@de.bosch.com>
-> Cc: stable@vger.kernel.org # 3.0+
+I have pushed renesas-drivers-2024-03-05-v6.8-rc7 to
+https://git.kernel.org/cgit/linux/kernel/git/geert/renesas-drivers.git
 
-Thanks, I gave it a boot run on all boards in my farm, no issues seen.
-Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
+This tree is meant to ease development of platform support and drivers
+for Renesas ARM and RISC-V SoCs.  It is created by merging (a) the
+for-next branches of various subsystem trees and (b) branches with
+driver code submitted or planned for submission to maintainers into the
+master branch of my renesas-devel.git tree.
+
+Today's version is based on renesas-devel-2024-03-04-v6.8-rc7.
+
+Included branches with driver code:
+  - renesas-clk-for-v6.9
+  - renesas-pinctrl-for-v6.9
+  - renesas-clk-for-v6.10
+  - topic/v4m-gray-hawk-single-v2
+  - git://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git#renesas/gpio-logic-analyzer-v8~1
+
+Included fixes:
+  - [TEST] soc: renesas: rcar-rst: Enable WDT reset on early R-Car V4M
+  - ARM: shmobile: defconfig: Update shmobile_defconfig
+  - [LOCAL] arm64: renesas: defconfig: Update renesas_defconfig
+
+Included subsystem trees:
+  - git://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git#linux-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git#clk-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-pinctrl.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/brgl/linux.git#gpio/for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/mtd/linux.git#mtd/next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/netdev/net-next.git#main
+  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git#tty-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git#i2c/for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/andi.shyti/linux.git#i2c/i2c-host-fixes
+  - git://git.kernel.org/pub/scm/linux/kernel/git/andi.shyti/linux.git#i2c/i2c-host
+  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/mkl/linux-can-next.git#master
+  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git#usb-next
+  - git://git.freedesktop.org/git/drm/drm.git#drm-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/joro/iommu.git#next
+  - git://linuxtv.org/media_tree.git#master
+  - git://git.kernel.org/pub/scm/linux/kernel/git/ulfh/mmc.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/ukleinek/linux.git#pwm/for-next
+  - git://git.linaro.org/people/daniel.lezcano/linux.git#timers/drivers/next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/vkoul/dmaengine.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git#staging-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/rmk/linux.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/regmap.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git#irq/core
+  - git://git.kernel.org/pub/scm/linux/kernel/git/libata/linux#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/sre/linux-power-supply.git#for-next
+  - git://www.linux-watchdog.org/linux-watchdog-next.git#master
+  - git://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/regulator.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git#for-next/core
+  - git://anongit.freedesktop.org/drm/drm-misc#for-linux-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/phy/linux-phy.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/thermal/linux.git#thermal/linux-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git#for-mfd-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2.6.git#master
+  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/driver-core.git#driver-core-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/glaubitz/sh-linux.git#for-next
+  - git://git.pengutronix.de/git/pza/linux#reset/next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/krzk/linux-mem-ctrl.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/deller/linux-fbdev.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/jejb/scsi.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/mkp/scsi.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/riscv/linux.git#fixes
+  - git://git.kernel.org/pub/scm/linux/kernel/git/riscv/linux.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/ulfh/linux-pm.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/andy/linux-auxdisplay.git#for-next
 
 Gr{oetje,eeting}s,
 
-                        Geert
+						Geert
 
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+							    -- Linus Torvalds
 
