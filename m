@@ -1,108 +1,109 @@
-Return-Path: <linux-renesas-soc+bounces-3465-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-3466-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4ED56871CA1
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  5 Mar 2024 12:02:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5447871DCE
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  5 Mar 2024 12:31:37 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id AF280B2245E
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  5 Mar 2024 11:02:18 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 39BD1B265CE
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  5 Mar 2024 11:31:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CEACA5BAC6;
-	Tue,  5 Mar 2024 10:58:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D28FD5B5C3;
+	Tue,  5 Mar 2024 11:29:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="kTX1GA0l"
+	dkim=pass (1024-bit key) header.d=iki.fi header.i=@iki.fi header.b="IUzVPykz"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
+Received: from meesny.iki.fi (meesny.iki.fi [195.140.195.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C15695B662
-	for <linux-renesas-soc@vger.kernel.org>; Tue,  5 Mar 2024 10:58:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709636310; cv=none; b=Jbsu4YIzbVvWnTJpvFIKw2nuPsXQu+f0hG6210pZWLjU62w4tQKIebK6Yz1CjJvisKj/y8cGlcuYaJm9goCsDZIIsh5TTwzJQZcVJqyM6VTyNYPcJtJOxZ/oH4BO0qkr2GbakaGCKLS61pxvDFb5p740yHWc7StxcDWhhKyB0pI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709636310; c=relaxed/simple;
-	bh=f7Q8xEnTZun4xlenz0nLn7ZHUaKzak+LPVyCMOJnHYA=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 714E85B5C1;
+	Tue,  5 Mar 2024 11:29:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=195.140.195.201
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1709638170; cv=pass; b=Ae1VkUFKZKHEO5ViDUbgjIusJC3+ZvuZfsgqPt9B8mUPdccP/Qr5ZYoswhWsUeXs5sQ0gyhOoJuw4mjb+JyASw09hWQc1d8ajUXki9emIpcmhP5XsrVRih/lM8ntuuBLuUsVq7UfS09Ie8j62qzzdFXsh3xLPaah7pTQ3eBIAfk=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1709638170; c=relaxed/simple;
+	bh=jmZ8Ehp1I24xHblOTn9Z6Ha5A5gX5H1wHwLApwPnW2s=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EafVoORkpqVTKiziUXTax/1mQBeJZN4kBOzsvrrq9E5OlNCIXl9N/wzcPXuzidQ6bT56kAc4RLIHHcBO9cmHDZ2Jo1W6PiLToawargzXubWDYUvLqS71JgiAM49i7uUSXMd5LSb2vnmOsNxgqXloYS9u/u+9d4fAnOdtwLcxDxk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=kTX1GA0l; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=xPuH
-	QcklJTcuhcQurcuZovTdWGwzKidbYfnoix/AruM=; b=kTX1GA0lnCujzRpEw9OQ
-	rUf8RLNGxnHfeTnxvRugGMgNOHiuBlIMSoyIcfHESYVtpvetbi7d2kSRIoubybVl
-	vmF6zkwqGXm3vv3jDA2XwzD3WugrtvRESyfFil06+f6z3sTRWlz+C7+AUa4Odqzy
-	X/CjAf+dIG6GgylR8zoh+xDwECD0VIQPtlFhI1G3PCPfl1/M5Kia+ifxw2fcjUgf
-	pBUc+qauGd0+LWQIjKJxIhE3gql6pht/u/k4MJCuJKBPVDFr57k2ZZwqTKEpILgH
-	STpj6uOPHbWzAEMIDjlOHJ/RZo0UthXHFDFQ8Z0oDVMYgAUuGnnOScmFZUBlmGlI
-	lA==
-Received: (qmail 3848895 invoked from network); 5 Mar 2024 11:58:26 +0100
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 5 Mar 2024 11:58:26 +0100
-X-UD-Smtp-Session: l3s3148p1@rMW/uOcS3K0gAwDPXyskAOYD60938Lkb
-Date: Tue, 5 Mar 2024 11:58:26 +0100
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: linux-renesas-soc@vger.kernel.org
-Cc: Dirk Behme <dirk.behme@de.bosch.com>,
-	Ulf Hansson <ulf.hansson@linaro.org>, linux-mmc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] mmc: tmio: comment the ERR_PTR usage in this driver
-Message-ID: <Zeb60iSJX-oY7l9a@shikoro>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	linux-renesas-soc@vger.kernel.org,
-	Dirk Behme <dirk.behme@de.bosch.com>,
-	Ulf Hansson <ulf.hansson@linaro.org>, linux-mmc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-References: <20240305105623.3379-2-wsa+renesas@sang-engineering.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=Vi3BFHNpD0zZyDU3Fezd84xXW5FDL8AUD40BBh6PS4s+58ltZlTohqR3xJfNiPfx1tYPBlpUMh3aalVXLwoMmSR8zdsCLd3/ol+wu/DJYGDXR4wkutxqqBfpHFJbIiWAANpdER1c3F31zXBArpJH8inbgwzZMCK4JQrt8xl4Vck=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi; spf=pass smtp.mailfrom=iki.fi; dkim=pass (1024-bit key) header.d=iki.fi header.i=@iki.fi header.b=IUzVPykz; arc=pass smtp.client-ip=195.140.195.201
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iki.fi
+Received: from hillosipuli.retiisi.eu (2a00-1190-d1dd-0-c641-1eff-feae-163c.v6.cust.suomicom.net [IPv6:2a00:1190:d1dd:0:c641:1eff:feae:163c])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: sailus)
+	by meesny.iki.fi (Postfix) with ESMTPSA id 4Tptd06dlDzyTd;
+	Tue,  5 Mar 2024 13:29:24 +0200 (EET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
+	t=1709638166;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=2mkMNf2nshRvIW/zVzj6xc7l2+aM9dtHJMICGPDgyQc=;
+	b=IUzVPykzGuWpMI0BWUrWa3NcOP9rgQ/i8xYYS+y1AFpw6l1nj4t4BtbVFmlbwJ7+4FYDLy
+	IVo2HfetZFceZDJp/BrILmYHyJAPgYwpi35PBIe3K13TPXuKByPZle/qPv/NnHn7ahedch
+	6Vvl2Zuaex6VnfSNnHoABfVFKL4xSoA=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+	s=meesny; t=1709638166;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=2mkMNf2nshRvIW/zVzj6xc7l2+aM9dtHJMICGPDgyQc=;
+	b=rAZJnmQ192E5R/84l0xUjTyZFGrImfhJemeoff7fak/DjPAbbdQNNLUI3bTm83oriFOZoM
+	2+KXgG96B+zXYQl7BBpeOO6cLVRkYUPbu2SsohTHPovlWmg3k/aYi1cqwioJttifyYO1ua
+	ICNFFMa70WaqjzTUpBe7kHYLAmKbMPg=
+ARC-Authentication-Results: i=1;
+	ORIGINATING;
+	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Seal: i=1; s=meesny; d=iki.fi; t=1709638166; a=rsa-sha256; cv=none;
+	b=b2HgqHnUUfmZZC5WnnnPm73XWBvJGoB1XDP5mfBYsB1JYMXE2FIP8bpO6VAF8ky3LGDxom
+	cR32w4cpPRfAilzwVakVrmW/WRjL3XTCNy9yAfTccfD/TvzCJ1ETFu34Ux/wfEXgHThht7
+	n1t9W3hnHSWvKSnygbDlUc1kLT6nhes=
+Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 12C06634C93;
+	Tue,  5 Mar 2024 13:29:20 +0200 (EET)
+Date: Tue, 5 Mar 2024 11:29:19 +0000
+From: Sakari Ailus <sakari.ailus@iki.fi>
+To: Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+Cc: Hans Verkuil <hverkuil@xs4all.nl>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH] media: rcar-isp: Disallow unbind of devices
+Message-ID: <ZecCD0afyzofEsq9@valkosipuli.retiisi.eu>
+References: <20240131180452.844863-1-niklas.soderlund+renesas@ragnatech.se>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="I+w6onKpvUCg+xgS"
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20240305105623.3379-2-wsa+renesas@sang-engineering.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240131180452.844863-1-niklas.soderlund+renesas@ragnatech.se>
 
+On Wed, Jan 31, 2024 at 07:04:52PM +0100, Niklas Söderlund wrote:
+> It is not safe to unbind and then rebind a subdevice in the rcar-vin
+> pipeline. Depending on what subdevice and in what order a device is
+> rebound the rcar-vin driver can misbehave.
+> 
+> Until this can be solved suppress the files in sysfs which allows for
+> this. This is in line with what is done for other subdevices exclusively
+> use with the rcar-vin pipeline, e.g. rcar-csi2.
+> 
+> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 
---I+w6onKpvUCg+xgS
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Reviewed-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 
-
-> +	/* Ready for new mrqs */
-> +	host->mrq = NULL;
->  	host->clk_cache = ios->clock;
-
-For the record: I think these two statements should be swapped. First
-set the new value, then allow new mrqs. However, I want to test this
-change internally before submitting it.
-
-
---I+w6onKpvUCg+xgS
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmXm+s4ACgkQFA3kzBSg
-KbY4LxAArWrACN31Hi0404iyhszQZuB/3l564QxUJ2iBDOPZ5LA9U5jwKum+FLSa
-wuuT+47FsXuSvCl0AAghHLO6J6iqoX7uiUkBwA5RB9/CJDEN/PpZ58iJJl2H/9/0
-cZpS9hkSJSx4Rlf8QKgIn9ACD+CzYMXvW+H1dJdKsrl4Zfs45OKMZtyyE9FPLQN0
-1zRj/hdFsPJXbGmz6rSJSBKShevsG51gdfpuj/5a5ckt7uGuJ0YSWjhMJXZFSBsQ
-FtBBwncclxs4sl+iZG1iM4UopSCMce8wqDQN51ccNVNCYlcDWRlV+CWkIJxMnh3l
-63DpxdcMsUFgojcBVGyMKZ3nSfYTIbe7I1mSAYSL7cVm0fQKznruwC0F5lxYR7uk
-NdjoSUpFcVAG8lO3DZz9SZIy6v09S0NmWwvA9GSTCNrwaUFZ+fx4ZI8BMABcUdMD
-Y7pQ/gLHQW1O4G0D3Uds4HaEmHprA47wcg/JaguFyxgT55LRIhib7KbrlEgH6vdw
-GwIS3cvemQuVo3Fi0yeDIr6hbU8YEX+Ulmr8WcqZR7h02suF6BxstCLUviDqt+e1
-gyasU3CCcjMBgrlR8v69Ci1u9JeUREMD+hE0qzNxiqGlX9VVuwNry5W5+Qr0IBGK
-aTnT7wgY5dz3SEl3IYsE4+Q93AA46/FUVxGu0t8E9r1jKmZR6kA=
-=LaVY
------END PGP SIGNATURE-----
-
---I+w6onKpvUCg+xgS--
+-- 
+Sakari Ailus
 
