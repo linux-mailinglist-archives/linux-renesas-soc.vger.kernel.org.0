@@ -1,237 +1,123 @@
-Return-Path: <linux-renesas-soc+bounces-3472-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-3473-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB7AE8720B1
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  5 Mar 2024 14:47:42 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 304E88720C1
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  5 Mar 2024 14:48:33 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 44325B21DC8
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  5 Mar 2024 13:47:40 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 627B11C21E25
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  5 Mar 2024 13:48:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 46ECD85C58;
-	Tue,  5 Mar 2024 13:47:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UvxHncYk"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DAA1685C7D;
+	Tue,  5 Mar 2024 13:48:30 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
+Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com [209.85.219.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B42958593E;
-	Tue,  5 Mar 2024 13:47:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60E9485C58;
+	Tue,  5 Mar 2024 13:48:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709646456; cv=none; b=p1qf/Wgd12Il4iPUkhtWJiwE24/bzw0DxVLe+MR81l8lDBqlcfNnqyo1Rj+w57Aie0O2FISq/RayNiDHkawiBX7awKqwlf4g44Hg6SxanNPp3t63uOGanGsJk3/K6wCO0c5yYv3EGA655MOvdBYqnCinIgCOV/FsLJTU1kNLu/w=
+	t=1709646510; cv=none; b=gekcDNBEhdXdPqRrk+7jJ4f6Isla7GeAxuB7g4XpsV5qW5a5wadyoCpK0BbKDAtXA4dHzePPA87pFf0zLF7Ef0eJI4bKtFAs314R/+w0tvwgOVlY9mJJc+794GqyAw3G7pQk7SpljPOBccBMlc7/Z5RLZgNquokZJqkxfXnHgFE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709646456; c=relaxed/simple;
-	bh=S5ZNv7E8RgnA9nV9q0H3S6osZ6ssuaeHV9OzVm1dFFY=;
+	s=arc-20240116; t=1709646510; c=relaxed/simple;
+	bh=Kf2biJnuyrvpVTL0uTyY/d1ul1jGIFCNbllznSFarhk=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=cnqVEiRM9r+j5nTXRkRhxadh0SbOOGJjNjL2SKkvsuRd/eybMkv+TBgGUpDLsTrLZ2G54nZmOwX1vFGAUxTilSFwhyP8guJQqdBy4Y8elqhsfB/eqoP/jjH/+iVwU5OabQWU0HFdhRUBxfUi7Gbp4kiCpV1joPBYYCX259PLgSs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UvxHncYk; arc=none smtp.client-ip=209.85.215.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+	 To:Cc:Content-Type; b=ThJLqD6V+HqbPrLJs7TamG+mNHiC+A6BAlienHTyymCNTdZPvcmwbjsEId7Bf0KhJsk2F3lnsSx4TbZAtgXAd3BWZjqe0QtHjX3kr6uRodA2yLcB7qluVrnh7RvilaMiMBP5tEBbLPE0vBZNq2ysPGYrBAc1gRf1DuIQCI+Nle0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.219.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pg1-f171.google.com with SMTP id 41be03b00d2f7-5d3907ff128so5532918a12.3;
-        Tue, 05 Mar 2024 05:47:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1709646454; x=1710251254; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=NdMAZiRIAHsJUc1Mjq85NsXecYABbu9svdLTciq/OhY=;
-        b=UvxHncYk8g9gYclCWu6+WJ0YfIESBUGAfXLOPTzGrMzb96ZJTh8WjIcoNso+4o716O
-         vPXOMHLbyPAik5cncIgLfkBnl4Urlbclqh7rpqzd8Aa8FB+PEJ7xjCBg1H8BNXBESyrT
-         czratn4oUa6bTZd96tUiorray17uM8YGjlQT0dIG/d6Hb9Ax4Ashb7FBCQ6h/PUmm5Xm
-         Y00Jv+br8ogtoD9ux1BvP+Ilc8+9sJx+KRme04ViZmh4gCYUxRvD6L3ovmi2NZB5Zky3
-         b0Ffb0uXTFoC8phcO76H4As80+ucLQVjuDgT1d3MdtDAJPKjycONXbMY9FwXIpR0wd65
-         Kf0w==
+Received: by mail-yb1-f180.google.com with SMTP id 3f1490d57ef6-dc74e33fe1bso5406124276.0;
+        Tue, 05 Mar 2024 05:48:28 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709646454; x=1710251254;
+        d=1e100.net; s=20230601; t=1709646506; x=1710251306;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=NdMAZiRIAHsJUc1Mjq85NsXecYABbu9svdLTciq/OhY=;
-        b=mo26yhWPQvDjuyAzEIL8d80Yn5yaFXDz2hMf8jvHj6GympEhgn1euTX+84kjm+PdNG
-         dArtRqksPExfCCaxRC5z3q+vfPX067vZLPLciNtsZ0D2uyBUrod6SzXwxanFJKKU1oSO
-         cxADsT2J2FrWP3LpUOUtDDaV3KZuZWtDm0JGvCVt9s3zozOZlf1kn0ooqRMIJDcZmnOA
-         1nGGp9fOi2aKJXr0y4GXgkxFd2JVGgfn64AHXRL1k2dAP9aUJ1bIJSpxdkS5naDE/elZ
-         aJhH0Q96UcbJ4jkykUTdoX8GcIXVn4TenU9Aclv26e45LHaK2lPmEVWOGFlrBVIVNR2F
-         VB1g==
-X-Forwarded-Encrypted: i=1; AJvYcCUvNIA9E19VKV+5BTJsTIT0EvQxBHl7XStAT4GlIKE/M/lTLgfa1bMNov0JeYZgMXqIBhTkR9KjDt7CS3Tz+RxgNF20udm9pD208wPe14i8ZG8oyfhLs5BK4/dwEVEb8Toig9c/pNXZc62g2+J0ghw=
-X-Gm-Message-State: AOJu0Yzs3hC2Vbd42uhwDgS5Et3q6y5JWDXsvOvoIb7BIHH5iJpKuVNh
-	V1pOnYzfrwZQa0kyMHTtq1jjSJax8tkSdcVXmPFtwICeUxfF/Go5wJJ0ewzRMKfOrwQqu16FNZf
-	h/YiT4R9kIBzGiR/I6W0zMlZSn7Y=
-X-Google-Smtp-Source: AGHT+IFIyTA9lyBuwaMRD+Ynxt5VrqnElevZJi9yhFl7HItD+Z67hgXbxvk0yLdnGIfu0In26xytbWEI6KxA1jrOO28=
-X-Received: by 2002:a17:90a:f191:b0:29b:2a8:9a89 with SMTP id
- bv17-20020a17090af19100b0029b02a89a89mr10234445pjb.21.1709646453778; Tue, 05
- Mar 2024 05:47:33 -0800 (PST)
+        bh=xa6eXUUE0pChqHQpQRAEU0D+PWfnG0pG7bmLlZjpoqU=;
+        b=m1AO4TWlnLC7zItMuwRpjmwseo1UFB/1+wwu6umX+/mfuScXIc/roKmb/ZI1vNi3W5
+         2wm1wgcNVIlyhQK5PQZLhVqGVNnQcfz+vI1hQhjgdtk/pTcGxaMN0QEVBMXl+eUV8BlD
+         YDMC3FHKKqzElLAgqh5vrCupWtZ/rMnhd6D+UVlLtQTULRG88NpGdJW7UzZeN/DaZ1ZW
+         0+atKmk45O3Oh8cd+p60/LVinYeMRk+tkBQjFIR9y3FGOom4ah4WUKrXdvOQ/9F2H5MT
+         PhWgNHHJAImlSP+KqgKwo9oDGzsugdnBDc3aqeRE+AUeQ2BfgkO+TXeSQRBTvEDGPfdO
+         kf5g==
+X-Forwarded-Encrypted: i=1; AJvYcCVZKRG6YqTSNH8AA9ZHLqUZUEkf+3S0mWQQGVKziGFCQpm2p0MM4c6Chtjem6p52wmHztm624784ygNxZlc+oO0l2CC7RO0hykO2Gd3oeJKfmpGVWmqHUmRdWEe97sIOwM8Iz7FSFaxo+T8cdZByyEx8NmDBOsFmlDjZixEuWiF
+X-Gm-Message-State: AOJu0YwmDl7oZmy3YJ//kxPvbW+OSdqirLDQw/KS/ORmwe3Uakzfd+Gq
+	iMI/ZTLjiayXs4B02TMWIAcsZcgoDr7ztGaiEPfaRL7Q7OoQQ2djZBpTzdrzqyU=
+X-Google-Smtp-Source: AGHT+IEQy6GGHoGqLk6uwk8ZNW45BRZT3ywA20T6HVZbUPu/S1lIdBnk0x2oO9lDy6GmpV8iOhS5Lw==
+X-Received: by 2002:a25:d614:0:b0:dcc:3a3:9150 with SMTP id n20-20020a25d614000000b00dcc03a39150mr9622468ybg.22.1709646506286;
+        Tue, 05 Mar 2024 05:48:26 -0800 (PST)
+Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com. [209.85.128.180])
+        by smtp.gmail.com with ESMTPSA id g1-20020a259341000000b00dc6a0898efasm2583054ybo.15.2024.03.05.05.48.25
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 05 Mar 2024 05:48:26 -0800 (PST)
+Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-608ccac1899so60551187b3.1;
+        Tue, 05 Mar 2024 05:48:25 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCXXsLNAptFE3QxHu1GTuhf/xv+YKoec3ceF8yAwPjwargLz5+FzFHjscXwR8Qm8POuxKEO/rz40JY169h+L7MXPzCU8FLpAIkdNhJonQj3dyT6xl6dQkoe/vZspes63xIXv7iF+rPZDIsAPLVm8mNeY5s/6ycyMnNs+UfCq0AHW
+X-Received: by 2002:a25:6a86:0:b0:dcc:f5d4:8b43 with SMTP id
+ f128-20020a256a86000000b00dccf5d48b43mr8483801ybc.9.1709646505511; Tue, 05
+ Mar 2024 05:48:25 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <6be2558b8462fc08095c24c9257563ab5f3ae013.1708001398.git.geert+renesas@glider.be>
- <kycepdxukfsww3tnxoo5hoiuo3vcgpqqmynokzhtl4vodgm6zc@ih4uhw7gz4jh>
- <CAMuHMdVf7ophCwKt-n_N-LBHV4+t14Gjb4d1O0T8FDk_9xMFtA@mail.gmail.com>
- <CAHCN7xJ65RP8TO7cS0p5DwE6zru5NEF0_JA+8siT_OpSeLD7pA@mail.gmail.com>
- <CAHCN7x+EnSU8qk5dBFco=0vkeknGq18qEN7vFmZs0_q83T_3+w@mail.gmail.com> <76065296ad514898e2b8c29cd921c104b3692ae0.camel@imgtec.com>
-In-Reply-To: <76065296ad514898e2b8c29cd921c104b3692ae0.camel@imgtec.com>
-From: Adam Ford <aford173@gmail.com>
-Date: Tue, 5 Mar 2024 07:47:22 -0600
-Message-ID: <CAHCN7xJ6uEghqDcUTKKQg7Lcg8uF55rz=vEHF=1xHRYfsDNGsA@mail.gmail.com>
-Subject: Re: [PATCH v2] drm/imagination: DRM_POWERVR should depend on ARCH_K3
-To: Frank Binns <Frank.Binns@imgtec.com>
-Cc: "geert@linux-m68k.org" <geert@linux-m68k.org>, 
-	"marek.vasut@mailbox.org" <marek.vasut@mailbox.org>, "tzimmermann@suse.de" <tzimmermann@suse.de>, 
-	Matt Coster <Matt.Coster@imgtec.com>, "javierm@redhat.com" <javierm@redhat.com>, 
-	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, 
-	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>, "airlied@gmail.com" <airlied@gmail.com>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "nm@ti.com" <nm@ti.com>, 
-	"maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>, Sarah Walker <Sarah.Walker@imgtec.com>, 
-	"daniel@ffwll.ch" <daniel@ffwll.ch>, "mripard@kernel.org" <mripard@kernel.org>
+References: <20240305104423.3177-2-wsa+renesas@sang-engineering.com>
+In-Reply-To: <20240305104423.3177-2-wsa+renesas@sang-engineering.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 5 Mar 2024 14:48:12 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdV-PTyydtuMjP0dFkAGSKT2av7Vn5s-xJE8u=SkqrNkDw@mail.gmail.com>
+Message-ID: <CAMuHMdV-PTyydtuMjP0dFkAGSKT2av7Vn5s-xJE8u=SkqrNkDw@mail.gmail.com>
+Subject: Re: [PATCH v2] mmc: tmio: avoid concurrent runs of mmc_request_done()
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc: linux-renesas-soc@vger.kernel.org, Dirk Behme <dirk.behme@de.bosch.com>, 
+	stable@vger.kernel.org, Ulf Hansson <ulf.hansson@linaro.org>, 
+	Chris Ball <cjb@laptop.org>, Guennadi Liakhovetski <g.liakhovetski@gmx.de>, linux-mmc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Mar 5, 2024 at 5:58=E2=80=AFAM Frank Binns <Frank.Binns@imgtec.com>=
- wrote:
+On Tue, Mar 5, 2024 at 11:54=E2=80=AFAM Wolfram Sang
+<wsa+renesas@sang-engineering.com> wrote:
+> With the to-be-fixed commit, the reset_work handler cleared 'host->mrq'
+> outside of the spinlock protected critical section. That leaves a small
+> race window during execution of 'tmio_mmc_reset()' where the done_work
+> handler could grab a pointer to the now invalid 'host->mrq'. Both would
+> use it to call mmc_request_done() causing problems (see link below).
 >
-> Hi Adam,
+> However, 'host->mrq' cannot simply be cleared earlier inside the
+> critical section. That would allow new mrqs to come in asynchronously
+> while the actual reset of the controller still needs to be done. So,
+> like 'tmio_mmc_set_ios()', an ERR_PTR is used to prevent new mrqs from
+> coming in but still avoiding concurrency between work handlers.
 >
-> Sorry for not responding sooner. I've recently just returned from paterni=
-ty
-> leave, so just catching up on everything.
+> Reported-by: Dirk Behme <dirk.behme@de.bosch.com>
+> Closes: https://lore.kernel.org/all/20240220061356.3001761-1-dirk.behme@d=
+e.bosch.com/
+> Fixes: df3ef2d3c92c ("mmc: protect the tmio_mmc driver against a theoreti=
+cal race")
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> Tested-by: Dirk Behme <dirk.behme@de.bosch.com>
+> Reviewed-by: Dirk Behme <dirk.behme@de.bosch.com>
+> Cc: stable@vger.kernel.org # 3.0+
 
-Congratulations!
+Thanks, I gave it a boot run on all boards in my farm, no issues seen.
+Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
->
-> On Thu, 2024-02-15 at 11:22 -0600, Adam Ford wrote:
-> > On Thu, Feb 15, 2024 at 11:10=E2=80=AFAM Adam Ford <aford173@gmail.com>=
- wrote:
-> > > On Thu, Feb 15, 2024 at 10:54=E2=80=AFAM Geert Uytterhoeven
-> > > <geert@linux-m68k.org> wrote:
-> > > > Hi Maxime,
-> > > >
-> > > > On Thu, Feb 15, 2024 at 5:18=E2=80=AFPM Maxime Ripard <mripard@kern=
-el.org> wrote:
-> > > > > On Thu, Feb 15, 2024 at 01:50:09PM +0100, Geert Uytterhoeven wrot=
-e:
-> > > > > > Using the Imagination Technologies PowerVR Series 6 GPU require=
-s a
-> > > > > > proprietary firmware image, which is currently only available f=
-or Texas
-> > > > > > Instruments K3 AM62x SoCs.  Hence add a dependency on ARCH_K3, =
-to
-> > > > > > prevent asking the user about this driver when configuring a ke=
-rnel
-> > > > > > without Texas Instruments K3 Multicore SoC support.
-> > > > >
-> > > > > This wasn't making sense the first time you sent it, and now that=
- commit
-> > > > > log is just plain wrong. We have firmwares for the G6110, GX6250,
-> > > > > GX6650, BXE-4-32, and BXS-4-64 models, which can be found on (at =
-least)
-> > > > > Renesas, Mediatek, Rockchip, TI and StarFive, so across three
-> > > >
-> > > > I am so happy to be proven wrong!
-> > > > Yeah, GX6650 is found on e.g. R-Car H3, and GX6250 on e.g. R-Car M3=
--W.
-> > > >
-> > > > > architectures and 5 platforms. In two months.
-> > > >
-> > > > That sounds like great progress, thanks a lot!
-> > > >
-> > > Geert,
-> > >
-> > > > Where can I find these firmwares? Linux-firmware[1] seems to lack a=
-ll
-> > > > but the original K3 AM62x one.
-> > >
-> > > I think PowerVR has a repo [1], but the last time I checked it, the
-> > > BVNC for the firmware didn't match what was necessary for the GX6250
-> > > on the RZ/G2M.  I can't remember what the corresponding R-Car3 model
-> > > is.  I haven't tried recently because I was told more documentation
-> > > for firmware porting would be delayed until everything was pushed int=
-o
-> > > the kernel and Mesa.  Maybe there is a better repo and/or newer
-> > > firmware somewhere else.
-> > >
-> > I should have doubled checked the repo contents before I sent my last
-> > e-mail , but it appears the firmware  [2] for the RZ/G2M, might be
-> > present now. I don't know if there are driver updates necessary. I
-> > checked my e-mails, but I didn't see any notification, or I would have
-> > tried it earlier.  Either way, thank you Frank for adding it.  I'll
-> > try to test when I have some time.
-> >
->
-> You may have noticed from one of Matt's emails that we now have a set of =
-repos
-> (linux, linux-firmware and Mesa) in our own area on freedesktop.org GitLa=
-b:
-> https://gitlab.freedesktop.org/imagination/
->
-> We'll be using this as a staging area for work that isn't ready to be ups=
-treamed
-> yet (including firmware binaries).
->
+Gr{oetje,eeting}s,
 
-I tried to play with these a little, but it seems like there is still
-a fair amount of work to be done on the 6XT series. I tried to add the
-device tree support for several Renesas boards, but the series was
-NAK'd due to an inability to test it.
->
-> > > adam
-> > >
-> > > [1] https://gitlab.freedesktop.org/frankbinns/linux-firmware/-/tree/p=
-owervr/powervr?ref_type=3Dheads
-> >
-> > [2] - https://gitlab.freedesktop.org/frankbinns/linux-firmware/-/commit=
-/fecb3caebf29f37221fe0a20236e5e1415d39d0b
-> >
->
-> This is now the place to get the firmware for devices that aren't yet sup=
-ported
-> upstream:
-> https://gitlab.freedesktop.org/imagination/linux-firmware/-/commits/power=
-vr/?ref_type=3DHEADS
->
-I've been following several of these repos and checking for software
-updates in both the Firmware, driver and userspace layers.
+                        Geert
 
-> With the firmware for the Renesas variant of GX6250 being found in this c=
-ommit:
-> https://gitlab.freedesktop.org/imagination/linux-firmware/-/commit/fecb3c=
-aebf29f37221fe0a20236e5e1415d39d0b
->
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
 
-If your group thinks they have stuff they want tested, I am willing to
-test them on the two platforms I have if I am CC'd on anything.
-
-Thanks for the work your group has done so far.  It'll be nice to see the w=
-ork.
-
-adam
-
-> Thanks
-> Frank
->
-> > >
-> > > > Thanks again!
-> > > >
-> > > > [1] https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-=
-firmware.git/
-> > > >
-> > > > Gr{oetje,eeting}s,
-> > > >
-> > > >                         Geert
-> > > >
-> > > > --
-> > > > Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@li=
-nux-m68k.org
-> > > >
-> > > > In personal conversations with technical people, I call myself a ha=
-cker. But
-> > > > when I'm talking to journalists I just say "programmer" or somethin=
-g like that.
-> > > >                                 -- Linus Torvalds
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
