@@ -1,139 +1,126 @@
-Return-Path: <linux-renesas-soc+bounces-3468-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-3469-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 954B8871EC2
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  5 Mar 2024 13:15:20 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 078AE871ED6
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  5 Mar 2024 13:16:55 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4C73C286514
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  5 Mar 2024 12:15:19 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 399FF1C223C5
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  5 Mar 2024 12:16:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B73505A4E0;
-	Tue,  5 Mar 2024 12:15:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1B3305BAC9;
+	Tue,  5 Mar 2024 12:15:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="UlXlibw3"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ZMb+mZMy"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yb1-f169.google.com (mail-yb1-f169.google.com [209.85.219.169])
+Received: from mail-yb1-f175.google.com (mail-yb1-f175.google.com [209.85.219.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6F035A119
-	for <linux-renesas-soc@vger.kernel.org>; Tue,  5 Mar 2024 12:15:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79DFD5C057
+	for <linux-renesas-soc@vger.kernel.org>; Tue,  5 Mar 2024 12:15:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709640910; cv=none; b=e9sbL993GJYOmILiNYJrCo6x34CT0aM6x31cMX36bXb1blApGUDrSqkUkCP+0CyIx14SYCRYxRcan58omHpKOZev2YCvRrAffDKeookeD+fiMnjAf6fhtkIXpMil1cITBCnR4HBMiMt8i5SJdSYHkNNSSb6lkAq/aZ/812xeYB4=
+	t=1709640927; cv=none; b=hHB7zn2jyaznlV25iozyqsG4I/tYlhR52PltawF7BaEze0poGLsKY5o0xLqx4bfU5izYpKHQpEfmUrkUumSP79pSEZAmTX0lWm1ozb04x8xWfSqe4RZmb5ALlr2ic0YX2fG3DXUUG0ogjO/Ztdfj1oP//lKKWjRIIMxflzCaT2s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709640910; c=relaxed/simple;
-	bh=RCaP4GDWT87Zd9IUZzQQpBKEXe+s1x2lF2pIn4GuNXU=;
+	s=arc-20240116; t=1709640927; c=relaxed/simple;
+	bh=DcnzC15jjmF1MCyU9zIkSIhTwgFm9vccBcmaQItPkJE=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=PFGQtyY7w4r3MrTpLmt/60BZZc1xnxUdLF9P3TMJRmv6CIhpi25okg+J46IbsjjgmCtlWonzn9KYvbqtbpnt7YDTRWEmC+PwrrDg4it83Hgv0Tqf/o8+9r509Q77Cst+kFuwakL79PYGKcKG/itRfduDoiARiZSApZNMy2UPmq0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=UlXlibw3; arc=none smtp.client-ip=209.85.219.169
+	 To:Cc:Content-Type; b=IvuP8Le1LL9Q9Z7mA9pioUOLJ/QjpCbZTyQTqG+PXrbUIVYXuR/PEdu6KDWu7KkYqBd5nZJxEW1YSCb+zXIERUA9nuGNro/MxMk/nG61LT13tNRC8YLnOcs6A7oAADUamS+zZTrpg8lBUDyoz1QhVWzfB4Fxs9aJqjinM79w3Bk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ZMb+mZMy; arc=none smtp.client-ip=209.85.219.175
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-yb1-f169.google.com with SMTP id 3f1490d57ef6-dc23bf7e5aaso614767276.0
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 05 Mar 2024 04:15:08 -0800 (PST)
+Received: by mail-yb1-f175.google.com with SMTP id 3f1490d57ef6-dcc7cdb3a98so5396273276.2
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 05 Mar 2024 04:15:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1709640908; x=1710245708; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1709640923; x=1710245723; darn=vger.kernel.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZVW/PXVs5nzy5Gr+BEyjbP8Shu9TAluG0kZZRSGaf1s=;
-        b=UlXlibw3caQYA57kMfjNtfV6yf5J+oylhS9K4ZXt73FtLQhoSMTyKVWUDyiZYM9FlO
-         EpBnaNdd20YdCCHFYLDfAnnK92S9dPpJ2Y9GVPA05wQI9IcIc2O1F8zGjuqEbuf3blQA
-         Xj9Fvt86ML6cxLIoamGCj1otdU1z5qe1RbQvrj8ausuGUyRf1TBAKvzTjczJAhCmix1s
-         qTtYnakLOvJnfliFe+S++misrWDWyrDGTwvbUAKHi7KiM62Jz34pKCbGwLnoWqAzuB2h
-         cHAWIhmJRSiprowLH6F341m3oIAjgIg4nZXuKHrW/AA6Caed9MyL3loyZrer3w39SvHg
-         fi6w==
+        bh=jZ5xx2edHD5FMmLecpHNeUGAP2uUzcBfz2t1dwA+19A=;
+        b=ZMb+mZMye31AX8BUxTkQi0P/LOw3S6FuUIQ7H0+F39vTNu2l7MQIO85lr2HMZjtB7q
+         shpCenLHdBUqe5PMUd8gUAVet5XkbHyovNHZAiRk4tGiJETpKxjNV5DkOHpILzwfC2jc
+         X1XQtgUKLgDjmUpDtTtRxmxY9cDxF8nIq1IlzKZGVJ2CLHU4GB0lhNRz0qmKD32llPXg
+         MoqBMRQSJywPXHJL+OVSkjVe8hSl537PvR1543TVNgfA3SP+zqSXpJvxuZHLgp1F0Ei+
+         nl6JNXv3eesRUmXBx231qvY2wgSZiHX5SKiLiPrJDYf8QQQ8PTpY5NytVWottJ+AofR2
+         qZCQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709640908; x=1710245708;
+        d=1e100.net; s=20230601; t=1709640923; x=1710245723;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=ZVW/PXVs5nzy5Gr+BEyjbP8Shu9TAluG0kZZRSGaf1s=;
-        b=knOTcXM+HRxpV6aB9KoUNxOzX06o5HQPZYIbkP2KRJ2HLBWTNx0nCbvvNDUgB9nJlK
-         vGWt4ClyGo/CbNTtpRWnV4CJk1U1PhQnwOSv9Kayop8eKtts4ognbpkPHMaUp/81SSHA
-         RoZd0jHW+KGEROA+0ss8JiG/BJI1mxMUEUk8BkcBZPhWsYxRD4g4wo5MDiYx/eAv4Eg/
-         7gE4yhPNt5h1hojjIdJDjVQu33R28kmD8q4zOAIZM4IT5TtqYvFZdzBKpdIsp5o0jeHO
-         TzaRhncZvvQ8PnaYUisf81CkOp3zVhrTPW3pWw4/eiqwg8g089/vTB612azJ38Fg3aMk
-         8EpA==
-X-Gm-Message-State: AOJu0Yz7syr2/ke2dREcKMHoIN2/BYR3FDeAqQOEX7hZ7t6Lsss+U76L
-	tZBt4/WT+EjJgNBnTYiITdfuFu3SeIPNgN2pcDJjhTw2R59NSpAPuQn+TU/BPsLb79EvwwIehTw
-	pPShG+QfolsmhaOZxKMwgopmA2zDlfGQ1FlLS0g==
-X-Google-Smtp-Source: AGHT+IE2Y4cAajm9+l0CPilDWB96P4S9WhAwezHUZMdrZBUawlG/ZjtdnYQewd1l4phaxcPiQSTerAEAXTI4XU4tz+w=
-X-Received: by 2002:a25:660c:0:b0:dd0:c2a:26f9 with SMTP id
- a12-20020a25660c000000b00dd00c2a26f9mr6859439ybc.27.1709640907662; Tue, 05
- Mar 2024 04:15:07 -0800 (PST)
+        bh=jZ5xx2edHD5FMmLecpHNeUGAP2uUzcBfz2t1dwA+19A=;
+        b=xGTBfz22Gv26wEMba4ohanTHLbb+WcOLR2CPGLWbIfVWQRmsu2ZmICr00OKRdYVqSe
+         8lvO9ZqNrw7upzE1kWKR0/tLNxWI7+8Y6zU1hPCjR7rYDNdJCImlVg/dneB4mczTPrxv
+         dkc4GINv4kaOnI+rnnPvKxfeNmwGymKMYZ3XGZFd7XYlFe6L3hyV2oRUSdOhLdtX71ci
+         1hvima9MWWxR4sjyJbJDCRWcdBtMjj75MPybeTEryPq2xQ90EzaOg/mtc8+DSwYOvzxp
+         pmX/GrFQ6sahFraAlM9Cs3x8vQ5yJ74iWxem1MljE3RsAEFeJKMl1MD1d56DSxWWm74w
+         v0CA==
+X-Gm-Message-State: AOJu0YwYxiRfN1qC+ZCO4fBc4gfRGUO6/OlGM/avmy4A+smZ18RahuWd
+	cyHZXb1e0Aeecnm9Ku10VhF00Lsup5kGqDC196lWtuou7K9TzVWwami3EzGXa+88dcu7hWv7N4d
+	RbgQfF01Ql/erP3WsOO9BLOhb3bY9P91JqB8bbw==
+X-Google-Smtp-Source: AGHT+IFRHrlt93okZ8pF8wCozXRKOrxXQZtOR31rF4Oxv2ktk0VBMY0lfxSqY9Tg9+i8KGWI6harXSX+rrTSNtu1DrM=
+X-Received: by 2002:a25:b91:0:b0:dc7:46b7:6d67 with SMTP id
+ 139-20020a250b91000000b00dc746b76d67mr9606155ybl.33.1709640923661; Tue, 05
+ Mar 2024 04:15:23 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240305104423.3177-2-wsa+renesas@sang-engineering.com>
-In-Reply-To: <20240305104423.3177-2-wsa+renesas@sang-engineering.com>
+References: <20240305105623.3379-2-wsa+renesas@sang-engineering.com>
+In-Reply-To: <20240305105623.3379-2-wsa+renesas@sang-engineering.com>
 From: Ulf Hansson <ulf.hansson@linaro.org>
-Date: Tue, 5 Mar 2024 13:14:31 +0100
-Message-ID: <CAPDyKFryGhRju5CohRipXk9E_G3kob2g8=VztjtPBZ_i6D9Ugw@mail.gmail.com>
-Subject: Re: [PATCH v2] mmc: tmio: avoid concurrent runs of mmc_request_done()
+Date: Tue, 5 Mar 2024 13:14:48 +0100
+Message-ID: <CAPDyKFr_GyWVXPbaeLf5hp_SKuRpr9sixhDQxoYBbFEU2qiJ-Q@mail.gmail.com>
+Subject: Re: [PATCH] mmc: tmio: comment the ERR_PTR usage in this driver
 To: Wolfram Sang <wsa+renesas@sang-engineering.com>
 Cc: linux-renesas-soc@vger.kernel.org, Dirk Behme <dirk.behme@de.bosch.com>, 
-	stable@vger.kernel.org, Chris Ball <cjb@laptop.org>, 
-	Guennadi Liakhovetski <g.liakhovetski@gmx.de>, linux-mmc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
+	linux-mmc@vger.kernel.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 
-On Tue, 5 Mar 2024 at 11:44, Wolfram Sang
+On Tue, 5 Mar 2024 at 11:56, Wolfram Sang
 <wsa+renesas@sang-engineering.com> wrote:
 >
-> With the to-be-fixed commit, the reset_work handler cleared 'host->mrq'
-> outside of the spinlock protected critical section. That leaves a small
-> race window during execution of 'tmio_mmc_reset()' where the done_work
-> handler could grab a pointer to the now invalid 'host->mrq'. Both would
-> use it to call mmc_request_done() causing problems (see link below).
+> It is not super obvious why the driver sometimes uses an ERR_PTR for the
+> current mrq. Explain why in comments.
 >
-> However, 'host->mrq' cannot simply be cleared earlier inside the
-> critical section. That would allow new mrqs to come in asynchronously
-> while the actual reset of the controller still needs to be done. So,
-> like 'tmio_mmc_set_ios()', an ERR_PTR is used to prevent new mrqs from
-> coming in but still avoiding concurrency between work handlers.
->
-> Reported-by: Dirk Behme <dirk.behme@de.bosch.com>
-> Closes: https://lore.kernel.org/all/20240220061356.3001761-1-dirk.behme@de.bosch.com/
-> Fixes: df3ef2d3c92c ("mmc: protect the tmio_mmc driver against a theoretical race")
 > Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-> Tested-by: Dirk Behme <dirk.behme@de.bosch.com>
-> Reviewed-by: Dirk Behme <dirk.behme@de.bosch.com>
-> Cc: stable@vger.kernel.org # 3.0+
 
-Applied for fixes, thanks!
+Applied for next, thanks!
 
 Kind regards
 Uffe
 
 
 > ---
->
-> Change since v1/RFT: added Dirk's tags and stable tag
->
-> @Ulf: this is nasty, subtle stuff. Would be awesome to have it in 6.8
-> already!
->
->  drivers/mmc/host/tmio_mmc_core.c | 2 ++
->  1 file changed, 2 insertions(+)
+>  drivers/mmc/host/tmio_mmc_core.c | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
 >
 > diff --git a/drivers/mmc/host/tmio_mmc_core.c b/drivers/mmc/host/tmio_mmc_core.c
-> index be7f18fd4836..c253d176db69 100644
+> index c253d176db69..93e912afd3ae 100644
 > --- a/drivers/mmc/host/tmio_mmc_core.c
 > +++ b/drivers/mmc/host/tmio_mmc_core.c
-> @@ -259,6 +259,8 @@ static void tmio_mmc_reset_work(struct work_struct *work)
->         else
->                 mrq->cmd->error = -ETIMEDOUT;
+> @@ -972,6 +972,7 @@ static void tmio_mmc_set_ios(struct mmc_host *mmc, struct mmc_ios *ios)
+>                 return;
+>         }
 >
-> +       /* No new calls yet, but disallow concurrent tmio_mmc_done_work() */
-> +       host->mrq = ERR_PTR(-EBUSY);
->         host->cmd = NULL;
->         host->data = NULL;
+> +       /* Disallow new mrqs and work handlers to run */
+>         host->mrq = ERR_PTR(-EBUSY);
 >
+>         spin_unlock_irqrestore(&host->lock, flags);
+> @@ -1006,8 +1007,9 @@ static void tmio_mmc_set_ios(struct mmc_host *mmc, struct mmc_ios *ios)
+>                         "%s.%d: IOS interrupted: clk %u, mode %u",
+>                         current->comm, task_pid_nr(current),
+>                         ios->clock, ios->power_mode);
+> -       host->mrq = NULL;
+>
+> +       /* Ready for new mrqs */
+> +       host->mrq = NULL;
+>         host->clk_cache = ios->clock;
+>
+>         mutex_unlock(&host->ios_lock);
 > --
 > 2.43.0
 >
