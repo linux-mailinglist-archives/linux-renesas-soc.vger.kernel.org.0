@@ -1,85 +1,136 @@
-Return-Path: <linux-renesas-soc+bounces-3475-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-3476-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3ED3B87224E
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  5 Mar 2024 16:02:06 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A28EB87227C
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  5 Mar 2024 16:14:55 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id D3D0C1F232B3
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  5 Mar 2024 15:02:05 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 249BA28759F
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  5 Mar 2024 15:14:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4A74D126F1C;
-	Tue,  5 Mar 2024 15:02:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 29AC4126F33;
+	Tue,  5 Mar 2024 15:14:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pn9a+Qkl"
+	dkim=pass (2048-bit key) header.d=osasysteme.de header.i=@osasysteme.de header.b="YKwE2vlv"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from secondary.pambor.com (secondary.pambor.com [46.38.233.203])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DE251DFF8;
-	Tue,  5 Mar 2024 15:02:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 666DD1272A0;
+	Tue,  5 Mar 2024 15:14:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.38.233.203
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709650921; cv=none; b=Wzuhu9rBOzNqmkZpFRkBUaVo0ha6pmgFYi0R3sLTEm2k7LeHtZRrdCaVDe147bOHC6rL2o+md3mTo7y9y0Ob/zFMZdGf8oHemIi1NwOFYC4b+IZKZ+Z6Jyx66M5NXEO6wiPM+YjNNBJ9mFOhD+lSxONJREZOb4e3yWVLtd3wjC4=
+	t=1709651689; cv=none; b=OO8FAzJ2gosK47WkgDSPC/BfUOT6nTrb8jWTAgap+ZzIgV0GXMiwNDVW3RfAw6upGEL0cbKeOHWzI1kuxUaJvRoI/z0w7QFxSMvRNIHItK0UlGMsIROHCX0nijBzuRucVWzdu2LkGyMUluZ7TsDNQ1K9wwLV+JfWzhbl6EfC/Ho=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709650921; c=relaxed/simple;
-	bh=EOcdUGttj2pgJNSAtD+H2tt3Qg/SJJYakNmgC0yArb0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ba5h+NMNrb8hGiR/oftmiM/3iuc+yBR7yz0As9r0x8CQocdavkIcj8KoenBjpb9t5qQjQkFecyIevu5U1PWz15RWbRHeTPMwTGYGDoClQxV1SjDiP4fChnh7QiMSR2xA5PBX6aocX70UwUpC2TOfj8ErlD3gdjEj3uTiVhs7jTA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pn9a+Qkl; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BE193C433F1;
-	Tue,  5 Mar 2024 15:02:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1709650920;
-	bh=EOcdUGttj2pgJNSAtD+H2tt3Qg/SJJYakNmgC0yArb0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=pn9a+Qkl5P1TvXEHFckUSQdDz7QYx0j2N3jzMrZomlUrXn5AsHBt85zRUTRYJVZdj
-	 EO4TgOzvtmGztZrvL0XRtuUjqqFtbsvJO4smPnGu8GtIsCwsIUR3q8SiW9/dGiOADI
-	 /np9F3t8kHYTSVJrJIOHGTFsYM7EiKagUgFCQJUk3ULiY/LJXbqKjmt1+ymXjv37Mj
-	 9/aQCL5TK98jSJ71T+Ck+A60v6BqO0yOpUdXmoG01xU9aInEMU2+rso/m/ESA330b+
-	 IIJbzWdodclTqKKwRIde5GFpeiO65p+5xs39wt4r/h7d+z0kboA1m7ztOJxIXOkLAQ
-	 OzZFEADT8awbw==
-Date: Tue, 5 Mar 2024 09:01:58 -0600
-From: Rob Herring <robh@kernel.org>
+	s=arc-20240116; t=1709651689; c=relaxed/simple;
+	bh=VOYq/MFTo0yEAHpbuYHcwnTD5HvVjidlBhWkaXa2qP8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=f052fS0W4Rej+TocanB+uLAhR0+iDZDX6k9AIi2xx23Lbvhz8Ev6s4FoQZrXd/d7y5PivMKk6QTTgrxhjJXTuuwh3z/xAZXv0vhzD+ReUc/OkdTi0glAaDzPuc25nKL/6E6WnggbNkGEf516K2OggqjDxRdOfwg80q0jCyAq6XE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=osasysteme.de; spf=pass smtp.mailfrom=osasysteme.de; dkim=pass (2048-bit key) header.d=osasysteme.de header.i=@osasysteme.de header.b=YKwE2vlv; arc=none smtp.client-ip=46.38.233.203
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=osasysteme.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=osasysteme.de
+Received: from localhost (localhost [127.0.0.1])
+	by secondary.pambor.com (Postfix) with ESMTP id 5A24E6F03B4;
+	Tue,  5 Mar 2024 16:14:42 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=osasysteme.de;
+	s=19022017; t=1709651682;
+	bh=VOYq/MFTo0yEAHpbuYHcwnTD5HvVjidlBhWkaXa2qP8=;
+	h=From:To:Cc:Subject:Date:From;
+	b=YKwE2vlvRdJoqi6l+wjPZe/8ZFrPXzXlssXOhHNFBFJ/Fu0OgEWmeXQg2u9BUr4gl
+	 Lu/6ROceiY85q6HQaBHEapUe39htU+nilNP53HixffXqhjIJEKtU/NSjEklWx5DG1h
+	 JQShK0YX3E1GajudwFGkc8rZ9A8dJi+lDU3D7ZbJD99GzijGnm4DWXvOGgdk/4fFjB
+	 fXiBi+XXphofSQ9qDrFNmbDmZ5xZSzzqPyS1ovNSrw+yvFVqjbDrjXOgc1Hyj4qrvm
+	 YCW+lLTr+zVFZDdZZxG+50uQcIu9BNjNsyShdJwXnPEgmAnC9fe7SQFTAY2yI22hh3
+	 FiY25YXR4dE3g==
+X-Virus-Scanned: Debian amavisd-new at secondary.pambor.com
+Received: from secondary.pambor.com ([127.0.0.1])
+	by localhost (secondary.pambor.com [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id upWvgw96FKnx; Tue,  5 Mar 2024 16:14:40 +0100 (CET)
+Received: from chromebook.fritz.box (dynamic-2a02-3100-5dd1-2001-a8cd-25c2-d6af-d5f4.310.pool.telefonica.de [IPv6:2a02:3100:5dd1:2001:a8cd:25c2:d6af:d5f4])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.osasysteme.de (Postfix) with ESMTPSA id 1E9796F03A5;
+	Tue,  5 Mar 2024 16:14:40 +0100 (CET)
+From: Tim Pambor <tp@osasysteme.de>
 To: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: netdev@vger.kernel.org, "David S . Miller" <davem@davemloft.net>,
-	Sergey Shtylyov <s.shtylyov@omp.ru>,
-	Eric Dumazet <edumazet@google.com>,
-	linux-renesas-soc@vger.kernel.org, Jakub Kicinski <kuba@kernel.org>,
+Cc: Magnus Damm <magnus.damm@gmail.com>,
+	Rob Herring <robh+dt@kernel.org>,
 	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Paolo Abeni <pabeni@redhat.com>, Conor Dooley <conor+dt@kernel.org>,
-	Thanh Quan <thanh.quan.xn@renesas.com>, devicetree@vger.kernel.org,
-	Sergei Shtylyov <sergei.shtylyov@gmail.com>
-Subject: Re: [PATCH net-next] dt-bindings: net: renesas,etheravb: Add support
- for R-Car V4M
-Message-ID: <170965091827.3351332.2111894188384464471.robh@kernel.org>
-References: <0212b57ba1005bb9b5a922f8f25cc67a7bc15f30.1709631152.git.geert+renesas@glider.be>
+	Conor Dooley <conor+dt@kernel.org>,
+	linux-renesas-soc@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Tim Pambor <tp@osasysteme.de>
+Subject: [PATCH] arm64: dts: r9a07g044: Add complete CPU cache information
+Date: Tue,  5 Mar 2024 16:13:36 +0100
+Message-ID: <20240305151336.144707-1-tp@osasysteme.de>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <0212b57ba1005bb9b5a922f8f25cc67a7bc15f30.1709631152.git.geert+renesas@glider.be>
+Content-Transfer-Encoding: 8bit
 
+Based on ARM Cortex-A55 TRM and RZG2/L user's manual, each Cortex-A55 has
+- 32 KB of L1 4-way, set-associative instruction cache
+- 32 KB of L1 4-way, set-associative data cache
 
-On Tue, 05 Mar 2024 10:37:18 +0100, Geert Uytterhoeven wrote:
-> From: Thanh Quan <thanh.quan.xn@renesas.com>
-> 
-> Document support for the Renesas Ethernet AVB (EtherAVB-IF) block in the
-> Renesas R-Car V4M (R8A779H0) SoC.
-> 
-> Signed-off-by: Thanh Quan <thanh.quan.xn@renesas.com>
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> ---
->  Documentation/devicetree/bindings/net/renesas,etheravb.yaml | 1 +
->  1 file changed, 1 insertion(+)
-> 
+Each cache has a cache line length of 64B and therefore there are
+32768B/(4 * 64B)=128 sets for each cache.
 
-Acked-by: Rob Herring <robh@kernel.org>
+RZG2/L are not configured with the optional per-core L2 cache but only
+have a L3 cache shared among all cores. In this case, the L3 cache appears
+as a L2 cache to the system. Therefore, specify "cache-level = <2>" for
+the L3 cache.
+
+Signed-off-by: Tim Pambor <tp@osasysteme.de>
+---
+ arch/arm64/boot/dts/renesas/r9a07g044.dtsi | 14 +++++++++++++-
+ 1 file changed, 13 insertions(+), 1 deletion(-)
+
+diff --git a/arch/arm64/boot/dts/renesas/r9a07g044.dtsi b/arch/arm64/boot/dts/renesas/r9a07g044.dtsi
+index 9f00b75d2bd0..6379c850526a 100644
+--- a/arch/arm64/boot/dts/renesas/r9a07g044.dtsi
++++ b/arch/arm64/boot/dts/renesas/r9a07g044.dtsi
+@@ -89,6 +89,12 @@ cpu0: cpu@0 {
+ 			reg = <0>;
+ 			device_type = "cpu";
+ 			#cooling-cells = <2>;
++			d-cache-size = <0x8000>;
++			d-cache-line-size = <64>;
++			d-cache-sets = <128>;
++			i-cache-size = <0x8000>;
++			i-cache-line-size = <64>;
++			i-cache-sets = <128>;
+ 			next-level-cache = <&L3_CA55>;
+ 			enable-method = "psci";
+ 			clocks = <&cpg CPG_CORE R9A07G044_CLK_I>;
+@@ -99,6 +105,12 @@ cpu1: cpu@100 {
+ 			compatible = "arm,cortex-a55";
+ 			reg = <0x100>;
+ 			device_type = "cpu";
++			d-cache-size = <0x8000>;
++			d-cache-line-size = <64>;
++			d-cache-sets = <128>;
++			i-cache-size = <0x8000>;
++			i-cache-line-size = <64>;
++			i-cache-sets = <128>;
+ 			next-level-cache = <&L3_CA55>;
+ 			enable-method = "psci";
+ 			clocks = <&cpg CPG_CORE R9A07G044_CLK_I>;
+@@ -109,7 +121,7 @@ L3_CA55: cache-controller-0 {
+ 			compatible = "cache";
+ 			cache-unified;
+ 			cache-size = <0x40000>;
+-			cache-level = <3>;
++			cache-level = <2>;
+ 		};
+ 	};
+ 
+-- 
+2.43.0
 
 
