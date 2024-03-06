@@ -1,130 +1,227 @@
-Return-Path: <linux-renesas-soc+bounces-3491-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-3492-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72C78873029
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  6 Mar 2024 09:00:40 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 82A49873234
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  6 Mar 2024 10:13:59 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A44501C22A89
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  6 Mar 2024 08:00:39 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 39DB728AE9A
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  6 Mar 2024 09:13:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 499C25CDE8;
-	Wed,  6 Mar 2024 08:00:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8BD2360ED6;
+	Wed,  6 Mar 2024 09:06:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="NMXr92U9"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com [209.85.128.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from JPN01-TYC-obe.outbound.protection.outlook.com (mail-tycjpn01on2063.outbound.protection.outlook.com [40.107.114.63])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 446235BAFD
-	for <linux-renesas-soc@vger.kernel.org>; Wed,  6 Mar 2024 08:00:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.171
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709712031; cv=none; b=S8ERdrbKCSi2uY+POGrVcqsE7tY4AUpFlPfNNke4BNE/Zlsno8FImmLOUnQukO3Q2ls3RxjHlZuRTtpzY95qb5j78s21shjzUVdK9pfTKG0WUVlilK6UhxTxcDTEdjn6r+9FspISvcYh1qjc69k4BbOJH09TgRguC84L7BANvLg=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709712031; c=relaxed/simple;
-	bh=P8YwVMpnErwixhUR1Mbw5c5QEH9e2xTfI7Qrxmz/VcA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=p9LD98Zeu723F4m/qYBMUr5tmoLTApDghdbySVTnlwpUU655Pt8ZLfUqNdjAKpkyqlYcuoIXIwOmEtfgm0xmp+uZJaZ4Ehf8QtbDUBejVNRqVAuvyCa4gs47TKZlQFwykHmK0h+OLab+hhJAkDnRCCmdbOlUnAFirZ+T2EsLv8Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-60978e6f9a3so67978267b3.3
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 06 Mar 2024 00:00:29 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709712028; x=1710316828;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=tIq8A3I+hnCbTkrRhH0vKNCZiun3rTR9oQdT+6QQC+0=;
-        b=jsfBVNvI7kvmW56feMfv77QfYtUnciurXb1cOpYD4sg+nB+GCVrQJLBDc98KgsNivm
-         pFU8e5BgGwNzmC5JYhf2dWJ4ULkJgPRCItWtMT391pewMYM4LrvJIeFQIoFzzHSU1rPV
-         4aDo9ciz90o0Y8qplQtUJvfPth47xICn+JU1uPwrDLNhqzB9XK2vyGFwA1YrtLrpfd7R
-         GrCUHj0B4mtah/ig+Fqaxb2Lbcttz25LnOX8d5jFIPtLD2MCifmzn5dp81MwRkMv0HX0
-         NAigORCDyeWkTLhzVj/VSB9YlcSyVQBiNC4Kimq6qhhgn34hRv7ilJX0ZpJQuATqwoHb
-         O2kQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXT8rP8II0qLsc10sSBKw1K1Aw21AwWiDPGsGYeZyLaZYV69xQCa15z/jhsYjvcTKQ2adO0C9zw+I9fmHRmprvCHsc+hY2jXYrdQ8wAr7Mn06A=
-X-Gm-Message-State: AOJu0YzMbhlZOnF2YZZ6d03VARRfSvUxHdZv/Iv79n7fLKKQfxW+xtHo
-	YzOMuVi7F7VzHhVKzpXWKrTBX1NCHWrZSWMzbdwBaPzSUfi1wsvHHL/SIC10Xd8=
-X-Google-Smtp-Source: AGHT+IGh3uzO0jJSCLwJUVq20l9+AcVmL99uok/NXr0cl+ta4NFLFJIF17UEW46DLJwbA8R/Ww1PuA==
-X-Received: by 2002:a81:5e54:0:b0:608:aec:7deb with SMTP id s81-20020a815e54000000b006080aec7debmr15245526ywb.6.1709712026478;
-        Wed, 06 Mar 2024 00:00:26 -0800 (PST)
-Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com. [209.85.128.178])
-        by smtp.gmail.com with ESMTPSA id u125-20020a0deb83000000b00604ad97f2d9sm3594776ywe.110.2024.03.06.00.00.26
-        for <linux-renesas-soc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 06 Mar 2024 00:00:26 -0800 (PST)
-Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-609408d4b31so65610987b3.0
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 06 Mar 2024 00:00:26 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCW/WB//yL5m2yndws6+m8TRT/7GRQIz/zPS6dm6ZGCf64E13fY6u1gzijJGyP1RPfuMuh5ByDKL34tw96GuZa5WTZzC49mS3F4VnAxw76ENwug=
-X-Received: by 2002:a81:8494:0:b0:604:9b50:e973 with SMTP id
- u142-20020a818494000000b006049b50e973mr13895375ywf.44.1709712025743; Wed, 06
- Mar 2024 00:00:25 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9F0F1426B;
+	Wed,  6 Mar 2024 09:06:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.114.63
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1709715991; cv=fail; b=EjXWkel57gnOzIe6obM1Jqxf47Cgyo8j1IDtV2+oqe+S9v+jg41xt88O4h4eXBvgAxSRLj/Ii03dKd2fbZY41EHl328+V+WkOpwi0SGfrr+A1/YInzuuCLmkreNaLq0pAPP4Ns7AoNbZueUSYVzov27ijFVv02XIP19x3QKnvJA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1709715991; c=relaxed/simple;
+	bh=l6iOfGIY1s63jq5qInzp8zyoOvFJPZvB2saF9OTZHy8=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=epA5+xodikLMsJTM9yqPI3+YTuYVoXBtLzGjYp08XRlIs53CbSGZU5n4ZQwR+Z/hYdCKPuq1DnjxzsVPlWTbX6fnNXHHHcgHHV4oEKcruaCIjEs8cA7PiuQTnbIQJjIOiMlSrR+xzqfvH6N8GZ1CvXdLMiAlDo0y3OG0FnEAUCU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=NMXr92U9; arc=fail smtp.client-ip=40.107.114.63
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=H5sLy+yNMi7bvTk9jYXxTHaDTVoOOhuHObCJ5BmXUF75sW+mvlOQKQuUTWlcQwSQ34UZykMvcIGz36m3Dp7GL8ZG23z30xT+0iZwuuo7WDoH4vngvDM0Hgh2A5fX3Ju1qsa+AmqKalSba0SNrgeKwGBMyZ/kr+EE8cyyPgn2Od8Nq3NWZHf0BZvGLM5bUxVWmIN8IIe5RlJ32391vjnf/No1QkJshdeCBoKET4LE3TsRWRwz5EfA2rBDw0QFxW7+fkfALGmvkVZU7Pn9pqbFECTQDJARW2ukePdk8+x4qEm/EJML2kkAZlxzo7YHQVOO+TLRLacSnkrCPRkb5eNYtg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=C+Cu6Lt6D+jsMLJ8GvekTqNmWJgc3/MPO6Es2bQK5L0=;
+ b=InkpAh6uXCkconOqRkDTispq9wQ0hUWySO+SMoW+LwKTac9GNQYkHNIJ+3HOXq82jtdZWe1dqsBpomDGkNJuyyzDCOujqptCyT4kBoxFQFxvjku1SuJRsa8PgopoSLbOOMvkYsZqs+C9kjuUGQLkiwPts20rhds+npwwV8/q0ags3XxkLIHZ6h60KOJ9fT14OTIIYJyxg2SjSLxhm0PANj2Wh8EL3rIWL5QVQJ7VQTNgfsZWjU8B1FEVUNC0RMBFdOztb+r9tRlDwT9o7S/qnHpONCYJManXtSjqkEfvQQ+23S0ALbKFT2WHYi9tD18wmgsOg9r7r5RxU8Os+F70+g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=C+Cu6Lt6D+jsMLJ8GvekTqNmWJgc3/MPO6Es2bQK5L0=;
+ b=NMXr92U9xsuY0HZEHguSlJMciNLxCdTL9lne2RieyrRnavFut4WOCGyM44HNLco9P2GujsLDuUfEyBid4Sd8ggeDS1TW61J6h5fJl6fumloCPdqQQUglNUYZtVOMvZ4uDICfPiHJ6TFkPk8QjzRopIREi4+yT9rdebUb7e8iDbQ=
+Received: from TYCPR01MB11269.jpnprd01.prod.outlook.com
+ (2603:1096:400:3c0::10) by OS3PR01MB7852.jpnprd01.prod.outlook.com
+ (2603:1096:604:161::14) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7362.24; Wed, 6 Mar
+ 2024 09:06:22 +0000
+Received: from TYCPR01MB11269.jpnprd01.prod.outlook.com
+ ([fe80::9013:d19:4845:e226]) by TYCPR01MB11269.jpnprd01.prod.outlook.com
+ ([fe80::9013:d19:4845:e226%4]) with mapi id 15.20.7339.035; Wed, 6 Mar 2024
+ 09:06:22 +0000
+From: Biju Das <biju.das.jz@bp.renesas.com>
+To: Tim Pambor <tp@osasysteme.de>, Geert Uytterhoeven
+	<geert+renesas@glider.be>
+CC: Magnus Damm <magnus.damm@gmail.com>, Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley
+	<conor+dt@kernel.org>, "linux-renesas-soc@vger.kernel.org"
+	<linux-renesas-soc@vger.kernel.org>, "devicetree@vger.kernel.org"
+	<devicetree@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>
+Subject: RE: [PATCH] arm64: dts: r9a07g044: Add complete CPU cache information
+Thread-Topic: [PATCH] arm64: dts: r9a07g044: Add complete CPU cache
+ information
+Thread-Index: AQHabw/kpjnAM2gjZU23vtSxor3NMbEqbAcA
+Date: Wed, 6 Mar 2024 09:06:22 +0000
+Message-ID:
+ <TYCPR01MB112696A947F31C31FE3A3AFF586212@TYCPR01MB11269.jpnprd01.prod.outlook.com>
+References: <20240305151336.144707-1-tp@osasysteme.de>
+In-Reply-To: <20240305151336.144707-1-tp@osasysteme.de>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=bp.renesas.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: TYCPR01MB11269:EE_|OS3PR01MB7852:EE_
+x-ms-office365-filtering-correlation-id: fc144ec9-6e5c-4350-959e-08dc3dbcb1b4
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info:
+ oKna+cQCc+jL9pCd+/mYbiKd5O+nlvkx6e30+d4ztF/Aw5o5MUUQi7ohxmgXVUU5t+3DuJtDezj5smCLD8FYNWwAASKb8nH/5MvobanNCx0/wd7vTDBjlWho4/MtvnjMwSFVl9qmm3FDiMRUk4avIzvJpYjjT3eai10YiLUAa4NQ8edr82ZtL9NzJdspH2FUc4zIQyN9I3Gd1JkR3TzAUYG4McIyMjHAcSTeU3+LLdAm+FWnTOpTpcJxTLR/NoS8ECvG7wpD4cM2c3m7cfIojHKVADi98fzt2dLe1AMHlKRw0CFwX2fRAdr2yWToReVGag7AVGkzAm50RiUxNUYP+D8Ai88AwB5WREwFb0eaf96PWFJmCFQVl6F3gtkEzkT5PjteZSSi3MhKcU25ZMrgebxoe3EEwO/NH8rmgBt+4S4zL9C+cI5UiqXjMlPIJKT484/V+X+SW66PZ5p9ewEXjnoasX2TCMIagrtNRE+pouIVJkZE55vEIFvOL8NM43222oZs3eKhmke7xnHGu1ncQSZwfNlmokTW2IbGmQ0Wi1/iJb17kO0eQUjfqE33gVIa0bROTgi1H1+r6sF+D6gIy2m+Le+zwm4ZdpQfZYWEYci+RbTt7jI1ZZHTxQVvAstqUCdPOSXCLUHrCF/5iBaSq9cIOvHxMngPfOFsYTzhUBih6icjcCvRUJVll5uIQOuzJ8bRwkk/B/dhdGYvr3Uoe1hHs5ZRqAFwlVFUem3S/Uc=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB11269.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376005)(38070700009);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?us-ascii?Q?YYB+NQ4Eu5ideVbakt6CqX8+rWCRT6as3lw/4c4suNBzammQNPDHxi91tlfu?=
+ =?us-ascii?Q?KeK+LPM8X6PLYpO2cSa0NaU6DX1/YQnXwgIRkHd7xoRTStomJrlxIIVBd9JM?=
+ =?us-ascii?Q?wpbo1Q+/URQvMl+sUsBS/baYVw+iXMcNgZXvf4YWMLP1HPzt1wrR8GR6MnCC?=
+ =?us-ascii?Q?r+nRmhjbpdrEts3z5z5VnTbG2R+PaTCTREiBXCul8/RTXeE2oug/d9kiHikC?=
+ =?us-ascii?Q?smOrgrDhRFlnx3xiT7epwkT3JFXne9SgshQYra5V+bzD2ucY0Y813b33SA2n?=
+ =?us-ascii?Q?FDfk5jWPijvjqmntZVe9F9qcf4aJVhRNBA1CAvljmDo9tNsmgZyC3ak1ts1B?=
+ =?us-ascii?Q?ppWgj//PAHMhjnjE+OguTJwLa0Xi/C7nPxSev5xxVQfxtkqtzE9kbKGOLNwX?=
+ =?us-ascii?Q?OL6xhK6eA6D/q3iykEVnVJMN+rvlZUKDK4IFAwQKcIySYo7Rb1SrmDAuSCIJ?=
+ =?us-ascii?Q?ELQ3IichiK4k2gMepqpIyeI585y4BaDbxeGJWC+tLcFCtdofD3oa5YpY8Xws?=
+ =?us-ascii?Q?jPfbIwS6kjor7fj+5E0oWUIbad10dlmBVwMh2e4UDasa3iES20WckO66Eh4U?=
+ =?us-ascii?Q?kStBMvR8NrxcMX2v/43WNZ2iH+wUFQqPHLH3oJL5Pge024BWhRG4lWvreQY8?=
+ =?us-ascii?Q?xW6nYTl8BW1yCh1w3CjIRySSVbRoju40qMPdQ9AR6sFgoUEO9kHW1umt/Wkx?=
+ =?us-ascii?Q?8V60yp4PsFvOaCmSHmhEdl7YNhNtlsgYsOwAgchiHOdeCojyq3ZiOSqzF3UK?=
+ =?us-ascii?Q?1q/5fHjBnULYlL/uFxhmLfKsR0TeT4hvGMVOnmAxlFlM3P2wR1VruAf+kB4K?=
+ =?us-ascii?Q?0oLTjPrEpAU/3OO+6ej9ZlcXeYYoYOgkdDNcIIaJE+hNuHDajbtDVXzt8kP2?=
+ =?us-ascii?Q?y3zApWVLmaSSnviR13z/K+R2/GKH0JuS1JdvCKGegmDFt1SUqN6oL3D61BGw?=
+ =?us-ascii?Q?35+qXW2PM+dI7cNmhUyn1K3ERaO5vDr4uzXZ0c8R3K426VlVwWDjMnK0th8Y?=
+ =?us-ascii?Q?aS94ROvQKWVrtNi80bIPPIPLQ2EKaoim+DrJJlpQzcU7Hbzwwwh3kgTkKGan?=
+ =?us-ascii?Q?racGShmqwumo+kg9sXSNuuOXKVZbm5hOPs5qGaIyyikg9rsSxuMG9TwHlbf+?=
+ =?us-ascii?Q?Vqzud2hViA+0NPi92dhXMXZWTzOTuNr/mwJhrqa+WULYc+ku3NyDJARpr01Q?=
+ =?us-ascii?Q?u6KOaOGFr+Ny6Y8r3JwSSIvsiLw+4ld1tRvrq6tBuaRC2bOrS7LsOcA1gcPJ?=
+ =?us-ascii?Q?76u2GqrX7OZnTmtrP9K/pHbKNbfD5LNetdDEsJXlU7KjDf6jPikj50DDkJy3?=
+ =?us-ascii?Q?me92ycaWxbz7ThxW4RxHwimb4g26QwOMAFVwNxq2H9k6V4FXwKBSywfgZeVn?=
+ =?us-ascii?Q?tnSaEGDwCKQhcDdCSY14Qf1YapRhYbTj8OG57eNxyMwbyRKiUWgw/wb/FUyl?=
+ =?us-ascii?Q?8WCiNLlE+SKpM/W9mArXiDQrDC9AdY751vxRvrpmvJjQ8Uvi49mi42r9/hDr?=
+ =?us-ascii?Q?i/OT5ZhazA+1sR4ptijnduxs+7NAs9d49/521nHc8Q/bfrfksEr8HAllzKKI?=
+ =?us-ascii?Q?l4oCOUBjBqnRtv/9Eb3VmzX9IC8R6MzdyK744SiT4FZSJ1C1s6NX7u7vFK/8?=
+ =?us-ascii?Q?Gw=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <202403061131.zzApAwRB-lkp@intel.com>
-In-Reply-To: <202403061131.zzApAwRB-lkp@intel.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 6 Mar 2024 09:00:13 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdW7mAzU=a3wqpsBaE0fo71-_=66X5NSvsLJDTiiZ5_k=A@mail.gmail.com>
-Message-ID: <CAMuHMdW7mAzU=a3wqpsBaE0fo71-_=66X5NSvsLJDTiiZ5_k=A@mail.gmail.com>
-Subject: Re: [geert-renesas-drivers:master 34/52] drivers/phy/qualcomm/phy-qcom-qmp-usb.c:1340:3:
- error: field designator 'lanes' does not refer to any field in type 'const
- struct qmp_phy_cfg'
-To: kernel test robot <lkp@intel.com>
-Cc: Vinod Koul <vkoul@kernel.org>, llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, 
-	linux-renesas-soc@vger.kernel.org, 
-	Geert Uytterhoeven <geert+renesas@glider.be>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB11269.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: fc144ec9-6e5c-4350-959e-08dc3dbcb1b4
+X-MS-Exchange-CrossTenant-originalarrivaltime: 06 Mar 2024 09:06:22.3691
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: bci49tX6BBwX9BoZ2smKxYiht3xcG68AXXINPx9Lxr6U2R8a5fxibX2ryXizqa61FeBo6bpjOOKxP2N8uUU5V2ItIJWl4Z5ujfOEorB6XcM=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS3PR01MB7852
 
-On Wed, Mar 6, 2024 at 4:47=E2=80=AFAM kernel test robot <lkp@intel.com> wr=
-ote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-dri=
-vers.git master
-> head:   0a76003de2b9029d5898c23d23ddbb90f5a74580
-> commit: 98177a93f8e405ce41969db23f5bf4766aa6a1f4 [34/52] Merge remote-tra=
-cking branch 'phy/next' into renesas-drivers
-> config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/202=
-40306/202403061131.zzApAwRB-lkp@intel.com/config)
-> compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 3=
-25f51237252e6dab8e4e1ea1fa7acbb4faee1cd)
-> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
-ve/20240306/202403061131.zzApAwRB-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202403061131.zzApAwRB-lkp=
-@intel.com/
->
-> All errors (new ones prefixed by >>):
+Hi Tim Pambor,
 
-> >> drivers/phy/qualcomm/phy-qcom-qmp-usb.c:1340:3: error: field designato=
-r 'lanes' does not refer to any field in type 'const struct qmp_phy_cfg'
->     1340 |         .lanes                  =3D 1,
->          |         ~^~~~~~~~~~~~~~~~~~~~~~~~~~
->    7 warnings and 1 error generated.
+Thanks for the patch.
 
-Oops, that's a bad merge conflict resolution on my side.
-Please ignore.
+> -----Original Message-----
+> From: Tim Pambor <tp@osasysteme.de>
+> Sent: Tuesday, March 5, 2024 3:14 PM
+> Subject: [PATCH] arm64: dts: r9a07g044: Add complete CPU cache informatio=
+n
+>=20
+> Based on ARM Cortex-A55 TRM and RZG2/L user's manual, each Cortex-A55 has
 
-Gr{oetje,eeting}s,
+RZ/G2L
 
-                        Geert
+> - 32 KB of L1 4-way, set-associative instruction cache
+> - 32 KB of L1 4-way, set-associative data cache
+>=20
+> Each cache has a cache line length of 64B and therefore there are
+> 32768B/(4 * 64B)=3D128 sets for each cache.
+>=20
+> RZG2/L are not configured with the optional per-core L2 cache but only ha=
+ve a L3 cache shared among all
+RZ/G2L
+> cores. In this case, the L3 cache appears as a L2 cache to the system. Th=
+erefore, specify "cache-level
+> =3D <2>" for the L3 cache.
 
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
+You mean for L3 Cache, cache-level =3D <2> if there is no L2 Cache on the s=
+ystem? Does it need any update
+on dt-bindings to make this clear?
 
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+Cheers,
+Biju
+
+>=20
+> Signed-off-by: Tim Pambor <tp@osasysteme.de>
+> ---
+>  arch/arm64/boot/dts/renesas/r9a07g044.dtsi | 14 +++++++++++++-
+>  1 file changed, 13 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/arch/arm64/boot/dts/renesas/r9a07g044.dtsi b/arch/arm64/boot=
+/dts/renesas/r9a07g044.dtsi
+> index 9f00b75d2bd0..6379c850526a 100644
+> --- a/arch/arm64/boot/dts/renesas/r9a07g044.dtsi
+> +++ b/arch/arm64/boot/dts/renesas/r9a07g044.dtsi
+> @@ -89,6 +89,12 @@ cpu0: cpu@0 {
+>  			reg =3D <0>;
+>  			device_type =3D "cpu";
+>  			#cooling-cells =3D <2>;
+> +			d-cache-size =3D <0x8000>;
+> +			d-cache-line-size =3D <64>;
+> +			d-cache-sets =3D <128>;
+> +			i-cache-size =3D <0x8000>;
+> +			i-cache-line-size =3D <64>;
+> +			i-cache-sets =3D <128>;
+>  			next-level-cache =3D <&L3_CA55>;
+>  			enable-method =3D "psci";
+>  			clocks =3D <&cpg CPG_CORE R9A07G044_CLK_I>; @@ -99,6 +105,12 @@ cpu1:=
+ cpu@100 {
+>  			compatible =3D "arm,cortex-a55";
+>  			reg =3D <0x100>;
+>  			device_type =3D "cpu";
+> +			d-cache-size =3D <0x8000>;
+> +			d-cache-line-size =3D <64>;
+> +			d-cache-sets =3D <128>;
+> +			i-cache-size =3D <0x8000>;
+> +			i-cache-line-size =3D <64>;
+> +			i-cache-sets =3D <128>;
+>  			next-level-cache =3D <&L3_CA55>;
+>  			enable-method =3D "psci";
+>  			clocks =3D <&cpg CPG_CORE R9A07G044_CLK_I>; @@ -109,7 +121,7 @@ L3_CA=
+55: cache-
+> controller-0 {
+>  			compatible =3D "cache";
+>  			cache-unified;
+>  			cache-size =3D <0x40000>;
+> -			cache-level =3D <3>;
+> +			cache-level =3D <2>;
+>  		};
+>  	};
+>=20
+> --
+> 2.43.0
+>=20
+
 
