@@ -1,150 +1,192 @@
-Return-Path: <linux-renesas-soc+bounces-3497-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-3498-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE57D8733F3
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  6 Mar 2024 11:22:20 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 541E78733F5
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  6 Mar 2024 11:22:23 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 28AEAB211F7
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  6 Mar 2024 10:15:32 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0B1C92852A9
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  6 Mar 2024 10:22:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6A6BE5F848;
-	Wed,  6 Mar 2024 10:15:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 91CB25F57B;
+	Wed,  6 Mar 2024 10:22:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="VR96yLa3"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com [209.85.219.171])
+Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63D165C911;
-	Wed,  6 Mar 2024 10:15:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D75F95F87A
+	for <linux-renesas-soc@vger.kernel.org>; Wed,  6 Mar 2024 10:22:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709720129; cv=none; b=Az7ehyYFkjfb0nANamEKCgmN3TLVb6pR/yqCK9R8MWcdgxuvV9wAj+XJnMjd3Bn30ESx0WvgqYhTdp+DQCE2LuIONz2uNn2MKVEpzcth/Bin62gE1Pgrt++S3364apYNwy3AzNrdEsctD6l01CGTQiHKQlgak9DBFfRZ1viZU8A=
+	t=1709720537; cv=none; b=Q/md0RofketEcgjaxW2aDkHOARGE2q4VCJc0sbz3pF/FBsRHyWQFoHwJ/keWUFo5xoK2e8FS0T2NaqYQvZ8bxoN4CX9hN9T9hOi7wgkcsSJodTzV7Tcm6QLPqnHZEtl+ZgfnWTdRsPX9TL7Xw7GrXlIZlt7RCe2Q/bncwEk6fFg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709720129; c=relaxed/simple;
-	bh=I71U9F907ca+UX52CGdxs+1CuiWgiZZoRLh6V7QsVkY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=W6qna+cqkcSILw5qVFkwW6MPPphdg31afE7HldHAqbnzP2vBrcZ/nKsjxra6NbLtE+o2pQpH7vsLbOX86cu8SKlQ7DtdhlmxQSPUHhFq9GrCWGbGLXpn6nj9vLPgh1QaWMSUmI/WfDhGmJ7Y1wPfSLiUgj/iASjTNeLM05JCnNQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.219.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yb1-f171.google.com with SMTP id 3f1490d57ef6-dc745927098so5903147276.3;
-        Wed, 06 Mar 2024 02:15:27 -0800 (PST)
+	s=arc-20240116; t=1709720537; c=relaxed/simple;
+	bh=AjeoBE4fyLRvjmasEXjDIaFHtdHHOgnz8vtvmnu/slA=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=UkMPik6yEnHZwR5/2t0ZTj1ZApS8eC2N0NaforeYqMrMH+m9LJWHIU23Pinf4MiNIZOfsp83A3Fsdyp4JfSFxmUQjNRGIid40UCiumRKOIDvn1qcNgAqXZsOISYHSQzF+gPBZNZxf7ZY1A9QjBk0PkaWMDd05zCxqM4VAg67KY8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=VR96yLa3; arc=none smtp.client-ip=209.85.216.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-29a5f100c1aso4060826a91.0
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 06 Mar 2024 02:22:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1709720535; x=1710325335; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=HfQtUh9Hb1S2F0NpU287F2kJlqd4GKGxqgD/P+ZTQlU=;
+        b=VR96yLa3mt4rRaGDOStlmBVxmbxTtYZ2S7KQbpkChVkuH/CaY9LbASZMrYa8eT8Yv1
+         +0GMrVnY5DHwlcjLq9RNtZcQsM7bLQcQxIAbtY8izFGKob1OF/f3PUZdV3BbKziM5Ie2
+         nVLL3vKwCg3P4LLR0LjBSYp8djUGs6JQLhAwsyZCC+5V4dHkq50gk7mT8Tfz6I3qtdyR
+         CxRRrvfHvsXu9SSjNI93bmSEzHNcP26j/jud7OnHaL1ex4OQg68DERfb4W8UgxsYbwOC
+         sKlRYnxAResCFk5XI02SJdIGMvGoj2cAgMXqKmWppglESY5B2wMA3Ol1vqeV1vweBzPL
+         n52w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709720126; x=1710324926;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ZcBNefSjjDwJxTNefMygd3O8myad/e3gTxirjLI090s=;
-        b=ZeuFjL2ly5bwi3u8xXoM08qq6xGjG2ubwite39kGRFXr/v3rWLmjg33PUGMz0Xq05b
-         JbQw25+jRSWdm5ZF/v0JLPozRm6kRGgqnKdXF42zK3qRwikgVhI+lw8A46F6m33NHuOR
-         7aKv+qli2Qi+AycTXUb8eVZ8QVJKmeaLBSsrIgonMTzIF/mw/6ezowxVpm561a82CveU
-         VtCiFq3diDSS/WfUMoQo/FihMEHceZCvoAZRWOvuSs1T7xvuPlX/imOz0yOQ3q5lu0MO
-         hx/0HWxtAxiUFqiQJZsC99w9QQR8Gt0oY9Aj8OCfvJYzT8W8EfGvgmYN0Cq8e8EBfnGv
-         bwsw==
-X-Forwarded-Encrypted: i=1; AJvYcCWoYznNfTYK8XTY46cIHvlEczPyiwkAgtmwfWgdLK3zWiaNsPW8vxCrm+YTYI25XfGnEF4eAD2m2Sb880fjCwcEOLX87CVIYfBZpRsdKEp2/mLHtxM2NwQWWjTk/FGb5oeuQfBnS7CTI7NkV2M37AKWvwBtI3UxyxLbebtw5dwZuJPSI5TFCGPCKEUv45j65Ojwt6/0oCfNIukq8dmG619CLMZczGbqPB81
-X-Gm-Message-State: AOJu0YzBxXm55Zr5u10EBP9G2x/WSEo2ZGkpekkCDytyyUz4ur+xArNa
-	F/depuURjmVaYW2k0r2ZSZqJhu0w/gBVJYafRWSTvmxqgLMvWCHDdUHhX1HVKDk=
-X-Google-Smtp-Source: AGHT+IHZz3CM908W1q5E8krejugYIgyffiSZH4xpolOW/9bo1ykoNdA7SMqwnyDr74aoEcTDDHavmg==
-X-Received: by 2002:a05:6902:cc7:b0:dbd:4578:5891 with SMTP id cq7-20020a0569020cc700b00dbd45785891mr13184177ybb.65.1709720125875;
-        Wed, 06 Mar 2024 02:15:25 -0800 (PST)
-Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com. [209.85.219.171])
-        by smtp.gmail.com with ESMTPSA id v43-20020a25abae000000b00dcdb3dffa3dsm3126611ybi.39.2024.03.06.02.15.25
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 06 Mar 2024 02:15:25 -0800 (PST)
-Received: by mail-yb1-f171.google.com with SMTP id 3f1490d57ef6-dc6d8bd612dso6942606276.1;
-        Wed, 06 Mar 2024 02:15:25 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCVWlm6koUEBtm7oSd70ffPDee4coShlB+xMIB03OHYFLkJvQkl0g/gDGYT62+EM3TguPNwD8KEbAF3nS4PLQN2/pJ2XopEhgEBxWkDOxvbZPHNrmq3mAjZv7lXuJGLUu0I9KTkSfyZSKsC0k0fLENHbdr6K0kKzTax1Yb13s0ZgH73pzFkI56s+E6YTZbwvK6fTIpkuNum5L386/c6NiFj1gdEDtC5j5jEU
-X-Received: by 2002:a5b:748:0:b0:dcf:6122:ccec with SMTP id
- s8-20020a5b0748000000b00dcf6122ccecmr12159302ybq.36.1709720125546; Wed, 06
- Mar 2024 02:15:25 -0800 (PST)
+        d=1e100.net; s=20230601; t=1709720535; x=1710325335;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=HfQtUh9Hb1S2F0NpU287F2kJlqd4GKGxqgD/P+ZTQlU=;
+        b=l3Xk0rrdqmrmw46/PMvmgbZaUftnzNNWK/6WZTQtifW/45yRcGqjZaMGqzUCdz3hDB
+         GK9gGZP40NwSACnGhDos73XyQGo1mj8SnPgWtwNKzzcbYbvjVLoB433F93fG1iPfAxx6
+         BOOd17WJth61ZhJH7aiW422WbQoQdfDQx9l+UjPo7JOSe0IZh96tY/fDRB8DrEo4qMV8
+         0PmMW5yAPte0TFQJP34c2K7bmQvcT/oRzfTaXqU/BWZaIWdBWhWkyE2aPKIwXhvE4qup
+         KFuC5Mtj320nW93znyRZ7wdhKFNW8Y/p8jAX+K5tyZcKnNWIZikatXXcpyIvSwl/xuIc
+         y7kQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVS2azCeJfQVw7DL0/Seq7Sqea4jUfRs/r7H7Pc47Oe5EtdvYf/Gl5TuvLlnj/ilMZutsFGTrQdNm1CFY9hCmxEJ9OJBfPDVOkUOT345o06R5U=
+X-Gm-Message-State: AOJu0YzZXlWitJeKZ8fDWukBmaBqcjn8ZnKzwKw9zuWOTCh8IsbtLpPl
+	cF+pzoepymfi8HesgaN4olJmh0XHlzdE797Wtv66RX3rXwjrVssAHa1X6NRcWA==
+X-Google-Smtp-Source: AGHT+IHQcJlvqnne2sVsf5+p2hF2vPMg9zCWvt2vfRbFLp9pIOd9R88WdlpVRJVCezYfzeofnInWaw==
+X-Received: by 2002:a17:90a:b88:b0:29a:76f5:6557 with SMTP id 8-20020a17090a0b8800b0029a76f56557mr10507176pjr.19.1709720534924;
+        Wed, 06 Mar 2024 02:22:14 -0800 (PST)
+Received: from [127.0.1.1] ([117.248.1.194])
+        by smtp.gmail.com with ESMTPSA id li17-20020a17090b48d100b0029ab96b13ebsm13339320pjb.40.2024.03.06.02.22.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 06 Mar 2024 02:22:14 -0800 (PST)
+From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+Subject: [PATCH v4 0/5] PCI: dwc: Add support for integrating HDMA with DWC
+ EP driver
+Date: Wed, 06 Mar 2024 15:51:56 +0530
+Message-Id: <20240306-dw-hdma-v4-0-9fed506e95be@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240305171600.328699-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <CAMuHMdW0MxqxRwULhLsRtnYXYK8NYxq-uU7E2BscbvPh3axYFg@mail.gmail.com> <CA+V-a8vKo8ADB_R==vgBhVpSH43DOzdeA_NhZ1BCBdNuam3UmQ@mail.gmail.com>
-In-Reply-To: <CA+V-a8vKo8ADB_R==vgBhVpSH43DOzdeA_NhZ1BCBdNuam3UmQ@mail.gmail.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 6 Mar 2024 11:15:13 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdWX=OZJ3DE0vb4=k=6yH_L5JhusLRpVqJkJ0Xv3oT8_TQ@mail.gmail.com>
-Message-ID: <CAMuHMdWX=OZJ3DE0vb4=k=6yH_L5JhusLRpVqJkJ0Xv3oT8_TQ@mail.gmail.com>
-Subject: Re: [PATCH] dt-bindings: serial: renesas,scif: Document R9A09G057 support
-To: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Jiri Slaby <jirislaby@kernel.org>, 
-	Rob Herring <robh+dt@kernel.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Magnus Damm <magnus.damm@gmail.com>, linux-kernel@vger.kernel.org, 
-	linux-serial@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org, 
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAMRD6GUC/2WMyw6CMBBFf4XM2pph2qC48j+MC/qCSZSa1lQN4
+ d8trDAuz809Z4LkIrsEp2qC6DInDmMBtavADN3YO8G2MBCSQqobYV9isPdONMpag63XEjWU9yM
+ 6z++1dLkWHjg9Q/ys4UzL+t/IJFBoRZJaROmVPN947GLYh9jDEslyI9JGlEU03uhjfai9IfUjz
+ vP8BRYJbyDYAAAA
+To: Jingoo Han <jingoohan1@gmail.com>, 
+ Gustavo Pimentel <gustavo.pimentel@synopsys.com>, 
+ Lorenzo Pieralisi <lpieralisi@kernel.org>, 
+ =?utf-8?q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>, 
+ Rob Herring <robh@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, 
+ Marek Vasut <marek.vasut+renesas@gmail.com>, 
+ Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>, 
+ Kishon Vijay Abraham I <kishon@kernel.org>
+Cc: Serge Semin <fancer.lancer@gmail.com>, linux-pci@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+ linux-arm-msm@vger.kernel.org, mhi@lists.linux.dev, 
+ Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>, 
+ Siddharth Vadapalli <s-vadapalli@ti.com>, Frank Li <Frank.Li@nxp.com>, 
+ Mrinmay Sarkar <quic_msarkar@quicinc.com>
+X-Mailer: b4 0.12.4
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2845;
+ i=manivannan.sadhasivam@linaro.org; h=from:subject:message-id;
+ bh=AjeoBE4fyLRvjmasEXjDIaFHtdHHOgnz8vtvmnu/slA=;
+ b=owEBbQGS/pANAwAKAVWfEeb+kc71AcsmYgBl6EPImM0GbzZyuB5WgL6EtRQUAg3oupiHa+fKf
+ wu7D/s5gjyJATMEAAEKAB0WIQRnpUMqgUjL2KRYJ5dVnxHm/pHO9QUCZehDyAAKCRBVnxHm/pHO
+ 9aYgB/wNxq6NI0ouxsTilx9ADlzvNeyYWc4pGJ2ZVeFBh1zleZQVAcyjWI6UP2wKo5Vj16FqX3h
+ tzhHpqsoEqZqflwdN7Vdrtq11jXJDQdjLy6fQBsieSzdsl7mVRA/QRWOZT8FHHlvavaHxwvAZxh
+ vErkJXtAzVowSSAOr5caWmMyCSNxAEI3g0cB+hyN1OQnDGSvYxQkI500d6YxBXvWbf4AqFFB9mM
+ +n62UwYgXNDfJ7hOVX/Kzy79+LW736tj7+xVoNfNvchg+fXoqWLwc4H/TkTxbH13uPEPAl5DldB
+ TIlt4/lEehH41azE6tfhgKezGOgp39btbkz1VuH09KmJJa+e
+X-Developer-Key: i=manivannan.sadhasivam@linaro.org; a=openpgp;
+ fpr=C668AEC3C3188E4C611465E7488550E901166008
 
-Hi Prabhakar,
+Hello,
 
-On Wed, Mar 6, 2024 at 11:06=E2=80=AFAM Lad, Prabhakar
-<prabhakar.csengg@gmail.com> wrote:
-> On Wed, Mar 6, 2024 at 9:53=E2=80=AFAM Geert Uytterhoeven <geert@linux-m6=
-8k.org> wrote:
-> > On Tue, Mar 5, 2024 at 6:16=E2=80=AFPM Prabhakar <prabhakar.csengg@gmai=
-l.com> wrote:
-> > > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > >
-> > > Document support for the Serial Communication Interface with FIFO (SC=
-IF)
-> > > available in the Renesas RZ/V2H(P) (R9A09G057) SoC. The SCIF interfac=
-e in
-> > > the Renesas RZ/V2H(P) is similar to that available in the RZ/G2L
-> > > (R9A07G044) SoC, with the only difference being that the RZ/V2H(P) So=
-C has
-> > > three additional interrupts: one for Tx end/Rx ready and the other tw=
-o for
-> > > Rx and Tx buffer full, which are edge-triggered.
-> > >
-> > > No driver changes are required as generic compatible string
-> > > "renesas,scif-r9a07g044" will be used as a fallback on RZ/V2H(P) SoC.
-> >
-> > If you declare SCIF on RZ/V2H compatible with SCIF on RZ/G2L, you
-> > state that the current driver works fine (but perhaps suboptimal),
-> > without adding support for the extra 3 interrupts?
-> >
-> Yes the current driver works without using the extra interrupts on the
-> RZ/V2H. The extra interrupts on the RZ/V2H are just sort of duplicate
-> ie
-> - Transmit End/Data Ready interrupt , for which we we have two
-> seperate interrupts already
-> - Receive buffer full interrupt (EDGE trigger), for which we already
-> have a Level triggered interrupt
-> - Transmit buffer empty interrupt (EDGE trigger), for which we already
-> have a Level triggered interrupt
+This series adds support for integrating HDMA with the DWC EP driver.
 
-Thanks for the confirmation!
+Hyper DMA (HDMA) is already supported by the dw-edma dmaengine driver.
+Unlike it's predecessor Embedded DMA (eDMA), HDMA supports only unroll
+mapping format and doesn't support auto detecting the read/write channels.
 
-> Are you suggesting to not fallback on RZ/G2L and instead make RZ/V2H
-> an explicit one so that in future we handle these 3 extra interrupts?
+Hence, this series modifies the existing eDMA code to work with HDMA by
+honoring the platform supplied mapping format and read/write channels
+count.
 
-In light of the confirmation above, I am _not_ suggesting that.
-I just wanted a clarification: if the current driver would not operate
-properly without changes, the fallback would not have been appropriate.
-W.r.t. the extra interrupts, you can add support to the driver later,
-if/when a need or desire ever arises.
+The platform drivers making use of HDMA should pass the EDMA_MF_HDMA_NATIVE
+flag and provide channels count. In this series, HDMA support is added for
+the Qcom SA8775P SoC and the DMA support in enabled in MHI EPF driver as
+well.
 
-Gr{oetje,eeting}s,
+Testing
+-------
 
-                        Geert
+Tested on Qualcomm SA8775P Ride board.
 
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
+Dependency
+----------
 
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+Depends on:
+https://lore.kernel.org/dmaengine/20240129-b4-feature_hdma_mainline-v7-0-8e8c1acb7a46@bootlin.com/
+https://lore.kernel.org/all/1701432377-16899-1-git-send-email-quic_msarkar@quicinc.com/
+
+NOTE: I've taken over this series from Mrinmay who posted v1:
+https://lore.kernel.org/linux-pci/1705669223-5655-1-git-send-email-quic_msarkar@quicinc.com/
+
+- Mani
+
+Changes in v4:
+
+- Rolled back the code refactoring done in v2 for patch 1 (Sergey)
+- Reworked the channels count auto detection (Sergey)
+- Collected tags 
+- Link to v3: https://lore.kernel.org/r/20240226-dw-hdma-v3-0-cfcb8171fc24@linaro.org
+
+Changes in v3:
+
+- Collected review tags
+- Minor code refactoring (Siddharth)
+- Link to v2: https://lore.kernel.org/r/20240216-dw-hdma-v2-0-b42329003f43@linaro.org
+
+Changes in v2:
+
+- Dropped dmaengine patches (Sergey)
+- Reworked dw_pcie_edma_find_chip() to support both eDMA and HDMA (Sergey)
+- Skipped MF and channel detection if glue drivers have provided them (Sergey)
+- Addressed review comments in pcie-qcom-ep and pci-epf-mhi drivers (Mani)
+
+Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+---
+Manivannan Sadhasivam (3):
+      PCI: dwc: Refactor dw_pcie_edma_find_chip() API
+      PCI: dwc: Skip finding eDMA channels count for HDMA platforms
+      PCI: dwc: Pass the eDMA mapping format flag directly from glue drivers
+
+Mrinmay Sarkar (2):
+      PCI: qcom-ep: Add HDMA support for SA8775P SoC
+      PCI: epf-mhi: Enable HDMA for SA8775P SoC
+
+ drivers/pci/controller/dwc/pcie-designware.c | 65 +++++++++++++++++++++-------
+ drivers/pci/controller/dwc/pcie-designware.h |  5 +--
+ drivers/pci/controller/dwc/pcie-qcom-ep.c    | 23 +++++++++-
+ drivers/pci/controller/dwc/pcie-rcar-gen4.c  |  2 +-
+ drivers/pci/endpoint/functions/pci-epf-mhi.c |  1 +
+ 5 files changed, 75 insertions(+), 21 deletions(-)
+---
+base-commit: fdd10aee7740a53c370a867b8743a8c8945d1db1
+change-id: 20240216-dw-hdma-64ddc09fb30b
+
+Best regards,
+-- 
+Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+
 
