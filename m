@@ -1,214 +1,150 @@
-Return-Path: <linux-renesas-soc+bounces-3496-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-3497-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 160658733B3
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  6 Mar 2024 11:11:05 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id AE57D8733F3
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  6 Mar 2024 11:22:20 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 39B3C1C211A7
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  6 Mar 2024 10:11:04 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 28AEAB211F7
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  6 Mar 2024 10:15:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CFA595F57B;
-	Wed,  6 Mar 2024 10:10:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=osasysteme.de header.i=@osasysteme.de header.b="OWTTWrHX"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6A6BE5F848;
+	Wed,  6 Mar 2024 10:15:29 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from secondary.pambor.com (secondary.pambor.com [46.38.233.203])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com [209.85.219.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A6B71B26E;
-	Wed,  6 Mar 2024 10:10:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.38.233.203
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63D165C911;
+	Wed,  6 Mar 2024 10:15:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709719859; cv=none; b=IopDxOMjj3SrqglCEnOlqQNHCwfGe6aBkDeGCVft4zABj8MkBcE5pggVBCehZ6tlopiK5yu0H8w3kmzCJpsXZ+eKocoqHa4Fh64LDqNymbh9+CjIQKssqZUY36lWYW7p0SQPIZnDt0x/l3t8vY2uEnYknzuADSx7LN5cTuIo/6k=
+	t=1709720129; cv=none; b=Az7ehyYFkjfb0nANamEKCgmN3TLVb6pR/yqCK9R8MWcdgxuvV9wAj+XJnMjd3Bn30ESx0WvgqYhTdp+DQCE2LuIONz2uNn2MKVEpzcth/Bin62gE1Pgrt++S3364apYNwy3AzNrdEsctD6l01CGTQiHKQlgak9DBFfRZ1viZU8A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709719859; c=relaxed/simple;
-	bh=vrOYkrsS6W6vE1uoyWq3OsouZ9CbANC70PCMfCEziqE=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=pwbkAguAMtYsE/F7e0JUrrGgc9YND3x/IVWnM5INbvRC9hKePFHI4TRKk+K0qfnTM1abfF4aGROxH2IEJrLVHFU7+SVT1POpHD4mjefWKQIQ0uaXswoQLQrzpJ5pdthdLymn1D99jq8i9Pu++82CX+6dN1iblc14kfeUnxMXcgw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=osasysteme.de; spf=pass smtp.mailfrom=osasysteme.de; dkim=pass (2048-bit key) header.d=osasysteme.de header.i=@osasysteme.de header.b=OWTTWrHX; arc=none smtp.client-ip=46.38.233.203
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=osasysteme.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=osasysteme.de
-Received: from localhost (localhost [127.0.0.1])
-	by secondary.pambor.com (Postfix) with ESMTP id E185F6F03C0;
-	Wed,  6 Mar 2024 11:10:51 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=osasysteme.de;
-	s=19022017; t=1709719851;
-	bh=vrOYkrsS6W6vE1uoyWq3OsouZ9CbANC70PCMfCEziqE=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=OWTTWrHXtvvBv1YtPlVxgPln2YaKpFfidNowlMvjWELZjtWM/QlhoPwjTbj/0MF8u
-	 0Kw/HptwajsV3eFv+DL2wysSS+5gOzp9JHOkmeGeyKsYVES7Mcyy90oel++xMI7Og4
-	 fBUUsYtHJRYOzaAVDKkEVONNzJOffgyKUmc0HE/2Nhf9CsDIKV3JsLAUFtM6JOFjS8
-	 pCmN3ygESO98e1vFHs0Wvz1r43JHcVqrkhZyyDBkOrgt2EOk0QLhSRbG4fmj5W0ArF
-	 Sh6B5yNKeThhG+C+zgfcdvbLO+R3TsGyaU3nV8xsUS82r9ejHS9FtzNflEiwNFKFrr
-	 unBC4I3ArKrwQ==
-X-Virus-Scanned: Debian amavisd-new at secondary.pambor.com
-Received: from secondary.pambor.com ([127.0.0.1])
-	by localhost (secondary.pambor.com [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id fcpgnfepDuAT; Wed,  6 Mar 2024 11:10:48 +0100 (CET)
-Received: from chromebook.fritz.box (dynamic-2a01-0c22-d0b2-fe00-bf90-7234-7f03-3ec4.c22.pool.telefonica.de [IPv6:2a01:c22:d0b2:fe00:bf90:7234:7f03:3ec4])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.osasysteme.de (Postfix) with ESMTPSA id 8323E6EFAB8;
-	Wed,  6 Mar 2024 11:10:48 +0100 (CET)
-Message-ID: <db77fa78e75b9712ebba1dfd7e4340603cae4fe3.camel@osasysteme.de>
-Subject: Re: [PATCH] arm64: dts: r9a07g044: Add complete CPU cache
- information
-From: Tim Pambor <tp@osasysteme.de>
-To: Biju Das <biju.das.jz@bp.renesas.com>, Geert Uytterhoeven
-	 <geert+renesas@glider.be>
-Cc: Dragan Simic <dsimic@manjaro.org>, AnandMoon <linux.amoon@gmail.com>, 
- Magnus Damm <magnus.damm@gmail.com>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley
- <conor+dt@kernel.org>,  "linux-renesas-soc@vger.kernel.org"
- <linux-renesas-soc@vger.kernel.org>, "devicetree@vger.kernel.org"
- <devicetree@vger.kernel.org>, "linux-kernel@vger.kernel.org"
- <linux-kernel@vger.kernel.org>
-Date: Wed, 06 Mar 2024 11:10:51 +0100
-In-Reply-To: <TYCPR01MB112696A947F31C31FE3A3AFF586212@TYCPR01MB11269.jpnprd01.prod.outlook.com>
-References: <20240305151336.144707-1-tp@osasysteme.de>
-	 <TYCPR01MB112696A947F31C31FE3A3AFF586212@TYCPR01MB11269.jpnprd01.prod.outlook.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.50.3-1 
+	s=arc-20240116; t=1709720129; c=relaxed/simple;
+	bh=I71U9F907ca+UX52CGdxs+1CuiWgiZZoRLh6V7QsVkY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=W6qna+cqkcSILw5qVFkwW6MPPphdg31afE7HldHAqbnzP2vBrcZ/nKsjxra6NbLtE+o2pQpH7vsLbOX86cu8SKlQ7DtdhlmxQSPUHhFq9GrCWGbGLXpn6nj9vLPgh1QaWMSUmI/WfDhGmJ7Y1wPfSLiUgj/iASjTNeLM05JCnNQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.219.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yb1-f171.google.com with SMTP id 3f1490d57ef6-dc745927098so5903147276.3;
+        Wed, 06 Mar 2024 02:15:27 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1709720126; x=1710324926;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ZcBNefSjjDwJxTNefMygd3O8myad/e3gTxirjLI090s=;
+        b=ZeuFjL2ly5bwi3u8xXoM08qq6xGjG2ubwite39kGRFXr/v3rWLmjg33PUGMz0Xq05b
+         JbQw25+jRSWdm5ZF/v0JLPozRm6kRGgqnKdXF42zK3qRwikgVhI+lw8A46F6m33NHuOR
+         7aKv+qli2Qi+AycTXUb8eVZ8QVJKmeaLBSsrIgonMTzIF/mw/6ezowxVpm561a82CveU
+         VtCiFq3diDSS/WfUMoQo/FihMEHceZCvoAZRWOvuSs1T7xvuPlX/imOz0yOQ3q5lu0MO
+         hx/0HWxtAxiUFqiQJZsC99w9QQR8Gt0oY9Aj8OCfvJYzT8W8EfGvgmYN0Cq8e8EBfnGv
+         bwsw==
+X-Forwarded-Encrypted: i=1; AJvYcCWoYznNfTYK8XTY46cIHvlEczPyiwkAgtmwfWgdLK3zWiaNsPW8vxCrm+YTYI25XfGnEF4eAD2m2Sb880fjCwcEOLX87CVIYfBZpRsdKEp2/mLHtxM2NwQWWjTk/FGb5oeuQfBnS7CTI7NkV2M37AKWvwBtI3UxyxLbebtw5dwZuJPSI5TFCGPCKEUv45j65Ojwt6/0oCfNIukq8dmG619CLMZczGbqPB81
+X-Gm-Message-State: AOJu0YzBxXm55Zr5u10EBP9G2x/WSEo2ZGkpekkCDytyyUz4ur+xArNa
+	F/depuURjmVaYW2k0r2ZSZqJhu0w/gBVJYafRWSTvmxqgLMvWCHDdUHhX1HVKDk=
+X-Google-Smtp-Source: AGHT+IHZz3CM908W1q5E8krejugYIgyffiSZH4xpolOW/9bo1ykoNdA7SMqwnyDr74aoEcTDDHavmg==
+X-Received: by 2002:a05:6902:cc7:b0:dbd:4578:5891 with SMTP id cq7-20020a0569020cc700b00dbd45785891mr13184177ybb.65.1709720125875;
+        Wed, 06 Mar 2024 02:15:25 -0800 (PST)
+Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com. [209.85.219.171])
+        by smtp.gmail.com with ESMTPSA id v43-20020a25abae000000b00dcdb3dffa3dsm3126611ybi.39.2024.03.06.02.15.25
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 06 Mar 2024 02:15:25 -0800 (PST)
+Received: by mail-yb1-f171.google.com with SMTP id 3f1490d57ef6-dc6d8bd612dso6942606276.1;
+        Wed, 06 Mar 2024 02:15:25 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCVWlm6koUEBtm7oSd70ffPDee4coShlB+xMIB03OHYFLkJvQkl0g/gDGYT62+EM3TguPNwD8KEbAF3nS4PLQN2/pJ2XopEhgEBxWkDOxvbZPHNrmq3mAjZv7lXuJGLUu0I9KTkSfyZSKsC0k0fLENHbdr6K0kKzTax1Yb13s0ZgH73pzFkI56s+E6YTZbwvK6fTIpkuNum5L386/c6NiFj1gdEDtC5j5jEU
+X-Received: by 2002:a5b:748:0:b0:dcf:6122:ccec with SMTP id
+ s8-20020a5b0748000000b00dcf6122ccecmr12159302ybq.36.1709720125546; Wed, 06
+ Mar 2024 02:15:25 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+References: <20240305171600.328699-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <CAMuHMdW0MxqxRwULhLsRtnYXYK8NYxq-uU7E2BscbvPh3axYFg@mail.gmail.com> <CA+V-a8vKo8ADB_R==vgBhVpSH43DOzdeA_NhZ1BCBdNuam3UmQ@mail.gmail.com>
+In-Reply-To: <CA+V-a8vKo8ADB_R==vgBhVpSH43DOzdeA_NhZ1BCBdNuam3UmQ@mail.gmail.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Wed, 6 Mar 2024 11:15:13 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdWX=OZJ3DE0vb4=k=6yH_L5JhusLRpVqJkJ0Xv3oT8_TQ@mail.gmail.com>
+Message-ID: <CAMuHMdWX=OZJ3DE0vb4=k=6yH_L5JhusLRpVqJkJ0Xv3oT8_TQ@mail.gmail.com>
+Subject: Re: [PATCH] dt-bindings: serial: renesas,scif: Document R9A09G057 support
+To: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Jiri Slaby <jirislaby@kernel.org>, 
+	Rob Herring <robh+dt@kernel.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Magnus Damm <magnus.damm@gmail.com>, linux-kernel@vger.kernel.org, 
+	linux-serial@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org, 
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Biju,
+Hi Prabhakar,
 
-thanks for the review.
+On Wed, Mar 6, 2024 at 11:06=E2=80=AFAM Lad, Prabhakar
+<prabhakar.csengg@gmail.com> wrote:
+> On Wed, Mar 6, 2024 at 9:53=E2=80=AFAM Geert Uytterhoeven <geert@linux-m6=
+8k.org> wrote:
+> > On Tue, Mar 5, 2024 at 6:16=E2=80=AFPM Prabhakar <prabhakar.csengg@gmai=
+l.com> wrote:
+> > > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > >
+> > > Document support for the Serial Communication Interface with FIFO (SC=
+IF)
+> > > available in the Renesas RZ/V2H(P) (R9A09G057) SoC. The SCIF interfac=
+e in
+> > > the Renesas RZ/V2H(P) is similar to that available in the RZ/G2L
+> > > (R9A07G044) SoC, with the only difference being that the RZ/V2H(P) So=
+C has
+> > > three additional interrupts: one for Tx end/Rx ready and the other tw=
+o for
+> > > Rx and Tx buffer full, which are edge-triggered.
+> > >
+> > > No driver changes are required as generic compatible string
+> > > "renesas,scif-r9a07g044" will be used as a fallback on RZ/V2H(P) SoC.
+> >
+> > If you declare SCIF on RZ/V2H compatible with SCIF on RZ/G2L, you
+> > state that the current driver works fine (but perhaps suboptimal),
+> > without adding support for the extra 3 interrupts?
+> >
+> Yes the current driver works without using the extra interrupts on the
+> RZ/V2H. The extra interrupts on the RZ/V2H are just sort of duplicate
+> ie
+> - Transmit End/Data Ready interrupt , for which we we have two
+> seperate interrupts already
+> - Receive buffer full interrupt (EDGE trigger), for which we already
+> have a Level triggered interrupt
+> - Transmit buffer empty interrupt (EDGE trigger), for which we already
+> have a Level triggered interrupt
 
-> Hi Tim Pambor,
->=20
-> Thanks for the patch.
->=20
-> > -----Original Message-----
-> > From: Tim Pambor <tp@osasysteme.de>
-> > Sent: Tuesday, March 5, 2024 3:14 PM
-> > Subject: [PATCH] arm64: dts: r9a07g044: Add complete CPU cache
-> > information
-> >=20
-> > Based on ARM Cortex-A55 TRM and RZG2/L user's manual, each Cortex-
-> > A55 has
->=20
-> RZ/G2L
->=20
-> > - 32 KB of L1 4-way, set-associative instruction cache
-> > - 32 KB of L1 4-way, set-associative data cache
-> >=20
-> > Each cache has a cache line length of 64B and therefore there are
-> > 32768B/(4 * 64B)=3D128 sets for each cache.
-> >=20
-> > RZG2/L are not configured with the optional per-core L2 cache but
-> > only have a L3 cache shared among all
-> RZ/G2L
-> > cores. In this case, the L3 cache appears as a L2 cache to the
-> > system. Therefore, specify "cache-level
-> > =3D <2>" for the L3 cache.
->=20
+Thanks for the confirmation!
 
-I will send a v2 with the commit message corrected.
+> Are you suggesting to not fallback on RZ/G2L and instead make RZ/V2H
+> an explicit one so that in future we handle these 3 extra interrupts?
 
-> You mean for L3 Cache, cache-level =3D <2> if there is no L2 Cache on
-> the system? Does it need any update
-> on dt-bindings to make this clear?
+In light of the confirmation above, I am _not_ suggesting that.
+I just wanted a clarification: if the current driver would not operate
+properly without changes, the fallback would not have been appropriate.
+W.r.t. the extra interrupts, you can add support to the driver later,
+if/when a need or desire ever arises.
 
-I followed the approach chosen for the Rockchip RK356x, which also has
-a Cortex-A55 with an L3 cache but no L2 cache [1]. I can add a comment
-to the device tree explaining that there is no L2 cache and that
-therefore the L3 cache appears as a L2 cache to the system. Do you
-consider that sufficient?
+Gr{oetje,eeting}s,
 
+                        Geert
 
-Currently, having cache-level =3D <3> also causes a out-of-bounds access
-in populate_cache_leaves.
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
 
-[    0.066217] =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-[    0.066369] BUG: KASAN: slab-out-of-bounds in populate_cache_leaves+0x25=
-c/0x2d0
-[    0.066495] Write of size 4 at addr ffff0000082370dc by task swapper/0/1
-[    0.066580]=20
-[    0.066619] CPU: 0 PID: 1 Comm: swapper/0 Not tainted 6.8.0-rc2-00016-g3=
-0d5a685c65d #6
-[    0.066719] Hardware name: MYC-YG2LX (DT)
-[    0.066793] Call trace:
-[    0.066836]  dump_backtrace+0x98/0x118
-[    0.066900]  show_stack+0x18/0x24
-[    0.066959]  dump_stack_lvl+0x60/0xac
-[    0.067029]  print_report+0xf8/0x5d8
-[    0.067096]  kasan_report+0xc0/0x100
-[    0.067159]  __asan_report_store4_noabort+0x20/0x2c
-[    0.067235]  populate_cache_leaves+0x25c/0x2d0
-[    0.067308]  detect_cache_attributes+0x34c/0x1998
-[    0.067384]  update_siblings_masks+0x30/0x554
-[    0.067460]  store_cpu_topology+0xe8/0x188
-[    0.067528]  smp_prepare_cpus+0x5c/0x238
-[    0.067602]  kernel_init_freeable+0x258/0xb18
-[    0.067673]  kernel_init+0x30/0x208
-[    0.067736]  ret_from_fork+0x10/0x20
-[    0.067802]=20
-[    0.067835] Allocated by task 1:
-[    0.067889]  kasan_save_stack+0x3c/0x64
-[    0.067956]  kasan_save_track+0x20/0x3c
-[    0.068020]  kasan_save_alloc_info+0x68/0x78
-[    0.068090]  __kasan_kmalloc+0xd4/0xd8
-[    0.068154]  __kmalloc+0x1c0/0x430
-[    0.068215]  allocate_cache_info+0xa8/0x204
-[    0.068284]  fetch_cache_info+0xc4/0x200
-[    0.068349]  init_cpu_topology+0x348/0x45c
-[    0.068423]  smp_prepare_cpus+0x1c/0x238
-[    0.068492]  kernel_init_freeable+0x258/0xb18
-[    0.068561]  kernel_init+0x30/0x208
-[    0.068622]  ret_from_fork+0x10/0x20
-[    0.068685]=20
-[    0.068719] The buggy address belongs to the object at ffff000008237000
-[    0.068719]  which belongs to the cache kmalloc-256 of size 256
-[    0.068849] The buggy address is located 4 bytes to the right of
-[    0.068849]  allocated 216-byte region [ffff000008237000, ffff0000082370=
-d8)
-[    0.068984]=20
-[    0.069018] The buggy address belongs to the physical page:
-[    0.069089] page:(____ptrval____) refcount:1 mapcount:0 mapping:00000000=
-00000000 index:0x0 pfn:0x48236
-[    0.069201] head:(____ptrval____) order:1 entire_mapcount:0 nr_pages_map=
-ped:0 pincount:0
-[    0.069297] flags: 0x840(slab|head|zone=3D0)
-[    0.069366] page_type: 0xffffffff()
-[    0.069430] raw: 0000000000000840 ffff000008001b40 dead000000000122 0000=
-000000000000
-[    0.069526] raw: 0000000000000000 0000000080100010 00000001ffffffff 0000=
-000000000000
-[    0.069616] page dumped because: kasan: bad access detected
-[    0.069684]=20
-[    0.069717] Memory state around the buggy address:
-[    0.069781]  ffff000008236f80: fc fc fc fc fc fc fc fc fc fc fc fc fc fc=
- fc fc
-[    0.069870]  ffff000008237000: 00 00 00 00 00 00 00 00 00 00 00 00 00 00=
- 00 00
-[    0.069958] >ffff000008237080: 00 00 00 00 00 00 00 00 00 00 00 fc fc fc=
- fc fc
-[    0.070042]                                                     ^
-[    0.070116]  ffff000008237100: fc fc fc fc fc fc fc fc fc fc fc fc fc fc=
- fc fc
-[    0.070204]  ffff000008237180: fc fc fc fc fc fc fc fc fc fc fc fc fc fc=
- fc fc
-[    0.070290] =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-
-[1] https://lore.kernel.org/linux-rockchip/2285ee41e165813011220f9469e28697=
-923aa6e0.1709491108.git.dsimic@manjaro.org/
-
->=20
-> Cheers,
-> Biju
->=20
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
