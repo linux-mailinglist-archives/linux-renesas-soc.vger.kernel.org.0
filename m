@@ -1,216 +1,99 @@
-Return-Path: <linux-renesas-soc+bounces-3518-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-3520-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BD448739D7
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  6 Mar 2024 15:54:20 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id E433B873B9C
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  6 Mar 2024 17:05:55 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2094E2886D7
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  6 Mar 2024 14:54:19 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DE7651C242A4
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  6 Mar 2024 16:05:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 22485134404;
-	Wed,  6 Mar 2024 14:54:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=manjaro.org header.i=@manjaro.org header.b="TnSU1zDu"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D854B135A53;
+	Wed,  6 Mar 2024 16:03:07 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.manjaro.org (mail.manjaro.org [116.203.91.91])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from 6.mo561.mail-out.ovh.net (6.mo561.mail-out.ovh.net [188.165.43.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 277BE13440D;
-	Wed,  6 Mar 2024 14:54:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=116.203.91.91
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C35FB13790A
+	for <linux-renesas-soc@vger.kernel.org>; Wed,  6 Mar 2024 16:03:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=188.165.43.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709736856; cv=none; b=iqXjcNJFZQC5u20dD/Dq6aBls5+GCYZYhPaHRvq4Lb3zpuBabzn3GyT1KSORn5kZclogCORCdS/c4HP+Gb36+zGqbam+fUJnWjMAEjDd1MWWaNzh+MEH2jk86e9XLlC2XUhx76MdGOEAZnY84yhausyXIH8rP37lSO6XcLPLGZk=
+	t=1709740987; cv=none; b=CV2SRcOFA72V64jY5SmQKWy3Yw1g/PT1ijUYegIcw0ZRxK+3SAvCZ5gaHL2Qjv4+49ybHqaT48sJod8EGz0f1gYUl5bJDq/DZZTF+wzxOsEWdWn9M8trN1ZzOUXIplrRse+lStbNgMdHyBbOEi7EtErxYt4e1n5UlJ+CTqZDBno=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709736856; c=relaxed/simple;
-	bh=96054vt0RIF8FrPah2L/xxgnSuYxMgqAI0Q+ZetCRX0=;
-	h=MIME-Version:Date:From:To:Cc:Subject:In-Reply-To:References:
-	 Message-ID:Content-Type; b=EiX36p1nvI5D5EGnBTP4Rq3w360Dyd4EqhCbcglFekTK8Iybpm7DGVvhs0X6JpIEYi8YKDLOVyFfFGxslGqKoNwu2Uhpka/VxZldJ+3D9VLwjFHnS8AFnTITk75Lp/HREKOavvuLAqa6TyJrDu2kSvRvuyXxJJpznKoH4OggMwE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=manjaro.org; spf=pass smtp.mailfrom=manjaro.org; dkim=pass (2048-bit key) header.d=manjaro.org header.i=@manjaro.org header.b=TnSU1zDu; arc=none smtp.client-ip=116.203.91.91
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=manjaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=manjaro.org
+	s=arc-20240116; t=1709740987; c=relaxed/simple;
+	bh=mOQMYrOjFL+BfYA9OZsNjIxxOcLbq6gJ3vaPs7tvY3E=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=BHnwu4Jzm9nW4voKQCL8QUsxZnzvp/4AYt7pMWXVfH0idqa63zdrcmoo74oaVoFTbGGBga+b5z5YIYT0EIVHFmfKxy9qBkbRxpNXh+uck0N4JIqSZbit6LjBcuzod7A/yEfhwuWekMo7nrovQQqscgIzre+HQJUfsdJBvJzj/wY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org; spf=pass smtp.mailfrom=etezian.org; arc=none smtp.client-ip=188.165.43.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=etezian.org
+Received: from director7.ghost.mail-out.ovh.net (unknown [10.108.25.233])
+	by mo561.mail-out.ovh.net (Postfix) with ESMTP id 4TqcCh3Ffxz1F9v
+	for <linux-renesas-soc@vger.kernel.org>; Wed,  6 Mar 2024 15:43:28 +0000 (UTC)
+Received: from ghost-submission-6684bf9d7b-5vngl (unknown [10.110.96.50])
+	by director7.ghost.mail-out.ovh.net (Postfix) with ESMTPS id 1E06F1FEDE;
+	Wed,  6 Mar 2024 15:43:26 +0000 (UTC)
+Received: from etezian.org ([37.59.142.102])
+	by ghost-submission-6684bf9d7b-5vngl with ESMTPSA
+	id dc+OAB6P6GXZFQIAO0zOww
+	(envelope-from <andi@etezian.org>); Wed, 06 Mar 2024 15:43:26 +0000
+Authentication-Results:garm.ovh; auth=pass (GARM-102R0045dce9fec-5935-488d-8dc9-5f4c41f889d9,
+                    62DEF991EB217AB86F953B10C2782167B22AFEEB) smtp.auth=andi@etezian.org
+X-OVh-ClientIp:89.217.109.169
+From: Andi Shyti <andi.shyti@kernel.org>
+To: linux-renesas-soc@vger.kernel.org, 
+ Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc: Chris Packham <chris.packham@alliedtelesis.co.nz>, 
+ Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org, 
+ linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org
+In-Reply-To: <20240229105810.29220-5-wsa+renesas@sang-engineering.com>
+References: <20240229105810.29220-5-wsa+renesas@sang-engineering.com>
+Subject: Re: [PATCH RFT 0/3] i2c: mpc: use proper binding for transfer
+ timeouts
+Message-Id: <170973980502.1763249.4893089217110620791.b4-ty@kernel.org>
+Date: Wed, 06 Mar 2024 16:43:25 +0100
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=manjaro.org; s=2021;
-	t=1709736849;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=H2lJKxoSRgpljXG36rHJ6kJtSm+0/59EDB5to3fB+oQ=;
-	b=TnSU1zDusf5T/c53MxwSN6xIpjDRNDKnurr+17PoFbB5sdtWiZB0JdVkx477Gme5fGGZkB
-	AJF59d5e4aL9ftyUBeoJCcGS5YT62/trfhyNlpMqq8g/ntPHfpezzd+6aFjCU4mgmsOlH7
-	92bJR/q63hdhlVvXtQsM1XnlAIzSJJORSRYkzfFc0SAHjgJP28V7Lp+Tk1Q+H4gMKm3nUb
-	IKItpvxIuCknX3+ehpR5gJZS6MnNIhbAXmmSfUbeULpQV8Lf4mXD7xYmtXZwO3IjhO4XJy
-	F8+YHYK8olbqyhvHbkBsXSAJ7rJ+vHsZqu6R/r7jjx7FpboRowKKUELKCJ4qGQ==
-Date: Wed, 06 Mar 2024 15:54:07 +0100
-From: Dragan Simic <dsimic@manjaro.org>
-To: Tim Pambor <tp@osasysteme.de>
-Cc: Biju Das <biju.das.jz@bp.renesas.com>, Geert Uytterhoeven
- <geert+renesas@glider.be>, AnandMoon <linux.amoon@gmail.com>, Magnus Damm
- <magnus.damm@gmail.com>, Rob Herring <robh+dt@kernel.org>, Krzysztof
- Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley
- <conor+dt@kernel.org>, linux-renesas-soc@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] arm64: dts: r9a07g044: Add complete CPU cache information
-In-Reply-To: <db77fa78e75b9712ebba1dfd7e4340603cae4fe3.camel@osasysteme.de>
-References: <20240305151336.144707-1-tp@osasysteme.de>
- <TYCPR01MB112696A947F31C31FE3A3AFF586212@TYCPR01MB11269.jpnprd01.prod.outlook.com>
- <db77fa78e75b9712ebba1dfd7e4340603cae4fe3.camel@osasysteme.de>
-Message-ID: <8d9ec337e794cb2ecc69a961c7e47e3f@manjaro.org>
-X-Sender: dsimic@manjaro.org
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Authentication-Results: ORIGINATING;
-	auth=pass smtp.auth=dsimic@manjaro.org smtp.mailfrom=dsimic@manjaro.org
+X-Mailer: b4 0.13.0
+X-Ovh-Tracer-Id: 10313243148287740663
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvledriedugdejiecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhvfevjghfuffkffggtgfgofesthejredtredtjeenucfhrhhomheptehnughiucfuhhihthhiuceorghnughirdhshhihthhisehkvghrnhgvlhdrohhrgheqnecuggftrfgrthhtvghrnhepffetheduffdvhfdugfffudfgjeejudehheegfeeguefhieeugffhgfeuffdvgfefnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucfkphepuddvjedrtddrtddruddpkeelrddvudejrddutdelrdduieelpdefjedrheelrddugedvrddutddvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepuddvjedrtddrtddruddpmhgrihhlfhhrohhmpegrnhguihesvghtvgiiihgrnhdrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopehlihhnuhigqdhrvghnvghsrghsqdhsohgtsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdfovfetjfhoshhtpehmohehiedupdhmohguvgepshhmthhpohhuth
 
-Hello Tim and Biju,
+Hi
 
-On 2024-03-06 11:10, Tim Pambor wrote:
-> thanks for the review.
+On Thu, 29 Feb 2024 11:58:10 +0100, Wolfram Sang wrote:
+> To clean up the confusing situation regarding I2C timeout bindings, here
+> is the series to fix up the MPC driver which mixed up clock stretching
+> timeout with transfer timeouts. Plus a minor cleanup while here.
 > 
->> Thanks for the patch.
->> 
->> > -----Original Message-----
->> > From: Tim Pambor <tp@osasysteme.de>
->> > Sent: Tuesday, March 5, 2024 3:14 PM
->> > Subject: [PATCH] arm64: dts: r9a07g044: Add complete CPU cache
->> > information
->> >
->> > Based on ARM Cortex-A55 TRM and RZG2/L user's manual, each Cortex-
->> > A55 has
->> 
->> RZ/G2L
->> 
->> > - 32 KB of L1 4-way, set-associative instruction cache
->> > - 32 KB of L1 4-way, set-associative data cache
-
-Just a small suggestion, moving "L1" after "set-associative" would make
-these two lines a bit more readable.
-
->> > Each cache has a cache line length of 64B and therefore there are
->> > 32768B/(4 * 64B)=128 sets for each cache.
->> >
->> > RZG2/L are not configured with the optional per-core L2 cache but
->> > only have a L3 cache shared among all
->> RZ/G2L
->> > cores. In this case, the L3 cache appears as a L2 cache to the
->> > system. Therefore, specify "cache-level
->> > = <2>" for the L3 cache.
+> Only build tested, so actual testing is welcome.
 > 
-> I will send a v2 with the commit message corrected.
 > 
->> You mean for L3 Cache, cache-level = <2> if there is no L2 Cache on
->> the system? Does it need any update
->> on dt-bindings to make this clear?
-> 
-> I followed the approach chosen for the Rockchip RK356x, which also has
-> a Cortex-A55 with an L3 cache but no L2 cache [1]. I can add a comment
-> to the device tree explaining that there is no L2 cache and that
-> therefore the L3 cache appears as a L2 cache to the system. Do you
-> consider that sufficient?
+> [...]
 
-As I noted in the description of the Rockchip RK356x patch linked above,
-the documentation from ARM states that the CPU cores see the shared L3
-cache as their L2 caches, when there are no private, per-code L2 caches
-in a particular SoC that employs the DynamIQ architecture.
+Applied to i2c/i2c-host on
 
-Thus, it's the best to follow the same approach in the kernel and 
-present
-the same logical cache hierarchy to the userspace, to avoid the 
-confusion
-among the users, which would almost surely wonder why there are no L2
-caches, but there is an L3 cache.  It should also avoid unexpected 
-behavior
-and bugs such as the one visible below, because having an L3 cache with 
-no
-L2 caches isn't very common.
+git://git.kernel.org/pub/scm/linux/kernel/git/andi.shyti/linux.git
 
-> Currently, having cache-level = <3> also causes a out-of-bounds access
-> in populate_cache_leaves.
-> 
-> [    0.066217]
-> ==================================================================
-> [    0.066369] BUG: KASAN: slab-out-of-bounds in
-> populate_cache_leaves+0x25c/0x2d0
-> [    0.066495] Write of size 4 at addr ffff0000082370dc by task 
-> swapper/0/1
-> [    0.066580]
-> [    0.066619] CPU: 0 PID: 1 Comm: swapper/0 Not tainted
-> 6.8.0-rc2-00016-g30d5a685c65d #6
-> [    0.066719] Hardware name: MYC-YG2LX (DT)
-> [    0.066793] Call trace:
-> [    0.066836]  dump_backtrace+0x98/0x118
-> [    0.066900]  show_stack+0x18/0x24
-> [    0.066959]  dump_stack_lvl+0x60/0xac
-> [    0.067029]  print_report+0xf8/0x5d8
-> [    0.067096]  kasan_report+0xc0/0x100
-> [    0.067159]  __asan_report_store4_noabort+0x20/0x2c
-> [    0.067235]  populate_cache_leaves+0x25c/0x2d0
-> [    0.067308]  detect_cache_attributes+0x34c/0x1998
-> [    0.067384]  update_siblings_masks+0x30/0x554
-> [    0.067460]  store_cpu_topology+0xe8/0x188
-> [    0.067528]  smp_prepare_cpus+0x5c/0x238
-> [    0.067602]  kernel_init_freeable+0x258/0xb18
-> [    0.067673]  kernel_init+0x30/0x208
-> [    0.067736]  ret_from_fork+0x10/0x20
-> [    0.067802]
-> [    0.067835] Allocated by task 1:
-> [    0.067889]  kasan_save_stack+0x3c/0x64
-> [    0.067956]  kasan_save_track+0x20/0x3c
-> [    0.068020]  kasan_save_alloc_info+0x68/0x78
-> [    0.068090]  __kasan_kmalloc+0xd4/0xd8
-> [    0.068154]  __kmalloc+0x1c0/0x430
-> [    0.068215]  allocate_cache_info+0xa8/0x204
-> [    0.068284]  fetch_cache_info+0xc4/0x200
-> [    0.068349]  init_cpu_topology+0x348/0x45c
-> [    0.068423]  smp_prepare_cpus+0x1c/0x238
-> [    0.068492]  kernel_init_freeable+0x258/0xb18
-> [    0.068561]  kernel_init+0x30/0x208
-> [    0.068622]  ret_from_fork+0x10/0x20
-> [    0.068685]
-> [    0.068719] The buggy address belongs to the object at 
-> ffff000008237000
-> [    0.068719]  which belongs to the cache kmalloc-256 of size 256
-> [    0.068849] The buggy address is located 4 bytes to the right of
-> [    0.068849]  allocated 216-byte region [ffff000008237000, 
-> ffff0000082370d8)
-> [    0.068984]
-> [    0.069018] The buggy address belongs to the physical page:
-> [    0.069089] page:(____ptrval____) refcount:1 mapcount:0
-> mapping:0000000000000000 index:0x0 pfn:0x48236
-> [    0.069201] head:(____ptrval____) order:1 entire_mapcount:0
-> nr_pages_mapped:0 pincount:0
-> [    0.069297] flags: 0x840(slab|head|zone=0)
-> [    0.069366] page_type: 0xffffffff()
-> [    0.069430] raw: 0000000000000840 ffff000008001b40 dead000000000122
-> 0000000000000000
-> [    0.069526] raw: 0000000000000000 0000000080100010 00000001ffffffff
-> 0000000000000000
-> [    0.069616] page dumped because: kasan: bad access detected
-> [    0.069684]
-> [    0.069717] Memory state around the buggy address:
-> [    0.069781]  ffff000008236f80: fc fc fc fc fc fc fc fc fc fc fc fc
-> fc fc fc fc
-> [    0.069870]  ffff000008237000: 00 00 00 00 00 00 00 00 00 00 00 00
-> 00 00 00 00
-> [    0.069958] >ffff000008237080: 00 00 00 00 00 00 00 00 00 00 00 fc
-> fc fc fc fc
-> [    0.070042]                                                     ^
-> [    0.070116]  ffff000008237100: fc fc fc fc fc fc fc fc fc fc fc fc
-> fc fc fc fc
-> [    0.070204]  ffff000008237180: fc fc fc fc fc fc fc fc fc fc fc fc
-> fc fc fc fc
-> [    0.070290]
-> ==================================================================
-> 
-> [1] 
-> https://lore.kernel.org/linux-rockchip/2285ee41e165813011220f9469e28697923aa6e0.1709491108.git.dsimic@manjaro.org/
+Thank you,
+Andi
+
+Patches applied
+===============
+[1/3] dt-bindings: i2c: mpc: use proper binding for transfer timeouts
+      commit: f9ccb4533bdcf31f1225a9a09805329b8020a4e3
+[2/3] i2c: mpc: use proper binding for transfer timeouts
+      commit: 401a8e9e3d697b75c2e237b9b405bb0f388dd7ed
+[3/3] i2c: mpc: remove outdated macro
+      commit: d0e944150446d8056a050049a8f0e98241ba6194
+
 
