@@ -1,90 +1,106 @@
-Return-Path: <linux-renesas-soc+bounces-3519-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-3521-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFCCC873B6E
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  6 Mar 2024 17:01:14 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 591E6873E4D
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  6 Mar 2024 19:14:04 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2D5D51C23CE5
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  6 Mar 2024 16:01:14 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 04A95B20E24
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  6 Mar 2024 18:14:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6CEAF137917;
-	Wed,  6 Mar 2024 16:00:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7E5A213E7EE;
+	Wed,  6 Mar 2024 18:12:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="U7y99w7c"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from 4.mo560.mail-out.ovh.net (4.mo560.mail-out.ovh.net [87.98.172.75])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B48E513540E
-	for <linux-renesas-soc@vger.kernel.org>; Wed,  6 Mar 2024 16:00:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=87.98.172.75
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 525A513D309;
+	Wed,  6 Mar 2024 18:12:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709740832; cv=none; b=sux1Y/FdY1BPoQZpMZV++D/luKQS9UHY3sLJZrjjNEAbmWjwcijrWk8GQ/09fjBtWoGjxCfa0Vh+/cbWN8KVbtMJwX4FnZoS65YAQ13ZYvgVNq4qptEKP5c88TBD89mrhFdD3f6zZq0Q3bRW+gf3Ac2Q2gvqqDgmTZq5ZF9WjTU=
+	t=1709748779; cv=none; b=u8itYV7IK3SwwP63/hS8EIEe8DAOohLMlzN/0CyN/zHvwVt4SYslUrTe238NasNwwebavRc8Lq7LbIM8fDd8gIIW4NG+rbtNgJk5Z6Kc3CaXDBusmZh4u7GP0+HtFa99QVqY5B8XZpwh+6TIf68nopXY5pmoyqXEgcgQMyfDPeM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709740832; c=relaxed/simple;
-	bh=MQfE8wsSPKQmhsxKtLSyfgknlqem5+C0uOcMNrIoMfE=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=CPsChSwNQHHxjlX1OCcj0B4wXjmBmzv+UI5oqu4lnRdp7+Mkrv1k9U1QAI4+J/nmTvNUzWGpU6DwZg7/fO387KOLbQPJ5tXdJ99FrtCcvIQWc80MG9TzBJ02kEXpk7C1hNDmSsc5E1IOgP2znEr3+txAHPNZwb3C61tI+irrsa4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org; spf=pass smtp.mailfrom=etezian.org; arc=none smtp.client-ip=87.98.172.75
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=etezian.org
-Received: from director2.ghost.mail-out.ovh.net (unknown [10.108.9.41])
-	by mo560.mail-out.ovh.net (Postfix) with ESMTP id 4TqcCl6Tfvz1P7r
-	for <linux-renesas-soc@vger.kernel.org>; Wed,  6 Mar 2024 15:43:31 +0000 (UTC)
-Received: from ghost-submission-6684bf9d7b-5ftjb (unknown [10.111.174.17])
-	by director2.ghost.mail-out.ovh.net (Postfix) with ESMTPS id DDCD01FEBF;
-	Wed,  6 Mar 2024 15:43:30 +0000 (UTC)
-Received: from etezian.org ([37.59.142.109])
-	by ghost-submission-6684bf9d7b-5ftjb with ESMTPSA
-	id YR/XJSKP6GWyBAAArHCiFA
-	(envelope-from <andi@etezian.org>); Wed, 06 Mar 2024 15:43:30 +0000
-Authentication-Results:garm.ovh; auth=pass (GARM-109S00357faae83-dee3-4f70-a94c-fe5b44f90acc,
-                    62DEF991EB217AB86F953B10C2782167B22AFEEB) smtp.auth=andi@etezian.org
-X-OVh-ClientIp:89.217.109.169
-From: Andi Shyti <andi.shyti@kernel.org>
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>, 
- Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: linux-i2c@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-In-Reply-To: <bf7b105f7d9728ae5cd9fa99d1cdd278d71e7df2.1704723713.git.geert+renesas@glider.be>
-References: <bf7b105f7d9728ae5cd9fa99d1cdd278d71e7df2.1704723713.git.geert+renesas@glider.be>
-Subject: Re: [PATCH] i2c: rcar: Prepare for the advent of ARCH_RCAR_GEN4
-Message-Id: <170973981000.1763249.1525720901010723550.b4-ty@kernel.org>
-Date: Wed, 06 Mar 2024 16:43:30 +0100
+	s=arc-20240116; t=1709748779; c=relaxed/simple;
+	bh=oDl9i8wVopENg8HbcqfcwU5Qsqz8CfV8yBnuXQyY7cU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=djjFT8AYhRwJkXvAm8p/R2vyF/zyyZie6W5GcY0TxqaXFvPhrRVW/RvKyNS71FbbjsbygTyzbvRwl5mH3AbtBq1JQOYL8EbnDTJ5DyVrkPnE/xxLFYKd7vR4H449ylopwGpCFVeXAXL67Lq8JqwCCJzB8ZR8jeicPPKXcRm6UX8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=U7y99w7c; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 39FADC433C7;
+	Wed,  6 Mar 2024 18:12:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1709748778;
+	bh=oDl9i8wVopENg8HbcqfcwU5Qsqz8CfV8yBnuXQyY7cU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=U7y99w7cc7rbC2VCe02xdhPhernanjr5yhjHnseoyF/dhziSp3uG1eyhZL+qr0dKd
+	 M5/BiuOIqv5fgRssDLurOQQLyr0aZjUAFof6Wn1tRf4mHb6+uISC4N9TAFQn0JtkMv
+	 UP4CqsMBDvJYkU7jHkaY5A+leEqisiCqwbrpG1A1n4CrYmFRkl358dAu9/KWxb4was
+	 VJyodc8l/xwSA2qw4kBIplFevpjYoE0270EEhodtqLVvcogVEwnOKaCPrDFmZvbuYB
+	 CXE5LFgD/vPqR6Uk+2Hj9Ho9MB+VwMSKP82xDzfEX0/eaMeaVQneJfKFgb1imeV1Iv
+	 GNMfkgW3FXViQ==
+Date: Wed, 6 Mar 2024 18:12:53 +0000
+From: Conor Dooley <conor@kernel.org>
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund@ragnatech.se>,
+	"Rafael J . Wysocki" <rafael@kernel.org>,
+	Daniel Lezcano <daniel.lezcano@linaro.org>,
+	Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	linux-renesas-soc@vger.kernel.org, linux-pm@vger.kernel.org,
+	devicetree@vger.kernel.org, Duy Nguyen <duy.nguyen.rh@renesas.com>
+Subject: Re: [PATCH 1/2] dt-bindings: thermal: rcar-gen3-thermal: Add
+ r8a779h0 support
+Message-ID: <20240306-discover-outshoot-2e0716d5d3ce@spud>
+References: <cover.1709722342.git.geert+renesas@glider.be>
+ <b3d135f8b63b9fe2d0f0aa2e48c8a2211b2e947e.1709722342.git.geert+renesas@glider.be>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.13.0
-X-Ovh-Tracer-Id: 10314087575055108855
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: 0
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvledriedugdejiecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecunecujfgurhephffvvegjfhfukfffgggtgffosehtjeertdertdejnecuhfhrohhmpeetnhguihcuufhhhihtihcuoegrnhguihdrshhhhihtiheskhgvrhhnvghlrdhorhhgqeenucggtffrrghtthgvrhhnpeffteehudffvdfhudfgffdugfejjeduheehgeefgeeuhfeiuefghffgueffvdfgfeenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecukfhppeduvdejrddtrddtrddupdekledrvddujedruddtledrudeiledpfeejrdehledrudegvddruddtleenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeduvdejrddtrddtrddupdhmrghilhhfrhhomheprghnughisegvthgviihirghnrdhorhhgpdhnsggprhgtphhtthhopedupdhrtghpthhtoheplhhinhhugidqrhgvnhgvshgrshdqshhotgesvhhgvghrrdhkvghrnhgvlhdrohhrghdpoffvtefjohhsthepmhhoheeitddpmhhouggvpehsmhhtphhouhht
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="42iu+UqCSUQQDnvJ"
+Content-Disposition: inline
+In-Reply-To: <b3d135f8b63b9fe2d0f0aa2e48c8a2211b2e947e.1709722342.git.geert+renesas@glider.be>
 
-Hi
 
-On Mon, 08 Jan 2024 15:24:20 +0100, Geert Uytterhoeven wrote:
-> Currently, all Kconfig symbols for R-Car Gen4 SoCs select
-> ARCH_RCAR_GEN3, which might confuse the casual reader.  Prepare for the
-> advent of ARCH_RCAR_GEN4 by extending the dependency for auto-selecting
-> reset controller support.
-> 
-> 
+--42iu+UqCSUQQDnvJ
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Applied to i2c/i2c-host on
+On Wed, Mar 06, 2024 at 11:56:02AM +0100, Geert Uytterhoeven wrote:
+> From: Duy Nguyen <duy.nguyen.rh@renesas.com>
+>=20
+> Document support for the Thermal Sensor/Chip Internal Voltage
+> Monitor/Core Voltage Monitor (THS/CIVM/CVM) on the Renesas R-Car V4M
+> (R8A779H0) SoC.
+>=20
+> Just like on other R-Car Gen4 SoCs, interrupts are not routed to the
+> INTC-AP (GIC) but to the Error Control Module (ECM).
+>=20
+> Signed-off-by: Duy Nguyen <duy.nguyen.rh@renesas.com>
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-git://git.kernel.org/pub/scm/linux/kernel/git/andi.shyti/linux.git
+Acked-by: Conor Dooley <conor.dooley@microchip.com>
 
-Thank you,
-Andi
 
-Patches applied
-===============
-[1/1] i2c: rcar: Prepare for the advent of ARCH_RCAR_GEN4
-      commit: 5d85665181beb6d75a0e9e0652f41bd0acb877df
+--42iu+UqCSUQQDnvJ
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZeiyJQAKCRB4tDGHoIJi
+0pBaAP4jB17YQumW0L2miIINAAmjpdyZcV+hNwFRGq9Tj2fZrwEA0yoGS1zRmMgA
+Nh50LHjtU4c/tX4ZJ8fJKLAiFa9PNAA=
+=AuLQ
+-----END PGP SIGNATURE-----
+
+--42iu+UqCSUQQDnvJ--
 
