@@ -1,104 +1,133 @@
-Return-Path: <linux-renesas-soc+bounces-3513-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-3514-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 794EA87359B
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  6 Mar 2024 12:30:41 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 871C987366E
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  6 Mar 2024 13:31:42 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 198B01F22F68
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  6 Mar 2024 11:30:41 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id B482F1F21200
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  6 Mar 2024 12:31:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0CFD17F7ED;
-	Wed,  6 Mar 2024 11:30:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5D87082863;
+	Wed,  6 Mar 2024 12:30:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ooRVI+Q5"
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="QxQExzBL"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB0AB60B91;
-	Wed,  6 Mar 2024 11:30:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAF8E823BC
+	for <linux-renesas-soc@vger.kernel.org>; Wed,  6 Mar 2024 12:30:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709724634; cv=none; b=SKUlPXu3QwUawXVqLoJQ+JtD1MiGgDd4eJ+I6l9RV0TsXiTYeGpTR8at6CjHEpTqn6gsn8oacUM9w2YyJSM2O2rsnnM74U5CI8T9JV7hdnWaJ8Bq4Vj+AwqRVaQGQ/IpUb0362//F+JJy4dNvKwllT1N7dC8l+6umoG3zjNtvIQ=
+	t=1709728245; cv=none; b=o0+gHCen2k2EzNer6HF1CYuw5HBatDsiNrZufLNUupSMRyGEb/d32YntzbDrS9/pdfbLiYr6Dg6gtIky7+in+wEOYn+7O9mqDxTXcUOPKqCGXbvoB2JanbEGpCpEuQRR+Qnpf3daLgD/DkKd+ajlfGE0y/5bLyqQflDU+J4rO8E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709724634; c=relaxed/simple;
-	bh=4plpbTtIVx3Ts7FtdZwPPw5fpsv/7WDrVYESNPlWxj0=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=V2JejOVw/XdDoPK0lj05beME2I0He/MPo9ZQXmDmUOlsCBtIfdusbHjvBJD2b9tTw+ji097C7O0+s8egzja61IaSU9SVo0qqnFEKiuZTctIZ2k9FjGCK6Msl5upTvkJVN6IUA75HtGtWB+xVzYULklPYxk49RbHrqTTYX5O8oU8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ooRVI+Q5; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 8BCBAC43394;
-	Wed,  6 Mar 2024 11:30:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1709724634;
-	bh=4plpbTtIVx3Ts7FtdZwPPw5fpsv/7WDrVYESNPlWxj0=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=ooRVI+Q5Fe232sYc0V4dBK9EFaus+iyMiDl8BqY6VBBmKsMJeQP/eZYVgucZg1KKx
-	 YMRDIOmYcYjSdKYY/UOsrndgotA5xD+evQ3Zjwu+P9AzspbQY14o1faDe95B9OBfj1
-	 C2mt86LwqjBzGfug/2hi+ZgwINrNZvntdTh09P86t6nq1DdTjl3jTfHuhBCsb7YflT
-	 MTvQB9cS/w6TZHJTO9njSlZxuhoVCE1gS0UDXthit7HNSqeV7mqMUT7Z8zSBWmJI9a
-	 NAzrNVvBMhG9mixeV20UcK51JgwX2ta6bU3oCVvaYLT3mFeM9SYwAeluuDzAB8pA8r
-	 vS3dJFKYuMQmg==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 72451D88F81;
-	Wed,  6 Mar 2024 11:30:34 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	s=arc-20240116; t=1709728245; c=relaxed/simple;
+	bh=PTcII2kQV2pmaV0bp5yVc1A3TkusgNPV9AvWwya2aM8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=q+eMgYZy1GmViG/78c0pCYMxqpfqYOXKYSUkVHf4RUudxQc0317a575bRuWfyMZRjftVcjxNGPemz5hNcDQeAnhnxBwhL7ibeWEghQKO9mHhi85jcMWciURZtiSAp9AuvUIKjzn8qvTMTR0ouVX3MGWKbfHQlULWXwEhOXPwPas=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=QxQExzBL; arc=none smtp.client-ip=209.85.167.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
+Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-51336ab1fb7so5747702e87.1
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 06 Mar 2024 04:30:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ragnatech.se; s=google; t=1709728240; x=1710333040; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=FWwYydqmepf5IjC8UK5UPiYxznThwpO9On1HRbhq+ho=;
+        b=QxQExzBLlSRev0RIX7Ljc8LtvdR/VLPbDslsHYt7v/XVD5QDPrDllTvjlaB8TUNvOP
+         O9xFlrlt34yHyZe3ooJxYCaYXeeeleoDPveXOWZEIsjWyBjyOhhTshEXQDEuAH/wz+OS
+         DmultETQ5tVLlbgjeO6gBjlOcVaSsoU835ekuwwm180/Xgnt9oIovXRR9NwDuKh+VfGT
+         PHdauLue2e/yTETgiZXNp/K1hZ0knnxAz5YltRoSxmcrdwM3UmMv4acYAQFX8iAj56QN
+         U83J+00/h2pXrFRqjREWK+uU85BQw53VbS+31BiAPz8edQnIU7bfGk8lqXs1G7TPl/Ls
+         BAkA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1709728240; x=1710333040;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=FWwYydqmepf5IjC8UK5UPiYxznThwpO9On1HRbhq+ho=;
+        b=svzOVtlp4I2oSrpXaND36ZgI84Q/HIeJaQZke9pgb25PoeG3OIEQ4Yko/9eJlqhLJE
+         vqbGID4foOxa2HVI7MDMX8f69kCYxdoR6Dw685KzVj1toBk+EojkV9MCJzfQXnwnEO70
+         VtuzbqLTQNXUYM9ea5s8uqSCXcHDfgki/FmXq3EYoK0+MLDWp9FJ+2spVKTGGUbEr2xW
+         Rue79Uo0Tdwgw0G3+gYJQ/SuL2uZ4jz+0qyE+e7KCXtxUXhUxFGczy3gSCyuxDWeEtzf
+         1n/61osIjVyYjqzAoDUeKobwjHr+vh4lK/nYiKUBQEaip3QwUbF992p1u+vhsleRevv0
+         oDvw==
+X-Forwarded-Encrypted: i=1; AJvYcCVV7BVJEAkytGS/dEYgcPwZZC5Un73IXja4aHKKCBFWErcGdut/KPAtxQHnvY7F82tsU67sF32qo1ReAlHLD7xR2tCCesko3ZRKi34yqfg616E=
+X-Gm-Message-State: AOJu0YxzS0nvH6TVwZAf8ZS/1QI22goFsfgciK3eDubd+CKidNBhmIwA
+	ZsI2LYFzfr0qYzXQKbM7jerBapsaR0G1Vzp1zft6NJsGrzXVNeNqZyWFs3uRI3M=
+X-Google-Smtp-Source: AGHT+IFzQxkuAqjr7PtbZ+hs10zWX5jwQjG+s5deSaQKkphYRc/ItJqyZozL2B6+P0S18GrP9IEDhA==
+X-Received: by 2002:a19:f016:0:b0:513:1551:f0 with SMTP id p22-20020a19f016000000b00513155100f0mr3119939lfc.42.1709728239546;
+        Wed, 06 Mar 2024 04:30:39 -0800 (PST)
+Received: from localhost (h-46-59-36-113.A463.priv.bahnhof.se. [46.59.36.113])
+        by smtp.gmail.com with ESMTPSA id c8-20020a056512074800b005130d251b57sm2624706lfs.166.2024.03.06.04.30.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 06 Mar 2024 04:30:39 -0800 (PST)
+Date: Wed, 6 Mar 2024 13:30:38 +0100
+From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>, linux-renesas-soc@vger.kernel.org,
+	linux-clk@vger.kernel.org
+Subject: Re: [PATCH] clk: renesas: r8a779h0: Add thermal clock
+Message-ID: <20240306123038.GA3396349@ragnatech.se>
+References: <befac3e8342cd552f580d34be863ef84403c541f.1709722056.git.geert+renesas@glider.be>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Subject: Re: [net-next,v3 0/6] ravb: Align Rx descriptor setup and maintenance
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <170972463446.20219.15728780718001738211.git-patchwork-notify@kernel.org>
-Date: Wed, 06 Mar 2024 11:30:34 +0000
-References: <20240304110858.117100-1-niklas.soderlund+renesas@ragnatech.se>
-In-Reply-To: <20240304110858.117100-1-niklas.soderlund+renesas@ragnatech.se>
-To: =?utf-8?q?Niklas_S=C3=B6derlund_=3Cniklas=2Esoderlund+renesas=40ragnatech=2E?=@codeaurora.org,
-	=?utf-8?q?se=3E?=@codeaurora.org
-Cc: s.shtylyov@omp.ru, davem@davemloft.net, edumazet@google.com,
- kuba@kernel.org, pabeni@redhat.com, biju.das.jz@bp.renesas.com,
- claudiu.beznea.uj@bp.renesas.com, yoshihiro.shimoda.uh@renesas.com,
- netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+In-Reply-To: <befac3e8342cd552f580d34be863ef84403c541f.1709722056.git.geert+renesas@glider.be>
 
-Hello:
+Hi Geert,
 
-This series was applied to netdev/net-next.git (main)
-by David S. Miller <davem@davemloft.net>:
+Thanks for your patch.
 
-On Mon,  4 Mar 2024 12:08:52 +0100 you wrote:
-> Hello,
+On 2024-03-06 11:52:04 +0100, Geert Uytterhoeven wrote:
+> Add the module clock used by the Thermal Sensor/Chip Internal Voltage
+> Monitor/Core Voltage Monitor (THS/CIVM/CVM) on the Renesas R-Car V4M
+> (R8A779H0) SoC.
 > 
-> When RZ/G2L support was added the Rx code path was split in two, one to
-> support R-Car and one to support RZ/G2L. One reason for this is that
-> R-Car uses the extended Rx descriptor format, while RZ/G2L uses the
-> normal descriptor format.
+> Based on a patch in the BSP by Cong Dang.
 > 
-> [...]
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-Here is the summary with links:
-  - [net-next,v3,1/6] ravb: Group descriptor types used in Rx ring
-    https://git.kernel.org/netdev/net-next/c/4123c3fbf863
-  - [net-next,v3,2/6] ravb: Make it clear the information relates to maximum frame size
-    https://git.kernel.org/netdev/net-next/c/e82700b8662c
-  - [net-next,v3,3/6] ravb: Create helper to allocate skb and align it
-    https://git.kernel.org/netdev/net-next/c/cfbad64706c1
-  - [net-next,v3,4/6] ravb: Use the max frame size from hardware info for RZ/G2L
-    https://git.kernel.org/netdev/net-next/c/496863388136
-  - [net-next,v3,5/6] ravb: Move maximum Rx descriptor data usage to info struct
-    https://git.kernel.org/netdev/net-next/c/555419b2259b
-  - [net-next,v3,6/6] ravb: Unify Rx ring maintenance code paths
-    https://git.kernel.org/netdev/net-next/c/644d037b2c44
+Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 
-You are awesome, thank you!
+> ---
+> To be queued in renesas-clk for v6.10.
+> 
+> Changes compared to the BSP:
+>   - Rename "thermal" to "tsc2:tsc1".
+> ---
+>  drivers/clk/renesas/r8a779h0-cpg-mssr.c | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/drivers/clk/renesas/r8a779h0-cpg-mssr.c b/drivers/clk/renesas/r8a779h0-cpg-mssr.c
+> index 71f67a1c86d80f4c..5c48e645f0c3197d 100644
+> --- a/drivers/clk/renesas/r8a779h0-cpg-mssr.c
+> +++ b/drivers/clk/renesas/r8a779h0-cpg-mssr.c
+> @@ -192,6 +192,7 @@ static const struct mssr_mod_clk r8a779h0_mod_clks[] = {
+>  	DEF_MOD("pfc0",		915,	R8A779H0_CLK_CP),
+>  	DEF_MOD("pfc1",		916,	R8A779H0_CLK_CP),
+>  	DEF_MOD("pfc2",		917,	R8A779H0_CLK_CP),
+> +	DEF_MOD("tsc2:tsc1",	919,	R8A779H0_CLK_CL16M),
+>  };
+>  
+>  /*
+> -- 
+> 2.34.1
+> 
+
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
-
+Kind Regards,
+Niklas Söderlund
 
