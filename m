@@ -1,115 +1,117 @@
-Return-Path: <linux-renesas-soc+bounces-3523-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-3524-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F7EB8740A5
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  6 Mar 2024 20:42:10 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3EBC7874384
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  7 Mar 2024 00:11:51 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 729671C20A32
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  6 Mar 2024 19:42:09 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id EDD7E2841B1
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  6 Mar 2024 23:11:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 95B9B14036A;
-	Wed,  6 Mar 2024 19:42:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0FFE01C6A4;
+	Wed,  6 Mar 2024 23:11:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="V/P+eTMf"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mx01.omp.ru (mx01.omp.ru [90.154.21.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B92A60250;
-	Wed,  6 Mar 2024 19:42:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.154.21.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CDAF1C686;
+	Wed,  6 Mar 2024 23:11:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709754126; cv=none; b=hsIy6g6AYEnx9e8sONAiQq5Oz0RHsmgSyOnqMID4YPUIFw55BEgN7Q1m3OluEz1aU1iCZk4/jXP3hMA6MWfqV3JQvV36MC+mffQJFVxHFbQnhbxdoJ22tikJPDvoQ9ayz7J7bSZJXyrB3z8BakktjUk+ByJ2+FbA+wb/A+BjdAY=
+	t=1709766679; cv=none; b=mbZely/bmyoFXispRtFFeaLl4rYXMeO03jOZH71vXIY8I2AKXo1fX+ue5ztmyIXGZJsrNgiV8bQU+OB0tWx2ypDVuNlgL0PIP09DCeQi+AQGpzXYiDQlY4Tpow+marHyE+8X84ujPTV/oCInk23oqyq8F1UH91qtlG8fblxMKfo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709754126; c=relaxed/simple;
-	bh=whu07ooxW6kWeuVMdOr7djt4Zcxe2pjCyzB54JBEO24=;
-	h=Subject:To:CC:References:From:Message-ID:Date:MIME-Version:
-	 In-Reply-To:Content-Type; b=YXPxFBkEmrXX00J/50kY/su3UKHnVT0/l96RlQ0IxifhnOX4S9UX3+lpIbZES4cR1gHJBP1U068p8/j2UINkHe9a2jr90eShUCbpDuRPEGHrUokpILaxrnH0ejezW9LZXJInyeCublyXxZWUCvmUKu3aROODm2VzYiZLTCntp+w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=omp.ru; spf=pass smtp.mailfrom=omp.ru; arc=none smtp.client-ip=90.154.21.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=omp.ru
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=omp.ru
-Received: from [192.168.1.105] (178.176.76.108) by msexch01.omp.ru
- (10.188.4.12) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.1258.12; Wed, 6 Mar
- 2024 22:41:46 +0300
-Subject: Re: [PATCH net-next] dt-bindings: net: renesas,etheravb: Add support
- for R-Car V4M
-To: Geert Uytterhoeven <geert+renesas@glider.be>, "David S . Miller"
-	<davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub Kicinski
-	<kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Rob Herring
-	<robh@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>, Sergei Shtylyov
-	<sergei.shtylyov@gmail.com>
-CC: <netdev@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>,
-	<devicetree@vger.kernel.org>, Thanh Quan <thanh.quan.xn@renesas.com>
-References: <0212b57ba1005bb9b5a922f8f25cc67a7bc15f30.1709631152.git.geert+renesas@glider.be>
-From: Sergey Shtylyov <s.shtylyov@omp.ru>
-Organization: Open Mobile Platform
-Message-ID: <a20b154d-9d7a-9775-851a-860490be1f1f@omp.ru>
-Date: Wed, 6 Mar 2024 22:41:46 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+	s=arc-20240116; t=1709766679; c=relaxed/simple;
+	bh=EBrriInW3JbtArIhXHglPAvOuHM/fEGrMu3uHu2Klgs=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=ZZY+oTLAutHVQo+2zuXHv4YY19NDonCZCkuriG+1lIM4K0YmW4CU5fJGitv8HdzUeBubRAnCsGjiPLaxG6GuxotF89NdAoNT7qqlRJBPSxoDhopk/FQboIfiWO7UHsNrFeYM/KtnTt3uAulB7EOwYljmBuciQVlbs1z9SGc7pr4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=V/P+eTMf; arc=none smtp.client-ip=209.85.128.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-412f692be21so2789455e9.2;
+        Wed, 06 Mar 2024 15:11:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1709766676; x=1710371476; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=ed13jYHQ8Lp5ithwU/UjoL1/F5W01I7K/zlGRfPgDr8=;
+        b=V/P+eTMfv1nELp+12dSu++7ka00Ht3HBcxQtBanqGFvx1Pblu/hsHaKHoPpYSUBzSZ
+         stPIlkgidx01+6Ke4/djt0kg7IzmWY1oh4HFjtWA6qqTKHV8QQOGss1mFdDcTwtw5nmi
+         07PT47nv3onGPHi/v7+Gt70fu84WBwTDXNyRR4SqmideQeIA1MfmpTpFp4WRWqG1NQ6q
+         jhNP1eWOhOg8DoxBXCeaTLPdLO7iWJTuUvT+G8NUxOr8V98KSJ7pGEJZJncy6/e8KbYO
+         uE9IYxgFtCtnAyD+xvvpNjR4h8dzNPtXqVf1DXiE/Je/T4L534MmWRGHd/Bb+U5ox7+T
+         tIKQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1709766676; x=1710371476;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ed13jYHQ8Lp5ithwU/UjoL1/F5W01I7K/zlGRfPgDr8=;
+        b=VHKYsAUTyrl0pSy4K0Pwd1DriVmZGRwM4bli+mL8Fu6DFh7iEbqVQyxSrIc4G0HKnq
+         K4aCifH3gLnwzsRkLxaeQdbIM2aRHLu//HJesR+yv1aY9pXIBJwi84DFNiDurst56L2u
+         K8117ncgzaVp1FiUhJgynv9kXhmXfg3Z1MnTpukEMr4zI4ib7e9fp4VH6/ReilQVDAA9
+         Dv5LfJJYx7zh2DUyoPU7UEYyPuosebbAUZwzfHGBljGYxpt4qQChpffhTdDWfEYO8j8L
+         yh4cBZIrzRs5uDLAroNDdiYryzC15fzh/geLFM6MgAHhhypOIX+Qe++shogW1IJpbk12
+         Crew==
+X-Forwarded-Encrypted: i=1; AJvYcCW5YskdAz8rqlzYbBf2cvqjs4yA+aR5hy60B0eXTZg0H5ndclrVdNgzj5TnA5HlaDE2QIYlny+8dSnTmGDJlW4eQqvEi0tejGpqQmAv3NbG52DGTwhj6an5gYdGdEpb+6Jh8MMhJD/jqx39aZHXfGfiiNw/ZNA3d701wE97O99/HrIv234JTeC9vTgy
+X-Gm-Message-State: AOJu0YwMCBl8HZhwkUcMK0EztiT8oFosGwrQNpBSFtDDG76xsng1p2fm
+	sM5Ds1dXzrjohrf6yqkEN7mxLt6EiAGz3nZMhW8mrmQ126iE7zHV
+X-Google-Smtp-Source: AGHT+IHTudt7kiYcNJSDPSJ98mAV2G/a5wBaZS03otEV7K9fUUgCt4uLpoJnm459eeVLI8D38BP8TQ==
+X-Received: by 2002:a05:600c:cc5:b0:412:df1b:4875 with SMTP id fk5-20020a05600c0cc500b00412df1b4875mr8149679wmb.30.1709766675506;
+        Wed, 06 Mar 2024 15:11:15 -0800 (PST)
+Received: from prasmi.home ([2a00:23c8:2500:a01:fef2:3c1d:a816:65f7])
+        by smtp.gmail.com with ESMTPSA id h8-20020a056000000800b0033d2ae84fafsm15328996wrx.52.2024.03.06.15.11.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 06 Mar 2024 15:11:14 -0800 (PST)
+From: Prabhakar <prabhakar.csengg@gmail.com>
+X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+To: Geert Uytterhoeven <geert+renesas@glider.be>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jiri Slaby <jirislaby@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Magnus Damm <magnus.damm@gmail.com>
+Cc: linux-kernel@vger.kernel.org,
+	linux-serial@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	Prabhakar <prabhakar.csengg@gmail.com>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH 0/2] dt-bindings: serial: renesas,scif: Validate 'interrupts' and 'interrupt-names'
+Date: Wed,  6 Mar 2024 23:10:05 +0000
+Message-Id: <20240306231007.13622-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <0212b57ba1005bb9b5a922f8f25cc67a7bc15f30.1709631152.git.geert+renesas@glider.be>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: msexch01.omp.ru (10.188.4.12) To msexch01.omp.ru
- (10.188.4.12)
-X-KSE-ServerInfo: msexch01.omp.ru, 9
-X-KSE-AntiSpam-Interceptor-Info: scan successful
-X-KSE-AntiSpam-Version: 6.1.0, Database issued on: 03/06/2024 19:21:53
-X-KSE-AntiSpam-Status: KAS_STATUS_NOT_DETECTED
-X-KSE-AntiSpam-Method: none
-X-KSE-AntiSpam-Rate: 59
-X-KSE-AntiSpam-Info: Lua profiles 184012 [Mar 06 2024]
-X-KSE-AntiSpam-Info: Version: 6.1.0.3
-X-KSE-AntiSpam-Info: Envelope from: s.shtylyov@omp.ru
-X-KSE-AntiSpam-Info: LuaCore: 9 0.3.9 e923e63e431b6489f12901471775b2d1b59df0ba
-X-KSE-AntiSpam-Info: {rep_avail}
-X-KSE-AntiSpam-Info: {Tracking_from_domain_doesnt_match_to}
-X-KSE-AntiSpam-Info: {relay has no DNS name}
-X-KSE-AntiSpam-Info: {SMTP from is not routable}
-X-KSE-AntiSpam-Info: {Found in DNSBL: 178.176.76.108 in (user)
- b.barracudacentral.org}
-X-KSE-AntiSpam-Info:
-	omp.ru:7.1.1;127.0.0.199:7.1.2;178.176.76.108:7.1.2;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1
-X-KSE-AntiSpam-Info: ApMailHostAddress: 178.176.76.108
-X-KSE-AntiSpam-Info: {DNS response errors}
-X-KSE-AntiSpam-Info: Rate: 59
-X-KSE-AntiSpam-Info: Status: not_detected
-X-KSE-AntiSpam-Info: Method: none
-X-KSE-AntiSpam-Info: Auth:dmarc=temperror header.from=omp.ru;spf=temperror
- smtp.mailfrom=omp.ru;dkim=none
-X-KSE-Antiphishing-Info: Clean
-X-KSE-Antiphishing-ScanningType: Heuristic
-X-KSE-Antiphishing-Method: None
-X-KSE-Antiphishing-Bases: 03/06/2024 19:26:00
-X-KSE-Antivirus-Interceptor-Info: scan successful
-X-KSE-Antivirus-Info: Clean, bases: 3/6/2024 2:00:00 PM
-X-KSE-Attachment-Filter-Triggered-Rules: Clean
-X-KSE-Attachment-Filter-Triggered-Filters: Clean
-X-KSE-BulkMessagesFiltering-Scan-Result: InTheLimit
+Content-Transfer-Encoding: 8bit
 
-On 3/5/24 12:37 PM, Geert Uytterhoeven wrote:
+From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-> From: Thanh Quan <thanh.quan.xn@renesas.com>
-> 
-> Document support for the Renesas Ethernet AVB (EtherAVB-IF) block in the
-> Renesas R-Car V4M (R8A779H0) SoC.
-> 
-> Signed-off-by: Thanh Quan <thanh.quan.xn@renesas.com>
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Hi All,
 
-Reviewed-by: Sergey Shtylyov <s.shtylyov@omp.ru>
+This patch series updates renesas,scif.yaml to validate the 'interrupts'
+and 'interrupt-names' properties for every supported SoC.
 
-[...]
+Cheers,
+Prabhakar
 
-MBR, Sergey
+Lad Prabhakar (2):
+  dt-bindings: serial: renesas,scif: Move ref for serial.yaml at the end
+  dt-bindings: serial: renesas,scif: Validate 'interrupts' and
+    'interrupt-names'
+
+ .../bindings/serial/renesas,scif.yaml         | 147 ++++++++++++------
+ 1 file changed, 100 insertions(+), 47 deletions(-)
+
+-- 
+2.34.1
+
 
