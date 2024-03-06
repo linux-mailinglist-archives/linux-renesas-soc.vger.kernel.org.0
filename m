@@ -1,106 +1,77 @@
-Return-Path: <linux-renesas-soc+bounces-3521-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-3522-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 591E6873E4D
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  6 Mar 2024 19:14:04 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id CC8BC873FF5
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  6 Mar 2024 19:49:43 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 04A95B20E24
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  6 Mar 2024 18:14:02 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0942F1C220DC
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  6 Mar 2024 18:49:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7E5A213E7EE;
-	Wed,  6 Mar 2024 18:12:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9F48513DBB7;
+	Wed,  6 Mar 2024 18:49:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="U7y99w7c"
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="lew0p/7I"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 525A513D309;
-	Wed,  6 Mar 2024 18:12:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE4A8137C4A;
+	Wed,  6 Mar 2024 18:49:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709748779; cv=none; b=u8itYV7IK3SwwP63/hS8EIEe8DAOohLMlzN/0CyN/zHvwVt4SYslUrTe238NasNwwebavRc8Lq7LbIM8fDd8gIIW4NG+rbtNgJk5Z6Kc3CaXDBusmZh4u7GP0+HtFa99QVqY5B8XZpwh+6TIf68nopXY5pmoyqXEgcgQMyfDPeM=
+	t=1709750980; cv=none; b=m2k29g95v+/vAgi1GLnu7LTO6Yq0J8xzB1DBWFqr3kRvl53Kc5Q5JQbPXo71iIhP4j/IRMq1UdD3I5JATIoEBw75p+j593qxhZUbLzMeQYRtK24P48wDHXlnZ/J1ZVEvj3oAECvs5dFRymZgi/3fNpOKJOIwJ060zROYs/ilsY0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709748779; c=relaxed/simple;
-	bh=oDl9i8wVopENg8HbcqfcwU5Qsqz8CfV8yBnuXQyY7cU=;
+	s=arc-20240116; t=1709750980; c=relaxed/simple;
+	bh=akNjyDBohXq6EkpxmGM3xfr48dOsRjxiD0Mr2CPTHp4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=djjFT8AYhRwJkXvAm8p/R2vyF/zyyZie6W5GcY0TxqaXFvPhrRVW/RvKyNS71FbbjsbygTyzbvRwl5mH3AbtBq1JQOYL8EbnDTJ5DyVrkPnE/xxLFYKd7vR4H449ylopwGpCFVeXAXL67Lq8JqwCCJzB8ZR8jeicPPKXcRm6UX8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=U7y99w7c; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 39FADC433C7;
-	Wed,  6 Mar 2024 18:12:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1709748778;
-	bh=oDl9i8wVopENg8HbcqfcwU5Qsqz8CfV8yBnuXQyY7cU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=U7y99w7cc7rbC2VCe02xdhPhernanjr5yhjHnseoyF/dhziSp3uG1eyhZL+qr0dKd
-	 M5/BiuOIqv5fgRssDLurOQQLyr0aZjUAFof6Wn1tRf4mHb6+uISC4N9TAFQn0JtkMv
-	 UP4CqsMBDvJYkU7jHkaY5A+leEqisiCqwbrpG1A1n4CrYmFRkl358dAu9/KWxb4was
-	 VJyodc8l/xwSA2qw4kBIplFevpjYoE0270EEhodtqLVvcogVEwnOKaCPrDFmZvbuYB
-	 CXE5LFgD/vPqR6Uk+2Hj9Ho9MB+VwMSKP82xDzfEX0/eaMeaVQneJfKFgb1imeV1Iv
-	 GNMfkgW3FXViQ==
-Date: Wed, 6 Mar 2024 18:12:53 +0000
-From: Conor Dooley <conor@kernel.org>
-To: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund@ragnatech.se>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
-	Daniel Lezcano <daniel.lezcano@linaro.org>,
-	Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	linux-renesas-soc@vger.kernel.org, linux-pm@vger.kernel.org,
-	devicetree@vger.kernel.org, Duy Nguyen <duy.nguyen.rh@renesas.com>
-Subject: Re: [PATCH 1/2] dt-bindings: thermal: rcar-gen3-thermal: Add
- r8a779h0 support
-Message-ID: <20240306-discover-outshoot-2e0716d5d3ce@spud>
-References: <cover.1709722342.git.geert+renesas@glider.be>
- <b3d135f8b63b9fe2d0f0aa2e48c8a2211b2e947e.1709722342.git.geert+renesas@glider.be>
+	 Content-Type:Content-Disposition:In-Reply-To; b=BYnrvdlEM6krWXIJArL4MYScnD1NtI2adeWoMpWOA+VVwc4fiz0P//frwzCg8dYR7zGpKJzHGAhx0crRnQmklEJtLtTkX/BRc54yFG15iD+tX0QeyczRkI/y95CiD0yPXKxCU9fP7pqSERnZva/HmwrNwBaSd7oh3mhNUY5IOBI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=lew0p/7I; arc=none smtp.client-ip=156.67.10.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=tLWrWIhDdIYYSQoyYZEpUQhvpua0zE4FniIeWjJrPgw=; b=lew0p/7IbEpIiArutlQ7BWuW/Y
+	IqcWqtFIBNUNA1/ObYe3wDpBk+jP7ZrDJ/KiRT4RxKw/LdD7b9WqosDCpaNbcxtHoZB/oW9/QUkxf
+	9WyHwBHgb3YSytAvGGGM4FtP80yJ+TDQ6jk4mTkw6kfe7QYwpsl4XBVOUqCwXruFX9QY=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1rhwL1-009WRv-Jl; Wed, 06 Mar 2024 19:49:59 +0100
+Date: Wed, 6 Mar 2024 19:49:59 +0100
+From: Andrew Lunn <andrew@lunn.ch>
+To: "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>
+Cc: Heiner Kallweit <hkallweit1@gmail.com>,
+	Cl__ment L__ger <clement.leger@bootlin.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	linux-renesas-soc@vger.kernel.org, netdev@vger.kernel.org
+Subject: Re: [PATCH net-next] net: pcs: rzn1-miic: update PCS driver to use
+ neg_mode
+Message-ID: <1f948883-9e54-4707-9934-b24f8440e353@lunn.ch>
+References: <E1rhos9-003yuW-Az@rmk-PC.armlinux.org.uk>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="42iu+UqCSUQQDnvJ"
-Content-Disposition: inline
-In-Reply-To: <b3d135f8b63b9fe2d0f0aa2e48c8a2211b2e947e.1709722342.git.geert+renesas@glider.be>
-
-
---42iu+UqCSUQQDnvJ
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <E1rhos9-003yuW-Az@rmk-PC.armlinux.org.uk>
 
-On Wed, Mar 06, 2024 at 11:56:02AM +0100, Geert Uytterhoeven wrote:
-> From: Duy Nguyen <duy.nguyen.rh@renesas.com>
->=20
-> Document support for the Thermal Sensor/Chip Internal Voltage
-> Monitor/Core Voltage Monitor (THS/CIVM/CVM) on the Renesas R-Car V4M
-> (R8A779H0) SoC.
->=20
-> Just like on other R-Car Gen4 SoCs, interrupts are not routed to the
-> INTC-AP (GIC) but to the Error Control Module (ECM).
->=20
-> Signed-off-by: Duy Nguyen <duy.nguyen.rh@renesas.com>
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+On Wed, Mar 06, 2024 at 10:51:41AM +0000, Russell King (Oracle) wrote:
+> Update the RZN1-MIIC PCS driver to use neg_mode rather than the mode
+> argument to match the other updated PCS drivers.
+> 
+> Signed-off-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
 
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
+Reviewed-by: Andrew Lunn <andrew@lunn.ch>
 
-
---42iu+UqCSUQQDnvJ
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZeiyJQAKCRB4tDGHoIJi
-0pBaAP4jB17YQumW0L2miIINAAmjpdyZcV+hNwFRGq9Tj2fZrwEA0yoGS1zRmMgA
-Nh50LHjtU4c/tX4ZJ8fJKLAiFa9PNAA=
-=AuLQ
------END PGP SIGNATURE-----
-
---42iu+UqCSUQQDnvJ--
+    Andrew
 
