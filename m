@@ -1,140 +1,137 @@
-Return-Path: <linux-renesas-soc+bounces-3486-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-3487-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id B63B58726B9
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  5 Mar 2024 19:39:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 83627872C49
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  6 Mar 2024 02:38:12 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E86F31C21BDD
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  5 Mar 2024 18:39:46 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B5F161C25BDB
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  6 Mar 2024 01:38:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2423618EA2;
-	Tue,  5 Mar 2024 18:39:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2FA92ECF;
+	Wed,  6 Mar 2024 01:38:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KDaRKX1/"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2E4CF14A8D
-	for <linux-renesas-soc@vger.kernel.org>; Tue,  5 Mar 2024 18:39:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.171
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A0D06FBD
+	for <linux-renesas-soc@vger.kernel.org>; Wed,  6 Mar 2024 01:38:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709663985; cv=none; b=hPUfAXhPKzCoqvDwWNM3cm7SXJShZR7NtH1+RGXdxdQHtQFSCaixXg1uA5PE0rbcqDAL0zQ9NHGKUOb1iO9nJSG9znNxrkYMTdwoGPLe5toiwM5KzL9WVqssWWQDuJGHeRX6jRdihRbWKlcGRuYF6wSJ1V3rzFXNImEslDsWvHY=
+	t=1709689090; cv=none; b=B2yLvnPCaNhwTsW2ub6MkSmNBxhJcCgCajei0HurekjtOLrwg9mOmcZTz76VzMUixigYECENFMN5leEMR8CH8KxtjTLRUxmsMKy8m0NTBjMOw3QdqdA4fRrIx5KY8ghcFJJuJKtGnEOe64SZD1C7G7xdnROkbmzAE/mZMU+VksI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709663985; c=relaxed/simple;
-	bh=6Oe9wQgHYQK2ZUkozET7m1+nlKuKua01IpIVfmqmNdc=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=OsV0PrWsiRvP8hVtjncTJQoUvtmiGW5qdwAe5YNliX8IdUx4njwOLzDtdPq2XDS4tFjre6WI4DApyJRmxNOCJh7dBDJwh7GY3jVS/o1fznYev8W3oVxJdkI9dfMsz+yAI3jPoZ9cfh6qPzqxKNzPKNPbALBixnFN3ryv8OrmQpw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
-X-IronPort-AV: E=Sophos;i="6.06,206,1705330800"; 
-   d="scan'208";a="196498268"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie5.idc.renesas.com with ESMTP; 06 Mar 2024 03:39:42 +0900
-Received: from localhost.localdomain (unknown [10.226.92.185])
-	by relmlir5.idc.renesas.com (Postfix) with ESMTP id F36CA400C4E9;
-	Wed,  6 Mar 2024 03:39:39 +0900 (JST)
-From: Biju Das <biju.das.jz@bp.renesas.com>
-To: Thomas Gleixner <tglx@linutronix.de>
-Cc: Biju Das <biju.das.jz@bp.renesas.com>,
-	Marc Zyngier <maz@kernel.org>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Biju Das <biju.das.au@gmail.com>,
-	linux-renesas-soc@vger.kernel.org
-Subject: [PATCH v2 5/5] irqchip/renesas-rzg2l: Use TIEN for enable/disable
-Date: Tue,  5 Mar 2024 18:39:22 +0000
-Message-Id: <20240305183922.138727-6-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20240305183922.138727-1-biju.das.jz@bp.renesas.com>
-References: <20240305183922.138727-1-biju.das.jz@bp.renesas.com>
+	s=arc-20240116; t=1709689090; c=relaxed/simple;
+	bh=UnSwrJy8+0X0RBT5+CdywjyF/9r19nTAiVHd/GsAsX4=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=K4uoiusrn6zwTOLPu+dVxTqZVyDQjyRRJcWrA1TuKIrPnBx5RB/L0eEDdNjiLwh5oHfxF3CtNko2FWlJKbrg/t1ICsdAfVKI1P0lHLnw/sVe2t8R6Rar5KbWtXE+E5JNsogSzIXTCEN+fAU3PURdBbbTIbDR5YPuL6xes3de+Io=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KDaRKX1/; arc=none smtp.client-ip=198.175.65.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1709689088; x=1741225088;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=UnSwrJy8+0X0RBT5+CdywjyF/9r19nTAiVHd/GsAsX4=;
+  b=KDaRKX1/Lr3OEnArRVa3M/+XHE/AgZjgJLkGh4lCb/ar5sJs5E2btRPk
+   GnQleI6WsaFqyQAqMmcEfh9hkf2skDtYaHVE2jMYb+2bp/Ie0JBfPWO4D
+   VSvriiOtrr87JzoyqeO9q3xzzdy6kcS+SCZgfwg85NISZITa63wyjfsX3
+   /xjjJeSSMVB1Zl3LYKv2hNW+tt/6fPMlP610CxdjmumKADRUisVj7RQs3
+   YO+f+oMDdH3s/BETiGfSfgXIGCI8X20dF7mxHd37KfYA2mqSObYgIuIPi
+   8Q9o/moUvJTZxgono+86sU/sn9skKwUngA4vCi4dUY++TCMzFW6dWvliA
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11004"; a="15425788"
+X-IronPort-AV: E=Sophos;i="6.06,207,1705392000"; 
+   d="scan'208";a="15425788"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2024 17:38:08 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.06,207,1705392000"; 
+   d="scan'208";a="9656236"
+Received: from lkp-server01.sh.intel.com (HELO b21307750695) ([10.239.97.150])
+  by orviesa009.jf.intel.com with ESMTP; 05 Mar 2024 17:38:07 -0800
+Received: from kbuild by b21307750695 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rhgEN-0003pV-30;
+	Wed, 06 Mar 2024 01:38:03 +0000
+Date: Wed, 6 Mar 2024 09:37:04 +0800
+From: kernel test robot <lkp@intel.com>
+To: Vinod Koul <vkoul@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-renesas-soc@vger.kernel.org,
+	Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [geert-renesas-drivers:master 34/52]
+ drivers/phy/qualcomm/phy-qcom-qmp-usb.c:1340:35: warning: initialization of
+ 'const struct qmp_usb_offsets *' from 'int' makes pointer from integer
+ without a cast
+Message-ID: <202403060928.h7xXMXHi-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Currently hardware settings for TINT detection is not in sync with
-TINT source as the enable/disable overrides source setting value leading
-to hardware inconsistent state. For eg: consider the case GPIOINT0 is used
-as TINT interrupt and configuring GPIOINT5 as edgetype. During disable the
-clearing of the entire bytes of TINT source selection for GPIOINT5 is same
-as GPIOINT0 with TIEN disabled. Other than this during enabling, the
-setting of GPIOINT5 with TIEN results in spurious IRQ as due to a HW race,
-it is possible that IP can use the TIEN with previous source value
-(GPIOINT0).
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git master
+head:   0a76003de2b9029d5898c23d23ddbb90f5a74580
+commit: 98177a93f8e405ce41969db23f5bf4766aa6a1f4 [34/52] Merge remote-tracking branch 'phy/next' into renesas-drivers
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20240306/202403060928.h7xXMXHi-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240306/202403060928.h7xXMXHi-lkp@intel.com/reproduce)
 
-So, it is better to just use TIEN for enable/disable and avoid modifying
-TINT source selection register.This will make the consistent hardware
-settings for detection method tied with TINT source and allows to simplify
-the code.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403060928.h7xXMXHi-lkp@intel.com/
 
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
----
-v1->v2:
- * Merged patch#4 and #5 and updated commit description.
----
- drivers/irqchip/irq-renesas-rzg2l.c | 29 +++++++++++------------------
- 1 file changed, 11 insertions(+), 18 deletions(-)
+All warnings (new ones prefixed by >>):
 
-diff --git a/drivers/irqchip/irq-renesas-rzg2l.c b/drivers/irqchip/irq-renesas-rzg2l.c
-index e793b8f07dac..a7d47dbf7627 100644
---- a/drivers/irqchip/irq-renesas-rzg2l.c
-+++ b/drivers/irqchip/irq-renesas-rzg2l.c
-@@ -138,7 +138,7 @@ static void rzg2l_irqc_eoi(struct irq_data *d)
- 	irq_chip_eoi_parent(d);
- }
- 
--static void rzg2l_irqc_irq_disable(struct irq_data *d)
-+static void rzg2l_tint_irq_endisable(struct irq_data *d, bool enable)
- {
- 	unsigned int hw_irq = irqd_to_hwirq(d);
- 
-@@ -151,31 +151,24 @@ static void rzg2l_irqc_irq_disable(struct irq_data *d)
- 
- 		raw_spin_lock(&priv->lock);
- 		reg = readl_relaxed(priv->base + TSSR(tssr_index));
--		reg &= ~(TSSEL_MASK << TSSEL_SHIFT(tssr_offset));
-+		if (enable)
-+			reg |= TIEN << TSSEL_SHIFT(tssr_offset);
-+		else
-+			reg &= ~(TIEN << TSSEL_SHIFT(tssr_offset));
- 		writel_relaxed(reg, priv->base + TSSR(tssr_index));
- 		raw_spin_unlock(&priv->lock);
- 	}
-+}
-+
-+static void rzg2l_irqc_irq_disable(struct irq_data *d)
-+{
-+	rzg2l_tint_irq_endisable(d, false);
- 	irq_chip_disable_parent(d);
- }
- 
- static void rzg2l_irqc_irq_enable(struct irq_data *d)
- {
--	unsigned int hw_irq = irqd_to_hwirq(d);
--
--	if (hw_irq >= IRQC_TINT_START && hw_irq < IRQC_NUM_IRQ) {
--		unsigned long tint = (uintptr_t)irq_data_get_irq_chip_data(d);
--		struct rzg2l_irqc_priv *priv = irq_data_to_priv(d);
--		u32 offset = hw_irq - IRQC_TINT_START;
--		u32 tssr_offset = TSSR_OFFSET(offset);
--		u8 tssr_index = TSSR_INDEX(offset);
--		u32 reg;
--
--		raw_spin_lock(&priv->lock);
--		reg = readl_relaxed(priv->base + TSSR(tssr_index));
--		reg |= (TIEN | tint) << TSSEL_SHIFT(tssr_offset);
--		writel_relaxed(reg, priv->base + TSSR(tssr_index));
--		raw_spin_unlock(&priv->lock);
--	}
-+	rzg2l_tint_irq_endisable(d, true);
- 	irq_chip_enable_parent(d);
- }
- 
+   drivers/phy/qualcomm/phy-qcom-qmp-usb.c:1340:10: error: 'const struct qmp_phy_cfg' has no member named 'lanes'
+    1340 |         .lanes                  = 1,
+         |          ^~~~~
+>> drivers/phy/qualcomm/phy-qcom-qmp-usb.c:1340:35: warning: initialization of 'const struct qmp_usb_offsets *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+    1340 |         .lanes                  = 1,
+         |                                   ^
+   drivers/phy/qualcomm/phy-qcom-qmp-usb.c:1340:35: note: (near initialization for 'ipq6018_usb3phy_cfg.offsets')
+   drivers/phy/qualcomm/phy-qcom-qmp-usb.c:1342:35: warning: initialized field overwritten [-Woverride-init]
+    1342 |         .offsets                = &qmp_usb_offsets_v3,
+         |                                   ^
+   drivers/phy/qualcomm/phy-qcom-qmp-usb.c:1342:35: note: (near initialization for 'ipq6018_usb3phy_cfg.offsets')
+
+
+vim +1340 drivers/phy/qualcomm/phy-qcom-qmp-usb.c
+
+2daa9555ba9858 Abel Vesa        2023-12-07  1338  
+62a5df451ab911 Mantas Pucka     2024-01-23  1339  static const struct qmp_phy_cfg ipq6018_usb3phy_cfg = {
+62a5df451ab911 Mantas Pucka     2024-01-23 @1340  	.lanes			= 1,
+62a5df451ab911 Mantas Pucka     2024-01-23  1341  
+d4c08d8b23b228 Dmitry Baryshkov 2024-02-13  1342  	.offsets		= &qmp_usb_offsets_v3,
+62a5df451ab911 Mantas Pucka     2024-01-23  1343  
+62a5df451ab911 Mantas Pucka     2024-01-23  1344  	.serdes_tbl		= ipq9574_usb3_serdes_tbl,
+62a5df451ab911 Mantas Pucka     2024-01-23  1345  	.serdes_tbl_num		= ARRAY_SIZE(ipq9574_usb3_serdes_tbl),
+62a5df451ab911 Mantas Pucka     2024-01-23  1346  	.tx_tbl			= msm8996_usb3_tx_tbl,
+62a5df451ab911 Mantas Pucka     2024-01-23  1347  	.tx_tbl_num		= ARRAY_SIZE(msm8996_usb3_tx_tbl),
+62a5df451ab911 Mantas Pucka     2024-01-23  1348  	.rx_tbl			= ipq8074_usb3_rx_tbl,
+62a5df451ab911 Mantas Pucka     2024-01-23  1349  	.rx_tbl_num		= ARRAY_SIZE(ipq8074_usb3_rx_tbl),
+62a5df451ab911 Mantas Pucka     2024-01-23  1350  	.pcs_tbl		= ipq8074_usb3_pcs_tbl,
+62a5df451ab911 Mantas Pucka     2024-01-23  1351  	.pcs_tbl_num		= ARRAY_SIZE(ipq8074_usb3_pcs_tbl),
+62a5df451ab911 Mantas Pucka     2024-01-23  1352  	.vreg_list		= qmp_phy_vreg_l,
+62a5df451ab911 Mantas Pucka     2024-01-23  1353  	.num_vregs		= ARRAY_SIZE(qmp_phy_vreg_l),
+62a5df451ab911 Mantas Pucka     2024-01-23  1354  	.regs			= qmp_v3_usb3phy_regs_layout,
+62a5df451ab911 Mantas Pucka     2024-01-23  1355  };
+62a5df451ab911 Mantas Pucka     2024-01-23  1356  
+
+:::::: The code at line 1340 was first introduced by commit
+:::::: 62a5df451ab911421da96655fcc4d1e269ff6e2f phy: qcom-qmp-usb: fix serdes init sequence for IPQ6018
+
+:::::: TO: Mantas Pucka <mantas@8devices.com>
+:::::: CC: Vinod Koul <vkoul@kernel.org>
+
 -- 
-2.25.1
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
