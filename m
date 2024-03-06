@@ -1,45 +1,45 @@
-Return-Path: <linux-renesas-soc+bounces-3511-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-3510-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6432487351B
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  6 Mar 2024 11:57:27 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id D4449873517
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  6 Mar 2024 11:57:22 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 901101C23517
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  6 Mar 2024 10:57:26 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8A0CC1F2768E
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  6 Mar 2024 10:57:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1D27377A14;
-	Wed,  6 Mar 2024 10:56:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 70A7E779F3;
+	Wed,  6 Mar 2024 10:56:17 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from xavier.telenet-ops.be (xavier.telenet-ops.be [195.130.132.52])
+Received: from baptiste.telenet-ops.be (baptiste.telenet-ops.be [195.130.132.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B172D74E3F
-	for <linux-renesas-soc@vger.kernel.org>; Wed,  6 Mar 2024 10:56:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.132.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D112779FD
+	for <linux-renesas-soc@vger.kernel.org>; Wed,  6 Mar 2024 10:56:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.132.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709722579; cv=none; b=KlFdofNXEN93+KKgr2trFQGgQC5lveTGLOhbj/AvUkE3Oc5+VL3aThuCkm+5QY1ZzqawUFzn2R0ZpR8OX3QE08u6fiYMiFdBA3WjRz+pXoqOM3WvLBtVnL0sMnoYptXLxH+o9sJpgPE6h3SOhxekZpogE9EphCXATCX8S7pG7ag=
+	t=1709722577; cv=none; b=VVXKVuh5yK6YkvEYQTtNuVRuWhz2SdKIzMAnKuQOgAJ2hbx9D7pxBmmhVjpdenSbBqVBaxcQo9vva8K0uQji2im4bnK54Gpz8SApSLVwJ5z+u+fMr+QgX70neEk6rgnB11thPYPqOV4YSV0ilBqs+zzE/Q9WrC7RofS1PIybcEw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709722579; c=relaxed/simple;
-	bh=TJ24aG+kXCjYheKsA0o5PbfPeY9Fd1hO9Wj5VYe2+Hw=;
+	s=arc-20240116; t=1709722577; c=relaxed/simple;
+	bh=xw1Of5eP9QN94JfZZcLhKlocVavuPmL/Ptad+alYLtg=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=LtDjnlbrdU1vvPsrs/19z3Z34yuEYOn6S+kNpHTqnKtjRX1eQphuxOauIBNU3YGPt6BU1MEsrnT6fVrXYlLEkxz9cW9w0T94j0wsO4tkXc3df9nB9oBxxCogFnU1q0IkY0f9y/wUA6cIw+Mqs1F8sjfRIIXPSAcSqG7hYnfK+LM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.132.52
+	 MIME-Version; b=Yie6S269ObWE2ztYgguX4kQLJEGzFZmFFjswP/YUAqxy2HxkaWHycj8+BJNGxswTmM0X5wXaOfUjiUBSqliBNk3K6wAIcZRqNBT1aC2NoMZyHyx3NmtKRXavRg7HNHRtD+2k2xlipRd1SWW0zcQSFoLchoc0kfXro+8czc3864U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.132.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
 Received: from ramsan.of.borg ([84.195.187.55])
-	by xavier.telenet-ops.be with bizsmtp
-	id vNw42B00T1C8whw01Nw4R6; Wed, 06 Mar 2024 11:56:08 +0100
+	by baptiste.telenet-ops.be with bizsmtp
+	id vNw42B00G1C8whw01Nw4Br; Wed, 06 Mar 2024 11:56:06 +0100
 Received: from rox.of.borg ([192.168.97.57])
 	by ramsan.of.borg with esmtp (Exim 4.95)
 	(envelope-from <geert@linux-m68k.org>)
-	id 1rhowB-002Y8k-1m;
+	id 1rhowB-002Y8l-2Y;
 	Wed, 06 Mar 2024 11:56:04 +0100
 Received: from geert by rox.of.borg with local (Exim 4.95)
 	(envelope-from <geert@linux-m68k.org>)
-	id 1rhowO-00EMJg-8n;
+	id 1rhowO-00EMJj-9p;
 	Wed, 06 Mar 2024 11:56:04 +0100
 From: Geert Uytterhoeven <geert+renesas@glider.be>
 To: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
@@ -53,11 +53,10 @@ To: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
 Cc: linux-renesas-soc@vger.kernel.org,
 	linux-pm@vger.kernel.org,
 	devicetree@vger.kernel.org,
-	Duy Nguyen <duy.nguyen.rh@renesas.com>,
 	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH 1/2] dt-bindings: thermal: rcar-gen3-thermal: Add r8a779h0 support
-Date: Wed,  6 Mar 2024 11:56:02 +0100
-Message-Id: <b3d135f8b63b9fe2d0f0aa2e48c8a2211b2e947e.1709722342.git.geert+renesas@glider.be>
+Subject: [PATCH 2/2] thermal/drivers/rcar_gen3: Add support for R-Car V4M
+Date: Wed,  6 Mar 2024 11:56:03 +0100
+Message-Id: <bd5b002a802c1e058e0048592f17862db1d04263.1709722342.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1709722342.git.geert+renesas@glider.be>
 References: <cover.1709722342.git.geert+renesas@glider.be>
@@ -69,44 +68,37 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Duy Nguyen <duy.nguyen.rh@renesas.com>
+Add support for the Thermal Sensor/Chip Internal Voltage Monitor/Core
+Voltage Monitor (THS/CIVM/CVM) on the Renesas R-Car V4M (R8A779H0) SoC.
 
-Document support for the Thermal Sensor/Chip Internal Voltage
-Monitor/Core Voltage Monitor (THS/CIVM/CVM) on the Renesas R-Car V4M
-(R8A779H0) SoC.
+The conversion formulas for R-Car V4M are the same as for other R-Car
+Gen4 SoCs.
 
-Just like on other R-Car Gen4 SoCs, interrupts are not routed to the
-INTC-AP (GIC) but to the Error Control Module (ECM).
+Based on a patch in the BSP by Duy Nguyen.
 
-Signed-off-by: Duy Nguyen <duy.nguyen.rh@renesas.com>
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
 Changes compared to the BSP:
-  - No interrupts property, as interrupts are routed to the ECM.
+  - Use existing rcar_gen4_thermal_info instead of new data_v4m.
 ---
- .../devicetree/bindings/thermal/rcar-gen3-thermal.yaml          | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/thermal/rcar_gen3_thermal.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/thermal/rcar-gen3-thermal.yaml b/Documentation/devicetree/bindings/thermal/rcar-gen3-thermal.yaml
-index ecf276fd155cfb27..6a81cb6e11bc1e14 100644
---- a/Documentation/devicetree/bindings/thermal/rcar-gen3-thermal.yaml
-+++ b/Documentation/devicetree/bindings/thermal/rcar-gen3-thermal.yaml
-@@ -29,6 +29,7 @@ properties:
-       - renesas,r8a779a0-thermal # R-Car V3U
-       - renesas,r8a779f0-thermal # R-Car S4-8
-       - renesas,r8a779g0-thermal # R-Car V4H
-+      - renesas,r8a779h0-thermal # R-Car V4M
- 
-   reg: true
- 
-@@ -90,6 +91,7 @@ else:
-             enum:
-               - renesas,r8a779f0-thermal
-               - renesas,r8a779g0-thermal
-+              - renesas,r8a779h0-thermal
-   then:
-     required:
-       - interrupts
+diff --git a/drivers/thermal/rcar_gen3_thermal.c b/drivers/thermal/rcar_gen3_thermal.c
+index cafcb6d6e235be44..a764cb1115a57562 100644
+--- a/drivers/thermal/rcar_gen3_thermal.c
++++ b/drivers/thermal/rcar_gen3_thermal.c
+@@ -428,6 +428,10 @@ static const struct of_device_id rcar_gen3_thermal_dt_ids[] = {
+ 		.compatible = "renesas,r8a779g0-thermal",
+ 		.data = &rcar_gen4_thermal_info,
+ 	},
++	{
++		.compatible = "renesas,r8a779h0-thermal",
++		.data = &rcar_gen4_thermal_info,
++	},
+ 	{},
+ };
+ MODULE_DEVICE_TABLE(of, rcar_gen3_thermal_dt_ids);
 -- 
 2.34.1
 
