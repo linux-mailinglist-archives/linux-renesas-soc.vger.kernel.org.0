@@ -1,65 +1,55 @@
-Return-Path: <linux-renesas-soc+bounces-3510-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-3512-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4449873517
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  6 Mar 2024 11:57:22 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id BDE21873534
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  6 Mar 2024 11:59:45 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8A0CC1F2768E
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  6 Mar 2024 10:57:22 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 535911F24264
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  6 Mar 2024 10:59:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 70A7E779F3;
-	Wed,  6 Mar 2024 10:56:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 980306089E;
+	Wed,  6 Mar 2024 10:58:48 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from baptiste.telenet-ops.be (baptiste.telenet-ops.be [195.130.132.51])
+Received: from albert.telenet-ops.be (albert.telenet-ops.be [195.130.137.90])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D112779FD
-	for <linux-renesas-soc@vger.kernel.org>; Wed,  6 Mar 2024 10:56:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.132.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C4553A262
+	for <linux-renesas-soc@vger.kernel.org>; Wed,  6 Mar 2024 10:58:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.137.90
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709722577; cv=none; b=VVXKVuh5yK6YkvEYQTtNuVRuWhz2SdKIzMAnKuQOgAJ2hbx9D7pxBmmhVjpdenSbBqVBaxcQo9vva8K0uQji2im4bnK54Gpz8SApSLVwJ5z+u+fMr+QgX70neEk6rgnB11thPYPqOV4YSV0ilBqs+zzE/Q9WrC7RofS1PIybcEw=
+	t=1709722728; cv=none; b=Yz22WTfRM+MWxLFsKyopnQOKqi5LQcxq1Rq/gRz5NqOu9M2QtNs2M8lUJz21s0iM79z/+bIb71RatNGxBr4B7zzgnGcpNp9F7TexIoIPKs+gEImMJt2BLz7QgMjXxuRFi+ShOmUfaOXOKq4rClodQIm4uKTkyiKoAg6cx1gaknM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709722577; c=relaxed/simple;
-	bh=xw1Of5eP9QN94JfZZcLhKlocVavuPmL/Ptad+alYLtg=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=Yie6S269ObWE2ztYgguX4kQLJEGzFZmFFjswP/YUAqxy2HxkaWHycj8+BJNGxswTmM0X5wXaOfUjiUBSqliBNk3K6wAIcZRqNBT1aC2NoMZyHyx3NmtKRXavRg7HNHRtD+2k2xlipRd1SWW0zcQSFoLchoc0kfXro+8czc3864U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.132.51
+	s=arc-20240116; t=1709722728; c=relaxed/simple;
+	bh=yOuPaPBqKDcmtyk5O+TXJAAqBYShjqLRSbQhJo63mfA=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=lRYcX0KQXVeXvQMoa0pRMQnOdFduFo4ok8GjdAZob3a+mMF2/y4Gaiq136T3keaqUh+MWrWI8UqaxbtCgux+QmEDQqGxBTYH6cqYzt6DSvG9illmbI+gXgYd7rf/pyOj0nWfBUdHUGRCo3cUCaswmpVFJEQfFsVOdOJNHAA2W5c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.137.90
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
 Received: from ramsan.of.borg ([84.195.187.55])
-	by baptiste.telenet-ops.be with bizsmtp
-	id vNw42B00G1C8whw01Nw4Br; Wed, 06 Mar 2024 11:56:06 +0100
+	by albert.telenet-ops.be with bizsmtp
+	id vNyj2B00P1C8whw06Nyj41; Wed, 06 Mar 2024 11:58:44 +0100
 Received: from rox.of.borg ([192.168.97.57])
 	by ramsan.of.borg with esmtp (Exim 4.95)
 	(envelope-from <geert@linux-m68k.org>)
-	id 1rhowB-002Y8l-2Y;
-	Wed, 06 Mar 2024 11:56:04 +0100
+	id 1rhoyk-002Y9V-JX;
+	Wed, 06 Mar 2024 11:58:43 +0100
 Received: from geert by rox.of.borg with local (Exim 4.95)
 	(envelope-from <geert@linux-m68k.org>)
-	id 1rhowO-00EMJj-9p;
-	Wed, 06 Mar 2024 11:56:04 +0100
+	id 1rhoyx-00EMM2-Nj;
+	Wed, 06 Mar 2024 11:58:43 +0100
 From: Geert Uytterhoeven <geert+renesas@glider.be>
-To: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
-	Daniel Lezcano <daniel.lezcano@linaro.org>,
-	Zhang Rui <rui.zhang@intel.com>,
-	Lukasz Luba <lukasz.luba@arm.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>
+To: Magnus Damm <magnus.damm@gmail.com>
 Cc: linux-renesas-soc@vger.kernel.org,
-	linux-pm@vger.kernel.org,
-	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	Duy Nguyen <duy.nguyen.rh@renesas.com>,
 	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH 2/2] thermal/drivers/rcar_gen3: Add support for R-Car V4M
-Date: Wed,  6 Mar 2024 11:56:03 +0100
-Message-Id: <bd5b002a802c1e058e0048592f17862db1d04263.1709722342.git.geert+renesas@glider.be>
+Subject: [PATCH] arm64: dts: renesas: r8a779h0: Add thermal nodes
+Date: Wed,  6 Mar 2024 11:58:35 +0100
+Message-Id: <d1f07c77943912145583d8916ba3ca65d143b1b1.1709722573.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <cover.1709722342.git.geert+renesas@glider.be>
-References: <cover.1709722342.git.geert+renesas@glider.be>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -68,37 +58,87 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add support for the Thermal Sensor/Chip Internal Voltage Monitor/Core
-Voltage Monitor (THS/CIVM/CVM) on the Renesas R-Car V4M (R8A779H0) SoC.
+From: Duy Nguyen <duy.nguyen.rh@renesas.com>
 
-The conversion formulas for R-Car V4M are the same as for other R-Car
-Gen4 SoCs.
+Add device nodes for the Thermal Sensor/Chip Internal Voltage
+Monitor/Core Voltage Monitor (THS/CIVM/CVM) and the various thermal
+zones on the Renesas R-Car V4M (R8A779H0) SoC.
 
-Based on a patch in the BSP by Duy Nguyen.
+Add support for 2 TSC nodes of thermal.
 
+Signed-off-by: Duy Nguyen <duy.nguyen.rh@renesas.com>
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
-Changes compared to the BSP:
-  - Use existing rcar_gen4_thermal_info instead of new data_v4m.
----
- drivers/thermal/rcar_gen3_thermal.c | 4 ++++
- 1 file changed, 4 insertions(+)
+Tested on Renesas Gray Hawk Single with an R-Car V4M SoC that has
+unfortunately no calibration values fused.
+To be queued in renesas-devel for v6.10.
 
-diff --git a/drivers/thermal/rcar_gen3_thermal.c b/drivers/thermal/rcar_gen3_thermal.c
-index cafcb6d6e235be44..a764cb1115a57562 100644
---- a/drivers/thermal/rcar_gen3_thermal.c
-+++ b/drivers/thermal/rcar_gen3_thermal.c
-@@ -428,6 +428,10 @@ static const struct of_device_id rcar_gen3_thermal_dt_ids[] = {
- 		.compatible = "renesas,r8a779g0-thermal",
- 		.data = &rcar_gen4_thermal_info,
- 	},
-+	{
-+		.compatible = "renesas,r8a779h0-thermal",
-+		.data = &rcar_gen4_thermal_info,
-+	},
- 	{},
- };
- MODULE_DEVICE_TABLE(of, rcar_gen3_thermal_dt_ids);
+Changes compared to the BSP:
+  - Drop bogus interrupts property, as interrupts are routed to the ECM,
+  - Change polling-delay from <0> to <1000> as interrupts are not
+    supported.
+---
+ arch/arm64/boot/dts/renesas/r8a779h0.dtsi | 40 +++++++++++++++++++++++
+ 1 file changed, 40 insertions(+)
+
+diff --git a/arch/arm64/boot/dts/renesas/r8a779h0.dtsi b/arch/arm64/boot/dts/renesas/r8a779h0.dtsi
+index 11885729181bc903..a01929231e08fa30 100644
+--- a/arch/arm64/boot/dts/renesas/r8a779h0.dtsi
++++ b/arch/arm64/boot/dts/renesas/r8a779h0.dtsi
+@@ -318,6 +318,16 @@ sysc: system-controller@e6180000 {
+ 			#power-domain-cells = <1>;
+ 		};
+ 
++		tsc: thermal@e6198000 {
++			compatible = "renesas,r8a779h0-thermal";
++			reg = <0 0xe6198000 0 0x200>,
++			      <0 0xe61a0000 0 0x200>;
++			clocks = <&cpg CPG_MOD 919>;
++			power-domains = <&sysc R8A779H0_PD_ALWAYS_ON>;
++			resets = <&cpg 919>;
++			#thermal-sensor-cells = <1>;
++		};
++
+ 		i2c0: i2c@e6500000 {
+ 			compatible = "renesas,i2c-r8a779h0",
+ 				     "renesas,rcar-gen4-i2c";
+@@ -653,6 +663,36 @@ prr: chipid@fff00044 {
+ 		};
+ 	};
+ 
++	thermal-zones {
++		sensor_thermal_cr52: sensor1-thermal {
++			polling-delay-passive = <250>;
++			polling-delay = <1000>;
++			thermal-sensors = <&tsc 0>;
++
++			trips {
++				sensor1_crit: sensor1-crit {
++					temperature = <120000>;
++					hysteresis = <1000>;
++					type = "critical";
++				};
++			};
++		};
++
++		sensor_thermal_ca76: sensor2-thermal {
++			polling-delay-passive = <250>;
++			polling-delay = <1000>;
++			thermal-sensors = <&tsc 1>;
++
++			trips {
++				sensor2_crit: sensor2-crit {
++					temperature = <120000>;
++					hysteresis = <1000>;
++					type = "critical";
++				};
++			};
++		};
++	};
++
+ 	timer {
+ 		compatible = "arm,armv8-timer";
+ 		interrupts-extended = <&gic GIC_PPI 13 IRQ_TYPE_LEVEL_LOW>,
 -- 
 2.34.1
 
