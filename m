@@ -1,156 +1,194 @@
-Return-Path: <linux-renesas-soc+bounces-3504-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-3501-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB4C487340C
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  6 Mar 2024 11:24:14 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 789428733FF
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  6 Mar 2024 11:23:18 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8198128F663
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  6 Mar 2024 10:24:13 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9C2BB1C2120A
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  6 Mar 2024 10:23:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 25AD15FB88;
-	Wed,  6 Mar 2024 10:23:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 181F55FDA0;
+	Wed,  6 Mar 2024 10:22:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XTa1S5u7"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="woGPj7Pd"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vk1-f172.google.com (mail-vk1-f172.google.com [209.85.221.172])
+Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7279D5FB97;
-	Wed,  6 Mar 2024 10:23:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A0F0604C7
+	for <linux-renesas-soc@vger.kernel.org>; Wed,  6 Mar 2024 10:22:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709720583; cv=none; b=nG9gpsFBxiNQ1I9yU1m6nIdyAptmZdmr+aV6MIzOfVbsCEo+4+FuKqPl2O+d1VewfwNWXOT6fCD80RWgXjwQSyMJ7Ll0j3YCEUT3YN6KExpab54eJaOlxyS/vfJZmUdj56oMU/fcMQ9ykPkeuj2KY2ZdBfWZ7hMLSr9OoYAIA24=
+	t=1709720553; cv=none; b=mpaW9ZVxrvzb8V1f5+v7AFNwF1rs/HCwjx+QbXT6WF2XXrYksmPcU9Sq/MpLzKtp2iXfNbamWQC2kFcOttVR2JW0Fx0mpED+PXohGmI1PeMEF1+Z85bPMyU9eTokLGpJJBDsa3TKKXhuPavUMUcMn4mHHu3JEjjhmKqLBvwKy70=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709720583; c=relaxed/simple;
-	bh=ru5KVpO0fYpM81R7FvwYOV4mwnZ5EV6GBubWlLtAQZw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=mjt1LB3GO+zhueeLaJkTVjr0XM53Zw70XDwcyzeCs/7th7wt9aQ+f4gNrBPCTJRpaBKj4lrZUMEA6iV1fxHWNCE7ytfp3eXa8NiX1PAGfW4XPrYxOFofGMSoca1+a8QjRXPT6Hmyp04Hul76YV9ZV4hcQ/Vl8MqXos6RLwDNxNI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XTa1S5u7; arc=none smtp.client-ip=209.85.221.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f172.google.com with SMTP id 71dfb90a1353d-4d345250ee1so1637935e0c.1;
-        Wed, 06 Mar 2024 02:23:01 -0800 (PST)
+	s=arc-20240116; t=1709720553; c=relaxed/simple;
+	bh=GNg1QejkcoZ5fK4swcrLBbBe1IA73m5a3pHFG5FA1Sc=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=fYO4xW+7F6yojZVTfT0truX0WBs99WmKV9MeMwNri7IyHwky3MHzeL+fSV2WcDgH32Wo6mwkJQ9/1TJ7rC4c3KAMriMfbzl2QerYnOtowFWbbAAXqwwOzRVxNO//QGPsXd3AYspeFhif2AY3A1/1MyAtUd0nEgtr2B6/X6LMzpo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=woGPj7Pd; arc=none smtp.client-ip=209.85.216.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-299d3b09342so536935a91.2
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 06 Mar 2024 02:22:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1709720580; x=1710325380; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ru5KVpO0fYpM81R7FvwYOV4mwnZ5EV6GBubWlLtAQZw=;
-        b=XTa1S5u7QBJ5zL6MMY9uNujsN2y7kLGjHiUdaUhHiKFHOdgeTQU0gJzW1A2X9wOnaR
-         9rBaq6ewk13ARsgQ7O2S+EmdNR/AWbSlHxi51fyVBvT77tBB7kKKHWAiKC39tkzKTo2F
-         SBVGvtC/aFuMmBXBPMSqgoZaWuLf0ZNd+sARshFARi1iTWC0kW5wMt1ZV0oUUZUgM+77
-         L4jX3GzBZendjQNXTNGWuUTwORuMlURiIH/+5z++xSwYJdkJVWImSjpojMNKHVbm37QD
-         OZHmoEWlOKvRm1uYKHB0indzv5rsx4kTUxySQio1PXU6vO0E3c0+CQWZBUh2uDrlYzL4
-         r3ow==
+        d=linaro.org; s=google; t=1709720551; x=1710325351; darn=vger.kernel.org;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=j3vP/5bP/RBlYdf1td9wb5cvuOaEn1shwa0DYeck2dA=;
+        b=woGPj7PdacXtpER1hOxi5q02WFZJ1uF/v2a9o7FjHAyxzodwYAlPBkXOCCIKpDLJSk
+         p5mnDp3EnVwYF7lfxqcnoS3h5KyyN5qzMds4kNPkkNgE52OWhYG//9fI5BW25URxe91C
+         TGQPVSrvTgsQTggo7+ACG6+OFXUqRbIYtVxU/USRcRRPOWRpeQq3PIyFeGYCJZumlhin
+         RvYJBILw1DHTN3+CVH+rxaEmFP8HBwl7LeuEPfC0LLwupIgEtDzmF+F4CztHE+SCBIGh
+         j3g6qns2a12WOVwYP+2EIOnrSNculpKWHhQMug0GPQTYinBdwcLq6/p1Ta6oR4TMruNh
+         fqPg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709720580; x=1710325380;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1709720551; x=1710325351;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=ru5KVpO0fYpM81R7FvwYOV4mwnZ5EV6GBubWlLtAQZw=;
-        b=NPoY5DiCteWgWnec5wtHGiyOhWcasMTLKYxYmK4SWpLAQJW/R3DMLyCZY4cNfulK2R
-         5wylK04BBgoEw7BZVBvVxakR2zqQfKRnwlKtiizTTZlBy/E9zCiRFope0Gs80n5Edb/o
-         aGq8XWjdGTxLEbcfZotQqAi1es/O1YfcbkHJdVzFJ+k4Wcb0l1lH+ydbyJwQFrUpgIP6
-         +ao3PLJgyUPA1YIrqzIWV1g856RHTvDRG3M2SkKDrFwEwDdISLa1bLvJd5gJ/XRzp3iA
-         qky+8f+sQ3ZKeYJvcjhi9DNcjZcH75xJNs8wP0hXYUZmDoSDNMEP6F0fZIDeKuH1DjoP
-         PBHw==
-X-Forwarded-Encrypted: i=1; AJvYcCUfCP2ex1kSmwJ/afCCjFM/3QJXjLh26ghlLTK0IusAadopilEgI+KeErfqdurwRF2T/qAn2vAFieSSqyHrN5X8B1/F74vsr6Dmr1my/hStTdpyRgU+SY6dDzDqnUce1eam4d11whd9UhaB/96lDOEOON9fMrTMmL3ln8gIAY13xQS4psgnJCqpf1QcKvvCskDXfFmTUWRsavvdtNDMqVESHpAo5rm5TRyv
-X-Gm-Message-State: AOJu0Yzdk6mZbyaP8HXxw0KAQboESLe1yMLkjMjPU7uLRBR89dXShX/J
-	k+sjXB3NMwbFGFfixVyWu4q1Thc+qjVJvEPh2pS2TsgWxQ+5LHDyAfYLMGBBEWQKHrTWMEUlSlC
-	9CJRaAo9qxGU1pgM2/dFnM3h1Dxs=
-X-Google-Smtp-Source: AGHT+IHKRYv4UNbCa/SCrVYj+kwMhWRFRmoCtxjdFljqdm3C5fqbtwwuS2zlMBmPq5jAO/mmqLDYjK8504lqUBjqk/Q=
-X-Received: by 2002:a05:6122:4b0b:b0:4d3:35ac:3553 with SMTP id
- fc11-20020a0561224b0b00b004d335ac3553mr4355214vkb.10.1709720580252; Wed, 06
- Mar 2024 02:23:00 -0800 (PST)
+        bh=j3vP/5bP/RBlYdf1td9wb5cvuOaEn1shwa0DYeck2dA=;
+        b=nPgFCX8NO/MDqITWl/tBzI7msG61Rp+NHKzSdlaFyTu7Smj0leUcsUatB65QYMDkQQ
+         6c3G8kX5vn9xAEolOJVOkRjjH+lxpEaTt8T/7MXlzYnjk5h8+ydejjzSlPFe31R5kB6t
+         sX3tuQx7BBAMCelJB+3SuWXPp2ffDKYaDZ0G5usxGeBbSLkOn/RmjTBE9wkZDbCNGga3
+         tuj1vkPv3F0DpLV7PlfpmlLs80X1Curu744wFCRdtxs/ZiaNNrRVHL6phVqPKfYbuRpe
+         Wzm6cljgIMe+Gx5PneDJ94sdWjIs8NeQUklUfWG/z/gtxTOUq690gm8r8nYD+x8eEo34
+         AEfA==
+X-Forwarded-Encrypted: i=1; AJvYcCW5MkKElwonIXkHdH5sVwjTOKqr+SrklFA8D/YmVDIGmTHUERYd6o4qiewf3JyfzwEd9SAu8QtLLHcLoObbeXhK+d8RtofAQXHDWxRmXloROoI=
+X-Gm-Message-State: AOJu0YzM1x3SSRd8Wyj1pcZmNNfbTlHRTUMOcA3hDCR3OTQOflFnI7Xp
+	29NgARPDjdM6wfjQlw3SV+CyT5C652ubq4t20jkW2x9khruBUafZOXBd5DHDsQ==
+X-Google-Smtp-Source: AGHT+IFJWhLefxgpPBPNhLypUf8mUHiWTVtuXiQSlNKB7G0ZWFGQdWmy89hjVGzwR0VhVJGZhJklCA==
+X-Received: by 2002:a17:90a:dd93:b0:29a:7579:88bc with SMTP id l19-20020a17090add9300b0029a757988bcmr11410022pjv.46.1709720550661;
+        Wed, 06 Mar 2024 02:22:30 -0800 (PST)
+Received: from [127.0.1.1] ([117.248.1.194])
+        by smtp.gmail.com with ESMTPSA id li17-20020a17090b48d100b0029ab96b13ebsm13339320pjb.40.2024.03.06.02.22.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 06 Mar 2024 02:22:30 -0800 (PST)
+From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+Date: Wed, 06 Mar 2024 15:51:59 +0530
+Subject: [PATCH v4 3/5] PCI: dwc: Pass the eDMA mapping format flag
+ directly from glue drivers
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240305171600.328699-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <CAMuHMdW0MxqxRwULhLsRtnYXYK8NYxq-uU7E2BscbvPh3axYFg@mail.gmail.com>
- <CA+V-a8vKo8ADB_R==vgBhVpSH43DOzdeA_NhZ1BCBdNuam3UmQ@mail.gmail.com> <CAMuHMdWX=OZJ3DE0vb4=k=6yH_L5JhusLRpVqJkJ0Xv3oT8_TQ@mail.gmail.com>
-In-Reply-To: <CAMuHMdWX=OZJ3DE0vb4=k=6yH_L5JhusLRpVqJkJ0Xv3oT8_TQ@mail.gmail.com>
-From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Wed, 6 Mar 2024 10:21:58 +0000
-Message-ID: <CA+V-a8uq=gw0_EVT3_CZD0TO+-DnSqXJtFakFcNWHOfq58g4aA@mail.gmail.com>
-Subject: Re: [PATCH] dt-bindings: serial: renesas,scif: Document R9A09G057 support
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Jiri Slaby <jirislaby@kernel.org>, 
-	Rob Herring <robh+dt@kernel.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Magnus Damm <magnus.damm@gmail.com>, linux-kernel@vger.kernel.org, 
-	linux-serial@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org, 
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20240306-dw-hdma-v4-3-9fed506e95be@linaro.org>
+References: <20240306-dw-hdma-v4-0-9fed506e95be@linaro.org>
+In-Reply-To: <20240306-dw-hdma-v4-0-9fed506e95be@linaro.org>
+To: Jingoo Han <jingoohan1@gmail.com>, 
+ Gustavo Pimentel <gustavo.pimentel@synopsys.com>, 
+ Lorenzo Pieralisi <lpieralisi@kernel.org>, 
+ =?utf-8?q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>, 
+ Rob Herring <robh@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, 
+ Marek Vasut <marek.vasut+renesas@gmail.com>, 
+ Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>, 
+ Kishon Vijay Abraham I <kishon@kernel.org>
+Cc: Serge Semin <fancer.lancer@gmail.com>, linux-pci@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+ linux-arm-msm@vger.kernel.org, mhi@lists.linux.dev, 
+ Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>, 
+ Siddharth Vadapalli <s-vadapalli@ti.com>
+X-Mailer: b4 0.12.4
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3424;
+ i=manivannan.sadhasivam@linaro.org; h=from:subject:message-id;
+ bh=GNg1QejkcoZ5fK4swcrLBbBe1IA73m5a3pHFG5FA1Sc=;
+ b=owEBbQGS/pANAwAKAVWfEeb+kc71AcsmYgBl6EPQdbpcSFeeqHfUcnEzcW09XZpqMwjds4rW7
+ ouUkY/9IMKJATMEAAEKAB0WIQRnpUMqgUjL2KRYJ5dVnxHm/pHO9QUCZehD0AAKCRBVnxHm/pHO
+ 9d3JB/49m7E14UAaGxtNaUW/tGfbFfFeT7L9Hqxa5OvwPAi/pI5Oh2VrUZbziA/w+y5CL5y2uRq
+ MfIhLMAbL4Bmiw3W+GTGLoZa1OpuxjLc8rB8nMJf8SHxRT4yrP7M6buZQ2keE1vpet7zl4IexM/
+ b+DbyZvsMTgRg4bCCoFb388eVZiRUTEsVtwE0MFRwaoDmtJ+a9L3Vz3S05Et39FePV+70ySWySe
+ TjADU8T3jb7KIirsSxu6Bht3kQtDeldVIdek/NRmQd+pwRbQTc7nPQgSF8i0CCD0aOHcsJV7UEV
+ tH/A38ghBvN2d+OceSAfnqCYrnScGl3GuIgwg0w61wycWg7H
+X-Developer-Key: i=manivannan.sadhasivam@linaro.org; a=openpgp;
+ fpr=C668AEC3C3188E4C611465E7488550E901166008
 
-Hi Geert,
+Instead of maintaining a separate capability for glue drivers that cannot
+support auto detection of the eDMA mapping format, let's pass the mapping
+format directly from them.
 
-On Wed, Mar 6, 2024 at 10:15=E2=80=AFAM Geert Uytterhoeven <geert@linux-m68=
-k.org> wrote:
->
-> Hi Prabhakar,
->
-> On Wed, Mar 6, 2024 at 11:06=E2=80=AFAM Lad, Prabhakar
-> <prabhakar.csengg@gmail.com> wrote:
-> > On Wed, Mar 6, 2024 at 9:53=E2=80=AFAM Geert Uytterhoeven <geert@linux-=
-m68k.org> wrote:
-> > > On Tue, Mar 5, 2024 at 6:16=E2=80=AFPM Prabhakar <prabhakar.csengg@gm=
-ail.com> wrote:
-> > > > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > > >
-> > > > Document support for the Serial Communication Interface with FIFO (=
-SCIF)
-> > > > available in the Renesas RZ/V2H(P) (R9A09G057) SoC. The SCIF interf=
-ace in
-> > > > the Renesas RZ/V2H(P) is similar to that available in the RZ/G2L
-> > > > (R9A07G044) SoC, with the only difference being that the RZ/V2H(P) =
-SoC has
-> > > > three additional interrupts: one for Tx end/Rx ready and the other =
-two for
-> > > > Rx and Tx buffer full, which are edge-triggered.
-> > > >
-> > > > No driver changes are required as generic compatible string
-> > > > "renesas,scif-r9a07g044" will be used as a fallback on RZ/V2H(P) So=
-C.
-> > >
-> > > If you declare SCIF on RZ/V2H compatible with SCIF on RZ/G2L, you
-> > > state that the current driver works fine (but perhaps suboptimal),
-> > > without adding support for the extra 3 interrupts?
-> > >
-> > Yes the current driver works without using the extra interrupts on the
-> > RZ/V2H. The extra interrupts on the RZ/V2H are just sort of duplicate
-> > ie
-> > - Transmit End/Data Ready interrupt , for which we we have two
-> > seperate interrupts already
-> > - Receive buffer full interrupt (EDGE trigger), for which we already
-> > have a Level triggered interrupt
-> > - Transmit buffer empty interrupt (EDGE trigger), for which we already
-> > have a Level triggered interrupt
->
-> Thanks for the confirmation!
->
-> > Are you suggesting to not fallback on RZ/G2L and instead make RZ/V2H
-> > an explicit one so that in future we handle these 3 extra interrupts?
->
-> In light of the confirmation above, I am _not_ suggesting that.
->
-Thanks for clarification.
+This will simplify the code and also allow adding HDMA support that also
+doesn't support auto detection of mapping format.
 
-> I just wanted a clarification: if the current driver would not operate
-> properly without changes, the fallback would not have been appropriate.
-> W.r.t. the extra interrupts, you can add support to the driver later,
-> if/when a need or desire ever arises.
->
-Agreed, thanks.
+Suggested-by: Serge Semin <fancer.lancer@gmail.com>
+Reviewed-by: Siddharth Vadapalli <s-vadapalli@ti.com>
+Reviewed-by: Serge Semin <fancer.lancer@gmail.com>
+Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+---
+ drivers/pci/controller/dwc/pcie-designware.c | 16 +++++++++-------
+ drivers/pci/controller/dwc/pcie-designware.h |  5 ++---
+ drivers/pci/controller/dwc/pcie-rcar-gen4.c  |  2 +-
+ 3 files changed, 12 insertions(+), 11 deletions(-)
 
-Cheers,
-Prabhakar
+diff --git a/drivers/pci/controller/dwc/pcie-designware.c b/drivers/pci/controller/dwc/pcie-designware.c
+index 599991b7ffb2..c59b2876e5d4 100644
+--- a/drivers/pci/controller/dwc/pcie-designware.c
++++ b/drivers/pci/controller/dwc/pcie-designware.c
+@@ -894,18 +894,20 @@ static int dw_pcie_edma_find_mf(struct dw_pcie *pci)
+ {
+ 	u32 val;
+ 
++	/*
++	 * Bail out finding the mapping format if it is already set by the glue
++	 * driver. Also ensure that the edma.reg_base is pointing to a valid
++	 * memory region.
++	 */
++	if (pci->edma.mf != EDMA_MF_EDMA_LEGACY)
++		return pci->edma.reg_base ? 0 : -ENODEV;
++
+ 	/*
+ 	 * Indirect eDMA CSRs access has been completely removed since v5.40a
+ 	 * thus no space is now reserved for the eDMA channels viewport and
+ 	 * former DMA CTRL register is no longer fixed to FFs.
+-	 *
+-	 * Note that Renesas R-Car S4-8's PCIe controllers for unknown reason
+-	 * have zeros in the eDMA CTRL register even though the HW-manual
+-	 * explicitly states there must FFs if the unrolled mapping is enabled.
+-	 * For such cases the low-level drivers are supposed to manually
+-	 * activate the unrolled mapping to bypass the auto-detection procedure.
+ 	 */
+-	if (dw_pcie_ver_is_ge(pci, 540A) || dw_pcie_cap_is(pci, EDMA_UNROLL))
++	if (dw_pcie_ver_is_ge(pci, 540A))
+ 		val = 0xFFFFFFFF;
+ 	else
+ 		val = dw_pcie_readl_dbi(pci, PCIE_DMA_VIEWPORT_BASE + PCIE_DMA_CTRL);
+diff --git a/drivers/pci/controller/dwc/pcie-designware.h b/drivers/pci/controller/dwc/pcie-designware.h
+index 26dae4837462..995805279021 100644
+--- a/drivers/pci/controller/dwc/pcie-designware.h
++++ b/drivers/pci/controller/dwc/pcie-designware.h
+@@ -51,9 +51,8 @@
+ 
+ /* DWC PCIe controller capabilities */
+ #define DW_PCIE_CAP_REQ_RES		0
+-#define DW_PCIE_CAP_EDMA_UNROLL		1
+-#define DW_PCIE_CAP_IATU_UNROLL		2
+-#define DW_PCIE_CAP_CDM_CHECK		3
++#define DW_PCIE_CAP_IATU_UNROLL		1
++#define DW_PCIE_CAP_CDM_CHECK		2
+ 
+ #define dw_pcie_cap_is(_pci, _cap) \
+ 	test_bit(DW_PCIE_CAP_ ## _cap, &(_pci)->caps)
+diff --git a/drivers/pci/controller/dwc/pcie-rcar-gen4.c b/drivers/pci/controller/dwc/pcie-rcar-gen4.c
+index e9166619b1f9..3c535ef5ea91 100644
+--- a/drivers/pci/controller/dwc/pcie-rcar-gen4.c
++++ b/drivers/pci/controller/dwc/pcie-rcar-gen4.c
+@@ -255,7 +255,7 @@ static struct rcar_gen4_pcie *rcar_gen4_pcie_alloc(struct platform_device *pdev)
+ 	rcar->dw.ops = &dw_pcie_ops;
+ 	rcar->dw.dev = dev;
+ 	rcar->pdev = pdev;
+-	dw_pcie_cap_set(&rcar->dw, EDMA_UNROLL);
++	rcar->dw.edma.mf = EDMA_MF_EDMA_UNROLL;
+ 	dw_pcie_cap_set(&rcar->dw, REQ_RES);
+ 	platform_set_drvdata(pdev, rcar);
+ 
+
+-- 
+2.25.1
+
 
