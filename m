@@ -1,187 +1,216 @@
-Return-Path: <linux-renesas-soc+bounces-3517-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-3518-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7D25873805
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  6 Mar 2024 14:43:36 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BD448739D7
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  6 Mar 2024 15:54:20 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 2C823B244FB
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  6 Mar 2024 13:43:34 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2094E2886D7
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  6 Mar 2024 14:54:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4E019130AC6;
-	Wed,  6 Mar 2024 13:43:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 22485134404;
+	Wed,  6 Mar 2024 14:54:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="fkxzLt3G"
+	dkim=pass (2048-bit key) header.d=manjaro.org header.i=@manjaro.org header.b="TnSU1zDu"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.manjaro.org (mail.manjaro.org [116.203.91.91])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5A6B12FB0F
-	for <linux-renesas-soc@vger.kernel.org>; Wed,  6 Mar 2024 13:43:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 277BE13440D;
+	Wed,  6 Mar 2024 14:54:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=116.203.91.91
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709732608; cv=none; b=J50ZAIn2qda1LyNetYEfENHljnRqzEG2B/t04vZagbDu7+m7DO1icQGAhbE/AFe2qkML6IWgpx7fP/KNZv6i9o9X2KfGwPsXe2gnHnZhZ9ddRKStJCbvkq65TSQdbFzd7BEQdf/Cg2AG4yAnusayLyjzLiJCplum7g4Oe1nIrBI=
+	t=1709736856; cv=none; b=iqXjcNJFZQC5u20dD/Dq6aBls5+GCYZYhPaHRvq4Lb3zpuBabzn3GyT1KSORn5kZclogCORCdS/c4HP+Gb36+zGqbam+fUJnWjMAEjDd1MWWaNzh+MEH2jk86e9XLlC2XUhx76MdGOEAZnY84yhausyXIH8rP37lSO6XcLPLGZk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709732608; c=relaxed/simple;
-	bh=HWXf6sRV3ha+7LVBFfl+L+P26ZlBXInopsP+3bzrAFA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kP5We+mGuA0ssS+wnhlho/4WwvrIe6WCdTzOmhWwiDBtLAk+KmRKmxidEekQtZfNtsfyM/ntjTjlrTA5xZwGxpet/vteoyahsn4+o5BfhCvtQmxPuJ0XIHtw7XL1u9NF6LAcauwmthHW96Md9nIN6dOlRNTMoJljndUb+OhEWQ0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=fkxzLt3G; arc=none smtp.client-ip=209.85.208.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
-Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-2d24a727f78so85656041fa.0
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 06 Mar 2024 05:43:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech.se; s=google; t=1709732604; x=1710337404; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=6or8x2rxph29SFMBChS+UAHr5lXiApn2brSPwyfMAWY=;
-        b=fkxzLt3GDWO9+d1uX2NQq3iQNk42Tl+ivCSt4BlqAtsX5IUhlFBYdbNrd2W5G8G6Sd
-         mflGY+XJ4aBiwON5ji1WqwgmCQKXjuZ75BfnVsTszGq/Q/7Bb6y2MP2r8s3IK/NFl5iy
-         liWTj+tVcW+3zp6PsIADV/8ojzO+lsGkxiLrIUhDQXz5Ubgh1q8ujA95DrYnjYUVtafU
-         fmS5qMbK35O+GWJa5/a8CgZK/XRQIF5t8QmwlnLCf8rhw+YkaKfwqmMlt1gA2naC0bJW
-         B9VDX/dlTNxh8WXafCguWb7Qfh1v8w4wmVL+3fQq+IlEyi+GkYNMZVQQFFAWVLd1zoc1
-         N5zg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709732604; x=1710337404;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=6or8x2rxph29SFMBChS+UAHr5lXiApn2brSPwyfMAWY=;
-        b=Tuw9imf4EUbETwRUFenh6EPEXftN6IQcAMsQtFjEJqk60IaeF1iPzHE4tU27PtH1cG
-         B8n9R1v0mVSyFdo3PvcK91sk70NKVKolP87Nh5nKmpHW1regcrqy0337g0vRd3EuixLn
-         91yfWv96OM0z+uDhsXwCsddxzk+uS+np+aSu9RIEjMXNuuA+wWBFUnST+r4rY076BxIu
-         mJvdYlrB865Kj2C6VLkXEfrjoNEd1r8CmvMrMUyF8lB1/errgGgRTDQ+yMy91fXtSp2B
-         iy/rkhAJK8kDbGHW7nVyHCm14d7NmOzTm5zC8xke5CjTB4nFdrnZm0Duq4W7rSZ9ma6E
-         Ectw==
-X-Forwarded-Encrypted: i=1; AJvYcCWpgBdMvd+xi96cCzF42rg/6V6YKMt8YQp6uLRb2sQxtFx4PEFZ4TyjTpKaVwZPFKg4UvABLzrzcjcsvO7E+Wb+yg1xGN4z0pgkBPWfhNGUB58=
-X-Gm-Message-State: AOJu0Ywfhdz6o/1XVUuJi/O7tZqIpbjL+N5mvPajuoZN4TtVRZbFikKW
-	BVMuaC7waW9ftU+elXKry9Wr1oA/ZM9K7mP0kTpvfvLjAhdSSmxJ2T1NKELTck0=
-X-Google-Smtp-Source: AGHT+IELmQLadNvSRBEe1FJVBs5sGcria6omCKHaU6SBGwc4L8+Bie6G6ES6hLUFrVgyXCaYmzz6Fw==
-X-Received: by 2002:a2e:9214:0:b0:2d2:ba3c:5979 with SMTP id k20-20020a2e9214000000b002d2ba3c5979mr3768018ljg.7.1709732603786;
-        Wed, 06 Mar 2024 05:43:23 -0800 (PST)
-Received: from localhost (h-46-59-36-113.A463.priv.bahnhof.se. [46.59.36.113])
-        by smtp.gmail.com with ESMTPSA id d21-20020a2e9295000000b002d37d250ef3sm1785271ljh.26.2024.03.06.05.43.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 06 Mar 2024 05:43:23 -0800 (PST)
-Date: Wed, 6 Mar 2024 14:43:22 +0100
-From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
-To: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: Magnus Damm <magnus.damm@gmail.com>, linux-renesas-soc@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	Duy Nguyen <duy.nguyen.rh@renesas.com>
-Subject: Re: [PATCH] arm64: dts: renesas: r8a779h0: Add thermal nodes
-Message-ID: <20240306134322.GD3396349@ragnatech.se>
-References: <d1f07c77943912145583d8916ba3ca65d143b1b1.1709722573.git.geert+renesas@glider.be>
+	s=arc-20240116; t=1709736856; c=relaxed/simple;
+	bh=96054vt0RIF8FrPah2L/xxgnSuYxMgqAI0Q+ZetCRX0=;
+	h=MIME-Version:Date:From:To:Cc:Subject:In-Reply-To:References:
+	 Message-ID:Content-Type; b=EiX36p1nvI5D5EGnBTP4Rq3w360Dyd4EqhCbcglFekTK8Iybpm7DGVvhs0X6JpIEYi8YKDLOVyFfFGxslGqKoNwu2Uhpka/VxZldJ+3D9VLwjFHnS8AFnTITk75Lp/HREKOavvuLAqa6TyJrDu2kSvRvuyXxJJpznKoH4OggMwE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=manjaro.org; spf=pass smtp.mailfrom=manjaro.org; dkim=pass (2048-bit key) header.d=manjaro.org header.i=@manjaro.org header.b=TnSU1zDu; arc=none smtp.client-ip=116.203.91.91
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=manjaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=manjaro.org
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <d1f07c77943912145583d8916ba3ca65d143b1b1.1709722573.git.geert+renesas@glider.be>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=manjaro.org; s=2021;
+	t=1709736849;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=H2lJKxoSRgpljXG36rHJ6kJtSm+0/59EDB5to3fB+oQ=;
+	b=TnSU1zDusf5T/c53MxwSN6xIpjDRNDKnurr+17PoFbB5sdtWiZB0JdVkx477Gme5fGGZkB
+	AJF59d5e4aL9ftyUBeoJCcGS5YT62/trfhyNlpMqq8g/ntPHfpezzd+6aFjCU4mgmsOlH7
+	92bJR/q63hdhlVvXtQsM1XnlAIzSJJORSRYkzfFc0SAHjgJP28V7Lp+Tk1Q+H4gMKm3nUb
+	IKItpvxIuCknX3+ehpR5gJZS6MnNIhbAXmmSfUbeULpQV8Lf4mXD7xYmtXZwO3IjhO4XJy
+	F8+YHYK8olbqyhvHbkBsXSAJ7rJ+vHsZqu6R/r7jjx7FpboRowKKUELKCJ4qGQ==
+Date: Wed, 06 Mar 2024 15:54:07 +0100
+From: Dragan Simic <dsimic@manjaro.org>
+To: Tim Pambor <tp@osasysteme.de>
+Cc: Biju Das <biju.das.jz@bp.renesas.com>, Geert Uytterhoeven
+ <geert+renesas@glider.be>, AnandMoon <linux.amoon@gmail.com>, Magnus Damm
+ <magnus.damm@gmail.com>, Rob Herring <robh+dt@kernel.org>, Krzysztof
+ Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley
+ <conor+dt@kernel.org>, linux-renesas-soc@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] arm64: dts: r9a07g044: Add complete CPU cache information
+In-Reply-To: <db77fa78e75b9712ebba1dfd7e4340603cae4fe3.camel@osasysteme.de>
+References: <20240305151336.144707-1-tp@osasysteme.de>
+ <TYCPR01MB112696A947F31C31FE3A3AFF586212@TYCPR01MB11269.jpnprd01.prod.outlook.com>
+ <db77fa78e75b9712ebba1dfd7e4340603cae4fe3.camel@osasysteme.de>
+Message-ID: <8d9ec337e794cb2ecc69a961c7e47e3f@manjaro.org>
+X-Sender: dsimic@manjaro.org
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+Authentication-Results: ORIGINATING;
+	auth=pass smtp.auth=dsimic@manjaro.org smtp.mailfrom=dsimic@manjaro.org
 
-Hi Geert,
+Hello Tim and Biju,
 
-Thanks for your work.
+On 2024-03-06 11:10, Tim Pambor wrote:
+> thanks for the review.
+> 
+>> Thanks for the patch.
+>> 
+>> > -----Original Message-----
+>> > From: Tim Pambor <tp@osasysteme.de>
+>> > Sent: Tuesday, March 5, 2024 3:14 PM
+>> > Subject: [PATCH] arm64: dts: r9a07g044: Add complete CPU cache
+>> > information
+>> >
+>> > Based on ARM Cortex-A55 TRM and RZG2/L user's manual, each Cortex-
+>> > A55 has
+>> 
+>> RZ/G2L
+>> 
+>> > - 32 KB of L1 4-way, set-associative instruction cache
+>> > - 32 KB of L1 4-way, set-associative data cache
 
-On 2024-03-06 11:58:35 +0100, Geert Uytterhoeven wrote:
-> From: Duy Nguyen <duy.nguyen.rh@renesas.com>
-> 
-> Add device nodes for the Thermal Sensor/Chip Internal Voltage
-> Monitor/Core Voltage Monitor (THS/CIVM/CVM) and the various thermal
-> zones on the Renesas R-Car V4M (R8A779H0) SoC.
-> 
-> Add support for 2 TSC nodes of thermal.
-> 
-> Signed-off-by: Duy Nguyen <duy.nguyen.rh@renesas.com>
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Just a small suggestion, moving "L1" after "set-associative" would make
+these two lines a bit more readable.
 
-Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+>> > Each cache has a cache line length of 64B and therefore there are
+>> > 32768B/(4 * 64B)=128 sets for each cache.
+>> >
+>> > RZG2/L are not configured with the optional per-core L2 cache but
+>> > only have a L3 cache shared among all
+>> RZ/G2L
+>> > cores. In this case, the L3 cache appears as a L2 cache to the
+>> > system. Therefore, specify "cache-level
+>> > = <2>" for the L3 cache.
+> 
+> I will send a v2 with the commit message corrected.
+> 
+>> You mean for L3 Cache, cache-level = <2> if there is no L2 Cache on
+>> the system? Does it need any update
+>> on dt-bindings to make this clear?
+> 
+> I followed the approach chosen for the Rockchip RK356x, which also has
+> a Cortex-A55 with an L3 cache but no L2 cache [1]. I can add a comment
+> to the device tree explaining that there is no L2 cache and that
+> therefore the L3 cache appears as a L2 cache to the system. Do you
+> consider that sufficient?
 
-> ---
-> Tested on Renesas Gray Hawk Single with an R-Car V4M SoC that has
-> unfortunately no calibration values fused.
-> To be queued in renesas-devel for v6.10.
-> 
-> Changes compared to the BSP:
->   - Drop bogus interrupts property, as interrupts are routed to the ECM,
->   - Change polling-delay from <0> to <1000> as interrupts are not
->     supported.
-> ---
->  arch/arm64/boot/dts/renesas/r8a779h0.dtsi | 40 +++++++++++++++++++++++
->  1 file changed, 40 insertions(+)
-> 
-> diff --git a/arch/arm64/boot/dts/renesas/r8a779h0.dtsi b/arch/arm64/boot/dts/renesas/r8a779h0.dtsi
-> index 11885729181bc903..a01929231e08fa30 100644
-> --- a/arch/arm64/boot/dts/renesas/r8a779h0.dtsi
-> +++ b/arch/arm64/boot/dts/renesas/r8a779h0.dtsi
-> @@ -318,6 +318,16 @@ sysc: system-controller@e6180000 {
->  			#power-domain-cells = <1>;
->  		};
->  
-> +		tsc: thermal@e6198000 {
-> +			compatible = "renesas,r8a779h0-thermal";
-> +			reg = <0 0xe6198000 0 0x200>,
-> +			      <0 0xe61a0000 0 0x200>;
-> +			clocks = <&cpg CPG_MOD 919>;
-> +			power-domains = <&sysc R8A779H0_PD_ALWAYS_ON>;
-> +			resets = <&cpg 919>;
-> +			#thermal-sensor-cells = <1>;
-> +		};
-> +
->  		i2c0: i2c@e6500000 {
->  			compatible = "renesas,i2c-r8a779h0",
->  				     "renesas,rcar-gen4-i2c";
-> @@ -653,6 +663,36 @@ prr: chipid@fff00044 {
->  		};
->  	};
->  
-> +	thermal-zones {
-> +		sensor_thermal_cr52: sensor1-thermal {
-> +			polling-delay-passive = <250>;
-> +			polling-delay = <1000>;
-> +			thermal-sensors = <&tsc 0>;
-> +
-> +			trips {
-> +				sensor1_crit: sensor1-crit {
-> +					temperature = <120000>;
-> +					hysteresis = <1000>;
-> +					type = "critical";
-> +				};
-> +			};
-> +		};
-> +
-> +		sensor_thermal_ca76: sensor2-thermal {
-> +			polling-delay-passive = <250>;
-> +			polling-delay = <1000>;
-> +			thermal-sensors = <&tsc 1>;
-> +
-> +			trips {
-> +				sensor2_crit: sensor2-crit {
-> +					temperature = <120000>;
-> +					hysteresis = <1000>;
-> +					type = "critical";
-> +				};
-> +			};
-> +		};
-> +	};
-> +
->  	timer {
->  		compatible = "arm,armv8-timer";
->  		interrupts-extended = <&gic GIC_PPI 13 IRQ_TYPE_LEVEL_LOW>,
-> -- 
-> 2.34.1
-> 
-> 
+As I noted in the description of the Rockchip RK356x patch linked above,
+the documentation from ARM states that the CPU cores see the shared L3
+cache as their L2 caches, when there are no private, per-code L2 caches
+in a particular SoC that employs the DynamIQ architecture.
 
--- 
-Kind Regards,
-Niklas Söderlund
+Thus, it's the best to follow the same approach in the kernel and 
+present
+the same logical cache hierarchy to the userspace, to avoid the 
+confusion
+among the users, which would almost surely wonder why there are no L2
+caches, but there is an L3 cache.  It should also avoid unexpected 
+behavior
+and bugs such as the one visible below, because having an L3 cache with 
+no
+L2 caches isn't very common.
+
+> Currently, having cache-level = <3> also causes a out-of-bounds access
+> in populate_cache_leaves.
+> 
+> [    0.066217]
+> ==================================================================
+> [    0.066369] BUG: KASAN: slab-out-of-bounds in
+> populate_cache_leaves+0x25c/0x2d0
+> [    0.066495] Write of size 4 at addr ffff0000082370dc by task 
+> swapper/0/1
+> [    0.066580]
+> [    0.066619] CPU: 0 PID: 1 Comm: swapper/0 Not tainted
+> 6.8.0-rc2-00016-g30d5a685c65d #6
+> [    0.066719] Hardware name: MYC-YG2LX (DT)
+> [    0.066793] Call trace:
+> [    0.066836]  dump_backtrace+0x98/0x118
+> [    0.066900]  show_stack+0x18/0x24
+> [    0.066959]  dump_stack_lvl+0x60/0xac
+> [    0.067029]  print_report+0xf8/0x5d8
+> [    0.067096]  kasan_report+0xc0/0x100
+> [    0.067159]  __asan_report_store4_noabort+0x20/0x2c
+> [    0.067235]  populate_cache_leaves+0x25c/0x2d0
+> [    0.067308]  detect_cache_attributes+0x34c/0x1998
+> [    0.067384]  update_siblings_masks+0x30/0x554
+> [    0.067460]  store_cpu_topology+0xe8/0x188
+> [    0.067528]  smp_prepare_cpus+0x5c/0x238
+> [    0.067602]  kernel_init_freeable+0x258/0xb18
+> [    0.067673]  kernel_init+0x30/0x208
+> [    0.067736]  ret_from_fork+0x10/0x20
+> [    0.067802]
+> [    0.067835] Allocated by task 1:
+> [    0.067889]  kasan_save_stack+0x3c/0x64
+> [    0.067956]  kasan_save_track+0x20/0x3c
+> [    0.068020]  kasan_save_alloc_info+0x68/0x78
+> [    0.068090]  __kasan_kmalloc+0xd4/0xd8
+> [    0.068154]  __kmalloc+0x1c0/0x430
+> [    0.068215]  allocate_cache_info+0xa8/0x204
+> [    0.068284]  fetch_cache_info+0xc4/0x200
+> [    0.068349]  init_cpu_topology+0x348/0x45c
+> [    0.068423]  smp_prepare_cpus+0x1c/0x238
+> [    0.068492]  kernel_init_freeable+0x258/0xb18
+> [    0.068561]  kernel_init+0x30/0x208
+> [    0.068622]  ret_from_fork+0x10/0x20
+> [    0.068685]
+> [    0.068719] The buggy address belongs to the object at 
+> ffff000008237000
+> [    0.068719]  which belongs to the cache kmalloc-256 of size 256
+> [    0.068849] The buggy address is located 4 bytes to the right of
+> [    0.068849]  allocated 216-byte region [ffff000008237000, 
+> ffff0000082370d8)
+> [    0.068984]
+> [    0.069018] The buggy address belongs to the physical page:
+> [    0.069089] page:(____ptrval____) refcount:1 mapcount:0
+> mapping:0000000000000000 index:0x0 pfn:0x48236
+> [    0.069201] head:(____ptrval____) order:1 entire_mapcount:0
+> nr_pages_mapped:0 pincount:0
+> [    0.069297] flags: 0x840(slab|head|zone=0)
+> [    0.069366] page_type: 0xffffffff()
+> [    0.069430] raw: 0000000000000840 ffff000008001b40 dead000000000122
+> 0000000000000000
+> [    0.069526] raw: 0000000000000000 0000000080100010 00000001ffffffff
+> 0000000000000000
+> [    0.069616] page dumped because: kasan: bad access detected
+> [    0.069684]
+> [    0.069717] Memory state around the buggy address:
+> [    0.069781]  ffff000008236f80: fc fc fc fc fc fc fc fc fc fc fc fc
+> fc fc fc fc
+> [    0.069870]  ffff000008237000: 00 00 00 00 00 00 00 00 00 00 00 00
+> 00 00 00 00
+> [    0.069958] >ffff000008237080: 00 00 00 00 00 00 00 00 00 00 00 fc
+> fc fc fc fc
+> [    0.070042]                                                     ^
+> [    0.070116]  ffff000008237100: fc fc fc fc fc fc fc fc fc fc fc fc
+> fc fc fc fc
+> [    0.070204]  ffff000008237180: fc fc fc fc fc fc fc fc fc fc fc fc
+> fc fc fc fc
+> [    0.070290]
+> ==================================================================
+> 
+> [1] 
+> https://lore.kernel.org/linux-rockchip/2285ee41e165813011220f9469e28697923aa6e0.1709491108.git.dsimic@manjaro.org/
 
