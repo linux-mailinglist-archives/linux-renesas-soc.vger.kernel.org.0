@@ -1,295 +1,179 @@
-Return-Path: <linux-renesas-soc+bounces-3554-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-3555-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F8A08750D9
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  7 Mar 2024 14:50:51 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id C6951875157
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  7 Mar 2024 15:08:19 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 78C54B220F9
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  7 Mar 2024 13:50:48 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id F41291C2430C
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  7 Mar 2024 14:08:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E628612D768;
-	Thu,  7 Mar 2024 13:50:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1317812D774;
+	Thu,  7 Mar 2024 14:07:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="pZ8Jl/7P"
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="FGb6tuPu"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB0B512D745
-	for <linux-renesas-soc@vger.kernel.org>; Thu,  7 Mar 2024 13:50:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F309F12DD8F
+	for <linux-renesas-soc@vger.kernel.org>; Thu,  7 Mar 2024 14:07:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709819407; cv=none; b=IM/HL/H1ChUaQSsaZ1pTYHB8lGv21/2qMZqizxMDWgtFYBbPZej43i4kW/yJ5TDDDlyiEceexEOTXsQwP3J3CoHhb8Zqj76QuEpAKawJnvPmseTx2FZxRk+N+Yp2euSmgBiZ3HpRqzFPJAq3FIrSsEhkSrvKLRWXejjbzypviOg=
+	t=1709820470; cv=none; b=NvJMhRhcB4PciM9fipXD17SYEJPxsMgDNe8HWerSYxY+YAQLjtLW2nSvcqcQL+pm49RmKj0XyDB+hcsSiKkEGc5WgQbJSt7TmXLZwUbEFE67glrOqkNRHruDo4Xw1b9UOLm/FN6RLuT1nfowqjzQshvYAqnl00CRN49RAPQgQ8w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709819407; c=relaxed/simple;
-	bh=vnd4c6cnqj+rJdtFd4bvEIxjpJ0lqw1Ghsmui5MeXx8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Q5wwzB0/IRklUY1ox7iIg9KVURlaf6MDdo4LQwbki3bCCXY95azhYk1JFM00YO9Az/3nMYv7GUPCSBiWeJZubmfwg8BEGrx/3UITxf4wtJ9QEC5T50jkNZzFptJeTMevq8wgEmBRx/ONgMme9OSulcBQgfOwa32ffvCD72AIfho=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=pZ8Jl/7P; arc=none smtp.client-ip=209.85.208.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-56781070f38so3510381a12.0
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 07 Mar 2024 05:50:05 -0800 (PST)
+	s=arc-20240116; t=1709820470; c=relaxed/simple;
+	bh=X6mr7ss3hBz+KcOkyD+aKlFcN4fw3b05uNnI+q4ZcYM=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Ivgn5RarH2JRg2okO77Rl+uo8JshJSv7HL4Oz7MxQ/bRUKAV6q7rqNI5xR/0uESLap2kfsca2nqs096mKqw7kMBAqiNgV8t4BpGdO7DAU1W+xzIYX8QCZsbNESYa/RjtSGJ/t9hKLeQkz58OG+i8i8k+0TdVPC257/1knxZ1QP0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=FGb6tuPu; arc=none smtp.client-ip=209.85.218.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
+Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-a293f2280c7so162100766b.1
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 07 Mar 2024 06:07:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1709819404; x=1710424204; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=4zCf/JC5V+iuDVBUGqSJGfNyePUZ8s9c9+9aUy2zAN4=;
-        b=pZ8Jl/7PfgcWr2kZ5NjpNY41PxYzcLt/ckZy4u5a5M5l3rRhigI+JbkOdA7l59JXdu
-         Q114icwjh/Z7wxry/Ujeuq+FlUD1h2Kf3uuobE2Cf/PpST66d1OEF9bEwFJ+zphXCat2
-         3XOTb0VToAa6uQy9CgtX7RQgb9mZ9MUIwfmm58DH7rLSI9aMZNyouZV2OAFl/8hMpoko
-         TWzY87tQp4kXOOUNg93S2p10++oetBCX462HzhT29Wke0C4ovHtutVkh5HOaVGtPzxLu
-         ke7IF0HpDVqFv/2tP1MFmKbEO9/d2E/KT1LMQW2U16KhrmQfF9bt8O/wfOgz0z7AVTHt
-         +nHQ==
+        d=tuxon.dev; s=google; t=1709820465; x=1710425265; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=7qvoqgbf8BgmpB/WA74qzufv4GkITZwzS6+LGmIQY3Q=;
+        b=FGb6tuPupwuScfJUpsAclHLb6UlcXo5srLgd4RT5EWMttHM0wm2zpc5YYsqYvfi1Nt
+         NS0VZl8Zx6i0FRrmMHp0bpMDa8tEwR1H7h8VjPe8u3dHKQ65z9DM24FzJvL/TDAuxXiT
+         /OkrPt7O63MOz452hviSp9BAQVz65eN5kIuHjlU+/b6LsVBF8KeiAiwpI68sMOWJcGPV
+         2rr4QZsPYIhiZcDlSD+3/NV6gnWnhb7HYsrI7+2efduWYcBFduATMfvBT8ScxLUSPOKW
+         /YxRMxPk3Sa7QMPYDil01STQfwBV3a9z65TYLnCx9ndnIFUhZo5outFmh3xh4GgRCVpr
+         Zx/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709819404; x=1710424204;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=4zCf/JC5V+iuDVBUGqSJGfNyePUZ8s9c9+9aUy2zAN4=;
-        b=nM60HMO7UTdoodzkDlllI9dpEDekjfQMwpX66YdiNQHdc8AXhE9EoBl0W0/cF8vu69
-         woDRefZC6rRiL3IB8fFskAQOxPp6hM8Cn5A9L5BSgSgE1QWotvSxDmdeiiYN0c9/wbmg
-         jGnMJz1EoLWppIgJvjvseDeou1CWykq3P3fuG5TnlfmctmAeyEsqs6Yp54sC8OykT070
-         KPTZLR9xKqGH8v0eyzFZ7ijv4w1kDv8Ko25QwmmSjZFlwdICodV/+Q3UqIpaianTqeRI
-         r+jRbHWLhhzA+bvcFuLdZpAieNWW3buEYCjFUxLvnm6UJExbO5EhWT7nxa3oQA0YD+hj
-         L2ag==
-X-Forwarded-Encrypted: i=1; AJvYcCWv1hQTwsq4VY/0y1ivHnz/A8jxAMp9g98+BX+ZkwnbLQTVA9U9ZuXG+PaLBADUVA1TsSYCOtEw/LkbzCkEIGrg/t/ArXYb19crY21ZK/RpzA4=
-X-Gm-Message-State: AOJu0YxvtQWgMFG4Aeh1wAWMq984VMwFIYetJIuUqP189RYdzqvEtw0k
-	uCP2OKrAWt+98gBvNS/AEFPuQTeDj/oLjVzjL1Ozv5LlU1pXDiv5J2vhUCxEpRk=
-X-Google-Smtp-Source: AGHT+IF+zo83JGuJkj2a1tPxUpbfF7MN1LfaQIo3F6HZMQZ/6daguz3NoayN+RHaVGLtxsJrp410hw==
-X-Received: by 2002:a50:8d55:0:b0:568:145a:4a22 with SMTP id t21-20020a508d55000000b00568145a4a22mr277121edt.4.1709819403918;
-        Thu, 07 Mar 2024 05:50:03 -0800 (PST)
-Received: from [192.168.1.20] ([178.197.222.97])
-        by smtp.gmail.com with ESMTPSA id fk25-20020a056402399900b00566a461e1ecsm8026076edb.73.2024.03.07.05.50.02
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 07 Mar 2024 05:50:03 -0800 (PST)
-Message-ID: <4ba7af38-5cc1-428a-afec-75610934fc72@linaro.org>
-Date: Thu, 7 Mar 2024 14:50:01 +0100
+        d=1e100.net; s=20230601; t=1709820465; x=1710425265;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=7qvoqgbf8BgmpB/WA74qzufv4GkITZwzS6+LGmIQY3Q=;
+        b=bd7gRu1OEzD/nLvQ0kPCR43wvmIQvS4AxgIN1gWYR7n0jOEADv7KkWJcDq9IVqMOSE
+         +jw2NLjUTgWMwDbQiBAYkU/scZTemmViP3soXkGZxN7aiOPTq1QSR9bDCTRP8P7E6ws0
+         8sp6oEhtFB32ZJaJN+9WoAfCvMOq+gNsyrLUEh2eKpe3TUsJ3bNuSTWuKL+sm3se0s2e
+         o4BizRVEbN+YG1AJnTI7sccOqvYmWeCbPQOWd6josNJE7xRP467YogTn/Amdojz3k9Jx
+         zalyNAX5Mfv0hr61jpMsQg/w8o6R4Ue8BQIZDonJA7hn05b9X8/tA4oj0Cy948HVXKcx
+         Vp4Q==
+X-Gm-Message-State: AOJu0YyCdeFQJ7deg0zzptEPvDjx1g1OVTNliJuDMRdw1kymxNNE7yX5
+	uHl58K1PAOX5qPHtQX/rjVhQcvqFqU4zT4uBI70Rakc63qI2u11uYjHMydVJboM=
+X-Google-Smtp-Source: AGHT+IGe9ehohUZqONm1c72a7RNSuywN/LKsDYfSndJQuoACdSv5VuHGXxdcyjhAOzi7I1PAms9HYA==
+X-Received: by 2002:a17:906:138d:b0:a45:abec:cff4 with SMTP id f13-20020a170906138d00b00a45abeccff4mr5234619ejc.32.1709820465129;
+        Thu, 07 Mar 2024 06:07:45 -0800 (PST)
+Received: from claudiu-X670E-Pro-RS.. ([82.78.167.38])
+        by smtp.gmail.com with ESMTPSA id v23-20020a1709067d9700b00a42ee62b634sm8200648ejo.106.2024.03.07.06.07.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 07 Mar 2024 06:07:44 -0800 (PST)
+From: Claudiu <claudiu.beznea@tuxon.dev>
+X-Google-Original-From: Claudiu <claudiu.beznea.uj@bp.renesas.com>
+To: geert+renesas@glider.be,
+	mturquette@baylibre.com,
+	sboyd@kernel.org,
+	robh@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org,
+	conor+dt@kernel.org,
+	magnus.damm@gmail.com
+Cc: linux-renesas-soc@vger.kernel.org,
+	linux-clk@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	claudiu.beznea@tuxon.dev,
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+Subject: [PATCH v2 00/10] clk: renesas: rzg2l: Add support for power domains
+Date: Thu,  7 Mar 2024 16:07:18 +0200
+Message-Id: <20240307140728.190184-1-claudiu.beznea.uj@bp.renesas.com>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/2] dt-bindings: serial: renesas,scif: Validate
- 'interrupts' and 'interrupt-names'
-Content-Language: en-US
-To: Prabhakar <prabhakar.csengg@gmail.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Jiri Slaby <jirislaby@kernel.org>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Magnus Damm <magnus.damm@gmail.com>
-Cc: linux-kernel@vger.kernel.org, linux-serial@vger.kernel.org,
- devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
- Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
- Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20240307114217.34784-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20240307114217.34784-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20240307114217.34784-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 07/03/2024 12:42, Prabhakar wrote:
-> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> 
-> This commit adds support to validate the 'interrupts' and 'interrupt-names'
+From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 
-Please do not use "This commit/patch/change", but imperative mood. See
-longer explanation here:
-https://elixir.bootlin.com/linux/v5.17.1/source/Documentation/process/submitting-patches.rst#L95
+Hi,
 
-> properties for every supported SoC. This ensures proper handling and
-> configuration of interrupt-related properties across supported platforms.
-> 
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> ---
-> v1->v2
-> * Defined the properties in top-level block instead of moving into
->   if/else block for each SoC.
-> * Used Gen specific callback strings instead of each SoC variant
+Series adds support for power domains on rzg2l driver.
 
-You are sending quite a lot of patchsets touching the same, all in one
-day. This just adds to the confusion.
+RZ/G2L kind of devices support a functionality called MSTOP (module
+stop/standby). According to hardware manual the module could be switch
+to standby after its clocks are disabled. The reverse order of operation
+should be done when enabling a module (get the module out of standby,
+enable its clocks etc).
 
-> ---
->  .../bindings/serial/renesas,scif.yaml         | 90 +++++++++++++------
->  1 file changed, 62 insertions(+), 28 deletions(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/serial/renesas,scif.yaml b/Documentation/devicetree/bindings/serial/renesas,scif.yaml
-> index af72c3420453..6ba6b6d52208 100644
-> --- a/Documentation/devicetree/bindings/serial/renesas,scif.yaml
-> +++ b/Documentation/devicetree/bindings/serial/renesas,scif.yaml
-> @@ -83,36 +83,24 @@ properties:
->      maxItems: 1
->  
->    interrupts:
-> -    oneOf:
-> -      - items:
-> -          - description: A combined interrupt
-> -      - items:
-> -          - description: Error interrupt
-> -          - description: Receive buffer full interrupt
-> -          - description: Transmit buffer empty interrupt
-> -          - description: Break interrupt
-> -      - items:
-> -          - description: Error interrupt
-> -          - description: Receive buffer full interrupt
-> -          - description: Transmit buffer empty interrupt
-> -          - description: Break interrupt
-> -          - description: Data Ready interrupt
-> -          - description: Transmit End interrupt
-> +    minItems: 1
-> +    items:
-> +      - description: Error interrupt or single combined interrupt
+In [1] the MSTOP settings were implemented by adding code in driver
+to attach the MSTOP state to the IP clocks. But it has been proposed
+to implement it as power domain. The result is this series.
 
-That's not correct, your first interrupt can be combined.
+Along with MSTOP functionality there is also module power down
+functionality (which is currently available only on RZ/G3S). This has
+been also implemented through power domains.
 
-> +      - description: Receive buffer full interrupt
-> +      - description: Transmit buffer empty interrupt
-> +      - description: Break interrupt
-> +      - description: Data Ready interrupt
-> +      - description: Transmit End interrupt
->  
->    interrupt-names:
-> -    oneOf:
-> -      - items:
-> -          - const: eri
-> -          - const: rxi
-> -          - const: txi
-> -          - const: bri
-> -      - items:
-> -          - const: eri
-> -          - const: rxi
-> -          - const: txi
-> -          - const: bri
-> -          - const: dri
-> -          - const: tei
-> +    minItems: 4
-> +    items:
-> +      - const: eri
-> +      - const: rxi
-> +      - const: txi
-> +      - const: bri
-> +      - const: dri
-> +      - const: tei
->  
->    clocks:
->      minItems: 1
-> @@ -173,6 +161,52 @@ allOf:
->        required:
->          - resets
->  
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            enum:
-> +              - renesas,rcar-gen1-scif
-> +              - renesas,rcar-gen2-scif
-> +              - renesas,rcar-gen3-scif
-> +              - renesas,rcar-gen4-scif
-> +    then:
-> +      properties:
-> +        interrupts:
-> +          maxItems: 1
+The DT bindings were updated with power domain IDs (plain integers
+that matches the DT with driver data structures). The current DT
+bindings were updated with module IDs for the modules listed in tables
+with name "Registers for Module Standby Mode" (see HW manual) exception
+being RZ/G3S where, due to the power down functionality, the DDR,
+TZCDDR, OTFDE_DDR were also added, to avoid system being blocked due
+to the following lines of code from patch 7/17.
 
-You need to list the items here.
++       /* Prepare for power down the BUSes in power down mode. */
++       if (info->pm_domain_pwrdn_mstop)
++               writel(CPG_PWRDN_MSTOP_ENABLE, priv->base + CPG_PWRDN_MSTOP);
 
-> +
-> +        interrupt-names: false
-> +
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            enum:
-> +              - renesas,scif-r7s72100
-> +    then:
-> +      properties:
-> +        interrupts:
-> +          minItems: 4
-> +          maxItems: 4
+Domain IDs were added to all SoC specific bindings.
 
-List the items
+Thank you,
+Claudiu Beznea 
 
-> +
-> +        interrupt-names:
-> +          maxItems: 4
-> +
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            enum:
-> +              - renesas,scif-r7s9210
-> +              - renesas,scif-r9a07g044
-> +    then:
-> +      properties:
-> +        interrupts:
-> +          minItems: 6
+Changes in v2:
+- addressed review comments
+- dropped:
+    - dt-bindings: clock: r9a09g011-cpg: Add always-on power domain IDs
+    - clk: renesas: r9a07g043: Add initial support for power domains
+    - clk: renesas: r9a07g044: Add initial support for power domains
+    - clk: renesas: r9a09g011: Add initial support for power domains
+    - clk: renesas: r9a09g011: Add initial support for power domains
+    - arm64: dts: renesas: r9a07g043: Update #power-domain-cells = <1>
+    - arm64: dts: renesas: r9a07g044: Update #power-domain-cells = <1>
+    - arm64: dts: renesas: r9a07g054: Update #power-domain-cells = <1>
+    - arm64: dts: renesas: r9a09g011: Update #power-domain-cells = <1>
+  as suggested in the review process
+- dropped "arm64: dts: renesas: rzg3s-smarc-som: Guard the ethernet IRQ
+  GPIOs with proper flags" patch as it was integrated
+- added suspend to RAM support
+- collected tag
 
-List the items
+[1] https://lore.kernel.org/all/20231120070024.4079344-4-claudiu.beznea.uj@bp.renesas.com/
 
-> +
-> +        interrupt-names:
-> +          minItems: 6
-> +
->  unevaluatedProperties: false
->  
->  examples:
+Claudiu Beznea (10):
+  dt-bindings: clock: r9a07g043-cpg: Add power domain IDs
+  dt-bindings: clock: r9a07g044-cpg: Add power domain IDs
+  dt-bindings: clock: r9a07g054-cpg: Add power domain IDs
+  dt-bindings: clock: r9a08g045-cpg: Add power domain IDs
+  dt-bindings: clock: renesas,rzg2l-cpg: Update #power-domain-cells =
+    <1> for RZ/G3S
+  clk: renesas: rzg2l: Extend power domain support
+  clk: renesas: r9a08g045: Add support for power domains
+  clk: renesas: rzg2l-cpg: Add suspend/resume support for power domains
+  clk: renesas: r9a08g045: Add the RZG2L_PD_F_CONSOLE flag to scif0 PM
+    domain
+  arm64: dts: renesas: r9a08g045: Update #power-domain-cells = <1>
 
-Best regards,
-Krzysztof
+ .../bindings/clock/renesas,rzg2l-cpg.yaml     |  18 +-
+ arch/arm64/boot/dts/renesas/r9a08g045.dtsi    |  20 +-
+ drivers/clk/renesas/r9a08g045-cpg.c           |  61 ++++
+ drivers/clk/renesas/rzg2l-cpg.c               | 267 +++++++++++++++++-
+ drivers/clk/renesas/rzg2l-cpg.h               |  78 +++++
+ include/dt-bindings/clock/r9a07g043-cpg.h     |  52 ++++
+ include/dt-bindings/clock/r9a07g044-cpg.h     |  58 ++++
+ include/dt-bindings/clock/r9a07g054-cpg.h     |  58 ++++
+ include/dt-bindings/clock/r9a08g045-cpg.h     |  70 +++++
+ 9 files changed, 658 insertions(+), 24 deletions(-)
+
+-- 
+2.39.2
 
 
