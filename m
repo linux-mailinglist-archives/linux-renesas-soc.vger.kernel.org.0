@@ -1,74 +1,74 @@
-Return-Path: <linux-renesas-soc+bounces-3530-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-3531-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02B08874B45
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  7 Mar 2024 10:51:20 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id BD9FC874B55
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  7 Mar 2024 10:53:53 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id AB3BE281858
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  7 Mar 2024 09:51:18 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 332B61F22453
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  7 Mar 2024 09:53:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7F31782D9C;
-	Thu,  7 Mar 2024 09:51:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0653684FCB;
+	Thu,  7 Mar 2024 09:53:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="FW9oejdN"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="qrCADoz2"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B72C884FA9
-	for <linux-renesas-soc@vger.kernel.org>; Thu,  7 Mar 2024 09:51:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54B29657DA
+	for <linux-renesas-soc@vger.kernel.org>; Thu,  7 Mar 2024 09:53:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709805076; cv=none; b=t1qxCMSDPKiWL5QhNZknO3R+q/Fn/cC/qF93TScUhlYj55BuT5WHC9fwv9YF7v1s3rSN5/D39S+DppKRWKmIrBXrDZSEOi261S0Zg6KfSOaCsVaiJeOiS9aiirzpsHz/Qr52/vOPSFFYZOjFD1PnyXXN0T6KwAF5G1x5KzicTEI=
+	t=1709805226; cv=none; b=DtrSiVe32c3MIeBMIM1V8DboKoB6OytDg/bUVrWXp85x4QzH5cU4myAX1tAoliydeD+siU2d4of8rAc91BVm0PmuI2n6ANDi1rvK5hhq9QUwTe5nbam2kbuPYqImMxvDey4wuiYLwfa2AFIuwAMSVLsaPmPQjhhTHB4v1rbCVco=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709805076; c=relaxed/simple;
-	bh=6MGNA+aNGv2EFlpGWvJii5ukhWSrrxb47XaWbWrLnq4=;
+	s=arc-20240116; t=1709805226; c=relaxed/simple;
+	bh=6lCQPmC2NLod8HFgbwnwGugG2aNAAhdLirkMnWiyG6E=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=qUdrpAv5YtGIsvilRO/DtxyVL1IoF254kjJJhWnbIT55Ft/q/dywIUXbaIDuyvZrKlj7oxMXVBVIVc75IE/X4Lz7pIZHbtjY9Zm3cp7UF9UF2nhe/WQCAzWr+LMJa6udUKUD+WRN7xeEiQC+iqs+I5nVBnIvq/SxfRdDTC3UWTU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=FW9oejdN; arc=none smtp.client-ip=209.85.218.44
+	 In-Reply-To:Content-Type; b=uulJYH1bSM7hHNu0YDY2fbFfezk+YQ/Pn/KQ9jvkjofYrv2e8XbOj1wxCgIXOkDQpxiSN7S/A5QY9QvOLnOV6qddZFU/jnHS99GhtoZATExIV/CszZ7Jm9KFwvcVw6rM23SM/3gaVau+k/yL8t+k3R8U3bjckXqLkPBThny/WD0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=qrCADoz2; arc=none smtp.client-ip=209.85.218.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-a458eb7db13so97285566b.2
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 07 Mar 2024 01:51:14 -0800 (PST)
+Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-a446b5a08f0so131131466b.1
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 07 Mar 2024 01:53:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1709805073; x=1710409873; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1709805223; x=1710410023; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=vPuG1GgZCZFh8L6eE5OaizmSSuRrqZZSqC4gJdbUVd4=;
-        b=FW9oejdNUbXLSjW9fDu8aGAeF9BpUx2yzIGvcx4jvM/5jyWwNSgX2rOWVPWm0BUTut
-         vJaQo2SNrNqz1kvnE42EslnxHl4wC+TqIJ5NFDG06rcpdkPbeY4Dt9FDJBZWV7MkRiEv
-         GGiZOMGP4Z8Up5qg5iznhoRolT0DQ+OLQtsrWCnXZbj17CU7xeYu43eOzOT+VXUkYVVI
-         LuiRLKuDGowK0vuPDywSZOXSOjplLR0EeAY/pVF4YVf2jHhHjpbh2ivt7DaRPTonTq8o
-         +rLj+cPWUzrf62qQxX+oz8s7kDIZk9E6Xi/9D1zBcvpSkciNInlfcimKGW+XWAdYnOmN
-         cKHw==
+        bh=JjvVVrgXKtdWF6nAiCXymOryFizeDTs65VKbBWYSOnM=;
+        b=qrCADoz2HM4EHlAMEzUERNlgDZKIxY/jEmw4v5S/QNO5gSh3f4uHQGxigXhff/gi2o
+         oUX/xay+dIQJyqstwzUJObszlhrV8/5fel0qM1qSEAjTrnsQhWL9ovh/Z25VZUwcNcKa
+         RK39re87l8p76xUtFUZIpeGdwXYrwA1y29djbbBJqSSpI9ynq+HVojzB8tfnit5vp0By
+         X39r/GJNvEmSzsZJUGaqEN8oLY//A2sFPbcMnSgGfR1NahkEaOQ/VU273CouEwKxxUGR
+         16oT0/6Boyk5vx7CYGEOeRv8R1MjTOkS7tWyjkg34pFQWxs2tjIqRL/YBlFXD7Ad5lHT
+         OC5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709805073; x=1710409873;
+        d=1e100.net; s=20230601; t=1709805223; x=1710410023;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=vPuG1GgZCZFh8L6eE5OaizmSSuRrqZZSqC4gJdbUVd4=;
-        b=SgSxxv2rNE4XErB3v34vMM81pnMSzRzcwlvwRo5IODtgOAmj/129OIWwDxuH5/cngB
-         XRuA6h8keEzlDKYj3L7YUi1P+U00ToC/haxVIwpZMH/pD6TIA7qH/5PpgNJRJ0U4EQmJ
-         FDgJaXTIKTTm2HJ+cVMeQ4zlAf/GMRwVSL7K+UA41OwVcAqYg351Jdve4Twyk/dYx++p
-         wUoDYRlPChNGY+Mf7JRXXtEY9+i+3sXwqksw2Efx2RSOx85RgbQf68yavG1Slts27Nb2
-         oOaEcvFN9HhqYUInto5oBE1ZtIKYC46RrUyUgcEr5xLxEquH7BFId3/YcaIYauV/bjHf
-         QvVw==
-X-Forwarded-Encrypted: i=1; AJvYcCXrM6KvxoL0+zEzElt0dly+JQssKbQDuHKJrJ4h4NTo4Lv8SKs8Y+wyXR5A5jRG41Y40OJ4pbcSfF0vO5Ruq3kwWjgr11MWJBJs+YRbwicE2iE=
-X-Gm-Message-State: AOJu0YzWBRz1AAvY/5qh5MDdrMqgihSyhBippOZxdA6hEJotXUUtKfV/
-	zdbdVfz8lB7UXvsc/5DqHibHyJxwaJZi89x1B/1YpzFMo5Ik0LdcPq+mAcG3Sv8=
-X-Google-Smtp-Source: AGHT+IFHoEIYEY6Ted4o99jFpLoI6E6AiXbzaCg7PxEgSzdZVkiHHcoYyQETNrILK0qH5rs2aftcIg==
-X-Received: by 2002:a17:907:b9d8:b0:a45:c294:6e46 with SMTP id xa24-20020a170907b9d800b00a45c2946e46mr2688505ejc.64.1709805073038;
-        Thu, 07 Mar 2024 01:51:13 -0800 (PST)
+        bh=JjvVVrgXKtdWF6nAiCXymOryFizeDTs65VKbBWYSOnM=;
+        b=tM1Roexc1olfD6RRJQIjQH5f0aa0dwuh/l9HWbO11pE3mTMf4ud6bG/J3ZkJI0GV5Y
+         +GrzWpbvz6gYmjOXA61/dehe9Ss9I7yohbg+9wz84NlzWOzYoNOhCYHCG/WIT1Nk1wKh
+         jSC8hglF5n9kMCiTcll/kPBIQWkL7Wm3P5W28q/CGEkaByKwQHqojXsjoXvF6dSK02MC
+         WpwoDlwVAUaJ4U9Fb/VoS8P//6BuDQNcVpem+1/ff53imtL0zjZohq2dEFPi3oOiMp7y
+         sIIBUDtNqwcaP6w34HFrifj8s/wmqiVJQWC5TA2F7DBkHigp3zXcnt3ia9jUjzhLUhBT
+         h+mA==
+X-Forwarded-Encrypted: i=1; AJvYcCWPccwmZnXUeqNDvuZCc9a3L+nlFH4iAh9BvddFuONs0pMze2rF3bGZCU7ChvRlO/+vFiVU3Xt2hF0+eZYGHfIc8TP4N4lgU4DBufsg+k1fIWA=
+X-Gm-Message-State: AOJu0Yz/ND4ttQ3BS9j13+bdDVvns9EYTzN3qzg7pKGNxGoaiTuCcNPZ
+	GMFiiCmnkGHk2r0C1jPUTCy5/4fXnz9IpmNorP+2G3nxxDprjxsbobGzTyb+85M=
+X-Google-Smtp-Source: AGHT+IE7PaSe32aZfYBX0cdNMhJ4wVwuGlMe3nsz7btnGwIzOieGMfx/IFN8NIDZPg1JqImvfE0Qbw==
+X-Received: by 2002:a17:906:37d8:b0:a45:7936:d09e with SMTP id o24-20020a17090637d800b00a457936d09emr781412ejc.19.1709805222544;
+        Thu, 07 Mar 2024 01:53:42 -0800 (PST)
 Received: from [192.168.1.20] ([178.197.222.97])
-        by smtp.gmail.com with ESMTPSA id f26-20020a17090624da00b00a45c2b4f228sm1189911ejb.43.2024.03.07.01.51.11
+        by smtp.gmail.com with ESMTPSA id hj12-20020a170906874c00b00a456a97faaesm3891813ejb.86.2024.03.07.01.53.41
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 07 Mar 2024 01:51:12 -0800 (PST)
-Message-ID: <d20fca4d-486c-4139-a43f-3375e0ec5110@linaro.org>
-Date: Thu, 7 Mar 2024 10:51:10 +0100
+        Thu, 07 Mar 2024 01:53:42 -0800 (PST)
+Message-ID: <a3b3ea89-8f4c-4deb-befb-d5219584901e@linaro.org>
+Date: Thu, 7 Mar 2024 10:53:40 +0100
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -76,8 +76,8 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] dt-bindings: serial: renesas,scif: Move ref for
- serial.yaml at the end
+Subject: Re: [PATCH 2/2] dt-bindings: serial: renesas,scif: Validate
+ 'interrupts' and 'interrupt-names'
 Content-Language: en-US
 To: Prabhakar <prabhakar.csengg@gmail.com>,
  Geert Uytterhoeven <geert+renesas@glider.be>,
@@ -90,7 +90,7 @@ Cc: linux-kernel@vger.kernel.org, linux-serial@vger.kernel.org,
  Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
  Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 References: <20240306231007.13622-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20240306231007.13622-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20240306231007.13622-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
@@ -136,59 +136,120 @@ Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
  fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
  D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20240306231007.13622-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20240306231007.13622-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 07/03/2024 00:10, Prabhakar wrote:
 > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 > 
-> In preparation for adding more validation checks move the ref for
-> 'serial.yaml' to the end and also move reset check in 'allOf' block.
+> This commit adds support to validate the 'interrupts' and 'interrupt-names'
+> properties for every supported SoC. This ensures proper handling and
+> configuration of interrupt-related properties across supported platforms.
 > 
 > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 > ---
->  .../bindings/serial/renesas,scif.yaml         | 30 +++++++++----------
->  1 file changed, 15 insertions(+), 15 deletions(-)
+>  .../bindings/serial/renesas,scif.yaml         | 117 +++++++++++++-----
+>  1 file changed, 85 insertions(+), 32 deletions(-)
 > 
 > diff --git a/Documentation/devicetree/bindings/serial/renesas,scif.yaml b/Documentation/devicetree/bindings/serial/renesas,scif.yaml
-> index 4610a5bd580c..af72c3420453 100644
+> index af72c3420453..1a5f4568ae4f 100644
 > --- a/Documentation/devicetree/bindings/serial/renesas,scif.yaml
 > +++ b/Documentation/devicetree/bindings/serial/renesas,scif.yaml
-> @@ -9,9 +9,6 @@ title: Renesas Serial Communication Interface with FIFO (SCIF)
->  maintainers:
->    - Geert Uytterhoeven <geert+renesas@glider.be>
+> @@ -82,38 +82,6 @@ properties:
+>    reg:
+>      maxItems: 1
 >  
-> -allOf:
-> -  - $ref: serial.yaml#
+> -  interrupts:
+
+Properties should be defined in top-level block with widest constraints
+(min/maxItems). Your if:then: narrows them per each variant.
+
+> -    oneOf:
+> -      - items:
+> -          - description: A combined interrupt
+> -      - items:
+> -          - description: Error interrupt
+> -          - description: Receive buffer full interrupt
+> -          - description: Transmit buffer empty interrupt
+> -          - description: Break interrupt
+> -      - items:
+> -          - description: Error interrupt
+> -          - description: Receive buffer full interrupt
+> -          - description: Transmit buffer empty interrupt
+> -          - description: Break interrupt
+> -          - description: Data Ready interrupt
+> -          - description: Transmit End interrupt
 > -
->  properties:
->    compatible:
->      oneOf:
-> @@ -160,18 +157,21 @@ required:
->    - clock-names
->    - power-domains
+> -  interrupt-names:
+> -    oneOf:
+> -      - items:
+> -          - const: eri
+> -          - const: rxi
+> -          - const: txi
+> -          - const: bri
+> -      - items:
+> -          - const: eri
+> -          - const: rxi
+> -          - const: txi
+> -          - const: bri
+> -          - const: dri
+> -          - const: tei
+
+This probably could be:
+
+        minItems: 4
+        items:
+          - const: eri
+          - const: rxi
+          - const: txi
+          - const: bri
+          - const: dri
+          - const: tei
+
+> -
+>    clocks:
+>      minItems: 1
+>      maxItems: 4
+> @@ -173,6 +141,91 @@ allOf:
+>        required:
+>          - resets
 >  
-> -if:
-> -  properties:
-> -    compatible:
-> -      contains:
-> -        enum:
-> -          - renesas,rcar-gen2-scif
-> -          - renesas,rcar-gen3-scif
-> -          - renesas,rcar-gen4-scif
-> -          - renesas,scif-r9a07g044
-> -then:
-> -  required:
-> -    - resets
-> +allOf:
-> +  - $ref: serial.yaml#
-> +
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            enum:
+> +              - renesas,scif-r8a7742
+> +              - renesas,scif-r8a7743
+> +              - renesas,scif-r8a7744
+> +              - renesas,scif-r8a7745
+> +              - renesas,scif-r8a77470
+> +              - renesas,scif-r8a774a1
+> +              - renesas,scif-r8a774b1
+> +              - renesas,scif-r8a774c0
+> +              - renesas,scif-r8a774e1
+> +              - renesas,scif-r8a7778
+> +              - renesas,scif-r8a7779
+> +              - renesas,scif-r8a7790
+> +              - renesas,scif-r8a7791
+> +              - renesas,scif-r8a7792
+> +              - renesas,scif-r8a7793
+> +              - renesas,scif-r8a7794
+> +              - renesas,scif-r8a7795
+> +              - renesas,scif-r8a7796
+> +              - renesas,scif-r8a77961
+> +              - renesas,scif-r8a77965
+> +              - renesas,scif-r8a77970
+> +              - renesas,scif-r8a77980
+> +              - renesas,scif-r8a77990
+> +              - renesas,scif-r8a77995
+> +              - renesas,scif-r8a779a0
+> +              - renesas,scif-r8a779f0
+> +              - renesas,scif-r8a779g0
 
-Yeah, that's why usually we ask to put '$ref' and 'if' in allOf: block -
-saves you one syntax reindent which will confuse git blame.
+There is no way compatibility strings express it?
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
 Best regards,
 Krzysztof
