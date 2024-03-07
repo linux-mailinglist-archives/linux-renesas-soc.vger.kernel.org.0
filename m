@@ -1,84 +1,60 @@
-Return-Path: <linux-renesas-soc+bounces-3577-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-3578-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18C7F8759D1
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  7 Mar 2024 22:58:29 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id C8A17875A23
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  7 Mar 2024 23:19:17 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id AB00D1F22CF9
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  7 Mar 2024 21:58:28 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 837C12823ED
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  7 Mar 2024 22:19:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9CE0913B7BE;
-	Thu,  7 Mar 2024 21:58:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 316D713DBBF;
+	Thu,  7 Mar 2024 22:19:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mxaaxpXH"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tsbNL5fT"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A64B131E3C;
-	Thu,  7 Mar 2024 21:58:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03193138480;
+	Thu,  7 Mar 2024 22:19:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709848703; cv=none; b=jvmNF+X99akSIi2LUPQ6wOo+NOzpWofo51jmjevuszYyI4SyiJEmzzqUZg/i8jve4Tj7ro+MZLX0OMddtR83y3BnvH140eDpmfE9z8+l1774J1uGnHJhhZXpHHg4w4WfWot5SnOs2KNjAVmddmr7Un01XtloFNa/9WwTVCarL8U=
+	t=1709849951; cv=none; b=qp0BEenpGx1l31rjXIs1yGZg4mqewfsAg+c4y44MsAbAdDGlsSkMCdcbhykT3DlPmwwUiHZkZrd/06584cAYKi29QDb9pQDnNv2Rxr089XIiaJDQ4PJS2IFgsiO+PLKmqHmTofzn0FGQZygZS9qCLgx8GiKuESLupuClTR8/RGY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709848703; c=relaxed/simple;
-	bh=IpMGeN0v86/rzAMDiUJQ+cVemf+jJKKFwIKCFoUkZTE=;
+	s=arc-20240116; t=1709849951; c=relaxed/simple;
+	bh=NAFhcgfMUP7spt7IIedCEfy35hhbhzwIEFEoh/NeEfM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NI1XDzAvL6IpgTgkRAchJVbTM9o5YEYgsHJnR5jp3eq4L/6yAjflTvwdorsWnwrrUaIS60cAbNjwwkqGk7aEgKnBaBElYqc02YIuY87To8Xgb+wXe8nJR9AYT3Ru7CPzWWrJm6IUbf65FMqWapQdW87HBuJ31U4AS7iQ9nqSpqU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mxaaxpXH; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0467CC433C7;
-	Thu,  7 Mar 2024 21:58:14 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=dxJv4HfmS0uTz2sELb9FvMt9HayDJH8gqexBTvIitNWgP0bMnZSFJVbTWSPpp9+qRXprna6Uxzn879mlcRR5DcB26S3aTk6mAyEXnU/RPBUAdojlwJonfFsFn+BFVJAZkrmK2yH4D3Fn96MtRPnAx7hGeOycvx0wAfY0iUelfvw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tsbNL5fT; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 77D7AC433F1;
+	Thu,  7 Mar 2024 22:19:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1709848702;
-	bh=IpMGeN0v86/rzAMDiUJQ+cVemf+jJKKFwIKCFoUkZTE=;
+	s=k20201202; t=1709849950;
+	bh=NAFhcgfMUP7spt7IIedCEfy35hhbhzwIEFEoh/NeEfM=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=mxaaxpXHbcwdgPBCqzL3ip4FfS+wwgyZXqW8N8LcK6fP7E3VpoZqDHneR1dd1Xrej
-	 WlhBbqSPrM8jK9BJ2CNbm0PQxpC2owo7XLjSqOdrLbuwv5hYXvRYOCPbR1lseTm+lm
-	 VqRwXX89Ybnc+o3+MwNbgMhEL3RoQsE5RCRDUDwhBk88OxG95EAluIIMxeXPJNzTfJ
-	 xn5x8uaGoDrlqvoXzTQH3DobEay96Lt8ukZK4sO6AxfMPbTZXLi096HQUATFULKEAk
-	 NN3FHdZNMxE7mUyR2y+Hg6twSl77vAinM6S2WxrzEAkUA9Ziwka71eJzu4vJy7VSud
-	 o4JGQD6O5Yeew==
-Date: Thu, 7 Mar 2024 22:58:12 +0100
-From: Niklas Cassel <cassel@kernel.org>
-To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-Cc: Jingoo Han <jingoohan1@gmail.com>,
-	Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
-	Rob Herring <robh@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
-	Marek Vasut <marek.vasut+renesas@gmail.com>,
-	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Kishon Vijay Abraham I <kishon@ti.com>,
-	Vidya Sagar <vidyas@nvidia.com>,
-	Vignesh Raghavendra <vigneshr@ti.com>,
-	Richard Zhu <hongxing.zhu@nxp.com>,
-	Lucas Stach <l.stach@pengutronix.de>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	NXP Linux Team <linux-imx@nxp.com>,
-	Minghuan Lian <minghuan.Lian@nxp.com>,
-	Mingkai Hu <mingkai.hu@nxp.com>, Roy Zang <roy.zang@nxp.com>,
-	Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Kishon Vijay Abraham I <kishon@kernel.org>,
-	Jesper Nilsson <jesper.nilsson@axis.com>,
-	Srikanth Thokala <srikanth.thokala@intel.com>,
-	linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-	linux-tegra@vger.kernel.org, linux-omap@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linuxppc-dev@lists.ozlabs.org,
-	linux-arm-kernel@axis.com, Frank Li <Frank.Li@nxp.com>
-Subject: Re: [PATCH v9 10/10] PCI: dwc: ep: Add Kernel-doc comments for APIs
-Message-ID: <Zeo4dJGZYLnLfzjm@ryzen>
-References: <20240304-pci-dbi-rework-v9-0-29d433d99cda@linaro.org>
- <20240304-pci-dbi-rework-v9-10-29d433d99cda@linaro.org>
+	b=tsbNL5fTmJHEXUV4T3i+J45UyNghKGJh5J/Ee3Um2FXS43jCijoYt7WgveHk6nXF7
+	 LSNNzbv8qAp3G0+niY2F+7B/KpJ/ivwZtqQ60EDypwdYWblwwu5MAgbL97VeTnnWiZ
+	 183dRsQZFQmUSNODn/9CoN4z/1Lc3tk1wv8vxTDHXWeHuVu7JNpGDxFR+9Ko+GcH7k
+	 Jnp1ZPb/4jQdTWLaaYI53nic5WKN+E9NQ5z9cmEcvaC3O9XsJIONZNu76RPpnisyOD
+	 7kIlcWKao7IAByVD4vIimTF7wIvM+jV6qGDtfwMSpHX9yU9zP0wJ4eqvr0Cf1Mut87
+	 wPCOCxbkCBCTw==
+Date: Thu, 7 Mar 2024 16:19:07 -0600
+From: Rob Herring <robh@kernel.org>
+To: Claudiu <claudiu.beznea@tuxon.dev>
+Cc: magnus.damm@gmail.com, devicetree@vger.kernel.org, conor+dt@kernel.org,
+	linux-clk@vger.kernel.org, geert+renesas@glider.be,
+	krzysztof.kozlowski+dt@linaro.org,
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>, sboyd@kernel.org,
+	linux-kernel@vger.kernel.org, mturquette@baylibre.com,
+	linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v2 05/10] dt-bindings: clock: renesas,rzg2l-cpg: Update
+ #power-domain-cells = <1> for RZ/G3S
+Message-ID: <170984994653.3258431.619276607715437902.robh@kernel.org>
+References: <20240307140728.190184-1-claudiu.beznea.uj@bp.renesas.com>
+ <20240307140728.190184-6-claudiu.beznea.uj@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -87,38 +63,39 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240304-pci-dbi-rework-v9-10-29d433d99cda@linaro.org>
+In-Reply-To: <20240307140728.190184-6-claudiu.beznea.uj@bp.renesas.com>
 
-On Mon, Mar 04, 2024 at 02:52:22PM +0530, Manivannan Sadhasivam wrote:
-> All of the APIs are missing the Kernel-doc comments. Hence, add them.
+
+On Thu, 07 Mar 2024 16:07:23 +0200, Claudiu wrote:
+> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 > 
-> Reviewed-by: Frank Li <Frank.Li@nxp.com>
-> Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+> The driver will be modified (in the next commits) to be able to specify
+> individual power domain ID for each IP. The driver will still
+> support #power-domain-cells = <0>, thus, previous users are not
+> affected.
+> 
+> The #power-domain-cells = <1> has been instantiated only for RZ/G3S at
+> the moment as individual platform clock drivers need to be adapted for
+> this to be supported on the rest of the SoCs.
+> 
+> Also, the description for #power-domain-cells was updated with the links
+> to per-SoC power domain IDs.
+> 
+> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 > ---
+> 
+> Changes in v2:
+> - updated patch title and description
+> - kept both 0 and 1 for #power-domain-cells as not all the drivers,
+>   device trees are adpated with this series
+> - added a reference to dt-bindings/clock/r9a0*-cpg.h for power domain
+>   specifiers
+> - dropped the changes from examples section
+> 
+>  .../bindings/clock/renesas,rzg2l-cpg.yaml      | 18 +++++++++++++++++-
+>  1 file changed, 17 insertions(+), 1 deletion(-)
+> 
 
-For the functions that you added in this series, e.g.
-dw_pcie_ep_cleanup(), dw_pcie_ep_init_non_sticky_registers(),
-and dw_pcie_ep_linkdown(), I think that it would have been
-better if you actually added the kdoc in the same commit that
-added the respective function.
+Reviewed-by: Rob Herring <robh@kernel.org>
 
-
-For the existing functions that did not have a kdoc, I think
-it would have been better if you fixed this as patch 1/10 in
-this series. (Or 2/10, in case you keep the Fixes tag for the
-"PCI: dwc: ep: Fix DBI access failure for drivers requiring
-refclk from host" patch.)
-
-Yes, I know that you rename some of these functions that
-lacked kdoc later in the series, but the whole kdoc description
-would be the same, the kdoc parameters would be the same, and the
-kdoc return value would be the same.
-
-If you later rename a function, you would only need to change
-the kdoc function name (in addition to the function declaration
-itself).
-
-
-Kind regards,
-Niklas
 
