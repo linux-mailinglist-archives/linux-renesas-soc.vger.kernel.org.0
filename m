@@ -1,160 +1,196 @@
-Return-Path: <linux-renesas-soc+bounces-3566-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-3567-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D073875191
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  7 Mar 2024 15:11:53 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id F279E8755CF
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  7 Mar 2024 19:10:04 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 66670B26A6F
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  7 Mar 2024 14:11:50 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id AD80B284E31
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  7 Mar 2024 18:10:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C2D5112C7F8;
-	Thu,  7 Mar 2024 14:11:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BAE67131748;
+	Thu,  7 Mar 2024 18:09:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XEVX5gVf"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Rtgi5Y/T"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A22E83CA7;
-	Thu,  7 Mar 2024 14:11:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BE6E161;
+	Thu,  7 Mar 2024 18:09:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709820705; cv=none; b=gwU0uNFlqq6dRgzh6VOqGp/zOuxDA9x7DihbyCol3yyrEg1zJ6m+JpDRph+R6TXyamI3v4vDrJ5UGEAGuUWWKwktmik9nyDHHEGPr2s/6uooCZiLnSA313GZc1p4l+I1NPzB4IbkCZldLnmUCsO8B9IqiWtJcU0JsVpv8zjYvQE=
+	t=1709834999; cv=none; b=dNZzekNWEoSl8bMnRpV3RlNbD4bu9919lvVU6g+GeMRZItwVQssmbnDg4tsx285Lzkhb6v+i7ykOA8Wt3q8VAqlb/ppAZcsWjI6pj5xWCWZo9hVOsvcTwa86Q7MC+VtGoWpp4qciI+oazo6zpdS58rMS4qAqEM/ffEG2t0nm0wc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709820705; c=relaxed/simple;
-	bh=j0mA/Sb2NYhykpOmGUbF+PdY3ukQW1OL1PdXzEnekRw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=RosnyxPbgc+JkR63w4HYt81/n1i5T7KBu1nZPMnxFoHj3Fj9IGhj/1FHzYbp1UONmfHYG2VXhvsgmK9hfz1llqrCMq0yJdSUMCObeU3n0llhLp+cOy50/a4p4ncuklqWu9kDmQrdfAVDYvdqLyIBbpNB7fzJtseDlfL23kW8XiE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XEVX5gVf; arc=none smtp.client-ip=209.85.215.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pg1-f180.google.com with SMTP id 41be03b00d2f7-5bdbe2de25fso738832a12.3;
-        Thu, 07 Mar 2024 06:11:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1709820703; x=1710425503; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=rfwer8XXczzwIW44mKPVsSf57S+ewbqnXIkK5KC8Spc=;
-        b=XEVX5gVfb7UYzFdCHhAD1m42znCVYp08bx0eL+hvYRaoaGUfiPJ2yyibkkYga3DYod
-         2A7hHrEgsWO0pocs0AXM0uQl06Z8H4FV9d7t44C6W42DVvZIfN2Gi8JQ399wgpsO3eFT
-         rZaKEgVcyFWZAsLK/LrozTOxzegENpQCceZx+A+nXjcE/ObsFOqEivZrDFaaPxBfnE32
-         WqbA+9nsnVqhAs7pg+O95OnNNIVFbIutlPM/iWyDC5UuNhILff//2aj1M5GZrcqfSHNm
-         Ju2s8pK5wnayq0a89agEne0bKaBnLTpYfJS8mTub/lLysu1344lXXvDJsa3KyQEe9QfB
-         o53Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709820703; x=1710425503;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=rfwer8XXczzwIW44mKPVsSf57S+ewbqnXIkK5KC8Spc=;
-        b=UFyF2SDEM825QyBxJoOBqnU36Hm6sMJsSUcamZEetfVrMGJYym/APaGbdSt/PQbjvY
-         Wc34doUk4jIQk2LCJH88YmS8enwG41rk+dTuukpHU5zFuQsG+2gNmW89rlv1Pjm66zdT
-         MAFJMqcG7l3Wxl0JlBalwEVrhoDobPFCWwDYailQ1eVL4hl3nhpxi2q7Wnxyp4b1qb9m
-         80tyghqCsbJuAjauL3EWEnzk6cddj4ZTVLbALPsgJL4wsltwCZXD+V5FThBM5RjJzLyd
-         tXonClATkf5B6PYe2WYcVUscr/0EnQow5bZUjcI2P0AW62jqQh/F31NjoVtQwFtraWlX
-         9beg==
-X-Forwarded-Encrypted: i=1; AJvYcCVkWHoO5QzCJOGA8PZtZAaxv355QsOdAWmdS8i/ALtD9xpqJYnKCMRCA5U62zy+ufeMTwHjVaLID7uQmJetCgKyd0x7dsseAbOkFILzHD0sZm5j9kxuwzwAt7z2ygO3uhTIO8wEc0oScnUO2rMLup86BLIW2g/I3Yij/aBojFn1pHorNG392+qDNSkv
-X-Gm-Message-State: AOJu0YzuFTu/GgxnkuKrvUfL907YaBAHpD2lv0WjrAGKXKMMEn5Wx+id
-	9jF3/aMVdqXlycgCGs/kF9MuvtEawEd9VXnjRUGXZA3dV/zf9lQOsq7OPDmCpPMYU1Og0S7fsdZ
-	iGo2C95Lxhx8/3YMGISMuswBh5mQ=
-X-Google-Smtp-Source: AGHT+IELOAw76zrd2EKPhQWJD44/OyTabAu/xyaX1leOvbMFK+PySmZNQkiJ28Dm/4qWJV3R2luyZUxa3K4jXysNSOY=
-X-Received: by 2002:a17:90b:1256:b0:29b:5c2:76ac with SMTP id
- gx22-20020a17090b125600b0029b05c276acmr16829531pjb.5.1709820703262; Thu, 07
- Mar 2024 06:11:43 -0800 (PST)
+	s=arc-20240116; t=1709834999; c=relaxed/simple;
+	bh=kbVZqvLa1aqlyB3vVu8jRk+f0oMHO8cw/P5eYurNs08=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZYOAkS05o3IUCrtmNfhbS9tFjRnpa4NJQNym1BkRaJ8K3tKqcAPJO5E4hOhGRFpx9P+WtZte6p6MoN8n551kuPl/0xuscZq/pty6QDpKyV08m/9jgTe+f8z7DiA3l4QykJyuOBlMUg8Aa473fuI7HBLIEgU+kSux58s+HgkAQpo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Rtgi5Y/T; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4D219C433F1;
+	Thu,  7 Mar 2024 18:09:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1709834999;
+	bh=kbVZqvLa1aqlyB3vVu8jRk+f0oMHO8cw/P5eYurNs08=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Rtgi5Y/TTHBALriEjOpaxqLTfiGFJpriaiBh9q6KG7N4sl2eDnKIQYwp/KIusV4kh
+	 OxNUpzMTKwVvou90Kd5Ub5QfJkRl/6HNtzX+lSUHLbdDa2/zhy/2WPjHyp6vbNieNS
+	 ds0ZrHO+9x5Xl9hsTOowG1N5UUNQgIBTQ2D3RpwqtKTcJx0HX0wEewnI1djUeVKkK9
+	 CgxOb58kMyJgEtip4eE0SsfxHxLn48sa/jS+kxnVOhyc1NF4KhllClXOm9UKHY55mS
+	 OZpPfvxo6u7hmPYhe1EbRicjRmHN2FgytTqUSoHtlcT+DqU8e+I7o+6+/hM0avoyGp
+	 E+qftcapZ5mfA==
+Date: Thu, 7 Mar 2024 18:09:53 +0000
+From: Conor Dooley <conor@kernel.org>
+To: Prabhakar <prabhakar.csengg@gmail.com>
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jiri Slaby <jirislaby@kernel.org>, Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Magnus Damm <magnus.damm@gmail.com>, linux-kernel@vger.kernel.org,
+	linux-serial@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH v2] dt-bindings: serial: renesas,scif: Document R9A09G057
+ support
+Message-ID: <20240307-unaired-pawing-7e5183a89c97@spud>
+References: <20240307114731.34953-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240227034539.193573-1-aford173@gmail.com> <20240227034539.193573-2-aford173@gmail.com>
- <63199ea3af86986545fcec4e81fa3a38f18a160f.camel@imgtec.com>
-In-Reply-To: <63199ea3af86986545fcec4e81fa3a38f18a160f.camel@imgtec.com>
-From: Adam Ford <aford173@gmail.com>
-Date: Thu, 7 Mar 2024 08:11:31 -0600
-Message-ID: <CAHCN7xK18gA-im4C16Ax-xevCOOqy1C8mXsUCEXNHnEPxxsuOA@mail.gmail.com>
-Subject: Re: [PATCH 1/6] dt-bindings: gpu: powervr-rogue: Add PowerVR support
- for some Renesas GPUs
-To: Frank Binns <Frank.Binns@imgtec.com>
-Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, 
-	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>, 
-	"magnus.damm@gmail.com" <magnus.damm@gmail.com>, "tzimmermann@suse.de" <tzimmermann@suse.de>, 
-	Matt Coster <Matt.Coster@imgtec.com>, 
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, "robh@kernel.org" <robh@kernel.org>, 
-	"airlied@gmail.com" <airlied@gmail.com>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
-	"geert+renesas@glider.be" <geert+renesas@glider.be>, 
-	"maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>, 
-	"krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>, "daniel@ffwll.ch" <daniel@ffwll.ch>, 
-	"aford@beaconembedded.com" <aford@beaconembedded.com>, "conor+dt@kernel.org" <conor+dt@kernel.org>, 
-	"mripard@kernel.org" <mripard@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="kqshKBrZL8ASvBWS"
+Content-Disposition: inline
+In-Reply-To: <20240307114731.34953-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+
+
+--kqshKBrZL8ASvBWS
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Mar 7, 2024 at 6:41=E2=80=AFAM Frank Binns <Frank.Binns@imgtec.com>=
- wrote:
->
-> Hi Adam,
->
-> On Mon, 2024-02-26 at 21:45 -0600, Adam Ford wrote:
-> > Update the binding to add support for various Renesas SoC's with PowerV=
-R
-> > Rogue GX6250 and GX6650 GPUs.  These devices only need one clock, so up=
-date
-> > the table to indicate such like what was done for the ti,am62-gpu.
-> >
-> > Signed-off-by: Adam Ford <aford173@gmail.com>
-> >
-> > diff --git a/Documentation/devicetree/bindings/gpu/img,powervr-rogue.ya=
-ml b/Documentation/devicetree/bindings/gpu/img,powervr-rogue.yaml
-> > index 256e252f8087..7c75104df09f 100644
-> > --- a/Documentation/devicetree/bindings/gpu/img,powervr-rogue.yaml
-> > +++ b/Documentation/devicetree/bindings/gpu/img,powervr-rogue.yaml
-> > @@ -14,6 +14,11 @@ properties:
-> >    compatible:
-> >      items:
-> >        - enum:
-> > +          - renesas,r8a774a1-gpu
-> > +          - renesas,r8a774e1-gpu
-> > +          - renesas,r8a77951-gpu
-> > +          - renesas,r8a77960-gpu
-> > +          - renesas,r8a77961-gpu
-> >            - ti,am62-gpu
-> >        - const: img,img-axe # IMG AXE GPU model/revision is fully disco=
-verable
->
-> A new set of items should be added for 'img,powervr-series6xt' and the Re=
-nesas
-> models along the lines of [1].
+On Thu, Mar 07, 2024 at 11:47:31AM +0000, Prabhakar wrote:
+> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+>=20
+> Document support for the Serial Communication Interface with FIFO (SCIF)
+> available in the Renesas RZ/V2H(P) (R9A09G057) SoC. The SCIF interface in
+> the Renesas RZ/V2H(P) is similar to that available in the RZ/G2L
+> (R9A07G044) SoC, with the only difference being that the RZ/V2H(P) SoC has
+> three additional interrupts: one for Tx end/Rx ready and the other two for
+> Rx and Tx buffer full, which are edge-triggered.
+>=20
+> No driver changes are required as generic compatible string
+> "renesas,scif-r9a07g044" will be used as a fallback on RZ/V2H(P) SoC.
+>=20
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Reviewed-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
 
-Should I rebase my binding off the one below, so it applies to your
-branch or should I attempt to base it off the mainline?
->
-> Thanks
-> Frank
->
-> [1]
-> https://gitlab.freedesktop.org/imagination/linux/-/blob/powervr-next/Docu=
-mentation/devicetree/bindings/gpu/img,powervr.yaml?ref_type=3Dheads#L16-19
->
-> >
-> > @@ -51,7 +56,13 @@ allOf:
-> >        properties:
-> >          compatible:
-> >            contains:
-> > -            const: ti,am62-gpu
-> > +            enum:
-> > +              - ti,am62-gpu
-> > +              - renesas,r8a774a1-gpu
-> > +              - renesas,r8a774e1-gpu
-> > +              - renesas,r8a77951-gpu
-> > +              - renesas,r8a77960-gpu
-> > +              - renesas,r8a77961-gpu
-> >      then:
-> >        properties:
-> >          clocks:
+Acked-by: Conor Dooley <conor.dooley@microchip.com>
+
+Thanks,
+Conor.
+
+> ---
+> v1->v2
+> * Added validation to check interrupts and interrupt-names count
+>=20
+> Note, this patch applies on top of series [0].
+>=20
+> [0] https://patchwork.ozlabs.org/project/devicetree-bindings/cover/202403=
+07114217.34784-1-prabhakar.mahadev-lad.rj@bp.renesas.com/
+> ---
+>  .../bindings/serial/renesas,scif.yaml         | 31 ++++++++++++++++---
+>  1 file changed, 27 insertions(+), 4 deletions(-)
+>=20
+> diff --git a/Documentation/devicetree/bindings/serial/renesas,scif.yaml b=
+/Documentation/devicetree/bindings/serial/renesas,scif.yaml
+> index 6ba6b6d52208..a9c60334d702 100644
+> --- a/Documentation/devicetree/bindings/serial/renesas,scif.yaml
+> +++ b/Documentation/devicetree/bindings/serial/renesas,scif.yaml
+> @@ -77,6 +77,7 @@ properties:
+>                - renesas,scif-r9a07g043      # RZ/G2UL and RZ/Five
+>                - renesas,scif-r9a07g054      # RZ/V2L
+>                - renesas,scif-r9a08g045      # RZ/G3S
+> +              - renesas,scif-r9a09g057      # RZ/V2H(P)
+>            - const: renesas,scif-r9a07g044   # RZ/G2{L,LC} fallback
+> =20
+>    reg:
+> @@ -91,6 +92,9 @@ properties:
+>        - description: Break interrupt
+>        - description: Data Ready interrupt
+>        - description: Transmit End interrupt
+> +      - description: Transmit End/Data Ready interrupt
+> +      - description: Receive buffer full interrupt (EDGE trigger)
+> +      - description: Transmit buffer empty interrupt (EDGE trigger)
+> =20
+>    interrupt-names:
+>      minItems: 4
+> @@ -101,6 +105,9 @@ properties:
+>        - const: bri
+>        - const: dri
+>        - const: tei
+> +      - const: teidri
+> +      - const: rxi-edge
+> +      - const: txi-edge
+> =20
+>    clocks:
+>      minItems: 1
+> @@ -197,15 +204,31 @@ allOf:
+>          compatible:
+>            contains:
+>              enum:
+> -              - renesas,scif-r7s9210
+> -              - renesas,scif-r9a07g044
+> +              - renesas,scif-r9a09g057
+>      then:
+>        properties:
+>          interrupts:
+> -          minItems: 6
+> +          minItems: 9
+> =20
+>          interrupt-names:
+> -          minItems: 6
+> +          minItems: 9
+> +    else:
+> +      if:
+> +        properties:
+> +          compatible:
+> +            contains:
+> +              enum:
+> +                - renesas,scif-r7s9210
+> +                - renesas,scif-r9a07g044
+> +      then:
+> +        properties:
+> +          interrupts:
+> +            minItems: 6
+> +            maxItems: 6
+> +
+> +          interrupt-names:
+> +            minItems: 6
+> +            maxItems: 6
+> =20
+>  unevaluatedProperties: false
+> =20
+> --=20
+> 2.34.1
+>=20
+
+--kqshKBrZL8ASvBWS
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZeoC8QAKCRB4tDGHoIJi
+0r/5APwKFTZsYs6kP59xEaj+Cj1JP9q4vyRIEmkRiuEDlPR3gQD/eC44HjW8j8Yp
+Cbx1d+0Ow5bozd4yQTk1H9WgMNJo8QY=
+=2N9o
+-----END PGP SIGNATURE-----
+
+--kqshKBrZL8ASvBWS--
 
