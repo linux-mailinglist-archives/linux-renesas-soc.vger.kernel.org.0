@@ -1,196 +1,110 @@
-Return-Path: <linux-renesas-soc+bounces-3567-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-3568-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id F279E8755CF
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  7 Mar 2024 19:10:04 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 33339875799
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  7 Mar 2024 20:53:43 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id AD80B284E31
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  7 Mar 2024 18:10:03 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 8F078B23D54
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  7 Mar 2024 19:53:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BAE67131748;
-	Thu,  7 Mar 2024 18:09:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7621C1386BE;
+	Thu,  7 Mar 2024 19:52:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Rtgi5Y/T"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kZm2YSwS"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BE6E161;
-	Thu,  7 Mar 2024 18:09:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BCF6137C42;
+	Thu,  7 Mar 2024 19:52:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709834999; cv=none; b=dNZzekNWEoSl8bMnRpV3RlNbD4bu9919lvVU6g+GeMRZItwVQssmbnDg4tsx285Lzkhb6v+i7ykOA8Wt3q8VAqlb/ppAZcsWjI6pj5xWCWZo9hVOsvcTwa86Q7MC+VtGoWpp4qciI+oazo6zpdS58rMS4qAqEM/ffEG2t0nm0wc=
+	t=1709841162; cv=none; b=hb8hODoA+whsFIAgnMGa4gGnyMWtTeqNoJIEu9g7XvM9OXqoyx5l9mdXcz+JyW7A830HjC8/gwKsU9b5i1rZ2xp1+/q6si+embIMj+seHKzyBNF0ruQBuBajkrX1Dk5DLnoE85Ir0OvwV6/7F3Tq8aZTCz+9nqEtPEKNRWI+fxA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709834999; c=relaxed/simple;
-	bh=kbVZqvLa1aqlyB3vVu8jRk+f0oMHO8cw/P5eYurNs08=;
+	s=arc-20240116; t=1709841162; c=relaxed/simple;
+	bh=abVM7Az8c+fwhJYNf8SjY0MPBlfozwtnuPRGUqiuFH0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZYOAkS05o3IUCrtmNfhbS9tFjRnpa4NJQNym1BkRaJ8K3tKqcAPJO5E4hOhGRFpx9P+WtZte6p6MoN8n551kuPl/0xuscZq/pty6QDpKyV08m/9jgTe+f8z7DiA3l4QykJyuOBlMUg8Aa473fuI7HBLIEgU+kSux58s+HgkAQpo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Rtgi5Y/T; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4D219C433F1;
-	Thu,  7 Mar 2024 18:09:56 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=ejbGhXuIsYrpA+6VzfyjocJNZUAKMGufA+5bdAEnnSm7W0aWbCFrVZBAkzTIqQGaVtl0aHJUOB0gAKl4KhYU4yugbUXtw2k/7AKIx8Kybsd5Tgei3VtlQylmEAxiTCujg9/gEn76mSIN9ZYu0QL4wivX6J1aqRXfyczFG8shlQA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kZm2YSwS; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CE4C0C433F1;
+	Thu,  7 Mar 2024 19:52:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1709834999;
-	bh=kbVZqvLa1aqlyB3vVu8jRk+f0oMHO8cw/P5eYurNs08=;
+	s=k20201202; t=1709841161;
+	bh=abVM7Az8c+fwhJYNf8SjY0MPBlfozwtnuPRGUqiuFH0=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Rtgi5Y/TTHBALriEjOpaxqLTfiGFJpriaiBh9q6KG7N4sl2eDnKIQYwp/KIusV4kh
-	 OxNUpzMTKwVvou90Kd5Ub5QfJkRl/6HNtzX+lSUHLbdDa2/zhy/2WPjHyp6vbNieNS
-	 ds0ZrHO+9x5Xl9hsTOowG1N5UUNQgIBTQ2D3RpwqtKTcJx0HX0wEewnI1djUeVKkK9
-	 CgxOb58kMyJgEtip4eE0SsfxHxLn48sa/jS+kxnVOhyc1NF4KhllClXOm9UKHY55mS
-	 OZpPfvxo6u7hmPYhe1EbRicjRmHN2FgytTqUSoHtlcT+DqU8e+I7o+6+/hM0avoyGp
-	 E+qftcapZ5mfA==
-Date: Thu, 7 Mar 2024 18:09:53 +0000
-From: Conor Dooley <conor@kernel.org>
-To: Prabhakar <prabhakar.csengg@gmail.com>
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jiri Slaby <jirislaby@kernel.org>, Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Magnus Damm <magnus.damm@gmail.com>, linux-kernel@vger.kernel.org,
-	linux-serial@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: Re: [PATCH v2] dt-bindings: serial: renesas,scif: Document R9A09G057
- support
-Message-ID: <20240307-unaired-pawing-7e5183a89c97@spud>
-References: <20240307114731.34953-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+	b=kZm2YSwSeAjDl/IxeY39+GMpbM8g/8yLdpNPzBh9Kp9OI7lIHdGVkI0W/SiXGXlVY
+	 8Ye4MdEO3tCq/Rskx6KQb/6n0TYuz5hgFRUTqcPq5lMDRZ4e68xdlI+OtljF8BrAhW
+	 uU3G/XKfd2W+GAEpIvJOH8/VjiPRvy3xkmXqZ6ZJN16Jj5szHjOqM4WehX4qqAwgUo
+	 lK6yFgKRk4vAkGPgD4jvralrfWKvR87DyZ2a62ltCqD/q4ZXANAZfTOlh9cdeyaotn
+	 gMKzIMKEyAbzGgl9wgZHgDfKWgZnsBm8mLkobnvwBY2pLtH90c8M7zCL36b5O9cGzO
+	 9MQH5Xf1EoKww==
+Date: Thu, 7 Mar 2024 20:52:30 +0100
+From: Niklas Cassel <cassel@kernel.org>
+To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+Cc: Jingoo Han <jingoohan1@gmail.com>,
+	Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
+	Rob Herring <robh@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+	Marek Vasut <marek.vasut+renesas@gmail.com>,
+	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Kishon Vijay Abraham I <kishon@ti.com>,
+	Vidya Sagar <vidyas@nvidia.com>,
+	Vignesh Raghavendra <vigneshr@ti.com>,
+	Richard Zhu <hongxing.zhu@nxp.com>,
+	Lucas Stach <l.stach@pengutronix.de>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	NXP Linux Team <linux-imx@nxp.com>,
+	Minghuan Lian <minghuan.Lian@nxp.com>,
+	Mingkai Hu <mingkai.hu@nxp.com>, Roy Zang <roy.zang@nxp.com>,
+	Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Kishon Vijay Abraham I <kishon@kernel.org>,
+	Jesper Nilsson <jesper.nilsson@axis.com>,
+	Srikanth Thokala <srikanth.thokala@intel.com>,
+	linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+	linux-tegra@vger.kernel.org, linux-omap@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linuxppc-dev@lists.ozlabs.org,
+	linux-arm-kernel@axis.com, Frank Li <Frank.Li@nxp.com>
+Subject: Re: [PATCH v9 01/10] PCI: dwc: ep: Remove deinit() callback from
+ struct dw_pcie_ep_ops
+Message-ID: <ZeoaOn2dekvBD8ae@ryzen>
+References: <20240304-pci-dbi-rework-v9-0-29d433d99cda@linaro.org>
+ <20240304-pci-dbi-rework-v9-1-29d433d99cda@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="kqshKBrZL8ASvBWS"
-Content-Disposition: inline
-In-Reply-To: <20240307114731.34953-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-
-
---kqshKBrZL8ASvBWS
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20240304-pci-dbi-rework-v9-1-29d433d99cda@linaro.org>
 
-On Thu, Mar 07, 2024 at 11:47:31AM +0000, Prabhakar wrote:
-> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
->=20
-> Document support for the Serial Communication Interface with FIFO (SCIF)
-> available in the Renesas RZ/V2H(P) (R9A09G057) SoC. The SCIF interface in
-> the Renesas RZ/V2H(P) is similar to that available in the RZ/G2L
-> (R9A07G044) SoC, with the only difference being that the RZ/V2H(P) SoC has
-> three additional interrupts: one for Tx end/Rx ready and the other two for
-> Rx and Tx buffer full, which are edge-triggered.
->=20
-> No driver changes are required as generic compatible string
-> "renesas,scif-r9a07g044" will be used as a fallback on RZ/V2H(P) SoC.
->=20
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> Reviewed-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
-
-Thanks,
-Conor.
-
+On Mon, Mar 04, 2024 at 02:52:13PM +0530, Manivannan Sadhasivam wrote:
+> deinit() callback was solely introduced for the pcie-rcar-gen4 driver where
+> it is used to do platform specific resource deallocation. And this callback
+> is called right at the end of the dw_pcie_ep_exit() API. So it doesn't
+> matter whether it is called within or outside of dw_pcie_ep_exit() API.
+> 
+> So let's remove this callback and directly call rcar_gen4_pcie_ep_deinit()
+> in pcie-rcar-gen4 driver to do resource deallocation after the completion
+> of dw_pcie_ep_exit() API in rcar_gen4_remove_dw_pcie_ep().
+> 
+> This simplifies the DWC layer.
+> 
+> Reviewed-by: Frank Li <Frank.Li@nxp.com>
+> Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
 > ---
-> v1->v2
-> * Added validation to check interrupts and interrupt-names count
->=20
-> Note, this patch applies on top of series [0].
->=20
-> [0] https://patchwork.ozlabs.org/project/devicetree-bindings/cover/202403=
-07114217.34784-1-prabhakar.mahadev-lad.rj@bp.renesas.com/
-> ---
->  .../bindings/serial/renesas,scif.yaml         | 31 ++++++++++++++++---
->  1 file changed, 27 insertions(+), 4 deletions(-)
->=20
-> diff --git a/Documentation/devicetree/bindings/serial/renesas,scif.yaml b=
-/Documentation/devicetree/bindings/serial/renesas,scif.yaml
-> index 6ba6b6d52208..a9c60334d702 100644
-> --- a/Documentation/devicetree/bindings/serial/renesas,scif.yaml
-> +++ b/Documentation/devicetree/bindings/serial/renesas,scif.yaml
-> @@ -77,6 +77,7 @@ properties:
->                - renesas,scif-r9a07g043      # RZ/G2UL and RZ/Five
->                - renesas,scif-r9a07g054      # RZ/V2L
->                - renesas,scif-r9a08g045      # RZ/G3S
-> +              - renesas,scif-r9a09g057      # RZ/V2H(P)
->            - const: renesas,scif-r9a07g044   # RZ/G2{L,LC} fallback
-> =20
->    reg:
-> @@ -91,6 +92,9 @@ properties:
->        - description: Break interrupt
->        - description: Data Ready interrupt
->        - description: Transmit End interrupt
-> +      - description: Transmit End/Data Ready interrupt
-> +      - description: Receive buffer full interrupt (EDGE trigger)
-> +      - description: Transmit buffer empty interrupt (EDGE trigger)
-> =20
->    interrupt-names:
->      minItems: 4
-> @@ -101,6 +105,9 @@ properties:
->        - const: bri
->        - const: dri
->        - const: tei
-> +      - const: teidri
-> +      - const: rxi-edge
-> +      - const: txi-edge
-> =20
->    clocks:
->      minItems: 1
-> @@ -197,15 +204,31 @@ allOf:
->          compatible:
->            contains:
->              enum:
-> -              - renesas,scif-r7s9210
-> -              - renesas,scif-r9a07g044
-> +              - renesas,scif-r9a09g057
->      then:
->        properties:
->          interrupts:
-> -          minItems: 6
-> +          minItems: 9
-> =20
->          interrupt-names:
-> -          minItems: 6
-> +          minItems: 9
-> +    else:
-> +      if:
-> +        properties:
-> +          compatible:
-> +            contains:
-> +              enum:
-> +                - renesas,scif-r7s9210
-> +                - renesas,scif-r9a07g044
-> +      then:
-> +        properties:
-> +          interrupts:
-> +            minItems: 6
-> +            maxItems: 6
-> +
-> +          interrupt-names:
-> +            minItems: 6
-> +            maxItems: 6
-> =20
->  unevaluatedProperties: false
-> =20
-> --=20
-> 2.34.1
->=20
 
---kqshKBrZL8ASvBWS
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZeoC8QAKCRB4tDGHoIJi
-0r/5APwKFTZsYs6kP59xEaj+Cj1JP9q4vyRIEmkRiuEDlPR3gQD/eC44HjW8j8Yp
-Cbx1d+0Ow5bozd4yQTk1H9WgMNJo8QY=
-=2N9o
------END PGP SIGNATURE-----
-
---kqshKBrZL8ASvBWS--
+Reviewed-by: Niklas Cassel <cassel@kernel.org>
 
