@@ -1,70 +1,64 @@
-Return-Path: <linux-renesas-soc+bounces-3534-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-3535-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27A06874BFF
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  7 Mar 2024 11:10:43 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 360E7874C24
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  7 Mar 2024 11:19:07 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4AF6C1C20D8F
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  7 Mar 2024 10:10:42 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id B6E241F21E41
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  7 Mar 2024 10:19:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1DD3B85260;
-	Thu,  7 Mar 2024 10:09:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ko0L1xpZ"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B39A684FDF;
+	Thu,  7 Mar 2024 10:18:57 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vk1-f178.google.com (mail-vk1-f178.google.com [209.85.221.178])
+Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com [209.85.128.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69E3E42047;
-	Thu,  7 Mar 2024 10:09:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB89C1CD29;
+	Thu,  7 Mar 2024 10:18:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709806193; cv=none; b=hX1i7Mf1ls0W+lmzYQLEc1dQbYuOT1AgaJbtUpiLga1XXvgM8MfrlXH5iiCW8leBItZn2kG2DbTr7MvscH7cZaCD30yQ6xBFI3Y9G0t7hgyn+QpCISae1ZMucEvmQnTxdAjeBdAg+SdZvfjyH1W5MfZ3xg5LIl2rdAAfyKUONr0=
+	t=1709806737; cv=none; b=PSJUaH7NtEwYfdX0cjNmzCUPJpoWaPkPdDXqh+vmqrWSwjQWisZevWeKpptPKrVnga+8ycmXZ1Ms4+6qJ+3M6W5bV3IvaTuPUt5B2plshyAsyxbrGu7bTrP+aPQu03kuoqHsF4W8NUPk0H8Y+plL6VuPGSknLgy1R6hTRM/fsQg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709806193; c=relaxed/simple;
-	bh=Z+XySDX0I1MFB4UakJ/SQ8XJmBT0WkwC0syBLztsRw0=;
+	s=arc-20240116; t=1709806737; c=relaxed/simple;
+	bh=Tr2jABHwaPv0XKS9X+du0kPHNrc+9jC+LNj9TEVmYHU=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=qGM9kcVzxQBJ6Rdz5PZdXwfCN9ANbAMIa1qj3MYCkKbb3fNhRDcvYsFk9fJnaCnd18St38nxNFn5wfSAyT+eOJexMRqdVsYvBeOhuBhvWuIWzTt5bIERLrGPZzIh0zm8EaqazX51RqCMezIT9bXZQSp4dKHNZiITG6DVDAbyfy8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ko0L1xpZ; arc=none smtp.client-ip=209.85.221.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+	 To:Cc:Content-Type; b=hAnDAEsatShNT3UeTkX2tKvxmyeB49YM7Gq8magLhbjxjNGqinRQCOZVAtPXI9QGxd+SPGoYJS8/38nBG5sR7pr6/PzBKtEUNZnRAmSJfEi8FDAC9E0foxS3mkXrl8ErbrcgjcNC2AwwbodkWPaIJrf506p0VTKkZGmbF2p8xn4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f178.google.com with SMTP id 71dfb90a1353d-4d33b077ec9so207880e0c.0;
-        Thu, 07 Mar 2024 02:09:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1709806190; x=1710410990; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=QR8Uqmn7JuK/Fgsx24JIz7SwVeJRfKgv1wRP9GFweFE=;
-        b=ko0L1xpZ3s35z78cOVWDo7JNwdY7udMDkNxkhjqHqPdlTN67JKHBlu+5T5aoLLjnPY
-         7fZMFAZ/QYNcLcOS+qPS6/sxCQabbwRolNCquDw9VOuZ4PLEhpDRP6GI8T3CnhykiJqi
-         dLxFVjHx4U05B659XHaJA2zlBCUePL+z94jkx+rZK+ZE+jF9vsudemvHczwf98evxkq5
-         WVeC92cO9xvmLT0WXCboh+R1BOmYigFnZeux3osMjH4j8KZwwbp4OsFR61DFimegQD+N
-         KQEyO0Kifxjb1Lh66i2AcFpQvMgTMkEFfBsym+IYO36Riggp3q6As0Iqf+7pCCX358PM
-         i77A==
+Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-60978479651so8036037b3.3;
+        Thu, 07 Mar 2024 02:18:55 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709806190; x=1710410990;
+        d=1e100.net; s=20230601; t=1709806734; x=1710411534;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=QR8Uqmn7JuK/Fgsx24JIz7SwVeJRfKgv1wRP9GFweFE=;
-        b=uhMgKpqwaNdHtyAybnt5944P5WWjpSzFRe1T/IdoR4tJ+DOjwo/xtu4rvYn0pZRsmZ
-         kluFTNTzWUEKzg1irrJQtNmZEDfxMRpAjdgkU7Jl5MsVnOqJDf+rQb6uZytdr6k+N6GX
-         ikt1odITqXmMSbABNW7m4lTknoZuhpchjJYYxEe1pmbEAhiI4WlKcdVlqQBqBicBraUB
-         QRUGKO6GENprSC8F5sXcRlr+2ilc8jlA23ec6rSYjL+jYSP3jSk2ey+Tpy32qCRquuZr
-         24OtMMReXi/6p/Fc+iJDktjduq1WG5vBgIPDe+CK+MAU1N40jnncURBIhJ0Q6zgt2Je3
-         Hm8w==
-X-Forwarded-Encrypted: i=1; AJvYcCULHZ+SJP7HrRe1fiEW41njmb/DI6MDFSt5GgKSIzX+jpU4RXg1HY0Ph0zX7YaT0b3KRg+TMe9zoxD6lOzuHzHxrBOQB4Q858fUv2fNVm4MXOK7sbijxIDETFBWYLqaHfBfVKq55tJ2TvgML7fW0FJqDN36zXB8HLR8oHPD1qJxEJ+eSHarWeBSCpmqyxO7T9sardDWm2e36qeO5f/Kv5Ez5XRA3Gi27vN+
-X-Gm-Message-State: AOJu0Yymz5OxL1rXVW7bVS9tC4237rikxE0j1Te1vaAT37SrhBMhRkyA
-	iKJVoZrhOhDo5vDwltiPINM5ZR18ksEjnYoygPECJNUQ68wGgkMqUciZfkEZc3benXNrA82CAo4
-	zkHWUoa8gt72UnuN3t+DbMaw1Sgs=
-X-Google-Smtp-Source: AGHT+IFQunO5Ddr5/x6qr7CHbsVb3yfVhNAGP4GKq2A+bjpvt6jiw5DKWscr7mb1kQ69tcjliN1BbAY+GJHboIDxVDA=
-X-Received: by 2002:a05:6122:c89:b0:4d3:313b:902a with SMTP id
- ba9-20020a0561220c8900b004d3313b902amr8280826vkb.12.1709806189809; Thu, 07
- Mar 2024 02:09:49 -0800 (PST)
+        bh=ZSpIvgOST+NLPxwfJ000osD5e8g9z4oXLc9KN9aMlGo=;
+        b=uOQlyJjajyJSnIAOqpE46Bxf6MBF+OJl1ZmR/xKFpiHYuPV6u44us7vPZEfTH5IhDe
+         7siGahCSal/bumBR8m/6A+26QcahulauoilpFyoaQuAH12Z13Bx2GEIzpRU4WK6jQrE6
+         +5GiM/lHNGdSHjlQN/P9Quy5MtTfAZOideFKtY05TNVaj0VFzaZUroVhA4MbAftDqcb3
+         q522GezDHObWUsXo0zBfPrZn+XcpX/WdnyGUVS5kgKh8LeNU8N/zHEynUwzdP4w3FfpP
+         q9HunW1xy+rXltOOMe+xtj3Gb5pzoEeZc3pPI1PrdMqOtH+0Y+LRTmFYd8eaUwsrDH/1
+         EyuA==
+X-Forwarded-Encrypted: i=1; AJvYcCUaMUD1Ha4TYNZ6GRCeVZu4LJ4UZr7nCZKxClTyZhaP7dgNlof7HgT++Sjy4eZLcoyUIL+Irry0NU5Ri2fCx/12dsqOskSj++UJ7qPHps0zLMu+Hj9QN+U9kaz890YsoB9869qQXjLMhUMCmFtBnUr+D3hWKa83+CzqdBbdHB9zPhprl0B7aWndhfTNxSy3uMCGdbfmUyIiPDIx5+M1eMTbNbuofihmVhhH
+X-Gm-Message-State: AOJu0Yz8DzM67wy8AHH7noMti1RG9jju3Y73wTb5xhFTN9eYCw0xfX0g
+	XN9yuW+wivFQKyS7WaV9bK4SDFhQGGczzvmZVGKKC7aWHcBQT9PTTbY0rjk117M=
+X-Google-Smtp-Source: AGHT+IGc8kV+SEZu0QwjriiPMQ03bWg0OlOJWS9az3ODfpknj6uTnCnFpY+EnvT7+PnEU6rd8t0G3A==
+X-Received: by 2002:a0d:e657:0:b0:609:ee51:2062 with SMTP id p84-20020a0de657000000b00609ee512062mr1723458ywe.46.1709806734352;
+        Thu, 07 Mar 2024 02:18:54 -0800 (PST)
+Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com. [209.85.128.176])
+        by smtp.gmail.com with ESMTPSA id f70-20020a81a849000000b00607fe5723e6sm4106271ywh.109.2024.03.07.02.18.53
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 07 Mar 2024 02:18:53 -0800 (PST)
+Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-6087d1355fcso5102997b3.0;
+        Thu, 07 Mar 2024 02:18:53 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCWsHDbwNKhPhnL3t0bGYKUD3KVWl4NbrVm3IWcHnCdMFRqesQkEpr78UUowQU9hdA0IS1KX3hUbya7JIPc4w15hDgVPz6T3nRIzqMwYIkvfk+1sN1456VGJyTUwKTKlan8RlTVBPSl/UdnX+oOK0cvd2xkiO4BksWKhUBEFyOHj2ZIEQ2p6dJyL5KONZUGQZcx3F7hUTK45F0T2nCG/8hYP+QAf03hitXy/
+X-Received: by 2002:a0d:e816:0:b0:609:fd34:c280 with SMTP id
+ r22-20020a0de816000000b00609fd34c280mr4807ywe.21.1709806732961; Thu, 07 Mar
+ 2024 02:18:52 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -74,15 +68,17 @@ MIME-Version: 1.0
 References: <20240305171600.328699-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
  <CAMuHMdW0MxqxRwULhLsRtnYXYK8NYxq-uU7E2BscbvPh3axYFg@mail.gmail.com>
  <CA+V-a8vKo8ADB_R==vgBhVpSH43DOzdeA_NhZ1BCBdNuam3UmQ@mail.gmail.com>
- <CAMuHMdWX=OZJ3DE0vb4=k=6yH_L5JhusLRpVqJkJ0Xv3oT8_TQ@mail.gmail.com> <CA+V-a8uq=gw0_EVT3_CZD0TO+-DnSqXJtFakFcNWHOfq58g4aA@mail.gmail.com>
-In-Reply-To: <CA+V-a8uq=gw0_EVT3_CZD0TO+-DnSqXJtFakFcNWHOfq58g4aA@mail.gmail.com>
-From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Thu, 7 Mar 2024 10:08:43 +0000
-Message-ID: <CA+V-a8vunmsUfGkFO30nwvqFkiks7vceLgG1jo7TcsFajeckmQ@mail.gmail.com>
+ <CAMuHMdWX=OZJ3DE0vb4=k=6yH_L5JhusLRpVqJkJ0Xv3oT8_TQ@mail.gmail.com>
+ <CA+V-a8uq=gw0_EVT3_CZD0TO+-DnSqXJtFakFcNWHOfq58g4aA@mail.gmail.com> <CA+V-a8vunmsUfGkFO30nwvqFkiks7vceLgG1jo7TcsFajeckmQ@mail.gmail.com>
+In-Reply-To: <CA+V-a8vunmsUfGkFO30nwvqFkiks7vceLgG1jo7TcsFajeckmQ@mail.gmail.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Thu, 7 Mar 2024 11:18:40 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdU0pTGg72r4+PkwyTin6pp1kApHruJUE5oSrdGucLYV7Q@mail.gmail.com>
+Message-ID: <CAMuHMdU0pTGg72r4+PkwyTin6pp1kApHruJUE5oSrdGucLYV7Q@mail.gmail.com>
 Subject: Re: [PATCH] dt-bindings: serial: renesas,scif: Document R9A09G057 support
-To: Geert Uytterhoeven <geert@linux-m68k.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Jiri Slaby <jirislaby@kernel.org>, 
+To: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Jiri Slaby <jirislaby@kernel.org>, 
 	Rob Herring <robh+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
 	Magnus Damm <magnus.damm@gmail.com>, linux-kernel@vger.kernel.org, 
 	linux-serial@vger.kernel.org, devicetree@vger.kernel.org, 
@@ -92,87 +88,102 @@ Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Jiri Slaby <jirislaby@kerne
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Geert,
+Hi Prabhakar,
 
-On Wed, Mar 6, 2024 at 10:21=E2=80=AFAM Lad, Prabhakar
+On Thu, Mar 7, 2024 at 11:09=E2=80=AFAM Lad, Prabhakar
 <prabhakar.csengg@gmail.com> wrote:
->
-> Hi Geert,
->
-> On Wed, Mar 6, 2024 at 10:15=E2=80=AFAM Geert Uytterhoeven <geert@linux-m=
-68k.org> wrote:
-> >
-> > Hi Prabhakar,
-> >
-> > On Wed, Mar 6, 2024 at 11:06=E2=80=AFAM Lad, Prabhakar
-> > <prabhakar.csengg@gmail.com> wrote:
-> > > On Wed, Mar 6, 2024 at 9:53=E2=80=AFAM Geert Uytterhoeven <geert@linu=
-x-m68k.org> wrote:
-> > > > On Tue, Mar 5, 2024 at 6:16=E2=80=AFPM Prabhakar <prabhakar.csengg@=
-gmail.com> wrote:
-> > > > > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> On Wed, Mar 6, 2024 at 10:21=E2=80=AFAM Lad, Prabhakar
+> <prabhakar.csengg@gmail.com> wrote:
+> > On Wed, Mar 6, 2024 at 10:15=E2=80=AFAM Geert Uytterhoeven <geert@linux=
+-m68k.org> wrote:
+> > > On Wed, Mar 6, 2024 at 11:06=E2=80=AFAM Lad, Prabhakar
+> > > <prabhakar.csengg@gmail.com> wrote:
+> > > > On Wed, Mar 6, 2024 at 9:53=E2=80=AFAM Geert Uytterhoeven <geert@li=
+nux-m68k.org> wrote:
+> > > > > On Tue, Mar 5, 2024 at 6:16=E2=80=AFPM Prabhakar <prabhakar.cseng=
+g@gmail.com> wrote:
+> > > > > > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > > > > >
+> > > > > > Document support for the Serial Communication Interface with FI=
+FO (SCIF)
+> > > > > > available in the Renesas RZ/V2H(P) (R9A09G057) SoC. The SCIF in=
+terface in
+> > > > > > the Renesas RZ/V2H(P) is similar to that available in the RZ/G2=
+L
+> > > > > > (R9A07G044) SoC, with the only difference being that the RZ/V2H=
+(P) SoC has
+> > > > > > three additional interrupts: one for Tx end/Rx ready and the ot=
+her two for
+> > > > > > Rx and Tx buffer full, which are edge-triggered.
+> > > > > >
+> > > > > > No driver changes are required as generic compatible string
+> > > > > > "renesas,scif-r9a07g044" will be used as a fallback on RZ/V2H(P=
+) SoC.
 > > > > >
-> > > > > Document support for the Serial Communication Interface with FIFO=
- (SCIF)
-> > > > > available in the Renesas RZ/V2H(P) (R9A09G057) SoC. The SCIF inte=
-rface in
-> > > > > the Renesas RZ/V2H(P) is similar to that available in the RZ/G2L
-> > > > > (R9A07G044) SoC, with the only difference being that the RZ/V2H(P=
-) SoC has
-> > > > > three additional interrupts: one for Tx end/Rx ready and the othe=
-r two for
-> > > > > Rx and Tx buffer full, which are edge-triggered.
+> > > > > If you declare SCIF on RZ/V2H compatible with SCIF on RZ/G2L, you
+> > > > > state that the current driver works fine (but perhaps suboptimal)=
+,
+> > > > > without adding support for the extra 3 interrupts?
 > > > > >
-> > > > > No driver changes are required as generic compatible string
-> > > > > "renesas,scif-r9a07g044" will be used as a fallback on RZ/V2H(P) =
-SoC.
-> > > >
-> > > > If you declare SCIF on RZ/V2H compatible with SCIF on RZ/G2L, you
-> > > > state that the current driver works fine (but perhaps suboptimal),
-> > > > without adding support for the extra 3 interrupts?
-> > > >
-> > > Yes the current driver works without using the extra interrupts on th=
-e
-> > > RZ/V2H. The extra interrupts on the RZ/V2H are just sort of duplicate
-> > > ie
-> > > - Transmit End/Data Ready interrupt , for which we we have two
-> > > seperate interrupts already
-> > > - Receive buffer full interrupt (EDGE trigger), for which we already
-> > > have a Level triggered interrupt
-> > > - Transmit buffer empty interrupt (EDGE trigger), for which we alread=
+> > > > Yes the current driver works without using the extra interrupts on =
+the
+> > > > RZ/V2H. The extra interrupts on the RZ/V2H are just sort of duplica=
+te
+> > > > ie
+> > > > - Transmit End/Data Ready interrupt , for which we we have two
+> > > > seperate interrupts already
+> > > > - Receive buffer full interrupt (EDGE trigger), for which we alread=
 y
-> > > have a Level triggered interrupt
-> >
-> > Thanks for the confirmation!
-> >
-> > > Are you suggesting to not fallback on RZ/G2L and instead make RZ/V2H
-> > > an explicit one so that in future we handle these 3 extra interrupts?
-> >
-> > In light of the confirmation above, I am _not_ suggesting that.
-> >
-With the introduction of validation checks for interrupts, falling
-back to "renesas,scif-r9a07g044" for RZ/V2H will be difficult for
-validating interrupt count.
+> > > > have a Level triggered interrupt
+> > > > - Transmit buffer empty interrupt (EDGE trigger), for which we alre=
+ady
+> > > > have a Level triggered interrupt
+> > >
+> > > Thanks for the confirmation!
+> > >
+> > > > Are you suggesting to not fallback on RZ/G2L and instead make RZ/V2=
+H
+> > > > an explicit one so that in future we handle these 3 extra interrupt=
+s?
+> > >
+> > > In light of the confirmation above, I am _not_ suggesting that.
+> > >
+> With the introduction of validation checks for interrupts, falling
+> back to "renesas,scif-r9a07g044" for RZ/V2H will be difficult for
+> validating interrupt count.
+>
+>   - if:
+>       properties:
+>         compatible:
+>           contains:
+>             enum:
+>               - renesas,scif-r7s9210
+>               - renesas,scif-r9a07g044
+>     then:
+>       properties:
+>         interrupts:
+>           minItems: 6
+>
+>         interrupt-names:
+>           minItems: 6
+>
+> With the above check RZ/V2H fall into this if block,
+>
+> Is there any way I can specify to match two compat strings?
 
-  - if:
-      properties:
-        compatible:
-          contains:
-            enum:
-              - renesas,scif-r7s9210
-              - renesas,scif-r9a07g044
-    then:
-      properties:
-        interrupts:
-          minItems: 6
+if r9a09g057 then ... else if r7s9210 || r9a07g044 then ...?
 
-        interrupt-names:
-          minItems: 6
+Gr{oetje,eeting}s,
 
-With the above check RZ/V2H fall into this if block,
+                        Geert
 
-Is there any way I can specify to match two compat strings?
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
 
-Cheers,
-Prabhakar
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
