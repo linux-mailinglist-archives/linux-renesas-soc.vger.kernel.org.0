@@ -1,69 +1,71 @@
-Return-Path: <linux-renesas-soc+bounces-3555-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-3556-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6951875157
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  7 Mar 2024 15:08:19 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 64FA0875159
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  7 Mar 2024 15:08:24 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id F41291C2430C
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  7 Mar 2024 14:08:18 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 84B8E1C24376
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  7 Mar 2024 14:08:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1317812D774;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E4E5B12EBDC;
 	Thu,  7 Mar 2024 14:07:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="FGb6tuPu"
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="o4GPTDTa"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F309F12DD8F
-	for <linux-renesas-soc@vger.kernel.org>; Thu,  7 Mar 2024 14:07:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 198B512DDB2
+	for <linux-renesas-soc@vger.kernel.org>; Thu,  7 Mar 2024 14:07:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709820470; cv=none; b=NvJMhRhcB4PciM9fipXD17SYEJPxsMgDNe8HWerSYxY+YAQLjtLW2nSvcqcQL+pm49RmKj0XyDB+hcsSiKkEGc5WgQbJSt7TmXLZwUbEFE67glrOqkNRHruDo4Xw1b9UOLm/FN6RLuT1nfowqjzQshvYAqnl00CRN49RAPQgQ8w=
+	t=1709820470; cv=none; b=u4JnqxU7uiGzUC3BU1iaYlsbhgia40jQu2PwyNUyYmf/zHurWH7pkt9H4Iitg/s9O823s/LqfkMumiSpCy0j8BgtUXg8L7hdCV4vA9OQi5ueg7JYR1xvYwSzwAN6nNLb4THBnNKpMZoOtA0ohVLbvD/wLJPstWerBp3D7WNG8l8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1709820470; c=relaxed/simple;
-	bh=X6mr7ss3hBz+KcOkyD+aKlFcN4fw3b05uNnI+q4ZcYM=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Ivgn5RarH2JRg2okO77Rl+uo8JshJSv7HL4Oz7MxQ/bRUKAV6q7rqNI5xR/0uESLap2kfsca2nqs096mKqw7kMBAqiNgV8t4BpGdO7DAU1W+xzIYX8QCZsbNESYa/RjtSGJ/t9hKLeQkz58OG+i8i8k+0TdVPC257/1knxZ1QP0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=FGb6tuPu; arc=none smtp.client-ip=209.85.218.50
+	bh=o+isOLC/TWDf8QBrYF6fFqPfwMGPbt0wSxpYHU+dD5U=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=g45SQwswJ3IYC7Q6xUiNLhlHKSp6rHk3g2VN3k4SOf1jOE710oRI0CBOezcGmHvVjSxz4Pym+07GT+63aiZkiPJIoCNS7I4L+/8YL9x4XkekE/kU+KUmnoWqUdjAj/MGu/UKMfR94cLP3LnaSok27c6xuSqxsJ5z37NO1ETorLw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=o4GPTDTa; arc=none smtp.client-ip=209.85.167.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
-Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-a293f2280c7so162100766b.1
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 07 Mar 2024 06:07:46 -0800 (PST)
+Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-5131a9b3d5bso1050457e87.0
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 07 Mar 2024 06:07:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1709820465; x=1710425265; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=7qvoqgbf8BgmpB/WA74qzufv4GkITZwzS6+LGmIQY3Q=;
-        b=FGb6tuPupwuScfJUpsAclHLb6UlcXo5srLgd4RT5EWMttHM0wm2zpc5YYsqYvfi1Nt
-         NS0VZl8Zx6i0FRrmMHp0bpMDa8tEwR1H7h8VjPe8u3dHKQ65z9DM24FzJvL/TDAuxXiT
-         /OkrPt7O63MOz452hviSp9BAQVz65eN5kIuHjlU+/b6LsVBF8KeiAiwpI68sMOWJcGPV
-         2rr4QZsPYIhiZcDlSD+3/NV6gnWnhb7HYsrI7+2efduWYcBFduATMfvBT8ScxLUSPOKW
-         /YxRMxPk3Sa7QMPYDil01STQfwBV3a9z65TYLnCx9ndnIFUhZo5outFmh3xh4GgRCVpr
-         Zx/A==
+        d=tuxon.dev; s=google; t=1709820467; x=1710425267; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=MfoIgw8Unv2o4Ref3vnexmJsmRhKE911tIs07l/4sdo=;
+        b=o4GPTDTaF1bqNc+dkKdV3IclpqmgzvUNnQQrp/0abpnpmdkbAMl5UenRMEinSsdtkJ
+         YwSsN+MShVCNJkNyPAdtzZaccCkFHFEE/0ag6SxctCg7BMtRVADw885S05nzepo9mN0U
+         BNfYl8xzG+FqnmCUQCYEsIu60/mQSMf4P0Yu17Wq0akhb4p6ezcni3Jf0YvtMGLj3lY3
+         XWVIjrlY7q9klJQg5VioDrBE/Ndil+fE29fmM+dI4/0tFMuEw5mXZUmscyiYFS0OBjHV
+         H0vtQcL6FVE0XYIzqNFSzhZ3FlQxunmY05Wy1SmAVNi+yWZwduFiyzDcHqtEjpHZsddi
+         IQpA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709820465; x=1710425265;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=7qvoqgbf8BgmpB/WA74qzufv4GkITZwzS6+LGmIQY3Q=;
-        b=bd7gRu1OEzD/nLvQ0kPCR43wvmIQvS4AxgIN1gWYR7n0jOEADv7KkWJcDq9IVqMOSE
-         +jw2NLjUTgWMwDbQiBAYkU/scZTemmViP3soXkGZxN7aiOPTq1QSR9bDCTRP8P7E6ws0
-         8sp6oEhtFB32ZJaJN+9WoAfCvMOq+gNsyrLUEh2eKpe3TUsJ3bNuSTWuKL+sm3se0s2e
-         o4BizRVEbN+YG1AJnTI7sccOqvYmWeCbPQOWd6josNJE7xRP467YogTn/Amdojz3k9Jx
-         zalyNAX5Mfv0hr61jpMsQg/w8o6R4Ue8BQIZDonJA7hn05b9X8/tA4oj0Cy948HVXKcx
-         Vp4Q==
-X-Gm-Message-State: AOJu0YyCdeFQJ7deg0zzptEPvDjx1g1OVTNliJuDMRdw1kymxNNE7yX5
-	uHl58K1PAOX5qPHtQX/rjVhQcvqFqU4zT4uBI70Rakc63qI2u11uYjHMydVJboM=
-X-Google-Smtp-Source: AGHT+IGe9ehohUZqONm1c72a7RNSuywN/LKsDYfSndJQuoACdSv5VuHGXxdcyjhAOzi7I1PAms9HYA==
-X-Received: by 2002:a17:906:138d:b0:a45:abec:cff4 with SMTP id f13-20020a170906138d00b00a45abeccff4mr5234619ejc.32.1709820465129;
-        Thu, 07 Mar 2024 06:07:45 -0800 (PST)
+        d=1e100.net; s=20230601; t=1709820467; x=1710425267;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=MfoIgw8Unv2o4Ref3vnexmJsmRhKE911tIs07l/4sdo=;
+        b=QJjCVJGGjJ5eiJe8nA5P7UqLkH/Y+y2FfJOUiFhhEsfl+4IjlbVj5ddJM+BDFmmBab
+         w/WH7Z9p6y+YQZpw8crmhJvyxCLSaH8ocbwEpinVLbilu8GkLehsvZ7I2JAhBDSKTDUJ
+         wcQDtdglDmO8rRo9qjIUZAhWuZ05cG+jYa0TDtSlq81KDovdwPl6NMKwMx/R+Iwp6Rkn
+         NGg6fZ4odHAsTUlRmw/xzoR09cYGHnGUAMFq6hLwOx2icbcwPO6YzB3n6JjDQuUO7is7
+         N7RabMGtcaOj3SPmazcRXAjlCnPdmdSOUKnROAeHkfqO1uYUZ/4q4pFGuXP9MZ5fUJZr
+         jBug==
+X-Gm-Message-State: AOJu0YyBfXd3m0xGfUbZAhO8SkJ0hmRWyFBCYUwwPAGdhBHi54M8mEey
+	fMO1+bBLrYpMITXFsO1TifYjk1sqQC1ZTGPhR8OV+YjDA2QydgvXsI/Fm5yibuY=
+X-Google-Smtp-Source: AGHT+IFnmZHrky58RFBMdeu65Vl/I30y/4ADskPAIE5LOhPBlg6oJCaN2YulY/RMs1cYItpqq2bOeQ==
+X-Received: by 2002:a05:6512:20c9:b0:513:ece:1fe1 with SMTP id u9-20020a05651220c900b005130ece1fe1mr1339326lfr.54.1709820466719;
+        Thu, 07 Mar 2024 06:07:46 -0800 (PST)
 Received: from claudiu-X670E-Pro-RS.. ([82.78.167.38])
-        by smtp.gmail.com with ESMTPSA id v23-20020a1709067d9700b00a42ee62b634sm8200648ejo.106.2024.03.07.06.07.43
+        by smtp.gmail.com with ESMTPSA id v23-20020a1709067d9700b00a42ee62b634sm8200648ejo.106.2024.03.07.06.07.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 07 Mar 2024 06:07:44 -0800 (PST)
+        Thu, 07 Mar 2024 06:07:46 -0800 (PST)
 From: Claudiu <claudiu.beznea@tuxon.dev>
 X-Google-Original-From: Claudiu <claudiu.beznea.uj@bp.renesas.com>
 To: geert+renesas@glider.be,
@@ -79,10 +81,12 @@ Cc: linux-renesas-soc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	claudiu.beznea@tuxon.dev,
 	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-Subject: [PATCH v2 00/10] clk: renesas: rzg2l: Add support for power domains
-Date: Thu,  7 Mar 2024 16:07:18 +0200
-Message-Id: <20240307140728.190184-1-claudiu.beznea.uj@bp.renesas.com>
+Subject: [PATCH v2 01/10] dt-bindings: clock: r9a07g043-cpg: Add power domain IDs
+Date: Thu,  7 Mar 2024 16:07:19 +0200
+Message-Id: <20240307140728.190184-2-claudiu.beznea.uj@bp.renesas.com>
 X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20240307140728.190184-1-claudiu.beznea.uj@bp.renesas.com>
+References: <20240307140728.190184-1-claudiu.beznea.uj@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -93,86 +97,80 @@ Content-Transfer-Encoding: 8bit
 
 From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 
-Hi,
+Add power domain IDs for RZ/G2UL (R9A07G043) SoC.
 
-Series adds support for power domains on rzg2l driver.
-
-RZ/G2L kind of devices support a functionality called MSTOP (module
-stop/standby). According to hardware manual the module could be switch
-to standby after its clocks are disabled. The reverse order of operation
-should be done when enabling a module (get the module out of standby,
-enable its clocks etc).
-
-In [1] the MSTOP settings were implemented by adding code in driver
-to attach the MSTOP state to the IP clocks. But it has been proposed
-to implement it as power domain. The result is this series.
-
-Along with MSTOP functionality there is also module power down
-functionality (which is currently available only on RZ/G3S). This has
-been also implemented through power domains.
-
-The DT bindings were updated with power domain IDs (plain integers
-that matches the DT with driver data structures). The current DT
-bindings were updated with module IDs for the modules listed in tables
-with name "Registers for Module Standby Mode" (see HW manual) exception
-being RZ/G3S where, due to the power down functionality, the DDR,
-TZCDDR, OTFDE_DDR were also added, to avoid system being blocked due
-to the following lines of code from patch 7/17.
-
-+       /* Prepare for power down the BUSes in power down mode. */
-+       if (info->pm_domain_pwrdn_mstop)
-+               writel(CPG_PWRDN_MSTOP_ENABLE, priv->base + CPG_PWRDN_MSTOP);
-
-Domain IDs were added to all SoC specific bindings.
-
-Thank you,
-Claudiu Beznea 
+Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+---
 
 Changes in v2:
-- addressed review comments
-- dropped:
-    - dt-bindings: clock: r9a09g011-cpg: Add always-on power domain IDs
-    - clk: renesas: r9a07g043: Add initial support for power domains
-    - clk: renesas: r9a07g044: Add initial support for power domains
-    - clk: renesas: r9a09g011: Add initial support for power domains
-    - clk: renesas: r9a09g011: Add initial support for power domains
-    - arm64: dts: renesas: r9a07g043: Update #power-domain-cells = <1>
-    - arm64: dts: renesas: r9a07g044: Update #power-domain-cells = <1>
-    - arm64: dts: renesas: r9a07g054: Update #power-domain-cells = <1>
-    - arm64: dts: renesas: r9a09g011: Update #power-domain-cells = <1>
-  as suggested in the review process
-- dropped "arm64: dts: renesas: rzg3s-smarc-som: Guard the ethernet IRQ
-  GPIOs with proper flags" patch as it was integrated
-- added suspend to RAM support
-- collected tag
+- added "RZ/G2UL Only" comments to some defines
+- added RZ/Five specific defines
 
-[1] https://lore.kernel.org/all/20231120070024.4079344-4-claudiu.beznea.uj@bp.renesas.com/
+ include/dt-bindings/clock/r9a07g043-cpg.h | 52 +++++++++++++++++++++++
+ 1 file changed, 52 insertions(+)
 
-Claudiu Beznea (10):
-  dt-bindings: clock: r9a07g043-cpg: Add power domain IDs
-  dt-bindings: clock: r9a07g044-cpg: Add power domain IDs
-  dt-bindings: clock: r9a07g054-cpg: Add power domain IDs
-  dt-bindings: clock: r9a08g045-cpg: Add power domain IDs
-  dt-bindings: clock: renesas,rzg2l-cpg: Update #power-domain-cells =
-    <1> for RZ/G3S
-  clk: renesas: rzg2l: Extend power domain support
-  clk: renesas: r9a08g045: Add support for power domains
-  clk: renesas: rzg2l-cpg: Add suspend/resume support for power domains
-  clk: renesas: r9a08g045: Add the RZG2L_PD_F_CONSOLE flag to scif0 PM
-    domain
-  arm64: dts: renesas: r9a08g045: Update #power-domain-cells = <1>
-
- .../bindings/clock/renesas,rzg2l-cpg.yaml     |  18 +-
- arch/arm64/boot/dts/renesas/r9a08g045.dtsi    |  20 +-
- drivers/clk/renesas/r9a08g045-cpg.c           |  61 ++++
- drivers/clk/renesas/rzg2l-cpg.c               | 267 +++++++++++++++++-
- drivers/clk/renesas/rzg2l-cpg.h               |  78 +++++
- include/dt-bindings/clock/r9a07g043-cpg.h     |  52 ++++
- include/dt-bindings/clock/r9a07g044-cpg.h     |  58 ++++
- include/dt-bindings/clock/r9a07g054-cpg.h     |  58 ++++
- include/dt-bindings/clock/r9a08g045-cpg.h     |  70 +++++
- 9 files changed, 658 insertions(+), 24 deletions(-)
-
+diff --git a/include/dt-bindings/clock/r9a07g043-cpg.h b/include/dt-bindings/clock/r9a07g043-cpg.h
+index 77cde8effdc7..ba9ea276c4a0 100644
+--- a/include/dt-bindings/clock/r9a07g043-cpg.h
++++ b/include/dt-bindings/clock/r9a07g043-cpg.h
+@@ -200,5 +200,57 @@
+ #define R9A07G043_AX45MP_CORE0_RESETN	78	/* RZ/Five Only */
+ #define R9A07G043_IAX45_RESETN		79	/* RZ/Five Only */
+ 
++/* Power domain IDs. */
++#define R9A07G043_PD_ALWAYS_ON		0
++#define R9A07G043_PD_GIC		1	/* RZ/G2UL Only */
++#define R9A07G043_PD_IA55		2	/* RZ/G2UL Only */
++#define R9A07G043_PD_MHU		3	/* RZ/G2UL Only */
++#define R9A07G043_PD_CORESIGHT		4	/* RZ/G2UL Only */
++#define R9A07G043_PD_SYC		5	/* RZ/G2UL Only */
++#define R9A07G043_PD_DMAC		6
++#define R9A07G043_PD_GTM0		7
++#define R9A07G043_PD_GTM1		8
++#define R9A07G043_PD_GTM2		9
++#define R9A07G043_PD_MTU		10
++#define R9A07G043_PD_POE3		11
++#define R9A07G043_PD_WDT0		12
++#define R9A07G043_PD_SPI		13
++#define R9A07G043_PD_SDHI0		14
++#define R9A07G043_PD_SDHI1		15
++#define R9A07G043_PD_ISU		16	/* RZ/G2UL Only */
++#define R9A07G043_PD_CRU		17	/* RZ/G2UL Only */
++#define R9A07G043_PD_LCDC		18	/* RZ/G2UL Only */
++#define R9A07G043_PD_SSI0		19
++#define R9A07G043_PD_SSI1		20
++#define R9A07G043_PD_SSI2		21
++#define R9A07G043_PD_SSI3		22
++#define R9A07G043_PD_SRC		23
++#define R9A07G043_PD_USB0		24
++#define R9A07G043_PD_USB1		25
++#define R9A07G043_PD_USB_PHY		26
++#define R9A07G043_PD_ETHER0		27
++#define R9A07G043_PD_ETHER1		28
++#define R9A07G043_PD_I2C0		29
++#define R9A07G043_PD_I2C1		30
++#define R9A07G043_PD_I2C2		31
++#define R9A07G043_PD_I2C3		32
++#define R9A07G043_PD_SCIF0		33
++#define R9A07G043_PD_SCIF1		34
++#define R9A07G043_PD_SCIF2		35
++#define R9A07G043_PD_SCIF3		36
++#define R9A07G043_PD_SCIF4		37
++#define R9A07G043_PD_SCI0		38
++#define R9A07G043_PD_SCI1		39
++#define R9A07G043_PD_IRDA		40
++#define R9A07G043_PD_RSPI0		41
++#define R9A07G043_PD_RSPI1		42
++#define R9A07G043_PD_RSPI2		43
++#define R9A07G043_PD_CANFD		44
++#define R9A07G043_PD_ADC		45
++#define R9A07G043_PD_TSU		46
++#define R9A07G043_PD_PLIC		47	/* RZ/Five Only */
++#define R9A07G043_PD_IAX45		48	/* RZ/Five Only */
++#define R9A07G043_PD_NCEPLDM		49	/* RZ/Five Only */
++#define R9A07G043_PD_NCEPLMT		50	/* RZ/Five Only */
+ 
+ #endif /* __DT_BINDINGS_CLOCK_R9A07G043_CPG_H__ */
 -- 
 2.39.2
 
