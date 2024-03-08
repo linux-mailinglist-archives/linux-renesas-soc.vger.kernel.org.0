@@ -1,276 +1,175 @@
-Return-Path: <linux-renesas-soc+bounces-3593-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-3594-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id BABE98761D6
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  8 Mar 2024 11:20:34 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C55B8761E4
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  8 Mar 2024 11:23:06 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6EA55282A44
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  8 Mar 2024 10:20:33 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id D58771F21329
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  8 Mar 2024 10:23:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 121FD54BD7;
-	Fri,  8 Mar 2024 10:20:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 56D9B537FC;
+	Fri,  8 Mar 2024 10:23:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="H2Ci6wbn"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eMTB0dxI"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ua1-f41.google.com (mail-ua1-f41.google.com [209.85.222.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A7794F5F9;
-	Fri,  8 Mar 2024 10:20:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B1CFD29E;
+	Fri,  8 Mar 2024 10:23:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709893208; cv=none; b=bhG7nwDbJB/e9iFDogysCPlq/Fp415t0Z+eEKIWrVwfnT/ugpq6JgHhgPqEjZsZxYVN/uyDfbIELrrLBjWE5+UIFil0/5U8q0MrYHPOHPH14+w/sarzkCmq07oIfbEgrFqNIbS81yDuNIABuZAkBQrzD1Nugdzmd9TkVhlWXnW0=
+	t=1709893383; cv=none; b=kYvwi/y7jK5bj19NKzXvzV3OCcP2DeVyJIrpfZ892TalY5b9VxJ8j+sq6OVAff2Eqc2GW4K7yFoDEfbn09ZNcGqYCZLAkUB9LUVn89spwSOWY/VJr9OLi0FWdI4COO1SbcGfU8cUWT27+VeOkFcNahA6pQvvzoKMzV6WZGexams=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709893208; c=relaxed/simple;
-	bh=/D9RFcnsiPTtrDahvT+uPlRMBnSBcdNj1fD4mx8V2q8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=KKjbv/6FEV5gSnb/14orP5x4J6NcVuq+AoC4eMdMK8iOPcNzks4wrPOAMvgElnpKeZNOh8gv+z8Hda3R2+9EpEjIHcu0q017DUIJsIH0ZGkAYEXaguhuzDdvOArKqmRM+cHUuK4oaBxfivIkr4VVz15SgMJ7Vum8g47BalD/7yE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=H2Ci6wbn; arc=none smtp.client-ip=209.85.222.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ua1-f41.google.com with SMTP id a1e0cc1a2514c-7db1a21e83fso413546241.2;
-        Fri, 08 Mar 2024 02:20:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1709893205; x=1710498005; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=l3YRsmPk4+j+DhswmeO7tX7vN7xRI4YjcgMo0LaTJpk=;
-        b=H2Ci6wbnftg/xLqSiVEp2jJ3krYiEGZC2jHEQyeRWRE3en3CYaTSLDIKoTd7jN3UEd
-         u2KwWuDJ0/Cwi9ATuULgVwe7yOLkxJz7kXtK0LuTo1juWbOCW0JgSPfikdLACjgphtQZ
-         b06i20qiZGAGEneiLiR4gNCTqTWzfHxlLbeL9WepgM4y6sagFi7IxDe/Td174LdPx8Ma
-         r30idJ4gGrRUJwyxSeCIwBCPG9YS5zn7i5UDKfAIxO121mO2BkUFcWKinUWQnBBlgzGY
-         kHuHPYvHC4Y5bZX6QvnFNd/ilD98bGzzjSnYRcEwtz73KJ6u3nTECynm/ZEu72c3CEYj
-         4JTA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709893205; x=1710498005;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=l3YRsmPk4+j+DhswmeO7tX7vN7xRI4YjcgMo0LaTJpk=;
-        b=cR9hsASYmtpSXDr6D9EwAcb+cMSeuSz3431PxybF/B0NcqILxRrjtR3IfDCXxf4qGz
-         LpIIY2VpRHvf1iCJ3fiH7lI8xGdwbu9OLaHQzU+GMxwOSY45eJhO5EupzIDOif1fup8u
-         yFUQQLtpnRkWrtokWik7d5y4ztM/hP9rFzPLmJeBlGWmv0wckcyzQ2WbVkqYgmeRcVIE
-         6jelPvIiOaDfG1lJrEW+huUg5+qSMQ37D8lzQbYdiMXrsZ1EuJKmUDRPineQTKQ+As19
-         hPAHTYUQOGFxNgw8K2yGynpG+f6Mh92yEzj5pjGblNj9U1RfCqnaJc6ZiQvnsMHaS6hv
-         4fGg==
-X-Forwarded-Encrypted: i=1; AJvYcCU0HXYtrLzKDeRdFjqLQl/EgnFoGgBbgJVsftWblB59gQT7/tvp6g/refy1rVlFd7worb7HKeIsBE5qH/K2DsrNxiGe1D1f+rSxfKzeS2aEB1FDlHcgPcw/+MwnJRWkxOenMmFVsx12a5MMI3kHL4b2PkhAiA+EyYlv7OMpkUJe/mQ0jF3/XXCXbFDPFMS8dgu/1vyNyy4uXMGNMU1qCeZ6EowiKrTnPQln
-X-Gm-Message-State: AOJu0YxmOuRRA1dCj4XBH2zYbrOMIUBoZMxrX6O/rV+kD9Ybum/GLLYe
-	owMeuknXbAvxG8eH+l8C7C8kgVEXtPAw77h8cyg2aNWtHdvDMiIafYDyWL7627yzs9exM5whRDc
-	8spYeahhx49/hlHDl3DgsqfaCAj3wDmpjyhM=
-X-Google-Smtp-Source: AGHT+IGrAB9/8/ThqY/liT9EWXmOS6hU9aihtHZ6M3gq7/6RMfNrLZxU7vIInruG1ZNLRZkXRwoYYz0XSIzblbu//vs=
-X-Received: by 2002:a05:6122:468f:b0:4d3:3446:6bc9 with SMTP id
- di15-20020a056122468f00b004d334466bc9mr10750338vkb.14.1709893205014; Fri, 08
- Mar 2024 02:20:05 -0800 (PST)
+	s=arc-20240116; t=1709893383; c=relaxed/simple;
+	bh=lHycvlNl7OVIrzQI78hPFaTIMft0lPdksi6rDoX3W/g=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=u17qCdi7+wZwI/MJGL12KcM9hrN2Annuc14QnmgXOWaDYIt4uWlB0T3wVvabU3TvgHbP9VVb4R5g6hzfQU8aFqRb4rP2a8fjXEYssnRYaTmj8BaDtUUEPMWnJK8yYDTs12atDKzwty7BAlR7er6SV4pMK461FekqNbAnECLRWA4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eMTB0dxI; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1E1BFC433C7;
+	Fri,  8 Mar 2024 10:22:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1709893382;
+	bh=lHycvlNl7OVIrzQI78hPFaTIMft0lPdksi6rDoX3W/g=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=eMTB0dxIOS+2itv74DP87TT3a7S3lfZoD0+2Ls0iMrgdCcuIV4TZHR8C/py3lEoLM
+	 rGXHcOX82vv7YXrL1/xhf67lvGXpZQbd+56lYq8J4pfE1vSC4Z9QmS9P8uZkL4AnaS
+	 UE+ngGFia7kmUXjyWDby8Q4Cd9pZqA2t88xVQTlABBPsGJEFng7d1B4ndq/wO4Spkp
+	 nhGLBhuH+r3uinoM2tful9m8gThPphuZ2QPQ8mte4TEAThEeCy4ovpQm1GN6JR0HEX
+	 mCHXeItsOiBq9vlmwyPHb0GtJgonfjHk4SSF350AxdKeECKF73Js76nM3nPgm2jTIn
+	 10tpVfabCXnxQ==
+Date: Fri, 8 Mar 2024 11:22:52 +0100
+From: Niklas Cassel <cassel@kernel.org>
+To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+Cc: Jingoo Han <jingoohan1@gmail.com>,
+	Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
+	Rob Herring <robh@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+	Marek Vasut <marek.vasut+renesas@gmail.com>,
+	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Kishon Vijay Abraham I <kishon@ti.com>,
+	Vidya Sagar <vidyas@nvidia.com>,
+	Vignesh Raghavendra <vigneshr@ti.com>,
+	Richard Zhu <hongxing.zhu@nxp.com>,
+	Lucas Stach <l.stach@pengutronix.de>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	NXP Linux Team <linux-imx@nxp.com>,
+	Minghuan Lian <minghuan.Lian@nxp.com>,
+	Mingkai Hu <mingkai.hu@nxp.com>, Roy Zang <roy.zang@nxp.com>,
+	Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Kishon Vijay Abraham I <kishon@kernel.org>,
+	Jesper Nilsson <jesper.nilsson@axis.com>,
+	Srikanth Thokala <srikanth.thokala@intel.com>,
+	linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+	linux-tegra@vger.kernel.org, linux-omap@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linuxppc-dev@lists.ozlabs.org,
+	linux-arm-kernel@axis.com
+Subject: Re: [PATCH v9 06/10] PCI: dwc: ep: Call dw_pcie_ep_init_registers()
+ API directly from all glue drivers
+Message-ID: <Zerm_LukciAYCZxD@ryzen>
+References: <20240304-pci-dbi-rework-v9-0-29d433d99cda@linaro.org>
+ <20240304-pci-dbi-rework-v9-6-29d433d99cda@linaro.org>
+ <ZeolaEIRYmKZjnvT@ryzen>
+ <20240308053624.GB3789@thinkpad>
+ <ZerUx9Vw_W997LZk@ryzen>
+ <20240308094947.GH3789@thinkpad>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240307114217.34784-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20240307114217.34784-3-prabhakar.mahadev-lad.rj@bp.renesas.com> <4ba7af38-5cc1-428a-afec-75610934fc72@linaro.org>
-In-Reply-To: <4ba7af38-5cc1-428a-afec-75610934fc72@linaro.org>
-From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Fri, 8 Mar 2024 10:18:58 +0000
-Message-ID: <CA+V-a8txZr8WWxtN-=Ek3WZ3GwLT3m+Tcog-5zAx+A4kZL1=yQ@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] dt-bindings: serial: renesas,scif: Validate
- 'interrupts' and 'interrupt-names'
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Jiri Slaby <jirislaby@kernel.org>, 
-	Rob Herring <robh+dt@kernel.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Magnus Damm <magnus.damm@gmail.com>, linux-kernel@vger.kernel.org, 
-	linux-serial@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org, 
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240308094947.GH3789@thinkpad>
 
-Hi Krzysztof,
+On Fri, Mar 08, 2024 at 03:19:47PM +0530, Manivannan Sadhasivam wrote:
+> > > > > @@ -467,6 +467,13 @@ static int dra7xx_add_pcie_ep(struct dra7xx_pcie *dra7xx,
+> > > > >  		return ret;
+> > > > >  	}
+> > > > >  
+> > > > > +	ret = dw_pcie_ep_init_registers(ep);
+> > > > > +	if (ret) {
+> > > > 
+> > > > Here you are using if (ret) to error check the return from
+> > > > dw_pcie_ep_init_registers().
+> > > > 
+> > > > 
+> > > > > index c0c62533a3f1..8392894ed286 100644
+> > > > > --- a/drivers/pci/controller/dwc/pci-keystone.c
+> > > > > +++ b/drivers/pci/controller/dwc/pci-keystone.c
+> > > > > @@ -1286,6 +1286,13 @@ static int ks_pcie_probe(struct platform_device *pdev)
+> > > > >  		ret = dw_pcie_ep_init(&pci->ep);
+> > > > >  		if (ret < 0)
+> > > > >  			goto err_get_sync;
+> > > > > +
+> > > > > +		ret = dw_pcie_ep_init_registers(&pci->ep);
+> > > > > +		if (ret < 0) {
+> > > > 
+> > > > Here you are using if (ret < 0) to error check the return from
+> > > > dw_pcie_ep_init_registers(). Please be consistent.
+> > > > 
+> > > 
+> > > I maintained the consistency w.r.t individual drivers. Please check them
+> > > individually.
+> > > 
+> > > If I maintain consistency w.r.t this patch, then the style will change within
+> > > the drivers.
+> > 
+> > Personally, I disagree with that.
+> > 
+> > All glue drivers should use the same way of checking dw_pcie_ep_init(),
+> > depending on the kdoc of dw_pcie_ep_init().
+> > 
+> > If the kdoc for dw_pcie_ep_init() says returns 0 on success,
+> > then I think that it is strictly more correct to do:
+> > 
+> > ret = dw_pcie_ep_init()
+> > if (ret) {
+> > 	<error handling>
+> > }
+> > 
+> > And if a glue driver doesn't look like that, then I think we should change
+> > them. (Same reasoning for dw_pcie_ep_init_registers().)
+> > 
+> > 
+> > If you read code that looks like:
+> > ret = dw_pcie_ep_init()
+> > if (ret < 0) {
+> > 	<error handling>
+> > }
+> > 
+> > then you assume that is is a function with a kdoc that says it can return 0
+> > or a positive value on success, e.g. a function that returns an index in an
+> > array.
+> > 
+> 
+> But if you read the same function from the individual drivers, it could present
+> a different opinion because the samantics is different than others.
 
-Thank you for the review.
+Is there any glue driver where a positive result from dw_pcie_ep_init() is
+considered valid?
 
-On Thu, Mar 7, 2024 at 1:50=E2=80=AFPM Krzysztof Kozlowski
-<krzysztof.kozlowski@linaro.org> wrote:
->
-> On 07/03/2024 12:42, Prabhakar wrote:
-> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> >
-> > This commit adds support to validate the 'interrupts' and 'interrupt-na=
-mes'
->
-> Please do not use "This commit/patch/change", but imperative mood. See
-> longer explanation here:
-> https://elixir.bootlin.com/linux/v5.17.1/source/Documentation/process/sub=
-mitting-patches.rst#L95
->
-Sure, I will update the description.
 
-> > properties for every supported SoC. This ensures proper handling and
-> > configuration of interrupt-related properties across supported platform=
-s.
-> >
-> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > ---
-> > v1->v2
-> > * Defined the properties in top-level block instead of moving into
-> >   if/else block for each SoC.
-> > * Used Gen specific callback strings instead of each SoC variant
->
-> You are sending quite a lot of patchsets touching the same, all in one
-> day. This just adds to the confusion.
->
-Ok, I'll make it as a single series.
+> 
+> I'm not opposed to keeping the API semantics consistent, but we have to take
+> account of the drivers style as well.
 
-> > ---
-> >  .../bindings/serial/renesas,scif.yaml         | 90 +++++++++++++------
-> >  1 file changed, 62 insertions(+), 28 deletions(-)
-> >
-> > diff --git a/Documentation/devicetree/bindings/serial/renesas,scif.yaml=
- b/Documentation/devicetree/bindings/serial/renesas,scif.yaml
-> > index af72c3420453..6ba6b6d52208 100644
-> > --- a/Documentation/devicetree/bindings/serial/renesas,scif.yaml
-> > +++ b/Documentation/devicetree/bindings/serial/renesas,scif.yaml
-> > @@ -83,36 +83,24 @@ properties:
-> >      maxItems: 1
-> >
-> >    interrupts:
-> > -    oneOf:
-> > -      - items:
-> > -          - description: A combined interrupt
-> > -      - items:
-> > -          - description: Error interrupt
-> > -          - description: Receive buffer full interrupt
-> > -          - description: Transmit buffer empty interrupt
-> > -          - description: Break interrupt
-> > -      - items:
-> > -          - description: Error interrupt
-> > -          - description: Receive buffer full interrupt
-> > -          - description: Transmit buffer empty interrupt
-> > -          - description: Break interrupt
-> > -          - description: Data Ready interrupt
-> > -          - description: Transmit End interrupt
-> > +    minItems: 1
-> > +    items:
-> > +      - description: Error interrupt or single combined interrupt
->
-> That's not correct, your first interrupt can be combined.
->
-In here we are combining and making a single list hence the
-description is updated as "Error interrupt or single combined
-interrupt". so that we dont have to list the items in the below
-if/else checks. Also when the interrupts are combined we dont specify
-interrupt-names hence in the below check we  set "interrupt-names:
-false"
+kdoc > "driver style"
+IMO, but you are the maintainer, I just offered my 50 cents :)
 
-> > +      - description: Receive buffer full interrupt
-> > +      - description: Transmit buffer empty interrupt
-> > +      - description: Break interrupt
-> > +      - description: Data Ready interrupt
-> > +      - description: Transmit End interrupt
-> >
-> >    interrupt-names:
-> > -    oneOf:
-> > -      - items:
-> > -          - const: eri
-> > -          - const: rxi
-> > -          - const: txi
-> > -          - const: bri
-> > -      - items:
-> > -          - const: eri
-> > -          - const: rxi
-> > -          - const: txi
-> > -          - const: bri
-> > -          - const: dri
-> > -          - const: tei
-> > +    minItems: 4
-> > +    items:
-> > +      - const: eri
-> > +      - const: rxi
-> > +      - const: txi
-> > +      - const: bri
-> > +      - const: dri
-> > +      - const: tei
-> >
-> >    clocks:
-> >      minItems: 1
-> > @@ -173,6 +161,52 @@ allOf:
-> >        required:
-> >          - resets
-> >
-> > +  - if:
-> > +      properties:
-> > +        compatible:
-> > +          contains:
-> > +            enum:
-> > +              - renesas,rcar-gen1-scif
-> > +              - renesas,rcar-gen2-scif
-> > +              - renesas,rcar-gen3-scif
-> > +              - renesas,rcar-gen4-scif
-> > +    then:
-> > +      properties:
-> > +        interrupts:
-> > +          maxItems: 1
->
-> You need to list the items here.
->
-Shouldn't the already squashed interrupts list still be valid here?
-Why do we need to list the item here (and below)? If we list items for
-interrupts should we be doing the same for interrupt-names too?
 
-Cheers,
-Prabhakar
-
-> > +
-> > +        interrupt-names: false
-> > +
-> > +  - if:
-> > +      properties:
-> > +        compatible:
-> > +          contains:
-> > +            enum:
-> > +              - renesas,scif-r7s72100
-> > +    then:
-> > +      properties:
-> > +        interrupts:
-> > +          minItems: 4
-> > +          maxItems: 4
->
-> List the items
->
-> > +
-> > +        interrupt-names:
-> > +          maxItems: 4
-> > +
-> > +  - if:
-> > +      properties:
-> > +        compatible:
-> > +          contains:
-> > +            enum:
-> > +              - renesas,scif-r7s9210
-> > +              - renesas,scif-r9a07g044
-> > +    then:
-> > +      properties:
-> > +        interrupts:
-> > +          minItems: 6
->
-> List the items
->
-> > +
-> > +        interrupt-names:
-> > +          minItems: 6
-> > +
-> >  unevaluatedProperties: false
-> >
-> >  examples:
->
-> Best regards,
-> Krzysztof
->
+Kind regards,
+Niklas
 
