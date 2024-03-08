@@ -1,209 +1,276 @@
-Return-Path: <linux-renesas-soc+bounces-3592-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-3593-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A6B08761B2
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  8 Mar 2024 11:15:10 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id BABE98761D6
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  8 Mar 2024 11:20:34 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 00C8D1F23270
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  8 Mar 2024 10:15:10 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6EA55282A44
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  8 Mar 2024 10:20:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3BF5E53E38;
-	Fri,  8 Mar 2024 10:15:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 121FD54BD7;
+	Fri,  8 Mar 2024 10:20:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="azDcURbX"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="H2Ci6wbn"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ua1-f41.google.com (mail-ua1-f41.google.com [209.85.222.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB31E53E06;
-	Fri,  8 Mar 2024 10:15:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A7794F5F9;
+	Fri,  8 Mar 2024 10:20:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709892904; cv=none; b=qIwwLUM/gJmj9CmG+gZKaEshLJMn4bNHdlGrfW8k25U5rDo+FCZnqt9iA16eSt3yOAeneDTZ45ou17OPs0NlKAfN74VpHD1fmFWRc4P/Bjk+pUyh3JFgZgtvBDpAqrEBlQpw/2pJGYZodEzfjXt5j37uKMlWXzK2Z1K3MmjVWXw=
+	t=1709893208; cv=none; b=bhG7nwDbJB/e9iFDogysCPlq/Fp415t0Z+eEKIWrVwfnT/ugpq6JgHhgPqEjZsZxYVN/uyDfbIELrrLBjWE5+UIFil0/5U8q0MrYHPOHPH14+w/sarzkCmq07oIfbEgrFqNIbS81yDuNIABuZAkBQrzD1Nugdzmd9TkVhlWXnW0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709892904; c=relaxed/simple;
-	bh=RUpDGa9Rs6fU9BfFMEQzpLXZ5dNRS4tLDMMkYMlz10A=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nSeoERtHMgxgk+6T3vCbV1tCemrzOGkG2jyUPunhBoK01hpQifgg8a85BF2k4BvInK+h/Q6FOnsIXsoLsR07P083chhm7W0yjbmHrHuABX9f75CkGwYoJ4GpclFpMYFciFuqZByogEHdaV3RVDWnI2hVW5wxj/BJzjDabPE/7kE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=azDcURbX; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E6A22C43390;
-	Fri,  8 Mar 2024 10:14:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1709892902;
-	bh=RUpDGa9Rs6fU9BfFMEQzpLXZ5dNRS4tLDMMkYMlz10A=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=azDcURbX6wPyiSgOborkCmRq1aJLfraoxkXDDCyOkkcYhnoXZDktTO4rQSTj2dLBe
-	 dJyVsKXRTCz/lpY0R/pg0Fna7y6mJQ0sOZ/8erlJ8i5bkRb1ZbKoYhUYoXRYYRzCl5
-	 JWTjw0y7oj3egZys2daT0GDqqSaE5qK64Ov8Eq5yheZKKxT/smpklskIw2FAfVizd4
-	 o00HzVVqduydu9paV8JKrl3GeFrsMPItPrGb/q2mSQ4JWv3c6VDOF0FYOVdqrpIyG7
-	 8eCvrYxjUo+UqIYvKsfO3jC1szqnpt5hr0wSLCamo2pzzw+pERPuYfsU/vF372xN6V
-	 f1AC8A3XsX6nA==
-Date: Fri, 8 Mar 2024 11:14:51 +0100
-From: Niklas Cassel <cassel@kernel.org>
-To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-Cc: Jingoo Han <jingoohan1@gmail.com>,
-	Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
-	Rob Herring <robh@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
-	Marek Vasut <marek.vasut+renesas@gmail.com>,
-	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Kishon Vijay Abraham I <kishon@ti.com>,
-	Vidya Sagar <vidyas@nvidia.com>,
-	Vignesh Raghavendra <vigneshr@ti.com>,
-	Richard Zhu <hongxing.zhu@nxp.com>,
-	Lucas Stach <l.stach@pengutronix.de>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	NXP Linux Team <linux-imx@nxp.com>,
-	Minghuan Lian <minghuan.Lian@nxp.com>,
-	Mingkai Hu <mingkai.hu@nxp.com>, Roy Zang <roy.zang@nxp.com>,
-	Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Kishon Vijay Abraham I <kishon@kernel.org>,
-	Jesper Nilsson <jesper.nilsson@axis.com>,
-	Srikanth Thokala <srikanth.thokala@intel.com>,
-	linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-	linux-tegra@vger.kernel.org, linux-omap@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linuxppc-dev@lists.ozlabs.org,
-	linux-arm-kernel@axis.com
-Subject: Re: [PATCH v9 08/10] PCI: dwc: ep: Add a generic
- dw_pcie_ep_linkdown() API to handle LINK_DOWN event
-Message-ID: <ZerlG5W-hUFIYY8b@ryzen>
-References: <20240304-pci-dbi-rework-v9-0-29d433d99cda@linaro.org>
- <20240304-pci-dbi-rework-v9-8-29d433d99cda@linaro.org>
- <Zeo0996FscpDSnjL@ryzen>
- <20240308054152.GD3789@thinkpad>
- <ZerSwdxAnN2mUxf0@ryzen>
- <20240308094606.GG3789@thinkpad>
+	s=arc-20240116; t=1709893208; c=relaxed/simple;
+	bh=/D9RFcnsiPTtrDahvT+uPlRMBnSBcdNj1fD4mx8V2q8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=KKjbv/6FEV5gSnb/14orP5x4J6NcVuq+AoC4eMdMK8iOPcNzks4wrPOAMvgElnpKeZNOh8gv+z8Hda3R2+9EpEjIHcu0q017DUIJsIH0ZGkAYEXaguhuzDdvOArKqmRM+cHUuK4oaBxfivIkr4VVz15SgMJ7Vum8g47BalD/7yE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=H2Ci6wbn; arc=none smtp.client-ip=209.85.222.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ua1-f41.google.com with SMTP id a1e0cc1a2514c-7db1a21e83fso413546241.2;
+        Fri, 08 Mar 2024 02:20:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1709893205; x=1710498005; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=l3YRsmPk4+j+DhswmeO7tX7vN7xRI4YjcgMo0LaTJpk=;
+        b=H2Ci6wbnftg/xLqSiVEp2jJ3krYiEGZC2jHEQyeRWRE3en3CYaTSLDIKoTd7jN3UEd
+         u2KwWuDJ0/Cwi9ATuULgVwe7yOLkxJz7kXtK0LuTo1juWbOCW0JgSPfikdLACjgphtQZ
+         b06i20qiZGAGEneiLiR4gNCTqTWzfHxlLbeL9WepgM4y6sagFi7IxDe/Td174LdPx8Ma
+         r30idJ4gGrRUJwyxSeCIwBCPG9YS5zn7i5UDKfAIxO121mO2BkUFcWKinUWQnBBlgzGY
+         kHuHPYvHC4Y5bZX6QvnFNd/ilD98bGzzjSnYRcEwtz73KJ6u3nTECynm/ZEu72c3CEYj
+         4JTA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1709893205; x=1710498005;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=l3YRsmPk4+j+DhswmeO7tX7vN7xRI4YjcgMo0LaTJpk=;
+        b=cR9hsASYmtpSXDr6D9EwAcb+cMSeuSz3431PxybF/B0NcqILxRrjtR3IfDCXxf4qGz
+         LpIIY2VpRHvf1iCJ3fiH7lI8xGdwbu9OLaHQzU+GMxwOSY45eJhO5EupzIDOif1fup8u
+         yFUQQLtpnRkWrtokWik7d5y4ztM/hP9rFzPLmJeBlGWmv0wckcyzQ2WbVkqYgmeRcVIE
+         6jelPvIiOaDfG1lJrEW+huUg5+qSMQ37D8lzQbYdiMXrsZ1EuJKmUDRPineQTKQ+As19
+         hPAHTYUQOGFxNgw8K2yGynpG+f6Mh92yEzj5pjGblNj9U1RfCqnaJc6ZiQvnsMHaS6hv
+         4fGg==
+X-Forwarded-Encrypted: i=1; AJvYcCU0HXYtrLzKDeRdFjqLQl/EgnFoGgBbgJVsftWblB59gQT7/tvp6g/refy1rVlFd7worb7HKeIsBE5qH/K2DsrNxiGe1D1f+rSxfKzeS2aEB1FDlHcgPcw/+MwnJRWkxOenMmFVsx12a5MMI3kHL4b2PkhAiA+EyYlv7OMpkUJe/mQ0jF3/XXCXbFDPFMS8dgu/1vyNyy4uXMGNMU1qCeZ6EowiKrTnPQln
+X-Gm-Message-State: AOJu0YxmOuRRA1dCj4XBH2zYbrOMIUBoZMxrX6O/rV+kD9Ybum/GLLYe
+	owMeuknXbAvxG8eH+l8C7C8kgVEXtPAw77h8cyg2aNWtHdvDMiIafYDyWL7627yzs9exM5whRDc
+	8spYeahhx49/hlHDl3DgsqfaCAj3wDmpjyhM=
+X-Google-Smtp-Source: AGHT+IGrAB9/8/ThqY/liT9EWXmOS6hU9aihtHZ6M3gq7/6RMfNrLZxU7vIInruG1ZNLRZkXRwoYYz0XSIzblbu//vs=
+X-Received: by 2002:a05:6122:468f:b0:4d3:3446:6bc9 with SMTP id
+ di15-20020a056122468f00b004d334466bc9mr10750338vkb.14.1709893205014; Fri, 08
+ Mar 2024 02:20:05 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240308094606.GG3789@thinkpad>
+References: <20240307114217.34784-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20240307114217.34784-3-prabhakar.mahadev-lad.rj@bp.renesas.com> <4ba7af38-5cc1-428a-afec-75610934fc72@linaro.org>
+In-Reply-To: <4ba7af38-5cc1-428a-afec-75610934fc72@linaro.org>
+From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date: Fri, 8 Mar 2024 10:18:58 +0000
+Message-ID: <CA+V-a8txZr8WWxtN-=Ek3WZ3GwLT3m+Tcog-5zAx+A4kZL1=yQ@mail.gmail.com>
+Subject: Re: [PATCH v2 2/2] dt-bindings: serial: renesas,scif: Validate
+ 'interrupts' and 'interrupt-names'
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Jiri Slaby <jirislaby@kernel.org>, 
+	Rob Herring <robh+dt@kernel.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Magnus Damm <magnus.damm@gmail.com>, linux-kernel@vger.kernel.org, 
+	linux-serial@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org, 
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Mar 08, 2024 at 03:16:06PM +0530, Manivannan Sadhasivam wrote:
-> On Fri, Mar 08, 2024 at 09:56:33AM +0100, Niklas Cassel wrote:
-> > On Fri, Mar 08, 2024 at 11:11:52AM +0530, Manivannan Sadhasivam wrote:
-> > > On Thu, Mar 07, 2024 at 10:43:19PM +0100, Niklas Cassel wrote:
-> > > > On Mon, Mar 04, 2024 at 02:52:20PM +0530, Manivannan Sadhasivam wrote:
-> > > > > The PCIe link can go to LINK_DOWN state in one of the following scenarios:
-> > > > > 
-> > > > > 1. Fundamental (PERST#)/hot/warm reset
-> > > > > 2. Link transition from L2/L3 to L0
-> > > > > 
-> > > > > In those cases, LINK_DOWN causes some non-sticky DWC registers to loose the
-> > > > > state (like REBAR, PTM_CAP etc...). So the drivers need to reinitialize
-> > > > > them to function properly once the link comes back again.
-> > > > > 
-> > > > > This is not a problem for drivers supporting PERST# IRQ, since they can
-> > > > > reinitialize the registers in the PERST# IRQ callback. But for the drivers
-> > > > > not supporting PERST#, there is no way they can reinitialize the registers
-> > > > > other than relying on LINK_DOWN IRQ received when the link goes down. So
-> > > > > let's add a DWC generic API dw_pcie_ep_linkdown() that reinitializes the
-> > > > > non-sticky registers and also notifies the EPF drivers about link going
-> > > > > down.
-> > > > > 
-> > > > > This API can also be used by the drivers supporting PERST# to handle the
-> > > > > scenario (2) mentioned above.
-> > > > > 
-> > > > > Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-> > > > > ---
-> > > > >  drivers/pci/controller/dwc/pcie-designware-ep.c | 111 ++++++++++++++----------
-> > > > >  drivers/pci/controller/dwc/pcie-designware.h    |   5 ++
-> > > > >  2 files changed, 72 insertions(+), 44 deletions(-)
-> > > > > 
-> > > > > diff --git a/drivers/pci/controller/dwc/pcie-designware-ep.c b/drivers/pci/controller/dwc/pcie-designware-ep.c
-> > > > > index 278bdc9b2269..fed4c2936c78 100644
-> > > > > --- a/drivers/pci/controller/dwc/pcie-designware-ep.c
-> > > > > +++ b/drivers/pci/controller/dwc/pcie-designware-ep.c
-> > > > > @@ -14,14 +14,6 @@
-> > > > >  #include <linux/pci-epc.h>
-> > > > >  #include <linux/pci-epf.h>
-> > > > >  
-> > > > > -void dw_pcie_ep_linkup(struct dw_pcie_ep *ep)
-> > > > > -{
-> > > > > -	struct pci_epc *epc = ep->epc;
-> > > > > -
-> > > > > -	pci_epc_linkup(epc);
-> > > > > -}
-> > > > > -EXPORT_SYMBOL_GPL(dw_pcie_ep_linkup);
-> > > > > -
-> > > > >  void dw_pcie_ep_init_notify(struct dw_pcie_ep *ep)
-> > > > >  {
-> > > > >  	struct pci_epc *epc = ep->epc;
-> > > > > @@ -603,19 +595,56 @@ static unsigned int dw_pcie_ep_find_ext_capability(struct dw_pcie *pci, int cap)
-> > > > >  	return 0;
-> > > > >  }
-> > > > >  
-> > > > > +static void dw_pcie_ep_init_non_sticky_registers(struct dw_pcie *pci)
-> > > > > +{
-> > > > > +	unsigned int offset, ptm_cap_base;
-> > > > > +	unsigned int nbars;
-> > > > > +	u32 reg, i;
-> > > > > +
-> > > > > +	offset = dw_pcie_ep_find_ext_capability(pci, PCI_EXT_CAP_ID_REBAR);
-> > > > > +	ptm_cap_base = dw_pcie_ep_find_ext_capability(pci, PCI_EXT_CAP_ID_PTM);
-> > > > > +
-> > > > > +	dw_pcie_dbi_ro_wr_en(pci);
-> > > > > +
-> > > > > +	if (offset) {
-> > > > > +		reg = dw_pcie_readl_dbi(pci, offset + PCI_REBAR_CTRL);
-> > > > > +		nbars = (reg & PCI_REBAR_CTRL_NBAR_MASK) >>
-> > > > > +			PCI_REBAR_CTRL_NBAR_SHIFT;
-> > > > > +
-> > > > > +		for (i = 0; i < nbars; i++, offset += PCI_REBAR_CTRL)
-> > > > > +			dw_pcie_writel_dbi(pci, offset + PCI_REBAR_CAP, 0x0);
-> > > > 
-> > > > If you look at PCI_REBAR_CAP, you will see that it is sticky,
-> > > > but you have to actually read the databook to see that:
-> > > > 
-> > > > "The RESBAR_CTRL_REG_BAR_SIZE field is automatically updated
-> > > > when you write to RESBAR_CAP_REG_0_REG through the DBI."
-> > > > 
-> > > > So the reason why we need to write this register, even though
-> > > > it is sticky, is to update the RESBAR_CTRL_REG_BAR_SIZE register,
-> > > > which is not sticky :)
-> > > > 
-> > > > (Perhaps we should add that as a comment?)
-> > > > 
-> > > 
-> > > Yeah, makes sense.
-> > 
-> > Note that I add a (unrelated) comment related to REBAR_CAP in this patch:
-> > https://lore.kernel.org/linux-pci/20240307111520.3303774-1-cassel@kernel.org/T/#u
-> > 
-> > But once we move/add code to dw_pcie_ep_init_non_sticky_registers(), I think
-> > that it might be a good "rule" to have a small comment for each write in
-> > dw_pcie_ep_init_non_sticky_registers() which explains why the code should be
-> > in dw_pcie_ep_init_non_sticky_registers() instead of dw_pcie_ep_init_registers(),
-> > even if it just a small:
-> > 
-> > /* Field PCI_XXX_YYY.ZZZ is non-sticky */
-> > writel_dbi(pci, offset + PCI_XXX_YYY, 0);
-> > 
-> 
-> Why? The function name itself suggests that we are reinitializing non-sticky
-> registers. So a comment for each write is overkill.
+Hi Krzysztof,
 
-So that you know which field it is in the register that you are writing which
-you care about (which field it is that is non-sticky).
+Thank you for the review.
 
-But I see your point, perhaps it is overkill.
+On Thu, Mar 7, 2024 at 1:50=E2=80=AFPM Krzysztof Kozlowski
+<krzysztof.kozlowski@linaro.org> wrote:
+>
+> On 07/03/2024 12:42, Prabhakar wrote:
+> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> >
+> > This commit adds support to validate the 'interrupts' and 'interrupt-na=
+mes'
+>
+> Please do not use "This commit/patch/change", but imperative mood. See
+> longer explanation here:
+> https://elixir.bootlin.com/linux/v5.17.1/source/Documentation/process/sub=
+mitting-patches.rst#L95
+>
+Sure, I will update the description.
 
+> > properties for every supported SoC. This ensures proper handling and
+> > configuration of interrupt-related properties across supported platform=
+s.
+> >
+> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > ---
+> > v1->v2
+> > * Defined the properties in top-level block instead of moving into
+> >   if/else block for each SoC.
+> > * Used Gen specific callback strings instead of each SoC variant
+>
+> You are sending quite a lot of patchsets touching the same, all in one
+> day. This just adds to the confusion.
+>
+Ok, I'll make it as a single series.
 
-Kind regards,
-Niklas
+> > ---
+> >  .../bindings/serial/renesas,scif.yaml         | 90 +++++++++++++------
+> >  1 file changed, 62 insertions(+), 28 deletions(-)
+> >
+> > diff --git a/Documentation/devicetree/bindings/serial/renesas,scif.yaml=
+ b/Documentation/devicetree/bindings/serial/renesas,scif.yaml
+> > index af72c3420453..6ba6b6d52208 100644
+> > --- a/Documentation/devicetree/bindings/serial/renesas,scif.yaml
+> > +++ b/Documentation/devicetree/bindings/serial/renesas,scif.yaml
+> > @@ -83,36 +83,24 @@ properties:
+> >      maxItems: 1
+> >
+> >    interrupts:
+> > -    oneOf:
+> > -      - items:
+> > -          - description: A combined interrupt
+> > -      - items:
+> > -          - description: Error interrupt
+> > -          - description: Receive buffer full interrupt
+> > -          - description: Transmit buffer empty interrupt
+> > -          - description: Break interrupt
+> > -      - items:
+> > -          - description: Error interrupt
+> > -          - description: Receive buffer full interrupt
+> > -          - description: Transmit buffer empty interrupt
+> > -          - description: Break interrupt
+> > -          - description: Data Ready interrupt
+> > -          - description: Transmit End interrupt
+> > +    minItems: 1
+> > +    items:
+> > +      - description: Error interrupt or single combined interrupt
+>
+> That's not correct, your first interrupt can be combined.
+>
+In here we are combining and making a single list hence the
+description is updated as "Error interrupt or single combined
+interrupt". so that we dont have to list the items in the below
+if/else checks. Also when the interrupts are combined we dont specify
+interrupt-names hence in the below check we  set "interrupt-names:
+false"
+
+> > +      - description: Receive buffer full interrupt
+> > +      - description: Transmit buffer empty interrupt
+> > +      - description: Break interrupt
+> > +      - description: Data Ready interrupt
+> > +      - description: Transmit End interrupt
+> >
+> >    interrupt-names:
+> > -    oneOf:
+> > -      - items:
+> > -          - const: eri
+> > -          - const: rxi
+> > -          - const: txi
+> > -          - const: bri
+> > -      - items:
+> > -          - const: eri
+> > -          - const: rxi
+> > -          - const: txi
+> > -          - const: bri
+> > -          - const: dri
+> > -          - const: tei
+> > +    minItems: 4
+> > +    items:
+> > +      - const: eri
+> > +      - const: rxi
+> > +      - const: txi
+> > +      - const: bri
+> > +      - const: dri
+> > +      - const: tei
+> >
+> >    clocks:
+> >      minItems: 1
+> > @@ -173,6 +161,52 @@ allOf:
+> >        required:
+> >          - resets
+> >
+> > +  - if:
+> > +      properties:
+> > +        compatible:
+> > +          contains:
+> > +            enum:
+> > +              - renesas,rcar-gen1-scif
+> > +              - renesas,rcar-gen2-scif
+> > +              - renesas,rcar-gen3-scif
+> > +              - renesas,rcar-gen4-scif
+> > +    then:
+> > +      properties:
+> > +        interrupts:
+> > +          maxItems: 1
+>
+> You need to list the items here.
+>
+Shouldn't the already squashed interrupts list still be valid here?
+Why do we need to list the item here (and below)? If we list items for
+interrupts should we be doing the same for interrupt-names too?
+
+Cheers,
+Prabhakar
+
+> > +
+> > +        interrupt-names: false
+> > +
+> > +  - if:
+> > +      properties:
+> > +        compatible:
+> > +          contains:
+> > +            enum:
+> > +              - renesas,scif-r7s72100
+> > +    then:
+> > +      properties:
+> > +        interrupts:
+> > +          minItems: 4
+> > +          maxItems: 4
+>
+> List the items
+>
+> > +
+> > +        interrupt-names:
+> > +          maxItems: 4
+> > +
+> > +  - if:
+> > +      properties:
+> > +        compatible:
+> > +          contains:
+> > +            enum:
+> > +              - renesas,scif-r7s9210
+> > +              - renesas,scif-r9a07g044
+> > +    then:
+> > +      properties:
+> > +        interrupts:
+> > +          minItems: 6
+>
+> List the items
+>
+> > +
+> > +        interrupt-names:
+> > +          minItems: 6
+> > +
+> >  unevaluatedProperties: false
+> >
+> >  examples:
+>
+> Best regards,
+> Krzysztof
+>
 
