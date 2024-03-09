@@ -1,74 +1,74 @@
-Return-Path: <linux-renesas-soc+bounces-3631-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-3632-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 786058770F1
-	for <lists+linux-renesas-soc@lfdr.de>; Sat,  9 Mar 2024 13:07:41 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D19F8770F4
+	for <lists+linux-renesas-soc@lfdr.de>; Sat,  9 Mar 2024 13:08:35 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id ADEF51F215CE
-	for <lists+linux-renesas-soc@lfdr.de>; Sat,  9 Mar 2024 12:07:40 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 424271F215CE
+	for <lists+linux-renesas-soc@lfdr.de>; Sat,  9 Mar 2024 12:08:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1330E383A6;
-	Sat,  9 Mar 2024 12:07:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A88DA38F83;
+	Sat,  9 Mar 2024 12:08:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Fsm0zcWM"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="C1t4oDco"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3ED98374FE
-	for <linux-renesas-soc@vger.kernel.org>; Sat,  9 Mar 2024 12:07:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7BDA381CC
+	for <linux-renesas-soc@vger.kernel.org>; Sat,  9 Mar 2024 12:08:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709986057; cv=none; b=OO6ajljG4JcA8sW4wSoufyP0VdwUf5kC82pCul2GhcthP3CSibqxrc4G8dkNIGzSakEOcfw3XjFKLIKpHdwOsMLfOB8GXnBy0zYKF53S4r1A1ndVmgV3iyFAy0x4rBHQDEotr0PlcQQ9Qw9BEAYslaMNawP1Xgl2v4uzg4yHCVc=
+	t=1709986110; cv=none; b=uv2fFR56zF7IeosG7uQ3EoTIw2/K6PnVbHYTB4AN8HFoElkmfFHzOkJKrFHsGyGWwAB6s7GnzBv5gyPTuHQ4pTh3vOKl/eOahKR+H0E1dCBcLeIVCZ9XS8hwDPXSf3M7J4/B+VkNUcwR4l/Gr0hOVZtiXYGacYBfdY7o1V4i7bE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709986057; c=relaxed/simple;
-	bh=hptZnaht2w5YtGt7LErCmk1SGVForCNV8/3BL892w4Q=;
+	s=arc-20240116; t=1709986110; c=relaxed/simple;
+	bh=kXf0yGp3VVpCF5R6/iAneqzpLUWX+h6ahtdopYTBvV8=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=XJl3uZB584nRcKIFQobCwkEkHWXGtLkqzE+mgopJ1VV/puMih+jQhV0JTytTEMPzUJCFAm77XlKKj7AFBiq0a10C+VqbVkTpEGIXdrpQpqtTTpkFvFTBjNPB2L6/5T+EwmC++1sU2W9EESn5vkika+Xia2WvKmVHhtRuIIjWNAo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Fsm0zcWM; arc=none smtp.client-ip=209.85.218.41
+	 In-Reply-To:Content-Type; b=prO9/THiNg07o3q7adKQqNCW3nT/wKnzE/r6mvPNAKMhnRaLAtD9Eqo+6O+9iEKQ+/aoaje9FDXoy9ZoUJ2kZd5undiNCpVsLDDeKJteyB84VAMnSr1PwEkP6fppHD2dWYU6tnh5DseDZuVeUcMplbmTh9M4bzf9t/ck4inoSTU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=C1t4oDco; arc=none smtp.client-ip=209.85.218.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-a3ed9cae56fso717696766b.1
-        for <linux-renesas-soc@vger.kernel.org>; Sat, 09 Mar 2024 04:07:35 -0800 (PST)
+Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-a45bb2a9c20so365611366b.0
+        for <linux-renesas-soc@vger.kernel.org>; Sat, 09 Mar 2024 04:08:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1709986054; x=1710590854; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1709986107; x=1710590907; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=HuYQqTzOh2dbxKcDW8fuo4NyC7wUn/V1EGwtPNsCUbk=;
-        b=Fsm0zcWMmwfTFP3txqBjkKTCJGZrypnU1xGTrGC2iVbIqzg5fMJjBQCB0+mYlIX6Kv
-         csavZTlb0VWrl5FkaH3pMVpuxDTOC/dOtHe7B2TVXZiG+aKTojHkHZK/i55JuSCtzz/g
-         LlnTkt9pywlvJG5XchVhMBQ/nzTCz464TL0LFGVIQyf012JpyDFm8U2Gn/XMM+f7Rsdx
-         Iav8etxzp5SNvsZLLem0JUEkWv/iPxcOrZ86U5C/OW5hkIkms5UWc8rzJcjeArgrtJ/o
-         eXGILaLT7yUD4IhHYJ7+IYGlqwzeAVz6V28xzp8NveWs7fLLMHfj+hWFEk3K+BMGYYsA
-         xqlA==
+        bh=CQ7VPkvczUf8AUq7HbH6EVb5NZapDKRKBNpjn+Wz8Fc=;
+        b=C1t4oDcodQq/Oi0S7R1UkgZV9rFg+QISghQjDPr1sDDy5wBYzvseinSqigJxIK8SDA
+         TLsP9Bj1MvBiRDDE7b43g/vRs0qdv2VQSRCWmxsok3hWhXdZsJDX3NrFfmvf9OQfCfmZ
+         voVT65VCowA798nxBRjI1kXDTLqH0p22B3GBb1rCKZ8GTsmaG11L7uIlnh8ZwkGwJqQN
+         64j4+WsFDsB3101mGlw1b4NkmnxLI5zrwV0JTbj7E29et57tpj4BMSSvZBsG7BwEIjhN
+         yWZvNf2DhWnk77w0y5EIFprmi/IR9Lw2XxmMYe0NHd/ZkjIzuIwXiyRDt3l7ksZt7pUl
+         W2eg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709986054; x=1710590854;
+        d=1e100.net; s=20230601; t=1709986107; x=1710590907;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=HuYQqTzOh2dbxKcDW8fuo4NyC7wUn/V1EGwtPNsCUbk=;
-        b=OYex4Re/M6TY1KN+fECTazugKX8bQn3WhKtURwLjhX3ps8jQtrzTvG9jLhNf8C60vi
-         RuaDKp/yUgFeSac1FyeCfBCwnlHVEUxle0La2GGmaXfuC03mP1mslPn2vE+zsuVO7uP0
-         j2SAFn36gT/di+bj48fQ5Q8g7jDghAGEZqLrh0cwO5kx5dwJyG8Xoq+FL2K/clZP7acM
-         Vt1kqnMj8ix6ajBHOVInup5IaeqBrwate8ann4Svm7zs+kNY58N/MHCcp7bkXE97oFRZ
-         dcw6tw6yR5O9sN8kQ6Igh16q7kFsG4lZk3zwOV1KYiKLmCOrpZ2PE4on5pUHdTMpazHg
-         rieQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVCfG7Hwj5RjpNjRYae1ga3u0HpZzSjEiAA86YFOeBDDD4ZrKHD+nMEsUHBLY8HW3T+yxZxF1rHMB8gu2EYi+nBTHOl+Aaz0G8sKRLH1alHJVM=
-X-Gm-Message-State: AOJu0YycWA7N1H7Z8W5xAxcjTwMggczqgCamWcIWKWGC8ish5cypFqJR
-	zkyTsxVC/ZHYoQ8mWBNATskdsMJqbP/5Hv9dTcTkKuVGuB1t8wPctq8OFayq1eM=
-X-Google-Smtp-Source: AGHT+IEh/WtamVuOiyuhNuIJsHYzIghyKm1Sx7t5QlkGmFTtNeu9z9W6GZQEXeUuHmYnsOhzhHZAgQ==
-X-Received: by 2002:a17:906:ba84:b0:a45:5fe8:26b4 with SMTP id cu4-20020a170906ba8400b00a455fe826b4mr1365446ejd.24.1709986053663;
-        Sat, 09 Mar 2024 04:07:33 -0800 (PST)
+        bh=CQ7VPkvczUf8AUq7HbH6EVb5NZapDKRKBNpjn+Wz8Fc=;
+        b=mguJbsXKeRo2oFNFu+NC2c4ugwQmlSLuI4AKRfov+/aUTWmHZLAt77JR6VAasjWUAr
+         N2Bs8eCHJdREIFqp7OSyoiO9usQhNbH6OTfFbTwwm4K9khJoAJvaGRLemDloC6W3CoR+
+         AKWsLf7wIjsdaz1HwxJUaB2pJzKFQPAsA1Uy57fcDvxbx1Pd5OwLTJFnnMMoYGbXQbaO
+         Itssv4iswMkjVsCLg3+gXLYuZv160kDiPPG2WHBaSrXx+LfeNSGwVXW0sCM8OSv73JQs
+         3uXfUOtHZ+xs7QYJLi9jNzBEloFmFvWeN+H1tB+2MZextVMwDteGCuwm80ZUshyA9DZS
+         keLA==
+X-Forwarded-Encrypted: i=1; AJvYcCWvyGqCEQ+egq0+unoZXfsPwSove4dljrLyW6NtAyVxnMTxxA9GgdAmedUGJSg8kHxX9vxqUL8sfAm4spWT9PBuRqggM5J9sBtoQj34gqgmPCw=
+X-Gm-Message-State: AOJu0Yx9mN3EB5Ohvek/K+wb4gSMti+1up6qT8585cl+4YLQQDVT8rMb
+	EClqiqVP9GQCldzwHZjJe3T6loz46RbsTuuiwCSA7+SYVvRORZgdSqWQ9aCxUsc=
+X-Google-Smtp-Source: AGHT+IFpB+n0bl0Y6KZAbsPwE16gKFKnFdp+Dojb/cf/MIOFnPWPort2KFARepKMAT1AW2PrgWYMKg==
+X-Received: by 2002:a17:906:e2d2:b0:a3f:ac54:5aa1 with SMTP id gr18-20020a170906e2d200b00a3fac545aa1mr935694ejb.21.1709986107444;
+        Sat, 09 Mar 2024 04:08:27 -0800 (PST)
 Received: from [192.168.1.20] ([178.197.222.97])
-        by smtp.gmail.com with ESMTPSA id h25-20020a1709070b1900b00a3e5adf11c7sm811529ejl.157.2024.03.09.04.07.32
+        by smtp.gmail.com with ESMTPSA id h25-20020a1709070b1900b00a3e5adf11c7sm811529ejl.157.2024.03.09.04.08.26
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 09 Mar 2024 04:07:33 -0800 (PST)
-Message-ID: <e78c43a9-9142-436d-a303-40871a44069a@linaro.org>
-Date: Sat, 9 Mar 2024 13:07:31 +0100
+        Sat, 09 Mar 2024 04:08:26 -0800 (PST)
+Message-ID: <67819907-4366-483d-b71b-2646ffb076fd@linaro.org>
+Date: Sat, 9 Mar 2024 13:08:26 +0100
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -76,22 +76,19 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/4] dt-bindings: usb: renesas,usbhs: Document RZ/G2L
+Subject: Re: [PATCH 4/4] arm64: dts: renesas: r9a07g0{43,44,54}: Update usbhs
  family compatible
 Content-Language: en-US
 To: Biju Das <biju.das.jz@bp.renesas.com>, Rob Herring <robh@kernel.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
  Conor Dooley <conor+dt@kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Magnus Damm <magnus.damm@gmail.com>,
- Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
- linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org,
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
+ Magnus Damm <magnus.damm@gmail.com>, linux-renesas-soc@vger.kernel.org,
+ devicetree@vger.kernel.org,
  Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
  Biju Das <biju.das.au@gmail.com>
 References: <20240308180919.6603-1-biju.das.jz@bp.renesas.com>
- <20240308180919.6603-2-biju.das.jz@bp.renesas.com>
+ <20240308180919.6603-5-biju.das.jz@bp.renesas.com>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
@@ -137,20 +134,34 @@ Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
  fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
  D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20240308180919.6603-2-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20240308180919.6603-5-biju.das.jz@bp.renesas.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 08/03/2024 19:09, Biju Das wrote:
-> The USBHS IP found on RZ/G2L SoCs only has 10 pipe buffers compared
-> to 16 pipe buffers on RZ/A2M. Document renesas,rzg2l-usbhs family
-> compatible to handle this difference for RZ/G2L family SoCs.
+> Replace 'renesas,rza2m-usbhs->renesas,rzg2l-usbhs' as family compatible
+> for RZ/G2L family SOCs as there is a difference in number of pipe
+> buffers compared to RZ/A2M.
 > 
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> ---
+>  arch/arm64/boot/dts/renesas/r9a07g043.dtsi | 2 +-
+>  arch/arm64/boot/dts/renesas/r9a07g044.dtsi | 2 +-
+>  arch/arm64/boot/dts/renesas/r9a07g054.dtsi | 2 +-
+>  3 files changed, 3 insertions(+), 3 deletions(-)
+> 
+> diff --git a/arch/arm64/boot/dts/renesas/r9a07g043.dtsi b/arch/arm64/boot/dts/renesas/r9a07g043.dtsi
+> index 8721f4c9fa0f..766c54b91acc 100644
+> --- a/arch/arm64/boot/dts/renesas/r9a07g043.dtsi
+> +++ b/arch/arm64/boot/dts/renesas/r9a07g043.dtsi
+> @@ -812,7 +812,7 @@ usb2_phy1: usb-phy@11c70200 {
+>  
+>  		hsusb: usb@11c60000 {
+>  			compatible = "renesas,usbhs-r9a07g043",
+> -				     "renesas,rza2-usbhs";
+> +				     "renesas,rzg2l-usbhs";
 
-Another point of futility of using generic fallbacks which are simply
-not correct. Just start using SoCs fallbacks.
-
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+This looks like ABI break and commit msg is quite vague about it.
 
 Best regards,
 Krzysztof
