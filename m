@@ -1,74 +1,74 @@
-Return-Path: <linux-renesas-soc+bounces-3655-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-3656-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 316988775B7
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 10 Mar 2024 09:06:26 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id DE8478775C2
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 10 Mar 2024 09:10:29 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A55D0B2142A
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 10 Mar 2024 08:06:23 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 37F40B21463
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 10 Mar 2024 08:10:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6480A11CA9;
-	Sun, 10 Mar 2024 08:06:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6724517745;
+	Sun, 10 Mar 2024 08:10:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="CRc1Ue76"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="HSUpZ0mH"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com [209.85.208.178])
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75C071DFD2
-	for <linux-renesas-soc@vger.kernel.org>; Sun, 10 Mar 2024 08:06:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41BD7125CB
+	for <linux-renesas-soc@vger.kernel.org>; Sun, 10 Mar 2024 08:10:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710057978; cv=none; b=k4U7J+xQ99fLRuMrzOoAzOapztbPBAUi8MRBoCWttytA3bUbTKeLgXFiWGyjew+m2Xo62cdM7mEu76v0RnaujHF7CZ3RvNBtdmZ3ULmsOwrFcfFcPkJ/zth/pWnTFXzc6yd5qgxlzTwpE3JexUkaI3avk6Dcl/KNOE3q1GoP/Uw=
+	t=1710058220; cv=none; b=DY9dzCzqcwjzAKjJZWKE/tQVOscckuDv9G7gknfu+MfoijgNBS1JpYM2I3mQ/lluxYTlqBLDXCHAhtPFovb/9A3sP4EbACozi9KnKzu7vLJbg4DZAdbRLJU8fvfUqNMtupq4fopz8nMPUPnPhUn7oMtrKURHriXtNXf/UGpqZh8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710057978; c=relaxed/simple;
-	bh=YviNjC4rlbgFeqQhtPPzuiEtOgKFl0bcwADAcNkJyZ8=;
+	s=arc-20240116; t=1710058220; c=relaxed/simple;
+	bh=UCwEmjETmoCm85B0On7MNL8pdVmOSjUhQuvCBZzUoQc=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=MKoC83GZYJufNb5eeAR9E6Q3lqhZm4lKqjAMJkDZXPubCUYTXwPKtPQOxj4c0poTPA5xg+ywQ/ygQ9ig0eg0aerk1njxhSF7JDvbx1G/8dvZNWj5A8xH8KMzDsAlI6714i480CXKP8OK9JDx+tKfEQ/h6nXgHiInSnyF+yKgiWs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=CRc1Ue76; arc=none smtp.client-ip=209.85.208.178
+	 In-Reply-To:Content-Type; b=pKbm3nnucFMbDobjrDdYz8lIlF9YVXVrkKBtDu3hPgR/rUrFqbU6RNNzKo0EjTvDUIwecqwrB2m9sJo3RVLVKwqRXJrGnVdAufcS5wjqZqaectzBARIl5jYOiMVDmm6DfufYPEVFt2tgY0S3FYugEuZrGzLnyXh0NbeSG4wmZAg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=HSUpZ0mH; arc=none smtp.client-ip=209.85.218.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lj1-f178.google.com with SMTP id 38308e7fff4ca-2d094bc2244so50352911fa.1
-        for <linux-renesas-soc@vger.kernel.org>; Sun, 10 Mar 2024 00:06:16 -0800 (PST)
+Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-a44f2d894b7so436997266b.1
+        for <linux-renesas-soc@vger.kernel.org>; Sun, 10 Mar 2024 00:10:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1710057974; x=1710662774; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1710058216; x=1710663016; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=Ri6wAYmPsCxBEtXahbDDZVJ8dLOoYr7Bl7jfY9m7Z6s=;
-        b=CRc1Ue76WELFMqkReBasbYOd88l6eRsUAoK02da/qum3rdHNPl/6UR3RPyNx2jFZSW
-         ekUvmIwt7DP6H4IDiRONd50SroU3qgoYGZnM/JeAnbF/1vwsBlOJSs80q7GNgaitfZUu
-         i+/DTc/FT8uDvxQSmRsi5EBQsHuD6t3wQb0dy30Fqgz2R9Xn6xj9aotnYUf57l8sKZ5z
-         I0KMJVBHua6JTTAgQe/jQne4+kbaq1lO5CvRB0BWi1ada471G5czMm1h7xXOMuwJaDEQ
-         5+3T6TRot1kW0YZXolDPRwuYWZg2hsgczjAV9nQhyJxwtoTkmoo/7h8MYvcjZvQPomOQ
-         nAXQ==
+        bh=c9y9ZYLb+jBcKKAOj7YLY8WijS5svlScNg86EMTi5/E=;
+        b=HSUpZ0mHHoywlFniwdOZcTqE+PFXcveB1HstTNgtkww6vZArK2Rlg+LFs+jJ7qmqs2
+         lA2huM7EVLWDUTg8KpaPicZcO6LmuxNkJ7X8XvDLbbH7W6ihzZk2z6c9zwrCX5tRaWGG
+         Kd0+ByANvZMxzJWS1earfszHpes3c0/2+T9MOVhMRs5tFZqPwwa2lAGSrSXE4nOtnihI
+         +P6PbRV4lSunEYux5uWZSui+zfF0cl2BUZX4bBXwqKdp9G+O6M6lfEU3n4yuRVg0S1BQ
+         WQU5vO7ejJB7z184HKD4jxRLhmY0puGPzaeVuwegGOZprB4VxA+0hO5kLQz2uBbknvh+
+         4+dg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710057974; x=1710662774;
+        d=1e100.net; s=20230601; t=1710058216; x=1710663016;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Ri6wAYmPsCxBEtXahbDDZVJ8dLOoYr7Bl7jfY9m7Z6s=;
-        b=uR6LSziyoNz9QXvWvEebBbDy6PGjbRZ+WejB5pghFDGuZAfsw/KZoPTREwm8aV6//f
-         krJKzKJedpjFi9ckH5WuoyCOicetitOKhmdZitr1tl3/ghbiukg3ovT706GwA30A+HJo
-         Y23ijMmNNFRq6dAkz/berY7ruqIUzcEW9+nPnNGbjGE7w2ha9y0dbbuqRp0tNHB8y5RR
-         f4IVEpf48NtuIMhjXhBKebMTOi47QqK7t/ot3HEwEk6yo1kNF3dJl95ozPS76+5iSR5O
-         256X62BiI1NCeR7FeD2finY2j1GJfPrpAwrbEvUhS4w7NZt06Wto2IMxvQqH+Qx6EJmW
-         MWNw==
-X-Forwarded-Encrypted: i=1; AJvYcCWhzpJsZES9aIVFYp586YRo9Kr4yxvolvKT8DcyFL4h4W/Z3hHDo9BjG6Z4PQQQsRMe7aGPIpaGGiNUabr7nBzDmvg3P0zsA7P2bbNHhqDWnSo=
-X-Gm-Message-State: AOJu0Yz+WH29IzScBL8q32kB0haSgOhAkWK6wBaXtkQoT7TaCUpX/G96
-	lgnXIbfVCEaxQYEp+9OIYh7s975KmugHGVV/TShF/aytIjywit33V9+534OfP3c=
-X-Google-Smtp-Source: AGHT+IF2MHa6Ke34aYB8TAKjplsnBzP6H2kD9YaZ9vgKjsyQw+s3LuSAFQd1b+817X9YivfTsTH82g==
-X-Received: by 2002:ac2:4288:0:b0:512:da6d:23aa with SMTP id m8-20020ac24288000000b00512da6d23aamr2276077lfh.67.1710057974508;
-        Sun, 10 Mar 2024 00:06:14 -0800 (PST)
+        bh=c9y9ZYLb+jBcKKAOj7YLY8WijS5svlScNg86EMTi5/E=;
+        b=cO9cw7oOBNVMi7xRHfc/JvW2VwNczzGXvTm/NWGgiPMidVPmJomAwzqUgGDG2qblCg
+         by2xsUfUb80qJ7MWv+veboR6h0HOgyiUYQyiRSv9UFqMbzpgVaP+/M4u927jClX/ybE/
+         VIGYxqnMGzCrRAl2/w3QE6uxbuFKUYL7y/L+ELj8B0MfFApJhPolsgkDsf87uR5l8/lz
+         JZ9DiKyBn+Oh64m/hLecY7R3DoFxVmwLWRrC/qyYOUIPL38E9XyOT4+YK2MUUO6YKShI
+         ZH2bb7BG21UjU6MjXS5ZN5sK4YC94BAfK5/GXCMH9G7yzPquM2jkAkuQj+DvjolxuaNG
+         dnGQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVUQqneZOK4cY0njwERPCl+/TgT5HickdbXw1FMGCxEA5oYNildVHE94pHs0s1OJvTtm+e3RG42gok+v2Pguy31aiY8YV2ibQg6rXZhmdnH6Vs=
+X-Gm-Message-State: AOJu0YwHL/rHFegN9CbSL+v8MsVE2XJyHaLdXiv8q+i4fVK30oP5cRuO
+	DFaRRp90BdYj9OOZ2SkGoksEbFqA/yOiAH58sYmagCCnAao6JRMnedJuPr4eaLg=
+X-Google-Smtp-Source: AGHT+IGscwOy6b7NpMC647YhMZmh4GjQaNkjmdz6YrIYT9R2pIsAcSH26Am2wDG0nGIYVzLW+mMfug==
+X-Received: by 2002:a17:906:1950:b0:a45:f773:603e with SMTP id b16-20020a170906195000b00a45f773603emr1890765eje.51.1710058216208;
+        Sun, 10 Mar 2024 00:10:16 -0800 (PST)
 Received: from [192.168.1.20] ([178.197.222.97])
-        by smtp.gmail.com with ESMTPSA id be6-20020a05600c1e8600b00412f6c695d1sm5045805wmb.43.2024.03.10.00.06.13
+        by smtp.gmail.com with ESMTPSA id gt20-20020a1709072d9400b00a46025483c7sm1426683ejc.72.2024.03.10.00.10.14
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 10 Mar 2024 00:06:13 -0800 (PST)
-Message-ID: <ed77f6a1-70a5-455f-a6d5-34ebfa931279@linaro.org>
-Date: Sun, 10 Mar 2024 09:06:12 +0100
+        Sun, 10 Mar 2024 00:10:15 -0800 (PST)
+Message-ID: <2974085a-d9b4-4a66-b60f-c02a06a74647@linaro.org>
+Date: Sun, 10 Mar 2024 09:10:13 +0100
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -76,28 +76,24 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 4/4] arm64: dts: renesas: r9a07g0{43,44,54}: Update usbhs
- family compatible
+Subject: Re: [PATCH 2/5] dt-bindings: i2c: renesas,riic: Document R9A09G057
+ support
 Content-Language: en-US
-To: Biju Das <biju.das.jz@bp.renesas.com>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>
+To: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
 Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
- Magnus Damm <magnus.damm@gmail.com>,
- "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- "biju.das.au" <biju.das.au@gmail.com>
-References: <20240308180919.6603-1-biju.das.jz@bp.renesas.com>
- <20240308180919.6603-5-biju.das.jz@bp.renesas.com>
- <67819907-4366-483d-b71b-2646ffb076fd@linaro.org>
- <OSAPR01MB15874E48DD2269C2593DB55A86262@OSAPR01MB1587.jpnprd01.prod.outlook.com>
- <ff569d52-f68f-410d-9897-9e1102171a1b@linaro.org>
- <OSAPR01MB15874A9DB0CE13AB0440242186262@OSAPR01MB1587.jpnprd01.prod.outlook.com>
- <2821f23f-aac1-4b12-ba60-bc60da153d8a@linaro.org>
- <OSAPR01MB1587C505F324B11824AB6AB286262@OSAPR01MB1587.jpnprd01.prod.outlook.com>
- <OSAPR01MB158700437A1D57805BAF349686262@OSAPR01MB1587.jpnprd01.prod.outlook.com>
- <OSAPR01MB158719BA384CA9E730D051F786252@OSAPR01MB1587.jpnprd01.prod.outlook.com>
+ Chris Brandt <chris.brandt@renesas.com>, Andi Shyti <andi.shyti@kernel.org>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Magnus Damm <magnus.damm@gmail.com>,
+ Wolfram Sang <wsa+renesas@sang-engineering.com>,
+ linux-renesas-soc@vger.kernel.org, linux-i2c@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+ Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20240308172726.225357-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20240308172726.225357-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <7082ed3b-d6d0-4228-b7a6-7c0e0e46b8e2@linaro.org>
+ <CA+V-a8tM29h10DULurMJtBZBnLK_ZF7pH_Y0bhZTvWO0O7-G-Q@mail.gmail.com>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
@@ -143,56 +139,117 @@ Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
  fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
  D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <OSAPR01MB158719BA384CA9E730D051F786252@OSAPR01MB1587.jpnprd01.prod.outlook.com>
+In-Reply-To: <CA+V-a8tM29h10DULurMJtBZBnLK_ZF7pH_Y0bhZTvWO0O7-G-Q@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 10/03/2024 08:57, Biju Das wrote:
->>>>> old DTB + old kernel will have 16 pipe buffers old DTB + newer
->>>>> kernel will have 9 pipe buffers.
->>>>> New DTB + new kernel will have 9 pipe buffer.
->>>>
->>>> You missed new DTB and old kernel. This breaks all users of DTS.
->>>> That's the entire point of your broken generic compatibles which you did not address.
+On 10/03/2024 00:28, Lad, Prabhakar wrote:
+> Hi Krzysztof,
+> 
+> Thank you for the review.
+> 
+> On Sat, Mar 9, 2024 at 12:00 PM Krzysztof Kozlowski
+> <krzysztof.kozlowski@linaro.org> wrote:
+>>
+>> On 08/03/2024 18:27, Prabhakar wrote:
+>>> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 >>>
->>> As per my knowledge, there is no user in RZ/G2L is using new DTB and old kernel.
->>> So, it is safe.
+>>> Document support for the I2C Bus Interface (RIIC) available in the
+>>> Renesas RZ/V2H (R9A09G057) SoC.
+>>>
+>>> The RIIC interface in the Renesas RZ/V2H differs from RZ/A in a
+>>> couple of ways:
+>>> - Register offsets for the RZ/V2H SoC differ from those of the RZ/A SoC.
+>>> - RZ/V2H register access is 8-bit, whereas RZ/A supports 8/16/32-bit.
+>>> - RZ/V2H has some bit differences in the slave address register.
+>>>
+>>> To accommodate these differences in the existing driver, a new compatible
+>>> string "renesas,riic-r9a09g057" is added.
+>>>
+>>> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+>>> Reviewed-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
 >>
->> If there is a user for such change, we could use
+>> I have doubts this are true reviews. What did it even show? Why this
+>> review did not point problem with generic compatible?
 >>
->> 	compatible = "renesas,usbhs-r9a07g043",
->> 	             "renesas,rzg2l-usbhs",
->> 			 "renesas,rza2-usbhs";
->>
->> Or
->>
->> 	compatible = "renesas,usbhs-r9a07g043",
->> 			 "renesas,rza2-usbhs";
->>
->>
->> The former consumes less memory compared to the later.
->>
->> As later requires, 3 platform structures for rz/g2l, rz/v2l and rz/gul whereas the former requires just
->> 1.
+> As mentioned in path#1 these are "real"!
 > 
-> Another way is using RZ/G2L SoC fallback compatible for both RZ/V2L and RZ/Five varients
-> 
-> 	compatible = "renesas,usbhs-r9a07g043",
-> 	             "renesas, usbhs-r9a07g044",
+>>> ---
+>>>  .../devicetree/bindings/i2c/renesas,riic.yaml | 21 ++++++++++++-------
+>>>  1 file changed, 13 insertions(+), 8 deletions(-)
+>>>
+>>> diff --git a/Documentation/devicetree/bindings/i2c/renesas,riic.yaml b/Documentation/devicetree/bindings/i2c/renesas,riic.yaml
+>>> index 63ac5fe3208d..2a7125688647 100644
+>>> --- a/Documentation/devicetree/bindings/i2c/renesas,riic.yaml
+>>> +++ b/Documentation/devicetree/bindings/i2c/renesas,riic.yaml
+>>> @@ -15,14 +15,19 @@ allOf:
+>>>
+>>>  properties:
+>>>    compatible:
+>>> -    items:
+>>> -      - enum:
+>>> -          - renesas,riic-r7s72100   # RZ/A1H
+>>> -          - renesas,riic-r7s9210    # RZ/A2M
+>>> -          - renesas,riic-r9a07g043  # RZ/G2UL and RZ/Five
+>>> -          - renesas,riic-r9a07g044  # RZ/G2{L,LC}
+>>> -          - renesas,riic-r9a07g054  # RZ/V2L
+>>> -      - const: renesas,riic-rz      # generic RIIC compatible
+>>> +    oneOf:
+>>> +      - items:
+>>> +          - enum:
+>>> +              - renesas,riic-r7s72100   # RZ/A1H
+>>> +              - renesas,riic-r7s9210    # RZ/A2M
+>>> +              - renesas,riic-r9a07g043  # RZ/G2UL and RZ/Five
+>>> +              - renesas,riic-r9a07g044  # RZ/G2{L,LC}
+>>> +              - renesas,riic-r9a07g054  # RZ/V2L
+>>> +          - const: renesas,riic-rz      # generic RIIC compatible
+>>> +
+>>> +      - items:
+>>> +          - enum:
+>>> +              - renesas,riic-r9a09g057  # RZ/V2H(P)
+>>
+>> No, that does not look right. If you added generic compatible for all
+>> RIIC then how can you add a new RIIC compatible which does not follow
+>> generic one?
+>>
+> The generic compatible above which was added previously was for the
+> RZ/(A) SoCs and not for all the RIICs. The RZ/G2L family was also
 
-How does it solve anything? Nothing binds to this.
+No, it said: "generic RIIC compatible". It did not say "RIIC RZ/A". It
+said RIIC RZ
 
-> 			 "renesas,rza2-usbhs";
-> 
-> This will fit into all ABI combinations with optimized memory usage in driver related to platform structure.
-> 
-> old DTB + old kernel will have 16 pipe buffers
-> old DTB + new kernel will have 9 pipe buffers
-> New DTB + old kernel will have 16 pipe buffers
-> New DTB + new kernel will have 9 pipe buffers
+> compatible hence they fallback to the generic RZ one.
 
-Maybe just drop incorrect generic compatibles since you are breaking
-users? You did not provide any rationale against my arguments.
+riic-r9a09g057 is also RIIC RZ, isn't it?
+
+> 
+>> This shows the ridiculousness of these generic compatibles. They are
+>> generic till you figure out the truth: oh crap, it's not generic.
+>>
+> Sorry I lack skills to predict the future of upcoming IP blocks which
+> fit in the SoC.
+
+So don't use generic compatibles as fallbacks. That's the point.
+
+> 
+>> Stop adding generic compatibles when they are not generic.
+>>
+> BTW I am not adding a generic compatible string here and instead
+> adding a SoC specific string. Anyway DT maintainers "should not" have
+> been accepting the generic compatibles from day 1 for any binding at
+> all.
+
+How can we know that you do not understand the meaning of compatibles? I
+assume you do, so we ack your patches. In the same time *MULTIPLE* times
+Rob said, and later me as well, people should use SoC specific
+compatibles mostly.
+
+> 
+> Is there a guideline where you can point me to please for when to add
+> generic and when not to.
+
+Guideline is: Don't use generic compatible at all, because you cannot
+give it any meaning, based on this patch.
 
 Best regards,
 Krzysztof
