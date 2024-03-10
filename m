@@ -1,74 +1,73 @@
-Return-Path: <linux-renesas-soc+bounces-3658-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-3659-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F9428775D3
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 10 Mar 2024 09:39:42 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 018E68775D8
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 10 Mar 2024 09:44:57 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id E63601F22A91
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 10 Mar 2024 08:39:41 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2529B1C21010
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 10 Mar 2024 08:44:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 57EB11EA8A;
-	Sun, 10 Mar 2024 08:39:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 654121D69E;
+	Sun, 10 Mar 2024 08:44:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="VF00FWx/"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="PKuWnHAy"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 970D71EA71
-	for <linux-renesas-soc@vger.kernel.org>; Sun, 10 Mar 2024 08:39:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71CFD17556
+	for <linux-renesas-soc@vger.kernel.org>; Sun, 10 Mar 2024 08:44:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710059978; cv=none; b=hkZ4yZg5oIR1LjK57KV6O/IXU0gG4RBiNCovQm+tcxXCdx4nivDK1g5q9SDWZiPdQqWUu1dKDb6kcCSeJ57Hvi7tVgatU4H4FqaEndflyGlZ/ZeM6LUQrp6+Rd8Pj1ZWaI+hRwz6g3ykubzEekm3T8WjvlE1HD9w0EaZ6xsGqNg=
+	t=1710060291; cv=none; b=NBr92n/5kJj4712U11T1SXtoQJGxc1UH5Kp4rlUCCD2GFIXRBiAwXNtawcvJIVMoo7lujl9PLdqDXmgG1fVsx712MZjm8xl/AKYtBkNvvsR6sHPMjOdua6HdQuC8J2A8u41XyTTqSZXAoh+eCq5JgVw19gSSVJ8R75STdzZpWO8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710059978; c=relaxed/simple;
-	bh=hV7IG7a9TO3Hx+th7unCGTPRkfOV0VeA2+7hwna2h/w=;
+	s=arc-20240116; t=1710060291; c=relaxed/simple;
+	bh=HSQ8ESQPklTKLCf3m3sU8WH2pEDTKzKfenduepWXpqw=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=bllA1SuCqA6cOYAFws4izoVZzsLnFFM7MnQ2EaG/kjLNktwUDGgjYoAEoTrFwGUBBIGLcFbw7x2Kb7+z0yMuRK8hXAkhjhD2/HshDVMFkoiHYuwZJCMR/iyourccBOOvTh+8ohkZH9SqawLUKCCbnOFlEM7YvEXJY0mJjAwaayY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=VF00FWx/; arc=none smtp.client-ip=209.85.221.52
+	 In-Reply-To:Content-Type; b=s8GOlaOpgxlJjpSdjXk5fcy7ib426LF/iGoovJfgpjCEDJOj4mkHdrODVoAkihDOa0rtwTg3DbMBBPUTzYPRGiTGqqrhqlZ7CN7jDeW2OpuzoeB8XMFfZEi+lAXYYn7L2LGQ0XdHienqs5Sreu4/Y1VEsCT89Zj8hn+CeAcjPN4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=PKuWnHAy; arc=none smtp.client-ip=209.85.218.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-33e2248948bso2127145f8f.0
-        for <linux-renesas-soc@vger.kernel.org>; Sun, 10 Mar 2024 00:39:36 -0800 (PST)
+Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-a36126ee41eso456485466b.2
+        for <linux-renesas-soc@vger.kernel.org>; Sun, 10 Mar 2024 00:44:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1710059975; x=1710664775; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1710060288; x=1710665088; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=I9+BywTavDVW+75vEhluhWscYFZyqArmdAzgA4HfNH0=;
-        b=VF00FWx/BxMCvmcmto1+W/ksFEwNphaa3Gvk8ajgr+7BIxWAHDs77QWnm/bZkCdRyZ
-         xFhT8JyY61eS2DYHeXxtN4stMhRM8WfIryZUCwsRjUimonCu6jsme4984K/mTia4PUA4
-         CbGMNFjT/AQ2wgKMaezP7N6VJ83DbcOV78qQ7EXcs7DvEw+6R+im1p0JETpxQSJTMwnJ
-         F1wp+dzcyynunR9bW6SKhuNhxeIx7DEyczqeumsRhRwn+DEgTRGBuqk8Q58fxnLDElYW
-         9IBTuNeQPdJ6dYZZ8lV4yxDodaSMXAd+j+/8/QcM9ErsINLgk9b7fqkBEp1912RUJDsa
-         vN2Q==
+        bh=3jiQ5qQPdyYdX3mYgTew5eH9b3GM9SSnnTUQ4aps42I=;
+        b=PKuWnHAyvIGwhWF62O8lk55smjiRbNd21QCxJVRUxlgi1pcorkFDxnRyIRrYh5Jniy
+         QyewbC28zX6HLxt/sPAHtmbMHfXU3RxRUyfV8xwrMsWhaAnWAaGulq3CYWPZtC/VniQQ
+         dW+8uTKXFxDtJrytI6/rmRc4eBIe0UFONe8b8a4xbZYqxkCl3RALwKJ6SpwYes7rEovx
+         k6fJRXPxxToauRok4eUbwp9c3LyrFfMHzxRFf5atFS+uLvRyYZ7biflTkhw6xKIyxHuu
+         aLjWibECz+MnQobTxS4Nl3XoGuf/zPZbnUzv7sv2X4U995uLNiS/J20XuoSMh5gsYqh8
+         Zd7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710059975; x=1710664775;
+        d=1e100.net; s=20230601; t=1710060288; x=1710665088;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=I9+BywTavDVW+75vEhluhWscYFZyqArmdAzgA4HfNH0=;
-        b=r9ZmOclNhqtxIjiXqq1EC7IaomlqlhXa6EfQZYl2F4WThN4TjD/4kzAiLQ9OWn9LQT
-         UOgmdw6KlT/TE7qymCwhDczOC7OZ5JYGuSwbFn0bsM6bIeTTGoDjS0OoXpVK9jUl0iCa
-         qGUBiLxXgAvRydey/O2ix63YG27sdITjeTBm6FCVVvpxGQeL5qHoYBIeeHkntGa5WkXQ
-         gPd7f7aRbYYoHP22WxwhysltdhUAeXC8c5DFn29Yz8Vn5XU/UmmcOwCPj1+alnEYscDD
-         QRy28gAMiCOBidaeBjN3Is/YaVvBluvNHs2qiuxnJjvkrUNmKnd30Lv9bz/bEk5xk+tZ
-         B2pw==
-X-Forwarded-Encrypted: i=1; AJvYcCVhifumnT29Jf8tJ8uZIiUazRUzfgccEpFoRAPbgEdgVWjEsGenE4mgic2Wewh+qjT1gXpzSEi6SLjviaWUtogBVxhLo4+426FqyPzZfi5d6eo=
-X-Gm-Message-State: AOJu0YzyKVog89aM85owOAMuyOjeDwX2W91EZstwPv5pyXb/IfsbclCI
-	9rB1xWyEEFNQiltQ4gGa8sBvTSIhKYt3Esi1WQdKIuPnR3KnBJFl696p4yendyg=
-X-Google-Smtp-Source: AGHT+IGmhoMOrmrvQWYL0M27tSiAg5qUb/5xyYCWN/R9QxLASq/nmkKGu2uEvEjNYnJM0AGUen1Hiw==
-X-Received: by 2002:a05:600c:1daa:b0:413:1784:33c0 with SMTP id p42-20020a05600c1daa00b00413178433c0mr2792180wms.13.1710059975045;
-        Sun, 10 Mar 2024 00:39:35 -0800 (PST)
+        bh=3jiQ5qQPdyYdX3mYgTew5eH9b3GM9SSnnTUQ4aps42I=;
+        b=uN+z7WQmjp0++23yJMvC6bbSFR6mClxja84ak4n2zuq3oc3DFCBQqcD96woHCuOY6Q
+         STGVVWhyHk9s5/+rRew++7FoRJksNfK0saSIo8A8lfBzbeFTRCqqp0GPZrUKdNH+xZQf
+         eu2kgTjV7Cam+jg/Aqw7TMZMKGzANmB0dJdmgsW+KxRifKPywDpNLQVaMfWVRzoL874d
+         QmzzY0m9GAHHAV58S7rNJ955JTLkIi5NHbVbajUQcqWQiligwhhs2oZ/cT53qyKa1Yne
+         Card5RVyi8RGK3XhYkh8SzDxlM4OQ1akQAr4cTPTmZJNp9j62tIa3581ep+I3OG6SlqG
+         PfSA==
+X-Gm-Message-State: AOJu0YwsgVArk+K1QpXr1BgkEXlr4sclSswIfLYQ5L4ec2LkHRaO2VXx
+	yQo1dSdCB+r6P9ijrbnclf+twLeAzg14vy+guwZLnco9+O0B7DlsRlzMNAVjlyc=
+X-Google-Smtp-Source: AGHT+IF06tUR6ZJ6UF9MF9DwypYyaj6kp5s4rW+QjEi2nKEcT4GCcipUL2GIFocpt6f5ylkvxGG1Uw==
+X-Received: by 2002:a17:907:d045:b0:a45:27bd:e1ff with SMTP id vb5-20020a170907d04500b00a4527bde1ffmr2138965ejc.6.1710060287809;
+        Sun, 10 Mar 2024 00:44:47 -0800 (PST)
 Received: from [192.168.1.20] ([178.197.222.97])
-        by smtp.gmail.com with ESMTPSA id q14-20020a05600c46ce00b00412b4dca795sm5138534wmo.7.2024.03.10.00.39.33
+        by smtp.gmail.com with ESMTPSA id u23-20020a170906409700b00a42ed7421b8sm1735370ejj.93.2024.03.10.00.44.45
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 10 Mar 2024 00:39:34 -0800 (PST)
-Message-ID: <5d43aaa3-04ff-4936-a752-7bfb29204eec@linaro.org>
-Date: Sun, 10 Mar 2024 09:39:32 +0100
+        Sun, 10 Mar 2024 00:44:47 -0800 (PST)
+Message-ID: <cb8f85de-c1cd-4742-b8a4-2533482ee3b6@linaro.org>
+Date: Sun, 10 Mar 2024 09:44:45 +0100
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -76,30 +75,24 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 4/4] arm64: dts: renesas: r9a07g0{43,44,54}: Update usbhs
- family compatible
+Subject: Re: [net-next 1/2] dt-bindings: net: renesas,etheravb: Add optional
+ MDIO bus node
 Content-Language: en-US
-To: Biju Das <biju.das.jz@bp.renesas.com>, Rob Herring <robh@kernel.org>,
+To: =?UTF-8?Q?Niklas_S=C3=B6derlund?=
+ <niklas.soderlund+renesas@ragnatech.se>, Sergey Shtylyov
+ <s.shtylyov@omp.ru>, "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Rob Herring <robh+dt@kernel.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
- Magnus Damm <magnus.damm@gmail.com>,
- "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- "biju.das.au" <biju.das.au@gmail.com>
-References: <20240308180919.6603-1-biju.das.jz@bp.renesas.com>
- <20240308180919.6603-5-biju.das.jz@bp.renesas.com>
- <67819907-4366-483d-b71b-2646ffb076fd@linaro.org>
- <OSAPR01MB15874E48DD2269C2593DB55A86262@OSAPR01MB1587.jpnprd01.prod.outlook.com>
- <ff569d52-f68f-410d-9897-9e1102171a1b@linaro.org>
- <OSAPR01MB15874A9DB0CE13AB0440242186262@OSAPR01MB1587.jpnprd01.prod.outlook.com>
- <2821f23f-aac1-4b12-ba60-bc60da153d8a@linaro.org>
- <OSAPR01MB1587C505F324B11824AB6AB286262@OSAPR01MB1587.jpnprd01.prod.outlook.com>
- <OSAPR01MB158700437A1D57805BAF349686262@OSAPR01MB1587.jpnprd01.prod.outlook.com>
- <OSAPR01MB158719BA384CA9E730D051F786252@OSAPR01MB1587.jpnprd01.prod.outlook.com>
- <ed77f6a1-70a5-455f-a6d5-34ebfa931279@linaro.org>
- <OSAPR01MB158788EC4F6CFD47406AB9FA86252@OSAPR01MB1587.jpnprd01.prod.outlook.com>
+ Conor Dooley <conor+dt@kernel.org>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
+ Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+ Biju Das <biju.das.jz@bp.renesas.com>, netdev@vger.kernel.org,
+ devicetree@vger.kernel.org
+Cc: linux-renesas-soc@vger.kernel.org
+References: <20240309155334.1310262-1-niklas.soderlund+renesas@ragnatech.se>
+ <20240309155334.1310262-2-niklas.soderlund+renesas@ragnatech.se>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
@@ -145,61 +138,44 @@ Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
  fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
  D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <OSAPR01MB158788EC4F6CFD47406AB9FA86252@OSAPR01MB1587.jpnprd01.prod.outlook.com>
+In-Reply-To: <20240309155334.1310262-2-niklas.soderlund+renesas@ragnatech.se>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 10/03/2024 09:16, Biju Das wrote:
-> Hi Krzysztof Kozlowski,
+On 09/03/2024 16:53, Niklas Söderlund wrote:
+> The Renesas Ethernet AVB bindings do not allow the MDIO bus to be
+> described. This has not been needed as only a single PHY is
+> supported and no MDIO bus properties have been needed.
 > 
->> -----Original Message-----
->> From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
->> Sent: Sunday, March 10, 2024 8:06 AM
->> Subject: Re: [PATCH 4/4] arm64: dts: renesas: r9a07g0{43,44,54}: Update usbhs family compatible
->>
->> On 10/03/2024 08:57, Biju Das wrote:
->>>>>>> old DTB + old kernel will have 16 pipe buffers old DTB + newer
->>>>>>> kernel will have 9 pipe buffers.
->>>>>>> New DTB + new kernel will have 9 pipe buffer.
->>>>>>
->>>>>> You missed new DTB and old kernel. This breaks all users of DTS.
->>>>>> That's the entire point of your broken generic compatibles which you did not address.
->>>>>
->>>>> As per my knowledge, there is no user in RZ/G2L is using new DTB and old kernel.
->>>>> So, it is safe.
->>>>
->>>> If there is a user for such change, we could use
->>>>
->>>> 	compatible = "renesas,usbhs-r9a07g043",
->>>> 	             "renesas,rzg2l-usbhs",
->>>> 			 "renesas,rza2-usbhs";
->>>>
->>>> Or
->>>>
->>>> 	compatible = "renesas,usbhs-r9a07g043",
->>>> 			 "renesas,rza2-usbhs";
->>>>
->>>>
->>>> The former consumes less memory compared to the later.
->>>>
->>>> As later requires, 3 platform structures for rz/g2l, rz/v2l and
->>>> rz/gul whereas the former requires just 1.
->>>
->>> Another way is using RZ/G2L SoC fallback compatible for both RZ/V2L
->>> and RZ/Five varients
->>>
->>> 	compatible = "renesas,usbhs-r9a07g043",
->>> 	             "renesas, usbhs-r9a07g044",
->>
->> How does it solve anything? Nothing binds to this.
+> Add an optional mdio node to the binding which allows the MDIO bus to be
+> described and allow bus properties to be set.
 > 
-> This will solve all the issues.
+> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> ---
 
-That's not really the answer, but I see you plan to keep old fallback.
-So this means old fallback is correct and entire patchset does not make
-sense.
+I believe this is v2. Mark your patchsets clearly (git format-patch -v2
+or use b4) and provide changelog under --- or in the cover letter.
 
-This is confusing.
+
+>  Documentation/devicetree/bindings/net/renesas,etheravb.yaml | 4 ++++
+>  1 file changed, 4 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/net/renesas,etheravb.yaml b/Documentation/devicetree/bindings/net/renesas,etheravb.yaml
+> index de7ba7f345a9..5345ad8e1be4 100644
+> --- a/Documentation/devicetree/bindings/net/renesas,etheravb.yaml
+> +++ b/Documentation/devicetree/bindings/net/renesas,etheravb.yaml
+> @@ -93,6 +93,10 @@ properties:
+>      description: Number of size cells on the MDIO bus.
+>      const: 0
+>  
+> +  mdio:
+> +    $ref: /schemas/net/mdio.yaml#
+> +    unevaluatedProperties: false
+> +
+
+Please fixup the phy pattern, so it will be obvious it is for
+ethernet-phy and probably deprecate it. The phy goes to mdio bus, right?
+
 
 Best regards,
 Krzysztof
