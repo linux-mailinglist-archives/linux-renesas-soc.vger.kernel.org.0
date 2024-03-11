@@ -1,156 +1,95 @@
-Return-Path: <linux-renesas-soc+bounces-3694-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-3695-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E809878A41
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 11 Mar 2024 22:54:59 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 51525878AEE
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 11 Mar 2024 23:50:49 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A1DB1B21059
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 11 Mar 2024 21:54:56 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0C6EE282423
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 11 Mar 2024 22:50:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2E76D57329;
-	Mon, 11 Mar 2024 21:54:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 73FF25821C;
+	Mon, 11 Mar 2024 22:50:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Eome4s09"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SCzCnNYS"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D041057315;
-	Mon, 11 Mar 2024 21:54:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B2015820E;
+	Mon, 11 Mar 2024 22:50:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710194080; cv=none; b=G8p1Ocv66i7eHkkYs5+7N4MJ2kZAW9g7j82s0dhVlbhmxKyWQVVWvJcV4xoLmqmhUslJrqjssp+YFlbYQg4zgkV0Qp+EzbqJPZ7r3xBbHY2J/FOJ6fpK2owClAypTXMG/ghsoofL1Y943qChWU23u1y3iJRbsDrwGzK0fg57gQU=
+	t=1710197437; cv=none; b=ITova/f1WocxYo4Xpgp7vX7tmU9Abkau3NaN2njwViVrCwW5j682DR+MVYuepE2yw895BTYCVymT+swvfdTFblJwUirhLe80Rz5+/3wsZ23XpiyygmqzYZ2hwJvNgaSl27A9XgSoMTglT0xxWZj0NlHRSeRK2CaLkINQp+q3Bcs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710194080; c=relaxed/simple;
-	bh=RWD53XQN8UsgouYUBF/rTClQBGz527mrHnHW07+LEvk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rT/Ols7KRl1QUjpP3IxUjd+K8KwB8BEvoNQJoLttUKWFGVf880ZVfjSqfM6iB1cHF1CdjvDgDthQ8KfRZaAornNLZnHwT9ZLQDQawEhjUHEaqbn+q2aHKlHM+a6Ne/JntKSj4rwTcAk9p1g4ICxvNM8ZWlsBLEdJUh62GbzBFHM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Eome4s09; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AC4BBC433C7;
-	Mon, 11 Mar 2024 21:54:31 +0000 (UTC)
+	s=arc-20240116; t=1710197437; c=relaxed/simple;
+	bh=SRcA7FiTyQvtn5OuoLvrtlIkPJ82904uJqyGOT8yNVs=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=RuklxaJCrz04BqXidV4b0swhB0Iz0Uofg7gx2tRBsljunQiCO5mZQgof7WkyhknQf8VgaUTkJxDrkNbjpoBoe+xJIbWNafWMBT3a0Mf/VS5FjsioDDJc6YiPjI2qrwQr5k8q4X4yio4d40ciX9LR0I22Gqfo1Nbp7AlL9kQboss=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SCzCnNYS; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 19DD2C433B2;
+	Mon, 11 Mar 2024 22:50:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1710194079;
-	bh=RWD53XQN8UsgouYUBF/rTClQBGz527mrHnHW07+LEvk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Eome4s09U0yv2YUiX7PkctOicSMRH/yZOh6gnNHwqz8AI3Od+MdGJEeamS0f7e/Rg
-	 EKv3GFwpTGiOOLiVWTZpMtwJHx1nzexz6euFNxlYZWJ+mz5wMTgZY+s7k5ZCuLXjlU
-	 Q+epQAXw6XXRuSGu4tO+RzCdoobL9znOdQ45I3dz+B6EpKd4zxdEjk7P6Oh4eNWsAc
-	 Lp4NPa4szCmQyVI2rLifPe+RyPkuYYJ5VxV5Y+UMqeicTFacCyxISQMAHTlc0bDHNG
-	 GFLAPM9kqVH055Ixhp4hp6Z+B+3XyEurelGgsFQYR8csLnIKr6fF0qQTyfN2WKjaGL
-	 QI56/3wgaZNXA==
-Date: Mon, 11 Mar 2024 22:54:28 +0100
-From: Niklas Cassel <cassel@kernel.org>
-To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-Cc: Jingoo Han <jingoohan1@gmail.com>,
-	Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
-	Rob Herring <robh@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
-	Marek Vasut <marek.vasut+renesas@gmail.com>,
-	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Kishon Vijay Abraham I <kishon@ti.com>,
-	Vidya Sagar <vidyas@nvidia.com>,
-	Vignesh Raghavendra <vigneshr@ti.com>,
-	Richard Zhu <hongxing.zhu@nxp.com>,
-	Lucas Stach <l.stach@pengutronix.de>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	NXP Linux Team <linux-imx@nxp.com>,
-	Minghuan Lian <minghuan.Lian@nxp.com>,
-	Mingkai Hu <mingkai.hu@nxp.com>, Roy Zang <roy.zang@nxp.com>,
-	Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Kishon Vijay Abraham I <kishon@kernel.org>,
-	Jesper Nilsson <jesper.nilsson@axis.com>,
-	Srikanth Thokala <srikanth.thokala@intel.com>,
-	linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-	linux-tegra@vger.kernel.org, linux-omap@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linuxppc-dev@lists.ozlabs.org,
-	linux-arm-kernel@axis.com, Frank Li <Frank.Li@nxp.com>
-Subject: Re: [PATCH v9 07/10] PCI: dwc: ep: Remove "core_init_notifier" flag
-Message-ID: <Ze99lLhe2GqIqMgl@ryzen>
-References: <20240304-pci-dbi-rework-v9-0-29d433d99cda@linaro.org>
- <20240304-pci-dbi-rework-v9-7-29d433d99cda@linaro.org>
- <ZesRk5Dg4KEASD3U@ryzen>
- <20240311144559.GA2504@thinkpad>
+	s=k20201202; t=1710197437;
+	bh=SRcA7FiTyQvtn5OuoLvrtlIkPJ82904uJqyGOT8yNVs=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=SCzCnNYSw80guTyubGfuw+k3aYl9CbKkivTplswz2FHhBdgAxJeEYkIU0K9kP7pTq
+	 0JH5BZ9Yl3SdxjuvPYdk6ECiqta6Zq7kEha11MPQfLLt8vHAjZm6f6pQ7SqzIl1RhA
+	 am5nedbUa6nSRliRSSXN8v7/IAcvrKS1BkcS1LAzOpBK7o9LmDj0M4THRpWMihHRt0
+	 63aHZmYo7/IJS3AxvjBuf0a7UIGDVrbLHtRhQvRyUS9wqQYsEvwB9CNSUb2XFguC2M
+	 fiaSMxdkbgam8uFxHzU1XKxn/tBzcTJtBrU9xDsLi0Ott2ish7qytmXDwHzGtL+LYA
+	 aZsFzfwd7Osmw==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 03E78D95057;
+	Mon, 11 Mar 2024 22:50:37 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240311144559.GA2504@thinkpad>
+Content-Transfer-Encoding: 8bit
+Subject: Re: [net-next] ravb: Correct buffer size to map for R-Car Rx
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: 
+ <171019743700.8733.13687567059309127067.git-patchwork-notify@kernel.org>
+Date: Mon, 11 Mar 2024 22:50:37 +0000
+References: <20240308224237.496924-1-niklas.soderlund+renesas@ragnatech.se>
+In-Reply-To: <20240308224237.496924-1-niklas.soderlund+renesas@ragnatech.se>
+To: =?utf-8?q?Niklas_S=C3=B6derlund_=3Cniklas=2Esoderlund+renesas=40ragnatech=2E?=@codeaurora.org,
+	=?utf-8?q?se=3E?=@codeaurora.org
+Cc: s.shtylyov@omp.ru, davem@davemloft.net, edumazet@google.com,
+ kuba@kernel.org, pabeni@redhat.com, biju.das.jz@bp.renesas.com,
+ claudiu.beznea.uj@bp.renesas.com, yoshihiro.shimoda.uh@renesas.com,
+ netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org
 
-On Mon, Mar 11, 2024 at 08:15:59PM +0530, Manivannan Sadhasivam wrote:
-> > 
-> > I would say that it is the following change that breaks things:
-> > 
-> > > -	if (!core_init_notifier) {
-> > > -		ret = pci_epf_test_core_init(epf);
-> > > -		if (ret)
-> > > -			return ret;
-> > > -	}
-> > > -
-> > 
-> > Since without this code, pci_epf_test_core_init() will no longer be called,
-> > as there is currently no one that calls epf->core_init() for a EPF driver
-> > after it has been bound. (For drivers that call dw_pcie_ep_init_notify() in
-> > .probe())
-> > 
+Hello:
+
+This patch was applied to netdev/net-next.git (main)
+by Jakub Kicinski <kuba@kernel.org>:
+
+On Fri,  8 Mar 2024 23:42:37 +0100 you wrote:
+> When creating a helper to allocate and align an skb one location where
+> the skb data size was updated was missed. This can lead to a warning
+> being printed when the memory is being unmapped as it now always unmap
+> the maximum frame size, instead of the size after it have been
+> aligned.
 > 
-> Thanks a lot for testing, Niklas!
+> This was correctly done for RZ/G2L but missed for R-Car.
 > 
-> > I guess one way to solve this would be for the EPC core to keep track of
-> > the current EPC "core state" (up/down). If the core is "up" at EPF .bind()
-> > time, notify the EPF driver directly after .bind()?
-> > 
-> 
-> Yeah, that's a good solution. But I think it would be better if the EPC caches
-> all events if the EPF drivers are not available and dispatch them once the bind
-> happens for each EPF driver. Even though INIT_COMPLETE is the only event that is
-> getting generated before bind() now, IMO it is better to add provision to catch
-> other events also.
-> 
-> Wdyt?
+> [...]
 
-I'm not sure.
-What if the EPF goes up/down/up, it seems a bit silly to send all those
-events to the EPF driver that will alloc+free+alloc.
+Here is the summary with links:
+  - [net-next] ravb: Correct buffer size to map for R-Car Rx
+    https://git.kernel.org/netdev/net-next/c/a290d4cb892d
 
-Do we know for sure that we will want to store + replay events other than
-INIT_COMPLETE?
-
-And how many events should we store?
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
 
-Until we can think of a good reason which events other than UP/DOWN we
-can to store, I think that just storing the state as an integer in
-struct pci_epc seems simpler.
-
-
-Or I guess we could continue with a flag in struct pci_epc_features,
-like has_perst_notifier, which would then require the EPC driver to
-call both epc_notify_core_up() and epc_notify_core_down() when receiving
-the PERST deassert/assert.
-For a driver without the flag set, the EPC core would call
-.epc_notify_core_up() after bind. (And .epc_notify_core_down() would never
-be called, or it could call it before unbind().)
-That way an EPF driver itself would not need any different handling
-(all callbacks would always come, either triggered by an EPC driver that
-has PERST GPIO irq, or triggered by the EPC core for a driver that lacks
-a PERST GPIO).
-
-
-Kind regards,
-Niklas
 
