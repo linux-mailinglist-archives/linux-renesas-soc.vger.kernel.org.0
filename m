@@ -1,114 +1,202 @@
-Return-Path: <linux-renesas-soc+bounces-3668-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-3669-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 883B3877D17
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 11 Mar 2024 10:39:37 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id EFF42877D63
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 11 Mar 2024 10:55:32 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 38F701F23BA8
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 11 Mar 2024 09:39:37 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 47446B214C3
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 11 Mar 2024 09:55:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3057F179B7;
-	Mon, 11 Mar 2024 09:39:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 122EE1B7F5;
+	Mon, 11 Mar 2024 09:55:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="fZb1rYim"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com [209.85.128.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7693322318;
-	Mon, 11 Mar 2024 09:39:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B90EF1947E;
+	Mon, 11 Mar 2024 09:55:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.196
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710149972; cv=none; b=C92mWsrAqUvjSmzDgnatbX3bU0+VkEbDeYr3MRd9VfGf08d/xGGItmx/sQUrwxc2zZR3HoKBLqwL1bedIVdmdyucad2WwYCQI9+pYJ9PuJiRFKuncLKIs1LXfNgfF5+6TWCbqmI2YkWm6sgGfVQ0Borxe9vbr4eEIRtjpuZyEW8=
+	t=1710150927; cv=none; b=Jk+b1XIAc4xtz8SoIIDYQgNg/mm2KkNGlW2veEiQv+nyF4V84iR1uSKTMWYi8a6KeswXivZMX6q0mHAHSNNzl4W3DnF41whc+g9jPIytCmGIWv2dRHilLBz0HD8sUwZrHV2cMk9iHoeVgvW/jq+kfIY/m4YbRAX0i8/j59zTou8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710149972; c=relaxed/simple;
-	bh=8RD6mC8xSja2sUNhifabyAxiPFVD+N9OqMGAKLucmho=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=P7n4iAJ8mGtx8kodHn9p0enP1YibYVM2Ac0Dn4MS31odvYDNe8Q+gxpu0TLFg3RGw5Ioxv/z4XL1rRiSjGzqn0k5wlzOyK073EDWtubLwF03X9In48Aadvvt3ErqPYv53TbAljRaPCQugyf/ufDMt9sv8/iAATSebF6mkFIb+DE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-60a434ea806so3884697b3.3;
-        Mon, 11 Mar 2024 02:39:30 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710149968; x=1710754768;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=op2yPO52E5v0vCyGVS9xjBGQxS0Hr3LHOnGrg5TkKto=;
-        b=WAFCwXqfi8Je+huHvs82qSFFBnaZlUri+664omHyzTri2vh67v0VL6FZyp1yf4MDC1
-         WFIpWujCfqLbHnCUfLxZcgMbnLiGYjRvmmkCrkLiNBNkYMNjO+b09CZ83qtoBMXjmo/P
-         HIqwLeIpI2pXkA+96C1vOdoUtiLIcK7R7NFAJWCcuTXSmX9vC7uGXfT1is/X9dng4uOG
-         ltOiTdbK1fyoVo1AIDenfd6Ej5LDh6/J7dnD9qaoH+DoyrDzAqF8Y2Ez87TdEP3PWHkv
-         7Gcy3HbxDCtZETkq3E2tpaB7+dwrWbt+mH6+meVaBhscjLk6+fB6XUEDT5jZZd/14FmT
-         Ao2A==
-X-Forwarded-Encrypted: i=1; AJvYcCXCL2vS4WYEIS764w5qqEmBc6WXWnHEn0P3P7aS3B11hdwV0eQZ/5RrXSOWEW22EymcW6Xa/9d/ZTbrEGlAT0NLn6Zbjn2nb8kYhFxT8jiVqM4LlaSLNiB20G1R6gc6eTTiPJdIyx+iSEw=
-X-Gm-Message-State: AOJu0YxQ13t3R+qtJnHJf2H2BKLSBebc2HOx5T4UMoGd1XlGXYXW5zU1
-	yzJOkDIZ+41xL+Hw81GxWUjZxnsFgBuK80nVTNssdN32fPudkJQK1zOB1aYjvso=
-X-Google-Smtp-Source: AGHT+IHedWwSxTlGXbykQ9Me12qddonRx6ayP52yW9my0ajg2vcMAndM2DBuznHgPGjmTtL844kFQA==
-X-Received: by 2002:a81:a214:0:b0:609:ecb9:77c with SMTP id w20-20020a81a214000000b00609ecb9077cmr5527159ywg.18.1710149968408;
-        Mon, 11 Mar 2024 02:39:28 -0700 (PDT)
-Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com. [209.85.128.173])
-        by smtp.gmail.com with ESMTPSA id i17-20020a81aa11000000b006093c621a9asm1211402ywh.86.2024.03.11.02.39.28
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 11 Mar 2024 02:39:28 -0700 (PDT)
-Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-60a434ea806so3884517b3.3;
-        Mon, 11 Mar 2024 02:39:28 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUjFoMKtH4YXSc+7thwr+CAIhtgBaYrqSoMLbipCkl5XJ/ukDLCbxqW9iMvUp2GX/sRl9ecBld91BB9ScLeF15oLAq6ZbSGWevDcLycYPgbFX9/bfaWZtPyc3W3a+86SUIdHRqFrCU3KV8=
-X-Received: by 2002:a81:de52:0:b0:609:f7ce:50b with SMTP id
- o18-20020a81de52000000b00609f7ce050bmr5008033ywl.21.1710149968098; Mon, 11
- Mar 2024 02:39:28 -0700 (PDT)
+	s=arc-20240116; t=1710150927; c=relaxed/simple;
+	bh=MbnrA4AVe6jnpS941KmIbmKU2IuYVS5iVM7mTPKsmqo=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=WkbNZXbfEG/bhHwlf81siCEt5TKya9rz+ylhrWL/s8XbycZ7NyAEK/R3fg5VZ/C4uemurmWgllM/eUGykpKM3NbPR4MNG0tnP+hurhyyIfLHK+N98CjZomWKwaarZ9hyA/ucA+PmQNP/P9YyGbJmYWif3CPAKJgQOMzFjXGpTQE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=fZb1rYim; arc=none smtp.client-ip=217.70.183.196
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 51A93E001C;
+	Mon, 11 Mar 2024 09:55:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1710150916;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=Su4anKYfguw45iKaUAiZJzbAMOQ95uSYJX0GLHgexbw=;
+	b=fZb1rYimgFAJ5RBGOvFYLuAwVzkQAt5VYGQ3z8W0YEzR53uuoA6UazQsrMqb1ztswvYBsa
+	uuX1NYO5MjKmM1XXUKrac7gkxKQNANF5pNckxPeTj6KhqhRMD+cV1F6nalQGgqE6BqqCcj
+	PjOmmfYykpo7b20BYLs3B9pcJ1YYHdo3goCz4s8OYaqJMACJwdWUb6B1gfcD2l2Qp2lgJi
+	T+Fk3zIAsPimt84TZ/q3xjUyndrIaHhf4yo84BLweqsNH3MSM0Gzq3YdYw9gZrbjtkSihz
+	VcQpiTDzSR69y/iuCFG7gA2zIUIlw0RNqRuqK5C8z1IwaaVA82PvTtbHe1TNNw==
+From: Romain Gantois <romain.gantois@bootlin.com>
+Subject: [PATCH net-next v6 0/7] Fix missing PHY-to-MAC RX clock
+Date: Mon, 11 Mar 2024 10:55:43 +0100
+Message-Id: <20240311-rxc_bugfix-v6-0-adf5133829a2@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240308224237.496924-1-niklas.soderlund+renesas@ragnatech.se>
-In-Reply-To: <20240308224237.496924-1-niklas.soderlund+renesas@ragnatech.se>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 11 Mar 2024 10:39:16 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdWpFKbDTHMzLx7VagKLbU2nk_oQOaodYhgA4xhUK8JQmg@mail.gmail.com>
-Message-ID: <CAMuHMdWpFKbDTHMzLx7VagKLbU2nk_oQOaodYhgA4xhUK8JQmg@mail.gmail.com>
-Subject: Re: [net-next] ravb: Correct buffer size to map for R-Car Rx
-To: =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Cc: Sergey Shtylyov <s.shtylyov@omp.ru>, "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Biju Das <biju.das.jz@bp.renesas.com>, 
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>, 
-	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>, netdev@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAB/V7mUC/2XPwW6EIBAG4FfZcC4bmAG1PfU9mqYRHJWkCw1SY
+ 7Px3TtrD6vd48B8Pz9XMVEONImX01VkmsMUUuShejoJP7ZxIBk6ngUoMEpDJfPiP9z30IdFdqZ
+ 26HSLtekFg69MfLyFvYlIRUZainjnmz6niyxjpnYXplAbaKA+66pB0FJL3mpDPA9tLClMry6l8
+ smzT5db/BimkvLPVnWG7ZG/IFT7VjNIJS1VHjmXbK8OObc2M94xaDhgZEzPPZCr+G/KPmKzw9x
+ 6jw1j0zRIpL2vnX7E9o5RHbFl3HStRwWolP1Xe13XX9oQHECsAQAA
+To: Russell King <linux@armlinux.org.uk>, Andrew Lunn <andrew@lunn.ch>, 
+ Heiner Kallweit <hkallweit1@gmail.com>, 
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+ Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+ Jose Abreu <joabreu@synopsys.com>, 
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+ =?utf-8?q?Cl=C3=A9ment_L=C3=A9ger?= <clement.leger@bootlin.com>
+Cc: Maxime Chevallier <maxime.chevallier@bootlin.com>, 
+ Miquel Raynal <miquel.raynal@bootlin.com>, 
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>, netdev@vger.kernel.org, 
+ linux-stm32@st-md-mailman.stormreply.com, 
+ linux-arm-kernel@lists.infradead.org, linux-renesas-soc@vger.kernel.org, 
+ "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>, 
+ Romain Gantois <romain.gantois@bootlin.com>, 
+ Clark Wang <xiaoning.wang@nxp.com>
+X-Mailer: b4 0.13.0
+X-GND-Sasl: romain.gantois@bootlin.com
 
-On Fri, Mar 8, 2024 at 11:43=E2=80=AFPM Niklas S=C3=B6derlund
-<niklas.soderlund+renesas@ragnatech.se> wrote:
-> When creating a helper to allocate and align an skb one location where
-> the skb data size was updated was missed. This can lead to a warning
-> being printed when the memory is being unmapped as it now always unmap
-> the maximum frame size, instead of the size after it have been
-> aligned.
->
-> This was correctly done for RZ/G2L but missed for R-Car.
->
-> Fixes: cfbad64706c1 ("ravb: Create helper to allocate skb and align it")
-> Signed-off-by: Niklas S=C3=B6derlund <niklas.soderlund+renesas@ragnatech.=
-se>
+Hello everyone,
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+This is version six of my series that addresses the issue with some MAC/PHY
+combinations.
 
-Gr{oetje,eeting}s,
+Notable changes in v6:
+  - Corrected trailers
 
-                        Geert
+Notable changes in v5:
+  - Exported phylink_pcs_pre_init() as a GPL symbol
+  - Corrected kernel doc for phylink_pcs_pre_init()
 
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
+Notable changes in v4:
+  - Modified miic_pre_init() to also set the default RMII conversion speed.
 
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+Notable changes in v3:
+  - Removed the "interface" argument from pcs_init().
+  - Added a kernel doc for pcs_init().
+
+Notable changes in v2:
+  - Introduced a pcs op for initializing hardware required for MAC
+    initialization, instead of using phylink_validate() for this purpose.
+  - Refactored stmmac to use a generic PCS reference in mac_device_info
+    instead of a model-specific field.
+
+There is an issue with some stmmac/PHY combinations that has been reported
+some time ago in a couple of different series:
+
+Clark Wang's report:
+https://lore.kernel.org/all/20230202081559.3553637-1-xiaoning.wang@nxp.com/
+Clément Léger's report:
+https://lore.kernel.org/linux-arm-kernel/20230116103926.276869-4-clement.leger@bootlin.com/
+
+Stmmac controllers require an RX clock signal from the MII bus to perform
+their hardware initialization successfully. This causes issues with some
+PHY/PCS devices. If these devices do not bring the clock signal up before
+the MAC driver initializes its hardware, then said initialization will
+fail. This can happen at probe time or when the system wakes up from a
+suspended state.
+
+This series introduces new flags for phy_device and phylink_pcs. These
+flags allow MAC drivers to signal to PHY/PCS drivers that the RX clock
+signal should be enabled as soon as possible, and that it should always
+stay enabled.
+
+I have included specific uses of these flags that fix the RZN1 GMAC1 stmmac
+driver that I am currently working on and that is not yet upstream. I have
+also included changes to the at803x PHY driver that should fix the issue
+that Clark Wang was having.
+
+Clark, could you please confirm that this series fixes your issue with the
+at803x PHY?
+
+Best Regards,
+
+Romain
+
+Romain Gantois (2):
+  net: phy: add rxc_always_on flag to phylink_pcs
+  net: pcs: rzn1-miic: Init RX clock early if MAC requires it
+
+Russell King (3):
+  net: phy: add PHY_F_RXC_ALWAYS_ON to PHY dev flags
+  net: stmmac: Signal to PHY/PCS drivers to keep RX clock on
+  net: phy: at803x: Avoid hibernating if MAC requires RX clock
+
+ .../net/ethernet/stmicro/stmmac/stmmac_main.c  |  5 +++++
+ drivers/net/pcs/pcs-rzn1-miic.c                | 18 +++++++++++++-----
+ drivers/net/phy/at803x.c                       |  3 ++-
+ drivers/net/phy/phylink.c                      | 13 ++++++++++++-
+ include/linux/phy.h                            |  1 +
+ include/linux/phylink.h                        |  9 +++++++++
+ 6 files changed, 42 insertions(+), 7 deletions(-)
+
+--
+2.43.0
+
+---
+- Link to v2: https://lore.kernel.org/r/20240130-rxc_bugfix-v2-0-5e6c3168e5f0@bootlin.com
+
+---
+- Link to v3: https://lore.kernel.org/r/20240212-rxc_bugfix-v3-0-e9f2eb6b3b05@bootlin.com
+
+---
+- Link to v4: https://lore.kernel.org/r/20240221-rxc_bugfix-v4-0-4883ee1cc7b1@bootlin.com
+
+---
+- Link to v5: https://lore.kernel.org/r/20240301-rxc_bugfix-v5-0-8dac30230050@bootlin.com
+
+---
+Maxime Chevallier (1):
+      net: stmmac: don't rely on lynx_pcs presence to check for a PHY
+
+Romain Gantois (4):
+      net: phylink: add rxc_always_on flag to phylink_pcs
+      net: stmmac: Support a generic PCS field in mac_device_info
+      net: stmmac: Signal to PHY/PCS drivers to keep RX clock on
+      net: pcs: rzn1-miic: Init RX clock early if MAC requires it
+
+Russell King (Oracle) (2):
+      net: phylink: add PHY_F_RXC_ALWAYS_ON to PHY dev flags
+      net: phy: qcom: at803x: Avoid hibernating if MAC requires RX clock
+
+ drivers/net/ethernet/stmicro/stmmac/common.h       |  2 +-
+ .../net/ethernet/stmicro/stmmac/dwmac-socfpga.c    |  8 ++---
+ drivers/net/ethernet/stmicro/stmmac/stmmac_main.c  | 15 ++++----
+ drivers/net/pcs/pcs-rzn1-miic.c                    | 28 +++++++++++++++
+ drivers/net/phy/phylink.c                          | 25 ++++++++++++-
+ drivers/net/phy/qcom/at803x.c                      |  3 +-
+ include/linux/phy.h                                |  1 +
+ include/linux/phylink.h                            | 42 ++++++++++++++++++++++
+ 8 files changed, 111 insertions(+), 13 deletions(-)
+---
+base-commit: d7e14e534493328cc5f67baaff2b0c23d32b0a57
+change-id: 20240126-rxc_bugfix-d47b3b1a374f
+
+Best regards,
+-- 
+Romain Gantois <romain.gantois@bootlin.com>
+
 
