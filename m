@@ -1,80 +1,112 @@
-Return-Path: <linux-renesas-soc+bounces-3691-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-3692-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6356287891C
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 11 Mar 2024 20:50:53 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C5108789CB
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 11 Mar 2024 22:04:53 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9DCB71C20DC3
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 11 Mar 2024 19:50:52 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id AFD10B2111C
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 11 Mar 2024 21:04:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D972555792;
-	Mon, 11 Mar 2024 19:50:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E4B645336D;
+	Mon, 11 Mar 2024 21:04:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="inXe2LAM"
+	dkim=pass (1024-bit key) header.d=ucw.cz header.i=@ucw.cz header.b="k5YXabBP"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5D9A5467F
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 11 Mar 2024 19:50:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E94EE40866;
+	Mon, 11 Mar 2024 21:04:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.255.230.98
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710186649; cv=none; b=OfCtm2bgle0X5QdAwaM7OwaGSWACByEyyuXO+eZd/kN334qh4xxWu2XLfDOz/BiqNIIZSYrHEFEMWRm0bBPgY/ig1ZIMBj2w5T3wfOhlGn17Qe8WTQ1a/sqRrATPH95XXVjhClIv/fgG+rNKWJbI52PWF0Ikbm+gFEu0XcF5csk=
+	t=1710191086; cv=none; b=JF4I3hiGS44ysXgQwM/m3UKReQfBkPPmp1UjAUmDzX5bkjNFEHB4rmorGk+DMXQG2Is5LRKJ65Qc7dO/iJHd6/ZAQ0eNx+mDmG+LvTZW9UxqZ8jFGoxzH6JezGCuRrsyWRRl8eAhhZmyVwJybkLW3c46ssp5WivVq9j7d8cxMd4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710186649; c=relaxed/simple;
-	bh=KK7G90sIQe5hdYWol3CvSliPsL1GgZKrALDgv4p5anw=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:To; b=CmCvhLahx9mV0qHp1U0i/snp5Fd2uZ10rlaC2sMqjAXc9kSeLpVFwQRWbwZy84eg3TAUGVhEfDBBatXnq0DWT3jPEfrLGiMgiHEUDpuO70FMrFOmtWYa0xD01TY+TSaJh3tqOZHj5AvRvwAoLNR3FOp3e14dN9ijJ3NCgjXsIbo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=inXe2LAM; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 42CACC433F1
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 11 Mar 2024 19:50:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1710186649;
-	bh=KK7G90sIQe5hdYWol3CvSliPsL1GgZKrALDgv4p5anw=;
-	h=Subject:From:Date:To:From;
-	b=inXe2LAMwqgsJRetvNLrChyzdj6Ogt/DbG3HGh5lhcrWOl0MsWV54ofen119x8T5R
-	 e5vwNgKO+IiX4T9VCXt3fn7iFTOwcumO0me06beTAQ3Jd6M1MHRtn4s7FmAz/wWQoX
-	 mWgUzTvZodumId5OVtRLKhh+Jxdt9FA5Z1T6U8snsCyOwWpAS8izGz08k9e9CWuICP
-	 SaQwzH7oU2IzIenVm23tlvhI6UBQITqpjEYi6nORU24RaO4MPjg3sQiBohr2tVHToG
-	 KwiChJ1CZw4y8NiU71k2dmQRQeNcpkNgCyUMdhBCRgqS4P2yudM/qW5YtQ9gyws9lz
-	 W3QonxHNwfuBg==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 30C00D95055
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 11 Mar 2024 19:50:49 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	s=arc-20240116; t=1710191086; c=relaxed/simple;
+	bh=OfZPRHC/NTNtDRjQJi5+yv2yxrNr7S0IlMceVxwvhC8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=POry5V73gV6YHvcDLcYk54ZGUplA+05C4HZF5QokMflamUYZPqrAxK5FLSQm6TgJOHe2bZW7VOCr0zp4dA6yCOYqw/44uqcFUOCV1QV5q89PdQJQMRynpmPgJX4FQrDM0Ck+BldNN3N8m7pZfJk4pcKhp+Xw6o5jj1HSOC+RRZU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ucw.cz; spf=pass smtp.mailfrom=ucw.cz; dkim=pass (1024-bit key) header.d=ucw.cz header.i=@ucw.cz header.b=k5YXabBP; arc=none smtp.client-ip=46.255.230.98
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ucw.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ucw.cz
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+	id 239C21C006B; Mon, 11 Mar 2024 22:04:43 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ucw.cz; s=gen1;
+	t=1710191083;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=JWKYOYEVoTjFTjEaOl+GY72vx6MkMiK/T1nV//CxK1Y=;
+	b=k5YXabBPci6TAodHddzyx4y1TYt8ecxjtkd7QYnRxmQxH62IfrGXfKKcPo4faZRGmlV0wE
+	pfzrPDWvIG90hG8SKhkZT0Y05EMUVM8ADHSrqgoXe+3Y/etwPbv0xsS4Kmj1Dd1Yah4bOm
+	wSZ1UpjMcfmU1tQXERA3c5IP7c3w1WA=
+Date: Mon, 11 Mar 2024 22:04:42 +0100
+From: Pavel Machek <pavel@ucw.cz>
+To: Sasha Levin <sashal@kernel.org>
+Cc: linux-kernel@vger.kernel.org, stable@vger.kernel.org,
+	Rob Herring <robh@kernel.org>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Chanho Min <chanho.min@lge.com>, Arnd Bergmann <arnd@arndb.de>,
+	tsahee@annapurnalabs.com, atenart@kernel.org, robh+dt@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+	rjui@broadcom.com, sbranden@broadcom.com, andrew@lunn.ch,
+	gregory.clement@bootlin.com, sebastian.hesselbarth@gmail.com,
+	matthias.bgg@gmail.com, magnus.damm@gmail.com,
+	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+	linux-mediatek@lists.infradead.org,
+	linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH AUTOSEL 6.1 12/12] arm64: dts: Fix dtc interrupt_provider
+ warnings
+Message-ID: <Ze9x6qqGYdRiWy3h@duo.ucw.cz>
+References: <20240229204039.2861519-1-sashal@kernel.org>
+ <20240229204039.2861519-12-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Patchwork summary for: linux-renesas-soc
-From: patchwork-bot+linux-renesas-soc@kernel.org
-Message-Id: 
- <171018664919.32255.5780533312961716956.git-patchwork-summary@kernel.org>
-Date: Mon, 11 Mar 2024 19:50:49 +0000
-To: linux-renesas-soc@vger.kernel.org
-
-Hello:
-
-The following patches were marked "mainlined", because they were applied to
-geert/renesas-devel.git (master):
-
-Patch: dt-bindings: net: renesas,ethertsn: Document default for delays
-  Submitter: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-  Committer: David S. Miller <davem@davemloft.net>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=829277
-  Lore link: https://lore.kernel.org/r/20240223195526.1161232-1-niklas.soderlund+renesas@ragnatech.se
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="8Qt9dsw4Yel33kO/"
+Content-Disposition: inline
+In-Reply-To: <20240229204039.2861519-12-sashal@kernel.org>
 
 
-Total patches: 1
+--8Qt9dsw4Yel33kO/
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+Hi!
 
+> From: Rob Herring <robh@kernel.org>
+>=20
+> [ Upstream commit 91adecf911e5df78ea3e8f866e69db2c33416a5c ]
+>=20
+> The dtc interrupt_provider warning is off by default. Fix all the warnings
+> so it can be enabled.
 
+We don't have that warning in 6.1 and likely won't enable it, so we
+should not need this.
+
+Best regards,
+								Pavel
+--=20
+People of Russia, stop Putin before his war on Ukraine escalates.
+
+--8Qt9dsw4Yel33kO/
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCZe9x6gAKCRAw5/Bqldv6
+8k23AKCohjgfYZMEaizYp8b4irlIqXjE2gCdHBiIfD3co6vqw2yumT637ihoC2o=
+=YhHl
+-----END PGP SIGNATURE-----
+
+--8Qt9dsw4Yel33kO/--
 
