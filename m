@@ -1,186 +1,152 @@
-Return-Path: <linux-renesas-soc+bounces-3677-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-3678-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEF83877E90
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 11 Mar 2024 12:03:28 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id B197B877E94
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 11 Mar 2024 12:04:21 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6C6051F209AF
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 11 Mar 2024 11:03:28 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E316F1C208EE
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 11 Mar 2024 11:04:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 845D3383A5;
-	Mon, 11 Mar 2024 11:03:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 46888381DA;
+	Mon, 11 Mar 2024 11:04:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="uX8e0chV"
+	dkim=pass (2048-bit key) header.d=kernelci-org.20230601.gappssmtp.com header.i=@kernelci-org.20230601.gappssmtp.com header.b="o23a738s"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
+Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6DC8381DA
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 11 Mar 2024 11:03:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90D6717578
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 11 Mar 2024 11:04:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710155004; cv=none; b=n3GuqBnqLepNSGIP183zZqhGotaKIjgHdNcSvjNhDOpusmeDdI4o/3+1sbmT/SnSYu9GFmbLiOjAs04seAI0tm9QJA/DcNcenIeCzEbFgsApXT/MYxtTdZB7/FteWiSc6NfuAUiCHk6E5j0KAfe5ISPHMeN8N+cefPfPJjq+jug=
+	t=1710155059; cv=none; b=p62XkFimGV+VZnNmqcyW9t3I9TJSjqtk3EB+4av5U6G+sJ9aAKTZcFwmGTyH21lRKxy5G+4WwXLZvqbRxONV2fhD4Wy5gGhrCD89HyvSfJ+BY3F0I/QxtgduHaxpNa36ZMmnoc4muGJtANVtEBfVapsFfEgTCMr0lPf15026EBs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710155004; c=relaxed/simple;
-	bh=gQkrDPxpS2EqSQo1lFnVAl0v8qesDjjlj8YPz5bYqM8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=g09q3Y4NcVY/UYpivec8cPzekciqulTwvn5QbcpFP87fMfWudFFZY89r/yRtQBLLzGaIuvvmr92SsOnKAv1NsTbTHdh8eqrwAudqvX3QsyGmsMyK1bYcfHbPh93y9WGWafO67FRX725VD0/3R/6uk9Ix/wAJ0XLY9/AQPItQFE4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=uX8e0chV; arc=none smtp.client-ip=209.85.167.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
-Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-513298d6859so3875595e87.3
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 11 Mar 2024 04:03:21 -0700 (PDT)
+	s=arc-20240116; t=1710155059; c=relaxed/simple;
+	bh=93G4yp3KBsmyAVT6dHOIQW7jnxJPbmafVWk+MDCan5I=;
+	h=Message-ID:Date:Content-Type:MIME-Version:Subject:To:From; b=hPT7837rVW/l10RoNJVCJrUGqgsBsgAzWzLO82QeFV3a0iFTPNQvNblj/oJrlmPKq9vL/qCjWFbTcksmQr1GHGdsfekg4tPYh4T0FK6UP/igabamjHMBxm+IvP4YXK81D3nzvh6r4j/k6ahuJafnbg1uKqToxCayvtkqE6oYlOY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernelci.org; spf=none smtp.mailfrom=kernelci.org; dkim=pass (2048-bit key) header.d=kernelci-org.20230601.gappssmtp.com header.i=@kernelci-org.20230601.gappssmtp.com header.b=o23a738s; arc=none smtp.client-ip=209.85.210.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernelci.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=kernelci.org
+Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-6e66601f082so2470881b3a.0
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 11 Mar 2024 04:04:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech.se; s=google; t=1710155000; x=1710759800; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=8+eJcaivf1oVvQVDFOxNL/y8v7xDssxtOMnaOKKnTqo=;
-        b=uX8e0chVZg5wXdYofGbhN9Y9D2w1psaR+zO5VF5V8hx3ee5G5xRpJRY53RcVdUpNKq
-         DIfS7I6UTJRAn6BH+vAPi7S/YGFTmZpUttt0TVgQ/hbCYnSzjIgCEfPHM12aa97S75qQ
-         73KaAVo7JojfatlTTxQfHk04xiFp12ueiNgsMhs/kYFhB4dL42H16xP2Ewv0q4midFz1
-         DQEr7vFm0ktsbuNyQRKwUbhh8Jefje1fTeUVonxbORI8voQrOzqlpuQhuCDtmNvIiBLH
-         ElGKTmMJHYjiZnoLdwxTUGqXyyDlzO27SD7qoaCYwb3yZXhBwsXMHM+ViRo04eoAl5F4
-         oPMg==
+        d=kernelci-org.20230601.gappssmtp.com; s=20230601; t=1710155056; x=1710759856; darn=vger.kernel.org;
+        h=from:to:subject:content-transfer-encoding:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=gBFzcEyBLMTUH5pIrgmZn1OmjYFwDV6A9SUkKEqruCo=;
+        b=o23a738sW8406tNQ86U57LqV2oCnz3MWHSSt7xF00AtoJidl+QyX5jlKYwFOTYO9IQ
+         DIcc4SzoweLcB7BiZdus5cB/1/bCML2FF5KznyVf1vUdy16mBsqkybYdliW092FkKrsP
+         0PJHbYyDLEpCYfV9YXB5ZZXg/stdYlSjhufL6NK4vlhXszpv6V+pbxFt1m4wK2S9jkxq
+         rewieD0RyhedRavzsNf4Cv0eI31osWEZEOWB52CviUzoKPBNX93Dd+suf5tEIuiotGyP
+         +JrGR5jSDVJhuzbkW1cKZfmuIviwzO4FKtBm6uyHQ5f8DgpL2nmLFxUTyoJo9FK0I0pD
+         hayQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710155000; x=1710759800;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=8+eJcaivf1oVvQVDFOxNL/y8v7xDssxtOMnaOKKnTqo=;
-        b=eoM7Z54Vj/0WoKLlepTt3HZsgiBEyGrbO0OEpOdmwe5gSG5szaoCifgVeLUSm6zkjx
-         xmictm/utCtStfHxDT18je21SF9Kbjh2EFOI6+Mm3/UjcU3thSMMIuinLsTJjFnGoX2a
-         y5BsdAsrFuLkvCyALi5QaZekVjQ7IpfoL767qHWR2KNHhw/0SDtMOqqTPuiKhl7JWvVv
-         q3pAqK3NAJ9IrHUpwez4GietzhwQv9adFL8l03yj5YRtt3hhf4tiiz/pfi7xrTU8tDIi
-         sgKPz7Su2sjnd1xKjQJg2eBD6AhmGf8L5Mp7kvdWx2UUBaxQ9w/Xmitn1FyX6af0cW9p
-         6klw==
-X-Forwarded-Encrypted: i=1; AJvYcCXifIx4wqtD2gCeB4pQVVp5e+2x2xkfSTEbeZeK0+IARSYnQh8nLC0cle4Li0YrPB2qKAw3SXTMmPanbwjbNF8TfM3o33OI6TsnLlfbDHLatt0=
-X-Gm-Message-State: AOJu0YzHSxAxymeEmjlrHyYntchTcHVk/wHLbMHgHgjBSYOWMBqiZq9o
-	eeE0faODM6yl6qHuKK31kblmI0XP/F8BOApKJ9/IbD5TxXrDgZpa34AsyJYAf7s=
-X-Google-Smtp-Source: AGHT+IHCeW/KiGNKh5pnO8aDXhMpbBef+uHHSz0cnNkmQDkNzqVeAL6zbpqGWin1+BefNMGf1qyY2g==
-X-Received: by 2002:a05:6512:3e19:b0:513:2b35:2520 with SMTP id i25-20020a0565123e1900b005132b352520mr3581022lfv.58.1710154999925;
-        Mon, 11 Mar 2024 04:03:19 -0700 (PDT)
-Received: from localhost (h-46-59-36-113.A463.priv.bahnhof.se. [46.59.36.113])
-        by smtp.gmail.com with ESMTPSA id h4-20020a056512350400b005139c3c584bsm989738lfs.241.2024.03.11.04.03.19
+        d=1e100.net; s=20230601; t=1710155056; x=1710759856;
+        h=from:to:subject:content-transfer-encoding:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=gBFzcEyBLMTUH5pIrgmZn1OmjYFwDV6A9SUkKEqruCo=;
+        b=jTcrGrk5WJC6DDu4RC41JHOhQyxnZgQXbUq6lTI0e9r5J3OZK/u8usCxXG3t5I9m+z
+         gMnk45sfW7NC79Sy2VOxPMimSl1fPo0wNw7ExlPjnb5/P8p8ulsm8ICyrDF5cNHjnPQv
+         TLyDItI8eieg6JspizS2iJ4TpKiCnkhg2Wp5vIn7ZEQTEmfIX6wdEbf4YUkpOdF8IWz2
+         UQGBu3RZzEcNSAAp7ZZhskqybUmT1pOo6QkDwzwwFdwFpVJ0VAErH7naQCON3iVCi9/Z
+         KLR/br1AXds8WdlRpwD4PHJ+m4ZLX1u+A8/Bq4Xuu9ArPGg+ph3NKPtwwgACZ+aZQ+vp
+         CD+w==
+X-Gm-Message-State: AOJu0YwYuip5FPgpabsXcFxYdmpKO2TpDByzNL1BRy0JQ7VerfbYhT38
+	lH11K+GMlovT65a8KyBlN9K+ZND4Ck4fxL0fht/S4KpvIhTiTLZ7tj08Ky0bLpin5VNR2AfbuVY
+	bjiA=
+X-Google-Smtp-Source: AGHT+IHBsCvnx5OVQdrhthk80EAV9QuO3jwRgo5LuOZqVPhvYrPRztJNxn4SVGq0CnWE8vHqRqxxgA==
+X-Received: by 2002:a05:6a21:394b:b0:1a1:6866:5256 with SMTP id ac11-20020a056a21394b00b001a168665256mr4839839pzc.37.1710155056292;
+        Mon, 11 Mar 2024 04:04:16 -0700 (PDT)
+Received: from kernelci-production.internal.cloudapp.net ([20.171.243.82])
+        by smtp.gmail.com with ESMTPSA id j25-20020aa78019000000b006e2301e702fsm4058242pfi.125.2024.03.11.04.04.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 Mar 2024 04:03:19 -0700 (PDT)
-Date: Mon, 11 Mar 2024 12:03:18 +0100
-From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Sergey Shtylyov <s.shtylyov@omp.ru>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
-	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-	Biju Das <biju.das.jz@bp.renesas.com>, netdev@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [net-next 2/2] ravb: Add support for an optional MDIO mode
-Message-ID: <20240311110318.GN3735877@ragnatech.se>
-References: <20240309155334.1310262-1-niklas.soderlund+renesas@ragnatech.se>
- <20240309155334.1310262-3-niklas.soderlund+renesas@ragnatech.se>
- <CAMuHMdVRftTVMmnBX9YH50jau-GJEM+Lmq8tVh2ynrCRsZU46g@mail.gmail.com>
+        Mon, 11 Mar 2024 04:04:15 -0700 (PDT)
+Message-ID: <65eee52f.a70a0220.1c7e9.95e5@mx.google.com>
+Date: Mon, 11 Mar 2024 04:04:15 -0700 (PDT)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAMuHMdVRftTVMmnBX9YH50jau-GJEM+Lmq8tVh2ynrCRsZU46g@mail.gmail.com>
+Content-Transfer-Encoding: quoted-printable
+X-Kernelci-Branch: master
+X-Kernelci-Tree: renesas
+X-Kernelci-Kernel: renesas-devel-2024-03-11-v6.8
+X-Kernelci-Report-Type: test
+Subject: renesas/master igt-gpu-panfrost: 2 runs,
+ 1 regressions (renesas-devel-2024-03-11-v6.8)
+To: linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
+From: "kernelci.org bot" <bot@kernelci.org>
 
-Hi Geert,
+renesas/master igt-gpu-panfrost: 2 runs, 1 regressions (renesas-devel-2024-=
+03-11-v6.8)
 
-Thanks for your suggestion.
+Regressions Summary
+-------------------
 
-On 2024-03-11 10:32:35 +0100, Geert Uytterhoeven wrote:
-> Hi Niklas,
-> 
-> On Sat, Mar 9, 2024 at 4:55 PM Niklas Söderlund
-> <niklas.soderlund+renesas@ragnatech.se> wrote:
-> > The driver used the OF node of the device itself when registering the
-> > MDIO bus. While this works it creates a problem, it forces any MDIO bus
-> > properties to also be set on the devices OF node. This mixes the
-> > properties of two distinctly different things and is confusing.
-> >
-> > This change adds support for an optional mdio node to be defined as a
-> > child to the device OF node. The child node can then be used to describe
-> > MDIO bus properties that the MDIO core can act on when registering the
-> > bus.
-> >
-> > If no mdio child node is found the driver fallback to the old behavior
-> > and register the MDIO bus using the device OF node. This change is
-> > backward compatible with old bindings in use.
-> >
-> > Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> 
-> Thanks for your patch!
-> 
-> > --- a/drivers/net/ethernet/renesas/ravb_main.c
-> > +++ b/drivers/net/ethernet/renesas/ravb_main.c
-> > @@ -2582,8 +2583,20 @@ static int ravb_mdio_init(struct ravb_private *priv)
-> >         snprintf(priv->mii_bus->id, MII_BUS_ID_SIZE, "%s-%x",
-> >                  pdev->name, pdev->id);
-> >
-> > -       /* Register MDIO bus */
-> > -       error = of_mdiobus_register(priv->mii_bus, dev->of_node);
-> > +       /* Register MDIO bus
-> > +        *
-> > +        * Look for a mdio child node, if it exist use it when registering the
-> > +        * MDIO bus. If no node is found fallback to old behavior and use the
-> > +        * device OF node. This is used to be able to describe MDIO bus
-> > +        * properties that are consumed when registering the MDIO bus.
-> > +        */
-> > +       mdio_node = of_get_child_by_name(dev->of_node, "mdio");
-> > +       if (mdio_node) {
-> > +               error = of_mdiobus_register(priv->mii_bus, mdio_node);
-> > +               of_node_put(mdio_node);
-> > +       } else {
-> > +               error = of_mdiobus_register(priv->mii_bus, dev->of_node);
-> > +       }
-> >         if (error)
-> >                 goto out_free_bus;
-> >
-> 
-> Perhaps the code should be streamlined for the modern case?
-> 
->         mdio_node = of_get_child_by_name(dev->of_node, "mdio");
->         if (!mdio_node) {
->                 /* backwards compatibility for DT lacking mdio subnode */
->                 mdio_node = of_node_get(dev->of_node);
->         }
-> 
->         error = of_mdiobus_register(priv->mii_bus, mdio_node);
->         of_node_put(mdio_node);
-> 
-> When deemed necessary, you can easily replace the backwards
-> compatibility handling by error handling later.
+platform      | arch  | lab         | compiler | defconfig | regressions
+--------------+-------+-------------+----------+-----------+------------
+rk3399-roc-pc | arm64 | lab-broonie | gcc-10   | defconfig | 1          =
 
-This looks much better, will do so as well as s/OF/DT/ in the commit 
-message for next version.
 
-> 
-> Gr{oetje,eeting}s,
-> 
->                         Geert
-> 
-> -- 
-> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-> 
-> In personal conversations with technical people, I call myself a hacker. But
-> when I'm talking to journalists I just say "programmer" or something like that.
->                                 -- Linus Torvalds
+  Details:  https://kernelci.org/test/job/renesas/branch/master/kernel/rene=
+sas-devel-2024-03-11-v6.8/plan/igt-gpu-panfrost/
 
--- 
-Kind Regards,
-Niklas Söderlund
+  Test:     igt-gpu-panfrost
+  Tree:     renesas
+  Branch:   master
+  Describe: renesas-devel-2024-03-11-v6.8
+  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-d=
+evel.git
+  SHA:      6e60eab20a8f0eebadd576a31d449c6b503c4013
+
+  Test suite revisions:
+    drm
+      URL:  git://anongit.freedesktop.org/mesa/drm
+      SHA:  75254bf2390c10644ffb35a90fc8f18f196f9f0c
+    igt-gpu-tools
+      URL:  https://gitlab.freedesktop.org/drm/igt-gpu-tools.git
+      SHA:  0830aa737c4447599d9cd5cf3d2c759e8fc73569 =
+
+
+
+Test Regressions
+---------------- =
+
+
+
+platform      | arch  | lab         | compiler | defconfig | regressions
+--------------+-------+-------------+----------+-----------+------------
+rk3399-roc-pc | arm64 | lab-broonie | gcc-10   | defconfig | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/65eedae18fc44c81544c42db
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: defconfig
+  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
+110)
+  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
+024-03-11-v6.8/arm64/defconfig/gcc-10/lab-broonie/igt-gpu-panfrost-rk3399-r=
+oc-pc.txt
+  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
+024-03-11-v6.8/arm64/defconfig/gcc-10/lab-broonie/igt-gpu-panfrost-rk3399-r=
+oc-pc.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bookworm-ig=
+t/20240129.0/arm64/rootfs.cpio.gz =
+
+
+
+  * igt-gpu-panfrost.login: https://kernelci.org/test/case/id/65eedae18fc44=
+c81544c42dc
+        failing since 35 days (last pass: renesas-devel-2024-01-31-v6.8-rc2=
+, first fail: renesas-devel-2024-02-05-v6.8-rc3) =
+
+ =20
 
