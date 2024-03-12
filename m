@@ -1,74 +1,74 @@
-Return-Path: <linux-renesas-soc+bounces-3716-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-3717-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 006C48792AA
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 Mar 2024 12:04:25 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id F1CB18793C8
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 Mar 2024 13:09:30 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id AA3432849B1
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 Mar 2024 11:04:24 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7C4E21F21C7E
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 Mar 2024 12:09:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A3CA779951;
-	Tue, 12 Mar 2024 11:04:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 47E527A709;
+	Tue, 12 Mar 2024 12:08:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="TZN0sQzB"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="JY+ZuTNh"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A91378B45
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 12 Mar 2024 11:04:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23E217A15F
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 12 Mar 2024 12:07:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710241459; cv=none; b=cEWFLZdug98rtMBztCrjVG/79Yy+UUHpsJdKV5z5KQ9cnZOXQxRagkq0wCc+RNTG0J+CPqqphC6sF3hPcgXi709lNphPYaQ6I5Ezu38HVS9ATkWWFjelrqy+SnLVApUDd9t71wci0blpYcbEcxggn2ielG28SDfG27Ao3qJd1WA=
+	t=1710245280; cv=none; b=rd7jDenedAm5K5aC5pVyIBfTf4DYulasVnJWzpbalnoHLCVb1Jan3BxI8zUcQM9M2q898FVnEdq3nttEqzw03vZjb/G/ku+ecyQyYH16DUieCLIah2Kg9gM4wT7VRRnaDSiPpEyQWwrl7aO12TDa5C0EURhJRNiL2l4Nctru06k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710241459; c=relaxed/simple;
-	bh=pLHlfjqZrAjvbkvSlj5qpzs5K5Lppb9UXKcsKcDGhoY=;
+	s=arc-20240116; t=1710245280; c=relaxed/simple;
+	bh=FdXj3NbPr7LIPFPHDC9Uw9gFoYIpHXkckrbFtHnEb+w=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=PxtBaUiLVR3j4LaxOY6iwQTg5hAgYQ359XjJpppijZAA5LHG43AgR+fUUmo4XL+6/XJT0pDR2dX4pNozEqvBfKWn7IJXMg4SjUhgawZyICzjqCJP/gJvFmv3PP6NyHuIJP7a3VuwSqQv4GdEKSyvXZmspQ86r1HSG23waQlxWaQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=TZN0sQzB; arc=none smtp.client-ip=209.85.128.53
+	 In-Reply-To:Content-Type; b=UmP49WWJpPJtTqn8xERG+oB5EHXcexM3+pL89JsqwMlTs1KYdCEqYs3lIk4sF6MlVF5cr/EjOflzfeVRL3hSHmmvTeq6Cm6EgxhTPPbp6rKRLSpKldewNl5+HuLcMZo9ZyLSmRRLl1E6Rgx/JkWjygRU2Ab5AIAH8leoQkHDGkE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=JY+ZuTNh; arc=none smtp.client-ip=209.85.167.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-41342849a15so2404975e9.3
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 12 Mar 2024 04:04:17 -0700 (PDT)
+Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-513bf5a2555so560141e87.1
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 12 Mar 2024 05:07:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1710241456; x=1710846256; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1710245276; x=1710850076; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=ZEGWOujdW89Dpl1fCi0Jc9+UKMnXm1pN5XkS4ijg4qg=;
-        b=TZN0sQzBzoFtj3Q4i/XgBUUlWAGyVoDUaqycZIzX4kv6JPyC1bZ0UhzI9PEXEA77It
-         c/SkKaZdNiSzBKZX8thAj/GQECp8+Ycn0+hSnxRESibR/xTg1uIq5itxKXPAeGteQx4x
-         f5OB+dzQmhoiKcqPgna4NXceVEgdNbwiiqFL9kPlfbS16f8/ksBOrYVpSzB53DljQ7wK
-         lpdJqHaUx5nSDEvn/xCHqJ3flacyKMBEzc8g70QPF31QY+DT37VCiSdyUpokCW1joYdT
-         cv5r8NueiSfYDjABCmHEhfLGC+EFjKqEeajmtTSf+b/g3MgQ8+1kJm4yAqxeJkJfMuGm
-         LX0A==
+        bh=iZTLBLXw0PtBY4+JEvlrcgEHBXz8k2cD2lNLRF2eF88=;
+        b=JY+ZuTNh7NEbuwo1xIAz1BLXjaFKjcqvY4ueO2/2GfssGZYSkKEWTUK3syfoL03KiX
+         FfO6kMqk6ULABZawXwcJEP7CGiXnZA5fN5vSbGdwILP95wi7wklmCycA3Fs2uc3R2jpO
+         gFBqt5lk2RJc10OsK3KfqQpCr8N1yjRg+xcRoTnkhpQHoovSmmp0hc0KP8h7pd+VWcJ7
+         20a7zxA1JYAa4tUwOVLxYAwa04DB4w1OgpJ0UNTCVRvIXuS4zcG6ZDaTlmo2huPXpmsJ
+         ep1+yZbUvKRaWb/SZkw5X58EBNCXYI69grCI+M5PplTuqi4SQizOk7XfWCKzwXlZ2Ef9
+         fZGQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710241456; x=1710846256;
+        d=1e100.net; s=20230601; t=1710245276; x=1710850076;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZEGWOujdW89Dpl1fCi0Jc9+UKMnXm1pN5XkS4ijg4qg=;
-        b=mRQ1iK+2XNxhwTT0rfi9nHpri/Zqta/xNmUcR38qYJVZ64TRDjo8rSbqp5fbMrKANh
-         BZDGERTfW3LxHZwEaIPu1R1tUSxeSK2lLKfIWbC0NToDzrZ+MNGkqbZWZUUJLZ97didx
-         LJ+pDb+nRheGm/c9CUdDDinlYAJ1FZu+Xk1oRdHSvB+3wkYqwor8yOpfr+2nO7+6rwjM
-         FM0uBjqCiVnw6tqV0F1YevcmZZq/LimkBSII2chXQLwkw/z9ApxcOQurpuZqWEauDmgV
-         bfMSfEaeTYqDR56IVPh8BYt9mYL3zCrRMiXG3U9EuY2KcfEtdrFjXzNAN8fWseveNAMD
-         1gLg==
-X-Forwarded-Encrypted: i=1; AJvYcCUyXlKZ4M6IqhWu7n1XvIfPjmrFJH8pTWWONC0+pl2eAX5MsVhC+lM5ipZyJoX896+h2hOUaLIQQ/GUC2/uKkIpfuxNBtksSnSisblDR93Uoj4=
-X-Gm-Message-State: AOJu0Yzd40/XsmW65z47F0VBWmijdmMpF0LhBay87EWy33yS2S744koL
-	xnSN3Pa5JDxaaPr1jmwmBnohA3zoykrrZS2tSpHWqmxOwNwnmH4cFnmIFWZsE4c=
-X-Google-Smtp-Source: AGHT+IE/CWZrrlfUgpOEFHEzDDracpQOTZTNmW40XGuZXUWwarlCf4ysh4GTtSMO6ky8704ESTBV4g==
-X-Received: by 2002:a05:600c:4f51:b0:413:2489:d194 with SMTP id m17-20020a05600c4f5100b004132489d194mr5032001wmq.27.1710241455939;
-        Tue, 12 Mar 2024 04:04:15 -0700 (PDT)
+        bh=iZTLBLXw0PtBY4+JEvlrcgEHBXz8k2cD2lNLRF2eF88=;
+        b=L+F6oQ5QxFrhS22+/hpkL5g7VO0MLFyZRwTXddOThaSWQBhKaiZLSuQ+9NdKCY2joZ
+         63covIQLCK2YG1YEEcVJWZilJQW1psEnpj9mHA3L6gwxHKch6cZbdNfIjUdrXbpChjag
+         Bb5RIMhmc6Ydcuc1wrHPMo3jksAozO7B2+xMAULVqCwrS6DzZBCNwlQpsEK69x7W5XUN
+         b51I0KafllgcrNiMwdx0LVdDc3KMfw5XglN16BN5Pko6EebnN7wStrJf91WEWWZFajAF
+         M4skedUxjEwgTj2lEIX2EzkFnOp1Q6FJUgN6bmizVov1rYQM5bj/Ldx6jHSypiLcrA/C
+         Lv/w==
+X-Forwarded-Encrypted: i=1; AJvYcCX0Xmu5COCtShO8Qvr+u3lflO8Z7exkz2vs4LE9/tPrR3D/pLdLGT2+A0ec/waJYV894vLNhsQp+DBZBiN/lUGRcFllofOR4TRnAz+qL4qp5NM=
+X-Gm-Message-State: AOJu0YzBBQOh4EAs15YYiIXHNW2QobXAg5Zvcb8D3FArLBtRmz/vAtjg
+	0RDeCLOOIS1iDHPl39HPg5IPFxojnFkpezTVfHX/eztyfHNiYReFef8zEfO9ZVs=
+X-Google-Smtp-Source: AGHT+IGYNeAFx++7ZzyH0xN5jWKQ2JmEo3fxqQM6nAGUk+mEASwkbODLWZr9/PhJAOqOSd0+QfTGqw==
+X-Received: by 2002:a05:6512:4014:b0:513:a6a7:ac88 with SMTP id br20-20020a056512401400b00513a6a7ac88mr5825932lfb.14.1710245276277;
+        Tue, 12 Mar 2024 05:07:56 -0700 (PDT)
 Received: from [192.168.1.20] ([178.197.222.97])
-        by smtp.gmail.com with ESMTPSA id r4-20020a05600c35c400b004130c1dc29csm12089953wmq.22.2024.03.12.04.04.14
+        by smtp.gmail.com with ESMTPSA id f19-20020a05600c4e9300b004131b2f3958sm12274812wmq.13.2024.03.12.05.07.54
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 12 Mar 2024 04:04:15 -0700 (PDT)
-Message-ID: <b04f9c39-9797-40b8-a25b-8154ad559cd5@linaro.org>
-Date: Tue, 12 Mar 2024 12:04:13 +0100
+        Tue, 12 Mar 2024 05:07:55 -0700 (PDT)
+Message-ID: <f2fdbab6-524c-47b0-b250-37483efc5fdf@linaro.org>
+Date: Tue, 12 Mar 2024 13:07:54 +0100
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -76,26 +76,25 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/5] dt-bindings: i2c: renesas,riic: Document R9A09G057
- support
+Subject: Re: [net-next 1/2] dt-bindings: net: renesas,etheravb: Add optional
+ MDIO bus node
 Content-Language: en-US
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
- Chris Brandt <chris.brandt@renesas.com>, Andi Shyti <andi.shyti@kernel.org>,
+To: =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+Cc: Sergey Shtylyov <s.shtylyov@omp.ru>, "David S. Miller"
+ <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
  Rob Herring <robh+dt@kernel.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Magnus Damm <magnus.damm@gmail.com>,
- Wolfram Sang <wsa+renesas@sang-engineering.com>,
- linux-renesas-soc@vger.kernel.org, linux-i2c@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
- Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20240308172726.225357-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20240308172726.225357-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <7082ed3b-d6d0-4228-b7a6-7c0e0e46b8e2@linaro.org>
- <CA+V-a8tM29h10DULurMJtBZBnLK_ZF7pH_Y0bhZTvWO0O7-G-Q@mail.gmail.com>
- <2974085a-d9b4-4a66-b60f-c02a06a74647@linaro.org>
- <CAMuHMdVgp_vFnWr5ruzdyc1vNQKoCdM=pLZmgmkDjmUHvQBJJw@mail.gmail.com>
+ Conor Dooley <conor+dt@kernel.org>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
+ Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+ Biju Das <biju.das.jz@bp.renesas.com>, netdev@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+References: <20240309155334.1310262-1-niklas.soderlund+renesas@ragnatech.se>
+ <20240309155334.1310262-2-niklas.soderlund+renesas@ragnatech.se>
+ <cb8f85de-c1cd-4742-b8a4-2533482ee3b6@linaro.org>
+ <20240310134638.GK3735877@ragnatech.se>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
@@ -141,87 +140,80 @@ Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
  fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
  D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <CAMuHMdVgp_vFnWr5ruzdyc1vNQKoCdM=pLZmgmkDjmUHvQBJJw@mail.gmail.com>
+In-Reply-To: <20240310134638.GK3735877@ragnatech.se>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 11/03/2024 10:00, Geert Uytterhoeven wrote:
->>>>> -          - renesas,riic-r9a07g054  # RZ/V2L
->>>>> -      - const: renesas,riic-rz      # generic RIIC compatible
->>>>> +    oneOf:
->>>>> +      - items:
->>>>> +          - enum:
->>>>> +              - renesas,riic-r7s72100   # RZ/A1H
->>>>> +              - renesas,riic-r7s9210    # RZ/A2M
->>>>> +              - renesas,riic-r9a07g043  # RZ/G2UL and RZ/Five
->>>>> +              - renesas,riic-r9a07g044  # RZ/G2{L,LC}
->>>>> +              - renesas,riic-r9a07g054  # RZ/V2L
->>>>> +          - const: renesas,riic-rz      # generic RIIC compatible
->>>>> +
->>>>> +      - items:
->>>>> +          - enum:
->>>>> +              - renesas,riic-r9a09g057  # RZ/V2H(P)
->>>>
->>>> No, that does not look right. If you added generic compatible for all
->>>> RIIC then how can you add a new RIIC compatible which does not follow
->>>> generic one?
->>>>
->>> The generic compatible above which was added previously was for the
->>> RZ/(A) SoCs and not for all the RIICs. The RZ/G2L family was also
+On 10/03/2024 14:46, Niklas Söderlund wrote:
+> Hi Krzysztof,
+> 
+> Thanks for your comments.
+> 
+> On 2024-03-10 09:44:45 +0100, Krzysztof Kozlowski wrote:
+>> On 09/03/2024 16:53, Niklas Söderlund wrote:
+>>> The Renesas Ethernet AVB bindings do not allow the MDIO bus to be
+>>> described. This has not been needed as only a single PHY is
+>>> supported and no MDIO bus properties have been needed.
+>>>
+>>> Add an optional mdio node to the binding which allows the MDIO bus to be
+>>> described and allow bus properties to be set.
+>>>
+>>> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+>>> ---
 >>
->> No, it said: "generic RIIC compatible". It did not say "RIIC RZ/A". It
->> said RIIC RZ
-> 
-> At the time the original bindings were written, only RZ/A1, RZ/T1,
-> and RZ/N1 existed, and all RIIC modules present in these SoCs were
-> identical.  Later, we got RZ/A2, which also included a compatible
-> RIIC block.
-> 
-> Somewhere along the timeline, the marketing department became creative,
-> and we got RZ/G1 (RZ/G1[HMNEC]) and RZ/G2 (RZ/G2[HMNE]), which were
-> unrelated to earlier RZ series :-(  When marketing started smoking
-> something different, we got RZ/G2L, which is unrelated to RZ/G2,
-> but reuses some parts from RZ/A.  Recently, we got RZ/G3S, which is
-> similar to RZ/G2L...
-
-That's fine, but then the comment "generic RIIC compatible" is confusing
-for anyone not knowing this. Commit msg could also mention why the
-generic compatible covers actually entirely different hardware. The
-commit msg so far focused on the differences between these hardwares,
-thus my questions - why do you create generic compatibles which are not
-generic?
-
-> 
->>> compatible hence they fallback to the generic RZ one.
+>> I believe this is v2. Mark your patchsets clearly (git format-patch -v2
+>> or use b4) and provide changelog under --- or in the cover letter.
 >>
->> riic-r9a09g057 is also RIIC RZ, isn't it?
-> 
-> Yes, as in "it comes from the division that calls its products
-> RZ/something". But...
-> 
->>>> This shows the ridiculousness of these generic compatibles. They are
->>>> generic till you figure out the truth: oh crap, it's not generic.
->>>>
->>> Sorry I lack skills to predict the future of upcoming IP blocks which
->>> fit in the SoC.
 >>
->> So don't use generic compatibles as fallbacks. That's the point.
+>>>  Documentation/devicetree/bindings/net/renesas,etheravb.yaml | 4 ++++
+>>>  1 file changed, 4 insertions(+)
+>>>
+>>> diff --git a/Documentation/devicetree/bindings/net/renesas,etheravb.yaml b/Documentation/devicetree/bindings/net/renesas,etheravb.yaml
+>>> index de7ba7f345a9..5345ad8e1be4 100644
+>>> --- a/Documentation/devicetree/bindings/net/renesas,etheravb.yaml
+>>> +++ b/Documentation/devicetree/bindings/net/renesas,etheravb.yaml
+>>> @@ -93,6 +93,10 @@ properties:
+>>>      description: Number of size cells on the MDIO bus.
+>>>      const: 0
+>>>  
+>>> +  mdio:
+>>> +    $ref: /schemas/net/mdio.yaml#
+>>> +    unevaluatedProperties: false
+>>> +
+>>
+>> Please fixup the phy pattern, so it will be obvious it is for
+>> ethernet-phy and probably deprecate it. The phy goes to mdio bus, right?
 > 
-> It's indeed difficult to predict the future. So SoC-specific compatible
-> values are safer.
-> At the same time, we want to avoid having to add compatible values for
-> each and every SoC to each driver, so we try to group SoCs per family.
-> For R-Car that worked out reasonably well, however, for RZ...
+> Yes the PHY goes on the MDIO bus and the pattern is only needed for 
+> backward compatibility.
+> 
+> The pattern was specific to ethernet-phy in the past, but Rob removed it 
+> in commit ac8fe40c3628 ("dt-bindings: net: renesas: Drop ethernet-phy 
+> node schema"). Have something changed and I should revert that as part 
+> of this patch?
 
-I did not propose that. Nothing changes in your driver with my proposal.
-Use SoC-compatibles only: for fallbacks and for specific(frontbacks?) parts.
+Ah, indeed. Let it stay as is. I thought there would be conflict with
+mdio, but pattern still looks for unit address, so it's fine to have
+both: existing @[0-9a-f] and mdio.
 
-To give you some sort of guidance for any future submission:
-1. Use SoC-like fallback compatible, prepended with SoC-specific compatible.
-2. If you insist on generic fallback compatible, its usage should be
-limited to the cases where you can guarantee for 99.9% that future
-devices will be compatible with this. I doubt anyone can guarantee that,
-thus we keep repeating on mailing lists the same: go to point (1).
+> 
+> I agree it should be listed as deprecated, would this diff work for you?
+> 
+> +# In older bindings there where no mdio child-node to describe the MDIO bus
+> +# and the PHY. To not fail older bindings accept any node with an address. New
+> +# users should describe the PHY inside the mdio child-node.
+>  patternProperties:
+>    "@[0-9a-f]$":
+>      type: object
+> +    deprecated: true
+
+Looks fine.
+
+> 
+> Depending on if Rob's patch should be reverted in whole or in part I 
+> could also try to revert the pattern to "^ethernet-phy@[0-9a-f]$" if you 
+> wish. Please let me know what looks best to you.
+> 
 
 Best regards,
 Krzysztof
