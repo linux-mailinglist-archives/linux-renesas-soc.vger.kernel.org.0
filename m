@@ -1,142 +1,283 @@
-Return-Path: <linux-renesas-soc+bounces-3725-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-3726-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 171208796FD
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 Mar 2024 15:58:41 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 24319879722
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 Mar 2024 16:06:10 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 491CB1C21B75
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 Mar 2024 14:58:40 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8F6CA1F21B12
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 Mar 2024 15:06:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 097077AE72;
-	Tue, 12 Mar 2024 14:58:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 44AFE7C08A;
+	Tue, 12 Mar 2024 15:05:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="TvhpX5Va"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from albert.telenet-ops.be (albert.telenet-ops.be [195.130.137.90])
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 207941E876
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 12 Mar 2024 14:58:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.137.90
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D9BC7BB0A
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 12 Mar 2024 15:05:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710255517; cv=none; b=o2E3KkItKfT8Q8P0AZT9TghmPzAauIJwTyep6AUi3X7WBVmtBGexXAiHCYslqj3uOmy8deOOe7ODuGh5wN8rIg5j57+W1yrDrfFgD+nbLAW12nuP9yxJm9sKW2oUBdNjloZKL1DhHGtUHV6sqKUgonQs2l3zw0oi7yVLG8B033I=
+	t=1710255956; cv=none; b=qIu5drLc8pSghm5smcbaS4iFC1C5hz3OaJ6Xq/xVqG/TRAx3u8NRnHCVPSjlRvcwUpRjysFBxfOM4h1rE2x5frIgBt+LUCm4MnNxW3LYejUAc9X5vHq3r3WSNKneEJYsSFHgiTdCKL4M73rYW5RX7RyxZZ42u6dY63dA/x9O754=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710255517; c=relaxed/simple;
-	bh=5NqZse2j2B5ZT2AN1+s6jVZEPHHs4JuiOV1JBK0S8XA=;
-	h=From:To:Subject:Date:Message-Id:MIME-Version; b=rXZa4rYrC1vC/zOQGUiEulXZQG59jvpxtxDwZH45ID2zcGxwbCW+arwx2slJb+lG/yxmvnycwc9OIVWHR7y81jt5knapG62QOe6GyMytIF1RO66pTa/YOc3+nVEnCDClvnC56juKPw1wP1X71BQkPDj1YCC4zJUcQrL5uEeFb4k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.137.90
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
-Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed80:76d0:2bff:fec8:549])
-	by albert.telenet-ops.be with bizsmtp
-	id xqyY2B00P0SSLxL06qyY3v; Tue, 12 Mar 2024 15:58:32 +0100
-Received: from rox.of.borg ([192.168.97.57])
-	by ramsan.of.borg with esmtp (Exim 4.95)
-	(envelope-from <geert@linux-m68k.org>)
-	id 1rk3a4-003Ti4-Cq
-	for linux-renesas-soc@vger.kernel.org;
-	Tue, 12 Mar 2024 15:58:32 +0100
-Received: from geert by rox.of.borg with local (Exim 4.95)
-	(envelope-from <geert@linux-m68k.org>)
-	id 1rk3aK-008EKa-IQ
-	for linux-renesas-soc@vger.kernel.org;
-	Tue, 12 Mar 2024 15:58:32 +0100
-From: Geert Uytterhoeven <geert+renesas@glider.be>
-To: linux-renesas-soc@vger.kernel.org
-Subject: renesas-drivers-2024-03-12-v6.8
-Date: Tue, 12 Mar 2024 15:58:32 +0100
-Message-Id: <20240312145832.1961705-1-geert+renesas@glider.be>
-X-Mailer: git-send-email 2.34.1
+	s=arc-20240116; t=1710255956; c=relaxed/simple;
+	bh=gwvlVXMj8YzA9NTNKw5EKX6GuDQ9HZKERGAoTtteNgw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=XVIbW9htQkgc/UwGNRCVEG3TI9+ibXYNn+3X4q7+jv8kI6deXn8aqijXE8RtQf/fYinvFuXEVT/F9lGPQep6wo32fkBkAzyQvJaJ+FWcS9xKvmQYYTxY/Pi1fxgBL9qbcVS5RPPbrtsswYstF5emP8AVM0QFjyWLtIDaaxYt9C4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=TvhpX5Va; arc=none smtp.client-ip=209.85.221.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-33e9def4a6dso1401391f8f.2
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 12 Mar 2024 08:05:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1710255952; x=1710860752; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=zYqdQQe+WczGEpCgZYhlnOFJftP0P2ToYmG/ZyjPUWg=;
+        b=TvhpX5VaElIiH5BcTeIGtaidfUOu6UwUb4DwCVsSrsRpCbDV1eHYfG4zCDewC0GhRH
+         eVw13Qawpg6wwthXroC64kvjrzy4gPpjkcRRZZQFhB0UtOi/q5pSgP7JwwRZHyRdnRXR
+         wtjiEE20SOjAsroPgDtzIvb0EI5qIbn6EIsMS8IGc4/sRQkHLHrOLUX2ArkGhC+Q20Tt
+         /nLmTl89z8N8b7w/cO6Ali6TYOU30IsY6pBL/ZK5NgUT2zuIXRysX2JtFw56ejgwsMu1
+         fgedpFRyJyPm+mgAZxAT12rpCXC/nba8Do3//35NxIZqS2ZwNq60nc8G4srevAVJCwxk
+         l0pA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1710255952; x=1710860752;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=zYqdQQe+WczGEpCgZYhlnOFJftP0P2ToYmG/ZyjPUWg=;
+        b=EaodPBi6DQsKgW5g7yD4Fse+vDpsZSYJB+d7PNsQri5HB0W6GDO1FST7zXx4usPqMh
+         EdpSHXhAzznJHVk2sVNWIAEyC4k+SXIo0PC1F4OwrzRJlzm0M4TZPXnWFoJFLipnufCI
+         eTlD4B+GLOy0/XiwD/2C+S4Ct3APw6y6pVn3uyF5O6708TTh/d97w0yy0MHUGMneDfdB
+         tbCDw+EiDJ0+Fmi9LQAdETyKY2DT92BwfcRKYkeJLWajHkNnwLKxh2ZjDOPoxc8sE582
+         mtpXjMBgLKFB/zwMq5BiXanWK6bxiYelzjoHAFtQEOMnGElP1xqfEHMa40+0lVFFz9wi
+         0vZA==
+X-Forwarded-Encrypted: i=1; AJvYcCWXzExI/Jg98qs25gcTqsSubY1AhK4Z3h6VN7CsxP2hCRQefEEyX6wLNXlJaxCSBL8l2S2E5a76tnD4yp+gjqe//5UoUQumNrJ+DgzoXq1vnDI=
+X-Gm-Message-State: AOJu0Yz08pejjqrk+/3lfIhksWTofR5JqktZ44fn61oeBG2YLY1S0CPe
+	+lONQYIv1d+9XLrLVGOeB0iKfmfBDCgwhFKjWb8HGdCaN8hQV+8Iwc6gRd6etVs=
+X-Google-Smtp-Source: AGHT+IE+DzqnVMCFpQavnFuorsliCJRjh9NfcuUo2WAPFlSKOVBYqoFxasK1ZqCcterU2zRfqNYkWQ==
+X-Received: by 2002:a5d:5505:0:b0:33d:277d:a2c7 with SMTP id b5-20020a5d5505000000b0033d277da2c7mr5763716wrv.16.1710255952383;
+        Tue, 12 Mar 2024 08:05:52 -0700 (PDT)
+Received: from [192.168.1.20] ([178.197.222.97])
+        by smtp.gmail.com with ESMTPSA id b12-20020a5d45cc000000b0033e786abf84sm9216968wrs.54.2024.03.12.08.05.50
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 12 Mar 2024 08:05:51 -0700 (PDT)
+Message-ID: <0df9adfe-c869-4502-93e1-fb3516aedc0c@linaro.org>
+Date: Tue, 12 Mar 2024 16:05:49 +0100
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/5] dt-bindings: i2c: renesas,riic: Document R9A09G057
+ support
+Content-Language: en-US
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
+ Chris Brandt <chris.brandt@renesas.com>, Andi Shyti <andi.shyti@kernel.org>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Magnus Damm <magnus.damm@gmail.com>,
+ Wolfram Sang <wsa+renesas@sang-engineering.com>,
+ linux-renesas-soc@vger.kernel.org, linux-i2c@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+ Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20240308172726.225357-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20240308172726.225357-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <7082ed3b-d6d0-4228-b7a6-7c0e0e46b8e2@linaro.org>
+ <CA+V-a8tM29h10DULurMJtBZBnLK_ZF7pH_Y0bhZTvWO0O7-G-Q@mail.gmail.com>
+ <2974085a-d9b4-4a66-b60f-c02a06a74647@linaro.org>
+ <CAMuHMdVgp_vFnWr5ruzdyc1vNQKoCdM=pLZmgmkDjmUHvQBJJw@mail.gmail.com>
+ <b04f9c39-9797-40b8-a25b-8154ad559cd5@linaro.org>
+ <CAMuHMdV6yHcTaZKMJxS7sabzhCGKt4i6bjKJiNDaCoHkeZXUvA@mail.gmail.com>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
+ 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
+ D2GYIS41Kv4Isx2dEFh+/Q==
+In-Reply-To: <CAMuHMdV6yHcTaZKMJxS7sabzhCGKt4i6bjKJiNDaCoHkeZXUvA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-I have pushed renesas-drivers-2024-03-12-v6.8 to
-https://git.kernel.org/cgit/linux/kernel/git/geert/renesas-drivers.git
+On 12/03/2024 15:06, Geert Uytterhoeven wrote:
+> Hi Krzysztof,
+> 
+> On Tue, Mar 12, 2024 at 12:04 PM Krzysztof Kozlowski
+> <krzysztof.kozlowski@linaro.org> wrote:
+>> On 11/03/2024 10:00, Geert Uytterhoeven wrote:
+>>>>>>> -          - renesas,riic-r9a07g054  # RZ/V2L
+>>>>>>> -      - const: renesas,riic-rz      # generic RIIC compatible
+>>>>>>> +    oneOf:
+>>>>>>> +      - items:
+>>>>>>> +          - enum:
+>>>>>>> +              - renesas,riic-r7s72100   # RZ/A1H
+>>>>>>> +              - renesas,riic-r7s9210    # RZ/A2M
+>>>>>>> +              - renesas,riic-r9a07g043  # RZ/G2UL and RZ/Five
+>>>>>>> +              - renesas,riic-r9a07g044  # RZ/G2{L,LC}
+>>>>>>> +              - renesas,riic-r9a07g054  # RZ/V2L
+>>>>>>> +          - const: renesas,riic-rz      # generic RIIC compatible
+>>>>>>> +
+>>>>>>> +      - items:
+>>>>>>> +          - enum:
+>>>>>>> +              - renesas,riic-r9a09g057  # RZ/V2H(P)
+>>>>>>
+>>>>>> No, that does not look right. If you added generic compatible for all
+>>>>>> RIIC then how can you add a new RIIC compatible which does not follow
+>>>>>> generic one?
+>>>>>>
+>>>>> The generic compatible above which was added previously was for the
+>>>>> RZ/(A) SoCs and not for all the RIICs. The RZ/G2L family was also
+>>>>
+>>>> No, it said: "generic RIIC compatible". It did not say "RIIC RZ/A". It
+>>>> said RIIC RZ
+>>>
+>>> At the time the original bindings were written, only RZ/A1, RZ/T1,
+>>> and RZ/N1 existed, and all RIIC modules present in these SoCs were
+>>> identical.  Later, we got RZ/A2, which also included a compatible
+>>> RIIC block.
+>>>
+>>> Somewhere along the timeline, the marketing department became creative,
+>>> and we got RZ/G1 (RZ/G1[HMNEC]) and RZ/G2 (RZ/G2[HMNE]), which were
+>>> unrelated to earlier RZ series :-(  When marketing started smoking
+>>> something different, we got RZ/G2L, which is unrelated to RZ/G2,
+>>> but reuses some parts from RZ/A.  Recently, we got RZ/G3S, which is
+>>> similar to RZ/G2L...
+>>
+>> That's fine, but then the comment "generic RIIC compatible" is confusing
+>> for anyone not knowing this. Commit msg could also mention why the
+>> generic compatible covers actually entirely different hardware. The
+>> commit msg so far focused on the differences between these hardwares,
+>> thus my questions - why do you create generic compatibles which are not
+>> generic?
+> 
+> I agree the comment should be updated when adding a new variant which
+> is not compatible with the old generic variant (i.e. in this patch).
+> 
+>>>> So don't use generic compatibles as fallbacks. That's the point.
+>>>
+>>> It's indeed difficult to predict the future. So SoC-specific compatible
+>>> values are safer.
+>>> At the same time, we want to avoid having to add compatible values for
+>>> each and every SoC to each driver, so we try to group SoCs per family.
+>>> For R-Car that worked out reasonably well, however, for RZ...
+>>
+>> I did not propose that. Nothing changes in your driver with my proposal.
+>> Use SoC-compatibles only: for fallbacks and for specific(frontbacks?) parts.
+>>
+>> To give you some sort of guidance for any future submission:
+>> 1. Use SoC-like fallback compatible, prepended with SoC-specific compatible.
+>> 2. If you insist on generic fallback compatible, its usage should be
+>> limited to the cases where you can guarantee for 99.9% that future
+>> devices will be compatible with this. I doubt anyone can guarantee that,
+>> thus we keep repeating on mailing lists the same: go to point (1).
+> 
+> Personally, I am not such a big fan of method 1, for several reasons:
+> 
+>   - Support for new SoCs is not always added in chronological SoC
+>     release date order.  So you could end up with:
+> 
+>         compatible = "vendor,socB-foo", "vendor,socA-foo";
+> 
+>      with socA being (much) newer than socB.
 
-This tree is meant to ease development of platform support and drivers
-for Renesas ARM and RISC-V SoCs.  It is created by merging (a) the
-for-next branches of various subsystem trees and (b) branches with
-driver code submitted or planned for submission to maintainers into the
-master branch of my renesas-devel.git tree.
+Which is not a problem. We already have such examples in Qualcomm and
+once you get used to seeing it, no one wonders. Of course it's not like
+we target such reversed compatibility, but if it happens - does not
+matter. compatible expresses compatibility, not timeframe.
 
-Today's version is based on renesas-devel-2024-03-12-v6.8.
+> 
+>   - Worse, adding support for different modules in different SoCs
+>     can be unordered, too, leading to
+> 
+>         compatible = "vendor,socB-foo", "vendor,socA-foo";
+> 
+>     but
+> 
+>         compatible = "vendor,socA-bar", "vendor,socB-bar";
 
-Included branches with driver code:
-  - renesas-clk-for-v6.10
-  - topic/v4m-gray-hawk-single-v2
-  - git://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git#renesas/gpio-logic-analyzer-v8~1
+Yeah, that looks not nice, indeed, but it's a rare case and still does
+not matter for actual meaning. compatible does not express timeframe.
 
-Included fixes:
-  - [TEST] soc: renesas: rcar-rst: Enable WDT reset on early R-Car V4M
-  - ARM: shmobile: defconfig: Update shmobile_defconfig
-  - [LOCAL] arm64: renesas: defconfig: Update renesas_defconfig
+> 
+>     Which is inconsistent.  Fortunately we now have "make dtbs_check"
+>     to catch mistakes there.
+> 
+>   - When a third SoC arrives, which one do you pick?
+> 
+>         compatible = "vendor,socC-foo", "vendor,socA-foo";
+> 
+>     or
+> 
+>         compatible = "vendor,socC-foo", "vendor,socB-foo";
 
-Included subsystem trees:
-  - git://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git#linux-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git#clk-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-pinctrl.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/brgl/linux.git#gpio/for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/mtd/linux.git#mtd/next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/netdev/net-next.git#main
-  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git#tty-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git#i2c/for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/andi.shyti/linux.git#i2c/i2c-host-fixes
-  - git://git.kernel.org/pub/scm/linux/kernel/git/andi.shyti/linux.git#i2c/i2c-host
-  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/mkl/linux-can-next.git#master
-  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git#usb-next
-  - git://git.freedesktop.org/git/drm/drm.git#drm-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/joro/iommu.git#next
-  - git://linuxtv.org/media_tree.git#master
-  - git://git.kernel.org/pub/scm/linux/kernel/git/ulfh/mmc.git#next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/ukleinek/linux.git#pwm/for-next
-  - git://git.linaro.org/people/daniel.lezcano/linux.git#timers/drivers/next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/vkoul/dmaengine.git#next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git#staging-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/rmk/linux.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/regmap.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git#irq/core
-  - git://git.kernel.org/pub/scm/linux/kernel/git/libata/linux#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/sre/linux-power-supply.git#for-next
-  - git://www.linux-watchdog.org/linux-watchdog-next.git#master
-  - git://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/regulator.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git#for-next/core
-  - git://anongit.freedesktop.org/drm/drm-misc#for-linux-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git#next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/phy/linux-phy.git#next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/thermal/linux.git#thermal/linux-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git#for-mfd-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2.6.git#master
-  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/driver-core.git#driver-core-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/glaubitz/sh-linux.git#for-next
-  - git://git.pengutronix.de/git/pza/linux#reset/next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/krzk/linux-mem-ctrl.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/deller/linux-fbdev.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/jejb/scsi.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/mkp/scsi.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/riscv/linux.git#fixes
-  - git://git.kernel.org/pub/scm/linux/kernel/git/riscv/linux.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/ulfh/linux-pm.git#next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/andy/linux-auxdisplay.git#for-next
+compatibility defines this.
 
-Gr{oetje,eeting}s,
+> 
+>     Obviously you pick the former (unless you detected the issues
+>     below first ;-)
+> 
+>   - When socA-foo turns out to be slightly different from socB-foo,
+>     socC-foo, ... you have to add of_device_id entries for all
+>     socX-foo to the driver.  With a family-specific fallback, you'd
+>     be limited to one entry for the family-specific callback and
+>     a second entry for the misbehaving socA.
 
-						Geert
+Yes and we have exactly that kind of argument from Bjorn A. for
+Qualcomm. I repeat: this means your generic family-fallback changes
+meaning, which is not really correct. Bindings (and DTS) are used for
+outside projects, so if you need to change the driver for generic
+fallback, all outside projects might be affected. You basically changed
+ABI without telling it to anyone.
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+Best regards,
+Krzysztof
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-							    -- Linus Torvalds
 
