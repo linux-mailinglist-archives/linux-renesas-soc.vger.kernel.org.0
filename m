@@ -1,120 +1,126 @@
-Return-Path: <linux-renesas-soc+bounces-3702-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-3703-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13EA0878FD5
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 Mar 2024 09:38:52 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id C4D87878FE2
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 Mar 2024 09:44:12 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id B1AC41F221C9
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 Mar 2024 08:38:51 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 81CD7281159
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 Mar 2024 08:44:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AE20877F1D;
-	Tue, 12 Mar 2024 08:38:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ucw.cz header.i=@ucw.cz header.b="eAkPn0EO"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2B13577A0F;
+	Tue, 12 Mar 2024 08:44:09 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com [209.85.128.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66A5177649;
-	Tue, 12 Mar 2024 08:38:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.255.230.98
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9095E76EEA;
+	Tue, 12 Mar 2024 08:44:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710232713; cv=none; b=PTc4X+VUja0b0zSLLkwWG62cqgzROFwih9r7N3Jf0+knXhTbD+iLLFjdaivzq0ok4lSOnnp2C8x39qB5ngsKZggFnEaNpc29lIUPAzy58ZltbJOAtL+WPoZvup9PHHESh5uUjZK2lamk1kDDO0jIse3JUGf5/D9w7dYPhlIglm0=
+	t=1710233049; cv=none; b=Uz//WUfu1/w3P24X/kLjo9FfhvdsXtKCyVQzjWF4hap6DTwLYreCaL5FqbM5wdFpCmktR7Zpcf4V1UYiZbZWt3akF4R85A0f9gnyBfF8PSd78UtvermEjH4KqYQ/X4lusYqQfbqtFpnSkhw0FNsYjRDlzgu9xZI0rKKVWxQ829o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710232713; c=relaxed/simple;
-	bh=D0Dav/Qn1cv9bfxKazHy8Ke0NZ+LD2IcglLT273M/Jg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ORKLsYJwtxZsxI+K/08whOdXUAiKkLisiy/NtZ6D5tdjkRfnQlgWyQtUGeSZA/7eOS7VWkQCWAuk/EeA4pfL0uFdF7mU/7knC9k1COhi9tdU4lmqKPGxSSCh6SVA6/KeiJai7qc/KwqiZptZrtCmol9AE4+l8gJth7RQ02B1+S4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ucw.cz; spf=pass smtp.mailfrom=ucw.cz; dkim=pass (1024-bit key) header.d=ucw.cz header.i=@ucw.cz header.b=eAkPn0EO; arc=none smtp.client-ip=46.255.230.98
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ucw.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ucw.cz
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-	id B5A651C006B; Tue, 12 Mar 2024 09:38:26 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ucw.cz; s=gen1;
-	t=1710232706;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=LR2nwwqmgN2QbjgHc3Koo0qVoLVq9J7DOCiQPH0RGMA=;
-	b=eAkPn0EOGw/osV4V95LaZ/AYDfXEWT0hpGgcikEcoVVy9btE2li73UchXhO44I2/SETQsz
-	KKnKF/aJqRm+Nt0L4wj1lpU4tEu97pX4Rg2qSV5JO/4Pl+fh6YvCFjsJVilkwN0jWkCAyH
-	viJd2lwZGjHsu+GuxK09lvW+p6+PmZQ=
-Date: Tue, 12 Mar 2024 09:38:25 +0100
-From: Pavel Machek <pavel@ucw.cz>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Sasha Levin <sashal@kernel.org>, linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org, Rob Herring <robh@kernel.org>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Chanho Min <chanho.min@lge.com>, Arnd Bergmann <arnd@arndb.de>,
-	tsahee@annapurnalabs.com, atenart@kernel.org, robh+dt@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-	rjui@broadcom.com, sbranden@broadcom.com, andrew@lunn.ch,
-	gregory.clement@bootlin.com, sebastian.hesselbarth@gmail.com,
-	matthias.bgg@gmail.com, magnus.damm@gmail.com,
-	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
-	linux-mediatek@lists.infradead.org,
-	linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH AUTOSEL 6.1 12/12] arm64: dts: Fix dtc interrupt_provider
- warnings
-Message-ID: <ZfAUgYj0ksDmGuhN@amd.ucw.cz>
-References: <20240229204039.2861519-1-sashal@kernel.org>
- <20240229204039.2861519-12-sashal@kernel.org>
- <Ze9x6qqGYdRiWy3h@duo.ucw.cz>
- <CAMuHMdX-ht_Vetq7+Xh0TqWOcnCdi=3d0VvfgXBF4ExtzGcRDg@mail.gmail.com>
+	s=arc-20240116; t=1710233049; c=relaxed/simple;
+	bh=Ko17xREfnVJ9Q5io/toRscNTgq+ljN4IWA6tUQbIDlw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=MSAROLV4FDjQgXp8WLY7jvLc43Oc0pQItJhFJL5/xUy4ax3epcBWW4MMLHFrk0B01ad/9gCo3PavLUfBD443JrjWoOU4qkhoiKxG8IJI5IMUXOkjTHc5aCoGaCPMAh/cVzaDHdEcnBmPot0+Oh6dR1QLvqdSxot9Ux9IL2k9AeI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-60a0a54869bso28092797b3.1;
+        Tue, 12 Mar 2024 01:44:07 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1710233044; x=1710837844;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=BpBVGXK2hwvv9G4vuoIjIOAjMy0hLwpCGg7dYfSa+5Q=;
+        b=XjQeJ5g3t+Qt/u9cXSTcVrF041/9R0lWmbOyoHOwGCtq7WUOV/3pOvdaSp55ExR0bL
+         h/bSmWLpVpnCu0Vbt001JzD9wOMs6FUP43pVQOkV4mwNVkKT/tKNChuoPuP/E3kFKiOy
+         xp28GfMc22i14SJAztVQhBSD0QNn50nKIxNfs0aT4SEIBj+FG/QHQ6zOCbkTe/6tvVNk
+         WwySZpJLYuRcNuZgYauXQaxfaemRWJUfkYCU7CoCeVp9Ff6f22AZiodOBAA2Uipp5LvX
+         LGdhwrNpiDlnju9cwELsFCVRAUBW24oAajfU5ImXKZLskWZuk8RGQ/I8Yqx9ZW21Toc2
+         uNXQ==
+X-Forwarded-Encrypted: i=1; AJvYcCX85gB5xUttrxgB90hC4Al/wzqws0BUTehcJvzJH60hubONvBBVeuuT6rG3uFIzFHCUSoCkBaOvcVO0eY99WNyHOHWvKw7VCmn4Yeu+6GQtszCRSpstvd0ACDLl6BIPOHTOy4e3MvpFHiAwUwmluGu+kPxfxUTE628o2vtQWljzvk12fVs+KWjg1MYeSsXYHAi3NYJ9PSwg3M1s5F8O2otFT7HL
+X-Gm-Message-State: AOJu0YyRcCYeVjiDPgTQIKFxWWfVTHhSu3a5trrwlX4lobM+JXx3dj/s
+	W9qWmH/ckLbNOjvfgZ73U63mNl6vWCj8hBIfGDLt8vvZUIRPWVnnfE7UvWttEZ0=
+X-Google-Smtp-Source: AGHT+IHUx+pbNmqsxtbHSGk4Vf8bAiZn6JFHiMHA3b9jK4MV2hR2LblXne40u3jAzeSNSZr+o+Ammw==
+X-Received: by 2002:a0d:db0c:0:b0:60a:57fa:2e45 with SMTP id d12-20020a0ddb0c000000b0060a57fa2e45mr646745ywe.1.1710233043674;
+        Tue, 12 Mar 2024 01:44:03 -0700 (PDT)
+Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com. [209.85.128.176])
+        by smtp.gmail.com with ESMTPSA id fq7-20020a05690c350700b006049315b542sm1746900ywb.136.2024.03.12.01.44.02
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 12 Mar 2024 01:44:02 -0700 (PDT)
+Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-609f4d8551eso40205287b3.1;
+        Tue, 12 Mar 2024 01:44:02 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCW5gZtJ3hwJDAXCDinypTkfzRFSXMpW1qOXDej4x6jVyUMRpwXbzW9J7oIqmo/SnVEzXAPEtOzcCTvg+ZuPE9yYiIcVCUJFTvQKy0U6bG0sMycMdp+SgTUDKwhVDZPwsak7X17SK2naX8g0oANO74WAFVpjH4OvGKtUZUZ9jXyK/BgOe3i5CmXUMOnhAqXhsRWSSul30llORJU+TWoH+8EDZvqw
+X-Received: by 2002:a81:4806:0:b0:609:a1ed:5558 with SMTP id
+ v6-20020a814806000000b00609a1ed5558mr5385429ywa.11.1710233042268; Tue, 12 Mar
+ 2024 01:44:02 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="Q9rn6aD/S92U1E3N"
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdX-ht_Vetq7+Xh0TqWOcnCdi=3d0VvfgXBF4ExtzGcRDg@mail.gmail.com>
-
-
---Q9rn6aD/S92U1E3N
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <20240229204039.2861519-1-sashal@kernel.org> <20240229204039.2861519-12-sashal@kernel.org>
+ <Ze9x6qqGYdRiWy3h@duo.ucw.cz> <CAMuHMdX-ht_Vetq7+Xh0TqWOcnCdi=3d0VvfgXBF4ExtzGcRDg@mail.gmail.com>
+ <ZfAUgYj0ksDmGuhN@amd.ucw.cz>
+In-Reply-To: <ZfAUgYj0ksDmGuhN@amd.ucw.cz>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 12 Mar 2024 09:43:50 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdXdTG=r8CJOGg2+xqMbrJ_uA3_EkoU9F2gq+zok2cGJpQ@mail.gmail.com>
+Message-ID: <CAMuHMdXdTG=r8CJOGg2+xqMbrJ_uA3_EkoU9F2gq+zok2cGJpQ@mail.gmail.com>
+Subject: Re: [PATCH AUTOSEL 6.1 12/12] arm64: dts: Fix dtc interrupt_provider warnings
+To: Pavel Machek <pavel@ucw.cz>
+Cc: Sasha Levin <sashal@kernel.org>, linux-kernel@vger.kernel.org, stable@vger.kernel.org, 
+	Rob Herring <robh@kernel.org>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+	Florian Fainelli <florian.fainelli@broadcom.com>, Chanho Min <chanho.min@lge.com>, 
+	Arnd Bergmann <arnd@arndb.de>, tsahee@annapurnalabs.com, atenart@kernel.org, 
+	robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, 
+	rjui@broadcom.com, sbranden@broadcom.com, andrew@lunn.ch, 
+	gregory.clement@bootlin.com, sebastian.hesselbarth@gmail.com, 
+	matthias.bgg@gmail.com, magnus.damm@gmail.com, 
+	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org, 
+	linux-mediatek@lists.infradead.org, linux-renesas-soc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi!
+Hi Pavel,
 
-> > > From: Rob Herring <robh@kernel.org>
+On Tue, Mar 12, 2024 at 9:38=E2=80=AFAM Pavel Machek <pavel@ucw.cz> wrote:
+> > > > From: Rob Herring <robh@kernel.org>
+> > > >
+> > > > [ Upstream commit 91adecf911e5df78ea3e8f866e69db2c33416a5c ]
+> > > >
+> > > > The dtc interrupt_provider warning is off by default. Fix all the w=
+arnings
+> > > > so it can be enabled.
 > > >
-> > > [ Upstream commit 91adecf911e5df78ea3e8f866e69db2c33416a5c ]
-> > >
-> > > The dtc interrupt_provider warning is off by default. Fix all the war=
-nings
-> > > so it can be enabled.
+> > > We don't have that warning in 6.1 and likely won't enable it, so we
+> > > should not need this.
 > >
-> > We don't have that warning in 6.1 and likely won't enable it, so we
-> > should not need this.
->=20
-> Still, this fixes issues in DTS that were not noticed before because
-> the checks were disabled.
+> > Still, this fixes issues in DTS that were not noticed before because
+> > the checks were disabled.
+>
+> Is this patch known to fix user-visible behaviour?
 
-Is this patch known to fix user-visible behaviour?
+None that I am aware of.
 
-Best regards,
-								Pavel
+Gr{oetje,eeting}s,
+
+                        Geert
+
 --=20
-People of Russia, stop Putin before his war on Ukraine escalates.
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
 
---Q9rn6aD/S92U1E3N
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCZfAUgQAKCRAw5/Bqldv6
-8l6HAJ48NTNe0sjM5dmXZJpgVt2yUt0QewCgusqrfmeYba20Wbn4F2DCto9qrKQ=
-=NHYi
------END PGP SIGNATURE-----
-
---Q9rn6aD/S92U1E3N--
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
