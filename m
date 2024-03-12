@@ -1,80 +1,108 @@
-Return-Path: <linux-renesas-soc+bounces-3711-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-3712-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF472879065
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 Mar 2024 10:10:33 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1249287906A
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 Mar 2024 10:13:08 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3C81E1F2287A
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 Mar 2024 09:10:33 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id AEBFA1F22AF0
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 Mar 2024 09:13:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5808B77F08;
-	Tue, 12 Mar 2024 09:10:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 478D677F34;
+	Tue, 12 Mar 2024 09:13:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rq7ilaP7"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="AFTEPtwt"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 342D477A03
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 12 Mar 2024 09:10:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 834E677F2C;
+	Tue, 12 Mar 2024 09:13:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710234629; cv=none; b=jXQSoMsBgNJ56mwNOPfpniVAlw/IVAQIvTWfSqphmXkqXfpTZdx8TtoXO0KN52O5LuXO6JYbD2faXJsAI92n7TRBChPdr9VQlB2tvA658TreqVZsM8BmJqQwmsHMRxOhPrSyO7VazW+dTXlxS92PUfxj9IWxJwjb6QHzvcURi9s=
+	t=1710234786; cv=none; b=OwjQdu2SNmbYBVoXsJzJ2WV+V5hSmc71oB2mjNn3haQZ+ggyWBD9MmOzmj2U9jt1vhZxwAa8JnPPFmTLrwmdIwqIZt3plw/oPpUvWymEFL+cA6le2Bbr/cZNgFICutS5VXnIgWxrcu1bdejFoNiLBkDGeIJ+CSZ9uk5BAw1OfRk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710234629; c=relaxed/simple;
-	bh=m7IT+5zI5OQJVD5GPqsZuo6VfKCncrhsjLrYV61uLz8=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:To; b=FYwnMFcqXJi3MzRkFVusm8b30q7gemYjb7JTm54jrxsVgatGxX6VPCFt3NW+KmCt17DVtM2Y5kvd2jo4pvQjZ9mqa4hMejhOqbCJ7wilgC2hhjS+zQVlZ7Kxnel/09xmCmqftP0F8Td1nYzRtDyYSjffnCx3CThIBb5/4rBFts4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rq7ilaP7; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id A2BE5C433F1
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 12 Mar 2024 09:10:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1710234628;
-	bh=m7IT+5zI5OQJVD5GPqsZuo6VfKCncrhsjLrYV61uLz8=;
-	h=Subject:From:Date:To:From;
-	b=rq7ilaP7qJvaHVv6FA8COigmKbDRnnq9RbuOT+JyR0WniA07lps6r4Bguhs7QWgG0
-	 oyUtLKXWwfgWKTCiJCD73Lh1Zy4bOJRJx6f/Ra1ptCBBZItsCbQwa6CzG02I9EFIZ3
-	 w5NNBUghq//w8iBp5TofCit7jNM1UwIKtsBTMfVRTtT7OCoQmzkHhXGXg9983xhE7e
-	 dAWav1VeDb+3xDhyb2SAI6r3CFFvWUXko+ESgwmex2Fk6plii2KI1zCMjIYUhkDpci
-	 2TPYRgc5q2eOanHfT0Te86yXMsFi+8oSHBrD3dLeogrZzegNucP5jLm0B7XyRonYqO
-	 gZk/5Yp9F4k3w==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 85F9FD95053
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 12 Mar 2024 09:10:28 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	s=arc-20240116; t=1710234786; c=relaxed/simple;
+	bh=hUK9GKxZcqwSKCCM/G5VBf6KN+AtFWuXgVSp0rInAbk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=tNY1tP7mQxSLZg1Cs9hBn40bwpvoTMKF+X4sk5yrsP8U/1LhDO7D1p+l67so8YBJbNP0apnDhmvMzIp2q5yv3G7UGkWjzy8YskDqUNjSptI550LBspWyqqAc9tprQb2yPEsJeVfpEUeMlKVfpHmvb7v8PBAB66IoErJ725GNjIk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=AFTEPtwt; arc=none smtp.client-ip=46.235.227.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1710234776;
+	bh=hUK9GKxZcqwSKCCM/G5VBf6KN+AtFWuXgVSp0rInAbk=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=AFTEPtwt7N6hWovL7mBHbeTD6vKYsE9vI9nfgS9jjnF6czX5W0q8fLc5W638qcjHP
+	 eeL4zfrhocVaFUsEsJ1KYDGsiIrjAS35apSECSppKgkFVY9+MzmOBUAxFTr77nTzd/
+	 xazwIKA+mZu63G6UXPcm1xoM57l6Xa2QY3dRxOri+Tq6kYltQ2wKmqlFu3BNvp9arp
+	 BJq/vDV4/vGfLZh+Dx3X6UrE3frebdJS6vi4ZrK/iy+DjertMOM/2gRQDz1Tjf3nh5
+	 k+D65UxAcclepGTLsrFKiXoNxBQBBU+722oQDTAxtFu7KEEvUHTnGRjRT9i/etZ5VC
+	 cGUGpWjAnfRkg==
+Received: from [100.113.186.2] (cola.collaboradmins.com [195.201.22.229])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: kholk11)
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 737983780029;
+	Tue, 12 Mar 2024 09:12:55 +0000 (UTC)
+Message-ID: <56fe79a2-8c39-455c-a402-06c9ae7b5bd1@collabora.com>
+Date: Tue, 12 Mar 2024 10:12:54 +0100
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Patchwork summary for: linux-renesas-soc
-From: patchwork-bot+linux-renesas-soc@kernel.org
-Message-Id: 
- <171023462849.1927.5713102353855566655.git-patchwork-summary@kernel.org>
-Date: Tue, 12 Mar 2024 09:10:28 +0000
-To: linux-renesas-soc@vger.kernel.org
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH AUTOSEL 6.1 12/12] arm64: dts: Fix dtc interrupt_provider
+ warnings
+To: Pavel Machek <pavel@ucw.cz>, Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Sasha Levin <sashal@kernel.org>, linux-kernel@vger.kernel.org,
+ stable@vger.kernel.org, Rob Herring <robh@kernel.org>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Florian Fainelli <florian.fainelli@broadcom.com>,
+ Chanho Min <chanho.min@lge.com>, Arnd Bergmann <arnd@arndb.de>,
+ tsahee@annapurnalabs.com, atenart@kernel.org, robh+dt@kernel.org,
+ krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, rjui@broadcom.com,
+ sbranden@broadcom.com, andrew@lunn.ch, gregory.clement@bootlin.com,
+ sebastian.hesselbarth@gmail.com, matthias.bgg@gmail.com,
+ magnus.damm@gmail.com, linux-arm-kernel@lists.infradead.org,
+ devicetree@vger.kernel.org, linux-mediatek@lists.infradead.org,
+ linux-renesas-soc@vger.kernel.org
+References: <20240229204039.2861519-1-sashal@kernel.org>
+ <20240229204039.2861519-12-sashal@kernel.org> <Ze9x6qqGYdRiWy3h@duo.ucw.cz>
+ <CAMuHMdX-ht_Vetq7+Xh0TqWOcnCdi=3d0VvfgXBF4ExtzGcRDg@mail.gmail.com>
+ <ZfAUgYj0ksDmGuhN@amd.ucw.cz>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Content-Language: en-US
+In-Reply-To: <ZfAUgYj0ksDmGuhN@amd.ucw.cz>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hello:
+Il 12/03/24 09:38, Pavel Machek ha scritto:
+> Hi!
+> 
+>>>> From: Rob Herring <robh@kernel.org>
+>>>>
+>>>> [ Upstream commit 91adecf911e5df78ea3e8f866e69db2c33416a5c ]
+>>>>
+>>>> The dtc interrupt_provider warning is off by default. Fix all the warnings
+>>>> so it can be enabled.
+>>>
+>>> We don't have that warning in 6.1 and likely won't enable it, so we
+>>> should not need this.
+>>
+>> Still, this fixes issues in DTS that were not noticed before because
+>> the checks were disabled.
+> 
+> Is this patch known to fix user-visible behaviour?
+> 
 
-The following patches were marked "mainlined", because they were applied to
-geert/renesas-devel.git (master):
+No, doesn't fix any user-visible issue.
 
-Patch: arm64: dts: renesas: r8a779h0: Add thermal nodes
-  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
-  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=832928
-  Lore link: https://lore.kernel.org/r/d1f07c77943912145583d8916ba3ca65d143b1b1.1709722573.git.geert+renesas@glider.be
-
-
-Total patches: 1
-
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
-
+Cheers,
+Angelo
 
