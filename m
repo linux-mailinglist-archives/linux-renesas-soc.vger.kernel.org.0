@@ -1,54 +1,60 @@
-Return-Path: <linux-renesas-soc+bounces-3706-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-3709-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D699C87903C
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 Mar 2024 10:02:50 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id C4D1A87903F
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 Mar 2024 10:03:01 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8F999281B44
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 Mar 2024 09:02:49 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 02D0B1C208E6
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 Mar 2024 09:03:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BD76442A9E;
-	Tue, 12 Mar 2024 09:02:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7AB4177F11;
+	Tue, 12 Mar 2024 09:02:58 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from xavier.telenet-ops.be (xavier.telenet-ops.be [195.130.132.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from weierstrass.telenet-ops.be (weierstrass.telenet-ops.be [195.130.137.81])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE7A877F12
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 12 Mar 2024 09:02:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.132.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4DD842A9E
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 12 Mar 2024 09:02:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.137.81
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710234167; cv=none; b=Yo0TDNouaLzU488413Qe+NXhlPsT/rcZSrnwe7HPFArGt5LuELebT2gl2eqYLf3d/Anj8WydRrN/cb0ZSjOYupxuHIL0MumeW9b7Jv35Wt730yy6qo5vKtO0yL9kRdx/G4jVbLNPsXRleffu2jETJaLTMJFn4nun/SItnMPIrVc=
+	t=1710234178; cv=none; b=lRlx/tpiqtdtg1lY61wjzrmk+ZVekxNz0sB9NTRaZcrlaEIhLmpADCEXqzVY6IueCnP4K6ejfSa6hODYYmG3ShjoaFC5v0oHSw+we2A3sCSGA2VAOXAq0mptU7PfaTrOhWpxBx33XyAppQkWplzZNzRwtdtLYRn82k9g5qQ2wAk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710234167; c=relaxed/simple;
-	bh=9gnvzaueSysRfcvDGgD8244oB8z4z8auVBAL03DSCgI=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=SdYgMAnP6esohgfppK8VyyYWa3SR1tN71fXeDj6irPnSOaXx027/4KZ8DbHyRg/E9XTZJ4H0IKl7/EVUH24OMgaAxPuoC0lpBfOxoIZBZBno+XPKrAQNtfFFiK6fdBMBdgrQhPSZJud28HAYiB21unxC8vk/hpivF6HxZBAws5A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.132.52
+	s=arc-20240116; t=1710234178; c=relaxed/simple;
+	bh=iD/W2a9ZSXtJIQfssGy8cG1AyyNr/CLyuH7LZ/Cq3sM=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=MnZTjsjjCQ27YtwaKl2J+Dptnj95rimCnIAqJfrJHwqAILyuWZQ5bJ1VldodL6Q5fBQKZAHuYTw1wRWpcZ7wKkNPDYZEGklMLSJAGYiatsY5/h+l4E3Lu5kaQEY5EJgJGeB95AeTs2qhCtBtJtGLXCNjgcWhlYFJ9nIj49oaHeQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.137.81
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
+Received: from baptiste.telenet-ops.be (baptiste.telenet-ops.be [IPv6:2a02:1800:120:4::f00:13])
+	by weierstrass.telenet-ops.be (Postfix) with ESMTPS id 4Tv72c5dWXz4x1R0
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 12 Mar 2024 10:02:48 +0100 (CET)
 Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed80:76d0:2bff:fec8:549])
-	by xavier.telenet-ops.be with bizsmtp
-	id xl2d2B0090SSLxL01l2ds8; Tue, 12 Mar 2024 10:02:38 +0100
+	by baptiste.telenet-ops.be with bizsmtp
+	id xl2d2B00J0SSLxL01l2d1Z; Tue, 12 Mar 2024 10:02:41 +0100
 Received: from rox.of.borg ([192.168.97.57])
 	by ramsan.of.borg with esmtp (Exim 4.95)
 	(envelope-from <geert@linux-m68k.org>)
-	id 1rjy1d-003QlU-8U;
+	id 1rjy1d-003QlX-9p;
 	Tue, 12 Mar 2024 10:02:37 +0100
 Received: from geert by rox.of.borg with local (Exim 4.95)
 	(envelope-from <geert@linux-m68k.org>)
-	id 1rjy1t-005m6s-Es;
+	id 1rjy1t-005m6v-G6;
 	Tue, 12 Mar 2024 10:02:37 +0100
 From: Geert Uytterhoeven <geert+renesas@glider.be>
 To: Magnus Damm <magnus.damm@gmail.com>
 Cc: linux-renesas-soc@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH 0/3] arm64: dts: renesas: r8a779h0/gray-hawk-single: Add remaining serial ports
-Date: Tue, 12 Mar 2024 10:02:33 +0100
-Message-Id: <cover.1709741303.git.geert+renesas@glider.be>
+Subject: [PATCH 1/3] arm64: dts: renesas: r8a779h0: Add remaining HSCIF nodes
+Date: Tue, 12 Mar 2024 10:02:34 +0100
+Message-Id: <b39f081db01fde2d1bf83a193f25b295cfeb002d.1709741303.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <cover.1709741303.git.geert+renesas@glider.be>
+References: <cover.1709741303.git.geert+renesas@glider.be>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -57,40 +63,108 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-	Hi all,
+Add device nodes for the remaining High Speed Serial Communication
+Interfaces with FIFO (HSCIF) on the Renesas R-Car V4M (R8A779H0) SoC,
+including DMA support and the optional external clock source used by
+HSCIF2.
 
-This patch series adds the remaining (High) Speed Serial Communication
-Interfaces with FIFO ((H)SCIF) on the Renesas R-Car V4M (R8A779H0) SoC,
-and enables the second debug serial port on the Renesas Gray Hawk Single
-development board.
+Based on a patch in the BSP by Nghia Nguyen.
 
-As SCIF0 can use the same pins as HSCIF0, it has been tested by
-switching the first debug serial port from HSCIF0 to SCIF0.
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+Changes compared to the BSP:
+  - Update External SCIF clock comment for multiple clocks,
+  - Insert "-clk" into scif2 clock node name,
+  - Change "scif_clk2" to "scif_clk" in clock-names for HSCIF2,
+  - Add DMA properies.
+---
+ arch/arm64/boot/dts/renesas/r8a779h0.dtsi | 59 ++++++++++++++++++++++-
+ 1 file changed, 58 insertions(+), 1 deletion(-)
 
-I plan to queue this in renesas-devel for v6.10.
-
-Thanks for your comments!
-
-Geert Uytterhoeven (3):
-  arm64: dts: renesas: r8a779h0: Add remaining HSCIF nodes
-  arm64: dts: renesas: r8a779h0: Add SCIF nodes
-  arm64: dts: renesas: gray-hawk-single: Add second debug serial port
-
- .../dts/renesas/r8a779h0-gray-hawk-single.dts |  25 +++-
- arch/arm64/boot/dts/renesas/r8a779h0.dtsi     | 127 +++++++++++++++++-
- 2 files changed, 150 insertions(+), 2 deletions(-)
-
+diff --git a/arch/arm64/boot/dts/renesas/r8a779h0.dtsi b/arch/arm64/boot/dts/renesas/r8a779h0.dtsi
+index a01929231e08fa30..4bad906bf2cb155b 100644
+--- a/arch/arm64/boot/dts/renesas/r8a779h0.dtsi
++++ b/arch/arm64/boot/dts/renesas/r8a779h0.dtsi
+@@ -144,13 +144,19 @@ psci {
+ 		method = "smc";
+ 	};
+ 
+-	/* External SCIF clock - to be overridden by boards that provide it */
++	/* External SCIF clocks - to be overridden by boards that provide them */
+ 	scif_clk: scif-clk {
+ 		compatible = "fixed-clock";
+ 		#clock-cells = <0>;
+ 		clock-frequency = <0>;
+ 	};
+ 
++	scif_clk2: scif-clk2 {
++		compatible = "fixed-clock";
++		#clock-cells = <0>;
++		clock-frequency = <0>;
++	};
++
+ 	soc: soc {
+ 		compatible = "simple-bus";
+ 		interrupt-parent = <&gic>;
+@@ -413,6 +419,57 @@ hscif0: serial@e6540000 {
+ 			status = "disabled";
+ 		};
+ 
++		hscif1: serial@e6550000 {
++			compatible = "renesas,hscif-r8a779h0",
++				     "renesas,rcar-gen4-hscif", "renesas,hscif";
++			reg = <0 0xe6550000 0 0x60>;
++			interrupts = <GIC_SPI 247 IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&cpg CPG_MOD 515>,
++				 <&cpg CPG_CORE R8A779H0_CLK_SASYNCPERD1>,
++				 <&scif_clk>;
++			clock-names = "fck", "brg_int", "scif_clk";
++			power-domains = <&sysc R8A779H0_PD_ALWAYS_ON>;
++			resets = <&cpg 515>;
++			dmas = <&dmac1 0x33>, <&dmac1 0x32>,
++			       <&dmac2 0x33>, <&dmac2 0x32>;
++			dma-names = "tx", "rx", "tx", "rx";
++			status = "disabled";
++		};
++
++		hscif2: serial@e6560000 {
++			compatible = "renesas,hscif-r8a779h0",
++				     "renesas,rcar-gen4-hscif", "renesas,hscif";
++			reg = <0 0xe6560000 0 0x60>;
++			interrupts = <GIC_SPI 248 IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&cpg CPG_MOD 516>,
++				 <&cpg CPG_CORE R8A779H0_CLK_SASYNCPERD1>,
++				 <&scif_clk2>;
++			clock-names = "fck", "brg_int", "scif_clk";
++			power-domains = <&sysc R8A779H0_PD_ALWAYS_ON>;
++			resets = <&cpg 516>;
++			dmas = <&dmac1 0x35>, <&dmac1 0x34>,
++			       <&dmac2 0x35>, <&dmac2 0x34>;
++			dma-names = "tx", "rx", "tx", "rx";
++			status = "disabled";
++		};
++
++		hscif3: serial@e66a0000 {
++			compatible = "renesas,hscif-r8a779h0",
++				     "renesas,rcar-gen4-hscif", "renesas,hscif";
++			reg = <0 0xe66a0000 0 0x60>;
++			interrupts = <GIC_SPI 249 IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&cpg CPG_MOD 517>,
++				 <&cpg CPG_CORE R8A779H0_CLK_SASYNCPERD1>,
++				 <&scif_clk>;
++			clock-names = "fck", "brg_int", "scif_clk";
++			power-domains = <&sysc R8A779H0_PD_ALWAYS_ON>;
++			resets = <&cpg 517>;
++			dmas = <&dmac1 0x37>, <&dmac1 0x36>,
++			       <&dmac2 0x37>, <&dmac2 0x36>;
++			dma-names = "tx", "rx", "tx", "rx";
++			status = "disabled";
++		};
++
+ 		avb0: ethernet@e6800000 {
+ 			compatible = "renesas,etheravb-r8a779h0",
+ 				     "renesas,etheravb-rcar-gen4";
 -- 
 2.34.1
 
-Gr{oetje,eeting}s,
-
-						Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-							    -- Linus Torvalds
 
