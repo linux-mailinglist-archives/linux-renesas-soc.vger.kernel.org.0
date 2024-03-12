@@ -1,214 +1,80 @@
-Return-Path: <linux-renesas-soc+bounces-3710-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-3711-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 225B0879048
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 Mar 2024 10:04:35 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id AF472879065
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 Mar 2024 10:10:33 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CCF0C2837BA
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 Mar 2024 09:04:33 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3C81E1F2287A
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 Mar 2024 09:10:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 18D0C77F3C;
-	Tue, 12 Mar 2024 09:04:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5808B77F08;
+	Tue, 12 Mar 2024 09:10:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Tv5xst78"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rq7ilaP7"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2671078265;
-	Tue, 12 Mar 2024 09:04:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 342D477A03
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 12 Mar 2024 09:10:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710234264; cv=none; b=PuxRQT9DckiHzbnYKs8RdzCVWxbTVkOaWU6P8uuHRILlhsehtr+FpJNQjmEcUTkEY2amX2KmIQ0gRLwASbsL2gPSJVcN9zdhUnlbfL6u+vTaEna7suk8GPMrgkih342mkjZBVugUNMtwi6/qLT8ldwii9nXMqlPJ37QkvzwFsDM=
+	t=1710234629; cv=none; b=jXQSoMsBgNJ56mwNOPfpniVAlw/IVAQIvTWfSqphmXkqXfpTZdx8TtoXO0KN52O5LuXO6JYbD2faXJsAI92n7TRBChPdr9VQlB2tvA658TreqVZsM8BmJqQwmsHMRxOhPrSyO7VazW+dTXlxS92PUfxj9IWxJwjb6QHzvcURi9s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710234264; c=relaxed/simple;
-	bh=qdhaJZYzAfGiNZcY1AyLkSazWvntkfiFETQEFvh2LUY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=K9HXPNg9ws3DdXZSk+T3Mh3tdsyjysJCm8I99+XtZsDqwjy64i1cQUcHQYBChsCQaveW1Iagce8424DaTwUKgLT/z0H8e5MullVpmGNiWYk5bVsNSwpC9s2/44DHVqTFo82JsTcPAPtT+SFeDl5PSpR/xC0bEUiJhEZzAq1rAZw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Tv5xst78; arc=none smtp.client-ip=209.85.208.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-2d459a0462fso4603281fa.2;
-        Tue, 12 Mar 2024 02:04:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1710234261; x=1710839061; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=h7rk9dzFLtOBBhT0DXPNQ6GEvnLtRWY6goiKR1vrVJs=;
-        b=Tv5xst78+A8ASuTgxrg58ew1kXl/8m5G0Dr1XjWa/6jVCSFp3+6FyBEgeAt75EUJal
-         eAD7E9uCgjh8qdN+0FiCetLnWRqnU8fs0YMt+THCCZAYRvGn9OZ1YFYPjtYNXKV/DwjD
-         T7T1aROpSHvS+Jx2fr6Z5b2jZfKjkXmRfd6qHw9LG8NVdKoNzJ/nZL5C7BjYWqbLVetc
-         OHbUK1ZRZY32oiDK/ACjtQfnLUvKJAyT1EJxx3vqmAWRB/3/Ae8AlJdPhcdWuXKYmG9D
-         abRDgZiYb7nV5zTqx+zMKazeED2zLPUeHdk1iMZhVp2PYhDP4p+iJ3uoCv1cVYVxro47
-         LqLQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710234261; x=1710839061;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=h7rk9dzFLtOBBhT0DXPNQ6GEvnLtRWY6goiKR1vrVJs=;
-        b=WhizYavShXxuRHm90XA/Hkf5vHsLnHSk+F1L1vJv+Fh8kcufYPTmdINmfRsYjxoZ0C
-         17E/TkrvmphV4oc1Nq5H4vrAZCMi1/VzOv5cw6nXCFLwtbeiSBBubX0ECQbp14lEWdJw
-         g3OH5AaL7kXTYbUKBmo7ByEJAcZCGpbqKmEJvQh4gEtuWvc7W5rH+nAwWK/PWm+zAuav
-         Sdr6UlLEfhIOO7h41TzQnYm4GK/UjkEZXVyAIHXINUHAiCdlzR4avqYG4My8gXavN88+
-         6LQYFcFA6Mw9w4UQ5J/q0UZUWSmy4QUv58ILm4dcDhb80eTcpT/BMAAwwITyGyhUXc58
-         KqdA==
-X-Forwarded-Encrypted: i=1; AJvYcCX+X25MmAaSAKYz8B9kiTzCs/XFhkv7sUlvs7bya2YdsQqRq1IR1RX0E4XCRW8y9qC6Ty4V0yuGe5EJk1lKlB2JCBazK8Rwm3BwII2hlwXGpVcNUTf+bvpUTUFLGzmTSoH5RGkXacR4JoU7aC0QxEGwPHlNCbAJfOu1ZBo4NtzHht1TVn3gLdToc//L0dQYOlmvUyneOLPiR05CuDjcii20X00i/K4m7j4b
-X-Gm-Message-State: AOJu0Yyi0hZ6BIK09mg2DgONbU4De50Q8taq776pSjlEdxkLH5TB30w7
-	+SV470RalbkBdMYlbuRIZEZRGaEPWUcTgu3zD81IoINxuV9aw05T
-X-Google-Smtp-Source: AGHT+IHq5fMBsDl048RBn+pRrCOIdHvh26Fn3Ebv41AXt4kex74sIY36NhN7e05VM3Pbi21f/tWJ7Q==
-X-Received: by 2002:a05:651c:141e:b0:2d3:3e83:8309 with SMTP id u30-20020a05651c141e00b002d33e838309mr4968298lje.19.1710234261019;
-        Tue, 12 Mar 2024 02:04:21 -0700 (PDT)
-Received: from mobilestation ([178.176.56.174])
-        by smtp.gmail.com with ESMTPSA id q17-20020a2eb4b1000000b002d43dfc5d5csm804351ljm.7.2024.03.12.02.04.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 Mar 2024 02:04:20 -0700 (PDT)
-Date: Tue, 12 Mar 2024 12:04:17 +0300
-From: Serge Semin <fancer.lancer@gmail.com>
-To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-Cc: Jingoo Han <jingoohan1@gmail.com>, 
-	Gustavo Pimentel <gustavo.pimentel@synopsys.com>, Lorenzo Pieralisi <lpieralisi@kernel.org>, 
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>, Rob Herring <robh@kernel.org>, 
-	Bjorn Helgaas <bhelgaas@google.com>, Marek Vasut <marek.vasut+renesas@gmail.com>, 
-	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>, Kishon Vijay Abraham I <kishon@kernel.org>, 
-	linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	linux-arm-msm@vger.kernel.org, mhi@lists.linux.dev, Siddharth Vadapalli <s-vadapalli@ti.com>, 
-	Frank Li <Frank.Li@nxp.com>
-Subject: Re: [PATCH v4 1/5] PCI: dwc: Refactor dw_pcie_edma_find_chip() API
-Message-ID: <flwmqlr3irjuwfqpjn227qnrkyyayym57d5v3ksr4xqmfxshaj@ibdi3dyetkou>
-References: <20240306-dw-hdma-v4-0-9fed506e95be@linaro.org>
- <20240306-dw-hdma-v4-1-9fed506e95be@linaro.org>
+	s=arc-20240116; t=1710234629; c=relaxed/simple;
+	bh=m7IT+5zI5OQJVD5GPqsZuo6VfKCncrhsjLrYV61uLz8=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:To; b=FYwnMFcqXJi3MzRkFVusm8b30q7gemYjb7JTm54jrxsVgatGxX6VPCFt3NW+KmCt17DVtM2Y5kvd2jo4pvQjZ9mqa4hMejhOqbCJ7wilgC2hhjS+zQVlZ7Kxnel/09xmCmqftP0F8Td1nYzRtDyYSjffnCx3CThIBb5/4rBFts4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rq7ilaP7; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id A2BE5C433F1
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 12 Mar 2024 09:10:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1710234628;
+	bh=m7IT+5zI5OQJVD5GPqsZuo6VfKCncrhsjLrYV61uLz8=;
+	h=Subject:From:Date:To:From;
+	b=rq7ilaP7qJvaHVv6FA8COigmKbDRnnq9RbuOT+JyR0WniA07lps6r4Bguhs7QWgG0
+	 oyUtLKXWwfgWKTCiJCD73Lh1Zy4bOJRJx6f/Ra1ptCBBZItsCbQwa6CzG02I9EFIZ3
+	 w5NNBUghq//w8iBp5TofCit7jNM1UwIKtsBTMfVRTtT7OCoQmzkHhXGXg9983xhE7e
+	 dAWav1VeDb+3xDhyb2SAI6r3CFFvWUXko+ESgwmex2Fk6plii2KI1zCMjIYUhkDpci
+	 2TPYRgc5q2eOanHfT0Te86yXMsFi+8oSHBrD3dLeogrZzegNucP5jLm0B7XyRonYqO
+	 gZk/5Yp9F4k3w==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 85F9FD95053
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 12 Mar 2024 09:10:28 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240306-dw-hdma-v4-1-9fed506e95be@linaro.org>
+Content-Transfer-Encoding: 8bit
+Subject: Patchwork summary for: linux-renesas-soc
+From: patchwork-bot+linux-renesas-soc@kernel.org
+Message-Id: 
+ <171023462849.1927.5713102353855566655.git-patchwork-summary@kernel.org>
+Date: Tue, 12 Mar 2024 09:10:28 +0000
+To: linux-renesas-soc@vger.kernel.org
 
-Hi Mani
+Hello:
 
-On Wed, Mar 06, 2024 at 03:51:57PM +0530, Manivannan Sadhasivam wrote:
-> In order to add support for Hyper DMA (HDMA), let's refactor the existing
-> dw_pcie_edma_find_chip() API by moving the common code to separate
-> functions.
-> 
-> No functional change.
-> 
-> Suggested-by: Serge Semin <fancer.lancer@gmail.com>
-> Reviewed-by: Siddharth Vadapalli <s-vadapalli@ti.com>
-> Reviewed-by: Frank Li <Frank.Li@nxp.com>
-> Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-> ---
->  drivers/pci/controller/dwc/pcie-designware.c | 40 +++++++++++++++++++++++-----
->  1 file changed, 33 insertions(+), 7 deletions(-)
-> 
-> diff --git a/drivers/pci/controller/dwc/pcie-designware.c b/drivers/pci/controller/dwc/pcie-designware.c
-> index 250cf7f40b85..3a26dfc5368f 100644
-> --- a/drivers/pci/controller/dwc/pcie-designware.c
-> +++ b/drivers/pci/controller/dwc/pcie-designware.c
-> @@ -880,7 +880,17 @@ static struct dw_edma_plat_ops dw_pcie_edma_ops = {
->  	.irq_vector = dw_pcie_edma_irq_vector,
->  };
->  
-> -static int dw_pcie_edma_find_chip(struct dw_pcie *pci)
-> +static void dw_pcie_edma_init_data(struct dw_pcie *pci)
-> +{
-> +	pci->edma.dev = pci->dev;
-> +
-> +	if (!pci->edma.ops)
-> +		pci->edma.ops = &dw_pcie_edma_ops;
-> +
-> +	pci->edma.flags |= DW_EDMA_CHIP_LOCAL;
-> +}
-> +
-> +static int dw_pcie_edma_find_mf(struct dw_pcie *pci)
->  {
->  	u32 val;
->  
-> @@ -902,8 +912,6 @@ static int dw_pcie_edma_find_chip(struct dw_pcie *pci)
->  
->  	if (val == 0xFFFFFFFF && pci->edma.reg_base) {
->  		pci->edma.mf = EDMA_MF_EDMA_UNROLL;
-> -
-> -		val = dw_pcie_readl_dma(pci, PCIE_DMA_CTRL);
->  	} else if (val != 0xFFFFFFFF) {
->  		pci->edma.mf = EDMA_MF_EDMA_LEGACY;
->  
-> @@ -912,12 +920,17 @@ static int dw_pcie_edma_find_chip(struct dw_pcie *pci)
->  		return -ENODEV;
->  	}
->  
-> -	pci->edma.dev = pci->dev;
-> +	return 0;
-> +}
->  
-> -	if (!pci->edma.ops)
-> -		pci->edma.ops = &dw_pcie_edma_ops;
-> +static int dw_pcie_edma_find_channels(struct dw_pcie *pci)
-> +{
-> +	u32 val;
->  
+The following patches were marked "mainlined", because they were applied to
+geert/renesas-devel.git (master):
 
-> -	pci->edma.flags |= DW_EDMA_CHIP_LOCAL;
-> +	if (pci->edma.mf == EDMA_MF_EDMA_LEGACY)
-> +		val = dw_pcie_readl_dbi(pci, PCIE_DMA_VIEWPORT_BASE + PCIE_DMA_CTRL);
-> +	else
-> +		val = dw_pcie_readl_dma(pci, PCIE_DMA_CTRL);
+Patch: arm64: dts: renesas: r8a779h0: Add thermal nodes
+  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
+  Committer: Geert Uytterhoeven <geert+renesas@glider.be>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=832928
+  Lore link: https://lore.kernel.org/r/d1f07c77943912145583d8916ba3ca65d143b1b1.1709722573.git.geert+renesas@glider.be
 
-Once again:
 
-On Tue, Feb 27, 2024 at 01:04:55PM +0530, Manivannan Sadhasivam wrote:
-> On Tue, Feb 27, 2024 at 12:00:41AM +0300, Serge Semin wrote:
-> > The entire
-> > 
-> > +	if (pci->edma.mf == EDMA_MF_EDMA_LEGACY)
-> > +		val = dw_pcie_readl_dbi(pci, PCIE_DMA_VIEWPORT_BASE + PCIE_DMA_CTRL);
-> > +	else
-> > +		val = dw_pcie_readl_dma(pci, PCIE_DMA_CTRL);
-> > 
-> > can be replaced with a single line
-> > 
-> > +	val = dw_pcie_readl_dma(pci, PCIE_DMA_CTRL);
-> > 
-> > since in the legacy case (reg_base = PCIE_DMA_VIEWPORT_BASE) the
-> > pci->edma.reg_base has been initialized by now.
-> > 
-> 
-> Ah okay, got it!
+Total patches: 1
 
--Serge(y)
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
->  
->  	pci->edma.ll_wr_cnt = FIELD_GET(PCIE_DMA_NUM_WR_CHAN, val);
->  	pci->edma.ll_rd_cnt = FIELD_GET(PCIE_DMA_NUM_RD_CHAN, val);
-> @@ -930,6 +943,19 @@ static int dw_pcie_edma_find_chip(struct dw_pcie *pci)
->  	return 0;
->  }
->  
-> +static int dw_pcie_edma_find_chip(struct dw_pcie *pci)
-> +{
-> +	int ret;
-> +
-> +	dw_pcie_edma_init_data(pci);
-> +
-> +	ret = dw_pcie_edma_find_mf(pci);
-> +	if (ret)
-> +		return ret;
-> +
-> +	return dw_pcie_edma_find_channels(pci);
-> +}
-> +
->  static int dw_pcie_edma_irq_verify(struct dw_pcie *pci)
->  {
->  	struct platform_device *pdev = to_platform_device(pci->dev);
-> 
-> -- 
-> 2.25.1
-> 
+
 
