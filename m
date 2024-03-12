@@ -1,150 +1,135 @@
-Return-Path: <linux-renesas-soc+bounces-3728-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-3730-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 887BA879CC5
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 Mar 2024 21:21:47 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id D5283879DF0
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 Mar 2024 22:54:23 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 88F411C21285
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 Mar 2024 20:21:46 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 901C0281AB7
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 Mar 2024 21:54:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D1B061428FC;
-	Tue, 12 Mar 2024 20:21:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ADAE2143759;
+	Tue, 12 Mar 2024 21:54:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernelci-org.20230601.gappssmtp.com header.i=@kernelci-org.20230601.gappssmtp.com header.b="2GJ9Efov"
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="FkotmeBs"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 475A21428F9
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 12 Mar 2024 20:21:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C10644AEEB;
+	Tue, 12 Mar 2024 21:54:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710274904; cv=none; b=IJPi6H1hcufdXSv/iNhkHwAlUaE2zFcRKCOkzckInasd+y5U2+OJnKd7X0hBi/y7qxx4i1jZsFM0vns0nrPYM8uylIY7O0Rij7FWZXHzvS1xdZH7i6MU0e5AZSbyBk8o9hYXma4n8+YfQG48Are5ly8yzpWBkB3JAGcYkCQ618A=
+	t=1710280461; cv=none; b=hb+BDtUgFBQ8BYxox5h6UGY1bUMJhzsoDg2BJLZvXMiKV118aB7dLKBmOmCba3PMyOCh93FPdbmfFrWYaHC/d8En5ImSDsAQCkN9kspvsr2dzCwFhvPyb8ePNWlzoOt3LWpV+xzrxQH9+aMD/mybBRB/ZjNIKfmKUcRf0Y7tQ6g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710274904; c=relaxed/simple;
-	bh=rb//qmIjj1TzfUnE+G0U4eJy1NhGLNnzOjJxr1CfZkA=;
-	h=Message-ID:Date:Content-Type:MIME-Version:Subject:To:From; b=Mk3f0/wUWM8CpXp31L+NF64AkxKj8RXVODC0JwZWl/R0s/fPYI92118py/RnKuse/7G29oOcFxOiUHC2hwhqOPfPRf8rvW2Ora1SuBKT7+zy4DUI+L/zqEDz3NB/iZrRlNbbiNmcMUcQFkFlHiLX1NQFgw846MDYAmKT9yCqk9U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernelci.org; spf=none smtp.mailfrom=kernelci.org; dkim=pass (2048-bit key) header.d=kernelci-org.20230601.gappssmtp.com header.i=@kernelci-org.20230601.gappssmtp.com header.b=2GJ9Efov; arc=none smtp.client-ip=209.85.210.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernelci.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=kernelci.org
-Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-6e6b3dc3564so294587b3a.2
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 12 Mar 2024 13:21:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernelci-org.20230601.gappssmtp.com; s=20230601; t=1710274902; x=1710879702; darn=vger.kernel.org;
-        h=from:to:subject:content-transfer-encoding:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=tW+yLoiCj9/DLI27szj42TXQmajaoaspVTRbXQY3wVM=;
-        b=2GJ9EfovxBDitulBMXRAvr+BmHzWVNFk3o7PQIB5sEUbExd2zxw6SJAW9DCueCwnry
-         pDf4U4FfU54SBHaZ7JitZye5nMXgRMpNnw/2FjRG3pxhW3FBmwRcdWU0Ybw0ZkBwer0v
-         LeBxsgHgCZgYP9WqEJUjjHLklMS2Pdh/fkV9QPei2XpI5VdKkkeI4JGgicQp1xzWHoHB
-         CWwcMRhFjppdIb1WPY1U6wcLjZK1yaupAnbm87PhhmP5oUFENNkZSsAsNsLje/scNC5n
-         xf75rteEPiG3vBEbke08X85j/bHtD2FPU2OECpTUq9bkgSB1jxnitTvs+vUVdwJcPdJ3
-         8CxQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710274902; x=1710879702;
-        h=from:to:subject:content-transfer-encoding:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=tW+yLoiCj9/DLI27szj42TXQmajaoaspVTRbXQY3wVM=;
-        b=FGQ4iLrzhHBhg8bpIrK4GHcI5BX7M/NH36LBhTuWTMAr2JzARHwTYROjepvbmcZrlY
-         XdGPKLUwvB9a2F21WJOD4Y7+XlBe+zyzyp65ppEUmCrnF0G6NTyTDu/lNZt+AEuThAul
-         SX++HkJARY66Wga06QdPpRQ641lSaxgIx0fMgYFWl1gmg2JvWpmuM3qYdywTQDTlA3QL
-         jDnHHaqGCAQ9yYrsJss+XCIbvOCtZQ5J84fd3eAvsh6ZUPA22U6CnTL/N0AL2B8urpya
-         8/hI50wPbyS9ZjkzrsXNiy2gqw6kdcFQ6UG5xbhrWHpU0rXGhTIOMG0v8myy+57kf+bw
-         MfMA==
-X-Gm-Message-State: AOJu0YzrJvnUPcwmUFFXNS6YmtrNR4ZYbYmY0g/tUrhxC+rrRb8bPL2R
-	H9S8VTSMrrYDF/sdJJSAuRXogEprNBitasvoU/KlsF7DQKU1c+pS9ZR0dm3nk8oCsA/4FQKS23M
-	oLsM=
-X-Google-Smtp-Source: AGHT+IEaYipSZplqWA+HhE2KZwXx+TKu8/fioGi1bNRmFUOyOgtvF99WoY+bFlZ7KH23Md9nZnKP4A==
-X-Received: by 2002:a05:6a20:8984:b0:1a1:4cad:89fc with SMTP id h4-20020a056a20898400b001a14cad89fcmr1102197pzg.62.1710274901700;
-        Tue, 12 Mar 2024 13:21:41 -0700 (PDT)
-Received: from kernelci-production.internal.cloudapp.net ([20.171.243.82])
-        by smtp.gmail.com with ESMTPSA id r2-20020a056a00216200b006e69ef5c79bsm2337910pff.93.2024.03.12.13.21.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 Mar 2024 13:21:41 -0700 (PDT)
-Message-ID: <65f0b955.050a0220.b99ba.b2af@mx.google.com>
-Date: Tue, 12 Mar 2024 13:21:41 -0700 (PDT)
-Content-Type: text/plain; charset="utf-8"
+	s=arc-20240116; t=1710280461; c=relaxed/simple;
+	bh=RJOxe9gLykgLJELONd/LUe2kNDyHatJu/03k9aZY7kU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=HV0eDOnlDe4gxzdUjlAmiy8ikumGdRVK8s4kkvJd1Q5YhqeuNB0zOc+gEz8JYvE07ETNwEUqfsB1wzyWyG+OhcXKsEtZn79dWqqDM9GXVQe8v/vGwv8A43UlQ33DGEvtkG33IUoMoAcorAXjz4dhjR8Lf2+c2wGATmaSH0sdFl8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=FkotmeBs; arc=none smtp.client-ip=156.67.10.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Transfer-Encoding:Content-Disposition:
+	Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:From:
+	Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Content-Disposition:
+	In-Reply-To:References; bh=iZw8G0SBXNbXErnviCAZsso6Q+3L0/LBlw+My2zDVZg=; b=Fk
+	otmeBs0tGrIYPwvmlfT7gWGOO06P77oXWP5wXNy3D8I5579BAXPvfzwHmKCXFAMcfjm7JfhZzbKj/
+	LAc9kt3R9/hHW3omv6hJUPsrKi+oL6hAxMZDyJdd6E5Ig7Vp9iIjmr8s7NCGaZhiGsExOtWHjTi+7
+	O+fAnRGOjQZXk3A=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1rkA57-00A5D0-Ef; Tue, 12 Mar 2024 22:54:45 +0100
+Date: Tue, 12 Mar 2024 22:54:45 +0100
+From: Andrew Lunn <andrew@lunn.ch>
+To: Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+Cc: Sergey Shtylyov <s.shtylyov@omp.ru>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	netdev@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH] dt-bindings: net: renesas,etheravb: Add MDIO bus reset
+ properties
+Message-ID: <0f6b36ab-e04e-4381-806d-c20302f100a1@lunn.ch>
+References: <20240309012538.719518-1-niklas.soderlund+renesas@ragnatech.se>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Kernelci-Branch: master
-X-Kernelci-Tree: renesas
-X-Kernelci-Kernel: renesas-devel-2024-03-12-v6.8
-X-Kernelci-Report-Type: test
-Subject: renesas/master baseline-nfs: 15 runs,
- 1 regressions (renesas-devel-2024-03-12-v6.8)
-To: linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
-From: "kernelci.org bot" <bot@kernelci.org>
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240309012538.719518-1-niklas.soderlund+renesas@ragnatech.se>
 
-renesas/master baseline-nfs: 15 runs, 1 regressions (renesas-devel-2024-03-=
-12-v6.8)
+On Sat, Mar 09, 2024 at 02:25:38AM +0100, Niklas Söderlund wrote:
+> The bindings for Renesas Ethernet AVB are from 2015 and contain some
+> oddities that are impossible to get right without breaking existing
+> bindings. One such thing is that the MDIO bus properties that should be
+> its own node are mixed with the node for the IP for Ethernet AVB.
+> 
+> Instead of a separate node for the MDIO bus,
+> 
+>     avb: ethernet@e6800000 {
+>             compatible = "renesas,etheravb-r8a7795",
+>                          "renesas,etheravb-rcar-gen3";
+>             reg = <0xe6800000 0x800>, <0xe6a00000 0x10000>;
+> 
+>             ...
+> 
+>             phy-handle = <&phy0>;
+> 
+>             mdio {
+>                 #address-cells = <1>;
+>                 #size-cells = <0>;
+> 
+>                 phy0: ethernet-phy@0 {
+>                     ...
+>                 };
+>             };
+>     };
+> 
+> The Ethernet AVB mix it in one,
+> 
+>     avb: ethernet@e6800000 {
+>             compatible = "renesas,etheravb-r8a7795",
+>                          "renesas,etheravb-rcar-gen3";
+>             reg = <0xe6800000 0x800>, <0xe6a00000 0x10000>;
+> 
+>             ...
+> 
+>             phy-handle = <&phy0>;
+> 
+>             #address-cells = <1>;
+>             #size-cells = <0>;
+> 
+>             phy0: ethernet-phy@0 {
+>                 ...
+>             };
+>     };
 
-Regressions Summary
--------------------
+This was at one time O.K, and since we don't remove things because
+that would break backwards compatibility, its still technically
+O.K. It does however lead to problems, so newer drivers have used a
+dedicated MDIO node. The yaml i think only documents the use of an
+MDIO node. If you want older DT blobs to pass validation, you might
+want to add the extra properties to the renesas,etheravb-r8a7795
+binding.
 
-platform              | arch  | lab         | compiler | defconfig | regres=
-sions
-----------------------+-------+-------------+----------+-----------+-------=
------
-kontron-kbox-a-230-ls | arm64 | lab-kontron | gcc-10   | defconfig | 1     =
-     =
+You also see some older drivers which have migrated to first look for
+an MDIO node and use it if found, and then fallback to the old
+scheme. So that is what i would suggest here. You could then convert
+all in tree dts files to having an MDIO node, which will make the yaml
+validator happy.
 
-
-  Details:  https://kernelci.org/test/job/renesas/branch/master/kernel/rene=
-sas-devel-2024-03-12-v6.8/plan/baseline-nfs/
-
-  Test:     baseline-nfs
-  Tree:     renesas
-  Branch:   master
-  Describe: renesas-devel-2024-03-12-v6.8
-  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-d=
-evel.git
-  SHA:      62823f1b4e74f3cfdc7166b044ecab3e2751e930 =
-
-
-
-Test Regressions
----------------- =
-
-
-
-platform              | arch  | lab         | compiler | defconfig | regres=
-sions
-----------------------+-------+-------------+----------+-----------+-------=
------
-kontron-kbox-a-230-ls | arm64 | lab-kontron | gcc-10   | defconfig | 1     =
-     =
-
-
-  Details:     https://kernelci.org/test/plan/id/65f08724fbdd182ecc4c430f
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: defconfig
-  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
-110)
-  Plain log:   https://storage.kernelci.org//renesas/master/renesas-devel-2=
-024-03-12-v6.8/arm64/defconfig/gcc-10/lab-kontron/baseline-nfs-kontron-kbox=
--a-230-ls.txt
-  HTML log:    https://storage.kernelci.org//renesas/master/renesas-devel-2=
-024-03-12-v6.8/arm64/defconfig/gcc-10/lab-kontron/baseline-nfs-kontron-kbox=
--a-230-ls.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bullseye/20=
-240129.0/arm64/initrd.cpio.gz =
-
-
-
-  * baseline-nfs.login: https://kernelci.org/test/case/id/65f08724fbdd182ec=
-c4c4310
-        failing since 50 days (last pass: renesas-devel-2024-01-08-v6.7, fi=
-rst fail: renesas-devel-2024-01-22-v6.8-rc1) =
-
- =20
+	Andrew
 
