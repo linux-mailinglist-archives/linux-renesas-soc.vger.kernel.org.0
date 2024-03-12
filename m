@@ -1,145 +1,214 @@
-Return-Path: <linux-renesas-soc+bounces-3707-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-3710-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9C6487903D
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 Mar 2024 10:02:51 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 225B0879048
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 Mar 2024 10:04:35 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 694D11F21767
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 Mar 2024 09:02:51 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CCF0C2837BA
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 Mar 2024 09:04:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D43E877F12;
-	Tue, 12 Mar 2024 09:02:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 18D0C77F3C;
+	Tue, 12 Mar 2024 09:04:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Tv5xst78"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from andre.telenet-ops.be (andre.telenet-ops.be [195.130.132.53])
+Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF38577F1C
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 12 Mar 2024 09:02:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.132.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2671078265;
+	Tue, 12 Mar 2024 09:04:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710234167; cv=none; b=kVuESoGoX3nWaZmRkM4ffIjsDazqJ29UYA6Txg23ps0qythZhAVgYoBJKJZtV8CqAWcjLAKT8FonFheKb6RTiTYg/VCEBiurB9lJXQLoq++HhbhXnbClbNxmWbI0x5cPTgQHjofvcmjk9HZ1nctW5hYHjtPHmEbsDdtTdaCwu48=
+	t=1710234264; cv=none; b=PuxRQT9DckiHzbnYKs8RdzCVWxbTVkOaWU6P8uuHRILlhsehtr+FpJNQjmEcUTkEY2amX2KmIQ0gRLwASbsL2gPSJVcN9zdhUnlbfL6u+vTaEna7suk8GPMrgkih342mkjZBVugUNMtwi6/qLT8ldwii9nXMqlPJ37QkvzwFsDM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710234167; c=relaxed/simple;
-	bh=OLr9LeT9Hfp1wzFU4tuO63HS0mEUDnRlNc6XgefmHps=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=F6nHOI3guiAUuQqZDNCJqOQDM8vJa6WmkVidGnnFRnxCHicPDCOxw0R4Qc81WzTwPvhvLDpjUQ6bSPBNrtLRc4adbAFB+sMAQ0wuIUYWAD8bB3XyVH0whloMQ0Tzdx6rH4lXLjQQ9TDtoNM3CdLJx0Bijti/uRnWgmXw/PfDs7E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.132.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
-Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed80:76d0:2bff:fec8:549])
-	by andre.telenet-ops.be with bizsmtp
-	id xl2d2B00E0SSLxL01l2dRe; Tue, 12 Mar 2024 10:02:37 +0100
-Received: from rox.of.borg ([192.168.97.57])
-	by ramsan.of.borg with esmtp (Exim 4.95)
-	(envelope-from <geert@linux-m68k.org>)
-	id 1rjy1d-003Qlc-BG;
-	Tue, 12 Mar 2024 10:02:37 +0100
-Received: from geert by rox.of.borg with local (Exim 4.95)
-	(envelope-from <geert@linux-m68k.org>)
-	id 1rjy1t-005m73-IJ;
-	Tue, 12 Mar 2024 10:02:37 +0100
-From: Geert Uytterhoeven <geert+renesas@glider.be>
-To: Magnus Damm <magnus.damm@gmail.com>
-Cc: linux-renesas-soc@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH 3/3] arm64: dts: renesas: gray-hawk-single: Add second debug serial port
-Date: Tue, 12 Mar 2024 10:02:36 +0100
-Message-Id: <6e1faff6a717cb8344661bafcae5db5dcfb53a90.1709741303.git.geert+renesas@glider.be>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <cover.1709741303.git.geert+renesas@glider.be>
-References: <cover.1709741303.git.geert+renesas@glider.be>
+	s=arc-20240116; t=1710234264; c=relaxed/simple;
+	bh=qdhaJZYzAfGiNZcY1AyLkSazWvntkfiFETQEFvh2LUY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=K9HXPNg9ws3DdXZSk+T3Mh3tdsyjysJCm8I99+XtZsDqwjy64i1cQUcHQYBChsCQaveW1Iagce8424DaTwUKgLT/z0H8e5MullVpmGNiWYk5bVsNSwpC9s2/44DHVqTFo82JsTcPAPtT+SFeDl5PSpR/xC0bEUiJhEZzAq1rAZw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Tv5xst78; arc=none smtp.client-ip=209.85.208.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-2d459a0462fso4603281fa.2;
+        Tue, 12 Mar 2024 02:04:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1710234261; x=1710839061; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=h7rk9dzFLtOBBhT0DXPNQ6GEvnLtRWY6goiKR1vrVJs=;
+        b=Tv5xst78+A8ASuTgxrg58ew1kXl/8m5G0Dr1XjWa/6jVCSFp3+6FyBEgeAt75EUJal
+         eAD7E9uCgjh8qdN+0FiCetLnWRqnU8fs0YMt+THCCZAYRvGn9OZ1YFYPjtYNXKV/DwjD
+         T7T1aROpSHvS+Jx2fr6Z5b2jZfKjkXmRfd6qHw9LG8NVdKoNzJ/nZL5C7BjYWqbLVetc
+         OHbUK1ZRZY32oiDK/ACjtQfnLUvKJAyT1EJxx3vqmAWRB/3/Ae8AlJdPhcdWuXKYmG9D
+         abRDgZiYb7nV5zTqx+zMKazeED2zLPUeHdk1iMZhVp2PYhDP4p+iJ3uoCv1cVYVxro47
+         LqLQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1710234261; x=1710839061;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=h7rk9dzFLtOBBhT0DXPNQ6GEvnLtRWY6goiKR1vrVJs=;
+        b=WhizYavShXxuRHm90XA/Hkf5vHsLnHSk+F1L1vJv+Fh8kcufYPTmdINmfRsYjxoZ0C
+         17E/TkrvmphV4oc1Nq5H4vrAZCMi1/VzOv5cw6nXCFLwtbeiSBBubX0ECQbp14lEWdJw
+         g3OH5AaL7kXTYbUKBmo7ByEJAcZCGpbqKmEJvQh4gEtuWvc7W5rH+nAwWK/PWm+zAuav
+         Sdr6UlLEfhIOO7h41TzQnYm4GK/UjkEZXVyAIHXINUHAiCdlzR4avqYG4My8gXavN88+
+         6LQYFcFA6Mw9w4UQ5J/q0UZUWSmy4QUv58ILm4dcDhb80eTcpT/BMAAwwITyGyhUXc58
+         KqdA==
+X-Forwarded-Encrypted: i=1; AJvYcCX+X25MmAaSAKYz8B9kiTzCs/XFhkv7sUlvs7bya2YdsQqRq1IR1RX0E4XCRW8y9qC6Ty4V0yuGe5EJk1lKlB2JCBazK8Rwm3BwII2hlwXGpVcNUTf+bvpUTUFLGzmTSoH5RGkXacR4JoU7aC0QxEGwPHlNCbAJfOu1ZBo4NtzHht1TVn3gLdToc//L0dQYOlmvUyneOLPiR05CuDjcii20X00i/K4m7j4b
+X-Gm-Message-State: AOJu0Yyi0hZ6BIK09mg2DgONbU4De50Q8taq776pSjlEdxkLH5TB30w7
+	+SV470RalbkBdMYlbuRIZEZRGaEPWUcTgu3zD81IoINxuV9aw05T
+X-Google-Smtp-Source: AGHT+IHq5fMBsDl048RBn+pRrCOIdHvh26Fn3Ebv41AXt4kex74sIY36NhN7e05VM3Pbi21f/tWJ7Q==
+X-Received: by 2002:a05:651c:141e:b0:2d3:3e83:8309 with SMTP id u30-20020a05651c141e00b002d33e838309mr4968298lje.19.1710234261019;
+        Tue, 12 Mar 2024 02:04:21 -0700 (PDT)
+Received: from mobilestation ([178.176.56.174])
+        by smtp.gmail.com with ESMTPSA id q17-20020a2eb4b1000000b002d43dfc5d5csm804351ljm.7.2024.03.12.02.04.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 12 Mar 2024 02:04:20 -0700 (PDT)
+Date: Tue, 12 Mar 2024 12:04:17 +0300
+From: Serge Semin <fancer.lancer@gmail.com>
+To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+Cc: Jingoo Han <jingoohan1@gmail.com>, 
+	Gustavo Pimentel <gustavo.pimentel@synopsys.com>, Lorenzo Pieralisi <lpieralisi@kernel.org>, 
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>, Rob Herring <robh@kernel.org>, 
+	Bjorn Helgaas <bhelgaas@google.com>, Marek Vasut <marek.vasut+renesas@gmail.com>, 
+	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>, Kishon Vijay Abraham I <kishon@kernel.org>, 
+	linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	linux-arm-msm@vger.kernel.org, mhi@lists.linux.dev, Siddharth Vadapalli <s-vadapalli@ti.com>, 
+	Frank Li <Frank.Li@nxp.com>
+Subject: Re: [PATCH v4 1/5] PCI: dwc: Refactor dw_pcie_edma_find_chip() API
+Message-ID: <flwmqlr3irjuwfqpjn227qnrkyyayym57d5v3ksr4xqmfxshaj@ibdi3dyetkou>
+References: <20240306-dw-hdma-v4-0-9fed506e95be@linaro.org>
+ <20240306-dw-hdma-v4-1-9fed506e95be@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240306-dw-hdma-v4-1-9fed506e95be@linaro.org>
 
-Describe the second debug serial port (CN9800) on the Gray Hawk Single
-board, as provided by HSCIF2, including the SCIF_CLK2 external clock
-source, and all related pin control.
+Hi Mani
 
-Based on a patch for Gray Hawk in the BSP by Nghia Nguyen.
+On Wed, Mar 06, 2024 at 03:51:57PM +0530, Manivannan Sadhasivam wrote:
+> In order to add support for Hyper DMA (HDMA), let's refactor the existing
+> dw_pcie_edma_find_chip() API by moving the common code to separate
+> functions.
+> 
+> No functional change.
+> 
+> Suggested-by: Serge Semin <fancer.lancer@gmail.com>
+> Reviewed-by: Siddharth Vadapalli <s-vadapalli@ti.com>
+> Reviewed-by: Frank Li <Frank.Li@nxp.com>
+> Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+> ---
+>  drivers/pci/controller/dwc/pcie-designware.c | 40 +++++++++++++++++++++++-----
+>  1 file changed, 33 insertions(+), 7 deletions(-)
+> 
+> diff --git a/drivers/pci/controller/dwc/pcie-designware.c b/drivers/pci/controller/dwc/pcie-designware.c
+> index 250cf7f40b85..3a26dfc5368f 100644
+> --- a/drivers/pci/controller/dwc/pcie-designware.c
+> +++ b/drivers/pci/controller/dwc/pcie-designware.c
+> @@ -880,7 +880,17 @@ static struct dw_edma_plat_ops dw_pcie_edma_ops = {
+>  	.irq_vector = dw_pcie_edma_irq_vector,
+>  };
+>  
+> -static int dw_pcie_edma_find_chip(struct dw_pcie *pci)
+> +static void dw_pcie_edma_init_data(struct dw_pcie *pci)
+> +{
+> +	pci->edma.dev = pci->dev;
+> +
+> +	if (!pci->edma.ops)
+> +		pci->edma.ops = &dw_pcie_edma_ops;
+> +
+> +	pci->edma.flags |= DW_EDMA_CHIP_LOCAL;
+> +}
+> +
+> +static int dw_pcie_edma_find_mf(struct dw_pcie *pci)
+>  {
+>  	u32 val;
+>  
+> @@ -902,8 +912,6 @@ static int dw_pcie_edma_find_chip(struct dw_pcie *pci)
+>  
+>  	if (val == 0xFFFFFFFF && pci->edma.reg_base) {
+>  		pci->edma.mf = EDMA_MF_EDMA_UNROLL;
+> -
+> -		val = dw_pcie_readl_dma(pci, PCIE_DMA_CTRL);
+>  	} else if (val != 0xFFFFFFFF) {
+>  		pci->edma.mf = EDMA_MF_EDMA_LEGACY;
+>  
+> @@ -912,12 +920,17 @@ static int dw_pcie_edma_find_chip(struct dw_pcie *pci)
+>  		return -ENODEV;
+>  	}
+>  
+> -	pci->edma.dev = pci->dev;
+> +	return 0;
+> +}
+>  
+> -	if (!pci->edma.ops)
+> -		pci->edma.ops = &dw_pcie_edma_ops;
+> +static int dw_pcie_edma_find_channels(struct dw_pcie *pci)
+> +{
+> +	u32 val;
+>  
 
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
- .../dts/renesas/r8a779h0-gray-hawk-single.dts | 25 ++++++++++++++++++-
- 1 file changed, 24 insertions(+), 1 deletion(-)
+> -	pci->edma.flags |= DW_EDMA_CHIP_LOCAL;
+> +	if (pci->edma.mf == EDMA_MF_EDMA_LEGACY)
+> +		val = dw_pcie_readl_dbi(pci, PCIE_DMA_VIEWPORT_BASE + PCIE_DMA_CTRL);
+> +	else
+> +		val = dw_pcie_readl_dma(pci, PCIE_DMA_CTRL);
 
-diff --git a/arch/arm64/boot/dts/renesas/r8a779h0-gray-hawk-single.dts b/arch/arm64/boot/dts/renesas/r8a779h0-gray-hawk-single.dts
-index bc8616a56c039b20..acf1d625ec410e55 100644
---- a/arch/arm64/boot/dts/renesas/r8a779h0-gray-hawk-single.dts
-+++ b/arch/arm64/boot/dts/renesas/r8a779h0-gray-hawk-single.dts
-@@ -18,6 +18,7 @@ / {
- 
- 	aliases {
- 		serial0 = &hscif0;
-+		serial1 = &hscif2;
- 		ethernet0 = &avb0;
- 	};
- 
-@@ -90,6 +91,14 @@ &hscif0 {
- 	status = "okay";
- };
- 
-+&hscif2 {
-+	pinctrl-0 = <&hscif2_pins>;
-+	pinctrl-names = "default";
-+
-+	uart-has-rtscts;
-+	status = "okay";
-+};
-+
- &i2c0 {
- 	pinctrl-0 = <&i2c0_pins>;
- 	pinctrl-names = "default";
-@@ -144,7 +153,7 @@ &mmc0 {
- };
- 
- &pfc {
--	pinctrl-0 = <&scif_clk_pins>;
-+	pinctrl-0 = <&scif_clk_pins>, <&scif_clk2_pins>;
- 	pinctrl-names = "default";
- 
- 	avb0_pins: avb0 {
-@@ -170,6 +179,11 @@ hscif0_pins: hscif0 {
- 		function = "hscif0";
- 	};
- 
-+	hscif2_pins: hscif2 {
-+		groups = "hscif2_data", "hscif2_ctrl";
-+		function = "hscif2";
-+	};
-+
- 	i2c0_pins: i2c0 {
- 		groups = "i2c0";
- 		function = "i2c0";
-@@ -190,6 +204,11 @@ scif_clk_pins: scif-clk {
- 		groups = "scif_clk";
- 		function = "scif_clk";
- 	};
-+
-+	scif_clk2_pins: scif-clk2 {
-+		groups = "scif_clk2";
-+		function = "scif_clk2";
-+	};
- };
- 
- &rpc {
-@@ -228,3 +247,7 @@ &rwdt {
- &scif_clk {
- 	clock-frequency = <24000000>;
- };
-+
-+&scif_clk2 {
-+	clock-frequency = <24000000>;
-+};
--- 
-2.34.1
+Once again:
 
+On Tue, Feb 27, 2024 at 01:04:55PM +0530, Manivannan Sadhasivam wrote:
+> On Tue, Feb 27, 2024 at 12:00:41AM +0300, Serge Semin wrote:
+> > The entire
+> > 
+> > +	if (pci->edma.mf == EDMA_MF_EDMA_LEGACY)
+> > +		val = dw_pcie_readl_dbi(pci, PCIE_DMA_VIEWPORT_BASE + PCIE_DMA_CTRL);
+> > +	else
+> > +		val = dw_pcie_readl_dma(pci, PCIE_DMA_CTRL);
+> > 
+> > can be replaced with a single line
+> > 
+> > +	val = dw_pcie_readl_dma(pci, PCIE_DMA_CTRL);
+> > 
+> > since in the legacy case (reg_base = PCIE_DMA_VIEWPORT_BASE) the
+> > pci->edma.reg_base has been initialized by now.
+> > 
+> 
+> Ah okay, got it!
+
+-Serge(y)
+
+>  
+>  	pci->edma.ll_wr_cnt = FIELD_GET(PCIE_DMA_NUM_WR_CHAN, val);
+>  	pci->edma.ll_rd_cnt = FIELD_GET(PCIE_DMA_NUM_RD_CHAN, val);
+> @@ -930,6 +943,19 @@ static int dw_pcie_edma_find_chip(struct dw_pcie *pci)
+>  	return 0;
+>  }
+>  
+> +static int dw_pcie_edma_find_chip(struct dw_pcie *pci)
+> +{
+> +	int ret;
+> +
+> +	dw_pcie_edma_init_data(pci);
+> +
+> +	ret = dw_pcie_edma_find_mf(pci);
+> +	if (ret)
+> +		return ret;
+> +
+> +	return dw_pcie_edma_find_channels(pci);
+> +}
+> +
+>  static int dw_pcie_edma_irq_verify(struct dw_pcie *pci)
+>  {
+>  	struct platform_device *pdev = to_platform_device(pci->dev);
+> 
+> -- 
+> 2.25.1
+> 
 
