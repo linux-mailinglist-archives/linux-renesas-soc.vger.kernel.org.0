@@ -1,150 +1,109 @@
-Return-Path: <linux-renesas-soc+bounces-3700-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-3701-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id C187E878F81
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 Mar 2024 09:12:03 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 149FF878F96
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 Mar 2024 09:21:03 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3902A1F22036
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 Mar 2024 08:12:03 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9C37F281F1D
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 Mar 2024 08:21:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8F59B69979;
-	Tue, 12 Mar 2024 08:11:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2682869D01;
+	Tue, 12 Mar 2024 08:21:00 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yb1-f182.google.com (mail-yb1-f182.google.com [209.85.219.182])
+Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com [209.85.128.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 196BA69957;
-	Tue, 12 Mar 2024 08:11:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAC60B651;
+	Tue, 12 Mar 2024 08:20:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710231119; cv=none; b=dyqkdUP40eJv0z4t4S+7H6VlZMxf3ZJbgZoMTqmABOl32cjfLbLToLrkAuPcE9y5JQghBuo76j23XQi9OakyeV3DdqNm9kCVT7EuB/aUIUc9CwONUal2m/H4PqySbBOBCoHQeDTZD9e14jA04FHTmzMCYydUPW6rweUzPVMMnRk=
+	t=1710231660; cv=none; b=i7vVKx2ybpegAZAtsuW99z+wCrp6w/gEoeRNnxwmx5n61U6ceTpLcosr2YKBpak4G/peUSMVpDZFmCnumKYIWbiHlIxKzCuaopsDr2jo+ZRY+sbOzIwyF8dqU2RssCahYwcMs8QIDaWy++NxGOrIgjlLt/WOcMuwS+7bMi134IY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710231119; c=relaxed/simple;
-	bh=sk8HixfVcumWZ1GehQ9D9l7TFRrPjkgjILc7gne2LgU=;
+	s=arc-20240116; t=1710231660; c=relaxed/simple;
+	bh=EC1IWzMZWa+M6F4YkLaSooXMV/yvn8uCENWgAg33cJk=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=fUaD4FNjGGrsCMZ2tJQ5xQ7oguSZ4ik99HCdWMg4DNjw/h1t4HZYIT2YnE+2inHUriGp7v8fq2btQbi77Fe5Jvdqvzyzp5jpa2HdBlrNGU6+WmIuYetylluPB/MY4AEYTavn2Jvgryjm3HKh+syE+r+c8WCYFMCNwAu/yUCBvuo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.219.182
+	 To:Cc:Content-Type; b=Dw29Ph77om122qu2MXzvZdwl2VxDusHbpURxX4rDrc1ZskXXtIqeeKr3pTcUvt0qxf6XvaodIeRtdIZKAzxe6VwSZD8Jy6YqioGp6Xrrcehdl3J2jBFw6/BciNewEHKbEYzb97nDFJpGqqvwNyzuyZt8ytIKae5spV5BPexeMQ8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yb1-f182.google.com with SMTP id 3f1490d57ef6-dc6cbe1ac75so4272694276.1;
-        Tue, 12 Mar 2024 01:11:56 -0700 (PDT)
+Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-60a068e26d8so41906897b3.3;
+        Tue, 12 Mar 2024 01:20:58 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710231115; x=1710835915;
+        d=1e100.net; s=20230601; t=1710231657; x=1710836457;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=0DGGAdPbj0T4Ioaeokq1bEI9IQ4pAfF26xaU3ZGRRTE=;
-        b=oEvxF35Ro8FRDiVFsEnTBBp4GF4hcwi2jmkf7t9jiFclOQq40+d6MuVfL40IhW+FiB
-         ylGbxDwVcbib5nvgY1MrMdFUifhpgUcDY8evIA07KMkYAzjnasvGqFSnJV4DymZfaYVD
-         EvG4BHpV9TerdmN8jUqX1pflRAHw4CJoWqWakqqySmLFeffasz5fHFbTV6cLdhDSwg6H
-         oNzrp2E7CXLS/0Yd8W1II2xD6XlR7tiYH64WtRv1WiORagqMHDrMuTP1hChxe7UYe21k
-         7k8w3+ErSUcSJtNbyZB4ivP/DbX1DzGVhoRUHQbQYzaCRvQCTS7bCJ8NUJ5k9Gj8we4g
-         D4Ag==
-X-Forwarded-Encrypted: i=1; AJvYcCUPTs08aypXy3kB1RQ7y5lq2h5TmNs372ZQOY7UWB1IR6vAJ14s62EtuVuoChRfnCmctFSXCo3cqxUv4i40XtFgQvhVWLgFeIK6X6Sj+jUnjAupT7eZMQMeWs+Pag3iG39lpPbqq/V/kM5wJEM=
-X-Gm-Message-State: AOJu0YxRun9avYQvBko5p4kfnDsdVWtz2THBI90SSTBDxgMtJKD4FU1H
-	Ws7JAoVX1XO5CXoACnPv/2I9YdX5rkDFsNk0AkN8w9X7n7Nr1iUYsCyZektyFFg=
-X-Google-Smtp-Source: AGHT+IFNaH9CLp8v+95AfkpFLyvHa4x3m0DWvM7x2rPJysWPzHHTHOqZmhiyYHsZsqgwVW0G3+1aMQ==
-X-Received: by 2002:a25:1587:0:b0:dc2:271a:3799 with SMTP id 129-20020a251587000000b00dc2271a3799mr7069864ybv.23.1710231115282;
-        Tue, 12 Mar 2024 01:11:55 -0700 (PDT)
-Received: from mail-yb1-f181.google.com (mail-yb1-f181.google.com. [209.85.219.181])
-        by smtp.gmail.com with ESMTPSA id v3-20020a259103000000b00dc7496891f1sm1549406ybl.54.2024.03.12.01.11.54
+        bh=H1bR56IqKqOsxuwkSHrydMHa9KKLbHNZNQKlBX5dtWc=;
+        b=l98G609jMIShf3FaUBEmjbR2CwnIHe8YNxQ5px7z40Jxghbu/D5PWSJLjIyl+dZHV4
+         Hmal/747my9yPq+qSQl+D1vKU/chDQxeZm14GwFMKLTq1x4H0+6WwcxXceQAVROw1nHF
+         9m5TFo+bhAUfz72MZSXD+sgoslr0J3AciRT6QNvSdE2snfgMF1h8Baa4HnQZABr4UKsU
+         AYCBI2uRC/3teMHHpSzQ1+R92jhtSNETPBfZNHMBcHUV2tNgbpfVTOQtfL9KtkC3JrR1
+         12xTTaGwLMAkcuTfs5HJkx+sVN0b501904Pt59N55x5ywv8krKYPcf6xBvh4VUH+ClUE
+         9rxw==
+X-Forwarded-Encrypted: i=1; AJvYcCWhyo2DbdMcZ96ERNjkQiEuHE6gU5d7FbHN07zKcXjlJbsMAPzeZ+7Wv1FM80lDwUGeLufQ11b80AemW6/yKLseFRlcbXL3HVPAuUqLcKX8kAorng1VuhYojarsgqjmjp0l973x9U4Rw7Qo9PMN9vQFjgoWT15h7viukLcpI3kb5idp2hraiYysimbn10Wf02A1gs/ESAH6jdL2UPUnEZ9LD27/
+X-Gm-Message-State: AOJu0Yw4lul1rhJNMSkxSoe87DndXOZysmF76VuqFktgN4i4ez/8Rh96
+	//y61uom+XbDXBKcplNI+AFHHdTNvSEZ8+bxqQZbSwyYCbbo9jkhEj3M8FORfE8=
+X-Google-Smtp-Source: AGHT+IGBk4eB0rHB9ARQyEmNJxLv7mX6XRRN+t8Wxl+8NL+F8ffzBrSwKgAwYdQ4FKG38M0c10nLiw==
+X-Received: by 2002:a81:6f03:0:b0:609:f87b:aad3 with SMTP id k3-20020a816f03000000b00609f87baad3mr8413864ywc.31.1710231656818;
+        Tue, 12 Mar 2024 01:20:56 -0700 (PDT)
+Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com. [209.85.128.178])
+        by smtp.gmail.com with ESMTPSA id p195-20020a0de6cc000000b0060a08edc81dsm1809121ywe.4.2024.03.12.01.20.55
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 12 Mar 2024 01:11:54 -0700 (PDT)
-Received: by mail-yb1-f181.google.com with SMTP id 3f1490d57ef6-dc25e12cc63so5800728276.0;
-        Tue, 12 Mar 2024 01:11:54 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUYeiLRIila3hZCFXGTan4SUpJHzc3Xvb7p+vFUFamMwsS7eyTVabBVPNxxzhcFo3RBWosyN4MtFLIfBLR3cazZOpFzHtrEkiE/PafeZOwoDm1ALZRicsQE2laPdLSznmCh1A9iejFwqw+Dhu8=
-X-Received: by 2002:a25:2007:0:b0:dcb:b072:82d8 with SMTP id
- g7-20020a252007000000b00dcbb07282d8mr7175633ybg.15.1710231113910; Tue, 12 Mar
- 2024 01:11:53 -0700 (PDT)
+        Tue, 12 Mar 2024 01:20:55 -0700 (PDT)
+Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-60a0579a931so35226217b3.0;
+        Tue, 12 Mar 2024 01:20:55 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCWl7vNUutERS6gABnipE7gG922zZeTYDqDOGTR8Gesy6U2azfSe5jBiP28OFXaJDTmHm8OihUTKB2/wv4mHP9NcVdESzEQpFLlmdS7EcGl7uCkuY8aUxIBKVTbJuFuW7OnD1dJ+zKjyyZ5HGgMHhg2V4923hK50TMsKIkTsXJ3tCU5RNqsC3Q1StM1S6HPiIuAyE62VyW9rByRSP9us0dxi/HAj
+X-Received: by 2002:a81:a105:0:b0:60a:243:547c with SMTP id
+ y5-20020a81a105000000b0060a0243547cmr8805841ywg.44.1710231655739; Tue, 12 Mar
+ 2024 01:20:55 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240220194318.672443-1-biju.das.jz@bp.renesas.com>
- <20240220194318.672443-4-biju.das.jz@bp.renesas.com> <hy5crf2leuvewkn5omgrk2bmkndivwmhst4yrefnd3mepy4nzd@xw3rtkxdnb2g>
-In-Reply-To: <hy5crf2leuvewkn5omgrk2bmkndivwmhst4yrefnd3mepy4nzd@xw3rtkxdnb2g>
+References: <20240229204039.2861519-1-sashal@kernel.org> <20240229204039.2861519-12-sashal@kernel.org>
+ <Ze9x6qqGYdRiWy3h@duo.ucw.cz>
+In-Reply-To: <Ze9x6qqGYdRiWy3h@duo.ucw.cz>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 12 Mar 2024 09:11:42 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdV8SnMgawrMspemJNfsAHW-wSboXeEOgZ6F37QqrmiLSA@mail.gmail.com>
-Message-ID: <CAMuHMdV8SnMgawrMspemJNfsAHW-wSboXeEOgZ6F37QqrmiLSA@mail.gmail.com>
-Subject: Re: [PATCH v18 3/4] pwm: Add support for RZ/G2L GPT
-To: =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-Cc: Biju Das <biju.das.jz@bp.renesas.com>, Thierry Reding <thierry.reding@gmail.com>, 
-	Philipp Zabel <p.zabel@pengutronix.de>, Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
-	Magnus Damm <magnus.damm@gmail.com>, linux-pwm@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org, 
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>, Biju Das <biju.das.au@gmail.com>, 
-	kernel@pengutronix.de
+Date: Tue, 12 Mar 2024 09:20:44 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdX-ht_Vetq7+Xh0TqWOcnCdi=3d0VvfgXBF4ExtzGcRDg@mail.gmail.com>
+Message-ID: <CAMuHMdX-ht_Vetq7+Xh0TqWOcnCdi=3d0VvfgXBF4ExtzGcRDg@mail.gmail.com>
+Subject: Re: [PATCH AUTOSEL 6.1 12/12] arm64: dts: Fix dtc interrupt_provider warnings
+To: Pavel Machek <pavel@ucw.cz>
+Cc: Sasha Levin <sashal@kernel.org>, linux-kernel@vger.kernel.org, stable@vger.kernel.org, 
+	Rob Herring <robh@kernel.org>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, Florian Fainelli <florian.fainelli@broadcom.com>, 
+	Chanho Min <chanho.min@lge.com>, Arnd Bergmann <arnd@arndb.de>, tsahee@annapurnalabs.com, 
+	atenart@kernel.org, robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, 
+	conor+dt@kernel.org, rjui@broadcom.com, sbranden@broadcom.com, andrew@lunn.ch, 
+	gregory.clement@bootlin.com, sebastian.hesselbarth@gmail.com, 
+	matthias.bgg@gmail.com, magnus.damm@gmail.com, 
+	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org, 
+	linux-mediatek@lists.infradead.org, linux-renesas-soc@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Uwe,
+Hi Pavel,
 
-On Tue, Mar 12, 2024 at 8:20=E2=80=AFAM Uwe Kleine-K=C3=B6nig
-<u.kleine-koenig@pengutronix.de> wrote:
-> On Tue, Feb 20, 2024 at 07:43:17PM +0000, Biju Das wrote:
-> > --- /dev/null
-> > +++ b/drivers/pwm/pwm-rzg2l-gpt.c
-> > +static u64 calculate_period_or_duty(struct rzg2l_gpt_chip *rzg2l_gpt, =
-u32 val, u8 prescale)
-> > +{
-> > +     u64 tmp, d;
-> > +
-> > +     /*
-> > +      * Rate is in MHz and is always integer for peripheral clk
-> > +      * 2^32 * 2^10 (prescalar) * 10^9 > 2^64
-> > +      * 2^32 * 2^10 (prescalar) * 10^6 < 2^64
-> > +      * Multiply val with prescalar first, if the result is less than
-> > +      * 2^34, then multiply by 10^9. Otherwise divide nr and dr by 10^=
-3
-> > +      * so that it will never overflow.
-> > +      */
-> > +
-> > +     tmp =3D (u64)val << (2 * prescale);
-> > +     if (tmp <=3D (1ULL << 34)) {
+On Mon, Mar 11, 2024 at 10:04=E2=80=AFPM Pavel Machek <pavel@ucw.cz> wrote:
+> > From: Rob Herring <robh@kernel.org>
+> >
+> > [ Upstream commit 91adecf911e5df78ea3e8f866e69db2c33416a5c ]
+> >
+> > The dtc interrupt_provider warning is off by default. Fix all the warni=
+ngs
+> > so it can be enabled.
 >
-> I would have written that as:
->
->         if (tmp >> 34 =3D=3D 0)
->
-> (which implements tmp < (1ULL << 34), which doesn't matter much).
->
-> > +             tmp *=3D NSEC_PER_SEC;
-> > +             d =3D rzg2l_gpt->rate;
-> > +     } else {
-> > +             tmp *=3D div64_u64(NSEC_PER_SEC, KILO);
->
-> I don't know if the compiler is clever enough to not calculate that
-> every time?
+> We don't have that warning in 6.1 and likely won't enable it, so we
+> should not need this.
 
-Not on 32-bit when written that way.
-
-> Also using div64_u64 is too heavy given that both values fit
-> into an u32.
-
-Indeed, so "NSEC_PER_SEC / KILO" should be fine.
-I guess NSEC_PER_MSEC would be too obfuscating?
-
->
-> > +             d =3D div64_u64(rzg2l_gpt->rate, KILO);
->
-> At first I thought you could better use 1024 as the common divisor here
-> as it could be implemented using a shift operation. But I understood
-> with the comment above that we're not losing precision here as both
-> NSEC_PER_SEC and rate are a multiple of 1000.
->
-> Maybe s/Rate is in MHz and is always integer for peripheral clk/Rate is
-> a multiple of 1000000, and so dividing by 1000 is an exact operation./ ?
->
-> > +     }
-> > +
-> > +     return DIV64_U64_ROUND_UP(tmp, d);
-> > +}
+Still, this fixes issues in DTS that were not noticed before because
+the checks were disabled.
 
 Gr{oetje,eeting}s,
 
