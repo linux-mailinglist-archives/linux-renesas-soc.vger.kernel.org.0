@@ -1,121 +1,120 @@
-Return-Path: <linux-renesas-soc+bounces-3701-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-3702-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 149FF878F96
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 Mar 2024 09:21:03 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 13EA0878FD5
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 Mar 2024 09:38:52 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9C37F281F1D
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 Mar 2024 08:21:01 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id B1AC41F221C9
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 Mar 2024 08:38:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2682869D01;
-	Tue, 12 Mar 2024 08:21:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AE20877F1D;
+	Tue, 12 Mar 2024 08:38:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=ucw.cz header.i=@ucw.cz header.b="eAkPn0EO"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com [209.85.128.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAC60B651;
-	Tue, 12 Mar 2024 08:20:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66A5177649;
+	Tue, 12 Mar 2024 08:38:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.255.230.98
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710231660; cv=none; b=i7vVKx2ybpegAZAtsuW99z+wCrp6w/gEoeRNnxwmx5n61U6ceTpLcosr2YKBpak4G/peUSMVpDZFmCnumKYIWbiHlIxKzCuaopsDr2jo+ZRY+sbOzIwyF8dqU2RssCahYwcMs8QIDaWy++NxGOrIgjlLt/WOcMuwS+7bMi134IY=
+	t=1710232713; cv=none; b=PTc4X+VUja0b0zSLLkwWG62cqgzROFwih9r7N3Jf0+knXhTbD+iLLFjdaivzq0ok4lSOnnp2C8x39qB5ngsKZggFnEaNpc29lIUPAzy58ZltbJOAtL+WPoZvup9PHHESh5uUjZK2lamk1kDDO0jIse3JUGf5/D9w7dYPhlIglm0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710231660; c=relaxed/simple;
-	bh=EC1IWzMZWa+M6F4YkLaSooXMV/yvn8uCENWgAg33cJk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Dw29Ph77om122qu2MXzvZdwl2VxDusHbpURxX4rDrc1ZskXXtIqeeKr3pTcUvt0qxf6XvaodIeRtdIZKAzxe6VwSZD8Jy6YqioGp6Xrrcehdl3J2jBFw6/BciNewEHKbEYzb97nDFJpGqqvwNyzuyZt8ytIKae5spV5BPexeMQ8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-60a068e26d8so41906897b3.3;
-        Tue, 12 Mar 2024 01:20:58 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710231657; x=1710836457;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=H1bR56IqKqOsxuwkSHrydMHa9KKLbHNZNQKlBX5dtWc=;
-        b=l98G609jMIShf3FaUBEmjbR2CwnIHe8YNxQ5px7z40Jxghbu/D5PWSJLjIyl+dZHV4
-         Hmal/747my9yPq+qSQl+D1vKU/chDQxeZm14GwFMKLTq1x4H0+6WwcxXceQAVROw1nHF
-         9m5TFo+bhAUfz72MZSXD+sgoslr0J3AciRT6QNvSdE2snfgMF1h8Baa4HnQZABr4UKsU
-         AYCBI2uRC/3teMHHpSzQ1+R92jhtSNETPBfZNHMBcHUV2tNgbpfVTOQtfL9KtkC3JrR1
-         12xTTaGwLMAkcuTfs5HJkx+sVN0b501904Pt59N55x5ywv8krKYPcf6xBvh4VUH+ClUE
-         9rxw==
-X-Forwarded-Encrypted: i=1; AJvYcCWhyo2DbdMcZ96ERNjkQiEuHE6gU5d7FbHN07zKcXjlJbsMAPzeZ+7Wv1FM80lDwUGeLufQ11b80AemW6/yKLseFRlcbXL3HVPAuUqLcKX8kAorng1VuhYojarsgqjmjp0l973x9U4Rw7Qo9PMN9vQFjgoWT15h7viukLcpI3kb5idp2hraiYysimbn10Wf02A1gs/ESAH6jdL2UPUnEZ9LD27/
-X-Gm-Message-State: AOJu0Yw4lul1rhJNMSkxSoe87DndXOZysmF76VuqFktgN4i4ez/8Rh96
-	//y61uom+XbDXBKcplNI+AFHHdTNvSEZ8+bxqQZbSwyYCbbo9jkhEj3M8FORfE8=
-X-Google-Smtp-Source: AGHT+IGBk4eB0rHB9ARQyEmNJxLv7mX6XRRN+t8Wxl+8NL+F8ffzBrSwKgAwYdQ4FKG38M0c10nLiw==
-X-Received: by 2002:a81:6f03:0:b0:609:f87b:aad3 with SMTP id k3-20020a816f03000000b00609f87baad3mr8413864ywc.31.1710231656818;
-        Tue, 12 Mar 2024 01:20:56 -0700 (PDT)
-Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com. [209.85.128.178])
-        by smtp.gmail.com with ESMTPSA id p195-20020a0de6cc000000b0060a08edc81dsm1809121ywe.4.2024.03.12.01.20.55
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 12 Mar 2024 01:20:55 -0700 (PDT)
-Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-60a0579a931so35226217b3.0;
-        Tue, 12 Mar 2024 01:20:55 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWl7vNUutERS6gABnipE7gG922zZeTYDqDOGTR8Gesy6U2azfSe5jBiP28OFXaJDTmHm8OihUTKB2/wv4mHP9NcVdESzEQpFLlmdS7EcGl7uCkuY8aUxIBKVTbJuFuW7OnD1dJ+zKjyyZ5HGgMHhg2V4923hK50TMsKIkTsXJ3tCU5RNqsC3Q1StM1S6HPiIuAyE62VyW9rByRSP9us0dxi/HAj
-X-Received: by 2002:a81:a105:0:b0:60a:243:547c with SMTP id
- y5-20020a81a105000000b0060a0243547cmr8805841ywg.44.1710231655739; Tue, 12 Mar
- 2024 01:20:55 -0700 (PDT)
+	s=arc-20240116; t=1710232713; c=relaxed/simple;
+	bh=D0Dav/Qn1cv9bfxKazHy8Ke0NZ+LD2IcglLT273M/Jg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ORKLsYJwtxZsxI+K/08whOdXUAiKkLisiy/NtZ6D5tdjkRfnQlgWyQtUGeSZA/7eOS7VWkQCWAuk/EeA4pfL0uFdF7mU/7knC9k1COhi9tdU4lmqKPGxSSCh6SVA6/KeiJai7qc/KwqiZptZrtCmol9AE4+l8gJth7RQ02B1+S4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ucw.cz; spf=pass smtp.mailfrom=ucw.cz; dkim=pass (1024-bit key) header.d=ucw.cz header.i=@ucw.cz header.b=eAkPn0EO; arc=none smtp.client-ip=46.255.230.98
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ucw.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ucw.cz
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+	id B5A651C006B; Tue, 12 Mar 2024 09:38:26 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ucw.cz; s=gen1;
+	t=1710232706;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=LR2nwwqmgN2QbjgHc3Koo0qVoLVq9J7DOCiQPH0RGMA=;
+	b=eAkPn0EOGw/osV4V95LaZ/AYDfXEWT0hpGgcikEcoVVy9btE2li73UchXhO44I2/SETQsz
+	KKnKF/aJqRm+Nt0L4wj1lpU4tEu97pX4Rg2qSV5JO/4Pl+fh6YvCFjsJVilkwN0jWkCAyH
+	viJd2lwZGjHsu+GuxK09lvW+p6+PmZQ=
+Date: Tue, 12 Mar 2024 09:38:25 +0100
+From: Pavel Machek <pavel@ucw.cz>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Sasha Levin <sashal@kernel.org>, linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org, Rob Herring <robh@kernel.org>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Chanho Min <chanho.min@lge.com>, Arnd Bergmann <arnd@arndb.de>,
+	tsahee@annapurnalabs.com, atenart@kernel.org, robh+dt@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+	rjui@broadcom.com, sbranden@broadcom.com, andrew@lunn.ch,
+	gregory.clement@bootlin.com, sebastian.hesselbarth@gmail.com,
+	matthias.bgg@gmail.com, magnus.damm@gmail.com,
+	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+	linux-mediatek@lists.infradead.org,
+	linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH AUTOSEL 6.1 12/12] arm64: dts: Fix dtc interrupt_provider
+ warnings
+Message-ID: <ZfAUgYj0ksDmGuhN@amd.ucw.cz>
+References: <20240229204039.2861519-1-sashal@kernel.org>
+ <20240229204039.2861519-12-sashal@kernel.org>
+ <Ze9x6qqGYdRiWy3h@duo.ucw.cz>
+ <CAMuHMdX-ht_Vetq7+Xh0TqWOcnCdi=3d0VvfgXBF4ExtzGcRDg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240229204039.2861519-1-sashal@kernel.org> <20240229204039.2861519-12-sashal@kernel.org>
- <Ze9x6qqGYdRiWy3h@duo.ucw.cz>
-In-Reply-To: <Ze9x6qqGYdRiWy3h@duo.ucw.cz>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 12 Mar 2024 09:20:44 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdX-ht_Vetq7+Xh0TqWOcnCdi=3d0VvfgXBF4ExtzGcRDg@mail.gmail.com>
-Message-ID: <CAMuHMdX-ht_Vetq7+Xh0TqWOcnCdi=3d0VvfgXBF4ExtzGcRDg@mail.gmail.com>
-Subject: Re: [PATCH AUTOSEL 6.1 12/12] arm64: dts: Fix dtc interrupt_provider warnings
-To: Pavel Machek <pavel@ucw.cz>
-Cc: Sasha Levin <sashal@kernel.org>, linux-kernel@vger.kernel.org, stable@vger.kernel.org, 
-	Rob Herring <robh@kernel.org>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Florian Fainelli <florian.fainelli@broadcom.com>, 
-	Chanho Min <chanho.min@lge.com>, Arnd Bergmann <arnd@arndb.de>, tsahee@annapurnalabs.com, 
-	atenart@kernel.org, robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, 
-	conor+dt@kernel.org, rjui@broadcom.com, sbranden@broadcom.com, andrew@lunn.ch, 
-	gregory.clement@bootlin.com, sebastian.hesselbarth@gmail.com, 
-	matthias.bgg@gmail.com, magnus.damm@gmail.com, 
-	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org, 
-	linux-mediatek@lists.infradead.org, linux-renesas-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="Q9rn6aD/S92U1E3N"
+Content-Disposition: inline
+In-Reply-To: <CAMuHMdX-ht_Vetq7+Xh0TqWOcnCdi=3d0VvfgXBF4ExtzGcRDg@mail.gmail.com>
+
+
+--Q9rn6aD/S92U1E3N
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Hi Pavel,
+Hi!
 
-On Mon, Mar 11, 2024 at 10:04=E2=80=AFPM Pavel Machek <pavel@ucw.cz> wrote:
-> > From: Rob Herring <robh@kernel.org>
+> > > From: Rob Herring <robh@kernel.org>
+> > >
+> > > [ Upstream commit 91adecf911e5df78ea3e8f866e69db2c33416a5c ]
+> > >
+> > > The dtc interrupt_provider warning is off by default. Fix all the war=
+nings
+> > > so it can be enabled.
 > >
-> > [ Upstream commit 91adecf911e5df78ea3e8f866e69db2c33416a5c ]
-> >
-> > The dtc interrupt_provider warning is off by default. Fix all the warni=
-ngs
-> > so it can be enabled.
->
-> We don't have that warning in 6.1 and likely won't enable it, so we
-> should not need this.
+> > We don't have that warning in 6.1 and likely won't enable it, so we
+> > should not need this.
+>=20
+> Still, this fixes issues in DTS that were not noticed before because
+> the checks were disabled.
 
-Still, this fixes issues in DTS that were not noticed before because
-the checks were disabled.
+Is this patch known to fix user-visible behaviour?
 
-Gr{oetje,eeting}s,
-
-                        Geert
-
+Best regards,
+								Pavel
 --=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
+People of Russia, stop Putin before his war on Ukraine escalates.
 
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+--Q9rn6aD/S92U1E3N
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCZfAUgQAKCRAw5/Bqldv6
+8l6HAJ48NTNe0sjM5dmXZJpgVt2yUt0QewCgusqrfmeYba20Wbn4F2DCto9qrKQ=
+=NHYi
+-----END PGP SIGNATURE-----
+
+--Q9rn6aD/S92U1E3N--
 
