@@ -1,106 +1,190 @@
-Return-Path: <linux-renesas-soc+bounces-3723-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-3724-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10832879626
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 Mar 2024 15:29:02 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7558687966F
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 Mar 2024 15:34:50 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A5980B252BC
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 Mar 2024 14:28:59 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id E1A0B1F226CC
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 Mar 2024 14:34:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CE6137CF0E;
-	Tue, 12 Mar 2024 14:28:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2B8697CF19;
+	Tue, 12 Mar 2024 14:33:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="Gkd42EZN";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="cD3gLAD+"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="f0Yq+x38"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 112F77AE66;
-	Tue, 12 Mar 2024 14:28:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0761A7CF13
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 12 Mar 2024 14:33:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710253688; cv=none; b=ZKFPpmm9YA5Wo4QF5Puy07aklfxbO4NDYocrn1RN7U+noWHJ8RScbMu6b48JHFVIO4Fn5ljMGQptYlk+myczcadkPk3OPMLuvXmJDskK7Z4n2grXF9ZEuF9L8ABFuKJlFkXH1VAHak0JqdWMDgkabhnG6BExOF3ZJoSBf/y/U/c=
+	t=1710253993; cv=none; b=RzW7vuliMvx7WSwL8tMzdJsLtPQKA0TA5dePCwqWlCQZR4FT6uSwObEhUjSZs8HGYX8mQkI5it6Igh4sPVow93PZBo/E2gwImYgkaYpV0D38YVK5JwMH0VHF2Dq3XXX0TCrzEqib3PrvktpFE13IEnXbR8j65mNYxWfVELexJjI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710253688; c=relaxed/simple;
-	bh=Jf+f71BudLnO/2W1fMmDx0pZd3N23SST9FD0UG7nlxU=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=KEh3eYRTLf+SlGbhPbcCEiYWq1Ov+ioIWL5gVl4oqzk//r+5HilnXdBHnlmGa1rvkYpNmi7BFarMbPrzSjpRhdT+VeV1m4C+oM2ZaGynDG1uCePJPqJDhTSslke2vrNvut4+MaM+aw1Nl8szF8TY5XFWMF6ecymxKKDiIzA3YgM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=Gkd42EZN; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=cD3gLAD+; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
-From: Thomas Gleixner <tglx@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1710253685;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=4XVmae+JgcDRh2ZKkyqUURMemYqkLUazTfEI4APXLG8=;
-	b=Gkd42EZNkxkb0gExXtDTx7jWtBaTPBoUwDTCkVnine3q786/2VyXE+TFzta5tHdTvyY3r6
-	0IppMKL/dDQgNVitWDG887sTq0mkp0YSMQMrp4J5KiWgryFdjcMAK0XI5+krNFTqqlkI24
-	ZPRjAOpPr4JFL9A24qO2FEPoCqbJn3OsrOXd3gK9JhfIlb5jgABbKC+D0DhI1IH8SQtwqn
-	VK/6/AA4WU+xKbG/bu3birdCHd/m1nZqp1Hl47hrjSXlrrTvsPkRZWmOqdhCXDTqi/hr1z
-	nsXWLPu9GxRcJOS1zlHvRJfjTx0Qz1WpvPCqgOgeUuW7E13yopFjKq++prVDSw==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1710253685;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=4XVmae+JgcDRh2ZKkyqUURMemYqkLUazTfEI4APXLG8=;
-	b=cD3gLAD+A5hhLRuybrw9y36IXuxxC0wmJs+Kxm6eMNoqnmzJejztRvj6E/1wUaNsGms837
-	7RFeuZJRKtJkUtAw==
-To: Palmer Dabbelt <palmer@dabbelt.com>
-Cc: peterlin@andestech.com, acme@kernel.org, adrian.hunter@intel.com,
- ajones@ventanamicro.com, alexander.shishkin@linux.intel.com,
- andre.przywara@arm.com, anup@brainfault.org, aou@eecs.berkeley.edu,
- atishp@atishpatra.org, conor+dt@kernel.org, Conor Dooley
- <conor.dooley@microchip.com>, Conor Dooley <conor@kernel.org>,
- devicetree@vger.kernel.org, Evan Green <evan@rivosinc.com>,
- geert+renesas@glider.be, guoren@kernel.org, Heiko Stuebner
- <heiko@sntech.de>, irogers@google.com, jernej.skrabec@gmail.com,
- jolsa@kernel.org, jszhang@kernel.org, krzysztof.kozlowski+dt@linaro.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-perf-users@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
- linux-riscv@lists.infradead.org, linux-sunxi@lists.linux.dev,
- locus84@andestech.com, magnus.damm@gmail.com, Mark Rutland
- <mark.rutland@arm.com>, mingo@redhat.com, n.shubin@yadro.com,
- namhyung@kernel.org, Paul Walmsley <paul.walmsley@sifive.com>,
- peterlin@andestech.com, peterz@infradead.org,
- prabhakar.mahadev-lad.rj@bp.renesas.com, rdunlap@infradead.org,
- robh+dt@kernel.org, samuel@sholland.org, Sunil V L
- <sunilvl@ventanamicro.com>, tim609@andestech.com, uwu@icenowy.me,
- wens@csie.org, Will Deacon <will@kernel.org>, inochiama@outlook.com,
- unicorn_wang@outlook.com, wefu@redhat.com, randolph@andestech.com
-Subject: Re: [PATCH v9 03/10] irqchip/riscv-intc: Introduce Andes hart-level
- interrupt controller
-In-Reply-To: <mhng-d47edbdb-0a36-4adb-9575-8af094d80e5e@palmer-ri-x1c9>
-References: <mhng-d47edbdb-0a36-4adb-9575-8af094d80e5e@palmer-ri-x1c9>
-Date: Tue, 12 Mar 2024 15:28:04 +0100
-Message-ID: <871q8fplsb.ffs@tglx>
+	s=arc-20240116; t=1710253993; c=relaxed/simple;
+	bh=o+/uYG6ofoGRjEwsvYc8C8zo1je2WRBdUCHAT2+qoUM=;
+	h=Date:Content-Type:MIME-Version:From:To:Cc:In-Reply-To:References:
+	 Message-Id:Subject; b=Y53nWWSqzlW4D504kavjZ52PZuqpfwTTl05MVcIq+oOnNQJIPfFjsG0ZA7fqe/JJW82J3NALyL31GjTHiK9kb09njVipzytGoqWiaNFF4bZOIUkKEzPXT/WKo/DIQbOX7oTT7TczWi/iDezSJy75j0domHR6CAZRMK/Qd2c6xBA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=f0Yq+x38; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 559CDC43394;
+	Tue, 12 Mar 2024 14:33:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1710253992;
+	bh=o+/uYG6ofoGRjEwsvYc8C8zo1je2WRBdUCHAT2+qoUM=;
+	h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
+	b=f0Yq+x38BEf/FiNAZ3Ed4YUEKFdHPxG2im1UIHJRcsCs1ngf/R8D+LxuRIG3fb24k
+	 ytBlJ4GaysQeJOCJEw1T51ElqwNl1o0bZOIof8SsrdNScnnYS9+9uugk7MgtSXynir
+	 oElUd3KBIb6B4YJ3eIxz8VvZ29e7r7ailhnsdCGy8yuATziOEMGHMlxqRjXjmrVPt7
+	 d7cfzbWtJe1XK86r2l8OWHvWyhJHtgDhb3GLahuattn6HibxNzHv1D9mA3m1kLCPvM
+	 aqHw/qlzR+afCmbZSM68DYtlL/R8KKEkXzPHA9oMRvT/vbQFHcv5AmlDG/vs+pDip1
+	 9m3djBSXNYn6A==
+Date: Tue, 12 Mar 2024 08:33:11 -0600
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+From: Rob Herring <robh@kernel.org>
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: linux-arm-kernel@lists.infradead.org, linux-renesas-soc@vger.kernel.org, 
+ Magnus Damm <magnus.damm@gmail.com>
+In-Reply-To: <cover.1709741303.git.geert+renesas@glider.be>
+References: <cover.1709741303.git.geert+renesas@glider.be>
+Message-Id: <171025376614.2190678.4481264601902284281.robh@kernel.org>
+Subject: Re: [PATCH 0/3] arm64: dts: renesas: r8a779h0/gray-hawk-single:
+ Add remaining serial ports
 
-On Tue, Mar 12 2024 at 07:23, Palmer Dabbelt wrote:
-> On Fri, 23 Feb 2024 01:06:44 PST (-0800), tglx@linutronix.de wrote:
->> Contains:
->>
->>   f4cc33e78ba8 ("irqchip/riscv-intc: Introduce Andes hart-level interrupt controller")
->>   96303bcb401c ("irqchip/riscv-intc: Allow large non-standard interrupt number")
->>
->> on top of v6.8-rc1
->
-> Sorry I missed this.  I just merged this into my testing tree, it might 
-> take a bit to show up because I've managed to break my VPN so I can't 
-> poke the tester box right now...
 
-Alternatively you can just rebase on Linus tree. The interrupt changes
-are already merged.
+On Tue, 12 Mar 2024 10:02:33 +0100, Geert Uytterhoeven wrote:
+> 	Hi all,
+> 
+> This patch series adds the remaining (High) Speed Serial Communication
+> Interfaces with FIFO ((H)SCIF) on the Renesas R-Car V4M (R8A779H0) SoC,
+> and enables the second debug serial port on the Renesas Gray Hawk Single
+> development board.
+> 
+> As SCIF0 can use the same pins as HSCIF0, it has been tested by
+> switching the first debug serial port from HSCIF0 to SCIF0.
+> 
+> I plan to queue this in renesas-devel for v6.10.
+> 
+> Thanks for your comments!
+> 
+> Geert Uytterhoeven (3):
+>   arm64: dts: renesas: r8a779h0: Add remaining HSCIF nodes
+>   arm64: dts: renesas: r8a779h0: Add SCIF nodes
+>   arm64: dts: renesas: gray-hawk-single: Add second debug serial port
+> 
+>  .../dts/renesas/r8a779h0-gray-hawk-single.dts |  25 +++-
+>  arch/arm64/boot/dts/renesas/r8a779h0.dtsi     | 127 +++++++++++++++++-
+>  2 files changed, 150 insertions(+), 2 deletions(-)
+> 
+> --
+> 2.34.1
+> 
+> Gr{oetje,eeting}s,
+> 
+> 						Geert
+> 
+> --
+> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+> 
+> In personal conversations with technical people, I call myself a hacker. But
+> when I'm talking to journalists I just say "programmer" or something like that.
+> 							    -- Linus Torvalds
+> 
+> 
+
+
+My bot found new DTB warnings on the .dts files added or changed in this
+series.
+
+Some warnings may be from an existing SoC .dtsi. Or perhaps the warnings
+are fixed by another series. Ultimately, it is up to the platform
+maintainer whether these warnings are acceptable or not. No need to reply
+unless the platform maintainer has comments.
+
+If you already ran DT checks and didn't see these error(s), then
+make sure dt-schema is up to date:
+
+  pip3 install dtschema --upgrade
+
+
+New warnings running 'make CHECK_DTBS=y renesas/r8a779h0-gray-hawk-single.dtb' for cover.1709741303.git.geert+renesas@glider.be:
+
+arch/arm64/boot/dts/renesas/r8a779h0-gray-hawk-single.dtb: serial@e6e60000: compatible: 'oneOf' conditional failed, one must be fixed:
+	['renesas,scif-r8a779h0', 'renesas,rcar-gen4-scif', 'renesas,scif'] is too long
+	'renesas,scif-r8a779h0' is not one of ['renesas,scif-r7s72100']
+	'renesas,scif-r8a779h0' is not one of ['renesas,scif-r7s9210']
+	'renesas,scif-r8a779h0' is not one of ['renesas,scif-r8a7778', 'renesas,scif-r8a7779']
+	'renesas,scif-r8a779h0' is not one of ['renesas,scif-r8a7742', 'renesas,scif-r8a7743', 'renesas,scif-r8a7744', 'renesas,scif-r8a7745', 'renesas,scif-r8a77470', 'renesas,scif-r8a7790', 'renesas,scif-r8a7791', 'renesas,scif-r8a7792', 'renesas,scif-r8a7793', 'renesas,scif-r8a7794']
+	'renesas,scif-r8a779h0' is not one of ['renesas,scif-r8a774a1', 'renesas,scif-r8a774b1', 'renesas,scif-r8a774c0', 'renesas,scif-r8a774e1', 'renesas,scif-r8a7795', 'renesas,scif-r8a7796', 'renesas,scif-r8a77961', 'renesas,scif-r8a77965', 'renesas,scif-r8a77970', 'renesas,scif-r8a77980', 'renesas,scif-r8a77990', 'renesas,scif-r8a77995']
+	'renesas,scif-r8a779h0' is not one of ['renesas,scif-r8a779a0', 'renesas,scif-r8a779f0', 'renesas,scif-r8a779g0']
+	'renesas,scif-r8a779h0' is not one of ['renesas,scif-r9a07g044']
+	'renesas,scif-r8a779h0' is not one of ['renesas,scif-r9a07g043', 'renesas,scif-r9a07g054', 'renesas,scif-r9a08g045']
+	'renesas,scif' was expected
+	'renesas,rcar-gen1-scif' was expected
+	'renesas,rcar-gen2-scif' was expected
+	'renesas,rcar-gen3-scif' was expected
+	'renesas,scif-r9a07g044' was expected
+	from schema $id: http://devicetree.org/schemas/serial/renesas,scif.yaml#
+arch/arm64/boot/dts/renesas/r8a779h0-gray-hawk-single.dtb: serial@e6e68000: compatible: 'oneOf' conditional failed, one must be fixed:
+	['renesas,scif-r8a779h0', 'renesas,rcar-gen4-scif', 'renesas,scif'] is too long
+	'renesas,scif-r8a779h0' is not one of ['renesas,scif-r7s72100']
+	'renesas,scif-r8a779h0' is not one of ['renesas,scif-r7s9210']
+	'renesas,scif-r8a779h0' is not one of ['renesas,scif-r8a7778', 'renesas,scif-r8a7779']
+	'renesas,scif-r8a779h0' is not one of ['renesas,scif-r8a7742', 'renesas,scif-r8a7743', 'renesas,scif-r8a7744', 'renesas,scif-r8a7745', 'renesas,scif-r8a77470', 'renesas,scif-r8a7790', 'renesas,scif-r8a7791', 'renesas,scif-r8a7792', 'renesas,scif-r8a7793', 'renesas,scif-r8a7794']
+	'renesas,scif-r8a779h0' is not one of ['renesas,scif-r8a774a1', 'renesas,scif-r8a774b1', 'renesas,scif-r8a774c0', 'renesas,scif-r8a774e1', 'renesas,scif-r8a7795', 'renesas,scif-r8a7796', 'renesas,scif-r8a77961', 'renesas,scif-r8a77965', 'renesas,scif-r8a77970', 'renesas,scif-r8a77980', 'renesas,scif-r8a77990', 'renesas,scif-r8a77995']
+	'renesas,scif-r8a779h0' is not one of ['renesas,scif-r8a779a0', 'renesas,scif-r8a779f0', 'renesas,scif-r8a779g0']
+	'renesas,scif-r8a779h0' is not one of ['renesas,scif-r9a07g044']
+	'renesas,scif-r8a779h0' is not one of ['renesas,scif-r9a07g043', 'renesas,scif-r9a07g054', 'renesas,scif-r9a08g045']
+	'renesas,scif' was expected
+	'renesas,rcar-gen1-scif' was expected
+	'renesas,rcar-gen2-scif' was expected
+	'renesas,rcar-gen3-scif' was expected
+	'renesas,scif-r9a07g044' was expected
+	from schema $id: http://devicetree.org/schemas/serial/renesas,scif.yaml#
+arch/arm64/boot/dts/renesas/r8a779h0-gray-hawk-single.dtb: serial@e6c50000: compatible: 'oneOf' conditional failed, one must be fixed:
+	['renesas,scif-r8a779h0', 'renesas,rcar-gen4-scif', 'renesas,scif'] is too long
+	'renesas,scif-r8a779h0' is not one of ['renesas,scif-r7s72100']
+	'renesas,scif-r8a779h0' is not one of ['renesas,scif-r7s9210']
+	'renesas,scif-r8a779h0' is not one of ['renesas,scif-r8a7778', 'renesas,scif-r8a7779']
+	'renesas,scif-r8a779h0' is not one of ['renesas,scif-r8a7742', 'renesas,scif-r8a7743', 'renesas,scif-r8a7744', 'renesas,scif-r8a7745', 'renesas,scif-r8a77470', 'renesas,scif-r8a7790', 'renesas,scif-r8a7791', 'renesas,scif-r8a7792', 'renesas,scif-r8a7793', 'renesas,scif-r8a7794']
+	'renesas,scif-r8a779h0' is not one of ['renesas,scif-r8a774a1', 'renesas,scif-r8a774b1', 'renesas,scif-r8a774c0', 'renesas,scif-r8a774e1', 'renesas,scif-r8a7795', 'renesas,scif-r8a7796', 'renesas,scif-r8a77961', 'renesas,scif-r8a77965', 'renesas,scif-r8a77970', 'renesas,scif-r8a77980', 'renesas,scif-r8a77990', 'renesas,scif-r8a77995']
+	'renesas,scif-r8a779h0' is not one of ['renesas,scif-r8a779a0', 'renesas,scif-r8a779f0', 'renesas,scif-r8a779g0']
+	'renesas,scif-r8a779h0' is not one of ['renesas,scif-r9a07g044']
+	'renesas,scif-r8a779h0' is not one of ['renesas,scif-r9a07g043', 'renesas,scif-r9a07g054', 'renesas,scif-r9a08g045']
+	'renesas,scif' was expected
+	'renesas,rcar-gen1-scif' was expected
+	'renesas,rcar-gen2-scif' was expected
+	'renesas,rcar-gen3-scif' was expected
+	'renesas,scif-r9a07g044' was expected
+	from schema $id: http://devicetree.org/schemas/serial/renesas,scif.yaml#
+arch/arm64/boot/dts/renesas/r8a779h0-gray-hawk-single.dtb: serial@e6c40000: compatible: 'oneOf' conditional failed, one must be fixed:
+	['renesas,scif-r8a779h0', 'renesas,rcar-gen4-scif', 'renesas,scif'] is too long
+	'renesas,scif-r8a779h0' is not one of ['renesas,scif-r7s72100']
+	'renesas,scif-r8a779h0' is not one of ['renesas,scif-r7s9210']
+	'renesas,scif-r8a779h0' is not one of ['renesas,scif-r8a7778', 'renesas,scif-r8a7779']
+	'renesas,scif-r8a779h0' is not one of ['renesas,scif-r8a7742', 'renesas,scif-r8a7743', 'renesas,scif-r8a7744', 'renesas,scif-r8a7745', 'renesas,scif-r8a77470', 'renesas,scif-r8a7790', 'renesas,scif-r8a7791', 'renesas,scif-r8a7792', 'renesas,scif-r8a7793', 'renesas,scif-r8a7794']
+	'renesas,scif-r8a779h0' is not one of ['renesas,scif-r8a774a1', 'renesas,scif-r8a774b1', 'renesas,scif-r8a774c0', 'renesas,scif-r8a774e1', 'renesas,scif-r8a7795', 'renesas,scif-r8a7796', 'renesas,scif-r8a77961', 'renesas,scif-r8a77965', 'renesas,scif-r8a77970', 'renesas,scif-r8a77980', 'renesas,scif-r8a77990', 'renesas,scif-r8a77995']
+	'renesas,scif-r8a779h0' is not one of ['renesas,scif-r8a779a0', 'renesas,scif-r8a779f0', 'renesas,scif-r8a779g0']
+	'renesas,scif-r8a779h0' is not one of ['renesas,scif-r9a07g044']
+	'renesas,scif-r8a779h0' is not one of ['renesas,scif-r9a07g043', 'renesas,scif-r9a07g054', 'renesas,scif-r9a08g045']
+	'renesas,scif' was expected
+	'renesas,rcar-gen1-scif' was expected
+	'renesas,rcar-gen2-scif' was expected
+	'renesas,rcar-gen3-scif' was expected
+	'renesas,scif-r9a07g044' was expected
+	from schema $id: http://devicetree.org/schemas/serial/renesas,scif.yaml#
+
+
+
+
+
 
