@@ -1,158 +1,164 @@
-Return-Path: <linux-renesas-soc+bounces-3713-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-3714-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FF9D8790A6
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 Mar 2024 10:22:26 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BB2B8790F1
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 Mar 2024 10:28:09 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3741D2868A1
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 Mar 2024 09:22:25 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CE4BD1C20A71
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 12 Mar 2024 09:28:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7BE727CF3C;
-	Tue, 12 Mar 2024 09:17:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FNxE8aax"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C697E8464;
+	Tue, 12 Mar 2024 09:28:06 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D7D17CF20;
-	Tue, 12 Mar 2024 09:17:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA99A3BBF0
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 12 Mar 2024 09:28:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710235075; cv=none; b=VbW3MTJNn9oWBjRsoUAS9nDxlG9f9nhd33I7HYT1Hnm26tuc902GG+sKTYJrG7iUlWi0YV0sbrUCeBMOZjdvc0C4eZtClETSO/AKRMSDlmuh3AxBQBaZf6IlSFR2V2rYbpRxo4hNSkhGD/bdDFuS9mPqE6sDFreRNBZ/DwaJrCM=
+	t=1710235686; cv=none; b=qPAu4frfPpqLao8cELFJUTDHFsXHjCoK70VyFAHh87ygVplRvUPAyh53eQjNMcCbwSVOTqX8jLjHg72wH/ZyFn8YfpUdWirG4zwMApO1KvecSEN5JaLbX4fqT+HOHvzE8qd8itngNu9UHRXmyQEqSk0EI+xxOtBtv6KbNYEBv5c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710235075; c=relaxed/simple;
-	bh=n/xyd4RSK51AZo83JsP+jj0gL9V4BBAgGqAGe8AEkg4=;
+	s=arc-20240116; t=1710235686; c=relaxed/simple;
+	bh=n3I7Mx/WBXJLEO8LJk9M2tK6z+0w6vWOXn0tBA3uaTg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=c3Vg+G/L84oIgZx8kkZqLo9Z7eo+5vDUKSazUeoH3Rj2kck7s0mNJFR+lKhE2/bfujmqztjKsP4pceWPykacF8X7wbxjyskT29zKhlwO1c2SS0oaosILeEguaMsZnVkYqC7R4ReLEikpiHtA0cPDVR/Zd8ouQ4pRAOSCGd1I4d4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FNxE8aax; arc=none smtp.client-ip=209.85.208.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-2d27fef509eso86793231fa.3;
-        Tue, 12 Mar 2024 02:17:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1710235072; x=1710839872; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=BZ6n3LCBgXbzRZ+jOk9gBUl7KDl6UUW0N9+kmdRSwFk=;
-        b=FNxE8aaxTE41lxHvEop8BP5yy26v1Bk6wAoqvUWhnDQo2klrkHjK+dKHA5zqp8wyFZ
-         WI3DjOE61M885NnfXJ9RhBjz0M8r5jvj5OyTA4rFTVRkEu3/oje6BZ18THm0siahmQLZ
-         STrCtLAy8SIiPQzWJmOSCl9QQokoqBM1sE/uY7yGkAvLKF8mTTsv+/UEyugM/s54oA+K
-         qPm2BfgPtbNTjygSL+GlKMTxvhFrRdCeklWdbCk5QbYWDhOoiJKsiw7OYhmTCcZ9Cmu0
-         PV0CaFMnRI5cAKdkJ6OtRnlfVdzuY2X+gyDkRE0dwqjjBL27yxfdRiNC2luF1Orq4tXm
-         lmqQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710235072; x=1710839872;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=BZ6n3LCBgXbzRZ+jOk9gBUl7KDl6UUW0N9+kmdRSwFk=;
-        b=OhLIYnKLjelxIQGcSsolf0P89LISXMdOqdAQT3U1p8uciqVoMol626dxz72lVBG1Ms
-         oPpoEFK450xkXPJA18HNnyyiExCDsl2NYhGlyPNkpM1iLnBh/77aJkxqGgXjBM6LgP3y
-         337K0PuFgwGjw75KCRtENGHqneWR7vSizmSWTln5ADfYij2Gv6GpDhf9OowoaNnMhH18
-         V2odiRMgnRnUVYqxoxcdlUNxDLw9vnW/vmdyUvDu2eEOAQGno/Aqxhfk85+s1SURT5/5
-         wtUB7nhcf8jTPoCuOT96hBHVDbUqUqX60uluMeL1L0YtYrdDlaNCHhW6idEnWjbOHrAL
-         99iA==
-X-Forwarded-Encrypted: i=1; AJvYcCUW6updcz66nF2r0+YZCCCuZApbM9gZRSxiSiipiUn5DrG3MS9eageIUYhfjrmvNoBDL/wESqKORoUiYU5odEHgmbGhwU56AQmScWwNtWSzVT4DmyDT6JM3/CRXM2TjMdsLQdq+Nn9MV/a2xo8V2+l2QVYj3sK/zrJ6IFx8GuuL2ehVLcHNhxs0vgGULiXYP4Z8IOZbHm/PERQDdwtRv8h4sKYDmInQ64HA
-X-Gm-Message-State: AOJu0YwopXVHxULAjUDqcZyNif27uxgES2ixJFPyDXdLc14gyrV1h4Ai
-	q3o8ctVjbkNepousnSfi6Rt1w19/erfOaaiU9Ea/HU/EjboFtAeq
-X-Google-Smtp-Source: AGHT+IFm7+AOiUOnzjOZiIaCXRd9rxISYVnr31Yubo08D3ay+vXSLHfTEBCY79LtjUa86DxxV5qF6A==
-X-Received: by 2002:a2e:be8d:0:b0:2d4:59bd:bc87 with SMTP id a13-20020a2ebe8d000000b002d459bdbc87mr790603ljr.4.1710235071652;
-        Tue, 12 Mar 2024 02:17:51 -0700 (PDT)
-Received: from mobilestation ([178.176.56.174])
-        by smtp.gmail.com with ESMTPSA id f9-20020a05651c02c900b002d2a710f864sm1521827ljo.24.2024.03.12.02.17.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 Mar 2024 02:17:51 -0700 (PDT)
-Date: Tue, 12 Mar 2024 12:17:48 +0300
-From: Serge Semin <fancer.lancer@gmail.com>
-To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-Cc: Jingoo Han <jingoohan1@gmail.com>, 
-	Gustavo Pimentel <gustavo.pimentel@synopsys.com>, Lorenzo Pieralisi <lpieralisi@kernel.org>, 
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>, Rob Herring <robh@kernel.org>, 
-	Bjorn Helgaas <bhelgaas@google.com>, Marek Vasut <marek.vasut+renesas@gmail.com>, 
-	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>, Kishon Vijay Abraham I <kishon@kernel.org>, 
-	linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	linux-arm-msm@vger.kernel.org, mhi@lists.linux.dev, Siddharth Vadapalli <s-vadapalli@ti.com>, 
-	Frank Li <Frank.Li@nxp.com>
-Subject: Re: [PATCH v4 2/5] PCI: dwc: Skip finding eDMA channels count for
- HDMA platforms
-Message-ID: <kqztfm6ri54pkxcmsmngldmlf22mt2vn5cgxxfhjqxujx3qkq2@us6rc2sof7gk>
-References: <20240306-dw-hdma-v4-0-9fed506e95be@linaro.org>
- <20240306-dw-hdma-v4-2-9fed506e95be@linaro.org>
+	 Content-Type:Content-Disposition:In-Reply-To; b=TUlU1SXCFSW5f6oahlwNHa8lp5xQarcRiDS1rsASP40WzXNCC/F2EYo4xN0egywKWrnaQaE4M1DHJu7VcByD1nVyIKbJyToWSQuWboc9jdpsgWpFJi1dDA3KrDfELBWk+PO3sSO3/x24qOJ3bYgGEUrozlHACaEvMtJ7/XnlbbI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1rjyQK-0002bH-US; Tue, 12 Mar 2024 10:27:52 +0100
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1rjyQJ-005t5W-Fd; Tue, 12 Mar 2024 10:27:51 +0100
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.96)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1rjyQJ-004fZT-1C;
+	Tue, 12 Mar 2024 10:27:51 +0100
+Date: Tue, 12 Mar 2024 10:27:51 +0100
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Biju Das <biju.das.au@gmail.com>, linux-pwm@vger.kernel.org, 
+	kernel@pengutronix.de, Magnus Damm <magnus.damm@gmail.com>, 
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>, Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+	linux-renesas-soc@vger.kernel.org, Thierry Reding <thierry.reding@gmail.com>, 
+	Philipp Zabel <p.zabel@pengutronix.de>, Biju Das <biju.das.jz@bp.renesas.com>
+Subject: Re: [PATCH v18 3/4] pwm: Add support for RZ/G2L GPT
+Message-ID: <fdbdfaaczwiqweoa6lot7rycjnhc3fsvsluwx3c5mwc6ic2dsv@m6foz6somnuz>
+References: <20240220194318.672443-1-biju.das.jz@bp.renesas.com>
+ <20240220194318.672443-4-biju.das.jz@bp.renesas.com>
+ <hy5crf2leuvewkn5omgrk2bmkndivwmhst4yrefnd3mepy4nzd@xw3rtkxdnb2g>
+ <CAMuHMdV8SnMgawrMspemJNfsAHW-wSboXeEOgZ6F37QqrmiLSA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="pa5nwvyx2ef2tnjt"
 Content-Disposition: inline
-In-Reply-To: <20240306-dw-hdma-v4-2-9fed506e95be@linaro.org>
+In-Reply-To: <CAMuHMdV8SnMgawrMspemJNfsAHW-wSboXeEOgZ6F37QqrmiLSA@mail.gmail.com>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-renesas-soc@vger.kernel.org
 
-On Wed, Mar 06, 2024 at 03:51:58PM +0530, Manivannan Sadhasivam wrote:
-> In the case of Hyper DMA (HDMA) present in DWC controllers, there is no way
-> the drivers can auto detect the number of read/write channels as like its
-> predecessor embedded DMA (eDMA). So the glue drivers making use of HDMA
-> have to pass the channels count during probe.
-> 
-> To accommodate that, let's skip the existing auto detection of channels
-> count procedure for HDMA based platforms. If the channels count passed by
-> the glue drivers were wrong in any form, then the existing sanity check
-> will catch it.
-> 
-> Suggested-by: Serge Semin <fancer.lancer@gmail.com>
-> Reviewed-by: Siddharth Vadapalli <s-vadapalli@ti.com>
-> Reviewed-by: Frank Li <Frank.Li@nxp.com>
-> Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
 
-Reviewed-by: Serge Semin <fancer.lancer@gmail.com>
+--pa5nwvyx2ef2tnjt
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Please find a tiny nitpick further below.
+Hello Geert,
 
-> ---
->  drivers/pci/controller/dwc/pcie-designware.c | 15 ++++++++++-----
->  1 file changed, 10 insertions(+), 5 deletions(-)
-> 
-> diff --git a/drivers/pci/controller/dwc/pcie-designware.c b/drivers/pci/controller/dwc/pcie-designware.c
-> index 3a26dfc5368f..599991b7ffb2 100644
-> --- a/drivers/pci/controller/dwc/pcie-designware.c
-> +++ b/drivers/pci/controller/dwc/pcie-designware.c
-> @@ -927,13 +927,18 @@ static int dw_pcie_edma_find_channels(struct dw_pcie *pci)
->  {
->  	u32 val;
->  
-> -	if (pci->edma.mf == EDMA_MF_EDMA_LEGACY)
-> -		val = dw_pcie_readl_dbi(pci, PCIE_DMA_VIEWPORT_BASE + PCIE_DMA_CTRL);
-> -	else
+On Tue, Mar 12, 2024 at 09:11:42AM +0100, Geert Uytterhoeven wrote:
+> On Tue, Mar 12, 2024 at 8:20=E2=80=AFAM Uwe Kleine-K=C3=B6nig
+> <u.kleine-koenig@pengutronix.de> wrote:
+> > On Tue, Feb 20, 2024 at 07:43:17PM +0000, Biju Das wrote:
+> > > --- /dev/null
+> > > +++ b/drivers/pwm/pwm-rzg2l-gpt.c
+> > > +static u64 calculate_period_or_duty(struct rzg2l_gpt_chip *rzg2l_gpt=
+, u32 val, u8 prescale)
+> > > +{
+> > > +     u64 tmp, d;
+> > > +
+> > > +     /*
+> > > +      * Rate is in MHz and is always integer for peripheral clk
+> > > +      * 2^32 * 2^10 (prescalar) * 10^9 > 2^64
+> > > +      * 2^32 * 2^10 (prescalar) * 10^6 < 2^64
+> > > +      * Multiply val with prescalar first, if the result is less than
+> > > +      * 2^34, then multiply by 10^9. Otherwise divide nr and dr by 1=
+0^3
+> > > +      * so that it will never overflow.
+> > > +      */
+> > > +
+> > > +     tmp =3D (u64)val << (2 * prescale);
+> > > +     if (tmp <=3D (1ULL << 34)) {
+> >
+> > I would have written that as:
+> >
+> >         if (tmp >> 34 =3D=3D 0)
+> >
+> > (which implements tmp < (1ULL << 34), which doesn't matter much).
+> >
+> > > +             tmp *=3D NSEC_PER_SEC;
+> > > +             d =3D rzg2l_gpt->rate;
+> > > +     } else {
+> > > +             tmp *=3D div64_u64(NSEC_PER_SEC, KILO);
+> >
+> > I don't know if the compiler is clever enough to not calculate that
+> > every time?
+>=20
+> Not on 32-bit when written that way.
+>=20
+> > Also using div64_u64 is too heavy given that both values fit
+> > into an u32.
+>=20
+> Indeed, so "NSEC_PER_SEC / KILO" should be fine.
 
-> +	/*
-> +	 * Autodetect the read/write channels count only for non-HDMA platforms.
-> +	 * HDMA platforms doesn't support autodetect, so the glue drivers should've
-> +	 * passed the valid count already. If not, the below sanity check will
-> +	 * catch it.
-> +	 */
+ack.
 
-This is correct for the _native_ HDMA CSRs mapping. I suggest to emphasize
-that in the note above.
+> I guess NSEC_PER_MSEC would be too obfuscating?
 
--Serge(y)
+or USEC_PER_SEC? Not sure. Also I'm unsure if using KILO instead of 1000
+is really an improvement.
 
-> +	if (pci->edma.mf != EDMA_MF_HDMA_NATIVE) {
->  		val = dw_pcie_readl_dma(pci, PCIE_DMA_CTRL);
->  
-> -	pci->edma.ll_wr_cnt = FIELD_GET(PCIE_DMA_NUM_WR_CHAN, val);
-> -	pci->edma.ll_rd_cnt = FIELD_GET(PCIE_DMA_NUM_RD_CHAN, val);
-> +		pci->edma.ll_wr_cnt = FIELD_GET(PCIE_DMA_NUM_WR_CHAN, val);
-> +		pci->edma.ll_rd_cnt = FIELD_GET(PCIE_DMA_NUM_RD_CHAN, val);
-> +	}
->  
->  	/* Sanity check the channels count if the mapping was incorrect */
->  	if (!pci->edma.ll_wr_cnt || pci->edma.ll_wr_cnt > EDMA_MAX_WR_CH ||
-> 
-> -- 
-> 2.25.1
-> 
+If you know that the clkrate is a multiple of 1000 there is no reason to
+not use clkrate / 1000 unconditionally. So maybe use
+rzg2l_gpt->rate_kHz (and error out in .probe if the rate isn't a
+multiple of 1000?)
+
+Best regards
+Uwe
+
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=C3=B6nig         =
+   |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--pa5nwvyx2ef2tnjt
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmXwIBYACgkQj4D7WH0S
+/k7n/Qf+O2eff5Vj93FymELQFjYTNZWQQqMsgwC+kOgLpklXf2jgmqJze00bKhaJ
+6oMBExaPokeiJqwAn5vrUetYAEped3bh2oO+fIlSdvn315/hy6xI0vByoST+kpzB
+Hjn2YmC6pOx8Cy6cZ1i5BZGvY+vNw9PLPSmRLIyQbwdUlUciWZRx6OkM1vSrFtW5
++Q3mmBqfvPINfFnU9crdP/lIBMBYUlEjx4UOsq1zZdDwVHBCE1+cnrURDm9Yq62F
+xhNw0QnJkUEPeklKoaU/YlB2/UBoG7RCD6/T6Z8j5zZbe6ifpDMhqd8xu/+PhQfY
+vJ2JkwSiTjUwW5bRpM69hvtVUNeEWw==
+=Cty7
+-----END PGP SIGNATURE-----
+
+--pa5nwvyx2ef2tnjt--
 
