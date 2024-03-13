@@ -1,56 +1,53 @@
-Return-Path: <linux-renesas-soc+bounces-3753-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-3754-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF85387B0F1
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 13 Mar 2024 20:04:46 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id E81CF87B0F3
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 13 Mar 2024 20:04:49 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7A60B291EB6
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 13 Mar 2024 19:04:45 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 260CA1C26E98
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 13 Mar 2024 19:04:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AA52E60880;
-	Wed, 13 Mar 2024 18:16:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E501C6CDA1;
+	Wed, 13 Mar 2024 18:16:39 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B117F6BFD9;
-	Wed, 13 Mar 2024 18:16:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.171
+Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C221660873;
+	Wed, 13 Mar 2024 18:16:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710353788; cv=none; b=OZPh1s55/KIAkP1VeeEjadG+f3oDqP5XDCjawuwUBElRYoQSgPGNOHBGC2RT2qC0R2VAFCPxThTdcF/BfoCKoIoSNeJDos4vCeJ0yHJe0/Lo73TaP6N6g1mIaBnbJaAqAFdZ7O4x5iB2L1QthhaN6AqjBZwjRem9RD+WmUS2LNM=
+	t=1710353799; cv=none; b=u4f7w5/2CFWRr/oa16Lf4f5h8zCt9yuOyJAa1tV8jv3s6lDpmVvhSBbo5ErfM7QD51MaH1+/zw0TVLvxPtFOvGm1CF841vcJEprVc1+MFPFFUkw30Ym/dM+zQ/fwJa+gKsbynmPOkCziZnAZVpygmevhrFkBPZqwzjLUdULonAg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710353788; c=relaxed/simple;
-	bh=64oIB8y1THkXYdZKiJRonvfhpT7rr11M5rP6Hklng0g=;
+	s=arc-20240116; t=1710353799; c=relaxed/simple;
+	bh=VsPSTx4FAn5TYxFLv+5eIGzlaYTwOKhJImeGwmZOZU8=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=VQetPtT+YpJU+ityvEzm6MszdtOphlQEe2msvtsxVtwzu8JYW3V1OE9QTStirQyKxIhNWJVhRZgd/w5ci4IIYKE6LcPYxF7KTt5WPJmRU0jO3ycOkXyjfs4liQv53mzFD0G7AsJUG5IhMc80uNX21c3rjZh8y6RNjkIkNhn8N2s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.171
+	 MIME-Version; b=umh+uolbn5S03118NclOKFNRvOM280md032fqQ9PF7v6wiPG7BbESEbUxF7P6ReELAHH23ii4lRVdXccEJvE4StMen12qzBNMRAkqdKLkHoICN/0tQslyakISucAdBQ63leNh+s5IJD7oEu2TTXikfTBhgUficD7NG4GN5odCjc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
 X-IronPort-AV: E=Sophos;i="6.07,123,1708354800"; 
-   d="scan'208";a="197599047"
+   d="scan'208";a="201538768"
 Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie5.idc.renesas.com with ESMTP; 14 Mar 2024 03:16:26 +0900
+  by relmlie6.idc.renesas.com with ESMTP; 14 Mar 2024 03:16:30 +0900
 Received: from localhost.localdomain (unknown [10.226.92.104])
-	by relmlir6.idc.renesas.com (Postfix) with ESMTP id A15C94045874;
-	Thu, 14 Mar 2024 03:16:22 +0900 (JST)
+	by relmlir6.idc.renesas.com (Postfix) with ESMTP id 05F1E4045877;
+	Thu, 14 Mar 2024 03:16:26 +0900 (JST)
 From: Biju Das <biju.das.jz@bp.renesas.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>
 Cc: Biju Das <biju.das.jz@bp.renesas.com>,
 	Geert Uytterhoeven <geert+renesas@glider.be>,
 	Magnus Damm <magnus.damm@gmail.com>,
-	Huy Nguyen <huy.nguyen.wh@renesas.com>,
-	Rob Herring <robh@kernel.org>,
-	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
-	linux-usb@vger.kernel.org,
 	linux-renesas-soc@vger.kernel.org,
+	devicetree@vger.kernel.org,
 	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
 	Biju Das <biju.das.au@gmail.com>
-Subject: [PATCH v2 4/5] usb: renesas_usbhs: Remove trailing comma in the terminator entry for OF table
-Date: Wed, 13 Mar 2024 18:16:01 +0000
-Message-Id: <20240313181602.156840-5-biju.das.jz@bp.renesas.com>
+Subject: [PATCH v2 5/5] arm64: dts: renesas: r9a07g0{43,44,54}: Update RZ/G2L family compatible
+Date: Wed, 13 Mar 2024 18:16:02 +0000
+Message-Id: <20240313181602.156840-6-biju.das.jz@bp.renesas.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20240313181602.156840-1-biju.das.jz@bp.renesas.com>
 References: <20240313181602.156840-1-biju.das.jz@bp.renesas.com>
@@ -62,33 +59,61 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Remove the trailing comma in the terminator entry for the OF table
-making code robust against (theoretical) misrebases or other similar
-things where the new entry goes _after_ the termination without the
-compiler noticing.
+The number of pipe buffers on RZ/G2L family SoCs is 10, whereas on RZ/A2M
+it is 16. Replace 'renesas,rza2m-usbhs->renesas,rzg2l-usbhs' as family SoC
+compatible to handle this difference and use the SoC specific compatible
+in driver to avoid the ABI breakage with older DTB.
 
 Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
 v1->v2:
- * Added Rb tag from Geert.
+ * Updated commit description about ABI breakage.
+ * Updated commit header as it is RZ/G2L specific.
 ---
- drivers/usb/renesas_usbhs/common.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ arch/arm64/boot/dts/renesas/r9a07g043.dtsi | 2 +-
+ arch/arm64/boot/dts/renesas/r9a07g044.dtsi | 2 +-
+ arch/arm64/boot/dts/renesas/r9a07g054.dtsi | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/usb/renesas_usbhs/common.c b/drivers/usb/renesas_usbhs/common.c
-index 47c37c2043cb..cb3081005abe 100644
---- a/drivers/usb/renesas_usbhs/common.c
-+++ b/drivers/usb/renesas_usbhs/common.c
-@@ -597,7 +597,7 @@ static const struct of_device_id usbhs_of_match[] = {
- 		.compatible = "renesas,rzg2l-usbhs",
- 		.data = &usbhs_rzg2l_plat_info,
- 	},
--	{ },
-+	{ }
- };
- MODULE_DEVICE_TABLE(of, usbhs_of_match);
+diff --git a/arch/arm64/boot/dts/renesas/r9a07g043.dtsi b/arch/arm64/boot/dts/renesas/r9a07g043.dtsi
+index 8721f4c9fa0f..766c54b91acc 100644
+--- a/arch/arm64/boot/dts/renesas/r9a07g043.dtsi
++++ b/arch/arm64/boot/dts/renesas/r9a07g043.dtsi
+@@ -812,7 +812,7 @@ usb2_phy1: usb-phy@11c70200 {
  
+ 		hsusb: usb@11c60000 {
+ 			compatible = "renesas,usbhs-r9a07g043",
+-				     "renesas,rza2-usbhs";
++				     "renesas,rzg2l-usbhs";
+ 			reg = <0 0x11c60000 0 0x10000>;
+ 			interrupts = <SOC_PERIPHERAL_IRQ(100) IRQ_TYPE_EDGE_RISING>,
+ 				     <SOC_PERIPHERAL_IRQ(101) IRQ_TYPE_LEVEL_HIGH>,
+diff --git a/arch/arm64/boot/dts/renesas/r9a07g044.dtsi b/arch/arm64/boot/dts/renesas/r9a07g044.dtsi
+index 9f00b75d2bd0..88634ae43287 100644
+--- a/arch/arm64/boot/dts/renesas/r9a07g044.dtsi
++++ b/arch/arm64/boot/dts/renesas/r9a07g044.dtsi
+@@ -1217,7 +1217,7 @@ usb2_phy1: usb-phy@11c70200 {
+ 
+ 		hsusb: usb@11c60000 {
+ 			compatible = "renesas,usbhs-r9a07g044",
+-				     "renesas,rza2-usbhs";
++				     "renesas,rzg2l-usbhs";
+ 			reg = <0 0x11c60000 0 0x10000>;
+ 			interrupts = <GIC_SPI 100 IRQ_TYPE_EDGE_RISING>,
+ 				     <GIC_SPI 101 IRQ_TYPE_LEVEL_HIGH>,
+diff --git a/arch/arm64/boot/dts/renesas/r9a07g054.dtsi b/arch/arm64/boot/dts/renesas/r9a07g054.dtsi
+index 53d8905f367a..e89bfe4085f5 100644
+--- a/arch/arm64/boot/dts/renesas/r9a07g054.dtsi
++++ b/arch/arm64/boot/dts/renesas/r9a07g054.dtsi
+@@ -1225,7 +1225,7 @@ usb2_phy1: usb-phy@11c70200 {
+ 
+ 		hsusb: usb@11c60000 {
+ 			compatible = "renesas,usbhs-r9a07g054",
+-				     "renesas,rza2-usbhs";
++				     "renesas,rzg2l-usbhs";
+ 			reg = <0 0x11c60000 0 0x10000>;
+ 			interrupts = <GIC_SPI 100 IRQ_TYPE_EDGE_RISING>,
+ 				     <GIC_SPI 101 IRQ_TYPE_LEVEL_HIGH>,
 -- 
 2.25.1
 
