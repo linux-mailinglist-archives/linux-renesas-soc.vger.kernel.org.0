@@ -1,120 +1,146 @@
-Return-Path: <linux-renesas-soc+bounces-3754-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-3755-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id E81CF87B0F3
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 13 Mar 2024 20:04:49 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 390C287B434
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 13 Mar 2024 23:10:18 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 260CA1C26E98
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 13 Mar 2024 19:04:49 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 2AD3AB22BCD
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 13 Mar 2024 22:10:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E501C6CDA1;
-	Wed, 13 Mar 2024 18:16:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CF96D5A0F1;
+	Wed, 13 Mar 2024 22:09:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kEkcr5TN"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C221660873;
-	Wed, 13 Mar 2024 18:16:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.172
+Received: from mail-ua1-f51.google.com (mail-ua1-f51.google.com [209.85.222.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45DD759B7D;
+	Wed, 13 Mar 2024 22:09:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710353799; cv=none; b=u4f7w5/2CFWRr/oa16Lf4f5h8zCt9yuOyJAa1tV8jv3s6lDpmVvhSBbo5ErfM7QD51MaH1+/zw0TVLvxPtFOvGm1CF841vcJEprVc1+MFPFFUkw30Ym/dM+zQ/fwJa+gKsbynmPOkCziZnAZVpygmevhrFkBPZqwzjLUdULonAg=
+	t=1710367795; cv=none; b=b+N7IOSA3V5nD9gUH+yZI109xRUN1JwGa0ldwNDsUdVK4Nbdb2pgmBwUtH9DGVJaxHWrcxhAB9IW7IwFY2BJqa3w+QtSTvZkWqgM9mY0rPBGBv85EWwCGab5A53vbfVDwfbks80b9GA2h3xvjaESWozPuUhoEMyEs/wBfAwlZtY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710353799; c=relaxed/simple;
-	bh=VsPSTx4FAn5TYxFLv+5eIGzlaYTwOKhJImeGwmZOZU8=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=umh+uolbn5S03118NclOKFNRvOM280md032fqQ9PF7v6wiPG7BbESEbUxF7P6ReELAHH23ii4lRVdXccEJvE4StMen12qzBNMRAkqdKLkHoICN/0tQslyakISucAdBQ63leNh+s5IJD7oEu2TTXikfTBhgUficD7NG4GN5odCjc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
-X-IronPort-AV: E=Sophos;i="6.07,123,1708354800"; 
-   d="scan'208";a="201538768"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie6.idc.renesas.com with ESMTP; 14 Mar 2024 03:16:30 +0900
-Received: from localhost.localdomain (unknown [10.226.92.104])
-	by relmlir6.idc.renesas.com (Postfix) with ESMTP id 05F1E4045877;
-	Thu, 14 Mar 2024 03:16:26 +0900 (JST)
-From: Biju Das <biju.das.jz@bp.renesas.com>
-To: Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>
-Cc: Biju Das <biju.das.jz@bp.renesas.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	linux-renesas-soc@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Biju Das <biju.das.au@gmail.com>
-Subject: [PATCH v2 5/5] arm64: dts: renesas: r9a07g0{43,44,54}: Update RZ/G2L family compatible
-Date: Wed, 13 Mar 2024 18:16:02 +0000
-Message-Id: <20240313181602.156840-6-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20240313181602.156840-1-biju.das.jz@bp.renesas.com>
-References: <20240313181602.156840-1-biju.das.jz@bp.renesas.com>
+	s=arc-20240116; t=1710367795; c=relaxed/simple;
+	bh=4hpePpaFTE6U7CK4ISiZbOEK8A4i2CFiX0UrbxY6QFY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=dBXugimgob9W+0BiscPQAYw9e1+2+9xHS5ZvcITCZ4dMP9kd/oGCaa7ksgy4gRgf/OHiSJXjkw5XpBHkyIDD1rqLfmEC+r3sTu/tuBWkRC7kvLvB8CS0HvKEGO5g+1rG16jeUaqQ2DgljgDgB8vxiLFq64swmFgIH8jh9W40ikY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kEkcr5TN; arc=none smtp.client-ip=209.85.222.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ua1-f51.google.com with SMTP id a1e0cc1a2514c-7dbb7f8016eso758632241.1;
+        Wed, 13 Mar 2024 15:09:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1710367793; x=1710972593; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=daWXvFeY9rVW7OCBrBWc6Xoloz3pKxS60zVN6U+OS54=;
+        b=kEkcr5TNNc952m2N/g0xoNSdz7HSN98Ky3GSKJelAIbRaP7A98nZBXyMvRCokBnmLY
+         5kUX1VPZTpRqwLyiJjJBNKBjXH94xmMNOpJ3OtJ/BZy/TaoH+hK6imfVeQW7+QoUqESg
+         JWvsvcsR6FHeP/TYNpsszeO2YQD/idkOlWrb0W1Nr9mG7ZvPCNMdEEwPv/y68Y8uMZoe
+         PFiCCs/llV5z6wQWPizyE8oM9A0RBSPxx9d9BxLaap7wd8I6VylbbzbLT6Uz/eg9M2mv
+         rBZS8cHcBuRn5MJx6rHmlDkkX+6uz+0ilpewklxUOpg8f+ixlytcfGFXZN5gYaWMgXNe
+         Oduw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1710367793; x=1710972593;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=daWXvFeY9rVW7OCBrBWc6Xoloz3pKxS60zVN6U+OS54=;
+        b=pcKCjQdPHzVLw+7t+h9RnOM5P8pHj57mCo+UjNxDsL66t4b6BlFVYMZ1cQCkxdVsR1
+         bvqpJCUIY+P/ukhLbRTiwG/o3k4di50JI7kl3JoTQATgl2TO1nvQL5yKXwefasjo6fy1
+         l1Yd1gk0/Tc+ooLc3/z1z1PB8W/YaV2IhHNZtTpRZ/oRB0SRRHTnLcNhSIo5vrM88kQR
+         eH+RNvB/p2tGYp31oIDCQD0cxt6NxGaB52igHu+jwSFkQrK6lmZoCe0OZFKJOzDk9G+H
+         PXWUmBjSleMtM3SXJkcn8efd5M6NgIDdT+RGwzWb9Kwgagq8yvW7DOXouyAoUD+rf/vr
+         x9qg==
+X-Forwarded-Encrypted: i=1; AJvYcCWgJK3DQixlX/eb+J+Gl82u2U9nW70vRSqmVNEkvn1EcI54FEo/HuIh3fy3nawkL+3DrruQlx13yHLigkD3JS74MfeNDK++le99Mw9bpx4yGEq4t7oLF42r/+iDfylVxBDYWZkuSvW+2uCcAWlPvw46c221Oh5jM7B0UTzIZASMNBiSgXqWNZzj9TxHVQq0qdJMAo7wHuL+gYncbI+Kkf7IvmogPfQwnw==
+X-Gm-Message-State: AOJu0Yz9vpXHSxiCXT9PYN+EyIUIPW3FJn+pQR79XQ3cAyw1kGntE7sg
+	Owef/3KGanCBEUuLUcSxwNLhODqJ+Bj2r9wevb06IxbdW9wOk7AbYAggrNyrP9bz7J2jmhtDoIN
+	oIxdKPcepM5286uFEzDD2LzLiZok=
+X-Google-Smtp-Source: AGHT+IHEH3fqCM6u2M1oBHOKBnOFhk9tpx1sgww/vfX8Gmw+JTdMXok3gn5hIEQvYF/wzB4BR7nx+Ps1ixoUwk8Ph18=
+X-Received: by 2002:a1f:f48d:0:b0:4d3:34f4:7e99 with SMTP id
+ s135-20020a1ff48d000000b004d334f47e99mr118866vkh.0.1710367793051; Wed, 13 Mar
+ 2024 15:09:53 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20240313083828.5048-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <619c6117-d9b2-4520-9138-311327b17a8e@linaro.org>
+In-Reply-To: <619c6117-d9b2-4520-9138-311327b17a8e@linaro.org>
+From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date: Wed, 13 Mar 2024 22:08:32 +0000
+Message-ID: <CA+V-a8vicbBrnu__w=KubF3VfRte_v23pUumFEd7O3buSjOyPg@mail.gmail.com>
+Subject: Re: [PATCH] dt-bindings: pinctrl: renesas,rzg2l-pinctrl: Allow
+ 'input' and 'output-enable' properties
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>, Linus Walleij <linus.walleij@linaro.org>, 
+	Rob Herring <robh+dt@kernel.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Magnus Damm <magnus.damm@gmail.com>, linux-renesas-soc@vger.kernel.org, 
+	linux-gpio@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, 
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The number of pipe buffers on RZ/G2L family SoCs is 10, whereas on RZ/A2M
-it is 16. Replace 'renesas,rza2m-usbhs->renesas,rzg2l-usbhs' as family SoC
-compatible to handle this difference and use the SoC specific compatible
-in driver to avoid the ABI breakage with older DTB.
+Hi Krzysztof,
 
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
----
-v1->v2:
- * Updated commit description about ABI breakage.
- * Updated commit header as it is RZ/G2L specific.
----
- arch/arm64/boot/dts/renesas/r9a07g043.dtsi | 2 +-
- arch/arm64/boot/dts/renesas/r9a07g044.dtsi | 2 +-
- arch/arm64/boot/dts/renesas/r9a07g054.dtsi | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
+Thank you for the review.
 
-diff --git a/arch/arm64/boot/dts/renesas/r9a07g043.dtsi b/arch/arm64/boot/dts/renesas/r9a07g043.dtsi
-index 8721f4c9fa0f..766c54b91acc 100644
---- a/arch/arm64/boot/dts/renesas/r9a07g043.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r9a07g043.dtsi
-@@ -812,7 +812,7 @@ usb2_phy1: usb-phy@11c70200 {
- 
- 		hsusb: usb@11c60000 {
- 			compatible = "renesas,usbhs-r9a07g043",
--				     "renesas,rza2-usbhs";
-+				     "renesas,rzg2l-usbhs";
- 			reg = <0 0x11c60000 0 0x10000>;
- 			interrupts = <SOC_PERIPHERAL_IRQ(100) IRQ_TYPE_EDGE_RISING>,
- 				     <SOC_PERIPHERAL_IRQ(101) IRQ_TYPE_LEVEL_HIGH>,
-diff --git a/arch/arm64/boot/dts/renesas/r9a07g044.dtsi b/arch/arm64/boot/dts/renesas/r9a07g044.dtsi
-index 9f00b75d2bd0..88634ae43287 100644
---- a/arch/arm64/boot/dts/renesas/r9a07g044.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r9a07g044.dtsi
-@@ -1217,7 +1217,7 @@ usb2_phy1: usb-phy@11c70200 {
- 
- 		hsusb: usb@11c60000 {
- 			compatible = "renesas,usbhs-r9a07g044",
--				     "renesas,rza2-usbhs";
-+				     "renesas,rzg2l-usbhs";
- 			reg = <0 0x11c60000 0 0x10000>;
- 			interrupts = <GIC_SPI 100 IRQ_TYPE_EDGE_RISING>,
- 				     <GIC_SPI 101 IRQ_TYPE_LEVEL_HIGH>,
-diff --git a/arch/arm64/boot/dts/renesas/r9a07g054.dtsi b/arch/arm64/boot/dts/renesas/r9a07g054.dtsi
-index 53d8905f367a..e89bfe4085f5 100644
---- a/arch/arm64/boot/dts/renesas/r9a07g054.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r9a07g054.dtsi
-@@ -1225,7 +1225,7 @@ usb2_phy1: usb-phy@11c70200 {
- 
- 		hsusb: usb@11c60000 {
- 			compatible = "renesas,usbhs-r9a07g054",
--				     "renesas,rza2-usbhs";
-+				     "renesas,rzg2l-usbhs";
- 			reg = <0 0x11c60000 0 0x10000>;
- 			interrupts = <GIC_SPI 100 IRQ_TYPE_EDGE_RISING>,
- 				     <GIC_SPI 101 IRQ_TYPE_LEVEL_HIGH>,
--- 
-2.25.1
+On Wed, Mar 13, 2024 at 5:02=E2=80=AFPM Krzysztof Kozlowski
+<krzysztof.kozlowski@linaro.org> wrote:
+>
+> On 13/03/2024 09:38, Prabhakar wrote:
+> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> >
+> > On the RZ/G3S SMARC platform, the 'input' property is utilized in gpio-=
+hog
+> > nodes, and the 'output-enable' property is used for ETH0/1 TXC pins. Up=
+date
+> > the binding documentation to include these properties, addressing the
+> > following dtbs_check warnings:
+> >
+> > arch/arm64/boot/dts/renesas/r9a08g045s33-smarc.dtb: pinctrl@11030000: k=
+ey-1-gpio-hog: 'anyOf' conditional failed, one must be fixed:
+> >       'input' does not match any of the regexes: 'pinctrl-[0-9]+'
+> >       True is not of type 'object'
+> >       [[144, 1]] is not of type 'object'
+> >       ['key-1-gpio-irq'] is not of type 'object'
+> >       from schema $id: http://devicetree.org/schemas/pinctrl/renesas,rz=
+g2l-pinctrl.yaml#
+> >
+> > arch/arm64/boot/dts/renesas/r9a08g045s33-smarc.dtb: pinctrl@11030000: e=
+th0: 'anyOf' conditional failed, one must be fixed:
+> >       'mux', 'tx_ctl', 'txc' do not match any of the regexes: 'pinctrl-=
+[0-9]+'
+> >       'output-enable' does not match any of the regexes: 'pinctrl-[0-9]=
++'
+> >       from schema $id: http://devicetree.org/schemas/pinctrl/renesas,rz=
+g2l-pinctrl.yaml#
+> >
+>
+> In the future, please trim the error messages only to relevant parts, e.g=
+.
+>
+> arch/arm64/boot/dts/renesas/r9a08g045s33-smarc.dtb: pinctrl@11030000: key=
+-1-gpio-hog: 'anyOf' conditional failed, one must be fixed:
+>         'input' does not match any of the regexes: 'pinctrl-[0-9]+'
+>
+> Because all other four lines are really not helping.
+>
+Sure I will keep that in mind.
 
+> Anyway, no need to resend just for that:
+>
+Thanks.
+
+Cheers,
+Prabhakar
 
