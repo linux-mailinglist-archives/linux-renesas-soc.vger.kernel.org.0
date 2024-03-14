@@ -1,120 +1,125 @@
-Return-Path: <linux-renesas-soc+bounces-3772-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-3773-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBF2287BA3E
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 Mar 2024 10:19:37 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CABC87BCD4
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 Mar 2024 13:31:33 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id EDB801C2154E
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 Mar 2024 09:19:36 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9F4E12844E9
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 Mar 2024 12:31:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 29DAA4D9F9;
-	Thu, 14 Mar 2024 09:19:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7A95D6FE0B;
+	Thu, 14 Mar 2024 12:30:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oG+C/r13"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yb1-f174.google.com (mail-yb1-f174.google.com [209.85.219.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 859F846A2;
-	Thu, 14 Mar 2024 09:19:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42CA857861;
+	Thu, 14 Mar 2024 12:30:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710407974; cv=none; b=Tx4uFvWB1yo4RN52q1Zfgz9IeVX82vzxPAhlYNFlv/R57gMv/ZW6JkhjaQnZZQ5vEK75iuwZPQ6KZBqK3yEgin+ES/BnPLF3hWy3/98DsEFANKu+oy96Bo2S6/mqJhAtNJ3I+46/VfEJZco3C6TI4txjTAC1ArfJLbcKjsOKU6c=
+	t=1710419432; cv=none; b=hzeup4Oatr/M7KkX8iUSS6a+Wj82iIugUObXVqekX2eA6AGuoS4Hi9fymxvXZvhvSGA0x9DgX5WS6m+Mlx9xLX3c/CEJP3ptc0igBxuFjA9M200MZ4U1MDyVkCqX/WhM5o5Yq3pEmPaOxLdZ+QBKaWCAcrtBLHYRDaCReXIwC9w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710407974; c=relaxed/simple;
-	bh=CfFMPr4y2aZNq/+SP6CzdmyXz/+bljoBIdcpJX8TYd4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ITtnhHbXRjpz4kPs965f07WnfqEsJg+rhu+HX2peEtZcDIDaBaX691ucta53UPmShpYBjjoGt3n6iwIpjuelf/2b+XKUhWKYYdqiW/voLk74FKwoT7YquozTxZvUeZd4kjmXwBasBTWlgQSvP+L3rzfgclXbuUvPXPebyR+qul8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.219.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yb1-f174.google.com with SMTP id 3f1490d57ef6-db3a09e96daso561015276.3;
-        Thu, 14 Mar 2024 02:19:31 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710407969; x=1711012769;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=nxIq0wBomc4vZFNHgjazQfrOLpQM63bDuE+s8yKsHuc=;
-        b=uxPleeg5YOHJ9P7EkcNcoNRnhPyn38b9Bn1IYCP2iK0QVPlQaMWYz0Gj3Mde2FPWe2
-         dsABsZIoHI+PAL4adWty21HeKxApDT9358liI0JF5qDpRNz8wdWddee4v4//GU/5V1SZ
-         UNdkdv4A4fI1c8MhBA/dHmKQ7r9Vr6vvseOxgzLPnLuvNhr0TDW0R9eQBLDud1awfrPm
-         dmAis5IJ84/RxkxUOiWu72z6w9fikRi8NJoXFNzHLFoHt3NVk6V48pTWJOUDkvDq4inS
-         UAzFPbQkmfoj0pl5TFH2HYqPtoOslwg6Nzt+Di6S0I/C4qExsNXr9RarI8Am+7IeK2o4
-         sOBw==
-X-Forwarded-Encrypted: i=1; AJvYcCUkQhcLh/8HwA9QzI9jDcJpwMgDR9OuXYWfCG/BztxqxMxmXWb2SJPas7I6w4DbC44t55nytU2/m58qNnSmiIYxc7xzImd8tI73K7Cr4sFtqiaxsrIsApQ0i5DdfGeuFXE+E4GwjYn8PC1zxj7s
-X-Gm-Message-State: AOJu0Yy8HTDwb2pmEooyNScMs+9Xog9QGbvqvzIhe33VpI1Ib+NTtW/s
-	iDDSRWbxMapUc0m8DJn9xLbL8DWG72FcFXHZ0KG9nXnIWeDZYtKGmPUq1UnQIhE=
-X-Google-Smtp-Source: AGHT+IH/JOV6QOOR8hxGBlaOdvRjpl7tN8cbquCGzidH5sSNP7gcILMsy/zGAd86EJEf+tWJchnbcg==
-X-Received: by 2002:a25:d044:0:b0:dc7:6192:c688 with SMTP id h65-20020a25d044000000b00dc76192c688mr920969ybg.65.1710407969520;
-        Thu, 14 Mar 2024 02:19:29 -0700 (PDT)
-Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com. [209.85.128.181])
-        by smtp.gmail.com with ESMTPSA id d2-20020a254f02000000b00dc25528fe9fsm193069ybb.9.2024.03.14.02.19.28
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 14 Mar 2024 02:19:28 -0700 (PDT)
-Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-609f359b7b1so9297957b3.1;
-        Thu, 14 Mar 2024 02:19:28 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVIiza5u7qOrKTUMsYCd09GVKBMn1Pk1Pho7rCEafCUCHYfP+Iox1i4ewwFCE4PdsuMxkpN1nABqz8emmMTei/BJE3IDhqJoSTMHqQD5YQQSPiEuKIWz2yKg1rdr38XSOL09F03d+RMe9mff4T9
-X-Received: by 2002:a81:ab53:0:b0:607:f785:c5b5 with SMTP id
- d19-20020a81ab53000000b00607f785c5b5mr1060896ywk.22.1710407968467; Thu, 14
- Mar 2024 02:19:28 -0700 (PDT)
+	s=arc-20240116; t=1710419432; c=relaxed/simple;
+	bh=CrTSWvnI80HBCf2z8Oy2nHbmglsJV2g15ydY/Fnd+/0=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=uSw+Cs0yJAhDIn893ELZie3+hlaLWxDh/+BNYnv/fYpUU5Id9FZ5kcOz3ZcZE/n1uhTE+IbwljOpG38tFJKq6RS80qWQKbqcJBDWLzWPmmspkQVyStWXG7h3Y2WkcCmo6cb/keChZ/b6FrcvxWgut2nQMnc9xyRUtSIsncSYF2M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oG+C/r13; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 0781EC433A6;
+	Thu, 14 Mar 2024 12:30:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1710419432;
+	bh=CrTSWvnI80HBCf2z8Oy2nHbmglsJV2g15ydY/Fnd+/0=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=oG+C/r13TmKdzhAlJcO0u+vL0vp9yOVmJ0g/oiKWmipU+n6rJquFJCWqrNOQSQ2k4
+	 ccIcGlpXIeboz94YUQO3bvjZFHoQJ6QV7wUhmBeJTFg5AWNmPZJYvIZIrJsFwFY2of
+	 OIDxH2h1iJBf+ExBpnRAcKnFNtoX8rVXNSVgbDEoVlaoUHKsiFD1FrD6Tj7O9vsH/i
+	 bk0FxwUKy6ccBHLapb0AVzUUOBDcALyYpl6oV9SH4llTH7PkbUQmxG8XfVK3qfK+BC
+	 mJ2zLPRrgeNtsRC/QnH5pih+YJGWb/AwwBnL8wrVtonOOJpKYURuS/S2mY0VJCAJFt
+	 54/cvGAWu8vMw==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id E921DD95055;
+	Thu, 14 Mar 2024 12:30:31 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240313181602.156840-1-biju.das.jz@bp.renesas.com> <20240313181602.156840-6-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20240313181602.156840-6-biju.das.jz@bp.renesas.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 14 Mar 2024 10:19:16 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdVEcSmAyUiV-pNC6DG8UT1oZs23vcCKv84rFhsx_XdFvQ@mail.gmail.com>
-Message-ID: <CAMuHMdVEcSmAyUiV-pNC6DG8UT1oZs23vcCKv84rFhsx_XdFvQ@mail.gmail.com>
-Subject: Re: [PATCH v2 5/5] arm64: dts: renesas: r9a07g0{43,44,54}: Update
- RZ/G2L family compatible
-To: Biju Das <biju.das.jz@bp.renesas.com>
-Cc: Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
-	linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org, 
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>, Biju Das <biju.das.au@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH v9 00/10] Support Andes PMU extension
+From: patchwork-bot+linux-riscv@kernel.org
+Message-Id: 
+ <171041943194.26728.3807889559884607630.git-patchwork-notify@kernel.org>
+Date: Thu, 14 Mar 2024 12:30:31 +0000
+References: <20240222083946.3977135-1-peterlin@andestech.com>
+In-Reply-To: <20240222083946.3977135-1-peterlin@andestech.com>
+To: Yu Chien Peter Lin <peterlin@andestech.com>
+Cc: linux-riscv@lists.infradead.org, acme@kernel.org, adrian.hunter@intel.com,
+ ajones@ventanamicro.com, alexander.shishkin@linux.intel.com,
+ andre.przywara@arm.com, anup@brainfault.org, aou@eecs.berkeley.edu,
+ atishp@atishpatra.org, conor+dt@kernel.org, conor.dooley@microchip.com,
+ conor@kernel.org, devicetree@vger.kernel.org, evan@rivosinc.com,
+ geert+renesas@glider.be, guoren@kernel.org, heiko@sntech.de,
+ irogers@google.com, jernej.skrabec@gmail.com, jolsa@kernel.org,
+ jszhang@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-perf-users@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+ linux-sunxi@lists.linux.dev, locus84@andestech.com, magnus.damm@gmail.com,
+ mark.rutland@arm.com, mingo@redhat.com, n.shubin@yadro.com,
+ namhyung@kernel.org, palmer@dabbelt.com, paul.walmsley@sifive.com,
+ peterz@infradead.org, prabhakar.mahadev-lad.rj@bp.renesas.com,
+ rdunlap@infradead.org, robh+dt@kernel.org, samuel@sholland.org,
+ sunilvl@ventanamicro.com, tglx@linutronix.de, tim609@andestech.com,
+ uwu@icenowy.me, wens@csie.org, will@kernel.org, inochiama@outlook.com,
+ unicorn_wang@outlook.com, wefu@redhat.com
 
-On Wed, Mar 13, 2024 at 7:16=E2=80=AFPM Biju Das <biju.das.jz@bp.renesas.co=
-m> wrote:
-> The number of pipe buffers on RZ/G2L family SoCs is 10, whereas on RZ/A2M
-> it is 16. Replace 'renesas,rza2m-usbhs->renesas,rzg2l-usbhs' as family So=
-C
-> compatible to handle this difference and use the SoC specific compatible
-> in driver to avoid the ABI breakage with older DTB.
->
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-> ---
-> v1->v2:
->  * Updated commit description about ABI breakage.
->  * Updated commit header as it is RZ/G2L specific.
+Hello:
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+This series was applied to riscv/linux.git (for-next)
+by Palmer Dabbelt <palmer@rivosinc.com>:
 
-As the DTS update has a hard dependency on the driver fix, it has to
-be postponed until the driver fix has reached mainline.  Hence I think
-it makes sense to apply the DTS update together with the driver fix.
+On Thu, 22 Feb 2024 16:39:36 +0800 you wrote:
+> Hi All,
+> 
+> This patch series introduces the Andes PMU extension, which serves the
+> same purpose as Sscofpmf and Smcntrpmf. Its non-standard local interrupt
+> is assigned to bit 18 in the custom S-mode local interrupt enable and
+> pending registers (slie/slip), while the interrupt cause is (256 + 18).
+> 
+> [...]
 
-Acked-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Here is the summary with links:
+  - [v9,01/10] riscv: errata: Rename defines for Andes
+    https://git.kernel.org/riscv/c/be5e8872b3fb
+  - [v9,02/10] irqchip/riscv-intc: Allow large non-standard interrupt number
+    https://git.kernel.org/riscv/c/96303bcb401c
+  - [v9,03/10] irqchip/riscv-intc: Introduce Andes hart-level interrupt controller
+    https://git.kernel.org/riscv/c/f4cc33e78ba8
+  - [v9,04/10] dt-bindings: riscv: Add Andes interrupt controller compatible string
+    https://git.kernel.org/riscv/c/b88727d554f0
+  - [v9,05/10] riscv: dts: renesas: r9a07g043f: Update compatible string to use Andes INTC
+    https://git.kernel.org/riscv/c/95113bb70515
+  - [v9,06/10] perf: RISC-V: Eliminate redundant interrupt enable/disable operations
+    https://git.kernel.org/riscv/c/ea0e0178e101
+  - [v9,07/10] perf: RISC-V: Introduce Andes PMU to support perf event sampling
+    https://git.kernel.org/riscv/c/bc969d6cc96a
+  - [v9,08/10] dt-bindings: riscv: Add Andes PMU extension description
+    https://git.kernel.org/riscv/c/61609bf2b29d
+  - [v9,09/10] riscv: dts: renesas: Add Andes PMU extension for r9a07g043f
+    https://git.kernel.org/riscv/c/270fc77e7b0e
+  - [v9,10/10] riscv: andes: Support specifying symbolic firmware and hardware raw events
+    https://git.kernel.org/riscv/c/f5102e31c209
 
-Gr{oetje,eeting}s,
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
-                        Geert
 
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
 
