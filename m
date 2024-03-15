@@ -1,57 +1,55 @@
-Return-Path: <linux-renesas-soc+bounces-3813-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-3814-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F6B887D3BA
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 15 Mar 2024 19:39:42 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FB1687D3C0
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 15 Mar 2024 19:40:07 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 617682849DF
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 15 Mar 2024 18:39:41 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id EE67FB23083
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 15 Mar 2024 18:40:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4C6F911198;
-	Fri, 15 Mar 2024 18:39:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 75D0414A9F;
+	Fri, 15 Mar 2024 18:39:44 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 660701D553;
-	Fri, 15 Mar 2024 18:39:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.172
+Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E44B71EF1A;
+	Fri, 15 Mar 2024 18:39:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710527979; cv=none; b=BWSjSijWG/kasfynTqsO9mbFOC1ZFjtqdIIKDmRhX28cQ06wraDMuO9xVK1GWqDrFWMp/0q0ygu9hNOXXIuM0sptEj2gpR5rrw4e+qBlnPnrD/VzFtvjCmr1ZOSPTlREcjeItLpsv5Jh0v5i4T1hCpdEmB65FSWG2FdYgzGOfBg=
+	t=1710527984; cv=none; b=tkGyFaJMGlIs/y2KtuYYiiKFKJJtXkCXdo6NiK9Bmo75WqKHfzTS3s7LOMZwxxinDYKkff6L7TxaQRErWbtaL5cU0D9rFTR9zGvbYYk5zCLvdlnPdemQcn8B6In1jOPzxI+ThBtHMSDqYDBLbMcoEQcdD3uunq8UdjwnCfvJCqc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710527979; c=relaxed/simple;
-	bh=Uaj2gn6s7btN5jyWi8u2YpJxAI5G6lZ3D3I7G66i08I=;
+	s=arc-20240116; t=1710527984; c=relaxed/simple;
+	bh=C7kyR2ki1djI2qeuMUNpOihBcNvbesmD4ziXi1Fyq38=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=WbPYugIp5EOxnIlcNrMJU+HAR6higgJwq4ZH4hJKp4Ja8q1Pl6/uhcGgxgiYkFRTrdOFQWZI4eZmO7Plo8ePrFmXYj5wnufnUeh3G8XNd9mz2Mvv2ZL1T/istPbe2FDU7mmEErU+sjBHCA1uSEk7oMaKmrEudwZoW/NNaaf8c4k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.172
+	 MIME-Version; b=Dx+guNjghsrq+TalFLRQc++Hz5oMZYcRkksUb1n0S93ZtQTPLFF8/BG/6WeV+avdat+E6Ae9j0907dL4TB9z6XtmJmv6sFtyeh2B21bNSxYNWjQq3ZhoX1ugdzgN/ttV78lyxj7VNUAqxKr0GanN+ABra9Y2qLh3IjHWdqkwJp0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
 X-IronPort-AV: E=Sophos;i="6.07,129,1708354800"; 
-   d="scan'208";a="201861063"
+   d="scan'208";a="197917684"
 Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie6.idc.renesas.com with ESMTP; 16 Mar 2024 03:39:33 +0900
+  by relmlie5.idc.renesas.com with ESMTP; 16 Mar 2024 03:39:39 +0900
 Received: from localhost.localdomain (unknown [10.226.93.102])
-	by relmlir6.idc.renesas.com (Postfix) with ESMTP id 9D56B4066236;
-	Sat, 16 Mar 2024 03:39:29 +0900 (JST)
+	by relmlir6.idc.renesas.com (Postfix) with ESMTP id C2D4A4066236;
+	Sat, 16 Mar 2024 03:39:35 +0900 (JST)
 From: Biju Das <biju.das.jz@bp.renesas.com>
-To: Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: Biju Das <biju.das.jz@bp.renesas.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Geert Uytterhoeven <geert+renesas@glider.be>,
 	Magnus Damm <magnus.damm@gmail.com>,
+	Rob Herring <robh@kernel.org>,
 	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
 	linux-usb@vger.kernel.org,
-	devicetree@vger.kernel.org,
 	linux-renesas-soc@vger.kernel.org,
 	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Biju Das <biju.das.au@gmail.com>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH v3 1/7] dt-bindings: usb: renesas,usbhs: Document RZ/G2L family compatible
-Date: Fri, 15 Mar 2024 18:39:15 +0000
-Message-Id: <20240315183921.375751-2-biju.das.jz@bp.renesas.com>
+	Biju Das <biju.das.au@gmail.com>
+Subject: [PATCH v3 3/7] usb: renesas_usbhs: Improve usbhsc_default_pipe[] for isochronous transfers
+Date: Fri, 15 Mar 2024 18:39:17 +0000
+Message-Id: <20240315183921.375751-4-biju.das.jz@bp.renesas.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20240315183921.375751-1-biju.das.jz@bp.renesas.com>
 References: <20240315183921.375751-1-biju.das.jz@bp.renesas.com>
@@ -63,42 +61,40 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The USBHS IP found on RZ/G2L SoCs only has 10 pipe buffers compared
-to 16 pipe buffers on RZ/A2M. Document renesas,rzg2l-usbhs family
-compatible to handle this difference for RZ/G2L family SoCs.
+As per the hardware manual, double buffer setting results in fewer
+interrupts for high-speed data transfers. Improve usbhsc_default_pipe[]
+for isochronous transfers by updating the table from single->double
+buffering and update the pipe number accordingly.
 
+Suggested-by: Geert Uytterhoeven <geert+renesas@glider.be>
 Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
-v2->v3:
- * Added Rb tag from Geert.
-v1->v2:
- * Added Ack from Krzysztof Kozlowski.
+v3:
+ * New patch
 ---
- Documentation/devicetree/bindings/usb/renesas,usbhs.yaml | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ drivers/usb/renesas_usbhs/common.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/usb/renesas,usbhs.yaml b/Documentation/devicetree/bindings/usb/renesas,usbhs.yaml
-index 40ada78f2328..c63db3ebd07b 100644
---- a/Documentation/devicetree/bindings/usb/renesas,usbhs.yaml
-+++ b/Documentation/devicetree/bindings/usb/renesas,usbhs.yaml
-@@ -19,10 +19,14 @@ properties:
-       - items:
-           - enum:
-               - renesas,usbhs-r7s9210   # RZ/A2
-+          - const: renesas,rza2-usbhs
-+
-+      - items:
-+          - enum:
-               - renesas,usbhs-r9a07g043 # RZ/G2UL and RZ/Five
-               - renesas,usbhs-r9a07g044 # RZ/G2{L,LC}
-               - renesas,usbhs-r9a07g054 # RZ/V2L
--          - const: renesas,rza2-usbhs
-+          - const: renesas,rzg2l-usbhs
- 
-       - items:
-           - enum:
+diff --git a/drivers/usb/renesas_usbhs/common.c b/drivers/usb/renesas_usbhs/common.c
+index 0c62e4c6c88d..177fa3144a47 100644
+--- a/drivers/usb/renesas_usbhs/common.c
++++ b/drivers/usb/renesas_usbhs/common.c
+@@ -366,11 +366,11 @@ static void usbhsc_clk_disable_unprepare(struct usbhs_priv *priv)
+ /* commonly used on old SH-Mobile SoCs */
+ static struct renesas_usbhs_driver_pipe_config usbhsc_default_pipe[] = {
+ 	RENESAS_USBHS_PIPE(USB_ENDPOINT_XFER_CONTROL, 64, 0x00, false),
+-	RENESAS_USBHS_PIPE(USB_ENDPOINT_XFER_ISOC, 1024, 0x08, false),
+-	RENESAS_USBHS_PIPE(USB_ENDPOINT_XFER_ISOC, 1024, 0x18, false),
+-	RENESAS_USBHS_PIPE(USB_ENDPOINT_XFER_BULK, 512, 0x28, true),
+-	RENESAS_USBHS_PIPE(USB_ENDPOINT_XFER_BULK, 512, 0x38, true),
++	RENESAS_USBHS_PIPE(USB_ENDPOINT_XFER_ISOC, 1024, 0x08, true),
++	RENESAS_USBHS_PIPE(USB_ENDPOINT_XFER_ISOC, 1024, 0x28, true),
+ 	RENESAS_USBHS_PIPE(USB_ENDPOINT_XFER_BULK, 512, 0x48, true),
++	RENESAS_USBHS_PIPE(USB_ENDPOINT_XFER_BULK, 512, 0x58, true),
++	RENESAS_USBHS_PIPE(USB_ENDPOINT_XFER_BULK, 512, 0x68, true),
+ 	RENESAS_USBHS_PIPE(USB_ENDPOINT_XFER_INT, 64, 0x04, false),
+ 	RENESAS_USBHS_PIPE(USB_ENDPOINT_XFER_INT, 64, 0x05, false),
+ 	RENESAS_USBHS_PIPE(USB_ENDPOINT_XFER_INT, 64, 0x06, false),
 -- 
 2.25.1
 
