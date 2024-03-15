@@ -1,165 +1,143 @@
-Return-Path: <linux-renesas-soc+bounces-3793-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-3794-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72A5C87C529
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 Mar 2024 23:33:40 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 811A087C893
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 15 Mar 2024 06:45:47 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 280751F21F9A
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 Mar 2024 22:33:40 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id F2ED8B21DE4
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 15 Mar 2024 05:45:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4B95EFC0E;
-	Thu, 14 Mar 2024 22:33:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8F13F10798;
+	Fri, 15 Mar 2024 05:45:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="Rb9qGSYm"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0855FBF7
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 14 Mar 2024 22:33:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D252CDF51
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 15 Mar 2024 05:45:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710455618; cv=none; b=MN+zbhxkNaDwcU3J2y/O+9VPRLgVB/vL5ZZy+i7L9KhQfioGinbEufdb12Ge+RaF+/RKJm3BWVNXoraTfZge4FZMtVflXHJIcWVrX+N6XAH8f3NTPvP+ttqs91EK1XgSz0nk9S60LGysQgOCpYXwmzEyFYl87P46uAAQBzSb0Xc=
+	t=1710481534; cv=none; b=AI6G6LFMdianMtUscmuAQTfc3xIt2aTY4UCE7ESvqtfCgZXrI35ZQTlOJaVAK2VxdChUuf5UaCF+cvpcqfkFpL59476o9vvfVoIP57083aBU6G9ZQP/lIpgplA2wEiRSC433KOlJyTH0CZoQ+tme/R8y9oHVnOTk17T1zOFdH1M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710455618; c=relaxed/simple;
-	bh=ihgA60LNcNRNsnwrJPMU/qXH480BfDZgJKRbQsnZQU0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=E0x0bPgjfhZvuyCdMdGjZ1SAr5qHwl7WZ3wT8uPd3NdOt0W1gNPrnjAZfgD8U8LhT3rBz7mcu4I0oErxBbsOx8ypl/zzCnSLX3F/vUKwddLGvMRqatzuB01PsvMsW/0a2E5POJNEo8iqaKBFITa5TIicvqWSIETyXWmQDqXPlW4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1rktdc-00084t-Qh; Thu, 14 Mar 2024 23:33:24 +0100
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1rktdb-006OJk-6S; Thu, 14 Mar 2024 23:33:23 +0100
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.96)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1rktdb-006Kg3-0L;
-	Thu, 14 Mar 2024 23:33:23 +0100
-Date: Thu, 14 Mar 2024 23:33:22 +0100
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Biju Das <biju.das.jz@bp.renesas.com>
-Cc: "biju.das.au" <biju.das.au@gmail.com>, 
-	"linux-pwm@vger.kernel.org" <linux-pwm@vger.kernel.org>, "kernel@pengutronix.de" <kernel@pengutronix.de>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>, Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
-	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>, Thierry Reding <thierry.reding@gmail.com>, 
-	Philipp Zabel <p.zabel@pengutronix.de>
-Subject: Re: [PATCH v18 3/4] pwm: Add support for RZ/G2L GPT
-Message-ID: <ipm72ujiqm4k2nuq7a6sdmqdrwjwrn7uyp4brgbvmmb5mgu6ko@ljltsjnljett>
-References: <20240220194318.672443-1-biju.das.jz@bp.renesas.com>
- <20240220194318.672443-4-biju.das.jz@bp.renesas.com>
- <hy5crf2leuvewkn5omgrk2bmkndivwmhst4yrefnd3mepy4nzd@xw3rtkxdnb2g>
- <OSAPR01MB1587400FECDBFDB3E38A594286292@OSAPR01MB1587.jpnprd01.prod.outlook.com>
+	s=arc-20240116; t=1710481534; c=relaxed/simple;
+	bh=yX7VicevsNuvF9VXEJnE44eZDFitCUd+/l9FIxvXfkY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=WkHM7rNgmtyWyv1nFHBsLezLct/1Fi56794+86+GmN7C+yL6HXL5UA/LtJekxqbIDSsWT/pgxY3Mc8aiYDFTY6vr8d0j7PNdbj90eeMwIT5BR1OcXjuEdwLtQ/YhwM+AMesqOHhjBIO9n74xx9bXdeO1+IR5R3rTMooph9G7YYU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=Rb9qGSYm; arc=none smtp.client-ip=209.85.128.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-413fea12b50so5664065e9.0
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 14 Mar 2024 22:45:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=tuxon.dev; s=google; t=1710481530; x=1711086330; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=JpRnrAIn/rvD/vmAzL2Fo5N09hMac0TklJtSlC0gZ2I=;
+        b=Rb9qGSYmUt/IjHSyU+lS0nXCqfswGGIro9ifG8KQK2QuKg2tvSD11rSHxnUTTEE8da
+         ea/YUGTVX3xld1gfR0JiyCTYOoLgE1ZSFs/IFeT+XHY2HKj3vmcLadmlBO4I2xSsOTUH
+         87KMo8V6W5ZhEfKtmHMdTB12BNVWLdu8xW0k5SoixttJcOr/bZYPbS2pw7NnuFMXflZV
+         Z6m6FGZBFaV6yu1zoOMrDhwzIzAeJd9CIWJYoh67E66VZSjMzSUWGmi9JqeInuaYsuNE
+         WHLN+GCZfrmuqcyafFzrM2Ke2JpKheuRnLYHhNZIxve7un3QN+80hrw1K0zDUh0CL1d6
+         MNnQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1710481530; x=1711086330;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=JpRnrAIn/rvD/vmAzL2Fo5N09hMac0TklJtSlC0gZ2I=;
+        b=Zkppj6G3PyNm6Nz21q8pFkoczTiZXqwdpGfPKCxu/YL3cC+EWbgZXkOrvFwsLidCtB
+         f06n/HNYtLEgF1OgkUyYcvjTPqheQCd8cuCh1p5Qr3LPJwvvSKQwg1WZY+0CVGRPJH6V
+         oqoblRIVVgFQPjeK1UODFKYCZi/YtNot5h5orcWNXI/unzO5i6aWoKz8VQKTfSLXlnCo
+         v/xmxf/Hu40HFLkO6v0iQjUs40eQ5Sg5b66oUXSdN4YiWhu8m1RriVdPnXTPcgrywv4x
+         u82ZxRJsVcgqAh8L5DM8GxOSH5A1Qjs1feUfe4hJxwvcG0hwLZTqcQyHG7mu4kaIVMfi
+         ka/Q==
+X-Forwarded-Encrypted: i=1; AJvYcCURrHYessyP2hEGGwcN6J+eIewHrE3B+DjGvHpS4xkN5okR9thvTEVWw/VhCekCBqS57I8xqqCnZbyHq3412BgI213D39RW4x2MtCzf+1arLrQ=
+X-Gm-Message-State: AOJu0Yw8XTahXu9rWvF8YBwT1QyqwsOfj1Uvk8e9e7wtcYVrF9H68Lc6
+	zDniB828QaZeK1SPf1ZPuhdTYxht0C9efJhX2GtmCQ7/FWcrF94jxGfXylXOohA=
+X-Google-Smtp-Source: AGHT+IHFKsEUWmjj72ckU06dF/imbXrla5Tf7+YdQNvoAPjC+u+S7AdXYn+AbEERH8+s44vIJv5Plg==
+X-Received: by 2002:a05:600c:8509:b0:412:beee:36b3 with SMTP id gw9-20020a05600c850900b00412beee36b3mr1986307wmb.7.1710481530057;
+        Thu, 14 Mar 2024 22:45:30 -0700 (PDT)
+Received: from [192.168.50.4] ([82.78.167.144])
+        by smtp.gmail.com with ESMTPSA id bd7-20020a05600c1f0700b00413f3ca39easm3687567wmb.5.2024.03.14.22.45.27
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 14 Mar 2024 22:45:29 -0700 (PDT)
+Message-ID: <c27c5d58-9cab-4a76-ac70-e074ea0b43af@tuxon.dev>
+Date: Fri, 15 Mar 2024 07:45:26 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="b2blo5oikeky7f45"
-Content-Disposition: inline
-In-Reply-To: <OSAPR01MB1587400FECDBFDB3E38A594286292@OSAPR01MB1587.jpnprd01.prod.outlook.com>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-renesas-soc@vger.kernel.org
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 09/10] clk: renesas: r9a08g045: Add the
+ RZG2L_PD_F_CONSOLE flag to scif0 PM domain
+Content-Language: en-US
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: mturquette@baylibre.com, sboyd@kernel.org, robh@kernel.org,
+ krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+ magnus.damm@gmail.com, linux-renesas-soc@vger.kernel.org,
+ linux-clk@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org,
+ Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+References: <20240307140728.190184-1-claudiu.beznea.uj@bp.renesas.com>
+ <20240307140728.190184-10-claudiu.beznea.uj@bp.renesas.com>
+ <CAMuHMdXJtBNBqitJ3-5zC9JAJSZvP+4-9wOK9p8OO-OR42dUqQ@mail.gmail.com>
+From: claudiu beznea <claudiu.beznea@tuxon.dev>
+In-Reply-To: <CAMuHMdXJtBNBqitJ3-5zC9JAJSZvP+4-9wOK9p8OO-OR42dUqQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
+Hi, Geert,
 
---b2blo5oikeky7f45
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 14.03.2024 18:06, Geert Uytterhoeven wrote:
+> Hi Claudiu,
+> 
+> On Thu, Mar 7, 2024 at 3:08 PM Claudiu <claudiu.beznea@tuxon.dev> wrote:
+>> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+>>
+>> The RZG2L_PD_F_CONSOLE is used by the rzg2l-cpg driver to check if the
+>> SCIF domain need to be powered off in suspend. This is necessary when
+>> no_console_suspend is available in bootargs as we want to still see
+>> output on console, thus scif0 domain should remain powered on.
+>>
+>> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+> 
+> Thanks for your patch!
+> 
+>> --- a/drivers/clk/renesas/r9a08g045-cpg.c
+>> +++ b/drivers/clk/renesas/r9a08g045-cpg.c
+>> @@ -293,7 +293,7 @@ static const struct rzg2l_cpg_pm_domain_init_data r9a08g045_pm_domains[] = {
+>>         DEF_PD("scif0",         R9A08G045_PD_SCIF0,
+>>                                 DEF_REG_CONF(CPG_BUS_MCPU2_MSTOP, BIT(1)),
+>>                                 DEF_REG_CONF(0, 0),
+>> -                               RZG2L_PD_F_NONE),
+>> +                               RZG2L_PD_F_CONSOLE),
+> 
+> This is not really correct: if SCIF0 is used as the console depends on the
+> use case, i.e. on chosen/stdout-path.
+> So this flag should be set at run-time. You can check the power-domains
+> property of the node pointed to by of_stdout to find the PM Domain that
+> holds the console, cfr. drivers/pmdomain/renesas/rmobile-sysc.c.
 
-Hello,
+OK, I'll double check.
 
-On Thu, Mar 14, 2024 at 06:10:50PM +0000, Biju Das wrote:
-> > On Tue, Feb 20, 2024 at 07:43:17PM +0000, Biju Das wrote:
-> > > +
-> > > +static inline u64 rzg2l_gpt_mul_u64_u64_div_u64(u64 a, u64 b, u64 c)
-> > > +{
-> > > +	u64 retval;
-> > > +
-> > > +	if (a > b)
-> > > +		retval =3D mul_u64_u64_div_u64(b, a, c);
-> > > +	else
-> > > +		retval =3D mul_u64_u64_div_u64(a, b, c);
-> >=20
-> > With
-> > https://lore.kernel.org/lkml/20240303092408.662449-2-u.kleine-koenig@pe=
-ngutronix.de
-> > this function can be replaced by a direct call to mul_u64_u64_div_u64().
-> > I expect this patch to go into v6.9-rc1 as akpm picked it up before the=
- merge window opened.
->=20
-> Ok, I will hold next version until v6.9-rc1 as for-pwm-nexxt doesn't have=
- this patch??
+Thank you,
+Claudiu Beznea
 
-I will rebase the stuff for the v6.10-rc1 merge window on v6.9-rc1, so
-(assuming my guess is right) you can profit of the improved
-mul_u64_u64_div_u64() call. (And even if the patch will go in later, we
-can live with the inexact configuration for that period.)
-
-> > > +static u32 rzg2l_gpt_calculate_pv_or_dc(u64 period_or_duty_cycle, u8
-> > > +prescale) {
-> > > +	return min_t(u64, (period_or_duty_cycle + (1 << (2 * prescale)) - 1=
-) >> (2 * prescale),
-> > > +		     U32_MAX);
-> >=20
-> > Can the addition overflow? Is the addition even right? This function is=
- used in .apply() where it's
-> > usually right to round down.
->=20
-> No, It won't overflow. The logic is proposed by you in v17 for DIV64_U64_=
-ROUND_UP and it is
-> passing all tests with PWM_DEBUG=3Dy.
-
-Then believe my former self, I didn't redo all the maths in this cycle.
-
-> > > +	pm_runtime_enable(&pdev->dev);
-> > > +	ret =3D pm_runtime_resume_and_get(&pdev->dev);
-> > > +	if (ret)
-> > > +		goto err_reset;
-> > > +
-> > > +	ret =3D clk_rate_exclusive_get(rzg2l_gpt->clk);
-> >=20
-> > There is a devm variant of this function in the mean time.
->=20
-> OK, currently for testing I picked it from next.
-
-For the next submission round make sure to properly use the --base
-parameter to not annoy the build bots. Or feel free to base your patch
-on next.
-
-Best regards
-Uwe
-
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
-
---b2blo5oikeky7f45
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmXzezIACgkQj4D7WH0S
-/k7YlQf+MAzxRIviz2xJNNLzkzyrFam7AJLlqww6mmPogVY0wwlWXLArg+8sKkoZ
-Y1qDMNEd/PbODNOFzeitVBVd0aCCATpusVIj3dcWhpv1I6nrYogIlVZcu2S79fFC
-fxn451s9KcyzbPkUF5ijVDGwGmMt3XVFLG9Q3zQ9ombqRaYYDicu5SpBwU41p9rZ
-UXbbJh1D7CXoZIqn9zrs2txBxAgsYB9JPU6emBkd2tBME+1lCT6bgndyW3kMapFw
-OT7MmDfpVLNzrjA+GruGeAgSDJOMP+dzxWIlusdjL83o6TGQtgGebv8xDALEqbka
-haS8s3mY/8HqZmpR+3PzHblj9m1bIQ==
-=7iVt
------END PGP SIGNATURE-----
-
---b2blo5oikeky7f45--
+> 
+>>  };
+>>
+>>  const struct rzg2l_cpg_info r9a08g045_cpg_info = {
+> 
+> Gr{oetje,eeting}s,
+> 
+>                         Geert
+> 
 
