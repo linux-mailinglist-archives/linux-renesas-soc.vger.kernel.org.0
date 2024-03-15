@@ -1,127 +1,127 @@
-Return-Path: <linux-renesas-soc+bounces-3811-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-3812-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43E3487D3AE
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 15 Mar 2024 19:35:31 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D52C87D3B8
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 15 Mar 2024 19:39:36 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7539E1C20BDB
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 15 Mar 2024 18:35:30 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 633EC28495A
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 15 Mar 2024 18:39:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DCD11101F2;
-	Fri, 15 Mar 2024 18:35:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CF31D11198;
+	Fri, 15 Mar 2024 18:39:33 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com [209.85.128.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93766FC18;
-	Fri, 15 Mar 2024 18:35:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.174
+Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8F1A7101C3;
+	Fri, 15 Mar 2024 18:39:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710527727; cv=none; b=unJ8J4fgLVc1cQ5Yq0KnXQf8dcuhiqgGsyNLrbAElMyVdM9xBa8UmHCtx4E5ghXMxqk7HJKJ7Bjf3w34QzFHLB86/Fk21rQfEbNicKalB4KnHQ84NV5N/VHTjh7FS7BsgH962xnrRFjNEsEsHYmsL+92nj+QIcMnsEwvsoSjftk=
+	t=1710527973; cv=none; b=P+EYTN3Evws+w5t6uVQTvr773Ngbo4bXCA9nHBIsiCvZ+BXsaY/HF4sGZR14T/Pp+MkkpcFUiJ3d6KdzHwxfzj98ownTprANCGq5heriM3CZQVbBkFxIyGPX2gzmPw9y4KwB7q32wGO3TvKHqxjFMe8XtJfcsVWjxXWRPsU4a5g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710527727; c=relaxed/simple;
-	bh=Gv8QKD12HIml6BcI86NmkVhlJYP9tGz7JBYz0p3U8kE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=HE54ZpRVmIhdc+Q9VwtulF/+CgYEC0BUCDs6T1s3dylddweKDZL7ACzI1O8+nxWaDarW8vlN1qcezU01vx6OAbhaLz6jG+HWpGZd5WDfO/iL3yHcl089dlzP93c6jUjL2ObMKeFC6xGdwbyfEko7zvB7BH1A3lX76RFNZZJIvL4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-60a15449303so27165317b3.0;
-        Fri, 15 Mar 2024 11:35:24 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710527722; x=1711132522;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Z9WcVFiuL/IGi+J5+eglMDeGStL2NJRCLgSl7bWAdM8=;
-        b=mM0EixQUJWTag5bfg9SVLwUF1FKs/xtHt1Br+kdQ6cb8P0zEhn68D0q8RMurKvASGU
-         ze4CuOaNs11JGBv5lEkuspikeov9WnoDhmHIHrbPPYBp05whCjgTq9mqBE5NoqNa6Kq7
-         CnpNjW55nWhmBRWooGvfruq+qo5PqKj8h+iJ3kZpnuB6amlU0n49psNH810MK4X7pQb5
-         JmrFrpDmBz8lRaNEBrfBKcAXlA0kZKOTEn9qDcIR/z/SKTS4rnMQn18i9/rw2W+wbg6v
-         W677Ic0vyEuiYD6+o1yeT+p8J78tiI9zQmFGUnoNyzLkw978cXwLkSPd5UEYbtQJZL07
-         rS0A==
-X-Forwarded-Encrypted: i=1; AJvYcCXubCw2USKiG9iDgV559vURVVGakxCmKYgmNjdH0yvOqDlpoKw98gfS9DL5UjeWLtzxBruFzAB2R2xVUA82Aiupcg+RkhmP+lMLgg7oR1pz5nghB8ElRneAcmBHDqY26jpm0/IIiL61kUtynpRQLiZmwn4p+4teEhj5zYsmquogcF3Mwu2pi5mvXyj3zjgSvsaaoVh0sJVUobKbxyDX5neGRsvkyUr1
-X-Gm-Message-State: AOJu0YycvoHHyL/8juvJv4Ik+pdEaSbS/aZWFOBdKc2fdHzGSyD3mVKl
-	z/pEmcEp3zmNTs6k2v1CUEAQwACBi3rNjchx6UldXrBsIhlWYny/gRZDoguNEXk=
-X-Google-Smtp-Source: AGHT+IFklYu4oUcMub/sDiwT5/31Hf2W3LX/tGBWhOeSzReg25WSQcIwgIbOhYR4xbq0pLO9KM9gtQ==
-X-Received: by 2002:a81:a253:0:b0:60a:374:969a with SMTP id z19-20020a81a253000000b0060a0374969amr6106221ywg.50.1710527722243;
-        Fri, 15 Mar 2024 11:35:22 -0700 (PDT)
-Received: from mail-yb1-f175.google.com (mail-yb1-f175.google.com. [209.85.219.175])
-        by smtp.gmail.com with ESMTPSA id bs19-20020a05690c071300b00607bc220c5esm794529ywb.102.2024.03.15.11.35.21
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 15 Mar 2024 11:35:21 -0700 (PDT)
-Received: by mail-yb1-f175.google.com with SMTP id 3f1490d57ef6-d9b9adaf291so2136428276.1;
-        Fri, 15 Mar 2024 11:35:21 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWMWKAW+go8i+wWDm+i9Ge+WYz4FXcuQbzbnsYpmYaHE97D2rI9zDZKCxVGSWUfPcsaJVceWHocRcsQVyVbsQNvWY217Nfdj8D3emsvxUmzXos+XQhzglSGpoLiLq36tnP/SrObhJB+rI4mBPfY6VLa9cHMvY+5COPtbTjA2ZrLQlDc0uu/8Z7Tsn7TcgRovQjSXE9+zf19EZ5j9jl72vHpGMw+3X2X
-X-Received: by 2002:a25:f40c:0:b0:dc7:2401:df4e with SMTP id
- q12-20020a25f40c000000b00dc72401df4emr5038303ybd.39.1710527721014; Fri, 15
- Mar 2024 11:35:21 -0700 (PDT)
+	s=arc-20240116; t=1710527973; c=relaxed/simple;
+	bh=hoh/2+vzwYIx9KsYANVNZjytU3Bo9jAFTSZd0TaBsfE=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=SBUF59EFsq4VXvfTPP+1kr5PUAi9RzWZ4a0CEw5h0HpmTIix6nL5csPP5XVR2br1bkIfYq1S9GiLfHqtBLIlsB5/Ofls8kbk29nf//ddQraX9+QY5pDqN66OU8GvSh3JPEB+d5hAYzP9YpZr9c1TtWP4jE62orpCA7uNTQ9wO98=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
+X-IronPort-AV: E=Sophos;i="6.07,129,1708354800"; 
+   d="scan'208";a="197917675"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie5.idc.renesas.com with ESMTP; 16 Mar 2024 03:39:29 +0900
+Received: from localhost.localdomain (unknown [10.226.93.102])
+	by relmlir6.idc.renesas.com (Postfix) with ESMTP id 20ADD4066236;
+	Sat, 16 Mar 2024 03:39:24 +0900 (JST)
+From: Biju Das <biju.das.jz@bp.renesas.com>
+To: Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Conor Dooley <conor+dt@kernel.org>
+Cc: Biju Das <biju.das.jz@bp.renesas.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+	linux-usb@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	Biju Das <biju.das.au@gmail.com>
+Subject: [PATCH v3 0/7] Fix USB pipe configuration for RZ/G2L
+Date: Fri, 15 Mar 2024 18:39:14 +0000
+Message-Id: <20240315183921.375751-1-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240315103033.141226-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20240315103033.141226-2-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAMuHMdW_WBaGjYmU_RnMnq2T7PeEafAZqyP9Md9g0VUKzgrecQ@mail.gmail.com>
-In-Reply-To: <CAMuHMdW_WBaGjYmU_RnMnq2T7PeEafAZqyP9Md9g0VUKzgrecQ@mail.gmail.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 15 Mar 2024 19:35:08 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdUZhnf96M2MgLepu04J84jz_B_vZEtQYQZefsFu1rYfeg@mail.gmail.com>
-Message-ID: <CAMuHMdUZhnf96M2MgLepu04J84jz_B_vZEtQYQZefsFu1rYfeg@mail.gmail.com>
-Subject: Re: [PATCH v2 1/4] dt-bindings: i2c: renesas,riic: Document R9A09G057 support
-To: Prabhakar <prabhakar.csengg@gmail.com>
-Cc: Chris Brandt <chris.brandt@renesas.com>, Andi Shyti <andi.shyti@kernel.org>, 
-	Rob Herring <robh+dt@kernel.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Magnus Damm <magnus.damm@gmail.com>, Wolfram Sang <wsa+renesas@sang-engineering.com>, 
-	linux-renesas-soc@vger.kernel.org, linux-i2c@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Hi Prabhakar,,
+The USBHS IP found on RZ/G2L SoCs only has 10 pipe buffers compared
+to 16 pipe buffers on RZ/A2M. Document renesas,rzg2l-usbhs family
+compatible to handle this difference for RZ/G2L family SoCs.
 
-On Fri, Mar 15, 2024 at 1:50=E2=80=AFPM Geert Uytterhoeven <geert@linux-m68=
-k.org> wrote:
-> On Fri, Mar 15, 2024 at 11:31=E2=80=AFAM Prabhakar <prabhakar.csengg@gmai=
-l.com> wrote:
-> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> >
-> > Document support for the I2C Bus Interface (RIIC) available in the
-> > Renesas RZ/V2H(P) (R9A09G057) SoC.
-> >
-> > The RIIC interface in the Renesas RZ/V2H(P) differs from RZ/A in a
-> > couple of ways:
-> > - Register offsets for the RZ/V2H(P) SoC differ from those of the
-> >   RZ/A SoC.
-> > - RZ/V2H register access is limited to 8-bit, whereas RZ/A supports
-> >   8/16/32-bit.
-> > - RZ/V2H has bit differences in the slave address register.
-> >
-> > To accommodate these differences in the existing driver, a new compatib=
-le
-> > string "renesas,riic-r9a09g057" is added.
+This patch series aims to fix the USB pipe configuration for RZ/G2L
+family SoCs.
 
-As it looks like there will be a v3 of this series, please drop "in
-the existing driver".
+For the backward compatibility SoC specific compatible is used
+and will be removed the same after few kernel releases.
 
-Gr{oetje,eeting}s,
+As the DTS update has a hard dependency on the driver fix, Got ack
+from Geert for patch#7 to apply the DTS update together with the driver
+fix.
 
-                        Geert
+v2->v3:
+ * Added Rb tag from Geert for patch#1,#2 and #7
+ * Added Ack tag from Geert for patch#7.
+ * Added patch#3 for improving usbhsc_default_pipe[] for isochronous
+   transfers
+ * Added patch#4 for dropping has_new_pipe_configs from struct
+   renesas_usbhs_driver_param
+ * Updated commit description for patch#5
+ * Dropped usbhsc_rzg2l_pipe[] and reusing the default_pipe[].
+v1->v2:
+ * Added Ack from Krzysztof Kozlowski for patch#1.
+ * Added patch#2 for simplify obtaining device data.
+ * Dropped using of_device_is_compatible() in probe.
+ * Added usbhs_rzg2l_plat_info and replaced the device data for RZ/G2L
+   from usbhs_rza2_plat_info->usbhs_rzg2l_plat_info.
+ * Moved usbhsc_rzg2l_pipe table near to the user.
+ * Updated commit description in patch#3
+ * Added Rb tag from Geert for patch#4.
+ * Updated commit description about ABI breakage in patch#5.
+ * Updated commit header in patch#5 as it is RZ/G2L specific.
 
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
+Biju Das (7):
+  dt-bindings: usb: renesas,usbhs: Document RZ/G2L family compatible
+  usb: renesas_usbhs: Simplify obtaining device data
+  usb: renesas_usbhs: Improve usbhsc_default_pipe[] for isochronous
+    transfers
+  usb: renesas_usbhs: Drop has_new_pipe_configs from struct
+    renesas_usbhs_driver_param
+  usb: renesas_usbhs: Update usbhs pipe configuration for RZ/G2L family
+  usb: renesas_usbhs: Remove trailing comma in the terminator entry for
+    OF table
+  arm64: dts: renesas: r9a07g0{43,44,54}: Update RZ/G2L family
+    compatible
 
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+ .../bindings/usb/renesas,usbhs.yaml           |  6 +-
+ arch/arm64/boot/dts/renesas/r9a07g043.dtsi    |  2 +-
+ arch/arm64/boot/dts/renesas/r9a07g044.dtsi    |  2 +-
+ arch/arm64/boot/dts/renesas/r9a07g054.dtsi    |  2 +-
+ drivers/usb/renesas_usbhs/common.c            | 56 +++++++++++--------
+ drivers/usb/renesas_usbhs/common.h            |  3 +
+ drivers/usb/renesas_usbhs/rcar2.c             |  3 +-
+ drivers/usb/renesas_usbhs/rcar3.c             |  6 +-
+ drivers/usb/renesas_usbhs/rza.c               |  3 +-
+ drivers/usb/renesas_usbhs/rza.h               |  1 +
+ drivers/usb/renesas_usbhs/rza2.c              | 18 +++++-
+ include/linux/usb/renesas_usbhs.h             |  1 -
+ 12 files changed, 70 insertions(+), 33 deletions(-)
+
+-- 
+2.25.1
+
 
