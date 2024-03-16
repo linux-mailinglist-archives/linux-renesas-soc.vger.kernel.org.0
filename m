@@ -1,86 +1,71 @@
-Return-Path: <linux-renesas-soc+bounces-3823-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-3824-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40B8E87D9BF
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 16 Mar 2024 11:18:37 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 00E3087DA2A
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 16 Mar 2024 13:22:11 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7B6CF1C20E10
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 16 Mar 2024 10:18:36 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 320541C20B96
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 16 Mar 2024 12:22:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B119517997;
-	Sat, 16 Mar 2024 10:18:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1F77217BB9;
+	Sat, 16 Mar 2024 12:22:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="WTdzJWpJ"
+	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="l2MVLw3N"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout.web.de (mout.web.de [212.227.17.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AACB17565
-	for <linux-renesas-soc@vger.kernel.org>; Sat, 16 Mar 2024 10:18:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 527C517BAF;
+	Sat, 16 Mar 2024 12:22:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710584312; cv=none; b=U7fb/Vr3CQeWIMANoDOVJU3AzILKEiTRb6tzCAHp8Rchk/2wetGnqXsObfs6nyVFNSkCf5RAkLj7sKAFkt8/NKn/HLHjUIqcy4jU1NfdR9M8ufkIJchnds8lPpO5A7GF8LW40fG4njz7GSyxqDSHUGSAVLhF5deZ8KIEp0HXMkY=
+	t=1710591726; cv=none; b=qENxKKprhmujOW1hrfMIUMqnWK9LMvbZls34tzRDMj/ZV3S2mvLuWmVxoU0LW1Wau7yk5RZbKus70uK2QuAKrv93/nJwrj5A0ZuBk4CrKlAdgGKlQ986EGj+MLZnZ5No89WncpQK3T6BY5jKYz6yE7jCiuetX0YkAjAH/+GumdQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710584312; c=relaxed/simple;
-	bh=4Qv2iv24BM4N5rhWKQHGpMd7hu0rv8dZU6QY+sNN2E0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MbQgCSErBIMjUdPeNirvNCMkaCl1WQr1Tv8UQsTdg/4MLu2blxeqUKofMbV9lhPPwEREDxfo4MPW+9KzL6y+gbf4sXphIPJQuAOpgcgO4vNNThoP/zZnnOlKwf2CgXh7Ui645QGOejnu6dcHdfSyLqLiM0z8oyLNpJM2VyulDw8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=WTdzJWpJ; arc=none smtp.client-ip=209.85.218.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
-Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-a44665605f3so319499666b.2
-        for <linux-renesas-soc@vger.kernel.org>; Sat, 16 Mar 2024 03:18:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech.se; s=google; t=1710584309; x=1711189109; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=vZibTUb2beDDFO7s5+ADcLRkljFQu8UZ08PzSzzRuyg=;
-        b=WTdzJWpJQFkXRVSj5q3JW7j5DKXi9cJMEAcf92e/UoXhvX80a+Iqe8d7V/6RN5KRvA
-         IcmDAha/uGTRBem3WuXRQP+c4K76D7gvOAKBpoFM5F50tGPdO1Q3wN68yXOFQGog/3qr
-         xL63oyeY5bydHvb4aem4tfiMa0RFX3atsCtiF27uNeeAh4qNVcQhm7G8Vu4jShUt4wNi
-         hnnuv1+WjeewFaq9g+xt7Y4IakJmg8pzS9p8qKpYxjX4DsUnoHx0dRxC4MoDm10oJZK8
-         PUOtnNTTJJ1N96MfAEPqgBvYb1VEa24CiG+UMvTA6goA5QmPGpe+bk5zaModpId795YD
-         C5lw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710584309; x=1711189109;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=vZibTUb2beDDFO7s5+ADcLRkljFQu8UZ08PzSzzRuyg=;
-        b=t0zyg4LOIGQp3/M6897i186GHeUhP32JGpUsQKKkU//FZ4nqTQ4v1QyHOXFbnKLdTw
-         zllJ6AC7ht+609nWKDrtqvC9B6Gcd2e/SXXjYNPiQqElNxuad2YTsVG2gKPk90RW9qod
-         GOs6tOKVZuEZ49LdydEA3gwQnePW1kQIMenBALkglajEvMZRjtxcgQnzHiO5Y+H2TU2+
-         pLhcnLvfDOQCzjtQPLzzBaGje9lA8VeerrolI/TMqPsDu8p8jxmi83qqvw6dz+aRxR8/
-         qz0mO15PwB2P1wwv410ADysf77WjSmPuqwoJ9Ai1O3LvyvKug4fo+4pbyZTi7JQTO7jA
-         AYMA==
-X-Forwarded-Encrypted: i=1; AJvYcCXqKsnc99AVnkPWAcodlg8w1D7i1AABUmHyTxF4PdS4ZI3X3WaQLa6IyywoyYjAI3hOCqwbFgkiej7Y9MOO1Bwqaw+b6slSeF4Uim/4/0x8XgA=
-X-Gm-Message-State: AOJu0YwFKlaul9v0nMhy8gNv14NssJ66F+FutFGQhEk8CfdrnTeHu7TR
-	1+dURSlZnXSFAyas/+LmxepIq3VXPANA2MZMaLFUZpyOrAjX7NwysBNbbWxUXXm8naYLqrED0xi
-	X
-X-Google-Smtp-Source: AGHT+IFitShcfWanROCLOse88lz09EK1cUssei37FAjOLrcSJZWLjhOVIh2v4/mYPjn0bG2OwVQx6A==
-X-Received: by 2002:a17:907:968c:b0:a46:220c:a55 with SMTP id hd12-20020a170907968c00b00a46220c0a55mr4297795ejc.73.1710584308724;
-        Sat, 16 Mar 2024 03:18:28 -0700 (PDT)
-Received: from localhost (p4fcc8c6a.dip0.t-ipconnect.de. [79.204.140.106])
-        by smtp.gmail.com with ESMTPSA id m18-20020a1709060d9200b00a46ac55d8f5sm112562eji.26.2024.03.16.03.18.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 16 Mar 2024 03:18:28 -0700 (PDT)
-Date: Sat, 16 Mar 2024 11:18:27 +0100
-From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	Markus Elfring <Markus.Elfring@web.de>,
-	linux-renesas-soc@vger.kernel.org, linux-media@vger.kernel.org,
-	kernel-janitors@vger.kernel.org,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	LKML <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] media: rcar-csi2: Use common error handling code in
+	s=arc-20240116; t=1710591726; c=relaxed/simple;
+	bh=XxGy920P9DR0EZIW7+Yb4OcOzn4dQ1bS2DyY+nDGDIQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Yv4HNYmF6VG173Pawvguc04uzb8bSNik+oauAq4sEM8wSxuDxeW07tTIrvQ/MypOSLFa0mT1uZxmo7//x5MmIlT6MCUq+bADk0E3ExoObxNayDfzjpD8TUQe3LOQOrcp8yC88md7qB6K1KzWBSzUlDemIsDsoljndkAZSEnZRbc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=l2MVLw3N; arc=none smtp.client-ip=212.227.17.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
+	s=s29768273; t=1710591699; x=1711196499; i=markus.elfring@web.de;
+	bh=/QEqgj+Ltvb5OtOACFmXDcDy9+HrKk324HPLGGfFo/0=;
+	h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:
+	 In-Reply-To;
+	b=l2MVLw3NsJrTFcF3Yy3k+a3aQzrwT0E160jWyKi9qpmd3akGxhV4YYElzHRJV225
+	 96irb6BJc6lfHaUObWetKgUsqUGK0ejZglw8HV/tMS2vlKSGwiJQ28TUt2NJGZDV+
+	 zW6o5WopqgFzOwy6lWyb6n6y9E2iuEYprpfB9VSNFHBnbz7KjOPjN/BQKHXkTHfO9
+	 EexQ3Ax72k3D8ggTaJ/+pIpQcNnYOk/VOYVyaJCcT2q7KlsZT8q6H+LzeiSQulPWl
+	 V6Jbflimsg+dltdy77kCgQj9etUzVeuojDy/2Oyyh7gHozzCBBTJCqlB6h8SgBsDw
+	 0bj+iPIit2VqLpb3sg==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.21] ([94.31.89.95]) by smtp.web.de (mrweb105
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 1MJFhJ-1rWP0411x5-00KlSo; Sat, 16
+ Mar 2024 13:21:39 +0100
+Message-ID: <aa212ffb-1786-4b86-95cc-f2ee0cd455bf@web.de>
+Date: Sat, 16 Mar 2024 13:21:37 +0100
+Precedence: bulk
+X-Mailing-List: linux-renesas-soc@vger.kernel.org
+List-Id: <linux-renesas-soc.vger.kernel.org>
+List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
+List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: media: rcar-csi2: Use common error handling code in
  rcsi2_parse_dt()
-Message-ID: <20240316101827.GA3058508@ragnatech.se>
+Content-Language: en-GB
+To: Dan Carpenter <dan.carpenter@linaro.org>,
+ =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+ linux-renesas-soc@vger.kernel.org, linux-media@vger.kernel.org,
+ kernel-janitors@vger.kernel.org
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Geert Uytterhoeven <geert@linux-m68k.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ LKML <linux-kernel@vger.kernel.org>
 References: <8b4203dc-bc0a-4c00-8862-e2d0ed6e346b@web.de>
  <CAMuHMdWwegdks3eEviEsBJE3AvUVKbZqHduYdhuwz=8xTMDs5g@mail.gmail.com>
  <260d82b6-e7fc-40c3-b414-50a883709fd7@moroto.mountain>
@@ -88,62 +73,56 @@ References: <8b4203dc-bc0a-4c00-8862-e2d0ed6e346b@web.de>
  <cc121bef-8bca-44e6-81aa-bf8e682bdaf5@moroto.mountain>
  <20240316094652.GC2092253@ragnatech.se>
  <0b77e146-df2f-4fe1-a4e8-206a62a5ac59@moroto.mountain>
-Precedence: bulk
-X-Mailing-List: linux-renesas-soc@vger.kernel.org
-List-Id: <linux-renesas-soc.vger.kernel.org>
-List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
-List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+From: Markus Elfring <Markus.Elfring@web.de>
 In-Reply-To: <0b77e146-df2f-4fe1-a4e8-206a62a5ac59@moroto.mountain>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Provags-ID: V03:K1:CYSazAyFcqwG1K8ccAxElR2MFdI5csaNRfKL+ujpwkyo75gM003
+ sMdgTgvdVoJrXQqCpIJj8HopF1R1OxI9nPHiSzk7esSS/5NYTTfIlgcVjVkkgwZEbs7216C
+ EmoXtU4prJmU/9IoNYgX3mpnRvbl5gb+CtrmeoTjC2mz0nI1in6INRD7iQygE7G9GbfJqI4
+ hkJTtovI1y/iB5bGh0omQ==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:vkl82kTfK7s=;dI3oT/euE+q6zJprge2r7OksWoN
+ y+lxnkJvAhGefLtmu4hbfogcGfAA5IK3XcSyWPTCm6pBxqb3ENZhR7YQ15RTd0ycw8fRjuNJ2
+ 8hip2ZKvg/3cdQxL3fbNdynx4kk2mSv9PI56RDP6PTjl4FPZ/QQMGrwo01R+FMBN+VZVMBlA0
+ fcQBJrxNrdQVk0Gge534xgeLY5MZWIwZCdern3as+xezRNoRKLCo7KJYuNnmMLp8GLZhlbsJX
+ p5WZZo/3MSWAHrifuqusg9QTdalqtiYQwZtLfRNBmhnS1OZhreoiiXJBxcqjsNNFgEjQ7sxqK
+ OoDhHzNDmKO6ydMziKB/TVB/HYiViICXeRmnUym8DoTDFeQ8BNFKhzfM1ugpQBMETa36BNdv+
+ UfUb3npTGPcTQnjENWrXFhblDUC2oTqgp9YEK6PRh/TD5AD43eN704VlyalWMXY3CymQO5oeO
+ DM93HPfmqQE9XSwQFny/gMwvU0plaUwh2UKUiATd1DYutEd0SX5lL+39MWPyt+mMtFiWEWp+Z
+ KDBHP7dJ/07uVclbXQaJ+LuGm/m0ZR7HN1MzywA9oDYZUMoGZXmcj27/GMiScFgX/Xzc2r05o
+ eZLtGxx/YH9qXy9oK3JWJPSjpU8V/IkbXym6pZ6RP/Xpd24gwTOk3XsWxHyawQwxjNFOOsYZs
+ M3xygpKuYZPdWF9rBa2Za65h6XDDW1ccdAda+Xg/plMjnRsGA2jn1MiV/vhJSSFLhBQcgdfzA
+ SEBs4paGpOwy7+QAFHgkJq5125wLhiuNua1Czq3tNywIB/eKuBZNiAf5IbiLit1oN33DEE+60
+ mKtP++GiXuLFsR3YsPeJnUlOs4HhEGdUJGNLSK/o81GfM=
 
-On 2024-03-16 12:54:23 +0300, Dan Carpenter wrote:
-> On Sat, Mar 16, 2024 at 10:46:52AM +0100, Niklas Söderlund wrote:
-> > Hi Dan,
-> > 
-> > On 2024-03-04 14:16:56 +0300, Dan Carpenter wrote:
-> > > On Mon, Mar 04, 2024 at 10:48:47AM +0000, Sakari Ailus wrote:
-> > > > Hi Dan,
-> > > > 
-> > > > On Fri, Mar 01, 2024 at 04:42:01PM +0300, Dan Carpenter wrote:
-> > > > > Sakari Ailus pointed out in another thread that we could use __free()
-> > > > > instead.  Something like this:
-> > > > > 
-> > > > 
-> > > > Looks good to me.
-> > > 
-> > > Thanks for checking!  I've never used these before.
-> > > 
-> > > > 
-> > > > We could merge this with your SoB (pending Niklas's review). :-) The driver
-> > > > has been since moved under drivers/media/platform/renesas/rcar-vin/ .
-> > > 
-> > > Alright.  I can resend this as a proper patch.
-> > 
-> > Please do.
-> > 
-> > I do find the idea of scoped operations and the syntax
-> > 
-> >     struct fwnode_handle *fwnode __free(fwnode_handle) = NULL;
-> > 
-> > a bit foreign in a C context. But I think the intention is clear and it 
-> > allows us to avoid having the remember to free the fwnode in error paths 
-> > which is a nice thing.
-> > 
-> 
 > I said I would send a couple of these but then Markus went ahead and
-> sent the patches that I was going to write...  And then it was like,
-> "Oh, these have some questionable style issues" so it wasn't clear what
-> was happening and I lost track.
+> sent the patches that I was going to write...
 
-I have not been CCed on any other work in this area for this driver then 
-what's in this thread at least. So if you know of no other work in 
-another thread I think you can go a head and send a proper patch for 
-this driver at least, if you want.
+I dared also to touch some software components.
 
--- 
-Kind Regards,
-Niklas Söderlund
+
+>                                                And then it was like,
+> "Oh, these have some questionable style issues"
+
+The patch review is still evolving, isn't it?
+
+
+> so it wasn't clear what was happening and I lost track.
+
+I find such information surprising.
+
+
+There are various source code places left over which could be adjusted somehow.
+
+Some contributors would appreciate further clarifications according to
+desirable collateral evolution.
+
+See also:
+question about kernel cocci and cleanup.h
+2024-03-07
+https://lore.kernel.org/cocci/CO1PR11MB49149F1167679926A2917E0997202@CO1PR11MB4914.namprd11.prod.outlook.com/
+
+Regards,
+Markus
 
