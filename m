@@ -1,128 +1,116 @@
-Return-Path: <linux-renesas-soc+bounces-3824-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-3825-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00E3087DA2A
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 16 Mar 2024 13:22:11 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BF1A87DD21
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 17 Mar 2024 13:18:29 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 320541C20B96
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 16 Mar 2024 12:22:10 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 401AC2813EE
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 17 Mar 2024 12:18:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1F77217BB9;
-	Sat, 16 Mar 2024 12:22:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 143F51B28D;
+	Sun, 17 Mar 2024 12:18:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="l2MVLw3N"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GuqaPIwd"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mout.web.de (mout.web.de [212.227.17.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 527C517BAF;
-	Sat, 16 Mar 2024 12:22:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 923401B7E9;
+	Sun, 17 Mar 2024 12:18:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710591726; cv=none; b=qENxKKprhmujOW1hrfMIUMqnWK9LMvbZls34tzRDMj/ZV3S2mvLuWmVxoU0LW1Wau7yk5RZbKus70uK2QuAKrv93/nJwrj5A0ZuBk4CrKlAdgGKlQ986EGj+MLZnZ5No89WncpQK3T6BY5jKYz6yE7jCiuetX0YkAjAH/+GumdQ=
+	t=1710677904; cv=none; b=eooMrw6z6B9140tyhhdsQPxmpVm9gF+zjDiNZN9vQDBZEBnF3HCnO9dK29mJVogC/DgeKnKluyhrINNPNffkY/blHWXzP9AmKTLa+pDG5jMFkevoH1cGhs/ebNczAAvO7DRdzZ9oltw4cEV/2k4Y+9Ri4oiGEJkwFyH7TOyZtX0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710591726; c=relaxed/simple;
-	bh=XxGy920P9DR0EZIW7+Yb4OcOzn4dQ1bS2DyY+nDGDIQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Yv4HNYmF6VG173Pawvguc04uzb8bSNik+oauAq4sEM8wSxuDxeW07tTIrvQ/MypOSLFa0mT1uZxmo7//x5MmIlT6MCUq+bADk0E3ExoObxNayDfzjpD8TUQe3LOQOrcp8yC88md7qB6K1KzWBSzUlDemIsDsoljndkAZSEnZRbc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=l2MVLw3N; arc=none smtp.client-ip=212.227.17.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
-	s=s29768273; t=1710591699; x=1711196499; i=markus.elfring@web.de;
-	bh=/QEqgj+Ltvb5OtOACFmXDcDy9+HrKk324HPLGGfFo/0=;
-	h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:
-	 In-Reply-To;
-	b=l2MVLw3NsJrTFcF3Yy3k+a3aQzrwT0E160jWyKi9qpmd3akGxhV4YYElzHRJV225
-	 96irb6BJc6lfHaUObWetKgUsqUGK0ejZglw8HV/tMS2vlKSGwiJQ28TUt2NJGZDV+
-	 zW6o5WopqgFzOwy6lWyb6n6y9E2iuEYprpfB9VSNFHBnbz7KjOPjN/BQKHXkTHfO9
-	 EexQ3Ax72k3D8ggTaJ/+pIpQcNnYOk/VOYVyaJCcT2q7KlsZT8q6H+LzeiSQulPWl
-	 V6Jbflimsg+dltdy77kCgQj9etUzVeuojDy/2Oyyh7gHozzCBBTJCqlB6h8SgBsDw
-	 0bj+iPIit2VqLpb3sg==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.21] ([94.31.89.95]) by smtp.web.de (mrweb105
- [213.165.67.124]) with ESMTPSA (Nemesis) id 1MJFhJ-1rWP0411x5-00KlSo; Sat, 16
- Mar 2024 13:21:39 +0100
-Message-ID: <aa212ffb-1786-4b86-95cc-f2ee0cd455bf@web.de>
-Date: Sat, 16 Mar 2024 13:21:37 +0100
+	s=arc-20240116; t=1710677904; c=relaxed/simple;
+	bh=eoUX5ow+3C+/zgtIqy7nF/N9uBFFU5sFHI2z9migN3c=;
+	h=Subject:To:Cc:References:From:Message-ID:Date:MIME-Version:
+	 In-Reply-To:Content-Type; b=usnpIEvFutLFCIVyWlmZlO5sKNnRQ3Qd/3XgPilyr6Qig/Lu0/dLdz1AOkocE50uLEZvYrS9f33oTn1B/hVkZIjDCaAqeC6zLvpC3e6RtcsJqGWX69y7aolMTf9qL/WOAETnSye4PX9shLc/d5b//k/M8bACckn753ik41/wPIo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GuqaPIwd; arc=none smtp.client-ip=209.85.167.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-513d23be0b6so3455411e87.0;
+        Sun, 17 Mar 2024 05:18:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1710677899; x=1711282699; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-language:in-reply-to:mime-version
+         :user-agent:date:message-id:from:references:cc:to:subject:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=WhDUfnD6jhndJUK8KTDqkeCeoMfn6ZnAs+c0KRbmtc0=;
+        b=GuqaPIwdnOaCw5qQTuxzli+TpFffCuL5WYSQ7+vquVT9AgeGxwcGnQOiDCoEME1tVH
+         iCQZ68S2bopcL2mgLj2jgKTezXtlz/X02dnA4e8hYv6wxAlZpVw9G+NtRLZfs+cx/qLz
+         rh0UuUUgtzVrfPKSf1tNRwl+jfeN7jv+hgGOJfUBgR9VNxo+XMs6/ukxM9P0TTOgc9Ao
+         Wmr7KJvUVVcy+tCmL/EHYCmen8jfmAZMewPQWFww1gmyDFKZPurn8dHgWxko0HZHJ+9N
+         8RnvfxDWnb2UHyRDKUAR7nFAwvLIdhFf6SfqvXpjdJSZiFwLdE5Z0a1UPOs4UTJGHD0J
+         r4Hw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1710677899; x=1711282699;
+        h=content-transfer-encoding:content-language:in-reply-to:mime-version
+         :user-agent:date:message-id:from:references:cc:to:subject
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=WhDUfnD6jhndJUK8KTDqkeCeoMfn6ZnAs+c0KRbmtc0=;
+        b=d+kMfvo7rbybWQJCkLxCYSvJOBEpLR7ENeu68mVhe1FmmwwLPQmKJK1Ev8OhP/yiUO
+         jitnNibQI9oiA3GNAazMleAHmo87C8yMv/JY1pTlMrugsxk4BjXBSjt2a/yLNG2e6HAn
+         Nc0+xHljZ+QWpbcm8fx3X/CT19C7MedsVAP64KFiWa5FN9fWIXH62qxTaoMIO0jP5RjJ
+         qzvh5Pe4CVVyt77lC+eM32bXhRlVmLTez2qxCnCDfrb7//Mk6kzd+POLch2KUgWXD0+2
+         BTbbYYFGjCDqCAAc7FWyoPQc54cNtfaje66tZ55LVSVph0mDVUVm+X1gYG80GwRJDBK7
+         zrJw==
+X-Forwarded-Encrypted: i=1; AJvYcCWvXaBqLRDswjvWNqE+Re3YXc/eDas11FxiGzzqPzO0c+Etom9V436w6CyWg0wBq7fI97Y41Oaq6CtEx3D7eU6e8YOWZ/+c7Zn7X8iZT8f+KaRpGtARWlG87Kosb9S1hFOrjJhtp6UCO1s+Qvk3B8bfowurk5lTXZOpZv+FWn2WLUF1uiKH6uBokmyhhP/vF/V0wsKiPLiMbDoPW5YoDA==
+X-Gm-Message-State: AOJu0YxCo8uXSdfG95x683SyFhpDn8YM4hwFH7deiI2VI6DdDbl0aHal
+	f0SnrQq5s4cnjGVMmj3bmENsnQSCelkdWV5SPN1i+TtcRl2Se9UOqdEtarh4
+X-Google-Smtp-Source: AGHT+IHtyGHn/hPRpeLBJ9CG4gmpZoe+TIR3oxz3H3IJtfVbpmTBJwJGBzaKCrvmEm+khwdC/47XhA==
+X-Received: by 2002:ac2:5bce:0:b0:513:b90d:aa5e with SMTP id u14-20020ac25bce000000b00513b90daa5emr7293415lfn.8.1710677899355;
+        Sun, 17 Mar 2024 05:18:19 -0700 (PDT)
+Received: from [192.168.1.105] ([178.176.72.130])
+        by smtp.gmail.com with ESMTPSA id n5-20020a05651203e500b00513ad31a00csm1237787lfq.69.2024.03.17.05.18.17
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 17 Mar 2024 05:18:18 -0700 (PDT)
+Subject: Re: [PATCH v5 3/5] usb: gadget: udc: add Renesas RZ/N1 USBF
+ controller support
+To: Herve Codina <herve.codina@bootlin.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
+ <sboyd@kernel.org>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Magnus Damm <magnus.damm@gmail.com>,
+ Gareth Williams <gareth.williams.jx@renesas.com>
+Cc: linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-usb@vger.kernel.org, Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ Miquel Raynal <miquel.raynal@bootlin.com>
+References: <20230105152257.310642-1-herve.codina@bootlin.com>
+ <20230105152257.310642-4-herve.codina@bootlin.com>
+From: Sergei Shtylyov <sergei.shtylyov@gmail.com>
+Message-ID: <260e0089-0817-cf12-dfcd-c28263808518@gmail.com>
+Date: Sun, 17 Mar 2024 15:18:16 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: media: rcar-csi2: Use common error handling code in
- rcsi2_parse_dt()
-Content-Language: en-GB
-To: Dan Carpenter <dan.carpenter@linaro.org>,
- =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
- linux-renesas-soc@vger.kernel.org, linux-media@vger.kernel.org,
- kernel-janitors@vger.kernel.org
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
- Geert Uytterhoeven <geert@linux-m68k.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- LKML <linux-kernel@vger.kernel.org>
-References: <8b4203dc-bc0a-4c00-8862-e2d0ed6e346b@web.de>
- <CAMuHMdWwegdks3eEviEsBJE3AvUVKbZqHduYdhuwz=8xTMDs5g@mail.gmail.com>
- <260d82b6-e7fc-40c3-b414-50a883709fd7@moroto.mountain>
- <ZeWnD9YrXLWJYmhT@kekkonen.localdomain>
- <cc121bef-8bca-44e6-81aa-bf8e682bdaf5@moroto.mountain>
- <20240316094652.GC2092253@ragnatech.se>
- <0b77e146-df2f-4fe1-a4e8-206a62a5ac59@moroto.mountain>
-From: Markus Elfring <Markus.Elfring@web.de>
-In-Reply-To: <0b77e146-df2f-4fe1-a4e8-206a62a5ac59@moroto.mountain>
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <20230105152257.310642-4-herve.codina@bootlin.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Provags-ID: V03:K1:CYSazAyFcqwG1K8ccAxElR2MFdI5csaNRfKL+ujpwkyo75gM003
- sMdgTgvdVoJrXQqCpIJj8HopF1R1OxI9nPHiSzk7esSS/5NYTTfIlgcVjVkkgwZEbs7216C
- EmoXtU4prJmU/9IoNYgX3mpnRvbl5gb+CtrmeoTjC2mz0nI1in6INRD7iQygE7G9GbfJqI4
- hkJTtovI1y/iB5bGh0omQ==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:vkl82kTfK7s=;dI3oT/euE+q6zJprge2r7OksWoN
- y+lxnkJvAhGefLtmu4hbfogcGfAA5IK3XcSyWPTCm6pBxqb3ENZhR7YQ15RTd0ycw8fRjuNJ2
- 8hip2ZKvg/3cdQxL3fbNdynx4kk2mSv9PI56RDP6PTjl4FPZ/QQMGrwo01R+FMBN+VZVMBlA0
- fcQBJrxNrdQVk0Gge534xgeLY5MZWIwZCdern3as+xezRNoRKLCo7KJYuNnmMLp8GLZhlbsJX
- p5WZZo/3MSWAHrifuqusg9QTdalqtiYQwZtLfRNBmhnS1OZhreoiiXJBxcqjsNNFgEjQ7sxqK
- OoDhHzNDmKO6ydMziKB/TVB/HYiViICXeRmnUym8DoTDFeQ8BNFKhzfM1ugpQBMETa36BNdv+
- UfUb3npTGPcTQnjENWrXFhblDUC2oTqgp9YEK6PRh/TD5AD43eN704VlyalWMXY3CymQO5oeO
- DM93HPfmqQE9XSwQFny/gMwvU0plaUwh2UKUiATd1DYutEd0SX5lL+39MWPyt+mMtFiWEWp+Z
- KDBHP7dJ/07uVclbXQaJ+LuGm/m0ZR7HN1MzywA9oDYZUMoGZXmcj27/GMiScFgX/Xzc2r05o
- eZLtGxx/YH9qXy9oK3JWJPSjpU8V/IkbXym6pZ6RP/Xpd24gwTOk3XsWxHyawQwxjNFOOsYZs
- M3xygpKuYZPdWF9rBa2Za65h6XDDW1ccdAda+Xg/plMjnRsGA2jn1MiV/vhJSSFLhBQcgdfzA
- SEBs4paGpOwy7+QAFHgkJq5125wLhiuNua1Czq3tNywIB/eKuBZNiAf5IbiLit1oN33DEE+60
- mKtP++GiXuLFsR3YsPeJnUlOs4HhEGdUJGNLSK/o81GfM=
 
-> I said I would send a couple of these but then Markus went ahead and
-> sent the patches that I was going to write...
+On 1/5/23 6:22 PM, Herve Codina wrote:
 
-I dared also to touch some software components.
+> Add support for the Renesas USBF controller.
+> This controller is an USB2.0 UDC controller available in the
+> Renesas r9a06g032 SoC (RZ/N1 family).
 
+   I think I've done the NEC EC-4255 USBF driver for Robert Bosch
+Car Multimedia, too bad it's never hit upstream... :-)
 
->                                                And then it was like,
-> "Oh, these have some questionable style issues"
+> Signed-off-by: Herve Codina <herve.codina@bootlin.com>
 
-The patch review is still evolving, isn't it?
+[...]
 
-
-> so it wasn't clear what was happening and I lost track.
-
-I find such information surprising.
-
-
-There are various source code places left over which could be adjusted somehow.
-
-Some contributors would appreciate further clarifications according to
-desirable collateral evolution.
-
-See also:
-question about kernel cocci and cleanup.h
-2024-03-07
-https://lore.kernel.org/cocci/CO1PR11MB49149F1167679926A2917E0997202@CO1PR11MB4914.namprd11.prod.outlook.com/
-
-Regards,
-Markus
+MBR, Sergey
 
