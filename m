@@ -1,47 +1,47 @@
-Return-Path: <linux-renesas-soc+bounces-3872-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-3873-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1148787F32C
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 18 Mar 2024 23:39:02 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CEBC87F36D
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 18 Mar 2024 23:55:58 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 41DAD1C21507
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 18 Mar 2024 22:39:01 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0D9D41F21AF3
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 18 Mar 2024 22:55:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0A1925A0FB;
-	Mon, 18 Mar 2024 22:38:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BDAD75A799;
+	Mon, 18 Mar 2024 22:55:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="ZAzSfiGC"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="AQcKNYrr"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DD8E5A4C9;
-	Mon, 18 Mar 2024 22:38:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78BC35A793;
+	Mon, 18 Mar 2024 22:55:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710801535; cv=none; b=W9KVrL4r8CHnDr+hF2v8I45cunYiIFovBph/N/8Sgcl/J3s4dojVZv5e1gsGBWxH4NpP/gpfkSbfyq6tmkiWofVZaZnKzsyku07RyyNO0mJWOt1OyGHp64ysnun5h9eYgFa71BcnY04bKgBuWX4YKtUjln0c99dLEloqsa36E1w=
+	t=1710802553; cv=none; b=bh+9/RWlVQfWBY5blJrcuk1IA9aCY5V4hFwtbUBcEq0sh8VXbijPE1utKnhQsyaOfascCo3XkEseHgLfkCVREbgg3vX+4Yo6L44UtvR0L8cDc0bufzH5ghCoAYpFATZPiVPlWSXDuyXM6Wk1D+RnnZFcpYbd7Z/1JT1R6ck6xps=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710801535; c=relaxed/simple;
-	bh=iYYl/X3S1ud9BieZJR2iMwdKlvZTFaDy1KeuQBPhaNE=;
+	s=arc-20240116; t=1710802553; c=relaxed/simple;
+	bh=ZVTEV1vkjnpvlfzTQcGQhAiQTf4XNZ0lYDHUMFrP8V4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=L3d4Z5n6vywmgz9X8L9HiuKAE4c3jDCEdKWKmVmJe8M3iRTxDJtpSKUTp+yELyKZKYrhVMFTia8q4Md9cEM/dLpLCKKC1LbCcXE9kGSHvzVw2OZsYdlF5SK+WytI4N7VCZ5gg1nzxK1o8ZYpN9xcZYV73zE5R3O5TQ5tgj2IQmU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=ZAzSfiGC; arc=none smtp.client-ip=213.167.242.64
+	 Content-Type:Content-Disposition:In-Reply-To; b=o4hHtKc07J62Ec8SxZyY7V6GpCJ9FgNk84xyQrV7oswHVb2lCVZP3u3OvNfjo8uSZpSBYMiHNlzW7OVJXFlFL4nCzGzPhnCkVSpEOwq/DcskuY6DOAbevnq3vO03oKpV8dt2zKN9BW/VSMalUFCUUzNNHR/ebkCTs2ag7/FCUtk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=AQcKNYrr; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id CF31A55;
-	Mon, 18 Mar 2024 23:38:24 +0100 (CET)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id EE39555;
+	Mon, 18 Mar 2024 23:55:22 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1710801505;
-	bh=iYYl/X3S1ud9BieZJR2iMwdKlvZTFaDy1KeuQBPhaNE=;
+	s=mail; t=1710802523;
+	bh=ZVTEV1vkjnpvlfzTQcGQhAiQTf4XNZ0lYDHUMFrP8V4=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ZAzSfiGCXXLENOsOXx2jcPJKN53TMzDp5fFMWfC6TYbIJMSWocR3tPRQZdYxyykGZ
-	 LzNSQdmdTsCktkYeg/yqM3OTD1mQ8i1HuebWUEvm3Lua4Cyj8hEiBDJzL0lXLgPHAV
-	 K3XOtquoBPf4HVkxNVc3vgDiLO3awS+coEBb3mp4=
-Date: Tue, 19 Mar 2024 00:38:48 +0200
+	b=AQcKNYrrh51Wz8Fo6gYcko3U21hgw7irtvgBRgDKD46Z0vr8dQ/jjJxSf5RQJ+Ol9
+	 JjVkF7qzBQFN4YoXPasMg4ZxqQ5qe+STtfYyUY87KEnVvpmZCA5w4Rhy2282GjOpoG
+	 xb6Gw/elx24SpeDA5nnGUobfJNdL/h7SqJWx2jtM=
+Date: Tue, 19 Mar 2024 00:55:46 +0200
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Biju Das <biju.das.jz@bp.renesas.com>
 Cc: Michael Turquette <mturquette@baylibre.com>,
@@ -51,11 +51,10 @@ Cc: Michael Turquette <mturquette@baylibre.com>,
 	Geert Uytterhoeven <geert+renesas@glider.be>,
 	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
 	Biju Das <biju.das.au@gmail.com>, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v3 1/3] clk: Update API documentation related to clock
- disable
-Message-ID: <20240318223848.GR13682@pendragon.ideasonboard.com>
+Subject: Re: [PATCH v3 2/3] clk: Add clk_poll_disable_unprepare()
+Message-ID: <20240318225546.GS13682@pendragon.ideasonboard.com>
 References: <20240318110842.41956-1-biju.das.jz@bp.renesas.com>
- <20240318110842.41956-2-biju.das.jz@bp.renesas.com>
+ <20240318110842.41956-3-biju.das.jz@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -64,112 +63,193 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20240318110842.41956-2-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20240318110842.41956-3-biju.das.jz@bp.renesas.com>
 
 Hi Biju,
 
 Thank you for the patch.
 
-On Mon, Mar 18, 2024 at 11:08:40AM +0000, Biju Das wrote:
+On Mon, Mar 18, 2024 at 11:08:41AM +0000, Biju Das wrote:
+> The clk_disable_unprepare() doesn't guarantee that a clock is gated after
+> the execution as it is driver dependent. The Renesas and most of the other
+> platforms don't wait until clock is stopped because of performance reason.
+
+Is that really the case for most platforms ? I've never seen that being
+an issue in practice.
+
+> But these platforms wait while turning on the clock.
 > 
-> The API's related to clk disable operation does not explicitly
-> states the synchoronous or asynchrous behaviour as it is driver
-
-s/synchoronous/synchronous/
-
-> dependent. So make this part clear in API documentation.
-
-You need to explain the rationale here, why asynchronous behaviour is
-preferred.
-
-> Suggested-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> The normal case for shutting down the clock is unbind/close/suspend or
+> error paths in the driver. Not waiting for the shutting down the clock
+> will improve the suspend time.
+> 
+> But on RZ/G2L Camera Data Receiving Unit (CRU) IP, initially the vclk is
+> on. Before enabling link reception, we need to wait for vclk to be off
+> and after enabling reception, we need to turn the vlck on. Special cases
+> like this requires a sync API for clock gating.
+> 
+> Add clk_poll_disable_unprepare() to poll the clock gate operation that
+> guarantees gating of clk after the execution.
+> 
 > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 > ---
 > v2->v3:
->  * No change.
-> v2:
->  * New patch.
+>  * Added WARN_ON(enable count non-zero) and return an error code (-EBUSY),
+>    if the user is not the sole user of the clock and the enable count is
+>    non-zero.
+>  * Returned an error if there's no is_enabled() callback.
+> RFC->v2:
+>  * Renamed clk_disable_unprepare_sync()-->clk_poll_disable_unprepare()
+>  * Redesigned to make use of __clk_is_enabled() to poll the clock gating.
 > ---
->  drivers/clk/clk.c            | 3 ++-
->  include/linux/clk-provider.h | 3 ++-
->  include/linux/clk.h          | 3 ++-
->  3 files changed, 6 insertions(+), 3 deletions(-)
+>  drivers/clk/clk.c   | 29 ++++++++++++++++++++++++++++
+>  include/linux/clk.h | 46 +++++++++++++++++++++++++++++++++++++++++++++
+>  2 files changed, 75 insertions(+)
 > 
 > diff --git a/drivers/clk/clk.c b/drivers/clk/clk.c
-> index 25371c91a58f..f5fa91a339d7 100644
+> index f5fa91a339d7..e10bb14c904d 100644
 > --- a/drivers/clk/clk.c
 > +++ b/drivers/clk/clk.c
-> @@ -1010,7 +1010,8 @@ static void clk_core_unprepare_lock(struct clk_core *core)
->   * if the operation may sleep.  One example is a clk which is accessed over
->   * I2c.  In the complex case a clk gate operation may require a fast and a slow
->   * part.  It is this reason that clk_unprepare and clk_disable are not mutually
-> - * exclusive.  In fact clk_disable must be called before clk_unprepare.
-> + * exclusive.  In fact clk_disable must be called before clk_unprepare.  The
-> + * synchronous or asynchronous clock gating operation is driver dependent.
+> @@ -13,6 +13,7 @@
+>  #include <linux/mutex.h>
+>  #include <linux/spinlock.h>
+>  #include <linux/err.h>
+> +#include <linux/iopoll.h>
+>  #include <linux/list.h>
+>  #include <linux/slab.h>
+>  #include <linux/of.h>
+> @@ -1160,6 +1161,34 @@ void clk_disable(struct clk *clk)
+>  }
+>  EXPORT_SYMBOL_GPL(clk_disable);
+>  
+> +/**
+> + * clk_poll_disabled - poll for clock gating.
+> + * @clk: the clk that is going to stop
+> + * @sleep_us: Maximum time to sleep between reads in us (0
+> + *            tight-loops).  Should be less than ~20ms since usleep_range
+> + *            is used (see Documentation/timers/timers-howto.rst).
+> + * @timeout_us: Timeout in us, 0 means never timeout
+> + *
+> + * It polls for a clk to be stopped.
+> + */
+> +int clk_poll_disabled(struct clk *clk, unsigned long sleep_us, u64 timeout_us)
+> +{
+> +	bool status;
+> +
+> +	if (IS_ERR_OR_NULL(clk))
+> +		return 0;
+> +
+> +	if (!clk->core->ops->is_enabled)
+> +		return -EOPNOTSUPP;
+> +
+> +	if (WARN(__clk_get_enable_count(clk), "clk is in use\n"))
+> +		return -EBUSY;
 
-If synchronous operation is not guaranteed, then it's asynchonous.
-Asynchronous doesn't mean slow, even an asynchronous provider can
-complete the disable operation before the function returns to the
-caller. All it means is that there's no guarantee of synchronous
-operation. I would document it as such:
+A WARN() is fairly bad, given how easy it could be to this this
+condition. To make it safe in the genral case for drivers to use this
+API, we may need a way to acquire a clock exclusively, which would
+complexify the API quite a bit.
 
- * This function is asynchronous, if may return before the clock provider 
- * completes the unprepare operation.
-
-However, below you're addressing the disable operation. Did you mean to
-patch the documentation for clk_prepare() instead ? Making
-clk_unprepare() asynchronous seems a bit weird, given that the function
-may sleep and is expected to take more time.
-
->   */
->  void clk_unprepare(struct clk *clk)
+> +
+> +	return read_poll_timeout(__clk_is_enabled, status, !status, sleep_us,
+> +				 timeout_us, false, clk);
+> +}
+> +EXPORT_SYMBOL_GPL(clk_poll_disabled);
+> +
+>  static int clk_core_enable(struct clk_core *core)
 >  {
-> diff --git a/include/linux/clk-provider.h b/include/linux/clk-provider.h
-> index 4a537260f655..5b493024e1ec 100644
-> --- a/include/linux/clk-provider.h
-> +++ b/include/linux/clk-provider.h
-> @@ -113,7 +113,8 @@ struct clk_duty {
->   *		sleep.
->   *
->   * @disable:	Disable the clock atomically. Called with enable_lock held.
-> - *		This function must not sleep.
-> + *		This function must not sleep. The synchronous or asynchronous
-> + *		disabling of the clock is driver dependent.
-
-As this is the documentation that targets clock providers, I would
-expand it and explain why a provider may want to make the disable
-operation not synchronous.
-
->   *
->   * @is_enabled:	Queries the hardware to determine if the clock is enabled.
->   *		This function must not sleep. Optional, if this op is not
-
-.is_enabled() should become mandatory if .disable() is not synchronous.
-The relationship between the two operations should be better explained.
-
+>  	int ret = 0;
 > diff --git a/include/linux/clk.h b/include/linux/clk.h
-> index 00623f4de5e1..84b02518791f 100644
+> index 84b02518791f..7f714ecce0eb 100644
 > --- a/include/linux/clk.h
 > +++ b/include/linux/clk.h
-> @@ -681,7 +681,8 @@ int __must_check clk_bulk_enable(int num_clks,
->   * @clk: clock source
->   *
->   * Inform the system that a clock source is no longer required by
-> - * a driver and may be shut down.
-> + * a driver and may be shut down. It is not guaranteed to ever actually
-> + * be stopped, that will be driver dependent.
+> @@ -693,6 +693,20 @@ int __must_check clk_bulk_enable(int num_clks,
+>   */
+>  void clk_disable(struct clk *clk);
+>  
+> +/**
+> + * clk_poll_disabled - inform the system whether the clock source is stopped.
+> + * @clk: clock source
+> + * @sleep_us: Maximum time to sleep between reads in us (0
+> + *            tight-loops).  Should be less than ~20ms since usleep_range
+> + *            is used (see Documentation/timers/timers-howto.rst).
+> + * @timeout_us: Timeout in us, 0 means never timeout
+> + *
+> + * Poll for clock gating and Inform the system about it's status.
+> + *
+> + * Context: May sleep.
+> + */
+> +int clk_poll_disabled(struct clk *clk, unsigned long sleep_us, u64 timeout_us);
+> +
+>  /**
+>   * clk_bulk_disable - inform the system when the set of clks is no
+>   *		      longer required.
+> @@ -1030,6 +1044,11 @@ static inline int __must_check clk_bulk_enable(int num_clks,
+>  
+>  static inline void clk_disable(struct clk *clk) {}
+>  
+> +static inline int clk_poll_disabled(struct clk *clk, unsigned long sleep_us,
+> +				    u64 timeout_us)
+> +{
+> +	return 0;
+> +}
+>  
+>  static inline void clk_bulk_disable(int num_clks,
+>  				    const struct clk_bulk_data *clks) {}
+> @@ -1121,6 +1140,33 @@ static inline void clk_disable_unprepare(struct clk *clk)
+>  	clk_unprepare(clk);
+>  }
+>  
+> +/**
+> + * clk_poll_disable_unprepare - Poll clk_disable_unprepare
+> + * @clk: clock source
+> + * @sleep_us: Maximum time to sleep between reads in us (0
+> + *            tight-loops).  Should be less than ~20ms since usleep_range
+> + *            is used (see Documentation/timers/timers-howto.rst).
+> + * @timeout_us: Timeout in us, 0 means never timeout
+> + *
+> + * Context: May sleep.
+> + *
+> + * This function polls until the clock has stopped.
+> + *
+> + * Returns success (0) or negative errno.
+> + */
+> +static inline int clk_poll_disable_unprepare(struct clk *clk,
+> +					     unsigned long sleep_us,
+> +					     u64 timeout_us)
+> +{
+> +	int ret;
+> +
+> +	clk_disable(clk);
+> +	ret = clk_poll_disabled(clk, sleep_us, timeout_us);
+> +	clk_unprepare(clk);
 
-This is the documentation of clk_bulk_disable(), you should address
-clk_disable() too. I've just noticed that both functions are documented
-in two places, in include/linux/clk.h, and in drivers/clk/. I wonder why
-that is. It sounds like it should be fixed, or you'll have to patch both
-documentation blocks.
+What happens in the clk_disable_unprepare() case, if the clk_unprepare()
+function is called on a clock that hasn't been synchronously disabled ?
+This is ill-defined, a clock provider driver that implements .disable()
+asynchronously would see its .unprepare() operation called with
+different clock states. That behaviour is error-prone, especially given
+that it could be difficult to test clock provider drivers to ensure that
+handle both cases correctly.
 
-There's another issue that I'll raise in the review of 2/3.
+One option could be to turn the .unprepare() operation into a
+synchronization point, requiring drivers that implement .disable()
+asynchronously to implement synchronization in .unprepare(). That way
+you wouldn't need a new API function for clock consumers. The downside
+is that consumers that call clk_disable_unprepare() will never benefit
+from the .disable() operation being asynchronous, which may defeat the
+whole point of this exercise.
 
->   *
->   * May be called from atomic contexts.
->   *
+I'm starting to wonder if the simplest option in your case wouldn't be
+to make your clock provider synchronous for the vclk...
+
+> +
+> +	return ret;
+> +}
+> +
+>  static inline int __must_check
+>  clk_bulk_prepare_enable(int num_clks, const struct clk_bulk_data *clks)
+>  {
 
 -- 
 Regards,
