@@ -1,78 +1,78 @@
-Return-Path: <linux-renesas-soc+bounces-3839-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-3840-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F2FA87E57C
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 18 Mar 2024 10:15:18 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id B301087E59D
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 18 Mar 2024 10:22:41 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C48BD282B2A
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 18 Mar 2024 09:15:16 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E3EF91C203F4
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 18 Mar 2024 09:22:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 05BB128DD7;
-	Mon, 18 Mar 2024 09:15:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5B00028E39;
+	Mon, 18 Mar 2024 09:22:40 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com [209.85.128.169])
+Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com [209.85.128.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F09D288D7;
-	Mon, 18 Mar 2024 09:15:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED81D2C684;
+	Mon, 18 Mar 2024 09:22:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710753313; cv=none; b=IAp+zV4QzeMMywobQ0Ez7j9l0eAc6RYPjccqyUy4P7alNNcufTanfUc4AtRcjGfp/vW8yt5h/b1hXDHPdy9JyddsJT5yW7sc/4+kW7Ar9JJG+DQ+zg/0EXPL26rLiOzJmiw+VQ8p+8F3SVsygZ1jbS5uTxJgNTrxPw9Npp2YxG8=
+	t=1710753760; cv=none; b=G2ngptjul4vL1lNzqZbUBWDCyDoyUzd9kUgbvo7VIQxPDroDmmPV1hp4dCMxOZZkDE3f0A4FbstRzKSci6HoVIu1FCrnn6FeRrqHAMXkEYmtRAVFL2cE9l0W6R5LDzMqhKqK9N+23mqnEVkYQLEYUTI+4M8fjsZJ4YsQAaa4xcc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710753313; c=relaxed/simple;
-	bh=ZrqiLCzlaYnOqkDnAV97vjaitJds6HyOAnrjDawVko4=;
+	s=arc-20240116; t=1710753760; c=relaxed/simple;
+	bh=0npJk+gywEx+1OYHj9zoiN5ftqHPNZfWDVrTKU5LHVc=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=HJMKoX8e5I+yVyPU0kGTMsfx+oVyb1BDibFGTG3/W4xHoehwiJ4Mg0WWU4gauq+qrAQ9nBi554QPTUem6d75K6GzM2+rQNt2WXlgpZO5SbrsPcJCJhRZqoXHpG0962az3nhpgtxLLmgrfUdROmSVM61BWNBYqPeq3WucSdyXuAI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.169
+	 To:Cc:Content-Type; b=mZfjOjphMhv+tsV5KPOaaK9KX7DPWkT3D+vem5/qQvGUGvd0XeWMtARNVpFO7Fg8GRIjQGAnlN6x8s3xvv6nAnCBGV73LyRTH8xqPeLBEwg3m58LWz96h4CHw+viT1iT3P9oCIdAcRydVkC5Xs5RVRXvA2cvjaGqMOn9uqwVo70=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.178
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-60a15449303so39788407b3.0;
-        Mon, 18 Mar 2024 02:15:11 -0700 (PDT)
+Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-60a0579a931so39883177b3.0;
+        Mon, 18 Mar 2024 02:22:37 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710753310; x=1711358110;
+        d=1e100.net; s=20230601; t=1710753755; x=1711358555;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Ny28AcEyyIOSwlsOgRzGEP74cd3uygxkMf5Vwv/TISo=;
-        b=WgHCTPilpsFdRqfg9qQ9eC0xNSCxKRayeNbU5zDzVVn7aeir7kfFV1Y5ckmi0X00CI
-         VqoB4hhQ267dc4jDXF83zZ9qA3jhRQEn+GiL7EPZ59teSRzV93Cbq7Qry7qNzkBrC3hr
-         gMxuSI2rREplpMBtRJD7PXGC6NBcMgmaA9JtOBh9fm1jT/YGeyyEQyITacz18M88CB/K
-         fB4j4VVq/BfDJ08UNJrzCVlPtJ6UN1AfGRYD0cGKfK1XEPAntWXXohXVfVqjmSfALrfn
-         BUQGCzWNunUe/IzSakML/HGMB7uy96FhQq2HayrOScuSv6HbDkTfviOP1TDtMvGXC7Mp
-         k3Mg==
-X-Forwarded-Encrypted: i=1; AJvYcCX7SKEaUZGyPmw9XRBK5g+SbHer5pZPlM5KDTkW/gemvwYvoPzgZi+y+5yXxQVv9HMZQ9V6r2PahoNGlYmaP+maWFSPvOpNReCayUyMONNzTgbm9aPMuyU9Vs51OU39RfR266QquwtgGlraGA0=
-X-Gm-Message-State: AOJu0YyMCqCyGHBfL3J/xboy8PGzR755ZCbwxXRtUrSPszFuWRl2PShX
-	2cFgB27SCF9v2vF3kxPerP3exgYu/IZVi6GMYqBGgwYaaQd/5S9GWqBTFi3g9uM=
-X-Google-Smtp-Source: AGHT+IGtVcd1R0dXgdqnpAKNoVSMJaPPbSei1iavuGqXY5ZleGRcWA9BScvCULQlk2vRK0T729M1PA==
-X-Received: by 2002:a0d:f901:0:b0:60f:d70b:c1f9 with SMTP id j1-20020a0df901000000b0060fd70bc1f9mr5530005ywf.24.1710753309741;
-        Mon, 18 Mar 2024 02:15:09 -0700 (PDT)
-Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com. [209.85.128.171])
-        by smtp.gmail.com with ESMTPSA id gz8-20020a05690c470800b0060a2fec128fsm1819823ywb.24.2024.03.18.02.15.09
+        bh=wF4IVB2FDKwxKiiXTLe1o1QLlIZUQqwHVGeelcNqEgQ=;
+        b=ljZ/wOaURIwEr8amhQRflQerncFEyedSQT/x3LjrDs9cwT3DjZ6mVstfmECLbTpRDl
+         SjY/E/dmXGN8j9WmPfzuGwu/uPMfQOKsIL+B+zjsctYZymnX1Ca/l3JIwBuwaFdV9M6x
+         bW09PkWcFcsTFSwqzYrR6VfchAgJ0/DaIiXi1g3il++iOFZ3zk0SAKdB3keWqvRZZhMz
+         Y4DWcXKxqd5k3q10ATufhNQSfF+k4fVg7kRyvfwmqwWpXqhxWa68sByuJCuhDbbQUldn
+         V7hRL10j0HKbHp4FioFl23P4Hfoog2S48S3q4/JTRa0yXMUd+uHJS2C4UwOBFwuwtW8l
+         yjdQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVFZWvMVxFQYrntMpfa7Ul/DLDuJsg74N35p1lfEQipje/u4gig0m34OfvlI41tYFiGcgDPJktAQAAkAvQ+9MVMqxI2AjtVXUUWlUAhigIAMfhPJ1Bsc1L7NZr3vKexGPggIBkMNU4KlY2zf3g=
+X-Gm-Message-State: AOJu0Yw4wtBcEk1TYDA8wXk28Grson37ym4Z4GGwXdIPEVxSAGWewQnV
+	DkYw2Jkor8p0M93vbyE06lLJIwwd+nYFI978IJIlisDlMoKkb85TRc1FQ4btFdU=
+X-Google-Smtp-Source: AGHT+IHP9KcvQW6dLg4GLFgaCulJZI0uUGR5500/YLmVsPcpgjsCsWIVNK2+sItOKQNSOVMuI5R97Q==
+X-Received: by 2002:a81:9e49:0:b0:60a:6c30:e47e with SMTP id n9-20020a819e49000000b0060a6c30e47emr10214768ywj.17.1710753755554;
+        Mon, 18 Mar 2024 02:22:35 -0700 (PDT)
+Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com. [209.85.128.176])
+        by smtp.gmail.com with ESMTPSA id b12-20020a0dd90c000000b0060a5795fde5sm1875621ywe.98.2024.03.18.02.22.34
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 18 Mar 2024 02:15:09 -0700 (PDT)
-Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-60fff981e2aso18946647b3.3;
-        Mon, 18 Mar 2024 02:15:09 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVw+Tt+olVICzmJclJAf0Fa6wFkUbr9h9ainE8PleNt2/wzNY//cZ0ABnrZYFm4vC9crNR1r9IL7Tw7txWhTt5LgXyCZ0RLOpdXU1ElCRmKqrtsN2QGUXBUr0+o1dtShI+LhlLau94pupQe4v0=
-X-Received: by 2002:a81:a150:0:b0:609:f24d:d88a with SMTP id
- y77-20020a81a150000000b00609f24dd88amr9487601ywg.8.1710753309124; Mon, 18 Mar
- 2024 02:15:09 -0700 (PDT)
+        Mon, 18 Mar 2024 02:22:34 -0700 (PDT)
+Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-60a068e26d8so46677977b3.3;
+        Mon, 18 Mar 2024 02:22:34 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVAqfidh2X9eujqrNWzTisooiHeV44YSvyXghJWHoDRCGTzYPRS2lyCHtUPVdahztY3QDQP1Aua0qbnMkeSIzwo5V+gF/s3KKsQHxYsRBml1QAqu/RgE/fa8BwwKf0+twGoaRxwkPPn8kXe6Os=
+X-Received: by 2002:a81:918b:0:b0:610:afd6:801f with SMTP id
+ i133-20020a81918b000000b00610afd6801fmr4925088ywg.38.1710753754773; Mon, 18
+ Mar 2024 02:22:34 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240315183921.375751-1-biju.das.jz@bp.renesas.com> <20240315183921.375751-4-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20240315183921.375751-4-biju.das.jz@bp.renesas.com>
+References: <20240315183921.375751-1-biju.das.jz@bp.renesas.com> <20240315183921.375751-5-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20240315183921.375751-5-biju.das.jz@bp.renesas.com>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 18 Mar 2024 10:14:56 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdUBawyUD-m+36iqV_oeLgWJi0QZdhJUZs1_NEUxGF2OXQ@mail.gmail.com>
-Message-ID: <CAMuHMdUBawyUD-m+36iqV_oeLgWJi0QZdhJUZs1_NEUxGF2OXQ@mail.gmail.com>
-Subject: Re: [PATCH v3 3/7] usb: renesas_usbhs: Improve usbhsc_default_pipe[]
- for isochronous transfers
+Date: Mon, 18 Mar 2024 10:22:22 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdXzSCpPSwHYzJrU7L=Lqftw=d4uV6gHMfDPjWDVH2BPbQ@mail.gmail.com>
+Message-ID: <CAMuHMdXzSCpPSwHYzJrU7L=Lqftw=d4uV6gHMfDPjWDVH2BPbQ@mail.gmail.com>
+Subject: Re: [PATCH v3 4/7] usb: renesas_usbhs: Drop has_new_pipe_configs from
+ struct renesas_usbhs_driver_param
 To: Biju Das <biju.das.jz@bp.renesas.com>
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Magnus Damm <magnus.damm@gmail.com>, 
 	Rob Herring <robh@kernel.org>, Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>, 
@@ -87,19 +87,30 @@ Hi Biju,
 
 On Fri, Mar 15, 2024 at 7:39=E2=80=AFPM Biju Das <biju.das.jz@bp.renesas.co=
 m> wrote:
-> As per the hardware manual, double buffer setting results in fewer
-> interrupts for high-speed data transfers. Improve usbhsc_default_pipe[]
-> for isochronous transfers by updating the table from single->double
-> buffering and update the pipe number accordingly.
+> Drop has_new_pipe_configs variable from struct renesas_usbhs_driver_param
+> and use info for getting device pipe configuration data by renaming
+> usbhs_new_pipe[]->usbhs_rcar_pipe[] and changing the static qualifier to
+> global so that struct renesas_usbhs_platform_info can be filled by
+> respective devices.
 >
-> Suggested-by: Geert Uytterhoeven <geert+renesas@glider.be>
 > Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 > ---
 > v3:
 >  * New patch
 
-LGTM, so
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Thanks for your patch!
+
+>  drivers/usb/renesas_usbhs/common.c | 9 ++++-----
+>  drivers/usb/renesas_usbhs/common.h | 2 ++
+>  drivers/usb/renesas_usbhs/rcar2.c  | 3 ++-
+>  drivers/usb/renesas_usbhs/rcar3.c  | 6 ++++--
+>  drivers/usb/renesas_usbhs/rza.c    | 3 ++-
+>  drivers/usb/renesas_usbhs/rza2.c   | 3 ++-
+>  include/linux/usb/renesas_usbhs.h  | 1 -
+>  7 files changed, 16 insertions(+), 11 deletions(-)
+
+Do you need this patch, now RZ/V2H can just set .has_new_pipe_configs
+to zero?
 
 Gr{oetje,eeting}s,
 
