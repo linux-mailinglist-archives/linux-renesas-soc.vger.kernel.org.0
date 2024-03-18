@@ -1,161 +1,176 @@
-Return-Path: <linux-renesas-soc+bounces-3850-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-3851-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F36887E90F
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 18 Mar 2024 13:00:59 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id BFB6287E984
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 18 Mar 2024 13:44:08 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id DE2F1B21833
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 18 Mar 2024 12:00:56 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4CC241F23315
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 18 Mar 2024 12:44:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8F434376F4;
-	Mon, 18 Mar 2024 12:00:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5972D2FE0F;
+	Mon, 18 Mar 2024 12:44:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="e0qKRJgz"
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="clt9CshJ"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vk1-f178.google.com (mail-vk1-f178.google.com [209.85.221.178])
+Received: from mail-il1-f179.google.com (mail-il1-f179.google.com [209.85.166.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 034B5364DA;
-	Mon, 18 Mar 2024 12:00:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FF4F383B2
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 18 Mar 2024 12:44:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710763252; cv=none; b=QQlvKxBXUaHGtgV0/DJF5+o/PVZF0Vk94WSneZjJSKmurbNuAfqmpTH4BrMnM7XnMr/i38EBnm1w1V8cY/jkg8KZW1ecafTM2heObvnUqhmGKN1QuiyxHuoAmukS2lzwh/WmyB+Z9lr+E+RwF4qSUT3zeVPbzzBHBIm1ooa358M=
+	t=1710765844; cv=none; b=CPSqoiQz9qVpm5ACJidOYL84KxVHuGeBEhRpgInrTzRqYDshUvHagd9KD3rsEyRPq/2qSXI3XW8De9dqLXwRd//rI/DsMkQLN/PpIqAAIE6XIL6en1BH8RD5pzSSZhKkyvJ4k0T53whJUeZ1hDW6DGlQ7TVOMe7GPNWOtDg/MHE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710763252; c=relaxed/simple;
-	bh=EcPy4nCgH8ZAQ1vUXmJDobkMSH2vBopPh0gs1mNUAVQ=;
-	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=XAKmvA5Eq+xLGZXsa+unpsNXvpvro1oSJj00PzBjbqO3ojHvpWBjuNW1gOCZHrI1ao5Asr56PnDoddbyw5qyeU4vtjti7b9Bbkomcj5Og9t5SLCz0I5lATZCpIANGyawc1TrvLipzNG26V2tgiklS8xTj2AU5lOM85GXmGvcDKE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=e0qKRJgz; arc=none smtp.client-ip=209.85.221.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f178.google.com with SMTP id 71dfb90a1353d-4d43c633fecso944887e0c.3;
-        Mon, 18 Mar 2024 05:00:50 -0700 (PDT)
+	s=arc-20240116; t=1710765844; c=relaxed/simple;
+	bh=I/StjgYxY54i3qrqizFVS+ZVZGXO7voYj+tMDs/VK+k=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=GSXYkU417d17cmZwnUkkXYKd3KvIT9GmqEuIt+MpEKAaghZZatpKi+Eg85TgX0P8Y3MMiX1/1yVoyC8JUK6WmPqZrsiKyGVBOHSt62dN0oacnl0Pr4AohKvXnBvLGD1VLuyGU/I/aUfCytHxuHQNAZm8AxZdCbKd42g3vmIDWNA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=clt9CshJ; arc=none smtp.client-ip=209.85.166.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
+Received: by mail-il1-f179.google.com with SMTP id e9e14a558f8ab-3668cdfc771so18648595ab.2
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 18 Mar 2024 05:44:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1710763250; x=1711368050; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=JKiWzpDebtLMNfbzh97cr7lGgL09om1YKm4qVvQT8jg=;
-        b=e0qKRJgzzpsiNl/ScJJMk60dw5KiID+4sprX63+aejnivGmc8NJqijGuB/CKyU3lHF
-         ZSBbOO54Pt2lax1Lotqsr6wude0VcsVjcN86rTUDwBB1vqRroJSdgqZsO8cZY2KVFcOk
-         g8S3mqRs5TE/LomFLvgyLzZBZmE8M0hS7A+70q2pfRKxaxqy5ttclt6BK3XwUk6nahXn
-         DLKmJLgyKrjjg8PMLBPzZxd1czvlrBdr3eqOkSU31AqAeadikASmlo8kUXtWkorXO78F
-         0jT3WS2LeZDz0ojLJnvR5K8v/Wc+M/EzbRcpeiPRDkXctfffjZt7JwXZZ30eWbMTvFn6
-         z+pw==
+        d=tuxon.dev; s=google; t=1710765841; x=1711370641; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Z9/R+AwvLdTfbyPtGNAFf8lwxhBDbcyxnP7XTzrdj8M=;
+        b=clt9CshJB75qoEf/uqU5JZJYzaJG/PeZ/OckxeFOHhmDZs4msWv4Xamu2mV8h5V2dQ
+         qCpj7zxMG79UqTreVYiTanTrXRTTiLNU0az3ONnFJWpG7Luivm5Slf3RaCu0jvOzUJQT
+         A5hZ95rNYCWYfP5+QFOMBLxVaHH5BekxMCtIOQZ99m54lz5jipBDJBuhg1NuPh20B693
+         VwJ6Ujif4RYJIzC5OLE/EOyn0D1GBquM4Yt/QbGrXpfkfhCdjJPLBtuvaIRrF/pb7816
+         IlttZ0fzVILd2dxtKmBFlj4i2xYTmS2W3q9SWGDXstTyB9v0BMlvBGOvqf57bXSmYc6I
+         P93g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710763250; x=1711368050;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=JKiWzpDebtLMNfbzh97cr7lGgL09om1YKm4qVvQT8jg=;
-        b=rMoZYaCHy1kbczbB4XL/d0QC1wAcAGuCmtEfGoWTcWq9lXoKL5CYOVOlnrxqvHBQTA
-         oDFczGI62H4x8T5hzTFvJ405KpFD7UfmWx1mS+LUNy3vZoLzrzeCa96P6+3V+aEtzqe8
-         2MBLrsc92YsskW9YtFdQyCMpsYagMuYrs33hzyS9iZsz9ARWaVymBUXlgzSErqZWUtxj
-         Z4F2SHNWPTmXf0qibtsGvpxEedmYQ1OvEp5l5X6kbSapYazue6ygAACEeG3asTamNbTP
-         V8Ex/vIcKV8T4KQ6I0uj+1tZ6MgRLsOh5uxGoyIpi4M3bj14hhpy6bi/ntFif1msCJhj
-         YLww==
-X-Forwarded-Encrypted: i=1; AJvYcCU7y+OtLBgvwNiEOACCHsFVaCmODDPvvenk9pHizNZ36F+qoCmZ4ty5luaS/GEQntG6kmpSV4zCkYQHTGnIVfpLrUtxoVwptFC+574Azl8JEX4GZv4Q7+hQM8Qums0wFuXcv1oOvtW7oi+tpfaK
-X-Gm-Message-State: AOJu0YzGWapgSsQ9tzedxxmRlsGWSE3ALI0krFWyV8EhLA0Hc5KdZ/iX
-	qeR9fGd/31WiCbgbfuzNID+CN/96PVQMr/zIyDSY/Sy86CHv/tJipeVrcBJpucviiMq/E+iYunj
-	doJXAyWMI+L9SC3p/xgJW6bucw5I=
-X-Google-Smtp-Source: AGHT+IEOcU7bUeKefsM5+yuekmyBgCe71B9SmwLKXSz9+GAzPKJhP7x9O3aLOMj9EX8od7GNFSFUbYMsMf3AyQcoVII=
-X-Received: by 2002:a05:6122:2087:b0:4d4:66c7:53fe with SMTP id
- i7-20020a056122208700b004d466c753femr1378944vkd.15.1710763249410; Mon, 18 Mar
- 2024 05:00:49 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1710765841; x=1711370641;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Z9/R+AwvLdTfbyPtGNAFf8lwxhBDbcyxnP7XTzrdj8M=;
+        b=HT3YGiAJEJIMtfgmAQ3w/c7EWm5fAfrKwuAXw0lkxX316TKd4U1D+0Di5rAj6bJPXy
+         N8tYeLCeEWWJlJMBugrKDtTAfqvBgIv8hWXtHYQ1Ahx6UuTzWxqg1hjcY5uPNdvMmZIo
+         jrKGyQVPGlTWp8/ykKnumPgM5nNIGF0C53gORNktVaiPqLXXbUH2CUHUvWKFJGbdaAAR
+         UjPmUmFbQDC1YXBotl65QwlCMlS1JGNp2yUP3nhfArErG2/CjysQam9yA4Ts5QTyjw+U
+         4Xfr/pKQ4+zsYu33CqYWN+2tFCMZE/5Nfc6j7ZPp8y/u3Sh4swu+UhzpN8fmqq7Tzdcd
+         OY6w==
+X-Forwarded-Encrypted: i=1; AJvYcCWxLMj6bieuuSHyXZ80pXQhFwnKdx7fdO6ucVPme5EklNoru0jtWMtbNc5+PU6LXx7elDFbGWaFNHntym8sjl6aa4LTXp17QLK4Zwg39plFXz8=
+X-Gm-Message-State: AOJu0YzDaGsERD2eftD6hlpB7n4vP1IUBAFOpoecpMZ/qGBz8wIv1qwQ
+	cUH0xl+nSjZW8T9i6pt4uiu1zjqScnCAO8lXgrUj2UlF+vcVeQ5vJ1qRly/lVnQ=
+X-Google-Smtp-Source: AGHT+IFd/VLWRtpMUVSANFKMQW/VYdSJwvCjT+iIGGkS0+WNUO9K+meWeto7Xra2Cy2akuW+w8wS+Q==
+X-Received: by 2002:a92:d391:0:b0:366:94aa:ec24 with SMTP id o17-20020a92d391000000b0036694aaec24mr10865222ilo.10.1710765840962;
+        Mon, 18 Mar 2024 05:44:00 -0700 (PDT)
+Received: from [192.168.50.4] ([82.78.167.144])
+        by smtp.gmail.com with ESMTPSA id e4-20020a926904000000b00363c0669450sm2285889ilc.19.2024.03.18.05.43.57
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 18 Mar 2024 05:44:00 -0700 (PDT)
+Message-ID: <352ced93-ae80-44b3-8bc2-050dc195ac37@tuxon.dev>
+Date: Mon, 18 Mar 2024 14:43:55 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Mon, 18 Mar 2024 12:00:23 +0000
-Message-ID: <CA+V-a8uEoyjjNCydK_Lr2CVOPN4j2oL2moVU8RgTravv3ygO9w@mail.gmail.com>
-Subject: [QUERY] RZ/V2H pinctrl implementation
-To: Linus Walleij <linus.walleij@linaro.org>, Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
-	"open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>, 
-	Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v8 00/10] watchdog: rzg2l_wdt: Add support for RZ/G3S
+Content-Language: en-US
+To: wim@linux-watchdog.org, linux@roeck-us.net, robh@kernel.org,
+ krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+ p.zabel@pengutronix.de, geert+renesas@glider.be, magnus.damm@gmail.com,
+ biju.das.jz@bp.renesas.com
+Cc: linux-watchdog@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+ Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+References: <20240228083253.2640997-1-claudiu.beznea.uj@bp.renesas.com>
+From: claudiu beznea <claudiu.beznea@tuxon.dev>
+In-Reply-To: <20240228083253.2640997-1-claudiu.beznea.uj@bp.renesas.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hello,
+Hi,
 
-Currently I am implementing a pinctrl driver for the Renesas RZ/V2H
-SoC. I will be reusing the RZ/G2L pinctrl driver for this.
+Gentle ping!
 
-On the RZ/V2H SoC there are a couple of settings (like
-output-impedance) which vary depending on what power rail it's
-connected to.
+Thank you,
+Claudiu Beznea
 
-For example, for the output impedance there are 4 groups of pins.
-- Group1:
-      Impedance is
-          150=CE=A9 / 75=CE=A9 / 38=CE=A9 / 25=CE=A9 (at 3.3 V)
-          130=CE=A9 / 65=CE=A9 / 33=CE=A9 / 22=CE=A9 (at 1.8 V)
-
-- Group 2:
-     Impedance is
-          50=CE=A9 / 40=CE=A9 / 33=CE=A9 / 25=CE=A9 (at 1.8V)
-
-- Group 3:
-     Impedance is
-         150=CE=A9 / 75=CE=A9 / 37.5=CE=A9 / 25=CE=A9 (at 3.3 V)
-         130=CE=A9 / 65=CE=A9 / 33=CE=A9 / 22=CE=A9 (at 1.8 V)
-
-- Group 4:
-      Impedance is
-          110=CE=A9 / 55=CE=A9 / 30=CE=A9 / 20=CE=A9 (at 1.8 V)
-          150=CE=A9 / 75=CE=A9 / 38=CE=A9 / 25=CE=A9 (at 1.2 V)
-
-The power rails connected to these pin groups will be connected to PMIC.
-
-Below are the options have been explored,
-
-Option#1
-- Passing the power rail information from the PMIC to PFC (pinctrl
-driver) so that pinctrl driver can read the voltage level and set the
-values accordingly. Here we will be using the
-PIN_CONFIG_OUTPUT_IMPEDANCE_OHMS to get/set values
-Pros:
-  =E2=80=A2 Debugfs can show the value in ohms
-Cons:
-  =E2=80=A2 Race condition at boot between pfc, i2c, and pmic
-  =E2=80=A2 Late time of probing
-  =E2=80=A2 Impossible to validate dt-bindings correctly
-  =E2=80=A2 Manual doesn't say that pfc has access to the power rails, this
-could be a challenge
-With option #1 I am currently using fixed regulators but I see an
-issue when we add a PMIC driver with regulators for example if i2c
-pinmux (to which pmic is connected) that itself requires
-output-impedance setting.
-
-Option#2
-- Specify the voltage in the pinmux/pins child node alongside the
-output impedance (using power-source property)
-Pros:
-  =E2=80=A2 both driver and bindings can validate the settings
-Cons:
-  =E2=80=A2 the figure of the voltage supplied will have been replicated, a=
-s
-it would be listed in the corresponding power regulator, but also in
-the definition of the pin
-
-Option#3
-- Have an IP specific compatible ("renesas,v2h-output-impedance") with
-value 1, 2, 4 or 6 (which indicates x1, x2, x4, x6 strength)
-Pros:
-  =E2=80=A2 Very simple to support and validate.
-  =E2=80=A2 The user cannot really get this wrong
-Cons:
-  =E2=80=A2 new proprietary property
-  =E2=80=A2 we would not be using the output impedance property offered by =
-the subsystem
-
-Please share your thoughts what could be the best approach to add
-pinctrl support for RZ/V2H
-
-Cheers,
-Prabhakar
+On 28.02.2024 10:32, Claudiu wrote:
+> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+> 
+> Hi,
+> 
+> Series adds watchdog support for Renesas RZ/G3S (R9A08G045) SoC.
+> 
+> Patches do the following:
+> - patch 1/10 makes the driver depend on ARCH_RZG2L || ARCH_R9A09G011
+> - patch 2/10 makes the driver depend on PM
+> - patches 3-7/10 adds fixes and cleanups for the watchdog driver
+> - patch 8/10 adds suspend to RAM to the watchdog driver (to be used by
+>   RZ/G3S)
+> - patch 9/10 adapt for power domain support
+> - patch 10/10 documents the RZ/G3S support
+> 
+> Thank you,
+> Claudiu Beznea
+> 
+> Changes in v8:
+> - added patch 9
+> - collected tags
+> 
+> Changes in v7:
+> - updated the dependency on patch 2/9
+> 
+> Changes in v6:
+> - update patch 2/9 description
+> - fixed the dependency on COMPILE_TEST previously introduced in patch
+>   2/9
+> 
+> Changes in v5:
+> - updated description of patch 2/9
+> - simplify the code in patch 2/9 by using on a new line:
+>   depends on PM || COMPILE_TEST
+> 
+> Changes in v4:
+> - added patch "watchdog: rzg2l_wdt: Restrict the driver to ARCH_RZG2L and
+>   ARCH_R9A09G011"
+> - collected tags
+> 
+> Changes in v3:
+> - make driver depend on PM not select it
+> - drop patches already accepted (patches 1, 10, 11 from v2)
+> - re-arranged the tags in patch 8/8 as they were messed by b4 am/shazam
+> 
+> Changes in v2:
+> - added patch "watchdog: rzg2l_wdt: Select PM"
+> - propagate the return status of rzg2l_wdt_start() to it's callers
+>   in patch "watchdog: rzg2l_wdt: Use pm_runtime_resume_and_get()" 
+> - propagate the return status of rzg2l_wdt_stop() to it's callers
+>   in patch "watchdog: rzg2l_wdt: Check return status of pm_runtime_put()" 
+> - removed pm_ptr() from patch "watchdog: rzg2l_wdt: Add suspend/resume support"
+> - s/G2UL/G2L in patch "dt-bindings: watchdog: renesas,wdt: Document RZ/G3S support"
+> - collected tags
+> 
+> 
+> Claudiu Beznea (10):
+>   watchdog: rzg2l_wdt: Restrict the driver to ARCH_RZG2L and
+>     ARCH_R9A09G011
+>   watchdog: rzg2l_wdt: Make the driver depend on PM
+>   watchdog: rzg2l_wdt: Use pm_runtime_resume_and_get()
+>   watchdog: rzg2l_wdt: Check return status of pm_runtime_put()
+>   watchdog: rzg2l_wdt: Remove reset de-assert from probe
+>   watchdog: rzg2l_wdt: Remove comparison with zero
+>   watchdog: rzg2l_wdt: Rely on the reset driver for doing proper reset
+>   watchdog: rzg2l_wdt: Add suspend/resume support
+>   watchdog: rzg2l_wdt: Power on the PM domain in rzg2l_wdt_restart()
+>   dt-bindings: watchdog: renesas,wdt: Document RZ/G3S support
+> 
+>  .../bindings/watchdog/renesas,wdt.yaml        |   1 +
+>  drivers/watchdog/Kconfig                      |   3 +-
+>  drivers/watchdog/rzg2l_wdt.c                  | 123 +++++++++++-------
+>  3 files changed, 76 insertions(+), 51 deletions(-)
+> 
 
