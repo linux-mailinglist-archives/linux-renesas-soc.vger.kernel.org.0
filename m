@@ -1,176 +1,241 @@
-Return-Path: <linux-renesas-soc+bounces-3851-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-3852-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFB6287E984
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 18 Mar 2024 13:44:08 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AA8087EB0E
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 18 Mar 2024 15:33:33 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4CC241F23315
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 18 Mar 2024 12:44:08 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1477A1F21101
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 18 Mar 2024 14:33:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5972D2FE0F;
-	Mon, 18 Mar 2024 12:44:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3F84B4E1D0;
+	Mon, 18 Mar 2024 14:32:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="clt9CshJ"
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="QsnP27jY"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-il1-f179.google.com (mail-il1-f179.google.com [209.85.166.179])
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FF4F383B2
-	for <linux-renesas-soc@vger.kernel.org>; Mon, 18 Mar 2024 12:44:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3FD21E48A
+	for <linux-renesas-soc@vger.kernel.org>; Mon, 18 Mar 2024 14:31:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710765844; cv=none; b=CPSqoiQz9qVpm5ACJidOYL84KxVHuGeBEhRpgInrTzRqYDshUvHagd9KD3rsEyRPq/2qSXI3XW8De9dqLXwRd//rI/DsMkQLN/PpIqAAIE6XIL6en1BH8RD5pzSSZhKkyvJ4k0T53whJUeZ1hDW6DGlQ7TVOMe7GPNWOtDg/MHE=
+	t=1710772322; cv=none; b=E0r7AWFCqmPcuGyR477FISylCu6m/PwGxKj3nLxulxYtdriCsbk5dXAQvAuiQmDsd+xGqQxWVHF2M+xql7JEFDylso2UX+vXpg9BVUAiHhnQJj3CI9KMEgCUH0YFfloxZRc6OBESuKNPSU57w3I/f9rIi8Zl8G8jltYHhnvn/qA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710765844; c=relaxed/simple;
-	bh=I/StjgYxY54i3qrqizFVS+ZVZGXO7voYj+tMDs/VK+k=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=GSXYkU417d17cmZwnUkkXYKd3KvIT9GmqEuIt+MpEKAaghZZatpKi+Eg85TgX0P8Y3MMiX1/1yVoyC8JUK6WmPqZrsiKyGVBOHSt62dN0oacnl0Pr4AohKvXnBvLGD1VLuyGU/I/aUfCytHxuHQNAZm8AxZdCbKd42g3vmIDWNA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=clt9CshJ; arc=none smtp.client-ip=209.85.166.179
+	s=arc-20240116; t=1710772322; c=relaxed/simple;
+	bh=+n/QrDGFBgiduMWPGE3pCf3COSehjC5oMytJE17n48A=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=CLlfRc31/pR4bVzjW2kJcP3fhPRgr2sYjVpIY2NBjAc9i8S9+YaHUa61qVoI9XLQDAtJa5Nwh2jcbnXCo9+2TisVbD+J0tfGfGFKUJKxqFAoPAmVBKb9Bm1jThiOQv0yYiMSn88C2n9WlKmUR7ewtrL+RTT+AQf+z8AA1pyElXQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=QsnP27jY; arc=none smtp.client-ip=209.85.218.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
-Received: by mail-il1-f179.google.com with SMTP id e9e14a558f8ab-3668cdfc771so18648595ab.2
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 18 Mar 2024 05:44:01 -0700 (PDT)
+Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-a46cca2a979so43388266b.3
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 18 Mar 2024 07:31:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1710765841; x=1711370641; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Z9/R+AwvLdTfbyPtGNAFf8lwxhBDbcyxnP7XTzrdj8M=;
-        b=clt9CshJB75qoEf/uqU5JZJYzaJG/PeZ/OckxeFOHhmDZs4msWv4Xamu2mV8h5V2dQ
-         qCpj7zxMG79UqTreVYiTanTrXRTTiLNU0az3ONnFJWpG7Luivm5Slf3RaCu0jvOzUJQT
-         A5hZ95rNYCWYfP5+QFOMBLxVaHH5BekxMCtIOQZ99m54lz5jipBDJBuhg1NuPh20B693
-         VwJ6Ujif4RYJIzC5OLE/EOyn0D1GBquM4Yt/QbGrXpfkfhCdjJPLBtuvaIRrF/pb7816
-         IlttZ0fzVILd2dxtKmBFlj4i2xYTmS2W3q9SWGDXstTyB9v0BMlvBGOvqf57bXSmYc6I
-         P93g==
+        d=tuxon.dev; s=google; t=1710772317; x=1711377117; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=nYsmgDq+HbdT80Fs5oAiop4K2l18spP4P/MHxHrhlsg=;
+        b=QsnP27jYHKpBIdHrwOmw/zr0CwmJweDeymSYAT5QYA7bKBDb+kbk8PAKlnTOCQMcdu
+         t7B3/lDxkW56k4dx16G5V142cTClXKRqUWdq5p4oP4Al0+UBhK8LqRWR+4KI6OycQfsr
+         E1iKRo8GLkBIVuCofARz6qTXhRhOxreW0y+nIEvEoea8rVMUAHZmX5n3Ty+9wsinQWew
+         Fkljoc0lVBSKwT15yzn1m7ZNsdEJcJ4kgF3CQFNtgKJtPIVS8zT1e28JfBpwzBL4cf5G
+         kvFvK6/ngFguftqAQZ5BkEpH9Kl5e97jazICP4viwQr5+64mxnl3TCJrJh0xyQ0dbx4q
+         1VBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710765841; x=1711370641;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Z9/R+AwvLdTfbyPtGNAFf8lwxhBDbcyxnP7XTzrdj8M=;
-        b=HT3YGiAJEJIMtfgmAQ3w/c7EWm5fAfrKwuAXw0lkxX316TKd4U1D+0Di5rAj6bJPXy
-         N8tYeLCeEWWJlJMBugrKDtTAfqvBgIv8hWXtHYQ1Ahx6UuTzWxqg1hjcY5uPNdvMmZIo
-         jrKGyQVPGlTWp8/ykKnumPgM5nNIGF0C53gORNktVaiPqLXXbUH2CUHUvWKFJGbdaAAR
-         UjPmUmFbQDC1YXBotl65QwlCMlS1JGNp2yUP3nhfArErG2/CjysQam9yA4Ts5QTyjw+U
-         4Xfr/pKQ4+zsYu33CqYWN+2tFCMZE/5Nfc6j7ZPp8y/u3Sh4swu+UhzpN8fmqq7Tzdcd
-         OY6w==
-X-Forwarded-Encrypted: i=1; AJvYcCWxLMj6bieuuSHyXZ80pXQhFwnKdx7fdO6ucVPme5EklNoru0jtWMtbNc5+PU6LXx7elDFbGWaFNHntym8sjl6aa4LTXp17QLK4Zwg39plFXz8=
-X-Gm-Message-State: AOJu0YzDaGsERD2eftD6hlpB7n4vP1IUBAFOpoecpMZ/qGBz8wIv1qwQ
-	cUH0xl+nSjZW8T9i6pt4uiu1zjqScnCAO8lXgrUj2UlF+vcVeQ5vJ1qRly/lVnQ=
-X-Google-Smtp-Source: AGHT+IFd/VLWRtpMUVSANFKMQW/VYdSJwvCjT+iIGGkS0+WNUO9K+meWeto7Xra2Cy2akuW+w8wS+Q==
-X-Received: by 2002:a92:d391:0:b0:366:94aa:ec24 with SMTP id o17-20020a92d391000000b0036694aaec24mr10865222ilo.10.1710765840962;
-        Mon, 18 Mar 2024 05:44:00 -0700 (PDT)
-Received: from [192.168.50.4] ([82.78.167.144])
-        by smtp.gmail.com with ESMTPSA id e4-20020a926904000000b00363c0669450sm2285889ilc.19.2024.03.18.05.43.57
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 18 Mar 2024 05:44:00 -0700 (PDT)
-Message-ID: <352ced93-ae80-44b3-8bc2-050dc195ac37@tuxon.dev>
-Date: Mon, 18 Mar 2024 14:43:55 +0200
+        d=1e100.net; s=20230601; t=1710772317; x=1711377117;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=nYsmgDq+HbdT80Fs5oAiop4K2l18spP4P/MHxHrhlsg=;
+        b=LYcG9idcc8arOQdImo109+7FMlzbkaWzMFcpTMdSDzHgcvaRgydnTp5eniohnznFl/
+         ft7MVuo05Ig5Ej5BwzWaPaXhqaa8CostlMOwrfFWZWTFfImO3vjnYVb9Xb9L/UMdXX9B
+         k5SspE3Q5XSLrWxuXA1S/n92FuMguChIEftjdLmIZ1HMrLXe93///LYsMxBbMIqXH7dz
+         cpZiYWYQpWC/Jt3TEHRfz0Idv53t2JgGwqZ6eazO++3zqma0rBAZDe+Ln20pAhkzlt92
+         2UTDs65j4FjfoM1wPgPJM2Nr8wlp1ty3Ql78ABE5Dp3EPuIclNVp7Gv+mmqufMZCp9tH
+         lE4A==
+X-Gm-Message-State: AOJu0YxNsnWVJfULqIGC23eqQIA8q/t6GozJVOXi/o9Vntv2jqZsNRx/
+	+8lpSaHRgE/L2v/KTJeGXLN7iXa1lGNUYCSrO3Bio5EPNezdHlbFJ0VUtfRWYzM=
+X-Google-Smtp-Source: AGHT+IFZcXL0FH2jux1P6llKSareqAG9uv3AaUi0lNBNBiG76p8+JlvkbdQcplYXU2sCea5m/mhKfg==
+X-Received: by 2002:a05:6402:501a:b0:56b:8439:6daa with SMTP id p26-20020a056402501a00b0056b84396daamr1300136eda.33.1710772316965;
+        Mon, 18 Mar 2024 07:31:56 -0700 (PDT)
+Received: from claudiu-X670E-Pro-RS.. ([82.78.167.144])
+        by smtp.gmail.com with ESMTPSA id cq28-20020a056402221c00b00568addda0d1sm3656084edb.45.2024.03.18.07.31.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 18 Mar 2024 07:31:56 -0700 (PDT)
+From: Claudiu <claudiu.beznea@tuxon.dev>
+X-Google-Original-From: Claudiu <claudiu.beznea.uj@bp.renesas.com>
+To: geert+renesas@glider.be,
+	linus.walleij@linaro.org
+Cc: linux-renesas-soc@vger.kernel.org,
+	linux-gpio@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	claudiu.beznea@tuxon.dev,
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+Subject: [PATCH v2] pinctrl: renesas: rzg2l: Execute atomically the interrupt configuration
+Date: Mon, 18 Mar 2024 16:31:49 +0200
+Message-Id: <20240318143149.2468349-1-claudiu.beznea.uj@bp.renesas.com>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v8 00/10] watchdog: rzg2l_wdt: Add support for RZ/G3S
-Content-Language: en-US
-To: wim@linux-watchdog.org, linux@roeck-us.net, robh@kernel.org,
- krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
- p.zabel@pengutronix.de, geert+renesas@glider.be, magnus.damm@gmail.com,
- biju.das.jz@bp.renesas.com
-Cc: linux-watchdog@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
- Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-References: <20240228083253.2640997-1-claudiu.beznea.uj@bp.renesas.com>
-From: claudiu beznea <claudiu.beznea@tuxon.dev>
-In-Reply-To: <20240228083253.2640997-1-claudiu.beznea.uj@bp.renesas.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Hi,
+From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 
-Gentle ping!
+Lockdep detects a possible deadlock as listed below. This is because it
+detects the IA55 interrupt controller .irq_eoi() API is called from
+interrupt context while configuration-specific API (e.g., .irq_enable())
+could be called from process context on resume path (by calling
+rzg2l_gpio_irq_restore()). To avoid this, protect the call of
+rzg2l_gpio_irq_enable() with spin_lock_irqsave()/spin_unlock_irqrestore().
+With this the same approach that is available in __setup_irq() is mimicked
+to pinctrl IRQ resume function.
 
-Thank you,
-Claudiu Beznea
+Below is the lockdep report:
 
-On 28.02.2024 10:32, Claudiu wrote:
-> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-> 
-> Hi,
-> 
-> Series adds watchdog support for Renesas RZ/G3S (R9A08G045) SoC.
-> 
-> Patches do the following:
-> - patch 1/10 makes the driver depend on ARCH_RZG2L || ARCH_R9A09G011
-> - patch 2/10 makes the driver depend on PM
-> - patches 3-7/10 adds fixes and cleanups for the watchdog driver
-> - patch 8/10 adds suspend to RAM to the watchdog driver (to be used by
->   RZ/G3S)
-> - patch 9/10 adapt for power domain support
-> - patch 10/10 documents the RZ/G3S support
-> 
-> Thank you,
-> Claudiu Beznea
-> 
-> Changes in v8:
-> - added patch 9
-> - collected tags
-> 
-> Changes in v7:
-> - updated the dependency on patch 2/9
-> 
-> Changes in v6:
-> - update patch 2/9 description
-> - fixed the dependency on COMPILE_TEST previously introduced in patch
->   2/9
-> 
-> Changes in v5:
-> - updated description of patch 2/9
-> - simplify the code in patch 2/9 by using on a new line:
->   depends on PM || COMPILE_TEST
-> 
-> Changes in v4:
-> - added patch "watchdog: rzg2l_wdt: Restrict the driver to ARCH_RZG2L and
->   ARCH_R9A09G011"
-> - collected tags
-> 
-> Changes in v3:
-> - make driver depend on PM not select it
-> - drop patches already accepted (patches 1, 10, 11 from v2)
-> - re-arranged the tags in patch 8/8 as they were messed by b4 am/shazam
-> 
-> Changes in v2:
-> - added patch "watchdog: rzg2l_wdt: Select PM"
-> - propagate the return status of rzg2l_wdt_start() to it's callers
->   in patch "watchdog: rzg2l_wdt: Use pm_runtime_resume_and_get()" 
-> - propagate the return status of rzg2l_wdt_stop() to it's callers
->   in patch "watchdog: rzg2l_wdt: Check return status of pm_runtime_put()" 
-> - removed pm_ptr() from patch "watchdog: rzg2l_wdt: Add suspend/resume support"
-> - s/G2UL/G2L in patch "dt-bindings: watchdog: renesas,wdt: Document RZ/G3S support"
-> - collected tags
-> 
-> 
-> Claudiu Beznea (10):
->   watchdog: rzg2l_wdt: Restrict the driver to ARCH_RZG2L and
->     ARCH_R9A09G011
->   watchdog: rzg2l_wdt: Make the driver depend on PM
->   watchdog: rzg2l_wdt: Use pm_runtime_resume_and_get()
->   watchdog: rzg2l_wdt: Check return status of pm_runtime_put()
->   watchdog: rzg2l_wdt: Remove reset de-assert from probe
->   watchdog: rzg2l_wdt: Remove comparison with zero
->   watchdog: rzg2l_wdt: Rely on the reset driver for doing proper reset
->   watchdog: rzg2l_wdt: Add suspend/resume support
->   watchdog: rzg2l_wdt: Power on the PM domain in rzg2l_wdt_restart()
->   dt-bindings: watchdog: renesas,wdt: Document RZ/G3S support
-> 
->  .../bindings/watchdog/renesas,wdt.yaml        |   1 +
->  drivers/watchdog/Kconfig                      |   3 +-
->  drivers/watchdog/rzg2l_wdt.c                  | 123 +++++++++++-------
->  3 files changed, 76 insertions(+), 51 deletions(-)
-> 
+ WARNING: inconsistent lock state
+ 6.8.0-rc5-next-20240219-arm64-renesas-00030-gb17a289abf1f #90 Not tainted
+ --------------------------------
+ inconsistent {IN-HARDIRQ-W} -> {HARDIRQ-ON-W} usage.
+ str_rwdt_t_001./159 [HC0[0]:SC0[0]:HE1:SE1] takes:
+ ffff00000b001d70 (&rzg2l_irqc_data->lock){?...}-{2:2}, at: rzg2l_irqc_irq_enable+0x60/0xa4
+ {IN-HARDIRQ-W} state was registered at:
+ lock_acquire+0x1e0/0x310
+ _raw_spin_lock+0x44/0x58
+ rzg2l_irqc_eoi+0x2c/0x130
+ irq_chip_eoi_parent+0x18/0x20
+ rzg2l_gpio_irqc_eoi+0xc/0x14
+ handle_fasteoi_irq+0x134/0x230
+ generic_handle_domain_irq+0x28/0x3c
+ gic_handle_irq+0x4c/0xbc
+ call_on_irq_stack+0x24/0x34
+ do_interrupt_handler+0x78/0x7c
+ el1_interrupt+0x30/0x5c
+ el1h_64_irq_handler+0x14/0x1c
+ el1h_64_irq+0x64/0x68
+ _raw_spin_unlock_irqrestore+0x34/0x70
+ __setup_irq+0x4d4/0x6b8
+ request_threaded_irq+0xe8/0x1a0
+ request_any_context_irq+0x60/0xb8
+ devm_request_any_context_irq+0x74/0x104
+ gpio_keys_probe+0x374/0xb08
+ platform_probe+0x64/0xcc
+ really_probe+0x140/0x2ac
+ __driver_probe_device+0x74/0x124
+ driver_probe_device+0x3c/0x15c
+ __driver_attach+0xec/0x1c4
+ bus_for_each_dev+0x70/0xcc
+ driver_attach+0x20/0x28
+ bus_add_driver+0xdc/0x1d0
+ driver_register+0x5c/0x118
+ __platform_driver_register+0x24/0x2c
+ gpio_keys_init+0x18/0x20
+ do_one_initcall+0x70/0x290
+ kernel_init_freeable+0x294/0x504
+ kernel_init+0x20/0x1cc
+ ret_from_fork+0x10/0x20
+ irq event stamp: 69071
+ hardirqs last enabled at (69071): [<ffff800080e0dafc>] _raw_spin_unlock_irqrestore+0x6c/0x70
+ hardirqs last disabled at (69070): [<ffff800080e0cfec>] _raw_spin_lock_irqsave+0x7c/0x80
+ softirqs last enabled at (67654): [<ffff800080010614>] __do_softirq+0x494/0x4dc
+ softirqs last disabled at (67645): [<ffff800080015238>] ____do_softirq+0xc/0x14
+
+ other info that might help us debug this:
+ Possible unsafe locking scenario:
+
+ CPU0
+ ----
+ lock(&rzg2l_irqc_data->lock);
+ <Interrupt>
+ lock(&rzg2l_irqc_data->lock);
+
+ *** DEADLOCK ***
+
+ 4 locks held by str_rwdt_t_001./159:
+ #0: ffff00000b10f3f0 (sb_writers#4){.+.+}-{0:0}, at: vfs_write+0x1a4/0x35c
+ #1: ffff00000e43ba88 (&of->mutex){+.+.}-{3:3}, at: kernfs_fop_write_iter+0xe8/0x1a8
+ #2: ffff00000aa21dc8 (kn->active#40){.+.+}-{0:0}, at: kernfs_fop_write_iter+0xf0/0x1a8
+ #3: ffff80008179d970 (system_transition_mutex){+.+.}-{3:3}, at: pm_suspend+0x9c/0x278
+
+ stack backtrace:
+ CPU: 0 PID: 159 Comm: str_rwdt_t_001. Not tainted 6.8.0-rc5-next-20240219-arm64-renesas-00030-gb17a289abf1f #90
+ Hardware name: Renesas SMARC EVK version 2 based on r9a08g045s33 (DT)
+ Call trace:
+ dump_backtrace+0x94/0xe8
+ show_stack+0x14/0x1c
+ dump_stack_lvl+0x88/0xc4
+ dump_stack+0x14/0x1c
+ print_usage_bug.part.0+0x294/0x348
+ mark_lock+0x6b0/0x948
+ __lock_acquire+0x750/0x20b0
+ lock_acquire+0x1e0/0x310
+ _raw_spin_lock+0x44/0x58
+ rzg2l_irqc_irq_enable+0x60/0xa4
+ irq_chip_enable_parent+0x1c/0x34
+ rzg2l_gpio_irq_enable+0xc4/0xd8
+ rzg2l_pinctrl_resume_noirq+0x4cc/0x520
+ pm_generic_resume_noirq+0x28/0x3c
+ genpd_finish_resume+0xc0/0xdc
+ genpd_resume_noirq+0x14/0x1c
+ dpm_run_callback+0x34/0x90
+ device_resume_noirq+0xa8/0x268
+ dpm_noirq_resume_devices+0x13c/0x160
+ dpm_resume_noirq+0xc/0x1c
+ suspend_devices_and_enter+0x2c8/0x570
+ pm_suspend+0x1ac/0x278
+ state_store+0x88/0x124
+ kobj_attr_store+0x14/0x24
+ sysfs_kf_write+0x48/0x6c
+ kernfs_fop_write_iter+0x118/0x1a8
+ vfs_write+0x270/0x35c
+ ksys_write+0x64/0xec
+ __arm64_sys_write+0x18/0x20
+ invoke_syscall+0x44/0x108
+ el0_svc_common.constprop.0+0xb4/0xd4
+ do_el0_svc+0x18/0x20
+ el0_svc+0x3c/0xb8
+ el0t_64_sync_handler+0xb8/0xbc
+ el0t_64_sync+0x14c/0x150
+
+Fixes: 254203f9a94c ("pinctrl: renesas: rzg2l: Add suspend/resume support")
+Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+---
+
+Changes in v2:
+- used raw_spin_lock_irqsave()/raw_spin_unlock_irqrestore()
+
+ drivers/pinctrl/renesas/pinctrl-rzg2l.c | 11 ++++++++++-
+ 1 file changed, 10 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/pinctrl/renesas/pinctrl-rzg2l.c b/drivers/pinctrl/renesas/pinctrl-rzg2l.c
+index eb5a8c654260..93916553bcc7 100644
+--- a/drivers/pinctrl/renesas/pinctrl-rzg2l.c
++++ b/drivers/pinctrl/renesas/pinctrl-rzg2l.c
+@@ -2063,8 +2063,17 @@ static void rzg2l_gpio_irq_restore(struct rzg2l_pinctrl *pctrl)
+ 			continue;
+ 		}
+ 
+-		if (!irqd_irq_disabled(data))
++		if (!irqd_irq_disabled(data)) {
++			unsigned long flags;
++
++			/*
++			 * This has to be atomically executed to protect against a concurrent
++			 * interrupt.
++			 */
++			raw_spin_lock_irqsave(&pctrl->lock.rlock, flags);
+ 			rzg2l_gpio_irq_enable(data);
++			raw_spin_unlock_irqrestore(&pctrl->lock.rlock, flags);
++		}
+ 	}
+ }
+ 
+-- 
+2.39.2
+
 
