@@ -1,103 +1,161 @@
-Return-Path: <linux-renesas-soc+bounces-3849-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-3850-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5163B87E843
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 18 Mar 2024 12:11:24 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F36887E90F
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 18 Mar 2024 13:00:59 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 415CCB2322A
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 18 Mar 2024 11:11:21 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id DE2F1B21833
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 18 Mar 2024 12:00:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 82BB8364A4;
-	Mon, 18 Mar 2024 11:09:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8F434376F4;
+	Mon, 18 Mar 2024 12:00:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="e0qKRJgz"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 97BE73BBF3;
-	Mon, 18 Mar 2024 11:09:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.171
+Received: from mail-vk1-f178.google.com (mail-vk1-f178.google.com [209.85.221.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 034B5364DA;
+	Mon, 18 Mar 2024 12:00:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710760143; cv=none; b=GEBni7gglASLQGMw+qnNUhxdjbEObYVtFsmfmS5ugQ6Ve1X4CflyGvwSYJsXHVmLqVTH8RkT180f+mhCm2Coh5sY/Nu3Lt3miVrApag77pDFLqramRCjoLXzbpexun7DrT4nxeB2KtT3e3i6P8GErkaBSBnhIX/ks5VOk3rIjDw=
+	t=1710763252; cv=none; b=QQlvKxBXUaHGtgV0/DJF5+o/PVZF0Vk94WSneZjJSKmurbNuAfqmpTH4BrMnM7XnMr/i38EBnm1w1V8cY/jkg8KZW1ecafTM2heObvnUqhmGKN1QuiyxHuoAmukS2lzwh/WmyB+Z9lr+E+RwF4qSUT3zeVPbzzBHBIm1ooa358M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710760143; c=relaxed/simple;
-	bh=OcOWKQVnZQ8fcI6ybOb5R5G9y/agyscrhvTLg5lDdg0=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=Yx6sF4b6Zoh5ikLk4bpxi2/LdmL7PqBFcLRz+W5splb45bfDfSkB2XxeMgCYTMBhZqw4GM7ZRAgb2uVtnXVON5t4X752qRZGOXt6Mjj1LGGwK/UEhbiTPqrKTYFL282nE7TguT7SwlDj2NusZEiiMfkKKsScLkB8/GgR4xcmb8I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
-X-IronPort-AV: E=Sophos;i="6.07,134,1708354800"; 
-   d="scan'208";a="198188849"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie5.idc.renesas.com with ESMTP; 18 Mar 2024 20:09:00 +0900
-Received: from localhost.localdomain (unknown [10.226.93.20])
-	by relmlir6.idc.renesas.com (Postfix) with ESMTP id 687B74253BE5;
-	Mon, 18 Mar 2024 20:08:57 +0900 (JST)
-From: Biju Das <biju.das.jz@bp.renesas.com>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: Biju Das <biju.das.jz@bp.renesas.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
-	linux-media@vger.kernel.org,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Biju Das <biju.das.au@gmail.com>,
-	linux-renesas-soc@vger.kernel.org
-Subject: [PATCH v3 3/3] media: platform: rzg2l-cru: rzg2l-video: Use clk_poll_disable_unprepare()
-Date: Mon, 18 Mar 2024 11:08:42 +0000
-Message-Id: <20240318110842.41956-4-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20240318110842.41956-1-biju.das.jz@bp.renesas.com>
-References: <20240318110842.41956-1-biju.das.jz@bp.renesas.com>
+	s=arc-20240116; t=1710763252; c=relaxed/simple;
+	bh=EcPy4nCgH8ZAQ1vUXmJDobkMSH2vBopPh0gs1mNUAVQ=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=XAKmvA5Eq+xLGZXsa+unpsNXvpvro1oSJj00PzBjbqO3ojHvpWBjuNW1gOCZHrI1ao5Asr56PnDoddbyw5qyeU4vtjti7b9Bbkomcj5Og9t5SLCz0I5lATZCpIANGyawc1TrvLipzNG26V2tgiklS8xTj2AU5lOM85GXmGvcDKE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=e0qKRJgz; arc=none smtp.client-ip=209.85.221.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vk1-f178.google.com with SMTP id 71dfb90a1353d-4d43c633fecso944887e0c.3;
+        Mon, 18 Mar 2024 05:00:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1710763250; x=1711368050; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=JKiWzpDebtLMNfbzh97cr7lGgL09om1YKm4qVvQT8jg=;
+        b=e0qKRJgzzpsiNl/ScJJMk60dw5KiID+4sprX63+aejnivGmc8NJqijGuB/CKyU3lHF
+         ZSBbOO54Pt2lax1Lotqsr6wude0VcsVjcN86rTUDwBB1vqRroJSdgqZsO8cZY2KVFcOk
+         g8S3mqRs5TE/LomFLvgyLzZBZmE8M0hS7A+70q2pfRKxaxqy5ttclt6BK3XwUk6nahXn
+         DLKmJLgyKrjjg8PMLBPzZxd1czvlrBdr3eqOkSU31AqAeadikASmlo8kUXtWkorXO78F
+         0jT3WS2LeZDz0ojLJnvR5K8v/Wc+M/EzbRcpeiPRDkXctfffjZt7JwXZZ30eWbMTvFn6
+         z+pw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1710763250; x=1711368050;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=JKiWzpDebtLMNfbzh97cr7lGgL09om1YKm4qVvQT8jg=;
+        b=rMoZYaCHy1kbczbB4XL/d0QC1wAcAGuCmtEfGoWTcWq9lXoKL5CYOVOlnrxqvHBQTA
+         oDFczGI62H4x8T5hzTFvJ405KpFD7UfmWx1mS+LUNy3vZoLzrzeCa96P6+3V+aEtzqe8
+         2MBLrsc92YsskW9YtFdQyCMpsYagMuYrs33hzyS9iZsz9ARWaVymBUXlgzSErqZWUtxj
+         Z4F2SHNWPTmXf0qibtsGvpxEedmYQ1OvEp5l5X6kbSapYazue6ygAACEeG3asTamNbTP
+         V8Ex/vIcKV8T4KQ6I0uj+1tZ6MgRLsOh5uxGoyIpi4M3bj14hhpy6bi/ntFif1msCJhj
+         YLww==
+X-Forwarded-Encrypted: i=1; AJvYcCU7y+OtLBgvwNiEOACCHsFVaCmODDPvvenk9pHizNZ36F+qoCmZ4ty5luaS/GEQntG6kmpSV4zCkYQHTGnIVfpLrUtxoVwptFC+574Azl8JEX4GZv4Q7+hQM8Qums0wFuXcv1oOvtW7oi+tpfaK
+X-Gm-Message-State: AOJu0YzGWapgSsQ9tzedxxmRlsGWSE3ALI0krFWyV8EhLA0Hc5KdZ/iX
+	qeR9fGd/31WiCbgbfuzNID+CN/96PVQMr/zIyDSY/Sy86CHv/tJipeVrcBJpucviiMq/E+iYunj
+	doJXAyWMI+L9SC3p/xgJW6bucw5I=
+X-Google-Smtp-Source: AGHT+IEOcU7bUeKefsM5+yuekmyBgCe71B9SmwLKXSz9+GAzPKJhP7x9O3aLOMj9EX8od7GNFSFUbYMsMf3AyQcoVII=
+X-Received: by 2002:a05:6122:2087:b0:4d4:66c7:53fe with SMTP id
+ i7-20020a056122208700b004d466c753femr1378944vkd.15.1710763249410; Mon, 18 Mar
+ 2024 05:00:49 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date: Mon, 18 Mar 2024 12:00:23 +0000
+Message-ID: <CA+V-a8uEoyjjNCydK_Lr2CVOPN4j2oL2moVU8RgTravv3ygO9w@mail.gmail.com>
+Subject: [QUERY] RZ/V2H pinctrl implementation
+To: Linus Walleij <linus.walleij@linaro.org>, Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+	"open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>, 
+	Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Use the clk_poll_disable_unprepare() for synchronizing clk gating in
-rzg2l_csi2_mipi_link_enable().
+Hello,
 
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
----
-v2->v3:
- * No change.
-v1->v2:
- * Replaced clk_disable_unprepare_sync()-->clk_poll_disable_unprepare()
-   and the error propagated to the caller.
----
- drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+Currently I am implementing a pinctrl driver for the Renesas RZ/V2H
+SoC. I will be reusing the RZ/G2L pinctrl driver for this.
 
-diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c
-index e68fcdaea207..986435bd85c1 100644
---- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c
-+++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c
-@@ -366,6 +366,7 @@ static int rzg2l_csi2_mipi_link_enable(struct rzg2l_csi2 *csi2)
- {
- 	unsigned long vclk_rate = csi2->vclk_rate / HZ_PER_MHZ;
- 	u32 frrskw, frrclk, frrskw_coeff, frrclk_coeff;
-+	int ret;
- 
- 	/* Select data lanes */
- 	rzg2l_csi2_write(csi2, CSI2nMCT0, CSI2nMCT0_VDLN(csi2->lanes));
-@@ -387,7 +388,9 @@ static int rzg2l_csi2_mipi_link_enable(struct rzg2l_csi2 *csi2)
- 	rzg2l_csi2_write(csi2, CSI2nDTEL, 0xf778ff0f);
- 	rzg2l_csi2_write(csi2, CSI2nDTEH, 0x00ffff1f);
- 
--	clk_disable_unprepare(csi2->vclk);
-+	ret = clk_poll_disable_unprepare(csi2->vclk, 10, 10000);
-+	if (ret)
-+		return ret;
- 
- 	/* Enable LINK reception */
- 	rzg2l_csi2_write(csi2, CSI2nMCT3, CSI2nMCT3_RXEN);
--- 
-2.25.1
+On the RZ/V2H SoC there are a couple of settings (like
+output-impedance) which vary depending on what power rail it's
+connected to.
 
+For example, for the output impedance there are 4 groups of pins.
+- Group1:
+      Impedance is
+          150=CE=A9 / 75=CE=A9 / 38=CE=A9 / 25=CE=A9 (at 3.3 V)
+          130=CE=A9 / 65=CE=A9 / 33=CE=A9 / 22=CE=A9 (at 1.8 V)
+
+- Group 2:
+     Impedance is
+          50=CE=A9 / 40=CE=A9 / 33=CE=A9 / 25=CE=A9 (at 1.8V)
+
+- Group 3:
+     Impedance is
+         150=CE=A9 / 75=CE=A9 / 37.5=CE=A9 / 25=CE=A9 (at 3.3 V)
+         130=CE=A9 / 65=CE=A9 / 33=CE=A9 / 22=CE=A9 (at 1.8 V)
+
+- Group 4:
+      Impedance is
+          110=CE=A9 / 55=CE=A9 / 30=CE=A9 / 20=CE=A9 (at 1.8 V)
+          150=CE=A9 / 75=CE=A9 / 38=CE=A9 / 25=CE=A9 (at 1.2 V)
+
+The power rails connected to these pin groups will be connected to PMIC.
+
+Below are the options have been explored,
+
+Option#1
+- Passing the power rail information from the PMIC to PFC (pinctrl
+driver) so that pinctrl driver can read the voltage level and set the
+values accordingly. Here we will be using the
+PIN_CONFIG_OUTPUT_IMPEDANCE_OHMS to get/set values
+Pros:
+  =E2=80=A2 Debugfs can show the value in ohms
+Cons:
+  =E2=80=A2 Race condition at boot between pfc, i2c, and pmic
+  =E2=80=A2 Late time of probing
+  =E2=80=A2 Impossible to validate dt-bindings correctly
+  =E2=80=A2 Manual doesn't say that pfc has access to the power rails, this
+could be a challenge
+With option #1 I am currently using fixed regulators but I see an
+issue when we add a PMIC driver with regulators for example if i2c
+pinmux (to which pmic is connected) that itself requires
+output-impedance setting.
+
+Option#2
+- Specify the voltage in the pinmux/pins child node alongside the
+output impedance (using power-source property)
+Pros:
+  =E2=80=A2 both driver and bindings can validate the settings
+Cons:
+  =E2=80=A2 the figure of the voltage supplied will have been replicated, a=
+s
+it would be listed in the corresponding power regulator, but also in
+the definition of the pin
+
+Option#3
+- Have an IP specific compatible ("renesas,v2h-output-impedance") with
+value 1, 2, 4 or 6 (which indicates x1, x2, x4, x6 strength)
+Pros:
+  =E2=80=A2 Very simple to support and validate.
+  =E2=80=A2 The user cannot really get this wrong
+Cons:
+  =E2=80=A2 new proprietary property
+  =E2=80=A2 we would not be using the output impedance property offered by =
+the subsystem
+
+Please share your thoughts what could be the best approach to add
+pinctrl support for RZ/V2H
+
+Cheers,
+Prabhakar
 
