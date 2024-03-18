@@ -1,54 +1,54 @@
-Return-Path: <linux-renesas-soc+bounces-3848-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-3849-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBD9F87E83F
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 18 Mar 2024 12:10:17 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5163B87E843
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 18 Mar 2024 12:11:24 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7263A1F24C8C
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 18 Mar 2024 11:10:17 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 415CCB2322A
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 18 Mar 2024 11:11:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CA0C53A297;
-	Mon, 18 Mar 2024 11:09:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 82BB8364A4;
+	Mon, 18 Mar 2024 11:09:03 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2C13531A66;
-	Mon, 18 Mar 2024 11:08:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.172
+Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 97BE73BBF3;
+	Mon, 18 Mar 2024 11:09:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710760140; cv=none; b=KRFWdvFgG1ek1WPdvs8X7R78/0E7cOfsrtFp4uUq6Qi21tQ9r41KdSNOaO7IFN/mk5VxHh4+xTGwzSvuryLW4OwV9dGnXCdLWmgP3Vqhmw3pCqOtdRNVwm/E2ra7J521X8TF0pvWqcxES+wZ3TXia0P2LbejmB+tosrgdTtu8BQ=
+	t=1710760143; cv=none; b=GEBni7gglASLQGMw+qnNUhxdjbEObYVtFsmfmS5ugQ6Ve1X4CflyGvwSYJsXHVmLqVTH8RkT180f+mhCm2Coh5sY/Nu3Lt3miVrApag77pDFLqramRCjoLXzbpexun7DrT4nxeB2KtT3e3i6P8GErkaBSBnhIX/ks5VOk3rIjDw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710760140; c=relaxed/simple;
-	bh=LlN5vmoU3X09UJUTYhEgLanrVuqPgYAw3c3N6czQY5g=;
+	s=arc-20240116; t=1710760143; c=relaxed/simple;
+	bh=OcOWKQVnZQ8fcI6ybOb5R5G9y/agyscrhvTLg5lDdg0=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=U6tXXcRTUwfF0O4bkL8TVTtS8ayAdrsDhX2/u/cXU3eWZoqYIILQ+F7gNn93kbpUYfPBkP3s4wNNkcjdIFmQr7jlkiGrNJGPw7S+IjG5aYoOcSz6zIx8H7MHm6BqW5NjdnqEdsaHF+fT6xudRYY038vR7CRQroLs0S0Uv0nFAnc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.172
+	 MIME-Version; b=Yx6sF4b6Zoh5ikLk4bpxi2/LdmL7PqBFcLRz+W5splb45bfDfSkB2XxeMgCYTMBhZqw4GM7ZRAgb2uVtnXVON5t4X752qRZGOXt6Mjj1LGGwK/UEhbiTPqrKTYFL282nE7TguT7SwlDj2NusZEiiMfkKKsScLkB8/GgR4xcmb8I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
 X-IronPort-AV: E=Sophos;i="6.07,134,1708354800"; 
-   d="scan'208";a="202139682"
+   d="scan'208";a="198188849"
 Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie6.idc.renesas.com with ESMTP; 18 Mar 2024 20:08:56 +0900
+  by relmlie5.idc.renesas.com with ESMTP; 18 Mar 2024 20:09:00 +0900
 Received: from localhost.localdomain (unknown [10.226.93.20])
-	by relmlir6.idc.renesas.com (Postfix) with ESMTP id 992114253BE5;
-	Mon, 18 Mar 2024 20:08:53 +0900 (JST)
+	by relmlir6.idc.renesas.com (Postfix) with ESMTP id 687B74253BE5;
+	Mon, 18 Mar 2024 20:08:57 +0900 (JST)
 From: Biju Das <biju.das.jz@bp.renesas.com>
-To: Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Russell King <linux@armlinux.org.uk>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>
 Cc: Biju Das <biju.das.jz@bp.renesas.com>,
-	linux-clk@vger.kernel.org,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+	linux-media@vger.kernel.org,
 	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
 	Biju Das <biju.das.au@gmail.com>,
 	linux-renesas-soc@vger.kernel.org
-Subject: [PATCH v3 2/3] clk: Add clk_poll_disable_unprepare()
-Date: Mon, 18 Mar 2024 11:08:41 +0000
-Message-Id: <20240318110842.41956-3-biju.das.jz@bp.renesas.com>
+Subject: [PATCH v3 3/3] media: platform: rzg2l-cru: rzg2l-video: Use clk_poll_disable_unprepare()
+Date: Mon, 18 Mar 2024 11:08:42 +0000
+Message-Id: <20240318110842.41956-4-biju.das.jz@bp.renesas.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20240318110842.41956-1-biju.das.jz@bp.renesas.com>
 References: <20240318110842.41956-1-biju.das.jz@bp.renesas.com>
@@ -60,156 +60,43 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The clk_disable_unprepare() doesn't guarantee that a clock is gated after
-the execution as it is driver dependent. The Renesas and most of the other
-platforms don't wait until clock is stopped because of performance reason.
-But these platforms wait while turning on the clock.
-
-The normal case for shutting down the clock is unbind/close/suspend or
-error paths in the driver. Not waiting for the shutting down the clock
-will improve the suspend time.
-
-But on RZ/G2L Camera Data Receiving Unit (CRU) IP, initially the vclk is
-on. Before enabling link reception, we need to wait for vclk to be off
-and after enabling reception, we need to turn the vlck on. Special cases
-like this requires a sync API for clock gating.
-
-Add clk_poll_disable_unprepare() to poll the clock gate operation that
-guarantees gating of clk after the execution.
+Use the clk_poll_disable_unprepare() for synchronizing clk gating in
+rzg2l_csi2_mipi_link_enable().
 
 Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 ---
 v2->v3:
- * Added WARN_ON(enable count non-zero) and return an error code (-EBUSY),
-   if the user is not the sole user of the clock and the enable count is
-   non-zero.
- * Returned an error if there's no is_enabled() callback.
-RFC->v2:
- * Renamed clk_disable_unprepare_sync()-->clk_poll_disable_unprepare()
- * Redesigned to make use of __clk_is_enabled() to poll the clock gating.
+ * No change.
+v1->v2:
+ * Replaced clk_disable_unprepare_sync()-->clk_poll_disable_unprepare()
+   and the error propagated to the caller.
 ---
- drivers/clk/clk.c   | 29 ++++++++++++++++++++++++++++
- include/linux/clk.h | 46 +++++++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 75 insertions(+)
+ drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/clk/clk.c b/drivers/clk/clk.c
-index f5fa91a339d7..e10bb14c904d 100644
---- a/drivers/clk/clk.c
-+++ b/drivers/clk/clk.c
-@@ -13,6 +13,7 @@
- #include <linux/mutex.h>
- #include <linux/spinlock.h>
- #include <linux/err.h>
-+#include <linux/iopoll.h>
- #include <linux/list.h>
- #include <linux/slab.h>
- #include <linux/of.h>
-@@ -1160,6 +1161,34 @@ void clk_disable(struct clk *clk)
- }
- EXPORT_SYMBOL_GPL(clk_disable);
- 
-+/**
-+ * clk_poll_disabled - poll for clock gating.
-+ * @clk: the clk that is going to stop
-+ * @sleep_us: Maximum time to sleep between reads in us (0
-+ *            tight-loops).  Should be less than ~20ms since usleep_range
-+ *            is used (see Documentation/timers/timers-howto.rst).
-+ * @timeout_us: Timeout in us, 0 means never timeout
-+ *
-+ * It polls for a clk to be stopped.
-+ */
-+int clk_poll_disabled(struct clk *clk, unsigned long sleep_us, u64 timeout_us)
-+{
-+	bool status;
-+
-+	if (IS_ERR_OR_NULL(clk))
-+		return 0;
-+
-+	if (!clk->core->ops->is_enabled)
-+		return -EOPNOTSUPP;
-+
-+	if (WARN(__clk_get_enable_count(clk), "clk is in use\n"))
-+		return -EBUSY;
-+
-+	return read_poll_timeout(__clk_is_enabled, status, !status, sleep_us,
-+				 timeout_us, false, clk);
-+}
-+EXPORT_SYMBOL_GPL(clk_poll_disabled);
-+
- static int clk_core_enable(struct clk_core *core)
+diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c
+index e68fcdaea207..986435bd85c1 100644
+--- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c
++++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c
+@@ -366,6 +366,7 @@ static int rzg2l_csi2_mipi_link_enable(struct rzg2l_csi2 *csi2)
  {
- 	int ret = 0;
-diff --git a/include/linux/clk.h b/include/linux/clk.h
-index 84b02518791f..7f714ecce0eb 100644
---- a/include/linux/clk.h
-+++ b/include/linux/clk.h
-@@ -693,6 +693,20 @@ int __must_check clk_bulk_enable(int num_clks,
-  */
- void clk_disable(struct clk *clk);
- 
-+/**
-+ * clk_poll_disabled - inform the system whether the clock source is stopped.
-+ * @clk: clock source
-+ * @sleep_us: Maximum time to sleep between reads in us (0
-+ *            tight-loops).  Should be less than ~20ms since usleep_range
-+ *            is used (see Documentation/timers/timers-howto.rst).
-+ * @timeout_us: Timeout in us, 0 means never timeout
-+ *
-+ * Poll for clock gating and Inform the system about it's status.
-+ *
-+ * Context: May sleep.
-+ */
-+int clk_poll_disabled(struct clk *clk, unsigned long sleep_us, u64 timeout_us);
-+
- /**
-  * clk_bulk_disable - inform the system when the set of clks is no
-  *		      longer required.
-@@ -1030,6 +1044,11 @@ static inline int __must_check clk_bulk_enable(int num_clks,
- 
- static inline void clk_disable(struct clk *clk) {}
- 
-+static inline int clk_poll_disabled(struct clk *clk, unsigned long sleep_us,
-+				    u64 timeout_us)
-+{
-+	return 0;
-+}
- 
- static inline void clk_bulk_disable(int num_clks,
- 				    const struct clk_bulk_data *clks) {}
-@@ -1121,6 +1140,33 @@ static inline void clk_disable_unprepare(struct clk *clk)
- 	clk_unprepare(clk);
- }
- 
-+/**
-+ * clk_poll_disable_unprepare - Poll clk_disable_unprepare
-+ * @clk: clock source
-+ * @sleep_us: Maximum time to sleep between reads in us (0
-+ *            tight-loops).  Should be less than ~20ms since usleep_range
-+ *            is used (see Documentation/timers/timers-howto.rst).
-+ * @timeout_us: Timeout in us, 0 means never timeout
-+ *
-+ * Context: May sleep.
-+ *
-+ * This function polls until the clock has stopped.
-+ *
-+ * Returns success (0) or negative errno.
-+ */
-+static inline int clk_poll_disable_unprepare(struct clk *clk,
-+					     unsigned long sleep_us,
-+					     u64 timeout_us)
-+{
+ 	unsigned long vclk_rate = csi2->vclk_rate / HZ_PER_MHZ;
+ 	u32 frrskw, frrclk, frrskw_coeff, frrclk_coeff;
 +	int ret;
-+
-+	clk_disable(clk);
-+	ret = clk_poll_disabled(clk, sleep_us, timeout_us);
-+	clk_unprepare(clk);
-+
-+	return ret;
-+}
-+
- static inline int __must_check
- clk_bulk_prepare_enable(int num_clks, const struct clk_bulk_data *clks)
- {
+ 
+ 	/* Select data lanes */
+ 	rzg2l_csi2_write(csi2, CSI2nMCT0, CSI2nMCT0_VDLN(csi2->lanes));
+@@ -387,7 +388,9 @@ static int rzg2l_csi2_mipi_link_enable(struct rzg2l_csi2 *csi2)
+ 	rzg2l_csi2_write(csi2, CSI2nDTEL, 0xf778ff0f);
+ 	rzg2l_csi2_write(csi2, CSI2nDTEH, 0x00ffff1f);
+ 
+-	clk_disable_unprepare(csi2->vclk);
++	ret = clk_poll_disable_unprepare(csi2->vclk, 10, 10000);
++	if (ret)
++		return ret;
+ 
+ 	/* Enable LINK reception */
+ 	rzg2l_csi2_write(csi2, CSI2nMCT3, CSI2nMCT3_RXEN);
 -- 
 2.25.1
 
