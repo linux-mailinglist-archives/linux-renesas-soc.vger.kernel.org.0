@@ -1,70 +1,70 @@
-Return-Path: <linux-renesas-soc+bounces-3892-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-3893-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAD7D87FDB6
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 Mar 2024 13:45:27 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id A404E87FDCA
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 Mar 2024 13:50:16 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5EBA6282454
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 Mar 2024 12:45:26 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 369F71F214B6
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 Mar 2024 12:50:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8903C58209;
-	Tue, 19 Mar 2024 12:45:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2935B3BBC1;
+	Tue, 19 Mar 2024 12:50:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CEcjNzpD"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="X5l9AWgA"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vk1-f170.google.com (mail-vk1-f170.google.com [209.85.221.170])
+Received: from mail-vk1-f174.google.com (mail-vk1-f174.google.com [209.85.221.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E11481E4BF;
-	Tue, 19 Mar 2024 12:45:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 854BE27462;
+	Tue, 19 Mar 2024 12:50:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710852321; cv=none; b=LZQhPLjzShHu2ufKfDXx7xSQvwgYbgP4Kjce4sZ9XLJkoJyyx+pv+BIUBjZoqr7NDYvIjqkkms9FDhBPNvI1hhdWlnLFOLI+JOgLK5VyWd41kakSe273jdiktmkS480lnnCSCR5sDxQH3Mc1ht3ZrAAPizgoJPs195ztHHeC3ao=
+	t=1710852613; cv=none; b=pyEXvUXNNAdJjkjlPBnrIHo56ZVCJmvG0PVGU5B/UMMC14Ut0+r0f7QUklj0uH9lVpKHcXRKGe+mpk8tX4igQF95Sgr73WZJhfydbtMUpDKC8YE0+J4/iBZa+CgxINFlDxA2y9KMnVojF8gU8HCW5AYR78xGbelRlepetVU+CZ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710852321; c=relaxed/simple;
-	bh=uWH0Ro9XG24lVXLdz6QSPi6hJo+xcnq6ND5qoTb1ScA=;
+	s=arc-20240116; t=1710852613; c=relaxed/simple;
+	bh=5HgOorfOmbE3ljZXazMFmLJiIg3/c3QpWo30X2qGbfQ=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=D/VH34Sc2G+jUvqUCt3ciDtKeoLjhOz9Umkvk/y9VlIqIJV5B/rp20In7+EOsYmbpE/eRaGqvfXjqDFE72JyPeDAyfVCb4EpYl513Kju/NgOV4dRAfVF/ac30HdVcXcxT5vQEYv2TPIBBLMsXpRAE9zx+q58xVh7stwC/scJSbM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CEcjNzpD; arc=none smtp.client-ip=209.85.221.170
+	 To:Cc:Content-Type; b=H2uIaNeN2/AnuZ/UBd0VWltxWwvwLI4c3p0K3ydQEeACEVRz3iUxnwrB5ZCyrk7sdYMuEoZ8Qej/0Cc1oHQCCxNIwdJi6mOAwqpegf+TL2EGEQoLLfJ7/4jBdAkHQcjRfpHxOx+f+f3YxAhhhxaDpvOjTHaLzNlSJbST90Mf23c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=X5l9AWgA; arc=none smtp.client-ip=209.85.221.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f170.google.com with SMTP id 71dfb90a1353d-4d43ec959f8so737075e0c.1;
-        Tue, 19 Mar 2024 05:45:19 -0700 (PDT)
+Received: by mail-vk1-f174.google.com with SMTP id 71dfb90a1353d-4d42c30a968so1232987e0c.1;
+        Tue, 19 Mar 2024 05:50:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1710852319; x=1711457119; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1710852610; x=1711457410; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=6TRN0nj5y7SM6+DeA2Go5q4zExBuxT8jctOtKQOcJuY=;
-        b=CEcjNzpDuoCDvu3jojFnVFfdr5Udc3J+HRtHHnFclA/cXX7/szS6xntCEqHFUVIwBl
-         HHH7kZ5/wxdeV3DZt+N5sl0tMOHCtCEQbQ4WwkUuk58uj034ZMT/FURvTPjfQ6iwiQtu
-         dCFpLzpq4T9F8aZJf8mAk95etDFln3Ef2LPEQAgPi/bHH0lDMogTWLLaJ97XuYSW8Tpx
-         NpwyQnXa1nfxMrrqExaRCAnfKzyGspAVv5zOOocH+zxfD+Gc+ntbf/wWyzrwCuoRz5+T
-         /vMcFsYgAC/1o9iqtLmEx0V1nB+w2mDWXxDIjI99VdS/XNQ+N+J2dzr/Ws7ihuCgge0U
-         xc+A==
+        bh=0wLF3fOtXZ4Hw7mkTE57wQ89DI6ITB5OHBOIEkv9UCM=;
+        b=X5l9AWgAeyR/IIWQJpVtiMNEUgoHXI+4C1pd9KpIlaKDu7QJytbOWKIUChpE0cXbhX
+         lsLCWwXlUQOwf60VLnT5GOSRwODrEIQ8JdfVZ1z5BIb60qTvmWna83i9dzAwZjW5BgA2
+         68DKlJHCiJpC8T4UuUqM1ZTOY7olBn73/mfHNN5nayMcQk983iFDoVwvar+m+hKsuGuh
+         qz/3ytRu3awg1ykkb8euH+Q5Ny/2Lqm95W+SZN9EKIJ0lBuPr0GJFcKIw5mtYjXiKdeK
+         P/no+WSS9l/tB6yC67gatqG6NpLIPPCZwPkF1wN+BK40qR89WM7P4QXN6LCJb3OfDS5m
+         Hl8w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710852319; x=1711457119;
+        d=1e100.net; s=20230601; t=1710852610; x=1711457410;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=6TRN0nj5y7SM6+DeA2Go5q4zExBuxT8jctOtKQOcJuY=;
-        b=lqH4C8/pf4du083JhtIBqeH/iCPSup/0LbmNDx/4IwSgobaWP4y3tLJvLvUJ96PX/G
-         oDLFKvLLm0OUbS8KU0++xcfUFtxb/STadMO42raeJh+tnd85zyTUNxD1L5i+45r13JcP
-         diRLMEzdRevlO0AiWNej70bfkyj8kNA1uy6LAvKhfAotc+fxRhdgDDXiV6gP1KtFZds2
-         wFa2ypb6gXi29WGeavH5Blcw7lOyciEycKv3xncwbbOXustOJ5qHdGZwrMQdnlIhei3u
-         cnZvPDhZgHmCfqyvDPFqg1gZhfCaqNs9FZcb/IrRCZuLHL+1iysmLVwujXhjlIDOyNJw
-         lEoA==
-X-Forwarded-Encrypted: i=1; AJvYcCXeDCMeySLJkdl0brAjQnI4tkzmBJ8TcZGyIUX+alKDi4oUaIhA339fmFCiF8iuJzPPLNkOMTyDYI9BvHYWwhsQdc3LRxJB7dbEW5J6LtcDKSzBKGNKe7O9fNK8wNJBy9LIv6LgbWmP/7ZmmXVSrAV7q/tEzunnqjBHJpviB35qqgRJ1VuFnxRfSAa9nlXpHJJor4Xmld5B/gXX4UpnQRz6pJKLfK1gJvFy
-X-Gm-Message-State: AOJu0YxlO3teRAl7dj3Kcv+50BSIN7YPF6471RD/pIYIE1skW+8GgpLq
-	cHdOJ4f2gLRLEahPTp2KQ6+ScZ4mT2G5pzm61/WcAWG/xmzs9osMK0eLOAjnmusMLeMI/dNabL9
-	bb0EkbE5gQyGP/j2CEWfuJtkFcFM=
-X-Google-Smtp-Source: AGHT+IHJPomT7sP53nJXawvVpaRjsxhtKM+VCNrfHI9UzyYiM4vfyEEMa1IExYYbYGUknB+IHNYSLNsGYwi7YIZgbFk=
-X-Received: by 2002:a05:6122:690:b0:4c0:9ec7:b324 with SMTP id
- n16-20020a056122069000b004c09ec7b324mr10279107vkq.0.1710852318689; Tue, 19
- Mar 2024 05:45:18 -0700 (PDT)
+        bh=0wLF3fOtXZ4Hw7mkTE57wQ89DI6ITB5OHBOIEkv9UCM=;
+        b=Mv1fYgypTF/WRbW5n8E0jOyiD4avXwg4lc5Y8LU0RK0t3u3UBZoEzz2Axd5ZCtTtfh
+         KUGhcaodRYXoZVosNZKeV3Eu6rwNWj8+GeIvxGLjpjL/9xoTX/YBy5TU491mfvllLsf7
+         /RJ6qwfXBghAuUfS/0W1JHMPRn1b4J61jv1fNWnrR2qhegw6k7WH6sCZH+kQE/sGrLXG
+         dv256CoSoHhqukJ9hF/Rc3VCtLiRcCuYD1tq+4Ct79RuSvdTfUthBa6HOZ0vXwBsisi2
+         SFrOnueLPYU6wJRLfT835T1/1TqDF21E27HBnGhIyuZY51uLc4xhr+D2AwoYaTyohFc8
+         bWuw==
+X-Forwarded-Encrypted: i=1; AJvYcCW1rJ0bemV2OiiKlAt7mAnpGevbIDxhLjcRdnWcUqxu+xjZa8bxtYUB+R/irNchw70YMRhsH8OV3vaYlVbZ6mHsMZ/GXw221NXxOXT3kh5mxb312D1J5xROCQgx+srnYRzK5t/t+8bjoJiJ8i6KJsuuWKJOxa49vQefakiNd+WVIWXEu6sf8/lxfqE3+gZSrSKMGO2O/4KdvHi1hQToFg9ylx36DoAzsIPN
+X-Gm-Message-State: AOJu0YyRwx3rALNBzYth3xCnVAoS3yqmBNIHdhKDxje2dwXjWw8/yB60
+	eb1UGbEWHKgUBt6c3O4n4oCGs7I30XV4PcteW2swWoyIoxyRb/5CvlDXd2YSy7l/o8lGkI9VdQl
+	nrxLdVnDrweRTPcjWGRHatUvh5Bo=
+X-Google-Smtp-Source: AGHT+IH7LBnwuvBc2boM2AWP3TJ/sNXSWqDP/GN4OAeLHWVGl0rHHmYxaM/2MQk4TuBfLL0hJVsiAlMm3kGHM4Su8AU=
+X-Received: by 2002:a05:6122:469c:b0:4d3:3adc:b639 with SMTP id
+ di28-20020a056122469c00b004d33adcb639mr12140505vkb.6.1710852610357; Tue, 19
+ Mar 2024 05:50:10 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -72,15 +72,14 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 References: <20240318172102.45549-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20240318172102.45549-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <db13e305-adc4-4990-b9ec-b1cdcdad4406@linaro.org> <010e4742-438f-413f-811f-a033ec104832@linaro.org>
-In-Reply-To: <010e4742-438f-413f-811f-a033ec104832@linaro.org>
+ <20240318172102.45549-4-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAMuHMdX=3HfYsrHr8Mus9NR9VEoBXh1t=RukmKdcZe=9MaHrcw@mail.gmail.com>
+In-Reply-To: <CAMuHMdX=3HfYsrHr8Mus9NR9VEoBXh1t=RukmKdcZe=9MaHrcw@mail.gmail.com>
 From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Tue, 19 Mar 2024 12:43:53 +0000
-Message-ID: <CA+V-a8txP39HJJrJcNqCUgw2NkdA3uSvBrbdSzw0bN6r5LpNaQ@mail.gmail.com>
-Subject: Re: [PATCH v3 2/4] dt-bindings: serial: renesas,scif: Validate
- 'interrupts' and 'interrupt-names'
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Date: Tue, 19 Mar 2024 12:48:45 +0000
+Message-ID: <CA+V-a8tPCK_4tqeoNZ69UYJjb_Np4OpBnz9D=4+JwzE+QPUb2Q@mail.gmail.com>
+Subject: Re: [PATCH v3 3/4] dt-bindings: serial: renesas,scif: Document
+ R9A09G057 support
+To: Geert Uytterhoeven <geert@linux-m68k.org>
 Cc: Geert Uytterhoeven <geert+renesas@glider.be>, 
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Jiri Slaby <jirislaby@kernel.org>, 
 	Rob Herring <robh+dt@kernel.org>, 
@@ -93,126 +92,88 @@ Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Krzysztof,
+Hi Geert,
 
-On Tue, Mar 19, 2024 at 6:22=E2=80=AFAM Krzysztof Kozlowski
-<krzysztof.kozlowski@linaro.org> wrote:
+Thank you for the review.
+
+On Tue, Mar 19, 2024 at 8:12=E2=80=AFAM Geert Uytterhoeven <geert@linux-m68=
+k.org> wrote:
 >
-> On 19/03/2024 07:19, Krzysztof Kozlowski wrote:
-> > On 18/03/2024 18:21, Prabhakar wrote:
-> >> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> >>
-> >> Add support to validate the 'interrupts' and 'interrupt-names' propert=
-ies
-> >> for every supported SoC. This ensures proper handling and configuratio=
-n of
-> >> interrupt-related properties across supported platforms.
-> >>
-> >> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> >> ---
-> >> v2->v3
-> >> - Listed interrupts and interrupt-names for every SoC in if check
-> >> ---
-> >>  .../bindings/serial/renesas,scif.yaml         | 95 ++++++++++++------=
--
-> >>  1 file changed, 63 insertions(+), 32 deletions(-)
-> >>
-> >> diff --git a/Documentation/devicetree/bindings/serial/renesas,scif.yam=
-l b/Documentation/devicetree/bindings/serial/renesas,scif.yaml
-> >> index af72c3420453..53f18e9810fd 100644
-> >> --- a/Documentation/devicetree/bindings/serial/renesas,scif.yaml
-> >> +++ b/Documentation/devicetree/bindings/serial/renesas,scif.yaml
-> >> @@ -82,38 +82,6 @@ properties:
-> >>    reg:
-> >>      maxItems: 1
-> >>
-> >> -  interrupts:
+> Hi Prabhakar,
+>
+> On Mon, Mar 18, 2024 at 6:22=E2=80=AFPM Prabhakar <prabhakar.csengg@gmail=
+.com> wrote:
+> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 > >
-> > I don't understand what is happening with this patchset. Interrupts mus=
-t
-> > stay here. Where did you receive any different feedback?
+> > Document support for the Serial Communication Interface with FIFO (SCIF=
+)
+> > available in the Renesas RZ/V2H(P) (R9A09G057) SoC. The SCIF interface =
+in
+> > the Renesas RZ/V2H(P) is similar to that available in the RZ/G2L
+> > (R9A07G044) SoC, with the only difference being that the RZ/V2H(P) SoC =
+has
+> > three additional interrupts: one for Tx end/Rx ready and the other two =
+for
+> > Rx and Tx buffer full, which are edge-triggered.
+> >
+> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > ---
+> > v2->v3
+> > - Added SoC specific compat string
 >
-> Look how it is done:
-> https://elixir.bootlin.com/linux/v6.8/source/Documentation/devicetree/bin=
-dings/ufs/qcom,ufs.yaml#L44
+> Thanks for the update!
 >
-Thanks for the pointer, as the above binding doesn't have any
-description items as compared to our case, to clarify I have updated
-the binding is below. Is this the correct approach?
+> > --- a/Documentation/devicetree/bindings/serial/renesas,scif.yaml
+> > +++ b/Documentation/devicetree/bindings/serial/renesas,scif.yaml
+> > @@ -79,6 +79,8 @@ properties:
+> >                - renesas,scif-r9a08g045      # RZ/G3S
+> >            - const: renesas,scif-r9a07g044   # RZ/G2{L,LC} fallback
+> >
+> > +      - const: renesas,scif-r9a09g057       # RZ/V2H(P)
+> > +
+> >    reg:
+> >      maxItems: 1
+> >
+> > @@ -204,6 +206,37 @@ allOf:
+> >              - const: dri
+> >              - const: tei
+> >
+> > +  - if:
+> > +      properties:
+> > +        compatible:
+> > +          contains:
+> > +            const: renesas,scif-r9a09g057
+> > +    then:
+> > +      properties:
+> > +        interrupts:
+> > +          items:
+> > +            - description: Error interrupt
+>
+> [...]
+>
+> These descriptions should be at the top level.  The SoC-specific rules
+> should just restrict the lower limit (interrupts/minItems).
+>
+I think I'm misunderstanding here. As per patch 2/4 the DT maintainer
+wants properties at top level with just minItems/maxItems and have SoC
+specific listed in the checks (as pointed out to me like [0])
 
-option #1
----------------
-  interrupts:
-    minItems: 1
-    maxItems: 6
+[0] https://elixir.bootlin.com/linux/v6.8/source/Documentation/devicetree/b=
+indings/ufs/qcom,ufs.yaml#L48
 
- interrupt-names:
-    minItems: 4
-    maxItems: 6
-
-  - if:
-      properties:
-        compatible:
-          contains:
-            enum:
-              - renesas,rcar-gen1-scif
-              - renesas,rcar-gen2-scif
-              - renesas,rcar-gen3-scif
-              - renesas,rcar-gen4-scif
-    then:
-      properties:
-        interrupts:
-          items:
-            - description: Single combined interrupt
-
-        interrupt-names: false
-
-  - if:
-      properties:
-        compatible:
-          contains:
-            const: renesas,scif-r7s72100
-    then:
-      properties:
-        interrupts:
-          items:
-            - description: Error interrupt
-            - description: Receive buffer full interrupt
-            - description: Transmit buffer empty interrupt
-            - description: Break interrupt
-
-        interrupt-names:
-          items:
-            - const: eri
-            - const: rxi
-            - const: txi
-            - const: bri
-  - if:
-      properties:
-        compatible:
-          contains:
-            enum:
-              - renesas,scif-r7s9210
-              - renesas,scif-r9a07g044
-    then:
-      properties:
-        interrupts:
-          items:
-            - description: Error interrupt
-            - description: Receive buffer full interrupt
-            - description: Transmit buffer empty interrupt
-            - description: Break interrupt
-            - description: Data Ready interrupt
-            - description: Transmit End interrupt
-
-        interrupt-names:
-          items:
-            - const: eri
-            - const: rxi
-            - const: txi
-            - const: bri
-            - const: dri
-            - const: tei
+> > +
+> > +        interrupt-names:
+> > +          items:
+> > +            - const: eri
+>
+> [...]
+>
+> Likewise.
+>
+> In addition, you should restrict clocks/maxItems to 1, as on RZ/V2H
+> only the UART functional clock is supported.
+>
+Agreed.
 
 Cheers,
 Prabhakar
