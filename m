@@ -1,47 +1,47 @@
-Return-Path: <linux-renesas-soc+bounces-3912-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-3913-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2B76880505
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 Mar 2024 19:44:04 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 67C2D880509
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 Mar 2024 19:44:19 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7CA9D285491
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 Mar 2024 18:44:03 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 020131F23D94
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 Mar 2024 18:44:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EA7F8383BE;
-	Tue, 19 Mar 2024 18:43:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 056EE38DC3;
+	Tue, 19 Mar 2024 18:44:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Y5esGHgQ"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZU1APWiM"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD2543A1A0;
-	Tue, 19 Mar 2024 18:43:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC27B39FD0;
+	Tue, 19 Mar 2024 18:44:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710873839; cv=none; b=Z9JtwZRaWHplwHEg90GBIP4WZ7QOPm+eyZOpvfhLwcxbtgS9SeFVtP0EpgxlGQ3rnMw6xTr06yB1r+FIMfvEM9flY7ny8OfJLOsrtwvEKsAE/EbuoRfbqM4X1+SxEkpKyUZC8Eo+6X3DvTUrB6Q15UJO+dqsaLDs5eMgK5MfO8E=
+	t=1710873856; cv=none; b=aXmsukfo1+uQTIfgKRX4ufiZ4Afb8tGerWF5YEns2H78J5KntuunPRG0qdWVTUT2EikaMfjSliv9Ab8yBSABgUGZuNqNYzTDfwZqOBafX9cjOO2CXK+avrJ92m7r8d3RyM8J8cduScBjTFEksgXTKlEVCWFls4co6Y5paBjVxXE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710873839; c=relaxed/simple;
-	bh=4WVGd3ryolDOWniE4Et7L7N0trtC6BrWH/xUDuGh76s=;
+	s=arc-20240116; t=1710873856; c=relaxed/simple;
+	bh=MEj2TCe+Afr28v9FiAw9foAssyihq3NwMW0eBohpgmI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mLVmFdvfGlgbATtAatEKXgvso4ClXpQZO3e0OXwzeCXApKdBg00sDpgQE7IWFrXEKfvyrEGuP/+mddrWRTbN0Uo4+bGHOt7crV6A0Qxt07m4wx11bwzg7DcMpAHPmWs9dRQimnSgaz5iwTrMzj9qW483kdopD/1uSylCNc4ryZg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Y5esGHgQ; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 562DDC433C7;
-	Tue, 19 Mar 2024 18:43:57 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=JF5AW08BfBEE9fgKMMODoRqfyped1U9AuCix5yH4V69LxiGGWqGNuXQ1oowmLhzNyHCmeI73nQReQPiZAl3Cc5Spoc0FeDMiGYGBjP0gTLTESnm/fsrNrq3AwCQCsIPW2OX8sqZnf26zuIJpmfwhZmdaK+vv+KkizLaencEmqG4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZU1APWiM; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 38EA1C43394;
+	Tue, 19 Mar 2024 18:44:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1710873839;
-	bh=4WVGd3ryolDOWniE4Et7L7N0trtC6BrWH/xUDuGh76s=;
+	s=k20201202; t=1710873856;
+	bh=MEj2TCe+Afr28v9FiAw9foAssyihq3NwMW0eBohpgmI=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Y5esGHgQ6sOhhtgemGhHL+0eT/KQagb3f9qEzLLS4328PAc47h6jv3opqs6wutcZY
-	 QXd3AaYYK/wF7ZQZKMWQwnkrT1pejtChmEFgcvR197Xd5uFRaUVpIH/H2r+5rvxGj/
-	 6r0JVka/OrwD1YEjRXASxmH5ve1CM3yw+abFgDxiq+CflkEEWdvylSQleh105vkMjX
-	 Y3Sz3h4lU7/RnC8Jit3wLR77ZBmaMmTRQRbOGqrUkCu+boIqBkeapV6Vz8fevaKMdc
-	 KR+gR3C50FJmogPhkc8nVE7ZnftCK5AYf/HFUUljVRKo5Uz+DaerxyEpuELHTKXNnP
-	 tuCoAFZh9QT6Q==
-Date: Tue, 19 Mar 2024 18:43:55 +0000
+	b=ZU1APWiMn2+qdE2fLrffWhU7vzv/tMI/0KC58QCvghdcc/JXOxa/yaLnu5dvOx9mH
+	 JlQaj1bCHOIjGXzS8Z/a6VZAbXhFr8m6umPsCgQnJWw3SptEf/kLMG7nZKyusiAFQK
+	 AtdCgwSep/LpUdJ6gc78qR8CS2tsI8Vf0gc1R2je9XrjQmdLa0ycz2JqlbHScKX0e3
+	 fHIeG/4jq79OXCGeyOOaVkWHT/QEuhJNthtt665r/yMf0O0+9nAaAXxhyPIk3aTHyv
+	 B9T6JmiDovz3eFsFlYAVHh8Fn82jsEL3NCHEUX1+oXyJBcrwQEtuNLSSHkBcGiJgdf
+	 +LSV4cBfwgn4g==
+Date: Tue, 19 Mar 2024 18:44:12 +0000
 From: Conor Dooley <conor@kernel.org>
 To: Geert Uytterhoeven <geert+renesas@glider.be>
 Cc: Daniel Lezcano <daniel.lezcano@linaro.org>,
@@ -52,11 +52,10 @@ Cc: Daniel Lezcano <daniel.lezcano@linaro.org>,
 	Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
 	devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/3] dt-bindings: timer: renesas,tmu: Add R-Mobile APE6
- support
-Message-ID: <20240319-dispense-capital-5fa3153bbf00@spud>
+Subject: Re: [PATCH 2/3] dt-bindings: timer: renesas,tmu: Add RZ/G1 support
+Message-ID: <20240319-habitable-broken-cd60208a7396@spud>
 References: <cover.1710862701.git.geert+renesas@glider.be>
- <18b3778031f939a8e40a9865f9be0a9ec2e28a1e.1710862701.git.geert+renesas@glider.be>
+ <aee943078c91e6c627f33a62c7cd2b73320a1dc5.1710862701.git.geert+renesas@glider.be>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -64,34 +63,61 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="hg74Sdz4vwzBP48m"
+	protocol="application/pgp-signature"; boundary="vjfwEPvneJzuIMH4"
 Content-Disposition: inline
-In-Reply-To: <18b3778031f939a8e40a9865f9be0a9ec2e28a1e.1710862701.git.geert+renesas@glider.be>
+In-Reply-To: <aee943078c91e6c627f33a62c7cd2b73320a1dc5.1710862701.git.geert+renesas@glider.be>
 
 
---hg74Sdz4vwzBP48m
+--vjfwEPvneJzuIMH4
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Mar 19, 2024 at 04:46:03PM +0100, Geert Uytterhoeven wrote:
-> Document support for the Timer Unit (TMU) on the R-Mobile APE6 (R8A73A4)
-> Soc.
+On Tue, Mar 19, 2024 at 04:46:04PM +0100, Geert Uytterhoeven wrote:
+> Document support for the Timer Unit (TMU) on RZ/G1 SoCs.
 >=20
 > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
 Acked-by: Conor Dooley <conor.dooley@microchip.com>
 
---hg74Sdz4vwzBP48m
+Cheers,
+Conor.
+
+> ---
+>  Documentation/devicetree/bindings/timer/renesas,tmu.yaml | 5 +++++
+>  1 file changed, 5 insertions(+)
+>=20
+> diff --git a/Documentation/devicetree/bindings/timer/renesas,tmu.yaml b/D=
+ocumentation/devicetree/bindings/timer/renesas,tmu.yaml
+> index 8df9d4718cf82a28..7670ec74eabdf4c3 100644
+> --- a/Documentation/devicetree/bindings/timer/renesas,tmu.yaml
+> +++ b/Documentation/devicetree/bindings/timer/renesas,tmu.yaml
+> @@ -23,6 +23,11 @@ properties:
+>        - enum:
+>            - renesas,tmu-r8a73a4  # R-Mobile APE6
+>            - renesas,tmu-r8a7740  # R-Mobile A1
+> +          - renesas,tmu-r8a7742  # RZ/G1H
+> +          - renesas,tmu-r8a7743  # RZ/G1M
+> +          - renesas,tmu-r8a7744  # RZ/G1N
+> +          - renesas,tmu-r8a7745  # RZ/G1E
+> +          - renesas,tmu-r8a77470 # RZ/G1C
+>            - renesas,tmu-r8a774a1 # RZ/G2M
+>            - renesas,tmu-r8a774b1 # RZ/G2N
+>            - renesas,tmu-r8a774c0 # RZ/G2E
+> --=20
+> 2.34.1
+>=20
+
+--vjfwEPvneJzuIMH4
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZfnc6wAKCRB4tDGHoIJi
-0tgxAQCrKkiLK5mzIKOC2F5tOw2td3Zg8usxz3w9FgAEn6+GRwEAglkLnjU56lmS
-VagyRQRt4+1k/1+H/6lpnOoGnCyQdQU=
-=1kPV
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZfnc/AAKCRB4tDGHoIJi
+0nb3AQC8gKPpodlpPrndgvwy5JSQcEpW0uLEB51xG7fgeU8ATAEAxE93Vudw/tdm
+DamxMfOwoiSYkbswI1nnciKc2+wt4gQ=
+=a9Cl
 -----END PGP SIGNATURE-----
 
---hg74Sdz4vwzBP48m--
+--vjfwEPvneJzuIMH4--
 
