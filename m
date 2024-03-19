@@ -1,74 +1,75 @@
-Return-Path: <linux-renesas-soc+bounces-3874-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-3875-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 498CE87F72F
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 Mar 2024 07:20:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC17F87F735
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 Mar 2024 07:22:31 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id F258A2826CD
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 Mar 2024 06:20:04 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7E6C1282D07
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 Mar 2024 06:22:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9F44C65190;
-	Tue, 19 Mar 2024 06:19:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 03FF364CF6;
+	Tue, 19 Mar 2024 06:22:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="xR+k4fkV"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="N//YetxT"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A97164597B
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 19 Mar 2024 06:19:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 244E25B1E3
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 19 Mar 2024 06:22:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710829198; cv=none; b=ddSP2sJaYExCwAHJUvOe4/1qZqn0WTg8NbQiMhOLCDRfpkXRytk2IG3CgRsRPLb1zivJbhCdTHW3/z/Pqwoor223hEwct6UBnx6KNfZZ7t70ct8khVEUsQEJnUqLZmW8o6pl6qZ3LjOAWu3rRbc/Zbog8F6KlulCAZcSFFX5T5c=
+	t=1710829349; cv=none; b=Tf2Ul6hcWNu14StI+Z1hNkDMed2SZNMC80yYaustDanChCb77y4eS7C33wkxumxZbUnFrolQ1vVucXSr62tzZNZF8tY9cAKrbRB/oafqhjCFTzWQSnXJtkxxYWjX+zLH/b8kMxQ90YU4UKeb2+6SQs4anQoRnaBejXQEXUoksNc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710829198; c=relaxed/simple;
-	bh=0yijNPe3mwQ64TCF1fbO0XvklpCD7EaEMGjgQsc4qe4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=TLUoWJt6x/u8o/ibuSDuAR8bgpeI0TuS+rX9MJgGo1jELhociy0+r8UbbF9AjMHkZYkuYcaiIcouC1cJBhw1h0S2STdCg6xRQZNP1cMXVjm40gL3d0OYigIKx5nhUU0gvsSAR1SwCxqkAXlYoBUYDtwrMJcD2j2yIp1Sxeh1MD4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=xR+k4fkV; arc=none smtp.client-ip=209.85.218.44
+	s=arc-20240116; t=1710829349; c=relaxed/simple;
+	bh=KqMPHkUTtQxeNusy5frQn4gvKT+5IBvRtNmj1/03Osw=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=fA7mYeF0h7k8eh+ahWB+QOYk2n7Gl+cHLwYV7dIYOmFYaBSAZtA3+nWGgt9vgpYzAYshAZPApb1ZNHRma506FUe+/VcmAaqA0VPeGtIS3maay5PbVDve00hzY1RkkTMgI2oSzRNU6s3mkPcbLwBFWYl9ksjqHd3hMngqdHQGeZM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=N//YetxT; arc=none smtp.client-ip=209.85.167.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-a46ce2bd562so180457466b.2
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 18 Mar 2024 23:19:55 -0700 (PDT)
+Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-513d4559fb4so6155390e87.3
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 18 Mar 2024 23:22:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1710829194; x=1711433994; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=gkIlYDaJW+9WUMdSaa/ilef43El2pd6walcVrx1mtTU=;
-        b=xR+k4fkVVQCvhzxfFyV7IfBtvMvpQCaC36F9XbNjtYE29dK+8OWLLhgzEEHHGNDw24
-         Zwp7Wec4+90FuG0mQzDtethcWrLK4qxOBnBzlZWsiCJgXaWKJer3/iecyx4xQyEkpTm6
-         JxYrr8l2P3VHra/TFjvammRixgVz2ZzHSDLWSXUukz67Ky1IqXlebcm7nkPJA/o/psFM
-         0w0aaqMGN4iS2BCo4NvWwcEkCOehKysBAbb/vX1KhnRmUIeTksC/+3JwmNqI30+2/gAF
-         DAEIgHRl84Fa4ZZDxTf12yDkcCvQZzYZu3KIDFF657cSruy59ck3R2Zaiej3wcS3yLEl
-         VjIg==
+        d=linaro.org; s=google; t=1710829346; x=1711434146; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:references:cc:to
+         :from:content-language:subject:user-agent:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=UJo3lrzyn4BX2VjOQD9TCLxNY+IhC3SjsmV3Z4Nvbek=;
+        b=N//YetxT4cz7HxeuiD5XjaELaysyYut5dYHQYXH8NdMDoVhJb4HOsmFqZsP2Zl3Sin
+         obo9SRHy//4NHUYu4Dz2GZIgsLh3wdtk/KUmQl+V88wZbFkwqmUhH2A5YivLaWQiAlDw
+         82HBlAAWVIEqgzIIuNg7TELwN/yo4Xhh7nWqN7WZHncskJ0Sae3wSH9RjmVBq/8FqWQo
+         5mKcsdhzcZ4W3i1DvaN1qwDnON06NU1CBHvjiNBcn0oiPXUNOxcXC834T6Xs0CHj/lHd
+         kObllH58KOUKlwdf7NNv15ftdNLXbsIEBPupAkpbGSmAsajPoGar0tEx5Rt7WeAHFOT6
+         mxJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710829194; x=1711433994;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=gkIlYDaJW+9WUMdSaa/ilef43El2pd6walcVrx1mtTU=;
-        b=MgyIQlEWKZDSE3Om1jrSTSR6l8bT7FjDwl+aYNWR2e6zzSC3MlUkKRg9e445WlAaQc
-         xAH4fkn18+9ynuGLc4T8aa2lqoZDf5k2njcsdl56XQV6Ovh4+xC+MiExhJ+drv3lZKQH
-         QNYNwntuHJxA7fY75kI4aLZKrIW10cMRSiKjW60O/XlyuzmG9ci5bilqmDFRnDMQ0h8A
-         n095QhmBRjuhtwlrg2Swkyz99AkxPdu8f9qAa4M7w9yCpHZZRQrsiBqOBcPzCpN6/hd9
-         WPkRkEZLxuZHeAjEMFXax6rFzEA/sOUsL8eNjwh73YU0MC1/2gjlzdH6qc8VMf4th7hU
-         91nA==
-X-Forwarded-Encrypted: i=1; AJvYcCVqclf/4DMOLvOza78ydHhZou5iTTC9tUcqjYgMUcTuxRvTqb/Z7wdiaxdUGpsh2ThQJ/TxntaE8bEgiZf2ye2zD51ygV7992jtcfjPgSSQC4g=
-X-Gm-Message-State: AOJu0YyeUEQRX4EivwxPvkp120cPGHSqDP87w4WWSh27a6i8Lfs4hf6l
-	Jv4a3dpjGuxZjwS2/6miBZ3xwuVe4jeayqPaWhAbe6KxL/Ey/XiEviAI6eexVFU=
-X-Google-Smtp-Source: AGHT+IH6NlDsY4VujEd3BP5gGcnMLKshl/WjA1i6UleU9JCzWb3R4Xp8XGu+iTgxlFdgoByLl5SOUg==
-X-Received: by 2002:a17:906:2310:b0:a46:b028:7dc8 with SMTP id l16-20020a170906231000b00a46b0287dc8mr1073131eja.50.1710829194088;
-        Mon, 18 Mar 2024 23:19:54 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1710829346; x=1711434146;
+        h=content-transfer-encoding:in-reply-to:autocrypt:references:cc:to
+         :from:content-language:subject:user-agent:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=UJo3lrzyn4BX2VjOQD9TCLxNY+IhC3SjsmV3Z4Nvbek=;
+        b=Wn4Ak27Fsb14oGzAplsDvQXz2yMJC5U+oCDON1DAnUF1ZsZcrxzb2AyevN+NEYmyef
+         F9iZmP0j6BpbSx7iMkwx4eEDomixmepda8fjIX17Y1l7CJTQToz0Z2stYcMUs1qAdit1
+         e64cb4jKDejjlLDcpaXSRFAlbPNV1/B8qkcfNtN8S6zjSCkxHH27EteN8JC767wypRve
+         syPlmgRFgtvhqsEIaP42Szj4gFNFlpz/UwNDXy094jIJu9jfLgW995W89cTWOiMEjnAR
+         r16QERY8hcz0jlge6qw82Lqdci2YISlSepI3M4P5EkRfgwS+lyQnrN5zJU8WEZFPylOF
+         2Yww==
+X-Forwarded-Encrypted: i=1; AJvYcCUgBWf+9o9Zyi/0FABolClFaF0jyZDZ8H6gT+rYsSIGlRm0nIgGFyZqSnPTFhEsDQv/mxZLphoOHYlfiHblwOXpT5zJLOLLs8xCtTGsuPxip6s=
+X-Gm-Message-State: AOJu0YyCEWdtmlsjtSzf1dRA7YUZmFpHxze5nDxmgfL0wgGyZRpk+Ik0
+	4p3Oag7vKIqDqVCu05vXCcnWzmgVqoLI12wgBFkxUYcB27h/pNmrtOJ0Z4YHqik=
+X-Google-Smtp-Source: AGHT+IGqQ0XJeb6NbZreyAuvIAwh2GQyVXn9cuYItstUKhH9Nz0K9bVLarSYzE+se2sflBcN5Oyo4Q==
+X-Received: by 2002:a05:6512:443:b0:513:bebd:79d4 with SMTP id y3-20020a056512044300b00513bebd79d4mr1083411lfk.49.1710829346215;
+        Mon, 18 Mar 2024 23:22:26 -0700 (PDT)
 Received: from [192.168.1.20] ([178.197.222.97])
-        by smtp.gmail.com with ESMTPSA id e25-20020a170906845900b00a4652efd795sm5696140ejy.83.2024.03.18.23.19.52
+        by smtp.gmail.com with ESMTPSA id l8-20020a17090612c800b00a46aab70226sm3302072ejb.180.2024.03.18.23.22.24
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 18 Mar 2024 23:19:53 -0700 (PDT)
-Message-ID: <db13e305-adc4-4990-b9ec-b1cdcdad4406@linaro.org>
-Date: Tue, 19 Mar 2024 07:19:51 +0100
+        Mon, 18 Mar 2024 23:22:25 -0700 (PDT)
+Message-ID: <010e4742-438f-413f-811f-a033ec104832@linaro.org>
+Date: Tue, 19 Mar 2024 07:22:23 +0100
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -79,6 +80,7 @@ User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v3 2/4] dt-bindings: serial: renesas,scif: Validate
  'interrupts' and 'interrupt-names'
 Content-Language: en-US
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 To: Prabhakar <prabhakar.csengg@gmail.com>,
  Geert Uytterhoeven <geert+renesas@glider.be>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -91,7 +93,7 @@ Cc: linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
  Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 References: <20240318172102.45549-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
  <20240318172102.45549-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+ <db13e305-adc4-4990-b9ec-b1cdcdad4406@linaro.org>
 Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
  cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
@@ -136,37 +138,41 @@ Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
  fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
  D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20240318172102.45549-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <db13e305-adc4-4990-b9ec-b1cdcdad4406@linaro.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 18/03/2024 18:21, Prabhakar wrote:
-> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+On 19/03/2024 07:19, Krzysztof Kozlowski wrote:
+> On 18/03/2024 18:21, Prabhakar wrote:
+>> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+>>
+>> Add support to validate the 'interrupts' and 'interrupt-names' properties
+>> for every supported SoC. This ensures proper handling and configuration of
+>> interrupt-related properties across supported platforms.
+>>
+>> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+>> ---
+>> v2->v3
+>> - Listed interrupts and interrupt-names for every SoC in if check
+>> ---
+>>  .../bindings/serial/renesas,scif.yaml         | 95 ++++++++++++-------
+>>  1 file changed, 63 insertions(+), 32 deletions(-)
+>>
+>> diff --git a/Documentation/devicetree/bindings/serial/renesas,scif.yaml b/Documentation/devicetree/bindings/serial/renesas,scif.yaml
+>> index af72c3420453..53f18e9810fd 100644
+>> --- a/Documentation/devicetree/bindings/serial/renesas,scif.yaml
+>> +++ b/Documentation/devicetree/bindings/serial/renesas,scif.yaml
+>> @@ -82,38 +82,6 @@ properties:
+>>    reg:
+>>      maxItems: 1
+>>  
+>> -  interrupts:
 > 
-> Add support to validate the 'interrupts' and 'interrupt-names' properties
-> for every supported SoC. This ensures proper handling and configuration of
-> interrupt-related properties across supported platforms.
-> 
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> ---
-> v2->v3
-> - Listed interrupts and interrupt-names for every SoC in if check
-> ---
->  .../bindings/serial/renesas,scif.yaml         | 95 ++++++++++++-------
->  1 file changed, 63 insertions(+), 32 deletions(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/serial/renesas,scif.yaml b/Documentation/devicetree/bindings/serial/renesas,scif.yaml
-> index af72c3420453..53f18e9810fd 100644
-> --- a/Documentation/devicetree/bindings/serial/renesas,scif.yaml
-> +++ b/Documentation/devicetree/bindings/serial/renesas,scif.yaml
-> @@ -82,38 +82,6 @@ properties:
->    reg:
->      maxItems: 1
->  
-> -  interrupts:
+> I don't understand what is happening with this patchset. Interrupts must
+> stay here. Where did you receive any different feedback?
 
-I don't understand what is happening with this patchset. Interrupts must
-stay here. Where did you receive any different feedback?
+Look how it is done:
+https://elixir.bootlin.com/linux/v6.8/source/Documentation/devicetree/bindings/ufs/qcom,ufs.yaml#L44
 
 
 Best regards,
