@@ -1,84 +1,105 @@
-Return-Path: <linux-renesas-soc+bounces-3910-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-3911-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87D65880253
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 Mar 2024 17:30:02 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6320E8803D2
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 Mar 2024 18:46:19 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id AC7C11C22F10
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 Mar 2024 16:30:01 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 627281C22C1E
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 Mar 2024 17:46:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 293D35915E;
-	Tue, 19 Mar 2024 16:30:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5596C20B21;
+	Tue, 19 Mar 2024 17:46:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SGjDF4XU"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from baptiste.telenet-ops.be (baptiste.telenet-ops.be [195.130.132.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28AAD8174F
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 19 Mar 2024 16:29:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.132.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 284D91CAB2;
+	Tue, 19 Mar 2024 17:46:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710865800; cv=none; b=ePn5LK5lToBHVNb4j8JN0AzqHS8m7JMmqS5bY8OLTx+7eGZZvqe9Geo8TRjZu6Lwvp1/ug7qyv3oiXXsa89meC4wTF7ZWkTkxgc+f9AyC5v2NvdPbYY/dsAuTFfkzNteKCuiTuVxH6JF72f5XN8X4W+QHyMCEILsjAjGcMlLVYw=
+	t=1710870373; cv=none; b=K7WL1uRU0XopQq8+S4PATy/6jndQhdcjDdWloR0nAJHmj9j3M+u17HJAvAGczPfHD/pCwSUYE5hBf5DTvpllduGwvqSEPqZlOv2Y92K4hYCbihL2W5zPWlYhnlNnRJ/NN46olRfOKP1+KHN3a3bM+xZbNIazrLNQg2exMqtWFRk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710865800; c=relaxed/simple;
-	bh=Cbp0vQwOz88gTydiclBB/DEC2XAZKz6yzOnV/0fc1Rk=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=ab2prUJoimuNYdSBm6nJzxIJaEXnbmxj1NJYNiId0OzPRQGKqxoA1aWEj0rM3gNqaUlDieiEwi67n3qg/vWKxnnO14Qst+ueDC/xsn1pWl59dE7Jbiq/cZEhMlLKIb+CyfH7H6bG5QGMeO0THDcb4K5abBItp22ktDTXnTcPQD4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.132.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
-Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed80:76d0:2bff:fec8:549])
-	by baptiste.telenet-ops.be with bizsmtp
-	id 0gVx2C00H0SSLxL01gVxPl; Tue, 19 Mar 2024 17:29:57 +0100
-Received: from rox.of.borg ([192.168.97.57])
-	by ramsan.of.borg with esmtp (Exim 4.95)
-	(envelope-from <geert@linux-m68k.org>)
-	id 1rmcLK-0046HQ-LL;
-	Tue, 19 Mar 2024 17:29:57 +0100
-Received: from geert by rox.of.borg with local (Exim 4.95)
-	(envelope-from <geert@linux-m68k.org>)
-	id 1rmcLd-000pxA-Ht;
-	Tue, 19 Mar 2024 17:29:57 +0100
-From: Geert Uytterhoeven <geert+renesas@glider.be>
-To: Magnus Damm <magnus.damm@gmail.com>,
-	=?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Cc: linux-renesas-soc@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH] soc: renesas: Enable TMU support on R-Car Gen2
-Date: Tue, 19 Mar 2024 17:29:55 +0100
-Message-Id: <b7b9fdd6f517a8b29bf5754e7f083d3b71805130.1710865761.git.geert+renesas@glider.be>
-X-Mailer: git-send-email 2.34.1
+	s=arc-20240116; t=1710870373; c=relaxed/simple;
+	bh=fZ0QELwGTKD07yu3UczJUEharu+OHubpHxFZJAUTYUs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=i0w4WYeHjGrBwpO0HsOgUKIhSccyRPO+1mqWdaYySTZ/KxqX4Y3MI/zTLJFzHCVTydHwCmhOPYsSe4PGg2o2q1KuHJrb9c8Boma47SbV/HlAWPlgZdCFo1MEY6008tZ3qeJoyxcp02EQBVBEL+n1L/2MP2Jx/h49pNGN0cjj5iQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SGjDF4XU; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B309CC433C7;
+	Tue, 19 Mar 2024 17:46:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1710870372;
+	bh=fZ0QELwGTKD07yu3UczJUEharu+OHubpHxFZJAUTYUs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=SGjDF4XUwEcd0DIpqubZHG1E9ca+QEbg+LZv+L1DruzpY8DkKAtPW+mx8gcqncrCK
+	 aGSMqnimyyF9opVvsrMVQUB6aaQNWJnWzxH0Dsg1IiKY3rUGL4zUo+Gp0mD1yR/lrF
+	 YUipTw5PgcvXtcuygqgyrPxTWZ22R0X+/dokUTmwau6naWroLE1CbWFFbyUOpZfSMd
+	 4omkwfypp0zLalklXI0rebBgm3alw9BTx3zv/vrlPVvIHCqEoJ6nhQTxCyRephB0sg
+	 ctYJrWX+aqsZe2jsPPA81mzFu3xeYXenYT0nHYgJJLWDRregqEYAKI9UMj8EzYA8Lf
+	 HTolcnmTMgKuw==
+Date: Tue, 19 Mar 2024 17:46:07 +0000
+From: Conor Dooley <conor@kernel.org>
+To: Prabhakar <prabhakar.csengg@gmail.com>
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
+	Daniel Lezcano <daniel.lezcano@linaro.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Chris Brandt <chris.brandt@renesas.com>,
+	Magnus Damm <magnus.damm@gmail.com>, linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-renesas-soc@vger.kernel.org,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH 1/2] dt-bindings: timer: renesas: ostm: Document Renesas
+ RZ/V2H(P) SoC
+Message-ID: <20240319-value-nutmeg-f107f7ac2319@spud>
+References: <20240318160731.33960-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20240318160731.33960-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="Ic8LyRranNDuv8NG"
+Content-Disposition: inline
+In-Reply-To: <20240318160731.33960-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-All Renesas R-Car Gen2 SoCs have Timer Units (TMU).  Enable support for
-them by selecting the SYS_SUPPORTS_SH_TMU gatekeeper config symbol.
 
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
- drivers/soc/renesas/Kconfig | 1 +
- 1 file changed, 1 insertion(+)
+--Ic8LyRranNDuv8NG
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/drivers/soc/renesas/Kconfig b/drivers/soc/renesas/Kconfig
-index 90df78027995d9b1..3125ab575b60b8d1 100644
---- a/drivers/soc/renesas/Kconfig
-+++ b/drivers/soc/renesas/Kconfig
-@@ -28,6 +28,7 @@ config ARCH_RCAR_GEN2
- 	select RENESAS_IRQC
- 	select RST_RCAR
- 	select SYS_SUPPORTS_SH_CMT
-+	select SYS_SUPPORTS_SH_TMU
- 
- config ARCH_RCAR_GEN3
- 	bool
--- 
-2.34.1
+On Mon, Mar 18, 2024 at 04:07:30PM +0000, Prabhakar wrote:
+> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+>=20
+> Document the General Timer Module (a.k.a OSTM) block on Renesas RZ/V2H(P)
+> ("R9A09G057") SoC, which is identical to the one found on the RZ/A1H and
+> RZ/G2L SoCs. Add the "renesas,r9a09g057-ostm" compatible string for the
+> RZ/V2H(P) SoC.
+>=20
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
+Acked-by: Conor Dooley <conor.dooley@microchip.com>
+
+--Ic8LyRranNDuv8NG
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZfnPXwAKCRB4tDGHoIJi
+0jWYAP9bu4Rs4V0ZMDUyuGoi71pY4Tx/K54RhA+b43wwtFiV8AD+NGtwyo/bwvqL
+yKy84MjX2ffs142Ks+bJXs0ChqKC/A0=
+=NvWw
+-----END PGP SIGNATURE-----
+
+--Ic8LyRranNDuv8NG--
 
