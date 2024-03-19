@@ -1,63 +1,101 @@
-Return-Path: <linux-renesas-soc+bounces-3915-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-3916-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id D639A8806A2
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 Mar 2024 22:19:40 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id ADBB0880750
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 Mar 2024 23:36:32 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 752861F2146B
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 Mar 2024 21:19:40 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D7DFD1C21E85
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 Mar 2024 22:36:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 463B43FB9F;
-	Tue, 19 Mar 2024 21:19:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5DC70381AD;
+	Tue, 19 Mar 2024 22:36:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JzyODQU1"
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="X9Zc7U4W";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="iqj+FAs6"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from flow1-smtp.messagingengine.com (flow1-smtp.messagingengine.com [103.168.172.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15A2F3BBF1;
-	Tue, 19 Mar 2024 21:19:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A758ED8;
+	Tue, 19 Mar 2024 22:36:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710883177; cv=none; b=bw8FR/0Zr7SDxnNzQ3Z9/SaEvo2QeYMYolBMkrWh0DN9i7KO6lUiW8q9jrP7B7XeAzxq91USwQ1ENYE5yunXvaWTTBkqMrEhbB9YiGUxGLk10xZY0IXtxUvKBIfHYdq2DOeDAiqxm/wzYth7IA9ZR4AmX8Gwn2ngA7MrSM/mpZ8=
+	t=1710887789; cv=none; b=r9Z5OdHbn/pDebCIeX1f91nDGV5Rwjw/+JKWTtdIpJAHAN04CUD9gugBLpXyh0YtY60FmKwjRQMnOs4F6QoIX+h6SHxIlzbft0iORqIkTD1M7X8So3iXPf6dAvfMFUXEUC5t+gAFuJ9UoSfMMgcvSx9YEDj0aVGIwVCxcff2rFg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710883177; c=relaxed/simple;
-	bh=79CWEMlA4zaqq7JEqpKb90rcREJ71jz1otGzcHVGLgc=;
+	s=arc-20240116; t=1710887789; c=relaxed/simple;
+	bh=wJcM7mcOqxwIvAfOf3Qrh1f4JmqCIIjuKwe6Ozy0d1U=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Oi3z2fK5fAhK06UJtFvuKMgzchmNrBShXqK0VEmPNWd8CBP58OcnndqsJ4ccia1h6/rzvwS8BIvv7H2J65s++Fu4t0Wt97WngGHhc/TczIbdSfQrJK0VLdvQltSBUTukqAv5pZ0lk/mWEKYOrowZ/Rjp+SmLUEPz08LNK3lS5E8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JzyODQU1; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 42B7EC433C7;
-	Tue, 19 Mar 2024 21:19:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1710883176;
-	bh=79CWEMlA4zaqq7JEqpKb90rcREJ71jz1otGzcHVGLgc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=JzyODQU18EmHBrOISgdTe4W569PTH/WOvvvG7bQDTGVw78lxq1dpecCm/vNBYgsGP
-	 buB7zrXB8qwFY9jzW8l9jwr0JeOgBY7JTA1SVAaCmwCZOC9zvO77PVn6B/faWpdoUB
-	 fwAF1tvpuXKhF04US+PR4ePwMtQtdcltx47ntvx7q78Ih8zSlpzTdMTAUP/j7GgI11
-	 llkDUHvBUEKLPLDejSYIIdD0FaiJudn5I47LkX45+eglQ6hrABPzCqGfjjfKpswlhC
-	 e3Uz+5lstZVdH2QFVTP+e5tHLaoFh7Hvqt0xKcQPCicPDm/oavxDzpjE7thiMwEFOV
-	 qmvoOkYW8/I8g==
-Date: Tue, 19 Mar 2024 22:19:32 +0100
-From: Andi Shyti <andi.shyti@kernel.org>
-To: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Chris Brandt <chris.brandt@renesas.com>, 
-	Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Magnus Damm <magnus.damm@gmail.com>, 
-	Wolfram Sang <wsa+renesas@sang-engineering.com>, linux-renesas-soc@vger.kernel.org, linux-i2c@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: Re: [PATCH 1/5] dt-bindings: i2c: renesas,riic: Update comment for
- fallback string
-Message-ID: <eqtj4hpmdqhtftdtpvt7r7iwrkzga365p4ao5kuteovb2behxz@frmyzxemkfwm>
-References: <20240308172726.225357-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20240308172726.225357-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <aee88f81-0b8a-4f57-9dab-b4d13db47abe@linaro.org>
- <CA+V-a8s9OaZ7_RXGjkZYpNS7879ku-aXJ+AvsfgvuTZshyWd5A@mail.gmail.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=R072tFBZIDkQzdkLFvfLDPM4Epyj4bf7ZdOOGJyFTbZ5D5HKLp/IfMm014uAMr+9xYK9eWJPDz5Pnr2wr+lhv3CtFFwlygi0Q1GMHm6akE3PZc7S3W9+tIQFyKmhXab3lpUUKl6OydcoxrJFI8Z0cO2SD/O8s4F6VLlIH7Xy1Fs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=X9Zc7U4W; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=iqj+FAs6; arc=none smtp.client-ip=103.168.172.136
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+	by mailflow.nyi.internal (Postfix) with ESMTP id E82EA200380;
+	Tue, 19 Mar 2024 18:36:22 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute1.internal (MEProxy); Tue, 19 Mar 2024 18:36:22 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1710887782;
+	 x=1710891382; bh=bFbDxvQwIQcOv1ec4LJKXFtxm4eFHE4KoGHZHelhA30=; b=
+	X9Zc7U4W5scGteYdS3QtOcvQuiOE15+oyFD59O3Z7XlywrsMj0Cms2u/hHbLXshr
+	CSGaCG5uAJ9jubCRnBNl1i1z+u2b1yTxPSEEHulms25kqrniEWYZjzYandKEIXpY
+	HszTDneUUj53t6KWvf/ZTZU8YW0BtVILTYFx/Fe1YDOEqM7IzFAUW36K+ExGXhSQ
+	X6O7ERSu+kbsOgS+Zon4y+JF1w8ymMLSqAFVTWIH+zy5o7ehViGuUyyDpQXnmByh
+	3Mxbe8rfjXlKMVbZDkP2qBEHeySc+QgG/s0V/g5rvbGIaZ7UXwHffXVLe02VL44G
+	m6e7/Iz6Rb2fs/Tw22+U0A==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=i80c9496c.fm2; t=
+	1710887782; x=1710891382; bh=bFbDxvQwIQcOv1ec4LJKXFtxm4eFHE4KoGH
+	ZHelhA30=; b=iqj+FAs63u+TaJEu11mxF9duTElpyzXXYCbZBhGvvo1hafuGC23
+	3AWISz4K7PpoJAAtbGGuo2ALppIufmxqvDBB4vgr6qnTReQbK0t37gVwocE8TpEL
+	ZrSEgwHSpa3YgZ3syazd9+ndBuVV+NAzL9F3r7tbECuKvMEBPwiwmot3kOeNFsXy
+	czdWVTBweGzUZBN2/gS1K4WW0yOLvH2Ge7duuSPxlu//JJk8Jl+QDn8dtCkBByEE
+	DOXjZe85DLAcBPlL5zCVASQygLSG/hJQTCmFOjFcEJsn2Av8t6h57OahVKy45eJj
+	DLpYj3xGhKzDSoWGUyJxV8dw31FhjOMBa9g==
+X-ME-Sender: <xms:ZRP6ZaHkCNFZsukIir-cpf4ZEHDKpqEg9-uunI37wD1Bk4FeU5YeIg>
+    <xme:ZRP6ZbUalKicHNPriLWJIJsnbfXjiLt2GqyBC70q5PjTGHEDRKEppTcjrajf9tr1V
+    r-dB02a_n5xSCk2-V0>
+X-ME-Received: <xmr:ZRP6ZUJVSmONchuZoQGu4CvnbzdwylKOwM8zQZd9ziG4fqPp2xm1KRnRywFmrO7bpVptkoNvnnK1vxKZ2C-ZRXgZ-rfVal8>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrleduucetufdoteggodetrfdotffvucfrrh
+    hofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgenuceurghi
+    lhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurh
+    epfffhvfevuffkfhggtggugfgjsehtkeertddttdejnecuhfhrohhmpefpihhklhgrshcu
+    ufpnuggvrhhluhhnugcuoehnihhklhgrshdrshhouggvrhhluhhnugdorhgvnhgvshgrsh
+    esrhgrghhnrghtvggthhdrshgvqeenucggtffrrghtthgvrhhnpeefhfellefhffejgfef
+    udfggeejlefhveehieekhfeulefgtdefueehffdtvdelieenucevlhhushhtvghrufhiii
+    gvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehnihhklhgrshdrshhouggvrhhluhhn
+    ugdorhgvnhgvshgrshesrhgrghhnrghtvggthhdrshgv
+X-ME-Proxy: <xmx:ZhP6ZUEF-yi8tL-sYwWt7OosLjwr5uLbaIRXwySGUrEdH3AjS17t2g>
+    <xmx:ZhP6ZQVnyWusD7KN0R90KQ-ZAc0EDtT9JrO-oQCqX-Uob93goKNklw>
+    <xmx:ZhP6ZXP30aZFuFMwJmWqRf7RMt4KXxJqqhixvbg2Qb1UCGMKZ2x9uQ>
+    <xmx:ZhP6ZX0_WfbRU0V1jU4e13J6v1xTBpax4RIQYNMxtVVh8dxjDymmjA>
+    <xmx:ZhP6ZZPEmw_xQB4WzjYfHf_T63B0tH2Ybrqmp0S3ypvq7_ZxkPRQuKMww18>
+Feedback-ID: i80c9496c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 19 Mar 2024 18:36:21 -0400 (EDT)
+Date: Tue, 19 Mar 2024 23:36:18 +0100
+From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: Daniel Lezcano <daniel.lezcano@linaro.org>,
+	Thomas Gleixner <tglx@linutronix.de>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+	devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 0/3] dt-bindings: timer: renesas,tmu: Add more SoC
+ families
+Message-ID: <20240319223618.GB3438308@ragnatech.se>
+References: <cover.1710862701.git.geert+renesas@glider.be>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -67,44 +105,52 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CA+V-a8s9OaZ7_RXGjkZYpNS7879ku-aXJ+AvsfgvuTZshyWd5A@mail.gmail.com>
+In-Reply-To: <cover.1710862701.git.geert+renesas@glider.be>
 
-Hi Prabhakar,
+Hi Geert,
 
-On Sat, Mar 09, 2024 at 11:05:40PM +0000, Lad, Prabhakar wrote:
-> On Sat, Mar 9, 2024 at 11:58 AM Krzysztof Kozlowski
-> > On 08/03/2024 18:27, Prabhakar wrote:
-> > > With the fallback string being utilized by multiple other SoCs, this
-> > > patch updates the comment for the generic compatible string.
-> > >
-> > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > > Reviewed-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-> >
-> > Really, you review a comment change? Internally?
-> >
-> > Is this some sort of company policy? Are these even true reviews?
-> >
-> Yes this patch was reviewed internally and it's "real". Unfortunately
-> I cannot share the repo externally where this review was done but I
-> can assure it was reviewed. As this is not a single patch all the
-> patches in this series were internally reviewed. Is it bad to review a
-> comment change?
-> BTW what makes you think I have added fake review tags?
+Thanks for your work.
 
-I don't believe Krzysztof is questioning the validity of your
-offline reviews, but the community is unaware of what happens
-in your closed environment.
+On 2024-03-19 16:46:02 +0100, Geert Uytterhoeven wrote:
+> 	Hi all,
+> 
+> This patch series documents support for the Timer Unit (TMU) on the
+> R-Mobile APE6 SoC, and on various SoCs from the RZ/G1 and R-Car Gen2
+> family.
+> 
+> Feel free to squash together if deemed more appropriate.
 
-If you submit a patch with the r-b tag, it holds little
-significance for me since I haven't witnessed the review process
-myself. However, you are, of course, free to include it; I have
-no objections to that.
+I prefer them split. In either case, split or squashed for the whole 
+set.
 
-My suggestion is for Fabrizio to publicly express his review on
-this mailing list, which would add more value to the time he
-spent reviewing your patch.
+Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 
-By the way, there are other companies that do this.
+> 
+> Thanks for your comments!
+> 
+> Geert Uytterhoeven (3):
+>   dt-bindings: timer: renesas,tmu: Add R-Mobile APE6 support
+>   dt-bindings: timer: renesas,tmu: Add RZ/G1 support
+>   dt-bindings: timer: renesas,tmu: Add R-Car Gen2 support
+> 
+>  .../devicetree/bindings/timer/renesas,tmu.yaml       | 12 ++++++++++++
+>  1 file changed, 12 insertions(+)
+> 
+> -- 
+> 2.34.1
+> 
+> Gr{oetje,eeting}s,
+> 
+> 						Geert
+> 
+> --
+> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+> 
+> In personal conversations with technical people, I call myself a hacker. But
+> when I'm talking to journalists I just say "programmer" or something like that.
+> 							    -- Linus Torvalds
 
-Andi
+-- 
+Kind Regards,
+Niklas Söderlund
 
