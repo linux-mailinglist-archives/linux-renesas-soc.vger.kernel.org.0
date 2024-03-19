@@ -1,191 +1,219 @@
-Return-Path: <linux-renesas-soc+bounces-3891-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-3892-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0462387FD13
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 Mar 2024 12:42:25 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id AAD7D87FDB6
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 Mar 2024 13:45:27 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 28EE01C21CF1
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 Mar 2024 11:42:24 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5EBA6282454
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 Mar 2024 12:45:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0C7597EF1F;
-	Tue, 19 Mar 2024 11:42:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8903C58209;
+	Tue, 19 Mar 2024 12:45:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MY3NMmAx"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CEcjNzpD"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
+Received: from mail-vk1-f170.google.com (mail-vk1-f170.google.com [209.85.221.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A1617E767;
-	Tue, 19 Mar 2024 11:42:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E11481E4BF;
+	Tue, 19 Mar 2024 12:45:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710848538; cv=none; b=MFmnY1K1EMYJypURcEu8gGLcji2vBRchB7kkA814fHteWmS57jPeuSl1Zwxy56+v+l8SLk7hk1nEXU1Sc7/5iqtuKFr6hXz4FbKmXICcSUOu+BZnVSNldmcUn2G6rIk/i9mLI96fnA+vmn3AlW/kyWb4yUEQ7Vbv7EfSIEeVcww=
+	t=1710852321; cv=none; b=LZQhPLjzShHu2ufKfDXx7xSQvwgYbgP4Kjce4sZ9XLJkoJyyx+pv+BIUBjZoqr7NDYvIjqkkms9FDhBPNvI1hhdWlnLFOLI+JOgLK5VyWd41kakSe273jdiktmkS480lnnCSCR5sDxQH3Mc1ht3ZrAAPizgoJPs195ztHHeC3ao=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710848538; c=relaxed/simple;
-	bh=9mj4fImnckfhMvuhi27/rW5wPV2VrOkxeaCKbPhYXm4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=X1m7J4WI6OXU7UkR0axb+RtNGyKNZX2xr92KZjol+HlZnM6PupDhWXqVYluWj9lQIpJgHKrOzTaxJjkn3lmEESVg/KUGZDg63i3LbLfUqjANHs4o6AQXilRSynDGI3ePY5JbVr4IPTZQYK3yY95byFd3eGVpIWZhvbUJRWon3co=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MY3NMmAx; arc=none smtp.client-ip=209.85.208.172
+	s=arc-20240116; t=1710852321; c=relaxed/simple;
+	bh=uWH0Ro9XG24lVXLdz6QSPi6hJo+xcnq6ND5qoTb1ScA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=D/VH34Sc2G+jUvqUCt3ciDtKeoLjhOz9Umkvk/y9VlIqIJV5B/rp20In7+EOsYmbpE/eRaGqvfXjqDFE72JyPeDAyfVCb4EpYl513Kju/NgOV4dRAfVF/ac30HdVcXcxT5vQEYv2TPIBBLMsXpRAE9zx+q58xVh7stwC/scJSbM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CEcjNzpD; arc=none smtp.client-ip=209.85.221.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-2d228a132acso77085811fa.0;
-        Tue, 19 Mar 2024 04:42:16 -0700 (PDT)
+Received: by mail-vk1-f170.google.com with SMTP id 71dfb90a1353d-4d43ec959f8so737075e0c.1;
+        Tue, 19 Mar 2024 05:45:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1710848535; x=1711453335; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=elC/J+DQMSiEL3syNo73tLIm3C8p69Tr5sKldmaLKFo=;
-        b=MY3NMmAxr8rZQTPnAgJunQaB9h2UvICFML08N3A3CMq94G9Mqa5oDQTVInZYKZfwWF
-         uveJ7F/7Ia/0yxFZhQHiInFekyNnUaLlStNMbTeNKa1VEOvaQMf6fw5WjSufLZpwpS3h
-         agPE3CE/yg/4yXwcMW5H5+MIF5qNuNtrh5HPv8cIeDbTVMN0ZkL4AwOjGvuZGqRTOpC0
-         20GCf71T/NP82DDOqzsMZg8s2qpPOGCWhqyefhMd6EKi9EYqx/ASYuQc+BgPbfx6P+Yx
-         wsy5tF7G3q8EZeD5oXhtxThHamGhik6G1Jek84eayryW/ZhwGBueasl15Uh1cHYN1919
-         jh2w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710848535; x=1711453335;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1710852319; x=1711457119; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=elC/J+DQMSiEL3syNo73tLIm3C8p69Tr5sKldmaLKFo=;
-        b=ktwKyYxtl5uDWPzUWLj3M+Cmlf8xH5OHOKecH9H4FBJ/hHcHCS2d8TugCRYndTzjRA
-         ELjn8NfNZpwKMGLELzaPgmB2jB1A6OtFCCCAasdsxFazQ/qpWDXuEqawf2cEC4Zi/mWv
-         ULWPWoXwkMK0wfsCsyGB5S5m6k0G8oganrL9JKbc8nVa8YVdZSK77OmnFJPcOgeh9+D8
-         s3iHeXKn5ea7D30EY6fsphydY1OkouVzBmmIrhQjVblyS4TalwGqUDOnb81iTVqSANWy
-         7oyUjIngr9v5dPO6Y8enTm5VijcgIsv3xk+uecPUux2fk4ADOAWZqhL7eUh1IWdva4Rn
-         dmsg==
-X-Forwarded-Encrypted: i=1; AJvYcCUO3qn1FTyeRhu1q8xlAOeRhAKSFQY5YXg/gTBdk+LX2HG5+wazVQ6aCj4TaBOv3RsE4scywiZidE56IIgZxZFpgmUR5fdwKXCUakFUZRcOiMFg1NRGhj8Gg/RDvNRlOSpy29VOiWUY6qw4bt73Irq7vMIz/yCfXzFzopzkdkuBJJYWQUrIB7CtDMgYkMTHki5ciR0H32rub1hlEES5DU2Zq3Btwx39BEbZ
-X-Gm-Message-State: AOJu0YxwnZEwnrRwDSSYzL1ihq4BIhSMzvKkPXLdJDZJ0PPPDMvW5j8c
-	mBbfdXd3uuQoYslDz+ZkIgfED7/BgJXDB3GPF9kjoo0ImxmAvPFH
-X-Google-Smtp-Source: AGHT+IEbPtInSnoxABuprHRsFDYGfrjvEEgi/PvCR0A0PjriWs8/Fs7e5VgS8xyyf1KxtbICUZUEPw==
-X-Received: by 2002:a2e:b8c2:0:b0:2d5:9bd4:4496 with SMTP id s2-20020a2eb8c2000000b002d59bd44496mr2105191ljp.50.1710848535069;
-        Tue, 19 Mar 2024 04:42:15 -0700 (PDT)
-Received: from mobilestation ([178.176.56.174])
-        by smtp.gmail.com with ESMTPSA id b4-20020a2e8944000000b002d449d1d509sm1851199ljk.70.2024.03.19.04.42.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 Mar 2024 04:42:14 -0700 (PDT)
-Date: Tue, 19 Mar 2024 14:42:11 +0300
-From: Serge Semin <fancer.lancer@gmail.com>
-To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-Cc: Jingoo Han <jingoohan1@gmail.com>, 
-	Gustavo Pimentel <gustavo.pimentel@synopsys.com>, Lorenzo Pieralisi <lpieralisi@kernel.org>, 
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>, Rob Herring <robh@kernel.org>, 
-	Bjorn Helgaas <bhelgaas@google.com>, Marek Vasut <marek.vasut+renesas@gmail.com>, 
-	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>, Kishon Vijay Abraham I <kishon@kernel.org>, 
-	linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	linux-arm-msm@vger.kernel.org, mhi@lists.linux.dev, Siddharth Vadapalli <s-vadapalli@ti.com>, 
-	Frank Li <Frank.Li@nxp.com>
-Subject: Re: [PATCH v5 1/5] PCI: dwc: Refactor dw_pcie_edma_find_chip() API
-Message-ID: <kxcd3n4hb6c2bhksqvxql3gj6zr2my5moxx5mighk33dggspw5@wvt565ch6gm2>
-References: <20240318-dw-hdma-v5-0-f04c5cdde760@linaro.org>
- <20240318-dw-hdma-v5-1-f04c5cdde760@linaro.org>
+        bh=6TRN0nj5y7SM6+DeA2Go5q4zExBuxT8jctOtKQOcJuY=;
+        b=CEcjNzpDuoCDvu3jojFnVFfdr5Udc3J+HRtHHnFclA/cXX7/szS6xntCEqHFUVIwBl
+         HHH7kZ5/wxdeV3DZt+N5sl0tMOHCtCEQbQ4WwkUuk58uj034ZMT/FURvTPjfQ6iwiQtu
+         dCFpLzpq4T9F8aZJf8mAk95etDFln3Ef2LPEQAgPi/bHH0lDMogTWLLaJ97XuYSW8Tpx
+         NpwyQnXa1nfxMrrqExaRCAnfKzyGspAVv5zOOocH+zxfD+Gc+ntbf/wWyzrwCuoRz5+T
+         /vMcFsYgAC/1o9iqtLmEx0V1nB+w2mDWXxDIjI99VdS/XNQ+N+J2dzr/Ws7ihuCgge0U
+         xc+A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1710852319; x=1711457119;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=6TRN0nj5y7SM6+DeA2Go5q4zExBuxT8jctOtKQOcJuY=;
+        b=lqH4C8/pf4du083JhtIBqeH/iCPSup/0LbmNDx/4IwSgobaWP4y3tLJvLvUJ96PX/G
+         oDLFKvLLm0OUbS8KU0++xcfUFtxb/STadMO42raeJh+tnd85zyTUNxD1L5i+45r13JcP
+         diRLMEzdRevlO0AiWNej70bfkyj8kNA1uy6LAvKhfAotc+fxRhdgDDXiV6gP1KtFZds2
+         wFa2ypb6gXi29WGeavH5Blcw7lOyciEycKv3xncwbbOXustOJ5qHdGZwrMQdnlIhei3u
+         cnZvPDhZgHmCfqyvDPFqg1gZhfCaqNs9FZcb/IrRCZuLHL+1iysmLVwujXhjlIDOyNJw
+         lEoA==
+X-Forwarded-Encrypted: i=1; AJvYcCXeDCMeySLJkdl0brAjQnI4tkzmBJ8TcZGyIUX+alKDi4oUaIhA339fmFCiF8iuJzPPLNkOMTyDYI9BvHYWwhsQdc3LRxJB7dbEW5J6LtcDKSzBKGNKe7O9fNK8wNJBy9LIv6LgbWmP/7ZmmXVSrAV7q/tEzunnqjBHJpviB35qqgRJ1VuFnxRfSAa9nlXpHJJor4Xmld5B/gXX4UpnQRz6pJKLfK1gJvFy
+X-Gm-Message-State: AOJu0YxlO3teRAl7dj3Kcv+50BSIN7YPF6471RD/pIYIE1skW+8GgpLq
+	cHdOJ4f2gLRLEahPTp2KQ6+ScZ4mT2G5pzm61/WcAWG/xmzs9osMK0eLOAjnmusMLeMI/dNabL9
+	bb0EkbE5gQyGP/j2CEWfuJtkFcFM=
+X-Google-Smtp-Source: AGHT+IHJPomT7sP53nJXawvVpaRjsxhtKM+VCNrfHI9UzyYiM4vfyEEMa1IExYYbYGUknB+IHNYSLNsGYwi7YIZgbFk=
+X-Received: by 2002:a05:6122:690:b0:4c0:9ec7:b324 with SMTP id
+ n16-20020a056122069000b004c09ec7b324mr10279107vkq.0.1710852318689; Tue, 19
+ Mar 2024 05:45:18 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240318-dw-hdma-v5-1-f04c5cdde760@linaro.org>
+References: <20240318172102.45549-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20240318172102.45549-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <db13e305-adc4-4990-b9ec-b1cdcdad4406@linaro.org> <010e4742-438f-413f-811f-a033ec104832@linaro.org>
+In-Reply-To: <010e4742-438f-413f-811f-a033ec104832@linaro.org>
+From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date: Tue, 19 Mar 2024 12:43:53 +0000
+Message-ID: <CA+V-a8txP39HJJrJcNqCUgw2NkdA3uSvBrbdSzw0bN6r5LpNaQ@mail.gmail.com>
+Subject: Re: [PATCH v3 2/4] dt-bindings: serial: renesas,scif: Validate
+ 'interrupts' and 'interrupt-names'
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Jiri Slaby <jirislaby@kernel.org>, 
+	Rob Herring <robh+dt@kernel.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Magnus Damm <magnus.damm@gmail.com>, linux-kernel@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-serial@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org, 
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Mar 18, 2024 at 11:34:25AM +0530, Manivannan Sadhasivam wrote:
-> In order to add support for Hyper DMA (HDMA), let's refactor the existing
-> dw_pcie_edma_find_chip() API by moving the common code to separate
-> functions.
-> 
-> No functional change.
+Hi Krzysztof,
 
-No more notes from my side. Thanks!
-Reviewed-by: Serge Semin <fancer.lancer@gmail.com>
+On Tue, Mar 19, 2024 at 6:22=E2=80=AFAM Krzysztof Kozlowski
+<krzysztof.kozlowski@linaro.org> wrote:
+>
+> On 19/03/2024 07:19, Krzysztof Kozlowski wrote:
+> > On 18/03/2024 18:21, Prabhakar wrote:
+> >> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> >>
+> >> Add support to validate the 'interrupts' and 'interrupt-names' propert=
+ies
+> >> for every supported SoC. This ensures proper handling and configuratio=
+n of
+> >> interrupt-related properties across supported platforms.
+> >>
+> >> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> >> ---
+> >> v2->v3
+> >> - Listed interrupts and interrupt-names for every SoC in if check
+> >> ---
+> >>  .../bindings/serial/renesas,scif.yaml         | 95 ++++++++++++------=
+-
+> >>  1 file changed, 63 insertions(+), 32 deletions(-)
+> >>
+> >> diff --git a/Documentation/devicetree/bindings/serial/renesas,scif.yam=
+l b/Documentation/devicetree/bindings/serial/renesas,scif.yaml
+> >> index af72c3420453..53f18e9810fd 100644
+> >> --- a/Documentation/devicetree/bindings/serial/renesas,scif.yaml
+> >> +++ b/Documentation/devicetree/bindings/serial/renesas,scif.yaml
+> >> @@ -82,38 +82,6 @@ properties:
+> >>    reg:
+> >>      maxItems: 1
+> >>
+> >> -  interrupts:
+> >
+> > I don't understand what is happening with this patchset. Interrupts mus=
+t
+> > stay here. Where did you receive any different feedback?
+>
+> Look how it is done:
+> https://elixir.bootlin.com/linux/v6.8/source/Documentation/devicetree/bin=
+dings/ufs/qcom,ufs.yaml#L44
+>
+Thanks for the pointer, as the above binding doesn't have any
+description items as compared to our case, to clarify I have updated
+the binding is below. Is this the correct approach?
 
--Serge(y)
+option #1
+---------------
+  interrupts:
+    minItems: 1
+    maxItems: 6
 
-> 
-> Suggested-by: Serge Semin <fancer.lancer@gmail.com>
-> Reviewed-by: Siddharth Vadapalli <s-vadapalli@ti.com>
-> Reviewed-by: Frank Li <Frank.Li@nxp.com>
-> Reviewed-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-> Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-> ---
->  drivers/pci/controller/dwc/pcie-designware.c | 37 ++++++++++++++++++++++------
->  1 file changed, 30 insertions(+), 7 deletions(-)
-> 
-> diff --git a/drivers/pci/controller/dwc/pcie-designware.c b/drivers/pci/controller/dwc/pcie-designware.c
-> index 250cf7f40b85..e591c1cd1efb 100644
-> --- a/drivers/pci/controller/dwc/pcie-designware.c
-> +++ b/drivers/pci/controller/dwc/pcie-designware.c
-> @@ -880,7 +880,17 @@ static struct dw_edma_plat_ops dw_pcie_edma_ops = {
->  	.irq_vector = dw_pcie_edma_irq_vector,
->  };
->  
-> -static int dw_pcie_edma_find_chip(struct dw_pcie *pci)
-> +static void dw_pcie_edma_init_data(struct dw_pcie *pci)
-> +{
-> +	pci->edma.dev = pci->dev;
-> +
-> +	if (!pci->edma.ops)
-> +		pci->edma.ops = &dw_pcie_edma_ops;
-> +
-> +	pci->edma.flags |= DW_EDMA_CHIP_LOCAL;
-> +}
-> +
-> +static int dw_pcie_edma_find_mf(struct dw_pcie *pci)
->  {
->  	u32 val;
->  
-> @@ -902,8 +912,6 @@ static int dw_pcie_edma_find_chip(struct dw_pcie *pci)
->  
->  	if (val == 0xFFFFFFFF && pci->edma.reg_base) {
->  		pci->edma.mf = EDMA_MF_EDMA_UNROLL;
-> -
-> -		val = dw_pcie_readl_dma(pci, PCIE_DMA_CTRL);
->  	} else if (val != 0xFFFFFFFF) {
->  		pci->edma.mf = EDMA_MF_EDMA_LEGACY;
->  
-> @@ -912,12 +920,14 @@ static int dw_pcie_edma_find_chip(struct dw_pcie *pci)
->  		return -ENODEV;
->  	}
->  
-> -	pci->edma.dev = pci->dev;
-> +	return 0;
-> +}
->  
-> -	if (!pci->edma.ops)
-> -		pci->edma.ops = &dw_pcie_edma_ops;
-> +static int dw_pcie_edma_find_channels(struct dw_pcie *pci)
-> +{
-> +	u32 val;
->  
-> -	pci->edma.flags |= DW_EDMA_CHIP_LOCAL;
-> +	val = dw_pcie_readl_dma(pci, PCIE_DMA_CTRL);
->  
->  	pci->edma.ll_wr_cnt = FIELD_GET(PCIE_DMA_NUM_WR_CHAN, val);
->  	pci->edma.ll_rd_cnt = FIELD_GET(PCIE_DMA_NUM_RD_CHAN, val);
-> @@ -930,6 +940,19 @@ static int dw_pcie_edma_find_chip(struct dw_pcie *pci)
->  	return 0;
->  }
->  
-> +static int dw_pcie_edma_find_chip(struct dw_pcie *pci)
-> +{
-> +	int ret;
-> +
-> +	dw_pcie_edma_init_data(pci);
-> +
-> +	ret = dw_pcie_edma_find_mf(pci);
-> +	if (ret)
-> +		return ret;
-> +
-> +	return dw_pcie_edma_find_channels(pci);
-> +}
-> +
->  static int dw_pcie_edma_irq_verify(struct dw_pcie *pci)
->  {
->  	struct platform_device *pdev = to_platform_device(pci->dev);
-> 
-> -- 
-> 2.25.1
-> 
+ interrupt-names:
+    minItems: 4
+    maxItems: 6
+
+  - if:
+      properties:
+        compatible:
+          contains:
+            enum:
+              - renesas,rcar-gen1-scif
+              - renesas,rcar-gen2-scif
+              - renesas,rcar-gen3-scif
+              - renesas,rcar-gen4-scif
+    then:
+      properties:
+        interrupts:
+          items:
+            - description: Single combined interrupt
+
+        interrupt-names: false
+
+  - if:
+      properties:
+        compatible:
+          contains:
+            const: renesas,scif-r7s72100
+    then:
+      properties:
+        interrupts:
+          items:
+            - description: Error interrupt
+            - description: Receive buffer full interrupt
+            - description: Transmit buffer empty interrupt
+            - description: Break interrupt
+
+        interrupt-names:
+          items:
+            - const: eri
+            - const: rxi
+            - const: txi
+            - const: bri
+  - if:
+      properties:
+        compatible:
+          contains:
+            enum:
+              - renesas,scif-r7s9210
+              - renesas,scif-r9a07g044
+    then:
+      properties:
+        interrupts:
+          items:
+            - description: Error interrupt
+            - description: Receive buffer full interrupt
+            - description: Transmit buffer empty interrupt
+            - description: Break interrupt
+            - description: Data Ready interrupt
+            - description: Transmit End interrupt
+
+        interrupt-names:
+          items:
+            - const: eri
+            - const: rxi
+            - const: txi
+            - const: bri
+            - const: dri
+            - const: tei
+
+Cheers,
+Prabhakar
 
