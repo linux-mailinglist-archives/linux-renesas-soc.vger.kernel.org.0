@@ -1,70 +1,70 @@
-Return-Path: <linux-renesas-soc+bounces-3959-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-3960-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id C766E8816DE
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 20 Mar 2024 18:55:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5ACC488187B
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 20 Mar 2024 21:18:41 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E29351C216CF
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 20 Mar 2024 17:55:50 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7E6911C22945
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 20 Mar 2024 20:18:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 964B26A356;
-	Wed, 20 Mar 2024 17:55:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9E53C8592A;
+	Wed, 20 Mar 2024 20:18:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WMs3btg+"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="VNlW0smn"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vk1-f171.google.com (mail-vk1-f171.google.com [209.85.221.171])
+Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E35CF69DE4;
-	Wed, 20 Mar 2024 17:55:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E030C8564F
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 20 Mar 2024 20:18:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710957348; cv=none; b=Xq/MCR7Ww1MtR1upzNb7D4QDGzBylYw1bqkzGeKTWvLfO0pXjAgBQp/siyYQpmU1eRkh7mxAruCkuo79OcJ9Wghj9bLVAbnlqDVAGGvqJx8N9Sl+PpcZ/UjBKMNSdMhyEdo0j/AonrFGcmGNjiITzmjVG7gPJfbI7EFkD1rpo6U=
+	t=1710965917; cv=none; b=MYfvb1oQoH8nfYSIKrhmeKUeO1lkRbLg9B3gufd8K1FRHh5OVpxNl0RT9qJ2MFGL7YC+7o/WVMQ1yQQp6qUDhbcTRpfNsfnyu6AeqFB2CFrKpSz+oQqu/Qruk3X7eTxqAOEQ1ZqGBfbBukuCQX2OvJ5g8F3iwVXJM0UQ+IEZvGg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710957348; c=relaxed/simple;
-	bh=THk8a8rK445xrwum+0GkyKoR1i2kDSt6VlDhas4kNYk=;
+	s=arc-20240116; t=1710965917; c=relaxed/simple;
+	bh=P8Domv5WqTvgS1GmnEkQPzqgFNJc7dGQVd7liXEnfi8=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=urkT/8TrwcluhbXa6M0SeSA88AdSR3ROHgfiYnWf1Z5sHBogWTUi0UUtmOcj3z1T/EYw1oQUhIJpvytY/aRL13YLjThevq9EkZ3NXOhcK3DjXn425xsD2PFcPhEnqjEz++EshG/OD+K+5Hx1MQFTQmbpVSJzNdqf0YYLhRHKr8g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WMs3btg+; arc=none smtp.client-ip=209.85.221.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f171.google.com with SMTP id 71dfb90a1353d-4d436ab8a36so41263e0c.0;
-        Wed, 20 Mar 2024 10:55:46 -0700 (PDT)
+	 To:Cc:Content-Type; b=DnoSJY/01mY7Th1PhDaQYZX1CgP7iTk4ykdJTJlbZrzMYofgFTqrzsWzX9UAJiIzXDgnxJY/nVUQYO451idufCgj2rz2z3qaQJdDpu8C2pmP1O+6Fe7esmcT4koENvVVwGTeW2JR9SbxNpZuatCBvEfkvgRG7uHoYQBDmpDcdEc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=VNlW0smn; arc=none smtp.client-ip=209.85.160.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Received: by mail-qt1-f178.google.com with SMTP id d75a77b69052e-430e1e06e75so98601cf.0
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 20 Mar 2024 13:18:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1710957346; x=1711562146; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1710965915; x=1711570715; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=QxwbgNndHR1MpV8bu3gf7jikTtDYFr6so3dvh0vQDrc=;
-        b=WMs3btg+eiA4lR9ve0DY+cqh/BXN4sJWp2Ice1IhSGXNAl+pRP2KN/u5hKdgr7cQu6
-         ErVBUlG3eEfMhUylO6A2qkU8ZcIEXb6/v9zK+Ox/m/FBQaycp5FyMP9fgK8UkSxhVCG0
-         1H+ylqmUnNHL3W4rhOwcAHi9mR3Ht8Zwip7i8KViZ95Di+FeYU7EhdL1gWBRKp93ovKz
-         2ahsSAZkUPId366bEnpGrB4cUor+jl1d/KsHH4Sc4PjdgiBh+56FPo5Aiey3s51Ro7KZ
-         6ub7C+JEVN6Sk2Xl2tI14mdu+gBh+auk/dMuoBqHMBqG6QkX+xCEtjrVS4pjEuN1jLaZ
-         WdOw==
+        bh=ZcBOsw97Cw3dCwC0IpeN5YUGl16Tlt2YUvn3jG+nAW8=;
+        b=VNlW0smnGQK/f2a53vzC5XACTkHZEOXKJepTUC/FSffNflkkX6SA+vjHEFpq/Fm876
+         AJHGS5fEY/ANEf+r1k+frfta/eXFF7csj1h+pybjNwjrZNZIx+s3Urn545GLblwvDEqu
+         KQxSe9fXq/IaXutmdnaeF2YBL6+0CCDqRp1Nucd7ngPCiieOA7uXEKUXk4gVuB81ha58
+         dg5+Gct/V6dQqufdUElCi+X76ujfdSrzXEjXBJ/cJwUfEjPo4Mp5mUVTDgrXmtO21p+r
+         qRe1EDEmGIfYKe8McAlaB8vxfnPFAOxblPLEeWpzd3HxZaYls6VVXHciZxbetDJz3R1B
+         3+iQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710957346; x=1711562146;
+        d=1e100.net; s=20230601; t=1710965915; x=1711570715;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=QxwbgNndHR1MpV8bu3gf7jikTtDYFr6so3dvh0vQDrc=;
-        b=s/tdxxbtT1u8fsaoXAXHLFuFBjqtN0boi6unRklGh27ZJLpmypVsJCq5KBPZ3w32gZ
-         msJO1LsbQsueYLpudMO8KJ0GX7B2USh4b8vOJOjbNy6PMEhWhmjntnE1vHnT/r/rq/Bh
-         W0XwPD18eBHmSGqMlbKk5ELSAMugta3SjvqVKZEUqegjgUzEtWj/IGag26rMG5Nq0Vrr
-         ZR5w12Dd1t3A3xHy3kXNgvr9qXkNcD68XgOe6WTCr0N4fSAbrPlQWp3i6S0khwSagya/
-         JvwaQyVMq5Rdr9R9tm/AfM0ADV8kXidsy36cmPlpH97+165rBn73lBZlgGkxvp5mJ3M5
-         03Ow==
-X-Forwarded-Encrypted: i=1; AJvYcCUBargrhiWTpw3MZl1oTdp8GK5yHhGSvE0abjlSwY/lA9st/suGTGSQiXi2h0tjj6p9BB7dnEt0e9IeOFXoQyYldwW6mwrCJx6K+CGOUYJZELLfMKkI0zsHLm2xTaaGM+aIqGGMmQ+M6r7YJOqV1mU=
-X-Gm-Message-State: AOJu0YxIWng3FnyqwwQAKbO6z8CKI536WPy7PfeHBOvgaqKbYkGbFAEa
-	MrMIrmKAG3VJYMmSLNQsE+IPSum7PJukO0fmKq4sbSgTGdowbLMumRPgbN9DUvSzx7mldoqqkSr
-	qlhcPhixnQVGGO6YPWCyN8XGFMamgYoNxadM=
-X-Google-Smtp-Source: AGHT+IFPDmRqOqlLVgrmja7MsWB7SVrrAaDnIVxcW2L0oBscBYnEjTP7y406YUD/jMnsg/Nv/yGzRjDO/VdvqpsSJqc=
-X-Received: by 2002:a05:6122:448b:b0:4d3:cff6:79f0 with SMTP id
- cz11-20020a056122448b00b004d3cff679f0mr2606811vkb.4.1710957345767; Wed, 20
- Mar 2024 10:55:45 -0700 (PDT)
+        bh=ZcBOsw97Cw3dCwC0IpeN5YUGl16Tlt2YUvn3jG+nAW8=;
+        b=jBAICAGw8ZrqS26rDDPS6ZYpU/3QJAJ0MPKQxglKFT2Suilvd3syvlfFC3lJKV8j69
+         hwRrvvbhEUIAE8SQdKtGfFQNAX3g12Z1Iqd5F9Lsb/Z+JP5XkvBo8klXYxKP2q9xpsf0
+         BSSEbpW3NlcfUgofxI0vN473MOz42C5DkC4D9b786kDlwoQYjgtT/9nyJN+f7SlDaO5f
+         C0acjWYlmPaMjWnl7lc9hYDYxfzMHZLLN1vJWPPUpNRZrke5UR7nOGc+wtfZcjGSxr52
+         asnJ9MlJQiS76/qNmBdC/IBXIk7pS2f04iKgjjF/INnPyRlWU7Juc6YCp1FRyTCdESrp
+         MkVA==
+X-Forwarded-Encrypted: i=1; AJvYcCUPMZJmhP5O6Sbha20oRx4opst0XcvLPMehGNFRTTxroIdqrzt+N1dOKjT9coB/YIxHOsA78nOJbqU2HfjLfkvqG1lmLdYISgQb50/IoRs0W9w=
+X-Gm-Message-State: AOJu0YxG1Q1HbrJ4ofWVJgeiF820uCdkfHw5VLLHU6hIgUNViTxIXbNv
+	VljnAUs1thm/tAmK+nMBqSENGpLkwwH0Cqha+14oQqZQZo9QuMhvqaXHGZ9+1GdOikOzR2rHCfB
+	B2Xz1o7jS2yLo6x/dbxkj03T2ha1JwY2ti5EoIj1/LmDWxgHUMdHm
+X-Google-Smtp-Source: AGHT+IEEdkkrAwg9Hn12Fn2f8WRvxvqM4dUNa2hRJvQECS2Cceasc/eOQXEDSl8MHwRDyIE6jx27qFryR5Xcu6CHesg=
+X-Received: by 2002:a05:622a:55:b0:431:608:ef03 with SMTP id
+ y21-20020a05622a005500b004310608ef03mr61735qtw.0.1710965914619; Wed, 20 Mar
+ 2024 13:18:34 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -73,14 +73,14 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 References: <bd027379713cbaafa21ffe9e848ebb7f475ca0e7.1710930542.git.geert+renesas@glider.be>
 In-Reply-To: <bd027379713cbaafa21ffe9e848ebb7f475ca0e7.1710930542.git.geert+renesas@glider.be>
-From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Wed, 20 Mar 2024 17:54:19 +0000
-Message-ID: <CA+V-a8vOZPYeZDSNU30JAo2i9WSiBKxqywyjEO_=dUMFhg8YrA@mail.gmail.com>
+From: Saravana Kannan <saravanak@google.com>
+Date: Wed, 20 Mar 2024 13:17:58 -0700
+Message-ID: <CAGETcx_KNvY4NyQ+HSfkgVJS625R-LVNh_tsoZMM0or78ryEWg@mail.gmail.com>
 Subject: Re: [PATCH] clocksource/drivers/renesas-ostm: Avoid reprobe after
  successful early probe
 To: Geert Uytterhoeven <geert+renesas@glider.be>
 Cc: Daniel Lezcano <daniel.lezcano@linaro.org>, Thomas Gleixner <tglx@linutronix.de>, 
-	Saravana Kannan <saravanak@google.com>, Biju Das <biju.das.jz@bp.renesas.com>, 
+	Biju Das <biju.das.jz@bp.renesas.com>, 
 	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
 	=?UTF-8?B?5ZGo55Cw5p2w?= <zhouyanjie@wanyeetech.com>, 
 	Paul Cercueil <paul@crapouillou.net>, Liviu Dudau <liviu.dudau@arm.com>, 
@@ -89,7 +89,7 @@ Cc: Daniel Lezcano <daniel.lezcano@linaro.org>, Thomas Gleixner <tglx@linutronix
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Mar 20, 2024 at 10:40=E2=80=AFAM Geert Uytterhoeven
+On Wed, Mar 20, 2024 at 3:30=E2=80=AFAM Geert Uytterhoeven
 <geert+renesas@glider.be> wrote:
 >
 > The Renesas OS Timer (OSTM) driver contains two probe points, of which
@@ -135,11 +135,6 @@ On Wed, Mar 20, 2024 at 10:40=E2=80=AFAM Geert Uytterhoeven
 >  drivers/clocksource/renesas-ostm.c | 1 +
 >  1 file changed, 1 insertion(+)
 >
-Reviwed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-
-Cheers,
-Prabhakar
-
 > diff --git a/drivers/clocksource/renesas-ostm.c b/drivers/clocksource/ren=
 esas-ostm.c
 > index 8da972dc171365bc..37db7e23a4d29135 100644
@@ -151,10 +146,15 @@ esas-ostm.c
 >
 > +       of_node_set_flag(np, OF_POPULATED);
 >         return 0;
+
+Couldn't you also solve this by using the more specific compatible
+strings for the driver and TIMER_OF_DECLARE()?
+
+-Saravana
+
 >
 >  err_cleanup:
 > --
 > 2.34.1
->
 >
 
