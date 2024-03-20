@@ -1,143 +1,137 @@
-Return-Path: <linux-renesas-soc+bounces-3933-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-3932-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 765B2880EBC
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 20 Mar 2024 10:37:35 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BED2880EA6
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 20 Mar 2024 10:33:52 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C1809B2205D
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 20 Mar 2024 09:37:32 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E9FF8283E36
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 20 Mar 2024 09:33:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8D42A3BB47;
-	Wed, 20 Mar 2024 09:37:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 701113A1BE;
+	Wed, 20 Mar 2024 09:33:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="goVwELML"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HApt/a6P"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AD863C467
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 20 Mar 2024 09:37:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B3F039FFF
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 20 Mar 2024 09:33:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710927437; cv=none; b=U9Zw4rWXx3LNjiILd8B1YIyFD34BVfWvgwzcESSwKbuTr4+NBv6YRjmN9+cHcsV4VcZ5M/cmPsCxPnmiuT7YoETZ7fygH77YMymsex4i977/xZHJ/uhDuwy3X+homjXbvGSqWwH5Md9WmNgvneTujf1Y07wTJrqtUSwYx98W0fo=
+	t=1710927229; cv=none; b=bbFy4gjPb2uMFZyj62fRqe0K/ktRoNEdT7ZiFP1j32o732RpeVHWuXIzyuXejUbJx65P5r3V5ljI8WFM5xaIuo8qfaBKbtdWXbasHg79n4Hm3n/TdqRkXzQDesPCYqENIdONRkqHDYWoadSiTf0C5Xgd+/EYZTgx1k0ODrZhzos=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710927437; c=relaxed/simple;
-	bh=zWxVl/2X9kouqQYfMwhrr4bM2x0AklA0D8zhl+pUVCI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=vDdzJfRLjvPbU3oUs28LFv03Rjq6ISL+tTaUDNHuExamhsuK4uIBfImdwy3nem6yyHYPaH4isEAIjQG49D+3dEbfH94sT/ldOP587E62xb6ls++EaeqN9qp1UYLl/1VGE0mvukPOTILkiWwocdoJAXnPdcnDE54aDWl8zdQVLRE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=goVwELML; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=yggb
-	edAkgjOXyhmbcK7TprxYYbcJSubHV1Rs0FZhOlM=; b=goVwELMLPIHWhkE0TmwD
-	/ggjHBXT+DaUaQlHhUisIqOoysuMIxTUJfkO1iUhSimHelJ81t1fU98i9/I94IHC
-	1nNVL7i8uYXt+l6h528AS6zHcEzsY7RCwpVdSuik4bg2g4TqATCzbtpOFgwqNze1
-	TbsxOkYbM5BaA1cj+MRnKDZwGUUqUX00EZdBBfcsAOcrtTWVvL/yZaFezkIV3nHU
-	U1VnLryIKS7ur2kINEkzcUW4E418KUUiT/fJ07kYu1xAxuMKAWZ2Z+7jFQC7fGqT
-	0Cck8FAitqpn1AexRqvJLmazyyBWOhFL+JUEQM8RMtxFcoYzc9WhO7Kz0SrF5PQB
-	Cw==
-Received: (qmail 3157560 invoked from network); 20 Mar 2024 10:30:29 +0100
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 20 Mar 2024 10:30:29 +0100
-X-UD-Smtp-Session: l3s3148p1@K7PSPRQUXuxehhYE
-Date: Wed, 20 Mar 2024 10:30:28 +0100
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: Prabhakar <prabhakar.csengg@gmail.com>
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
-	Chris Brandt <chris.brandt@renesas.com>,
-	Andi Shyti <andi.shyti@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	linux-renesas-soc@vger.kernel.org, linux-i2c@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Rob Herring <robh@kernel.org>
-Subject: Re: [PATCH v3 1/4] dt-bindings: i2c: renesas,riic: Document
- R9A09G057 support
-Message-ID: <ZfqstNocte2wV_ad@shikoro>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Prabhakar <prabhakar.csengg@gmail.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Chris Brandt <chris.brandt@renesas.com>,
-	Andi Shyti <andi.shyti@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	linux-renesas-soc@vger.kernel.org, linux-i2c@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Rob Herring <robh@kernel.org>
-References: <20240319132503.80628-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20240319132503.80628-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+	s=arc-20240116; t=1710927229; c=relaxed/simple;
+	bh=K81Snpx/PZKt1ic2UM/mhDTGjLrRTC+A2BXoNJtKzHw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=lP+oUYDttquyYwwA8eIm4Wb8eVML8FUxdkj0vVkxZtAxJdvARLGtti8LVr+J+9MfYWex0vUuZRB3HiplNRTb9UBAtUzU3Lovg5Y2R5XjHr5h+bY+/wRUOAkxuUcB7P+17rJ51cyI0lfDjh/UIBz0LjSo65M44qarHR2lfEyHEAw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HApt/a6P; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 11C97C433C7;
+	Wed, 20 Mar 2024 09:33:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1710927228;
+	bh=K81Snpx/PZKt1ic2UM/mhDTGjLrRTC+A2BXoNJtKzHw=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=HApt/a6PPxjB0TVGU8kl4zFwOuylx9fRiXCB/LhrFwv0AVBhHw+3u8lYtRXcNQZaW
+	 JRgO64eRK4RM9oVcqO3tJjqSrKuGE0Sw1uOc3MbWomYOj+VDfT9m/KishEHgGKsrjZ
+	 v2/VA5BaEUUKCiVSbmkAPw4HyS0CviSXavKa9eXGyXWfHLdPR9FRrMFKC5yuB2VXZz
+	 JeeWiTwBTwnYukS+H7zhxNaB95KdZG++vIjmKer0gbiRj0AIEZnTzFeDkvpxtbLzS4
+	 N/oi5A80/zL/RSctmdL8qTv08dHYFcz9lWn7EwIlDeaVmTQvT4R5MxAmV4KipPYVdU
+	 EI+CsIXlu/uOg==
+Message-ID: <48276bf6-75d3-411e-b29a-2303e5d4bfbd@kernel.org>
+Date: Wed, 20 Mar 2024 10:33:43 +0100
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="L0v9WIsIV3zpzm6c"
-Content-Disposition: inline
-In-Reply-To: <20240319132503.80628-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/3] ARM: dts: renesas: r8a73a4: Add TMU nodes
+To: =?UTF-8?Q?Niklas_S=C3=B6derlund?=
+ <niklas.soderlund+renesas@ragnatech.se>,
+ Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: Magnus Damm <magnus.damm@gmail.com>, linux-renesas-soc@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org
+References: <cover.1710864964.git.geert+renesas@glider.be>
+ <1a60832f3ba37afb4a5791f4e5db4610ab31beb3.1710864964.git.geert+renesas@glider.be>
+ <20240319224223.GC3438308@ragnatech.se>
+Content-Language: en-US
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <20240319224223.GC3438308@ragnatech.se>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
+On 19/03/2024 23:42, Niklas Söderlund wrote:
+> Hi Geert,
+> 
+> Thanks for your patch.
+> 
+> On 2024-03-19 17:29:05 +0100, Geert Uytterhoeven wrote:
+>> Add device nodes for the Timer Units (TMU) on the R-Mobile APE6 SoC,
+>> and the clocks serving them.
+>>
+>> Note that TMU channels 1 and 2 are not added, as their interrupts are
+>> not wired to the interrupt controller for the AP-System Core (INTC-SYS),
+>> only to the interrupt controller for the AP-Realtime Core (INTC-RT).
+>>
+>> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> 
+> Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 
---L0v9WIsIV3zpzm6c
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Please run scripts/checkpatch.pl and fix reported warnings. Some
+warnings can be ignored, but the code here looks like it needs a fix.
+Feel free to get in touch if the warning is not clear.
 
-On Tue, Mar 19, 2024 at 01:25:00PM +0000, Prabhakar wrote:
-> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
->=20
-> Document support for the I2C Bus Interface (RIIC) available in the
-> Renesas RZ/V2H(P) (R9A09G057) SoC.
->=20
-> The RIIC interface in the Renesas RZ/V2H(P) differs from RZ/A in a
-> couple of ways:
-> - Register offsets for the RZ/V2H(P) SoC differ from those of the
->   RZ/A SoC.
-> - RZ/V2H register access is limited to 8-bit, whereas RZ/A supports
->   8/16/32-bit.
-> - RZ/V2H has bit differences in the slave address register.
->=20
-> To accommodate these differences, a new compatible string
-> "renesas,riic-r9a09g057" is added.
->=20
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> Acked-by: Rob Herring <robh@kernel.org>
+DT bindings are separate patches.
 
-Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Best regards,
+Krzysztof
 
-
---L0v9WIsIV3zpzm6c
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmX6rLQACgkQFA3kzBSg
-KbbPwA//dm+xf9wd49JEwk0OxmGbcznYn0957HJ0Y5pH550IwSYDIoag7DN49XvX
-BGDPUUZ/ehUfllSkwy9sFCYZBIUSe9XRHhLv6r29s+akehaH1Mn4gN4myW7rtD2l
-MEy34qNjWCW9xFkamgtEnwOVZnZVAQ9jOZlquZ2G6f89iFSEEM3txXMQrm/vIfgz
-ompBv6spg/hSeihwRgyHrOwted6LGORikWwcCK5C3q//xA0FvTuXIwgqlkuaX/rP
-TB395nk2keIYU0fUumrH/Mn8+4iYylM98Nv0pqCRtP9CbH8brHedP1LR3Sh9dJGv
-ys9dIMTTjqSZQa2CI/A3U97TaDKCh7t1MOKQJV2k1By9P3AkZOxRAwU2fWValbd7
-KHADKNl9vf47XcPI7lo4M/GH/D3XKmmishCVhdMJ2AFeoyypuixZB00qw66Fz8uh
-DsHCm1kRDGM4dBA7xwAkzjwsKelabSngAPMzw4M1PtxHwXbIIdXrfcEqwMVBXQy8
-qV1e+0NHx8OOMqIKKqpGyhUwstX38D+kwPTCgoj1J9dSo2LolwfES9RifXhmbQVV
-tPpyZ54RU4O7Hqvg3zujJVRNQm4cbAemBbHOYT/MpO7lbtQxvZ/W98y+MwoxPQ4v
-04VpxsmuwatvBYjBjutnR/wNSWkp/xC2RRr4KlLH5wS4qBYBX2Y=
-=VMFl
------END PGP SIGNATURE-----
-
---L0v9WIsIV3zpzm6c--
 
