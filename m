@@ -1,187 +1,107 @@
-Return-Path: <linux-renesas-soc+bounces-3947-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-3948-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 254B88810EC
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 20 Mar 2024 12:28:42 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id D5703881108
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 20 Mar 2024 12:33:33 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 92BC41F244F9
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 20 Mar 2024 11:28:41 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 11B711C21DD8
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 20 Mar 2024 11:33:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A5A053D986;
-	Wed, 20 Mar 2024 11:28:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="Y9CwmwAY"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AA1763DBA8;
+	Wed, 20 Mar 2024 11:33:28 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
+Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com [209.85.128.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 450343D0D1
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 20 Mar 2024 11:28:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 258493D986;
+	Wed, 20 Mar 2024 11:33:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710934112; cv=none; b=CPYvgxkiiBy72TCj7DkuTPfs0cH3stfYUKhkrU/hKKW4XmZxoquFSCct7M9eI2sJVo3JcOkMk9OlYPpBcFE8UHE0D5xmht0FQgbmLkApJcsdoM2dqQLESaEcpzhP2W3bhyMxeWtoRQOGCFQKz2oqsPw9j6Mu5I6Z4LMMWbI9isA=
+	t=1710934408; cv=none; b=IFpMaOwaNDXgvTQKq/A+95zpmnXQ3xuwnKTnBphSOV83MCNJA5J1+2zukXaXhYbtkp9mXIuncWztESctBL2Kr7w3rGPLVi2YJMR5FH14xx5gELAZ2L9pqcBIPn/1p5celSpLC3+FvOMUfFpLy7pwFhPhKaFsNQDz4oi+i5Nc7BE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710934112; c=relaxed/simple;
-	bh=4Z+E+vRRnXtaVEn3HNcuDEF/By+cXE2pMXiic5X53J0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=rG0stBop/Ko4RCKcyzw8gYZK+cacJ6fU4i+xfmpx7Wm8hJBuwfLqs1OoWvyIvFRc7nlqUrEKWQWhXAGvVcBcsbaBINRw5vCFjTvS/TE0LXjPoRlba+6itlXTAMTMpOaazSHkZcOFENCen8bUzQlWfBIwBqFCgndwahHHc4xlej0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=Y9CwmwAY; arc=none smtp.client-ip=209.85.208.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
-Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-56b9e5ed074so2149871a12.3
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 20 Mar 2024 04:28:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1710934107; x=1711538907; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=t09iTUhLm/Te/RlcYfub0MWtjkucD7v1Wp5XC1yZhck=;
-        b=Y9CwmwAYUGiEPFjqNayfO4qUjFFlENJFtep7q2+xiNZ6K6sDY0U8ZXRfbSeWmE3z3h
-         dcxPKevNFf4SerIRhRmcMf59mqXgJ57jFDWCpF7nSwCrMF3GRrOTfYYcI1zN0hvV6BBf
-         +ypPXq+bCNvUImQXrKGtS09wHN558zQk+FR6pmDoiVQ0JidEvh2j4oubZehJ3H9k2F7T
-         AGChdaTq9iePx4LA7zlJYLrqG9U3VPunglCdPImjM2UT1EhCWGNdGmmvjj3Z++aNsYvw
-         YDzd8P6fj+BuPjioWn1P+cmMjm32j8WTmeQEZgf2BGAVswvpj0xofmq4wGwLYFIWl9Cf
-         LiGQ==
+	s=arc-20240116; t=1710934408; c=relaxed/simple;
+	bh=rJMET6qf9TuxPqMoog5+maGYHy5m/5MkJzg8nUH9IA0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=rZPi8hy9wOsfgKFvBaVPGcsKdhDC0FkyRee3i9lpNSIlUq7hkvBY806B4i2aa6tVtBBvIgMKXcujMlTjZ7Nl2TnHDAO8pXDKoHKU/PkbdTUGTumPoEbMrfozPSGoz6K/H6jpAw0r9HoG6q3G0bnkUqQhlMoUqLL+ZSeaq0q0BGE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-609f1b77728so71372157b3.3;
+        Wed, 20 Mar 2024 04:33:25 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710934107; x=1711538907;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=t09iTUhLm/Te/RlcYfub0MWtjkucD7v1Wp5XC1yZhck=;
-        b=lkxZwPEoaLTmbWGuSqHPbPnK41w1R0W02CZ++qUQVfJuV+98xNk7++raluMrk5Rr6x
-         Kkupr3R4zFTR9J9pSypQGqhcXr2zgO2RxSjse5T8yuTKsBw4qKprs3HOze2YpUp0nJvc
-         O+6onmcGWkPkn6AMrbOU9R7reN5nSRvlmgAdaAl9yRkxZPP2AcjAguKkuXm2vFOW6qoV
-         BwuU2hTlc8zeoODpHGWOnNRFuL8sMnvfxZnG08l67XJr6GBG/LDcZmqqov6fvS/6o0nQ
-         860HaWluAk+7u8nqbI0LkVMcRGg5h1AzwRMYongJ36u8s2omMvK72RFekNSzp7G8e12P
-         KhqA==
-X-Gm-Message-State: AOJu0Yxneobadp9AiKgQzAMJCRQAVfuB/qz1ilXFZISXbjmCJQow/RlA
-	tUsAkJ5hlWSyVSqKF0bCNfPYB5gR0wsG6Q3aLuoZxCMwlmHEY1dyuKrKAAy1GgY=
-X-Google-Smtp-Source: AGHT+IEi1/Tx0HHmeCCSDdMtByTCaQDWFeiUWqVzIOQYwu2D/XJmlFAMlNOSfmq703CQ9vuWxWLQmw==
-X-Received: by 2002:a05:6402:221b:b0:56b:9f35:65f9 with SMTP id cq27-20020a056402221b00b0056b9f3565f9mr1023033edb.0.1710934107425;
-        Wed, 20 Mar 2024 04:28:27 -0700 (PDT)
-Received: from [192.168.50.4] ([82.78.167.144])
-        by smtp.gmail.com with ESMTPSA id l8-20020aa7c308000000b0056b7ed75a46sm2776633edq.27.2024.03.20.04.28.26
+        d=1e100.net; s=20230601; t=1710934405; x=1711539205;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=yZH7jIIDBiOD+mK/BbEEI+HYtRGY/Yq/9fLqXNr82KA=;
+        b=goXiCBM7Z3/N/yihSjRnzQzJW6UURpOH+iIkneWxGMo5uqtXGNJ4SRLcTxHhU5+mZh
+         hThhdHJ3RA73M8DV/ZwRZji2VZv3eih96bAoMbOCIHvCHbwPPpx2RHOXjzt7sdlh4ylg
+         Z4TpDlS42oGAZv2XV6WRWaNjJtaRdCleiInkOTAqb3PkcF7JOT34ug5gcdxzk9IWTkKi
+         Ro0ztOdHx+C5YuH1ohrRDG8oy9FjI/EWjpfY3AMyVlO9sp2d29jSgr5CFvlhyDZ5LDsS
+         BJp0l/C91YtpOOvlb7vj5KT2p3C4Hh8bQ5GyRXLA3umBdQbIA8hrefrACw5jZ3a60q5g
+         lvLg==
+X-Forwarded-Encrypted: i=1; AJvYcCVJ9KWXynv1lAMjvIsM9FQLZX1JgIPU41EgiET/elcWTzEmDoK/PTp2ClxMOQaAw4jZYDeEkFz3dczV1LudAWaALmVFFdiRhfDSIHxqUwW30qFU+s+NqBj8HqOs7WQ9X/hpYQdhD25ebcceWA8mOxNWt1BOTvL2sh2yS70ilDReu1P9KGUayg5d83E=
+X-Gm-Message-State: AOJu0YygzLLZDUYdS92ubyxNr52JUG0yLM3qY5iBBVtxQ2mhadh10y/G
+	01YIGEX2YBf6mtgbsZifYcm2tFfS6CWRSPxANN6qaqFpu86CLtskNCOfzqsxjdA=
+X-Google-Smtp-Source: AGHT+IH3svJCewtagxYd0TnoV/23qwbZ2L5MNDXFP4ZBj4XcTo5nD9vhgrtkOPs/gi9HraOta8ZoTg==
+X-Received: by 2002:a0d:fc45:0:b0:609:fbc6:340 with SMTP id m66-20020a0dfc45000000b00609fbc60340mr5853515ywf.40.1710934404822;
+        Wed, 20 Mar 2024 04:33:24 -0700 (PDT)
+Received: from mail-yb1-f178.google.com (mail-yb1-f178.google.com. [209.85.219.178])
+        by smtp.gmail.com with ESMTPSA id p186-20020a0de6c3000000b0060ccac7cae1sm2757835ywe.47.2024.03.20.04.33.24
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 20 Mar 2024 04:28:27 -0700 (PDT)
-Message-ID: <dfc130d9-2995-4ebc-b164-758c40cff749@tuxon.dev>
-Date: Wed, 20 Mar 2024 13:28:25 +0200
+        Wed, 20 Mar 2024 04:33:24 -0700 (PDT)
+Received: by mail-yb1-f178.google.com with SMTP id 3f1490d57ef6-dd045349d42so5745426276.2;
+        Wed, 20 Mar 2024 04:33:24 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCXw5W/AvvkBhm5HAy/C503Ybh2OpRs+bdErE0cZ8pUWrRT5cH6HQLk8K2R8hl1LTjQ6KZ//MeeRb7Vj1f6DjRV/Ppp9J2tCufiujwhKR+ynaJm08bhyEmug4lev8x+QZVGvX/8wW170NWwq/bTEgYG18qSOJqYWFo9an/0X1AE7+fnB5goMBxOdq7k=
+X-Received: by 2002:a05:6902:1b85:b0:dd1:5194:13e5 with SMTP id
+ ei5-20020a0569021b8500b00dd1519413e5mr5147238ybb.22.1710934404494; Wed, 20
+ Mar 2024 04:33:24 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 2/2] pinctrl: renesas: rzg2l: Configure the interrupt
- type on resume
-Content-Language: en-US
-To: Biju Das <biju.das.jz@bp.renesas.com>,
- "geert+renesas@glider.be" <geert+renesas@glider.be>,
- "linus.walleij@linaro.org" <linus.walleij@linaro.org>,
- "tglx@linutronix.de" <tglx@linutronix.de>
-Cc: "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
- "linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-References: <20240320104230.446400-1-claudiu.beznea.uj@bp.renesas.com>
- <20240320104230.446400-3-claudiu.beznea.uj@bp.renesas.com>
- <OSAPR01MB158778802C8AAF3F9230259286332@OSAPR01MB1587.jpnprd01.prod.outlook.com>
-From: claudiu beznea <claudiu.beznea@tuxon.dev>
-In-Reply-To: <OSAPR01MB158778802C8AAF3F9230259286332@OSAPR01MB1587.jpnprd01.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20240320082831.9666-1-paul.barker.ct@bp.renesas.com>
+In-Reply-To: <20240320082831.9666-1-paul.barker.ct@bp.renesas.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Wed, 20 Mar 2024 12:33:12 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdVKe2bLjMRXN-yr0SvGRMcv_93OWAgy9C-yL7UA9-LcDA@mail.gmail.com>
+Message-ID: <CAMuHMdVKe2bLjMRXN-yr0SvGRMcv_93OWAgy9C-yL7UA9-LcDA@mail.gmail.com>
+Subject: Re: [PATCH 1/2] clk: renesas: r9a07g043: Mark mod_clks and resets
+ arrays as const
+To: Paul Barker <paul.barker.ct@bp.renesas.com>
+Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
+	linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Wed, Mar 20, 2024 at 9:28=E2=80=AFAM Paul Barker
+<paul.barker.ct@bp.renesas.com> wrote:
+> The r9a07g043_mod_clks and r9a07g043_resets arrays describe the module
+> clocks and reset signals (respectively) in this SoC and do not change at
+> runtime.
+>
+> Signed-off-by: Paul Barker <paul.barker.ct@bp.renesas.com>
 
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+i.e. will queue in renesas-clk for v6.10.
 
-On 20.03.2024 13:08, Biju Das wrote:
-> Hi Claudiu,
-> 
->> -----Original Message-----
->> From: Claudiu <claudiu.beznea@tuxon.dev>
->> Sent: Wednesday, March 20, 2024 10:43 AM
->> Subject: [PATCH v3 2/2] pinctrl: renesas: rzg2l: Configure the interrupt type on resume
->>
->> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
->>
->> Commit dce0919c83c3 ("irqchip/renesas-rzg2l: Do not set TIEN and TINT source at the same time") removed
->> the setup of TINT from rzg2l_irqc_irq_enable(). To address the spourious interrupt issue the setup of
->> TINT has been moved in rzg2l_tint_set_edge() though rzg2l_disable_tint_and_set_tint_source(). With
->> this, the interrupts are not properly re-configured after a suspend-to-RAM cycle. To address this issue
->> and avoid spurious interrupts while resumming set the interrupt type before enabling it.
-> 
-> Just a question,
-> 
-> Previously you don't save/restore irq_type() register during suspend/resume()??
-> After STR, any way we will lose that information.
+Gr{oetje,eeting}s,
 
-Part of IA55 registers are saved/restored in IA55 suspend/resume functions.
+                        Geert
 
-The rest of configuration (enable and TINT) was done though pinctrl driver
-because IA55 is resumed before pinctrl driver and if we enable the
-interrupt at that point the pin may be in unwanted state and IA55 may
-report invalid interrupts.
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
 
-As TINT was removed from enable we need to handle it now.
-
-> 
-> Cheers,
-> Biju
-> 
-> 
-> 
->>
->> Fixes: dce0919c83c3 ("irqchip/renesas-rzg2l: Do not set TIEN and TINT source at the same time")
->> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
->> ---
->>  drivers/pinctrl/renesas/pinctrl-rzg2l.c | 22 ++++++++++++----------
->>  1 file changed, 12 insertions(+), 10 deletions(-)
->>
->> diff --git a/drivers/pinctrl/renesas/pinctrl-rzg2l.c b/drivers/pinctrl/renesas/pinctrl-rzg2l.c
->> index 93916553bcc7..4fee3b0e6c5e 100644
->> --- a/drivers/pinctrl/renesas/pinctrl-rzg2l.c
->> +++ b/drivers/pinctrl/renesas/pinctrl-rzg2l.c
->> @@ -2045,7 +2045,9 @@ static void rzg2l_gpio_irq_restore(struct rzg2l_pinctrl *pctrl)
->>
->>  	for (unsigned int i = 0; i < RZG2L_TINT_MAX_INTERRUPT; i++) {
->>  		struct irq_data *data;
->> +		unsigned long flags;
->>  		unsigned int virq;
->> +		int ret;
->>
->>  		if (!pctrl->hwirq[i])
->>  			continue;
->> @@ -2063,17 +2065,17 @@ static void rzg2l_gpio_irq_restore(struct rzg2l_pinctrl *pctrl)
->>  			continue;
->>  		}
->>
->> -		if (!irqd_irq_disabled(data)) {
->> -			unsigned long flags;
->> -
->> -			/*
->> -			 * This has to be atomically executed to protect against a concurrent
->> -			 * interrupt.
->> -			 */
->> -			raw_spin_lock_irqsave(&pctrl->lock.rlock, flags);
->> +		/*
->> +		 * This has to be atomically executed to protect against a concurrent
->> +		 * interrupt.
->> +		 */
->> +		raw_spin_lock_irqsave(&pctrl->lock.rlock, flags);
->> +		ret = rzg2l_gpio_irq_set_type(data, irqd_get_trigger_type(data));
->> +		if (ret)
->> +			dev_crit(pctrl->dev, "Failed to set IRQ type for virq=%u\n", virq);
->> +		else if (!irqd_irq_disabled(data))
->>  			rzg2l_gpio_irq_enable(data);
->> -			raw_spin_unlock_irqrestore(&pctrl->lock.rlock, flags);
->> -		}
->> +		raw_spin_unlock_irqrestore(&pctrl->lock.rlock, flags);
->>  	}
->>  }
->>
->> --
->> 2.39.2
-> 
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
