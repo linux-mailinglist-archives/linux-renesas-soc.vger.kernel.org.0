@@ -1,48 +1,48 @@
-Return-Path: <linux-renesas-soc+bounces-3932-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-3934-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BED2880EA6
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 20 Mar 2024 10:33:52 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EACA880ED7
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 20 Mar 2024 10:41:10 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E9FF8283E36
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 20 Mar 2024 09:33:50 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CCD0B286F58
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 20 Mar 2024 09:41:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 701113A1BE;
-	Wed, 20 Mar 2024 09:33:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 54F833B791;
+	Wed, 20 Mar 2024 09:41:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HApt/a6P"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BodeFmTi"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B3F039FFF
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 20 Mar 2024 09:33:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 206293A267;
+	Wed, 20 Mar 2024 09:41:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710927229; cv=none; b=bbFy4gjPb2uMFZyj62fRqe0K/ktRoNEdT7ZiFP1j32o732RpeVHWuXIzyuXejUbJx65P5r3V5ljI8WFM5xaIuo8qfaBKbtdWXbasHg79n4Hm3n/TdqRkXzQDesPCYqENIdONRkqHDYWoadSiTf0C5Xgd+/EYZTgx1k0ODrZhzos=
+	t=1710927664; cv=none; b=EkShCCDNSFAmmbHCQnfdiQSQeht2WjccuseGh3Qp7whRjvwrfjTAGCzW7ZHge7+cFG8WobBPVZ0iP7Iy01CmXoyjWQau2Wmblcvoy1r5XojVD8FWmMutr45/vA/2Z0Gfs4myIO4SU0k3qIziUK14xZUZy61YDYGc44bdItkN4K8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710927229; c=relaxed/simple;
-	bh=K81Snpx/PZKt1ic2UM/mhDTGjLrRTC+A2BXoNJtKzHw=;
+	s=arc-20240116; t=1710927664; c=relaxed/simple;
+	bh=PJh0W/6IWgzjeRlxP5q/GDxrE0ImAbXuBWIYneIpSqc=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=lP+oUYDttquyYwwA8eIm4Wb8eVML8FUxdkj0vVkxZtAxJdvARLGtti8LVr+J+9MfYWex0vUuZRB3HiplNRTb9UBAtUzU3Lovg5Y2R5XjHr5h+bY+/wRUOAkxuUcB7P+17rJ51cyI0lfDjh/UIBz0LjSo65M44qarHR2lfEyHEAw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HApt/a6P; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 11C97C433C7;
-	Wed, 20 Mar 2024 09:33:46 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=DHmjb8tx3t7N3RMft/yM7DkZO3pUgHV74wYLlseVo99yZWixCVv5pNpvJ8kEAlLlkcZXvGNZD08k78Sm31beL5jPSQ0/jsIidzsMIQWU/SdK9MV/KpXBwWtT4vtCgtGUNRRuBO5scC0njjw5GF07M5oVPNzZm2Jkvztcs7RfvqY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BodeFmTi; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 678EFC433C7;
+	Wed, 20 Mar 2024 09:40:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1710927228;
-	bh=K81Snpx/PZKt1ic2UM/mhDTGjLrRTC+A2BXoNJtKzHw=;
+	s=k20201202; t=1710927663;
+	bh=PJh0W/6IWgzjeRlxP5q/GDxrE0ImAbXuBWIYneIpSqc=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=HApt/a6PPxjB0TVGU8kl4zFwOuylx9fRiXCB/LhrFwv0AVBhHw+3u8lYtRXcNQZaW
-	 JRgO64eRK4RM9oVcqO3tJjqSrKuGE0Sw1uOc3MbWomYOj+VDfT9m/KishEHgGKsrjZ
-	 v2/VA5BaEUUKCiVSbmkAPw4HyS0CviSXavKa9eXGyXWfHLdPR9FRrMFKC5yuB2VXZz
-	 JeeWiTwBTwnYukS+H7zhxNaB95KdZG++vIjmKer0gbiRj0AIEZnTzFeDkvpxtbLzS4
-	 N/oi5A80/zL/RSctmdL8qTv08dHYFcz9lWn7EwIlDeaVmTQvT4R5MxAmV4KipPYVdU
-	 EI+CsIXlu/uOg==
-Message-ID: <48276bf6-75d3-411e-b29a-2303e5d4bfbd@kernel.org>
-Date: Wed, 20 Mar 2024 10:33:43 +0100
+	b=BodeFmTiNO/U0LF9kw3yT7SljIHsw22BHc+LG2KGnb1lkxq3yw0JBOJ6G36wYA3vZ
+	 PDAZJOTIaZpetKTGbz5nYy59hjIpph8bLm0eBic51Dns0CND7LzX1Sq1cMsRZCsoU4
+	 vTXk9dV+gzj/6tQ7kvq57YPcxZ+B/hHVuUvLzRXtdI0TenH3zktbGkR8GUBzijkSoI
+	 WlLrM65hfhq0a4PNll88h2JLHcD/FM+NKYX9QdnhfT+qeteXylX6IJFjVADst+Y699
+	 TK8mToBNjeuKDohfbbsYFoj39eO1yANzUlhySUVzg2lMbogepQVUH9rdfgvK0ny/WO
+	 tRUSiG+GdrEmA==
+Message-ID: <1a9fc75e-2556-4f48-89ab-7c1c6016a01d@kernel.org>
+Date: Wed, 20 Mar 2024 10:40:55 +0100
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -50,15 +50,25 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/3] ARM: dts: renesas: r8a73a4: Add TMU nodes
-To: =?UTF-8?Q?Niklas_S=C3=B6derlund?=
- <niklas.soderlund+renesas@ragnatech.se>,
- Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: Magnus Damm <magnus.damm@gmail.com>, linux-renesas-soc@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org
-References: <cover.1710864964.git.geert+renesas@glider.be>
- <1a60832f3ba37afb4a5791f4e5db4610ab31beb3.1710864964.git.geert+renesas@glider.be>
- <20240319224223.GC3438308@ragnatech.se>
+Subject: Re: [PATCH 1/5] dt-bindings: i2c: renesas,riic: Update comment for
+ fallback string
+To: Andi Shyti <andi.shyti@kernel.org>,
+ "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Chris Brandt <chris.brandt@renesas.com>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Magnus Damm <magnus.damm@gmail.com>,
+ Wolfram Sang <wsa+renesas@sang-engineering.com>,
+ linux-renesas-soc@vger.kernel.org, linux-i2c@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+ Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20240308172726.225357-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20240308172726.225357-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <aee88f81-0b8a-4f57-9dab-b4d13db47abe@linaro.org>
+ <CA+V-a8s9OaZ7_RXGjkZYpNS7879ku-aXJ+AvsfgvuTZshyWd5A@mail.gmail.com>
+ <eqtj4hpmdqhtftdtpvt7r7iwrkzga365p4ao5kuteovb2behxz@frmyzxemkfwm>
 Content-Language: en-US
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -104,32 +114,55 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20240319224223.GC3438308@ragnatech.se>
+In-Reply-To: <eqtj4hpmdqhtftdtpvt7r7iwrkzga365p4ao5kuteovb2behxz@frmyzxemkfwm>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-On 19/03/2024 23:42, Niklas Söderlund wrote:
-> Hi Geert,
+On 19/03/2024 22:19, Andi Shyti wrote:
+> Hi Prabhakar,
 > 
-> Thanks for your patch.
+> On Sat, Mar 09, 2024 at 11:05:40PM +0000, Lad, Prabhakar wrote:
+>> On Sat, Mar 9, 2024 at 11:58 AM Krzysztof Kozlowski
+>>> On 08/03/2024 18:27, Prabhakar wrote:
+>>>> With the fallback string being utilized by multiple other SoCs, this
+>>>> patch updates the comment for the generic compatible string.
+>>>>
+>>>> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+>>>> Reviewed-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+>>>
+>>> Really, you review a comment change? Internally?
+>>>
+>>> Is this some sort of company policy? Are these even true reviews?
+>>>
+>> Yes this patch was reviewed internally and it's "real". Unfortunately
+>> I cannot share the repo externally where this review was done but I
+>> can assure it was reviewed. As this is not a single patch all the
+>> patches in this series were internally reviewed. Is it bad to review a
+>> comment change?
+>> BTW what makes you think I have added fake review tags?
 > 
-> On 2024-03-19 17:29:05 +0100, Geert Uytterhoeven wrote:
->> Add device nodes for the Timer Units (TMU) on the R-Mobile APE6 SoC,
->> and the clocks serving them.
->>
->> Note that TMU channels 1 and 2 are not added, as their interrupts are
->> not wired to the interrupt controller for the AP-System Core (INTC-SYS),
->> only to the interrupt controller for the AP-Realtime Core (INTC-RT).
->>
->> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> I don't believe Krzysztof is questioning the validity of your
+> offline reviews, but the community is unaware of what happens
+> in your closed environment.
 > 
-> Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> If you submit a patch with the r-b tag, it holds little
+> significance for me since I haven't witnessed the review process
+> myself. However, you are, of course, free to include it; I have
+> no objections to that.
+> 
+> My suggestion is for Fabrizio to publicly express his review on
+> this mailing list, which would add more value to the time he
+> spent reviewing your patch.
+> 
+> By the way, there are other companies that do this.
+> 
 
-Please run scripts/checkpatch.pl and fix reported warnings. Some
-warnings can be ignored, but the code here looks like it needs a fix.
-Feel free to get in touch if the warning is not clear.
-
-DT bindings are separate patches.
+To me seeing such reviews of a trivial comment patch means reviews are
+fake, just to fulfill the process. Especially done internally. Kind of
+"patchset looks good, so +1 in Gerrit" (it does not matter if you use
+Gerrit or not...). I don't consider them reviews, but useless company
+policies. Provide real review or do not provide one at all. And provide
+it public, so work with the community, not your inside systems.
 
 Best regards,
 Krzysztof
