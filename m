@@ -1,72 +1,62 @@
-Return-Path: <linux-renesas-soc+bounces-3922-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-3923-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id D47F4880B90
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 20 Mar 2024 07:59:07 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1AAD9880BB2
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 20 Mar 2024 08:08:28 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1103B1C224E4
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 20 Mar 2024 06:59:07 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id A80191F24154
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 20 Mar 2024 07:08:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 32A051E888;
-	Wed, 20 Mar 2024 06:58:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7AD37A40;
+	Wed, 20 Mar 2024 07:08:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cpqoZ53p"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NRig3eU7"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05FDB1E519;
-	Wed, 20 Mar 2024 06:58:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56B651EA8D
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 20 Mar 2024 07:08:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710917928; cv=none; b=GOCM92SKeE+lGx75pOqkgclDwkBTLh+Ed/+sXK9T5It+nDQtyI3/A29aLWHMdHgugAu29wvc+iJPT6NSigER618fyw5K8Vj8VRModypY39Z88g5vVJ7uepMixX4q8FDGeq2VuTZBIu4fP2WTE9z0/vx0KLGzhc7KaN2xn9c7Icg=
+	t=1710918504; cv=none; b=IEb8Ys4QbWczjhTUA1mu4ONON2hOVbwvgxN5JrewwUXEtAQKgkV3hvspKhh8pNOS1QGdVwrAInKfG2zoUPWNF3XKs/2lMw0FSHjS9lNuen79pNXQjBcYvR0d9GxsZ15vwwIR6MzXUwUzchkz4GVV46+tZnGhoF3ORFDaqKtNdX4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710917928; c=relaxed/simple;
-	bh=BsU/Q3JaZEvQOGQ+BygI1NyLrqO2MQHazo08rZYE5Ic=;
+	s=arc-20240116; t=1710918504; c=relaxed/simple;
+	bh=7cGzdvGN97oW1WjwJTPPu2U0iE6yfGocO45+q8MAbCI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ciXHMBNtdJ2vvVljfxIVnw27gAxGcnRr8cmbMKe3B/3z/fY/zSnKZp2Pbz44G4pYlSv7qzb6PPMxz801/zyvMza9er5NfBlDCGzqmvVvu8hkDx4Emqc5oRBc5ApFlcY3M6fXIu97kI4kOfBj3EE4YgSFldWhW4Qnb9AfSPaD/58=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cpqoZ53p; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 62734C433F1;
-	Wed, 20 Mar 2024 06:58:47 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=Asfj5qThgqVJwmd71EPrvV06J0+kcZgzvym6s34nuv+CEKfwM0R/B1eb+QcYMz2LjGtCuMkBtshHh8/OrPmGrMQDiCKH1QWDJj9sJot2lQxoP25N4l3d3rIVgc9Y4ec0+v4qZrAgg9TYTPd87Dmc0RiHXTti92pKATLXdm5Ga6s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NRig3eU7; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5BDFAC433F1;
+	Wed, 20 Mar 2024 07:08:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1710917927;
-	bh=BsU/Q3JaZEvQOGQ+BygI1NyLrqO2MQHazo08rZYE5Ic=;
+	s=k20201202; t=1710918502;
+	bh=7cGzdvGN97oW1WjwJTPPu2U0iE6yfGocO45+q8MAbCI=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=cpqoZ53pKDyrLGy9FBGOf9dabjeTsBSiEP8h/ShLxg7Bzz2gAr2rqe2oEp5kO8Nhq
-	 NTPqT0lWLQfVFFPUU4b6HQRACwpOvLkl8o4fJRl2zL6qMeoHKb0/tycgkwuxGdv4gL
-	 7/JL2x43ougVWzIb5QKbrko8jb5QcOTM2Z4DTsiY+YC6/rE1Ny/ds6a4CPK96BBb9p
-	 5u3DO3eni0U+vfjxHrFdV8pGVlCt2SSl+9AJmEA0yrovJzYbqoQbykLAFDf8u6TemD
-	 UZJSOl2YbGo1LW11F0BPCZTBEZb9XGpwDW8SIKg7w2pMm8wohs7OVNOHyMNXuXzPFC
-	 OHN8indnjubJw==
-Date: Wed, 20 Mar 2024 07:58:44 +0100
+	b=NRig3eU7sQRvO+QYbUYDYZPp2e0x7Mv4VIUSt3c2AO2h7MWFtEK4/tosWEKiKulBJ
+	 CEIvGCQ3oCW72C1wPTwRzl4HduOzj6ZaZlqOQqIKy0d2gpyeEVax0m3vnI/0XYHflv
+	 drfCCEAneg+eqQ7E+ggWY5ui9clweO7rR8tmhvzNiuRp3o+d8k0A4WMGY0heqySegR
+	 LXXIRLU29npJkgZTe2mWunkateY97+iGN1AOb/j3+sfpcfFhxm1+6TU/By/JkKqeB5
+	 o6OXJnjBDiLsy8Sm0RfPYA+MoRTJF/81MpwhCDx57mdGxG9u/ZvM8yI6+zDrkO0uXS
+	 60Sn4knueskGQ==
+Date: Wed, 20 Mar 2024 08:08:19 +0100
 From: Wolfram Sang <wsa@kernel.org>
 To: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: Daniel Lezcano <daniel.lezcano@linaro.org>,
-	Thomas Gleixner <tglx@linutronix.de>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+Cc: Magnus Damm <magnus.damm@gmail.com>,
 	Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
-	devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 3/3] dt-bindings: timer: renesas,tmu: Add R-Car Gen2
- support
-Message-ID: <ZfqJJC6Ljp09FNAw@ninjato>
+	linux-renesas-soc@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH 0/3] ARM: dts: renesas: Add more TMU support
+Message-ID: <ZfqLY8Ej6kNnAMQA@ninjato>
 Mail-Followup-To: Wolfram Sang <wsa@kernel.org>,
 	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Daniel Lezcano <daniel.lezcano@linaro.org>,
-	Thomas Gleixner <tglx@linutronix.de>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+	Magnus Damm <magnus.damm@gmail.com>,
 	Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
-	devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-References: <cover.1710862701.git.geert+renesas@glider.be>
- <dd77275fef23ef3dc335a43ffa9aeca0ff7c41c6.1710862701.git.geert+renesas@glider.be>
+	linux-renesas-soc@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org
+References: <cover.1710864964.git.geert+renesas@glider.be>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -74,43 +64,51 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="INu9960U2T7NGcB1"
+	protocol="application/pgp-signature"; boundary="IhGqeSxwmc9TUd2u"
 Content-Disposition: inline
-In-Reply-To: <dd77275fef23ef3dc335a43ffa9aeca0ff7c41c6.1710862701.git.geert+renesas@glider.be>
+In-Reply-To: <cover.1710864964.git.geert+renesas@glider.be>
 
 
---INu9960U2T7NGcB1
+--IhGqeSxwmc9TUd2u
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Tue, Mar 19, 2024 at 04:46:05PM +0100, Geert Uytterhoeven wrote:
-> Document support for the Timer Unit (TMU) on R-Car Gen2 SoCs.
->=20
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Hi Geert,
 
-Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> APE6 (APE6EVM), and on R-Car H2 (Lager) and M2-W (Koelsch), except for
+> TMU3 on M2-W, which consistently fails the CLOCK_REALTIME test (why?).
+
+Huh? It works on Lager and fails on Koelsch? Do you have a log file?
+
+> Still to be queued in renesas-devel for v6.10?
+
+I'd say yes, it still describes the HW. Unless it turns out that M2-W
+doesn't really have TMU3 ;)
+
+Happy hacking,
+
+   Wolfram
 
 
---INu9960U2T7NGcB1
+--IhGqeSxwmc9TUd2u
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmX6iSQACgkQFA3kzBSg
-KbZ6Jw//coMKC/ycEIsWTkSTRoRtDixFJqKfCiPbP4J3oiWhrOGcPQ0n3fsC3Z+/
-qfEbT9D/zrSLVfDcGC/GKfxN83hl/sFovIWrhB1mEITMGEAbRNPA835cMY4W9pXW
-M/Bwsf3qx9N4NZ2KxqDTwx+lr10ZvgdlI8IIhgWsNUo8fNwoPbZBkcsCfHLMkecg
-JvvaE5QvCVXur450E8AhImzMdVFNb3shujSgltEpqbGxxeTe5XGtTm/mUt8HORBh
-Semq8jJhIHtIaNDQGfGRf1CwdaN7kHjKj57K2Iz3lWeH/+C3FbGwJdkr/65rrlMU
-20uA239tOYp2SuOugtaL2Q9IZOP/IFVTuZc3byJhrGa+laHgilJrkXZi6BOQVUd6
-Q6kpLsV/BilhCXuu2jNlqeyOjw5vRIwM1GpiwHuFZTTEiL9yhSv5qqSm3qPQZCgD
-qVWDOoDUcbh8Dnz05vrOfkmi1Adw6hu6t8M+YMNeyG3sfutQIupj/1USl1+5Q19f
-BVhAZqps9SNIsOh+SCwK8bG+eYW28BjX/z8XIPthe/9G3LaHldl89iA2Ta/jA8we
-iuyCIXQHUeiNe2Knwl5qomZESciBmJbF0xnWAekfLD9vTL6nRDBtefYr3XtBjQCs
-IqnzyrO3lM9lIg60y9fuV/geC6VYoLMIzd3iZBDhsqocogSrcJ4=
-=BY80
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmX6i2MACgkQFA3kzBSg
+KbaXRRAAl2BiWarFQIi/kC/yq9ZCiBu1BBjyN6jRSve0fYyYnQeNnYGX8ARqLeD5
++NREg9QkOWW7fOHaTXgrCbRjF4kxpBWxLhjTCjaCwspdlPWAefIiajJ91FTtjHDY
+Hdj+sk2tcb5CyVy+Z4CXlwk4YlKPjaNKJlzHj/oV6YutZFrpQbaTTA3HTI2FF98b
+13aMar28O9l/jD194SB18pSgPrinVrgUBDMxMIerK+hdHrSB3lnKVZixqCRhSw5V
+CvmpyHy3rl/9CORBj3Ier7w2d7jI3Ws9swfWucKsG2DP2JScedIa0TD6cIYtwz2w
+lv7JWlPZURJz9u/LcJ0VeEOqC0ZUAUrqWHDpHp/TuRErukktv1cDp1YPowZK/WWM
+eoGu5Yqn7oiP3/YCgAPUqfA1CZlnvxMYawv+OVafdzOES+cN5ik0I1juPveE+Hbg
+tI0LgbRpGrZnJW9RLHnf0dn6aX9RykbnEUpyTJs/K+NNHEK1WDKhazEZVkEv0YA+
+xINch1s24tQ4k9HFCG1FkexR3KOak9LqNhjeoTKIAb3xBD6/iuPZIbwClLHZtZid
+tfEUcOaYmHiopX17PmBuglzpN53GKLgqCTX4HfX1EKL5vfWopTEpFsqQnThhlWbW
+wHNLg+by1Mgn2l56lkbDnAHdzX9B1aHc+kxLMtR7I55IpIhVH/0=
+=OiO1
 -----END PGP SIGNATURE-----
 
---INu9960U2T7NGcB1--
+--IhGqeSxwmc9TUd2u--
 
