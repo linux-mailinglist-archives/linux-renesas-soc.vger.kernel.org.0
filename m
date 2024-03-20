@@ -1,66 +1,84 @@
-Return-Path: <linux-renesas-soc+bounces-3942-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-3943-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 872D0880FF3
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 20 Mar 2024 11:34:13 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id C8CF6881028
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 20 Mar 2024 11:43:38 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 41FF8281F4E
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 20 Mar 2024 10:34:12 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 5A9A1B22BCC
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 20 Mar 2024 10:43:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5E67225740;
-	Wed, 20 Mar 2024 10:30:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D41FC38DDC;
+	Wed, 20 Mar 2024 10:43:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="Up8pId5g"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from cantor.telenet-ops.be (cantor.telenet-ops.be [195.130.132.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0107B1103
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 20 Mar 2024 10:30:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.132.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 909482770B
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 20 Mar 2024 10:43:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710930630; cv=none; b=jJv1J/7sAbY3SScSg4Pth+OK3R3UKhgQQrZg8RkZ+gXDeUXppD0q6q0KI4fOFrH02XiILy0T/fhzdQ8rJ3jhhXp7mRiodU/hSN9NnhBimYwZ95YMJNkBVxl7gwOnPHJD1LXlzpBT735ymFPXpquAMdZqVttkvLtXrisN6MkMEKE=
+	t=1710931412; cv=none; b=krS8WjCBjPBODaktYRmvAbcNWVVuFvdsVLsaJrnK28BaiDcCmcCFlaTFCOacslV3pX+o7dj3CQxUrWmg9XRLdyBe07x6FRvHr+4uIFvAFaIAv9Kxp5nXZRvD9/AIh4Vvv76jFE95KCt99DpOYSPEr6Icg+/4P7t9GnebPWLWDxw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710930630; c=relaxed/simple;
-	bh=pINihG+7YHZfwoZMIr7lzlBBZzwKCYY7QMVa6cAANME=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=PtUqFmh8z6SLWFY0NE8rVFNdqy45ZoplW6s8MEZyDwsBdbwhRTvOpPQu887HL8uu0vKb1QohqMNZdm3wsWe8Do6WbmHZfnC336jxS63BdpRvJ7LOuyFnD+nplR4CqS1Iy3MVMVrVB15PZqGZUa/HtER7Mj+pwKf2CDm8WyirPlY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.132.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
-Received: from michel.telenet-ops.be (michel.telenet-ops.be [IPv6:2a02:1800:110:4::f00:18])
-	by cantor.telenet-ops.be (Postfix) with ESMTPS id 4V04c220Bdz4x1VB
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 20 Mar 2024 11:30:26 +0100 (CET)
-Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed80:76d0:2bff:fec8:549])
-	by michel.telenet-ops.be with bizsmtp
-	id 0yWF2C00B0SSLxL06yWFel; Wed, 20 Mar 2024 11:30:19 +0100
-Received: from rox.of.borg ([192.168.97.57])
-	by ramsan.of.borg with esmtp (Exim 4.95)
-	(envelope-from <geert@linux-m68k.org>)
-	id 1rmtCl-004BA6-93;
-	Wed, 20 Mar 2024 11:30:15 +0100
-Received: from geert by rox.of.borg with local (Exim 4.95)
-	(envelope-from <geert@linux-m68k.org>)
-	id 1rmtD5-000te6-0r;
-	Wed, 20 Mar 2024 11:30:15 +0100
-From: Geert Uytterhoeven <geert+renesas@glider.be>
-To: Daniel Lezcano <daniel.lezcano@linaro.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Saravana Kannan <saravanak@google.com>,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Cc: =?UTF-8?q?=E5=91=A8=E7=90=B0=E6=9D=B0?= <zhouyanjie@wanyeetech.com>,
-	Paul Cercueil <paul@crapouillou.net>,
-	Liviu Dudau <liviu.dudau@arm.com>,
-	Sudeep Holla <sudeep.holla@arm.com>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	linux-renesas-soc@vger.kernel.org,
+	s=arc-20240116; t=1710931412; c=relaxed/simple;
+	bh=nq2wKNNpeo2285g0qZC3Hza2dTO9nFQmoZ1P4qfdFx0=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Oqr9NU/kf310/Q6e9U7vDWnn3l1bIBnak8o8H5S5pcRkyjYT6mXnWOnZ8Vrbx/8tCrEjeSLTs2+aIHdN4g7FTSmCZsLzKOrrtNfo8MDd+69gffhlnT0H2GI7v6a+4G/o6DAIJYztlM2tWjMj1RmZ80/J4hnzZDERlzgLYuTtyiU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=Up8pId5g; arc=none smtp.client-ip=209.85.218.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
+Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-a44ad785a44so782011266b.3
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 20 Mar 2024 03:43:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=tuxon.dev; s=google; t=1710931409; x=1711536209; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=y7YCcW0F6Lrt8JcoNOIMWwfvsSbg5Iix+K6rhgXUVTA=;
+        b=Up8pId5g9gHg7yqNhNkSZBxi6B+nIwj4EMyhmy/LyddFTVOdCLjDtqiNEizarkPG8Q
+         rPJzTDLIQujxc8HyftQ6KrMJeRzUKpeD3537E535ddBUiI4bc0PKuMpFO7FHidakLops
+         dUonoIGpO9n2AtbWW77Vm1Zlqst++PJef8SZOIi2GMTK8kUNvFd+15h9X9Ejoc0qAJBW
+         Eux+tDnqPXXMRsuSW4IqZ+GtyXnIB4eDjYtL28aY0Z3BdtqMXoreHCiP8id5TNwFHTUi
+         x0NGt96etxuvPGHCOQUKZ2+81krzzMEbyY3qgjyrqCYNbsN4ZBBLTAXW3vR4YA2+uXBk
+         5iTQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1710931409; x=1711536209;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=y7YCcW0F6Lrt8JcoNOIMWwfvsSbg5Iix+K6rhgXUVTA=;
+        b=jOf29HYDp9NnuQf12rta3Jb7hmYuA0UWBMn1IztyT84xzixbuXr8KbAOvFs9v8sXjp
+         +mG0HMgKPFsSiQnrNOvuJyRKXXSt73SzQqUAPw6u9+37DhDClQ5fuR84kpDPK+qhjlwV
+         rK7g/NKSSMGPU7uo2Tpks9oz3yDjzqOvdHkECnXemj6Zx7yme14V08W9frR40K0yiA0f
+         6hi2l/9hna+qA1KVdwRHms9jXJvGIC4FhmEiqexyX7Ow6/YEtouxSNLwQNuL8//fr0DM
+         Bue8oD9GfNLEiFf5gUKRm3CJ67S5AKCQc33MTN57HHBw6Bt8rpIbqtYjqCgXLy1DKkUJ
+         JqAQ==
+X-Gm-Message-State: AOJu0Yx0tFsnoMlRhSyJnFAp6/fa//6iij8W/QFFsy68tXmHU272YmzS
+	OZSfMv1Yw82gUn7XQixQefEXcVDbu1Ym8biU8w3wYWp6dG4vSO/sSsWvj7ugxiI=
+X-Google-Smtp-Source: AGHT+IE07FfjL+kP7sHe9nti7Psa4p1ib+32l0yhChQlqn2xgLf69hil2T/W79Ix4Q3NmFccWuYlkw==
+X-Received: by 2002:a17:907:208a:b0:a46:636a:2c23 with SMTP id pv10-20020a170907208a00b00a46636a2c23mr11284694ejb.34.1710931408673;
+        Wed, 20 Mar 2024 03:43:28 -0700 (PDT)
+Received: from claudiu-X670E-Pro-RS.. ([82.78.167.144])
+        by smtp.gmail.com with ESMTPSA id o20-20020a170906289400b00a45ffe583acsm7092081ejd.187.2024.03.20.03.43.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 20 Mar 2024 03:43:28 -0700 (PDT)
+From: Claudiu <claudiu.beznea@tuxon.dev>
+X-Google-Original-From: Claudiu <claudiu.beznea.uj@bp.renesas.com>
+To: geert+renesas@glider.be,
+	linus.walleij@linaro.org,
+	tglx@linutronix.de,
+	biju.das.jz@bp.renesas.com
+Cc: linux-renesas-soc@vger.kernel.org,
+	linux-gpio@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH] clocksource/drivers/renesas-ostm: Avoid reprobe after successful early probe
-Date: Wed, 20 Mar 2024 11:30:07 +0100
-Message-Id: <bd027379713cbaafa21ffe9e848ebb7f475ca0e7.1710930542.git.geert+renesas@glider.be>
-X-Mailer: git-send-email 2.34.1
+	claudiu.beznea@tuxon.dev,
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+Subject: [PATCH v3 0/2] pinctrl: renesas: rzg2l: fixes for pinctrl driver
+Date: Wed, 20 Mar 2024 12:42:28 +0200
+Message-Id: <20240320104230.446400-1-claudiu.beznea.uj@bp.renesas.com>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -69,62 +87,28 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The Renesas OS Timer (OSTM) driver contains two probe points, of which
-only one should complete:
-  1. Early probe, using TIMER_OF_DECLARE(), to provide the sole
-     clocksource on (arm32) RZ/A1 and RZ/A2 SoCs,
-  2. Normal probe, using a platform driver, to provide additional timers
-     on (arm64 + riscv) RZ/G2L and similar SoCs.
+From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 
-The latter is needed because using OSTM on RZ/G2L requires manipulation
-of its reset signal, which is not yet available at the time of early
-probe, causing early probe to fail with -EPROBE_DEFER.  It is only
-enabled when building a kernel with support for the RZ/G2L family, so it
-does not impact RZ/A1 and RZ/A2.  Hence only one probe method can
-complete on all affected systems.
+Hi,
 
-As relying on the order of initialization of subsystems inside the
-kernel is fragile, set the DT node's OF_POPULATED flag after a succesful
-early probe.  This makes sure the platform driver's probe is never
-called after a successful early probe.
+Series adds 2 fixes for pinctrl driver.
 
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
-Tested on RZ/A2 (after force-enabling the platform driver probe).
-Regression-tested on RZ/Five (member of the RZ/G2L family).
+Thank you,
+Claudiu Beznea
 
-In between commit 4f41fe386a94639c ("clocksource/drivers/timer-probe:
-Avoid creating dead devices") and its revert 4479730e9263befb (both in
-v5.7), the clocksource core took care of this.  Other subsystems[1]
-still handle this, either minimally (by just setting OF_POPULATED), or
-fully (by also clearing OF_POPULATED again in case of probe failure).
+Changes in v3:
+- collected tag on patch 1/2
+- added patch 2/2 in this series
 
-Note that despite the revert in the clocksource core, several
-clocksource drivers[2] still clear the OF_POPULATED flag manually, to
-force probing the same device using both TIMER_OF_DECLARE() and standard
-platform device probing (the latter may be done in a different driver).
+Claudiu Beznea (2):
+  pinctrl: renesas: rzg2l: Execute atomically the interrupt
+    configuration
+  pinctrl: renesas: rzg2l: Configure the interrupt type on resume
 
-[1] See of_clk_init(), of_gpiochip_scan_gpios(), of_irq_init().
-[2] drivers/clocksource/ingenic-sysost.c
-    drivers/clocksource/ingenic-timer.c
-    drivers/clocksource/timer-versatile.c
----
- drivers/clocksource/renesas-ostm.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/pinctrl/renesas/pinctrl-rzg2l.c | 13 ++++++++++++-
+ 1 file changed, 12 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/clocksource/renesas-ostm.c b/drivers/clocksource/renesas-ostm.c
-index 8da972dc171365bc..37db7e23a4d29135 100644
---- a/drivers/clocksource/renesas-ostm.c
-+++ b/drivers/clocksource/renesas-ostm.c
-@@ -210,6 +210,7 @@ static int __init ostm_init(struct device_node *np)
- 		pr_info("%pOF: used for clock events\n", np);
- 	}
- 
-+	of_node_set_flag(np, OF_POPULATED);
- 	return 0;
- 
- err_cleanup:
 -- 
-2.34.1
+2.39.2
 
 
