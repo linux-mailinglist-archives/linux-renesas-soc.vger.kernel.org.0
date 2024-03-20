@@ -1,175 +1,149 @@
-Return-Path: <linux-renesas-soc+bounces-3955-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-3956-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D69C3881258
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 20 Mar 2024 14:31:54 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id DE371881342
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 20 Mar 2024 15:23:51 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7B5781C20DFD
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 20 Mar 2024 13:31:53 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1C71F1C226E4
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 20 Mar 2024 14:23:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BB6204084D;
-	Wed, 20 Mar 2024 13:31:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5F0EB481A7;
+	Wed, 20 Mar 2024 14:23:38 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com [209.85.128.174])
+Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com [209.85.128.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25E141DFD9;
-	Wed, 20 Mar 2024 13:31:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F7BB481A2;
+	Wed, 20 Mar 2024 14:23:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710941509; cv=none; b=HFxZLMYL5TuvKeF+HgHnO4AsdL1cR3PGIYz88m+ND4lae9KD/1xTB2BvUv3jDpB/nWn0amfqdcitgZbOp4sPLwF9XklrzQppcpHymw+i6vZ9rJX7soqjP9JvW0jGQOlGuoRlA7Hl2Vgk8yeRthy4JqPjcoAwoqju60hBijEMEzk=
+	t=1710944618; cv=none; b=bsC2qpRj9Na6tRLFRKp43/dHK2IFOBLP5LYBE0rRV/zxybb/vt9amLubPXGy77JHkDf59z6DA5GCtQvXlotiV2t3eL5EhVO0zgjXD+T0akTIoX2N784NUK48nob4+HLi5tVvN/LIHzIAmYAJgQB3TRRfvtB7VBMtpH/kfL9rhKg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710941509; c=relaxed/simple;
-	bh=qFJThp01RypSw3XQVJHNFZhSQJ4Tvp1MkomRWNkc1y0=;
+	s=arc-20240116; t=1710944618; c=relaxed/simple;
+	bh=u/FEtNBnV4qJYDHn5Zcye76U0Q+azHE9cHup70WDcVY=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ZhVAgH6zWylld/g8yblFmnVLrcZuAph2EGOmgiAjul6EcNYIm84zY74nGFuji7qtZlnGOAdLDNmu0E1xGulJ/vyWi5cdTtGZdOZsvUT35znv4g4BHX4hi2TnITY7r7/O9J8USLgtuW8Q5BAmmZ7fXKwNPoGQFRIWc74LQuuecGI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.174
+	 To:Cc:Content-Type; b=iync/iQDoL6lqEiqFXRTmUsOoQnRqawYk/M2ixoFabQjh7VlHAkHBw0Im7tUkyar8GNuo5vfY+ZCJqiAy0k17aLfq8+T8QJFu28tjjIqxH8JyLzBTmzO51kK0ngdndLOmSCOJHaFWiPiiOX64M4yGK5wh9wVdRd+82kWvj88+CY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-609f1f97864so73114687b3.0;
-        Wed, 20 Mar 2024 06:31:47 -0700 (PDT)
+Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-60a046c5262so65485567b3.2;
+        Wed, 20 Mar 2024 07:23:35 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710941505; x=1711546305;
+        d=1e100.net; s=20230601; t=1710944615; x=1711549415;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=IOUCfnZkUvn6fmaLAV3Oli1pBSwDSsopQHrDloBL3Rg=;
-        b=Xv69jmrxojXRnvGiJwDTf8uE0ImuvfkRc1hNm033fIfyffxDYBIoTisW2px3Jet+Se
-         0z1m++uq4O2FBpEWaLVUTTLIoAZGdpg9zukdJyC5Xd0X+VaasOC+6uryXjp99SWKzepS
-         /tRQe5Sdlmv+mkcTmUUBPSB6QlI7jPkMUOfc+9hm2Y5VkuqTH4UHNS+nYQ3ummEsZoUX
-         ePRt59eAYXBQbPaxTgwIj59dWlXvQhuK7/wDpyssPXKvHr5EpYE09kHaUc+ihGqYAWWg
-         apdnWQw4uVxNqEh4MdmZolaKpL2y28yyb4Akk7tfQ4GDuq1qHGyJzCNmJMQ38arVWuDK
-         BG1w==
-X-Forwarded-Encrypted: i=1; AJvYcCX5NnoDL65cZvdOXTjyDZ/lmBQnqS/RcWnUUUKJ8qOI7nuTYJsbeW0HjXZ9WPWWF4fLctJa/lew5cIajmAGerqH0ZvLDZeRWk249EBKslSXMYEkobpZZMyzlo4nT7qVI7tcyUIQ3M4pbX20vw==
-X-Gm-Message-State: AOJu0YyLc8Mi5fuCbb54shy55XoTZ1ru6aAdSzWF29YbRvyn6H8keq+p
-	zUs+Gc5+S+XOpc0zsjtb8QBMB/DaWU0iSJjBA0t9lNLlBK58T6hA903ncCskqpk=
-X-Google-Smtp-Source: AGHT+IE7sB62G+Ioq5uvT+cI8sI6UFXG1KDCpHjPbLEmXTzj7x7TDKF5RfqkKz4qt5inl37V4GmDXQ==
-X-Received: by 2002:a81:6d56:0:b0:60c:a4b7:139e with SMTP id i83-20020a816d56000000b0060ca4b7139emr5806795ywc.16.1710941504488;
-        Wed, 20 Mar 2024 06:31:44 -0700 (PDT)
-Received: from mail-yb1-f178.google.com (mail-yb1-f178.google.com. [209.85.219.178])
-        by smtp.gmail.com with ESMTPSA id k1-20020a81ed01000000b00610e012961bsm790877ywm.3.2024.03.20.06.31.43
+        bh=vcHU7XXwKbcnS7V1Mvtk/zIVFT9mMkbdkLy1nzkDgP8=;
+        b=h33Wcgr8tQCE8PV9LDNU5uJvQpO2Lf4u2V5R3G1GJQzQXBBb451iCNuB/oF923ToJo
+         SE6Fqf5Lhis8t4LlSlfnDHLPIQ9ghcIkH8SZ/PXOBsVddpq8oJo3ARyKZzIs7gdcLmHD
+         ctMYm7iH+xv2RjaV9wAxz5UCWIZiiwxT0ebrCt2oP2Xn1KAvURbJO7gilw7mMNoSkAQc
+         PClK/8+kzT2LF+AKXRlg9r8GZPlI2S+TBnlF5EhLH3gQyb0bmKYh8peBmVStmvjbAHrU
+         KOHxHDxortP3h0qdbNq4BGoteCykDC1L+OL3BfNsCvJ0n+r12l+OzT0fBNNdJrV6wfWB
+         DJjg==
+X-Forwarded-Encrypted: i=1; AJvYcCWHagsMmE0EYFtvOd0f9zcDkxkK6mXUCGCpu2mN7krHuuwHl/cYGvQgGWzTLjwUVut1NTDa1NCnDcoEYOUYwHgFcDv7/7Iim2g6KNoqIgSNtxk2+mwxbdG02Zx76DhYYqD8wNyKbWSIeVDbyKCl
+X-Gm-Message-State: AOJu0Yw3UUFw435UyrVuvAmVEF9nUiNXsYfmgPJqwBSpZmXKX4W3lfyM
+	j4K3Zf222sb+7Li4p/kgDSCIULx3pkZJIRpkBM53bs69MED3OIkFECc/4ROYPdM=
+X-Google-Smtp-Source: AGHT+IEcjwsLJYkFrVHiE8XVx6YUmDg4la88dWGsv9Inqye13N4mLsD+94mGWmkpIrjRRqvvKXzIsA==
+X-Received: by 2002:a05:690c:2e0e:b0:610:e34e:1184 with SMTP id et14-20020a05690c2e0e00b00610e34e1184mr4840824ywb.7.1710944614748;
+        Wed, 20 Mar 2024 07:23:34 -0700 (PDT)
+Received: from mail-yb1-f174.google.com (mail-yb1-f174.google.com. [209.85.219.174])
+        by smtp.gmail.com with ESMTPSA id n24-20020a81af18000000b0060a1f3267e2sm2855010ywh.42.2024.03.20.07.23.34
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 20 Mar 2024 06:31:44 -0700 (PDT)
-Received: by mail-yb1-f178.google.com with SMTP id 3f1490d57ef6-db3a09e96daso5931812276.3;
-        Wed, 20 Mar 2024 06:31:43 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUkItu0jsEvruiGarjwpGBNg5+F/HMEEzjhnS/Ftuj68mdXDPWuBq9gy5FsWcBPxoxh2e7s7ir7+28HxQRBbUDc2cvKXMmz/lnwWb2oSi1vrWY1ZdBO86Al2uvb8LaiHCU7ZqfzoM7PiVaR5Q==
-X-Received: by 2002:a25:6b11:0:b0:dc6:aed5:718a with SMTP id
- g17-20020a256b11000000b00dc6aed5718amr4857089ybc.26.1710941503544; Wed, 20
- Mar 2024 06:31:43 -0700 (PDT)
+        Wed, 20 Mar 2024 07:23:34 -0700 (PDT)
+Received: by mail-yb1-f174.google.com with SMTP id 3f1490d57ef6-dcbc6a6808fso6403493276.2;
+        Wed, 20 Mar 2024 07:23:34 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCWs7o2dHZqEg98GvLkXD/9Lk2qcKqga+f5UOhuDI7GgH+ZTPn5scT/Vvc0fIx8xII5faVbSPVWnxcouBCsPKZFnyLR0N6xNP8rDZ/R3p8W9CusTPNHxlXZDG8kcMZDbjZyIoXLcAIjLGv4Mnoxm
+X-Received: by 2002:a05:6902:cb:b0:dcc:53c6:113a with SMTP id
+ i11-20020a05690200cb00b00dcc53c6113amr4748405ybs.59.1710944614236; Wed, 20
+ Mar 2024 07:23:34 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240307110216.2962918-1-niklas.soderlund+renesas@ragnatech.se>
- <20240307110216.2962918-3-niklas.soderlund+renesas@ragnatech.se> <CAMuHMdU1RxN1iEnok8Hp6ZMWY1QVuu71PuG4OwWcKgPSv-kFiA@mail.gmail.com>
-In-Reply-To: <CAMuHMdU1RxN1iEnok8Hp6ZMWY1QVuu71PuG4OwWcKgPSv-kFiA@mail.gmail.com>
+References: <20240309155608.1312784-1-niklas.soderlund+renesas@ragnatech.se>
+In-Reply-To: <20240309155608.1312784-1-niklas.soderlund+renesas@ragnatech.se>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 20 Mar 2024 14:31:30 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdWPkuPxuaxjUEBWRyMSnbaX2s056p2_yzkOvyZr8a8ojg@mail.gmail.com>
-Message-ID: <CAMuHMdWPkuPxuaxjUEBWRyMSnbaX2s056p2_yzkOvyZr8a8ojg@mail.gmail.com>
-Subject: Re: [PATCH 2/3] thermal: rcar_gen3: Update temperature approximation calculation
+Date: Wed, 20 Mar 2024 15:23:21 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdVTps9L8AY0AgA5YCdxC83_A-FuLXP9X4gy2fNfgiRx8w@mail.gmail.com>
+Message-ID: <CAMuHMdVTps9L8AY0AgA5YCdxC83_A-FuLXP9X4gy2fNfgiRx8w@mail.gmail.com>
+Subject: Re: [PATCH v2] arm64: dts: renesas: white-hawk: ethernet: Describe
+ avb1 and avb2
 To: =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>, Daniel Lezcano <daniel.lezcano@linaro.org>, 
-	Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>, linux-pm@vger.kernel.org, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, linux-renesas-soc@vger.kernel.org
+Cc: Rob Herring <robh+dt@kernel.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
+	linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 Hi Niklas,
 
-On Wed, Mar 20, 2024 at 2:22=E2=80=AFPM Geert Uytterhoeven <geert@linux-m68=
-k.org> wrote:
-> On Thu, Mar 7, 2024 at 12:03=E2=80=AFPM Niklas S=C3=B6derlund
-> <niklas.soderlund+renesas@ragnatech.se> wrote:
-> > The initial driver used a formula to approximation the temperature and
-> > register value reversed engineered form an out-of-tree BSP driver. This
-> > was needed as the datasheet at the time did not contain any information
-> > on how to do this. Later Gen3 (Rev 2.30) and Gen4 (all) now contains
-> > this information.
-> >
-> > Update the approximation formula to use the datasheets information
-> > instead of the reversed engineered one.
->
-> > On an idle M3-N without fused calibration values for PTAT and THCODE th=
-e
-> > old formula reports,
-> >
-> >     zone0: 52000
-> >     zone1: 53000
-> >     zone2: 52500
-> >
-> > While the new formula under the same circumstances reports,
-> >
-> >     zone0: 52500
-> >     zone1: 54000
-> >     zone2: 54000
-> >
-> > Signed-off-by: Niklas S=C3=B6derlund <niklas.soderlund+renesas@ragnatec=
-h.se>
->
-> > --- a/drivers/thermal/rcar_gen3_thermal.c
-> > +++ b/drivers/thermal/rcar_gen3_thermal.c
-> > @@ -172,19 +165,29 @@ static int rcar_gen3_thermal_round(int temp)
-> >  static int rcar_gen3_thermal_get_temp(struct thermal_zone_device *tz, =
-int *temp)
-> >  {
-> >         struct rcar_gen3_thermal_tsc *tsc =3D thermal_zone_device_priv(=
-tz);
-> > -       int mcelsius, val;
-> > -       int reg;
-> > +       struct rcar_gen3_thermal_priv *priv =3D tsc->priv;
-> > +       const struct equation_set_coef *coef;
-> > +       int adj, mcelsius, reg, thcode;
-> >
-> >         /* Read register and convert to mili Celsius */
-> >         reg =3D rcar_gen3_thermal_read(tsc, REG_GEN3_TEMP) & CTEMP_MASK=
-;
-> >
-> > -       if (reg <=3D tsc->thcode[1])
-> > -               val =3D FIXPT_DIV(FIXPT_INT(reg) - tsc->coef.b1,
-> > -                               tsc->coef.a1);
-> > -       else
-> > -               val =3D FIXPT_DIV(FIXPT_INT(reg) - tsc->coef.b2,
-> > -                               tsc->coef.a2);
-> > -       mcelsius =3D FIXPT_TO_MCELSIUS(val);
-> > +       if (reg < tsc->thcode[1]) {
-> > +               adj =3D priv->info->adj_below;
-> > +               coef =3D &tsc->coef.below;
-> > +               thcode =3D tsc->thcode[2];
-> > +       } else {
-> > +               adj =3D priv->info->adj_above;
-> > +               coef =3D &tsc->coef.above;
-> > +               thcode =3D tsc->thcode[0];
-> > +       }
-> > +
-> > +       /*
-> > +        * The dividend can't be grown as it might overflow, instead sh=
-orten the
-> > +        * divisor to convert to millidegree Celsius. If we convert aft=
-er the
-> > +        * division precision is lost to a full degree Celsius.
-> > +        */
-> > +       mcelsius =3D DIV_ROUND_CLOSEST(coef->a * (thcode - reg), coef->=
-b / 1000) + adj * 1000;
->
-> Don't you lose a lot of precision by pre-dividing b by 1000?
+Thanks for your patch!
 
-After reading PATCH 3/3: instead of calculating millidegree Celsius,
-and rounding to a granularity of 0.1 degree Celsius later, perhaps it
-makes more sense to calculate decidegree Celsius first (still avoiding
-overflow?), and multiply by 100 later?
-Then rcar_gen3_thermal_round() can be removed.
+On Sat, Mar 9, 2024 at 4:56=E2=80=AFPM Niklas S=C3=B6derlund
+<niklas.soderlund+renesas@ragnatech.se> wrote:
+> Describe the two Marvel 88Q2110/QFN40 PHYs available on the R-Car V4H
+
+Marvell (apparently the schematics author spent too much time with
+Spiderman and friends ;-)
+
+> White Hawk RAVB/Ethernet(1000Base-T1) sub-board. The two PHYs are wired
+> up on the board by default, there is no need to move any resistors which
+> are needed to access other PHYs available on this sub-board.
+>
+> Signed-off-by: Niklas S=C3=B6derlund <niklas.soderlund+renesas@ragnatech.=
+se>
+
+> --- a/arch/arm64/boot/dts/renesas/r8a779g0-white-hawk-ethernet.dtsi
+> +++ b/arch/arm64/boot/dts/renesas/r8a779g0-white-hawk-ethernet.dtsi
+
+That is arch/arm64/boot/dts/renesas/white-hawk-ethernet.dtsi, as of
+commit 1b940d036d5a2235 ("arm64: dts: renesas: white-hawk: Drop SoC
+parts from sub boards").
+
+> @@ -6,6 +6,50 @@
+>   * Copyright (C) 2022 Glider bv
+>   */
+>
+> +&avb1 {
+> +       pinctrl-0 =3D <&avb1_pins>;
+> +       pinctrl-names =3D "default";
+> +       phy-handle =3D <&phy1>;
+> +       status =3D "okay";
+> +
+> +       mdio {
+> +               #address-cells =3D <1>;
+> +               #size-cells =3D <0>;
+> +
+> +               reset-gpios =3D <&gpio6 1 GPIO_ACTIVE_LOW>;
+> +               reset-post-delay-us =3D <4000>;
+> +
+> +               phy1: ethernet-phy@0 {
+
+Given the large number of PHYs on the White-Hawk board stack, I think
+a more specific name would be more suitable, e.g. "avb1-phy"?
+Same for AVB2 below.
+
+> +                       compatible =3D "ethernet-phy-ieee802.3-c45";
+> +                       reg =3D <0>;
+> +                       interrupt-parent =3D <&gpio6>;
+> +                       interrupts =3D <3 IRQ_TYPE_LEVEL_LOW>;
+> +               };
+> +       };
+> +};
+
+Probably we also want "ethernet1" and "ethernet2" aliases, so U-Boot
+can fill in the corresponding MAC addresses?
 
 Gr{oetje,eeting}s,
 
                         Geert
 
---=20
+--
 Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
 .org
 
