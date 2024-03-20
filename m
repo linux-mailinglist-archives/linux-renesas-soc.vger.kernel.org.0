@@ -1,111 +1,138 @@
-Return-Path: <linux-renesas-soc+bounces-3925-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-3926-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96E90880C14
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 20 Mar 2024 08:32:03 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8860A880CAB
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 20 Mar 2024 09:03:19 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C72671C2278C
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 20 Mar 2024 07:32:02 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B815A1C208E5
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 20 Mar 2024 08:03:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BF76E2208B;
-	Wed, 20 Mar 2024 07:31:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SQIUn5CV"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8364B2260A;
+	Wed, 20 Mar 2024 08:03:16 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com [209.85.128.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AB8222093
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 20 Mar 2024 07:31:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DA6511181
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 20 Mar 2024 08:03:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710919918; cv=none; b=DsPfTnern3zP2NGC1CGmrHPGQvjQJjN2pSET3RKHBH9uqhNtkdodXnTM09n9xWrJ5AwdPLcJA/ONKWEz3gK6I7yh+EpDkhFbpcZ0Tru0WO30vN7GtNrg53NK3ix8kwPHVjDS7OgUpsLpAnbH1ank0A871T0vxQe8fjpGV639p0w=
+	t=1710921796; cv=none; b=obfacCSGtj0GyXYjfHoZeNSCMDqI2t/ZF6PhfIFVzOOv35eRo4xacBoCXBM0xKbcYHdDYc2dUhdHSpcnrpErtsfZyOaEaus1d3t9QVtvoWVPyJldET+WZNZp9v88o1YilM1VjxanUNeNd8SeWvL3HMH3/4I5Utn4KZk29Sg+nI8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710919918; c=relaxed/simple;
-	bh=vMchHIQ2y5NZsJfBdPwh03yhgPP9cZEyknrkZGhNFog=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AS/KmG4nZtKzIT1dB10OHtbZpMtXg/h4ir7r5zu+Q0JS/tj3sRXPO0SS68PTi89d4Nj987yh1E9b6XDNm8cBVQD+xZlCwUfeHFWLUPB+dv/gkbbPKn9ytxZCTy1l1zixzA+icy3/MQTLD51CHGpZLsyl1eDPOR1ZP0Tm3U0ld74=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SQIUn5CV; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A1B51C433F1;
-	Wed, 20 Mar 2024 07:31:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1710919918;
-	bh=vMchHIQ2y5NZsJfBdPwh03yhgPP9cZEyknrkZGhNFog=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=SQIUn5CVLeDMHAotz+0Xg1Pur7EBT5RgQSLtN2Lf2SPK78iym0+q5yqcyDpLXeIEv
-	 JVTjK9FFeqmn7l6VH3BlPPyJzSR5NOacErwis3+uKey/QGsOW47iyTK0sr6Wy3W5RT
-	 CtNmdEZs+DUvPVTVcj824F4FWJu82mcrqd6GKJeqctFspwVxiKW0v1qqzhrf3QD+EM
-	 B+q35ARjLqOkZcKWfospYBPyhtqRQc0BCcFaVc9pPZh84FOpNeqHMDMFXfFEsQuXrM
-	 4ZBEb3fGhVcxQmA17leCRzHmsRBmSO9S9u2c5SEX/yACwHi1+tmQZ13HVVvtCzBfbe
-	 JKkLqm0luQ2Cw==
-Date: Wed, 20 Mar 2024 08:31:54 +0100
-From: Wolfram Sang <wsa@kernel.org>
-To: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: Magnus Damm <magnus.damm@gmail.com>,
-	Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
-	linux-renesas-soc@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH 3/3] ARM: dts: renesas: rcar-gen2: Add TMU nodes
-Message-ID: <ZfqQ6uReMf1PUKPy@ninjato>
-Mail-Followup-To: Wolfram Sang <wsa@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
-	linux-renesas-soc@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org
-References: <cover.1710864964.git.geert+renesas@glider.be>
- <7efbc8dbac6876f454011563edc1ae8eb50c95db.1710864964.git.geert+renesas@glider.be>
+	s=arc-20240116; t=1710921796; c=relaxed/simple;
+	bh=lXnfNmk6wLdyQb0lPKeKsENpOznmJcgX3B37TKiXXJk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=oLAzqGPECLyGoLoeBdydZ0yQm0SCiV296I73LZYiaA6gRiHkQMo8aH9cqG2Be6544U/ZrNWNNab9k+ff0A4vBfGUN9B3VGj2V9cMmEW8czTHqCl+sk8rgYB76WZF6hnyv1lUHW8olIvv2fY5s2hUeAW7nSVcmC8xsnwozU3ZQ+Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-609eb3e5a56so69158037b3.1
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 20 Mar 2024 01:03:13 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1710921792; x=1711526592;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=MCzxiR9mEUWpxSwg0HU4BOLCU+cUEL0wv7bOTW6pPQI=;
+        b=jCP0/06EgRzN+2gI+0rbG7NXURTkHIrnhCDk23LfhlwhtX21WDi1b4QxcYphIIld1I
+         63yYbluoOUelX37kL8Dpz6oT8S5oe6XoL1K/Kt+yX+Kez58kyO5KuAarn5ko9qpaRbJa
+         anJ7YIxuqIZAS1lsOaiNlL3PJjYbAvH6vVkNjApQpka4tuQXNpmrp+rePMNHCw3NGpUm
+         ZVW+pmb0RGsHq4BtHrdpQTMCRaUBqtws0AZ5X/ae1kqMGcDeisGAQvBuovH676/tOPZp
+         wjmKnRIz+fWVW6I9U0Sq1ZTSdRpE6jQDwFB74PUB3+r03tWFu+ntCWSimPkBAIWp1vvp
+         NV2Q==
+X-Forwarded-Encrypted: i=1; AJvYcCU34XowoYwvjUZJR96m6bdG8uHCywYWsoTQ/Tb5gHpP/QMRdBI3vU37CCcrmuds8Wf6o3JjTWTZfpOqSINOKdTNMjq9sRDmydtOGuV+pg5CBvA=
+X-Gm-Message-State: AOJu0Yz1HUEILVjlP1EGDZeM6WswVhpQ2ix54jpSpDFgv1zBthedtwMm
+	gmhptV2VKVkt7u3mSIP2PuwqVIM5ps6d9hRkvYws9YxzUcSBHUBTbqGicezVQUY=
+X-Google-Smtp-Source: AGHT+IHiBHokT8drjRmYGz3duhve4K13bDWxVOMfEBxo32GW7l/zNfkL2fQlqK/H66MegTyJJkuf3A==
+X-Received: by 2002:a81:a1d7:0:b0:60a:353e:6b5e with SMTP id y206-20020a81a1d7000000b0060a353e6b5emr18040082ywg.1.1710921792412;
+        Wed, 20 Mar 2024 01:03:12 -0700 (PDT)
+Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com. [209.85.219.171])
+        by smtp.gmail.com with ESMTPSA id z80-20020a0dd753000000b0060a048aac3fsm2717485ywd.96.2024.03.20.01.03.12
+        for <linux-renesas-soc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 20 Mar 2024 01:03:12 -0700 (PDT)
+Received: by mail-yb1-f171.google.com with SMTP id 3f1490d57ef6-dcc84ae94c1so5834047276.1
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 20 Mar 2024 01:03:12 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCWmWjj3wPI0DRMzcGAr0QNlfTIHdiKhpf4fOUkEfa4nQso2yoqhfTRj5UiDH8chY49UlEnKjlcNVCVzxpjkhVscwho5MZjP3F863ULmmo3AzJk=
+X-Received: by 2002:a5b:bc4:0:b0:dcb:fe58:a08b with SMTP id
+ c4-20020a5b0bc4000000b00dcbfe58a08bmr14658390ybr.15.1710921791875; Wed, 20
+ Mar 2024 01:03:11 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="HnCL/whh8p52OFdV"
-Content-Disposition: inline
-In-Reply-To: <7efbc8dbac6876f454011563edc1ae8eb50c95db.1710864964.git.geert+renesas@glider.be>
-
-
---HnCL/whh8p52OFdV
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <cover.1710864964.git.geert+renesas@glider.be> <ZfqLY8Ej6kNnAMQA@ninjato>
+In-Reply-To: <ZfqLY8Ej6kNnAMQA@ninjato>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Wed, 20 Mar 2024 09:03:00 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdWeq6c8F=i7SgEt+HBBpknaEFTsrxM26OrDpjzOS_YTZw@mail.gmail.com>
+Message-ID: <CAMuHMdWeq6c8F=i7SgEt+HBBpknaEFTsrxM26OrDpjzOS_YTZw@mail.gmail.com>
+Subject: Re: [PATCH 0/3] ARM: dts: renesas: Add more TMU support
+To: Wolfram Sang <wsa@kernel.org>
+Cc: Magnus Damm <magnus.damm@gmail.com>, 
+	=?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>, 
+	linux-renesas-soc@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Mar 19, 2024 at 05:29:07PM +0100, Geert Uytterhoeven wrote:
-> Add device nodes for the Timer Units (TMU) on the R-Car H2 (R8A7790),
-> M2-W (R8A7791), V2H (R8A7792), M2-N (R8A7793), and E2 (R8A7794) SoCs.
->=20
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Hi Wolfram,
 
-I don't see anything wrong here, i.e. no obvious reason for TMU3 failing
-on M2-W.
+On Wed, Mar 20, 2024 at 8:08=E2=80=AFAM Wolfram Sang <wsa@kernel.org> wrote=
+:
+> > APE6 (APE6EVM), and on R-Car H2 (Lager) and M2-W (Koelsch), except for
+> > TMU3 on M2-W, which consistently fails the CLOCK_REALTIME test (why?).
+>
+> Huh? It works on Lager and fails on Koelsch? Do you have a log file?
 
-Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Of course it succeeded on the next try...
 
+When it failed:
 
---HnCL/whh8p52OFdV
-Content-Type: application/pgp-signature; name="signature.asc"
+# Running Asynchronous Switching Tests...
+TAP version 13
+1..12
+# Mon Mar 18 13:47:43 2024
+[...]
+# 1710766103:513532480
+# 1710766103:513532480
+# 1710766103:513532480
+# --------------------
+# 1710766103:513784560
+# 1710766103:513784559
+# --------------------
+# 1710766103:513784559
+# 1710766103:513784559
+# 1710766103:513784559
+[...]
+# Delta: 1 ns
+# Mon Mar 18 13:48:23 2024
 
------BEGIN PGP SIGNATURE-----
+not ok 1 CLOCK_REALTIE
+# Planned tests !=3D run tests (12 !=3D 1)
+# Totals: pass:0 fail:1 xfail:0 xpass:0 skip:0 error:0
+TAP version 13
+1..1
+not ok 1 clocksource-switch
+# Totals: pass:0 fail:1 xfail:0 xpass:0 skip:0 error:0
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmX6kOYACgkQFA3kzBSg
-KbYqpg//SCvWhm+2X+C1qCiM6NJR8oKMc+NGXw3RBIAO3yWbLTGNXKpkG6AHx+wR
-ZfX+QjiJtMZLU3Hn3PLKU3qfl1wIM8wv0xXqkQJsPe80C/x7XGnxrYmRDV1mJdvq
-OANdFwV/5X3cTgJGu+mUHIre8AJ8Qlom6jRWSMJkM5mcpRBTOcbAmCj8gh102t3h
-iqrPH1nuqVcesDADZMqviinBpZKEAcvAt1B9av3BJftX3E8vJRyMu90jG5p5rE2G
-M/KH57qklELF9oHfLNprLrG2q9nopyZkqhzBjkPQzl3S5v5QjRMklRtlTZM350eG
-7a24qTTsoKJEn/S7mAF47Uk3YIQAvWS2OGHmyYnVioLEBkYBANbczSWgLbXFQUUV
-zux/5H5xT6nwYAuDj4BfCmr5E5xFxElWqf0P65HFKCR8am5ygYkRqXe8uFI+oT2h
-a0WHFh416Y+v0zVl7UbKfXjC7gjaXZq0npRwXaC6IxAl8fTP1f/dbKcRrXf5PFdx
-yr0I/HKsw5OctCIBCJ4S98ufUVwjM1rcZLyWP1vq5K3CTmwp0K0lFJC59thJwzKG
-gbUEFzCICVguA3G5tPyjsWMNUVBaHniizk1loIQ+dpYWKlCPkvxc0Vyr7PnTkxyd
-wzYMzLiDpuA64t3nBpyuReVYwH5JPMeHUtwL0wz8EqUbQsjnaB8=
-=k+Ur
------END PGP SIGNATURE-----
+Perhaps a subtle driver issue, or an issue with the test?
 
---HnCL/whh8p52OFdV--
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
