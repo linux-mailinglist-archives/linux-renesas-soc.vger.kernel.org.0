@@ -1,178 +1,193 @@
-Return-Path: <linux-renesas-soc+bounces-3961-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-3962-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6EBAA8855E2
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 21 Mar 2024 09:40:33 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F75F8856EB
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 21 Mar 2024 10:56:56 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id F1E0B1F21E85
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 21 Mar 2024 08:40:32 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A32641C21AEF
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 21 Mar 2024 09:56:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 15C45134CD;
-	Thu, 21 Mar 2024 08:40:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C869A55C3B;
+	Thu, 21 Mar 2024 09:56:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZJaK6ZXW"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yb1-f173.google.com (mail-yb1-f173.google.com [209.85.219.173])
+Received: from mail-vk1-f178.google.com (mail-vk1-f178.google.com [209.85.221.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C656199AD;
-	Thu, 21 Mar 2024 08:40:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1262754F86;
+	Thu, 21 Mar 2024 09:56:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711010428; cv=none; b=cq89opfaG2JM+vmQ3iYqXlmmVIA5mO135/eQ1Y2uozJ8o+3ox4/4hcG++P5i3pQEG2b03zECyxFhOliuLU1pxe016zm5Qj0yt8+cZYxbhlFwYafkaAqmfUjy2QN4Bb3qv826NIw/XW7fSHPt0/vxctHy9ck7Tv+sbvC4r9N7Z9U=
+	t=1711015006; cv=none; b=PcWbFRXmlG17VBM8IVs+VUkjY0VToXruObwtPJRRgMNkGKfZAXO6W0Xfs4J+0XgLagjFLIQZ/CYhuCbv4w5CCKjxFcdPgnQ05uopx3Ha0S0fp2oRkCoOMerZfiPYvHzJschY/0A4CxZ++myxxYYxiboA2wwPSd5dVk6FKoUSN8c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711010428; c=relaxed/simple;
-	bh=YHwQ9m7AV0bpNGFb7pHCjacXOY+tBeVpAXXkZnm6nzE=;
+	s=arc-20240116; t=1711015006; c=relaxed/simple;
+	bh=X+vay/ufd0X59BZKgQtvlB9hrVh25YaX+Tq0N2WVlVg=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=NsICBdS4FRBE1fWMA7KfIyeMNKzBizTmVwSU4P1nyuhmnrtPEnlGy4/ju52sGXCjIYFFdmHt7ZE+qonfJiDmQUxwjeRrB0MQldwDBtXFsRx/dklKoQOpiKNPHAyDD/Yjve80ZtMLHVeksM8ZckOLV4CLKetDpanBTdfp/a2We3c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.219.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+	 To:Cc:Content-Type; b=hTwEOviWy2P9JTvpnGucNtzObWOneSLYWjYcHhtMD2hLqKwKOoJNgJMV1pfK8XuirrY4L1YXE2Z6/YVm6iKN34pLAh7Tb7BDXRjnsIikbhFYsRZqWzMAZiA7/T7VcGpUm/yXWId09vs27luvX8O641FKlX4sQavtZ3Vbhwe95l4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZJaK6ZXW; arc=none smtp.client-ip=209.85.221.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yb1-f173.google.com with SMTP id 3f1490d57ef6-dcbcea9c261so692147276.3;
-        Thu, 21 Mar 2024 01:40:25 -0700 (PDT)
+Received: by mail-vk1-f178.google.com with SMTP id 71dfb90a1353d-4d435a60217so296572e0c.0;
+        Thu, 21 Mar 2024 02:56:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1711015004; x=1711619804; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=+fRFePWYUc68B3PsZK1/PkJRWXlxCxxTCy2WfNf/nvc=;
+        b=ZJaK6ZXWGqoIrZ0/oVWZZF+jW3Na/aDCYgFWxkogxEQfp0GTZio5i5rr509N7AoGxy
+         RenKAtDaMD/b+wXf8Mg2gfqFE3iUYHU6Tt+iFVBFpra/KSp3+B7DYuGRAweOJtyRwD5z
+         eu/WS0F/4nsjARAS9M/rQOEYIVIP39+VIIOIwdtTBrkWTMc4C1syBXETQ9aSFRmG0kpO
+         NHAkyRc8IJtyCsDaW5dKxrTVS3VrJB7JbCAIWJRtyHEBTbMmJDdE7hBl7al7P4ZzXQHP
+         qGJuccn9t1/9pgSUM1yguLxV5VKfpiqL4IxGPpfAXOFGOgm+xFgegd+1StYTfmK4oZGG
+         F7pQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711010423; x=1711615223;
+        d=1e100.net; s=20230601; t=1711015004; x=1711619804;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Sn3mo6s9GVBqtYkFDcUV/e8RFS602uds1P5v/LgMCoI=;
-        b=iocmExJzVVpHP6XNihiheh+kFJDl6KAIe9qylAytdMx4Se3jRjFDjC+dQb4z8DfRpM
-         EvZW4I+rHu7X42XMyAWjxuolHlyW8OSIY69qWvj3TZm1C2DAUmFprjzREkgMtCuQ5Tf5
-         LQQttp/ZqpccMbrbocO36Pa64uDcFmmvwkEAa71HWcMkXjvZxw1ncUuPM5sGZledoqjL
-         /vMznynJeZSKumD3HLbDXBa+igltX7kXF4MWUoX/54LKsV1uE6npVBd0LpNPrfxTCNwh
-         /HNVc6hrvaM5PFNTh1Qr9GAvXR+Yxo3c6olRZZheABCXTMe519c+i+f1Deod2IOX/3YL
-         WC1w==
-X-Forwarded-Encrypted: i=1; AJvYcCXJ3Dw3brRF58SPhbfx3bkdUhK0b/aCut/8xTLDlLpcnMeEIug9v1zr9KQCclIRQ/1+vb/8T2s3vQQlU96+XyjnKXKp7rf7V+7PB+vpvRzYhjqM3STNt/p/9XoOoPnmrtKYY/N3C9EjkMir+haHxyE=
-X-Gm-Message-State: AOJu0YyfkxZ7cqT530475BV7KCvDlm5iwJY4knLaRGuldSO7BpQKyk98
-	5vybQBPul+3j6jETy+JTqZmnV7+4K7QnjUWq+VbRODiQvgcaqyu0vqpXRToa4WE=
-X-Google-Smtp-Source: AGHT+IE7yLA0Gxs+BPrOc1XxhxrHEK6wMPCCWL/mkles/pOmww9mikfzHRC646tsOyO2390pQzloIQ==
-X-Received: by 2002:a25:8e0e:0:b0:dc6:ff32:aae2 with SMTP id p14-20020a258e0e000000b00dc6ff32aae2mr1037739ybl.63.1711010423159;
-        Thu, 21 Mar 2024 01:40:23 -0700 (PDT)
-Received: from mail-yb1-f179.google.com (mail-yb1-f179.google.com. [209.85.219.179])
-        by smtp.gmail.com with ESMTPSA id g21-20020a25b115000000b00dcf35be9f51sm1912545ybj.24.2024.03.21.01.40.22
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 21 Mar 2024 01:40:22 -0700 (PDT)
-Received: by mail-yb1-f179.google.com with SMTP id 3f1490d57ef6-d9b9adaf291so615978276.1;
-        Thu, 21 Mar 2024 01:40:22 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCU4Jj5VVQSvqaj2TefHRgckcLEEbYrJFF5uJk42iGbbm1r9Zm+WZ3J49co0kAtmwQmPJzjG9heZifAfoj30Oite7b2Gfu/xmqmj3o/nLcNjLX2/FGBLQpPwgdt9pfMI31iXwRzHxtv9nZ0ebWIkxJ0=
-X-Received: by 2002:a5b:49:0:b0:dc7:4ba0:9d24 with SMTP id e9-20020a5b0049000000b00dc74ba09d24mr1024320ybp.59.1711010422055;
- Thu, 21 Mar 2024 01:40:22 -0700 (PDT)
+        bh=+fRFePWYUc68B3PsZK1/PkJRWXlxCxxTCy2WfNf/nvc=;
+        b=w3FSjrmKPTY45Exiz1bwuis196EGN+HmZ1L0W43vQ9kECG9cCNDTYPQqwemupSSinD
+         IS2FGglKBz5KvlYZ9dkfTCSP6STHSSfEc8Td/O9pXiG74odaN/f3jie9NCn+J+h/hc9u
+         2tsUOLsu6iiN5HvCi9dSUT32RI8y+N9Uux/vTDrtUNm4WSyWhzYwcgtXKyDMQOV8t5US
+         ZVbTMICDIgNCG14R68+FJQ54O2EByynZAd0X1XbqcFvv8H5AOdFlvj3k8qvweNo03XIW
+         wOPvdrnemAcqHrkedT+chHSdiBEUEWQGVn18EEG8WiC9sGsziI6H9nGZXBD0m9tnU3WJ
+         2r2w==
+X-Forwarded-Encrypted: i=1; AJvYcCXGH8NZUfrZNxDarJp8VfbwpQj0y/AKyX1hWYw6Wx79RHLtJsKdvaXJHTg5nBkfGYbkbEkFhivNPDO9wv4BRjxk1n+sRpJJuqYbxNE2+ND/6W8/FhHfBbM8bdlr3ZOg/kPU3P6hpXY5ShU5PQq69lC/nDmf0NzuHs9ukCXwnyAvI9SbgfWelUcDBZaJRLQ+zmMaRfaWsBLko/ZPj2xGlGvnPRbkEL0IzN3L
+X-Gm-Message-State: AOJu0YxMnu9J1sewe70zXMs44Qi+gZrl6NKa39unipDWppWO7YK6NlCk
+	QNMl/bbaJ7XSZKbmJBH4UMzzwbmKNjafdeZ/nd83skPr0pK/E6bEJ5dJnClaEuiM3L1sSdajFsU
+	8TlSrXbZ/qvTtkGn6oxWzxPH8cBQ=
+X-Google-Smtp-Source: AGHT+IGS3HgPdlXdCKerNWxvvRRQVEd5FD9Httx3Fx7LHzwMRUK822/VRu6sF2lPXrq3U/IBQR8bJiWnsyAgWP5X7Tw=
+X-Received: by 2002:a05:6122:c97:b0:4ca:80c5:7544 with SMTP id
+ ba23-20020a0561220c9700b004ca80c57544mr4686116vkb.4.1711015002465; Thu, 21
+ Mar 2024 02:56:42 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <bd027379713cbaafa21ffe9e848ebb7f475ca0e7.1710930542.git.geert+renesas@glider.be>
- <CAGETcx_KNvY4NyQ+HSfkgVJS625R-LVNh_tsoZMM0or78ryEWg@mail.gmail.com>
-In-Reply-To: <CAGETcx_KNvY4NyQ+HSfkgVJS625R-LVNh_tsoZMM0or78ryEWg@mail.gmail.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 21 Mar 2024 09:40:10 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdXU18iF2fnacbBw9UG6of8CpjbGaNqnB49w044iboWCyQ@mail.gmail.com>
-Message-ID: <CAMuHMdXU18iF2fnacbBw9UG6of8CpjbGaNqnB49w044iboWCyQ@mail.gmail.com>
-Subject: Re: [PATCH] clocksource/drivers/renesas-ostm: Avoid reprobe after
- successful early probe
-To: Saravana Kannan <saravanak@google.com>
-Cc: Daniel Lezcano <daniel.lezcano@linaro.org>, Thomas Gleixner <tglx@linutronix.de>, 
-	Biju Das <biju.das.jz@bp.renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
-	=?UTF-8?B?5ZGo55Cw5p2w?= <zhouyanjie@wanyeetech.com>, 
-	Paul Cercueil <paul@crapouillou.net>, Liviu Dudau <liviu.dudau@arm.com>, 
-	Sudeep Holla <sudeep.holla@arm.com>, Lorenzo Pieralisi <lpieralisi@kernel.org>, 
-	linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20240318172102.45549-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20240318172102.45549-5-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAMuHMdVR=t+QW+kqh3HswJ_8T2Dos381VL8vJvdqiC4RZDRRZw@mail.gmail.com>
+In-Reply-To: <CAMuHMdVR=t+QW+kqh3HswJ_8T2Dos381VL8vJvdqiC4RZDRRZw@mail.gmail.com>
+From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date: Thu, 21 Mar 2024 09:56:16 +0000
+Message-ID: <CA+V-a8uorWK=Vi=N_CSCTjwn+fhFy4cBsNyA=818Nnwj3mq0Vg@mail.gmail.com>
+Subject: Re: [PATCH v3 4/4] serial: sh-sci: Add support for RZ/V2H(P) SoC
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Jiri Slaby <jirislaby@kernel.org>, 
+	Rob Herring <robh+dt@kernel.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Magnus Damm <magnus.damm@gmail.com>, linux-kernel@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-serial@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org, 
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Saravana,
+Hi Geert,
 
-On Wed, Mar 20, 2024 at 9:18=E2=80=AFPM Saravana Kannan <saravanak@google.c=
-om> wrote:
-> On Wed, Mar 20, 2024 at 3:30=E2=80=AFAM Geert Uytterhoeven
-> <geert+renesas@glider.be> wrote:
-> > The Renesas OS Timer (OSTM) driver contains two probe points, of which
-> > only one should complete:
-> >   1. Early probe, using TIMER_OF_DECLARE(), to provide the sole
-> >      clocksource on (arm32) RZ/A1 and RZ/A2 SoCs,
-> >   2. Normal probe, using a platform driver, to provide additional timer=
-s
-> >      on (arm64 + riscv) RZ/G2L and similar SoCs.
-> >
-> > The latter is needed because using OSTM on RZ/G2L requires manipulation
-> > of its reset signal, which is not yet available at the time of early
-> > probe, causing early probe to fail with -EPROBE_DEFER.  It is only
-> > enabled when building a kernel with support for the RZ/G2L family, so i=
-t
-> > does not impact RZ/A1 and RZ/A2.  Hence only one probe method can
-> > complete on all affected systems.
-> >
-> > As relying on the order of initialization of subsystems inside the
-> > kernel is fragile, set the DT node's OF_POPULATED flag after a succesfu=
-l
-> > early probe.  This makes sure the platform driver's probe is never
-> > called after a successful early probe.
-> >
-> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> > ---
-> > Tested on RZ/A2 (after force-enabling the platform driver probe).
-> > Regression-tested on RZ/Five (member of the RZ/G2L family).
-> >
-> > In between commit 4f41fe386a94639c ("clocksource/drivers/timer-probe:
-> > Avoid creating dead devices") and its revert 4479730e9263befb (both in
-> > v5.7), the clocksource core took care of this.  Other subsystems[1]
-> > still handle this, either minimally (by just setting OF_POPULATED), or
-> > fully (by also clearing OF_POPULATED again in case of probe failure).
-> >
-> > Note that despite the revert in the clocksource core, several
-> > clocksource drivers[2] still clear the OF_POPULATED flag manually, to
-> > force probing the same device using both TIMER_OF_DECLARE() and standar=
-d
-> > platform device probing (the latter may be done in a different driver).
-> >
-> > [1] See of_clk_init(), of_gpiochip_scan_gpios(), of_irq_init().
-> > [2] drivers/clocksource/ingenic-sysost.c
-> >     drivers/clocksource/ingenic-timer.c
-> >     drivers/clocksource/timer-versatile.c
-> > ---
-> >  drivers/clocksource/renesas-ostm.c | 1 +
-> >  1 file changed, 1 insertion(+)
-> >
-> > diff --git a/drivers/clocksource/renesas-ostm.c b/drivers/clocksource/r=
-enesas-ostm.c
-> > index 8da972dc171365bc..37db7e23a4d29135 100644
-> > --- a/drivers/clocksource/renesas-ostm.c
-> > +++ b/drivers/clocksource/renesas-ostm.c
-> > @@ -210,6 +210,7 @@ static int __init ostm_init(struct device_node *np)
-> >                 pr_info("%pOF: used for clock events\n", np);
-> >         }
-> >
-> > +       of_node_set_flag(np, OF_POPULATED);
-> >         return 0;
+Thank you for the review.
+
+On Tue, Mar 19, 2024 at 8:21=E2=80=AFAM Geert Uytterhoeven <geert@linux-m68=
+k.org> wrote:
 >
-> Couldn't you also solve this by using the more specific compatible
-> strings for the driver and TIMER_OF_DECLARE()?
+> Hi Prabhakar,
+>
+> On Mon, Mar 18, 2024 at 6:22=E2=80=AFPM Prabhakar <prabhakar.csengg@gmail=
+.com> wrote:
+> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> >
+> > Add serial support for RZ/V2H(P) SoC with earlycon.
+> >
+> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > ---
+> > v2 - > v3
+> > - new patch
+>
+> Thanks for your patch!
+>
+> > --- a/drivers/tty/serial/sh-sci.c
+> > +++ b/drivers/tty/serial/sh-sci.c
+> > @@ -290,7 +290,7 @@ static const struct sci_port_params sci_port_params=
+[SCIx_NR_REGTYPES] =3D {
+> >         },
+> >
+> >         /*
+> > -        * The "SCIFA" that is in RZ/A2, RZ/G2L and RZ/T.
+> > +        * The "SCIFA" that is in RZ/A2, RZ/G2L, RZ/T and RZ/V2H.
+> >          * It looks like a normal SCIF with FIFO data, but with a
+> >          * compressed address space. Also, the break out of interrupts
+> >          * are different: ERI/BRI, RXI, TXI, TEI, DRI.
+>
+> and RZ/V2H has more interrupts than RZ/A1, RZ/G2L and RZ/T...
+>
+> In addition, RZ/V2H does not support synchronous mode (does not matter
+> for the driver) and modem control signals.
+>
+> Currently, sci_init_pins() does write ones to the SCPTR bits that are
+> reserved and marked as "write zero" on RZ/V2H. I am not sure how bad
+> that is.  You could avoid that by adding a check for .hasrtscts, but
+> that may have impact on other SoCs/boards, where currently e.g. RTS#
+> is always programmed for output and active low...
+>
+Oops I had totally missed this difference, thanks for catching that.
 
-That's another option, but would considerably grow the number of
-compatible values to match against.
+> So if you really need to avoid writing to these bits, the only safe
+> way may be to add a new SCIF type.  But perhaps I'm over-cautious? ;-)
+>
+As we are adding a SoC specific compat string we can update this if we
+see an issue, but I'm happy to do that change now too. Please let me
+know what would you prefer.
 
-Note that the actual OSTM module is (assumed to be) identical. The
-differences lie in the integration into the SoC (wiring of the
-module's reset). Hence using the compatible value to differentiate
-looks wrong to me.  It would be nice if this could be handled
-automatically, which is what the reverted commit 4f41fe386a94639c
-("clocksource/drivers/timer-probe: Avoid creating dead devices") did...
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+Cheers,
+Prabhakar
+> > @@ -3224,6 +3224,10 @@ static const struct of_device_id of_sci_match[] =
+__maybe_unused =3D {
+> >                 .compatible =3D "renesas,scif-r9a07g044",
+> >                 .data =3D SCI_OF_DATA(PORT_SCIF, SCIx_RZ_SCIFA_REGTYPE)=
+,
+> >         },
+> > +       {
+> > +               .compatible =3D "renesas,scif-r9a09g057",
+> > +               .data =3D SCI_OF_DATA(PORT_SCIF, SCIx_RZ_SCIFA_REGTYPE)=
+,
+> > +       },
+> >         /* Family-specific types */
+> >         {
+> >                 .compatible =3D "renesas,rcar-gen1-scif",
+> > @@ -3554,6 +3558,7 @@ OF_EARLYCON_DECLARE(sci, "renesas,sci", sci_early=
+_console_setup);
+> >  OF_EARLYCON_DECLARE(scif, "renesas,scif", scif_early_console_setup);
+> >  OF_EARLYCON_DECLARE(scif, "renesas,scif-r7s9210", rzscifa_early_consol=
+e_setup);
+> >  OF_EARLYCON_DECLARE(scif, "renesas,scif-r9a07g044", rzscifa_early_cons=
+ole_setup);
+> > +OF_EARLYCON_DECLARE(scif, "renesas,scif-r9a09g057", rzscifa_early_cons=
+ole_setup);
+> >  OF_EARLYCON_DECLARE(scifa, "renesas,scifa", scifa_early_console_setup)=
+;
+> >  OF_EARLYCON_DECLARE(scifb, "renesas,scifb", scifb_early_console_setup)=
+;
+> >  OF_EARLYCON_DECLARE(hscif, "renesas,hscif", hscif_early_console_setup)=
+;
+>
+> Gr{oetje,eeting}s,
+>
+>                         Geert
+>
+> --
+> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m6=
+8k.org
+>
+> In personal conversations with technical people, I call myself a hacker. =
+But
+> when I'm talking to journalists I just say "programmer" or something like=
+ that.
+>                                 -- Linus Torvalds
 
