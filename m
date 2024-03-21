@@ -1,70 +1,63 @@
-Return-Path: <linux-renesas-soc+bounces-3960-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-3961-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5ACC488187B
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 20 Mar 2024 21:18:41 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6EBAA8855E2
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 21 Mar 2024 09:40:33 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7E6911C22945
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 20 Mar 2024 20:18:40 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id F1E0B1F21E85
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 21 Mar 2024 08:40:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9E53C8592A;
-	Wed, 20 Mar 2024 20:18:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="VNlW0smn"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 15C45134CD;
+	Thu, 21 Mar 2024 08:40:28 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
+Received: from mail-yb1-f173.google.com (mail-yb1-f173.google.com [209.85.219.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E030C8564F
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 20 Mar 2024 20:18:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C656199AD;
+	Thu, 21 Mar 2024 08:40:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710965917; cv=none; b=MYfvb1oQoH8nfYSIKrhmeKUeO1lkRbLg9B3gufd8K1FRHh5OVpxNl0RT9qJ2MFGL7YC+7o/WVMQ1yQQp6qUDhbcTRpfNsfnyu6AeqFB2CFrKpSz+oQqu/Qruk3X7eTxqAOEQ1ZqGBfbBukuCQX2OvJ5g8F3iwVXJM0UQ+IEZvGg=
+	t=1711010428; cv=none; b=cq89opfaG2JM+vmQ3iYqXlmmVIA5mO135/eQ1Y2uozJ8o+3ox4/4hcG++P5i3pQEG2b03zECyxFhOliuLU1pxe016zm5Qj0yt8+cZYxbhlFwYafkaAqmfUjy2QN4Bb3qv826NIw/XW7fSHPt0/vxctHy9ck7Tv+sbvC4r9N7Z9U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710965917; c=relaxed/simple;
-	bh=P8Domv5WqTvgS1GmnEkQPzqgFNJc7dGQVd7liXEnfi8=;
+	s=arc-20240116; t=1711010428; c=relaxed/simple;
+	bh=YHwQ9m7AV0bpNGFb7pHCjacXOY+tBeVpAXXkZnm6nzE=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=DnoSJY/01mY7Th1PhDaQYZX1CgP7iTk4ykdJTJlbZrzMYofgFTqrzsWzX9UAJiIzXDgnxJY/nVUQYO451idufCgj2rz2z3qaQJdDpu8C2pmP1O+6Fe7esmcT4koENvVVwGTeW2JR9SbxNpZuatCBvEfkvgRG7uHoYQBDmpDcdEc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=VNlW0smn; arc=none smtp.client-ip=209.85.160.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-qt1-f178.google.com with SMTP id d75a77b69052e-430e1e06e75so98601cf.0
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 20 Mar 2024 13:18:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1710965915; x=1711570715; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ZcBOsw97Cw3dCwC0IpeN5YUGl16Tlt2YUvn3jG+nAW8=;
-        b=VNlW0smnGQK/f2a53vzC5XACTkHZEOXKJepTUC/FSffNflkkX6SA+vjHEFpq/Fm876
-         AJHGS5fEY/ANEf+r1k+frfta/eXFF7csj1h+pybjNwjrZNZIx+s3Urn545GLblwvDEqu
-         KQxSe9fXq/IaXutmdnaeF2YBL6+0CCDqRp1Nucd7ngPCiieOA7uXEKUXk4gVuB81ha58
-         dg5+Gct/V6dQqufdUElCi+X76ujfdSrzXEjXBJ/cJwUfEjPo4Mp5mUVTDgrXmtO21p+r
-         qRe1EDEmGIfYKe8McAlaB8vxfnPFAOxblPLEeWpzd3HxZaYls6VVXHciZxbetDJz3R1B
-         3+iQ==
+	 To:Cc:Content-Type; b=NsICBdS4FRBE1fWMA7KfIyeMNKzBizTmVwSU4P1nyuhmnrtPEnlGy4/ju52sGXCjIYFFdmHt7ZE+qonfJiDmQUxwjeRrB0MQldwDBtXFsRx/dklKoQOpiKNPHAyDD/Yjve80ZtMLHVeksM8ZckOLV4CLKetDpanBTdfp/a2We3c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.219.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yb1-f173.google.com with SMTP id 3f1490d57ef6-dcbcea9c261so692147276.3;
+        Thu, 21 Mar 2024 01:40:25 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710965915; x=1711570715;
+        d=1e100.net; s=20230601; t=1711010423; x=1711615223;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=ZcBOsw97Cw3dCwC0IpeN5YUGl16Tlt2YUvn3jG+nAW8=;
-        b=jBAICAGw8ZrqS26rDDPS6ZYpU/3QJAJ0MPKQxglKFT2Suilvd3syvlfFC3lJKV8j69
-         hwRrvvbhEUIAE8SQdKtGfFQNAX3g12Z1Iqd5F9Lsb/Z+JP5XkvBo8klXYxKP2q9xpsf0
-         BSSEbpW3NlcfUgofxI0vN473MOz42C5DkC4D9b786kDlwoQYjgtT/9nyJN+f7SlDaO5f
-         C0acjWYlmPaMjWnl7lc9hYDYxfzMHZLLN1vJWPPUpNRZrke5UR7nOGc+wtfZcjGSxr52
-         asnJ9MlJQiS76/qNmBdC/IBXIk7pS2f04iKgjjF/INnPyRlWU7Juc6YCp1FRyTCdESrp
-         MkVA==
-X-Forwarded-Encrypted: i=1; AJvYcCUPMZJmhP5O6Sbha20oRx4opst0XcvLPMehGNFRTTxroIdqrzt+N1dOKjT9coB/YIxHOsA78nOJbqU2HfjLfkvqG1lmLdYISgQb50/IoRs0W9w=
-X-Gm-Message-State: AOJu0YxG1Q1HbrJ4ofWVJgeiF820uCdkfHw5VLLHU6hIgUNViTxIXbNv
-	VljnAUs1thm/tAmK+nMBqSENGpLkwwH0Cqha+14oQqZQZo9QuMhvqaXHGZ9+1GdOikOzR2rHCfB
-	B2Xz1o7jS2yLo6x/dbxkj03T2ha1JwY2ti5EoIj1/LmDWxgHUMdHm
-X-Google-Smtp-Source: AGHT+IEEdkkrAwg9Hn12Fn2f8WRvxvqM4dUNa2hRJvQECS2Cceasc/eOQXEDSl8MHwRDyIE6jx27qFryR5Xcu6CHesg=
-X-Received: by 2002:a05:622a:55:b0:431:608:ef03 with SMTP id
- y21-20020a05622a005500b004310608ef03mr61735qtw.0.1710965914619; Wed, 20 Mar
- 2024 13:18:34 -0700 (PDT)
+        bh=Sn3mo6s9GVBqtYkFDcUV/e8RFS602uds1P5v/LgMCoI=;
+        b=iocmExJzVVpHP6XNihiheh+kFJDl6KAIe9qylAytdMx4Se3jRjFDjC+dQb4z8DfRpM
+         EvZW4I+rHu7X42XMyAWjxuolHlyW8OSIY69qWvj3TZm1C2DAUmFprjzREkgMtCuQ5Tf5
+         LQQttp/ZqpccMbrbocO36Pa64uDcFmmvwkEAa71HWcMkXjvZxw1ncUuPM5sGZledoqjL
+         /vMznynJeZSKumD3HLbDXBa+igltX7kXF4MWUoX/54LKsV1uE6npVBd0LpNPrfxTCNwh
+         /HNVc6hrvaM5PFNTh1Qr9GAvXR+Yxo3c6olRZZheABCXTMe519c+i+f1Deod2IOX/3YL
+         WC1w==
+X-Forwarded-Encrypted: i=1; AJvYcCXJ3Dw3brRF58SPhbfx3bkdUhK0b/aCut/8xTLDlLpcnMeEIug9v1zr9KQCclIRQ/1+vb/8T2s3vQQlU96+XyjnKXKp7rf7V+7PB+vpvRzYhjqM3STNt/p/9XoOoPnmrtKYY/N3C9EjkMir+haHxyE=
+X-Gm-Message-State: AOJu0YyfkxZ7cqT530475BV7KCvDlm5iwJY4knLaRGuldSO7BpQKyk98
+	5vybQBPul+3j6jETy+JTqZmnV7+4K7QnjUWq+VbRODiQvgcaqyu0vqpXRToa4WE=
+X-Google-Smtp-Source: AGHT+IE7yLA0Gxs+BPrOc1XxhxrHEK6wMPCCWL/mkles/pOmww9mikfzHRC646tsOyO2390pQzloIQ==
+X-Received: by 2002:a25:8e0e:0:b0:dc6:ff32:aae2 with SMTP id p14-20020a258e0e000000b00dc6ff32aae2mr1037739ybl.63.1711010423159;
+        Thu, 21 Mar 2024 01:40:23 -0700 (PDT)
+Received: from mail-yb1-f179.google.com (mail-yb1-f179.google.com. [209.85.219.179])
+        by smtp.gmail.com with ESMTPSA id g21-20020a25b115000000b00dcf35be9f51sm1912545ybj.24.2024.03.21.01.40.22
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 21 Mar 2024 01:40:22 -0700 (PDT)
+Received: by mail-yb1-f179.google.com with SMTP id 3f1490d57ef6-d9b9adaf291so615978276.1;
+        Thu, 21 Mar 2024 01:40:22 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCU4Jj5VVQSvqaj2TefHRgckcLEEbYrJFF5uJk42iGbbm1r9Zm+WZ3J49co0kAtmwQmPJzjG9heZifAfoj30Oite7b2Gfu/xmqmj3o/nLcNjLX2/FGBLQpPwgdt9pfMI31iXwRzHxtv9nZ0ebWIkxJ0=
+X-Received: by 2002:a5b:49:0:b0:dc7:4ba0:9d24 with SMTP id e9-20020a5b0049000000b00dc74ba09d24mr1024320ybp.59.1711010422055;
+ Thu, 21 Mar 2024 01:40:22 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -72,13 +65,15 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 References: <bd027379713cbaafa21ffe9e848ebb7f475ca0e7.1710930542.git.geert+renesas@glider.be>
-In-Reply-To: <bd027379713cbaafa21ffe9e848ebb7f475ca0e7.1710930542.git.geert+renesas@glider.be>
-From: Saravana Kannan <saravanak@google.com>
-Date: Wed, 20 Mar 2024 13:17:58 -0700
-Message-ID: <CAGETcx_KNvY4NyQ+HSfkgVJS625R-LVNh_tsoZMM0or78ryEWg@mail.gmail.com>
+ <CAGETcx_KNvY4NyQ+HSfkgVJS625R-LVNh_tsoZMM0or78ryEWg@mail.gmail.com>
+In-Reply-To: <CAGETcx_KNvY4NyQ+HSfkgVJS625R-LVNh_tsoZMM0or78ryEWg@mail.gmail.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Thu, 21 Mar 2024 09:40:10 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdXU18iF2fnacbBw9UG6of8CpjbGaNqnB49w044iboWCyQ@mail.gmail.com>
+Message-ID: <CAMuHMdXU18iF2fnacbBw9UG6of8CpjbGaNqnB49w044iboWCyQ@mail.gmail.com>
 Subject: Re: [PATCH] clocksource/drivers/renesas-ostm: Avoid reprobe after
  successful early probe
-To: Geert Uytterhoeven <geert+renesas@glider.be>
+To: Saravana Kannan <saravanak@google.com>
 Cc: Daniel Lezcano <daniel.lezcano@linaro.org>, Thomas Gleixner <tglx@linutronix.de>, 
 	Biju Das <biju.das.jz@bp.renesas.com>, 
 	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
@@ -89,72 +84,95 @@ Cc: Daniel Lezcano <daniel.lezcano@linaro.org>, Thomas Gleixner <tglx@linutronix
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Mar 20, 2024 at 3:30=E2=80=AFAM Geert Uytterhoeven
-<geert+renesas@glider.be> wrote:
->
-> The Renesas OS Timer (OSTM) driver contains two probe points, of which
-> only one should complete:
->   1. Early probe, using TIMER_OF_DECLARE(), to provide the sole
->      clocksource on (arm32) RZ/A1 and RZ/A2 SoCs,
->   2. Normal probe, using a platform driver, to provide additional timers
->      on (arm64 + riscv) RZ/G2L and similar SoCs.
->
-> The latter is needed because using OSTM on RZ/G2L requires manipulation
-> of its reset signal, which is not yet available at the time of early
-> probe, causing early probe to fail with -EPROBE_DEFER.  It is only
-> enabled when building a kernel with support for the RZ/G2L family, so it
-> does not impact RZ/A1 and RZ/A2.  Hence only one probe method can
-> complete on all affected systems.
->
-> As relying on the order of initialization of subsystems inside the
-> kernel is fragile, set the DT node's OF_POPULATED flag after a succesful
-> early probe.  This makes sure the platform driver's probe is never
-> called after a successful early probe.
->
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> ---
-> Tested on RZ/A2 (after force-enabling the platform driver probe).
-> Regression-tested on RZ/Five (member of the RZ/G2L family).
->
-> In between commit 4f41fe386a94639c ("clocksource/drivers/timer-probe:
-> Avoid creating dead devices") and its revert 4479730e9263befb (both in
-> v5.7), the clocksource core took care of this.  Other subsystems[1]
-> still handle this, either minimally (by just setting OF_POPULATED), or
-> fully (by also clearing OF_POPULATED again in case of probe failure).
->
-> Note that despite the revert in the clocksource core, several
-> clocksource drivers[2] still clear the OF_POPULATED flag manually, to
-> force probing the same device using both TIMER_OF_DECLARE() and standard
-> platform device probing (the latter may be done in a different driver).
->
-> [1] See of_clk_init(), of_gpiochip_scan_gpios(), of_irq_init().
-> [2] drivers/clocksource/ingenic-sysost.c
->     drivers/clocksource/ingenic-timer.c
->     drivers/clocksource/timer-versatile.c
-> ---
->  drivers/clocksource/renesas-ostm.c | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/drivers/clocksource/renesas-ostm.c b/drivers/clocksource/ren=
-esas-ostm.c
-> index 8da972dc171365bc..37db7e23a4d29135 100644
-> --- a/drivers/clocksource/renesas-ostm.c
-> +++ b/drivers/clocksource/renesas-ostm.c
-> @@ -210,6 +210,7 @@ static int __init ostm_init(struct device_node *np)
->                 pr_info("%pOF: used for clock events\n", np);
->         }
->
-> +       of_node_set_flag(np, OF_POPULATED);
->         return 0;
+Hi Saravana,
 
-Couldn't you also solve this by using the more specific compatible
-strings for the driver and TIMER_OF_DECLARE()?
-
--Saravana
-
+On Wed, Mar 20, 2024 at 9:18=E2=80=AFPM Saravana Kannan <saravanak@google.c=
+om> wrote:
+> On Wed, Mar 20, 2024 at 3:30=E2=80=AFAM Geert Uytterhoeven
+> <geert+renesas@glider.be> wrote:
+> > The Renesas OS Timer (OSTM) driver contains two probe points, of which
+> > only one should complete:
+> >   1. Early probe, using TIMER_OF_DECLARE(), to provide the sole
+> >      clocksource on (arm32) RZ/A1 and RZ/A2 SoCs,
+> >   2. Normal probe, using a platform driver, to provide additional timer=
+s
+> >      on (arm64 + riscv) RZ/G2L and similar SoCs.
+> >
+> > The latter is needed because using OSTM on RZ/G2L requires manipulation
+> > of its reset signal, which is not yet available at the time of early
+> > probe, causing early probe to fail with -EPROBE_DEFER.  It is only
+> > enabled when building a kernel with support for the RZ/G2L family, so i=
+t
+> > does not impact RZ/A1 and RZ/A2.  Hence only one probe method can
+> > complete on all affected systems.
+> >
+> > As relying on the order of initialization of subsystems inside the
+> > kernel is fragile, set the DT node's OF_POPULATED flag after a succesfu=
+l
+> > early probe.  This makes sure the platform driver's probe is never
+> > called after a successful early probe.
+> >
+> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> > ---
+> > Tested on RZ/A2 (after force-enabling the platform driver probe).
+> > Regression-tested on RZ/Five (member of the RZ/G2L family).
+> >
+> > In between commit 4f41fe386a94639c ("clocksource/drivers/timer-probe:
+> > Avoid creating dead devices") and its revert 4479730e9263befb (both in
+> > v5.7), the clocksource core took care of this.  Other subsystems[1]
+> > still handle this, either minimally (by just setting OF_POPULATED), or
+> > fully (by also clearing OF_POPULATED again in case of probe failure).
+> >
+> > Note that despite the revert in the clocksource core, several
+> > clocksource drivers[2] still clear the OF_POPULATED flag manually, to
+> > force probing the same device using both TIMER_OF_DECLARE() and standar=
+d
+> > platform device probing (the latter may be done in a different driver).
+> >
+> > [1] See of_clk_init(), of_gpiochip_scan_gpios(), of_irq_init().
+> > [2] drivers/clocksource/ingenic-sysost.c
+> >     drivers/clocksource/ingenic-timer.c
+> >     drivers/clocksource/timer-versatile.c
+> > ---
+> >  drivers/clocksource/renesas-ostm.c | 1 +
+> >  1 file changed, 1 insertion(+)
+> >
+> > diff --git a/drivers/clocksource/renesas-ostm.c b/drivers/clocksource/r=
+enesas-ostm.c
+> > index 8da972dc171365bc..37db7e23a4d29135 100644
+> > --- a/drivers/clocksource/renesas-ostm.c
+> > +++ b/drivers/clocksource/renesas-ostm.c
+> > @@ -210,6 +210,7 @@ static int __init ostm_init(struct device_node *np)
+> >                 pr_info("%pOF: used for clock events\n", np);
+> >         }
+> >
+> > +       of_node_set_flag(np, OF_POPULATED);
+> >         return 0;
 >
->  err_cleanup:
-> --
-> 2.34.1
->
+> Couldn't you also solve this by using the more specific compatible
+> strings for the driver and TIMER_OF_DECLARE()?
+
+That's another option, but would considerably grow the number of
+compatible values to match against.
+
+Note that the actual OSTM module is (assumed to be) identical. The
+differences lie in the integration into the SoC (wiring of the
+module's reset). Hence using the compatible value to differentiate
+looks wrong to me.  It would be nice if this could be handled
+automatically, which is what the reverted commit 4f41fe386a94639c
+("clocksource/drivers/timer-probe: Avoid creating dead devices") did...
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
