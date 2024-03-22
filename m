@@ -1,109 +1,283 @@
-Return-Path: <linux-renesas-soc+bounces-3967-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-3968-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D859F88628C
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 21 Mar 2024 22:30:42 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FAFC886AEC
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 22 Mar 2024 12:03:09 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 91AD5284A59
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 21 Mar 2024 21:30:41 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C1FE51C20C5D
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 22 Mar 2024 11:03:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 751EB135A6F;
-	Thu, 21 Mar 2024 21:30:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9FBAD3D977;
+	Fri, 22 Mar 2024 11:03:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="t4ckqewB"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from 4.mo560.mail-out.ovh.net (4.mo560.mail-out.ovh.net [87.98.172.75])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95B51134419
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 21 Mar 2024 21:30:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=87.98.172.75
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61675224F2;
+	Fri, 22 Mar 2024 11:03:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711056639; cv=none; b=LxGDZ3BFPiXDDwhtQrXF8hX/jYM7i/c9Yvr7sZYOrXvgzVi0YaMiJWyBkoI/T7/QLyEtta7gHgo8z/p30TEOiCT2A4blW1WHntVD6pJIA7DJzoJ6k7uF3OehAabPMSR+eTGW/2G6JV9qPpP0KLYw+kWF5/U7TyZBZqBpZk/Cp38=
+	t=1711105383; cv=none; b=d8su0AtwvaoFPERPXMKS9kXYGAjhYTi/9vN9Vc0vEXpVjmOrFYBbjp/4A/qGlfiUWXU/AwhK/xAFUUxWY69dNB72bw3n36oHPo8ALjmlYuoJB0UMWds2I4JImg0igUuoRdohdMKp7CdQaAHgBDg6yuUnK3DpCLKWKj8SaR0pQdo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711056639; c=relaxed/simple;
-	bh=zwyKEdRE7H7IEjiTB5cpnvbkLQwliz0oDs02JUVfFfw=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=EXQt+pWFLIxJAr1MxLJnDz0o53EWvAPIEVvyRbzvTtHxf4ksIYJ7VS0WOSWolHrZQHCVb8XRQwZh2iyY1Ul+4qmegoCjwQuMRx6zqhGTQ09nGjSQtVbxui6kSrBR75vfAopUR0es6y4rr+nKKw8Zg56ZLzkP256T8YehvDLF3RY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org; spf=pass smtp.mailfrom=etezian.org; arc=none smtp.client-ip=87.98.172.75
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=etezian.org
-Received: from director3.ghost.mail-out.ovh.net (unknown [10.108.17.39])
-	by mo560.mail-out.ovh.net (Postfix) with ESMTP id 4V0ynC0mfkz1NGP
-	for <linux-renesas-soc@vger.kernel.org>; Thu, 21 Mar 2024 21:11:27 +0000 (UTC)
-Received: from ghost-submission-6684bf9d7b-4n95s (unknown [10.110.178.52])
-	by director3.ghost.mail-out.ovh.net (Postfix) with ESMTPS id 3A1191FF08;
-	Thu, 21 Mar 2024 21:11:23 +0000 (UTC)
-Received: from etezian.org ([37.59.142.106])
-	by ghost-submission-6684bf9d7b-4n95s with ESMTPSA
-	id ZsTyN3ui/GVHywEAi1cfxw
-	(envelope-from <andi@etezian.org>); Thu, 21 Mar 2024 21:11:23 +0000
-Authentication-Results:garm.ovh; auth=pass (GARM-106R006a4f822df-6018-48a0-80a3-c6ca87ca3952,
-                    FCB1700D1C5E2813125D8B0A0227DF34E0FBA9B2) smtp.auth=andi@etezian.org
-X-OVh-ClientIp:89.217.109.169
-From: Andi Shyti <andi.shyti@kernel.org>
-To: Geert Uytterhoeven <geert+renesas@glider.be>, 
- Chris Brandt <chris.brandt@renesas.com>, Rob Herring <robh+dt@kernel.org>, 
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
- Conor Dooley <conor+dt@kernel.org>, Magnus Damm <magnus.damm@gmail.com>, 
- Wolfram Sang <wsa+renesas@sang-engineering.com>, 
- Prabhakar <prabhakar.csengg@gmail.com>
-Cc: linux-renesas-soc@vger.kernel.org, linux-i2c@vger.kernel.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
- Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20240319132503.80628-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20240319132503.80628-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: Re: [PATCH v3 0/4] Add RIIC support for Renesas RZ/V2H SoC
-Message-Id: <171105548307.707638.3662266860210403199.b4-ty@kernel.org>
-Date: Thu, 21 Mar 2024 22:11:23 +0100
+	s=arc-20240116; t=1711105383; c=relaxed/simple;
+	bh=WsbM9stLTz0gL0GOHFlF/YCyiZmnN4jgDBnbkyHIq0M=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=rwkpTSC9c0bM2B9SEMrUNhZoxezxhIhCJLe6EfFksqqZMSa3aX4nazwHkACAKXfbqVSjTlBDsaU3dFgxfAZETlUQymRAvA7hVZ08B1PIil1vmddQAcofYyLHuMXvPCHb1eUHpT/gIr3i1OrrRXuDkyErT/zXayggkd8xRh9k4to=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=t4ckqewB; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 36BCDC433F1;
+	Fri, 22 Mar 2024 11:02:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1711105382;
+	bh=WsbM9stLTz0gL0GOHFlF/YCyiZmnN4jgDBnbkyHIq0M=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=t4ckqewBH76V+0hrF68Z5sCm2Mh2IosC4lNTk1Bxs/eM15Y6uJMszItaB/jcXJeZq
+	 M1k3DINp7ns5+lW1PQl0rnLOWNpcVW7vtLFNO/SKA7PS782wnzSIJpM7ZHmpYnu41X
+	 CrDz4+TCxCJ9lrgb3XPDsUoiZjq1Bbvrn20BkyLDwwH7C+bLprZsciVDMQDdMT3Idk
+	 Zny8Hrdgi7DxJIQDzHKbiU2v6wPPvRieSL7FgcFcI9jGWDblfwt0Jc32QArE5ldZKJ
+	 rxF7DuOPZjMOXPWHmNIpA0ptxhRIJi2X+/iUZGZRTQEljYjaQgZAPBk1QwyX/ZRPMz
+	 5P79cUjNOAbnA==
+Date: Fri, 22 Mar 2024 12:02:52 +0100
+From: Niklas Cassel <cassel@kernel.org>
+To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+Cc: Jingoo Han <jingoohan1@gmail.com>,
+	Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
+	Rob Herring <robh@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+	Marek Vasut <marek.vasut+renesas@gmail.com>,
+	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Kishon Vijay Abraham I <kishon@ti.com>,
+	Vidya Sagar <vidyas@nvidia.com>,
+	Vignesh Raghavendra <vigneshr@ti.com>,
+	Richard Zhu <hongxing.zhu@nxp.com>,
+	Lucas Stach <l.stach@pengutronix.de>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	NXP Linux Team <linux-imx@nxp.com>,
+	Minghuan Lian <minghuan.Lian@nxp.com>,
+	Mingkai Hu <mingkai.hu@nxp.com>, Roy Zang <roy.zang@nxp.com>,
+	Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Kishon Vijay Abraham I <kishon@kernel.org>,
+	Jesper Nilsson <jesper.nilsson@axis.com>,
+	Srikanth Thokala <srikanth.thokala@intel.com>,
+	linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+	linux-tegra@vger.kernel.org, linux-omap@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linuxppc-dev@lists.ozlabs.org,
+	linux-arm-kernel@axis.com, Frank Li <Frank.Li@nxp.com>
+Subject: Re: [PATCH v10 2/8] PCI: dwc: ep: Add Kernel-doc comments for APIs
+Message-ID: <Zf1lXBUPhJ3xkV-E@ryzen>
+References: <20240314-pci-dbi-rework-v10-0-14a45c5a938e@linaro.org>
+ <20240314-pci-dbi-rework-v10-2-14a45c5a938e@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.13.0
-X-Ovh-Tracer-Id: 11709077559784311402
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvledrleejgdekhecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhvfevjghfuffkffggtgfgofesthejredtredtjeenucfhrhhomheptehnughiucfuhhihthhiuceorghnughirdhshhihthhisehkvghrnhgvlhdrohhrgheqnecuggftrfgrthhtvghrnhepffetheduffdvhfdugfffudfgjeejudehheegfeeguefhieeugffhgfeuffdvgfefnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucfkphepuddvjedrtddrtddruddpkeelrddvudejrddutdelrdduieelpdefjedrheelrddugedvrddutdeinecuvehluhhsthgvrhfuihiivgepvdenucfrrghrrghmpehinhgvthepuddvjedrtddrtddruddpmhgrihhlfhhrohhmpegrnhguihesvghtvgiiihgrnhdrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopehlihhnuhigqdhrvghnvghsrghsqdhsohgtsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdfovfetjfhoshhtpehmohehiedtpdhmohguvgepshhmthhpohhuth
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240314-pci-dbi-rework-v10-2-14a45c5a938e@linaro.org>
 
-Hi
-
-On Tue, 19 Mar 2024 13:24:59 +0000, Prabhakar wrote:
-> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+On Thu, Mar 14, 2024 at 01:18:00PM +0530, Manivannan Sadhasivam wrote:
+> All of the APIs are missing the Kernel-doc comments. Hence, add them.
 > 
-> Hi all,
+> Reviewed-by: Frank Li <Frank.Li@nxp.com>
+> Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+> ---
+>  drivers/pci/controller/dwc/pcie-designware-ep.c | 78 +++++++++++++++++++++++++
+>  1 file changed, 78 insertions(+)
 > 
-> This patch series aims to add RIIC support for Renesas RZ/V2H(P) SoC.
+> diff --git a/drivers/pci/controller/dwc/pcie-designware-ep.c b/drivers/pci/controller/dwc/pcie-designware-ep.c
+> index c05304eabb89..d7e8f2dda6ce 100644
+> --- a/drivers/pci/controller/dwc/pcie-designware-ep.c
+> +++ b/drivers/pci/controller/dwc/pcie-designware-ep.c
+> @@ -14,6 +14,10 @@
+>  #include <linux/pci-epc.h>
+>  #include <linux/pci-epf.h>
+>  
+> +/**
+> + * dw_pcie_ep_linkup - Notify EPF drivers about link up event
+> + * @ep: DWC EP device
+> + */
+>  void dw_pcie_ep_linkup(struct dw_pcie_ep *ep)
+>  {
+>  	struct pci_epc *epc = ep->epc;
+> @@ -22,6 +26,11 @@ void dw_pcie_ep_linkup(struct dw_pcie_ep *ep)
+>  }
+>  EXPORT_SYMBOL_GPL(dw_pcie_ep_linkup);
+>  
+> +/**
+> + * dw_pcie_ep_init_notify - Notify EPF drivers about EPC initialization
+> + *			    complete
+
+Nit: "complete" can be on previous line without exceeding 80 chars.
+
+
+> + * @ep: DWC EP device
+> + */
+>  void dw_pcie_ep_init_notify(struct dw_pcie_ep *ep)
+>  {
+>  	struct pci_epc *epc = ep->epc;
+> @@ -30,6 +39,14 @@ void dw_pcie_ep_init_notify(struct dw_pcie_ep *ep)
+>  }
+>  EXPORT_SYMBOL_GPL(dw_pcie_ep_init_notify);
+>  
+> +/**
+> + * dw_pcie_ep_get_func_from_ep - Get the struct dw_pcie_ep_func corresponding to
+> + *				 the endpoint function
+> + * @ep: DWC EP device
+> + * @func_no: Function number of the endpoint device
+> + *
+> + * Return: struct dw_pcie_ep_func if success, NULL otherwise.
+> + */
+>  struct dw_pcie_ep_func *
+>  dw_pcie_ep_get_func_from_ep(struct dw_pcie_ep *ep, u8 func_no)
+>  {
+> @@ -60,6 +77,11 @@ static void __dw_pcie_ep_reset_bar(struct dw_pcie *pci, u8 func_no,
+>  	dw_pcie_dbi_ro_wr_dis(pci);
+>  }
+>  
+> +/**
+> + * dw_pcie_ep_reset_bar - Reset endpoint BAR
+> + * @pci: DWC PCI device
+> + * @bar: BAR number of the endpoint
+> + */
+>  void dw_pcie_ep_reset_bar(struct dw_pcie *pci, enum pci_barno bar)
+>  {
+>  	u8 func_no, funcs;
+> @@ -439,6 +461,13 @@ static const struct pci_epc_ops epc_ops = {
+>  	.get_features		= dw_pcie_ep_get_features,
+>  };
+>  
+> +/**
+> + * dw_pcie_ep_raise_intx_irq - Raise INTx IRQ to the host
+> + * @ep: DWC EP device
+> + * @func_no: Function number of the endpoint
+> + *
+> + * Return: 0 if success, errono otherwise.
+> + */
+>  int dw_pcie_ep_raise_intx_irq(struct dw_pcie_ep *ep, u8 func_no)
+>  {
+>  	struct dw_pcie *pci = to_dw_pcie_from_ep(ep);
+> @@ -450,6 +479,14 @@ int dw_pcie_ep_raise_intx_irq(struct dw_pcie_ep *ep, u8 func_no)
+>  }
+>  EXPORT_SYMBOL_GPL(dw_pcie_ep_raise_intx_irq);
+>  
+> +/**
+> + * dw_pcie_ep_raise_msi_irq - Raise MSI IRQ to the host
+> + * @ep: DWC EP device
+> + * @func_no: Function number of the endpoint
+> + * @interrupt_num: Interrupt number to be raised
+> + *
+> + * Return: 0 if success, errono otherwise.
+> + */
+>  int dw_pcie_ep_raise_msi_irq(struct dw_pcie_ep *ep, u8 func_no,
+>  			     u8 interrupt_num)
+>  {
+> @@ -498,6 +535,15 @@ int dw_pcie_ep_raise_msi_irq(struct dw_pcie_ep *ep, u8 func_no,
+>  }
+>  EXPORT_SYMBOL_GPL(dw_pcie_ep_raise_msi_irq);
+>  
+> +/**
+> + * dw_pcie_ep_raise_msix_irq_doorbell - Raise MSIX to the host using Doorbell
+
+Nit: s/MSIX/MSI-X/
+
+
+> + *					method
+> + * @ep: DWC EP device
+> + * @func_no: Function number of the endpoint device
+> + * @interrupt_num: Interrupt number to be raised
+> + *
+> + * Return: 0 if success, errno otherwise.
+> + */
+>  int dw_pcie_ep_raise_msix_irq_doorbell(struct dw_pcie_ep *ep, u8 func_no,
+>  				       u16 interrupt_num)
+>  {
+> @@ -517,6 +563,14 @@ int dw_pcie_ep_raise_msix_irq_doorbell(struct dw_pcie_ep *ep, u8 func_no,
+>  	return 0;
+>  }
+>  
+> +/**
+> + * dw_pcie_ep_raise_msix_irq - Raise MSIX to the host
+
+Nit: s/MSIX/MSI-X/
+
+
+> + * @ep: DWC EP device
+> + * @func_no: Function number of the endpoint device
+> + * @interrupt_num: Interrupt number to be raised
+> + *
+> + * Return: 0 if success, errno otherwise.
+> + */
+>  int dw_pcie_ep_raise_msix_irq(struct dw_pcie_ep *ep, u8 func_no,
+>  			      u16 interrupt_num)
+>  {
+> @@ -564,6 +618,13 @@ int dw_pcie_ep_raise_msix_irq(struct dw_pcie_ep *ep, u8 func_no,
+>  	return 0;
+>  }
+>  
+> +/**
+> + * dw_pcie_ep_exit - Deinitialize the endpoint device
+> + * @ep: DWC EP device
+> + *
+> + * Deinitialize the endpoint device. EPC device is not destroyed since that will
+> + * taken care by Devres.
+
+Nit: s/will/will be/
+
+
+> + */
+>  void dw_pcie_ep_exit(struct dw_pcie_ep *ep)
+>  {
+>  	struct dw_pcie *pci = to_dw_pcie_from_ep(ep);
+> @@ -599,6 +660,14 @@ static unsigned int dw_pcie_ep_find_ext_capability(struct dw_pcie *pci, int cap)
+>  	return 0;
+>  }
+>  
+> +/**
+> + * dw_pcie_ep_init_complete - Complete DWC EP initialization
+> + * @ep: DWC EP device
+> + *
+> + * Complete the initialization of the registers (CSRs) specific to DWC EP. This
+> + * API should be called only when the endpoint receives an active refclk (either
+> + * from host or generated locally).
+> + */
+>  int dw_pcie_ep_init_complete(struct dw_pcie_ep *ep)
+>  {
+>  	struct dw_pcie *pci = to_dw_pcie_from_ep(ep);
+> @@ -716,6 +785,15 @@ int dw_pcie_ep_init_complete(struct dw_pcie_ep *ep)
+>  }
+>  EXPORT_SYMBOL_GPL(dw_pcie_ep_init_complete);
+>  
+> +/**
+> + * dw_pcie_ep_init - Initialize the endpoint device
+> + * @ep: DWC EP device
+> + *
+> + * Initialize the endpoint device. Allocate resources and create the EPC
+> + * device with the endpoint framework.
+> + *
+> + * Return: 0 if success, errno otherwise.
+> + */
+>  int dw_pcie_ep_init(struct dw_pcie_ep *ep)
+>  {
+>  	int ret;
 > 
-> v2->v3
-> - Included RB tags
-> - For riic_writeb() now passing val as second argument and
->   offset as third argument
+> -- 
+> 2.25.1
 > 
-> [...]
 
-Applied to i2c/i2c-host on
-
-git://git.kernel.org/pub/scm/linux/kernel/git/andi.shyti/linux.git
-
-Thank you,
-Andi
-
-Patches applied
-===============
-[1/4] dt-bindings: i2c: renesas,riic: Document R9A09G057 support
-      commit: 1de515913c0fd8704d72d47ca5282e33b94d0992
-[2/4] i2c: riic: Introduce helper functions for I2C read/write operations
-      commit: 8c6a8f350c6338070b12ad62a71314dbea9e91db
-[3/4] i2c: riic: Pass register offsets and chip details as OF data
-      commit: fbe81ad8b4242980d951926015e4fe306dccf5b6
-[4/4] i2c: riic: Add support for R9A09G057 SoC
-      commit: 6d7c1c58c11c6fa5e7a4380478151d0860664601
-
+With nits fixed:
+Reviewed-by: Niklas Cassel <cassel@kernel.org>
 
