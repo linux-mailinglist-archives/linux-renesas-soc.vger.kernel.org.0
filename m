@@ -1,260 +1,168 @@
-Return-Path: <linux-renesas-soc+bounces-3985-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-3986-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75981886EF6
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 22 Mar 2024 15:46:57 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B121886F99
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 22 Mar 2024 16:13:55 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 99A281C226E2
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 22 Mar 2024 14:46:56 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 569F8287141
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 22 Mar 2024 15:13:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7869459B5A;
-	Fri, 22 Mar 2024 14:45:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6A81954789;
+	Fri, 22 Mar 2024 15:13:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GxmfFUFc"
+	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="oqI+5Jmk"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.154.123])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 324A154BD3;
-	Fri, 22 Mar 2024 14:45:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C74050278;
+	Fri, 22 Mar 2024 15:13:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=68.232.154.123
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711118712; cv=none; b=V9/JKcx3EIkn60ohFWn393N/pcJr7J3wwURBysBzeGlkJ4HF0P7Ki6J4MQoKC0P57SgcQFUA4tgYpn7QI4pU+82/V9UD5hL8BAYig1cQPKVPvyIOGlNE5CDG5cDycXYRPPxrSa3rUHkH2O5/SsnxSu/L5CerbHuSxv79tYWZP9g=
+	t=1711120411; cv=none; b=MwyyFa+w3p5JKt3Dck/fKv9x/l0QqNiGB3CIKjQRt/Pqs5yoUwLWMMvGDpylwopibygB+nR5IzaOOReBgMXgBZDxapPtGinFES4pFdqCsCvQD1qrV3/TWh0RNCcXbb67v2kzSDb6ABwmiO122GU5YhmCfjbiY44IqD02X5/fKaI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711118712; c=relaxed/simple;
-	bh=veb2SWtHL0Ox9QO3zZylkMTzcpBgXqQeJZKsGDwqEUg=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=J1ycfjqDeRnOpAABg+oQs0p3iwxDQvSAA2AxqnRp4znDBqXp5DAQckHe5r1Ve4nQDSzTsSI1qXQrfvUX+S4XWGgZrhB0/XQNvdl44OqBg74RyduVACkxvRkwhhvc40UiFMXkqedx+PsZJYjN06WwJFBkDYElViycr63L/8cRlQ8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GxmfFUFc; arc=none smtp.client-ip=209.85.128.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-4147e3e4d3cso2484845e9.2;
-        Fri, 22 Mar 2024 07:45:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1711118707; x=1711723507; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=GWuEvV0rvpO/l7LvIGHT/JLAEhFTYoLZLqtwl5iRm64=;
-        b=GxmfFUFckVSHvrdQKxawyNBJ3Am2rTfgeAXR+PLnVUERvsp973ZE6FtoJyOzw2N9ZQ
-         tBCRhUf6d2ebKV/exxX365IiUdU6vrqVakHVFOcgrLQ3FoMSdXSWexBIFvkbvXyZgPck
-         XHz1RQMuFWZaY2r/lzlvu55Lb17/Ehd5T4/Qa5L15zOQjFQQbNkDcaM0cOZENNUTy8Kr
-         6PoVzJg0K3BuJaMACogkI+PVQBxqmJK8ahOTbrLQ11fY8qjAQJpM6aG7PTuckien+HHC
-         zb3FQ2n3iVU8IOu8S0roubqqEYFcPRQeGr4vr+pcDMQUro17VxD097MbfSNyt2NwIwMe
-         hxjA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711118707; x=1711723507;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=GWuEvV0rvpO/l7LvIGHT/JLAEhFTYoLZLqtwl5iRm64=;
-        b=pFlVODu/GlxaZC/5ez+XR8UT3TYson36FW4wUBKoKyJN5Udad/vqmaVpT/XdDOOeNp
-         ++lgicMhaK/gY6K27Qyc8CLAJvgx/RnYMTxMrkoiLFebHszBN5vhPlaphKtQlaDRthJX
-         u6zeVVwY1b5wLtIHBgCP6k5SmzQcbFCB4lGJozzFhLkLsJtlFZVmEIjdXEgQmUEZSvDD
-         E98QARyOwKuoLqZqgXsOJ1Iv+2CRpbefT3l1B/HaK7CrZReAuNimWeArIT1Xmc5JKyv9
-         L3t8/hzWeoRMnqqjMW3Cj3rfym7p5Gk4CERw2kv1HRQ1cEMxFxxG5pyxZyn2fwvELQcF
-         Hx0g==
-X-Forwarded-Encrypted: i=1; AJvYcCVXgJqJGXKKke03JpsvECXRSIqvMqTBIsMCSFtYSJZcl0BKpD5S+SoHOywU6ZztO4cJYQZD/aFPnWczJjjUWgQGgQt/thOO+D+ZOQ0WST4EGXUA/zyIwZ18m09Wm2qRj0WwiJDgzHQPOxbG8KgSbM9xuDNsHwSrjkMuBVTgSxM9rQUsHZL9KF4JNQAx
-X-Gm-Message-State: AOJu0Yy+7YLsGun8nSnOdPpo5vuK3t+TpZW8wOvFKPI51OLIXHNnbaxT
-	5Ega546BE9dRZsHOgRYtNzY94qTyTAY/SMdUIYQ0+qJ3MUBbppLA
-X-Google-Smtp-Source: AGHT+IGjPztaqKpu596k3blnST+nfDPu+lVA/PnAdQ4mezi8JzRKgF2wtriu9oc4aDkqJvhuMV83+Q==
-X-Received: by 2002:a05:600c:6a85:b0:414:6638:4507 with SMTP id jl5-20020a05600c6a8500b0041466384507mr1723116wmb.16.1711118707528;
-        Fri, 22 Mar 2024 07:45:07 -0700 (PDT)
-Received: from prasmi.home ([2a00:23c8:2500:a01:7b89:721b:d6b0:d7e8])
-        by smtp.gmail.com with ESMTPSA id s15-20020a05600c45cf00b0041466e03e55sm3911117wmo.0.2024.03.22.07.45.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 22 Mar 2024 07:45:06 -0700 (PDT)
-From: Prabhakar <prabhakar.csengg@gmail.com>
-X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jiri Slaby <jirislaby@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Magnus Damm <magnus.damm@gmail.com>
-Cc: linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-serial@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	Prabhakar <prabhakar.csengg@gmail.com>,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH v4 5/5] serial: sh-sci: Add support for RZ/V2H(P) SoC
-Date: Fri, 22 Mar 2024 14:43:55 +0000
-Message-Id: <20240322144355.878930-6-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240322144355.878930-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20240322144355.878930-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+	s=arc-20240116; t=1711120411; c=relaxed/simple;
+	bh=F50EgZ2lJjv6pHduFkF5MM5IKGV69nz1KM4YNtLhMAs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=bERKpWRIPHmaAYvgBiwLhczzPBU6tzcEs8IarW4wnLOdSI+M8CCGQQO+4vGVNMNLj2mgqIoej/23P8AP4LnR6/4RhUMfP+91egiety2isyMNfzi9jyEGi5dUGTjGsz6d0zQS5cPbRrUN67Bs/ldGSrWKPmZKDa511kQK7JL1LxU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=microchip.com; spf=pass smtp.mailfrom=microchip.com; dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b=oqI+5Jmk; arc=none smtp.client-ip=68.232.154.123
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=microchip.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=microchip.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
+  t=1711120408; x=1742656408;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=F50EgZ2lJjv6pHduFkF5MM5IKGV69nz1KM4YNtLhMAs=;
+  b=oqI+5JmkcBUM+KMCfZdOV1mWAvIN0yr2MPr2ztMKBDZ/xi+MFZ3EG4Z5
+   vECsis4cRicHGZaR7NBDldDxnVxUg3vFXh0CeY47KjfZpdJsrKVd5oCH9
+   458OqOcmPRL7Vg/agHrzE6SsW2GUv0VMUSqX9c81z8wiSs/Gvv2qVsl4V
+   KklX9ZqCKCMb1NF6HtVLtQhF14rB5GyfqY+IqfTRv1ajhdTAKmR0n/nJn
+   TtKWqQCGKK9sz8OSE7AT2QtGdJ92EHubg5IeCinIc5B0HV+ILVAB7rla4
+   M3slIgljFFp+/4tmffz9FDq44JNtxEyWlrJAK3m07Wt8zrqExn3bZ1Xaw
+   A==;
+X-CSE-ConnectionGUID: X1l3K2T7QvGR7YYL+xW82w==
+X-CSE-MsgGUID: FtnGXb0RSl6ESGuAQ94UKg==
+X-IronPort-AV: E=Sophos;i="6.07,146,1708412400"; 
+   d="scan'208";a="185306479"
+X-Amp-Result: SKIPPED(no attachment in message)
+Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
+  by esa6.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 22 Mar 2024 08:13:19 -0700
+Received: from chn-vm-ex01.mchp-main.com (10.10.85.143) by
+ chn-vm-ex04.mchp-main.com (10.10.85.152) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Fri, 22 Mar 2024 08:13:07 -0700
+Received: from [10.159.245.205] (10.10.85.11) by chn-vm-ex01.mchp-main.com
+ (10.10.85.143) with Microsoft SMTP Server id 15.1.2507.35 via Frontend
+ Transport; Fri, 22 Mar 2024 08:12:51 -0700
+Message-ID: <e8dff9d4-ed15-44e9-ae9a-2e77845ec40b@microchip.com>
+Date: Fri, 22 Mar 2024 16:11:48 +0100
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 64/64] i2c: reword i2c_algorithm in drivers according to
+ newest specification
+Content-Language: en-US, fr-FR
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	<linux-i2c@vger.kernel.org>
+CC: Elie Morisse <syniurge@gmail.com>, Shyam Sundar S K
+	<shyam-sundar.s-k@amd.com>, Andi Shyti <andi.shyti@kernel.org>, "Codrin
+ Ciubotariu" <codrin.ciubotariu@microchip.com>, Alexandre Belloni
+	<alexandre.belloni@bootlin.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+	Krzysztof Adamski <krzysztof.adamski@nokia.com>, Benson Leung
+	<bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>, Jarkko Nikula
+	<jarkko.nikula@linux.intel.com>, Andy Shevchenko
+	<andriy.shevchenko@linux.intel.com>, Mika Westerberg
+	<mika.westerberg@linux.intel.com>, Jan Dabros <jsd@semihalf.com>, "Krzysztof
+ Kozlowski" <krzysztof.kozlowski@linaro.org>, Alim Akhtar
+	<alim.akhtar@samsung.com>, Jean-Marie Verdun <verdun@hpe.com>, Nick Hawkins
+	<nick.hawkins@hpe.com>, Yicong Yang <yangyicong@hisilicon.com>, "Oleksij
+ Rempel" <o.rempel@pengutronix.de>, Pengutronix Kernel Team
+	<kernel@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>, Sascha Hauer
+	<s.hauer@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, Paul Cercueil
+	<paul@crapouillou.net>, Neil Armstrong <neil.armstrong@linaro.org>, "Kevin
+ Hilman" <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>, "Martin
+ Blumenstingl" <martin.blumenstingl@googlemail.com>, Khalil Blaiech
+	<kblaiech@nvidia.com>, Asmaa Mnebhi <asmaa@nvidia.com>, Qii Wang
+	<qii.wang@mediatek.com>, Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, "Linus
+ Walleij" <linus.walleij@linaro.org>, Avi Fishman <avifishman70@gmail.com>,
+	Tomer Maimon <tmaimon77@gmail.com>, Tali Perry <tali.perry1@gmail.com>,
+	Patrick Venture <venture@google.com>, Nancy Yuen <yuenn@google.com>,
+	"Benjamin Fair" <benjaminfair@google.com>, Ajay Gupta <ajayg@nvidia.com>,
+	"Peter Korsgaard" <peter@korsgaard.com>, Andrew Lunn <andrew@lunn.ch>, Robert
+ Richter <rric@kernel.org>, Aaro Koskinen <aaro.koskinen@iki.fi>, Janusz
+ Krzysztofik <jmkrzyszt@gmail.com>, Tony Lindgren <tony@atomide.com>, Vignesh
+ R <vigneshr@ti.com>, Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin
+	<npiggin@gmail.com>, Christophe Leroy <christophe.leroy@csgroup.eu>, "Aneesh
+ Kumar K.V" <aneesh.kumar@kernel.org>, "Naveen N. Rao"
+	<naveen.n.rao@linux.ibm.com>, Hector Martin <marcan@marcan.st>, Sven Peter
+	<sven@svenpeter.dev>, Alyssa Rosenzweig <alyssa@rosenzweig.io>, "Vladimir
+ Zapolskiy" <vz@mleia.com>, Loic Poulain <loic.poulain@linaro.org>, Robert
+ Foss <rfoss@kernel.org>, Bjorn Andersson <andersson@kernel.org>, Konrad
+ Dybcio <konrad.dybcio@linaro.org>, Fabrizio Castro
+	<fabrizio.castro.jz@renesas.com>, Pierre-Yves MORDRET
+	<pierre-yves.mordret@foss.st.com>, Alain Volmat <alain.volmat@foss.st.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue
+	<alexandre.torgue@foss.st.com>, Thierry Reding <thierry.reding@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>, "Laxman Dewangan"
+	<ldewangan@nvidia.com>, Dmitry Osipenko <digetx@gmail.com>, "Conghui Chen"
+	<conghui.chen@intel.com>, Viresh Kumar <viresh.kumar@linaro.org>, "Michal
+ Simek" <michal.simek@amd.com>, <linux-kernel@vger.kernel.org>,
+	<linux-arm-kernel@lists.infradead.org>, <chrome-platform@lists.linux.dev>,
+	<linux-samsung-soc@vger.kernel.org>, <imx@lists.linux.dev>,
+	<linux-mips@vger.kernel.org>, <linux-amlogic@lists.infradead.org>,
+	<linux-mediatek@lists.infradead.org>, <openbmc@lists.ozlabs.org>,
+	<linux-omap@vger.kernel.org>, <linuxppc-dev@lists.ozlabs.org>,
+	<asahi@lists.linux.dev>, <linux-arm-msm@vger.kernel.org>,
+	<linux-renesas-soc@vger.kernel.org>,
+	<linux-stm32@st-md-mailman.stormreply.com>, <linux-tegra@vger.kernel.org>,
+	<virtualization@lists.linux.dev>, Ryan Wanner <Ryan.Wanner@microchip.com>
+References: <20240322132619.6389-1-wsa+renesas@sang-engineering.com>
+ <20240322132619.6389-65-wsa+renesas@sang-engineering.com>
+From: Nicolas Ferre <nicolas.ferre@microchip.com>
+Organization: microchip
+In-Reply-To: <20240322132619.6389-65-wsa+renesas@sang-engineering.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+On 22/03/2024 at 14:25, Wolfram Sang wrote:
+> EXTERNAL EMAIL: Do not click links or open attachments unless you know the content is safe
+> 
+> Match the wording in i2c_algorithm in I2C drivers wrt. the newest I2C
+> v7, SMBus 3.2, I3C specifications and replace "master/slave" with more
+> appropriate terms. For some drivers, this means no more conversions are
+> needed. For the others more work needs to be done but this will be
+> performed incrementally along with API changes/improvements. All these
+> changes here are simple search/replace results.
+> 
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> ---
 
-Add serial support for RZ/V2H(P) SoC with earlycon.
+[..]
 
-The SCIF interface in the Renesas RZ/V2H(P) is similar to that available
-in the RZ/G2L (R9A07G044) SoC, with the following differences:
+>   drivers/i2c/busses/i2c-at91-master.c       |  2 +-
+>   drivers/i2c/busses/i2c-at91-slave.c        |  8 ++++----
 
-- RZ/V2H(P) SoC has three additional interrupts: one for Tx end/Rx ready
-  and two for Rx and Tx buffer full, all of which are edge-triggered.
-- RZ/V2H(P) supports asynchronous mode, whereas RZ/G2L supports both
-  synchronous and asynchronous modes.
-- There are differences in the configuration of certain registers such
-  as SCSMR, SCFCR, and SCSPTR between the two SoCs.
+[..]
 
-To handle these differences on RZ/V2H(P) SoC SCIx_RZV2H_SCIF_REGTYPE
-is added.
+Acked-by: Nicolas Ferre <nicolas.ferre@microchip.com> # for at91
+Probably file names themselves will need some care, in a second time.
 
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
----
-Hi Geert,
+Thanks. Regards,
+   Nicolas
 
-To keep the changes minimal I've added a new regtype instead of
-port type.
+[..]
 
-Cheers, Prabhakar
-
-v3 - > v4
-- Added SCIx_RZV2H_SCIF_REGTYPE to handle the differences on the
-  RZ/V2H(P) SoC
-
-v2 - > v3
-- new patch
----
- drivers/tty/serial/sh-sci.c | 55 +++++++++++++++++++++++++++++++++----
- include/linux/serial_sci.h  |  1 +
- 2 files changed, 51 insertions(+), 5 deletions(-)
-
-diff --git a/drivers/tty/serial/sh-sci.c b/drivers/tty/serial/sh-sci.c
-index a85e7b9a2e49..297787dc5c1c 100644
---- a/drivers/tty/serial/sh-sci.c
-+++ b/drivers/tty/serial/sh-sci.c
-@@ -317,6 +317,37 @@ static const struct sci_port_params sci_port_params[SCIx_NR_REGTYPES] = {
- 		.error_clear = SCIF_ERROR_CLEAR,
- 	},
- 
-+	/*
-+	 * The "SCIF" that is in RZ/V2H(P) SoC is similar to one found on RZ/G2L SoC
-+	 * with below differences,
-+	 * - Break out of interrupts are different: ERI, BRI, RXI, TXI, TEI, DRI,
-+	 *   TEI-DRI, RXI-EDGE and TXI-EDGE.
-+	 * - SCSMR register does not have CM bit (BIT(7)) ie it does not support synchronous mode.
-+	 * - SCFCR register does not have SCFCR_MCE bit.
-+	 * - SCSPTR register has only bits SCSPTR_SPB2DT and SCSPTR_SPB2IO.
-+	 */
-+	[SCIx_RZV2H_SCIF_REGTYPE] = {
-+		.regs = {
-+			[SCSMR]		= { 0x00, 16 },
-+			[SCBRR]		= { 0x02,  8 },
-+			[SCSCR]		= { 0x04, 16 },
-+			[SCxTDR]	= { 0x06,  8 },
-+			[SCxSR]		= { 0x08, 16 },
-+			[SCxRDR]	= { 0x0a,  8 },
-+			[SCFCR]		= { 0x0c, 16 },
-+			[SCFDR]		= { 0x0e, 16 },
-+			[SCSPTR]	= { 0x10, 16 },
-+			[SCLSR]		= { 0x12, 16 },
-+			[SEMR]		= { 0x14, 8 },
-+		},
-+		.fifosize = 16,
-+		.overrun_reg = SCLSR,
-+		.overrun_mask = SCLSR_ORER,
-+		.sampling_rate_mask = SCI_SR(32),
-+		.error_mask = SCIF_DEFAULT_ERROR_MASK,
-+		.error_clear = SCIF_ERROR_CLEAR,
-+	},
-+
- 	/*
- 	 * Common SH-3 SCIF definitions.
- 	 */
-@@ -758,7 +789,7 @@ static void sci_init_pins(struct uart_port *port, unsigned int cflag)
- 		}
- 		serial_port_out(port, SCPDR, data);
- 		serial_port_out(port, SCPCR, ctrl);
--	} else if (sci_getreg(port, SCSPTR)->size) {
-+	} else if (sci_getreg(port, SCSPTR)->size && s->cfg->regtype != SCIx_RZV2H_SCIF_REGTYPE) {
- 		u16 status = serial_port_in(port, SCSPTR);
- 
- 		/* RTS# is always output; and active low, unless autorts */
-@@ -2120,8 +2151,9 @@ static void sci_set_mctrl(struct uart_port *port, unsigned int mctrl)
- 
- 	if (!(mctrl & TIOCM_RTS)) {
- 		/* Disable Auto RTS */
--		serial_port_out(port, SCFCR,
--				serial_port_in(port, SCFCR) & ~SCFCR_MCE);
-+		if (s->cfg->regtype != SCIx_RZV2H_SCIF_REGTYPE)
-+			serial_port_out(port, SCFCR,
-+					serial_port_in(port, SCFCR) & ~SCFCR_MCE);
- 
- 		/* Clear RTS */
- 		sci_set_rts(port, 0);
-@@ -2133,8 +2165,9 @@ static void sci_set_mctrl(struct uart_port *port, unsigned int mctrl)
- 		}
- 
- 		/* Enable Auto RTS */
--		serial_port_out(port, SCFCR,
--				serial_port_in(port, SCFCR) | SCFCR_MCE);
-+		if (s->cfg->regtype != SCIx_RZV2H_SCIF_REGTYPE)
-+			serial_port_out(port, SCFCR,
-+					serial_port_in(port, SCFCR) | SCFCR_MCE);
- 	} else {
- 		/* Set RTS */
- 		sci_set_rts(port, 1);
-@@ -3224,6 +3257,10 @@ static const struct of_device_id of_sci_match[] __maybe_unused = {
- 		.compatible = "renesas,scif-r9a07g044",
- 		.data = SCI_OF_DATA(PORT_SCIF, SCIx_RZ_SCIFA_REGTYPE),
- 	},
-+	{
-+		.compatible = "renesas,scif-r9a09g057",
-+		.data = SCI_OF_DATA(PORT_SCIF, SCIx_RZV2H_SCIF_REGTYPE),
-+	},
- 	/* Family-specific types */
- 	{
- 		.compatible = "renesas,rcar-gen1-scif",
-@@ -3534,6 +3571,13 @@ static int __init rzscifa_early_console_setup(struct earlycon_device *device,
- 	return early_console_setup(device, PORT_SCIF);
- }
- 
-+static int __init rzv2hscif_early_console_setup(struct earlycon_device *device,
-+						const char *opt)
-+{
-+	port_cfg.regtype = SCIx_RZV2H_SCIF_REGTYPE;
-+	return early_console_setup(device, PORT_SCIF);
-+}
-+
- static int __init scifa_early_console_setup(struct earlycon_device *device,
- 					  const char *opt)
- {
-@@ -3554,6 +3598,7 @@ OF_EARLYCON_DECLARE(sci, "renesas,sci", sci_early_console_setup);
- OF_EARLYCON_DECLARE(scif, "renesas,scif", scif_early_console_setup);
- OF_EARLYCON_DECLARE(scif, "renesas,scif-r7s9210", rzscifa_early_console_setup);
- OF_EARLYCON_DECLARE(scif, "renesas,scif-r9a07g044", rzscifa_early_console_setup);
-+OF_EARLYCON_DECLARE(scif, "renesas,scif-r9a09g057", rzv2hscif_early_console_setup);
- OF_EARLYCON_DECLARE(scifa, "renesas,scifa", scifa_early_console_setup);
- OF_EARLYCON_DECLARE(scifb, "renesas,scifb", scifb_early_console_setup);
- OF_EARLYCON_DECLARE(hscif, "renesas,hscif", hscif_early_console_setup);
-diff --git a/include/linux/serial_sci.h b/include/linux/serial_sci.h
-index 1c89611e0e06..0f2f50b8d28e 100644
---- a/include/linux/serial_sci.h
-+++ b/include/linux/serial_sci.h
-@@ -37,6 +37,7 @@ enum {
- 	SCIx_SH7705_SCIF_REGTYPE,
- 	SCIx_HSCIF_REGTYPE,
- 	SCIx_RZ_SCIFA_REGTYPE,
-+	SCIx_RZV2H_SCIF_REGTYPE,
- 
- 	SCIx_NR_REGTYPES,
- };
--- 
-2.34.1
+> --
+> 2.43.0
+> 
 
 
