@@ -1,120 +1,136 @@
-Return-Path: <linux-renesas-soc+bounces-3979-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-3980-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11A07886EB4
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 22 Mar 2024 15:35:13 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id A9603886EE3
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 22 Mar 2024 15:45:39 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4222B1C22041
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 22 Mar 2024 14:35:12 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DBB6E1C22337
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 22 Mar 2024 14:45:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3A9104CE04;
-	Fri, 22 Mar 2024 14:34:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3106E4DA13;
+	Fri, 22 Mar 2024 14:45:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="L9YIH9mH"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Dvx8+kPh"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4B56482F6;
-	Fri, 22 Mar 2024 14:34:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DFA64D5AA;
+	Fri, 22 Mar 2024 14:45:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711118084; cv=none; b=ouUnRAUropzWt8bEc+U/sU9pFxQ0Zqbg60lFv3fEYzIHHttps4zZV6HQG5lhIbmxjcDx7j/UxBzVxSZn1K/U62hAO2CLM8ms5sYYxUuTJGTWZFExS6JwuK0eluHCxnkwpHcq8yCu7zqkBPBB5bzJYWkVRnQZD8jD3qSH4+92CJQ=
+	t=1711118705; cv=none; b=Q/jHiueriGjt8unWxekkweB7NeYM0NbOIrOe0pPu3y+7c3I0epwAbIyqIxJkH8jjKWTfaLr3DwIuzb14Pf/RWPckhnDTJWb2rh8cde6iPIQIFnugqohfF6uiZX3ujYgp8NHbqb34dB8iXC1BtKKBHCBg5qAAF1XTqQFn6Mddliw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711118084; c=relaxed/simple;
-	bh=hlZVhqXG5tZdnG9IkzH2tQNrjKC3YWqFEQJmVE1j798=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DCtLV4UeNgp4LgpMaOCE76CLWnVlmJoPrfrTbNLptRjTFnzhwDnpqNVl1kFCXb7neYS4hzxJr92Rq4M1rbYs/TQErtphVI4/gdq6SEmKRpwOBLtDd5qOehFbY8RxgzU6cWEy7mFRrMvNpPyCQYhD05q1ujc35bLvsGrfjZusfGQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=L9YIH9mH; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1BB7FC43390;
-	Fri, 22 Mar 2024 14:34:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1711118083;
-	bh=hlZVhqXG5tZdnG9IkzH2tQNrjKC3YWqFEQJmVE1j798=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=L9YIH9mHGzkuhZa5ZVgbm1uCmpXH/UdC5VoAAU2ZdmPoXXqtpJMpUbovXd3gDgO41
-	 CU2DUUw+SMa8RxrldgPU79Ss9iLOQN6UmBrNuMgrwYhLnrE/9pIW897R2ohFddMIXc
-	 fKAcsdytm6UayuPjZsV6voe6BUrX1bROQ4UC5NTMEIiFIp4Cdztw4DnZ0J1u/GaohG
-	 CdPO8YbPjtOS9u2k4iiFhrL81vXJ7YZxlQaIdf2NetJ3ZGrkO0LeJuDCMVwOrjUrRl
-	 LZee8y5F+DzlqtMhPwLn2YgOsuJFmKXvTh9GCAuztPZGuK4AA8IAS+C6YSkEmDZmew
-	 YKo4qspd4j+2A==
-Date: Fri, 22 Mar 2024 09:34:35 -0500
-From: Bjorn Andersson <andersson@kernel.org>
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc: linux-i2c@vger.kernel.org, Elie Morisse <syniurge@gmail.com>, 
-	Shyam Sundar S K <shyam-sundar.s-k@amd.com>, Andi Shyti <andi.shyti@kernel.org>, 
-	Codrin Ciubotariu <codrin.ciubotariu@microchip.com>, Nicolas Ferre <nicolas.ferre@microchip.com>, 
-	Alexandre Belloni <alexandre.belloni@bootlin.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
-	Krzysztof Adamski <krzysztof.adamski@nokia.com>, Benson Leung <bleung@chromium.org>, 
-	Guenter Roeck <groeck@chromium.org>, Jarkko Nikula <jarkko.nikula@linux.intel.com>, 
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Mika Westerberg <mika.westerberg@linux.intel.com>, 
-	Jan Dabros <jsd@semihalf.com>, Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
-	Alim Akhtar <alim.akhtar@samsung.com>, Jean-Marie Verdun <verdun@hpe.com>, 
-	Nick Hawkins <nick.hawkins@hpe.com>, Yicong Yang <yangyicong@hisilicon.com>, 
-	Oleksij Rempel <o.rempel@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
-	Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
-	Fabio Estevam <festevam@gmail.com>, Paul Cercueil <paul@crapouillou.net>, 
-	Neil Armstrong <neil.armstrong@linaro.org>, Kevin Hilman <khilman@baylibre.com>, 
-	Jerome Brunet <jbrunet@baylibre.com>, Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
-	Khalil Blaiech <kblaiech@nvidia.com>, Asmaa Mnebhi <asmaa@nvidia.com>, 
-	Qii Wang <qii.wang@mediatek.com>, Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Linus Walleij <linus.walleij@linaro.org>, 
-	Avi Fishman <avifishman70@gmail.com>, Tomer Maimon <tmaimon77@gmail.com>, 
-	Tali Perry <tali.perry1@gmail.com>, Patrick Venture <venture@google.com>, 
-	Nancy Yuen <yuenn@google.com>, Benjamin Fair <benjaminfair@google.com>, 
-	Ajay Gupta <ajayg@nvidia.com>, Peter Korsgaard <peter@korsgaard.com>, 
-	Andrew Lunn <andrew@lunn.ch>, Robert Richter <rric@kernel.org>, 
-	Aaro Koskinen <aaro.koskinen@iki.fi>, Janusz Krzysztofik <jmkrzyszt@gmail.com>, 
-	Tony Lindgren <tony@atomide.com>, Vignesh R <vigneshr@ti.com>, 
-	Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>, 
-	Christophe Leroy <christophe.leroy@csgroup.eu>, "Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, 
-	"Naveen N. Rao" <naveen.n.rao@linux.ibm.com>, Hector Martin <marcan@marcan.st>, 
-	Sven Peter <sven@svenpeter.dev>, Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
-	Vladimir Zapolskiy <vz@mleia.com>, Loic Poulain <loic.poulain@linaro.org>, 
-	Robert Foss <rfoss@kernel.org>, Konrad Dybcio <konrad.dybcio@linaro.org>, 
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, Pierre-Yves MORDRET <pierre-yves.mordret@foss.st.com>, 
-	Alain Volmat <alain.volmat@foss.st.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
-	Alexandre Torgue <alexandre.torgue@foss.st.com>, Thierry Reding <thierry.reding@gmail.com>, 
-	Jonathan Hunter <jonathanh@nvidia.com>, Laxman Dewangan <ldewangan@nvidia.com>, 
-	Dmitry Osipenko <digetx@gmail.com>, Conghui Chen <conghui.chen@intel.com>, 
-	Viresh Kumar <viresh.kumar@linaro.org>, Michal Simek <michal.simek@amd.com>, 
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	chrome-platform@lists.linux.dev, linux-samsung-soc@vger.kernel.org, imx@lists.linux.dev, 
-	linux-mips@vger.kernel.org, linux-amlogic@lists.infradead.org, 
-	linux-mediatek@lists.infradead.org, openbmc@lists.ozlabs.org, linux-omap@vger.kernel.org, 
-	linuxppc-dev@lists.ozlabs.org, asahi@lists.linux.dev, linux-arm-msm@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
-	linux-tegra@vger.kernel.org, virtualization@lists.linux.dev
-Subject: Re: [PATCH 64/64] i2c: reword i2c_algorithm in drivers according to
- newest specification
-Message-ID: <zdgzj3oemsmlsqz2ctxb3ew6xkohiuew2e4djvxileiew66su5@3pjbsgqdbf3f>
-References: <20240322132619.6389-1-wsa+renesas@sang-engineering.com>
- <20240322132619.6389-65-wsa+renesas@sang-engineering.com>
+	s=arc-20240116; t=1711118705; c=relaxed/simple;
+	bh=iLjxTmMNTTTSbPcgr+dDzIp1jE1//QBqqla9qhWektU=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=W5Rx2FsJ9/fPXO1PtQLosKTC1z0ACEUKgpSHFXrllY63SydFPHFt4zCUl2/RYP10dAqoo43delxA4Hptt9h91gcsv17of+ykKALzGXGZCtlskBWksWQ7pGpC/Wb6KWsBFfGdqOAIo+m9W4sR7Vk6TfaDCFWWJQ9S8lTaM+RgDqU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Dvx8+kPh; arc=none smtp.client-ip=209.85.128.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4146562a839so15371805e9.1;
+        Fri, 22 Mar 2024 07:45:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1711118702; x=1711723502; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=a0V7Mhe0ArfXSjrT95vTJ+hE4SWzfgGrhDLu3sLUJno=;
+        b=Dvx8+kPhskkvyly1QghHrzFwX5GbOZaQlyQPxE6Cv1VIDX2tjFvvT6LTfIuK5MG+oz
+         PgXpEnkGnIDj7+w9iuNw0kuQsa10sG9gLg9ZomEcvMBL68MpAmxmVzCsycx5oBJQo91y
+         KZyFlGRT3BUfhQhabZKZp426zl9JKKRQrSUojcE4KO75NyINJQHDxI1d30XBXeUfAYVT
+         /W7kmzeYyn436hCD2Vlzy96ew7yBZkx2Clh2FANMoV+a1uNoK9L3nGR7P8a96yxhhgj5
+         RPZQeaoaxlhAvn/8UUHkvhnFNHg5QX68YZT2fq7hmC2X/Cs3eA5oNtOnN5gGkYVQmWdI
+         ZfyA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1711118702; x=1711723502;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=a0V7Mhe0ArfXSjrT95vTJ+hE4SWzfgGrhDLu3sLUJno=;
+        b=S8S3iF/XWkGHp30utIv30N+e4O7bzK5aQ9pRFuT41DTUAeQmJIT/d50jRZ3n3XY+xx
+         ISThuXnUtJzEUs9I/odgSJAmrsfeFxfQBCjxdpOzhNMcbO3aNCfQkRUKE6RrHZxUDAgS
+         N0S/vj+Bfo6LgRRyDkH40nzssEYhHR1dEXyr9+KfvMIwXyiQRzLLdopimzIaoiLpc3r+
+         F1ROiIOMX6S6lIcQLAkI7iABfT7L2eLvs3FGbOKBhXcHiQjOKPV368w9xAItS9aT8e2G
+         /ZkuoARQcbntSOzfPTakEoSvAOrYaHUHv0g04AD/9xcGvj6OA4xb6EQ3fVXBw6k82T5C
+         Cj2w==
+X-Forwarded-Encrypted: i=1; AJvYcCUEe2k4O4QwSaDr/c+BrTzcN6pY6Vg99QRQSNBUbNhB32LJeTadcbwSrUJ0iV8ie16lSEgXofOOw25uFHMa9N1VZwe3SaMb06I8gXLLFiuBXC8vrxR6/AaDA4+PJNrgvYFYhqjfrJV0XItxFARDKKITABtPA7v8GqOsNw/ikfL9aQcQWb30wgokeLoW
+X-Gm-Message-State: AOJu0YzUnSqzd/GEQilkbGdiP44lFLskapNcklKz4BwAslAXRQ0sgI5b
+	Z/E3M/drBidw8jCIXfob71xEKbB080QdkIT6JAvhJ4t2kIOXT/fe
+X-Google-Smtp-Source: AGHT+IG9rnTvKoOPeTbMKqJIRqYfbGywkmROQyv1XpETaAIHcwN8T5J7t/JVSoylUGPCNE56cr6jQg==
+X-Received: by 2002:a05:600c:35cf:b0:414:255:c6a7 with SMTP id r15-20020a05600c35cf00b004140255c6a7mr1768259wmq.32.1711118701431;
+        Fri, 22 Mar 2024 07:45:01 -0700 (PDT)
+Received: from prasmi.home ([2a00:23c8:2500:a01:7b89:721b:d6b0:d7e8])
+        by smtp.gmail.com with ESMTPSA id s15-20020a05600c45cf00b0041466e03e55sm3911117wmo.0.2024.03.22.07.45.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 22 Mar 2024 07:45:00 -0700 (PDT)
+From: Prabhakar <prabhakar.csengg@gmail.com>
+X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+To: Geert Uytterhoeven <geert+renesas@glider.be>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jiri Slaby <jirislaby@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Magnus Damm <magnus.damm@gmail.com>
+Cc: linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-serial@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	Prabhakar <prabhakar.csengg@gmail.com>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH v4 0/5] Add SCIF support for Renesas RZ/V2H(P) SoC
+Date: Fri, 22 Mar 2024 14:43:50 +0000
+Message-Id: <20240322144355.878930-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240322132619.6389-65-wsa+renesas@sang-engineering.com>
+Content-Transfer-Encoding: 8bit
 
-On Fri, Mar 22, 2024 at 02:25:57PM +0100, Wolfram Sang wrote:
-> Match the wording in i2c_algorithm in I2C drivers wrt. the newest I2C
-> v7, SMBus 3.2, I3C specifications and replace "master/slave" with more
-> appropriate terms. For some drivers, this means no more conversions are
-> needed. For the others more work needs to be done but this will be
-> performed incrementally along with API changes/improvements. All these
-> changes here are simple search/replace results.
-> 
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-Reviewed-by: Bjorn Andersson <andersson@kernel.org>
+Hi All,
 
-Regards,
-Bjorn
+This patch series updates DT binding doc and scif driver to add support
+for the Renesas RZ/V2H(P) SoC. RZ/V2H(P) SoC supports one channel SCIF
+interface.
+
+v3->v4
+- patch 2/4 reverted back to version 2
+- new patch 3/5 added
+- Added new reg type for RZ/V2H
+
+v2->v3
+- Included DT validation patches
+- Added a new compat string for RZ/V2H(P) SoC
+- Added driver changes for RZ/V2H(P) SoC
+- Listed interrupts and interrupt-names for every SoC in if check
+
+Cheers,
+Prabhakar
+
+Lad Prabhakar (5):
+  dt-bindings: serial: renesas,scif: Move ref for serial.yaml at the end
+  dt-bindings: serial: renesas,scif: Validate 'interrupts' and
+    'interrupt-names'
+  dt-bindings: serial: renesas,scif: Make 'interrupt-names' property as
+    required
+  dt-bindings: serial: Add documentation for Renesas RZ/V2H(P)
+    (R9A09G057) SCIF support
+  serial: sh-sci: Add support for RZ/V2H(P) SoC
+
+ .../bindings/serial/renesas,scif.yaml         | 136 +++++++++++++-----
+ drivers/tty/serial/sh-sci.c                   |  55 ++++++-
+ include/linux/serial_sci.h                    |   1 +
+ 3 files changed, 154 insertions(+), 38 deletions(-)
+
+-- 
+2.34.1
+
 
