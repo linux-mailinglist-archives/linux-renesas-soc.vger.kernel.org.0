@@ -1,138 +1,117 @@
-Return-Path: <linux-renesas-soc+bounces-3989-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-3990-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DA28886FA6
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 22 Mar 2024 16:14:24 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EFD9887074
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 22 Mar 2024 17:10:17 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B493F1C22385
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 22 Mar 2024 15:14:23 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 488DE284669
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 22 Mar 2024 16:10:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BDEC356B84;
-	Fri, 22 Mar 2024 15:13:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C34375C606;
+	Fri, 22 Mar 2024 16:09:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HF8JbSRd"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cVysgCUj"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 053A34E1C4;
-	Fri, 22 Mar 2024 15:13:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F05F756B68;
+	Fri, 22 Mar 2024 16:09:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711120430; cv=none; b=MU/iFWND1f7MT1dbhE0AWC9zUwQzi2lFmWs3WYTc2iGl3tGeT7VR+aVqFPYywX4js+evXgxODhQRy+syoNFiNpWO4HqSH/DQcT0KHNMBosJbA2R73beLpT0/9vPAMDG+uOkUeSA+NOpl8qIu6p2NNWJ2egbiUIEFamWuUind/Iw=
+	t=1711123793; cv=none; b=mvVV5lGmPvFONA/9SzFOVLBXBb3Y7O397f3B1Si0qyZhhle8IlFYYs5gmnzEtEikMtay8bdN3nMv1+GhaEveYk6mD1nLcr865NaqOQtXmgme3vAWRTxHc/x/oL6BtujPEgEPfjau8BTgk7C53PJXd/URTvur2zpCocK02CAAmlI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711120430; c=relaxed/simple;
-	bh=aEiwvFe1b6yF+StEQZ1rr1/VhFvd+gqzOrSn6S08Psw=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=GUOs/p5Q8dKD+SJVa/edKL65GOIQjTC+ijxuTHWtc9X17wZjKYP4CNtRs1TDTxTUQGURFx5Whr5qDcRUs2v/peGnkhkCNIkeMpEMM0OF+UfX3EKNtMZ9OzeswvODaABxSQkVViAyXvY3iQ09rfsl8bPA+BoeC8aRfvZcd3dwvxc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HF8JbSRd; arc=none smtp.client-ip=209.85.128.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-414787c73c7so8261155e9.0;
-        Fri, 22 Mar 2024 08:13:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1711120427; x=1711725227; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=WwFqtu9cCN48eR2VP1yO+BUGDJO89kd/raVOaSi/YaE=;
-        b=HF8JbSRdRNXTUpKRm+8Gxk3C74RbWDpW2ZhBXu/ukJ6p/0AFRyBeO01FM5nJQuDe7J
-         TftpE3pFl2XMV22KdoD4L6LOvhPbhWKi6YlxlJizqcZiBU9kM3ghnjLxJ9sAvk+IhSoa
-         qqr1GzTmC5dNwjtQx8VZ2RQgVDCiYjmNbp9DxcD7XcnCbLDkrybTucm/jf8TlwisWy8I
-         P6UFT9v1lppCnVLarS+Fjv37qFwDfDmKc1RwY5RBqI8vkoExB+DImT75aT+TpBirnuiw
-         ZyUrNhIiHrfwkIBDYjA9PNr0kcWs+dkzzJlUdehFuJMiFBom1ClyXf4JBrJmIDI0ZbIs
-         JJ0A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711120427; x=1711725227;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=WwFqtu9cCN48eR2VP1yO+BUGDJO89kd/raVOaSi/YaE=;
-        b=p2Qc/8QOJhSNtduFksby/WwUSlOqAc0PwdKy9IgYEWbuAJfniv+DcC6yUzExIXW0MX
-         Zam3P5rclcMlR8+aHREMwWQ0SCkBf6VGmJugPQCgNhsgpGHJHqSmUWuBDmECQI9ZMxml
-         CgT3vZIyPzo3B3ojVxaBnp2J/bM/UMnQXAxdtCrgNDhZzqajn+yjSTBgWxsz0bNSKhN2
-         LOE7mdFoIId/iGjO//uULRPyKrDJXTbN3kqWSacFbbDCLyjcbtO6dKanLE6fYOc2Pmvs
-         UN2A/jgES9+1ZciyksRzoAeJYv/vKpN4UZUz0mwj609p1cYdRRYpOcdC894U8si/HRou
-         oevQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVn6Yyqy8zWN8xEbweO1oIqhoCptrJiYboWFs2D6vw9ODhGf3TzWzFztVz1bi32dPskz1HKrt5Tq2UCv3iySMJtI3Tj/PjLwLk0l01GpBaa0I8yKO8nKf42ub4by7nqTSFlLuHh59ec3f9tY7q2
-X-Gm-Message-State: AOJu0YzWPX93eihme8m3uRiup7JYLYlcmVwFvWWMjoDRIJ2XlPzc7Kd/
-	FbvN+cJw8kBFkNxPXh/a93MJ3MzpfheUSZIEWBsqptEVk3MiXcIp
-X-Google-Smtp-Source: AGHT+IHZNeSZB4uvwIbaQvYaMT6aOs5dhwK5eOPl9RrKRfxIl1ZJULyy64o1gTX5Dx2isLcaInjLRg==
-X-Received: by 2002:a05:600c:5596:b0:414:c42:e114 with SMTP id jp22-20020a05600c559600b004140c42e114mr1824737wmb.39.1711120427360;
-        Fri, 22 Mar 2024 08:13:47 -0700 (PDT)
-Received: from prasmi.home ([2a00:23c8:2500:a01:7b89:721b:d6b0:d7e8])
-        by smtp.gmail.com with ESMTPSA id h13-20020a05600c314d00b004146d736fcdsm8626677wmo.36.2024.03.22.08.13.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 22 Mar 2024 08:13:46 -0700 (PDT)
-From: Prabhakar <prabhakar.csengg@gmail.com>
-X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>,
-	Daniel Lezcano <daniel.lezcano@linaro.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Chris Brandt <chris.brandt@renesas.com>,
-	Magnus Damm <magnus.damm@gmail.com>
-Cc: linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org,
+	s=arc-20240116; t=1711123793; c=relaxed/simple;
+	bh=cuGiQISoVKHBaZbLIVHnraYHHoAO1WEtkqCEo2+zeaY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qgIQDnKLsWYegyurwm54nDb/XG953mH0sPvGOkZqQe9uqJ8cEStDIB9Sn2F/j/HHkunlpB8zsm++m6lnam9JT+VqvlWYtxVeWo/bkU2ydomEmK0D9/fBlO9ssIwtZsrNNDlQKDbZXaAsL3CPFOCupypUJajt2EmStdutAhYy+6M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cVysgCUj; arc=none smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1711123793; x=1742659793;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=cuGiQISoVKHBaZbLIVHnraYHHoAO1WEtkqCEo2+zeaY=;
+  b=cVysgCUjthGXsXESrmm6GvwBx3Ubd3mW30jUrr6yqd1d+PIwUoQCDscs
+   szlw+EIeVIN9I1FabCKBUzlt7qLnfoKqfL3QmxnBsRYiRwkbH68qs4BIL
+   cweH4b76wwphHndDsgb3NIOzIr3Gy6iiZT6RASzNib6olEPHxKyzUNEbe
+   7mIfLJ44yc13Lq4JO4SpcUMa2RCk5teisaG1D0rf3e8gmw4HZ78EuIcFV
+   l1v1dnGAHPTA63f77HJ5tk1UKfXBm+62cp1lGSX8j6s68CJ9qtzChnPWz
+   /a8hOhJsRS2f6VZjn4LDg+MS6qlODy/6wTTfPh2EIO2SWPAcW3q8SG4lO
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,11020"; a="23634248"
+X-IronPort-AV: E=Sophos;i="6.07,146,1708416000"; 
+   d="scan'208";a="23634248"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Mar 2024 09:09:52 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,11020"; a="914747988"
+X-IronPort-AV: E=Sophos;i="6.07,146,1708416000"; 
+   d="scan'208";a="914747988"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by fmsmga002.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Mar 2024 09:09:47 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.97)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1rnhSi-0000000FCTj-1lkG;
+	Fri, 22 Mar 2024 18:09:44 +0200
+Date: Fri, 22 Mar 2024 18:09:44 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc: linux-i2c@vger.kernel.org, Andi Shyti <andi.shyti@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
 	linux-arm-kernel@lists.infradead.org,
+	chrome-platform@lists.linux.dev, linux-samsung-soc@vger.kernel.org,
+	imx@lists.linux.dev, linux-mips@vger.kernel.org,
+	linux-amlogic@lists.infradead.org,
+	linux-mediatek@lists.infradead.org, openbmc@lists.ozlabs.org,
+	linux-omap@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+	asahi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
 	linux-renesas-soc@vger.kernel.org,
-	Prabhakar <prabhakar.csengg@gmail.com>,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH v2 2/2] clocksource/drivers/renesas-ostm: Allow OSTM driver to reprobe for RZ/V2H(P) SoC
-Date: Fri, 22 Mar 2024 15:12:19 +0000
-Message-Id: <20240322151219.885832-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240322151219.885832-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20240322151219.885832-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-tegra@vger.kernel.org, virtualization@lists.linux.dev
+Subject: Re: [PATCH 64/64] i2c: reword i2c_algorithm in drivers according to
+ newest specification
+Message-ID: <Zf2tSLJzujUHbJjp@smile.fi.intel.com>
+References: <20240322132619.6389-1-wsa+renesas@sang-engineering.com>
+ <20240322132619.6389-65-wsa+renesas@sang-engineering.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240322132619.6389-65-wsa+renesas@sang-engineering.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+On Fri, Mar 22, 2024 at 02:25:57PM +0100, Wolfram Sang wrote:
+> Match the wording in i2c_algorithm in I2C drivers wrt. the newest I2C
+> v7, SMBus 3.2, I3C specifications and replace "master/slave" with more
+> appropriate terms. For some drivers, this means no more conversions are
+> needed. For the others more work needs to be done but this will be
+> performed incrementally along with API changes/improvements. All these
+> changes here are simple search/replace results.
 
-The RZ/V2H(P) (R9A09G057) SoC is equipped with the Generic Timer Module,
-also known as OSTM. Similar to the RZ/G2L SoC, the OSTM on the RZ/V2H(P)
-SoC requires the reset line to be deasserted before accessing any
-registers.
+...
 
-Early call to ostm_init() happens through TIMER_OF_DECLARE() which always
-fails with -EPROBE_DEFER, as resets are not available that early in the
-boot process.  To address this issue on the RZ/V2H(P) SoC, enable the OSTM
-driver to be reprobed through the platform driver probe mechanism.
+>  static const struct i2c_algorithm at91_twi_algorithm = {
+> -	.master_xfer	= at91_twi_xfer,
+> +	.xfer	= at91_twi_xfer,
 
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
----
-v1->v2
-- Updated commit description
-- Dropped usage of IS_ENABLED() and used defined() instead
----
- drivers/clocksource/renesas-ostm.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Seems you made this by a script, can you check the indentations afterwards?
 
-diff --git a/drivers/clocksource/renesas-ostm.c b/drivers/clocksource/renesas-ostm.c
-index 8da972dc1713..39487d05a009 100644
---- a/drivers/clocksource/renesas-ostm.c
-+++ b/drivers/clocksource/renesas-ostm.c
-@@ -224,7 +224,7 @@ static int __init ostm_init(struct device_node *np)
- 
- TIMER_OF_DECLARE(ostm, "renesas,ostm", ostm_init);
- 
--#ifdef CONFIG_ARCH_RZG2L
-+#if defined(CONFIG_ARCH_RZG2L) || defined(CONFIG_ARCH_R9A09G057)
- static int __init ostm_probe(struct platform_device *pdev)
- {
- 	struct device *dev = &pdev->dev;
+>  	.functionality	= at91_twi_func,
+>  };
+
 -- 
-2.34.1
+With Best Regards,
+Andy Shevchenko
+
 
 
