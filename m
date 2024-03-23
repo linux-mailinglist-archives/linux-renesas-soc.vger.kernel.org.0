@@ -1,205 +1,124 @@
-Return-Path: <linux-renesas-soc+bounces-3998-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-3999-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83D6C88734F
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 22 Mar 2024 19:42:04 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id AA6B78877BC
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 23 Mar 2024 10:20:45 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 0FB69B21A4B
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 22 Mar 2024 18:42:02 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4041E1F21D38
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 23 Mar 2024 09:20:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 554D46A327;
-	Fri, 22 Mar 2024 18:41:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 68667FBE9;
+	Sat, 23 Mar 2024 09:20:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="j5Lyk2Yf"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AmGkF125"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 255895FDC9;
-	Fri, 22 Mar 2024 18:41:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFED7DDC5;
+	Sat, 23 Mar 2024 09:20:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711132919; cv=none; b=ItNRL1mOhwKYuEwJn01UxR9tUtECG/nksPq0E4hjhiyrgN8+3k+jWSIWZkbFRXTr+zvAZZWwry6IJIGbawNVPUAElYVTm83MF7B5YcmXoc2AK2zECqsKneDuKiaVCrFJomLrtsXVYquREbw762Lwgleh1p585PKqIVA7t21CU1k=
+	t=1711185637; cv=none; b=ncOmAjFw4nEPoF0J2y/49n7YILGtVM/GZBxJPRBw7iGx8Q3CF1vxx75esN0JU+6OiKH8slJCUM7G2sYETfMhHBbpRJ7CpCBwHVf9u+7Oyej1He8OBtFzL0YYOMFdz/B17Y3BzBgzDeYdlmG37+laJae/kelDEGxseod/p95RRAM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711132919; c=relaxed/simple;
-	bh=F11k4iI02tzCqpoumpy2ptLTRb5nTvwahbpqwzebvKI=;
+	s=arc-20240116; t=1711185637; c=relaxed/simple;
+	bh=aGTQuZy7vZpxuhlc2uWM1FWO2cNVLUpXYHPr+30NYM4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ran5rZ3i0LV1/MAm6j3JTwmYymznbdPpofdRWGUYhtcp2nXMuSg/fKLpgZ3JohiUd46ahtbVg6DgwrsTLzGbtT2qsvJwQatYJywtcoQPAuu95LUc+gxOV8/DSsXu51OVat8TwVH6DDiIIlx6LonBlDyAq7+xyabL61b7TEODOok=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=j5Lyk2Yf; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 05A0CC433C7;
-	Fri, 22 Mar 2024 18:41:54 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=Rh0DSAdSQVNBS1adbiZGMY4peRzHf0OTI1CLdrkJl+mE1QbOUeJ4y6uzhifAP3lPqxAJ+LIqYAI9lNkveAzkyTTykksIouPaF+eEm+Dp1DBn5jBle6zAmfSWwrlcPoHoim7asJCNSjOC4eFVZF68Wj1uh+JRYU+LavkF/Ophhpc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AmGkF125; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D51C0C433F1;
+	Sat, 23 Mar 2024 09:20:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1711132918;
-	bh=F11k4iI02tzCqpoumpy2ptLTRb5nTvwahbpqwzebvKI=;
+	s=k20201202; t=1711185636;
+	bh=aGTQuZy7vZpxuhlc2uWM1FWO2cNVLUpXYHPr+30NYM4=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=j5Lyk2YftVMKaJ9QA+oLv/BWSAsGEYXT/O9U4taywknWePLo6uZDQrL9JZFfaSKAl
-	 St2bIrbsE2P75d5lEvYCbAMsUd83jvz8Ik4D5YG3gyIDVWV7Emg37kuj66NxkAJUdO
-	 4VmTUaHFu2M8uIjc+GpRoqPjrRi83HfotABCghV4jB0UOoAI2EjUX2ZuR0ztatKBD1
-	 jHdB+8oh3zCTjQI1nWlWjXi4GcEEs330XBMKVW6+IYnJKEeRdtYmlYKcDtZc8gAcj0
-	 PvNUx+kPXQ0c0ZGJOxzOUHa6Bmrjy+wDte0n7McFiCOsTytCPtc1jF5zRdHbrO9ToQ
-	 brsM9GWBU5FEw==
-Date: Fri, 22 Mar 2024 18:41:52 +0000
-From: Conor Dooley <conor@kernel.org>
-To: Prabhakar <prabhakar.csengg@gmail.com>
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jiri Slaby <jirislaby@kernel.org>, Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Magnus Damm <magnus.damm@gmail.com>, linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-serial@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: Re: [PATCH v4 4/5] dt-bindings: serial: Add documentation for
- Renesas RZ/V2H(P) (R9A09G057) SCIF support
-Message-ID: <20240322-donor-undying-d941fc3db445@spud>
-References: <20240322144355.878930-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20240322144355.878930-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
+	b=AmGkF125xegySFWAiHvPntmZ+07s8hZQPC/0IVIftdkxYeMJTqDHDoBaq087Sl4Ry
+	 qKx2QcAVw6S410SG7j4biAqt4/h5dTjc1vKUs5R8LJBjxtJSQyMNE1PxZTAhzLwpa+
+	 ZvDOHlqhfPGo+3K1JP9tq5K11rxRL31gNRIYe4fcfJjyAcpNQmozM0AzDwGqt7aAAm
+	 vL1bo7yWAyyXHWJXICav98Il7syCI5t9aEO0HLvfyTQ7cJVQX5WfpHiaD8JmvRG1Zm
+	 VmI4taBLphr2uo/nVmCk1uj3x3TE6/IYqaCXMkAcTk/3yvQe9KoaZIneVeSaGY4Thk
+	 hCCXd6I1k2Bcg==
+Date: Sat, 23 Mar 2024 10:20:32 +0100
+From: Andi Shyti <andi.shyti@kernel.org>
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc: linux-i2c@vger.kernel.org, asahi@lists.linux.dev, 
+	chrome-platform@lists.linux.dev, imx@lists.linux.dev, linux-actions@lists.infradead.org, 
+	linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
+	linux-arm-msm@vger.kernel.org, linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org, 
+	linux-mediatek@lists.infradead.org, linux-mips@vger.kernel.org, linux-omap@vger.kernel.org, 
+	linuxppc-dev@lists.ozlabs.org, linux-renesas-soc@vger.kernel.org, 
+	linux-riscv@lists.infradead.org, linux-rockchip@lists.infradead.org, 
+	linux-rpi-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org, 
+	linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org, 
+	openbmc@lists.ozlabs.org, virtualization@lists.linux.dev
+Subject: Re: [PATCH 00/64] i2c: reword i2c_algorithm according to newest
+ specification
+Message-ID: <ug266trshvhhbsln3eoh53fmsuj3l63ziz6gavcl7rv2jhjr5t@3av5givh5n7m>
+References: <20240322132619.6389-1-wsa+renesas@sang-engineering.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="kbZNjUf7uTigHDC3"
-Content-Disposition: inline
-In-Reply-To: <20240322144355.878930-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
-
-
---kbZNjUf7uTigHDC3
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20240322132619.6389-1-wsa+renesas@sang-engineering.com>
 
-On Fri, Mar 22, 2024 at 02:43:54PM +0000, Prabhakar wrote:
-> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
->=20
-> Document support for the Serial Communication Interface with FIFO (SCIF)
-> available in the Renesas RZ/V2H(P) (R9A09G057) SoC. The SCIF interface in
-> the Renesas RZ/V2H(P) is similar to that available in the RZ/G2L
-> (R9A07G044) SoC, with the following differences:
->=20
-> - RZ/V2H(P) SoC has three additional interrupts: one for Tx end/Rx ready
->   and two for Rx and Tx buffer full, all of which are edge-triggered.
-> - RZ/V2H(P) supports asynchronous mode, whereas RZ/G2L supports both
->   synchronous and asynchronous modes.
-> - There are differences in the configuration of certain registers such
->   as SCSMR, SCFCR, and SCSPTR between the two SoCs.
->=20
-> To handle these differences in the driver, a new SoC-specific compatible
-> string is added, ensuring proper handling of the unique features and
-> register configurations of the RZ/V2H(P) SoC.
->=20
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Hi Wolfram,
 
-Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
+On Fri, Mar 22, 2024 at 02:24:53PM +0100, Wolfram Sang wrote:
+> Okay, we need to begin somewhere...
+> 
+> Start changing the wording of the I2C main header wrt. the newest I2C
+> v7, SMBus 3.2, I3C specifications and replace "master/slave" with more
+> appropriate terms. This first step renames the members of struct
+> i2c_algorithm. Once all in-tree users are converted, the anonymous union
+> will go away again. All this work will also pave the way for finally
+> seperating the monolithic header into more fine-grained headers like
+> "i2c/clients.h" etc. So, this is not a simple renaming-excercise but
+> also a chance to update the I2C core to recent Linux standards.
 
-Thanks,
-Conor.
+yes, very good! It's clearly stated in all three documentations
+that Target replaces Slave and Controller replaces Master (i3c is
+at the 1.1.1 version).
 
-> ---
-> v3->v4
-> - Appended the interrupts instead of adding SoC specific
-> - Added restriction for clocks and reset
->=20
-> v2->v3
-> - Added SoC specific compat string
-> ---
->  .../bindings/serial/renesas,scif.yaml         | 30 +++++++++++++++++++
->  1 file changed, 30 insertions(+)
->=20
-> diff --git a/Documentation/devicetree/bindings/serial/renesas,scif.yaml b=
-/Documentation/devicetree/bindings/serial/renesas,scif.yaml
-> index c13b31c28049..93fc7b75e2e5 100644
-> --- a/Documentation/devicetree/bindings/serial/renesas,scif.yaml
-> +++ b/Documentation/devicetree/bindings/serial/renesas,scif.yaml
-> @@ -79,6 +79,8 @@ properties:
->                - renesas,scif-r9a08g045      # RZ/G3S
->            - const: renesas,scif-r9a07g044   # RZ/G2{L,LC} fallback
-> =20
-> +      - const: renesas,scif-r9a09g057       # RZ/V2H(P)
-> +
->    reg:
->      maxItems: 1
-> =20
-> @@ -93,6 +95,9 @@ properties:
->            - description: Break interrupt
->            - description: Data Ready interrupt
->            - description: Transmit End interrupt
-> +          - description: Transmit End/Data Ready interrupt
-> +          - description: Receive buffer full interrupt (EDGE trigger)
-> +          - description: Transmit buffer empty interrupt (EDGE trigger)
->          minItems: 4
-> =20
->    interrupt-names:
-> @@ -104,6 +109,9 @@ properties:
->        - const: bri
->        - const: dri
->        - const: tei
-> +      - const: tei-dri
-> +      - const: rxi-edge
-> +      - const: txi-edge
-> =20
->    clocks:
->      minItems: 1
-> @@ -160,6 +168,7 @@ allOf:
->                - renesas,rcar-gen3-scif
->                - renesas,rcar-gen4-scif
->                - renesas,scif-r9a07g044
-> +              - renesas,scif-r9a09g057
->      then:
->        required:
->          - resets
-> @@ -209,9 +218,30 @@ allOf:
->        properties:
->          interrupts:
->            minItems: 6
-> +          maxItems: 6
-> =20
->          interrupt-names:
->            minItems: 6
-> +          maxItems: 6
-> +
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            const: renesas,scif-r9a09g057
-> +    then:
-> +      properties:
-> +        clocks:
-> +          maxItems: 1
-> +
-> +        clock-names:
-> +          maxItems: 1
-> +
-> +        interrupts:
-> +          minItems: 9
-> +
-> +        interrupt-names:
-> +          minItems: 9
-> =20
->  unevaluatedProperties: false
-> =20
-> --=20
-> 2.34.1
->=20
+> My motivation is to improve the I2C core API, in general. My motivation
+> is not to clean each and every driver. I think this is impossible
+> because register names based on official documentation will need to stay
+> as they are. But the Linux-internal names should be updated IMO.
 
---kbZNjUf7uTigHDC3
-Content-Type: application/pgp-signature; name="signature.asc"
+Also because some drivers have been written based on previous
+specifications where master/slave was used.
 
------BEGIN PGP SIGNATURE-----
+> That being said, I worked on 62 drivers in this series beyond plain
+> renames inside 'struct i2c_algorithm' because the fruits were so
+> low-hanging. Before this series, 112 files in the 'busses/' directory
+> contained 'master' and/or 'slave'. After the series, only 57. Why not?
+> 
+> Next step is updating the drivers outside the 'i2c'-folder regarding
+> 'struct i2c_algorithm' so we can remove the anonymous union ASAP. To be
+> able to work on this with minimal dependencies, I'd like to apply this
+> series between -rc1 and -rc2.
+> 
+> I hope this will work for you guys. The changes are really minimal. If
+> you are not comfortable with changes to your driver or need more time to
+> review, please NACK the patch and I will drop the patch and/or address
+> the issues separeately.
+> 
+> @Andi: are you okay with this approach? It means you'd need to merge
+> -rc2 into your for-next branch. Or rebase if all fails.
 
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZf3Q8AAKCRB4tDGHoIJi
-0rSuAQDQBPGUs8icPLxwGsWSeXy4khapO+KonhR3hhzZarFPagEA+J5rYERXAPIm
-ZqcsXcmdvvFPcibF6kTToxC6lUyChgs=
-=JU55
------END PGP SIGNATURE-----
+I think it's a good plan, I'll try to support you with it.
 
---kbZNjUf7uTigHDC3--
+> Speaking of Andi, thanks a lot to him taking care of the controller
+> drivers these days. His work really gives me the freedom to work on I2C
+> core issues again.
+
+Thank you, Wolfram!
+
+Andi
 
