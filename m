@@ -1,204 +1,166 @@
-Return-Path: <linux-renesas-soc+bounces-4023-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-4024-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C113788B9EF
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 26 Mar 2024 06:47:35 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id B8C3188BBDB
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 26 Mar 2024 09:02:52 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E41941C2B643
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 26 Mar 2024 05:47:34 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 0A9C5B22D26
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 26 Mar 2024 08:02:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5595C129E7B;
-	Tue, 26 Mar 2024 05:47:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="brxrq03P"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0ADF7132C37;
+	Tue, 26 Mar 2024 08:02:47 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01on2123.outbound.protection.outlook.com [40.107.113.123])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com [209.85.128.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC43A446BA;
-	Tue, 26 Mar 2024 05:47:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.113.123
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711432050; cv=fail; b=OD2I5afIBzvrGCMyHQgfURPDJw9KhyWXZqcifdKsgU0JnrQuPSGc1mjwaiaE6SbtmKlTk101SbhBRS/LcwvUrmQD1YSg9NZw5opqV3ECst5aK35wlrrPpJ2sTwE6qj2YUF9W0ZKVI5Isjc1t677E8kHyBku839jgC5hxB+DTCg0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711432050; c=relaxed/simple;
-	bh=rI1j7VDxYViuOaDZSGsRrMLvtO74ppDHAS+f0PBB0Sk=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=BSXm5o8Ya1uB9Nw42cqiyOk0lfH1Na0iIB0gRcmQ4tkVpyuorlGhN9c9MNH8GiAqEbUhfouLEqHSMRkPLQmhdUQJd3xgaehNhnVGFxGOLWxzSEYXQ4ovmV1GnsD5p+RLdPRNYvIvKydvoXpysIfyNkGWuYKHoryiLMFWc8hmjLs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=brxrq03P; arc=fail smtp.client-ip=40.107.113.123
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=kfitV85mIim4VqEBrgJaCbLIgwF7+jC38+OLxiaD/l4VXZ+5PdVkeeqyFuaFhH7PwO9AlPsUbW5Q7hQZP0vxMjLxhvMgyeZkGKN6uUuS/paFy76L+F2JeiNE04DcmFiySwju+eqA0ThZL0ZYjpPFrtpzo782KygoIde/z/dPTWUwYka4HcK3kHqcNlvk7kaoatMVqtexmvBDQPM6pZA97nxJzq0BwB7D5cO6HrmpbYK4kqACgqLuFIjJLBxgQdF0vsWOc/LUniLk2/qHQuQaOSHRa5RXcp4sFTZf3Tpubg8pu6uDqWgxGHtxKS2bnMKMTcFLZoXWkJMPPEbFVDWyEQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=P/dnzIqe2VKcIHqcgoQHAbM+arceHVFR2c704KOtNC8=;
- b=g6FaUtsBcBakH460+BenLg9ZdLxESVbQf9v1r7zTfTwRaB4p37Lb5Mtjd0EFmnVw64hvphy+M+VxJMimYUX8wcX5cpQcZiq5ZJbjfEv1Bl/elD/OryXe7m2Ywwx6jDAu4L3vtk4ahNh3xAExNUfG9Xz9pSF+zOgqD+s2BguPrkRqIqxAQBXHtPO+iE5ZWlk/mkFycL1vuwl5JNRTehS65/9ujBN17NGicYwDH+FPNO/mZ/YK+07Q0QDGzPNEx3NEpZtPbUNaXt/fDlt3fm+usotsHhkqJjbRC7eToUcNO9DTKnn4sypdVp/iJaRJWvdviiO2Z3YpvxnumFcdsO1pUw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=P/dnzIqe2VKcIHqcgoQHAbM+arceHVFR2c704KOtNC8=;
- b=brxrq03PkLvxc0DvJ+DCdjsHILYONm0WBCQEgVOWHpHjxEAn+KanL7eBXDClXOagTX02r6gjwYXH8WSNvPRT4vHbFU74EvZkvyEiN0STDtBcdwfqZdPuHuL8sR/so68PFH24AGWcm6a4/av9oIcqcICqQ9BEeXsq5hDUpCb7JuU=
-Received: from TYCPR01MB11040.jpnprd01.prod.outlook.com (2603:1096:400:3a7::6)
- by TYCPR01MB9812.jpnprd01.prod.outlook.com (2603:1096:400:20a::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7409.31; Tue, 26 Mar
- 2024 05:47:23 +0000
-Received: from TYCPR01MB11040.jpnprd01.prod.outlook.com
- ([fe80::f9d2:106:9dc3:224f]) by TYCPR01MB11040.jpnprd01.prod.outlook.com
- ([fe80::f9d2:106:9dc3:224f%3]) with mapi id 15.20.7386.023; Tue, 26 Mar 2024
- 05:47:23 +0000
-From: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-To: Frank Li <Frank.li@nxp.com>
-CC: "lpieralisi@kernel.org" <lpieralisi@kernel.org>, "kw@linux.com"
-	<kw@linux.com>, "robh@kernel.org" <robh@kernel.org>, "bhelgaas@google.com"
-	<bhelgaas@google.com>, "krzysztof.kozlowski+dt@linaro.org"
-	<krzysztof.kozlowski+dt@linaro.org>, "conor+dt@kernel.org"
-	<conor+dt@kernel.org>, "jingoohan1@gmail.com" <jingoohan1@gmail.com>,
-	"gustavo.pimentel@synopsys.com" <gustavo.pimentel@synopsys.com>,
-	"mani@kernel.org" <mani@kernel.org>, "marek.vasut+renesas@gmail.com"
-	<marek.vasut+renesas@gmail.com>, "linux-pci@vger.kernel.org"
-	<linux-pci@vger.kernel.org>, "devicetree@vger.kernel.org"
-	<devicetree@vger.kernel.org>, "linux-renesas-soc@vger.kernel.org"
-	<linux-renesas-soc@vger.kernel.org>, Geert Uytterhoeven
-	<geert+renesas@glider.be>
-Subject: RE: [PATCH v2 6/6] misc: pci_endpoint_test: Add Device ID for R-Car
- V4H PCIe controller
-Thread-Topic: [PATCH v2 6/6] misc: pci_endpoint_test: Add Device ID for R-Car
- V4H PCIe controller
-Thread-Index: AQHafye97ZlAwgf9kU+dZUE2YnHEwrFJWvUAgAAmxiA=
-Date: Tue, 26 Mar 2024 05:47:23 +0000
-Message-ID:
- <TYCPR01MB1104072DA4D6B3DF120A10D0AD8352@TYCPR01MB11040.jpnprd01.prod.outlook.com>
-References: <20240326024540.2336155-1-yoshihiro.shimoda.uh@renesas.com>
- <20240326024540.2336155-7-yoshihiro.shimoda.uh@renesas.com>
- <ZgI/IGe2L0rJ8SSF@lizhi-Precision-Tower-5810>
-In-Reply-To: <ZgI/IGe2L0rJ8SSF@lizhi-Precision-Tower-5810>
-Accept-Language: ja-JP, en-US
-Content-Language: ja-JP
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TYCPR01MB11040:EE_|TYCPR01MB9812:EE_
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info:
- fLgBvJctteeUYE93hXTe0x/KoDuaJ4V7Aq7bO8IXsj/xSO1Js/f1X9Li2yPTt/jfwDQNyQ/mooNw8O/54B/SkCu6ESgAWSo5Q37w68QYW/Ot+qHBuDMWIIuSTnnjYJU0NYnDBH0gQagoyVR/mJLF9UNrPiYlZXFTWj9WDwycDQhlDmwExMK/SWB7qNISZ+AODFZSlID9zX9OczKsVG21dFVEhSs7Gcby1jRx/17w4Bu81zGyOA0zYZJH8+0QHpxSaS5ShXhKT75i4a+dIcNshLo1kk5bcOR+UXj/ys5m+TAIpJm7g72N7bddXmjh69nWD5E+OBF4ndr1OubU3BlsizgsTkyWYLKK2spk9LZeza3W/fM7LntE39bPNT5nvIei7zC2ZwzNugfoJlCTPRgJH+pYjnne3ayGHmeeiju5bNL9AWco2+m0z8bjkFdyh1vA0gOQ1wih5YiuLkAUu969TlRm7/cy3aXFHZpbi7yN9p+JMgqDhw34ZjWccjNYj82ej4/HMKvbak1kTW4qyBRKCogB060VwAhrJPljlvLKWuYz7c5L7Jwpsi8tI37nQfar/tW9jB9I81cezMr/7kS4qC8j/wHRIHb/mjx0OSrBxBhpPyNlvzy/3JCaUdBamH2el7daq9NDgWV9Z1PWUOrbK7wBTySVROo2mNlF/xEn3SU=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB11040.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(7416005)(376005)(1800799015)(366007);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?mTacxfo+h7XDZUVQrykigD/V91dMKIaayFhGTi8pOUv9yiq2TFePQ6Kvou8S?=
- =?us-ascii?Q?an5Vr+iKn41gLnLwYe71zkiEWhy50SYMSPDqFvUUlA0cJkT2IAzPu86h79XO?=
- =?us-ascii?Q?MNCFZ7mMUIeLd3fdH9Pn/CliE/aey5vWyyt8WWPuGIXwuw8uQCaJlohwM2+w?=
- =?us-ascii?Q?+vU+X0skGIE2IU3xieqRtOk/EH3xbdHRjA77VPHJLHNf1YASZQ/yfyKcIBUF?=
- =?us-ascii?Q?v4WLcVsCEbbMwYVEmhtrc6o5BcBl2/h3T+nONxcYCixk6rn1e+9R0hYynhcl?=
- =?us-ascii?Q?guQeb0u2cqO/eS6a7hLfvmIGdKT3XNFEmkKwQXnpjK6uBXeljRah2rEy+s/s?=
- =?us-ascii?Q?9Qyz9pRLw1Wip4d1SZNsPnt4ZxRO9HNNudmFBvYvtkd8nDZ98XVrdlH9Muya?=
- =?us-ascii?Q?VlX+wWvj1UYEciA9d9KkrnpQAPIcBGeHr5J8YOU2QJIsRnqTOrYqVZtecMxY?=
- =?us-ascii?Q?JfZlVqTofMJg+P2npsCLwUlN5RMINgT2lgiba29TXua86vhuDsr9/Fm9SsPz?=
- =?us-ascii?Q?NRzpirUcboBlFC4KoieLcpgpnPM1VfMmwRRKq4Rg80jrIZ5kfIyd0vVd+fPe?=
- =?us-ascii?Q?XT1SBzTYYT7NRy0H54VvMkgK0VOX8aZV4crnSvD4rTyWH1G/Z2TkeGUxZNTV?=
- =?us-ascii?Q?ab9MZJ+DBnw34SsMuMcV2YVb30INWtf+fL6BAgH7RDHRushK0g+/SLiLrIch?=
- =?us-ascii?Q?iEMpoZpmwHOz/lfyMBL62PMQFnwmjRjFW9iMOLKSO/cQWEBvqokfKSoOhfoa?=
- =?us-ascii?Q?48a8OtndgsRN4Miah2MwOPCFHMPqdoAgMkSnxWhrGpXnkWtMAiRB6Vh3aD9+?=
- =?us-ascii?Q?4+yt9S3IPdsJNrXfv9mnXOXQ2TD3NCJDI8XbTJu8Z24IideTtERIH8+uFNrR?=
- =?us-ascii?Q?wHNWOkkcAl4U0JIpvVLMPhrfcIEgfHp9IQDgTtTfdVjMOS3eJKwlBL1OxGaZ?=
- =?us-ascii?Q?iQ5s5ewvVCVezGZH8fNV54A0WSYJsr6cN1HBn7U0dAnf2MkmySBphALXNZGN?=
- =?us-ascii?Q?mROmMZDmYGAFNt8G6j3vU0TMeBGEZJac6GExEl4tG0F3lcVLwdSWcmPIeIPm?=
- =?us-ascii?Q?yRnKOuLSa+bVlYHKlyZgTO/FEnTuH5QASEqp7sXOHDqEYkE61kC5Xi0gwuM+?=
- =?us-ascii?Q?AL6eBRWH7WcyGACsEWRsHtxPTHmQuFmOgwo8mdZqhXUJHBdtv5Pr2LvSggSV?=
- =?us-ascii?Q?RSHmLccBlp/u85HgqWoAC/lBqNlUNhfS70R8x6vHrYAQ6K0j4O/lapNVE+fx?=
- =?us-ascii?Q?pWwEZLMkahenzDZsPDx8cjTvTzcSNQXk0d9pdEamhxbxITAxc4+CAZMOexRi?=
- =?us-ascii?Q?jCArCMVwQOMXW5dnAjRBJRbQuh7MBiehunKPq6SnhdMFij6YF9hMLJ4hClEf?=
- =?us-ascii?Q?zH/p21ga3yzDeHMp7/7BoWech6jTjNbCwalbJzLhVAbJdqKdEAYy6NmKmC3J?=
- =?us-ascii?Q?JNEQDaaIVUo3nmcDeSdIWTR/8orbX/SYOZquZEYeeuLb4RDhMZADvZkaVIdA?=
- =?us-ascii?Q?FF6+QAMLm9qf8pem53gNigeNmXK519lMOW63d+NvEDr84KhQ/llKKejWtUr9?=
- =?us-ascii?Q?lYsDkgy5ce/qGlCrdiCzYd+gZl+fsYdvj7Setgln8wTDqLPd/N+cTrDt2usT?=
- =?us-ascii?Q?vQ=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1888018C38;
+	Tue, 26 Mar 2024 08:02:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.179
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1711440166; cv=none; b=MNurzVfPocsMdXMMdEbxezIgm9oywaQo6vmIwOg7/+EuXVKCceh+wg7s/QWAMtPHGpuBRAgneUoTkwKSXzpfbgV4IrCPUm2obMxppWFZwNDWZ5RcWiUC2Rd0PwiJGTd1sYIzr6+N9TpyBFL3ItbzstjUgGHwqaGXsKmQ2zL49Nk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1711440166; c=relaxed/simple;
+	bh=05/Cgdd9jcscT26Btc4gZqpr6BtmMg5RiBx3hVkQtFw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=tfil6BCUuVUWYT+8GLuWYE34RryTo9kZdxsZp+IzrH/oCHaBttXCp+dxSfmUHjTdy4SLhcmULR4GCqlhChdQ4yFujHq7hO5jr2CvPqbOGSUcgTLrAr4SFwUNz4GtFAUFkin8q9Ha570EZ4Y1VxSd2A51BUoni6wrRK15895vDLk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-60a0579a931so56426387b3.0;
+        Tue, 26 Mar 2024 01:02:44 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1711440163; x=1712044963;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Mckyb96OX2beYcxE9hMgQH/HkyGUUKnyCtMxkXiNMw0=;
+        b=AXSFKJTtVNgqDMImC2Qa89i5HeplDr5eGUOwEXmGLZ1bExSFtQwqEMHPC3FuGQV/d8
+         dGQpUs9x8jKi7SODeF0GIcrSgoa7bCf6uJZv9oEL1tHlqnVoxq2NrxbvRkHt3q87qKqj
+         w+aU6cvF49UQiAv3Ew1oxV9JbVniUOpNkGOkwyzW84Dl/xU9TQHmT6trt2JAmBWkSQac
+         plLW4qV1IFG2FYDs96EBbk9/8eFkEr+ITLnose7jdQP8qMNMGJR2R1lSbfEYjuPPHOaN
+         Lc/dtwDmMMcXPk/DH/EZaO7of14Sh2OAkOMEcRRA84i5IqDED6T+wArHRS3Wy9l15H+T
+         wRhg==
+X-Forwarded-Encrypted: i=1; AJvYcCXWT5h1K8lWD+1OgZhYAEUVjO2ju5i72QaD6mvJyPael9ijGT+nBgbX0nHXprCbDyyAGhaX6RW2eHSfcVpdFM2zFs4ZOxl5c1+vJoc3u8iseK9WBlJUBeQFd/2x5SDOrW8q/Kpfj2yT6M3NoEb81zNJv32YTgyg8ToTB9x0EVx+XLOiSNe/q1X/tyyJGydG8pWuU6OzlbW/Mz2Y+ErTryIS3+jSOaYxHSSM
+X-Gm-Message-State: AOJu0YxTuQf51Qxbd6NrPBJKj6z+c87qq4sSJoIjWtx01SDHg4YepPe8
+	i/f3wK6Vo32uL02/nCMaLzrOo/SI0m6UWnrv/D7s2taYxNdWrS7XjxX9p+Z9fqE=
+X-Google-Smtp-Source: AGHT+IG+g9E2AtI3Nl7Yt/OHW+crCse49TRXi0pzL9yyGovnzdCwMHTHy8+bzyiFkLoI4HPlJEsuHw==
+X-Received: by 2002:a25:a2cf:0:b0:dcc:f0a:e495 with SMTP id c15-20020a25a2cf000000b00dcc0f0ae495mr7011473ybn.3.1711440163606;
+        Tue, 26 Mar 2024 01:02:43 -0700 (PDT)
+Received: from mail-yb1-f173.google.com (mail-yb1-f173.google.com. [209.85.219.173])
+        by smtp.gmail.com with ESMTPSA id x3-20020a254a03000000b00dc74ac54f5fsm1359771yba.63.2024.03.26.01.02.42
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 26 Mar 2024 01:02:42 -0700 (PDT)
+Received: by mail-yb1-f173.google.com with SMTP id 3f1490d57ef6-dcc80d6006aso4923416276.0;
+        Tue, 26 Mar 2024 01:02:42 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVig2Hl4uIbhYrjuSElV9VFj4Eka+yyhLGayfzCgYvOcWdkRKsOkflKLjxr8p6gpe1GLtN1VLN8sGW4VENtOmzqu0IXepFp4Qaru2N4AYzW9hVhHCcSJ3CB2g6Ug8z/+Nvsjx0hz0s+grCNVSX24mB/+RMXYYUbCqxihNajEc4AvxOBNSPL6KhRMIXAV8nWWcC61RHAPXDXLADIUTAi/XxGyNq/W21DTXDL
+X-Received: by 2002:a25:838c:0:b0:dcd:ba5a:8704 with SMTP id
+ t12-20020a25838c000000b00dcdba5a8704mr7563802ybk.24.1711440162334; Tue, 26
+ Mar 2024 01:02:42 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB11040.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4088089a-c65e-4cf1-3162-08dc4d5835e3
-X-MS-Exchange-CrossTenant-originalarrivaltime: 26 Mar 2024 05:47:23.5980
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 8D/FXeehpzXet7WJh7NtqGIsVtx5Zqw8KiEzwgO3tr/OCTlgVxGssLRF2+lGzelAz4l9mVgz0VPNpYHRKQmR5iIXdSsQWOlS3i5qtipAkeKJIrOeblEM2gfNRXqIoRA7
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYCPR01MB9812
+References: <20240322144355.878930-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20240322144355.878930-3-prabhakar.mahadev-lad.rj@bp.renesas.com> <OSAPR01MB15871221D42B6CEAA08168C386362@OSAPR01MB1587.jpnprd01.prod.outlook.com>
+In-Reply-To: <OSAPR01MB15871221D42B6CEAA08168C386362@OSAPR01MB1587.jpnprd01.prod.outlook.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 26 Mar 2024 09:02:29 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdXtPPwzgwekKiuNF5MzDvLSOqvBXWgQd4tgPtTnnQp2VQ@mail.gmail.com>
+Message-ID: <CAMuHMdXtPPwzgwekKiuNF5MzDvLSOqvBXWgQd4tgPtTnnQp2VQ@mail.gmail.com>
+Subject: Re: [PATCH v4 2/5] dt-bindings: serial: renesas,scif: Validate
+ 'interrupts' and 'interrupt-names'
+To: Biju Das <biju.das.jz@bp.renesas.com>
+Cc: Prabhakar <prabhakar.csengg@gmail.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Jiri Slaby <jirislaby@kernel.org>, 
+	Rob Herring <robh+dt@kernel.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Magnus Damm <magnus.damm@gmail.com>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, 
+	"linux-serial@vger.kernel.org" <linux-serial@vger.kernel.org>, 
+	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>, 
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Frank,
+Hi Biju,
 
-> From: Frank Li, Sent: Tuesday, March 26, 2024 12:21 PM
-=20
-> On Tue, Mar 26, 2024 at 11:45:40AM +0900, Yoshihiro Shimoda wrote:
-> > Add Renesas R8A779G0 in pci_device_id table so that pci-epf-test
-> > can be used for testing PCIe EP on R-Car V4H.
+On Mon, Mar 25, 2024 at 5:21=E2=80=AFPM Biju Das <biju.das.jz@bp.renesas.co=
+m> wrote:
+> > -----Original Message-----
+> > From: Prabhakar <prabhakar.csengg@gmail.com>
+> > Sent: Friday, March 22, 2024 2:44 PM
+> > Subject: [PATCH v4 2/5] dt-bindings: serial: renesas,scif: Validate 'in=
+terrupts' and 'interrupt-
+> > names'
 > >
-> > Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> >
+> > This commit adds support to validate the 'interrupts' and 'interrupt-na=
+mes'
+> > properties for every supported SoC. This ensures proper handling and co=
+nfiguration of interrupt-
+> > related properties across supported platforms.
+> >
+> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 > > Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 > > ---
-> >  drivers/misc/pci_endpoint_test.c | 4 ++++
-> >  1 file changed, 4 insertions(+)
+> > v3->v4
+> > - Reverted back to v2 version of the patch.
+> > - Used suggestion from Krzysztof for interrupts
+> > - Restored RB tag from Geert
 > >
-> > diff --git a/drivers/misc/pci_endpoint_test.c b/drivers/misc/pci_endpoi=
-nt_test.c
-> > index c38a6083f0a7..2fa3c6473c7d 100644
-> > --- a/drivers/misc/pci_endpoint_test.c
-> > +++ b/drivers/misc/pci_endpoint_test.c
-> > @@ -83,6 +83,7 @@
-> >  #define PCI_DEVICE_ID_RENESAS_R8A774C0		0x002d
-> >  #define PCI_DEVICE_ID_RENESAS_R8A774E1		0x0025
-> >  #define PCI_DEVICE_ID_RENESAS_R8A779F0		0x0031
-> > +#define PCI_DEVICE_ID_RENESAS_R8A779G0		0x0030
+> > v2->v3
+> > - Listed interrupts and interrupt-names for every SoC in if check
+> > ---
+> >  .../bindings/serial/renesas,scif.yaml         | 73 ++++++++++++++-----
+> >  1 file changed, 55 insertions(+), 18 deletions(-)
 > >
-> >  static DEFINE_IDA(pci_endpoint_test_ida);
-> >
-> > @@ -1005,6 +1006,9 @@ static const struct pci_device_id pci_endpoint_te=
-st_tbl[] =3D {
-> >  	{ PCI_DEVICE(PCI_VENDOR_ID_RENESAS, PCI_DEVICE_ID_RENESAS_R8A779F0),
-> >  	  .driver_data =3D (kernel_ulong_t)&default_data,
-> >  	},
-> > +	{ PCI_DEVICE(PCI_VENDOR_ID_RENESAS, PCI_DEVICE_ID_RENESAS_R8A779G0),
-> > +	  .driver_data =3D (kernel_ulong_t)&default_data,
-> > +	},
->=20
-> You use default_data, why need new device_id? I think you can use 0x0031
-> to do test.
+> > diff --git a/Documentation/devicetree/bindings/serial/renesas,scif.yaml
+> > b/Documentation/devicetree/bindings/serial/renesas,scif.yaml
+> > index af72c3420453..eb2aa5e75e02 100644
+> > --- a/Documentation/devicetree/bindings/serial/renesas,scif.yaml
+> > +++ b/Documentation/devicetree/bindings/serial/renesas,scif.yaml
+> > @@ -86,11 +86,6 @@ properties:
+> >      oneOf:
+> >        - items:
+> >            - description: A combined interrupt
+> > -      - items:
+> > -          - description: Error interrupt
+> > -          - description: Receive buffer full interrupt
+> > -          - description: Transmit buffer empty interrupt
+> > -          - description: Break interrupt
+> >        - items:
+> >            - description: Error interrupt
+> >            - description: Receive buffer full interrupt @@ -98,21 +93,1=
+7 @@ properties:
+> >            - description: Break interrupt
+> >            - description: Data Ready interrupt
+> >            - description: Transmit End interrupt
+> > +        minItems: 4
+>
+> I think here minItems is 1 as it is either 1 or 4 or 6
 
-I thought we can add a new device_id freely like other devices.
-Since the PCIe controller's endpoint mode can configure the device id,
-I can use 0x0031 to do test though.
+The single interrupt is handled by the first case in the oneOf (which
+can probably be simplified by dropping the "items"?).
 
-If such a reusable entry exists, is adding a new device id into the driver =
-prohibited?
+Gr{oetje,eeting}s,
 
-Best regards,
-Yoshihiro Shimoda
+                        Geert
 
-> Frank
->=20
-> >  	{ PCI_DEVICE(PCI_VENDOR_ID_TI, PCI_DEVICE_ID_TI_J721E),
-> >  	  .driver_data =3D (kernel_ulong_t)&j721e_data,
-> >  	},
-> > --
-> > 2.25.1
-> >
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
