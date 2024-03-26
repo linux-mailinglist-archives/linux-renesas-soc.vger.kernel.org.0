@@ -1,160 +1,197 @@
-Return-Path: <linux-renesas-soc+bounces-4038-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-4040-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B8EF88C305
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 26 Mar 2024 14:09:28 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A68C288C373
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 26 Mar 2024 14:31:49 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5087F2E572E
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 26 Mar 2024 13:09:27 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D72601C326BA
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 26 Mar 2024 13:31:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E8B7573505;
-	Tue, 26 Mar 2024 13:09:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BE8C874BE5;
+	Tue, 26 Mar 2024 13:31:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="Wk8dpn8l";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="siTAPSSM"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="TtbzOcX2"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from wflow7-smtp.messagingengine.com (wflow7-smtp.messagingengine.com [64.147.123.142])
+Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [217.70.183.198])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B92797175F;
-	Tue, 26 Mar 2024 13:09:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=64.147.123.142
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 820484F890;
+	Tue, 26 Mar 2024 13:31:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.198
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711458563; cv=none; b=TDgiEB5wY7s96rr+8nUV0nwEVycB2p9xb9KFPBcFnUhxU1vS5+Ome8p+OBnGN4EuPn97YqKC40Bj40tUM6ewVpR/ae8uWUyW0Nv2/33Ipj2sBNnFk5iTI8cyf0i8DLj1vqa8q1xn/trCoy8pff3sbd18XcRYDJFiA3pnLS9BKBw=
+	t=1711459904; cv=none; b=oxumXvydV8kmga/xjL/6TjgYl56WoxXTkh6x3qCbQ8wvJ9nusWviM2PYlDEPo9sGArmIBKvqLbe61RMFzehSKkHffRGfhNHaqVoCizwoL5G9kyZOxB0TcosK3ikkb/ze0TsN6USr3daEKzLgKsHdSb3sP+EDk5j3CPB13MJq9KI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711458563; c=relaxed/simple;
-	bh=oSY2YQfIp3WxFRdatF3eB/uMvmpALwRM1eoIubbAtzI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DqwcKaQoHT1T/r668MfAeidJ0STydqnDXskIcaDKr0eVO2HaVlJYGM6+RyjtRHz8rT81a96z+E1TIQg4xHXTzvCPeweeMwNt0hTFkPeMxL7WYBe76DtMmQWYeB6ORopmxFMYm2o5UHyHoH+PxeETX3L40wgf+RXoof/bZ4d15BI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=Wk8dpn8l; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=siTAPSSM; arc=none smtp.client-ip=64.147.123.142
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
-	by mailflow.west.internal (Postfix) with ESMTP id 6DF722CC015E;
-	Tue, 26 Mar 2024 09:09:17 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute1.internal (MEProxy); Tue, 26 Mar 2024 09:09:18 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm1; t=1711458556;
-	 x=1711462156; bh=SbTcD/l8MHa59PyMOlNhqWFEL7/jqCRuzGyHcMwgJkI=; b=
-	Wk8dpn8l+B10C7CBICCIzJZJfi2VVlz8+guq8aVnt2gTfW4j3zOAN8R9huB50+66
-	geKgdkOvlgEzdrFLhcQ/VjnZfSK4psfnHM99iUHOKF9En3K8x53NC/H8695kFGtc
-	d3f52djBiKuhlFoS+W6y8/yOVLWA1Tn8+sUGq2Uh84tRKE1iePDTGSN2VlrbG3j1
-	/vgHK/8cGWz1E152YQsN8OuRIpiA7+2L81oqu8cdBK/MQ37Jaca2v5vKU2J2HBs5
-	mUgQzMWsktTaw7VDlWSHjSNQb7bVyDwwTlae1Ky/JeZ6prA304yVCydNxFuqXu/J
-	dxUf+fOF61jJ+vv6AuQ9Mg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1711458556; x=
-	1711462156; bh=SbTcD/l8MHa59PyMOlNhqWFEL7/jqCRuzGyHcMwgJkI=; b=s
-	iTAPSSMY7adUQkr/h8dvppzUOdGtCZvFlZcYfeoZzFS/rPc68iYQ2vxU2Rj42WZY
-	2Dkof8Tiyg4boG9GfEWpN9CJSHjGpsbw8GVOQZHrHXH1eB3VAUP5vw3pIvhYY9j4
-	A1psBSrBJeLCOdBH58NE6wRKRREtHbiGhbFolBgrMMFr+x5HofJ6mrOmqwes04Hi
-	UgT7PfjWyoevVgtMJ6Zz6GBY77FkRpwW+GYkm9ponWlrbys6WMKBU5eOsxLlpDhB
-	csUG03BsN66E3HX63MOJomXaeGwzd1495IVlSvaApNQhWnbmUEOsCwEYvHiNhHzw
-	sHxgvNdVDqu4T4Wbd0Wdw==
-X-ME-Sender: <xms:_MgCZpsZQmhRD3FQvyVg1aYpZlcfJ1SZMLkAdOVeI6mxX5eCXm6hwA>
-    <xme:_MgCZidFABR26jw64bfm7LbXS1qHgqgVJBcUkDrOCVZK3dHc-6qKDThZuq_V73fr2
-    G3X-RmEJkdwL3UC5wk>
-X-ME-Received: <xmr:_MgCZszTkktQm75dO6Pw3c6hV4enG0xDWqHf9lui1JjTc5BoW3gAOVXs67lI-RpxOHVgRpuw0_NS4F_P_fQIpfT_FfJDnwY>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledruddufedggeekucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvfevuffkfhggtggugfgjsehtkeertddttdejnecuhfhrohhmpefpihhk
-    lhgrshcuufpnuggvrhhluhhnugcuoehnihhklhgrshdrshhouggvrhhluhhnugdorhgvnh
-    gvshgrshesrhgrghhnrghtvggthhdrshgvqeenucggtffrrghtthgvrhhnpeffkefgudek
-    gefhhfejtedviedtgeetieekffeiudfhgeevteejvedtffdvkefftdenucffohhmrghinh
-    epkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehm
-    rghilhhfrhhomhepnhhikhhlrghsrdhsohguvghrlhhunhguodhrvghnvghsrghssehrrg
-    hgnhgrthgvtghhrdhsvg
-X-ME-Proxy: <xmx:_MgCZgPiwIRnL6Me7HCUBkbftAdwVrvVV3Wd08j9ohFx6nZFUxCkvw>
-    <xmx:_MgCZp-xNgLRTt9OYwh6YJ3CfQ-Ito-OFNkqVY5BvgqsV4XJMVlmvA>
-    <xmx:_MgCZgUXWTYaBgahAeBK_ci2OuiOCpP0FeP5GXWIGlcdJihtddi2cw>
-    <xmx:_MgCZqfc1i-pMdt1MVWdBN32zFA3J0KH5hUWVqP41VyTllRk3MdFCA>
-    <xmx:_MgCZoaJLt2n8sZfGdrTVNtfC7x4Jas-ZlQqZoM10Mii3cUes_UsMPkM47W_UES6>
-Feedback-ID: i80c9496c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 26 Mar 2024 09:09:15 -0400 (EDT)
-Date: Tue, 26 Mar 2024 14:09:12 +0100
-From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-To: Paul Barker <paul.barker.ct@bp.renesas.com>
-Cc: Sergey Shtylyov <s.shtylyov@omp.ru>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/2] net: ravb: Always process TX descriptor ring
-Message-ID: <20240326130912.GF1108818@ragnatech.se>
-References: <20240326083740.23364-1-paul.barker.ct@bp.renesas.com>
- <20240326093843.GD1108818@ragnatech.se>
- <7e57c68b-1d73-40e2-824a-12193e62047f@bp.renesas.com>
+	s=arc-20240116; t=1711459904; c=relaxed/simple;
+	bh=MbnrA4AVe6jnpS941KmIbmKU2IuYVS5iVM7mTPKsmqo=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=LIJF/fVlZV6nTXKJk/hA9Mm2RL7dP8HOY9Rsnx+MTc8/d1X73/NAB2dlY8Md6BBH3/uepiNctSenKa7CQevrHlbxPC3oo6tPLdJ+RnLstZAGXnQ4hj+t/jNKgrYayOyoYHv/nCDQ0fPhH3uR1dWNg0GkEnHSaHKse9IWaBnB79c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=TtbzOcX2; arc=none smtp.client-ip=217.70.183.198
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+Received: by mail.gandi.net (Postfix) with ESMTPSA id AEAC7C0003;
+	Tue, 26 Mar 2024 13:31:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1711459894;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=Su4anKYfguw45iKaUAiZJzbAMOQ95uSYJX0GLHgexbw=;
+	b=TtbzOcX2k00zErOdvCk4vCRlrvIV/zsiouzyrBoVbyglT6n6ilPT+38jd/MW+38gV57sGS
+	kN/ZMof9ySrS8dTJu/ErkxXoSiMNpgCnaFja9Fc7otkcL9rMSQbffw6h1cVT+36fRIrBOS
+	m30uFgU80Tg97Lao7MEdrojJ8x/yCTmJGPVwQ3f0XR0HrTl8yS8SUc1jlgCJmu55EWjYdz
+	qs72L9O/c9yRzP+FTD/3G9xOqVcRJn6BXXILBDFUZFY74VbGEoKWbJsPtRITwOli1nUIPA
+	qaET4V7ppH5oYemNCAMcutDroJgNXFboZ4MMVYp2vT0d230fQlrrbBYy/Pj11w==
+From: Romain Gantois <romain.gantois@bootlin.com>
+Subject: [PATCH net-next RESEND v6 0/7] Fix missing PHY-to-MAC RX clock
+Date: Tue, 26 Mar 2024 14:32:06 +0100
+Message-Id: <20240326-rxc_bugfix-v6-0-24a74e5c761f@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <7e57c68b-1d73-40e2-824a-12193e62047f@bp.renesas.com>
+To: Russell King <linux@armlinux.org.uk>, Andrew Lunn <andrew@lunn.ch>, 
+ Heiner Kallweit <hkallweit1@gmail.com>, 
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+ Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+ Jose Abreu <joabreu@synopsys.com>, 
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+ =?utf-8?q?Cl=C3=A9ment_L=C3=A9ger?= <clement.leger@bootlin.com>
+Cc: Maxime Chevallier <maxime.chevallier@bootlin.com>, 
+ Miquel Raynal <miquel.raynal@bootlin.com>, 
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>, netdev@vger.kernel.org, 
+ linux-stm32@st-md-mailman.stormreply.com, 
+ linux-arm-kernel@lists.infradead.org, linux-renesas-soc@vger.kernel.org, 
+ "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>, 
+ Romain Gantois <romain.gantois@bootlin.com>, 
+ Clark Wang <xiaoning.wang@nxp.com>
+X-Mailer: b4 0.13.0
+X-GND-Sasl: romain.gantois@bootlin.com
 
-On 2024-03-26 09:54:04 +0000, Paul Barker wrote:
-> On 26/03/2024 09:38, Niklas Söderlund wrote:
-> > Hi Paul,
-> > 
-> > Thanks for your work.
-> > 
-> > On 2024-03-26 08:37:39 +0000, Paul Barker wrote:
-> >> The TX queue should be serviced each time the poll function is called,
-> >> even if the full RX work budget has been consumed. This prevents
-> >> starvation of the TX queue when RX bandwidth usage is high.
-> > 
-> > Is this not a design decision? That the driver should prioritize Rx over 
-> > Tx if there is contention. I have no opinion on if this design is good 
-> > or bad, I let Sergey judge that.
-> > 
-> >>
-> >> Fixes: a0d2f20650e8 ("Renesas Ethernet AVB PTP clock driver")
-> > 
-> > However, I do not think it is a bug and should not have a fixes tag.  
-> > Also this fixes tag is incorrect, this points to the commit where ravb.c 
-> > was renamed ravb_main.c. ravb_poll() is not touched by this commit.
-> 
-> Sergey identified these as bugfixes in the following emails:
->   https://lore.kernel.org/netdev/a364963f-4e4f-dba5-cb59-b2125c14e8fc@omp.ru/
->   https://lore.kernel.org/netdev/c58ab319-222b-5ab0-0924-7774a473e276@omp.ru/
+Hello everyone,
 
-I see, I missed that. I do not agree, this is not a bugfix, it changes a 
-design decision and the behavior of the driver.
+This is version six of my series that addresses the issue with some MAC/PHY
+combinations.
 
-@Sergey: What do you think? If you feel strongly about this being a bug 
-I will yield.
+Notable changes in v6:
+  - Corrected trailers
 
-> 
-> I got the wrong fixes tag though, it should be:
->   Fixes: c156633f1353 ("Renesas Ethernet AVB driver proper")
-> 
-> Thanks,
-> 
-> -- 
-> Paul Barker
+Notable changes in v5:
+  - Exported phylink_pcs_pre_init() as a GPL symbol
+  - Corrected kernel doc for phylink_pcs_pre_init()
 
+Notable changes in v4:
+  - Modified miic_pre_init() to also set the default RMII conversion speed.
 
+Notable changes in v3:
+  - Removed the "interface" argument from pcs_init().
+  - Added a kernel doc for pcs_init().
 
+Notable changes in v2:
+  - Introduced a pcs op for initializing hardware required for MAC
+    initialization, instead of using phylink_validate() for this purpose.
+  - Refactored stmmac to use a generic PCS reference in mac_device_info
+    instead of a model-specific field.
 
+There is an issue with some stmmac/PHY combinations that has been reported
+some time ago in a couple of different series:
 
+Clark Wang's report:
+https://lore.kernel.org/all/20230202081559.3553637-1-xiaoning.wang@nxp.com/
+Clément Léger's report:
+https://lore.kernel.org/linux-arm-kernel/20230116103926.276869-4-clement.leger@bootlin.com/
 
+Stmmac controllers require an RX clock signal from the MII bus to perform
+their hardware initialization successfully. This causes issues with some
+PHY/PCS devices. If these devices do not bring the clock signal up before
+the MAC driver initializes its hardware, then said initialization will
+fail. This can happen at probe time or when the system wakes up from a
+suspended state.
+
+This series introduces new flags for phy_device and phylink_pcs. These
+flags allow MAC drivers to signal to PHY/PCS drivers that the RX clock
+signal should be enabled as soon as possible, and that it should always
+stay enabled.
+
+I have included specific uses of these flags that fix the RZN1 GMAC1 stmmac
+driver that I am currently working on and that is not yet upstream. I have
+also included changes to the at803x PHY driver that should fix the issue
+that Clark Wang was having.
+
+Clark, could you please confirm that this series fixes your issue with the
+at803x PHY?
+
+Best Regards,
+
+Romain
+
+Romain Gantois (2):
+  net: phy: add rxc_always_on flag to phylink_pcs
+  net: pcs: rzn1-miic: Init RX clock early if MAC requires it
+
+Russell King (3):
+  net: phy: add PHY_F_RXC_ALWAYS_ON to PHY dev flags
+  net: stmmac: Signal to PHY/PCS drivers to keep RX clock on
+  net: phy: at803x: Avoid hibernating if MAC requires RX clock
+
+ .../net/ethernet/stmicro/stmmac/stmmac_main.c  |  5 +++++
+ drivers/net/pcs/pcs-rzn1-miic.c                | 18 +++++++++++++-----
+ drivers/net/phy/at803x.c                       |  3 ++-
+ drivers/net/phy/phylink.c                      | 13 ++++++++++++-
+ include/linux/phy.h                            |  1 +
+ include/linux/phylink.h                        |  9 +++++++++
+ 6 files changed, 42 insertions(+), 7 deletions(-)
+
+--
+2.43.0
+
+---
+- Link to v2: https://lore.kernel.org/r/20240130-rxc_bugfix-v2-0-5e6c3168e5f0@bootlin.com
+
+---
+- Link to v3: https://lore.kernel.org/r/20240212-rxc_bugfix-v3-0-e9f2eb6b3b05@bootlin.com
+
+---
+- Link to v4: https://lore.kernel.org/r/20240221-rxc_bugfix-v4-0-4883ee1cc7b1@bootlin.com
+
+---
+- Link to v5: https://lore.kernel.org/r/20240301-rxc_bugfix-v5-0-8dac30230050@bootlin.com
+
+---
+Maxime Chevallier (1):
+      net: stmmac: don't rely on lynx_pcs presence to check for a PHY
+
+Romain Gantois (4):
+      net: phylink: add rxc_always_on flag to phylink_pcs
+      net: stmmac: Support a generic PCS field in mac_device_info
+      net: stmmac: Signal to PHY/PCS drivers to keep RX clock on
+      net: pcs: rzn1-miic: Init RX clock early if MAC requires it
+
+Russell King (Oracle) (2):
+      net: phylink: add PHY_F_RXC_ALWAYS_ON to PHY dev flags
+      net: phy: qcom: at803x: Avoid hibernating if MAC requires RX clock
+
+ drivers/net/ethernet/stmicro/stmmac/common.h       |  2 +-
+ .../net/ethernet/stmicro/stmmac/dwmac-socfpga.c    |  8 ++---
+ drivers/net/ethernet/stmicro/stmmac/stmmac_main.c  | 15 ++++----
+ drivers/net/pcs/pcs-rzn1-miic.c                    | 28 +++++++++++++++
+ drivers/net/phy/phylink.c                          | 25 ++++++++++++-
+ drivers/net/phy/qcom/at803x.c                      |  3 +-
+ include/linux/phy.h                                |  1 +
+ include/linux/phylink.h                            | 42 ++++++++++++++++++++++
+ 8 files changed, 111 insertions(+), 13 deletions(-)
+---
+base-commit: d7e14e534493328cc5f67baaff2b0c23d32b0a57
+change-id: 20240126-rxc_bugfix-d47b3b1a374f
+
+Best regards,
 -- 
-Kind Regards,
-Niklas Söderlund
+Romain Gantois <romain.gantois@bootlin.com>
+
 
