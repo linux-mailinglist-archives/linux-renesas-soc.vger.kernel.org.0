@@ -1,54 +1,54 @@
-Return-Path: <linux-renesas-soc+bounces-4045-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-4039-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8277088C37F
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 26 Mar 2024 14:32:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF74288C371
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 26 Mar 2024 14:31:47 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A64F51C3748A
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 26 Mar 2024 13:32:16 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 05E731C28A4F
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 26 Mar 2024 13:31:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id ABD657640C;
-	Tue, 26 Mar 2024 13:31:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A8B4F745DC;
+	Tue, 26 Mar 2024 13:31:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="APPJjoe4"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="XHGFRCra"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [217.70.183.198])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6158A7605B;
-	Tue, 26 Mar 2024 13:31:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8208C6D1C1;
+	Tue, 26 Mar 2024 13:31:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.198
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711459909; cv=none; b=B26o/Lhqg9+kO4fjHHN/KH2JS9LcugEEj/38hQ2XCZy22e+pEXx47PtzZf8u6gOE33mqV3F7oAs6NT7d0G5NgznVRXRB9K004oyL8VDd5dTlqwyRXTm8hYBvKPVCFs2+AyWG2WI/UX1fFydouS5sqq4tpuNMdjX6cRdzdyjb0qk=
+	t=1711459904; cv=none; b=cWGFc7+A1+EY4EvoHeohRrphBdB2wXQe4DRafSL2N0xfXqf9cZyI2vTjBxwYBNgSdrqJ7Gj0aBTyeveTHqnDj072lC7Cf+Oc5sroHJHOhDYZKLZwfVc4//E+iMTHLZj0XZPi3zw0mNShFKHIdYt2hl+eNjr7mC94eZStGpeXMhs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711459909; c=relaxed/simple;
-	bh=xJG2Xhv5e1N+I2UtnH9Q/hr0/RqqBoSpCz6NfCqmTMg=;
+	s=arc-20240116; t=1711459904; c=relaxed/simple;
+	bh=zkKjf/c8JwMi7XB286FG0JwvrRIvg/jN2F9USNeJxWo=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=VVRAhrTBWt31I88wYjI8SmLA0mbeD//QABoD+OoXWF85xSg7KrQZwTJu8GPX7Tr2DgOw/MOjbRPbl5Is+cbnmsGFOnV3BxwR1uIw7R37oXLYd/JNQVM/pSwtP/DZAvH7lM537V983iLCRj+g9GLQ8HI0VofnIJeOSZSF5+kL+pU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=APPJjoe4; arc=none smtp.client-ip=217.70.183.198
+	 In-Reply-To:To:Cc; b=lJfVgdz7I9AsjuMvb86udgYSjQhUShSWi33l3wMSyjJtaFoQA5AUaqDHCyvDvnF0q28Fe2t4nKtNOskc+VrEuj4mMcBFhu3+mpC2NUKWSj1kw6j5rmqJjOd8fdS7nD/II/sGWIWBsY34g7XTQIIHLzgcR1VpNIADZpgda8ANsGc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=XHGFRCra; arc=none smtp.client-ip=217.70.183.198
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 976B6C0006;
-	Tue, 26 Mar 2024 13:31:38 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id D690BC000D;
+	Tue, 26 Mar 2024 13:31:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1711459899;
+	t=1711459900;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=RdYU5edsmqTq3TQV0rJxnPr4ToW0H6XtNSbnaJa6X/A=;
-	b=APPJjoe4OGqKLnkCXUF9BZTt/Oj5oipbbub7iu2wT6bpnfHz9yLZkB5mR4kTh31VeX43Kd
-	eMATd29+hqZS13F5UWhXLkv1gvh0/s1TGFaRAzL36EQaYR38PZf5Byh/Eop5LC7hU78QbB
-	X0xvHt+Kocd0CN9aSKCU/apJ7YqrqFM+vzVSazQyYFkIbZM9Y8q4O3DSe6OlAGrYZOhL+k
-	Ft12QEaUSlWBZ0AuE+jQXPsgLPhVqXS+IwzeOtvWzwwMNBGB6IHrFLAZ3SdHWqv0OsLWOA
-	VXcP8k9fGs0NRSFk0T2cjTIi2hkT9aalxsMW5Ilwl9UUjlkzjC1IHjdXoWFkcg==
+	bh=5X4Vqf5dMNOvdBRrjTCmAMrnSKF3wTY7sOX12e/v6N8=;
+	b=XHGFRCraGoleTe74a8fvapXFBTEXRh3K3ZoBTFdNIdkfhhnASEnrfrHfnK3bszQ+fuHN1f
+	+z55lo2LOAlSTmIU8WC4XfwEVaozluB97JWYzXNcd3WPq4FqtQMMog2mJH0Jcd/fVmzphe
+	4cxRzNIs95/b3kd4t+UyOb1yIaPh3OqMB/oipDEIuOYbwOFj8rkXgRXpJZ/7gX9Fjnbfvt
+	NWrV6eIrMfDCdXTOArq0eHmlOrPRNLx7QmxrwgLqAJ2KuoDxI0JSDGk9LHLSfaOomw7mNE
+	u9gk4MiU4+pEoUv3+VlBSnEzJalSUms6zQVuRqZFY+DRL7LXSkFklWXQ4jSaMQ==
 From: Romain Gantois <romain.gantois@bootlin.com>
-Date: Tue, 26 Mar 2024 14:32:10 +0100
-Subject: [PATCH RESEND net-next v6 4/7] net: stmmac: Support a generic PCS
- field in mac_device_info
+Date: Tue, 26 Mar 2024 14:32:11 +0100
+Subject: [PATCH RESEND net-next v6 5/7] net: stmmac: Signal to PHY/PCS
+ drivers to keep RX clock on
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -56,8 +56,8 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240326-rxc_bugfix-v6-4-24a74e5c761f@bootlin.com>
+Content-Transfer-Encoding: 8bit
+Message-Id: <20240326-rxc_bugfix-v6-5-24a74e5c761f@bootlin.com>
 References: <20240326-rxc_bugfix-v6-0-24a74e5c761f@bootlin.com>
 In-Reply-To: <20240326-rxc_bugfix-v6-0-24a74e5c761f@bootlin.com>
 To: Russell King <linux@armlinux.org.uk>, Andrew Lunn <andrew@lunn.ch>, 
@@ -73,83 +73,60 @@ Cc: Maxime Chevallier <maxime.chevallier@bootlin.com>,
  Thomas Petazzoni <thomas.petazzoni@bootlin.com>, netdev@vger.kernel.org, 
  linux-stm32@st-md-mailman.stormreply.com, 
  linux-arm-kernel@lists.infradead.org, linux-renesas-soc@vger.kernel.org, 
+ Clark Wang <xiaoning.wang@nxp.com>, 
+ "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>, 
  Romain Gantois <romain.gantois@bootlin.com>
 X-Mailer: b4 0.13.0
 X-GND-Sasl: romain.gantois@bootlin.com
 
-Global stmmac support for early initialization of PCS devices requires a
-generic PCS reference that can be passed to phylink_pcs_pre_init().
-Currently, the mac_device_info struct contains only one PCS field, which is
-specific to the Lynx model.
+There is a reocurring issue with stmmac controllers where the MAC fails to
+initialize its hardware if an RX clock signal isn't provided on the MAC/PHY
+link.
 
-As PCS models are hardware-specific, it is more appropriate to have a
-generic PCS field in the mac_device_info struct.
+This causes issues when PHY or PCS devices either go into suspend while
+cutting the RX clock or do not bring the clock signal up early enough for
+the MAC to initialize successfully.
 
-Refactor the lynx_pcs field into a generic phylink_pcs field.
+Set the mac_requires_rxc flag in the stmmac phylink config so that PHY/PCS
+drivers know to keep the RX clock up at all times.
 
+Reported-by: Clark Wang <xiaoning.wang@nxp.com>
+Link: https://lore.kernel.org/all/20230202081559.3553637-1-xiaoning.wang@nxp.com/
+Reported-by: Clément Léger <clement.leger@bootlin.com>
+Link: https://lore.kernel.org/linux-arm-kernel/20230116103926.276869-4-clement.leger@bootlin.com/
+Co-developed-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
+Signed-off-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
 Signed-off-by: Romain Gantois <romain.gantois@bootlin.com>
 Reviewed-by: Andrew Lunn <andrew@lunn.ch>
 ---
- drivers/net/ethernet/stmicro/stmmac/common.h        | 2 +-
- drivers/net/ethernet/stmicro/stmmac/dwmac-socfpga.c | 8 ++++----
- drivers/net/ethernet/stmicro/stmmac/stmmac_main.c   | 5 +----
- 3 files changed, 6 insertions(+), 9 deletions(-)
+ drivers/net/ethernet/stmicro/stmmac/stmmac_main.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/drivers/net/ethernet/stmicro/stmmac/common.h b/drivers/net/ethernet/stmicro/stmmac/common.h
-index a6fefe675ef1..f55cf09f0783 100644
---- a/drivers/net/ethernet/stmicro/stmmac/common.h
-+++ b/drivers/net/ethernet/stmicro/stmmac/common.h
-@@ -593,7 +593,7 @@ struct mac_device_info {
- 	const struct stmmac_mmc_ops *mmc;
- 	const struct stmmac_est_ops *est;
- 	struct dw_xpcs *xpcs;
--	struct phylink_pcs *lynx_pcs; /* Lynx external PCS */
-+	struct phylink_pcs *phylink_pcs;
- 	struct mii_regs mii;	/* MII register Addresses */
- 	struct mac_link link;
- 	void __iomem *pcsr;     /* vpointer to device CSRs */
-diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac-socfpga.c b/drivers/net/ethernet/stmicro/stmmac/dwmac-socfpga.c
-index 68f85e4605cb..12b4a80ea3aa 100644
---- a/drivers/net/ethernet/stmicro/stmmac/dwmac-socfpga.c
-+++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-socfpga.c
-@@ -479,9 +479,9 @@ static int socfpga_dwmac_probe(struct platform_device *pdev)
- 			goto err_dvr_remove;
- 		}
- 
--		stpriv->hw->lynx_pcs = lynx_pcs_create_mdiodev(pcs_bus, 0);
--		if (IS_ERR(stpriv->hw->lynx_pcs)) {
--			ret = PTR_ERR(stpriv->hw->lynx_pcs);
-+		stpriv->hw->phylink_pcs = lynx_pcs_create_mdiodev(pcs_bus, 0);
-+		if (IS_ERR(stpriv->hw->phylink_pcs)) {
-+			ret = PTR_ERR(stpriv->hw->phylink_pcs);
- 			goto err_dvr_remove;
- 		}
- 	}
-@@ -498,7 +498,7 @@ static void socfpga_dwmac_remove(struct platform_device *pdev)
- {
- 	struct net_device *ndev = platform_get_drvdata(pdev);
- 	struct stmmac_priv *priv = netdev_priv(ndev);
--	struct phylink_pcs *pcs = priv->hw->lynx_pcs;
-+	struct phylink_pcs *pcs = priv->hw->phylink_pcs;
- 
- 	stmmac_pltfr_remove(pdev);
- 
 diff --git a/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c b/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
-index d78c625d33eb..79844dbe4258 100644
+index 79844dbe4258..2290f4808d7e 100644
 --- a/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
 +++ b/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
-@@ -944,10 +944,7 @@ static struct phylink_pcs *stmmac_mac_select_pcs(struct phylink_config *config,
- 	if (priv->hw->xpcs)
- 		return &priv->hw->xpcs->pcs;
+@@ -1218,6 +1218,9 @@ static int stmmac_phy_setup(struct stmmac_priv *priv)
+ 	priv->phylink_config.type = PHYLINK_NETDEV;
+ 	priv->phylink_config.mac_managed_pm = true;
  
--	if (priv->hw->lynx_pcs)
--		return priv->hw->lynx_pcs;
--
--	return NULL;
-+	return priv->hw->phylink_pcs;
- }
++	/* Stmmac always requires an RX clock for hardware initialization */
++	priv->phylink_config.mac_requires_rxc = true;
++
+ 	mdio_bus_data = priv->plat->mdio_bus_data;
+ 	if (mdio_bus_data)
+ 		priv->phylink_config.ovr_an_inband =
+@@ -3408,6 +3411,10 @@ static int stmmac_hw_setup(struct net_device *dev, bool ptp_register)
+ 	u32 chan;
+ 	int ret;
  
- static void stmmac_mac_config(struct phylink_config *config, unsigned int mode,
++	/* Make sure RX clock is enabled */
++	if (priv->hw->phylink_pcs)
++		phylink_pcs_pre_init(priv->phylink, priv->hw->phylink_pcs);
++
+ 	/* DMA initialization and SW reset */
+ 	ret = stmmac_init_dma_engine(priv);
+ 	if (ret < 0) {
 
 -- 
 2.44.0
