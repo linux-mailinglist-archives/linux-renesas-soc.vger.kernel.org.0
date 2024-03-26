@@ -1,54 +1,54 @@
-Return-Path: <linux-renesas-soc+bounces-4041-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-4042-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B059088C376
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 26 Mar 2024 14:31:59 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0572688C378
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 26 Mar 2024 14:32:02 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 3C695B21AF3
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 26 Mar 2024 13:31:57 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 36D851C28FAB
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 26 Mar 2024 13:32:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AF1F2757F3;
-	Tue, 26 Mar 2024 13:31:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 91DC775816;
+	Tue, 26 Mar 2024 13:31:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="CcfOk3nV"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="FZueqFr9"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [217.70.183.198])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2A3E74420;
-	Tue, 26 Mar 2024 13:31:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8757D7442E;
+	Tue, 26 Mar 2024 13:31:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.198
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711459905; cv=none; b=pcNTbXBkISSES9iZ2cPLeJIxKLI1Wovk24AqZ763oEh+prIrCl96jld0Z7jbgeyzv3F5ovpTVEUhwX1D8ayDpwzm67cUKidsRQ52+e4T/Mvm7Jns6iajxmJHcpQeRyObJmTlLBm/mQz7ujiPRerwPoJKLchYOtxNQOfMUVP4+Qk=
+	t=1711459906; cv=none; b=ouw5CfCIz1H491YkeIqFDtbIjV4SrPuLwLMQ6HUXl1wltvyr1StIyghqxvMoyK/Rptqz0s689vR70trL7QKfV1+liSkwoXrGfyRjBVrZLRHthXnwa2RyKKzv18Lh2N5M6pIlC7uPezxDg/FeaIgFQUyNpJh91YAiDIk2egOYd/A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711459905; c=relaxed/simple;
-	bh=b9ie/BFgYZejT3fzU45NYJ1UTBtGro5jd1feeyVUSQM=;
+	s=arc-20240116; t=1711459906; c=relaxed/simple;
+	bh=rvrImScrre1QyGkyNvp89/1N9MkOxvI5xA8HqVsAHKc=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=XCFnsOowNFyzTsvOXFM+QQQzpSU+2cym1UN8KZVF1mpwcmNwMoBdUziBXkIJC6AZO8XGtC7Wq4oHW3JbuUwCMRvOpENawbIU5XOOGHiPqAl/kuU0faHvUrdYy/aYHexFWc0vMKbfLdyJvw1GOjULFO5hvN128IDSg9PN41sEtsY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=CcfOk3nV; arc=none smtp.client-ip=217.70.183.198
+	 In-Reply-To:To:Cc; b=OgqCmhLZme/g9fcmoXpEUT9HX3HPANS+/sIgKT9YftLIYuQNc+u/YYf796EGUS1O2anUAV35sZRX4MpviP3EnvWWj0SUSRA0eHVsDoS1xsiJ78+8p7grjVbjgpAVdPQda/03jGtdcQcIEVjF8VfG5Voccg+yZ3TpB69ie/JKu04=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=FZueqFr9; arc=none smtp.client-ip=217.70.183.198
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Received: by mail.gandi.net (Postfix) with ESMTPSA id D9681C000E;
-	Tue, 26 Mar 2024 13:31:40 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 2FF27C000F;
+	Tue, 26 Mar 2024 13:31:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1711459902;
+	t=1711459903;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=kOpNMTW/vA5X/6RU5HQH0KSBKcCLzUFZqJhHW5arx8w=;
-	b=CcfOk3nV93OLbtj4+ARAgsz9peVRLid64OWvzDW/hQVDqDmmlI6CKIaqpE5i9m4mNvp0Y8
-	KUfqeF2eGe02EcLd/966AUraPcY0mefC+uvVXAalC9QHTNF6qLrmL+h+GRkuD8YX9VFBgU
-	7CyjeiAghWoHKyCpjS+U0uUMuvn/Ue68ZXpc40Hgh/zbrS+FWJs9oGYKedbtGog9zOqEas
-	z7ysPIw7wzrIFhhxstp3lD4+KiHuKWRkshYbfbDGCCHlvi+pf2UyaM5nnBnX7QRxsbHKsG
-	y76HiZ2v2zf8nCZPUKsC123IdVxt1nvyMIyUEhocBXEt0ScCPi1Pp8rbtibSKw==
+	bh=O8MBjRw+XjYP4AGNDE/5givq5CD6fzEROYjULWNw0vo=;
+	b=FZueqFr9RmmswTGwgbRXyC9hpG98yS0LOgqA3D1F6Hexn3H2g26L37s4mtXj7Sa5lPoQ2w
+	0WpDpeuDj46jql5z50HokXFkfQ1ZDs9++uAuZQ7TaKBEMZxmcmgCn42AlLpz8haFAb79V8
+	wwAaqJTOdb4V11YPyU/cD0b3SxEwO3Y8VZSJJ/VGeqkmq9iJ/AmLyo+GowyIUngG8B6K+h
+	xQH+emovB5drOgVh/DBF9TDJgYtxv3579l4fpfYhxIi4EwO3I1amFTJCcAojnw/0TPK1Pr
+	jtKua6Vh9RlBIY81N4t/azJQIeU5+K+H6jyguCjenTNyukUS95j8PbMqtyUcvg==
 From: Romain Gantois <romain.gantois@bootlin.com>
-Date: Tue, 26 Mar 2024 14:32:12 +0100
-Subject: [PATCH RESEND net-next v6 6/7] net: phy: qcom: at803x: Avoid
- hibernating if MAC requires RX clock
+Date: Tue, 26 Mar 2024 14:32:13 +0100
+Subject: [PATCH RESEND net-next v6 7/7] net: pcs: rzn1-miic: Init RX clock
+ early if MAC requires it
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -56,8 +56,8 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240326-rxc_bugfix-v6-6-24a74e5c761f@bootlin.com>
+Content-Transfer-Encoding: 8bit
+Message-Id: <20240326-rxc_bugfix-v6-7-24a74e5c761f@bootlin.com>
 References: <20240326-rxc_bugfix-v6-0-24a74e5c761f@bootlin.com>
 In-Reply-To: <20240326-rxc_bugfix-v6-0-24a74e5c761f@bootlin.com>
 To: Russell King <linux@armlinux.org.uk>, Andrew Lunn <andrew@lunn.ch>, 
@@ -73,47 +73,68 @@ Cc: Maxime Chevallier <maxime.chevallier@bootlin.com>,
  Thomas Petazzoni <thomas.petazzoni@bootlin.com>, netdev@vger.kernel.org, 
  linux-stm32@st-md-mailman.stormreply.com, 
  linux-arm-kernel@lists.infradead.org, linux-renesas-soc@vger.kernel.org, 
- "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>, 
- Clark Wang <xiaoning.wang@nxp.com>, 
  Romain Gantois <romain.gantois@bootlin.com>
 X-Mailer: b4 0.13.0
 X-GND-Sasl: romain.gantois@bootlin.com
 
-From: "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>
+The GMAC1 controller in the RZN1 IP requires the RX MII clock signal to be
+started before it initializes its own hardware, thus before it calls
+phylink_start.
 
-Stmmac controllers connected to an at803x PHY cannot resume properly after
-suspend when WoL is enabled. This happens because the MAC requires an RX
-clock generated by the PHY to initialize its hardware properly. But the RX
-clock is cut when the PHY suspends and isn't brought up until the MAC
-driver resumes the phylink.
+Implement the pcs_pre_init() callback so that the RX clock signal can be
+enabled early if necessary.
 
-Prevent the at803x PHY driver from going into suspend if the attached MAC
-driver always requires an RX clock signal.
-
-Reported-by: Clark Wang <xiaoning.wang@nxp.com>
-Link: https://lore.kernel.org/all/20230202081559.3553637-1-xiaoning.wang@nxp.com/
-Signed-off-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
-[rgantois: commit log]
+Reported-by: Clément Léger <clement.leger@bootlin.com>
+Link: https://lore.kernel.org/linux-arm-kernel/20230116103926.276869-4-clement.leger@bootlin.com/
 Signed-off-by: Romain Gantois <romain.gantois@bootlin.com>
 Reviewed-by: Andrew Lunn <andrew@lunn.ch>
 ---
- drivers/net/phy/qcom/at803x.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/net/pcs/pcs-rzn1-miic.c | 28 ++++++++++++++++++++++++++++
+ 1 file changed, 28 insertions(+)
 
-diff --git a/drivers/net/phy/qcom/at803x.c b/drivers/net/phy/qcom/at803x.c
-index 4717c59d51d0..2a221b81cf37 100644
---- a/drivers/net/phy/qcom/at803x.c
-+++ b/drivers/net/phy/qcom/at803x.c
-@@ -426,7 +426,8 @@ static int at803x_hibernation_mode_config(struct phy_device *phydev)
- 	/* The default after hardware reset is hibernation mode enabled. After
- 	 * software reset, the value is retained.
- 	 */
--	if (!(priv->flags & AT803X_DISABLE_HIBERNATION_MODE))
-+	if (!(priv->flags & AT803X_DISABLE_HIBERNATION_MODE) &&
-+	    !(phydev->dev_flags & PHY_F_RXC_ALWAYS_ON))
- 		return 0;
+diff --git a/drivers/net/pcs/pcs-rzn1-miic.c b/drivers/net/pcs/pcs-rzn1-miic.c
+index 4bd66fdde367..d0a722d43368 100644
+--- a/drivers/net/pcs/pcs-rzn1-miic.c
++++ b/drivers/net/pcs/pcs-rzn1-miic.c
+@@ -279,10 +279,38 @@ static int miic_validate(struct phylink_pcs *pcs, unsigned long *supported,
+ 	return -EINVAL;
+ }
  
- 	return at803x_debug_reg_mask(phydev, AT803X_DEBUG_REG_HIB_CTRL,
++static int miic_pre_init(struct phylink_pcs *pcs)
++{
++	struct miic_port *miic_port = phylink_pcs_to_miic_port(pcs);
++	struct miic *miic = miic_port->miic;
++	u32 val, mask;
++
++	/* Start RX clock if required */
++	if (pcs->rxc_always_on) {
++		/* In MII through mode, the clock signals will be driven by the
++		 * external PHY, which might not be initialized yet. Set RMII
++		 * as default mode to ensure that a reference clock signal is
++		 * generated.
++		 */
++		miic_port->interface = PHY_INTERFACE_MODE_RMII;
++
++		val = FIELD_PREP(MIIC_CONVCTRL_CONV_MODE, CONV_MODE_RMII) |
++		      FIELD_PREP(MIIC_CONVCTRL_CONV_SPEED, CONV_MODE_100MBPS);
++		mask = MIIC_CONVCTRL_CONV_MODE | MIIC_CONVCTRL_CONV_SPEED;
++
++		miic_reg_rmw(miic, MIIC_CONVCTRL(miic_port->port), mask, val);
++
++		miic_converter_enable(miic, miic_port->port, 1);
++	}
++
++	return 0;
++}
++
+ static const struct phylink_pcs_ops miic_phylink_ops = {
+ 	.pcs_validate = miic_validate,
+ 	.pcs_config = miic_config,
+ 	.pcs_link_up = miic_link_up,
++	.pcs_pre_init = miic_pre_init,
+ };
+ 
+ struct phylink_pcs *miic_create(struct device *dev, struct device_node *np)
 
 -- 
 2.44.0
