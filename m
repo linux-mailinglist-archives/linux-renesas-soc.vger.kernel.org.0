@@ -1,251 +1,116 @@
-Return-Path: <linux-renesas-soc+bounces-4075-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-4076-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6926888D185
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 26 Mar 2024 23:48:11 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E9F3088D45A
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 27 Mar 2024 03:06:34 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9A49E1C2B857
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 26 Mar 2024 22:48:10 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A3E7C2E4C8A
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 27 Mar 2024 02:06:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1B7766FE16;
-	Tue, 26 Mar 2024 22:48:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6CC9C20334;
+	Wed, 27 Mar 2024 02:05:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OODaOfls"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="I1v5vlVo"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC0123DAC0D
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 26 Mar 2024 22:48:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B11B720328
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 27 Mar 2024 02:05:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711493288; cv=none; b=YB30xE07QtsiHcUH+Yd9m4T1xYMaVtvLmxg9q07Q3MFPhL7e6qj+Ykp5RISpIrWB72hwa8rU5yBtJqVs1xO8+yZxA9wcTmFix9Z3bQ9IZaVSPz2ezPUbl3esHZTiEiRDfr0L7b74cCO514mtD/CXWPWYQ+3udk01tD/B77l5bJk=
+	t=1711505114; cv=none; b=R0u45c0Mxc9opbX7LC/d86WcgdeTO5wb2BTXem1D4Mhjmdb2S7qMqmBDPuQwWnVDngyl61hQLyPe8lUah6L1KpGOC3HtAWabJx1HtxLMn68+gjR/Ce7Yrc+BnwNZ4AudH3OPBHycjNsOkTs4lgcxDHSrJQda+0D0LVWyRy7X/wo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711493288; c=relaxed/simple;
-	bh=EAYLHME3+Sza4iGwjMaCVuwcb9yrqFb49Os4nyvSJ3U=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=hf+emiXT9clqHIY0bULKvxFaLvCQWLjSMaXavFQs7uqlX191oP17537p+kKNn7ZjUgLIPV2Z9h0AiyPdKmS3LYJqjizSQBx0+2B0nBEFa9E7wTKD+2iXyFIidvE/YZFkc1gLpRybGQGSoNGTS8C2m7GZ1NL7wDPz449+D2tHYuY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OODaOfls; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1711505114; c=relaxed/simple;
+	bh=zJ2pdkDq99TejjCYP2yDGfYTfThv2UjMMpR7iK6l/Pw=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=VBk4GGlvuGjPyuk/ys3o2rrFzL54TmVrwyYOcz1lWvbQPTao6V5Oz+ZsPTIy8VhzoZCS/aecvCq76SSafNkvZsinFyH16HrZ7s/azn9q6ukFW9NYeGj1dA49v58Hfmkdadv6uIIRgCibbjD1sRyYZIeG2hcf0+hpWyzlgwIA/rs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=I1v5vlVo; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1711493286; x=1743029286;
-  h=date:from:to:cc:subject:message-id;
-  bh=EAYLHME3+Sza4iGwjMaCVuwcb9yrqFb49Os4nyvSJ3U=;
-  b=OODaOflsrczIHXrgJxcQdhsZiB0Ymrd3hHnbqXZZcmBnLx1iWbJgpNd9
-   ozbmEZ4JsNScXQRDFudsWvUT9tuuX+ckQzoPj1SyPlseE/XjF6w9C4WFm
-   3QwrxQPRknDWB+GHTHWA8V5Mek8yJZ8pOgPukw85mUp2IBqfeugM90YkI
-   QnxaNbLc/oZUTQqtkx84fnoNHaYtHTWs9ux+Sw118z9JafO0/sSYfq0WT
-   Cci28EbykSCuBycqa463YgL7Miyrdr5gWLjs7NyJ4gZB/ih7YyCQ12zXG
-   J22zTHMb8fvdNTnyErR9L2NDqJt617b3BF47pVYJY1qZV2u9vEnc6ngsm
-   w==;
-X-CSE-ConnectionGUID: 7e1x4UM8RkSbPKe56EOImA==
-X-CSE-MsgGUID: YUYHPumaRXW1wwv6WceKsA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11025"; a="6434975"
+  t=1711505113; x=1743041113;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=zJ2pdkDq99TejjCYP2yDGfYTfThv2UjMMpR7iK6l/Pw=;
+  b=I1v5vlVoiZQ2irq2d2ANtpIr7zd6Zso1SoMIaIbJUrafcVGQ7CJZQD/0
+   iwehYxPgxezWCfxlLQfcpw1iagnym4iGJdJMz+ImChN4Hc9dujJ0ab6SY
+   rHT/j1S1GD3lyjjiV8lKe1AA2jxyw3KxI2g4LL4MrKd5oLCoLyD7XoZ1O
+   1gFCOLRFn5m8azefv6o3RYDJV5UD+hbIRAz/9+AfGhv081m7w7cpSm2Hv
+   Zn8lpe55QAUztsDOS2Iij3k27vc4+1oN+jaUpZ2i8DkpbkgVz3ppF04dx
+   H74ZoylEmsPL8TKaa3TMJrQdEyGItfqxKBFEkMcbycT06IpNu/wfLEVQn
+   A==;
+X-CSE-ConnectionGUID: 3hT6rTOkSbCrqPgkcGVfrA==
+X-CSE-MsgGUID: 4PPMRxvtROOq/1PQwPp4OA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11025"; a="18017510"
 X-IronPort-AV: E=Sophos;i="6.07,157,1708416000"; 
-   d="scan'208";a="6434975"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2024 15:48:05 -0700
+   d="scan'208";a="18017510"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2024 19:05:12 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,157,1708416000"; 
-   d="scan'208";a="16493164"
+   d="scan'208";a="39245073"
 Received: from lkp-server01.sh.intel.com (HELO be39aa325d23) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 26 Mar 2024 15:48:04 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 26 Mar 2024 19:05:09 -0700
 Received: from kbuild by be39aa325d23 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1rpFaL-0000VM-2d;
-	Tue, 26 Mar 2024 22:48:01 +0000
-Date: Wed, 27 Mar 2024 06:47:18 +0800
+	id 1rpIf5-0000dq-2W;
+	Wed, 27 Mar 2024 02:05:07 +0000
+Date: Wed, 27 Mar 2024 10:05:03 +0800
 From: kernel test robot <lkp@intel.com>
 To: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: linux-renesas-soc@vger.kernel.org
-Subject: [geert-renesas-devel:master] BUILD SUCCESS
- 7683cf29bec6134fd90330e19db59f3465c7ac7c
-Message-ID: <202403270614.ijofGzsn-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-renesas-soc@vger.kernel.org
+Subject: [geert-renesas-drivers:master 23/30]
+ drivers/scsi/hisi_sas/hisi_sas_v2_hw.c:3548:3: error: use of undeclared
+ identifier 'sas_ata_sdev_attr_group'
+Message-ID: <202403271050.wRQduzP2-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git master
-branch HEAD: 7683cf29bec6134fd90330e19db59f3465c7ac7c  Merge branch 'renesas-next' into renesas-devel
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git master
+head:   5e36d764b5dfcddd54895d9b6dc392eaaba17d6a
+commit: 61d4f86ef0002b12ed52d2dc7a08c23b53798766 [23/30] Revert "scsi: libsas: Define NCQ Priority sysfs attributes for SATA devices"
+config: i386-buildonly-randconfig-003-20240327 (https://download.01.org/0day-ci/archive/20240327/202403271050.wRQduzP2-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240327/202403271050.wRQduzP2-lkp@intel.com/reproduce)
 
-elapsed time: 828m
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202403271050.wRQduzP2-lkp@intel.com/
 
-configs tested: 162
-configs skipped: 3
+All errors (new ones prefixed by >>):
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+>> drivers/scsi/hisi_sas/hisi_sas_v2_hw.c:3548:3: error: use of undeclared identifier 'sas_ata_sdev_attr_group'
+    3548 |         &sas_ata_sdev_attr_group,
+         |          ^
+   1 error generated.
 
-tested configs:
-alpha                             allnoconfig   gcc  
-alpha                            allyesconfig   gcc  
-alpha                               defconfig   gcc  
-arc                              allmodconfig   gcc  
-arc                               allnoconfig   gcc  
-arc                              allyesconfig   gcc  
-arc                                 defconfig   gcc  
-arc                   randconfig-001-20240326   gcc  
-arc                   randconfig-002-20240326   gcc  
-arm                              allmodconfig   gcc  
-arm                               allnoconfig   clang
-arm                              allyesconfig   gcc  
-arm                                 defconfig   clang
-arm                   randconfig-001-20240326   gcc  
-arm                   randconfig-002-20240326   gcc  
-arm                   randconfig-003-20240326   gcc  
-arm                   randconfig-004-20240326   gcc  
-arm64                            allmodconfig   clang
-arm64                             allnoconfig   gcc  
-arm64                               defconfig   gcc  
-arm64                 randconfig-001-20240326   clang
-arm64                 randconfig-002-20240326   clang
-arm64                 randconfig-003-20240326   gcc  
-arm64                 randconfig-004-20240326   clang
-csky                             allmodconfig   gcc  
-csky                              allnoconfig   gcc  
-csky                             allyesconfig   gcc  
-csky                                defconfig   gcc  
-csky                  randconfig-001-20240326   gcc  
-csky                  randconfig-002-20240326   gcc  
-hexagon                          allmodconfig   clang
-hexagon                           allnoconfig   clang
-hexagon                          allyesconfig   clang
-hexagon                             defconfig   clang
-hexagon               randconfig-001-20240326   clang
-hexagon               randconfig-002-20240326   clang
-i386                             allmodconfig   gcc  
-i386                              allnoconfig   gcc  
-i386                             allyesconfig   gcc  
-i386         buildonly-randconfig-001-20240326   gcc  
-i386         buildonly-randconfig-002-20240326   clang
-i386         buildonly-randconfig-003-20240326   clang
-i386         buildonly-randconfig-004-20240326   gcc  
-i386         buildonly-randconfig-005-20240326   gcc  
-i386         buildonly-randconfig-006-20240326   gcc  
-i386                                defconfig   clang
-i386                  randconfig-001-20240326   gcc  
-i386                  randconfig-002-20240326   gcc  
-i386                  randconfig-003-20240326   gcc  
-i386                  randconfig-004-20240326   clang
-i386                  randconfig-005-20240326   gcc  
-i386                  randconfig-006-20240326   clang
-i386                  randconfig-011-20240326   clang
-i386                  randconfig-012-20240326   gcc  
-i386                  randconfig-013-20240326   clang
-i386                  randconfig-014-20240326   clang
-i386                  randconfig-015-20240326   clang
-i386                  randconfig-016-20240326   clang
-loongarch                        allmodconfig   gcc  
-loongarch                         allnoconfig   gcc  
-loongarch                           defconfig   gcc  
-loongarch             randconfig-001-20240326   gcc  
-loongarch             randconfig-002-20240326   gcc  
-m68k                             allmodconfig   gcc  
-m68k                              allnoconfig   gcc  
-m68k                             allyesconfig   gcc  
-m68k                                defconfig   gcc  
-microblaze                       allmodconfig   gcc  
-microblaze                        allnoconfig   gcc  
-microblaze                       allyesconfig   gcc  
-microblaze                          defconfig   gcc  
-mips                              allnoconfig   gcc  
-mips                             allyesconfig   gcc  
-nios2                            allmodconfig   gcc  
-nios2                             allnoconfig   gcc  
-nios2                            allyesconfig   gcc  
-nios2                               defconfig   gcc  
-nios2                 randconfig-001-20240326   gcc  
-nios2                 randconfig-002-20240326   gcc  
-openrisc                          allnoconfig   gcc  
-openrisc                         allyesconfig   gcc  
-openrisc                            defconfig   gcc  
-parisc                           allmodconfig   gcc  
-parisc                            allnoconfig   gcc  
-parisc                           allyesconfig   gcc  
-parisc                              defconfig   gcc  
-parisc                randconfig-001-20240326   gcc  
-parisc                randconfig-002-20240326   gcc  
-parisc64                            defconfig   gcc  
-powerpc                          allmodconfig   gcc  
-powerpc                           allnoconfig   gcc  
-powerpc                          allyesconfig   clang
-powerpc               randconfig-001-20240326   clang
-powerpc               randconfig-002-20240326   gcc  
-powerpc               randconfig-003-20240326   clang
-powerpc64             randconfig-001-20240326   gcc  
-powerpc64             randconfig-002-20240326   gcc  
-powerpc64             randconfig-003-20240326   gcc  
-riscv                            allmodconfig   clang
-riscv                             allnoconfig   gcc  
-riscv                            allyesconfig   clang
-riscv                               defconfig   clang
-riscv                 randconfig-001-20240326   gcc  
-riscv                 randconfig-002-20240326   clang
-s390                             allmodconfig   clang
-s390                              allnoconfig   clang
-s390                             allyesconfig   gcc  
-s390                                defconfig   clang
-s390                  randconfig-001-20240326   clang
-s390                  randconfig-002-20240326   clang
-sh                               allmodconfig   gcc  
-sh                                allnoconfig   gcc  
-sh                               allyesconfig   gcc  
-sh                                  defconfig   gcc  
-sh                    randconfig-001-20240326   gcc  
-sh                    randconfig-002-20240326   gcc  
-sparc                            allmodconfig   gcc  
-sparc                             allnoconfig   gcc  
-sparc                               defconfig   gcc  
-sparc64                          allmodconfig   gcc  
-sparc64                          allyesconfig   gcc  
-sparc64                             defconfig   gcc  
-sparc64               randconfig-001-20240326   gcc  
-sparc64               randconfig-002-20240326   gcc  
-um                               allmodconfig   clang
-um                                allnoconfig   clang
-um                               allyesconfig   gcc  
-um                                  defconfig   clang
-um                             i386_defconfig   gcc  
-um                    randconfig-001-20240326   gcc  
-um                    randconfig-002-20240326   gcc  
-um                           x86_64_defconfig   clang
-x86_64                            allnoconfig   clang
-x86_64                           allyesconfig   clang
-x86_64       buildonly-randconfig-001-20240326   clang
-x86_64       buildonly-randconfig-002-20240326   gcc  
-x86_64       buildonly-randconfig-003-20240326   clang
-x86_64       buildonly-randconfig-004-20240326   gcc  
-x86_64       buildonly-randconfig-005-20240326   gcc  
-x86_64       buildonly-randconfig-006-20240326   gcc  
-x86_64                              defconfig   gcc  
-x86_64                randconfig-001-20240326   gcc  
-x86_64                randconfig-002-20240326   gcc  
-x86_64                randconfig-003-20240326   gcc  
-x86_64                randconfig-004-20240326   clang
-x86_64                randconfig-005-20240326   gcc  
-x86_64                randconfig-006-20240326   clang
-x86_64                randconfig-011-20240326   gcc  
-x86_64                randconfig-012-20240326   clang
-x86_64                randconfig-013-20240326   gcc  
-x86_64                randconfig-014-20240326   gcc  
-x86_64                randconfig-015-20240326   clang
-x86_64                randconfig-016-20240326   clang
-x86_64                randconfig-071-20240326   clang
-x86_64                randconfig-072-20240326   gcc  
-x86_64                randconfig-073-20240326   gcc  
-x86_64                randconfig-074-20240326   gcc  
-x86_64                randconfig-075-20240326   gcc  
-x86_64                randconfig-076-20240326   gcc  
-x86_64                          rhel-8.3-rust   clang
-xtensa                            allnoconfig   gcc  
-xtensa                randconfig-001-20240326   gcc  
+
+vim +/sas_ata_sdev_attr_group +3548 drivers/scsi/hisi_sas/hisi_sas_v2_hw.c
+
+62ac8ccbb819e3 Bart Van Assche 2021-10-12  3546  
+a23971e8ff0c43 Igor Pylypiv    2024-03-07  3547  static const struct attribute_group *sdev_groups_v2_hw[] = {
+a23971e8ff0c43 Igor Pylypiv    2024-03-07 @3548  	&sas_ata_sdev_attr_group,
+a23971e8ff0c43 Igor Pylypiv    2024-03-07  3549  	NULL
+a23971e8ff0c43 Igor Pylypiv    2024-03-07  3550  };
+a23971e8ff0c43 Igor Pylypiv    2024-03-07  3551  
+
+:::::: The code at line 3548 was first introduced by commit
+:::::: a23971e8ff0c43d47e1772b62c2916ff0b768fca scsi: hisi_sas: Add libsas SATA sysfs attributes group
+
+:::::: TO: Igor Pylypiv <ipylypiv@google.com>
+:::::: CC: Martin K. Petersen <martin.petersen@oracle.com>
 
 -- 
 0-DAY CI Kernel Test Service
