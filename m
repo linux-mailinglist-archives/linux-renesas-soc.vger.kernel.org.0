@@ -1,141 +1,135 @@
-Return-Path: <linux-renesas-soc+bounces-4136-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-4137-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FCFF88EF4F
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 27 Mar 2024 20:36:13 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 205B988F08C
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 27 Mar 2024 22:00:26 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id CB6AEB244E2
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 27 Mar 2024 19:36:10 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A62EE2A520E
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 27 Mar 2024 21:00:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E7BA914F9F6;
-	Wed, 27 Mar 2024 19:36:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XoaXAMOJ"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5EF9B153513;
+	Wed, 27 Mar 2024 21:00:22 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx01.omp.ru (mx01.omp.ru [90.154.21.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C47D380;
-	Wed, 27 Mar 2024 19:36:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2CFF1327EC;
+	Wed, 27 Mar 2024 21:00:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.154.21.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711568162; cv=none; b=IqaR9I7OSVj2cn5pb2amOwEtxcvVrBX0EAMfJwD3p6Ob27Zzb/SuI1Su3Y6wltd4qJ1yDWFc4Ng818HcZ+H4ri68r0fA9/VLXzsqR2OPt/3WA8/xsqJ11/k82+d51DDgjZrzRot0tVOyCL0OWGdktpraTBXuaQ+f+Jh+QK+o/6E=
+	t=1711573222; cv=none; b=uZmzPDCfeNNxAmBT7eJqLDkAKzdp36oJOchD4diysKkuEOi5nkpubFKiMb8aQSXwjpe/S8oW0nKENEBBem8es00yTvXrTRV6rzLz47X5MJXeFda7GXN1VBDEdRxy1NVjCAPDY4lcGpraxnOW3nlHX4dC45TH/FA4uT62WN08UfM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711568162; c=relaxed/simple;
-	bh=T0Gc63+M14jsX7PKFtiIXFMl0tWSi9oDRmgoUZTW/2w=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=kvWLzCHlXrCLVHGZq9tEGrVrmqm7KSNrNZfM/VNeF3qr9oqwDMT0waNjexrtBYb6MyvcNR0aKcPavrM9Qx1+KwvLDE+6XbMRo3wdksFd9xC7errlqfut1uYd0vGohu9fJUvwGRXMbKgpwpdS/w4jSdfFLTpMMjUYEKK1dPlfb0A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XoaXAMOJ; arc=none smtp.client-ip=209.85.218.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-a4a393b699fso38648266b.0;
-        Wed, 27 Mar 2024 12:36:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1711568159; x=1712172959; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=aojaArSnA0JfedDto4elyer8YODIKcUTNNFpLzMMgW8=;
-        b=XoaXAMOJ4Ojmd7idhXiyfKsYBXO1nlVNNBH2lrYeTP5tUZYgJcfSMkvYDdSECwJe3O
-         2WPWBYmKXHC3NZWnWbzWbnrHUyovIC/aoenU0HNzQCX/wvlCFvq+1zEn21HC3sezb8Jz
-         SPURbZsQS6fgh2YVN3sqFKrAbjZhNNG29y5z+ZwHL1BZB0eyGa0r1WlwajFoU7kWaoqZ
-         185ZvXwubU7cpqnWYSzx0ODOXGVS3Mu2DrliJPjTMaV7TwMtsw25xfnbYF5dA8TRfuQ7
-         d8HeMsqPzustoXEui2Uc+vAQDibV6fBvr6di3ODvecj0COgUZeNJQykOCy7aPcLPeDfo
-         WMIw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711568159; x=1712172959;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=aojaArSnA0JfedDto4elyer8YODIKcUTNNFpLzMMgW8=;
-        b=n8H1GZxWGCDyZS5GqC4sE0iRZ6/9XuV3nlKHKJkja+AZPJKXTt3r1bhBFrxuwpoXLP
-         /AuIC8w+HXy958J1FQf+Iy8P//jBuByUSsJs7ZDJyzOxYeJqyARMljJnc3A2G5ovAQVV
-         yMucFt5nfs8w5c0R/CmBVsN29G8RYl0rdhnkTA4x68Pr6Tc+sVfTGJwKvGsADzkk0z7r
-         ZuacuYt2GO1+otB+99QWCJ431XrYBpUJo2gJUJx+m70N4HppIHuJ0tJcAoyw1Os/6lNk
-         A7IPnFSrw34Qoq2FEpCdpDNEt2tlRguwX14hgVUljq3KsTPBv+nxZOfx3wZjSjKQheEp
-         eLAw==
-X-Forwarded-Encrypted: i=1; AJvYcCVCYs+LogtakcWjQysrzX6wzvIepjw4NCiF8HoEvdnW+fcNZb6q0ncljdi6I5FBFilRdUn5iZ+bKJKGewBdPfMSzBsWPfsv/XqgvyGupEJypYlJ8aUH+Smswfxo10UetclKXgE97Rq//Icad6T7MUFCuayMEwItobDtws+wo/edI1IwriKnb8wNXfmtCeGm1MhBk9yD4Nb6NeeIE2CJi3siS9XkvdLH2QMXSc9ZKCTqjMnArQ2s2S+y+7efnQKwKB7Sh+JQHr9Oali08QD7nkd9+mTNPPesNdBoy5hJdtpUyesJaRFG3rX27s82zYLOQka3WSwt0L3bww8acX1hFWejjOxv/XPiYIHXlO7Qp7cSCgMumKXmmGj/BBqgbPv+hmcJCoJzk0Vg6rREXD4G2sYYooVDZTkzg1NL6i8W/n3poH6AkiaMGuZvsFSjyjfoKCe5k+uOpdSspnFHnd38kzfXebGQ3IHl5+lOODTNJYDDZ5sfGo533LxVP86Tb/wgi5OoYubNq8S7haZuCCbHvffDGirQVz9dYy5SXNsE+g1zIzM=
-X-Gm-Message-State: AOJu0Yyipuc5TsIErMTNm9jkKX/fFMTmqPVE3UYPTd1po8U8p1sC9R2o
-	ZrFIl5QEdHBNhCaYvqj2qCmN3xq+VhVckML3IqGQ17mgDI+OKPapdtBwuK+1qU0=
-X-Google-Smtp-Source: AGHT+IHWYCsKCZfCKe9WJ0A8h2jBWKCzprPvh9Stt4hH84aJN1DmeskwZihR1IueuTRTWs9wYxpP6Q==
-X-Received: by 2002:a17:906:119a:b0:a47:3766:cfec with SMTP id n26-20020a170906119a00b00a473766cfecmr235001eja.9.1711568159337;
-        Wed, 27 Mar 2024 12:35:59 -0700 (PDT)
-Received: from jernej-laptop.localnet (86-58-6-171.dynamic.telemach.net. [86.58.6.171])
-        by smtp.gmail.com with ESMTPSA id j24-20020a17090643d800b00a4672fb2a03sm5858783ejn.10.2024.03.27.12.35.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 Mar 2024 12:35:58 -0700 (PDT)
-From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: linux-kernel@vger.kernel.org, Allen Pais <apais@linux.microsoft.com>
-Cc: tj@kernel.org, keescook@chromium.org, vkoul@kernel.org, marcan@marcan.st,
- sven@svenpeter.dev, florian.fainelli@broadcom.com, rjui@broadcom.com,
- sbranden@broadcom.com, paul@crapouillou.net, Eugeniy.Paltsev@synopsys.com,
- manivannan.sadhasivam@linaro.org, vireshk@kernel.org, Frank.Li@nxp.com,
- leoyang.li@nxp.com, zw@zh-kernel.org, wangzhou1@hisilicon.com,
- haijie1@huawei.com, shawnguo@kernel.org, s.hauer@pengutronix.de,
- sean.wang@mediatek.com, matthias.bgg@gmail.com,
- angelogioacchino.delregno@collabora.com, afaerber@suse.de,
- logang@deltatee.com, daniel@zonque.org, haojian.zhuang@gmail.com,
- robert.jarzmik@free.fr, andersson@kernel.org, konrad.dybcio@linaro.org,
- orsonzhai@gmail.com, baolin.wang@linux.alibaba.com, zhang.lyra@gmail.com,
- patrice.chotard@foss.st.com, linus.walleij@linaro.org, wens@csie.org,
- peter.ujfalusi@gmail.com, kys@microsoft.com, haiyangz@microsoft.com,
- wei.liu@kernel.org, decui@microsoft.com, jassisinghbrar@gmail.com,
- mchehab@kernel.org, maintainers@bluecherrydvr.com,
- aubin.constans@microchip.com, ulf.hansson@linaro.org, manuel.lauss@gmail.com,
- mirq-linux@rere.qmqm.pl, jh80.chung@samsung.com, oakad@yahoo.com,
- hayashi.kunihiko@socionext.com, mhiramat@kernel.org, brucechang@via.com.tw,
- HaraldWelte@viatech.com, pierre@ossman.eu, duncan.sands@free.fr,
- stern@rowland.harvard.edu, oneukum@suse.com,
- openipmi-developer@lists.sourceforge.net, dmaengine@vger.kernel.org,
- asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- linux-rpi-kernel@lists.infradead.org, linux-mips@vger.kernel.org,
- imx@lists.linux.dev, linuxppc-dev@lists.ozlabs.org,
- linux-mediatek@lists.infradead.org, linux-actions@lists.infradead.org,
- linux-arm-msm@vger.kernel.org, linux-riscv@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
- linux-hyperv@vger.kernel.org, linux-rdma@vger.kernel.org,
- linux-media@vger.kernel.org, linux-mmc@vger.kernel.org,
- linux-omap@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
- linux-s390@vger.kernel.org, netdev@vger.kernel.org, linux-usb@vger.kernel.org
-Subject: Re: [PATCH 9/9] mmc: Convert from tasklet to BH workqueue
-Date: Wed, 27 Mar 2024 20:35:54 +0100
-Message-ID: <9252961.CDJkKcVGEf@jernej-laptop>
-In-Reply-To: <20240327160314.9982-10-apais@linux.microsoft.com>
-References:
- <20240327160314.9982-1-apais@linux.microsoft.com>
- <20240327160314.9982-10-apais@linux.microsoft.com>
+	s=arc-20240116; t=1711573222; c=relaxed/simple;
+	bh=x7O4GJqe2xti4nuEXHz6sAiFWm1Qt5JV/1A5WBS+MwE=;
+	h=Subject:To:CC:References:From:Message-ID:Date:MIME-Version:
+	 In-Reply-To:Content-Type; b=gN60ZNJ3QAO+sGEnC3RwHKxHJEaZUBGL92UIP/cI/hmcQHEJL3IEtu00CX6+BYMJSFeqeYyfcc+46vhbuNF++pEzWpwxHUa8CIjfN5giDWCuYL32UJHiKoEhabfBTxKZKgKGPI7ZmKMopAScfbseB+y2i4u4H23831BJojeACUA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=omp.ru; spf=pass smtp.mailfrom=omp.ru; arc=none smtp.client-ip=90.154.21.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=omp.ru
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=omp.ru
+Received: from [192.168.1.105] (31.173.86.12) by msexch01.omp.ru (10.188.4.12)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.1258.12; Thu, 28 Mar
+ 2024 00:00:02 +0300
+Subject: Re: [PATCH 1/2] net: ravb: Always process TX descriptor ring
+To: Paul Barker <paul.barker.ct@bp.renesas.com>, "David S. Miller"
+	<davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub Kicinski
+	<kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>
+CC: =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
+	<netdev@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>
+References: <20240326083740.23364-1-paul.barker.ct@bp.renesas.com>
+From: Sergey Shtylyov <s.shtylyov@omp.ru>
+Organization: Open Mobile Platform
+Message-ID: <f656ecda-6d4b-15ed-9ac5-ec626e25d0a3@omp.ru>
+Date: Wed, 27 Mar 2024 23:59:53 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
+In-Reply-To: <20240326083740.23364-1-paul.barker.ct@bp.renesas.com>
 Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: msexch01.omp.ru (10.188.4.12) To msexch01.omp.ru
+ (10.188.4.12)
+X-KSE-ServerInfo: msexch01.omp.ru, 9
+X-KSE-AntiSpam-Interceptor-Info: scan successful
+X-KSE-AntiSpam-Version: 6.1.0, Database issued on: 03/27/2024 20:45:40
+X-KSE-AntiSpam-Status: KAS_STATUS_NOT_DETECTED
+X-KSE-AntiSpam-Method: none
+X-KSE-AntiSpam-Rate: 59
+X-KSE-AntiSpam-Info: Lua profiles 184456 [Mar 27 2024]
+X-KSE-AntiSpam-Info: Version: 6.1.0.4
+X-KSE-AntiSpam-Info: Envelope from: s.shtylyov@omp.ru
+X-KSE-AntiSpam-Info: LuaCore: 13 0.3.13
+ 9d58e50253d512f89cb08f71c87c671a2d0a1bca
+X-KSE-AntiSpam-Info: {rep_avail}
+X-KSE-AntiSpam-Info: {Tracking_from_domain_doesnt_match_to}
+X-KSE-AntiSpam-Info: {relay has no DNS name}
+X-KSE-AntiSpam-Info: {SMTP from is not routable}
+X-KSE-AntiSpam-Info: {Found in DNSBL: 31.173.86.12 in (user)
+ b.barracudacentral.org}
+X-KSE-AntiSpam-Info:
+	127.0.0.199:7.1.2;omp.ru:7.1.1;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1
+X-KSE-AntiSpam-Info: ApMailHostAddress: 31.173.86.12
+X-KSE-AntiSpam-Info: {DNS response errors}
+X-KSE-AntiSpam-Info: Rate: 59
+X-KSE-AntiSpam-Info: Status: not_detected
+X-KSE-AntiSpam-Info: Method: none
+X-KSE-AntiSpam-Info: Auth:dmarc=temperror header.from=omp.ru;spf=temperror
+ smtp.mailfrom=omp.ru;dkim=none
+X-KSE-Antiphishing-Info: Clean
+X-KSE-Antiphishing-ScanningType: Heuristic
+X-KSE-Antiphishing-Method: None
+X-KSE-Antiphishing-Bases: 03/27/2024 20:50:00
+X-KSE-Antivirus-Interceptor-Info: scan successful
+X-KSE-Antivirus-Info: Clean, bases: 3/27/2024 6:25:00 PM
+X-KSE-Attachment-Filter-Triggered-Rules: Clean
+X-KSE-Attachment-Filter-Triggered-Filters: Clean
+X-KSE-BulkMessagesFiltering-Scan-Result: InTheLimit
 
-Dne sreda, 27. marec 2024 ob 17:03:14 CET je Allen Pais napisal(a):
-> The only generic interface to execute asynchronously in the BH context is
-> tasklet; however, it's marked deprecated and has some design flaws. To
-> replace tasklets, BH workqueue support was recently added. A BH workqueue
-> behaves similarly to regular workqueues except that the queued work items
-> are executed in the BH context.
+On 3/26/24 11:37 AM, Paul Barker wrote:
+
+> The TX queue should be serviced each time the poll function is called,
+> even if the full RX work budget has been consumed. This prevents
+> starvation of the TX queue when RX bandwidth usage is high.
 > 
-> This patch converts drivers/infiniband/* from tasklet to BH workqueue.
+> Fixes: a0d2f20650e8 ("Renesas Ethernet AVB PTP clock driver")
+> Signed-off-by: Paul Barker <paul.barker.ct@bp.renesas.com>
 
-infiniband -> mmc
+[...]
 
-Best regards,
-Jernej
+> diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
+> index d1be030c8848..4f98e4e2badb 100644
+> --- a/drivers/net/ethernet/renesas/ravb_main.c
+> +++ b/drivers/net/ethernet/renesas/ravb_main.c
+> @@ -1324,12 +1324,12 @@ static int ravb_poll(struct napi_struct *napi, int budget)
+>  	int q = napi - priv->napi;
+>  	int mask = BIT(q);
+>  	int quota = budget;
+> +	bool rearm = true;
 
-> 
-> Based on the work done by Tejun Heo <tj@kernel.org>
-> Branch: https://git.kernel.org/pub/scm/linux/kernel/git/tj/wq.git for-6.10
-> 
-> Signed-off-by: Allen Pais <allen.lkml@gmail.com>
+   I don't think we need an initializer, it gets reassigned below.
+   And I'd rather call it unmask...
 
+>  
+>  	/* Processing RX Descriptor Ring */
+>  	/* Clear RX interrupt */
+>  	ravb_write(ndev, ~(mask | RIS0_RESERVED), RIS0);
+> -	if (ravb_rx(ndev, &quota, q))
+> -		goto out;
+> +	rearm = !ravb_rx(ndev, &quota, q);
+>  
+>  	/* Processing TX Descriptor Ring */
+>  	spin_lock_irqsave(&priv->lock, flags);
+[...]
 
-
+MBR, Sergey
 
