@@ -1,156 +1,126 @@
-Return-Path: <linux-renesas-soc+bounces-4096-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-4097-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DF9488D87A
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 27 Mar 2024 09:11:52 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 962FC88D880
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 27 Mar 2024 09:13:55 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id D41331F2A4E6
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 27 Mar 2024 08:11:51 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C73311C25E83
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 27 Mar 2024 08:13:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C655A2577D;
-	Wed, 27 Mar 2024 08:11:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 44D632C6AD;
+	Wed, 27 Mar 2024 08:13:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AFOtDwyw"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com [209.85.128.173])
+Received: from mail-vk1-f177.google.com (mail-vk1-f177.google.com [209.85.221.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B53312D047;
-	Wed, 27 Mar 2024 08:11:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAF2C23D7;
+	Wed, 27 Mar 2024 08:13:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711527108; cv=none; b=CKPjyp0ZmqWV24HxNkPIfMzDjaWOlSzBoa0K93oBZlS96cLiwV97nAKodWzGWDDVtzZ1g8sh1PEUehUiC4agqiPxFzXFYuCxO+6U6RG1JmpHjoPHHMQLz142fjCt/dRZLGTzPtmAtTKEBhll0RXm8d75yD52NnA2chVGecQGrOs=
+	t=1711527229; cv=none; b=QamClrZ5wS5nK4f/5wm0zTPf4vIkKsbPKKXLtjuy1rykzYUyVqOMMOO7MGXvugjqxy5YY5B2ptkOm4Jv4rTyo9xw6HHMrNAPJasYYTiDqykgtbXX/LI0vvFgK6attwRqpYjbPGNcpDta9uKrYg/kXmlkkxVJMR1CB3hysLJKX+M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711527108; c=relaxed/simple;
-	bh=U46D17B2Gu9vk8trCq1/YRj4IZbq5hVLH5WPLSTv7ew=;
+	s=arc-20240116; t=1711527229; c=relaxed/simple;
+	bh=422qgjDjcc0R+F7arnFQm2Jz0k4zOlxMuTVKFQhSX94=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Ty7CKY95jFPZ+/dccryJd9ihvQPhtPn9ndT1v852lVmbY7h1NFvZ/+2jf59Ul23Wl0gqaBoT9+C2lqp+N1Uk1C50SyrrLHzwL4ROYfXj79mZFHtmpFcp0clJDxXHag+5bnyUSISb1/AImf4quFZH2aCsv184lyaFi+cQ1au78Do=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+	 To:Cc:Content-Type; b=Hfn+aOu5jrHYA48a9EWqGFEYCH6h5cHm9MiAilOWA0Qv9PiXapTLYhbnMGCyyUDO/Wm+mtU+zMot8nxz8sjX+4qwR/R4rmxxrhW+bAvSO0FMWIJE8riLuRIPIc1nYSwAW5Ut9CRg1e+OCFnQIypFR+pTi3JDzoc2ZMoszO35w8o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AFOtDwyw; arc=none smtp.client-ip=209.85.221.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-60a057b6601so65165627b3.2;
-        Wed, 27 Mar 2024 01:11:46 -0700 (PDT)
+Received: by mail-vk1-f177.google.com with SMTP id 71dfb90a1353d-4d8a2ff9d68so635481e0c.0;
+        Wed, 27 Mar 2024 01:13:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1711527226; x=1712132026; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=BsmjHEUm6Fev6qF+PhIOPw/ZPhhQx87uLXE+GyQJ340=;
+        b=AFOtDwywCuUDQOZzboeDnwDVrKDeG+6NqkvmUN6JpuRd943Bi+3G1Zp6m+N2nMhyOt
+         QQ2FedRw6BCA+D+I/orqo6tSc1ftrherGindbiFUNfGRIXE3qEFodAXLmVpDG6aEpJyW
+         maHBNPq0gx1xTs3jGq8OrM64tQqp1UHQRo//GqjwfHGLSU1F6pKIze6jkokk7qBHL/7j
+         QxW3z8mmTnw/LHnaE9RdZsTAyfUrMPc4birklhFFvetsxZsWlp1V/U6eA0fvDhPRl/9r
+         9Q5fykOdCElQSGU0FXrj57rMzngjlzNdu5275ySmHvxgV0gDjsXEhJ/9zJ9cCyHiKNcx
+         vboA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711527104; x=1712131904;
+        d=1e100.net; s=20230601; t=1711527226; x=1712132026;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=2YlWqaeQzs82rsborTsg3j6aUzmebX6FCOBG9i4Wy0Q=;
-        b=Ujc2IED1oxd6KOc2ZXTK5ajMNsQHvxfxHCln/VGA9cEtk0jgX6t4h4iluhgn7mW45F
-         B0oVHF7BUqsO2HHQCHSMKUCR2N7LAwQJN2QbCP5HQTvaUjDTBTg+oJ3UWLjTcBSUAD95
-         DzYEFoSt14VwDQNM2uuRjwlVNai8Ay7+PDZwT/uStuFKV/PsckPdHVwBzLeUdV96rATt
-         p6eHScbt15LDjRIKkvajLLSj4CneFicCJ5rM85gdDRFWmxo1SzA8ZXccGYfaZDWTE6BL
-         kYYOJD3TM8nid0x9ASjXWBdqHtY43mJ61MmFWhlAcmjaqyjPHPoghXAE3GxVmFQ/tdYL
-         yG+Q==
-X-Forwarded-Encrypted: i=1; AJvYcCXOKWrngOJbahZ5tSUna1Y23Oc/UPGzmTHgoWGLxxVSM8aiMyzRMpPFyMswMaYpmpmX74gG1WrjeK6Y/uJq3YWkHsOh4IUO7BRqNUdcTZOCqDMvLR5Ffx+yyvByCWY6I5Q5pS6wce/qVhOG+WAh2Blxj1lcOvza2EBvw2XoCTXUi9EzWX5i7Ude
-X-Gm-Message-State: AOJu0Ywl0E2RQpCT6HsRsZ5tfIexML+WKgMSR6S37d/Pk2tZ+klkQZIc
-	CepQmANUb0nVOHnz6/xFJVIfHQs7RIkcAElqmois8niH1eksKKi2j6CCIDYtTs0=
-X-Google-Smtp-Source: AGHT+IEH+cKQzWRIWB2MAWB9HzEsTPA8uBlQhvp6yz8xTUmQx1SO6KkUjCS92+REMGblp+utOcKE7g==
-X-Received: by 2002:a0d:dd96:0:b0:610:e31f:2656 with SMTP id g144-20020a0ddd96000000b00610e31f2656mr386514ywe.43.1711527104440;
-        Wed, 27 Mar 2024 01:11:44 -0700 (PDT)
-Received: from mail-yb1-f175.google.com (mail-yb1-f175.google.com. [209.85.219.175])
-        by smtp.gmail.com with ESMTPSA id l190-20020a0dfbc7000000b006112b1708a4sm1870302ywf.86.2024.03.27.01.11.43
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 27 Mar 2024 01:11:43 -0700 (PDT)
-Received: by mail-yb1-f175.google.com with SMTP id 3f1490d57ef6-dcd7c526cc0so6628670276.1;
-        Wed, 27 Mar 2024 01:11:43 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWtAZ1Ii41ZqgyMOa0ZZCh8fe85wq6GxCRbDOkljnOxGYrSAi6RPKnYJzfWBQ8s+4OSBwXJxUcTpdg3YRSCf7Uhn65RvlLNeIaKi0yfM+YF5egrfYtizFGMSOK3AeqK8poYRxoQLJTcgqfBZs9Kmvz2icEVKQ5tyxlaXmnI0ybv0CoCGoSNX8nf
-X-Received: by 2002:a25:ae8e:0:b0:dc7:4f61:5723 with SMTP id
- b14-20020a25ae8e000000b00dc74f615723mr328182ybj.39.1711527103652; Wed, 27 Mar
- 2024 01:11:43 -0700 (PDT)
+        bh=BsmjHEUm6Fev6qF+PhIOPw/ZPhhQx87uLXE+GyQJ340=;
+        b=bQIndFVDiwdO4RM1W2Qo1eNIbpwAPJq5BASRThaa/36AJ0pkRm/qPZYsWeTDrMI7nW
+         uaLfvzjNM2QTFiOjpyd1aQG0HqaTUFlPKBnvQ7xjvKnuRIUnDpOjnLb/d+sQbHLCD7ey
+         RGtlahHuJkY8LcOWu8DGTALI8FFff1e4PSIrLMTiPEXw+2U522jU7h6uArG0f1KeXkd1
+         A/21xywBPxoitOsgJWYz8UhiAlj6pPuH1owNnTrAfh/zK//dWl6hWXEHw5nsBG8eEHdh
+         0KSO2KR3akLUhRG33jxrSi7ZceQibTWZq7VC5yavanSgc1ZVlXm63ETC9EWs/l/BHAZm
+         VlQQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWD7tJ4RNxla1E418MKnVA1j6C5CAW+EVPVMFuf+8xI1vm5pKTvPCjYFd6nMy2tkJ/z0oklsZTjYarHzdDEPDRpM1CLfr7NPBE2myKQGvUfg5MW7lvufReC803VuNp8L28tSpQYiDxpruSSOfXni+1FyJOo3jBAKqli9Ic5PBL4YBoMSsyaVxa614MJdCZHaBb820ybPN7kdEiKoDekJFYd5RldD2srLQ==
+X-Gm-Message-State: AOJu0YziMs96xtW0nZjebNmmcd4xoOcSi3B7u8+x7Qib7/z+dRxsk6Nd
+	QJK8hqA79z+nF0yUeRzOV3eijZ4O/U9Dz2aTuo7gnUN3Rm7ilgjGUFLkwnCloUfR02vDVoYNMiQ
+	nuSwLNUmUIQFD94kcVceEjJmaGrkH8XhEbB8=
+X-Google-Smtp-Source: AGHT+IG7uB7yrmlwrEOOJ8CrqG+h6L37bUCHCiXdPLo94zqDRp1odoZJIVd5g24kkQ90YpJ/zonb0ynlSblygtEobOY=
+X-Received: by 2002:a1f:de82:0:b0:4d4:17c5:8605 with SMTP id
+ v124-20020a1fde82000000b004d417c58605mr1935939vkg.7.1711527226654; Wed, 27
+ Mar 2024 01:13:46 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240326024540.2336155-1-yoshihiro.shimoda.uh@renesas.com>
- <20240326024540.2336155-7-yoshihiro.shimoda.uh@renesas.com>
- <ZgI/IGe2L0rJ8SSF@lizhi-Precision-Tower-5810> <TYCPR01MB1104072DA4D6B3DF120A10D0AD8352@TYCPR01MB11040.jpnprd01.prod.outlook.com>
-In-Reply-To: <TYCPR01MB1104072DA4D6B3DF120A10D0AD8352@TYCPR01MB11040.jpnprd01.prod.outlook.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 27 Mar 2024 09:11:32 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdU+5=r5Wa9cy0XDRnygumjMsC6mH0Tg-OVgbBkQjk1+0g@mail.gmail.com>
-Message-ID: <CAMuHMdU+5=r5Wa9cy0XDRnygumjMsC6mH0Tg-OVgbBkQjk1+0g@mail.gmail.com>
-Subject: Re: [PATCH v2 6/6] misc: pci_endpoint_test: Add Device ID for R-Car
- V4H PCIe controller
-To: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Cc: Frank Li <Frank.li@nxp.com>, "lpieralisi@kernel.org" <lpieralisi@kernel.org>, 
-	"kw@linux.com" <kw@linux.com>, "robh@kernel.org" <robh@kernel.org>, 
-	"bhelgaas@google.com" <bhelgaas@google.com>, 
-	"krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>, 
-	"conor+dt@kernel.org" <conor+dt@kernel.org>, "jingoohan1@gmail.com" <jingoohan1@gmail.com>, 
-	"gustavo.pimentel@synopsys.com" <gustavo.pimentel@synopsys.com>, "mani@kernel.org" <mani@kernel.org>, 
-	"marek.vasut+renesas@gmail.com" <marek.vasut+renesas@gmail.com>, 
-	"linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>, 
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, 
-	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>
+References: <20240326222844.1422948-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20240326222844.1422948-8-prabhakar.mahadev-lad.rj@bp.renesas.com> <a0d7e6f4-5f4d-4601-857a-c485cceffe3b@moroto.mountain>
+In-Reply-To: <a0d7e6f4-5f4d-4601-857a-c485cceffe3b@moroto.mountain>
+From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date: Wed, 27 Mar 2024 08:13:20 +0000
+Message-ID: <CA+V-a8vuCBzo_2gXsccFuQgzBhWQ7JznFcNsEq_K_6RyhRp_5A@mail.gmail.com>
+Subject: Re: [RFC PATCH 07/13] pinctrl: renesas: pinctrl-rzg2l: Validate power
+ registers for SD and ETH
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>, Linus Walleij <linus.walleij@linaro.org>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Magnus Damm <magnus.damm@gmail.com>, 
+	linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Shimoda-san,
+Hi Dan,
 
-On Tue, Mar 26, 2024 at 6:47=E2=80=AFAM Yoshihiro Shimoda
-<yoshihiro.shimoda.uh@renesas.com> wrote:
-> > From: Frank Li, Sent: Tuesday, March 26, 2024 12:21 PM
-> > On Tue, Mar 26, 2024 at 11:45:40AM +0900, Yoshihiro Shimoda wrote:
-> > > Add Renesas R8A779G0 in pci_device_id table so that pci-epf-test
-> > > can be used for testing PCIe EP on R-Car V4H.
-> > >
-> > > Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-> > > Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> > > ---
-> > >  drivers/misc/pci_endpoint_test.c | 4 ++++
-> > >  1 file changed, 4 insertions(+)
-> > >
-> > > diff --git a/drivers/misc/pci_endpoint_test.c b/drivers/misc/pci_endp=
-oint_test.c
-> > > index c38a6083f0a7..2fa3c6473c7d 100644
-> > > --- a/drivers/misc/pci_endpoint_test.c
-> > > +++ b/drivers/misc/pci_endpoint_test.c
-> > > @@ -83,6 +83,7 @@
-> > >  #define PCI_DEVICE_ID_RENESAS_R8A774C0             0x002d
-> > >  #define PCI_DEVICE_ID_RENESAS_R8A774E1             0x0025
-> > >  #define PCI_DEVICE_ID_RENESAS_R8A779F0             0x0031
-> > > +#define PCI_DEVICE_ID_RENESAS_R8A779G0             0x0030
-> > >
-> > >  static DEFINE_IDA(pci_endpoint_test_ida);
-> > >
-> > > @@ -1005,6 +1006,9 @@ static const struct pci_device_id pci_endpoint_=
-test_tbl[] =3D {
-> > >     { PCI_DEVICE(PCI_VENDOR_ID_RENESAS, PCI_DEVICE_ID_RENESAS_R8A779F=
-0),
-> > >       .driver_data =3D (kernel_ulong_t)&default_data,
-> > >     },
-> > > +   { PCI_DEVICE(PCI_VENDOR_ID_RENESAS, PCI_DEVICE_ID_RENESAS_R8A779G=
-0),
-> > > +     .driver_data =3D (kernel_ulong_t)&default_data,
-> > > +   },
-> >
-> > You use default_data, why need new device_id? I think you can use 0x003=
-1
-> > to do test.
+Thank you for the review.
+
+On Wed, Mar 27, 2024 at 7:58=E2=80=AFAM Dan Carpenter <dan.carpenter@linaro=
+.org> wrote:
 >
-> I thought we can add a new device_id freely like other devices.
-> Since the PCIe controller's endpoint mode can configure the device id,
-> I can use 0x0031 to do test though.
+> On Tue, Mar 26, 2024 at 10:28:38PM +0000, Prabhakar wrote:
+> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> >
+> > On RZ/V2H(P) SoC, the power registers for SD and ETH do not exist,
+> > resulting in invalid register offsets. Ensure that the register offsets
+> > are valid before any read/write operations are performed. If the power
+>                                                             ^^^^^^^^^^^^
+> > registers are not available, both SD and ETH will be set to -EINVAL.
+>   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> Where does this happen?  It doesn't seem to be a part of this patchset.
+> -EINVAL seems weird here, but it's hard to judge without actually seeing
+> it.
+>
+Good catch, in patch 13/13 it should be below instead of sd_ch and
+eth_poc assigned to 0.
 
-Can it? The documentation for the PCICONF0Fi register states both the
-DEVICE_ID and VENDOR_ID bits are read-only.
++static const struct rzg2l_hwcfg rzv2h_hwcfg =3D {
++       .regs =3D {
++               .pwpr =3D 0x3c04,
++               .sd_ch =3D -EINVAL,
++               .eth_poc =3D -EINVAL,
++       },
++};
 
-Gr{oetje,eeting}s,
-
-                        Geert
-
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+Cheers,
+Prabhakar
 
