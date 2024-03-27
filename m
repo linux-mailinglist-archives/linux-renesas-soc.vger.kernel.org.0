@@ -1,127 +1,136 @@
-Return-Path: <linux-renesas-soc+bounces-4112-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-4113-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C67188DA69
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 27 Mar 2024 10:41:58 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id CBAB088E6C9
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 27 Mar 2024 15:43:48 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2880929602B
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 27 Mar 2024 09:41:57 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 097A01C2E385
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 27 Mar 2024 14:43:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 590B1381CD;
-	Wed, 27 Mar 2024 09:41:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A5418127B56;
+	Wed, 27 Mar 2024 13:30:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="P0GWQbgn"
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="oiCi1rHS";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="BUj7tqJL"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from flow3-smtp.messagingengine.com (flow3-smtp.messagingengine.com [103.168.172.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 195FC23773;
-	Wed, 27 Mar 2024 09:41:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4137AE541;
+	Wed, 27 Mar 2024 13:30:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.138
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711532511; cv=none; b=cMmGQH+l0m41uW2iEQVSHFKjsgj7mvIDXU6Y699w85X/FKUpJqzpYyqTjgPxn7ik/oZMRzeRhvx0yJmmUIlZkBr7shE6GzuWZsR543bOsc6SsKwGxs+5jXMEcqJ4C0UfuWFht1R3brq/1zjCO1YNJKnDqpFKc7mG9HEiIGNADlw=
+	t=1711546243; cv=none; b=eo33NfJOHjn4IEY0byCtZHIO5hn9pkY+fJ7iGP9xJZmtA6HrLXNI2LwHc/N3KqxKb/PonQLIK7yCYMDu+wVseQc9drRhuSqdHlJ3/3qR8eOcE0C08Tx7ZZnbtw0ym3TkNgBETcYvZstPliVxqMqgx+RzUn27ES8zf/5vsVv+a/8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711532511; c=relaxed/simple;
-	bh=L3MDabzqy52UiiTpotcbYr/fCovWNhX/kTom1rvfcLE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=R39TkLNgQ0YoqCsa0N2SS3QpON7h4f1b1pgcMf00mfY3k2Zq0UTyt8OzdNhv6AcZyWaPv29Q9GLufy+xFWoM3OjGE6WHqv/G+Fzheuy4ag8slAuwN6g2Gd7XuQl2bQkwQ/ET1YU2PiAz1KPWglB9Py0TJ/KSF3hfxrF6woCI8ZQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=P0GWQbgn; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A5A4DC433C7;
-	Wed, 27 Mar 2024 09:41:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1711532510;
-	bh=L3MDabzqy52UiiTpotcbYr/fCovWNhX/kTom1rvfcLE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=P0GWQbgnIHTf/G5uy23E/x7ykvt/PdbjSQBxEDrAG8933x7u7LE+eSEfWzro38F6g
-	 QTeiC5ZrZDZQ0mxGSlCSjQnsqn1y49orZqEvDjAoGZZ9q0gIPbo+M7I3xt9HttPI8H
-	 0ObzP0rjgPRbxin+sZBZNp2rk832mLKAM7p1KnRhq9wZ0yPDRMP+wMo10ULBHkQC6j
-	 nG/B8CNKwie/6nXS6vLuQK2zBFa0RG4KiXbKOPr8QLv3RiNxkDJkl/eA9FSn3FwgFv
-	 Mv/vFRKgxrFAhrljpIyeoQrajgkpwvQXIcl2ucpka2zQMo91uLTc1IlOSqgvlN9q6x
-	 IIHd3CkrbewBw==
-Date: Wed, 27 Mar 2024 10:41:39 +0100
-From: Niklas Cassel <cassel@kernel.org>
-To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-Cc: Jingoo Han <jingoohan1@gmail.com>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
-	Rob Herring <robh@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
-	Marek Vasut <marek.vasut+renesas@gmail.com>,
-	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Vidya Sagar <vidyas@nvidia.com>,
-	Vignesh Raghavendra <vigneshr@ti.com>,
-	Richard Zhu <hongxing.zhu@nxp.com>,
-	Lucas Stach <l.stach@pengutronix.de>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	NXP Linux Team <linux-imx@nxp.com>,
-	Minghuan Lian <minghuan.Lian@nxp.com>,
-	Mingkai Hu <mingkai.hu@nxp.com>, Roy Zang <roy.zang@nxp.com>,
-	Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Kishon Vijay Abraham I <kishon@kernel.org>,
-	Jesper Nilsson <jesper.nilsson@axis.com>,
-	Srikanth Thokala <srikanth.thokala@intel.com>,
-	Shawn Lin <shawn.lin@rock-chips.com>,
-	Heiko Stuebner <heiko@sntech.de>, linux-pci@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org, linux-tegra@vger.kernel.org,
-	linux-omap@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linuxppc-dev@lists.ozlabs.org, linux-arm-kernel@axis.com,
-	linux-rockchip@lists.infradead.org
-Subject: Re: [PATCH v12 8/8] PCI: endpoint: Remove "core_init_notifier" flag
-Message-ID: <ZgPp020vefFw3pGk@ryzen>
-References: <20240327-pci-dbi-rework-v12-0-082625472414@linaro.org>
- <20240327-pci-dbi-rework-v12-8-082625472414@linaro.org>
+	s=arc-20240116; t=1711546243; c=relaxed/simple;
+	bh=BY4/vtZK3LCqDKwLcxu72esODdQEavH43eahGm3T92A=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=QBqTIBbQz1wDYh6CxEWC0aAqdROoT5kAsdR6985u3S15tlHpLQnUrLzou+UNRJkX4v0hc9F8Okh9RFiMYVAXMFHVz9rsvuXjElyNkD8+kGjMihh7yrGswK8i4wNEVODWP7uCB4YLoZvJs6GPx4ahWgyiyChxQrINAEmsbh1NBLA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=oiCi1rHS; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=BUj7tqJL; arc=none smtp.client-ip=103.168.172.138
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
+	by mailflow.nyi.internal (Postfix) with ESMTP id E992920045A;
+	Wed, 27 Mar 2024 09:30:38 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute6.internal (MEProxy); Wed, 27 Mar 2024 09:30:38 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:message-id:mime-version:reply-to
+	:subject:subject:to:to; s=fm1; t=1711546238; x=1711549838; bh=Av
+	rN8vzInwuou1Yn+WkfazvX6KbksJ8KKKruaCxebd8=; b=oiCi1rHSjn0nUPkn0d
+	Q/0jHs/QEaCM6BlaBDdTcyJrTgAEkESp3GzdT6byywIkXLtECDQq47xTIUIqdHEd
+	pcvsCWWQFT5vRI0MYg+9TyfJfG4Vijw5O+VXZIbGO6xwaAkTpi8SAPN7P4Ut5qRk
+	1N9GttqnaQToAikDdkAmJ2mRVeZIFLv9BvpJ/yDrtrDMV8C8gw9ZavCY6Sp7kWrW
+	SYIFUG9FwbYS5LtoDjwBnaEag/BRZ5/HBSjZa3duEOWDT939wTGTOl+bTCLaWCC1
+	9CttTV99u+FaTDtKrMLSamWTpekqNuOYZCa4pOjciJKpu/oo5xEcw/G2KuXOkaN3
+	meqw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:message-id:mime-version:reply-to:subject
+	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+	:x-sasl-enc; s=fm2; t=1711546238; x=1711549838; bh=AvrN8vzInwuou
+	1Yn+WkfazvX6KbksJ8KKKruaCxebd8=; b=BUj7tqJLSx70lmFSD/M+mTQl0vbWX
+	AMmcspOy4PLo4Qu2/QzqtsN6/ScH9rLYvwu2SSn10AXu+ogIAvdFkoqBFZs+U/eo
+	r5uWwDtVWzp880OUoqc2YMB5FXIksDHD9K39sKWmoKVK0f8ZR2xwAMd0hreh6uOE
+	/+HiUIVsfwh9WoelTjDYyKGDRL28rlGhPy1nGxOKNX1vSEJFeb1V8eUquICPUVRU
+	yqBkWiMvli1vg1g+mnuLhSANZZUCGZUABAUfs/vpQVUUQqNrlwkjP1k8njeF1iDa
+	l4b7R23ooxEHNKczUxp3guLDXEF6oiixVQV8ER4e+F1VI0aX8id2rqUNQ==
+X-ME-Sender: <xms:fh8EZt7AVOXJ7lVxt9UUuyjcWJqEBAe0BGq9X04ro-cAYVzPCdr1mg>
+    <xme:fh8EZq6u-2LZ_9mzgbCnC1QnFKvTnfj_nzTtzSMdqdbFR-WN8sXt_54FVaTa7x3al
+    3amqfi7YJA2AIjEG6E>
+X-ME-Received: <xmr:fh8EZkcM4idubRJF5zTbP696JRgbLPq9ei1ZZ3vFMAF0ZdbG1e0dh7jNEtCpyrjJjX9wf9TVeISKvve2mLn65tsnzPCFrvFLzAr0>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrudduiedgvdekucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhephffvvefufffkofggtgfgsehtkeertdertdejnecuhfhrohhmpefpihhklhgr
+    shcuufpnuggvrhhluhhnugcuoehnihhklhgrshdrshhouggvrhhluhhnugdorhgvnhgvsh
+    grshesrhgrghhnrghtvggthhdrshgvqeenucggtffrrghtthgvrhhnpeehudelteetkefg
+    ffefudefuedvjeeivdekhfevieefgeffheeltddvvefhfeetgeenucevlhhushhtvghruf
+    hiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehnihhklhgrshdrshhouggvrhhl
+    uhhnugdorhgvnhgvshgrshesrhgrghhnrghtvggthhdrshgv
+X-ME-Proxy: <xmx:fh8EZmJwnjq8XjyqQXhp5o6brTppBwuSBgBirTM_quXe0QF2g4150Q>
+    <xmx:fh8EZhKqCSFwQRNrfjP3exNHwU5dn1IHl5vHlnF3S64L9wHiDwQevg>
+    <xmx:fh8EZvwxaKXQwtwbKx3g9EPCzEjRIJ0oFmpstBaEEyUVrf_SBzmPiw>
+    <xmx:fh8EZtJBMxmMZ65YSYH5x7vzh1jrPoWrZ3XFVrubRTkIMkXpvAKy8w>
+    <xmx:fh8EZo-UWExgxYR91e7RImJ0MCDjFTCRzv6J-dozlM_wSipqzSWHqHIqQLE>
+Feedback-ID: i80c9496c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 27 Mar 2024 09:30:36 -0400 (EDT)
+From: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+To: "Rafael J. Wysocki" <rafael@kernel.org>,
+	Daniel Lezcano <daniel.lezcano@linaro.org>,
+	Zhang Rui <rui.zhang@intel.com>,
+	Lukasz Luba <lukasz.luba@arm.com>,
+	linux-pm@vger.kernel.org
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
+	linux-renesas-soc@vger.kernel.org,
+	=?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+Subject: [PATCH v2 0/2] thermal: rcar_gen3: Use temperature approximation from datasheet
+Date: Wed, 27 Mar 2024 14:30:11 +0100
+Message-ID: <20240327133013.3982199-1-niklas.soderlund+renesas@ragnatech.se>
+X-Mailer: git-send-email 2.44.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240327-pci-dbi-rework-v12-8-082625472414@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Wed, Mar 27, 2024 at 02:43:37PM +0530, Manivannan Sadhasivam wrote:
-> "core_init_notifier" flag is set by the glue drivers requiring refclk from
-> the host to complete the DWC core initialization. Also, those drivers will
-> send a notification to the EPF drivers once the initialization is fully
-> completed using the pci_epc_init_notify() API. Only then, the EPF drivers
-> will start functioning.
-> 
-> For the rest of the drivers generating refclk locally, EPF drivers will
-> start functioning post binding with them. EPF drivers rely on the
-> 'core_init_notifier' flag to differentiate between the drivers.
-> Unfortunately, this creates two different flows for the EPF drivers.
-> 
-> So to avoid that, let's get rid of the "core_init_notifier" flag and follow
-> a single initialization flow for the EPF drivers. This is done by calling
-> the dw_pcie_ep_init_notify() from all glue drivers after the completion of
-> dw_pcie_ep_init_registers() API. This will allow all the glue drivers to
-> send the notification to the EPF drivers once the initialization is fully
-> completed.
-> 
-> Only difference here is that, the drivers requiring refclk from host will
-> send the notification once refclk is received, while others will send it
-> during probe time itself.
-> 
-> But this also requires the EPC core driver to deliver the notification
-> after EPF driver bind. Because, the glue driver can send the notification
-> before the EPF drivers bind() and in those cases the EPF drivers will miss
-> the event. To accommodate this, EPC core is now caching the state of the
-> EPC initialization in 'init_complete' flag and pci-ep-cfs driver sends the
-> notification to EPF drivers based on that after each EPF driver bind.
-> 
-> Tested-by: Niklas Cassel <cassel@kernel.org>
-> Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-> ---
+Hello,
 
-Reviewed-by: Niklas Cassel <cassel@kernel.org>
+When the driver was first added the temperature approximation was
+reversed engineered from an out-of-tree driver as the datasheets of the
+time did not contain this information. Recent datasheets, both Gen3 and
+Gen4, now contains this information.
+
+This series changes the temperature approximation formula to match
+what's described in the datasheets. It has been tested on both Gen3 and
+Gen4 with minimal changes in temperatures reported.
+
+Patch 1 is a cleanup making the scope of a constant more clear. Patch 
+2 is the real work changing the approximation formula.
+
+Compared to v1 patch 3/3 have been squashed intro v2 patch 2/2. This is 
+due to a suggestion from Geert where the precision in approximation 
+could be increased while removing the need for the changed done in v1 
+3/3, thanks Geert!
+
+See individual patches for detailed changelog.
+
+Niklas Söderlund (2):
+  thermal: rcar_gen3: Move Tj_T storage to shared private data
+  thermal: rcar_gen3: Update temperature approximation calculation
+
+ drivers/thermal/rcar_gen3_thermal.c | 165 +++++++++++++++-------------
+ 1 file changed, 88 insertions(+), 77 deletions(-)
+
+-- 
+2.44.0
+
 
