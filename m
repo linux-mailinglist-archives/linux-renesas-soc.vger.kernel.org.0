@@ -1,75 +1,76 @@
-Return-Path: <linux-renesas-soc+bounces-4101-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-4102-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8834588D9D9
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 27 Mar 2024 10:14:37 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 38C5388D9DC
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 27 Mar 2024 10:14:50 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A33101C2615F
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 27 Mar 2024 09:14:36 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 652CE29B140
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 27 Mar 2024 09:14:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 877C53A297;
-	Wed, 27 Mar 2024 09:14:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AB7FA38389;
+	Wed, 27 Mar 2024 09:14:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="IcKPRZhz"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ucsCVpns"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ot1-f51.google.com (mail-ot1-f51.google.com [209.85.210.51])
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44380374E9
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 27 Mar 2024 09:14:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDD16381C4
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 27 Mar 2024 09:14:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711530843; cv=none; b=XH5f21pL1VL/s02CG+dIiMHPbrbUNapdAgqouRayl9yljCbuXEslpj2IgGvhjSDCtQ7s0TpWggRx4yE7jGky3a8H83XNquHSVz2tX/ro4vs+I2xFB0EGilawu5NowI6nZs4zcFPOwgrCF+K40KFEgT/3wyCXY2Uy0h5GMRjh1qg=
+	t=1711530852; cv=none; b=JVX7U1nA6zmpBx0eQVRmCAVei7AABu75Dob4pVYBhRAQFWBAOOgiA9UCFjG/N5Gz/UYmfUCjWfyP4dUHE5RCkxRabpHqup8IaS5TLZzFFzNCpYkEuKCpd0x5zEfJu8A07qMiPFehuuhsPEdwokEkvuh4rNJMM89/e9ryxsI2M+4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711530843; c=relaxed/simple;
-	bh=iO9oNvG+QPX6EBHlzWrbZgkGzqEkhIYMPjFQURkQp1E=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=A+utqVE+4hRsCydfqNGtX8WJMDVGdRtct4ClbKrG0QCPs8GlfcN86xKR1gScnyHL9AWjWmQgu+HptFqoaqQXWnZIAnxUAt5/JEb5Ua4/6sXelUJLh82n/+4lxa9kjczMIFZGOGyuji7aNQCmJd+IQlXmw4JrwUNDCG2W1PQeliU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=IcKPRZhz; arc=none smtp.client-ip=209.85.210.51
+	s=arc-20240116; t=1711530852; c=relaxed/simple;
+	bh=C9itwwrFPiwdNm8Zd8w7cqdwK6rVpgcx54kNU3MQW98=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=t70OWbsuwmIUPGezK3AlfBUAiFZovHUhHQQTZL3UaEhoe6AaXjjpqTSju+5uWTtY185WIt+ka7/8tvm6m/a4G81Uk7roKdbaDOJWQs2WrasUwLBSyCTLfR80lsR7wA6IbvhjyVAzMtG9AUpF9avl0q9oiBYE/KmKW5Pm3yMc1XE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ucsCVpns; arc=none smtp.client-ip=209.85.216.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-ot1-f51.google.com with SMTP id 46e09a7af769-6e6e3eadec8so917819a34.0
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 27 Mar 2024 02:14:00 -0700 (PDT)
+Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-29a8911d11cso3636571a91.1
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 27 Mar 2024 02:14:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1711530839; x=1712135639; darn=vger.kernel.org;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=m7YoevRtWoIrX5inKpmhV/jNINZnpRhSbmQj7YxoH3s=;
-        b=IcKPRZhzBxsVoMKJCIFCqtYXft62VqgsDo8rX1MvH6oBHhTuLS3xMgKEdynu1A4WE3
-         YO5M4nVvUH/f0BsbbrTEeyYFj8XA8YRSEiKRnaECszKP5pG7LllZMgmYl7oZazfsAr+5
-         axK5c9ZrBRYH1P6aoZe9Q8Lj9MRLBCUZASOO9bpvDVs1zHmL6DSqRxN6f5JIiEeiJ5GE
-         DD13rMf+8klJXI2fKrc5b4gbYazwVm6ixS+1T+RUEODP8he5ltvtYvudzxhGBMnszKfX
-         tE5pSuTCBFt+MuWvJHAXon08m1/2Prb6686QGZxybQfI4BfsVDblcyUx13IyZKaANxMy
-         nx6w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711530839; x=1712135639;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=linaro.org; s=google; t=1711530850; x=1712135650; darn=vger.kernel.org;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=m7YoevRtWoIrX5inKpmhV/jNINZnpRhSbmQj7YxoH3s=;
-        b=O96zRtZZn7f3rkJ/+bcFTQBh8ZuIGknkkafW/tWR4zJZ+gjU7vgxJjLi+I3McAXGO4
-         aAuIHzvfJDzOXGLEPF3uUVkS/uGVkkllSm0NtnJ+kOgsKIez27n/DugtkqVMXbWoJ5Ie
-         X3Kxx8n/tFKzehUNrd4fVSMT/Ui7jc9akqDELsiv8oFH44NsqupqzzdFs3XU5zUfowJL
-         Du8CBCt2m3GkOIY+ovWlULzF42rSFsoGp2QDqRQpoUX+Cf9Pjl8XVyav9+RQEp7ZDlnz
-         ZMlxeirocUwfyDgduT0XNP0uYqgeSw4z9nRwGmZAAH+3Uf2B+CyJTyHo54ghdSQqcS1p
-         x5LQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUrsMIh4YQv09rdXIKxNim2xYbYVGoCutaNayMoLh5RknFm/nN7zLNBBPAFXhk9RfygJye5rA8XcznjUg9/ExxaiCIGloWW+5HHy5CCRfzRyzg=
-X-Gm-Message-State: AOJu0YxHMSS08ShkwE3xs80N0C7ka6jpI/IENKcbs8/ErS6kRCz+gELf
-	VSF9hhGo7fZ3K9Wol2YaeHQaBZc/LEnSDJPWUIOC+52qCt1+C9+0/iaGZe9t+Q==
-X-Google-Smtp-Source: AGHT+IHLrC+cElHqEJHgQI6bNudg5V3T5UyMpSvlDNp0VTqd68nwYnF3OIdtHfvbZn/Wx5NtZMwQqQ==
-X-Received: by 2002:a9d:4f07:0:b0:6e6:ded0:8a69 with SMTP id d7-20020a9d4f07000000b006e6ded08a69mr5193012otl.31.1711530839288;
-        Wed, 27 Mar 2024 02:13:59 -0700 (PDT)
+        bh=n+x0WiOVlEoxEWj6JmzpWEM32pTOAvBFw/2lqI7CQ3Y=;
+        b=ucsCVpnsUGhjrywQhz6t7mVi0L22t6KzHgofmYLvUhje5KS8JLa2y1bv3f+MLoVfMB
+         KWsqHXc+/8g71Bj/fenIcU80XiQATaY8tDwIIsvBec38nDndLdAACVq2RCD0RfEIdIlG
+         o5v6gIooAz+QojLYOo1KoNoE/NTDxt2Q9QoYTjdnyRqPgP1xg+JSgh+Cq0byOirsUN9c
+         PVdQJd8TOuc/bKcsJmGgXaF+8FbYUTN/9WTq3Y8Tm+WQ3jEDiyWJ/uOtbG+J46b+Y0uD
+         1G2IngqC5jE0x56dHzhRpayUaI++topFQQ/v1LOro5gFrznvGEMesnlqMOUPhTawk2We
+         eQjA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1711530850; x=1712135650;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=n+x0WiOVlEoxEWj6JmzpWEM32pTOAvBFw/2lqI7CQ3Y=;
+        b=QRMmsl1ebBO2lTWjybstr8+QP+U6IAceth9ebdoe3nTBq10JO5QyzSHf0Ym173haHw
+         FoCvNzzltvmYshsXIFXkW8oGEwT5oxHykSqHw/o5scKr5naq2pmxLRubzmal8amx12HT
+         CXsgENnptIRbB+ITwuzV5nVauRBDatsh+gLXFIjbMu9DE7rILdqvTPb99QHlUNyjIa3u
+         MQR9J8euL1riqV4OUd/h9/2dVDNSvMJ9jFeYk3aTajFkO1L0YMTfmKuiB7el+xv0G94R
+         Lm2p0PngqnyGHKFntLWd3Np05Ga49VuRmtLsyQadkPvNCGovprzGQdqmQigkfm1e3we1
+         IA3g==
+X-Forwarded-Encrypted: i=1; AJvYcCX3tp9KiPc82GmeiDoQT+84lq1tqiJkEuoG+JEJpnrkTdWqFU/w2YmH58gx2EXZSouesbptz1Kx1LlVu8/6jYkIuDGD9f7vBXdw4KCIuov5oPs=
+X-Gm-Message-State: AOJu0YxFz4RSyS6IM+6JQa+S9575he3P9lsg/iro7ytIikk9gnyIMeT4
+	WM3mmnGhw31dhpDEVP87VYxbbg6GUxX/+Rhe7aNC8v+j8McrVGTvjsFGqFSXmw==
+X-Google-Smtp-Source: AGHT+IGgoOBDdamY0w9pmOqmWVWOcqQuZDgDIWGyjcZElUTVYGxdc7EmsdQmE4x6o3Q48n8wUoM2tg==
+X-Received: by 2002:a17:90a:ba8b:b0:29b:961a:29c3 with SMTP id t11-20020a17090aba8b00b0029b961a29c3mr4336581pjr.49.1711530849946;
+        Wed, 27 Mar 2024 02:14:09 -0700 (PDT)
 Received: from [127.0.1.1] ([120.60.52.77])
-        by smtp.gmail.com with ESMTPSA id h190-20020a6383c7000000b005dc4fc80b21sm8673871pge.70.2024.03.27.02.13.46
+        by smtp.gmail.com with ESMTPSA id h190-20020a6383c7000000b005dc4fc80b21sm8673871pge.70.2024.03.27.02.13.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 Mar 2024 02:13:58 -0700 (PDT)
+        Wed, 27 Mar 2024 02:14:09 -0700 (PDT)
 From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-Subject: [PATCH v12 0/8] PCI: dwc: ep: Fix DBI access failure for drivers
+Date: Wed, 27 Mar 2024 14:43:30 +0530
+Subject: [PATCH v12 1/8] PCI: dwc: ep: Fix DBI access failure for drivers
  requiring refclk from host
-Date: Wed, 27 Mar 2024 14:43:29 +0530
-Message-Id: <20240327-pci-dbi-rework-v12-0-082625472414@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -78,11 +79,9 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIADnjA2YC/3XPS2oDMQyA4asEr+Mgy56Huuo9SheOLSeiYRw8Z
- doS5u71ZNME06UE/yd0UzMX4Vm97G6q8CKz5KkOBvc7Fc5+OrGWWBcKAR0gOn0NouNRdOGvXD7
- 0EZnI90gWgqrRtXCS77v49l7ns8yfufzcDyzjtv2XWkYNundhSBFC4t69XmTyJR9yOanNWuivt
- 9D2VHuk6KyNRCH6pjfwAJgWMFAF47zrQufJjtwK5kHAoRXM9kPqsKNE0A/2SVjX9ReJR8rQcgE
- AAA==
+Message-Id: <20240327-pci-dbi-rework-v12-1-082625472414@linaro.org>
+References: <20240327-pci-dbi-rework-v12-0-082625472414@linaro.org>
+In-Reply-To: <20240327-pci-dbi-rework-v12-0-082625472414@linaro.org>
 To: Jingoo Han <jingoohan1@gmail.com>, 
  Lorenzo Pieralisi <lpieralisi@kernel.org>, 
  =?utf-8?q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>, 
@@ -114,157 +113,251 @@ Cc: linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
  Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>, 
  Frank Li <Frank.Li@nxp.com>
 X-Mailer: b4 0.12.4
-X-Developer-Signature: v=1; a=openpgp-sha256; l=6302;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=7480;
  i=manivannan.sadhasivam@linaro.org; h=from:subject:message-id;
- bh=iO9oNvG+QPX6EBHlzWrbZgkGzqEkhIYMPjFQURkQp1E=;
- b=owEBbQGS/pANAwAKAVWfEeb+kc71AcsmYgBmA+NIo/FDU1Qzm8K9RhxHEI8Jtmbq4KExhILxr
- h8EcXGlx0SJATMEAAEKAB0WIQRnpUMqgUjL2KRYJ5dVnxHm/pHO9QUCZgPjSAAKCRBVnxHm/pHO
- 9XMZB/9ZVvwo9sSG/E7aVel5CSG/nMG/jLxOi0rHJgyMN7yji8HK5ajSrTKUXs0jT4mdCTclZ8j
- yGj4IxADoOnlwcHIjiz7NfE8eueVtUlnoWSzqXxWV9FrLNUtwYp98RXIOc3UvpMlvG/0QgbH3uv
- K7YTyqGd4NsP7zM3fHjaWXkw0pB60QsEos4YQLk9lBpRKQxz40KLuAET6DwRV5ZNfua1ew+4L65
- zr+NXa5ghbAqbrbm05gK3xe5iivUEFGH7lu9dMy5+yyytQgKM7Qf1VrUGShOtJKMAPZ0TB5p/5R
- pFm/tz8l8TQYBVCiCxd0wAYH21S9gVFyCpuDBh/w4ikx2xHy
+ bh=C9itwwrFPiwdNm8Zd8w7cqdwK6rVpgcx54kNU3MQW98=;
+ b=owEBbQGS/pANAwAKAVWfEeb+kc71AcsmYgBmA+NIJnfXD7LMZio8W0A249GNJA5H9smQ0/YIV
+ 2Mbshx2fmCJATMEAAEKAB0WIQRnpUMqgUjL2KRYJ5dVnxHm/pHO9QUCZgPjSAAKCRBVnxHm/pHO
+ 9SFSCACcl92q4s6I4nZd3WCcfhQumw0iLwZ/wn0ylz4u11oziIW8gOj04TPmEFpvKK4yUo2H2gV
+ emRIqlv3a2MowhrvoJ/FySPsqbtDFadni6vd5WA+H1hK0Cc5vAmsMuverqXHYM37THcdHfKjGVf
+ dnUP8okf0Y594v6qqTsidArO8n/hzakaqI++awJiG9/LH8RFIR5CvkdtH0gnsksv9fhZJsmXJLv
+ HHU5iUqaNDOnOKsBxS/m+1G5GP12FiFevRHj3ySuW/KGbiQ7rAc7qe76wzQXksTMbMWHBG7llAa
+ aZWRSGu6qekGHKePMBoUsGEAOFcBvwCqKD8NKC0q7hQEWBg2
 X-Developer-Key: i=manivannan.sadhasivam@linaro.org; a=openpgp;
  fpr=C668AEC3C3188E4C611465E7488550E901166008
 
-Hello,
+The DWC glue drivers requiring an active reference clock from the PCIe host
+for initializing their PCIe EP core, set a flag called 'core_init_notifier'
+to let DWC driver know that these drivers need a special attention during
+initialization. In these drivers, access to the hw registers (like DBI)
+before receiving the active refclk from host will result in access failure
+and also could cause a whole system hang.
 
-This series is the continuation of previous work by Vidya Sagar [1] to fix the
-issues related to accessing DBI register space before completing the core
-initialization in some EP platforms like Tegra194/234 and Qcom EP.
+But the current DWC EP driver doesn't honor the requirements of the drivers
+setting 'core_init_notifier' flag and tries to access the DBI registers
+during dw_pcie_ep_init(). This causes the system hang for glue drivers such
+as Tegra194 and Qcom EP as they depend on refclk from host and have set the
+above mentioned flag.
 
-Since Vidya is busy, I took over the series based on his consent (off-list
-discussion).
+To workaround this issue, users of the affected platforms have to maintain
+the dependency with the PCIe host by booting the PCIe EP after host boot.
+But this won't provide a good user experience, since PCIe EP is _one_ of
+the features of those platforms and it doesn't make sense to delay the
+whole platform booting due to PCIe requiring active refclk.
 
-NOTE
-====
+So to fix this issue, let's move all the DBI access from
+dw_pcie_ep_init() in the DWC EP driver to the dw_pcie_ep_init_complete()
+API. This API will only be called by the drivers setting
+'core_init_notifier' flag once refclk is received from host. For the rest
+of the drivers that gets the refclk locally, this API will be called
+within dw_pcie_ep_init().
 
-Based on the comments received in v7 [2], I've heavily modified the series
-to fix several other issues reported by Bjorn and Niklas. One noticeable
-change is getting rid of the 'core_init_notifer' flag added to differentiate
-between glue drivers requiring refclk from host and drivers getting refclk
-locally.
-
-By getting rid of this flag, now both the DWC EP driver and the EPF drivers
-can use a single flow and need not distinguish between the glue drivers.
-
-We can also get rid of the 'link_up_notifier' flag in the future by following
-the same convention.
-
-Testing
-=======
-
-I've tested the series on Qcom SM8450 based dev board that depends on refclk
-from host with EPF_MHI driver. It'd be good to test this series on platforms
-that generate refclk locally and also with EPF_TEST driver.
-
-- Mani
-
-[1] https://lore.kernel.org/linux-pci/20221013175712.7539-1-vidyas@nvidia.com/
-[2] https://lore.kernel.org/linux-pci/20231120084014.108274-1-manivannan.sadhasivam@linaro.org/
-
-Changes in v12:
-- Fixed the init_notify() API used in non-dwc drivers (thanks Niklas)
-- Dropped Gustavo from CC since his email is bouncing
-- Link to v11: https://lore.kernel.org/r/20240327-pci-dbi-rework-v11-0-6f5259f90673@linaro.org
-
-Changes in v11:
-- Minor cleanups reported by Niklas
-- 'epc->init_complete = false' is set in dw_pcie_ep_cleanup() to avoid
-  triggering init complete notification before refclk. This will be moved to EPC
-  core in the following series adding deinit notifier.
-- Collected review tags.
-- Link to v10: https://lore.kernel.org/r/20240314-pci-dbi-rework-v10-0-14a45c5a938e@linaro.org
-
-Changes in v10:
-- Reordered the commits by moving the independent fixes/cleanups first (Niklas)
-- Addressed several comments from Niklas
-- Moved PTM register setting out of dw_pcie_ep_init_non_sticky_registers() (Niklas)
-- Addressed the issue that EPF drivers were missing init notification after the
-  removal of core_init_notifier (Niklas)
-- Dropped a few cleanup patches to be clubbed with the follow up series
-- Collected review tags
-- Dropped the review tags for patch 8/8 as it got changed
-- Link to v9: https://lore.kernel.org/r/20240304-pci-dbi-rework-v9-0-29d433d99cda@linaro.org
-
-Changes in v9:
-- Incorporated changes for missing drivers (Niklas)
-- Reworded the dw_pcie_ep_cleanup() API kdoc (Niklas)
-- Reworded the description of patch 6/10 (Frank)
-- Collected reviews
-- Link to v8: https://lore.kernel.org/r/20240224-pci-dbi-rework-v8-0-64c7fd0cfe64@linaro.org
-
-Changes in v8:
-
-- Rebased on top of v6.8-rc1
-- Removed the deinit callback from struct dw_pcie_ep_ops
-- Renamed dw_pcie_ep_exit() to dw_pcie_ep_deinit()
-- Introduced dw_pcie_ep_cleanup() API for drivers supporting PERST#
-- Renamed dw_pcie_ep_init_complete() to dw_pcie_ep_init_registers()
-- Called dw_pcie_ep_init_registers() API directly from all glue drivers
-- Removed "core_init_notifier" flag
-- Added a generic dw_pcie_ep_linkdown() API to handle LINK_DOWN event and used
-  it in qcom driver
-- Added Kernel-doc comments for DWC EP APIs
-
-Changes in v7:
-
-- Rebased on top of v6.7-rc1
-- Kept the current dw_pcie_ep_init_complete() API instead of renaming it to
-  dw_pcie_ep_init_late(), since changing the name causes a slight ambiguity.
-- Splitted the change that moves pci_epc_init_notify() inside
-  dw_pcie_ep_init_notify() to help bisecting and also to avoid build issue.
-- Added a new patch that moves pci_epc_init_notify() inside
-  dw_pcie_ep_init_notify().
-- Took over the authorship and dropped the previous Ack as the patches are
-  heavily modified.
-
-Changes in v6:
-
-- Rebased on top of pci/next (6e2fca71e187)
-- removed ep_init_late() callback as it is no longer necessary
-
-For previous changelog, please refer [1].
-
+Fixes: e966f7390da9 ("PCI: dwc: Refactor core initialization code for EP mode")
+Co-developed-by: Vidya Sagar <vidyas@nvidia.com>
+Signed-off-by: Vidya Sagar <vidyas@nvidia.com>
+Reviewed-by: Frank Li <Frank.Li@nxp.com>
+Reviewed-by: Niklas Cassel <cassel@kernel.org>
 Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
 ---
-Manivannan Sadhasivam (8):
-      PCI: dwc: ep: Fix DBI access failure for drivers requiring refclk from host
-      PCI: dwc: ep: Add Kernel-doc comments for APIs
-      PCI: dwc: ep: Remove deinit() callback from struct dw_pcie_ep_ops
-      PCI: dwc: ep: Rename dw_pcie_ep_exit() to dw_pcie_ep_deinit()
-      PCI: dwc: ep: Introduce dw_pcie_ep_cleanup() API for drivers supporting PERST#
-      PCI: dwc: ep: Rename dw_pcie_ep_init_complete() to dw_pcie_ep_init_registers()
-      PCI: dwc: ep: Call dw_pcie_ep_init_registers() API directly from all glue drivers
-      PCI: endpoint: Remove "core_init_notifier" flag
+ drivers/pci/controller/dwc/pcie-designware-ep.c | 120 ++++++++++++++----------
+ 1 file changed, 71 insertions(+), 49 deletions(-)
 
- drivers/pci/controller/cadence/pcie-cadence-ep.c  |   2 +
- drivers/pci/controller/dwc/pci-dra7xx.c           |   9 +
- drivers/pci/controller/dwc/pci-imx6.c             |  10 +
- drivers/pci/controller/dwc/pci-keystone.c         |  11 +
- drivers/pci/controller/dwc/pci-layerscape-ep.c    |   9 +
- drivers/pci/controller/dwc/pcie-artpec6.c         |  15 +-
- drivers/pci/controller/dwc/pcie-designware-ep.c   | 238 +++++++++++++++-------
- drivers/pci/controller/dwc/pcie-designware-plat.c |  11 +
- drivers/pci/controller/dwc/pcie-designware.h      |  14 +-
- drivers/pci/controller/dwc/pcie-keembay.c         |  18 +-
- drivers/pci/controller/dwc/pcie-qcom-ep.c         |   4 +-
- drivers/pci/controller/dwc/pcie-rcar-gen4.c       |  28 ++-
- drivers/pci/controller/dwc/pcie-tegra194.c        |   5 +-
- drivers/pci/controller/dwc/pcie-uniphier-ep.c     |  15 +-
- drivers/pci/controller/pcie-rcar-ep.c             |   2 +
- drivers/pci/controller/pcie-rockchip-ep.c         |   2 +
- drivers/pci/endpoint/functions/pci-epf-test.c     |  18 +-
- drivers/pci/endpoint/pci-ep-cfs.c                 |   9 +
- drivers/pci/endpoint/pci-epc-core.c               |  22 ++
- include/linux/pci-epc.h                           |   7 +-
- 20 files changed, 338 insertions(+), 111 deletions(-)
----
-base-commit: 4cece764965020c22cff7665b18a012006359095
-change-id: 20240224-pci-dbi-rework-b2e99a62930c
+diff --git a/drivers/pci/controller/dwc/pcie-designware-ep.c b/drivers/pci/controller/dwc/pcie-designware-ep.c
+index 746a11dcb67f..c43a1479de2c 100644
+--- a/drivers/pci/controller/dwc/pcie-designware-ep.c
++++ b/drivers/pci/controller/dwc/pcie-designware-ep.c
+@@ -604,11 +604,16 @@ static unsigned int dw_pcie_ep_find_ext_capability(struct dw_pcie *pci, int cap)
+ int dw_pcie_ep_init_complete(struct dw_pcie_ep *ep)
+ {
+ 	struct dw_pcie *pci = to_dw_pcie_from_ep(ep);
++	struct dw_pcie_ep_func *ep_func;
++	struct device *dev = pci->dev;
++	struct pci_epc *epc = ep->epc;
+ 	unsigned int offset, ptm_cap_base;
+ 	unsigned int nbars;
+ 	u8 hdr_type;
++	u8 func_no;
++	int i, ret;
++	void *addr;
+ 	u32 reg;
+-	int i;
+ 
+ 	hdr_type = dw_pcie_readb_dbi(pci, PCI_HEADER_TYPE) &
+ 		   PCI_HEADER_TYPE_MASK;
+@@ -619,6 +624,58 @@ int dw_pcie_ep_init_complete(struct dw_pcie_ep *ep)
+ 		return -EIO;
+ 	}
+ 
++	dw_pcie_version_detect(pci);
++
++	dw_pcie_iatu_detect(pci);
++
++	ret = dw_pcie_edma_detect(pci);
++	if (ret)
++		return ret;
++
++	if (!ep->ib_window_map) {
++		ep->ib_window_map = devm_bitmap_zalloc(dev, pci->num_ib_windows,
++						       GFP_KERNEL);
++		if (!ep->ib_window_map)
++			goto err_remove_edma;
++	}
++
++	if (!ep->ob_window_map) {
++		ep->ob_window_map = devm_bitmap_zalloc(dev, pci->num_ob_windows,
++						       GFP_KERNEL);
++		if (!ep->ob_window_map)
++			goto err_remove_edma;
++	}
++
++	if (!ep->outbound_addr) {
++		addr = devm_kcalloc(dev, pci->num_ob_windows, sizeof(phys_addr_t),
++				    GFP_KERNEL);
++		if (!addr)
++			goto err_remove_edma;
++		ep->outbound_addr = addr;
++	}
++
++	for (func_no = 0; func_no < epc->max_functions; func_no++) {
++
++		ep_func = dw_pcie_ep_get_func_from_ep(ep, func_no);
++		if (ep_func)
++			continue;
++
++		ep_func = devm_kzalloc(dev, sizeof(*ep_func), GFP_KERNEL);
++		if (!ep_func)
++			goto err_remove_edma;
++
++		ep_func->func_no = func_no;
++		ep_func->msi_cap = dw_pcie_ep_find_capability(ep, func_no,
++							      PCI_CAP_ID_MSI);
++		ep_func->msix_cap = dw_pcie_ep_find_capability(ep, func_no,
++							       PCI_CAP_ID_MSIX);
++
++		list_add_tail(&ep_func->list, &ep->func_list);
++	}
++
++	if (ep->ops->init)
++		ep->ops->init(ep);
++
+ 	offset = dw_pcie_ep_find_ext_capability(pci, PCI_EXT_CAP_ID_REBAR);
+ 	ptm_cap_base = dw_pcie_ep_find_ext_capability(pci, PCI_EXT_CAP_ID_PTM);
+ 
+@@ -658,14 +715,17 @@ int dw_pcie_ep_init_complete(struct dw_pcie_ep *ep)
+ 	dw_pcie_dbi_ro_wr_dis(pci);
+ 
+ 	return 0;
++
++err_remove_edma:
++	dw_pcie_edma_remove(pci);
++
++	return ret;
+ }
+ EXPORT_SYMBOL_GPL(dw_pcie_ep_init_complete);
+ 
+ int dw_pcie_ep_init(struct dw_pcie_ep *ep)
+ {
+ 	int ret;
+-	void *addr;
+-	u8 func_no;
+ 	struct resource *res;
+ 	struct pci_epc *epc;
+ 	struct dw_pcie *pci = to_dw_pcie_from_ep(ep);
+@@ -673,7 +733,6 @@ int dw_pcie_ep_init(struct dw_pcie_ep *ep)
+ 	struct platform_device *pdev = to_platform_device(dev);
+ 	struct device_node *np = dev->of_node;
+ 	const struct pci_epc_features *epc_features;
+-	struct dw_pcie_ep_func *ep_func;
+ 
+ 	INIT_LIST_HEAD(&ep->func_list);
+ 
+@@ -691,26 +750,6 @@ int dw_pcie_ep_init(struct dw_pcie_ep *ep)
+ 	if (ep->ops->pre_init)
+ 		ep->ops->pre_init(ep);
+ 
+-	dw_pcie_version_detect(pci);
+-
+-	dw_pcie_iatu_detect(pci);
+-
+-	ep->ib_window_map = devm_bitmap_zalloc(dev, pci->num_ib_windows,
+-					       GFP_KERNEL);
+-	if (!ep->ib_window_map)
+-		return -ENOMEM;
+-
+-	ep->ob_window_map = devm_bitmap_zalloc(dev, pci->num_ob_windows,
+-					       GFP_KERNEL);
+-	if (!ep->ob_window_map)
+-		return -ENOMEM;
+-
+-	addr = devm_kcalloc(dev, pci->num_ob_windows, sizeof(phys_addr_t),
+-			    GFP_KERNEL);
+-	if (!addr)
+-		return -ENOMEM;
+-	ep->outbound_addr = addr;
+-
+ 	epc = devm_pci_epc_create(dev, &epc_ops);
+ 	if (IS_ERR(epc)) {
+ 		dev_err(dev, "Failed to create epc device\n");
+@@ -724,23 +763,6 @@ int dw_pcie_ep_init(struct dw_pcie_ep *ep)
+ 	if (ret < 0)
+ 		epc->max_functions = 1;
+ 
+-	for (func_no = 0; func_no < epc->max_functions; func_no++) {
+-		ep_func = devm_kzalloc(dev, sizeof(*ep_func), GFP_KERNEL);
+-		if (!ep_func)
+-			return -ENOMEM;
+-
+-		ep_func->func_no = func_no;
+-		ep_func->msi_cap = dw_pcie_ep_find_capability(ep, func_no,
+-							      PCI_CAP_ID_MSI);
+-		ep_func->msix_cap = dw_pcie_ep_find_capability(ep, func_no,
+-							       PCI_CAP_ID_MSIX);
+-
+-		list_add_tail(&ep_func->list, &ep->func_list);
+-	}
+-
+-	if (ep->ops->init)
+-		ep->ops->init(ep);
+-
+ 	ret = pci_epc_mem_init(epc, ep->phys_base, ep->addr_size,
+ 			       ep->page_size);
+ 	if (ret < 0) {
+@@ -756,25 +778,25 @@ int dw_pcie_ep_init(struct dw_pcie_ep *ep)
+ 		goto err_exit_epc_mem;
+ 	}
+ 
+-	ret = dw_pcie_edma_detect(pci);
+-	if (ret)
+-		goto err_free_epc_mem;
+-
+ 	if (ep->ops->get_features) {
+ 		epc_features = ep->ops->get_features(ep);
+ 		if (epc_features->core_init_notifier)
+ 			return 0;
+ 	}
+ 
++	/*
++	 * NOTE:- Avoid accessing the hardware (Ex:- DBI space) before this
++	 * step as platforms that implement 'core_init_notifier' feature may
++	 * not have the hardware ready (i.e. core initialized) for access
++	 * (Ex: tegra194). Any hardware access on such platforms result
++	 * in system hang.
++	 */
+ 	ret = dw_pcie_ep_init_complete(ep);
+ 	if (ret)
+-		goto err_remove_edma;
++		goto err_free_epc_mem;
+ 
+ 	return 0;
+ 
+-err_remove_edma:
+-	dw_pcie_edma_remove(pci);
+-
+ err_free_epc_mem:
+ 	pci_epc_mem_free_addr(epc, ep->msi_mem_phys, ep->msi_mem,
+ 			      epc->mem->window.page_size);
 
-Best regards,
 -- 
-Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+2.25.1
 
 
