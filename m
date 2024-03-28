@@ -1,187 +1,158 @@
-Return-Path: <linux-renesas-soc+bounces-4157-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-4156-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 366038907BE
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 28 Mar 2024 18:55:14 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F9148907B4
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 28 Mar 2024 18:54:33 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 594DA1C2B204
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 28 Mar 2024 17:55:13 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id AA111B25417
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 28 Mar 2024 17:54:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 21319134420;
-	Thu, 28 Mar 2024 17:54:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7D90C130E50;
+	Thu, 28 Mar 2024 17:54:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="P/NdIruk"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="k3Gk2UXH"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vk1-f172.google.com (mail-vk1-f172.google.com [209.85.221.172])
+Received: from mail-vs1-f45.google.com (mail-vs1-f45.google.com [209.85.217.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 796B2130E3E;
-	Thu, 28 Mar 2024 17:54:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEB991C6B0;
+	Thu, 28 Mar 2024 17:54:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711648473; cv=none; b=ewox/BEScQQhx3qTH4A0OivEj7GkYzM5VtYqshEyFKIOQnMl9s0AaQAH1gBUB9JPJj2v9SwOMUet8AX6awAio6652pI1BJfk6+GLM8+X/prAnBKfWpvN7eWQ3yWtwBumth5tQ7MrBVziASY4e5Bs0o9netnB9iXj6gEWc5uPz9Y=
+	t=1711648461; cv=none; b=NPCm94nwK8Zk8QS37dKMlZA6rD9WssCfvjCiqjttdHV8wd6o7S5n1cChqU4bnniBbCnv6vRrKpNZV8Xh6wpEBluuMLXcM4AOYhKTMM96uA+ZGr7V75h1awmlelfNshmXnzsezV+MaEmQnuXHvRCaDRQ8JFmLgGtgUtXud4ipeuI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711648473; c=relaxed/simple;
-	bh=4zbsj4CqH50R7JixcMpO1ri4GLOvlF2Hf8sdLEh/LXs=;
+	s=arc-20240116; t=1711648461; c=relaxed/simple;
+	bh=8O7B4ndnzZYI74uzyfTuc1Y0kP3Ph8Ksu/YsD5/bHbk=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=AwWY91D/JrjisFDB3/QHUl21BiBT05nVOkADdFvjWMNTz8qAHWh7vY7X16MiW/sCglDMaIIW/igBgxc6xJRbAY2b6lHm3YAu7plGutcvl/EBc38HgIsMQPII5RXEbZJyzlr1UxC1dmP18ALiCSfFXNtMs9bhf5zWvY2DV5J6PB8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=P/NdIruk; arc=none smtp.client-ip=209.85.221.172
+	 To:Cc:Content-Type; b=QDwbcnk/NVZGHopHF+9E6a5ACd6/3Xwq2U9uPUPD2edyS1a8ZF6Npz9r38DhbblNEoPp0nKnGWM4dErg/h7rHauieLOr53c3SJCoCN3oOXnn5gQbZiKFNUmaiMLE8PXUHubXAUn5BJL1OicNxMGvnRo9diz+UOkmqTZ4MoeCuJY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=k3Gk2UXH; arc=none smtp.client-ip=209.85.217.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f172.google.com with SMTP id 71dfb90a1353d-4d882358ecaso1185966e0c.1;
-        Thu, 28 Mar 2024 10:54:31 -0700 (PDT)
+Received: by mail-vs1-f45.google.com with SMTP id ada2fe7eead31-4766e56ccccso458661137.0;
+        Thu, 28 Mar 2024 10:54:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1711648470; x=1712253270; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=P1Cskl/8ULKW24VEzrpd9iTu5S6FVlRzlPxLB+/D2D4=;
-        b=P/NdIrukZv+DtK7KYxosEW+ZakLNhsVfRx2BxvKzxKLOa0+ikV8X3HIYJdF+i1/oaC
-         jaXwtfpJR3JO/sSgBIc1slm4VZakNjotl5Ftb0bkCJaETNLqAQWrWKOBY2xb2+XU4m77
-         bxKvBxkrAcZznepC6jKamAzoA7gJrJ37nIkfnn03o3ueRUjcpypFPJ1cWR91GrBET2cO
-         /9r9ipwWuJ1bKLEntDmVjz6s1Nlz8xAV4WVeWmIpeaR5PKfswvGghzKq9niZcQxYxm+e
-         rCeZqRMcrchSLrOBJpRAPWfABL6pBiDDyW6ocvRPKl+F0CoOJImNIlMQxtRKQfK9yDPi
-         v7jw==
+        d=gmail.com; s=20230601; t=1711648458; x=1712253258; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=nG7pFQ9K9R/mz80FNkdLLBY0bbfjalJJC6HLc51WLAE=;
+        b=k3Gk2UXHiumnTtQzUB5dWG4O3lJ/rdGCnTHv4cw5+txAcVZMp7wM8q7EP1sSHBOhzi
+         9jgkvMiBfXOsask9rcESwhrkgm1O0/tzU5vQFiV8KVbSzZUEziBlYxlscbifgz8Ou05E
+         PETzvJISmjgT/ETJriHk8L4xbIFeUq9mA4uDGd8nRZYgjkBBR64cMnB6D4+T0CI9hROM
+         rkSSRoHd1aTNPlVZHkLE236WMJwgP3ydTW6ubmJ4jpDug5K3t0qLjTGsv9zlFpY4m1t/
+         CyF8NdRjTmjFrzBjn/gdn3FOuxFXHq17FlYQhaZsa8w49g0sDLQ8toG+a8D6zwrC8h60
+         RBhA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711648470; x=1712253270;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=P1Cskl/8ULKW24VEzrpd9iTu5S6FVlRzlPxLB+/D2D4=;
-        b=wWEuTJUh3WLCPqHXeJeZ8bvvVnI2ZB2C7JKedZbv/J/2kcCP8NTvKpVnO1vPFSaNNv
-         TpgyzEI6dizbIXL2bToS4taM5pTEyGLVvqZnTgWlZ+0ww4bL/KHdo7kAaG87yZsTmMR7
-         98NJgdo21Idf7yJpjGFsIC4Ut7ZGAATMqB3P/FXILpbXBAXjF/wGR+jSsO7Hsy1hovFc
-         sP25dU0A1X079afURRxl1J6QonPbxQtGjgh4ibvK0VsGMvPMnn2YY64OXrc6hInvqZvC
-         R2X/bVXwi4RivIsx1w90/H2e3PJDElaQjz7l4B1In18v66pDBZC24BK1l5KoZG9r3gY3
-         YKCA==
-X-Forwarded-Encrypted: i=1; AJvYcCVG84DN8WM8jM7PlhJXQY30dCPAo0nA7m0Jyo7qwzRiPWX+FMfHI05tmv21e+DUDXetFqUXS/6v4/A02x0INB0j+wL8uWoVh6wY5ayZjxRM2fQyiJiEw06aBvZGwwRsa+sngwM4D0idu4ke76J29U7D+ABR29VWn2qs5NX62OG96nyfg94mAl/Lbw==
-X-Gm-Message-State: AOJu0Yz6VmyjKjMGyioOgxEMCViMWd8JEFF4fsUOPFa0eaSBM2jTmACL
-	ziYdh3U/eoAVH/rrdjVBKNh2//Ri8Cn5zxqn76apu7EAvJvf53PxLbWBh+N96kQLze5a8nvtb6R
-	pZN8xYvtC+DmZ0UfP4ZKTjXABKi0=
-X-Google-Smtp-Source: AGHT+IH+9L+dh1E4M2f6/leVeirNgsQgENRWTsO7oIEw+BU1Lwaa6NwSk8NbVMIJG25/Alr5WUAuhztHGelMXqMehDI=
-X-Received: by 2002:a05:6122:3686:b0:4d8:77d1:fc50 with SMTP id
- ec6-20020a056122368600b004d877d1fc50mr2737325vkb.7.1711648470219; Thu, 28 Mar
- 2024 10:54:30 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1711648458; x=1712253258;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=nG7pFQ9K9R/mz80FNkdLLBY0bbfjalJJC6HLc51WLAE=;
+        b=eT/+O+jrTK6nxgGsPXuIkb1GIZK8hv11fRhvmFbyl0DEDRHTcU5rInne6ytrgllic9
+         h6W/qa4Pk2wiy1J36k+Ahv3Mx11CM95aXgIT9dnkULoJBOTlcPE4NRGrLXubTpWzjNNQ
+         jpfe3+FS9J9wZlCGgJve+6mtnEZCSA9sxUVE6JMCvDIBIHh/UiM7lzYKA9smiqUxK5w+
+         bv4IGmT4AeTef00u1j+qnJ5ltvr5pdJjS/r9sjvWeHJh3Gl8R1GYQV4paP56QbibVF2T
+         ysuVIgLbdT3X+ITqDOXFb7DZ8yU0mTDV6yihLZRKOOTCBJI4K/kzY8GshLMDbPBNrNsz
+         ysAQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUKYOF0hIoI1e+3HsyG4vssWlb15lSFhXbLrdlgZCapX8aQRQP54uXCkntP97HXzYjEaKptQOxHQPF/zGf+iigwJDotg/beuTw1T+gD+d+SBHL/YOLUYchlSnQiBMKMvgE4piyP+LfKP5M8+lOjFevuGZceu0lwX7uHZuiVQCA3iYBFRNuTU32TI5Gse1qbm/YSqjfzhje+L2vp3/TU4i3yzjOCH8s1L43ab4jKaw0+iu0hVjCHzXUnWMz3SA7YFxLTiXZx7LGTPOQBbVfEVoRtmxravLkHnItvxQIzSpYGmSJHaCJmLzMY5su3ITsSy5yuhtXuPtK/KxfbTMxNe3K+kNfqz+SxxFNvzVDOnQVYTFuq7f2J93d9RGSdLnqEZ3HnpKSVQphQoA7C+gW82apSArhcxPRjHWac5oEhTuCkPhyu0uCHL3mF7/cQUEbFk13efUmjPzRmt/2OJQ9arQdw/2xsbajiHgjvMZf3GhqJ6JyrAjfRPRKAlqt+3nkVgdxvHDNxqfFNKzEozSIOdkg+ROjdDZIKJXvHWOTPgoTUOw2+7jIZlF5wS70vSSXeug0gkI3BLwIm6F370VKBkm8=
+X-Gm-Message-State: AOJu0YyIM20Svv9uGi+jdHk/0lIZ/eGfa7KMyiG83Ky7uxPYv2FlcLU+
+	kU34FfkrYXeynbk6InYlfS18PwAg2KuTdsh3D4eS5r1EY91kmY3PNVjjGJC7iBnD6NT21AFPmQA
+	L9EbcS4NPlZDMv4XyRizwYKLOP7Y=
+X-Google-Smtp-Source: AGHT+IGBQCwISe8ItG/2YCXarhKnEHlwL8nEFQuoDJ++KAY35MV4NPvZiqYz3quZfRGkQvsUcmc8+OZbNMhL2JCbvQY=
+X-Received: by 2002:a67:b64d:0:b0:476:fc98:c73e with SMTP id
+ e13-20020a67b64d000000b00476fc98c73emr4018043vsm.34.1711648458714; Thu, 28
+ Mar 2024 10:54:18 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CA+V-a8uEoyjjNCydK_Lr2CVOPN4j2oL2moVU8RgTravv3ygO9w@mail.gmail.com>
- <CACRpkdbWE7yQxxX1bv5JvSirJq1Dkq8_NDzVr9MaB7o+LZONPw@mail.gmail.com>
-In-Reply-To: <CACRpkdbWE7yQxxX1bv5JvSirJq1Dkq8_NDzVr9MaB7o+LZONPw@mail.gmail.com>
-From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Thu, 28 Mar 2024 17:54:03 +0000
-Message-ID: <CA+V-a8tZBHoFDZ8QZBiStA+yzEhuvVTs50GiD1t_+APnsbTpGg@mail.gmail.com>
-Subject: Re: [QUERY] RZ/V2H pinctrl implementation
-To: Linus Walleij <linus.walleij@linaro.org>
-Cc: Rob Herring <robh+dt@kernel.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
-	"open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>, 
-	Linux-Renesas <linux-renesas-soc@vger.kernel.org>, 
-	"open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>
+References: <20240327160314.9982-1-apais@linux.microsoft.com>
+ <20240327160314.9982-5-apais@linux.microsoft.com> <42c445b4-a156-4c43-bf98-bd2a9ac7a4fa@rowland.harvard.edu>
+In-Reply-To: <42c445b4-a156-4c43-bf98-bd2a9ac7a4fa@rowland.harvard.edu>
+From: Allen <allen.lkml@gmail.com>
+Date: Thu, 28 Mar 2024 10:54:07 -0700
+Message-ID: <CAOMdWS+4T7rw577q9iW_oin8bbVF4m6Mpx-L2riqno5QX_L=WQ@mail.gmail.com>
+Subject: Re: [PATCH 4/9] USB: Convert from tasklet to BH workqueue
+To: Alan Stern <stern@rowland.harvard.edu>
+Cc: Allen Pais <apais@linux.microsoft.com>, linux-kernel@vger.kernel.org, tj@kernel.org, 
+	keescook@chromium.org, vkoul@kernel.org, marcan@marcan.st, sven@svenpeter.dev, 
+	florian.fainelli@broadcom.com, rjui@broadcom.com, sbranden@broadcom.com, 
+	paul@crapouillou.net, Eugeniy.Paltsev@synopsys.com, 
+	manivannan.sadhasivam@linaro.org, vireshk@kernel.org, Frank.Li@nxp.com, 
+	leoyang.li@nxp.com, zw@zh-kernel.org, wangzhou1@hisilicon.com, 
+	haijie1@huawei.com, shawnguo@kernel.org, s.hauer@pengutronix.de, 
+	sean.wang@mediatek.com, matthias.bgg@gmail.com, 
+	angelogioacchino.delregno@collabora.com, afaerber@suse.de, 
+	logang@deltatee.com, daniel@zonque.org, haojian.zhuang@gmail.com, 
+	robert.jarzmik@free.fr, andersson@kernel.org, konrad.dybcio@linaro.org, 
+	orsonzhai@gmail.com, baolin.wang@linux.alibaba.com, zhang.lyra@gmail.com, 
+	patrice.chotard@foss.st.com, linus.walleij@linaro.org, wens@csie.org, 
+	jernej.skrabec@gmail.com, peter.ujfalusi@gmail.com, kys@microsoft.com, 
+	haiyangz@microsoft.com, wei.liu@kernel.org, decui@microsoft.com, 
+	jassisinghbrar@gmail.com, mchehab@kernel.org, maintainers@bluecherrydvr.com, 
+	aubin.constans@microchip.com, ulf.hansson@linaro.org, manuel.lauss@gmail.com, 
+	mirq-linux@rere.qmqm.pl, jh80.chung@samsung.com, oakad@yahoo.com, 
+	hayashi.kunihiko@socionext.com, mhiramat@kernel.org, brucechang@via.com.tw, 
+	HaraldWelte@viatech.com, pierre@ossman.eu, duncan.sands@free.fr, 
+	oneukum@suse.com, openipmi-developer@lists.sourceforge.net, 
+	dmaengine@vger.kernel.org, asahi@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org, linux-rpi-kernel@lists.infradead.org, 
+	linux-mips@vger.kernel.org, imx@lists.linux.dev, 
+	linuxppc-dev@lists.ozlabs.org, linux-mediatek@lists.infradead.org, 
+	linux-actions@lists.infradead.org, linux-arm-msm@vger.kernel.org, 
+	linux-riscv@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+	linux-tegra@vger.kernel.org, linux-hyperv@vger.kernel.org, 
+	linux-rdma@vger.kernel.org, linux-media@vger.kernel.org, 
+	linux-mmc@vger.kernel.org, linux-omap@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org, linux-s390@vger.kernel.org, 
+	netdev@vger.kernel.org, linux-usb@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-CC, DT maintainers.
+> >
+> > This patch converts drivers/infiniband/* from tasklet to BH workqueue.
+> >
+> > Based on the work done by Tejun Heo <tj@kernel.org>
+> > Branch: https://git.kernel.org/pub/scm/linux/kernel/git/tj/wq.git for-6.10
+> >
+> > Signed-off-by: Allen Pais <allen.lkml@gmail.com>
+> > ---
+>
+> > diff --git a/drivers/usb/core/hcd.c b/drivers/usb/core/hcd.c
+> > index c0e005670d67..88d8e1c366cd 100644
+> > --- a/drivers/usb/core/hcd.c
+> > +++ b/drivers/usb/core/hcd.c
+>
+> > @@ -1662,10 +1663,9 @@ static void __usb_hcd_giveback_urb(struct urb *urb)
+> >       usb_put_urb(urb);
+> >  }
+> >
+> > -static void usb_giveback_urb_bh(struct work_struct *work)
+> > +static void usb_giveback_urb_bh(struct work_struct *t)
+> >  {
+> > -     struct giveback_urb_bh *bh =
+> > -             container_of(work, struct giveback_urb_bh, bh);
+> > +     struct giveback_urb_bh *bh = from_work(bh, t, bh);
+> >       struct list_head local_list;
+> >
+> >       spin_lock_irq(&bh->lock);
+>
+> Is there any reason for this apparently pointless change of a local
+> variable's name?
 
-Hi Linus,
+ No, it was done just to keep things consistent across the kernel.
+I can revert it back to *work if you'd prefer.
 
-Thank you for the response.
+Thanks.
 
-On Thu, Mar 28, 2024 at 3:30=E2=80=AFPM Linus Walleij <linus.walleij@linaro=
-.org> wrote:
 >
-> Hi Prabhakar,
+> Alan Stern
 >
-> mostly these are questions to Geert because he will have the main
-> interest in keeping the drivers coherent, but I'll pitch in!
->
-thank you.
 
-> On Mon, Mar 18, 2024 at 1:00=E2=80=AFPM Lad, Prabhakar
-> <prabhakar.csengg@gmail.com> wrote:
->
-> > Option#1
-> > - Passing the power rail information from the PMIC to PFC (pinctrl
-> > driver) so that pinctrl driver can read the voltage level and set the
-> > values accordingly. Here we will be using the
-> > PIN_CONFIG_OUTPUT_IMPEDANCE_OHMS to get/set values
-> > Pros:
-> >   =E2=80=A2 Debugfs can show the value in ohms
-> > Cons:
-> >   =E2=80=A2 Race condition at boot between pfc, i2c, and pmic
->
-> This is something drivers simply have to deal with using e.g. deferred
-> probe. Also, there has been extensive rework to make DT systems
-> resolve dependencies before probing so that providers are always
-> probed before consumers, have you looked into this?
-> There is also the component binding used by some drivers.
->
-Basically it's a cyclic dependency instead of hard dependency. For
-example consider this case, the power rails are coming from a PMIC
-device which is connected via I2C  to the SoC. For I2C to probe we
-need the pinmux so this will be deferred until the PFC driver is
-ready, the PFC driver won't probe until it has power rail information
-from the PMIC.
 
-> >   =E2=80=A2 Late time of probing
->
-> How is this a problem? Everything has to probe eventually.
->
-Agreed not a problem.
-
-> >   =E2=80=A2 Impossible to validate dt-bindings correctly
->
-> Probably not impossible in theory if it parses and cross-examine stuff
-> but in practice maybe yes :) Ask the DT maintainers, they are
-> after all all about describing HW and if there is some HW they can't
-> describe they would be interested.
->
-> NB: describing the HW in the bindings have *nothing* to do with
-> the Linux implementation of the bindings so it is a separate
-> issue altogether.
->
-Agreed.
-
-> >   =E2=80=A2 Manual doesn't say that pfc has access to the power rails, =
-this
-> > could be a challenge
->
-> Hm I don't get it.
->
-Basically what I meant was, as per DT we describe the HW blocks since
-the power rails are connected to the SoC and not going specifically to
-the PFC block passing the regulators to PFC isn't technically correct
-(I may be wrong here).
-
-> > Option#2
-> > - Specify the voltage in the pinmux/pins child node alongside the
-> > output impedance (using power-source property)
-> > Pros:
-> >   =E2=80=A2 both driver and bindings can validate the settings
->
-> You should fix the bindings question first and then think about
-> the driver.
->
-OK.
-
-> > Option#3
-> > - Have an IP specific compatible ("renesas,v2h-output-impedance") with
-> > value 1, 2, 4 or 6 (which indicates x1, x2, x4, x6 strength)
->
-> If you can get it by the DT bindings maintainers I guess it is an option.
->
-While I was waiting for feedback on this I already posted a RFC series [0].
-
-[0] https://patchwork.kernel.org/project/linux-renesas-soc/patch/2024032622=
-2844.1422948-3-prabhakar.mahadev-lad.rj@bp.renesas.com/
-
-Cheers,
-Prabhakar
+-- 
+       - Allen
 
