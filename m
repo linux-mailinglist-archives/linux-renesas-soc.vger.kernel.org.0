@@ -1,111 +1,111 @@
-Return-Path: <linux-renesas-soc+bounces-4173-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-4174-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 779C9891315
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 29 Mar 2024 06:10:36 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id E4AB28913D2
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 29 Mar 2024 07:36:35 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A7F971C220CE
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 29 Mar 2024 05:10:35 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 988842898E1
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 29 Mar 2024 06:36:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C94CE3B290;
-	Fri, 29 Mar 2024 05:10:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 464C02C692;
+	Fri, 29 Mar 2024 06:36:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nWa6yq7q"
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="Ay1mw+WD"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F3503A27B;
-	Fri, 29 Mar 2024 05:10:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8299A288DF
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 29 Mar 2024 06:36:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711689031; cv=none; b=OfY5ufbp+qurTnRhyfMUWY47TlN32OjerCHxWNiLnAeIgymKOmkg+nu8AIS3vn1BlFEKnBxuZBgmVxfPvw54C/tavN1Bcdoh/AyCVAVcV8YpoU1ztOUrEbc2WGFNyzTTpUW4YUNyCDC5ETP1Wh7x97m/i0qiLo9g0Ybuc07yf0A=
+	t=1711694192; cv=none; b=qs+Aeu5LPJY+oRl45WvQR0aLsEk7LHGGfep4ySEICDIyXmRi1RQhPF1mMvzUeGOJfqMwhP61fPKnvLgiCGVbS8J2tAHeTQYkmZpNxJ1ufJrJo4quQnzB7UJEIr7NeDs8jbylWLCBSb5uFgngSKo2Qsgy3Oa7QejH0HyZ+b28/oY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711689031; c=relaxed/simple;
-	bh=JTlplW2/Out9DISgdpv3W0wq4268A6szm5K/uLb8+M4=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=tCeYh/B6qsgWeSWhPHpxRY3Lrwt3/Ii3nz2G2i8XhnxKNwJRflHd2upiBiK/gkjJRZ28jR8tubQMPstrVRJBTOvGaH8P9duadRb6rAIAdhtK0pUSDnnsrnYVRt+8D7O09kttUOjX7OwZIQndH8WZPe/mjkFv3EEd2qxzqIi4CT0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nWa6yq7q; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 2CE90C43390;
-	Fri, 29 Mar 2024 05:10:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1711689031;
-	bh=JTlplW2/Out9DISgdpv3W0wq4268A6szm5K/uLb8+M4=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=nWa6yq7q0+RkYhBkUumSxNQlbGHy/y8vaJShXUfvvnWsticJ7QRiexJr9pvtKzF0L
-	 VF2u1sTAt1cyN2Uaw7C9FUp/xkc9WXItgrBsqZjABHyBdH4O4A1Jbp3JI2U3aNKVPa
-	 PHLeHoF8sME4ifJ8LI3agjOPzrXDwHRbpJVCqwBXjcp9lJpPgT4KIIq1206OqjbqqU
-	 YfQaboUPO/Bkgo8xsORi8zjPETbGH+XLB/py9xvx+QucO6GiZhpcg39fnoffgb7fML
-	 OKLeV8eJY3C8NbGqimf3ZS82clxP5b0D4jxijQh6iG5J0JBTu5B9HpAmwUfWCJG6uc
-	 3+JwNmWddmB3g==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 169F6D2D0EB;
-	Fri, 29 Mar 2024 05:10:31 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	s=arc-20240116; t=1711694192; c=relaxed/simple;
+	bh=zvuXhVzKRKNmjsXHGNO71Xw7k2AL7GmRkRL9GC6fsuw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=SEc1BP6QibBP2BNHFfzhdsBGstmCgDqQqPBSvQg/q+cLVcwLmU+cZPHYbTIe5r/xQvSvIDxUDDgZQBZsBrCo1lli2o0MFHdbTOefNxeAS9KD/I2dGhoruf1D1pGFyGxSWi6FfJgcNWTTU4bRLb+LPdNvByW0Jn+p09BzqOy7Y9M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=Ay1mw+WD; arc=none smtp.client-ip=209.85.221.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-341b9f6fb2eso1124443f8f.2
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 28 Mar 2024 23:36:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=tuxon.dev; s=google; t=1711694189; x=1712298989; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=43xZx60rfZWmX/MW6KInTEWOudBJZZMkJu12Y5dNCZU=;
+        b=Ay1mw+WD5UM8yLaWezfd9y8AEU3ImzlCFbk9BuyIWsAoszrdlIGHbAG4JvrSGIhB22
+         yZyZX1e6vyYmpuHsq6ZQlFcGZTZyQoWkBWYUJ+wBmfOjtIB8s+AB8GGpnXvkKf7V0ZOM
+         Yv6baXkQH+CLCawSJodgtYPbwGMXtUh/T0p0jGRdgs9WTyVK1rdxHYEDT8E3WnnrOgcr
+         0lOKi5pgcP6j01rXAB8IW5JE73tcTKWcPai+oZnZOluLmJueXvdKOTKqdVSTG8zbRVJ4
+         nRqmRJLjqj7S6oV5O8pf/RVYP0rWaoF0aHvpHLJ5HzYuqi3InjUe/MDtxMltod2gbFiq
+         xDaw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1711694189; x=1712298989;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=43xZx60rfZWmX/MW6KInTEWOudBJZZMkJu12Y5dNCZU=;
+        b=ASTkooerLnsJuEEn5PLH4Wpq72CtKtVGELvBpQQRVVq+w/baEFF9LKhN8xyCJiK0vT
+         PIw7OCYydF3ZOhCKefCvGKQxQ7QJgnW6UAC+zyjz/tuEv8XTsU/ZUsjKASsEtx66ZUp3
+         zk7VruyNY30CYyOwa7CnYTwAkOnrYV5YdhcmGbVloRhguLislRPr5MhOOfRtb51Vzsze
+         FREMOExWTep0dOJ0Yw78tkg+nudXJ9LVlrIMMF0AK3iNKfE/TyrNvxTnvTReDZpKiutQ
+         h4PU560CLBdx9RHqjmkvyfYuPG5joubUC84i9DDVA1eJEgTSRNXF+n3EaC/jiPesoBHx
+         czbg==
+X-Forwarded-Encrypted: i=1; AJvYcCVfZlsPGWVDUP7th7xJPFqyUB2c9l1ary+mD3LBnKa/qeI0vyuol+FvlaHZEuj+ycIREUY/qrm/XFI/7IQk1I6/p+wW2gVZO14h6XYGZhyFAD4=
+X-Gm-Message-State: AOJu0Yx91wMHq1HSXzOvRqWxCf06OR9KK7IJlWX9ksPq+doSN9MFJNE5
+	ijbHPyIRebUmdiUgUHCNyofVnKyQVDPPZuKSrXF6EgAMyrbsD8tCmlMtVz5/pvk=
+X-Google-Smtp-Source: AGHT+IEVLeAaHFiI4gvE43nlAphVjGnGp98O60VdyrE/01nb5Rcj1iSVPlTnLH+WsyKz1julrP/fFg==
+X-Received: by 2002:a5d:4b8a:0:b0:33e:7f65:bb7b with SMTP id b10-20020a5d4b8a000000b0033e7f65bb7bmr820243wrt.5.1711694188839;
+        Thu, 28 Mar 2024 23:36:28 -0700 (PDT)
+Received: from [192.168.50.4] ([82.78.167.147])
+        by smtp.gmail.com with ESMTPSA id bp29-20020a5d5a9d000000b00341d28586afsm3494618wrb.2.2024.03.28.23.36.27
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 28 Mar 2024 23:36:28 -0700 (PDT)
+Message-ID: <16dc5bd3-9231-474d-8056-d7b0240716de@tuxon.dev>
+Date: Fri, 29 Mar 2024 08:36:26 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH net-next RESEND v6 0/7] Fix missing PHY-to-MAC RX clock
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <171168903108.21197.8126750416012356121.git-patchwork-notify@kernel.org>
-Date: Fri, 29 Mar 2024 05:10:31 +0000
-References: <20240326-rxc_bugfix-v6-0-24a74e5c761f@bootlin.com>
-In-Reply-To: <20240326-rxc_bugfix-v6-0-24a74e5c761f@bootlin.com>
-To: Romain Gantois <romain.gantois@bootlin.com>
-Cc: linux@armlinux.org.uk, andrew@lunn.ch, hkallweit1@gmail.com,
- davem@davemloft.net, edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
- alexandre.torgue@foss.st.com, joabreu@synopsys.com,
- mcoquelin.stm32@gmail.com, clement.leger@bootlin.com,
- maxime.chevallier@bootlin.com, miquel.raynal@bootlin.com,
- thomas.petazzoni@bootlin.com, netdev@vger.kernel.org,
- linux-stm32@st-md-mailman.stormreply.com,
- linux-arm-kernel@lists.infradead.org, linux-renesas-soc@vger.kernel.org,
- rmk+kernel@armlinux.org.uk, xiaoning.wang@nxp.com
-
-Hello:
-
-This series was applied to netdev/net-next.git (main)
-by Jakub Kicinski <kuba@kernel.org>:
-
-On Tue, 26 Mar 2024 14:32:06 +0100 you wrote:
-> Hello everyone,
-> 
-> This is version six of my series that addresses the issue with some MAC/PHY
-> combinations.
-> 
-> Notable changes in v6:
->   - Corrected trailers
-> 
-> [...]
-
-Here is the summary with links:
-  - [RESEND,net-next,v6,1/7] net: phylink: add PHY_F_RXC_ALWAYS_ON to PHY dev flags
-    https://git.kernel.org/netdev/net-next/c/21d9ba5bc551
-  - [RESEND,net-next,v6,2/7] net: phylink: add rxc_always_on flag to phylink_pcs
-    https://git.kernel.org/netdev/net-next/c/dceb393a0a8e
-  - [RESEND,net-next,v6,3/7] net: stmmac: don't rely on lynx_pcs presence to check for a PHY
-    https://git.kernel.org/netdev/net-next/c/10658e99d952
-  - [RESEND,net-next,v6,4/7] net: stmmac: Support a generic PCS field in mac_device_info
-    https://git.kernel.org/netdev/net-next/c/f7bff228a616
-  - [RESEND,net-next,v6,5/7] net: stmmac: Signal to PHY/PCS drivers to keep RX clock on
-    https://git.kernel.org/netdev/net-next/c/58329b03a595
-  - [RESEND,net-next,v6,6/7] net: phy: qcom: at803x: Avoid hibernating if MAC requires RX clock
-    https://git.kernel.org/netdev/net-next/c/30dc5873967e
-  - [RESEND,net-next,v6,7/7] net: pcs: rzn1-miic: Init RX clock early if MAC requires it
-    https://git.kernel.org/netdev/net-next/c/0f671b3b6edf
-
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH 13/13] pinctrl: renesas: pinctrl-rzg2l: Add support
+ for RZ/V2H SoC
+Content-Language: en-US
+To: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
+ Linus Walleij <linus.walleij@linaro.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Magnus Damm <magnus.damm@gmail.com>,
+ linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+ Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20240326222844.1422948-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20240326222844.1422948-14-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <25bc9ceb-c5cb-40a2-8c3d-d9666b88546c@tuxon.dev>
+ <CA+V-a8uegButH84aUY1N+0GzZx2LkRBTxNtg7y1Y-cUvvFfJpw@mail.gmail.com>
+From: claudiu beznea <claudiu.beznea@tuxon.dev>
+In-Reply-To: <CA+V-a8uegButH84aUY1N+0GzZx2LkRBTxNtg7y1Y-cUvvFfJpw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
 
+
+On 28.03.2024 21:51, Lad, Prabhakar wrote:
+>>> +static void rzv2h_pinctrl_pm_setup_pfc(struct rzg2l_pinctrl *pctrl)
+>> Have you managed to test this?
+>>
+> No S2R isn't tested and is just added for completeness, I wonder if we
+> should have a SoC specific flag "pm_supported" for this, as apart from
+> RZ/G3S  nothing has been tested I believe?
+
+Yes, only RZ/G3S PM has been tested.
 
