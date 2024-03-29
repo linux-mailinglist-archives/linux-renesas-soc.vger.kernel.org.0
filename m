@@ -1,111 +1,113 @@
-Return-Path: <linux-renesas-soc+bounces-4174-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-4176-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4AB28913D2
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 29 Mar 2024 07:36:35 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1ED02891BD1
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 29 Mar 2024 14:34:06 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 988842898E1
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 29 Mar 2024 06:36:34 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5088D1C26B9B
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 29 Mar 2024 13:34:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 464C02C692;
-	Fri, 29 Mar 2024 06:36:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 116D9177996;
+	Fri, 29 Mar 2024 12:40:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="Ay1mw+WD"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BS4Yh9tZ"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8299A288DF
-	for <linux-renesas-soc@vger.kernel.org>; Fri, 29 Mar 2024 06:36:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9DAD177990;
+	Fri, 29 Mar 2024 12:40:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711694192; cv=none; b=qs+Aeu5LPJY+oRl45WvQR0aLsEk7LHGGfep4ySEICDIyXmRi1RQhPF1mMvzUeGOJfqMwhP61fPKnvLgiCGVbS8J2tAHeTQYkmZpNxJ1ufJrJo4quQnzB7UJEIr7NeDs8jbylWLCBSb5uFgngSKo2Qsgy3Oa7QejH0HyZ+b28/oY=
+	t=1711716014; cv=none; b=jr0IB+lJL/T/XFLYavnxDJ78hN27apMmWyd6VZK3O8GlKsrrgyGwrxzwL85jrF5UtEBdX9/C3uZV4wBF0Kk9d3Ads/EiwX4F6MboVuwnjtTwEdZtcqyeMwwbT5OUi2QYV3WQzbxZ/IxpNwISilaxYZnrRrlT1CBuB85Lk3XwSuI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711694192; c=relaxed/simple;
-	bh=zvuXhVzKRKNmjsXHGNO71Xw7k2AL7GmRkRL9GC6fsuw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=SEc1BP6QibBP2BNHFfzhdsBGstmCgDqQqPBSvQg/q+cLVcwLmU+cZPHYbTIe5r/xQvSvIDxUDDgZQBZsBrCo1lli2o0MFHdbTOefNxeAS9KD/I2dGhoruf1D1pGFyGxSWi6FfJgcNWTTU4bRLb+LPdNvByW0Jn+p09BzqOy7Y9M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=Ay1mw+WD; arc=none smtp.client-ip=209.85.221.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
-Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-341b9f6fb2eso1124443f8f.2
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 28 Mar 2024 23:36:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1711694189; x=1712298989; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=43xZx60rfZWmX/MW6KInTEWOudBJZZMkJu12Y5dNCZU=;
-        b=Ay1mw+WD5UM8yLaWezfd9y8AEU3ImzlCFbk9BuyIWsAoszrdlIGHbAG4JvrSGIhB22
-         yZyZX1e6vyYmpuHsq6ZQlFcGZTZyQoWkBWYUJ+wBmfOjtIB8s+AB8GGpnXvkKf7V0ZOM
-         Yv6baXkQH+CLCawSJodgtYPbwGMXtUh/T0p0jGRdgs9WTyVK1rdxHYEDT8E3WnnrOgcr
-         0lOKi5pgcP6j01rXAB8IW5JE73tcTKWcPai+oZnZOluLmJueXvdKOTKqdVSTG8zbRVJ4
-         nRqmRJLjqj7S6oV5O8pf/RVYP0rWaoF0aHvpHLJ5HzYuqi3InjUe/MDtxMltod2gbFiq
-         xDaw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711694189; x=1712298989;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=43xZx60rfZWmX/MW6KInTEWOudBJZZMkJu12Y5dNCZU=;
-        b=ASTkooerLnsJuEEn5PLH4Wpq72CtKtVGELvBpQQRVVq+w/baEFF9LKhN8xyCJiK0vT
-         PIw7OCYydF3ZOhCKefCvGKQxQ7QJgnW6UAC+zyjz/tuEv8XTsU/ZUsjKASsEtx66ZUp3
-         zk7VruyNY30CYyOwa7CnYTwAkOnrYV5YdhcmGbVloRhguLislRPr5MhOOfRtb51Vzsze
-         FREMOExWTep0dOJ0Yw78tkg+nudXJ9LVlrIMMF0AK3iNKfE/TyrNvxTnvTReDZpKiutQ
-         h4PU560CLBdx9RHqjmkvyfYuPG5joubUC84i9DDVA1eJEgTSRNXF+n3EaC/jiPesoBHx
-         czbg==
-X-Forwarded-Encrypted: i=1; AJvYcCVfZlsPGWVDUP7th7xJPFqyUB2c9l1ary+mD3LBnKa/qeI0vyuol+FvlaHZEuj+ycIREUY/qrm/XFI/7IQk1I6/p+wW2gVZO14h6XYGZhyFAD4=
-X-Gm-Message-State: AOJu0Yx91wMHq1HSXzOvRqWxCf06OR9KK7IJlWX9ksPq+doSN9MFJNE5
-	ijbHPyIRebUmdiUgUHCNyofVnKyQVDPPZuKSrXF6EgAMyrbsD8tCmlMtVz5/pvk=
-X-Google-Smtp-Source: AGHT+IEVLeAaHFiI4gvE43nlAphVjGnGp98O60VdyrE/01nb5Rcj1iSVPlTnLH+WsyKz1julrP/fFg==
-X-Received: by 2002:a5d:4b8a:0:b0:33e:7f65:bb7b with SMTP id b10-20020a5d4b8a000000b0033e7f65bb7bmr820243wrt.5.1711694188839;
-        Thu, 28 Mar 2024 23:36:28 -0700 (PDT)
-Received: from [192.168.50.4] ([82.78.167.147])
-        by smtp.gmail.com with ESMTPSA id bp29-20020a5d5a9d000000b00341d28586afsm3494618wrb.2.2024.03.28.23.36.27
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 28 Mar 2024 23:36:28 -0700 (PDT)
-Message-ID: <16dc5bd3-9231-474d-8056-d7b0240716de@tuxon.dev>
-Date: Fri, 29 Mar 2024 08:36:26 +0200
+	s=arc-20240116; t=1711716014; c=relaxed/simple;
+	bh=/7Nyd0ElNKtUa/fFvXgp1vH0TNWpn4B6Fz4DJsTV25g=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=BDrB56u+XUZgb0yDUpxqoU7jN5vdXfmmsgECIaihEvItjIgvQ6MQAufvzwZkNp0V0jMP2nHqCtO7hEg4GX17TjIbqltuSKLRQhTErae15loTh68yqWDeIizAPOjGh0n+BOy6shTIbLP6bIqnbagOeY9Rlc1GKcMaRbaic4ozfAA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BS4Yh9tZ; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A4058C433C7;
+	Fri, 29 Mar 2024 12:40:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1711716013;
+	bh=/7Nyd0ElNKtUa/fFvXgp1vH0TNWpn4B6Fz4DJsTV25g=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=BS4Yh9tZFMZUkYmRUqYXd8ZBc4LdwR+/blN5/imqFeUTTaKUMH51LfHTpevb1Y/EU
+	 rW80c4pW9C3AfDVvOh8vtB1j/zEa+Yp9RK/nj2JepuqVSHclEg9dW/PzDB+fL+OFGH
+	 /etDCkQXDwcU8TbfnNoaPQgB8tifH628rCah0AI6XjRlxeG0xEPp4PGTgZM2OIqduA
+	 /kYIct8ujbed1An7zAifKt9/nyXpuRM9jyZm97a8sITr+uKV0KsET3juW4pTvZFUaK
+	 A253B9cfcmf8dqlgbZZfDLZ8GdaGLIUB0P5zF9h8yPcb1Wt1Hsl0/hZ6HKV01dVNIA
+	 dha2CtlA4Z4Hw==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
+	Sasha Levin <sashal@kernel.org>,
+	linus.walleij@linaro.org,
+	linux-renesas-soc@vger.kernel.org,
+	linux-gpio@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.8 14/98] pinctrl: renesas: checker: Limit cfg reg enum checks to provided IDs
+Date: Fri, 29 Mar 2024 08:36:45 -0400
+Message-ID: <20240329123919.3087149-14-sashal@kernel.org>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20240329123919.3087149-1-sashal@kernel.org>
+References: <20240329123919.3087149-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH 13/13] pinctrl: renesas: pinctrl-rzg2l: Add support
- for RZ/V2H SoC
-Content-Language: en-US
-To: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
- Linus Walleij <linus.walleij@linaro.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Magnus Damm <magnus.damm@gmail.com>,
- linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
- Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20240326222844.1422948-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20240326222844.1422948-14-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <25bc9ceb-c5cb-40a2-8c3d-d9666b88546c@tuxon.dev>
- <CA+V-a8uegButH84aUY1N+0GzZx2LkRBTxNtg7y1Y-cUvvFfJpw@mail.gmail.com>
-From: claudiu beznea <claudiu.beznea@tuxon.dev>
-In-Reply-To: <CA+V-a8uegButH84aUY1N+0GzZx2LkRBTxNtg7y1Y-cUvvFfJpw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-stable-base: Linux 6.8.2
+Content-Transfer-Encoding: 8bit
 
+From: Geert Uytterhoeven <geert+renesas@glider.be>
 
+[ Upstream commit 3803584a4e9b65bb5b013f862f55c5055aa86c25 ]
 
-On 28.03.2024 21:51, Lad, Prabhakar wrote:
->>> +static void rzv2h_pinctrl_pm_setup_pfc(struct rzg2l_pinctrl *pctrl)
->> Have you managed to test this?
->>
-> No S2R isn't tested and is just added for completeness, I wonder if we
-> should have a SoC specific flag "pm_supported" for this, as apart from
-> RZ/G3S  nothing has been tested I believe?
+If the number of provided enum IDs in a variable width config register
+description does not match the expected number, the checker uses the
+expected number for validating the individual enum IDs.
 
-Yes, only RZ/G3S PM has been tested.
+However, this may cause out-of-bounds accesses on the array holding the
+enum IDs, leading to bogus enum_id conflict warnings.  Worse, if the bug
+is an incorrect bit field description (e.g. accidentally using "12"
+instead of "-12" for a reserved field), thousands of warnings may be
+printed, overflowing the kernel log buffer.
+
+Fix this by limiting the enum ID check to the number of provided enum
+IDs.
+
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Link: https://lore.kernel.org/r/c7385f44f2faebb8856bcbb4e908d846fc1531fb.1705930809.git.geert+renesas@glider.be
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/pinctrl/renesas/core.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/pinctrl/renesas/core.c b/drivers/pinctrl/renesas/core.c
+index 93e51abbf519a..8f6d7cc25b599 100644
+--- a/drivers/pinctrl/renesas/core.c
++++ b/drivers/pinctrl/renesas/core.c
+@@ -907,9 +907,11 @@ static void __init sh_pfc_check_cfg_reg(const char *drvname,
+ 		sh_pfc_err("reg 0x%x: var_field_width declares %u instead of %u bits\n",
+ 			   cfg_reg->reg, rw, cfg_reg->reg_width);
+ 
+-	if (n != cfg_reg->nr_enum_ids)
++	if (n != cfg_reg->nr_enum_ids) {
+ 		sh_pfc_err("reg 0x%x: enum_ids[] has %u instead of %u values\n",
+ 			   cfg_reg->reg, cfg_reg->nr_enum_ids, n);
++		n = cfg_reg->nr_enum_ids;
++	}
+ 
+ check_enum_ids:
+ 	sh_pfc_check_reg_enums(drvname, cfg_reg->reg, cfg_reg->enum_ids, n);
+-- 
+2.43.0
+
 
