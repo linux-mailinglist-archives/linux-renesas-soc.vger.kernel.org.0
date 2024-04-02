@@ -1,109 +1,94 @@
-Return-Path: <linux-renesas-soc+bounces-4230-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-4231-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2283D895934
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Apr 2024 18:04:02 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9425B895B0F
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Apr 2024 19:49:19 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id CBB521F22DAF
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Apr 2024 16:04:01 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4D5A9283B0B
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Apr 2024 17:49:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 79FCA1332A9;
-	Tue,  2 Apr 2024 16:03:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B0BD515AAB3;
+	Tue,  2 Apr 2024 17:49:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="FHeCl4Ye"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="X1n76jr1"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7911113329D;
-	Tue,  2 Apr 2024 16:03:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8519C60264;
+	Tue,  2 Apr 2024 17:49:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712073831; cv=none; b=NtcW4SrRk60GbhghHUuxb2x9jq2ym1ZkT5aaHYjekxdov6/1KGBOSI4nY3wkDOHFAIHnO4eBUTuDF0iluOaDF1s99+n54IhJqHlAyeRLYZhmDzFRb+JyhzEXsoHVRf7r//Pel6b2eBibpOwNd8GeCvFwf1dOucznuvHmTif6Y5c=
+	t=1712080156; cv=none; b=UcittZ4yV17c0VRcXU/vWJ5JJunwdUw0yKoE41KWAfGzt5uIQS24W7SCBCOxM7yqQrwX9MD5aTGBARVAZa9rplkqYuxK0dhyN8syINvicQmnzaaetNFz9mfMRj62SZgt7aCtKzVL23f7HDNCb7+MH1LFrOitybeYapmXYvcE4dc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712073831; c=relaxed/simple;
-	bh=+yb9QZnkwSHjba8DSoLfJzX4aYjxaHV4oVtCa/UzPVg=;
-	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=kk2blaEVE5kyJRofMPn6r0gpH5qWOgUbIqwqYEoYMNn7evbje1RSfsps1ZlsnYPceTdLudNyiy3SoIC0D3W75z/TMkORtIfB6Muq63TfEAdKBCOl5LsjV+jDuMhfmlhw3x6Eav+luqdN8N0aTMeZpzm+gWJWyH1C2B+VeO7CcRY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=FHeCl4Ye; arc=none smtp.client-ip=217.70.183.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 06BC9FF805;
-	Tue,  2 Apr 2024 16:03:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1712073826;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=lB0l3EgmoR6B4x67AYdVJyikUkYe+1vfYgUCVxFlTi4=;
-	b=FHeCl4Ye91VysIY97+9CuN2lZTq+z+sDUDrrKaLQ6WGxlD7jJDCWWe6Qzyn1LiOuvTirKv
-	DtUTV0DNxOUroUmyrf3CRGsIojegvluEPLIK6r8qOKjh10BVGyz3rQcJhtTbf3MBOPoe/G
-	8bkNo07L7FF0ygnG9Oo4FJsXUvwIGsuPgZxDhtwyPL0O8XxbVD9JMdk0lXIC5OvPa+32V3
-	uPqqLiaMMQEbHn9p2xMcQthSudzmC7GgSufy2qdZvrgib5PA8gRHJjBiuRno61pjz2+iY+
-	6m/MTNKSS6ioZaOUtCrqL8ZuuQjPGwFBo05f2btGBm9974bd/xuHiyUJISF53g==
-Date: Tue, 2 Apr 2024 18:04:20 +0200 (CEST)
-From: Romain Gantois <romain.gantois@bootlin.com>
-To: "Russell King (Oracle)" <linux@armlinux.org.uk>
-cc: Romain Gantois <romain.gantois@bootlin.com>, 
-    "David S. Miller" <davem@davemloft.net>, 
-    Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
-    Paolo Abeni <pabeni@redhat.com>, Rob Herring <robh@kernel.org>, 
-    Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
-    Conor Dooley <conor+dt@kernel.org>, 
-    Geert Uytterhoeven <geert+renesas@glider.be>, 
-    Magnus Damm <magnus.damm@gmail.com>, 
-    Alexandre Torgue <alexandre.torgue@foss.st.com>, 
-    Jose Abreu <joabreu@synopsys.com>, 
-    Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
-    =?ISO-8859-15?Q?Cl=E9ment_L=E9ger?= <clement.leger@bootlin.com>, 
-    Thomas Petazzoni <thomas.petazzoni@bootlin.com>, netdev@vger.kernel.org, 
-    devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-    linux-renesas-soc@vger.kernel.org, 
-    linux-stm32@st-md-mailman.stormreply.com, 
-    linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH net-next 2/3] net: stmmac: add support for RZ/N1 GMAC
-In-Reply-To: <ZgwoygldsA1V8fs9@shell.armlinux.org.uk>
-Message-ID: <36a4a94f-494f-2fef-11e1-8b45011c1263@bootlin.com>
-References: <20240402-rzn1-gmac1-v1-0-5be2b2894d8c@bootlin.com> <20240402-rzn1-gmac1-v1-2-5be2b2894d8c@bootlin.com> <ZgwM/FIKTuN4vkQA@shell.armlinux.org.uk> <ZgwoygldsA1V8fs9@shell.armlinux.org.uk>
+	s=arc-20240116; t=1712080156; c=relaxed/simple;
+	bh=yeTBkkEGiyPBxZNMIw1Kx1lDc+1ke0bR08ffcwJUHO4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=IqkMS5+E/Ks2IBftWIjSpCaKW0q0Me6y/z1dhLrXyr4MjIbEJs54OYpaCMY7JBDClwt/v2G2uIYIxiwl8Z9n3Mp++vGEUfNe/zTH4r6S1mlNN6aPNW56VPJ9a5yyycvYzhJXR/CqyDfBtu6zHmPv7Z8VSpHy87nrwJu4vW0tzdQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=X1n76jr1; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EBB19C433F1;
+	Tue,  2 Apr 2024 17:49:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1712080156;
+	bh=yeTBkkEGiyPBxZNMIw1Kx1lDc+1ke0bR08ffcwJUHO4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=X1n76jr19+CtOwmhZraxUqNYAKKfX8YXLkktLSVqx4MA8F0JH+9rmBpsp0dTDzGUK
+	 NaosLj6IbQB206qGYwplSUWFMNi5P7xdW1qUIdA20f8F4Sx44jghslWF87UgeIjN/g
+	 Aw2hjFqtWAkDZd9EEEB2OiUR5+QomfRpTT6scwU2zOCYOriREd4dS2+yjnyv+b+//Y
+	 a9r9lUYs1TFydiK1Vbl59KcUbUbNdOzB0jdzeUQe9rAKm+le+TNOgwq6BFcUDlsWC5
+	 PpNYUix1g04YtUqXEsQALnm3EXx3c2DEFCXssSOXXHdKrNUI/fJqv52xC/GfGdAaym
+	 TXv3sZzcq45cQ==
+Date: Tue, 2 Apr 2024 18:49:11 +0100
+From: Conor Dooley <conor@kernel.org>
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: Daniel Lezcano <daniel.lezcano@linaro.org>,
+	Thomas Gleixner <tglx@linutronix.de>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+	devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] dt-bindings: timer: renesas,tmu: Add R-Car V4M support
+Message-ID: <20240402-jester-bronze-a60ac83542a5@spud>
+References: <8a39386b1a33db6e83e852b3b365bc1adeb25242.1712068574.git.geert+renesas@glider.be>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-X-GND-Sasl: romain.gantois@bootlin.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="N9t/vsq8KezZb8i2"
+Content-Disposition: inline
+In-Reply-To: <8a39386b1a33db6e83e852b3b365bc1adeb25242.1712068574.git.geert+renesas@glider.be>
 
-Hello Russell,
 
-On Tue, 2 Apr 2024, Russell King (Oracle) wrote:
+--N9t/vsq8KezZb8i2
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> > I'm afraid that this fails at one of the most basic principles of kernel
-> > multi-threaded programming. stmmac_dvr_probe() as part of its work calls
-> > register_netdev() which publishes to userspace the network device.
-> > 
-> > Everything that is required must be setup _prior_ to publication to
-> > userspace to avoid races, because as soon as the network device is
-> > published, userspace can decide to bring that interface up. If one
-> > hasn't finished the initialisation, the interface can be brought up
-> > before that initialisation is complete.
-...
-> 
-> I'm not going to say that the two patches threaded to this email are
-> "sane" but at least it avoids the problem. socfpga still has issues
-> with initialisation done after register_netdev() though.
+On Tue, Apr 02, 2024 at 04:37:02PM +0200, Geert Uytterhoeven wrote:
+> Document support for the Timer Unit (TMU) in the Renesas R-Car V4M
+> (R8A779H0) SoC.
+>=20
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-Thanks a lot for providing a fix to this issue, introducing new pcs_init/exit() 
-hooks seems like the best solution at this time, I'll make sure to integrate 
-those patches in the v2 for this series.
+Acked-by: Conor Dooley <conor.dooley@microchip.com>
 
-Thanks,
+--N9t/vsq8KezZb8i2
+Content-Type: application/pgp-signature; name="signature.asc"
 
--- 
-Romain Gantois, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZgxFFwAKCRB4tDGHoIJi
+0qD5AQCcJ2nz2aV9AcUm/xI2Ib+kByeI9zhw2mcg7Y+8cuSeeQEA3jcdeLWGXBwp
+FOl9+KGmzE1ozkN6Ypobny6/SbslDwI=
+=Jpph
+-----END PGP SIGNATURE-----
+
+--N9t/vsq8KezZb8i2--
 
