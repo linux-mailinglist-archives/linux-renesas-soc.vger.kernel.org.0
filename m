@@ -1,55 +1,53 @@
-Return-Path: <linux-renesas-soc+bounces-4219-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-4221-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E885E895717
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Apr 2024 16:40:10 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6EF01895759
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Apr 2024 16:48:50 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A437B286078
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Apr 2024 14:40:09 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A02981C20A6F
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Apr 2024 14:48:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7899812BE8C;
-	Tue,  2 Apr 2024 14:37:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 930498662E;
+	Tue,  2 Apr 2024 14:44:23 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from xavier.telenet-ops.be (xavier.telenet-ops.be [195.130.132.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 072988662E
-	for <linux-renesas-soc@vger.kernel.org>; Tue,  2 Apr 2024 14:37:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAB031272C9
+	for <linux-renesas-soc@vger.kernel.org>; Tue,  2 Apr 2024 14:44:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.132.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712068677; cv=none; b=tNt6U+4v2iT1jB/km97vdg4LPDt05X7XcVZzQfOs+OLf6wOwx/TJ31BQotemZLy6SCZKv7Z9TlKqi5zWX0q39i9o/6RG6X1SL2jgDT04+Dvw9fVdEwWj+uT9WrgFFh8k3SdCAqhk5XmHw9NTlWCuQA9eCm1g4Ea5WxZX4eHt6AE=
+	t=1712069063; cv=none; b=Qu8GaMxMPo0RvcA1RMYrCsLHrHchY5qxJl2k89mcduC+LuNRscEksDsnp2oRjlWfwpdbI3o9hokNoTdV+IRfIdjVf+PVjGnRozAdYcxQMYrrSVktqbn6jdb8Re/G3bRr9q7LO45htYdhilK1zwARsAYnSXBK/xcX/P4l0HfkSy0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712068677; c=relaxed/simple;
-	bh=bRBCTLEp98wnVwLznUJRCNoPp1mxWI1F+xHRtLnh7FM=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=CexfYIqOa+9VngpchqVXNOHpDONK6ksAay6I+QB6ZiuKUYUTtZlJZjcXV6OfX7Mr2GL6UgEPxgAt1z901WWIjRilNF47YqMJnHytYtQYfavmH0n2+PrqA96NeGwTIGJ+puHnCzi5RoZrZh4LH/zMugtQs96of0HhNUMsMsPh+gc=
+	s=arc-20240116; t=1712069063; c=relaxed/simple;
+	bh=O+8ARZdutSj9Uhl+VxiYTgGPsxjzkUrOBEkjBc6/7iw=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=FIvs6f7w8kCT/77k26Rs2AbgnKMXr1wanicjqa7Q5ZjJcaIeSy4bTfpFdH442XV7ID1RGvckkZNph6EL47pyqIsuIMb224YY17yeNEMWqa+2U4wQBsZ1XSBp9emzvHBynuYH094fK0oGTAog2SY2YKP5IlN+GZRifjRVv9AKbSE=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.132.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
 Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed80:76d0:2bff:fec8:549])
 	by xavier.telenet-ops.be with bizsmtp
-	id 6Edu2C0060SSLxL01EduRh; Tue, 02 Apr 2024 16:37:54 +0200
+	id 6EkJ2C00K0SSLxL01EkJcs; Tue, 02 Apr 2024 16:44:20 +0200
 Received: from rox.of.borg ([192.168.97.57])
 	by ramsan.of.borg with esmtp (Exim 4.95)
 	(envelope-from <geert@linux-m68k.org>)
-	id 1rrfGQ-00GBit-Q4;
-	Tue, 02 Apr 2024 16:37:54 +0200
+	id 1rrfMc-00GCjI-TF;
+	Tue, 02 Apr 2024 16:44:18 +0200
 Received: from geert by rox.of.borg with local (Exim 4.95)
 	(envelope-from <geert@linux-m68k.org>)
-	id 1rrfGs-009rSU-4G;
-	Tue, 02 Apr 2024 16:37:54 +0200
+	id 1rrfN4-009rU3-7N;
+	Tue, 02 Apr 2024 16:44:18 +0200
 From: Geert Uytterhoeven <geert+renesas@glider.be>
-To: Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>
+To: Magnus Damm <magnus.damm@gmail.com>
 Cc: linux-renesas-soc@vger.kernel.org,
-	linux-clk@vger.kernel.org,
-	Thanh Quan <thanh.quan.xn@renesas.com>,
+	linux-arm-kernel@lists.infradead.org,
 	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH] clk: renesas: r8a779h0: Add timer clocks
-Date: Tue,  2 Apr 2024 16:37:52 +0200
-Message-Id: <79a66e8ff84378d7f65d5f55cfb01b9b745edd12.1712068639.git.geert+renesas@glider.be>
+Subject: [PATCH 0/2] arm64: dts: renesas: r8a779h0: Add CMT and TMU timer nodes
+Date: Tue,  2 Apr 2024 16:44:15 +0200
+Message-Id: <cover.1712068688.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
@@ -59,44 +57,40 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Thanh Quan <thanh.quan.xn@renesas.com>
+	Hi all,
 
-Add the module clocks used by Timer (CMT/TMU) blocks on the Renesas
-R-Car V4M (R8A779H0) SoC.
+This patch series adds device nodes for the Compare Match Timer Type0
+(CMT0) and Type1 (CMT1/2/3), and for the Timer Units (TMU) on the R-Car
+V4M (R8A779H0) SoC.  As usual, these device nodes are disabled by
+default, but can be enabled in a board DTS file when deemed necessary.
 
-Signed-off-by: Thanh Quan <thanh.quan.xn@renesas.com>
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
-To be queued in renesas-clk for v6.10.
+All instances have been tested successfully using [1] on the Renesas
+Gray Hawk Single development board.
 
-Changes compared to the BSP:
-  - Use TABs instead of spaces.
----
- drivers/clk/renesas/r8a779h0-cpg-mssr.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+I plan to queue this in renesas-devel for v6.10.
 
-diff --git a/drivers/clk/renesas/r8a779h0-cpg-mssr.c b/drivers/clk/renesas/r8a779h0-cpg-mssr.c
-index 4bc35bc912547f07..a7d272285db04490 100644
---- a/drivers/clk/renesas/r8a779h0-cpg-mssr.c
-+++ b/drivers/clk/renesas/r8a779h0-cpg-mssr.c
-@@ -192,7 +192,16 @@ static const struct mssr_mod_clk r8a779h0_mod_clks[] = {
- 	DEF_MOD("sdhi0",	706,	R8A779H0_CLK_SD0),
- 	DEF_MOD("sydm1",	709,	R8A779H0_CLK_S0D6_PER),
- 	DEF_MOD("sydm2",	710,	R8A779H0_CLK_S0D6_PER),
-+	DEF_MOD("tmu0",		713,	R8A779H0_CLK_SASYNCRT),
-+	DEF_MOD("tmu1",		714,	R8A779H0_CLK_SASYNCPERD2),
-+	DEF_MOD("tmu2",		715,	R8A779H0_CLK_SASYNCPERD2),
-+	DEF_MOD("tmu3",		716,	R8A779H0_CLK_SASYNCPERD2),
-+	DEF_MOD("tmu4",		717,	R8A779H0_CLK_SASYNCPERD2),
- 	DEF_MOD("wdt1:wdt0",	907,	R8A779H0_CLK_R),
-+	DEF_MOD("cmt0",		910,	R8A779H0_CLK_R),
-+	DEF_MOD("cmt1",		911,	R8A779H0_CLK_R),
-+	DEF_MOD("cmt2",		912,	R8A779H0_CLK_R),
-+	DEF_MOD("cmt3",		913,	R8A779H0_CLK_R),
- 	DEF_MOD("pfc0",		915,	R8A779H0_CLK_CP),
- 	DEF_MOD("pfc1",		916,	R8A779H0_CLK_CP),
- 	DEF_MOD("pfc2",		917,	R8A779H0_CLK_CP),
+Thanks for your comments!
+
+[1] https://elinux.org/R-Car/Tests:timers
+
+Thanh Quan (2):
+  arm64: dts: renesas: r8a779h0: Add CMT nodes
+  arm64: dts: renesas: r8a779h0: Add TMU nodes
+
+ arch/arm64/boot/dts/renesas/r8a779h0.dtsi | 144 ++++++++++++++++++++++
+ 1 file changed, 144 insertions(+)
+
 -- 
 2.34.1
 
+Gr{oetje,eeting}s,
+
+						Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+							    -- Linus Torvalds
 
