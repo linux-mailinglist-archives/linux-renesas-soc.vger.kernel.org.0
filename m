@@ -1,120 +1,176 @@
-Return-Path: <linux-renesas-soc+bounces-4197-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-4198-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5EDD3894C75
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Apr 2024 09:15:53 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FD9D894CF4
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Apr 2024 09:53:30 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1DCE11F22F83
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Apr 2024 07:15:53 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id B61ADB21C7D
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Apr 2024 07:53:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3F2793839A;
-	Tue,  2 Apr 2024 07:14:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1EFE93D0D9;
+	Tue,  2 Apr 2024 07:53:26 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com [209.85.128.181])
+Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com [209.85.128.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B305F383BD;
-	Tue,  2 Apr 2024 07:14:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 260EC2BD1C;
+	Tue,  2 Apr 2024 07:53:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712042089; cv=none; b=mtPPx3SaVt4Y6X7q3qrwMBKTTQRbVwKu0xpQ+gHJ96U9Hbqo1FqDTgZp4YGhfhvV4W/BxGP/MfvLB6DtTVTza97NBQB12oM1tCBQfO0zUqFUUYyAfC5tPJ3cdNW88gIel5RFzg+/rrSkRnwDoApGY6iW/a/pZT5ZMP+fOV7XIf8=
+	t=1712044406; cv=none; b=ioIqcC5OOxx2AYJW5aZnnniyZjPDlOthjMsCarGXGaFEdr161QDazevBBBGr11YZl28MRzCzp722yC/gj98+/++dHRgK09KKx7wxDSuYmv9qHHwXmQ1/UpXMpdySMO5xeWJyYJzDph1fuBbORlG6wdMRdET/btBIvAOIsFsiKys=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712042089; c=relaxed/simple;
-	bh=cm2IXDO6qSfwbvRvc9+A/B6vpxXLEBNyOHOQBqCAyio=;
+	s=arc-20240116; t=1712044406; c=relaxed/simple;
+	bh=T/1svwn7eYG5hqU4ksuONqBd8LRcPSNa45Gwide7yRY=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=sVAQW+hg8IvroTAJiPy8yq2TQHWMIo+zdN3I8gD/obe/PW+6abuwo30zI4sCV3kpvZhLqc2gyH4yjVRSn3bAKZ9vzVf32pkbvodTZm5o8PR/Ec3VBzUqVa4Ql7D+mVJBTW1Z5Yvw8EGII8uJL1MlPGUxZolS/YJCRyiDCBoNRiw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.181
+	 To:Cc:Content-Type; b=VimWtUxI8L5t5VTtq3xL6H8stJfB4+oNA559meSBickkqUme/nwmTga4mWY48sb6D5MkenreVuAIKSrFlpaaU4B2k5flhjNeOS0bO9At1l58J0Tftw/KLq2hGWFTm2CD9EiGU+iA/na99bcfacB/iwWPCbfLp3k7XYdctb4jDTw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.178
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-61500da846fso9894297b3.1;
-        Tue, 02 Apr 2024 00:14:46 -0700 (PDT)
+Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-615053a5252so9283557b3.1;
+        Tue, 02 Apr 2024 00:53:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712042085; x=1712646885;
+        d=1e100.net; s=20230601; t=1712044402; x=1712649202;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=G19hJVrvL8VDG3HrXUGOF5A8X8SNUBri2kW6IcrjmTI=;
-        b=KrSIe4Ijy79/lhAb6TmlQ3r/U/oOOUxXspIkRhpZ6h3e0hWbUl1uIkpHfINoenwZDa
-         Ygk1vlQaxjrBkV3dveBPqlxYgpISEBhXxRN0jAlyiHz37NxspEcPMM+KAhqvQsR2RqQH
-         Xd2FXp4hgACa1mPxK83E0NmCDwB5t9cpAeZ7w1Bq4X4iIpYK/Z5KmWfEMYxn1k9foTwt
-         TQoTtPRonVJl+YcruXYLci7Io8JN2bw0wrRQOup/Y3pTqZFreK4ZA2ZyAQWCh8tGzc4W
-         18nOCgucQxm3mAKnjmtQjc7lpi5p5QNqSmKHLRhNXJi2c2ryFVQCh2zXH1xAu6Yjq0zQ
-         +Xyw==
-X-Forwarded-Encrypted: i=1; AJvYcCVsX6FGiwqeh/MptSY7aGpN92GTP94cTxV9NTuhcvrK0yJyo6Eu1a5Qp1l2Ba8FnZc0Qwn74Gk5MUho27dp/m3omj+7kiHSE7QN5P7PyZZ0w+BGL8ZchhtDyXhyTsVPP52h8thODxcV+vuyIfMBM+KNxxn6L4hUGzGiiDKtr/bHc58TJMLajYYq6w5c
-X-Gm-Message-State: AOJu0Yx4Q6UUYPyb+sGG9KW2zaj8N8+KIp24gYzS/R5D9Wl3yjSAAhII
-	gXVhN5v8zq5ld3iVROev4HYtKvx0btAQ+HEmJBXYjcHkCBRGubzvMKGmZeOjGjw=
-X-Google-Smtp-Source: AGHT+IFgjSSJFvmi7IwRSfACPTt7iexRTlplZ00MKEceQJOldGaulskeNF5h2SkwE4QLyMaA5xsTmg==
-X-Received: by 2002:a81:dc09:0:b0:614:42b1:edd8 with SMTP id h9-20020a81dc09000000b0061442b1edd8mr10209366ywj.2.1712042085361;
-        Tue, 02 Apr 2024 00:14:45 -0700 (PDT)
-Received: from mail-yb1-f172.google.com (mail-yb1-f172.google.com. [209.85.219.172])
-        by smtp.gmail.com with ESMTPSA id s24-20020a814518000000b006150e117af2sm447968ywa.110.2024.04.02.00.14.44
+        bh=gWg+1fJyGKdFnvbvo2K9KM6G1mX2sB/eUJxrYUhr8+M=;
+        b=lyzA/WPs29wecl7rtP///SP3XxLjtRGnSmCmGCHWvfJmD4B6WZqDuc30KmvpEAdwnG
+         QVuoxCWgFEp//aobhDETaiBMCihO2xGSkU0SQS+uiYdc+b5bntiXcsFGY7P8aPUil8LT
+         hMvhlVlQRlQaqWRhvDo1O6tG3MWsuJsTrWBYKnddPCEFznd7LaGcVY1usrpmzhHoYWwJ
+         OCQGStb7dl7Nalk4NzenhXD8isfpqbsaoYsfC3wqxpVYi5dUCTjIFHDMlTqVlDIfOhrg
+         +BDDNofYywO8sHtl5elz0GpLD6kmkvLTxRS++30xViTW6xCsTncAWMn/z0hPSK92eGpv
+         kD5A==
+X-Forwarded-Encrypted: i=1; AJvYcCUGsJrrjJUzXIYya5v8ldXN8UHQtVSQyE7p0cyBVAnsbm9n/l7KiCKm+RfMEGF82xb5HX8pwI/iKX9KWIbF5LFbAgGEL4HdPVowm1BRNqb3aE/1PLbuwhVzIYzwQahub1sc1DPgJrMzNXOL/R4oJe07+Bq9uxdnc5BrHIYHCsBVuia83MwQGYu3
+X-Gm-Message-State: AOJu0YzVZWWvL8ETacimt2CUzh9L0lWGEj27xpOoeZsrzFSQArx6xr9Z
+	ojOgPCyrwEGj+qw2mFMxL1ZfPdSnxDnPHjZN+MSJwXNGnPCqDaHA3+DpCJJMTkQ=
+X-Google-Smtp-Source: AGHT+IE3jX1O5Ths7Fmq/ceI6z1EN/gU6/eW0Z5lwmGz3k8CQNRR3OUcsOXiDRSX3GpSvdNwJnqigA==
+X-Received: by 2002:a81:8d4c:0:b0:611:9a26:429f with SMTP id w12-20020a818d4c000000b006119a26429fmr9101903ywj.10.1712044401893;
+        Tue, 02 Apr 2024 00:53:21 -0700 (PDT)
+Received: from mail-yb1-f181.google.com (mail-yb1-f181.google.com. [209.85.219.181])
+        by smtp.gmail.com with ESMTPSA id r194-20020a819acb000000b0060a0cd01a8fsm2670093ywg.89.2024.04.02.00.53.21
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 02 Apr 2024 00:14:44 -0700 (PDT)
-Received: by mail-yb1-f172.google.com with SMTP id 3f1490d57ef6-dccb1421bdeso4185621276.1;
-        Tue, 02 Apr 2024 00:14:44 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVBuHqyMqZFw5GqwrdTVNeCCWe0zKJI+eYkdHtEL9weajQ9z5B79B4X7ue3Kq6NE7YbmaPCmNw7QQZZc3cGNxO4Wj8Nj7VRD5bCONFws9EEDMikIDmkgT/8hqiE1GHACczEZinEIj4s+KqSgUOtLPGXAH8E9tQUZIl2I2chyUnzjFU02Qiaip/tPRyf
-X-Received: by 2002:a25:9a05:0:b0:dcc:9e88:b15 with SMTP id
- x5-20020a259a05000000b00dcc9e880b15mr9851953ybn.41.1712042084265; Tue, 02 Apr
- 2024 00:14:44 -0700 (PDT)
+        Tue, 02 Apr 2024 00:53:21 -0700 (PDT)
+Received: by mail-yb1-f181.google.com with SMTP id 3f1490d57ef6-dbed179f0faso3779559276.1;
+        Tue, 02 Apr 2024 00:53:21 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUbQboyraP8p94A/x7ehONsM7rb7RAtIQs/F1nmkrGUH3NFJhTW7cY6aZwmNWzGjn6+gX61kL84WmxCdJlB4IOrbesrsDjBPV/gyM69XDt0l26UaEHC1yiuY5YQAcR9DHwNN+rituid2Fq27ICeYaVdNFmbE5LPd5QQERfWIlbkIdUxdY5LcaD1
+X-Received: by 2002:a5b:589:0:b0:dcc:5b7e:ddfe with SMTP id
+ l9-20020a5b0589000000b00dcc5b7eddfemr7810300ybp.4.1712044401276; Tue, 02 Apr
+ 2024 00:53:21 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <137c184267faacdc3024f0b88e53889571165a84.1711715780.git.geert+renesas@glider.be>
- <4ef1eb4e-b1f8-4b5c-9280-5834f946fcde@linaro.org>
-In-Reply-To: <4ef1eb4e-b1f8-4b5c-9280-5834f946fcde@linaro.org>
+References: <20240401023942.134704-1-yoshihiro.shimoda.uh@renesas.com> <20240401023942.134704-7-yoshihiro.shimoda.uh@renesas.com>
+In-Reply-To: <20240401023942.134704-7-yoshihiro.shimoda.uh@renesas.com>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 2 Apr 2024 09:14:32 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdW7HNsHqoE5eNyXcc6JJ6MxcpRFXQ6z4ECd-ANEY8xrgQ@mail.gmail.com>
-Message-ID: <CAMuHMdW7HNsHqoE5eNyXcc6JJ6MxcpRFXQ6z4ECd-ANEY8xrgQ@mail.gmail.com>
-Subject: Re: [PATCH] dt-bindings: timer: renesas,tmu: Make interrupt-names required
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: Daniel Lezcano <daniel.lezcano@linaro.org>, Thomas Gleixner <tglx@linutronix.de>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
-	Conor Dooley <conor+dt@kernel.org>, 
-	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
-	linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
+Date: Tue, 2 Apr 2024 09:53:09 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdXCsye4kEP4=1rYNx97VpXHjjNg9BFawnUBADfL2ADQTw@mail.gmail.com>
+Message-ID: <CAMuHMdXCsye4kEP4=1rYNx97VpXHjjNg9BFawnUBADfL2ADQTw@mail.gmail.com>
+Subject: Re: [PATCH v3 6/7] PCI: dwc: rcar-gen4: Add support for r8a779g0
+To: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc: lpieralisi@kernel.org, kw@linux.com, robh@kernel.org, bhelgaas@google.com, 
+	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, jingoohan1@gmail.com, 
+	mani@kernel.org, marek.vasut+renesas@gmail.com, linux-pci@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Krzysztof,
+Hi Shimoda-san,
 
-On Fri, Mar 29, 2024 at 6:42=E2=80=AFPM Krzysztof Kozlowski
-<krzysztof.kozlowski@linaro.org> wrote:
-> On 29/03/2024 13:37, Geert Uytterhoeven wrote:
-> > Now all in-tree users have been updated with interrupt-names properties
-> > according to commit 0076a37a426b6c85 ("dt-bindings: timer: renesas,tmu:
-> > Document input capture interrupt"), make interrupt-names required.
+On Mon, Apr 1, 2024 at 4:40=E2=80=AFAM Yoshihiro Shimoda
+<yoshihiro.shimoda.uh@renesas.com> wrote:
+> This driver previously supported r8a779f0 (R-Car S4-8). Add support
+> for r8a779g0 (R-Car V4H).
 >
-> Would be nice to see here *why* they should be required, e.g. "Linux
-> driver needs them since commit foobar").
-
-The driver doesn't use the names, nor the optional input capture
-interrupt yet.
-
-This is just part of the continuous improvement of Very Old and Immature
-DT Bindings, dating back to the days when most animals could still talk,
-and before DT became self-aware.
-
-I could add that (or something simpler ;-) for v2, but as the reason
-is basically the "for clarity" in the linked commit....
-
-> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> > ---
-> >  Documentation/devicetree/bindings/timer/renesas,tmu.yaml | 1 +
-> >  1 file changed, 1 insertion(+)
+> To support r8a779g0, it requires specific firmware.
 >
-> Anyway:
->
-> Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 
-Thanks!
+Thanks for your patch!
+
+> --- a/drivers/pci/controller/dwc/pcie-rcar-gen4.c
+> +++ b/drivers/pci/controller/dwc/pcie-rcar-gen4.c
+
+> +static int rcar_gen4_pcie_update_phy_firmware(struct rcar_gen4_pcie *rca=
+r)
+> +{
+> +       const u32 check_addr[] =3D { 0x00101018, 0x00101118, 0x00101021, =
+0x00101121};
+> +       struct dw_pcie *dw =3D &rcar->dw;
+> +       const struct firmware *fw;
+> +       unsigned int i, timeout;
+> +       u32 data;
+> +       int ret;
+> +
+> +       ret =3D request_firmware(&fw, RCAR_GEN4_PCIE_FIRMWARE_NAME, dw->d=
+ev);
+> +       if (ret) {
+> +               dev_err(dw->dev, "%s: Requesting firmware failed\n", __fu=
+nc__);
+> +               return ret;
+> +       }
+> +
+> +       for (i =3D 0; i < (fw->size / 2); i++) {
+> +               data =3D fw->data[i * 2] | fw->data[(i * 2) + 1] << 8;
+> +               timeout =3D 100;
+> +retry_data:
+> +               dw_pcie_writel_dbi(dw, PRTLGC89, RCAR_GEN4_PCIE_FIRMWARE_=
+BASE_ADDR + i);
+> +               dw_pcie_writel_dbi(dw, PRTLGC90, data);
+> +               if (rcar_gen4_pcie_reg_check_bit(rcar, PRTLGC89, BIT(30))=
+ < 0) {
+
+If you would invert the logic here, you could "break" here, ...
+
+> +                       if (!(--timeout)) {
+> +                               ret =3D -ETIMEDOUT;
+> +                               goto exit;
+> +                       }
+> +                       usleep_range(100, 200);
+> +                       goto retry_data;
+
+... and convert "retry_data: ... goto retry_data" into "do { ... } while (1=
+)",
+avoiding the goto.
+
+> +               }
+> +       }
+> +
+> +       rcar_gen4_pcie_phy_reg_update_bits(rcar, RCAR_GEN4_PCIE_PHY_0f8, =
+BIT(17), BIT(17));
+> +
+> +       for (i =3D 0; i < ARRAY_SIZE(check_addr); i++) {
+> +               timeout =3D 100;
+> +retry_check:
+> +               dw_pcie_writel_dbi(dw, PRTLGC89, check_addr[i]);
+> +               ret =3D rcar_gen4_pcie_reg_check_bit(rcar, PRTLGC89, BIT(=
+30));
+> +               ret |=3D rcar_gen4_pcie_reg_check_bit(rcar, PRTLGC90, BIT=
+(0));
+> +               if (ret < 0) {
+> +                       if (!(--timeout)) {
+> +                               ret =3D -ETIMEDOUT;
+> +                               goto exit;
+> +                       }
+> +                       usleep_range(100, 200);
+> +                       goto retry_check;
+
+Likewise.
+
+> +               }
+> +       }
+> +
+> +       ret =3D 0;
+> +exit:
+> +       release_firmware(fw);
+> +
+> +       return ret;
+> +}
 
 Gr{oetje,eeting}s,
 
