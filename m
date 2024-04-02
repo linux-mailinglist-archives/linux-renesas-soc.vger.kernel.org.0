@@ -1,155 +1,136 @@
-Return-Path: <linux-renesas-soc+bounces-4214-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-4215-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FAD78955A7
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Apr 2024 15:44:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D94EA8955BD
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Apr 2024 15:50:19 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E97792835A6
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Apr 2024 13:44:25 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 142512834C6
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Apr 2024 13:50:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0480184FC5;
-	Tue,  2 Apr 2024 13:43:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BD5568405D;
+	Tue,  2 Apr 2024 13:50:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="WiBOleVC"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com [209.85.128.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05ED883CD8;
-	Tue,  2 Apr 2024 13:43:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 512D15D47A;
+	Tue,  2 Apr 2024 13:50:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.32.30.218
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712065399; cv=none; b=TD27JDC956vEKAYx0CAHVLnsp/WyRpRlRSLlQpZJasuDZKrH0welxuGv+ISx2NK80sYSO9dyJGgUXaCQ7PZQ+FyxnVxd7NO1ARigdshBT9zSz1qtp2u01U+utu70diS+kT/gF8JOqCDP1JbSNaLAAYTYvwDegy8JNgbSFD4zXdk=
+	t=1712065813; cv=none; b=Ot+BlLdtbmlCBtbEHhlmU07sz5pYSvo/QMUzjoILJwT0lUY94Bab8xb9T6BFcWusLDsNZqJJLLqBQUz0vsB89PDEuOG8rL/lmLQMnnbUvT3Vui7ce4JSLsMWKfm1OwIEdttvWGoTZedpqhuaKpRSjdFPjqNZeaVyr84JbZDPWWw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712065399; c=relaxed/simple;
-	bh=Bgs/DM8+2fxPQwsVMUWClMrsmnaC2kMFq4hy3uSBZrI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=eXue29yPOSLMDSoOT7s8hZkgvUOh4KB0KyyMc69/DClTdjxgiDYfGlgwK5+brS0smBZtbWx17gM6y6LpiRWBa6ehQKx/Rf2EuT5YiIp3vPfb6M+ZN3LQlJPgVTszrjzg6VrRZfW+KilTETS/8wPkJa91dTBj8YVxUo5wrkwroPE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-61149e50602so35429347b3.0;
-        Tue, 02 Apr 2024 06:43:17 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712065394; x=1712670194;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=UtPJLQoZZ3Deaa6exFS7kU96LFRYdL8NjqNyc0/RmVs=;
-        b=ZkrIDG81VslIeVKi6afJ7JPLA8EfhT9iNyW8k7l1BEWlFRM+pSq29/iA9sCf2q92Ja
-         Te0cD4PN0uXqzEze+lnAWHrMF/TuN0D1bGCu9VcwaX+RoLMVzJmF3XEhK2IIVz2WEvut
-         UJ8KS4E27zdDMRVpggPnd4bY+pdZ3HFmwRr7R8iKLLyg4Tj6/4ZyDnsWax5kGXaCK8yN
-         WrgQWp+C8q7k2Ynabi2BZ+M9Lv3vsQs4gP39dJSvez/CvGTKojq1iCdHI+8G0QHfmzGI
-         Fs5Cu/va1kAWa/I282KjfsBmjFWKJZinrofXbJXrXtkdT5pPoQomfGzJcqANr1sJENy6
-         OPDw==
-X-Forwarded-Encrypted: i=1; AJvYcCVGOlQcs4Lb7ZQmL7bYpRDeVPc1Es+n03N0edztksin8nWu8W+Daero512gaTOSHhXs9cTmFsbknjUqHUPzfJ+CU5zlr8yGyuxypX7fkIZurJhHbXVKHWbUqPzi4jUCfpd5zM06WtIG1ufA8IpDGoTVGxLClZh6aNEMyodIiSjAqvMrXGqBs4ohOypRascpss498BSg9JoQfMfa8wxZ9CoieZsj
-X-Gm-Message-State: AOJu0YyixYCOFyhwcgriyDRUxJxWpeMtXX+5qoeOnBvx8s16KG6ZQc1d
-	i0CECu0JCNBTQ8BKkXEHI4nP0mgAuATTLd3h7dzDKECnxavgA1/LbsrNQMlgHNQ=
-X-Google-Smtp-Source: AGHT+IHs7HQdkY8u5xVfbQ5/IepyjmnrVrVR9viLtZdzS/XlLXuLS6uhVpg7tnGgU+C/daoCsHcxYg==
-X-Received: by 2002:a0d:db10:0:b0:615:e10:691c with SMTP id d16-20020a0ddb10000000b006150e10691cmr2417254ywe.1.1712065394296;
-        Tue, 02 Apr 2024 06:43:14 -0700 (PDT)
-Received: from mail-yb1-f174.google.com (mail-yb1-f174.google.com. [209.85.219.174])
-        by smtp.gmail.com with ESMTPSA id d4-20020a81e904000000b00609f4170662sm2772263ywm.54.2024.04.02.06.43.12
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 02 Apr 2024 06:43:13 -0700 (PDT)
-Received: by mail-yb1-f174.google.com with SMTP id 3f1490d57ef6-dc6cbe1ac75so3772485276.1;
-        Tue, 02 Apr 2024 06:43:12 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCU/ocIvbr8wVVPIagQurji9Gh5t1yNbzXnvBunKKPQb8WuKSyd3iFbw/lM4N+BUAJ+TMaBgbalESki8vcTh8Rk1Em1IxPW/Al58vWOQryHky58xLgR2n5vwJS3ASgUmNv3M0W8hSw39HxpIaw5Sbj5ZRf6E9UoDVAWwmV/2RrxKP89zhY/Mgitsla49swAswY7ub0NHEjY3TPVE+PafhRsDCiP9
-X-Received: by 2002:a25:f912:0:b0:dc7:494e:ff33 with SMTP id
- q18-20020a25f912000000b00dc7494eff33mr7752167ybe.7.1712065392498; Tue, 02 Apr
- 2024 06:43:12 -0700 (PDT)
+	s=arc-20240116; t=1712065813; c=relaxed/simple;
+	bh=GSsExJ2Cweiqv3U9XKAHuGsEXUUvZAgvUg0YJmbTYl0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=e4UklczkKTqPvBH5EOoerj1+2aVOSri7IPMZ9H0Q9f7i0Zs3vHp/1QeWb8o9jbMsPuKbpuih8v5caiGL8SDC+O+jmLMDztwsxpyffYMkc230Var9T9HrfMi+UveHMWDk+Rv/tPYHX7x7bt9WfP87/VKUF66XUNPqipRYv0rxsf8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk; spf=none smtp.mailfrom=armlinux.org.uk; dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b=WiBOleVC; arc=none smtp.client-ip=78.32.30.218
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=armlinux.org.uk
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=GbhkBxn+Q4MglL3Lf04y1O0cOhqs2SZS9H0XUJs9VK0=; b=WiBOleVCJwBRPqHpBXE8Ef/U+G
+	OXNriYeqoB6MRc7eicL0W9EYhGR5ajRr5dPJ3uNYPlNNIbBC0HxhOjk7DX+2wrYxTMNRua2n+Ouyd
+	DcF7rtkkHvFur+rvqAyiGx3S/0gqFEQDFnWt/53GQX4zgJY1vfLs/j7thO2twHL23gXVKutcSLr+t
+	NeyTrxfYKNeV1LKFgJ6lvMdTakw5Id9g+QsR+G9BFveVUS00EP3jajyAUvlglUWEbHpm7lDgYooWA
+	4eTco3FzRs32jC95CiPlQWcfUG6OgLsQ8riL7aDKCl/kqEz3RxVb1iYaSkQowHA0A5pYpDU9hP4uD
+	ELWzNoKg==;
+Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:37898)
+	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <linux@armlinux.org.uk>)
+	id 1rreWN-0006no-2a;
+	Tue, 02 Apr 2024 14:49:51 +0100
+Received: from linux by shell.armlinux.org.uk with local (Exim 4.94.2)
+	(envelope-from <linux@shell.armlinux.org.uk>)
+	id 1rreWK-00070E-DE; Tue, 02 Apr 2024 14:49:48 +0100
+Date: Tue, 2 Apr 2024 14:49:48 +0100
+From: "Russell King (Oracle)" <linux@armlinux.org.uk>
+To: Romain Gantois <romain.gantois@bootlin.com>
+Cc: "David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Jose Abreu <joabreu@synopsys.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	=?iso-8859-1?Q?Cl=E9ment_L=E9ger?= <clement.leger@bootlin.com>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	netdev@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH net-next 2/3] net: stmmac: add support for RZ/N1 GMAC
+Message-ID: <ZgwM/FIKTuN4vkQA@shell.armlinux.org.uk>
+References: <20240402-rzn1-gmac1-v1-0-5be2b2894d8c@bootlin.com>
+ <20240402-rzn1-gmac1-v1-2-5be2b2894d8c@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240402-rzn1-gmac1-v1-0-5be2b2894d8c@bootlin.com> <20240402-rzn1-gmac1-v1-1-5be2b2894d8c@bootlin.com>
-In-Reply-To: <20240402-rzn1-gmac1-v1-1-5be2b2894d8c@bootlin.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 2 Apr 2024 15:43:00 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdW=Hbv8Qiyf=Ot_kHTbfPo0yk+NkutS80uC6cuAWYMsyg@mail.gmail.com>
-Message-ID: <CAMuHMdW=Hbv8Qiyf=Ot_kHTbfPo0yk+NkutS80uC6cuAWYMsyg@mail.gmail.com>
-Subject: Re: [PATCH net-next 1/3] dt-bindings: net: renesas,rzn1-gmac:
- Document RZ/N1 GMAC support
-To: Romain Gantois <romain.gantois@bootlin.com>
-Cc: "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
-	Alexandre Torgue <alexandre.torgue@foss.st.com>, Jose Abreu <joabreu@synopsys.com>, 
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Russell King <linux@armlinux.org.uk>, 
-	=?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <clement.leger@bootlin.com>, 
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>, netdev@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
-	linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240402-rzn1-gmac1-v1-2-5be2b2894d8c@bootlin.com>
+Sender: Russell King (Oracle) <linux@armlinux.org.uk>
 
-Hi Romain,
-
-On Tue, Apr 2, 2024 at 2:36=E2=80=AFPM Romain Gantois
-<romain.gantois@bootlin.com> wrote:
-> From: Cl=C3=A9ment L=C3=A9ger <clement.leger@bootlin.com>
->
-> The RZ/N1 series of MPUs feature up to two Gigabit Ethernet controllers.
-> These controllers are based on Synopsys IPs. They can be connected to
-> RZ/N1 RGMII/RMII converters.
->
-> Add a binding that describes these GMAC devices.
->
-> Signed-off-by: "Cl=C3=A9ment L=C3=A9ger" <clement.leger@bootlin.com>
-> [rgantois: commit log]
-> Signed-off-by: Romain Gantois <romain.gantois@bootlin.com>
-
-Thanks for your patch!
-
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/net/renesas,rzn1-gmac.yaml
-
-> +examples:
-> +  - |
-> +    #include <dt-bindings/clock/r9a06g032-sysctrl.h>
-> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+On Tue, Apr 02, 2024 at 02:37:01PM +0200, Romain Gantois wrote:
+> +	ret = stmmac_dvr_probe(dev, plat_dat, &stmmac_res);
+> +	if (ret)
+> +		return ret;
 > +
-> +    ethernet@44000000 {
-> +      compatible =3D "renesas,r9a06g032-gmac", "renesas,rzn1-gmac", "snp=
-s,dwmac";
-> +      reg =3D <0x44000000 0x2000>;
-> +      interrupt-parent =3D <&gic>;
+> +	ndev = platform_get_drvdata(pdev);
+> +	priv = netdev_priv(ndev);
+> +
+> +	pcs_node = of_parse_phandle(np, "pcs-handle", 0);
+> +	if (pcs_node) {
+> +		pcs = miic_create(dev, pcs_node);
+> +		of_node_put(pcs_node);
+> +		if (IS_ERR(pcs))
+> +			return PTR_ERR(pcs);
+> +
+> +		priv->hw->phylink_pcs = pcs;
+> +	}
 
-There is no need to use interrupt-parent in examples.
+I'm afraid that this fails at one of the most basic principles of kernel
+multi-threaded programming. stmmac_dvr_probe() as part of its work calls
+register_netdev() which publishes to userspace the network device.
 
-> +      interrupts =3D <GIC_SPI 34 IRQ_TYPE_LEVEL_HIGH>,
-> +                   <GIC_SPI 36 IRQ_TYPE_LEVEL_HIGH>,
-> +                   <GIC_SPI 35 IRQ_TYPE_LEVEL_HIGH>;
-> +      interrupt-names =3D "macirq", "eth_wake_irq", "eth_lpi";
-> +      clock-names =3D "stmmaceth";
-> +      clocks =3D <&sysctrl R9A06G032_HCLK_GMAC0>;
+Everything that is required must be setup _prior_ to publication to
+userspace to avoid races, because as soon as the network device is
+published, userspace can decide to bring that interface up. If one
+hasn't finished the initialisation, the interface can be brought up
+before that initialisation is complete.
 
-If you want this to be a real example, you should add power-domains.
+I don't see anything obvious in the stmmac data structures that would
+allow you to hook in at an appropriate point before the
+register_netdev() but after the netdev has been created. The
+priv->hw data structure is created by stmmac_hwif_init()
 
-> +      snps,multicast-filter-bins =3D <256>;
-> +      snps,perfect-filter-entries =3D <128>;
-> +      tx-fifo-depth =3D <2048>;
-> +      rx-fifo-depth =3D <4096>;
-> +      pcs-handle =3D <&mii_conv1>;
-> +      phy-mode =3D "mii";
-> +    };
+I see that drivers/net/ethernet/stmicro/stmmac/dwmac-socfpga.c is also
+guilty of this as well, and should be fixed. It's even worse because it
+does a truck load of stuff after stmmac_dvr_probe() which it most
+definitely should not be doing.
 
-Gr{oetje,eeting}s,
+I definitely get the feeling that the structure of the stmmac driver
+is really getting out of hand, and is making stuff harder for people,
+and it's not improving over time - in fact, it's getting worse. It
+needs a *lot* of work to bring it back to a sane model.
 
-                        Geert
-
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+-- 
+RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
+FTTP is here! 80Mbps down 10Mbps up. Decent connectivity at last!
 
