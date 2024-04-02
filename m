@@ -1,142 +1,112 @@
-Return-Path: <linux-renesas-soc+bounces-4225-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-4226-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9D058958AC
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Apr 2024 17:49:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0AD68958D8
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Apr 2024 17:52:17 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 74B7828CF9B
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Apr 2024 15:49:27 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5A2D528D1E0
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Apr 2024 15:52:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EED41134436;
-	Tue,  2 Apr 2024 15:48:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="FQqTBehR"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 41DB9133406;
+	Tue,  2 Apr 2024 15:49:43 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mx01.omp.ru (mx01.omp.ru [90.154.21.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BA95131750;
-	Tue,  2 Apr 2024 15:48:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.32.30.218
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62DD084FCD;
+	Tue,  2 Apr 2024 15:49:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.154.21.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712072934; cv=none; b=SRjotZQ6sM5sO/VNp6wI5SwSKaNA75DxAR8uzUXk7UX/52EMm1nW+q4uq72Hg25JSSO6NlHzrNqk7pH0oNi4jRNKf3WyzpTfXfhMWgue38/AwBJOWP758J5ZnG3nKy8EhN/VSAOE8SKRZb2p4kZDeXOc6zHcN9QJ2iqVPeAuJMU=
+	t=1712072983; cv=none; b=BN6d5x/UWVN0etbBu+M0hB7YDIkl2jqQAASAQTLr74peCEJnJ2Ufx5oOWNNiABfJut9w4tvWq9kDlnPi9MkP2kJpEVNLZPHCno8CUTJFZ6XfawEVAJMwLlPRC5iWfwF82sY7X5KTl++FK0DI/JpagbthLxY1/B95aKWSjfOPqK0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712072934; c=relaxed/simple;
-	bh=4hsh6z4hzoQNuCF/0pfLMb4XQrEXD9zC4RSugsi3lFg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=g9kLnQnTxu3oJjme/r788fh49qEHkIJBasiSsvhaxYQ9pwd3JKOBrVlVPlpVe2fX/xtxtZfGngVRZxks/YoeC8CWnoB2ftC5oG+mXDLVJZLQJJ34gfG6isryeszByJCLXgCsq1Zh3Eje0a4ZWidDHVl1ErEBWQWfaxQgPwcix3o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk; spf=none smtp.mailfrom=armlinux.org.uk; dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b=FQqTBehR; arc=none smtp.client-ip=78.32.30.218
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=armlinux.org.uk
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=EdBhpic/RevODT/o5oeHWQea2/WXlB/Ee0DTXEd6PnU=; b=FQqTBehREw5dCF+UC9pcddFTa/
-	bELaN5lEzBQ2doym65Z3/tElDW/nhZzl7WuRJxNqh6vyRIHmXRe9ZEZ8z8u4Xp3xrWFfD4g+YFopU
-	ojhtdLVGPFJvGC5pn3dcRdSQcfDOoPVwm2saTZGZA0eaxQXVReM6agigWHrPbpFPEgEcm8oF6P2qw
-	qJiVxitO4dCFCjwA0DM+zY6l8mp767OvP6n/Koo/qrBssI710LCcCv9A1VhfDQ6x+trMsRxk5yElY
-	w21aFrVilwMC5+8YzG3V67Omhnc8wDej5YZnhboWZ0zSFsrKgMo6KkP3Tia3jwQG3iDYq2EFEEaJM
-	or4YPQAg==;
-Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:49276)
-	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <linux@armlinux.org.uk>)
-	id 1rrgNE-000709-0m;
-	Tue, 02 Apr 2024 16:48:32 +0100
-Received: from linux by shell.armlinux.org.uk with local (Exim 4.94.2)
-	(envelope-from <linux@shell.armlinux.org.uk>)
-	id 1rrgN9-00074C-2e; Tue, 02 Apr 2024 16:48:27 +0100
-Date: Tue, 2 Apr 2024 16:48:26 +0100
-From: "Russell King (Oracle)" <linux@armlinux.org.uk>
-To: Romain Gantois <romain.gantois@bootlin.com>
-Cc: "David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Jose Abreu <joabreu@synopsys.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	=?iso-8859-1?Q?Cl=E9ment_L=E9ger?= <clement.leger@bootlin.com>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	netdev@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH net-next 2/3] net: stmmac: add support for RZ/N1 GMAC
-Message-ID: <ZgwoygldsA1V8fs9@shell.armlinux.org.uk>
-References: <20240402-rzn1-gmac1-v1-0-5be2b2894d8c@bootlin.com>
- <20240402-rzn1-gmac1-v1-2-5be2b2894d8c@bootlin.com>
- <ZgwM/FIKTuN4vkQA@shell.armlinux.org.uk>
+	s=arc-20240116; t=1712072983; c=relaxed/simple;
+	bh=FJYZewC3JiU/OU07qKStsGisrJfxGdE9jk0n99BfMYA=;
+	h=Subject:To:CC:References:From:Message-ID:Date:MIME-Version:
+	 In-Reply-To:Content-Type; b=Vg1Jzb03CjeKcykEeGWjqDnkZVSm5EGLZPgUx3KMV0O5JcTBA8OYnSkW4n1X90gvliMjISrAM2G+1kmhZgzSe97Z7M/AMiW90wFXk8ckD4qmsWilg/a0DUvec3dGNI1Y9uCf+Zm5udlrbi/3XPSp8R6yoG67r32TlRVEIBA7XZg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=omp.ru; spf=pass smtp.mailfrom=omp.ru; arc=none smtp.client-ip=90.154.21.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=omp.ru
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=omp.ru
+Received: from [192.168.1.105] (31.173.87.46) by msexch01.omp.ru (10.188.4.12)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.1258.12; Tue, 2 Apr
+ 2024 18:49:24 +0300
+Subject: Re: [PATCH v2 1/2] net: ravb: Always process TX descriptor ring
+To: Paul Barker <paul.barker.ct@bp.renesas.com>, "David S. Miller"
+	<davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub Kicinski
+	<kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	=?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+CC: <netdev@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>
+References: <20240402145305.82148-1-paul.barker.ct@bp.renesas.com>
+From: Sergey Shtylyov <s.shtylyov@omp.ru>
+Organization: Open Mobile Platform
+Message-ID: <8ffd0c9a-0414-0828-54e6-3502c1991c96@omp.ru>
+Date: Tue, 2 Apr 2024 18:49:23 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZgwM/FIKTuN4vkQA@shell.armlinux.org.uk>
-Sender: Russell King (Oracle) <linux@armlinux.org.uk>
+In-Reply-To: <20240402145305.82148-1-paul.barker.ct@bp.renesas.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: msexch01.omp.ru (10.188.4.12) To msexch01.omp.ru
+ (10.188.4.12)
+X-KSE-ServerInfo: msexch01.omp.ru, 9
+X-KSE-AntiSpam-Interceptor-Info: scan successful
+X-KSE-AntiSpam-Version: 6.1.0, Database issued on: 04/02/2024 15:31:06
+X-KSE-AntiSpam-Status: KAS_STATUS_NOT_DETECTED
+X-KSE-AntiSpam-Method: none
+X-KSE-AntiSpam-Rate: 59
+X-KSE-AntiSpam-Info: Lua profiles 184540 [Apr 02 2024]
+X-KSE-AntiSpam-Info: Version: 6.1.0.4
+X-KSE-AntiSpam-Info: Envelope from: s.shtylyov@omp.ru
+X-KSE-AntiSpam-Info: LuaCore: 14 0.3.14
+ 5a0c43d8a1c3c0e5b0916cc02a90d4b950c01f96
+X-KSE-AntiSpam-Info: {rep_avail}
+X-KSE-AntiSpam-Info: {Tracking_from_domain_doesnt_match_to}
+X-KSE-AntiSpam-Info: {relay has no DNS name}
+X-KSE-AntiSpam-Info: {SMTP from is not routable}
+X-KSE-AntiSpam-Info: {Found in DNSBL: 31.173.87.46 in (user)
+ b.barracudacentral.org}
+X-KSE-AntiSpam-Info:
+	127.0.0.199:7.1.2;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;omp.ru:7.1.1
+X-KSE-AntiSpam-Info: ApMailHostAddress: 31.173.87.46
+X-KSE-AntiSpam-Info: {DNS response errors}
+X-KSE-AntiSpam-Info: Rate: 59
+X-KSE-AntiSpam-Info: Status: not_detected
+X-KSE-AntiSpam-Info: Method: none
+X-KSE-AntiSpam-Info: Auth:dmarc=temperror header.from=omp.ru;spf=temperror
+ smtp.mailfrom=omp.ru;dkim=none
+X-KSE-Antiphishing-Info: Clean
+X-KSE-Antiphishing-ScanningType: Heuristic
+X-KSE-Antiphishing-Method: None
+X-KSE-Antiphishing-Bases: 04/02/2024 15:34:00
+X-KSE-Antivirus-Interceptor-Info: scan successful
+X-KSE-Antivirus-Info: Clean, bases: 4/2/2024 12:55:00 PM
+X-KSE-Attachment-Filter-Triggered-Rules: Clean
+X-KSE-Attachment-Filter-Triggered-Filters: Clean
+X-KSE-BulkMessagesFiltering-Scan-Result: InTheLimit
 
-On Tue, Apr 02, 2024 at 02:49:48PM +0100, Russell King (Oracle) wrote:
-> On Tue, Apr 02, 2024 at 02:37:01PM +0200, Romain Gantois wrote:
-> > +	ret = stmmac_dvr_probe(dev, plat_dat, &stmmac_res);
-> > +	if (ret)
-> > +		return ret;
-> > +
-> > +	ndev = platform_get_drvdata(pdev);
-> > +	priv = netdev_priv(ndev);
-> > +
-> > +	pcs_node = of_parse_phandle(np, "pcs-handle", 0);
-> > +	if (pcs_node) {
-> > +		pcs = miic_create(dev, pcs_node);
-> > +		of_node_put(pcs_node);
-> > +		if (IS_ERR(pcs))
-> > +			return PTR_ERR(pcs);
-> > +
-> > +		priv->hw->phylink_pcs = pcs;
-> > +	}
-> 
-> I'm afraid that this fails at one of the most basic principles of kernel
-> multi-threaded programming. stmmac_dvr_probe() as part of its work calls
-> register_netdev() which publishes to userspace the network device.
-> 
-> Everything that is required must be setup _prior_ to publication to
-> userspace to avoid races, because as soon as the network device is
-> published, userspace can decide to bring that interface up. If one
-> hasn't finished the initialisation, the interface can be brought up
-> before that initialisation is complete.
-> 
-> I don't see anything obvious in the stmmac data structures that would
-> allow you to hook in at an appropriate point before the
-> register_netdev() but after the netdev has been created. The
-> priv->hw data structure is created by stmmac_hwif_init()
-> 
-> I see that drivers/net/ethernet/stmicro/stmmac/dwmac-socfpga.c is also
-> guilty of this as well, and should be fixed. It's even worse because it
-> does a truck load of stuff after stmmac_dvr_probe() which it most
-> definitely should not be doing.
-> 
-> I definitely get the feeling that the structure of the stmmac driver
-> is really getting out of hand, and is making stuff harder for people,
-> and it's not improving over time - in fact, it's getting worse. It
-> needs a *lot* of work to bring it back to a sane model.
+On 4/2/24 5:53 PM, Paul Barker wrote:
 
-I'm not going to say that the two patches threaded to this email are
-"sane" but at least it avoids the problem. socfpga still has issues
-with initialisation done after register_netdev() though.
+> The TX queue should be serviced each time the poll function is called,
+> even if the full RX work budget has been consumed. This prevents
+> starvation of the TX queue when RX bandwidth usage is high.
+> 
+> Fixes: c156633f1353 ("Renesas Ethernet AVB driver proper")
+> Signed-off-by: Paul Barker <paul.barker.ct@bp.renesas.com>
 
--- 
-RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
-FTTP is here! 80Mbps down 10Mbps up. Decent connectivity at last!
+Reviewed-by: Sergey Shtylyov <s.shtylyov@omp.ru>
+
+[...]
+
+MBR, Sergey
 
