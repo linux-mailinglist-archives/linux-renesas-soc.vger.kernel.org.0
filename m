@@ -1,189 +1,132 @@
-Return-Path: <linux-renesas-soc+bounces-4196-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-4197-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4AFC89380D
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  1 Apr 2024 07:10:07 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EDD3894C75
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Apr 2024 09:15:53 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E98072813E1
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  1 Apr 2024 05:10:05 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1DCE11F22F83
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Apr 2024 07:15:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6B58C2595;
-	Mon,  1 Apr 2024 05:10:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HtBE5iQC"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3F2793839A;
+	Tue,  2 Apr 2024 07:14:49 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com [209.85.128.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74D8B79F9
-	for <linux-renesas-soc@vger.kernel.org>; Mon,  1 Apr 2024 05:10:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B305F383BD;
+	Tue,  2 Apr 2024 07:14:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711948204; cv=none; b=CHjXiDxjuckqGviuYc0DXe1x/CZjl7DNgkZcDTHEVSdADpABtSSM0I3TTRhjoCjSSHEK2qlkwWk6j9llOf0Cg+IGKXm3/AjHd0oC1PmKUCZrPnDwKgAxrhGuLfnOAfQ37hWlyW/lrB77m8Q8j6ehtynP6wBgN2Fh/nvkYU3jYko=
+	t=1712042089; cv=none; b=mtPPx3SaVt4Y6X7q3qrwMBKTTQRbVwKu0xpQ+gHJ96U9Hbqo1FqDTgZp4YGhfhvV4W/BxGP/MfvLB6DtTVTza97NBQB12oM1tCBQfO0zUqFUUYyAfC5tPJ3cdNW88gIel5RFzg+/rrSkRnwDoApGY6iW/a/pZT5ZMP+fOV7XIf8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711948204; c=relaxed/simple;
-	bh=IshQTZ+tx1Lce/2Zh8rLSzzN5qImmLm1VEDUVNA4zS0=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=CnO2rg6B4aF8mUfkqpc0GMD5uZno/JJMRgv61CYvStgo7OeKVaH/9BlOfSiasSnLyDLpoAt5m35Zdjf4+viodVsR3KCsrk6Dcd0t0srJMb7XQJ3BxSEPJu+imU7yu2ABjYME5Tjq+olKx/csWOk2I2xj5N41IqFB9PoaxZK0T2w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HtBE5iQC; arc=none smtp.client-ip=198.175.65.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1711948203; x=1743484203;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=IshQTZ+tx1Lce/2Zh8rLSzzN5qImmLm1VEDUVNA4zS0=;
-  b=HtBE5iQCuljqb2bG5AVpsZQPJveheOQ1WHE0xYiTlWmx5VtghBEYV4t5
-   mBJJFXAj4tpiG/kf0YEaGVbtntimQqkJQUPvUTD5ejCwojF+kKMaU4CxZ
-   Mns5mE6mjQqcJc2vHGxwOdgxzd4uhpjCyYpREIRhvHWcX3CU5hFoK5QFw
-   MQfrl8u9pFTnn1+ezMNEvYURId8jhf35PTapnWDiGTNfIcPkyyLKTMXkw
-   YtyCmJhqi6pDbTmAK4hTq1V+txuZ+IvrATcDyFIQSs5oQiGzGZRGVlSiU
-   DwsginhnILiuZHiU+yvgKU3tXAGTsFtaOdVjS8lrArywfG5m26gWJEoNZ
-   Q==;
-X-CSE-ConnectionGUID: A4B0zSdlR4m4jLeLkqI0Nw==
-X-CSE-MsgGUID: 2Z/x3XNhRpGbnnQ1+EBEaw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11030"; a="7210218"
-X-IronPort-AV: E=Sophos;i="6.07,171,1708416000"; 
-   d="scan'208";a="7210218"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Mar 2024 22:10:02 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,171,1708416000"; 
-   d="scan'208";a="17999656"
-Received: from lkp-server02.sh.intel.com (HELO 90ee3aa53dbd) ([10.239.97.151])
-  by orviesa007.jf.intel.com with ESMTP; 31 Mar 2024 22:10:00 -0700
-Received: from kbuild by 90ee3aa53dbd with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rr9vi-000040-0r;
-	Mon, 01 Apr 2024 05:09:58 +0000
-Date: Mon, 1 Apr 2024 13:08:59 +0800
-From: kernel test robot <lkp@intel.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-renesas-soc@vger.kernel.org
-Subject: [geert-renesas-drivers:master 23/30]
- drivers/scsi/aic94xx/aic94xx_init.c:940:38: warning: tentative array
- definition assumed to have one element
-Message-ID: <202404011328.V44XQ9JX-lkp@intel.com>
+	s=arc-20240116; t=1712042089; c=relaxed/simple;
+	bh=cm2IXDO6qSfwbvRvc9+A/B6vpxXLEBNyOHOQBqCAyio=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=sVAQW+hg8IvroTAJiPy8yq2TQHWMIo+zdN3I8gD/obe/PW+6abuwo30zI4sCV3kpvZhLqc2gyH4yjVRSn3bAKZ9vzVf32pkbvodTZm5o8PR/Ec3VBzUqVa4Ql7D+mVJBTW1Z5Yvw8EGII8uJL1MlPGUxZolS/YJCRyiDCBoNRiw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-61500da846fso9894297b3.1;
+        Tue, 02 Apr 2024 00:14:46 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1712042085; x=1712646885;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=G19hJVrvL8VDG3HrXUGOF5A8X8SNUBri2kW6IcrjmTI=;
+        b=KrSIe4Ijy79/lhAb6TmlQ3r/U/oOOUxXspIkRhpZ6h3e0hWbUl1uIkpHfINoenwZDa
+         Ygk1vlQaxjrBkV3dveBPqlxYgpISEBhXxRN0jAlyiHz37NxspEcPMM+KAhqvQsR2RqQH
+         Xd2FXp4hgACa1mPxK83E0NmCDwB5t9cpAeZ7w1Bq4X4iIpYK/Z5KmWfEMYxn1k9foTwt
+         TQoTtPRonVJl+YcruXYLci7Io8JN2bw0wrRQOup/Y3pTqZFreK4ZA2ZyAQWCh8tGzc4W
+         18nOCgucQxm3mAKnjmtQjc7lpi5p5QNqSmKHLRhNXJi2c2ryFVQCh2zXH1xAu6Yjq0zQ
+         +Xyw==
+X-Forwarded-Encrypted: i=1; AJvYcCVsX6FGiwqeh/MptSY7aGpN92GTP94cTxV9NTuhcvrK0yJyo6Eu1a5Qp1l2Ba8FnZc0Qwn74Gk5MUho27dp/m3omj+7kiHSE7QN5P7PyZZ0w+BGL8ZchhtDyXhyTsVPP52h8thODxcV+vuyIfMBM+KNxxn6L4hUGzGiiDKtr/bHc58TJMLajYYq6w5c
+X-Gm-Message-State: AOJu0Yx4Q6UUYPyb+sGG9KW2zaj8N8+KIp24gYzS/R5D9Wl3yjSAAhII
+	gXVhN5v8zq5ld3iVROev4HYtKvx0btAQ+HEmJBXYjcHkCBRGubzvMKGmZeOjGjw=
+X-Google-Smtp-Source: AGHT+IFgjSSJFvmi7IwRSfACPTt7iexRTlplZ00MKEceQJOldGaulskeNF5h2SkwE4QLyMaA5xsTmg==
+X-Received: by 2002:a81:dc09:0:b0:614:42b1:edd8 with SMTP id h9-20020a81dc09000000b0061442b1edd8mr10209366ywj.2.1712042085361;
+        Tue, 02 Apr 2024 00:14:45 -0700 (PDT)
+Received: from mail-yb1-f172.google.com (mail-yb1-f172.google.com. [209.85.219.172])
+        by smtp.gmail.com with ESMTPSA id s24-20020a814518000000b006150e117af2sm447968ywa.110.2024.04.02.00.14.44
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 02 Apr 2024 00:14:44 -0700 (PDT)
+Received: by mail-yb1-f172.google.com with SMTP id 3f1490d57ef6-dccb1421bdeso4185621276.1;
+        Tue, 02 Apr 2024 00:14:44 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVBuHqyMqZFw5GqwrdTVNeCCWe0zKJI+eYkdHtEL9weajQ9z5B79B4X7ue3Kq6NE7YbmaPCmNw7QQZZc3cGNxO4Wj8Nj7VRD5bCONFws9EEDMikIDmkgT/8hqiE1GHACczEZinEIj4s+KqSgUOtLPGXAH8E9tQUZIl2I2chyUnzjFU02Qiaip/tPRyf
+X-Received: by 2002:a25:9a05:0:b0:dcc:9e88:b15 with SMTP id
+ x5-20020a259a05000000b00dcc9e880b15mr9851953ybn.41.1712042084265; Tue, 02 Apr
+ 2024 00:14:44 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <137c184267faacdc3024f0b88e53889571165a84.1711715780.git.geert+renesas@glider.be>
+ <4ef1eb4e-b1f8-4b5c-9280-5834f946fcde@linaro.org>
+In-Reply-To: <4ef1eb4e-b1f8-4b5c-9280-5834f946fcde@linaro.org>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 2 Apr 2024 09:14:32 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdW7HNsHqoE5eNyXcc6JJ6MxcpRFXQ6z4ECd-ANEY8xrgQ@mail.gmail.com>
+Message-ID: <CAMuHMdW7HNsHqoE5eNyXcc6JJ6MxcpRFXQ6z4ECd-ANEY8xrgQ@mail.gmail.com>
+Subject: Re: [PATCH] dt-bindings: timer: renesas,tmu: Make interrupt-names required
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Daniel Lezcano <daniel.lezcano@linaro.org>, Thomas Gleixner <tglx@linutronix.de>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+	Conor Dooley <conor+dt@kernel.org>, 
+	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
+	linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git master
-head:   5e36d764b5dfcddd54895d9b6dc392eaaba17d6a
-commit: 61d4f86ef0002b12ed52d2dc7a08c23b53798766 [23/30] Revert "scsi: libsas: Define NCQ Priority sysfs attributes for SATA devices"
-config: powerpc-allyesconfig (https://download.01.org/0day-ci/archive/20240401/202404011328.V44XQ9JX-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 23de3862dce582ce91c1aa914467d982cb1a73b4)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240401/202404011328.V44XQ9JX-lkp@intel.com/reproduce)
+Hi Krzysztof,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404011328.V44XQ9JX-lkp@intel.com/
+On Fri, Mar 29, 2024 at 6:42=E2=80=AFPM Krzysztof Kozlowski
+<krzysztof.kozlowski@linaro.org> wrote:
+> On 29/03/2024 13:37, Geert Uytterhoeven wrote:
+> > Now all in-tree users have been updated with interrupt-names properties
+> > according to commit 0076a37a426b6c85 ("dt-bindings: timer: renesas,tmu:
+> > Document input capture interrupt"), make interrupt-names required.
+>
+> Would be nice to see here *why* they should be required, e.g. "Linux
+> driver needs them since commit foobar").
 
-All warnings (new ones prefixed by >>):
+The driver doesn't use the names, nor the optional input capture
+interrupt yet.
 
-   In file included from drivers/scsi/aic94xx/aic94xx_init.c:12:
-   In file included from include/linux/pci.h:38:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/powerpc/include/asm/hardirq.h:6:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/powerpc/include/asm/io.h:24:
-   In file included from include/linux/mm.h:2208:
-   include/linux/vmstat.h:508:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     509 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:515:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     516 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:527:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     528 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:536:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     537 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   drivers/scsi/aic94xx/aic94xx_init.c:941:3: error: use of undeclared identifier 'sas_ata_sdev_attr_group'
-     941 |         &sas_ata_sdev_attr_group,
-         |          ^
->> drivers/scsi/aic94xx/aic94xx_init.c:940:38: warning: tentative array definition assumed to have one element
-     940 | static const struct attribute_group *asd_sdev_groups[] = {
-         |                                      ^
-   6 warnings and 1 error generated.
---
-   In file included from drivers/scsi/mvsas/mv_init.c:11:
-   In file included from drivers/scsi/mvsas/mv_sas.h:19:
-   In file included from include/linux/dma-mapping.h:11:
-   In file included from include/linux/scatterlist.h:8:
-   In file included from include/linux/mm.h:2208:
-   include/linux/vmstat.h:508:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     509 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:515:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     516 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:527:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     528 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:536:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     537 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   drivers/scsi/mvsas/mv_init.c:768:3: error: use of undeclared identifier 'sas_ata_sdev_attr_group'
-     768 |         &sas_ata_sdev_attr_group,
-         |          ^
->> drivers/scsi/mvsas/mv_init.c:767:38: warning: tentative array definition assumed to have one element
-     767 | static const struct attribute_group *mvst_sdev_groups[] = {
-         |                                      ^
-   6 warnings and 1 error generated.
+This is just part of the continuous improvement of Very Old and Immature
+DT Bindings, dating back to the days when most animals could still talk,
+and before DT became self-aware.
 
+I could add that (or something simpler ;-) for v2, but as the reason
+is basically the "for clarity" in the linked commit....
 
-vim +940 drivers/scsi/aic94xx/aic94xx_init.c
+> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> > ---
+> >  Documentation/devicetree/bindings/timer/renesas,tmu.yaml | 1 +
+> >  1 file changed, 1 insertion(+)
+>
+> Anyway:
+>
+> Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-2908d778ab3e24 James Bottomley 2006-08-29  939  
-14cc341229fc11 Igor Pylypiv    2024-03-07 @940  static const struct attribute_group *asd_sdev_groups[] = {
-14cc341229fc11 Igor Pylypiv    2024-03-07 @941  	&sas_ata_sdev_attr_group,
-14cc341229fc11 Igor Pylypiv    2024-03-07  942  	NULL
-14cc341229fc11 Igor Pylypiv    2024-03-07  943  };
-14cc341229fc11 Igor Pylypiv    2024-03-07  944  
+Thanks!
 
-:::::: The code at line 940 was first introduced by commit
-:::::: 14cc341229fc11657115481e5b5c214856c38724 scsi: aic94xx: Add libsas SATA sysfs attributes group
+Gr{oetje,eeting}s,
 
-:::::: TO: Igor Pylypiv <ipylypiv@google.com>
-:::::: CC: Martin K. Petersen <martin.petersen@oracle.com>
+                        Geert
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
