@@ -1,137 +1,143 @@
-Return-Path: <linux-renesas-soc+bounces-4258-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-4259-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E0018979A8
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  3 Apr 2024 22:11:27 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 92D618979B8
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  3 Apr 2024 22:20:55 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id BD6CA1C21561
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  3 Apr 2024 20:11:26 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 32297B23957
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  3 Apr 2024 20:20:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DC8A0155757;
-	Wed,  3 Apr 2024 20:11:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 68131155A2A;
+	Wed,  3 Apr 2024 20:20:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mRYnYMVP"
+	dkim=pass (2048-bit key) header.d=kernelci-org.20230601.gappssmtp.com header.i=@kernelci-org.20230601.gappssmtp.com header.b="HVPuOgWI"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 247CA1553B3;
-	Wed,  3 Apr 2024 20:11:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADD94155759
+	for <linux-renesas-soc@vger.kernel.org>; Wed,  3 Apr 2024 20:20:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712175085; cv=none; b=pnZ54BkaO2HBrUrcm3rXNZNMxtxgACJ7Zo3ndYLv67VgtMfiOs5HWeyjIMeXSTHcNEr7tUd2ID8lzvipH+v/uejeYB/JOv6wFr6EjztvGO3329otym7Q/UzlAK4QkFLmrRh/FN+yL4Pq8Dd8PiUF61bWOkNbkwZ/+4ObrFVRHA4=
+	t=1712175647; cv=none; b=H9bWMTfQljHPpq29BftgQQe3Fy7HoLE7LEr8UDFeLU/mhQwX/mlbMiVHh2VnNk4SablRpbEw3tcC5akikD8EZ5YuUy5wzIljiSG1U9FXs/UOUI83wamSJc9GWwzGKNJ8X4zPVLDYIiDzpp4GWqctRF+UD0PNaFk7L2WAOsyxUEc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712175085; c=relaxed/simple;
-	bh=sun1NsHk2vEsIXt3sZXU+hXzHiz0Ux6ixOcTuUjI7kk=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=uzbamiNV3165kO7Uol0UBmmGW00NjhYE9LRMYvqG2MazWtBQqHam116R1FWo5AKTESvsiixvQ9FYSe5LxpFOPp7eJTRHZJvuC2kkAlVP3kKNgqMl/XpCoUITTiu9HSg0yUHysQUAc7x/iaY11HWOoBCt06M75MufnjXo63PHZ94=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mRYnYMVP; arc=none smtp.client-ip=209.85.128.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-415523d9824so2141265e9.3;
-        Wed, 03 Apr 2024 13:11:23 -0700 (PDT)
+	s=arc-20240116; t=1712175647; c=relaxed/simple;
+	bh=LS99K70csvonoDjDyNVHrqgu0UOPEE7c0LrexzeZo8s=;
+	h=Message-ID:Date:Content-Type:MIME-Version:Subject:To:From; b=WCjn/aJDl5/FGZ/O6v9Er8kPshtUvRehWOnKPysR0R2DPi3Aha3hQECl11S8vOpokvHzPrgVY/dxbSM2RkYhqMrVVQuCu9RPUP4hKyIadA0X68U2PVWda6Z4Q5x6Rf7/auCbEdHmnRvzWY4j/f3/WfxTFQM38eTyHZ3TYWNawCY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernelci.org; spf=none smtp.mailfrom=kernelci.org; dkim=pass (2048-bit key) header.d=kernelci-org.20230601.gappssmtp.com header.i=@kernelci-org.20230601.gappssmtp.com header.b=HVPuOgWI; arc=none smtp.client-ip=209.85.210.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernelci.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=kernelci.org
+Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-6e6ca2ac094so229082b3a.0
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 03 Apr 2024 13:20:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1712175082; x=1712779882; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=MOcLWgLOgrNtkAnYfPiCGepAqkA5lMiMzdb5KR8b+o0=;
-        b=mRYnYMVPkUR+564YGKX8uEAazIDaS/KePWUhN4a4MYCkl7JTYZvcs+HgQqoFV64OiW
-         Afegr+QkblOYKe7XT5Ma5OwpbL+XBp4V55mKi2wNJswihgmeVvrri9YjdLelGxGhT8Bj
-         eZ1ubR44iZbsK/Nll3btaKZ8WCJ84bF9C/0RGoQ8huruXYyH5fkDXvw9FAAqdsZs8AWP
-         M5mlV14nyYgTbbsNpyvcbSQuMP3wouuS/hrP6xm54xjjLFRYUGFoV9sz7jI9bfPruAO4
-         /cyNiCl9plQo8qkKkqsuY1kiZ9pkKbn+WLXkWpCZWl+s785qmMvrpytmsb8bCd5kjSZn
-         B5aQ==
+        d=kernelci-org.20230601.gappssmtp.com; s=20230601; t=1712175644; x=1712780444; darn=vger.kernel.org;
+        h=from:to:subject:content-transfer-encoding:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=DkfGWE6fAzEHoYFEK95VmF3t2RmEda1jN3E65+cX7Vo=;
+        b=HVPuOgWIlee9QuKdTFFHpH6wWTPab007Bn1XBxJfRgZorHX9cDsqaVapKB2WQ42tWQ
+         JioSkXlju7kLuGXyKEwftKdUBMu3miGdzxJN2kmNvCtc4UUmvMnaV6+LF0g8Sre8++vv
+         JXBcWz7lmZYnwLGAwBl/YyyiRBme9Bd5NJgtqeZAjRwjIa16mK8/w5qsRi2edbwFuDaD
+         MGwlVnKaEvApVPac2BjVRQ+IvGdpzw7ELvg3upt2yQOdDuOGdcxwVa+d7IK7DddecdFV
+         WVDfylsCVO21xqcLm0v6cX6i+i38sPFQ32lx3xNfXoZiyWuGB7zZ7zgFAv07RezWXy8/
+         x00w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712175082; x=1712779882;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1712175644; x=1712780444;
+        h=from:to:subject:content-transfer-encoding:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=MOcLWgLOgrNtkAnYfPiCGepAqkA5lMiMzdb5KR8b+o0=;
-        b=aqFQ7VAHugwD+hPTVguiEX9wKE22KfEabBFbDVUb9EXuNKkD23134UkxdWAZD5gSCV
-         GgVDgjwfGCEH8Qc4lFXvvQ5P1vGAjhEEwzv3o24EKifkELmxk3Q3hV7sYPbRqFcY46nw
-         nNSDFAJ+xfRYnVephfK6xkFLJiRNZdrq+0MZHfrn7yrcmT5jzV4RHFl2FBG0vicpvYVS
-         +qbi+d8TI6BMOiHg6Lujy9tZbiasbYkrrgwqR2FRzPJCuoBVVztyHq2ld1KwQwrtg4gT
-         83lKXum8Hysv1SZI5Xhho7KJcFiyaGehfeucKG63bX1Kezr3AHUseonDUIRiq48WvBMy
-         QtdA==
-X-Forwarded-Encrypted: i=1; AJvYcCX3EPyvGGbKyYbIhq3KG1PBk57Zlc00loTDQPLlLuhASPwYPjCwjkOVdjqNDJHfGWLphGROAX9X1ExrKtDLwtgl34ZTC0RxDIc55WJctqQRUQRl/Pqq+bGPgxY1i46K0rOoBQkC5ex/Kd1pzJvJ+9Y=
-X-Gm-Message-State: AOJu0YxPVEccYC5xrehC1PiQfb6Ggajad+cVA6TSNhvzIIgSqctqbns+
-	YFs8gcTyU0uTlkGwvU9utVR7y6gyo+XbHVy7Ox7edCMe7Wbf7VZ//Y68hAwR
-X-Google-Smtp-Source: AGHT+IHtLaUCwwkgS1vtIEW1V174Y94xNXH3nSrut92Q5koJYf4Y2HWj56P76mXN+xJub7xa6PNmqQ==
-X-Received: by 2002:a05:600c:4f91:b0:414:227:fc66 with SMTP id n17-20020a05600c4f9100b004140227fc66mr584172wmq.2.1712175082076;
-        Wed, 03 Apr 2024 13:11:22 -0700 (PDT)
-Received: from prasmi.home ([2a00:23c8:2500:a01:5eb:3d93:f2b6:25e8])
-        by smtp.gmail.com with ESMTPSA id u1-20020a7bcb01000000b004155a32841bsm211197wmj.39.2024.04.03.13.11.21
+        bh=DkfGWE6fAzEHoYFEK95VmF3t2RmEda1jN3E65+cX7Vo=;
+        b=VHpWqVJW5i07stF5R6+zPHOFgzkzizBM94kAuNZnyGfpjEx87EztjI5CJC0TwwDmSt
+         oT/j/GQkEVo2kueBqD9wFDWp5qqbN1xHIkTIIQdWBbAxfwJelXhKa7cHjX6Vydny2vaS
+         Cs5CUkydQyQkV++5DDPbQ1ta/J9t4ftbSz5brxU6HOMgfQ/Sj8qrcXuXwymUnSNsF4D4
+         mH6ELVwZjIuCaPcmjBSwnesG878uXDpwHcKMYTLo7KODIwlXNsnkDLKs+BKUwTWwgIE4
+         7NouguXaxfxi3DcpDQZjG44MOi+nz5FaY3YS9nsdYxaboClTrbT4OLZGiFiDfHAJuKxE
+         Ar7A==
+X-Gm-Message-State: AOJu0YzwRS0aQwrU6AB5j1QAe1jQNBnUMfEGVOlT1LwrH1DaNpP1NlSe
+	bLmPSwl+CWRORrOZm9SeaEibSQkCqzebmd8VGxC6v0OF0NIeL8tv5MptvKFwrDRlT7qLAtIhOg6
+	qyUs=
+X-Google-Smtp-Source: AGHT+IG4sHXcWOvjO7qQunP24RlSsYlMDWVHoAJZBz+DVr75gMURa3Zdj6gBsC5h8tCYI+3wyfbV0g==
+X-Received: by 2002:a05:6a21:6d8c:b0:1a3:a99a:cd56 with SMTP id wl12-20020a056a216d8c00b001a3a99acd56mr815300pzb.38.1712175644242;
+        Wed, 03 Apr 2024 13:20:44 -0700 (PDT)
+Received: from kernelci-production.internal.cloudapp.net ([20.171.243.82])
+        by smtp.gmail.com with ESMTPSA id z9-20020a63e549000000b005cd8044c6fesm12031909pgj.23.2024.04.03.13.20.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 03 Apr 2024 13:11:21 -0700 (PDT)
-From: Prabhakar <prabhakar.csengg@gmail.com>
-X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>
-Cc: linux-clk@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH] clk: renesas: r9a07g043: Add clock and reset entry for PLIC
-Date: Wed,  3 Apr 2024 21:09:52 +0100
-Message-Id: <20240403200952.633084-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Mailer: git-send-email 2.34.1
+        Wed, 03 Apr 2024 13:20:43 -0700 (PDT)
+Message-ID: <660dba1b.630a0220.0990.263f@mx.google.com>
+Date: Wed, 03 Apr 2024 13:20:43 -0700 (PDT)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+X-Kernelci-Branch: next
+X-Kernelci-Tree: renesas
+X-Kernelci-Kernel: renesas-next-2024-04-02-v6.9-rc1
+X-Kernelci-Report-Type: test
+Subject: renesas/next baseline: 59 runs,
+ 1 regressions (renesas-next-2024-04-02-v6.9-rc1)
+To: linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
+From: "kernelci.org bot" <bot@kernelci.org>
 
-From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+renesas/next baseline: 59 runs, 1 regressions (renesas-next-2024-04-02-v6.9=
+-rc1)
 
-Add the missing clock and reset entry for PLIC. Also add
-R9A07G043_NCEPLIC_ACLK to critical clocks list.
+Regressions Summary
+-------------------
 
-Fixes: b3e77da00f1b ("riscv: dts: renesas: Add initial devicetree for Renesas RZ/Five SoC")
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
----
- drivers/clk/renesas/r9a07g043-cpg.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+platform        | arch  | lab         | compiler | defconfig | regressions
+----------------+-------+-------------+----------+-----------+------------
+bcm2711-rpi-4-b | arm64 | lab-broonie | gcc-10   | defconfig | 1          =
 
-diff --git a/drivers/clk/renesas/r9a07g043-cpg.c b/drivers/clk/renesas/r9a07g043-cpg.c
-index e36d2ec2c0f5..16acc95f3c62 100644
---- a/drivers/clk/renesas/r9a07g043-cpg.c
-+++ b/drivers/clk/renesas/r9a07g043-cpg.c
-@@ -280,6 +280,10 @@ static const struct rzg2l_mod_clk r9a07g043_mod_clks[] = {
- 				0x5a8, 1),
- 	DEF_MOD("tsu_pclk",	R9A07G043_TSU_PCLK, R9A07G043_CLK_TSU,
- 				0x5ac, 0),
-+#ifdef CONFIG_RISCV
-+	DEF_MOD("nceplic_aclk",	R9A07G043_NCEPLIC_ACLK, R9A07G043_CLK_P1,
-+				0x608, 0),
-+#endif
- };
- 
- static const struct rzg2l_reset r9a07g043_resets[] = {
-@@ -338,6 +342,10 @@ static const struct rzg2l_reset r9a07g043_resets[] = {
- 	DEF_RST(R9A07G043_ADC_PRESETN, 0x8a8, 0),
- 	DEF_RST(R9A07G043_ADC_ADRST_N, 0x8a8, 1),
- 	DEF_RST(R9A07G043_TSU_PRESETN, 0x8ac, 0),
-+#ifdef CONFIG_RISCV
-+	DEF_RST(R9A07G043_NCEPLIC_ARESETN, 0x908, 0),
-+#endif
-+
- };
- 
- static const unsigned int r9a07g043_crit_mod_clks[] __initconst = {
-@@ -347,6 +355,7 @@ static const unsigned int r9a07g043_crit_mod_clks[] __initconst = {
- #endif
- #ifdef CONFIG_RISCV
- 	MOD_CLK_BASE + R9A07G043_IAX45_CLK,
-+	MOD_CLK_BASE + R9A07G043_NCEPLIC_ACLK,
- #endif
- 	MOD_CLK_BASE + R9A07G043_DMAC_ACLK,
- };
--- 
-2.34.1
 
+  Details:  https://kernelci.org/test/job/renesas/branch/next/kernel/renesa=
+s-next-2024-04-02-v6.9-rc1/plan/baseline/
+
+  Test:     baseline
+  Tree:     renesas
+  Branch:   next
+  Describe: renesas-next-2024-04-02-v6.9-rc1
+  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-d=
+evel.git
+  SHA:      a31e004a082c9eb21f465a657a1fc56c85e74e6d =
+
+
+
+Test Regressions
+---------------- =
+
+
+
+platform        | arch  | lab         | compiler | defconfig | regressions
+----------------+-------+-------------+----------+-----------+------------
+bcm2711-rpi-4-b | arm64 | lab-broonie | gcc-10   | defconfig | 1          =
+
+
+  Details:     https://kernelci.org/test/plan/id/660d894e16a8d27d244c42da
+
+  Results:     0 PASS, 1 FAIL, 0 SKIP
+  Full config: defconfig
+  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
+110)
+  Plain log:   https://storage.kernelci.org//renesas/next/renesas-next-2024=
+-04-02-v6.9-rc1/arm64/defconfig/gcc-10/lab-broonie/baseline-bcm2711-rpi-4-b=
+.txt
+  HTML log:    https://storage.kernelci.org//renesas/next/renesas-next-2024=
+-04-02-v6.9-rc1/arm64/defconfig/gcc-10/lab-broonie/baseline-bcm2711-rpi-4-b=
+.html
+  Rootfs:      http://storage.kernelci.org/images/rootfs/buildroot/buildroo=
+t-baseline/20230703.0/arm64/rootfs.cpio.gz =
+
+
+
+  * baseline.login: https://kernelci.org/test/case/id/660d894e16a8d27d244c4=
+2db
+        new failure (last pass: renesas-next-2024-02-23-v6.8-rc1) =
+
+ =20
 
