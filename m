@@ -1,225 +1,144 @@
-Return-Path: <linux-renesas-soc+bounces-4238-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-4239-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38E818962B2
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  3 Apr 2024 04:53:28 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id D8904896316
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  3 Apr 2024 05:40:01 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id A5FB01F255B5
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  3 Apr 2024 02:53:27 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 156D31C22662
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  3 Apr 2024 03:40:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A1AB91A5AC;
-	Wed,  3 Apr 2024 02:53:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 456F53F9E1;
+	Wed,  3 Apr 2024 03:39:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EO+SNmmf"
+	dkim=pass (2048-bit key) header.d=marvell.com header.i=@marvell.com header.b="kjhZyHul"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mx0b-0016f401.pphosted.com (mx0b-0016f401.pphosted.com [67.231.156.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E9FC29CA
-	for <linux-renesas-soc@vger.kernel.org>; Wed,  3 Apr 2024 02:53:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 894CF3E48E;
+	Wed,  3 Apr 2024 03:39:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.156.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712112804; cv=none; b=njjMeODCsGvw949sYsfdOzwTBfN4QICtqMpBXNEPQidnItFkDP/FZfCdiJj2l3iY45hA53cRGTqoTUOEKY1fwmkvkiuY7Qjig57yBLhwyj3sTF7nKBQCc9HSK6XfRnrm3tn7Vi+r8htPt2Ef02KfG8/NdttPq8ElXHEajh8lTYE=
+	t=1712115597; cv=none; b=JHXxD3Ry4L+rEmGCnm5xQ0fD0cB2ZitB5lWNMWY1tOMjq4I52ab41AB/0/qpOEseM2LUoXZnqLAT+cZmAVhnwrd1zXbZZLpVfd9z8tZwmNwRGhNLhPv97Srr+44ptWfuE/Lsk+DZQ0udNqXjEfAHq3dbbDufvZwK1N7wqaohuSI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712112804; c=relaxed/simple;
-	bh=UwfIWyc72Ly765KfvRwFRtdaKPYs/1A+OmVik1QLx8o=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=ZrthfwNY+0k/k+H9J56KIW9MPZl8obRi5f8F2SlGfyuAKzfuAoC47KEU62I1SiJamd/w/IMzmP6mA79vOwFLt35TrSPusQKVE7UtiMjjmwDqMjQsklENE7kh1Oi1DhsjT5KWP4ouAOsg3A2avOJw98l6cdV/Aia7I8jvnS1/MdY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EO+SNmmf; arc=none smtp.client-ip=198.175.65.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1712112802; x=1743648802;
-  h=date:from:to:cc:subject:message-id;
-  bh=UwfIWyc72Ly765KfvRwFRtdaKPYs/1A+OmVik1QLx8o=;
-  b=EO+SNmmfv+eD/xe2qyPvAHVGe8nxh5FazcI7wwRQMZHWVoGJZ3Gcfv3Z
-   eisbqs3QkMpy/N5VVUgpSBAeDP5+fZxDbohKFUalgspHrAadVxIwyWFM5
-   zAcbda96n+hJviAFuo/92yuvWWwPVvKkXtCkpZOo9Iz+5JYtzrNdlngHA
-   +AFHt6eatFMEKU/hiamJ8E+alOrguVCaDSP4aiv9ne0OH3t9qoVgj/OeM
-   SMqBSJbhGfkSa3VOVaZYxnSwnO0RyU9nBBMn25ScURuHjE2M5VchFAxH6
-   9CsYxah3VmN35lAyJyz22o2V6jzeQB3zHzcb0K5XbINNLHhnpUqcRhYah
-   g==;
-X-CSE-ConnectionGUID: pNX7wP3KRGCDbMXuAF1pug==
-X-CSE-MsgGUID: yvcrKGBKQrKfv18hABiqsw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11032"; a="7221609"
-X-IronPort-AV: E=Sophos;i="6.07,176,1708416000"; 
-   d="scan'208";a="7221609"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Apr 2024 19:53:22 -0700
-X-CSE-ConnectionGUID: +xcOQWlrREyZl2bI8vasXA==
-X-CSE-MsgGUID: 3DKKhlDMSEq9HzyV74douA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,176,1708416000"; 
-   d="scan'208";a="18705368"
-Received: from lkp-server02.sh.intel.com (HELO 90ee3aa53dbd) ([10.239.97.151])
-  by orviesa007.jf.intel.com with ESMTP; 02 Apr 2024 19:53:21 -0700
-Received: from kbuild by 90ee3aa53dbd with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rrqkY-0001nA-1b;
-	Wed, 03 Apr 2024 02:53:18 +0000
-Date: Wed, 03 Apr 2024 10:53:17 +0800
-From: kernel test robot <lkp@intel.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: linux-renesas-soc@vger.kernel.org
-Subject: [geert-renesas-devel:renesas-dts-for-v6.10] BUILD SUCCESS
- 20f4b85a26a58258611dcffe81bef99ce306bbbc
-Message-ID: <202404031015.Wb8X1QfO-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+	s=arc-20240116; t=1712115597; c=relaxed/simple;
+	bh=vsYTyHZbz3YwYaV3ajc98Gk+zAeEUCnLJQKC3yldWmo=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=A2Wy/eHoRv3XYBsy1OfjhKTntME/9Mw7w4bDr9ATPR2m17Mrxzmaa7ELf5V4EUmDOVOesasI+w0XGsw57ksdmtCO3UNHTSRa+Hqa/DcHbKapi2GJAMgyiqOYAdHAwHzSRJUfLKkoggBsjYK3cByu8ziIskLsuTpmHirQDbvdQB0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=marvell.com; spf=pass smtp.mailfrom=marvell.com; dkim=pass (2048-bit key) header.d=marvell.com header.i=@marvell.com header.b=kjhZyHul; arc=none smtp.client-ip=67.231.156.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=marvell.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=marvell.com
+Received: from pps.filterd (m0045851.ppops.net [127.0.0.1])
+	by mx0b-0016f401.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 432K3FI4029252;
+	Tue, 2 Apr 2024 20:39:37 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=marvell.com; h=
+	date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:in-reply-to; s=pfpt0220; bh=/BY57IBLf+yABTirJWi18E
+	+1Z/d+IYDmnVTMqS6JZfQ=; b=kjhZyHulAB+3lmLlWr/x1liznmQTLqF6MI3g6s
+	juedvaHYkO/DSp3R6AcV651ivy0hBeMvnHDjrtcnYF1KMgrgvijS8ffFrDhddxvG
+	V8vMOUDb11z6ZgOzoKjrFnN952TuMpHeyc64M62qPLtRZPZ57h+nUmrFh0iULYus
+	vS29qb3/ILPaEvJUXGkZo8eOTe9UV05fFXgJ231TI7VVMYkSCaEB7aY9d+/Cikfm
+	9kenj/FL8pm+mRQAeIDlwGRpiQ+lLFaCv3n4DI4rWBWmcbRafCODhyE/T7RcLgEe
+	WfLK2Hhu4De3VS1tw+yqmbUcqNVjkQLgG2mC8vFEFiiu1F1w==
+Received: from dc6wp-exch02.marvell.com ([4.21.29.225])
+	by mx0b-0016f401.pphosted.com (PPS) with ESMTPS id 3x809fx762-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 02 Apr 2024 20:39:37 -0700 (PDT)
+Received: from DC6WP-EXCH02.marvell.com (10.76.176.209) by
+ DC6WP-EXCH02.marvell.com (10.76.176.209) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.4; Tue, 2 Apr 2024 20:39:37 -0700
+Received: from maili.marvell.com (10.69.176.80) by DC6WP-EXCH02.marvell.com
+ (10.76.176.209) with Microsoft SMTP Server id 15.2.1544.4 via Frontend
+ Transport; Tue, 2 Apr 2024 20:39:36 -0700
+Received: from maili.marvell.com (unknown [10.28.36.165])
+	by maili.marvell.com (Postfix) with SMTP id ADB2D3F7044;
+	Tue,  2 Apr 2024 20:39:33 -0700 (PDT)
+Date: Wed, 3 Apr 2024 09:09:32 +0530
+From: Ratheesh Kannoth <rkannoth@marvell.com>
+To: Paul Barker <paul.barker.ct@bp.renesas.com>
+CC: Sergey Shtylyov <s.shtylyov@omp.ru>,
+        "David S. Miller"
+	<davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>, Jakub Kicinski
+	<kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Niklas
+ =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
+        <netdev@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v2 1/2] net: ravb: Always process TX descriptor ring
+Message-ID: <20240403033932.GA1652207@maili.marvell.com>
+References: <20240402145305.82148-1-paul.barker.ct@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20240402145305.82148-1-paul.barker.ct@bp.renesas.com>
+X-Proofpoint-GUID: lwwmbmCWzRzUI69ZRDR5BWE6p3BzwolQ
+X-Proofpoint-ORIG-GUID: lwwmbmCWzRzUI69ZRDR5BWE6p3BzwolQ
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-04-03_02,2024-04-01_01,2023-05-22_02
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git renesas-dts-for-v6.10
-branch HEAD: 20f4b85a26a58258611dcffe81bef99ce306bbbc  arm64: dts: renesas: gray-hawk-single: Add second debug serial port
+On 2024-04-02 at 20:23:04, Paul Barker (paul.barker.ct@bp.renesas.com) wrote:
+> The TX queue should be serviced each time the poll function is called,
+> even if the full RX work budget has been consumed. This prevents
+> starvation of the TX queue when RX bandwidth usage is high.
+>
+> Fixes: c156633f1353 ("Renesas Ethernet AVB driver proper")
+> Signed-off-by: Paul Barker <paul.barker.ct@bp.renesas.com>
+> ---
+> Changes from v1:
+>   * Use the correct 'Fixes' tag.
+>   * Call the new variable 'unmask' and drop the unnecessary initializer,
+>     as requested by Sergey.
+>
+>  drivers/net/ethernet/renesas/ravb_main.c | 7 +++++--
+>  1 file changed, 5 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
+> index d1be030c8848..48803050abdb 100644
+> --- a/drivers/net/ethernet/renesas/ravb_main.c
+> +++ b/drivers/net/ethernet/renesas/ravb_main.c
+> @@ -1324,12 +1324,12 @@ static int ravb_poll(struct napi_struct *napi, int budget)
+>  	int q = napi - priv->napi;
+>  	int mask = BIT(q);
+>  	int quota = budget;
+> +	bool unmask;
+>
+>  	/* Processing RX Descriptor Ring */
+>  	/* Clear RX interrupt */
+>  	ravb_write(ndev, ~(mask | RIS0_RESERVED), RIS0);
+> -	if (ravb_rx(ndev, &quota, q))
+> -		goto out;
+> +	unmask = !ravb_rx(ndev, &quota, q);
+>
+>  	/* Processing TX Descriptor Ring */
+AFAIU, TX is processed without any budget. This wont result in rx work starvation if
+TX traffic is more ?
 
-elapsed time: 980m
-
-configs tested: 132
-configs skipped: 3
-
-The following configs have been built successfully.
-More configs may be tested in the coming days.
-
-tested configs:
-alpha                             allnoconfig   gcc  
-alpha                            allyesconfig   gcc  
-alpha                               defconfig   gcc  
-arc                              allmodconfig   gcc  
-arc                               allnoconfig   gcc  
-arc                              allyesconfig   gcc  
-arc                                 defconfig   gcc  
-arc                 nsimosci_hs_smp_defconfig   gcc  
-arm                              allmodconfig   gcc  
-arm                               allnoconfig   clang
-arm                              allyesconfig   gcc  
-arm                                 defconfig   clang
-arm                         s5pv210_defconfig   gcc  
-arm64                            allmodconfig   clang
-arm64                             allnoconfig   gcc  
-arm64                            allyesconfig   clang
-arm64                               defconfig   gcc  
-csky                             allmodconfig   gcc  
-csky                              allnoconfig   gcc  
-csky                             allyesconfig   gcc  
-csky                                defconfig   gcc  
-hexagon                          allmodconfig   clang
-hexagon                           allnoconfig   clang
-hexagon                          allyesconfig   clang
-hexagon                             defconfig   clang
-i386                             allmodconfig   gcc  
-i386                              allnoconfig   gcc  
-i386                             allyesconfig   gcc  
-i386         buildonly-randconfig-001-20240403   gcc  
-i386         buildonly-randconfig-002-20240403   clang
-i386         buildonly-randconfig-003-20240403   clang
-i386         buildonly-randconfig-004-20240403   clang
-i386         buildonly-randconfig-005-20240403   gcc  
-i386         buildonly-randconfig-006-20240403   clang
-i386                                defconfig   clang
-i386                  randconfig-001-20240403   gcc  
-i386                  randconfig-002-20240403   clang
-i386                  randconfig-003-20240403   gcc  
-i386                  randconfig-004-20240403   gcc  
-i386                  randconfig-005-20240403   clang
-i386                  randconfig-006-20240403   gcc  
-i386                  randconfig-011-20240403   gcc  
-i386                  randconfig-012-20240403   clang
-i386                  randconfig-013-20240403   gcc  
-i386                  randconfig-014-20240403   clang
-i386                  randconfig-015-20240403   gcc  
-i386                  randconfig-016-20240403   clang
-loongarch                        allmodconfig   gcc  
-loongarch                         allnoconfig   gcc  
-loongarch                           defconfig   gcc  
-m68k                             allmodconfig   gcc  
-m68k                              allnoconfig   gcc  
-m68k                             allyesconfig   gcc  
-m68k                       bvme6000_defconfig   gcc  
-m68k                                defconfig   gcc  
-microblaze                       allmodconfig   gcc  
-microblaze                        allnoconfig   gcc  
-microblaze                       allyesconfig   gcc  
-microblaze                          defconfig   gcc  
-mips                              allnoconfig   gcc  
-mips                             allyesconfig   gcc  
-nios2                            allmodconfig   gcc  
-nios2                             allnoconfig   gcc  
-nios2                            allyesconfig   gcc  
-nios2                               defconfig   gcc  
-openrisc                          allnoconfig   gcc  
-openrisc                         allyesconfig   gcc  
-openrisc                            defconfig   gcc  
-openrisc                    or1ksim_defconfig   gcc  
-parisc                           allmodconfig   gcc  
-parisc                            allnoconfig   gcc  
-parisc                           allyesconfig   gcc  
-parisc                              defconfig   gcc  
-parisc64                            defconfig   gcc  
-powerpc                          allmodconfig   gcc  
-powerpc                           allnoconfig   gcc  
-powerpc                          allyesconfig   clang
-powerpc                     ep8248e_defconfig   gcc  
-powerpc                     kmeter1_defconfig   gcc  
-riscv                            allmodconfig   clang
-riscv                             allnoconfig   gcc  
-riscv                            allyesconfig   clang
-riscv                               defconfig   clang
-s390                             allmodconfig   clang
-s390                              allnoconfig   clang
-s390                             allyesconfig   gcc  
-s390                                defconfig   clang
-sh                               allmodconfig   gcc  
-sh                                allnoconfig   gcc  
-sh                               allyesconfig   gcc  
-sh                                  defconfig   gcc  
-sh                 kfr2r09-romimage_defconfig   gcc  
-sh                          kfr2r09_defconfig   gcc  
-sh                          lboxre2_defconfig   gcc  
-sh                           se7724_defconfig   gcc  
-sparc                            allmodconfig   gcc  
-sparc                             allnoconfig   gcc  
-sparc                               defconfig   gcc  
-sparc64                          allmodconfig   gcc  
-sparc64                          allyesconfig   gcc  
-sparc64                             defconfig   gcc  
-um                               allmodconfig   clang
-um                                allnoconfig   clang
-um                               allyesconfig   gcc  
-um                                  defconfig   clang
-um                             i386_defconfig   gcc  
-um                           x86_64_defconfig   clang
-x86_64                            allnoconfig   clang
-x86_64                           allyesconfig   clang
-x86_64       buildonly-randconfig-001-20240403   gcc  
-x86_64       buildonly-randconfig-002-20240403   gcc  
-x86_64       buildonly-randconfig-004-20240403   gcc  
-x86_64       buildonly-randconfig-006-20240403   gcc  
-x86_64                              defconfig   gcc  
-x86_64                randconfig-001-20240403   gcc  
-x86_64                randconfig-003-20240403   gcc  
-x86_64                randconfig-004-20240403   gcc  
-x86_64                randconfig-005-20240403   gcc  
-x86_64                randconfig-011-20240403   gcc  
-x86_64                randconfig-012-20240403   gcc  
-x86_64                randconfig-013-20240403   gcc  
-x86_64                randconfig-014-20240403   gcc  
-x86_64                randconfig-015-20240403   gcc  
-x86_64                randconfig-016-20240403   gcc  
-x86_64                randconfig-072-20240403   gcc  
-x86_64                randconfig-074-20240403   gcc  
-x86_64                randconfig-075-20240403   gcc  
-x86_64                randconfig-076-20240403   gcc  
-x86_64                          rhel-8.3-rust   clang
-x86_64                               rhel-8.3   gcc  
-xtensa                            allnoconfig   gcc  
-xtensa                  audio_kc705_defconfig   gcc  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+>  	spin_lock_irqsave(&priv->lock, flags);
+> @@ -1339,6 +1339,9 @@ static int ravb_poll(struct napi_struct *napi, int budget)
+>  	netif_wake_subqueue(ndev, q);
+>  	spin_unlock_irqrestore(&priv->lock, flags);
+>
+> +	if (!unmask)
+> +		goto out;
+> +
+>  	napi_complete(napi);
+>
+>  	/* Re-enable RX/TX interrupts */
+>
+> base-commit: ea2a1cfc3b2019bdea6324acd3c03606b60d71ad
+> --
+> 2.39.2
+>
 
