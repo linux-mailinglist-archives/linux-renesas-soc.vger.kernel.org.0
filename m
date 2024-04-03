@@ -1,150 +1,146 @@
-Return-Path: <linux-renesas-soc+bounces-4260-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-4261-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B92C8979B9
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  3 Apr 2024 22:20:56 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id E66E68979D8
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  3 Apr 2024 22:36:40 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 73C2AB2487F
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  3 Apr 2024 20:20:53 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id EE0141C21EFE
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  3 Apr 2024 20:36:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 72084155A30;
-	Wed,  3 Apr 2024 20:20:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2169B14A096;
+	Wed,  3 Apr 2024 20:36:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernelci-org.20230601.gappssmtp.com header.i=@kernelci-org.20230601.gappssmtp.com header.b="piD3SjaV"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ky6gCgaG"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D26B1155A29
-	for <linux-renesas-soc@vger.kernel.org>; Wed,  3 Apr 2024 20:20:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EBCE155A59;
+	Wed,  3 Apr 2024 20:36:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712175647; cv=none; b=lro1Oty8qSnpZdGYbQsS2JljfoJ0GoaNwiOr55eMg5JtD1PUuvqHjftlfVsN3rdOZBelLLLEYLb7KkGyr8vYYMEg1gWSXCIfvoZP2myhK10atVcn9XyMj8dil3CSgftqtT+rjemQys15vbKZD7jIZQQIJo/AmouTJ4vfPdkRQUE=
+	t=1712176597; cv=none; b=nivbBkz1Ah6M/S4aFfMdf61J7WW82xCX+3OnT56gVP34d9KQ/Z4gnfuXUaQTHjwoj0CuNrTmaAroOM/z+cfEy7FkuJcMvXoMf9vKPC5rfdrRKw74MB7pJkXk6cd1QxG2ghVFUzyd3x/23uM6ER5haX+OGRL2MDv83cvoHL5fScM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712175647; c=relaxed/simple;
-	bh=ITRAj6XL1/BhylHUaBni7k6k7lEaeW3Fc4GQPQtvopI=;
-	h=Message-ID:Date:Content-Type:MIME-Version:Subject:To:From; b=ae8ZdxFDz6WqoGETN1AMi5OAelQkAeGv3r10AS0O7ixUWnTDyvlkJ/VQgVFd2UpVHeRVrTZwGMuKAQRzQrnLyrtCvx5RfTJP3LWIqY96HNDgVTq93y1DuTygxhj1TmMl1cCCi+M8BLGlA9z9ml5a8YCbyu3pl33XwEgsbwd75ag=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernelci.org; spf=none smtp.mailfrom=kernelci.org; dkim=pass (2048-bit key) header.d=kernelci-org.20230601.gappssmtp.com header.i=@kernelci-org.20230601.gappssmtp.com header.b=piD3SjaV; arc=none smtp.client-ip=209.85.214.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernelci.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=kernelci.org
-Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-1e034607879so1808145ad.0
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 03 Apr 2024 13:20:45 -0700 (PDT)
+	s=arc-20240116; t=1712176597; c=relaxed/simple;
+	bh=XnZTwgLYOWz4MqCqFim9E7vD1JkNu9uS897oIjyxUHo=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=R+sQv8nSL9u451STTMc+A7ciRRkMpaIxs4RPB4smRJ+aPh6p+VJ6yg758CDew6VRhJjseAk6+6YDFmcSHlAdPwRUM79HUh+J3McMo+8Y6mttFVK6yKgSg0K9fcKfQ0zoPE3TINNaWfbD2ShMt5kBWSobANUK7LJKJNRmLc/xJeM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ky6gCgaG; arc=none smtp.client-ip=209.85.221.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-3437efea11eso139276f8f.1;
+        Wed, 03 Apr 2024 13:36:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernelci-org.20230601.gappssmtp.com; s=20230601; t=1712175645; x=1712780445; darn=vger.kernel.org;
-        h=from:to:subject:content-transfer-encoding:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=m/ucDApWvTtatjm7rOmUJ+Z22DnvGzjPaJJJzWn/wuA=;
-        b=piD3SjaVZej7QZcbKzBHQ5EYcnQZPyaSL/d7IG7OtZVlD/OKNamwy4ZJ4pPTbd51S7
-         YClVGJf8ZWD4x+ZYHOSg/ma3UsxwFRDWzNEeHSnN6FcNeJSStg3pt99OuxNeVTEbagMa
-         i8EToMG4gzZKSfzpf/GcgUxWQsLN7E7pRfl1niynBDIGjXfMQ1Dkvhhb84e1rBl935xp
-         6Did+tEMbTmyWtT9aXxbAyGRPvZp2i0qy2M3vsqtzaJ5ryH5FdruQ9oTi7hJCHiZBXF7
-         b76qEpTCQt7Tf7CBNyj/XQv6fxXeTMbmoqVS5KT2lPB6NIJ0PkCcBQGzOPdpLUjySftc
-         +XKg==
+        d=gmail.com; s=20230601; t=1712176593; x=1712781393; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=xLEjGKF78CUq2PdbZJuwrHAC1zTdpWI7ya8sqwxy9m8=;
+        b=ky6gCgaG+46y1vNfY/ud+l7XK1OZ3nHK0eKlTgIcj4FP2pNeL+1k/C0t2iDRtVEAVU
+         06T2vs9uMNEjZBtguliJA+lHLbqUKI43IvFi5saOa57Lx3EsaWh6oStmmAcqu3J2hULY
+         W++3dnZqLnlO1W2RC/WAxdtzlNdQzhN2K/JFgrWGtQ5SxWFRUfz9kmlKHJs5f9eDVCVO
+         vh3891wTKOoBSl/lGb8k4HjbJ9ISabMSxTa8BLVTXBlRBqcssHyneSiHuyVkfxWDMLGu
+         aCqBu+vSb5jTSOiSsBPlcdSElOV20p46e7+CzziIzR00Vp2YD6138AKLMGJmxmPKR9Aw
+         11cg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712175645; x=1712780445;
-        h=from:to:subject:content-transfer-encoding:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1712176593; x=1712781393;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=m/ucDApWvTtatjm7rOmUJ+Z22DnvGzjPaJJJzWn/wuA=;
-        b=lqRjVRLqcpewKdRtFphpLupweBKL4GKZlLEOkGIsxfrivhoE7xm8/UbPazgvY5qghO
-         j7wZd/gAPPEubrWbRzUZY+8QziK3JSN712NTnzob/OLIioLM3MlUerWY1LJLpx+xM8jQ
-         3SoPy/Os6wNXWmeDoL8ii5taJI8xDK9uqpcrPkDCWfIlRfFbjglT8yiEwVrxiIPP2D8q
-         Xl5NzEHz0Zgck3GCFwrX4ONV3X+cu0SRzgTrgrbM5hxCYrg2HwuT07H7fyYGXZ6TQTl2
-         ECnNABxqY7n0sBiAKOWLzZHl+XPXeuD+6Rm95qfXQgRJzfgEl9LG36S59iqTjTZZ/tjJ
-         Nu0Q==
-X-Gm-Message-State: AOJu0YxcpHb4lpd/dMZmN5BdtkCQ9mpeW+Sf1uw0POsx/3SsCiFbceJ3
-	Y5cRAXEVsgZnCVTOQyplM9jxz54kr0zYCyr6nT/MdXEJM9L4ubqngzxe0IRbkbUt9lYnLOgo7kq
-	4dmQ=
-X-Google-Smtp-Source: AGHT+IHiaU4Bt5nO62vgLYyLS/SXtLqMqV0ozTGkbyER8iP4tJerN7GPl+i7poAhgfKnQhcRZvwnPA==
-X-Received: by 2002:a17:902:cac2:b0:1e0:b883:a122 with SMTP id y2-20020a170902cac200b001e0b883a122mr296700pld.46.1712175644686;
-        Wed, 03 Apr 2024 13:20:44 -0700 (PDT)
-Received: from kernelci-production.internal.cloudapp.net ([20.171.243.82])
-        by smtp.gmail.com with ESMTPSA id az3-20020a170902a58300b001e1071cf0bbsm13772479plb.302.2024.04.03.13.20.44
+        bh=xLEjGKF78CUq2PdbZJuwrHAC1zTdpWI7ya8sqwxy9m8=;
+        b=b3Kd90WMDNscO8vAbVN6LZJBWphR6TdpCqMGnXYykWW15a8H1Bl4pe3FfQX2aV3Rp0
+         Fa6WEEQY59mf60+jtBVBoqHQnTTOfx9UoFWMT1W0vJm2t9dvH7v1zKh1PmbdNw6HN3cu
+         DtSUmsDHvo9HfDCEuMp7dmRjEVWUEHBjvZ8UJYhQZDgOPrMPrqH1qQfrrOZraRoufvaE
+         CWNA9ZePv/Qha4kRbum2fyYmZS1sTB1Sb/q4G1oIxdmMhe289jhaWQ0Ly1vZfysspYFK
+         /lbzKVW6NI1U2VIcakYUG2deICog/NujIHjy6cwCenpEAw+b1z19qk4T06FSrqkS5lfs
+         R1Ng==
+X-Forwarded-Encrypted: i=1; AJvYcCX/tdz6iQzqgTl5ktsuXfq+A54/7ZIw/08PxKDoCF9t49Gcse1Hezp32VhI7PGdqrn13QxjiSQrKYk0tOwW/dkA5ayq16tKqmLOhrCA/w3ckl76VHRqODWc/nnS4U6EmflhA5Kn+/ydMr4HIZS6
+X-Gm-Message-State: AOJu0Yyv3dAPqHVEtTAkqz2KkW4mE/zAetBBHMOeXB9LHZmGquhDdNaQ
+	vOxHeEE5ohM8p+pmCzovgQiyipQ+jdmIXI4wqaRqz+cpMOd4LZhH
+X-Google-Smtp-Source: AGHT+IGFrBKPW8fc9OizmttpoV1U88eOngqII6WaSNdlGNm5E5Z1fGV98RHkN3M5pqZK8yCujgoIsA==
+X-Received: by 2002:adf:a1da:0:b0:343:9d3a:cc2e with SMTP id v26-20020adfa1da000000b003439d3acc2emr433983wrv.0.1712176593283;
+        Wed, 03 Apr 2024 13:36:33 -0700 (PDT)
+Received: from prasmi.home ([2a00:23c8:2500:a01:5eb:3d93:f2b6:25e8])
+        by smtp.gmail.com with ESMTPSA id p4-20020a05600c468400b00415f496b9b7sm244910wmo.39.2024.04.03.13.36.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 03 Apr 2024 13:20:44 -0700 (PDT)
-Message-ID: <660dba1c.170a0220.33ac8.6968@mx.google.com>
-Date: Wed, 03 Apr 2024 13:20:44 -0700 (PDT)
-Content-Type: text/plain; charset="utf-8"
+        Wed, 03 Apr 2024 13:36:32 -0700 (PDT)
+From: Prabhakar <prabhakar.csengg@gmail.com>
+X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+To: Geert Uytterhoeven <geert+renesas@glider.be>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>
+Cc: linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	linux-riscv@lists.infradead.org,
+	Prabhakar <prabhakar.csengg@gmail.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH v2 0/5] Add IAX45 support for RZ/Five SoC
+Date: Wed,  3 Apr 2024 21:34:58 +0100
+Message-Id: <20240403203503.634465-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Kernelci-Branch: next
-X-Kernelci-Tree: renesas
-X-Kernelci-Kernel: renesas-next-2024-04-02-v6.9-rc1
-X-Kernelci-Report-Type: test
-Subject: renesas/next baseline-nfs: 21 runs,
- 1 regressions (renesas-next-2024-04-02-v6.9-rc1)
-To: linux-renesas-soc@vger.kernel.org, kernelci-results@groups.io
-From: "kernelci.org bot" <bot@kernelci.org>
+Content-Transfer-Encoding: 8bit
 
-renesas/next baseline-nfs: 21 runs, 1 regressions (renesas-next-2024-04-02-=
-v6.9-rc1)
+From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-Regressions Summary
--------------------
+Hi All,
 
-platform              | arch  | lab         | compiler | defconfig | regres=
-sions
-----------------------+-------+-------------+----------+-----------+-------=
------
-kontron-kbox-a-230-ls | arm64 | lab-kontron | gcc-10   | defconfig | 1     =
-     =
+The IAX45 block on RZ/Five SoC is almost identical to the IRQC bock found
+on the RZ/G2L family of SoCs.
 
+IAX45 performs various interrupt controls including synchronization for the
+external interrupts of NMI, IRQ, and GPIOINT and the interrupts of the
+built-in peripheral interrupts output by each module. And it notifies the
+interrupt to the PLIC.
+- Select 32 TINT from 82 GPIOINT.
+- Integration of bus error interrupts from system bus.
+- Integration of ECC error interrupts from On-chip RAM.
+- Indicate interrupt status. (NMI, IRQ, TINT, integrated bus error interrupt
+  and integrated ECC error interrupt)
+- Setting of interrupt detection method. (NMI, IRQ and TINT)
+- All interrupts are masked by INTMASK.
+- Mask function for NMI, IRQ and TINT
 
-  Details:  https://kernelci.org/test/job/renesas/branch/next/kernel/renesa=
-s-next-2024-04-02-v6.9-rc1/plan/baseline-nfs/
+This patch series adds support for IAX45 in the IRQC driver and enables this
+on RZ/Five SoC.
 
-  Test:     baseline-nfs
-  Tree:     renesas
-  Branch:   next
-  Describe: renesas-next-2024-04-02-v6.9-rc1
-  URL:      https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-d=
-evel.git
-  SHA:      a31e004a082c9eb21f465a657a1fc56c85e74e6d =
+v1: https://patchwork.kernel.org/project/linux-renesas-soc/cover/20240129151618.90922-1-prabhakar.mahadev-lad.rj@bp.renesas.com/
 
+Cheers,
+Prabhakar
 
+Lad Prabhakar (5):
+  dt-bindings: interrupt-controller: renesas,rzg2l-irqc: Document
+    RZ/Five SoC
+  irqchip/renesas-rzg2l: Add support for RZ/Five SoC
+  riscv: dts: renesas: r9a07g043f: Add IRQC node to RZ/Five SoC DTSI
+  arm64: dts: renesas: r9a07g043: Move interrupt-parent property to
+    common DTSI
+  riscv: dts: renesas: rzfive-smarc-som: Drop deleting interrupt
+    properties from ETH0/1 nodes
 
-Test Regressions
----------------- =
+ .../renesas,rzg2l-irqc.yaml                   |  17 ++-
+ arch/arm64/boot/dts/renesas/r9a07g043.dtsi    |   1 +
+ arch/arm64/boot/dts/renesas/r9a07g043u.dtsi   |   4 -
+ arch/riscv/boot/dts/renesas/r9a07g043f.dtsi   |  75 ++++++++++
+ .../boot/dts/renesas/rzfive-smarc-som.dtsi    |  16 --
+ drivers/irqchip/irq-renesas-rzg2l.c           | 137 +++++++++++++++++-
+ 6 files changed, 218 insertions(+), 32 deletions(-)
 
+-- 
+2.34.1
 
-
-platform              | arch  | lab         | compiler | defconfig | regres=
-sions
-----------------------+-------+-------------+----------+-----------+-------=
------
-kontron-kbox-a-230-ls | arm64 | lab-kontron | gcc-10   | defconfig | 1     =
-     =
-
-
-  Details:     https://kernelci.org/test/plan/id/660d8a17412957539d4c438e
-
-  Results:     0 PASS, 1 FAIL, 0 SKIP
-  Full config: defconfig
-  Compiler:    gcc-10 (aarch64-linux-gnu-gcc (Debian 10.2.1-6) 10.2.1 20210=
-110)
-  Plain log:   https://storage.kernelci.org//renesas/next/renesas-next-2024=
--04-02-v6.9-rc1/arm64/defconfig/gcc-10/lab-kontron/baseline-nfs-kontron-kbo=
-x-a-230-ls.txt
-  HTML log:    https://storage.kernelci.org//renesas/next/renesas-next-2024=
--04-02-v6.9-rc1/arm64/defconfig/gcc-10/lab-kontron/baseline-nfs-kontron-kbo=
-x-a-230-ls.html
-  Rootfs:      http://storage.kernelci.org/images/rootfs/debian/bookworm/20=
-240313.0/arm64/initrd.cpio.gz =
-
-
-
-  * baseline-nfs.login: https://kernelci.org/test/case/id/660d8a17412957539=
-d4c438f
-        failing since 72 days (last pass: renesas-next-2023-11-28-v6.7-rc1,=
- first fail: renesas-next-2024-01-22-v6.8-rc1) =
-
- =20
 
