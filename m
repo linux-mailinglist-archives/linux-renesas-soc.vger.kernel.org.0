@@ -1,93 +1,95 @@
-Return-Path: <linux-renesas-soc+bounces-4246-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-4248-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3B67896420
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  3 Apr 2024 07:33:33 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 557EA89685A
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  3 Apr 2024 10:22:40 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7E723284DE6
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  3 Apr 2024 05:33:32 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 87AE61C25E71
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  3 Apr 2024 08:22:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DCC7252F99;
-	Wed,  3 Apr 2024 05:33:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 829B412FB02;
+	Wed,  3 Apr 2024 08:11:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="M7LkaR3E"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0465C4DA08;
-	Wed,  3 Apr 2024 05:33:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.171
+Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7394312EBD0;
+	Wed,  3 Apr 2024 08:11:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712122397; cv=none; b=pWBHuzWVXkyMWbu90VoUbj9HBYxZmini7yj1abNrg3t42TFieHLvY7x7UAzzxNXCg9Bz6F9HqmYuCg7l7W/yVlNDsZBz1G+iqoW2qE/uDvU6JBigbdvIQCcCaU4P/6RMHnzZPGI9KZO7mmXpHPoDu42Odi2XqvhlS7id8emMbsc=
+	t=1712131885; cv=none; b=oB0eHvGY+HmqoucRLD7LxgJYhzBIQGCwkwOrKtOsCfLJgs3nDnb1xEykMVI7uSUB+mSzAzykv6Da0gHK6DXpCVGlCVZlzHmrFvdZD0ISLAY4PgGLtGIk+Qw0YJd0uUusylOJia5iMF4UAg2XeytQEygdiHdxc84orad24iK4n44=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712122397; c=relaxed/simple;
-	bh=rDGADCXyQhug1jHaaVuWWWUGQXoCuhG2D6lBeCel1wQ=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=oTbX2MFpHm0aw438ncLKIP/rto97Yy1MIKhshZuQ8sQEJlmal3DuHk9c/n0E5YOnxQJncrH0M7y2aZLmFoefAB38zwljpYWG/CJL1xHq+xBIg0wUZIH5wv1jlNH0RfXZIHe3ira9R5kdEpkSyNaA6RU7E3bGYY1mzKfV9jxZBwE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; arc=none smtp.client-ip=210.160.252.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
-X-IronPort-AV: E=Sophos;i="6.07,176,1708354800"; 
-   d="scan'208";a="200195946"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie5.idc.renesas.com with ESMTP; 03 Apr 2024 14:33:09 +0900
-Received: from localhost.localdomain (unknown [10.166.13.99])
-	by relmlir5.idc.renesas.com (Postfix) with ESMTP id 76740400F302;
-	Wed,  3 Apr 2024 14:33:09 +0900 (JST)
-From: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-To: lpieralisi@kernel.org,
-	kw@linux.com,
-	robh@kernel.org,
-	bhelgaas@google.com,
-	krzysztof.kozlowski+dt@linaro.org,
-	conor+dt@kernel.org,
-	jingoohan1@gmail.com,
-	mani@kernel.org
-Cc: marek.vasut+renesas@gmail.com,
-	linux-pci@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-	Frank Li <Frank.li@nxp.com>
-Subject: [PATCH v4 7/7] misc: pci_endpoint_test: Document a policy about adding pci_device_id
-Date: Wed,  3 Apr 2024 14:33:04 +0900
-Message-Id: <20240403053304.3695096-8-yoshihiro.shimoda.uh@renesas.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20240403053304.3695096-1-yoshihiro.shimoda.uh@renesas.com>
-References: <20240403053304.3695096-1-yoshihiro.shimoda.uh@renesas.com>
+	s=arc-20240116; t=1712131885; c=relaxed/simple;
+	bh=e7kLGjTCap1sBGPBufjFVpeA82zNLXCUOPl7MnZqlss=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=XtMXLlBr+7ifyDD4M4YBIBZj1SxMBaKjmmWO1FK8XBuVNQkRigEVulkczuR2AK+uxNBrh+v0WFTQpGx1aZl0KpAxSJIv3XzRquY8Gvzy1ayyMn9HEV05pv6xeLRaRyMHyx5V9HXTqLJtNndX1HpWfEy1iIYrLjQPQ+KFpo9LLtA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=M7LkaR3E; arc=none smtp.client-ip=217.70.183.201
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 2AEFA1BF207;
+	Wed,  3 Apr 2024 08:11:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1712131875;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=4KOOUEfgcRxydGIT+hu+sFi4XdO06GJeHmXwYX2lypA=;
+	b=M7LkaR3EMeFWW33WuZx7RPKzUEW9x4ARBxuj9e22nltCjpukWqFMQPO2eFza3A4vAoyi38
+	bDK8U0jS5FypVpnbXZN3Kig9plQ+NBBuHcoJCsZH62HrD/SlwgHkiLW2ajWhivmCJ2HcUX
+	y9ha5Fk2ROIYhz8AE1llwHI517TtNLkash1gGqkudlFaQFtM8hSf5DRUPRWMge6aF/SIvH
+	ebsvO4s/cVE67SiwTAORoSVS6cqcqmuJkSUkb+kM/ueZviWeHoL7SLd6VFed5EWc159fkq
+	SHI79yug6C2IskaNDXNW6jj+gHPwiq7CeQe87WjAmL5nwzsdM5wGCkp+JNxlog==
+Date: Wed, 3 Apr 2024 10:11:11 +0200
+From: Maxime Chevallier <maxime.chevallier@bootlin.com>
+To: "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>
+Cc: Romain Gantois <romain.gantois@bootlin.com>, Rob Herring
+ <robh@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Maxime Coquelin
+ <mcoquelin.stm32@gmail.com>, Geert Uytterhoeven <geert+renesas@glider.be>,
+ devicetree@vger.kernel.org, Thomas Petazzoni
+ <thomas.petazzoni@bootlin.com>, netdev@vger.kernel.org,
+ linux-stm32@st-md-mailman.stormreply.com, Magnus Damm
+ <magnus.damm@gmail.com>, linux-kernel@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org, Eric Dumazet <edumazet@google.com>, Jose
+ Abreu <joabreu@synopsys.com>, Krzysztof Kozlowski
+ <krzysztof.kozlowski+dt@linaro.org>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?=
+ <clement.leger@bootlin.com>, "David S. Miller" <davem@davemloft.net>,
+ linux-arm-kernel@lists.infradead.org
+Subject: Re: [Linux-stm32] [PATCH net-next 1/2] net: stmmac: introduce
+ pcs_init/pcs_exit stmmac operations
+Message-ID: <20240403101111.2e3f0749@device-28.home>
+In-Reply-To: <E1rrgQJ-005ZO4-GB@rmk-PC.armlinux.org.uk>
+References: <ZgwoygldsA1V8fs9@shell.armlinux.org.uk>
+	<E1rrgQJ-005ZO4-GB@rmk-PC.armlinux.org.uk>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.2.0 (GTK 3.24.41; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-GND-Sasl: maxime.chevallier@bootlin.com
 
-To avoid becoming struct pci_device_id pci_endpoint_test_tbl longer
-and longer, document a policy. For example, if PCIe endpoint controller
-can configure vendor id and/or product id, you can reuse one of
-existing entries to test.
+Hello Russell,
 
-Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
----
-Cc: Frank Li <Frank.li@nxp.com>
----
- drivers/misc/pci_endpoint_test.c | 1 +
- 1 file changed, 1 insertion(+)
+On Tue, 02 Apr 2024 16:51:43 +0100
+"Russell King (Oracle)" <rmk+kernel@armlinux.org.uk> wrote:
 
-diff --git a/drivers/misc/pci_endpoint_test.c b/drivers/misc/pci_endpoint_test.c
-index c38a6083f0a7..3c8a0afad91d 100644
---- a/drivers/misc/pci_endpoint_test.c
-+++ b/drivers/misc/pci_endpoint_test.c
-@@ -980,6 +980,7 @@ static const struct pci_endpoint_test_data j721e_data = {
- 	.irq_type = IRQ_TYPE_MSI,
- };
- 
-+/* Don't need to add a new entry if you can use existing entry to test */
- static const struct pci_device_id pci_endpoint_test_tbl[] = {
- 	{ PCI_DEVICE(PCI_VENDOR_ID_TI, PCI_DEVICE_ID_TI_DRA74x),
- 	  .driver_data = (kernel_ulong_t)&default_data,
--- 
-2.25.1
+> Introduce a mechanism whereby platforms can create their PCS instances
+> prior to the network device being published to userspace, but after
+> some of the core stmmac initialisation has been completed. This means
+> that the data structures that platforms need will be available.
+> 
+> Signed-off-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
 
+Reviewed-by: Maxime Chevallier <maxime.chevallier@bootlin.com>
 
