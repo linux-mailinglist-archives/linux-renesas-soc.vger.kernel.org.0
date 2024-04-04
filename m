@@ -1,95 +1,103 @@
-Return-Path: <linux-renesas-soc+bounces-4266-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-4290-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id B59A58979E8
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  3 Apr 2024 22:37:36 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 59BAF897F48
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  4 Apr 2024 07:11:25 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 561CAB26D1F
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  3 Apr 2024 20:37:34 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0DA7B289690
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  4 Apr 2024 05:11:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A1CEC156969;
-	Wed,  3 Apr 2024 20:36:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OKKWNDJw"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D8B11537EC;
+	Thu,  4 Apr 2024 05:10:31 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D135115687B;
-	Wed,  3 Apr 2024 20:36:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+Received: from sakura.ysato.name (ik1-413-38519.vs.sakura.ne.jp [153.127.30.23])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8F05E20B35;
+	Thu,  4 Apr 2024 05:10:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=153.127.30.23
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712176603; cv=none; b=GIDitObpJF/6QF8TxDP9v0OtN7M2DgYHYGusSQgTW1kNNu0zX7kdVce7UqBdxnmY2v9IWooMKuxevhEVQ1sbo8YA9GvmyUJezR2DeV+kYSB2UsBHkyue9KwddA8O4xoXiVEKGGM7NY0devMtA40fQLVuPN/0vC2ZbShf1RZavjk=
+	t=1712207431; cv=none; b=oi8wZJJWCQuLJ1AjBjcBiWlBa0qt4XAhkLTTIHAfFanFxWque2/iXhSD3dKER7LAhiZMsMBd7ImfTZyhzNAZciHdRbFZGtuJwPkKO7XrH0hWESAPUqFMB2VEuujcA7N8DcQg1EcbXSpVXqIF1uyRLk0bOFMH8Yh+8tQrEp4SG9g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712176603; c=relaxed/simple;
-	bh=ym1B+YotZWSerPjFBcgO+xOuTrBddbeFCi8NmEi2Rhk=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=W2UHCTBZ10jUiDkSEE2wvmtwG87wZ05DUIVPbDN480+zFdb2oE3GLyGdRWHX76z3G5wVUNNnKDAlC3bdIVKnbSHC69YUGpir4DO3QLxLPxQepDIAQAuIxDsT7Dh0IYZ5iRvxtE82Ins7EK/c0MgCCH4d/5+Su0slGrifWEyHOAs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OKKWNDJw; arc=none smtp.client-ip=209.85.128.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4148c6132b4so8434615e9.1;
-        Wed, 03 Apr 2024 13:36:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1712176599; x=1712781399; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=jSGypoDfqpqf30JRW1cSjKb3kn4Y8om8katFtm1k9j8=;
-        b=OKKWNDJwRYiEQExvMkuDSUAPwJOCPMxVjFNv9oTL0Lm7GX3hZzmvTMCPx56ofZk15G
-         Bln8I9UhabF5MSb3s8koii/uw4msU5UHz/HjiYmn986trP1LDWjKd6YmJSa9GMkYgsNJ
-         pwxuNio1QRZrI37v7uCI3piEafaOnVlskw3zcSXoCLriYGZA53X2IAlWnnK0jLcUBiyw
-         ERJmrUCvzxqzR/x/3Iwci9eqOp35pI720YKVojzIlhk/VZit8Ts8JKnAtRpaXavMjNho
-         vvGpBVAdz6immsQ+u/oe+YHqhS7fG29B3W365Nfnpg57GnE6hzBcPgmAfA7FAklytVJY
-         aAEg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712176599; x=1712781399;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=jSGypoDfqpqf30JRW1cSjKb3kn4Y8om8katFtm1k9j8=;
-        b=M4hhZJyUI7O/91rHrBHHoIeuRcWMSpFa9OpmVX//VUDB0RLBclbcg3ECxuo9Jvz7b3
-         nxO6DpdGCKTAGhX4labPMOz/xg21TaUnpLeYsH2O4linHF256yV3QN9FL8ECSJBNRJ9b
-         MtdJDCnV1xuQ5Ex4T+g9pTrrQzFy92B9OsbMIRpeSOcp4TDfciWKM3itcGtzsfwsVkzi
-         GmPEPu6JZO2kv4YW/pXIUDYGh6XN8Wn0d37M4MQmZFClB7mfCsgRx9OLUXxqwNYR2MjV
-         ccC1vBKHrGk+TWbg4szjiv6QdY9nX0nSaaYS9lhfU2eR3KYg6ddKYlDCSO/FXbKHijhT
-         zRWg==
-X-Forwarded-Encrypted: i=1; AJvYcCXVaCm9b8Jih1NDqjLXl+Ws5msYX1PvSx+B3ocbg1x+vqS12n7Zf9YbEiOT3rjsRcRGMKzU6yTdlSZkm6y5o1PYlgUrRcJz80zxvoxBNGcrszbTMZdGzDLlUQf281cu2vfjDR4ejudLlrihxEdv
-X-Gm-Message-State: AOJu0Yw4TBX7N9t02W06NBvdDwhtaudIj7046+AypZUUvVDYw2430xbo
-	M4hxiezsY1SxmqDpu90zrzWQh9GOJ56sVAmZ1fZ5phGgFasg9OSFSAZZEwxc
-X-Google-Smtp-Source: AGHT+IFyZ/P7OD6dXKo56fesVxWbcmlAoQodU4rrW7wCYbFjzNMLINpZAc8FOrmJHkASHxkvyr9Gjg==
-X-Received: by 2002:a5d:5447:0:b0:343:7f4b:6da5 with SMTP id w7-20020a5d5447000000b003437f4b6da5mr2931617wrv.17.1712176599471;
-        Wed, 03 Apr 2024 13:36:39 -0700 (PDT)
-Received: from prasmi.home ([2a00:23c8:2500:a01:5eb:3d93:f2b6:25e8])
-        by smtp.gmail.com with ESMTPSA id p4-20020a05600c468400b00415f496b9b7sm244910wmo.39.2024.04.03.13.36.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 03 Apr 2024 13:36:38 -0700 (PDT)
-From: Prabhakar <prabhakar.csengg@gmail.com>
-X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>,
-	Thomas Gleixner <tglx@linutronix.de>,
+	s=arc-20240116; t=1712207431; c=relaxed/simple;
+	bh=3DF/2Dz6pH2U0aQ7KjEm7anPXTkdGjTa5S1TzcVBgGw=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=lT8n9NJOWHffiqq6MwfrNozjsCA3OpdHsSkhEYxNAHm2vKAJw5CaNH5dPNEnBXXnSGA01KyY8WJ4nq1KTrCEnyf06wAHmWxwUGLJzKT5qluRqKlluUn1AmqRPNL1EvnnSl0dp1HjxiQD6RwZyjAs/aVmskIrkP7dPSGYrQaZqnI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=users.sourceforge.jp; spf=fail smtp.mailfrom=users.sourceforge.jp; arc=none smtp.client-ip=153.127.30.23
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=users.sourceforge.jp
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=users.sourceforge.jp
+Received: from SIOS1075.ysato.name (al128006.dynamic.ppp.asahi-net.or.jp [111.234.128.6])
+	by sakura.ysato.name (Postfix) with ESMTPSA id 0A0E91C0109;
+	Thu,  4 Apr 2024 14:00:35 +0900 (JST)
+From: Yoshinori Sato <ysato@users.sourceforge.jp>
+To: linux-sh@vger.kernel.org
+Cc: Yoshinori Sato <ysato@users.sourceforge.jp>,
+	Damien Le Moal <dlemoal@kernel.org>,
+	Niklas Cassel <cassel@kernel.org>,
 	Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
 	Conor Dooley <conor+dt@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	David Airlie <airlied@gmail.com>,
+	Daniel Vetter <daniel@ffwll.ch>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	=?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kw@linux.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jiri Slaby <jirislaby@kernel.org>,
 	Magnus Damm <magnus.damm@gmail.com>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>
-Cc: linux-kernel@vger.kernel.org,
+	Daniel Lezcano <daniel.lezcano@linaro.org>,
+	Rich Felker <dalias@libc.org>,
+	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+	Lee Jones <lee@kernel.org>,
+	Helge Deller <deller@gmx.de>,
+	Heiko Stuebner <heiko.stuebner@cherry.de>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sebastian Reichel <sre@kernel.org>,
+	Chris Morgan <macromorgan@hotmail.com>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Arnd Bergmann <arnd@arndb.de>,
+	David Rientjes <rientjes@google.com>,
+	Hyeonggon Yoo <42.hyeyoo@gmail.com>,
+	Vlastimil Babka <vbabka@suse.cz>,
+	Baoquan He <bhe@redhat.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Kefeng Wang <wangkefeng.wang@huawei.com>,
+	Stephen Rothwell <sfr@canb.auug.org.au>,
+	Javier Martinez Canillas <javierm@redhat.com>,
+	Guo Ren <guoren@kernel.org>,
+	Azeem Shaikh <azeemshaikh38@gmail.com>,
+	Max Filippov <jcmvbkbc@gmail.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Jacky Huang <ychuang3@nuvoton.com>,
+	Herve Codina <herve.codina@bootlin.com>,
+	Manikanta Guntupalli <manikanta.guntupalli@amd.com>,
+	Anup Patel <apatel@ventanamicro.com>,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+	Sam Ravnborg <sam@ravnborg.org>,
+	Sergey Shtylyov <s.shtylyov@omp.ru>,
+	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+	linux-ide@vger.kernel.org,
 	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
 	linux-renesas-soc@vger.kernel.org,
-	linux-riscv@lists.infradead.org,
-	Prabhakar <prabhakar.csengg@gmail.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH v2 5/5] riscv: dts: renesas: rzfive-smarc-som: Drop deleting interrupt properties from ETH0/1 nodes
-Date: Wed,  3 Apr 2024 21:35:03 +0100
-Message-Id: <20240403203503.634465-6-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240403203503.634465-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20240403203503.634465-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+	linux-clk@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	linux-pci@vger.kernel.org,
+	linux-serial@vger.kernel.org,
+	linux-fbdev@vger.kernel.org
+Subject: [PATCH v7 00/37] Device Tree support for SH7751 based board
+Date: Thu,  4 Apr 2024 13:59:25 +0900
+Message-Id: <cover.1712205900.git.ysato@users.sourceforge.jp>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -98,48 +106,180 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+This is an updated version of something I wrote about 7 years ago.
+Minimum support for R2D-plus and LANDISK.
+I think R2D-1 will work if you add AX88796 to dts.
+And board-specific functions and SCI's SPI functions are not supported.
 
-Now that we have enabled IRQC support for RZ/Five SoC switch to interrupt
-mode for ethernet0/1 PHYs instead of polling mode.
+You can get it working with qemu found here.
+https://gitlab.com/yoshinori.sato/qemu/-/tree/landisk
 
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
-v1->v2
-- Included RB tag from Geert
----
- .../riscv/boot/dts/renesas/rzfive-smarc-som.dtsi | 16 ----------------
- 1 file changed, 16 deletions(-)
+v7 changes.
+- sh/kernel/setup.c: fix kernel parameter handling.
+- clk-sh7750.c: cleanup.
+- sh_tmu.c: cleanup.
+- irq-renesas-sh7751.c: IPR definition move to code.
+- irq-renesas-sh7751irl.c: update register definition.
+- pci-sh7751.c: Register initialization fix. 
+- sm501 and sm501fb: Re-design Device Tree properties.
 
-diff --git a/arch/riscv/boot/dts/renesas/rzfive-smarc-som.dtsi b/arch/riscv/boot/dts/renesas/rzfive-smarc-som.dtsi
-index 72d9b6fba526..86b2f15375ec 100644
---- a/arch/riscv/boot/dts/renesas/rzfive-smarc-som.dtsi
-+++ b/arch/riscv/boot/dts/renesas/rzfive-smarc-som.dtsi
-@@ -7,22 +7,6 @@
- 
- #include <arm64/renesas/rzg2ul-smarc-som.dtsi>
- 
--#if (!SW_ET0_EN_N)
--&eth0 {
--	phy0: ethernet-phy@7 {
--		/delete-property/ interrupt-parent;
--		/delete-property/ interrupts;
--	};
--};
--#endif
--
--&eth1 {
--	phy1: ethernet-phy@7 {
--		/delete-property/ interrupt-parent;
--		/delete-property/ interrupts;
--	};
--};
--
- &sbc {
- 	status = "disabled";
- };
+v6 changes.
+- pci-sh7751: merge register define.
+- pci-sh7751: use 'dma-ranges' property.
+- pci-sh7751: rename general PCI properties.
+- sm501 and sm501fb: Re-design Device Tree properties.
+- sh/kernel/setup: cleanup command line setup.
+- irq-sh7751.c: some cleanup.
+
+v5 changes.
+- pci-sh7751: revert header changes. and some fix in previuous driver.
+- sh/kernel/iomap.c: Use SH io functions.
+- sm501 and sm501fb: re-write DT support.
+
+v4 changes.
+- cpg-sh7750: use clk-divider and clk-gate.
+- pci-sh7751: unified header files to old PCI driver.
+- irq-renesas-sh7751: IPR registers direct mapping.
+- irq-renesas-sh7751irl: useful register bit mapping.
+- sm501 and sm501fb: re-write dt parser.
+- j2_minus: fix build error.
+- dt-binding schema: fix some errors.
+- *.dts: cleanup.
+
+v3 changes.
+- Rewrite clk drivers.
+- Added sh_tmu to OF support.
+- Cleanup PCI stuff.
+- Update sm501 and sm501fb OF support.
+- Update devicetree and documents.
+
+v2 changes.
+- Rebasing v6,6-rc1
+- re-write irqchip driver.
+- Add binding documents.
+- Cleanup review comment.
+
+Yoshinori Sato (37):
+  sh: passing FDT address to kernel startup.
+  sh: Kconfig unified OF supported targets.
+  sh: Enable OF support for build and configuration.
+  dt-bindings: interrupt-controller: Add header for Renesas SH3/4 INTC.
+  sh: GENERIC_IRQ_CHIP support for CONFIG_OF=y
+  sh: kernel/setup Update DT support.
+  sh: Fix COMMON_CLK support in CONFIG_OF=y.
+  clocksource: sh_tmu: CLOCKSOURCE support.
+  dt-binding: Add compatible SH7750 SoC
+  sh: Common PCI Framework driver support.
+  pci: pci-sh7751: Add SH7751 PCI driver
+  dt-bindings: pci: pci-sh7751: Add SH7751 PCI
+  dt-bindings: clock: sh7750-cpg: Add renesas,sh7750-cpg header.
+  clk: Compatible with narrow registers
+  clk: renesas: Add SH7750/7751 CPG Driver
+  irqchip: Add SH7751 INTC driver
+  dt-bindings: interrupt-controller: renesas,sh7751-intc: Add
+    json-schema
+  irqchip: SH7751 external interrupt encoder with enable gate.
+  dt-bindings: interrupt-controller: renesas,sh7751-irl-ext: Add
+    json-schema
+  serial: sh-sci: fix SH4 OF support.
+  dt-bindings: serial: renesas,scif: Add scif-sh7751.
+  dt-bindings: display: smi,sm501: SMI SM501 binding json-schema
+  dt-bindings: display: sm501 register definition helper
+  mfd: sm501: Convert platform_data to OF property
+  dt-binding: sh: cpus: Add SH CPUs json-schema
+  dt-bindings: vendor-prefixes: Add iodata
+  dt-bindings: ata: ata-generic: Add new targets
+  dt-bindings: soc: renesas: sh: Add SH7751 based target
+  sh: SH7751R SoC Internal peripheral definition dtsi.
+  sh: add RTS7751R2D Plus DTS
+  sh: Add IO DATA LANDISK dts
+  sh: Add IO DATA USL-5P dts
+  sh: j2_mimas_v2.dts update
+  sh: Add dtbs target support.
+  sh: RTS7751R2D Plus OF defconfig
+  sh: LANDISK OF defconfig
+  sh: j2_defconfig: update
+
+ .../devicetree/bindings/ata/ata-generic.yaml  |   2 +
+ .../bindings/clock/renesas,sh7750-cpg.yaml    | 105 ++++
+ .../bindings/display/smi,sm501.yaml           | 398 +++++++++++++++
+ .../renesas,sh7751-intc.yaml                  |  53 ++
+ .../renesas,sh7751-irl-ext.yaml               |  57 +++
+ .../bindings/pci/renesas,sh7751-pci.yaml      |  89 ++++
+ .../bindings/serial/renesas,scif.yaml         |   1 +
+ .../devicetree/bindings/sh/cpus.yaml          |  63 +++
+ .../devicetree/bindings/soc/renesas/sh.yaml   |  27 +
+ .../bindings/timer/renesas,tmu.yaml           |   2 +
+ .../devicetree/bindings/vendor-prefixes.yaml  |   2 +
+ arch/sh/Kconfig                               |  33 +-
+ arch/sh/boards/Kconfig                        |  23 +-
+ arch/sh/boards/of-generic.c                   |  28 +-
+ arch/sh/boot/compressed/head_32.S             |   5 +-
+ arch/sh/boot/dts/Makefile                     |   5 +
+ arch/sh/boot/dts/j2_mimas_v2.dts              |   2 +-
+ arch/sh/boot/dts/landisk.dts                  |  77 +++
+ arch/sh/boot/dts/rts7751r2dplus.dts           | 169 ++++++
+ arch/sh/boot/dts/sh7751r.dtsi                 | 105 ++++
+ arch/sh/boot/dts/usl-5p.dts                   |  85 ++++
+ arch/sh/configs/j2_defconfig                  |  11 +-
+ arch/sh/configs/landisk-of_defconfig          | 104 ++++
+ arch/sh/configs/rts7751r2dplus-of_defconfig   |  75 +++
+ arch/sh/drivers/Makefile                      |   2 +
+ arch/sh/include/asm/io.h                      |   8 +
+ arch/sh/include/asm/irq.h                     |  10 +-
+ arch/sh/include/asm/pci.h                     |   4 +
+ arch/sh/include/asm/setup.h                   |   1 +
+ arch/sh/kernel/cpu/Makefile                   |   6 +-
+ arch/sh/kernel/cpu/irq/imask.c                |  17 +
+ arch/sh/kernel/cpu/sh4/Makefile               |   3 +
+ arch/sh/kernel/iomap.c                        |  18 +
+ arch/sh/kernel/setup.c                        |  36 +-
+ arch/sh/kernel/time.c                         |  12 +
+ drivers/clk/clk-divider.c                     |  56 +-
+ drivers/clk/clk-gate.c                        |  62 ++-
+ drivers/clk/renesas/Kconfig                   |  13 +-
+ drivers/clk/renesas/Makefile                  |   1 +
+ drivers/clk/renesas/clk-sh7750.c              | 480 ++++++++++++++++++
+ drivers/clocksource/sh_tmu.c                  | 198 +++++---
+ drivers/irqchip/Kconfig                       |  15 +
+ drivers/irqchip/Makefile                      |   3 +
+ drivers/irqchip/irq-renesas-sh7751.c          | 282 ++++++++++
+ drivers/irqchip/irq-renesas-sh7751irl.c       | 221 ++++++++
+ drivers/mfd/sm501.c                           | 315 ++++++++++++
+ drivers/pci/controller/Kconfig                |   9 +
+ drivers/pci/controller/Makefile               |   1 +
+ drivers/pci/controller/pci-sh7751.c           | 342 +++++++++++++
+ drivers/tty/serial/Kconfig                    |   2 +-
+ drivers/tty/serial/sh-sci.c                   |   6 +-
+ drivers/video/fbdev/sm501fb.c                 | 106 ++++
+ include/dt-bindings/clock/sh7750-cpg.h        |  26 +
+ include/dt-bindings/display/sm501.h           |  76 +++
+ .../renesas,sh7751-intc.h                     |  19 +
+ include/linux/clk-provider.h                  |  22 +-
+ include/linux/sh_intc.h                       |   7 +-
+ 57 files changed, 3713 insertions(+), 187 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/clock/renesas,sh7750-cpg.yaml
+ create mode 100644 Documentation/devicetree/bindings/display/smi,sm501.yaml
+ create mode 100644 Documentation/devicetree/bindings/interrupt-controller/renesas,sh7751-intc.yaml
+ create mode 100644 Documentation/devicetree/bindings/interrupt-controller/renesas,sh7751-irl-ext.yaml
+ create mode 100644 Documentation/devicetree/bindings/pci/renesas,sh7751-pci.yaml
+ create mode 100644 Documentation/devicetree/bindings/sh/cpus.yaml
+ create mode 100644 Documentation/devicetree/bindings/soc/renesas/sh.yaml
+ create mode 100644 arch/sh/boot/dts/landisk.dts
+ create mode 100644 arch/sh/boot/dts/rts7751r2dplus.dts
+ create mode 100644 arch/sh/boot/dts/sh7751r.dtsi
+ create mode 100644 arch/sh/boot/dts/usl-5p.dts
+ create mode 100644 arch/sh/configs/landisk-of_defconfig
+ create mode 100644 arch/sh/configs/rts7751r2dplus-of_defconfig
+ create mode 100644 drivers/clk/renesas/clk-sh7750.c
+ create mode 100644 drivers/irqchip/irq-renesas-sh7751.c
+ create mode 100644 drivers/irqchip/irq-renesas-sh7751irl.c
+ create mode 100644 drivers/pci/controller/pci-sh7751.c
+ create mode 100644 include/dt-bindings/clock/sh7750-cpg.h
+ create mode 100644 include/dt-bindings/display/sm501.h
+ create mode 100644 include/dt-bindings/interrupt-controller/renesas,sh7751-intc.h
+
 -- 
-2.34.1
+2.39.2
 
 
