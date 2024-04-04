@@ -1,75 +1,75 @@
-Return-Path: <linux-renesas-soc+bounces-4331-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-4332-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC641898172
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  4 Apr 2024 08:29:07 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 56E158981BD
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  4 Apr 2024 08:58:00 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E15621C2235A
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  4 Apr 2024 06:29:06 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id AD060B22C37
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  4 Apr 2024 06:57:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 727F14E1A2;
-	Thu,  4 Apr 2024 06:29:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2148154917;
+	Thu,  4 Apr 2024 06:57:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="fxwFl5IC"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="L4hgbFQV"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
+Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFD744CB23
-	for <linux-renesas-soc@vger.kernel.org>; Thu,  4 Apr 2024 06:28:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D53B153809
+	for <linux-renesas-soc@vger.kernel.org>; Thu,  4 Apr 2024 06:57:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712212140; cv=none; b=LSJrde2whJVYLkF82R/HYxoAg0QwTjiISiYCtMqhf0UkVgaePb9i3tTf+Uld/nEpUNmTg5EZB7BMLD8XpWE4evNdcHMBr9ONkPKQSO1rOTnTGkGRIdIlNlh9Ein87nFQkzK2VeLUR26BzArDN1MFd9mEXiBvPptEJ8nRnnU1VfE=
+	t=1712213873; cv=none; b=rXNUDYY3MF6VG2ttsJxKN93mOkaiQZYyi2dNbOqzpTv7ZLZ+rJG+nLKcyUCBYrxEIou6EZlK0VmqA9XebzCzMF2q1CuCA2ebpjL3QsSGFlJFBKJ+PK9ceoa1ijbUWwbIMhPXfsMV5KmLiNccbpJvnUllO6hqZ5DgLZ6YwCaFVxc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712212140; c=relaxed/simple;
-	bh=P891P7FcFjkHvWoaTDGtfZs15HNWBmNUKuNxyZnEDmE=;
+	s=arc-20240116; t=1712213873; c=relaxed/simple;
+	bh=hQkdYh+HUV0aRV5dVMzVQEI5aCSRJjFERFjv3J/5dCU=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=PJ3eAxqKXo0ZP04fi5mNPeVjzgk3QjwdL3EAtYc/iA71473ZI5OE4e/caOOxVlxgdYlCQtWlhH+eIUCgAAhzLJRMuaLUh++GP1NCSGdxaQxJAlcwPd8q//90iquj2kI+vXMIlzYFTq2rxDJ2PA+2rBBEary1c4dFa4vHwffJDqw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=fxwFl5IC; arc=none smtp.client-ip=209.85.208.54
+	 In-Reply-To:Content-Type; b=g3KpRZeY38dpTigmHrXKxycvGkFEBBvE9p01w0Alb0DnDYHhjnHbxNAObpMNlAPtxsws/FEqYQ811z/FRX0GeVYX57NJEbNFTON7Qlpv4P8aAake3N0Fvjx5A4PuMOXFie0DCBcCfz2LncQAz7EyqhWo3zGWj7Gdhgfs4aBxXco=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=L4hgbFQV; arc=none smtp.client-ip=209.85.208.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-5684db9147dso634144a12.2
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 03 Apr 2024 23:28:57 -0700 (PDT)
+Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-56e136cbcecso622371a12.3
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 03 Apr 2024 23:57:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1712212136; x=1712816936; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1712213869; x=1712818669; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:autocrypt:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=Ms5IhlohGptfvc7pjsAJh17tRK7tr8jNQiSFppSgCfk=;
-        b=fxwFl5ICEP4Vl8FlC2tGYrasA1wlRZUSEyZIOZ8/WMLT5CrE6pNb6frH+qR1sANAPf
-         j8bJLip5lgL24EMogb3IhKc2LHi8rhbNf9gfhlU/IA2/2WWgWF2upuFTmSpvWL31McuZ
-         ciIbDz0pzJMOTTIkcxN2o8Go9Tjj0P8vEyjQynQ9fF9TzfpApDzdKtEejA11+5KUoSWh
-         emilpQ+vxs1uwCawTDP+kCdnE68nEGvZiIMrWQVeCFqs6OfxFgwsnd06mBdYlrhTNwY3
-         NcU57ycvryG/ynoaobtF7XB3S2VBPTgNn1km414nSqZv2hccrCNdfs3G95BifEgFyf9z
-         RgLA==
+        bh=BgbRn3a3/qSKac3ds9oVsAIXFYLFkXSa0lVEp4UKmlA=;
+        b=L4hgbFQV7ZN3VmWxJwGn6re3Nj0Von0fOli6SbyDrtNFDETIXFPzjUC61hAP6DVxcB
+         TOkKV3qq5ZFfToM4R5MiFBFwB0yF/zUv4/Y8sFYJME/TCZ3s9EJu645iHY4Pg58tqLkg
+         /uXdUV5Zx20SdJn3Nkuv1cvFuw/JvUr+s2RhiFy09/UI7n5CsBiE5sHGVi6vx47gGmMi
+         b9z8cC8viWblWL+oEYfq6d7pmNve7HBQJbyIZoFfMw5ZVDk/LYBbuynQAQeLwkppBhHY
+         /PLgbPbjXbninOD5qvX0KETTQiIj+upWlrB1xSvh7fMQNZw+LIf/Zj8AFUTVnO6Zypzp
+         Lh9Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712212136; x=1712816936;
+        d=1e100.net; s=20230601; t=1712213869; x=1712818669;
         h=content-transfer-encoding:in-reply-to:autocrypt:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Ms5IhlohGptfvc7pjsAJh17tRK7tr8jNQiSFppSgCfk=;
-        b=CDtiTUZiOpiBHVfZHyPOX5u3t+gXH0XQgxyzFEPDrXWmCoLFsCW0xmBLWn6bUMR8Wz
-         PwBHjeGltKi3Smz0QJEux8gTlJsM1fz7QckjmS2zP2+YD2PxcLCnyriYdDOX5K3bGFDR
-         1p793dW/aCS+SjvwGG84e8E1duGWdrnTUc2flK1+o37RnV9P4FR7SRAZGYFZZsOgwHLo
-         jSxXAzDk073D9es8EUrt0V1SBECNhN3KkVgGWiIf0vhMuEU5jGi5Z27GAsQoycPBwDml
-         0shbYEIQ59+GVvcmKWKFniSCZkdkzZ2dCcUAGWk3zCzhyPuVeG0GlPe6tVM4gA3IqIH3
-         v2IA==
-X-Forwarded-Encrypted: i=1; AJvYcCXp8u6hw4eKYXlAusDjIuN+7wJd/SQ+r+F09FQ9HR27yGhOO6zc4rGOQDFre8uDfK5R0ubchCAor4SJPtyqIMf1hRFg7HuSDfJOtVbtOREccwc=
-X-Gm-Message-State: AOJu0YwT6R6RJDrYSA+FVBzkPtZFOppMLNp+bwGwX9OfECgINfNLHt2D
-	scUnvXDKa6iVmUxsSHMDOQsfmQCbEmEugMeKOuRxvmm2LpCrurEsgo6AUcPc7LA=
-X-Google-Smtp-Source: AGHT+IH0sNA8ezJ9BPsyg614V2etJpPGQCn1fiGBVZ4cQzvMRbB2/Jbg8WAoXHIfXhuzfcxUvefLoA==
-X-Received: by 2002:a17:906:3606:b0:a50:c5d1:8e73 with SMTP id q6-20020a170906360600b00a50c5d18e73mr793179ejb.1.1712212136221;
-        Wed, 03 Apr 2024 23:28:56 -0700 (PDT)
+        bh=BgbRn3a3/qSKac3ds9oVsAIXFYLFkXSa0lVEp4UKmlA=;
+        b=t/0hSxoeRLyQkygcN84QabvHeBUep35Jovra1HliPbQmTyt8lvGip66UwVqtKDIRad
+         v51RjAWXK+2c4bsJGQCm94A3fSBqMmzGgSslmTSjLO7dlgNz0CcUPB67wjNWSfIOhhOy
+         lUC3MIJa07maAM55UL9u6pBYBzwwKsGZ8q/woDZMlX0C12zPPSimGTOmxxsF1wBvcBnN
+         q5wAz7vQyTrevpAUmPjQFF9ce9+Dv860GAMxXVNhVbzbd/hsY1p28h44T7CPG7oVfDIy
+         XsEBR2KZ+9QQPORCkpC8WKvLE4qOAYJTtPh7Fh68U6yfT13b8KJ8NEmZp6wkEzYmtl6F
+         iUKg==
+X-Forwarded-Encrypted: i=1; AJvYcCXifxaCANKqEireXNJctaX0EyKiNiR9X6xJaTW2h98niA+53ctvIQeP/KBiiOzc652/XQ2sZwzeqHgtkmI906jgRp7/pzPWfPHssncLVnCMUIY=
+X-Gm-Message-State: AOJu0YxbDevpSO9SmShNWe7I1cusR0Mol3/GYEV+q/LsaswAjnBbI1i8
+	bQnZvdBDEq7y2SEEAz3vade6+MSaAAoP+oELaP8IxsNe/YZJUvJ9jeOgCGtazlQ=
+X-Google-Smtp-Source: AGHT+IFuAfm1k/JXtICehvmeI7vfvHGFbdjlnmqMs+sHttt3SK3e2S+nxnYd4krGOU+NMDziVpCMrg==
+X-Received: by 2002:a17:906:e0cd:b0:a4e:2b75:e1de with SMTP id gl13-20020a170906e0cd00b00a4e2b75e1demr993298ejb.22.1712213869240;
+        Wed, 03 Apr 2024 23:57:49 -0700 (PDT)
 Received: from [192.168.1.20] ([178.197.223.16])
-        by smtp.gmail.com with ESMTPSA id g15-20020a170906538f00b00a4e98679e7dsm2008475ejo.87.2024.04.03.23.28.54
+        by smtp.gmail.com with ESMTPSA id n7-20020a170906840700b00a46caa13e67sm8660059ejx.105.2024.04.03.23.57.45
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 03 Apr 2024 23:28:55 -0700 (PDT)
-Message-ID: <3f18098e-f067-4b00-a567-2c9d7db5007f@linaro.org>
-Date: Thu, 4 Apr 2024 08:28:54 +0200
+        Wed, 03 Apr 2024 23:57:48 -0700 (PDT)
+Message-ID: <8eb6d39c-63a3-441c-8d74-2023bb82c0e2@linaro.org>
+Date: Thu, 4 Apr 2024 08:57:44 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -77,20 +77,50 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/5] dt-bindings: interrupt-controller:
- renesas,rzg2l-irqc: Document RZ/Five SoC
-To: Prabhakar <prabhakar.csengg@gmail.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Thomas Gleixner <tglx@linutronix.de>, Rob Herring <robh@kernel.org>,
+Subject: Re: [RESEND v7 26/37] dt-bindings: vendor-prefixes: Add iodata
+To: Yoshinori Sato <ysato@users.sourceforge.jp>, linux-sh@vger.kernel.org
+Cc: Damien Le Moal <dlemoal@kernel.org>, Niklas Cassel <cassel@kernel.org>,
+ Rob Herring <robh@kernel.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Magnus Damm <magnus.damm@gmail.com>,
- Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt
- <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>
-Cc: linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org, linux-riscv@lists.infradead.org,
- Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20240403203503.634465-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20240403203503.634465-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ Conor Dooley <conor+dt@kernel.org>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
+ <sboyd@kernel.org>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Thomas Gleixner <tglx@linutronix.de>, Bjorn Helgaas <bhelgaas@google.com>,
+ Lorenzo Pieralisi <lpieralisi@kernel.org>,
+ =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Jiri Slaby <jirislaby@kernel.org>, Magnus Damm <magnus.damm@gmail.com>,
+ Daniel Lezcano <daniel.lezcano@linaro.org>, Rich Felker <dalias@libc.org>,
+ John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+ Lee Jones <lee@kernel.org>, Helge Deller <deller@gmx.de>,
+ Heiko Stuebner <heiko.stuebner@cherry.de>, Shawn Guo <shawnguo@kernel.org>,
+ Sebastian Reichel <sre@kernel.org>, Chris Morgan <macromorgan@hotmail.com>,
+ Linus Walleij <linus.walleij@linaro.org>, Arnd Bergmann <arnd@arndb.de>,
+ David Rientjes <rientjes@google.com>, Hyeonggon Yoo <42.hyeyoo@gmail.com>,
+ Vlastimil Babka <vbabka@suse.cz>, Baoquan He <bhe@redhat.com>,
+ Andrew Morton <akpm@linux-foundation.org>, Guenter Roeck
+ <linux@roeck-us.net>, Kefeng Wang <wangkefeng.wang@huawei.com>,
+ Stephen Rothwell <sfr@canb.auug.org.au>,
+ Javier Martinez Canillas <javierm@redhat.com>, Guo Ren <guoren@kernel.org>,
+ Azeem Shaikh <azeemshaikh38@gmail.com>, Max Filippov <jcmvbkbc@gmail.com>,
+ Jonathan Corbet <corbet@lwn.net>, Jacky Huang <ychuang3@nuvoton.com>,
+ Herve Codina <herve.codina@bootlin.com>,
+ Manikanta Guntupalli <manikanta.guntupalli@amd.com>,
+ Anup Patel <apatel@ventanamicro.com>, Biju Das <biju.das.jz@bp.renesas.com>,
+ =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+ Sam Ravnborg <sam@ravnborg.org>, Sergey Shtylyov <s.shtylyov@omp.ru>,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ linux-ide@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+ linux-clk@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-pci@vger.kernel.org, linux-serial@vger.kernel.org,
+ linux-fbdev@vger.kernel.org
+References: <cover.1712207606.git.ysato@users.sourceforge.jp>
+ <4649938dc48da6e449ef6f1987c7739ba3a80b42.1712207606.git.ysato@users.sourceforge.jp>
 Content-Language: en-US
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
@@ -137,58 +167,36 @@ Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
  fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
  D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20240403203503.634465-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <4649938dc48da6e449ef6f1987c7739ba3a80b42.1712207606.git.ysato@users.sourceforge.jp>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 03/04/2024 22:34, Prabhakar wrote:
-> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+On 04/04/2024 07:14, Yoshinori Sato wrote:
+> Add IO DATA DEVICE INC.
+> https://www.iodata.com/
 > 
-> Document RZ/Five (R9A07G043F) IRQC bindings. The IRQC block on the RZ/Five
-> SoC is almost identical to the one found on the RZ/G2L SoC, with the only
-> difference being that it has additional mask control registers for
-> NMI/IRQ/TINT.
-> 
-> Hence new compatible string "renesas,r9a07g043f-irqc" is added for RZ/Five
-> SoC.
-> 
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Signed-off-by: Yoshinori Sato <ysato@users.sourceforge.jp>
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 > ---
-> v1->v2
-> - Dropped the checks for interrupts as its already handled
-> - Added SoC specific compat string
-> ---
->  .../renesas,rzg2l-irqc.yaml                     | 17 ++++++++++-------
->  1 file changed, 10 insertions(+), 7 deletions(-)
+>  Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
+>  1 file changed, 2 insertions(+)
 > 
-> diff --git a/Documentation/devicetree/bindings/interrupt-controller/renesas,rzg2l-irqc.yaml b/Documentation/devicetree/bindings/interrupt-controller/renesas,rzg2l-irqc.yaml
-> index daef4ee06f4e..2a871cbf6f87 100644
-> --- a/Documentation/devicetree/bindings/interrupt-controller/renesas,rzg2l-irqc.yaml
-> +++ b/Documentation/devicetree/bindings/interrupt-controller/renesas,rzg2l-irqc.yaml
-> @@ -21,13 +21,16 @@ description: |
->  
->  properties:
->    compatible:
-> -    items:
-> -      - enum:
-> -          - renesas,r9a07g043u-irqc   # RZ/G2UL
-> -          - renesas,r9a07g044-irqc    # RZ/G2{L,LC}
-> -          - renesas,r9a07g054-irqc    # RZ/V2L
-> -          - renesas,r9a08g045-irqc    # RZ/G3S
-> -      - const: renesas,rzg2l-irqc
-> +    oneOf:
-> +      - items:
-> +          - enum:
-> +              - renesas,r9a07g043u-irqc        # RZ/G2UL
-> +              - renesas,r9a07g044-irqc         # RZ/G2{L,LC}
-> +              - renesas,r9a07g054-irqc         # RZ/V2L
-> +              - renesas,r9a08g045-irqc         # RZ/G3S
-> +          - const: renesas,rzg2l-irqc
-> +      - items:
 
-This is just const, no need for items.
+This is a friendly reminder during the review process.
 
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+It looks like you received a tag and forgot to add it.
+
+If you do not know the process, here is a short explanation:
+Please add Acked-by/Reviewed-by/Tested-by tags when posting new
+versions, under or above your Signed-off-by tag. Tag is "received", when
+provided in a message replied to you on the mailing list. Tools like b4
+can help here. However, there's no need to repost patches *only* to add
+the tags. The upstream maintainer will do that for tags received on the
+version they apply.
+
+https://elixir.bootlin.com/linux/v6.5-rc3/source/Documentation/process/submitting-patches.rst#L577
+
+If a tag was not added on purpose, please state why and what changed.
 
 Best regards,
 Krzysztof
