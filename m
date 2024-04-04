@@ -1,75 +1,75 @@
-Return-Path: <linux-renesas-soc+bounces-4329-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-4330-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4AEF1898128
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  4 Apr 2024 08:07:44 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 111EB898134
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  4 Apr 2024 08:08:31 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 791A11F23460
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  4 Apr 2024 06:07:41 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B9C8F287ABA
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  4 Apr 2024 06:08:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CE25B286A6;
-	Thu,  4 Apr 2024 06:07:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2C709481A5;
+	Thu,  4 Apr 2024 06:08:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="NL5ld8zL"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="L9n4cMxJ"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACD2843AB7
-	for <linux-renesas-soc@vger.kernel.org>; Thu,  4 Apr 2024 06:07:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1483445970
+	for <linux-renesas-soc@vger.kernel.org>; Thu,  4 Apr 2024 06:08:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712210856; cv=none; b=PiuHG8/jSH+g+s1NuDl+j9OwuwXEuGQlg7OYXiTrztMvFKtNGXRus4+/DybKuUOms7DNQ2Bos30kh36/19Q2c7NLlxDGz+khcX23K+X5tn66hWTCh5EGFF36174wOKwjg0gdAnRji2fQHbQM5XFsTUrSoaaelgVFNZw7NiwZNW8=
+	t=1712210906; cv=none; b=Ha6hJF7HttfLMBqLhAJQYimKLbLvSePgGsx7IKRIOczMHVu22kwsT4n1+2jUT+sV1syg6/V1j2zBtDffHQ32ekufNJzxBb1a4QHynEuJv9jboZcL7W40l4+13rRrPX3z3B4P4uM0HZ44cpxsELk9xOxPP5NzKwtVso96rKoUb28=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712210856; c=relaxed/simple;
-	bh=gfCnLzL12inyto+TdH+4+k3GgVvpCiH7kAxG32upfzQ=;
+	s=arc-20240116; t=1712210906; c=relaxed/simple;
+	bh=ck5HlJSGfEIktIG5FSqBkHcuiI35GZ/YtcLCexW15Ng=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=BeN7D9I7YaO5cr3ewOGBWGKv2OB/5ytbzWSZdZh4fFlAvmUoAPycuw/sMTRMVAKxZHd7osUica/dT6xaazy3oGnFblucBbHujNusJbKkovyp1MclvsvGBWX+0k8DNnWbX/ygk7TX3g76WL9zGEJK3+cBT6J38UdDPR9WQujHMP0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=NL5ld8zL; arc=none smtp.client-ip=209.85.218.41
+	 In-Reply-To:Content-Type; b=CC1qEQmaxvvdhNdMqCxe+yDQAuUiOswLOmyfFtiGR/d0KqxsJMAO6A2o6IqaULclwxYD9N4OOyvCwV3iRDvqLhF6bklWZiVo9DZckPvXyu9HIivLWZv5YDL0VR3OgcQxnq/c9p8M+VF6IMf9Xa+xrq2s+ggFkAHI1qnfQDUmlX0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=L9n4cMxJ; arc=none smtp.client-ip=209.85.218.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-a46ea03c2a5so98721366b.1
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 03 Apr 2024 23:07:34 -0700 (PDT)
+Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-a51320fc5d6so88512366b.1
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 03 Apr 2024 23:08:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1712210853; x=1712815653; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1712210902; x=1712815702; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:autocrypt:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=xMtZcKYGgjiZL9uAifFaCLqOJkhjnHenZoPTiVcaqdY=;
-        b=NL5ld8zLkrdDJEpaGVMUoXOZn+a+6Vb2whKaok4wJg+aTFLkaNi4PIUm6hnZ6USO7j
-         dpVf19JF9qkBtnPLMAUHHw/rZKR00KKlhfigkQFCHYiO8zwWyAYSxY3btFGXRhNWwD7d
-         qv+DCr7VE3HvfbWi6NlLBd6TGoJbK93kMNGVHvwnWdX/lGox83ncY02zM8EiqNVoF8+7
-         s4JKIOhMM34YdhlTfGV3ygpZVYYI5t9Pt4VE3KR+bcwoXXZuwz4ZISwBXOg1zrVjIqp7
-         vAOMGwCTDQGxSxOwwzMCuVfJe0iVVHuDdpvNzyjujvo/ey+OMTuHXoBSDuntSl5XD2np
-         Mayg==
+        bh=rxTZ85unwyVpbZ07p+2JFJ30WK5iCDVvonlCXKZGiyE=;
+        b=L9n4cMxJQe5qz0Hxe/fWe2WOKF2mfQiqAfdge1PC5bSmf7WEG05O3aqy2NOlA/gNqg
+         4D+BW4mStGYPpGjTQHCvd72SUftzuLTXp3iYu3APlbwBxUNEwNUHIvrmH+NO/QcsnvtI
+         s4Z06FvNY/vuxHiwlgdwsEZmdElONLolx84oP6yCId7rGqtTEBwJO9BV/uLUTrRRoIyy
+         w+LW/oOuMGV8OrnabxDnnBUtKtyO8uaGfaAaqcFazljtdWf51d6YsI5//M+4n8Gab5TI
+         NOExZLGeIBekQAw6wYssWREdwBA0o2/4H6Dc7NzFza2MTywWZ12Uiu3sOiutAf6UR1iR
+         b9RA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712210853; x=1712815653;
+        d=1e100.net; s=20230601; t=1712210902; x=1712815702;
         h=content-transfer-encoding:in-reply-to:autocrypt:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=xMtZcKYGgjiZL9uAifFaCLqOJkhjnHenZoPTiVcaqdY=;
-        b=h25dONDvp8YLXi6KmvX6ikHHFqdPtamMb6VEeJahcpZMN3/ckhGJrwS+y6Hst/77+T
-         SVEWyhD1LWJ6vSVFY1zeKyGYDRpBRAEgOd2FkWwo9GhPwd9iuTsLUXJYIUPRnBgFlAE8
-         aRbn4UglrpC8zJ17WdrY5pVuxMMct3tLnWZWLOh5F429ZmKIxyQVSbwCF4ukgUSvhO0y
-         I96j04pNl/RL3MsedCKucyjujVdl440NbYUuoe/PNPyid0Sq/FIt4zL+VVpcmXsCeFz0
-         gt0BTqrt9eKrlm9vXT2ykpWq98EdOs1HKL87KKS5oFoqerPBSfI4XRcwbggdtm/SEWfB
-         zoRg==
-X-Forwarded-Encrypted: i=1; AJvYcCVLmUoIrsToFoPiw0mfu0aWIHkcFCcgYCXY0NxApfskn1/GNzU5XVl3jo5Fkzzz6CbFD0aAgtBUZ8mEH7cCk12WOg5WTCZYRm8pst82TXL8z8k=
-X-Gm-Message-State: AOJu0Yx8qL4uT1My23+07i53Q1T6FuGV8Qedr5S8ry7VACXS8GRDglSY
-	2uA+pHa83T7oYbHBFkbdvBwHG7bWxx86LM3+U1hCYMPHilb1y/Tk+QH+mC14Ylo=
-X-Google-Smtp-Source: AGHT+IGFHCJtoawYrBDiWZZNwxa2eQXZi+iM69s8H12jzVA3GvmJLPQ4N58uQ3FvqaJdTGe3oHxhyw==
-X-Received: by 2002:a17:906:518:b0:a51:89f0:10ee with SMTP id j24-20020a170906051800b00a5189f010eemr544124eja.37.1712210852993;
-        Wed, 03 Apr 2024 23:07:32 -0700 (PDT)
+        bh=rxTZ85unwyVpbZ07p+2JFJ30WK5iCDVvonlCXKZGiyE=;
+        b=iMw2h4wbfTWyMyTIeitKxATyA2nXIOwnCS7+Cq5rzUKhavcLay+m4xAUNE8B4V/9lt
+         T36gau93SXtDQHOO0bhy69dA61Kn3iQVOAli8MePFq+AC/Hi11y7W89q73RWtCziR2sF
+         n9YJCdU0gMi+mHLD4WJotRAtSdSuRTUpBmCFJT9ySxBvqJ8309c7TtdEkASyUbZrMTur
+         j9EJ02+HzhUb28y5ZEpikNQHW/LySWR6DhEW5MFo4eVhXouFxqsKcdodS6SYWh3aCbSJ
+         /uSBcIhMoR2t5jhiyhtyB/4TQYEXhGF0YpCGGEUeWdTRi73cxyZkzBwZXSlzB8PYzl1w
+         Fohw==
+X-Forwarded-Encrypted: i=1; AJvYcCV/rfXekcZqRCS81K39DvWJKLsQmms5eX8HWP1Wf4TeYHqNex0KH78wqe7adXtkYMLZZ9bvJ8O2hVEjoibymBbijMt0/lxa3e9OB0Tkm14sjDk=
+X-Gm-Message-State: AOJu0Yw7u8uBf0Z6sVtz0TBcFibSUX6B9Cf6q07AjQq/A2jY9mDYB/9x
+	apfbAGiutyL3B6+DDvEmPgptQPLYlVnv11WrxnpYjlkIAK+ZnKHbyekDpZczHUI=
+X-Google-Smtp-Source: AGHT+IFI/qIkJNXTS6UHJf3srgzvcentyDoh5xx2aALaAXZXdTsCp8+U/4aUbwmbKXwuQRzaZ/XKDQ==
+X-Received: by 2002:a17:906:6607:b0:a4e:207e:b71 with SMTP id b7-20020a170906660700b00a4e207e0b71mr909877ejp.6.1712210902408;
+        Wed, 03 Apr 2024 23:08:22 -0700 (PDT)
 Received: from [192.168.1.20] ([178.197.223.16])
-        by smtp.gmail.com with ESMTPSA id v18-20020a170906339200b00a4df78425dbsm8545445eja.36.2024.04.03.23.07.29
+        by smtp.gmail.com with ESMTPSA id w17-20020a170906185100b00a4e9359fbe8sm2307025eje.44.2024.04.03.23.08.18
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 03 Apr 2024 23:07:32 -0700 (PDT)
-Message-ID: <e96ae1c6-a1cf-4f42-82ef-057e7ec5edc5@linaro.org>
-Date: Thu, 4 Apr 2024 08:07:28 +0200
+        Wed, 03 Apr 2024 23:08:21 -0700 (PDT)
+Message-ID: <f73c3130-3121-4339-8f7a-8870a841005c@linaro.org>
+Date: Thu, 4 Apr 2024 08:08:17 +0200
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -77,7 +77,7 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 04/37] dt-bindings: interrupt-controller: Add header
+Subject: Re: [RESEND v7 04/37] dt-bindings: interrupt-controller: Add header
  for Renesas SH3/4 INTC.
 To: Yoshinori Sato <ysato@users.sourceforge.jp>, linux-sh@vger.kernel.org
 Cc: Damien Le Moal <dlemoal@kernel.org>, Niklas Cassel <cassel@kernel.org>,
@@ -120,8 +120,8 @@ Cc: Damien Le Moal <dlemoal@kernel.org>, Niklas Cassel <cassel@kernel.org>,
  linux-clk@vger.kernel.org, dri-devel@lists.freedesktop.org,
  linux-pci@vger.kernel.org, linux-serial@vger.kernel.org,
  linux-fbdev@vger.kernel.org
-References: <cover.1712205900.git.ysato@users.sourceforge.jp>
- <d50827196f7e1201bb9a62656fb04223a8989f1d.1712205900.git.ysato@users.sourceforge.jp>
+References: <cover.1712207606.git.ysato@users.sourceforge.jp>
+ <d50827196f7e1201bb9a62656fb04223a8989f1d.1712207606.git.ysato@users.sourceforge.jp>
 Content-Language: en-US
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
@@ -168,16 +168,18 @@ Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
  fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
  D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <d50827196f7e1201bb9a62656fb04223a8989f1d.1712205900.git.ysato@users.sourceforge.jp>
+In-Reply-To: <d50827196f7e1201bb9a62656fb04223a8989f1d.1712207606.git.ysato@users.sourceforge.jp>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 04/04/2024 06:59, Yoshinori Sato wrote:
+On 04/04/2024 07:14, Yoshinori Sato wrote:
 > Renesas SH7751 Interrupt controller priority register define.
 > 
 > Signed-off-by: Yoshinori Sato <ysato@users.sourceforge.jp>
 
-Nothing improved, still NAK.
+I got two 37-patchsets...
+
+Anyway, this also did not improve. NAK.
 
 This is a friendly reminder during the review process.
 
