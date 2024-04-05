@@ -1,62 +1,79 @@
-Return-Path: <linux-renesas-soc+bounces-4348-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-4349-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8603D8996A5
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  5 Apr 2024 09:37:03 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B943899865
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  5 Apr 2024 10:48:48 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1EB7E1F219DD
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  5 Apr 2024 07:37:03 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 255E51F2167E
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  5 Apr 2024 08:48:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F230152F8E;
-	Fri,  5 Apr 2024 07:37:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A4BBF15FA8D;
+	Fri,  5 Apr 2024 08:48:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="NJY0u6Oq"
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="R8T/4zsl"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14D93524C3
-	for <linux-renesas-soc@vger.kernel.org>; Fri,  5 Apr 2024 07:36:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B8D915F338
+	for <linux-renesas-soc@vger.kernel.org>; Fri,  5 Apr 2024 08:48:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712302620; cv=none; b=eaF2jFwH6W5aFZ5BJAJVSAlW6EUDrfz5m1RqatBWJ/0SNAykeiAWkGXyS6ZO78UQA90sqeUCiIqlAtAZPEn2TJpp8LK7yRnjCZePrvi0YEN7grXaNxcGWIhf/Yxrc1L4ZXaMZ/kBf5lfZK3xZizSqzs5hqy0/Zi1tmaWJR6kILY=
+	t=1712306921; cv=none; b=Ah9jCDRMoGLYzdYc7Zxn6JUN1NAlyerWomN4cw52vE8h+z2GUHQL/TFTHoooNwi9NH07Txh2i2FNkgblYt7XHY9Tv3WqxeEu1UQKlBNNAsY1ZUb4KWKmD08lnvE4sIbo+AQ4jXtN6tWDZ6szomtaf6604sh9r8RQJTda2bsPnZg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712302620; c=relaxed/simple;
-	bh=tSw1iej0oL/IWob3Ulq8/H4sWQA0+hBYrrVjoW6rDK4=;
+	s=arc-20240116; t=1712306921; c=relaxed/simple;
+	bh=rs0vw5LW9UM/y60I9xGZqbakggiNBHyoOs4B+0ZsN6s=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bt30KvLh8lzTwhoxWrS9dCX3ZBTmHhFo3mMGrj6LiqZyiyGIVwpdsJdiGlEmmXP/dFBu2YP3iDKSZIk9RAxOlvPiSOSgMLuSbobKVzsqtUFMQp6qmp3txeAq2USFd5zj/OC+zEiWMctjk3KwPKvRH5YjvWTLZMNP0Ip0eqWyFLk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=NJY0u6Oq; arc=none smtp.client-ip=194.117.254.33
+	 Content-Type:Content-Disposition:In-Reply-To; b=if/iITmOZWfT2Q0uhPswmoVue9XQ3g/SeRwqSvsuI2HQemoX2EreOj5Ub9DfPb5losXtbhfviESItdBDr9SPtkFCIBmP4e4a7mByDV4vKI4u7vK/WkKVV53R4hM5WhEpqn/FEdIxSRX4QaKg5JZFSPeTwnVCrWtmC+2KuK10gKA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=R8T/4zsl; arc=none smtp.client-ip=194.117.254.33
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=tSw1
-	iej0oL/IWob3Ulq8/H4sWQA0+hBYrrVjoW6rDK4=; b=NJY0u6Oqo9z7q3O9cqQf
-	lomakjwhF3RyPJ5lkjpxo7Ig/u0QrF5Lj02MCbLDpljwryOIkmCdf9Hdg16RBg+f
-	YjArN18IRxjZhGjmnNh0LoKqZzDlJ0Wruj1xyaHvgJRWbXPPEytW+4YxP3iUww6a
-	xnrhrNhJ5705M6ijy7h0Qq9qIQADwenG0GgWIT51griH2m2osotrIt/vtCIUTwfA
-	QCdpQng0qpoy5qGrUOU3yIFiXqzAE1E5prXrEkdbE6VLkSRl7Qhd3QKwLiUFoENQ
-	s8j0rRJhuKAFIjuZGGcfDGOYEV9y87BYlnEp2Do1JdwvpOqWQ1AGj1mKJs5ojl19
-	Jg==
-Received: (qmail 4024238 invoked from network); 5 Apr 2024 09:36:57 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 5 Apr 2024 09:36:57 +0200
-X-UD-Smtp-Session: l3s3148p1@nA49hVQVcMIgAwDPXwEGAANOsN0UmmrN
-Date: Fri, 5 Apr 2024 09:36:56 +0200
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=D3bA
+	ysj0N+3ktsukYn/zGLisNXUDp098hBJ07HyHzKc=; b=R8T/4zsl0Zd0dNbaommC
+	kCLTauMRf6yuGZlEbnNrPo+sDuLbN4s8BfD2QtEyqFV73GtOSagiQmnkLEuHWGCQ
+	vRejlIPlKU/mYMv+6t8UkEAMEtwYdgwHTAQorcdRr9Ope6KAX7AmqTkxF537SxfY
+	hbp2DrU8wtJm0oExDm1ozx0tnjR+RM/n3EJ7Hxedj1A/sxIF9bIEt0Q6uqjDDZO6
+	DhN5dSoCZRnlewvb/Wq/ACyPQ8GtSN3yttgw0BjHvy2Oz86yt92QQcC0xPBJXssA
+	1OMpCVAZHpK9gwh4XkivjtbsyOTJWxSQAZ6QWGsn2F7XdFdDJmCqNTrRYM5kOmvv
+	nA==
+Received: (qmail 4044863 invoked from network); 5 Apr 2024 10:48:34 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 5 Apr 2024 10:48:34 +0200
+X-UD-Smtp-Session: l3s3148p1@j8VihVUV/oogAwDPXwEGAANOsN0UmmrN
+Date: Fri, 5 Apr 2024 10:48:34 +0200
 From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: Magnus Damm <magnus.damm@gmail.com>, linux-renesas-soc@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, Thanh Quan <thanh.quan.xn@renesas.com>
-Subject: Re: [PATCH 2/2] arm64: dts: renesas: r8a779h0: Add TMU nodes
-Message-ID: <z25yr54p52o62njymi7py4xlmh6f5g5eakcsamfe2gaqqtlxxe@2thjqucgdhxf>
+To: Andi Shyti <andi.shyti@kernel.org>
+Cc: linux-i2c@vger.kernel.org, asahi@lists.linux.dev, 
+	chrome-platform@lists.linux.dev, imx@lists.linux.dev, linux-actions@lists.infradead.org, 
+	linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
+	linux-arm-msm@vger.kernel.org, linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org, 
+	linux-mediatek@lists.infradead.org, linux-mips@vger.kernel.org, linux-omap@vger.kernel.org, 
+	linuxppc-dev@lists.ozlabs.org, linux-renesas-soc@vger.kernel.org, 
+	linux-riscv@lists.infradead.org, linux-rockchip@lists.infradead.org, 
+	linux-rpi-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org, 
+	linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org, 
+	openbmc@lists.ozlabs.org, virtualization@lists.linux.dev
+Subject: Re: [PATCH 00/64] i2c: reword i2c_algorithm according to newest
+ specification
+Message-ID: <kd2gnsosi5xar3mwc3zz7wqtqkfgicq3wical5ch34sbmlgegk@mb2c2hxzzoi4>
 Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
-	linux-renesas-soc@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	Thanh Quan <thanh.quan.xn@renesas.com>
-References: <cover.1712068688.git.geert+renesas@glider.be>
- <9b82bcb345f14ffd740156b6d41088e02d45e72d.1712068688.git.geert+renesas@glider.be>
+	Andi Shyti <andi.shyti@kernel.org>, linux-i2c@vger.kernel.org, asahi@lists.linux.dev, 
+	chrome-platform@lists.linux.dev, imx@lists.linux.dev, linux-actions@lists.infradead.org, 
+	linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
+	linux-arm-msm@vger.kernel.org, linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org, 
+	linux-mediatek@lists.infradead.org, linux-mips@vger.kernel.org, linux-omap@vger.kernel.org, 
+	linuxppc-dev@lists.ozlabs.org, linux-renesas-soc@vger.kernel.org, 
+	linux-riscv@lists.infradead.org, linux-rockchip@lists.infradead.org, 
+	linux-rpi-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org, 
+	linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org, 
+	openbmc@lists.ozlabs.org, virtualization@lists.linux.dev
+References: <20240322132619.6389-1-wsa+renesas@sang-engineering.com>
+ <ug266trshvhhbsln3eoh53fmsuj3l63ziz6gavcl7rv2jhjr5t@3av5givh5n7m>
+ <j2l7tu24itjelylrgwe6gdsy3mfrw3dnve4rdofmri3z7xdroc@se56t5ylmdak>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -64,47 +81,49 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="lx75dmsze4sevhvc"
+	protocol="application/pgp-signature"; boundary="c5kq2kdwqrnl4eet"
 Content-Disposition: inline
-In-Reply-To: <9b82bcb345f14ffd740156b6d41088e02d45e72d.1712068688.git.geert+renesas@glider.be>
+In-Reply-To: <j2l7tu24itjelylrgwe6gdsy3mfrw3dnve4rdofmri3z7xdroc@se56t5ylmdak>
 
 
---lx75dmsze4sevhvc
+--c5kq2kdwqrnl4eet
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Tue, Apr 02, 2024 at 04:44:17PM +0200, Geert Uytterhoeven wrote:
-> From: Thanh Quan <thanh.quan.xn@renesas.com>
->=20
-> Add device nodes for the Timer Units (TMU) on the R-Car V4M (R8A779H0)
-> SoC.
->=20
-> Signed-off-by: Thanh Quan <thanh.quan.xn@renesas.com>
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Hi Andi, hi everyone,
 
-Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+thank you for reviewing and waiting. I had a small personal hiatus over
+Easter but now I am back. This series needs another cycle, so no need to
+hurry. I will address some of the review comments but not all. The
+conversion (and API improvements) are some bigger tasks, so
+inconsistencies inbetween can't be avoided AFAICS.
+
+I'll keep you updated.
+
+Happy hacking,
+
+   Wolfram
 
 
---lx75dmsze4sevhvc
+--c5kq2kdwqrnl4eet
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmYPqhgACgkQFA3kzBSg
-KbYj1g/6AhO5B9ZCpfr30xW8dpCLe1LAhuVL2QIq2ik9Nm02K6kOe8hm47uVPP7m
-KfhnLTjjvQgc6hWAun6RFE/RH6f7CZj5KUScouq85WNlViqdzelbw4+LafxoVo6d
-j690hP6NvmN7cLg+9gqVO31ywbHws7NxjBdKih4lg5J/YgtblMnaprvXvIyU8Gl8
-GVVw8P8dNV4DTIarcDg6XtZeLkLfW7UkRhvDRVjka68fQKGweFs88BO3gqmBLsvN
-gR1OGwfxRSvkRpQUNO1PIwn8GctbGRvLUU3mfA8dgiKyECFh8pJcZKDXdXONea1m
-zUP0VdYuxQopCneSUXEhLoiqjAxAgsB2E9pX4/CTwsnKNOrIaXSVYutVHK/6S+xE
-Rrfwu4992YlvYToTucx01vWUrgseAWBw2noLMvK6/1qyzr2OQWa+JAQahk27GCXs
-mE9ge5f1wGmVXIEzaVCLlTCOOy7rexdjcn0e4ZLhchDcmn4I8obNP/TC3mhx6sG8
-4s4U8rtl0/Hqvaj4/Yh/psL2AzqqZjjKADL1UaAtJjx45gcK7uUBikSLLf69Dc6n
-bEVTgN5wg3JWjWVDATnKvevoyDzt1csmeXRaYUKZhAk4affBANItTyKx4qZSrn3C
-Ac0C90nDgRXe0hdYouv274zzhruJp1Vy2mEoeLywJSVaO8FWeZM=
-=OQLB
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmYPut4ACgkQFA3kzBSg
+KbbwnxAAtFWKOWnU/VyFFeZnqQCgQ76FzO93xERcjysHlgnZv3BnA6UpxFnrHrs4
+Cn7RTWa0i9Ct1ns2AkkjOQ5rUIqczF7M2dVS0tqODwyazGPaDHYtsa3urfkCsLT7
+Gz0y5V+oHHUNj1hypkKtQ37/7iFSYbo5oryt9MFK6eFfs878jel/4BCGJk3SEa48
+ewNnEuM8aYfzlrn7/VbkWqHkCS5J6x8/VFk3PjlxgEW45UtEI3r30K6/jT9HOdx4
+6lCofEZKn4Bl0VbfJJ7MXd1Be2/Dk6ZaY09e97iAKt2+fM1OLrBwig2V8PAdV7ei
+LlHolA153CWJAAkzXE2bJsr252IuCLpVpZobTSQRfr+u5vVV354dfo2ek11R8iff
+DSr94kqdKVvOvegpxt4vyHUxQrfy70R9vlkgVhkdvdGbi3JfLeiCK+C+IcBZlbXr
+uTaPlNvOt6p+VJNAlucnKQF3mK0FvVMK7bTwqjbKR8ZzB8J20qj5pqxqtBZDjfOl
+fpTR9f9+kHWdmBuCLBq35aes6Lxq4JtNRH+czt8F8wIAfx/xcgTf2uPThVoFPO9s
+jyO4fy773Wsfo8PGo9SqSKr7K6gQW3dIDoFTk489lp3e9Y/DYJ+ZV2ixvCQKATjO
+3K0umrWHYd25+mhripLMPzaz3h1GPtmAiQq/dq2GUviAFUPoZas=
+=RWT2
 -----END PGP SIGNATURE-----
 
---lx75dmsze4sevhvc--
+--c5kq2kdwqrnl4eet--
 
