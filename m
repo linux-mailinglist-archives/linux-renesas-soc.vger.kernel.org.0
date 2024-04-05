@@ -1,293 +1,168 @@
-Return-Path: <linux-renesas-soc+bounces-4355-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-4356-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5F20899DFD
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  5 Apr 2024 15:07:45 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 42729899E41
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  5 Apr 2024 15:25:57 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 54105B2209D
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  5 Apr 2024 13:07:43 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E6005288219
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  5 Apr 2024 13:25:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EAB2B16D4DA;
-	Fri,  5 Apr 2024 13:07:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BC4pqoIf"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0CD1F16D4D4;
+	Fri,  5 Apr 2024 13:25:51 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com [209.85.128.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DA0615FD16;
-	Fri,  5 Apr 2024 13:07:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0913416D4C7;
+	Fri,  5 Apr 2024 13:25:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712322436; cv=none; b=EtsigSoXaB28Fx4hdrWFruCprocKVRJtrJurqXgLrBHC1lpo1IV4hG8UNP1XlgsQdA9xwVR17S+15a+aK1m2pD/Fa8qu7HF4R8+msbO9ZAEHlC+wCuBouDgakTrlem0MsB4BMFRa5eZiim6mgZng4q+qYvFrUCZac+khuvn+xA0=
+	t=1712323550; cv=none; b=ENeMzW+oDPoUcrD58f/RxCmTmWH1A0lXCTyNPTLMJGDgIxBblrFYn9Ah9nIskdojbsKawD/lTZiK/zufOCashZqsErTjWEdp7MLE78aAS5bN7miPEhxM6xxvSWdh79uFQjNjtVenmlLYYvU8LkH0HP+4hiaSOtd6UfIFFlJ6eZ0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712322436; c=relaxed/simple;
-	bh=S6rcliy68N/x8sdVc9sO6lbozNQnQoSf0/uWIMJWqog=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=UlCHUPIqGqwsTmJIn7N/4qOeGK8QCAthBOuS/Xo0QSwJYr21i7zqH5mvS0ItOD+9V99V/ycH1bg6Ci/TJO0M4jr+AGlvvCgnr4jM6QWSx8Xat3w8GGAwJW9uUQjONl0x78uRUEEuEBzF9RIk+8yjPY/wekWLi6kd/6RdjahNd/Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BC4pqoIf; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6237FC433C7;
-	Fri,  5 Apr 2024 13:07:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1712322436;
-	bh=S6rcliy68N/x8sdVc9sO6lbozNQnQoSf0/uWIMJWqog=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=BC4pqoIf464XB7an62drpauJbcijrXYMkYjFWwX51iURRmC241Deexc0gQdPwvouO
-	 EoH2txrdcRkwsADMWlS0S2uNqjHewQkysdHbU/8nhCLTrqZS4iayT9TvcatD6HAyuZ
-	 HP7p0gQ3MqJJ5Za0GMQ8ufYOQ8KLAg0JDY6bgI/CVY/s178embEisJy7Nowyugfyjm
-	 QuM3R6eeClplWVtPXQOU4Xo729XrDw20cKNfLC2Yr+8PnPyABCKcYKABq5zoaEfiJG
-	 6CtjQutLExDir153v1XmpsncFgTBdretxBMJBQbKfg4RP7ATbL74WXNRXKu3ey7aUd
-	 VupGPCn0jixiw==
-Message-ID: <8ce4c1d8-e379-4fe0-ae31-ba5bdf4c1e06@kernel.org>
-Date: Fri, 5 Apr 2024 22:07:04 +0900
+	s=arc-20240116; t=1712323550; c=relaxed/simple;
+	bh=293GVfFo/UrwVaxem8QbPurukB9UNXuXn3FEZwFnetc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=TzSeFEmdukYHgvBZDeVqwiSorWUh6PbVJh4QOBW3xkgs7FeFki/ApODMuzcTAN0PUDkM+euqYdFo9QO0gyM7tISdZdHukNZJWMhJvIj+/qeYGS7jySx44IOo0J5kJeLBZ8fQ0aBRIWB3Y1iukBN09Hn1+znoAV4OAoRGOjd6bdM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-6152be7c58bso22956547b3.0;
+        Fri, 05 Apr 2024 06:25:48 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1712323545; x=1712928345;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=cwsDRonjbPICxZMNgS8aH3ZFFLUCLJm1C0DAdV/AdRA=;
+        b=dEdzG/HbTj5MIZ0OthXT/2hJdX7v6TS18qvJ7wKhzZ8aTF0PR27/IvqOGCUE2s2SbZ
+         OpTAlXHFu6KuAR5tXowyI/qvLq80lN2Sf79E3aeMUWWNfC5l4vlzcJK+5fzrSkgACIvA
+         1Ij+28z01oNVFKY2goBIGaradLVbvvYt7wm343OuiMWB/GJziyD2U7irar59v/vsAev8
+         amfE5Giu2gjZKKuIxFKC/Z6chGCtpDxv+FbMHENCpgrFs6eJrtiuAmrHnilgNlGATNx/
+         wEQdl8PvNbnsoe+8gBA7Sm/O0YkHf8GJIYy8PySOIckG2vDeVaai4lDxCugZS4wdeyAg
+         oPpA==
+X-Forwarded-Encrypted: i=1; AJvYcCUUS0anNQXYKpuheIkDjpcD42EzNldJiCDiVTSV0X4DWryHoNDpKORxMynl2d3+Ffb9b3OsL0H2vRR6V2qNFFlIX4hFrsN7xE9c6NcJrShJy9eFRsWDh7kkr/t0CJjry/JJdUAN1YonFOI0cAn1P60GOsI1Saf8z/dG5vcaeklGYoVa8HSjOFW4P4pAFDCIFh04dJfpVFjS1kJk/wXv691Hs6Qenz8gFPe7Un12R33i07w7XCnN4J+Mc4hBgJ+hs4jxGl3yUnyj3IzyNvkaOxqaWLGMNLDfmdVRcEsWPl9e24YfaPRPmLUqYlvL+6Bcg36azbtdfU3tniL+DYweWrLtiA0/kycm9iaFtIIAc6TjlwV4fPY718A=
+X-Gm-Message-State: AOJu0YzczAnkoOQ2VptjHKldB9ft43u0Vf9/JCdqR9YNABFOS1c6qdO2
+	Bdex3fhK64jGdOe3Xnf2fMMGn7Es/k9bTJGOhgMAkY9oukzk6+J8gH11mXCZi2Y=
+X-Google-Smtp-Source: AGHT+IEJxZb/rvHnivt2/Jn9TqdtHD/x5Ql7tE5dwjxcPx/0mDN6PRNnVkmhOeixXnU+C0BePO+7eA==
+X-Received: by 2002:a0d:e287:0:b0:615:9a1:602b with SMTP id l129-20020a0de287000000b0061509a1602bmr1190969ywe.44.1712323544943;
+        Fri, 05 Apr 2024 06:25:44 -0700 (PDT)
+Received: from mail-yb1-f170.google.com (mail-yb1-f170.google.com. [209.85.219.170])
+        by smtp.gmail.com with ESMTPSA id by14-20020a05690c082e00b006152dd9f93esm344482ywb.132.2024.04.05.06.25.43
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 05 Apr 2024 06:25:44 -0700 (PDT)
+Received: by mail-yb1-f170.google.com with SMTP id 3f1490d57ef6-dd161eb03afso2056354276.0;
+        Fri, 05 Apr 2024 06:25:43 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCWQYAaMx2yKHFoAQQ6nMerI6WyIx7BilOj0Cl58TpLjIFcpvZAboe+vcRpjKsgKv3Jd3NseFwy6nu55nG+u5RjMpAvT4NBbuAk5wQr2VwLkJD6ad1l1/fHL09i4GMd9D6ieAH9MhEseMDC3DhsUddKOoehu8UyUjcAAqEIh2FQMvLP8+CWh1j9JtvG8eWlakd4kPKAiLlz/pKJDPW16IvUhvsEuCgt4HApJYxMyR8ds3/0bQPbev58vtnspMmUvXPpZtLL4s0/tBSBJAdmfBfUO+6uAsC44caCc3MSrHZ6MIpsLfsEFJjJQUBddri/xlp5IgODcDL6KdIV3eR6lHfcQy0mu8948zKqc29WamvGdPo4eLMTpWWg=
+X-Received: by 2002:a05:6902:220b:b0:dd1:37ff:696 with SMTP id
+ dm11-20020a056902220b00b00dd137ff0696mr1555021ybb.59.1712323543740; Fri, 05
+ Apr 2024 06:25:43 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RESEND v7 14/37] clk: Compatible with narrow registers
-To: Geert Uytterhoeven <geert@linux-m68k.org>,
- Yoshinori Sato <ysato@users.sourceforge.jp>
-Cc: linux-sh@vger.kernel.org, Niklas Cassel <cassel@kernel.org>,
- Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
- <sboyd@kernel.org>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Thomas Gleixner <tglx@linutronix.de>, Bjorn Helgaas <bhelgaas@google.com>,
- Lorenzo Pieralisi <lpieralisi@kernel.org>,
- =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Jiri Slaby <jirislaby@kernel.org>, Magnus Damm <magnus.damm@gmail.com>,
- Daniel Lezcano <daniel.lezcano@linaro.org>, Rich Felker <dalias@libc.org>,
- John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
- Lee Jones <lee@kernel.org>, Helge Deller <deller@gmx.de>,
- Heiko Stuebner <heiko.stuebner@cherry.de>, Shawn Guo <shawnguo@kernel.org>,
- Sebastian Reichel <sre@kernel.org>, Chris Morgan <macromorgan@hotmail.com>,
- Linus Walleij <linus.walleij@linaro.org>, Arnd Bergmann <arnd@arndb.de>,
- David Rientjes <rientjes@google.com>, Hyeonggon Yoo <42.hyeyoo@gmail.com>,
- Vlastimil Babka <vbabka@suse.cz>, Baoquan He <bhe@redhat.com>,
- Andrew Morton <akpm@linux-foundation.org>, Guenter Roeck
- <linux@roeck-us.net>, Kefeng Wang <wangkefeng.wang@huawei.com>,
- Stephen Rothwell <sfr@canb.auug.org.au>,
- Javier Martinez Canillas <javierm@redhat.com>, Guo Ren <guoren@kernel.org>,
- Azeem Shaikh <azeemshaikh38@gmail.com>, Max Filippov <jcmvbkbc@gmail.com>,
- Jonathan Corbet <corbet@lwn.net>, Jacky Huang <ychuang3@nuvoton.com>,
- Herve Codina <herve.codina@bootlin.com>,
- Manikanta Guntupalli <manikanta.guntupalli@amd.com>,
- Anup Patel <apatel@ventanamicro.com>, Biju Das <biju.das.jz@bp.renesas.com>,
- =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
- Sam Ravnborg <sam@ravnborg.org>, Sergey Shtylyov <s.shtylyov@omp.ru>,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- linux-ide@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
- linux-clk@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-pci@vger.kernel.org, linux-serial@vger.kernel.org,
- linux-fbdev@vger.kernel.org
-References: <cover.1712207606.git.ysato@users.sourceforge.jp>
- <9c1d56d37f5d3780d3c506ae680133b6bdaa5fdc.1712207606.git.ysato@users.sourceforge.jp>
- <CAMuHMdVXvPW+3-sY2XPQ2aMcTZkK9zoMnxWeZ+PRB+VRgGszdQ@mail.gmail.com>
-From: Damien Le Moal <dlemoal@kernel.org>
-Content-Language: en-US
-Organization: Western Digital Research
-In-Reply-To: <CAMuHMdVXvPW+3-sY2XPQ2aMcTZkK9zoMnxWeZ+PRB+VRgGszdQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <cover.1712207606.git.ysato@users.sourceforge.jp> <dac98a697c8e850054f984964af62a209f241c83.1712207606.git.ysato@users.sourceforge.jp>
+In-Reply-To: <dac98a697c8e850054f984964af62a209f241c83.1712207606.git.ysato@users.sourceforge.jp>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Fri, 5 Apr 2024 15:25:31 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdVRLwv1c+L0DP_jRJh6_=-oTQJWOcYCzYqowW8tyOJK2A@mail.gmail.com>
+Message-ID: <CAMuHMdVRLwv1c+L0DP_jRJh6_=-oTQJWOcYCzYqowW8tyOJK2A@mail.gmail.com>
+Subject: Re: [RESEND v7 23/37] dt-bindings: display: sm501 register definition helper
+To: Yoshinori Sato <ysato@users.sourceforge.jp>
+Cc: linux-sh@vger.kernel.org, Damien Le Moal <dlemoal@kernel.org>, 
+	Niklas Cassel <cassel@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
+	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, Thomas Gleixner <tglx@linutronix.de>, 
+	Bjorn Helgaas <bhelgaas@google.com>, Lorenzo Pieralisi <lpieralisi@kernel.org>, 
+	=?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Jiri Slaby <jirislaby@kernel.org>, 
+	Magnus Damm <magnus.damm@gmail.com>, Daniel Lezcano <daniel.lezcano@linaro.org>, 
+	Rich Felker <dalias@libc.org>, John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>, 
+	Lee Jones <lee@kernel.org>, Helge Deller <deller@gmx.de>, 
+	Heiko Stuebner <heiko.stuebner@cherry.de>, Shawn Guo <shawnguo@kernel.org>, 
+	Sebastian Reichel <sre@kernel.org>, Chris Morgan <macromorgan@hotmail.com>, 
+	Linus Walleij <linus.walleij@linaro.org>, Arnd Bergmann <arnd@arndb.de>, 
+	David Rientjes <rientjes@google.com>, Hyeonggon Yoo <42.hyeyoo@gmail.com>, 
+	Vlastimil Babka <vbabka@suse.cz>, Baoquan He <bhe@redhat.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, Guenter Roeck <linux@roeck-us.net>, 
+	Kefeng Wang <wangkefeng.wang@huawei.com>, Stephen Rothwell <sfr@canb.auug.org.au>, 
+	Javier Martinez Canillas <javierm@redhat.com>, Guo Ren <guoren@kernel.org>, 
+	Azeem Shaikh <azeemshaikh38@gmail.com>, Max Filippov <jcmvbkbc@gmail.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Jacky Huang <ychuang3@nuvoton.com>, 
+	Herve Codina <herve.codina@bootlin.com>, 
+	Manikanta Guntupalli <manikanta.guntupalli@amd.com>, Anup Patel <apatel@ventanamicro.com>, 
+	Biju Das <biju.das.jz@bp.renesas.com>, 
+	=?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>, 
+	Sam Ravnborg <sam@ravnborg.org>, Sergey Shtylyov <s.shtylyov@omp.ru>, 
+	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, linux-ide@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, linux-pci@vger.kernel.org, 
+	linux-serial@vger.kernel.org, linux-fbdev@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 4/5/24 21:56, Geert Uytterhoeven wrote:
-> Hi Sato-san,
-> 
-> On Thu, Apr 4, 2024 at 7:15 AM Yoshinori Sato
-> <ysato@users.sourceforge.jp> wrote:
->> divider and gate only support 32-bit registers.
->> Older hardware uses narrower registers, so I want to be able to handle
->> 8-bit and 16-bit wide registers.
->>
->> Seven clk_divider flags are used, and if I add flags for 8bit access and
->> 16bit access, 8bit will not be enough, so I expanded it to u16.
->>
->> Signed-off-by: Yoshinori Sato <ysato@users.sourceforge.jp>
-> 
-> Thanks for the update!
-> 
->> --- a/drivers/clk/clk-divider.c
->> +++ b/drivers/clk/clk-divider.c
->> @@ -26,20 +26,38 @@
->>   * parent - fixed parent.  No clk_set_parent support
->>   */
->>
->> -static inline u32 clk_div_readl(struct clk_divider *divider)
->> -{
->> -       if (divider->flags & CLK_DIVIDER_BIG_ENDIAN)
->> -               return ioread32be(divider->reg);
->> -
->> -       return readl(divider->reg);
->> +static inline u32 clk_div_read(struct clk_divider *divider)
->> +{
->> +       if (divider->flags & CLK_DIVIDER_REG_8BIT)
-> 
-> When you need curly braces in one branch of an if/else statement,
-> please use curly braces in all branches (everywhere).
-> 
->> +               return readb(divider->reg);
->> +       else if (divider->flags & CLK_DIVIDER_REG_16BIT) {
+Hi Sato-san,
 
-And no need for an else after a return...
+Thanks for your patch!
 
+On Thu, Apr 4, 2024 at 7:15=E2=80=AFAM Yoshinori Sato
+<ysato@users.sourceforge.jp> wrote:
+> Miscellaneous Timing and Miscellaneous Control registers definition.
 
->> +               if (divider->flags & CLK_DIVIDER_BIG_ENDIAN)
->> +                       return ioread16be(divider->reg);
->> +               else
+Please do not put raw register value definitions into DT bindings.
 
-and here.
+> Signed-off-by: Yoshinori Sato <ysato@users.sourceforge.jp>
 
->> +                       return readw(divider->reg);
->> +       } else {
->> +               if (divider->flags & CLK_DIVIDER_BIG_ENDIAN)
->> +                       return ioread32be(divider->reg);
->> +               else
+> --- /dev/null
+> +++ b/include/dt-bindings/display/sm501.h
 
-here too.
+> +/* Miscellaneous timing */
+> +#define SM501_MISC_TIMING_EX_HOLD_0    0
+> +#define SM501_MISC_TIMING_EX_HOLD_16   1
+> +#define SM501_MISC_TIMING_EX_HOLD_32   2
+> +#define SM501_MISC_TIMING_EX_HOLD_48   3
+> +#define SM501_MISC_TIMING_EX_HOLD_64   4
+> +#define SM501_MISC_TIMING_EX_HOLD_80   5
+> +#define SM501_MISC_TIMING_EX_HOLD_96   6
+> +#define SM501_MISC_TIMING_EX_HOLD_112  7
+> +#define SM501_MISC_TIMING_EX_HOLD_128  8
+> +#define SM501_MISC_TIMING_EX_HOLD_144  9
+> +#define SM501_MISC_TIMING_EX_HOLD_160  10
+> +#define SM501_MISC_TIMING_EX_HOLD_176  11
+> +#define SM501_MISC_TIMING_EX_HOLD_192  12
+> +#define SM501_MISC_TIMING_EX_HOLD_208  13
+> +#define SM501_MISC_TIMING_EX_HOLD_224  14
+> +#define SM501_MISC_TIMING_EX_HOLD_240  15
 
->> +                       return readl(divider->reg);
->> +       }
->>  }
-> 
->> --- a/drivers/clk/clk-gate.c
->> +++ b/drivers/clk/clk-gate.c
-> 
->> @@ -137,12 +155,30 @@ struct clk_hw *__clk_hw_register_gate(struct device *dev,
->>         struct clk_init_data init = {};
->>         int ret = -EINVAL;
->>
->> +       /* validate register size option and bit_idx */
->>         if (clk_gate_flags & CLK_GATE_HIWORD_MASK) {
->>                 if (bit_idx > 15) {
->>                         pr_err("gate bit exceeds LOWORD field\n");
->>                         return ERR_PTR(-EINVAL);
->>                 }
->>         }
->> +       if (clk_gate_flags & CLK_GATE_REG_16BIT) {
->> +               if (bit_idx > 15) {
->> +                       pr_err("gate bit exceeds 16 bits\n");
->> +                       return ERR_PTR(-EINVAL);
->> +               }
->> +       }
->> +       if (clk_gate_flags & CLK_GATE_REG_8BIT) {
->> +               if (bit_idx > 7) {
->> +                       pr_err("gate bit exceeds 8 bits\n");
->> +                       return ERR_PTR(-EINVAL);
->> +               }
->> +       }
->> +       if ((clk_gate_flags & CLK_GATE_HIWORD_MASK) &&
-> 
-> If you use parentheses around "a & b" here...
-> 
->> +           clk_gate_flags & (CLK_GATE_REG_8BIT | CLK_GATE_REG_16BIT)) {
-> 
-> please add parentheses here, too.
-> 
->> +               pr_err("HIWORD_MASK required 32-bit register\n");
->> +               return ERR_PTR(-EINVAL);
->> +       }
->>
->>         /* allocate the gate */
->>         gate = kzalloc(sizeof(*gate), GFP_KERNEL);
->> diff --git a/include/linux/clk-provider.h b/include/linux/clk-provider.h
->> index 4a537260f655..eaa6ff1d0b2e 100644
->> --- a/include/linux/clk-provider.h
->> +++ b/include/linux/clk-provider.h
->> @@ -508,12 +508,16 @@ void of_fixed_clk_setup(struct device_node *np);
->>   * CLK_GATE_BIG_ENDIAN - by default little endian register accesses are used for
->>   *     the gate register.  Setting this flag makes the register accesses big
->>   *     endian.
->> + * CLK_GATE_REG_8BIT - by default 32bit register accesses are used for
->> + *     the gate register.  Setting this flag makes the register accesses 8bit.
->> + * CLK_GATE_REG_16BIT - by default 32bit register accesses are used for
->> + *     the gate register.  Setting this flag makes the register accesses 16bit.
->>   */
->>  struct clk_gate {
->>         struct clk_hw hw;
->>         void __iomem    *reg;
->>         u8              bit_idx;
->> -       u8              flags;
->> +       u32             flags;
-> 
-> (from my comments on v6)
-> There is no need to increase the size of the flags field for the gate clock.
-> 
-> 
->>         spinlock_t      *lock;
->>  };
->>
-> 
->> @@ -675,13 +681,17 @@ struct clk_div_table {
->>   * CLK_DIVIDER_BIG_ENDIAN - By default little endian register accesses are used
->>   *     for the divider register.  Setting this flag makes the register accesses
->>   *     big endian.
->> + * CLK_DIVIDER_REG_8BIT - by default 32bit register accesses are used for
->> + *     the gate register.  Setting this flag makes the register accesses 8bit.
->> + * CLK_DIVIDER_REG_16BIT - by default 32bit register accesses are used for
->> + *     the gate register.  Setting this flag makes the register accesses 16bit.
->>   */
->>  struct clk_divider {
->>         struct clk_hw   hw;
->>         void __iomem    *reg;
->>         u8              shift;
->>         u8              width;
->> -       u8              flags;
->> +       u16             flags;
->>         const struct clk_div_table      *table;
->>         spinlock_t      *lock;
->>  };
-> 
->> @@ -726,18 +738,18 @@ struct clk_hw *__clk_hw_register_divider(struct device *dev,
->>                 struct device_node *np, const char *name,
->>                 const char *parent_name, const struct clk_hw *parent_hw,
->>                 const struct clk_parent_data *parent_data, unsigned long flags,
->> -               void __iomem *reg, u8 shift, u8 width, u8 clk_divider_flags,
->> +               void __iomem *reg, u8 shift, u8 width, u32 clk_divider_flags,
-> 
-> "u16 clk_divider_flags", to match clk_divider.flags.
-> 
->>                 const struct clk_div_table *table, spinlock_t *lock);
->>  struct clk_hw *__devm_clk_hw_register_divider(struct device *dev,
->>                 struct device_node *np, const char *name,
->>                 const char *parent_name, const struct clk_hw *parent_hw,
->>                 const struct clk_parent_data *parent_data, unsigned long flags,
->> -               void __iomem *reg, u8 shift, u8 width, u8 clk_divider_flags,
->> +               void __iomem *reg, u8 shift, u8 width, u32 clk_divider_flags,
-> 
-> Likewise.
-> 
->>                 const struct clk_div_table *table, spinlock_t *lock);
->>  struct clk *clk_register_divider_table(struct device *dev, const char *name,
->>                 const char *parent_name, unsigned long flags,
->>                 void __iomem *reg, u8 shift, u8 width,
->> -               u8 clk_divider_flags, const struct clk_div_table *table,
->> +               u32 clk_divider_flags, const struct clk_div_table *table,
-> 
-> Likewise.
-> 
->>                 spinlock_t *lock);
->>  /**
->>   * clk_register_divider - register a divider clock with the clock framework
-> 
-> Gr{oetje,eeting}s,
-> 
->                         Geert
-> 
+E.g. these are used by the (not very descriptive) "ex" property:
 
--- 
-Damien Le Moal
-Western Digital Research
+     ex:
+       $ref: /schemas/types.yaml#/definitions/uint32
+       description: Extend bus holding time.
 
+Please instead use an enum for the actual holding time ([ 0, 16, 32,
+...]) in the DT bindings, and convert from actual holding time to
+register value in the driver.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
