@@ -1,109 +1,133 @@
-Return-Path: <linux-renesas-soc+bounces-4403-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-4404-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4895F89D63B
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  9 Apr 2024 12:05:40 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id EFB7489D710
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  9 Apr 2024 12:35:26 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 02C7F284383
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  9 Apr 2024 10:05:39 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8579C2845E2
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  9 Apr 2024 10:35:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4AF73811E8;
-	Tue,  9 Apr 2024 10:04:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="C6a5eYsK"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9603B74297;
+	Tue,  9 Apr 2024 10:35:19 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com [209.85.128.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8129185631
-	for <linux-renesas-soc@vger.kernel.org>; Tue,  9 Apr 2024 10:04:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 517496FE35;
+	Tue,  9 Apr 2024 10:35:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712657091; cv=none; b=u8TRuIxxdfoLSTwXpfWkRaARf076ULf4oDhHoouJxra2ZI6ehRbzRcW2T1aub1HIRniy7DSMtvl6q618Sxm8+4u10FIRKcJh1ns66Y8XUYf0p9mGU9OYecRtYWSK/0nkytlcrYCgFFl5dbNEyNDy1ld1vU5p5tHMCqWuY4d761Q=
+	t=1712658919; cv=none; b=XLptXSboDl0U9ck/e6zpOp8+SRvzsiK/eljFyiWTuD+whtLzecvAyKVtKPyud4KSdHO8L7tuiGUJIkuPgrYtdrtPI0WEkpO+UiTTvxECvCPRyBsDeHChkSDv/UCF4bztaT2NGviPvwm2g2cVCAooYwFK6Yf3Q6JD13gntQsxf04=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712657091; c=relaxed/simple;
-	bh=YGIVoqaqkmzn78vlWTEumv3CXIci03l0Ha+15dNRnaY=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=Ibi6N3Wt3DgwaKyj4Ar+ViOmS/lCin91QeHomtRRZ0+BfD5mQoJNh24tztAwmSkMfIx4/DkWIpHi7cLjkpwPBKRTeV/OK38TUzxEI9s9C5pNn+Ujpq7sy3cUyVCnw/gNC4dJxv31KKHTD2AwdP8Yc3AoXu/lrsm7tNKaJ9H/DGs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=C6a5eYsK; arc=none smtp.client-ip=198.175.65.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1712657089; x=1744193089;
-  h=from:to:cc:subject:in-reply-to:references:date:
-   message-id:mime-version;
-  bh=YGIVoqaqkmzn78vlWTEumv3CXIci03l0Ha+15dNRnaY=;
-  b=C6a5eYsKSE+GyxmW9Bpw5sUvx1VdDBPijtXOibFTLWZ50FWktsldPOB4
-   v2itzI7sCUfONQhS8yZAGPlQExTt07vkGPh71TV/rFfbSOtgRwbApSQPK
-   mad2pfi4sW9q+41gZJ/D60djW0wwTKbCMaB7TGwTeTtwvnFHguvaA6HtE
-   gCtc3HlvUuqhqHXmsitVSIXKnx4n4+UbUiT0tl/u2TS+vGvnPfA6is/vy
-   LgtSuc4e1GMzutBgMjySpzUEC+JfJ2e2mh74ehmwVdxuCCI0BE0Baz8Ze
-   vA3KfcwuHUr540/CoirSVZn/rF6tCqJ6d3lPtclRuEFTPa3uM/gAAGDlO
-   A==;
-X-CSE-ConnectionGUID: DySz3S8lQheP5zg/+eE2WA==
-X-CSE-MsgGUID: r6iAzir7Rki77kys2o3whQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11038"; a="11760017"
-X-IronPort-AV: E=Sophos;i="6.07,189,1708416000"; 
-   d="scan'208";a="11760017"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Apr 2024 03:04:48 -0700
-X-CSE-ConnectionGUID: 8btXhK/XTSuOGqbIvLqN0w==
-X-CSE-MsgGUID: oOTcSj4wTLKSF9UBEqAcoA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,189,1708416000"; 
-   d="scan'208";a="20207915"
-Received: from mserban-mobl1.ger.corp.intel.com (HELO localhost) ([10.252.59.228])
-  by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Apr 2024 03:04:44 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Geert Uytterhoeven <geert@linux-m68k.org>, Maxime Ripard
- <mripard@kernel.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
- <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Daniel Vetter
- <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org, Lucas
- De Marchi <lucas.demarchi@intel.com>, kernel test robot <lkp@intel.com>,
- linux-renesas-soc@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v3 00/13] drm/display: Convert helpers Kconfig symbols
- to depends on
-In-Reply-To: <a816fea-9974-d17f-bed6-69728e223@linux-m68k.org>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20240327-kms-kconfig-helpers-v3-0-eafee11b84b3@kernel.org>
- <a816fea-9974-d17f-bed6-69728e223@linux-m68k.org>
-Date: Tue, 09 Apr 2024 13:04:42 +0300
-Message-ID: <87sezu97id.fsf@intel.com>
+	s=arc-20240116; t=1712658919; c=relaxed/simple;
+	bh=WT9pOkL0o92Z2IOw5J90BU1u8X7lD/ah1Qc4kRSPngc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=XUiyVhoh2Cei18lvePZ/eSFIhzZWqG4MXgSsgjLAp3FsnWFSoe0U2QCySPz1otlHx+ilFL2i2lX+f56qTB03O0HcRywD0+owIQLS+CJfT2/oWPtBkFes+yIJAl28YLneXDQV2A1PTuJkt/wdOSK40dj50JE1qrZ2yeZGiQ+sXk8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-6181b9dc647so16001677b3.1;
+        Tue, 09 Apr 2024 03:35:17 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1712658915; x=1713263715;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=nktIVSuXupLDwEe7/K2WYoIkf/M9z2rTr/fahEtJAJk=;
+        b=UjKfGwIbafF0HkcCQAfRKdM3OnF7h9Exm1equnfKExw3tpJo/lbtgdCj6P2zGQ3APB
+         T+M3FC7vYnOhRPk7OdACgrS/f9+MKNnG+N7NEyTkomhGQScJsEPMgLMLqZXi6dNmKqGK
+         n8PVGsIgmSnRqSodQDi2GjXCp9psXxtstseyE06/RmV0F6KO3vYUHCiSwH5lKUHTpKp0
+         WIk8eMVSKtT6YM6IUkRoikt229ScCXxlmQCyaSk0kVK64hY5jw0qiBSxXDDCytPQAt18
+         so4GsUMTIjvHvSdtTNaSiJrtXCk6Pb+/naD2InYDu/aOwbbCMkmKYg69rAc0aiKmqrXy
+         kk4g==
+X-Forwarded-Encrypted: i=1; AJvYcCVjBXYGkmZqdkCAOq3jraJx1FiA+3Vtt7ns/Vfm9IK8i7fwBEuD5iPSb/0Te044bmAl8AzuXqym5nppp5JZx7aNOHSt3SA+vyKi0znpSugrxOPx1XMaS+2b7BnvnTeYK3/9Vcv7TzQKN0BEK6bmTCc=
+X-Gm-Message-State: AOJu0YxdK8XQ8xoCt3TLxpgkUJt4rdfwmskGmdliJzK34UnhkraibVXB
+	rZYgK/tC6h/eegB8q7xCw6fIkeBujzcju6NCVxegtQSCKNeOoi9Rn/26mqsosjY=
+X-Google-Smtp-Source: AGHT+IHPoC5vJKiLlcUoz+lVTfQO7/Zgf7xLvVNKf9PcSXUvdvYrwBe6nd580XqrLsmrU6icw3CpVw==
+X-Received: by 2002:a81:73d7:0:b0:609:f87b:aad3 with SMTP id o206-20020a8173d7000000b00609f87baad3mr10234701ywc.31.1712658915593;
+        Tue, 09 Apr 2024 03:35:15 -0700 (PDT)
+Received: from mail-yb1-f169.google.com (mail-yb1-f169.google.com. [209.85.219.169])
+        by smtp.gmail.com with ESMTPSA id dc13-20020a05690c0f0d00b0060a046c50f1sm2113349ywb.58.2024.04.09.03.35.15
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 09 Apr 2024 03:35:15 -0700 (PDT)
+Received: by mail-yb1-f169.google.com with SMTP id 3f1490d57ef6-dbed0710c74so4743189276.1;
+        Tue, 09 Apr 2024 03:35:15 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUW63mCpHqud79pP+L3YoNRnGlm5rt7uKStvfzAazAtmA4u2+XsmesDFIJWLZY0fJd825Z1OOYPJ1e0HeVyrZIfkSR2dGomK6SmR373qg6mk1qc7jtt+5Qh0kIbIxdEamnB94wcDAED7cNrqM6Jm2o=
+X-Received: by 2002:a25:bcd1:0:b0:dc2:41de:b744 with SMTP id
+ l17-20020a25bcd1000000b00dc241deb744mr9626198ybm.32.1712658914994; Tue, 09
+ Apr 2024 03:35:14 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <20240327-kms-kconfig-helpers-v3-0-eafee11b84b3@kernel.org>
+ <a816fea-9974-d17f-bed6-69728e223@linux-m68k.org> <87sezu97id.fsf@intel.com>
+In-Reply-To: <87sezu97id.fsf@intel.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 9 Apr 2024 12:35:02 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdVMhXFm-kZ50Un1ZFmEcjJ7SnpyEyw65-wucBGpVRUFww@mail.gmail.com>
+Message-ID: <CAMuHMdVMhXFm-kZ50Un1ZFmEcjJ7SnpyEyw65-wucBGpVRUFww@mail.gmail.com>
+Subject: Re: [PATCH v3 00/13] drm/display: Convert helpers Kconfig symbols to
+ depends on
+To: Jani Nikula <jani.nikula@linux.intel.com>
+Cc: Maxime Ripard <mripard@kernel.org>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann <tzimmermann@suse.de>, 
+	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org, 
+	Lucas De Marchi <lucas.demarchi@intel.com>, kernel test robot <lkp@intel.com>, 
+	linux-renesas-soc@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-kbuild <linux-kbuild@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, 09 Apr 2024, Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> The user should not need to know which helpers are needed for the driver
-> he is interested in.  When a symbol selects another symbol, it should
-> just make sure the dependencies of the target symbol are met.
+Hi Jani,
 
-It's really not "just make sure". This leads to perpetual illegal
-configurations, and duct tape fixes. Select should not be used for
-visible symbols or symbols with dependencies [1].
+On Tue, Apr 9, 2024 at 12:04=E2=80=AFPM Jani Nikula <jani.nikula@linux.inte=
+l.com> wrote:
+> On Tue, 09 Apr 2024, Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+> > The user should not need to know which helpers are needed for the drive=
+r
+> > he is interested in.  When a symbol selects another symbol, it should
+> > just make sure the dependencies of the target symbol are met.
+>
+> It's really not "just make sure". This leads to perpetual illegal
+> configurations, and duct tape fixes. Select should not be used for
+> visible symbols or symbols with dependencies [1].
 
-What we'd need for usability is not more abuse of select, but rather 1)
-warnings for selecting symbols with dependencies, and 2) a way to enable
-a kconfig option with all its dependencies, recursively. This is what we
-lack.
+In other words: none of these helpers should be visible...
 
+> What we'd need for usability is not more abuse of select, but rather 1)
+> warnings for selecting symbols with dependencies, and 2) a way to enable
 
-BR,
-Jani.
+Kconfig already warns if dependencies of selected symbols are not met.
 
+> a kconfig option with all its dependencies, recursively. This is what we
+> lack.
 
-[1] Documentation/kbuild/kconfig-language.rst "reverse dependencies"
+You cannot force-enable all dependencies of the target symbol, as some
+of these dependencies may be impossible to meet on the system you are
+configuring a kernel for.
 
+The current proper way is to add these dependencies to the source
+symbol, which is what we have been doing everywhere else.  Another
+solution may be to teach Kconfig to ignore any symbols that select a
+symbol with unmet dependencies.
 
--- 
-Jani Nikula, Intel
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
