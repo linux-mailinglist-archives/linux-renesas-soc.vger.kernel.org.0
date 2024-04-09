@@ -1,193 +1,133 @@
-Return-Path: <linux-renesas-soc+bounces-4410-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-4411-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 648C889E002
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  9 Apr 2024 18:07:46 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 10F7189DF28
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  9 Apr 2024 17:32:18 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 396A3B23752
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  9 Apr 2024 15:26:30 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id F3F6028C3AC
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  9 Apr 2024 15:32:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C3C731304AB;
-	Tue,  9 Apr 2024 15:24:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F18A813A3FA;
+	Tue,  9 Apr 2024 15:28:17 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com [209.85.128.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 264FF12FF93;
-	Tue,  9 Apr 2024 15:24:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D96113541F;
+	Tue,  9 Apr 2024 15:28:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712676279; cv=none; b=WJpBMfFKb+Zvm0Lx6liFmiXCi2LDAFXA+OlzYiDNXiJTVLRuWSVM6otyRoPO/oVdAK4Zrm8/Ldro4M+I/aLMkjQa5x2l6JRo/bVdvoSq7zGnim+TJItDo7tmUV3pTcTda6W4/nuoSiQ9GEQZFbB7UPeMhQigHqafvz2fL4VKJTA=
+	t=1712676497; cv=none; b=ifc71VwP9uofLxvHBrQzQDiHgrDTfmxmf98JLtv3NUt/2Woovj6LsBB6eMYTNVzVVZFlidK9A/oeMWR2fLm2+f7V++5ULMfuPxwMu3y9mo8o+h2KOGeA/TAeYRS9GTLTBrr5DWM8LzrZxmau0RDJn5YDiIX/PKHHFiM6X9EIiEk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712676279; c=relaxed/simple;
-	bh=85Dtdhs4cI7wMp4CVhZJsWIixGlTrtyaSva9NaNU/i4=;
+	s=arc-20240116; t=1712676497; c=relaxed/simple;
+	bh=5CBoTmLG4y7e/KRyazSSY1LYpq2J5NObpY/pXkbyRWc=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=A1DRd2z8ogO/dipE6dGm4sxOZv8MVHxF6Q2TsgKge/iagCXGNZ952+pkZ4vCXaWr9T2uTLCjkkWzX4m59RPBCJn5xG8DvIyNNttZFw74rJGmoWHv3KSw7kg3ojZ+c5feE/JVwWc3SdWzRs6oawGVwrsYi5v+R85VCHt8lqgEsjI=
+	 To:Cc:Content-Type; b=dX78Y257OvBpAqjQpbuzPUn7IRQjU+Gfqkpt0MGMXwlCVsLGDJdQ6z0YeyJ4sgAgI+Fzv/fLVut8xh2TRKUvJYSUzrP3P+RdM3usedXCFEzsi+w/3TCEf2Yr8JjiSldOwjVRREPPfJuA3xxBmOv7oG15i+xmXwV5kYC+je14mV4=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.178
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-615019cd427so49122097b3.3;
-        Tue, 09 Apr 2024 08:24:37 -0700 (PDT)
+Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-617ddc988f5so45721007b3.2;
+        Tue, 09 Apr 2024 08:28:16 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712676276; x=1713281076;
+        d=1e100.net; s=20230601; t=1712676493; x=1713281293;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=lu5hD9VvS+qp+vhw7UeQVESAr0EzPRLUzVlLL7V9CRE=;
-        b=vF5ySepFHb/RzAmOoTMn/+cuolBejnJuuf3JQk5ITQOaCkhguDfY0SliaDQkmVW0WA
-         edEVF9BNhKfklfckElbxMoAOUMf0OqT63va6l8RqdbHwAOGZ2OSrGSAPL1+jJP7+Gk3l
-         z60gKRxKIV30klC+I5Pp0HeKAqi2+9ItEvoAzzardD/9RW3WJDGnMhH9R8Y9k386UEGb
-         NMaJ8aH9/+SSOG38QM1EQp7/f5oXYiquYs9FaHWkKf+ETtcgK7TO/rwIjT2o/Svtb7Cp
-         vEYUxu/qkJTmhcPkLaiH6+JRSdMgK8ZZ8/BkhOxNL8jghfTi5gWLeUaX0PteEWH/BjA0
-         Pwyg==
-X-Forwarded-Encrypted: i=1; AJvYcCVtrR+VDEycDG0UsGRrruzKZAP7I/A0zg7gjlPwBqO0hqEa9E/Zm6R2E5ZpxHrjPmJ4E6C95bGP0LHku8Jb8AhQ/AfZSCT+RhKbdHDRFC6XJrLiX2sS3psZhveJB4gGBdQV1atphqMLE2Ct3jU3+NQ=
-X-Gm-Message-State: AOJu0YyUZPnvXWtpxBn/HbfJpNEPYmJuzPBJT2uJSY4/pCVxAK5tfCIU
-	3Bg9URjZHGJ4ht1jr1SM5rRd0cEPFKCvRIgxLrjgh4PTCbiL4pRFtVP+JAo9sLo=
-X-Google-Smtp-Source: AGHT+IG1cnrLl7tfsBBOIdsLlFA6/UdLeOLXuSll683s/hJa/CT5uqV2+sJU1/zA62dnxg6yc1hRsQ==
-X-Received: by 2002:a0d:df82:0:b0:614:42c2:278d with SMTP id i124-20020a0ddf82000000b0061442c2278dmr20175ywe.0.1712676275174;
-        Tue, 09 Apr 2024 08:24:35 -0700 (PDT)
-Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com. [209.85.219.180])
-        by smtp.gmail.com with ESMTPSA id ho3-20020a05690c630300b0060a07fdf93bsm2208208ywb.134.2024.04.09.08.24.34
+        bh=S9fHLaOg0xQHrvlM1IV1UTtnZ4u0DmXFhb6dRTtO4eE=;
+        b=TSAgnPt+H85F7Om0hUUhfEv+n9CNj7eugrFT1uTkf/7nLZRWnQ6UCs/kMQzfuhdxjL
+         XMy5Qri4yV5gZYeFHDrzYAYb7kzG/EapSX9jo91oLZYOfY2WvbbPxiAVPTLc3Nw3Ga6s
+         umq5Wv+CHuIWefh3DmPyb4NKFcyQWt1WqxqCO9py3zrkG4w2sGe5D2LluxuUtuA1gIRC
+         SZir9sEABstTkvOSQij6msr8G4pGr9zwZL6Dh22LaJovdt0lm8FyW6Iyd9oNAiUQZRos
+         Ht1UPBlHqTkHInziqavmmfGBYckL8zA6YIgluDYIVhOSYBza5tPYDIIOCqHWODoYnFrg
+         K2Lw==
+X-Forwarded-Encrypted: i=1; AJvYcCVhWKcOpKHsSyjaMdfcym8qov+V5l9VvdB57cC8obQXUXL19s2D5BaPQsyyj5wvkWmh1r3hAPfZHD3i7/IYEcFJ0VKhiQOsRI6ORZGQwRnRc+LPWPRxoDHVPHMNsANxmMMKgudD6StHY5VF5RyghdBmmWXcCGiDVWe3E1purju2r7hSc1/39sPozjuowWLxwJpuW2F9ZtonHW1UxQkZ3v59uvEF
+X-Gm-Message-State: AOJu0Yy8gTuKAHRs3VSr6FJJ2uvjKXNnF0AX3MSPGOzfpjAZ0zeBAPTR
+	Ie0ScHNzhUzNnVV76EMDA+DrJwtD/k1FkSyD9db+qiviW4UD450uPERBL3ITqOk=
+X-Google-Smtp-Source: AGHT+IGEdiWWT0vLFsfDZbjn7QIX2MQqmNy+Wk/VC1Hli3HWTQZo8BsD8oiAyaxT0pIEAgpjhIex/A==
+X-Received: by 2002:a81:7b85:0:b0:615:1dee:6b0e with SMTP id w127-20020a817b85000000b006151dee6b0emr11379477ywc.39.1712676491686;
+        Tue, 09 Apr 2024 08:28:11 -0700 (PDT)
+Received: from mail-yb1-f179.google.com (mail-yb1-f179.google.com. [209.85.219.179])
+        by smtp.gmail.com with ESMTPSA id jx4-20020a05690c380400b00615bd0701c7sm2206364ywb.118.2024.04.09.08.28.10
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 09 Apr 2024 08:24:34 -0700 (PDT)
-Received: by mail-yb1-f180.google.com with SMTP id 3f1490d57ef6-dcc80d6004bso5803357276.0;
-        Tue, 09 Apr 2024 08:24:34 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCW5KIXEl24dup6xUcnLf8LDIIfKGOxTFpttmBvRLfvdfrk6EkPZWzoBYakBSTpJNgZo7Btl93Z5ESE0viF8SL17C/FKbUEgBya3Vj/+Eg3PTsmkMoskimk1zZBTeOmGpXcXJqWzErECD+O/9/S0AGo=
-X-Received: by 2002:a25:b10a:0:b0:dcc:f3fe:19c with SMTP id
- g10-20020a25b10a000000b00dccf3fe019cmr53487ybj.59.1712676273820; Tue, 09 Apr
- 2024 08:24:33 -0700 (PDT)
+        Tue, 09 Apr 2024 08:28:11 -0700 (PDT)
+Received: by mail-yb1-f179.google.com with SMTP id 3f1490d57ef6-dc23bf7e5aaso6157781276.0;
+        Tue, 09 Apr 2024 08:28:10 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCXk8AV9QMHJtuhhi7TayLP5vDD2j7F+AQI0+C5m8FgMfIqPIrsCZCgvWsmI2XZ1M/4vbDq/F0OTeyMxQRkd6XoqhEjYoHFuy4Yo0nsAZh/UfpPA2vBnrwxGFejEovwY3JIucM7V7kqBq3gJE9oO78mD+f1MaRBIETrcG2IL84RRFQJweOxvAq/amNE54z1IZBD0mJI2P2TyK4+SvCCT/nNrZhxQ
+X-Received: by 2002:a25:a249:0:b0:dcc:56b6:6606 with SMTP id
+ b67-20020a25a249000000b00dcc56b66606mr69104ybi.40.1712676490322; Tue, 09 Apr
+ 2024 08:28:10 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240327-kms-kconfig-helpers-v3-0-eafee11b84b3@kernel.org>
- <a816fea-9974-d17f-bed6-69728e223@linux-m68k.org> <87sezu97id.fsf@intel.com>
- <CAMuHMdVMhXFm-kZ50Un1ZFmEcjJ7SnpyEyw65-wucBGpVRUFww@mail.gmail.com> <87edbe94ck.fsf@intel.com>
-In-Reply-To: <87edbe94ck.fsf@intel.com>
+References: <20240409-rzn1-gmac1-v2-0-79ca45f2fc79@bootlin.com> <20240409-rzn1-gmac1-v2-4-79ca45f2fc79@bootlin.com>
+In-Reply-To: <20240409-rzn1-gmac1-v2-4-79ca45f2fc79@bootlin.com>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 9 Apr 2024 17:24:21 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdUYqEpKTxHgkdm5B-Q9nM4PyzNDxmqDW=GHG7adcp83+Q@mail.gmail.com>
-Message-ID: <CAMuHMdUYqEpKTxHgkdm5B-Q9nM4PyzNDxmqDW=GHG7adcp83+Q@mail.gmail.com>
-Subject: Re: [PATCH v3 00/13] drm/display: Convert helpers Kconfig symbols to
- depends on
-To: Jani Nikula <jani.nikula@linux.intel.com>
-Cc: Maxime Ripard <mripard@kernel.org>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org, 
-	Lucas De Marchi <lucas.demarchi@intel.com>, kernel test robot <lkp@intel.com>, 
-	linux-renesas-soc@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-kbuild <linux-kbuild@vger.kernel.org>
+Date: Tue, 9 Apr 2024 17:27:58 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdX-F8LXWx=Ras4f+Dt_r485HKjRDLydDXZsnZBW8HJzxw@mail.gmail.com>
+Message-ID: <CAMuHMdX-F8LXWx=Ras4f+Dt_r485HKjRDLydDXZsnZBW8HJzxw@mail.gmail.com>
+Subject: Re: [PATCH net-next v2 4/5] net: stmmac: add support for RZ/N1 GMAC
+To: Romain Gantois <romain.gantois@bootlin.com>
+Cc: "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
+	Alexandre Torgue <alexandre.torgue@foss.st.com>, Jose Abreu <joabreu@synopsys.com>, 
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Russell King <linux@armlinux.org.uk>, 
+	=?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <clement.leger@bootlin.com>, 
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>, netdev@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
+	linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Jani,
+Hi Romain,
 
-On Tue, Apr 9, 2024 at 1:13=E2=80=AFPM Jani Nikula <jani.nikula@linux.intel=
-.com> wrote:
-> On Tue, 09 Apr 2024, Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> > On Tue, Apr 9, 2024 at 12:04=E2=80=AFPM Jani Nikula <jani.nikula@linux.=
-intel.com> wrote:
-> >> On Tue, 09 Apr 2024, Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> >> > The user should not need to know which helpers are needed for the dr=
-iver
-> >> > he is interested in.  When a symbol selects another symbol, it shoul=
-d
-> >> > just make sure the dependencies of the target symbol are met.
-> >>
-> >> It's really not "just make sure". This leads to perpetual illegal
-> >> configurations, and duct tape fixes. Select should not be used for
-> >> visible symbols or symbols with dependencies [1].
-> >
-> > In other words: none of these helpers should be visible...
+On Tue, Apr 9, 2024 at 11:21=E2=80=AFAM Romain Gantois
+<romain.gantois@bootlin.com> wrote:
+> From: Cl=C3=A9ment L=C3=A9ger <clement.leger@bootlin.com>
 >
-> ...and should have no dependencies? :p
-
-Unless they do have dependencies.
-
-> >> What we'd need for usability is not more abuse of select, but rather 1=
-)
-> >> warnings for selecting symbols with dependencies, and 2) a way to enab=
-le
-> >
-> > Kconfig already warns if dependencies of selected symbols are not met.
+> Add support for the Renesas RZ/N1 GMAC. This support can make use of a
+> custom RZ/N1 PCS which is fetched by parsing the pcs-handle device tree
+> property.
 >
-> But it does lead to cases where a builtin tries to use a symbol from a
-> module, failing at link time, not config time. Then I regularly see
-> patches trying to fix this with IS_REACHABLE(), making it a silent
-> runtime failure instead, when it should've been a config issue.
+> Signed-off-by: "Cl=C3=A9ment L=C3=A9ger" <clement.leger@bootlin.com>
+> Co-developed-by: Romain Gantois <romain.gantois@bootlin.com>
+> Signed-off-by: Romain Gantois <romain.gantois@bootlin.com>
 
-If a symbol for a builtin selects a symbol for a module, the latter
-becomes builtin, too, so that does not cause such issues?
-You can get such issues when a boolean symbol depends on a tristate
-symbol...
+Thanks for your patch!
 
-> >> a kconfig option with all its dependencies, recursively. This is what =
-we
-> >> lack.
-> >
-> > You cannot force-enable all dependencies of the target symbol, as some
-> > of these dependencies may be impossible to meet on the system you are
-> > configuring a kernel for.
+> --- a/drivers/net/ethernet/stmicro/stmmac/Kconfig
+> +++ b/drivers/net/ethernet/stmicro/stmmac/Kconfig
+> @@ -142,6 +142,18 @@ config DWMAC_ROCKCHIP
+>           This selects the Rockchip RK3288 SoC glue layer support for
+>           the stmmac device driver.
 >
-> Surely kconfig should be able to figure out if they're possible or not.
->
-> > The current proper way is to add these dependencies to the source
-> > symbol, which is what we have been doing everywhere else.  Another
-> > solution may be to teach Kconfig to ignore any symbols that select a
-> > symbol with unmet dependencies.
->
-> ...
->
-> It seems like your main argument in favour of using select is that it's
-> more convenient for people who configure the kernel. Because the user
-> should be able to just enable a driver, and that would select everything
-> that's needed. But where do we draw the line? Then what qualifies for
-> "depends on"?
+> +config DWMAC_RZN1
+> +       tristate "Renesas RZ/N1 dwmac support"
+> +       default ARCH_RZN1
 
-Hard (platform and subsystem) dependencies.
+Why default to enabled?
 
-> Look at config DRM_I915 and where select abuse has lead us. Like, why
-> don't we just select DRM, PCI and X86 as well instead of depend. :p
-
-X86 and PCI are hard platform dependencies.
-DRM is a subsystem dependency.
-
-> A lot of things we have to select because it appears to generally be the
-> case that if some places select and some places depends on a symbol,
-> it'll lead to circular dependencies.
-
-True.  So all library code (incl. helpers) should be selected, and
-not be used as a dependency.
-The user shouldn't be aware that the driver uses library code (or not).
-
-> Sure there may be a usability issue with using depends on. But the
-> proper fix isn't hacking in kconfig files, it's to fix the usability in
-> kconfig the tool UI. But nobody steps up, because at least I find the
-> kconfig source to be inpenetrable. I've tried many times, and given up.
-
-As long as Kconfig does not handle dependencies of selected symbols
-automatically, adding explicit dependencies to the origin symbols is
-the only workable solution.
-
-> I mean, if you want to enable a driver D, it could, at a minimum, show
-> you a tree of (possibly alternative) things you also need to enable. But
-
-And this series is actually making that harder, by turning all these
-selects of helpers into dependencies...
-
-> if the dependencies aren't there, you won't even see the config for
-> D. That's not something that should be "fixed" by abusing select in
-> kconfig files.
-
-I consider not seeing symbols when a hard dependency is not met as
-a good thing.  If everything was visible all the time, you would
-have a very hard (well, harder than the current already-hard ;-)
-time configuring your kernel.
+> +       depends on OF && (ARCH_RZN1 || COMPILE_TEST)
+> +       select PCS_RZN1_MIIC
+> +       help
+> +         Support for Ethernet controller on Renesas RZ/N1 SoC family.
+> +
+> +         This selects the Renesas RZ/N1 SoC glue layer support for
+> +         the stmmac device driver. This support can make use of a custom=
+ MII
+> +         converter PCS device.
+> +
+>  config DWMAC_SOCFPGA
+>         tristate "SOCFPGA dwmac support"
+>         default ARCH_INTEL_SOCFPGA
 
 Gr{oetje,eeting}s,
 
