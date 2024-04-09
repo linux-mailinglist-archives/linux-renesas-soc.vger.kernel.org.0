@@ -1,166 +1,91 @@
-Return-Path: <linux-renesas-soc+bounces-4405-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-4406-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id A497789D7AD
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  9 Apr 2024 13:13:13 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 17A4A89DA54
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  9 Apr 2024 15:35:32 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 64393281C6B
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  9 Apr 2024 11:13:12 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id AC7381F220B5
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  9 Apr 2024 13:35:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 899F585954;
-	Tue,  9 Apr 2024 11:13:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 536AE137744;
+	Tue,  9 Apr 2024 13:28:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Xi22GX88"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VcYfZ8Gt"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 606F11E885;
-	Tue,  9 Apr 2024 11:13:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 259ED136E3D;
+	Tue,  9 Apr 2024 13:28:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712661188; cv=none; b=MLBwAcQl3SPHuAT3WVJs0UGMoJMXOJONxB1uYA4XsaPcrv0u4sQsomA+OgtOy/zyvBbqsdA5XHfNzd06miizB9EYqBepP5ay1tAml0/w8q+OWT3D9HPt71ZnVBaAyMcGZ5zif+TTvBoRNnlAwww5toZuB5bNKUwx++xR5WFKDEk=
+	t=1712669291; cv=none; b=YsGPipPMGWJYV3SfgWkoMPVgwZKR4O2rZJIJ+vYfYJD+zGyHznXvcM/Vn+J2Gb5ZdcIvr/TXV4NEJ77HqdYskksHEQxxcLoEu/udvSJ2JhwvDriYiTFZjYYzjCYY8PxsX3xLTcADQE6nmEf1pGR71dClzQwJfebk2epV4lnw8jQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712661188; c=relaxed/simple;
-	bh=NXG0UT6jJCzP0INeEwW/eyMrQnypHmCbGHpHQ4/tzFk=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=HAYQ/WIzDKoMCTEaaK3YQwTpmNNDPMaL3Egm8w+/1sTjgMgO+54pwx/P2OKR5DGS44gSLSXTIe+uo3Rkt0dsu06+7TpJw43MW6wvXMroDvqX4IV9NLFhb9gAjabmpggst0QKJNjKbjRj2RjtDjkvNv+CoiKaJjxsFI06TtXKS/8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Xi22GX88; arc=none smtp.client-ip=192.198.163.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1712661187; x=1744197187;
-  h=from:to:cc:subject:in-reply-to:references:date:
-   message-id:mime-version:content-transfer-encoding;
-  bh=NXG0UT6jJCzP0INeEwW/eyMrQnypHmCbGHpHQ4/tzFk=;
-  b=Xi22GX88U1daFPUCOgHwADSghrc9wPJZrA6jPdVFaKNrHl5sug+u6uqD
-   6V2kV3EidCGPXY72TphcvKOlozuReDVXF+JGrRECpfAZ3wEWEbL6pYTcN
-   z7n7r1aHYYPVgNFeyqmam/iWFYtDGbqeyohBPF6NAzRtcqnLCE9nhfqZi
-   Cqi/UJrgTUG1NlNsJrQwVIcsIeM3GkF1uwzsYvLj2fec7d26AcGxFcqTV
-   M6NbTwNLlJk/8wG3fpTIeuw9vwvkIBzuf3vg3+bl+ECF/3NyUr8h3deaz
-   7QLukhjm4dfIQzMLQ8sEb0UOr2V7dublb9KU4cQqUwQAc42yHdspIRjm3
-   g==;
-X-CSE-ConnectionGUID: TYsUstVIS3qa9XKE1QyBow==
-X-CSE-MsgGUID: TSnbcEnNRe2aYH9qbkoChg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11038"; a="8199254"
-X-IronPort-AV: E=Sophos;i="6.07,189,1708416000"; 
-   d="scan'208";a="8199254"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Apr 2024 04:13:06 -0700
-X-CSE-ConnectionGUID: SRL5sb7wTM21oLCg8Mjllg==
-X-CSE-MsgGUID: JnnQ0X5DR22ejbOutQuriA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,189,1708416000"; 
-   d="scan'208";a="24677841"
-Received: from mserban-mobl1.ger.corp.intel.com (HELO localhost) ([10.252.59.228])
-  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Apr 2024 04:13:02 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Maxime Ripard <mripard@kernel.org>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
- <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Daniel Vetter
- <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org, Lucas De Marchi
- <lucas.demarchi@intel.com>, kernel test robot <lkp@intel.com>,
- linux-renesas-soc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-kbuild <linux-kbuild@vger.kernel.org>
-Subject: Re: [PATCH v3 00/13] drm/display: Convert helpers Kconfig symbols
- to depends on
-In-Reply-To: <CAMuHMdVMhXFm-kZ50Un1ZFmEcjJ7SnpyEyw65-wucBGpVRUFww@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20240327-kms-kconfig-helpers-v3-0-eafee11b84b3@kernel.org>
- <a816fea-9974-d17f-bed6-69728e223@linux-m68k.org>
- <87sezu97id.fsf@intel.com>
- <CAMuHMdVMhXFm-kZ50Un1ZFmEcjJ7SnpyEyw65-wucBGpVRUFww@mail.gmail.com>
-Date: Tue, 09 Apr 2024 14:12:59 +0300
-Message-ID: <87edbe94ck.fsf@intel.com>
+	s=arc-20240116; t=1712669291; c=relaxed/simple;
+	bh=HOJtXBcppUU+aQAwrlJyYEWKDyMaLDEV80FbFejpZKg=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=W0E5CVOnA3SaN+lW/UHStBUL7IDaX2B4zOQYFRaeGdnKaCatQAeTEzUTaYieBVUrVL2ZFVmhimRcOPLlOrj6HywKI4o6gGKbgvj8hUlFYa9y868yKTohqycgO9FKsvw98l28BcDsxlWXcqWXa/sodzcj1KkqeMRX1TF84PcHsUs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VcYfZ8Gt; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 63163C433F1;
+	Tue,  9 Apr 2024 13:28:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1712669290;
+	bh=HOJtXBcppUU+aQAwrlJyYEWKDyMaLDEV80FbFejpZKg=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:From;
+	b=VcYfZ8GtK+3jrdb//TKysWx8cjqyUKp2ggTvTeFCgJwHdWOvDUCHEd4Fax/cXaWkC
+	 5f+djQfIsSg5X+RI2UkYVaYNJ9tx0XyzDYYBoT9T9xVws2G8A1RNG2Vgt9KwgjeQas
+	 qRUtYXhRypQXHETc7YTZTCth4xCzta0IgAWX1De+tIb3rkEWGQuK+5xtYyZ2hMHFaK
+	 SuykwdtX7iY0xXLcZeyQnY62PsyEaLx/+kobCIGxivW9PojQjHaj/EopJhwDSK1jFW
+	 sIifIEW2Wva6sURqrjo1zKyskCLxH224kIyH0BR3WjnTIW4wy4T8I3YzlAQTM5J2rC
+	 3TsYtA2B1jmeg==
+Date: Tue, 9 Apr 2024 08:28:08 -0500
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc: lpieralisi@kernel.org, kw@linux.com, robh@kernel.org,
+	bhelgaas@google.com, krzysztof.kozlowski+dt@linaro.org,
+	conor+dt@kernel.org, jingoohan1@gmail.com, mani@kernel.org,
+	marek.vasut+renesas@gmail.com, linux-pci@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v5 0/7] PCI: dwc: rcar-gen4: Add R-Car V4H support
+Message-ID: <20240409132808.GA2071934@bhelgaas>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240408012458.3717977-1-yoshihiro.shimoda.uh@renesas.com>
 
-On Tue, 09 Apr 2024, Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> Hi Jani,
->
-> On Tue, Apr 9, 2024 at 12:04=E2=80=AFPM Jani Nikula <jani.nikula@linux.in=
-tel.com> wrote:
->> On Tue, 09 Apr 2024, Geert Uytterhoeven <geert@linux-m68k.org> wrote:
->> > The user should not need to know which helpers are needed for the driv=
-er
->> > he is interested in.  When a symbol selects another symbol, it should
->> > just make sure the dependencies of the target symbol are met.
->>
->> It's really not "just make sure". This leads to perpetual illegal
->> configurations, and duct tape fixes. Select should not be used for
->> visible symbols or symbols with dependencies [1].
->
-> In other words: none of these helpers should be visible...
+On Mon, Apr 08, 2024 at 10:24:51AM +0900, Yoshihiro Shimoda wrote:
 
-...and should have no dependencies? :p
+> Yoshihiro Shimoda (7):
+>   dt-bindings: PCI: rcar-gen4-pci-host: Add R-Car V4H compatible
+>   dt-bindings: PCI: rcar-gen4-pci-ep: Add R-Car V4H compatible
+>   PCI: dwc: Add PCIE_PORT_{FORCE,LANE_SKEW} macros
+>   PCI: dwc: rcar-gen4: Add rcar_gen4_pcie_platdata
+>   PCI: dwc: rcar-gen4: Add .ltssm_enable() for other SoC support
+>   PCI: dwc: rcar-gen4: Add support for r8a779g0
 
->
->> What we'd need for usability is not more abuse of select, but rather 1)
->> warnings for selecting symbols with dependencies, and 2) a way to enable
->
-> Kconfig already warns if dependencies of selected symbols are not met.
+Previous history for this file uses a "PCI: rcar-gen4: " prefix
+(without "dwc:").  I don't think we need to replicate the whole file
+path here in the precious subject line space, so "PCI: rcar-gen4: "
+should be enough.
 
-But it does lead to cases where a builtin tries to use a symbol from a
-module, failing at link time, not config time. Then I regularly see
-patches trying to fix this with IS_REACHABLE(), making it a silent
-runtime failure instead, when it should've been a config issue.
-
->> a kconfig option with all its dependencies, recursively. This is what we
->> lack.
->
-> You cannot force-enable all dependencies of the target symbol, as some
-> of these dependencies may be impossible to meet on the system you are
-> configuring a kernel for.
-
-Surely kconfig should be able to figure out if they're possible or not.
-
-> The current proper way is to add these dependencies to the source
-> symbol, which is what we have been doing everywhere else.  Another
-> solution may be to teach Kconfig to ignore any symbols that select a
-> symbol with unmet dependencies.
-
-...
-
-It seems like your main argument in favour of using select is that it's
-more convenient for people who configure the kernel. Because the user
-should be able to just enable a driver, and that would select everything
-that's needed. But where do we draw the line? Then what qualifies for
-"depends on"?
-
-Look at config DRM_I915 and where select abuse has lead us. Like, why
-don't we just select DRM, PCI and X86 as well instead of depend. :p
-
-A lot of things we have to select because it appears to generally be the
-case that if some places select and some places depends on a symbol,
-it'll lead to circular dependencies.
-
-Sure there may be a usability issue with using depends on. But the
-proper fix isn't hacking in kconfig files, it's to fix the usability in
-kconfig the tool UI. But nobody steps up, because at least I find the
-kconfig source to be inpenetrable. I've tried many times, and given up.
-
-I mean, if you want to enable a driver D, it could, at a minimum, show
-you a tree of (possibly alternative) things you also need to enable. But
-if the dependencies aren't there, you won't even see the config for
-D. That's not something that should be "fixed" by abusing select in
-kconfig files.
-
-
-BR,
-Jani.
-
-
---=20
-Jani Nikula, Intel
+>   misc: pci_endpoint_test: Document a policy about adding pci_device_id
+> 
+>  .../bindings/pci/rcar-gen4-pci-ep.yaml        |   4 +-
+>  .../bindings/pci/rcar-gen4-pci-host.yaml      |   4 +-
+>  drivers/misc/pci_endpoint_test.c              |   1 +
+>  drivers/pci/controller/dwc/pcie-designware.h  |   6 +
+>  drivers/pci/controller/dwc/pcie-rcar-gen4.c   | 272 +++++++++++++++++-
+>  5 files changed, 270 insertions(+), 17 deletions(-)
+> 
+> -- 
+> 2.25.1
+> 
 
