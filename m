@@ -1,114 +1,143 @@
-Return-Path: <linux-renesas-soc+bounces-4395-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-4396-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A33689D4B5
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  9 Apr 2024 10:40:34 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 062E689D551
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  9 Apr 2024 11:21:27 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 0BF17B21524
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  9 Apr 2024 08:40:32 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 853711F228FD
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  9 Apr 2024 09:21:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 712B757334;
-	Tue,  9 Apr 2024 08:36:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5BEF87F7D5;
+	Tue,  9 Apr 2024 09:21:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="CJaUxvWu"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from andre.telenet-ops.be (andre.telenet-ops.be [195.130.132.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07E2A7E765
-	for <linux-renesas-soc@vger.kernel.org>; Tue,  9 Apr 2024 08:35:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.132.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A41E17E798;
+	Tue,  9 Apr 2024 09:21:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712651760; cv=none; b=Ui6tHqKnmtPe4RYmsHP7IgYl6uLEy/RAjgmohwU/7hHs1Y9rEufpDmHdTxsWemXb6Gmj9ubCaqJO7tye5mkrtPbvyI42xvR3Tsa5MvFunUMNwK5oFm0/0LPzeY3HfWXnIt1TOpYnv8RKdpHKFmVUWglf4GufoIRtluEMTEb6pjc=
+	t=1712654481; cv=none; b=qir1HSKB2vDlXf7gdvZBuAr9zbL4g42pzb7HBwMckQ1haU9XTOeVkvm3uktKayKm7L/CvzPIM+VxxmHFBRupPdbP2OZS/xToS22nJ+9GTaq8s4+RLnLpIrauMIwyAFU0ECKhemKdiuUHbv8DlWBjW57JT31sTy+bOdpO733y/HY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712651760; c=relaxed/simple;
-	bh=IfVCddayH7pjxgbOhhwy98xkQY9CqS2oLX/1ICzN1Xc=;
-	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=llDwld3NR4veWfoAlle1ZPuZO9n9EYIHqP26a/OTzXGTcNbtpGBy9J8rxVmj4/IbgZfUPabB5ug0rpIi2DipQ0u64gaP/h752FA8+LJSuiKS2OKHQlH/pimFOTuxdE+oEdE2MBqHHk4fO6hkF71NwxO6kQpXid3DIFG3tHcu+g4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.132.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
-Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed80:76d0:2bff:fec8:549])
-	by andre.telenet-ops.be with bizsmtp
-	id 8wbp2C00C0SSLxL01wbppr; Tue, 09 Apr 2024 10:35:50 +0200
-Received: from geert (helo=localhost)
-	by ramsan.of.borg with local-esmtp (Exim 4.95)
-	(envelope-from <geert@linux-m68k.org>)
-	id 1ru6xJ-00CuUk-Ae;
-	Tue, 09 Apr 2024 10:35:49 +0200
-Date: Tue, 9 Apr 2024 10:35:49 +0200 (CEST)
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-To: Maxime Ripard <mripard@kernel.org>
-cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-    Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
-    Daniel Vetter <daniel@ffwll.ch>, Jani Nikula <jani.nikula@linux.intel.com>, 
-    dri-devel@lists.freedesktop.org, Jani Nikula <jani.nikula@intel.com>, 
-    linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v3 09/13] drm: Switch DRM_DISPLAY_DP_AUX_BUS to depends
- on
-In-Reply-To: <20240327-kms-kconfig-helpers-v3-9-eafee11b84b3@kernel.org>
-Message-ID: <b601bc8-b016-e5af-b6ce-eb26d01413c1@linux-m68k.org>
-References: <20240327-kms-kconfig-helpers-v3-0-eafee11b84b3@kernel.org> <20240327-kms-kconfig-helpers-v3-9-eafee11b84b3@kernel.org>
+	s=arc-20240116; t=1712654481; c=relaxed/simple;
+	bh=L55iLpsbIZ+5RYaT9LyDbQhxY6Gq3oW3OyLMYDl+CcE=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=WcrNxabkEYiEmPjNp4NwVTMGne7VsJkL8u66UZ12l4KKDO3FIrqr5ZGtKzMZN8UY9gW46Y9X3ADMtlNg9U8tw0NRnF5qGNiDanbWzJ36mNO4WpgLnAq6JaQHwJtk/0EggwFVlaBuW/4jDq6J++sNA75KU1Fg5KOhsXqZ5H0pc8I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=CJaUxvWu; arc=none smtp.client-ip=217.70.183.201
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 806581BF208;
+	Tue,  9 Apr 2024 09:21:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1712654471;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=WpIo0b1UVsh1fxNr1ZZUxhvbWy3Yo7lP2Ma4USOQd64=;
+	b=CJaUxvWuQ9VDKqKT3pQ+nyvMW7jY+Uu5yxmuLr+CmqaAdjPnS1vynele/n4HfYG2L1nUq0
+	SNMzzr1sFIrEBUXddWM9bvDZrURAMxb7lSVEiUdvE8JsUS/gNyW1Ds5HRccPvITxREPBXv
+	0QHdUCsgFVLUSIAc5IPKjkDezC2+0mqNprgvUZXaCz8VMudfSnrcVjZ4OVEMbvYHnfYq5E
+	nl2UklAtQNLQbtY3TZvn1/4v0PMO8Mz6abSN/F1OULIJsibGLzeI/lBx1oVsgQ/StaUlUG
+	iYhTlB2I4XhBhX7X3FmNV17L0nsHm/VOl+jm0LxDVQgpqW1/SjZGsGd7MpJF2g==
+From: Romain Gantois <romain.gantois@bootlin.com>
+Subject: [PATCH net-next v2 0/5] net: stmmac: Add support for RZN1 GMAC
+ devices
+Date: Tue, 09 Apr 2024 11:21:43 +0200
+Message-Id: <20240409-rzn1-gmac1-v2-0-79ca45f2fc79@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAKgIFWYC/22NQQ6CMBBFr0Jm7Zi2ghZX3sOwgHaASaQ1bUNQw
+ t1tunb58vLf3yFSYIpwr3YItHJk7zKoUwVm7t1EyDYzKKFqUQuF4eskTktvJF51Y0Z9ay9WEOT
+ BO9DIW4k9wVFCR1uCLpuZY/LhU15WWfy/4CpRYDOQGpRua6vNY/A+vdidjV+gO47jB8GCFH+wA
+ AAA
+To: "David S. Miller" <davem@davemloft.net>, 
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
+ Paolo Abeni <pabeni@redhat.com>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Geert Uytterhoeven <geert+renesas@glider.be>, 
+ Magnus Damm <magnus.damm@gmail.com>, 
+ Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+ Jose Abreu <joabreu@synopsys.com>, 
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+ Russell King <linux@armlinux.org.uk>, 
+ =?utf-8?q?Cl=C3=A9ment_L=C3=A9ger?= <clement.leger@bootlin.com>
+Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>, netdev@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-renesas-soc@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
+ linux-arm-kernel@lists.infradead.org, 
+ Romain Gantois <romain.gantois@bootlin.com>, 
+ "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>, 
+ Maxime Chevallier <maxime.chevallier@bootlin.com>
+X-Mailer: b4 0.13.0
+X-GND-Sasl: romain.gantois@bootlin.com
 
- 	Hi Maxime,
+Hello everyone,
 
-Thanks for your patch, which is now commit 4d15125d7fe637f4
-("drm: Switch DRM_DISPLAY_DP_AUX_BUS to depends on") in
-drm/drm-next (next-20240402 and later).
+This is version two of my series that adds support for a Gigabit Ethernet
+controller featured in the Renesas r9a06g032 SoC, of the RZ/N1 family. This
+GMAC device is based on a Synopsys IP and is compatible with the stmmac driver.
 
-On Wed, 27 Mar 2024, Maxime Ripard wrote:
-> Most of our helpers have relied on being selected so far through
-> Kconfig, but that creates issues when we have multiple layers of helpers
-> with some depending on others.
->
-> Indeed, select doesn't select a dependency's dependencies, and thus
-> isn't super intuitive. Depends on however doesn't have that limitation,
+My former colleague Clément Léger originally sent a series for this driver,
+but an issue in bringing up the PCS clock had blocked the upstreaming
+process. This issue has since been resolved by the following series:
 
-(Almost?) Everywhere else we fixed that by also selecting the
-dependencies, which is more user-friendly.
+https://lore.kernel.org/all/20240326-rxc_bugfix-v6-0-24a74e5c761f@bootlin.com/
 
-> so we can just switch all the drivers that were selecting
-> DRM_DISPLAY_DP_AUX_BUS to depend on it.
->
-> Reviewed-by: Jani Nikula <jani.nikula@intel.com>
-> Signed-off-by: Maxime Ripard <mripard@kernel.org>
+This series consists of a devicetree binding describing the RZN1 GMAC
+controller IP, a node for the GMAC1 device in the r9a06g032 SoC device
+tree, and the GMAC driver itself which is a glue layer in stmmac.
 
-> --- a/drivers/gpu/drm/display/Kconfig
-> +++ b/drivers/gpu/drm/display/Kconfig
-> @@ -9,10 +9,11 @@ config DRM_DISPLAY_HELPER
->
-> config DRM_DISPLAY_DP_AUX_BUS
-> 	tristate "DRM DisplayPort AUX bus support"
-> 	depends on DRM
-> 	depends on OF || COMPILE_TEST
-> +	default y
+There are also two patches by Russell that improve pcs initialization handling
+in stmmac.
 
-(quoting Linus) "What is so special about your driver, that it needs to
-default to enabled?".
+Best Regards,
 
-Especially as there is no help available for this option, so the casual
-user has no idea if this is needed or not.
+Romain Gantois
 
-And a general comment for this series: many defconfigs need to be
-updated, as drivers are no longer enabled because they need
-functionality that now needs to be enabled explicitly.
+---
+Changes in v2:
+- Add pcs_init/exit callbacks in stmmac to solve race condition
+- Use pcs_init/exit callbacks in dwmac_socfpga glue layer
+- Miscellaneous device tree binding corrections
+- Link to v1: https://lore.kernel.org/r/20240402-rzn1-gmac1-v1-0-5be2b2894d8c@bootlin.com
 
-Gr{oetje,eeting}s,
+---
+Clément Léger (3):
+      dt-bindings: net: renesas,rzn1-gmac: Document RZ/N1 GMAC support
+      net: stmmac: add support for RZ/N1 GMAC
+      ARM: dts: r9a06g032: describe GMAC1
 
- 						Geert
+Russell King (Oracle) (2):
+      net: stmmac: introduce pcs_init/pcs_exit stmmac operations
+      net: stmmac: dwmac-socfpga: use pcs_init/pcs_exit
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+ .../devicetree/bindings/net/renesas,rzn1-gmac.yaml |  66 +++++++++++++
+ MAINTAINERS                                        |   6 ++
+ arch/arm/boot/dts/renesas/r9a06g032.dtsi           |  19 ++++
+ drivers/net/ethernet/stmicro/stmmac/Kconfig        |  12 +++
+ drivers/net/ethernet/stmicro/stmmac/Makefile       |   1 +
+ drivers/net/ethernet/stmicro/stmmac/dwmac-rzn1.c   |  88 +++++++++++++++++
+ .../net/ethernet/stmicro/stmmac/dwmac-socfpga.c    | 109 +++++++++++----------
+ drivers/net/ethernet/stmicro/stmmac/stmmac_main.c  |  14 +++
+ include/linux/stmmac.h                             |   2 +
+ 9 files changed, 263 insertions(+), 54 deletions(-)
+---
+base-commit: 87c33315af380ca12a2e59ac94edad4fe0481b4c
+change-id: 20240402-rzn1-gmac1-685cf8793d0e
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
- 							    -- Linus Torvalds
+Best regards,
+-- 
+Romain Gantois <romain.gantois@bootlin.com>
+
 
