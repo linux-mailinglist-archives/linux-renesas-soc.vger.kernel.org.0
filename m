@@ -1,144 +1,103 @@
-Return-Path: <linux-renesas-soc+bounces-4408-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-4409-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8638C89DBBE
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  9 Apr 2024 16:07:41 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 16B6089DBD3
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  9 Apr 2024 16:11:37 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3FB03283467
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  9 Apr 2024 14:07:40 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id BED2E1F23111
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  9 Apr 2024 14:11:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EE86A7EEE0;
-	Tue,  9 Apr 2024 14:07:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D95DF12F5A0;
+	Tue,  9 Apr 2024 14:11:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JuzBib3P"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from andre.telenet-ops.be (andre.telenet-ops.be [195.130.132.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EACA75809
-	for <linux-renesas-soc@vger.kernel.org>; Tue,  9 Apr 2024 14:07:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.132.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD3FD75809;
+	Tue,  9 Apr 2024 14:11:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712671657; cv=none; b=SV99ZEIP5QFQX9HpOsBgXuqn40S9GWlWq/8wYOeh7ddSIIut5H5mfnwz/p9AbUycG0UMhppoJCRA+V03M0SzEA5IuM/ECa3EfTKApD3v7SxKEtQHkC/2tDRbG4sZwlSAinshrJnH5N+fBpzphmTqXh87vJFz28BXnR9t0tUgbBs=
+	t=1712671893; cv=none; b=Bron64fjMzCgMxY0sjVGKpXe4Yt6SydVyNJnyaosRkSmevZLE87dsrKOnVQUaAGDdqWFG4OAu649Otsm6ea82vwTVFtPOsHZusF3Bhg/CDD9fWRsG2gw3tbusVjT+rBC5GYTumy/7tVkYdTuXv/1ovk6Vd5+VjS+V3gtULOZWDs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712671657; c=relaxed/simple;
-	bh=u3hYu4dCJcTYUyhwr7abq5DWnybIdSEa+gNPrGe/Wb8=;
-	h=From:To:Subject:Date:Message-Id:MIME-Version; b=MnIzWMeElMtgQ5AGyk46srYve2GyxZY9UTC71fKekw0C19aE0c83SO7+TbruWOtEU1lQ0liIzbKY5xWKyqzRNpBTcwwcJKYcsnYed7Nmrzgapn0SxC85C3GbCey90uBY5+xzXR+1V2aeAGgUCYOP7LOnBD0Sl9UX/K0z/YYUtdg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.132.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
-Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed80:76d0:2bff:fec8:549])
-	by andre.telenet-ops.be with bizsmtp
-	id 927Z2C0010SSLxL0127Zbn; Tue, 09 Apr 2024 16:07:33 +0200
-Received: from rox.of.borg ([192.168.97.57])
-	by ramsan.of.borg with esmtp (Exim 4.95)
-	(envelope-from <geert@linux-m68k.org>)
-	id 1ruC7p-00DimT-9K
-	for linux-renesas-soc@vger.kernel.org;
-	Tue, 09 Apr 2024 16:07:32 +0200
-Received: from geert by rox.of.borg with local (Exim 4.95)
-	(envelope-from <geert@linux-m68k.org>)
-	id 1ruC8K-003fY4-R3
-	for linux-renesas-soc@vger.kernel.org;
-	Tue, 09 Apr 2024 16:07:32 +0200
-From: Geert Uytterhoeven <geert+renesas@glider.be>
-To: linux-renesas-soc@vger.kernel.org
-Subject: renesas-drivers-2024-04-09-v6.9-rc3
-Date: Tue,  9 Apr 2024 16:07:32 +0200
-Message-Id: <20240409140732.874689-1-geert+renesas@glider.be>
-X-Mailer: git-send-email 2.34.1
+	s=arc-20240116; t=1712671893; c=relaxed/simple;
+	bh=YaXWoVymImPtlRnaXvB+mRohV2Ldkp3X0gl23abX7y0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=U5kr551MvHkRCvJSzzzZLDr0sdlsg2MQDq7cFxuev+qnx/44Hib2zJgNcZZX0o7doIgRrh56Rf5VjYjTtnOq3tgkJGUWPIhXA0PSMXfG3zbgF6CyNdh1+7OS1nxHckXZmsjZspUe7vqZIUZuegp452NnrpC1AmoQDUB3F/jx++o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JuzBib3P; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 18092C433C7;
+	Tue,  9 Apr 2024 14:11:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1712671893;
+	bh=YaXWoVymImPtlRnaXvB+mRohV2Ldkp3X0gl23abX7y0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=JuzBib3P9kTwrHPfG27Cnd5t6YLM7UNrhEPA8gSixs2TtZ8PQfyigu35dgS867ssG
+	 eI8AAJH1+SKaz56fhufBUSFe0PtoCf927I9DQRoS7ThX0I0Kb1KDcYWKy1rFm+9ihD
+	 JJQraBZynIO2SBCn5ORSnZlPsng5i2GryY2lmJW9JoDXAwOW89J4GNYKMyc2nkD15J
+	 EBfm97nfvmUgGJvwyKD+fJCd/6wfBwTE1RcFqdor4KU5bjeRyF+ZjNronLxkR9rgox
+	 OtSe/JyLZSf5O26DxxRcSQ7CJWMsCG1aYhbwRT9MFGYyI8p89lA+yEr/2soVtwn5y2
+	 mBhMUDOSV2dLw==
+Date: Tue, 9 Apr 2024 09:11:31 -0500
+From: Rob Herring <robh@kernel.org>
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: Daniel Lezcano <daniel.lezcano@linaro.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+	devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] dt-bindings: timer: renesas,cmt: Add R-Car V4M support
+Message-ID: <20240409141131.GA1102070-robh@kernel.org>
+References: <3e8a7a93261d8ad264dec2fa2784fe1bbfc4a23c.1712068536.git.geert+renesas@glider.be>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <3e8a7a93261d8ad264dec2fa2784fe1bbfc4a23c.1712068536.git.geert+renesas@glider.be>
 
-I have pushed renesas-drivers-2024-04-09-v6.9-rc3 to
-https://git.kernel.org/cgit/linux/kernel/git/geert/renesas-drivers.git
+On Tue, Apr 02, 2024 at 04:36:05PM +0200, Geert Uytterhoeven wrote:
+> Document support for the Compare Match Timer Type0 (CMT0) and Type1
+> (CMT1) in the Renesas R-Car V4M (R8A779H0) SoC.
+> 
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
+>  Documentation/devicetree/bindings/timer/renesas,cmt.yaml | 2 ++
+>  1 file changed, 2 insertions(+)
 
-This tree is meant to ease development of platform support and drivers
-for Renesas ARM and RISC-V SoCs.  It is created by merging (a) the
-for-next branches of various subsystem trees and (b) branches with
-driver code submitted or planned for submission to maintainers into the
-master branch of my renesas-devel.git tree.
+Daniel, please apply this. The timer bindings seem to keep getting 
+missed.
 
-Today's version is based on renesas-devel-2024-04-09-v6.9-rc3.
-
-Included branches with driver code:
-  - renesas-clk-for-v6.10
-  - renesas-pinctrl-for-v6.10
-  - topic/v4m-gray-hawk-single-v2
-  - git://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git#renesas/gpio-logic-analyzer-v8~1
-
-Included fixes:
-  - Revert "tcp: more struct tcp_sock adjustments"
-  - [TEST] soc: renesas: rcar-rst: Enable WDT reset on early R-Car V4M
-  - ARM: shmobile: defconfig: Update shmobile_defconfig
-  - [LOCAL] arm64: renesas: defconfig: Update renesas_defconfig
-
-Included subsystem trees:
-  - git://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git#linux-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git#clk-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-pinctrl.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/brgl/linux.git#gpio/for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/mtd/linux.git#mtd/next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/netdev/net-next.git#main
-  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git#tty-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git#i2c/for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/andi.shyti/linux.git#i2c/i2c-host-fixes
-  - git://git.kernel.org/pub/scm/linux/kernel/git/andi.shyti/linux.git#i2c/i2c-host
-  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/mkl/linux-can-next.git#master
-  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git#usb-next
-  - git://git.freedesktop.org/git/drm/drm.git#drm-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/joro/iommu.git#next
-  - git://linuxtv.org/media_tree.git#master
-  - git://git.kernel.org/pub/scm/linux/kernel/git/ulfh/mmc.git#next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/ukleinek/linux.git#pwm/for-next
-  - git://git.linaro.org/people/daniel.lezcano/linux.git#timers/drivers/next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/vkoul/dmaengine.git#next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git#staging-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/rmk/linux.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/regmap.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git#irq/core
-  - git://git.kernel.org/pub/scm/linux/kernel/git/libata/linux#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/sre/linux-power-supply.git#for-next
-  - git://www.linux-watchdog.org/linux-watchdog-next.git#master
-  - git://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/regulator.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git#for-next/core
-  - git://anongit.freedesktop.org/drm/drm-misc#for-linux-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git#next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/phy/linux-phy.git#next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/thermal/linux.git#thermal/linux-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git#for-mfd-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2.6.git#master
-  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/driver-core.git#driver-core-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/glaubitz/sh-linux.git#for-next
-  - git://git.pengutronix.de/git/pza/linux#reset/next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/krzk/linux-mem-ctrl.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/deller/linux-fbdev.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/jejb/scsi.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/mkp/scsi.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/riscv/linux.git#fixes
-  - git://git.kernel.org/pub/scm/linux/kernel/git/riscv/linux.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/ulfh/linux-pm.git#next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/andy/linux-auxdisplay.git#for-next
-
-Gr{oetje,eeting}s,
-
-						Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-							    -- Linus Torvalds
+> 
+> diff --git a/Documentation/devicetree/bindings/timer/renesas,cmt.yaml b/Documentation/devicetree/bindings/timer/renesas,cmt.yaml
+> index a0be1755ea28b996..5e09c04da30e47d5 100644
+> --- a/Documentation/devicetree/bindings/timer/renesas,cmt.yaml
+> +++ b/Documentation/devicetree/bindings/timer/renesas,cmt.yaml
+> @@ -103,6 +103,7 @@ properties:
+>                - renesas,r8a779a0-cmt0     # 32-bit CMT0 on R-Car V3U
+>                - renesas,r8a779f0-cmt0     # 32-bit CMT0 on R-Car S4-8
+>                - renesas,r8a779g0-cmt0     # 32-bit CMT0 on R-Car V4H
+> +              - renesas,r8a779h0-cmt0     # 32-bit CMT0 on R-Car V4M
+>            - const: renesas,rcar-gen4-cmt0 # 32-bit CMT0 on R-Car Gen4
+>  
+>        - items:
+> @@ -110,6 +111,7 @@ properties:
+>                - renesas,r8a779a0-cmt1     # 48-bit CMT on R-Car V3U
+>                - renesas,r8a779f0-cmt1     # 48-bit CMT on R-Car S4-8
+>                - renesas,r8a779g0-cmt1     # 48-bit CMT on R-Car V4H
+> +              - renesas,r8a779h0-cmt1     # 48-bit CMT on R-Car V4M
+>            - const: renesas,rcar-gen4-cmt1 # 48-bit CMT on R-Car Gen4
+>  
+>    reg:
+> -- 
+> 2.34.1
+> 
 
