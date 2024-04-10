@@ -1,118 +1,161 @@
-Return-Path: <linux-renesas-soc+bounces-4497-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-4498-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A8878A0083
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Apr 2024 21:20:19 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id DCB4B8A00A4
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Apr 2024 21:32:42 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 464F92855F7
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Apr 2024 19:20:18 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 08CEC1C236F1
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Apr 2024 19:32:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2E49018130A;
-	Wed, 10 Apr 2024 19:20:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 902A718133B;
+	Wed, 10 Apr 2024 19:32:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="jnBOFofu"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tq4rrWfX"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D857BA39;
-	Wed, 10 Apr 2024 19:20:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.32.30.218
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5348D181322;
+	Wed, 10 Apr 2024 19:32:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712776814; cv=none; b=fmduH/mz10T9PFHOh+46UPZ+eOVPSIzKyXpTtwcUDYL/aLH5Tx9AjUGkxKI52isrzcHppF3Z985VqPdDrRN1y5qINDf/MZfynBuDujkcXxuYUDnn2DALmRvaX8z1buZVVoJluVfpUXdEVZuURzy6DiLqPwrsKuG6mr4qbL7tozY=
+	t=1712777553; cv=none; b=e/mQ06VkSWAXIrCuSc05MtA3uv8WGh4NhXwkGuhKDH07PPDrAPWBVAr7QAIn9+1sqg0AaJtt7z6nnRLzrVmxncFWrnv2pTXd4TG9ZC8BUyd/K771IZIwaUZMIQRtXpFyiK4GFwHxrvT54VvUouPCaMUUZE3W89ZpLZ71VgiXSJk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712776814; c=relaxed/simple;
-	bh=l9o/uTy+0cwr3zODJ1peUNnlmhVhrhKvdmKJKAavIUs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rOPXaG+lFj4HCODm5gCqk9e+ta4ldlObuRxbYgx5aNt8zXgSOUknf0hJyv0EhwemBP021nejDaapM0tpsTdLk4kPa0gzxlh8g+oaNABJ93pvCwoI0V0h4V4H+zmJbQle4n+TBPoNd8cWJIar1Wi2HwtbJ0Q/pMt315JRMeE436I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk; spf=none smtp.mailfrom=armlinux.org.uk; dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b=jnBOFofu; arc=none smtp.client-ip=78.32.30.218
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=armlinux.org.uk
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=dd1aVZalUKuA+B9so3sWEVj2LqaGyKO5Aioahoz1vu8=; b=jnBOFofuCRHm+O8XMCs99fUn+L
-	UXp75jYAtDxJlu/wtMb4foX7uSRRD+Q+TwX+nFozurCdwnW8f4TJw0fhYisFCNbgE8TlvJrWRJRl8
-	+qHegzmIZKXaqDrVHvrE4X/DZnbbdHlNKL879QPzG33DfG8e/YHsp8uqcl9kUOrIf0DeyZMlAVa5O
-	pb0kM09fXSNtS7935t6ShX040phZEI0K+QxhJLXNfRgpiVuKwueeSBF+TNkbXcN4m35qjxnMErYyN
-	rpP/4SIGhD8z5sdcmBfKPf3om8cujhnuVjHkociKGNJS6mN2Sld8TTFard2pldEdDHcQBpiyrDZrn
-	h7PnNJkg==;
-Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:33334)
-	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <linux@armlinux.org.uk>)
-	id 1rudU9-0008QF-1o;
-	Wed, 10 Apr 2024 20:19:53 +0100
-Received: from linux by shell.armlinux.org.uk with local (Exim 4.94.2)
-	(envelope-from <linux@shell.armlinux.org.uk>)
-	id 1rudU6-0006Cb-09; Wed, 10 Apr 2024 20:19:50 +0100
-Date: Wed, 10 Apr 2024 20:19:49 +0100
-From: "Russell King (Oracle)" <linux@armlinux.org.uk>
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: Romain Gantois <romain.gantois@bootlin.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Jose Abreu <joabreu@synopsys.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	=?iso-8859-1?Q?Cl=E9ment_L=E9ger?= <clement.leger@bootlin.com>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	netdev@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-arm-kernel@lists.infradead.org,
-	Maxime Chevallier <maxime.chevallier@bootlin.com>
-Subject: Re: [PATCH net-next v2 3/5] net: stmmac: dwmac-socfpga: use
- pcs_init/pcs_exit
-Message-ID: <ZhbmVVXgu27ZZaNf@shell.armlinux.org.uk>
-References: <20240409-rzn1-gmac1-v2-0-79ca45f2fc79@bootlin.com>
- <20240409-rzn1-gmac1-v2-3-79ca45f2fc79@bootlin.com>
- <20240409183404.7d3eb04f@kernel.org>
+	s=arc-20240116; t=1712777553; c=relaxed/simple;
+	bh=WW5sMpVOz0tGbMU1O5onTUR51y42uNFu9wn05WPtkWY=;
+	h=Date:Content-Type:MIME-Version:From:To:Cc:In-Reply-To:References:
+	 Message-Id:Subject; b=d8fzlFMknzzDdOw9Ya/qxCVLVE/zzVJnQWH/LWVdqvFUvHTsJS34wOlPY9tQ41W0abVnxkKFqExT8WoI4Xe2bnLLBoifJLZiOc0n4LUmaogtqnl1+Xp9KJIamL3yAwbnnBT2Q91q66+dwUzogrO5x8rWAwf3kg1WuzXfgmBs0rc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tq4rrWfX; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 88179C43390;
+	Wed, 10 Apr 2024 19:32:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1712777552;
+	bh=WW5sMpVOz0tGbMU1O5onTUR51y42uNFu9wn05WPtkWY=;
+	h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
+	b=tq4rrWfX9sfVjyG1eyRA5JQGhmGUZZ7uZmnP8xeGteU4tmjtBJwX1rIwj8QFaJQjX
+	 hazgBdZOKaDhWWOOpBX6HrGOSdUUKtAERdIR/r8t0ihV2Y0E50ZsNeIdGCuECZsGc4
+	 MVhev7smKrOV3LTOgTQd6psiBKajiUbE3PItXRb805uwXE93PscA8sScGPOQ0bD2h3
+	 yL4o4fFtnh+PyXMspoVkdeCYh+yHEbJJA7uBTYcP8lE1egXnKItFj4r5SyFia/wVYd
+	 et+x2ylnr2iBKZZMb3xWvQ/x8CxEmBdAQqRiw1NTwJlG9b10JfdjTo1V82rU5g43Wu
+	 5YHbgdVHo6jUg==
+Date: Wed, 10 Apr 2024 14:32:31 -0500
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240409183404.7d3eb04f@kernel.org>
-Sender: Russell King (Oracle) <linux@armlinux.org.uk>
+From: Rob Herring <robh@kernel.org>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: linux-rockchip@lists.infradead.org, 
+ Scott Branden <sbranden@broadcom.com>, 
+ Thippeswamy Havalige <thippeswamy.havalige@amd.com>, 
+ Sergio Paracuellos <sergio.paracuellos@gmail.com>, 
+ Will Deacon <will@kernel.org>, Sven Peter <sven@svenpeter.dev>, 
+ Heiko Stuebner <heiko@sntech.de>, Jiaxun Yang <jiaxun.yang@flygoat.com>, 
+ Florian Fainelli <florian.fainelli@broadcom.com>, 
+ Linus Walleij <linus.walleij@linaro.org>, devicetree@vger.kernel.org, 
+ Jim Quinlan <jim2101024@gmail.com>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Bjorn Helgaas <bhelgaas@google.com>, linux-arm-kernel@lists.infradead.org, 
+ Bharat Kumar Gogada <bharat.kumar.gogada@amd.com>, asahi@lists.linux.dev, 
+ linux-arm-msm@vger.kernel.org, Hector Martin <marcan@marcan.st>, 
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ =?utf-8?q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>, 
+ Lorenzo Pieralisi <lpieralisi@kernel.org>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ Mark Kettenis <kettenis@openbsd.org>, 
+ Geert Uytterhoeven <geert+renesas@glider.be>, 
+ Tom Joseph <tjoseph@cadence.com>, linux-renesas-soc@vger.kernel.org, 
+ Jianjun Wang <jianjun.wang@mediatek.com>, 
+ Gustavo Pimentel <gustavo.pimentel@synopsys.com>, 
+ Jingoo Han <jingoohan1@gmail.com>, linux-pci@vger.kernel.org, 
+ Conor Dooley <conor+dt@kernel.org>, linux-rpi-kernel@lists.infradead.org, 
+ linux-kernel@vger.kernel.org, 
+ Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>, 
+ Michal Simek <michal.simek@amd.com>, 
+ Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>, 
+ Nicolas Saenz Julienne <nsaenz@kernel.org>, Ray Jui <rjui@broadcom.com>, 
+ Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
+ Daire McNamara <daire.mcnamara@microchip.com>, 
+ Marek Vasut <marek.vasut+renesas@gmail.com>, 
+ linux-mediatek@lists.infradead.org, 
+ Konrad Dybcio <konrad.dybcio@linaro.org>, 
+ Srikanth Thokala <srikanth.thokala@intel.com>, 
+ Ryder Lee <ryder.lee@mediatek.com>, Bjorn Andersson <andersson@kernel.org>, 
+ Ahmad Zainie <wan.ahmad.zainie.wan.mohamad@intel.com>, 
+ Kishon Vijay Abraham I <kishon@kernel.org>, 
+ Magnus Damm <magnus.damm@gmail.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Shawn Lin <shawn.lin@rock-chips.com>
+In-Reply-To: <20240410181521.269431-4-krzysztof.kozlowski@linaro.org>
+References: <20240410181521.269431-1-krzysztof.kozlowski@linaro.org>
+ <20240410181521.269431-4-krzysztof.kozlowski@linaro.org>
+Message-Id: <171277754988.1212749.4199877903133990039.robh@kernel.org>
+Subject: Re: [PATCH v2 4/4] dt-bindings: PCI: mediatek,mt7621-pcie: switch
+ from deprecated pci-bus.yaml
 
-On Tue, Apr 09, 2024 at 06:34:04PM -0700, Jakub Kicinski wrote:
-> On Tue, 09 Apr 2024 11:21:46 +0200 Romain Gantois wrote:
-> > +	struct regmap_config pcs_regmap_cfg = {
-> > +		.reg_bits = 16,
-> > +		.val_bits = 16,
-> > +		.reg_shift = regmap_upshift(1),
+
+On Wed, 10 Apr 2024 20:15:21 +0200, Krzysztof Kozlowski wrote:
+> dtschema package with core schemas deprecated pci-bus.yaml schema in
+> favor of individual schemas per host, device and pci-pci.
 > 
-> This appears to displease the compiler:
+> Switch Mediatek MT7621 PCIe host bridge binding to this new schema.
 > 
-> drivers/net/ethernet/stmicro/stmmac/dwmac-socfpga.c:389:16: error: call to undeclared function 'regmap_upshift'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
->   389 |                 .reg_shift = regmap_upshift(1),
->       |                              ^
+> This requires dtschema package newer than v2024.02 to work fully.
+> v2024.02 will partially work: with a warning.
+> 
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> 
+> ---
+> 
+> Important: v2024.03 (said dtschema newer than v2024.02) was not yet
+> released, therefore this patch probably should wait a bit. Previous
+> patches do not depend anyhow on future release, so they can be taken as
+> is.
+> 
+> Changes in v2:
+> 1. New patch
+> 2. Split mediatek,mt7621-pcie to separate patch as it uses
+>    pci-pci-bridge schema.
+> ---
+>  .../devicetree/bindings/pci/mediatek,mt7621-pcie.yaml         | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
 
-Yes, annoyingly I accidentally it 'u' instead of 'y' in vi which
-lower-cased the entire function, and didn't realise before sending the
-patch as a theoretical solution to Romain. After build-testing it locally
-I did notice it. I would've thought that Romain would've build-tested
-before sending out his patch set and would've fixed it up... I didn't
-have time to properly fix up my patch (essentially would've ment
-redoing the edits from scratch to ensure that it was correct.) Still
-don't have time to do that. Sorry.
+My bot found errors running 'make dt_binding_check' on your patch:
 
--- 
-RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
-FTTP is here! 80Mbps down 10Mbps up. Decent connectivity at last!
+yamllint warnings/errors:
+
+dtschema/dtc warnings/errors:
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/pci/mediatek,mt7621-pcie.example.dtb: pcie@1e140000: pcie@0,0: Unevaluated properties are not allowed ('clocks', 'phy-names', 'phys', 'resets' were unexpected)
+	from schema $id: http://devicetree.org/schemas/pci/mediatek,mt7621-pcie.yaml#
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/pci/mediatek,mt7621-pcie.example.dtb: pcie@1e140000: pcie@1,0: Unevaluated properties are not allowed ('clocks', 'phy-names', 'phys', 'resets' were unexpected)
+	from schema $id: http://devicetree.org/schemas/pci/mediatek,mt7621-pcie.yaml#
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/pci/mediatek,mt7621-pcie.example.dtb: pcie@1e140000: pcie@2,0: Unevaluated properties are not allowed ('clocks', 'phy-names', 'phys', 'resets' were unexpected)
+	from schema $id: http://devicetree.org/schemas/pci/mediatek,mt7621-pcie.yaml#
+
+doc reference errors (make refcheckdocs):
+
+See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20240410181521.269431-4-krzysztof.kozlowski@linaro.org
+
+The base for the series is generally the latest rc1. A different dependency
+should be noted in *this* patch.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit after running the above command yourself. Note
+that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+your schema. However, it must be unset to test all examples with your schema.
+
 
