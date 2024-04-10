@@ -1,101 +1,118 @@
-Return-Path: <linux-renesas-soc+bounces-4496-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-4497-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33A568A002D
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Apr 2024 20:58:30 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A8878A0083
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Apr 2024 21:20:19 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6508E1C223D1
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Apr 2024 18:58:29 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 464F92855F7
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Apr 2024 19:20:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 72B3C1802C7;
-	Wed, 10 Apr 2024 18:58:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2E49018130A;
+	Wed, 10 Apr 2024 19:20:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NctKVa6n"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="jnBOFofu"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4360617F371;
-	Wed, 10 Apr 2024 18:58:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D857BA39;
+	Wed, 10 Apr 2024 19:20:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.32.30.218
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712775507; cv=none; b=AZhoX4wwqh1CyzbahRyqyDHM2xgYKbZVuJesqeYGQKVjPY3A+Jrz3a150EGAjiDKWZZOyGTuTqa1PsQ9sQPk5PwjXU6Bg71si+HVijshGifPZkue8c9h78jahOGlKLYv2IcETpxWGJE5KLAPIkMym6V2xunQBN7V+KVArjeafEw=
+	t=1712776814; cv=none; b=fmduH/mz10T9PFHOh+46UPZ+eOVPSIzKyXpTtwcUDYL/aLH5Tx9AjUGkxKI52isrzcHppF3Z985VqPdDrRN1y5qINDf/MZfynBuDujkcXxuYUDnn2DALmRvaX8z1buZVVoJluVfpUXdEVZuURzy6DiLqPwrsKuG6mr4qbL7tozY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712775507; c=relaxed/simple;
-	bh=9YYPyx0qIUyI2HnU5/vkhTGz6+QCGmfdShkQKgzhQ6A=;
+	s=arc-20240116; t=1712776814; c=relaxed/simple;
+	bh=l9o/uTy+0cwr3zODJ1peUNnlmhVhrhKvdmKJKAavIUs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HTErlucS5XhFHraCFYMvCa30A8OlR8+XFCjux2+7F3XlxPFLSorAHnPLK/Rf+AsKLoefCEOkDP3xQvxcWotK8D3FZAsyUXPQ0rxBR5wGiMIeuxEpUiS8h8RYAPt2v/LyFcmRm2bU1DbC/OyqULQd6RN1djgtfIDs9M8IsdxEv/k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NctKVa6n; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C449AC433C7;
-	Wed, 10 Apr 2024 18:58:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1712775506;
-	bh=9YYPyx0qIUyI2HnU5/vkhTGz6+QCGmfdShkQKgzhQ6A=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=NctKVa6nDuwhkik7DjWM/8gh6F+hOS55GKTNqBVCX1nBdzkyfiYssDUSeRGXdCF2S
-	 wxkoec0/uuRSCRW7Pq9Hi/Ha4DvgRKER3vzJ3UHVdATxV7WQlxWo3GNSvHIVE35aqx
-	 bsSYCoy+DFdkQW2vjW4ebXc9IH9SRhMxnDOl3XjC4NvcVIPC8xPC/B/9gT8BaqDCCY
-	 KvQWXcWzW+TSyFFnROqICrLEUwMaeMFms0kmBgJBAayEctO6ln8J34GTEZ7ScOb8zy
-	 lHcNfa0Wt6RGjRIAL6b7ilVf22abWc7Wj2xhgf9XyTvvADKixDs7OD44sWp35AQkdP
-	 EFEigzh7HECrw==
-Date: Wed, 10 Apr 2024 13:58:23 -0500
-From: Rob Herring <robh@kernel.org>
-To: Romain Gantois <romain.gantois@bootlin.com>
-Cc: Magnus Damm <magnus.damm@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	linux-stm32@st-md-mailman.stormreply.com,
-	Jose Abreu <joabreu@synopsys.com>,
-	Eric Dumazet <edumazet@google.com>,
+	 Content-Type:Content-Disposition:In-Reply-To; b=rOPXaG+lFj4HCODm5gCqk9e+ta4ldlObuRxbYgx5aNt8zXgSOUknf0hJyv0EhwemBP021nejDaapM0tpsTdLk4kPa0gzxlh8g+oaNABJ93pvCwoI0V0h4V4H+zmJbQle4n+TBPoNd8cWJIar1Wi2HwtbJ0Q/pMt315JRMeE436I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk; spf=none smtp.mailfrom=armlinux.org.uk; dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b=jnBOFofu; arc=none smtp.client-ip=78.32.30.218
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=armlinux.org.uk
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=dd1aVZalUKuA+B9so3sWEVj2LqaGyKO5Aioahoz1vu8=; b=jnBOFofuCRHm+O8XMCs99fUn+L
+	UXp75jYAtDxJlu/wtMb4foX7uSRRD+Q+TwX+nFozurCdwnW8f4TJw0fhYisFCNbgE8TlvJrWRJRl8
+	+qHegzmIZKXaqDrVHvrE4X/DZnbbdHlNKL879QPzG33DfG8e/YHsp8uqcl9kUOrIf0DeyZMlAVa5O
+	pb0kM09fXSNtS7935t6ShX040phZEI0K+QxhJLXNfRgpiVuKwueeSBF+TNkbXcN4m35qjxnMErYyN
+	rpP/4SIGhD8z5sdcmBfKPf3om8cujhnuVjHkociKGNJS6mN2Sld8TTFard2pldEdDHcQBpiyrDZrn
+	h7PnNJkg==;
+Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:33334)
+	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <linux@armlinux.org.uk>)
+	id 1rudU9-0008QF-1o;
+	Wed, 10 Apr 2024 20:19:53 +0100
+Received: from linux by shell.armlinux.org.uk with local (Exim 4.94.2)
+	(envelope-from <linux@shell.armlinux.org.uk>)
+	id 1rudU6-0006Cb-09; Wed, 10 Apr 2024 20:19:50 +0100
+Date: Wed, 10 Apr 2024 20:19:49 +0100
+From: "Russell King (Oracle)" <linux@armlinux.org.uk>
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: Romain Gantois <romain.gantois@bootlin.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
+	Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
 	Conor Dooley <conor+dt@kernel.org>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
-	=?iso-8859-1?Q?Cl=E9ment_L=E9ger?= <clement.leger@bootlin.com>,
-	linux-kernel@vger.kernel.org,
 	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Paolo Abeni <pabeni@redhat.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	linux-renesas-soc@vger.kernel.org,
-	Russell King <linux@armlinux.org.uk>, netdev@vger.kernel.org,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>
-Subject: Re: [PATCH net-next v2 1/5] dt-bindings: net: renesas,rzn1-gmac:
- Document RZ/N1 GMAC support
-Message-ID: <171277550043.890351.16696873966908975164.robh@kernel.org>
+	Magnus Damm <magnus.damm@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Jose Abreu <joabreu@synopsys.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	=?iso-8859-1?Q?Cl=E9ment_L=E9ger?= <clement.leger@bootlin.com>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	netdev@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-arm-kernel@lists.infradead.org,
+	Maxime Chevallier <maxime.chevallier@bootlin.com>
+Subject: Re: [PATCH net-next v2 3/5] net: stmmac: dwmac-socfpga: use
+ pcs_init/pcs_exit
+Message-ID: <ZhbmVVXgu27ZZaNf@shell.armlinux.org.uk>
 References: <20240409-rzn1-gmac1-v2-0-79ca45f2fc79@bootlin.com>
- <20240409-rzn1-gmac1-v2-1-79ca45f2fc79@bootlin.com>
+ <20240409-rzn1-gmac1-v2-3-79ca45f2fc79@bootlin.com>
+ <20240409183404.7d3eb04f@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240409-rzn1-gmac1-v2-1-79ca45f2fc79@bootlin.com>
+In-Reply-To: <20240409183404.7d3eb04f@kernel.org>
+Sender: Russell King (Oracle) <linux@armlinux.org.uk>
 
+On Tue, Apr 09, 2024 at 06:34:04PM -0700, Jakub Kicinski wrote:
+> On Tue, 09 Apr 2024 11:21:46 +0200 Romain Gantois wrote:
+> > +	struct regmap_config pcs_regmap_cfg = {
+> > +		.reg_bits = 16,
+> > +		.val_bits = 16,
+> > +		.reg_shift = regmap_upshift(1),
+> 
+> This appears to displease the compiler:
+> 
+> drivers/net/ethernet/stmicro/stmmac/dwmac-socfpga.c:389:16: error: call to undeclared function 'regmap_upshift'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+>   389 |                 .reg_shift = regmap_upshift(1),
+>       |                              ^
 
-On Tue, 09 Apr 2024 11:21:44 +0200, Romain Gantois wrote:
-> From: Clément Léger <clement.leger@bootlin.com>
-> 
-> The RZ/N1 series of MPUs feature up to two Gigabit Ethernet controllers.
-> These controllers are based on Synopsys IPs. They can be connected to
-> RZ/N1 RGMII/RMII converters.
-> 
-> Add a binding that describes these GMAC devices.
-> 
-> Signed-off-by: "Clément Léger" <clement.leger@bootlin.com>
-> [rgantois: commit log]
-> Signed-off-by: Romain Gantois <romain.gantois@bootlin.com>
-> ---
->  .../devicetree/bindings/net/renesas,rzn1-gmac.yaml | 66 ++++++++++++++++++++++
->  1 file changed, 66 insertions(+)
-> 
+Yes, annoyingly I accidentally it 'u' instead of 'y' in vi which
+lower-cased the entire function, and didn't realise before sending the
+patch as a theoretical solution to Romain. After build-testing it locally
+I did notice it. I would've thought that Romain would've build-tested
+before sending out his patch set and would've fixed it up... I didn't
+have time to properly fix up my patch (essentially would've ment
+redoing the edits from scratch to ensure that it was correct.) Still
+don't have time to do that. Sorry.
 
-Reviewed-by: Rob Herring <robh@kernel.org>
-
+-- 
+RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
+FTTP is here! 80Mbps down 10Mbps up. Decent connectivity at last!
 
