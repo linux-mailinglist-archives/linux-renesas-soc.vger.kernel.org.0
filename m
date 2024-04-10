@@ -1,229 +1,120 @@
-Return-Path: <linux-renesas-soc+bounces-4434-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-4435-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11DF489F1D9
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Apr 2024 14:16:39 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id AAFC989F1FD
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Apr 2024 14:25:44 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 961ED1F226DE
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Apr 2024 12:16:38 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6695B281CAA
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Apr 2024 12:25:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EBEA015B14B;
-	Wed, 10 Apr 2024 12:16:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9B45A15B14C;
+	Wed, 10 Apr 2024 12:24:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="g+G9RV4B"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="kz/0yk2P"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9376715957F;
-	Wed, 10 Apr 2024 12:16:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7521415E219;
+	Wed, 10 Apr 2024 12:24:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.197
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712751390; cv=none; b=nj71+ZIRUaj0Zz6aX1kTOKWhgSVMM4iC+Fe0WuOSkycpGefrzkn7kjDfuhll1WrG328UnnBeMd/2o0i90cFMaIVOENmdWGEvziZQynQKDqVQuoNXtrRoNK9UV5qbXaf+2fMGO5oM+i9fWTnIVxKRc0d241g4ehc09aPL4eCxErk=
+	t=1712751888; cv=none; b=Pww3n9DOQRZbViFUswNQsGFmjSPMZsYRgrLuNo2vA0gVw68e3Ar+NkpFWnYr4QJgWJ3PoxDTefJI+M3HS2F9h599uHSYEGqiOGqZup8YhQ5ybH31tj8Tj3RbPsiHwWd0EhN8vYF7ZeF4BvnWcNDzoorNz3FSxRjjpFOxTKPVeHE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712751390; c=relaxed/simple;
-	bh=uqgIbQjDdQ7mXlLuRp0MGBFFQHK0OHDSrqq0mSqlVPU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qZGekQ+2MB6KFpKG5NNIIcMnNGFEdE9L8QYVnySrTXJYSHZ4819R2dDVPfa/umWbhKGrm5k/cCqJZDOk54JACrE/8Kjz1oUahAGqloDmCdE97KKgEzjQ5YZ5jrGmwLwyPOWtsEPZAqQ87sy0C06nXpvs2yVsmCxbdu/knyc7aVk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=g+G9RV4B; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BA30DC433C7;
-	Wed, 10 Apr 2024 12:16:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1712751390;
-	bh=uqgIbQjDdQ7mXlLuRp0MGBFFQHK0OHDSrqq0mSqlVPU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=g+G9RV4BO0X3JsN/4qj/fub/YCO1DybeOA5yiCnNbFx3qhkImsTvXTWQ79tkGkp1i
-	 VUYo/Xh+LaQIJ3EyEZ1gfvBdVXQWpImOH3Ks5aDGqrtuu7ZRf959UinfC11+FR7nNy
-	 4M0WFulk4cnWOsQA0YA7SEISW7DLRwmtgHTwDf4pplsY9D5Ikf0fH3zDjT6Jr5Wui1
-	 s8N61TgN8zWUlMmCSoSOF5Xa1dspvlcq51zUskwiRaJ36rsGZ5wf89rT5r8fxFRZpk
-	 xf931uUP91Pl/8O+3CN2NdTNbzb6pEmifUJujQp40Mr7p3mYKFDqrmXin8Na+GBtLB
-	 T6FpY0ioZg8og==
-Date: Wed, 10 Apr 2024 07:16:27 -0500
-From: Rob Herring <robh@kernel.org>
-To: Yoshinori Sato <ysato@users.sourceforge.jp>
-Cc: linux-sh@vger.kernel.org, Damien Le Moal <dlemoal@kernel.org>,
-	Niklas Cassel <cassel@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>, David Airlie <airlied@gmail.com>,
-	Daniel Vetter <daniel@ffwll.ch>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jiri Slaby <jirislaby@kernel.org>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Daniel Lezcano <daniel.lezcano@linaro.org>,
-	Rich Felker <dalias@libc.org>,
-	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
-	Lee Jones <lee@kernel.org>, Helge Deller <deller@gmx.de>,
-	Heiko Stuebner <heiko.stuebner@cherry.de>,
-	Shawn Guo <shawnguo@kernel.org>, Sebastian Reichel <sre@kernel.org>,
-	Chris Morgan <macromorgan@hotmail.com>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Arnd Bergmann <arnd@arndb.de>, David Rientjes <rientjes@google.com>,
-	Hyeonggon Yoo <42.hyeyoo@gmail.com>,
-	Vlastimil Babka <vbabka@suse.cz>, Baoquan He <bhe@redhat.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Kefeng Wang <wangkefeng.wang@huawei.com>,
-	Stephen Rothwell <sfr@canb.auug.org.au>,
-	Javier Martinez Canillas <javierm@redhat.com>,
-	Guo Ren <guoren@kernel.org>, Azeem Shaikh <azeemshaikh38@gmail.com>,
-	Max Filippov <jcmvbkbc@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
-	Jacky Huang <ychuang3@nuvoton.com>,
-	Herve Codina <herve.codina@bootlin.com>,
-	Manikanta Guntupalli <manikanta.guntupalli@amd.com>,
-	Anup Patel <apatel@ventanamicro.com>,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
-	Sam Ravnborg <sam@ravnborg.org>,
-	Sergey Shtylyov <s.shtylyov@omp.ru>,
-	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-	linux-ide@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-	linux-clk@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linux-pci@vger.kernel.org, linux-serial@vger.kernel.org,
-	linux-fbdev@vger.kernel.org
-Subject: Re: [RESEND v7 12/37] dt-bindings: pci: pci-sh7751: Add SH7751 PCI
-Message-ID: <20240410121627.GA4069350-robh@kernel.org>
-References: <cover.1712207606.git.ysato@users.sourceforge.jp>
- <5ab3c5952b49d7998734855e2ec1ee980795a724.1712207606.git.ysato@users.sourceforge.jp>
+	s=arc-20240116; t=1712751888; c=relaxed/simple;
+	bh=C6TTaj8C3gGDyMgcwpzgLzOx1oB8jniHUKHvI6XaAHM=;
+	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=VRTUhhmYEOxbuvblwYYCvpmSJj8oXj5ljwEV8zPw4eESQaBv9/A42KJwgQwQI9/4YqsxwWimkDmuhUwcy/ONyX193zJLIMIu5ohR3oRQA5fS3nM3iWBFB1GITPwcPer0j94MwsQY77McfBS7rMhIWqVagXJJXoL5ChhmX0Cj2TY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=kz/0yk2P; arc=none smtp.client-ip=217.70.183.197
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 68EDD1C0002;
+	Wed, 10 Apr 2024 12:24:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1712751883;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=l3ws31mOJD6WJ5PiqoLqg0x1rdfJP9Z5AmhmFZmsojA=;
+	b=kz/0yk2P0u15uvLO3V2bIiiBeyKMosuhBgHxZkWris1gH74OkoU5jCPXSknQz1fwnbqCjo
+	WU93j8pFtyf1I68J1uRLHRNfAg5gHZOVcMlMzHVsVuI0NHrTx8HflyI9e+u4/KSZym1ID/
+	dLY1ynmBrfb0tNGPH9M0ukL+GBN7W+zJIfMTRlKVe+QSU7q152nT7Stn4Lg2mBWWFD4IAz
+	is0Ld37Wwxu3wR4M4tX6oiZtMUnmBiv5xa+BA5V0S6lyrm4TKrsHU9+Xh30ivTw3v9rkKM
+	KjmEQ3u/Z+jx+Z9jJ5DewvT9iMBn+e0lu7mg7yh+wHeLPrLuMrtg83iOywZIEQ==
+Date: Wed, 10 Apr 2024 14:25:18 +0200 (CEST)
+From: Romain Gantois <romain.gantois@bootlin.com>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+cc: Romain Gantois <romain.gantois@bootlin.com>, 
+    "David S. Miller" <davem@davemloft.net>, 
+    Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
+    Paolo Abeni <pabeni@redhat.com>, Rob Herring <robh@kernel.org>, 
+    Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+    Conor Dooley <conor+dt@kernel.org>, 
+    Geert Uytterhoeven <geert+renesas@glider.be>, 
+    Magnus Damm <magnus.damm@gmail.com>, 
+    Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+    Jose Abreu <joabreu@synopsys.com>, 
+    Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+    Russell King <linux@armlinux.org.uk>, 
+    =?ISO-8859-15?Q?Cl=E9ment_L=E9ger?= <clement.leger@bootlin.com>, 
+    Thomas Petazzoni <thomas.petazzoni@bootlin.com>, netdev@vger.kernel.org, 
+    devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+    linux-renesas-soc@vger.kernel.org, 
+    linux-stm32@st-md-mailman.stormreply.com, 
+    linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH net-next v2 4/5] net: stmmac: add support for RZ/N1
+ GMAC
+In-Reply-To: <CAMuHMdX-F8LXWx=Ras4f+Dt_r485HKjRDLydDXZsnZBW8HJzxw@mail.gmail.com>
+Message-ID: <9bd8eee4-952d-d5b2-c462-45c1466c54d6@bootlin.com>
+References: <20240409-rzn1-gmac1-v2-0-79ca45f2fc79@bootlin.com> <20240409-rzn1-gmac1-v2-4-79ca45f2fc79@bootlin.com> <CAMuHMdX-F8LXWx=Ras4f+Dt_r485HKjRDLydDXZsnZBW8HJzxw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <5ab3c5952b49d7998734855e2ec1ee980795a724.1712207606.git.ysato@users.sourceforge.jp>
+Content-Type: multipart/mixed; boundary="1582177605-1727822458-1712751921=:538696"
+X-GND-Sasl: romain.gantois@bootlin.com
 
-On Thu, Apr 04, 2024 at 02:14:23PM +0900, Yoshinori Sato wrote:
-> Renesas SH7751 PCI Controller json-schema.
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
+
+--1582177605-1727822458-1712751921=:538696
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
+
+Hi Geert,
+
+On Tue, 9 Apr 2024, Geert Uytterhoeven wrote:
+
+> > +config DWMAC_RZN1
+> > +       tristate "Renesas RZ/N1 dwmac support"
+> > +       default ARCH_RZN1
 > 
-> Signed-off-by: Yoshinori Sato <ysato@users.sourceforge.jp>
-> ---
->  .../bindings/pci/renesas,sh7751-pci.yaml      | 89 +++++++++++++++++++
->  1 file changed, 89 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/pci/renesas,sh7751-pci.yaml
+> Why default to enabled?
 > 
-> diff --git a/Documentation/devicetree/bindings/pci/renesas,sh7751-pci.yaml b/Documentation/devicetree/bindings/pci/renesas,sh7751-pci.yaml
-> new file mode 100644
-> index 000000000000..115c2bb67339
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/pci/renesas,sh7751-pci.yaml
-> @@ -0,0 +1,89 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/pci/renesas,sh7751-pci.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Renesas SH7751 PCI Host controller
-> +
-> +maintainers:
-> +  - Yoshinori Sato <ysato@users.sourceforge.jp>
-> +
-> +allOf:
-> +  - $ref: /schemas/pci/pci-bus.yaml#
-> +
-> +properties:
-> +  compatible:
-> +    const: renesas,sh7751-pci
-> +
-> +  reg:
-> +    minItems: 2
-> +    maxItems: 2
-> +
-> +  reg-names:
-> +    items:
-> +      - const: PCI Controller
-> +      - const: Bus State Controller
-> +
+> > +       depends on OF && (ARCH_RZN1 || COMPILE_TEST)
 
-> +  "#interrupt-cells":
-> +    const: 1
-> +
-> +  "#address-cells":
-> +    const: 3
-> +
-> +  "#size-cells":
-> +    const: 2
-> +
-> +  ranges: true
-> +
-> +  dma-ranges: true
+The kernel doc states this as one of the possible cases where setting default 
+y/m makes sense:
 
-All 5 of these are defined in pci-bus-common.yaml, so you can drop them.
+```
+Sub-driver behavior or similar options for a driver that is “default n”. This 
+allows you to provide sane defaults.
+```
 
-> +
-> +  interrupt-controller: true
-> +
-> +  renesas,bus-arbit-round-robin:
-> +    $ref: /schemas/types.yaml#/definitions/flag
-> +    description: |
+In the case of DWMAC_RZN1, it is a suboption of stmmac which is "default n", and 
+I think it makes sense to enable the RZN1 ethernet controller driver if both the 
+stmmac driver and the RZN1 architecture were explicitely selected.
 
-Don't need '|'.
+Best Regards,
 
-> +      Set DMA bus arbitration to round robin.
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - "#interrupt-cells"
-
-> +  - "#address-cells"
-> +  - "#size-cells"
-> +  - ranges
-
-These 3 are already required, so drop.
-
-> +  - interrupt-map
-> +  - interrupt-map-mask
-> +
-> +unevaluatedProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/interrupt-controller/irq.h>
-> +    pci@fe200000 {
-> +            compatible = "renesas,sh7751-pci";
-> +            #address-cells = <3>;
-> +            #size-cells = <2>;
-> +            #interrupt-cells = <1>;
-> +            interrupt-controller;
-> +            device_type = "pci";
-> +            bus-range = <0 0>;
-> +            ranges = <0x02000000 0 0xfd000000 0xfd000000 0 0x01000000>,
-> +                     <0x01000000 0 0x00000000 0xfe240000 0 0x00040000>;
-> +            dma-ranges = <0x02000000 0 0xc000000 0x0c000000 0 0x04000000>;
-> +            reg = <0xfe200000 0x0400>,
-> +                  <0xff800000 0x0100>;
-> +            interrupt-map = <0x0000 0 0 1 &julianintc 5 IRQ_TYPE_LEVEL_LOW>,
-> +                            <0x0000 0 0 2 &julianintc 6 IRQ_TYPE_LEVEL_LOW>,
-> +                            <0x0000 0 0 3 &julianintc 7 IRQ_TYPE_LEVEL_LOW>,
-> +                            <0x0000 0 0 4 &julianintc 8 IRQ_TYPE_LEVEL_LOW>,
-> +                            <0x0800 0 0 1 &julianintc 6 IRQ_TYPE_LEVEL_LOW>,
-> +                            <0x0800 0 0 2 &julianintc 7 IRQ_TYPE_LEVEL_LOW>,
-> +                            <0x0800 0 0 3 &julianintc 8 IRQ_TYPE_LEVEL_LOW>,
-> +                            <0x0800 0 0 4 &julianintc 5 IRQ_TYPE_LEVEL_LOW>,
-> +                            <0x1000 0 0 1 &julianintc 7 IRQ_TYPE_LEVEL_LOW>,
-> +                            <0x1000 0 0 2 &julianintc 8 IRQ_TYPE_LEVEL_LOW>,
-> +                            <0x1000 0 0 3 &julianintc 5 IRQ_TYPE_LEVEL_LOW>,
-> +                            <0x1000 0 0 4 &julianintc 6 IRQ_TYPE_LEVEL_LOW>;
-> +            interrupt-map-mask = <0x1800 0 0 7>;
-> +    };
-> -- 
-> 2.39.2
-> 
+-- 
+Romain Gantois, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
+--1582177605-1727822458-1712751921=:538696--
 
