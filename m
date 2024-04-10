@@ -1,161 +1,165 @@
-Return-Path: <linux-renesas-soc+bounces-4498-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-4499-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCB4B8A00A4
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Apr 2024 21:32:42 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 329098A00CD
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Apr 2024 21:47:17 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 08CEC1C236F1
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Apr 2024 19:32:42 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 483C61C2099B
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Apr 2024 19:47:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 902A718133B;
-	Wed, 10 Apr 2024 19:32:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 917AC180A8A;
+	Wed, 10 Apr 2024 19:47:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tq4rrWfX"
+	dkim=pass (2048-bit key) header.d=cknow.org header.i=@cknow.org header.b="Qmkk2P6A"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out-181.mta1.migadu.com (out-181.mta1.migadu.com [95.215.58.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5348D181322;
-	Wed, 10 Apr 2024 19:32:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4359C28FD
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 10 Apr 2024 19:47:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712777553; cv=none; b=e/mQ06VkSWAXIrCuSc05MtA3uv8WGh4NhXwkGuhKDH07PPDrAPWBVAr7QAIn9+1sqg0AaJtt7z6nnRLzrVmxncFWrnv2pTXd4TG9ZC8BUyd/K771IZIwaUZMIQRtXpFyiK4GFwHxrvT54VvUouPCaMUUZE3W89ZpLZ71VgiXSJk=
+	t=1712778433; cv=none; b=oDQxY/es5jwA7JfEna2upXLH12L069u78Sy8baZrmFEK8G4Toy7keDe0f0sHh+XYu1ONYRtoRk6uyPHAlfTQxaBtrRF4+bfE0TODIA/JVttArZbyhBMp9aNir47mPyqqfcqK1Q4QOxjJwkKcRY3paRENR9wV5l+ARuEDZeekEMY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712777553; c=relaxed/simple;
-	bh=WW5sMpVOz0tGbMU1O5onTUR51y42uNFu9wn05WPtkWY=;
-	h=Date:Content-Type:MIME-Version:From:To:Cc:In-Reply-To:References:
-	 Message-Id:Subject; b=d8fzlFMknzzDdOw9Ya/qxCVLVE/zzVJnQWH/LWVdqvFUvHTsJS34wOlPY9tQ41W0abVnxkKFqExT8WoI4Xe2bnLLBoifJLZiOc0n4LUmaogtqnl1+Xp9KJIamL3yAwbnnBT2Q91q66+dwUzogrO5x8rWAwf3kg1WuzXfgmBs0rc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tq4rrWfX; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 88179C43390;
-	Wed, 10 Apr 2024 19:32:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1712777552;
-	bh=WW5sMpVOz0tGbMU1O5onTUR51y42uNFu9wn05WPtkWY=;
-	h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
-	b=tq4rrWfX9sfVjyG1eyRA5JQGhmGUZZ7uZmnP8xeGteU4tmjtBJwX1rIwj8QFaJQjX
-	 hazgBdZOKaDhWWOOpBX6HrGOSdUUKtAERdIR/r8t0ihV2Y0E50ZsNeIdGCuECZsGc4
-	 MVhev7smKrOV3LTOgTQd6psiBKajiUbE3PItXRb805uwXE93PscA8sScGPOQ0bD2h3
-	 yL4o4fFtnh+PyXMspoVkdeCYh+yHEbJJA7uBTYcP8lE1egXnKItFj4r5SyFia/wVYd
-	 et+x2ylnr2iBKZZMb3xWvQ/x8CxEmBdAQqRiw1NTwJlG9b10JfdjTo1V82rU5g43Wu
-	 5YHbgdVHo6jUg==
-Date: Wed, 10 Apr 2024 14:32:31 -0500
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	s=arc-20240116; t=1712778433; c=relaxed/simple;
+	bh=D5eT38i2bhMSPKQfY7joymnfa6SW7AQi+vRsyHWpi64=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=paMSYP35bLxO2UlE5bZnfagYrpiIqMUrXqI0Ou19yZSt8KE1rMQrm1rpN1FWHOqx01KfhQgCT/E/gdsImjRt1aoffmu0QTOo/CGpPQgXfTvS4hjMIhekGuiO2Apt22ZFBcqSkOCctLv4JvTaP2/5m+Dug/nDhm2qjw0Sw9Dbc+M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cknow.org; spf=pass smtp.mailfrom=cknow.org; dkim=pass (2048-bit key) header.d=cknow.org header.i=@cknow.org header.b=Qmkk2P6A; arc=none smtp.client-ip=95.215.58.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cknow.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cknow.org
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cknow.org; s=key1;
+	t=1712778428;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=HTMX4XGvOpzyNxVflhRx4NfOt2Vj+LsvHzJX5SgXyZM=;
+	b=Qmkk2P6AwiAybwySdf8VZSr825+Rp1DtfZTwfMdIY7HDpyPGzB1Fu1cUnd+K/tOefK7anM
+	rd/0AwqoFin4BslePzPNJvi7nLXkLR4KNP17ZcWJE+Qi1rNPk3b4HyX46CT1ksWsciYOaV
+	KjAEl2Pn40GxA660alIIZTttJNPI5OSA63FdWxaV2nCmXjOcogKVERJ4N3609vZ6c/6DNF
+	KJHOdbMhHmMnRlir+Yhn20q/fv04gptq/vJSv+x52r0DQYJq61jDwVAlXuE874XzLeur77
+	nWGyRBLQvH9s5D/RDAyzkZANOJg1AjftwmXoDOrqmy+jauAOl8KDfOpMrYxVkQ==
+From: Diederik de Haas <didi.debian@cknow.org>
+To: Maxime Ripard <mripard@kernel.org>,
+ Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Jani Nikula <jani.nikula@linux.intel.com>,
+ dri-devel@lists.freedesktop.org, Jani Nikula <jani.nikula@intel.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ kernel test robot <lkp@intel.com>, linux-renesas-soc@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org
+Subject:
+ Re: [PATCH v3 00/13] drm/display: Convert helpers Kconfig symbols to depends
+ on
+Date: Wed, 10 Apr 2024 21:46:54 +0200
+Message-ID: <3688196.Heb4DZiL54@bagend>
+Organization: Connecting Knowledge
+In-Reply-To: <a816fea-9974-d17f-bed6-69728e223@linux-m68k.org>
+References:
+ <20240327-kms-kconfig-helpers-v3-0-eafee11b84b3@kernel.org>
+ <a816fea-9974-d17f-bed6-69728e223@linux-m68k.org>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: Rob Herring <robh@kernel.org>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: linux-rockchip@lists.infradead.org, 
- Scott Branden <sbranden@broadcom.com>, 
- Thippeswamy Havalige <thippeswamy.havalige@amd.com>, 
- Sergio Paracuellos <sergio.paracuellos@gmail.com>, 
- Will Deacon <will@kernel.org>, Sven Peter <sven@svenpeter.dev>, 
- Heiko Stuebner <heiko@sntech.de>, Jiaxun Yang <jiaxun.yang@flygoat.com>, 
- Florian Fainelli <florian.fainelli@broadcom.com>, 
- Linus Walleij <linus.walleij@linaro.org>, devicetree@vger.kernel.org, 
- Jim Quinlan <jim2101024@gmail.com>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Bjorn Helgaas <bhelgaas@google.com>, linux-arm-kernel@lists.infradead.org, 
- Bharat Kumar Gogada <bharat.kumar.gogada@amd.com>, asahi@lists.linux.dev, 
- linux-arm-msm@vger.kernel.org, Hector Martin <marcan@marcan.st>, 
- Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
- Matthias Brugger <matthias.bgg@gmail.com>, 
- =?utf-8?q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>, 
- Lorenzo Pieralisi <lpieralisi@kernel.org>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
- Mark Kettenis <kettenis@openbsd.org>, 
- Geert Uytterhoeven <geert+renesas@glider.be>, 
- Tom Joseph <tjoseph@cadence.com>, linux-renesas-soc@vger.kernel.org, 
- Jianjun Wang <jianjun.wang@mediatek.com>, 
- Gustavo Pimentel <gustavo.pimentel@synopsys.com>, 
- Jingoo Han <jingoohan1@gmail.com>, linux-pci@vger.kernel.org, 
- Conor Dooley <conor+dt@kernel.org>, linux-rpi-kernel@lists.infradead.org, 
- linux-kernel@vger.kernel.org, 
- Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>, 
- Michal Simek <michal.simek@amd.com>, 
- Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>, 
- Nicolas Saenz Julienne <nsaenz@kernel.org>, Ray Jui <rjui@broadcom.com>, 
- Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
- Daire McNamara <daire.mcnamara@microchip.com>, 
- Marek Vasut <marek.vasut+renesas@gmail.com>, 
- linux-mediatek@lists.infradead.org, 
- Konrad Dybcio <konrad.dybcio@linaro.org>, 
- Srikanth Thokala <srikanth.thokala@intel.com>, 
- Ryder Lee <ryder.lee@mediatek.com>, Bjorn Andersson <andersson@kernel.org>, 
- Ahmad Zainie <wan.ahmad.zainie.wan.mohamad@intel.com>, 
- Kishon Vijay Abraham I <kishon@kernel.org>, 
- Magnus Damm <magnus.damm@gmail.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Shawn Lin <shawn.lin@rock-chips.com>
-In-Reply-To: <20240410181521.269431-4-krzysztof.kozlowski@linaro.org>
-References: <20240410181521.269431-1-krzysztof.kozlowski@linaro.org>
- <20240410181521.269431-4-krzysztof.kozlowski@linaro.org>
-Message-Id: <171277754988.1212749.4199877903133990039.robh@kernel.org>
-Subject: Re: [PATCH v2 4/4] dt-bindings: PCI: mediatek,mt7621-pcie: switch
- from deprecated pci-bus.yaml
+Content-Type: multipart/signed; boundary="nextPart3085996.ce5DWXnqYG";
+ micalg="pgp-sha256"; protocol="application/pgp-signature"
+X-Migadu-Flow: FLOW_OUT
 
+--nextPart3085996.ce5DWXnqYG
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"; protected-headers="v1"
+From: Diederik de Haas <didi.debian@cknow.org>
+Date: Wed, 10 Apr 2024 21:46:54 +0200
+Message-ID: <3688196.Heb4DZiL54@bagend>
+Organization: Connecting Knowledge
+In-Reply-To: <a816fea-9974-d17f-bed6-69728e223@linux-m68k.org>
+MIME-Version: 1.0
 
-On Wed, 10 Apr 2024 20:15:21 +0200, Krzysztof Kozlowski wrote:
-> dtschema package with core schemas deprecated pci-bus.yaml schema in
-> favor of individual schemas per host, device and pci-pci.
+On Tuesday, 9 April 2024 11:26:25 CEST Geert Uytterhoeven wrote:
+>  	Hi Maxime,
 > 
-> Switch Mediatek MT7621 PCIe host bridge binding to this new schema.
+> On Wed, 27 Mar 2024, Maxime Ripard wrote:
+> > Jani recently pointed out that the Kconfig symbols are a bit difficult
+> > to work with at the moment when they depend on each other, and that
+> > using depends on would be a better idea, but no one really did the work
+> > so far.
+> > 
+> > So here it goes :)
+> > 
+> > It's been tested by comparing the riscv defconfig, arm
+> > multi_v7_defconfig, arm64 defconfig, drm-misc-arm, drm-misc-arm64 and
+> > drm-misc-x86 before and after this series and making sure they are
+> > identical.
 > 
-> This requires dtschema package newer than v2024.02 to work fully.
-> v2024.02 will partially work: with a warning.
+> That is not true: comparing drm-misc/for-linux-next to v6.9-rc2,
+> arm/multi_v7_defconfig, arm64/defconfig, and riscv/defconfig lost
+> several of:
+>    - CONFIG_DRM_DW_HDMI,
+>    - CONFIG_DRM_DW_HDMI_AHB_AUDIO,
+>    - CONFIG_DRM_DW_HDMI_CEC,
+>    - CONFIG_DRM_DW_HDMI_I2S_AUDIO,
+>    - CONFIG_DRM_IMX_HDMI.
+>    - CONFIG_DRM_MESON_DW_HDMI,
+>    - CONFIG_DRM_RCAR_DW_HDMI,
+>    - CONFIG_DRM_SUN8I_DW_HDMI,
+>    - CONFIG_ROCKCHIP_DW_HDMI,
+>    - CONFIG_SND_MESON_G12A_TOHDMITX,
 > 
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> > Let me know what you think,
 > 
-> ---
+> IMHO this series looks like a big usuability issue for anyone
+> configuring the kernel, and you try to work around this by sprinkling
+> "default y" around.
 > 
-> Important: v2024.03 (said dtschema newer than v2024.02) was not yet
-> released, therefore this patch probably should wait a bit. Previous
-> patches do not depend anyhow on future release, so they can be taken as
-> is.
+> The user should not need to know which helpers are needed for the driver
+> he is interested in.  When a symbol selects another symbol, it should
+> just make sure the dependencies of the target symbol are met.
 > 
-> Changes in v2:
-> 1. New patch
-> 2. Split mediatek,mt7621-pcie to separate patch as it uses
->    pci-pci-bridge schema.
-> ---
->  .../devicetree/bindings/pci/mediatek,mt7621-pcie.yaml         | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
+> Thanks for reverting ;-)
 
-My bot found errors running 'make dt_binding_check' on your patch:
+I *think* that I ran into this issue (but it may also be KEBKAC).
+I tried to build a Debian arm64 kernel from 6.9-rc3 with a number of drm-misc-
+next patches, including this patch set.
 
-yamllint warnings/errors:
+debian/config/arm64/config: CONFIG_DRM_SUN8I_DW_HDMI=m
 
-dtschema/dtc warnings/errors:
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/pci/mediatek,mt7621-pcie.example.dtb: pcie@1e140000: pcie@0,0: Unevaluated properties are not allowed ('clocks', 'phy-names', 'phys', 'resets' were unexpected)
-	from schema $id: http://devicetree.org/schemas/pci/mediatek,mt7621-pcie.yaml#
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/pci/mediatek,mt7621-pcie.example.dtb: pcie@1e140000: pcie@1,0: Unevaluated properties are not allowed ('clocks', 'phy-names', 'phys', 'resets' were unexpected)
-	from schema $id: http://devicetree.org/schemas/pci/mediatek,mt7621-pcie.yaml#
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/pci/mediatek,mt7621-pcie.example.dtb: pcie@1e140000: pcie@2,0: Unevaluated properties are not allowed ('clocks', 'phy-names', 'phys', 'resets' were unexpected)
-	from schema $id: http://devicetree.org/schemas/pci/mediatek,mt7621-pcie.yaml#
+In my 6.7.9 kernel the sun8i-drm-hdmi module got build.
+(as well as meson_dw_hdmi, although it does not have an explicit configuration 
+for it, but there appears a similarity with it in the `drm: Make drivers 
+depends on DRM_DW_HDMI` commit)
 
-doc reference errors (make refcheckdocs):
+But in my newly build kernel both are NOT build.
+While I can't complain about meson_dw_hdmi, I would have expected the sun8i-
+drm-hdmi module to be build.
 
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20240410181521.269431-4-krzysztof.kozlowski@linaro.org
+Cheers,
+  Diederik
 
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
+PS: The Kconfig says that the module will be called `sun8i_dw_hdmi`, but that 
+seems to be incorrect
+--nextPart3085996.ce5DWXnqYG
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part.
+Content-Transfer-Encoding: 7Bit
 
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
+-----BEGIN PGP SIGNATURE-----
 
-pip3 install dtschema --upgrade
+iHUEABYIAB0WIQT1sUPBYsyGmi4usy/XblvOeH7bbgUCZhbsrgAKCRDXblvOeH7b
+bvq1AQCWuETmAhmjxyvowpjrLc/u+IYBh0PwB08fkWCmCv+HXgEAt9qM3PNgc04c
+9HHAXN5cSjjo3bslRseoFhXzizCtMgA=
+=XwbC
+-----END PGP SIGNATURE-----
 
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
+--nextPart3085996.ce5DWXnqYG--
+
+
 
 
