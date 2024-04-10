@@ -1,74 +1,74 @@
-Return-Path: <linux-renesas-soc+bounces-4427-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-4428-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A981389EFD8
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Apr 2024 12:31:47 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 522B589EFDF
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Apr 2024 12:32:40 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C6AC7B2154F
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Apr 2024 10:31:44 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0D9CC2823B4
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Apr 2024 10:32:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 418092AE75;
-	Wed, 10 Apr 2024 10:31:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BED7B1591E0;
+	Wed, 10 Apr 2024 10:32:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="UDXT/o2A"
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="aNDYDSLL"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15DD2158864
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 10 Apr 2024 10:31:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6D1B158A24
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 10 Apr 2024 10:32:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712745102; cv=none; b=dqYpOmnFX3N3saVtYCJ+TtZludEXLYWcAc6K4/dtSkjx5Esn3gSplsm4+uSrrdc41QvSsQ3FG/k+KLS8oIaG0sd72C05dswSxtIm6S6J6bP1dT4m3mbIAYwX0O0kS9ivDRDuhNIvaXu3gWvC7jM/TzAvtn5fnJafAYcGDOqe/uQ=
+	t=1712745156; cv=none; b=RUoP5jRhJ4/C2/ou+SWLos1xvFGIzbilVA9dcXR0iSgWBT3XGCxyU3JU4YS0VEO8VeMJQAmx/u7yILv6et21/A4FST/A7McCMBiiDHyu7TQ4hNc/tJOXqmGx/F0ICeg5zp/YYxQfimN6wffj7Hva56kBwdImMobobwvxEvSbURY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712745102; c=relaxed/simple;
-	bh=iICQtskbqMFkYw9gL5hU6mYX2XOrlY3PR/l9E6BwGyU=;
+	s=arc-20240116; t=1712745156; c=relaxed/simple;
+	bh=m3Nofq8nnTcdPA9w3dqHCTAf3BKyCsncf1j3teeV6vI=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Yp129l4FlS41txgZM1K7HyAeF6wztEMgd1gcN25PmV/oRlmXZqMZyPShB1fEQGmlGn3FPW9/iJxYGPyn63vQ7vKz3Pae2qXaqxtTjCMAayfWgzcgWf22pHzETk3GCi2ORihynFzkB/x/MNvXAe6WuJwlUVwmORhRvuRnPMxoDx4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=UDXT/o2A; arc=none smtp.client-ip=209.85.218.41
+	 In-Reply-To:Content-Type; b=QJKYYA/5JMt/Go8cAFrzqVdw+b5HSnmbYiadgysE97cjUsOJG259GL5qJQZ0epD0Bk2TuBSa2NQIORxO8md1T3rxsk5Tv8UIckBkWNGGt8NMHShD2YBpXGkSNlQXBwVyqPL1UJNYCgOcXmra9mc25APUaGFaaDl4sh4aNLjQ6lU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=aNDYDSLL; arc=none smtp.client-ip=209.85.208.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
-Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-a46a7208eedso945095866b.0
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 10 Apr 2024 03:31:39 -0700 (PDT)
+Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-56e47843cc7so3934720a12.0
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 10 Apr 2024 03:32:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1712745098; x=1713349898; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
+        d=tuxon.dev; s=google; t=1712745153; x=1713349953; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=t2cJahpKiT81XBZYJgPZW1e7iLd0A/fWtraJwcFfugY=;
-        b=UDXT/o2Ajx8xJci7Yf+lU/BsCoqxGHu8Ud7S0dHzAcGm+IsCAJ5gG20amNlDmfAbxS
-         ng699kaPhnx419p4otsXbI//P/GBJk5Rz8bp6M9Jb8hiKmmkXlS2tDaiv56lBFHIIQQu
-         j2t3fdJsWVgI9ZQqB5+xTYhx8KoCIudXeSYKJWfv5nbMbVMfmx/9gCtMrjpbqKI1rux3
-         LPPH6PG2yGYh61nfTSjWJ92mFSytcSXXnwPSg9ncsqob5KkUIBfAl5xcfqtf1DIOeEwf
-         W9DUBtQD+Ugc3IC3jEPBR6DymRqmySOruqFutuxLwKJlmDSiflUtNZm6HtLn0ZQAv3gz
-         QqBA==
+        bh=6MEcCmEoW0htF0gEeNXuNZYs1zBV/uinaZ06hXC1M6g=;
+        b=aNDYDSLLfCTAgvaHBy944SZdfJJ/oK5nG2BfGvAFYVx9e0rqoiF8y3q8A7/mPD/U7h
+         4aZm29P6seTzqGwoptdyM4hqELLkAid61QvfauafhWwwR4Dn/cx2LFdk/69v+kndN6VX
+         j0E6iGeLS3NOmRUrCuex+MTuwSmFEToV5/JLUipSm5cXhxNFI/NeViATN+7/U0vaoqvI
+         1Lea5H2wXGAUcZHva8+R8tZ714Q/rv7u5TUjL1HAM0G4K8YILXaRIkMuZ8HsPoJE3rO7
+         SPY3pdaiClgHdzGSmdGvoqBr/VCVbl+c7JgFSB8yt8oNY2b6MSHZ9M0liUSZIb3oO9ec
+         NCBA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712745098; x=1713349898;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
+        d=1e100.net; s=20230601; t=1712745153; x=1713349953;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=t2cJahpKiT81XBZYJgPZW1e7iLd0A/fWtraJwcFfugY=;
-        b=vKSZMRLrgtfHd91oZyGdvnmIu3dZ4Ux939RrrOm1H9zlUrSZ53lnmw0uctxOgM/WJp
-         OKLS5bP4N6eaK6MxqOaCGOj6Kgw1jBf6Ft4yq6oeWzaERtH1MUUxjqEdBAKGTiMGhBCu
-         omHcfE9g6Vuus0wSMVFI8pxbQddVLBLgrBYBCldx5ZRL3sCcq5mqFctsQGa8MAQ+bFJa
-         Qd1Ih/eCfkanqVsWyU83EnahrEz4GQ93SRQEU7atFmCXgB+xEsQjSurCA6M+jrNJhMfw
-         Q80gwYUkW7A/yBTULvgF6nepzSjF1+Y+FCHMjgq4umjFnqaFYEXWzzBK5G64cB7gnBOQ
-         kiGA==
-X-Forwarded-Encrypted: i=1; AJvYcCX7nWptPrtWqRUMFCZi01jOUiPOp33I6aeroNBgws4NkEHNL/Wm6RcT75MeDSDp/NMAKqmm4TZEIHtAquIWzzd3jEjp38gNIZCd9OSVNw8WTZg=
-X-Gm-Message-State: AOJu0YzIqjciquMG1/ZG6QhtUgp9RSzTzV9hwijBOVaE+A5nHMwS5pOL
-	+DfMfln6fzPOvjhNBzaPNN0WvK6NnSPQT+LIqgA4idF7m/Vikl9CLdbJrzoMvTw=
-X-Google-Smtp-Source: AGHT+IGXgc4szc6/2H8e3NH8Atr59PVFG1sF1pIp8usS+QI+TfgAtWxl817vYLjg7YLm/NrXAjrMpw==
-X-Received: by 2002:a17:907:2d12:b0:a52:3d1:6768 with SMTP id gs18-20020a1709072d1200b00a5203d16768mr1529361ejc.1.1712745098139;
-        Wed, 10 Apr 2024 03:31:38 -0700 (PDT)
+        bh=6MEcCmEoW0htF0gEeNXuNZYs1zBV/uinaZ06hXC1M6g=;
+        b=Onz6QOqdJ7Yj76r3J00ocv6l3NF1iBKA/BAgHsKshykBTmAcZUWqfQm4K/5TSE+0Jr
+         v3sSa12h0fqBo1JV8jAKG/MP1y946dt/IsFHQxvE3NDFeKWlLaWM+tj2KeDfde4pOSpZ
+         cq/11aoioc3pZG0ur2y5tXyrj7fkJ5KnAqNCF+ION+LnJLmVmLiiiqEPRfvegRD2d/qk
+         21W3mntfvlZY1q7dljsdFD2Vpqr+i6LjqDRtDks2sPbviokiKb3hX6N36j7+PkLWeLrl
+         xv3AWNZPYHXWWZzmMT7TgFc7OtT4pwI0/cUB4/ROZWaOMyoFXeKl4WkkFOhP3f6ffwv3
+         36oA==
+X-Forwarded-Encrypted: i=1; AJvYcCVgNdsjjlIvVSi+Lzwp0JvKZj7vRNN+QyY+9Ffm8G9QZMA4pFAHnBYVR3WseIClOzAII0sSzwqp8Yf55CGc8lnykYgtD6KIL1tfalLyIePSScM=
+X-Gm-Message-State: AOJu0YzB7M64P7ZiGvWJHTicQBfq0tOu7lNiohUp3mPAtzMyfq743nFQ
+	M3P1WjUpBmaYK0P289LaaScjiSZ8r5wwfyV43M8ZWfy6417n1uXYzt6JxM8AIng=
+X-Google-Smtp-Source: AGHT+IEu+HLG7Hf7fv03wqRzissU4p/7W8RIcsudExySNDSbRbaHSDj+oW8GDZ5KlSNJJ8JMviQLRg==
+X-Received: by 2002:a17:907:7e8e:b0:a46:3ce4:5acb with SMTP id qb14-20020a1709077e8e00b00a463ce45acbmr1479637ejc.75.1712745153037;
+        Wed, 10 Apr 2024 03:32:33 -0700 (PDT)
 Received: from [192.168.50.4] ([82.78.167.8])
-        by smtp.gmail.com with ESMTPSA id ml16-20020a170906cc1000b00a4e670414ffsm6811000ejb.109.2024.04.10.03.31.36
+        by smtp.gmail.com with ESMTPSA id ml16-20020a170906cc1000b00a4e670414ffsm6811000ejb.109.2024.04.10.03.32.31
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 10 Apr 2024 03:31:37 -0700 (PDT)
-Message-ID: <00b6c73b-d57f-4520-b1af-d2ad2a88240d@tuxon.dev>
-Date: Wed, 10 Apr 2024 13:31:35 +0300
+        Wed, 10 Apr 2024 03:32:32 -0700 (PDT)
+Message-ID: <58d90c1c-0c3c-4818-9d5c-d0c7661d0cf4@tuxon.dev>
+Date: Wed, 10 Apr 2024 13:32:31 +0300
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -76,9 +76,8 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 08/10] clk: renesas: rzg2l-cpg: Add suspend/resume
- support for power domains
-Content-Language: en-US
+Subject: Re: [PATCH v2 07/10] clk: renesas: r9a08g045: Add support for power
+ domains
 To: Geert Uytterhoeven <geert@linux-m68k.org>
 Cc: mturquette@baylibre.com, sboyd@kernel.org, robh@kernel.org,
  krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
@@ -87,124 +86,62 @@ Cc: mturquette@baylibre.com, sboyd@kernel.org, robh@kernel.org,
  linux-kernel@vger.kernel.org,
  Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 References: <20240307140728.190184-1-claudiu.beznea.uj@bp.renesas.com>
- <20240307140728.190184-9-claudiu.beznea.uj@bp.renesas.com>
- <CAMuHMdVdn9K1gKJAKyyDz8ObaJboknE_qqYfS_vyxNU+zhRWPA@mail.gmail.com>
+ <20240307140728.190184-8-claudiu.beznea.uj@bp.renesas.com>
+ <CAMuHMdXQ=m2BJ3Tjt0m8Q_H6dLh62sXjd2EMBTc+kuAwtc5B7A@mail.gmail.com>
 From: claudiu beznea <claudiu.beznea@tuxon.dev>
-In-Reply-To: <CAMuHMdVdn9K1gKJAKyyDz8ObaJboknE_qqYfS_vyxNU+zhRWPA@mail.gmail.com>
+Content-Language: en-US
+In-Reply-To: <CAMuHMdXQ=m2BJ3Tjt0m8Q_H6dLh62sXjd2EMBTc+kuAwtc5B7A@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
 Hi, Geert,
 
-Sorry for replying that late to this one.
-
-On 18.03.2024 18:48, Geert Uytterhoeven wrote:
-> Hi Claudiu,
-> 
+On 14.03.2024 18:01, Geert Uytterhoeven wrote:
 > On Thu, Mar 7, 2024 at 3:07 PM Claudiu <claudiu.beznea@tuxon.dev> wrote:
 >> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 >>
->> RZ/G3S supports deep sleep states that it can reach with the help of the
->> TF-A.
->>
->> RZ/G3S has a few power domains (e.g. GIC) that need to be always-on while
->> Linux is running. These domains are initialized (and powered on) when
->> clock driver is probed.
->>
->> As the TF-A takes control at the very last(suspend)/first(resume)
->> phase of configuring the deep sleep state, it can do it's own settings on
->> power domains.
->>
->> Thus, to restore the proper Linux state, add rzg2l_cpg_resume() which
->> powers on the always-on domains and rzg2l_cpg_complete() which activates
->> the power down mode for the IPs selected through CPG_PWRDN_IP{1, 2}.
->>
->> Along with it, added the suspend_check member to the RZ/G2L power domain
->> data structure whose purpose is to checks if a domain can be powered off
->> while the system is going to suspend. This is necessary for the serial
->> console domain which needs to be powered on if no_console_suspend is
->> available in bootargs.
+>> Instantiate power domains for the currently enabled IPs of R9A08G045 SoC.
 >>
 >> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 >> ---
 >>
->> Changes in v2:
->> - none; this patch is new
-> 
-> Thanks for your patch!
-> 
->> --- a/drivers/clk/renesas/rzg2l-cpg.c
->> +++ b/drivers/clk/renesas/rzg2l-cpg.c
->> @@ -1700,6 +1719,8 @@ static int __init rzg2l_cpg_pd_setup(struct rzg2l_cpg_pd *pd, bool always_on)
->>         } else {
->>                 pd->genpd.power_on = rzg2l_cpg_power_on;
->>                 pd->genpd.power_off = rzg2l_cpg_power_off;
->> +               if (flags & RZG2L_PD_F_CONSOLE)
-> 
-> I think this should be replaced by some dynamic check, cfr. my comments
-> on PATCH 9/10.
-
-I agree.
-
-> 
->> +                       pd->suspend_check = rzg2l_pd_suspend_check_console;
->>                 governor = &simple_qos_governor;
->>         }
+>> Change in v2:
+>> - used DEF_REG_CONF() to describe register offests and bits
+>> - updated MSTOP bitmask for ddr domain
+>> - updated MSTOP config for oftde_ddr
+>> - kept the same description for gic as the CPG_BUS_ACPU_MSTOP register
+>>   documentation in the latest HW manual version is wrong and it will be
+>>   fixed; proper description for GIC is located in "Registers for Module
+>>   Standby Mode" table
+>> - haven't added watchdog domain (was missing in v1, too, by mistake) as
+>>   the watchdog restart handler will fail w/o patch [1]; with this pm domain
+>>   support the watchdog will fail to probe; not sure what is the best
+>>   option until [1] will be integrated
 >>
+>> [1] https://patchwork.kernel.org/project/linux-renesas-soc/patch/20240228083253.2640997-10-claudiu.beznea.uj@bp.renesas.com
 > 
->> @@ -1890,9 +1911,43 @@ static int __init rzg2l_cpg_probe(struct platform_device *pdev)
->>         if (error)
->>                 return error;
->>
->> +       dev_set_drvdata(dev, priv);
->> +
->>         return 0;
->>  }
->>
->> +static int rzg2l_cpg_resume(struct device *dev)
->> +{
->> +       struct rzg2l_cpg_priv *priv = dev_get_drvdata(dev);
->> +       const struct rzg2l_cpg_info *info = priv->info;
->> +
->> +       /* Power on always ON domains. */
->> +       for (unsigned int i = 0; i < info->num_pm_domains; i++) {
->> +               if (info->pm_domains[i].flags & RZG2L_PD_F_ALWAYS_ON) {
-> 
-> If you would check "priv-domains[i].flags & GENPD_FLAG_ALWAYS_ON"
-> instead, I think you can make r9a08g045_pm_domains[] __initconst.
-> You may need to make a copy of the name for pd->genpd.name, though.
+> I guess we'll have to wait until that dependency is integrated,
 
-I wanted to avoid this copy.
-
-> 
->> +                       int ret = rzg2l_cpg_power_on(priv->domains[i]);
-> 
-> I assume you are sure none of these domains are enabled by TF/A after
-> system resume, or by the pmdomain core code?
-
-Out of TF-A the MSTOP and PWRDN bits for these ones are set and setting
-CPG_PWRDN_MSTOP though rzg2l_cpg_complete() leads to system being blocked.
-It is the same as in booting case exlained in cover letter.
-
-"the DDR, TZCDDR, OTFDE_DDR were also added, to avoid system being blocked
-due to the following lines of code from patch 6/10.
-
-+       /* Prepare for power down the BUSes in power down mode. */
-+       if (info->pm_domain_pwrdn_mstop)
-+               writel(CPG_PWRDN_MSTOP_ENABLE, priv->base + CPG_PWRDN_MSTOP);
-
-Domain IDs were added to all SoC specific bindings.
-"
-
-The PM domain core code doesn't touch these domains while resuming as of my
-checkings.
+I opt for this option to not break the reset support currently integrated.
+I don't have any feedback from maintainers yet on [1], though. I don't know
+how long it will take.
 
 Thank you,
 Claudiu Beznea
 
+
+> or use an immutable branch?
+> 
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 > 
 > Gr{oetje,eeting}s,
 > 
 >                         Geert
 > 
+> --
+> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+> 
+> In personal conversations with technical people, I call myself a hacker. But
+> when I'm talking to journalists I just say "programmer" or something like that.
+>                                 -- Linus Torvalds
 
