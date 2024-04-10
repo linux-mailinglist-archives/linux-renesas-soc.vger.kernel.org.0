@@ -1,147 +1,215 @@
-Return-Path: <linux-renesas-soc+bounces-4428-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-4429-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 522B589EFDF
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Apr 2024 12:32:40 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 76DBA89F052
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Apr 2024 13:03:55 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0D9CC2823B4
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Apr 2024 10:32:39 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 11D6E283430
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Apr 2024 11:03:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BED7B1591E0;
-	Wed, 10 Apr 2024 10:32:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D278D159566;
+	Wed, 10 Apr 2024 11:03:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="aNDYDSLL"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LJXyJnoU"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6D1B158A24
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 10 Apr 2024 10:32:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBD332BAEC
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 10 Apr 2024 11:03:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712745156; cv=none; b=RUoP5jRhJ4/C2/ou+SWLos1xvFGIzbilVA9dcXR0iSgWBT3XGCxyU3JU4YS0VEO8VeMJQAmx/u7yILv6et21/A4FST/A7McCMBiiDHyu7TQ4hNc/tJOXqmGx/F0ICeg5zp/YYxQfimN6wffj7Hva56kBwdImMobobwvxEvSbURY=
+	t=1712747031; cv=none; b=rrRUkXQ4Jd+1pEU0SDTIA3nxB5vRwIO5uT7zX+AcE+WZKIk4CqiUg9NNxLsInUODW57AAj3KIc3gpWza/T9o38x5fUYvDXwfGq4FX2jVn6rNLU9a48VPUHdxZeSm+MMZAv9H/PtKH26OnZP6NN7NSLTsHK1vegZt4QilJwSB0nQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712745156; c=relaxed/simple;
-	bh=m3Nofq8nnTcdPA9w3dqHCTAf3BKyCsncf1j3teeV6vI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=QJKYYA/5JMt/Go8cAFrzqVdw+b5HSnmbYiadgysE97cjUsOJG259GL5qJQZ0epD0Bk2TuBSa2NQIORxO8md1T3rxsk5Tv8UIckBkWNGGt8NMHShD2YBpXGkSNlQXBwVyqPL1UJNYCgOcXmra9mc25APUaGFaaDl4sh4aNLjQ6lU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=aNDYDSLL; arc=none smtp.client-ip=209.85.208.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
-Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-56e47843cc7so3934720a12.0
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 10 Apr 2024 03:32:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1712745153; x=1713349953; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=6MEcCmEoW0htF0gEeNXuNZYs1zBV/uinaZ06hXC1M6g=;
-        b=aNDYDSLLfCTAgvaHBy944SZdfJJ/oK5nG2BfGvAFYVx9e0rqoiF8y3q8A7/mPD/U7h
-         4aZm29P6seTzqGwoptdyM4hqELLkAid61QvfauafhWwwR4Dn/cx2LFdk/69v+kndN6VX
-         j0E6iGeLS3NOmRUrCuex+MTuwSmFEToV5/JLUipSm5cXhxNFI/NeViATN+7/U0vaoqvI
-         1Lea5H2wXGAUcZHva8+R8tZ714Q/rv7u5TUjL1HAM0G4K8YILXaRIkMuZ8HsPoJE3rO7
-         SPY3pdaiClgHdzGSmdGvoqBr/VCVbl+c7JgFSB8yt8oNY2b6MSHZ9M0liUSZIb3oO9ec
-         NCBA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712745153; x=1713349953;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=6MEcCmEoW0htF0gEeNXuNZYs1zBV/uinaZ06hXC1M6g=;
-        b=Onz6QOqdJ7Yj76r3J00ocv6l3NF1iBKA/BAgHsKshykBTmAcZUWqfQm4K/5TSE+0Jr
-         v3sSa12h0fqBo1JV8jAKG/MP1y946dt/IsFHQxvE3NDFeKWlLaWM+tj2KeDfde4pOSpZ
-         cq/11aoioc3pZG0ur2y5tXyrj7fkJ5KnAqNCF+ION+LnJLmVmLiiiqEPRfvegRD2d/qk
-         21W3mntfvlZY1q7dljsdFD2Vpqr+i6LjqDRtDks2sPbviokiKb3hX6N36j7+PkLWeLrl
-         xv3AWNZPYHXWWZzmMT7TgFc7OtT4pwI0/cUB4/ROZWaOMyoFXeKl4WkkFOhP3f6ffwv3
-         36oA==
-X-Forwarded-Encrypted: i=1; AJvYcCVgNdsjjlIvVSi+Lzwp0JvKZj7vRNN+QyY+9Ffm8G9QZMA4pFAHnBYVR3WseIClOzAII0sSzwqp8Yf55CGc8lnykYgtD6KIL1tfalLyIePSScM=
-X-Gm-Message-State: AOJu0YzB7M64P7ZiGvWJHTicQBfq0tOu7lNiohUp3mPAtzMyfq743nFQ
-	M3P1WjUpBmaYK0P289LaaScjiSZ8r5wwfyV43M8ZWfy6417n1uXYzt6JxM8AIng=
-X-Google-Smtp-Source: AGHT+IEu+HLG7Hf7fv03wqRzissU4p/7W8RIcsudExySNDSbRbaHSDj+oW8GDZ5KlSNJJ8JMviQLRg==
-X-Received: by 2002:a17:907:7e8e:b0:a46:3ce4:5acb with SMTP id qb14-20020a1709077e8e00b00a463ce45acbmr1479637ejc.75.1712745153037;
-        Wed, 10 Apr 2024 03:32:33 -0700 (PDT)
-Received: from [192.168.50.4] ([82.78.167.8])
-        by smtp.gmail.com with ESMTPSA id ml16-20020a170906cc1000b00a4e670414ffsm6811000ejb.109.2024.04.10.03.32.31
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 10 Apr 2024 03:32:32 -0700 (PDT)
-Message-ID: <58d90c1c-0c3c-4818-9d5c-d0c7661d0cf4@tuxon.dev>
-Date: Wed, 10 Apr 2024 13:32:31 +0300
+	s=arc-20240116; t=1712747031; c=relaxed/simple;
+	bh=tclTSZRiGIcSwE1O9mcAhByJw/pMaXXa2492xrGuWPg=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=hxNR5QICKWlT0jHzgHS77jLdV51iHbROfVuDWyTWijaoPlxvlYw1vby+p24zMH7d020ik70YJwi5tfLYg55on6uN1OGqxHz8rT8B9GDz6t5qj/JR4pSx7daB//0pIW8uNG7axUwO9rwcEq4b5ZB6Rlbo7z6BI1JtjTLQ33Tdn6s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LJXyJnoU; arc=none smtp.client-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1712747029; x=1744283029;
+  h=date:from:to:cc:subject:message-id;
+  bh=tclTSZRiGIcSwE1O9mcAhByJw/pMaXXa2492xrGuWPg=;
+  b=LJXyJnoUifXP4TtIIYls58oliay/u0nR9DJJha09hK2fA+i4ms48k+we
+   lsfGgaZJyJn5NxMLjXfTPELL9rFsEuMGIbes+fm/8+o+z+7jG9DV6Q6jP
+   Ge9rddy3MNQv/0yCY11zDg5RpZ2XwoDrjDF3OVs0VXJyxxUQuDzhxcjJA
+   HKpf+5lMlH2V+V4DMAzEe06j9/oiC4NVgV/ZMlZXtzNnuEStnW2ntqEgc
+   Y68lxLXkqkTHPwVRCIvZa6Fj5r57Uxm3/6ya8LBesCFvKGDZclRExpeo3
+   AKyzKXonqiBxTql2/T3AE9fu/lUojEiQHo23SC52yaNJ1Ni20yz4MJUmH
+   g==;
+X-CSE-ConnectionGUID: LVaAPKGqT2yggTa/bZPiZg==
+X-CSE-MsgGUID: G12FsK0kTH2i8qKha+Lwiw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11039"; a="7974291"
+X-IronPort-AV: E=Sophos;i="6.07,190,1708416000"; 
+   d="scan'208";a="7974291"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Apr 2024 04:03:48 -0700
+X-CSE-ConnectionGUID: 0XIr0cGMTs60EgkSG1T7Xg==
+X-CSE-MsgGUID: aDTHgiUZTg22T19GfPCk8Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,190,1708416000"; 
+   d="scan'208";a="20543830"
+Received: from lkp-server01.sh.intel.com (HELO e61807b1d151) ([10.239.97.150])
+  by fmviesa006.fm.intel.com with ESMTP; 10 Apr 2024 04:03:46 -0700
+Received: from kbuild by e61807b1d151 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1ruVk0-0007Es-07;
+	Wed, 10 Apr 2024 11:03:44 +0000
+Date: Wed, 10 Apr 2024 19:03:36 +0800
+From: kernel test robot <lkp@intel.com>
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: linux-renesas-soc@vger.kernel.org
+Subject: [geert-renesas-drivers:topic/board-farm] BUILD SUCCESS
+ 12a68b6ab48e56f680aef410554ffbdbaac8a830
+Message-ID: <202404101934.O3caFRk3-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 07/10] clk: renesas: r9a08g045: Add support for power
- domains
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: mturquette@baylibre.com, sboyd@kernel.org, robh@kernel.org,
- krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
- magnus.damm@gmail.com, linux-renesas-soc@vger.kernel.org,
- linux-clk@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org,
- Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-References: <20240307140728.190184-1-claudiu.beznea.uj@bp.renesas.com>
- <20240307140728.190184-8-claudiu.beznea.uj@bp.renesas.com>
- <CAMuHMdXQ=m2BJ3Tjt0m8Q_H6dLh62sXjd2EMBTc+kuAwtc5B7A@mail.gmail.com>
-From: claudiu beznea <claudiu.beznea@tuxon.dev>
-Content-Language: en-US
-In-Reply-To: <CAMuHMdXQ=m2BJ3Tjt0m8Q_H6dLh62sXjd2EMBTc+kuAwtc5B7A@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 
-Hi, Geert,
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git topic/board-farm
+branch HEAD: 12a68b6ab48e56f680aef410554ffbdbaac8a830  arm64: dts: renesas: white-hawk-common: Enable GP8_12 for wake-up
 
-On 14.03.2024 18:01, Geert Uytterhoeven wrote:
-> On Thu, Mar 7, 2024 at 3:07 PM Claudiu <claudiu.beznea@tuxon.dev> wrote:
->> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
->>
->> Instantiate power domains for the currently enabled IPs of R9A08G045 SoC.
->>
->> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
->> ---
->>
->> Change in v2:
->> - used DEF_REG_CONF() to describe register offests and bits
->> - updated MSTOP bitmask for ddr domain
->> - updated MSTOP config for oftde_ddr
->> - kept the same description for gic as the CPG_BUS_ACPU_MSTOP register
->>   documentation in the latest HW manual version is wrong and it will be
->>   fixed; proper description for GIC is located in "Registers for Module
->>   Standby Mode" table
->> - haven't added watchdog domain (was missing in v1, too, by mistake) as
->>   the watchdog restart handler will fail w/o patch [1]; with this pm domain
->>   support the watchdog will fail to probe; not sure what is the best
->>   option until [1] will be integrated
->>
->> [1] https://patchwork.kernel.org/project/linux-renesas-soc/patch/20240228083253.2640997-10-claudiu.beznea.uj@bp.renesas.com
-> 
-> I guess we'll have to wait until that dependency is integrated,
+elapsed time: 1195m
 
-I opt for this option to not break the reset support currently integrated.
-I don't have any feedback from maintainers yet on [1], though. I don't know
-how long it will take.
+configs tested: 122
+configs skipped: 167
 
-Thank you,
-Claudiu Beznea
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
+tested configs:
+alpha                             allnoconfig   gcc  
+alpha                            allyesconfig   gcc  
+alpha                               defconfig   gcc  
+arc                               allnoconfig   gcc  
+arc                                 defconfig   gcc  
+arc                   randconfig-001-20240410   gcc  
+arc                   randconfig-002-20240410   gcc  
+arm                              allmodconfig   gcc  
+arm                               allnoconfig   clang
+arm                              allyesconfig   gcc  
+arm                                 defconfig   clang
+arm                   randconfig-001-20240410   gcc  
+arm                   randconfig-002-20240410   clang
+arm                   randconfig-003-20240410   gcc  
+arm                   randconfig-004-20240410   clang
+arm64                            allmodconfig   clang
+arm64                             allnoconfig   gcc  
+arm64                               defconfig   gcc  
+arm64                 randconfig-001-20240410   clang
+arm64                 randconfig-002-20240410   gcc  
+arm64                 randconfig-003-20240410   gcc  
+arm64                 randconfig-004-20240410   gcc  
+csky                              allnoconfig   gcc  
+csky                                defconfig   gcc  
+csky                  randconfig-001-20240410   gcc  
+csky                  randconfig-002-20240410   gcc  
+i386                             allmodconfig   gcc  
+i386                              allnoconfig   gcc  
+i386                             allyesconfig   gcc  
+i386         buildonly-randconfig-001-20240410   gcc  
+i386         buildonly-randconfig-005-20240410   gcc  
+i386         buildonly-randconfig-006-20240410   gcc  
+i386                  randconfig-003-20240410   gcc  
+i386                  randconfig-004-20240410   gcc  
+i386                  randconfig-005-20240410   gcc  
+i386                  randconfig-013-20240410   gcc  
+i386                  randconfig-015-20240410   gcc  
+i386                  randconfig-016-20240410   gcc  
+loongarch                        allmodconfig   gcc  
+loongarch                         allnoconfig   gcc  
+loongarch                        allyesconfig   gcc  
+loongarch                           defconfig   gcc  
+loongarch             randconfig-001-20240410   gcc  
+loongarch             randconfig-002-20240410   gcc  
+m68k                             allmodconfig   gcc  
+m68k                              allnoconfig   gcc  
+m68k                             allyesconfig   gcc  
+m68k                                defconfig   gcc  
+microblaze                       allmodconfig   gcc  
+microblaze                        allnoconfig   gcc  
+microblaze                       allyesconfig   gcc  
+microblaze                          defconfig   gcc  
+mips                             allmodconfig   gcc  
+mips                              allnoconfig   gcc  
+mips                             allyesconfig   gcc  
+nios2                            allmodconfig   gcc  
+nios2                             allnoconfig   gcc  
+nios2                            allyesconfig   gcc  
+nios2                               defconfig   gcc  
+nios2                 randconfig-001-20240410   gcc  
+nios2                 randconfig-002-20240410   gcc  
+openrisc                         allmodconfig   gcc  
+parisc                randconfig-001-20240410   gcc  
+parisc                randconfig-002-20240410   gcc  
+powerpc                          allyesconfig   clang
+powerpc                        cell_defconfig   gcc  
+powerpc               randconfig-001-20240410   gcc  
+powerpc               randconfig-002-20240410   gcc  
+powerpc               randconfig-003-20240410   gcc  
+powerpc64             randconfig-001-20240410   gcc  
+powerpc64             randconfig-002-20240410   gcc  
+riscv                            allmodconfig   clang
+riscv                            allyesconfig   clang
+riscv                               defconfig   clang
+riscv             nommu_k210_sdcard_defconfig   gcc  
+riscv                 randconfig-001-20240410   gcc  
+riscv                 randconfig-002-20240410   gcc  
+s390                             alldefconfig   gcc  
+s390                              allnoconfig   clang
+s390                             allyesconfig   gcc  
+s390                                defconfig   clang
+sh                               allmodconfig   gcc  
+sh                               allyesconfig   gcc  
+sh                               j2_defconfig   gcc  
+sh                            migor_defconfig   gcc  
+sh                    randconfig-001-20240410   gcc  
+sh                    randconfig-002-20240410   gcc  
+sh                           se7712_defconfig   gcc  
+sh                     sh7710voipgw_defconfig   gcc  
+sh                   sh7724_generic_defconfig   gcc  
+sh                              ul2_defconfig   gcc  
+sparc                            allmodconfig   gcc  
+sparc                            allyesconfig   gcc  
+sparc64                          allmodconfig   gcc  
+sparc64                          allyesconfig   gcc  
+sparc64               randconfig-001-20240410   gcc  
+sparc64               randconfig-002-20240410   gcc  
+um                                allnoconfig   clang
+um                               allyesconfig   gcc  
+um                                  defconfig   clang
+um                           x86_64_defconfig   clang
+x86_64       buildonly-randconfig-002-20240410   clang
+x86_64       buildonly-randconfig-003-20240410   clang
+x86_64       buildonly-randconfig-005-20240410   clang
+x86_64                              defconfig   gcc  
+x86_64                randconfig-001-20240410   clang
+x86_64                randconfig-003-20240410   clang
+x86_64                randconfig-004-20240410   clang
+x86_64                randconfig-006-20240410   clang
+x86_64                randconfig-014-20240410   clang
+x86_64                randconfig-016-20240410   clang
+x86_64                randconfig-072-20240410   clang
+x86_64                randconfig-074-20240410   clang
+x86_64                randconfig-076-20240410   clang
+x86_64                           rhel-8.3-bpf   gcc  
+x86_64                          rhel-8.3-func   gcc  
+x86_64                    rhel-8.3-kselftests   gcc  
+x86_64                         rhel-8.3-kunit   gcc  
+x86_64                               rhel-8.3   gcc  
+xtensa                           allyesconfig   gcc  
+xtensa                randconfig-001-20240410   gcc  
+xtensa                randconfig-002-20240410   gcc  
 
-> or use an immutable branch?
-> 
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> 
-> Gr{oetje,eeting}s,
-> 
->                         Geert
-> 
-> --
-> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-> 
-> In personal conversations with technical people, I call myself a hacker. But
-> when I'm talking to journalists I just say "programmer" or something like that.
->                                 -- Linus Torvalds
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
