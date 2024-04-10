@@ -1,153 +1,112 @@
-Return-Path: <linux-renesas-soc+bounces-4478-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-4479-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17FD889FD67
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Apr 2024 18:48:10 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3251789FE0F
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Apr 2024 19:17:17 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 8216AB2C181
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Apr 2024 16:43:42 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 4E45CB2F6D0
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Apr 2024 17:11:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1926D17B505;
-	Wed, 10 Apr 2024 16:43:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ECE5D17BB3E;
+	Wed, 10 Apr 2024 17:11:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BG29tawy"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jSuLV6q1"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 910B917B4FF;
-	Wed, 10 Apr 2024 16:43:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C192917BB3B;
+	Wed, 10 Apr 2024 17:11:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712767413; cv=none; b=At1sucPnPuHX7jWMGTBAPH31ZcXLlFoxVYHkIHkF3Xxe6xTnoVXr0XrX3gA5bcYZdvW4uNtKUk/QTX6Rcgwb6OqDbsdl8WtsbK39wbs3QjwBxbdSxSGqkVpgPjXaZTlSsDOcXmxCV0SnVdoXBJhRI5/NgV7EQ13iAtbeblsP37g=
+	t=1712769070; cv=none; b=VN82xyWvdvttzt/kAbbPQtEMvQP+xrzBaJqXEIk/0ImBXpR4vm/6Q8ZskuzDMiGKHNxNbhoK37B/KbjG3fuck0cElIdoiSPYpICW7E9HizLXJVQjCApAOuTDyGunNOmHaK9tyf1BuWtRmUZhjPQfmjnJptcJV3x9it5FnvdQlZU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712767413; c=relaxed/simple;
-	bh=qP4rwcDDBXWsYnnCO06i7GA685vxVAn/SFCuKVL5ymk=;
+	s=arc-20240116; t=1712769070; c=relaxed/simple;
+	bh=pg+bgNQLyz5NOFla7/NCdVINpMYIxiAX3SWhPOzVjmA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uhV/tfQl2zv25Bc7lAE3nhGFPJCJD9iIX0C66CVhKmiKRoBy+mX9YJL0q1hVQSV4nJ3h57fHiYpuqJS2LOceUl95wzmQ/UpSyrEjl8nqZfPAZnep3PI+3UT7+i1Amgss+gH+cNs7JGUM7oT5QD68cr3ULPf7K/rAHRyHwbP/P2w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BG29tawy; arc=none smtp.client-ip=209.85.210.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-6eddff25e4eso296087b3a.3;
-        Wed, 10 Apr 2024 09:43:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1712767410; x=1713372210; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Awh8ecAEWQZ1WcJzJZ+Zpya1KnuzGUc8tEokrA81tso=;
-        b=BG29tawyLg6MJBxfO9YMPP3PN0FOh7+ntNPrIFASsTQkc7Pufpr8pfR6A0viww10Vh
-         +NI5hMGZXCtcpv5a1Blo4EECiq18kTuZ9ohQULSBcup6D8oBP2Yjf4OopqH7DUXuWy75
-         T4ARM7WoC3uKC07YoIhH+Xqc+GUAlNgh31OrdPUsvytjApu6J+aRN6MH9QEYEiMwuNwr
-         7oVPGFytvhViojS3NvtTXrYC70jxSqvhC8DchDaaanvRANIEKCG5sm+mmu9M8ikf0K/t
-         OmOYnzbcllA+WeIFTbVO+w47xaTQCjTpgLjubAKxA8aEnVP5zi1tp19R6cDJMk226SDC
-         UEvQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712767410; x=1713372210;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Awh8ecAEWQZ1WcJzJZ+Zpya1KnuzGUc8tEokrA81tso=;
-        b=GrDngHgy9xwmZEDd1HK6wFHhVeCSW7rhpAaNLfdmvX5B8ftxXBKaMtSGXEfaDVxXbw
-         0fMfxQ4XBBTi2GBNPCj9ulNBOqITrog/a/GyzcZ+JcSWCHZqJECaknrcYx0mxu6z0uxD
-         0tfHgp9/SmGQGlHy5uMPDdu5r3ntsc/fGwlK4RlzXUJAqtotiar8zFUjMgreUkJVqpUQ
-         sPk7TE8Hx4fWItfQ+BA7CuBpFZ7F+GnHYfvB7V2MHfNLJqa0ThvfIrwwHtQMw5OVzsse
-         /ZK8DashCBNO+TaH/gmwRxpkG0fP4Q2tc1//JrpBRm1F8YSQSHBePyVV3vpSsP4nd35/
-         BNTQ==
-X-Forwarded-Encrypted: i=1; AJvYcCX+wPD53SalWl8n1xK72FJi4643ilVrL1yZz40PxNU3qAjUbjQnT0aoivRmS1mgQJSbLFw1jwi46APEOZneVF39WqPb0Eg1VwjP7jn4mwo1qOo9lkmOfDf4cecrYucWX+NxwdfFi8xEuZ+joVXWMnE7V2Tvat/QLd0dIYiPQ+jymxpaROcwV9EfosGTGqly/vvwgrupxMyKHiAqPmz1Mt8fenMa6OjfL6I+G+w=
-X-Gm-Message-State: AOJu0YzPOMMjGopgMMR64oAOx8Ac4sJlm6QZOuqM+dDHAm3TwSfMbY7f
-	Q2GC77fj9jNYDyfslUsupGCs8MoP/R4yJTTIKt7Go1juG7arTX8R
-X-Google-Smtp-Source: AGHT+IGowoxPbo5rXFumvdr4rBUE6oPeTkSAeAkpKiGPVElZ0Zqp0XkSo3uaxirSokB6jzLHky18fg==
-X-Received: by 2002:a05:6a21:3d95:b0:1a7:507a:c9f4 with SMTP id bj21-20020a056a213d9500b001a7507ac9f4mr3348678pzc.30.1712767410142;
-        Wed, 10 Apr 2024 09:43:30 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id l9-20020a17090a408900b002a26430fc7bsm1578654pjg.2.2024.04.10.09.43.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 Apr 2024 09:43:29 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date: Wed, 10 Apr 2024 09:43:28 -0700
-From: Guenter Roeck <linux@roeck-us.net>
-To: Claudiu <claudiu.beznea@tuxon.dev>
-Cc: wim@linux-watchdog.org, robh@kernel.org, krzk+dt@kernel.org,
-	conor+dt@kernel.org, p.zabel@pengutronix.de,
-	geert+renesas@glider.be, magnus.damm@gmail.com,
-	biju.das.jz@bp.renesas.com, linux-watchdog@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
-	Conor Dooley <conor.dooley@microchip.com>
-Subject: Re: [PATCH RESEND v8 10/10] dt-bindings: watchdog: renesas,wdt:
- Document RZ/G3S support
-Message-ID: <c6467ae4-c3f7-4a2c-abf9-8428bc068d42@roeck-us.net>
-References: <20240410134044.2138310-1-claudiu.beznea.uj@bp.renesas.com>
- <20240410134044.2138310-11-claudiu.beznea.uj@bp.renesas.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=mZhafVdZa0qKe2/r1bPr6wpa9LM+J5e8g812YYb0AzNQjNAXLozVPjaQOO3Evhhm4uUgAJwbDbSZyKEWR7lRlZR0CALniOw2e1kpfpdsmhmgz+7B4Tn38wbqhaIFgOVtXng+bXo4jbpcpJsi45JZs5pYqPhuLMno0TQiPByROVo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jSuLV6q1; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AB771C433C7;
+	Wed, 10 Apr 2024 17:11:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1712769070;
+	bh=pg+bgNQLyz5NOFla7/NCdVINpMYIxiAX3SWhPOzVjmA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=jSuLV6q1BcVaVMYegTdWTa8o5YcsmL0hXJH/2oR3U7f72MJAxRrpZqvj7bJksbBPg
+	 8k/G9p0/6yWdg0Zel0UQ8TSPSwtmJzC+Zfimt3pifXVRulvxUjhiDHqV6MDd139rcj
+	 IgVgGWFL+cDgwz8DQ4bNslNLsmd5tntlfy8PNSydwpyNceEfypGzGqpcdiFsTUphMF
+	 e3j2O//PGA+B7vLH7Wq4XFE3CG7QDtCv7ZdtfDk4qJK20Qi7afxAncChjFkpujjRid
+	 wtjqNv1FQmNT0YlcRSJNtWvfNXznOpHWvkeoHi0ILvnxhaHWaqtM8Fw04P6H6yJbHd
+	 nncB/fPDK9tnQ==
+Date: Wed, 10 Apr 2024 22:41:02 +0530
+From: Manivannan Sadhasivam <mani@kernel.org>
+To: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc: lpieralisi@kernel.org, kw@linux.com, robh@kernel.org,
+	bhelgaas@google.com, krzysztof.kozlowski+dt@linaro.org,
+	conor+dt@kernel.org, jingoohan1@gmail.com, mani@kernel.org,
+	marek.vasut+renesas@gmail.com, linux-pci@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v6 3/7] PCI: dwc: Add PCIE_PORT_{FORCE,LANE_SKEW} macros
+Message-ID: <20240410171102.GA16629@thinkpad>
+References: <20240410004832.3726922-1-yoshihiro.shimoda.uh@renesas.com>
+ <20240410004832.3726922-4-yoshihiro.shimoda.uh@renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20240410134044.2138310-11-claudiu.beznea.uj@bp.renesas.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240410004832.3726922-4-yoshihiro.shimoda.uh@renesas.com>
 
-On Wed, Apr 10, 2024 at 04:40:44PM +0300, Claudiu wrote:
-> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+On Wed, Apr 10, 2024 at 09:48:28AM +0900, Yoshihiro Shimoda wrote:
+> R-Car Gen4 PCIe controller needs to use the Synopsys-specific PCIe
+> configuration registers. So, add the macros.
 > 
-> Document the support for the watchdog IP available on RZ/G3S SoC. The
-> watchdog IP available on RZ/G3S SoC is identical to the one found on
-> RZ/G2L SoC.
-> 
-> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-> Acked-by: Conor Dooley <conor.dooley@microchip.com>
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 
-Reviewed-by: Guenter Roeck <linux@roeck-us.net>
+Reviewed-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+
+- Mani
 
 > ---
+>  drivers/pci/controller/dwc/pcie-designware.h | 6 ++++++
+>  1 file changed, 6 insertions(+)
 > 
-> Changes in v8:
-> - none
-> 
-> Changes in v7:
-> - none
-> 
-> Changes in v6:
-> - none
-> 
-> Changes in v5:
-> - none
-> 
-> Changes in v4:
-> - none
-> 
-> Changes in v3:
-> - re-arranged the tags as my b4 am/shazam placed previously the
->   Ab, Rb tags before the author's Sob
-> 
-> Changes in v2:
-> - collected tags
-> - s/G2UL/G2L in patch description
-> 
->  Documentation/devicetree/bindings/watchdog/renesas,wdt.yaml | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/watchdog/renesas,wdt.yaml b/Documentation/devicetree/bindings/watchdog/renesas,wdt.yaml
-> index ffb17add491a..eba454d1680f 100644
-> --- a/Documentation/devicetree/bindings/watchdog/renesas,wdt.yaml
-> +++ b/Documentation/devicetree/bindings/watchdog/renesas,wdt.yaml
-> @@ -29,6 +29,7 @@ properties:
->                - renesas,r9a07g043-wdt    # RZ/G2UL and RZ/Five
->                - renesas,r9a07g044-wdt    # RZ/G2{L,LC}
->                - renesas,r9a07g054-wdt    # RZ/V2L
-> +              - renesas,r9a08g045-wdt    # RZ/G3S
->            - const: renesas,rzg2l-wdt
+> diff --git a/drivers/pci/controller/dwc/pcie-designware.h b/drivers/pci/controller/dwc/pcie-designware.h
+> index 26dae4837462..aa4db6eaf02a 100644
+> --- a/drivers/pci/controller/dwc/pcie-designware.h
+> +++ b/drivers/pci/controller/dwc/pcie-designware.h
+> @@ -71,6 +71,9 @@
+>  #define LINK_WAIT_IATU			9
 >  
->        - items:
+>  /* Synopsys-specific PCIe configuration registers */
+> +#define PCIE_PORT_FORCE			0x708
+> +#define PORT_FORCE_DO_DESKEW_FOR_SRIS	BIT(23)
+> +
+>  #define PCIE_PORT_AFR			0x70C
+>  #define PORT_AFR_N_FTS_MASK		GENMASK(15, 8)
+>  #define PORT_AFR_N_FTS(n)		FIELD_PREP(PORT_AFR_N_FTS_MASK, n)
+> @@ -92,6 +95,9 @@
+>  #define PORT_LINK_MODE_4_LANES		PORT_LINK_MODE(0x7)
+>  #define PORT_LINK_MODE_8_LANES		PORT_LINK_MODE(0xf)
+>  
+> +#define PCIE_PORT_LANE_SKEW		0x714
+> +#define PORT_LANE_SKEW_INSERT_MASK	GENMASK(23, 0)
+> +
+>  #define PCIE_PORT_DEBUG0		0x728
+>  #define PORT_LOGIC_LTSSM_STATE_MASK	0x1f
+>  #define PORT_LOGIC_LTSSM_STATE_L0	0x11
 > -- 
-> 2.39.2
+> 2.25.1
 > 
+> 
+
+-- 
+மணிவண்ணன் சதாசிவம்
 
