@@ -1,162 +1,203 @@
-Return-Path: <linux-renesas-soc+bounces-4518-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-4519-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A1A18A137C
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 11 Apr 2024 13:47:24 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 293F78A14CC
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 11 Apr 2024 14:39:25 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 355AB28ADC2
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 11 Apr 2024 11:47:23 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 94E901F2306C
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 11 Apr 2024 12:39:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1821F14EC4A;
-	Thu, 11 Apr 2024 11:45:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C3F231EA8D;
+	Thu, 11 Apr 2024 12:39:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WfwX59yM"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DB4AA14E2D2;
-	Thu, 11 Apr 2024 11:45:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.172
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 889081E4A0;
+	Thu, 11 Apr 2024 12:39:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712835914; cv=none; b=a9Ewb6GUrEgfCkSPzHCVKXd8HzV4Ju8DhDdXLa4P5XGZxXYde1F4r+gQa/3sS2oo9SZ6SA1+Dxn2iGfJ9SuOqsW3eiVRGlD6YoWUGoVN9vrYevQu88hY/KvbbewtPIZdGOq91fZgVrNCW2iCt3lD1KplFudW1zttgdSoPLw6CHI=
+	t=1712839159; cv=none; b=P7jMyAFtI/pYFLVn+9/eKZOPA9Pp9GywsD/jHkSQ2PUiS8oZdWVdkv1G5chO1F19yYoAYuOktdtPgXuEUs+zVXbeuul/W2gYIPVR6TmQYZtVKnHXQdKxU4DK50J99w+UrPAgFNPRPkVzFjltsU5sfY0M3GS716VTxR8uq/ql4Pc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712835914; c=relaxed/simple;
-	bh=xzaNmpas9IX7MCCSyZu3dKk1kInftLGPetmtFm3BUL8=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=SyOFPtCO+Byd+i9arYMb96BdcBKj/wTRh3ccQcSFm1hQelDuftjkD0qoe6JJc7BSZnR/TBp0QYnIhmG9dKM7jpll+dwYdYk8WJKIn7+hEbma+uKBcw/+bsuxwGVehj0WJW+Yj7IsiXfwmePA6uz2OFfRPobNLmFuVKg7APHJGPg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
-X-IronPort-AV: E=Sophos;i="6.07,193,1708354800"; 
-   d="scan'208";a="205076292"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie6.idc.renesas.com with ESMTP; 11 Apr 2024 20:45:11 +0900
-Received: from renesas-deb12.cephei.uk (unknown [10.226.93.85])
-	by relmlir6.idc.renesas.com (Postfix) with ESMTP id C47C242017DE;
-	Thu, 11 Apr 2024 20:45:07 +0900 (JST)
-From: Paul Barker <paul.barker.ct@bp.renesas.com>
-To: Sergey Shtylyov <s.shtylyov@omp.ru>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	=?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
-	Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: Paul Barker <paul.barker.ct@bp.renesas.com>,
-	netdev@vger.kernel.org,
+	s=arc-20240116; t=1712839159; c=relaxed/simple;
+	bh=kzcjv8gmNpZtAiYk2xJYEcr+JLyXL9rAALV5gNvHuVM=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=L6p5pMnvLBkXTrN8ElhiOMDeZpnotlPHuXsUueUme2AZ1VSLH3mLXZ7tK1IeRdX2mtOfIZ51+9TurHeICaXQGHHYwzC6cMjw0ZWl111Jk6niIWT7d4o9WRw7UUei1kQRjuTZc7uUx3zjZdkmFckC+Ijtag5cCVcJneVvYGNbgMg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WfwX59yM; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 100DCC433C7;
+	Thu, 11 Apr 2024 12:39:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1712839159;
+	bh=kzcjv8gmNpZtAiYk2xJYEcr+JLyXL9rAALV5gNvHuVM=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:From;
+	b=WfwX59yMLWiCJvrRPA5bcIh6V0ewqtK6+e8oYkw9Dpoq3tHpVf4o0lLaA6was3uLL
+	 poLPAXCuUuzNI1uiV3b2Q62RyMZ3WzJ5+GToGIQMOLDEguO9loiBfEgEtpX4BFgMzf
+	 FU6ZSQHaxXNHYs3JTveKjTqmhKYlljX8L9atvgPqGTmmyQDxgNq4gpiYnOONkrp7kQ
+	 L4+eQ5V5ns8mjSLTCH5YE4SSeyTIQccryVcGAIDQSDXPXIZeZaCtAKVEzoZ1udf+pg
+	 rdkeoBVwA/A+uPcr7jKvO+gXrpMBRtCml7FwSgLPe+562zKqgDJ0NQITP2HpMoNETh
+	 jVcjb8HkraS+g==
+Date: Thu, 11 Apr 2024 07:39:17 -0500
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: Sergio Paracuellos <sergio.paracuellos@gmail.com>
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Jim Quinlan <jim2101024@gmail.com>,
+	Nicolas Saenz Julienne <nsaenz@kernel.org>,
+	Will Deacon <will@kernel.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Srikanth Thokala <srikanth.thokala@intel.com>,
+	Ryder Lee <ryder.lee@mediatek.com>,
+	Jianjun Wang <jianjun.wang@mediatek.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Daire McNamara <daire.mcnamara@microchip.com>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konrad.dybcio@linaro.org>,
+	Marek Vasut <marek.vasut+renesas@gmail.com>,
+	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+	Shawn Lin <shawn.lin@rock-chips.com>,
+	Heiko Stuebner <heiko@sntech.de>, Jingoo Han <jingoohan1@gmail.com>,
+	Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
+	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+	Bharat Kumar Gogada <bharat.kumar.gogada@amd.com>,
+	Michal Simek <michal.simek@amd.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Mark Kettenis <kettenis@openbsd.org>,
+	Tom Joseph <tjoseph@cadence.com>,
+	Ahmad Zainie <wan.ahmad.zainie.wan.mohamad@intel.com>,
+	Jiaxun Yang <jiaxun.yang@flygoat.com>,
+	Kishon Vijay Abraham I <kishon@kernel.org>,
+	Thippeswamy Havalige <thippeswamy.havalige@amd.com>,
+	linux-pci@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-rpi-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
 	linux-renesas-soc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH net 4/4] net: ravb: Fix RX byte accounting for jumbo packets
-Date: Thu, 11 Apr 2024 12:44:33 +0100
-Message-Id: <20240411114434.26186-5-paul.barker.ct@bp.renesas.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20240411114434.26186-1-paul.barker.ct@bp.renesas.com>
-References: <20240411114434.26186-1-paul.barker.ct@bp.renesas.com>
+	linux-rockchip@lists.infradead.org
+Subject: Re: [PATCH v2 2/4] dt-bindings: PCI: mediatek,mt7621: add missing
+ child node reg
+Message-ID: <20240411123917.GA2180141@bhelgaas>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAMhs-H82Ymc=isxu6AX4_s1QnNpSSNt74--ED1j7JxpzE=eCRg@mail.gmail.com>
 
-The RX byte accounting for jumbo packets was changed to fix a potential
-use-after-free bug. However, that fix used the wrong variable and so
-only accounted for the number of bytes in the final descriptor, not the
-number of bytes in the whole packet.
+On Thu, Apr 11, 2024 at 08:13:18AM +0200, Sergio Paracuellos wrote:
+> On Thu, Apr 11, 2024 at 8:01 AM Krzysztof Kozlowski
+> <krzysztof.kozlowski@linaro.org> wrote:
+> > On 10/04/2024 23:26, Bjorn Helgaas wrote:
+> > > On Wed, Apr 10, 2024 at 08:15:19PM +0200, Krzysztof Kozlowski wrote:
+> > >> MT7621 PCI host bridge has children which apparently are also PCI host
+> > >> bridges, at least that's what the binding suggest.
+> > >
+> > > What does it even mean for a PCI host bridge to have a child that is
+> > > also a PCI host bridge?
+> > >
+> > > Does this mean a driver binds to the "parent" host bridge, enumerates
+> > > the PCI devices below it, and finds a "child" host bridge?
+> 
+> Yes, that is exactly what you can see on enumeration.
+> 
+> The following is a typical boot trace where all bridges has a device also below:
+> 
+> mt7621-pci 1e140000.pcie: host bridge /pcie@1e140000 ranges:
+> mt7621-pci 1e140000.pcie:   No bus range found for /pcie@1e140000, using [bus 00-ff]
+> mt7621-pci 1e140000.pcie:      MEM 0x0060000000..0x006fffffff -> 0x0060000000
+> mt7621-pci 1e140000.pcie:       IO 0x001e160000..0x001e16ffff -> 0x0000000000
+> mt7621-pci 1e140000.pcie: PCIE0 enabled
+> mt7621-pci 1e140000.pcie: PCIE1 enabled
+> mt7621-pci 1e140000.pcie: PCIE2 enabled
+> mt7621-pci 1e140000.pcie: PCI host bridge to bus 0000:00
 
-To fix this, we can simply update our stats with the correct number of
-bytes before calling napi_gro_receive().
+1e140000.pcie is a host bridge.  It has some CPU-specific bus on the
+upstream side, standard PCI (domain 0000, buses 00-ff) on the
+downstream side.
 
-Also rename pkt_len to desc_len in ravb_rx_gbeth() to avoid any future
-confusion. The variable name pkt_len is correct in ravb_rx_rcar() as
-that function does not handle packets spanning multiple descriptors.
+> pci 0000:00:00.0: [0e8d:0801] type 01 class 0x060400
+> pci 0000:00:01.0: [0e8d:0801] type 01 class 0x060400
+> pci 0000:00:02.0: [0e8d:0801] type 01 class 0x060400
 
-Fixes: 5a5a3e564de6 ("ravb: Fix potential use-after-free in ravb_rx_gbeth()")
-Signed-off-by: Paul Barker <paul.barker.ct@bp.renesas.com>
----
- drivers/net/ethernet/renesas/ravb_main.c | 22 +++++++++++-----------
- 1 file changed, 11 insertions(+), 11 deletions(-)
+> pci 0000:01:00.0: [1b21:0611] type 00 class 0x010185
 
-diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
-index e1e39f65224c..c4ac9fbe0af4 100644
---- a/drivers/net/ethernet/renesas/ravb_main.c
-+++ b/drivers/net/ethernet/renesas/ravb_main.c
-@@ -769,7 +769,7 @@ static bool ravb_rx_gbeth(struct net_device *ndev, int *quota, int q)
- 	dma_addr_t dma_addr;
- 	int rx_packets = 0;
- 	u8  desc_status;
--	u16 pkt_len;
-+	u16 desc_len;
- 	u8  die_dt;
- 	int entry;
- 	int limit;
-@@ -787,10 +787,10 @@ static bool ravb_rx_gbeth(struct net_device *ndev, int *quota, int q)
- 		/* Descriptor type must be checked before all other reads */
- 		dma_rmb();
- 		desc_status = desc->msc;
--		pkt_len = le16_to_cpu(desc->ds_cc) & RX_DS;
-+		desc_len = le16_to_cpu(desc->ds_cc) & RX_DS;
- 
- 		/* We use 0-byte descriptors to mark the DMA mapping errors */
--		if (!pkt_len)
-+		if (!desc_len)
- 			continue;
- 
- 		if (desc_status & MSC_MC)
-@@ -811,25 +811,25 @@ static bool ravb_rx_gbeth(struct net_device *ndev, int *quota, int q)
- 			switch (die_dt) {
- 			case DT_FSINGLE:
- 				skb = ravb_get_skb_gbeth(ndev, entry, desc);
--				skb_put(skb, pkt_len);
-+				skb_put(skb, desc_len);
- 				skb->protocol = eth_type_trans(skb, ndev);
- 				if (ndev->features & NETIF_F_RXCSUM)
- 					ravb_rx_csum_gbeth(skb);
- 				napi_gro_receive(&priv->napi[q], skb);
- 				rx_packets++;
--				stats->rx_bytes += pkt_len;
-+				stats->rx_bytes += desc_len;
- 				break;
- 			case DT_FSTART:
- 				priv->rx_1st_skb = ravb_get_skb_gbeth(ndev, entry, desc);
--				skb_put(priv->rx_1st_skb, pkt_len);
-+				skb_put(priv->rx_1st_skb, desc_len);
- 				break;
- 			case DT_FMID:
- 				skb = ravb_get_skb_gbeth(ndev, entry, desc);
- 				skb_copy_to_linear_data_offset(priv->rx_1st_skb,
- 							       priv->rx_1st_skb->len,
- 							       skb->data,
--							       pkt_len);
--				skb_put(priv->rx_1st_skb, pkt_len);
-+							       desc_len);
-+				skb_put(priv->rx_1st_skb, desc_len);
- 				dev_kfree_skb(skb);
- 				break;
- 			case DT_FEND:
-@@ -837,17 +837,17 @@ static bool ravb_rx_gbeth(struct net_device *ndev, int *quota, int q)
- 				skb_copy_to_linear_data_offset(priv->rx_1st_skb,
- 							       priv->rx_1st_skb->len,
- 							       skb->data,
--							       pkt_len);
--				skb_put(priv->rx_1st_skb, pkt_len);
-+							       desc_len);
-+				skb_put(priv->rx_1st_skb, desc_len);
- 				dev_kfree_skb(skb);
- 				priv->rx_1st_skb->protocol =
- 					eth_type_trans(priv->rx_1st_skb, ndev);
- 				if (ndev->features & NETIF_F_RXCSUM)
- 					ravb_rx_csum_gbeth(priv->rx_1st_skb);
-+				stats->rx_bytes += priv->rx_1st_skb->len;
- 				napi_gro_receive(&priv->napi[q],
- 						 priv->rx_1st_skb);
- 				rx_packets++;
--				stats->rx_bytes += pkt_len;
- 				break;
- 			}
- 		}
--- 
-2.39.2
+> pci 0000:00:00.0: PCI bridge to [bus 01-ff]
+> pci 0000:00:00.0:   bridge window [io  0x0000-0x0fff]
+> pci 0000:00:00.0:   bridge window [mem 0x00000000-0x000fffff]
+> pci 0000:00:00.0:   bridge window [mem 0x00000000-0x000fffff pref]
 
+00:00.0 looks like a PCIe Root Port to bus 01.  This is not a host
+bridge; it's just a standard PCI-to-PCI bridge with PCI on both the
+upstream and downstream sides.
+
+> pci 0000:02:00.0: [1b21:0611] type 00 class 0x010185
+
+> pci 0000:00:01.0: PCI bridge to [bus 02-ff]
+> pci 0000:00:01.0:   bridge window [io  0x0000-0x0fff]
+> pci 0000:00:01.0:   bridge window [mem 0x00000000-0x000fffff]
+> pci 0000:00:01.0:   bridge window [mem 0x00000000-0x000fffff pref]
+
+00:01.0 is another Root Port to bus 02.
+
+> pci 0000:03:00.0: [1b21:0611] type 00 class 0x010185
+
+> pci 0000:00:02.0: PCI bridge to [bus 03-ff]
+> pci 0000:00:02.0:   bridge window [io  0x0000-0x0fff]
+> pci 0000:00:02.0:   bridge window [mem 0x00000000-0x000fffff]
+> pci 0000:00:02.0:   bridge window [mem 0x00000000-0x000fffff pref]
+> pci_bus 0000:03: busn_res: [bus 03-ff] end is updated to 03
+
+And 00:02.0 is a third Root Port to bus 03.
+
+> pci 0000:00:00.0: PCI bridge to [bus 01]
+> pci 0000:00:00.0:   bridge window [io  0x0000-0x0fff]
+> pci 0000:00:00.0:   bridge window [mem 0x60000000-0x600fffff]
+> pci 0000:00:00.0:   bridge window [mem 0x60100000-0x601fffff pref]
+> pci 0000:00:01.0: PCI bridge to [bus 02]
+> pci 0000:00:01.0:   bridge window [io  0x1000-0x1fff]
+> pci 0000:00:01.0:   bridge window [mem 0x60200000-0x602fffff]
+> pci 0000:00:01.0:   bridge window [mem 0x60300000-0x603fffff pref]
+> pci 0000:00:02.0: PCI bridge to [bus 03]
+> pci 0000:00:02.0:   bridge window [io  0x2000-0x2fff]
+> pci 0000:00:02.0:   bridge window [mem 0x60400000-0x604fffff]
+> 
+> > I think the question should be towards Mediatek folks. I don't know what
+> > this hardware is exactly, just looks like pci-pci-bridge. The driver
+> > calls the children host bridges as "ports".
+> 
+> You can see the topology here in my first driver submit cover letter
+> message [0].
+> 
+>  [0]: https://lore.kernel.org/all/CAMhs-H-BA+KzEwuDPzcmrDPdgJBFA2XdYTBvT4R4MEOUB=WQ1g@mail.gmail.com/t/
+
+Nothing unusual here, this looks like the standard PCIe topology.
+
+What *might* be unusual is describing the Root Ports in DT.  Since
+they are standard PCI devices, they shouldn't need DT description
+unless there's some unusual power/clock/reset control or something
+that is not discoverable via PCI enumeration.
+
+Bjorn
 
