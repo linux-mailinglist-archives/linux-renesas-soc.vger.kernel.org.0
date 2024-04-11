@@ -1,216 +1,108 @@
-Return-Path: <linux-renesas-soc+bounces-4524-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-4525-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64C918A1725
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 11 Apr 2024 16:28:11 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6172A8A17D8
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 11 Apr 2024 16:53:08 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E539FB2B20B
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 11 Apr 2024 14:21:32 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 902F41C21428
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 11 Apr 2024 14:53:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2EE7614F111;
-	Thu, 11 Apr 2024 14:21:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FmnqtmXm"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EF677DDC5;
+	Thu, 11 Apr 2024 14:53:04 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD2B914F100;
-	Thu, 11 Apr 2024 14:21:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 676B7DDCB;
+	Thu, 11 Apr 2024 14:53:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712845271; cv=none; b=K3mWneNr9+Hk5KLSLxdx22WsqBmDhzSqkvXa3NYvqqjz3bdiYzwrRDXParnKG/t6wJdkXy74SzBjg0oAEjll1IjhKvXhrerFU0YvdMFEB7W6aAZ3GQ78i1yM2G29QhxbXYWUMpzATxczrrIc/S6D5NrHgOzWcfLXM8XN/xMfi1Y=
+	t=1712847184; cv=none; b=ceJHmDLzfQzvW0T7izkXf2knoGmQX/OccG7pSvZGwgU49lYww1ZuR/BIVMtpXZKSD2UBmBv/t+Wqet4zAt2BcHLfTvzc+Ia6BBktM1AR06H/a0Jbevrx+yAf++ATisxPqESG0ejsJdOexxIkZaG/vp53b6Wy3vAeQUJfKMTs3oY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712845271; c=relaxed/simple;
-	bh=RDt5jlNMS3ucSwKcH7tgpvFGKzTFvccMBgH0b+eayeM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=aVFa7a4W1PWrl+Pr4HGtwNMVimFU44ugZ6YMYZgLWhjD70EMPCOWCILrqPKlGqYcCoRTUUyDgHoeX2oiMTbXPPAEtIeZq0kWGYMGaSotvULdMLxzjiF3F/KuCWfbwJb8TJ6Ul1OqRxFhf6ucAS8IDYdN3CXekfuss9ThSpm+RVk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FmnqtmXm; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 07DE0C2BD10;
-	Thu, 11 Apr 2024 14:21:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1712845270;
-	bh=RDt5jlNMS3ucSwKcH7tgpvFGKzTFvccMBgH0b+eayeM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=FmnqtmXmyodJdgHKHjF/o9qh0gQ3yPVudJEayUfxMetCRKixf7MadURZeFX5r6J9F
-	 KZO4x26OQWLGTjpaYAKntJwCodgLP+aDt47OO2TKPR3PsJ4isKj268a8KfvYJVeiUA
-	 xIhTuT3AZ/SJc2XgyX2Qg7zwimd9QfG4T/XfpBUGwOjo3qoholwNk1YikECUI0aeJ3
-	 JKccakGSkbBD0N+gV6mcpbFZG4UhhKtCGsuBFNPpBXQ3yDfgtOIize3x3mLBOom0s0
-	 clIRJHM0xExk3YKLWu8DH34d19gGTvnMgL6DQhTuO1wpS9k189rIpVZjfDsQEG42r9
-	 nLPeassxXKhKg==
-Date: Thu, 11 Apr 2024 09:21:07 -0500
-From: Rob Herring <robh@kernel.org>
-To: Bjorn Helgaas <helgaas@kernel.org>
-Cc: Sergio Paracuellos <sergio.paracuellos@gmail.com>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Jim Quinlan <jim2101024@gmail.com>,
-	Nicolas Saenz Julienne <nsaenz@kernel.org>,
-	Will Deacon <will@kernel.org>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Srikanth Thokala <srikanth.thokala@intel.com>,
-	Ryder Lee <ryder.lee@mediatek.com>,
-	Jianjun Wang <jianjun.wang@mediatek.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Daire McNamara <daire.mcnamara@microchip.com>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konrad.dybcio@linaro.org>,
-	Marek Vasut <marek.vasut+renesas@gmail.com>,
-	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-	Shawn Lin <shawn.lin@rock-chips.com>,
-	Heiko Stuebner <heiko@sntech.de>, Jingoo Han <jingoohan1@gmail.com>,
-	Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
-	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-	Bharat Kumar Gogada <bharat.kumar.gogada@amd.com>,
-	Michal Simek <michal.simek@amd.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Mark Kettenis <kettenis@openbsd.org>,
-	Tom Joseph <tjoseph@cadence.com>,
-	Ahmad Zainie <wan.ahmad.zainie.wan.mohamad@intel.com>,
-	Jiaxun Yang <jiaxun.yang@flygoat.com>,
-	Kishon Vijay Abraham I <kishon@kernel.org>,
-	Thippeswamy Havalige <thippeswamy.havalige@amd.com>,
-	linux-pci@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, asahi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-rpi-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	linux-rockchip@lists.infradead.org
-Subject: Re: [PATCH v2 2/4] dt-bindings: PCI: mediatek,mt7621: add missing
- child node reg
-Message-ID: <20240411142107.GA3537062-robh@kernel.org>
-References: <CAMhs-H82Ymc=isxu6AX4_s1QnNpSSNt74--ED1j7JxpzE=eCRg@mail.gmail.com>
- <20240411123917.GA2180141@bhelgaas>
+	s=arc-20240116; t=1712847184; c=relaxed/simple;
+	bh=EyhnWJiAS0nR8fJyhRZTkbp1BLMobMq6UhnnwGa9dmU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=rvBneR4zl7ICKTbOrSRI7AH142uYNlBx6Dr/RkY6gK7wY42ouC00jwPvMhMvMrMkBeABbe6WJmzrO6u697sYva5CWn8pAwTIR9zbA/lvD7nuzfFNTfm+lFQR5ivJtsHjUc0OKQaraBktEywfaHSBLwp1M157lxuRNpNeeDefbUY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.208.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-2d886f17740so10359581fa.1;
+        Thu, 11 Apr 2024 07:53:02 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1712847180; x=1713451980;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=KVjsRotGn7u6Rn7aIZqkg7iAwWDdxhRzncPX3YRKcQk=;
+        b=OCmYHKHaFAhcNayLW8UM7bjr3GNq4pqLtgwMC0OMuLQB3sHvZDLwXNGNKhcyLO1JvC
+         EOv7sbkJf3eT9sSDuRmpc7d0UoQpoLkbw6Yl11+9aeLxvMEVxYo0ofr33aCT7DlbnrjA
+         vOzm8L9ssBi6SEqZFpIA43KjwTdC2L/zll5kImoXjQmReDxrW15uKvKgLAzOWLWgyKRH
+         s228Y7HrIyew3CqtGwViHgrTSIq9Q19zQq5ZXWXALH11IP0d9f2zG/nel8PNvLRVJI8f
+         IO2816L984qSbzvfRokRN4fOa33ZgqPTEYp9NsQVu40LOi0DfcGUXBZeTU/PcCvmKurB
+         1Ouw==
+X-Forwarded-Encrypted: i=1; AJvYcCWBJhIZvsEAGMcxzUtDDyGv70orFvfIApxuDNpXdPcDABJ0dqdb4ewPHLf2RniFlMek7WKG9ugZawb5Lu6C/Un/K6hOxYMZ6wajEUXMCXeGngH/t6a2F+0IoMYhoau+skXxvYAXF8pHKAXChYoQkAAD8hd/91E5YYncX7SVQfZFkaCQWKORjnG820k0
+X-Gm-Message-State: AOJu0YzfG+YbP9ms85tvacLHFq5QGEfR4glnsJ/w5gsozdZI3RKMHtRc
+	hrh4i4t8yzYp9U7QDGBbpEHYDpkKxC2b0r6d+cedphC19dfX87z8/ez9jaVD1ck=
+X-Google-Smtp-Source: AGHT+IHtmYPwBRwzhlRVjfyHCc9sHZCUVQpmG1us9sILUW81OOhjlK0NGYvuhXXXnTKxFPVadxX9Hg==
+X-Received: by 2002:a05:651c:1416:b0:2d8:cea3:85e7 with SMTP id u22-20020a05651c141600b002d8cea385e7mr826281lje.12.1712847179572;
+        Thu, 11 Apr 2024 07:52:59 -0700 (PDT)
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com. [209.85.167.47])
+        by smtp.gmail.com with ESMTPSA id t5-20020a2e9545000000b002d865254e49sm233406ljh.16.2024.04.11.07.52.59
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 11 Apr 2024 07:52:59 -0700 (PDT)
+Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-516d264d0e4so997522e87.0;
+        Thu, 11 Apr 2024 07:52:59 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVmJDqE8L/XUA8FP6Ny0/bic1vVecCTT8ffmr3LDR4EeeIAUfe+zFp7FoiACSXF63aZDDh95DiKb7FyvI2QwZTQ2jYeoorJ/SxtWSsWiFMhEKloglGTFaTfQBVYx5k5Cpdw43eIcIcQXlkV6zoFyS1RakSmw/OuclwLQdSKiEg98WPQ4K7Yc6rTAvFa
+X-Received: by 2002:a05:6512:33d2:b0:516:ac69:3bf5 with SMTP id
+ d18-20020a05651233d200b00516ac693bf5mr1161921lfg.0.1712847179026; Thu, 11 Apr
+ 2024 07:52:59 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240411123917.GA2180141@bhelgaas>
+References: <20240226192530.141945-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20240226192530.141945-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Thu, 11 Apr 2024 16:52:44 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdUwwV85e02q+WqMSQ28zeVjLAjqNOHqjiDpX1swTg2c9Q@mail.gmail.com>
+Message-ID: <CAMuHMdUwwV85e02q+WqMSQ28zeVjLAjqNOHqjiDpX1swTg2c9Q@mail.gmail.com>
+Subject: Re: [PATCH] pinctrl: renesas: pinctrl-rzg2l: Remove extra space in
+ function parameter
+To: Prabhakar <prabhakar.csengg@gmail.com>
+Cc: Linus Walleij <linus.walleij@linaro.org>, linux-renesas-soc@vger.kernel.org, 
+	linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Apr 11, 2024 at 07:39:17AM -0500, Bjorn Helgaas wrote:
-> On Thu, Apr 11, 2024 at 08:13:18AM +0200, Sergio Paracuellos wrote:
-> > On Thu, Apr 11, 2024 at 8:01 AM Krzysztof Kozlowski
-> > <krzysztof.kozlowski@linaro.org> wrote:
-> > > On 10/04/2024 23:26, Bjorn Helgaas wrote:
-> > > > On Wed, Apr 10, 2024 at 08:15:19PM +0200, Krzysztof Kozlowski wrote:
-> > > >> MT7621 PCI host bridge has children which apparently are also PCI host
-> > > >> bridges, at least that's what the binding suggest.
-> > > >
-> > > > What does it even mean for a PCI host bridge to have a child that is
-> > > > also a PCI host bridge?
+On Mon, Feb 26, 2024 at 8:25=E2=80=AFPM Prabhakar <prabhakar.csengg@gmail.c=
+om> wrote:
+> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+>
+> Remove unnecessary space in rzg2l_pinctrl_pm_setup_pfc() function
+> parameter.
+>
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-It should say 'root port' instead as the binding description correctly 
-says.
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+i.e. will queue in renesas-pinctrl for v6.10.
 
-> > > >
-> > > > Does this mean a driver binds to the "parent" host bridge, enumerates
-> > > > the PCI devices below it, and finds a "child" host bridge?
-> > 
-> > Yes, that is exactly what you can see on enumeration.
-> > 
-> > The following is a typical boot trace where all bridges has a device also below:
-> > 
-> > mt7621-pci 1e140000.pcie: host bridge /pcie@1e140000 ranges:
-> > mt7621-pci 1e140000.pcie:   No bus range found for /pcie@1e140000, using [bus 00-ff]
-> > mt7621-pci 1e140000.pcie:      MEM 0x0060000000..0x006fffffff -> 0x0060000000
-> > mt7621-pci 1e140000.pcie:       IO 0x001e160000..0x001e16ffff -> 0x0000000000
-> > mt7621-pci 1e140000.pcie: PCIE0 enabled
-> > mt7621-pci 1e140000.pcie: PCIE1 enabled
-> > mt7621-pci 1e140000.pcie: PCIE2 enabled
-> > mt7621-pci 1e140000.pcie: PCI host bridge to bus 0000:00
-> 
-> 1e140000.pcie is a host bridge.  It has some CPU-specific bus on the
-> upstream side, standard PCI (domain 0000, buses 00-ff) on the
-> downstream side.
-> 
-> > pci 0000:00:00.0: [0e8d:0801] type 01 class 0x060400
-> > pci 0000:00:01.0: [0e8d:0801] type 01 class 0x060400
-> > pci 0000:00:02.0: [0e8d:0801] type 01 class 0x060400
-> 
-> > pci 0000:01:00.0: [1b21:0611] type 00 class 0x010185
-> 
-> > pci 0000:00:00.0: PCI bridge to [bus 01-ff]
-> > pci 0000:00:00.0:   bridge window [io  0x0000-0x0fff]
-> > pci 0000:00:00.0:   bridge window [mem 0x00000000-0x000fffff]
-> > pci 0000:00:00.0:   bridge window [mem 0x00000000-0x000fffff pref]
-> 
-> 00:00.0 looks like a PCIe Root Port to bus 01.  This is not a host
-> bridge; it's just a standard PCI-to-PCI bridge with PCI on both the
-> upstream and downstream sides.
-> 
-> > pci 0000:02:00.0: [1b21:0611] type 00 class 0x010185
-> 
-> > pci 0000:00:01.0: PCI bridge to [bus 02-ff]
-> > pci 0000:00:01.0:   bridge window [io  0x0000-0x0fff]
-> > pci 0000:00:01.0:   bridge window [mem 0x00000000-0x000fffff]
-> > pci 0000:00:01.0:   bridge window [mem 0x00000000-0x000fffff pref]
-> 
-> 00:01.0 is another Root Port to bus 02.
-> 
-> > pci 0000:03:00.0: [1b21:0611] type 00 class 0x010185
-> 
-> > pci 0000:00:02.0: PCI bridge to [bus 03-ff]
-> > pci 0000:00:02.0:   bridge window [io  0x0000-0x0fff]
-> > pci 0000:00:02.0:   bridge window [mem 0x00000000-0x000fffff]
-> > pci 0000:00:02.0:   bridge window [mem 0x00000000-0x000fffff pref]
-> > pci_bus 0000:03: busn_res: [bus 03-ff] end is updated to 03
-> 
-> And 00:02.0 is a third Root Port to bus 03.
-> 
-> > pci 0000:00:00.0: PCI bridge to [bus 01]
-> > pci 0000:00:00.0:   bridge window [io  0x0000-0x0fff]
-> > pci 0000:00:00.0:   bridge window [mem 0x60000000-0x600fffff]
-> > pci 0000:00:00.0:   bridge window [mem 0x60100000-0x601fffff pref]
-> > pci 0000:00:01.0: PCI bridge to [bus 02]
-> > pci 0000:00:01.0:   bridge window [io  0x1000-0x1fff]
-> > pci 0000:00:01.0:   bridge window [mem 0x60200000-0x602fffff]
-> > pci 0000:00:01.0:   bridge window [mem 0x60300000-0x603fffff pref]
-> > pci 0000:00:02.0: PCI bridge to [bus 03]
-> > pci 0000:00:02.0:   bridge window [io  0x2000-0x2fff]
-> > pci 0000:00:02.0:   bridge window [mem 0x60400000-0x604fffff]
-> > 
-> > > I think the question should be towards Mediatek folks. I don't know what
-> > > this hardware is exactly, just looks like pci-pci-bridge. The driver
-> > > calls the children host bridges as "ports".
-> > 
-> > You can see the topology here in my first driver submit cover letter
-> > message [0].
-> > 
-> >  [0]: https://lore.kernel.org/all/CAMhs-H-BA+KzEwuDPzcmrDPdgJBFA2XdYTBvT4R4MEOUB=WQ1g@mail.gmail.com/t/
-> 
-> Nothing unusual here, this looks like the standard PCIe topology.
-> 
-> What *might* be unusual is describing the Root Ports in DT.  Since
-> they are standard PCI devices, they shouldn't need DT description
-> unless there's some unusual power/clock/reset control or something
-> that is not discoverable via PCI enumeration.
+Gr{oetje,eeting}s,
 
-It's only unusual because typically there's only 1 RP per host bridge 
-and properties which really apply to the RP get stuck in the host bridge 
-node because we don't have a RP node. An example is perst-gpios. That's 
-not a property of the RP either, but the RP is the upstream side of a 
-slot and we often don't have a node for the device either.
+                        Geert
 
-Rob
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
