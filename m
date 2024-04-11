@@ -1,215 +1,190 @@
-Return-Path: <linux-renesas-soc+bounces-4528-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-4529-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D64EF8A18B5
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 11 Apr 2024 17:30:37 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C7618A1C33
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 11 Apr 2024 19:41:21 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8ADC0282E31
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 11 Apr 2024 15:30:36 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 80B231F22AA0
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 11 Apr 2024 17:41:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3BEC714F68;
-	Thu, 11 Apr 2024 15:30:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E861315A4BA;
+	Thu, 11 Apr 2024 16:11:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rvm0S2oJ"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com [209.85.128.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F465134A6;
-	Thu, 11 Apr 2024 15:30:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6EC115A4AF;
+	Thu, 11 Apr 2024 16:11:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712849429; cv=none; b=KOLujgScWDZe5TmMmzBlHx0BYX1EedGm9i1uVxmKVZg9R2UXzZcaef/Rcaf1gkzaOTTvrhcG+eHQkAjWibw7o1teZyZ9BsNxWc5lF3CYj3fGEXB43IhVAIRoJCMkCbdyyRXuhIni5QVYBzl9FrF/T58dlZYO2/4EByGCS8G7ZBU=
+	t=1712851870; cv=none; b=Nhsh5S1oKzDA7EsR7YOsKzxI9dRbsxTPPfn84iutEdMmKBoxD1eZod1O8VZhf7TYL6gL+upVRhTaq3neFdScsdKPgyCiiGDDP+Rwf1GEBL1s/4qTMgnzCE9iL9VmYVBxOZ3boatGms7aEDmVCVHZ4+SqOQ9NbZDbmkCFLJTHdGo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712849429; c=relaxed/simple;
-	bh=ps1xOL6ELTTcn7yAkxq7TG9H88LTPOId2QS1+tyr4qQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=LV9IBKNgS6fF1zrMV6JbZge/SVdu3kTJQOBzNDBb3IvfTAQIOzelWBKenaHfxDul10QKKEDLtO/7UPXzpKtVTcbU4fJKhxeU6jLuEHQrxleOCknOV6Mla6J4Hh0hDkHHZO1SCGetJmfK7FM9n4yo6zYSGb11ipHZOETRFAipwtI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-617d4797d9bso54830927b3.1;
-        Thu, 11 Apr 2024 08:30:27 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712849425; x=1713454225;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=gzJvHUhbTKkwyCzYyYOpeKZow/fyzwMhCB4qWJj26+0=;
-        b=gwPLh13knDJbQ68O+fjEeB8nZHRDSMmEX//G4/JTVqBn2AdOKjwJ4DEnI5Ce3G7JDD
-         IAE6IViZigUwgrSvQkd0Dsqe9w776fBQxxSBYk/qLEP9nZjhFNsdJ3hoGkkIvttMO0Yr
-         ENDnA6yStaf1Kr/9g/j6zgIOY5KPlKwDvT90Bn+87KLmTih7FfvzrwJAs/ZvFCcEj3oX
-         DMyodt707YrCtRf3tDIP2VPT1h1RzB+eD2pPiG7d1hLtTmEfnf1cjsLB7fKxOG+CVQY8
-         yoB6cHaG5SXoIlxxP49JTaFm7pB+SA4F9ji+TyZgpYvEuFznzQQvFzLe8WeRN1shh9Ib
-         NyvQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVhHGg2UrebrDiWezV9PBIoQKnqhNOVU5bDZ40+PnF4rGOPngYT2NZIET7f7dKgM4dCEhSvX6yMxT4SObgexp6P2RpmeR1Pz34g5yNjvAvsPqvOZT9R3ZfEsSQRP5MaZddHPje6Mqhku6r18BcX1JtdhHy2JvZIeO0DY4SoGTZtvxz6BmjhYNIhcMCiLo067AxOuYAYJ6JNOSZGVJfv8y3ruvw2PqNLw/A2zOpYGUH5asDpW1+P4pOSjjJMXLJ77HU9V6i9hcjU9Tg/iIFWEYOQyW2kXSDfWOqUk+ZOZSxrKA==
-X-Gm-Message-State: AOJu0Yw1z+u1lZIwuy2vN8yIs50jggW7eaK1lYA9BXNSUx0umMBniSIg
-	K//N8TpQIutVAIyJEgfREH4rFGeTBDEF6jNoBwZiJL/j9ZEO8FMVxXPBMidg
-X-Google-Smtp-Source: AGHT+IGjkmgb/PRW5qBpRmJQ7gE0JwsUYvjq4rYZimiiwRrHd1DVbnft+SOh6C/YW0BZp+x1Rr9ImA==
-X-Received: by 2002:a0d:db46:0:b0:614:2dcf:b5d6 with SMTP id d67-20020a0ddb46000000b006142dcfb5d6mr6360482ywe.23.1712849424999;
-        Thu, 11 Apr 2024 08:30:24 -0700 (PDT)
-Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com. [209.85.219.171])
-        by smtp.gmail.com with ESMTPSA id o5-20020a81c545000000b006186d990dbbsm185932ywj.105.2024.04.11.08.30.24
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 11 Apr 2024 08:30:24 -0700 (PDT)
-Received: by mail-yb1-f171.google.com with SMTP id 3f1490d57ef6-db4364ecd6aso8350732276.2;
-        Thu, 11 Apr 2024 08:30:24 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCXxIYv+pzCliukR/uxhL1I2Fm4f20JfZxOADKvM/nQDYRF8rPeyNeSGXwwkUGTbRXEOKHNWSinqRP1KTagOfHPcZB24HMkawdfeZ7t8f3/tLdBqWx/9KkZ/eAsU3kWoRMWEsGLMWTrhHXDaXnnosIqF1lH0G4qvZjgnEt57ynl8Lu7ToETuj5yFsvKTjQJLn02N4mY51ZBGZzlV7AkWzAzYweVi/LtG3kR13r5EllILUn8IaZi/DofCmht9coleWIEVcYHaOnmeVGsVkp4DigHjvehHQzwaIzw/8Eul1xGrXA==
-X-Received: by 2002:a05:6902:2b86:b0:dcb:e82c:f7d with SMTP id
- fj6-20020a0569022b8600b00dcbe82c0f7dmr7239402ybb.41.1712849424313; Thu, 11
- Apr 2024 08:30:24 -0700 (PDT)
+	s=arc-20240116; t=1712851870; c=relaxed/simple;
+	bh=Co3kGhkNsPgacB/pabyCsenR+0gNcn0apDUzg988VHA=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=q18mJbNr1XEByVMCT5shHMfoltp5jkb+eTD+yntIt286pUr9i8Q5ob0UPCd9qtDc46reH9KA02c4CLwOharuqaHIWRxf2kIaY/Ks4FqzXH/TMEKgQtJv4LwV6I2MQQH19xLo5TNS9MMzravLv21fa/xmUeiBnziQdxk58tEjGCg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rvm0S2oJ; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 001FEC072AA;
+	Thu, 11 Apr 2024 16:11:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1712851870;
+	bh=Co3kGhkNsPgacB/pabyCsenR+0gNcn0apDUzg988VHA=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:From;
+	b=rvm0S2oJrwiPhJs3eMOF4f2WjbhaHXPCHhoQzlhlvGzTckM5NUJlGvZE//UJTbZuk
+	 7mUvnId3dLSEO383sQdQGizvtxlqOjpE6LHUGEUzOLcvm2FFMA5/b/WtwmbW9OxU3t
+	 vraPDqamiI8esjKLmEPlXpKeb3GokCNr0IyDHPJwJEbgyjnyrMewIrl/lr5uw3SXYu
+	 ufts0B5MaTMqZx4inTcApZhjiikn03+zpnbGKAZYEpPL3yc3b4UbwWwc/biOcTK9tx
+	 O2EDKKXK1jYU6zNUiteXtEM8WNQ9P2BCMa9UpGqUhrAINiWUMdVs8dvmVCMdMSalCs
+	 JbWrghBBIpbBg==
+Date: Thu, 11 Apr 2024 11:11:08 -0500
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: Rob Herring <robh@kernel.org>
+Cc: Sergio Paracuellos <sergio.paracuellos@gmail.com>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Jim Quinlan <jim2101024@gmail.com>,
+	Nicolas Saenz Julienne <nsaenz@kernel.org>,
+	Will Deacon <will@kernel.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Srikanth Thokala <srikanth.thokala@intel.com>,
+	Ryder Lee <ryder.lee@mediatek.com>,
+	Jianjun Wang <jianjun.wang@mediatek.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Daire McNamara <daire.mcnamara@microchip.com>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konrad.dybcio@linaro.org>,
+	Marek Vasut <marek.vasut+renesas@gmail.com>,
+	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+	Shawn Lin <shawn.lin@rock-chips.com>,
+	Heiko Stuebner <heiko@sntech.de>, Jingoo Han <jingoohan1@gmail.com>,
+	Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
+	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+	Bharat Kumar Gogada <bharat.kumar.gogada@amd.com>,
+	Michal Simek <michal.simek@amd.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Mark Kettenis <kettenis@openbsd.org>,
+	Tom Joseph <tjoseph@cadence.com>,
+	Ahmad Zainie <wan.ahmad.zainie.wan.mohamad@intel.com>,
+	Jiaxun Yang <jiaxun.yang@flygoat.com>,
+	Kishon Vijay Abraham I <kishon@kernel.org>,
+	Thippeswamy Havalige <thippeswamy.havalige@amd.com>,
+	linux-pci@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-rpi-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	linux-rockchip@lists.infradead.org
+Subject: Re: [PATCH v2 2/4] dt-bindings: PCI: mediatek,mt7621: add missing
+ child node reg
+Message-ID: <20240411161108.GA2184354@bhelgaas>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240410122657.2051132-1-claudiu.beznea.uj@bp.renesas.com>
-In-Reply-To: <20240410122657.2051132-1-claudiu.beznea.uj@bp.renesas.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 11 Apr 2024 17:30:12 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdUesJe0396MsH9PSUMEq=sWx3BYc=QrAFzR2EVcLhm03Q@mail.gmail.com>
-Message-ID: <CAMuHMdUesJe0396MsH9PSUMEq=sWx3BYc=QrAFzR2EVcLhm03Q@mail.gmail.com>
-Subject: Re: [PATCH v3 0/9] clk: renesas: rzg2l: Add support for power domains
-To: Claudiu <claudiu.beznea@tuxon.dev>
-Cc: geert+renesas@glider.be, mturquette@baylibre.com, sboyd@kernel.org, 
-	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
-	magnus.damm@gmail.com, linux-renesas-soc@vger.kernel.org, 
-	linux-clk@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, 
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>, Ulf Hansson <ulf.hansson@linaro.org>, 
-	Linux PM list <linux-pm@vger.kernel.org>, Guenter Roeck <linux@roeck-us.net>, 
-	Wim Van Sebroeck <wim@linux-watchdog.org>, 
-	Linux Watchdog Mailing List <linux-watchdog@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240411142107.GA3537062-robh@kernel.org>
 
-Hi Claudiu,
+On Thu, Apr 11, 2024 at 09:21:07AM -0500, Rob Herring wrote:
+> On Thu, Apr 11, 2024 at 07:39:17AM -0500, Bjorn Helgaas wrote:
+> > On Thu, Apr 11, 2024 at 08:13:18AM +0200, Sergio Paracuellos wrote:
+> > > On Thu, Apr 11, 2024 at 8:01 AM Krzysztof Kozlowski
+> > > <krzysztof.kozlowski@linaro.org> wrote:
+> > > > On 10/04/2024 23:26, Bjorn Helgaas wrote:
+> > > > > On Wed, Apr 10, 2024 at 08:15:19PM +0200, Krzysztof Kozlowski wrote:
+> > > > >> MT7621 PCI host bridge has children which apparently are also PCI host
+> > > > >> bridges, at least that's what the binding suggest.
+> > > > >
+> > > > > What does it even mean for a PCI host bridge to have a child that is
+> > > > > also a PCI host bridge?
+> 
+> It should say 'root port' instead as the binding description correctly 
+> says.
 
-CC pmdomain, watchdog
+OK, that makes a lot more sense, and we should fix the commit log.
 
-On Wed, Apr 10, 2024 at 2:27=E2=80=AFPM Claudiu <claudiu.beznea@tuxon.dev> =
-wrote:
-> Series adds support for power domains on rzg2l driver.
->
-> RZ/G2L kind of devices support a functionality called MSTOP (module
-> stop/standby). According to hardware manual the module could be switch
-> to standby after its clocks are disabled. The reverse order of operation
-> should be done when enabling a module (get the module out of standby,
-> enable its clocks etc).
->
-> In [1] the MSTOP settings were implemented by adding code in driver
-> to attach the MSTOP state to the IP clocks. But it has been proposed
-> to implement it as power domain. The result is this series.
->
-> Along with MSTOP functionality there is also module power down
-> functionality (which is currently available only on RZ/G3S). This has
-> been also implemented through power domains.
->
-> The DT bindings were updated with power domain IDs (plain integers
-> that matches the DT with driver data structures). The current DT
-> bindings were updated with module IDs for the modules listed in tables
-> with name "Registers for Module Standby Mode" (see HW manual) exception
-> being RZ/G3S where, due to the power down functionality, the DDR,
-> TZCDDR, OTFDE_DDR were also added, to avoid system being blocked due
-> to the following lines of code from patch 6/9.
->
-> +       /* Prepare for power down the BUSes in power down mode. */
-> +       if (info->pm_domain_pwrdn_mstop)
-> +               writel(CPG_PWRDN_MSTOP_ENABLE, priv->base + CPG_PWRDN_MST=
-OP);
->
-> Domain IDs were added to all SoC specific bindings.
->
-> Thank you,
-> Claudiu Beznea
->
-> Changes in v3:
-> - collected tags
-> - dinamically detect if a SCIF is serial console and populate
->   pd->suspend_check
-> - dropped patch 09/10 from v2
+> > > > I think the question should be towards Mediatek folks. I don't know what
+> > > > this hardware is exactly, just looks like pci-pci-bridge. The driver
+> > > > calls the children host bridges as "ports".
+> > > 
+> > > You can see the topology here in my first driver submit cover letter
+> > > message [0].
+> > > 
+> > >  [0]: https://lore.kernel.org/all/CAMhs-H-BA+KzEwuDPzcmrDPdgJBFA2XdYTBvT4R4MEOUB=WQ1g@mail.gmail.com/t/
+> > 
+> > Nothing unusual here, this looks like the standard PCIe topology.
+> > 
+> > What *might* be unusual is describing the Root Ports in DT.  Since
+> > they are standard PCI devices, they shouldn't need DT description
+> > unless there's some unusual power/clock/reset control or something
+> > that is not discoverable via PCI enumeration.
+> 
+> It's only unusual because typically there's only 1 RP per host bridge 
+> and properties which really apply to the RP get stuck in the host bridge 
+> node because we don't have a RP node. An example is perst-gpios. That's 
+> not a property of the RP either, but the RP is the upstream side of a 
+> slot and we often don't have a node for the device either.
 
-Thanks for the update!
+Makes sense.
 
-I have provided my R-b for all patches, and the usual path for these
-patches would be for me to queue patches 1-8 in renesas-clk for v6.10,
-and to queue 9 in renesas-devel.
+I'm still confused about one thing, maybe just because I don't really
+know how to read these bindings.  The binding now looks like this:
 
-However:
-  1. I had missed before the pmdomain people weren't CCed before,
-     they still might have some comments,
-  2. Patch 9 has a hard dependency on the rest of the series, so
-     it has to wait one more cycle,
-  3. Adding the watchdog domain has a dependency on [1].
+  properties:
+    compatible:
+      const: mediatek,mt7621-pci
 
-2 and 2 may be resolved using an immutable branch.
-Are my assumptions correct?
+    reg:
+      items:
+        - description: host-pci bridge registers
+        - description: pcie port 0 RC control registers       # A
+        - description: pcie port 1 RC control registers       # A
+        - description: pcie port 2 RC control registers       # A
 
-Thanks!
+  patternProperties:
+    '^pcie@[0-2],0$':
+      type: object
+      $ref: /schemas/pci/pci-pci-bridge.yaml#
 
-[1] "[PATCH RESEND v8 09/10] watchdog: rzg2l_wdt: Power on the PM
-    domain in rzg2l_wdt_restart()"
-    https://lore.kernel.org/all/20240410134044.2138310-10-claudiu.beznea.uj=
-@bp.renesas.com
+      properties:
+        reg:                                                  # B
+          maxItems: 1
 
-> Changes in v2:
-> - addressed review comments
-> - dropped:
->     - dt-bindings: clock: r9a09g011-cpg: Add always-on power domain IDs
->     - clk: renesas: r9a07g043: Add initial support for power domains
->     - clk: renesas: r9a07g044: Add initial support for power domains
->     - clk: renesas: r9a09g011: Add initial support for power domains
->     - clk: renesas: r9a09g011: Add initial support for power domains
->     - arm64: dts: renesas: r9a07g043: Update #power-domain-cells =3D <1>
->     - arm64: dts: renesas: r9a07g044: Update #power-domain-cells =3D <1>
->     - arm64: dts: renesas: r9a07g054: Update #power-domain-cells =3D <1>
->     - arm64: dts: renesas: r9a09g011: Update #power-domain-cells =3D <1>
->   as suggested in the review process
-> - dropped "arm64: dts: renesas: rzg3s-smarc-som: Guard the ethernet IRQ
->   GPIOs with proper flags" patch as it was integrated
-> - added suspend to RAM support
-> - collected tag
->
-> [1] https://lore.kernel.org/all/20231120070024.4079344-4-claudiu.beznea.u=
-j@bp.renesas.com/
->
->
-> Claudiu Beznea (9):
->   dt-bindings: clock: r9a07g043-cpg: Add power domain IDs
->   dt-bindings: clock: r9a07g044-cpg: Add power domain IDs
->   dt-bindings: clock: r9a07g054-cpg: Add power domain IDs
->   dt-bindings: clock: r9a08g045-cpg: Add power domain IDs
->   dt-bindings: clock: renesas,rzg2l-cpg: Update #power-domain-cells =3D
->     <1> for RZ/G3S
->   clk: renesas: rzg2l: Extend power domain support
->   clk: renesas: r9a08g045: Add support for power domains
->   clk: renesas: rzg2l-cpg: Add suspend/resume support for power domains
->   arm64: dts: renesas: r9a08g045: Update #power-domain-cells =3D <1>
->
->  .../bindings/clock/renesas,rzg2l-cpg.yaml     |  18 +-
->  arch/arm64/boot/dts/renesas/r9a08g045.dtsi    |  20 +-
->  drivers/clk/renesas/r9a08g045-cpg.c           |  61 ++++
->  drivers/clk/renesas/rzg2l-cpg.c               | 269 +++++++++++++++++-
->  drivers/clk/renesas/rzg2l-cpg.h               |  77 +++++
->  include/dt-bindings/clock/r9a07g043-cpg.h     |  52 ++++
->  include/dt-bindings/clock/r9a07g044-cpg.h     |  58 ++++
->  include/dt-bindings/clock/r9a07g054-cpg.h     |  58 ++++
->  include/dt-bindings/clock/r9a08g045-cpg.h     |  70 +++++
->  9 files changed, 659 insertions(+), 24 deletions(-)
+It looks like the "A" items are separate things from the "B" items?
 
-Gr{oetje,eeting}s,
+But I think the relevant code is here:
 
-                        Geert
+  mt7621_pcie_probe
+    mt7621_pcie_parse_dt
+      pcie->base = devm_platform_ioremap_resource(pdev, 0)             # 1
+      for_each_available_child_of_node(node, child)
+        mt7621_pcie_parse_port
+          port->base = devm_platform_ioremap_resource(pdev, slot + 1)  # 2
 
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
+where it looks like both "1" and "2" use the items in the "A" list,
+i.e., resources 0, 1, 2, 3, all from the same platform device.  Is
+there code that uses the "B" item that this patch adds?
 
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+Bjorn
 
