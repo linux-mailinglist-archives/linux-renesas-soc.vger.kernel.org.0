@@ -1,153 +1,202 @@
-Return-Path: <linux-renesas-soc+bounces-4532-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-4533-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8846B8A1D26
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 11 Apr 2024 20:04:21 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 268C88A1E0A
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 11 Apr 2024 20:25:39 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B89341C23E93
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 11 Apr 2024 18:04:20 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 922261F26A90
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 11 Apr 2024 18:25:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B726047A6B;
-	Thu, 11 Apr 2024 16:50:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 43AE7130A4F;
+	Thu, 11 Apr 2024 17:41:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="D57Dm9na"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mx01.omp.ru (mx01.omp.ru [90.154.21.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EF6847A40;
-	Thu, 11 Apr 2024 16:50:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.154.21.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09E321E892;
+	Thu, 11 Apr 2024 17:41:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712854233; cv=none; b=JqxAfIEPJAsSXTnSBLJdAMbtpHbI8DpPtSZWloIKrSFDScgdY5on+BVCbivnxdXX5BSCDymhC0iaxkyN9daDNsgFDJrwS1fOGfYOqvBhFiJ2XK2/ssPLsxbWcciOdGe3ONhSwKqkW7bDZdmKHHgJZpHuqwPWXtdXC/rUIIne01M=
+	t=1712857303; cv=none; b=c2AOT/orD75sm7gM7ApRyLsj+do4gc65Bb1oiN431RFbYIrKamUE4CwmN5Q2rrefjkbCAoqedQyqo/88NpNfZQ9rKbfTxMJI3Qlw42QmzLkW9KQTagHYoxDslPQwZ1MInmNCdmpb2ldrzCWaQk9ZI98r0p6Whkbz3kaHxWksKR8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712854233; c=relaxed/simple;
-	bh=nrMuPIFuCVO7sj/iecEjqXTHll+3KKDW+NZvU4wMcGU=;
-	h=Subject:To:CC:References:From:Message-ID:Date:MIME-Version:
-	 In-Reply-To:Content-Type; b=UxdPmQkGQvL49U2vvzpqcv+nOgSLsaIzOb+5KFew2Mkd7HJOJwFHiOXTGr3L+12j/nlk6xdzxIsh4RR4/Pgq1ErQ8YriZ5SL6kSPh7mPos6X1H9q9fti87SLPHzchiBFDoyrmsPD/G3ii5TMDQQY26dnSJ94QeIzS988G2IRS5c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=omp.ru; spf=pass smtp.mailfrom=omp.ru; arc=none smtp.client-ip=90.154.21.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=omp.ru
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=omp.ru
-Received: from [192.168.1.105] (178.176.74.224) by msexch01.omp.ru
- (10.188.4.12) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.1258.12; Thu, 11 Apr
- 2024 19:50:25 +0300
-Subject: Re: [PATCH net 3/4] net: ravb: Fix GbEth jumbo packet RX checksum
- handling
-To: Paul Barker <paul.barker.ct@bp.renesas.com>, "David S. Miller"
-	<davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub Kicinski
-	<kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	=?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
-	Geert Uytterhoeven <geert+renesas@glider.be>
-CC: <netdev@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>
-References: <20240411114434.26186-1-paul.barker.ct@bp.renesas.com>
- <20240411114434.26186-4-paul.barker.ct@bp.renesas.com>
-From: Sergey Shtylyov <s.shtylyov@omp.ru>
-Organization: Open Mobile Platform
-Message-ID: <c9c624c0-cd26-bceb-e011-7debce338493@omp.ru>
-Date: Thu, 11 Apr 2024 19:50:24 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+	s=arc-20240116; t=1712857303; c=relaxed/simple;
+	bh=DoJYSiMJhYT9Zt6gL2BrmpCKBnw00cmz4PnYnC16w5w=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=LwmNXKiRF1P5ivu9O5/WcYRnqwrD61JH4YR0+mMItMxHNUD7VKCiWA58hyn2+7+MAQqT0XqbF7CGT+rrCKrojfNhour7vwSz0ccejPPiwgvRhb1Wtk/8j7VRd/5MFmubw4B4Hyf1UDiZA7f7KEKXHkP6OUXB70hbZdF4WCph9Lw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=D57Dm9na; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 92EEDC2BD10;
+	Thu, 11 Apr 2024 17:41:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1712857302;
+	bh=DoJYSiMJhYT9Zt6gL2BrmpCKBnw00cmz4PnYnC16w5w=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=D57Dm9naJovNyxjN+f4aK9UEhia+7xBZ5MkhbWxsEKsouoD9VR5HyxJ5oTVAWHCjb
+	 dtJXrqqBbam7Ebzp9GS7S90fyxedAGal4WgfiO7sOcXo5myFf7hNnj0B/EH10Jxhsz
+	 8TiWXIpMKl7BCob/OsWv+skUeQDl/S0KYW0Vr/5EuGpJ16JCqcWzxaUvuHKJ9XUbbi
+	 CSENDnGpBt9rbplij+sVAGrhpZAtha0txZMtw6gUe8PkUKXdOJXiNbJsYo2NDTOcQL
+	 Y6PMOlqq3rqEDmXL2M0h33mpmxiQYTqjK5SqIn+kAlSm5TTPnngLQiq4aeZWDOr0eP
+	 I7UAhbLSYWkLg==
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4155819f710so878385e9.2;
+        Thu, 11 Apr 2024 10:41:42 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCV/t6ZleoCy+GTcclfp17JOnM1izxkprtDAhmvP26Jsyu17qxYGN97UyH9CiyNroggWtG6BYdiurW0mjcbZta3VTCpyqu/31ivhRoHdE0wW7xm91NpwVothIc6lSUqB4NNaacr8NgG0bbzSe+sPPqAkbVqiLZEQEjuhBSRYdG902KCYQ5zdvQ/XhnV7AMt5eJAoyQhoWhEYNB7mPJBrg4x+ecUt9GqlSnijns2YT/k0nXj0hI1VkmszVZzp7FD95/fN9sXM+Q==
+X-Gm-Message-State: AOJu0Ywe439K/4LIETRslV0ClpKONy8MP1tQ84+y5Eq46R6WUP2PWxCR
+	y5LI3TzGIx0wmIQlxNi2wE03zTPev0eu/rrUclZjYISvYBj1OBpZ7zTBcd5pZpjFlCCrEkMVAy1
+	oFMPn+wwiK13U1lpURt9y4J5GSA==
+X-Google-Smtp-Source: AGHT+IGTYTnd27cZwUZ7kXUf6/DQ0pj9531II4F7GuikLZRsZ/ZfHrcFFNL5HrA9aNOfAtjGuv7mboSXH/hsVf3pPeQ=
+X-Received: by 2002:a19:f60a:0:b0:517:535b:9f2d with SMTP id
+ x10-20020a19f60a000000b00517535b9f2dmr231054lfe.25.1712857280506; Thu, 11 Apr
+ 2024 10:41:20 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <20240411114434.26186-4-paul.barker.ct@bp.renesas.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: msexch01.omp.ru (10.188.4.12) To msexch01.omp.ru
- (10.188.4.12)
-X-KSE-ServerInfo: msexch01.omp.ru, 9
-X-KSE-AntiSpam-Interceptor-Info: scan successful
-X-KSE-AntiSpam-Version: 6.1.0, Database issued on: 04/11/2024 16:32:17
-X-KSE-AntiSpam-Status: KAS_STATUS_NOT_DETECTED
-X-KSE-AntiSpam-Method: none
-X-KSE-AntiSpam-Rate: 0
-X-KSE-AntiSpam-Info: Lua profiles 184677 [Apr 11 2024]
-X-KSE-AntiSpam-Info: Version: 6.1.0.4
-X-KSE-AntiSpam-Info: Envelope from: s.shtylyov@omp.ru
-X-KSE-AntiSpam-Info: LuaCore: 16 0.3.16
- 6e64c33514fcbd07e515710c86ba61de7f56194e
-X-KSE-AntiSpam-Info: {rep_avail}
-X-KSE-AntiSpam-Info: {Tracking_from_domain_doesnt_match_to}
-X-KSE-AntiSpam-Info:
-	omp.ru:7.1.1;127.0.0.199:7.1.2;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1
-X-KSE-AntiSpam-Info: ApMailHostAddress: 178.176.74.224
-X-KSE-AntiSpam-Info: Rate: 0
-X-KSE-AntiSpam-Info: Status: not_detected
-X-KSE-AntiSpam-Info: Method: none
-X-KSE-AntiSpam-Info: Auth:dmarc=temperror header.from=omp.ru;spf=temperror
- smtp.mailfrom=omp.ru;dkim=none
-X-KSE-Antiphishing-Info: Clean
-X-KSE-Antiphishing-ScanningType: Heuristic
-X-KSE-Antiphishing-Method: None
-X-KSE-Antiphishing-Bases: 04/11/2024 16:36:00
-X-KSE-Antivirus-Interceptor-Info: scan successful
-X-KSE-Antivirus-Info: Clean, bases: 4/11/2024 10:51:00 AM
-X-KSE-Attachment-Filter-Triggered-Rules: Clean
-X-KSE-Attachment-Filter-Triggered-Filters: Clean
-X-KSE-BulkMessagesFiltering-Scan-Result: InTheLimit
+References: <20240411142107.GA3537062-robh@kernel.org> <20240411161108.GA2184354@bhelgaas>
+In-Reply-To: <20240411161108.GA2184354@bhelgaas>
+From: Rob Herring <robh@kernel.org>
+Date: Thu, 11 Apr 2024 12:41:07 -0500
+X-Gmail-Original-Message-ID: <CAL_JsqKaJR9v=EEwm=rGf-XtXhhSd4_U2FUJoCoN_mcvPBtPBA@mail.gmail.com>
+Message-ID: <CAL_JsqKaJR9v=EEwm=rGf-XtXhhSd4_U2FUJoCoN_mcvPBtPBA@mail.gmail.com>
+Subject: Re: [PATCH v2 2/4] dt-bindings: PCI: mediatek,mt7621: add missing
+ child node reg
+To: Bjorn Helgaas <helgaas@kernel.org>
+Cc: Sergio Paracuellos <sergio.paracuellos@gmail.com>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Bjorn Helgaas <bhelgaas@google.com>, 
+	Lorenzo Pieralisi <lpieralisi@kernel.org>, =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, 
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>, Ray Jui <rjui@broadcom.com>, 
+	Scott Branden <sbranden@broadcom.com>, 
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
+	Florian Fainelli <florian.fainelli@broadcom.com>, Jim Quinlan <jim2101024@gmail.com>, 
+	Nicolas Saenz Julienne <nsaenz@kernel.org>, Will Deacon <will@kernel.org>, 
+	Linus Walleij <linus.walleij@linaro.org>, Srikanth Thokala <srikanth.thokala@intel.com>, 
+	Ryder Lee <ryder.lee@mediatek.com>, Jianjun Wang <jianjun.wang@mediatek.com>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+	Daire McNamara <daire.mcnamara@microchip.com>, Bjorn Andersson <andersson@kernel.org>, 
+	Konrad Dybcio <konrad.dybcio@linaro.org>, Marek Vasut <marek.vasut+renesas@gmail.com>, 
+	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>, Shawn Lin <shawn.lin@rock-chips.com>, 
+	Heiko Stuebner <heiko@sntech.de>, Jingoo Han <jingoohan1@gmail.com>, 
+	Gustavo Pimentel <gustavo.pimentel@synopsys.com>, 
+	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>, 
+	Bharat Kumar Gogada <bharat.kumar.gogada@amd.com>, Michal Simek <michal.simek@amd.com>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
+	Neil Armstrong <neil.armstrong@linaro.org>, Mark Kettenis <kettenis@openbsd.org>, 
+	Tom Joseph <tjoseph@cadence.com>, Ahmad Zainie <wan.ahmad.zainie.wan.mohamad@intel.com>, 
+	Jiaxun Yang <jiaxun.yang@flygoat.com>, Kishon Vijay Abraham I <kishon@kernel.org>, 
+	Thippeswamy Havalige <thippeswamy.havalige@amd.com>, linux-pci@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+	linux-rpi-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
+	linux-arm-msm@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	linux-rockchip@lists.infradead.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 4/11/24 2:44 PM, Paul Barker wrote:
+On Thu, Apr 11, 2024 at 11:11=E2=80=AFAM Bjorn Helgaas <helgaas@kernel.org>=
+ wrote:
+>
+> On Thu, Apr 11, 2024 at 09:21:07AM -0500, Rob Herring wrote:
+> > On Thu, Apr 11, 2024 at 07:39:17AM -0500, Bjorn Helgaas wrote:
+> > > On Thu, Apr 11, 2024 at 08:13:18AM +0200, Sergio Paracuellos wrote:
+> > > > On Thu, Apr 11, 2024 at 8:01=E2=80=AFAM Krzysztof Kozlowski
+> > > > <krzysztof.kozlowski@linaro.org> wrote:
+> > > > > On 10/04/2024 23:26, Bjorn Helgaas wrote:
+> > > > > > On Wed, Apr 10, 2024 at 08:15:19PM +0200, Krzysztof Kozlowski w=
+rote:
+> > > > > >> MT7621 PCI host bridge has children which apparently are also =
+PCI host
+> > > > > >> bridges, at least that's what the binding suggest.
+> > > > > >
+> > > > > > What does it even mean for a PCI host bridge to have a child th=
+at is
+> > > > > > also a PCI host bridge?
+> >
+> > It should say 'root port' instead as the binding description correctly
+> > says.
+>
+> OK, that makes a lot more sense, and we should fix the commit log.
+>
+> > > > > I think the question should be towards Mediatek folks. I don't kn=
+ow what
+> > > > > this hardware is exactly, just looks like pci-pci-bridge. The dri=
+ver
+> > > > > calls the children host bridges as "ports".
+> > > >
+> > > > You can see the topology here in my first driver submit cover lette=
+r
+> > > > message [0].
+> > > >
+> > > >  [0]: https://lore.kernel.org/all/CAMhs-H-BA+KzEwuDPzcmrDPdgJBFA2Xd=
+YTBvT4R4MEOUB=3DWQ1g@mail.gmail.com/t/
+> > >
+> > > Nothing unusual here, this looks like the standard PCIe topology.
+> > >
+> > > What *might* be unusual is describing the Root Ports in DT.  Since
+> > > they are standard PCI devices, they shouldn't need DT description
+> > > unless there's some unusual power/clock/reset control or something
+> > > that is not discoverable via PCI enumeration.
+> >
+> > It's only unusual because typically there's only 1 RP per host bridge
+> > and properties which really apply to the RP get stuck in the host bridg=
+e
+> > node because we don't have a RP node. An example is perst-gpios. That's
+> > not a property of the RP either, but the RP is the upstream side of a
+> > slot and we often don't have a node for the device either.
+>
+> Makes sense.
+>
+> I'm still confused about one thing, maybe just because I don't really
+> know how to read these bindings.  The binding now looks like this:
+>
+>   properties:
+>     compatible:
+>       const: mediatek,mt7621-pci
+>
+>     reg:
+>       items:
+>         - description: host-pci bridge registers
+>         - description: pcie port 0 RC control registers       # A
+>         - description: pcie port 1 RC control registers       # A
+>         - description: pcie port 2 RC control registers       # A
+>
+>   patternProperties:
+>     '^pcie@[0-2],0$':
+>       type: object
+>       $ref: /schemas/pci/pci-pci-bridge.yaml#
+>
+>       properties:
+>         reg:                                                  # B
+>           maxItems: 1
+>
+> It looks like the "A" items are separate things from the "B" items?
+>
+> But I think the relevant code is here:
+>
+>   mt7621_pcie_probe
+>     mt7621_pcie_parse_dt
+>       pcie->base =3D devm_platform_ioremap_resource(pdev, 0)             =
+# 1
+>       for_each_available_child_of_node(node, child)
+>         mt7621_pcie_parse_port
+>           port->base =3D devm_platform_ioremap_resource(pdev, slot + 1)  =
+# 2
+>
+> where it looks like both "1" and "2" use the items in the "A" list,
+> i.e., resources 0, 1, 2, 3, all from the same platform device.  Is
+> there code that uses the "B" item that this patch adds?
 
-> Sending a 7kB ping packet to the RZ/G2L in Linux v6.9-rc2 causes the
-> following backtrace:
-> 
-> 	WARNING: CPU: 0 PID: 0 at include/linux/skbuff.h:3127 skb_trim+0x30/0x38
-> 	Modules linked in:
-> 	CPU: 0 PID: 0 Comm: swapper/0 Tainted: G        W          6.9.0-rc1-00222-gde11614025b1 #3
-> 	Hardware name: Renesas SMARC EVK based on r9a07g044l2 (DT)
-> 	pstate: 20400005 (nzCv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
-> 	pc : skb_trim+0x30/0x38
-> 	lr : ravb_rx_csum_gbeth+0x40/0x90
-> 	sp : ffff800080003d40
-> 	x29: ffff800080003d40 x28: 0000000000000400 x27: ffff00000d0f0000
-> 	x26: 0000000000000001 x25: ffff800080003e84 x24: 0000000000000e52
-> 	x23: 0000000000000000 x22: ffff00000d0f0960 x21: 000000000000ffff
-> 	x20: 000000000000f6ff x19: ffff00000cf4cb00 x18: 0000000000000000
-> 	x17: ffff7ffffdd4f000 x16: ffff800080000000 x15: e7e6e5e4e3e2e1e0
-> 	x14: dfdedddcdbdad9d8 x13: 0000131211100f0e x12: 0d0c0b0a09080706
-> 	x11: 0000000013121110 x10: 0000000000000000 x9 : 0000000000000001
-> 	x8 : ffff800080003cf0 x7 : 0000000000000000 x6 : ffff00007faf4590
-> 	x5 : 000000000010000b x4 : a1a8362deecb53ea x3 : 0000000000000080
-> 	x2 : 00000000ffff0000 x1 : 000000000cf4ccfc x0 : ffff00000cf4cb00
-> 	Call trace:
-> 	 skb_trim+0x30/0x38
-> 	 ravb_rx_gbeth+0x56c/0x5cc
-> 	 ravb_poll+0xa0/0x204
-> 	 __napi_poll+0x38/0x17c
-> 	 net_rx_action+0x124/0x268
-> 	 __do_softirq+0x100/0x26c
-> 	 ____do_softirq+0x10/0x1c
-> 	 call_on_irq_stack+0x24/0x4c
-> 	 do_softirq_own_stack+0x1c/0x2c
-> 	 irq_exit_rcu+0xbc/0xd8
-> 	 el1_interrupt+0x38/0x68
-> 	 el1h_64_irq_handler+0x18/0x24
-> 	 el1h_64_irq+0x64/0x68
-> 	 default_idle_call+0x28/0x3c
-> 	 do_idle+0x204/0x25c
-> 	 cpu_startup_entry+0x38/0x3c
-> 	 kernel_init+0x0/0x1d8
-> 	 start_kernel+0x504/0x5f0
-> 	 __primary_switched+0x80/0x88
-> 	---[ end trace 0000000000000000 ]---
-> 
-> This is caused by ravb_rx_gbeth() calling ravb_rx_csum_gbeth() with the
-> wrong skb for a packet which spans multiple descriptors. To fix this,
-> use the correct skb.
-> 
-> Fixes: c2da9408579d ("ravb: Add Rx checksum offload support for GbEth")
-> Signed-off-by: Paul Barker <paul.barker.ct@bp.renesas.com>
+The A items are in the host address space. The B item is a PCI
+address. Specifically, for PCI devices, the first entry is config
+space with just the device and function (devfn). The format is defined
+in the OpenFirmware PCI bus supplement.
 
-Reviewed-by: Sergey Shtylyov <s.shtylyov@omp.ru>
-
-[...]
-
-MBR, Sergey
+Rob
 
