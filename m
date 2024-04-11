@@ -1,96 +1,122 @@
-Return-Path: <linux-renesas-soc+bounces-4525-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-4526-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6172A8A17D8
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 11 Apr 2024 16:53:08 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 768828A1837
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 11 Apr 2024 17:08:54 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 902F41C21428
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 11 Apr 2024 14:53:07 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A6CF71C22BF4
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 11 Apr 2024 15:08:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EF677DDC5;
-	Thu, 11 Apr 2024 14:53:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CB3491171A;
+	Thu, 11 Apr 2024 15:08:51 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
+Received: from mail-oo1-f44.google.com (mail-oo1-f44.google.com [209.85.161.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 676B7DDCB;
-	Thu, 11 Apr 2024 14:53:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F00FA134D1;
+	Thu, 11 Apr 2024 15:08:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712847184; cv=none; b=ceJHmDLzfQzvW0T7izkXf2knoGmQX/OccG7pSvZGwgU49lYww1ZuR/BIVMtpXZKSD2UBmBv/t+Wqet4zAt2BcHLfTvzc+Ia6BBktM1AR06H/a0Jbevrx+yAf++ATisxPqESG0ejsJdOexxIkZaG/vp53b6Wy3vAeQUJfKMTs3oY=
+	t=1712848131; cv=none; b=cmDpcTGJKfhMUK4XtqT6SjenzrHwKHwjNhgcKjj+BbuhHMWhejQdIQWuTqGiPeyVXtII2XCLo7qWTzmjojwo0BMoOOeE4/ChkUHdcykxs+/2gf0LCiAMsgKoBYPvovUmBgzeq1czjlGaVSRHU1QNSaMOaQMddxLSPiGMtvC4uEs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712847184; c=relaxed/simple;
-	bh=EyhnWJiAS0nR8fJyhRZTkbp1BLMobMq6UhnnwGa9dmU=;
+	s=arc-20240116; t=1712848131; c=relaxed/simple;
+	bh=oU5pCmDkLmmc1H+EyQIYHeeb2Fb2Jfhgrf2CdpJQj8Y=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=rvBneR4zl7ICKTbOrSRI7AH142uYNlBx6Dr/RkY6gK7wY42ouC00jwPvMhMvMrMkBeABbe6WJmzrO6u697sYva5CWn8pAwTIR9zbA/lvD7nuzfFNTfm+lFQR5ivJtsHjUc0OKQaraBktEywfaHSBLwp1M157lxuRNpNeeDefbUY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.208.172
+	 To:Cc:Content-Type; b=Yh2aEpuJpZc+7/lVzOILT1zqrqvbHjqgIFADzPUj7I69Wa8i0La1GyYGuNKLiBXX/1oEb2cPOmRY2wkvuQEhfujpiEYqkNp1bxMpr9WFf2JCMFoUo+NBwhPDU2U/qshAnSl2kzPoP9meAC0a/wy6DsOQo46TidrGHBO4JogdE7M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.161.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-2d886f17740so10359581fa.1;
-        Thu, 11 Apr 2024 07:53:02 -0700 (PDT)
+Received: by mail-oo1-f44.google.com with SMTP id 006d021491bc7-5aa369179e1so3489509eaf.3;
+        Thu, 11 Apr 2024 08:08:49 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712847180; x=1713451980;
+        d=1e100.net; s=20230601; t=1712848128; x=1713452928;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=KVjsRotGn7u6Rn7aIZqkg7iAwWDdxhRzncPX3YRKcQk=;
-        b=OCmYHKHaFAhcNayLW8UM7bjr3GNq4pqLtgwMC0OMuLQB3sHvZDLwXNGNKhcyLO1JvC
-         EOv7sbkJf3eT9sSDuRmpc7d0UoQpoLkbw6Yl11+9aeLxvMEVxYo0ofr33aCT7DlbnrjA
-         vOzm8L9ssBi6SEqZFpIA43KjwTdC2L/zll5kImoXjQmReDxrW15uKvKgLAzOWLWgyKRH
-         s228Y7HrIyew3CqtGwViHgrTSIq9Q19zQq5ZXWXALH11IP0d9f2zG/nel8PNvLRVJI8f
-         IO2816L984qSbzvfRokRN4fOa33ZgqPTEYp9NsQVu40LOi0DfcGUXBZeTU/PcCvmKurB
-         1Ouw==
-X-Forwarded-Encrypted: i=1; AJvYcCWBJhIZvsEAGMcxzUtDDyGv70orFvfIApxuDNpXdPcDABJ0dqdb4ewPHLf2RniFlMek7WKG9ugZawb5Lu6C/Un/K6hOxYMZ6wajEUXMCXeGngH/t6a2F+0IoMYhoau+skXxvYAXF8pHKAXChYoQkAAD8hd/91E5YYncX7SVQfZFkaCQWKORjnG820k0
-X-Gm-Message-State: AOJu0YzfG+YbP9ms85tvacLHFq5QGEfR4glnsJ/w5gsozdZI3RKMHtRc
-	hrh4i4t8yzYp9U7QDGBbpEHYDpkKxC2b0r6d+cedphC19dfX87z8/ez9jaVD1ck=
-X-Google-Smtp-Source: AGHT+IHtmYPwBRwzhlRVjfyHCc9sHZCUVQpmG1us9sILUW81OOhjlK0NGYvuhXXXnTKxFPVadxX9Hg==
-X-Received: by 2002:a05:651c:1416:b0:2d8:cea3:85e7 with SMTP id u22-20020a05651c141600b002d8cea385e7mr826281lje.12.1712847179572;
-        Thu, 11 Apr 2024 07:52:59 -0700 (PDT)
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com. [209.85.167.47])
-        by smtp.gmail.com with ESMTPSA id t5-20020a2e9545000000b002d865254e49sm233406ljh.16.2024.04.11.07.52.59
+        bh=E9hehHCvMAi0CNOjOnNQIxMp+8eSHK8c3QluG1cpQEI=;
+        b=hz4QGYuzWr2n2amu7D31TFJmxANeRJsYllIdIe35MWbW3CVLAqaqEm3UtlwO/nF73s
+         sXV67kGbld3w8LKw3XZt3AHT7DRxUnW00w+0XbXpa8VFB7cfsNQGWHe9vDcy26v/jcQD
+         Ap75NxllBOFQL0DXzKjVBKHgjDstk4sNGF55mwnSj4uaSVeU+p/6/zu964UntFd3KmgD
+         RqkJwWFwlYLWvhA8Ul8DA/MgYpPKKRfkemk/lEoocJh4RxZzM9/A+NsCQrOd8olNabfC
+         T2Mbv4+qEr6MDjXQED6T8fA90TIE83B2Gxysno2ffIhxZ5fHKs4/xe+tfrAt1f646RSu
+         JUBg==
+X-Forwarded-Encrypted: i=1; AJvYcCVU3iFdoXjT9koiwvAA6Sp/kGjdVymi6noVM0koO/OXA3RIvH7XIVX/HdxRqlggDr2+r4aQWykBZwMQPySYc2k97N2atT6zB4sc9pZqphrdw2s6N3ptk+o8ebXaXEA9m0wiS4QkvGkhzqB0oZl2eHXy8fZt2iPT7FIy2L65GRzOIkkOYvj/r2oN4En2NVxF5RREqJiRcTRM7R5riU6tXYExnm3DOGjc
+X-Gm-Message-State: AOJu0YwqWU0rydjKUm9F4x/opKpce6fMKMmSKrENuLZE6Mjg8Uo7PMsV
+	EpsKj8B3CXqzsWSk9OAaNZ8L+BFsTDYuBKPC6vcqyaUBhObf//YPUlLez8s9
+X-Google-Smtp-Source: AGHT+IEJmf89EuiAaKtpLNEr9G1LONI/+H9TLXaQI+A+h7gS1EcDEb3mORpif3yGMOl9JUO9quNKYg==
+X-Received: by 2002:a05:6820:1391:b0:5aa:3b8a:b491 with SMTP id i17-20020a056820139100b005aa3b8ab491mr6955693oow.4.1712848128089;
+        Thu, 11 Apr 2024 08:08:48 -0700 (PDT)
+Received: from mail-oi1-f182.google.com (mail-oi1-f182.google.com. [209.85.167.182])
+        by smtp.gmail.com with ESMTPSA id di12-20020a0568201e8c00b005a4bcb155basm352018oob.23.2024.04.11.08.08.47
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 11 Apr 2024 07:52:59 -0700 (PDT)
-Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-516d264d0e4so997522e87.0;
-        Thu, 11 Apr 2024 07:52:59 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVmJDqE8L/XUA8FP6Ny0/bic1vVecCTT8ffmr3LDR4EeeIAUfe+zFp7FoiACSXF63aZDDh95DiKb7FyvI2QwZTQ2jYeoorJ/SxtWSsWiFMhEKloglGTFaTfQBVYx5k5Cpdw43eIcIcQXlkV6zoFyS1RakSmw/OuclwLQdSKiEg98WPQ4K7Yc6rTAvFa
-X-Received: by 2002:a05:6512:33d2:b0:516:ac69:3bf5 with SMTP id
- d18-20020a05651233d200b00516ac693bf5mr1161921lfg.0.1712847179026; Thu, 11 Apr
- 2024 07:52:59 -0700 (PDT)
+        Thu, 11 Apr 2024 08:08:47 -0700 (PDT)
+Received: by mail-oi1-f182.google.com with SMTP id 5614622812f47-3c5ee4ce695so795992b6e.0;
+        Thu, 11 Apr 2024 08:08:47 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCWga1MW07g+6xV7sR//DAQStXMyY8aX6RtrMyR8BRcIFROJBCdbMkZPaz4ixHRrn3sCUkbUiWFlxZ1R7dALvzcZ0LXZ27Rcjys37oV+XfSXQZa06FOUOWt5J2+FDoDIBPDmMlv3kbipyXrOxldeTBywZ0XLiW0JrX+vLNy/4mLCQWVDpUf4CUwTeD+z2Sxdmx1v4daR2p3f0PRRE2kpZc7twG9zntKZ
+X-Received: by 2002:a05:6808:644:b0:3c5:eaaf:babe with SMTP id
+ z4-20020a056808064400b003c5eaafbabemr5366936oih.7.1712848127440; Thu, 11 Apr
+ 2024 08:08:47 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240226192530.141945-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20240226192530.141945-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20240410122657.2051132-1-claudiu.beznea.uj@bp.renesas.com> <20240410122657.2051132-9-claudiu.beznea.uj@bp.renesas.com>
+In-Reply-To: <20240410122657.2051132-9-claudiu.beznea.uj@bp.renesas.com>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Thu, 11 Apr 2024 16:52:44 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdUwwV85e02q+WqMSQ28zeVjLAjqNOHqjiDpX1swTg2c9Q@mail.gmail.com>
-Message-ID: <CAMuHMdUwwV85e02q+WqMSQ28zeVjLAjqNOHqjiDpX1swTg2c9Q@mail.gmail.com>
-Subject: Re: [PATCH] pinctrl: renesas: pinctrl-rzg2l: Remove extra space in
- function parameter
-To: Prabhakar <prabhakar.csengg@gmail.com>
-Cc: Linus Walleij <linus.walleij@linaro.org>, linux-renesas-soc@vger.kernel.org, 
-	linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Date: Thu, 11 Apr 2024 17:08:35 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdW4CEbR0K2OfADS1S834GyRwE45Squ2OY82nDqkPLPUVQ@mail.gmail.com>
+Message-ID: <CAMuHMdW4CEbR0K2OfADS1S834GyRwE45Squ2OY82nDqkPLPUVQ@mail.gmail.com>
+Subject: Re: [PATCH v3 8/9] clk: renesas: rzg2l-cpg: Add suspend/resume
+ support for power domains
+To: Claudiu <claudiu.beznea@tuxon.dev>
+Cc: mturquette@baylibre.com, sboyd@kernel.org, robh@kernel.org, 
+	krzk+dt@kernel.org, conor+dt@kernel.org, magnus.damm@gmail.com, 
+	linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Feb 26, 2024 at 8:25=E2=80=AFPM Prabhakar <prabhakar.csengg@gmail.c=
-om> wrote:
-> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+On Wed, Apr 10, 2024 at 2:27=E2=80=AFPM Claudiu <claudiu.beznea@tuxon.dev> =
+wrote:
+> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 >
-> Remove unnecessary space in rzg2l_pinctrl_pm_setup_pfc() function
-> parameter.
+> RZ/G3S supports deep sleep states that it can reach with the help of the
+> TF-A.
 >
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> RZ/G3S has a few power domains (e.g. GIC) that need to be always-on while
+> Linux is running. These domains are initialized (and powered on) when
+> clock driver is probed.
+>
+> As the TF-A takes control at the very last(suspend)/first(resume)
+> phase of configuring the deep sleep state, it can do it's own settings on
+> power domains.
+>
+> Thus, to restore the proper Linux state, add rzg2l_cpg_resume() which
+> powers on the always-on domains and rzg2l_cpg_complete() which activates
+> the power down mode for the IPs selected through CPG_PWRDN_IP{1, 2}.
+>
+> Along with it, added the suspend_check member to the RZ/G2L power domain
+> data structure whose purpose is to checks if a domain can be powered off
+> while the system is going to suspend. This is necessary for the serial
+> console domain which needs to be powered on if no_console_suspend is
+> available in bootargs.
+>
+> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+> ---
+>
+> Changes in v3:
+> - populate pd->suspend_check on rzg2l_cpg_attach_dev() for serial
+>   console; due to this the rzg2l_pd_suspend_check_console() was moved
+>   before rzg2l_cpg_attach_dev()
+> - removed RZG2L_PD_F_CONSOLE define
 
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-pinctrl for v6.10.
 
 Gr{oetje,eeting}s,
 
