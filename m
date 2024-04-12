@@ -1,67 +1,67 @@
-Return-Path: <linux-renesas-soc+bounces-4549-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-4552-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64C328A2CD6
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 12 Apr 2024 12:49:19 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 93E2C8A2CE7
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 12 Apr 2024 12:55:50 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 055721F22FA6
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 12 Apr 2024 10:49:19 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id F358CB21064
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 12 Apr 2024 10:55:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 630CE4C624;
-	Fri, 12 Apr 2024 10:49:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 436644087B;
+	Fri, 12 Apr 2024 10:55:43 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from michel.telenet-ops.be (michel.telenet-ops.be [195.130.137.88])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from weierstrass.telenet-ops.be (weierstrass.telenet-ops.be [195.130.137.81])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C2F950A88
-	for <linux-renesas-soc@vger.kernel.org>; Fri, 12 Apr 2024 10:49:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.137.88
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDF443FE4B
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 12 Apr 2024 10:55:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.137.81
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712918948; cv=none; b=L9Pp68O9UO8xslEjVlMNLqvxG+Bdd1nyZV/BaFIBqyKsXnou+uhBglVLT7cre10ntauDsVtH3Avd8oVVvB5F47fgoT2A9oCSfAVKWDSPh5XfUO+UNkEJl7TVZvGB1VsPU0PMfQ/3idUl6iECZi8g9+z7VoDMncb8wQWarPyswLA=
+	t=1712919343; cv=none; b=Ib9hG/dvxzqUnmHGl4RfUbDP/qf3+CbmTAS4l0LIbJYjdh1zVHKBpwnSZXom2zTwNZUMpMKaZD6Ya62jzFQyk+zmTG7lDtiWPWyB1A6hdjqZXTl7kNc1jt3eUcJ2o6jHYuo/JuN2hBWTJyWDnaSdk+dXfoedtvB0csfP6J9mzEo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712918948; c=relaxed/simple;
-	bh=yvJ2nWs6ylwT4WXBSEuXpI+MPCTsg6ulmBEIBzsQpmA=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=XuVNekkdIbH/FP8gzSzfQlBGgPHZTC3CP1ESX4lY017cVIMUZ3IRmMBjf9s3emBEZO7zNgbURjuIT08yTe9MwxN4X6agy5OO5p3DdCjS9dnun9YhWBWKfyyRBmxNOYo5yBKPsnIgybd8jEjetisNMjFTRtMveyrxj5JF1uNKwYE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.137.88
+	s=arc-20240116; t=1712919343; c=relaxed/simple;
+	bh=YuH4h9erC2nTi9bT7VhvVDdFgqYUBaHXIa5SsSRXy9Y=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=LBU50+Qbv1q2J9rT/ZDazuPn28MFUzepBuyeDucr/Ws1oqxvKz6wWkEpK9jxX6/Sf6qSLCUsA8uk566L0p9wjrtBc8j2kaQ85zNbOAbwv9VdhtLBNXd40ozj43MgHFZspfbXU0gUhgWLGs1XBuScV5TgGHgW4T2wwi6DSPFN9ao=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.137.81
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
+Received: from albert.telenet-ops.be (albert.telenet-ops.be [IPv6:2a02:1800:110:4::f00:1a])
+	by weierstrass.telenet-ops.be (Postfix) with ESMTPS id 4VGCwx3HhKz4x4Ls
+	for <linux-renesas-soc@vger.kernel.org>; Fri, 12 Apr 2024 12:49:05 +0200 (CEST)
 Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed80:76d0:2bff:fec8:549])
-	by michel.telenet-ops.be with bizsmtp
-	id AAox2C00G0SSLxL06Aox03; Fri, 12 Apr 2024 12:48:59 +0200
+	by albert.telenet-ops.be with bizsmtp
+	id AAox2C00A0SSLxL06AoxGo; Fri, 12 Apr 2024 12:48:57 +0200
 Received: from rox.of.borg ([192.168.97.57])
 	by ramsan.of.borg with esmtp (Exim 4.95)
 	(envelope-from <geert@linux-m68k.org>)
-	id 1rvESF-00GpBt-Sl;
+	id 1rvESF-00GpBl-ON;
 	Fri, 12 Apr 2024 12:48:56 +0200
 Received: from geert by rox.of.borg with local (Exim 4.95)
 	(envelope-from <geert@linux-m68k.org>)
-	id 1rvDj5-004eQV-Sw;
-	Fri, 12 Apr 2024 12:01:43 +0200
+	id 1rvDjJ-004eRO-1j;
+	Fri, 12 Apr 2024 12:01:57 +0200
 From: Geert Uytterhoeven <geert+renesas@glider.be>
-To: arm-soc <arm@kernel.org>,
-	soc <soc@kernel.org>
-Cc: Magnus Damm <magnus.damm@gmail.com>,
-	linux-arm-kernel@lists.infradead.org,
+To: Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>
+Cc: linux-clk@vger.kernel.org,
 	linux-renesas-soc@vger.kernel.org,
 	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [GIT PULL 4/4] Renesas DTS updates for v6.10
-Date: Fri, 12 Apr 2024 12:01:40 +0200
-Message-Id: <cover.1712915536.git.geert+renesas@glider.be>
+Subject: [GIT PULL] clk: renesas: Updates for v6.10
+Date: Fri, 12 Apr 2024 12:01:54 +0200
+Message-Id: <cover.1712915721.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <cover.1712915528.git.geert+renesas@glider.be>
-References: <cover.1712915528.git.geert+renesas@glider.be>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+
+	Hi Mike, Stephen,
 
 The following changes since commit 4cece764965020c22cff7665b18a012006359095:
 
@@ -69,74 +69,47 @@ The following changes since commit 4cece764965020c22cff7665b18a012006359095:
 
 are available in the Git repository at:
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git tags/renesas-dts-for-v6.10-tag1
+  git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git tags/renesas-clk-for-v6.10-tag1
 
-for you to fetch changes up to be4e4dd8a1994e5730dfdb8dfaf1f2418f8a199d:
+for you to fetch changes up to c0516eb4cf04ac61b6fe1f86cc15b2f5f024ee78:
 
-  arm64: dts: renesas: rzg3s-smarc-som: Fix Ethernet aliases (2024-04-09 09:34:52 +0200)
+  clk: renesas: r8a779h0: Add timer clocks (2024-04-08 11:12:32 +0200)
 
 ----------------------------------------------------------------
-Renesas DTS updates for v6.10
+clk: renesas: Updates for v6.10
 
-  - Add HDMI capture support for the Function expansion board for the
-    Eagle development board,
-  - Add PMIC support for the RZ/G2UL SMARC EVK development board,
-  - Add thermal, more serial ((H)SCIF), and timer (CMT and TMU) support
-    for the R-Car V4M SoC,
-  - Add Timer Unit (TMU) support for the R-Mobile APE6, R-Car Gen2, and
-    RZ/G1 SoCs,
+  - Add thermal, serial (SCIF), and timer (CMT/TMU) clocks on R-Car V4M,
   - Miscellaneous fixes and improvements.
 
+Thanks for pulling!
+
 ----------------------------------------------------------------
-Biju Das (1):
-      arm64: dts: renesas: rzg2ul-smarc: Enable PMIC and built-in RTC, GPIO and ONKEY
+Geert Uytterhoeven (3):
+      dt-bindings: clock: r9a07g043-cpg: Annotate RZ/G2UL-only core clocks
+      clk: renesas: r8a779h0: Add thermal clock
+      clk: renesas: r8a779h0: Add SCIF clocks
 
-Claudiu Beznea (1):
-      arm64: dts: renesas: rzg3s-smarc-som: Fix Ethernet aliases
+Paul Barker (2):
+      clk: renesas: r9a07g043: Mark mod_clks and resets arrays as const
+      clk: renesas: r9a07g044: Mark resets array as const
 
-Duy Nguyen (1):
-      arm64: dts: renesas: r8a779h0: Add thermal nodes
+Thanh Quan (1):
+      clk: renesas: r8a779h0: Add timer clocks
 
-Geert Uytterhoeven (8):
-      ARM: dts: renesas: r8a73a4: Add TMU nodes
-      ARM: dts: renesas: rzg1: Add TMU nodes
-      ARM: dts: renesas: rcar-gen2: Add TMU nodes
-      arm64: dts: renesas: r8a779h0: Add remaining HSCIF nodes
-      arm64: dts: renesas: r8a779h0: Add SCIF nodes
-      arm64: dts: renesas: gray-hawk-single: Add second debug serial port
-      ARM: dts: renesas: r9a06g032: Remove duplicate interrupt-parent
-      arm64: dts: renesas: gray-hawk-single: Enable nfsroot
+ drivers/clk/renesas/r8a779h0-cpg-mssr.c   | 14 ++++++++++++++
+ drivers/clk/renesas/r9a07g043-cpg.c       |  4 ++--
+ drivers/clk/renesas/r9a07g044-cpg.c       |  2 +-
+ include/dt-bindings/clock/r9a07g043-cpg.h |  6 +++---
+ 4 files changed, 20 insertions(+), 6 deletions(-)
 
-Lad Prabhakar (1):
-      ARM: dts: renesas: r7s72100: Add interrupt-names to SCIF nodes
+Gr{oetje,eeting}s,
 
-Niklas Söderlund (1):
-      arm64: dts: renesas: eagle: Add capture overlay for Function expansion board
+						Geert
 
-Thanh Quan (2):
-      arm64: dts: renesas: r8a779h0: Add CMT nodes
-      arm64: dts: renesas: r8a779h0: Add TMU nodes
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
- arch/arm/boot/dts/renesas/r7s72100.dtsi            |   8 +
- arch/arm/boot/dts/renesas/r8a73a4.dtsi             |  37 +++
- arch/arm/boot/dts/renesas/r8a7742.dtsi             |  58 ++++
- arch/arm/boot/dts/renesas/r8a7743.dtsi             |  58 ++++
- arch/arm/boot/dts/renesas/r8a7744.dtsi             |  58 ++++
- arch/arm/boot/dts/renesas/r8a7745.dtsi             |  58 ++++
- arch/arm/boot/dts/renesas/r8a77470.dtsi            |  44 +++
- arch/arm/boot/dts/renesas/r8a7790.dtsi             |  58 ++++
- arch/arm/boot/dts/renesas/r8a7791.dtsi             |  58 ++++
- arch/arm/boot/dts/renesas/r8a7792.dtsi             |  59 ++++
- arch/arm/boot/dts/renesas/r8a7793.dtsi             |  58 ++++
- arch/arm/boot/dts/renesas/r8a7794.dtsi             |  58 ++++
- arch/arm/boot/dts/renesas/r9a06g032.dtsi           |   1 -
- arch/arm64/boot/dts/renesas/Makefile               |   3 +
- .../renesas/r8a77970-eagle-function-expansion.dtso | 214 ++++++++++++++
- .../boot/dts/renesas/r8a779h0-gray-hawk-single.dts |  27 +-
- arch/arm64/boot/dts/renesas/r8a779h0.dtsi          | 311 ++++++++++++++++++++-
- arch/arm64/boot/dts/renesas/rzg2ul-smarc.dtsi      |  58 ++++
- arch/arm64/boot/dts/renesas/rzg3s-smarc-som.dtsi   |   4 +-
- include/dt-bindings/clock/r8a73a4-clock.h          |   4 +
- 20 files changed, 1228 insertions(+), 6 deletions(-)
- create mode 100644 arch/arm64/boot/dts/renesas/r8a77970-eagle-function-expansion.dtso
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+							    -- Linus Torvalds
 
