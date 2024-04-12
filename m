@@ -1,72 +1,83 @@
-Return-Path: <linux-renesas-soc+bounces-4558-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-4559-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8B7A8A32B6
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 12 Apr 2024 17:41:18 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id CAC858A36A2
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 12 Apr 2024 21:58:44 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A3D6D289607
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 12 Apr 2024 15:41:17 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 038D01C23EFB
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 12 Apr 2024 19:58:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2B5A11487C6;
-	Fri, 12 Apr 2024 15:41:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D350F1509AB;
+	Fri, 12 Apr 2024 19:58:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="gmwk+vjZ"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SGLpNFOb"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B8D486255;
-	Fri, 12 Apr 2024 15:41:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.32.30.218
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9585714EC4E;
+	Fri, 12 Apr 2024 19:58:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712936475; cv=none; b=N3W/7bq+bB9qF8G00alE3WBsCDGgmaB91De0DsSI2tXhXSuw7U19Pdr1PS8NhatWTqlPnCeLWeze6z/z046ns6yMama9nB0F8Qe5kQBoKPZxeQF832o41tEAtWggJHKysV/UR+0VG7Jw7/hZEw/unZwCb5ovtyTkkvRJVEXn1cI=
+	t=1712951918; cv=none; b=tUNWqS8kDPD2iSRPXX7ITzIOurlnUJO34qa7H8vSyQcbT4N/FvjH5Ou62Ss4tKQ+GTNoK0dmKZ79E2x2X/De1XROV1vYtQV7u5toFuKbOUPkST2T/i99+IxG8tuWDEO+s3QN3YFx4H2KvzSNGGRkgJgTzpag1USrikgS8yxMewM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712936475; c=relaxed/simple;
-	bh=N0XVHGo4SMlPD6EQfbU20bRIk//KUBXgZx3W2pzz8ug=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BUsBtJl2NcQ3RC8agFzQ+raOubCtztokyPO2Bhcq3ZkJ/Nju29NbKnCA+eoebETaJqH2quiq3BUte40glKZLlZPgnec0XM+3A4RYCTeNb86ewEOTEyZskdPYlMu/5a9vt3uA8EloCXo3xhXJj8pzwBc0gh8wZhd8cbgF/WbHX98=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk; spf=none smtp.mailfrom=armlinux.org.uk; dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b=gmwk+vjZ; arc=none smtp.client-ip=78.32.30.218
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=armlinux.org.uk
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=6my0iodQaeFR5ckhDBIIj+CUGiu9F+ZcP+5OqFc8jX0=; b=gmwk+vjZ4UTeJx4MQrTiD9foif
-	hsM2+ZrWPMJQnhlDL6zls3cxABiYR3kBmNoRQQmR8aTRushwCUBvv35XeQ96U5ryF2eA8FFBDK168
-	Lpa0bZ3dSGSBgiwPAt5Roa9pBGKryjf/z0Ws9Xs6OpB72Lk4MnUdWPZTBWJ3zToUP+YGCw78orNJw
-	y/aqMh4BEPXyTzJGM2JNRzmgfjz9JvyLjidopV87f6IK9vrDwzkCVhZCNb4kOtdtkL4ZqOOOO+l7U
-	v1E16mhROz6wiQBwtlbK9ZAkmndsTkNF5paSLFl9x7gSEqlIO1MjO1av70iD9uDAesZECM4GS3NzR
-	XLOoK07A==;
-Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:58796)
-	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <linux@armlinux.org.uk>)
-	id 1rvJ1W-0002fC-0Z;
-	Fri, 12 Apr 2024 16:41:06 +0100
-Received: from linux by shell.armlinux.org.uk with local (Exim 4.94.2)
-	(envelope-from <linux@shell.armlinux.org.uk>)
-	id 1rvJ1W-0007wG-4C; Fri, 12 Apr 2024 16:41:06 +0100
-Date: Fri, 12 Apr 2024 16:41:06 +0100
-From: "Russell King (Oracle)" <linux@armlinux.org.uk>
-To: Biju Das <biju.das.jz@bp.renesas.com>
-Cc: Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	linux-clk@vger.kernel.org,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Biju Das <biju.das.au@gmail.com>, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v3 2/3] clk: Add clk_poll_disable_unprepare()
-Message-ID: <ZhlWErZjizEc5bm5@shell.armlinux.org.uk>
-References: <20240318110842.41956-1-biju.das.jz@bp.renesas.com>
- <20240318110842.41956-3-biju.das.jz@bp.renesas.com>
+	s=arc-20240116; t=1712951918; c=relaxed/simple;
+	bh=9HYoa2q9zbdAwhkuDRDtehEu+C2d3K7WfVfQ1MwY5ts=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=UsMt+tALfGQvR5WojI3kGQuCYNcAgf0jkY0t4zMgTu1sd92HQk1Mh1jQKPWWkdVXFIR7rYzpyds/KIVkKjm+4MwbDW9Fq5P7LKc6xqJTyooB8CefGvDLsDybDzoVCR4oi8twyh38lFfNcgAeboUPaKhVk4ZggKEcYlIxuMLxpG8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SGLpNFOb; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ECFEAC113CC;
+	Fri, 12 Apr 2024 19:58:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1712951918;
+	bh=9HYoa2q9zbdAwhkuDRDtehEu+C2d3K7WfVfQ1MwY5ts=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:From;
+	b=SGLpNFOblQMeIbaJAa2RR1y9xP1A4VwRPfNvrMemMrQdH7DFIEqXfWjED1/QhvtxO
+	 hJwupFe0Zppd9Hx7FQ6sAD9A8zlkGNqxCKL93Lgv+HM/Tlv2ihysEEhBSMme0WU/xZ
+	 RmyWk2LZ0EfMI6v7/A50srEd/rQl8GV6TNI7lhloC7ZsNkN79QdcezoDxDudu48TlU
+	 6yeJb0nSJDsOMZYNoTJ//yRoBGLYAUywwOLqZRW1kYosaZ/FAmRG8UQ0qWOU9fuvNj
+	 MUvOqI6C3if4nm0zgjmb2nXTx/fQpWCIEwE1QW09jgPv9Q7AQOn6hkEUrmUqhOGaI4
+	 DTF2TST3dsEgA==
+Date: Fri, 12 Apr 2024 14:58:36 -0500
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+Cc: Jingoo Han <jingoohan1@gmail.com>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
+	Rob Herring <robh@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+	Marek Vasut <marek.vasut+renesas@gmail.com>,
+	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Vidya Sagar <vidyas@nvidia.com>,
+	Vignesh Raghavendra <vigneshr@ti.com>,
+	Richard Zhu <hongxing.zhu@nxp.com>,
+	Lucas Stach <l.stach@pengutronix.de>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	NXP Linux Team <linux-imx@nxp.com>,
+	Minghuan Lian <minghuan.Lian@nxp.com>,
+	Mingkai Hu <mingkai.hu@nxp.com>, Roy Zang <roy.zang@nxp.com>,
+	Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Kishon Vijay Abraham I <kishon@kernel.org>,
+	Jesper Nilsson <jesper.nilsson@axis.com>,
+	Srikanth Thokala <srikanth.thokala@intel.com>,
+	Shawn Lin <shawn.lin@rock-chips.com>,
+	Heiko Stuebner <heiko@sntech.de>, linux-pci@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org, linux-tegra@vger.kernel.org,
+	linux-omap@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linuxppc-dev@lists.ozlabs.org, Niklas Cassel <cassel@kernel.org>,
+	linux-arm-kernel@axis.com, linux-rockchip@lists.infradead.org,
+	Frank Li <Frank.Li@nxp.com>
+Subject: Re: [PATCH v12 2/8] PCI: dwc: ep: Add Kernel-doc comments for APIs
+Message-ID: <20240412195836.GA13344@bhelgaas>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -75,40 +86,23 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240318110842.41956-3-biju.das.jz@bp.renesas.com>
-Sender: Russell King (Oracle) <linux@armlinux.org.uk>
+In-Reply-To: <20240327-pci-dbi-rework-v12-2-082625472414@linaro.org>
 
-On Mon, Mar 18, 2024 at 11:08:41AM +0000, Biju Das wrote:
-> The clk_disable_unprepare() doesn't guarantee that a clock is gated after
-> the execution as it is driver dependent. The Renesas and most of the other
-> platforms don't wait until clock is stopped because of performance reason.
+On Wed, Mar 27, 2024 at 02:43:31PM +0530, Manivannan Sadhasivam wrote:
+> All of the APIs are missing the Kernel-doc comments. Hence, add them.
 
-I'm not sure it's "because of performance reason". It's probably more
-that it's not important for functionality.
+> + * dw_pcie_ep_reset_bar - Reset endpoint BAR
 
-> But these platforms wait while turning on the clock.
-> 
-> The normal case for shutting down the clock is unbind/close/suspend or
-> error paths in the driver. Not waiting for the shutting down the clock
-> will improve the suspend time.
-> 
-> But on RZ/G2L Camera Data Receiving Unit (CRU) IP, initially the vclk is
-> on. Before enabling link reception, we need to wait for vclk to be off
-> and after enabling reception, we need to turn the vlck on. Special cases
+Apparently this resets @bar for every function of the device, so it's
+not just a single BAR?
 
-"vclk" not "vlck".
+> + * dw_pcie_ep_raise_intx_irq - Raise INTx IRQ to the host
+> + * @ep: DWC EP device
+> + * @func_no: Function number of the endpoint
+> + *
+> + * Return: 0 if success, errono otherwise.
 
-> like this requires a sync API for clock gating.
+s/errono/errno/ (another instance below)
 
-I suppose this is fine for clocks that only have a single user, but
-this is highly undefined for clocks that could be shared between
-several different users, since it becomes racy whether another user
-of the clock has enabled or disabled this clock.
-
-I think this new API needs to spell it that it is not for clocks
-that are shared.
-
--- 
-RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
-FTTP is here! 80Mbps down 10Mbps up. Decent connectivity at last!
+Bjorn
 
