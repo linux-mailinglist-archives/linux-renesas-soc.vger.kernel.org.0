@@ -1,85 +1,87 @@
-Return-Path: <linux-renesas-soc+bounces-4562-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-4563-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 377B58A3CF8
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 13 Apr 2024 16:19:53 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5980D8A3CF7
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 13 Apr 2024 16:19:52 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id BD1F4B213B5
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 13 Apr 2024 14:19:50 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 74FDE1C20A13
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 13 Apr 2024 14:19:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3B42F41A85;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E70C244C89;
 	Sat, 13 Apr 2024 14:19:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="LFwKFJa+";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="NQ4b3oKg"
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="N7w1BrMq";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="Dl5KjaOu"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from wflow3-smtp.messagingengine.com (wflow3-smtp.messagingengine.com [64.147.123.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B84B1446A2;
-	Sat, 13 Apr 2024 14:19:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 876BB44C9C;
+	Sat, 13 Apr 2024 14:19:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=64.147.123.138
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713017989; cv=none; b=byFmTRmmh/9pJJpWucj+xIpmY/N1+EhDkP8jylVZiiZa/uvnn6cpUnkKZf/+2VmNcg+zGnjIuoBNM+CUmpUg+WwzTOH1vVxERDoFkWUv0Plr9ETb53N2VkIgi96eYbVgMNmI2vl/viVm/qpS5YkKAbZW+5JIsPEifwObUf+0LMY=
+	t=1713017989; cv=none; b=IjfvqIK+ZvFYpSHy3Rd4DEAgDkQdwPEeJibZzYICVgislx3dbcLx5XCCttSbF4SDljQsA3Vh1jgvVqtdmmwBE6uJ4I5Ez4GIySAxQ8gegIJOSsSjkHt3OhTG7BTGuoYccVQ15CMZRVjAfv38idMg+bTRhCkk0ZBqz3aNhdLjerQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1713017989; c=relaxed/simple;
-	bh=lqYi4IX+pGC7g17St3wKh78YYVzchlWWepLvcxug754=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=ueJs3mxa+2vw86DX/I3qegD0XqsABAWaEyMfKRIIi/CU7rqGvnMZzjeTdBJovwrgJkWUbUdVdR+uCG8/LtaTEyri5IhEsZCQ6i5WoMMBbwXebN6ZNm1kgwGDkLn8gAxspo27e8zL2iKyjSwKAdKBkeBzvE40hAzT0sIAWrL5lBY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=LFwKFJa+; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=NQ4b3oKg; arc=none smtp.client-ip=64.147.123.138
+	bh=pt1BpW16ExNBB5EX86N44ruic4yDDS+Pfy9SZzLclCw=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=RlWTzxVk0fqhc7vGyMpq7zxVzCX2gk0DYE5diHYMwiZIaSZxXCJj+Gww8f6DyPwwAQ9Znw5qzB42+rUHAsP+tRtrEGJt3kvZbl9EdP5najWwd8nfeRwCQqflhJC+uJ1hCoFToKOHYI1p5YGRvmcGB7TqPiZlwm62b86/qNyIK7Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=N7w1BrMq; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=Dl5KjaOu; arc=none smtp.client-ip=64.147.123.138
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
-	by mailflow.west.internal (Postfix) with ESMTP id 29F282CC053B;
-	Sat, 13 Apr 2024 10:19:43 -0400 (EDT)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
+	by mailflow.west.internal (Postfix) with ESMTP id 0B1B82CC0578;
+	Sat, 13 Apr 2024 10:19:45 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
-  by compute2.internal (MEProxy); Sat, 13 Apr 2024 10:19:43 -0400
+  by compute6.internal (MEProxy); Sat, 13 Apr 2024 10:19:46 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
 	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:message-id:mime-version:reply-to
-	:subject:subject:to:to; s=fm1; t=1713017982; x=1713021582; bh=Ks
-	OhJ5K2u+qHkcOjq56ae5rr6YpPqB2tbm2c0/PLSJs=; b=LFwKFJa+4xxGg17yA6
-	L6+ky2QBMkytTj2mUVuabd/IsNf6DU/Rt04HqPEy2G1JvDWpQagrJw+7P4N9eJTQ
-	AtLN34MTU63sUBB+7NvfYqPADxS3qynDP0WBPOpegduVaCOvdKSX0pwWac6Bf+pK
-	3WHfZr+Kzokj0mIqP4c6LLJ1VkhxhDaqiw7Ss6YSfJc3MMubVi3hXrpmlQGdcUmM
-	HVKOe0O/B+FBJ4vlBqctkU1ip1F/pzTRtlVQEwsNVEHnahAN6YBhMHNn6ZcDsgA8
-	O/bSEr+QIn1WuvEkU66SZyzqzRlK8F4CnX9bJFn9xVX+AVzOnQotSuffjGh7Zm4T
-	iUYA==
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1713017985;
+	 x=1713021585; bh=gaWs2v5ibh/rpona/EiDiKy+pISai3EBShWxv3Y/nk4=; b=
+	N7w1BrMqBlGODt1Tt6srfdpc8pYuB5v6C3Pu3pBVL6R0KrjUOen6L+Z+APsopYlQ
+	ofwdc8rs4P7dBbyBqkkqPcRdgbqdehRQvzszT8EvwyhcX04LXVNTy8euTQO8ALaB
+	fY2NNk7ZOXvZwcbVeOJA/koY2+Z6Rtt7QKYy4YZ11+y2cFIDB2xtjJQDFeV4e8j9
+	Hmnqyt3CmEdJ/wefnbv3FXR8c0JDeAOyyUjLNTAWTT3U//HcjK+zrVy+XQH9IBdS
+	ucUVKIf1yytN8GB0UtXfnOOMm7eWQFodD9gf1+R2iyRr+KMvRyjMIajHplPCAtMt
+	zrzyQIkD6B/SF2jv03gMTw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:message-id:mime-version:reply-to:subject
-	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm2; t=1713017982; x=1713021582; bh=KsOhJ5K2u+qHk
-	cOjq56ae5rr6YpPqB2tbm2c0/PLSJs=; b=NQ4b3oKgCo5Pj7q0y8kqGyPUXpTXy
-	eMijymelKVrbWWXVk4HVbqdDNe/owOnQItiJIgWYnw8F0lc3dOwDaRyNRNggcjTc
-	R8zqagUJDlivucgRzK0cCQZDcRQwmm1HXo8rJBrx3BaBhIefuau2ROLVmPxOZK5T
-	Vux3QQbaPrvSmjoQ3n4XxGv/0aAdM7L94ATonRnA6+bAZpqK4jx2mcqvi8gADTlA
-	0VvDItJBgHe8SCDy8utDVuRntGwjn1+l9bw84GaPYeEPts63RgHpHNxpC1loO+g3
-	cZ6wQBrtoXRS53UVax9MDyaF6EAPa53NZi1jaSXjhZAsCDY8M2AY7mP0w==
-X-ME-Sender: <xms:fpQaZoYobilQgKXFxkQWYbtHHdbpUA6UlIOpu7mrXikUR_FEVMPmAw>
-    <xme:fpQaZjbBzXNNpAZ5KGo-pq3IlFlJWGYeJmHqqmk7375w1oUhWweFu5Mx3CiiA0AG8
-    WImEt1qYVwTXgWW8aY>
-X-ME-Received: <xmr:fpQaZi8gWhMxBo7xsEaH6d5E7Cp0a5ArRJkxfkyBjBRgUoP6BLynv8qxdiGBvrPEIjaEhez2wp03eMEO3IG6rr7HdrvBt1W3ynUz>
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1713017985; x=
+	1713021585; bh=gaWs2v5ibh/rpona/EiDiKy+pISai3EBShWxv3Y/nk4=; b=D
+	l5KjaOuWsWGJhFIy6o9FzSn2VoFjEjJiJftQ4LGxbyLQhS/88Fu+ma6Ze2DWSTl/
+	vDMrRDVCuOrmCB+4xgVJOP/YowyqhjGLAUA8BM3TCMH2rf/Y1ZbrEJSIVnf2kLLs
+	7/FLV8xp6rE6I9FHp4B46zyy1yTLYZGlnj8fzovD5gey0BLbIqWlQNyBVfGKeczc
+	heyTsKWCYxPCGSRdtOrbisGMJrX21aK0PRSOMLfg38QvHOw8AdtJO7deYiRnUbLD
+	b0wxrfyGPqTgbTYskWIUO88fIcRv5+oSkf0KWXFXQ3dtzK/2mMK7N8hmwTG12eAP
+	BHBwY6HQNWC3duJXNse+g==
+X-ME-Sender: <xms:gZQaZrP2tzccuGlu8F8ZayaCGp20W1Jj8aUZ7x0g9kVvLdbmhLUkRw>
+    <xme:gZQaZl_48u8cBUioV7GxBl4az7XtgmKfBBbhb7xh-fqsv7Z3AWR_0PYTuoSX8OS9e
+    eDM5E_Owre_-ujL_yo>
+X-ME-Received: <xmr:gZQaZqRyjcbYAr67U3Qgs8guBNNzMYUJUcyQYbS-ls72qELTBvB67xjQ-vp49pM2I_ud6Vn_JbGDyjn85L9lZM72TKXH37px1p9m>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrudeiiedgjeeiucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucenucfjughrpefhvfevufffkffogggtgfesthekre
-    dtredtjeenucfhrhhomheppfhikhhlrghsucfunpguvghrlhhunhguuceonhhikhhlrghs
-    rdhsohguvghrlhhunhguodhrvghnvghsrghssehrrghgnhgrthgvtghhrdhsvgeqnecugg
-    ftrfgrthhtvghrnhepheduleetteekgffffedufeeuvdejiedvkefhveeifeegffehledt
-    vdevhfefteegnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrh
-    homhepnhhikhhlrghsrdhsohguvghrlhhunhguodhrvghnvghsrghssehrrghgnhgrthgv
-    tghhrdhsvg
-X-ME-Proxy: <xmx:fpQaZipagehsBrjGKlqrYI3TtOp_d8EVQq-I898kcc63wvfnInPtBw>
-    <xmx:fpQaZjrkEP2ln7McLWKRNfSr9Pk1Nir2OuRUWpS4WzFht9Gl4w1hnw>
-    <xmx:fpQaZgTlmx_J2x7vjUu__cIzjFTblALkm3fELfQnaGfTGrKp3_LQ_Q>
-    <xmx:fpQaZjqsb49jbR5yJwKboHkX02UsdizC80A85GjCbAN_34EUjC6uug>
-    <xmx:fpQaZknIsBj9K9uVLf0hJPwqIKqOBDYGx6e_AzXaCpD3DDev5t5t4-wL>
+    uceurghilhhouhhtmecufedttdenucenucfjughrpefhvfevufffkffojghfgggtgfesth
+    ekredtredtjeenucfhrhhomheppfhikhhlrghsucfunpguvghrlhhunhguuceonhhikhhl
+    rghsrdhsohguvghrlhhunhguodhrvghnvghsrghssehrrghgnhgrthgvtghhrdhsvgeqne
+    cuggftrfgrthhtvghrnhepheeigfeuveeutdefhfehgeekvedtleeuueekveefudehhffh
+    jeffgfegffelfeegnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilh
+    hfrhhomhepnhhikhhlrghsrdhsohguvghrlhhunhguodhrvghnvghsrghssehrrghgnhgr
+    thgvtghhrdhsvg
+X-ME-Proxy: <xmx:gZQaZvuTTMuFfEtqJvNCV5en-Hth7S4jajtw1TCc4ng_1Skv1guW3Q>
+    <xmx:gZQaZjdINq4Bc428pIqVNg_Q1h04V5PiTeabTcISyQ1ytR6VSvuepw>
+    <xmx:gZQaZr3FmLedeJ6cUE7m3kgM3PKVXO_Pzru_PWBjzwMoH8sAc2iknQ>
+    <xmx:gZQaZv-QjRC_izJkAAap0baC9YZ4wOWbhPMjmFINaJwPtGoUM_pCdg>
+    <xmx:gZQaZq6gGrpjb_o84MErWg1v0BwD5a5lYsqc1JvndaKOHM98zrAB9dAO>
 Feedback-ID: i80c9496c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
- 13 Apr 2024 10:19:41 -0400 (EDT)
+ 13 Apr 2024 10:19:44 -0400 (EDT)
 From: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
 To: Geert Uytterhoeven <geert+renesas@glider.be>,
 	Rob Herring <robh+dt@kernel.org>,
@@ -88,10 +90,12 @@ To: Geert Uytterhoeven <geert+renesas@glider.be>,
 	linux-renesas-soc@vger.kernel.org,
 	devicetree@vger.kernel.org
 Cc: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Subject: [PATCH v3 0/2] arm64: dts: renesas: white-hawk: Add AVB1 and AVB2
-Date: Sat, 13 Apr 2024 16:18:04 +0200
-Message-ID: <20240413141806.300989-1-niklas.soderlund+renesas@ragnatech.se>
+Subject: [PATCH v3 1/2] arm64: dts: renesas: r8a779g0: Use MDIO node for all AVB devices
+Date: Sat, 13 Apr 2024 16:18:05 +0200
+Message-ID: <20240413141806.300989-2-niklas.soderlund+renesas@ragnatech.se>
 X-Mailer: git-send-email 2.44.0
+In-Reply-To: <20240413141806.300989-1-niklas.soderlund+renesas@ragnatech.se>
+References: <20240413141806.300989-1-niklas.soderlund+renesas@ragnatech.se>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -101,29 +105,88 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Hello Geert,
+Switch from defining the PHY inside the AVB node itself and create a
+dedicated MDIO node for AVB0, the only AVB describing a PHY. This is
+needed as adding PHYs to AVB1 and AVB2 will require setting MDIO bus
+parapets and thus requires a dedicated node.
 
-This small series describes the AVB1 and AVB2 found on White-Hawk.
+Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+---
+* Changes since v2
+- New in v2.
+---
+ arch/arm64/boot/dts/renesas/r8a779g0.dtsi     |  6 -----
+ .../dts/renesas/white-hawk-cpu-common.dtsi    | 23 +++++++++++--------
+ 2 files changed, 14 insertions(+), 15 deletions(-)
 
-Patch 1/2 prepares the AVB base nodes for r8a779g0 to use a dedicated 
-MDIO node and switches to use this for AVB0, which is the only node who 
-currently describes a PHY. The driver and binding change needed to use a 
-MDIO node are merged in net-next already.
-
-Patch 2/2 add the description for AVB1 and AVB2 found on the Ethernet 
-sub-board.
-
-See individual patch for change log.
-
-Niklas Söderlund (2):
-  arm64: dts: renesas: r8a779g0: Use MDIO node for all AVB devices
-  arm64: dts: renesas: white-hawk: ethernet: Describe AVB1 and AVB2
-
- arch/arm64/boot/dts/renesas/r8a779g0.dtsi     |   6 -
- .../dts/renesas/white-hawk-cpu-common.dtsi    |  23 ++--
- .../boot/dts/renesas/white-hawk-ethernet.dtsi | 103 ++++++++++++++++++
- 3 files changed, 117 insertions(+), 15 deletions(-)
-
+diff --git a/arch/arm64/boot/dts/renesas/r8a779g0.dtsi b/arch/arm64/boot/dts/renesas/r8a779g0.dtsi
+index 9bc542bc6169..2ee306305d83 100644
+--- a/arch/arm64/boot/dts/renesas/r8a779g0.dtsi
++++ b/arch/arm64/boot/dts/renesas/r8a779g0.dtsi
+@@ -815,8 +815,6 @@ avb0: ethernet@e6800000 {
+ 			phy-mode = "rgmii";
+ 			rx-internal-delay-ps = <0>;
+ 			tx-internal-delay-ps = <0>;
+-			#address-cells = <1>;
+-			#size-cells = <0>;
+ 			status = "disabled";
+ 		};
+ 
+@@ -862,8 +860,6 @@ avb1: ethernet@e6810000 {
+ 			phy-mode = "rgmii";
+ 			rx-internal-delay-ps = <0>;
+ 			tx-internal-delay-ps = <0>;
+-			#address-cells = <1>;
+-			#size-cells = <0>;
+ 			status = "disabled";
+ 		};
+ 
+@@ -909,8 +905,6 @@ avb2: ethernet@e6820000 {
+ 			phy-mode = "rgmii";
+ 			rx-internal-delay-ps = <0>;
+ 			tx-internal-delay-ps = <0>;
+-			#address-cells = <1>;
+-			#size-cells = <0>;
+ 			status = "disabled";
+ 		};
+ 
+diff --git a/arch/arm64/boot/dts/renesas/white-hawk-cpu-common.dtsi b/arch/arm64/boot/dts/renesas/white-hawk-cpu-common.dtsi
+index 8ac17370ff36..b671bfab049b 100644
+--- a/arch/arm64/boot/dts/renesas/white-hawk-cpu-common.dtsi
++++ b/arch/arm64/boot/dts/renesas/white-hawk-cpu-common.dtsi
+@@ -142,18 +142,23 @@ reg_3p3v: regulator-3p3v {
+ &avb0 {
+ 	pinctrl-0 = <&avb0_pins>;
+ 	pinctrl-names = "default";
+-	phy-handle = <&phy0>;
++	phy-handle = <&avb0_phy>;
+ 	tx-internal-delay-ps = <2000>;
+ 	status = "okay";
+ 
+-	phy0: ethernet-phy@0 {
+-		compatible = "ethernet-phy-id0022.1622",
+-			     "ethernet-phy-ieee802.3-c22";
+-		rxc-skew-ps = <1500>;
+-		reg = <0>;
+-		interrupt-parent = <&gpio7>;
+-		interrupts = <5 IRQ_TYPE_LEVEL_LOW>;
+-		reset-gpios = <&gpio7 10 GPIO_ACTIVE_LOW>;
++	mdio {
++		#address-cells = <1>;
++		#size-cells = <0>;
++
++		avb0_phy: ethernet-phy@0 {
++			compatible = "ethernet-phy-id0022.1622",
++				     "ethernet-phy-ieee802.3-c22";
++			rxc-skew-ps = <1500>;
++			reg = <0>;
++			interrupt-parent = <&gpio7>;
++			interrupts = <5 IRQ_TYPE_LEVEL_LOW>;
++			reset-gpios = <&gpio7 10 GPIO_ACTIVE_LOW>;
++		};
+ 	};
+ };
+ 
 -- 
 2.44.0
 
