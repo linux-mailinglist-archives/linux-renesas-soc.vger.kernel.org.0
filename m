@@ -1,134 +1,65 @@
-Return-Path: <linux-renesas-soc+bounces-4568-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-4569-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09C678A3D44
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 13 Apr 2024 17:18:07 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id DB2948A3DAA
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 13 Apr 2024 18:21:04 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2A7421C20B15
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 13 Apr 2024 15:18:06 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 91D991F219D5
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 13 Apr 2024 16:21:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9B6AC4776E;
-	Sat, 13 Apr 2024 15:16:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ACC8D4C637;
+	Sat, 13 Apr 2024 16:20:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="zO9prDnS"
+	dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="JbdgBJqb"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
+Received: from smtp.smtpout.orange.fr (smtp-26.smtpout.orange.fr [80.12.242.26])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73E8952F61
-	for <linux-renesas-soc@vger.kernel.org>; Sat, 13 Apr 2024 15:16:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6ECF91CD0C;
+	Sat, 13 Apr 2024 16:20:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.12.242.26
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713021414; cv=none; b=MRaJtHx0t56P3UF2JHslFNEBhn1Z3VBCHRJE5HW7/4Sbou/3BR0mJnsxNDy2ljq0EHLs1zKHxk/HSgpVuPoQly2Gr7fAxcBmLmOaEesFWh+35fRKyCjqQnobtyv6Rp4ysHc0gFkuEg9glQKZutBPHoszjBrNqKITLTWn7pizVRE=
+	t=1713025258; cv=none; b=nz0VVdnP6XHSshq61Tj7K7Iq9QcrnoXxWmpyd0l4SYkgIUg5+E5YgjzyHnX7uu+7lsQjUcf1z9HNiS7ped4YhpMdNmBujLlJwlBa4j1URtMVHXQ5SMC9X3uvxSlntSuQBP/+v9iXsZrDCpUPU3aKPBGHqaM1aKNG7BMEys/1UUk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713021414; c=relaxed/simple;
-	bh=cFWp70sx3tMkTUxQbFvRrHb6KCDa5fBTXCWoL899f+0=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=UClftpO9SouQWsxyK76mhxG0n7stnKasiVbjK0CmCRwro+BT4DNg+Sk4olugShxKjC2CTxHM8HdtX/TO/pFMuajrTZtcx+cqVJUGsxrzECAvRiSOMgbbPrqWL++uCJcH8QpDWdq5bad/0CGcUPetaRq0tPygLfZkCfEuhs0WCpk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=zO9prDnS; arc=none smtp.client-ip=209.85.208.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-56e2c1650d8so1699774a12.0
-        for <linux-renesas-soc@vger.kernel.org>; Sat, 13 Apr 2024 08:16:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1713021410; x=1713626210; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=neBvhCn+WPQ4h/ZjCZEYGqL+71G8ilgcVWxHofmS/s8=;
-        b=zO9prDnSTpxuSgaq4Jm0MYfj2B7bBxFYN+oqXinpYuj8hsf2CUWwoLMSgC/Uz8ddjV
-         zhltJjdiMYKvjPghjrVbyo5xfkURZvGqPlrsGaNEkDDm7zmRRVpyjaE8kVbMCa4RKC0L
-         0W5bJVPcbZ//bV7FfOJFTfIRL9j7mHqsXru3ymAzDCqR0D5eX+hU82dfCULIk5N/jy2/
-         MqFCvz4XXUFZVIG16HeCE45yZ/xiuemnLfjUmIgGB7axaSK/0XDV04XSE6cbPOYMtVyH
-         xaVPqqX6X/0irCcjeqfBkTLtykXDjKwTmXYyJ2VfS0Svci4kdVKZwAd0h8KxpfnewNZL
-         gkMQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713021410; x=1713626210;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=neBvhCn+WPQ4h/ZjCZEYGqL+71G8ilgcVWxHofmS/s8=;
-        b=TcEmNTjs5GXwIPRmc7goZP53AQeCU4it4FXcAC2prGl3Enr9bBKteh+SYbzc3jzPfR
-         O00dY3ASJlaKD+PhbYdi9OL0o2LiT+2XS2ch2EKytUtoh7wQ8bPXMAZ+RSu+Gr41Jnia
-         bneQO9D/PQ6Bdp1qN5juSHEip5jFqO34vFxvWAxdQNRBH8uD7P8urkumkACFtBZJ7Zr1
-         RENuyCWHDiwc4WMeV1lbfquHBHXGD3s5mPX1w9uS0sEVMpjCdVOixq5uHxBCNGn7ozaU
-         rn9vxWsweAXvHSP6kA5wjVrWRyk5eOU81Vrd498W5mV3S7KcjxKShpEtwRUFytHooDX4
-         xbIQ==
-X-Forwarded-Encrypted: i=1; AJvYcCX84GsFNM9DJnbRf3FIF4pj7UleWZEccgnLxWAKPtz6EzuxIE9os5E1zOPiShAvKMB93abTH/7Se4XDGiy2od3DcjbA/XKOHP22418VOG1Sats=
-X-Gm-Message-State: AOJu0Yyf1gCUBGqxvK1QmXe9oVLG1w5O8ZGkB1sY6Uvd7tCxGtq1FSBp
-	P8u9+/g2iRGKJ9o9ND07ePfMPKsGRjaG5WrpPwkbMdNIWxISCcVjGMh9ONcunSQ=
-X-Google-Smtp-Source: AGHT+IGKb7AoZ69n1AqRbU82SfLvRprWHXeXmnEazQwF4CPLBoqjFQPXhLvrbO4PedaeR1TSm2No+g==
-X-Received: by 2002:a17:907:7f03:b0:a51:b1a2:80bb with SMTP id qf3-20020a1709077f0300b00a51b1a280bbmr3648935ejc.28.1713021409795;
-        Sat, 13 Apr 2024 08:16:49 -0700 (PDT)
-Received: from krzk-bin.. ([178.197.223.16])
-        by smtp.gmail.com with ESMTPSA id kj15-20020a170907764f00b00a51a60bf400sm3104956ejc.76.2024.04.13.08.16.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 13 Apr 2024 08:16:49 -0700 (PDT)
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-To: Bjorn Helgaas <bhelgaas@google.com>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	=?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kw@linux.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Hector Martin <marcan@marcan.st>,
-	Sven Peter <sven@svenpeter.dev>,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Ray Jui <rjui@broadcom.com>,
-	Scott Branden <sbranden@broadcom.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Jim Quinlan <jim2101024@gmail.com>,
-	Nicolas Saenz Julienne <nsaenz@kernel.org>,
-	Will Deacon <will@kernel.org>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Srikanth Thokala <srikanth.thokala@intel.com>,
-	Ryder Lee <ryder.lee@mediatek.com>,
-	Jianjun Wang <jianjun.wang@mediatek.com>,
-	Sergio Paracuellos <sergio.paracuellos@gmail.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Daire McNamara <daire.mcnamara@microchip.com>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konrad.dybcio@linaro.org>,
-	Marek Vasut <marek.vasut+renesas@gmail.com>,
-	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-	Shawn Lin <shawn.lin@rock-chips.com>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Jingoo Han <jingoohan1@gmail.com>,
-	Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
-	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-	Bharat Kumar Gogada <bharat.kumar.gogada@amd.com>,
-	Michal Simek <michal.simek@amd.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Mark Kettenis <kettenis@openbsd.org>,
-	Tom Joseph <tjoseph@cadence.com>,
-	Ahmad Zainie <wan.ahmad.zainie.wan.mohamad@intel.com>,
-	Jiaxun Yang <jiaxun.yang@flygoat.com>,
-	Kishon Vijay Abraham I <kishon@kernel.org>,
-	Thippeswamy Havalige <thippeswamy.havalige@amd.com>,
-	linux-pci@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	asahi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-rpi-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org,
-	linux-arm-msm@vger.kernel.org,
+	s=arc-20240116; t=1713025258; c=relaxed/simple;
+	bh=417b/9d43ngFcbNVrFBgM4rmbkWOa98VnzaLc1bwHFg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=SBcuHzgsoWV4jJYtx3pPX1e3HKymjWU67XbreaS62kxiewU17HFx5gC/ilaeWYN9qta8C5Ieeds38SaGlmcFX1lGlZZqil0VVkpHN4RqwcHcikU5xUpdZOHB2cccghYdLBXqtZzV7K7BOpH0qhxgeEWatn/asBO5E2AvEx8gcxI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr; spf=pass smtp.mailfrom=wanadoo.fr; dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b=JbdgBJqb; arc=none smtp.client-ip=80.12.242.26
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wanadoo.fr
+Received: from fedora.home ([86.243.17.157])
+	by smtp.orange.fr with ESMTPA
+	id vg6RrrzjkO6CFvg6RrPV6e; Sat, 13 Apr 2024 18:19:44 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
+	s=t20230301; t=1713025184;
+	bh=rLizR9RhE9tMh50jc6ZMXVKjpOwIq/OMFzbiVdRM4Js=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version;
+	b=JbdgBJqbvKLNmKlYXZ3QW99hVCWnpC6aB3SbBqhK3IQckB7U3u2pHv7Plng+RHEYD
+	 TRtdq5LVqNbjddwKgebQPb63sDFxjGFJ4bAxd0SzGtqwMo2SN/sJ45N0SSeUkLUpx2
+	 OP/msNKXsviqq9mKEkXCVShGFTa6Mg+JOzlhUBmPTiVaeAj/CVJi9yNj2UpHIxKUsj
+	 UIdeDqjYbP/kFu/R/6kQntdkg93fRdClcDkc9x9JdWUY5CT0Qtdf7d0d1YBLWnxv5e
+	 HM3YlFkWnTmyw5QFo6NGuOk+PI8NsL3sq3p4MVBXOXgnj4fEhMc9ho2tt41oTF5AVU
+	 PWcEY0eysMo6w==
+X-ME-Helo: fedora.home
+X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
+X-ME-Date: Sat, 13 Apr 2024 18:19:44 +0200
+X-ME-IP: 86.243.17.157
+From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+To: Geert Uytterhoeven <geert+renesas@glider.be>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>
+Cc: linux-kernel@vger.kernel.org,
+	kernel-janitors@vger.kernel.org,
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
 	linux-renesas-soc@vger.kernel.org,
-	linux-rockchip@lists.infradead.org
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH v3 4/4] dt-bindings: PCI: mediatek,mt7621-pcie: switch from deprecated pci-bus.yaml
-Date: Sat, 13 Apr 2024 17:16:17 +0200
-Message-Id: <20240413151617.35630-4-krzysztof.kozlowski@linaro.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240413151617.35630-1-krzysztof.kozlowski@linaro.org>
-References: <20240413151617.35630-1-krzysztof.kozlowski@linaro.org>
+	linux-clk@vger.kernel.org
+Subject: [PATCH] clk: renesas: r8a7740: Remove an unused field in struct div4_clk
+Date: Sat, 13 Apr 2024 18:19:40 +0200
+Message-ID: <658e6b1b23d5b66646bb830361b8c55ccf797771.1713025170.git.christophe.jaillet@wanadoo.fr>
+X-Mailer: git-send-email 2.44.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -137,57 +68,65 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-dtschema package with core schemas deprecated pci-bus.yaml schema in
-favor of individual schemas per host, device and pci-pci.
+In "struct div4_clk", the 'flags' field is unused.
 
-Switch Mediatek MT7621 PCIe host bridge binding to this new schema.
+Remove it and update the 'div4_clks' array accordingly.
 
-This requires dtschema package newer than v2024.02 to work fully.
-v2024.02 will partially work: with a warning.
+Found with cppcheck, unusedStructMember.
 
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-
+Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
 ---
+Compile tested only.
 
-Important: This depends on change recently merged to dtschema, however
-no release was yet made with mentioned change.
-Therefore this patch probably should wait a bit. Previous patches do not
-depend anyhow on future release, so they can be taken as is.
+Apparently, it has never been used. It is not a left-over from a
+refactoring. I don't if it is supposed to be used somewhere in the driver.
 
-Changes in v3:
-1. None
-
-Changes in v2:
-1. New patch
-2. Split mediatek,mt7621-pcie to separate patch as it uses
-   pci-pci-bridge schema.
+Should it help the review, renesas/clk-r8a73a4.c has a very similar
+construction and also a struct div4_clk without this 'flags' field.
 ---
- .../devicetree/bindings/pci/mediatek,mt7621-pcie.yaml         | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/clk/renesas/clk-r8a7740.c | 25 ++++++++++++-------------
+ 1 file changed, 12 insertions(+), 13 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/pci/mediatek,mt7621-pcie.yaml b/Documentation/devicetree/bindings/pci/mediatek,mt7621-pcie.yaml
-index 61d027239910..6fba42156db6 100644
---- a/Documentation/devicetree/bindings/pci/mediatek,mt7621-pcie.yaml
-+++ b/Documentation/devicetree/bindings/pci/mediatek,mt7621-pcie.yaml
-@@ -14,7 +14,7 @@ description: |+
-   with 3 Root Ports. Each Root Port supports a Gen1 1-lane Link
+diff --git a/drivers/clk/renesas/clk-r8a7740.c b/drivers/clk/renesas/clk-r8a7740.c
+index 3ee3f57e4e9a..325394b6e55e 100644
+--- a/drivers/clk/renesas/clk-r8a7740.c
++++ b/drivers/clk/renesas/clk-r8a7740.c
+@@ -32,22 +32,21 @@ struct div4_clk {
+ 	const char *name;
+ 	unsigned int reg;
+ 	unsigned int shift;
+-	int flags;
+ };
  
- allOf:
--  - $ref: /schemas/pci/pci-bus.yaml#
-+  - $ref: /schemas/pci/pci-host-bridge.yaml#
+ static struct div4_clk div4_clks[] = {
+-	{ "i", CPG_FRQCRA, 20, CLK_ENABLE_ON_INIT },
+-	{ "zg", CPG_FRQCRA, 16, CLK_ENABLE_ON_INIT },
+-	{ "b", CPG_FRQCRA,  8, CLK_ENABLE_ON_INIT },
+-	{ "m1", CPG_FRQCRA,  4, CLK_ENABLE_ON_INIT },
+-	{ "hp", CPG_FRQCRB,  4, 0 },
+-	{ "hpp", CPG_FRQCRC, 20, 0 },
+-	{ "usbp", CPG_FRQCRC, 16, 0 },
+-	{ "s", CPG_FRQCRC, 12, 0 },
+-	{ "zb", CPG_FRQCRC,  8, 0 },
+-	{ "m3", CPG_FRQCRC,  4, 0 },
+-	{ "cp", CPG_FRQCRC,  0, 0 },
+-	{ NULL, 0, 0, 0 },
++	{ "i", CPG_FRQCRA, 20 },
++	{ "zg", CPG_FRQCRA, 16 },
++	{ "b", CPG_FRQCRA,  8 },
++	{ "m1", CPG_FRQCRA,  4 },
++	{ "hp", CPG_FRQCRB,  4 },
++	{ "hpp", CPG_FRQCRC, 20 },
++	{ "usbp", CPG_FRQCRC, 16 },
++	{ "s", CPG_FRQCRC, 12 },
++	{ "zb", CPG_FRQCRC,  8 },
++	{ "m3", CPG_FRQCRC,  4 },
++	{ "cp", CPG_FRQCRC,  0 },
++	{ NULL, 0, 0 },
+ };
  
- properties:
-   compatible:
-@@ -33,7 +33,7 @@ properties:
- patternProperties:
-   '^pcie@[0-2],0$':
-     type: object
--    $ref: /schemas/pci/pci-bus.yaml#
-+    $ref: /schemas/pci/pci-pci-bridge.yaml#
- 
-     properties:
-       reg:
+ static const struct clk_div_table div4_div_table[] = {
 -- 
-2.34.1
+2.44.0
 
 
