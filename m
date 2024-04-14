@@ -1,132 +1,193 @@
-Return-Path: <linux-renesas-soc+bounces-4569-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-4570-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB2948A3DAA
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 13 Apr 2024 18:21:04 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id CBAD98A41EF
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 14 Apr 2024 12:52:05 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 91D991F219D5
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 13 Apr 2024 16:21:04 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id EF4571C202DC
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 14 Apr 2024 10:52:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id ACC8D4C637;
-	Sat, 13 Apr 2024 16:20:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1CABA2E657;
+	Sun, 14 Apr 2024 10:52:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="JbdgBJqb"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="CWaP99Nr"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.smtpout.orange.fr (smtp-26.smtpout.orange.fr [80.12.242.26])
+Received: from mail-oo1-f47.google.com (mail-oo1-f47.google.com [209.85.161.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6ECF91CD0C;
-	Sat, 13 Apr 2024 16:20:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.12.242.26
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9907F2E633
+	for <linux-renesas-soc@vger.kernel.org>; Sun, 14 Apr 2024 10:52:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713025258; cv=none; b=nz0VVdnP6XHSshq61Tj7K7Iq9QcrnoXxWmpyd0l4SYkgIUg5+E5YgjzyHnX7uu+7lsQjUcf1z9HNiS7ped4YhpMdNmBujLlJwlBa4j1URtMVHXQ5SMC9X3uvxSlntSuQBP/+v9iXsZrDCpUPU3aKPBGHqaM1aKNG7BMEys/1UUk=
+	t=1713091922; cv=none; b=SCubUuxDwV0/V7+fy0CTYIN5VVhi3ejaBA9Y3GZ9kXopUIgcm8tTwYeAvAweLRwJipzy2w2sTdweyEHEABgglLEKB26Bc7xPAQMAgFYvrq1MTb8r5dtE5KGHMts8rms/vhaK8YffZTnUVRUCPdPMwNvSrmZmVTEkFCg5tPEPOG8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713025258; c=relaxed/simple;
-	bh=417b/9d43ngFcbNVrFBgM4rmbkWOa98VnzaLc1bwHFg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=SBcuHzgsoWV4jJYtx3pPX1e3HKymjWU67XbreaS62kxiewU17HFx5gC/ilaeWYN9qta8C5Ieeds38SaGlmcFX1lGlZZqil0VVkpHN4RqwcHcikU5xUpdZOHB2cccghYdLBXqtZzV7K7BOpH0qhxgeEWatn/asBO5E2AvEx8gcxI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr; spf=pass smtp.mailfrom=wanadoo.fr; dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b=JbdgBJqb; arc=none smtp.client-ip=80.12.242.26
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wanadoo.fr
-Received: from fedora.home ([86.243.17.157])
-	by smtp.orange.fr with ESMTPA
-	id vg6RrrzjkO6CFvg6RrPV6e; Sat, 13 Apr 2024 18:19:44 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
-	s=t20230301; t=1713025184;
-	bh=rLizR9RhE9tMh50jc6ZMXVKjpOwIq/OMFzbiVdRM4Js=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version;
-	b=JbdgBJqbvKLNmKlYXZ3QW99hVCWnpC6aB3SbBqhK3IQckB7U3u2pHv7Plng+RHEYD
-	 TRtdq5LVqNbjddwKgebQPb63sDFxjGFJ4bAxd0SzGtqwMo2SN/sJ45N0SSeUkLUpx2
-	 OP/msNKXsviqq9mKEkXCVShGFTa6Mg+JOzlhUBmPTiVaeAj/CVJi9yNj2UpHIxKUsj
-	 UIdeDqjYbP/kFu/R/6kQntdkg93fRdClcDkc9x9JdWUY5CT0Qtdf7d0d1YBLWnxv5e
-	 HM3YlFkWnTmyw5QFo6NGuOk+PI8NsL3sq3p4MVBXOXgnj4fEhMc9ho2tt41oTF5AVU
-	 PWcEY0eysMo6w==
-X-ME-Helo: fedora.home
-X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
-X-ME-Date: Sat, 13 Apr 2024 18:19:44 +0200
-X-ME-IP: 86.243.17.157
-From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-To: Geert Uytterhoeven <geert+renesas@glider.be>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>
-Cc: linux-kernel@vger.kernel.org,
-	kernel-janitors@vger.kernel.org,
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-	linux-renesas-soc@vger.kernel.org,
-	linux-clk@vger.kernel.org
-Subject: [PATCH] clk: renesas: r8a7740: Remove an unused field in struct div4_clk
-Date: Sat, 13 Apr 2024 18:19:40 +0200
-Message-ID: <658e6b1b23d5b66646bb830361b8c55ccf797771.1713025170.git.christophe.jaillet@wanadoo.fr>
-X-Mailer: git-send-email 2.44.0
+	s=arc-20240116; t=1713091922; c=relaxed/simple;
+	bh=Fskwbnc4cdeRPyqLU32Z5qy2jXRijiOAUXtekazEu2U=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=UpvKcHkIcKo8QfrT5nuaKHPllJhqjWXeQFJcOHO1J04Nv9ydOHM+XQ8rwi7zvAZnVeGhY8rV34tkAC6cxVUXOGjHZpkzzO7ZZvjY4aOLY1dv1L6HahRYjYLuSKY46OhVg2ZatEfVPOORxc0wS7hA1iNWZf7o8KUmSdMLE6vj1mY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=CWaP99Nr; arc=none smtp.client-ip=209.85.161.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-oo1-f47.google.com with SMTP id 006d021491bc7-5aa20adda1dso1963348eaf.1
+        for <linux-renesas-soc@vger.kernel.org>; Sun, 14 Apr 2024 03:52:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1713091920; x=1713696720; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=z86tADjA34jPDvp0sH69LSJjWH6CGCLDMrpq88/Jt4c=;
+        b=CWaP99NrQRXk3iFK/wgoPbgyUyGNFKCr4YFHVgLI5kt74TfD3aPIvUhRxQY35Y72gr
+         8US1fOCunZipK17hTN/LOMXEdlxau01EEf07VFTwJvlw3ts18vKMRyQ8LpQOU19oQYhD
+         lOQcO/ev3XiUEttz4LZOXi8DicZ9/bpTUpAO3tM5HiY3kYzQLnhKkZGlTKPb3+axyWtb
+         L7BbkVoyNfRPHCY+51XaJ4kWSuK5GRTPbpDr2N3drgzT7KO0mJ1PnbDSKJrQx04ySfmL
+         hcuq/+Ncj6C+V+qaDlmdU1nfDW3po9kZiKu3LAl4VWu1iSZY+uiCsB8KPQgDFlMt0MT1
+         1NZw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1713091920; x=1713696720;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=z86tADjA34jPDvp0sH69LSJjWH6CGCLDMrpq88/Jt4c=;
+        b=QaM/ro2zMLHaFwTuYcDxGnLMG/11kP5HfKxogEboDj/o50xjcLep/0OURahMelmEIB
+         K8dYRMlbfuwBSh03rVXdTJUqPjQs5FLeehfyS2ahUmxLavIGfr5YmZVyOrH3907g4/fp
+         8PmIi7Cv9qFzWeNDzgFQqaW1mXlOVtPx+bcwQ8L6Iza5SRwOjFQHNzUCY/E+GybtoOPX
+         Rrxv6+1rvHNE7tk4ctyp1kg9LW8qx6ADXOlIgUt2BewJCGhkf4uAilCj2duuoAusx3XI
+         atFSxwOfJBy/q2zjRxQ4WJM5cSPorrbtTamwILfXQ8n4su32bOzg597camiNga2hALe5
+         xRmQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVXaZBcroP6jErCU1OKSgFa66DltJm3kxA3eoc7TIWgZ+kT5oJtF9RbucODhcj6xVwKwheH7keHreQHyylfHli1YCnnLVhZpsnV4agx5BECyBA=
+X-Gm-Message-State: AOJu0Yw8q/uFYcUI/bnT3fLCrYWdc8gQy6tH5cHx992sNq5giK9p5xC/
+	UGBurT4erfSemkDlTAeec7fCang2J1RaEI4AomXm09yJdYh/yC4odCVQEYwpYQ==
+X-Google-Smtp-Source: AGHT+IHG73jN0JyTXE5YMG9IYvVbYRtG5PEk5LWJ00N9WZxttyYSYCMKrPxspcM2aGpT1bTva1r7xA==
+X-Received: by 2002:a05:6808:218c:b0:3c5:eddb:47c1 with SMTP id be12-20020a056808218c00b003c5eddb47c1mr9182957oib.5.1713091919486;
+        Sun, 14 Apr 2024 03:51:59 -0700 (PDT)
+Received: from thinkpad ([120.60.136.171])
+        by smtp.gmail.com with ESMTPSA id im22-20020a170902bb1600b001dcfaf4db22sm5944167plb.2.2024.04.14.03.51.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 14 Apr 2024 03:51:59 -0700 (PDT)
+Date: Sun, 14 Apr 2024 16:21:48 +0530
+From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+To: Bjorn Helgaas <helgaas@kernel.org>
+Cc: Jingoo Han <jingoohan1@gmail.com>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
+	Rob Herring <robh@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+	Marek Vasut <marek.vasut+renesas@gmail.com>,
+	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Vidya Sagar <vidyas@nvidia.com>,
+	Vignesh Raghavendra <vigneshr@ti.com>,
+	Richard Zhu <hongxing.zhu@nxp.com>,
+	Lucas Stach <l.stach@pengutronix.de>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	NXP Linux Team <linux-imx@nxp.com>,
+	Minghuan Lian <minghuan.Lian@nxp.com>,
+	Mingkai Hu <mingkai.hu@nxp.com>, Roy Zang <roy.zang@nxp.com>,
+	Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Kishon Vijay Abraham I <kishon@kernel.org>,
+	Jesper Nilsson <jesper.nilsson@axis.com>,
+	Srikanth Thokala <srikanth.thokala@intel.com>,
+	Shawn Lin <shawn.lin@rock-chips.com>,
+	Heiko Stuebner <heiko@sntech.de>, linux-pci@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org, linux-tegra@vger.kernel.org,
+	linux-omap@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linuxppc-dev@lists.ozlabs.org, Niklas Cassel <cassel@kernel.org>,
+	linux-arm-kernel@axis.com, linux-rockchip@lists.infradead.org
+Subject: Re: [PATCH v12 8/8] PCI: endpoint: Remove "core_init_notifier" flag
+Message-ID: <20240414105148.GC2294@thinkpad>
+References: <20240327-pci-dbi-rework-v12-8-082625472414@linaro.org>
+ <20240412202216.GA14590@bhelgaas>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240412202216.GA14590@bhelgaas>
 
-In "struct div4_clk", the 'flags' field is unused.
+On Fri, Apr 12, 2024 at 03:22:16PM -0500, Bjorn Helgaas wrote:
+> On Wed, Mar 27, 2024 at 02:43:37PM +0530, Manivannan Sadhasivam wrote:
+> > "core_init_notifier" flag is set by the glue drivers requiring refclk from
+> > the host to complete the DWC core initialization. Also, those drivers will
+> > send a notification to the EPF drivers once the initialization is fully
+> > completed using the pci_epc_init_notify() API. Only then, the EPF drivers
+> > will start functioning.
+> > 
+> > For the rest of the drivers generating refclk locally, EPF drivers will
+> > start functioning post binding with them. EPF drivers rely on the
+> > 'core_init_notifier' flag to differentiate between the drivers.
+> > Unfortunately, this creates two different flows for the EPF drivers.
+> > 
+> > So to avoid that, let's get rid of the "core_init_notifier" flag and follow
+> > a single initialization flow for the EPF drivers. This is done by calling
+> > the dw_pcie_ep_init_notify() from all glue drivers after the completion of
+> > dw_pcie_ep_init_registers() API. This will allow all the glue drivers to
+> > send the notification to the EPF drivers once the initialization is fully
+> > completed.
+> 
+> Thanks for doing this!  I think this is a significantly nicer
+> solution than core_init_notifier was.
+> 
+> One question: both qcom and tegra194 call dw_pcie_ep_init_registers()
+> from an interrupt handler, but they register that handler in a
+> different order with respect to dw_pcie_ep_init().
+> 
+> I don't know what actually starts the process that leads to the
+> interrupt, but if it's dw_pcie_ep_init(), then one of these (qcom, I
+> think) must be racy:
+> 
 
-Remove it and update the 'div4_clks' array accordingly.
+Your analysis is correct. But there is no race observed as of now since the IRQ
+will only be enabled by configuring the endpoint using configfs interface and
+right now I use an init script to do that. By that time, the driver would've
+already probed completely.
 
-Found with cppcheck, unusedStructMember.
+But there is a slight chance that if the driver gets loaded as a module and the
+userspace script starts configuring the endpoint interface using inotify watch
+or something similar, then race could occur since the IRQ handler may not be
+registered at that point.
 
-Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
----
-Compile tested only.
+>   qcom_pcie_ep_probe
+>     dw_pcie_ep_init                                             <- A
+>     qcom_pcie_ep_enable_irq_resources
+>       devm_request_threaded_irq(qcom_pcie_ep_perst_irq_thread)  <- B
+> 
+>   qcom_pcie_ep_perst_irq_thread
+>     qcom_pcie_perst_deassert
+>       dw_pcie_ep_init_registers
+> 
+>   tegra_pcie_dw_probe
+>     tegra_pcie_config_ep
+>       devm_request_threaded_irq(tegra_pcie_ep_pex_rst_irq)      <- B
+>       dw_pcie_ep_init                                           <- A
+> 
+>   tegra_pcie_ep_pex_rst_irq
+>     pex_ep_event_pex_rst_deassert
+>       dw_pcie_ep_init_registers
+> 
+> Whatever the right answer is, I think qcom and tegra194 should both
+> order dw_pcie_ep_init() and the devm_request_threaded_irq() the same
+> way.
+> 
 
-Apparently, it has never been used. It is not a left-over from a
-refactoring. I don't if it is supposed to be used somewhere in the driver.
+Agree. The right way is to register the IRQ handler first and then do
+dw_pcie_ep_init(). I will fix it in the qcom driver.
 
-Should it help the review, renesas/clk-r8a73a4.c has a very similar
-construction and also a struct div4_clk without this 'flags' field.
----
- drivers/clk/renesas/clk-r8a7740.c | 25 ++++++++++++-------------
- 1 file changed, 12 insertions(+), 13 deletions(-)
+Thanks for spotting!
 
-diff --git a/drivers/clk/renesas/clk-r8a7740.c b/drivers/clk/renesas/clk-r8a7740.c
-index 3ee3f57e4e9a..325394b6e55e 100644
---- a/drivers/clk/renesas/clk-r8a7740.c
-+++ b/drivers/clk/renesas/clk-r8a7740.c
-@@ -32,22 +32,21 @@ struct div4_clk {
- 	const char *name;
- 	unsigned int reg;
- 	unsigned int shift;
--	int flags;
- };
- 
- static struct div4_clk div4_clks[] = {
--	{ "i", CPG_FRQCRA, 20, CLK_ENABLE_ON_INIT },
--	{ "zg", CPG_FRQCRA, 16, CLK_ENABLE_ON_INIT },
--	{ "b", CPG_FRQCRA,  8, CLK_ENABLE_ON_INIT },
--	{ "m1", CPG_FRQCRA,  4, CLK_ENABLE_ON_INIT },
--	{ "hp", CPG_FRQCRB,  4, 0 },
--	{ "hpp", CPG_FRQCRC, 20, 0 },
--	{ "usbp", CPG_FRQCRC, 16, 0 },
--	{ "s", CPG_FRQCRC, 12, 0 },
--	{ "zb", CPG_FRQCRC,  8, 0 },
--	{ "m3", CPG_FRQCRC,  4, 0 },
--	{ "cp", CPG_FRQCRC,  0, 0 },
--	{ NULL, 0, 0, 0 },
-+	{ "i", CPG_FRQCRA, 20 },
-+	{ "zg", CPG_FRQCRA, 16 },
-+	{ "b", CPG_FRQCRA,  8 },
-+	{ "m1", CPG_FRQCRA,  4 },
-+	{ "hp", CPG_FRQCRB,  4 },
-+	{ "hpp", CPG_FRQCRC, 20 },
-+	{ "usbp", CPG_FRQCRC, 16 },
-+	{ "s", CPG_FRQCRC, 12 },
-+	{ "zb", CPG_FRQCRC,  8 },
-+	{ "m3", CPG_FRQCRC,  4 },
-+	{ "cp", CPG_FRQCRC,  0 },
-+	{ NULL, 0, 0 },
- };
- 
- static const struct clk_div_table div4_div_table[] = {
+- Mani
+
 -- 
-2.44.0
-
+மணிவண்ணன் சதாசிவம்
 
