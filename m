@@ -1,200 +1,2074 @@
-Return-Path: <linux-renesas-soc+bounces-4573-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-4574-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D63B8A4240
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 14 Apr 2024 14:21:39 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 664348A42BB
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 14 Apr 2024 16:01:43 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id B30AAB21243
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 14 Apr 2024 12:21:36 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 852B61C209BF
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 14 Apr 2024 14:01:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F2AE3381B9;
-	Sun, 14 Apr 2024 12:21:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 805BF524D0;
+	Sun, 14 Apr 2024 14:01:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="Fv6Nn/Ox";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="FRk0Ueop"
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="BFhOoX4H";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="ZDO1xxzD"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from wflow2-smtp.messagingengine.com (wflow2-smtp.messagingengine.com [64.147.123.137])
+Received: from wflow8-smtp.messagingengine.com (wflow8-smtp.messagingengine.com [64.147.123.143])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 387EC1E53F;
-	Sun, 14 Apr 2024 12:21:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=64.147.123.137
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66B172574B;
+	Sun, 14 Apr 2024 14:01:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=64.147.123.143
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713097290; cv=none; b=QsW34TQWP7KQHedalrsY2mpLI0YSG3IjlNktS+j+PS9nFv7RReO0J0FNGNuEDz1sccnX+r5+hU1urRJlznE8pnV9pKwgZ676Wo5XoVpAsPtf5YRzpY5aNlFF2cmP8gzcHsB7QXtLrtFU5J8QsnlGJZHDAd7GwQEMOHfSximuhG8=
+	t=1713103298; cv=none; b=tjD8xyeSMlpoQE7Iq5FF0R9rSwZN2mx+EvWGM3E9i0ir5idTHqA/5yybw+Gm2ifwINrxf1YD4s5tc3u3dZTsT7KjZ+k1HoO6pKFUamOPcEvi0wzAhidcYVhjlrVr/e171XSoT1m1EPkYh3bhHKdBDqbH5Qez0GNre60LU8TuOh8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713097290; c=relaxed/simple;
-	bh=eiHSzsxeuqiDLvRiYUbJcrgheNfEAU8yTQK2+tcSELg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=m4AwtVRwy6G6mEo65OY8fWKtDuT/JfbiLeXSanOoWd5WZyDBmImeoenseM3spfSVAd1joBW0IUogbyxLsCDaWS6QHAXVYq52Z+AbWJsizdhJ9jAcRWvaluKgVy8skFJJk2FAvA7eP0cCcrowDIRb35zQw0RTUAr/JkrsXOnXTzo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=Fv6Nn/Ox; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=FRk0Ueop; arc=none smtp.client-ip=64.147.123.137
+	s=arc-20240116; t=1713103298; c=relaxed/simple;
+	bh=Jz1UEoiC6CC9zWWNKwITdYffLGwqNUeOgcrfNhs1OWs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=OJR57FF004pILgSh6T3derAZ+eAgHZuxLX6wgc2m+kOkwZytXsXQ8ITSg+9ACe6MnxuZ7ZCoNByCRdduZ88m+O7bErHXrmbXwGXH6lqEFsIxq05BGRCPXcjXGYTHtfvUH6kaWbCMcing0S9oc1C4HOE9atIjZPhupsQ9+9FhDNo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=BFhOoX4H; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=ZDO1xxzD; arc=none smtp.client-ip=64.147.123.143
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
 Received: from compute7.internal (compute7.nyi.internal [10.202.2.48])
-	by mailflow.west.internal (Postfix) with ESMTP id 4D3D42CC027A;
-	Sun, 14 Apr 2024 08:21:26 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute7.internal (MEProxy); Sun, 14 Apr 2024 08:21:27 -0400
+	by mailflow.west.internal (Postfix) with ESMTP id 845EB2CC02AE;
+	Sun, 14 Apr 2024 10:01:31 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute7.internal (MEProxy); Sun, 14 Apr 2024 10:01:32 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
 	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm1; t=1713097285;
-	 x=1713100885; bh=iqTbHey5ppwfwHNXIVUS9WfeIhrEiC0Li38QsxFjfPI=; b=
-	Fv6Nn/OxprVLfCfgZzxQzBQ89Jk3xexHvPmmFGO7OuU4zoVN/e3v7RsPm1e/wzLY
-	5UrHWE3VwUEOP0BcZ68GSTqtNBBXY7IsdndJadq+cU4mwWCaTPKO9CKCoJM11jQ2
-	njCgH8kX/lXzAmTbnBXnHKxf8umS+HouFGDv54X03xME710TNe/sHSADBGTHIcDA
-	R4LFJVprNMle8ZqJgmQdYCQkf/eIw/S1VXI9VFEcPplt/FOL+ZGr0HMM5e+CNrr4
-	SuAFe/ziJIrsbVhWrgBW1mEFINlXSaMP3GWmtPnpR3RkZnBuCV+GPMde/vwAUGNT
-	iHb8dBGUtmBrwszl1W6bAQ==
+	:date:from:from:in-reply-to:message-id:mime-version:reply-to
+	:subject:subject:to:to; s=fm1; t=1713103291; x=1713106891; bh=aM
+	80Fa57SIonIDyc1KYihE8QoA6E5D8Ry39+aFL5lFg=; b=BFhOoX4H/cPAOrHgHP
+	sypL5OIaJ5v7MLEfqdq2ptGHvvOfx1QoREOjx5MIAW0c6LQKe8Tgsw4GlCQM+1b4
+	XkTS7Py9cNy+Bo/eBU2NUdUw+TflIlJJbxD31HxINSOY1nOZ3XuMCr32lo6reNWW
+	jhOCLQ8iWsWtDbQOt6o307X5omLdiMtyqkix8HyoJqUejhHxmorEHgOyYCpN+JKz
+	UJBGNss1Kn+ZRZNqwXVUObOH8q7idQCt3iZMaYqXYlhCjsqaJ64Yp3y8DXXTMBhM
+	S8JeIZrD31x2QdL9lKCktIy91qCm1OeUk5l9Stvz9qp/RPMKKcACQOJGPhiBxHnZ
+	ex7A==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1713097285; x=
-	1713100885; bh=iqTbHey5ppwfwHNXIVUS9WfeIhrEiC0Li38QsxFjfPI=; b=F
-	Rk0Ueopy2TlwSF3m3Ev78jdTEs7+009y4DQWBzWkvuvm637G3NX2VSQZGtx3SKca
-	S6wI3Id5SiqNTVRLxLlzhR8N6YwfKcN2aUFncH5h34FRPrr8q24Ac6VhU5GumbLe
-	Y3Itvsf5ElwGdU/jyfbZMpNxu5WL63pJKTAVIf1wpYgLleEvrItxhlLh6357sFCp
-	aBTv4KwguH8oYmf+luc5lsPvGMpvB3Omed1aSnFTipe47ASpaL16x7YFPIA+O2np
-	r5q1UUiZnDiybDpXJRoq0TPCEMoBVqZtDq82T1UF2cTi6M19KAyJpHvFOSbQA5NC
-	KEicoPdB+AmsPxPF4yzUg==
-X-ME-Sender: <xms:RcobZp7YcFvpesQ52lNV9kca8kw6M-Sc-1Fz5BcKBTNFlB_umqzIbg>
-    <xme:RcobZm5LSE8VIEh8QyiRZQ0UaS3vvXlCPHQrnFMSio9NtLiZC_EbeMZr4KhaxaeKQ
-    HqDbLUDoHyYGcGq1bE>
-X-ME-Received: <xmr:RcobZgdKVZpBY0itGokHNqrbaU4XoFyFhg5YSTo_IGIqt3uDIfikWj-kVqbdZxYxoLvEdrWJmDh6BirYBY_y2bAl8YpRxlI>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrudeiledghedvucetufdoteggodetrfdotf
+	:from:from:in-reply-to:message-id:mime-version:reply-to:subject
+	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+	:x-sasl-enc; s=fm2; t=1713103291; x=1713106891; bh=aM80Fa57SIonI
+	Dyc1KYihE8QoA6E5D8Ry39+aFL5lFg=; b=ZDO1xxzDINXNDWpsoUjt1FfPYwqTK
+	TEKGwI+594Q7+N2e132w2Nc96NJJDc3xZnBz0uYVBA76cLzp7SObVp5q0ufH3rho
+	Yclgkx0JwKOpX4SxKQ6DVM/tZQ3O0PW5hAxdSN3HvlSvtxB32TUuA7NUgh4bdpMA
+	4Ob7xV3Dkdy4xeTbCFz2a3F85Y9mgSIsreVyuCf7LPfCk6TeLpIXwMUhfBti6XYw
+	SFJeXe+2cP1uBBgYAdG56GLjNooCXB1NZA1I9cdKY9Ruwuo+C+9+LA67FValIJXH
+	jZ/z3gL4VJHPoyAt4KobdlXWIfzkZg8XvILvn8DUSLNORK7pQPfuuWoXw==
+X-ME-Sender: <xms:uOEbZg6iEZOutVUNqgMB14bhHX1ByJ4YRkQi5LUjyonGVDtbvLRKTA>
+    <xme:uOEbZh6w-EYQfS7L3E9N0t5oLTeWDoSn3wsj6PZMRYsMClKXaIHAbnEsn1frrNG-E
+    dMlOI3_4_E_IvZ2Z78>
+X-ME-Received: <xmr:uOEbZvdIJv3JRSSXhyZwDpETKNipWbt8Uw1zbM1Qm1-YGv1wwz1i4FrBSSoDwR1QUfamSIMQ0P_kVxHFcx5z7nr5KnQkERvBhyag>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrudeiledgjeefucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
     uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvfevuffkfhggtggugfgjsehtkeertddttdejnecuhfhrohhmpefpihhk
-    lhgrshcuufpnuggvrhhluhhnugcuoehnihhklhgrshdrshhouggvrhhluhhnugdorhgvnh
-    gvshgrshesrhgrghhnrghtvggthhdrshgvqeenucggtffrrghtthgvrhhnpeefhfellefh
-    ffejgfefudfggeejlefhveehieekhfeulefgtdefueehffdtvdelieenucevlhhushhtvg
-    hrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehnihhklhgrshdrshhouggv
-    rhhluhhnugdorhgvnhgvshgrshesrhgrghhnrghtvggthhdrshgv
-X-ME-Proxy: <xmx:RcobZiI7KuxWIY23MzHxBNUPSXTYesc0jmNZH3CuyxPZQdVw5YPnBQ>
-    <xmx:RcobZtJ9t7o1NQRhNdBHWdFyezsBXC-z6FE3FuC5wWN3nItSTygV4g>
-    <xmx:RcobZrzaqfXlu9Ysr4tgojjFMXfodh2mXkIjAT5f8F6vq0EJ9CRb4Q>
-    <xmx:RcobZpKbxFPT672HK6533JwYl4E3dhpWWAuttH_urzKU5Zy_dey90A>
-    <xmx:RcobZmVorPOJNuxVLJ9E_70n3p5asYD8qRWvrDpRZUG5WC-LTefH4I5t>
+    cujfgurhephffvvefufffkofggtgfgsehtkeertdertdejnecuhfhrohhmpefpihhklhgr
+    shcuufpnuggvrhhluhhnugcuoehnihhklhgrshdrshhouggvrhhluhhnugdorhgvnhgvsh
+    grshesrhgrghhnrghtvggthhdrshgvqeenucggtffrrghtthgvrhhnpeehudelteetkefg
+    ffefudefuedvjeeivdekhfevieefgeffheeltddvvefhfeetgeenucevlhhushhtvghruf
+    hiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehnihhklhgrshdrshhouggvrhhl
+    uhhnugdorhgvnhgvshgrshesrhgrghhnrghtvggthhdrshgv
+X-ME-Proxy: <xmx:uOEbZlJncumJ466y30sjAvx05U3XuDNRvst4DalI3di7Y6iJNQxftQ>
+    <xmx:uOEbZkJuZcaWNq_QkZk4jPRMCJYXUtFEhyoc8JDvxH09fIwcXkpwBw>
+    <xmx:uOEbZmza_fsdfkI4QdOvWZ5f2wp8cbRZnMv3xngGPJ3PfFEXdrM6Ew>
+    <xmx:uOEbZoKZgNOcXzhlK33KbEkuWcU144ENJWXZeitmHP33HlNL1UvzeA>
+    <xmx:ueEbZujXXybLK7qQKXOLUUcRAbu6RrCRoxfESje-Nc0Qrh9Uscrmfw1K>
 Feedback-ID: i80c9496c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
- 14 Apr 2024 08:21:24 -0400 (EDT)
-Date: Sun, 14 Apr 2024 14:21:23 +0200
-From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-To: Paul Barker <paul.barker.ct@bp.renesas.com>
-Cc: Sergey Shtylyov <s.shtylyov@omp.ru>,
+ 14 Apr 2024 10:01:26 -0400 (EDT)
+From: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+To: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
 	"David S. Miller" <davem@davemloft.net>,
 	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	YueHaibing <yuehaibing@huawei.com>, netdev@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [net PATCH v2 1/4] net: ravb: Count packets instead of
- descriptors in R-Car RX path
-Message-ID: <20240414122123.GC2860391@ragnatech.se>
-References: <20240412100024.2296-1-paul.barker.ct@bp.renesas.com>
- <20240412100024.2296-2-paul.barker.ct@bp.renesas.com>
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	netdev@vger.kernel.org
+Cc: linux-renesas-soc@vger.kernel.org,
+	=?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+Subject: [net-next] net: ethernet: rtsn: Add support for Renesas Ethernet-TSN
+Date: Sun, 14 Apr 2024 15:59:37 +0200
+Message-ID: <20240414135937.1139611-1-niklas.soderlund+renesas@ragnatech.se>
+X-Mailer: git-send-email 2.44.0
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240412100024.2296-2-paul.barker.ct@bp.renesas.com>
 
-Hi Paul,
+Add initial support for Renesas Ethernet-TSN End-station device of R-Car
+V4H. The Ethernet End-station can connect to an Ethernet network using a
+10 Mbps, 100 Mbps, or 1 Gbps full-duplex link via MII/GMII/RMII/RGMII.
+Depending on the connected PHY.
 
-Sorry I just posted my review comments on v1 of this series instead of 
-v2. They where intended and are still valid for v2, sorry for the noise, 
-let me know if you want me to repost them here.
+Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+---
+* Changes since RFC
+- Fix issues in MDIO communication.
+- Use a dedicated OF node for the MDIO bus.
+---
+ MAINTAINERS                           |    8 +
+ drivers/net/ethernet/renesas/Kconfig  |   11 +
+ drivers/net/ethernet/renesas/Makefile |    2 +
+ drivers/net/ethernet/renesas/rtsn.c   | 1421 +++++++++++++++++++++++++
+ drivers/net/ethernet/renesas/rtsn.h   |  464 ++++++++
+ 5 files changed, 1906 insertions(+)
+ create mode 100644 drivers/net/ethernet/renesas/rtsn.c
+ create mode 100644 drivers/net/ethernet/renesas/rtsn.h
 
-On 2024-04-12 11:00:21 +0100, Paul Barker wrote:
-> The units of "work done" in the RX path should be packets instead of
-> descriptors.
-> 
-> Descriptors which are used by the hardware to record error conditions or
-> are empty in the case of a DMA mapping error should not count towards
-> our RX work budget.
-> 
-> Fixes: c156633f1353 ("Renesas Ethernet AVB driver proper")
-> Signed-off-by: Paul Barker <paul.barker.ct@bp.renesas.com>
-> Reviewed-by: Sergey Shtylyov <s.shtylyov@omp.ru>
-> ---
->  drivers/net/ethernet/renesas/ravb_main.c | 20 ++++++++------------
->  1 file changed, 8 insertions(+), 12 deletions(-)
-> 
-> diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
-> index ba01c8cc3c90..70f2900648d4 100644
-> --- a/drivers/net/ethernet/renesas/ravb_main.c
-> +++ b/drivers/net/ethernet/renesas/ravb_main.c
-> @@ -892,29 +892,25 @@ static bool ravb_rx_rcar(struct net_device *ndev, int *quota, int q)
->  	struct ravb_private *priv = netdev_priv(ndev);
->  	const struct ravb_hw_info *info = priv->info;
->  	int entry = priv->cur_rx[q] % priv->num_rx_ring[q];
-> -	int boguscnt = (priv->dirty_rx[q] + priv->num_rx_ring[q]) -
-> -			priv->cur_rx[q];
->  	struct net_device_stats *stats = &priv->stats[q];
->  	struct ravb_ex_rx_desc *desc;
->  	struct sk_buff *skb;
->  	dma_addr_t dma_addr;
->  	struct timespec64 ts;
-> +	int rx_packets = 0;
->  	u8  desc_status;
->  	u16 pkt_len;
->  	int limit;
-> +	int i;
->  
-> -	boguscnt = min(boguscnt, *quota);
-> -	limit = boguscnt;
-> +	limit = priv->dirty_rx[q] + priv->num_rx_ring[q] - priv->cur_rx[q];
->  	desc = &priv->rx_ring[q].ex_desc[entry];
-> -	while (desc->die_dt != DT_FEMPTY) {
-> +	for (i = 0; i < limit && rx_packets < *quota && desc->die_dt != DT_FEMPTY; i++) {
->  		/* Descriptor type must be checked before all other reads */
->  		dma_rmb();
->  		desc_status = desc->msc;
->  		pkt_len = le16_to_cpu(desc->ds_cc) & RX_DS;
->  
-> -		if (--boguscnt < 0)
-> -			break;
-> -
->  		/* We use 0-byte descriptors to mark the DMA mapping errors */
->  		if (!pkt_len)
->  			continue;
-> @@ -960,7 +956,7 @@ static bool ravb_rx_rcar(struct net_device *ndev, int *quota, int q)
->  			if (ndev->features & NETIF_F_RXCSUM)
->  				ravb_rx_csum(skb);
->  			napi_gro_receive(&priv->napi[q], skb);
-> -			stats->rx_packets++;
-> +			rx_packets++;
->  			stats->rx_bytes += pkt_len;
->  		}
->  
-> @@ -995,9 +991,9 @@ static bool ravb_rx_rcar(struct net_device *ndev, int *quota, int q)
->  		desc->die_dt = DT_FEMPTY;
->  	}
->  
-> -	*quota -= limit - (++boguscnt);
-> -
-> -	return boguscnt <= 0;
-> +	stats->rx_packets += rx_packets;
-> +	*quota -= rx_packets;
-> +	return *quota == 0;
->  }
->  
->  /* Packet receive function for Ethernet AVB */
-> -- 
-> 2.39.2
-> 
-
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 5ba3fe6ac09c..965ac018c7f5 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -18761,6 +18761,14 @@ F:	drivers/net/ethernet/renesas/Makefile
+ F:	drivers/net/ethernet/renesas/rcar_gen4*
+ F:	drivers/net/ethernet/renesas/rswitch*
+ 
++RENESAS ETHERNET TSN DRIVER
++M:	Niklas Söderlund <niklas.soderlund@ragnatech.se>
++L:	netdev@vger.kernel.org
++L:	linux-renesas-soc@vger.kernel.org
++S:	Supported
++F:	Documentation/devicetree/bindings/net/renesas,ethertsn.yaml
++F:	drivers/net/ethernet/renesas/rtsn.*
++
+ RENESAS IDT821034 ASoC CODEC
+ M:	Herve Codina <herve.codina@bootlin.com>
+ L:	alsa-devel@alsa-project.org (moderated for non-subscribers)
+diff --git a/drivers/net/ethernet/renesas/Kconfig b/drivers/net/ethernet/renesas/Kconfig
+index b03fae7a0f72..ea4aca5f406f 100644
+--- a/drivers/net/ethernet/renesas/Kconfig
++++ b/drivers/net/ethernet/renesas/Kconfig
+@@ -58,4 +58,15 @@ config RENESAS_GEN4_PTP
+ 	help
+ 	  Renesas R-Car Gen4 gPTP device driver.
+ 
++config RTSN
++	tristate "Renesas Ethernet-TSN support"
++	depends on ARCH_RENESAS || COMPILE_TEST
++	depends on PTP_1588_CLOCK
++	select CRC32
++	select MII
++	select PHYLIB
++	select RENESAS_GEN4_PTP
++	help
++	  Renesas Ethernet-TSN device driver.
++
+ endif # NET_VENDOR_RENESAS
+diff --git a/drivers/net/ethernet/renesas/Makefile b/drivers/net/ethernet/renesas/Makefile
+index 9070acfd6aaf..f65fc76f8b4d 100644
+--- a/drivers/net/ethernet/renesas/Makefile
++++ b/drivers/net/ethernet/renesas/Makefile
+@@ -11,3 +11,5 @@ obj-$(CONFIG_RAVB) += ravb.o
+ obj-$(CONFIG_RENESAS_ETHER_SWITCH) += rswitch.o
+ 
+ obj-$(CONFIG_RENESAS_GEN4_PTP) += rcar_gen4_ptp.o
++
++obj-$(CONFIG_RTSN) += rtsn.o
+diff --git a/drivers/net/ethernet/renesas/rtsn.c b/drivers/net/ethernet/renesas/rtsn.c
+new file mode 100644
+index 000000000000..291ab421d68f
+--- /dev/null
++++ b/drivers/net/ethernet/renesas/rtsn.c
+@@ -0,0 +1,1421 @@
++// SPDX-License-Identifier: GPL-2.0
++
++/* Renesas Ethernet-TSN device driver
++ *
++ * Copyright (C) 2022 Renesas Electronics Corporation
++ * Copyright (C) 2023 Niklas Söderlund <niklas.soderlund@ragnatech.se>
++ */
++
++#include <linux/clk.h>
++#include <linux/dma-mapping.h>
++#include <linux/etherdevice.h>
++#include <linux/ethtool.h>
++#include <linux/module.h>
++#include <linux/net_tstamp.h>
++#include <linux/of.h>
++#include <linux/of_mdio.h>
++#include <linux/of_net.h>
++#include <linux/phy.h>
++#include <linux/platform_device.h>
++#include <linux/pm_runtime.h>
++#include <linux/reset.h>
++#include <linux/spinlock.h>
++
++#include "rtsn.h"
++#include "rcar_gen4_ptp.h"
++
++struct rtsn_private {
++	struct net_device *ndev;
++	struct platform_device *pdev;
++	void __iomem *base;
++	struct rcar_gen4_ptp_private *ptp_priv;
++	struct clk *clk;
++	struct reset_control *reset;
++
++	u32 num_tx_ring;
++	u32 num_rx_ring;
++	u32 tx_desc_bat_size;
++	dma_addr_t tx_desc_bat_dma;
++	struct rtsn_desc *tx_desc_bat;
++	u32 rx_desc_bat_size;
++	dma_addr_t rx_desc_bat_dma;
++	struct rtsn_desc *rx_desc_bat;
++	dma_addr_t tx_desc_dma;
++	dma_addr_t rx_desc_dma;
++	struct rtsn_ext_desc *tx_ring;
++	struct rtsn_ext_ts_desc *rx_ring;
++	struct sk_buff **tx_skb;
++	struct sk_buff **rx_skb;
++	spinlock_t lock;	/* Register access lock */
++	u32 cur_tx;
++	u32 dirty_tx;
++	u32 cur_rx;
++	u32 dirty_rx;
++	u8 ts_tag;
++	struct napi_struct napi;
++
++	struct mii_bus *mii;
++	phy_interface_t iface;
++	int link;
++	int speed;
++
++	int tx_data_irq;
++	int rx_data_irq;
++};
++
++static u32 rtsn_read(struct rtsn_private *priv, enum rtsn_reg reg)
++{
++	return ioread32(priv->base + reg);
++}
++
++static void rtsn_write(struct rtsn_private *priv, enum rtsn_reg reg, u32 data)
++{
++	iowrite32(data, priv->base + reg);
++}
++
++static void rtsn_modify(struct rtsn_private *priv, enum rtsn_reg reg,
++			u32 clear, u32 set)
++{
++	rtsn_write(priv, reg, (rtsn_read(priv, reg) & ~clear) | set);
++}
++
++static int rtsn_reg_wait(struct rtsn_private *priv, enum rtsn_reg reg,
++			 u32 mask, u32 expected)
++{
++	u32 val;
++
++	return readl_poll_timeout(priv->base + reg, val,
++				  (val & mask) == expected,
++				  RTSN_INTERVAL_US, RTSN_TIMEOUT_US);
++}
++
++static void rtsn_ctrl_data_irq(struct rtsn_private *priv, bool enable)
++{
++	if (enable) {
++		rtsn_write(priv, TDIE0, TDIE_TDID_TDX(TX_CHAIN_IDX));
++		rtsn_write(priv, RDIE0, RDIE_RDID_RDX(RX_CHAIN_IDX));
++	} else {
++		rtsn_write(priv, TDID0, TDIE_TDID_TDX(TX_CHAIN_IDX));
++		rtsn_write(priv, RDID0, RDIE_RDID_RDX(RX_CHAIN_IDX));
++	}
++}
++
++static void rtsn_get_timestamp(struct rtsn_private *priv, struct timespec64 *ts)
++{
++	struct rcar_gen4_ptp_private *ptp_priv = priv->ptp_priv;
++
++	ptp_priv->info.gettime64(&ptp_priv->info, ts);
++}
++
++static int rtsn_tx_free(struct net_device *ndev, bool free_txed_only)
++{
++	struct rtsn_private *priv = netdev_priv(ndev);
++	struct rtsn_ext_desc *desc;
++	struct sk_buff *skb;
++	int free_num = 0;
++	int entry, size;
++
++	for (; priv->cur_tx - priv->dirty_tx > 0; priv->dirty_tx++) {
++		entry = priv->dirty_tx % priv->num_tx_ring;
++		desc = &priv->tx_ring[entry];
++		if (free_txed_only && (desc->die_dt & DT_MASK) != DT_FEMPTY)
++			break;
++
++		dma_rmb();
++		size = le16_to_cpu(desc->info_ds) & TX_DS;
++		skb = priv->tx_skb[entry];
++		if (skb) {
++			if (skb_shinfo(skb)->tx_flags & SKBTX_HW_TSTAMP) {
++				struct skb_shared_hwtstamps shhwtstamps;
++				struct timespec64 ts;
++
++				rtsn_get_timestamp(priv, &ts);
++				memset(&shhwtstamps, 0, sizeof(shhwtstamps));
++				shhwtstamps.hwtstamp = timespec64_to_ktime(ts);
++				skb_tstamp_tx(skb, &shhwtstamps);
++			}
++			dma_unmap_single(ndev->dev.parent,
++					 le32_to_cpu(desc->dptr),
++					 size, DMA_TO_DEVICE);
++			dev_kfree_skb_any(priv->tx_skb[entry]);
++			free_num++;
++		}
++		desc->die_dt = DT_EEMPTY;
++		ndev->stats.tx_packets++;
++		ndev->stats.tx_bytes += size;
++	}
++
++	desc = &priv->tx_ring[priv->num_tx_ring];
++	desc->die_dt = DT_LINK;
++
++	return free_num;
++}
++
++static bool rtsn_rx(struct net_device *ndev, int *quota)
++{
++	struct rtsn_ext_ts_desc *desc;
++	struct rtsn_private *priv;
++	struct sk_buff *skb;
++	dma_addr_t dma_addr;
++	int boguscnt;
++	u16 pkt_len;
++	u32 get_ts;
++	int entry;
++	int limit;
++
++	priv = netdev_priv(ndev);
++
++	entry = priv->cur_rx % priv->num_rx_ring;
++	desc = &priv->rx_ring[entry];
++
++	boguscnt = priv->dirty_rx + priv->num_rx_ring - priv->cur_rx;
++	boguscnt = min(boguscnt, *quota);
++	limit = boguscnt;
++
++	while ((desc->die_dt & DT_MASK) != DT_FEMPTY) {
++		dma_rmb();
++		pkt_len = le16_to_cpu(desc->info_ds) & RX_DS;
++		if (--boguscnt < 0)
++			break;
++
++		skb = priv->rx_skb[entry];
++		priv->rx_skb[entry] = NULL;
++		dma_addr = le32_to_cpu(desc->dptr);
++		dma_unmap_single(ndev->dev.parent, dma_addr, PKT_BUF_SZ,
++				 DMA_FROM_DEVICE);
++
++		get_ts = priv->ptp_priv->tstamp_rx_ctrl &
++			RCAR_GEN4_RXTSTAMP_TYPE_V2_L2_EVENT;
++		if (get_ts) {
++			struct skb_shared_hwtstamps *shhwtstamps;
++			struct timespec64 ts;
++
++			shhwtstamps = skb_hwtstamps(skb);
++			memset(shhwtstamps, 0, sizeof(*shhwtstamps));
++
++			ts.tv_sec = (u64)le32_to_cpu(desc->ts_sec);
++			ts.tv_nsec = le32_to_cpu(desc->ts_nsec & cpu_to_le32(0x3fffffff));
++
++			shhwtstamps->hwtstamp = timespec64_to_ktime(ts);
++		}
++
++		skb_put(skb, pkt_len);
++		skb->protocol = eth_type_trans(skb, ndev);
++		netif_receive_skb(skb);
++		ndev->stats.rx_packets++;
++		ndev->stats.rx_bytes += pkt_len;
++
++		entry = (++priv->cur_rx) % priv->num_rx_ring;
++		desc = &priv->rx_ring[entry];
++	}
++
++	/* Refill the RX ring buffers */
++	for (; priv->cur_rx - priv->dirty_rx > 0; priv->dirty_rx++) {
++		entry = priv->dirty_rx % priv->num_rx_ring;
++		desc = &priv->rx_ring[entry];
++		desc->info_ds = cpu_to_le16(PKT_BUF_SZ);
++
++		if (!priv->rx_skb[entry]) {
++			skb = netdev_alloc_skb(ndev,
++					       PKT_BUF_SZ + RTSN_ALIGN - 1);
++			if (!skb)
++				break;
++			skb_reserve(skb, NET_IP_ALIGN);
++			dma_addr = dma_map_single(ndev->dev.parent, skb->data,
++						  le16_to_cpu(desc->info_ds),
++						  DMA_FROM_DEVICE);
++			if (dma_mapping_error(ndev->dev.parent, dma_addr))
++				desc->info_ds = cpu_to_le16(0);
++			desc->dptr = cpu_to_le32(dma_addr);
++			skb_checksum_none_assert(skb);
++			priv->rx_skb[entry] = skb;
++		}
++		dma_wmb();
++		desc->die_dt = DT_FEMPTY | D_DIE;
++	}
++
++	desc = &priv->rx_ring[priv->num_rx_ring];
++	desc->die_dt = DT_LINK;
++
++	*quota -= limit - (++boguscnt);
++
++	return boguscnt <= 0;
++}
++
++static int rtsn_poll(struct napi_struct *napi, int budget)
++{
++	struct rtsn_private *priv;
++	struct net_device *ndev;
++	unsigned long flags;
++	int quota = budget;
++
++	ndev = napi->dev;
++	priv = netdev_priv(ndev);
++
++	/* Processing RX Descriptor Ring */
++	if (rtsn_rx(ndev, &quota))
++		goto out;
++
++	/* Processing TX Descriptor Ring */
++	spin_lock_irqsave(&priv->lock, flags);
++	rtsn_tx_free(ndev, true);
++	netif_wake_subqueue(ndev, 0);
++	spin_unlock_irqrestore(&priv->lock, flags);
++
++	napi_complete(napi);
++
++	/* Re-enable TX/RX interrupts */
++	spin_lock_irqsave(&priv->lock, flags);
++	rtsn_ctrl_data_irq(priv, true);
++	__iowmb();
++	spin_unlock_irqrestore(&priv->lock, flags);
++out:
++	return budget - quota;
++}
++
++static int rtsn_desc_alloc(struct rtsn_private *priv)
++{
++	struct device *dev = &priv->pdev->dev;
++	int i;
++
++	priv->tx_desc_bat_size = sizeof(struct rtsn_desc) * TX_NUM_CHAINS;
++	priv->tx_desc_bat = dma_alloc_coherent(dev, priv->tx_desc_bat_size,
++					       &priv->tx_desc_bat_dma,
++					       GFP_KERNEL);
++
++	if (!priv->tx_desc_bat)
++		return -ENOMEM;
++
++	for (i = 0; i < TX_NUM_CHAINS; i++)
++		priv->tx_desc_bat[i].die_dt = DT_EOS;
++
++	priv->rx_desc_bat_size = sizeof(struct rtsn_desc) * RX_NUM_CHAINS;
++	priv->rx_desc_bat = dma_alloc_coherent(dev, priv->rx_desc_bat_size,
++					       &priv->rx_desc_bat_dma,
++					       GFP_KERNEL);
++
++	if (!priv->rx_desc_bat)
++		return -ENOMEM;
++
++	for (i = 0; i < RX_NUM_CHAINS; i++)
++		priv->rx_desc_bat[i].die_dt = DT_EOS;
++
++	return 0;
++}
++
++static void rtsn_desc_free(struct rtsn_private *priv)
++{
++	if (priv->tx_desc_bat)
++		dma_free_coherent(&priv->pdev->dev, priv->tx_desc_bat_size,
++				  priv->tx_desc_bat, priv->tx_desc_bat_dma);
++	priv->tx_desc_bat = NULL;
++
++	if (priv->rx_desc_bat)
++		dma_free_coherent(&priv->pdev->dev, priv->rx_desc_bat_size,
++				  priv->rx_desc_bat, priv->rx_desc_bat_dma);
++	priv->rx_desc_bat = NULL;
++}
++
++static void rtsn_chain_free(struct rtsn_private *priv)
++{
++	struct device *dev = &priv->pdev->dev;
++
++	dma_free_coherent(dev,
++			  sizeof(struct rtsn_ext_desc) * (priv->num_tx_ring + 1),
++			  priv->tx_ring, priv->tx_desc_dma);
++	priv->tx_ring = NULL;
++
++	dma_free_coherent(dev,
++			  sizeof(struct rtsn_ext_ts_desc) * (priv->num_rx_ring + 1),
++			  priv->rx_ring, priv->rx_desc_dma);
++	priv->rx_ring = NULL;
++
++	kfree(priv->tx_skb);
++	priv->tx_skb = NULL;
++
++	kfree(priv->rx_skb);
++	priv->rx_skb = NULL;
++}
++
++static int rtsn_chain_init(struct rtsn_private *priv, int tx_size, int rx_size)
++{
++	struct net_device *ndev = priv->ndev;
++	struct sk_buff *skb;
++	int i;
++
++	priv->num_tx_ring = tx_size;
++	priv->num_rx_ring = rx_size;
++
++	priv->tx_skb = kcalloc(tx_size, sizeof(*priv->tx_skb), GFP_KERNEL);
++	priv->rx_skb = kcalloc(rx_size, sizeof(*priv->rx_skb), GFP_KERNEL);
++
++	if (!priv->rx_skb || !priv->tx_skb)
++		goto error;
++
++	for (i = 0; i < rx_size; i++) {
++		skb = netdev_alloc_skb(ndev, PKT_BUF_SZ + RTSN_ALIGN - 1);
++		if (!skb)
++			goto error;
++		skb_reserve(skb, NET_IP_ALIGN);
++		priv->rx_skb[i] = skb;
++	}
++
++	/* Allocate TX, RX descriptors */
++	priv->tx_ring = dma_alloc_coherent(ndev->dev.parent,
++					   sizeof(struct rtsn_ext_desc) * (tx_size + 1),
++					   &priv->tx_desc_dma, GFP_KERNEL);
++	priv->rx_ring = dma_alloc_coherent(ndev->dev.parent,
++					   sizeof(struct rtsn_ext_ts_desc) * (rx_size + 1),
++					   &priv->rx_desc_dma, GFP_KERNEL);
++
++	if (!priv->tx_ring || !priv->rx_ring)
++		goto error;
++
++	return 0;
++error:
++	rtsn_chain_free(priv);
++
++	return -ENOMEM;
++}
++
++static void rtsn_chain_format(struct rtsn_private *priv)
++{
++	struct net_device *ndev = priv->ndev;
++	struct rtsn_ext_ts_desc *rx_desc;
++	struct rtsn_ext_desc *tx_desc;
++	struct rtsn_desc *bat_desc;
++	dma_addr_t dma_addr;
++	unsigned int i;
++
++	priv->cur_tx = 0;
++	priv->cur_rx = 0;
++	priv->dirty_rx = 0;
++	priv->dirty_tx = 0;
++
++	/* TX */
++	memset(priv->tx_ring, 0, sizeof(*tx_desc) * priv->num_tx_ring);
++	for (i = 0, tx_desc = priv->tx_ring; i < priv->num_tx_ring; i++, tx_desc++)
++		tx_desc->die_dt = DT_EEMPTY | D_DIE;
++
++	tx_desc->dptr = cpu_to_le32((u32)priv->tx_desc_dma);
++	tx_desc->die_dt = DT_LINK;
++
++	bat_desc = &priv->tx_desc_bat[TX_CHAIN_IDX];
++	bat_desc->die_dt = DT_LINK;
++	bat_desc->dptr = cpu_to_le32((u32)priv->tx_desc_dma);
++
++	/* RX */
++	memset(priv->rx_ring, 0, sizeof(*rx_desc) * priv->num_rx_ring);
++	for (i = 0, rx_desc = priv->rx_ring; i < priv->num_rx_ring; i++, rx_desc++) {
++		dma_addr = dma_map_single(ndev->dev.parent,
++					  priv->rx_skb[i]->data, PKT_BUF_SZ,
++					  DMA_FROM_DEVICE);
++		if (!dma_mapping_error(ndev->dev.parent, dma_addr))
++			rx_desc->info_ds = cpu_to_le16(PKT_BUF_SZ);
++		rx_desc->dptr = cpu_to_le32((u32)dma_addr);
++		rx_desc->die_dt = DT_FEMPTY | D_DIE;
++	}
++	rx_desc->dptr = cpu_to_le32((u32)priv->rx_desc_dma);
++	rx_desc->die_dt = DT_LINK;
++
++	bat_desc = &priv->rx_desc_bat[RX_CHAIN_IDX];
++	bat_desc->die_dt = DT_LINK;
++	bat_desc->dptr = cpu_to_le32((u32)priv->rx_desc_dma);
++}
++
++static int rtsn_dmac_init(struct rtsn_private *priv)
++{
++	int ret;
++
++	ret = rtsn_chain_init(priv, TX_CHAIN_SIZE, RX_CHAIN_SIZE);
++	if (ret)
++		return ret;
++
++	rtsn_chain_format(priv);
++
++	return 0;
++}
++
++static enum rtsn_mode rtsn_read_mode(struct rtsn_private *priv)
++{
++	return (rtsn_read(priv, OSR) & OSR_OPS) >> 1;
++}
++
++static int rtsn_wait_mode(struct rtsn_private *priv, enum rtsn_mode mode)
++{
++	unsigned int i;
++
++	/* Need to busy loop as mode changes can happen in atomic context. */
++	for (i = 0; i < RTSN_TIMEOUT_US / RTSN_INTERVAL_US; i++) {
++		if (rtsn_read_mode(priv) == mode)
++			return 0;
++
++		udelay(RTSN_INTERVAL_US);
++	}
++
++	return -ETIMEDOUT;
++}
++
++static int rtsn_change_mode(struct rtsn_private *priv, enum rtsn_mode mode)
++{
++	int ret;
++
++	rtsn_write(priv, OCR, mode);
++	ret = rtsn_wait_mode(priv, mode);
++	if (ret)
++		netdev_err(priv->ndev, "Failed to switch operation mode\n");
++	return ret;
++}
++
++static int rtsn_get_data_irq_status(struct rtsn_private *priv)
++{
++	u32 val;
++
++	val = rtsn_read(priv, TDIS0) | TDIS_TDS(TX_CHAIN_IDX);
++	val |= rtsn_read(priv, RDIS0) | RDIS_RDS(RX_CHAIN_IDX);
++
++	return val;
++}
++
++static irqreturn_t rtsn_irq(int irq, void *dev_id)
++{
++	struct rtsn_private *priv = dev_id;
++	int ret = IRQ_NONE;
++
++	spin_lock(&priv->lock);
++
++	if (rtsn_get_data_irq_status(priv)) {
++		/* Clear TX/RX irq status */
++		rtsn_write(priv, TDIS0, TDIS_TDS(TX_CHAIN_IDX));
++		rtsn_write(priv, RDIS0, RDIS_RDS(RX_CHAIN_IDX));
++
++		if (napi_schedule_prep(&priv->napi)) {
++			/* Disable TX/RX interrupts */
++			rtsn_ctrl_data_irq(priv, false);
++
++			__napi_schedule(&priv->napi);
++		}
++
++		ret = IRQ_HANDLED;
++	}
++
++	spin_unlock(&priv->lock);
++
++	return ret;
++}
++
++static int rtsn_request_irq(unsigned int irq, irq_handler_t handler,
++			    unsigned long flags, struct rtsn_private *priv,
++			    const char *ch)
++{
++	char *name;
++	int ret;
++
++	name = devm_kasprintf(&priv->pdev->dev, GFP_KERNEL, "%s:%s",
++			      priv->ndev->name, ch);
++	if (!name)
++		return -ENOMEM;
++
++	ret = request_irq(irq, handler, flags, name, priv);
++	if (ret) {
++		netdev_err(priv->ndev, "Cannot request IRQ %s\n", name);
++		free_irq(irq, priv);
++	}
++
++	return ret;
++}
++
++static void rtsn_free_irqs(struct rtsn_private *priv)
++{
++	free_irq(priv->tx_data_irq, priv);
++	free_irq(priv->rx_data_irq, priv);
++}
++
++static int rtsn_request_irqs(struct rtsn_private *priv)
++{
++	int ret;
++
++	priv->rx_data_irq = platform_get_irq_byname(priv->pdev, "rx");
++	if (priv->rx_data_irq < 0)
++		return priv->rx_data_irq;
++
++	priv->tx_data_irq = platform_get_irq_byname(priv->pdev, "tx");
++	if (priv->tx_data_irq < 0)
++		return priv->tx_data_irq;
++
++	ret = rtsn_request_irq(priv->tx_data_irq, rtsn_irq, 0, priv, "tx");
++	if (ret)
++		goto error;
++
++	ret = rtsn_request_irq(priv->rx_data_irq, rtsn_irq, 0, priv, "rx");
++	if (ret)
++		goto error;
++
++	return 0;
++error:
++	rtsn_free_irqs(priv);
++	return ret;
++}
++
++static int rtsn_reset(struct rtsn_private *priv)
++{
++	reset_control_reset(priv->reset);
++	mdelay(1);
++
++	return rtsn_wait_mode(priv, OCR_OPC_DISABLE);
++}
++
++static int rtsn_axibmi_init(struct rtsn_private *priv)
++{
++	int ret;
++
++	ret = rtsn_reg_wait(priv, RR, RR_RST, RR_RST_COMPLETE);
++	if (ret)
++		return ret;
++
++	/* Set AXIWC */
++	rtsn_write(priv, AXIWC, AXIWC_DEFAULT);
++
++	/* Set AXIRC */
++	rtsn_write(priv, AXIRC, AXIRC_DEFAULT);
++
++	/* TX Descriptor chain setting */
++	rtsn_write(priv, TATLS0, TATLS0_TEDE | TATLS0_TATEN(TX_CHAIN_IDX));
++	rtsn_write(priv, TATLS1, priv->tx_desc_bat_dma + TX_CHAIN_ADDR_OFFSET);
++	rtsn_write(priv, TATLR, TATLR_TATL);
++
++	ret = rtsn_reg_wait(priv, TATLR, TATLR_TATL, 0);
++	if (ret)
++		return ret;
++
++	/* RX Descriptor chain setting */
++	rtsn_write(priv, RATLS0,
++		   RATLS0_RETS | RATLS0_REDE | RATLS0_RATEN(RX_CHAIN_IDX));
++	rtsn_write(priv, RATLS1, priv->rx_desc_bat_dma + RX_CHAIN_ADDR_OFFSET);
++	rtsn_write(priv, RATLR, RATLR_RATL);
++
++	ret = rtsn_reg_wait(priv, RATLR, RATLR_RATL, 0);
++	if (ret)
++		return ret;
++
++	/* Enable TX/RX interrupts */
++	rtsn_ctrl_data_irq(priv, true);
++
++	return 0;
++}
++
++static void rtsn_mhd_init(struct rtsn_private *priv)
++{
++	/* TX General setting */
++	rtsn_write(priv, TGC1, TGC1_STTV_DEFAULT | TGC1_TQTM_SFM);
++	rtsn_write(priv, TMS0, TMS_MFS_MAX);
++
++	/* RX Filter IP */
++	rtsn_write(priv, CFCR0, CFCR_SDID(RX_CHAIN_IDX));
++	rtsn_write(priv, FMSCR, FMSCR_FMSIE(RX_CHAIN_IDX));
++}
++
++static int rtsn_get_phy_params(struct rtsn_private *priv)
++{
++	struct device_node *np = priv->ndev->dev.parent->of_node;
++
++	of_get_phy_mode(np, &priv->iface);
++	switch (priv->iface) {
++	case PHY_INTERFACE_MODE_MII:
++		priv->speed = 100;
++		break;
++	case PHY_INTERFACE_MODE_RGMII:
++		priv->speed = 1000;
++		break;
++	default:
++		return -EOPNOTSUPP;
++	}
++
++	return 0;
++}
++
++static void rtsn_set_phy_interface(struct rtsn_private *priv)
++{
++	u32 val;
++
++	switch (priv->iface) {
++	case PHY_INTERFACE_MODE_MII:
++		val = MPIC_PIS_MII;
++		break;
++	case PHY_INTERFACE_MODE_RGMII:
++		val = MPIC_PIS_GMII;
++		break;
++	default:
++		return;
++	}
++
++	rtsn_modify(priv, MPIC, MPIC_PIS_MASK, val);
++}
++
++static void rtsn_set_rate(struct rtsn_private *priv)
++{
++	u32 val;
++
++	switch (priv->speed) {
++	case 10:
++		val = MPIC_LSC_10M;
++		break;
++	case 100:
++		val = MPIC_LSC_100M;
++		break;
++	case 1000:
++		val = MPIC_LSC_1G;
++		break;
++	default:
++		return;
++	}
++
++	rtsn_modify(priv, MPIC, MPIC_LSC_MASK, val);
++}
++
++static int rtsn_rmac_init(struct rtsn_private *priv)
++{
++	const u8 *mac_addr = priv->ndev->dev_addr;
++	int ret;
++
++	ret = rtsn_get_phy_params(priv);
++	if (ret)
++		return ret;
++
++	/* Set MAC address */
++	rtsn_write(priv, MRMAC0, (mac_addr[0] << 8) | mac_addr[1]);
++	rtsn_write(priv, MRMAC1, (mac_addr[2] << 24) | (mac_addr[3] << 16) |
++		   (mac_addr[4] << 8) | mac_addr[5]);
++
++	/* Set xMII type */
++	rtsn_set_phy_interface(priv);
++	rtsn_set_rate(priv);
++
++	/* Enable MII */
++	rtsn_modify(priv, MPIC, MPIC_PSMCS_MASK | MPIC_PSMHT_MASK,
++		    MPIC_PSMCS_DEFAULT | MPIC_PSMHT_DEFAULT);
++
++	/* Link verification */
++	rtsn_modify(priv, MLVC, MLVC_PLV, MLVC_PLV);
++	ret = rtsn_reg_wait(priv, MLVC, MLVC_PLV, 0);
++	if (ret)
++		return ret;
++
++	return ret;
++}
++
++static void rtsn_set_delay_mode(struct rtsn_private *priv)
++{
++	struct device_node *np = priv->ndev->dev.parent->of_node;
++	u32 delay;
++	u32 val;
++
++	val = 0;
++
++	/* Valid values are 0 and 1800, according to DT bindings */
++	if (!of_property_read_u32(np, "rx-internal-delay-ps", &delay))
++		if (delay)
++			val |= GPOUT_RDM;
++
++	/* Valid values are 0 and 2000, according to DT bindings */
++	if (!of_property_read_u32(np, "tx-internal-delay-ps", &delay))
++		if (delay)
++			val |= GPOUT_TDM;
++
++	rtsn_write(priv, GPOUT, val);
++}
++
++static int rtsn_hw_init(struct rtsn_private *priv)
++{
++	int ret;
++
++	ret = rtsn_reset(priv);
++	if (ret)
++		return ret;
++
++	/* Change to CONFIG mode */
++	ret = rtsn_change_mode(priv, OCR_OPC_CONFIG);
++	if (ret)
++		return ret;
++
++	ret = rtsn_axibmi_init(priv);
++	if (ret)
++		return ret;
++
++	rtsn_mhd_init(priv);
++
++	ret = rtsn_rmac_init(priv);
++	if (ret)
++		return ret;
++
++	rtsn_set_delay_mode(priv);
++
++	ret = rtsn_change_mode(priv, OCR_OPC_DISABLE);
++	if (ret)
++		return ret;
++
++	/* Change to OPERATION mode */
++	ret = rtsn_change_mode(priv, OCR_OPC_OPERATION);
++
++	return ret;
++}
++
++static int rtsn_mii_access(struct mii_bus *bus, bool read, int phyad,
++			   int regad, u16 data)
++{
++	struct rtsn_private *priv = bus->priv;
++	u32 val;
++	int ret;
++
++	val = MPSM_PDA(phyad) | MPSM_PRA(regad) | MPSM_PSME;
++
++	if (!read)
++		val |= MPSM_PSMAD | MPSM_PRD_SET(data);
++
++	rtsn_write(priv, MPSM, val);
++
++	ret = rtsn_reg_wait(priv, MPSM, MPSM_PSME, 0);
++	if (ret)
++		return ret;
++
++	if (read)
++		ret = MPSM_PRD_GET(rtsn_read(priv, MPSM));
++
++	return ret;
++}
++
++static int rtsn_mii_read(struct mii_bus *bus, int addr, int regnum)
++{
++	return rtsn_mii_access(bus, true, addr, regnum, 0);
++}
++
++static int rtsn_mii_write(struct mii_bus *bus, int addr, int regnum, u16 val)
++{
++	return rtsn_mii_access(bus, false, addr, regnum, val);
++}
++
++static int rtsn_mii_access_indirect(struct mii_bus *bus, bool read, int phyad,
++				    int devnum, int regnum, u16 data)
++{
++	int ret;
++
++	ret = rtsn_mii_access(bus, false, phyad, MII_MMD_CTRL, devnum);
++	if (ret)
++		return ret;
++
++	ret = rtsn_mii_access(bus, false, phyad, MII_MMD_DATA, regnum);
++	if (ret)
++		return ret;
++
++	ret = rtsn_mii_access(bus, false, phyad, MII_MMD_CTRL,
++			      devnum | MII_MMD_CTRL_NOINCR);
++	if (ret)
++		return ret;
++
++	if (read)
++		ret = rtsn_mii_access(bus, true, phyad, MII_MMD_DATA, 0);
++	else
++		ret = rtsn_mii_access(bus, false, phyad, MII_MMD_DATA, data);
++
++	return ret;
++}
++
++static int rtsn_mii_read_c45(struct mii_bus *bus, int addr, int devnum,
++			     int regnum)
++{
++	return rtsn_mii_access_indirect(bus, true, addr, devnum, regnum, 0);
++}
++
++static int rtsn_mii_write_c45(struct mii_bus *bus, int addr, int devnum,
++			      int regnum, u16 val)
++{
++	return rtsn_mii_access_indirect(bus, false, addr, devnum, regnum, val);
++}
++
++static int rtsn_mii_register(struct rtsn_private *priv)
++{
++	struct platform_device *pdev = priv->pdev;
++	struct device *dev = &pdev->dev;
++	struct device_node *mdio_node;
++	struct mii_bus *mii;
++	int ret;
++
++	mii = mdiobus_alloc();
++	if (!mii)
++		return -ENOMEM;
++
++	mdio_node = of_get_child_by_name(dev->of_node, "mdio");
++	if (!mdio_node) {
++		ret = -ENODEV;
++		goto out_free_bus;
++	};
++
++	mii->name = "rtsn_mii";
++	sprintf(mii->id, "%s-%x", pdev->name, pdev->id);
++	mii->priv = priv;
++	mii->read = rtsn_mii_read;
++	mii->write = rtsn_mii_write;
++	mii->read_c45 = rtsn_mii_read_c45;
++	mii->write_c45 = rtsn_mii_write_c45;
++	mii->parent = dev;
++
++	ret = of_mdiobus_register(mii, mdio_node);
++	of_node_put(mdio_node);
++	if (ret)
++		goto out_free_bus;
++
++	priv->mii = mii;
++
++	return 0;
++
++out_free_bus:
++	mdiobus_free(mii);
++	return ret;
++}
++
++static void rtsn_mii_unregister(struct rtsn_private *priv)
++{
++	if (priv->mii) {
++		mdiobus_unregister(priv->mii);
++		mdiobus_free(priv->mii);
++		priv->mii = NULL;
++	}
++}
++
++static void rtsn_adjust_link(struct net_device *ndev)
++{
++	struct rtsn_private *priv = netdev_priv(ndev);
++	struct phy_device *phydev = ndev->phydev;
++	bool new_state = false;
++	unsigned long flags;
++
++	spin_lock_irqsave(&priv->lock, flags);
++
++	if (phydev->link) {
++		if (phydev->speed != priv->speed) {
++			new_state = true;
++			priv->speed = phydev->speed;
++		}
++
++		if (!priv->link) {
++			new_state = true;
++			priv->link = phydev->link;
++		}
++	} else if (priv->link) {
++		new_state = true;
++		priv->link = 0;
++		priv->speed = 0;
++	}
++
++	if (new_state) {
++		/* Need to transition to CONFIG mode before reconfiguring and
++		 * then back to the original mode. Any state change to/from
++		 * CONFIG or OPERATION must go over DISABLED to stop Rx/Tx.
++		 */
++		enum rtsn_mode orgmode = rtsn_read_mode(priv);
++
++		/* Transit to CONFIG */
++		if (orgmode != OCR_OPC_CONFIG) {
++			if (orgmode != OCR_OPC_DISABLE &&
++			    rtsn_change_mode(priv, OCR_OPC_DISABLE))
++				goto out;
++			if (rtsn_change_mode(priv, OCR_OPC_CONFIG))
++				goto out;
++		}
++
++		rtsn_set_rate(priv);
++
++		/* Transition to original mode */
++		if (orgmode != OCR_OPC_CONFIG) {
++			if (rtsn_change_mode(priv, OCR_OPC_DISABLE))
++				goto out;
++			if (orgmode != OCR_OPC_DISABLE &&
++			    rtsn_change_mode(priv, orgmode))
++				goto out;
++		}
++	}
++out:
++	spin_unlock_irqrestore(&priv->lock, flags);
++
++	if (new_state)
++		phy_print_status(phydev);
++}
++
++static int rtsn_phy_init(struct rtsn_private *priv)
++{
++	struct device_node *np = priv->ndev->dev.parent->of_node;
++	struct phy_device *phydev;
++	struct device_node *phy;
++
++	priv->link = 0;
++
++	phy = of_parse_phandle(np, "phy-handle", 0);
++	if (!phy)
++		return -ENOENT;
++
++	phydev = of_phy_connect(priv->ndev, phy, rtsn_adjust_link, 0,
++				priv->iface);
++	if (!phydev) {
++		of_node_put(phy);
++		return -ENOENT;
++	}
++
++	/* Only support full-duplex mode */
++	phy_remove_link_mode(phydev, ETHTOOL_LINK_MODE_10baseT_Half_BIT);
++	phy_remove_link_mode(phydev, ETHTOOL_LINK_MODE_100baseT_Half_BIT);
++	phy_remove_link_mode(phydev, ETHTOOL_LINK_MODE_1000baseT_Half_BIT);
++
++	phy_attached_info(phydev);
++
++	return 0;
++}
++
++static void rtsn_phy_deinit(struct rtsn_private *priv)
++{
++	phy_stop(priv->ndev->phydev);
++	phy_disconnect(priv->ndev->phydev);
++	priv->ndev->phydev = NULL;
++}
++
++static int rtsn_init(struct rtsn_private *priv)
++{
++	int ret;
++
++	ret = rtsn_desc_alloc(priv);
++	if (ret)
++		return ret;
++
++	ret = rtsn_dmac_init(priv);
++	if (ret)
++		goto error_free_desc;
++
++	/* HW initialization */
++	ret = rtsn_hw_init(priv);
++	if (ret)
++		goto error_free_chain;
++
++	ret = rtsn_mii_register(priv);
++	if (ret)
++		goto error_free_desc;
++
++	ret = rtsn_phy_init(priv);
++	if (ret)
++		goto error_unregister_mii;
++
++	ret = rtsn_request_irqs(priv);
++	if (ret)
++		goto error_unregister_mii;
++
++	return 0;
++error_unregister_mii:
++	rtsn_mii_unregister(priv);
++error_free_chain:
++	rtsn_chain_free(priv);
++error_free_desc:
++	rtsn_desc_free(priv);
++	return ret;
++}
++
++static void rtsn_deinit(struct rtsn_private *priv)
++{
++	rtsn_free_irqs(priv);
++	rtsn_phy_deinit(priv);
++	rtsn_mii_unregister(priv);
++	rtsn_chain_free(priv);
++	rtsn_desc_free(priv);
++}
++
++static void rtsn_parse_mac_address(struct device_node *np,
++				   struct net_device *ndev)
++{
++	struct rtsn_private *priv = netdev_priv(ndev);
++	u8 addr[ETH_ALEN];
++	u32 mrmac0;
++	u32 mrmac1;
++
++	/* Try to read address from Device Tree. */
++	if (!of_get_mac_address(np, addr)) {
++		eth_hw_addr_set(ndev, addr);
++		return;
++	}
++
++	/* Try to read address from device. */
++	mrmac0 = rtsn_read(priv, MRMAC0);
++	mrmac1 = rtsn_read(priv, MRMAC1);
++
++	addr[0] = (mrmac0 >>  8) & 0xff;
++	addr[1] = (mrmac0 >>  0) & 0xff;
++	addr[2] = (mrmac1 >> 24) & 0xff;
++	addr[3] = (mrmac1 >> 16) & 0xff;
++	addr[4] = (mrmac1 >>  8) & 0xff;
++	addr[5] = (mrmac1 >>  0) & 0xff;
++
++	if (is_valid_ether_addr(addr)) {
++		eth_hw_addr_set(ndev, addr);
++		return;
++	}
++
++	/* Fallback to a random address */
++	eth_hw_addr_random(ndev);
++}
++
++static int rtsn_open(struct net_device *ndev)
++{
++	struct rtsn_private *priv = netdev_priv(ndev);
++	int ret;
++
++	napi_enable(&priv->napi);
++
++	ret = rtsn_init(priv);
++	if (ret) {
++		napi_disable(&priv->napi);
++		return ret;
++	}
++
++	phy_start(ndev->phydev);
++
++	netif_start_queue(ndev);
++
++	return 0;
++}
++
++static int rtsn_stop(struct net_device *ndev)
++{
++	struct rtsn_private *priv = netdev_priv(ndev);
++
++	napi_disable(&priv->napi);
++	rtsn_change_mode(priv, OCR_OPC_DISABLE);
++	rtsn_deinit(priv);
++
++	return 0;
++}
++
++static netdev_tx_t rtsn_start_xmit(struct sk_buff *skb, struct net_device *ndev)
++{
++	struct rtsn_private *priv = netdev_priv(ndev);
++	struct rtsn_ext_desc *desc;
++	int ret = NETDEV_TX_OK;
++	unsigned long flags;
++	dma_addr_t dma_addr;
++	int entry;
++
++	spin_lock_irqsave(&priv->lock, flags);
++
++	if (priv->cur_tx - priv->dirty_tx > priv->num_tx_ring) {
++		netif_stop_subqueue(ndev, 0);
++		ret = NETDEV_TX_BUSY;
++		goto out;
++	}
++
++	if (skb_put_padto(skb, ETH_ZLEN))
++		goto out;
++
++	dma_addr = dma_map_single(ndev->dev.parent, skb->data, skb->len,
++				  DMA_TO_DEVICE);
++	if (dma_mapping_error(ndev->dev.parent, dma_addr)) {
++		dev_kfree_skb_any(skb);
++		goto out;
++	}
++
++	entry = priv->cur_tx % priv->num_tx_ring;
++	priv->tx_skb[entry] = skb;
++	desc = &priv->tx_ring[entry];
++	desc->dptr = cpu_to_le32(dma_addr);
++	desc->info_ds = cpu_to_le16(skb->len);
++	desc->info1 = cpu_to_le64(skb->len);
++
++	if (skb_shinfo(skb)->tx_flags & SKBTX_HW_TSTAMP) {
++		skb_shinfo(skb)->tx_flags |= SKBTX_IN_PROGRESS;
++		priv->ts_tag++;
++		desc->info_ds |= cpu_to_le16(TXC);
++		desc->info = priv->ts_tag;
++	}
++
++	skb_tx_timestamp(skb);
++	dma_wmb();
++
++	desc->die_dt = DT_FSINGLE | D_DIE;
++	priv->cur_tx++;
++
++	/* Start xmit */
++	rtsn_write(priv, TRCR0, BIT(TX_CHAIN_IDX));
++out:
++	spin_unlock_irqrestore(&priv->lock, flags);
++	return ret;
++}
++
++static struct net_device_stats *rtsn_get_stats(struct net_device *ndev)
++{
++	return &ndev->stats;
++}
++
++static int rtsn_hwstamp_get(struct net_device *ndev, struct ifreq *req)
++{
++	struct rcar_gen4_ptp_private *ptp_priv;
++	struct hwtstamp_config config;
++	struct rtsn_private *priv;
++
++	priv = netdev_priv(ndev);
++	ptp_priv = priv->ptp_priv;
++
++	config.flags = 0;
++
++	config.tx_type =
++		ptp_priv->tstamp_tx_ctrl ? HWTSTAMP_TX_ON : HWTSTAMP_TX_OFF;
++
++	switch (ptp_priv->tstamp_rx_ctrl & RCAR_GEN4_RXTSTAMP_TYPE) {
++	case RCAR_GEN4_RXTSTAMP_TYPE_V2_L2_EVENT:
++		config.rx_filter = HWTSTAMP_FILTER_PTP_V2_L2_EVENT;
++		break;
++	case RCAR_GEN4_RXTSTAMP_TYPE_ALL:
++		config.rx_filter = HWTSTAMP_FILTER_ALL;
++		break;
++	default:
++		config.rx_filter = HWTSTAMP_FILTER_NONE;
++	}
++
++	return copy_to_user(req->ifr_data, &config,
++			    sizeof(config)) ? -EFAULT : 0;
++}
++
++static int rtsn_hwstamp_set(struct net_device *ndev, struct ifreq *req)
++{
++	struct rcar_gen4_ptp_private *ptp_priv;
++	struct hwtstamp_config config;
++	struct rtsn_private *priv;
++	u32 tstamp_rx_ctrl;
++	u32 tstamp_tx_ctrl;
++
++	priv = netdev_priv(ndev);
++	ptp_priv = priv->ptp_priv;
++
++	if (copy_from_user(&config, req->ifr_data, sizeof(config)))
++		return -EFAULT;
++
++	if (config.flags)
++		return -EINVAL;
++
++	switch (config.tx_type) {
++	case HWTSTAMP_TX_OFF:
++		tstamp_tx_ctrl = 0;
++		break;
++	case HWTSTAMP_TX_ON:
++		tstamp_tx_ctrl = RCAR_GEN4_TXTSTAMP_ENABLED;
++		break;
++	default:
++		return -ERANGE;
++	}
++
++	switch (config.rx_filter) {
++	case HWTSTAMP_FILTER_NONE:
++		tstamp_rx_ctrl = 0;
++		break;
++	case HWTSTAMP_FILTER_PTP_V2_L2_EVENT:
++		tstamp_rx_ctrl = RCAR_GEN4_RXTSTAMP_ENABLED |
++			RCAR_GEN4_RXTSTAMP_TYPE_V2_L2_EVENT;
++		break;
++	default:
++		config.rx_filter = HWTSTAMP_FILTER_ALL;
++		tstamp_rx_ctrl = RCAR_GEN4_RXTSTAMP_ENABLED |
++			RCAR_GEN4_RXTSTAMP_TYPE_ALL;
++	}
++
++	ptp_priv->tstamp_tx_ctrl = tstamp_tx_ctrl;
++	ptp_priv->tstamp_rx_ctrl = tstamp_rx_ctrl;
++
++	return copy_to_user(req->ifr_data, &config,
++			    sizeof(config)) ? -EFAULT : 0;
++}
++
++static int rtsn_do_ioctl(struct net_device *ndev, struct ifreq *req, int cmd)
++{
++	if (!netif_running(ndev))
++		return -EINVAL;
++
++	switch (cmd) {
++	case SIOCGHWTSTAMP:
++		return rtsn_hwstamp_get(ndev, req);
++	case SIOCSHWTSTAMP:
++		return rtsn_hwstamp_set(ndev, req);
++	default:
++		break;
++	}
++
++	return 0;
++}
++
++static const struct net_device_ops rtsn_netdev_ops = {
++	.ndo_open		= rtsn_open,
++	.ndo_stop		= rtsn_stop,
++	.ndo_start_xmit		= rtsn_start_xmit,
++	.ndo_get_stats		= rtsn_get_stats,
++	.ndo_eth_ioctl		= rtsn_do_ioctl,
++	.ndo_validate_addr	= eth_validate_addr,
++	.ndo_set_mac_address	= eth_mac_addr,
++};
++
++static int rtsn_get_ts_info(struct net_device *ndev,
++			    struct ethtool_ts_info *info)
++{
++	struct rtsn_private *priv = netdev_priv(ndev);
++
++	info->phc_index = ptp_clock_index(priv->ptp_priv->clock);
++	info->so_timestamping = SOF_TIMESTAMPING_TX_SOFTWARE |
++		SOF_TIMESTAMPING_RX_SOFTWARE |
++		SOF_TIMESTAMPING_SOFTWARE |
++		SOF_TIMESTAMPING_TX_HARDWARE |
++		SOF_TIMESTAMPING_RX_HARDWARE |
++		SOF_TIMESTAMPING_RAW_HARDWARE;
++	info->tx_types = BIT(HWTSTAMP_TX_OFF) | BIT(HWTSTAMP_TX_ON);
++	info->rx_filters = BIT(HWTSTAMP_FILTER_NONE) | BIT(HWTSTAMP_FILTER_ALL);
++
++	return 0;
++}
++
++static const struct ethtool_ops rtsn_ethtool_ops = {
++	.nway_reset		= phy_ethtool_nway_reset,
++	.get_link		= ethtool_op_get_link,
++	.get_ts_info		= rtsn_get_ts_info,
++	.get_link_ksettings	= phy_ethtool_get_link_ksettings,
++	.set_link_ksettings	= phy_ethtool_set_link_ksettings,
++};
++
++static const struct of_device_id rtsn_match_table[] = {
++	{.compatible = "renesas,r8a779g0-ethertsn", },
++	{ /* Sentinel */ }
++};
++
++MODULE_DEVICE_TABLE(of, rtsn_match_table);
++
++static int rtsn_probe(struct platform_device *pdev)
++{
++	struct rtsn_private *priv;
++	struct net_device *ndev;
++	struct resource *res;
++	int ret;
++
++	ndev = alloc_etherdev_mqs(sizeof(struct rtsn_private), TX_NUM_CHAINS,
++				  RX_NUM_CHAINS);
++	if (!ndev)
++		return -ENOMEM;
++
++	priv = netdev_priv(ndev);
++	priv->pdev = pdev;
++	priv->ndev = ndev;
++	priv->ptp_priv = rcar_gen4_ptp_alloc(pdev);
++
++	spin_lock_init(&priv->lock);
++	platform_set_drvdata(pdev, priv);
++
++	priv->clk = devm_clk_get(&pdev->dev, NULL);
++	if (IS_ERR(priv->clk)) {
++		ret = -PTR_ERR(priv->clk);
++		goto error_alloc;
++	}
++
++	priv->reset = devm_reset_control_get(&pdev->dev, NULL);
++	if (IS_ERR(priv->reset)) {
++		ret = -PTR_ERR(priv->reset);
++		goto error_alloc;
++	}
++
++	res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "tsnes");
++	if (!res) {
++		dev_err(&pdev->dev, "Can't find tsnes resource\n");
++		ret = -EINVAL;
++		goto error_alloc;
++	}
++
++	priv->base = devm_ioremap_resource(&pdev->dev, res);
++	if (IS_ERR(priv->base)) {
++		ret = PTR_ERR(priv->base);
++		goto error_alloc;
++	}
++
++	SET_NETDEV_DEV(ndev, &pdev->dev);
++	ether_setup(ndev);
++
++	ndev->features = NETIF_F_RXCSUM;
++	ndev->hw_features = NETIF_F_RXCSUM;
++	ndev->base_addr = res->start;
++	ndev->netdev_ops = &rtsn_netdev_ops;
++	ndev->ethtool_ops = &rtsn_ethtool_ops;
++
++	res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "gptp");
++	if (!res) {
++		dev_err(&pdev->dev, "Can't find gptp resource\n");
++		ret = -EINVAL;
++		goto error_alloc;
++	}
++	priv->ptp_priv->addr = devm_ioremap_resource(&pdev->dev, res);
++	if (IS_ERR(priv->ptp_priv->addr)) {
++		ret = -PTR_ERR(priv->ptp_priv->addr);
++		goto error_alloc;
++	}
++
++	pm_runtime_enable(&pdev->dev);
++	pm_runtime_get_sync(&pdev->dev);
++
++	netif_napi_add(ndev, &priv->napi, rtsn_poll);
++
++	rtsn_parse_mac_address(pdev->dev.of_node, ndev);
++
++	ret = register_netdev(ndev);
++	if (ret)
++		goto error_pm;
++
++	dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(32));
++
++	device_set_wakeup_capable(&pdev->dev, 1);
++
++	ret = rcar_gen4_ptp_register(priv->ptp_priv, RCAR_GEN4_PTP_REG_LAYOUT,
++				     clk_get_rate(priv->clk));
++	if (ret)
++		goto error_ndev;
++
++	netdev_info(ndev, "MAC address %pM\n", ndev->dev_addr);
++
++	return 0;
++
++error_ndev:
++	netif_napi_del(&priv->napi);
++	unregister_netdev(ndev);
++error_pm:
++	pm_runtime_put_sync(&pdev->dev);
++	pm_runtime_disable(&pdev->dev);
++error_alloc:
++	free_netdev(ndev);
++
++	return ret;
++}
++
++static int rtsn_remove(struct platform_device *pdev)
++{
++	struct rtsn_private *priv = platform_get_drvdata(pdev);
++
++	rcar_gen4_ptp_unregister(priv->ptp_priv);
++	rtsn_change_mode(priv, OCR_OPC_DISABLE);
++	netif_napi_del(&priv->napi);
++	unregister_netdev(priv->ndev);
++
++	pm_runtime_put_sync(&pdev->dev);
++	pm_runtime_disable(&pdev->dev);
++
++	free_netdev(priv->ndev);
++
++	return 0;
++}
++
++static struct platform_driver rtsn_driver = {
++	.probe		= rtsn_probe,
++	.remove		= rtsn_remove,
++	.driver	= {
++		.name	= "rtsn",
++		.of_match_table	= rtsn_match_table,
++	}
++};
++module_platform_driver(rtsn_driver);
++
++MODULE_AUTHOR("Phong Hoang, Niklas Söderlund");
++MODULE_DESCRIPTION("Renesas Ethernet-TSN device driver");
++MODULE_LICENSE("GPL");
+diff --git a/drivers/net/ethernet/renesas/rtsn.h b/drivers/net/ethernet/renesas/rtsn.h
+new file mode 100644
+index 000000000000..3183e80d7e6b
+--- /dev/null
++++ b/drivers/net/ethernet/renesas/rtsn.h
+@@ -0,0 +1,464 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++
++/* Renesas Ethernet-TSN device driver
++ *
++ * Copyright (C) 2022 Renesas Electronics Corporation
++ * Copyright (C) 2023 Niklas Söderlund <niklas.soderlund@ragnatech.se>
++ */
++
++#ifndef __RTSN_H__
++#define __RTSN_H__
++
++#include <linux/types.h>
++
++#define AXIBMI	0x0000
++#define TSNMHD	0x1000
++#define RMSO	0x2000
++#define RMRO	0x3800
++
++enum rtsn_reg {
++	AXIWC		= AXIBMI + 0x0000,
++	AXIRC		= AXIBMI + 0x0004,
++	TDPC0		= AXIBMI + 0x0010,
++	TFT		= AXIBMI + 0x0090,
++	TATLS0		= AXIBMI + 0x00a0,
++	TATLS1		= AXIBMI + 0x00a4,
++	TATLR		= AXIBMI + 0x00a8,
++	RATLS0		= AXIBMI + 0x00b0,
++	RATLS1		= AXIBMI + 0x00b4,
++	RATLR		= AXIBMI + 0x00b8,
++	TSA0		= AXIBMI + 0x00c0,
++	TSS0		= AXIBMI + 0x00c4,
++	TRCR0		= AXIBMI + 0x0140,
++	RIDAUAS0	= AXIBMI + 0x0180,
++	RR		= AXIBMI + 0x0200,
++	TATS		= AXIBMI + 0x0210,
++	TATSR0		= AXIBMI + 0x0214,
++	TATSR1		= AXIBMI + 0x0218,
++	TATSR2		= AXIBMI + 0x021c,
++	RATS		= AXIBMI + 0x0220,
++	RATSR0		= AXIBMI + 0x0224,
++	RATSR1		= AXIBMI + 0x0228,
++	RATSR2		= AXIBMI + 0x022c,
++	RIDASM0		= AXIBMI + 0x0240,
++	RIDASAM0	= AXIBMI + 0x0244,
++	RIDACAM0	= AXIBMI + 0x0248,
++	EIS0		= AXIBMI + 0x0300,
++	EIE0		= AXIBMI + 0x0304,
++	EID0		= AXIBMI + 0x0308,
++	EIS1		= AXIBMI + 0x0310,
++	EIE1		= AXIBMI + 0x0314,
++	EID1		= AXIBMI + 0x0318,
++	TCEIS0		= AXIBMI + 0x0340,
++	TCEIE0		= AXIBMI + 0x0344,
++	TCEID0		= AXIBMI + 0x0348,
++	RFSEIS0		= AXIBMI + 0x04c0,
++	RFSEIE0		= AXIBMI + 0x04c4,
++	RFSEID0		= AXIBMI + 0x04c8,
++	RFEIS0		= AXIBMI + 0x0540,
++	RFEIE0		= AXIBMI + 0x0544,
++	RFEID0		= AXIBMI + 0x0548,
++	RCEIS0		= AXIBMI + 0x05c0,
++	RCEIE0		= AXIBMI + 0x05c4,
++	RCEID0		= AXIBMI + 0x05c8,
++	RIDAOIS		= AXIBMI + 0x0640,
++	RIDAOIE		= AXIBMI + 0x0644,
++	RIDAOID		= AXIBMI + 0x0648,
++	TSFEIS		= AXIBMI + 0x06c0,
++	TSFEIE		= AXIBMI + 0x06c4,
++	TSFEID		= AXIBMI + 0x06c8,
++	TSCEIS		= AXIBMI + 0x06d0,
++	TSCEIE		= AXIBMI + 0x06d4,
++	TSCEID		= AXIBMI + 0x06d8,
++	DIS		= AXIBMI + 0x0b00,
++	DIE		= AXIBMI + 0x0b04,
++	DID		= AXIBMI + 0x0b08,
++	TDIS0		= AXIBMI + 0x0b10,
++	TDIE0		= AXIBMI + 0x0b14,
++	TDID0		= AXIBMI + 0x0b18,
++	RDIS0		= AXIBMI + 0x0b90,
++	RDIE0		= AXIBMI + 0x0b94,
++	RDID0		= AXIBMI + 0x0b98,
++	TSDIS		= AXIBMI + 0x0c10,
++	TSDIE		= AXIBMI + 0x0c14,
++	TSDID		= AXIBMI + 0x0c18,
++	GPOUT		= AXIBMI + 0x6000,
++
++	OCR		= TSNMHD + 0x0000,
++	OSR		= TSNMHD + 0x0004,
++	SWR		= TSNMHD + 0x0008,
++	SIS		= TSNMHD + 0x000c,
++	GIS		= TSNMHD + 0x0010,
++	GIE		= TSNMHD + 0x0014,
++	GID		= TSNMHD + 0x0018,
++	TIS1		= TSNMHD + 0x0020,
++	TIE1		= TSNMHD + 0x0024,
++	TID1		= TSNMHD + 0x0028,
++	TIS2		= TSNMHD + 0x0030,
++	TIE2		= TSNMHD + 0x0034,
++	TID2		= TSNMHD + 0x0038,
++	RIS		= TSNMHD + 0x0040,
++	RIE		= TSNMHD + 0x0044,
++	RID		= TSNMHD + 0x0048,
++	TGC1		= TSNMHD + 0x0050,
++	TGC2		= TSNMHD + 0x0054,
++	TFS0		= TSNMHD + 0x0060,
++	TCF0		= TSNMHD + 0x0070,
++	TCR1		= TSNMHD + 0x0080,
++	TCR2		= TSNMHD + 0x0084,
++	TCR3		= TSNMHD + 0x0088,
++	TCR4		= TSNMHD + 0x008c,
++	TMS0		= TSNMHD + 0x0090,
++	TSR1		= TSNMHD + 0x00b0,
++	TSR2		= TSNMHD + 0x00b4,
++	TSR3		= TSNMHD + 0x00b8,
++	TSR4		= TSNMHD + 0x00bc,
++	TSR5		= TSNMHD + 0x00c0,
++	RGC		= TSNMHD + 0x00d0,
++	RDFCR		= TSNMHD + 0x00d4,
++	RCFCR		= TSNMHD + 0x00d8,
++	REFCNCR		= TSNMHD + 0x00dc,
++	RSR1		= TSNMHD + 0x00e0,
++	RSR2		= TSNMHD + 0x00e4,
++	RSR3		= TSNMHD + 0x00e8,
++	TCIS		= TSNMHD + 0x01e0,
++	TCIE		= TSNMHD + 0x01e4,
++	TCID		= TSNMHD + 0x01e8,
++	TPTPC		= TSNMHD + 0x01f0,
++	TTML		= TSNMHD + 0x01f4,
++	TTJ		= TSNMHD + 0x01f8,
++	TCC		= TSNMHD + 0x0200,
++	TCS		= TSNMHD + 0x0204,
++	TGS		= TSNMHD + 0x020c,
++	TACST0		= TSNMHD + 0x0210,
++	TACST1		= TSNMHD + 0x0214,
++	TACST2		= TSNMHD + 0x0218,
++	TALIT0		= TSNMHD + 0x0220,
++	TALIT1		= TSNMHD + 0x0224,
++	TALIT2		= TSNMHD + 0x0228,
++	TAEN0		= TSNMHD + 0x0230,
++	TAEN1		= TSNMHD + 0x0234,
++	TASFE		= TSNMHD + 0x0240,
++	TACLL0		= TSNMHD + 0x0250,
++	TACLL1		= TSNMHD + 0x0254,
++	TACLL2		= TSNMHD + 0x0258,
++	CACC		= TSNMHD + 0x0260,
++	CCS		= TSNMHD + 0x0264,
++	CAIV0		= TSNMHD + 0x0270,
++	CAUL0		= TSNMHD + 0x0290,
++	TOCST0		= TSNMHD + 0x0300,
++	TOCST1		= TSNMHD + 0x0304,
++	TOCST2		= TSNMHD + 0x0308,
++	TOLIT0		= TSNMHD + 0x0310,
++	TOLIT1		= TSNMHD + 0x0314,
++	TOLIT2		= TSNMHD + 0x0318,
++	TOEN0		= TSNMHD + 0x0320,
++	TOEN1		= TSNMHD + 0x0324,
++	TOSFE		= TSNMHD + 0x0330,
++	TCLR0		= TSNMHD + 0x0340,
++	TCLR1		= TSNMHD + 0x0344,
++	TCLR2		= TSNMHD + 0x0348,
++	TSMS		= TSNMHD + 0x0350,
++	COCC		= TSNMHD + 0x0360,
++	COIV0		= TSNMHD + 0x03b0,
++	COUL0		= TSNMHD + 0x03d0,
++	QSTMACU0	= TSNMHD + 0x0400,
++	QSTMACD0	= TSNMHD + 0x0404,
++	QSTMAMU0	= TSNMHD + 0x0408,
++	QSTMAMD0	= TSNMHD + 0x040c,
++	QSFTVL0		= TSNMHD + 0x0410,
++	QSFTVLM0	= TSNMHD + 0x0414,
++	QSFTMSD0	= TSNMHD + 0x0418,
++	QSFTGMI0	= TSNMHD + 0x041c,
++	QSFTLS		= TSNMHD + 0x0600,
++	QSFTLIS		= TSNMHD + 0x0604,
++	QSFTLIE		= TSNMHD + 0x0608,
++	QSFTLID		= TSNMHD + 0x060c,
++	QSMSMC		= TSNMHD + 0x0610,
++	QSGTMC		= TSNMHD + 0x0614,
++	QSEIS		= TSNMHD + 0x0618,
++	QSEIE		= TSNMHD + 0x061c,
++	QSEID		= TSNMHD + 0x0620,
++	QGACST0		= TSNMHD + 0x0630,
++	QGACST1		= TSNMHD + 0x0634,
++	QGACST2		= TSNMHD + 0x0638,
++	QGALIT1		= TSNMHD + 0x0640,
++	QGALIT2		= TSNMHD + 0x0644,
++	QGAEN0		= TSNMHD + 0x0648,
++	QGAEN1		= TSNMHD + 0x074c,
++	QGIGS		= TSNMHD + 0x0650,
++	QGGC		= TSNMHD + 0x0654,
++	QGATL0		= TSNMHD + 0x0664,
++	QGATL1		= TSNMHD + 0x0668,
++	QGATL2		= TSNMHD + 0x066c,
++	QGOCST0		= TSNMHD + 0x0670,
++	QGOCST1		= TSNMHD + 0x0674,
++	QGOCST2		= TSNMHD + 0x0678,
++	QGOLIT0		= TSNMHD + 0x067c,
++	QGOLIT1		= TSNMHD + 0x0680,
++	QGOLIT2		= TSNMHD + 0x0684,
++	QGOEN0		= TSNMHD + 0x0688,
++	QGOEN1		= TSNMHD + 0x068c,
++	QGTRO		= TSNMHD + 0x0690,
++	QGTR1		= TSNMHD + 0x0694,
++	QGTR2		= TSNMHD + 0x0698,
++	QGFSMS		= TSNMHD + 0x069c,
++	QTMIS		= TSNMHD + 0x06e0,
++	QTMIE		= TSNMHD + 0x06e4,
++	QTMID		= TSNMHD + 0x06e8,
++	QMEC		= TSNMHD + 0x0700,
++	QMMC		= TSNMHD + 0x0704,
++	QRFDC		= TSNMHD + 0x0708,
++	QYFDC		= TSNMHD + 0x070c,
++	QVTCMC0		= TSNMHD + 0x0710,
++	QMCBSC0		= TSNMHD + 0x0750,
++	QMCIRC0		= TSNMHD + 0x0790,
++	QMEBSC0		= TSNMHD + 0x07d0,
++	QMEIRC0		= TSNMHD + 0x0710,
++	QMCFC		= TSNMHD + 0x0850,
++	QMEIS		= TSNMHD + 0x0860,
++	QMEIE		= TSNMHD + 0x0864,
++	QMEID		= TSNMHD + 0x086c,
++	QSMFC0		= TSNMHD + 0x0870,
++	QMSPPC0		= TSNMHD + 0x08b0,
++	QMSRPC0		= TSNMHD + 0x08f0,
++	QGPPC0		= TSNMHD + 0x0930,
++	QGRPC0		= TSNMHD + 0x0950,
++	QMDPC0		= TSNMHD + 0x0970,
++	QMGPC0		= TSNMHD + 0x09b0,
++	QMYPC0		= TSNMHD + 0x09f0,
++	QMRPC0		= TSNMHD + 0x0a30,
++	MQSTMACU	= TSNMHD + 0x0a70,
++	MQSTMACD	= TSNMHD + 0x0a74,
++	MQSTMAMU	= TSNMHD + 0x0a78,
++	MQSTMAMD	= TSNMHD + 0x0a7c,
++	MQSFTVL		= TSNMHD + 0x0a80,
++	MQSFTVLM	= TSNMHD + 0x0a84,
++	MQSFTMSD	= TSNMHD + 0x0a88,
++	MQSFTGMI	= TSNMHD + 0x0a8c,
++
++	CFCR0		= RMSO + 0x0800,
++	FMSCR		= RMSO + 0x0c10,
++
++	MMC		= RMRO + 0x0000,
++	MPSM		= RMRO + 0x0010,
++	MPIC		= RMRO + 0x0014,
++	MTFFC		= RMRO + 0x0020,
++	MTPFC		= RMRO + 0x0024,
++	MTATC0		= RMRO + 0x0040,
++	MRGC		= RMRO + 0x0080,
++	MRMAC0		= RMRO + 0x0084,
++	MRMAC1		= RMRO + 0x0088,
++	MRAFC		= RMRO + 0x008c,
++	MRSCE		= RMRO + 0x0090,
++	MRSCP		= RMRO + 0x0094,
++	MRSCC		= RMRO + 0x0098,
++	MRFSCE		= RMRO + 0x009c,
++	MRFSCP		= RMRO + 0x00a0,
++	MTRC		= RMRO + 0x00a4,
++	MPFC		= RMRO + 0x0100,
++	MLVC		= RMRO + 0x0340,
++	MEEEC		= RMRO + 0x0350,
++	MLBC		= RMRO + 0x0360,
++	MGMR		= RMRO + 0x0400,
++	MMPFTCT		= RMRO + 0x0410,
++	MAPFTCT		= RMRO + 0x0414,
++	MPFRCT		= RMRO + 0x0418,
++	MFCICT		= RMRO + 0x041c,
++	MEEECT		= RMRO + 0x0420,
++	MEIS		= RMRO + 0x0500,
++	MEIE		= RMRO + 0x0504,
++	MEID		= RMRO + 0x0508,
++	MMIS0		= RMRO + 0x0510,
++	MMIE0		= RMRO + 0x0514,
++	MMID0		= RMRO + 0x0518,
++	MMIS1		= RMRO + 0x0520,
++	MMIE1		= RMRO + 0x0524,
++	MMID1		= RMRO + 0x0528,
++	MMIS2		= RMRO + 0x0530,
++	MMIE2		= RMRO + 0x0534,
++	MMID2		= RMRO + 0x0538,
++	MXMS		= RMRO + 0x0600,
++
++};
++
++/* AXIBMI */
++#define RR_RATRR		BIT(0)
++#define RR_TATRR		BIT(1)
++#define RR_RST			(RR_RATRR | RR_TATRR)
++#define RR_RST_COMPLETE		0x03
++
++#define AXIWC_DEFAULT		0xffff
++#define AXIRC_DEFAULT		0xffff
++
++#define TATLS0_TEDE		BIT(1)
++#define TATLS0_TATEN_SHIFT	24
++#define TATLS0_TATEN(n)		((n) << TATLS0_TATEN_SHIFT)
++#define TATLR_TATL		BIT(31)
++
++#define RATLS0_RETS		BIT(2)
++#define RATLS0_REDE		BIT(3)
++#define RATLS0_RATEN_SHIFT	24
++#define RATLS0_RATEN(n)		((n) << RATLS0_RATEN_SHIFT)
++#define RATLR_RATL		BIT(31)
++
++#define DIE_DID_TDICX(n)	BIT((n))
++#define DIE_DID_RDICX(n)	BIT((n) + 8)
++#define TDIE_TDID_TDX(n)	BIT(n)
++#define RDIE_RDID_RDX(n)	BIT(n)
++#define TDIS_TDS(n)		BIT(n)
++#define RDIS_RDS(n)		BIT(n)
++
++/* MHD */
++#define OSR_OPS			0x07
++#define SWR_SWR			BIT(0)
++
++#define TGC1_TQTM_SFM		0xff00
++#define TGC1_STTV_DEFAULT	0x03
++
++#define TMS_MFS_MAX		0x2800
++
++/* RMAC System */
++#define CFCR_SDID(n)		((n) << 16)
++#define FMSCR_FMSIE(n)		((n) << 0)
++
++/* RMAC */
++#define MPIC_PIS_MASK		GENMASK(1, 0)
++#define MPIC_PIS_MII		0
++#define MPIC_PIS_RMII		0x01
++#define MPIC_PIS_GMII		0x02
++#define MPIC_PIS_RGMII		0x03
++#define MPIC_LSC_SHIFT		2
++#define MPIC_LSC_MASK		GENMASK(3, MPIC_LSC_SHIFT)
++#define MPIC_LSC_10M		(0 << MPIC_LSC_SHIFT)
++#define MPIC_LSC_100M		(0x01 << MPIC_LSC_SHIFT)
++#define MPIC_LSC_1G		(0x02 << MPIC_LSC_SHIFT)
++#define MPIC_PSMCS_SHIFT	16
++#define MPIC_PSMCS_MASK		GENMASK(21, MPIC_PSMCS_SHIFT)
++#define MPIC_PSMCS_DEFAULT	(0x0a << MPIC_PSMCS_SHIFT)
++#define MPIC_PSMHT_SHIFT	24
++#define MPIC_PSMHT_MASK		GENMASK(26, MPIC_PSMHT_SHIFT)
++#define MPIC_PSMHT_DEFAULT	(0x07 << MPIC_PSMHT_SHIFT)
++
++#define MLVC_PASE		BIT(8)
++#define MLVC_PSE		BIT(16)
++#define MLVC_PLV		BIT(17)
++
++#define MPSM_PSME		BIT(0)
++#define MPSM_PSMAD		BIT(1)
++#define MPSM_PDA_SHIFT		3
++#define MPSM_PDA_MASK		GENMASK(7, 3)
++#define MPSM_PDA(n)		(((n) << MPSM_PDA_SHIFT) & MPSM_PDA_MASK)
++#define MPSM_PRA_SHIFT		8
++#define MPSM_PRA_MASK		GENMASK(12, 8)
++#define MPSM_PRA(n)		(((n) << MPSM_PRA_SHIFT) & MPSM_PRA_MASK)
++#define MPSM_PRD_SHIFT		16
++#define MPSM_PRD_SET(n)		((n) << MPSM_PRD_SHIFT)
++#define MPSM_PRD_GET(n)		((n) >> MPSM_PRD_SHIFT)
++
++#define GPOUT_RDM		BIT(13)
++#define GPOUT_TDM		BIT(14)
++
++/* RTSN */
++#define RTSN_INTERVAL_US	1000
++#define RTSN_TIMEOUT_US		1000000
++
++#define TX_NUM_CHAINS		1
++#define RX_NUM_CHAINS		1
++
++#define TX_CHAIN_SIZE		1024
++#define RX_CHAIN_SIZE		1024
++
++#define TX_CHAIN_IDX		0
++#define RX_CHAIN_IDX		0
++
++#define TX_CHAIN_ADDR_OFFSET	(sizeof(struct rtsn_desc) * TX_CHAIN_IDX)
++#define RX_CHAIN_ADDR_OFFSET	(sizeof(struct rtsn_desc) * RX_CHAIN_IDX)
++
++#define PKT_BUF_SZ		1584
++#define RTSN_ALIGN		128
++
++enum rtsn_mode {
++	OCR_OPC_DISABLE,
++	OCR_OPC_CONFIG,
++	OCR_OPC_OPERATION,
++};
++
++/* Descriptors */
++enum RX_DS_CC_BIT {
++	RX_DS	= 0x0fff, /* Data size */
++	RX_TR	= 0x1000, /* Truncation indication */
++	RX_EI	= 0x2000, /* Error indication */
++	RX_PS	= 0xc000, /* Padding selection */
++};
++
++enum TX_FS_TAGL_BIT {
++	TX_DS	= 0x0fff, /* Data size */
++	TX_TAGL	= 0xf000, /* Frame tag LSBs */
++};
++
++enum DIE_DT {
++	/* HW/SW arbitration */
++	DT_FEMPTY_IS	= 0x10,
++	DT_FEMPTY_IC	= 0x20,
++	DT_FEMPTY_ND	= 0x30,
++	DT_FEMPTY	= 0x40,
++	DT_FEMPTY_START	= 0x50,
++	DT_FEMPTY_MID	= 0x60,
++	DT_FEMPTY_END	= 0x70,
++
++	/* Frame data */
++	DT_FSINGLE	= 0x80,
++	DT_FSTART	= 0x90,
++	DT_FMID		= 0xa0,
++	DT_FEND		= 0xb0,
++
++	/* Chain control */
++	DT_LEMPTY	= 0xc0,
++	DT_EEMPTY	= 0xd0,
++	DT_LINK		= 0xe0,
++	DT_EOS		= 0xf0,
++
++	DT_MASK		= 0xf0,
++	D_DIE		= 0x08,
++};
++
++struct rtsn_desc {
++	__le16 info_ds;
++	__u8 info;
++	u8 die_dt;
++	__le32 dptr;
++} __packed;
++
++struct rtsn_ts_desc {
++	__le16 info_ds;
++	__u8 info;
++	u8 die_dt;
++	__le32 dptr;
++	__le32 ts_nsec;
++	__le32 ts_sec;
++} __packed;
++
++struct rtsn_ext_desc {
++	__le16 info_ds;
++	__u8 info;
++	u8 die_dt;
++	__le32 dptr;
++	__le64 info1;
++} __packed;
++
++struct rtsn_ext_ts_desc {
++	__le16 info_ds;
++	__u8 info;
++	u8 die_dt;
++	__le32 dptr;
++	__le64 info1;
++	__le32 ts_nsec;
++	__le32 ts_sec;
++} __packed;
++
++enum EXT_INFO_DS_BIT {
++	TXC = 0x4000,
++};
++
++#endif
 -- 
-Kind Regards,
-Niklas Söderlund
+2.44.0
+
 
