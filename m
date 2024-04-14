@@ -1,110 +1,102 @@
-Return-Path: <linux-renesas-soc+bounces-4570-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-4571-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBAD98A41EF
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 14 Apr 2024 12:52:05 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 99CA28A4231
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 14 Apr 2024 14:08:58 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id EF4571C202DC
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 14 Apr 2024 10:52:04 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4EA65282166
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 14 Apr 2024 12:08:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1CABA2E657;
-	Sun, 14 Apr 2024 10:52:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3210C381B9;
+	Sun, 14 Apr 2024 12:08:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="CWaP99Nr"
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="CeSQNMF4";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="U9WHFLx+"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-oo1-f47.google.com (mail-oo1-f47.google.com [209.85.161.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from wflow2-smtp.messagingengine.com (wflow2-smtp.messagingengine.com [64.147.123.137])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9907F2E633
-	for <linux-renesas-soc@vger.kernel.org>; Sun, 14 Apr 2024 10:52:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A06A228E11;
+	Sun, 14 Apr 2024 12:08:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=64.147.123.137
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713091922; cv=none; b=SCubUuxDwV0/V7+fy0CTYIN5VVhi3ejaBA9Y3GZ9kXopUIgcm8tTwYeAvAweLRwJipzy2w2sTdweyEHEABgglLEKB26Bc7xPAQMAgFYvrq1MTb8r5dtE5KGHMts8rms/vhaK8YffZTnUVRUCPdPMwNvSrmZmVTEkFCg5tPEPOG8=
+	t=1713096535; cv=none; b=L+L+Y6pAaBeNsX3YfeJPTN4dipVvajVZn6K2sauUGcDNXdgSBa+y/XaE329LKbHaF0woREhTjMUVu8AWUaZYVFAR401PAHgj40KzJkZ7msmAL1IzWI92wTCdT08FOGVOPD7ttsm/KftRYi2X+HkPx3Dz2wOBEYBmFhTKScvVvLw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713091922; c=relaxed/simple;
-	bh=Fskwbnc4cdeRPyqLU32Z5qy2jXRijiOAUXtekazEu2U=;
+	s=arc-20240116; t=1713096535; c=relaxed/simple;
+	bh=5N4BnsKzj90u66yivCv897XiJyZSNF6/P0ikC49cmXw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UpvKcHkIcKo8QfrT5nuaKHPllJhqjWXeQFJcOHO1J04Nv9ydOHM+XQ8rwi7zvAZnVeGhY8rV34tkAC6cxVUXOGjHZpkzzO7ZZvjY4aOLY1dv1L6HahRYjYLuSKY46OhVg2ZatEfVPOORxc0wS7hA1iNWZf7o8KUmSdMLE6vj1mY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=CWaP99Nr; arc=none smtp.client-ip=209.85.161.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-oo1-f47.google.com with SMTP id 006d021491bc7-5aa20adda1dso1963348eaf.1
-        for <linux-renesas-soc@vger.kernel.org>; Sun, 14 Apr 2024 03:52:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1713091920; x=1713696720; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=z86tADjA34jPDvp0sH69LSJjWH6CGCLDMrpq88/Jt4c=;
-        b=CWaP99NrQRXk3iFK/wgoPbgyUyGNFKCr4YFHVgLI5kt74TfD3aPIvUhRxQY35Y72gr
-         8US1fOCunZipK17hTN/LOMXEdlxau01EEf07VFTwJvlw3ts18vKMRyQ8LpQOU19oQYhD
-         lOQcO/ev3XiUEttz4LZOXi8DicZ9/bpTUpAO3tM5HiY3kYzQLnhKkZGlTKPb3+axyWtb
-         L7BbkVoyNfRPHCY+51XaJ4kWSuK5GRTPbpDr2N3drgzT7KO0mJ1PnbDSKJrQx04ySfmL
-         hcuq/+Ncj6C+V+qaDlmdU1nfDW3po9kZiKu3LAl4VWu1iSZY+uiCsB8KPQgDFlMt0MT1
-         1NZw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713091920; x=1713696720;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=z86tADjA34jPDvp0sH69LSJjWH6CGCLDMrpq88/Jt4c=;
-        b=QaM/ro2zMLHaFwTuYcDxGnLMG/11kP5HfKxogEboDj/o50xjcLep/0OURahMelmEIB
-         K8dYRMlbfuwBSh03rVXdTJUqPjQs5FLeehfyS2ahUmxLavIGfr5YmZVyOrH3907g4/fp
-         8PmIi7Cv9qFzWeNDzgFQqaW1mXlOVtPx+bcwQ8L6Iza5SRwOjFQHNzUCY/E+GybtoOPX
-         Rrxv6+1rvHNE7tk4ctyp1kg9LW8qx6ADXOlIgUt2BewJCGhkf4uAilCj2duuoAusx3XI
-         atFSxwOfJBy/q2zjRxQ4WJM5cSPorrbtTamwILfXQ8n4su32bOzg597camiNga2hALe5
-         xRmQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVXaZBcroP6jErCU1OKSgFa66DltJm3kxA3eoc7TIWgZ+kT5oJtF9RbucODhcj6xVwKwheH7keHreQHyylfHli1YCnnLVhZpsnV4agx5BECyBA=
-X-Gm-Message-State: AOJu0Yw8q/uFYcUI/bnT3fLCrYWdc8gQy6tH5cHx992sNq5giK9p5xC/
-	UGBurT4erfSemkDlTAeec7fCang2J1RaEI4AomXm09yJdYh/yC4odCVQEYwpYQ==
-X-Google-Smtp-Source: AGHT+IHG73jN0JyTXE5YMG9IYvVbYRtG5PEk5LWJ00N9WZxttyYSYCMKrPxspcM2aGpT1bTva1r7xA==
-X-Received: by 2002:a05:6808:218c:b0:3c5:eddb:47c1 with SMTP id be12-20020a056808218c00b003c5eddb47c1mr9182957oib.5.1713091919486;
-        Sun, 14 Apr 2024 03:51:59 -0700 (PDT)
-Received: from thinkpad ([120.60.136.171])
-        by smtp.gmail.com with ESMTPSA id im22-20020a170902bb1600b001dcfaf4db22sm5944167plb.2.2024.04.14.03.51.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 14 Apr 2024 03:51:59 -0700 (PDT)
-Date: Sun, 14 Apr 2024 16:21:48 +0530
-From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-To: Bjorn Helgaas <helgaas@kernel.org>
-Cc: Jingoo Han <jingoohan1@gmail.com>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
-	Rob Herring <robh@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
-	Marek Vasut <marek.vasut+renesas@gmail.com>,
-	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Vidya Sagar <vidyas@nvidia.com>,
-	Vignesh Raghavendra <vigneshr@ti.com>,
-	Richard Zhu <hongxing.zhu@nxp.com>,
-	Lucas Stach <l.stach@pengutronix.de>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	NXP Linux Team <linux-imx@nxp.com>,
-	Minghuan Lian <minghuan.Lian@nxp.com>,
-	Mingkai Hu <mingkai.hu@nxp.com>, Roy Zang <roy.zang@nxp.com>,
-	Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Kishon Vijay Abraham I <kishon@kernel.org>,
-	Jesper Nilsson <jesper.nilsson@axis.com>,
-	Srikanth Thokala <srikanth.thokala@intel.com>,
-	Shawn Lin <shawn.lin@rock-chips.com>,
-	Heiko Stuebner <heiko@sntech.de>, linux-pci@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org, linux-tegra@vger.kernel.org,
-	linux-omap@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linuxppc-dev@lists.ozlabs.org, Niklas Cassel <cassel@kernel.org>,
-	linux-arm-kernel@axis.com, linux-rockchip@lists.infradead.org
-Subject: Re: [PATCH v12 8/8] PCI: endpoint: Remove "core_init_notifier" flag
-Message-ID: <20240414105148.GC2294@thinkpad>
-References: <20240327-pci-dbi-rework-v12-8-082625472414@linaro.org>
- <20240412202216.GA14590@bhelgaas>
+	 Content-Type:Content-Disposition:In-Reply-To; b=RAJS6wN0HqmPkkT9nrxv0WaJ/ZSeia1NSBDHgZXMkPU94YJWuJJ4nDZcufo779mnvuzTAIxTsztJCtElOjrGs+ZMqTnbkhLHTVoJX7kWGFF9PVWe+afdJZMb3RsKgckt4eNEAq9uwM7oKLS7durvD9Ek0V0Yc43RmX71FhdRaQQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=CeSQNMF4; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=U9WHFLx+; arc=none smtp.client-ip=64.147.123.137
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
+	by mailflow.west.internal (Postfix) with ESMTP id AA5C62CC0354;
+	Sun, 14 Apr 2024 08:08:48 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute6.internal (MEProxy); Sun, 14 Apr 2024 08:08:49 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1713096528;
+	 x=1713100128; bh=DnTYqtiqxkdL8TutLD+ycAMOScjACnt4jFDuyfyg2WA=; b=
+	CeSQNMF42XN27F44NSY+sfmr5C7BlL4cjSzPU5l6lDPgGXYgtCEqc+SkzTsipiX0
+	I4QcK6gwD/MX4KZWGyKzHyIE+/cKI/niEhfS0Jf3QVRup72Y7JZzDgh6I/Gfocdu
+	/8cafiAWC5HAuIb/T08tUehBPjcaUrvSRp7IqjTthzChrOAHqOAnlYnuREPL87Dk
+	+rHKYyt3qAbH62FIQSdIIlbPfem3vp9JyphxHD7GU1zIxyvJ5Bl2CMquY9m/Nfha
+	nIR8KrJ6rANkiP3XNijitosarm8ygHy5Rf9kAYTOV0KBnx6yc0EaNrC/DcavSBDI
+	mFsVLRjywPpSYTenKe4Asw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1713096528; x=
+	1713100128; bh=DnTYqtiqxkdL8TutLD+ycAMOScjACnt4jFDuyfyg2WA=; b=U
+	9WHFLx+BDuI0uQgIsI3FLyQJ2XXI0FnjRHORd94kEuOICiyYid/sHPuGPp4xSbRe
+	M39kEwgcf/8L+dbbjzvm5hAKkHuapn04GflmqNRW1nWJp/8CjEQmDsPEaO8GIkqz
+	dKce5gfkJkAAAq+/63sPd4tN5v9gZsU19Rr21K/3ExqciPQzmX9N6gcPWhjSpYl7
+	C1Uj36t6xsKkI3pHSRUgvixv2Eyjsem+QZvymASXn/hcynaB4nUBDb9JBsO4a+61
+	W5csU6yY6on3ovRD+A5aPYxMmrv3AizT7LVEFeAw9KUKd2Mu3eNE2Gmmejo0SmWE
+	BQXwpugDAFZashb+XwVuA==
+X-ME-Sender: <xms:TscbZjbCiokxQMq68b78guQmg3KjoKZyaN3_I0fko3211zcMVG8C2g>
+    <xme:TscbZiZRT2CPZtJ3P3S7xFTYDwhfr6ImD05ryODpKnP9drAc-wX_KHvOMZv4nwtM2
+    IX-mHlzvDotey_VRrk>
+X-ME-Received: <xmr:TscbZl8JFv9rQi6tkHnIlC2_-GV7a6x88ZnDk99Zzi1sO3FiBi-MucbQbcWUEwwjZCGXDXD9jJLKHN5-KmLz6wsVVvoj5rU>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrudeiledggeelucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvfevuffkfhggtggugfgjsehtkeertddttdejnecuhfhrohhmpefpihhk
+    lhgrshcuufpnuggvrhhluhhnugcuoehnihhklhgrshdrshhouggvrhhluhhnugdorhgvnh
+    gvshgrshesrhgrghhnrghtvggthhdrshgvqeenucggtffrrghtthgvrhhnpeefhfellefh
+    ffejgfefudfggeejlefhveehieekhfeulefgtdefueehffdtvdelieenucevlhhushhtvg
+    hrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehnihhklhgrshdrshhouggv
+    rhhluhhnugdorhgvnhgvshgrshesrhgrghhnrghtvggthhdrshgv
+X-ME-Proxy: <xmx:TscbZprDRLM3y8XedHYqPLqoIN4kCjt0D1uDpzVEa4m0A9d4WJSVHA>
+    <xmx:TscbZupoPzbF5DgeXxzB60uosWucsi6O391AVL7-kdh1UJf28DoT2w>
+    <xmx:TscbZvSD4DV1M1DK3QRJB2FduAtaXMjjl7V5xVIYLDGkqHj1LmEoYA>
+    <xmx:TscbZmr4sla6k0b6jCohP3N8x4COpPILDFrfRXm3pgCzhK_fesU43w>
+    <xmx:UMcbZuJwZwpITPaZnANjtHiaBganof7-7V6ceqzUxB5FsZorEWdGuKxj>
+Feedback-ID: i80c9496c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
+ 14 Apr 2024 08:08:46 -0400 (EDT)
+Date: Sun, 14 Apr 2024 14:08:43 +0200
+From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+To: Paul Barker <paul.barker.ct@bp.renesas.com>
+Cc: Sergey Shtylyov <s.shtylyov@omp.ru>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH net 1/4] net: ravb: Count packets instead of descriptors
+ in R-Car RX path
+Message-ID: <20240414120843.GA2860391@ragnatech.se>
+References: <20240411114434.26186-1-paul.barker.ct@bp.renesas.com>
+ <20240411114434.26186-2-paul.barker.ct@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -114,80 +106,104 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240412202216.GA14590@bhelgaas>
+In-Reply-To: <20240411114434.26186-2-paul.barker.ct@bp.renesas.com>
 
-On Fri, Apr 12, 2024 at 03:22:16PM -0500, Bjorn Helgaas wrote:
-> On Wed, Mar 27, 2024 at 02:43:37PM +0530, Manivannan Sadhasivam wrote:
-> > "core_init_notifier" flag is set by the glue drivers requiring refclk from
-> > the host to complete the DWC core initialization. Also, those drivers will
-> > send a notification to the EPF drivers once the initialization is fully
-> > completed using the pci_epc_init_notify() API. Only then, the EPF drivers
-> > will start functioning.
-> > 
-> > For the rest of the drivers generating refclk locally, EPF drivers will
-> > start functioning post binding with them. EPF drivers rely on the
-> > 'core_init_notifier' flag to differentiate between the drivers.
-> > Unfortunately, this creates two different flows for the EPF drivers.
-> > 
-> > So to avoid that, let's get rid of the "core_init_notifier" flag and follow
-> > a single initialization flow for the EPF drivers. This is done by calling
-> > the dw_pcie_ep_init_notify() from all glue drivers after the completion of
-> > dw_pcie_ep_init_registers() API. This will allow all the glue drivers to
-> > send the notification to the EPF drivers once the initialization is fully
-> > completed.
-> 
-> Thanks for doing this!  I think this is a significantly nicer
-> solution than core_init_notifier was.
-> 
-> One question: both qcom and tegra194 call dw_pcie_ep_init_registers()
-> from an interrupt handler, but they register that handler in a
-> different order with respect to dw_pcie_ep_init().
-> 
-> I don't know what actually starts the process that leads to the
-> interrupt, but if it's dw_pcie_ep_init(), then one of these (qcom, I
-> think) must be racy:
-> 
+Hi Paul,
 
-Your analysis is correct. But there is no race observed as of now since the IRQ
-will only be enabled by configuring the endpoint using configfs interface and
-right now I use an init script to do that. By that time, the driver would've
-already probed completely.
+Thanks for your patch.
 
-But there is a slight chance that if the driver gets loaded as a module and the
-userspace script starts configuring the endpoint interface using inotify watch
-or something similar, then race could occur since the IRQ handler may not be
-registered at that point.
+On 2024-04-11 12:44:30 +0100, Paul Barker wrote:
+> The units of "work done" in the RX path should be packets instead of
+> descriptors.
+> 
+> Descriptors which are used by the hardware to record error conditions or
+> are empty in the case of a DMA mapping error should not count towards
+> our RX work budget.
+> 
+> Fixes: c156633f1353 ("Renesas Ethernet AVB driver proper")
+> Signed-off-by: Paul Barker <paul.barker.ct@bp.renesas.com>
+> ---
+>  drivers/net/ethernet/renesas/ravb_main.c | 20 ++++++++------------
+>  1 file changed, 8 insertions(+), 12 deletions(-)
+> 
+> diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
+> index ba01c8cc3c90..70f2900648d4 100644
+> --- a/drivers/net/ethernet/renesas/ravb_main.c
+> +++ b/drivers/net/ethernet/renesas/ravb_main.c
+> @@ -892,29 +892,25 @@ static bool ravb_rx_rcar(struct net_device *ndev, int *quota, int q)
+>  	struct ravb_private *priv = netdev_priv(ndev);
+>  	const struct ravb_hw_info *info = priv->info;
+>  	int entry = priv->cur_rx[q] % priv->num_rx_ring[q];
+> -	int boguscnt = (priv->dirty_rx[q] + priv->num_rx_ring[q]) -
+> -			priv->cur_rx[q];
+>  	struct net_device_stats *stats = &priv->stats[q];
+>  	struct ravb_ex_rx_desc *desc;
+>  	struct sk_buff *skb;
+>  	dma_addr_t dma_addr;
+>  	struct timespec64 ts;
+> +	int rx_packets = 0;
+>  	u8  desc_status;
+>  	u16 pkt_len;
+>  	int limit;
+> +	int i;
 
->   qcom_pcie_ep_probe
->     dw_pcie_ep_init                                             <- A
->     qcom_pcie_ep_enable_irq_resources
->       devm_request_threaded_irq(qcom_pcie_ep_perst_irq_thread)  <- B
-> 
->   qcom_pcie_ep_perst_irq_thread
->     qcom_pcie_perst_deassert
->       dw_pcie_ep_init_registers
-> 
->   tegra_pcie_dw_probe
->     tegra_pcie_config_ep
->       devm_request_threaded_irq(tegra_pcie_ep_pex_rst_irq)      <- B
->       dw_pcie_ep_init                                           <- A
-> 
->   tegra_pcie_ep_pex_rst_irq
->     pex_ep_event_pex_rst_deassert
->       dw_pcie_ep_init_registers
-> 
-> Whatever the right answer is, I think qcom and tegra194 should both
-> order dw_pcie_ep_init() and the devm_request_threaded_irq() the same
-> way.
-> 
+The loop variable can never be negative, use unsigned int.
 
-Agree. The right way is to register the IRQ handler first and then do
-dw_pcie_ep_init(). I will fix it in the qcom driver.
+>  
+> -	boguscnt = min(boguscnt, *quota);
+> -	limit = boguscnt;
+> +	limit = priv->dirty_rx[q] + priv->num_rx_ring[q] - priv->cur_rx[q];
+>  	desc = &priv->rx_ring[q].ex_desc[entry];
+> -	while (desc->die_dt != DT_FEMPTY) {
+> +	for (i = 0; i < limit && rx_packets < *quota && desc->die_dt != DT_FEMPTY; i++) {
+>  		/* Descriptor type must be checked before all other reads */
+>  		dma_rmb();
+>  		desc_status = desc->msc;
+>  		pkt_len = le16_to_cpu(desc->ds_cc) & RX_DS;
+>  
+> -		if (--boguscnt < 0)
+> -			break;
+> -
 
-Thanks for spotting!
+nit: It's a matter of taste, but I like this break condition in the code 
+instead of modifying the loop as it's much clearer what's going on. But 
+feel free to keep it as is as Sergey likes it.
 
-- Mani
+>  		/* We use 0-byte descriptors to mark the DMA mapping errors */
+>  		if (!pkt_len)
+>  			continue;
+> @@ -960,7 +956,7 @@ static bool ravb_rx_rcar(struct net_device *ndev, int *quota, int q)
+>  			if (ndev->features & NETIF_F_RXCSUM)
+>  				ravb_rx_csum(skb);
+>  			napi_gro_receive(&priv->napi[q], skb);
+> -			stats->rx_packets++;
+> +			rx_packets++;
+
+Why do you add this intermediary variable? Is it not confusing to treat 
+rx_packets and rx_bytes differently? Why not instead decrement *quota 
+here?
+
+>  			stats->rx_bytes += pkt_len;
+>  		}
+>  
+> @@ -995,9 +991,9 @@ static bool ravb_rx_rcar(struct net_device *ndev, int *quota, int q)
+>  		desc->die_dt = DT_FEMPTY;
+>  	}
+>  
+> -	*quota -= limit - (++boguscnt);
+> -
+> -	return boguscnt <= 0;
+> +	stats->rx_packets += rx_packets;
+> +	*quota -= rx_packets;
+> +	return *quota == 0;
+>  }
+>  
+>  /* Packet receive function for Ethernet AVB */
+> -- 
+> 2.39.2
+> 
 
 -- 
-மணிவண்ணன் சதாசிவம்
+Kind Regards,
+Niklas Söderlund
 
