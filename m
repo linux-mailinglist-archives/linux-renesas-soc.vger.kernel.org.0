@@ -1,64 +1,64 @@
-Return-Path: <linux-renesas-soc+bounces-4610-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-4611-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id B506E8A4D63
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 15 Apr 2024 13:14:00 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F0458A4D75
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 15 Apr 2024 13:17:28 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3D7601F2190E
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 15 Apr 2024 11:14:00 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BE197283D4C
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 15 Apr 2024 11:17:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 55F505D734;
-	Mon, 15 Apr 2024 11:13:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E590260EEB;
+	Mon, 15 Apr 2024 11:17:08 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com [209.85.128.169])
+Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com [209.85.128.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77E605D49F;
-	Mon, 15 Apr 2024 11:13:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C0BD5D497;
+	Mon, 15 Apr 2024 11:17:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713179634; cv=none; b=XP5oVhDVoqDHIHyeLkPOz7lOJxWY/HQvIomNHTc2eRr/XFQO7CsrpWt6DBfkT92ftg8ls3/bgBKXYsd418IfaVJfvzhAcCNVuJzZUmLgUr0KrgMdCKNAp2pejSBlW2ZGDmcFANDOhrFRVjArDP4dzcyWdm8p435PL53XsGLtU5M=
+	t=1713179828; cv=none; b=VEwgKeD/ympvA58rr+EEXk41x0ndSPGIC5sN2303wF1Od6uRE9BOwCYdn5N1PPcLyDY+1aC0T+oFBpH+9MESdfH5Yq5hacqihC1gjZjZ6dd5Q4MxCXXamfz/Zjd3Wmh6VWm0P0lSk86fWd1ByTzicTJJ2boGj3xIit8KcLnHet4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713179634; c=relaxed/simple;
-	bh=DY1D/jrwts1nB0lRaeb1r4vr8r9BEL2IO+BWI1tSCig=;
+	s=arc-20240116; t=1713179828; c=relaxed/simple;
+	bh=OPrxxm549sdcK2roWgENrl0hX8PfxL3zKFt5RKh160M=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=hx+uYLQUkDAfVhPNuhz5wC5n6COBSUauJiLkPA5xKOaoYgctE6KOIzGB+J089PaRR0L+mwtfOabCzDwv9Cq4dDCsQYmcMiCh2qKzS3gTarz/VFDPKHKFMdSM/O680ceSrmq2w+zioheGGWOxrUTOhtlVwFoNUqMYbk+6/n0Pd+4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.169
+	 To:Cc:Content-Type; b=H9F6GAW4mQAOBSou+7VEJFNZ+C0zDuSg0GO8bXJ5VB/+jLJJhqCFukfugYgeQTd+S7XhE/YOcq38GbrLruQSHFfZDfk8UMWQvQ/rapJJgbJ+43IasT7yi4OrczDgy2dgJ8zUxPDyhsD9vaQnqFjaqQjWh4LHNO+ld2FnGRREa1g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-61816fc256dso25395617b3.0;
-        Mon, 15 Apr 2024 04:13:52 -0700 (PDT)
+Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-61ad5f2c231so6564727b3.2;
+        Mon, 15 Apr 2024 04:17:07 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713179631; x=1713784431;
+        d=1e100.net; s=20230601; t=1713179824; x=1713784624;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=5FWGxEu0VgX/lOXKA/j3W5EIIVimlFBayhs7POLjK7Q=;
-        b=VcmQl6Kyd+B2XAzfWz8o7NLFMXqx2/yM7/dKpiGPu7Pm8yzU0gKTwjfqa5pvJ9DPe2
-         njV2pvfb181H40iLJLmODkpwTJ3EKyK4QFaLThxmoLYiELDf9iV39TpLa1iKjSW7pKaA
-         fzl8CV6HduUu/FAsTp8vVJC5i8a8W+5kpgP1m8apEmdpufr0OWWKNjqu35Peev7NkujL
-         2uiAVTFfmGO6mEvZ/4YUHErA4x+og17zCIdYjJdOGC9itgIpPpOYAUD9ZWUBQ6flRCIj
-         6Dfue3PlqonhQZ1ETKahTZeWhHmLTEVq5/AfHOpByJ9b0o88BPMGm58dEYH14iQIGlp0
-         43DA==
-X-Forwarded-Encrypted: i=1; AJvYcCUHjVSn7uYmePK8pkgX6iohFcXMoMgo8D8WBjqSvjgS5se++S1GTBb9XqKeTzDKQ2Gj56WnN5EDbYK6fNr/6x3c5xnVVC1fqZ82dLfeZ5YlgUI8biog+LbSe93CW/OTJVTnq68TDSxBxxB19MiNhZHtgj10VWrittB4j1iAxqBvb30TDusEqgu2hnU=
-X-Gm-Message-State: AOJu0Yx4yfyQ6KolE5WpNMiOHUWwt9E0wtuoAfJ8Es1D1+9oS6UuQw9Z
-	/NeFPRCTa5nrrWkhnT6I4+EoMNbciuaMB7lEWKIBj6fncBDtCt/QNEVmFg/G
-X-Google-Smtp-Source: AGHT+IEZzJIBEAzV75fQm6Uh2aF1dVbmWQAbEUbjCls69hJliNK06kgOQMMk86eafHUAt3Ihy61WbQ==
-X-Received: by 2002:a81:e305:0:b0:618:5b27:e12b with SMTP id q5-20020a81e305000000b006185b27e12bmr8128819ywl.7.1713179630889;
-        Mon, 15 Apr 2024 04:13:50 -0700 (PDT)
-Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com. [209.85.128.176])
-        by smtp.gmail.com with ESMTPSA id p11-20020a817e4b000000b00617bcab1236sm2012343ywn.35.2024.04.15.04.13.49
+        bh=BDiun8fBl0neiQNLp2j8KsuRQma3u2I4LgI70HkeRT4=;
+        b=lxQcYuhPFq40+wpIrczNkGDcP839B3YLcaDlY4ffcC0UMm6S9yiy0WYv8B2Qb+hAo0
+         pLuEyOfrxCKbhRvXMw1dFCqt1vRgORAXZYRhz+v3uYP5qcMEi/eZo3bdbMpgvTJH+Bgg
+         gL7IO3VWYcQmRPPkVOf3TDJMR5ZfD3D8+DCC6ATUKwMSwNjZZVPVpkTO0+4oZ3H6O3Kh
+         BzU1MXa+wmlWU2YqdG2ZzqKMN9bKLGxUGJNb+lOKB0LuosEVHU0rZEZVtpl3U2eD0GFE
+         q8EW1IXHacy3IoKWk82bcrmOH4CNkusH3C7ZyxwcLkdW6jUvGQXMuLA8YyUeMK6rtUWA
+         yuVw==
+X-Forwarded-Encrypted: i=1; AJvYcCWMwc7xOpyG8AJrRDufcfUnYxXrzlWJSp+LLhM5njyUSjwAclcnfsN3gwbdoJvyjFXNCPmi9E0/Xof8YarKtbo42N4Zu1hVDKOzQLUm4psEhHw1ePmEL/FAyk7toHcgliWyJJdBVo0PcGM15wawUmMzxSzsqnCQU7ft/yIX1EGDWQLQXENmW0tSg9OGk3sTswal+niiYdM168BFiNxWoBr6ciHcy6rO
+X-Gm-Message-State: AOJu0YyXhG/giGLKTw49nc5DJOfUFiA/wIYbm+OIr6baGcaRLFQysttF
+	U+j4u7s8TRMT580uMd5uuUYgEIgDK/pxJp7V5IX7UWsEFNVG+73gnTDrQC+r
+X-Google-Smtp-Source: AGHT+IEy/EG30AHiiLyOIcVCuwjLV8jFb0Ff+EFNBNBwFjfWepPEWlyJ6uIw9f9UHCpoayc9YFIu0w==
+X-Received: by 2002:a05:690c:6011:b0:61a:cde6:6542 with SMTP id hf17-20020a05690c601100b0061acde66542mr2525701ywb.16.1713179824600;
+        Mon, 15 Apr 2024 04:17:04 -0700 (PDT)
+Received: from mail-yb1-f170.google.com (mail-yb1-f170.google.com. [209.85.219.170])
+        by smtp.gmail.com with ESMTPSA id i76-20020a816d4f000000b006145f80d24dsm2019004ywc.29.2024.04.15.04.17.03
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 15 Apr 2024 04:13:49 -0700 (PDT)
-Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-6114c9b4d83so23296037b3.3;
-        Mon, 15 Apr 2024 04:13:49 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCXa20YUNj1ao5lShwg2aqaaVwIMOFdDdFRjaKo7dw/YHpZ1eLPljUTcH33ACaJW8BkGqwEKyk++0yKt03Yi4FPUu/nVgW5wOxTd190Xb++D29/n13+MoqWqijs6duVhTaOVGbnY+lrVu802UFleen9EZqi2kuaI0Ih2qLvXBLv9RqgdUDAk1B70cwM=
-X-Received: by 2002:a25:8211:0:b0:de1:1af9:c7ea with SMTP id
- q17-20020a258211000000b00de11af9c7eamr7177258ybk.1.1713179629348; Mon, 15 Apr
- 2024 04:13:49 -0700 (PDT)
+        Mon, 15 Apr 2024 04:17:03 -0700 (PDT)
+Received: by mail-yb1-f170.google.com with SMTP id 3f1490d57ef6-dd02fb9a31cso2464294276.3;
+        Mon, 15 Apr 2024 04:17:03 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUC6XR22uK9PgXQPyLIF/k31Y60AHayN5zLs/sH+fdEUjbIDbGo2eV0njmfJVLkL3qO0uhacvhizIY0m7Z7Pb2e7FRoi2utqk3wabdU3xdLVdoOOM7bzniluyRUNysKH29+3TZAEo4qUMqOwz2TXB9RXphzRdZaOGaCWukQbGcbkgfSP2OIsMKTTJRJziAC1tCKjCky1h7F7qLOxO+ffgk/pZK+VsTO
+X-Received: by 2002:a25:4b82:0:b0:de0:f753:ad25 with SMTP id
+ y124-20020a254b82000000b00de0f753ad25mr8758272yba.1.1713179822967; Mon, 15
+ Apr 2024 04:17:02 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -66,64 +66,72 @@ List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 References: <20240409175108.1512861-1-seanjc@google.com> <20240409175108.1512861-2-seanjc@google.com>
-In-Reply-To: <20240409175108.1512861-2-seanjc@google.com>
+ <20240413115324.53303a68@canb.auug.org.au> <87edb9d33r.fsf@mail.lhotse> <87bk6dd2l4.fsf@mail.lhotse>
+In-Reply-To: <87bk6dd2l4.fsf@mail.lhotse>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 15 Apr 2024 13:13:36 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdVjB2g+fN8dxcmHUjKhzDChPpwcf8hMCbf=arOK5MkOuQ@mail.gmail.com>
-Message-ID: <CAMuHMdVjB2g+fN8dxcmHUjKhzDChPpwcf8hMCbf=arOK5MkOuQ@mail.gmail.com>
+Date: Mon, 15 Apr 2024 13:16:50 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdWD+UKZAkiUQUJOeRkOoyT4cH1o8=Gu465=K-Ub7O4y9A@mail.gmail.com>
+Message-ID: <CAMuHMdWD+UKZAkiUQUJOeRkOoyT4cH1o8=Gu465=K-Ub7O4y9A@mail.gmail.com>
 Subject: Re: [PATCH 1/3] x86/cpu: Actually turn off mitigations by default for SPECULATION_MITIGATIONS=n
-To: Sean Christopherson <seanjc@google.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, 
+To: Michael Ellerman <mpe@ellerman.id.au>
+Cc: Stephen Rothwell <sfr@canb.auug.org.au>, Sean Christopherson <seanjc@google.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, 
 	Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
 	Peter Zijlstra <peterz@infradead.org>, Josh Poimboeuf <jpoimboe@kernel.org>, linux-doc@vger.kernel.org, 
 	linux-kernel@vger.kernel.org, Pawan Gupta <pawan.kumar.gupta@linux.intel.com>, 
-	Daniel Sneddon <daniel.sneddon@linux.intel.com>, Catalin Marinas <catalin.marinas@arm.com>, 
-	Will Deacon <will@kernel.org>, Linux ARM <linux-arm-kernel@lists.infradead.org>, 
+	Daniel Sneddon <daniel.sneddon@linux.intel.com>, linuxppc-dev@lists.ozlabs.org, 
+	linux-arch@vger.kernel.org, Catalin Marinas <catalin.marinas@arm.com>, 
+	Will Deacon <will@kernel.org>, Heiko Carstens <hca@linux.ibm.com>, 
 	Linux-Renesas <linux-renesas-soc@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Sean,
+Hi Michael,
 
-On Tue, Apr 9, 2024 at 7:51=E2=80=AFPM Sean Christopherson <seanjc@google.c=
-om> wrote:
-> Initialize cpu_mitigations to CPU_MITIGATIONS_OFF if the kernel is built
-> with CONFIG_SPECULATION_MITIGATIONS=3Dn, as the help text quite clearly
-> states that disabling SPECULATION_MITIGATIONS is supposed to turn off all
-> mitigations by default.
+On Sat, Apr 13, 2024 at 11:38=E2=80=AFAM Michael Ellerman <mpe@ellerman.id.=
+au> wrote:
+> Michael Ellerman <mpe@ellerman.id.au> writes:
+> > Stephen Rothwell <sfr@canb.auug.org.au> writes:
+> ...
+> >> On Tue,  9 Apr 2024 10:51:05 -0700 Sean Christopherson <seanjc@google.=
+com> wrote:
+> ...
+> >>> diff --git a/kernel/cpu.c b/kernel/cpu.c
+> >>> index 8f6affd051f7..07ad53b7f119 100644
+> >>> --- a/kernel/cpu.c
+> >>> +++ b/kernel/cpu.c
+> >>> @@ -3207,7 +3207,8 @@ enum cpu_mitigations {
+> >>>  };
+> >>>
+> >>>  static enum cpu_mitigations cpu_mitigations __ro_after_init =3D
+> >>> -   CPU_MITIGATIONS_AUTO;
+> >>> +   IS_ENABLED(CONFIG_SPECULATION_MITIGATIONS) ? CPU_MITIGATIONS_AUTO=
+ :
+> >>> +                                                CPU_MITIGATIONS_OFF;
+> >>>
+> >>>  static int __init mitigations_parse_cmdline(char *arg)
+> >>>  {
 >
->   =E2=94=82 If you say N, all mitigations will be disabled. You really
->   =E2=94=82 should know what you are doing to say so.
+> I think a minimal workaround/fix would be:
 >
-> As is, the kernel still defaults to CPU_MITIGATIONS_AUTO, which results i=
-n
-> some mitigations being enabled in spite of SPECULATION_MITIGATIONS=3Dn.
+> diff --git a/drivers/base/Kconfig b/drivers/base/Kconfig
+> index 2b8fd6bb7da0..290be2f9e909 100644
+> --- a/drivers/base/Kconfig
+> +++ b/drivers/base/Kconfig
+> @@ -191,6 +191,10 @@ config GENERIC_CPU_AUTOPROBE
+>  config GENERIC_CPU_VULNERABILITIES
+>         bool
 >
-> Fixes: f43b9876e857 ("x86/retbleed: Add fine grained Kconfig knobs")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Sean Christopherson <seanjc@google.com>
+> +config SPECULATION_MITIGATIONS
+> +       def_bool y
+> +       depends on !X86
+> +
+>  config SOC_BUS
+>         bool
+>         select GLOB
 
-Thanks for your patch, which is now commit f337a6a21e2fd67e
-("x86/cpu: Actually turn off mitigations by default
-for SPECULATION_MITIGATIONS=3Dn") in v6.9-rc4.
-
-This causes the following suspicious messages on R-Car H3:
-
-        CPU features: kernel page table isolation forced OFF by mitigations=
-=3Doff
-        spectre-v4 mitigation disabled by command-line option
-        spectre-v2 mitigation disabled by command line option
-        spectre-v2 mitigation disabled by command line option
-
-and R-Car V4H:
-
-        CPU features: kernel page table isolation forced OFF by mitigations=
-=3Doff
-        spectre-v4 mitigation disabled by command-line option
-        spectre-bhb mitigation disabled by command line option
-        spectre-bhb mitigation disabled by command line option
-
-Interestingly, no mitigations are disabled on the command-line.
+Thanks, that works for me (on arm64), so
+Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
 Gr{oetje,eeting}s,
 
