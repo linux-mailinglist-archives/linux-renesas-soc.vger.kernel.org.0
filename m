@@ -1,293 +1,186 @@
-Return-Path: <linux-renesas-soc+bounces-4614-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-4615-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 265EA8A4DBD
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 15 Apr 2024 13:31:16 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 12F658A4DF3
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 15 Apr 2024 13:44:30 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 930A81F214CF
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 15 Apr 2024 11:31:15 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 457AD1C212EE
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 15 Apr 2024 11:44:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8B43E5D8F6;
-	Mon, 15 Apr 2024 11:31:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5C4E2612EC;
+	Mon, 15 Apr 2024 11:44:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="lu85usNE";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="XWvlmxKX"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 57D6C5A0E3;
-	Mon, 15 Apr 2024 11:31:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.172
+Received: from flow4-smtp.messagingengine.com (flow4-smtp.messagingengine.com [103.168.172.139])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F2555FDA5;
+	Mon, 15 Apr 2024 11:44:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.139
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713180672; cv=none; b=LuXdzqTBo/+w0PZ24csWfBdhBswsFpn4lCS7fIIgonPHi6qgUDS44N7R8DGMfo1Mq1hJzhVBM+UbaRolWL7SF0Fvwg/V+kPAnGhjqKWYi1ZkUnAlHnhN4Oeqm7ur1L3ZhJJMOAoA+fqPKsu8CxxR3mU/h16hHuvZASCIGHq9fwE=
+	t=1713181466; cv=none; b=YQoX7AXj53on46Xft2nKo+ybssRvY2mJTnjyyH/LtVyacOrk1dXnNzLSX61BB+E2mEBUovq/KYSs6umASC8UeRlMSQOJDMuZruYTDozxn3pGAj1IDRzJUDxBAO4I9cKVnykKG2S6w7GhqKI0jGh65z2zs4dS++CA+SEuJz8+aG8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713180672; c=relaxed/simple;
-	bh=HyIfm5Kh3GiW74LTkOn+VF3/HZMWwDPx1lWHH03RNU0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=UnQHmt3v72a5JLijCnG0OiSs0YXjlpFYe7Cc6Va7TRSnv8O6JyNfpIcbTny9v8vFmI/vKg2FGh/rc2GAZLSk2KPXyZKjNShHD71oFZXlCRHFVdBsITVN3CFazdAqNb6nFMcq+Xe91L0Aa7zENIkd81hfRzZWPY6s2g0Edrk49SQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
-X-IronPort-AV: E=Sophos;i="6.07,203,1708354800"; 
-   d="asc'?scan'208";a="205442345"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie6.idc.renesas.com with ESMTP; 15 Apr 2024 20:31:08 +0900
-Received: from [10.226.93.74] (unknown [10.226.93.74])
-	by relmlir5.idc.renesas.com (Postfix) with ESMTP id C7CA0400BBF8;
-	Mon, 15 Apr 2024 20:31:04 +0900 (JST)
-Message-ID: <384a8388-f7ed-4cce-bd62-4a8b102ca8e8@bp.renesas.com>
-Date: Mon, 15 Apr 2024 12:31:03 +0100
+	s=arc-20240116; t=1713181466; c=relaxed/simple;
+	bh=3UZKRtlzaPmVzhvGF3cNLISFgu+v90pgIojd+MaLDGA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=OvOsRyhagrqvzVgAIEMoorguSwqCK3LjFLn3XRw8G9z9+f5haGolrceIGDR0p3finnxwb47Fm3bROgT57mUB6lTnDCcYkD/2wSZaE/jmy23s9p/NvZcH9mC0W66cLe39yN/6RU33HRBteeUsZDBWbWjshKOqgR+lXWk/RwcIj5E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=lu85usNE; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=XWvlmxKX; arc=none smtp.client-ip=103.168.172.139
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailflow.nyi.internal (Postfix) with ESMTP id 223D52001CD;
+	Mon, 15 Apr 2024 07:44:22 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute5.internal (MEProxy); Mon, 15 Apr 2024 07:44:22 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1713181462;
+	 x=1713185062; bh=HbBxkVxjdBwvLWMiPXQ4M2ssgEVrCh8/UypiliPjU0A=; b=
+	lu85usNEYHwAtaU9GYauYp10bqMgxYr+VQVBmDOHJkTlsqaaS5M6qxkcwP8TiHu+
+	9nDZyq/vR8EgjCDhGuDKmgMgYoc2QJrGwCUr3edGr2IxYEndAno27SQpY/SufHBM
+	weWemNWMtvsfcCrD572KkekppJt/tQC7tXH6KTOPlo7F1tbMjML4EQzXOFww8PRt
+	z4NdzBcTqWXKZP52ftCZ1sG6E3YGeoNjdRi11CbyjjhFCnau0RjTZ1RVjg1rOVM8
+	MqHetdx27GLxZZ+1lsUVdKscAOYvtnm85vULgEFjNverPH4CgaCtS6V2EcBoNOot
+	PLHDQQa9s+Z1khuEEQTIYw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1713181462; x=
+	1713185062; bh=HbBxkVxjdBwvLWMiPXQ4M2ssgEVrCh8/UypiliPjU0A=; b=X
+	WvlmxKXHtFJXmvzCjhiKAI4cg4z2JRsvPfNaPLqNM6N15qTJYRFFeTrIMIgW9dU/
+	98IFQfNOfuhT1zz0GDQfsNoJhPocbfJM95uPSOv9rNNJpHoifu1LMAji69mGU765
+	juPYFmbRk0Gmmjwi7n9siyEAiu1HIw8fJaUvq+sXJ22EhvhX6hZU45hjGeNey6hO
+	L++pAuNZ9Re+o3mYh7qVZXRYoyLFY93SdXI3PqXx1ctbkLfwPHLu9amm4XxyqAWT
+	ODm7xfRnuZPSX7fW/b1OiE+KW7B6l45eb+TtL5h+3ld+B9HTP8BZ/gLxlq49Tidz
+	IUDG+TMYwRrF9INwzqOsQ==
+X-ME-Sender: <xms:FRMdZk-49sy6lsVI-UTwkftki9XtrUrlfDwDUmts7FUMXEJ1R-Usgw>
+    <xme:FRMdZsuPbaEPMVt8quEyvKzkfMfYjrU8oehUtXEBbr_3T5VCVTVk0csdh4rjKZQoq
+    1RPR4nIvbwjMAEQftk>
+X-ME-Received: <xmr:FRMdZqDzWrs3oBS2Xf6KBIVaYwffEF6-PgRxVqqugNHRR496dilJZXCd2OjGwHXp1GaMgIHEArZzzlNLSkS0owR9kqsq8a0>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrudejvddggeehucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvfevuffkfhggtggugfgjsehtkeertddttdejnecuhfhrohhmpefpihhk
+    lhgrshcuufpnuggvrhhluhhnugcuoehnihhklhgrshdrshhouggvrhhluhhnugdorhgvnh
+    gvshgrshesrhgrghhnrghtvggthhdrshgvqeenucggtffrrghtthgvrhhnpeefhfellefh
+    ffejgfefudfggeejlefhveehieekhfeulefgtdefueehffdtvdelieenucevlhhushhtvg
+    hrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehnihhklhgrshdrshhouggv
+    rhhluhhnugdorhgvnhgvshgrshesrhgrghhnrghtvggthhdrshgv
+X-ME-Proxy: <xmx:FRMdZkfn_hiSbb8MiZwuRL8dTHj3e-aEQr-5m07Av8SzLRc5Q9pogw>
+    <xmx:FRMdZpMHCqwijeW0qgnD_13X7hZsRF8z7hPDiuvzRQCU7ySoEb44eg>
+    <xmx:FRMdZunnfTkZ-_AS-ep5z-pJobBLvKaYrnqHzv98gw2-bDJrl5H9-A>
+    <xmx:FRMdZrulYOSdA6ZHpXTiVJwvL1j7ooOwrukcLdXjMqPpHXdk_aiJpg>
+    <xmx:FRMdZseiVhJPoeG76jjDjT0SLZmPUyFvb0pyN0vf2C9L_YrSWc5TbM4z>
+Feedback-ID: i80c9496c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 15 Apr 2024 07:44:20 -0400 (EDT)
+Date: Mon, 15 Apr 2024 13:44:19 +0200
+From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+To: Paul Barker <paul.barker.ct@bp.renesas.com>
+Cc: Sergey Shtylyov <s.shtylyov@omp.ru>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [net-next RFC v3 2/7] net: ravb: Align poll function with NAPI
+ docs
+Message-ID: <20240415114419.GG3156415@ragnatech.se>
+References: <20240415094804.8016-1-paul.barker.ct@bp.renesas.com>
+ <20240415094804.8016-3-paul.barker.ct@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [net-next RFC v3 1/7] net: ravb: Simplify poll & receive
- functions
-Content-Language: en-GB
-To: =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Cc: Sergey Shtylyov <s.shtylyov@omp.ru>, "David S. Miller"
- <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>, netdev@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20240415094804.8016-1-paul.barker.ct@bp.renesas.com>
- <20240415094804.8016-2-paul.barker.ct@bp.renesas.com>
- <20240415112301.GF3156415@ragnatech.se>
-From: Paul Barker <paul.barker.ct@bp.renesas.com>
-Organization: Renesas Electronics Corporation
-In-Reply-To: <20240415112301.GF3156415@ragnatech.se>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------2Cub0xOSusxNdXIIuphEQ41Q"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240415094804.8016-3-paul.barker.ct@bp.renesas.com>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------2Cub0xOSusxNdXIIuphEQ41Q
-Content-Type: multipart/mixed; boundary="------------G38oSj705UEa1ZVKNaoCymUt";
- protected-headers="v1"
-From: Paul Barker <paul.barker.ct@bp.renesas.com>
-To: =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Cc: Sergey Shtylyov <s.shtylyov@omp.ru>, "David S. Miller"
- <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>, netdev@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
-Message-ID: <384a8388-f7ed-4cce-bd62-4a8b102ca8e8@bp.renesas.com>
-Subject: Re: [net-next RFC v3 1/7] net: ravb: Simplify poll & receive
- functions
-References: <20240415094804.8016-1-paul.barker.ct@bp.renesas.com>
- <20240415094804.8016-2-paul.barker.ct@bp.renesas.com>
- <20240415112301.GF3156415@ragnatech.se>
-In-Reply-To: <20240415112301.GF3156415@ragnatech.se>
+Hi Paul,
 
---------------G38oSj705UEa1ZVKNaoCymUt
-Content-Type: multipart/mixed; boundary="------------eBuVJ2XCN0gtrRmfxQRWAx9X"
+Thanks for your work.
 
---------------eBuVJ2XCN0gtrRmfxQRWAx9X
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+On 2024-04-15 10:47:59 +0100, Paul Barker wrote:
+> Call napi_complete_done() in accordance with the documentation in
+> `Documentation/networking/napi.rst`.
 
-On 15/04/2024 12:23, Niklas S=C3=B6derlund wrote:
-> Hi Paul,
->=20
-> I really like this patch!
->=20
-> One nit below.
->=20
-> On 2024-04-15 10:47:58 +0100, Paul Barker wrote:
->> We don't need to pass the work budget to ravb_rx() by reference, it's
->> cleaner to pass this by value and return the amount of work done. This=
+The way I understand it napi_complete() is still OK to use, it's just a 
+wrapper for napi_complete_done(napi, 0). But of course using 
+napi_complete_done() is better if you want to use the busypolling status 
+returned. Maybe the commit message can be updated to reflect this 
+change, how about?
 
->> allows us to simplify the ravb_poll() function and use the common
->> `work_done` variable name seen in other network drivers for consistenc=
-y
->> and ease of understanding.
->>
->> This is a pure refactor and should not affect behaviour.
->>
->> Signed-off-by: Paul Barker <paul.barker.ct@bp.renesas.com>
->> ---
->>  drivers/net/ethernet/renesas/ravb.h      |  2 +-
->>  drivers/net/ethernet/renesas/ravb_main.c | 29 ++++++++++-------------=
--
->>  2 files changed, 13 insertions(+), 18 deletions(-)
->>
->> diff --git a/drivers/net/ethernet/renesas/ravb.h b/drivers/net/etherne=
-t/renesas/ravb.h
->> index b48935ec7e28..71de2a7aa27c 100644
->> --- a/drivers/net/ethernet/renesas/ravb.h
->> +++ b/drivers/net/ethernet/renesas/ravb.h
->> @@ -1039,7 +1039,7 @@ struct ravb_ptp {
->>  };
->> =20
->>  struct ravb_hw_info {
->> -	bool (*receive)(struct net_device *ndev, int *quota, int q);
->> +	int (*receive)(struct net_device *ndev, int budget, int q);
->>  	void (*set_rate)(struct net_device *ndev);
->>  	int (*set_feature)(struct net_device *ndev, netdev_features_t featur=
-es);
->>  	int (*dmac_init)(struct net_device *ndev);
->> diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/et=
-hernet/renesas/ravb_main.c
->> index fd2679ce4e3d..33f8043143c1 100644
->> --- a/drivers/net/ethernet/renesas/ravb_main.c
->> +++ b/drivers/net/ethernet/renesas/ravb_main.c
->> @@ -759,7 +759,7 @@ static struct sk_buff *ravb_get_skb_gbeth(struct n=
-et_device *ndev, int entry,
->>  }
->> =20
->>  /* Packet receive function for Gigabit Ethernet */
->> -static bool ravb_rx_gbeth(struct net_device *ndev, int *quota, int q)=
+    net: ravb: Consider busypolling status when re-enabling interrupts
 
->> +static int ravb_rx_gbeth(struct net_device *ndev, int budget, int q)
->>  {
->>  	struct ravb_private *priv =3D netdev_priv(ndev);
->>  	const struct ravb_hw_info *info =3D priv->info;
->> @@ -778,7 +778,7 @@ static bool ravb_rx_gbeth(struct net_device *ndev,=
- int *quota, int q)
->>  	limit =3D priv->dirty_rx[q] + priv->num_rx_ring[q] - priv->cur_rx[q]=
-;
->>  	stats =3D &priv->stats[q];
->> =20
->> -	for (i =3D 0; i < limit && rx_packets < *quota; i++, priv->cur_rx[q]=
-++) {
->> +	for (i =3D 0; i < limit && rx_packets < budget; i++, priv->cur_rx[q]=
-++) {
->>  		entry =3D priv->cur_rx[q] % priv->num_rx_ring[q];
->>  		desc =3D &priv->rx_ring[q].desc[entry];
->>  		if (desc->die_dt =3D=3D DT_FEMPTY)
->> @@ -881,13 +881,11 @@ static bool ravb_rx_gbeth(struct net_device *nde=
-v, int *quota, int q)
->>  		desc->die_dt =3D DT_FEMPTY;
->>  	}
->> =20
->> -	stats->rx_packets +=3D rx_packets;
->> -	*quota -=3D rx_packets;
->> -	return *quota =3D=3D 0;
->> +	return rx_packets;
->>  }
->> =20
->>  /* Packet receive function for Ethernet AVB */
->> -static bool ravb_rx_rcar(struct net_device *ndev, int *quota, int q)
->> +static int ravb_rx_rcar(struct net_device *ndev, int budget, int q)
->>  {
->>  	struct ravb_private *priv =3D netdev_priv(ndev);
->>  	const struct ravb_hw_info *info =3D priv->info;
->> @@ -904,7 +902,7 @@ static bool ravb_rx_rcar(struct net_device *ndev, =
-int *quota, int q)
->>  	int i;
->> =20
->>  	limit =3D priv->dirty_rx[q] + priv->num_rx_ring[q] - priv->cur_rx[q]=
-;
->> -	for (i =3D 0; i < limit && rx_packets < *quota; i++, priv->cur_rx[q]=
-++) {
->> +	for (i =3D 0; i < limit && rx_packets < budget; i++, priv->cur_rx[q]=
-++) {
->>  		entry =3D priv->cur_rx[q] % priv->num_rx_ring[q];
->>  		desc =3D &priv->rx_ring[q].ex_desc[entry];
->>  		if (desc->die_dt =3D=3D DT_FEMPTY)
->> @@ -992,18 +990,16 @@ static bool ravb_rx_rcar(struct net_device *ndev=
-, int *quota, int q)
->>  		desc->die_dt =3D DT_FEMPTY;
->>  	}
->> =20
->> -	stats->rx_packets +=3D rx_packets;
->=20
-> Don't we still need to update the statistics? Same for ravb_rx_gbeth().=
+    Make use of the busypolling status returned from NAPI complete to decide 
+    if interrupts shall be re-enabled or not. This is useful to reduce the 
+    interrupt overhead.
 
+    While at it switch to using napi_complete_done() as it take into account 
+    the work done when providing the busypolling status.
 
-Good catch! This was present in the previous version of the series [1],
-but I accidentally dropped it while splitting out the bugfix patches.
-I'll add it back in for the next version.
+> 
+> Signed-off-by: Paul Barker <paul.barker.ct@bp.renesas.com>
+> ---
+>  drivers/net/ethernet/renesas/ravb_main.c | 26 ++++++++++--------------
+>  1 file changed, 11 insertions(+), 15 deletions(-)
+> 
+> diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
+> index 33f8043143c1..1ac599a044b2 100644
+> --- a/drivers/net/ethernet/renesas/ravb_main.c
+> +++ b/drivers/net/ethernet/renesas/ravb_main.c
+> @@ -1340,23 +1340,19 @@ static int ravb_poll(struct napi_struct *napi, int budget)
+>  	if (priv->rx_fifo_errors != ndev->stats.rx_fifo_errors)
+>  		ndev->stats.rx_fifo_errors = priv->rx_fifo_errors;
+>  
+> -	if (work_done == budget)
+> -		goto out;
+> -
+> -	napi_complete(napi);
+> -
+> -	/* Re-enable RX/TX interrupts */
+> -	spin_lock_irqsave(&priv->lock, flags);
+> -	if (!info->irq_en_dis) {
+> -		ravb_modify(ndev, RIC0, mask, mask);
+> -		ravb_modify(ndev, TIC,  mask, mask);
+> -	} else {
+> -		ravb_write(ndev, mask, RIE0);
+> -		ravb_write(ndev, mask, TIE);
+> +	if (work_done < budget && napi_complete_done(napi, work_done)) {
+> +		/* Re-enable RX/TX interrupts */
+> +		spin_lock_irqsave(&priv->lock, flags);
+> +		if (!info->irq_en_dis) {
+> +			ravb_modify(ndev, RIC0, mask, mask);
+> +			ravb_modify(ndev, TIC,  mask, mask);
+> +		} else {
+> +			ravb_write(ndev, mask, RIE0);
+> +			ravb_write(ndev, mask, TIE);
+> +		}
+> +		spin_unlock_irqrestore(&priv->lock, flags);
+>  	}
+> -	spin_unlock_irqrestore(&priv->lock, flags);
+>  
+> -out:
+>  	return work_done;
+>  }
+>  
+> -- 
+> 2.39.2
+> 
 
-[1]: https://lore.kernel.org/all/20240206091909.3191-3-paul.barker.ct@bp.=
-renesas.com/
-
-Thanks,
-
---=20
-Paul Barker
---------------eBuVJ2XCN0gtrRmfxQRWAx9X
-Content-Type: application/pgp-keys; name="OpenPGP_0x27F4B3459F002257.asc"
-Content-Disposition: attachment; filename="OpenPGP_0x27F4B3459F002257.asc"
-Content-Description: OpenPGP public key
-Content-Transfer-Encoding: quoted-printable
-
------BEGIN PGP PUBLIC KEY BLOCK-----
-
-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3D
-=3DsIIN
------END PGP PUBLIC KEY BLOCK-----
-
---------------eBuVJ2XCN0gtrRmfxQRWAx9X--
-
---------------G38oSj705UEa1ZVKNaoCymUt--
-
---------------2Cub0xOSusxNdXIIuphEQ41Q
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-wnsEABYIACMWIQSiu8gv1Xr0fIw/aoLbaV4Vf/JGvQUCZh0P9wUDAAAAAAAKCRDbaV4Vf/JGvTi+
-APwN/T79MF+IhO4W+qQHlljL1FtIT7H06zEedvdwRVGqLQD/XLdNYUy1s6hs8G8zFioEXRBn8Era
-aX6TSNiz5PgG0g0=
-=cd15
------END PGP SIGNATURE-----
-
---------------2Cub0xOSusxNdXIIuphEQ41Q--
+-- 
+Kind Regards,
+Niklas Söderlund
 
