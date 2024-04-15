@@ -1,502 +1,228 @@
-Return-Path: <linux-renesas-soc+bounces-4596-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-4597-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 047FD8A4B57
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 15 Apr 2024 11:20:42 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AC5C8A4BC8
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 15 Apr 2024 11:45:08 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 27F1E1C212A3
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 15 Apr 2024 09:20:41 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id CF839B234D2
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 15 Apr 2024 09:45:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 39BA13C488;
-	Mon, 15 Apr 2024 09:19:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C08944879B;
+	Mon, 15 Apr 2024 09:44:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="RKTPzYVp"
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="RGTUJ1Hw";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="v43Nt5eJ"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01on2080.outbound.protection.outlook.com [40.107.113.80])
+Received: from flow2-smtp.messagingengine.com (flow2-smtp.messagingengine.com [103.168.172.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A22AF3BBF8;
-	Mon, 15 Apr 2024 09:19:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.113.80
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713172790; cv=fail; b=km2j6DGBzRIEZfI/3sYcqYP/yNiTvmyScSvSpHUq6dT0EVzgga80KheM1oOfZF+vDD/jza34a7DSm8Q+S2PMSX2vwxI+4QK9B/8wp9NTj0xlSNubDqkbNeGmPGe51uh1a0vsQWGQYP4ruPF+nCVoErxWaVkUhAH1GeIr5FAB13U=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713172790; c=relaxed/simple;
-	bh=5oUjvLe+lv/bfoHLZ2RbsPpQX2jcIo5MRVFe3+G2h0E=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=ZnZ5UA9eRJ/a2LcpGrMXGY0kg/w6k60lmBU8cTfksNC+M0Z5Lq8Ocb1bANQPX9lt0K+ZFcnFrZVF5DPwS9SDgL3C83tZTQs2IOJbc2Nzp2a5k3zD+TJTlxi3SBbFKW7Lz03CfPjkKjtMMGWCj8F0ld7hEFyv9LAO2EvOthhet5E=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=RKTPzYVp; arc=fail smtp.client-ip=40.107.113.80
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=K9wDZaNuqS6UQS0deU6nb9VIOwBVcV58pI399VAXaG1ysT4GS3d4REO30UMmo8JytHPDfuMQ/tFKvmy5F02l9SvCCNMOegi60rOZHB6PDTLWGPWdPJQ+RgmHybs/sT7+H9I2jOwrMsaCf9wYR8fAwDd9thQl7FwyDEGNPLGXm4hNTZ3fNUh7x+vcX+RZysNm8ma4tr3x94uR5bRtaFC9ekq6FPTrRn0TN/J4A4o7Zl416bJfrY1YScjddKQ8oSz8+kiMqcx0Df3a2PhutP//nQdN7XrloBpHZVkxXen9JL8781CJHm86JqWDc4j0dE1uHZLOZ6WeqU9PZpOSXbi0Hg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ZDVheFXN4US2sy4VM14fUy3HZpT+GJbmoKcZTQDys5k=;
- b=iXlfAmC9jFSOWOnDMl1RtWpSLCL/aURi/sqlD5akNIRMiEaySrRazn/mlnSh37f6VZeN9NM8gLhil+TN1APxSU29evzZAoEMvxQb2bEqJ7PlDSPY//WUIQYyw6WQN4Mq4ZtAHf1+GfRZLGON4kXNP5Ab+eYvR48owlsMNBLfdsoBe2mzqjeSRmtfmM/V95SwTmzkBrxLDB5uFcxYvFMjvEazaravkzGz20zm2BxflXbzaHvWFfBXSJfygzNGtpEniRIPWDoz6Q2SIoZceO01goII+JxDD5qCL0WMmdeWm1eCBiNMp1G5cIwbslxFsCF8oTkzf6vimHQySXTfC/ZPbQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ZDVheFXN4US2sy4VM14fUy3HZpT+GJbmoKcZTQDys5k=;
- b=RKTPzYVp5I5xBb0Gu098huxJf5m+tO8cBM+F+aN+FJ3bcfSBRM++IusfLEEbJ1ulX5JCcc/qcDEGWsb61k7wdb1pje6tCHlxzVPNJTYKZcb6nUgYC9PCHXC2UCLdwsRjC98a3OBztMq+Y6NnykVamxp2icOM/OiM/i44MeHWBxI=
-Received: from TYCPR01MB11040.jpnprd01.prod.outlook.com (2603:1096:400:3a7::6)
- by TYCPR01MB7074.jpnprd01.prod.outlook.com (2603:1096:400:c1::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7452.50; Mon, 15 Apr
- 2024 09:19:43 +0000
-Received: from TYCPR01MB11040.jpnprd01.prod.outlook.com
- ([fe80::11c0:4ed:1ee4:d774]) by TYCPR01MB11040.jpnprd01.prod.outlook.com
- ([fe80::11c0:4ed:1ee4:d774%5]) with mapi id 15.20.7452.049; Mon, 15 Apr 2024
- 09:19:43 +0000
-From: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-To: Niklas Cassel <cassel@kernel.org>
-CC: "lpieralisi@kernel.org" <lpieralisi@kernel.org>, "kw@linux.com"
-	<kw@linux.com>, "robh@kernel.org" <robh@kernel.org>, "bhelgaas@google.com"
-	<bhelgaas@google.com>, "krzysztof.kozlowski+dt@linaro.org"
-	<krzysztof.kozlowski+dt@linaro.org>, "conor+dt@kernel.org"
-	<conor+dt@kernel.org>, "jingoohan1@gmail.com" <jingoohan1@gmail.com>,
-	"mani@kernel.org" <mani@kernel.org>, "marek.vasut+renesas@gmail.com"
-	<marek.vasut+renesas@gmail.com>, "linux-pci@vger.kernel.org"
-	<linux-pci@vger.kernel.org>, "devicetree@vger.kernel.org"
-	<devicetree@vger.kernel.org>, "linux-renesas-soc@vger.kernel.org"
-	<linux-renesas-soc@vger.kernel.org>
-Subject: RE: [PATCH v7 6/7] PCI: rcar-gen4: Add support for r8a779g0
-Thread-Topic: [PATCH v7 6/7] PCI: rcar-gen4: Add support for r8a779g0
-Thread-Index: AQHajwyNpMSRo2Q6lE2om/RRCvPTULFo/1+AgAAI0PA=
-Date: Mon, 15 Apr 2024 09:19:43 +0000
-Message-ID:
- <TYCPR01MB11040033FABC78AD0CC459D1BD8092@TYCPR01MB11040.jpnprd01.prod.outlook.com>
-References: <20240415081135.3814373-1-yoshihiro.shimoda.uh@renesas.com>
- <20240415081135.3814373-7-yoshihiro.shimoda.uh@renesas.com>
- <Zhzk6dOkb8RXjv7o@ryzen>
-In-Reply-To: <Zhzk6dOkb8RXjv7o@ryzen>
-Accept-Language: ja-JP, en-US
-Content-Language: ja-JP
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=renesas.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TYCPR01MB11040:EE_|TYCPR01MB7074:EE_
-x-ms-office365-filtering-correlation-id: 998409c8-295a-46e8-6170-08dc5d2d2fd4
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info:
- I/TDizYlYEWpaIwCWZ7sy1mW82M86EOqKUTr1Bz7GJNEkVnCeEOPf3Xq987O0+f+p591lfFdN3im/k0YLfiYEcmz98T0jfz/sKDreo/eBrzKZHTHhUuwZzzSwcOyJBhwl/9KM9UUbK2VIoL1wVK2+aVYz3ryDGZ0NTHaY5mCPYFMzBzyM+0vt4IsFR9ysR7bnjb1jB1fV5B/nCeGR0/pQULuQTNO07yJRAqx86+aFtgtkdovycjTitMu7IW8GZiOJ1ghV3R1Ym6gb2sIz4vIjQFaiUODrDzQeqCd9mRnhzpgi2FovBzrCG1K2ARCtmjSxvceumUL8O4MpgEfPmaexDFmzuc5W87p4d+nFhtKrkhM3RiPN1rC4Qb20mM+qDXmS2zy7cylhRRboh+9qXXSF5efkDFn6mZqC+Or4d3AKWiQSNwwQcfXeFQM5s7SX5QBU/is3+czSAMBKDNFyUXcMr3sPr+QnXFsnq8mcktuVQvVV2dcC3GUHDIbJEiZm9MT0657Q5FF7CIO9PQGXMRaNRANZfufjLzcF3vFU63C+NM+RpVyzrQQ37PhfmZXYWf/kw92DeIuJSn7K+EtOtLbH4ZGMoxfLDgDoEvWgxGFmRzibC0xFzgD9ag6UgRGymlJImen9LG08tNiS9f//rBMLmeUgFMLZ6YlpOuAyHeE2wI5Jh3TkiwuVgfXn/d+RI8OTidG/JmS9/I3mvpxA/0z3A==
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB11040.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376005)(1800799015)(7416005)(366007)(38070700009);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?F2q3R9Fh0j7fciMmUNr0c7/zOk+GjVFsM/N81KjOksSu49KnaIFJWUgzdw8X?=
- =?us-ascii?Q?4qeltB8XBsHTI8mtdtmW1sauzZqvzuh5c8oBkjS18lrNozEkxOPtQIAU8MSv?=
- =?us-ascii?Q?2jKkBUydi9k4B3EmdhxSD78KdiE1o8gIHBAGo8jRcPSoNKu/Ai9R1DS472Fu?=
- =?us-ascii?Q?F6ZQ+TZGtNoUW9JUqPF5SBvhjC1uYWX68FAEOyC6WKgfudlYrJ1EfYo/edZt?=
- =?us-ascii?Q?iM6LC2DsUGVmdEgHCzWM56ec7Vf04rtdHoiFdUyxnhIr8W2VLulMVePNHMae?=
- =?us-ascii?Q?OrgyL7JEOz3lmkH0Y8rOxM6UhVnnGvOZrBEJUwWuV4lZVBfuyXsXWIkco6Oh?=
- =?us-ascii?Q?AhJkMS0FVewc9fW0mVj2/6p19Fc4GzFQ/iZsF3rGd56FG7cWkYRitjWzfU3j?=
- =?us-ascii?Q?FRRnPS8LkkmlhNMRnPKhtwYZIAxEAiRrkvsj1L+w4ERWjVukNncvr6s/pxSY?=
- =?us-ascii?Q?7lpzS0+GCz3Qh+qFIFBi5oB3o3drBe8YZVC4d6vwF/XP2LYZgEf0MjZ7uY9Z?=
- =?us-ascii?Q?jl/N6yhwdK1KzK8X7aAoMS82dp8hWXio1wyOcSp+WtP2FDZkyn3lm4Dlc/JZ?=
- =?us-ascii?Q?dd84B8y8uaUZn5QnPV+abSPDQvFHQr2gl7CXm41kIKZWVUtX2P1dgtTCftRT?=
- =?us-ascii?Q?0ntiIVeSNo31VQHF2YLNaDbLb+8T8m/tK94oUwtpNx3Sv7KNynQxVmN7wX5J?=
- =?us-ascii?Q?ABrWzFq0mBRoxCbwgNsAfqhljGe7ZRQootd//OlSQwkJSLXDeCr3KTmFXvAL?=
- =?us-ascii?Q?Aj/3XYRBlF6AWnLxxiNZaFTV7uDjZXYBW9FiLfyyr3cjGaV3N4SCVSCpYmVX?=
- =?us-ascii?Q?HKuet90IakE1/GkPInDIbTPCY+FCcQGGQzFKgT2X7ffsIZ3Ko7TO1dQ0pEuT?=
- =?us-ascii?Q?6qI9t0XlK0Ca6fzgCvZC4iBG9IziC96dWXfCd8abFNpZAPqFnnd0HIFF1qTw?=
- =?us-ascii?Q?q2rWRaDufl3o8HHlUe500KBG6yw8HG1OqWrm38y5ogg8t4AXjHDw/A0MPDhB?=
- =?us-ascii?Q?U9k25Lt2cM0WMn7VxZyL7ZYvpti7dw7Zo0kYpIP2QYIonOJ6P9777N0TDg4X?=
- =?us-ascii?Q?I6gvFPnsxVF3CAtu48tHb/Y3/Dqj/DaPa4fYcCJ/6T6WtaSWJAw1W3b83QxG?=
- =?us-ascii?Q?YKxmXg29GC4ZeaTDguAiLoo5OLd5IXP3cXiyWUskeFch01g+jGk7pShaLuQr?=
- =?us-ascii?Q?lxW4/gsv/FCJc9UdfJG6nsaKt/mhOWGByigM9UUceXEoxqH3B4xoD3lzBQw2?=
- =?us-ascii?Q?zgYpy5fsiT7VGdAWjTja/UJp6s0Lj9KCWHghrt9CzcmAbRzK2mEVAOnvvwc1?=
- =?us-ascii?Q?aXmFOuv+YN9tQtYnRCG2PQC3HcfHf8KlbJVfeHGhcYagmgeilwNvGhyWoWOg?=
- =?us-ascii?Q?6REa8SNk++encaQqu24vtc5Df1jTz2ypb9bS+NxHm1N+JtELracHKRDWRIrd?=
- =?us-ascii?Q?nSImGvO8W4w2vvWYq2mz7r4JNb+l4m2uFSfzHzC/gaYnOJWpLUlEcd/vTIVl?=
- =?us-ascii?Q?+0FP1TuS0sDaJl7v0zkqbXv/CdHmcosJoMMx1Eh67Yf3d09PQ4uxKBBYrhJL?=
- =?us-ascii?Q?QDt+IgADBpKBWF8jNdqWTFNF8BAYD2bMkJtx26aAb4gM44S1sNI/2ydEiym2?=
- =?us-ascii?Q?4w=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A10574085D;
+	Mon, 15 Apr 2024 09:44:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.137
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1713174291; cv=none; b=Sp1atdnJIviMr3Pd7yy401cshGNfD7veDQBKlNC5lmG/fNbGXLjGBYABgZtgd5YkQS2oNm8rN4RN4n8OoKVnKa5Wl6kizcSid9n/2S0+gHLSB0jHlUU/JKDBVIt46ACcW0zSlsqws2SWrNftLzVLZwgJkNs8wfp+L2dypbieGvc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1713174291; c=relaxed/simple;
+	bh=4tp9q1Ept89LsDz4D1tlkOlj57eLDlwUkYlDGcreNKA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=TDXgYUX/26Q64b0QIXpAu5HgNMptM4J9XcNiFybIFy1JOeydp4kMx6l4MVQRhstY9tLJ4EPw4iSS3hZan+T0m3QZSNnJUxA8awyqRQzISErcnQ9eEpLZBgSUSCsqauL706Hv7Ikd4FNkTjB5VdDQnK2L4satLJLDh042R3K1nck=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=RGTUJ1Hw; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=v43Nt5eJ; arc=none smtp.client-ip=103.168.172.137
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailflow.nyi.internal (Postfix) with ESMTP id 4DA392002E5;
+	Mon, 15 Apr 2024 05:44:45 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute5.internal (MEProxy); Mon, 15 Apr 2024 05:44:45 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1713174285;
+	 x=1713177885; bh=dGJZqsLu3WRrXgnWfxEZaWnIqgfYmeKMdNrp7kRxwj0=; b=
+	RGTUJ1Hwyls0FDBkdGLAmCw0vjTdmyEa83Mp4/kOkXShIPYmqTcLc003kVAyTbDE
+	wVGqtLBq+srp2Nomeie52JQ+6MfzGZ8k4/9ffXEzkN+MqiTDzzgVqxLxL8FLYJUN
+	nUzUQNSajRI9V2e++mPQ9Crdskzb6ODpkYb30Yuki1WeTKVoF0Qakiz/O7nwpM36
+	bsU4nOXiyvT57uZQL5+IufGNSUpMTcnealT4woy2Hi0sbPvQHI6IMFuijqAE+TCA
+	bJYY4m7SQD5FXMfNDk0BEfdSfRzlMSqM2XK1aJCTdegnRBKkHazsLo4HlCwL9AUq
+	poZXCNQnyOqB1WkDYeNFaw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1713174285; x=
+	1713177885; bh=dGJZqsLu3WRrXgnWfxEZaWnIqgfYmeKMdNrp7kRxwj0=; b=v
+	43Nt5eJ9TP+mOTWmTeh7o2ku0uR/OF7FXI9YF7toELGB+7n0WtJO9YnUNbHj5PTq
+	OzR7mGokawa66jJSFWK3uuAlAZKsuOuP90uDRQsvsf+fRtoyWJDdJPSe3Qf63oAy
+	MzKBDrtdDh+d4dteKedtdplM+bYIcvWH4TtYWr175YE5nZ1FDqI6BQynUBfJ5Wvy
+	duO16PbAn9WpxSgzgqFSlfNr7SO9LzGnhu2qst+zBsPqJyBqQT5qK9QAm1MyTPy1
+	7pgxzuls3xFstCf91om3lL5N5JIDNkLwqLEu7KDXDfkHsMNvWz+3PDv7MGNZkjL9
+	jnq4rW00OqLNGNgrhRu/w==
+X-ME-Sender: <xms:DPccZlivFYi_bMgSruJ-4fb0GjT7ffhoi5w8WEnsh6UvCgGFj213ng>
+    <xme:DPccZqDU2qkJcIWz8Dm6T1fcFb1MZ8g5CuGazzUkxVPRXwqE8ERKfLk8JDLt5EyJs
+    vJT_NFMV3d5Oz_Udm0>
+X-ME-Received: <xmr:DPccZlGgFKiiAuqobCJy52N049Z2pYAC7EZixGDcZLFY2HZMMGYyo7vrqyEuXaBE_KNiUr3iVM-TUjQCunbXvRl2QE-J0Jc>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrudejvddgvddtucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvfevuffkfhggtggugfgjsehtkeertddttdejnecuhfhrohhmpefpihhk
+    lhgrshcuufpnuggvrhhluhhnugcuoehnihhklhgrshdrshhouggvrhhluhhnugdorhgvnh
+    gvshgrshesrhgrghhnrghtvggthhdrshgvqeenucggtffrrghtthgvrhhnpeefhfellefh
+    ffejgfefudfggeejlefhveehieekhfeulefgtdefueehffdtvdelieenucevlhhushhtvg
+    hrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehnihhklhgrshdrshhouggv
+    rhhluhhnugdorhgvnhgvshgrshesrhgrghhnrghtvggthhdrshgv
+X-ME-Proxy: <xmx:DPccZqR0YGauxqkFWNXjcXX_dBOcbteaWYz7U1JgZOQC3j9zThdXPg>
+    <xmx:DPccZizGUDtqKc_jki6hlgiRi5eICBNYvetRfNHq7Dc8N2YfXL1nfQ>
+    <xmx:DPccZg6F5iwtgdU4qWoZGp_tQUF7B1PWaY4327ElLNKdOnXJKveVQg>
+    <xmx:DPccZnzMNnneFjebuRW1gnkrBX-ef9UCto_D9C7qf_I5vyBYGzH5lQ>
+    <xmx:DfccZtzGIiFL_KbzqNtkDjadPYoHLs9quFIY6yIiT6ZDt6S2Yxv1iwyR>
+Feedback-ID: i80c9496c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 15 Apr 2024 05:44:43 -0400 (EDT)
+Date: Mon, 15 Apr 2024 11:44:40 +0200
+From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+To: Paul Barker <paul.barker.ct@bp.renesas.com>
+Cc: Sergey Shtylyov <s.shtylyov@omp.ru>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH net 1/4] net: ravb: Count packets instead of descriptors
+ in R-Car RX path
+Message-ID: <20240415094440.GB3156415@ragnatech.se>
+References: <20240411114434.26186-1-paul.barker.ct@bp.renesas.com>
+ <20240411114434.26186-2-paul.barker.ct@bp.renesas.com>
+ <20240414120843.GA2860391@ragnatech.se>
+ <e3e3c75f-9aee-40b6-b5b8-08260a8bac06@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB11040.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 998409c8-295a-46e8-6170-08dc5d2d2fd4
-X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Apr 2024 09:19:43.7004
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 12wYmf33HaVEO0F12rnDQbSEO87Q7IgKh+96m3tBSb8wdBlJDOFrsHipOh9QYaA4I8EcYaBS8pi2F2xtO7zCb/IlGnTThXisgY6soIlUMlh8h9YpsUSm3OBnPh3LetYe
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYCPR01MB7074
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <e3e3c75f-9aee-40b6-b5b8-08260a8bac06@bp.renesas.com>
 
-Hi Niklas,
+Hi Paul,
 
-> From: Niklas Cassel, Sent: Monday, April 15, 2024 5:27 PM
->=20
-> On Mon, Apr 15, 2024 at 05:11:34PM +0900, Yoshihiro Shimoda wrote:
-> > This driver previously supported r8a779f0 (R-Car S4-8). Add support
-> > for r8a779g0 (R-Car V4H). PCIe features of both r8a779f0 and r8a779g0
-> > are almost all the same. For example:
-> >  - PCI Express Base Specification Revision 4.0
-> >  - Root complex mode and endpoint mode are supported
-> >
-> > However, r8a779g0 requires specific firmware downloading, to
-> > initialize the PHY. Otherwise, the PCIe controller cannot work.
-> > The firmware is attached in the manual of the r8a779g0 as text.
-> > So, convert it to a binary file by using a script.
-> >
-> > Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-> > ---
-> >  drivers/pci/controller/dwc/pcie-rcar-gen4.c | 201 +++++++++++++++++++-
-> >  1 file changed, 200 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/drivers/pci/controller/dwc/pcie-rcar-gen4.c b/drivers/pci/=
-controller/dwc/pcie-rcar-gen4.c
-> > index 980a916933d6..4e934e9156f2 100644
-> > --- a/drivers/pci/controller/dwc/pcie-rcar-gen4.c
-> > +++ b/drivers/pci/controller/dwc/pcie-rcar-gen4.c
-> > @@ -5,8 +5,10 @@
-> >   */
-> >
-> >  #include <linux/delay.h>
-> > +#include <linux/firmware.h>
-> >  #include <linux/interrupt.h>
-> >  #include <linux/io.h>
-> > +#include <linux/iopoll.h>
-> >  #include <linux/module.h>
-> >  #include <linux/of.h>
-> >  #include <linux/pci.h>
-> > @@ -20,9 +22,10 @@
-> >  /* Renesas-specific */
-> >  /* PCIe Mode Setting Register 0 */
-> >  #define PCIEMSR0		0x0000
-> > -#define BIFUR_MOD_SET_ON	BIT(0)
-> > +#define APP_SRIS_MODE		BIT(6)
-> >  #define DEVICE_TYPE_EP		0
-> >  #define DEVICE_TYPE_RC		BIT(4)
-> > +#define BIFUR_MOD_SET_ON	BIT(0)
-> >
-> >  /* PCIe Interrupt Status 0 */
-> >  #define PCIEINTSTS0		0x0084
-> > @@ -37,19 +40,47 @@
-> >  #define PCIEDMAINTSTSEN		0x0314
-> >  #define PCIEDMAINTSTSEN_INIT	GENMASK(15, 0)
-> >
-> > +/* Port Logic Registers 89 */
-> > +#define PRTLGC89		0x0b70
-> > +
-> > +/* Port Logic Registers 90 */
-> > +#define PRTLGC90		0x0b74
-> > +
-> >  /* PCIe Reset Control Register 1 */
-> >  #define PCIERSTCTRL1		0x0014
-> >  #define APP_HOLD_PHY_RST	BIT(16)
-> >  #define APP_LTSSM_ENABLE	BIT(0)
-> >
-> > +/* PCIe Power Management Control */
-> > +#define PCIEPWRMNGCTRL		0x0070
-> > +#define APP_CLK_REQ_N		BIT(11)
-> > +#define APP_CLK_PM_EN		BIT(10)
-> > +
-> > +/*
-> > + * The R-Car Gen4 documents don't describe the PHY registers' name.
-> > + * But, the initialization procedure describes these offsets. So,
-> > + * this driver makes up own #defines for the offsets.
-> > + */
-> > +#define RCAR_GEN4_PCIE_PHY_0f8	0x0f8
-> > +#define RCAR_GEN4_PCIE_PHY_148	0x148
-> > +#define RCAR_GEN4_PCIE_PHY_1d4	0x1d4
-> > +#define RCAR_GEN4_PCIE_PHY_514	0x514
-> > +#define RCAR_GEN4_PCIE_PHY_700	0x700
-> > +
-> >  #define RCAR_NUM_SPEED_CHANGE_RETRIES	10
-> >  #define RCAR_MAX_LINK_SPEED		4
-> >
-> >  #define RCAR_GEN4_PCIE_EP_FUNC_DBI_OFFSET	0x1000
-> >  #define RCAR_GEN4_PCIE_EP_FUNC_DBI2_OFFSET	0x800
-> >
-> > +#define RCAR_GEN4_PCIE_FIRMWARE_NAME		"rcar_gen4_pcie.bin"
-> > +#define RCAR_GEN4_PCIE_FIRMWARE_BASE_ADDR	0xc000
-> > +
-> > +MODULE_FIRMWARE(RCAR_GEN4_PCIE_FIRMWARE_NAME);
-> > +
-> >  struct rcar_gen4_pcie;
-> >  struct rcar_gen4_pcie_drvdata {
-> > +	void (*additional_common_init)(struct rcar_gen4_pcie *rcar);
-> >  	int (*ltssm_enable)(struct rcar_gen4_pcie *rcar);
-> >  	enum dw_pcie_device_mode mode;
-> >  };
-> > @@ -57,12 +88,144 @@ struct rcar_gen4_pcie_drvdata {
-> >  struct rcar_gen4_pcie {
-> >  	struct dw_pcie dw;
-> >  	void __iomem *base;
-> > +	void __iomem *phy_base;
-> >  	struct platform_device *pdev;
-> >  	const struct rcar_gen4_pcie_drvdata *drvdata;
-> >  };
-> >  #define to_rcar_gen4_pcie(_dw)	container_of(_dw, struct rcar_gen4_pcie=
-, dw)
-> >
-> >  /* Common */
-> > +static void rcar_gen4_pcie_phy_reg_update_bits(struct rcar_gen4_pcie *=
-rcar,
-> > +					       u32 offset, u32 mask, u32 val)
-> > +{
-> > +	u32 tmp;
-> > +
-> > +	tmp =3D readl(rcar->phy_base + offset);
-> > +	tmp &=3D ~mask;
-> > +	tmp |=3D val;
-> > +	writel(tmp, rcar->phy_base + offset);
-> > +}
-> > +
-> > +static int rcar_gen4_pcie_reg_check(struct rcar_gen4_pcie *rcar,
-> > +				    u32 offset, u32 mask)
-> > +{
-> > +	struct dw_pcie *dw =3D &rcar->dw;
-> > +
-> > +	if (dw_pcie_readl_dbi(dw, offset) & mask)
-> > +		return -EAGAIN;
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > +static int rcar_gen4_pcie_download_phy_firmware(struct rcar_gen4_pcie =
-*rcar)
-> > +{
-> > +	const u32 check_addr[] =3D { 0x00101018, 0x00101118, 0x00101021, 0x00=
-101121};
-> > +	struct dw_pcie *dw =3D &rcar->dw;
-> > +	const struct firmware *fw;
-> > +	unsigned int i, timeout;
-> > +	u32 data;
-> > +	int ret;
-> > +
-> > +	ret =3D request_firmware(&fw, RCAR_GEN4_PCIE_FIRMWARE_NAME, dw->dev);
-> > +	if (ret) {
-> > +		dev_err(dw->dev, "%s: Requesting firmware failed\n", __func__);
-> > +		return ret;
-> > +	}
-> > +
-> > +	for (i =3D 0; i < (fw->size / 2); i++) {
-> > +		data =3D fw->data[(i * 2) + 1] << 8 | fw->data[i * 2];
-> > +		timeout =3D 100;
-> > +		do {
-> > +			dw_pcie_writel_dbi(dw, PRTLGC89, RCAR_GEN4_PCIE_FIRMWARE_BASE_ADDR =
-+ i);
-> > +			dw_pcie_writel_dbi(dw, PRTLGC90, data);
-> > +			if (rcar_gen4_pcie_reg_check(rcar, PRTLGC89, BIT(30)) >=3D 0)
-> > +				break;
-> > +			if (!(--timeout)) {
-> > +				ret =3D -ETIMEDOUT;
-> > +				goto exit;
-> > +			}
-> > +			usleep_range(100, 200);
-> > +		} while (1);
-> > +	}
-> > +
-> > +	rcar_gen4_pcie_phy_reg_update_bits(rcar, RCAR_GEN4_PCIE_PHY_0f8, BIT(=
-17), BIT(17));
-> > +
-> > +	for (i =3D 0; i < ARRAY_SIZE(check_addr); i++) {
-> > +		timeout =3D 100;
-> > +		do {
-> > +			dw_pcie_writel_dbi(dw, PRTLGC89, check_addr[i]);
-> > +			ret =3D rcar_gen4_pcie_reg_check(rcar, PRTLGC89, BIT(30));
-> > +			ret |=3D rcar_gen4_pcie_reg_check(rcar, PRTLGC90, BIT(0));
-> > +			if (ret >=3D 0)
-> > +				break;
-> > +			if (!(--timeout)) {
-> > +				ret =3D -ETIMEDOUT;
-> > +				goto exit;
-> > +			}
-> > +			usleep_range(100, 200);
-> > +		} while (1);
-> > +	}
-> > +
-> > +	ret =3D 0;
-> > +exit:
-> > +	release_firmware(fw);
-> > +
-> > +	return ret;
-> > +}
-> > +
-> > +static int rcar_gen4_pcie_enable_phy(struct rcar_gen4_pcie *rcar)
-> > +{
-> > +	struct dw_pcie *dw =3D &rcar->dw;
-> > +	u32 val;
-> > +	int ret;
-> > +
-> > +	val =3D dw_pcie_readl_dbi(dw, PCIE_PORT_FORCE);
-> > +	val |=3D PORT_FORCE_DO_DESKEW_FOR_SRIS;
-> > +	dw_pcie_writel_dbi(dw, PCIE_PORT_FORCE, val);
-> > +
-> > +	val =3D readl(rcar->base + PCIEMSR0);
-> > +	val |=3D APP_SRIS_MODE;
-> > +	writel(val, rcar->base + PCIEMSR0);
-> > +
-> > +	rcar_gen4_pcie_phy_reg_update_bits(rcar, RCAR_GEN4_PCIE_PHY_700, BIT(=
-28), 0);
-> > +	rcar_gen4_pcie_phy_reg_update_bits(rcar, RCAR_GEN4_PCIE_PHY_700, BIT(=
-20), 0);
-> > +	rcar_gen4_pcie_phy_reg_update_bits(rcar, RCAR_GEN4_PCIE_PHY_700, BIT(=
-12), 0);
-> > +	rcar_gen4_pcie_phy_reg_update_bits(rcar, RCAR_GEN4_PCIE_PHY_700, BIT(=
-4), 0);
-> > +
-> > +	rcar_gen4_pcie_phy_reg_update_bits(rcar, RCAR_GEN4_PCIE_PHY_148,
-> > +					   GENMASK(23, 22), BIT(22));
-> > +	rcar_gen4_pcie_phy_reg_update_bits(rcar, RCAR_GEN4_PCIE_PHY_148,
-> > +					   GENMASK(18, 16), GENMASK(17, 16));
-> > +	rcar_gen4_pcie_phy_reg_update_bits(rcar, RCAR_GEN4_PCIE_PHY_148,
-> > +					   GENMASK(7, 6), BIT(6));
-> > +	rcar_gen4_pcie_phy_reg_update_bits(rcar, RCAR_GEN4_PCIE_PHY_148,
-> > +					   GENMASK(2, 0), GENMASK(11, 0));
-> > +	rcar_gen4_pcie_phy_reg_update_bits(rcar, RCAR_GEN4_PCIE_PHY_1d4,
-> > +					   GENMASK(16, 15), GENMASK(16, 15));
-> > +	rcar_gen4_pcie_phy_reg_update_bits(rcar, RCAR_GEN4_PCIE_PHY_514, BIT(=
-26), BIT(26));
-> > +	rcar_gen4_pcie_phy_reg_update_bits(rcar, RCAR_GEN4_PCIE_PHY_0f8, BIT(=
-16), 0);
-> > +	rcar_gen4_pcie_phy_reg_update_bits(rcar, RCAR_GEN4_PCIE_PHY_0f8, BIT(=
-19), BIT(19));
-> > +
-> > +	val =3D readl(rcar->base + PCIERSTCTRL1);
-> > +	val &=3D ~APP_HOLD_PHY_RST;
-> > +	writel(val, rcar->base + PCIERSTCTRL1);
-> > +
-> > +	ret =3D readl_poll_timeout(rcar->phy_base + RCAR_GEN4_PCIE_PHY_0f8, v=
-al,
-> > +				 !(val & BIT(18)), 100, 10000);
-> > +	if (ret < 0)
-> > +		return ret;
-> > +
-> > +	ret =3D rcar_gen4_pcie_download_phy_firmware(rcar);
-> > +	if (ret)
-> > +		return ret;
-> > +
-> > +	val =3D readl(rcar->base + PCIERSTCTRL1);
-> > +	val |=3D APP_LTSSM_ENABLE;
-> > +	writel(val, rcar->base + PCIERSTCTRL1);
-> > +
-> > +	return 0;
-> > +}
-> > +
->=20
-> Is there a reason why you didn't chose to implement this as a PHY driver
-> in drivers/phy ?
+On 2024-04-15 08:04:05 +0100, Paul Barker wrote:
+> On 14/04/2024 13:08, Niklas Söderlund wrote:
+> > Hi Paul,
+> > 
+> > Thanks for your patch.
+> > 
+> > On 2024-04-11 12:44:30 +0100, Paul Barker wrote:
+> >> The units of "work done" in the RX path should be packets instead of
+> >> descriptors.
+> >>
+> >> Descriptors which are used by the hardware to record error conditions or
+> >> are empty in the case of a DMA mapping error should not count towards
+> >> our RX work budget.
+> >>
+> >> Fixes: c156633f1353 ("Renesas Ethernet AVB driver proper")
+> >> Signed-off-by: Paul Barker <paul.barker.ct@bp.renesas.com>
+> >> ---
+> >>  drivers/net/ethernet/renesas/ravb_main.c | 20 ++++++++------------
+> >>  1 file changed, 8 insertions(+), 12 deletions(-)
+> >>
+> >> diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
+> >> index ba01c8cc3c90..70f2900648d4 100644
+> >> --- a/drivers/net/ethernet/renesas/ravb_main.c
+> >> +++ b/drivers/net/ethernet/renesas/ravb_main.c
+> >> @@ -892,29 +892,25 @@ static bool ravb_rx_rcar(struct net_device *ndev, int *quota, int q)
+> >>  	struct ravb_private *priv = netdev_priv(ndev);
+> >>  	const struct ravb_hw_info *info = priv->info;
+> >>  	int entry = priv->cur_rx[q] % priv->num_rx_ring[q];
+> >> -	int boguscnt = (priv->dirty_rx[q] + priv->num_rx_ring[q]) -
+> >> -			priv->cur_rx[q];
+> >>  	struct net_device_stats *stats = &priv->stats[q];
+> >>  	struct ravb_ex_rx_desc *desc;
+> >>  	struct sk_buff *skb;
+> >>  	dma_addr_t dma_addr;
+> >>  	struct timespec64 ts;
+> >> +	int rx_packets = 0;
+> >>  	u8  desc_status;
+> >>  	u16 pkt_len;
+> >>  	int limit;
+> >> +	int i;
+> > 
+> > The loop variable can never be negative, use unsigned int.
+> 
+> I matched the type we're comparing against - should we also convert
+> limit to an unsigned int?
 
-This is because the initialization needs both PCIe and PHY registers' setti=
-ngs
-alternately like below:
- Write PHY regs
- Write PCI regs
- Read a PHY reg
- Write PCI regs
- Write a PHY reg
- ...
+If it can't be negative I think that is a good idea.
 
-Best regards,
-Yoshihiro Shimoda
+> 
+> > 
+> >>  
+> >> -	boguscnt = min(boguscnt, *quota);
+> >> -	limit = boguscnt;
+> >> +	limit = priv->dirty_rx[q] + priv->num_rx_ring[q] - priv->cur_rx[q];
+> >>  	desc = &priv->rx_ring[q].ex_desc[entry];
+> >> -	while (desc->die_dt != DT_FEMPTY) {
+> >> +	for (i = 0; i < limit && rx_packets < *quota && desc->die_dt != DT_FEMPTY; i++) {
+> >>  		/* Descriptor type must be checked before all other reads */
+> >>  		dma_rmb();
+> >>  		desc_status = desc->msc;
+> >>  		pkt_len = le16_to_cpu(desc->ds_cc) & RX_DS;
+> >>  
+> >> -		if (--boguscnt < 0)
+> >> -			break;
+> >> -
+> > 
+> > nit: It's a matter of taste, but I like this break condition in the code 
+> > instead of modifying the loop as it's much clearer what's going on. But 
+> > feel free to keep it as is as Sergey likes it.
+> > 
+> >>  		/* We use 0-byte descriptors to mark the DMA mapping errors */
+> >>  		if (!pkt_len)
+> >>  			continue;
+> >> @@ -960,7 +956,7 @@ static bool ravb_rx_rcar(struct net_device *ndev, int *quota, int q)
+> >>  			if (ndev->features & NETIF_F_RXCSUM)
+> >>  				ravb_rx_csum(skb);
+> >>  			napi_gro_receive(&priv->napi[q], skb);
+> >> -			stats->rx_packets++;
+> >> +			rx_packets++;
+> > 
+> > Why do you add this intermediary variable? Is it not confusing to treat 
+> > rx_packets and rx_bytes differently? Why not instead decrement *quota 
+> > here?
+> 
+> To me, it's simpler to count received packets once instead of twice
+> inside the loop (once by incrementing stats->rx_packets, a second time
+> by decrementing *quota). This also makes future refactoring simpler as
+> we already have the rx_packets count which we will need to be able to
+> return so that we can properly track work done in ravb_poll().
 
->=20
-> Kind regards,
-> Niklas
->=20
->=20
-> >  static void rcar_gen4_pcie_ltssm_control(struct rcar_gen4_pcie *rcar,
-> >  					 bool enable)
-> >  {
-> > @@ -200,6 +363,9 @@ static int rcar_gen4_pcie_common_init(struct rcar_g=
-en4_pcie *rcar)
-> >  	if (ret)
-> >  		goto err_unprepare;
-> >
-> > +	if (rcar->drvdata->additional_common_init)
-> > +		rcar->drvdata->additional_common_init(rcar);
-> > +
-> >  	return 0;
-> >
-> >  err_unprepare:
-> > @@ -241,6 +407,10 @@ static void rcar_gen4_pcie_unprepare(struct rcar_g=
-en4_pcie *rcar)
-> >
-> >  static int rcar_gen4_pcie_get_resources(struct rcar_gen4_pcie *rcar)
-> >  {
-> > +	rcar->phy_base =3D devm_platform_ioremap_resource_byname(rcar->pdev, =
-"phy");
-> > +	if (IS_ERR(rcar->phy_base))
-> > +		return PTR_ERR(rcar->phy_base);
-> > +
-> >  	/* Renesas-specific registers */
-> >  	rcar->base =3D devm_platform_ioremap_resource_byname(rcar->pdev, "app=
-");
-> >
-> > @@ -517,6 +687,31 @@ static int r8a779f0_pcie_ltssm_enable(struct rcar_=
-gen4_pcie *rcar)
-> >  	return 0;
-> >  }
-> >
-> > +static void rcar_gen4_pcie_additional_common_init(struct rcar_gen4_pci=
-e *rcar)
-> > +{
-> > +	struct dw_pcie *dw =3D &rcar->dw;
-> > +	u32 val;
-> > +
-> > +	/*
-> > +	 * The SoC manual said the register setting is required. Otherwise,
-> > +	 * linkup failed.
-> > +	 */
-> > +	val =3D dw_pcie_readl_dbi(dw, PCIE_PORT_LANE_SKEW);
-> > +	val &=3D ~PORT_LANE_SKEW_INSERT_MASK;
-> > +	if (dw->num_lanes < 4)
-> > +		val |=3D BIT(6);
-> > +	dw_pcie_writel_dbi(dw, PCIE_PORT_LANE_SKEW, val);
-> > +
-> > +	val =3D readl(rcar->base + PCIEPWRMNGCTRL);
-> > +	val |=3D APP_CLK_REQ_N | APP_CLK_PM_EN;
-> > +	writel(val, rcar->base + PCIEPWRMNGCTRL);
-> > +}
-> > +
-> > +static int rcar_gen4_pcie_ltssm_enable(struct rcar_gen4_pcie *rcar)
-> > +{
-> > +	return rcar_gen4_pcie_enable_phy(rcar);
-> > +}
-> > +
-> >  static struct rcar_gen4_pcie_drvdata drvdata_r8a779f0_pcie =3D {
-> >  	.ltssm_enable =3D r8a779f0_pcie_ltssm_enable,
-> >  	.mode =3D DW_PCIE_RC_TYPE,
-> > @@ -528,10 +723,14 @@ static struct rcar_gen4_pcie_drvdata drvdata_r8a7=
-79f0_pcie_ep =3D {
-> >  };
-> >
-> >  static struct rcar_gen4_pcie_drvdata drvdata_rcar_gen4_pcie =3D {
-> > +	.additional_common_init =3D rcar_gen4_pcie_additional_common_init,
-> > +	.ltssm_enable =3D rcar_gen4_pcie_ltssm_enable,
-> >  	.mode =3D DW_PCIE_RC_TYPE,
-> >  };
-> >
-> >  static struct rcar_gen4_pcie_drvdata drvdata_rcar_gen4_pcie_ep =3D {
-> > +	.additional_common_init =3D rcar_gen4_pcie_additional_common_init,
-> > +	.ltssm_enable =3D rcar_gen4_pcie_ltssm_enable,
-> >  	.mode =3D DW_PCIE_EP_TYPE,
-> >  };
-> >
-> > --
-> > 2.25.1
-> >
+I see your point, I think my point was made with the R-Car code path in 
+mind as it do not yet support splitting a packet over multiple 
+descriptors. And I agree there is value in trying to keep the two code 
+paths as close together as possible so we eventually can merge them.
+
+With the unsigned issue above fixed,
+
+Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+
+> 
+> Thanks,
+> 
+> -- 
+> Paul Barker
+
+
+
+
+
+
+-- 
+Kind Regards,
+Niklas Söderlund
 
