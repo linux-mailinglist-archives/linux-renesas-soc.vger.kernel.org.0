@@ -1,395 +1,210 @@
-Return-Path: <linux-renesas-soc+bounces-4619-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-4620-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C95498A4EC1
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 15 Apr 2024 14:18:23 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BC838A4EC5
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 15 Apr 2024 14:19:06 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 20636B220D8
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 15 Apr 2024 12:18:21 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id CE4D4B21619
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 15 Apr 2024 12:19:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6527B3E48F;
-	Mon, 15 Apr 2024 12:18:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 299003E48F;
+	Mon, 15 Apr 2024 12:18:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="kvSIaQOY"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C7111374D3;
-	Mon, 15 Apr 2024 12:18:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.172
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713183497; cv=none; b=jys/fksxeQUsaUyb0zY0NUWaDcE6mtymEHBCQJQmULAhV5DBDgpQ/mv4Y9+7u4eRarGAOfKlIMe8FXdcV0S7lI4BCWr3UkuM8PWZyC+0iwTntm0tDWPg1wVqR0x6JJULnNcCbegiAtDrith6pOOvEm5IgzHDuemMvK4hjBFSEu4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713183497; c=relaxed/simple;
-	bh=XqA2LV/Vgj6hO2qfNwHJuH7SArud/hAYbSJnEWlJaT4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=kTuAae/t4P0XqQyDDxdtQBCueghKGItTTWYnv42rMoZaTb4g5PZioi6XrMHYCaBtv6x8gjGDxLRTFrkSCRTyhOGzSYuKUe7s6JINxCeZsotnOhq/bEDSNT/NRjDGdVlcBbh8YAFkmTRmmq7XDPbV6HTV0QJAb/6A++WiG2Dv9Rs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.172
+Received: from JPN01-TYC-obe.outbound.protection.outlook.com (mail-tycjpn01on2047.outbound.protection.outlook.com [40.107.114.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF515657AD;
+	Mon, 15 Apr 2024 12:18:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.114.47
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1713183538; cv=fail; b=ZLOG1cqeGCKadDjCDCU7gX0YOk9YP64G8w8OB4iPaRZvArChx2zOJWXzyNxIqO1bg0FArZg+S6ApWi2K6Eporfk4UAxSrBZvpfkaKwcnQG8fAtlaXjt/48yBMQ+zLb5PbrEM11d2GYe34Y0X4li/RXZy6Tzm4u+UH/Nx/X9VXdM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1713183538; c=relaxed/simple;
+	bh=gWLUOWlVXVfTV3tz/GwEJGZjMCJr3ppGKkWgMuDuHZQ=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=VzgoNM/6xv/BTEK3Cy4arnNeocKKozHASAxYjPZkfWYYdyJjElwmiGNrnhbxiaZGCr3q9OV7h3Qos+4iv4WtoswDy/j5BiHBpUVWfB4cO3v6skLxnFYoYtwdMCP+RLLXD33IlCsQJQNWtJY1YMVhfa5v3zLtpaELbs0pShLEX2c=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=kvSIaQOY; arc=fail smtp.client-ip=40.107.114.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
-X-IronPort-AV: E=Sophos;i="6.07,203,1708354800"; 
-   d="asc'?scan'208";a="205445324"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie6.idc.renesas.com with ESMTP; 15 Apr 2024 21:18:13 +0900
-Received: from [10.226.93.74] (unknown [10.226.93.74])
-	by relmlir5.idc.renesas.com (Postfix) with ESMTP id 17D01400BBFF;
-	Mon, 15 Apr 2024 21:18:09 +0900 (JST)
-Message-ID: <b1d0ca22-de75-4d76-90ba-62c2a57f4301@bp.renesas.com>
-Date: Mon, 15 Apr 2024 13:18:08 +0100
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=IUYCAlUs00iAtSBrv0/GJOYSzUdyPWVu7x7XFpVenNlZ9tGkeK0tLelcFmjKiBgS2Kh4gx1uOnqFR2qo2abUrTXDlLsWIF+uB40Rsm/Ms39xzQXbqnkPERMtJNwSG7VhFrr38DhN8wEm1GYtbpiv2YcUY2HZlKBQB0t4ZhPrzzXaGdsqjIoBfGujq/+z7pK0fDUiWIteUVpmSdm71C4NfxpsAW5jsB+k6bkhiKjc+ZCGwbk/EQE+HtffbxAVRNSQkEoP/EMVIDFkHToO6tqNcnkvvNZp+7IO3QqBcuPc1oCsEY81NQtw0vpf8+cBxN0F3tKL6ezwk1r9794AeaX50Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=mgardweZzDc4K+xMU43pMgfHq0hyEmqKx/dhFFNJXps=;
+ b=U8ONO8KC5ABLdozTci6tK2s5CPWpIVUw3wDsJ5bJhZKRO44wCHolIO3w3VFvpRo6MjC6d6jzgyVS/WUH4cGYi1A4IXpT6WGk5Hzej2MOxKzskncK+TrjY4ihSbzesdJDrHUpmza9tx1s8lHU/eCgZe+QiekJ6D5WwUXNPbl+fcif9YSDAnCuMYRBOS3r6/rpuwe35jJidSKwEyb+ZiZtOFOYLb6SFOr8js3wqRoYYe2oPj/9FaIjbfK2ryxg36JW3g9AldLP9DB7EQ40KF+i8XgZbtclvH501AJ4RgRSVhAVI3CzK/WDINLTZ7qXP9jQBRcAaV1BUyxM+SXYTJkggg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=mgardweZzDc4K+xMU43pMgfHq0hyEmqKx/dhFFNJXps=;
+ b=kvSIaQOYV5oC6T2aiR2ggDzgz7lVxYA1xoBsJbUROGNy/P+sxem9yGc7Bx8nolmv9hbyxbRQBW62cGmN8k5BOvnAGcp4rQxf/hOmD72CEbfnV8ri9Qn4DCk0FFKrlp+tLCXFnbQFnIhIF21FtfK26UhgX5QDy/sf1Pj1tbxjFIY=
+Received: from OSAPR01MB1587.jpnprd01.prod.outlook.com (2603:1096:603:2e::16)
+ by OSZPR01MB8404.jpnprd01.prod.outlook.com (2603:1096:604:18c::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7452.50; Mon, 15 Apr
+ 2024 12:18:52 +0000
+Received: from OSAPR01MB1587.jpnprd01.prod.outlook.com
+ ([fe80::fda5:45f9:f1b2:cbce]) by OSAPR01MB1587.jpnprd01.prod.outlook.com
+ ([fe80::fda5:45f9:f1b2:cbce%3]) with mapi id 15.20.7452.049; Mon, 15 Apr 2024
+ 12:18:52 +0000
+From: Biju Das <biju.das.jz@bp.renesas.com>
+To: Philipp Zabel <p.zabel@pengutronix.de>, Geert Uytterhoeven
+	<geert@linux-m68k.org>
+CC: Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>,
+	"linux-phy@lists.infradead.org" <linux-phy@lists.infradead.org>, Geert
+ Uytterhoeven <geert+renesas@glider.be>, Fabrizio Castro
+	<fabrizio.castro.jz@renesas.com>, "linux-renesas-soc@vger.kernel.org"
+	<linux-renesas-soc@vger.kernel.org>, "open list:OPEN FIRMWARE AND FLATTENED
+ DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>
+Subject: RE: [PATCH RFC 0/3] Support VBUSEN selection control for RZ/G2L
+Thread-Topic: [PATCH RFC 0/3] Support VBUSEN selection control for RZ/G2L
+Thread-Index: AQHZiaFfkULG6eflqEaqpA3OKcqzp7Ef1iKwgEtzubA=
+Date: Mon, 15 Apr 2024 12:18:51 +0000
+Message-ID:
+ <OSAPR01MB1587FA6A68811C80A574BCBE86092@OSAPR01MB1587.jpnprd01.prod.outlook.com>
+References: <20230518155649.516346-1-biju.das.jz@bp.renesas.com>
+ <TYCPR01MB11269EE1F1FF841AFD999C9AE86592@TYCPR01MB11269.jpnprd01.prod.outlook.com>
+In-Reply-To:
+ <TYCPR01MB11269EE1F1FF841AFD999C9AE86592@TYCPR01MB11269.jpnprd01.prod.outlook.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=bp.renesas.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: OSAPR01MB1587:EE_|OSZPR01MB8404:EE_
+x-ms-office365-filtering-correlation-id: 7026be14-2cca-48bf-5d75-08dc5d463645
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info:
+ bZPmuCaoOoM5rSWg4hFyL9g95GD28EAgeZZuot/TI9op0oHBNHKFmtD9+Bbx2cyFVfV+mBtJxunEgfyYbv6MnqKPHGur/b2kdBB7FMkEwgQ8i0Af7IwJ9yhRH0cVgqY57j3lWNZOom/tLRefovldCg3jVJ1pFOzbW7eDhTdAXUkKBmMEijeLaQ9NGg+Kba56EqE+2V+8LG87u62tLGjj6OO0ZcR7ikqqionPzdNGKavi6uNuhumBexMB0z7w3Tl8gUl4Okrc22FHs7JhPdLckM16/mbA6mr/UY8FHbCAsKzqeeA8oWh1RbRr6ZoYDPD6VstJdeSodHfqRD4DXQQBfRBIJXbx/ogAn4ZwFEiuVtTBP8jBYKlWr5xiwGH1NIR6JiEIpic1CIPRewiLPclHb+cjbUbPAYvRd9EYsofQR6CXPB1kgTOkUMgdkzY7nBy0ZxohFCWhzv2DL9VUZuX/XF52nCVtb+PhPFhN22nBc/RE1V55WYGSFMM5Q6LcqkvfKOShWv86N6wFFknAGpeM9p+InFfByy1t2gMa7GB5Z9b8IdzZUEbYIxj/m2/BzUCHIlWxjabH7v0XxDzr5FN+yOuZKVg1K1m7b+kbali6icEZNTvXNCU42OI6D6SHuxl2Swx0AeJPG85xipZ8xsbAwLBnCx43+O2uday9YqWEf3Eupft0gYCCBCshRZfYuv0E+v1JBf4Fcfr15tIiprQ/JA==
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OSAPR01MB1587.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(1800799015)(376005)(366007)(38070700009);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?us-ascii?Q?C2FUvwakSW3WYC4WsZKFQzr01TQpunw0G++r2+3ed3gIydl/RUeI1nHm+WJa?=
+ =?us-ascii?Q?tj/xGT3BBmkkyfa7bhgoUFYOv03F8lYwZP0QpQE15gRfzyp1dRU9JDNXx6wY?=
+ =?us-ascii?Q?Y5cV334MsMNvUf8Ng5VkgQMjtMU7X+tplHxonUr2NksFyoVodEi+97J2MYjm?=
+ =?us-ascii?Q?FKkyr08KOMI1XWC5flIL65H7qnXMNmh+TCKy+U63sUMzeMGXCSNxt1DyGf3W?=
+ =?us-ascii?Q?rthdgYiD1djzO/NFWCIsci8NZuqRJGPr84KX9Lonasa6CFy8g2GEGCnXRtKu?=
+ =?us-ascii?Q?eRgB+etrvMi670ucr+q8UAmbwMvGELrMacZydohb/MODg20986fBeD1jcuiB?=
+ =?us-ascii?Q?siy3L3yXVJWlxtKHcURLd/l0UUcrti43tk1ZSmG9Fw+LniDvp7XR9etPAYzY?=
+ =?us-ascii?Q?XKnmiicaGznDQBsjgLUkH5tIhiFFCW6u7dRqdut4Tzl5735Oktezrhb8z5D/?=
+ =?us-ascii?Q?eIY0OKf2thm8mEXS/rq2/ETERzP2ZmVeaKzsi8Ean+ru1uTkJehJ+Vpe6vo8?=
+ =?us-ascii?Q?kEZZCQwrzpVlMf9wughFaucFKowWWzd2Hno5gETg8Ermhba1Vf+FPA8c3qHA?=
+ =?us-ascii?Q?lLmAJgz8oBEPrjn6Sm6FQ0r8Dr/4uvijHKP4KMReDo/KtYALP/2jkgy8+EwI?=
+ =?us-ascii?Q?89GGmAby/ZqOcKV2dQM8RuMPHGainQpzshmFmF78LiuW0FvNkPpbvfbPUBgF?=
+ =?us-ascii?Q?kcuHFueVHmT4MQBOj1AB+2xGAlDAjS4ohgFI7dtQFtbcuD1KfDexO8UWQdVA?=
+ =?us-ascii?Q?8RbFazrTGKnGLkrRAMvtnK5OdkHTj7dP1FvqmEyw/e4efaWs3V8K6o7gs69b?=
+ =?us-ascii?Q?X42GPaYVzhOO7DBnwonuF6fQTl+ubFyhzQFll+53jmA+8zoeiu1znGYuG1Ws?=
+ =?us-ascii?Q?W3CuQDl6FUDLkFH8AnSdz138js1kV4nIc26RKFVKC+LV89EcQMMxvfiQEi6+?=
+ =?us-ascii?Q?unAWbbIDBGAmUIpaPv6JEX5VuKcjK7FckZlJ3BNdQLtgdv8w9STeUR66+IOQ?=
+ =?us-ascii?Q?wPLEedDa0v0KY8JueFN/76ONjmGLibyF/MFengyEQ7Ae0ENr9dN9JzxmonuG?=
+ =?us-ascii?Q?S3m1Rt+f5rMUEUqiwJe6itfEuEjcKt5Y8mPfmXHTlFUfmfTVHy8vjTANEf4P?=
+ =?us-ascii?Q?PTnYCXGna3Fgt9dinUNFju8c1AdCLL7zmkxyHAxNMcm2j6A9o8aaMKoxBw5K?=
+ =?us-ascii?Q?nb9dQT978toXHnXbGC5/fRr5bu3DiqoKHI2yBbzI/j7+ACvCJnnQSuNpTFjk?=
+ =?us-ascii?Q?xvSoL2clM5SjKbl8A/QiCXHafU1YzrP18H4Jsmjr96JBhH/oz442mP0RSstd?=
+ =?us-ascii?Q?ZqBL6tZ1vJrK9GkbVrVMG3Umr7uNUNUAQOeMUftnSvL4mY8aJVnTV0wo5zJC?=
+ =?us-ascii?Q?AhTHQjU3c6s2lXJsWFT+dvcR6MO+ljXHP0bx77gvJ757xUmN0D0iP/+mw0VX?=
+ =?us-ascii?Q?NjiV7asKMqQww/b1yaKRWFuyct/c8yuz8XodzyL8pdV5Ee0t02bzxBOPsZ23?=
+ =?us-ascii?Q?XqLNkjAZSHZ1eSz5WErNYg46Uw33qxWw02tULx98XWhYMzyzufUIn3F00h3f?=
+ =?us-ascii?Q?TUipwbCDYJKT28IcMpCIvk5UKWQ2cqNiighQKv7ZB5xcFY1l6MAG5SrghRYv?=
+ =?us-ascii?Q?XQ=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [net-next RFC v3 3/7] net: ravb: Refactor RX ring refill
-Content-Language: en-GB
-To: =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Cc: Sergey Shtylyov <s.shtylyov@omp.ru>, "David S. Miller"
- <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>, netdev@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20240415094804.8016-1-paul.barker.ct@bp.renesas.com>
- <20240415094804.8016-4-paul.barker.ct@bp.renesas.com>
- <20240415115755.GH3156415@ragnatech.se>
-From: Paul Barker <paul.barker.ct@bp.renesas.com>
-Organization: Renesas Electronics Corporation
-In-Reply-To: <20240415115755.GH3156415@ragnatech.se>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------fQkLkeakaNyqS60iLBC7JGay"
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: OSAPR01MB1587.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7026be14-2cca-48bf-5d75-08dc5d463645
+X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Apr 2024 12:18:51.8877
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 81tJmjxzcczf5eLwAocAWCxaL4Ln8xhIlKQvm/Hl5G5LcFhNCTZHMFWFnldpUtubwapN8jheTsltltM5F+An9OgH1JENQynB/QoEOvLzeZ8=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSZPR01MB8404
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------fQkLkeakaNyqS60iLBC7JGay
-Content-Type: multipart/mixed; boundary="------------yyWBol9nIQgOP00BSCcuE6Ee";
- protected-headers="v1"
-From: Paul Barker <paul.barker.ct@bp.renesas.com>
-To: =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Cc: Sergey Shtylyov <s.shtylyov@omp.ru>, "David S. Miller"
- <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>, netdev@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
-Message-ID: <b1d0ca22-de75-4d76-90ba-62c2a57f4301@bp.renesas.com>
-Subject: Re: [net-next RFC v3 3/7] net: ravb: Refactor RX ring refill
-References: <20240415094804.8016-1-paul.barker.ct@bp.renesas.com>
- <20240415094804.8016-4-paul.barker.ct@bp.renesas.com>
- <20240415115755.GH3156415@ragnatech.se>
-In-Reply-To: <20240415115755.GH3156415@ragnatech.se>
+Hi All,
 
---------------yyWBol9nIQgOP00BSCcuE6Ee
-Content-Type: multipart/mixed; boundary="------------23fTz8Sve8qVuAJGjspuhLgn"
+What about modelling VBUSEN as a regulator?
 
---------------23fTz8Sve8qVuAJGjspuhLgn
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+USB phy ctrl driver shares the resource to VBUSEN regulator driver
+for enable/disable VBUS and PHY driver uses regulator to control the
+VBUS??
 
-On 15/04/2024 12:57, Niklas S=C3=B6derlund wrote:
-> Hi Paul,
++ DT as it involves different modelling
+
+Cheers,
+Biju
+
+> -----Original Message-----
+> From: Biju Das
+> Sent: Tuesday, February 27, 2024 12:03 PM
+> Subject: RE: [PATCH RFC 0/3] Support VBUSEN selection control for RZ/G2L
 >=20
-> Thanks for your work, I really like this deduplication of code!
+> Hi All,
 >=20
-> On 2024-04-15 10:48:00 +0100, Paul Barker wrote:
->> To reduce code duplication, we add a new RX ring refill function which=
-
->> can handle both the initial RX ring population (which was split betwee=
-n
->> ravb_ring_init() and ravb_ring_format()) and the RX ring refill after
->> polling (in ravb_rx()).
->>
->> Signed-off-by: Paul Barker <paul.barker.ct@bp.renesas.com>
->> ---
->>  drivers/net/ethernet/renesas/ravb_main.c | 141 +++++++++-------------=
--
->>  1 file changed, 52 insertions(+), 89 deletions(-)
->>
->> diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/et=
-hernet/renesas/ravb_main.c
->> index 1ac599a044b2..baa01bd81f2d 100644
->> --- a/drivers/net/ethernet/renesas/ravb_main.c
->> +++ b/drivers/net/ethernet/renesas/ravb_main.c
->> @@ -317,35 +317,42 @@ static void ravb_ring_free(struct net_device *nd=
-ev, int q)
->>  	priv->tx_skb[q] =3D NULL;
->>  }
->> =20
->> -static void ravb_rx_ring_format(struct net_device *ndev, int q)
->> +static u32
->> +ravb_rx_ring_refill(struct net_device *ndev, int q, u32 count, gfp_t =
-gfp_mask)
->>  {
->>  	struct ravb_private *priv =3D netdev_priv(ndev);
->> +	const struct ravb_hw_info *info =3D priv->info;
->>  	struct ravb_rx_desc *rx_desc;
->> -	unsigned int rx_ring_size;
->>  	dma_addr_t dma_addr;
->> -	unsigned int i;
->> +	u32 i, entry;
->> =20
->> -	rx_ring_size =3D priv->info->rx_desc_size * priv->num_rx_ring[q];
->> -	memset(priv->rx_ring[q].raw, 0, rx_ring_size);
->> -	/* Build RX ring buffer */
->> -	for (i =3D 0; i < priv->num_rx_ring[q]; i++) {
->> -		/* RX descriptor */
->> -		rx_desc =3D ravb_rx_get_desc(priv, q, i);
->> -		rx_desc->ds_cc =3D cpu_to_le16(priv->info->rx_max_desc_use);
->> -		dma_addr =3D dma_map_single(ndev->dev.parent, priv->rx_skb[q][i]->d=
-ata,
->> -					  priv->info->rx_max_frame_size,
->> -					  DMA_FROM_DEVICE);
->> -		/* We just set the data size to 0 for a failed mapping which
->> -		 * should prevent DMA from happening...
->> -		 */
->> -		if (dma_mapping_error(ndev->dev.parent, dma_addr))
->> -			rx_desc->ds_cc =3D cpu_to_le16(0);
->> -		rx_desc->dptr =3D cpu_to_le32(dma_addr);
->> +	for (i =3D 0; i < count; i++) {
->> +		entry =3D (priv->dirty_rx[q] + i) % priv->num_rx_ring[q];
->> +		rx_desc =3D ravb_rx_get_desc(priv, q, entry);
->> +		rx_desc->ds_cc =3D cpu_to_le16(info->rx_max_desc_use);
->> +
->> +		if (!priv->rx_skb[q][entry]) {
->> +			priv->rx_skb[q][entry] =3D ravb_alloc_skb(ndev, info, gfp_mask);
->> +			if (!priv->rx_skb[q][entry])
->> +				break;
->> +			dma_addr =3D dma_map_single(ndev->dev.parent,
->> +						  priv->rx_skb[q][entry]->data,
->> +						  priv->info->rx_max_frame_size,
->> +						  DMA_FROM_DEVICE);
->> +			skb_checksum_none_assert(priv->rx_skb[q][entry]);
->> +			/* We just set the data size to 0 for a failed mapping
->> +			 * which should prevent DMA from happening...
->> +			 */
->> +			if (dma_mapping_error(ndev->dev.parent, dma_addr))
->> +				rx_desc->ds_cc =3D cpu_to_le16(0);
->> +			rx_desc->dptr =3D cpu_to_le32(dma_addr);
->> +		}
->> +		/* Descriptor type must be set after all the above writes */
->> +		dma_wmb();
->>  		rx_desc->die_dt =3D DT_FEMPTY;
->>  	}
->> -	rx_desc =3D ravb_rx_get_desc(priv, q, i);
->> -	rx_desc->dptr =3D cpu_to_le32((u32)priv->rx_desc_dma[q]);
->> -	rx_desc->die_dt =3D DT_LINKFIX; /* type */
->> +
->> +	return i;
->>  }
->> =20
->>  /* Format skb and descriptor buffer for Ethernet AVB */
->> @@ -353,6 +360,7 @@ static void ravb_ring_format(struct net_device *nd=
-ev, int q)
->>  {
->>  	struct ravb_private *priv =3D netdev_priv(ndev);
->>  	unsigned int num_tx_desc =3D priv->num_tx_desc;
->> +	struct ravb_rx_desc *rx_desc;
->>  	struct ravb_tx_desc *tx_desc;
->>  	struct ravb_desc *desc;
->>  	unsigned int tx_ring_size =3D sizeof(*tx_desc) * priv->num_tx_ring[q=
-] *
->> @@ -364,8 +372,6 @@ static void ravb_ring_format(struct net_device *nd=
-ev, int q)
->>  	priv->dirty_rx[q] =3D 0;
->>  	priv->dirty_tx[q] =3D 0;
->> =20
->> -	ravb_rx_ring_format(ndev, q);
->> -
->>  	memset(priv->tx_ring[q], 0, tx_ring_size);
->>  	/* Build TX ring buffer */
->>  	for (i =3D 0, tx_desc =3D priv->tx_ring[q]; i < priv->num_tx_ring[q]=
-;
->> @@ -379,6 +385,14 @@ static void ravb_ring_format(struct net_device *n=
-dev, int q)
->>  	tx_desc->dptr =3D cpu_to_le32((u32)priv->tx_desc_dma[q]);
->>  	tx_desc->die_dt =3D DT_LINKFIX; /* type */
->> =20
->> +	/* Regular RX descriptors have already been initialized by
->> +	 * ravb_rx_ring_refill(), we just need to initialize the final link
->> +	 * descriptor.
->> +	 */
->> +	rx_desc =3D ravb_rx_get_desc(priv, q, priv->num_rx_ring[q]);
->> +	rx_desc->dptr =3D cpu_to_le32((u32)priv->rx_desc_dma[q]);
->> +	rx_desc->die_dt =3D DT_LINKFIX; /* type */
->> +
+> > -----Original Message-----
+> > From: Biju Das <biju.das.jz@bp.renesas.com>
+> > Sent: Thursday, May 18, 2023 4:57 PM
+> > To: Philipp Zabel <p.zabel@pengutronix.de>
+> > Cc: Biju Das <biju.das.jz@bp.renesas.com>; Vinod Koul
+> > <vkoul@kernel.org>; Kishon Vijay Abraham I <kishon@kernel.org>;
+> > linux-phy@lists.infradead.org; Geert Uytterhoeven
+> > <geert+renesas@glider.be>; Fabrizio Castro
+> > <fabrizio.castro.jz@renesas.com>; linux-renesas-soc@vger.kernel.org
+> > Subject: [PATCH RFC 0/3] Support VBUSEN selection control for RZ/G2L
+> >
+> > This patch series aims to add support for VBUSEN selection control for
+> > RZ/G2L alike SoCs.
+> >
+> > As per RZ/G2L HW(Rev.1.30 May2023) manual, VBUSEN can be controlled by
+> > the Port Power bit of the EHCI/OHCI operational register or by the
+> > VBOUT bit of the VBUS Control Register.
+> >
+> > A reset consumer(phy-rcar-gen3-usb2) needs to find the reset
+> > controller device and then call the provider(reset-rzg2l-usbphy-ctrl)
+> > to configure it.
+> >
+> > Please share your thoughts on this patch series.
 >=20
-> super-nit: Should you not move this addition up to where you removed th=
-e=20
-> call to ravb_rx_ring_format()? Before this change the order of things=20
-> are,
+> Gentle ping for this RFC series. Is this series is in the right direction=
+?
 >=20
->     /* Init RX ring */
->     /* Init TX ring */
->     /* Set RX descriptor base address */
->     /* Set TX descriptor base address */
+> Cheers,
+> Biju
 >=20
->=20
-> While after it is,
->=20
->     /* Init TX ring */
->     /* Init RX ring */
->     /* Set RX descriptor base address */
->     /* Set TX descriptor base address */
->=20
-> My OCD is itching ;-)
+> >
+> > Biju Das (3):
+> >   reset: Add reset_controller_get_dev()
+> >   reset: renesas: Add rzg2l_usbphy_ctrl_select_vbus_ctrl()
+> >   phy: renesas: phy-rcar-gen3-usb2: Control VBUSEN selection
+> >
+> >  drivers/phy/renesas/phy-rcar-gen3-usb2.c |  9 ++++++++
+> >  drivers/reset/core.c                     | 14 ++++++++++++
+> >  drivers/reset/reset-rzg2l-usbphy-ctrl.c  | 27 ++++++++++++++++++++++++
+> >  include/linux/reset-controller.h         |  9 ++++++++
+> >  include/linux/reset/rzg2l-usbphy-ctrl.h  | 16 ++++++++++++++
+> >  5 files changed, 75 insertions(+)
+> >  create mode 100644 include/linux/reset/rzg2l-usbphy-ctrl.h
+> >
+> > --
+> > 2.25.1
 
-Since I'll need to re-spin this series anyway, I may as well tidy that
-up :)
-
->=20
->>  	/* RX descriptor base address for best effort */
->>  	desc =3D &priv->desc_bat[RX_QUEUE_OFFSET + q];
->>  	desc->die_dt =3D DT_LINKFIX; /* type */
->> @@ -408,11 +422,9 @@ static void *ravb_alloc_rx_desc(struct net_device=
- *ndev, int q)
->>  static int ravb_ring_init(struct net_device *ndev, int q)
->>  {
->>  	struct ravb_private *priv =3D netdev_priv(ndev);
->> -	const struct ravb_hw_info *info =3D priv->info;
->>  	unsigned int num_tx_desc =3D priv->num_tx_desc;
->>  	unsigned int ring_size;
->> -	struct sk_buff *skb;
->> -	unsigned int i;
->> +	u32 num_filled;
->> =20
->>  	/* Allocate RX and TX skb rings */
->>  	priv->rx_skb[q] =3D kcalloc(priv->num_rx_ring[q],
->> @@ -422,13 +434,6 @@ static int ravb_ring_init(struct net_device *ndev=
-, int q)
->>  	if (!priv->rx_skb[q] || !priv->tx_skb[q])
->>  		goto error;
->> =20
->> -	for (i =3D 0; i < priv->num_rx_ring[q]; i++) {
->> -		skb =3D ravb_alloc_skb(ndev, info, GFP_KERNEL);
->> -		if (!skb)
->> -			goto error;
->> -		priv->rx_skb[q][i] =3D skb;
->> -	}
->> -
->>  	if (num_tx_desc > 1) {
->>  		/* Allocate rings for the aligned buffers */
->>  		priv->tx_align[q] =3D kmalloc(DPTR_ALIGN * priv->num_tx_ring[q] +
->> @@ -443,6 +448,13 @@ static int ravb_ring_init(struct net_device *ndev=
-, int q)
->> =20
->>  	priv->dirty_rx[q] =3D 0;
->> =20
->> +	/* Populate RX ring buffer. */
->> +	ring_size =3D priv->info->rx_desc_size * priv->num_rx_ring[q];
->> +	memset(priv->rx_ring[q].raw, 0, ring_size);
->> +	num_filled =3D ravb_rx_ring_refill(ndev, q, priv->num_rx_ring[q], GF=
-P_KERNEL);
->> +	if (num_filled !=3D priv->num_rx_ring[q])
->> +		goto error;
->> +
->=20
-> Here you also change the order, but it make sense here as you first dea=
-l=20
-> with all TX and then all RX ;-)
-
-The placement here is because we can't call ravb_rx_ring_refill() until
-priv->dirty_rx[q] has been zero'd.
-
-The init order right now is actually:
-  RX page pool
-  RX buffers
-  TX SKBs
-  RX descriptors
-  RX ring buffer
-  TX descriptors
-
-So maybe this should be re-ordered.
-
-I considered breaking this all apart, so ravb_ring_init() would call
-ravb_rx_ring_init()/ravb_tx_ring_init() and ravb_ring_format() would
-call ravb_rx_ring_format()/ravb_tx_ring_format(). There are several
-steps happening for TX & RX in both init and format stages. Does that
-sound cleaner to you?
-
-Thanks,
-
---=20
-Paul Barker
---------------23fTz8Sve8qVuAJGjspuhLgn
-Content-Type: application/pgp-keys; name="OpenPGP_0x27F4B3459F002257.asc"
-Content-Disposition: attachment; filename="OpenPGP_0x27F4B3459F002257.asc"
-Content-Description: OpenPGP public key
-Content-Transfer-Encoding: quoted-printable
-
------BEGIN PGP PUBLIC KEY BLOCK-----
-
-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3D
-=3DsIIN
------END PGP PUBLIC KEY BLOCK-----
-
---------------23fTz8Sve8qVuAJGjspuhLgn--
-
---------------yyWBol9nIQgOP00BSCcuE6Ee--
-
---------------fQkLkeakaNyqS60iLBC7JGay
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-wnsEABYIACMWIQSiu8gv1Xr0fIw/aoLbaV4Vf/JGvQUCZh0bAAUDAAAAAAAKCRDbaV4Vf/JGvV1t
-AQDbVYa27wuzuyhXLTIYLxYKrXyJmRrg1xBlezk/qJj2EQD/VQ5HYlx2taWhcuVFHvivkp+X5HqP
-lkLEtKXQEVfF2Ak=
-=m92X
------END PGP SIGNATURE-----
-
---------------fQkLkeakaNyqS60iLBC7JGay--
 
