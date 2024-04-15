@@ -1,128 +1,141 @@
-Return-Path: <linux-renesas-soc+bounces-4609-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-4610-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id C131C8A4CC6
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 15 Apr 2024 12:44:20 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id B506E8A4D63
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 15 Apr 2024 13:14:00 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id F1C451C20FB0
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 15 Apr 2024 10:44:19 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3D7601F2190E
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 15 Apr 2024 11:14:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C69135C901;
-	Mon, 15 Apr 2024 10:44:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="DK+ytEaX"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 55F505D734;
+	Mon, 15 Apr 2024 11:13:54 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com [209.85.128.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 553385C614;
-	Mon, 15 Apr 2024 10:44:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77E605D49F;
+	Mon, 15 Apr 2024 11:13:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713177845; cv=none; b=ZVhvEeOxlUBrt163Fyrt0VKzXmEIQ09IuI6ABPefdp4IJYHFFwTdADy5GJpx78+waoLVd1UBALdpZtfexT2BJPUB9nVgoLzcDBjZAgcbyiv0/+0fVQNtfUhf8i0ZSMG10Q6qf6o95YlcyAu/g6kYcRKkux7tqCo1mdmet8ZdfrI=
+	t=1713179634; cv=none; b=XP5oVhDVoqDHIHyeLkPOz7lOJxWY/HQvIomNHTc2eRr/XFQO7CsrpWt6DBfkT92ftg8ls3/bgBKXYsd418IfaVJfvzhAcCNVuJzZUmLgUr0KrgMdCKNAp2pejSBlW2ZGDmcFANDOhrFRVjArDP4dzcyWdm8p435PL53XsGLtU5M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713177845; c=relaxed/simple;
-	bh=2lgF7xR+4qhwMSfR8x9yYIAkTKgSFGBLk6Cbmg0EIkg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=p9eiLXWx/9GNWqkHE0RTOoPSTu4qmSWBE9EAxdHSzfVwoD3TSF4UK6oPdWnlhu84MNtNKfd5Npedjndt81rUwfhnYiAWU0lISEdzQ1fG6scC9ZIrVn1848WLC8RE5AVjJXgOvCBg22Xh9QvaxaFYI1kGzrSbQZFIvFdLObjiTuk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=DK+ytEaX; arc=none smtp.client-ip=46.235.227.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1713177842;
-	bh=2lgF7xR+4qhwMSfR8x9yYIAkTKgSFGBLk6Cbmg0EIkg=;
-	h=Date:Subject:To:References:From:In-Reply-To:From;
-	b=DK+ytEaXTOqx2FzSSHYQPTt/xtHPpXCcERxMHTYDoMVqa7HGcIK/fBphXul7q3W40
-	 ttwyhBWMgsK6rP/lkrYI+3c9cH6zoNbv28XeIMHyVQzsE2XEeIXRtl/NGeSO9LYWwp
-	 MYwSu8DaBrPF/6pXWQnWO0kfJA1xrAtrvw2aF0uMG7D5YztqoLyYcEN5QhFIUfxo9I
-	 6WDOwnXPq1bujONMsZ0HrRslWlHbhinnM7Iy6PStJ8N57yhciGH/oDETzmHgcN6Wms
-	 JyZO4sKkUToBygSCeXdT938x4PREqBqdIUxmMRR3WMKTU47M3il9wZz3U8sgJGbqPt
-	 z3vsOZAWhbjWw==
-Received: from [100.113.186.2] (cola.collaboradmins.com [195.201.22.229])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: kholk11)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 5B9B23782039;
-	Mon, 15 Apr 2024 10:43:59 +0000 (UTC)
-Message-ID: <1f88a0b3-273a-4de8-8733-c4fc1ac407ca@collabora.com>
-Date: Mon, 15 Apr 2024 12:43:58 +0200
+	s=arc-20240116; t=1713179634; c=relaxed/simple;
+	bh=DY1D/jrwts1nB0lRaeb1r4vr8r9BEL2IO+BWI1tSCig=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=hx+uYLQUkDAfVhPNuhz5wC5n6COBSUauJiLkPA5xKOaoYgctE6KOIzGB+J089PaRR0L+mwtfOabCzDwv9Cq4dDCsQYmcMiCh2qKzS3gTarz/VFDPKHKFMdSM/O680ceSrmq2w+zioheGGWOxrUTOhtlVwFoNUqMYbk+6/n0Pd+4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-61816fc256dso25395617b3.0;
+        Mon, 15 Apr 2024 04:13:52 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1713179631; x=1713784431;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=5FWGxEu0VgX/lOXKA/j3W5EIIVimlFBayhs7POLjK7Q=;
+        b=VcmQl6Kyd+B2XAzfWz8o7NLFMXqx2/yM7/dKpiGPu7Pm8yzU0gKTwjfqa5pvJ9DPe2
+         njV2pvfb181H40iLJLmODkpwTJ3EKyK4QFaLThxmoLYiELDf9iV39TpLa1iKjSW7pKaA
+         fzl8CV6HduUu/FAsTp8vVJC5i8a8W+5kpgP1m8apEmdpufr0OWWKNjqu35Peev7NkujL
+         2uiAVTFfmGO6mEvZ/4YUHErA4x+og17zCIdYjJdOGC9itgIpPpOYAUD9ZWUBQ6flRCIj
+         6Dfue3PlqonhQZ1ETKahTZeWhHmLTEVq5/AfHOpByJ9b0o88BPMGm58dEYH14iQIGlp0
+         43DA==
+X-Forwarded-Encrypted: i=1; AJvYcCUHjVSn7uYmePK8pkgX6iohFcXMoMgo8D8WBjqSvjgS5se++S1GTBb9XqKeTzDKQ2Gj56WnN5EDbYK6fNr/6x3c5xnVVC1fqZ82dLfeZ5YlgUI8biog+LbSe93CW/OTJVTnq68TDSxBxxB19MiNhZHtgj10VWrittB4j1iAxqBvb30TDusEqgu2hnU=
+X-Gm-Message-State: AOJu0Yx4yfyQ6KolE5WpNMiOHUWwt9E0wtuoAfJ8Es1D1+9oS6UuQw9Z
+	/NeFPRCTa5nrrWkhnT6I4+EoMNbciuaMB7lEWKIBj6fncBDtCt/QNEVmFg/G
+X-Google-Smtp-Source: AGHT+IEZzJIBEAzV75fQm6Uh2aF1dVbmWQAbEUbjCls69hJliNK06kgOQMMk86eafHUAt3Ihy61WbQ==
+X-Received: by 2002:a81:e305:0:b0:618:5b27:e12b with SMTP id q5-20020a81e305000000b006185b27e12bmr8128819ywl.7.1713179630889;
+        Mon, 15 Apr 2024 04:13:50 -0700 (PDT)
+Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com. [209.85.128.176])
+        by smtp.gmail.com with ESMTPSA id p11-20020a817e4b000000b00617bcab1236sm2012343ywn.35.2024.04.15.04.13.49
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 15 Apr 2024 04:13:49 -0700 (PDT)
+Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-6114c9b4d83so23296037b3.3;
+        Mon, 15 Apr 2024 04:13:49 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCXa20YUNj1ao5lShwg2aqaaVwIMOFdDdFRjaKo7dw/YHpZ1eLPljUTcH33ACaJW8BkGqwEKyk++0yKt03Yi4FPUu/nVgW5wOxTd190Xb++D29/n13+MoqWqijs6duVhTaOVGbnY+lrVu802UFleen9EZqi2kuaI0Ih2qLvXBLv9RqgdUDAk1B70cwM=
+X-Received: by 2002:a25:8211:0:b0:de1:1af9:c7ea with SMTP id
+ q17-20020a258211000000b00de11af9c7eamr7177258ybk.1.1713179629348; Mon, 15 Apr
+ 2024 04:13:49 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 4/4] dt-bindings: PCI: mediatek,mt7621-pcie: switch
- from deprecated pci-bus.yaml
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Bjorn Helgaas <bhelgaas@google.com>,
- Lorenzo Pieralisi <lpieralisi@kernel.org>,
- =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Hector Martin <marcan@marcan.st>,
- Sven Peter <sven@svenpeter.dev>, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
- Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
- Broadcom internal kernel review list
- <bcm-kernel-feedback-list@broadcom.com>,
- Florian Fainelli <florian.fainelli@broadcom.com>,
- Jim Quinlan <jim2101024@gmail.com>,
- Nicolas Saenz Julienne <nsaenz@kernel.org>, Will Deacon <will@kernel.org>,
- Linus Walleij <linus.walleij@linaro.org>,
- Srikanth Thokala <srikanth.thokala@intel.com>,
- Ryder Lee <ryder.lee@mediatek.com>, Jianjun Wang
- <jianjun.wang@mediatek.com>,
- Sergio Paracuellos <sergio.paracuellos@gmail.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Daire McNamara <daire.mcnamara@microchip.com>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>,
- Marek Vasut <marek.vasut+renesas@gmail.com>,
- Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
- Shawn Lin <shawn.lin@rock-chips.com>, Heiko Stuebner <heiko@sntech.de>,
- Jingoo Han <jingoohan1@gmail.com>,
- Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
- Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
- Bharat Kumar Gogada <bharat.kumar.gogada@amd.com>,
- Michal Simek <michal.simek@amd.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Magnus Damm <magnus.damm@gmail.com>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Mark Kettenis <kettenis@openbsd.org>, Tom Joseph <tjoseph@cadence.com>,
- Ahmad Zainie <wan.ahmad.zainie.wan.mohamad@intel.com>,
- Jiaxun Yang <jiaxun.yang@flygoat.com>,
- Kishon Vijay Abraham I <kishon@kernel.org>,
- Thippeswamy Havalige <thippeswamy.havalige@amd.com>,
- linux-pci@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, asahi@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-rpi-kernel@lists.infradead.org,
- linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org, linux-rockchip@lists.infradead.org
-References: <20240413151617.35630-1-krzysztof.kozlowski@linaro.org>
- <20240413151617.35630-4-krzysztof.kozlowski@linaro.org>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Content-Language: en-US
-In-Reply-To: <20240413151617.35630-4-krzysztof.kozlowski@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20240409175108.1512861-1-seanjc@google.com> <20240409175108.1512861-2-seanjc@google.com>
+In-Reply-To: <20240409175108.1512861-2-seanjc@google.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Mon, 15 Apr 2024 13:13:36 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdVjB2g+fN8dxcmHUjKhzDChPpwcf8hMCbf=arOK5MkOuQ@mail.gmail.com>
+Message-ID: <CAMuHMdVjB2g+fN8dxcmHUjKhzDChPpwcf8hMCbf=arOK5MkOuQ@mail.gmail.com>
+Subject: Re: [PATCH 1/3] x86/cpu: Actually turn off mitigations by default for SPECULATION_MITIGATIONS=n
+To: Sean Christopherson <seanjc@google.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, 
+	Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	Peter Zijlstra <peterz@infradead.org>, Josh Poimboeuf <jpoimboe@kernel.org>, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Pawan Gupta <pawan.kumar.gupta@linux.intel.com>, 
+	Daniel Sneddon <daniel.sneddon@linux.intel.com>, Catalin Marinas <catalin.marinas@arm.com>, 
+	Will Deacon <will@kernel.org>, Linux ARM <linux-arm-kernel@lists.infradead.org>, 
+	Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Il 13/04/24 17:16, Krzysztof Kozlowski ha scritto:
-> dtschema package with core schemas deprecated pci-bus.yaml schema in
-> favor of individual schemas per host, device and pci-pci.
-> 
-> Switch Mediatek MT7621 PCIe host bridge binding to this new schema.
-> 
-> This requires dtschema package newer than v2024.02 to work fully.
-> v2024.02 will partially work: with a warning.
-> 
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> 
+Hi Sean,
 
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+On Tue, Apr 9, 2024 at 7:51=E2=80=AFPM Sean Christopherson <seanjc@google.c=
+om> wrote:
+> Initialize cpu_mitigations to CPU_MITIGATIONS_OFF if the kernel is built
+> with CONFIG_SPECULATION_MITIGATIONS=3Dn, as the help text quite clearly
+> states that disabling SPECULATION_MITIGATIONS is supposed to turn off all
+> mitigations by default.
+>
+>   =E2=94=82 If you say N, all mitigations will be disabled. You really
+>   =E2=94=82 should know what you are doing to say so.
+>
+> As is, the kernel still defaults to CPU_MITIGATIONS_AUTO, which results i=
+n
+> some mitigations being enabled in spite of SPECULATION_MITIGATIONS=3Dn.
+>
+> Fixes: f43b9876e857 ("x86/retbleed: Add fine grained Kconfig knobs")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Sean Christopherson <seanjc@google.com>
 
+Thanks for your patch, which is now commit f337a6a21e2fd67e
+("x86/cpu: Actually turn off mitigations by default
+for SPECULATION_MITIGATIONS=3Dn") in v6.9-rc4.
 
+This causes the following suspicious messages on R-Car H3:
+
+        CPU features: kernel page table isolation forced OFF by mitigations=
+=3Doff
+        spectre-v4 mitigation disabled by command-line option
+        spectre-v2 mitigation disabled by command line option
+        spectre-v2 mitigation disabled by command line option
+
+and R-Car V4H:
+
+        CPU features: kernel page table isolation forced OFF by mitigations=
+=3Doff
+        spectre-v4 mitigation disabled by command-line option
+        spectre-bhb mitigation disabled by command line option
+        spectre-bhb mitigation disabled by command line option
+
+Interestingly, no mitigations are disabled on the command-line.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
