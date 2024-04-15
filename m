@@ -1,210 +1,334 @@
-Return-Path: <linux-renesas-soc+bounces-4620-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-4621-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BC838A4EC5
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 15 Apr 2024 14:19:06 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 829A08A4EF6
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 15 Apr 2024 14:25:05 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id CE4D4B21619
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 15 Apr 2024 12:19:03 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0B29D1F20AA7
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 15 Apr 2024 12:25:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 299003E48F;
-	Mon, 15 Apr 2024 12:18:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EA3D4657D3;
+	Mon, 15 Apr 2024 12:25:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="kvSIaQOY"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="e6mNbkSC"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from JPN01-TYC-obe.outbound.protection.outlook.com (mail-tycjpn01on2047.outbound.protection.outlook.com [40.107.114.47])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF515657AD;
-	Mon, 15 Apr 2024 12:18:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.114.47
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713183538; cv=fail; b=ZLOG1cqeGCKadDjCDCU7gX0YOk9YP64G8w8OB4iPaRZvArChx2zOJWXzyNxIqO1bg0FArZg+S6ApWi2K6Eporfk4UAxSrBZvpfkaKwcnQG8fAtlaXjt/48yBMQ+zLb5PbrEM11d2GYe34Y0X4li/RXZy6Tzm4u+UH/Nx/X9VXdM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713183538; c=relaxed/simple;
-	bh=gWLUOWlVXVfTV3tz/GwEJGZjMCJr3ppGKkWgMuDuHZQ=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=VzgoNM/6xv/BTEK3Cy4arnNeocKKozHASAxYjPZkfWYYdyJjElwmiGNrnhbxiaZGCr3q9OV7h3Qos+4iv4WtoswDy/j5BiHBpUVWfB4cO3v6skLxnFYoYtwdMCP+RLLXD33IlCsQJQNWtJY1YMVhfa5v3zLtpaELbs0pShLEX2c=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=kvSIaQOY; arc=fail smtp.client-ip=40.107.114.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=IUYCAlUs00iAtSBrv0/GJOYSzUdyPWVu7x7XFpVenNlZ9tGkeK0tLelcFmjKiBgS2Kh4gx1uOnqFR2qo2abUrTXDlLsWIF+uB40Rsm/Ms39xzQXbqnkPERMtJNwSG7VhFrr38DhN8wEm1GYtbpiv2YcUY2HZlKBQB0t4ZhPrzzXaGdsqjIoBfGujq/+z7pK0fDUiWIteUVpmSdm71C4NfxpsAW5jsB+k6bkhiKjc+ZCGwbk/EQE+HtffbxAVRNSQkEoP/EMVIDFkHToO6tqNcnkvvNZp+7IO3QqBcuPc1oCsEY81NQtw0vpf8+cBxN0F3tKL6ezwk1r9794AeaX50Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=mgardweZzDc4K+xMU43pMgfHq0hyEmqKx/dhFFNJXps=;
- b=U8ONO8KC5ABLdozTci6tK2s5CPWpIVUw3wDsJ5bJhZKRO44wCHolIO3w3VFvpRo6MjC6d6jzgyVS/WUH4cGYi1A4IXpT6WGk5Hzej2MOxKzskncK+TrjY4ihSbzesdJDrHUpmza9tx1s8lHU/eCgZe+QiekJ6D5WwUXNPbl+fcif9YSDAnCuMYRBOS3r6/rpuwe35jJidSKwEyb+ZiZtOFOYLb6SFOr8js3wqRoYYe2oPj/9FaIjbfK2ryxg36JW3g9AldLP9DB7EQ40KF+i8XgZbtclvH501AJ4RgRSVhAVI3CzK/WDINLTZ7qXP9jQBRcAaV1BUyxM+SXYTJkggg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=mgardweZzDc4K+xMU43pMgfHq0hyEmqKx/dhFFNJXps=;
- b=kvSIaQOYV5oC6T2aiR2ggDzgz7lVxYA1xoBsJbUROGNy/P+sxem9yGc7Bx8nolmv9hbyxbRQBW62cGmN8k5BOvnAGcp4rQxf/hOmD72CEbfnV8ri9Qn4DCk0FFKrlp+tLCXFnbQFnIhIF21FtfK26UhgX5QDy/sf1Pj1tbxjFIY=
-Received: from OSAPR01MB1587.jpnprd01.prod.outlook.com (2603:1096:603:2e::16)
- by OSZPR01MB8404.jpnprd01.prod.outlook.com (2603:1096:604:18c::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7452.50; Mon, 15 Apr
- 2024 12:18:52 +0000
-Received: from OSAPR01MB1587.jpnprd01.prod.outlook.com
- ([fe80::fda5:45f9:f1b2:cbce]) by OSAPR01MB1587.jpnprd01.prod.outlook.com
- ([fe80::fda5:45f9:f1b2:cbce%3]) with mapi id 15.20.7452.049; Mon, 15 Apr 2024
- 12:18:52 +0000
-From: Biju Das <biju.das.jz@bp.renesas.com>
-To: Philipp Zabel <p.zabel@pengutronix.de>, Geert Uytterhoeven
-	<geert@linux-m68k.org>
-CC: Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>,
-	"linux-phy@lists.infradead.org" <linux-phy@lists.infradead.org>, Geert
- Uytterhoeven <geert+renesas@glider.be>, Fabrizio Castro
-	<fabrizio.castro.jz@renesas.com>, "linux-renesas-soc@vger.kernel.org"
-	<linux-renesas-soc@vger.kernel.org>, "open list:OPEN FIRMWARE AND FLATTENED
- DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>
-Subject: RE: [PATCH RFC 0/3] Support VBUSEN selection control for RZ/G2L
-Thread-Topic: [PATCH RFC 0/3] Support VBUSEN selection control for RZ/G2L
-Thread-Index: AQHZiaFfkULG6eflqEaqpA3OKcqzp7Ef1iKwgEtzubA=
-Date: Mon, 15 Apr 2024 12:18:51 +0000
-Message-ID:
- <OSAPR01MB1587FA6A68811C80A574BCBE86092@OSAPR01MB1587.jpnprd01.prod.outlook.com>
-References: <20230518155649.516346-1-biju.das.jz@bp.renesas.com>
- <TYCPR01MB11269EE1F1FF841AFD999C9AE86592@TYCPR01MB11269.jpnprd01.prod.outlook.com>
-In-Reply-To:
- <TYCPR01MB11269EE1F1FF841AFD999C9AE86592@TYCPR01MB11269.jpnprd01.prod.outlook.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: OSAPR01MB1587:EE_|OSZPR01MB8404:EE_
-x-ms-office365-filtering-correlation-id: 7026be14-2cca-48bf-5d75-08dc5d463645
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info:
- bZPmuCaoOoM5rSWg4hFyL9g95GD28EAgeZZuot/TI9op0oHBNHKFmtD9+Bbx2cyFVfV+mBtJxunEgfyYbv6MnqKPHGur/b2kdBB7FMkEwgQ8i0Af7IwJ9yhRH0cVgqY57j3lWNZOom/tLRefovldCg3jVJ1pFOzbW7eDhTdAXUkKBmMEijeLaQ9NGg+Kba56EqE+2V+8LG87u62tLGjj6OO0ZcR7ikqqionPzdNGKavi6uNuhumBexMB0z7w3Tl8gUl4Okrc22FHs7JhPdLckM16/mbA6mr/UY8FHbCAsKzqeeA8oWh1RbRr6ZoYDPD6VstJdeSodHfqRD4DXQQBfRBIJXbx/ogAn4ZwFEiuVtTBP8jBYKlWr5xiwGH1NIR6JiEIpic1CIPRewiLPclHb+cjbUbPAYvRd9EYsofQR6CXPB1kgTOkUMgdkzY7nBy0ZxohFCWhzv2DL9VUZuX/XF52nCVtb+PhPFhN22nBc/RE1V55WYGSFMM5Q6LcqkvfKOShWv86N6wFFknAGpeM9p+InFfByy1t2gMa7GB5Z9b8IdzZUEbYIxj/m2/BzUCHIlWxjabH7v0XxDzr5FN+yOuZKVg1K1m7b+kbali6icEZNTvXNCU42OI6D6SHuxl2Swx0AeJPG85xipZ8xsbAwLBnCx43+O2uday9YqWEf3Eupft0gYCCBCshRZfYuv0E+v1JBf4Fcfr15tIiprQ/JA==
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OSAPR01MB1587.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(1800799015)(376005)(366007)(38070700009);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?C2FUvwakSW3WYC4WsZKFQzr01TQpunw0G++r2+3ed3gIydl/RUeI1nHm+WJa?=
- =?us-ascii?Q?tj/xGT3BBmkkyfa7bhgoUFYOv03F8lYwZP0QpQE15gRfzyp1dRU9JDNXx6wY?=
- =?us-ascii?Q?Y5cV334MsMNvUf8Ng5VkgQMjtMU7X+tplHxonUr2NksFyoVodEi+97J2MYjm?=
- =?us-ascii?Q?FKkyr08KOMI1XWC5flIL65H7qnXMNmh+TCKy+U63sUMzeMGXCSNxt1DyGf3W?=
- =?us-ascii?Q?rthdgYiD1djzO/NFWCIsci8NZuqRJGPr84KX9Lonasa6CFy8g2GEGCnXRtKu?=
- =?us-ascii?Q?eRgB+etrvMi670ucr+q8UAmbwMvGELrMacZydohb/MODg20986fBeD1jcuiB?=
- =?us-ascii?Q?siy3L3yXVJWlxtKHcURLd/l0UUcrti43tk1ZSmG9Fw+LniDvp7XR9etPAYzY?=
- =?us-ascii?Q?XKnmiicaGznDQBsjgLUkH5tIhiFFCW6u7dRqdut4Tzl5735Oktezrhb8z5D/?=
- =?us-ascii?Q?eIY0OKf2thm8mEXS/rq2/ETERzP2ZmVeaKzsi8Ean+ru1uTkJehJ+Vpe6vo8?=
- =?us-ascii?Q?kEZZCQwrzpVlMf9wughFaucFKowWWzd2Hno5gETg8Ermhba1Vf+FPA8c3qHA?=
- =?us-ascii?Q?lLmAJgz8oBEPrjn6Sm6FQ0r8Dr/4uvijHKP4KMReDo/KtYALP/2jkgy8+EwI?=
- =?us-ascii?Q?89GGmAby/ZqOcKV2dQM8RuMPHGainQpzshmFmF78LiuW0FvNkPpbvfbPUBgF?=
- =?us-ascii?Q?kcuHFueVHmT4MQBOj1AB+2xGAlDAjS4ohgFI7dtQFtbcuD1KfDexO8UWQdVA?=
- =?us-ascii?Q?8RbFazrTGKnGLkrRAMvtnK5OdkHTj7dP1FvqmEyw/e4efaWs3V8K6o7gs69b?=
- =?us-ascii?Q?X42GPaYVzhOO7DBnwonuF6fQTl+ubFyhzQFll+53jmA+8zoeiu1znGYuG1Ws?=
- =?us-ascii?Q?W3CuQDl6FUDLkFH8AnSdz138js1kV4nIc26RKFVKC+LV89EcQMMxvfiQEi6+?=
- =?us-ascii?Q?unAWbbIDBGAmUIpaPv6JEX5VuKcjK7FckZlJ3BNdQLtgdv8w9STeUR66+IOQ?=
- =?us-ascii?Q?wPLEedDa0v0KY8JueFN/76ONjmGLibyF/MFengyEQ7Ae0ENr9dN9JzxmonuG?=
- =?us-ascii?Q?S3m1Rt+f5rMUEUqiwJe6itfEuEjcKt5Y8mPfmXHTlFUfmfTVHy8vjTANEf4P?=
- =?us-ascii?Q?PTnYCXGna3Fgt9dinUNFju8c1AdCLL7zmkxyHAxNMcm2j6A9o8aaMKoxBw5K?=
- =?us-ascii?Q?nb9dQT978toXHnXbGC5/fRr5bu3DiqoKHI2yBbzI/j7+ACvCJnnQSuNpTFjk?=
- =?us-ascii?Q?xvSoL2clM5SjKbl8A/QiCXHafU1YzrP18H4Jsmjr96JBhH/oz442mP0RSstd?=
- =?us-ascii?Q?ZqBL6tZ1vJrK9GkbVrVMG3Umr7uNUNUAQOeMUftnSvL4mY8aJVnTV0wo5zJC?=
- =?us-ascii?Q?AhTHQjU3c6s2lXJsWFT+dvcR6MO+ljXHP0bx77gvJ757xUmN0D0iP/+mw0VX?=
- =?us-ascii?Q?NjiV7asKMqQww/b1yaKRWFuyct/c8yuz8XodzyL8pdV5Ee0t02bzxBOPsZ23?=
- =?us-ascii?Q?XqLNkjAZSHZ1eSz5WErNYg46Uw33qxWw02tULx98XWhYMzyzufUIn3F00h3f?=
- =?us-ascii?Q?TUipwbCDYJKT28IcMpCIvk5UKWQ2cqNiighQKv7ZB5xcFY1l6MAG5SrghRYv?=
- =?us-ascii?Q?XQ=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE5895FBA3;
+	Mon, 15 Apr 2024 12:25:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1713183900; cv=none; b=C8XgcGP4UwNC5PG1Z0/XaI/o7XgBSPaS69I81nJdordD5M537WRSLO/E/9I4gvjlN/r9tkhNyvacjAIc+Z+FL+evwenrLKwxnvGMB7KEdH//dCLRvp7vZ0kmMyAER6IlERsL4eGu9E600kO16eKX0WlEEegrC12TYCfMX7uPcgo=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1713183900; c=relaxed/simple;
+	bh=HwhYtPMSm6cLJwaRxlxhxKmSmqUfNInife4UM12bLnA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jkYAOHHxtRVedCZBgiJmkaXf4SZXVkuYJ1m3s5Vwx0EDCUYjTvnbm45YnIjtvEhDivWuT9UD9QerID8Lkv/8LGIM1bdTni/1IkJvKifpoDehzkhonecqDCdIQQ0CAGlvomlFHryAOJ3JbeEWu3roItN/rLQdYxMQoIDB+RO1XxY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=e6mNbkSC; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5ACF8C113CC;
+	Mon, 15 Apr 2024 12:24:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1713183900;
+	bh=HwhYtPMSm6cLJwaRxlxhxKmSmqUfNInife4UM12bLnA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=e6mNbkSCwU17ppBk23wqspxJwzPs+JLMB5PkcAiqDNGKK93ke16IWqB8+KBAZH8OH
+	 Tris5ahbi1j497WhJkDKWMDtXOfsLgORc2lGXfDU1/1p3FzQyzKk5cQZ8AIYE3lBpL
+	 7yW7PL+z8iGs1oLN94u+sdOxon90q577JWOPIDqmdRXxKFrc6W2ATPV29A3ldaU/EP
+	 kz3Wns/Tml4aejrfCXkXFUxL6e6G8v3r+uXIb1WZ8s5CULHv+ZNpr4a4we9PQuPhGG
+	 H5nsOxQ525CkxvpDxouvxpjAmYS1OnO6M+6YGSuK+NFE7mCFTPpBnyxPCybgY5tNsY
+	 +pPutbtMTGRng==
+Date: Mon, 15 Apr 2024 14:24:54 +0200
+From: Niklas Cassel <cassel@kernel.org>
+To: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc: "lpieralisi@kernel.org" <lpieralisi@kernel.org>,
+	"kw@linux.com" <kw@linux.com>, "robh@kernel.org" <robh@kernel.org>,
+	"bhelgaas@google.com" <bhelgaas@google.com>,
+	"krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>,
+	"conor+dt@kernel.org" <conor+dt@kernel.org>,
+	"jingoohan1@gmail.com" <jingoohan1@gmail.com>,
+	"mani@kernel.org" <mani@kernel.org>,
+	"marek.vasut+renesas@gmail.com" <marek.vasut+renesas@gmail.com>,
+	"linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>
+Subject: Re: [PATCH v7 6/7] PCI: rcar-gen4: Add support for r8a779g0
+Message-ID: <Zh0cljkWBzIZACFd@ryzen>
+References: <20240415081135.3814373-1-yoshihiro.shimoda.uh@renesas.com>
+ <20240415081135.3814373-7-yoshihiro.shimoda.uh@renesas.com>
+ <Zhzk6dOkb8RXjv7o@ryzen>
+ <TYCPR01MB11040033FABC78AD0CC459D1BD8092@TYCPR01MB11040.jpnprd01.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: OSAPR01MB1587.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7026be14-2cca-48bf-5d75-08dc5d463645
-X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Apr 2024 12:18:51.8877
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 81tJmjxzcczf5eLwAocAWCxaL4Ln8xhIlKQvm/Hl5G5LcFhNCTZHMFWFnldpUtubwapN8jheTsltltM5F+An9OgH1JENQynB/QoEOvLzeZ8=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSZPR01MB8404
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <TYCPR01MB11040033FABC78AD0CC459D1BD8092@TYCPR01MB11040.jpnprd01.prod.outlook.com>
 
-Hi All,
+On Mon, Apr 15, 2024 at 09:19:43AM +0000, Yoshihiro Shimoda wrote:
+> Hi Niklas,
+> 
+> > From: Niklas Cassel, Sent: Monday, April 15, 2024 5:27 PM
+> > 
+> > On Mon, Apr 15, 2024 at 05:11:34PM +0900, Yoshihiro Shimoda wrote:
+> > > This driver previously supported r8a779f0 (R-Car S4-8). Add support
+> > > for r8a779g0 (R-Car V4H). PCIe features of both r8a779f0 and r8a779g0
+> > > are almost all the same. For example:
+> > >  - PCI Express Base Specification Revision 4.0
+> > >  - Root complex mode and endpoint mode are supported
+> > >
+> > > However, r8a779g0 requires specific firmware downloading, to
+> > > initialize the PHY. Otherwise, the PCIe controller cannot work.
+> > > The firmware is attached in the manual of the r8a779g0 as text.
+> > > So, convert it to a binary file by using a script.
+> > >
+> > > Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+> > > ---
+> > >  drivers/pci/controller/dwc/pcie-rcar-gen4.c | 201 +++++++++++++++++++-
+> > >  1 file changed, 200 insertions(+), 1 deletion(-)
+> > >
+> > > diff --git a/drivers/pci/controller/dwc/pcie-rcar-gen4.c b/drivers/pci/controller/dwc/pcie-rcar-gen4.c
+> > > index 980a916933d6..4e934e9156f2 100644
+> > > --- a/drivers/pci/controller/dwc/pcie-rcar-gen4.c
+> > > +++ b/drivers/pci/controller/dwc/pcie-rcar-gen4.c
+> > > @@ -5,8 +5,10 @@
+> > >   */
+> > >
+> > >  #include <linux/delay.h>
+> > > +#include <linux/firmware.h>
+> > >  #include <linux/interrupt.h>
+> > >  #include <linux/io.h>
+> > > +#include <linux/iopoll.h>
+> > >  #include <linux/module.h>
+> > >  #include <linux/of.h>
+> > >  #include <linux/pci.h>
+> > > @@ -20,9 +22,10 @@
+> > >  /* Renesas-specific */
+> > >  /* PCIe Mode Setting Register 0 */
+> > >  #define PCIEMSR0		0x0000
+> > > -#define BIFUR_MOD_SET_ON	BIT(0)
+> > > +#define APP_SRIS_MODE		BIT(6)
+> > >  #define DEVICE_TYPE_EP		0
+> > >  #define DEVICE_TYPE_RC		BIT(4)
+> > > +#define BIFUR_MOD_SET_ON	BIT(0)
+> > >
+> > >  /* PCIe Interrupt Status 0 */
+> > >  #define PCIEINTSTS0		0x0084
+> > > @@ -37,19 +40,47 @@
+> > >  #define PCIEDMAINTSTSEN		0x0314
+> > >  #define PCIEDMAINTSTSEN_INIT	GENMASK(15, 0)
+> > >
+> > > +/* Port Logic Registers 89 */
+> > > +#define PRTLGC89		0x0b70
+> > > +
+> > > +/* Port Logic Registers 90 */
+> > > +#define PRTLGC90		0x0b74
+> > > +
+> > >  /* PCIe Reset Control Register 1 */
+> > >  #define PCIERSTCTRL1		0x0014
+> > >  #define APP_HOLD_PHY_RST	BIT(16)
+> > >  #define APP_LTSSM_ENABLE	BIT(0)
+> > >
+> > > +/* PCIe Power Management Control */
+> > > +#define PCIEPWRMNGCTRL		0x0070
+> > > +#define APP_CLK_REQ_N		BIT(11)
+> > > +#define APP_CLK_PM_EN		BIT(10)
+> > > +
+> > > +/*
+> > > + * The R-Car Gen4 documents don't describe the PHY registers' name.
+> > > + * But, the initialization procedure describes these offsets. So,
+> > > + * this driver makes up own #defines for the offsets.
+> > > + */
+> > > +#define RCAR_GEN4_PCIE_PHY_0f8	0x0f8
+> > > +#define RCAR_GEN4_PCIE_PHY_148	0x148
+> > > +#define RCAR_GEN4_PCIE_PHY_1d4	0x1d4
+> > > +#define RCAR_GEN4_PCIE_PHY_514	0x514
+> > > +#define RCAR_GEN4_PCIE_PHY_700	0x700
+> > > +
+> > >  #define RCAR_NUM_SPEED_CHANGE_RETRIES	10
+> > >  #define RCAR_MAX_LINK_SPEED		4
+> > >
+> > >  #define RCAR_GEN4_PCIE_EP_FUNC_DBI_OFFSET	0x1000
+> > >  #define RCAR_GEN4_PCIE_EP_FUNC_DBI2_OFFSET	0x800
+> > >
+> > > +#define RCAR_GEN4_PCIE_FIRMWARE_NAME		"rcar_gen4_pcie.bin"
+> > > +#define RCAR_GEN4_PCIE_FIRMWARE_BASE_ADDR	0xc000
+> > > +
+> > > +MODULE_FIRMWARE(RCAR_GEN4_PCIE_FIRMWARE_NAME);
+> > > +
+> > >  struct rcar_gen4_pcie;
+> > >  struct rcar_gen4_pcie_drvdata {
+> > > +	void (*additional_common_init)(struct rcar_gen4_pcie *rcar);
+> > >  	int (*ltssm_enable)(struct rcar_gen4_pcie *rcar);
+> > >  	enum dw_pcie_device_mode mode;
+> > >  };
+> > > @@ -57,12 +88,144 @@ struct rcar_gen4_pcie_drvdata {
+> > >  struct rcar_gen4_pcie {
+> > >  	struct dw_pcie dw;
+> > >  	void __iomem *base;
+> > > +	void __iomem *phy_base;
+> > >  	struct platform_device *pdev;
+> > >  	const struct rcar_gen4_pcie_drvdata *drvdata;
+> > >  };
+> > >  #define to_rcar_gen4_pcie(_dw)	container_of(_dw, struct rcar_gen4_pcie, dw)
+> > >
+> > >  /* Common */
+> > > +static void rcar_gen4_pcie_phy_reg_update_bits(struct rcar_gen4_pcie *rcar,
+> > > +					       u32 offset, u32 mask, u32 val)
+> > > +{
+> > > +	u32 tmp;
+> > > +
+> > > +	tmp = readl(rcar->phy_base + offset);
+> > > +	tmp &= ~mask;
+> > > +	tmp |= val;
+> > > +	writel(tmp, rcar->phy_base + offset);
+> > > +}
+> > > +
+> > > +static int rcar_gen4_pcie_reg_check(struct rcar_gen4_pcie *rcar,
+> > > +				    u32 offset, u32 mask)
+> > > +{
+> > > +	struct dw_pcie *dw = &rcar->dw;
+> > > +
+> > > +	if (dw_pcie_readl_dbi(dw, offset) & mask)
+> > > +		return -EAGAIN;
+> > > +
+> > > +	return 0;
+> > > +}
+> > > +
+> > > +static int rcar_gen4_pcie_download_phy_firmware(struct rcar_gen4_pcie *rcar)
+> > > +{
+> > > +	const u32 check_addr[] = { 0x00101018, 0x00101118, 0x00101021, 0x00101121};
+> > > +	struct dw_pcie *dw = &rcar->dw;
+> > > +	const struct firmware *fw;
+> > > +	unsigned int i, timeout;
+> > > +	u32 data;
+> > > +	int ret;
+> > > +
+> > > +	ret = request_firmware(&fw, RCAR_GEN4_PCIE_FIRMWARE_NAME, dw->dev);
+> > > +	if (ret) {
+> > > +		dev_err(dw->dev, "%s: Requesting firmware failed\n", __func__);
+> > > +		return ret;
+> > > +	}
+> > > +
+> > > +	for (i = 0; i < (fw->size / 2); i++) {
+> > > +		data = fw->data[(i * 2) + 1] << 8 | fw->data[i * 2];
+> > > +		timeout = 100;
+> > > +		do {
+> > > +			dw_pcie_writel_dbi(dw, PRTLGC89, RCAR_GEN4_PCIE_FIRMWARE_BASE_ADDR + i);
+> > > +			dw_pcie_writel_dbi(dw, PRTLGC90, data);
+> > > +			if (rcar_gen4_pcie_reg_check(rcar, PRTLGC89, BIT(30)) >= 0)
+> > > +				break;
+> > > +			if (!(--timeout)) {
+> > > +				ret = -ETIMEDOUT;
+> > > +				goto exit;
+> > > +			}
+> > > +			usleep_range(100, 200);
+> > > +		} while (1);
+> > > +	}
+> > > +
+> > > +	rcar_gen4_pcie_phy_reg_update_bits(rcar, RCAR_GEN4_PCIE_PHY_0f8, BIT(17), BIT(17));
+> > > +
+> > > +	for (i = 0; i < ARRAY_SIZE(check_addr); i++) {
+> > > +		timeout = 100;
+> > > +		do {
+> > > +			dw_pcie_writel_dbi(dw, PRTLGC89, check_addr[i]);
+> > > +			ret = rcar_gen4_pcie_reg_check(rcar, PRTLGC89, BIT(30));
+> > > +			ret |= rcar_gen4_pcie_reg_check(rcar, PRTLGC90, BIT(0));
+> > > +			if (ret >= 0)
+> > > +				break;
+> > > +			if (!(--timeout)) {
+> > > +				ret = -ETIMEDOUT;
+> > > +				goto exit;
+> > > +			}
+> > > +			usleep_range(100, 200);
+> > > +		} while (1);
+> > > +	}
+> > > +
+> > > +	ret = 0;
+> > > +exit:
+> > > +	release_firmware(fw);
+> > > +
+> > > +	return ret;
+> > > +}
+> > > +
+> > > +static int rcar_gen4_pcie_enable_phy(struct rcar_gen4_pcie *rcar)
+> > > +{
+> > > +	struct dw_pcie *dw = &rcar->dw;
+> > > +	u32 val;
+> > > +	int ret;
+> > > +
+> > > +	val = dw_pcie_readl_dbi(dw, PCIE_PORT_FORCE);
+> > > +	val |= PORT_FORCE_DO_DESKEW_FOR_SRIS;
+> > > +	dw_pcie_writel_dbi(dw, PCIE_PORT_FORCE, val);
+> > > +
+> > > +	val = readl(rcar->base + PCIEMSR0);
+> > > +	val |= APP_SRIS_MODE;
+> > > +	writel(val, rcar->base + PCIEMSR0);
+> > > +
+> > > +	rcar_gen4_pcie_phy_reg_update_bits(rcar, RCAR_GEN4_PCIE_PHY_700, BIT(28), 0);
+> > > +	rcar_gen4_pcie_phy_reg_update_bits(rcar, RCAR_GEN4_PCIE_PHY_700, BIT(20), 0);
+> > > +	rcar_gen4_pcie_phy_reg_update_bits(rcar, RCAR_GEN4_PCIE_PHY_700, BIT(12), 0);
+> > > +	rcar_gen4_pcie_phy_reg_update_bits(rcar, RCAR_GEN4_PCIE_PHY_700, BIT(4), 0);
+> > > +
+> > > +	rcar_gen4_pcie_phy_reg_update_bits(rcar, RCAR_GEN4_PCIE_PHY_148,
+> > > +					   GENMASK(23, 22), BIT(22));
+> > > +	rcar_gen4_pcie_phy_reg_update_bits(rcar, RCAR_GEN4_PCIE_PHY_148,
+> > > +					   GENMASK(18, 16), GENMASK(17, 16));
+> > > +	rcar_gen4_pcie_phy_reg_update_bits(rcar, RCAR_GEN4_PCIE_PHY_148,
+> > > +					   GENMASK(7, 6), BIT(6));
+> > > +	rcar_gen4_pcie_phy_reg_update_bits(rcar, RCAR_GEN4_PCIE_PHY_148,
+> > > +					   GENMASK(2, 0), GENMASK(11, 0));
+> > > +	rcar_gen4_pcie_phy_reg_update_bits(rcar, RCAR_GEN4_PCIE_PHY_1d4,
+> > > +					   GENMASK(16, 15), GENMASK(16, 15));
+> > > +	rcar_gen4_pcie_phy_reg_update_bits(rcar, RCAR_GEN4_PCIE_PHY_514, BIT(26), BIT(26));
+> > > +	rcar_gen4_pcie_phy_reg_update_bits(rcar, RCAR_GEN4_PCIE_PHY_0f8, BIT(16), 0);
+> > > +	rcar_gen4_pcie_phy_reg_update_bits(rcar, RCAR_GEN4_PCIE_PHY_0f8, BIT(19), BIT(19));
+> > > +
+> > > +	val = readl(rcar->base + PCIERSTCTRL1);
+> > > +	val &= ~APP_HOLD_PHY_RST;
+> > > +	writel(val, rcar->base + PCIERSTCTRL1);
+> > > +
+> > > +	ret = readl_poll_timeout(rcar->phy_base + RCAR_GEN4_PCIE_PHY_0f8, val,
+> > > +				 !(val & BIT(18)), 100, 10000);
+> > > +	if (ret < 0)
+> > > +		return ret;
+> > > +
+> > > +	ret = rcar_gen4_pcie_download_phy_firmware(rcar);
+> > > +	if (ret)
+> > > +		return ret;
+> > > +
+> > > +	val = readl(rcar->base + PCIERSTCTRL1);
+> > > +	val |= APP_LTSSM_ENABLE;
+> > > +	writel(val, rcar->base + PCIERSTCTRL1);
+> > > +
+> > > +	return 0;
+> > > +}
+> > > +
+> > 
+> > Is there a reason why you didn't chose to implement this as a PHY driver
+> > in drivers/phy ?
+> 
+> This is because the initialization needs both PCIe and PHY registers' settings
+> alternately like below:
+>  Write PHY regs
+>  Write PCI regs
+>  Read a PHY reg
+>  Write PCI regs
+>  Write a PHY reg
+>  ...
+> 
+> Best regards,
+> Yoshihiro Shimoda
 
-What about modelling VBUSEN as a regulator?
+I see, that makes sense. Thanks.
 
-USB phy ctrl driver shares the resource to VBUSEN regulator driver
-for enable/disable VBUS and PHY driver uses regulator to control the
-VBUS??
 
-+ DT as it involves different modelling
-
-Cheers,
-Biju
-
-> -----Original Message-----
-> From: Biju Das
-> Sent: Tuesday, February 27, 2024 12:03 PM
-> Subject: RE: [PATCH RFC 0/3] Support VBUSEN selection control for RZ/G2L
->=20
-> Hi All,
->=20
-> > -----Original Message-----
-> > From: Biju Das <biju.das.jz@bp.renesas.com>
-> > Sent: Thursday, May 18, 2023 4:57 PM
-> > To: Philipp Zabel <p.zabel@pengutronix.de>
-> > Cc: Biju Das <biju.das.jz@bp.renesas.com>; Vinod Koul
-> > <vkoul@kernel.org>; Kishon Vijay Abraham I <kishon@kernel.org>;
-> > linux-phy@lists.infradead.org; Geert Uytterhoeven
-> > <geert+renesas@glider.be>; Fabrizio Castro
-> > <fabrizio.castro.jz@renesas.com>; linux-renesas-soc@vger.kernel.org
-> > Subject: [PATCH RFC 0/3] Support VBUSEN selection control for RZ/G2L
-> >
-> > This patch series aims to add support for VBUSEN selection control for
-> > RZ/G2L alike SoCs.
-> >
-> > As per RZ/G2L HW(Rev.1.30 May2023) manual, VBUSEN can be controlled by
-> > the Port Power bit of the EHCI/OHCI operational register or by the
-> > VBOUT bit of the VBUS Control Register.
-> >
-> > A reset consumer(phy-rcar-gen3-usb2) needs to find the reset
-> > controller device and then call the provider(reset-rzg2l-usbphy-ctrl)
-> > to configure it.
-> >
-> > Please share your thoughts on this patch series.
->=20
-> Gentle ping for this RFC series. Is this series is in the right direction=
-?
->=20
-> Cheers,
-> Biju
->=20
-> >
-> > Biju Das (3):
-> >   reset: Add reset_controller_get_dev()
-> >   reset: renesas: Add rzg2l_usbphy_ctrl_select_vbus_ctrl()
-> >   phy: renesas: phy-rcar-gen3-usb2: Control VBUSEN selection
-> >
-> >  drivers/phy/renesas/phy-rcar-gen3-usb2.c |  9 ++++++++
-> >  drivers/reset/core.c                     | 14 ++++++++++++
-> >  drivers/reset/reset-rzg2l-usbphy-ctrl.c  | 27 ++++++++++++++++++++++++
-> >  include/linux/reset-controller.h         |  9 ++++++++
-> >  include/linux/reset/rzg2l-usbphy-ctrl.h  | 16 ++++++++++++++
-> >  5 files changed, 75 insertions(+)
-> >  create mode 100644 include/linux/reset/rzg2l-usbphy-ctrl.h
-> >
-> > --
-> > 2.25.1
-
+Kind regards,
+Niklas
 
