@@ -1,157 +1,412 @@
-Return-Path: <linux-renesas-soc+bounces-4578-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-4579-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9EFD8A4910
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 15 Apr 2024 09:32:01 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 54B918A491A
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 15 Apr 2024 09:34:22 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7F673282B42
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 15 Apr 2024 07:32:00 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 09ACA280D6B
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 15 Apr 2024 07:34:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 76C4523754;
-	Mon, 15 Apr 2024 07:31:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RSS59ZAS"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 454D923754;
+	Mon, 15 Apr 2024 07:34:18 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-oi1-f174.google.com (mail-oi1-f174.google.com [209.85.167.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECEC52D058;
-	Mon, 15 Apr 2024 07:31:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.174
+Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7739F241E1;
+	Mon, 15 Apr 2024 07:34:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713166318; cv=none; b=tWAVd7H/obtFNmK69vxyTOr6iWYBkqlYW5XcA20/QvpjxkUfQ25FT4SEIky+V399xLnKbMrsn6XQhNk8Q7uKh/IUdBJfvNVy2Ho1iEce2FDRILTFZomWb9R5N8NLKQnMYdhiAWmEXBzwxPqktsihWUcpYffTAhQfQ60OhG3P02U=
+	t=1713166458; cv=none; b=BvdCmDlnR3H+VS2lky6iXYCi7E6MArCXroaIPPREna/6mot6cbF18Qp5HvfQU9rBFanAg1vKH2Fa69zSsMecLTsD4y5G+NyhLVgLXBVLeqEJjTcxwX8gQCszB7NmXHbELkhXxUAJpCrsy7nyrW16QPuwFQfvJKW15cRxqmUhLEE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713166318; c=relaxed/simple;
-	bh=RiMMGXA23rt3N/5UddmduV4dDe775hQfb8LLkY3/0Gg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=EMeLb1lDL3vrfVx6RR98MJyqfhUyhr6HuJqbIm6BeiTxg7JodQ2b2G0Dmbdy6fSy6HGR2kC8nCaePEHRWCP49e3NHBA2N8OiqIs0QCitjc4LRceJClY/qlOFuQ8RUcF/3LW9iVNCT+9F8qmqDNdtuZcrwg+i80qSb8W00/5fp8M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RSS59ZAS; arc=none smtp.client-ip=209.85.167.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-oi1-f174.google.com with SMTP id 5614622812f47-3c709e5e4f9so1023751b6e.3;
-        Mon, 15 Apr 2024 00:31:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1713166316; x=1713771116; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=fyAUoqBvIOKTY3LdJCpcnCDojqj4JBfKWFR06e36DaU=;
-        b=RSS59ZASpatW3v7wMh06zmn8h4gzBMsbwcm5b33oqlx49NNgMRAeiKGFyNzJ1EEVdC
-         TsPGMJ5qn/khdN+YtV7wgsuh3IfbSFeTm7IhOjJeMo7xb67mcUL0oOYZdElnCxbbZSKn
-         cQUigmI/MUhqW8BkdQaBvovPKTZGfTI0q0ppiJElAlMoGgjCAO2GKl83uGmY/TBspAqO
-         V7GSzKZW6B0453CEgBq6SX0GapaNrA8EoFswrqUAgFBiIXnbRxvP8Z3aaceGpF8RDQvS
-         iZtstwj+lrg1w+qylCwZFnRpnBZdpIDadigxYnXJ1wYe4QTIQvf9LcNPX7eroZ5/C1h2
-         A2uw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713166316; x=1713771116;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=fyAUoqBvIOKTY3LdJCpcnCDojqj4JBfKWFR06e36DaU=;
-        b=C8iibwI2GDAf3dwCe4styRCJ7+T7YU132Vfxud9JPqIoLt39OdvFEFYAlyRRZhF9MX
-         69PUvy97oYVMz/vk1LRymsZ9diUmuCN1OH+GKFEMksW321HONMo6ma/tlvC2/1UcLZpH
-         jFGSTlULr8wwyNjeTQI2Vf8djmRKNzzsgLGrqIRz9GYFquhPLeozZol2kY9Zy1/7/vHA
-         eAyN6mt0UVglC7iEJOOfNa6Jz4NOuk4I9mhPKHqC1MNHY1VTmQtAbi0FFjSm1RxgV/me
-         kmXNb6549wqEv29evJ5sZqlIPHDUqkY7IK2FJZ2ecLCiOzFAkzB+RCHL9KhOQ8hTCSkS
-         5wLw==
-X-Forwarded-Encrypted: i=1; AJvYcCWY8DXVAr/fchcRvV94G4Rx4uHZGU4tz6LNKCl0487rGxRYHqfp985wSn+jlxuEzMt4pxx06h+STB88UojUe3MUXZt329DDLyf+nyp/NjbXFzXtG1IB55ZuDDeAKwXkdprQ0SEbsnL+8FQi1tWyL7vA8ZXjUqKtnWhp7J1iY7cP8FGYrOzY5b2kMqe76Wq0b2k/OA054IiE/lmDUnLEKrrw7/pdGEGZwNhMrHhvQ8TKp0e4jpnFMqfV+ULbyxNAbBc9gGRNzw==
-X-Gm-Message-State: AOJu0YzR5o/NBHxudyw4YGwh10QvTQel2OSzcsAKRzOay/UDoMVyjG+l
-	jogPvC6RceRrvF7CauLR/CKBwy4c2WKrFiMlZLTg+KuBjquQmxDaf3L8MxAA0Gx/HM5Ck4Giyxq
-	DT8ohRxSZCxbTI/hZghGxlS3rfB0=
-X-Google-Smtp-Source: AGHT+IG+mHEf+9pMHePulndcOmqJAFoy+0e8uxd+TwOgPTDj/IhKU2JtlX/85TmoPDDzrhRzFX9Fs3nWYPxdgLlCL2I=
-X-Received: by 2002:a05:6870:ac26:b0:233:b575:4b4a with SMTP id
- kw38-20020a056870ac2600b00233b5754b4amr10413015oab.36.1713166316068; Mon, 15
- Apr 2024 00:31:56 -0700 (PDT)
+	s=arc-20240116; t=1713166458; c=relaxed/simple;
+	bh=oIv5XkEwQUH7RKJjXxoIWpGmICU21scDRL/sgb4tTNs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=FogeXh6gXVymM/6I+igCZOHTaQm3F4DY6hlR8uc49ByIM8uQiP+SkWA++aOq1vx7ZYegB2jUh80KQ66BE7NfMmLWYI4Nu0Buecy9u/fu0Tu5+eocuVQ5bHcY755/DeAVhB7xmsq5Idajlk8priyOMGt+2sc1ix4iigPQKWrKS7A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
+X-IronPort-AV: E=Sophos;i="6.07,202,1708354800"; 
+   d="asc'?scan'208";a="201463128"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie5.idc.renesas.com with ESMTP; 15 Apr 2024 16:34:14 +0900
+Received: from [10.226.93.74] (unknown [10.226.93.74])
+	by relmlir6.idc.renesas.com (Postfix) with ESMTP id 6EDB8416B56F;
+	Mon, 15 Apr 2024 16:34:11 +0900 (JST)
+Message-ID: <98ae4f14-397b-49b7-a0a9-cb316f2594f6@bp.renesas.com>
+Date: Mon, 15 Apr 2024 08:34:09 +0100
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240413151617.35630-1-krzysztof.kozlowski@linaro.org> <20240413151617.35630-4-krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20240413151617.35630-4-krzysztof.kozlowski@linaro.org>
-From: Sergio Paracuellos <sergio.paracuellos@gmail.com>
-Date: Mon, 15 Apr 2024 09:31:47 +0200
-Message-ID: <CAMhs-H9ADfuDkFcD==7x+VaN2q92JV1gxuyrWvfNYK1psEnrQA@mail.gmail.com>
-Subject: Re: [PATCH v3 4/4] dt-bindings: PCI: mediatek,mt7621-pcie: switch
- from deprecated pci-bus.yaml
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: Bjorn Helgaas <bhelgaas@google.com>, Lorenzo Pieralisi <lpieralisi@kernel.org>, 
-	=?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, 
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>, Ray Jui <rjui@broadcom.com>, 
-	Scott Branden <sbranden@broadcom.com>, 
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
-	Florian Fainelli <florian.fainelli@broadcom.com>, Jim Quinlan <jim2101024@gmail.com>, 
-	Nicolas Saenz Julienne <nsaenz@kernel.org>, Will Deacon <will@kernel.org>, 
-	Linus Walleij <linus.walleij@linaro.org>, Srikanth Thokala <srikanth.thokala@intel.com>, 
-	Ryder Lee <ryder.lee@mediatek.com>, Jianjun Wang <jianjun.wang@mediatek.com>, 
-	Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
-	Daire McNamara <daire.mcnamara@microchip.com>, Bjorn Andersson <andersson@kernel.org>, 
-	Konrad Dybcio <konrad.dybcio@linaro.org>, Marek Vasut <marek.vasut+renesas@gmail.com>, 
-	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>, Shawn Lin <shawn.lin@rock-chips.com>, 
-	Heiko Stuebner <heiko@sntech.de>, Jingoo Han <jingoohan1@gmail.com>, 
-	Gustavo Pimentel <gustavo.pimentel@synopsys.com>, 
-	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>, 
-	Bharat Kumar Gogada <bharat.kumar.gogada@amd.com>, Michal Simek <michal.simek@amd.com>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
-	Neil Armstrong <neil.armstrong@linaro.org>, Mark Kettenis <kettenis@openbsd.org>, 
-	Tom Joseph <tjoseph@cadence.com>, Ahmad Zainie <wan.ahmad.zainie.wan.mohamad@intel.com>, 
-	Jiaxun Yang <jiaxun.yang@flygoat.com>, Kishon Vijay Abraham I <kishon@kernel.org>, 
-	Thippeswamy Havalige <thippeswamy.havalige@amd.com>, linux-pci@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
-	linux-rpi-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
-	linux-arm-msm@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	linux-rockchip@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [net-next] net: ethernet: rtsn: Add support for Renesas
+ Ethernet-TSN
+Content-Language: en-GB
+To: =?UTF-8?Q?Niklas_S=C3=B6derlund?=
+ <niklas.soderlund+renesas@ragnatech.se>,
+ Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ netdev@vger.kernel.org
+Cc: linux-renesas-soc@vger.kernel.org
+References: <20240414135937.1139611-1-niklas.soderlund+renesas@ragnatech.se>
+From: Paul Barker <paul.barker.ct@bp.renesas.com>
+Organization: Renesas Electronics Corporation
+In-Reply-To: <20240414135937.1139611-1-niklas.soderlund+renesas@ragnatech.se>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------EXzZ0U87jzFgcMpqjReXpKra"
+
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------EXzZ0U87jzFgcMpqjReXpKra
+Content-Type: multipart/mixed; boundary="------------0W3gefA1t5vPtBTa1W6ijMPB";
+ protected-headers="v1"
+From: Paul Barker <paul.barker.ct@bp.renesas.com>
+To: =?UTF-8?Q?Niklas_S=C3=B6derlund?=
+ <niklas.soderlund+renesas@ragnatech.se>,
+ Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ netdev@vger.kernel.org
+Cc: linux-renesas-soc@vger.kernel.org
+Message-ID: <98ae4f14-397b-49b7-a0a9-cb316f2594f6@bp.renesas.com>
+Subject: Re: [net-next] net: ethernet: rtsn: Add support for Renesas
+ Ethernet-TSN
+References: <20240414135937.1139611-1-niklas.soderlund+renesas@ragnatech.se>
+In-Reply-To: <20240414135937.1139611-1-niklas.soderlund+renesas@ragnatech.se>
+
+--------------0W3gefA1t5vPtBTa1W6ijMPB
+Content-Type: multipart/mixed; boundary="------------fauPFJcSdJBNtE4ei89h0siq"
+
+--------------fauPFJcSdJBNtE4ei89h0siq
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-Hi Krzysztof,
-
-On Sat, Apr 13, 2024 at 5:16=E2=80=AFPM Krzysztof Kozlowski
-<krzysztof.kozlowski@linaro.org> wrote:
->
-> dtschema package with core schemas deprecated pci-bus.yaml schema in
-> favor of individual schemas per host, device and pci-pci.
->
-> Switch Mediatek MT7621 PCIe host bridge binding to this new schema.
->
-> This requires dtschema package newer than v2024.02 to work fully.
-> v2024.02 will partially work: with a warning.
->
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
->
+On 14/04/2024 14:59, Niklas S=C3=B6derlund wrote:
+> Add initial support for Renesas Ethernet-TSN End-station device of R-Ca=
+r
+> V4H. The Ethernet End-station can connect to an Ethernet network using =
+a
+> 10 Mbps, 100 Mbps, or 1 Gbps full-duplex link via MII/GMII/RMII/RGMII.
+> Depending on the connected PHY.
+>=20
+> Signed-off-by: Niklas S=C3=B6derlund <niklas.soderlund+renesas@ragnatec=
+h.se>
 > ---
->
-> Important: This depends on change recently merged to dtschema, however
-> no release was yet made with mentioned change.
-> Therefore this patch probably should wait a bit. Previous patches do not
-> depend anyhow on future release, so they can be taken as is.
-
-Does this mean that we should set DT_SCHEMA_MIN_VERSION to 2024.02 in
-Documentation/devicetree/bindings/Makefile then before merging this
-patch?
-
->
-> Changes in v3:
-> 1. None
->
-> Changes in v2:
-> 1. New patch
-> 2. Split mediatek,mt7621-pcie to separate patch as it uses
->    pci-pci-bridge schema.
+> * Changes since RFC
+> - Fix issues in MDIO communication.
+> - Use a dedicated OF node for the MDIO bus.
 > ---
->  .../devicetree/bindings/pci/mediatek,mt7621-pcie.yaml         | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+>  MAINTAINERS                           |    8 +
+>  drivers/net/ethernet/renesas/Kconfig  |   11 +
+>  drivers/net/ethernet/renesas/Makefile |    2 +
+>  drivers/net/ethernet/renesas/rtsn.c   | 1421 +++++++++++++++++++++++++=
 
-Acked-by: Sergio Paracuellos <sergio.paracuellos@gmail.com>
+>  drivers/net/ethernet/renesas/rtsn.h   |  464 ++++++++
+>  5 files changed, 1906 insertions(+)
+>  create mode 100644 drivers/net/ethernet/renesas/rtsn.c
+>  create mode 100644 drivers/net/ethernet/renesas/rtsn.h
+
+<snip>
+
+> diff --git a/drivers/net/ethernet/renesas/rtsn.c b/drivers/net/ethernet=
+/renesas/rtsn.c
+> new file mode 100644
+> index 000000000000..291ab421d68f
+> --- /dev/null
+> +++ b/drivers/net/ethernet/renesas/rtsn.c
+
+<snip>
+
+> +static bool rtsn_rx(struct net_device *ndev, int *quota)
+> +{
+> +	struct rtsn_ext_ts_desc *desc;
+> +	struct rtsn_private *priv;
+> +	struct sk_buff *skb;
+> +	dma_addr_t dma_addr;
+> +	int boguscnt;
+
+I find the variable name `boguscnt` very unclear, I'm not sure if it
+means the count is bogus, or it is counting bogus items?
+
+I don't think you need to match what I've done in ravb_main.c exactly,
+but I'd prefer to see a better variable name here.
+
+> +	u16 pkt_len;
+> +	u32 get_ts;
+> +	int entry;
+> +	int limit;
+> +
+> +	priv =3D netdev_priv(ndev);
+> +
+> +	entry =3D priv->cur_rx % priv->num_rx_ring;
+> +	desc =3D &priv->rx_ring[entry];
+> +
+> +	boguscnt =3D priv->dirty_rx + priv->num_rx_ring - priv->cur_rx;
+> +	boguscnt =3D min(boguscnt, *quota);
+> +	limit =3D boguscnt;
+> +
+> +	while ((desc->die_dt & DT_MASK) !=3D DT_FEMPTY) {
+> +		dma_rmb();
+> +		pkt_len =3D le16_to_cpu(desc->info_ds) & RX_DS;
+> +		if (--boguscnt < 0)
+> +			break;
+> +
+> +		skb =3D priv->rx_skb[entry];
+> +		priv->rx_skb[entry] =3D NULL;
+> +		dma_addr =3D le32_to_cpu(desc->dptr);
+> +		dma_unmap_single(ndev->dev.parent, dma_addr, PKT_BUF_SZ,
+> +				 DMA_FROM_DEVICE);
+> +
+> +		get_ts =3D priv->ptp_priv->tstamp_rx_ctrl &
+> +			RCAR_GEN4_RXTSTAMP_TYPE_V2_L2_EVENT;
+> +		if (get_ts) {
+> +			struct skb_shared_hwtstamps *shhwtstamps;
+> +			struct timespec64 ts;
+> +
+> +			shhwtstamps =3D skb_hwtstamps(skb);
+> +			memset(shhwtstamps, 0, sizeof(*shhwtstamps));
+> +
+> +			ts.tv_sec =3D (u64)le32_to_cpu(desc->ts_sec);
+> +			ts.tv_nsec =3D le32_to_cpu(desc->ts_nsec & cpu_to_le32(0x3fffffff))=
+;
+> +
+> +			shhwtstamps->hwtstamp =3D timespec64_to_ktime(ts);
+> +		}
+> +
+> +		skb_put(skb, pkt_len);
+> +		skb->protocol =3D eth_type_trans(skb, ndev);
+> +		netif_receive_skb(skb);
+> +		ndev->stats.rx_packets++;
+> +		ndev->stats.rx_bytes +=3D pkt_len;
+> +
+> +		entry =3D (++priv->cur_rx) % priv->num_rx_ring;
+> +		desc =3D &priv->rx_ring[entry];
+> +	}
+> +
+> +	/* Refill the RX ring buffers */
+> +	for (; priv->cur_rx - priv->dirty_rx > 0; priv->dirty_rx++) {
+> +		entry =3D priv->dirty_rx % priv->num_rx_ring;
+> +		desc =3D &priv->rx_ring[entry];
+> +		desc->info_ds =3D cpu_to_le16(PKT_BUF_SZ);
+> +
+> +		if (!priv->rx_skb[entry]) {
+> +			skb =3D netdev_alloc_skb(ndev,
+> +					       PKT_BUF_SZ + RTSN_ALIGN - 1);
+
+I'll send my work using a page pool today as an RFC so you can see if it
+would be beneficial to use that here as well. I was going to hold off
+until the bugfix patches have merged so that I don't need to go through
+another RFC round, but it will be good to get some more review on the
+series anyway.
+
+> +			if (!skb)
+> +				break;
+> +			skb_reserve(skb, NET_IP_ALIGN);
+> +			dma_addr =3D dma_map_single(ndev->dev.parent, skb->data,
+> +						  le16_to_cpu(desc->info_ds),
+> +						  DMA_FROM_DEVICE);
+> +			if (dma_mapping_error(ndev->dev.parent, dma_addr))
+> +				desc->info_ds =3D cpu_to_le16(0);
+> +			desc->dptr =3D cpu_to_le32(dma_addr);
+> +			skb_checksum_none_assert(skb);
+> +			priv->rx_skb[entry] =3D skb;
+> +		}
+> +		dma_wmb();
+> +		desc->die_dt =3D DT_FEMPTY | D_DIE;
+> +	}
+> +
+> +	desc =3D &priv->rx_ring[priv->num_rx_ring];
+> +	desc->die_dt =3D DT_LINK;
+> +
+> +	*quota -=3D limit - (++boguscnt);
+> +
+> +	return boguscnt <=3D 0;
+> +}
+> +
+> +static int rtsn_poll(struct napi_struct *napi, int budget)
+> +{
+> +	struct rtsn_private *priv;
+> +	struct net_device *ndev;
+> +	unsigned long flags;
+> +	int quota =3D budget;
+> +
+> +	ndev =3D napi->dev;
+> +	priv =3D netdev_priv(ndev);
+> +
+> +	/* Processing RX Descriptor Ring */
+> +	if (rtsn_rx(ndev, &quota))
+> +		goto out;
+> +
+> +	/* Processing TX Descriptor Ring */
+> +	spin_lock_irqsave(&priv->lock, flags);
+> +	rtsn_tx_free(ndev, true);
+> +	netif_wake_subqueue(ndev, 0);
+> +	spin_unlock_irqrestore(&priv->lock, flags);
+> +
+> +	napi_complete(napi);
+
+We should use napi_complete_done() here as described in
+Documentation/networking/napi.rst. That will require rtsn_rx() to return
+the number of packets received so that it can be passed as the work_done
+argument to napi_complete_done().
+
+> +
+> +	/* Re-enable TX/RX interrupts */
+> +	spin_lock_irqsave(&priv->lock, flags);
+> +	rtsn_ctrl_data_irq(priv, true);
+> +	__iowmb();
+> +	spin_unlock_irqrestore(&priv->lock, flags);
+> +out:
+> +	return budget - quota;
+> +}
+
+<snip>
+
+> +static int rtsn_probe(struct platform_device *pdev)
+> +{
+> +	struct rtsn_private *priv;
+> +	struct net_device *ndev;
+> +	struct resource *res;
+> +	int ret;
+> +
+> +	ndev =3D alloc_etherdev_mqs(sizeof(struct rtsn_private), TX_NUM_CHAIN=
+S,
+> +				  RX_NUM_CHAINS);
+> +	if (!ndev)
+> +		return -ENOMEM;
+> +
+> +	priv =3D netdev_priv(ndev);
+> +	priv->pdev =3D pdev;
+> +	priv->ndev =3D ndev;
+> +	priv->ptp_priv =3D rcar_gen4_ptp_alloc(pdev);
+> +
+> +	spin_lock_init(&priv->lock);
+> +	platform_set_drvdata(pdev, priv);
+> +
+> +	priv->clk =3D devm_clk_get(&pdev->dev, NULL);
+> +	if (IS_ERR(priv->clk)) {
+> +		ret =3D -PTR_ERR(priv->clk);
+> +		goto error_alloc;
+> +	}
+> +
+> +	priv->reset =3D devm_reset_control_get(&pdev->dev, NULL);
+> +	if (IS_ERR(priv->reset)) {
+> +		ret =3D -PTR_ERR(priv->reset);
+> +		goto error_alloc;
+> +	}
+> +
+> +	res =3D platform_get_resource_byname(pdev, IORESOURCE_MEM, "tsnes");
+> +	if (!res) {
+> +		dev_err(&pdev->dev, "Can't find tsnes resource\n");
+> +		ret =3D -EINVAL;
+> +		goto error_alloc;
+> +	}
+> +
+> +	priv->base =3D devm_ioremap_resource(&pdev->dev, res);
+> +	if (IS_ERR(priv->base)) {
+> +		ret =3D PTR_ERR(priv->base);
+> +		goto error_alloc;
+> +	}
+> +
+> +	SET_NETDEV_DEV(ndev, &pdev->dev);
+> +	ether_setup(ndev);
+> +
+> +	ndev->features =3D NETIF_F_RXCSUM;
+> +	ndev->hw_features =3D NETIF_F_RXCSUM;
+
+A quick skim of the datasheet suggests that TX checksum calculation is
+also supported. It's probably worth listing which hardware features this
+driver supports/does not support in the commit message.
 
 Thanks,
-    Sergio Paracuellos
+
+--=20
+Paul Barker
+--------------fauPFJcSdJBNtE4ei89h0siq
+Content-Type: application/pgp-keys; name="OpenPGP_0x27F4B3459F002257.asc"
+Content-Disposition: attachment; filename="OpenPGP_0x27F4B3459F002257.asc"
+Content-Description: OpenPGP public key
+Content-Transfer-Encoding: quoted-printable
+
+-----BEGIN PGP PUBLIC KEY BLOCK-----
+
+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3D
+=3DsIIN
+-----END PGP PUBLIC KEY BLOCK-----
+
+--------------fauPFJcSdJBNtE4ei89h0siq--
+
+--------------0W3gefA1t5vPtBTa1W6ijMPB--
+
+--------------EXzZ0U87jzFgcMpqjReXpKra
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+wnsEABYIACMWIQSiu8gv1Xr0fIw/aoLbaV4Vf/JGvQUCZhzYcgUDAAAAAAAKCRDbaV4Vf/JGvau1
+AP4iHjq/XnEGVNvW9DXA2a7bnVr9my7bFKzIGRUvsWjmFwEA6wine8u7F3pLp9PaYZ0L5eQh+2XA
+IoB9m81nrYhu+wo=
+=QavD
+-----END PGP SIGNATURE-----
+
+--------------EXzZ0U87jzFgcMpqjReXpKra--
 
