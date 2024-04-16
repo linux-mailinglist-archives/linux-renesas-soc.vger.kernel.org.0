@@ -1,59 +1,58 @@
-Return-Path: <linux-renesas-soc+bounces-4652-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-4653-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B914A8A6E62
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Apr 2024 16:34:42 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7004E8A6E75
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Apr 2024 16:36:39 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id EAC561C22968
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Apr 2024 14:34:41 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A69B3B2608D
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Apr 2024 14:35:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 674C6130A6C;
-	Tue, 16 Apr 2024 14:33:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C46351311B7;
+	Tue, 16 Apr 2024 14:33:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kMaLeZDQ"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Hrqv4mjP"
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39A5612FF9E;
-	Tue, 16 Apr 2024 14:33:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B60A1E871;
+	Tue, 16 Apr 2024 14:33:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713278018; cv=none; b=A2AMr7DhRhPh78EIrMAoaHWJoKkqcU6M2VTmqczQ876r0LsfZYex6qWzZ7CfYbaoGnQZGHyi6SVXU7zneY5gWrE/kKCnWD9U/Mj1SvC41WeuOMFFYr/LWgyNYcxBmPhat6vCdZd9oUYZCFNBGXeah2TlYY98tS8E0ec3wovAkrk=
+	t=1713278034; cv=none; b=eZOutbggIMfqPk0HpaZnZ5dWxH295xznaNgj5grXekCntAGnBRXOTAdw4tUqmiL30Qx+KvCHen88L1BtsUQ6dJJG6ITKZEl1U31Xn3NdJ13S9s3R5YDLusyuDTSv8uVo+LKOIOOLKqHgbiNwVA2Etba5vAShtwOBDXBxcPSWB0Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713278018; c=relaxed/simple;
-	bh=73evdPQiOOApw7QL8q9vw0HzZUfbwzxdzB9xRg+enm4=;
+	s=arc-20240116; t=1713278034; c=relaxed/simple;
+	bh=P9TEN91S9OsDLEik2ocnZfo8gjiyP0GBJ9gzUPVNrCc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ggEWYLts7lWj3jrl400St4VT84urN1bLF0BQAGteB4bjO8NeN2l07Q4Ejvl8toQ8FX3hiVQrpy2K9y1C/fGkIs4MMVPKN8HLMueL0HDI5lJNSqKBtEU2ZtZdTEm9oQ5eRlh/Jf8zHeJhlkvJRlWAvJD0r2tQT9esfkGQmbnNDqQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kMaLeZDQ; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 83C0BC2BD10;
-	Tue, 16 Apr 2024 14:33:37 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=LN67wBqKb2fwVhy0qAj8J+/0hvn4J13blemh3VvDR1wYgayRHnqm8TG4ZWDNPpalXc6tG41X9R24UYYHpXziYeUWXaBVDELft4l0sQ661AWVXEjPkmMQ+HDZceOi2UvtBAf/2lFYs78HgVLKEQQhcyah8RKQ+sNrHsSgSeSlBDM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Hrqv4mjP; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F2BB1C4AF07;
+	Tue, 16 Apr 2024 14:33:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1713278017;
-	bh=73evdPQiOOApw7QL8q9vw0HzZUfbwzxdzB9xRg+enm4=;
+	s=k20201202; t=1713278034;
+	bh=P9TEN91S9OsDLEik2ocnZfo8gjiyP0GBJ9gzUPVNrCc=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=kMaLeZDQhQpMslb1F6+zzVI9LpFJlfaRtVT0etbL1ozTHk+OEaAbtDH8SUroPagj2
-	 pFt3vQxye/JfnqgEm2K9174tUV/EWQIjTyYY02OlXF9kMXeDyuQXWnkuGARqpzDLr9
-	 NvHGku+xwLNgHFFLt+8CIPnVVtapvo10UzHaPFHmHa6YhaVlh3V7JdXjSjeaW7wtoM
-	 9fouxB5ReL9yW0J6QlzRK1D2hn3emDi8aawc3Yv5ib0/UTqttNWIyVcEAWUrADmoCs
-	 aaUU5+uXmWwKyza0drl4rZosaSLP4w+pgeuVpWOVPPxWYHEqQX4LJY1gohbO3cEXB7
-	 mTtjr4oBRTuhQ==
-Date: Tue, 16 Apr 2024 09:33:35 -0500
+	b=Hrqv4mjPPf+ejBTfvRTU5ZuD5NSlrnq1RDxjqe4ogXhhyxt5/Uwgf7IasFk+WAIFa
+	 cb8H4AJWqV3VYw/suhNGgniW0rc4cOrMWpnMMQMkICFMZMPRf6fHhvEt2WxW2A1/oO
+	 FPQdvRlPD5255ABT6L/sm5ycqXQlLnxuc1bbRiT6BNTTgmsWeS/paZgHtvSJKD2owB
+	 1vyrrsLJMDqOA6VyklHHsFfOG7ZXu/GBOOB6oHLT9IIbO1/IVJH/ijRzjG/QfO1ONI
+	 12Cg8DfGzX5eTK4eNBnnDK9qExB2KwQES6xu0uxxfhZb1bwHlmrmdeyFehtedzaEAB
+	 RKWZgOqcHETSA==
+Date: Tue, 16 Apr 2024 09:33:51 -0500
 From: Rob Herring <robh@kernel.org>
 To: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: linux-kernel@vger.kernel.org,
-	Daniel Lezcano <daniel.lezcano@linaro.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
+Cc: linux-renesas-soc@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
+	linux-kernel@vger.kernel.org,
 	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org
-Subject: Re: [PATCH] dt-bindings: timer: renesas,cmt: Add R-Car V4M support
-Message-ID: <171327801307.2257481.3238910701067194343.robh@kernel.org>
-References: <3e8a7a93261d8ad264dec2fa2784fe1bbfc4a23c.1712068536.git.geert+renesas@glider.be>
+	Daniel Lezcano <daniel.lezcano@linaro.org>,
+	devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+Subject: Re: [PATCH] dt-bindings: timer: renesas,tmu: Add R-Car V4M support
+Message-ID: <171327802944.2258253.16105089685467889251.robh@kernel.org>
+References: <8a39386b1a33db6e83e852b3b365bc1adeb25242.1712068574.git.geert+renesas@glider.be>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -62,17 +61,17 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <3e8a7a93261d8ad264dec2fa2784fe1bbfc4a23c.1712068536.git.geert+renesas@glider.be>
+In-Reply-To: <8a39386b1a33db6e83e852b3b365bc1adeb25242.1712068574.git.geert+renesas@glider.be>
 
 
-On Tue, 02 Apr 2024 16:36:05 +0200, Geert Uytterhoeven wrote:
-> Document support for the Compare Match Timer Type0 (CMT0) and Type1
-> (CMT1) in the Renesas R-Car V4M (R8A779H0) SoC.
+On Tue, 02 Apr 2024 16:37:02 +0200, Geert Uytterhoeven wrote:
+> Document support for the Timer Unit (TMU) in the Renesas R-Car V4M
+> (R8A779H0) SoC.
 > 
 > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 > ---
->  Documentation/devicetree/bindings/timer/renesas,cmt.yaml | 2 ++
->  1 file changed, 2 insertions(+)
+>  Documentation/devicetree/bindings/timer/renesas,tmu.yaml | 1 +
+>  1 file changed, 1 insertion(+)
 > 
 
 Applied, thanks!
