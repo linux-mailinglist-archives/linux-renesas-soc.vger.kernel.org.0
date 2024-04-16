@@ -1,128 +1,145 @@
-Return-Path: <linux-renesas-soc+bounces-4638-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-4639-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46A338A69AF
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Apr 2024 13:36:15 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 549E48A69ED
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Apr 2024 13:50:15 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id D40EF1F21609
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Apr 2024 11:36:14 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8573B1C20FEE
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Apr 2024 11:50:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F27FA1292F9;
-	Tue, 16 Apr 2024 11:36:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 594DA1292DB;
+	Tue, 16 Apr 2024 11:50:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="RSaCR/kS"
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="XXNNehIL"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60582127B4E
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 16 Apr 2024 11:36:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 873E284E0A
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 16 Apr 2024 11:50:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713267370; cv=none; b=rQ0104ZzUlhRs9OxEb0iv47aN7lOTaz04C0xwdXS3KWiNMjlWxdsoaXakj0IamWEZKRwVe419DsjvwzgV32hmVCeKuMYcCsJ1qfRGav/tHkggON2yR3gWqyaBWilXFs5xwk9Ts4m8zE+XdYj8RdIyO3ZRFfCXpcMo0HgSxIp5AA=
+	t=1713268210; cv=none; b=tffr4Swc8+5JbZC5G5XHM2bPEJGMdcE0tQyVuNSlhVpQHt4dk5fcS9ZUzWrdlImmrpUPgj7k0UF2YGIjxTafmqmy5/Wa8I2zR64VP/Gnv4KPgzGFVqljjGK2aYHJUsdzH1vw1vBkL4NTwsFiPTlY46dKW/BikVJp3Litz3yvOpQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713267370; c=relaxed/simple;
-	bh=dMQSx8CCJTZi0c0vMxyWRS6E0AI8Ut2Td+Fzfj3dowg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=B4faS+2st+c8lPobfbb2R2GZZ4++vMh8Ic6mkChqaNg7f1CAoxGkmyvodJcqlq6q69eMah/zVxnLEOXLeAGk4bA0f6IToZISbN9yJlPlB+7nhvZm0bU2R+siechODYtq+DQjrJ84dqYKty6U3fKltKBhSwe6crybi9laLeS/MFY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=RSaCR/kS; arc=none smtp.client-ip=209.85.208.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
-Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-2d717603aa5so52231441fa.0
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 16 Apr 2024 04:36:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1713267367; x=1713872167; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=okFG0DnwE5R50C1UP70PPaJXyomv8+BdqCRrBYX27h0=;
-        b=RSaCR/kSZybnVrUMDAh5QrYXEt3EtmACW303bCHj+nrSRUuFjNyemCtWUThQ5jh/AS
-         OHRXjx9GRd1kdocOELO7TYC/XUMylG/Lqc7Ot7pa2xiEA2ernr4xt08izGJYMfkz49/U
-         mSwj/L+1HweRBdxjp6Svkr9yrP/NkcBRMPndugLAIL52r+g8A5ReXecrR2/gm5LNwYuy
-         Adl13fhL47ClJLhqUdhM1Lw8znXWmNhDxu//fIzsD/jXUcXVbOA1ZsOZQWFq6Zs/0Nbu
-         qkygo2ZChb9XnxxpgXi9BRCYnXNMiRENQcZHS9Lsy0PKjLwFKP1F4GP+EfCLpYo8advq
-         mlrg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713267367; x=1713872167;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=okFG0DnwE5R50C1UP70PPaJXyomv8+BdqCRrBYX27h0=;
-        b=sH4E41uCehO5w2uFAGYyhX/HWusQMTOV2jivgI94m7Fsym2pghoGwnI7refirVF6Gj
-         NlNsoJKUjZQrIhPlvHVSMrEG5tYgvn244eJjQF+Z2JlZIZ9aMlrZNnC2KvOnQTiqvdy5
-         TqZ8ZihdClIevgGmRgwS0bBza3ow3Upw/0Iuij3olNktLrSSH5WvgdA0fHfm8QOuSIbw
-         MoSNSJFDnljlvY/OfPIX3tpLmowyygSFwzfyNr6OEuemeNFJx2wUjzZovX+wSgTl4sZf
-         lYWEyhcI+oLmbf2AHKsSgZzcU8v8c1JVR1OdsycCrd311lAfzjyyiKzum2P1hZesjkDK
-         WvYA==
-X-Forwarded-Encrypted: i=1; AJvYcCUmi1IS0AG5KlPsKDhb/tdwiqc7uiQYGrGIqgmsssSPc6d29sSt477GQzeV5Uam7ZBeX0sIe/rQtqUW931u7py0sleBJGUREQ4axlLnpwSbi3Q=
-X-Gm-Message-State: AOJu0YzX1yqvcblneISVSauMw9kJsYZ7r0G9pg987q6V/BqFycouezSt
-	FdIJvkMWqeElDr3NshUvS0n0RFxr64uvqk4FIwfPc+h5Zeqq7UD0Hj16iR7v9Yk=
-X-Google-Smtp-Source: AGHT+IFuxrJYpKT46xpDoYSQlh9kRKqJVNyvZUvf2JQsE9jM/VsfStjJqR7Leh9rvEkjKCCzelhBJg==
-X-Received: by 2002:a2e:91c9:0:b0:2d9:b2be:bc7 with SMTP id u9-20020a2e91c9000000b002d9b2be0bc7mr9463931ljg.4.1713267367375;
-        Tue, 16 Apr 2024 04:36:07 -0700 (PDT)
-Received: from [192.168.50.4] ([82.78.167.8])
-        by smtp.gmail.com with ESMTPSA id t13-20020a05600c450d00b004171f151a5csm19556794wmo.16.2024.04.16.04.36.05
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 16 Apr 2024 04:36:06 -0700 (PDT)
-Message-ID: <e50bb9c1-e094-4868-9403-fb7430195ad9@tuxon.dev>
-Date: Tue, 16 Apr 2024 14:36:05 +0300
+	s=arc-20240116; t=1713268210; c=relaxed/simple;
+	bh=5aEkZTPO8OkpInmOZdFYq92u6kg9eYlaysddopQ5jic=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=IYmiUVFVvRdE28CM5LvCcA8CCK2H9ls6yBZvWQNnRpBEKox3KVSf9dUb6AQAZ/6EMW+6Z351i2nMUFG+vSB46inBaE3dWgFmAwb6NZdXg+jGX/+d1S6WmR+uhIV4Z7QscuXTQMj85D+IjW4fj6r3gGA8Itrjd2Dr0lE34HOyonM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=XXNNehIL; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=date:from:to:cc:subject:message-id
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=gtZu
+	L+l3eAsHG5angaIjQUCt59U4AqubfWjDhcKYzN8=; b=XXNNehIL4feUasfK8Z7Y
+	tyRitREvrusJLzDoW9qsfIcEjnlg77T96Dcr0L8FD5Z0L/PggbcdTKkD+1Er57XF
+	seF8NOwN/H6uTYO6hI32EKgohCk9g9AXe40VlYuwHEg7JqCoYUZ9T11132DuBOuW
+	VnCOdl8DGAJleo2czUhXG4fIqCd0zQkpr/WFLEc5q6WBTPGSQNfCKs4GMn4uKsfQ
+	TzE9hXg8fsjRVC42LG8alWR5dJf0NDZMaEHbm0uBS8yB+N/1UinziZzO3df9FLKB
+	MjuwO/O/C40s3SX2YBIKlrwl4gsYddi7GqDygcTHcaqUxR8F3I8RwPa1twxI/+lw
+	zQ==
+Received: (qmail 2392673 invoked from network); 16 Apr 2024 13:49:54 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 16 Apr 2024 13:49:54 +0200
+X-UD-Smtp-Session: l3s3148p1@lrwXVjUWRoEgAwDPXxiyACzheF6dGXh7
+Date: Tue, 16 Apr 2024 13:49:53 +0200
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: Dirk Behme <dirk.behme@de.bosch.com>
+Cc: Linux-Renesas <linux-renesas-soc@vger.kernel.org>, 
+	Biju Das <biju.das.jz@bp.renesas.com>, Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: Re: tty: serial: sh-sci: hrtimer not properly canceled on chan_rx
+ invalidation?
+Message-ID: <6fcp525uab7fggrkoftpz5bjrvvpza735wnp5djzuab3hk5zte@vgk43d4ijbww>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>, 
+	Dirk Behme <dirk.behme@de.bosch.com>, Linux-Renesas <linux-renesas-soc@vger.kernel.org>, 
+	Biju Das <biju.das.jz@bp.renesas.com>, Geert Uytterhoeven <geert+renesas@glider.be>
+References: <ee6c9e16-9f29-450e-81da-4a8dceaa8fc7@de.bosch.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 0/9] clk: renesas: rzg2l: Add support for power domains
-Content-Language: en-US
-To: Ulf Hansson <ulf.hansson@linaro.org>,
- Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: geert+renesas@glider.be, mturquette@baylibre.com, sboyd@kernel.org,
- robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
- magnus.damm@gmail.com, linux-renesas-soc@vger.kernel.org,
- linux-clk@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org,
- Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-References: <20240410122657.2051132-1-claudiu.beznea.uj@bp.renesas.com>
- <CAPDyKFr405qt58wrqNdSn8bQPRqPKJ1omUZHS_VpQrX5zxUJug@mail.gmail.com>
- <CAMuHMdXRwcYMt7p+xT3svo1RmJ2Tvbamrx4++iYQ-mffKb6ZQQ@mail.gmail.com>
- <CAPDyKFoMiseXbSEK4ANOeWSuVhREibm0v0zg46Q3kJHX8jYpgQ@mail.gmail.com>
-From: claudiu beznea <claudiu.beznea@tuxon.dev>
-In-Reply-To: <CAPDyKFoMiseXbSEK4ANOeWSuVhREibm0v0zg46Q3kJHX8jYpgQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="g6cmxpbf6hxyckem"
+Content-Disposition: inline
+In-Reply-To: <ee6c9e16-9f29-450e-81da-4a8dceaa8fc7@de.bosch.com>
 
-Hi, Ulf,
 
-On 16.04.2024 14:14, Ulf Hansson wrote:
-> On Mon, 15 Apr 2024 at 09:28, Geert Uytterhoeven <geert@linux-m68k.org> wrote:
->>
->> Hi Ulf,
->>
->> On Fri, Apr 12, 2024 at 1:31 PM Ulf Hansson <ulf.hansson@linaro.org> wrote:
->>> That said, maybe we should start separating and moving the
->>> power-domain parts out from the clk directory into the pmdomain
->>> directory instead, that should improve these situations!?
->>
->> The clk and pmdomain functions are tied rather closely together on
->> Renesas SoCs, that's why the clock drivers are also pmdomain providers.
->>
-> 
-> I understand, it's your call to make!
-> 
-> Anyway, I just wanted to help with reviews and to make sure genpd
-> providers get implemented in a nice and proper way.
+--g6cmxpbf6hxyckem
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-I'll keep in mind to also add you and PM domain list for future patches, if
-any. Would you prefer to re-send this series and cc you and pm domain list?
+Hi Dirk,
 
-Thank you,
-Claudiu Beznea
+> Analyzing this we found that in sci_dma_rx_timer_fn() s->chan_rx is NULL.
 
-> 
-> Kind regards
-> Uffe
+Again, good catch. Thank you! Here is the outcome of my first debugging
+session...
+
+> Is there any chance that there is a race condition where the timer function
+> sci_dma_rx_timer_fn() is called while s->chan_rx is invalidated, already.
+> E.g. via sci_dma_rx_chan_invalidate()/sci_dma_rx_release()? Or anything
+> else?
+
+Only 'sci_dma_rx_chan_invalidate' clears s->chan_rx. I think these paths
+involving 'sci_dma_rx_chan_invalidate' are OK:
+
+sci_dma_rx_chan_invalidate <- sci_dma_rx_release <- sci_free_dma ...
+
+A) <- sci_startup (no issue because interrupts could not be requested
+                   and RX DMA is started in an interrupt)
+
+B) <- sci_shutdown (no issue because 'hrtimer_cancel' has been called
+		    before freeing DMA)
+
+This path also seems ok:
+
+sci_dma_rx_chan_invalidate <- sci_dma_rx_submit (error path)
+  <- sci_rx_interrupt (no issue because timer is started after
+		       'sci_dma_rx_submit')
+
+This path looks problematic:
+
+sci_dma_rx_chan_invalidate <- sci_dma_rx_complete (error path)
+
+The timer is started before DMA is set up. In the unlikely event of the
+DMA setup failing, s->chan_rx will be cleared while the timer has
+already been started. This is in deed a very rare condition.
+
+The problem is that I cannot trigger the code patch so far. It is easy
+to force 'sci_dma_rx_complete' to bail out but, so far, I couldn't get
+it called.
+
+Nonetheless, given this broken error path, I suggest two fixes which
+I'll send out as RFC in some minutes.
+
+All the best,
+
+   Wolfram
+
+
+--g6cmxpbf6hxyckem
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmYeZd0ACgkQFA3kzBSg
+KbZoCg//Sqqiz0VVVWuJrJjfAFP89psww8SJ6xMrcfYbXS+fVXx9qrGoK2qbT7Mi
+vc+VDjK/dxF1CY1b6F55SSzNmfdiX8rWGbfe6ht1suTeKZZeOHJ9xwNqn1x8ZtBL
+fHqs9XkFNwkqoltOifMtILkmRHyaiSU54Y0ycgMKVhScbfqJlvvsYeEWiJ81zPkv
+9vRJY1lEegdWNg9oWaUsqJeBnG5gaAmI6pXvBsSrsXHM2I79YXdafrUL4ivN83Xh
+CB/166nPiqQEH8Ygg7TnG1ztCZV9de6nzJoPMsLCcUdtj9/pPlnugwF7x/b20NxA
+afJUYT5y9gkoiwUBfSHA1w2T29e2Lldsx3rsZ6OGMJrf65doOpytXwbIL9qF0dHF
+h1Az8nz2bqCUuU8FbioMNvh6R53xWG1ONgkAaVsKYWZVE7nZzX/JDoqzi6+hQRap
+rHrPMtqk1vzNGvjVHav4rh2LngxIVp8O5/xjbjV/h2WbwlQBdqWD4UJISIM8Dt45
+3Y824qcf9WrTaPjwEs3qoWVSvBJlL3uNjlSDI0SE8kIUau/WYDnskUwMoG8GR0nY
+kdsq3U4PANLlqKLQ2i9Zd29zhK3HBQrebtbjac6EgI3C3oWXHX+bNhXlPysJ3A4q
+/gXf9RAhrpIaFHpIi+fqeEwSKlA4+WkQQhTQdZJGIEjIXZIOYJc=
+=mCom
+-----END PGP SIGNATURE-----
+
+--g6cmxpbf6hxyckem--
 
