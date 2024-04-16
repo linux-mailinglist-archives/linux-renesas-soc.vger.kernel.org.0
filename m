@@ -1,153 +1,113 @@
-Return-Path: <linux-renesas-soc+bounces-4636-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-4637-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18FCB8A695F
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Apr 2024 13:06:52 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F80B8A6976
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Apr 2024 13:15:26 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 99CC61F21865
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Apr 2024 11:06:51 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BCD28281ADB
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Apr 2024 11:15:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0F41712838A;
-	Tue, 16 Apr 2024 11:06:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4084A128828;
+	Tue, 16 Apr 2024 11:15:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ellerman.id.au header.i=@ellerman.id.au header.b="BshHmH48"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="oDdcfcIP"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com [209.85.219.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAFAB127E3D;
-	Tue, 16 Apr 2024 11:06:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=150.107.74.76
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF0061272DF
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 16 Apr 2024 11:15:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713265607; cv=none; b=Sj/v5DhAjR3uH/xXxRphluEduFG8JwrI8kNcwUJSU+alErJmDZIOjgTr1ijbabeC7wc7s1MBAjd71H6umsnqlod+pesmV0gjhMTbUac1fmgevNapC20LBwRPD1f1D6GwmGavMvQWuGZlTy2kA6UM7i6mdIAYFMSxnnWi/00oLqU=
+	t=1713266121; cv=none; b=lH3TymNNx6NurBOIVe7wIJQbOAEHQUL/V18fToISpNeWpJkCzxl6+QWbsL0fVLIRutn6NY496CfYQ6knfz8OcXW5LjP+QjbHPodJSBVS3qoc2/3vmQqHHZXsfc8DwSu2rdHpUz8B8v6hM6xpKhlK6IH0rZGe3Q/s16HQXQ4843A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713265607; c=relaxed/simple;
-	bh=6YyzjOcrpjM2awxpuoWmwqK1BSbLE0TEGbSa1cisklg=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=CYmkGAAtpV7+7kMHW7hBRYVwzlEuaQ2Czwk3yR7fRENlGn3ylPLua2+zdKFP8VJUR8+bcCbdX/tQEtG3cQHxsnj7V28GsYYE3j54X4AJkYz1cLdm0X+uJdi74VLzpeYSpthHELj9e1cWTEngeP7eOVDfGBoyrAZ6zrSE5qD8NNY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ellerman.id.au; spf=pass smtp.mailfrom=ellerman.id.au; dkim=pass (2048-bit key) header.d=ellerman.id.au header.i=@ellerman.id.au header.b=BshHmH48; arc=none smtp.client-ip=150.107.74.76
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ellerman.id.au
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ellerman.id.au
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ellerman.id.au;
-	s=201909; t=1713265594;
-	bh=m0OXBfeSJNV67OWiwlg58xXaL5nRVTZ9FFXZTv4YfRA=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=BshHmH48hI2RHWM/xhDdoBq6VpEtUFcBGkMSWHrzLiOiE0TheY5hTBRpG1wc20YxQ
-	 BNWaqxEG4uZt80If+ksNGJS3kWD4eIS/i7uhp5CnKdC6VueM7JF0JSaTYKwQwih2/z
-	 Og+6U+bnQE9axLAC5y41TOmdCAi/9aH/2kGYIIa1Cqau8hD8mXXo53SbLknPqyv1Te
-	 xFY2lD888iOGSAomxoaCTXleIdnXZPzN2H87wCv/bR1q4kda/McrUf/xadTOE6qM0y
-	 MexQLEXPwXDr/cndRUWqG6qGdtu8OZscIqJbK4uu/keTeOEbMRm1eDLApmARTY/toS
-	 9STWuWmVTv/xg==
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mail.ozlabs.org (Postfix) with ESMTPSA id 4VJh7C3WSSz4x1H;
-	Tue, 16 Apr 2024 21:06:31 +1000 (AEST)
-From: Michael Ellerman <mpe@ellerman.id.au>
-To: Sean Christopherson <seanjc@google.com>, Geert Uytterhoeven
- <geert@linux-m68k.org>
-Cc: Stephen Rothwell <sfr@canb.auug.org.au>, Jonathan Corbet
- <corbet@lwn.net>, Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar
- <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, Dave Hansen
- <dave.hansen@linux.intel.com>, x86@kernel.org, Peter Zijlstra
- <peterz@infradead.org>, Josh Poimboeuf <jpoimboe@kernel.org>,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Pawan Gupta
- <pawan.kumar.gupta@linux.intel.com>, Daniel Sneddon
- <daniel.sneddon@linux.intel.com>, linuxppc-dev@lists.ozlabs.org,
- linux-arch@vger.kernel.org, Catalin Marinas <catalin.marinas@arm.com>,
- Will Deacon <will@kernel.org>, Heiko Carstens <hca@linux.ibm.com>,
- Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Subject: Re: [PATCH 1/3] x86/cpu: Actually turn off mitigations by default
- for SPECULATION_MITIGATIONS=n
-In-Reply-To: <Zh06O35yKIF2vNdE@google.com>
-References: <20240409175108.1512861-1-seanjc@google.com>
- <20240409175108.1512861-2-seanjc@google.com>
- <20240413115324.53303a68@canb.auug.org.au> <87edb9d33r.fsf@mail.lhotse>
- <87bk6dd2l4.fsf@mail.lhotse>
- <CAMuHMdWD+UKZAkiUQUJOeRkOoyT4cH1o8=Gu465=K-Ub7O4y9A@mail.gmail.com>
- <Zh06O35yKIF2vNdE@google.com>
-Date: Tue, 16 Apr 2024 21:06:31 +1000
-Message-ID: <87sezlbm88.fsf@mail.lhotse>
+	s=arc-20240116; t=1713266121; c=relaxed/simple;
+	bh=XiI2sQm+xgSfhKnKvaKF+M2Gq/LxaifLpyx+4yhJKWw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=kL3eNGKeSGgkqfoctDKFgciSyPwae1pawfsBqWFDHGWoiisPNLhGOS0Hsm6WX6lX6wj3HVVTGUTHLFEmX15HY97GQl9EyphDA9oW1IfRifoE8zA83XFVIboA7BWq+PlS4jgX9qu96biw3EQN0HsYf7l1InxCSXR2V7raIstsZT4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=oDdcfcIP; arc=none smtp.client-ip=209.85.219.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-yb1-f171.google.com with SMTP id 3f1490d57ef6-dc236729a2bso4102292276.0
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 16 Apr 2024 04:15:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1713266119; x=1713870919; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=XiI2sQm+xgSfhKnKvaKF+M2Gq/LxaifLpyx+4yhJKWw=;
+        b=oDdcfcIPoC4WBs+whqfYyBlY0x5ZZ/qXGFvcFbjYvcs3HBloRNyQoQe3dofYBp2I82
+         4b4w4WwrsMrUWc4Edabw9Y46DlA8vImh3mOEK4JgT86Mj6DA6b7Y6eDQzh7xeE2F0KlW
+         mACutQ4VbkC4MvC9oC74yya/+0hBcYpeYWXEZdyMuiDXOecHeKIApqVKp7mLUADbppjs
+         IWWw3H1Z+UtVnNKAQuCRYlZWKHcBySGUOPh5HGpj/7ZsUk1cc0zRoupG87C3z6ai1kAW
+         hC81RNN76lxsS9OEJL2YA0q99l/MwWMbuvmLTUsYy7byETK19nGA1KHzka39KtEN1/kn
+         GHLA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1713266119; x=1713870919;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=XiI2sQm+xgSfhKnKvaKF+M2Gq/LxaifLpyx+4yhJKWw=;
+        b=EnO8sxCkyXdK/P+6/JlPSnkMiNZm0Tsh9Z1OkHExEfGElMAt9qR1TP9RCoBUKTYKyd
+         W6p+KK1xjjjsN5F8z260kwxOHMt7eAkH4qXEfZN/9QkmrRbTUvXZGZPZ/L/t8uE39Lwv
+         7yWncMTiqdtv0/foFlew1bInzwvvqPHh3C/jAiZwnOqg8PMKRVpbo8J/1CA9cQL7IYil
+         jrMTtNx5kIo7hJuokYrgpWLJvNqJb86NxOgHrq2zFuESkGf9AKtzHApD5ZMrCh7ezOVg
+         m33ZAA1F7M5xW9H9Y9ejSRQGa3gVKEuXQK2ruUsLhmLmMGtpBA76T2mX9s2NM7I4GdKj
+         phjw==
+X-Forwarded-Encrypted: i=1; AJvYcCWD5961kxamgHGhfDkTt68evNQ73FQ21Z+zkCcheGyE9RXTQFq06l5X7/Py1IZL3Pr8KJQRRpJxS1dRDIJTB+/dMauFpfioH3AyTns/HQV4VH0=
+X-Gm-Message-State: AOJu0YyxB07HroumOrCUAMy+GuuK2oDNAQigoDHFcRjzaNHyYB80vfop
+	lnFyGPmLr+n82UuLwqFyHOEhzTxPzrcv/tNVh+X7plKqFJ/KpyMkKjeqwT4YudFtg9b315O8FFH
+	b9grYCad5FyHoX6sMlekge3JtLhIwGd7W4aFX4w==
+X-Google-Smtp-Source: AGHT+IFZcV9W2tonTOuCnPPIlMQCywVg80sidWJREy/u9my2wBE3zF9bOxxG9UUMKBTpN9Mc+9RLCpcd7enrpeP10T4=
+X-Received: by 2002:a25:ac05:0:b0:de3:ec93:d20a with SMTP id
+ w5-20020a25ac05000000b00de3ec93d20amr3808409ybi.37.1713266118876; Tue, 16 Apr
+ 2024 04:15:18 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+References: <20240410122657.2051132-1-claudiu.beznea.uj@bp.renesas.com>
+ <CAPDyKFr405qt58wrqNdSn8bQPRqPKJ1omUZHS_VpQrX5zxUJug@mail.gmail.com> <CAMuHMdXRwcYMt7p+xT3svo1RmJ2Tvbamrx4++iYQ-mffKb6ZQQ@mail.gmail.com>
+In-Reply-To: <CAMuHMdXRwcYMt7p+xT3svo1RmJ2Tvbamrx4++iYQ-mffKb6ZQQ@mail.gmail.com>
+From: Ulf Hansson <ulf.hansson@linaro.org>
+Date: Tue, 16 Apr 2024 13:14:43 +0200
+Message-ID: <CAPDyKFoMiseXbSEK4ANOeWSuVhREibm0v0zg46Q3kJHX8jYpgQ@mail.gmail.com>
+Subject: Re: [PATCH v3 0/9] clk: renesas: rzg2l: Add support for power domains
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Claudiu <claudiu.beznea@tuxon.dev>, geert+renesas@glider.be, 
+	mturquette@baylibre.com, sboyd@kernel.org, robh@kernel.org, 
+	krzk+dt@kernel.org, conor+dt@kernel.org, magnus.damm@gmail.com, 
+	linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Sean Christopherson <seanjc@google.com> writes:
-> On Mon, Apr 15, 2024, Geert Uytterhoeven wrote:
->> On Sat, Apr 13, 2024 at 11:38=E2=80=AFAM Michael Ellerman <mpe@ellerman.=
-id.au> wrote:
->> > Michael Ellerman <mpe@ellerman.id.au> writes:
->> > > Stephen Rothwell <sfr@canb.auug.org.au> writes:
->> > ...
->> > >> On Tue,  9 Apr 2024 10:51:05 -0700 Sean Christopherson <seanjc@goog=
-le.com> wrote:
->> > ...
->> > >>> diff --git a/kernel/cpu.c b/kernel/cpu.c
->> > >>> index 8f6affd051f7..07ad53b7f119 100644
->> > >>> --- a/kernel/cpu.c
->> > >>> +++ b/kernel/cpu.c
->> > >>> @@ -3207,7 +3207,8 @@ enum cpu_mitigations {
->> > >>>  };
->> > >>>
->> > >>>  static enum cpu_mitigations cpu_mitigations __ro_after_init =3D
->> > >>> -   CPU_MITIGATIONS_AUTO;
->> > >>> +   IS_ENABLED(CONFIG_SPECULATION_MITIGATIONS) ? CPU_MITIGATIONS_A=
-UTO :
->> > >>> +                                                CPU_MITIGATIONS_O=
-FF;
->> > >>>
->> > >>>  static int __init mitigations_parse_cmdline(char *arg)
->> > >>>  {
->> >
->> > I think a minimal workaround/fix would be:
->> >
->> > diff --git a/drivers/base/Kconfig b/drivers/base/Kconfig
->> > index 2b8fd6bb7da0..290be2f9e909 100644
->> > --- a/drivers/base/Kconfig
->> > +++ b/drivers/base/Kconfig
->> > @@ -191,6 +191,10 @@ config GENERIC_CPU_AUTOPROBE
->> >  config GENERIC_CPU_VULNERABILITIES
->> >         bool
->> >
->> > +config SPECULATION_MITIGATIONS
->> > +       def_bool y
->> > +       depends on !X86
->> > +
->> >  config SOC_BUS
->> >         bool
->> >         select GLOB
->>=20
->> Thanks, that works for me (on arm64), so
->> Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
+On Mon, 15 Apr 2024 at 09:28, Geert Uytterhoeven <geert@linux-m68k.org> wro=
+te:
 >
-> Oof.  I completely missed that "cpu_mitigations" wasn't x86-only.  I can'=
-t think
-> of better solution than an on-by-default generic Kconfig, though can't th=
-at it
-> more simply be:
+> Hi Ulf,
 >
-> diff --git a/drivers/base/Kconfig b/drivers/base/Kconfig
-> index 2b8fd6bb7da0..5930cb56ee29 100644
-> --- a/drivers/base/Kconfig
-> +++ b/drivers/base/Kconfig
-> @@ -191,6 +191,9 @@ config GENERIC_CPU_AUTOPROBE
->  config GENERIC_CPU_VULNERABILITIES
->         bool
->=20=20
-> +config SPECULATION_MITIGATIONS
-> +       def_bool !X86
-> +
+> On Fri, Apr 12, 2024 at 1:31=E2=80=AFPM Ulf Hansson <ulf.hansson@linaro.o=
+rg> wrote:
+> > That said, maybe we should start separating and moving the
+> > power-domain parts out from the clk directory into the pmdomain
+> > directory instead, that should improve these situations!?
+>
+> The clk and pmdomain functions are tied rather closely together on
+> Renesas SoCs, that's why the clock drivers are also pmdomain providers.
+>
 
-Yeah that works too.
+I understand, it's your call to make!
 
-cheers
+Anyway, I just wanted to help with reviews and to make sure genpd
+providers get implemented in a nice and proper way.
+
+Kind regards
+Uffe
 
