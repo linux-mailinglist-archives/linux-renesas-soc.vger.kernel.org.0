@@ -1,199 +1,153 @@
-Return-Path: <linux-renesas-soc+bounces-4635-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-4636-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 874A38A6827
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Apr 2024 12:19:42 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 18FCB8A695F
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Apr 2024 13:06:52 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 788501C20D08
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Apr 2024 10:19:41 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 99CC61F21865
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Apr 2024 11:06:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6DD07127B4D;
-	Tue, 16 Apr 2024 10:19:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0F41712838A;
+	Tue, 16 Apr 2024 11:06:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="fRA/aNza"
+	dkim=pass (2048-bit key) header.d=ellerman.id.au header.i=@ellerman.id.au header.b="BshHmH48"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
+Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9806127B47;
-	Tue, 16 Apr 2024 10:19:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.32.30.218
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAFAB127E3D;
+	Tue, 16 Apr 2024 11:06:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=150.107.74.76
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713262767; cv=none; b=T12isH2+fp/iqA641ZqTX0KcLV91Mxa4ijQ8BoKwgD0pR7nsR1xJuu2q98vaI6Zt7oOanim5EOqAB91p3zSvwUr0feEDwhLG8YsVmJsjYWjE6sK7YeFzQpmsbk9CGcC8BzPGYv27F+9olJdm74+fccd8EJITo231AN28OEXOHX0=
+	t=1713265607; cv=none; b=Sj/v5DhAjR3uH/xXxRphluEduFG8JwrI8kNcwUJSU+alErJmDZIOjgTr1ijbabeC7wc7s1MBAjd71H6umsnqlod+pesmV0gjhMTbUac1fmgevNapC20LBwRPD1f1D6GwmGavMvQWuGZlTy2kA6UM7i6mdIAYFMSxnnWi/00oLqU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713262767; c=relaxed/simple;
-	bh=7XvcBtR7lh6++Pz6BP2gfLrCzhR5TRGG0OXjbS8ApQU=;
-	h=From:To:Cc:Subject:MIME-Version:Content-Disposition:Content-Type:
-	 Message-Id:Date; b=OXnMi8ZwUIlb9iRmI0bu0YSBJeFLFgC8AAAzZiH2TpsdDldYNeI71IHjQT11clqP+ffmfOMjp9M3l4G9LXpBNw38QtesUy4gjHPcBu8aBm7DOOC27RlN7WbKpORAJJS9bgJ/XrmFAOHvK5F7wtDpR5kc83La51eVbAAs5HYZOSM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk; spf=none smtp.mailfrom=armlinux.org.uk; dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b=fRA/aNza; arc=none smtp.client-ip=78.32.30.218
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=armlinux.org.uk
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=armlinux.org.uk; s=pandora-2019; h=Date:Sender:Message-Id:Content-Type:
-	Content-Transfer-Encoding:MIME-Version:Subject:Cc:To:From:Reply-To:Content-ID
-	:Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:
-	Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:
-	List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=7Q18Un481M8WCx/Sllv3H1eh0v99TN6V9WZ4sV4IbTo=; b=fRA/aNzaCK5GIdgpm0Fau02Azj
-	srnl51KYIOc0njsp3Gd/lAp3EEDLksEAr/5BJwHKCLSokVGTnGvFbS4rCoQM4JB37sxNipEkWe7EM
-	S++e/fUyJCxB+FMA2oG4+Zx21t3pWMqXAZa8Skfi+8/VwX5sp9NlVSLfeK394EY+ZGukh1REolfmF
-	fpmp4AQ7CSSQXTw5Bzv8qqonuklEAUb7PHv+Pb1xP4cwMNC9CdKmPUJh/mUB08qCGcQB5ecg9AM66
-	HvBiCeq+GkRrNc7TQQij3uP18vQDF5ok9iN5WIjIl+Yz7rFB8EA0uq2SJ+DOZxGFIJSaRCg5s2UPx
-	/JGc292w==;
-Received: from e0022681537dd.dyn.armlinux.org.uk ([fd8f:7570:feb6:1:222:68ff:fe15:37dd]:36900 helo=rmk-PC.armlinux.org.uk)
-	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <rmk@armlinux.org.uk>)
-	id 1rwfuI-0008QM-0o;
-	Tue, 16 Apr 2024 11:19:18 +0100
-Received: from rmk by rmk-PC.armlinux.org.uk with local (Exim 4.94.2)
-	(envelope-from <rmk@rmk-PC.armlinux.org.uk>)
-	id 1rwfuJ-00753D-6d; Tue, 16 Apr 2024 11:19:19 +0100
-From: "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>
-To: Andrew Lunn <andrew@lunn.ch>,
-	 Vladimir Oltean <olteanv@gmail.com>
-Cc: "Cl__ment L__ger" <clement.leger@bootlin.com>,
-	Florian Fainelli <f.fainelli@gmail.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	linux-renesas-soc@vger.kernel.org,
-	netdev@vger.kernel.org
-Subject: [PATCH net-next] net: dsa: rzn1_a5psw: provide own phylink MAC
- operations
+	s=arc-20240116; t=1713265607; c=relaxed/simple;
+	bh=6YyzjOcrpjM2awxpuoWmwqK1BSbLE0TEGbSa1cisklg=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=CYmkGAAtpV7+7kMHW7hBRYVwzlEuaQ2Czwk3yR7fRENlGn3ylPLua2+zdKFP8VJUR8+bcCbdX/tQEtG3cQHxsnj7V28GsYYE3j54X4AJkYz1cLdm0X+uJdi74VLzpeYSpthHELj9e1cWTEngeP7eOVDfGBoyrAZ6zrSE5qD8NNY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ellerman.id.au; spf=pass smtp.mailfrom=ellerman.id.au; dkim=pass (2048-bit key) header.d=ellerman.id.au header.i=@ellerman.id.au header.b=BshHmH48; arc=none smtp.client-ip=150.107.74.76
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ellerman.id.au
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ellerman.id.au
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ellerman.id.au;
+	s=201909; t=1713265594;
+	bh=m0OXBfeSJNV67OWiwlg58xXaL5nRVTZ9FFXZTv4YfRA=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=BshHmH48hI2RHWM/xhDdoBq6VpEtUFcBGkMSWHrzLiOiE0TheY5hTBRpG1wc20YxQ
+	 BNWaqxEG4uZt80If+ksNGJS3kWD4eIS/i7uhp5CnKdC6VueM7JF0JSaTYKwQwih2/z
+	 Og+6U+bnQE9axLAC5y41TOmdCAi/9aH/2kGYIIa1Cqau8hD8mXXo53SbLknPqyv1Te
+	 xFY2lD888iOGSAomxoaCTXleIdnXZPzN2H87wCv/bR1q4kda/McrUf/xadTOE6qM0y
+	 MexQLEXPwXDr/cndRUWqG6qGdtu8OZscIqJbK4uu/keTeOEbMRm1eDLApmARTY/toS
+	 9STWuWmVTv/xg==
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mail.ozlabs.org (Postfix) with ESMTPSA id 4VJh7C3WSSz4x1H;
+	Tue, 16 Apr 2024 21:06:31 +1000 (AEST)
+From: Michael Ellerman <mpe@ellerman.id.au>
+To: Sean Christopherson <seanjc@google.com>, Geert Uytterhoeven
+ <geert@linux-m68k.org>
+Cc: Stephen Rothwell <sfr@canb.auug.org.au>, Jonathan Corbet
+ <corbet@lwn.net>, Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar
+ <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, Dave Hansen
+ <dave.hansen@linux.intel.com>, x86@kernel.org, Peter Zijlstra
+ <peterz@infradead.org>, Josh Poimboeuf <jpoimboe@kernel.org>,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Pawan Gupta
+ <pawan.kumar.gupta@linux.intel.com>, Daniel Sneddon
+ <daniel.sneddon@linux.intel.com>, linuxppc-dev@lists.ozlabs.org,
+ linux-arch@vger.kernel.org, Catalin Marinas <catalin.marinas@arm.com>,
+ Will Deacon <will@kernel.org>, Heiko Carstens <hca@linux.ibm.com>,
+ Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Subject: Re: [PATCH 1/3] x86/cpu: Actually turn off mitigations by default
+ for SPECULATION_MITIGATIONS=n
+In-Reply-To: <Zh06O35yKIF2vNdE@google.com>
+References: <20240409175108.1512861-1-seanjc@google.com>
+ <20240409175108.1512861-2-seanjc@google.com>
+ <20240413115324.53303a68@canb.auug.org.au> <87edb9d33r.fsf@mail.lhotse>
+ <87bk6dd2l4.fsf@mail.lhotse>
+ <CAMuHMdWD+UKZAkiUQUJOeRkOoyT4cH1o8=Gu465=K-Ub7O4y9A@mail.gmail.com>
+ <Zh06O35yKIF2vNdE@google.com>
+Date: Tue, 16 Apr 2024 21:06:31 +1000
+Message-ID: <87sezlbm88.fsf@mail.lhotse>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="utf-8"
-Message-Id: <E1rwfuJ-00753D-6d@rmk-PC.armlinux.org.uk>
-Sender: Russell King <rmk@armlinux.org.uk>
-Date: Tue, 16 Apr 2024 11:19:19 +0100
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Convert rzn1_a5psw to provide its own phylink MAC operations, thus
-avoiding the shim layer in DSA's port.c. We need to provide a stub for
-the mac_config() method which is mandatory.
+Sean Christopherson <seanjc@google.com> writes:
+> On Mon, Apr 15, 2024, Geert Uytterhoeven wrote:
+>> On Sat, Apr 13, 2024 at 11:38=E2=80=AFAM Michael Ellerman <mpe@ellerman.=
+id.au> wrote:
+>> > Michael Ellerman <mpe@ellerman.id.au> writes:
+>> > > Stephen Rothwell <sfr@canb.auug.org.au> writes:
+>> > ...
+>> > >> On Tue,  9 Apr 2024 10:51:05 -0700 Sean Christopherson <seanjc@goog=
+le.com> wrote:
+>> > ...
+>> > >>> diff --git a/kernel/cpu.c b/kernel/cpu.c
+>> > >>> index 8f6affd051f7..07ad53b7f119 100644
+>> > >>> --- a/kernel/cpu.c
+>> > >>> +++ b/kernel/cpu.c
+>> > >>> @@ -3207,7 +3207,8 @@ enum cpu_mitigations {
+>> > >>>  };
+>> > >>>
+>> > >>>  static enum cpu_mitigations cpu_mitigations __ro_after_init =3D
+>> > >>> -   CPU_MITIGATIONS_AUTO;
+>> > >>> +   IS_ENABLED(CONFIG_SPECULATION_MITIGATIONS) ? CPU_MITIGATIONS_A=
+UTO :
+>> > >>> +                                                CPU_MITIGATIONS_O=
+FF;
+>> > >>>
+>> > >>>  static int __init mitigations_parse_cmdline(char *arg)
+>> > >>>  {
+>> >
+>> > I think a minimal workaround/fix would be:
+>> >
+>> > diff --git a/drivers/base/Kconfig b/drivers/base/Kconfig
+>> > index 2b8fd6bb7da0..290be2f9e909 100644
+>> > --- a/drivers/base/Kconfig
+>> > +++ b/drivers/base/Kconfig
+>> > @@ -191,6 +191,10 @@ config GENERIC_CPU_AUTOPROBE
+>> >  config GENERIC_CPU_VULNERABILITIES
+>> >         bool
+>> >
+>> > +config SPECULATION_MITIGATIONS
+>> > +       def_bool y
+>> > +       depends on !X86
+>> > +
+>> >  config SOC_BUS
+>> >         bool
+>> >         select GLOB
+>>=20
+>> Thanks, that works for me (on arm64), so
+>> Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
+>
+> Oof.  I completely missed that "cpu_mitigations" wasn't x86-only.  I can'=
+t think
+> of better solution than an on-by-default generic Kconfig, though can't th=
+at it
+> more simply be:
+>
+> diff --git a/drivers/base/Kconfig b/drivers/base/Kconfig
+> index 2b8fd6bb7da0..5930cb56ee29 100644
+> --- a/drivers/base/Kconfig
+> +++ b/drivers/base/Kconfig
+> @@ -191,6 +191,9 @@ config GENERIC_CPU_AUTOPROBE
+>  config GENERIC_CPU_VULNERABILITIES
+>         bool
+>=20=20
+> +config SPECULATION_MITIGATIONS
+> +       def_bool !X86
+> +
 
-Signed-off-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
----
- drivers/net/dsa/rzn1_a5psw.c | 47 ++++++++++++++++++++++++------------
- 1 file changed, 31 insertions(+), 16 deletions(-)
+Yeah that works too.
 
-diff --git a/drivers/net/dsa/rzn1_a5psw.c b/drivers/net/dsa/rzn1_a5psw.c
-index 10092ea85e46..92e032972b34 100644
---- a/drivers/net/dsa/rzn1_a5psw.c
-+++ b/drivers/net/dsa/rzn1_a5psw.c
-@@ -239,23 +239,31 @@ static void a5psw_phylink_get_caps(struct dsa_switch *ds, int port,
- }
- 
- static struct phylink_pcs *
--a5psw_phylink_mac_select_pcs(struct dsa_switch *ds, int port,
-+a5psw_phylink_mac_select_pcs(struct phylink_config *config,
- 			     phy_interface_t interface)
- {
--	struct dsa_port *dp = dsa_to_port(ds, port);
--	struct a5psw *a5psw = ds->priv;
-+	struct dsa_port *dp = dsa_phylink_to_port(config);
-+	struct a5psw *a5psw = dp->ds->priv;
- 
--	if (!dsa_port_is_cpu(dp) && a5psw->pcs[port])
--		return a5psw->pcs[port];
-+	if (dsa_port_is_cpu(dp))
-+		return NULL;
- 
--	return NULL;
-+	return a5psw->pcs[dp->index];
-+}
-+
-+static void a5psw_phylink_mac_config(struct phylink_config *config,
-+				     unsigned int mode,
-+				     const struct phylink_link_state *state)
-+{
- }
- 
--static void a5psw_phylink_mac_link_down(struct dsa_switch *ds, int port,
-+static void a5psw_phylink_mac_link_down(struct phylink_config *config,
- 					unsigned int mode,
- 					phy_interface_t interface)
- {
--	struct a5psw *a5psw = ds->priv;
-+	struct dsa_port *dp = dsa_phylink_to_port(config);
-+	struct a5psw *a5psw = dp->ds->priv;
-+	int port = dp->index;
- 	u32 cmd_cfg;
- 
- 	cmd_cfg = a5psw_reg_readl(a5psw, A5PSW_CMD_CFG(port));
-@@ -263,15 +271,17 @@ static void a5psw_phylink_mac_link_down(struct dsa_switch *ds, int port,
- 	a5psw_reg_writel(a5psw, A5PSW_CMD_CFG(port), cmd_cfg);
- }
- 
--static void a5psw_phylink_mac_link_up(struct dsa_switch *ds, int port,
-+static void a5psw_phylink_mac_link_up(struct phylink_config *config,
-+				      struct phy_device *phydev,
- 				      unsigned int mode,
- 				      phy_interface_t interface,
--				      struct phy_device *phydev, int speed,
--				      int duplex, bool tx_pause, bool rx_pause)
-+				      int speed, int duplex, bool tx_pause,
-+				      bool rx_pause)
- {
- 	u32 cmd_cfg = A5PSW_CMD_CFG_RX_ENA | A5PSW_CMD_CFG_TX_ENA |
- 		      A5PSW_CMD_CFG_TX_CRC_APPEND;
--	struct a5psw *a5psw = ds->priv;
-+	struct dsa_port *dp = dsa_phylink_to_port(config);
-+	struct a5psw *a5psw = dp->ds->priv;
- 
- 	if (speed == SPEED_1000)
- 		cmd_cfg |= A5PSW_CMD_CFG_ETH_SPEED;
-@@ -284,7 +294,7 @@ static void a5psw_phylink_mac_link_up(struct dsa_switch *ds, int port,
- 	if (!rx_pause)
- 		cmd_cfg &= ~A5PSW_CMD_CFG_PAUSE_IGNORE;
- 
--	a5psw_reg_writel(a5psw, A5PSW_CMD_CFG(port), cmd_cfg);
-+	a5psw_reg_writel(a5psw, A5PSW_CMD_CFG(dp->index), cmd_cfg);
- }
- 
- static int a5psw_set_ageing_time(struct dsa_switch *ds, unsigned int msecs)
-@@ -992,15 +1002,19 @@ static int a5psw_setup(struct dsa_switch *ds)
- 	return 0;
- }
- 
-+static const struct phylink_mac_ops a5psw_phylink_mac_ops = {
-+	.mac_select_pcs = a5psw_phylink_mac_select_pcs,
-+	.mac_config = a5psw_phylink_mac_config,
-+	.mac_link_down = a5psw_phylink_mac_link_down,
-+	.mac_link_up = a5psw_phylink_mac_link_up,
-+};
-+
- static const struct dsa_switch_ops a5psw_switch_ops = {
- 	.get_tag_protocol = a5psw_get_tag_protocol,
- 	.setup = a5psw_setup,
- 	.port_disable = a5psw_port_disable,
- 	.port_enable = a5psw_port_enable,
- 	.phylink_get_caps = a5psw_phylink_get_caps,
--	.phylink_mac_select_pcs = a5psw_phylink_mac_select_pcs,
--	.phylink_mac_link_down = a5psw_phylink_mac_link_down,
--	.phylink_mac_link_up = a5psw_phylink_mac_link_up,
- 	.port_change_mtu = a5psw_port_change_mtu,
- 	.port_max_mtu = a5psw_port_max_mtu,
- 	.get_sset_count = a5psw_get_sset_count,
-@@ -1252,6 +1266,7 @@ static int a5psw_probe(struct platform_device *pdev)
- 	ds->dev = dev;
- 	ds->num_ports = A5PSW_PORTS_NUM;
- 	ds->ops = &a5psw_switch_ops;
-+	ds->phylink_mac_ops = &a5psw_phylink_mac_ops;
- 	ds->priv = a5psw;
- 
- 	ret = dsa_register_switch(ds);
--- 
-2.30.2
-
+cheers
 
