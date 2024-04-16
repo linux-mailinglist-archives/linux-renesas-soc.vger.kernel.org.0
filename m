@@ -1,90 +1,91 @@
-Return-Path: <linux-renesas-soc+bounces-4633-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-4634-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0C878A6644
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Apr 2024 10:36:59 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id B00E48A6690
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Apr 2024 10:58:13 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A72E428191F
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Apr 2024 08:36:58 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 63872281453
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Apr 2024 08:58:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 268AB82860;
-	Tue, 16 Apr 2024 08:36:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 16A2B83CDE;
+	Tue, 16 Apr 2024 08:58:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="bBBN3r8X";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="FlYO4H5H"
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="G5mY67qz";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="PQAea+fT"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from flow8-smtp.messagingengine.com (flow8-smtp.messagingengine.com [103.168.172.143])
+Received: from flow1-smtp.messagingengine.com (flow1-smtp.messagingengine.com [103.168.172.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5744184D0A;
-	Tue, 16 Apr 2024 08:36:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.143
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73F5F2907;
+	Tue, 16 Apr 2024 08:58:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713256590; cv=none; b=Aeu7tJEiy8SYccNbpqLY0Ga9FhvBt0KIlh5UvOeQYCgME8Gq2pgY9sjFeJ7ynHaH/+8zV4tD5PFkM/d+oG3afKpQLatlKRLa9eHiCBWdZzFkFWf8R0/0v7697rbHE+dvabjy8xr34lQ0kYSuJ8JUuqdZ5q7yPs/VeWNI94Whef4=
+	t=1713257889; cv=none; b=cb1pJSVMmLQo8SRmSlMoTS7MkeeO8PoOmqwQ0JbzU1u6pZSPeuHs5b+LCVlRkG/cvcWoXUJMbNkwwdXmBqPGaVHjWiicGwsSvYL2mHziCpO0n/NL/Sx4yghw95qvlvdu7eGAj0EXjq6Ba7TwDKsdZZusz9nVCMpF28ISxEILcLE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713256590; c=relaxed/simple;
-	bh=ixYue9KwOmSErPSyvpSBYoSpxPmCTDR7AwjJ2DHe93A=;
+	s=arc-20240116; t=1713257889; c=relaxed/simple;
+	bh=4/1ePeI69MfhY87vj18253cEWi6mAn19+2Xq/5mfrVw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Nr7Qg6hKCyWoVCbJKMI2RkoLUVVzPM4tfy7+RFtC5jqopEcehDwJBWFuXdigbLGhA3HtonWlQ/jjQGxxYrW6NOiI2nEQ0I9mb9C9l0SixM6hpB7cRHhABiI9oRADT2XC/nlojzWlqJF2pDz1MwyXk+LFBzlUh+gLZujPcRpV090=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=bBBN3r8X; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=FlYO4H5H; arc=none smtp.client-ip=103.168.172.143
+	 Content-Type:Content-Disposition:In-Reply-To; b=LQEkRFUTgaG9eNePj8Tk/Gi/2ErkaTnQtTmmG/D6ovLEzbm7J1kvQOZmz+TAKAXZdbYNvx1WlZFx+eBeQvTz3E3drrwW6FSUEuNjC/rQJ6P5dlpsArjAtv83I7ARo7MbccWfwXNXmNTwgcMewsadkH4l0F1Wc06r1zHUkYUojSI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=G5mY67qz; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=PQAea+fT; arc=none smtp.client-ip=103.168.172.136
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
-	by mailflow.nyi.internal (Postfix) with ESMTP id F03D52002FC;
-	Tue, 16 Apr 2024 04:36:24 -0400 (EDT)
+Received: from compute7.internal (compute7.nyi.internal [10.202.2.48])
+	by mailflow.nyi.internal (Postfix) with ESMTP id 3D6D320030A;
+	Tue, 16 Apr 2024 04:58:05 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
-  by compute4.internal (MEProxy); Tue, 16 Apr 2024 04:36:24 -0400
+  by compute7.internal (MEProxy); Tue, 16 Apr 2024 04:58:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
 	cc:cc:content-transfer-encoding:content-type:content-type:date
 	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1713256584;
-	 x=1713260184; bh=KgnLMpzO9JVVaPVLKim6fGcmIiXVhEZWusvVAMrpG1U=; b=
-	bBBN3r8Xx0UTtqriiuNWJLDW6R1ko+STP42fVjSjx1ry4p/b6Rp4Eynmv6sCyKZf
-	2OCdI6BHd/NIfUhVCknI8UWbnDWBBp6hCKu0Z5M3t0+KE8fTf/9qjP1kd1X6BRhJ
-	9HhrZEhzuNjfw58I4UBeFlFKZettWX0JVM3TzSntYuiBLNAwsDFW/EwXrjI0gNmo
-	y3ZrMZeOMOcsXdG5zlvMSCv8JnBsEp1qiLYWV2XEO7SVCCJHiVGv3Sg0E36tJtWB
-	L2fVGBfevg9sTSXoG9WfI/2vUkzqImx0H998NPos2hSx4oMdKOGsoxUTwDOtt9LF
-	pwizBcDxPzg0pmLjQ4YWQw==
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1713257885;
+	 x=1713261485; bh=2vpzAJq9BdhgMku9x0Zyb1TfC6+YDET8qPtrzKEqebs=; b=
+	G5mY67qzN2jWP7fcyNPtkQTsK7gq2dy+HnqFzmKUouFApIcuyQbnXOoFK8hou1Ye
+	slrQzXzrWhc3VpMXh+EC0cErXyBfXnZmmPqHqp8CZKYl/aGLyyp1Z+fDi5EesTnP
+	rSaZ2Y/mylaOrv7bQO/YYaNcK1hulrSEx4G/1EbqB/ou3TnaGZ7T7d928yTY65lZ
+	NCNIPEp1OnHMswcG6Y+jN2nAqg1eUYL75enX8jhwvdpnDnNq8U3Bu1pVrsBIfD6U
+	z169vOROPcM6an69I9sWoaplPqRGcGJ/RmwUDnvf3Mgoq0WTWR9ymzKN6bDtC0JO
+	YYudFTOQdl9mDqKsuUg1Uw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:content-type:date:date:feedback-id:feedback-id
 	:from:from:in-reply-to:in-reply-to:message-id:mime-version
 	:references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1713256584; x=
-	1713260184; bh=KgnLMpzO9JVVaPVLKim6fGcmIiXVhEZWusvVAMrpG1U=; b=F
-	lYO4H5H6LNjKBnNDpAOwgVWSNiu4epZsIMEGuyyylTkPASQWQ61JwNlOaKPW3bhJ
-	b7Cqzs56CVgsEzaSNEMO1jXisk6Xx1wMib3p15iIU1o7C/rhpITal7e7CiaR5MFB
-	uPjLAnfl1zIHp9P+kOlfAHKfHzy1MSB2GibHfjPsGakQO1MDjuZCM7azk2RmeyDt
-	1blSH6lWuH6URnu4s47++uKLBF7Hvg0prXOTb1jv8lnIGNbhdPuuyYAgbNKQzeRB
-	dBOECnEMM3cvNQcZNAhrWbFEMoG+rhVmCH5aJ+mEqNKfilOR807OcTVOZWLCB8zy
-	yqbCFQH4DlM+wk6HkmqVw==
-X-ME-Sender: <xms:hzgeZmGZbSK1H7m3HGm1KOmsK_AAeMFPVYMixay1Eru8sd7yHDgpiA>
-    <xme:hzgeZnWQ2esUMSfU_0D24my2fG0qY2cJNnUNtNtcD2C6rKaFRHtwdHSUnXAnMGhcz
-    R7nbiQUhkG6xFzmgC8>
-X-ME-Received: <xmr:hzgeZgL4p3xOWEG3oS3ChSupA_xQWuNCojRtuOzIcyFSQu-ogt0Gw_1gfdW37WOalXYL69ozk8ZBIXmnEDxWD79GVtae60Y>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrudejgedgtdehucetufdoteggodetrfdotf
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1713257885; x=
+	1713261485; bh=2vpzAJq9BdhgMku9x0Zyb1TfC6+YDET8qPtrzKEqebs=; b=P
+	QAea+fTKL/0s4ynJlqUt95Im2AFnw1Eq26a5ScfUY3iTrFJPCSQi2gLv+SZ20Hzn
+	zgHjxNqUK9tK9b7dVeI4AAirAPlJJ19c2aOKYzyWbSsXbZysp+zLfzna7f3ep6GM
+	lWpIJ78MyUAfj2epMK5IFJpa2gGd6qwoeROUeUBaW7vk0AG0kBxajAhNSkhm4z9v
+	xgTLieVGhJ+jWnK1WRNDQbjIhXU5CF3Lv30PS+yNwFBU7huBwh092+MdvvXHcZI8
+	ESP0hYJJAnJrcBlAfOqNLYoty2g8g0/FtAcGNVIqNumiLtrDi82cru93+9etxm1l
+	Vq0Flwloz+OCP7I0u8hAw==
+X-ME-Sender: <xms:nD0eZlZw6lwvN1U2VchrTp7TeykmfUh6RtUGeQLOrJvRok0GUzA4WA>
+    <xme:nD0eZsY0_ZvVsnh8dsGA7YcUiVaICHygRZyk6b-oR78v6K0Dq_GPSl35OSq4jPr2f
+    WFZxkPgisx9OoW0BvM>
+X-ME-Received: <xmr:nD0eZn-0ITqNMK4ZJz7qVfwKcZ4voLBeJvn3qzzmp25T7qBdhEaC-5RWb46H2lkKj0vRUJYrs9GJrrvmZUvqNigKh9SLFR0>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrudejgedgtdelucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
     uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
     cujfgurhepfffhvfevuffkfhggtggugfgjsehtkeertddttdejnecuhfhrohhmpefpihhk
     lhgrshcuufpnuggvrhhluhhnugcuoehnihhklhgrshdrshhouggvrhhluhhnugdorhgvnh
-    gvshgrshesrhgrghhnrghtvggthhdrshgvqeenucggtffrrghtthgvrhhnpeefhfellefh
-    ffejgfefudfggeejlefhveehieekhfeulefgtdefueehffdtvdelieenucevlhhushhtvg
-    hrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehnihhklhgrshdrshhouggv
-    rhhluhhnugdorhgvnhgvshgrshesrhgrghhnrghtvggthhdrshgv
-X-ME-Proxy: <xmx:hzgeZgHREZ80XBy4jnNvrmtiApv1GlE_Q_QuRqqabRUqMsKrFa8xPg>
-    <xmx:hzgeZsWnjIPgAsnbfsNy03qbsTda4gAblXQaINkW8NlWUFo9aar9Ew>
-    <xmx:hzgeZjMJIWID2nyNKYsRLfVyX2YY_GpSPm8rIJ0BHR8kfP99Udj6RA>
-    <xmx:hzgeZj1O9p1zEX7cuBBUZUfAUDDT81PY8u7bacEbsmPpkHVcgsddDQ>
-    <xmx:iDgeZmdCCdbUfYNPDhx_cScbLSnZQodEv26xWXQqtXgMUP8dPj00ARDN>
+    gvshgrshesrhgrghhnrghtvggthhdrshgvqeenucggtffrrghtthgvrhhnpeffkefgudek
+    gefhhfejtedviedtgeetieekffeiudfhgeevteejvedtffdvkefftdenucffohhmrghinh
+    epkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehm
+    rghilhhfrhhomhepnhhikhhlrghsrdhsohguvghrlhhunhguodhrvghnvghsrghssehrrg
+    hgnhgrthgvtghhrdhsvg
+X-ME-Proxy: <xmx:nD0eZjpge9Sf3M8RY92iLJy4MZ_OTXEs3aUaJQMWoHJjOqEymjSmoA>
+    <xmx:nD0eZgrZt47jlLiZBa_XF4Xv4r1S5z1-xpldvbT9TPc12jwlkwU_rg>
+    <xmx:nD0eZpQBZTNfwEgAbWELDLFkjKs63Gp0iHJ4FnBaeLNdVewZlKP0Zg>
+    <xmx:nD0eZoo1euBj95x2zzZPHFG_yGasXUSc9pQoEbwPwFJtYBUinSiltg>
+    <xmx:nT0eZlD8E6CT8_AqNFgOxwZanhndxKHsff3Ki-rpfPyrKMc0zH2CuKNV>
 Feedback-ID: i80c9496c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 16 Apr 2024 04:36:23 -0400 (EDT)
-Date: Tue, 16 Apr 2024 10:36:21 +0200
+ 16 Apr 2024 04:58:03 -0400 (EDT)
+Date: Tue, 16 Apr 2024 10:58:02 +0200
 From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-To: Paul Barker <paul.barker.ct@bp.renesas.com>
+To: Andrew Lunn <andrew@lunn.ch>
 Cc: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
 	"David S. Miller" <davem@davemloft.net>,
 	Eric Dumazet <edumazet@google.com>,
@@ -92,9 +93,9 @@ Cc: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
 	netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org
 Subject: Re: [net-next] net: ethernet: rtsn: Add support for Renesas
  Ethernet-TSN
-Message-ID: <20240416083621.GD3460978@ragnatech.se>
+Message-ID: <20240416085802.GE3460978@ragnatech.se>
 References: <20240414135937.1139611-1-niklas.soderlund+renesas@ragnatech.se>
- <98ae4f14-397b-49b7-a0a9-cb316f2594f6@bp.renesas.com>
+ <5fd25c58-b421-4ec0-8b4f-24f86f054a44@lunn.ch>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -104,264 +105,68 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <98ae4f14-397b-49b7-a0a9-cb316f2594f6@bp.renesas.com>
+In-Reply-To: <5fd25c58-b421-4ec0-8b4f-24f86f054a44@lunn.ch>
 
-Hi Paul,
+Hi Andrew,
 
-Thanks for your review!
+Thanks for your thorough review, much appreciated.
 
-On 2024-04-15 08:34:09 +0100, Paul Barker wrote:
-> On 14/04/2024 14:59, Niklas Söderlund wrote:
-> > Add initial support for Renesas Ethernet-TSN End-station device of R-Car
-> > V4H. The Ethernet End-station can connect to an Ethernet network using a
-> > 10 Mbps, 100 Mbps, or 1 Gbps full-duplex link via MII/GMII/RMII/RGMII.
-> > Depending on the connected PHY.
-> > 
-> > Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> > ---
-> > * Changes since RFC
-> > - Fix issues in MDIO communication.
-> > - Use a dedicated OF node for the MDIO bus.
-> > ---
-> >  MAINTAINERS                           |    8 +
-> >  drivers/net/ethernet/renesas/Kconfig  |   11 +
-> >  drivers/net/ethernet/renesas/Makefile |    2 +
-> >  drivers/net/ethernet/renesas/rtsn.c   | 1421 +++++++++++++++++++++++++
-> >  drivers/net/ethernet/renesas/rtsn.h   |  464 ++++++++
-> >  5 files changed, 1906 insertions(+)
-> >  create mode 100644 drivers/net/ethernet/renesas/rtsn.c
-> >  create mode 100644 drivers/net/ethernet/renesas/rtsn.h
-> 
-> <snip>
-> 
-> > diff --git a/drivers/net/ethernet/renesas/rtsn.c b/drivers/net/ethernet/renesas/rtsn.c
-> > new file mode 100644
-> > index 000000000000..291ab421d68f
-> > --- /dev/null
-> > +++ b/drivers/net/ethernet/renesas/rtsn.c
-> 
-> <snip>
-> 
-> > +static bool rtsn_rx(struct net_device *ndev, int *quota)
+I agree with all suggestions except one and will fix those for v2.
+
+On 2024-04-16 00:55:12 +0200, Andrew Lunn wrote:
+
+<snip>
+
+> > +static void rtsn_set_delay_mode(struct rtsn_private *priv)
 > > +{
-> > +	struct rtsn_ext_ts_desc *desc;
-> > +	struct rtsn_private *priv;
-> > +	struct sk_buff *skb;
-> > +	dma_addr_t dma_addr;
-> > +	int boguscnt;
+> > +	struct device_node *np = priv->ndev->dev.parent->of_node;
+> > +	u32 delay;
+> > +	u32 val;
+> > +
+> > +	val = 0;
+> > +
+> > +	/* Valid values are 0 and 1800, according to DT bindings */
 > 
-> I find the variable name `boguscnt` very unclear, I'm not sure if it
-> means the count is bogus, or it is counting bogus items?
-> 
-> I don't think you need to match what I've done in ravb_main.c exactly,
-> but I'd prefer to see a better variable name here.
+> The bindings should not matter. It is what the hardware supports. The
+> bindings should match the hardware, since it is hard to modify the
+> hardware to make it match the binding.
 
-I like the changes you did in this area for RAVB, I will reuse some of 
-it in v2 of this.
-
-> 
-> > +	u16 pkt_len;
-> > +	u32 get_ts;
-> > +	int entry;
-> > +	int limit;
-> > +
-> > +	priv = netdev_priv(ndev);
-> > +
-> > +	entry = priv->cur_rx % priv->num_rx_ring;
-> > +	desc = &priv->rx_ring[entry];
-> > +
-> > +	boguscnt = priv->dirty_rx + priv->num_rx_ring - priv->cur_rx;
-> > +	boguscnt = min(boguscnt, *quota);
-> > +	limit = boguscnt;
-> > +
-> > +	while ((desc->die_dt & DT_MASK) != DT_FEMPTY) {
-> > +		dma_rmb();
-> > +		pkt_len = le16_to_cpu(desc->info_ds) & RX_DS;
-> > +		if (--boguscnt < 0)
-> > +			break;
-> > +
-> > +		skb = priv->rx_skb[entry];
-> > +		priv->rx_skb[entry] = NULL;
-> > +		dma_addr = le32_to_cpu(desc->dptr);
-> > +		dma_unmap_single(ndev->dev.parent, dma_addr, PKT_BUF_SZ,
-> > +				 DMA_FROM_DEVICE);
-> > +
-> > +		get_ts = priv->ptp_priv->tstamp_rx_ctrl &
-> > +			RCAR_GEN4_RXTSTAMP_TYPE_V2_L2_EVENT;
-> > +		if (get_ts) {
-> > +			struct skb_shared_hwtstamps *shhwtstamps;
-> > +			struct timespec64 ts;
-> > +
-> > +			shhwtstamps = skb_hwtstamps(skb);
-> > +			memset(shhwtstamps, 0, sizeof(*shhwtstamps));
-> > +
-> > +			ts.tv_sec = (u64)le32_to_cpu(desc->ts_sec);
-> > +			ts.tv_nsec = le32_to_cpu(desc->ts_nsec & cpu_to_le32(0x3fffffff));
-> > +
-> > +			shhwtstamps->hwtstamp = timespec64_to_ktime(ts);
-> > +		}
-> > +
-> > +		skb_put(skb, pkt_len);
-> > +		skb->protocol = eth_type_trans(skb, ndev);
-> > +		netif_receive_skb(skb);
-> > +		ndev->stats.rx_packets++;
-> > +		ndev->stats.rx_bytes += pkt_len;
-> > +
-> > +		entry = (++priv->cur_rx) % priv->num_rx_ring;
-> > +		desc = &priv->rx_ring[entry];
-> > +	}
-> > +
-> > +	/* Refill the RX ring buffers */
-> > +	for (; priv->cur_rx - priv->dirty_rx > 0; priv->dirty_rx++) {
-> > +		entry = priv->dirty_rx % priv->num_rx_ring;
-> > +		desc = &priv->rx_ring[entry];
-> > +		desc->info_ds = cpu_to_le16(PKT_BUF_SZ);
-> > +
-> > +		if (!priv->rx_skb[entry]) {
-> > +			skb = netdev_alloc_skb(ndev,
-> > +					       PKT_BUF_SZ + RTSN_ALIGN - 1);
-> 
-> I'll send my work using a page pool today as an RFC so you can see if it
-> would be beneficial to use that here as well. I was going to hold off
-> until the bugfix patches have merged so that I don't need to go through
-> another RFC round, but it will be good to get some more review on the
-> series anyway.
-
-I like the page pool idea, but there is no real benefit for it in this 
-driver at the moment. I would like to play and learn a bit more with it 
-in RAVB. And once I know more I can convert this driver too if it fits.
+I agree the comment could be improved. It should likely point to the 
+datasheet instead. See below for why.
 
 > 
-> > +			if (!skb)
-> > +				break;
-> > +			skb_reserve(skb, NET_IP_ALIGN);
-> > +			dma_addr = dma_map_single(ndev->dev.parent, skb->data,
-> > +						  le16_to_cpu(desc->info_ds),
-> > +						  DMA_FROM_DEVICE);
-> > +			if (dma_mapping_error(ndev->dev.parent, dma_addr))
-> > +				desc->info_ds = cpu_to_le16(0);
-> > +			desc->dptr = cpu_to_le32(dma_addr);
-> > +			skb_checksum_none_assert(skb);
-> > +			priv->rx_skb[entry] = skb;
-> > +		}
-> > +		dma_wmb();
-> > +		desc->die_dt = DT_FEMPTY | D_DIE;
-> > +	}
+> > +	if (!of_property_read_u32(np, "rx-internal-delay-ps", &delay))
+> > +		if (delay)
+> > +			val |= GPOUT_RDM;
 > > +
-> > +	desc = &priv->rx_ring[priv->num_rx_ring];
-> > +	desc->die_dt = DT_LINK;
+> > +	/* Valid values are 0 and 2000, according to DT bindings */
+> > +	if (!of_property_read_u32(np, "tx-internal-delay-ps", &delay))
+> > +		if (delay)
+> > +			val |= GPOUT_TDM;
 > > +
-> > +	*quota -= limit - (++boguscnt);
-> > +
-> > +	return boguscnt <= 0;
-> > +}
-> > +
-> > +static int rtsn_poll(struct napi_struct *napi, int budget)
-> > +{
-> > +	struct rtsn_private *priv;
-> > +	struct net_device *ndev;
-> > +	unsigned long flags;
-> > +	int quota = budget;
-> > +
-> > +	ndev = napi->dev;
-> > +	priv = netdev_priv(ndev);
-> > +
-> > +	/* Processing RX Descriptor Ring */
-> > +	if (rtsn_rx(ndev, &quota))
-> > +		goto out;
-> > +
-> > +	/* Processing TX Descriptor Ring */
-> > +	spin_lock_irqsave(&priv->lock, flags);
-> > +	rtsn_tx_free(ndev, true);
-> > +	netif_wake_subqueue(ndev, 0);
-> > +	spin_unlock_irqrestore(&priv->lock, flags);
-> > +
-> > +	napi_complete(napi);
+> > +	rtsn_write(priv, GPOUT, val);
 > 
-> We should use napi_complete_done() here as described in
-> Documentation/networking/napi.rst. That will require rtsn_rx() to return
-> the number of packets received so that it can be passed as the work_done
-> argument to napi_complete_done().
+> So you seem to be using it as bool?
 
-Good point will update in v2.
+Yes.
 
-> 
-> > +
-> > +	/* Re-enable TX/RX interrupts */
-> > +	spin_lock_irqsave(&priv->lock, flags);
-> > +	rtsn_ctrl_data_irq(priv, true);
-> > +	__iowmb();
-> > +	spin_unlock_irqrestore(&priv->lock, flags);
-> > +out:
-> > +	return budget - quota;
-> > +}
-> 
-> <snip>
-> 
-> > +static int rtsn_probe(struct platform_device *pdev)
-> > +{
-> > +	struct rtsn_private *priv;
-> > +	struct net_device *ndev;
-> > +	struct resource *res;
-> > +	int ret;
-> > +
-> > +	ndev = alloc_etherdev_mqs(sizeof(struct rtsn_private), TX_NUM_CHAINS,
-> > +				  RX_NUM_CHAINS);
-> > +	if (!ndev)
-> > +		return -ENOMEM;
-> > +
-> > +	priv = netdev_priv(ndev);
-> > +	priv->pdev = pdev;
-> > +	priv->ndev = ndev;
-> > +	priv->ptp_priv = rcar_gen4_ptp_alloc(pdev);
-> > +
-> > +	spin_lock_init(&priv->lock);
-> > +	platform_set_drvdata(pdev, priv);
-> > +
-> > +	priv->clk = devm_clk_get(&pdev->dev, NULL);
-> > +	if (IS_ERR(priv->clk)) {
-> > +		ret = -PTR_ERR(priv->clk);
-> > +		goto error_alloc;
-> > +	}
-> > +
-> > +	priv->reset = devm_reset_control_get(&pdev->dev, NULL);
-> > +	if (IS_ERR(priv->reset)) {
-> > +		ret = -PTR_ERR(priv->reset);
-> > +		goto error_alloc;
-> > +	}
-> > +
-> > +	res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "tsnes");
-> > +	if (!res) {
-> > +		dev_err(&pdev->dev, "Can't find tsnes resource\n");
-> > +		ret = -EINVAL;
-> > +		goto error_alloc;
-> > +	}
-> > +
-> > +	priv->base = devm_ioremap_resource(&pdev->dev, res);
-> > +	if (IS_ERR(priv->base)) {
-> > +		ret = PTR_ERR(priv->base);
-> > +		goto error_alloc;
-> > +	}
-> > +
-> > +	SET_NETDEV_DEV(ndev, &pdev->dev);
-> > +	ether_setup(ndev);
-> > +
-> > +	ndev->features = NETIF_F_RXCSUM;
-> > +	ndev->hw_features = NETIF_F_RXCSUM;
-> 
-> A quick skim of the datasheet suggests that TX checksum calculation is
-> also supported. It's probably worth listing which hardware features this
-> driver supports/does not support in the commit message.
-> 
-> Thanks,
-> 
-> -- 
-> Paul Barker
+> That is wrong. It is a number of pico seconds!
 
+The issue is that the hardware only supports no delay or a fixed delay 
+that can depend on electric properties of the board. The datasheets 
+states that the typical Rx delay is 1800 ps while the typical Tx delay 
+is 2000 ps. The hardware register implementation for this is a single 
+bit for each delay, on or off.
 
+To model this in the bindings after some discussions [1] the standard 
+property was picked over a vendor specific bool variant of it. Here in 
+the driver I tried to document that the binding will enforce the value 
+to either be 0 or {1800,2000}, but that for the hardware it should be 
+treated as a on/off switch.
 
+<snip>
 
-
+1. https://lore.kernel.org/linux-renesas-soc/ZVzbigCtv2q_2-Bx@oden.dyn.berto.se/
 
 -- 
 Kind Regards,
