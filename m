@@ -1,174 +1,199 @@
-Return-Path: <linux-renesas-soc+bounces-4634-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-4635-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id B00E48A6690
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Apr 2024 10:58:13 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 874A38A6827
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Apr 2024 12:19:42 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 63872281453
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Apr 2024 08:58:12 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 788501C20D08
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Apr 2024 10:19:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 16A2B83CDE;
-	Tue, 16 Apr 2024 08:58:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6DD07127B4D;
+	Tue, 16 Apr 2024 10:19:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="G5mY67qz";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="PQAea+fT"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="fRA/aNza"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from flow1-smtp.messagingengine.com (flow1-smtp.messagingengine.com [103.168.172.136])
+Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73F5F2907;
-	Tue, 16 Apr 2024 08:58:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.136
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9806127B47;
+	Tue, 16 Apr 2024 10:19:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.32.30.218
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713257889; cv=none; b=cb1pJSVMmLQo8SRmSlMoTS7MkeeO8PoOmqwQ0JbzU1u6pZSPeuHs5b+LCVlRkG/cvcWoXUJMbNkwwdXmBqPGaVHjWiicGwsSvYL2mHziCpO0n/NL/Sx4yghw95qvlvdu7eGAj0EXjq6Ba7TwDKsdZZusz9nVCMpF28ISxEILcLE=
+	t=1713262767; cv=none; b=T12isH2+fp/iqA641ZqTX0KcLV91Mxa4ijQ8BoKwgD0pR7nsR1xJuu2q98vaI6Zt7oOanim5EOqAB91p3zSvwUr0feEDwhLG8YsVmJsjYWjE6sK7YeFzQpmsbk9CGcC8BzPGYv27F+9olJdm74+fccd8EJITo231AN28OEXOHX0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713257889; c=relaxed/simple;
-	bh=4/1ePeI69MfhY87vj18253cEWi6mAn19+2Xq/5mfrVw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LQEkRFUTgaG9eNePj8Tk/Gi/2ErkaTnQtTmmG/D6ovLEzbm7J1kvQOZmz+TAKAXZdbYNvx1WlZFx+eBeQvTz3E3drrwW6FSUEuNjC/rQJ6P5dlpsArjAtv83I7ARo7MbccWfwXNXmNTwgcMewsadkH4l0F1Wc06r1zHUkYUojSI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=G5mY67qz; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=PQAea+fT; arc=none smtp.client-ip=103.168.172.136
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
-Received: from compute7.internal (compute7.nyi.internal [10.202.2.48])
-	by mailflow.nyi.internal (Postfix) with ESMTP id 3D6D320030A;
-	Tue, 16 Apr 2024 04:58:05 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute7.internal (MEProxy); Tue, 16 Apr 2024 04:58:05 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1713257885;
-	 x=1713261485; bh=2vpzAJq9BdhgMku9x0Zyb1TfC6+YDET8qPtrzKEqebs=; b=
-	G5mY67qzN2jWP7fcyNPtkQTsK7gq2dy+HnqFzmKUouFApIcuyQbnXOoFK8hou1Ye
-	slrQzXzrWhc3VpMXh+EC0cErXyBfXnZmmPqHqp8CZKYl/aGLyyp1Z+fDi5EesTnP
-	rSaZ2Y/mylaOrv7bQO/YYaNcK1hulrSEx4G/1EbqB/ou3TnaGZ7T7d928yTY65lZ
-	NCNIPEp1OnHMswcG6Y+jN2nAqg1eUYL75enX8jhwvdpnDnNq8U3Bu1pVrsBIfD6U
-	z169vOROPcM6an69I9sWoaplPqRGcGJ/RmwUDnvf3Mgoq0WTWR9ymzKN6bDtC0JO
-	YYudFTOQdl9mDqKsuUg1Uw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1713257885; x=
-	1713261485; bh=2vpzAJq9BdhgMku9x0Zyb1TfC6+YDET8qPtrzKEqebs=; b=P
-	QAea+fTKL/0s4ynJlqUt95Im2AFnw1Eq26a5ScfUY3iTrFJPCSQi2gLv+SZ20Hzn
-	zgHjxNqUK9tK9b7dVeI4AAirAPlJJ19c2aOKYzyWbSsXbZysp+zLfzna7f3ep6GM
-	lWpIJ78MyUAfj2epMK5IFJpa2gGd6qwoeROUeUBaW7vk0AG0kBxajAhNSkhm4z9v
-	xgTLieVGhJ+jWnK1WRNDQbjIhXU5CF3Lv30PS+yNwFBU7huBwh092+MdvvXHcZI8
-	ESP0hYJJAnJrcBlAfOqNLYoty2g8g0/FtAcGNVIqNumiLtrDi82cru93+9etxm1l
-	Vq0Flwloz+OCP7I0u8hAw==
-X-ME-Sender: <xms:nD0eZlZw6lwvN1U2VchrTp7TeykmfUh6RtUGeQLOrJvRok0GUzA4WA>
-    <xme:nD0eZsY0_ZvVsnh8dsGA7YcUiVaICHygRZyk6b-oR78v6K0Dq_GPSl35OSq4jPr2f
-    WFZxkPgisx9OoW0BvM>
-X-ME-Received: <xmr:nD0eZn-0ITqNMK4ZJz7qVfwKcZ4voLBeJvn3qzzmp25T7qBdhEaC-5RWb46H2lkKj0vRUJYrs9GJrrvmZUvqNigKh9SLFR0>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrudejgedgtdelucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvfevuffkfhggtggugfgjsehtkeertddttdejnecuhfhrohhmpefpihhk
-    lhgrshcuufpnuggvrhhluhhnugcuoehnihhklhgrshdrshhouggvrhhluhhnugdorhgvnh
-    gvshgrshesrhgrghhnrghtvggthhdrshgvqeenucggtffrrghtthgvrhhnpeffkefgudek
-    gefhhfejtedviedtgeetieekffeiudfhgeevteejvedtffdvkefftdenucffohhmrghinh
-    epkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehm
-    rghilhhfrhhomhepnhhikhhlrghsrdhsohguvghrlhhunhguodhrvghnvghsrghssehrrg
-    hgnhgrthgvtghhrdhsvg
-X-ME-Proxy: <xmx:nD0eZjpge9Sf3M8RY92iLJy4MZ_OTXEs3aUaJQMWoHJjOqEymjSmoA>
-    <xmx:nD0eZgrZt47jlLiZBa_XF4Xv4r1S5z1-xpldvbT9TPc12jwlkwU_rg>
-    <xmx:nD0eZpQBZTNfwEgAbWELDLFkjKs63Gp0iHJ4FnBaeLNdVewZlKP0Zg>
-    <xmx:nD0eZoo1euBj95x2zzZPHFG_yGasXUSc9pQoEbwPwFJtYBUinSiltg>
-    <xmx:nT0eZlD8E6CT8_AqNFgOxwZanhndxKHsff3Ki-rpfPyrKMc0zH2CuKNV>
-Feedback-ID: i80c9496c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 16 Apr 2024 04:58:03 -0400 (EDT)
-Date: Tue, 16 Apr 2024 10:58:02 +0200
-From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-To: Andrew Lunn <andrew@lunn.ch>
-Cc: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+	s=arc-20240116; t=1713262767; c=relaxed/simple;
+	bh=7XvcBtR7lh6++Pz6BP2gfLrCzhR5TRGG0OXjbS8ApQU=;
+	h=From:To:Cc:Subject:MIME-Version:Content-Disposition:Content-Type:
+	 Message-Id:Date; b=OXnMi8ZwUIlb9iRmI0bu0YSBJeFLFgC8AAAzZiH2TpsdDldYNeI71IHjQT11clqP+ffmfOMjp9M3l4G9LXpBNw38QtesUy4gjHPcBu8aBm7DOOC27RlN7WbKpORAJJS9bgJ/XrmFAOHvK5F7wtDpR5kc83La51eVbAAs5HYZOSM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk; spf=none smtp.mailfrom=armlinux.org.uk; dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b=fRA/aNza; arc=none smtp.client-ip=78.32.30.218
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=armlinux.org.uk
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=armlinux.org.uk; s=pandora-2019; h=Date:Sender:Message-Id:Content-Type:
+	Content-Transfer-Encoding:MIME-Version:Subject:Cc:To:From:Reply-To:Content-ID
+	:Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:
+	Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:
+	List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=7Q18Un481M8WCx/Sllv3H1eh0v99TN6V9WZ4sV4IbTo=; b=fRA/aNzaCK5GIdgpm0Fau02Azj
+	srnl51KYIOc0njsp3Gd/lAp3EEDLksEAr/5BJwHKCLSokVGTnGvFbS4rCoQM4JB37sxNipEkWe7EM
+	S++e/fUyJCxB+FMA2oG4+Zx21t3pWMqXAZa8Skfi+8/VwX5sp9NlVSLfeK394EY+ZGukh1REolfmF
+	fpmp4AQ7CSSQXTw5Bzv8qqonuklEAUb7PHv+Pb1xP4cwMNC9CdKmPUJh/mUB08qCGcQB5ecg9AM66
+	HvBiCeq+GkRrNc7TQQij3uP18vQDF5ok9iN5WIjIl+Yz7rFB8EA0uq2SJ+DOZxGFIJSaRCg5s2UPx
+	/JGc292w==;
+Received: from e0022681537dd.dyn.armlinux.org.uk ([fd8f:7570:feb6:1:222:68ff:fe15:37dd]:36900 helo=rmk-PC.armlinux.org.uk)
+	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <rmk@armlinux.org.uk>)
+	id 1rwfuI-0008QM-0o;
+	Tue, 16 Apr 2024 11:19:18 +0100
+Received: from rmk by rmk-PC.armlinux.org.uk with local (Exim 4.94.2)
+	(envelope-from <rmk@rmk-PC.armlinux.org.uk>)
+	id 1rwfuJ-00753D-6d; Tue, 16 Apr 2024 11:19:19 +0100
+From: "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>
+To: Andrew Lunn <andrew@lunn.ch>,
+	 Vladimir Oltean <olteanv@gmail.com>
+Cc: "Cl__ment L__ger" <clement.leger@bootlin.com>,
+	Florian Fainelli <f.fainelli@gmail.com>,
 	"David S. Miller" <davem@davemloft.net>,
 	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [net-next] net: ethernet: rtsn: Add support for Renesas
- Ethernet-TSN
-Message-ID: <20240416085802.GE3460978@ragnatech.se>
-References: <20240414135937.1139611-1-niklas.soderlund+renesas@ragnatech.se>
- <5fd25c58-b421-4ec0-8b4f-24f86f054a44@lunn.ch>
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	linux-renesas-soc@vger.kernel.org,
+	netdev@vger.kernel.org
+Subject: [PATCH net-next] net: dsa: rzn1_a5psw: provide own phylink MAC
+ operations
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <5fd25c58-b421-4ec0-8b4f-24f86f054a44@lunn.ch>
+Content-Type: text/plain; charset="utf-8"
+Message-Id: <E1rwfuJ-00753D-6d@rmk-PC.armlinux.org.uk>
+Sender: Russell King <rmk@armlinux.org.uk>
+Date: Tue, 16 Apr 2024 11:19:19 +0100
 
-Hi Andrew,
+Convert rzn1_a5psw to provide its own phylink MAC operations, thus
+avoiding the shim layer in DSA's port.c. We need to provide a stub for
+the mac_config() method which is mandatory.
 
-Thanks for your thorough review, much appreciated.
+Signed-off-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
+---
+ drivers/net/dsa/rzn1_a5psw.c | 47 ++++++++++++++++++++++++------------
+ 1 file changed, 31 insertions(+), 16 deletions(-)
 
-I agree with all suggestions except one and will fix those for v2.
-
-On 2024-04-16 00:55:12 +0200, Andrew Lunn wrote:
-
-<snip>
-
-> > +static void rtsn_set_delay_mode(struct rtsn_private *priv)
-> > +{
-> > +	struct device_node *np = priv->ndev->dev.parent->of_node;
-> > +	u32 delay;
-> > +	u32 val;
-> > +
-> > +	val = 0;
-> > +
-> > +	/* Valid values are 0 and 1800, according to DT bindings */
-> 
-> The bindings should not matter. It is what the hardware supports. The
-> bindings should match the hardware, since it is hard to modify the
-> hardware to make it match the binding.
-
-I agree the comment could be improved. It should likely point to the 
-datasheet instead. See below for why.
-
-> 
-> > +	if (!of_property_read_u32(np, "rx-internal-delay-ps", &delay))
-> > +		if (delay)
-> > +			val |= GPOUT_RDM;
-> > +
-> > +	/* Valid values are 0 and 2000, according to DT bindings */
-> > +	if (!of_property_read_u32(np, "tx-internal-delay-ps", &delay))
-> > +		if (delay)
-> > +			val |= GPOUT_TDM;
-> > +
-> > +	rtsn_write(priv, GPOUT, val);
-> 
-> So you seem to be using it as bool?
-
-Yes.
-
-> That is wrong. It is a number of pico seconds!
-
-The issue is that the hardware only supports no delay or a fixed delay 
-that can depend on electric properties of the board. The datasheets 
-states that the typical Rx delay is 1800 ps while the typical Tx delay 
-is 2000 ps. The hardware register implementation for this is a single 
-bit for each delay, on or off.
-
-To model this in the bindings after some discussions [1] the standard 
-property was picked over a vendor specific bool variant of it. Here in 
-the driver I tried to document that the binding will enforce the value 
-to either be 0 or {1800,2000}, but that for the hardware it should be 
-treated as a on/off switch.
-
-<snip>
-
-1. https://lore.kernel.org/linux-renesas-soc/ZVzbigCtv2q_2-Bx@oden.dyn.berto.se/
-
+diff --git a/drivers/net/dsa/rzn1_a5psw.c b/drivers/net/dsa/rzn1_a5psw.c
+index 10092ea85e46..92e032972b34 100644
+--- a/drivers/net/dsa/rzn1_a5psw.c
++++ b/drivers/net/dsa/rzn1_a5psw.c
+@@ -239,23 +239,31 @@ static void a5psw_phylink_get_caps(struct dsa_switch *ds, int port,
+ }
+ 
+ static struct phylink_pcs *
+-a5psw_phylink_mac_select_pcs(struct dsa_switch *ds, int port,
++a5psw_phylink_mac_select_pcs(struct phylink_config *config,
+ 			     phy_interface_t interface)
+ {
+-	struct dsa_port *dp = dsa_to_port(ds, port);
+-	struct a5psw *a5psw = ds->priv;
++	struct dsa_port *dp = dsa_phylink_to_port(config);
++	struct a5psw *a5psw = dp->ds->priv;
+ 
+-	if (!dsa_port_is_cpu(dp) && a5psw->pcs[port])
+-		return a5psw->pcs[port];
++	if (dsa_port_is_cpu(dp))
++		return NULL;
+ 
+-	return NULL;
++	return a5psw->pcs[dp->index];
++}
++
++static void a5psw_phylink_mac_config(struct phylink_config *config,
++				     unsigned int mode,
++				     const struct phylink_link_state *state)
++{
+ }
+ 
+-static void a5psw_phylink_mac_link_down(struct dsa_switch *ds, int port,
++static void a5psw_phylink_mac_link_down(struct phylink_config *config,
+ 					unsigned int mode,
+ 					phy_interface_t interface)
+ {
+-	struct a5psw *a5psw = ds->priv;
++	struct dsa_port *dp = dsa_phylink_to_port(config);
++	struct a5psw *a5psw = dp->ds->priv;
++	int port = dp->index;
+ 	u32 cmd_cfg;
+ 
+ 	cmd_cfg = a5psw_reg_readl(a5psw, A5PSW_CMD_CFG(port));
+@@ -263,15 +271,17 @@ static void a5psw_phylink_mac_link_down(struct dsa_switch *ds, int port,
+ 	a5psw_reg_writel(a5psw, A5PSW_CMD_CFG(port), cmd_cfg);
+ }
+ 
+-static void a5psw_phylink_mac_link_up(struct dsa_switch *ds, int port,
++static void a5psw_phylink_mac_link_up(struct phylink_config *config,
++				      struct phy_device *phydev,
+ 				      unsigned int mode,
+ 				      phy_interface_t interface,
+-				      struct phy_device *phydev, int speed,
+-				      int duplex, bool tx_pause, bool rx_pause)
++				      int speed, int duplex, bool tx_pause,
++				      bool rx_pause)
+ {
+ 	u32 cmd_cfg = A5PSW_CMD_CFG_RX_ENA | A5PSW_CMD_CFG_TX_ENA |
+ 		      A5PSW_CMD_CFG_TX_CRC_APPEND;
+-	struct a5psw *a5psw = ds->priv;
++	struct dsa_port *dp = dsa_phylink_to_port(config);
++	struct a5psw *a5psw = dp->ds->priv;
+ 
+ 	if (speed == SPEED_1000)
+ 		cmd_cfg |= A5PSW_CMD_CFG_ETH_SPEED;
+@@ -284,7 +294,7 @@ static void a5psw_phylink_mac_link_up(struct dsa_switch *ds, int port,
+ 	if (!rx_pause)
+ 		cmd_cfg &= ~A5PSW_CMD_CFG_PAUSE_IGNORE;
+ 
+-	a5psw_reg_writel(a5psw, A5PSW_CMD_CFG(port), cmd_cfg);
++	a5psw_reg_writel(a5psw, A5PSW_CMD_CFG(dp->index), cmd_cfg);
+ }
+ 
+ static int a5psw_set_ageing_time(struct dsa_switch *ds, unsigned int msecs)
+@@ -992,15 +1002,19 @@ static int a5psw_setup(struct dsa_switch *ds)
+ 	return 0;
+ }
+ 
++static const struct phylink_mac_ops a5psw_phylink_mac_ops = {
++	.mac_select_pcs = a5psw_phylink_mac_select_pcs,
++	.mac_config = a5psw_phylink_mac_config,
++	.mac_link_down = a5psw_phylink_mac_link_down,
++	.mac_link_up = a5psw_phylink_mac_link_up,
++};
++
+ static const struct dsa_switch_ops a5psw_switch_ops = {
+ 	.get_tag_protocol = a5psw_get_tag_protocol,
+ 	.setup = a5psw_setup,
+ 	.port_disable = a5psw_port_disable,
+ 	.port_enable = a5psw_port_enable,
+ 	.phylink_get_caps = a5psw_phylink_get_caps,
+-	.phylink_mac_select_pcs = a5psw_phylink_mac_select_pcs,
+-	.phylink_mac_link_down = a5psw_phylink_mac_link_down,
+-	.phylink_mac_link_up = a5psw_phylink_mac_link_up,
+ 	.port_change_mtu = a5psw_port_change_mtu,
+ 	.port_max_mtu = a5psw_port_max_mtu,
+ 	.get_sset_count = a5psw_get_sset_count,
+@@ -1252,6 +1266,7 @@ static int a5psw_probe(struct platform_device *pdev)
+ 	ds->dev = dev;
+ 	ds->num_ports = A5PSW_PORTS_NUM;
+ 	ds->ops = &a5psw_switch_ops;
++	ds->phylink_mac_ops = &a5psw_phylink_mac_ops;
+ 	ds->priv = a5psw;
+ 
+ 	ret = dsa_register_switch(ds);
 -- 
-Kind Regards,
-Niklas Söderlund
+2.30.2
+
 
