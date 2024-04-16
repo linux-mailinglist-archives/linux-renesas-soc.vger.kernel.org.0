@@ -1,341 +1,223 @@
-Return-Path: <linux-renesas-soc+bounces-4629-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-4630-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B75AB8A5DE8
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Apr 2024 00:55:33 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D41EF8A5F25
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Apr 2024 02:18:44 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A97EF1C20B52
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 15 Apr 2024 22:55:32 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 89B692816B4
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Apr 2024 00:18:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 74EF91581E2;
-	Mon, 15 Apr 2024 22:55:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4C929386;
+	Tue, 16 Apr 2024 00:18:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="CHbuCJWH"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KZ7gvXY9"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 809B637163;
-	Mon, 15 Apr 2024 22:55:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FBD536E
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 16 Apr 2024 00:18:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713221728; cv=none; b=UeryxojHvdy6br3WVBxLsYTLFHFyGNNkNmlzcUyiu8JfbWUngxeUpD/mW3YAb1Q3iPX5e+CtgW5cZZVAKNvgzX4R7/cZbFfMmk2rfUSZPWOJ07kjVg+528mX6kROGQU0Q1OCNLpq4KDXlZbMvedEGRfb9VN8wr3KeiQj/bqdcc0=
+	t=1713226721; cv=none; b=B5AuIk8dV76uNK9srCpKL0tVGDm7JqGyV+1RQpdaMUJPe7qN8V8hW94LLsymcjv+H4rVClOculfWjC+Xw2NVyfr3UL/Io8DmRpnw/8svMIt5ZXkMvRK0I6g9GUKfkCo2U+kGii1bhqukSOIsmwEeSK9e+uFSlOECUo8ZzWkFws8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713221728; c=relaxed/simple;
-	bh=vNrWg79zp8E9Gy10UqKJrgchk27U7xmOVr++0im7i1c=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uFf6yueyElKTKFjgyvvc/uDeopfpMJQKxcdHBOguZ8nUJlufoItKu7H0AdyKkEgo0SPhZudE0mrQh1iINXDjRmSmEwbcejLOhrPChZ4WGHODXyfGYU5gOY2Tv3v7Z5nmqCfGOjqe+1Q6/S1DaYyoe7RgxjWM2rBxp/62prrUwAY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=CHbuCJWH; arc=none smtp.client-ip=156.67.10.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=eahv/bklwljDptMn1vlz60ty2xXz5774rXfatfdTHfI=; b=CHbuCJWHxLTd954WWlWQbHeXnZ
-	Gr8gMM/HN/ZsbGlSIyPU7ynh9Pd6PsloQQDWMhkYWVxE8JMa9r/wdY0lynnQj4/u5Xci8Js7oJP46
-	WIBdo0WWsIPoIQJcJHsGZ51l9TsWhpi6YGh0y7aBKAYDeGkxMWtjIioH2PmHIZAL2pWw=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1rwVEG-00D59n-9K; Tue, 16 Apr 2024 00:55:12 +0200
-Date: Tue, 16 Apr 2024 00:55:12 +0200
-From: Andrew Lunn <andrew@lunn.ch>
-To: Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Cc: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [net-next] net: ethernet: rtsn: Add support for Renesas
- Ethernet-TSN
-Message-ID: <5fd25c58-b421-4ec0-8b4f-24f86f054a44@lunn.ch>
-References: <20240414135937.1139611-1-niklas.soderlund+renesas@ragnatech.se>
+	s=arc-20240116; t=1713226721; c=relaxed/simple;
+	bh=g+Yl3PHHsnf45botrqUGu19HcBGQkqLrKoPofuRvhHk=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=JHwFOOl5NnQSXwJQZN91ZM5TwNbNEb5L3y1hEYdyiOFJqJgYYVnuLCN9Djp3bO01d5cWKVcDI/F+GuWMrUs3f74zYVj2XEH/c9T49M82xd63McCe+Y4JA2MY3ydV2gTAXZnY/bioce9Vgdp4flhQvGVls5Ayj84U3SFu5wf5E+M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KZ7gvXY9; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1713226719; x=1744762719;
+  h=date:from:to:cc:subject:message-id;
+  bh=g+Yl3PHHsnf45botrqUGu19HcBGQkqLrKoPofuRvhHk=;
+  b=KZ7gvXY9I+xmnu5YVg1VGyeqM1gSEAlZNPZdPaYU9Yz48O0DAMRJdLiV
+   LTu3PCdZBf14SDnxNX7Y/0JqIGSGRsFEcRmq3+ACpLXBtmHvI9vLqEBtm
+   kBPG5k+XyTQYABvIpj4tvtybuaTaqEICq5VasCmcYuseLVMVDtt/NtU5m
+   kn1F3doZsg6nqb0xGiymUhoX6tfzoMDCGJvKEkOl9UCTdOhIFw75IFO+f
+   A3CEV8i1dmGhYtiGFtPCOFe5RmDlRofu7u6G9re0gpUnxobGhgLz3TZHP
+   uV6o2qRxDO3F2r59VjJnVhkC4Q/xIKlOTg3W9CVpEnZEqo4y6TRFGb3jy
+   w==;
+X-CSE-ConnectionGUID: 5V9d5TdKRx2eprm1jocMGQ==
+X-CSE-MsgGUID: puPQvmpsSdmE1IEJXQdXQQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11045"; a="8505789"
+X-IronPort-AV: E=Sophos;i="6.07,204,1708416000"; 
+   d="scan'208";a="8505789"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Apr 2024 17:18:38 -0700
+X-CSE-ConnectionGUID: UDNOQnpKQJ2yTKBRJTuY9w==
+X-CSE-MsgGUID: 21XAD7OFT86ue9PwcPaQ6g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,204,1708416000"; 
+   d="scan'208";a="22153739"
+Received: from unknown (HELO 23c141fc0fd8) ([10.239.97.151])
+  by fmviesa009.fm.intel.com with ESMTP; 15 Apr 2024 17:18:37 -0700
+Received: from kbuild by 23c141fc0fd8 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rwWWw-0004lA-2M;
+	Tue, 16 Apr 2024 00:18:34 +0000
+Date: Tue, 16 Apr 2024 08:18:06 +0800
+From: kernel test robot <lkp@intel.com>
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: linux-renesas-soc@vger.kernel.org
+Subject: [geert-renesas-devel:renesas-dts-for-v6.10] BUILD SUCCESS
+ 412f2224b3b63f3d553aa82b54f762245acd4398
+Message-ID: <202404160803.nAVIj7iU-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240414135937.1139611-1-niklas.soderlund+renesas@ragnatech.se>
 
-> +static int rtsn_get_phy_params(struct rtsn_private *priv)
-> +{
-> +	struct device_node *np = priv->ndev->dev.parent->of_node;
-> +
-> +	of_get_phy_mode(np, &priv->iface);
-> +	switch (priv->iface) {
-> +	case PHY_INTERFACE_MODE_MII:
-> +		priv->speed = 100;
-> +		break;
-> +	case PHY_INTERFACE_MODE_RGMII:
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git renesas-dts-for-v6.10
+branch HEAD: 412f2224b3b63f3d553aa82b54f762245acd4398  arm64: dts: renesas: s4sk: Fix ethernet0 alias
 
-There are 4 different RGMII modes, and you probably should be using
-PHY_INTERFACE_MODE_RGMII_ID with the PHY. So you should list them all
-here.
+elapsed time: 728m
 
-> +		priv->speed = 1000;
-> +		break;
-> +	default:
-> +		return -EOPNOTSUPP;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static void rtsn_set_phy_interface(struct rtsn_private *priv)
-> +{
-> +	u32 val;
-> +
-> +	switch (priv->iface) {
-> +	case PHY_INTERFACE_MODE_MII:
-> +		val = MPIC_PIS_MII;
-> +		break;
-> +	case PHY_INTERFACE_MODE_RGMII:
+configs tested: 130
+configs skipped: 3
 
-And here.
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-> +		val = MPIC_PIS_GMII;
-> +		break;
-> +	default:
-> +		return;
-> +	}
-> +
-> +	rtsn_modify(priv, MPIC, MPIC_PIS_MASK, val);
-> +}
-> +
-> +static void rtsn_set_delay_mode(struct rtsn_private *priv)
-> +{
-> +	struct device_node *np = priv->ndev->dev.parent->of_node;
-> +	u32 delay;
-> +	u32 val;
-> +
-> +	val = 0;
-> +
-> +	/* Valid values are 0 and 1800, according to DT bindings */
+tested configs:
+alpha                             allnoconfig   gcc  
+alpha                            allyesconfig   gcc  
+alpha                               defconfig   gcc  
+arc                              allmodconfig   gcc  
+arc                               allnoconfig   gcc  
+arc                              allyesconfig   gcc  
+arc                                 defconfig   gcc  
+arc                   randconfig-001-20240416   gcc  
+arc                   randconfig-002-20240416   gcc  
+arm                              allmodconfig   gcc  
+arm                               allnoconfig   clang
+arm                              allyesconfig   gcc  
+arm                                 defconfig   clang
+arm                           imxrt_defconfig   clang
+arm                            mmp2_defconfig   gcc  
+arm                           omap1_defconfig   gcc  
+arm                         orion5x_defconfig   clang
+arm                             pxa_defconfig   gcc  
+arm                   randconfig-001-20240416   clang
+arm                   randconfig-002-20240416   clang
+arm                   randconfig-003-20240416   gcc  
+arm                   randconfig-004-20240416   clang
+arm64                            allmodconfig   clang
+arm64                             allnoconfig   gcc  
+arm64                               defconfig   gcc  
+arm64                 randconfig-001-20240416   gcc  
+arm64                 randconfig-002-20240416   clang
+arm64                 randconfig-003-20240416   gcc  
+arm64                 randconfig-004-20240416   gcc  
+csky                             allmodconfig   gcc  
+csky                              allnoconfig   gcc  
+csky                             allyesconfig   gcc  
+csky                                defconfig   gcc  
+csky                  randconfig-001-20240416   gcc  
+csky                  randconfig-002-20240416   gcc  
+hexagon                          allmodconfig   clang
+hexagon                           allnoconfig   clang
+hexagon                          allyesconfig   clang
+hexagon                             defconfig   clang
+i386                             allmodconfig   gcc  
+i386                              allnoconfig   gcc  
+i386                             allyesconfig   gcc  
+i386         buildonly-randconfig-001-20240415   clang
+i386         buildonly-randconfig-002-20240415   gcc  
+i386         buildonly-randconfig-003-20240415   gcc  
+i386         buildonly-randconfig-004-20240415   gcc  
+i386         buildonly-randconfig-005-20240415   gcc  
+i386         buildonly-randconfig-006-20240415   clang
+i386                                defconfig   clang
+i386                  randconfig-001-20240415   gcc  
+i386                  randconfig-002-20240415   clang
+i386                  randconfig-003-20240415   gcc  
+i386                  randconfig-004-20240415   gcc  
+i386                  randconfig-005-20240415   gcc  
+i386                  randconfig-006-20240415   clang
+i386                  randconfig-011-20240415   gcc  
+i386                  randconfig-012-20240415   clang
+i386                  randconfig-013-20240415   gcc  
+i386                  randconfig-014-20240415   gcc  
+i386                  randconfig-015-20240415   gcc  
+i386                  randconfig-016-20240415   gcc  
+loongarch                        allmodconfig   gcc  
+loongarch                         allnoconfig   gcc  
+loongarch                           defconfig   gcc  
+m68k                             allmodconfig   gcc  
+m68k                              allnoconfig   gcc  
+m68k                             allyesconfig   gcc  
+m68k                                defconfig   gcc  
+microblaze                       allmodconfig   gcc  
+microblaze                        allnoconfig   gcc  
+microblaze                       allyesconfig   gcc  
+microblaze                          defconfig   gcc  
+mips                              allnoconfig   gcc  
+mips                             allyesconfig   gcc  
+mips                            gpr_defconfig   clang
+mips                           jazz_defconfig   clang
+mips                         rt305x_defconfig   clang
+nios2                            allmodconfig   gcc  
+nios2                             allnoconfig   gcc  
+nios2                            allyesconfig   gcc  
+nios2                               defconfig   gcc  
+openrisc                          allnoconfig   gcc  
+openrisc                         allyesconfig   gcc  
+openrisc                            defconfig   gcc  
+parisc                           allmodconfig   gcc  
+parisc                            allnoconfig   gcc  
+parisc                           allyesconfig   gcc  
+parisc                              defconfig   gcc  
+parisc64                            defconfig   gcc  
+powerpc                    adder875_defconfig   gcc  
+powerpc                          allmodconfig   gcc  
+powerpc                           allnoconfig   gcc  
+powerpc                          allyesconfig   clang
+powerpc                     ep8248e_defconfig   gcc  
+powerpc                       maple_defconfig   clang
+powerpc                  storcenter_defconfig   gcc  
+powerpc                     taishan_defconfig   clang
+powerpc                     tqm5200_defconfig   gcc  
+powerpc                     tqm8555_defconfig   clang
+riscv                            allmodconfig   clang
+riscv                             allnoconfig   gcc  
+riscv                            allyesconfig   clang
+riscv                               defconfig   clang
+s390                             allmodconfig   clang
+s390                              allnoconfig   clang
+s390                             allyesconfig   gcc  
+s390                                defconfig   clang
+sh                               allmodconfig   gcc  
+sh                                allnoconfig   gcc  
+sh                               allyesconfig   gcc  
+sh                                  defconfig   gcc  
+sh                          r7785rp_defconfig   gcc  
+sparc                            allmodconfig   gcc  
+sparc                             allnoconfig   gcc  
+sparc                               defconfig   gcc  
+sparc64                          allmodconfig   gcc  
+sparc64                          allyesconfig   gcc  
+sparc64                             defconfig   gcc  
+um                               allmodconfig   clang
+um                                allnoconfig   clang
+um                               allyesconfig   gcc  
+um                                  defconfig   clang
+um                             i386_defconfig   gcc  
+um                           x86_64_defconfig   clang
+x86_64                            allnoconfig   clang
+x86_64                           allyesconfig   clang
+x86_64                              defconfig   gcc  
+x86_64                          rhel-8.3-rust   clang
+xtensa                            allnoconfig   gcc  
+xtensa                       common_defconfig   gcc  
 
-The bindings should not matter. It is what the hardware supports. The
-bindings should match the hardware, since it is hard to modify the
-hardware to make it match the binding.
-
-> +	if (!of_property_read_u32(np, "rx-internal-delay-ps", &delay))
-> +		if (delay)
-> +			val |= GPOUT_RDM;
-> +
-> +	/* Valid values are 0 and 2000, according to DT bindings */
-> +	if (!of_property_read_u32(np, "tx-internal-delay-ps", &delay))
-> +		if (delay)
-> +			val |= GPOUT_TDM;
-> +
-> +	rtsn_write(priv, GPOUT, val);
-
-So you seem to be using it as bool? That is wrong. It is a number of
-pico seconds!
-
-> +static int rtsn_mii_access_indirect(struct mii_bus *bus, bool read, int phyad,
-> +				    int devnum, int regnum, u16 data)
-> +{
-> +	int ret;
-> +
-> +	ret = rtsn_mii_access(bus, false, phyad, MII_MMD_CTRL, devnum);
-> +	if (ret)
-> +		return ret;
-> +
-> +	ret = rtsn_mii_access(bus, false, phyad, MII_MMD_DATA, regnum);
-> +	if (ret)
-> +		return ret;
-> +
-> +	ret = rtsn_mii_access(bus, false, phyad, MII_MMD_CTRL,
-> +			      devnum | MII_MMD_CTRL_NOINCR);
-
-This looks to be C45 over C22. phylib core knows how to do this, since
-it should be the same for all PHYs which implement C45 over C22. So
-there is no need for you to implement it again.
-
-> +static int rtsn_mii_register(struct rtsn_private *priv)
-> +{
-> +	struct platform_device *pdev = priv->pdev;
-> +	struct device *dev = &pdev->dev;
-> +	struct device_node *mdio_node;
-> +	struct mii_bus *mii;
-> +	int ret;
-> +
-> +	mii = mdiobus_alloc();
-> +	if (!mii)
-> +		return -ENOMEM;
-> +
-> +	mdio_node = of_get_child_by_name(dev->of_node, "mdio");
-> +	if (!mdio_node) {
-> +		ret = -ENODEV;
-> +		goto out_free_bus;
-> +	};
-> +
-> +	mii->name = "rtsn_mii";
-> +	sprintf(mii->id, "%s-%x", pdev->name, pdev->id);
-> +	mii->priv = priv;
-> +	mii->read = rtsn_mii_read;
-> +	mii->write = rtsn_mii_write;
-> +	mii->read_c45 = rtsn_mii_read_c45;
-> +	mii->write_c45 = rtsn_mii_write_c45;
-
-Just leave these two empty, and the core will do C45 over C22 for you.
-
-> +static void rtsn_phy_deinit(struct rtsn_private *priv)
-> +{
-> +	phy_stop(priv->ndev->phydev);
-
-I would normally expect rtsn_phy_init() and rtsn_phy_deinit() to be
-mirrors. You don't call phy_start() in rtsn_phy_init(), so why do you
-call phy_stop() here? It probably should be somewhere else.
-
-> +	phy_disconnect(priv->ndev->phydev);
-> +	priv->ndev->phydev = NULL;
-> +}
-
-
-> +static int rtsn_open(struct net_device *ndev)
-> +{
-> +	struct rtsn_private *priv = netdev_priv(ndev);
-> +	int ret;
-> +
-> +	napi_enable(&priv->napi);
-> +
-> +	ret = rtsn_init(priv);
-> +	if (ret) {
-> +		napi_disable(&priv->napi);
-> +		return ret;
-> +	}
-> +
-> +	phy_start(ndev->phydev);
-> +
-> +	netif_start_queue(ndev);
-> +
-> +	return 0;
-> +}
-> +
-> +static int rtsn_stop(struct net_device *ndev)
-> +{
-> +	struct rtsn_private *priv = netdev_priv(ndev);
-
-This is probably where your phy_stop() belongs.
-
-> +
-> +	napi_disable(&priv->napi);
-> +	rtsn_change_mode(priv, OCR_OPC_DISABLE);
-> +	rtsn_deinit(priv);
-> +
-> +	return 0;
-> +}
-
-> +
-> +static int rtsn_do_ioctl(struct net_device *ndev, struct ifreq *req, int cmd)
-> +{
-> +	if (!netif_running(ndev))
-> +		return -EINVAL;
-> +
-> +	switch (cmd) {
-> +	case SIOCGHWTSTAMP:
-> +		return rtsn_hwstamp_get(ndev, req);
-> +	case SIOCSHWTSTAMP:
-> +		return rtsn_hwstamp_set(ndev, req);
-> +	default:
-> +		break;
-> +	}
-> +
-> +	return 0;
-
-Call phy_do_ioctl() rather than return 0. That allows the PHY driver
-to handle its IOCTLs.
-
-> +static int rtsn_probe(struct platform_device *pdev)
-> +{
-> +	struct rtsn_private *priv;
-> +	struct net_device *ndev;
-> +	struct resource *res;
-> +	int ret;
-> +
-> +	ndev = alloc_etherdev_mqs(sizeof(struct rtsn_private), TX_NUM_CHAINS,
-> +				  RX_NUM_CHAINS);
-> +	if (!ndev)
-> +		return -ENOMEM;
-> +
-> +	priv = netdev_priv(ndev);
-> +	priv->pdev = pdev;
-> +	priv->ndev = ndev;
-> +	priv->ptp_priv = rcar_gen4_ptp_alloc(pdev);
-> +
-> +	spin_lock_init(&priv->lock);
-> +	platform_set_drvdata(pdev, priv);
-> +
-> +	priv->clk = devm_clk_get(&pdev->dev, NULL);
-> +	if (IS_ERR(priv->clk)) {
-> +		ret = -PTR_ERR(priv->clk);
-> +		goto error_alloc;
-> +	}
-> +
-> +	priv->reset = devm_reset_control_get(&pdev->dev, NULL);
-> +	if (IS_ERR(priv->reset)) {
-> +		ret = -PTR_ERR(priv->reset);
-> +		goto error_alloc;
-> +	}
-> +
-> +	res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "tsnes");
-> +	if (!res) {
-> +		dev_err(&pdev->dev, "Can't find tsnes resource\n");
-> +		ret = -EINVAL;
-> +		goto error_alloc;
-> +	}
-> +
-> +	priv->base = devm_ioremap_resource(&pdev->dev, res);
-> +	if (IS_ERR(priv->base)) {
-> +		ret = PTR_ERR(priv->base);
-> +		goto error_alloc;
-> +	}
-> +
-> +	SET_NETDEV_DEV(ndev, &pdev->dev);
-> +	ether_setup(ndev);
-> +
-> +	ndev->features = NETIF_F_RXCSUM;
-> +	ndev->hw_features = NETIF_F_RXCSUM;
-> +	ndev->base_addr = res->start;
-> +	ndev->netdev_ops = &rtsn_netdev_ops;
-> +	ndev->ethtool_ops = &rtsn_ethtool_ops;
-> +
-> +	res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "gptp");
-> +	if (!res) {
-> +		dev_err(&pdev->dev, "Can't find gptp resource\n");
-> +		ret = -EINVAL;
-> +		goto error_alloc;
-> +	}
-> +	priv->ptp_priv->addr = devm_ioremap_resource(&pdev->dev, res);
-> +	if (IS_ERR(priv->ptp_priv->addr)) {
-> +		ret = -PTR_ERR(priv->ptp_priv->addr);
-> +		goto error_alloc;
-> +	}
-> +
-> +	pm_runtime_enable(&pdev->dev);
-> +	pm_runtime_get_sync(&pdev->dev);
-> +
-> +	netif_napi_add(ndev, &priv->napi, rtsn_poll);
-> +
-> +	rtsn_parse_mac_address(pdev->dev.of_node, ndev);
-> +
-> +	ret = register_netdev(ndev);
-> +	if (ret)
-> +		goto error_pm;
-> +
-> +	dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(32));
-
-You need to be careful what you put after register_netdev(). The
-kernel can be sending packets before register_netdev() even
-returns. This can happen with NFS root, when the kernel will
-immediately try to mount the root file system. Is it safe to handle
-packets with the DMA mask set wrong?
-
-	Andrew
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
