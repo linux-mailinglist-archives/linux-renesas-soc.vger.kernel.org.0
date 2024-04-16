@@ -1,55 +1,57 @@
-Return-Path: <linux-renesas-soc+bounces-4657-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-4658-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09E3E8A6F34
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Apr 2024 17:01:48 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 239608A6F67
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Apr 2024 17:12:00 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BA2F0284C89
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Apr 2024 15:01:46 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id CE3181F2217B
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Apr 2024 15:11:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D20AD12FF64;
-	Tue, 16 Apr 2024 15:01:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5811013049C;
+	Tue, 16 Apr 2024 15:11:55 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from xavier.telenet-ops.be (xavier.telenet-ops.be [195.130.132.52])
+Received: from michel.telenet-ops.be (michel.telenet-ops.be [195.130.137.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3836A130498
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 16 Apr 2024 15:00:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.132.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70BF512F5BE
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 16 Apr 2024 15:11:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.137.88
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713279660; cv=none; b=B9aE7b5HHk/WFSFdcm7Xc26Z9MYEg0VSVDDuPBLXX7ZrMUP1mFSVG/TGDV3OXfcorqM+zCb1LU06hue60UC/R9zEriShQ4SqvN4fxUWxduQ1KBuYnH/WPWfiCLXck0hkVua1iPZs1q+3e/MZ3azjdgJWSlZZoPy+1NSVZQq5ICo=
+	t=1713280315; cv=none; b=V48yJe+Uh/9k1ma8S86pZsnzXJG0CFcRPDoP2OLmk2VdL5gKmZC2bS2wBdfWCMICdeR8xtjIP7DktKcGwAyV69tck4cYE+44BtQhjdw8YCDz28AAho9QQ9ZtggkMpbQ8wyTLAYi1MxU1i/PrmPveIyIBXRmlpbhShKWclVBX8BQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713279660; c=relaxed/simple;
-	bh=rC4TZ+Yu2Hn9H86guASuDbkqI7ZUFC6k6DwHVL+T+Lc=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=eUqyyfjp7p2A3gpd/SZfMEQHLrM7YYNDsRPzW/at+SzvNRWKrdG6ni913tGj4bW9zy7pDGJncEEpkR20xXhHVXLHqOawp1szMGYZY0i11DDn3c4OkjKzZenl7qv7PVhQ2WzgY5eK8yn2AfCboYhL4HXADbIYYz7/8ZN9sr549aM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.132.52
+	s=arc-20240116; t=1713280315; c=relaxed/simple;
+	bh=4i9DUqbUmi5G2UyjqfPTTv3swrA0F4CllH4pCopYeRg=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=UvQ7baRBvd4UGMiyLvJbqGHRKGYsgi2wK724YK/SUdXQursHY16tuNBOeTItnT56AsM43DCaaxQpQv1lgWaiUI5yyf9Ox8FFYoAbb/O1QvdVCbNuagQ75bpJOWFS0QjhZswT4KXswunAgbNrH6JPe0VCMb7/alozxsOJLZwQBD4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.137.88
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
 Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed80:76d0:2bff:fec8:549])
-	by xavier.telenet-ops.be with bizsmtp
-	id Br0t2C00K0SSLxL01r0tPs; Tue, 16 Apr 2024 17:00:53 +0200
+	by michel.telenet-ops.be with bizsmtp
+	id BrBq2C00Q0SSLxL06rBqVq; Tue, 16 Apr 2024 17:11:50 +0200
 Received: from rox.of.borg ([192.168.97.57])
 	by ramsan.of.borg with esmtp (Exim 4.95)
 	(envelope-from <geert@linux-m68k.org>)
-	id 1rwkID-008DAo-Nj;
-	Tue, 16 Apr 2024 17:00:53 +0200
+	id 1rwkSo-008EY4-VG;
+	Tue, 16 Apr 2024 17:11:50 +0200
 Received: from geert by rox.of.borg with local (Exim 4.95)
 	(envelope-from <geert@linux-m68k.org>)
-	id 1rwkIn-00Eb7v-3V;
-	Tue, 16 Apr 2024 17:00:53 +0200
+	id 1rwkTO-00EbHw-Cx;
+	Tue, 16 Apr 2024 17:11:50 +0200
 From: Geert Uytterhoeven <geert+renesas@glider.be>
-To: Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Ulrich Hecht <uli+renesas@fpond.eu>
-Cc: linux-renesas-soc@vger.kernel.org,
-	linux-clk@vger.kernel.org,
+To: Mark Brown <broonie@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>
+Cc: linux-spi@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
 	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH] clk: renesas: r8a779a0: Fix CANFD parent clock
-Date: Tue, 16 Apr 2024 17:00:51 +0200
-Message-Id: <aef9300f44c9141b1465343f91c5cc7303249b6e.1713279523.git.geert+renesas@glider.be>
+Subject: [PATCH dt-bindings] spi: renesas,sh-msiof: Add r8a779h0 support
+Date: Tue, 16 Apr 2024 17:11:48 +0200
+Message-Id: <68a4d8ad8638c1133e21d0eef87e8982ddea3dd8.1713279687.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
@@ -57,37 +59,28 @@ List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-According to Figure 52A.1 ("RS-CANFD Module Block Diagram (in classical
-CAN mode)") in the R-Car V3U Series User’s Manual Rev. 0.5, the parent
-clock for the CANFD peripheral module clock is the S3D2 clock.
+Document support for the Clock-Synchronized Serial Interface with FIFO
+(MSIOF) in the Renesas R-Car V4M (R8A779H0) SoC.
 
-Fixes: 9b621b6adff53346 ("clk: renesas: r8a779a0: Add CANFD module clock")
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
-Untested, but the rcar_canfd driver does not use the clock rate of this
-clock.
+ Documentation/devicetree/bindings/spi/renesas,sh-msiof.yaml | 1 +
+ 1 file changed, 1 insertion(+)
 
-To be queued in renesas-clk for v6.10.
-
- drivers/clk/renesas/r8a779a0-cpg-mssr.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/clk/renesas/r8a779a0-cpg-mssr.c b/drivers/clk/renesas/r8a779a0-cpg-mssr.c
-index 4c2872f45387ff91..ff3f85e906fe17e1 100644
---- a/drivers/clk/renesas/r8a779a0-cpg-mssr.c
-+++ b/drivers/clk/renesas/r8a779a0-cpg-mssr.c
-@@ -139,7 +139,7 @@ static const struct mssr_mod_clk r8a779a0_mod_clks[] __initconst = {
- 	DEF_MOD("avb3",		214,	R8A779A0_CLK_S3D2),
- 	DEF_MOD("avb4",		215,	R8A779A0_CLK_S3D2),
- 	DEF_MOD("avb5",		216,	R8A779A0_CLK_S3D2),
--	DEF_MOD("canfd0",	328,	R8A779A0_CLK_CANFD),
-+	DEF_MOD("canfd0",	328,	R8A779A0_CLK_S3D2),
- 	DEF_MOD("csi40",	331,	R8A779A0_CLK_CSI0),
- 	DEF_MOD("csi41",	400,	R8A779A0_CLK_CSI0),
- 	DEF_MOD("csi42",	401,	R8A779A0_CLK_CSI0),
+diff --git a/Documentation/devicetree/bindings/spi/renesas,sh-msiof.yaml b/Documentation/devicetree/bindings/spi/renesas,sh-msiof.yaml
+index 00acbbb0f65dcf57..49649fc3f95af971 100644
+--- a/Documentation/devicetree/bindings/spi/renesas,sh-msiof.yaml
++++ b/Documentation/devicetree/bindings/spi/renesas,sh-msiof.yaml
+@@ -54,6 +54,7 @@ properties:
+               - renesas,msiof-r8a779a0      # R-Car V3U
+               - renesas,msiof-r8a779f0      # R-Car S4-8
+               - renesas,msiof-r8a779g0      # R-Car V4H
++              - renesas,msiof-r8a779h0      # R-Car V4M
+           - const: renesas,rcar-gen4-msiof  # generic R-Car Gen4
+                                             # compatible device
+       - items:
 -- 
 2.34.1
 
