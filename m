@@ -1,57 +1,54 @@
-Return-Path: <linux-renesas-soc+bounces-4658-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-4659-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 239608A6F67
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Apr 2024 17:12:00 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DB418A6F80
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Apr 2024 17:17:11 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id CE3181F2217B
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Apr 2024 15:11:59 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1A9C22848A8
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Apr 2024 15:17:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5811013049C;
-	Tue, 16 Apr 2024 15:11:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1AF5B130491;
+	Tue, 16 Apr 2024 15:16:50 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from michel.telenet-ops.be (michel.telenet-ops.be [195.130.137.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70BF512F5BE
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 16 Apr 2024 15:11:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 797D6130A43
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 16 Apr 2024 15:16:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.137.88
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713280315; cv=none; b=V48yJe+Uh/9k1ma8S86pZsnzXJG0CFcRPDoP2OLmk2VdL5gKmZC2bS2wBdfWCMICdeR8xtjIP7DktKcGwAyV69tck4cYE+44BtQhjdw8YCDz28AAho9QQ9ZtggkMpbQ8wyTLAYi1MxU1i/PrmPveIyIBXRmlpbhShKWclVBX8BQ=
+	t=1713280610; cv=none; b=m7MCsx9813qPhVZA2ZzfZx82AeE4GRPiZsz9qgP3W55UIeDYL/ORVQgZsms2nVmjpVi+kvtiaKFkkmO5Er+mC3ux6vJhDUKBpnAiNMptRXjByY0NvSzX9Yx2Ls84vG6/qyx95SUxUOKapDdLDyHE28nDjiGGURB8HqyeGS+pxlk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713280315; c=relaxed/simple;
-	bh=4i9DUqbUmi5G2UyjqfPTTv3swrA0F4CllH4pCopYeRg=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=UvQ7baRBvd4UGMiyLvJbqGHRKGYsgi2wK724YK/SUdXQursHY16tuNBOeTItnT56AsM43DCaaxQpQv1lgWaiUI5yyf9Ox8FFYoAbb/O1QvdVCbNuagQ75bpJOWFS0QjhZswT4KXswunAgbNrH6JPe0VCMb7/alozxsOJLZwQBD4=
+	s=arc-20240116; t=1713280610; c=relaxed/simple;
+	bh=nX24++Y/SpRn/H8pwQbhV7LIRud/WSkCXVAgXdCiryQ=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Q6BeW1Xig+5Tc/xlCHC5GQHcSElE4T2u8LLbEMii+3icFr5sH+gzV1aGkagtJx5EyW99Sd2Zrq5ffmxZoBCxl/ygCEMTkU8NsyeOY8fQ9ItlegNVHisi95gSFNMRFMurRpwfDBtShipJo9FlWpI75dks90JaCjNncruLFOMyjUc=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.137.88
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
 Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed80:76d0:2bff:fec8:549])
 	by michel.telenet-ops.be with bizsmtp
-	id BrBq2C00Q0SSLxL06rBqVq; Tue, 16 Apr 2024 17:11:50 +0200
+	id BrGl2C0080SSLxL06rGlTD; Tue, 16 Apr 2024 17:16:45 +0200
 Received: from rox.of.borg ([192.168.97.57])
 	by ramsan.of.borg with esmtp (Exim 4.95)
 	(envelope-from <geert@linux-m68k.org>)
-	id 1rwkSo-008EY4-VG;
-	Tue, 16 Apr 2024 17:11:50 +0200
+	id 1rwkXZ-008FA9-PR;
+	Tue, 16 Apr 2024 17:16:45 +0200
 Received: from geert by rox.of.borg with local (Exim 4.95)
 	(envelope-from <geert@linux-m68k.org>)
-	id 1rwkTO-00EbHw-Cx;
-	Tue, 16 Apr 2024 17:11:50 +0200
+	id 1rwkY9-00EbMz-51;
+	Tue, 16 Apr 2024 17:16:45 +0200
 From: Geert Uytterhoeven <geert+renesas@glider.be>
-To: Mark Brown <broonie@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>
+To: Mark Brown <broonie@kernel.org>
 Cc: linux-spi@vger.kernel.org,
-	devicetree@vger.kernel.org,
 	linux-renesas-soc@vger.kernel.org,
-	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH dt-bindings] spi: renesas,sh-msiof: Add r8a779h0 support
-Date: Tue, 16 Apr 2024 17:11:48 +0200
-Message-Id: <68a4d8ad8638c1133e21d0eef87e8982ddea3dd8.1713279687.git.geert+renesas@glider.be>
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Subject: [PATCH] spi: sh-msiof: Remove unneeded compatible values
+Date: Tue, 16 Apr 2024 17:16:43 +0200
+Message-Id: <f7746870b392197d176c492d174599e025dd3af8.1713280353.git.geert+renesas@glider.be>
 X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
@@ -61,26 +58,62 @@ List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Document support for the Clock-Synchronized Serial Interface with FIFO
-(MSIOF) in the Renesas R-Car V4M (R8A779H0) SoC.
+The Clock-Synchronized Serial Interfaces with FIFO (MSIOF) driver
+matches against both SoC-specific and family-specific compatible values
+to maintain backwards-compatibility with old DTBs predating the
+introduction of the family-specific compatible values.
 
+For RZ/G1, the SoC-specific compatible match entry can be removed from
+the driver: their DT always had the family-specific compatible values,
+and thus there was never a need to add the SoC-specific compatible
+values to the driver.
+
+For R-Car Gen2 and M3-W, the SoC-specific compatible match entries can
+be removed, too, as there are a few points in time where DT
+backwards-compatibility was broken for other reasons:
+  - Legacy DT clock support is no longer supported since commit
+    58256143cff7c2e0 ("clk: renesas: Remove R-Car Gen2 legacy DT clock
+    support") in v5.5, and the addition of "renesas,rcar-gen2-msiof" to
+    DTS in v4.11 predates the completion of the clock conversion in
+    v4.15,
+  - Legacy DT LVDS support is no longer supported since commit
+    841281fe52a769fe ("drm: rcar-du: Drop LVDS device tree backward
+    compatibility") in v5.18, and the addition of
+    "renesas,rcar-gen3-msiof" in commit 8b51f97138ca22b6 ("arm64: dts:
+    r8a7796: Use R-Car Gen 3 fallback binding for msiof nodes") in v4.11
+    predates the LVDS conversion in commit 58e8ed2ee9abe718 ("arm64:
+    dts: renesas: Convert to new LVDS DT bindings") in v4.20.
+
+For R-Car H3, the SoC-specific compatible match entry cannot be removed,
+as its purpose is to handle an SoC-specific quirk.
+
+Suggested-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
- Documentation/devicetree/bindings/spi/renesas,sh-msiof.yaml | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/spi/spi-sh-msiof.c | 8 --------
+ 1 file changed, 8 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/spi/renesas,sh-msiof.yaml b/Documentation/devicetree/bindings/spi/renesas,sh-msiof.yaml
-index 00acbbb0f65dcf57..49649fc3f95af971 100644
---- a/Documentation/devicetree/bindings/spi/renesas,sh-msiof.yaml
-+++ b/Documentation/devicetree/bindings/spi/renesas,sh-msiof.yaml
-@@ -54,6 +54,7 @@ properties:
-               - renesas,msiof-r8a779a0      # R-Car V3U
-               - renesas,msiof-r8a779f0      # R-Car S4-8
-               - renesas,msiof-r8a779g0      # R-Car V4H
-+              - renesas,msiof-r8a779h0      # R-Car V4M
-           - const: renesas,rcar-gen4-msiof  # generic R-Car Gen4
-                                             # compatible device
-       - items:
+diff --git a/drivers/spi/spi-sh-msiof.c b/drivers/spi/spi-sh-msiof.c
+index 6f12e4fb2e2e184f..a10a2ae317c2825b 100644
+--- a/drivers/spi/spi-sh-msiof.c
++++ b/drivers/spi/spi-sh-msiof.c
+@@ -1087,16 +1087,8 @@ static const struct sh_msiof_chipdata rcar_r8a7795_data = {
+ 
+ static const struct of_device_id sh_msiof_match[] __maybe_unused = {
+ 	{ .compatible = "renesas,sh-mobile-msiof", .data = &sh_data },
+-	{ .compatible = "renesas,msiof-r8a7743",   .data = &rcar_gen2_data },
+-	{ .compatible = "renesas,msiof-r8a7745",   .data = &rcar_gen2_data },
+-	{ .compatible = "renesas,msiof-r8a7790",   .data = &rcar_gen2_data },
+-	{ .compatible = "renesas,msiof-r8a7791",   .data = &rcar_gen2_data },
+-	{ .compatible = "renesas,msiof-r8a7792",   .data = &rcar_gen2_data },
+-	{ .compatible = "renesas,msiof-r8a7793",   .data = &rcar_gen2_data },
+-	{ .compatible = "renesas,msiof-r8a7794",   .data = &rcar_gen2_data },
+ 	{ .compatible = "renesas,rcar-gen2-msiof", .data = &rcar_gen2_data },
+ 	{ .compatible = "renesas,msiof-r8a7795",   .data = &rcar_r8a7795_data },
+-	{ .compatible = "renesas,msiof-r8a7796",   .data = &rcar_gen3_data },
+ 	{ .compatible = "renesas,rcar-gen3-msiof", .data = &rcar_gen3_data },
+ 	{ .compatible = "renesas,rcar-gen4-msiof", .data = &rcar_gen3_data },
+ 	{ .compatible = "renesas,sh-msiof",        .data = &sh_data }, /* Deprecated */
 -- 
 2.34.1
 
