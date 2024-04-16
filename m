@@ -1,113 +1,128 @@
-Return-Path: <linux-renesas-soc+bounces-4637-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-4638-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F80B8A6976
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Apr 2024 13:15:26 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 46A338A69AF
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Apr 2024 13:36:15 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BCD28281ADB
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Apr 2024 11:15:24 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id D40EF1F21609
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Apr 2024 11:36:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4084A128828;
-	Tue, 16 Apr 2024 11:15:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F27FA1292F9;
+	Tue, 16 Apr 2024 11:36:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="oDdcfcIP"
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="RSaCR/kS"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com [209.85.219.171])
+Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF0061272DF
-	for <linux-renesas-soc@vger.kernel.org>; Tue, 16 Apr 2024 11:15:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60582127B4E
+	for <linux-renesas-soc@vger.kernel.org>; Tue, 16 Apr 2024 11:36:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713266121; cv=none; b=lH3TymNNx6NurBOIVe7wIJQbOAEHQUL/V18fToISpNeWpJkCzxl6+QWbsL0fVLIRutn6NY496CfYQ6knfz8OcXW5LjP+QjbHPodJSBVS3qoc2/3vmQqHHZXsfc8DwSu2rdHpUz8B8v6hM6xpKhlK6IH0rZGe3Q/s16HQXQ4843A=
+	t=1713267370; cv=none; b=rQ0104ZzUlhRs9OxEb0iv47aN7lOTaz04C0xwdXS3KWiNMjlWxdsoaXakj0IamWEZKRwVe419DsjvwzgV32hmVCeKuMYcCsJ1qfRGav/tHkggON2yR3gWqyaBWilXFs5xwk9Ts4m8zE+XdYj8RdIyO3ZRFfCXpcMo0HgSxIp5AA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713266121; c=relaxed/simple;
-	bh=XiI2sQm+xgSfhKnKvaKF+M2Gq/LxaifLpyx+4yhJKWw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=kL3eNGKeSGgkqfoctDKFgciSyPwae1pawfsBqWFDHGWoiisPNLhGOS0Hsm6WX6lX6wj3HVVTGUTHLFEmX15HY97GQl9EyphDA9oW1IfRifoE8zA83XFVIboA7BWq+PlS4jgX9qu96biw3EQN0HsYf7l1InxCSXR2V7raIstsZT4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=oDdcfcIP; arc=none smtp.client-ip=209.85.219.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-yb1-f171.google.com with SMTP id 3f1490d57ef6-dc236729a2bso4102292276.0
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 16 Apr 2024 04:15:19 -0700 (PDT)
+	s=arc-20240116; t=1713267370; c=relaxed/simple;
+	bh=dMQSx8CCJTZi0c0vMxyWRS6E0AI8Ut2Td+Fzfj3dowg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=B4faS+2st+c8lPobfbb2R2GZZ4++vMh8Ic6mkChqaNg7f1CAoxGkmyvodJcqlq6q69eMah/zVxnLEOXLeAGk4bA0f6IToZISbN9yJlPlB+7nhvZm0bU2R+siechODYtq+DQjrJ84dqYKty6U3fKltKBhSwe6crybi9laLeS/MFY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=RSaCR/kS; arc=none smtp.client-ip=209.85.208.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
+Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-2d717603aa5so52231441fa.0
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 16 Apr 2024 04:36:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1713266119; x=1713870919; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=XiI2sQm+xgSfhKnKvaKF+M2Gq/LxaifLpyx+4yhJKWw=;
-        b=oDdcfcIPoC4WBs+whqfYyBlY0x5ZZ/qXGFvcFbjYvcs3HBloRNyQoQe3dofYBp2I82
-         4b4w4WwrsMrUWc4Edabw9Y46DlA8vImh3mOEK4JgT86Mj6DA6b7Y6eDQzh7xeE2F0KlW
-         mACutQ4VbkC4MvC9oC74yya/+0hBcYpeYWXEZdyMuiDXOecHeKIApqVKp7mLUADbppjs
-         IWWw3H1Z+UtVnNKAQuCRYlZWKHcBySGUOPh5HGpj/7ZsUk1cc0zRoupG87C3z6ai1kAW
-         hC81RNN76lxsS9OEJL2YA0q99l/MwWMbuvmLTUsYy7byETK19nGA1KHzka39KtEN1/kn
-         GHLA==
+        d=tuxon.dev; s=google; t=1713267367; x=1713872167; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=okFG0DnwE5R50C1UP70PPaJXyomv8+BdqCRrBYX27h0=;
+        b=RSaCR/kSZybnVrUMDAh5QrYXEt3EtmACW303bCHj+nrSRUuFjNyemCtWUThQ5jh/AS
+         OHRXjx9GRd1kdocOELO7TYC/XUMylG/Lqc7Ot7pa2xiEA2ernr4xt08izGJYMfkz49/U
+         mSwj/L+1HweRBdxjp6Svkr9yrP/NkcBRMPndugLAIL52r+g8A5ReXecrR2/gm5LNwYuy
+         Adl13fhL47ClJLhqUdhM1Lw8znXWmNhDxu//fIzsD/jXUcXVbOA1ZsOZQWFq6Zs/0Nbu
+         qkygo2ZChb9XnxxpgXi9BRCYnXNMiRENQcZHS9Lsy0PKjLwFKP1F4GP+EfCLpYo8advq
+         mlrg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713266119; x=1713870919;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=XiI2sQm+xgSfhKnKvaKF+M2Gq/LxaifLpyx+4yhJKWw=;
-        b=EnO8sxCkyXdK/P+6/JlPSnkMiNZm0Tsh9Z1OkHExEfGElMAt9qR1TP9RCoBUKTYKyd
-         W6p+KK1xjjjsN5F8z260kwxOHMt7eAkH4qXEfZN/9QkmrRbTUvXZGZPZ/L/t8uE39Lwv
-         7yWncMTiqdtv0/foFlew1bInzwvvqPHh3C/jAiZwnOqg8PMKRVpbo8J/1CA9cQL7IYil
-         jrMTtNx5kIo7hJuokYrgpWLJvNqJb86NxOgHrq2zFuESkGf9AKtzHApD5ZMrCh7ezOVg
-         m33ZAA1F7M5xW9H9Y9ejSRQGa3gVKEuXQK2ruUsLhmLmMGtpBA76T2mX9s2NM7I4GdKj
-         phjw==
-X-Forwarded-Encrypted: i=1; AJvYcCWD5961kxamgHGhfDkTt68evNQ73FQ21Z+zkCcheGyE9RXTQFq06l5X7/Py1IZL3Pr8KJQRRpJxS1dRDIJTB+/dMauFpfioH3AyTns/HQV4VH0=
-X-Gm-Message-State: AOJu0YyxB07HroumOrCUAMy+GuuK2oDNAQigoDHFcRjzaNHyYB80vfop
-	lnFyGPmLr+n82UuLwqFyHOEhzTxPzrcv/tNVh+X7plKqFJ/KpyMkKjeqwT4YudFtg9b315O8FFH
-	b9grYCad5FyHoX6sMlekge3JtLhIwGd7W4aFX4w==
-X-Google-Smtp-Source: AGHT+IFZcV9W2tonTOuCnPPIlMQCywVg80sidWJREy/u9my2wBE3zF9bOxxG9UUMKBTpN9Mc+9RLCpcd7enrpeP10T4=
-X-Received: by 2002:a25:ac05:0:b0:de3:ec93:d20a with SMTP id
- w5-20020a25ac05000000b00de3ec93d20amr3808409ybi.37.1713266118876; Tue, 16 Apr
- 2024 04:15:18 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1713267367; x=1713872167;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=okFG0DnwE5R50C1UP70PPaJXyomv8+BdqCRrBYX27h0=;
+        b=sH4E41uCehO5w2uFAGYyhX/HWusQMTOV2jivgI94m7Fsym2pghoGwnI7refirVF6Gj
+         NlNsoJKUjZQrIhPlvHVSMrEG5tYgvn244eJjQF+Z2JlZIZ9aMlrZNnC2KvOnQTiqvdy5
+         TqZ8ZihdClIevgGmRgwS0bBza3ow3Upw/0Iuij3olNktLrSSH5WvgdA0fHfm8QOuSIbw
+         MoSNSJFDnljlvY/OfPIX3tpLmowyygSFwzfyNr6OEuemeNFJx2wUjzZovX+wSgTl4sZf
+         lYWEyhcI+oLmbf2AHKsSgZzcU8v8c1JVR1OdsycCrd311lAfzjyyiKzum2P1hZesjkDK
+         WvYA==
+X-Forwarded-Encrypted: i=1; AJvYcCUmi1IS0AG5KlPsKDhb/tdwiqc7uiQYGrGIqgmsssSPc6d29sSt477GQzeV5Uam7ZBeX0sIe/rQtqUW931u7py0sleBJGUREQ4axlLnpwSbi3Q=
+X-Gm-Message-State: AOJu0YzX1yqvcblneISVSauMw9kJsYZ7r0G9pg987q6V/BqFycouezSt
+	FdIJvkMWqeElDr3NshUvS0n0RFxr64uvqk4FIwfPc+h5Zeqq7UD0Hj16iR7v9Yk=
+X-Google-Smtp-Source: AGHT+IFuxrJYpKT46xpDoYSQlh9kRKqJVNyvZUvf2JQsE9jM/VsfStjJqR7Leh9rvEkjKCCzelhBJg==
+X-Received: by 2002:a2e:91c9:0:b0:2d9:b2be:bc7 with SMTP id u9-20020a2e91c9000000b002d9b2be0bc7mr9463931ljg.4.1713267367375;
+        Tue, 16 Apr 2024 04:36:07 -0700 (PDT)
+Received: from [192.168.50.4] ([82.78.167.8])
+        by smtp.gmail.com with ESMTPSA id t13-20020a05600c450d00b004171f151a5csm19556794wmo.16.2024.04.16.04.36.05
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 16 Apr 2024 04:36:06 -0700 (PDT)
+Message-ID: <e50bb9c1-e094-4868-9403-fb7430195ad9@tuxon.dev>
+Date: Tue, 16 Apr 2024 14:36:05 +0300
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240410122657.2051132-1-claudiu.beznea.uj@bp.renesas.com>
- <CAPDyKFr405qt58wrqNdSn8bQPRqPKJ1omUZHS_VpQrX5zxUJug@mail.gmail.com> <CAMuHMdXRwcYMt7p+xT3svo1RmJ2Tvbamrx4++iYQ-mffKb6ZQQ@mail.gmail.com>
-In-Reply-To: <CAMuHMdXRwcYMt7p+xT3svo1RmJ2Tvbamrx4++iYQ-mffKb6ZQQ@mail.gmail.com>
-From: Ulf Hansson <ulf.hansson@linaro.org>
-Date: Tue, 16 Apr 2024 13:14:43 +0200
-Message-ID: <CAPDyKFoMiseXbSEK4ANOeWSuVhREibm0v0zg46Q3kJHX8jYpgQ@mail.gmail.com>
+User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v3 0/9] clk: renesas: rzg2l: Add support for power domains
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Claudiu <claudiu.beznea@tuxon.dev>, geert+renesas@glider.be, 
-	mturquette@baylibre.com, sboyd@kernel.org, robh@kernel.org, 
-	krzk+dt@kernel.org, conor+dt@kernel.org, magnus.damm@gmail.com, 
-	linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Language: en-US
+To: Ulf Hansson <ulf.hansson@linaro.org>,
+ Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: geert+renesas@glider.be, mturquette@baylibre.com, sboyd@kernel.org,
+ robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+ magnus.damm@gmail.com, linux-renesas-soc@vger.kernel.org,
+ linux-clk@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org,
+ Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+References: <20240410122657.2051132-1-claudiu.beznea.uj@bp.renesas.com>
+ <CAPDyKFr405qt58wrqNdSn8bQPRqPKJ1omUZHS_VpQrX5zxUJug@mail.gmail.com>
+ <CAMuHMdXRwcYMt7p+xT3svo1RmJ2Tvbamrx4++iYQ-mffKb6ZQQ@mail.gmail.com>
+ <CAPDyKFoMiseXbSEK4ANOeWSuVhREibm0v0zg46Q3kJHX8jYpgQ@mail.gmail.com>
+From: claudiu beznea <claudiu.beznea@tuxon.dev>
+In-Reply-To: <CAPDyKFoMiseXbSEK4ANOeWSuVhREibm0v0zg46Q3kJHX8jYpgQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Mon, 15 Apr 2024 at 09:28, Geert Uytterhoeven <geert@linux-m68k.org> wro=
-te:
->
-> Hi Ulf,
->
-> On Fri, Apr 12, 2024 at 1:31=E2=80=AFPM Ulf Hansson <ulf.hansson@linaro.o=
-rg> wrote:
-> > That said, maybe we should start separating and moving the
-> > power-domain parts out from the clk directory into the pmdomain
-> > directory instead, that should improve these situations!?
->
-> The clk and pmdomain functions are tied rather closely together on
-> Renesas SoCs, that's why the clock drivers are also pmdomain providers.
->
+Hi, Ulf,
 
-I understand, it's your call to make!
+On 16.04.2024 14:14, Ulf Hansson wrote:
+> On Mon, 15 Apr 2024 at 09:28, Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+>>
+>> Hi Ulf,
+>>
+>> On Fri, Apr 12, 2024 at 1:31 PM Ulf Hansson <ulf.hansson@linaro.org> wrote:
+>>> That said, maybe we should start separating and moving the
+>>> power-domain parts out from the clk directory into the pmdomain
+>>> directory instead, that should improve these situations!?
+>>
+>> The clk and pmdomain functions are tied rather closely together on
+>> Renesas SoCs, that's why the clock drivers are also pmdomain providers.
+>>
+> 
+> I understand, it's your call to make!
+> 
+> Anyway, I just wanted to help with reviews and to make sure genpd
+> providers get implemented in a nice and proper way.
 
-Anyway, I just wanted to help with reviews and to make sure genpd
-providers get implemented in a nice and proper way.
+I'll keep in mind to also add you and PM domain list for future patches, if
+any. Would you prefer to re-send this series and cc you and pm domain list?
 
-Kind regards
-Uffe
+Thank you,
+Claudiu Beznea
+
+> 
+> Kind regards
+> Uffe
 
