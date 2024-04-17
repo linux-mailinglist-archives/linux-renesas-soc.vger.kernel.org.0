@@ -1,143 +1,101 @@
-Return-Path: <linux-renesas-soc+bounces-4683-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-4684-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3AAD18A83E4
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 17 Apr 2024 15:12:10 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 447078A849F
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 17 Apr 2024 15:30:28 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id D86341F24C52
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 17 Apr 2024 13:12:09 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id F3F40281F2E
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 17 Apr 2024 13:30:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8E34813D2A9;
-	Wed, 17 Apr 2024 13:12:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5F2071411D9;
+	Wed, 17 Apr 2024 13:28:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SXBIrMMC"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RfMBHhlA"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FAAF2770B;
-	Wed, 17 Apr 2024 13:12:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FC0D1411CC;
+	Wed, 17 Apr 2024 13:28:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713359523; cv=none; b=SKiAjHg63Bq1Rts8SLDVnJCVLGENj403leqW1bswptuLoTXyGFHTG955JQXX8eN5MEyCsuQzwZQtz26Fb0SyNSsCT8soASsQcOqbpR7nb3+cq0XeqdE4Gsr9Uu2XSyb7H08kcww8hmmdbIufpKg8GhOpic5DWeOVrh4gluFXxYI=
+	t=1713360522; cv=none; b=tnDFfd1mnoNuhwcB9AFqDO4ZVIjDDzTyg3cPhMdbfDMBpY49IT+B2WkpjjCcvZQ4//yZGjhBY4qgGxart+B9fIYjP7PJw05fweks2zvb39UKLGCqdfUHZKTSGdEtYuzBcYD+rMpYISmhxhvVAw2CFCfAaFRHbq18tCZrasyCThU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713359523; c=relaxed/simple;
-	bh=19fci4LLyfvbsiSMg+CCqqk9ZM2XGVW9YX76UIsPwO8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=X+3S7CumTHEDy/+swoec5jk/p7gV+qS3rLrakMpFERFM1YJKvawLvzkZgacuqKVjduS5KssvxGUfPd9fDU39LG2xij6GQU+5M9lGT6kGx/GSjYh8C6bHWUmwUxthf3pXrxwJil4+U0xwp6O4mgyqPT6eKvvj0Jiv6Bb5QRPG5+g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SXBIrMMC; arc=none smtp.client-ip=209.85.208.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-2d718ee7344so56132791fa.2;
-        Wed, 17 Apr 2024 06:12:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1713359519; x=1713964319; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Xvq5XhFeUgxKjTzR6bSBfVpoXUJWQ7jeCb714ZUuuUI=;
-        b=SXBIrMMCZHO/bt/n/qrtFdMS25rl+QyJeqEtEsSIfiYu64z82lNWjBA46TkojdsQlD
-         TuKZQfk6F1RtB6LhslsSYgSIWc3A2Za32DrwhkUFa6h7tLW5tGGfJJ7QHSs6IsLY/u9f
-         GRGO7D+mzaFvAG4Fy70UKeNaSt4R0Kgk5oIAMTW2hnxuZSAEkvQxIKAT26UZCg6lYvnY
-         MnMbx5RbXCMJ09ks3yhN8a1P8loEldKvpedXPSF/64GLQ1n5PsuQ4KX69F5XxIczIYF1
-         NVq/gJXNw/vRyZUOOmDRR+SxWL+zC7NYmrN5a8EZl6eMr3GH6jw4V/xSMc+iOSv9yzcm
-         HGHg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713359519; x=1713964319;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Xvq5XhFeUgxKjTzR6bSBfVpoXUJWQ7jeCb714ZUuuUI=;
-        b=SMtPKdFfSjjxr49AUI0Y56INqBp/dy158mtezTTb+PscnS/gUxt3tNp0fF7s4fw+HU
-         Nfc5YH1z2EyOkDWb2P60kwCHAaylTQSBOv8U+Q0+RTAIdO7/yJytBa2p/DkwLo0h8J3R
-         8yXbpAd269xBQHuGLjJ1/QJG2KBZOpmGphfGAOnNfhIVipDas1UgLll32Wgi9I9sJY8b
-         TSCkp+x5qFNjf47cY9cibHdVep8iTdfOg7U7TyYq7p7VBuT4c/VL78z4Z7sQFs7GvCva
-         xq+NPUKlTChVQEtdxSllMc0RIPJKEqeOACEWT91ZDKddsIAur0Tc3P4AJp3Ls9t+Sf34
-         0L2w==
-X-Forwarded-Encrypted: i=1; AJvYcCWoQ/MScLI6luyuDf0FVI7ACv0dWbYdJbW1uo1RSsT4ITG7y7auZqCFxHlFbEayMWa9bGcKGYgws4h8eu1+tZxJRW2uZLEQ7roNthBRIQaRbNMc4ztqx60rRqnr+W1UXcedLcfpJaHuTPcPBq9IKHXnzhcZx9X1Np76Jp0P5ncmC11i7pPd01aJc53uDNQeB1FJppzuIeuE69D6uA5zopts32FS
-X-Gm-Message-State: AOJu0YzPYtbwuaKa+LjBO4CFDXESozXGfbHjNy29r5IKP3mBPx0Pflah
-	OP3D39EVsbJzNtzQ8izPPPr/1k5w9oLNvMZKDw9niG/Sf40auVKB
-X-Google-Smtp-Source: AGHT+IHdGh0cJoN5BQEheZbFU09X48BOOMw+EqWuSPIB0M7jeLokHHm06r2P5q8vQRJCzBR50C7lPg==
-X-Received: by 2002:a2e:9657:0:b0:2db:4f3f:55a7 with SMTP id z23-20020a2e9657000000b002db4f3f55a7mr655852ljh.45.1713359519045;
-        Wed, 17 Apr 2024 06:11:59 -0700 (PDT)
-Received: from mobilestation.baikal.int (srv1.baikalchip.ru. [87.245.175.227])
-        by smtp.gmail.com with ESMTPSA id u22-20020a2e8456000000b002da25e60918sm1389162ljh.18.2024.04.17.06.11.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 17 Apr 2024 06:11:58 -0700 (PDT)
-Date: Wed, 17 Apr 2024 16:11:56 +0300
-From: Serge Semin <fancer.lancer@gmail.com>
-To: Romain Gantois <romain.gantois@bootlin.com>
-Cc: "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
-	Paolo Abeni <pabeni@redhat.com>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
-	Alexandre Torgue <alexandre.torgue@foss.st.com>, Jose Abreu <joabreu@synopsys.com>, 
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Russell King <linux@armlinux.org.uk>, 
-	=?utf-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <clement.leger@bootlin.com>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
-	netdev@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
-	linux-arm-kernel@lists.infradead.org, "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>, 
-	Maxime Chevallier <maxime.chevallier@bootlin.com>
-Subject: Re: [PATCH net-next v3 2/5] net: stmmac: introduce pcs_init/pcs_exit
- stmmac operations
-Message-ID: <abgmcmebzv5323wmumurygggeho2mbyf2l24fe42c6zvvueutc@w7zpxqndlqox>
-References: <20240415-rzn1-gmac1-v3-0-ab12f2c4401d@bootlin.com>
- <20240415-rzn1-gmac1-v3-2-ab12f2c4401d@bootlin.com>
- <42chuecdt7dpgm6fcrtt2crifvv5hflmtnmdrw5fvk3r7pwjgu@hlcv56dbeosf>
- <77722ced-4956-0e70-9492-c7b2e8557253@bootlin.com>
+	s=arc-20240116; t=1713360522; c=relaxed/simple;
+	bh=lqa4Juxf0WEfUGXrAzHfnxrI0oFVoAKGZcOv04ym5QM=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=nRa0HvfnEB4R4CEebi8ncPOKlFzsqQ2V7twA5iS4IUMEPLZrY7ofQp1AVcxh4YuaPPsy9vztNX8x3AfzUEFnZnMeCcz7RF9u/OY3jmtGM3mXg/WawBUYXLwA/4CQwOglFQTBXqAOLABKWKod1XqQhB7Jn7xbPaVvKozJCbRd1Pw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RfMBHhlA; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9D145C072AA;
+	Wed, 17 Apr 2024 13:28:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1713360521;
+	bh=lqa4Juxf0WEfUGXrAzHfnxrI0oFVoAKGZcOv04ym5QM=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=RfMBHhlAwhaPav6Uml+GXDYvv5KFLB/HI4W2ZJVwARdmN++jQIFqkch7arcjVokOg
+	 uBz+3DUIYznrZALSLp9llVz/frSy6WYmlT+YfkbYW7K7kFpx//47loo6WELzfh7oxn
+	 CYC0GqC/RUUOHJLFgQExOt0O2p/F5a1AFK2vOIgLxf9QXVfXn7kTJCeKBtLYhDpZPW
+	 1pss//6fKWW+77RYHM9DA9l0vqARJnVfcEvpPg/nsZQmGN/aOk815aqTcaGhoLl+p1
+	 Gu+fwGaNxVMQiaymCKQh3wJAw1tRenzKx3qit7y+chtzewWsMHY2dxOssK6j+kC/e5
+	 kzaCD6vV/CYOA==
+From: Mark Brown <broonie@kernel.org>
+To: Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: linux-spi@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-renesas-soc@vger.kernel.org
+In-Reply-To: <68a4d8ad8638c1133e21d0eef87e8982ddea3dd8.1713279687.git.geert+renesas@glider.be>
+References: <68a4d8ad8638c1133e21d0eef87e8982ddea3dd8.1713279687.git.geert+renesas@glider.be>
+Subject: Re: [PATCH dt-bindings] spi: renesas,sh-msiof: Add r8a779h0
+ support
+Message-Id: <171336052029.1701161.15301025990181660561.b4-ty@kernel.org>
+Date: Wed, 17 Apr 2024 22:28:40 +0900
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <77722ced-4956-0e70-9492-c7b2e8557253@bootlin.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14-dev
 
-On Wed, Apr 17, 2024 at 11:30:09AM +0200, Romain Gantois wrote:
-> Hi Serge,
+On Tue, 16 Apr 2024 17:11:48 +0200, Geert Uytterhoeven wrote:
+> Document support for the Clock-Synchronized Serial Interface with FIFO
+> (MSIOF) in the Renesas R-Car V4M (R8A779H0) SoC.
 > 
-> On Tue, 16 Apr 2024, Serge Semin wrote:
 > 
-> > I am currently working on my Memory-mapped DW XPCS patchset cooking:
-> > https://lore.kernel.org/netdev/20231205103559.9605-1-fancer.lancer@gmail.com/
-> > The changes in this series seems to intersect to what is/will be
-> > introduced in my patchset. In particular as before I am going to
-> > use the "pcs-handle" property for getting the XPCS node. If so what
-> > about collecting PCS-related things in a single place. Like this:
-> > 
-> > int stmmac_xpcs_setup(struct net_device *ndev)
-> > {
-> > 	...
-> > 
-> > 	if (priv->plat->pcs_init) {
-> > 		return priv->plat->pcs_init(priv); /* Romain' part */
-> >	} else if (fwnode_property_present(priv->plat->port_node, "pcs-handle")) {
-> > 		/* My DW XPCS part */
-> > 	} else if (priv->plat->mdio_bus_data && priv->plat->mdio_bus_data->has_xpcs) {
-> > 		/* Currently implemented procedure */
-> > 	}
-> > 
-> > 	...
-> > }
-> 
-> That seems like a good idea to me, although those setup functions would have to 
-> be renamed to stmmac_pcs_setup/exit.
 
-Why not, seeing they will be responsible for any PCS attached to the
-MAC.
+Applied to
 
--Serge(y)
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-next
 
-> 
-> Thanks,
-> 
-> -- 
-> Romain Gantois, Bootlin
-> Embedded Linux and Kernel engineering
-> https://bootlin.com
+Thanks!
+
+[1/1] spi: renesas,sh-msiof: Add r8a779h0 support
+      commit: 1f48cbd6f00f2d1442ac8757ae8c32b672073927
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
 
