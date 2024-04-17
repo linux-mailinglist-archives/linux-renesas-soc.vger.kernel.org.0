@@ -1,132 +1,126 @@
-Return-Path: <linux-renesas-soc+bounces-4686-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-4687-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5D338A85CA
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 17 Apr 2024 16:18:32 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F7FD8A8623
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 17 Apr 2024 16:38:55 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 023B61C20843
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 17 Apr 2024 14:18:32 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3FC101C208F0
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 17 Apr 2024 14:38:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2A95F1411DE;
-	Wed, 17 Apr 2024 14:18:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0BA9313F44A;
+	Wed, 17 Apr 2024 14:38:31 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com [209.85.128.175])
+Received: from mail-yb1-f175.google.com (mail-yb1-f175.google.com [209.85.219.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 497021411CF;
-	Wed, 17 Apr 2024 14:18:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13F1413D53B;
+	Wed, 17 Apr 2024 14:38:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713363509; cv=none; b=OOf+g1t3UMwaBP0FGQDIyM+627Rdbgkj2SQjsaB2g3/MIwZ4YwrJn+7ikMvz0/HuhtNVoKblCUKnp5pUR8ISlCkZj1dtPbzac1k9RxQhEMBhe1GTG+h3YsPq1yBxMrrjUuAnzDCodwnlmnGeIholhST3IlJCxW4eVA1r7zLjbd8=
+	t=1713364710; cv=none; b=nFqrbQqp5a7pI+IJ+G6hBpMAlv90cjYOzmsmE/j0XLncx8FB/cwI323hc2Whr4yBK0QhFG2RiKRTmcAw+mxFiAEGEzW9hyzwObjaD+wW/VjWeTH7vVgJ79uTHW0cnxd9t4ZyPPdVRyJ32uLbHomrtLPLcTLM1BM5UHtw/00f0mw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713363509; c=relaxed/simple;
-	bh=WaC2druakjJV+zFjmdeikwA3CiyuPhwF8v+9yEn8j10=;
+	s=arc-20240116; t=1713364710; c=relaxed/simple;
+	bh=jLb75MpAdcnVk2677o897/IAdy8Q6IZIxsTA8GELTZM=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ZpTsN9n1YIFznBF/oxG2wioPwUme4TkhyapOjjXiUs+jJTjZAiPckSDufJewJXP04sokyqCYiXzDMVNhfCVFnaNs/qhTPWX16d3Q1JWnbrYh9c5/TajJkqBLIK2JxhMtTAHdxee0QHDwtFcyolxA22gO+BFDBjrRV4J0LnjFul4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.175
+	 To:Cc:Content-Type; b=P3uzOSextaZn8FR2agPO8v2njro9OWwR8wMrwbwNfKTkfmOaeb5c6w09yN56aFNzj304SYTBptNRU4ifPkwAu/b34boM0dpgzPZOoruYgfVchGmBJ1xiliNXHuQy+5+1kjUCtaZwdPeYrQqUz0syMGHRZYcBJVu8sZkOOcXpi+Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.219.175
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-61af74a010aso17307637b3.0;
-        Wed, 17 Apr 2024 07:18:26 -0700 (PDT)
+Received: by mail-yb1-f175.google.com with SMTP id 3f1490d57ef6-dc25e12cc63so908478276.0;
+        Wed, 17 Apr 2024 07:38:28 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713363504; x=1713968304;
+        d=1e100.net; s=20230601; t=1713364707; x=1713969507;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=avO898yqsUcNC4lZWFklgBAuRw3SczTcgwrfOeGT8Mg=;
-        b=Ncm2Yga1n56LP7oXyhMsBNhPxWhbDQSEYBs8ULP+V9Odr+RKmvYIUObx/wyL6ptUir
-         vBCaxqYyEZ2fURyhssqDHNIGKvNe4pQubEgyiEvk2EWfW9TX+xJWla37U5tW8mfCUYC2
-         GnjHtf9gHYMA6KvG9PMSmh9iM4rDptoQFIJWJKdWU/Q3s83FviT5mCJAZ80iaUcR2zXm
-         ctgP2t/1SxlafP6Hf0tR6FxNHtEhRfUjEwlDPf9fTmh1n+DoJEmfJS7VACMsMEh/wr2b
-         9zcbPhSZPkdEFLsnNCGBySOTwATza+O+01tgmBetzcaTm8d1Z4OoU0VtfHG820beSmBP
-         VITQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVSkGuH7Bdkez58ADtazhBuXlKENhvGJxNT4YQ3wjmi4pfZlnFev4+98tkjvqAFgqy/MASHnJVBUe4m70pUidsX91ML7wIB7ZCyueZmbBR4pMirqkHkezbhVe5ujY/idpenaiub1hkwUBubRFqSaBbPql/1OaYf2txi2bihEvYw7yG5UqHOeodf4FW+E/6/hHiG9rsV0xeEgwprE/2425XWJgvjMRD4LzhVP3D0wWJzdGJqN3FbIIcLg4sToWD0hs+yCAvttsdyV9sj0XSZARPWwHqkl0WaJP7NK5S1WPvZOJReDwIC4z92
-X-Gm-Message-State: AOJu0YzGCjhrCmJSG4im9P3cdJY8gQTvd0tG44uyQyx8YI+lQoRjyOZt
-	jeFr8pnJGIvUMtbc6qv2Q6cM9X0IUIGSm+k6Tn77TtbLfImle0DVktx29RAv+jA=
-X-Google-Smtp-Source: AGHT+IFNO9uc2PTPZrzIN0HtgGbUW+GpsqSP8Iw4/SFGdULVtPKSlG1+gVUNT/iY40JpD87PHMZWGA==
-X-Received: by 2002:a05:690c:d1b:b0:61b:123e:7210 with SMTP id cn27-20020a05690c0d1b00b0061b123e7210mr1232006ywb.40.1713363503429;
-        Wed, 17 Apr 2024 07:18:23 -0700 (PDT)
-Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com. [209.85.219.180])
-        by smtp.gmail.com with ESMTPSA id jf4-20020a05690c700400b0061129ac87fcsm2976926ywb.113.2024.04.17.07.18.22
+        bh=j9TnUioeKtNrYSjSpU0xUOKSjJt/djcW6aYlEJUt3U0=;
+        b=lCCIRINDCQGMCi+jrXw80q2K3NhCXrOSFNe8tUw/qnDsLu3Yqq3YmdHlZrMw0uRFMo
+         +mxYDUej5nFqDqjeFhpT675m2yj8MiRb+HAMt6uT/URcd549/y2WD58TIT4lNKzmRRqv
+         rZ7qE/ixKO7A/Xup6oTf5lPIm9NkFgzGqSbp9HChnVLbNedoyEJRV+9wq46OUyk45z3J
+         ea08Jbbl5hBOUUt90zkceLKlVnzqEunmVU6PzDNOcNr1uv6HiiIz3S42AXDW3+OaOOUR
+         f92QAXEG1rMCwH4lx72NvW1TZj3kaFvtI9bwxzyVsvIp2SI0D6WnYFk5ERSG6fPvec8O
+         TkWQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWGIn1eJs8ICQvYpX/9nkvFSoyOy9JBgrgUufGwPswrKvFGerNBAk1n2xLlo+stFZwiIATygxKrwtbSJQwniZrZHGElNbRbe2uZjgn6EqJGP50byDFONrMIKNsgvwnRNzfLYCN8AzS1cH7EQC1O22Q=
+X-Gm-Message-State: AOJu0Yyp3dFCQUKdS/3tONP03Bls7Kt0DezTZ0MkETIuK20jxeEwGvP9
+	eiCpPuoQSSCrRJOE9kFAqqNyEIdBNRvRegkXQfK5vVyBegFgh/2lpfFi7INOXeE=
+X-Google-Smtp-Source: AGHT+IGHT9UShlSOglkOY+xkmt3lOVto1FfABvma14Fna1eK9o4tsU2SRVHptDGwsQ3mK48acGoijg==
+X-Received: by 2002:a25:c749:0:b0:de1:5656:ba49 with SMTP id w70-20020a25c749000000b00de15656ba49mr4603380ybe.16.1713364707461;
+        Wed, 17 Apr 2024 07:38:27 -0700 (PDT)
+Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com. [209.85.128.182])
+        by smtp.gmail.com with ESMTPSA id i9-20020a256d09000000b00dc6e5ea9152sm2994739ybc.29.2024.04.17.07.38.27
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 17 Apr 2024 07:18:23 -0700 (PDT)
-Received: by mail-yb1-f180.google.com with SMTP id 3f1490d57ef6-de45d4ca525so55953276.0;
-        Wed, 17 Apr 2024 07:18:22 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUsKjbTmAezX/6x3516iFFJ8JJ1Ek8ovhwn5lHF7UI7NriWn6QKXZ9lYeTSseyxUw39gVPS1Ius+N6BQ5WSaWvJwdLAi6aCXsk5AlcGJi5XKU+NPrz5b5wVVAj2BTaB+gmF6/uSsJ6JXX4Gj/oxYmpoNIa3h8F1sULE9k7eRpa8mSUG/zAdC3LZXqsoCdKpCWoCpMYf1soi3igM960If8T5pFNOMP7/tlMLfpOaXvI+odT3cpaRBvhoCMXSYdd5Ti7ZcmLYrRr91VQ6u/l81gLboQ5qSCHv8ENaVYYQmvapHaFk2mMd5xSh
-X-Received: by 2002:a81:ff02:0:b0:618:94a6:6ca1 with SMTP id
- k2-20020a81ff02000000b0061894a66ca1mr10536616ywn.27.1713363502402; Wed, 17
- Apr 2024 07:18:22 -0700 (PDT)
+        Wed, 17 Apr 2024 07:38:27 -0700 (PDT)
+Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-61ab31d63edso8541217b3.1;
+        Wed, 17 Apr 2024 07:38:27 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCXp54gAA/EtlZ8jDB2Z8ngX3ZOO3jqeX6TF0eMyNCQLeUsDLjwolAz4YlmamwCnET4OX9Rq7OFVTr8Pj3s4i0rlqnthPk5uKltTMEo8irXvUPbC80XTgPY0fjkUoMQI11+uQtAnNVryJM9UCEHQgBU=
+X-Received: by 2002:a81:c741:0:b0:618:a587:7a41 with SMTP id
+ i1-20020a81c741000000b00618a5877a41mr4603735ywl.16.1713364706955; Wed, 17 Apr
+ 2024 07:38:26 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240214215756.6530-1-mario.limonciello@amd.com>
- <20240214215756.6530-4-mario.limonciello@amd.com> <Zc1JEg5mC0ww_BeU@intel.com>
- <9831e9bc-d55f-4a72-950a-684a757af59c@amd.com> <Zc5cPjpNZydqKeS8@intel.com> <ecbaadf9-dfa1-46af-9a7e-cfd7aa1120be@amd.com>
-In-Reply-To: <ecbaadf9-dfa1-46af-9a7e-cfd7aa1120be@amd.com>
+References: <20240321114201.359381-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20240321114201.359381-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 17 Apr 2024 16:18:10 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdV1XYpu3JeP3W-dZpO8kmN75XckuPRnw2zLW-ZqD4634g@mail.gmail.com>
-Message-ID: <CAMuHMdV1XYpu3JeP3W-dZpO8kmN75XckuPRnw2zLW-ZqD4634g@mail.gmail.com>
-Subject: Re: [PATCH v6 3/5] drm: Add support to get EDID from ACPI
-To: Mario Limonciello <mario.limonciello@amd.com>
-Cc: =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>, 
-	Daniel Vetter <daniel@ffwll.ch>, Jani Nikula <jani.nikula@linux.intel.com>, 
-	Alex Deucher <alexander.deucher@amd.com>, Hans de Goede <hdegoede@redhat.com>, 
-	"open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>, amd-gfx@lists.freedesktop.org, 
-	"open list:USB SUBSYSTEM" <linux-usb@vger.kernel.org>, linux-fbdev@vger.kernel.org, 
-	nouveau@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, 
-	platform-driver-x86@vger.kernel.org, intel-xe@lists.freedesktop.org, 
-	linux-renesas-soc@vger.kernel.org, 
-	"open list:ACPI" <linux-acpi@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>, 
-	Melissa Wen <mwen@igalia.com>, Mark Pearson <mpearson-lenovo@squebb.ca>
+Date: Wed, 17 Apr 2024 16:38:14 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdVvARk6i_aU6B7yPFfAGwaK5Yh=idYP9iuEAHoP9PvjOg@mail.gmail.com>
+Message-ID: <CAMuHMdVvARk6i_aU6B7yPFfAGwaK5Yh=idYP9iuEAHoP9PvjOg@mail.gmail.com>
+Subject: Re: [PATCH] reset: reset-rzg2l-usbphy-ctrl: Ensure reset line is
+ asserted in error path
+To: Prabhakar <prabhakar.csengg@gmail.com>
+Cc: Philipp Zabel <p.zabel@pengutronix.de>, Biju Das <biju.das.jz@bp.renesas.com>, 
+	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Mario,
+Hi Prabhakar,
 
-On Thu, Feb 15, 2024 at 8:04=E2=80=AFPM Mario Limonciello
-<mario.limonciello@amd.com> wrote:
-> On 2/15/2024 12:47, Ville Syrj=C3=A4l=C3=A4 wrote:
-> > On Thu, Feb 15, 2024 at 12:20:56PM -0600, Mario Limonciello wrote:
-> >> On 2/14/2024 17:13, Ville Syrj=C3=A4l=C3=A4 wrote:
-> >>> On Wed, Feb 14, 2024 at 03:57:54PM -0600, Mario Limonciello wrote:
-> >>>> --- a/include/drm/drm_connector.h
-> >>>> +++ b/include/drm/drm_connector.h
-> >>>> @@ -1886,6 +1886,12 @@ struct drm_connector {
-> >>>>
-> >>>>            /** @hdr_sink_metadata: HDR Metadata Information read fro=
-m sink */
-> >>>>            struct hdr_sink_metadata hdr_sink_metadata;
-> >>>> +
-> >>>> +  /**
-> >>>> +   * @acpi_edid_allowed: Get the EDID from the BIOS, if available.
-> >>>> +   * This is only applicable to eDP and LVDS displays.
-> >>>> +   */
-> >>>> +  bool acpi_edid_allowed;
-> >>>
-> >>> Aren't there other bools/small stuff in there for tighter packing?
-> >>
-> >> Does the compiler automatically do the packing if you put bools nearby
-> >> in a struct?  If so; TIL.
-> >
-> > Yes. Well, depends on the types and their alignment requirements
-> > of course, and/or whether you specified __packed or not.
-> >
-> > You can use 'pahole' to find the holes in structures.
+On Thu, Mar 21, 2024 at 12:43=E2=80=AFPM Prabhakar <prabhakar.csengg@gmail.=
+com> wrote:
+> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 >
-> Thanks!  I don't see a __packed attribute on struct drm_connector, but
-> I'll put it near by other bools in case that changes in the future.
+> In the event of failure during devm_reset_controller_register(), ensure
+> that the reset line is asserted back.
+>
+> Fixes: bee08559701fb ("reset: renesas: Add RZ/G2L usbphy control driver")
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-FTR, don't add __packed unless you have a very good reason to do so.
-With __packed, the compiler will emit multiple byte-accesses to
-access multi-byte integrals on platforms that do not support unaligned
-memory access.
+Thanks for your patch!
+
+> --- a/drivers/reset/reset-rzg2l-usbphy-ctrl.c
+> +++ b/drivers/reset/reset-rzg2l-usbphy-ctrl.c
+> @@ -132,8 +132,10 @@ static int rzg2l_usbphy_ctrl_probe(struct platform_d=
+evice *pdev)
+>         priv->rcdev.dev =3D dev;
+>
+>         error =3D devm_reset_controller_register(dev, &priv->rcdev);
+> -       if (error)
+> +       if (error) {
+> +               reset_control_assert(priv->rstc);
+>                 return error;
+> +       }
+>
+>         spin_lock_init(&priv->lock);
+>         dev_set_drvdata(dev, priv);
+
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+
+Alternatively, you could register a cleanup handler with
+devm_add_action_or_reset(), like many drivers already do.
+Or better, turn devm_aspeed_peci_reset_control_deassert() into a
+generic helper, and convert all drivers[1] to use that.
+
+That would just leave us with undoing pm_runtime_enable(), which can
+be automated using devm_pm_runtime_enable() instead.
+
+[1] git grep -w devm.*reset_control_assert
 
 Gr{oetje,eeting}s,
 
