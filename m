@@ -1,225 +1,143 @@
-Return-Path: <linux-renesas-soc+bounces-4682-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-4683-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1553D8A82BE
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 17 Apr 2024 14:06:15 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AAD18A83E4
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 17 Apr 2024 15:12:10 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BEE05287B73
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 17 Apr 2024 12:06:13 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id D86341F24C52
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 17 Apr 2024 13:12:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AEFFA13C8FD;
-	Wed, 17 Apr 2024 12:06:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8E34813D2A9;
+	Wed, 17 Apr 2024 13:12:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="LqBVyY6L";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="eTcpsVSn"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SXBIrMMC"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from flow2-smtp.messagingengine.com (flow2-smtp.messagingengine.com [103.168.172.137])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFF8013C675;
-	Wed, 17 Apr 2024 12:06:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.137
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FAAF2770B;
+	Wed, 17 Apr 2024 13:12:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713355571; cv=none; b=IkQNAlANiVQx0dWzUP7Crj1VHIPTNmNLfIQZwFxj+HzM87sbokfsGws4C19oulgpLgVoMdieu3x/lvuluazfwAB6rHMuJn9crr/fB9IOILuoPTZwZyG8EYLqTkpz0BkOja6nMIa8YInNXugYy35KbGf+uZzZmOSK0kFNx5d73Zw=
+	t=1713359523; cv=none; b=SKiAjHg63Bq1Rts8SLDVnJCVLGENj403leqW1bswptuLoTXyGFHTG955JQXX8eN5MEyCsuQzwZQtz26Fb0SyNSsCT8soASsQcOqbpR7nb3+cq0XeqdE4Gsr9Uu2XSyb7H08kcww8hmmdbIufpKg8GhOpic5DWeOVrh4gluFXxYI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713355571; c=relaxed/simple;
-	bh=hPwUo1pYLJvWnFOlhtq6S9jAcLckCVZbhC5P+YvYnkQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=iaobQEqgjGo+8PMHvCwjk9xwuoWxutOQH5sbFfuQPWuImsoLGo/4JXKGo5NNw4aduxnOszOkFFDjRwUhMdXr1Vx725EPOGGZidaN0kEntVtSpa0FHAMHjLmyrAjNFN5EXjKnveiJaRjdNOqBni+cSiMoRqn4uRnQyh2urmDO2uM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=LqBVyY6L; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=eTcpsVSn; arc=none smtp.client-ip=103.168.172.137
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
-	by mailflow.nyi.internal (Postfix) with ESMTP id 4CCD220006A;
-	Wed, 17 Apr 2024 08:03:22 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute2.internal (MEProxy); Wed, 17 Apr 2024 08:03:22 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:message-id:mime-version:reply-to
-	:subject:subject:to:to; s=fm2; t=1713355402; x=1713359002; bh=TO
-	fbDp0+Gyk2RzLmGnDRZMqsaYHGvqHXqML+ubNxdBA=; b=LqBVyY6Lm7jvPhjcmi
-	L9H7J247E3R4BPFKqnTsQJzbYFM+uNK1HUt9WuqEajoGykQpyx5t4Cqgnqz7y5Ot
-	0Tjc2rbbEHTz/dmBSak2UAfFApfHbRjuh/VjL/N3x7h6wKdcXm6IH/T0uI7/q0HN
-	klGzlM5XmXMYdgHx2DjLn85H4r3dlFbat82dOf4yTEt6DDQSXtr7UiJgSRqL38P6
-	GE/JBZO3ZMqjLNuMT8XpR53n8kzLbfFyY5hMBnZikTj1mbsRUmIgEwuqqMCP4umI
-	AuTfr1w+auynjZEgzuE3JAD0RhIg+cKZB1Tojt0XnvDgfzKW9ZSz6WbqhWXDKfXR
-	qPww==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:message-id:mime-version:reply-to:subject
-	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm3; t=1713355402; x=1713359002; bh=TOfbDp0+Gyk2R
-	zLmGnDRZMqsaYHGvqHXqML+ubNxdBA=; b=eTcpsVSnX7WMRHY8elEhRxxAg+1jw
-	UH2qk1Nfge4AOklUQJCR0OUq6X6IP6SxmQfKoeJjRwzFn6B5fIQXS9fSz0pyNbbM
-	/BrL4vMZv1A6IJVY9T8e2NmWr6/xXmrPTHKBZ/KsxaUvzXzRhUfxFWqX5Cgqpula
-	XLjgJLhOrFc5OIdW+rmSu3NwQCUfw6JH0gCKs5niZoJCKc4idJs9BW12cZlNvWZV
-	1COUaCHWTWw8vnhC8tNYWs++51Gop/GZvqwr6lwP/Lb0J+tND2vFfPvkGLJMEKM7
-	U9e0ctkswaNt8aBVd+ALecVJLQYzXZrXE2Tl5cBJg7M2jakhWT+7hk5yQ==
-X-ME-Sender: <xms:ibofZrQZMRpyQsJMCgd3y4pZFx5LpH7zrKBx09WH_ZxdYI-_d4zQSA>
-    <xme:ibofZszF5VXSfHzIPVEntJavB8tTYw8Sef9DpBQBPNMuau74W84O_jpv-DoEaSpHe
-    X2xFh8vM-n4RzlGOvM>
-X-ME-Received: <xmr:ibofZg3Y-jlOKZQ-uVgRqew0GjQOIgZ0hLx7GivIp8pu71wIrqGwscqainuBeYGKIPFet9K9sGpkpJu7RhtLERH1L7JO0N1LZhO3>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrudejkedggeejucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhephffvvefufffkofggtgfgsehtkeertdertdejnecuhfhrohhmpefpihhklhgr
-    shcuufpnuggvrhhluhhnugcuoehnihhklhgrshdrshhouggvrhhluhhnugdorhgvnhgvsh
-    grshesrhgrghhnrghtvggthhdrshgvqeenucggtffrrghtthgvrhhnpeehudelteetkefg
-    ffefudefuedvjeeivdekhfevieefgeffheeltddvvefhfeetgeenucevlhhushhtvghruf
-    hiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehnihhklhgrshdrshhouggvrhhl
-    uhhnugdorhgvnhgvshgrshesrhgrghhnrghtvggthhdrshgv
-X-ME-Proxy: <xmx:ibofZrAXycQ1THuiJVBCyugG_dwQAGBAxupEM4AV6RRblKfJ19EMUQ>
-    <xmx:ibofZkj6aiezPYrjg92BLWfFJW8SZFOU8GK9gJeOzKu7xzrJcEtPPg>
-    <xmx:ibofZvrcr5AWLjI_TBx7Bb7hQz0q8rOJxww7q2qHa0rGpFTJzKWiKA>
-    <xmx:ibofZvhDf5DgR7rdGUqnFTZGd1_Yj8N96zWMqyAF46SYppP3-1_1BA>
-    <xmx:irofZnsIcCcILuVoEQuhlDQ1ZLzkMVq7QqB9Kgjtra4s9R94Shtfh6us>
-Feedback-ID: i80c9496c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 17 Apr 2024 08:03:20 -0400 (EDT)
-From: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-To: Hans Verkuil <hverkuil@xs4all.nl>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org
-Cc: linux-renesas-soc@vger.kernel.org,
-	=?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Subject: [PATCH] media: rcar-vin: Add support for RAW10
-Date: Wed, 17 Apr 2024 14:02:30 +0200
-Message-ID: <20240417120230.4086364-1-niklas.soderlund+renesas@ragnatech.se>
-X-Mailer: git-send-email 2.44.0
+	s=arc-20240116; t=1713359523; c=relaxed/simple;
+	bh=19fci4LLyfvbsiSMg+CCqqk9ZM2XGVW9YX76UIsPwO8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=X+3S7CumTHEDy/+swoec5jk/p7gV+qS3rLrakMpFERFM1YJKvawLvzkZgacuqKVjduS5KssvxGUfPd9fDU39LG2xij6GQU+5M9lGT6kGx/GSjYh8C6bHWUmwUxthf3pXrxwJil4+U0xwp6O4mgyqPT6eKvvj0Jiv6Bb5QRPG5+g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SXBIrMMC; arc=none smtp.client-ip=209.85.208.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-2d718ee7344so56132791fa.2;
+        Wed, 17 Apr 2024 06:12:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1713359519; x=1713964319; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Xvq5XhFeUgxKjTzR6bSBfVpoXUJWQ7jeCb714ZUuuUI=;
+        b=SXBIrMMCZHO/bt/n/qrtFdMS25rl+QyJeqEtEsSIfiYu64z82lNWjBA46TkojdsQlD
+         TuKZQfk6F1RtB6LhslsSYgSIWc3A2Za32DrwhkUFa6h7tLW5tGGfJJ7QHSs6IsLY/u9f
+         GRGO7D+mzaFvAG4Fy70UKeNaSt4R0Kgk5oIAMTW2hnxuZSAEkvQxIKAT26UZCg6lYvnY
+         MnMbx5RbXCMJ09ks3yhN8a1P8loEldKvpedXPSF/64GLQ1n5PsuQ4KX69F5XxIczIYF1
+         NVq/gJXNw/vRyZUOOmDRR+SxWL+zC7NYmrN5a8EZl6eMr3GH6jw4V/xSMc+iOSv9yzcm
+         HGHg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1713359519; x=1713964319;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Xvq5XhFeUgxKjTzR6bSBfVpoXUJWQ7jeCb714ZUuuUI=;
+        b=SMtPKdFfSjjxr49AUI0Y56INqBp/dy158mtezTTb+PscnS/gUxt3tNp0fF7s4fw+HU
+         Nfc5YH1z2EyOkDWb2P60kwCHAaylTQSBOv8U+Q0+RTAIdO7/yJytBa2p/DkwLo0h8J3R
+         8yXbpAd269xBQHuGLjJ1/QJG2KBZOpmGphfGAOnNfhIVipDas1UgLll32Wgi9I9sJY8b
+         TSCkp+x5qFNjf47cY9cibHdVep8iTdfOg7U7TyYq7p7VBuT4c/VL78z4Z7sQFs7GvCva
+         xq+NPUKlTChVQEtdxSllMc0RIPJKEqeOACEWT91ZDKddsIAur0Tc3P4AJp3Ls9t+Sf34
+         0L2w==
+X-Forwarded-Encrypted: i=1; AJvYcCWoQ/MScLI6luyuDf0FVI7ACv0dWbYdJbW1uo1RSsT4ITG7y7auZqCFxHlFbEayMWa9bGcKGYgws4h8eu1+tZxJRW2uZLEQ7roNthBRIQaRbNMc4ztqx60rRqnr+W1UXcedLcfpJaHuTPcPBq9IKHXnzhcZx9X1Np76Jp0P5ncmC11i7pPd01aJc53uDNQeB1FJppzuIeuE69D6uA5zopts32FS
+X-Gm-Message-State: AOJu0YzPYtbwuaKa+LjBO4CFDXESozXGfbHjNy29r5IKP3mBPx0Pflah
+	OP3D39EVsbJzNtzQ8izPPPr/1k5w9oLNvMZKDw9niG/Sf40auVKB
+X-Google-Smtp-Source: AGHT+IHdGh0cJoN5BQEheZbFU09X48BOOMw+EqWuSPIB0M7jeLokHHm06r2P5q8vQRJCzBR50C7lPg==
+X-Received: by 2002:a2e:9657:0:b0:2db:4f3f:55a7 with SMTP id z23-20020a2e9657000000b002db4f3f55a7mr655852ljh.45.1713359519045;
+        Wed, 17 Apr 2024 06:11:59 -0700 (PDT)
+Received: from mobilestation.baikal.int (srv1.baikalchip.ru. [87.245.175.227])
+        by smtp.gmail.com with ESMTPSA id u22-20020a2e8456000000b002da25e60918sm1389162ljh.18.2024.04.17.06.11.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 17 Apr 2024 06:11:58 -0700 (PDT)
+Date: Wed, 17 Apr 2024 16:11:56 +0300
+From: Serge Semin <fancer.lancer@gmail.com>
+To: Romain Gantois <romain.gantois@bootlin.com>
+Cc: "David S. Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
+	Paolo Abeni <pabeni@redhat.com>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
+	Alexandre Torgue <alexandre.torgue@foss.st.com>, Jose Abreu <joabreu@synopsys.com>, 
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Russell King <linux@armlinux.org.uk>, 
+	=?utf-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <clement.leger@bootlin.com>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+	netdev@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
+	linux-arm-kernel@lists.infradead.org, "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>, 
+	Maxime Chevallier <maxime.chevallier@bootlin.com>
+Subject: Re: [PATCH net-next v3 2/5] net: stmmac: introduce pcs_init/pcs_exit
+ stmmac operations
+Message-ID: <abgmcmebzv5323wmumurygggeho2mbyf2l24fe42c6zvvueutc@w7zpxqndlqox>
+References: <20240415-rzn1-gmac1-v3-0-ab12f2c4401d@bootlin.com>
+ <20240415-rzn1-gmac1-v3-2-ab12f2c4401d@bootlin.com>
+ <42chuecdt7dpgm6fcrtt2crifvv5hflmtnmdrw5fvk3r7pwjgu@hlcv56dbeosf>
+ <77722ced-4956-0e70-9492-c7b2e8557253@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <77722ced-4956-0e70-9492-c7b2e8557253@bootlin.com>
 
-Some R-Car SoCs are capable of capturing RAW10. Add support for it
-using the V4L2_PIX_FMT_Y10 pixel format, which I think is the correct
-format to express RAW10 unpacked to users.
+On Wed, Apr 17, 2024 at 11:30:09AM +0200, Romain Gantois wrote:
+> Hi Serge,
+> 
+> On Tue, 16 Apr 2024, Serge Semin wrote:
+> 
+> > I am currently working on my Memory-mapped DW XPCS patchset cooking:
+> > https://lore.kernel.org/netdev/20231205103559.9605-1-fancer.lancer@gmail.com/
+> > The changes in this series seems to intersect to what is/will be
+> > introduced in my patchset. In particular as before I am going to
+> > use the "pcs-handle" property for getting the XPCS node. If so what
+> > about collecting PCS-related things in a single place. Like this:
+> > 
+> > int stmmac_xpcs_setup(struct net_device *ndev)
+> > {
+> > 	...
+> > 
+> > 	if (priv->plat->pcs_init) {
+> > 		return priv->plat->pcs_init(priv); /* Romain' part */
+> >	} else if (fwnode_property_present(priv->plat->port_node, "pcs-handle")) {
+> > 		/* My DW XPCS part */
+> > 	} else if (priv->plat->mdio_bus_data && priv->plat->mdio_bus_data->has_xpcs) {
+> > 		/* Currently implemented procedure */
+> > 	}
+> > 
+> > 	...
+> > }
+> 
+> That seems like a good idea to me, although those setup functions would have to 
+> be renamed to stmmac_pcs_setup/exit.
 
-Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
----
-* Changes since RFC
-- Fix spelling in rcar-vin.h
----
- drivers/media/platform/renesas/rcar-vin/rcar-core.c |  1 +
- drivers/media/platform/renesas/rcar-vin/rcar-dma.c  | 12 ++++++++++++
- drivers/media/platform/renesas/rcar-vin/rcar-v4l2.c |  8 ++++++++
- drivers/media/platform/renesas/rcar-vin/rcar-vin.h  |  4 +++-
- 4 files changed, 24 insertions(+), 1 deletion(-)
+Why not, seeing they will be responsible for any PCS attached to the
+MAC.
 
-diff --git a/drivers/media/platform/renesas/rcar-vin/rcar-core.c b/drivers/media/platform/renesas/rcar-vin/rcar-core.c
-index 809c3a38cc4a..e9675cb8faa2 100644
---- a/drivers/media/platform/renesas/rcar-vin/rcar-core.c
-+++ b/drivers/media/platform/renesas/rcar-vin/rcar-core.c
-@@ -1279,6 +1279,7 @@ static const struct rvin_info rcar_info_r8a779a0 = {
- 	.use_mc = true,
- 	.use_isp = true,
- 	.nv12 = true,
-+	.raw10 = true,
- 	.max_width = 4096,
- 	.max_height = 4096,
- };
-diff --git a/drivers/media/platform/renesas/rcar-vin/rcar-dma.c b/drivers/media/platform/renesas/rcar-vin/rcar-dma.c
-index e2c40abc6d3d..dd290054dfe7 100644
---- a/drivers/media/platform/renesas/rcar-vin/rcar-dma.c
-+++ b/drivers/media/platform/renesas/rcar-vin/rcar-dma.c
-@@ -123,7 +123,9 @@
- /* Video n Data Mode Register bits */
- #define VNDMR_A8BIT(n)		(((n) & 0xff) << 24)
- #define VNDMR_A8BIT_MASK	(0xff << 24)
-+#define VNDMR_RMODE_RAW10	(2 << 19)
- #define VNDMR_YMODE_Y8		(1 << 12)
-+#define VNDMR_YC_THR		(1 << 11)
- #define VNDMR_EXRGB		(1 << 8)
- #define VNDMR_BPSM		(1 << 4)
- #define VNDMR_ABIT		(1 << 2)
-@@ -780,6 +782,9 @@ static int rvin_setup(struct rvin_dev *vin)
- 	case MEDIA_BUS_FMT_Y8_1X8:
- 		vnmc |= VNMC_INF_RAW8;
- 		break;
-+	case MEDIA_BUS_FMT_Y10_1X10:
-+		vnmc |= VNMC_INF_RGB666;
-+		break;
- 	default:
- 		break;
- 	}
-@@ -888,6 +893,9 @@ static int rvin_setup(struct rvin_dev *vin)
- 			dmr = 0;
- 		}
- 		break;
-+	case V4L2_PIX_FMT_Y10:
-+		dmr = VNDMR_RMODE_RAW10 | VNDMR_YC_THR;
-+		break;
- 	default:
- 		vin_err(vin, "Invalid pixelformat (0x%x)\n",
- 			vin->format.pixelformat);
-@@ -1270,6 +1278,10 @@ static int rvin_mc_validate_format(struct rvin_dev *vin, struct v4l2_subdev *sd,
- 		if (vin->format.pixelformat != V4L2_PIX_FMT_GREY)
- 			return -EPIPE;
- 		break;
-+	case MEDIA_BUS_FMT_Y10_1X10:
-+		if (vin->format.pixelformat != V4L2_PIX_FMT_Y10)
-+			return -EPIPE;
-+		break;
- 	default:
- 		return -EPIPE;
- 	}
-diff --git a/drivers/media/platform/renesas/rcar-vin/rcar-v4l2.c b/drivers/media/platform/renesas/rcar-vin/rcar-v4l2.c
-index bb4b07bed28d..e7298688541d 100644
---- a/drivers/media/platform/renesas/rcar-vin/rcar-v4l2.c
-+++ b/drivers/media/platform/renesas/rcar-vin/rcar-v4l2.c
-@@ -86,6 +86,10 @@ static const struct rvin_video_format rvin_formats[] = {
- 		.fourcc			= V4L2_PIX_FMT_GREY,
- 		.bpp			= 1,
- 	},
-+	{
-+		.fourcc			= V4L2_PIX_FMT_Y10,
-+		.bpp			= 4,
-+	},
- };
- 
- const struct rvin_video_format *rvin_format_from_pixel(struct rvin_dev *vin,
-@@ -106,6 +110,10 @@ const struct rvin_video_format *rvin_format_from_pixel(struct rvin_dev *vin,
- 		if (!vin->info->nv12 || !(BIT(vin->id) & 0x3333))
- 			return NULL;
- 		break;
-+	case V4L2_PIX_FMT_Y10:
-+		if (!vin->info->raw10)
-+			return NULL;
-+		break;
- 	default:
- 		break;
- 	}
-diff --git a/drivers/media/platform/renesas/rcar-vin/rcar-vin.h b/drivers/media/platform/renesas/rcar-vin/rcar-vin.h
-index 997a66318a29..f87d4bc9e53e 100644
---- a/drivers/media/platform/renesas/rcar-vin/rcar-vin.h
-+++ b/drivers/media/platform/renesas/rcar-vin/rcar-vin.h
-@@ -151,7 +151,8 @@ struct rvin_group_route {
-  * @model:		VIN model
-  * @use_mc:		use media controller instead of controlling subdevice
-  * @use_isp:		the VIN is connected to the ISP and not to the CSI-2
-- * @nv12:		support outputing NV12 pixel format
-+ * @nv12:		support outputting NV12 pixel format
-+ * @raw10:		support outputting RAW10 pixel format
-  * @max_width:		max input width the VIN supports
-  * @max_height:		max input height the VIN supports
-  * @routes:		list of possible routes from the CSI-2 recivers to
-@@ -163,6 +164,7 @@ struct rvin_info {
- 	bool use_mc;
- 	bool use_isp;
- 	bool nv12;
-+	bool raw10;
- 
- 	unsigned int max_width;
- 	unsigned int max_height;
--- 
-2.44.0
+-Serge(y)
 
+> 
+> Thanks,
+> 
+> -- 
+> Romain Gantois, Bootlin
+> Embedded Linux and Kernel engineering
+> https://bootlin.com
 
