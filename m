@@ -1,120 +1,110 @@
-Return-Path: <linux-renesas-soc+bounces-4690-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-4691-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4AC778A86F5
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 17 Apr 2024 17:05:12 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DD8F8A8708
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 17 Apr 2024 17:08:06 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 606081C21A88
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 17 Apr 2024 15:05:11 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7E3B81C2178C
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 17 Apr 2024 15:08:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 63696146D78;
-	Wed, 17 Apr 2024 15:04:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0EE19146A9E;
+	Wed, 17 Apr 2024 15:07:48 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com [209.85.128.180])
+Received: from mail-yb1-f172.google.com (mail-yb1-f172.google.com [209.85.219.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 566F9146A9F;
-	Wed, 17 Apr 2024 15:04:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 139E0146D71;
+	Wed, 17 Apr 2024 15:07:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713366270; cv=none; b=J5ownP4LIQZnMcPb+LuscowXKAWG5BQ8gv7Q5EZeWvBu+G8Rt55h2191L785enWtJYNxXmlOxwJwkM8x5/3gI48qUsUtEw5ED6L/Py4UEUfocmXUhTGaRvYOivJmMpflX+0dRrVRlYjSH2zA5tMwMcZ/INaG3RfYIwGxoyCQcPs=
+	t=1713366467; cv=none; b=K+g7uHQtlS70apqqlrrlxTJkAlt3uMyH3plJQYRHfajnnNtj3DncP6IfiKRL98NHA93ch/hebXl7qafyVzKCqGI0S1iANB5+ZwKDyt6Z6KPcJ00/rvE/IwT+XV1gLybKTqniOXaRbqwNcZqa1TRlL1oS+cV+FMu5c1SlMeyCfEE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713366270; c=relaxed/simple;
-	bh=lXS1zX27CNjD5iT8H4jBr/oAVb3l1Qfc2uEUWSMms9s=;
+	s=arc-20240116; t=1713366467; c=relaxed/simple;
+	bh=cGUDXpqRyTtoJVCTkzWt1ExYguS6miyazDkf3wMlAY0=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=tx19HtEIGeeJIreO8UpShAD+V6oBWy2uNZfqc8rARTiD20f37ZeAzqD0WWnqItnXKzgCciK1363uZ3Xlh8kslmYJhl1lbW6ks7lloaVDTI/FarxLG/jHX0wu2ZgQe+vtFKo3kx3iztVnJbGWoWuRVWHX5OW7pbn3ILpb/hKleLM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.180
+	 To:Cc:Content-Type; b=gXNa17erHSTOjR2bAOniHnXOQLC6fKuEEbvKPs7bEg6jTIlFxBddn5TmjYLMtEiDyJel/5+B3etbYgNGRYn6GzeueGqgvrn0q3cofxkGZ8lvKuGYIWgCp8uyVewPEdlPmFcrVwE+/O3I0hhjyI5pI8WXsXWmeuHp+wZlCl3AAaw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.219.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-617ddc988f5so65805937b3.2;
-        Wed, 17 Apr 2024 08:04:25 -0700 (PDT)
+Received: by mail-yb1-f172.google.com with SMTP id 3f1490d57ef6-de45e596a05so61590276.1;
+        Wed, 17 Apr 2024 08:07:43 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713366264; x=1713971064;
+        d=1e100.net; s=20230601; t=1713366462; x=1713971262;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=FmPbDx+9Otjmd3Nxkuoo97wZVDF9LaZCMQjGYZNrMXY=;
-        b=WlpS2UQolmk2Vq7ZluEYBbKtsQkic6ST1nqiNdZRJHqYvSwUCK/1tKUl8yy+zlZSDo
-         zKNDVUkRZV9xVY9R0JRxjf7i52inHi8A8kbQfZwZ0+7Si3MBtbxV/9Q4quZsZLy5eQQ/
-         LUKuc5tZ1d8fGICy31ZIoJVekg+PGEQCpFcjKsWQsvRNvr8aSlPNSEYzYdwVcLj9ybLJ
-         omXJro6BhbAnEwpP8kJHf/I65oY9tZ7U2+hCwBLVxC3/HRT87cbegfLlxJHjHetAICKA
-         +ZiOQ00T5ytTZRDNv254ED04YAPE5m+biUWjBu36dVsiFwKSJOlwVCT+9JXJFjj6ykTK
-         8Ffg==
-X-Forwarded-Encrypted: i=1; AJvYcCVpfvdWRHq9I9f0gGY4aQqfjLdkrpTC+mCUuEqW1daGiHDXgfc2QzjiCg2re+I9chm2zOFGuuZTWC/S1LWiLw+zCEKjPoq/enI5SJyMQt3+hIsGklYD9RqdGdYN2LUQjWTUsgkB8Blhjms7paIfzsRYhvmxMmDa9mD482yUbvIjo66oXaLSZNF3gcqnedd9BcrGxKCUzkHWRbTp2OsNGzpUHOt3OdyHS/AP
-X-Gm-Message-State: AOJu0YyqEbwT7h7HhyAeHKzTG5qYDOSg/vD5jy7A6w4uBkSZFuObRntq
-	f7HNpH758zHrmJxKShvcQ1KEPLYAhkjKAUroyQXpWvZTAWqXmZoQ1rlPW9y3aF8=
-X-Google-Smtp-Source: AGHT+IH5oUTL17S7sn7il+nUEmctv4jcj8o4kjQGqiJsMMd3jEcwJ272A6ccO361lI189UOKcArY0g==
-X-Received: by 2002:a0d:cb8f:0:b0:61a:d2a0:5497 with SMTP id n137-20020a0dcb8f000000b0061ad2a05497mr9128715ywd.8.1713366263851;
-        Wed, 17 Apr 2024 08:04:23 -0700 (PDT)
-Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com. [209.85.128.170])
-        by smtp.gmail.com with ESMTPSA id l36-20020a81ad24000000b0061248f16528sm133442ywh.66.2024.04.17.08.04.23
+        bh=pcm0f6cgY9tqOKkBlWhGvnzcvnieDLUDH/xJHhGRlvs=;
+        b=Yy0mld4E/WlYouZT6+ok5eUAoIUMJF/zuMbRfc8yRxXmwx6la7uFE5hjJvL4J1YuCY
+         Xeez48cRkc1q4TTLYnI4B3JZijoyrmWfu7zj5d0UOhMo/JKUSaQERKNJeGKpEY+zMO0Y
+         APHQvrEWhMQOhGpyn6omoHNTJunKtnScmKR3D0iI39mfKONlbH6fS+oWSl8RadYqm3UH
+         0hnOd+feQ8Wa0OO+ZryO5zfIKodm2cp84AaX4z9aNSd7wfZFLMnwaavghHlrwgFjbv+X
+         MtAGy8t/BH+/aD6wszKJDZIpPW/cIpOoYrcLyUKqzWIq0TeQBlx6lV3xIxPq8OBv/aYv
+         PaCA==
+X-Forwarded-Encrypted: i=1; AJvYcCV1f9KSALGvVPPXGZzcIAt0R0Y9TI5NEtwQOken46hn7+O4HPF0EmLLdzSjKXxMG2uy++ohyYVAysbjnzLwHD4EmuVPySrpIgTy3MAtaq5lq3mkVYJC4yTU4sJPzvkg418Zb8dVk11YZUqupPBe14klnG2J7BIKg9WwDa+hS+pIoKRsdW7FnW1joGVy
+X-Gm-Message-State: AOJu0YzS2Q0z+z1PnsW8ITg2SomeXmkLkFmBMp9/KC9sfL5GRydR4PqY
+	gd7lt1eAFY3m/fnJrijIkesBbnzZZo8+JjX74h3hgKYP/ipdQ40pLTLP8p8asF0=
+X-Google-Smtp-Source: AGHT+IGfFr8duULCgklTts62aOhQumuuAyumbWGz69P7MrBZtdoDeB6xxu+IyUoWJzzukCcUi7rLvw==
+X-Received: by 2002:a81:8d02:0:b0:615:2ed7:59e with SMTP id d2-20020a818d02000000b006152ed7059emr15070616ywg.14.1713366461807;
+        Wed, 17 Apr 2024 08:07:41 -0700 (PDT)
+Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com. [209.85.128.169])
+        by smtp.gmail.com with ESMTPSA id y15-20020a81ca4f000000b0061ada21ac4dsm1129380ywk.25.2024.04.17.08.07.40
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 17 Apr 2024 08:04:23 -0700 (PDT)
-Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-61500da846fso41881367b3.1;
-        Wed, 17 Apr 2024 08:04:23 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCXPiUKAcp1ZvDubQAVdOZetCGyEq+CiX6hGXH6irpndBN1tna5pXjDT5xaDXTKa2vvjE1rSEP8DQRCHMA67vv7uo0m9ZjpDT/v5ZX20R/R38a1oTbJen1TljSIpeLglHadGJv4ZARifqj4xuJL94Bbn25QX4J70dOl2qd6ZNPEgDUHtS1lE/510/DynKSo2pMJvitOFO+zTsyk96eQS+UmD67I39+TpU6Ff
-X-Received: by 2002:a81:c10c:0:b0:61a:cc3c:ae69 with SMTP id
- f12-20020a81c10c000000b0061acc3cae69mr9032606ywi.18.1713366263495; Wed, 17
- Apr 2024 08:04:23 -0700 (PDT)
+        Wed, 17 Apr 2024 08:07:40 -0700 (PDT)
+Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-61500da846fso41913257b3.1;
+        Wed, 17 Apr 2024 08:07:40 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUI0acZkYHLGDtmnCsyqBwZpgw558Izil7Ud1sEWegrRdT7u4gRGASYBh7wzFjUaWmjuNPZTOspAfiXlbAu7VjyXInXvbL1dxxoHvaT8eujBt/cTsH2bg/n16rzca9a2LYRLWojv4VA4oziRYz3ggWp8DQN3c8iv07SiHwp5ueXncTFpfj5Diw1JMum
+X-Received: by 2002:a81:b54b:0:b0:61a:e3fc:512e with SMTP id
+ c11-20020a81b54b000000b0061ae3fc512emr7181123ywk.25.1713366460625; Wed, 17
+ Apr 2024 08:07:40 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240322144355.878930-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20240322144355.878930-6-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20240322144355.878930-6-prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20240322151219.885832-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20240322151219.885832-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20240322151219.885832-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 17 Apr 2024 17:04:11 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWpSUHjLG16xe2A9rg6kBC=yb9=ErvaB1H3qFa11Vtr3A@mail.gmail.com>
-Message-ID: <CAMuHMdWpSUHjLG16xe2A9rg6kBC=yb9=ErvaB1H3qFa11Vtr3A@mail.gmail.com>
-Subject: Re: [PATCH v4 5/5] serial: sh-sci: Add support for RZ/V2H(P) SoC
+Date: Wed, 17 Apr 2024 17:07:29 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdWCttb=ze27vfHs7LtjADU7v-nXimH8mm2zj5D6Uyvstg@mail.gmail.com>
+Message-ID: <CAMuHMdWCttb=ze27vfHs7LtjADU7v-nXimH8mm2zj5D6Uyvstg@mail.gmail.com>
+Subject: Re: [PATCH v2 2/2] clocksource/drivers/renesas-ostm: Allow OSTM
+ driver to reprobe for RZ/V2H(P) SoC
 To: Prabhakar <prabhakar.csengg@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Jiri Slaby <jirislaby@kernel.org>, 
+Cc: Daniel Lezcano <daniel.lezcano@linaro.org>, Thomas Gleixner <tglx@linutronix.de>, 
 	Rob Herring <robh+dt@kernel.org>, 
 	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Magnus Damm <magnus.damm@gmail.com>, linux-kernel@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-serial@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org, 
+	Chris Brandt <chris.brandt@renesas.com>, Magnus Damm <magnus.damm@gmail.com>, 
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-renesas-soc@vger.kernel.org, 
 	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
 	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Mar 22, 2024 at 3:45=E2=80=AFPM Prabhakar <prabhakar.csengg@gmail.c=
+On Fri, Mar 22, 2024 at 4:13=E2=80=AFPM Prabhakar <prabhakar.csengg@gmail.c=
 om> wrote:
 > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 >
-> Add serial support for RZ/V2H(P) SoC with earlycon.
+> The RZ/V2H(P) (R9A09G057) SoC is equipped with the Generic Timer Module,
+> also known as OSTM. Similar to the RZ/G2L SoC, the OSTM on the RZ/V2H(P)
+> SoC requires the reset line to be deasserted before accessing any
+> registers.
 >
-> The SCIF interface in the Renesas RZ/V2H(P) is similar to that available
-> in the RZ/G2L (R9A07G044) SoC, with the following differences:
->
-> - RZ/V2H(P) SoC has three additional interrupts: one for Tx end/Rx ready
->   and two for Rx and Tx buffer full, all of which are edge-triggered.
-> - RZ/V2H(P) supports asynchronous mode, whereas RZ/G2L supports both
->   synchronous and asynchronous modes.
-> - There are differences in the configuration of certain registers such
->   as SCSMR, SCFCR, and SCSPTR between the two SoCs.
->
-> To handle these differences on RZ/V2H(P) SoC SCIx_RZV2H_SCIF_REGTYPE
-> is added.
+> Early call to ostm_init() happens through TIMER_OF_DECLARE() which always
+> fails with -EPROBE_DEFER, as resets are not available that early in the
+> boot process.  To address this issue on the RZ/V2H(P) SoC, enable the OST=
+M
+> driver to be reprobed through the platform driver probe mechanism.
 >
 > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 > ---
-> Hi Geert,
->
-> To keep the changes minimal I've added a new regtype instead of
-> port type.
->
-> Cheers, Prabhakar
->
-> v3 - > v4
-> - Added SCIx_RZV2H_SCIF_REGTYPE to handle the differences on the
->   RZ/V2H(P) SoC
+> v1->v2
+> - Updated commit description
+> - Dropped usage of IS_ENABLED() and used defined() instead
 
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
