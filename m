@@ -1,122 +1,270 @@
-Return-Path: <linux-renesas-soc+bounces-4679-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-4680-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 269BA8A81F4
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 17 Apr 2024 13:20:59 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BC248A8225
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 17 Apr 2024 13:31:34 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5806E1C20E9F
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 17 Apr 2024 11:20:58 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1636F28251C
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 17 Apr 2024 11:31:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2222E13C90F;
-	Wed, 17 Apr 2024 11:20:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BC48C13C9B2;
+	Wed, 17 Apr 2024 11:31:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RUZdX5Hx"
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="KTVXFIAl"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E4AB13C832;
-	Wed, 17 Apr 2024 11:20:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 698C213C80D
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 17 Apr 2024 11:31:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713352854; cv=none; b=ZiA4RROgPXAaE6cSCNGC0iL7HJ+ZeQaJqOVNyg4rZUJa4OY7lb7OUR5xzf8B0417+sqXfXg5OW4nxnqDE/9dTsuNcOyCnCc+Zr089SiwqZhkkx/ICrijLA+XovI7bwvhJBKDAH0/gEvMUrJph7eHpO8jDuVhZHJ9wXlEV5uq87s=
+	t=1713353488; cv=none; b=c8neo+0Jf11vHn3ZNsBDqKXL20/6VdY1Gf2tgRMbQsZ8O+oaGcv/pc0mUwgqeAX2D+HlL37v9cY74vxH35ywrXQKq+8Z2Q+ah7eOBXG4H08c6VPdvLALXo/mxStnnb5mu1xGnzHsACpgvujMz84cR2g6KrjwtjI8b5LbhBt7hGo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713352854; c=relaxed/simple;
-	bh=Rq3gwc3GhQoOVdIkD+E2nDoNRsGfnXD8UQcYyZRBeno=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Y/871eAAVRCOngcqOJve1X91vBa7optgQYWzEFXSV9JTSRDLXMjqFvS4hIGqLZDsK4hCFLLQz2MstrZFQurx8dUAUl7y7lF8ARAdyMmK4tsbe+/3pGspmrL8TGiB8ecgpukPYyRGfZTrDwSaiG7LzQFTPxYKyufisPXeioBqrCA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RUZdX5Hx; arc=none smtp.client-ip=209.85.221.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-349c5732fd1so369053f8f.3;
-        Wed, 17 Apr 2024 04:20:52 -0700 (PDT)
+	s=arc-20240116; t=1713353488; c=relaxed/simple;
+	bh=ue7HaNfGuMBcd8IELoDZIuc6pkVsgBwETDAcj1Na2BY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=pp59m2Ew+/A1uFJSSPUEZ69Gi/E+aA40Muo2DllyIMS2cU8Nzx+5M1l6EcFLSXJpjwQYBHXVj1XHULr82VHwqsprSoMBipaxFxwDY1a4CvKv5MzgA3O5Gm0j9kb8SJk8jGOcqvOY+Ld5q6y21atZhcfSHoXmn6M6Dw9ONbNl00Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=KTVXFIAl; arc=none smtp.client-ip=209.85.208.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
+Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-2d9fe2b37acso66839071fa.2
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 17 Apr 2024 04:31:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1713352851; x=1713957651; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=K0HtLEl+svfltZjXnicchhY/2KiEAj25KRuBPUpt5y4=;
-        b=RUZdX5HxpG751V+43C4ivDnSnEJ/QYYJNWmIM6h/QpBbH0lqCg6wLaaNjxZYutT2tR
-         wWc6NJiOyn1LX5XxBxGRfgRprqW9HiCH+h4gRduHaf9skVcVtXc/X3rF1Yn6quFpOvrw
-         r18uc6ZW9GDDbMmWA+oMpX8zKqL1z2p8KyDyW+SP4wq8LXHEeDRn6RpVe9gdx9Dbe3St
-         aRtNEgCkpYbPF2/5vWClP+Af5hcpYefsF5BMsHvdZIxPsVj1pSPKDtFz+9B28kT6pJYI
-         oHN3mQ4fgzUKfrt8ziYa78k+Tohq2e+wLi0CLN5jjBNPen1+7qLHoxaWTIGdGKalDMlJ
-         +fmg==
+        d=tuxon.dev; s=google; t=1713353483; x=1713958283; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=WhbEzpd+5Jvj4DXECIuOb3gligK63xwRNnc0JkL5UaE=;
+        b=KTVXFIAlzf4Hyztl9wYtLbg8ZPm8JyV06r0DFkNSV+RccqnIiSCsDI+rsNl8Q7tY8S
+         obHgAJoQ+Pjkr1aaGYvP97XHhcFtLK2IRcOi98crym9PHxwn5rZV42V8w741s6S2Zvsc
+         3m9xCUUGtCOasZFU2Sd9ArtlvR2QHADMk4daKnOko3tJhU14UP4v4vnTeoB03xzCCYjm
+         gvtf2v718Oc0HlcY8yVxK96gLVelZHV5P4LQJ0k4ij7T/aBUu9V6m17Hj90bxLzK83bF
+         Ro96x90YI48rcLyUMoQde8HhyJOEhHVpmljx1PTp9vrvJxsPWBds+BE7Ns/QhvlyYhsK
+         XOfg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713352851; x=1713957651;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=K0HtLEl+svfltZjXnicchhY/2KiEAj25KRuBPUpt5y4=;
-        b=CN2pWsQSfwhqd8aNNL/v8ncz2S8kNLTQ1IZttmFGiuG8CKwmz0PeiHTpPm2DiDaqgm
-         we1230+FxGNKveYv4820NbvxP7oUO+4sQ5MLS9N7a7QSN8uNUbQEBhVjLAjvx4tlLSms
-         wR3EBGJm2zEXPrtJMnmrSvwyy+rBmmIk/DT8df83P4IGH7U/hh5RKUs/nsPjngdbTEvM
-         iw84lvdW1koi5Ex3GB2djOC2srYcizDGiKP3AdaK5UqER8wddq9CyBjQVzt8C+ImEeo7
-         KdxuYkZjTgXAIKiFCeJ4nusZlZqPwPfrF3JzkMsoKWnhi5hgKDyi1v3ZI2QQi+nvfD9u
-         FalA==
-X-Forwarded-Encrypted: i=1; AJvYcCW/5AGkDjhzzyww3/wtCrLnmLCrrSA/OS0Q+0YjQlIH9Onq3YVPKQkKIxBkhXMXU2KMY/9Y0RCNjMAJluFVEfhbQM4HYJxrufOowICCsmBCt7TrZKGVBCpRZiB8B41xfdoOvHwpU2p9/w==
-X-Gm-Message-State: AOJu0YzyAX7ixu00vk2t9JPjld9s48omcLtj7TP74pzao0dsWjLQLPOD
-	xV6cQgHs0eBOMr4DFUmdkUmzX7xID5M+0qBEnfeGsLkOuWFnBU0yGtmlXI+l
-X-Google-Smtp-Source: AGHT+IFx3TGm17jFArQN3cZD10pBddDq6RwvKkHMTLewGmYFVsrglztmCcq+WIj2Mtsi4qv31jIqMA==
-X-Received: by 2002:a05:6000:1b06:b0:348:104c:c105 with SMTP id f6-20020a0560001b0600b00348104cc105mr5487835wrz.46.1713352850611;
-        Wed, 17 Apr 2024 04:20:50 -0700 (PDT)
-Received: from prasmi.home ([2a00:23c8:2500:a01:2595:4364:d152:dff3])
-        by smtp.gmail.com with ESMTPSA id e15-20020adfef0f000000b00349bf6bf2c8sm1325737wro.28.2024.04.17.04.20.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 17 Apr 2024 04:20:50 -0700 (PDT)
-From: Prabhakar <prabhakar.csengg@gmail.com>
-X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-Cc: linux-renesas-soc@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Prabhakar <prabhakar.csengg@gmail.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH] arm64: dts: renesas: rzg3s-smarc-som: Enable eMMC by default
-Date: Wed, 17 Apr 2024 12:20:03 +0100
-Message-Id: <20240417112003.428348-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Mailer: git-send-email 2.34.1
+        d=1e100.net; s=20230601; t=1713353483; x=1713958283;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=WhbEzpd+5Jvj4DXECIuOb3gligK63xwRNnc0JkL5UaE=;
+        b=qU/Ml+AAa/TPnqtvO40eLfrecu/xcVVNasz92FFY9NJUGu0R+Tx8SG7eUp6H92NyZr
+         ZsStuNlnnuUWSsjTyIUw2p/yaHBmjYmbwnTcIbSRohzfOKn5n6Cfv0vlr/IUlEOTNaZM
+         qKQdLcMt6ZwM5l6QuP5CYZrb0IOwLiXbsCbugXQqrXTFeZy9HgF/+rrn+Sc0E7Zwj/gx
+         A1CZfZ0lY4G8t5TZEAHxbW1rcrE8Ju3BEQJXLo6gZrIR3ZxHYRaQYyLq2C9nNiUQSil3
+         vILHQlZ8DfiJCSrc8SPeVmKcYoxSFb9Z7helkRouBUOVOQt/YcG5GVOluHTG8VwnWK0E
+         8brQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXfCbGvPYMm3Ms7/ZjiNGHXNsRHEeKlbew1w/AezBbq+FOxHt/d3GWfBbk1sMFe/8/ocgFr4q5MwbdqcDUddhebpLY8Te47RDo/n8mcrOgQOUk=
+X-Gm-Message-State: AOJu0Ywk6nN25gVp1SireOf0RI4znXI1myL9A3cLPaqkfG0mbX7CwDV3
+	PSDE5H8KKdLnN8vn0tu5fwFyLIVBCx8oS9TbVQzZOhhCkGSGaA7lkA3XdtpswWM=
+X-Google-Smtp-Source: AGHT+IE4dVqP4Kf8EzGbQKqk9XBmoDdnmoZ41w0mgqYFVH4TvBxXIOqrYoZoLakxjgpUjyCD+aOxiA==
+X-Received: by 2002:a2e:9b1a:0:b0:2d8:8e1e:e15d with SMTP id u26-20020a2e9b1a000000b002d88e1ee15dmr9686124lji.32.1713353483334;
+        Wed, 17 Apr 2024 04:31:23 -0700 (PDT)
+Received: from [192.168.50.4] ([82.78.167.185])
+        by smtp.gmail.com with ESMTPSA id p12-20020a05600c358c00b004187f537394sm2495837wmq.8.2024.04.17.04.31.21
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 17 Apr 2024 04:31:22 -0700 (PDT)
+Message-ID: <64fccb3a-882b-444f-87d6-9dc5aff42055@tuxon.dev>
+Date: Wed, 17 Apr 2024 14:31:20 +0300
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 08/10] clk: renesas: rzg2l-cpg: Add suspend/resume
+ support for power domains
+Content-Language: en-US
+To: Ulf Hansson <ulf.hansson@linaro.org>
+Cc: geert+renesas@glider.be, mturquette@baylibre.com, sboyd@kernel.org,
+ robh@kernel.org, krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+ magnus.damm@gmail.com, linux-renesas-soc@vger.kernel.org,
+ linux-clk@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org,
+ Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+References: <20240307140728.190184-1-claudiu.beznea.uj@bp.renesas.com>
+ <20240307140728.190184-9-claudiu.beznea.uj@bp.renesas.com>
+ <CAPDyKFos=FP3GxX+5qAmBpqrR-8Q7MRhhV3HvPAtu2K6x=7XEw@mail.gmail.com>
+ <28508184-96f0-41b7-90bc-506d53cedaf9@tuxon.dev>
+ <CAPDyKFpQUdq5Rj+Rk-fyPFTLuz6=vt2ovR3MgH3zPQDeKa1u0A@mail.gmail.com>
+From: claudiu beznea <claudiu.beznea@tuxon.dev>
+In-Reply-To: <CAPDyKFpQUdq5Rj+Rk-fyPFTLuz6=vt2ovR3MgH3zPQDeKa1u0A@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-Enable eMMC by default on the RZ/G3S SMARC platform, as previously done
-on RZ/G2L boards and other Renesas platforms.
 
-The SW_CONFIG2 setting selects between the uSD0 card and eMMC. By setting
-SW_CONFIG2 to SW_OFF, we select eMMC by default.
+On 17.04.2024 12:39, Ulf Hansson wrote:
+> On Wed, 17 Apr 2024 at 10:05, claudiu beznea <claudiu.beznea@tuxon.dev> wrote:
+>>
+>> Hi, Ulf,
+>>
+>> On 16.04.2024 15:07, Ulf Hansson wrote:
+>>> On Thu, 7 Mar 2024 at 15:10, Claudiu <claudiu.beznea@tuxon.dev> wrote:
+>>>>
+>>>> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+>>>>
+>>>> RZ/G3S supports deep sleep states that it can reach with the help of the
+>>>> TF-A.
+>>>>
+>>>> RZ/G3S has a few power domains (e.g. GIC) that need to be always-on while
+>>>> Linux is running. These domains are initialized (and powered on) when
+>>>> clock driver is probed.
+>>>>
+>>>> As the TF-A takes control at the very last(suspend)/first(resume)
+>>>> phase of configuring the deep sleep state, it can do it's own settings on
+>>>> power domains.
+>>>
+>>> For my understanding, can you please elaborate on this part a bit.
+>>> What does the "last suspend/resume phase" mean, more exactly, here?
+>>
+>> The RZ/G3S SoC support a power saving mode where most of the SoC parts are
+>> turned off and the system RAM is switched to retention mode. This is done
+>> with the help of TF-A. The handshake b/w Linux and TF-A is done though the
+>> drivers/firmware/psci/psci.c driver.
+>>
+>> After Linux finishes the execution of suspend code the control is taken by
+>> TF-A. TF-A does the final settings on the system (e.g. switching the RAM to
+>> retention mode) and power off most of the SoC parts.
+>>
+>> By the last phase of the suspend I'm referring to the TF-A doing the final
+>> adjustments for the system to switch to this power saving mode.
+>>
+>> When resuming, as the TF-A is the 1st one being executed on the system
+>> (this is what I called above the 1st phase of the resume), TF-A moves the
+>> DDR out of retention mode, reconfigure basic IPs (like in boot case as most
+>> of the SoC parts were powered off) and then give the control to Linux which
+>> will execute the resume code.
+> 
+> Alright, thanks for clarifying! This makes sense to me now!
+> 
+>>
+>>
+>>>
+>>>>
+>>>> Thus, to restore the proper Linux state, add rzg2l_cpg_resume() which
+>>>> powers on the always-on domains and rzg2l_cpg_complete() which activates
+>>>> the power down mode for the IPs selected through CPG_PWRDN_IP{1, 2}.
+>>>>
+>>>> Along with it, added the suspend_check member to the RZ/G2L power domain
+>>>> data structure whose purpose is to checks if a domain can be powered off
+>>>> while the system is going to suspend. This is necessary for the serial
+>>>> console domain which needs to be powered on if no_console_suspend is
+>>>> available in bootargs.
+>>>>
+>>>> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+>>>> ---
 
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
----
- arch/arm64/boot/dts/renesas/rzg3s-smarc-som.dtsi | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+[ ... ]
 
-diff --git a/arch/arm64/boot/dts/renesas/rzg3s-smarc-som.dtsi b/arch/arm64/boot/dts/renesas/rzg3s-smarc-som.dtsi
-index 1f87150a2e0a..8a3d302f1535 100644
---- a/arch/arm64/boot/dts/renesas/rzg3s-smarc-som.dtsi
-+++ b/arch/arm64/boot/dts/renesas/rzg3s-smarc-som.dtsi
-@@ -25,7 +25,7 @@
-  *	SW_OFF - SD2 is connected to SoC
-  *	SW_ON  - SCIF1, SSI0, IRQ0, IRQ1 connected to SoC
-  */
--#define SW_CONFIG2	SW_ON
-+#define SW_CONFIG2	SW_OFF
- #define SW_CONFIG3	SW_ON
- 
- / {
--- 
-2.34.1
+>>>>
+>>>> +static int rzg2l_cpg_resume(struct device *dev)
+>>>> +{
+>>>> +       struct rzg2l_cpg_priv *priv = dev_get_drvdata(dev);
+>>>> +       const struct rzg2l_cpg_info *info = priv->info;
+>>>> +
+>>>> +       /* Power on always ON domains. */
+>>>> +       for (unsigned int i = 0; i < info->num_pm_domains; i++) {
+>>>> +               if (info->pm_domains[i].flags & RZG2L_PD_F_ALWAYS_ON) {
+>>>> +                       int ret = rzg2l_cpg_power_on(priv->domains[i]);
+>>>> +
+>>>> +                       if (ret)
+>>>> +                               return ret;
+>>>> +               }
+>>>> +       }
+>>>
+>>> I don't quite understand why this is needed? Is always-on PM domains
+>>> being powered-off during system wide suspend, so you need to power
+>>> them on again?
+>>
+>> Yes, as power to most of the system parts is cut off during sytem suspend
+>> (and DDR is kept in retention mode) and the resume is almost like a cold
+>> boot where the TF-A does basic re-initialization and then pass execution to
+>>  Linux resume code.
+> 
+> Hmm. If these are really always-on PM domains, why isn't the FW
+> powering them on again then before returning to Linux after a system
+> resume?
 
+I'll try to explain it better.
+
+The power domain implementation in this series tries to abstract the
+control of bus clock (though MSTOP registers) for individual modules
+available in RZ/G3S SoC.
+
+From hardware manual [1]: "The Module Standby Mode is a mode that requests
+the clock stop of the module specified by the master. The purpose of this
+mode is to reduce power consumption by stopping unnecessary functions."
+
+MSTOP is connected to individual modules as described in this picture:
+https://paste.pics/726c963c33a506651a4be5f327e2a46d
+
+There is also the PWRDN functionality for the modules that are part of the
+PD_ISOVCC domain. At the time of writing this series there was not much
+information in hardware manual about PWRDN functionality. The design team
+has been asked but there is no clear answer ATM if the sequence of using
+PWRDN in Linux (as proposed in this series) is good or not. I encountered
+no issues with it while experimenting thus I have kept it. If you prefer I
+can drop it and return with something afterwards, if any.
+
+As I said in the current implementation I also used the PWRDN. The PWRDN is
+IP specific but takes effect (as of my experiments) when this is executed:
+
++       /* Prepare for power down the BUSes in power down mode. */
++       if (info->pm_domain_pwrdn_mstop)
++               writel(CPG_PWRDN_MSTOP_ENABLE, priv->base + CPG_PWRDN_MSTOP);
+
+As of my experiments having CPG_PWRDN_MSTOP.CPG_PWRDN_MSTOP_ENABLE set
+applies the PWRDN to all the IPs for which PWRDN bit has been set in
+CPG_PWRDN_IP1 and CPG_PWRD_IP2 registers.
+
+This settings are applied in probe after domains are powered (thus PWRDN
+bits are properly set up for IP supporting it by calling ->power_on()) and
+at the end of resume (after PWRDN bits are properly setup for IPs
+supporting it by calling ->power_on())
+
+From my experiments, when returning from suspend (thus after firmware has
+been executed) the CPG_PWRDN_MSTOP_ENABLE bit at register CPG_PWRDN_MSTOP
+is zero. We power on the domains in Linux after resuming because of PWRDN
+functionality and CPG_PWRDN_MSTOP_ENABLE bit at register CPG_PWRDN_MSTOP.
+
+> 
+> In a way it sounds to me that they aren't really always-on PM domains,
+> as Linux seems to be capable of turning them on/off too, right?
+
+Yes, Linux has the ability of controlling them by setting MSTOP and PWRDN
+bits. This is because the IP specific PWRDN functionality takes effect when
+CPG_PWRDN_MSTOP_ENABLE bit at register CPG_PWRDN_MSTOP is set (as of my
+experiments).
+
+> 
+> That said, perhaps using GENPD_FLAG_RPM_ALWAYS_ON instead of
+> GENPD_FLAG_ALWAYS_ON for some PM domains can be another way forward?
+
+All this is becuase PWRD functionality. Explaining it to you made me
+consider that it would be better to just drop the PWRDN functionality at
+the moment until it is fully understood. With it I think we should be able
+to drop the rzg2l_cpg_power_on() in resume(), at least. What do you think?
+
+> In this way, the ->power_on|off() callbacks can be used to turn on/off
+> the PM domains, but only during system suspend/resume. Would that
+> work?
+
+I need to check it.
+
+Thank you for you review,
+Claudiu Beznea
+
+[1]
+https://www.renesas.com/us/en/products/microcontrollers-microprocessors/rz-mpus/rzg3s-general-purpose-microprocessors-single-core-arm-cortex-a55-11-ghz-cpu-and-dual-core-cortex-m33-250
+
+> 
+> [...]
+> 
+> Kind regards
+> Uffe
 
