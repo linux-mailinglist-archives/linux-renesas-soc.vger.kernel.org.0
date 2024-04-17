@@ -1,107 +1,119 @@
-Return-Path: <linux-renesas-soc+bounces-4675-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-4676-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E8148A7EB3
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 17 Apr 2024 10:52:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 123AD8A7FA2
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 17 Apr 2024 11:29:42 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5DC891C21226
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 17 Apr 2024 08:52:39 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 433951C21033
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 17 Apr 2024 09:29:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 677E812C462;
-	Wed, 17 Apr 2024 08:52:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1C32A12F37C;
+	Wed, 17 Apr 2024 09:29:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="lvnPxczV"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="mhwQPRAl"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com [209.85.219.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [217.70.183.194])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7C4B6D1CE
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 17 Apr 2024 08:52:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66C04E572;
+	Wed, 17 Apr 2024 09:29:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713343934; cv=none; b=l7bdL9qEfOQ0+1wSKclyQkCoMPw4JPC/dsDPFrwJt4YM8u4sFMk0IA95h7I5TEy14sLHYz/kEB64tva+DqJMCkMKh4/JHysMbLwkOy/R7M4FHCFae+rg4lkS5bZf2/f+QOR9Bx1O8HwBnKWmucjpoHuEOQTSUm/JgeKHi6VYH7E=
+	t=1713346178; cv=none; b=EI6liq/zmddVUafUZSN7/4Ro/BkGKw1Sfotnshkx03Ozvpa+HkNiIaVGC4E5X84Ay7FxSMoY37M9pE82HPKW+moQceFUbID1NtkCX7V/I20xO50KsxphiXkz0nGwz+1Tk571nCHJxiyrrFrd81mNnSuZJTRiveYRymUbyBt0sb0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713343934; c=relaxed/simple;
-	bh=JMmXhv3YrwRo9CQJAJUZqT+fsVATl/0IC2nfdrMLgsk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=jTTGMcs8fsRwPHzYiMzQfheWdg19Ryt5ECO149sycJLtdNHIc+6PoObwuZjxJH360s2b6lxG2Z0TJx0bG59OMmnyJdyitrcMgIHfPKWq6X+55v57mx00yUvlg3j0yWiuadWgURsDFWbQl3Ujbb8r+uK9i2QIHvknEWeYG8/CWJM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=lvnPxczV; arc=none smtp.client-ip=209.85.219.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-yb1-f180.google.com with SMTP id 3f1490d57ef6-dcd9e34430cso5874752276.1
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 17 Apr 2024 01:52:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1713343931; x=1713948731; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=RRn14IhApnKNDMlAbxEyi7xMVt+mEK/2ttermI9zL3I=;
-        b=lvnPxczVao+CzCTYv4I0R8SPvvG3tsbtgtgyimNSIaqXYRX8YFDmd+LWoqxvfZUQ9X
-         ZtR6Ezeh01BBOiRZDgT2yldcgY+27WjxK/eTxj24shCi6Ok0D3Y5h8o6WjTtgjl9yurv
-         DN4974LIVZ2JiIUdY+9/J78a+5kU4wIgzkC991JPwL2TQ52ZKIhDsn1ojyxfWQENySAK
-         QWzgID3kZkk61FZTjkTlElS30XFhtW1vqO6RAtelBjpA9GNxkMh6L67uftbU+uQpbfnB
-         X8lQURlusErPYJ+V3329VrrG5CXri7SBScYexVkMLTxhHfx7ZAnEAoj2kdpikjOUMLTv
-         n3iA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713343931; x=1713948731;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=RRn14IhApnKNDMlAbxEyi7xMVt+mEK/2ttermI9zL3I=;
-        b=ZC8MH9EE5Pbae6r0TT4zzV4nRujknb1UaQm6a/qrCcPNgmY2ODt8udCxWX5l6pHT6g
-         m/CgpF/BmISvGFWVwkdRfmP8D8SFdbq/YhiAzv6DKRWy7Z5BT7/yRrsRXMmJFodWwm8e
-         X46nQuSJBVBY7hGOol5kXcFwauhGz6Sv9DyRded2hlPlBTYyB6c0j95Sg8gNLXUHMbia
-         W6gRSOsznSFbwrga5uQgfMbVnH6IraVvoLGJckTmAhex0KqTObg/AhiVLdfIC5WesSpO
-         fbMdU7sm6+4EoVimzpNzeUIgSUz6b5qekvo0EZ36gqeCam3tbSfaFvSFRHbeu7Nn1bFT
-         7NGg==
-X-Forwarded-Encrypted: i=1; AJvYcCXG8JNsEWTPpQXbWzGICn3xqLb/OpnQei0LJDqEEE54/ZWQThUEDeAz9A1RvQbrL8fKweUVK47WCid8LEtEDr48FfLgD28Lwu+hFvD8WS1WEHU=
-X-Gm-Message-State: AOJu0YyoK4cu+JOnOQcy4stoAKIoBMPwTsQ64Owq2sOWQLMLLE5mxwvL
-	+lrHMpDcA0EJxERUx8eHfHYIZrZTSbFMge/O28zSb1UuBBuh5maHL0M/PtPAmxX3Qj0JMxKEYtG
-	tGu9xpxzaSE0B18X4+hoThYDcKNShGv36CFavgw==
-X-Google-Smtp-Source: AGHT+IEf6aAIcdoxddXDkHr829IAaeT7lDLdT4mK4keoFmK4FS9SzSqnT6aIUN8X5nS5SIgO08v+auKBl9foxX/lHs0=
-X-Received: by 2002:a5b:686:0:b0:dcd:1436:a4ce with SMTP id
- j6-20020a5b0686000000b00dcd1436a4cemr14063380ybq.23.1713343930717; Wed, 17
- Apr 2024 01:52:10 -0700 (PDT)
+	s=arc-20240116; t=1713346178; c=relaxed/simple;
+	bh=dAfMsMXvSUEMSWs22Y7XybMcFB2joyu4CM9IB29HTNY=;
+	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=ecSsszWEBfngpLzp0pZ3A2Br2nGK4ojo76/MvIiaKnQ/4LiRoF2abKzqtB16LgDBCCoHPdWiKapo19qVJNP0H5p+J2hIDHXkj9jDGEilDe7S9dxaQX21ltuqWW0zNMBiXWBJrj1YH4C/HLv8Vzub7/6q5ChFFioodnKaF1omGmc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=mhwQPRAl; arc=none smtp.client-ip=217.70.183.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+Received: by mail.gandi.net (Postfix) with ESMTPSA id C1E9040003;
+	Wed, 17 Apr 2024 09:29:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1713346173;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=j3i344ERuSxhSsjZp4G790f+W4T/PKZQWnrVfudLzaQ=;
+	b=mhwQPRAl2eAxgm367WvffpWd2HLo4U9HRWSem6zyjyJ4qTy+wDutGvj550D/e+ToldascP
+	mD6PDSlmlwsqRAAIdY2F5HL1J0VuFuLEQXBXpASBgc773GYY2DIeruPSNIfeZQgLz38wtZ
+	HPlxt9dfu/J813/WWZTz3dXqSN2KlTIhVzpOAxRCdML9ylMtidCRvcduhqxpZ3eFivDi1j
+	jY2w1UyhmXOEXZ9i9CXjnOYwblYD1bhYgHrJtqKMyBjjZv543catHdGXquiH5xY9anoTkQ
+	U2pWEoVvcXWgV56po0F7Nm0O6rq3tBf7xnpDjIY2GUT2bDaIdLIcnqWxRzixyg==
+Date: Wed, 17 Apr 2024 11:30:09 +0200 (CEST)
+From: Romain Gantois <romain.gantois@bootlin.com>
+To: Serge Semin <fancer.lancer@gmail.com>
+cc: Romain Gantois <romain.gantois@bootlin.com>, 
+    "David S. Miller" <davem@davemloft.net>, 
+    Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
+    Paolo Abeni <pabeni@redhat.com>, Rob Herring <robh@kernel.org>, 
+    Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+    Conor Dooley <conor+dt@kernel.org>, 
+    Geert Uytterhoeven <geert+renesas@glider.be>, 
+    Magnus Damm <magnus.damm@gmail.com>, 
+    Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+    Jose Abreu <joabreu@synopsys.com>, 
+    Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+    Russell King <linux@armlinux.org.uk>, 
+    =?ISO-8859-15?Q?Cl=E9ment_L=E9ger?= <clement.leger@bootlin.com>, 
+    Thomas Petazzoni <thomas.petazzoni@bootlin.com>, netdev@vger.kernel.org, 
+    devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+    linux-renesas-soc@vger.kernel.org, 
+    linux-stm32@st-md-mailman.stormreply.com, 
+    linux-arm-kernel@lists.infradead.org, 
+    "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>, 
+    Maxime Chevallier <maxime.chevallier@bootlin.com>
+Subject: Re: [PATCH net-next v3 2/5] net: stmmac: introduce pcs_init/pcs_exit
+ stmmac operations
+In-Reply-To: <42chuecdt7dpgm6fcrtt2crifvv5hflmtnmdrw5fvk3r7pwjgu@hlcv56dbeosf>
+Message-ID: <77722ced-4956-0e70-9492-c7b2e8557253@bootlin.com>
+References: <20240415-rzn1-gmac1-v3-0-ab12f2c4401d@bootlin.com> <20240415-rzn1-gmac1-v3-2-ab12f2c4401d@bootlin.com> <42chuecdt7dpgm6fcrtt2crifvv5hflmtnmdrw5fvk3r7pwjgu@hlcv56dbeosf>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cover.1712915891.git.geert+renesas@glider.be>
-In-Reply-To: <cover.1712915891.git.geert+renesas@glider.be>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Wed, 17 Apr 2024 10:52:00 +0200
-Message-ID: <CACRpkdZ8zgkiJCkGpaOqdB9Y27EaaoUm+GznmEEt+XWBbTO4hg@mail.gmail.com>
-Subject: Re: [GIT PULL] pinctrl: renesas: Fixes for v6.9
-To: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: linux-gpio@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+X-GND-Sasl: romain.gantois@bootlin.com
 
-On Fri, Apr 12, 2024 at 12:48=E2=80=AFPM Geert Uytterhoeven
-<geert+renesas@glider.be> wrote:
+Hi Serge,
 
-> The following changes since commit 4cece764965020c22cff7665b18a0120063590=
-95:
->
->   Linux 6.9-rc1 (2024-03-24 14:10:05 -0700)
->
-> are available in the Git repository at:
->
->   git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git=
- tags/renesas-pinctrl-fixes-for-v6.9-tag1
->
-> for you to fetch changes up to aa43c15a790cf083a6e6a7c531cffd27a5e1fd4f:
->
->   pinctrl: renesas: rzg2l: Execute atomically the interrupt configuration=
- (2024-03-26 09:42:37 +0100)
+On Tue, 16 Apr 2024, Serge Semin wrote:
 
-Pulled into my fixes branch, thanks!
+> I am currently working on my Memory-mapped DW XPCS patchset cooking:
+> https://lore.kernel.org/netdev/20231205103559.9605-1-fancer.lancer@gmail.com/
+> The changes in this series seems to intersect to what is/will be
+> introduced in my patchset. In particular as before I am going to
+> use the "pcs-handle" property for getting the XPCS node. If so what
+> about collecting PCS-related things in a single place. Like this:
+> 
+> int stmmac_xpcs_setup(struct net_device *ndev)
+> {
+> 	...
+> 
+> 	if (priv->plat->pcs_init) {
+> 		return priv->plat->pcs_init(priv); /* Romain' part */
+>	} else if (fwnode_property_present(priv->plat->port_node, "pcs-handle")) {
+> 		/* My DW XPCS part */
+> 	} else if (priv->plat->mdio_bus_data && priv->plat->mdio_bus_data->has_xpcs) {
+> 		/* Currently implemented procedure */
+> 	}
+> 
+> 	...
+> }
 
-Yours,
-Linus Walleij
+That seems like a good idea to me, although those setup functions would have to 
+be renamed to stmmac_pcs_setup/exit.
+
+Thanks,
+
+-- 
+Romain Gantois, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
