@@ -1,126 +1,115 @@
-Return-Path: <linux-renesas-soc+bounces-4687-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-4688-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F7FD8A8623
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 17 Apr 2024 16:38:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6EEC88A86B6
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 17 Apr 2024 16:52:44 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3FC101C208F0
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 17 Apr 2024 14:38:54 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9FBCC1C21811
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 17 Apr 2024 14:52:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0BA9313F44A;
-	Wed, 17 Apr 2024 14:38:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 624AB1422A2;
+	Wed, 17 Apr 2024 14:52:13 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
 Received: from mail-yb1-f175.google.com (mail-yb1-f175.google.com [209.85.219.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13F1413D53B;
-	Wed, 17 Apr 2024 14:38:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CED2138DD3;
+	Wed, 17 Apr 2024 14:52:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713364710; cv=none; b=nFqrbQqp5a7pI+IJ+G6hBpMAlv90cjYOzmsmE/j0XLncx8FB/cwI323hc2Whr4yBK0QhFG2RiKRTmcAw+mxFiAEGEzW9hyzwObjaD+wW/VjWeTH7vVgJ79uTHW0cnxd9t4ZyPPdVRyJ32uLbHomrtLPLcTLM1BM5UHtw/00f0mw=
+	t=1713365533; cv=none; b=MqWFWpqoWXgdrz3hgikboExCjo1Ry3aY8PC4UHMVckuL17hsxiBElj3rIMV9k3AXQ8znqsXCOB8Svu3kXYANTR6UfnmjQOO1EIEXLsbSUBS0fS/CBYsfPjLlWglpAnZW3oFhaxVnF+zp7xSP8Qczb/8irSRaGZUNlT5dCXB6Nho=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713364710; c=relaxed/simple;
-	bh=jLb75MpAdcnVk2677o897/IAdy8Q6IZIxsTA8GELTZM=;
+	s=arc-20240116; t=1713365533; c=relaxed/simple;
+	bh=ns7K8uQ8uC8NFTMTiEiwqxwnLZ/spdSlLaZ/lCi4ruA=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=P3uzOSextaZn8FR2agPO8v2njro9OWwR8wMrwbwNfKTkfmOaeb5c6w09yN56aFNzj304SYTBptNRU4ifPkwAu/b34boM0dpgzPZOoruYgfVchGmBJ1xiliNXHuQy+5+1kjUCtaZwdPeYrQqUz0syMGHRZYcBJVu8sZkOOcXpi+Q=
+	 To:Cc:Content-Type; b=Tn2pyCeG0pZV4WiZaYOGIqspCkNFVw7I76K9HV+xCFrlgTPUCOhf9K2qE/YyG4YUddJOFmxOmsGkwLuMznTBvsEDuyL55u9qjHj/rASonRuau8vLOzWFhCT0IuFfUZ9jszcKIgGjvzjkAWyWS3isGKWlfhlEoztxHZIZOMwmUKo=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.219.175
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yb1-f175.google.com with SMTP id 3f1490d57ef6-dc25e12cc63so908478276.0;
-        Wed, 17 Apr 2024 07:38:28 -0700 (PDT)
+Received: by mail-yb1-f175.google.com with SMTP id 3f1490d57ef6-dc742543119so5044612276.0;
+        Wed, 17 Apr 2024 07:52:11 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713364707; x=1713969507;
+        d=1e100.net; s=20230601; t=1713365531; x=1713970331;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=j9TnUioeKtNrYSjSpU0xUOKSjJt/djcW6aYlEJUt3U0=;
-        b=lCCIRINDCQGMCi+jrXw80q2K3NhCXrOSFNe8tUw/qnDsLu3Yqq3YmdHlZrMw0uRFMo
-         +mxYDUej5nFqDqjeFhpT675m2yj8MiRb+HAMt6uT/URcd549/y2WD58TIT4lNKzmRRqv
-         rZ7qE/ixKO7A/Xup6oTf5lPIm9NkFgzGqSbp9HChnVLbNedoyEJRV+9wq46OUyk45z3J
-         ea08Jbbl5hBOUUt90zkceLKlVnzqEunmVU6PzDNOcNr1uv6HiiIz3S42AXDW3+OaOOUR
-         f92QAXEG1rMCwH4lx72NvW1TZj3kaFvtI9bwxzyVsvIp2SI0D6WnYFk5ERSG6fPvec8O
-         TkWQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWGIn1eJs8ICQvYpX/9nkvFSoyOy9JBgrgUufGwPswrKvFGerNBAk1n2xLlo+stFZwiIATygxKrwtbSJQwniZrZHGElNbRbe2uZjgn6EqJGP50byDFONrMIKNsgvwnRNzfLYCN8AzS1cH7EQC1O22Q=
-X-Gm-Message-State: AOJu0Yyp3dFCQUKdS/3tONP03Bls7Kt0DezTZ0MkETIuK20jxeEwGvP9
-	eiCpPuoQSSCrRJOE9kFAqqNyEIdBNRvRegkXQfK5vVyBegFgh/2lpfFi7INOXeE=
-X-Google-Smtp-Source: AGHT+IGHT9UShlSOglkOY+xkmt3lOVto1FfABvma14Fna1eK9o4tsU2SRVHptDGwsQ3mK48acGoijg==
-X-Received: by 2002:a25:c749:0:b0:de1:5656:ba49 with SMTP id w70-20020a25c749000000b00de15656ba49mr4603380ybe.16.1713364707461;
-        Wed, 17 Apr 2024 07:38:27 -0700 (PDT)
-Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com. [209.85.128.182])
-        by smtp.gmail.com with ESMTPSA id i9-20020a256d09000000b00dc6e5ea9152sm2994739ybc.29.2024.04.17.07.38.27
+        bh=U4rFLFMP7uhBZnwM9rYpM+VdFgfW6XVyJZ9NVk6uI1k=;
+        b=gCESApHYwXkc8EFXFgu0SZG/WB6Siy+pjee8Lw8u6IKoqT8yuO4Jh98eo4qVpvDVZ+
+         TeVyqFbj8ZZS4NldTE3cvJ47L36EQgXDrJedpE9AvGd+lLEZeEl1FpRA/0R2qI3ITHK+
+         Mn8rfW7ih3u5Fwf94XoivE0dbxVJ0eSShEPqJmwyughOpP8EnGdmF+wUZEwC0MoPpCKt
+         11R2mXcW8Iz4OvyCJps4AXunzurmh5mG5ri3dIeBjfMtP1gAB5ahmrMZ3kqUi671LugK
+         Pbyiaai6dk+77R++lcFURk8PpRw6rSb+ivhYe/uSsiW2c+avRFrqLf8ZVsyp9iq35Wmx
+         5obQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVobZJ2JrM88zzwm3J/kAC8P/NFZHc5Dgc2iGafNQEbjyjPz1qXrtM1JbQQKjDe6YVchnEP9Gf8hTqMV+gsmqk06Cy4nyV/Y3u1G5avtFrukjmmS13k1owKVh0/4ybBdz0QwIHs9qE6GrnrgvDS44snDbPWAeBzPTmWTeple67fzJvLc5C8narzJ26F/JRnXUuX54/eSviBFNqtuWHo4ZrE1BFBRg0m0jLn
+X-Gm-Message-State: AOJu0Yx9l5Ucy3bg9WfoeJeZzIDZfUZdV7bWq3MMO5ecS1w99/tk+7zr
+	1lL/twqzT2F4VtzoeYqwAUUzHK8qoScFXNnI9Zq1arT+Sh7VgeyI0VxCA0NLt4U=
+X-Google-Smtp-Source: AGHT+IFKKi9klGLYTQg9HEkjQKa/7JPlPlA9FAXgS1pP4VDcZe62kmmi0QczEMVM877cxX6ucFYZZQ==
+X-Received: by 2002:a0d:d60d:0:b0:61a:c19f:fc4c with SMTP id y13-20020a0dd60d000000b0061ac19ffc4cmr8882978ywd.3.1713365530719;
+        Wed, 17 Apr 2024 07:52:10 -0700 (PDT)
+Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com. [209.85.128.176])
+        by smtp.gmail.com with ESMTPSA id m124-20020a817182000000b00611213d62adsm2989372ywc.124.2024.04.17.07.52.10
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 17 Apr 2024 07:38:27 -0700 (PDT)
-Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-61ab31d63edso8541217b3.1;
-        Wed, 17 Apr 2024 07:38:27 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCXp54gAA/EtlZ8jDB2Z8ngX3ZOO3jqeX6TF0eMyNCQLeUsDLjwolAz4YlmamwCnET4OX9Rq7OFVTr8Pj3s4i0rlqnthPk5uKltTMEo8irXvUPbC80XTgPY0fjkUoMQI11+uQtAnNVryJM9UCEHQgBU=
-X-Received: by 2002:a81:c741:0:b0:618:a587:7a41 with SMTP id
- i1-20020a81c741000000b00618a5877a41mr4603735ywl.16.1713364706955; Wed, 17 Apr
- 2024 07:38:26 -0700 (PDT)
+        Wed, 17 Apr 2024 07:52:10 -0700 (PDT)
+Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-61816fc256dso50555137b3.0;
+        Wed, 17 Apr 2024 07:52:10 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVqK/8V4XZ47dviTvvk64ftnO35leWjYc3bJuzQUS5y+QLxoPd86u+w/mZjywTqx07rJXAMcBXCDiBi8CiEGpxjt+0GYocneiw8vEq42cmSrfb1vcULeFuDmI/MXa1PAjqcEd5hDf4R2OYsFw67/llFG1dCpTbQNxQRgmP5zJA2t6qUVOQbIJzRFYkN09nYgWKDKJx8+ZCOm8JMg/FnBA3Kdc5CIfAa0HlB
+X-Received: by 2002:a81:4ec7:0:b0:615:21e7:6bf6 with SMTP id
+ c190-20020a814ec7000000b0061521e76bf6mr14888644ywb.14.1713365530376; Wed, 17
+ Apr 2024 07:52:10 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240321114201.359381-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20240321114201.359381-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20240322144355.878930-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20240322144355.878930-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20240322144355.878930-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 17 Apr 2024 16:38:14 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdVvARk6i_aU6B7yPFfAGwaK5Yh=idYP9iuEAHoP9PvjOg@mail.gmail.com>
-Message-ID: <CAMuHMdVvARk6i_aU6B7yPFfAGwaK5Yh=idYP9iuEAHoP9PvjOg@mail.gmail.com>
-Subject: Re: [PATCH] reset: reset-rzg2l-usbphy-ctrl: Ensure reset line is
- asserted in error path
+Date: Wed, 17 Apr 2024 16:51:58 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdXaCAkQ3BdjR-iUookW2o5jd3KHc_AC5MHxLKaYZTikpw@mail.gmail.com>
+Message-ID: <CAMuHMdXaCAkQ3BdjR-iUookW2o5jd3KHc_AC5MHxLKaYZTikpw@mail.gmail.com>
+Subject: Re: [PATCH v4 3/5] dt-bindings: serial: renesas,scif: Make
+ 'interrupt-names' property as required
 To: Prabhakar <prabhakar.csengg@gmail.com>
-Cc: Philipp Zabel <p.zabel@pengutronix.de>, Biju Das <biju.das.jz@bp.renesas.com>, 
-	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Jiri Slaby <jirislaby@kernel.org>, 
+	Rob Herring <robh+dt@kernel.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Magnus Damm <magnus.damm@gmail.com>, linux-kernel@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-serial@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org, 
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
 	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Prabhakar,
-
-On Thu, Mar 21, 2024 at 12:43=E2=80=AFPM Prabhakar <prabhakar.csengg@gmail.=
-com> wrote:
+On Fri, Mar 22, 2024 at 3:45=E2=80=AFPM Prabhakar <prabhakar.csengg@gmail.c=
+om> wrote:
 > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 >
-> In the event of failure during devm_reset_controller_register(), ensure
-> that the reset line is asserted back.
+> As all the SoCs having multiple interrupts have 'interrupt-names' propert=
+y
+> in their respective DTSIs, make 'interrupt-names' property as required
+> so that we can validate them using dtbs_check.
 >
-> Fixes: bee08559701fb ("reset: renesas: Add RZ/G2L usbphy control driver")
 > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-
-Thanks for your patch!
-
-> --- a/drivers/reset/reset-rzg2l-usbphy-ctrl.c
-> +++ b/drivers/reset/reset-rzg2l-usbphy-ctrl.c
-> @@ -132,8 +132,10 @@ static int rzg2l_usbphy_ctrl_probe(struct platform_d=
-evice *pdev)
->         priv->rcdev.dev =3D dev;
->
->         error =3D devm_reset_controller_register(dev, &priv->rcdev);
-> -       if (error)
-> +       if (error) {
-> +               reset_control_assert(priv->rstc);
->                 return error;
-> +       }
->
->         spin_lock_init(&priv->lock);
->         dev_set_drvdata(dev, priv);
+> ---
+> v3->v4
+> - New patch
 
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-Alternatively, you could register a cleanup handler with
-devm_add_action_or_reset(), like many drivers already do.
-Or better, turn devm_aspeed_peci_reset_control_deassert() into a
-generic helper, and convert all drivers[1] to use that.
+> Note, we need patch [0] to be applied or else we might see
+> dtbs_check warning.
+>
+> [0] https://patchwork.kernel.org/project/linux-renesas-soc/patch/20240318=
+174345.46824-1-prabhakar.mahadev-lad.rj@bp.renesas.com/
 
-That would just leave us with undoing pm_runtime_enable(), which can
-be automated using devm_pm_runtime_enable() instead.
-
-[1] git grep -w devm.*reset_control_assert
+That is commit 7db74b65a93bac5a ("ARM: dts: renesas: r7s72100:
+Add interrupt-names to SCIF nodes") in renesas-dts-for-v6.10
+(next-20240327 and later).
 
 Gr{oetje,eeting}s,
 
