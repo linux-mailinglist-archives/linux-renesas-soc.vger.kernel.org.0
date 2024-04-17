@@ -1,101 +1,127 @@
-Return-Path: <linux-renesas-soc+bounces-4684-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-4685-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 447078A849F
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 17 Apr 2024 15:30:28 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E03BE8A84CB
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 17 Apr 2024 15:35:06 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id F3F40281F2E
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 17 Apr 2024 13:30:26 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1D28E1C20443
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 17 Apr 2024 13:35:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5F2071411D9;
-	Wed, 17 Apr 2024 13:28:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RfMBHhlA"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A1A3113F423;
+	Wed, 17 Apr 2024 13:35:03 +0000 (UTC)
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com [209.85.208.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FC0D1411CC;
-	Wed, 17 Apr 2024 13:28:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 367CF13E8A5;
+	Wed, 17 Apr 2024 13:35:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713360522; cv=none; b=tnDFfd1mnoNuhwcB9AFqDO4ZVIjDDzTyg3cPhMdbfDMBpY49IT+B2WkpjjCcvZQ4//yZGjhBY4qgGxart+B9fIYjP7PJw05fweks2zvb39UKLGCqdfUHZKTSGdEtYuzBcYD+rMpYISmhxhvVAw2CFCfAaFRHbq18tCZrasyCThU=
+	t=1713360903; cv=none; b=gwZPrj2se5DeEqAZqQT3Cl+JphH/ZgZ9Q8D96odT/+ictvsnSq2byLJe/5B2a3x4FiAWQ8CoFxo8F8cN5bYmyubbbHCPGMwVdkg+WYmjEqw9QaxZDzpGbjJ2lh1a2TK+A0Tszcgl5bCSN8FAWxaSqTXshjAUsuzCjCSFStMgcG8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713360522; c=relaxed/simple;
-	bh=lqa4Juxf0WEfUGXrAzHfnxrI0oFVoAKGZcOv04ym5QM=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=nRa0HvfnEB4R4CEebi8ncPOKlFzsqQ2V7twA5iS4IUMEPLZrY7ofQp1AVcxh4YuaPPsy9vztNX8x3AfzUEFnZnMeCcz7RF9u/OY3jmtGM3mXg/WawBUYXLwA/4CQwOglFQTBXqAOLABKWKod1XqQhB7Jn7xbPaVvKozJCbRd1Pw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RfMBHhlA; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9D145C072AA;
-	Wed, 17 Apr 2024 13:28:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1713360521;
-	bh=lqa4Juxf0WEfUGXrAzHfnxrI0oFVoAKGZcOv04ym5QM=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=RfMBHhlAwhaPav6Uml+GXDYvv5KFLB/HI4W2ZJVwARdmN++jQIFqkch7arcjVokOg
-	 uBz+3DUIYznrZALSLp9llVz/frSy6WYmlT+YfkbYW7K7kFpx//47loo6WELzfh7oxn
-	 CYC0GqC/RUUOHJLFgQExOt0O2p/F5a1AFK2vOIgLxf9QXVfXn7kTJCeKBtLYhDpZPW
-	 1pss//6fKWW+77RYHM9DA9l0vqARJnVfcEvpPg/nsZQmGN/aOk815aqTcaGhoLl+p1
-	 Gu+fwGaNxVMQiaymCKQh3wJAw1tRenzKx3qit7y+chtzewWsMHY2dxOssK6j+kC/e5
-	 kzaCD6vV/CYOA==
-From: Mark Brown <broonie@kernel.org>
-To: Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: linux-spi@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-renesas-soc@vger.kernel.org
-In-Reply-To: <68a4d8ad8638c1133e21d0eef87e8982ddea3dd8.1713279687.git.geert+renesas@glider.be>
-References: <68a4d8ad8638c1133e21d0eef87e8982ddea3dd8.1713279687.git.geert+renesas@glider.be>
-Subject: Re: [PATCH dt-bindings] spi: renesas,sh-msiof: Add r8a779h0
- support
-Message-Id: <171336052029.1701161.15301025990181660561.b4-ty@kernel.org>
-Date: Wed, 17 Apr 2024 22:28:40 +0900
+	s=arc-20240116; t=1713360903; c=relaxed/simple;
+	bh=/d/vgfY9ZqhlkTu9z/z2w3nshzsdM3jdTkH8ww8CBjY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=mBPlXs9CrOLFRpOjbvReQorhOnsvBvtCOwhWa4YhBCzFk65vCxRXB8wgIGYN9VbuZJ99qHxTS6DFZHoNVRVdSMPFKkg5ZcMTjwKP2CbUE4wzrnxiK4+247L30ptb7pcxUf5SGTRTFHoJ17+080ynWOnFwcydmDMoBUNcRhr4JUo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.208.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lj1-f170.google.com with SMTP id 38308e7fff4ca-2db2f6cb312so9581811fa.2;
+        Wed, 17 Apr 2024 06:35:00 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1713360897; x=1713965697;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=tYLOtqLakuRU/KOeT+MfgISLGTBZ5ALu0eybD1xQB5U=;
+        b=DbrBjbwS0OL+AZXoYBDGyVuA3Qfa/ZYKpWBCZNo/zF/WTXD1UecfcoX2L9UlWlLnG6
+         1Db6IL/764z2o5huSkSxwZ+YZGDpLcpIBAamLU7mK2cpGxni588XHZknDL0aMc/F5QiL
+         YuOHD8HyXKbjFON5gtSnGAS5qH6jo+zTXjrl42MU/YZe0wQT5ex0qb8YwZzrMKTNBw3Z
+         etElxbPtAIyhcHRYzipXxLcIYWAEewmvvo0J1DYbFxSfnOHraS8Fg+Th21UEvizFbHMw
+         HHnHPA4tmM7fVGXig02FgWa8tRt1FxIN1VKOYYyL/tbslvnA2Kmthyq32dXjil59L+q5
+         jXuw==
+X-Forwarded-Encrypted: i=1; AJvYcCWENOdAqaecSQj/wRY+aKD1VMNY/T2OyIQHvtD9h36ih5zbeGbBtNXTdA9Udc7D9SzrFaE1dil4aVrptNXNOx4VaTKWxsVSZj0/jFtLcOuNB1rPpAAFUqZDHPzy38TpsEUUok9Wa+B6BLV+zUfhJQ==
+X-Gm-Message-State: AOJu0YwVPnwatAepfHfh6wm35KnSMDMIBLv/9IhkeCGcyDi7/3uWxmDh
+	rnRRJZKRSOZ5UTJhlRdGgDirV7uxuX9hf/cpMJrLWYoa6XvqFsh4waa5ih8JTBg=
+X-Google-Smtp-Source: AGHT+IHd2fazgLdqzj7Y+qbuMw7klimxYFtfqtuYU9B6GyVjQfdqOf1xbj6LNGMUvRkID8P3mvTNHg==
+X-Received: by 2002:a2e:9c93:0:b0:2d6:fa7a:a670 with SMTP id x19-20020a2e9c93000000b002d6fa7aa670mr12343496lji.33.1713360897291;
+        Wed, 17 Apr 2024 06:34:57 -0700 (PDT)
+Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com. [209.85.208.176])
+        by smtp.gmail.com with ESMTPSA id b43-20020a05651c0b2b00b002d82bbf7862sm1881622ljr.25.2024.04.17.06.34.51
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 17 Apr 2024 06:34:56 -0700 (PDT)
+Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-2db13ca0363so14370681fa.3;
+        Wed, 17 Apr 2024 06:34:51 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUwNpqk6Rs6ILksKGKg/0ourqoKFjCR+9nOJAP7+Q7wR7xLqnND/OVpHzNBig+uMHJr0u7mFFYA2Cq4SaPSC5wLSmHn1ZfnWYE2hnRX3Mf0oFJ7kbjus/a1ILYW2fecqAoMK/v0TM/8PpBePh79VQ==
+X-Received: by 2002:a2e:7310:0:b0:2d3:8c1f:c0ff with SMTP id
+ o16-20020a2e7310000000b002d38c1fc0ffmr12644848ljc.16.1713360891351; Wed, 17
+ Apr 2024 06:34:51 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.14-dev
+References: <20240417120230.4086364-1-niklas.soderlund+renesas@ragnatech.se>
+In-Reply-To: <20240417120230.4086364-1-niklas.soderlund+renesas@ragnatech.se>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Wed, 17 Apr 2024 15:34:36 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdWxxzn2t2qURChY=62GmDPKbQku63uRCCg=CDRCeOwJTw@mail.gmail.com>
+Message-ID: <CAMuHMdWxxzn2t2qURChY=62GmDPKbQku63uRCCg=CDRCeOwJTw@mail.gmail.com>
+Subject: Re: [PATCH] media: rcar-vin: Add support for RAW10
+To: =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+Cc: Hans Verkuil <hverkuil@xs4all.nl>, Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, 16 Apr 2024 17:11:48 +0200, Geert Uytterhoeven wrote:
-> Document support for the Clock-Synchronized Serial Interface with FIFO
-> (MSIOF) in the Renesas R-Car V4M (R8A779H0) SoC.
-> 
-> 
+Hi Niklas,
 
-Applied to
+On Wed, Apr 17, 2024 at 2:06=E2=80=AFPM Niklas S=C3=B6derlund
+<niklas.soderlund+renesas@ragnatech.se> wrote:
+> Some R-Car SoCs are capable of capturing RAW10. Add support for it
+> using the V4L2_PIX_FMT_Y10 pixel format, which I think is the correct
+> format to express RAW10 unpacked to users.
+>
+> Signed-off-by: Niklas S=C3=B6derlund <niklas.soderlund+renesas@ragnatech.=
+se>
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-next
+Thanks for your patch!
 
-Thanks!
+I am no VIN or V4L2 expert, but the register bits LGTM, so
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-[1/1] spi: renesas,sh-msiof: Add r8a779h0 support
-      commit: 1f48cbd6f00f2d1442ac8757ae8c32b672073927
+> --- a/drivers/media/platform/renesas/rcar-vin/rcar-dma.c
+> +++ b/drivers/media/platform/renesas/rcar-vin/rcar-dma.c
+> @@ -780,6 +782,9 @@ static int rvin_setup(struct rvin_dev *vin)
+>         case MEDIA_BUS_FMT_Y8_1X8:
+>                 vnmc |=3D VNMC_INF_RAW8;
+>                 break;
+> +       case MEDIA_BUS_FMT_Y10_1X10:
+> +               vnmc |=3D VNMC_INF_RGB666;
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+The actual meaning of this bit is not uniform across all SoCs.
+On R-Car V3U it means (partial) 16 bpp, on R-Car Gen3 it means 18 bpp.
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
+> +               break;
+>         default:
+>                 break;
+>         }
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
+Gr{oetje,eeting}s,
 
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
+                        Geert
 
-Thanks,
-Mark
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
 
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
 
