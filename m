@@ -1,353 +1,194 @@
-Return-Path: <linux-renesas-soc+bounces-4677-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-4678-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3083D8A7FFB
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 17 Apr 2024 11:41:17 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 100238A800C
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 17 Apr 2024 11:44:24 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 539261C21271
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 17 Apr 2024 09:41:16 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 910FC1F23A5A
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 17 Apr 2024 09:44:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DCA4D132493;
-	Wed, 17 Apr 2024 09:40:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0E33458ADE;
+	Wed, 17 Apr 2024 09:44:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="UuoZTE6Y"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MNxW6n5a"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-yb1-f179.google.com (mail-yb1-f179.google.com [209.85.219.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8D0C131BD3
-	for <linux-renesas-soc@vger.kernel.org>; Wed, 17 Apr 2024 09:40:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15198136988
+	for <linux-renesas-soc@vger.kernel.org>; Wed, 17 Apr 2024 09:44:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713346815; cv=none; b=nGU51Qv/Syqqu2Wc6SyOUmWQVL4lWZLeWLdkOuemA9eo6+ac3o2dWOmNNoOECnLCDbjLRcE9WfraWfEXfjePBZomdtBkWOBPnMgd1eAPtG2owz6JCr/XRAuvjwphIZUEC0q9U/tIkGagmRw+zG36uMjha8O5VBEaE/WasuEJCPw=
+	t=1713347044; cv=none; b=mMga5hJagFgmZrqbHHnYREOP4Nf4oKMTBgYx2rGbGSMkvPxsz7CDvat9dHAxfojDBJzsT0K+DIeckwLwvQ6a1j2sWECwj41qkhIUM2d9t3/Mr6tzIdSwO8jziJuTVWsyu2LmeMnZcq/36R319QmqRhdOwPu5qqwRtCGSuBJEWls=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713346815; c=relaxed/simple;
-	bh=l7Yc46hYH1V/Pbg4b2fFx/WKSMKlWrcG4VqfJMfsMvI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=tTdJ46U0ZIYOJnOPSHrZa7l5vD73+8jj3Lo1h15RCURVjuuDAdKLFAbI78nX/y56ABkjUfYzX8iDLTCGWci6eZ+RCt3y1ktKqIU/oMt4GKsjwMSllOCUgR+Qfu/+N3IvPA8t617ZeZ5/uQhIR1CfWTt+TszcAnQK5x4F2bFH51s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=UuoZTE6Y; arc=none smtp.client-ip=209.85.219.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-yb1-f179.google.com with SMTP id 3f1490d57ef6-dcc84ae94c1so5138532276.1
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 17 Apr 2024 02:40:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1713346813; x=1713951613; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=ygviRP1jIE8nmnslvVwo8drTHEdzU5aqCtfbO77o0wc=;
-        b=UuoZTE6YKwS2Zq+p8WhFgmIJOQMx+gfcKUl0z00uJqnV9wxSJEIUUMgLzuUMLjGdZy
-         nJDfBIgTPMD/Ge3D6uPvsI1bLMfsyPFK2OsvIATyygcrz92aYxhbNnJ7lpSJl92tgJ0G
-         MXkHOl0xHIKH4EjTvih2Farb5l9aldCc/mD+rbBZFWmXwioUdCE9iA1eWGoIzKgHQEKA
-         WJxVtOfZaPAZbh9YpOxb4Vqc43SLjTHX4uFOLN3pxCPh39TmKZZm5cfVI+p8eZt2HJW6
-         QO0Fczim4WXVAJSevyQ2ig5ansXIL7BcqxyH4jJ+0wKcDUm+I+sHUH3nqsIo7YNTNM21
-         w2tQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713346813; x=1713951613;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ygviRP1jIE8nmnslvVwo8drTHEdzU5aqCtfbO77o0wc=;
-        b=qg/m95Zc/o3uKrP73tEnrZ+S7nFWJfo2JkgU8PpaO8+DkKkOD6wtz/BS8wIz4ZZPW9
-         oMiTvIzC3s2H+hj1Z+aEj2ndDIO38AQ0fbPsJqsHUuPF3zgpC70l93yi/4x1tnAhIS3w
-         f9YDold4jDHBF9VuZ+2m0xDz+sRQ/JKY/pLjsj3RhXYHdeMESEC66FegHMzHVIp3576d
-         6omAymhOCP6+ytO2yBJvv9gOR5Cq7v6AmWMOPTIjTBNgIhCkZu88R0k53yCLmjrj4JEg
-         Dx4sb38lBEbJ9vgHduIUDmSw9cpAhBAN1H82H69oVN3yI9Q1Su+v6qvdT9zh6z8nVokm
-         rDXw==
-X-Forwarded-Encrypted: i=1; AJvYcCUU5lbJTOP4vXaqNtE2ID102j8PUk7WKzYxveH/BUR+GOUcbwXj9qhw79wcPnTguyIgUYbLB6w+1S2gSgnjcLZMXn+KbFSAAJuPWwGFljBao3s=
-X-Gm-Message-State: AOJu0YyJifrf64Z/pCbG0j9b+tF7feOjaz2tiop7lJE3UMkl0XmaLdY2
-	Bfp1HvImX+UhFH9rneTJZNtOC4Y6WAleUkXV/w55kwen7Eea1AEmm+U5a2BhX3RhYnwb63vmh8z
-	Zq4CCPkM3DC0N1FpQM07LBqPJlS9wPjKsfhrnxQ==
-X-Google-Smtp-Source: AGHT+IHuINer4ennmzfrVuJg5GvqotCsbUk7jjI6Q7Gtr0n2ni9mP1sVfZMvdd1GPJJ6demJaFrEesCnvRyy1+BF+Tc=
-X-Received: by 2002:a05:6902:561:b0:dcb:b0f0:23fc with SMTP id
- a1-20020a056902056100b00dcbb0f023fcmr13939501ybt.22.1713346812834; Wed, 17
- Apr 2024 02:40:12 -0700 (PDT)
+	s=arc-20240116; t=1713347044; c=relaxed/simple;
+	bh=Qa88ttQVLH705LQU5rHK5dIqGQJj6S7oGphEqFRcKek=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=BURRVRB5VgOB+43QXKS8vx4WSHxpQoIxYhdjhhEh2FKeuMYIPxJBSqH1Zi/g/9mkETuNVOUwfUpL+6wtUGZrlPg1d8DarxEk7joLTCg+eLv/8oqZchZY9XGAXzCmjFXl7BE2/tOZivQlKELlSTlvEF3hMQ4DbokpmuZ5bsqoZKM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MNxW6n5a; arc=none smtp.client-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1713347043; x=1744883043;
+  h=date:from:to:cc:subject:message-id;
+  bh=Qa88ttQVLH705LQU5rHK5dIqGQJj6S7oGphEqFRcKek=;
+  b=MNxW6n5a4O+t7pBFOmNMya01ulQesON2ut2J6QjHHWL/8nPv7smENCHN
+   rBXw6uxPU3GBeU6YAC0MgPowe1rmcaY+0qPIalDERRZYWZBT9c0qUHkFt
+   xig5UmXuTehGB1RCGgUwF1iLxYodDRexxr6xgNe9r6ZL5v61XHOIJnVgA
+   GO58b6d5UxieBHCWKpLvxeLYKwW211d3czkvE3JEV94PrMgSRNZqnwfAT
+   Hs3ecGrrdfRa9Oklu2qgZrrPy/d/JaHipDPo+JhiPExQtPBgDgm2lFADH
+   Cf7k8ABwwpF7f39xEiV+gzYFmXhxbfC4/HWfIfN+Y3UBU9OdcIvCIiWyL
+   w==;
+X-CSE-ConnectionGUID: UYSl+gAIQV2sdZml90nCLg==
+X-CSE-MsgGUID: h+oI1bCPTE+NI36L8H/Lqg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11046"; a="8949527"
+X-IronPort-AV: E=Sophos;i="6.07,208,1708416000"; 
+   d="scan'208";a="8949527"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Apr 2024 02:44:02 -0700
+X-CSE-ConnectionGUID: mBk2lC8wQtaBeTxFMvwKuQ==
+X-CSE-MsgGUID: zKV4fGkZQ7Oo6PnCkFx4IA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,208,1708416000"; 
+   d="scan'208";a="22658638"
+Received: from unknown (HELO 23c141fc0fd8) ([10.239.97.151])
+  by fmviesa009.fm.intel.com with ESMTP; 17 Apr 2024 02:44:01 -0700
+Received: from kbuild by 23c141fc0fd8 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rx1pf-0006S2-0E;
+	Wed, 17 Apr 2024 09:43:59 +0000
+Date: Wed, 17 Apr 2024 17:43:11 +0800
+From: kernel test robot <lkp@intel.com>
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: linux-renesas-soc@vger.kernel.org
+Subject: [geert-renesas-drivers:topic/v4m-gray-hawk-single-v3] BUILD
+ SUCCESS a8df4ab73ee2f5780a5e9b280cb37fe2efadd91e
+Message-ID: <202404171709.xvVNHtUI-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20240307140728.190184-1-claudiu.beznea.uj@bp.renesas.com>
- <20240307140728.190184-9-claudiu.beznea.uj@bp.renesas.com>
- <CAPDyKFos=FP3GxX+5qAmBpqrR-8Q7MRhhV3HvPAtu2K6x=7XEw@mail.gmail.com> <28508184-96f0-41b7-90bc-506d53cedaf9@tuxon.dev>
-In-Reply-To: <28508184-96f0-41b7-90bc-506d53cedaf9@tuxon.dev>
-From: Ulf Hansson <ulf.hansson@linaro.org>
-Date: Wed, 17 Apr 2024 11:39:36 +0200
-Message-ID: <CAPDyKFpQUdq5Rj+Rk-fyPFTLuz6=vt2ovR3MgH3zPQDeKa1u0A@mail.gmail.com>
-Subject: Re: [PATCH v2 08/10] clk: renesas: rzg2l-cpg: Add suspend/resume
- support for power domains
-To: claudiu beznea <claudiu.beznea@tuxon.dev>
-Cc: geert+renesas@glider.be, mturquette@baylibre.com, sboyd@kernel.org, 
-	robh@kernel.org, krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, 
-	magnus.damm@gmail.com, linux-renesas-soc@vger.kernel.org, 
-	linux-clk@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, 
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
 
-On Wed, 17 Apr 2024 at 10:05, claudiu beznea <claudiu.beznea@tuxon.dev> wrote:
->
-> Hi, Ulf,
->
-> On 16.04.2024 15:07, Ulf Hansson wrote:
-> > On Thu, 7 Mar 2024 at 15:10, Claudiu <claudiu.beznea@tuxon.dev> wrote:
-> >>
-> >> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-> >>
-> >> RZ/G3S supports deep sleep states that it can reach with the help of the
-> >> TF-A.
-> >>
-> >> RZ/G3S has a few power domains (e.g. GIC) that need to be always-on while
-> >> Linux is running. These domains are initialized (and powered on) when
-> >> clock driver is probed.
-> >>
-> >> As the TF-A takes control at the very last(suspend)/first(resume)
-> >> phase of configuring the deep sleep state, it can do it's own settings on
-> >> power domains.
-> >
-> > For my understanding, can you please elaborate on this part a bit.
-> > What does the "last suspend/resume phase" mean, more exactly, here?
->
-> The RZ/G3S SoC support a power saving mode where most of the SoC parts are
-> turned off and the system RAM is switched to retention mode. This is done
-> with the help of TF-A. The handshake b/w Linux and TF-A is done though the
-> drivers/firmware/psci/psci.c driver.
->
-> After Linux finishes the execution of suspend code the control is taken by
-> TF-A. TF-A does the final settings on the system (e.g. switching the RAM to
-> retention mode) and power off most of the SoC parts.
->
-> By the last phase of the suspend I'm referring to the TF-A doing the final
-> adjustments for the system to switch to this power saving mode.
->
-> When resuming, as the TF-A is the 1st one being executed on the system
-> (this is what I called above the 1st phase of the resume), TF-A moves the
-> DDR out of retention mode, reconfigure basic IPs (like in boot case as most
-> of the SoC parts were powered off) and then give the control to Linux which
-> will execute the resume code.
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git topic/v4m-gray-hawk-single-v3
+branch HEAD: a8df4ab73ee2f5780a5e9b280cb37fe2efadd91e  [TEST] arm64: dts: renesas: gray-hawk-single: Add IRQ2 keyboard
 
-Alright, thanks for clarifying! This makes sense to me now!
+elapsed time: 973m
 
->
->
-> >
-> >>
-> >> Thus, to restore the proper Linux state, add rzg2l_cpg_resume() which
-> >> powers on the always-on domains and rzg2l_cpg_complete() which activates
-> >> the power down mode for the IPs selected through CPG_PWRDN_IP{1, 2}.
-> >>
-> >> Along with it, added the suspend_check member to the RZ/G2L power domain
-> >> data structure whose purpose is to checks if a domain can be powered off
-> >> while the system is going to suspend. This is necessary for the serial
-> >> console domain which needs to be powered on if no_console_suspend is
-> >> available in bootargs.
-> >>
-> >> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-> >> ---
-> >>
-> >> Changes in v2:
-> >> - none; this patch is new
-> >>
-> >>  drivers/clk/renesas/rzg2l-cpg.c | 66 ++++++++++++++++++++++++++++++---
-> >>  drivers/clk/renesas/rzg2l-cpg.h |  1 +
-> >>  2 files changed, 62 insertions(+), 5 deletions(-)
-> >>
-> >> diff --git a/drivers/clk/renesas/rzg2l-cpg.c b/drivers/clk/renesas/rzg2l-cpg.c
-> >> index b36700f4a9f5..b18af227177e 100644
-> >> --- a/drivers/clk/renesas/rzg2l-cpg.c
-> >> +++ b/drivers/clk/renesas/rzg2l-cpg.c
-> >> @@ -15,6 +15,7 @@
-> >>  #include <linux/clk.h>
-> >>  #include <linux/clk-provider.h>
-> >>  #include <linux/clk/renesas.h>
-> >> +#include <linux/console.h>
-> >>  #include <linux/delay.h>
-> >>  #include <linux/device.h>
-> >>  #include <linux/init.h>
-> >> @@ -139,6 +140,7 @@ struct rzg2l_pll5_mux_dsi_div_param {
-> >>   * @num_resets: Number of Module Resets in info->resets[]
-> >>   * @last_dt_core_clk: ID of the last Core Clock exported to DT
-> >>   * @info: Pointer to platform data
-> >> + * @domains: generic PM domains
-> >>   * @mux_dsi_div_params: pll5 mux and dsi div parameters
-> >>   */
-> >>  struct rzg2l_cpg_priv {
-> >> @@ -155,6 +157,8 @@ struct rzg2l_cpg_priv {
-> >>
-> >>         const struct rzg2l_cpg_info *info;
-> >>
-> >> +       struct generic_pm_domain **domains;
-> >> +
-> >>         struct rzg2l_pll5_mux_dsi_div_param mux_dsi_div_params;
-> >>  };
-> >>
-> >> @@ -1570,12 +1574,14 @@ struct rzg2l_cpg_pm_domains {
-> >>   * struct rzg2l_cpg_pd - RZ/G2L power domain data structure
-> >>   * @genpd: generic PM domain
-> >>   * @priv: pointer to CPG private data structure
-> >> + * @suspend_check: check if domain could be powered off in suspend
-> >>   * @conf: CPG PM domain configuration info
-> >>   * @id: RZ/G2L power domain ID
-> >>   */
-> >>  struct rzg2l_cpg_pd {
-> >>         struct generic_pm_domain genpd;
-> >>         struct rzg2l_cpg_priv *priv;
-> >> +       int (*suspend_check)(void);
-> >>         struct rzg2l_cpg_pm_domain_conf conf;
-> >>         u16 id;
-> >>  };
-> >> @@ -1676,6 +1682,13 @@ static int rzg2l_cpg_power_off(struct generic_pm_domain *domain)
-> >>         struct rzg2l_cpg_reg_conf pwrdn = pd->conf.pwrdn;
-> >>         struct rzg2l_cpg_priv *priv = pd->priv;
-> >>
-> >> +       if (pd->suspend_check) {
-> >> +               int ret = pd->suspend_check();
-> >> +
-> >> +               if (ret)
-> >> +                       return ret;
-> >> +       }
-> >> +
-> >
-> > This should not be needed at all, I think.
-> >
-> > Instead, genpd should be able to take the correct decision during
-> > system-wide suspend and simply avoid calling the ->power_off()
-> > callback, when that is needed.
-> >
-> > If I understand correctly, GENPD_FLAG_ACTIVE_WAKEUP is set for the
-> > genpd in question. The only remaining thing would then be to let the
-> > console driver, during system suspend, check whether
-> > "console_suspend_enabled" is set and then call device_set_awake_path()
-> > for its device. In this way, genpd should then keep the corresponding
-> > PM domain powered-on.
->
-> You're right! I've checked it and all good w/o ->suspend_check() if
-> device_set_wakeup_path() is called for the console driver.
->
-> I'll send an update for it.
+configs tested: 101
+configs skipped: 3
 
-Great! Please keep me posted on the entire series for next version. I
-will try to continue to help review this.
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
->
-> >
-> >>         /* Set MSTOP. */
-> >>         if (mstop.mask)
-> >>                 writel(mstop.mask | (mstop.mask << 16), priv->base + mstop.off);
-> >> @@ -1687,8 +1700,14 @@ static int rzg2l_cpg_power_off(struct generic_pm_domain *domain)
-> >>         return 0;
-> >>  }
-> >>
-> >> -static int __init rzg2l_cpg_pd_setup(struct rzg2l_cpg_pd *pd, bool always_on)
-> >> +static int rzg2l_pd_suspend_check_console(void)
-> >>  {
-> >> +       return console_suspend_enabled ? 0 : -EBUSY;
-> >> +}
-> >> +
-> >> +static int __init rzg2l_cpg_pd_setup(struct rzg2l_cpg_pd *pd, u32 flags)
-> >> +{
-> >> +       bool always_on = !!(flags & RZG2L_PD_F_ALWAYS_ON);
-> >>         struct dev_power_governor *governor;
-> >>
-> >>         pd->genpd.flags |= GENPD_FLAG_PM_CLK | GENPD_FLAG_ACTIVE_WAKEUP;
-> >> @@ -1700,6 +1719,8 @@ static int __init rzg2l_cpg_pd_setup(struct rzg2l_cpg_pd *pd, bool always_on)
-> >>         } else {
-> >>                 pd->genpd.power_on = rzg2l_cpg_power_on;
-> >>                 pd->genpd.power_off = rzg2l_cpg_power_off;
-> >> +               if (flags & RZG2L_PD_F_CONSOLE)
-> >> +                       pd->suspend_check = rzg2l_pd_suspend_check_console;
-> >>                 governor = &simple_qos_governor;
-> >>         }
-> >>
-> >> @@ -1719,7 +1740,7 @@ static int __init rzg2l_cpg_add_clk_domain(struct rzg2l_cpg_priv *priv)
-> >>
-> >>         pd->genpd.name = np->name;
-> >>         pd->priv = priv;
-> >> -       ret = rzg2l_cpg_pd_setup(pd, true);
-> >> +       ret = rzg2l_cpg_pd_setup(pd, RZG2L_PD_F_ALWAYS_ON);
-> >>         if (ret)
-> >>                 return ret;
-> >>
-> >> @@ -1778,13 +1799,13 @@ static int __init rzg2l_cpg_add_pm_domains(struct rzg2l_cpg_priv *priv)
-> >>         domains->onecell_data.domains = domains->domains;
-> >>         domains->onecell_data.num_domains = info->num_pm_domains;
-> >>         domains->onecell_data.xlate = rzg2l_cpg_pm_domain_xlate;
-> >> +       priv->domains = domains->domains;
-> >>
-> >>         ret = devm_add_action_or_reset(dev, rzg2l_cpg_genpd_remove, &domains->onecell_data);
-> >>         if (ret)
-> >>                 return ret;
-> >>
-> >>         for (unsigned int i = 0; i < info->num_pm_domains; i++) {
-> >> -               bool always_on = !!(info->pm_domains[i].flags & RZG2L_PD_F_ALWAYS_ON);
-> >>                 struct rzg2l_cpg_pd *pd;
-> >>
-> >>                 pd = devm_kzalloc(dev, sizeof(*pd), GFP_KERNEL);
-> >> @@ -1796,11 +1817,11 @@ static int __init rzg2l_cpg_add_pm_domains(struct rzg2l_cpg_priv *priv)
-> >>                 pd->id = info->pm_domains[i].id;
-> >>                 pd->priv = priv;
-> >>
-> >> -               ret = rzg2l_cpg_pd_setup(pd, always_on);
-> >> +               ret = rzg2l_cpg_pd_setup(pd, info->pm_domains[i].flags);
-> >>                 if (ret)
-> >>                         return ret;
-> >>
-> >> -               if (always_on) {
-> >> +               if (info->pm_domains[i].flags & RZG2L_PD_F_ALWAYS_ON) {
-> >>                         ret = rzg2l_cpg_power_on(&pd->genpd);
-> >>                         if (ret)
-> >>                                 return ret;
-> >> @@ -1890,9 +1911,43 @@ static int __init rzg2l_cpg_probe(struct platform_device *pdev)
-> >>         if (error)
-> >>                 return error;
-> >>
-> >> +       dev_set_drvdata(dev, priv);
-> >> +
-> >>         return 0;
-> >>  }
-> >>
-> >> +static int rzg2l_cpg_resume(struct device *dev)
-> >> +{
-> >> +       struct rzg2l_cpg_priv *priv = dev_get_drvdata(dev);
-> >> +       const struct rzg2l_cpg_info *info = priv->info;
-> >> +
-> >> +       /* Power on always ON domains. */
-> >> +       for (unsigned int i = 0; i < info->num_pm_domains; i++) {
-> >> +               if (info->pm_domains[i].flags & RZG2L_PD_F_ALWAYS_ON) {
-> >> +                       int ret = rzg2l_cpg_power_on(priv->domains[i]);
-> >> +
-> >> +                       if (ret)
-> >> +                               return ret;
-> >> +               }
-> >> +       }
-> >
-> > I don't quite understand why this is needed? Is always-on PM domains
-> > being powered-off during system wide suspend, so you need to power
-> > them on again?
->
-> Yes, as power to most of the system parts is cut off during sytem suspend
-> (and DDR is kept in retention mode) and the resume is almost like a cold
-> boot where the TF-A does basic re-initialization and then pass execution to
->  Linux resume code.
+tested configs:
+alpha                             allnoconfig   gcc  
+alpha                            allyesconfig   gcc  
+alpha                               defconfig   gcc  
+arc                              allmodconfig   gcc  
+arc                               allnoconfig   gcc  
+arc                              allyesconfig   gcc  
+arc                                 defconfig   gcc  
+arm                              allmodconfig   gcc  
+arm                               allnoconfig   clang
+arm                              allyesconfig   gcc  
+arm                                 defconfig   clang
+arm64                            allmodconfig   clang
+arm64                             allnoconfig   gcc  
+arm64                               defconfig   gcc  
+csky                             allmodconfig   gcc  
+csky                              allnoconfig   gcc  
+csky                             allyesconfig   gcc  
+csky                                defconfig   gcc  
+hexagon                          allmodconfig   clang
+hexagon                           allnoconfig   clang
+hexagon                          allyesconfig   clang
+hexagon                             defconfig   clang
+i386                             allmodconfig   gcc  
+i386                              allnoconfig   gcc  
+i386                             allyesconfig   gcc  
+i386         buildonly-randconfig-001-20240417   clang
+i386         buildonly-randconfig-002-20240417   gcc  
+i386         buildonly-randconfig-003-20240417   clang
+i386         buildonly-randconfig-004-20240417   gcc  
+i386         buildonly-randconfig-005-20240417   gcc  
+i386         buildonly-randconfig-006-20240417   gcc  
+i386                                defconfig   clang
+i386                  randconfig-001-20240417   clang
+i386                  randconfig-002-20240417   gcc  
+i386                  randconfig-003-20240417   gcc  
+i386                  randconfig-004-20240417   clang
+i386                  randconfig-005-20240417   clang
+i386                  randconfig-006-20240417   clang
+i386                  randconfig-011-20240417   gcc  
+i386                  randconfig-012-20240417   gcc  
+i386                  randconfig-013-20240417   clang
+i386                  randconfig-014-20240417   gcc  
+i386                  randconfig-015-20240417   gcc  
+i386                  randconfig-016-20240417   clang
+loongarch                        allmodconfig   gcc  
+loongarch                         allnoconfig   gcc  
+loongarch                           defconfig   gcc  
+m68k                             allmodconfig   gcc  
+m68k                              allnoconfig   gcc  
+m68k                             allyesconfig   gcc  
+m68k                                defconfig   gcc  
+microblaze                       allmodconfig   gcc  
+microblaze                        allnoconfig   gcc  
+microblaze                       allyesconfig   gcc  
+microblaze                          defconfig   gcc  
+mips                              allnoconfig   gcc  
+mips                             allyesconfig   gcc  
+nios2                            allmodconfig   gcc  
+nios2                             allnoconfig   gcc  
+nios2                            allyesconfig   gcc  
+nios2                               defconfig   gcc  
+openrisc                          allnoconfig   gcc  
+openrisc                         allyesconfig   gcc  
+openrisc                            defconfig   gcc  
+parisc                           allmodconfig   gcc  
+parisc                            allnoconfig   gcc  
+parisc                           allyesconfig   gcc  
+parisc                              defconfig   gcc  
+parisc64                            defconfig   gcc  
+powerpc                          allmodconfig   gcc  
+powerpc                           allnoconfig   gcc  
+powerpc                          allyesconfig   clang
+riscv                            allmodconfig   clang
+riscv                             allnoconfig   gcc  
+riscv                            allyesconfig   clang
+riscv                               defconfig   clang
+s390                             allmodconfig   clang
+s390                              allnoconfig   clang
+s390                             allyesconfig   gcc  
+s390                                defconfig   clang
+sh                               allmodconfig   gcc  
+sh                                allnoconfig   gcc  
+sh                               allyesconfig   gcc  
+sh                                  defconfig   gcc  
+sparc                            allmodconfig   gcc  
+sparc                             allnoconfig   gcc  
+sparc                               defconfig   gcc  
+sparc64                          allmodconfig   gcc  
+sparc64                          allyesconfig   gcc  
+sparc64                             defconfig   gcc  
+um                               allmodconfig   clang
+um                                allnoconfig   clang
+um                               allyesconfig   gcc  
+um                                  defconfig   clang
+um                             i386_defconfig   gcc  
+um                           x86_64_defconfig   clang
+x86_64                            allnoconfig   clang
+x86_64                           allyesconfig   clang
+x86_64                              defconfig   gcc  
+x86_64                          rhel-8.3-rust   clang
+xtensa                            allnoconfig   gcc  
 
-Hmm. If these are really always-on PM domains, why isn't the FW
-powering them on again then before returning to Linux after a system
-resume?
-
-In a way it sounds to me that they aren't really always-on PM domains,
-as Linux seems to be capable of turning them on/off too, right?
-
-That said, perhaps using GENPD_FLAG_RPM_ALWAYS_ON instead of
-GENPD_FLAG_ALWAYS_ON for some PM domains can be another way forward?
-In this way, the ->power_on|off() callbacks can be used to turn on/off
-the PM domains, but only during system suspend/resume. Would that
-work?
-
-[...]
-
-Kind regards
-Uffe
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
