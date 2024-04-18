@@ -1,144 +1,94 @@
-Return-Path: <linux-renesas-soc+bounces-4694-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-4695-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4288C8A8D6A
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 17 Apr 2024 23:00:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E721A8A90D4
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Apr 2024 03:40:59 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A93ADB231A6
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 17 Apr 2024 21:00:22 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 6AA73B225ED
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Apr 2024 01:40:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E993F481A7;
-	Wed, 17 Apr 2024 21:00:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ED1904EB2B;
+	Thu, 18 Apr 2024 01:40:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ep/096dj"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FHPohald"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-vk1-f172.google.com (mail-vk1-f172.google.com [209.85.221.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5531811CA0;
-	Wed, 17 Apr 2024 21:00:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C31D44EB45;
+	Thu, 18 Apr 2024 01:40:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713387619; cv=none; b=jc7jlBorfLNYaAQWfbwZyKAcsFHB276U03XuShAP7QLNuKXomFYZ2FWQb9KQ6ikElKmcGEDN8qBDLftievQumLkDM547oiebd3rrFjEx87ueQtl1VvW6dm4MpLcAXxrUTN3U0MiwGa8qT9oArX6XF+NNg94dqLtyfhBX9F7eKvY=
+	t=1713404428; cv=none; b=FV9sW33dinJNpATm4GNuRF1sFT2M+sjGXYgjKJfC98p/+B2j2eaLX2SRf/r2Wtiqz7m6ZfSr8Y3riY9pxjw5meRScp5sQDLzLMUg/UWhMwP9rL13WAdmE282ed0i8e4JFRMEqzpaFUXSWzgYAGlHJduj714QAzem1oXemujfJAU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713387619; c=relaxed/simple;
-	bh=h0LsziHZrPLdHFoKqTRlSzeeWSNawnGjXerjz6G5plI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=mH6YWp5BIlSCNLMk7AcylrtXWw0LKcmU07VDKEFGOYtX5ZPQAAm3QnfCWMvJjUxWrS/6bSkpt9Fq+1PcbtMjpfhHzaNOfqvxv5p/19qtj95hC9iTfab6ppHUVrw3q1bike3CJlfJp/e7ng98FVR794zz1TGS3YbFEXy3R7TTlVc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ep/096dj; arc=none smtp.client-ip=209.85.221.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f172.google.com with SMTP id 71dfb90a1353d-4dcd4cb27beso23265e0c.3;
-        Wed, 17 Apr 2024 14:00:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1713387617; x=1713992417; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=iSuniwuDrjvFmNVPR3oekSBsyWWc7GZEaP5elvPlAzk=;
-        b=ep/096djh8j/cHf/quCa3m6Emk1fbdXQf6lTf4LUspU3xoW3tvmh7yu2pEYEc4IuCo
-         2WvwhH6fMbxU8Ji2sCAJEczvvUZ8NNDJ0uxc1BlKhgLtU6kEBTBbSUJFK5aSnxQ0M5FC
-         +gptfpCSW8773VmTU/6xhAyFA/N6AV35bIUp9v/4e7qcmeyUigp+LyLq4Oxcb1MY29E5
-         QIdjPG4WKZylX7IHm6Z9PnE8C/q4W1FNL5yjrbb4QxrvOh0dIfFxdIulkiZACtf1VqZc
-         6G1n526AGEnV84KmZTGtnqvzeebtpy/KMNIrUsRK3zbe8n2AqywJRAPJLPE4zEvYfYJL
-         Z+kQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713387617; x=1713992417;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=iSuniwuDrjvFmNVPR3oekSBsyWWc7GZEaP5elvPlAzk=;
-        b=XNguRjPkaaw7iEPBeJBEXMwlO2OuQOXnPhdenRWzZmGC/coNdLlrfbue5ULQxfd6Lu
-         LdEdwWlQ8Weifd/uk9zTDfCWf2Ia6qSnRQGqA/k9nDzoYc++EYZxh4fCBZA0m4/fGANI
-         bhGqo3Q7nXJTgPaCZntRvI+TYovNELRngJYbE5JQI8ie+fgPLHgLP3m0bw6mYDzFvmoV
-         fihCA0640K92AJDXIlbct8J05LsXKQrj2b3zUUBNx4GM3z+pSNncxH76KeXfc20dw1Ls
-         YcpHZ4oEoUK+bM31gS31iyXHgzujmTVNicCEiwetGt4fT4+bPYljErcgSm6dTkP1RKFC
-         wWdA==
-X-Forwarded-Encrypted: i=1; AJvYcCU0GXNmn5ZHEAO0uicj4LK6fn2C+AGiLTalpfRtTOqAymS6N6m08NJJf2EB7RV5EuE9KFUiheBf5OUEni0IiG+3fmK9QlQss9t6T2+mLT7WRQ3MikV173t4W0B4epdwMWEGPmwTDhW2eHtqfIjDtEs=
-X-Gm-Message-State: AOJu0Yx40f4rVEjHERql33RWRxAio6wMfEpsbf+EY262D76ojpSi7t6k
-	unzDgn7N077YDAcW19znbNso1mAL+hkJSMJxkUZRWzin8eqX8elDNjvgLQl9EQEyw46kmBe6Fp/
-	2b+Z0Wz4bovdnuUciWu/j912sSLlusEID
-X-Google-Smtp-Source: AGHT+IHD84aVtDXQEffOuqP04Y2q6mD1LCgnxpwZv5lEZ6tzn0BThGEsLNCfjT23hZWkEzubn9hjLrEVv4kfzTkiq90=
-X-Received: by 2002:a05:6122:1193:b0:4dc:fbc5:d47 with SMTP id
- x19-20020a056122119300b004dcfbc50d47mr749238vkn.16.1713387616935; Wed, 17 Apr
- 2024 14:00:16 -0700 (PDT)
+	s=arc-20240116; t=1713404428; c=relaxed/simple;
+	bh=FypjU3Cv9Xbkes0N0jwShTnlpibEfiXMY7aFZo2oBQw=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=NWktEHvas5hTe4n6v6GdxtnMMETAV0e/xK2/AzddhHXgAH4Cr5K0cLSILdvybM0DLvsV9JY/dyW3doKyuOEKY5ncA3hM3BqW7MSjnRKWSCKM9PFL6wNRRRYIP5sGSh6wJ8WBikzEc2CH1OkYv+MAKa3S9q1R5N0bVhkpRIzAOek=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FHPohald; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 4C321C4AF0E;
+	Thu, 18 Apr 2024 01:40:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1713404428;
+	bh=FypjU3Cv9Xbkes0N0jwShTnlpibEfiXMY7aFZo2oBQw=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=FHPohald5fY4ULFcXvQ9RYKcSK1zk3XFCNL4argR/vFjiVU25mYbcOfrI03hG1ULs
+	 WkgnF/ZMumF0RUpHoFjDYbqpvWEG8doI9qbYh5jfT4EbdfSuZFpmoAJwP02xgloMGK
+	 hhBVMqTTpAjT2hXoTNEJ+cL1lNurfDkP5+3llpmM7IqtPn4mgDxrN0kLpqdUzf4m7b
+	 HspSVVfCpLwCuMgbbgHwkiJzmOexlsDt+zfOdGGN+zjEizgDoQW5zcs1hksTC3h264
+	 oua7/Qa5ArmzPEthpmviHPP1ucRiss4eqBItdqDrQA1ysk+B8pNGQ2rCbmPpW1NWVy
+	 wgMEjcUmHrltQ==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 390BFC43638;
+	Thu, 18 Apr 2024 01:40:28 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240321114201.359381-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAMuHMdVvARk6i_aU6B7yPFfAGwaK5Yh=idYP9iuEAHoP9PvjOg@mail.gmail.com>
-In-Reply-To: <CAMuHMdVvARk6i_aU6B7yPFfAGwaK5Yh=idYP9iuEAHoP9PvjOg@mail.gmail.com>
-From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Wed, 17 Apr 2024 21:59:50 +0100
-Message-ID: <CA+V-a8sXDBZvOWJzD7SANPJLyeQaSA-0t24KJo=1Wwoz27JLLA@mail.gmail.com>
-Subject: Re: [PATCH] reset: reset-rzg2l-usbphy-ctrl: Ensure reset line is
- asserted in error path
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Philipp Zabel <p.zabel@pengutronix.de>, Biju Das <biju.das.jz@bp.renesas.com>, 
-	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH net-next] net: dsa: rzn1_a5psw: provide own phylink MAC
+ operations
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: 
+ <171340442822.27861.17034756086086126855.git-patchwork-notify@kernel.org>
+Date: Thu, 18 Apr 2024 01:40:28 +0000
+References: <E1rwfuJ-00753D-6d@rmk-PC.armlinux.org.uk>
+In-Reply-To: <E1rwfuJ-00753D-6d@rmk-PC.armlinux.org.uk>
+To: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
+Cc: andrew@lunn.ch, olteanv@gmail.com, clement.leger@bootlin.com,
+ f.fainelli@gmail.com, davem@davemloft.net, edumazet@google.com,
+ kuba@kernel.org, pabeni@redhat.com, linux-renesas-soc@vger.kernel.org,
+ netdev@vger.kernel.org
 
-Hi Geert,
+Hello:
 
-Thank you for the review.
+This patch was applied to netdev/net-next.git (main)
+by Jakub Kicinski <kuba@kernel.org>:
 
-On Wed, Apr 17, 2024 at 3:38=E2=80=AFPM Geert Uytterhoeven <geert@linux-m68=
-k.org> wrote:
->
-> Hi Prabhakar,
->
-> On Thu, Mar 21, 2024 at 12:43=E2=80=AFPM Prabhakar <prabhakar.csengg@gmai=
-l.com> wrote:
-> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> >
-> > In the event of failure during devm_reset_controller_register(), ensure
-> > that the reset line is asserted back.
-> >
-> > Fixes: bee08559701fb ("reset: renesas: Add RZ/G2L usbphy control driver=
-")
-> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
->
-> Thanks for your patch!
->
-> > --- a/drivers/reset/reset-rzg2l-usbphy-ctrl.c
-> > +++ b/drivers/reset/reset-rzg2l-usbphy-ctrl.c
-> > @@ -132,8 +132,10 @@ static int rzg2l_usbphy_ctrl_probe(struct platform=
-_device *pdev)
-> >         priv->rcdev.dev =3D dev;
-> >
-> >         error =3D devm_reset_controller_register(dev, &priv->rcdev);
-> > -       if (error)
-> > +       if (error) {
-> > +               reset_control_assert(priv->rstc);
-> >                 return error;
-> > +       }
-> >
-> >         spin_lock_init(&priv->lock);
-> >         dev_set_drvdata(dev, priv);
->
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
->
-> Alternatively, you could register a cleanup handler with
-> devm_add_action_or_reset(), like many drivers already do.
-> Or better, turn devm_aspeed_peci_reset_control_deassert() into a
-> generic helper, and convert all drivers[1] to use that.
->
-Good point, I'll send an RFC patch for this.
+On Tue, 16 Apr 2024 11:19:19 +0100 you wrote:
+> Convert rzn1_a5psw to provide its own phylink MAC operations, thus
+> avoiding the shim layer in DSA's port.c. We need to provide a stub for
+> the mac_config() method which is mandatory.
+> 
+> Signed-off-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
+> ---
+>  drivers/net/dsa/rzn1_a5psw.c | 47 ++++++++++++++++++++++++------------
+>  1 file changed, 31 insertions(+), 16 deletions(-)
 
-> That would just leave us with undoing pm_runtime_enable(), which can
-> be automated using devm_pm_runtime_enable() instead.
->
-Agreed.
+Here is the summary with links:
+  - [net-next] net: dsa: rzn1_a5psw: provide own phylink MAC operations
+    https://git.kernel.org/netdev/net-next/c/a3c363df0ad2
 
-> [1] git grep -w devm.*reset_control_assert
->
-Cheers,
-Prabhakar
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
+
 
