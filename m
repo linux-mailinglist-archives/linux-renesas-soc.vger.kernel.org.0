@@ -1,167 +1,117 @@
-Return-Path: <linux-renesas-soc+bounces-4707-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-4708-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id B26E68A9B3C
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Apr 2024 15:26:19 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id DE3D98A9BA8
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Apr 2024 15:52:55 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E3CE01C2284F
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Apr 2024 13:26:18 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DDDAD1C22F3E
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Apr 2024 13:52:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9B85415D5AE;
-	Thu, 18 Apr 2024 13:26:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4F3621635DF;
+	Thu, 18 Apr 2024 13:52:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dqQA7eu1"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="RmxsbDgx"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D006415FA94;
-	Thu, 18 Apr 2024 13:26:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 652C26A8CA;
+	Thu, 18 Apr 2024 13:52:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713446776; cv=none; b=JOo04ZgO/we1hOV3m2dmvEW3BzqDVRfWbXHaiVv9nW4D1fQHQUkYi34+IuswbuWC5M0Ugvdn1lU/7Gc8qG02BMX1fQ31GckUK/YKj3LiqzYnBvM+vtOZfJuKPyi/hpv8m6pq1H+q0ZZhhRriY17pp8Eakx5QATgPlbheoeT5NV0=
+	t=1713448356; cv=none; b=ZKjOrqTuJE/EF5vU2s7jauO22adZTTuNkzOviX7mgjlL7eXpUSWhAmth2wdN77XYEhWcOr+rBJr8j6Pckr0lc/qaqWrkxxW+mhTFeyCc1pIambwZoWf+U4jdIfDwHirru5c5D+gaTsQl0QIJ7xXHBqLIkwFdlGaz3zma6i0ST/U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713446776; c=relaxed/simple;
-	bh=W8loeJgPBjnjnkzn24m+LbcwcKGo+/TYQDyUzZ/j8q0=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=kdV+ZpyWPsSL39h5XXz1UyVxiVTanUZr8l2I0UCUdAIB7hdoxbGb5+IcsSnivO5dy+jJ8RLghyT3Amm2Q8R31WVflXBXBTrL/e+wtmp9RRMPwL8bJfy7haQlxvVO7uUgAS7sR7WTlxJAE2pdp5zFfBzFxtbKmlvOhNMa6KodDh0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dqQA7eu1; arc=none smtp.client-ip=209.85.128.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-418c2bf2f55so6267125e9.2;
-        Thu, 18 Apr 2024 06:26:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1713446773; x=1714051573; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=lAjezbYFk4kRuwBAyZVCH+a9cPM1rylHv2qjz+E2Bv8=;
-        b=dqQA7eu1t6NUDnFvDRM/uT6RukUzyUVJ6ZwiaWrzJ6c/YiBiVE5gylPyyTN4SHY4Jd
-         KkZi+N1QLyNirA75Iw7Xy4ORDaa31mPyQV39F4pJZ2lX6gKLh1K880EV6JVftJVh0Gb6
-         aJo7g/uDUUzzZDxcfIqCTli/EK+QWYvj2wLS7rfsplu5OdkzsZs9jkshimvIyXXhCAp3
-         9bJ7pgRqzuvLCm+7UiMXH/8bTEzRttZ0xtW7yUPqoRTL24FTEKST45oPg9WsIJD0DZUE
-         G8wIAlmvHHQrFdyDLa6BRLUnn2V90HtWuZPNRql21gZDjuxAsSoToB6l9MuJCv7+GmLv
-         kBVg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713446773; x=1714051573;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=lAjezbYFk4kRuwBAyZVCH+a9cPM1rylHv2qjz+E2Bv8=;
-        b=U0MNd15k5+U3TOuzJDXY+ua0vUJ6phPbjgEUZ7hbv/Z7BNsz8w9HZgdyD72zyBNJO8
-         cUQVpmO7yyp8JXzyAc3SjPjlOl/W6ajvettzWkXMeiuFZDTSG16lwrnJBDym/oqfSSWF
-         j2byJoYuPaCPWXtsfv6JykRggYfkMX6jZjAZoRSAuYj06GErj+Po4DuLV+lDFZcom3i/
-         BLaXQje5B4J/LOBGagqmLtK+0y9Y03e0K/hghFs0s2+BO+aPZyHNomecokivXGCgmSc4
-         LaaoORymL0ySuXxvq6Ku7UewbhbUZgkRxrcST3vLpsOjx12xa5EPe2Ljnj4iCTv+PxsX
-         w9UA==
-X-Forwarded-Encrypted: i=1; AJvYcCUYE8zaoQw65T88IGPBnZtqrocRy74iUxKkN+0Pt60YAAMQ08/NUrq2ukabfucSUwd1/HMLOP5M7N73gKbVLE9TsY9OHmlRb75TmueRgyXtFYI=
-X-Gm-Message-State: AOJu0Yy4OWuPpRkdAJblbqu3NuCmbTQKaXNAosMrAGUSXk/c6YNqL91L
-	NDKRrfBq295QhcKqmFum79zwxYxRtK2rO6YtpOJ/Dht5kEr4uaUZ
-X-Google-Smtp-Source: AGHT+IHxYO+QfxTRPoNL7RDTcNFo5mTVb9cQ2OcGI4ZiHygN0wUQzL0DbxYZeODNTK6uvRDv7tT/Lw==
-X-Received: by 2002:a05:6000:927:b0:341:bfe2:4509 with SMTP id cx7-20020a056000092700b00341bfe24509mr1511694wrb.42.1713446772752;
-        Thu, 18 Apr 2024 06:26:12 -0700 (PDT)
-Received: from prasmi.home ([2a00:23c8:2500:a01:2595:4364:d152:dff3])
-        by smtp.gmail.com with ESMTPSA id t15-20020adfeb8f000000b00349ff2e0345sm1853396wrn.70.2024.04.18.06.26.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 18 Apr 2024 06:26:12 -0700 (PDT)
-From: Prabhakar <prabhakar.csengg@gmail.com>
-X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>,
-	Philipp Zabel <p.zabel@pengutronix.de>
-Cc: linux-kernel@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Prabhakar <prabhakar.csengg@gmail.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [RFC PATCH] reset: Add devm_reset_control_deassert helper
-Date: Thu, 18 Apr 2024 14:26:02 +0100
-Message-Id: <20240418132602.509313-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Mailer: git-send-email 2.34.1
+	s=arc-20240116; t=1713448356; c=relaxed/simple;
+	bh=DFMBpvLg9bEM08JQ9ob6upTO1i+WiZqw2n6cDonSo4w=;
+	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=hkLPK5vSU7Qq1oCMXrswgANtXkRoEOkivWE8HPXRsi8HmUIENYbZi/bAkLl+XpSaD9NKBGffq3D9MXtSnB707scAflPYNu8JMHnNsAncAttM2XpQ5VrCdaN97XoLuq2DqfnQihtwFjdVbGTR+Yqit+dLkiTuxM8LXs7nX/l8D+Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=RmxsbDgx; arc=none smtp.client-ip=217.70.183.201
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+Received: by mail.gandi.net (Postfix) with ESMTPSA id C2C281BF209;
+	Thu, 18 Apr 2024 13:52:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1713448351;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=8wUOi164P3lAmjE1ClSdezuP19LGck9A7BJ4c8R2rWo=;
+	b=RmxsbDgxhNpNQOPoFlayXDpwdP+tytqkGF2OJI6z52D3jvdH0BINaMaSOJABYa6/o6WxeC
+	ghog+bvm/6xdvqTf7B+xQM1u8PJB3QGicA2yN5ueeF17yS8iO+LMOt3yX/95A/69vx0wFU
+	cWHL5OJ6Vcw7APt18HuFE96l5gziHKoup8zj+aF3KookZJxRSzPjCOjoJAU1e0WxFzVysT
+	v/WQR3MUr8UJwvigXjjQu2WXU9bhHEg4YS9NtOcNTo94oqfGuwGimoaaP5yb6TJK1bx/Ff
+	aiZo6SsBfRs+qKWkz/kuZH1VCi7XUvW5NuGt7bGVzPZKfEQBmV9RD8UVbJaq/w==
+Date: Thu, 18 Apr 2024 15:53:07 +0200 (CEST)
+From: Romain Gantois <romain.gantois@bootlin.com>
+To: Serge Semin <fancer.lancer@gmail.com>
+cc: Romain Gantois <romain.gantois@bootlin.com>, 
+    "David S. Miller" <davem@davemloft.net>, 
+    Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
+    Paolo Abeni <pabeni@redhat.com>, Rob Herring <robh@kernel.org>, 
+    Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+    Conor Dooley <conor+dt@kernel.org>, 
+    Geert Uytterhoeven <geert+renesas@glider.be>, 
+    Magnus Damm <magnus.damm@gmail.com>, 
+    Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+    Jose Abreu <joabreu@synopsys.com>, 
+    Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+    Russell King <linux@armlinux.org.uk>, 
+    =?ISO-8859-15?Q?Cl=E9ment_L=E9ger?= <clement.leger@bootlin.com>, 
+    Thomas Petazzoni <thomas.petazzoni@bootlin.com>, netdev@vger.kernel.org, 
+    devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+    linux-renesas-soc@vger.kernel.org, 
+    linux-stm32@st-md-mailman.stormreply.com, 
+    linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH net-next v3 4/5] net: stmmac: add support for RZ/N1
+ GMAC
+In-Reply-To: <eqfta73ost45nbzz3aoa2tw5tasg3geehf4fgphu4teq5yfvar@ngif2e6j5j2k>
+Message-ID: <c99b452b-be35-3a67-1c87-042dbc5fce49@bootlin.com>
+References: <20240415-rzn1-gmac1-v3-0-ab12f2c4401d@bootlin.com> <20240415-rzn1-gmac1-v3-4-ab12f2c4401d@bootlin.com> <xp34tp5cjmdshefxjczltz2prqtiikagfspf4lobznzypvsyah@ihpmwfynwzhh> <232e3b0c-ca55-2da0-1c9f-47520a1bcfbd@bootlin.com>
+ <eqfta73ost45nbzz3aoa2tw5tasg3geehf4fgphu4teq5yfvar@ngif2e6j5j2k>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
 List-Subscribe: <mailto:linux-renesas-soc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-renesas-soc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+X-GND-Sasl: romain.gantois@bootlin.com
 
-From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+On Thu, 18 Apr 2024, Serge Semin wrote:
 
-A typical code pattern for reset_control_deassert() call is to call it in
-the _probe function and to call reset_control_assert() both from _probe
-error path and from _remove function.
+> On Thu, Apr 18, 2024 at 01:57:47PM +0200, Romain Gantois wrote:
+> > Hi Serge,
+> > 
+> > On Tue, 16 Apr 2024, Serge Semin wrote:
+> > 
+> > > > +static int rzn1_dwmac_pcs_init(struct stmmac_priv *priv,
+> > > 
+> > > > +			       struct mac_device_info *hw)
+> > > 
+> > > AFAICS hw is unused, and the mac_device_info instance is reached via
+> > > the priv pointer. What about dropping the unused argument then?
+> > 
+> 
+> > Unfortunately, this is an implementation of the pcs_init() callback, which is 
+> > also used by socfpga (see patch 4/6 in this series). The socfpga implementations 
+> > use the hw parameter for both pcs_init() and pcs_exit() so I can't remove it.
+> 
+> I had that patch content in mind when was writing my comment. There is
+> no point in passing the hw-pointer there either because you already
+> have the stmmac_priv pointer. There is stmmac_priv::hw field which you
+> can use instead in the same way as you do in this patch. Here is the
+> respective change for your SoCFPGA patch:
+> 
 
-Add helper function to replace this bolierplate piece of code. Calling
-devm_reset_control_deassert() removes the need for calling
-reset_control_assert() both in the probe()'s error path and in the
-remove() function.
+You're right, I'll remove the parameter.
 
-Suggested-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
----
- drivers/reset/core.c  | 22 ++++++++++++++++++++++
- include/linux/reset.h |  6 ++++++
- 2 files changed, 28 insertions(+)
+Thanks,
 
-diff --git a/drivers/reset/core.c b/drivers/reset/core.c
-index dba74e857be6..a2a6eff8e599 100644
---- a/drivers/reset/core.c
-+++ b/drivers/reset/core.c
-@@ -592,6 +592,28 @@ int reset_control_deassert(struct reset_control *rstc)
- }
- EXPORT_SYMBOL_GPL(reset_control_deassert);
- 
-+static void reset_control_assert_action(void *rstc)
-+{
-+	reset_control_assert(rstc);
-+}
-+
-+/**
-+ * devm_reset_control_deassert - devres-enabled version of reset_control_deassert()
-+ * @dev: device that requests the reset control
-+ * @rstc: reset controller
-+ */
-+int devm_reset_control_deassert(struct device *dev, struct reset_control *rstc)
-+{
-+	int ret;
-+
-+	ret = reset_control_deassert(rstc);
-+	if (ret)
-+		return ret;
-+
-+	return devm_add_action_or_reset(dev, reset_control_assert_action, rstc);
-+}
-+EXPORT_SYMBOL_GPL(devm_reset_control_deassert);
-+
- /**
-  * reset_control_bulk_deassert - deasserts the reset lines in reverse order
-  * @num_rstcs: number of entries in rstcs array
-diff --git a/include/linux/reset.h b/include/linux/reset.h
-index 514ddf003efc..e41e752ba098 100644
---- a/include/linux/reset.h
-+++ b/include/linux/reset.h
-@@ -31,6 +31,7 @@ int reset_control_reset(struct reset_control *rstc);
- int reset_control_rearm(struct reset_control *rstc);
- int reset_control_assert(struct reset_control *rstc);
- int reset_control_deassert(struct reset_control *rstc);
-+int devm_reset_control_deassert(struct device *dev, struct reset_control *rstc);
- int reset_control_status(struct reset_control *rstc);
- int reset_control_acquire(struct reset_control *rstc);
- void reset_control_release(struct reset_control *rstc);
-@@ -91,6 +92,11 @@ static inline int reset_control_deassert(struct reset_control *rstc)
- 	return 0;
- }
- 
-+static inline int devm_reset_control_deassert(struct device *dev, struct reset_control *rstc)
-+{
-+	return 0;
-+}
-+
- static inline int reset_control_status(struct reset_control *rstc)
- {
- 	return 0;
 -- 
-2.34.1
-
+Romain Gantois, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
