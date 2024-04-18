@@ -1,52 +1,52 @@
-Return-Path: <linux-renesas-soc+bounces-4704-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
+Return-Path: <linux-renesas-soc+bounces-4705-lists+linux-renesas-soc=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 614758A9876
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Apr 2024 13:24:32 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id DEFC48A9927
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Apr 2024 13:57:20 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8629A1C21152
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Apr 2024 11:24:31 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 90B1F1F2123A
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Apr 2024 11:57:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2A59915E5BC;
-	Thu, 18 Apr 2024 11:24:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E0D9815F308;
+	Thu, 18 Apr 2024 11:57:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="RjKcP8eC"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="Hy2SsbNn"
 X-Original-To: linux-renesas-soc@vger.kernel.org
-Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
+Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28A7B15AD99;
-	Thu, 18 Apr 2024 11:24:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.196
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C99BC15D5D6;
+	Thu, 18 Apr 2024 11:57:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713439466; cv=none; b=jQ2COdTfludtGTXmb+WKDw15GVVN6C6qAq+C9qB9+KpC2kgHOjbGTVsFujQ2L7twxmcizLmwkugvgDjh1JSeMIrwVKoOdx8NN0b6I8FIM9nD5M7Qg1bGGoVAPBCy2FtczAncmHH76PfWOtyxr0G2OMk0Ol2r0KS4s6XQng03qHE=
+	t=1713441435; cv=none; b=I27qv2qQY785kiym2kiUH34xyBhGZ1Q89aVm4YW8vlHwJ1U53c55dlgUz7hyyGPzlQyqNU4aF8+umzErHGSHhZtqvVxoAFncBixVnv2Vt8yrvUYdrXoauHP/bXk0owjdfR1WQCEeyv7TvnDijdPtPrQ/ihK7C/EG0TVUo2SbI3w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713439466; c=relaxed/simple;
-	bh=oc066vT+D/F5ovmoh/FG9gPN0vrcXHwurKJtRWRajb8=;
+	s=arc-20240116; t=1713441435; c=relaxed/simple;
+	bh=M7F9AOhLfsq2Uh4staUpb8IChltcrroxoNWvR3Qvuxc=;
 	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=ukdsEfvl81jJCoHEHSnMzeXEDIRl71Axd9Ft/DUutNdmtVyZbow2n0UCK5C2pfysWzJqCbty+P9R4AUYQtWlNrwVv1dnI3sAlUq3JPqPks9zxOks4KqeyJWr8QEet4vYe20AQGrFUrVcp1FjZlLAqZE9peBSKH3ey7+LBt6XGck=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=RjKcP8eC; arc=none smtp.client-ip=217.70.183.196
+	 MIME-Version:Content-Type; b=IxjEJ3BrwCjMPPf3Hgt/uFw12F4MktI64W4bIeNZogmnEdNbZ05LvG+XuhrEYIthHdlGad+efeT5ubaBXzQatyPn2fdCheG2eXC/gm+EbaH4M5ArQTQJ5K+Rw32jDWRpYBOhtF85DWuSRCVrkMV7r3s9YF9IN8ogbYlyDx1R4pE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=Hy2SsbNn; arc=none smtp.client-ip=217.70.183.201
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Received: by mail.gandi.net (Postfix) with ESMTPSA id D7D8AE0003;
-	Thu, 18 Apr 2024 11:24:18 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id AD03D1BF20C;
+	Thu, 18 Apr 2024 11:57:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1713439460;
+	t=1713441431;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=jMOGVNbuITYt7dy+1dT/3leK/5M9H8PcreUPt+p35qI=;
-	b=RjKcP8eCCvgTt8VGT8VoIlKf0Qq6wN1vbHBN65pxwLkuoNSCCRK9HMIckOEc7Pmk3kxTN0
-	Y14XTy+U0naNbBritHYr/5MoYDZj9oZm7AB5GSvTo4z9DTD0SiPxe0GwgxNzIW9eV9RVM/
-	LVS7FDjuhPyJyN2nvTk0SeXijjt7oVx4KDFMlSHrErHJ+5+n9mLvPfgmI05Jphqx8MXe/n
-	3HOKNshqS/DM6R0bDDbngk/eKBeSl9EvMysy9TeEGAVbxEVcf3IGTUaBJ8VQeJY27rfz8K
-	1oy9fzsN+qb+Glkaf/Na1dKUANBKFagdcw8XuoHhc0ZnI08f25vTEMLXOwy2+w==
-Date: Thu, 18 Apr 2024 13:24:56 +0200 (CEST)
+	bh=O1G2JcwttleuEX4OArtvrIC9rhjBFn4pb36VCCBIh/k=;
+	b=Hy2SsbNnYmDiJbouDoQakG4O9hhGXW4f+OjvJAR3aQz8kL2s8/mbpBjipIEcykp1brgcjr
+	kJ+d9gSauDycypI+PmrGrD9mrzFGc23eeqRwQYLbkzGRyeXVKEcMiWZg5hWbUgpJznFlRn
+	5V7abewlK8QD2a6f8PjfAXELplvwBZP2YIPnkUR+48xmyi0cvNa/YPqRE2B2fk1ozWk2Y6
+	MU2FCi0NcSbFEC7E0hWlLKOWpRrQBUDsU6a9RVthAORmx26StgefFaaICrvbzSgrLdQppE
+	1ZmdlRAGxtTWxKIcm+wOGUO8UuWr6897yKZsU3eT7r8zUI5i35pKX4KaHo9c2A==
+Date: Thu, 18 Apr 2024 13:57:47 +0200 (CEST)
 From: Romain Gantois <romain.gantois@bootlin.com>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
+To: Serge Semin <fancer.lancer@gmail.com>
 cc: Romain Gantois <romain.gantois@bootlin.com>, 
     "David S. Miller" <davem@davemloft.net>, 
     Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
@@ -65,10 +65,11 @@ cc: Romain Gantois <romain.gantois@bootlin.com>,
     linux-renesas-soc@vger.kernel.org, 
     linux-stm32@st-md-mailman.stormreply.com, 
     linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH net-next v3 5/5] ARM: dts: r9a06g032: describe GMAC1
-In-Reply-To: <CAMuHMdVWEMSR6vKSPdXRbf5_dqBWsM+Z2PV46DBmwHAoBNv_5w@mail.gmail.com>
-Message-ID: <57f94b4a-75e2-32ad-506f-954c13498cd8@bootlin.com>
-References: <20240415-rzn1-gmac1-v3-0-ab12f2c4401d@bootlin.com> <20240415-rzn1-gmac1-v3-5-ab12f2c4401d@bootlin.com> <CAMuHMdVWEMSR6vKSPdXRbf5_dqBWsM+Z2PV46DBmwHAoBNv_5w@mail.gmail.com>
+Subject: Re: [PATCH net-next v3 4/5] net: stmmac: add support for RZ/N1
+ GMAC
+In-Reply-To: <xp34tp5cjmdshefxjczltz2prqtiikagfspf4lobznzypvsyah@ihpmwfynwzhh>
+Message-ID: <232e3b0c-ca55-2da0-1c9f-47520a1bcfbd@bootlin.com>
+References: <20240415-rzn1-gmac1-v3-0-ab12f2c4401d@bootlin.com> <20240415-rzn1-gmac1-v3-4-ab12f2c4401d@bootlin.com> <xp34tp5cjmdshefxjczltz2prqtiikagfspf4lobznzypvsyah@ihpmwfynwzhh>
 Precedence: bulk
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 List-Id: <linux-renesas-soc.vger.kernel.org>
@@ -78,21 +79,20 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 X-GND-Sasl: romain.gantois@bootlin.com
 
-Hi Geert,
+Hi Serge,
 
-On Thu, 18 Apr 2024, Geert Uytterhoeven wrote:
+On Tue, 16 Apr 2024, Serge Semin wrote:
 
-> > +               gmac1: ethernet@44000000 {
-> > +                       compatible = "renesas,r9a06g032-gmac", "renesas,rzn1-gmac", "snps,dwmac";
-> > +                       reg = <0x44000000 0x2000>;
-> > +                       interrupt-parent = <&gic>;
+> > +static int rzn1_dwmac_pcs_init(struct stmmac_priv *priv,
 > 
-> The surrounding "soc" node already specifies the interrupt parent,
-> so there is no need to repeat that. I could fix that while applying
-> to renesas-devel for v6.10, but it looks like there will be a v4 for
-> the rest of the series anyway?
+> > +			       struct mac_device_info *hw)
+> 
+> AFAICS hw is unused, and the mac_device_info instance is reached via
+> the priv pointer. What about dropping the unused argument then?
 
-Indeed there will be a v4 so I'll fix it.
+Unfortunately, this is an implementation of the pcs_init() callback, which is 
+also used by socfpga (see patch 4/6 in this series). The socfpga implementations 
+use the hw parameter for both pcs_init() and pcs_exit() so I can't remove it.
 
 Thanks,
 
